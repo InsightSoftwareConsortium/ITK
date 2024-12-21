@@ -31,12 +31,12 @@ itkMedianImageFunctionTest(int, char *[])
   using FunctionType = itk::MedianImageFunction<ImageType>;
 
   // Create and allocate the image
-  auto                  image = ImageType::New();
-  ImageType::SizeType   size;
-  ImageType::IndexType  start;
+  auto image = ImageType::New();
+  ImageType::SizeType size;
+  ImageType::IndexType start;
   ImageType::RegionType region;
-  constexpr int         sizeDim(50);
-  constexpr int         centerIndex(sizeDim / 2);
+  constexpr int sizeDim(50);
+  constexpr int centerIndex(sizeDim / 2);
   size[0] = 50;
   size[1] = 50;
   size[2] = 50;
@@ -101,7 +101,7 @@ itkMedianImageFunctionTest(int, char *[])
 
   // first, put something in the neighborhood outside the current
   // neighborhood that will change the median result
-  unsigned char        voxelval(28);
+  unsigned char voxelval(28);
   ImageType::IndexType index2;
   for (index2[0] = centerIndex - 2; index2[0] < centerIndex + 3; index2[0]++)
   {

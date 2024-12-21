@@ -101,7 +101,7 @@ bool
 LevelSetDenseImage<TImage>::IsInsideDomain(const InputType & inputIndex) const
 {
   const RegionType largestRegion = this->m_Image->GetLargestPossibleRegion();
-  const InputType  mapIndex = inputIndex - this->m_DomainOffset;
+  const InputType mapIndex = inputIndex - this->m_DomainOffset;
   return largestRegion.IsInside(mapIndex);
 }
 

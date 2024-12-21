@@ -110,7 +110,7 @@ itkExpNegativeImageFilterAndAdaptorTest(int, char *[])
   while (!ot.IsAtEnd())
   {
     std::cout << ot.Get() << " = ";
-    const InputImageType::PixelType  input = it.Get();
+    const InputImageType::PixelType input = it.Get();
     const OutputImageType::PixelType output = ot.Get();
     const OutputImageType::PixelType exponential = std::exp(-input);
     std::cout << exponential << std::endl;

@@ -28,13 +28,13 @@
 
 template <typename TKernelImageFilter>
 int
-itkTopHatImageFilterTestHelper(TKernelImageFilter *                              filter,
-                               typename TKernelImageFilter::KernelType           ball,
-                               const bool                                        safeBorder,
+itkTopHatImageFilterTestHelper(TKernelImageFilter * filter,
+                               typename TKernelImageFilter::KernelType ball,
+                               const bool safeBorder,
                                const itk::MathematicalMorphologyEnums::Algorithm algorithm,
-                               const bool                                        forceAlgorithm,
-                               const char *                                      inputFileName,
-                               const char *                                      outputFileName)
+                               const bool forceAlgorithm,
+                               const char * inputFileName,
+                               const char * outputFileName)
 {
   // Declare the reader and writer
   using ReaderType = itk::ImageFileReader<typename TKernelImageFilter::InputImageType>;
@@ -106,16 +106,16 @@ itkTopHatImageFilterTest(int argc, char * argv[])
   const char * outputFileName = argv[2];
 
   // Create the structuring element
-  KernelType           ball;
+  KernelType ball;
   KernelType::SizeType ballSize;
   ballSize[0] = std::stoi(argv[4]);
   ballSize[1] = std::stoi(argv[4]);
   ball.SetRadius(ballSize);
   ball.CreateStructuringElement();
 
-  auto                                        safeBorder = static_cast<bool>(std::stoi(argv[5]));
+  auto safeBorder = static_cast<bool>(std::stoi(argv[5]));
   itk::MathematicalMorphologyEnums::Algorithm algorithm;
-  auto                                        forceAlgorithm = static_cast<bool>(std::stoi(argv[7]));
+  auto forceAlgorithm = static_cast<bool>(std::stoi(argv[7]));
 
   int testStatus = EXIT_SUCCESS;
 

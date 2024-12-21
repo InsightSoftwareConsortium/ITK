@@ -25,8 +25,8 @@ namespace itk
 template <typename TImage, typename TFunction>
 FloodFilledFunctionConditionalConstIterator<TImage, TFunction>::FloodFilledFunctionConditionalConstIterator(
   const ImageType * imagePtr,
-  FunctionType *    fnPtr,
-  IndexType         startIndex)
+  FunctionType * fnPtr,
+  IndexType startIndex)
 {
   this->m_Image = imagePtr;
   m_Function = fnPtr;
@@ -38,8 +38,8 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>::FloodFilledFunct
 
 template <typename TImage, typename TFunction>
 FloodFilledFunctionConditionalConstIterator<TImage, TFunction>::FloodFilledFunctionConditionalConstIterator(
-  const ImageType *        imagePtr,
-  FunctionType *           fnPtr,
+  const ImageType * imagePtr,
+  FunctionType * fnPtr,
   std::vector<IndexType> & startIndex)
 {
   this->m_Image = imagePtr;
@@ -57,7 +57,7 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>::FloodFilledFunct
 template <typename TImage, typename TFunction>
 FloodFilledFunctionConditionalConstIterator<TImage, TFunction>::FloodFilledFunctionConditionalConstIterator(
   const ImageType * imagePtr,
-  FunctionType *    fnPtr)
+  FunctionType * fnPtr)
 {
   this->m_Image = imagePtr;
   m_Function = fnPtr;

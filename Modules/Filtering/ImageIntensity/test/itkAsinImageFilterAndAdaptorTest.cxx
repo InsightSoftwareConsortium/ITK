@@ -112,7 +112,7 @@ itkAsinImageFilterAndAdaptorTest(int, char *[])
   it.GoToBegin();
   while (!ot.IsAtEnd())
   {
-    const InputImageType::PixelType  input = it.Get();
+    const InputImageType::PixelType input = it.Get();
     const OutputImageType::PixelType output = ot.Get();
     const OutputImageType::PixelType arcsinus = std::asin(input);
     if (!itk::Math::FloatAlmostEqual(arcsinus, output, 10, epsilon))

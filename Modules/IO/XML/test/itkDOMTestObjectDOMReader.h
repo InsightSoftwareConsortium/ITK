@@ -64,7 +64,7 @@ DOMTestObjectDOMReader::GenerateData(const DOMNodeType * inputdom, const void *)
     this->SetOutput(output);
   }
 
-  FancyString   s;
+  FancyString s;
   std::ifstream ifs;
 
   if (inputdom->GetName() != "DOMTestObject")

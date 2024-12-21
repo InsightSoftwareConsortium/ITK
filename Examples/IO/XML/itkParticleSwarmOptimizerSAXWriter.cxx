@@ -30,7 +30,7 @@ int
 ParticleSwarmOptimizerSAXWriter::CanWriteFile(const char * name)
 {
   std::ofstream ofs(name);
-  const int     yes = ofs.is_open();
+  const int yes = ofs.is_open();
   if (yes)
   {
     ofs.close();
@@ -49,7 +49,7 @@ ParticleSwarmOptimizerSAXWriter::WriteFile()
     if (!this->CanWriteFile(this->m_Filename.c_str()))
     {
       ExceptionObject e(__FILE__, __LINE__);
-      std::string     message = "Cannot write to ";
+      std::string message = "Cannot write to ";
       message += this->m_Filename;
       message += "!\n";
       e.SetDescription(message.c_str());

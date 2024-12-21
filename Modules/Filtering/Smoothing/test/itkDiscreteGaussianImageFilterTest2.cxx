@@ -26,10 +26,10 @@
 
 template <typename TIMAGE>
 int
-itkDiscreteGaussianImageFilterTestA(const char *       inputFilename,
-                                    const char *       outputFilename,
-                                    const float        sigma,
-                                    const float        kernelError,
+itkDiscreteGaussianImageFilterTestA(const char * inputFilename,
+                                    const char * outputFilename,
+                                    const float sigma,
+                                    const float kernelError,
                                     const unsigned int kernelWidth,
                                     const unsigned int filterDimensionality)
 {
@@ -86,8 +86,8 @@ itkDiscreteGaussianImageFilterTest2(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  const float        sigma = (argc > 5) ? std::stof(argv[5]) : 0.0;
-  const float        kernelError = (argc > 6) ? std::stof(argv[6]) : 0.01;
+  const float sigma = (argc > 5) ? std::stof(argv[5]) : 0.0;
+  const float kernelError = (argc > 6) ? std::stof(argv[6]) : 0.01;
   const unsigned int kernelWidth = (argc > 7) ? static_cast<unsigned int>(std::stoi(argv[7])) : 32;
   const unsigned int filterDimensionality = (argc > 8) ? static_cast<unsigned int>(std::stoi(argv[8])) : img_dim;
 

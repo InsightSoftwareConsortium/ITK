@@ -181,7 +181,7 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>::SetInitialCausalCoef
 
   // Yhis initialization corresponds to mirror boundaries
   typename TInputImage::SizeValueType horizon = m_DataLength[m_IteratorDirection];
-  double                              zn = z;
+  double zn = z;
   if (m_Tolerance > 0.0)
   {
     horizon = (typename TInputImage::SizeValueType)std::ceil(std::log(m_Tolerance) / std::log(itk::Math::abs(z)));
@@ -201,8 +201,8 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>::SetInitialCausalCoef
   {
     // Full loop
     const double iz = 1.0 / z;
-    double       z2n = std::pow(z, static_cast<double>(m_DataLength[m_IteratorDirection] - 1L));
-    CoeffType    sum = m_Scratch[0] + z2n * m_Scratch[m_DataLength[m_IteratorDirection] - 1L];
+    double z2n = std::pow(z, static_cast<double>(m_DataLength[m_IteratorDirection] - 1L));
+    CoeffType sum = m_Scratch[0] + z2n * m_Scratch[m_DataLength[m_IteratorDirection] - 1L];
     z2n *= z2n * iz;
     for (unsigned int n = 1; n <= (m_DataLength[m_IteratorDirection] - 2); ++n)
     {
@@ -273,7 +273,7 @@ void
 BSplineDecompositionImageFilter<TInputImage, TOutputImage>::CopyImageToImage()
 {
   const TInputImage * const inputImage = this->GetInput();
-  TOutputImage * const      outputImage = this->GetOutput();
+  TOutputImage * const outputImage = this->GetOutput();
   ImageAlgorithm::Copy(inputImage, outputImage, inputImage->GetBufferedRegion(), outputImage->GetBufferedRegion());
 }
 

@@ -48,8 +48,8 @@ Relabeler<TScalar, TImageDimension>::GenerateData()
   const typename ImageType::Pointer output = this->GetOutputImage();
 
   const typename SegmentTreeType::Pointer tree = this->GetInputSegmentTree();
-  typename SegmentTreeType::Iterator      it;
-  auto                                    eqT = EquivalencyTable::New();
+  typename SegmentTreeType::Iterator it;
+  auto eqT = EquivalencyTable::New();
 
   output->SetBufferedRegion(output->GetRequestedRegion());
   output->Allocate();
@@ -77,7 +77,7 @@ Relabeler<TScalar, TImageDimension>::GenerateData()
     return;
   }
   const ScalarType max = tree->Back().saliency;
-  auto             mergeLimit = static_cast<ScalarType>(m_FloodLevel * max);
+  auto mergeLimit = static_cast<ScalarType>(m_FloodLevel * max);
 
   this->UpdateProgress(0.5);
 

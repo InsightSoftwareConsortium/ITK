@@ -43,7 +43,7 @@ ScaleSkewVersor3DTransform<TParametersValueType>::ScaleSkewVersor3DTransform(uns
 #if !defined(ITK_LEGACY_REMOVE)
 // Constructor with arguments
 template <typename TParametersValueType>
-ScaleSkewVersor3DTransform<TParametersValueType>::ScaleSkewVersor3DTransform(const MatrixType &       matrix,
+ScaleSkewVersor3DTransform<TParametersValueType>::ScaleSkewVersor3DTransform(const MatrixType & matrix,
                                                                              const OutputVectorType & offset)
   : Superclass(matrix, offset)
 {
@@ -63,7 +63,7 @@ ScaleSkewVersor3DTransform<TParametersValueType>::SetMatrix(const MatrixType & m
 
 template <typename TParametersValueType>
 void
-ScaleSkewVersor3DTransform<TParametersValueType>::SetMatrix(const MatrixType &         matrix,
+ScaleSkewVersor3DTransform<TParametersValueType>::SetMatrix(const MatrixType & matrix,
                                                             const TParametersValueType itkNotUsed(tolerance))
 {
   // Any matrix should work - bypass orthogonality testing

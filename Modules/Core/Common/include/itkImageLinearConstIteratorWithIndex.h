@@ -231,7 +231,7 @@ public:
 
 private:
   OffsetValueType m_Jump{ 0 };
-  unsigned int    m_Direction{ 0 };
+  unsigned int m_Direction{ 0 };
 };
 
 //----------------------------------------------------------------------

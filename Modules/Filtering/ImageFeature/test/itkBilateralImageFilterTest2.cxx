@@ -42,7 +42,7 @@ itkBilateralImageFilterTest2(int argc, char * argv[])
   // Create a filter
   using FilterType = itk::BilateralImageFilter<myImage, myImage>;
 
-  auto                           filter = FilterType::New();
+  auto filter = FilterType::New();
   const itk::SimpleFilterWatcher watcher(filter, "filter");
 
   filter->SetInput(input->GetOutput());

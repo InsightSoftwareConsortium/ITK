@@ -145,7 +145,7 @@ protected:
 
 private:
   DistanceFilterPointer m_DistanceFilter{};
-  RescaleFilterPointer  m_RescaleFilter{};
+  RescaleFilterPointer m_RescaleFilter{};
 
   float m_BandWidth{};
 };

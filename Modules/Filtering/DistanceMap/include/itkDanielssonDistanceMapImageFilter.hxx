@@ -107,7 +107,7 @@ DanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::Prep
   const typename OutputImageType::RegionType region = voronoiMap->GetRequestedRegion();
 
   // find the largest of the image dimensions
-  SizeType      size = region.GetSize();
+  SizeType size = region.GetSize();
   SizeValueType maxLength = 0;
 
   for (unsigned int dim = 0; dim < InputImageDimension; ++dim)
@@ -116,7 +116,7 @@ DanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::Prep
   }
 
   ImageRegionConstIteratorWithIndex<InputImageType> it(inputImage, region);
-  ImageRegionIteratorWithIndex<VoronoiImageType>    ot(voronoiMap, region);
+  ImageRegionIteratorWithIndex<VoronoiImageType> ot(voronoiMap, region);
 
   itkDebugMacro("PrepareData: Copy input to output");
   if (m_InputIsBinary)
@@ -195,14 +195,14 @@ DanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::Comp
 {
   itkDebugMacro("ComputeVoronoiMap Start");
   const VoronoiImagePointer voronoiMap = this->GetVoronoiMap();
-  const OutputImagePointer  distanceMap = this->GetDistanceMap();
-  const VectorImagePointer  distanceComponents = this->GetVectorDistanceMap();
+  const OutputImagePointer distanceMap = this->GetDistanceMap();
+  const VectorImagePointer distanceComponents = this->GetVectorDistanceMap();
 
   const typename OutputImageType::RegionType region = voronoiMap->GetRequestedRegion();
 
   ImageRegionIteratorWithIndex<VoronoiImageType> ot(voronoiMap, region);
-  ImageRegionIteratorWithIndex<VectorImageType>  ct(distanceComponents, region);
-  ImageRegionIteratorWithIndex<OutputImageType>  dt(distanceMap, region);
+  ImageRegionIteratorWithIndex<VectorImageType> ct(distanceComponents, region);
+  ImageRegionIteratorWithIndex<OutputImageType> dt(distanceMap, region);
 
   itkDebugMacro("ComputeVoronoiMap Region: " << region);
   while (!ot.IsAtEnd())
@@ -214,7 +214,7 @@ DanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::Comp
     }
 
     OffsetType distanceVector = ct.Get();
-    double     distance = 0.0;
+    double distance = 0.0;
     if (m_UseImageSpacing)
     {
       for (unsigned int i = 0; i < InputImageDimension; ++i)
@@ -249,13 +249,13 @@ DanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::Comp
 template <typename TInputImage, typename TOutputImage, typename TVoronoiImage>
 void
 DanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::UpdateLocalDistance(
-  VectorImageType *  components,
-  const IndexType &  here,
+  VectorImageType * components,
+  const IndexType & here,
   const OffsetType & offset)
 {
   const IndexType there = here + offset;
-  OffsetType      offsetValueHere = components->GetPixel(here);
-  OffsetType      offsetValueThere = components->GetPixel(there) + offset;
+  OffsetType offsetValueHere = components->GetPixel(here);
+  OffsetType offsetValueThere = components->GetPixel(there) + offset;
 
   double norm1 = 0.0;
   double norm2 = 0.0;
@@ -292,7 +292,7 @@ DanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::Gene
   // Specify images and regions.
 
   const VoronoiImagePointer voronoiMap = this->GetVoronoiMap();
-  const VectorImagePointer  distanceComponents = this->GetVectorDistanceMap();
+  const VectorImagePointer distanceComponents = this->GetVectorDistanceMap();
 
   const RegionType region = voronoiMap->GetRequestedRegion();
 
@@ -334,7 +334,7 @@ DanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::Gene
   // Each pixel is visited 2^InputImageDimension times, and the number
   // of visits per pixel needs to be computed for progress reporting.
   const SizeValueType visitsPerPixel = (1 << InputImageDimension);
-  SizeValueType       updateVisits = region.GetNumberOfPixels() * visitsPerPixel / 10;
+  SizeValueType updateVisits = region.GetNumberOfPixels() * visitsPerPixel / 10;
   if (updateVisits < 1)
   {
     updateVisits = 1;
@@ -395,7 +395,7 @@ DanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::Gene
 template <typename TInputImage, typename TOutputImage, typename TVoronoiImage>
 void
 DanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::PrintSelf(std::ostream & os,
-                                                                                      Indent         indent) const
+                                                                                      Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

@@ -121,7 +121,7 @@ BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>:
 template <typename TTransform>
 void
 BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>::PrintSelf(std::ostream & os,
-                                                                                           Indent         indent) const
+                                                                                           Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

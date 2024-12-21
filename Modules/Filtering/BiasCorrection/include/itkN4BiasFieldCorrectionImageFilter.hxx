@@ -117,13 +117,13 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::Generat
 
   ImageAlgorithm::Copy(inputImage, logInputImage.GetPointer(), inputRegion, inputRegion);
 
-  const auto          maskImageBufferRange = MakeImageBufferRange(maskImage);
-  const auto          confidenceImageBufferRange = MakeImageBufferRange(confidenceImage);
+  const auto maskImageBufferRange = MakeImageBufferRange(maskImage);
+  const auto confidenceImageBufferRange = MakeImageBufferRange(confidenceImage);
   const MaskPixelType maskLabel = this->GetMaskLabel();
-  const bool          useMaskLabel = this->GetUseMaskLabel();
+  const bool useMaskLabel = this->GetUseMaskLabel();
 
   const ImageBufferRange logInputImageBufferRange{ *logInputImage };
-  const size_t           numberOfPixels = logInputImageBufferRange.size();
+  const size_t numberOfPixels = logInputImageBufferRange.size();
 
   // Number of pixels of the input image that are included with the filter.
   size_t numberOfIncludedPixels = 0;
@@ -242,7 +242,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::Generat
   using CustomBinaryFilter = itk::BinaryGeneratorImageFilter<InputImageType, RealImageType, OutputImageType>;
   auto expAndDivFilter = CustomBinaryFilter::New();
   auto expAndDivLambda = [](const typename InputImageType::PixelType & input,
-                            const typename RealImageType::PixelType &  biasField) ->
+                            const typename RealImageType::PixelType & biasField) ->
     typename OutputImageType::PixelType {
       return static_cast<typename OutputImageType::PixelType>(input / std::exp(biasField));
     };
@@ -258,12 +258,12 @@ template <typename TInputImage, typename TMaskImage, typename TOutputImage>
 void
 N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::SharpenImage(
   const RealImageType * unsharpenedImage,
-  RealImageType *       sharpenedImage) const
+  RealImageType * sharpenedImage) const
 {
-  const auto          maskImageBufferRange = MakeImageBufferRange(this->GetMaskImage());
-  const auto          confidenceImageBufferRange = MakeImageBufferRange(this->GetConfidenceImage());
+  const auto maskImageBufferRange = MakeImageBufferRange(this->GetMaskImage());
+  const auto confidenceImageBufferRange = MakeImageBufferRange(this->GetConfidenceImage());
   const MaskPixelType maskLabel = this->GetMaskLabel();
-  const bool          useMaskLabel = this->GetUseMaskLabel();
+  const bool useMaskLabel = this->GetUseMaskLabel();
 
   // Build the histogram for the uncorrected image.  Store copy
   // in a vnl_vector to utilize vnl FFT routines.  Note that variables
@@ -273,7 +273,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::Sharpen
   RealType binMaximum = NumericTraits<RealType>::NonpositiveMin();
   RealType binMinimum = NumericTraits<RealType>::max();
 
-  const auto   unsharpenedImageBufferRange = MakeImageBufferRange(unsharpenedImage);
+  const auto unsharpenedImageBufferRange = MakeImageBufferRange(unsharpenedImage);
   const size_t numberOfPixels = unsharpenedImageBufferRange.size();
 
   for (size_t indexValue = 0; indexValue < numberOfPixels; ++indexValue)
@@ -308,9 +308,9 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::Sharpen
     {
       const RealType pixel = unsharpenedImageBufferRange[indexValue];
 
-      const RealType     cidx = (static_cast<RealType>(pixel) - binMinimum) / histogramSlope;
+      const RealType cidx = (static_cast<RealType>(pixel) - binMinimum) / histogramSlope;
       const unsigned int idx = itk::Math::floor(cidx);
-      const RealType     offset = cidx - static_cast<RealType>(idx);
+      const RealType offset = cidx - static_cast<RealType>(idx);
 
       if (offset == 0.0)
       {
@@ -455,7 +455,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::Sharpen
          (!useMaskLabel && maskImageBufferRange[indexValue] != MaskPixelType{})) &&
         (confidenceImageBufferRange.empty() || confidenceImageBufferRange[indexValue] > 0.0))
     {
-      const RealType     cidx = (unsharpenedImageBufferRange[indexValue] - binMinimum) / histogramSlope;
+      const RealType cidx = (unsharpenedImageBufferRange[indexValue] - binMinimum) / histogramSlope;
       const unsigned int idx = itk::Math::floor(cidx);
 
       RealType correctedPixel = 0;
@@ -476,7 +476,7 @@ template <typename TInputImage, typename TMaskImage, typename TOutputImage>
 typename N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::RealImagePointer
 N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::UpdateBiasFieldEstimate(
   RealImageType * fieldEstimate,
-  const size_t    numberOfIncludedPixels)
+  const size_t numberOfIncludedPixels)
 {
   // Temporarily set the direction cosine to identity since the B-spline
   // approximation algorithm works in parametric space and not physical
@@ -485,8 +485,8 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::UpdateB
   identity.SetIdentity();
 
   const typename ScalarImageType::RegionType & bufferedRegion = fieldEstimate->GetBufferedRegion();
-  const SizeValueType                          numberOfPixels = bufferedRegion.GetNumberOfPixels();
-  const bool                                   filterHandlesMemory = false;
+  const SizeValueType numberOfPixels = bufferedRegion.GetNumberOfPixels();
+  const bool filterHandlesMemory = false;
 
   using ImporterType = ImportImageFilter<RealType, ImageDimension>;
   auto importer = ImporterType::New();
@@ -500,19 +500,19 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::UpdateB
   const typename ImporterType::OutputImageType * parametricFieldEstimate = importer->GetOutput();
 
   const PointSetPointer fieldPoints = PointSetType::New();
-  auto &                pointSTLContainer = fieldPoints->GetPoints()->CastToSTLContainer();
+  auto & pointSTLContainer = fieldPoints->GetPoints()->CastToSTLContainer();
   pointSTLContainer.reserve(numberOfIncludedPixels);
   auto & pointDataSTLContainer = fieldPoints->GetPointData()->CastToSTLContainer();
   pointDataSTLContainer.reserve(numberOfIncludedPixels);
 
-  auto   weights = BSplineFilterType::WeightsContainerType::New();
+  auto weights = BSplineFilterType::WeightsContainerType::New();
   auto & weightSTLContainer = weights->CastToSTLContainer();
   weightSTLContainer.reserve(numberOfIncludedPixels);
 
-  const auto          maskImageBufferRange = MakeImageBufferRange(this->GetMaskImage());
-  const auto          confidenceImageBufferRange = MakeImageBufferRange(this->GetConfidenceImage());
+  const auto maskImageBufferRange = MakeImageBufferRange(this->GetMaskImage());
+  const auto confidenceImageBufferRange = MakeImageBufferRange(this->GetConfidenceImage());
   const MaskPixelType maskLabel = this->GetMaskLabel();
-  const bool          useMaskLabel = this->GetUseMaskLabel();
+  const bool useMaskLabel = this->GetUseMaskLabel();
 
   ImageRegionConstIteratorWithIndex<RealImageType> It(parametricFieldEstimate,
                                                       parametricFieldEstimate->GetRequestedRegion());
@@ -544,7 +544,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::UpdateB
   auto bspliner = BSplineFilterType::New();
 
   typename BSplineFilterType::ArrayType numberOfControlPoints;
-  auto                                  numberOfFittingLevels = MakeFilled<typename BSplineFilterType::ArrayType>(1);
+  auto numberOfFittingLevels = MakeFilled<typename BSplineFilterType::ArrayType>(1);
   for (unsigned int d = 0; d < ImageDimension; ++d)
   {
     if (!this->m_LogBiasFieldControlPointLattice)
@@ -655,12 +655,12 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::Calcula
   RealType sigma = 0.0;
   RealType N = 0.0;
 
-  const auto          maskImageBufferRange = MakeImageBufferRange(this->GetMaskImage());
-  const auto          confidenceImageBufferRange = MakeImageBufferRange(this->GetConfidenceImage());
+  const auto maskImageBufferRange = MakeImageBufferRange(this->GetMaskImage());
+  const auto confidenceImageBufferRange = MakeImageBufferRange(this->GetConfidenceImage());
   const MaskPixelType maskLabel = this->GetMaskLabel();
-  const bool          useMaskLabel = this->GetUseMaskLabel();
+  const bool useMaskLabel = this->GetUseMaskLabel();
 
-  const auto   subtracterImageBufferRange = MakeImageBufferRange(subtracter->GetOutput());
+  const auto subtracterImageBufferRange = MakeImageBufferRange(subtracter->GetOutput());
   const size_t numberOfPixels = subtracterImageBufferRange.size();
 
   for (size_t indexValue = 0; indexValue < numberOfPixels; ++indexValue)
@@ -687,7 +687,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::Calcula
 template <typename TInputImage, typename TMaskImage, typename TOutputImage>
 void
 N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::PrintSelf(std::ostream & os,
-                                                                                   Indent         indent) const
+                                                                                   Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

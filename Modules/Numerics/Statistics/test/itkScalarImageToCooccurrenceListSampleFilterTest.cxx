@@ -41,7 +41,7 @@ itkScalarImageToCooccurrenceListSampleFilterTest(int, char *[])
   constexpr InputImageType::SizeType inputImageSize = { { IMGWIDTH, IMGHEIGHT } };
 
   constexpr InputImageType::IndexType index{};
-  InputImageType::RegionType          region;
+  InputImageType::RegionType region;
 
   region.SetSize(inputImageSize);
   region.SetIndex(index);

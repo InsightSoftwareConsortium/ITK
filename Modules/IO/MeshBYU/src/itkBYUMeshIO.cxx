@@ -233,11 +233,11 @@ BYUMeshIO::ReadCells(void * buffer)
 
   // Get cell buffer
   inputFile.precision(12);
-  auto *        data = static_cast<unsigned int *>(buffer);
+  auto * data = static_cast<unsigned int *>(buffer);
   SizeValueType numPoints = 0;
   SizeValueType id{};
   SizeValueType index = 2;
-  int           ptId;
+  int ptId;
   m_FirstCellId -= 1;
   m_LastCellId -= 1;
   while (id < this->m_NumberOfCells)

@@ -51,7 +51,7 @@ itkBinaryClosingByReconstructionImageFilterTest(int argc, char * argv[])
 
   using KernelType = itk::BinaryBallStructuringElement<bool, Dimension>;
   KernelType ball;
-  auto       ballSize = KernelType::SizeType::Filled(std::stoi(argv[5]));
+  auto ballSize = KernelType::SizeType::Filled(std::stoi(argv[5]));
   ball.SetRadius(ballSize);
   ball.CreateStructuringElement();
 

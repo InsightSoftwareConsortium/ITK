@@ -50,7 +50,7 @@ SimplexMeshToTriangleMeshFilter<TInputMesh, TOutputMesh>::CreateTriangles()
 {
   auto meshSource = AutoMeshSourceType::New();
 
-  const typename TInputMesh::ConstPointer           inputMesh = this->GetInput(0);
+  const typename TInputMesh::ConstPointer inputMesh = this->GetInput(0);
   const typename InputPointsContainer::ConstPointer points = inputMesh->GetPoints();
   typename TInputMesh::PointsContainerConstIterator pointsIt = points->Begin();
 
@@ -65,11 +65,11 @@ SimplexMeshToTriangleMeshFilter<TInputMesh, TOutputMesh>::CreateTriangles()
     const CellIdentifier newId3 = FindCellId(n[2], pointsIt.Index(), n[0]);
 
     typename AutoMeshSourceType::PointType p1;
-    const bool                             b1 = m_Centers->GetElementIfIndexExists(newId1, &p1);
+    const bool b1 = m_Centers->GetElementIfIndexExists(newId1, &p1);
     typename AutoMeshSourceType::PointType p2;
-    const bool                             b2 = m_Centers->GetElementIfIndexExists(newId2, &p2);
+    const bool b2 = m_Centers->GetElementIfIndexExists(newId2, &p2);
     typename AutoMeshSourceType::PointType p3;
-    const bool                             b3 = m_Centers->GetElementIfIndexExists(newId3, &p3);
+    const bool b3 = m_Centers->GetElementIfIndexExists(newId3, &p3);
 
     meshSource->AddTriangle(p1, p2, p3);
 
@@ -93,7 +93,7 @@ SimplexMeshToTriangleMeshFilter<TInputMesh, TOutputMesh>::FindCellId(CellIdentif
   std::set<CellIdentifier> cells1 = this->GetInput(0)->GetCellLinks()->GetElement(id1);
   std::set<CellIdentifier> cells2 = this->GetInput(0)->GetCellLinks()->GetElement(id2);
   std::set<CellIdentifier> cells3 = this->GetInput(0)->GetCellLinks()->GetElement(id3);
-  auto                     cellIt = cells1.begin();
+  auto cellIt = cells1.begin();
 
   while (cellIt != cells1.end())
   {

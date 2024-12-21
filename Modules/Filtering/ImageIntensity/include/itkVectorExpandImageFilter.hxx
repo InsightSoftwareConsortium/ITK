@@ -118,12 +118,12 @@ VectorExpandImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 
   // Define a few indices that will be used to translate from an input
   // pixel to and output pixel
-  typename TOutputImage::IndexType               outputIndex;
+  typename TOutputImage::IndexType outputIndex;
   typename InterpolatorType::ContinuousIndexType inputIndex;
 
   using InterpolatedType = typename InterpolatorType::OutputType;
 
-  OutputPixelType  outputValue;
+  OutputPixelType outputValue;
   InterpolatedType interpolatedValue;
 
   // Walk the output region, and interpolate the input image
@@ -167,7 +167,7 @@ VectorExpandImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion
 {
   Superclass::GenerateInputRequestedRegion();
 
-  const InputImagePointer  inputPtr = const_cast<TInputImage *>(this->GetInput());
+  const InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput());
   const OutputImagePointer outputPtr = this->GetOutput();
 
   if (!inputPtr || !outputPtr)
@@ -176,11 +176,11 @@ VectorExpandImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion
   }
 
   // We need to compute the input requested region (size and start index)
-  unsigned int                             i;
-  const typename TOutputImage::SizeType &  outputRequestedRegionSize = outputPtr->GetRequestedRegion().GetSize();
+  unsigned int i;
+  const typename TOutputImage::SizeType & outputRequestedRegionSize = outputPtr->GetRequestedRegion().GetSize();
   const typename TOutputImage::IndexType & outputRequestedRegionStartIndex = outputPtr->GetRequestedRegion().GetIndex();
 
-  typename TInputImage::SizeType  inputRequestedRegionSize;
+  typename TInputImage::SizeType inputRequestedRegionSize;
   typename TInputImage::IndexType inputRequestedRegionStartIndex;
 
   // inputRequestedSize = (outputRequestedSize / ExpandFactor) + 1)
@@ -230,7 +230,7 @@ VectorExpandImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 {
   Superclass::GenerateOutputInformation();
 
-  const InputImagePointer  inputPtr = const_cast<TInputImage *>(this->GetInput());
+  const InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput());
   const OutputImagePointer outputPtr = this->GetOutput();
 
   if (!inputPtr || !outputPtr)
@@ -241,14 +241,14 @@ VectorExpandImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   // We need to compute the output spacing, the output image size, and the
   // output image start index
   const typename InputImageType::SpacingType & inputSpacing = inputPtr->GetSpacing();
-  const typename TInputImage::SizeType &       inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
-  const typename TInputImage::IndexType &      inputStartIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
-  const typename TInputImage::PointType &      inputOrigin = inputPtr->GetOrigin();
+  const typename TInputImage::SizeType & inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
+  const typename TInputImage::IndexType & inputStartIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
+  const typename TInputImage::PointType & inputOrigin = inputPtr->GetOrigin();
 
   typename OutputImageType::SpacingType outputSpacing;
-  typename TOutputImage::SizeType       outputSize;
-  typename TOutputImage::IndexType      outputStartIndex;
-  typename TOutputImage::PointType      outputOrigin;
+  typename TOutputImage::SizeType outputSize;
+  typename TOutputImage::IndexType outputStartIndex;
+  typename TOutputImage::PointType outputOrigin;
 
   typename TInputImage::SpacingType inputOriginShift;
 
@@ -261,7 +261,7 @@ VectorExpandImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
     inputOriginShift[i] = -(inputSpacing[i] / 2.0) * fraction;
   }
   const typename TInputImage::DirectionType inputDirection = inputPtr->GetDirection();
-  const typename TOutputImage::SpacingType  outputOriginShift = inputDirection * inputOriginShift;
+  const typename TOutputImage::SpacingType outputOriginShift = inputDirection * inputOriginShift;
 
   outputOrigin = inputOrigin + outputOriginShift;
 

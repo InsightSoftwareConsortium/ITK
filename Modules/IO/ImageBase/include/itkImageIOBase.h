@@ -512,7 +512,7 @@ public:
    * class has more restrictive conditions then they should be checked
    */
   virtual unsigned int
-  GetActualNumberOfSplitsForWriting(unsigned int          numberOfRequestedSplits,
+  GetActualNumberOfSplitsForWriting(unsigned int numberOfRequestedSplits,
                                     const ImageIORegion & pasteRegion,
                                     const ImageIORegion & largestPossibleRegion);
 
@@ -523,8 +523,8 @@ public:
    * Derived classes should overload this method to return a compatible region
    */
   virtual ImageIORegion
-  GetSplitRegionForWriting(unsigned int          ithPiece,
-                           unsigned int          numberOfActualSplits,
+  GetSplitRegionForWriting(unsigned int ithPiece,
+                           unsigned int numberOfActualSplits,
                            const ImageIORegion & pasteRegion,
                            const ImageIORegion & largestPossibleRegion);
 
@@ -724,8 +724,8 @@ protected:
   bool m_UseCompression{ false };
 
 
-  int         m_CompressionLevel{ 30 };
-  int         m_MaximumCompressionLevel{ 100 };
+  int m_CompressionLevel{ 30 };
+  int m_MaximumCompressionLevel{ 100 };
   std::string m_Compressor{ "uninitialized" };
 
   /** Set/Get enforced maximum compression level value to limit range  */
@@ -843,10 +843,10 @@ protected:
    * encountered than an exception will be thrown.
    */
   virtual void
-  OpenFileForWriting(std::ofstream &     outputStream,
+  OpenFileForWriting(std::ofstream & outputStream,
                      const std::string & filename,
-                     bool                truncate = true,
-                     bool                ascii = false);
+                     bool truncate = true,
+                     bool ascii = false);
 
   /** Convenient method to write a buffer as ASCII text. */
   virtual void
@@ -877,14 +877,14 @@ protected:
   /** an implementation of ImageRegionSplitter:GetNumberOfSplits
    */
   virtual unsigned int
-  GetActualNumberOfSplitsForWritingCanStreamWrite(unsigned int          numberOfRequestedSplits,
+  GetActualNumberOfSplitsForWritingCanStreamWrite(unsigned int numberOfRequestedSplits,
                                                   const ImageIORegion & pasteRegion) const;
 
   /** an implementation of  ImageRegionSplitter:GetSplit
    */
   virtual ImageIORegion
-  GetSplitRegionForWritingCanStreamWrite(unsigned int          ithPiece,
-                                         unsigned int          numberOfActualSplits,
+  GetSplitRegionForWritingCanStreamWrite(unsigned int ithPiece,
+                                         unsigned int numberOfActualSplits,
                                          const ImageIORegion & pasteRegion) const;
 
 private:
@@ -898,18 +898,18 @@ private:
 /** Utility function for writing RAW bytes */
 extern ITKIOImageBase_EXPORT void
 WriteRawBytesAfterSwapping(IOComponentEnum componentType,
-                           const void *    buffer,
+                           const void * buffer,
                            std::ofstream & file,
                            IOByteOrderEnum byteOrder,
-                           SizeValueType   numberOfBytes,
-                           SizeValueType   numberOfComponents);
+                           SizeValueType numberOfBytes,
+                           SizeValueType numberOfComponents);
 
 /** Utility function for reading RAW bytes */
 extern ITKIOImageBase_EXPORT void
 ReadRawBytesAfterSwapping(IOComponentEnum componentType,
-                          void *          buffer,
+                          void * buffer,
                           IOByteOrderEnum byteOrder,
-                          SizeValueType   numberOfComponents);
+                          SizeValueType numberOfComponents);
 
 #define IMAGEIOBASE_TYPEMAP(type, ctype)            \
   template <>                                       \

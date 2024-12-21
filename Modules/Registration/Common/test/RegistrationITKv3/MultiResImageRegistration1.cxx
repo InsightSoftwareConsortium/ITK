@@ -266,12 +266,12 @@ main(int argc, const char * argv[])
   const std::string fixedImageFile = argv[1];
   const std::string movingImageFile = argv[2];
   const std::string outImagefile = argv[3];
-  const PixelType   backgroundGrayLevel = (argc > 4) ? std::stoi(argv[4]) : 100;
+  const PixelType backgroundGrayLevel = (argc > 4) ? std::stoi(argv[4]) : 100;
   const std::string checkerBoardBefore = (argc > 5) ? argv[5] : "";
   const std::string checkerBoardAfter = (argc > 6) ? argv[6] : "";
-  const bool        useExplicitPDFderivatives = (argc > 7) ? static_cast<bool>(std::stoi(argv[7])) : false;
-  const int         numberOfBins = (argc > 8) ? std::stoi(argv[8]) : 0;
-  const int         numberOfSamples = (argc > 9) ? std::stoi(argv[9]) : 0;
+  const bool useExplicitPDFderivatives = (argc > 7) ? static_cast<bool>(std::stoi(argv[7])) : false;
+  const int numberOfBins = (argc > 8) ? std::stoi(argv[8]) : 0;
+  const int numberOfSamples = (argc > 9) ? std::stoi(argv[9]) : 0;
 
   using FixedImageType = itk::Image<PixelType, Dimension>;
   using MovingImageType = itk::Image<PixelType, Dimension>;
@@ -314,13 +314,13 @@ main(int argc, const char * argv[])
   //  All the components are instantiated using their \code{New()} method
   //  and connected to the registration object as in previous example.
   //
-  const TransformType::Pointer    transform = TransformType::New();
-  const OptimizerType::Pointer    optimizer = OptimizerType::New();
+  const TransformType::Pointer transform = TransformType::New();
+  const OptimizerType::Pointer optimizer = OptimizerType::New();
   const InterpolatorType::Pointer interpolator = InterpolatorType::New();
   const RegistrationType::Pointer registration = RegistrationType::New();
-  const MetricType::Pointer       metric = MetricType::New();
+  const MetricType::Pointer metric = MetricType::New();
 
-  const FixedImagePyramidType::Pointer  fixedImagePyramid = FixedImagePyramidType::New();
+  const FixedImagePyramidType::Pointer fixedImagePyramid = FixedImagePyramidType::New();
   const MovingImagePyramidType::Pointer movingImagePyramid = MovingImagePyramidType::New();
 
   registration->SetOptimizer(optimizer);
@@ -334,7 +334,7 @@ main(int argc, const char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  const FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
+  const FixedImageReaderType::Pointer fixedImageReader = FixedImageReaderType::New();
   const MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(fixedImageFile);
@@ -349,7 +349,7 @@ main(int argc, const char * argv[])
   using FixedCastFilterType = itk::CastImageFilter<FixedImageType, InternalImageType>;
   using MovingCastFilterType = itk::CastImageFilter<MovingImageType, InternalImageType>;
 
-  const FixedCastFilterType::Pointer  fixedCaster = FixedCastFilterType::New();
+  const FixedCastFilterType::Pointer fixedCaster = FixedCastFilterType::New();
   const MovingCastFilterType::Pointer movingCaster = MovingCastFilterType::New();
 
   //
@@ -549,7 +549,7 @@ main(int argc, const char * argv[])
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
 
-  const WriterType::Pointer     writer = WriterType::New();
+  const WriterType::Pointer writer = WriterType::New();
   const CastFilterType::Pointer caster = CastFilterType::New();
 
 

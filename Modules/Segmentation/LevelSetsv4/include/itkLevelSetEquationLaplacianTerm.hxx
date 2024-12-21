@@ -77,7 +77,7 @@ LevelSetEquationLaplacianTerm<TInput, TLevelSetContainer>::Value(const LevelSetI
 template <typename TInput, typename TLevelSetContainer>
 auto
 LevelSetEquationLaplacianTerm<TInput, TLevelSetContainer>::Value(const LevelSetInputIndexType & iP,
-                                                                 const LevelSetDataType &       iData)
+                                                                 const LevelSetDataType & iData)
   -> LevelSetOutputRealType
 {
   // Laplacian should be computed by this point.

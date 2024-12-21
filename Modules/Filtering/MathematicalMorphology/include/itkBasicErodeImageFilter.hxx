@@ -31,12 +31,12 @@ BasicErodeImageFilter<TInputImage, TOutputImage, TKernel>::BasicErodeImageFilter
 template <typename TInputImage, typename TOutputImage, typename TKernel>
 auto
 BasicErodeImageFilter<TInputImage, TOutputImage, TKernel>::Evaluate(const NeighborhoodIteratorType & nit,
-                                                                    const KernelIteratorType         kernelBegin,
+                                                                    const KernelIteratorType kernelBegin,
                                                                     const KernelIteratorType kernelEnd) -> PixelType
 {
   unsigned int i;
-  PixelType    min = NumericTraits<PixelType>::max();
-  PixelType    temp;
+  PixelType min = NumericTraits<PixelType>::max();
+  PixelType temp;
 
   KernelIteratorType kernel_it;
 

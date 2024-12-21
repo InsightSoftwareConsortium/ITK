@@ -88,7 +88,7 @@ STAPLEImageFilter<TInputImage, TOutputImage>::GenerateData()
       itkExceptionMacro("One or more input images do not contain matching RequestedRegions");
     }
 
-    IteratorType      in = IteratorType(this->GetInput(i), W->GetRequestedRegion());
+    IteratorType in = IteratorType(this->GetInput(i), W->GetRequestedRegion());
     FuzzyIteratorType out = FuzzyIteratorType(W, W->GetRequestedRegion());
 
     while (!in.IsAtEnd())
@@ -132,7 +132,7 @@ STAPLEImageFilter<TInputImage, TOutputImage>::GenerateData()
     // Now iterate on estimating specificity and sensitivity
     for (unsigned int i = 0; i < number_of_input_files; ++i)
     {
-      IteratorType      in = IteratorType(this->GetInput(i), W->GetRequestedRegion());
+      IteratorType in = IteratorType(this->GetInput(i), W->GetRequestedRegion());
       FuzzyIteratorType out = FuzzyIteratorType(W, W->GetRequestedRegion());
 
       double p_num{};

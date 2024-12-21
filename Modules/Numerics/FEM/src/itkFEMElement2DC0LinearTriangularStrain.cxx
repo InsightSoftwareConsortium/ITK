@@ -27,7 +27,7 @@ itk::LightObject::Pointer
 Element2DC0LinearTriangularStrain::CreateAnother() const
 {
   itk::LightObject::Pointer smartPtr;
-  Pointer                   copyPtr = Self::New();
+  Pointer copyPtr = Self::New();
 
   copyPtr->SetNode(0, this->GetNode(0));
   copyPtr->SetNode(1, this->GetNode(1));
@@ -44,9 +44,9 @@ Element2DC0LinearTriangularStrain::Element2DC0LinearTriangularStrain()
   : Superclass()
 {}
 
-Element2DC0LinearTriangularStrain::Element2DC0LinearTriangularStrain(NodeIDType             n1_,
-                                                                     NodeIDType             n2_,
-                                                                     NodeIDType             n3_,
+Element2DC0LinearTriangularStrain::Element2DC0LinearTriangularStrain(NodeIDType n1_,
+                                                                     NodeIDType n2_,
+                                                                     NodeIDType n3_,
                                                                      Material::ConstPointer m_)
   : Superclass()
 {

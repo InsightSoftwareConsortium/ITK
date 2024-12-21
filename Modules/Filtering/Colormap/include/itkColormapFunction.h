@@ -95,7 +95,7 @@ protected:
     auto maxInputValue = static_cast<RealType>(this->m_MaximumInputValue);
     auto minInputValue = static_cast<RealType>(this->m_MinimumInputValue);
 
-    auto     d = static_cast<RealType>(maxInputValue - minInputValue);
+    auto d = static_cast<RealType>(maxInputValue - minInputValue);
     RealType value = (static_cast<RealType>(v) - static_cast<RealType>(minInputValue)) / d;
     value = std::clamp(value, 0.0, 1.0);
     return value;
@@ -107,7 +107,7 @@ protected:
   RGBComponentType
   RescaleRGBComponentValue(RealType v) const
   {
-    auto                   d = static_cast<RealType>(m_MaximumRGBComponentValue - m_MinimumRGBComponentValue);
+    auto d = static_cast<RealType>(m_MaximumRGBComponentValue - m_MinimumRGBComponentValue);
     const RGBComponentType rescaled = static_cast<RGBComponentType>(d * v) + this->m_MinimumRGBComponentValue;
 
     return rescaled;

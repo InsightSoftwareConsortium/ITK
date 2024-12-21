@@ -189,7 +189,7 @@ void
 ImageBase<VImageDimension>::ComputeOffsetTable()
 {
   // vxl_uint_64 num=1;
-  OffsetValueType  num = 1;
+  OffsetValueType num = 1;
   const SizeType & bufferSize = this->GetBufferedRegion().GetSize();
 
   // m_OffsetTable[0] = (OffsetValueType)num;
@@ -396,8 +396,8 @@ ImageBase<VImageDimension>::VerifyRequestedRegion()
 template <unsigned int VImageDimension>
 bool
 ImageBase<VImageDimension>::IsCongruentImageGeometry(const ImageBase * otherImage,
-                                                     double            coordinateTolerance,
-                                                     double            directionTolerance) const
+                                                     double coordinateTolerance,
+                                                     double directionTolerance) const
 {
   // check that the image occupy the same physical space, and that
   // each index is at the same physical location
@@ -416,8 +416,8 @@ ImageBase<VImageDimension>::IsCongruentImageGeometry(const ImageBase * otherImag
 template <unsigned int VImageDimension>
 bool
 ImageBase<VImageDimension>::IsSameImageGeometryAs(const ImageBase * otherImage,
-                                                  double            coordinateTolerance,
-                                                  double            directionTolerance) const
+                                                  double coordinateTolerance,
+                                                  double directionTolerance) const
 {
   return this->IsCongruentImageGeometry(otherImage, coordinateTolerance, directionTolerance) &&
          this->GetLargestPossibleRegion() == otherImage->GetLargestPossibleRegion();

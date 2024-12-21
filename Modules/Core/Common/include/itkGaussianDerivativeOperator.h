@@ -46,7 +46,7 @@ public:
 };
 // Define how to print enumeration
 extern ITKCommon_EXPORT std::ostream &
-                        operator<<(std::ostream & out, GaussianDerivativeOperatorEnums::InterpolationMode value);
+operator<<(std::ostream & out, GaussianDerivativeOperatorEnums::InterpolationMode value);
 
 /**
  * \class GaussianDerivativeOperator
@@ -171,7 +171,7 @@ public:
   SetMaximumError(const double maxerror)
   {
     constexpr double Min = 0.00001;
-    const double     Max = 1.0 - Min;
+    const double Max = 1.0 - Min;
 
     m_MaximumError = std::clamp(maxerror, Min, Max);
   }

@@ -187,8 +187,8 @@ public:
   TransformPhysicalPointToContinuousIndex(const Point<TCoordinate, 3> & point) const
   {
     const RegionType region = this->GetLargestPossibleRegion();
-    const double     maxAzimuth = region.GetSize(0) - 1;
-    const double     maxElevation = region.GetSize(1) - 1;
+    const double maxAzimuth = region.GetSize(0) - 1;
+    const double maxElevation = region.GetSize(1) - 1;
 
     // Convert Cartesian coordinates into angular coordinates
     TCoordinate azimuth = Math::pi_over_2;
@@ -218,7 +218,7 @@ public:
    * \sa Transform */
   template <typename TCoordinate, typename TIndexRep>
   ITK_NODISCARD("Call the overload which has the point as the only parameter and returns the index")
-  bool TransformPhysicalPointToContinuousIndex(const Point<TCoordinate, 3> &   point,
+  bool TransformPhysicalPointToContinuousIndex(const Point<TCoordinate, 3> & point,
                                                ContinuousIndex<TIndexRep, 3> & index) const
   {
     index = this->TransformPhysicalPointToContinuousIndex<TIndexRep>(point);
@@ -237,8 +237,8 @@ public:
   TransformPhysicalPointToIndex(const Point<TCoordinate, 3> & point) const
   {
     const RegionType region = this->GetLargestPossibleRegion();
-    const double     maxAzimuth = region.GetSize(0) - 1;
-    const double     maxElevation = region.GetSize(1) - 1;
+    const double maxAzimuth = region.GetSize(0) - 1;
+    const double maxElevation = region.GetSize(1) - 1;
 
     // Convert Cartesian coordinates into angular coordinates
     TCoordinate azimuth = Math::pi_over_2;
@@ -285,11 +285,11 @@ public:
   template <typename TCoordinate, typename TIndexRep>
   void
   TransformContinuousIndexToPhysicalPoint(const ContinuousIndex<TIndexRep, 3> & index,
-                                          Point<TCoordinate, 3> &               point) const
+                                          Point<TCoordinate, 3> & point) const
   {
     const RegionType region = this->GetLargestPossibleRegion();
-    const double     maxAzimuth = region.GetSize(0) - 1;
-    const double     maxElevation = region.GetSize(1) - 1;
+    const double maxAzimuth = region.GetSize(0) - 1;
+    const double maxElevation = region.GetSize(1) - 1;
 
     // Convert the index into proper angular coordinates
     const TCoordinate azimuth = (index[0] - (maxAzimuth / 2.0)) * m_AzimuthAngularSeparation;
@@ -326,8 +326,8 @@ public:
   TransformIndexToPhysicalPoint(const IndexType & index, Point<TCoordinate, 3> & point) const
   {
     const RegionType region = this->GetLargestPossibleRegion();
-    const double     maxAzimuth = region.GetSize(0) - 1;
-    const double     maxElevation = region.GetSize(1) - 1;
+    const double maxAzimuth = region.GetSize(0) - 1;
+    const double maxElevation = region.GetSize(1) - 1;
 
     // Convert the index into proper angular coordinates
     const TCoordinate azimuth = (static_cast<double>(index[0]) - (maxAzimuth / 2.0)) * m_AzimuthAngularSeparation;

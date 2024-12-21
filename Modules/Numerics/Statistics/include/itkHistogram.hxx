@@ -87,18 +87,18 @@ Histogram<TMeasurement, TFrequencyContainer>::GetBinMax(unsigned int dimension, 
 
 template <typename TMeasurement, typename TFrequencyContainer>
 void
-Histogram<TMeasurement, TFrequencyContainer>::SetBinMin(unsigned int       dimension,
+Histogram<TMeasurement, TFrequencyContainer>::SetBinMin(unsigned int dimension,
                                                         InstanceIdentifier nbin,
-                                                        MeasurementType    min)
+                                                        MeasurementType min)
 {
   m_Min[dimension][nbin] = min;
 }
 
 template <typename TMeasurement, typename TFrequencyContainer>
 void
-Histogram<TMeasurement, TFrequencyContainer>::SetBinMax(unsigned int       dimension,
+Histogram<TMeasurement, TFrequencyContainer>::SetBinMax(unsigned int dimension,
                                                         InstanceIdentifier nbin,
-                                                        MeasurementType    max)
+                                                        MeasurementType max)
 {
   m_Max[dimension][nbin] = max;
 }
@@ -213,7 +213,7 @@ Histogram<TMeasurement, TFrequencyContainer>::SetToZero()
 
 template <typename TMeasurement, typename TFrequencyContainer>
 void
-Histogram<TMeasurement, TFrequencyContainer>::Initialize(const SizeType &        size,
+Histogram<TMeasurement, TFrequencyContainer>::Initialize(const SizeType & size,
                                                          MeasurementVectorType & lowerBound,
                                                          MeasurementVectorType & upperBound)
 {
@@ -243,11 +243,11 @@ Histogram<TMeasurement, TFrequencyContainer>::Initialize(const SizeType &       
 template <typename TMeasurement, typename TFrequencyContainer>
 bool
 Histogram<TMeasurement, TFrequencyContainer>::GetIndex(const MeasurementVectorType & measurement,
-                                                       IndexType &                   index) const
+                                                       IndexType & index) const
 {
   // now using something similar to binary search to find
   // index.
-  unsigned int       dim;
+  unsigned int dim;
   const unsigned int measurementVectorSize = this->GetMeasurementVectorSize();
   if (index.Size() != measurementVectorSize)
   {
@@ -494,7 +494,7 @@ template <typename TMeasurement, typename TFrequencyContainer>
 inline void
 Histogram<TMeasurement, TFrequencyContainer>::SetFrequency(const AbsoluteFrequencyType value)
 {
-  typename Self::Iterator       iter = this->Begin();
+  typename Self::Iterator iter = this->Begin();
   const typename Self::Iterator end = this->End();
 
   while (iter != end)
@@ -506,7 +506,7 @@ Histogram<TMeasurement, TFrequencyContainer>::SetFrequency(const AbsoluteFrequen
 
 template <typename TMeasurement, typename TFrequencyContainer>
 inline bool
-Histogram<TMeasurement, TFrequencyContainer>::SetFrequencyOfIndex(const IndexType &           index,
+Histogram<TMeasurement, TFrequencyContainer>::SetFrequencyOfIndex(const IndexType & index,
                                                                   const AbsoluteFrequencyType value)
 {
   return this->SetFrequency(this->GetInstanceIdentifier(index), value);
@@ -515,7 +515,7 @@ Histogram<TMeasurement, TFrequencyContainer>::SetFrequencyOfIndex(const IndexTyp
 template <typename TMeasurement, typename TFrequencyContainer>
 inline bool
 Histogram<TMeasurement, TFrequencyContainer>::SetFrequencyOfMeasurement(const MeasurementVectorType & measurement,
-                                                                        const AbsoluteFrequencyType   value)
+                                                                        const AbsoluteFrequencyType value)
 {
   IndexType index;
   this->GetIndex(measurement, index);
@@ -524,7 +524,7 @@ Histogram<TMeasurement, TFrequencyContainer>::SetFrequencyOfMeasurement(const Me
 
 template <typename TMeasurement, typename TFrequencyContainer>
 inline bool
-Histogram<TMeasurement, TFrequencyContainer>::IncreaseFrequencyOfIndex(const IndexType &           index,
+Histogram<TMeasurement, TFrequencyContainer>::IncreaseFrequencyOfIndex(const IndexType & index,
                                                                        const AbsoluteFrequencyType value)
 {
   const bool result = this->IncreaseFrequency(this->GetInstanceIdentifier(index), value);
@@ -535,7 +535,7 @@ Histogram<TMeasurement, TFrequencyContainer>::IncreaseFrequencyOfIndex(const Ind
 template <typename TMeasurement, typename TFrequencyContainer>
 inline bool
 Histogram<TMeasurement, TFrequencyContainer>::IncreaseFrequencyOfMeasurement(const MeasurementVectorType & measurement,
-                                                                             const AbsoluteFrequencyType   value)
+                                                                             const AbsoluteFrequencyType value)
 {
   IndexType index;
 
@@ -564,10 +564,10 @@ Histogram<TMeasurement, TFrequencyContainer>::GetFrequency(InstanceIdentifier n,
   -> AbsoluteFrequencyType
 {
   const InstanceIdentifier nextOffset = this->m_OffsetTable[dimension + 1];
-  InstanceIdentifier       current = this->m_OffsetTable[dimension] * n;
+  InstanceIdentifier current = this->m_OffsetTable[dimension] * n;
   const InstanceIdentifier includeLength = this->m_OffsetTable[dimension];
-  InstanceIdentifier       include;
-  InstanceIdentifier       includeEnd;
+  InstanceIdentifier include;
+  InstanceIdentifier includeEnd;
   const InstanceIdentifier last = this->m_OffsetTable[this->GetMeasurementVectorSize()];
 
   AbsoluteFrequencyType frequency = 0;
@@ -600,7 +600,7 @@ Histogram<TMeasurement, TFrequencyContainer>::Quantile(unsigned int dimension, d
   const unsigned int size = this->GetSize(dimension);
 
   double cumulated = 0;
-  auto   totalFrequency = static_cast<double>(this->GetTotalFrequency());
+  auto totalFrequency = static_cast<double>(this->GetTotalFrequency());
 
 
   double f_n;
@@ -608,7 +608,7 @@ Histogram<TMeasurement, TFrequencyContainer>::Quantile(unsigned int dimension, d
   if (p < 0.5)
   {
     InstanceIdentifier n = 0;
-    double             p_n = 0.0;
+    double p_n = 0.0;
     do
     {
       f_n = this->GetFrequency(n, dimension);
@@ -620,8 +620,8 @@ Histogram<TMeasurement, TFrequencyContainer>::Quantile(unsigned int dimension, d
 
     const double binProportion = f_n / totalFrequency;
 
-    const auto   min = static_cast<double>(this->GetBinMin(dimension, n - 1));
-    const auto   max = static_cast<double>(this->GetBinMax(dimension, n - 1));
+    const auto min = static_cast<double>(this->GetBinMin(dimension, n - 1));
+    const auto max = static_cast<double>(this->GetBinMax(dimension, n - 1));
     const double interval = max - min;
     return min + ((p - p_n_prev) / binProportion) * interval;
   }
@@ -629,7 +629,7 @@ Histogram<TMeasurement, TFrequencyContainer>::Quantile(unsigned int dimension, d
   {
     InstanceIdentifier n = size - 1;
     InstanceIdentifier m{};
-    double             p_n = 1.0;
+    double p_n = 1.0;
     do
     {
       f_n = this->GetFrequency(n, dimension);
@@ -641,8 +641,8 @@ Histogram<TMeasurement, TFrequencyContainer>::Quantile(unsigned int dimension, d
     } while (m < size && p_n > p);
 
     const double binProportion = f_n / totalFrequency;
-    const auto   min = static_cast<double>(this->GetBinMin(dimension, n + 1));
-    const auto   max = static_cast<double>(this->GetBinMax(dimension, n + 1));
+    const auto min = static_cast<double>(this->GetBinMin(dimension, n + 1));
+    const auto max = static_cast<double>(this->GetBinMax(dimension, n + 1));
     const double interval = max - min;
     return max - ((p_n_prev - p) / binProportion) * interval;
   }
@@ -653,8 +653,8 @@ double
 Histogram<TMeasurement, TFrequencyContainer>::Mean(unsigned int dimension) const
 {
   const unsigned int size = this->GetSize(dimension);
-  const double       totalFrequency = this->GetTotalFrequency();
-  double             sum = 0;
+  const double totalFrequency = this->GetTotalFrequency();
+  double sum = 0;
   for (unsigned int i = 0; i < size; ++i)
   {
     const double frequency = this->GetFrequency(i, dimension);

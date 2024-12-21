@@ -45,8 +45,8 @@ public:
   inline TOutput
   operator()(const TInput1 & A, const TInput2 & B) const
   {
-    const auto   dA = static_cast<double>(A);
-    const auto   dB = static_cast<double>(B);
+    const auto dA = static_cast<double>(A);
+    const auto dB = static_cast<double>(B);
     const double add = dA + dB;
     const double cadd1 = (add < NumericTraits<TOutput>::max()) ? add : NumericTraits<TOutput>::max();
     const double cadd2 =

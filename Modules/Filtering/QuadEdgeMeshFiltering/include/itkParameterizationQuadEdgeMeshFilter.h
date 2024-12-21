@@ -198,8 +198,8 @@ protected:
   SolveLinearSystems(const MatrixType & iM,
                      const VectorType & iBx,
                      const VectorType & iBy,
-                     VectorType &       oX,
-                     VectorType &       oY);
+                     VectorType & oX,
+                     VectorType & oY);
 
   void
   GenerateData() override;

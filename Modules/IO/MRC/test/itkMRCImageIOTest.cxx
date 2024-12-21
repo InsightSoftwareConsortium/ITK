@@ -56,7 +56,7 @@ MRCImageIOTester<TImageType>::Write(const std::string & filePrefix, std::string 
     image->SetRegions(m_ImageSize);
     image->Allocate();
 
-    unsigned int                        cnt = 0;
+    unsigned int cnt = 0;
     itk::ImageRegionIterator<ImageType> i(image, image->GetLargestPossibleRegion());
     i.GoToBegin();
     while (!i.IsAtEnd())
@@ -200,8 +200,8 @@ MRCImageIOTester<TImageType>::Read(const std::string & filePrefix, std::string &
 
     // check the size
     const typename ImageType::RegionType region = image->GetLargestPossibleRegion();
-    typename ImageType::SizeType         size = region.GetSize();
-    bool                                 sizeGood = true;
+    typename ImageType::SizeType size = region.GetSize();
+    bool sizeGood = true;
     for (unsigned int i = 0; i < ImageType::GetImageDimension(); ++i)
     {
       if (size[i] != 10)
@@ -217,8 +217,8 @@ MRCImageIOTester<TImageType>::Read(const std::string & filePrefix, std::string &
     }
 
     // check each pixel
-    bool                                pixelsGood = true;
-    unsigned int                        cnt = 0;
+    bool pixelsGood = true;
+    unsigned int cnt = 0;
     itk::ImageRegionIterator<ImageType> iter(image, region);
     iter.GoToBegin();
     while (!iter.IsAtEnd() && pixelsGood)
@@ -282,7 +282,7 @@ itkMRCImageIOTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  std::string       outputPath = argv[1];
+  std::string outputPath = argv[1];
   const std::string filePrefix = argv[0];
 
   //

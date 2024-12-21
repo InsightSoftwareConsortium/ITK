@@ -179,7 +179,7 @@ SolverCrankNicolson<VDimension>::AssembleKandM()
     if (LoadLandmark::Pointer l3 = dynamic_cast<LoadLandmark *>(this->m_FEMObject->GetLoad(l2).GetPointer()))
     {
       Element::ConstPointer ep = (l3->GetElementArray()[0]);
-      Element::MatrixType   Le;
+      Element::MatrixType Le;
       ep->GetLandmarkContributionMatrix(l3->GetEta(), Le);
       int Ne = ep->GetNumberOfDegreesOfFreedom();
       // Step over all rows in element matrix

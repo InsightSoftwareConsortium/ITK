@@ -217,7 +217,7 @@ VideoFileWriter<TInputVideoStream>::TemporalStreamingGenerateData()
 {
   // Get a non-const pointer to the input and output
   const VideoStreamType * const input = this->GetInput();
-  auto *                        output = dynamic_cast<TemporalDataObject *>(this->GetOutput(0));
+  auto * output = dynamic_cast<TemporalDataObject *>(this->GetOutput(0));
   if (!output)
   {
     itkExceptionMacro("Could not cast output to TemporalDataObject");
@@ -225,7 +225,7 @@ VideoFileWriter<TInputVideoStream>::TemporalStreamingGenerateData()
 
   // Get the frame we're going to write
   const SizeValueType frameNum = output->GetRequestedTemporalRegion().GetFrameStart();
-  const FrameType *   frame = input->GetFrame(frameNum);
+  const FrameType * frame = input->GetFrame(frameNum);
   if (!frame)
   {
     itkExceptionMacro("Could not get input frame " << frameNum << " for writing");

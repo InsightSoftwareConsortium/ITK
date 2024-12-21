@@ -175,8 +175,8 @@ void
 Point<T, TPointDimension>::SetToBarycentricCombination(const Self & A,
                                                        const Self & B,
                                                        const Self & C,
-                                                       double       weightForA,
-                                                       double       weightForB)
+                                                       double weightForA,
+                                                       double weightForB)
 {
   const double weightForC = 1.0 - weightForA - weightForB;
 
@@ -217,19 +217,19 @@ Point<T, TPointDimension>::SetToBarycentricCombination(const Self * P, const dou
 template <typename TPointContainer, typename TWeightContainer>
 auto
 BarycentricCombination<TPointContainer, TWeightContainer>::Evaluate(const PointContainerPointer & points,
-                                                                    const WeightContainerType &   weights) -> PointType
+                                                                    const WeightContainerType & weights) -> PointType
 {
   PointType barycentre{}; // set to null
 
-  typename TPointContainer::Iterator       point = points->Begin();
+  typename TPointContainer::Iterator point = points->Begin();
   const typename TPointContainer::Iterator final = points->End();
-  typename TPointContainer::Iterator       last = final;
+  typename TPointContainer::Iterator last = final;
   --last; // move to the (N)th point
 
   double weightSum = 0.0;
 
   const unsigned int PointDimension = PointType::PointDimension;
-  unsigned int       j = 0;
+  unsigned int j = 0;
 
   while (point != last)
   {

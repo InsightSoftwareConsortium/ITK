@@ -160,10 +160,10 @@ itkObjectFactoryOnlyNewTest(int, char *[])
     std::list<std::string> overrides = oneFactory->GetClassOverrideNames();
     std::list<std::string> names = oneFactory->GetClassOverrideWithNames();
     std::list<std::string> descriptions = oneFactory->GetClassOverrideDescriptions();
-    std::list<bool>        enableflags = oneFactory->GetEnableFlags();
-    auto                   n = names.begin();
-    auto                   d = descriptions.begin();
-    auto                   e = enableflags.begin();
+    std::list<bool> enableflags = oneFactory->GetEnableFlags();
+    auto n = names.begin();
+    auto d = descriptions.begin();
+    auto e = enableflags.begin();
     for (auto o = overrides.begin(); o != overrides.end(); ++o, ++n, ++d, ++e)
     {
       std::cout << "    Override " << *o << " with " << *n << std::endl

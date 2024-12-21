@@ -186,19 +186,19 @@ protected:
   using OutputNeighborhoodIteratorType = NeighborhoodIterator<OutputImageType>;
 
   void
-  ComputeValue(const InputNeighbordIteratorType &   inNeigIt,
-               OutputNeighborhoodIteratorType &     outNeigIt,
-               unsigned int                         center,
+  ComputeValue(const InputNeighbordIteratorType & inNeigIt,
+               OutputNeighborhoodIteratorType & outNeigIt,
+               unsigned int center,
                const std::vector<OffsetValueType> & stride);
 
 private:
   PixelRealType m_LevelSetValue{};
-  PixelType     m_FarValue{};
+  PixelType m_FarValue{};
 
   InputSpacingType m_Spacing{};
 
-  bool                    m_NarrowBanding{};
-  NarrowBandPointer       m_NarrowBand{};
+  bool m_NarrowBanding{};
+  NarrowBandPointer m_NarrowBand{};
   std::vector<RegionType> m_NarrowBandRegion{};
 
   std::mutex m_Mutex{};

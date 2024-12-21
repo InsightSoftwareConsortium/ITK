@@ -308,7 +308,7 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>::EstimateNewtonSte
   const SizeValueType numLocalPara = this->m_Metric->GetNumberOfLocalParameters();
 
   const IndexValueType low = subrange[0] / numLocalPara;
-  IndexValueType       high = subrange[1] / numLocalPara;
+  IndexValueType high = subrange[1] / numLocalPara;
 
   // let us denote the i-th thread's sub range by subrange_i
   // we assume subrange_i[1] + 1 = subrange_(i+1)[0] .
@@ -349,7 +349,7 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>::ComputeHessianAnd
     return false;
   }
 
-  const SizeValueType  numLocalPara = this->m_Metric->GetNumberOfLocalParameters();
+  const SizeValueType numLocalPara = this->m_Metric->GetNumberOfLocalParameters();
   const IndexValueType offset = loc * numLocalPara;
 
   ParametersType dx(numLocalPara);  // delta of position x: x_k+1 - x_k
@@ -376,7 +376,7 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>::ComputeHessianAnd
 
   const vnl_matrix<TInternalComputationValueType> plus = outer_product(dg, dg) / dot_dg_dx;
   const vnl_matrix<TInternalComputationValueType> minus = outer_product(edg, edg) / dot_edg_dx;
-  vnl_matrix<TInternalComputationValueType>       newHessian = this->m_HessianArray[loc] + plus - minus;
+  vnl_matrix<TInternalComputationValueType> newHessian = this->m_HessianArray[loc] + plus - minus;
 
   this->m_HessianArray[loc] = newHessian;
 

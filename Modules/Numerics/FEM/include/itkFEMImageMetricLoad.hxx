@@ -29,7 +29,7 @@ itk::LightObject::Pointer
 ImageMetricLoad<TMoving, TFixed>::CreateAnother() const
 {
   itk::LightObject::Pointer smartPtr;
-  Pointer                   copyPtr = Self::New();
+  Pointer copyPtr = Self::New();
 
   // Copy Load Contents
   copyPtr->m_MetricGradientImage = this->m_MetricGradientImage;
@@ -82,8 +82,8 @@ ImageMetricLoad<TMoving, TFixed>::InitializeMetric()
   m_Metric->SetFixedImage(m_TarImage);
 
   typename FixedType::RegionType requestedRegion;
-  typename FixedType::SizeType   size;
-  typename FixedType::IndexType  tindex;
+  typename FixedType::SizeType size;
+  typename FixedType::IndexType tindex;
   //  typename MovingType::IndexType rindex;
   // initialize the offset/vector part
   for (unsigned int k = 0; k < ImageDimension; ++k)
@@ -148,9 +148,9 @@ ImageMetricLoad<TMoving, TFixed>::EvaluateMetricGivenSolution(Element::ArrayType
 
   Element::VectorType ip, shapef;
   Element::MatrixType solmat;
-  Element::Float      w;
+  Element::Float w;
 
-  auto               elt = element->begin();
+  auto elt = element->begin();
   const unsigned int Nnodes = (*elt)->GetNumberOfNodes();
 
   solmat.set_size(Nnodes * ImageDimension, 1);
@@ -216,9 +216,9 @@ ImageMetricLoad<TMoving, TFixed>::EvaluateMetricGivenSolution1(Element::ArrayTyp
 
   Element::VectorType ip, shapef;
   Element::MatrixType solmat;
-  Element::Float      w;
+  Element::Float w;
 
-  auto               elt = element->begin();
+  auto elt = element->begin();
   const unsigned int Nnodes = (*elt)->GetNumberOfNodes();
 
   solmat.set_size(Nnodes * ImageDimension, 1);
@@ -304,8 +304,8 @@ ImageMetricLoad<TMoving, TFixed>::Fe(VectorType Gpos, VectorType Gsol) -> Vector
   ParametersType parameters(m_Transform->GetNumberOfParameters());
 
   typename FixedType::RegionType requestedRegion;
-  FixedRadiusType                regionRadius;
-  typename FixedType::IndexType  tindex;
+  FixedRadiusType regionRadius;
+  typename FixedType::IndexType tindex;
   typename MovingType::IndexType rindex;
   OutVec.set_size(ImageDimension);
 
@@ -348,7 +348,7 @@ ImageMetricLoad<TMoving, TFixed>::Fe(VectorType Gpos, VectorType Gsol) -> Vector
   // --------------------------------------------------------
   // Get metric values
 
-  typename MetricBaseType::MeasureType    measure;
+  typename MetricBaseType::MeasureType measure;
   typename MetricBaseType::DerivativeType derivative;
 
   try
@@ -407,10 +407,10 @@ ImageMetricLoad<TMoving, TFixed>::GetMetric(VectorType InVec) -> Float
   ParametersType parameters(m_Transform->GetNumberOfParameters());
 
   typename FixedType::RegionType requestedRegion;
-  typename FixedType::IndexType  tindex;
+  typename FixedType::IndexType tindex;
   typename MovingType::IndexType rindex;
-  FixedRadiusType                regionRadius;
-  VectorType                     OutVec(ImageDimension, 0.0); // gradient direction
+  FixedRadiusType regionRadius;
+  VectorType OutVec(ImageDimension, 0.0); // gradient direction
   // std::cout << " pos   translation " << InVec  << endl;
   // initialize the offset/vector part
   for (unsigned int k = 0; k < ImageDimension; ++k)
@@ -475,8 +475,8 @@ ImageMetricLoad<TMoving, TFixed>::MetricFiniteDiff(VectorType Gpos, VectorType G
   ParametersType parameters(ImageDimension);
 
   typename FixedType::RegionType requestedRegion;
-  typename FixedType::IndexType  tindex;
-  FixedRadiusType                regionRadius;
+  typename FixedType::IndexType tindex;
+  FixedRadiusType regionRadius;
 
   VectorType OutVec;
   OutVec.set_size(ImageDimension);
@@ -509,7 +509,7 @@ ImageMetricLoad<TMoving, TFixed>::MetricFiniteDiff(VectorType Gpos, VectorType G
     tindex[k] = static_cast<long>(Gpos[k] + 0.5) - static_cast<long>(regionRadius[k]) / 2;
   }
 
-  unsigned int                  row;
+  unsigned int row;
   typename ImageType::IndexType difIndex[ImageDimension][2];
 
   typename MetricBaseType::MeasureType dPixL, dPixR;
@@ -569,8 +569,8 @@ ImageMetricLoad<TMoving, TFixed>::GetPolynomialFitToMetric(VectorType Gpos, Vect
   ParametersType parameters(ImageDimension);
 
   typename FixedType::RegionType requestedRegion;
-  typename FixedType::IndexType  tindex;
-  FixedRadiusType                regionRadius;
+  typename FixedType::IndexType tindex;
+  FixedRadiusType regionRadius;
 
   typename ImageType::IndexType temp;
 
@@ -753,7 +753,7 @@ ImageMetricLoad<TMoving, TFixed>::ApplyLoad(Element::ConstPointer element, Eleme
 
   // Element::VectorType force_tmp;
   //
-  Element::Float      w;
+  Element::Float w;
   Element::VectorType force(Ndofs, 0.0);
   for (unsigned int i = 0; i < Nip; ++i)
   {

@@ -110,11 +110,11 @@ itkSquareImageFilterTest(int, char *[])
   it.GoToBegin();
   while (!ot.IsAtEnd())
   {
-    const InputImageType::PixelType  input = it.Get();
+    const InputImageType::PixelType input = it.Get();
     const OutputImageType::PixelType output = ot.Get();
-    const double                     x1 = input;
-    const double                     x2 = x1 * x1;
-    const auto                       square = static_cast<OutputImageType::PixelType>(x2);
+    const double x1 = input;
+    const double x2 = x1 * x1;
+    const auto square = static_cast<OutputImageType::PixelType>(x2);
     if (!itk::Math::FloatAlmostEqual(square, output, 10, epsilon))
     {
       std::cerr.precision(static_cast<unsigned int>(itk::Math::abs(std::log10(epsilon))));

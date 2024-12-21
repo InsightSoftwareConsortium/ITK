@@ -24,7 +24,7 @@ namespace itk
 
 template <typename TImage>
 ImageRegionExclusionConstIteratorWithIndex<TImage>::ImageRegionExclusionConstIteratorWithIndex(
-  const ImageType *  ptr,
+  const ImageType * ptr,
   const RegionType & region)
   : Superclass(ptr, region)
 {}

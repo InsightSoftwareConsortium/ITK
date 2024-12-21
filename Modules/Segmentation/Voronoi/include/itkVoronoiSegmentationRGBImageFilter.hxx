@@ -70,7 +70,7 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::SetSTDPercentError
 
 template <typename TInputImage, typename TOutputImage>
 void
-VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::SetInput(unsigned int           inputNumber,
+VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::SetInput(unsigned int inputNumber,
                                                                        const InputImageType * input)
 {
   this->Superclass::SetInput(inputNumber, input);
@@ -89,10 +89,10 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::SetInput(const Inp
   m_WorkingImage->SetRegions(region);
   m_WorkingImage->Allocate();
 
-  itk::ImageRegionIteratorWithIndex<RGBHCVImage>         wit(m_WorkingImage, region);
+  itk::ImageRegionIteratorWithIndex<RGBHCVImage> wit(m_WorkingImage, region);
   itk::ImageRegionConstIteratorWithIndex<InputImageType> iit(this->GetInput(), region);
-  PixelType                                              ipixel;
-  RGBHCVPixel                                            wpixel;
+  PixelType ipixel;
+  RGBHCVPixel wpixel;
 
 
   const double X0 = m_MaxValueOfRGB * 0.982;
@@ -137,7 +137,7 @@ template <typename TInputImage, typename TOutputImage>
 bool
 VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::TestHomogeneity(IndexList & Plist)
 {
-  auto   num = static_cast<int>(Plist.size());
+  auto num = static_cast<int>(Plist.size());
   double addp[6] = { 0, 0, 0, 0, 0, 0 };
   double addpp[6] = { 0, 0, 0, 0, 0, 0 };
 
@@ -193,13 +193,13 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::TakeAPrior(const B
   const RegionType region = this->GetInput()->GetRequestedRegion();
 
   itk::ImageRegionConstIteratorWithIndex<BinaryObjectImage> ait(aprior, region);
-  itk::ImageRegionIteratorWithIndex<RGBHCVImage>            iit(m_WorkingImage, region);
+  itk::ImageRegionIteratorWithIndex<RGBHCVImage> iit(m_WorkingImage, region);
 
   unsigned int minx = 0;
   unsigned int miny = 0;
   unsigned int maxx = 0;
   unsigned int maxy = 0;
-  bool         status = false;
+  bool status = false;
   for (unsigned int i = 0; i < this->GetSize()[1]; ++i)
   {
     for (unsigned int j = 0; j < this->GetSize()[0]; ++j)
@@ -231,10 +231,10 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::TakeAPrior(const B
   int objnum = 0;
   int bkgnum = 0;
 
-  float       objaddp[6] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
-  float       objaddpp[6] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
-  float       bkgaddp[6] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
-  float       bkgaddpp[6] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+  float objaddp[6] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+  float objaddpp[6] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+  float bkgaddp[6] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+  float bkgaddpp[6] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
   RGBHCVPixel currp;
 
   ait.GoToBegin();
@@ -288,8 +288,8 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::TakeAPrior(const B
 
   double b_Mean[6];
   double b_STD[6];
-  float  diffMean[6];
-  float  diffSTD[6];
+  float diffMean[6];
+  float diffSTD[6];
   for (unsigned int i = 0; i < 6; ++i)
   {
     m_Mean[i] = objaddp[i] / objnum;

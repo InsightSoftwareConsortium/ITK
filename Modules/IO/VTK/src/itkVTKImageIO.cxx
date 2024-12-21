@@ -74,7 +74,7 @@ bool
 VTKImageIO::CanReadFile(const char * filename)
 {
   std::ifstream file;
-  std::string   fname(filename);
+  std::string fname(filename);
 
   if (!this->HasSupportedReadExtension(filename))
   {
@@ -314,7 +314,7 @@ VTKImageIO::InternalReadImageInformation(std::ifstream & file)
     {
       readAttribute = true;
 
-      char         pixelType[256];
+      char pixelType[256];
       unsigned int numComp = 1;
       // numComp is optional
       sscanf(text.c_str(), "%*s %*s %s %u", pixelType, &numComp);
@@ -417,8 +417,8 @@ void
 ReadTensorBuffer(std::istream & is, TComponent * buffer, const ImageIOBase::SizeType num)
 {
   using PrintType = typename itk::NumericTraits<TComponent>::PrintType;
-  PrintType             temp;
-  TComponent *          ptr = buffer;
+  PrintType temp;
+  TComponent * ptr = buffer;
   ImageIOBase::SizeType i = 0;
   // More than the resulting components because of symmetry.
   const ImageIOBase::SizeType fileComponents = num / 6 * 9;
@@ -454,9 +454,9 @@ ReadTensorBuffer(std::istream & is, TComponent * buffer, const ImageIOBase::Size
 } // end anonymous namespace
 
 void
-VTKImageIO::ReadBufferAsASCII(std::istream &              is,
-                              void *                      buffer,
-                              IOComponentEnum             ctype,
+VTKImageIO::ReadBufferAsASCII(std::istream & is,
+                              void * buffer,
+                              IOComponentEnum ctype,
                               const ImageIOBase::SizeType numComp)
 {
   if (this->GetPixelType() == IOPixelEnum::SYMMETRICSECONDRANKTENSOR)
@@ -497,8 +497,8 @@ void
 VTKImageIO::ReadSymmetricTensorBufferAsBinary(std::istream & is, void * buffer, StreamingImageIOBase::SizeType num)
 {
   std::streamsize bytesRemaining = num;
-  const SizeType  componentSize = this->GetComponentSize();
-  const SizeType  pixelSize = componentSize * 6;
+  const SizeType componentSize = this->GetComponentSize();
+  const SizeType pixelSize = componentSize * 6;
 
   if (this->GetNumberOfComponents() != 6)
   {
@@ -712,8 +712,8 @@ namespace
 {
 template <typename TComponent>
 void
-WriteTensorBuffer(std::ostream &              os,
-                  const TComponent *          buffer,
+WriteTensorBuffer(std::ostream & os,
+                  const TComponent * buffer,
                   const ImageIOBase::SizeType num,
                   const ImageIOBase::SizeType components)
 {
@@ -725,7 +725,7 @@ WriteTensorBuffer(std::ostream &              os,
   if (components == 3)
   {
     const auto zero(TComponent{});
-    PrintType  e12;
+    PrintType e12;
     while (i < num)
     {
       // row 1
@@ -778,9 +778,9 @@ WriteTensorBuffer(std::ostream &              os,
 } // end anonymous namespace
 
 void
-VTKImageIO::WriteBufferAsASCII(std::ostream &              os,
-                               const void *                buffer,
-                               IOComponentEnum             ctype,
+VTKImageIO::WriteBufferAsASCII(std::ostream & os,
+                               const void * buffer,
+                               IOComponentEnum ctype,
                                const ImageIOBase::SizeType numComp)
 {
   if (this->GetPixelType() == IOPixelEnum::SYMMETRICSECONDRANKTENSOR)
@@ -852,14 +852,14 @@ VTKImageIO::WriteBufferAsASCII(std::ostream &              os,
   }
 
 void
-VTKImageIO::WriteSymmetricTensorBufferAsBinary(std::ostream &                 os,
-                                               const void *                   buffer,
+VTKImageIO::WriteSymmetricTensorBufferAsBinary(std::ostream & os,
+                                               const void * buffer,
                                                StreamingImageIOBase::SizeType num)
 {
   std::streamsize bytesRemaining = num;
-  const SizeType  componentSize = this->GetComponentSize();
-  SizeType        pixelSize;
-  constexpr char  zero[1024]{};
+  const SizeType componentSize = this->GetComponentSize();
+  SizeType pixelSize;
+  constexpr char zero[1024]{};
 
   switch (this->GetNumberOfComponents())
   {

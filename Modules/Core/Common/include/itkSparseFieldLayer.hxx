@@ -51,7 +51,7 @@ auto
 SparseFieldLayer<TNodeType>::SplitRegions(int num) const -> RegionListType
 {
   const unsigned int size = Size();
-  const auto    regionsize = static_cast<unsigned int>(std::ceil(static_cast<float>(size) / static_cast<float>(num)));
+  const auto regionsize = static_cast<unsigned int>(std::ceil(static_cast<float>(size) / static_cast<float>(num)));
   ConstIterator position = Begin();
   const ConstIterator last = End();
 
@@ -60,7 +60,7 @@ SparseFieldLayer<TNodeType>::SplitRegions(int num) const -> RegionListType
   for (int i = 0; i < num; ++i)
   {
     unsigned int j = 0;
-    RegionType   region;
+    RegionType region;
     region.first = position;
     while ((j < regionsize) && (position != last))
     {

@@ -39,7 +39,7 @@ ParseSplinePoles(char * splinePolesIn)
   typename TFilter::SplinePolesVectorType splinePolesOut;
 
   // Get the individual components
-  char *                                              endPtr;
+  char * endPtr;
   typename TFilter::SplinePolesVectorType::value_type value;
   while (*splinePolesIn)
   {
@@ -87,7 +87,7 @@ itkBSplineDecompositionImageFilterTest(int argc, char * argv[])
   using ImageType = itk::Image<PixelType, ImageDimension>;
   using BSplineInterpolatorFunctionType = itk::BSplineInterpolateImageFunction<ImageType, double, double>;
 
-  const unsigned int                             splineOrder = std::stoi(argv[1]);
+  const unsigned int splineOrder = std::stoi(argv[1]);
   const BSplineInterpolatorFunctionType::Pointer interpolator =
     makeRandomImageInterpolator<BSplineInterpolatorFunctionType>(splineOrder);
   const ImageType::ConstPointer randImage = interpolator->GetInputImage();
@@ -113,7 +113,7 @@ itkBSplineDecompositionImageFilterTest(int argc, char * argv[])
   ITK_TEST_EXPECT_EQUAL(filter->GetNumberOfPoles(), expectedSplinePoles.size());
 
   FilterType::SplinePolesVectorType resultSplinePoles = filter->GetSplinePoles();
-  constexpr double                  tolerance1 = 1e-10;
+  constexpr double tolerance1 = 1e-10;
   for (unsigned int i = 0; i < resultSplinePoles.size(); ++i)
   {
     const FilterType::SplinePolesVectorType::value_type expectedSplinePole = expectedSplinePoles[i];

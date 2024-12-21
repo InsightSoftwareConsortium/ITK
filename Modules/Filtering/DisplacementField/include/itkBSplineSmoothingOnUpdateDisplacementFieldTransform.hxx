@@ -66,12 +66,12 @@ template <typename TParametersValueType, unsigned int VDimension>
 void
 BSplineSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimension>::UpdateTransformParameters(
   const DerivativeType & update,
-  ScalarType             factor)
+  ScalarType factor)
 {
   const DisplacementFieldPointer displacementField = this->GetModifiableDisplacementField();
 
   const typename DisplacementFieldType::RegionType & bufferedRegion = displacementField->GetBufferedRegion();
-  const SizeValueType                                numberOfPixels = bufferedRegion.GetNumberOfPixels();
+  const SizeValueType numberOfPixels = bufferedRegion.GetNumberOfPixels();
 
   using ImporterType = ImportImageFilter<DisplacementVectorType, Dimension>;
   const bool importFilterWillReleaseMemory = false;
@@ -164,7 +164,7 @@ template <typename TParametersValueType, unsigned int VDimension>
 auto
 BSplineSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimension>::BSplineSmoothDisplacementField(
   const DisplacementFieldType * field,
-  const ArrayType &             numberOfControlPoints) -> DisplacementFieldPointer
+  const ArrayType & numberOfControlPoints) -> DisplacementFieldPointer
 {
   auto bspliner = BSplineFilterType::New();
   bspliner->SetUseInputFieldToDefineTheBSplineDomain(true);

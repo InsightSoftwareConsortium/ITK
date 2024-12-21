@@ -156,8 +156,8 @@ main(int argc, char * argv[])
   using InterpolatorType = itk::LinearInterpolateImageFunction<MovingImageType, double>;
   using RegistrationType = itk::ImageRegistrationMethod<FixedImageType, MovingImageType>;
 
-  const MetricType::Pointer       metric = MetricType::New();
-  const OptimizerType::Pointer    optimizer = OptimizerType::New();
+  const MetricType::Pointer metric = MetricType::New();
+  const OptimizerType::Pointer optimizer = OptimizerType::New();
   const InterpolatorType::Pointer interpolator = InterpolatorType::New();
   const RegistrationType::Pointer registration = RegistrationType::New();
 
@@ -178,7 +178,7 @@ main(int argc, char * argv[])
   registration->SetTransform(transform);
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
-  const FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
+  const FixedImageReaderType::Pointer fixedImageReader = FixedImageReaderType::New();
   const MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -257,7 +257,7 @@ main(int argc, char * argv[])
   registration->SetInitialTransformParameters(transform->GetParameters());
   using OptimizerScalesType = OptimizerType::ScalesType;
   OptimizerScalesType optimizerScales(transform->GetNumberOfParameters());
-  constexpr double    translationScale = 1.0 / 1000.0;
+  constexpr double translationScale = 1.0 / 1000.0;
   optimizerScales[0] = 1.0;
   optimizerScales[1] = 1.0;
   optimizerScales[2] = 1.0;
@@ -288,14 +288,14 @@ main(int argc, char * argv[])
   }
   OptimizerType::ParametersType finalParameters = registration->GetLastTransformParameters();
 
-  const double       versorX = finalParameters[0];
-  const double       versorY = finalParameters[1];
-  const double       versorZ = finalParameters[2];
-  const double       finalTranslationX = finalParameters[3];
-  const double       finalTranslationY = finalParameters[4];
-  const double       finalTranslationZ = finalParameters[5];
+  const double versorX = finalParameters[0];
+  const double versorY = finalParameters[1];
+  const double versorZ = finalParameters[2];
+  const double finalTranslationX = finalParameters[3];
+  const double finalTranslationY = finalParameters[4];
+  const double finalTranslationZ = finalParameters[5];
   const unsigned int numberOfIterations = optimizer->GetCurrentIteration();
-  const double       bestValue = optimizer->GetValue();
+  const double bestValue = optimizer->GetValue();
 
   // Print out results
   //
@@ -474,7 +474,7 @@ main(int argc, char * argv[])
   using CastFilterType = itk::CastImageFilter<FixedImageType, OutputImageType>;
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  const WriterType::Pointer     writer = WriterType::New();
+  const WriterType::Pointer writer = WriterType::New();
   const CastFilterType::Pointer caster = CastFilterType::New();
 
   writer->SetFileName(argv[3]);
@@ -528,8 +528,8 @@ main(int argc, char * argv[])
   extractor->InPlaceOn();
 
   const FixedImageType::RegionType inputRegion = fixedImage->GetLargestPossibleRegion();
-  FixedImageType::SizeType         size = inputRegion.GetSize();
-  FixedImageType::IndexType        start = inputRegion.GetIndex();
+  FixedImageType::SizeType size = inputRegion.GetSize();
+  FixedImageType::IndexType start = inputRegion.GetIndex();
   // Select one slice as output
   size[2] = 0;
   start[2] = 90;

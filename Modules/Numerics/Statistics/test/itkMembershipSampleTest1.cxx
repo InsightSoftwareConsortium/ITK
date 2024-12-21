@@ -60,7 +60,7 @@ itkMembershipSampleTest1(int, char *[])
 
   // Add measurement vectors to the list sample
   constexpr unsigned int sampleSize = 10;
-  MeasurementVectorType  mv;
+  MeasurementVectorType mv;
 
   std::cout << "Sample length = " << sample->GetMeasurementVectorSize() << std::endl;
   std::cout << "Vector length = " << itk::NumericTraits<MeasurementVectorType>::GetLength(mv) << std::endl;
@@ -199,7 +199,7 @@ itkMembershipSampleTest1(int, char *[])
 
     // copy from non-const iterator
     const MembershipSampleType::Iterator nonconst_iter = membershipSample->Begin();
-    MembershipSampleType::ConstIterator  s2_iter(nonconst_iter);
+    MembershipSampleType::ConstIterator s2_iter(nonconst_iter);
     if (s2_iter != s_iter)
     {
       std::cerr << "Iterator::Copy Constructor (from non-const) failed" << std::endl;

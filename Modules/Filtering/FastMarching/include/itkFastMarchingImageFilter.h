@@ -54,7 +54,7 @@ public:
 };
 // Define how to print enumeration
 extern ITKFastMarching_EXPORT std::ostream &
-                              operator<<(std::ostream & out, const FastMarchingImageFilterEnums::Label value);
+operator<<(std::ostream & out, const FastMarchingImageFilterEnums::Label value);
 
 /**
  * \class FastMarchingImageFilter
@@ -228,7 +228,7 @@ public:
     InternalRegionIterator b_it(iImage, iImage->GetLargestPossibleRegion());
     b_it.GoToBegin();
 
-    TPixel                                    zero_value{};
+    TPixel zero_value{};
     typename NodeContainer::ElementIdentifier NumberOfPoints = 0;
 
     NodeType node;
@@ -439,17 +439,17 @@ private:
   double m_InverseSpeed{};
   double m_StoppingValue{};
 
-  bool                 m_CollectPoints{};
+  bool m_CollectPoints{};
   NodeContainerPointer m_ProcessedPoints{};
 
-  OutputRegionType    m_OutputRegion{};
-  OutputPointType     m_OutputOrigin{};
-  OutputSpacingType   m_OutputSpacing{};
+  OutputRegionType m_OutputRegion{};
+  OutputPointType m_OutputOrigin{};
+  OutputSpacingType m_OutputSpacing{};
   OutputDirectionType m_OutputDirection{};
-  bool                m_OverrideOutputInformation{};
+  bool m_OverrideOutputInformation{};
 
   typename LevelSetImageType::PixelType m_LargeValue{};
-  AxisNodeType                          m_NodesUsed[SetDimension]{};
+  AxisNodeType m_NodesUsed[SetDimension]{};
 
   /** Trial points are stored in a min-heap. This allow efficient access
    * to the trial point with minimum value which is the next grid point

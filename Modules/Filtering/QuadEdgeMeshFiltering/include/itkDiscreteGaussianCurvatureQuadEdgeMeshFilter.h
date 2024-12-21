@@ -96,7 +96,7 @@ protected:
       do
       {
         // cell_id = qe_it->GetLeft();
-        OutputQEType *        qe_it2 = qe_it->GetOnext();
+        OutputQEType * qe_it2 = qe_it->GetOnext();
         const OutputPointType q0 = output->GetPoint(qe_it->GetDestination());
         const OutputPointType q1 = output->GetPoint(qe_it2->GetDestination());
 

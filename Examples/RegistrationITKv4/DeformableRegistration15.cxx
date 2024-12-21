@@ -210,7 +210,7 @@ main(int argc, char * argv[])
 
   // Add a time and memory probes collector for profiling the computation time
   // of every stage.
-  itk::TimeProbesCollectorBase   chronometer;
+  itk::TimeProbesCollectorBase chronometer;
   itk::MemoryProbesCollectorBase memorymeter;
 
 
@@ -414,8 +414,8 @@ main(int argc, char * argv[])
   constexpr unsigned int numberOfGridNodesInOneDimensionCoarse = 5;
 
   DeformableTransformType::PhysicalDimensionsType fixedPhysicalDimensions;
-  DeformableTransformType::MeshSizeType           meshSize;
-  DeformableTransformType::OriginType             fixedOrigin;
+  DeformableTransformType::MeshSizeType meshSize;
+  DeformableTransformType::OriginType fixedOrigin;
 
   for (unsigned int i = 0; i < SpaceDimension; ++i)
   {
@@ -828,9 +828,9 @@ main(int argc, char * argv[])
 
     fi.GoToBegin();
 
-    DeformableTransformType::InputPointType  fixedPoint;
+    DeformableTransformType::InputPointType fixedPoint;
     DeformableTransformType::OutputPointType movingPoint;
-    DisplacementFieldType::IndexType         index;
+    DisplacementFieldType::IndexType index;
 
     VectorType displacement;
 

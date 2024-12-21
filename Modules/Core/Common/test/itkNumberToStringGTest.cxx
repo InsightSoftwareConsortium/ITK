@@ -51,7 +51,7 @@ Test_non_finite_special_floating_point_values()
 {
   using NumericLimitsType = std::numeric_limits<TValue>;
   const itk::NumberToString<TValue> numberToString{};
-  const auto                        message = std::string("Floating point type: ") + floatingPointTypeName<TValue>;
+  const auto message = std::string("Floating point type: ") + floatingPointTypeName<TValue>;
 
   EXPECT_EQ(numberToString(NumericLimitsType::quiet_NaN()), "NaN") << message;
   EXPECT_EQ(numberToString(NumericLimitsType::infinity()), "Infinity") << message;
@@ -65,7 +65,7 @@ Test_round_trip_of_finite_numeric_limits()
 {
   using NumericLimitsType = std::numeric_limits<TValue>;
   const itk::NumberToString<TValue> numberToString{};
-  const auto                        message = std::string("Floating point type: ") + floatingPointTypeName<TValue>;
+  const auto message = std::string("Floating point type: ") + floatingPointTypeName<TValue>;
 
   for (const TValue expectedValue : { NumericLimitsType::lowest(),
                                       NumericLimitsType::epsilon(),
@@ -89,7 +89,7 @@ void
 Test_decimal_notation_supports_up_to_twentyone_digits()
 {
   const itk::NumberToString<TValue> numberToString{};
-  const auto                        message = std::string("Floating point type: ") + floatingPointTypeName<TValue>;
+  const auto message = std::string("Floating point type: ") + floatingPointTypeName<TValue>;
 
   for (int8_t exponent{ 20 }; exponent > 0; --exponent)
   {

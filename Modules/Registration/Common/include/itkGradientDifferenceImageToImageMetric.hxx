@@ -180,7 +180,7 @@ template <typename TFixedImage, typename TMovingImage>
 void
 GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::ComputeMovedGradientRange() const
 {
-  unsigned int           iDimension;
+  unsigned int iDimension;
   MovedGradientPixelType gradient;
 
   for (iDimension = 0; iDimension < FixedImageDimension; ++iDimension)
@@ -217,8 +217,8 @@ template <typename TFixedImage, typename TMovingImage>
 void
 GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::ComputeVariance() const
 {
-  unsigned int           iDimension;
-  SizeValueType          nPixels;
+  unsigned int iDimension;
+  SizeValueType nPixels;
   FixedGradientPixelType mean[FixedImageDimension];
   FixedGradientPixelType gradient;
 
@@ -290,7 +290,7 @@ template <typename TFixedImage, typename TMovingImage>
 auto
 GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::ComputeMeasure(
   const TransformParametersType & parameters,
-  const double *                  subtractionFactor) const -> MeasureType
+  const double * subtractionFactor) const -> MeasureType
 {
   unsigned int iDimension;
 
@@ -376,7 +376,7 @@ GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::GetValue(
   // Compute the similarity measure
 
   MovedGradientPixelType subtractionFactor[FixedImageDimension];
-  MeasureType            currentMeasure;
+  MeasureType currentMeasure;
 
   for (iDimension = 0; iDimension < FixedImageDimension; ++iDimension)
   {
@@ -393,7 +393,7 @@ template <typename TFixedImage, typename TMovingImage>
 void
 GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::GetDerivative(
   const TransformParametersType & parameters,
-  DerivativeType &                derivative) const
+  DerivativeType & derivative) const
 {
   TransformParametersType testPoint = parameters;
 
@@ -415,8 +415,8 @@ template <typename TFixedImage, typename TMovingImage>
 void
 GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDerivative(
   const TransformParametersType & parameters,
-  MeasureType &                   Value,
-  DerivativeType &                Derivative) const
+  MeasureType & Value,
+  DerivativeType & Derivative) const
 {
   Value = this->GetValue(parameters);
   this->GetDerivative(parameters, Derivative);

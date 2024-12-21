@@ -90,7 +90,7 @@ itkSimpleFilterWatcherTest(int, char *[])
   using WatcherType = itk::SimpleFilterWatcher;
   using ImageType = itk::Image<char, 3>;
   using FilterType = itk::TanHelperImageFilter<ImageType, ImageType>;
-  auto         filter = FilterType::New();
+  auto filter = FilterType::New();
   const char * comment = "comment";
 
   // Test constructor that takes a ProcessObject.

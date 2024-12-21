@@ -69,7 +69,7 @@ itkRelabelComponentImageFilterTest(int argc, char * argv[])
 
   using HistogramType = itk::Statistics::Histogram<RealType>;
 
-  constexpr int      NumBins = 13;
+  constexpr int NumBins = 13;
   constexpr RealType LowerBound = 51.0;
   constexpr RealType UpperBound = 252.0;
 
@@ -176,7 +176,7 @@ itkRelabelComponentImageFilterTest(int argc, char * argv[])
   try
   {
     HistogramType::Pointer histogram;
-    unsigned long          printNum = statistics->GetNumberOfLabels();
+    unsigned long printNum = statistics->GetNumberOfLabels();
     if (printNum > 10)
     {
       printNum = 10;

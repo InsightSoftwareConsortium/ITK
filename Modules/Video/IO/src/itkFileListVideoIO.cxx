@@ -102,7 +102,7 @@ bool
 FileListVideoIO::CanReadFile(const char * filename)
 {
   // Make sure file names have been specified
-  const std::string        strFileName = filename;
+  const std::string strFileName = filename;
   std::vector<std::string> fileList = this->SplitFileNames(strFileName);
   if (fileList.empty())
   {
@@ -300,11 +300,11 @@ FileListVideoIO::WriteImageInformation()
 }
 
 void
-FileListVideoIO::SetWriterParameters(TemporalRatioType                  framesPerSecond,
+FileListVideoIO::SetWriterParameters(TemporalRatioType framesPerSecond,
                                      const std::vector<SizeValueType> & dim,
-                                     const char *                       itkNotUsed(fourCC),
-                                     unsigned int                       nChannels,
-                                     IOComponentEnum                    itkNotUsed(componentType))
+                                     const char * itkNotUsed(fourCC),
+                                     unsigned int nChannels,
+                                     IOComponentEnum itkNotUsed(componentType))
 {
   m_Dimensions.clear();
   m_Origin.clear();

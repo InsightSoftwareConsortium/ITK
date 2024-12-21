@@ -158,7 +158,7 @@ itkGreaterTest(int, char *[])
     const PixelType FG = filter->GetFunctor().GetForegroundValue();
     const PixelType BG = filter->GetFunctor().GetBackgroundValue();
     const PixelType C = filter->GetConstant2();
-    const int       status2 = checkImOnConstRes<myImageType1, PixelType, myImageType3, std::greater<PixelType>>(
+    const int status2 = checkImOnConstRes<myImageType1, PixelType, myImageType3, std::greater<PixelType>>(
       inputImageA, C, outputImage, FG, BG);
     if (status2 == EXIT_FAILURE)
     {

@@ -61,17 +61,17 @@ protected:
 
 
   unsigned int
-  GetNumberOfSplitsInternal(unsigned int         dim,
+  GetNumberOfSplitsInternal(unsigned int dim,
                             const IndexValueType regionIndex[],
-                            const SizeValueType  regionSize[],
-                            unsigned int         requestedNumber) const override;
+                            const SizeValueType regionSize[],
+                            unsigned int requestedNumber) const override;
 
   unsigned int
-  GetSplitInternal(unsigned int   dim,
-                   unsigned int   i,
-                   unsigned int   numberOfPieces,
+  GetSplitInternal(unsigned int dim,
+                   unsigned int i,
+                   unsigned int numberOfPieces,
                    IndexValueType regionIndex[],
-                   SizeValueType  regionSize[]) const override;
+                   SizeValueType regionSize[]) const override;
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

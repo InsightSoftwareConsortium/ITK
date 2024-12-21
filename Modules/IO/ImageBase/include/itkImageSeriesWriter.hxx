@@ -129,7 +129,7 @@ ImageSeriesWriter<TInputImage, TOutputImage>::GenerateNumericFileNames()
   const ImageRegion<TInputImage::ImageDimension> inRegion = inputImage->GetRequestedRegion();
 
   SizeValueType fileNumber = this->m_StartIndex;
-  char          fileName[IOCommon::ITK_MAXPATHLEN + 1];
+  char fileName[IOCommon::ITK_MAXPATHLEN + 1];
 
   // Compute the number of files to be generated
   unsigned int numberOfFiles = 1;
@@ -178,7 +178,7 @@ ImageSeriesWriter<TInputImage, TOutputImage>::WriteFiles()
   }
 
   // We need two regions. One for the input, one for the output.
-  ImageRegion<TInputImage::ImageDimension>  inRegion = inputImage->GetRequestedRegion();
+  ImageRegion<TInputImage::ImageDimension> inRegion = inputImage->GetRequestedRegion();
   ImageRegion<TOutputImage::ImageDimension> outRegion;
 
   // The size of the output will match the input sizes, up to the
@@ -195,8 +195,8 @@ ImageSeriesWriter<TInputImage, TOutputImage>::WriteFiles()
   outputImage->Allocate();
 
   // Set the origin and spacing of the output
-  double                               spacing[TOutputImage::ImageDimension];
-  double                               origin[TOutputImage::ImageDimension];
+  double spacing[TOutputImage::ImageDimension];
+  double origin[TOutputImage::ImageDimension];
   typename TOutputImage::DirectionType direction;
   for (unsigned int i = 0; i < TOutputImage::ImageDimension; ++i)
   {
@@ -227,7 +227,7 @@ ImageSeriesWriter<TInputImage, TOutputImage>::WriteFiles()
 
 
   const SizeValueType pixelsPerFile = outputImage->GetRequestedRegion().GetNumberOfPixels();
-  auto                inSize = MakeFilled<Size<TInputImage::ImageDimension>>(1);
+  auto inSize = MakeFilled<Size<TInputImage::ImageDimension>>(1);
   for (unsigned int ns = 0; ns < TOutputImage::ImageDimension; ++ns)
   {
     inSize[ns] = outRegion.GetSize()[ns];

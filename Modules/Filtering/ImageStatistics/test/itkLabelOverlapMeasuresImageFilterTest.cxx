@@ -64,9 +64,9 @@ LabelOverlapMeasures(int, char * argv[])
             << std::setw(17) << "Mean (dice)" << std::setw(17) << "Volume sim." << std::setw(17) << "False negative"
             << std::setw(17) << "False positive" << std::setw(17) << "False discovery" << std::endl;
 
-  typename FilterType::MapType                 labelMap = filter->GetLabelSetMeasures();
+  typename FilterType::MapType labelMap = filter->GetLabelSetMeasures();
   typename FilterType::MapType::const_iterator it;
-  int                                          label = 0;
+  int label = 0;
   for (it = labelMap.begin(); it != labelMap.end(); ++it)
   {
     if (it->first == 0)
@@ -95,7 +95,7 @@ LabelOverlapMeasures(int, char * argv[])
   label = itk::NumericTraits<PixelType>::max();
 
   const typename FilterType::RealType expectedValue = 0.0;
-  typename FilterType::RealType       result = filter->GetTargetOverlap(label);
+  typename FilterType::RealType result = filter->GetTargetOverlap(label);
   if (itk::Math::NotAlmostEquals(expectedValue, result))
   {
     std::cout << "Error in label " << static_cast<itk::NumericTraits<PixelType>::PrintType>(label) << ": ";

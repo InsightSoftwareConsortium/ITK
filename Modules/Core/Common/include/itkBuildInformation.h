@@ -69,7 +69,7 @@ private:
   class InformationValueType
   {
   public:
-    const MapValueType            m_Value;
+    const MapValueType m_Value;
     const MapValueDescriptionType m_Description;
   };
 

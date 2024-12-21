@@ -218,15 +218,15 @@ template <typename TFixedImage,
 typename BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>::
   DisplacementFieldPointer
   BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>::
-    ComputeUpdateField(const FixedImagesContainerType      fixedImages,
-                       const PointSetsContainerType        fixedPointSets,
-                       const TransformBaseType *           fixedTransform,
-                       const MovingImagesContainerType     movingImages,
-                       const PointSetsContainerType        movingPointSets,
-                       const TransformBaseType *           movingTransform,
-                       const FixedImageMasksContainerType  fixedImageMasks,
+    ComputeUpdateField(const FixedImagesContainerType fixedImages,
+                       const PointSetsContainerType fixedPointSets,
+                       const TransformBaseType * fixedTransform,
+                       const MovingImagesContainerType movingImages,
+                       const PointSetsContainerType movingPointSets,
+                       const TransformBaseType * movingTransform,
+                       const FixedImageMasksContainerType fixedImageMasks,
                        const MovingImageMasksContainerType movingImageMasks,
-                       MeasureType &                       value)
+                       MeasureType & value)
 {
   DisplacementFieldPointer metricGradientField = nullptr;
   DisplacementFieldPointer updateField = nullptr;
@@ -364,9 +364,9 @@ typename BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTra
   DisplacementFieldPointer
   BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>::
     BSplineSmoothDisplacementField(const DisplacementFieldType * field,
-                                   const ArrayType &             numberOfControlPoints,
+                                   const ArrayType & numberOfControlPoints,
                                    const WeightedMaskImageType * mask,
-                                   const BSplinePointSetType *   gradientPointSet)
+                                   const BSplinePointSetType * gradientPointSet)
 {
   using DuplicatorType = ImageDuplicator<DisplacementFieldType>;
   auto duplicator = DuplicatorType::New();

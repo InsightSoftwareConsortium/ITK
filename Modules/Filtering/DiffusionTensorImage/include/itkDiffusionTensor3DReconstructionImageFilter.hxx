@@ -100,16 +100,16 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
   const typename MaskImageType::ConstPointer maskImage = maskSpatialObject->GetImage();
 
   const typename MaskImageType::SizeType maskSize = maskImage->GetLargestPossibleRegion().GetSize();
-  typename MaskImageType::SizeType       refSize;
+  typename MaskImageType::SizeType refSize;
 
   const typename MaskImageType::PointType maskOrigin = maskImage->GetOrigin();
-  typename MaskImageType::PointType       refOrigin;
+  typename MaskImageType::PointType refOrigin;
 
   const typename MaskImageType::SpacingType maskSpacing = maskImage->GetSpacing();
-  typename MaskImageType::SpacingType       refSpacing;
+  typename MaskImageType::SpacingType refSpacing;
 
   const typename MaskImageType::DirectionType maskDirection = maskImage->GetDirection();
-  typename MaskImageType::DirectionType       refDirection;
+  typename MaskImageType::DirectionType refDirection;
 
   if (m_GradientImageTypeEnumeration ==
       DiffusionTensor3DReconstructionImageFilterEnums::GradientImageFormat::GradientIsInManyImages)
@@ -240,7 +240,7 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
       if (useMask)
       {
         const typename ImageRegionConstIteratorWithIndex<ReferenceImageType>::IndexType index = it.GetIndex();
-        typename ReferenceImageType::PointType                                          point;
+        typename ReferenceImageType::PointType point;
         refImage->TransformIndexToPhysicalPoint(index, point);
         unmaskedPixel = maskSpatialObject->IsInsideInWorldSpace(point);
       }
@@ -357,7 +357,7 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
       if (useMask)
       {
         const typename ImageRegionConstIteratorWithIndex<ReferenceImageType>::IndexType index = git.GetIndex();
-        typename ReferenceImageType::PointType                                          point;
+        typename ReferenceImageType::PointType point;
 
         gradientImagePointer->TransformIndexToPhysicalPoint(index, point);
         unmaskedPixel = maskSpatialObject->IsInsideInWorldSpace(point);

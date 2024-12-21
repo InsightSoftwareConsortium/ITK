@@ -89,7 +89,7 @@ isNoPreambleDicom(std::ifstream & file) // NOTE: Similar function is in itkGDCMI
     char vrcode[3] = { '\0', '\0', '\0' };
     file.read(vrcode, 2);
 
-    long              length = std::numeric_limits<long>::max();
+    long length = std::numeric_limits<long>::max();
     const std::string vr{ vrcode };
     if (vr == "AE" || vr == "AS" || vr == "AT" || vr == "CS" || vr == "DA" || vr == "DS" || vr == "DT" || vr == "FL" ||
         vr == "FD" || vr == "IS" || vr == "LO" || vr == "PN" || vr == "SH" || vr == "SL" || vr == "SS" || vr == "ST" ||
@@ -319,8 +319,8 @@ DCMTKImageIO::Read(void * buffer)
   }
   // get the image in the DCMTK buffer
   const DiPixel * const interData = m_DImage->getInterData();
-  const void *          data = interData->getData();
-  size_t                count = interData->getCount();
+  const void * data = interData->getData();
+  size_t count = interData->getCount();
   if (this->m_PixelType == IOPixelEnum::RGB || this->m_PixelType == IOPixelEnum::RGBA)
   {
     ReorderRGBValues(buffer, data, count, this->GetNumberOfComponents());

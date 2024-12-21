@@ -91,7 +91,7 @@ public:
 
   private:
     DoubleCallbackType m_DoubleCallback;
-    FloatCallbackType  m_FloatCallback;
+    FloatCallbackType m_FloatCallback;
   };
 
   /** Get a pointer to function to set as a callback in vtkImageImport. */

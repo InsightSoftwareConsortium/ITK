@@ -165,8 +165,8 @@ private:
   /** The edge amplification amount */
   TInternalPrecision m_Amount{};
   TInternalPrecision m_Threshold{};
-  SigmaArrayType     m_Sigmas{};
-  bool               m_Clamp{};
+  SigmaArrayType m_Sigmas{};
+  bool m_Clamp{};
 
   template <typename InPixelType, typename FunctorRealType = TInternalPrecision, typename OutPixelType = InPixelType>
   class UnsharpMaskingFunctor
@@ -174,7 +174,7 @@ private:
   private:
     FunctorRealType m_Amount;
     FunctorRealType m_Threshold;
-    bool            m_Clamp{ false };
+    bool m_Clamp{ false };
 
   public:
     UnsharpMaskingFunctor()

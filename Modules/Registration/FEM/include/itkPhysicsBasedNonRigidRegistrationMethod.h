@@ -165,16 +165,16 @@ protected:
   GenerateData() override;
 
 private:
-  double        m_SelectFraction{ 0.1 };
-  unsigned int  m_NonConnectivity{ 0 };
+  double m_SelectFraction{ 0.1 };
+  unsigned int m_NonConnectivity{ 0 };
   ImageSizeType m_BlockRadius{};
   ImageSizeType m_SearchRadius{};
-  unsigned int  m_ApproximationSteps{ 10 };
-  unsigned int  m_OutlierRejectionSteps{ 10 };
+  unsigned int m_ApproximationSteps{ 10 };
+  unsigned int m_OutlierRejectionSteps{ 10 };
 
   typename FeatureSelectionFilterType::Pointer m_FeatureSelectionFilter{};
-  typename BlockMatchingFilterType::Pointer    m_BlockMatchingFilter{};
-  typename FEMFilterType::Pointer              m_FEMFilter{};
+  typename BlockMatchingFilterType::Pointer m_BlockMatchingFilter{};
+  typename FEMFilterType::Pointer m_FEMFilter{};
 };
 } // end namespace fem
 } // end namespace itk

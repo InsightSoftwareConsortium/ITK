@@ -160,12 +160,12 @@ PowellOptimizer::LineBracket(double * x1, double * x2, double * x3, double * f1,
 }
 
 void
-PowellOptimizer::LineBracket(double *         x1,
-                             double *         x2,
-                             double *         x3,
-                             double *         f1,
-                             double *         f2,
-                             double *         f3,
+PowellOptimizer::LineBracket(double * x1,
+                             double * x2,
+                             double * x3,
+                             double * f1,
+                             double * f2,
+                             double * f3,
                              ParametersType & tempCoord)
 {
   //
@@ -213,12 +213,12 @@ PowellOptimizer::LineBracket(double *         x1,
 }
 
 void
-PowellOptimizer::BracketedLineOptimize(double   ax,
-                                       double   bx,
-                                       double   cx,
-                                       double   fa,
-                                       double   functionValueOfb,
-                                       double   fc,
+PowellOptimizer::BracketedLineOptimize(double ax,
+                                       double bx,
+                                       double cx,
+                                       double fa,
+                                       double functionValueOfb,
+                                       double fc,
                                        double * extX,
                                        double * extVal)
 {
@@ -228,14 +228,14 @@ PowellOptimizer::BracketedLineOptimize(double   ax,
 }
 
 void
-PowellOptimizer::BracketedLineOptimize(double           ax,
-                                       double           bx,
-                                       double           cx,
-                                       double           itkNotUsed(fa),
-                                       double           functionValueOfb,
-                                       double           itkNotUsed(fc),
-                                       double *         extX,
-                                       double *         extVal,
+PowellOptimizer::BracketedLineOptimize(double ax,
+                                       double bx,
+                                       double cx,
+                                       double itkNotUsed(fa),
+                                       double functionValueOfb,
+                                       double itkNotUsed(fc),
+                                       double * extX,
+                                       double * extVal,
                                        ParametersType & tempCoord)
 {
   double v = 0.0;
@@ -430,7 +430,7 @@ PowellOptimizer::StartOptimization()
   {
     const double fp = fx;
     unsigned int ibig = 0;
-    double       del = 0.0;
+    double del = 0.0;
 
     for (unsigned int i = 0; i < m_SpaceDimension; ++i)
     {

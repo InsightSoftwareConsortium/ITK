@@ -98,7 +98,7 @@ ExpectRangeIsEmptyWhenRegionSizeIsZero()
   static_assert(ImageRegionIndexRange<VDimension>{ zeroSize }.empty());
 
   // Now do the test for an arbitrary (random) region index:
-  const itk::Index<VDimension>       randomRegionIndex = GenerateRandomIndex<VDimension>();
+  const itk::Index<VDimension> randomRegionIndex = GenerateRandomIndex<VDimension>();
   const itk::ImageRegion<VDimension> zeroSizedImageRegion{ randomRegionIndex, zeroSize };
 
   EXPECT_TRUE(ImageRegionIndexRange<VDimension>{ zeroSizedImageRegion }.empty());
@@ -145,8 +145,8 @@ TEST(IndexRange, EquivalentBeginOrEndIteratorsCompareEqual)
 
   static constexpr RangeType range(RangeType::SizeType{ { 1, 2 } });
 
-  static constexpr RangeType::iterator       begin = range.begin();
-  static constexpr RangeType::iterator       end = range.end();
+  static constexpr RangeType::iterator begin = range.begin();
+  static constexpr RangeType::iterator end = range.end();
   static constexpr RangeType::const_iterator cbegin = range.cbegin();
   static constexpr RangeType::const_iterator cend = range.cend();
 
@@ -210,9 +210,9 @@ TEST(IndexRange, IteratorsCanBePassedToStdReverseCopy)
   static constexpr unsigned int numberOfIndices = range.size();
 
   const std::vector<IndexType> stdVector(range.begin(), range.end());
-  std::vector<IndexType>       reversedStdVector1(numberOfIndices);
-  std::vector<IndexType>       reversedStdVector2(numberOfIndices);
-  std::vector<IndexType>       reversedStdVector3(numberOfIndices);
+  std::vector<IndexType> reversedStdVector1(numberOfIndices);
+  std::vector<IndexType> reversedStdVector2(numberOfIndices);
+  std::vector<IndexType> reversedStdVector3(numberOfIndices);
 
   // Checks bidirectionality of the range iterators.
   std::reverse_copy(stdVector.cbegin(), stdVector.cend(), reversedStdVector1.begin());
@@ -265,21 +265,21 @@ TEST(IndexRange, SupportsImageRegion)
   using IndexType = ImageRegionIndexRangeType::IndexType;
   using RegionType = itk::ImageRegion<Dimension>;
 
-  static constexpr RegionType::SizeType  size = { { 2, 3 } };
+  static constexpr RegionType::SizeType size = { { 2, 3 } };
   static constexpr RegionType::IndexType regionIndex = { { 4, 5 } };
-  const RegionType                       imageRegion{ regionIndex, size };
+  const RegionType imageRegion{ regionIndex, size };
 
   // Default index range, beginning at [0, 0].
   static constexpr ZeroBasedIndexRange<Dimension> indexRange(size);
-  static constexpr auto                           beginOfIndexRange = indexRange.cbegin();
-  static constexpr auto                           endOfIndexRange = indexRange.cend();
+  static constexpr auto beginOfIndexRange = indexRange.cbegin();
+  static constexpr auto endOfIndexRange = indexRange.cend();
 
   const ImageRegionIndexRangeType imageRegionIndexRange(imageRegion);
 
   EXPECT_EQ(imageRegionIndexRange.size(), indexRange.size());
 
   const auto offset = regionIndex - IndexType();
-  auto       indexIterator = beginOfIndexRange;
+  auto indexIterator = beginOfIndexRange;
 
   for (auto && imageRegionIndex : imageRegionIndexRange)
   {

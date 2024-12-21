@@ -76,7 +76,7 @@ itkQuadEdgeMeshTest1(int, char *[])
   }
 
   using PointsIterator = MeshType::PointsContainer::Iterator;
-  PointsIterator       pointIterator = mesh->GetPoints()->Begin();
+  PointsIterator pointIterator = mesh->GetPoints()->Begin();
   const PointsIterator end = mesh->GetPoints()->End();
 
   int nPoints = 0;

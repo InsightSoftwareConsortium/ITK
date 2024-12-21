@@ -81,7 +81,7 @@
                                                                                                  \
   pt * GetInvRnext() { return (dynamic_cast<pt *>(this->st::GetInvRnext())); }                   \
                                                                                                  \
-  pt *       GetInvDnext() { return (dynamic_cast<pt *>(this->st::GetInvDnext())); }             \
+  pt * GetInvDnext() { return (dynamic_cast<pt *>(this->st::GetInvDnext())); }                   \
   const pt * GetOnext() const { return (dynamic_cast<const pt *>(this->st::GetOnext())); }       \
                                                                                                  \
   const dt * GetRot() const { return (dynamic_cast<const dt *>(this->st::GetRot())); }           \

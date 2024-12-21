@@ -86,7 +86,7 @@ itkMultiLevelSetEvolutionTest(int, char *[])
   input2->FillBuffer(value);
 
   ImageType::IndexType idx;
-  IdListType           list_ids;
+  IdListType list_ids;
 
   auto id_image = IdListImageType::New();
   id_image->SetRegions(region);

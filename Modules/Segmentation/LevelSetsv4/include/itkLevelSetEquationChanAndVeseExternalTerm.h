@@ -113,7 +113,7 @@ protected:
 
 private:
   DomainMapImageFilterType * m_DomainMapImageFilter{};
-  CacheImageType *           m_CacheImage{};
+  CacheImageType * m_CacheImage{};
 };
 
 } // namespace itk

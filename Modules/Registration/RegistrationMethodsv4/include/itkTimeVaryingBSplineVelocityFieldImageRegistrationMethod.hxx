@@ -75,15 +75,15 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage,
   const typename TimeVaryingVelocityFieldControlPointLatticeType::SizeType latticeSize = latticeRegion.GetSize();
 
   const SizeValueType numberOfTimeControlPoints = latticeSize[ImageDimension];
-  auto                numberOfControlPointsPerTimePoint =
+  auto numberOfControlPointsPerTimePoint =
     static_cast<SizeValueType>(latticeRegion.GetNumberOfPixels() / numberOfTimeControlPoints);
 
   // Warp the moving image based on the composite transform (not including the current
   // time varying velocity field transform to be optimized).
 
-  typename OutputTransformType::VelocityFieldPointType     sampledVelocityFieldOrigin;
-  typename OutputTransformType::VelocityFieldSpacingType   sampledVelocityFieldSpacing;
-  typename OutputTransformType::VelocityFieldSizeType      sampledVelocityFieldSize;
+  typename OutputTransformType::VelocityFieldPointType sampledVelocityFieldOrigin;
+  typename OutputTransformType::VelocityFieldSpacingType sampledVelocityFieldSpacing;
+  typename OutputTransformType::VelocityFieldSizeType sampledVelocityFieldSize;
   typename OutputTransformType::VelocityFieldDirectionType sampledVelocityFieldDirection;
 
   sampledVelocityFieldOrigin.Fill(0.0);
@@ -91,7 +91,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage,
   sampledVelocityFieldSize.Fill(this->m_NumberOfTimePointSamples);
   sampledVelocityFieldDirection.SetIdentity();
 
-  const VirtualImageBaseConstPointer        virtualDomainImage = this->GetCurrentLevelVirtualDomainImage();
+  const VirtualImageBaseConstPointer virtualDomainImage = this->GetCurrentLevelVirtualDomainImage();
   typename FixedImageMaskType::ConstPointer fixedImageMask = nullptr;
 
   if (virtualDomainImage.IsNull())
@@ -209,9 +209,9 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage,
 
     itkDebugMacro("Calculating the B-spline field.");
 
-    typename TimeVaryingVelocityFieldControlPointLatticeType::PointType   velocityFieldOrigin;
+    typename TimeVaryingVelocityFieldControlPointLatticeType::PointType velocityFieldOrigin;
     typename TimeVaryingVelocityFieldControlPointLatticeType::SpacingType velocityFieldSpacing;
-    typename TimeVaryingVelocityFieldControlPointLatticeType::SizeType    velocityFieldSize;
+    typename TimeVaryingVelocityFieldControlPointLatticeType::SizeType velocityFieldSize;
 
     for (unsigned int d = 0; d < ImageDimension; ++d)
     {
@@ -299,7 +299,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage,
         constexpr auto radius = TimeVaryingVelocityFieldType::SizeType::Filled(1);
 
         using FaceCalculatorType = NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TimeVaryingVelocityFieldType>;
-        FaceCalculatorType                        faceCalculator;
+        FaceCalculatorType faceCalculator;
         typename FaceCalculatorType::FaceListType faceList =
           faceCalculator(velocityField, velocityField->GetLargestPossibleRegion(), radius);
 
@@ -314,7 +314,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage,
           for (unsigned int d = 0; d < ImageDimension + 1; ++d)
           {
             const DisplacementVectorType vector = (ItV.GetNext(d) - ItV.GetPrevious(d)) * 0.5 * velocityFieldSpacing[d];
-            const RealType               vectorNorm = vector.GetNorm();
+            const RealType vectorNorm = vector.GetNorm();
             localSpatioTemporalNorm += vectorNorm;
             if (d < ImageDimension)
             {
@@ -342,7 +342,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<
   TTransform,
   TVirtualImage,
   TPointSet>::GetMetricDerivativePointSetForAllTimePoints(VelocityFieldPointSetType * velocityFieldPointSet,
-                                                          WeightsContainerType *      velocityFieldWeights)
+                                                          WeightsContainerType * velocityFieldWeights)
 {
   this->m_CurrentMetricValue = MeasureType{};
 
@@ -454,7 +454,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<
 
       this->m_Metric->Initialize();
       typename ImageMetricType::DerivativeType metricDerivative;
-      MeasureType                              value{};
+      MeasureType value{};
 
       this->m_Metric->GetValueAndDerivative(value, metricDerivative);
 
@@ -602,15 +602,15 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<
   TMovingImage,
   TTransform,
   TVirtualImage,
-  TPointSet>::AttachMetricGradientPointSetAtSpecificTimePoint(const RealType                     normalizedTimePoint,
-                                                              VelocityFieldPointSetType *        velocityFieldPoints,
-                                                              WeightsContainerType *             velocityFieldWeights,
-                                                              const FixedImagesContainerType     fixedImages,
-                                                              const PointSetsContainerType       fixedPointSets,
-                                                              const TransformBaseType *          fixedTransform,
-                                                              const MovingImagesContainerType    movingImages,
-                                                              const PointSetsContainerType       movingPointSets,
-                                                              const TransformBaseType *          movingTransform,
+  TPointSet>::AttachMetricGradientPointSetAtSpecificTimePoint(const RealType normalizedTimePoint,
+                                                              VelocityFieldPointSetType * velocityFieldPoints,
+                                                              WeightsContainerType * velocityFieldWeights,
+                                                              const FixedImagesContainerType fixedImages,
+                                                              const PointSetsContainerType fixedPointSets,
+                                                              const TransformBaseType * fixedTransform,
+                                                              const MovingImagesContainerType movingImages,
+                                                              const PointSetsContainerType movingPointSets,
+                                                              const TransformBaseType * movingTransform,
                                                               const FixedImageMasksContainerType fixedImageMasks)
 {
   const VirtualImageBaseConstPointer virtualDomainImage = this->GetCurrentLevelVirtualDomainImage();
@@ -767,7 +767,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<
   gradientField->Allocate();
 
   typename DisplacementFieldType::IndexType gradientFieldIndex = gradientField->GetRequestedRegion().GetIndex();
-  typename DisplacementFieldType::SizeType  gradientFieldSize = gradientField->GetRequestedRegion().GetSize();
+  typename DisplacementFieldType::SizeType gradientFieldSize = gradientField->GetRequestedRegion().GetSize();
 
   SizeValueType localCount = 0;
   for (ImageRegionConstIteratorWithOnlyIndex<DisplacementFieldType> ItG(gradientField,

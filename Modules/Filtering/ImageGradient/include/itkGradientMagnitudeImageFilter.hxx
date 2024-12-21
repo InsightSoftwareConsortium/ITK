@@ -54,7 +54,7 @@ GradientMagnitudeImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedR
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
-  const InputImagePointer  inputPtr = const_cast<InputImageType *>(this->GetInput());
+  const InputImagePointer inputPtr = const_cast<InputImageType *>(this->GetInput());
   const OutputImagePointer outputPtr = this->GetOutput();
 
   if (!inputPtr || !outputPtr)
@@ -104,11 +104,11 @@ GradientMagnitudeImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerate
 
   ConstNeighborhoodIterator<TInputImage> nit;
   ConstNeighborhoodIterator<TInputImage> bit;
-  ImageRegionIterator<TOutputImage>      it;
+  ImageRegionIterator<TOutputImage> it;
 
   const NeighborhoodInnerProduct<TInputImage, RealType> SIP;
 
-  const typename OutputImageType::Pointer     output = this->GetOutput();
+  const typename OutputImageType::Pointer output = this->GetOutput();
   const typename InputImageType::ConstPointer input = this->GetInput();
 
   // Set up operators
@@ -137,7 +137,7 @@ GradientMagnitudeImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerate
   static constexpr auto radius = Size<ImageDimension>::Filled(1);
 
   // Find the data-set boundary "faces"
-  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>                        bC;
+  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage> bC;
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>::FaceListType faceList =
     bC(input, outputRegionForThread, radius);
 

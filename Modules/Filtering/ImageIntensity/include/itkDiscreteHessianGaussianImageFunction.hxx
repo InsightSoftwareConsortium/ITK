@@ -232,13 +232,13 @@ DiscreteHessianGaussianImageFunction<TInputImage, TOutput>::EvaluateAtContinuous
   {
     using NumberOfNeighborsType = unsigned int;
 
-    unsigned int                    dim; // index over dimension
+    unsigned int dim; // index over dimension
     constexpr NumberOfNeighborsType neighbors = 1 << ImageDimension2;
 
     // Compute base index = closet index below point
     // Compute distance from point to base index
     IndexType baseIndex;
-    double    distance[ImageDimension2];
+    double distance[ImageDimension2];
 
     for (dim = 0; dim < ImageDimension2; ++dim)
     {
@@ -250,13 +250,13 @@ DiscreteHessianGaussianImageFunction<TInputImage, TOutput>::EvaluateAtContinuous
     // neighbors. The weight for each neighbor is the fraction overlap
     // of the neighbor pixel with respect to a pixel centered on point.
     OutputType hessian, currentHessian;
-    TOutput    totalOverlap{};
+    TOutput totalOverlap{};
 
     for (NumberOfNeighborsType counter = 0; counter < neighbors; ++counter)
     {
-      double                overlap = 1.0;   // fraction overlap
+      double overlap = 1.0;                  // fraction overlap
       NumberOfNeighborsType upper = counter; // each bit indicates upper/lower neighbour
-      IndexType             neighIndex;
+      IndexType neighIndex;
 
       // get neighbor index and overlap fraction
       for (dim = 0; dim < ImageDimension2; ++dim)

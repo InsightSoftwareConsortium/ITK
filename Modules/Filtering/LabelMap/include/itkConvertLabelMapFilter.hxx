@@ -30,7 +30,7 @@ ConvertLabelMapFilter<TInputImage, TOutputImage>::GenerateData()
 {
   this->AllocateOutputs();
 
-  TOutputImage *      outputImage = this->GetOutput();
+  TOutputImage * outputImage = this->GetOutput();
   const TInputImage * inputImage = this->GetInput();
 
   outputImage->SetBackgroundValue(inputImage->GetBackgroundValue());
@@ -40,7 +40,7 @@ ConvertLabelMapFilter<TInputImage, TOutputImage>::GenerateData()
   for (typename TInputImage::ConstIterator it(inputImage); !it.IsAtEnd(); ++it)
   {
     const LabelObjectType * labelObject = it.GetLabelObject();
-    auto                    newLabelObject = OutputLabelObjectType::New();
+    auto newLabelObject = OutputLabelObjectType::New();
     newLabelObject->template CopyAllFrom<typename TInputImage::LabelObjectType>(labelObject);
     outputImage->AddLabelObject(newLabelObject);
     progress.CompletedPixel();

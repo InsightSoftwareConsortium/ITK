@@ -265,8 +265,8 @@ private:
 
   template <typename TType>
   void
-  PutGrayscale(TType *      to,
-               TType *      from,
+  PutGrayscale(TType * to,
+               TType * from,
                unsigned int xsize,
                unsigned int ysize,
                unsigned int toskew,
@@ -279,8 +279,8 @@ private:
 
   template <typename TType, typename TFromType>
   void
-  PutPaletteGrayscale(TType *      to,
-                      TFromType *  from,
+  PutPaletteGrayscale(TType * to,
+                      TFromType * from,
                       unsigned int xsize,
                       unsigned int ysize,
                       unsigned int toskew,
@@ -288,8 +288,8 @@ private:
 
   template <typename TType, typename TFromType>
   void
-  PutPaletteRGB(TType *      to,
-                TFromType *  from,
+  PutPaletteRGB(TType * to,
+                TFromType * from,
                 unsigned int xsize,
                 unsigned int ysize,
                 unsigned int toskew,
@@ -297,17 +297,17 @@ private:
 
   template <typename TType, typename TFromType>
   void
-  PutPaletteScalar(TType *      to,
-                   TFromType *  from,
+  PutPaletteScalar(TType * to,
+                   TFromType * from,
                    unsigned int xsize,
                    unsigned int ysize,
                    unsigned int toskew,
                    unsigned int fromskew);
 
-  uint16_t *   m_ColorRed{};
-  uint16_t *   m_ColorGreen{};
-  uint16_t *   m_ColorBlue{};
-  uint64_t     m_TotalColors{ 0 };
+  uint16_t * m_ColorRed{};
+  uint16_t * m_ColorGreen{};
+  uint16_t * m_ColorBlue{};
+  uint64_t m_TotalColors{ 0 };
   unsigned int m_ImageFormat{ TIFFImageIO::NOFORMAT };
 };
 } // end namespace itk

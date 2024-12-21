@@ -150,7 +150,7 @@ protected:
   using InternalOptimizerType = vnl_lbfgs;
 
 private:
-  bool   m_Verbose{ false };
+  bool m_Verbose{ false };
   double m_LineSearchAccuracy{ 0.9 };
   double m_DefaultStepLength{ 1.0 };
 };

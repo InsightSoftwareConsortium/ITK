@@ -104,13 +104,13 @@ itkOptMattesMutualInformationImageToImageMetricThreadsTest1(int argc, char * arg
   using MeasureType = MetricType::MeasureType;
   using DerivativeType = MetricType::DerivativeType;
 
-  MeasureType    value_combined;
+  MeasureType value_combined;
   DerivativeType derivative_combined;
 
-  MeasureType    value_separate;
+  MeasureType value_separate;
   DerivativeType derivative_separate;
 
-  std::vector<MeasureType>    values;
+  std::vector<MeasureType> values;
   std::vector<DerivativeType> derivatives;
 
   // By now restrict the number of threads to test to the range 1 to 4.

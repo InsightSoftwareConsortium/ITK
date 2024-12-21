@@ -123,7 +123,7 @@ GPUNeighborhoodOperatorImageFilter<TInputImage, TOutputImage, TOperatorValueType
   m_NeighborhoodGPUBuffer->Initialize();
 
   typename NeighborhoodGPUBufferType::IndexType index;
-  typename NeighborhoodGPUBufferType::SizeType  size;
+  typename NeighborhoodGPUBufferType::SizeType size;
 
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
@@ -161,7 +161,7 @@ GPUNeighborhoodOperatorImageFilter<TInputImage, TOutputImage, TOperatorValueType
   using GPUInputManagerType = GPUImageDataManager<GPUInputImage>;
   using GPUOutputManagerType = GPUImageDataManager<GPUOutputImage>;
 
-  typename GPUInputImage::Pointer  inPtr = dynamic_cast<GPUInputImage *>(this->ProcessObject::GetInput(0));
+  typename GPUInputImage::Pointer inPtr = dynamic_cast<GPUInputImage *>(this->ProcessObject::GetInput(0));
   typename GPUOutputImage::Pointer otPtr = dynamic_cast<GPUOutputImage *>(this->ProcessObject::GetOutput(0));
 
   // typename GPUOutputImage::SizeType outSize = otPtr->GetLargestPossibleRegion().GetSize();

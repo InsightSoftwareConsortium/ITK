@@ -57,10 +57,10 @@ public:
       return;
     }
 
-    const unsigned int                                             currentLevel = filter->GetCurrentLevel();
+    const unsigned int currentLevel = filter->GetCurrentLevel();
     const typename TFilter::ShrinkFactorsPerDimensionContainerType shrinkFactors =
       filter->GetShrinkFactorsPerDimension(currentLevel);
-    typename TFilter::SmoothingSigmasArrayType                 smoothingSigmas = filter->GetSmoothingSigmasPerLevel();
+    typename TFilter::SmoothingSigmasArrayType smoothingSigmas = filter->GetSmoothingSigmasPerLevel();
     typename TFilter::TransformParametersAdaptorsContainerType adaptors =
       filter->GetTransformParametersAdaptorsPerLevel();
 
@@ -77,10 +77,10 @@ int
 PerformTimeVaryingVelocityFieldImageRegistration(int argc, char * argv[])
 {
 
-  int    numberOfAffineIterations = 100;
-  int    numberOfDeformableIterationsLevel0 = 10;
-  int    numberOfDeformableIterationsLevel1 = 20;
-  int    numberOfDeformableIterationsLevel2 = 11;
+  int numberOfAffineIterations = 100;
+  int numberOfDeformableIterationsLevel0 = 10;
+  int numberOfDeformableIterationsLevel1 = 20;
+  int numberOfDeformableIterationsLevel2 = 11;
   double learningRate = 0.5;
 
   if (argc >= 6)
@@ -194,12 +194,12 @@ PerformTimeVaryingVelocityFieldImageRegistration(int argc, char * argv[])
   using TimeVaryingVelocityFieldType = itk::Image<VectorType, ImageDimension + 1>;
   auto velocityField = TimeVaryingVelocityFieldType::New();
 
-  typename TimeVaryingVelocityFieldType::IndexType     velocityFieldIndex;
-  typename TimeVaryingVelocityFieldType::SizeType      velocityFieldSize;
-  typename TimeVaryingVelocityFieldType::PointType     velocityFieldOrigin;
-  typename TimeVaryingVelocityFieldType::SpacingType   velocityFieldSpacing;
+  typename TimeVaryingVelocityFieldType::IndexType velocityFieldIndex;
+  typename TimeVaryingVelocityFieldType::SizeType velocityFieldSize;
+  typename TimeVaryingVelocityFieldType::PointType velocityFieldOrigin;
+  typename TimeVaryingVelocityFieldType::SpacingType velocityFieldSpacing;
   typename TimeVaryingVelocityFieldType::DirectionType velocityFieldDirection;
-  typename TimeVaryingVelocityFieldType::RegionType    velocityFieldRegion;
+  typename TimeVaryingVelocityFieldType::RegionType velocityFieldRegion;
 
   velocityFieldIndex.Fill(0);
   velocityFieldSize.Fill(4);
@@ -207,10 +207,10 @@ PerformTimeVaryingVelocityFieldImageRegistration(int argc, char * argv[])
   velocityFieldSpacing.Fill(1.0);
   velocityFieldDirection.SetIdentity();
 
-  typename FixedImageType::IndexType     fixedImageIndex = fixedImage->GetBufferedRegion().GetIndex();
-  typename FixedImageType::SizeType      fixedImageSize = fixedImage->GetBufferedRegion().GetSize();
-  typename FixedImageType::PointType     fixedImageOrigin = fixedImage->GetOrigin();
-  typename FixedImageType::SpacingType   fixedImageSpacing = fixedImage->GetSpacing();
+  typename FixedImageType::IndexType fixedImageIndex = fixedImage->GetBufferedRegion().GetIndex();
+  typename FixedImageType::SizeType fixedImageSize = fixedImage->GetBufferedRegion().GetSize();
+  typename FixedImageType::PointType fixedImageOrigin = fixedImage->GetOrigin();
+  typename FixedImageType::SpacingType fixedImageSpacing = fixedImage->GetSpacing();
   typename FixedImageType::DirectionType fixedImageDirection = fixedImage->GetDirection();
 
   for (unsigned int i = 0; i < ImageDimension; ++i)

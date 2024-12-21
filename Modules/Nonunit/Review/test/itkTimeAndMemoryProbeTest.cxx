@@ -23,7 +23,7 @@
 int
 itkTimeAndMemoryProbeTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
 {
-  itk::TimeProbe                 timeProbe;
+  itk::TimeProbe timeProbe;
   itk::MemoryProbesCollectorBase memoryProbes;
 
   timeProbe.Start();

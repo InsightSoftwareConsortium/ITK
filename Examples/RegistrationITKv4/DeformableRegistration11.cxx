@@ -64,8 +64,8 @@ main(int argc, char * argv[])
   registrationFilter->ChooseMetric(0);
 
   unsigned int maxiters = 20;
-  float        E = 10;
-  float        p = 1;
+  float E = 10;
+  float p = 1;
   registrationFilter->SetElasticity(E, 0);
   registrationFilter->SetRho(p, 0);
   registrationFilter->SetGamma(1., 0);

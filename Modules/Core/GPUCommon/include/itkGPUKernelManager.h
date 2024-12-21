@@ -48,7 +48,7 @@ public:
 
   struct KernelArgumentList
   {
-    bool                    m_IsReady;
+    bool m_IsReady;
     GPUDataManager::Pointer m_GPUDataManager;
   };
 
@@ -165,14 +165,14 @@ public:
   LaunchKernel1D(int kernelIdx, size_t globalWorkSize, size_t localWorkSize);
 
   bool
-  LaunchKernel2D(int    kernelIdx,
+  LaunchKernel2D(int kernelIdx,
                  size_t globalWorkSizeX,
                  size_t globalWorkSizeY,
                  size_t localWorkSizeX,
                  size_t localWorkSizeY);
 
   bool
-  LaunchKernel3D(int    kernelIdx,
+  LaunchKernel3D(int kernelIdx,
                  size_t globalWorkSizeX,
                  size_t globalWorkSizeY,
                  size_t globalWorkSizeZ,
@@ -200,9 +200,9 @@ private:
   cl_program m_Program{};
 
   GPUContextManager * m_Manager{};
-  int                 m_CommandQueueId{};
+  int m_CommandQueueId{};
 
-  std::vector<cl_kernel>                       m_KernelContainer{};
+  std::vector<cl_kernel> m_KernelContainer{};
   std::vector<std::vector<KernelArgumentList>> m_KernelArgumentReady{};
 
   template <typename TArg>

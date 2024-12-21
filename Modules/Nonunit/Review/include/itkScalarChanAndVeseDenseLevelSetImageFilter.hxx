@@ -30,7 +30,7 @@ ScalarChanAndVeseDenseLevelSetImageFilter<TInputImage, TFeatureImage, TOutputIma
   for (unsigned int fId = 0; fId < this->m_FunctionCount; ++fId)
   {
     InputImagePointer input = this->m_LevelSet[fId];
-    InputPointType    origin = input->GetOrigin();
+    InputPointType origin = input->GetOrigin();
 
     // In the context of the global coordinates
     const FeatureIndexType start = this->GetInput()->TransformPhysicalPointToIndex(origin);

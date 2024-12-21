@@ -39,7 +39,7 @@ itkMemoryProbesCollecterBaseTest(int, char *[])
   constexpr size_t bufsize = 256L * 1024L * 1024L; // 256 MiB
 
   itk::MemoryProbesCollectorBase mcollecter;
-  itk::MemoryProbe               probe;
+  itk::MemoryProbe probe;
   mcollecter.Start("Update");
   Sleep(5000);
   mcollecter.Stop("Update");

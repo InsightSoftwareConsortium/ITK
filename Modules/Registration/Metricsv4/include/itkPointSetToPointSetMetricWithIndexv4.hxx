@@ -175,12 +175,12 @@ typename PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TI
   const FixedTransformedVectorContainer & fixedTransformedPointSet =
     this->m_FixedTransformedPointSet->GetPoints()->CastToSTLConstContainer();
 
-  PointIdentifierRanges                          ranges = this->CreateRanges();
+  PointIdentifierRanges ranges = this->CreateRanges();
   std::vector<CompensatedSummation<MeasureType>> threadValues(ranges.size());
-  const std::function<void(SizeValueType)>       sumNeighborhoodValues =
+  const std::function<void(SizeValueType)> sumNeighborhoodValues =
     [this, &threadValues, &ranges, &virtualTransformedPointSet, &fixedTransformedPointSet](SizeValueType rangeIndex) {
       CompensatedSummation<MeasureType> threadValue = 0;
-      PixelType                         pixel;
+      PixelType pixel;
       NumericTraits<PixelType>::SetLength(pixel, 1);
 
 
@@ -213,7 +213,7 @@ typename PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TI
   }
 
   DerivativeType derivative;
-  MeasureType    valueSum = value.GetSum();
+  MeasureType valueSum = value.GetSum();
   if (this->VerifyNumberOfValidPoints(valueSum, derivative))
   {
     valueSum /= static_cast<MeasureType>(this->m_NumberOfValidPoints);
@@ -267,11 +267,11 @@ PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalCo
    * repeatedly write to same location causing false sharing
    */
   // GetNumberOfLocalParameters is not thread safe in itkCompositeTransform
-  NumberOfParametersType                         numberOfLocalParameters = this->GetNumberOfLocalParameters();
-  PointIdentifierRanges                          ranges = this->CreateRanges();
+  NumberOfParametersType numberOfLocalParameters = this->GetNumberOfLocalParameters();
+  PointIdentifierRanges ranges = this->CreateRanges();
   std::vector<CompensatedSummation<MeasureType>> threadValues(ranges.size());
   using CompensatedDerivative = typename std::vector<CompensatedSummation<ParametersValueType>>;
-  std::vector<CompensatedDerivative>       threadDerivatives(ranges.size());
+  std::vector<CompensatedDerivative> threadDerivatives(ranges.size());
   const std::function<void(SizeValueType)> sumNeighborhoodValues =
     [this, &derivative, &threadDerivatives, &threadValues, &ranges, &calculateValue, &numberOfLocalParameters](
       SizeValueType rangeIndex) {
@@ -293,11 +293,11 @@ PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalCo
       CompensatedDerivative threadDerivativeSum(numberOfLocalParameters);
 
       CompensatedSummation<MeasureType> threadValue;
-      PixelType                         pixel;
+      PixelType pixel;
       NumericTraits<PixelType>::SetLength(pixel, 1);
       for (PointIdentifier index = ranges[rangeIndex].first; index < ranges[rangeIndex].second; ++index)
       {
-        MeasureType         pointValue{};
+        MeasureType pointValue{};
         LocalDerivativeType pointDerivative;
 
         /* Verify the virtual point is in the virtual domain.
@@ -421,7 +421,7 @@ PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalCo
 {
   // Determine the number of valid fixed points, using
   // their positions in the virtual domain.
-  SizeValueType       numberOfValidPoints{};
+  SizeValueType numberOfValidPoints{};
   PointsConstIterator virtualIt = this->m_VirtualTransformedPointSet->GetPoints()->Begin();
   while (virtualIt != this->m_VirtualTransformedPointSet->GetPoints()->End())
   {
@@ -438,8 +438,8 @@ template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComp
 void
 PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::
   StorePointDerivative(const VirtualPointType & virtualPoint,
-                       const DerivativeType &   pointDerivative,
-                       DerivativeType &         field) const
+                       const DerivativeType & pointDerivative,
+                       DerivativeType & field) const
 {
   // Update derivative field at some index.
   // This requires the active transform displacement field to be the
@@ -470,10 +470,10 @@ typename PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TI
   LocalDerivativeType
   PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::
     GetLocalNeighborhoodDerivativeWithIndex(const PointIdentifier & id,
-                                            const PointType &       point,
-                                            const PixelType &       pixel) const
+                                            const PointType & point,
+                                            const PixelType & pixel) const
 {
-  MeasureType         measure;
+  MeasureType measure;
   LocalDerivativeType localDerivative;
   this->GetLocalNeighborhoodValueAndDerivativeWithIndex(id, point, measure, localDerivative, pixel);
   return localDerivative;
@@ -631,12 +631,12 @@ const typename PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointS
     const
 {
   const PointIdentifier nPoints = this->m_FixedTransformedPointSet->GetNumberOfPoints();
-  PointIdentifier       nWorkUnits = MultiThreaderBase::New()->GetNumberOfWorkUnits();
+  PointIdentifier nWorkUnits = MultiThreaderBase::New()->GetNumberOfWorkUnits();
   if (nWorkUnits > nPoints || MultiThreaderBase::New()->GetMaximumNumberOfThreads() <= 1)
   {
     nWorkUnits = 1;
   }
-  PointIdentifier       startRange = 0;
+  PointIdentifier startRange = 0;
   PointIdentifierRanges ranges;
   for (PointIdentifier p = 1; p < nWorkUnits; ++p)
   {
@@ -653,7 +653,7 @@ template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComp
 void
 PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::PrintSelf(
   std::ostream & os,
-  Indent         indent) const
+  Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

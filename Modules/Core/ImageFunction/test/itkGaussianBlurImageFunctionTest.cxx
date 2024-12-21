@@ -29,9 +29,9 @@ itkGaussianBlurImageFunctionTest(int, char *[])
   using GFunctionType = itk::GaussianBlurImageFunction<ImageType>;
 
   // Create and allocate the image
-  auto                  image = ImageType::New();
-  ImageType::SizeType   size;
-  ImageType::IndexType  start;
+  auto image = ImageType::New();
+  ImageType::SizeType size;
+  ImageType::IndexType start;
   ImageType::RegionType region;
 
   size[0] = 50;
@@ -183,7 +183,7 @@ itkGaussianBlurImageFunctionTest(int, char *[])
   const GFunctionType::OutputType blurredvalue_point = gaussianFunction->Evaluate(pt);
 
 
-  auto                            continuousIndex = itk::MakeFilled<GFunctionType::ContinuousIndexType>(25);
+  auto continuousIndex = itk::MakeFilled<GFunctionType::ContinuousIndexType>(25);
   const GFunctionType::OutputType blurredvalue_continuousIndex =
     gaussianFunction->EvaluateAtContinuousIndex(continuousIndex);
 

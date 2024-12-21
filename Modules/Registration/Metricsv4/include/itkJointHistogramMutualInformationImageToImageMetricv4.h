@@ -95,7 +95,7 @@ public:
 
   /* Image dimension accessors */
   static constexpr typename TVirtualImage::ImageDimensionType VirtualImageDimension = TVirtualImage::ImageDimension;
-  static constexpr typename TMovingImage::ImageDimensionType  MovingImageDimension = TMovingImage::ImageDimension;
+  static constexpr typename TMovingImage::ImageDimensionType MovingImageDimension = TMovingImage::ImageDimension;
 
   /** Value type of the PDF */
   using PDFValueType = TInternalComputationValueType;
@@ -166,9 +166,9 @@ protected:
   /** Compute the point location with the JointPDF image.  Returns false if the
    * point is not inside the image. */
   inline void
-  ComputeJointPDFPoint(const FixedImagePixelType  fixedImageValue,
+  ComputeJointPDFPoint(const FixedImagePixelType fixedImageValue,
                        const MovingImagePixelType movingImageValue,
-                       JointPDFPointType &        jointPDFpoint) const;
+                       JointPDFPointType & jointPDFpoint) const;
 
   friend class JointHistogramMutualInformationComputeJointPDFThreaderBase<
     ThreadedImageRegionPartitioner<Self::VirtualImageDimension>,
@@ -227,7 +227,7 @@ private:
   TInternalComputationValueType m_VarianceForJointPDFSmoothing{};
 
   /** Variables to define the marginal and joint histograms. */
-  SizeValueType                 m_NumberOfHistogramBins{};
+  SizeValueType m_NumberOfHistogramBins{};
   TInternalComputationValueType m_FixedImageTrueMin{};
   TInternalComputationValueType m_FixedImageTrueMax{};
   TInternalComputationValueType m_MovingImageTrueMin{};
@@ -236,10 +236,10 @@ private:
   TInternalComputationValueType m_MovingImageBinSize{};
 
   TInternalComputationValueType m_JointPDFSum{};
-  JointPDFSpacingType           m_JointPDFSpacing{};
+  JointPDFSpacingType m_JointPDFSpacing{};
 
   TInternalComputationValueType m_Log2{};
-  JointPDFIndexValueType        m_Padding{};
+  JointPDFIndexValueType m_Padding{};
 };
 
 } // end namespace itk

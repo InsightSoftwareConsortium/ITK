@@ -472,7 +472,7 @@ ImageToImageMetric<TFixedImage, TMovingImage>::SampleFixedImageRegion(FixedImage
     randIter.ReinitializeSeed(m_RandomSeed++);
   }
   typename FixedImageSampleContainer::iterator iter;
-  const auto                                   end = samples.end();
+  const auto end = samples.end();
 
   if (m_FixedImageMask.IsNotNull() || m_UseFixedImageSamplesIntensityThreshold)
   {
@@ -582,7 +582,7 @@ ImageToImageMetric<TFixedImage, TMovingImage>::SampleFullFixedImageRegion(FixedI
   regionIter.GoToBegin();
 
   typename FixedImageSampleContainer::iterator iter;
-  const auto                                   end = samples.end();
+  const auto end = samples.end();
 
   if (m_FixedImageMask.IsNotNull() || m_UseFixedImageSamplesIntensityThreshold)
   {
@@ -666,7 +666,7 @@ ImageToImageMetric<TFixedImage, TMovingImage>::ComputeGradient()
   gradientFilter->SetInput(m_MovingImage);
 
   const typename MovingImageType::SpacingType & spacing = m_MovingImage->GetSpacing();
-  double                                        maximumSpacing = 0.0;
+  double maximumSpacing = 0.0;
   for (unsigned int i = 0; i < MovingImageDimension; ++i)
   {
     if (spacing[i] > maximumSpacing)
@@ -725,15 +725,15 @@ ImageToImageMetric<TFixedImage, TMovingImage>::PreComputeTransformValues()
   m_Transform->SetParameters(dummyParameters);
 
   // Cycle through each sampled fixed image point
-  BSplineTransformWeightsType    weights;
+  BSplineTransformWeightsType weights;
   BSplineTransformIndexArrayType indices;
-  bool                           valid;
-  MovingImagePointType           mappedPoint;
+  bool valid;
+  MovingImagePointType mappedPoint;
 
   // Declare iterators for iteration over the sample container
   typename FixedImageSampleContainer::const_iterator fiter;
-  const auto                                         fend = m_FixedImageSamples.end();
-  SizeValueType                                      counter = 0;
+  const auto fend = m_FixedImageSamples.end();
+  SizeValueType counter = 0;
 
   for (fiter = m_FixedImageSamples.begin(); fiter != fend; ++fiter, counter++)
   {
@@ -755,11 +755,11 @@ ImageToImageMetric<TFixedImage, TMovingImage>::PreComputeTransformValues()
 
 template <typename TFixedImage, typename TMovingImage>
 void
-ImageToImageMetric<TFixedImage, TMovingImage>::TransformPoint(unsigned int           sampleNumber,
+ImageToImageMetric<TFixedImage, TMovingImage>::TransformPoint(unsigned int sampleNumber,
                                                               MovingImagePointType & mappedPoint,
-                                                              bool &                 sampleOk,
-                                                              double &               movingImageValue,
-                                                              ThreadIdType           threadId) const
+                                                              bool & sampleOk,
+                                                              double & movingImageValue,
+                                                              ThreadIdType threadId) const
 {
   sampleOk = true;
   TransformType * transform;
@@ -790,7 +790,7 @@ ImageToImageMetric<TFixedImage, TMovingImage>::TransformPoint(unsigned int      
         // If the transform is BSplineDeformable, we can use the precomputed
         // weights and indices to obtained the mapped position
         const WeightsValueType * weights = m_BSplineTransformWeightsArray[sampleNumber];
-        const IndexValueType *   indices = m_BSplineTransformIndicesArray[sampleNumber];
+        const IndexValueType * indices = m_BSplineTransformIndicesArray[sampleNumber];
 
         for (unsigned int j = 0; j < FixedImageDimension; ++j)
         {
@@ -809,7 +809,7 @@ ImageToImageMetric<TFixedImage, TMovingImage>::TransformPoint(unsigned int      
     }
     else
     {
-      BSplineTransformWeightsType *    weightsHelper;
+      BSplineTransformWeightsType * weightsHelper;
       BSplineTransformIndexArrayType * indicesHelper;
 
       if (threadId > 0)
@@ -863,12 +863,12 @@ ImageToImageMetric<TFixedImage, TMovingImage>::TransformPoint(unsigned int      
 
 template <typename TFixedImage, typename TMovingImage>
 void
-ImageToImageMetric<TFixedImage, TMovingImage>::TransformPointWithDerivatives(unsigned int           sampleNumber,
+ImageToImageMetric<TFixedImage, TMovingImage>::TransformPointWithDerivatives(unsigned int sampleNumber,
                                                                              MovingImagePointType & mappedPoint,
-                                                                             bool &                 sampleOk,
-                                                                             double &               movingImageValue,
+                                                                             bool & sampleOk,
+                                                                             double & movingImageValue,
                                                                              ImageDerivativesType & movingImageGradient,
-                                                                             ThreadIdType           threadId) const
+                                                                             ThreadIdType threadId) const
 {
   TransformType * transform;
 
@@ -900,7 +900,7 @@ ImageToImageMetric<TFixedImage, TMovingImage>::TransformPointWithDerivatives(uns
         // If the transform is BSplineDeformable, we can use the precomputed
         // weights and indices to obtained the mapped position
         const WeightsValueType * weights = m_BSplineTransformWeightsArray[sampleNumber];
-        const IndexValueType *   indices = m_BSplineTransformIndicesArray[sampleNumber];
+        const IndexValueType * indices = m_BSplineTransformIndicesArray[sampleNumber];
 
         const ParametersType & Local_Parameters = this->m_Transform->GetParameters();
         for (unsigned int j = 0; j < FixedImageDimension; ++j)
@@ -919,7 +919,7 @@ ImageToImageMetric<TFixedImage, TMovingImage>::TransformPointWithDerivatives(uns
     }
     else
     {
-      BSplineTransformWeightsType *    weightsHelper;
+      BSplineTransformWeightsType * weightsHelper;
       BSplineTransformIndexArrayType * indicesHelper;
 
       if (threadId > 0)
@@ -978,8 +978,8 @@ ImageToImageMetric<TFixedImage, TMovingImage>::TransformPointWithDerivatives(uns
 template <typename TFixedImage, typename TMovingImage>
 void
 ImageToImageMetric<TFixedImage, TMovingImage>::ComputeImageDerivatives(const MovingImagePointType & mappedPoint,
-                                                                       ImageDerivativesType &       gradient,
-                                                                       ThreadIdType                 threadId) const
+                                                                       ImageDerivativesType & gradient,
+                                                                       ThreadIdType threadId) const
 {
   if (m_BSplineInterpolator)
   {
@@ -1072,8 +1072,8 @@ ImageToImageMetric<TFixedImage, TMovingImage>::GetValueThread(ThreadIdType threa
   for (int count = 0; count < chunkSize; ++count, ++fixedImageSample)
   {
     MovingImagePointType mappedPoint;
-    bool                 sampleOk;
-    double               movingImageValue;
+    bool sampleOk;
+    double movingImageValue;
     // Get moving image value
     this->TransformPoint(fixedImageSample, mappedPoint, sampleOk, movingImageValue, threadId);
 
@@ -1169,8 +1169,8 @@ ImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDerivativeThread(Threa
 
   // Process the samples
   MovingImagePointType mappedPoint;
-  bool                 sampleOk;
-  double               movingImageValue;
+  bool sampleOk;
+  double movingImageValue;
   ImageDerivativesType movingImageGradientValue;
   for (int count = 0; count < chunkSize; ++count, ++fixedImageSample)
   {

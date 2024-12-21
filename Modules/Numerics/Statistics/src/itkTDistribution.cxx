@@ -76,9 +76,9 @@ TDistribution::GetDegreesOfFreedom() const
 double
 TDistribution::PDF(double x, SizeValueType degreesOfFreedom)
 {
-  auto         dof = static_cast<double>(degreesOfFreedom);
-  double       dofplusoneon2 = 0.5 * (dof + 1.0);
-  double       dofon2 = 0.5 * dof;
+  auto dof = static_cast<double>(degreesOfFreedom);
+  double dofplusoneon2 = 0.5 * (dof + 1.0);
+  double dofon2 = 0.5 * dof;
   const double pdf = (dgamma_(&dofplusoneon2) / dgamma_(&dofon2)) /
                      (std::sqrt(dof * itk::Math::pi) * std::pow(1.0 + ((x * x) / dof), dofplusoneon2));
 
@@ -124,9 +124,9 @@ TDistribution::CDF(double x, SizeValueType degreesOfFreedom)
   //           = 1 - 0.5 * Ix(v/2, 1/2)
 
   const auto dof = static_cast<double>(degreesOfFreedom);
-  double     bx = dof / (dof + (x * x));
-  double     pin = dof / 2.0;
-  double     qin = 0.5;
+  double bx = dof / (dof + (x * x));
+  double pin = dof / 2.0;
+  double qin = 0.5;
 
   if (x >= 0.0)
   {
@@ -162,7 +162,7 @@ TDistribution::InverseCDF(double p, SizeValueType degreesOfFreedom)
   }
 
   // Based on Abramowitz and Stegun 26.7.5
-  const auto   dof = static_cast<double>(degreesOfFreedom);
+  const auto dof = static_cast<double>(degreesOfFreedom);
   const double dof2 = dof * dof;
   const double dof3 = dof * dof2;
   const double dof4 = dof * dof3;

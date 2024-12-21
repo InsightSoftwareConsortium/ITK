@@ -86,7 +86,7 @@ main(int argc, char * argv[])
   const char * outputImageFileName = argv[3];
 
   const unsigned int numberOfIterations = std::stoi(argv[4]);
-  const double       smoothingFactor = std::stod(argv[5]);
+  const double smoothingFactor = std::stod(argv[5]);
   const unsigned int numberOfClasses = std::stoi(argv[6]);
 
   constexpr unsigned int numberOfArgumentsBeforeMeans = 7;
@@ -275,7 +275,7 @@ main(int argc, char * argv[])
   using MembershipFunctionPointer = MembershipFunctionType::Pointer;
 
 
-  double                               meanDistance = 0;
+  double meanDistance = 0;
   MembershipFunctionType::CentroidType centroid(1);
   for (unsigned int i = 0; i < numberOfClasses; ++i)
   {

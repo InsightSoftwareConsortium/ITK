@@ -250,8 +250,8 @@ LabelMap<TLabelObject>::AddPixel(const IndexType & idx, const LabelType & label)
 template <typename TLabelObject>
 void
 LabelMap<TLabelObject>::AddPixel(const LabelObjectContainerIterator & it,
-                                 const IndexType &                    idx,
-                                 const LabelType &                    label)
+                                 const IndexType & idx,
+                                 const LabelType & label)
 {
   if (label == m_BackgroundValue)
   {
@@ -280,8 +280,8 @@ LabelMap<TLabelObject>::AddPixel(const LabelObjectContainerIterator & it,
 template <typename TLabelObject>
 void
 LabelMap<TLabelObject>::RemovePixel(const LabelObjectContainerIterator & it,
-                                    const IndexType &                    idx,
-                                    bool                                 iEmitModifiedEvent)
+                                    const IndexType & idx,
+                                    bool iEmitModifiedEvent)
 {
   if (it != m_LabelObjectContainer.end())
   {
@@ -412,7 +412,7 @@ LabelMap<TLabelObject>::PushLabelObject(LabelObjectType * labelObject)
     else
     {
       // search for an unused label
-      LabelType                         label = firstLabel;
+      LabelType label = firstLabel;
       LabelObjectContainerConstIterator it;
       for (it = m_LabelObjectContainer.begin(); it != m_LabelObjectContainer.end(); it++, label++)
       {

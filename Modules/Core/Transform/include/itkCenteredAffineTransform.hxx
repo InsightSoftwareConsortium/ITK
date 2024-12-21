@@ -119,7 +119,7 @@ template <typename TParametersValueType, unsigned int VDimension>
 void
 CenteredAffineTransform<TParametersValueType, VDimension>::ComputeJacobianWithRespectToParameters(
   const InputPointType & p,
-  JacobianType &         jacobian) const
+  JacobianType & jacobian) const
 {
   // The Jacobian of the affine transform is composed of
   // subblocks of diagonal matrices, each one of them having

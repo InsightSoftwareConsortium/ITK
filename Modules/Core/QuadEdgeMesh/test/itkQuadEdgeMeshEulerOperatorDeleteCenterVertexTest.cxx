@@ -105,7 +105,7 @@ itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest(int itkNotUsed(argc), char * 
 
   {
     const MeshPointer specialmesh = MeshType::New();
-    PointType         pts3[4];
+    PointType pts3[4];
     pts3[0][0] = 0.0;
     pts3[0][1] = 0.0;
     pts3[0][2] = 0.0;

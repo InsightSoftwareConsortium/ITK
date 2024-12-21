@@ -254,7 +254,7 @@ template <typename TParametersValueType, unsigned int VDimension, unsigned int V
 void
 MultiTransform<TParametersValueType, VDimension, VSubDimensions>::UpdateTransformParameters(
   const DerivativeType & update,
-  ScalarType             factor)
+  ScalarType factor)
 {
   /* Update parameters within the sub-transforms. */
   /* NOTE: We might want to thread this over each sub-transform, if we

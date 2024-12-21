@@ -115,7 +115,7 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::GenerateData()
   auto numberOfOutputs = static_cast<unsigned int>(this->GetNumberOfIndexedOutputs());
 
   const InputImagePointer input = const_cast<TInputImage *>(this->GetInput(0));
-  unsigned int            j;
+  unsigned int j;
   for (j = 0; j < numberOfOutputs; ++j)
   {
     const OutputImagePointer output = this->GetOutput(j);
@@ -130,7 +130,7 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::GenerateData()
   // Fill the mean image first
 
   typename OutputImageType::RegionType region = this->GetOutput(0)->GetRequestedRegion();
-  OutputIterator                       outIter(this->GetOutput(0), region);
+  OutputIterator outIter(this->GetOutput(0), region);
 
   unsigned int i = 0;
   while (!outIter.IsAtEnd())
@@ -141,7 +141,7 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::GenerateData()
   }
 
   // Now fill the principal component outputs
-  unsigned int       kthLargestPrincipalComp = m_NumberOfTrainingImages;
+  unsigned int kthLargestPrincipalComp = m_NumberOfTrainingImages;
   const unsigned int numberOfValidOutputs = std::min(numberOfOutputs, m_NumberOfTrainingImages + 1);
 
   for (j = 1; j < numberOfValidOutputs; ++j)
@@ -199,7 +199,7 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::SetNumberOfPrincipalComp
     // Modify the required number of outputs ( 1 extra for the mean image )
     this->SetNumberOfRequiredOutputs(m_NumberOfPrincipalComponentsRequired + 1);
 
-    auto         numberOfOutputs = static_cast<unsigned int>(this->GetNumberOfIndexedOutputs());
+    auto numberOfOutputs = static_cast<unsigned int>(this->GetNumberOfIndexedOutputs());
     unsigned int idx;
 
     if (numberOfOutputs < m_NumberOfPrincipalComponentsRequired + 1)
@@ -369,7 +369,7 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::EstimatePCAShapeModelPar
   m_EigenVectors.set_size(m_NumberOfPixels, m_NumberOfTrainingImages);
   m_EigenVectors.fill(0);
 
-  double                  pix_value;
+  double pix_value;
   InputImageConstIterator tempImageItA;
 
   for (unsigned int img_number = 0; img_number < m_NumberOfTrainingImages; ++img_number)

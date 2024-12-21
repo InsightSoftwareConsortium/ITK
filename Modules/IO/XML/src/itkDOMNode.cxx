@@ -503,7 +503,7 @@ DOMNode::Find(const std::string & path)
   else if (s[0] >= '0' && s[0] <= '9')
   {
     std::istringstream iss(s);
-    unsigned int       i = 0;
+    unsigned int i = 0;
     iss >> i;
     if (!iss.fail())
     {
@@ -518,7 +518,7 @@ DOMNode::Find(const std::string & path)
     {
       s = s.substr(1);
       std::istringstream iss(s);
-      unsigned int       i = 0;
+      unsigned int i = 0;
       iss >> i;
       if (!iss.fail())
       {
@@ -538,7 +538,7 @@ DOMNode::Find(const std::string & path)
     {
       s = s.substr(1);
       std::istringstream iss(s);
-      unsigned int       i = 0;
+      unsigned int i = 0;
       iss >> i;
       if (!iss.fail())
       {
@@ -579,7 +579,7 @@ DOMNode::Find(const std::string & path)
       const std::string s2 = s.substr(pos + 1);
       s = s.substr(0, pos);
       std::istringstream iss(s2);
-      IdentifierType     i = 0;
+      IdentifierType i = 0;
       iss >> i;
       if (!iss.fail())
       {

@@ -57,9 +57,9 @@ GaussianInterpolateImageFunction<TImageType, TCoordinate>::ComputeBoundingBox()
   }
 
   const typename InputImageType::ConstPointer input = this->GetInputImage();
-  typename InputImageType::SpacingType        spacing = input->GetSpacing();
-  typename InputImageType::IndexType          index = input->GetLargestPossibleRegion().GetIndex();
-  typename InputImageType::SizeType           size = input->GetLargestPossibleRegion().GetSize();
+  typename InputImageType::SpacingType spacing = input->GetSpacing();
+  typename InputImageType::IndexType index = input->GetLargestPossibleRegion().GetIndex();
+  typename InputImageType::SizeType size = input->GetLargestPossibleRegion().GetSize();
 
   for (unsigned int d = 0; d < ImageDimension; ++d)
   {
@@ -79,10 +79,10 @@ GaussianInterpolateImageFunction<TInputImage, TCoordinate>::ComputeInterpolation
   RegionType region = this->GetInputImage()->GetBufferedRegion();
   for (unsigned int d = 0; d < ImageDimension; ++d)
   {
-    TCoordinate          cBegin = cindex[d] + 0.5 - this->m_CutOffDistance[d];
+    TCoordinate cBegin = cindex[d] + 0.5 - this->m_CutOffDistance[d];
     const IndexValueType begin = std::max(region.GetIndex()[d], static_cast<IndexValueType>(std::floor(cBegin)));
-    TCoordinate          cEnd = cindex[d] + 0.5 + this->m_CutOffDistance[d];
-    const SizeValueType  end =
+    TCoordinate cEnd = cindex[d] + 0.5 + this->m_CutOffDistance[d];
+    const SizeValueType end =
       std::min(region.GetIndex()[d] + region.GetSize()[d], static_cast<SizeValueType>(std::ceil(cEnd)));
     region.SetIndex(d, begin);
     region.SetSize(d, end - begin);
@@ -107,8 +107,8 @@ GaussianInterpolateImageFunction<TImageType, TCoordinate>::EvaluateAtContinuousI
     this->ComputeErrorFunctionArray(region, d, cindex[d], erfArray[d], gerfArray[d], grad != nullptr);
   }
 
-  RealType  sum_me = 0.0;
-  RealType  sum_m = 0.0;
+  RealType sum_me = 0.0;
+  RealType sum_m = 0.0;
   ArrayType dsum_me;
   ArrayType dsum_m;
   ArrayType dw;
@@ -120,7 +120,7 @@ GaussianInterpolateImageFunction<TImageType, TCoordinate>::EvaluateAtContinuousI
   for (ImageRegionConstIteratorWithIndex<InputImageType> It(this->GetInputImage(), region); !It.IsAtEnd(); ++It)
   {
     unsigned int j = It.GetIndex()[0] - region.GetIndex()[0];
-    RealType     w = erfArray[0][j];
+    RealType w = erfArray[0][j];
     if (grad)
     {
       dw[0] = gerfArray[0][j];
@@ -176,9 +176,9 @@ GaussianInterpolateImageFunction<TImageType, TCoordinate>::EvaluateAtContinuousI
 
 template <typename TImageType, typename TCoordinate>
 void
-GaussianInterpolateImageFunction<TImageType, TCoordinate>::ComputeErrorFunctionArray(const RegionType &     region,
-                                                                                     unsigned int           dimension,
-                                                                                     RealType               cindex,
+GaussianInterpolateImageFunction<TImageType, TCoordinate>::ComputeErrorFunctionArray(const RegionType & region,
+                                                                                     unsigned int dimension,
+                                                                                     RealType cindex,
                                                                                      vnl_vector<RealType> & erfArray,
                                                                                      vnl_vector<RealType> & gerfArray,
                                                                                      bool evaluateGradient) const
@@ -223,7 +223,7 @@ GaussianInterpolateImageFunction<TImageType, TCoordinate>::GetRadius() const -> 
     itkExceptionMacro("Input image required!");
   }
 
-  const InputImageType *                     input = this->GetInputImage();
+  const InputImageType * input = this->GetInputImage();
   const typename InputImageType::SpacingType spacing = input->GetSpacing();
 
   for (unsigned int dim = 0; dim < ImageDimension; ++dim)

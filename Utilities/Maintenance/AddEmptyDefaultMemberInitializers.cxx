@@ -52,7 +52,7 @@ ReadFile(const path & filePath)
   Lines result;
 
   std::ifstream inputFileStream{ filePath };
-  std::string   line;
+  std::string line;
   while (std::getline(inputFileStream, line))
   {
     result.push_back(line);
@@ -180,7 +180,7 @@ AddInitializers(Lines & lines)
 auto
 ProcessFile(const path & filePath)
 {
-  auto       lines = ReadFile(filePath);
+  auto lines = ReadFile(filePath);
   const auto numberOfAddedInitializers = AddInitializers(lines);
   if (numberOfAddedInitializers > 0)
   {

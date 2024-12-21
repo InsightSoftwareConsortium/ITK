@@ -112,7 +112,7 @@ public:
   }
 
 private:
-  PixelAccessorType   m_PixelAccessor;    // The pixel accessor
+  PixelAccessorType m_PixelAccessor;      // The pixel accessor
   InternalPixelType * m_Begin{ nullptr }; // Begin of the buffer
 };
 } // namespace itk

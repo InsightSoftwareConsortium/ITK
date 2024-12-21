@@ -27,18 +27,18 @@ namespace itk
 /** Utility function for writing RAW bytes */
 extern void
 WriteRawBytesAfterSwapping(IOComponentEnum componentType,
-                           const void *    buffer,
+                           const void * buffer,
                            std::ofstream & file,
                            IOByteOrderEnum byteOrder,
-                           SizeValueType   numberOfBytes,
-                           SizeValueType   numberOfComponents);
+                           SizeValueType numberOfBytes,
+                           SizeValueType numberOfComponents);
 
 /** Utility function for reading RAW bytes */
 extern void
 ReadRawBytesAfterSwapping(IOComponentEnum componentType,
-                          void *          buffer,
+                          void * buffer,
                           IOByteOrderEnum byteOrder,
-                          SizeValueType   numberOfComponents);
+                          SizeValueType numberOfComponents);
 
 
 template <typename TPixel, unsigned int VImageDimension>

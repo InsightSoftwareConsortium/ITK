@@ -162,7 +162,7 @@ private:
                                                           InternalComplexImageType>;
 
   typename LandweberFilterType::Pointer m_LandweberFilter{};
-  typename IFFTFilterType::Pointer      m_IFFTFilter{};
+  typename IFFTFilterType::Pointer m_IFFTFilter{};
 };
 
 } // end namespace itk

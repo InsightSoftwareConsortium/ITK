@@ -135,8 +135,8 @@ public:
    * \sa ComputeGlobalTimeStep */
   virtual PixelType
   ComputeUpdate(const NeighborhoodType & neighborhood,
-                void *                   globalData,
-                const FloatOffsetType &  offset = FloatOffsetType(0.0)) = 0;
+                void * globalData,
+                const FloatOffsetType & offset = FloatOffsetType(0.0)) = 0;
 
 
   /** Sets the radius of the neighborhood this FiniteDifferenceFunction
@@ -199,7 +199,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  RadiusType    m_Radius{};
+  RadiusType m_Radius{};
   PixelRealType m_ScaleCoefficients[ImageDimension]{};
 };
 } // end namespace itk

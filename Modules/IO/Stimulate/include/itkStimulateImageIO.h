@@ -137,9 +137,9 @@ protected:
 
 private:
   std::string m_DataFileName{};
-  char        m_SdtOrient[256]{};
-  float       m_DisplayRange[2]{};
-  char        m_FidName[256]{};
+  char m_SdtOrient[256]{};
+  float m_DisplayRange[2]{};
+  char m_FidName[256]{};
 };
 } // end namespace itk
 

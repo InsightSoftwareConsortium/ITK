@@ -258,10 +258,10 @@ protected:
   UpdateNeighbors(const IndexType & index, const SpeedImageType *, LevelSetImageType *) override;
 
   virtual void
-  ComputeGradient(const IndexType &         index,
+  ComputeGradient(const IndexType & index,
                   const LevelSetImageType * output,
-                  const LabelImageType *    labelImage,
-                  GradientImageType *       gradientImage);
+                  const LabelImageType * labelImage,
+                  GradientImageType * gradientImage);
 
   /** Check that target points are set.
    *  Returns true if at least a target point exists; returns false otherwise.

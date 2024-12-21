@@ -141,14 +141,14 @@ protected:
 
   int
   AddElementToList(const char * const filename,
-                   const float        sliceLocation,
-                   const int          offset,
-                   const int          XDim,
-                   const int          YDim,
-                   const float        XRes,
-                   const float        YRes,
-                   const int          Key1,
-                   const int          Key2);
+                   const float sliceLocation,
+                   const int offset,
+                   const int XDim,
+                   const int YDim,
+                   const float XRes,
+                   const float YRes,
+                   const int Key1,
+                   const int Key2);
 
   void
   sortImageListAscend();
@@ -164,8 +164,8 @@ protected:
 
   //
   // data members
-  GEImageHeader *   m_ImageHeader{};
-  IOByteOrderEnum   m_SystemByteOrder{};
+  GEImageHeader * m_ImageHeader{};
+  IOByteOrderEnum m_SystemByteOrder{};
   IPLFileNameList * m_FilenameList{};
   //
   // return 0 on success, -1 on failure

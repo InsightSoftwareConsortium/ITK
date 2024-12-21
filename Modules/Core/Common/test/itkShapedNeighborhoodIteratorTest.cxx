@@ -24,7 +24,7 @@ int
 itkShapedNeighborhoodIteratorTest(int, char *[])
 {
 
-  const TestImageType::Pointer                              img = GetTestImage(10, 10, 5, 3);
+  const TestImageType::Pointer img = GetTestImage(10, 10, 5, 3);
   itk::ShapedNeighborhoodIterator<TestImageType>::IndexType loc;
   loc[0] = 4;
   loc[1] = 4;
@@ -37,8 +37,8 @@ itkShapedNeighborhoodIteratorTest(int, char *[])
 
   // region over which the iterator is defined
   itk::ShapedNeighborhoodIterator<TestImageType>::RegionType reg;
-  itk::ShapedNeighborhoodIterator<TestImageType>::SizeType   sz;
-  itk::ShapedNeighborhoodIterator<TestImageType>::IndexType  idx;
+  itk::ShapedNeighborhoodIterator<TestImageType>::SizeType sz;
+  itk::ShapedNeighborhoodIterator<TestImageType>::IndexType idx;
   idx[0] = idx[1] = idx[2] = 0;
   idx[3] = 1;
   sz[0] = sz[1] = 10;
@@ -194,8 +194,8 @@ itkShapedNeighborhoodIteratorTest(int, char *[])
 
   println("Testing interoperability with FlatStructuringElement");
   using StructuringElementType = itk::FlatStructuringElement<4>;
-  constexpr StructuringElementType::RadiusType   radius2 = StructuringElementType::RadiusType::Filled(2);
-  const StructuringElementType                   kernel = StructuringElementType::Cross(radius2);
+  constexpr StructuringElementType::RadiusType radius2 = StructuringElementType::RadiusType::Filled(2);
+  const StructuringElementType kernel = StructuringElementType::Cross(radius2);
   itk::ShapedNeighborhoodIterator<TestImageType> iterator(radius2, img, img->GetBufferedRegion());
   iterator.CreateActiveListFromNeighborhood(kernel);
   iterator.SetLocation(loc);

@@ -220,7 +220,7 @@ void
 ConnectedThresholdImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   const InputImageType * inputImage = this->GetInput();
-  OutputImageType *      outputImage = this->GetOutput();
+  OutputImageType * outputImage = this->GetOutput();
 
   const InputPixelObjectType * lowerThreshold = this->GetLowerInput();
   const InputPixelObjectType * upperThreshold = this->GetUpperInput();

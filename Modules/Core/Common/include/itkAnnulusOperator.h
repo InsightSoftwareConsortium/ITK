@@ -241,13 +241,13 @@ protected:
   Fill(const CoefficientVector & coeff) override;
 
 private:
-  double      m_InnerRadius{ 1.0 };
-  double      m_Thickness{ 1.0 };
-  bool        m_Normalize{ false };
-  bool        m_BrightCenter{ false };
-  PixelType   m_InteriorValue{};
-  PixelType   m_AnnulusValue{ NumericTraits<PixelType>::OneValue() };
-  PixelType   m_ExteriorValue{};
+  double m_InnerRadius{ 1.0 };
+  double m_Thickness{ 1.0 };
+  bool m_Normalize{ false };
+  bool m_BrightCenter{ false };
+  PixelType m_InteriorValue{};
+  PixelType m_AnnulusValue{ NumericTraits<PixelType>::OneValue() };
+  PixelType m_ExteriorValue{};
   SpacingType m_Spacing{ MakeFilled<SpacingType>(1.0) };
 };
 } // namespace itk

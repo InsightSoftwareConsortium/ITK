@@ -31,7 +31,7 @@ itkImageToRectilinearFEMObjectFilter2DTest(int argc, char * argv[])
   constexpr unsigned int minArgNodes = 4;
   // numberOfElementsToTest (a least 1) + elementNumber (at least 1) + elementNodes (4 per element)
   constexpr unsigned int minArgElements = 6;
-  int                    minArgC = inputFileDataCheckArgs + minArgNodes + minArgElements;
+  int minArgC = inputFileDataCheckArgs + minArgNodes + minArgElements;
 
   if (argc < minArgC)
   {
@@ -58,8 +58,8 @@ itkImageToRectilinearFEMObjectFilter2DTest(int argc, char * argv[])
 
   // Check the provided node and element argument numbers
   const auto numberOfNodesToTest = static_cast<unsigned int>(std::stoi(argv[8]));
-  int        nodeData = numberOfNodesToTest * (1 + Dimension);
-  int        nodeTestData = 1 + nodeData;
+  int nodeData = numberOfNodesToTest * (1 + Dimension);
+  int nodeTestData = 1 + nodeData;
   if (argc < inputFileDataCheckArgs + nodeTestData)
   {
     std::cerr << "Missing parameters." << std::endl;
@@ -71,8 +71,8 @@ itkImageToRectilinearFEMObjectFilter2DTest(int argc, char * argv[])
   }
 
   const auto numberOfElementsToTest = static_cast<unsigned int>(std::stoi(argv[9 + numberOfNodesToTest * 3]));
-  int        elementData = numberOfElementsToTest * (1 + nodeSize);
-  int        elementTestData = 1 + elementData;
+  int elementData = numberOfElementsToTest * (1 + nodeSize);
+  int elementTestData = 1 + elementData;
   if (argc < inputFileDataCheckArgs + nodeTestData + elementTestData)
   {
     std::cerr << "Missing parameters." << std::endl;
@@ -141,7 +141,7 @@ itkImageToRectilinearFEMObjectFilter2DTest(int argc, char * argv[])
   std::cout << " [PASSED]" << std::endl;
 
   // Test the resulting FEMOBject
-  bool       foundError = false;
+  bool foundError = false;
   const auto expectedNumberOfNodes = static_cast<unsigned int>(std::stoi(argv[6]));
   const auto expectedNumberOfElements = static_cast<unsigned int>(std::stoi(argv[7]));
 
@@ -246,7 +246,7 @@ itkImageToRectilinearFEMObjectFilter2DTest(int argc, char * argv[])
 
   for (unsigned int i = 0; i < numberOfNodesToTest; ++i)
   {
-    auto               nodeNumber = static_cast<unsigned int>(std::stoi(argv[9 + i * 3]));
+    auto nodeNumber = static_cast<unsigned int>(std::stoi(argv[9 + i * 3]));
     vnl_vector<double> loc;
     loc.set_size(Dimension);
     loc[0] = std::stod(argv[9 + i * 3 + 1]);
@@ -269,7 +269,7 @@ itkImageToRectilinearFEMObjectFilter2DTest(int argc, char * argv[])
 
   for (unsigned int i = 0; i < numberOfElementsToTest; ++i)
   {
-    auto            elementNumber = static_cast<unsigned int>(std::stoi(argv[10 + numberOfNodesToTest * 3 + i * 5]));
+    auto elementNumber = static_cast<unsigned int>(std::stoi(argv[10 + numberOfNodesToTest * 3 + i * 5]));
     vnl_vector<int> nodes;
     nodes.set_size(nodeSize);
     nodes[0] = std::stoi(argv[10 + numberOfNodesToTest * 3 + i * 5 + 1]);

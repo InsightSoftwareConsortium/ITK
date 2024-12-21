@@ -113,7 +113,7 @@ template <typename TParametersValueType>
 void
 CenteredSimilarity2DTransform<TParametersValueType>::ComputeJacobianWithRespectToParameters(
   const InputPointType & p,
-  JacobianType &         jacobian) const
+  JacobianType & jacobian) const
 {
   const double angle = this->GetAngle();
   const double ca = std::cos(angle);
@@ -123,8 +123,8 @@ CenteredSimilarity2DTransform<TParametersValueType>::ComputeJacobianWithRespectT
   jacobian.Fill(0.0);
 
   const InputPointType center = this->GetCenter();
-  const double         cx = center[0];
-  const double         cy = center[1];
+  const double cx = center[0];
+  const double cy = center[1];
 
   // derivatives with respect to the scale
   jacobian[0][0] = ca * (p[0] - cx) - sa * (p[1] - cy);

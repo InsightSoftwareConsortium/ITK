@@ -115,7 +115,7 @@ itkDiffeomorphicDemonsRegistrationFilterTest2(int argc, char * argv[])
 
 
   const std::string gradientTypeString{ argv[4] };
-  const int         gradientType = std::stoi(gradientTypeString);
+  const int gradientType = std::stoi(gradientTypeString);
 
   using FunctionType = RegistrationType::DemonsRegistrationFunctionType;
 
@@ -138,7 +138,7 @@ itkDiffeomorphicDemonsRegistrationFilterTest2(int argc, char * argv[])
   std::cout << "GradientEnum = " << static_cast<char>(registrator->GetUseGradientType()) << std::endl;
 
   const std::string useFirstOrderExponentialString{ argv[5] };
-  const int         useFirstOrderExponential = std::stoi(useFirstOrderExponentialString);
+  const int useFirstOrderExponential = std::stoi(useFirstOrderExponentialString);
 
   if (useFirstOrderExponential == 0)
   {
@@ -170,7 +170,7 @@ itkDiffeomorphicDemonsRegistrationFilterTest2(int argc, char * argv[])
   registrator->SetStandardDeviations(v);
 
   using ProgressType = ShowProgressObject<RegistrationType>;
-  ProgressType                                          progressWatch(registrator);
+  ProgressType progressWatch(registrator);
   const itk::SimpleMemberCommand<ProgressType>::Pointer command = itk::SimpleMemberCommand<ProgressType>::New();
   command->SetCallbackFunction(&progressWatch, &ProgressType::ShowProgress);
   registrator->AddObserver(itk::ProgressEvent(), command);

@@ -28,7 +28,7 @@ template <typename TVector>
 bool
 testVector(const TVector & v1, const TVector & v2)
 {
-  bool             pass = true;
+  bool pass = true;
   constexpr double tolerance = 1e-10;
 
   for (unsigned int i = 0; i < v1.Size() && i < v2.Size(); ++i)
@@ -55,10 +55,10 @@ itkDisplacementFieldTransformCloneTest(int, char *[])
 
   auto field = FieldType::New();
 
-  FieldType::SizeType   size;
-  FieldType::IndexType  start;
+  FieldType::SizeType size;
+  FieldType::IndexType start;
   FieldType::RegionType region;
-  constexpr int         dimLength = 20;
+  constexpr int dimLength = 20;
   size.Fill(dimLength);
   start.Fill(0);
   region.SetSize(size);

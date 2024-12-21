@@ -85,8 +85,8 @@ template <typename TInputImage, typename TOutputImage>
 void
 IsolatedWatershedImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
-  const InputImageType *      inputImage = this->GetInput();
-  OutputImageType *           outputImage = this->GetOutput();
+  const InputImageType * inputImage = this->GetInput();
+  OutputImageType * outputImage = this->GetOutput();
   const OutputImageRegionType region = outputImage->GetRequestedRegion();
 
   // Set up the pipeline
@@ -109,7 +109,7 @@ IsolatedWatershedImageFilter<TInputImage, TOutputImage>::GenerateData()
     std::log(2.0));
 
   const float progressWeight = 1.0f / static_cast<float>(maximumIterationsInBinarySearch + 2);
-  float       cumulatedProgress = 0.0f;
+  float cumulatedProgress = 0.0f;
 
   IterationReporter iterate(this, 0, 1);
 
@@ -146,12 +146,12 @@ IsolatedWatershedImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   ProgressReporter progress(this, 0, region.GetNumberOfPixels(), 100, cumulatedProgress, progressWeight);
 
-  ImageRegionIterator<OutputImageType>                         ot(outputImage, region);
+  ImageRegionIterator<OutputImageType> ot(outputImage, region);
   ImageRegionIterator<typename WatershedType::OutputImageType> it(m_Watershed->GetOutput(), region);
 
   const IdentifierType seed1Label = m_Watershed->GetOutput()->GetPixel(m_Seed1);
   const IdentifierType seed2Label = m_Watershed->GetOutput()->GetPixel(m_Seed2);
-  IdentifierType       value;
+  IdentifierType value;
 
   it.GoToBegin();
   ot.GoToBegin();

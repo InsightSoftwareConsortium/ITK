@@ -316,8 +316,8 @@ main(int argc, char * argv[])
   using InterpolatorType =
     itk::LinearInterpolateImageFunction<MovingImageType,
                                         InterpolatorPrecisionType>;
-  auto                          warper = WarperType::New();
-  auto                          interpolator = InterpolatorType::New();
+  auto warper = WarperType::New();
+  auto interpolator = InterpolatorType::New();
   const FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
   warper->SetInput(movingImageReader->GetOutput());

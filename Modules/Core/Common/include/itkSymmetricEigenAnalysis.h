@@ -135,7 +135,7 @@ public:
 };
 // Define how to print enumeration
 extern ITKCommon_EXPORT std::ostream &
-                        operator<<(std::ostream & out, const SymmetricEigenAnalysisEnums::EigenValueOrder value);
+operator<<(std::ostream & out, const SymmetricEigenAnalysisEnums::EigenValueOrder value);
 
 using EigenValueOrderEnum = SymmetricEigenAnalysisEnums::EigenValueOrder;
 
@@ -364,9 +364,9 @@ public:
   }
 
 private:
-  bool                m_UseEigenLibrary{ false };
-  unsigned int        m_Dimension{ 0 };
-  unsigned int        m_Order{ 0 };
+  bool m_UseEigenLibrary{ false };
+  unsigned int m_Dimension{ 0 };
+  unsigned int m_Order{ 0 };
   EigenValueOrderEnum m_OrderEigenValues{ EigenValueOrderEnum::OrderByValue };
 
   /** Reduces a real symmetric matrix to a symmetric tridiagonal matrix using
@@ -526,8 +526,8 @@ private:
   /* Wrapper that call the right implementation for the type of matrix.  */
   unsigned int
   ComputeEigenValuesAndVectorsWithEigenLibrary(const TMatrix & A,
-                                               TVector &       EigenValues,
-                                               TEigenMatrix &  EigenVectors) const
+                                               TVector & EigenValues,
+                                               TEigenMatrix & EigenVectors) const
   {
     return ComputeEigenValuesAndVectorsWithEigenLibraryImpl(A, EigenValues, EigenVectors, true);
   }
@@ -541,8 +541,8 @@ private:
   template <typename QMatrix>
   auto
   ComputeEigenValuesAndVectorsWithEigenLibraryImpl(const QMatrix & A,
-                                                   TVector &       EigenValues,
-                                                   TEigenMatrix &  EigenVectors,
+                                                   TVector & EigenValues,
+                                                   TEigenMatrix & EigenVectors,
                                                    long) const -> decltype(1U)
   {
     using ValueType = decltype(GetMatrixValueType(true));
@@ -557,7 +557,7 @@ private:
     }
     using EigenSolverType = Eigen::SelfAdjointEigenSolver<EigenLibMatrixType>;
     const EigenSolverType solver(inputMatrix); // Computes EigenValues and EigenVectors
-    const auto &          eigenValues = solver.eigenvalues();
+    const auto & eigenValues = solver.eigenvalues();
     /* Column  k  of the returned matrix is an eigenvector corresponding to
      * eigenvalue number $ k $ as returned by eigenvalues().
      * The eigenvectors are normalized to have (Euclidean) norm equal to one. */
@@ -607,8 +607,8 @@ private:
   template <typename QMatrix>
   auto
   ComputeEigenValuesAndVectorsWithEigenLibraryImpl(const QMatrix & A,
-                                                   TVector &       EigenValues,
-                                                   TEigenMatrix &  EigenVectors,
+                                                   TVector & EigenValues,
+                                                   TEigenMatrix & EigenVectors,
                                                    bool) const -> decltype(GetPointerToMatrixData(A), 1U)
   {
     auto pointerToData = GetPointerToMatrixData(A);
@@ -620,7 +620,7 @@ private:
     EigenConstMatrixMap inputMatrix(pointerToData, m_Dimension, m_Dimension);
     using EigenSolverType = Eigen::SelfAdjointEigenSolver<EigenLibMatrixType>;
     EigenSolverType solver(inputMatrix); // Computes EigenValues and EigenVectors
-    const auto &    eigenValues = solver.eigenvalues();
+    const auto & eigenValues = solver.eigenvalues();
     /* Column  k  of the returned matrix is an eigenvector corresponding to
      * eigenvalue number $ k $ as returned by eigenvalues().
      * The eigenvectors are normalized to have (Euclidean) norm equal to one. */
@@ -684,7 +684,7 @@ private:
     }
     using EigenSolverType = Eigen::SelfAdjointEigenSolver<EigenLibMatrixType>;
     const EigenSolverType solver(inputMatrix, Eigen::EigenvaluesOnly);
-    auto                  eigenValues = solver.eigenvalues();
+    auto eigenValues = solver.eigenvalues();
     if (m_OrderEigenValues == EigenValueOrderEnum::OrderByMagnitude)
     {
       detail::sortEigenValuesByMagnitude(eigenValues, m_Dimension);
@@ -721,7 +721,7 @@ private:
     EigenConstMatrixMap inputMatrix(pointerToData, m_Dimension, m_Dimension);
     using EigenSolverType = Eigen::SelfAdjointEigenSolver<EigenLibMatrixType>;
     EigenSolverType solver(inputMatrix, Eigen::EigenvaluesOnly);
-    auto            eigenValues = solver.eigenvalues();
+    auto eigenValues = solver.eigenvalues();
     if (m_OrderEigenValues == EigenValueOrderEnum::OrderByMagnitude)
     {
       detail::sortEigenValuesByMagnitude(eigenValues, m_Dimension);
@@ -899,8 +899,8 @@ private:
   template <typename QMatrix>
   auto
   ComputeEigenValuesAndVectorsWithEigenLibraryImpl(const QMatrix & A,
-                                                   TVector &       EigenValues,
-                                                   TEigenMatrix &  EigenVectors,
+                                                   TVector & EigenValues,
+                                                   TEigenMatrix & EigenVectors,
                                                    bool) const -> decltype(GetPointerToMatrixData(A), 1U)
   {
     auto pointerToData = GetPointerToMatrixData(A);
@@ -912,7 +912,7 @@ private:
     EigenConstMatrixMap inputMatrix(pointerToData);
     using EigenSolverType = Eigen::SelfAdjointEigenSolver<EigenLibMatrixType>;
     EigenSolverType solver(inputMatrix); // Computes EigenValues and EigenVectors
-    const auto &    eigenValues = solver.eigenvalues();
+    const auto & eigenValues = solver.eigenvalues();
     /* Column  k  of the returned matrix is an eigenvector corresponding to
      * eigenvalue number $ k $ as returned by eigenvalues().
      * The eigenvectors are normalized to have (Euclidean) norm equal to one. */
@@ -956,8 +956,8 @@ private:
   template <typename QMatrix>
   auto
   ComputeEigenValuesAndVectorsWithEigenLibraryImpl(const QMatrix & A,
-                                                   TVector &       EigenValues,
-                                                   TEigenMatrix &  EigenVectors,
+                                                   TVector & EigenValues,
+                                                   TEigenMatrix & EigenVectors,
                                                    long) const -> decltype(1U)
   {
     using ValueType = decltype(GetMatrixValueType(true));
@@ -972,7 +972,7 @@ private:
     }
     using EigenSolverType = Eigen::SelfAdjointEigenSolver<EigenLibMatrixType>;
     const EigenSolverType solver(inputMatrix); // Computes EigenValues and EigenVectors
-    const auto &          eigenValues = solver.eigenvalues();
+    const auto & eigenValues = solver.eigenvalues();
     /* Column  k  of the returned matrix is an eigenvector corresponding to
      * eigenvalue number $ k $ as returned by eigenvalues().
      * The eigenvectors are normalized to have (Euclidean) norm equal to one. */
@@ -1031,7 +1031,7 @@ private:
     }
     using EigenSolverType = Eigen::SelfAdjointEigenSolver<EigenLibMatrixType>;
     const EigenSolverType solver(inputMatrix, Eigen::EigenvaluesOnly);
-    auto                  eigenValues = solver.eigenvalues();
+    auto eigenValues = solver.eigenvalues();
     if (m_OrderEigenValues == EigenValueOrderEnum::OrderByMagnitude)
     {
       detail::sortEigenValuesByMagnitude(eigenValues, VDimension);
@@ -1068,7 +1068,7 @@ private:
     EigenConstMatrixMap inputMatrix(pointerToData);
     using EigenSolverType = Eigen::SelfAdjointEigenSolver<EigenLibMatrixType>;
     EigenSolverType solver(inputMatrix, Eigen::EigenvaluesOnly);
-    auto            eigenValues = solver.eigenvalues();
+    auto eigenValues = solver.eigenvalues();
     if (m_OrderEigenValues == EigenValueOrderEnum::OrderByMagnitude)
     {
       detail::sortEigenValuesByMagnitude(eigenValues, VDimension);
@@ -1084,7 +1084,7 @@ private:
 
 template <unsigned int VDimension, typename TMatrix, typename TVector, typename TEigenMatrix>
 std::ostream &
-operator<<(std::ostream &                                                                           os,
+operator<<(std::ostream & os,
            const SymmetricEigenAnalysisFixedDimension<VDimension, TMatrix, TVector, TEigenMatrix> & s)
 {
   os << "[ClassType: SymmetricEigenAnalysisFixedDimension]" << std::endl;

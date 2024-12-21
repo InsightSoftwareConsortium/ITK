@@ -48,7 +48,7 @@ public:
 };
 // Define how to print enumeration
 extern ITKSpatialObjects_EXPORT std::ostream &
-                                operator<<(std::ostream & out, ContourSpatialObjectEnums::InterpolationMethod value);
+operator<<(std::ostream & out, ContourSpatialObjectEnums::InterpolationMethod value);
 
 /**
  * \class ContourSpatialObject
@@ -207,12 +207,12 @@ private:
   ContourPointListType m_ControlPoints{};
 
   InterpolationMethodEnum m_InterpolationMethod{};
-  unsigned int            m_InterpolationFactor{};
+  unsigned int m_InterpolationFactor{};
 
-  mutable bool             m_IsClosed{};
-  mutable int              m_OrientationInObjectSpace{};
+  mutable bool m_IsClosed{};
+  mutable int m_OrientationInObjectSpace{};
   mutable ModifiedTimeType m_OrientationInObjectSpaceMTime{};
-  int                      m_AttachedToSlice{};
+  int m_AttachedToSlice{};
 };
 } // end namespace itk
 

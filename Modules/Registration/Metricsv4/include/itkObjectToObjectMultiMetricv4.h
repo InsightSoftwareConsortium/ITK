@@ -227,8 +227,8 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  MetricQueueType              m_MetricQueue{};
-  WeightsArrayType             m_MetricWeights{};
+  MetricQueueType m_MetricQueue{};
+  WeightsArrayType m_MetricWeights{};
   mutable MetricValueArrayType m_MetricValueArray{};
 };
 

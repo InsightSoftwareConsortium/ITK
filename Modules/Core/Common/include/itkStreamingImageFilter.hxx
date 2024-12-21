@@ -136,7 +136,7 @@ StreamingImageFilter<TInputImage, TOutputImage>::UpdateOutputData(DataObject * i
   /**
    * Allocate the output buffer.
    */
-  OutputImageType *           outputPtr = this->GetOutput(0);
+  OutputImageType * outputPtr = this->GetOutput(0);
   const OutputImageRegionType outputRegion = outputPtr->GetRequestedRegion();
   outputPtr->SetBufferedRegion(outputRegion);
   outputPtr->Allocate();
@@ -151,7 +151,7 @@ StreamingImageFilter<TInputImage, TOutputImage>::UpdateOutputData(DataObject * i
    * minimum of what the user specified via SetNumberOfStreamDivisions()
    * and what the Splitter thinks is a reasonable value.
    */
-  unsigned int       numDivisions = m_NumberOfStreamDivisions;
+  unsigned int numDivisions = m_NumberOfStreamDivisions;
   const unsigned int numDivisionsFromSplitter =
     m_RegionSplitter->GetNumberOfSplits(outputRegion, m_NumberOfStreamDivisions);
   if (numDivisionsFromSplitter < numDivisions)

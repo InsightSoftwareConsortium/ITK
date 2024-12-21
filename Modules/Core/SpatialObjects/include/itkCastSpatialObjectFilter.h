@@ -90,7 +90,7 @@ public:
       outputList->push_back(sObj);
     }
     InputChildrenListType * inputList = m_Input->GetChildren(9999);
-    auto                    it = inputList->begin();
+    auto it = inputList->begin();
     while (it != inputList->end())
     {
       obj = dynamic_cast<OutObjectType *>(it->GetPointer());

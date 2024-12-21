@@ -28,7 +28,7 @@ itk::LightObject::Pointer
 LoadLandmark::CreateAnother() const
 {
   itk::LightObject::Pointer smartPtr;
-  Pointer                   copyPtr = Self::New();
+  Pointer copyPtr = Self::New();
 
   // Copy Load Contents
   copyPtr->m_Eta = this->m_Eta;

@@ -338,7 +338,7 @@ main(int argc, const char * argv[])
   const PixelType backgroundGrayLevel = (argc > 4) ? std::stoi(argv[4]) : 100;
   const std::string checkerBoardBefore = (argc > 5) ? argv[5] : "";
   const std::string checkerBoardAfter = (argc > 6) ? argv[6] : "";
-  const int         numberOfBins = (argc > 7) ? std::stoi(argv[7]) : 0;
+  const int numberOfBins = (argc > 7) ? std::stoi(argv[7]) : 0;
 
   using FixedImageType = itk::Image<PixelType, Dimension>;
   using MovingImageType = itk::Image<PixelType, Dimension>;

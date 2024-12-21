@@ -45,7 +45,7 @@ NeedToDoFace(const TRegion AllImage, const TRegion face, const TLine line)
   // find the small dimension of the face - should only be one
   typename TRegion::IndexType ISt = AllImage.GetIndex();
 
-  typename TRegion::SizeType  FSz = face.GetSize();
+  typename TRegion::SizeType FSz = face.GetSize();
   typename TRegion::IndexType FSt = face.GetIndex();
 
   unsigned int smallDim = 0;
@@ -81,20 +81,20 @@ NeedToDoFace(const TRegion AllImage, const TRegion face, const TLine line)
 
 template <typename TImage, typename TBres, typename TLine>
 int
-ComputeStartEnd(const typename TImage::IndexType  StartIndex,
-                const TLine                       line,
-                const float                       tol,
+ComputeStartEnd(const typename TImage::IndexType StartIndex,
+                const TLine line,
+                const float tol,
                 const typename TBres::OffsetArray LineOffsets,
                 const typename TImage::RegionType AllImage,
-                unsigned int &                    start,
-                unsigned int &                    end)
+                unsigned int & start,
+                unsigned int & end)
 {
   // compute intersection between ray and box
   typename TImage::IndexType ImStart = AllImage.GetIndex();
-  typename TImage::SizeType  ImSize = AllImage.GetSize();
-  float                      Tfar = NumericTraits<float>::max();
-  float                      Tnear = NumericTraits<float>::NonpositiveMin();
-  float                      domdir = NumericTraits<float>::NonpositiveMin();
+  typename TImage::SizeType ImSize = AllImage.GetSize();
+  float Tfar = NumericTraits<float>::max();
+  float Tnear = NumericTraits<float>::NonpositiveMin();
+  float domdir = NumericTraits<float>::NonpositiveMin();
 
   unsigned int perpdir = 0;
   for (unsigned int i = 0; i < TImage::RegionType::ImageDimension; ++i)
@@ -109,8 +109,8 @@ ComputeStartEnd(const typename TImage::IndexType  StartIndex,
     {
       const float P1{ static_cast<float>(ImStart[i] - StartIndex[i]) };
       const float P2{ P1 + static_cast<float>(ImSize[i]) - 1.0F };
-      float       T1 = P1 / line[i];
-      float       T2 = P2 / line[i];
+      float T1 = P1 / line[i];
+      float T2 = P2 / line[i];
 
       if (T1 > T2)
       {
@@ -145,7 +145,7 @@ ComputeStartEnd(const typename TImage::IndexType  StartIndex,
   if (Tfar < Tnear) // seems to need some margin
   {
     // in theory, no intersection, but search between them
-    bool         intersection = false;
+    bool intersection = false;
     unsigned int inside = 0; // initialize to avoid warning
     if (Tnear - Tfar < 10)
     {
@@ -270,12 +270,12 @@ ComputeStartEnd(const typename TImage::IndexType  StartIndex,
 
 template <typename TImage, typename TBres>
 void
-CopyLineToImage(const typename TImage::Pointer            output,
-                const typename TImage::IndexType          StartIndex,
-                const typename TBres::OffsetArray         LineOffsets,
+CopyLineToImage(const typename TImage::Pointer output,
+                const typename TImage::IndexType StartIndex,
+                const typename TBres::OffsetArray LineOffsets,
                 std::vector<typename TImage::PixelType> & outbuffer,
-                const unsigned int                        start,
-                const unsigned int                        end)
+                const unsigned int start,
+                const unsigned int end)
 {
   const unsigned int size = end - start + 1;
 
@@ -290,8 +290,8 @@ CopyLineToImage(const typename TImage::Pointer            output,
 template <typename TInputImage, typename TLine>
 typename TInputImage::RegionType
 MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
-                 const typename TInputImage::RegionType   AllImage,
-                 const TLine                              line)
+                 const typename TInputImage::RegionType AllImage,
+                 const TLine line)
 {
   // the face list calculator strategy fails in multithreaded mode
   // with 1D kernels
@@ -305,7 +305,7 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
 
   for (unsigned int i = 0; i < TInputImage::ImageDimension; ++i)
   {
-    SizeType  S1 = AllImage.GetSize();
+    SizeType S1 = AllImage.GetSize();
     IndexType I2 = AllImage.GetIndex();
 
     S1[i] = 1;
@@ -325,8 +325,8 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
   }
   auto fit = faceList.begin();
 
-  bool         foundFace = false;
-  float        MaxComp = NumericTraits<float>::NonpositiveMin();
+  bool foundFace = false;
+  float MaxComp = NumericTraits<float>::NonpositiveMin();
   unsigned int DomDir = 0;
   // std::cout << "------------" << std::endl;
   // figure out the dominant direction of the line
@@ -384,9 +384,9 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
     }
 
     // figure out how much extra each other dimension needs to be extended
-    typename TInputImage::SizeType  NewSize = RelevantRegion.GetSize();
+    typename TInputImage::SizeType NewSize = RelevantRegion.GetSize();
     typename TInputImage::IndexType NewStart = RelevantRegion.GetIndex();
-    const unsigned int              NonFaceLen = AllImage.GetSize()[NonFaceDim];
+    const unsigned int NonFaceLen = AllImage.GetSize()[NonFaceDim];
     for (unsigned int i = 0; i < TInputImage::RegionType::ImageDimension; ++i)
     {
       if (i != NonFaceDim)
@@ -418,15 +418,15 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
 
 template <typename TImage, typename TBres, typename TLine>
 int
-FillLineBuffer(typename TImage::ConstPointer             input,
-               const typename TImage::IndexType          StartIndex,
-               const TLine                               line, // unit vector
-               const float                               tol,
-               const typename TBres::OffsetArray         LineOffsets,
-               const typename TImage::RegionType         AllImage,
+FillLineBuffer(typename TImage::ConstPointer input,
+               const typename TImage::IndexType StartIndex,
+               const TLine line, // unit vector
+               const float tol,
+               const typename TBres::OffsetArray LineOffsets,
+               const typename TImage::RegionType AllImage,
                std::vector<typename TImage::PixelType> & inbuffer,
-               unsigned int &                            start,
-               unsigned int &                            end)
+               unsigned int & start,
+               unsigned int & end)
 {
   const int status = ComputeStartEnd<TImage, TBres, TLine>(StartIndex, line, tol, LineOffsets, AllImage, start, end);
   if (!status)

@@ -67,7 +67,7 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,
 template <typename TInputImage, typename TOutputImage>
 void
 GradientMagnitudeRecursiveGaussianImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os,
-                                                                                    Indent         indent) const
+                                                                                    Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

@@ -40,17 +40,17 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>::GetOutput() -> const OutputTy
 template <typename TInputHistogram>
 bool
 OtsuMultipleThresholdsCalculator<TInputHistogram>::IncrementThresholds(InstanceIdentifierVectorType & thresholdIndexes,
-                                                                       MeanType                       globalMean,
-                                                                       MeanVectorType &               classMean,
-                                                                       FrequencyVectorType &          classFrequency)
+                                                                       MeanType globalMean,
+                                                                       MeanVectorType & classMean,
+                                                                       FrequencyVectorType & classFrequency)
 {
   const typename TInputHistogram::ConstPointer histogram = this->GetInputHistogram();
 
   const SizeValueType numberOfHistogramBins = histogram->Size();
-  const auto          numberOfClasses = static_cast<const SizeValueType>(classMean.size());
+  const auto numberOfClasses = static_cast<const SizeValueType>(classMean.size());
 
   unsigned int k;
-  int          j;
+  int j;
 
   // From the upper threshold down
   for (j = static_cast<int>(m_NumberOfThresholds - 1); j >= 0; j--)
@@ -63,7 +63,7 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>::IncrementThresholds(InstanceI
       // threshold
       ++thresholdIndexes[j];
 
-      const MeanType      meanOld = classMean[j];
+      const MeanType meanOld = classMean[j];
       const FrequencyType freqOld = classFrequency[j];
 
       classFrequency[j] += histogram->GetFrequency(thresholdIndexes[j]);
@@ -147,10 +147,10 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>::Compute()
   }
 
   // Compute global mean
-  typename TInputHistogram::ConstIterator       iter = histogram->Begin();
+  typename TInputHistogram::ConstIterator iter = histogram->Begin();
   const typename TInputHistogram::ConstIterator end = histogram->End();
 
-  MeanType            globalMean{};
+  MeanType globalMean{};
   const FrequencyType globalFrequency = histogram->GetTotalFrequency();
   while (iter != end)
   {
@@ -173,7 +173,7 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>::Compute()
   InstanceIdentifierVectorType maxVarThresholdIndexes = thresholdIndexes;
 
   // Compute frequency and mean of initial classes
-  FrequencyType       freqSum{};
+  FrequencyType freqSum{};
   FrequencyVectorType classFrequency(numberOfClasses);
   for (j = 0; j < numberOfClasses - 1; ++j)
   {
@@ -184,13 +184,13 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>::Compute()
 
   // Convert the frequencies to probabilities (i.e. normalize the histogram).
   const SizeValueType histSize = histogram->GetSize()[0];
-  WeightVectorType    imgPDF(histSize);
+  WeightVectorType imgPDF(histSize);
   for (j = 0; j < histSize; ++j)
   {
     imgPDF[j] = (WeightType)histogram->GetFrequency(j) / (WeightType)globalFrequency;
   }
 
-  MeanType       meanSum{};
+  MeanType meanSum{};
   MeanVectorType classMean(numberOfClasses);
   for (j = 0; j < numberOfClasses - 1; ++j)
   {

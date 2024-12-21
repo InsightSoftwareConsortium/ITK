@@ -124,8 +124,8 @@ itkRegistrationParameterScalesFromPhysicalShiftTest(int, char *[])
   using MovingImageType = itk::Image<PixelType, ImageDimension>;
   using VirtualImageType = itk::Image<PixelType, ImageDimension>;
 
-  auto                            fixedImage = FixedImageType::New();
-  auto                            movingImage = MovingImageType::New();
+  auto fixedImage = FixedImageType::New();
+  auto movingImage = MovingImageType::New();
   const VirtualImageType::Pointer virtualImage = fixedImage;
 
   auto size = MovingImageType::SizeType::Filled(100);
@@ -359,7 +359,7 @@ itkRegistrationParameterScalesFromPhysicalShiftTest(int, char *[])
   const FloatType localLearningRate = 1.0 / localStepScale;
   std::cout << "The learning rate of shift for the displacement field transform = " << localLearningRate << std::endl;
 
-  bool            localStepScalePass = false;
+  bool localStepScalePass = false;
   const FloatType theoreticalLocalStepScale = std::sqrt(2.0);
   if (itk::Math::abs((localStepScale - theoreticalLocalStepScale) / theoreticalLocalStepScale) < 0.01)
   {

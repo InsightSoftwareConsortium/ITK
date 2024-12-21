@@ -49,7 +49,7 @@ itkBinaryMorphologicalClosingImageFilterTest(int argc, char * argv[])
 
   using KernelType = itk::BinaryBallStructuringElement<InputPixelType, dim>;
   KernelType ball;
-  auto       ballSize = KernelType::SizeType::Filled(std::stoi(argv[3]));
+  auto ballSize = KernelType::SizeType::Filled(std::stoi(argv[3]));
   ball.SetRadius(ballSize);
   ball.CreateStructuringElement();
 

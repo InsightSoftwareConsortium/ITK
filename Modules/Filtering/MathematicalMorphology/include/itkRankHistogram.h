@@ -156,13 +156,13 @@ public:
   GetValue(const TInputPixel &)
   {
     const SizeValueType target = (SizeValueType)(m_Rank * (m_Entries - 1)) + 1;
-    SizeValueType       total = m_Below;
-    SizeValueType       ThisBin;
-    bool                eraseFlag = false;
+    SizeValueType total = m_Below;
+    SizeValueType ThisBin;
+    bool eraseFlag = false;
 
     if (total < target)
     {
-      auto                       searchIt = m_RankIt;
+      auto searchIt = m_RankIt;
       typename MapType::iterator eraseIt;
 
       while (searchIt != m_Map.end())
@@ -197,7 +197,7 @@ public:
     }
     else
     {
-      auto                       searchIt = m_RankIt;
+      auto searchIt = m_RankIt;
       typename MapType::iterator eraseIt;
 
       while (searchIt != m_Map.begin())
@@ -257,13 +257,13 @@ protected:
 private:
   using MapType = typename std::map<TInputPixel, SizeValueType, Compare>;
 
-  MapType       m_Map;
+  MapType m_Map;
   SizeValueType m_Below;
   SizeValueType m_Entries;
-  TInputPixel   m_RankValue;
-  TInputPixel   m_InitVal;
-  Compare       m_Compare;
-  bool          m_Initialized;
+  TInputPixel m_RankValue;
+  TInputPixel m_InitVal;
+  Compare m_Compare;
+  bool m_Initialized;
 
   // This iterator will point at the desired rank value
   typename MapType::iterator m_RankIt;
@@ -305,7 +305,7 @@ public:
   TInputPixel
   GetValueBruteForce()
   {
-    SizeValueType       count = 0;
+    SizeValueType count = 0;
     const SizeValueType target = (SizeValueType)(m_Rank * (m_Entries - 1)) + 1;
     for (SizeValueType i = 0; i < m_Size; ++i)
     {
@@ -382,13 +382,13 @@ protected:
 private:
   using VecType = typename std::vector<SizeValueType>;
 
-  VecType       m_Vec;
+  VecType m_Vec;
   SizeValueType m_Size;
-  Compare       m_Compare;
-  TInputPixel   m_RankValue;
-  TInputPixel   m_InitVal;
-  int           m_Below;
-  int           m_Entries;
+  Compare m_Compare;
+  TInputPixel m_RankValue;
+  TInputPixel m_InitVal;
+  int m_Below;
+  int m_Entries;
 };
 
 // now create MorphologicalGradientHistogram specializations using the VectorMorphologicalGradientHistogram

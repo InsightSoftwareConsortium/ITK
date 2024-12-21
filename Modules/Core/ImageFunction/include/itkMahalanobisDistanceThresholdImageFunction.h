@@ -176,7 +176,7 @@ private:
   // Cached versions of the mean and covariance to manage the
   // difference in vector/matrix types between this class and the
   // membership function used internally.
-  MeanVectorType       m_Mean{};
+  MeanVectorType m_Mean{};
   CovarianceMatrixType m_Covariance{};
 };
 } // end namespace itk

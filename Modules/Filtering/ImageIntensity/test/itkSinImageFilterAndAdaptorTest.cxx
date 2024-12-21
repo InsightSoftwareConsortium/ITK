@@ -111,7 +111,7 @@ itkSinImageFilterAndAdaptorTest(int, char *[])
   it.GoToBegin();
   while (!ot.IsAtEnd())
   {
-    const InputImageType::PixelType  input = it.Get();
+    const InputImageType::PixelType input = it.Get();
     const OutputImageType::PixelType output = ot.Get();
     const OutputImageType::PixelType sinus = std::sin(input);
     if (!itk::Math::FloatAlmostEqual(sinus, output, 10, epsilon))

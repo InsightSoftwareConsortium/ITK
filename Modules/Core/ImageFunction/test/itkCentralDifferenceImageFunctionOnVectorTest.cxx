@@ -52,8 +52,8 @@ itkCentralDifferenceImageFunctionOnVectorTestRun()
   using PixelType = itk::Vector<float, VectorLength>;
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
-  auto                                 image = ImageType::New();
-  auto                                 size = ImageType::SizeType::Filled(16);
+  auto image = ImageType::New();
+  auto size = ImageType::SizeType::Filled(16);
   const typename ImageType::RegionType region(size);
 
   image->SetRegions(region);
@@ -92,7 +92,7 @@ itkCentralDifferenceImageFunctionOnVectorTestRun()
 
   // pick an index inside the image
   typename ImageType::IndexType index{ { 8, 8 } };
-  OutputType                    indexOutput = function->EvaluateAtIndex(index);
+  OutputType indexOutput = function->EvaluateAtIndex(index);
   std::cout << "Index: " << index << " Derivative: ";
   std::cout << indexOutput << std::endl;
 
@@ -129,7 +129,7 @@ itkCentralDifferenceImageFunctionOnVectorTestRun()
   }
 
   // test continuous index
-  auto       cindex = itk::MakeFilled<typename FunctionType::ContinuousIndexType>(8.0);
+  auto cindex = itk::MakeFilled<typename FunctionType::ContinuousIndexType>(8.0);
   OutputType continuousIndexOutput = function->EvaluateAtContinuousIndex(cindex);
   std::cout << "ContinuousIndex: " << cindex << " Derivative: ";
   std::cout << continuousIndexOutput << std::endl;
@@ -140,7 +140,7 @@ itkCentralDifferenceImageFunctionOnVectorTestRun()
     result = EXIT_FAILURE;
   }
 
-  auto       point = itk::MakeFilled<typename FunctionType::PointType>(8.0);
+  auto point = itk::MakeFilled<typename FunctionType::PointType>(8.0);
   OutputType pointOutput = function->Evaluate(point);
   std::cout << "Point: " << point << " Derivative: ";
   std::cout << pointOutput << std::endl;

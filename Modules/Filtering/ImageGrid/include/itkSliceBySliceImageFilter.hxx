@@ -96,7 +96,7 @@ SliceBySliceImageFilter<TInputImage,
   Superclass::GenerateInputRequestedRegion();
 
   InputDataObjectIterator it(this);
-  auto *                  input = dynamic_cast<InputImageType *>(it.GetInput());
+  auto * input = dynamic_cast<InputImageType *>(it.GetInput());
 
   const RegionType & requestedInputRegion = input->GetRequestedRegion();
 
@@ -226,8 +226,8 @@ SliceBySliceImageFilter<TInputImage,
   this->AllocateOutputs();
 
   const RegionType requestedRegion = this->GetOutput(0)->GetRequestedRegion();
-  const IndexType  requestedIndex = requestedRegion.GetIndex();
-  const SizeType   requestedSize = requestedRegion.GetSize();
+  const IndexType requestedIndex = requestedRegion.GetIndex();
+  const SizeType requestedSize = requestedRegion.GetSize();
 
   InternalRegionType internalOutputRegion;
   InternalRegionType internalInputRegion;
@@ -258,7 +258,7 @@ SliceBySliceImageFilter<TInputImage,
   {
 
     InternalSpacingType internalInputSpacing;
-    unsigned int        internalDim = 0;
+    unsigned int internalDim = 0;
     for (unsigned int dim = 0; internalDim < InternalImageDimension; ++dim, ++internalDim)
     {
       if (dim == this->m_Dimension)
@@ -297,7 +297,7 @@ SliceBySliceImageFilter<TInputImage,
       this->GetInput(i)->TransformIndexToPhysicalPoint(originIndex, inputOrigin);
 
       InternalPointType internalInputOrigin;
-      unsigned int      internalDim = 0;
+      unsigned int internalDim = 0;
       for (unsigned int dim = 0; internalDim < InternalImageDimension; ++dim, ++internalDim)
       {
         if (dim == this->m_Dimension)

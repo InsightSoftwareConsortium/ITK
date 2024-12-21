@@ -172,7 +172,7 @@ BMPImageIO::CanWriteFile(const char * name)
 void
 BMPImageIO::Read(void * buffer)
 {
-  auto *        p = static_cast<char *>(buffer);
+  auto * p = static_cast<char *>(buffer);
   unsigned long l = 0;
 
   this->OpenFileForReading(m_Ifstream, m_FileName);
@@ -283,8 +283,8 @@ BMPImageIO::Read(void * buffer)
   {
     // File is not compressed
     // Read one row at a time
-    const long          streamRead = m_Dimensions[0] * m_Depth / 8;
-    long                paddedStreamRead = streamRead;
+    const long streamRead = m_Dimensions[0] * m_Depth / 8;
+    long paddedStreamRead = streamRead;
     const unsigned long step = this->GetNumberOfComponents();
     if (streamRead % 4)
     {
@@ -384,8 +384,8 @@ BMPImageIO::ReadImageInformation()
     m_BitMapOffset = static_cast<long>(itmp);
   }
 
-  int  xsize;
-  int  ysize;
+  int xsize;
+  int ysize;
   long infoSize;
   // get size of header
   if (sizeLong == 4) // if we are on a 32 bit machine
@@ -760,14 +760,14 @@ BMPImageIO::Write(const void * buffer)
   m_Ofstream.write(&tmp, sizeof(char));
 
   const unsigned int bpp = this->GetNumberOfComponents();
-  long               bytesPerRow = m_Dimensions[0] * bpp;
+  long bytesPerRow = m_Dimensions[0] * bpp;
   if (bytesPerRow % 4)
   {
     bytesPerRow = ((bytesPerRow / 4) + 1) * 4;
   }
   const unsigned long paddedBytes = bytesPerRow - (m_Dimensions[0] * bpp);
 
-  const auto   rawImageDataSize = static_cast<unsigned int>((bytesPerRow * m_Dimensions[1]));
+  const auto rawImageDataSize = static_cast<unsigned int>((bytesPerRow * m_Dimensions[1]));
   unsigned int fileSize = (rawImageDataSize) + 54;
   if (bpp == 1)
   {
@@ -874,7 +874,7 @@ BMPImageIO::Write(const void * buffer)
   for (unsigned int h = 0; h < m_Dimensions[1]; ++h)
   {
     constexpr char paddingValue = 0;
-    const auto *   ptr = static_cast<const char *>(buffer);
+    const auto * ptr = static_cast<const char *>(buffer);
     ptr += (m_Dimensions[1] - (h + 1)) * m_Dimensions[0] * bpp;
     if (bpp == 1)
     {

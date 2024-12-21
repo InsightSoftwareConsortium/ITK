@@ -534,7 +534,7 @@ public:
 
 
   friend ITKCommon_EXPORT std::ostream &
-                          operator<<(std::ostream & out, PositiveEnum value);
+  operator<<(std::ostream & out, PositiveEnum value);
 
 protected:
   /** \brief Return the direction cosine matrix for a orientation. */
@@ -563,19 +563,19 @@ protected:
 
 /** Outputs unambiguous anatomical orientation names such as "right-to-left". */
 ITKCommon_EXPORT std::ostream &
-                 operator<<(std::ostream & out, typename AnatomicalOrientation::CoordinateEnum value);
+operator<<(std::ostream & out, typename AnatomicalOrientation::CoordinateEnum value);
 
 /** Outputs the PositiveEnum encoding as a string such as "LPS". */
 ITKCommon_EXPORT std::ostream &
-                 operator<<(std::ostream & out, typename AnatomicalOrientation::PositiveEnum value);
+operator<<(std::ostream & out, typename AnatomicalOrientation::PositiveEnum value);
 
 
 /** Outputs the NegativeEnum encoding as a string such as "RAI" */
 ITKCommon_EXPORT std::ostream &
-                 operator<<(std::ostream & out, typename AnatomicalOrientation::NegativeEnum value);
+operator<<(std::ostream & out, typename AnatomicalOrientation::NegativeEnum value);
 
 ITKCommon_EXPORT std::ostream &
-                 operator<<(std::ostream & out, const AnatomicalOrientation & orientation);
+operator<<(std::ostream & out, const AnatomicalOrientation & orientation);
 
 
 } // end namespace itk

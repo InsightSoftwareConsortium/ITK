@@ -187,7 +187,7 @@ bool
 VoronoiDiagram2DGenerator<TCoordinate>::almostsame(CoordinateType p1, CoordinateType p2)
 {
   const double diff = p1 - p2;
-  const bool   save = ((diff < -DIFF_TOLERENCE) || (diff > DIFF_TOLERENCE));
+  const bool save = ((diff < -DIFF_TOLERENCE) || (diff > DIFF_TOLERENCE));
   return (!save);
 }
 
@@ -227,7 +227,7 @@ VoronoiDiagram2DGenerator<TCoordinate>::ConstructDiagram()
 
   m_OutputVD->Reset();
 
-  EdgeInfo  currentPtID;
+  EdgeInfo currentPtID;
   const int edges = m_OutputVD->EdgeListSize();
 
   EdgeInfo LRsites;
@@ -241,7 +241,7 @@ VoronoiDiagram2DGenerator<TCoordinate>::ConstructDiagram()
   }
 
   PointType corner[4];
-  int       cornerID[4];
+  int cornerID[4];
 
   corner[0][0] = m_Pxmin;
   corner[0][1] = m_Pymin;
@@ -264,14 +264,14 @@ VoronoiDiagram2DGenerator<TCoordinate>::ConstructDiagram()
   ++m_Nvert;
   m_OutputVD->AddVert(corner[3]);
 
-  std::list<EdgeInfo>                    buildEdges;
+  std::list<EdgeInfo> buildEdges;
   typename std::list<EdgeInfo>::iterator BEiter;
-  EdgeInfo                               curr;
-  EdgeInfo                               curr1;
-  EdgeInfo                               curr2;
+  EdgeInfo curr;
+  EdgeInfo curr1;
+  EdgeInfo curr2;
 
-  unsigned char                     frontbnd;
-  unsigned char                     backbnd;
+  unsigned char frontbnd;
+  unsigned char backbnd;
   const std::vector<IdentifierType> cellPoints;
   for (unsigned int i = 0; i < m_NumberOfSeeds; ++i)
   {
@@ -608,7 +608,7 @@ template <typename TCoordinate>
 auto
 VoronoiDiagram2DGenerator<TCoordinate>::findLeftHE(PointType * p) -> FortuneHalfEdge *
 {
-  int  i;
+  int i;
   auto bucket = static_cast<int>((((*p)[0]) - m_Pxmin) / m_Deltax * m_ELhashsize);
 
   if (bucket < 0)
@@ -743,10 +743,10 @@ template <typename TCoordinate>
 void
 VoronoiDiagram2DGenerator<TCoordinate>::intersect(FortuneSite * newV, FortuneHalfEdge * el1, FortuneHalfEdge * el2)
 {
-  FortuneEdge *     e1 = el1->m_Edge;
-  FortuneEdge *     e2 = el2->m_Edge;
+  FortuneEdge * e1 = el1->m_Edge;
+  FortuneEdge * e2 = el2->m_Edge;
   FortuneHalfEdge * saveHE;
-  FortuneEdge *     saveE;
+  FortuneEdge * saveE;
 
   if (e1 == nullptr)
   {
@@ -832,8 +832,8 @@ VoronoiDiagram2DGenerator<TCoordinate>::clip_line(FortuneEdge * task)
   double y1;
   double x2;
   double y2;
-  int    id1;
-  int    id2;
+  int id1;
+  int id2;
   if ((task->m_A) == 1.0)
   {
     if ((s1 != nullptr) && ((s1->m_Coord[1]) > m_Pymin))
@@ -1085,9 +1085,9 @@ VoronoiDiagram2DGenerator<TCoordinate>::GenerateVDFortune()
   int Edgeid = 0;
   int Siteid = 0;
 
-  unsigned int      i = 2;
-  bool              ok = true;
-  PointType         currentCircle{};
+  unsigned int i = 2;
+  bool ok = true;
+  PointType currentCircle{};
   FortuneHalfEdge * leftHalfEdge;
   while (ok)
   {
@@ -1151,8 +1151,8 @@ VoronoiDiagram2DGenerator<TCoordinate>::GenerateVDFortune()
       FortuneHalfEdge * left2HalfEdge = leftHalfEdge->m_Left;
       FortuneHalfEdge * rightHalfEdge = leftHalfEdge->m_Right;
       FortuneHalfEdge * right2HalfEdge = rightHalfEdge->m_Right;
-      FortuneSite *     findSite = getLeftReg(leftHalfEdge);
-      FortuneSite *     topSite = getRightReg(rightHalfEdge);
+      FortuneSite * findSite = getLeftReg(leftHalfEdge);
+      FortuneSite * topSite = getRightReg(rightHalfEdge);
 
       FortuneSite * newVert = leftHalfEdge->m_Vert;
       newVert->m_Sitenbr = m_Nvert;

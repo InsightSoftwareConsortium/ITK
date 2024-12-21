@@ -89,7 +89,7 @@ itkPolygonCellTest(int, char *[])
    * pointer to a cell; in this example it ends up pointing to
    * different types of cells.
    */
-  CellAutoPointer   testCell;
+  CellAutoPointer testCell;
   PolygonCellType * newcell = new PolygonCellType;
   testCell.TakeOwnership(newcell); // polymorphism
 

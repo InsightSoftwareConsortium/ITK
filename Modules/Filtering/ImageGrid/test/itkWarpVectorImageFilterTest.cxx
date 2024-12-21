@@ -104,7 +104,7 @@ itkWarpVectorImageFilterTest(int, char *[])
 
   std::cout << "Create the input image pattern." << std::endl;
   ImageType::RegionType region;
-  ImageType::SizeType   size = { { 64, 64 } };
+  ImageType::SizeType size = { { 64, 64 } };
   region.SetSize(size);
 
   auto input = ImageType::New();
@@ -113,7 +113,7 @@ itkWarpVectorImageFilterTest(int, char *[])
   input->Allocate();
 
 
-  unsigned int                 j;
+  unsigned int j;
   ImagePattern<ImageDimension> pattern;
   pattern.m_Offset = 64;
   for (j = 0; j < ImageDimension; ++j)
@@ -135,7 +135,7 @@ itkWarpVectorImageFilterTest(int, char *[])
   constexpr unsigned int factors[ImageDimension] = { 2, 3 };
 
   ImageType::RegionType fieldRegion;
-  ImageType::SizeType   fieldSize;
+  ImageType::SizeType fieldSize;
   for (j = 0; j < ImageDimension; ++j)
   {
     fieldSize[j] = size[j] * factors[j] + 5;
@@ -151,7 +151,7 @@ itkWarpVectorImageFilterTest(int, char *[])
 
   for (FieldIterator fieldIter(field, fieldRegion); !fieldIter.IsAtEnd(); ++fieldIter)
   {
-    IndexType  index = fieldIter.GetIndex();
+    IndexType index = fieldIter.GetIndex();
     VectorType displacement;
     for (j = 0; j < ImageDimension; ++j)
     {
@@ -174,7 +174,7 @@ itkWarpVectorImageFilterTest(int, char *[])
   warper->SetEdgePaddingValue(PixelType(padValue));
   ITK_TEST_SET_GET_VALUE(PixelType(padValue), warper->GetEdgePaddingValue());
 
-  ShowProgressObject                                          progressWatch(warper);
+  ShowProgressObject progressWatch(warper);
   const itk::SimpleMemberCommand<ShowProgressObject>::Pointer command =
     itk::SimpleMemberCommand<ShowProgressObject>::New();
   command->SetCallbackFunction(&progressWatch, &ShowProgressObject::ShowProgress);
@@ -208,7 +208,7 @@ itkWarpVectorImageFilterTest(int, char *[])
 
   // compute non-padded output region
   ImageType::RegionType validRegion;
-  ImageType::SizeType   validSize = validRegion.GetSize();
+  ImageType::SizeType validSize = validRegion.GetSize();
   // Needed to deal with incompatibility of various IsInside()s &
   // nearest-neighbour type interpolation on half-band at perimeter of
   // image. Evaluate() now has logic for this outer half-band.
@@ -257,7 +257,7 @@ itkWarpVectorImageFilterTest(int, char *[])
   while (!outIter.IsAtEnd())
   {
     const IndexType index = outIter.GetIndex();
-    PixelType       value = outIter.Get();
+    PixelType value = outIter.Get();
 
     if (validRegion.IsInside(index))
     {

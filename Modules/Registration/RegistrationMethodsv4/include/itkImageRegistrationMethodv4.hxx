@@ -125,7 +125,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
 template <typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
 void
 ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, TPointSet>::SetFixedImage(
-  SizeValueType          index,
+  SizeValueType index,
   const FixedImageType * image)
 {
   itkDebugMacro("setting fixed image input " << index << " to " << image);
@@ -154,7 +154,7 @@ const typename ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, 
 template <typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
 void
 ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, TPointSet>::SetMovingImage(
-  SizeValueType           index,
+  SizeValueType index,
   const MovingImageType * image)
 {
   itkDebugMacro("setting moving image input " << index << " to " << image);
@@ -184,7 +184,7 @@ const typename ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, 
 template <typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
 void
 ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, TPointSet>::SetFixedPointSet(
-  SizeValueType        index,
+  SizeValueType index,
   const PointSetType * pointSet)
 {
   itkDebugMacro("setting fixed point set input " << index << " to " << pointSet);
@@ -213,7 +213,7 @@ const typename ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, 
 template <typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
 void
 ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, TPointSet>::SetMovingPointSet(
-  SizeValueType        index,
+  SizeValueType index,
   const PointSetType * pointSet)
 {
   itkDebugMacro("setting moving point set input " << index << " to " << pointSet);
@@ -739,7 +739,7 @@ void
 ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, TPointSet>::AllocateOutputs()
 {
   const DecoratedInitialTransformType * decoratedInitialTransform = this->GetInitialTransformInput();
-  DecoratedOutputTransformType *        decoratedOutputTransform = this->GetOutput();
+  DecoratedOutputTransformType * decoratedOutputTransform = this->GetOutput();
 
   if (decoratedInitialTransform)
   {
@@ -891,7 +891,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   using VirtualDomainRegionType = typename VirtualDomainImageType::RegionType;
 
   const VirtualDomainImageType * virtualImage = nullptr;
-  const FixedImageMaskType *     fixedMaskImage = nullptr;
+  const FixedImageMaskType * fixedMaskImage = nullptr;
 
   SizeValueType numberOfLocalMetrics = 1;
 
@@ -932,7 +932,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
     }
   }
 
-  const VirtualDomainRegionType &                    virtualDomainRegion = virtualImage->GetRequestedRegion();
+  const VirtualDomainRegionType & virtualDomainRegion = virtualImage->GetRequestedRegion();
   const typename VirtualDomainImageType::SpacingType oneThirdVirtualSpacing = virtualImage->GetSpacing() / 3.0;
 
   for (SizeValueType n = 0; n < numberOfLocalMetrics; ++n)
@@ -990,7 +990,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
       case MetricSamplingStrategyEnum::RANDOM:
       {
         const unsigned long totalVirtualDomainVoxels = virtualDomainRegion.GetNumberOfPixels();
-        const auto          sampleCount =
+        const auto sampleCount =
           static_cast<unsigned long>(static_cast<float>(totalVirtualDomainVoxels) *
                                      this->m_MetricSamplingPercentagePerLevel[this->m_CurrentLevel]);
         ImageRandomConstIteratorWithIndex<VirtualDomainImageType> ItR(virtualImage, virtualDomainRegion);
@@ -1131,7 +1131,7 @@ template <typename TFixedImage, typename TMovingImage, typename TTransform, type
 void
 ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, TPointSet>::PrintSelf(
   std::ostream & os,
-  Indent         indent) const
+  Indent indent) const
 {
   using namespace print_helper;
 

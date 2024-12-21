@@ -169,9 +169,9 @@ protected:
    * The smoothed field may be m_DisplacementField or m_UpdateBuffer.
    */
   virtual void
-  GPUSmoothVectorField(DisplacementFieldPointer         field,
+  GPUSmoothVectorField(DisplacementFieldPointer field,
                        typename GPUDataManager::Pointer GPUSmoothingKernels[],
-                       int                              GPUSmoothingKernelSizes[]);
+                       int GPUSmoothingKernelSizes[]);
 
   virtual void
   AllocateSmoothingBuffer();
@@ -219,16 +219,16 @@ private:
 
 private:
   /** Memory buffer for smoothing kernels of the displacement field. */
-  int                              m_SmoothingKernelSizes[ImageDimension]{};
-  DeformationScalarType *          m_SmoothingKernels[ImageDimension]{};
+  int m_SmoothingKernelSizes[ImageDimension]{};
+  DeformationScalarType * m_SmoothingKernels[ImageDimension]{};
   typename GPUDataManager::Pointer m_GPUSmoothingKernels[ImageDimension]{};
 
   /** Memory buffer for smoothing kernels of the update field. */
-  int                              m_UpdateFieldSmoothingKernelSizes[ImageDimension]{};
-  DeformationScalarType *          m_UpdateFieldSmoothingKernels[ImageDimension]{};
+  int m_UpdateFieldSmoothingKernelSizes[ImageDimension]{};
+  DeformationScalarType * m_UpdateFieldSmoothingKernels[ImageDimension]{};
   typename GPUDataManager::Pointer m_UpdateFieldGPUSmoothingKernels[ImageDimension]{};
 
-  int *                            m_ImageSizes{};
+  int * m_ImageSizes{};
   typename GPUDataManager::Pointer m_GPUImageSizes{};
 
   /* GPU kernel handle for GPUSmoothDisplacementField */

@@ -39,13 +39,13 @@ itkHistogramImageToImageMetricTest(int, char *[])
   using FixedImageSourceType = itk::GaussianImageSource<FixedImageType>;
 
   // Note: the following declarations are classical arrays
-  FixedImageType::SizeValueType  fixedImageSize[] = { 100, 100 };
+  FixedImageType::SizeValueType fixedImageSize[] = { 100, 100 };
   MovingImageType::SizeValueType movingImageSize[] = { 100, 100 };
 
-  FixedImageType::SpacingValueType  fixedImageSpacing[] = { 1.0f, 1.0f };
+  FixedImageType::SpacingValueType fixedImageSpacing[] = { 1.0f, 1.0f };
   MovingImageType::SpacingValueType movingImageSpacing[] = { 1.0f, 1.0f };
 
-  constexpr FixedImageType::PointValueType  fixedImageOrigin[] = { 0.0f, 0.0f };
+  constexpr FixedImageType::PointValueType fixedImageOrigin[] = { 0.0f, 0.0f };
   constexpr MovingImageType::PointValueType movingImageOrigin[] = { 0.0f, 0.0f };
 
   auto movingImageSource = MovingImageSourceType::New();
@@ -67,7 +67,7 @@ itkHistogramImageToImageMetricTest(int, char *[])
   fixedImageSource->Update();  // Force the filter to run
 
   const MovingImageType::Pointer movingImage = movingImageSource->GetOutput();
-  const FixedImageType::Pointer  fixedImage = fixedImageSource->GetOutput();
+  const FixedImageType::Pointer fixedImage = fixedImageSource->GetOutput();
 
   // Set up the metric.
   using MetricType = itk::MeanSquaresHistogramImageToImageMetric<FixedImageType, MovingImageType>;
@@ -78,7 +78,7 @@ itkHistogramImageToImageMetricTest(int, char *[])
 
   auto metric = MetricType::New();
 
-  constexpr unsigned int              nBins = 256;
+  constexpr unsigned int nBins = 256;
   MetricType::HistogramType::SizeType histSize;
   histSize.SetSize(2);
   histSize[0] = nBins;
@@ -162,7 +162,7 @@ itkHistogramImageToImageMetricTest(int, char *[])
     }
 
     // Do some work
-    DerivativeType          derivatives(numberOfParameters);
+    DerivativeType derivatives(numberOfParameters);
     MetricType::MeasureType value;
     for (double y = -50.0; y <= 50.0; y += 25.0)
     {
@@ -218,8 +218,8 @@ itkHistogramImageToImageMetricTest(int, char *[])
   try
   {
     const ParametersType parameters2(2);
-    DerivativeType       derivatives2(2);
-    const ScalesType     badScales(1);
+    DerivativeType derivatives2(2);
+    const ScalesType badScales(1);
     metric->SetDerivativeStepLengthScales(badScales);
     metric->Initialize();
     metric->GetDerivative(parameters2, derivatives2);

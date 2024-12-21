@@ -98,7 +98,7 @@ itkOrthogonalSwath2DPathFilterTest(int, char *[])
 
   // Set up the image
   std::cout << "Making a 64x64 black square centered in a 128x128 white image" << std::endl;
-  auto      inputImage = UCharImageType::New();
+  auto inputImage = UCharImageType::New();
   IndexType start;
   start[0] = 0;
   start[1] = 0;

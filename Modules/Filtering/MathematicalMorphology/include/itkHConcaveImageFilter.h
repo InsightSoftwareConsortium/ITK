@@ -123,8 +123,8 @@ protected:
 
 private:
   InputImagePixelType m_Height{};
-  unsigned long       m_NumberOfIterationsUsed{ 1 };
-  bool                m_FullyConnected{ false };
+  unsigned long m_NumberOfIterationsUsed{ 1 };
+  bool m_FullyConnected{ false };
 }; // end of class
 } // end namespace itk
 

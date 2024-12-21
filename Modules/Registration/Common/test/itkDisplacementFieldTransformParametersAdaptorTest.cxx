@@ -66,11 +66,11 @@ itkDisplacementFieldTransformParametersAdaptorTest(int, char *[])
   auto transform = TransformType::New();
   transform->SetDisplacementField(displacementField);
 
-  auto                                 point = itk::MakeFilled<TransformType::InputPointType>(50.0);
+  auto point = itk::MakeFilled<TransformType::InputPointType>(50.0);
   const TransformType::OutputPointType outputPointBeforeAdapt = transform->TransformPoint(point);
 
   const SpacingType spacingBefore = transform->GetDisplacementField()->GetSpacing();
-  const SizeType    sizeBefore = transform->GetDisplacementField()->GetLargestPossibleRegion().GetSize();
+  const SizeType sizeBefore = transform->GetDisplacementField()->GetLargestPossibleRegion().GetSize();
 
   /**
    * Instantiate the adaptor
@@ -80,7 +80,7 @@ itkDisplacementFieldTransformParametersAdaptorTest(int, char *[])
 
   std::cout << "Instantiate adaptor." << std::endl;
 
-  auto     requiredSpacing = itk::MakeFilled<SpacingType>(0.6);
+  auto requiredSpacing = itk::MakeFilled<SpacingType>(0.6);
   SizeType requiredSize;
   for (unsigned int d = 0; d < SpaceDimension; ++d)
   {
@@ -105,7 +105,7 @@ itkDisplacementFieldTransformParametersAdaptorTest(int, char *[])
   }
 
   const SpacingType spacingAfter = transform->GetDisplacementField()->GetSpacing();
-  const SizeType    sizeAfter = transform->GetDisplacementField()->GetLargestPossibleRegion().GetSize();
+  const SizeType sizeAfter = transform->GetDisplacementField()->GetLargestPossibleRegion().GetSize();
 
   std::cout << "Spacing: " << spacingBefore << "(before), " << spacingAfter << "(after)." << std::endl;
   std::cout << "Size: " << sizeBefore << "(before), " << sizeAfter << "(after)." << std::endl;

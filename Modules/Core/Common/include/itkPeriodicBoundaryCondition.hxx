@@ -24,16 +24,16 @@ namespace itk
 {
 template <typename TInputImage, typename TOutputImage>
 auto
-PeriodicBoundaryCondition<TInputImage, TOutputImage>::operator()(const OffsetType &       point_index,
-                                                                 const OffsetType &       boundary_offset,
+PeriodicBoundaryCondition<TInputImage, TOutputImage>::operator()(const OffsetType & point_index,
+                                                                 const OffsetType & boundary_offset,
                                                                  const NeighborhoodType * data) const -> OutputPixelType
 {
   // This is guaranteed to be called with an object that is using
   // PeriodicBoundaryCondition
   const auto * iterator = reinterpret_cast<const ConstNeighborhoodIterator<TInputImage, Self> *>(data);
   typename TInputImage::PixelType * ptr;
-  int                               linear_index = 0;
-  unsigned int                      i;
+  int linear_index = 0;
+  unsigned int i;
 
   // Find the pointer of the closest boundary pixel
 
@@ -79,17 +79,17 @@ PeriodicBoundaryCondition<TInputImage, TOutputImage>::operator()(const OffsetTyp
 template <typename TInputImage, typename TOutputImage>
 auto
 PeriodicBoundaryCondition<TInputImage, TOutputImage>::operator()(
-  const OffsetType &                      point_index,
-  const OffsetType &                      boundary_offset,
-  const NeighborhoodType *                data,
+  const OffsetType & point_index,
+  const OffsetType & boundary_offset,
+  const NeighborhoodType * data,
   const NeighborhoodAccessorFunctorType & neighborhoodAccessorFunctor) const -> OutputPixelType
 {
   // This is guaranteed to be called with an object that is using
   // PeriodicBoundaryCondition
   const auto * iterator = reinterpret_cast<const ConstNeighborhoodIterator<TInputImage, Self> *>(data);
   typename TInputImage::InternalPixelType * ptr;
-  int                                       linear_index = 0;
-  unsigned int                              i;
+  int linear_index = 0;
+  unsigned int i;
 
   // Find the pointer of the closest boundary pixel
   //  std::cout << "Boundary offset = " << boundary_offset << std::endl;
@@ -139,13 +139,13 @@ PeriodicBoundaryCondition<TInputImage, TOutputImage>::GetInputRequestedRegion(
   const RegionType & outputRequestedRegion) const -> RegionType
 {
   IndexType imageIndex = inputLargestPossibleRegion.GetIndex();
-  SizeType  imageSize = inputLargestPossibleRegion.GetSize();
+  SizeType imageSize = inputLargestPossibleRegion.GetSize();
 
   IndexType outputIndex = outputRequestedRegion.GetIndex();
-  SizeType  outputSize = outputRequestedRegion.GetSize();
+  SizeType outputSize = outputRequestedRegion.GetSize();
 
   IndexType inputRequestedIndex;
-  SizeType  inputRequestedSize;
+  SizeType inputRequestedSize;
 
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
@@ -184,8 +184,8 @@ PeriodicBoundaryCondition<TInputImage, TOutputImage>::GetPixel(const IndexType &
   -> OutputPixelType
 {
   const RegionType imageRegion = image->GetLargestPossibleRegion();
-  IndexType        imageIndex = imageRegion.GetIndex();
-  SizeType         imageSize = imageRegion.GetSize();
+  IndexType imageIndex = imageRegion.GetIndex();
+  SizeType imageSize = imageRegion.GetSize();
 
   IndexType lookupIndex;
 

@@ -62,7 +62,7 @@ itkFixedArrayTest(int, char *[])
   int c_Array2[3] = { 0, 0, 0 };
   Print_Array(c_Array2, std::cout);
 
-  int                     array3Init[3] = { 4, 4, 4 };
+  int array3Init[3] = { 4, 4, 4 };
   itk::FixedArray<int, 3> array3 = array3Init;
   Print_Array(array3, std::cout);
   Print_c_ArrayConst(array3.GetDataPointer(), std::cout);
@@ -80,7 +80,7 @@ itkFixedArrayTest(int, char *[])
     return EXIT_FAILURE; // should be equal
 
   // Test Get/Set element
-  constexpr unsigned int           n = 20;
+  constexpr unsigned int n = 20;
   itk::FixedArray<unsigned int, n> array20;
   for (unsigned int i = 0; i < n; ++i)
   {

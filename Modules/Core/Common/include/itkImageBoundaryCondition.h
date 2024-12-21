@@ -93,16 +93,16 @@ public:
    * the nearest image border pixel, and a neighborhood of pointers to pixel
    * values in the image.  */
   virtual OutputPixelType
-  operator()(const OffsetType &       point_index,
-             const OffsetType &       boundary_offset,
+  operator()(const OffsetType & point_index,
+             const OffsetType & boundary_offset,
              const NeighborhoodType * data) const = 0;
 
   /** Computes and returns the appropriate pixel value from
    * neighborhood iterator data, using the functor. */
   virtual OutputPixelType
-  operator()(const OffsetType &                      point_index,
-             const OffsetType &                      boundary_offset,
-             const NeighborhoodType *                data,
+  operator()(const OffsetType & point_index,
+             const OffsetType & boundary_offset,
+             const NeighborhoodType * data,
              const NeighborhoodAccessorFunctorType & neighborhoodAccessorFunctor) const = 0;
 
   virtual ~ImageBoundaryCondition() = default;
@@ -129,7 +129,7 @@ public:
    * pixel values in the outputRequestedRegion.
    */
   virtual RegionType
-  GetInputRequestedRegion(const RegionType &                  inputLargestPossibleRegion,
+  GetInputRequestedRegion(const RegionType & inputLargestPossibleRegion,
                           [[maybe_unused]] const RegionType & itkNotUsed(outputRequestedRegion)) const
   {
     return inputLargestPossibleRegion;

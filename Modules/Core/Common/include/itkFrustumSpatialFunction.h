@@ -42,7 +42,7 @@ public:
   };
 };
 extern ITKCommon_EXPORT std::ostream &
-                        operator<<(std::ostream & out, const FrustumSpatialFunctionEnums::RotationPlane value);
+operator<<(std::ostream & out, const FrustumSpatialFunctionEnums::RotationPlane value);
 
 
 /**
@@ -132,12 +132,12 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  InputType                m_Apex{};
-  double                   m_AngleZ{ 0.0f };
-  double                   m_ApertureAngleX{ 0.0f };
-  double                   m_ApertureAngleY{ 0.0f };
-  double                   m_TopPlane{ 0.0f };
-  double                   m_BottomPlane{ 0.0f };
+  InputType m_Apex{};
+  double m_AngleZ{ 0.0f };
+  double m_ApertureAngleX{ 0.0f };
+  double m_ApertureAngleY{ 0.0f };
+  double m_TopPlane{ 0.0f };
+  double m_BottomPlane{ 0.0f };
   FrustumRotationPlaneType m_RotationPlane{ RotationPlaneEnum::RotateInXZPlane };
 };
 

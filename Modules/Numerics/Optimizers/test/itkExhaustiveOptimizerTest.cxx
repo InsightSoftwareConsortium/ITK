@@ -231,7 +231,7 @@ itkExhaustiveOptimizerTest(int, char *[])
   std::cout << finalPosition[0] << ',';
   std::cout << finalPosition[1] << ')' << std::endl;
 
-  bool                       visitedIndicesPass = true;
+  bool visitedIndicesPass = true;
   std::vector<unsigned long> visitedIndices = idxObserver->m_VisitedIndices;
 
   const size_t requiredNumberOfSteps = (2 * steps[0] + 1) * (2 * steps[1] + 1);
@@ -255,7 +255,7 @@ itkExhaustiveOptimizerTest(int, char *[])
   //
   // check results to see if it is within range
   //
-  bool             trueParamsPass = true;
+  bool trueParamsPass = true;
   constexpr double trueParameters[2] = { 2, -2 };
   for (unsigned int j = 0; j < 2; ++j)
   {

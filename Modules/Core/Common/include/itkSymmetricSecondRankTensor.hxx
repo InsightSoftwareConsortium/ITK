@@ -239,7 +239,7 @@ auto
 SymmetricSecondRankTensor<T, VDimension>::GetTrace() const -> AccumulateValueType
 {
   AccumulateValueType trace{};
-  unsigned int        k = 0;
+  unsigned int k = 0;
 
   for (unsigned int i = 0; i < Dimension; ++i)
   {
@@ -277,7 +277,7 @@ SymmetricSecondRankTensor<T, VDimension>::ComputeEigenValues(EigenValuesArrayTyp
  */
 template <typename T, unsigned int VDimension>
 void
-SymmetricSecondRankTensor<T, VDimension>::ComputeEigenAnalysis(EigenValuesArrayType &   eigenValues,
+SymmetricSecondRankTensor<T, VDimension>::ComputeEigenAnalysis(EigenValuesArrayType & eigenValues,
                                                                EigenVectorsMatrixType & eigenVectors) const
 {
   const SymmetricEigenAnalysisType symmetricEigenSystem;

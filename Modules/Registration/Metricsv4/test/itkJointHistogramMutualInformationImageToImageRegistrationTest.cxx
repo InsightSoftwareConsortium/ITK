@@ -91,9 +91,9 @@ public:
     std::cout << "Current optimizer iteration: " << optimizer->GetCurrentIteration() << '\n';
     std::cout << "Current optimizer value:     " << optimizer->GetCurrentMetricValue() << '\n';
 
-    const std::string  ext = itksys::SystemTools::GetFilenameExtension(this->m_OutputFileNameBase);
-    const std::string  name = itksys::SystemTools::GetFilenameWithoutExtension(this->m_OutputFileNameBase);
-    const std::string  path = itksys::SystemTools::GetFilenamePath(this->m_OutputFileNameBase);
+    const std::string ext = itksys::SystemTools::GetFilenameExtension(this->m_OutputFileNameBase);
+    const std::string name = itksys::SystemTools::GetFilenameWithoutExtension(this->m_OutputFileNameBase);
+    const std::string path = itksys::SystemTools::GetFilenamePath(this->m_OutputFileNameBase);
     std::ostringstream ostrm;
     ostrm << name << "_jointpdf_" << this->m_Count << ext;
     std::cout << "Writing joint pdf to:        " << ostrm.str() << std::endl;
@@ -109,7 +109,7 @@ public:
     // Check for correct normalization.
     using IteratorType = itk::ImageRegionConstIterator<JointPDFType>;
     IteratorType it(jointPDF, jointPDF->GetBufferedRegion());
-    double       sum = 0.0;
+    double sum = 0.0;
     for (it.GoToBegin(); !it.IsAtEnd(); ++it)
     {
       sum += it.Get();
@@ -131,7 +131,7 @@ private:
   const MIMetricType * m_MIMetric;
 
   unsigned int m_Count{ 0 };
-  std::string  m_OutputFileNameBase;
+  std::string m_OutputFileNameBase;
 
   using WriterType = typename itk::ImageFileWriter<typename MIMetricType::JointPDFType>;
   typename WriterType::Pointer m_Writer;
@@ -156,7 +156,7 @@ itkJointHistogramMutualInformationImageToImageRegistrationTest(int argc, char * 
   std::cout << argc << std::endl;
   unsigned int numberOfIterations = 10;
   unsigned int numberOfDisplacementIterations = 10;
-  bool         useScalesEstimator = true;
+  bool useScalesEstimator = true;
   if (argc >= 5)
   {
     numberOfIterations = std::stoi(argv[4]);
@@ -242,9 +242,9 @@ itkJointHistogramMutualInformationImageToImageRegistrationTest(int argc, char * 
   metric->SetNumberOfHistogramBins(20);
 
   using PointType = PointSetType::PointType;
-  const PointSetType::Pointer                       pset(PointSetType::New());
-  unsigned long                                     ind = 0;
-  unsigned long                                     ct = 0;
+  const PointSetType::Pointer pset(PointSetType::New());
+  unsigned long ind = 0;
+  unsigned long ct = 0;
   itk::ImageRegionIteratorWithIndex<FixedImageType> It(fixedImage, fixedImage->GetLargestPossibleRegion());
   for (It.GoToBegin(); !It.IsAtEnd(); ++It)
   {
@@ -359,7 +359,7 @@ itkJointHistogramMutualInformationImageToImageRegistrationTest(int argc, char * 
 
   // write out the displacement field
   using DisplacementWriterType = itk::ImageFileWriter<DisplacementFieldType>;
-  auto              displacementwriter = DisplacementWriterType::New();
+  auto displacementwriter = DisplacementWriterType::New();
   const std::string outfilename(argv[3]);
   const std::string ext = itksys::SystemTools::GetFilenameExtension(outfilename);
   const std::string name = itksys::SystemTools::GetFilenameWithoutExtension(outfilename);

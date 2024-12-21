@@ -53,7 +53,7 @@ DeformableSimplexMesh3DBalloonForceFilter<TInputMesh, TOutputMesh>::PrintSelf(st
 template <typename TInputMesh, typename TOutputMesh>
 void
 DeformableSimplexMesh3DBalloonForceFilter<TInputMesh, TOutputMesh>::ComputeExternalForce(
-  SimplexMeshGeometry *     data,
+  SimplexMeshGeometry * data,
   const GradientImageType * gradientImage)
 {
   GradientIndexType coord;

@@ -92,7 +92,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>::GenerateInputRequestedRegion()
 {
   // this filter requires that all of the input images
   // are the size of the output requested region
-  const InputImagePointer  inputPtr = const_cast<InputImageType *>(this->GetInput());
+  const InputImagePointer inputPtr = const_cast<InputImageType *>(this->GetInput());
   const OutputImagePointer outputPtr = this->GetOutput();
 
   if (inputPtr && outputPtr)
@@ -433,12 +433,12 @@ MRFImageFilter<TInputImage, TClassifiedImage>::ApplyICMLabeller()
   // Set up the neighborhood iterators
 
   // Define the face list for the input/labelled image
-  InputImageFacesCalculator       inputImageFacesCalculator;
-  LabelledImageFacesCalculator    labelledImageFacesCalculator;
+  InputImageFacesCalculator inputImageFacesCalculator;
+  LabelledImageFacesCalculator labelledImageFacesCalculator;
   LabelStatusImageFacesCalculator labelStatusImageFacesCalculator;
 
-  InputImageFaceListType       inputImageFaceList;
-  LabelledImageFaceListType    labelledImageFaceList;
+  InputImageFaceListType inputImageFaceList;
+  LabelledImageFaceListType labelledImageFaceList;
   LabelStatusImageFaceListType labelStatusImageFaceList;
 
   // Compute the faces for the neighborhoods in the input/labelled image
@@ -485,7 +485,7 @@ template <typename TInputImage, typename TClassifiedImage>
 void
 MRFImageFilter<TInputImage, TClassifiedImage>::DoNeighborhoodOperation(
   const InputImageNeighborhoodIterator & imageIter,
-  LabelledImageNeighborhoodIterator &    labelledIter,
+  LabelledImageNeighborhoodIterator & labelledIter,
   LabelStatusImageNeighborhoodIterator & labelStatusIter)
 {
   unsigned int index;
@@ -520,7 +520,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>::DoNeighborhoodOperation(
 
   // Determine the maximum possible distance
   double maximumDistance = -1e+20;
-  int    pixLabel = -1;
+  int pixLabel = -1;
   double tmpPixDistance;
   for (index = 0; index < m_NumberOfClasses; ++index)
   {

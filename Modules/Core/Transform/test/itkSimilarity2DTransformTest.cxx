@@ -49,9 +49,9 @@ itkSimilarity2DTransformTest(int, char *[])
   std::cout << "==================================" << std::endl;
   std::cout << "Testing Similarity 2D Transform" << std::endl << std::endl;
 
-  constexpr double       epsilon = 1e-10;
+  constexpr double epsilon = 1e-10;
   constexpr unsigned int N = 2;
-  bool                   Ok = true;
+  bool Ok = true;
 
   using SimilarityTransformType = itk::CenteredSimilarity2DTransform<double>;
   auto transform = SimilarityTransformType::New();
@@ -61,8 +61,8 @@ itkSimilarity2DTransformTest(int, char *[])
   transform->SetIdentity();
 
   SimilarityTransformType::InputPointType::ValueType pInit[2] = { 10, 10 };
-  SimilarityTransformType::InputPointType            p = pInit;
-  SimilarityTransformType::OutputPointType           r;
+  SimilarityTransformType::InputPointType p = pInit;
+  SimilarityTransformType::OutputPointType r;
 
   r = transform->TransformPoint(p);
   for (unsigned int i = 0; i < N; ++i)
@@ -196,7 +196,7 @@ itkSimilarity2DTransformTest(int, char *[])
   transform->SetAngle(0);
 
   SimilarityTransformType::OffsetType::ValueType ioffsetInit[2] = { 1, 4 };
-  const SimilarityTransformType::OffsetType      ioffset = ioffsetInit;
+  const SimilarityTransformType::OffsetType ioffset = ioffsetInit;
 
   transform->SetOffset(ioffset);
 
@@ -385,7 +385,7 @@ itkSimilarity2DTransformTest(int, char *[])
     TransformType::JacobianType approxJacobian = jacobian;
     for (unsigned int k = 0; k < t1->GetNumberOfParameters(); ++k)
     {
-      constexpr double              delta = 0.001;
+      constexpr double delta = 0.001;
       TransformType::ParametersType plusParameters;
       TransformType::ParametersType minusParameters;
 
@@ -543,7 +543,7 @@ itkSimilarity2DTransformTest(int, char *[])
     TransformType::JacobianType approxJacobian = jacobian;
     for (unsigned int k = 0; k < t1->GetNumberOfParameters(); ++k)
     {
-      constexpr double              delta = 0.001;
+      constexpr double delta = 0.001;
       TransformType::ParametersType plusParameters;
       TransformType::ParametersType minusParameters;
 

@@ -104,8 +104,8 @@ itkFEMElement3DTest(int argc, char * argv[])
 
   femSO->GetFEMObject()->FinalizeMesh();
 
-  double *    expectedSolution = nullptr;
-  bool        foundError = false;
+  double * expectedSolution = nullptr;
+  bool foundError = false;
   std::string modelFile = itksys::SystemTools::GetFilenameName(argv[1]);
 
   // Define all expected solutions here
@@ -152,8 +152,8 @@ itkFEMElement3DTest(int argc, char * argv[])
     // Declare and initialize linear system wrapper objects
 
     itk::fem::LinearSystemWrapperDenseVNL lsw_dvnl;
-    itk::fem::LinearSystemWrapperItpack   lsw_itpack;
-    itk::fem::LinearSystemWrapperVNL      lsw_vnl;
+    itk::fem::LinearSystemWrapperItpack lsw_itpack;
+    itk::fem::LinearSystemWrapperVNL lsw_vnl;
     for (int s = 0; s < numsolvers; ++s)
     {
       auto solver = SolverType::New();

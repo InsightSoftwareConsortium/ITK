@@ -130,11 +130,11 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  std::string      m_FileName{};
-  TValue *         m_InputObject{};
-  char             m_FieldDelimiterCharacter{};
-  SizeValueType    m_Rows{};
-  SizeValueType    m_Columns{};
+  std::string m_FileName{};
+  TValue * m_InputObject{};
+  char m_FieldDelimiterCharacter{};
+  SizeValueType m_Rows{};
+  SizeValueType m_Columns{};
   StringVectorType m_ColumnHeaders{};
   StringVectorType m_RowHeaders{};
 };

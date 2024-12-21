@@ -72,10 +72,10 @@ public:
 };
 
 constexpr unsigned int numberOfRepeatedTests = 1;
-constexpr float        displacementFieldSmoothingSigma = 1.0;
-constexpr float        updateFieldSmoothingSigma = 1.0;
-constexpr float        maximumRMSError = 0.01;
-const bool             smoothUpdateField = true;
+constexpr float displacementFieldSmoothingSigma = 1.0;
+constexpr float updateFieldSmoothingSigma = 1.0;
+constexpr float maximumRMSError = 0.01;
+const bool smoothUpdateField = true;
 
 itk::TimeProbe m_GPUTime;
 itk::TimeProbe m_CPUTime;
@@ -97,7 +97,7 @@ AppendFileName(char * src, const char * postfix)
   size_t destLength = strlen(src) + strlen(postfix) + 1;
   char * dest = new char[destLength];
   char * pos = strrchr(src, '.');
-  int    skip = pos - src;
+  int skip = pos - src;
 
   snprintf(dest, destLength, "%s", src);
   snprintf(dest + skip, destLength - skip, "%s%s", postfix, pos);
@@ -143,8 +143,8 @@ int
 GPUDemonsRegistrationFilterTestTemplate(int argc, char * argv[])
 {
   const unsigned int ImageDimension = VDimension;
-  bool               passed;
-  unsigned int       size1 = 0, size2 = 0;
+  bool passed;
+  unsigned int size1 = 0, size2 = 0;
 
   using InternalPixelType = float;
   using VectorPixelType = itk::Vector<float, ImageDimension>;
@@ -226,7 +226,7 @@ TDisplacementFieldPointer
 itkGPUDemons(int, char * argv[])
 {
   const unsigned int Dimension = VDimension;
-  unsigned int       numOfIterations = std::stoi(argv[2]);
+  unsigned int numOfIterations = std::stoi(argv[2]);
 
   using PixelType = unsigned short;
 
@@ -301,8 +301,8 @@ itkGPUDemons(int, char * argv[])
   // warp the image with the deformation field
   using WarperType = itk::WarpImageFilter<MovingImageType, MovingImageType, DisplacementFieldType>;
   using InterpolatorType = itk::LinearInterpolateImageFunction<MovingImageType, double>;
-  auto                             warper = WarperType::New();
-  auto                             interpolator = InterpolatorType::New();
+  auto warper = WarperType::New();
+  auto interpolator = InterpolatorType::New();
   typename FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
   warper->SetInput(movingImageReader->GetOutput());
@@ -340,7 +340,7 @@ TDisplacementFieldPointer
 itkCPUDemons(int, char * argv[])
 {
   const unsigned int Dimension = VDimension;
-  unsigned int       numOfIterations = std::stoi(argv[2]);
+  unsigned int numOfIterations = std::stoi(argv[2]);
 
   using PixelType = unsigned short;
 
@@ -388,7 +388,7 @@ itkCPUDemons(int, char * argv[])
   auto filter = RegistrationFilterType::New();
 
   using ProgressType = ShowProgressObject<RegistrationFilterType>;
-  ProgressType                                             progressWatch(filter);
+  ProgressType progressWatch(filter);
   typename itk::SimpleMemberCommand<ProgressType>::Pointer command = itk::SimpleMemberCommand<ProgressType>::New();
   command->SetCallbackFunction(&progressWatch, &ProgressType::ShowProgress);
   filter->AddObserver(itk::ProgressEvent(), command);
@@ -409,8 +409,8 @@ itkCPUDemons(int, char * argv[])
   // warp the image with the deformation field
   using WarperType = itk::WarpImageFilter<MovingImageType, MovingImageType, DisplacementFieldType>;
   using InterpolatorType = itk::LinearInterpolateImageFunction<MovingImageType, double>;
-  auto                             warper = WarperType::New();
-  auto                             interpolator = InterpolatorType::New();
+  auto warper = WarperType::New();
+  auto interpolator = InterpolatorType::New();
   typename FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
   warper->SetInput(movingImageReader->GetOutput());

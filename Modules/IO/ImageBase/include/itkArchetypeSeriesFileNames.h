@@ -121,8 +121,8 @@ private:
   std::string m_Archetype{};
 
   std::vector<StringVectorType> m_Groupings{};
-  StringVectorType              m_FileNames{}; // ivar for returning by
-                                               // reference
+  StringVectorType m_FileNames{}; // ivar for returning by
+                                  // reference
 
   TimeStamp m_ArchetypeMTime{};
   TimeStamp m_ScanTime{};

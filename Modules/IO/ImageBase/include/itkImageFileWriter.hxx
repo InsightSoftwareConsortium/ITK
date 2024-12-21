@@ -114,8 +114,8 @@ ImageFileWriter<TInputImage>::Write()
 
   if (m_ImageIO.IsNull())
   {
-    ImageFileWriterException              e(__FILE__, __LINE__);
-    std::ostringstream                    msg;
+    ImageFileWriterException e(__FILE__, __LINE__);
+    std::ostringstream msg;
     const std::list<LightObject::Pointer> allobjects = ObjectFactoryBase::CreateAllInstance("itkImageIOBase");
     msg << " Could not create IO object for writing file " << m_FileName.c_str() << std::endl;
     if (!allobjects.empty())
@@ -167,13 +167,13 @@ ImageFileWriter<TInputImage>::Write()
   // Setup the ImageIO
   //
   m_ImageIO->SetNumberOfDimensions(TInputImage::ImageDimension);
-  const InputImageRegionType                  largestRegion = input->GetLargestPossibleRegion();
-  const typename TInputImage::SpacingType &   spacing = input->GetSpacing();
+  const InputImageRegionType largestRegion = input->GetLargestPossibleRegion();
+  const typename TInputImage::SpacingType & spacing = input->GetSpacing();
   const typename TInputImage::DirectionType & direction = input->GetDirection();
   // BUG 8436: Wrong origin when writing a file with non-zero index
   // origin = input->GetOrigin();
   const typename TInputImage::IndexType & startIndex = largestRegion.GetIndex();
-  typename TInputImage::PointType         origin;
+  typename TInputImage::PointType origin;
   input->TransformIndexToPhysicalPoint(startIndex, origin);
 
   for (unsigned int i = 0; i < TInputImage::ImageDimension; ++i)
@@ -328,9 +328,9 @@ template <typename TInputImage>
 void
 ImageFileWriter<TInputImage>::GenerateData()
 {
-  const InputImageType *     input = this->GetInput();
+  const InputImageType * input = this->GetInput();
   const InputImageRegionType largestRegion = input->GetLargestPossibleRegion();
-  InputImagePointer          cacheImage;
+  InputImagePointer cacheImage;
 
   itkDebugMacro("Writing file: " << m_FileName);
 
@@ -364,7 +364,7 @@ ImageFileWriter<TInputImage>::GenerateData()
     else
     {
       ImageFileWriterException e(__FILE__, __LINE__);
-      std::ostringstream       msg;
+      std::ostringstream msg;
       msg << "Did not get requested region!" << std::endl
           << "Requested:" << std::endl
           << ioRegion << "Actual:" << std::endl

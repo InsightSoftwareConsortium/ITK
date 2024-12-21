@@ -108,10 +108,10 @@ itkDataObjectAndProcessObjectTest(int, char *[])
   itk::TestProcessObject::Pointer process = itk::TestProcessObject::New();
 
   // some vars to test the methods
-  itk::TestProcessObject::NameArray              names;
+  itk::TestProcessObject::NameArray names;
   itk::TestProcessObject::DataObjectPointerArray dataObjects;
-  itk::DataObject::Pointer                       dataObject;
-  itk::ModifiedTimeType                          mtime;
+  itk::DataObject::Pointer dataObject;
+  itk::ModifiedTimeType mtime;
 
   // and exercise various methods
   names = process->GetInputNames();

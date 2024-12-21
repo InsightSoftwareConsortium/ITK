@@ -45,13 +45,13 @@ ReadWriteTest(const std::string fileName, const bool isRealDisplacementField, co
   constexpr double aNumberThatCanNotBeRepresentedInFloatingPoint = 1e-5 + 1e-7 + 1e-9 + 1e-13;
   constexpr double requiredSpacing = 1.2 + aNumberThatCanNotBeRepresentedInFloatingPoint;
   constexpr double requiredOrigin = 23.0 + aNumberThatCanNotBeRepresentedInFloatingPoint;
-  auto             displacementTransform = DisplacementTransformType::New();
+  auto displacementTransform = DisplacementTransformType::New();
   using FieldType = typename DisplacementTransformType::DisplacementFieldType;
   auto knownField = FieldType::New(); // This is based on itk::Image
   {
-    constexpr int                        dimLength = 20;
-    auto                                 size = FieldType::SizeType::Filled(dimLength);
-    const typename FieldType::IndexType  start{};
+    constexpr int dimLength = 20;
+    auto size = FieldType::SizeType::Filled(dimLength);
+    const typename FieldType::IndexType start{};
     const typename FieldType::RegionType region{ start, size };
     knownField->SetRegions(region);
 

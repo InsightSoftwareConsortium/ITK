@@ -52,7 +52,7 @@ itkObjectToObjectMultiMetricv4TestEvaluate(ObjectToObjectMultiMetricv4TestMultiM
 
   // Setup weights
   MultiMetricType::WeightsArrayType origMetricWeights(multiVariateMetric->GetNumberOfMetrics());
-  MultiMetricType::WeightValueType  weightSum = 0;
+  MultiMetricType::WeightValueType weightSum = 0;
   for (itk::SizeValueType n = 0; n < multiVariateMetric->GetNumberOfMetrics(); ++n)
   {
     origMetricWeights[n] = static_cast<MultiMetricType::WeightValueType>(n + 1);
@@ -67,7 +67,7 @@ itkObjectToObjectMultiMetricv4TestEvaluate(ObjectToObjectMultiMetricv4TestMultiM
 
   // Print out metric value and derivative.
   using MeasureType = MultiMetricType::MeasureType;
-  MeasureType                     measure = 0;
+  MeasureType measure = 0;
   MultiMetricType::DerivativeType DerivResultOfGetValueAndDerivative;
   std::cout << "GetValueAndDerivative" << std::endl;
   try
@@ -213,10 +213,10 @@ itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform)
   using FixedImageSourceType = itk::GaussianImageSource<FixedImageType>;
 
   // Note: the following declarations are classical arrays
-  FixedImageType::SizeValueType            fixedImageSize[] = { 100, 100 };
-  FixedImageType::SpacingValueType         fixedImageSpacing[] = { 1.0f, 1.0f };
+  FixedImageType::SizeValueType fixedImageSize[] = { 100, 100 };
+  FixedImageType::SpacingValueType fixedImageSpacing[] = { 1.0f, 1.0f };
   constexpr FixedImageType::PointValueType fixedImageOrigin[] = { 0.0f, 0.0f };
-  auto                                     fixedImageSource = FixedImageSourceType::New();
+  auto fixedImageSource = FixedImageSourceType::New();
 
   fixedImageSource->SetSize(fixedImageSize);
   fixedImageSource->SetOrigin(fixedImageOrigin);
@@ -462,7 +462,7 @@ itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform)
   shiftScaleEstimator->EstimateScales(scales);
   std::cout << "Estimated scales: " << scales << std::endl;
 
-  ScalesEstimatorMultiType::FloatType      stepScale;
+  ScalesEstimatorMultiType::FloatType stepScale;
   ScalesEstimatorMultiType::ParametersType step;
   step.SetSize(multiVariateMetric->GetNumberOfParameters());
   step.Fill(itk::NumericTraits<ScalesEstimatorMultiType::ParametersType::ValueType>::OneValue());

@@ -110,8 +110,8 @@ protected:
 
 private:
   ParametersType m_InitialPosition{};
-  ScalesType     m_Scales{};
-  ScalesType     m_InverseScales{};
+  ScalesType m_Scales{};
+  ScalesType m_InverseScales{};
 };
 } // end namespace itk
 

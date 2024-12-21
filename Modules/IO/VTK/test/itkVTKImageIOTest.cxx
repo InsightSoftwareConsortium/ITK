@@ -49,7 +49,7 @@ ReadWrite(TScalar low, TScalar hi, char * file1, char * file2, bool ascii)
   random->SetSize(size);
 
   typename ImageType::SpacingValueType spacing[3] = { 5.0f, 10.0f, 15.0f };
-  typename ImageType::PointValueType   origin[3] = { -5.0f, -10.0f, -15.0f };
+  typename ImageType::PointValueType origin[3] = { -5.0f, -10.0f, -15.0f };
 
   random->SetSpacing(spacing);
   random->SetOrigin(origin);
@@ -76,7 +76,7 @@ ReadWrite(TScalar low, TScalar hi, char * file1, char * file2, bool ascii)
 
   // Check that the correct content was written to the header.
   std::ifstream istrm(file1);
-  char          firstline[25];
+  char firstline[25];
   istrm.getline(firstline, 24);
   istrm.close();
   if (strncmp(firstline, "# vtk DataFile Version ", 24) != 0)

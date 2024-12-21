@@ -91,17 +91,17 @@ protected:
   AfterThreadedExecution() override;
 
   bool
-  ProcessPoint(const VirtualIndexType &        virtualIndex,
-               const VirtualPointType &        virtualPoint,
-               const FixedImagePointType &     mappedFixedPoint,
-               const FixedImagePixelType &     fixedImageValue,
-               const FixedImageGradientType &  mappedFixedImageGradient,
-               const MovingImagePointType &    mappedMovingPoint,
-               const MovingImagePixelType &    movingImageValue,
+  ProcessPoint(const VirtualIndexType & virtualIndex,
+               const VirtualPointType & virtualPoint,
+               const FixedImagePointType & mappedFixedPoint,
+               const FixedImagePixelType & fixedImageValue,
+               const FixedImageGradientType & mappedFixedImageGradient,
+               const MovingImagePointType & mappedMovingPoint,
+               const MovingImagePixelType & movingImageValue,
                const MovingImageGradientType & movingImageGradient,
-               MeasureType &                   metricValueReturn,
-               DerivativeType &                localDerivativeReturn,
-               const ThreadIdType              threadId) const override;
+               MeasureType & metricValueReturn,
+               DerivativeType & localDerivativeReturn,
+               const ThreadIdType threadId) const override;
 
   inline InternalComputationValueType
   ComputeFixedImageMarginalPDFDerivative(const MarginalPDFPointType & margPDFpoint, const ThreadIdType threadId) const;
@@ -111,11 +111,11 @@ protected:
 
   inline InternalComputationValueType
   ComputeJointPDFDerivative(const JointPDFPointType & jointPDFpoint,
-                            const ThreadIdType        threadId,
-                            const SizeValueType       ind) const;
+                            const ThreadIdType threadId,
+                            const SizeValueType ind) const;
   struct JointHistogramMIPerThreadStruct
   {
-    JointPDFInterpolatorPointer    JointPDFInterpolator;
+    JointPDFInterpolatorPointer JointPDFInterpolator;
     MarginalPDFInterpolatorPointer FixedImageMarginalPDFInterpolator;
     MarginalPDFInterpolatorPointer MovingImageMarginalPDFInterpolator;
   };

@@ -43,7 +43,7 @@ NeighborhoodOperator<TPixel, VDimension, TAllocator>::FlipAxes()
   for (unsigned int i = 0; i < size / 2; ++i)
   {
     const unsigned int swap_with = size - 1 - i;
-    const PixelType    temp{ this->operator[](i) };
+    const PixelType temp{ this->operator[](i) };
 
     this->operator[](i) = this->operator[](swap_with);
 
@@ -55,7 +55,7 @@ template <typename TPixel, unsigned int VDimension, typename TAllocator>
 void
 NeighborhoodOperator<TPixel, VDimension, TAllocator>::CreateDirectional()
 {
-  SizeValueType           k[VDimension];
+  SizeValueType k[VDimension];
   const CoefficientVector coefficients{ this->GenerateCoefficients() };
   for (unsigned int i = 0; i < VDimension; ++i)
   {
@@ -102,7 +102,7 @@ NeighborhoodOperator<TPixel, VDimension, TAllocator>::FillCenteredDirectional(co
   this->InitializeToZero();
 
   // Collect slice information
-  unsigned long       start = 0;
+  unsigned long start = 0;
   const unsigned long stride = this->GetStride(m_Direction);
   const unsigned long size = this->GetSize(m_Direction);
   for (unsigned int i = 0; i < VDimension; ++i)
@@ -117,7 +117,7 @@ NeighborhoodOperator<TPixel, VDimension, TAllocator>::FillCenteredDirectional(co
   const int sizediff = (static_cast<int>(size) - static_cast<int>(coeff.size())) >> 1;
 
   // Create a slice iterator centered in the neighborhood.
-  std::slice                                 temp_slice;
+  std::slice temp_slice;
   typename CoefficientVector::const_iterator it;
   if (sizediff >= 0)
   {

@@ -35,7 +35,7 @@ auto
 ShiSparseLevelSetImage<VDimension>::Evaluate(const InputType & inputIndex) const -> OutputType
 {
   const InputType mapIndex = inputIndex - this->m_DomainOffset;
-  auto            layerIt = this->m_Layers.begin();
+  auto layerIt = this->m_Layers.begin();
 
   while (layerIt != this->m_Layers.end())
   {

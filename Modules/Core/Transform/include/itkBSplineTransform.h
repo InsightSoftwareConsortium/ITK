@@ -232,11 +232,11 @@ public:
    */
   using Superclass::TransformPoint;
   void
-  TransformPoint(const InputPointType &    point,
-                 OutputPointType &         outputPoint,
-                 WeightsType &             weights,
+  TransformPoint(const InputPointType & point,
+                 OutputPointType & outputPoint,
+                 WeightsType & weights,
                  ParameterIndexArrayType & indices,
-                 bool &                    inside) const override;
+                 bool & inside) const override;
 
   /** Compute the Jacobian in one position. */
   void
@@ -322,10 +322,10 @@ private:
   SetFixedParametersFromCoefficientImageInformation();
 
   void
-  SetFixedParametersFromTransformDomainInformation(const OriginType &             meshOrigin,
+  SetFixedParametersFromTransformDomainInformation(const OriginType & meshOrigin,
                                                    const PhysicalDimensionsType & meshPhysical,
-                                                   const DirectionType &          meshDirection,
-                                                   const MeshSizeType &           meshSize);
+                                                   const DirectionType & meshDirection,
+                                                   const MeshSizeType & meshSize);
 
 }; // class BSplineTransform
 } // namespace itk

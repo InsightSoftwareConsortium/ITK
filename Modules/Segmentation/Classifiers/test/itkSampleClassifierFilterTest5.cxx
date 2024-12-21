@@ -65,8 +65,8 @@ itkSampleClassifierFilterTest5(int, char *[])
 
   MeasurementVectorType mv;
   itk::NumericTraits<MeasurementVectorType>::SetLength(mv, numberOfComponents);
-  double                 mean = mean1[0];
-  double                 standardDeviation = 0.1;
+  double mean = mean1[0];
+  double standardDeviation = 0.1;
   constexpr unsigned int numberOfSampleEachClass = 10;
 
   // Add sample from the first gaussian
@@ -145,7 +145,7 @@ itkSampleClassifierFilterTest5(int, char *[])
   while (functionIter != end)
   {
     const FilterType::MembershipFunctionPointer membershipFunction = *functionIter;
-    const auto *                                distanceMemberShpFunction =
+    const auto * distanceMemberShpFunction =
       dynamic_cast<const EstimatorType::DistanceToCentroidMembershipFunctionType *>(membershipFunction.GetPointer());
     std::cout << "Centroid of the " << counter << " membership function " << distanceMemberShpFunction->GetCentroid()
               << std::endl;
@@ -173,7 +173,7 @@ itkSampleClassifierFilterTest5(int, char *[])
   }
 
   // Check if the measurement vectors are correctly labelled.
-  const FilterType::MembershipSampleType *        membershipSample = filter->GetOutput();
+  const FilterType::MembershipSampleType * membershipSample = filter->GetOutput();
   FilterType::MembershipSampleType::ConstIterator iter = membershipSample->Begin();
 
   unsigned int sampleCounter = 0;

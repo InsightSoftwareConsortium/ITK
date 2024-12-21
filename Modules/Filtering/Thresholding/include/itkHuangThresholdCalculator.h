@@ -93,7 +93,7 @@ protected:
 private:
   InstanceIdentifier m_FirstBin{};
   InstanceIdentifier m_LastBin{};
-  SizeValueType      m_Size{};
+  SizeValueType m_Size{};
 };
 
 } // end namespace itk

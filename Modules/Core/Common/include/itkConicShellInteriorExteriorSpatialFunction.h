@@ -127,12 +127,12 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  InputType    m_Origin{};
+  InputType m_Origin{};
   GradientType m_OriginGradient{};
-  double       m_DistanceMin{ 0.0 };
-  double       m_DistanceMax{ 0.0 };
-  double       m_Epsilon{ 0.0 };
-  bool         m_Polarity{ false };
+  double m_DistanceMin{ 0.0 };
+  double m_DistanceMax{ 0.0 };
+  double m_Epsilon{ 0.0 };
+  bool m_Polarity{ false };
 };
 } // end namespace itk
 

@@ -35,9 +35,9 @@ itkImageToListSampleFilterTest2(int, char *[])
 
   using MaskImageType = itk::Image<unsigned char, ImageDimension>;
 
-  auto                 image = ImageType::New();
+  auto image = ImageType::New();
   ImageType::IndexType start;
-  ImageType::SizeType  size;
+  ImageType::SizeType size;
 
   start.Fill(0);
   size.Fill(10);
@@ -63,7 +63,7 @@ itkImageToListSampleFilterTest2(int, char *[])
   maskImage->SetRegions(region);
   maskImage->AllocateInitialized();
   MaskImageType::IndexType startMask;
-  MaskImageType::SizeType  sizeMask;
+  MaskImageType::SizeType sizeMask;
 
   startMask[0] = 2;
   startMask[1] = 3;
@@ -107,7 +107,7 @@ itkImageToListSampleFilterTest2(int, char *[])
   // Check the sum of the pixels in the list sample. This should
   // be 420
   ListSampleType::ConstIterator lit = list->Begin();
-  unsigned int                  sum = 0;
+  unsigned int sum = 0;
 
   while (lit != list->End())
   {

@@ -35,9 +35,9 @@ public:
     : m_Value(NumericTraits<OutputPixelType>::max())
   {}
 
-  NodeType        m_Node;
+  NodeType m_Node;
   OutputPixelType m_Value;
-  unsigned int    m_Axis{ 0 };
+  unsigned int m_Axis{ 0 };
 
   bool
   operator<(const InternalNodeStructure & iRight) const
@@ -112,8 +112,8 @@ FastMarchingImageFilterBase<TInput, TOutput>::GetTotalNumberOfNodes() const
 
 template <typename TInput, typename TOutput>
 void
-FastMarchingImageFilterBase<TInput, TOutput>::SetOutputValue(OutputImageType *       oImage,
-                                                             const NodeType &        iNode,
+FastMarchingImageFilterBase<TInput, TOutput>::SetOutputValue(OutputImageType * oImage,
+                                                             const NodeType & iNode,
                                                              const OutputPixelType & iValue)
 {
   return oImage->SetPixel(iNode, iValue);
@@ -136,7 +136,7 @@ FastMarchingImageFilterBase<TInput, TOutput>::GetLabelValueForGivenNode(const No
 
 template <typename TInput, typename TOutput>
 void
-FastMarchingImageFilterBase<TInput, TOutput>::SetLabelValueForGivenNode(const NodeType &  iNode,
+FastMarchingImageFilterBase<TInput, TOutput>::SetLabelValueForGivenNode(const NodeType & iNode,
                                                                         const LabelType & iLabel)
 {
   m_LabelImage->SetPixel(iNode, iLabel);
@@ -195,8 +195,8 @@ FastMarchingImageFilterBase<TInput, TOutput>::UpdateValue(OutputImageType * oIma
 
 template <typename TInput, typename TOutput>
 void
-FastMarchingImageFilterBase<TInput, TOutput>::GetInternalNodesUsed(OutputImageType *            oImage,
-                                                                   const NodeType &             iNode,
+FastMarchingImageFilterBase<TInput, TOutput>::GetInternalNodesUsed(OutputImageType * oImage,
+                                                                   const NodeType & iNode,
                                                                    InternalNodeStructureArray & ioNodesUsed)
 {
   NodeType neighbor_node = iNode;
@@ -247,8 +247,8 @@ FastMarchingImageFilterBase<TInput, TOutput>::GetInternalNodesUsed(OutputImageTy
 
 template <typename TInput, typename TOutput>
 double
-FastMarchingImageFilterBase<TInput, TOutput>::Solve(OutputImageType *            itkNotUsed(oImage),
-                                                    const NodeType &             iNode,
+FastMarchingImageFilterBase<TInput, TOutput>::Solve(OutputImageType * itkNotUsed(oImage),
+                                                    const NodeType & iNode,
                                                     InternalNodeStructureArray & iNeighbors) const
 {
   // Sort the local list
@@ -336,7 +336,7 @@ FastMarchingImageFilterBase<TInput, TOutput>::CheckTopology(OutputImageType * oI
         if (strictTopologyViolation)
         {
           // Check for handles
-          auto                     radius = MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1);
+          auto radius = MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1);
           NeighborhoodIteratorType ItL(radius, this->m_LabelImage, this->m_LabelImage->GetBufferedRegion());
           ItL.SetLocation(iNode);
 
@@ -438,7 +438,7 @@ FastMarchingImageFilterBase<TInput, TOutput>::InitializeOutput(OutputImageType *
   OutputPixelType outputPixel = this->m_LargeValue;
   if (this->m_AlivePoints)
   {
-    NodePairContainerConstIterator       pointsIter = this->m_AlivePoints->Begin();
+    NodePairContainerConstIterator pointsIter = this->m_AlivePoints->Begin();
     const NodePairContainerConstIterator pointsEnd = this->m_AlivePoints->End();
 
     while (pointsIter != pointsEnd)
@@ -467,7 +467,7 @@ FastMarchingImageFilterBase<TInput, TOutput>::InitializeOutput(OutputImageType *
 
   if (this->m_ForbiddenPoints)
   {
-    NodePairContainerConstIterator       pointsIter = this->m_ForbiddenPoints->Begin();
+    NodePairContainerConstIterator pointsIter = this->m_ForbiddenPoints->Begin();
     const NodePairContainerConstIterator pointsEnd = this->m_ForbiddenPoints->End();
 
     constexpr OutputPixelType zero{};
@@ -516,7 +516,7 @@ FastMarchingImageFilterBase<TInput, TOutput>::InitializeOutput(OutputImageType *
   // Process the input trial points
   if (this->m_TrialPoints)
   {
-    NodePairContainerConstIterator       pointsIter = this->m_TrialPoints->Begin();
+    NodePairContainerConstIterator pointsIter = this->m_TrialPoints->Begin();
     const NodePairContainerConstIterator pointsEnd = this->m_TrialPoints->End();
 
     while (pointsIter != pointsEnd)

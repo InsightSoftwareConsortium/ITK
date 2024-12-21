@@ -39,7 +39,7 @@ AzimuthElevationToCartesianTransform<TParametersValueType, VDimension>::AzimuthE
 template <typename TParametersValueType, unsigned int VDimension>
 void
 AzimuthElevationToCartesianTransform<TParametersValueType, VDimension>::PrintSelf(std::ostream & os,
-                                                                                  Indent         indent) const
+                                                                                  Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -75,7 +75,7 @@ auto
 AzimuthElevationToCartesianTransform<TParametersValueType, VDimension>::TransformAzElToCartesian(
   const InputPointType & point) const -> OutputPointType
 {
-  OutputPointType  result;
+  OutputPointType result;
   const ScalarType Azimuth =
     ((2 * itk::Math::pi) / 360) * (point[0] * m_AzimuthAngularSeparation - ((m_MaxAzimuth - 1) / 2.0));
   const ScalarType Elevation =
@@ -110,8 +110,8 @@ void
 AzimuthElevationToCartesianTransform<TParametersValueType, VDimension>::SetAzimuthElevationToCartesianParameters(
   const double sampleSize,
   const double firstSampleDistance,
-  const long   maxAzimuth,
-  const long   maxElevation,
+  const long maxAzimuth,
+  const long maxElevation,
   const double azimuthAngleSeparation,
   const double elevationAngleSeparation)
 {
@@ -128,8 +128,8 @@ void
 AzimuthElevationToCartesianTransform<TParametersValueType, VDimension>::SetAzimuthElevationToCartesianParameters(
   const double sampleSize,
   const double firstSampleDistance,
-  const long   maxAzimuth,
-  const long   maxElevation)
+  const long maxAzimuth,
+  const long maxElevation)
 {
   SetAzimuthElevationToCartesianParameters(sampleSize, firstSampleDistance, maxAzimuth, maxElevation, 1.0, 1.0);
 }

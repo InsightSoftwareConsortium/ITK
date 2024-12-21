@@ -44,7 +44,7 @@ public:
 };
 // Define how to print enumeration
 extern ITKOptimizers_EXPORT std::ostream &
-                            operator<<(std::ostream & out, const SPSAOptimizerEnums::StopConditionSPSAOptimizer value);
+operator<<(std::ostream & out, const SPSAOptimizerEnums::StopConditionSPSAOptimizer value);
 /**
  * \class SPSAOptimizer
  * \brief An optimizer based on simultaneous perturbation...
@@ -311,10 +311,10 @@ private:
   /** Settings.*/
   SizeValueType m_MinimumNumberOfIterations{};
   SizeValueType m_MaximumNumberOfIterations{};
-  double        m_StateOfConvergenceDecayRate{};
-  double        m_Tolerance{};
-  bool          m_Maximize{};
-  double        m_GradientMagnitude{};
+  double m_StateOfConvergenceDecayRate{};
+  double m_Tolerance{};
+  bool m_Maximize{};
+  double m_GradientMagnitude{};
   SizeValueType m_NumberOfPerturbations{};
 
   /** Parameters, as described by Spall.*/
@@ -327,7 +327,7 @@ private:
 
 // Define how to print enumeration
 extern ITKOptimizers_EXPORT std::ostream &
-                            operator<<(std::ostream & out, const SPSAOptimizer::StopConditionSPSAOptimizerEnum value);
+operator<<(std::ostream & out, const SPSAOptimizer::StopConditionSPSAOptimizerEnum value);
 
 } // end namespace itk
 

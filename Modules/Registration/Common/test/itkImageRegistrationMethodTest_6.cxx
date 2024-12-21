@@ -83,7 +83,7 @@ itkImageRegistrationMethodTest_6(int argc, char * argv[])
 
   imageSource->GenerateImages(size);
 
-  const FixedImageType::ConstPointer  fixedImage = imageSource->GetFixedImage();
+  const FixedImageType::ConstPointer fixedImage = imageSource->GetFixedImage();
   const MovingImageType::ConstPointer movingImage = imageSource->GetMovingImage();
 
   //
@@ -111,10 +111,10 @@ itkImageRegistrationMethodTest_6(int argc, char * argv[])
 
 
   unsigned long numberOfIterations = 30;
-  double        translationScale = 1e-8;
-  double        maximumStepLength = 30.0; // no step will be larger than this
-  double        minimumStepLength = 0.01; // convergence criterion
-  double        gradientTolerance = 0.01; // convergence criterion
+  double translationScale = 1e-8;
+  double maximumStepLength = 30.0; // no step will be larger than this
+  double minimumStepLength = 0.01; // convergence criterion
+  double gradientTolerance = 0.01; // convergence criterion
 
   if (argc > 1)
   {
@@ -178,7 +178,7 @@ itkImageRegistrationMethodTest_6(int argc, char * argv[])
   // We know that for the Affine transform the Translation parameters are at
   // the end of the list of parameters.
   const unsigned int offsetOrder = finalParameters.Size() - actualParameters.Size();
-  constexpr double   tolerance = 1.0; // equivalent to 1 pixel.
+  constexpr double tolerance = 1.0; // equivalent to 1 pixel.
 
   for (unsigned int i = 0; i < numbeOfParameters; ++i)
   {

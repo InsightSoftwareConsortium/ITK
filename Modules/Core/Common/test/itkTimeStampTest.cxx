@@ -34,7 +34,7 @@ static_assert(std::is_trivially_destructible_v<itk::TimeStamp>, "Check TimeStamp
 struct TimeStampTestHelper
 {
   std::vector<itk::TimeStamp> timestamps;
-  std::vector<unsigned long>  counters;
+  std::vector<unsigned long> counters;
 };
 
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION

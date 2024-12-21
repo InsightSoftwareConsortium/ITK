@@ -249,7 +249,7 @@ itkVersorTransformOptimizerTest(int, char *[])
   ParametersType finalPosition(spaceDimensions);
   finalPosition = itkOptimizer->GetCurrentPosition();
 
-  VersorType             finalRotation;
+  VersorType finalRotation;
   VersorType::VectorType finalRightPart;
   for (unsigned int i = 0; i < spaceDimensions; ++i)
   {
@@ -270,7 +270,7 @@ itkVersorTransformOptimizerTest(int, char *[])
   trueAxis[1] = 0.0f;
   trueAxis[2] = 0.0f;
   const VersorType::ValueType trueAngle = 2.0 * std::atan(1.0f);
-  VersorType                  trueRotation;
+  VersorType trueRotation;
   trueRotation.Set(trueAxis, trueAngle);
 
   ParametersType trueParameters(spaceDimensions);
@@ -280,7 +280,7 @@ itkVersorTransformOptimizerTest(int, char *[])
 
   std::cout << "True Parameters = " << trueParameters << std::endl;
 
-  const VersorType            ratio = finalRotation * trueRotation.GetReciprocal();
+  const VersorType ratio = finalRotation * trueRotation.GetReciprocal();
   const VersorType::ValueType cosHalfAngle = ratio.GetW();
   const VersorType::ValueType cosHalfAngleSquare = cosHalfAngle * cosHalfAngle;
   if (cosHalfAngleSquare < 0.95)

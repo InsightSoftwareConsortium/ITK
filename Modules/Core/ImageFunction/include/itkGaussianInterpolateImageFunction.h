@@ -171,12 +171,12 @@ protected:
   ComputeInterpolationRegion(const ContinuousIndexType &) const;
 
   virtual void
-  ComputeErrorFunctionArray(const RegionType &     region,
-                            unsigned int           dimension,
-                            RealType               cindex,
+  ComputeErrorFunctionArray(const RegionType & region,
+                            unsigned int dimension,
+                            RealType cindex,
                             vnl_vector<RealType> & erfArray,
                             vnl_vector<RealType> & gerfArray,
-                            bool                   evaluateGradient = false) const;
+                            bool evaluateGradient = false) const;
 
   /** Set/Get the bounding box starting point. */
   itkSetMacro(BoundingBoxStart, ArrayType);
@@ -197,7 +197,7 @@ private:
   EvaluateAtContinuousIndex(const ContinuousIndexType &, OutputType *) const;
 
   ArrayType m_Sigma{};
-  RealType  m_Alpha{};
+  RealType m_Alpha{};
 
   ArrayType m_BoundingBoxStart{};
   ArrayType m_BoundingBoxEnd{};

@@ -91,7 +91,7 @@ public:
    * the pixel buffer.
    */
   virtual void
-  BuildFromBuffer(const void *       buffer,
+  BuildFromBuffer(const void * buffer,
                   const unsigned int xsize,
                   const unsigned int ysize,
                   const unsigned int zsize) = 0;
@@ -144,7 +144,7 @@ public:
   GetImage();
 
   void
-  BuildFromBuffer(const void *       frombuffer,
+  BuildFromBuffer(const void * frombuffer,
                   const unsigned int xsize,
                   const unsigned int ysize,
                   const unsigned int zsize) override;
@@ -204,13 +204,13 @@ public:
 private:
   OctreeNodeBranch *
   maskToOctree(const TPixel * Mask,
-               unsigned int   width,
-               unsigned int   x,
-               unsigned int   y,
-               unsigned int   z,
-               unsigned int   xsize,
-               unsigned int   ysize,
-               unsigned int   zsize);
+               unsigned int width,
+               unsigned int x,
+               unsigned int y,
+               unsigned int z,
+               unsigned int xsize,
+               unsigned int ysize,
+               unsigned int zsize);
 
   OctreeEnum m_Plane{ OctreeEnum::UNKNOWN_PLANE }; // The orientation of the plane for this octree
 
@@ -218,10 +218,10 @@ private:
   // and large enough to contain MAX(DIMS[1,2,3])
   unsigned int m_Width{ 0 };
 
-  unsigned int        m_Depth{ 0 };    // The depth of the Octree
-  unsigned int        m_TrueDims[3]{}; // The true dimensions of the image
-  OctreeNodeBranch    m_ColorTable[ColorTableSize];
-  OctreeNode          m_Tree{};
+  unsigned int m_Depth{ 0 };    // The depth of the Octree
+  unsigned int m_TrueDims[3]{}; // The true dimensions of the image
+  OctreeNodeBranch m_ColorTable[ColorTableSize];
+  OctreeNode m_Tree{};
   MappingFunctionType m_MappingFunction{};
 };
 } // namespace itk

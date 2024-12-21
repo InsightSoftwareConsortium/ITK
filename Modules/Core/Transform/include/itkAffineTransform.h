@@ -275,7 +275,7 @@ protected:
    * omitted, then the AffineTransform is initialized to an identity
    * transformation in the appropriate number of dimensions.   */
 #if !defined(ITK_LEGACY_REMOVE)
-  [[deprecated("Removed unused constructor")]] AffineTransform(const MatrixType &       matrix,
+  [[deprecated("Removed unused constructor")]] AffineTransform(const MatrixType & matrix,
                                                                const OutputVectorType & offset);
 #endif
   AffineTransform(unsigned int parametersDimension);

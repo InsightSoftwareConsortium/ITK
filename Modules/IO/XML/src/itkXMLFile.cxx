@@ -77,7 +77,7 @@ XMLReaderBase::parse()
   if (inputstream.fail())
   {
     ExceptionObject exception(__FILE__, __LINE__);
-    std::string     message = "Can't open ";
+    std::string message = "Can't open ";
     message += m_Filename;
     message += '\n';
     exception.SetDescription(message.c_str());

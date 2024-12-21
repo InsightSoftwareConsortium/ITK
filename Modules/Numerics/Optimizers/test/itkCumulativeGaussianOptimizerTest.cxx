@@ -38,7 +38,7 @@ itkCumulativeGaussianOptimizerTest(int, char *[])
                                                 // Ranges from 0 to N-1, where N is numberOfSamples.
   constexpr double standardDeviation = 2;       // Standard deviation of the Cumulative Gaussian.
   constexpr double lowerAsymptote = -10;        // Lower asymptotic value of the Cumulative Gaussian.
-  constexpr int    numberOfSamples = 9;         // Number of data samples.
+  constexpr int numberOfSamples = 9;            // Number of data samples.
   constexpr double upperAsymptote = 10;         // Upper asymptotic value of the Cumulative Gaussian.
   constexpr double differenceTolerance = 1e-20; // Tolerance allowed for the difference between Gaussian iterations.
 

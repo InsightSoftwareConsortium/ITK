@@ -85,7 +85,7 @@ public:
     m_Q1[1] = 10.0;
     m_Q1[2] = 0.0;
 
-    VersorType   versor;
+    VersorType versor;
     const double angle = 10.0 * std::atan(1.0) / 45.0;
     versor.SetRotationAroundX(angle);
 
@@ -265,7 +265,7 @@ itkVersorRigid3DTransformOptimizerTest(int, char *[])
   initialPosition[4] = 0.0;
   initialPosition[5] = 0.0;
 
-  ScalesType       parametersScale(parametersDimensions);
+  ScalesType parametersScale(parametersDimensions);
   constexpr double translationScaleFactor = 50.0;
   parametersScale[0] = 1.0;
   parametersScale[1] = 1.0;
@@ -304,7 +304,7 @@ itkVersorRigid3DTransformOptimizerTest(int, char *[])
 
   constexpr unsigned int spaceDimensions = 3;
 
-  VersorType             finalRotation;
+  VersorType finalRotation;
   VersorType::VectorType finalRightPart;
   for (unsigned int i = 0; i < spaceDimensions; ++i)
   {
@@ -333,7 +333,7 @@ itkVersorRigid3DTransformOptimizerTest(int, char *[])
   trueAxis[1] = 0.0f;
   trueAxis[2] = 0.0f;
   const VersorType::ValueType trueAngle = 10.0 * std::atan(1.0f) / 45.0;
-  VersorType                  trueRotation;
+  VersorType trueRotation;
   trueRotation.Set(trueAxis, trueAngle);
 
   ParametersType trueParameters(parametersDimensions);
@@ -348,7 +348,7 @@ itkVersorRigid3DTransformOptimizerTest(int, char *[])
   std::cout << "Final parameters = " << finalPosition << std::endl;
   std::cout << "True Parameters  = " << trueParameters << std::endl;
 
-  const VersorType            ratio = finalRotation * trueRotation.GetReciprocal();
+  const VersorType ratio = finalRotation * trueRotation.GetReciprocal();
   const VersorType::ValueType cosHalfAngle = ratio.GetW();
   const VersorType::ValueType cosHalfAngleSquare = cosHalfAngle * cosHalfAngle;
   if (cosHalfAngleSquare < 0.95)

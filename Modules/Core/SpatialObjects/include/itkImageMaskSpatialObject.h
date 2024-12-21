@@ -134,7 +134,7 @@ protected:
   InternalClone() const override;
 
 private:
-  bool      m_UseMaskValue{ false };
+  bool m_UseMaskValue{ false };
   PixelType m_MaskValue{ NumericTraits<PixelType>::OneValue() };
 };
 } // end of namespace itk

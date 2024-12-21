@@ -60,10 +60,10 @@ public:
                            unsigned int lineNumber = 0,
                            const char * desc = "None",
                            const char * loc = "Unknown");
-  explicit ExceptionObject(std::string  file,
+  explicit ExceptionObject(std::string file,
                            unsigned int lineNumber = 0,
-                           std::string  desc = "None",
-                           std::string  loc = "Unknown");
+                           std::string desc = "None",
+                           std::string loc = "Unknown");
 
   /** Copy-constructor. */
   ExceptionObject(const ExceptionObject &) noexcept = default;

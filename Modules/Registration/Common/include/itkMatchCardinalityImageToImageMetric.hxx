@@ -110,7 +110,7 @@ template <typename TFixedImage, typename TMovingImage>
 void
 MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::ThreadedGetValue(
   const FixedImageRegionType & regionForThread,
-  ThreadIdType                 threadId)
+  ThreadIdType threadId)
 {
   const FixedImageConstPointer fixedImage = this->GetFixedImage();
 
@@ -122,7 +122,7 @@ MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::ThreadedGetValue(
   using FixedIteratorType = ImageRegionConstIteratorWithIndex<FixedImageType>;
   FixedIteratorType ti(fixedImage, regionForThread);
 
-  MeasureType   threadMeasure{};
+  MeasureType threadMeasure{};
   SizeValueType threadNumberOfPixelsCounted = 0;
   while (!ti.IsAtEnd())
   {
@@ -172,8 +172,8 @@ MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::ThreadedGetValue(
 
 template <typename TFixedImage, typename TMovingImage>
 ThreadIdType
-MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::SplitFixedRegion(ThreadIdType           i,
-                                                                                int                    num,
+MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::SplitFixedRegion(ThreadIdType i,
+                                                                                int num,
                                                                                 FixedImageRegionType & splitRegion)
 {
   // Get the output pointer
@@ -182,7 +182,7 @@ MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::SplitFixedRegion(
   // Initialize the splitRegion to the output requested region
   splitRegion = this->GetFixedImageRegion();
   typename FixedImageRegionType::IndexType splitIndex = splitRegion.GetIndex();
-  typename FixedImageRegionType::SizeType  splitSize = splitRegion.GetSize();
+  typename FixedImageRegionType::SizeType splitSize = splitRegion.GetSize();
 
   // split on the outermost dimension available
   int splitAxis = this->GetFixedImage()->GetImageDimension() - 1;
@@ -198,7 +198,7 @@ MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::SplitFixedRegion(
 
   // determine the actual number of pieces that will be generated
   const typename FixedImageRegionType::SizeType::SizeValueType range = fixedRegionSize[splitAxis];
-  auto               valuesPerThread = Math::Ceil<int>(range / static_cast<double>(num));
+  auto valuesPerThread = Math::Ceil<int>(range / static_cast<double>(num));
   const ThreadIdType maxThreadIdUsed = Math::Ceil<int>(range / static_cast<double>(valuesPerThread)) - 1;
 
   // Split the region
@@ -235,7 +235,7 @@ MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::ThreaderCallback(
   // execute the actual method with appropriate computation region
   // first find out how many pieces extent can be split into.
   FixedImageRegionType splitRegion;
-  const ThreadIdType   total = str->Metric->SplitFixedRegion(workUnitID, workUnitCount, splitRegion);
+  const ThreadIdType total = str->Metric->SplitFixedRegion(workUnitID, workUnitCount, splitRegion);
 
   if (workUnitID < total)
   {

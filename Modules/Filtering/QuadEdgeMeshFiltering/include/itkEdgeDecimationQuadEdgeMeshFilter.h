@@ -94,10 +94,10 @@ protected:
   bool m_CheckOrientation{ false };
 
   PriorityQueuePointer m_PriorityQueue{};
-  QueueMapType         m_QueueMapper{};
-  OutputQEType *       m_Element{};
-  PriorityType         m_Priority{};
-  OperatorPointer      m_JoinVertexFunction{};
+  QueueMapType m_QueueMapper{};
+  OutputQEType * m_Element{};
+  PriorityType m_Priority{};
+  OperatorPointer m_JoinVertexFunction{};
 
   /**
    * \brief Compute the measure value for iEdge
@@ -218,7 +218,7 @@ protected:
   bool
   CheckOrientation(OutputQEType * iEdge, const OutputPointIdentifier & iId, const OutputPointType & iPt)
   {
-    OutputMeshPointer           output = this->GetOutput();
+    OutputMeshPointer output = this->GetOutput();
     OutputCellsContainerPointer cells = output->GetCells();
 
     OutputQEType * qe = iEdge;
@@ -252,13 +252,13 @@ protected:
 
     using TriangleType = TriangleHelper<OutputPointType>;
 
-    bool                  orientation_ok(true);
-    OutputCellIdentifier  c_id(0);
-    OutputPolygonType *   poly;
+    bool orientation_ok(true);
+    OutputCellIdentifier c_id(0);
+    OutputPolygonType * poly;
     OutputPointIdentifier p_id;
 
-    int             k(0);
-    int             replace_k(0);
+    int k(0);
+    int replace_k(0);
     OutputPointType pt[3];
 
     while ((it != elements_to_be_tested.end()) && orientation_ok)

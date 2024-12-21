@@ -280,7 +280,7 @@ private:
     // Private constructor, used to create the begin and the end iterator of a range.
     // Only used by its friend class ImageBufferRange.
     QualifiedIterator(const OptionalAccessorFunctorType & accessorFunctor,
-                      QualifiedInternalPixelType * const  internalPixelPointer) noexcept
+                      QualifiedInternalPixelType * const internalPixelPointer) noexcept
       : // Note: Use parentheses instead of curly braces to initialize data members,
         // to avoid AppleClang 6.0.0.6000056 compilation error, "no viable conversion..."
       m_OptionalAccessorFunctor(accessorFunctor)
@@ -511,11 +511,11 @@ private:
   class IteratorInitializer final
   {
   private:
-    OptionalAccessorFunctorType  m_OptionalAccessorFunctor;
+    OptionalAccessorFunctorType m_OptionalAccessorFunctor;
     QualifiedInternalPixelType * m_InternalPixelPointer;
 
   public:
-    explicit IteratorInitializer(OptionalAccessorFunctorType  optionalAccessorFunctor,
+    explicit IteratorInitializer(OptionalAccessorFunctorType optionalAccessorFunctor,
                                  QualifiedInternalPixelType * internalPixelPointer) noexcept
       : m_OptionalAccessorFunctor(optionalAccessorFunctor)
       , m_InternalPixelPointer(internalPixelPointer)

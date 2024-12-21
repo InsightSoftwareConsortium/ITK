@@ -34,19 +34,19 @@ ChangeInformationImageFilter<TInputImage>::GenerateOutputInformation()
   unsigned int i;
 
   typename TInputImage::RegionType outputRegion;
-  typename TInputImage::SizeType   inputSize;
-  typename TInputImage::SizeType   outputSize;
-  typename TInputImage::IndexType  outputIndex;
-  typename TInputImage::IndexType  inputIndex;
-  PointType                        origin;
-  SpacingType                      spacing;
-  DirectionType                    direction;
+  typename TInputImage::SizeType inputSize;
+  typename TInputImage::SizeType outputSize;
+  typename TInputImage::IndexType outputIndex;
+  typename TInputImage::IndexType inputIndex;
+  PointType origin;
+  SpacingType spacing;
+  DirectionType direction;
 
   itkDebugMacro("GenerateOutputInformation Start");
 
   // Get pointers to the input and output
   const typename Superclass::OutputImagePointer output = this->GetOutput();
-  const typename Superclass::InputImagePointer  input = const_cast<TInputImage *>(this->GetInput());
+  const typename Superclass::InputImagePointer input = const_cast<TInputImage *>(this->GetInput());
 
   if (!output || !input)
   {
@@ -108,7 +108,7 @@ ChangeInformationImageFilter<TInputImage>::GenerateOutputInformation()
   // both images and oriented images.
   if (m_CenterImage)
   {
-    typename TInputImage::PointType                     centerPoint;
+    typename TInputImage::PointType centerPoint;
     ContinuousIndex<SpacePrecisionType, ImageDimension> centerIndex;
 
     for (i = 0; i < ImageDimension; ++i)
@@ -158,7 +158,7 @@ void
 ChangeInformationImageFilter<TInputImage>::GenerateData()
 {
   // Get pointers to the input and output
-  OutputImageType *      output = this->GetOutput();
+  OutputImageType * output = this->GetOutput();
   const InputImageType * input = this->GetInput();
 
   auto * nonConstInput = const_cast<InputImageType *>(input);

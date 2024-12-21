@@ -46,7 +46,7 @@ ExtractImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Inde
 template <typename TInputImage, typename TOutputImage>
 void
 ExtractImageFilter<TInputImage, TOutputImage>::CallCopyOutputRegionToInputRegion(
-  InputImageRegionType &        destRegion,
+  InputImageRegionType & destRegion,
   const OutputImageRegionType & srcRegion)
 {
   const ExtractImageFilterRegionCopierType extractImageRegionCopier;
@@ -62,8 +62,8 @@ ExtractImageFilter<TInputImage, TOutputImage>::SetExtractionRegion(InputImageReg
                 "InputImageDimension must be greater than OutputImageDimension");
   m_ExtractionRegion = extractRegion;
 
-  InputImageSizeType   inputSize = extractRegion.GetSize();
-  OutputImageSizeType  outputSize{};
+  InputImageSizeType inputSize = extractRegion.GetSize();
+  OutputImageSizeType outputSize{};
   OutputImageIndexType outputIndex{};
 
   /**
@@ -105,7 +105,7 @@ ExtractImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   // this filter allows the input and the output to be of different dimensions
 
   // get pointers to the input and output
-  const typename Superclass::OutputImagePointer     outputPtr = this->GetOutput();
+  const typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
   const typename Superclass::InputImageConstPointer inputPtr = this->GetInput();
 
   if (!outputPtr || !inputPtr)
@@ -123,13 +123,13 @@ ExtractImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
     // This logic needs to be augmented with logic that select which
     // dimensions to copy
 
-    const typename InputImageType::SpacingType &   inputSpacing = inputPtr->GetSpacing();
+    const typename InputImageType::SpacingType & inputSpacing = inputPtr->GetSpacing();
     const typename InputImageType::DirectionType & inputDirection = inputPtr->GetDirection();
-    const typename InputImageType::PointType &     inputOrigin = inputPtr->GetOrigin();
+    const typename InputImageType::PointType & inputOrigin = inputPtr->GetOrigin();
 
-    typename OutputImageType::SpacingType   outputSpacing;
+    typename OutputImageType::SpacingType outputSpacing;
     typename OutputImageType::DirectionType outputDirection;
-    typename OutputImageType::PointType     outputOrigin{};
+    typename OutputImageType::PointType outputOrigin{};
 
     if (static_cast<unsigned int>(OutputImageDimension) > static_cast<unsigned int>(InputImageDimension))
     {
@@ -268,7 +268,7 @@ ExtractImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   itkDebugMacro("Actually executing");
 
   const InputImageType * inputPtr = this->GetInput();
-  OutputImageType *      outputPtr = this->GetOutput();
+  OutputImageType * outputPtr = this->GetOutput();
 
 
   // Define the portion of the input to walk for this thread

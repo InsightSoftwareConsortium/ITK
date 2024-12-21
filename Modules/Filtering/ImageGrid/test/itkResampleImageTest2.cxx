@@ -165,7 +165,7 @@ itkResampleImageTest2(int argc, char * argv[])
       outputSpacing[i] = outputSpacingValue;
     }
 
-    const typename ImageType::SizeType &    inputSize = resample->GetInput()->GetLargestPossibleRegion().GetSize();
+    const typename ImageType::SizeType & inputSize = resample->GetInput()->GetLargestPossibleRegion().GetSize();
     const typename ImageType::SpacingType & inputSpacing = resample->GetInput()->GetSpacing();
 
     typename ImageType::SizeType outputSize;

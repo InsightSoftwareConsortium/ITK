@@ -94,7 +94,7 @@ public:
 
 protected:
   std::vector<std::string> m_Files;
-  std::string              m_OutputFile;
+  std::string m_OutputFile;
 };
 
 template <unsigned int VDimension>
@@ -184,7 +184,7 @@ template <unsigned int VDimension>
 int
 Stapler<VDimension>::Execute()
 {
-  typename itk::ImageFileReader<InputImageType>::Pointer        reader;
+  typename itk::ImageFileReader<InputImageType>::Pointer reader;
   const typename itk::ImageFileWriter<OutputImageType>::Pointer writer = itk::ImageFileWriter<OutputImageType>::New();
 
   const size_t numberOfFiles = m_Files.size();

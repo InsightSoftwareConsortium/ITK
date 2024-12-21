@@ -45,7 +45,7 @@ MedianImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread)
 {
   // Allocate output
-  OutputImageType *      output = this->GetOutput();
+  OutputImageType * output = this->GetOutput();
   const InputImageType * input = this->GetInput();
 
   const auto radius = this->GetRadius();
@@ -60,7 +60,7 @@ MedianImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   // All of our neighborhoods have an odd number of pixels, so there is
   // always a median.
   std::vector<InputPixelType> pixels(neighborhoodSize);
-  const auto                  medianIterator = pixels.begin() + (neighborhoodSize / 2);
+  const auto medianIterator = pixels.begin() + (neighborhoodSize / 2);
 
 
   TotalProgressReporter progress(this, output->GetRequestedRegion().GetNumberOfPixels());

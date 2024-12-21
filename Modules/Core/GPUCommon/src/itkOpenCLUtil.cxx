@@ -51,7 +51,7 @@ cl_device_id *
 OpenCLGetAvailableDevices(cl_platform_id platform, cl_device_type devType, cl_uint * numAvailableDevices)
 {
   cl_device_id * availableDevices = nullptr;
-  cl_uint        totalNumDevices;
+  cl_uint totalNumDevices;
 
   // get total # of devices
   cl_int errid = clGetDeviceIDs(platform, devType, 0, nullptr, &totalNumDevices);
@@ -100,7 +100,7 @@ OpenCLGetAvailableDevices(cl_platform_id platform, cl_device_type devType, cl_ui
 cl_device_id
 OpenCLGetMaxFlopsDev(cl_context cxGPUContext)
 {
-  size_t         szParmDataBytes;
+  size_t szParmDataBytes;
   cl_device_id * cdDevices;
 
   // get the list of GPU devices associated with context
@@ -195,11 +195,11 @@ OpenCLPrintDeviceInfo(cl_device_id device, bool verbose)
 cl_platform_id
 OpenCLSelectPlatform(const char * name)
 {
-  char             chBuffer[1024];
-  cl_uint          num_platforms;
+  char chBuffer[1024];
+  cl_uint num_platforms;
   cl_platform_id * clPlatformIDs;
-  cl_int           ciErrNum;
-  cl_platform_id   clSelectedPlatformID = nullptr;
+  cl_int ciErrNum;
+  cl_platform_id clSelectedPlatformID = nullptr;
 
   // Get OpenCL platform count
   ciErrNum = clGetPlatformIDs(0, nullptr, &num_platforms);
@@ -334,8 +334,8 @@ OpenCLCheckError(cl_int error, const char * filename, int lineno, const char * l
       "CL_INVALID_GLOBAL_WORK_SIZE",
     };
     // print error message
-    constexpr int      errorCount = std::size(errorString);
-    const int          index = -error;
+    constexpr int errorCount = std::size(errorString);
+    const int index = -error;
     std::ostringstream errorMsg;
 
     if (index >= 0 && index < errorCount)
@@ -365,7 +365,7 @@ IsGPUAvailable()
   cl_device_type devType = CL_DEVICE_TYPE_GPU;
 
   // Get the devices
-  cl_uint        numDevices;
+  cl_uint numDevices;
   cl_device_id * device_id = OpenCLGetAvailableDevices(platformId, devType, &numDevices);
   free(device_id);
 
@@ -439,8 +439,8 @@ GetTypename(const std::type_info & intype)
 bool
 GetValidTypename(const std::type_info & intype, const std::vector<std::string> & validtypes, std::string & retTypeName)
 {
-  std::string                              typestr = GetTypename(intype);
-  bool                                     isValid = false;
+  std::string typestr = GetTypename(intype);
+  bool isValid = false;
   std::vector<std::string>::const_iterator validPos = std::find(validtypes.begin(), validtypes.end(), typestr);
   if (validPos != validtypes.end())
   {

@@ -155,7 +155,7 @@ testFancyStringWithStdVector()
 
   // read all data elements in the string
   std::vector<float> dataOut1;
-  itk::FancyString   s = svalue;
+  itk::FancyString s = svalue;
   s.ToData(dataOut1);
   // check successful or not
   if (dataOut1.size() != (dataIn.size() + 1) && dataOut1.back() != 10.0f)
@@ -243,7 +243,7 @@ testFancyStringWithItkArray()
   svalue.Append(" 10 ");
 
   // read all data elements in the string
-  DataType         dataOut1;
+  DataType dataOut1;
   itk::FancyString s = svalue;
   s.ToData(dataOut1);
   // check successful or not
@@ -444,7 +444,7 @@ testFancyStringUnequalOperator()
   {
     const std::string str = "Hello World!";
 
-    itk::FancyString  s1{ str };
+    itk::FancyString s1{ str };
     const std::string s2{ "Hello World" };
 
     ITK_TEST_EXPECT_TRUE(s1 != s2);
@@ -458,13 +458,13 @@ testFancyStringUnequalOperator()
 
   {
     itk::FancyString s1{ "s" };
-    const char *     s2{ "S" };
+    const char * s2{ "S" };
 
     ITK_TEST_EXPECT_TRUE(s1 != s2);
   }
 
   {
-    itk::FancyString       s1{ "Hello World!" };
+    itk::FancyString s1{ "Hello World!" };
     const itk::FancyString s2{ "Hello World" };
 
     ITK_TEST_EXPECT_TRUE(s1 != s2);
@@ -481,7 +481,7 @@ int
 testFancyStringEqualOperator()
 {
   {
-    itk::FancyString  s1{ "Hello World!" };
+    itk::FancyString s1{ "Hello World!" };
     const std::string s2{ "Hello World!" };
 
     ITK_TEST_EXPECT_TRUE(s1 == s2);
@@ -491,13 +491,13 @@ testFancyStringEqualOperator()
 
   {
     itk::FancyString s1{ "s" };
-    const char *     s2{ "s" };
+    const char * s2{ "s" };
 
     ITK_TEST_EXPECT_TRUE(s1 == s2);
   }
 
   {
-    itk::FancyString       s1{ "Hello World!" };
+    itk::FancyString s1{ "Hello World!" };
     const itk::FancyString s2{ "Hello World!" };
 
     ITK_TEST_EXPECT_TRUE(s1 == s2);

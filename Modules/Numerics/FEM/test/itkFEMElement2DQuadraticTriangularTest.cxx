@@ -28,7 +28,7 @@ itkFEMElement2DQuadraticTriangularTest(int, char *[])
   using ElementType = itk::fem::Element;
   using NodeType = ElementType::Node;
 
-  NodeType::Pointer       n0, n1, n2;
+  NodeType::Pointer n0, n1, n2;
   ElementType::VectorType pt(2);
 
   n0 = NodeType::New();

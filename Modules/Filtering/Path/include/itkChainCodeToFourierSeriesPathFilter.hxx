@@ -34,18 +34,18 @@ template <typename TInputChainCodePath, typename TOutputFourierSeriesPath>
 void
 ChainCodeToFourierSeriesPathFilter<TInputChainCodePath, TOutputFourierSeriesPath>::GenerateData()
 {
-  IndexType           index;
-  VectorType          indexVector;
-  VectorType          cosCoefficient;
-  VectorType          sinCoefficient;
+  IndexType index;
+  VectorType indexVector;
+  VectorType cosCoefficient;
+  VectorType sinCoefficient;
   OutputPathInputType theta;
 
-  size_t       numSteps;
+  size_t numSteps;
   unsigned int numHarmonics = m_NumberOfHarmonics; // private copy
-  const int    dimension = OffsetType::GetOffsetDimension();
+  const int dimension = OffsetType::GetOffsetDimension();
 
   const typename Superclass::InputPathConstPointer inputPtr = this->GetInput();
-  const typename Superclass::OutputPathPointer     outputPtr = this->GetOutput(0);
+  const typename Superclass::OutputPathPointer outputPtr = this->GetOutput(0);
 
   // outputPtr->SetRequestedRegion( inputPtr->GetRequestedRegion() );
   // outputPtr->SetBufferedRegion( inputPtr->GetBufferedRegion() );

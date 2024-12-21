@@ -49,7 +49,7 @@ itkSparseFrequencyContainer2Test(int, char *[])
     for (unsigned int bin = 0; bin < numberOfBins; ++bin)
     {
       // Test if the values can be read back
-      const auto                  frequency = static_cast<AbsoluteFrequencyType>(bin * bin);
+      const auto frequency = static_cast<AbsoluteFrequencyType>(bin * bin);
       const AbsoluteFrequencyType stored = container->GetFrequency(bin);
       if (stored != frequency)
       {
@@ -98,7 +98,7 @@ itkSparseFrequencyContainer2Test(int, char *[])
     // Test if the values can be read back
     for (unsigned int bin = 0; bin < numberOfBins; ++bin)
     {
-      const auto                  frequency = static_cast<AbsoluteFrequencyType>(bin * bin + bin);
+      const auto frequency = static_cast<AbsoluteFrequencyType>(bin * bin + bin);
       const AbsoluteFrequencyType stored = container->GetFrequency(bin);
       if (stored != frequency)
       {

@@ -168,7 +168,7 @@ RenyiEntropyThresholdCalculator<THistogram, TOutput>::GenerateData()
 
 template <typename THistogram, typename TOutput>
 auto
-RenyiEntropyThresholdCalculator<THistogram, TOutput>::MaxEntropyThresholding(const HistogramType *       histogram,
+RenyiEntropyThresholdCalculator<THistogram, TOutput>::MaxEntropyThresholding(const HistogramType * histogram,
                                                                              const std::vector<double> & normHisto,
                                                                              const std::vector<double> & P1,
                                                                              const std::vector<double> & P2)
@@ -223,7 +223,7 @@ RenyiEntropyThresholdCalculator<THistogram, TOutput>::MaxEntropyThresholding(con
 template <typename THistogram, typename TOutput>
 auto
 RenyiEntropyThresholdCalculator<THistogram, TOutput>::MaxEntropyThresholding2(
-  const HistogramType *       itkNotUsed(histogram),
+  const HistogramType * itkNotUsed(histogram),
   const std::vector<double> & normHisto,
   const std::vector<double> & P1,
   const std::vector<double> & P2) -> InstanceIdentifier
@@ -231,9 +231,9 @@ RenyiEntropyThresholdCalculator<THistogram, TOutput>::MaxEntropyThresholding2(
 
   InstanceIdentifier threshold =
     0; // was MIN_INT in original code, but if an empty image is processed it gives an error later on.
-  double           max_ent = NumericTraits<double>::min();
+  double max_ent = NumericTraits<double>::min();
   constexpr double alpha = 0.5;
-  const double     term = 1.0 / (1.0 - alpha);
+  const double term = 1.0 / (1.0 - alpha);
 
   for (InstanceIdentifier it = m_FirstBin; it <= m_LastBin; ++it)
   {
@@ -253,7 +253,7 @@ RenyiEntropyThresholdCalculator<THistogram, TOutput>::MaxEntropyThresholding2(
 
     // Total entropy
     const double product = ent_back * ent_obj;
-    double       tot_ent = 0.;
+    double tot_ent = 0.;
 
     if (product > 0.0)
     {
@@ -273,16 +273,16 @@ RenyiEntropyThresholdCalculator<THistogram, TOutput>::MaxEntropyThresholding2(
 template <typename THistogram, typename TOutput>
 auto
 RenyiEntropyThresholdCalculator<THistogram, TOutput>::MaxEntropyThresholding3(
-  const HistogramType *       itkNotUsed(histogram),
+  const HistogramType * itkNotUsed(histogram),
   const std::vector<double> & normHisto,
   const std::vector<double> & P1,
   const std::vector<double> & P2) -> InstanceIdentifier
 {
   InstanceIdentifier threshold =
     0; // was MIN_INT in original code, but if an empty image is processed it gives an error later on.
-  double           max_ent = 0.0;
+  double max_ent = 0.0;
   constexpr double alpha = 2.0;
-  const double     term = 1.0 / (1.0 - alpha);
+  const double term = 1.0 / (1.0 - alpha);
   for (InstanceIdentifier it = m_FirstBin; it <= m_LastBin; ++it)
   {
     // Entropy of the background pixels
@@ -302,7 +302,7 @@ RenyiEntropyThresholdCalculator<THistogram, TOutput>::MaxEntropyThresholding3(
     }
 
     // Total entropy
-    double       tot_ent = 0.0;
+    double tot_ent = 0.0;
     const double product = ent_back * ent_obj;
     if (product > 0.0)
     {

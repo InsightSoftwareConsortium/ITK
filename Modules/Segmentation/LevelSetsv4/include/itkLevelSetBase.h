@@ -111,8 +111,8 @@ public:
     ~DataType() = default;
 
     std::string m_Name;
-    T           m_Value;
-    bool        m_Computed;
+    T m_Value;
+    bool m_Computed;
 
     void
     operator=(const DataType & iData)
@@ -176,14 +176,14 @@ public:
     }
 
     /** the boolean value stores if it has already been computed */
-    DataType<OutputType>     Value;
-    DataType<GradientType>   Gradient;
-    DataType<HessianType>    Hessian;
+    DataType<OutputType> Value;
+    DataType<GradientType> Gradient;
+    DataType<HessianType> Hessian;
     DataType<OutputRealType> Laplacian;
     DataType<OutputRealType> GradientNorm;
     DataType<OutputRealType> MeanCurvature;
-    DataType<GradientType>   ForwardGradient;
-    DataType<GradientType>   BackwardGradient;
+    DataType<GradientType> ForwardGradient;
+    DataType<GradientType> BackwardGradient;
   };
 
   virtual void

@@ -74,8 +74,8 @@ itkFiniteCylinderSpatialFunctionTest(int, char *[])
   // pixels that are inside the cylinder.
   double testPosition[dimension]; // position of a pixel
 
-  bool functionValue;            // Value of pixel at a given position
-  int  interiorPixelCounter = 0; // Count pixels inside cylinder
+  bool functionValue;           // Value of pixel at a given position
+  int interiorPixelCounter = 0; // Count pixels inside cylinder
 
   for (int x = 0; x < xExtent; ++x)
   {

@@ -398,7 +398,7 @@ itkVariableLengthVectorTest(int, char *[])
 
   {
     // Testing empty vectors
-    FloatVariableLengthVectorType       v1{};
+    FloatVariableLengthVectorType v1{};
     const FloatVariableLengthVectorType v2 = v1;
     v1 = v2;
 

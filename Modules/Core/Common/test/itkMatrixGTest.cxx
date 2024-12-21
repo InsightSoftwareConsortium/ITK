@@ -71,10 +71,10 @@ Expect_Matrix_is_constructible_from_raw_array_of_arrays()
 {
   using ValueType = typename TMatrix::ValueType;
 
-  constexpr auto    numberOfRows = TMatrix::RowDimensions;
-  constexpr auto    numberOfColumns = TMatrix::ColumnDimensions;
-  constexpr auto    numberOfElements = numberOfRows * numberOfColumns;
-  ValueType         rawArray[numberOfRows][numberOfColumns];
+  constexpr auto numberOfRows = TMatrix::RowDimensions;
+  constexpr auto numberOfColumns = TMatrix::ColumnDimensions;
+  constexpr auto numberOfElements = numberOfRows * numberOfColumns;
+  ValueType rawArray[numberOfRows][numberOfColumns];
   ValueType * const beginOfRawArray = rawArray[0];
 
   // Just ensure that each element of the raw array has a different value.

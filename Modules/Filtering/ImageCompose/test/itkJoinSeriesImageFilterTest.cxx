@@ -46,9 +46,9 @@ itkJoinSeriesImageFilterTest(int, char *[])
 
   // Expected result
   constexpr OutputImageType::IndexType expectedIndex = { { 1, 2, 0, 0 } };
-  constexpr OutputImageType::SizeType  expectedSize = { { 8, 5, 4, 1 } };
-  const OutputImageType::RegionType    expectedRegion{ expectedIndex, expectedSize };
-  OutputImageType::SpacingType         expectedSpacing;
+  constexpr OutputImageType::SizeType expectedSize = { { 8, 5, 4, 1 } };
+  const OutputImageType::RegionType expectedRegion{ expectedIndex, expectedSize };
+  OutputImageType::SpacingType expectedSpacing;
   expectedSpacing[0] = 1.1;
   expectedSpacing[1] = 1.2;
   expectedSpacing[2] = 1.3;
@@ -60,15 +60,15 @@ itkJoinSeriesImageFilterTest(int, char *[])
   expectedOrigin[3] = 0.0;
 
   // Create the input images
-  constexpr int                       numInputs = 4;
+  constexpr int numInputs = 4;
   constexpr InputImageType::IndexType index = { { 1, 2 } };
-  constexpr InputImageType::SizeType  size = { { 8, 5 } };
-  const InputImageType::RegionType    region{ index, size };
-  constexpr double                    spacingValue = 1.3;
-  InputImageType::SpacingType         spacing;
+  constexpr InputImageType::SizeType size = { { 8, 5 } };
+  const InputImageType::RegionType region{ index, size };
+  constexpr double spacingValue = 1.3;
+  InputImageType::SpacingType spacing;
   spacing[0] = 1.1;
   spacing[1] = 1.2;
-  constexpr double          originValue = 0.3;
+  constexpr double originValue = 0.3;
   InputImageType::PointType origin;
   origin[0] = 0.1;
   origin[1] = 0.2;
@@ -177,7 +177,7 @@ itkJoinSeriesImageFilterTest(int, char *[])
   // Check the contents
   bool passed = true;
 
-  PixelType                                 counter2 = 0;
+  PixelType counter2 = 0;
   itk::ImageRegionIterator<OutputImageType> outputIter(output, output->GetBufferedRegion());
   while (!outputIter.IsAtEnd())
   {

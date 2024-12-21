@@ -49,7 +49,7 @@ itkReflectiveImageRegionIteratorTest(int, char *[])
   visitImage->SetRegions(region);
   visitImage->Allocate();
 
-  IteratorType       nit(myImage, region);
+  IteratorType nit(myImage, region);
   IteratorVisitsType vit(visitImage, region);
 
   // Store information on the Image
@@ -81,7 +81,7 @@ itkReflectiveImageRegionIteratorTest(int, char *[])
   rvt.GoToBegin();
   while (!rit.IsAtEnd())
   {
-    const PixelType            value = rit.Get();
+    const PixelType value = rit.Get();
     const ImageType::IndexType index = rit.GetIndex();
     rvt.Set(rvt.Get() + 1);
     if (value != index)
@@ -97,7 +97,7 @@ itkReflectiveImageRegionIteratorTest(int, char *[])
   // Each element should be visited 2 ^ # of dimensions
   // each left shift = multiply by 2
   constexpr int visits = (1 << (ImageType::ImageDimension));
-  int           failed = 0;
+  int failed = 0;
 
   // Verify the number of visits
   vit.GoToBegin();

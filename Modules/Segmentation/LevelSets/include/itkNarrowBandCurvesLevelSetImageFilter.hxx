@@ -38,7 +38,7 @@ NarrowBandCurvesLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>::Na
 template <typename TInputImage, typename TFeatureImage, typename TOutputType>
 void
 NarrowBandCurvesLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>::PrintSelf(std::ostream & os,
-                                                                                        Indent         indent) const
+                                                                                        Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

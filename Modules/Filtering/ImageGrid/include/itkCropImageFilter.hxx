@@ -33,10 +33,10 @@ CropImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   }
 
   // Compute the new region size
-  SizeType             sz;
+  SizeType sz;
   OutputImageIndexType idx;
 
-  InputImageSizeType  input_sz = inputPtr->GetLargestPossibleRegion().GetSize();
+  InputImageSizeType input_sz = inputPtr->GetLargestPossibleRegion().GetSize();
   InputImageIndexType input_idx = inputPtr->GetLargestPossibleRegion().GetIndex();
 
   for (unsigned int i = 0; i < InputImageDimension; ++i)

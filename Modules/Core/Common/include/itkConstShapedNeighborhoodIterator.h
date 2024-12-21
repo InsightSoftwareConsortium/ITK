@@ -427,7 +427,7 @@ protected:
   void DeactivateIndex(NeighborIndexType);
 
 
-  bool          m_CenterIsActive{ false };
+  bool m_CenterIsActive{ false };
   IndexListType m_ActiveIndexList{};
 };
 } // namespace itk

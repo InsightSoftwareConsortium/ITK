@@ -50,7 +50,7 @@ itkIntensityWindowingImageFilterTest(int, char *[])
 
   // Generate a real image
   using SourceType = itk::RandomImageSource<TestInputImage>;
-  auto                          source = SourceType::New();
+  auto source = SourceType::New();
   TestInputImage::SizeValueType randomSize[3] = { 17, 8, 20 };
 
   // Set up source

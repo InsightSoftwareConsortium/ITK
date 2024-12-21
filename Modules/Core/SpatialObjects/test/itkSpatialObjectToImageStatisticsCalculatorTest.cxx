@@ -140,7 +140,7 @@ itkSpatialObjectToImageStatisticsCalculatorTest(int, char *[])
   size3D[1] = 50;
   size3D[2] = 3;
   constexpr IndexType start{};
-  RegionType          region3D;
+  RegionType region3D;
   region3D.SetIndex(start);
   region3D.SetSize(size3D);
   image3D->SetRegions(region3D);
@@ -173,7 +173,7 @@ itkSpatialObjectToImageStatisticsCalculatorTest(int, char *[])
 
   std::cout << "Allocating spatial object." << std::endl;
   using Ellipse3DType = itk::EllipseSpatialObject<3>;
-  auto   ellipse3D = Ellipse3DType::New();
+  auto ellipse3D = Ellipse3DType::New();
   double radii[3];
   radii[0] = 10;
   radii[1] = 10;

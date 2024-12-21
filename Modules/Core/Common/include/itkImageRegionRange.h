@@ -76,7 +76,7 @@ private:
   using ImageDimensionType = typename TImage::ImageDimensionType;
   using PixelType = typename TImage::PixelType;
 
-  static constexpr bool               IsImageTypeConst = std::is_const_v<TImage>;
+  static constexpr bool IsImageTypeConst = std::is_const_v<TImage>;
   static constexpr ImageDimensionType ImageDimension = TImage::ImageDimension;
 
   using BufferIteratorType = typename ImageBufferRange<TImage>::iterator;
@@ -133,9 +133,9 @@ private:
     // Private constructor, used to create the begin and the end iterator of a range.
     // Only used by its friend class ImageRegionRange.
     QualifiedIterator(const QualifiedBufferIteratorType & bufferIterator,
-                      const OffsetTableType &             offsetTable,
-                      const OffsetType &                  iterationOffset,
-                      const SizeType &                    regionSize) noexcept
+                      const OffsetTableType & offsetTable,
+                      const OffsetType & iterationOffset,
+                      const SizeType & regionSize) noexcept
       : m_BufferIterator(bufferIterator)
       ,
       // Note: Use parentheses instead of curly braces to initialize data members,

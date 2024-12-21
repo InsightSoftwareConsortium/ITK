@@ -303,7 +303,7 @@ protected: // made protected so other iterators can access
 
   bool m_Remaining{ false };
 
-  AccessorType        m_PixelAccessor{};
+  AccessorType m_PixelAccessor{};
   AccessorFunctorType m_PixelAccessorFunctor{};
 };
 } // end namespace itk

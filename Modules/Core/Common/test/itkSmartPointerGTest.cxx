@@ -151,8 +151,8 @@ TEST(SmartPointer, EmptyAndNull)
   //  EXPECT_TRUE( 0 == ptr );
 
   // Exercise pointer assignment
-  auto                         p1 = Derived2::New();
-  const Derived2::Pointer      p2 = p1;
+  auto p1 = Derived2::New();
+  const Derived2::Pointer p2 = p1;
   const Derived2::ConstPointer cp1 = p1;
   const Derived2::ConstPointer cp2(p1);
   const Derived2::ConstPointer cp3{ p1 };
@@ -179,7 +179,7 @@ TEST(SmartPointer, Converting)
   EXPECT_TRUE(cd1ptr.GetPointer() == d1ptr.GetPointer());
   EXPECT_TRUE(cd1ptr == d1ptr);
 
-  BasePointer            ptr(d1ptr);
+  BasePointer ptr(d1ptr);
   const ConstBasePointer cptr1(d1ptr);
   const ConstBasePointer cptr2(cd1ptr);
 

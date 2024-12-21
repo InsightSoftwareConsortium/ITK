@@ -180,8 +180,8 @@ public:
   /**  Get the value and derivatives for single valued optimizers. */
   void
   GetValueAndDerivative(const ParametersType & parameters,
-                        MeasureType &          value,
-                        DerivativeType &       derivative) const override;
+                        MeasureType & value,
+                        DerivativeType & derivative) const override;
 
   /** Number of bins to used in the histogram.
    * According to Mattes et al the optimum value is 50.
@@ -288,11 +288,11 @@ private:
 
   /** Compute PDF derivative contribution for each parameter. */
   void
-  ComputePDFDerivatives(ThreadIdType                 threadId,
-                        unsigned int                 sampleNumber,
-                        int                          pdfMovingIndex,
+  ComputePDFDerivatives(ThreadIdType threadId,
+                        unsigned int sampleNumber,
+                        int pdfMovingIndex,
                         const ImageDerivativesType & movingImageGradientValue,
-                        PDFValueType                 cubicBSplineDerivativeValue) const;
+                        PDFValueType cubicBSplineDerivativeValue) const;
 
   void
   GetValueThreadPreProcess(ThreadIdType threadId, bool withinSampleThread) const override;
@@ -300,10 +300,10 @@ private:
   GetValueThreadPostProcess(ThreadIdType threadId, bool withinSampleThread) const override;
   // NOTE:  The signature in base class requires that movingImageValue is of type double
   bool
-  GetValueThreadProcessSample(ThreadIdType                 threadId,
-                              SizeValueType                fixedImageSample,
+  GetValueThreadProcessSample(ThreadIdType threadId,
+                              SizeValueType fixedImageSample,
                               const MovingImagePointType & mappedPoint,
-                              double                       movingImageValue) const override;
+                              double movingImageValue) const override;
 
   void
   GetValueAndDerivativeThreadPreProcess(ThreadIdType threadId, bool withinSampleThread) const override;
@@ -311,22 +311,22 @@ private:
   GetValueAndDerivativeThreadPostProcess(ThreadIdType threadId, bool withinSampleThread) const override;
   // NOTE:  The signature in base class requires that movingImageValue is of type double
   bool
-  GetValueAndDerivativeThreadProcessSample(ThreadIdType                 threadId,
-                                           SizeValueType                fixedImageSample,
+  GetValueAndDerivativeThreadProcessSample(ThreadIdType threadId,
+                                           SizeValueType fixedImageSample,
                                            const MovingImagePointType & mappedPoint,
-                                           double                       movingImageValue,
+                                           double movingImageValue,
                                            const ImageDerivativesType & movingImageGradientValue) const override;
 
   /** Variables to define the marginal and joint histograms. */
   SizeValueType m_NumberOfHistogramBins{ 50 };
-  PDFValueType  m_MovingImageNormalizedMin{ 0.0 };
-  PDFValueType  m_FixedImageNormalizedMin{ 0.0 };
-  PDFValueType  m_FixedImageTrueMin{ 0.0 };
-  PDFValueType  m_FixedImageTrueMax{ 0.0 };
-  PDFValueType  m_MovingImageTrueMin{ 0.0 };
-  PDFValueType  m_MovingImageTrueMax{ 0.0 };
-  PDFValueType  m_FixedImageBinSize{ 0.0 };
-  PDFValueType  m_MovingImageBinSize{ 0.0 };
+  PDFValueType m_MovingImageNormalizedMin{ 0.0 };
+  PDFValueType m_FixedImageNormalizedMin{ 0.0 };
+  PDFValueType m_FixedImageTrueMin{ 0.0 };
+  PDFValueType m_FixedImageTrueMax{ 0.0 };
+  PDFValueType m_MovingImageTrueMin{ 0.0 };
+  PDFValueType m_MovingImageTrueMax{ 0.0 };
+  PDFValueType m_FixedImageBinSize{ 0.0 };
+  PDFValueType m_MovingImageBinSize{ 0.0 };
 
   /** Helper array for storing the values of the JointPDF ratios. */
   using PRatioType = PDFValueType;
@@ -349,7 +349,7 @@ private:
     DerivativeType MetricDerivative;
 
     /** The joint PDF and PDF derivatives. */
-    typename JointPDFType::Pointer            JointPDF;
+    typename JointPDFType::Pointer JointPDF;
     typename JointPDFDerivativesType::Pointer JointPDFDerivatives;
 
     typename TransformType::JacobianType Jacobian;
@@ -368,7 +368,7 @@ private:
   std::unique_ptr<AlignedMMIMetricPerThreadStruct[]> m_MMIMetricPerThreadVariables;
 #endif
 
-  bool         m_UseExplicitPDFDerivatives{ true };
+  bool m_UseExplicitPDFDerivatives{ true };
   mutable bool m_ImplicitDerivativesSecondPass{ false };
 };
 } // end namespace itk

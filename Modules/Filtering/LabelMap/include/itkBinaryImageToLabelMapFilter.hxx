@@ -72,7 +72,7 @@ BinaryImageToLabelMapFilter<TInputImage, TOutputImage>::GenerateData()
   output->SetBackgroundValue(this->m_OutputBackgroundValue);
 
   const typename OutputImageType::RegionType & requestedRegion = output->GetRequestedRegion();
-  const typename OutputImageType::SizeType &   requestedSize = requestedRegion.GetSize();
+  const typename OutputImageType::SizeType & requestedSize = requestedRegion.GetSize();
 
   const SizeValueType pixelcount = requestedRegion.GetNumberOfPixels();
   const SizeValueType xsize = requestedSize[0];
@@ -128,13 +128,13 @@ BinaryImageToLabelMapFilter<TInputImage, TOutputImage>::GenerateData()
   for (SizeValueType thisIdx = 0; thisIdx < linecount; ++thisIdx)
   {
     // now fill the labelled sections
-    auto       cIt = this->m_LineMap[thisIdx].begin();
+    auto cIt = this->m_LineMap[thisIdx].begin();
     const auto cEnd = this->m_LineMap[thisIdx].end();
 
     while (cIt != cEnd)
     {
       const InternalLabelType Ilab = this->LookupSet(cIt->label);
-      const OutputPixelType   lab = this->m_Consecutive[Ilab];
+      const OutputPixelType lab = this->m_Consecutive[Ilab];
       output->SetLine(cIt->where, cIt->length, lab);
       ++cIt;
     }
@@ -155,7 +155,7 @@ BinaryImageToLabelMapFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateD
   const TInputImage * input = this->GetInput();
 
   const WorkUnitData workUnitData = this->CreateWorkUnitData(outputRegionForThread);
-  SizeValueType      lineId = workUnitData.firstLine;
+  SizeValueType lineId = workUnitData.firstLine;
 
   SizeValueType nbOfLabels = 0;
   for (ImageScanlineConstIterator inLineIt(input, outputRegionForThread); !inLineIt.IsAtEnd(); inLineIt.NextLine())
@@ -167,7 +167,7 @@ BinaryImageToLabelMapFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateD
       if (pixelValue == this->m_InputForegroundValue)
       {
         // We've hit the start of a run
-        SizeValueType   length = 0;
+        SizeValueType length = 0;
         const IndexType thisIndex = inLineIt.GetIndex();
         ++length;
         ++inLineIt;

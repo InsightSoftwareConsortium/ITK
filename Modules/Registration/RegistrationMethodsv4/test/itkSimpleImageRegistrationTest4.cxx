@@ -128,7 +128,7 @@ ImageRegistration(int argc, char * argv[])
   optimizer->SetMinimumConvergenceValue(1e-5);
   optimizer->SetConvergenceWindowSize(2);
 
-  double                                                 scaleData[] = { 200000, 1.0, 1.0 };
+  double scaleData[] = { 200000, 1.0, 1.0 };
   const typename Optimizerv4Type::ScalesType::Superclass scales(scaleData, 3);
   optimizer->SetScales(scales);
 

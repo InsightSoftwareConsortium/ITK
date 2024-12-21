@@ -139,7 +139,7 @@ itkBoundingBoxTest(int, char *[])
   const CC::PointsContainerPointer Points3D = CC::PointsContainer::New();
 
   constexpr CC::PointType::ValueType qval1[3] = { -1.0f, -1.0f, -1.0f };
-  CC::PointType                      Q = qval1;
+  CC::PointType Q = qval1;
   Points3D->InsertElement(0, Q);
 
   CC::PointType::ValueType qval2[3] = { 1.0f, 1.0f, 1.0f };
@@ -172,8 +172,8 @@ itkBoundingBoxTest(int, char *[])
 
   // Testing the corners
   std::cout << "Testing ComputeCorners() : ";
-  const auto   corners = my3DBox->ComputeCorners();
-  auto         it = corners.begin();
+  const auto corners = my3DBox->ComputeCorners();
+  auto it = corners.begin();
   unsigned int j = 0;
   while (it != corners.end())
   {
@@ -193,8 +193,8 @@ itkBoundingBoxTest(int, char *[])
 
   // Testing the DeepCopy method
   {
-    constexpr double            tolerance = 1e-10;
-    const CC::Pointer           clone = my3DBox->DeepCopy();
+    constexpr double tolerance = 1e-10;
+    const CC::Pointer clone = my3DBox->DeepCopy();
     const CC::BoundsArrayType & originalBounds = my3DBox->GetBounds();
     const CC::BoundsArrayType & clonedbounds = clone->GetBounds();
     for (unsigned int i = 0; i < originalBounds.Size(); ++i)

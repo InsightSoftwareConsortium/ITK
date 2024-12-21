@@ -171,7 +171,7 @@ public:
 
   private:
     VectorContainerConstIterator m_Iter;
-    InstanceIdentifier           m_InstanceIdentifier;
+    InstanceIdentifier m_InstanceIdentifier;
   };
 
   /** \class Iterator

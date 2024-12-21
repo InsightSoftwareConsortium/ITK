@@ -685,14 +685,14 @@ protected:
    */
   bool
   TransformAndEvaluateFixedPoint(const VirtualPointType & virtualPoint,
-                                 FixedImagePointType &    mappedFixedPoint,
-                                 FixedImagePixelType &    mappedFixedPixelValue) const;
+                                 FixedImagePointType & mappedFixedPoint,
+                                 FixedImagePixelType & mappedFixedPixelValue) const;
 
   /** Transform and evaluate a point from VirtualImage domain to MovingImage domain. */
   bool
   TransformAndEvaluateMovingPoint(const VirtualPointType & virtualPoint,
-                                  MovingImagePointType &   mappedMovingPoint,
-                                  MovingImagePixelType &   mappedMovingPixelValue) const;
+                                  MovingImagePointType & mappedMovingPoint,
+                                  MovingImagePixelType & mappedMovingPixelValue) const;
 
   /** Compute image derivatives for a Fixed point. */
   virtual void
@@ -733,13 +733,13 @@ protected:
   /** Get accessor for flag to calculate derivative. */
   itkGetConstMacro(ComputeDerivative, bool);
 
-  FixedImageConstPointer  m_FixedImage{};
+  FixedImageConstPointer m_FixedImage{};
   MovingImageConstPointer m_MovingImage{};
 
   /** Pointers to interpolators */
-  FixedInterpolatorPointer                              m_FixedInterpolator{};
-  MovingInterpolatorPointer                             m_MovingInterpolator{};
-  typename FixedImageGradientInterpolatorType::Pointer  m_FixedImageGradientInterpolator{};
+  FixedInterpolatorPointer m_FixedInterpolator{};
+  MovingInterpolatorPointer m_MovingInterpolator{};
+  typename FixedImageGradientInterpolatorType::Pointer m_FixedImageGradientInterpolator{};
   typename MovingImageGradientInterpolatorType::Pointer m_MovingImageGradientInterpolator{};
 
   /** Flag to control use of precomputed gradient filter image or gradient
@@ -748,25 +748,25 @@ protected:
   bool m_UseMovingImageGradientFilter{};
 
   /** Gradient filters */
-  FixedImageGradientFilterPointer  m_FixedImageGradientFilter{};
+  FixedImageGradientFilterPointer m_FixedImageGradientFilter{};
   MovingImageGradientFilterPointer m_MovingImageGradientFilter{};
 
   /** Pointer to default gradient filter. Used for easier
    * initialization of the default filter. */
-  typename DefaultFixedImageGradientFilter::Pointer  m_DefaultFixedImageGradientFilter{};
+  typename DefaultFixedImageGradientFilter::Pointer m_DefaultFixedImageGradientFilter{};
   typename DefaultMovingImageGradientFilter::Pointer m_DefaultMovingImageGradientFilter{};
 
   /** Pointer to default gradient calculators. Used for easier
    * initialization of the default filter. */
-  typename DefaultFixedImageGradientCalculator::Pointer  m_DefaultFixedImageGradientCalculator{};
+  typename DefaultFixedImageGradientCalculator::Pointer m_DefaultFixedImageGradientCalculator{};
   typename DefaultMovingImageGradientCalculator::Pointer m_DefaultMovingImageGradientCalculator{};
 
   /** Gradient images to store gradient filter output. */
-  mutable FixedImageGradientImagePointer  m_FixedImageGradientImage{};
+  mutable FixedImageGradientImagePointer m_FixedImageGradientImage{};
   mutable MovingImageGradientImagePointer m_MovingImageGradientImage{};
 
   /** Image gradient calculators */
-  FixedImageGradientCalculatorPointer  m_FixedImageGradientCalculator{};
+  FixedImageGradientCalculatorPointer m_FixedImageGradientCalculator{};
   MovingImageGradientCalculatorPointer m_MovingImageGradientCalculator{};
 
   /** Derivative results holder. Uses a raw pointer so we can point it
@@ -778,12 +778,12 @@ protected:
   mutable DerivativeType * m_DerivativeResult{};
 
   /** Masks */
-  FixedImageMaskConstPointer  m_FixedImageMask{};
+  FixedImageMaskConstPointer m_FixedImageMask{};
   MovingImageMaskConstPointer m_MovingImageMask{};
 
   /** Sampled point sets */
   FixedSampledPointSetConstPointer m_FixedSampledPointSet{};
-  VirtualPointSetPointer           m_VirtualSampledPointSet{};
+  VirtualPointSetPointer m_VirtualSampledPointSet{};
 
   /** Flag to use a SampledPointSet, i.e. Sparse sampling. */
   bool m_UseSampledPointSet{};
@@ -806,14 +806,14 @@ private:
   /** Transform a point. Avoid cast if possible */
   void
   LocalTransformPoint(const typename FixedTransformType::OutputPointType & virtualPoint,
-                      typename FixedTransformType::OutputPointType &       mappedFixedPoint) const
+                      typename FixedTransformType::OutputPointType & mappedFixedPoint) const
   {
     mappedFixedPoint = this->m_FixedTransform->TransformPoint(virtualPoint);
   }
   // cast the virtual point
   template <typename TVirtualPoint>
   void
-  LocalTransformPoint(const TVirtualPoint &                          virtualPoint,
+  LocalTransformPoint(const TVirtualPoint & virtualPoint,
                       typename FixedTransformType::OutputPointType & mappedFixedPoint) const
   {
     typename FixedTransformType::OutputPointType localVirtualPoint;
@@ -826,7 +826,7 @@ private:
   template <typename TFixedImagePoint>
   void
   LocalTransformPoint(const typename FixedTransformType::OutputPointType & virtualPoint,
-                      TFixedImagePoint &                                   mappedFixedPoint) const
+                      TFixedImagePoint & mappedFixedPoint) const
   {
     typename FixedTransformType::OutputPointType localMappedFixedPoint;
     localMappedFixedPoint.CastFrom(mappedFixedPoint);
@@ -857,7 +857,7 @@ private:
    * For informational purposes. */
   SizeValueType m_NumberOfSkippedFixedSampledPoints{};
 
-  bool                m_UseFloatingPointCorrection{};
+  bool m_UseFloatingPointCorrection{};
   DerivativeValueType m_FloatingPointCorrectionResolution{};
 
   MetricTraits m_MetricTraits{};

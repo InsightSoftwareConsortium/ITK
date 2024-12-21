@@ -71,7 +71,7 @@ template <typename TCellInterface>
 void
 VertexCell<TCellInterface>::SetPointIds(PointIdConstIterator first, PointIdConstIterator last)
 {
-  int                  localId = 0;
+  int localId = 0;
   PointIdConstIterator ii(first);
 
   while (ii != last)
@@ -131,11 +131,11 @@ VertexCell<TCellInterface>::GetPointId() -> PointIdentifier
 
 template <typename TCellInterface>
 bool
-VertexCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
-                                             PointsContainer *         points,
-                                             CoordinateType *          closestPoint,
-                                             CoordinateType            pcoord[],
-                                             double *                  minDist2,
+VertexCell<TCellInterface>::EvaluatePosition(CoordinateType * x,
+                                             PointsContainer * points,
+                                             CoordinateType * closestPoint,
+                                             CoordinateType pcoord[],
+                                             double * minDist2,
                                              InterpolationWeightType * weights)
 {
   PointType X = points->GetElement(m_PointIds[0]);

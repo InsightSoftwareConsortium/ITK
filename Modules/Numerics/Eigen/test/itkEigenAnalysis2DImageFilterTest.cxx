@@ -135,7 +135,7 @@ public:
 
 
     // Create a  Filter
-    auto                           filter = myFilterType::New();
+    auto filter = myFilterType::New();
     const itk::SimpleFilterWatcher watcher(filter);
 
     // Connect the input images

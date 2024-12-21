@@ -237,21 +237,21 @@ protected:
   void
   GenerateData() override; // general pipeline function.
 
-  SizeType      m_Size{};
-  int           m_NumberOfSeeds{ 200 };
+  SizeType m_Size{};
+  int m_NumberOfSeeds{ 200 };
   SizeValueType m_MinRegion{ 20 };
-  int           m_Steps{ 0 };
-  int           m_LastStepSeeds{ 0 };
-  int           m_NumberOfSeedsToAdded{ 0 };
-  int           m_NumberOfBoundary{ 0 };
+  int m_Steps{ 0 };
+  int m_LastStepSeeds{ 0 };
+  int m_NumberOfSeedsToAdded{ 0 };
+  int m_NumberOfBoundary{ 0 };
 
   std::vector<SizeValueType> m_NumberOfPixels{};
   std::vector<unsigned char> m_Label{};
 
   double m_MeanDeviation{ 0.8 };
-  bool   m_UseBackgroundInAPrior{ false };
-  bool   m_OutputBoundary{ false }; // if =1 then output the boundaries, if = 0 then
-                                    // output the object.
+  bool m_UseBackgroundInAPrior{ false };
+  bool m_OutputBoundary{ false }; // if =1 then output the boundaries, if = 0 then
+                                  // output the object.
   bool m_InteractiveSegmentation{ false };
 
   typename VoronoiDiagram::Pointer m_WorkingVD{};

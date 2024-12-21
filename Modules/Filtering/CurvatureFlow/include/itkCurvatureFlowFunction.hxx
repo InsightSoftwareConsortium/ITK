@@ -26,7 +26,7 @@ namespace itk
 template <typename TImage>
 CurvatureFlowFunction<TImage>::CurvatureFlowFunction()
 {
-  RadiusType   r;
+  RadiusType r;
   unsigned int j;
 
   for (j = 0; j < ImageDimension; ++j)
@@ -49,8 +49,8 @@ CurvatureFlowFunction<TImage>::ComputeGlobalTimeStep(void * itkNotUsed(gd)) cons
 template <typename TImage>
 auto
 CurvatureFlowFunction<TImage>::ComputeUpdate(const NeighborhoodType & it,
-                                             void *                   itkNotUsed(gd),
-                                             const FloatOffsetType &  itkNotUsed(offset)) -> PixelType
+                                             void * itkNotUsed(gd),
+                                             const FloatOffsetType & itkNotUsed(offset)) -> PixelType
 {
   // cache the stride for each dimension
   IdentifierType stride[ImageDimension];
@@ -63,10 +63,10 @@ CurvatureFlowFunction<TImage>::ComputeUpdate(const NeighborhoodType & it,
   const IdentifierType center = it.Size() / 2;
 
   const NeighborhoodScalesType neighborhoodScales = this->ComputeNeighborhoodScales();
-  PixelRealType                magnitudeSqr = 0.0;
-  PixelRealType                firstderiv[ImageDimension];
-  PixelRealType                secderiv[ImageDimension];
-  PixelRealType                crossderiv[ImageDimension][ImageDimension] = {};
+  PixelRealType magnitudeSqr = 0.0;
+  PixelRealType firstderiv[ImageDimension];
+  PixelRealType secderiv[ImageDimension];
+  PixelRealType crossderiv[ImageDimension][ImageDimension] = {};
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     // compute first order derivatives

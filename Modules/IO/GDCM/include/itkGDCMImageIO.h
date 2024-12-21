@@ -58,7 +58,7 @@ public:
 
 // Define how to print enumeration
 extern ITKIOGDCM_EXPORT std::ostream &
-                        operator<<(std::ostream & out, const GDCMImageIOEnums::Compression value);
+operator<<(std::ostream & out, const GDCMImageIOEnums::Compression value);
 /**
  * \class GDCMImageIO
  *

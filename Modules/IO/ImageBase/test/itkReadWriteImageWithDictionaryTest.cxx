@@ -38,9 +38,9 @@ itkReadWriteImageWithDictionaryTest(int argc, char * argv[])
   // Create the 16x16 input image
   auto inputImage = ImageType::New();
 
-  auto                           size = ImageType::SizeType::Filled(16);
+  auto size = ImageType::SizeType::Filled(16);
   constexpr ImageType::IndexType index{};
-  const ImageType::RegionType    region{ index, size };
+  const ImageType::RegionType region{ index, size };
   inputImage->SetRegions(region);
   inputImage->Allocate();
   inputImage->FillBuffer(0);
@@ -49,7 +49,7 @@ itkReadWriteImageWithDictionaryTest(int argc, char * argv[])
 
   // Add some metadata in the dictionary
   itk::MetaDataDictionary & inputDictionary = inputImage->GetMetaDataDictionary();
-  const std::string         voxelunitstr = "mm. "; // try to follow analyze format (length matters)
+  const std::string voxelunitstr = "mm. "; // try to follow analyze format (length matters)
   itk::EncapsulateMetaData<std::string>(inputDictionary, itk::ITK_VoxelUnits, voxelunitstr);
   const std::string datestr = "26-05-2010"; // try to follow analyze format (length matters)
   itk::EncapsulateMetaData<std::string>(inputDictionary, itk::ITK_ExperimentDate, datestr);

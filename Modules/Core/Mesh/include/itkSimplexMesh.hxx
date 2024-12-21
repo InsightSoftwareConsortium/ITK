@@ -40,8 +40,8 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>::~SimplexMesh()
 {
   itkDebugMacro("Mesh Destructor ");
 
-  const GeometryMapPointer  geometryMap = this->GetGeometryData();
-  GeometryMapIterator       pointDataIterator = geometryMap->Begin();
+  const GeometryMapPointer geometryMap = this->GetGeometryData();
+  GeometryMapIterator pointDataIterator = geometryMap->Begin();
   const GeometryMapIterator pointDataEnd = geometryMap->End();
 
   while (pointDataIterator != pointDataEnd)
@@ -176,7 +176,7 @@ auto
 SimplexMesh<TPixelType, VDimension, TMeshTraits>::AddEdge(PointIdentifier startPointId, PointIdentifier endPointId)
   -> CellIdentifier
 {
-  CellAutoPointer      NewCellPointer(new LineType, true);
+  CellAutoPointer NewCellPointer(new LineType, true);
   const CellIdentifier edgeId = m_LastCellId;
 
   NewCellPointer->SetPointId(0, startPointId);
@@ -198,7 +198,7 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>::AddFace(CellAutoPointer & cell
 
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 auto
-SimplexMesh<TPixelType, VDimension, TMeshTraits>::ReplaceFace(CellIdentifier    replaceIndex,
+SimplexMesh<TPixelType, VDimension, TMeshTraits>::ReplaceFace(CellIdentifier replaceIndex,
                                                               CellAutoPointer & cellPointer) -> CellIdentifier
 {
   // Release previous cell, if any.
@@ -227,7 +227,7 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>::PrintSelf(std::ostream & os, I
 
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
-SimplexMesh<TPixelType, VDimension, TMeshTraits>::SetGeometryData(PointIdentifier       pointId,
+SimplexMesh<TPixelType, VDimension, TMeshTraits>::SetGeometryData(PointIdentifier pointId,
                                                                   SimplexMeshGeometry * geometryData)
 {
   SimplexMeshGeometry * oldGeometryData;
@@ -247,8 +247,8 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>::GetNeighbors(PointIdentifier i
 
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 auto
-SimplexMesh<TPixelType, VDimension, TMeshTraits>::GetNeighbors(PointIdentifier    idx,
-                                                               unsigned int       radius,
+SimplexMesh<TPixelType, VDimension, TMeshTraits>::GetNeighbors(PointIdentifier idx,
+                                                               unsigned int radius,
                                                                NeighborListType * list) const -> NeighborListType *
 {
   if (list == nullptr)
@@ -364,8 +364,8 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>::SwapNeighbors(PointIdentifier 
                                                                 PointIdentifier secondIdx)
 {
   SimplexMeshGeometry * data = m_GeometryData->GetElement(pointIdx);
-  int                   firstFound = -1;
-  int                   secondFound = -1;
+  int firstFound = -1;
+  int secondFound = -1;
 
   for (int i = 0; i < 3; ++i)
   {

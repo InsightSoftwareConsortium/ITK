@@ -80,7 +80,7 @@ AnatomicalOrientation::CreateFromPositiveStringEncoding(std::string str)
   std::transform(str.begin(), str.end(), str.begin(), ::toupper);
 
   const std::map<std::string, typename AnatomicalOrientation::PositiveEnum> & stringToCode = GetStringToCode();
-  auto                                                                        iter = stringToCode.find(str);
+  auto iter = stringToCode.find(str);
   if (iter == stringToCode.end())
   {
     return AnatomicalOrientation(PositiveEnum::INVALID);
@@ -167,7 +167,7 @@ AnatomicalOrientation::GetStringToCode()
 {
 
   auto createStringToCode = []() -> std::map<std::string, PositiveEnum> {
-    std::map<std::string, PositiveEnum>         stringToCode;
+    std::map<std::string, PositiveEnum> stringToCode;
     const std::map<PositiveEnum, std::string> & codeToString = GetCodeToString();
 
     for (const auto & kv : codeToString)
@@ -201,7 +201,7 @@ AnatomicalOrientation::ConvertDirectionToPositiveEnum(const DirectionType & dir)
   for (unsigned i = 0; i < 3; ++i)
   {
 
-    auto               max_idx = value_to_idx.rbegin()->second;
+    auto max_idx = value_to_idx.rbegin()->second;
     const unsigned int max_c = max_idx.first;
     const unsigned int max_r = max_idx.second;
 
@@ -253,7 +253,7 @@ AnatomicalOrientation::ConvertPositiveEnumToDirection(PositiveEnum orientationEn
   const AnatomicalOrientation o(orientationEnum);
 
   const CoordinateEnum terms[Dimension] = { o.GetPrimaryTerm(), o.GetSecondaryTerm(), o.GetTertiaryTerm() };
-  DirectionType        direction{};
+  DirectionType direction{};
 
   for (unsigned int i = 0; i < Dimension; ++i)
   {

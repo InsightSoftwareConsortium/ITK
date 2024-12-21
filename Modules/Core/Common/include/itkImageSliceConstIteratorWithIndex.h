@@ -218,8 +218,8 @@ public:
 private:
   SizeValueType m_PixelJump;
   SizeValueType m_LineJump;
-  unsigned int  m_Direction_A;
-  unsigned int  m_Direction_B;
+  unsigned int m_Direction_A;
+  unsigned int m_Direction_B;
 };
 } // end namespace itk
 

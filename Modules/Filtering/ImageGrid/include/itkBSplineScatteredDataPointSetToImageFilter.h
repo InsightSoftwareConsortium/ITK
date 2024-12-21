@@ -351,16 +351,16 @@ private:
   IndexType
   NumberToIndex(const unsigned int, const SizeType);
 
-  bool         m_DoMultilevel{ false };
-  bool         m_GenerateOutputImage{ true };
-  bool         m_UsePointWeights{ false };
+  bool m_DoMultilevel{ false };
+  bool m_GenerateOutputImage{ true };
+  bool m_UsePointWeights{ false };
   unsigned int m_MaximumNumberOfLevels{ 1 };
   unsigned int m_CurrentLevel{ 0 };
-  ArrayType    m_NumberOfControlPoints{};
-  ArrayType    m_CurrentNumberOfControlPoints{};
-  ArrayType    m_CloseDimension{};
-  ArrayType    m_SplineOrder{};
-  ArrayType    m_NumberOfLevels{};
+  ArrayType m_NumberOfControlPoints{};
+  ArrayType m_CurrentNumberOfControlPoints{};
+  ArrayType m_CloseDimension{};
+  ArrayType m_SplineOrder{};
+  ArrayType m_NumberOfLevels{};
 
   typename WeightsContainerType::Pointer m_PointWeights{};
 
@@ -378,12 +378,12 @@ private:
   typename KernelOrder2Type::Pointer m_KernelOrder2{};
   typename KernelOrder3Type::Pointer m_KernelOrder3{};
 
-  std::vector<RealImagePointer>      m_OmegaLatticePerThread{};
+  std::vector<RealImagePointer> m_OmegaLatticePerThread{};
   std::vector<PointDataImagePointer> m_DeltaLatticePerThread{};
 
   RealType m_BSplineEpsilon{ static_cast<RealType>(1e-3) };
-  bool     m_IsFittingComplete{ false };
-  bool     m_DoUpdateResidualValues{ false };
+  bool m_IsFittingComplete{ false };
+  bool m_DoUpdateResidualValues{ false };
 };
 } // end namespace itk
 

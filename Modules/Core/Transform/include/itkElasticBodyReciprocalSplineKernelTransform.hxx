@@ -54,7 +54,7 @@ ElasticBodyReciprocalSplineKernelTransform<TParametersValueType, VDimension>::Co
 template <typename TParametersValueType, unsigned int VDimension>
 void
 ElasticBodyReciprocalSplineKernelTransform<TParametersValueType, VDimension>::PrintSelf(std::ostream & os,
-                                                                                        Indent         indent) const
+                                                                                        Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

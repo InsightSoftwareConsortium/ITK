@@ -73,7 +73,7 @@ RobustAutomaticThresholdImageFilter<TInputImage, TGradientImage, TOutputImage>::
 template <typename TInputImage, typename TGradientImage, typename TOutputImage>
 void
 RobustAutomaticThresholdImageFilter<TInputImage, TGradientImage, TOutputImage>::PrintSelf(std::ostream & os,
-                                                                                          Indent         indent) const
+                                                                                          Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

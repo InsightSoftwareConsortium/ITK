@@ -47,11 +47,11 @@ FFTPadImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   Superclass::GenerateOutputInformation();
 
   const InputImageType * input0 = this->GetInput();
-  OutputImageType *      output0 = this->GetOutput();
+  OutputImageType * output0 = this->GetOutput();
 
   const RegionType region0 = input0->GetLargestPossibleRegion();
-  SizeType         size;
-  IndexType        index;
+  SizeType size;
+  IndexType index;
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     SizeValueType padSize = 0;

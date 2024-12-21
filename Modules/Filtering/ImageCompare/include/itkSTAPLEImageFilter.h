@@ -244,8 +244,8 @@ protected:
 
 private:
   InputPixelType m_ForegroundValue{};
-  unsigned int   m_ElapsedIterations{};
-  unsigned int   m_MaximumIterations{};
+  unsigned int m_ElapsedIterations{};
+  unsigned int m_MaximumIterations{};
 
   double m_ConfidenceWeight{};
 

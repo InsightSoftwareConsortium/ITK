@@ -57,8 +57,8 @@ template <typename TInputImage, typename TKernelImage, typename TOutputImage>
 void
 ParametricBlindLeastSquaresDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage>::Initialize(
   ProgressAccumulator * progress,
-  float                 progressWeight,
-  float                 iterationProgressWeight)
+  float progressWeight,
+  float iterationProgressWeight)
 {
   // Set the kernel, needed by the class to pad the input properly
   m_KernelSource->Update();
@@ -92,7 +92,7 @@ ParametricBlindLeastSquaresDeconvolutionImageFilter<TInputImage, TKernelImage, T
   // Computes the updated image estimate
   m_ImageUpdateFilter = ImageUpdateFilterType::New();
   const auto & alpha = m_Alpha;
-  auto         parametricBlindLeastSquaresDeconvolutionImageUpdate =
+  auto parametricBlindLeastSquaresDeconvolutionImageUpdate =
     [alpha](const InternalComplexType & estimateFT,
             const InternalComplexType & differenceFT,
             const InternalComplexType & kernelFT) -> InternalComplexType {
@@ -144,9 +144,9 @@ ParametricBlindLeastSquaresDeconvolutionImageFilter<TInputImage, TKernelImage, T
   // Shift the image by negative one half the input size in each
   // dimension
   using EstimateShiftFilterType = CyclicShiftImageFilter<InternalImageType>;
-  auto                                         estimateShifter = EstimateShiftFilterType::New();
+  auto estimateShifter = EstimateShiftFilterType::New();
   typename EstimateShiftFilterType::OffsetType shift;
-  typename InternalImageType::SizeType         inputSize = this->GetInput()->GetLargestPossibleRegion().GetSize();
+  typename InternalImageType::SizeType inputSize = this->GetInput()->GetLargestPossibleRegion().GetSize();
   for (unsigned int i = 0; i < InternalImageType::ImageDimension; ++i)
   {
     shift[i] = -(static_cast<typename EstimateShiftFilterType::OffsetValueType>(inputSize[i]) / 2);
@@ -190,16 +190,16 @@ ParametricBlindLeastSquaresDeconvolutionImageFilter<TInputImage, TKernelImage, T
   // Now compute the partial derivative images of the kernel using
   // finite differences.
   typename KernelSourceType::ParametersType parameters = m_KernelSource->GetParameters();
-  std::vector<double>                       gradient(parameters.Size());
+  std::vector<double> gradient(parameters.Size());
 
   for (unsigned int i = 0; i < parameters.Size(); ++i)
   {
     using InternalKernelImageType = typename KernelSourceType::OutputImageType;
     using InternalKernelImagePointer = typename InternalKernelImageType::Pointer;
     const typename KernelSourceType::ParametersValueType theta = parameters[i];
-    constexpr double                                     deltaTheta = 0.0001;
-    const double                                         thetaPlus = theta + deltaTheta;
-    const double                                         thetaMinus = theta - deltaTheta;
+    constexpr double deltaTheta = 0.0001;
+    const double thetaPlus = theta + deltaTheta;
+    const double thetaMinus = theta - deltaTheta;
 
     // Generate the plus image
     parameters[i] = thetaPlus;
@@ -219,9 +219,9 @@ ParametricBlindLeastSquaresDeconvolutionImageFilter<TInputImage, TKernelImage, T
     // partial derivative image estimate, then multiply the result by
     // the Jacobian. We'll do this all in one loop to simplify things.
     const typename InternalKernelImageType::RegionType region(plusImage->GetLargestPossibleRegion());
-    ImageRegionConstIterator<InternalKernelImageType>  plusImageIter(plusImage, region);
-    ImageRegionConstIterator<InternalKernelImageType>  minusImageIter(minusImage, region);
-    ImageRegionConstIterator<InternalImageType>        jacobianImageIter(jacobianIFFT->GetOutput(), region);
+    ImageRegionConstIterator<InternalKernelImageType> plusImageIter(plusImage, region);
+    ImageRegionConstIterator<InternalKernelImageType> minusImageIter(minusImage, region);
+    ImageRegionConstIterator<InternalImageType> jacobianImageIter(jacobianIFFT->GetOutput(), region);
 
     double sum = 0.0;
     while (!plusImageIter.IsAtEnd())
@@ -250,7 +250,7 @@ template <typename TInputImage, typename TKernelImage, typename TOutputImage>
 void
 ParametricBlindLeastSquaresDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage>::Finish(
   ProgressAccumulator * progress,
-  float                 progressWeight)
+  float progressWeight)
 {
   // Take the inverse Fourier transform of the current estimate
   using InverseFFTFilterType = HalfHermitianToRealInverseFFTImageFilter<InternalComplexImageType, InternalImageType>;
@@ -274,7 +274,7 @@ template <typename TInputImage, typename TKernelImage, typename TOutputImage>
 void
 ParametricBlindLeastSquaresDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage>::PrintSelf(
   std::ostream & os,
-  Indent         indent) const
+  Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);
 

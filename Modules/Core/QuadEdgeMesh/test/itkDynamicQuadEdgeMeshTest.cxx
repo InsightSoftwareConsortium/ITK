@@ -79,7 +79,7 @@ itkDynamicQuadEdgeMeshTest(int, char *[])
 
   std::cout << "Number of Points = " << mesh->GetNumberOfPoints() << std::endl;
 
-  PointsIterator       point = pointsContainter->Begin();
+  PointsIterator point = pointsContainter->Begin();
   const PointsIterator endpoint = pointsContainter->End();
 
   while (point != endpoint)

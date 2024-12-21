@@ -117,7 +117,7 @@ public:
       for (int x = -XRange; x <= XRange; ++x)
       {
         const auto xd = static_cast<double>(x);
-        double     value = a * xd + b * yd + c;
+        double value = a * xd + b * yd + c;
         value -= m_TheoreticalData[valueindex];
         m_Measure[valueindex] = value;
         valueindex++;
@@ -171,9 +171,9 @@ public:
   }
 
 private:
-  mutable MeasureType    m_Measure;
+  mutable MeasureType m_Measure;
   mutable DerivativeType m_Derivative;
-  MeasureType            m_TheoreticalData;
+  MeasureType m_TheoreticalData;
 };
 
 class CommandIterationUpdateLevenbergMarquardt : public itk::Command
@@ -222,12 +222,12 @@ private:
 };
 
 int
-itkRunLevenbergMarquardOptimization(bool   useGradient,
+itkRunLevenbergMarquardOptimization(bool useGradient,
                                     double fTolerance,
                                     double gTolerance,
                                     double xTolerance,
                                     double epsilonFunction,
-                                    int    maxIterations)
+                                    int maxIterations)
 {
   std::cout << "Levenberg Marquardt optimizer test \n \n";
 
@@ -371,7 +371,7 @@ itkRunLevenbergMarquardOptimization(bool   useGradient,
   //
   // check results to see if it is within range
   //
-  bool             pass = true;
+  bool pass = true;
   constexpr double trueParameters[3] = { ra, rb, rc };
   for (unsigned int j = 0; j < LMCostFunction::SpaceDimension; ++j)
   {
@@ -417,7 +417,7 @@ itkLevenbergMarquardtOptimizerTest(int argc, char * argv[])
   double G_Tolerance = 1e-2;      // Gradient magnitude tolerance
   double X_Tolerance = 1e-5;      // Search space tolerance
   double Epsilon_Function = 1e-9; // Step
-  int    Max_Iterations = 200;    // Maximum number of iterations
+  int Max_Iterations = 200;       // Maximum number of iterations
 
   if (argc > 1)
   {
@@ -454,7 +454,7 @@ itkLevenbergMarquardtOptimizerTest(int argc, char * argv[])
   std::cout << std::endl;
   std::cout << "Running using the Gradient computed by vnl " << std::endl;
   bool useGradient = false;
-  int  result = itkRunLevenbergMarquardOptimization(
+  int result = itkRunLevenbergMarquardOptimization(
     useGradient, F_Tolerance, G_Tolerance, X_Tolerance, Epsilon_Function, Max_Iterations);
   if (result == EXIT_FAILURE)
   {

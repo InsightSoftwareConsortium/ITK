@@ -90,7 +90,7 @@ HistogramImageToImageMetric<TFixedImage, TMovingImage>::Initialize()
   if (!m_LowerBoundSetByUser || !m_UpperBoundSetByUser)
   {
     // Calculate min and max image values in fixed image.
-    const FixedImageConstPointerType         pFixedImage = this->m_FixedImage;
+    const FixedImageConstPointerType pFixedImage = this->m_FixedImage;
     ImageRegionConstIterator<FixedImageType> fiIt(pFixedImage, pFixedImage->GetBufferedRegion());
     fiIt.GoToBegin();
     FixedImagePixelType minFixed = fiIt.Value();
@@ -113,7 +113,7 @@ HistogramImageToImageMetric<TFixedImage, TMovingImage>::Initialize()
     }
 
     // Calculate min and max image values in moving image.
-    const MovingImageConstPointerType         pMovingImage = this->m_MovingImage;
+    const MovingImageConstPointerType pMovingImage = this->m_MovingImage;
     ImageRegionConstIterator<MovingImageType> miIt(pMovingImage, pMovingImage->GetBufferedRegion());
     miIt.GoToBegin();
     MovingImagePixelType minMoving = miIt.Value();
@@ -178,7 +178,7 @@ HistogramImageToImageMetric<TFixedImage, TMovingImage>::GetValue(const Transform
 template <typename TFixedImage, typename TMovingImage>
 void
 HistogramImageToImageMetric<TFixedImage, TMovingImage>::GetDerivative(const TransformParametersType & parameters,
-                                                                      DerivativeType &                derivative) const
+                                                                      DerivativeType & derivative) const
 {
   itkDebugMacro("GetDerivative( " << parameters << " ) ");
 
@@ -230,8 +230,8 @@ template <typename TFixedImage, typename TMovingImage>
 void
 HistogramImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDerivative(
   const TransformParametersType & parameters,
-  MeasureType &                   value,
-  DerivativeType &                derivative) const
+  MeasureType & value,
+  DerivativeType & derivative) const
 {
   value = GetValue(parameters);
   this->GetDerivative(parameters, derivative);
@@ -251,9 +251,9 @@ HistogramImageToImageMetric<TFixedImage, TMovingImage>::ComputeHistogram(const T
 
   using FixedIteratorType = itk::ImageRegionConstIteratorWithIndex<FixedImageType>;
 
-  typename FixedImageType::IndexType  index;
+  typename FixedImageType::IndexType index;
   typename FixedImageType::RegionType fixedRegion;
-  typename HistogramType::IndexType   hIndex;
+  typename HistogramType::IndexType hIndex;
 
   fixedRegion = this->GetFixedImageRegion();
   FixedIteratorType ti(fixedImage, fixedRegion);
@@ -340,9 +340,9 @@ HistogramImageToImageMetric<TFixedImage, TMovingImage>::CopyHistogram(HistogramT
   target.Initialize(size, min, max);
 
   // Copy the values.
-  typename HistogramType::Iterator       sourceIt = source.Begin();
+  typename HistogramType::Iterator sourceIt = source.Begin();
   const typename HistogramType::Iterator sourceEnd = source.End();
-  typename HistogramType::Iterator       targetIt = target.Begin();
+  typename HistogramType::Iterator targetIt = target.Begin();
   const typename HistogramType::Iterator targetEnd = target.End();
 
   while (sourceIt != sourceEnd && targetIt != targetEnd)

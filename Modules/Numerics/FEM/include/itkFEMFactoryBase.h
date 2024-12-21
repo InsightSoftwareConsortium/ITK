@@ -96,10 +96,10 @@ public:
   }
 
   void
-  RegisterType(const char *               classOverride,
-               const char *               overrideClassName,
-               const char *               description,
-               bool                       enableFlag,
+  RegisterType(const char * classOverride,
+               const char * overrideClassName,
+               const char * description,
+               bool enableFlag,
                CreateObjectFunctionBase * createFunction)
   {
     this->RegisterOverride(classOverride, overrideClassName, description, enableFlag, createFunction);
@@ -110,7 +110,7 @@ protected:
   ~FEMFactoryBase() override;
 
 private:
-  static std::mutex       m_CreationMutex;
+  static std::mutex m_CreationMutex;
   static FEMFactoryBase * m_Factory;
 };
 } // end namespace itk

@@ -150,12 +150,12 @@ protected:
   GenerateData() override;
 
 private:
-  SizeValueType       m_NumberOfHistogramBins{ 128 };
-  SizeValueType       m_NumberOfThresholds{ 1 };
-  OutputPixelType     m_LabelOffset{};
+  SizeValueType m_NumberOfHistogramBins{ 128 };
+  SizeValueType m_NumberOfThresholds{ 1 };
+  OutputPixelType m_LabelOffset{};
   ThresholdVectorType m_Thresholds{};
-  bool                m_ValleyEmphasis{ false };
-  bool                m_ReturnBinMidpoint{ false };
+  bool m_ValleyEmphasis{ false };
+  bool m_ReturnBinMidpoint{ false };
 };
 } // end namespace itk
 

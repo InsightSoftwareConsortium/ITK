@@ -42,7 +42,7 @@ QuaternionRigidTransform<TParametersValueType>::QuaternionRigidTransform(unsigne
 #if !defined(ITK_LEGACY_REMOVE)
 // Constructor with explicit arguments
 template <typename TParametersValueType>
-QuaternionRigidTransform<TParametersValueType>::QuaternionRigidTransform(const MatrixType &       matrix,
+QuaternionRigidTransform<TParametersValueType>::QuaternionRigidTransform(const MatrixType & matrix,
                                                                          const OutputVectorType & offset)
   : Superclass(matrix, offset)
 {
@@ -119,7 +119,7 @@ auto
 QuaternionRigidTransform<TParametersValueType>::GetParameters() const -> const ParametersType &
 {
   VnlQuaternionType quaternion = this->GetRotation();
-  OutputVectorType  translation = this->GetTranslation();
+  OutputVectorType translation = this->GetTranslation();
 
   // Transfer the quaternion part
   unsigned int par = 0;

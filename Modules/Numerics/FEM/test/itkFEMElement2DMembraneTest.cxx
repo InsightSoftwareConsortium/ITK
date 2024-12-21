@@ -30,7 +30,7 @@ itkFEMElement2DMembraneTest(int, char *[])
 
   using ElasticityType = itk::fem::MaterialLinearElasticity;
 
-  NodeType::Pointer       n0, n1, n2, n3;
+  NodeType::Pointer n0, n1, n2, n3;
   ElementType::VectorType pt(2);
 
   n0 = NodeType::New();

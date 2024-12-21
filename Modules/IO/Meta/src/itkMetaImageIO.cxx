@@ -407,7 +407,7 @@ MetaImageIO::ReadImageInformation()
   //
   // Read direction cosines
   //
-  const double *     transformMatrix = m_MetaImage.TransformMatrix();
+  const double * transformMatrix = m_MetaImage.TransformMatrix();
   vnl_vector<double> directionAxis(this->GetNumberOfDimensions());
   for (unsigned int ii = 0; ii < this->GetNumberOfDimensions(); ++ii)
   {
@@ -535,7 +535,7 @@ MetaImageIO::WriteImageInformation()
 {
 
   MetaDataDictionary & metaDict = this->GetMetaDataDictionary();
-  std::string          metaDataStr;
+  std::string metaDataStr;
 
   // Look at default metaio fields
   if (ExposeMetaData<std::string>(metaDict, ITK_VoxelUnits, metaDataStr))
@@ -566,7 +566,7 @@ MetaImageIO::WriteImageInformation()
 
   // Save out the metadatadictionary key/value pairs as part of
   // the metaio header.
-  std::vector<std::string>                 keys = metaDict.GetKeys();
+  std::vector<std::string> keys = metaDict.GetKeys();
   std::vector<std::string>::const_iterator keyIt;
   for (keyIt = keys.begin(); keyIt != keys.end(); ++keyIt)
   {
@@ -575,22 +575,22 @@ MetaImageIO::WriteImageInformation()
       continue;
     }
     // try for common scalar types
-    std::ostringstream  strs;
-    double              dval = 0.0;
-    float               fval = 0.0F;
-    long                lval = 0L;
-    unsigned long       ulval = 0L;
-    long long           llval = 0LL;
-    unsigned long long  ullval = 0uLL;
-    int                 ival = 0;
-    unsigned int        uval = 0;
-    short               shval = 0;
-    unsigned short      ushval = 0;
-    char                cval = 0;
-    unsigned char       ucval = 0;
-    bool                bval = false;
+    std::ostringstream strs;
+    double dval = 0.0;
+    float fval = 0.0F;
+    long lval = 0L;
+    unsigned long ulval = 0L;
+    long long llval = 0LL;
+    unsigned long long ullval = 0uLL;
+    int ival = 0;
+    unsigned int uval = 0;
+    short shval = 0;
+    unsigned short ushval = 0;
+    char cval = 0;
+    unsigned char ucval = 0;
+    bool bval = false;
     std::vector<double> vval(0);
-    std::string         value = "";
+    std::string value = "";
     if (ExposeMetaData<std::string>(metaDict, *keyIt, value))
     {
       strs << value;
@@ -818,9 +818,9 @@ MetaImageIO::Write(const void * buffer)
   if (numberOfDimensions == 3)
   {
     AnatomicalOrientation::DirectionType dir;
-    std::vector<double>                  dirx = this->GetDirection(0);
-    std::vector<double>                  diry = this->GetDirection(1);
-    std::vector<double>                  dirz = this->GetDirection(2);
+    std::vector<double> dirx = this->GetDirection(0);
+    std::vector<double> diry = this->GetDirection(1);
+    std::vector<double> dirz = this->GetDirection(2);
     for (unsigned int ii = 0; ii < 3; ++ii)
     {
       dir[ii][0] = dirx[ii];
@@ -934,7 +934,7 @@ MetaImageIO::GenerateStreamableReadRegionFromRequestedRegion(const ImageIORegion
 }
 
 unsigned int
-MetaImageIO::GetActualNumberOfSplitsForWriting(unsigned int          numberOfRequestedSplits,
+MetaImageIO::GetActualNumberOfSplitsForWriting(unsigned int numberOfRequestedSplits,
                                                const ImageIORegion & pasteRegion,
                                                const ImageIORegion & largestPossibleRegion)
 {
@@ -962,7 +962,7 @@ MetaImageIO::GetActualNumberOfSplitsForWriting(unsigned int          numberOfReq
     // we are going to be pasting (may be streaming too)
 
     // need to check to see if the file is compatible
-    std::string   errorMessage;
+    std::string errorMessage;
     const Pointer headerImageIOReader = Self::New();
 
     try
@@ -1057,8 +1057,8 @@ MetaImageIO::GetActualNumberOfSplitsForWriting(unsigned int          numberOfReq
 }
 
 ImageIORegion
-MetaImageIO::GetSplitRegionForWriting(unsigned int          ithPiece,
-                                      unsigned int          numberOfActualSplits,
+MetaImageIO::GetSplitRegionForWriting(unsigned int ithPiece,
+                                      unsigned int numberOfActualSplits,
                                       const ImageIORegion & pasteRegion,
                                       const ImageIORegion & itkNotUsed(largestPossibleRegion))
 {

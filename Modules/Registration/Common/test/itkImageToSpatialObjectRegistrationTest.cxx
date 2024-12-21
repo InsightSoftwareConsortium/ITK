@@ -174,7 +174,7 @@ public:
     while (it != m_PointList.end())
     {
       const PointType transformedPoint = this->m_Transform->TransformPoint(*it);
-      Index<2>        index = this->m_FixedImage->TransformPhysicalPointToIndex(transformedPoint);
+      Index<2> index = this->m_FixedImage->TransformPhysicalPointToIndex(transformedPoint);
       if (index[0] > 0L && index[1] > 0L &&
           index[0] < static_cast<long>(this->m_FixedImage->GetLargestPossibleRegion().GetSize()[0]) &&
           index[1] < static_cast<long>(this->m_FixedImage->GetLargestPossibleRegion().GetSize()[1]))
@@ -189,8 +189,8 @@ public:
   /** Get Value and Derivatives for MultipleValuedOptimizers */
   void
   GetValueAndDerivative(const ParametersType & parameters,
-                        MeasureType &          Value,
-                        DerivativeType &       Derivative) const override
+                        MeasureType & Value,
+                        DerivativeType & Derivative) const override
   {
     Value = this->GetValue(parameters);
     this->GetDerivative(parameters, Derivative);

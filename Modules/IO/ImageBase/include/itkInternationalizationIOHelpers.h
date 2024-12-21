@@ -234,7 +234,7 @@ public:
   }
 
 private:
-  int           m_fd;
+  int m_fd;
   itk::fdoutbuf m_buf;
 };
 
@@ -269,7 +269,7 @@ public:
   }
 
 private:
-  int          m_fd;
+  int m_fd;
   itk::fdinbuf m_buf;
 };
 #elif LOCAL_USE_WIN32_WOPEN

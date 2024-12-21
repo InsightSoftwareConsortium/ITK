@@ -53,9 +53,9 @@ public:
 // Template function to fill in an image with a circle.
 template <typename TImage>
 void
-FillWithCircle(TImage *                   image,
-               double *                   center,
-               double                     radius,
+FillWithCircle(TImage * image,
+               double * center,
+               double radius,
                typename TImage::PixelType foregnd,
                typename TImage::PixelType backgnd)
 {
@@ -65,7 +65,7 @@ FillWithCircle(TImage *                   image,
   it.GoToBegin();
 
   typename TImage::IndexType index;
-  const double               r2 = itk::Math::sqr(radius);
+  const double r2 = itk::Math::sqr(radius);
 
   for (; !it.IsAtEnd(); ++it)
   {
@@ -120,7 +120,7 @@ itkFastSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
   std::cout << "Generate input images and initial deformation field" << std::endl;
 
   ImageType::SizeValueType sizeArray[ImageDimension] = { 128, 128 };
-  SizeType                 size;
+  SizeType size;
   size.SetSize(sizeArray);
 
   constexpr IndexType index{};
@@ -143,7 +143,7 @@ itkFastSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
   initField->SetBufferedRegion(region);
   initField->Allocate();
 
-  double              center[ImageDimension];
+  double center[ImageDimension];
   constexpr PixelType fgnd = 250;
   constexpr PixelType bgnd = 15;
 
@@ -190,7 +190,7 @@ itkFastSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
   registrator->SetNumberOfIterations(numberOfIterations);
   ITK_TEST_SET_GET_VALUE(numberOfIterations, registrator->GetNumberOfIterations());
 
-  constexpr double                               standardDeviationsVal = 1.0;
+  constexpr double standardDeviationsVal = 1.0;
   const RegistrationType::StandardDeviationsType standardDeviations{ standardDeviationsVal };
   registrator->SetStandardDeviations(standardDeviationsVal);
   ITK_TEST_SET_GET_VALUE(standardDeviations, registrator->GetStandardDeviations());
@@ -216,7 +216,7 @@ itkFastSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
   auto smoothUpdateField = false;
   ITK_TEST_SET_GET_BOOLEAN(registrator, SmoothUpdateField, smoothUpdateField);
 
-  constexpr double                               updateFieldStandardDeviationsVal = 1.0;
+  constexpr double updateFieldStandardDeviationsVal = 1.0;
   const RegistrationType::StandardDeviationsType updateFieldStandardDeviations{ updateFieldStandardDeviationsVal };
   registrator->SetUpdateFieldStandardDeviations(updateFieldStandardDeviationsVal);
   ITK_TEST_SET_GET_VALUE(updateFieldStandardDeviations, registrator->GetUpdateFieldStandardDeviations());
@@ -233,7 +233,7 @@ itkFastSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
   fptr->Print(std::cout);
 
   using ProgressType = ShowProgressObject<RegistrationType>;
-  ProgressType                                          progressWatch(registrator);
+  ProgressType progressWatch(registrator);
   const itk::SimpleMemberCommand<ProgressType>::Pointer command = itk::SimpleMemberCommand<ProgressType>::New();
   command->SetCallbackFunction(&progressWatch, &ProgressType::ShowProgress);
   registrator->AddObserver(itk::ProgressEvent(), command);

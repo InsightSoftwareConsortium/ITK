@@ -229,9 +229,9 @@ private:
   RegionVectorType m_UpdatedBufferedRegions{};
   RegionVectorType m_UpdatedRequestedRegions{};
 
-  PointType       m_UpdatedOutputOrigin{};
-  DirectionType   m_UpdatedOutputDirection{};
-  SpacingType     m_UpdatedOutputSpacing{};
+  PointType m_UpdatedOutputOrigin{};
+  DirectionType m_UpdatedOutputDirection{};
+  SpacingType m_UpdatedOutputSpacing{};
   ImageRegionType m_UpdatedOutputLargestPossibleRegion{};
 };
 } // end namespace itk

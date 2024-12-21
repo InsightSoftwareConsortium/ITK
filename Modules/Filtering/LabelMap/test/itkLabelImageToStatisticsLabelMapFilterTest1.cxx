@@ -53,7 +53,7 @@ itkLabelImageToStatisticsLabelMapFilterTest1(int argc, char * argv[])
   // converting Label image to Statistics label map
   // don't set the output type to test the default value of the template parameter
   using I2LType = itk::LabelImageToStatisticsLabelMapFilter<ImageType, ImageType>;
-  auto                           i2l = I2LType::New();
+  auto i2l = I2LType::New();
   const itk::SimpleFilterWatcher watcher1(i2l);
 
   i2l->SetInput(reader->GetOutput());
@@ -111,7 +111,7 @@ itkLabelImageToStatisticsLabelMapFilterTest1(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(numberOfBins, i2l->GetNumberOfBins());
 
   using L2IType = itk::LabelMapToLabelImageFilter<I2LType::OutputImageType, ImageType>;
-  auto                           l2i = L2IType::New();
+  auto l2i = L2IType::New();
   const itk::SimpleFilterWatcher watcher2(l2i);
 
   l2i->SetInput(i2l->GetOutput());

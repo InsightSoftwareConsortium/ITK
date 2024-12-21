@@ -270,9 +270,9 @@ ItpackSparseMatrix::doublereal
 ItpackSparseMatrix::Get(integer i, integer j)
 {
   doublereal returnValue = 0.0; /* set to default return value */
-  integer    fortranJ = j + 1;
-  integer    lower;
-  integer    upper;
+  integer fortranJ = j + 1;
+  integer lower;
+  integer upper;
 
   /* check for readiness */
   if (m_MatrixInitialized != 0)
@@ -393,11 +393,11 @@ ItpackSparseMatrix::mult(ItpackSparseMatrix * rightMatrix, ItpackSparseMatrix * 
   }
 
   /* loop and temp variables */
-  int        lower;  /* lower bounds for column indices vector */
-  int        upper;  /* upper bounds for column indices vector */
-  int        i;      /* loop over rows */
-  int        j;      /* loop over columns */
-  int        k;      /* iterate through row */
+  int lower;         /* lower bounds for column indices vector */
+  int upper;         /* upper bounds for column indices vector */
+  int i;             /* loop over rows */
+  int j;             /* loop over columns */
+  int k;             /* iterate through row */
   doublereal summed; /* temp holder for row.column */
   /* perform the mult operation */
   for (i = 0; i < m_N; ++i)
@@ -444,8 +444,8 @@ ItpackSparseMatrix::~ItpackSparseMatrix()
 
 FEMExceptionItpackSparseMatrixSbagn::FEMExceptionItpackSparseMatrixSbagn(const char * file,
                                                                          unsigned int lineNumber,
-                                                                         std::string  location,
-                                                                         integer      errorCode)
+                                                                         std::string location,
+                                                                         integer errorCode)
   : FEMException(file, lineNumber)
 {
   std::string solverError;
@@ -471,8 +471,8 @@ FEMExceptionItpackSparseMatrixSbagn::~FEMExceptionItpackSparseMatrixSbagn() noex
 
 FEMExceptionItpackSparseMatrixSbsij::FEMExceptionItpackSparseMatrixSbsij(const char * file,
                                                                          unsigned int lineNumber,
-                                                                         std::string  location,
-                                                                         integer      errorCode)
+                                                                         std::string location,
+                                                                         integer errorCode)
   : FEMException(file, lineNumber)
 {
   std::string solverError;

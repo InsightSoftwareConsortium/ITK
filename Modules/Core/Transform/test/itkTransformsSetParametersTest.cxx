@@ -72,7 +72,7 @@ TestKernelTransform(const char * name, KernelType *)
   kernel->SetSourceLandmarks(sourceLandmarks);
   kernel->SetTargetLandmarks(targetLandmarks);
 
-  const itk::ModifiedTimeType         beginMTime = kernel->GetMTime();
+  const itk::ModifiedTimeType beginMTime = kernel->GetMTime();
   typename KernelType::ParametersType kernelParams = kernel->GetParameters();
   kernelParams[0] = 1.0;
   kernel->SetParameters(kernelParams);

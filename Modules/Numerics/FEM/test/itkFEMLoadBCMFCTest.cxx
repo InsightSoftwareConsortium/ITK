@@ -81,7 +81,7 @@ itkFEMLoadBCMFCTest(int argc, char * argv[])
   solver->SetInput(femSO->GetFEMObject());
   solver->Update();
 
-  int               numDOF = femSO->GetFEMObject()->GetNumberOfDegreesOfFreedom();
+  int numDOF = femSO->GetFEMObject()->GetNumberOfDegreesOfFreedom();
   vnl_vector<float> soln(numDOF);
   float expectedResult[10] = { 0.283525f, 0.0f, 0.283525f, 1.70115f, 0.283525f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
 

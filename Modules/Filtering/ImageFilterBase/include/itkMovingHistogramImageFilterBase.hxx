@@ -51,10 +51,10 @@ MovingHistogramImageFilterBase<TInputImage, TOutputImage, TKernel>::SetKernel(co
   auto tmpSEImage = BoolImageType::New();
   tmpSEImage->SetRegions(kernel.GetSize());
   tmpSEImage->Allocate();
-  const RegionType                            tmpSEImageRegion = tmpSEImage->GetRequestedRegion();
+  const RegionType tmpSEImageRegion = tmpSEImage->GetRequestedRegion();
   ImageRegionIteratorWithIndex<BoolImageType> kernelImageIt(tmpSEImage, tmpSEImageRegion);
-  KernelIteratorType                          kernel_it = kernel.Begin();
-  OffsetListType                              kernelOffsets;
+  KernelIteratorType kernel_it = kernel.Begin();
+  OffsetListType kernelOffsets;
 
   // create a center index to compute the offset
   IndexType centerIndex;
@@ -186,9 +186,9 @@ template <typename TInputImage, typename TOutputImage, typename TKernel>
 void
 MovingHistogramImageFilterBase<TInputImage, TOutputImage, TKernel>::GetDirAndOffset(const IndexType LineStart,
                                                                                     const IndexType PrevLineStart,
-                                                                                    OffsetType &    LineOffset,
-                                                                                    OffsetType &    Changes,
-                                                                                    int &           LineDirection)
+                                                                                    OffsetType & LineOffset,
+                                                                                    OffsetType & Changes,
+                                                                                    int & LineDirection)
 {
   // when moving between lines in the same plane there should be only
   // 1 non zero (positive) entry in LineOffset.

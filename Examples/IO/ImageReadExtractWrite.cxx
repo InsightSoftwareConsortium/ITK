@@ -215,7 +215,7 @@ main(int argc, char ** argv)
 
   // Software Guide : BeginCodeSnippet
   InputImageType::IndexType start = inputRegion.GetIndex();
-  const unsigned int        sliceNumber = std::stoi(argv[3]);
+  const unsigned int sliceNumber = std::stoi(argv[3]);
   start[2] = sliceNumber;
   // Software Guide : EndCodeSnippet
 

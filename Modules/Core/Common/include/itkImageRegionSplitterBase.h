@@ -121,21 +121,21 @@ protected:
   /** Templateless method to compute the number of possible splits for
    *  any number of dimensions. */
   virtual unsigned int
-  GetNumberOfSplitsInternal(unsigned int         dim,
+  GetNumberOfSplitsInternal(unsigned int dim,
                             const IndexValueType regionIndex[],
-                            const SizeValueType  regionSize[],
-                            unsigned int         requestedNumber) const = 0;
+                            const SizeValueType regionSize[],
+                            unsigned int requestedNumber) const = 0;
 
   /** Templateless method to compute an actual split for any number of
    * dimensions. \c dim is the size of the \c regionIndex and \c
    * regionSize arrays.
    */
   virtual unsigned int
-  GetSplitInternal(unsigned int   dim,
-                   unsigned int   i,
-                   unsigned int   numberOfPieces,
+  GetSplitInternal(unsigned int dim,
+                   unsigned int i,
+                   unsigned int numberOfPieces,
                    IndexValueType regionIndex[],
-                   SizeValueType  regionSize[]) const = 0;
+                   SizeValueType regionSize[]) const = 0;
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

@@ -129,17 +129,17 @@ protected:
   UpdateValue(OutputMeshType * oMesh, const NodeType & iNode) override;
 
   const OutputVectorRealType
-  Solve(OutputMeshType *             oMesh,
-        const NodeType &             iId,
-        const OutputPointType &      iCurrentPoint,
+  Solve(OutputMeshType * oMesh,
+        const NodeType & iId,
+        const OutputPointType & iCurrentPoint,
         const OutputVectorRealType & iF,
-        const NodeType &             iId1,
-        const OutputPointType &      iP1,
-        const bool                   iIsFar1,
-        const OutputVectorRealType   iVal1,
-        const NodeType &             iId2,
-        const OutputPointType &      iP2,
-        const bool                   iIsFar2,
+        const NodeType & iId1,
+        const OutputPointType & iP1,
+        const bool iIsFar1,
+        const OutputVectorRealType iVal1,
+        const NodeType & iId2,
+        const OutputPointType & iP2,
+        const bool iIsFar2,
         const OutputVectorRealType & iVal2) const;
 
 
@@ -154,18 +154,18 @@ protected:
                 const OutputVectorRealType & iF) const;
 
   bool
-  UnfoldTriangle(OutputMeshType *                  oMesh,
+  UnfoldTriangle(OutputMeshType * oMesh,
                  const OutputPointIdentifierType & iId,
-                 const OutputPointType &           iP,
+                 const OutputPointType & iP,
                  const OutputPointIdentifierType & iId1,
-                 const OutputPointType &           iP1,
+                 const OutputPointType & iP1,
                  const OutputPointIdentifierType & iId2,
-                 const OutputPointType &           iP2,
-                 OutputVectorRealType &            oNorm,
-                 OutputVectorRealType &            oSqNorm,
-                 OutputVectorRealType &            oDot1,
-                 OutputVectorRealType &            oDot2,
-                 OutputPointIdentifierType &       oId) const;
+                 const OutputPointType & iP2,
+                 OutputVectorRealType & oNorm,
+                 OutputVectorRealType & oSqNorm,
+                 OutputVectorRealType & oDot1,
+                 OutputVectorRealType & oDot2,
+                 OutputPointIdentifierType & oId) const;
 
   bool
   CheckTopology(OutputMeshType * oMesh, const NodeType & iNode) override;

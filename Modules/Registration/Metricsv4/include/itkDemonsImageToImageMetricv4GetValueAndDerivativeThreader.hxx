@@ -42,13 +42,13 @@ DemonsImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner, TIma
   ProcessPoint(const VirtualIndexType &,
                const VirtualPointType &,
                const FixedImagePointType &,
-               const FixedImagePixelType &    fixedImageValue,
+               const FixedImagePixelType & fixedImageValue,
                const FixedImageGradientType & fixedImageGradient,
                const MovingImagePointType &,
-               const MovingImagePixelType &    movingImageValue,
+               const MovingImagePixelType & movingImageValue,
                const MovingImageGradientType & movingImageGradient,
-               MeasureType &                   metricValueReturn,
-               DerivativeType &                localDerivativeReturn,
+               MeasureType & metricValueReturn,
+               DerivativeType & localDerivativeReturn,
                const ThreadIdType) const
 {
   /* Metric value */
@@ -62,9 +62,9 @@ DemonsImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner, TIma
   }
 
   /* Derivative */
-  InternalComputationValueType   gradientSquaredMagnitude = 0;
+  InternalComputationValueType gradientSquaredMagnitude = 0;
   const FixedImageGradientType * gradient;
-  SizeValueType                  numberOfDimensions;
+  SizeValueType numberOfDimensions;
 
   if (this->m_DemonsAssociate->GetGradientSourceIncludesFixed())
   {

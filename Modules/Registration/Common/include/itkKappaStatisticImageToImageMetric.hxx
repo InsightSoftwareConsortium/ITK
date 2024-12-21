@@ -53,7 +53,7 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>::GetValue(const Tran
   //
   using FixedIteratorType = ImageRegionConstIteratorWithIndex<FixedImageType>;
   typename FixedImageType::IndexType fixedIndex;
-  FixedIteratorType                  fi(fixedImage, fixedImage->GetBufferedRegion());
+  FixedIteratorType fi(fixedImage, fixedImage->GetBufferedRegion());
 
   // Get the moving image
   //
@@ -299,16 +299,16 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>::ComputeGradient()
   using MovingIteratorType = ImageRegionConstIteratorWithIndex<MovingImageType>;
 
   GradientIteratorType git(tempGradientImage, tempGradientImage->GetBufferedRegion());
-  MovingIteratorType   mit(this->m_MovingImage, this->m_MovingImage->GetBufferedRegion());
+  MovingIteratorType mit(this->m_MovingImage, this->m_MovingImage->GetBufferedRegion());
 
   git.GoToBegin();
   mit.GoToBegin();
 
-  typename MovingImageType::IndexType   minusIndex;
-  typename MovingImageType::IndexType   plusIndex;
-  typename MovingImageType::IndexType   currIndex;
+  typename MovingImageType::IndexType minusIndex;
+  typename MovingImageType::IndexType plusIndex;
+  typename MovingImageType::IndexType currIndex;
   typename GradientImageType::PixelType tempGradPixel;
-  typename MovingImageType::SizeType    movingSize = this->m_MovingImage->GetBufferedRegion().GetSize();
+  typename MovingImageType::SizeType movingSize = this->m_MovingImage->GetBufferedRegion().GetSize();
   while (!mit.IsAtEnd())
   {
     currIndex = mit.GetIndex();
@@ -355,8 +355,8 @@ template <typename TFixedImage, typename TMovingImage>
 void
 KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDerivative(
   const TransformParametersType & parameters,
-  MeasureType &                   Value,
-  DerivativeType &                Derivative) const
+  MeasureType & Value,
+  DerivativeType & Derivative) const
 {
   Value = this->GetValue(parameters);
   this->GetDerivative(parameters, Derivative);

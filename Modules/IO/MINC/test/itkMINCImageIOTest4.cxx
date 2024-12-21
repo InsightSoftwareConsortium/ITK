@@ -32,11 +32,11 @@ template <typename ImageType>
 int
 test_image_moments(const char * input_image,
                    const char * output_image,
-                   double       total,
-                   double       mx,
-                   double       my,
-                   double       mz,
-                   double       epsilon)
+                   double total,
+                   double mx,
+                   double my,
+                   double mz,
+                   double epsilon)
 {
   // itk::MINCImageIO::Pointer mincIO1 = itk::MINCImageIO::New();
 

@@ -24,10 +24,10 @@ namespace itk
 template <typename InputPixelType, typename T, typename OutputConvertTraits>
 void
 ConvertPixelBuffer<InputPixelType, VariableLengthVector<T>, OutputConvertTraits>::Convert(
-  InputPixelType *          inputData,
-  int                       inputNumberOfComponents,
+  InputPixelType * inputData,
+  int inputNumberOfComponents,
   VariableLengthVector<T> * outputData,
-  size_t                    size)
+  size_t size)
 {
   InputPixelType * endInput = inputData + size * static_cast<size_t>(inputNumberOfComponents);
 

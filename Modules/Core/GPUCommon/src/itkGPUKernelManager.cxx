@@ -494,7 +494,7 @@ GPUKernelManager::LaunchKernel1D(int kernelIdx, size_t globalWorkSize, size_t it
 }
 
 bool
-GPUKernelManager::LaunchKernel2D(int    kernelIdx,
+GPUKernelManager::LaunchKernel2D(int kernelIdx,
                                  size_t globalWorkSizeX,
                                  size_t globalWorkSizeY,
                                  size_t itkNotUsed(localWorkSizeX),
@@ -545,7 +545,7 @@ GPUKernelManager::LaunchKernel2D(int    kernelIdx,
 }
 
 bool
-GPUKernelManager::LaunchKernel3D(int    kernelIdx,
+GPUKernelManager::LaunchKernel3D(int kernelIdx,
                                  size_t globalWorkSizeX,
                                  size_t globalWorkSizeY,
                                  size_t globalWorkSizeZ,

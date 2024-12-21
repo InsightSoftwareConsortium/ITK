@@ -100,13 +100,13 @@ itkNaryAddImageFilterTest(int, char *[])
   using InputImageIteratorType = itk::ImageRegionConstIterator<InputImageType>;
   using OutputImageIteratorType = itk::ImageRegionConstIterator<OutputImageType>;
 
-  InputImageIteratorType  iterA(inputImageA, inputImageA->GetRequestedRegion());
-  InputImageIteratorType  iterB(inputImageB, inputImageA->GetRequestedRegion());
-  InputImageIteratorType  iterC(inputImageC, inputImageA->GetRequestedRegion());
+  InputImageIteratorType iterA(inputImageA, inputImageA->GetRequestedRegion());
+  InputImageIteratorType iterB(inputImageB, inputImageA->GetRequestedRegion());
+  InputImageIteratorType iterC(inputImageC, inputImageA->GetRequestedRegion());
   OutputImageIteratorType oIt(outputImage, inputImageA->GetRequestedRegion());
 
   constexpr OutputImageType::PixelType epsilon = 1e-9;
-  unsigned int                         failures = 0;
+  unsigned int failures = 0;
   while (!oIt.IsAtEnd())
   {
     auto expectedValue = static_cast<OutputImageType::PixelType>(iterA.Get() + iterB.Get() + iterC.Get());
@@ -174,15 +174,15 @@ itkNaryAddImageFilterTest(int, char *[])
   auto vectorImageC = VectorImageType::New();
 
   constexpr VectorImageType::PixelType::ValueType vectorValueA = 12;
-  auto                                            vectorImageValueA = itk::MakeFilled<VectorPixelType>(vectorValueA);
+  auto vectorImageValueA = itk::MakeFilled<VectorPixelType>(vectorValueA);
   vectorImageValueA[0] = 5;
 
   constexpr VectorImageType::PixelType::ValueType vectorValueB = 17;
-  auto                                            vectorImageValueB = itk::MakeFilled<VectorPixelType>(vectorValueB);
+  auto vectorImageValueB = itk::MakeFilled<VectorPixelType>(vectorValueB);
   vectorImageValueB[0] = 9;
 
   constexpr VectorImageType::PixelType::ValueType vectorValueC = -4;
-  auto                                            vectorImageValueC = itk::MakeFilled<VectorPixelType>(vectorValueC);
+  auto vectorImageValueC = itk::MakeFilled<VectorPixelType>(vectorValueC);
   vectorImageValueC[0] = -80;
 
   InitializeImage<VectorImageType>(vectorImageA, vectorImageValueA);

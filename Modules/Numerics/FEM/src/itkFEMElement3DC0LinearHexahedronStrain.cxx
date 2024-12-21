@@ -27,7 +27,7 @@ itk::LightObject::Pointer
 Element3DC0LinearHexahedronStrain::CreateAnother() const
 {
   itk::LightObject::Pointer smartPtr;
-  Pointer                   copyPtr = Self::New();
+  Pointer copyPtr = Self::New();
 
   copyPtr->SetNode(0, this->GetNode(0));
   copyPtr->SetNode(1, this->GetNode(1));

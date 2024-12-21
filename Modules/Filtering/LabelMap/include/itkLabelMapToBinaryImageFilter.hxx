@@ -99,7 +99,7 @@ LabelMapToBinaryImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateD
   {
     // fill the background with the background values from the background image
     ImageRegionConstIterator<OutputImageType> bgIt(this->GetBackgroundImage(), outputRegionForThread);
-    ImageRegionIterator<OutputImageType>      oIt(output, outputRegionForThread);
+    ImageRegionIterator<OutputImageType> oIt(output, outputRegionForThread);
 
     bgIt.GoToBegin();
     oIt.GoToBegin();
@@ -137,7 +137,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 LabelMapToBinaryImageFilter<TInputImage, TOutputImage>::ThreadedProcessLabelObject(LabelObjectType * labelObject)
 {
-  OutputImageType *                            output = this->GetOutput();
+  OutputImageType * output = this->GetOutput();
   typename LabelObjectType::ConstIndexIterator it(labelObject);
   while (!it.IsAtEnd())
   {

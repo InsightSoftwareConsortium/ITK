@@ -211,7 +211,7 @@ LinearSystemWrapperVNL::Solve()
    * Here we use the iterative least squares solver.
    */
   vnl_sparse_matrix_linear_system<Float> ls((*((*m_Matrices)[0])), (*((*m_Vectors)[0])));
-  vnl_lsqr                               lsq(ls);
+  vnl_lsqr lsq(ls);
 
   /*
    * Set max number of iterations to 3*size of the K matrix.

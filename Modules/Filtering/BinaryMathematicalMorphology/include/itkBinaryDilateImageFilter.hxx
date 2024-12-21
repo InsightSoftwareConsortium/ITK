@@ -42,14 +42,14 @@ BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
   this->AllocateOutputs();
 
   // Retrieve input and output pointers
-  const typename OutputImageType::Pointer     output = this->GetOutput();
+  const typename OutputImageType::Pointer output = this->GetOutput();
   const typename InputImageType::ConstPointer input = this->GetInput();
 
   // Get values from superclass
-  const InputPixelType                    foregroundValue = this->GetForegroundValue();
-  const InputPixelType                    backgroundValue = this->GetBackgroundValue();
-  const KernelType                        kernel = this->GetKernel();
-  auto                                    radius = InputSizeType::Filled(1);
+  const InputPixelType foregroundValue = this->GetForegroundValue();
+  const InputPixelType backgroundValue = this->GetBackgroundValue();
+  const KernelType kernel = this->GetKernel();
+  auto radius = InputSizeType::Filled(1);
   const typename TOutputImage::RegionType outputRegion = output->GetBufferedRegion();
 
   // compute the size of the temp image. It is needed to create the progress
@@ -83,7 +83,7 @@ BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
   // except for pixels with DilateValue.  These pixels are initially
   // replaced with BackgroundValue and potentially replaced later with
   // DilateValue as the Minkowski sums are performed.
-  ImageRegionIterator<OutputImageType>     outIt(output, outputRegion);
+  ImageRegionIterator<OutputImageType> outIt(output, outputRegion);
   ImageRegionConstIterator<InputImageType> inIt(input, outputRegion);
 
   for (inIt.GoToBegin(), outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt, ++inIt)
@@ -238,7 +238,7 @@ BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
 
         // paint the structuring element
         typename NeighborIndexContainer::const_iterator itIdx;
-        NeighborIndexContainer &                        idxDifferenceSet = this->GetDifferenceSet(centerPixelCode);
+        NeighborIndexContainer & idxDifferenceSet = this->GetDifferenceSet(centerPixelCode);
         for (itIdx = idxDifferenceSet.begin(); itIdx != idxDifferenceSet.end(); ++itIdx)
         {
           const IndexType idx = tmpRegIndexIt.GetIndex() + *itIdx;
@@ -379,8 +379,8 @@ BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
   // Paint input image translated with respect to the SE CCs vectors
   // --> "( Xb0 UNION Xb1 UNION ... Xbn )"
   typename Superclass::ComponentVectorConstIterator vecIt;
-  auto                                              vecBeginIt = this->KernelCCVectorBegin();
-  auto                                              vecEndIt = this->KernelCCVectorEnd();
+  auto vecBeginIt = this->KernelCCVectorBegin();
+  auto vecEndIt = this->KernelCCVectorEnd();
 
   // iterator on output image
   ImageRegionIteratorWithIndex<OutputImageType> ouRegIndexIt(output, outputRegion);

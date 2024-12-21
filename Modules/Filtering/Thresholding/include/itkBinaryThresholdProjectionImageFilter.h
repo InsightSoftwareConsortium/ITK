@@ -86,7 +86,7 @@ public:
 
   bool m_IsForeground;
 
-  TInputPixel  m_ThresholdValue;
+  TInputPixel m_ThresholdValue;
   TOutputPixel m_ForegroundValue;
   TOutputPixel m_BackgroundValue;
 };

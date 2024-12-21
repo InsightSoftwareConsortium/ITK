@@ -90,10 +90,10 @@ TestGeometricPoint(const InterpolatorType * interp, const PointType & point, boo
  * returns false otherwise
  */
 bool
-TestContinuousIndex(const InterpolatorType *    interp,
+TestContinuousIndex(const InterpolatorType * interp,
                     const ContinuousIndexType & index,
-                    bool                        isInside,
-                    OutputType                  trueValue)
+                    bool isInside,
+                    OutputType trueValue)
 {
 
   std::cout << " Index: " << index;
@@ -146,12 +146,12 @@ itkWindowedSincInterpolateImageFunctionTest(int, char *[])
   constexpr unsigned int ImageDimension = SincInterpolate::ImageDimension;
 
   constexpr ImageType::SizeType size = { { 20, 40, 80 } };
-  constexpr double              origin[3] = { 0.5, 0.5, 0.5 };
-  constexpr double              spacing[3] = { 0.1, 0.05, 0.025 };
+  constexpr double origin[3] = { 0.5, 0.5, 0.5 };
+  constexpr double spacing[3] = { 0.1, 0.05, 0.025 };
 
 
   // Create a test image
-  auto                  image = ImageType::New();
+  auto image = ImageType::New();
   ImageType::RegionType region;
   region.SetSize(size);
 
@@ -166,7 +166,7 @@ itkWindowedSincInterpolateImageFunctionTest(int, char *[])
 
   for (Iterator iter(image, region); !iter.IsAtEnd(); ++iter)
   {
-    IndexType      index = iter.GetIndex();
+    IndexType index = iter.GetIndex();
     unsigned short value = 0;
 
     for (unsigned int j = 0; j < ImageDimension; ++j)
@@ -192,10 +192,10 @@ itkWindowedSincInterpolateImageFunctionTest(int, char *[])
   /* Test evaluation at continuous indices and corresponding
      gemetric points */
   std::cout << "Evaluate at: " << std::endl;
-  OutputType          output;
+  OutputType output;
   ContinuousIndexType cindex;
-  PointType           point;
-  bool                passed;
+  PointType point;
+  bool passed;
 
   // an integer position inside the image
   {
@@ -242,7 +242,7 @@ itkWindowedSincInterpolateImageFunctionTest(int, char *[])
   // position near image border
   {
     constexpr double epsilon = 1.0e-10;
-    CoordinateType   darray[3] = { 19 - epsilon, 20, 40 };
+    CoordinateType darray[3] = { 19 - epsilon, 20, 40 };
     output = OutputType(79);
     cindex = ContinuousIndexType(darray);
     passed = SincInterpolate::TestContinuousIndex(interp, cindex, true, output);

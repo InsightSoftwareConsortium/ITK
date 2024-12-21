@@ -108,7 +108,7 @@ itkComplexToImaginaryFilterAndAdaptorTest(int, char *[])
   it.GoToBegin();
   while (!ot.IsAtEnd())
   {
-    const InputImageType::PixelType  input = it.Get();
+    const InputImageType::PixelType input = it.Get();
     const OutputImageType::PixelType output = ot.Get();
     const OutputImageType::PixelType imag = input.imag();
     if (!itk::Math::FloatAlmostEqual(imag, output, 10, epsilon))

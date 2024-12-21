@@ -133,7 +133,7 @@ ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>::StartOptimiz
        * within a tolerance, to allow for automatically estimated scales
        * that may not be exactly 1.0 when in priciniple they should be. */
       const SValueType difference = itk::Math::abs(NumericTraits<SValueType>::OneValue() - this->m_Scales[i]);
-      auto             tolerance = static_cast<SValueType>(0.01);
+      auto tolerance = static_cast<SValueType>(0.01);
       if (difference > tolerance)
       {
         this->m_ScalesAreIdentity = false;
@@ -164,7 +164,7 @@ ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>::StartOptimiz
     for (SizeType i = 0; i < this->m_Weights.Size(); ++i)
     {
       const SValueType difference = itk::Math::abs(NumericTraits<SValueType>::OneValue() - this->m_Weights[i]);
-      auto             tolerance = static_cast<SValueType>(1e-4);
+      auto tolerance = static_cast<SValueType>(1e-4);
       if (difference > tolerance)
       {
         this->m_WeightsAreIdentity = false;
@@ -212,7 +212,7 @@ ITK_GCC_PRAGMA_DIAG_POP()
 
 /** Print enum values */
 std::ostream &
-operator<<(std::ostream &                                                                       out,
+operator<<(std::ostream & out,
            const ObjectToObjectOptimizerBaseTemplateEnums::StopConditionObjectToObjectOptimizer value)
 {
   return out << [value] {

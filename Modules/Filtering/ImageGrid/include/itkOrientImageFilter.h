@@ -252,7 +252,7 @@ private:
   bool m_UseImageDirection{ false };
 
   PermuteOrderArrayType m_PermuteOrder{};
-  FlipAxesArrayType     m_FlipAxes{ false };
+  FlipAxesArrayType m_FlipAxes{ false };
 
 }; // end of class
 } // end namespace itk

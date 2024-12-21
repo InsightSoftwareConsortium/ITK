@@ -111,7 +111,7 @@ itkWarpJacobianDeterminantFilterTest(int, char *[])
   while (!ot.IsAtEnd())
   {
     DeformationPixelType input = it.Get();
-    OutputPixelType      output = ot.Get();
+    OutputPixelType output = ot.Get();
     std::cout << input << " => ";
     std::cout << output << std::endl;
     ++ot;

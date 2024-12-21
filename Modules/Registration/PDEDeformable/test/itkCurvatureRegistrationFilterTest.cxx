@@ -51,9 +51,9 @@ public:
 // Template function to fill in an image with a circle.
 template <typename TImage>
 void
-FillWithCircle(TImage *                   image,
-               double *                   center,
-               double                     radius,
+FillWithCircle(TImage * image,
+               double * center,
+               double radius,
                typename TImage::PixelType foregnd,
                typename TImage::PixelType backgnd)
 {
@@ -63,7 +63,7 @@ FillWithCircle(TImage *                   image,
   it.Begin();
 
   typename TImage::IndexType index;
-  double                     r2 = itk::Math::sqr(radius);
+  double r2 = itk::Math::sqr(radius);
 
   while (!it.IsAtEnd())
   {
@@ -122,7 +122,7 @@ itkCurvatureRegistrationFilterTest(int, char *[])
   std::cout << std::endl;
 
   ImageType::SizeValueType sizeArray[ImageDimension] = { 128, 128 };
-  SizeType                 size;
+  SizeType size;
   size.SetSize(sizeArray);
 
   IndexType index{};
@@ -145,8 +145,8 @@ itkCurvatureRegistrationFilterTest(int, char *[])
   initField->SetBufferedRegion(region);
   initField->Allocate();
 
-  double    center[ImageDimension];
-  double    radius;
+  double center[ImageDimension];
+  double radius;
   PixelType fgnd = 250;
   PixelType bgnd = 0;
 
@@ -188,7 +188,7 @@ itkCurvatureRegistrationFilterTest(int, char *[])
   // exercise other member variables
   std::cout << "No. Iterations: " << registrator->GetNumberOfIterations() << std::endl;
 
-  ShowProgressObject                                    progressWatch(registrator);
+  ShowProgressObject progressWatch(registrator);
   itk::SimpleMemberCommand<ShowProgressObject>::Pointer command = itk::SimpleMemberCommand<ShowProgressObject>::New();
   command->SetCallbackFunction(&progressWatch, &ShowProgressObject::ShowProgress);
   registrator->AddObserver(itk::ProgressEvent(), command);
@@ -219,7 +219,7 @@ itkCurvatureRegistrationFilterTest(int, char *[])
   itk::ImageRegionIterator<ImageType> fixedIter(fixed, fixed->GetBufferedRegion());
   itk::ImageRegionIterator<ImageType> warpedIter(warper->GetOutput(), fixed->GetBufferedRegion());
 
-  size_t       ofs = 0;
+  size_t ofs = 0;
   unsigned int numPixelsDifferent = 0;
   while (!fixedIter.IsAtEnd())
   {

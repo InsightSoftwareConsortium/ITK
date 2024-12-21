@@ -162,10 +162,10 @@ protected:
   void
   InterpolationFunctions(CoordinateType pcoords[Self::CellDimension], InterpolationWeightType sf[Self::NumberOfPoints]);
   void
-  EvaluateLocation(int &                     itkNotUsed(subId),
-                   PointsContainer *         points,
-                   CoordinateType            pcoords[Self::CellDimension],
-                   CoordinateType            x[Self::CellDimension],
+  EvaluateLocation(int & itkNotUsed(subId),
+                   PointsContainer * points,
+                   CoordinateType pcoords[Self::CellDimension],
+                   CoordinateType x[Self::CellDimension],
                    InterpolationWeightType * weights);
 
 public:

@@ -63,7 +63,7 @@ itkChangeLabelLabelMapFilterTest(int argc, char * argv[])
   changeFilter->SetInput(i2l->GetOutput());
 
   constexpr unsigned int numberOfArgumentsBeforeLabels = 3;
-  const unsigned int     numberOfArguments = argc;
+  const unsigned int numberOfArguments = argc;
 
   using LabelPrintType = itk::NumericTraits<LabelPixelType>::PrintType;
 

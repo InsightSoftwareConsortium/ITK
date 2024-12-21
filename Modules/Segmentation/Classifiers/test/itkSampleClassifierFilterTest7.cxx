@@ -43,12 +43,12 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr int          maximumIteration = 200;
-  constexpr double       minStandardDeviation = 28.54746;
+  constexpr int maximumIteration = 200;
+  constexpr double minStandardDeviation = 28.54746;
   constexpr unsigned int numberOfClasses = 2;
   using ParametersType = itk::Array<double>;
   std::vector<ParametersType> trueParameters(numberOfClasses);
-  ParametersType              params(6);
+  ParametersType params(6);
   params[0] = 99.261;
   params[1] = 100.078;
   params[2] = 814.95741;
@@ -92,16 +92,16 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
   initialProportions[1] = 0.5;
 
   /* Loading point data */
-  auto                                       pointSet = PointSetType::New();
+  auto pointSet = PointSetType::New();
   const PointSetType::PointsContainerPointer pointsContainer = PointSetType::PointsContainer::New();
-  constexpr int                              dataSizeBig = 2000;
+  constexpr int dataSizeBig = 2000;
   pointsContainer->Reserve(dataSizeBig);
   pointSet->SetPoints(pointsContainer);
 
   PointSetType::PointsContainerIterator p_iter = pointsContainer->Begin();
-  PointSetType::PointType               point;
+  PointSetType::PointType point;
 
-  char * const  dataFileName = argv[1];
+  char * const dataFileName = argv[1];
   std::ifstream dataStream(dataFileName);
   if (!dataStream)
   {
@@ -161,7 +161,7 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
     std::cout << "         " << (components[i])->GetFullParameters() << std::endl;
     std::cout << "    Proportion: ";
     std::cout << "         " << (estimator->GetProportions())[i] << std::endl;
-    double             displacement = 0.0;
+    double displacement = 0.0;
     const unsigned int measurementVectorSize = sample->GetMeasurementVectorSize();
     for (unsigned int j = 0; j < measurementVectorSize; ++j)
     {
@@ -221,7 +221,7 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
   while (functionIter != end)
   {
     const FilterType::MembershipFunctionPointer membershipFunction = *functionIter;
-    const auto *                                gaussianMemberShpFunction =
+    const auto * gaussianMemberShpFunction =
       dynamic_cast<const EstimatorType::GaussianMembershipFunctionType *>(membershipFunction.GetPointer());
     std::cout << "\tMembership function:\t " << counter << std::endl;
     std::cout << "\t\tMean=" << gaussianMemberShpFunction->GetMean() << std::endl;
@@ -241,7 +241,7 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
     std::cout << "Membership function: \t" << i << '\t' << weightsArray[i] << std::endl;
   }
 
-  char *        targetFileName = argv[2];
+  char * targetFileName = argv[2];
   std::ifstream dataTargetStream(targetFileName);
   if (!dataTargetStream)
   {
@@ -249,9 +249,9 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  auto                                       pointSet2 = PointSetType::New();
+  auto pointSet2 = PointSetType::New();
   const PointSetType::PointsContainerPointer pointsContainer2 = PointSetType::PointsContainer::New();
-  constexpr int                              dataSizeSmall = 200;
+  constexpr int dataSizeSmall = 200;
   pointsContainer2->Reserve(dataSizeSmall);
   pointSet2->SetPoints(pointsContainer2);
 
@@ -286,7 +286,7 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
 
 
   // Check if the measurement vectors are correctly labelled.
-  const FilterType::MembershipSampleType *        membershipSample = filter->GetOutput();
+  const FilterType::MembershipSampleType * membershipSample = filter->GetOutput();
   FilterType::MembershipSampleType::ConstIterator iter = membershipSample->Begin();
 
   unsigned int sampleCounter = 0;

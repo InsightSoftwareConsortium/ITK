@@ -78,8 +78,8 @@ TriangleMeshCurvatureCalculator<TInputMesh>::ComputeGaussCurvature(const InputMe
 {
   const unsigned int numberOfPoints = inputMesh->GetNumberOfPoints();
 
-  const auto   K = make_unique_for_overwrite<double[]>(numberOfPoints);
-  const auto   dA = std::make_unique<double[]>(numberOfPoints);
+  const auto K = make_unique_for_overwrite<double[]>(numberOfPoints);
+  const auto dA = std::make_unique<double[]>(numberOfPoints);
   const double pi2 = itk::Math::twopi;
   for (unsigned int k = 0; k < numberOfPoints; ++k)
   {
@@ -87,12 +87,12 @@ TriangleMeshCurvatureCalculator<TInputMesh>::ComputeGaussCurvature(const InputMe
   }
 
   const CellsContainerConstPointer outCells = inputMesh->GetCells();
-  CellsContainerConstIterator      cellsItr = outCells->Begin();
+  CellsContainerConstIterator cellsItr = outCells->Begin();
 
   while (cellsItr != outCells->End())
   {
     CellType * cellPointer = cellsItr.Value();
-    auto *     triangleCellPointer = dynamic_cast<TriangleCellType *>(cellPointer);
+    auto * triangleCellPointer = dynamic_cast<TriangleCellType *>(cellPointer);
     if (triangleCellPointer == nullptr)
     {
       itkExceptionMacro("Input Mesh is not a Triangle Mesh");

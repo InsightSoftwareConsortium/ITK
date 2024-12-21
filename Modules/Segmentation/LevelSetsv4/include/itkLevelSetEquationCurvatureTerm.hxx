@@ -47,7 +47,7 @@ LevelSetEquationCurvatureTerm<TInput, TLevelSetContainer, TCurvatureImage>::SetC
 template <typename TInput, typename TLevelSetContainer, typename TCurvatureImage>
 auto
 LevelSetEquationCurvatureTerm<TInput, TLevelSetContainer, TCurvatureImage>::Value(const LevelSetInputIndexType & iP,
-                                                                                  const LevelSetDataType &       iData)
+                                                                                  const LevelSetDataType & iData)
   -> LevelSetOutputRealType
 {
   // MeanCurvature has should be computed by this point.

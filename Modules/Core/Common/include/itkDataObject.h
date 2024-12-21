@@ -557,7 +557,7 @@ protected:
 private:
   /** Who generated this data? */
   WeakPointer<ProcessObject> m_Source{};
-  DataObjectIdentifierType   m_SourceOutputName{};
+  DataObjectIdentifierType m_SourceOutputName{};
 
   /** When was this data last generated?
    *  This time stamp is an integer number and it is intended to synchronize the

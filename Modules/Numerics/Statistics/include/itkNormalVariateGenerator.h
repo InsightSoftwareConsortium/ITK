@@ -149,15 +149,15 @@ private:
   static constexpr int m_LMASK{ 4 * (m_LEN - 1) };
   static constexpr int m_TLEN{ 8 * m_LEN };
 
-  int   m_Gaussfaze{};
+  int m_Gaussfaze{};
   int * m_Gausssave{};
 
   double m_GScale{};
 
-  int    m_Vec1[m_TLEN]{};
-  int    m_Nslew{};
-  int    m_Irs{};
-  int    m_Lseed{};
+  int m_Vec1[m_TLEN]{};
+  int m_Nslew{};
+  int m_Irs{};
+  int m_Lseed{};
   double m_Chic1{};
   double m_Chic2{};
   double m_ActualRSD{};

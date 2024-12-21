@@ -185,21 +185,21 @@ protected:
   GenerateOutputInformation() override;
 
 private:
-  void *                            m_CallbackUserData{ nullptr };
-  UpdateInformationCallbackType     m_UpdateInformationCallback{ nullptr };
-  PipelineModifiedCallbackType      m_PipelineModifiedCallback{ nullptr };
-  WholeExtentCallbackType           m_WholeExtentCallback{ nullptr };
-  SpacingCallbackType               m_SpacingCallback{ nullptr };
-  FloatSpacingCallbackType          m_FloatSpacingCallback{ nullptr };
-  OriginCallbackType                m_OriginCallback{ nullptr };
-  FloatOriginCallbackType           m_FloatOriginCallback{ nullptr };
-  DirectionCallbackType             m_DirectionCallback{ nullptr };
-  ScalarTypeCallbackType            m_ScalarTypeCallback{ nullptr };
-  NumberOfComponentsCallbackType    m_NumberOfComponentsCallback{ nullptr };
+  void * m_CallbackUserData{ nullptr };
+  UpdateInformationCallbackType m_UpdateInformationCallback{ nullptr };
+  PipelineModifiedCallbackType m_PipelineModifiedCallback{ nullptr };
+  WholeExtentCallbackType m_WholeExtentCallback{ nullptr };
+  SpacingCallbackType m_SpacingCallback{ nullptr };
+  FloatSpacingCallbackType m_FloatSpacingCallback{ nullptr };
+  OriginCallbackType m_OriginCallback{ nullptr };
+  FloatOriginCallbackType m_FloatOriginCallback{ nullptr };
+  DirectionCallbackType m_DirectionCallback{ nullptr };
+  ScalarTypeCallbackType m_ScalarTypeCallback{ nullptr };
+  NumberOfComponentsCallbackType m_NumberOfComponentsCallback{ nullptr };
   PropagateUpdateExtentCallbackType m_PropagateUpdateExtentCallback{ nullptr };
-  UpdateDataCallbackType            m_UpdateDataCallback{ nullptr };
-  DataExtentCallbackType            m_DataExtentCallback{ nullptr };
-  BufferPointerCallbackType         m_BufferPointerCallback{ nullptr };
+  UpdateDataCallbackType m_UpdateDataCallback{ nullptr };
+  DataExtentCallbackType m_DataExtentCallback{ nullptr };
+  BufferPointerCallbackType m_BufferPointerCallback{ nullptr };
 
   std::string m_ScalarTypeName{};
 };

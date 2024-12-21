@@ -65,8 +65,8 @@ itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest(int, char *[])
   double testPosition[dimension]; // position of a pixel in the function
                                   // doitkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest
 
-  bool functionValue;            // Value of pixel at a given position
-  int  interiorPixelCounter = 0; // Count pixels inside ellipsoid
+  bool functionValue;           // Value of pixel at a given position
+  int interiorPixelCounter = 0; // Count pixels inside ellipsoid
 
   for (int x = 0; x < xExtent; ++x)
   {

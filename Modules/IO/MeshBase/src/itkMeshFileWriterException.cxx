@@ -29,9 +29,9 @@ MeshFileWriterException::MeshFileWriterException(const char * file,
 {}
 
 MeshFileWriterException::MeshFileWriterException(const std::string & file,
-                                                 unsigned int        line,
-                                                 const char *        message,
-                                                 const char *        loc)
+                                                 unsigned int line,
+                                                 const char * message,
+                                                 const char * loc)
   : ExceptionObject(file, line, message, loc)
 {}
 } // namespace itk

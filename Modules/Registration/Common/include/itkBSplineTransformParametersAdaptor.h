@@ -150,9 +150,9 @@ private:
   void
   UpdateRequiredFixedParameters();
 
-  MeshSizeType           m_RequiredTransformDomainMeshSize{};
-  OriginType             m_RequiredTransformDomainOrigin{};
-  DirectionType          m_RequiredTransformDomainDirection{};
+  MeshSizeType m_RequiredTransformDomainMeshSize{};
+  OriginType m_RequiredTransformDomainOrigin{};
+  DirectionType m_RequiredTransformDomainDirection{};
   PhysicalDimensionsType m_RequiredTransformDomainPhysicalDimensions{};
 
 }; // class BSplineTransformParametersAdaptor

@@ -36,7 +36,7 @@ ComplexToComplex1DFFTImageFilter<TInputImage, TOutputImage>::GenerateInputReques
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the inputs
-  const typename InputImageType::Pointer  inputPtr = const_cast<InputImageType *>(this->GetInput());
+  const typename InputImageType::Pointer inputPtr = const_cast<InputImageType *>(this->GetInput());
   const typename OutputImageType::Pointer outputPtr = this->GetOutput();
 
   if (!inputPtr || !outputPtr)
@@ -51,11 +51,11 @@ ComplexToComplex1DFFTImageFilter<TInputImage, TOutputImage>::GenerateInputReques
   OutputIndexType outputRequestedRegionStartIndex = outputPtr->GetRequestedRegion().GetIndex();
 
   //// the regions other than the fft direction are fine
-  typename InputImageType::SizeType  inputRequestedRegionSize = outputRequestedRegionSize;
+  typename InputImageType::SizeType inputRequestedRegionSize = outputRequestedRegionSize;
   typename InputImageType::IndexType inputRequestedRegionStartIndex = outputRequestedRegionStartIndex;
 
   // we but need all of the input in the fft direction
-  const unsigned int                        direction = this->m_Direction;
+  const unsigned int direction = this->m_Direction;
   const typename InputImageType::SizeType & inputLargeSize = inputPtr->GetLargestPossibleRegion().GetSize();
   inputRequestedRegionSize[direction] = inputLargeSize[direction];
   const typename InputImageType::IndexType & inputLargeIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
@@ -83,7 +83,7 @@ ComplexToComplex1DFFTImageFilter<TInputImage, TOutputImage>::EnlargeOutputReques
   ConstOutputIndexType requestedIndex = outputPtr->GetRequestedRegion().GetIndex();
   ConstOutputIndexType outputLargeIndex = outputPtr->GetLargestPossibleRegion().GetIndex();
 
-  typename OutputImageType::SizeType  enlargedSize = requestedSize;
+  typename OutputImageType::SizeType enlargedSize = requestedSize;
   typename OutputImageType::IndexType enlargedIndex = requestedIndex;
   enlargedSize[this->m_Direction] = outputLargeSize[this->m_Direction];
   enlargedIndex[this->m_Direction] = outputLargeIndex[this->m_Direction];

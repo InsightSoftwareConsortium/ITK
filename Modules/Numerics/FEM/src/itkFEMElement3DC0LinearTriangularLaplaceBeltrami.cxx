@@ -27,7 +27,7 @@ itk::LightObject::Pointer
 Element3DC0LinearTriangularLaplaceBeltrami::CreateAnother() const
 {
   itk::LightObject::Pointer smartPtr;
-  Pointer                   copyPtr = Self::New();
+  Pointer copyPtr = Self::New();
 
   copyPtr->SetNode(0, this->GetNode(0));
   copyPtr->SetNode(1, this->GetNode(1));
@@ -45,9 +45,9 @@ Element3DC0LinearTriangularLaplaceBeltrami::Element3DC0LinearTriangularLaplaceBe
   : Superclass()
 {}
 
-Element3DC0LinearTriangularLaplaceBeltrami::Element3DC0LinearTriangularLaplaceBeltrami(NodeIDType             n1_,
-                                                                                       NodeIDType             n2_,
-                                                                                       NodeIDType             n3_,
+Element3DC0LinearTriangularLaplaceBeltrami::Element3DC0LinearTriangularLaplaceBeltrami(NodeIDType n1_,
+                                                                                       NodeIDType n2_,
+                                                                                       NodeIDType n3_,
                                                                                        Material::ConstPointer m_)
   : Superclass()
 {
@@ -93,9 +93,9 @@ Element3DC0LinearTriangularLaplaceBeltrami::GetStiffnessMatrix(MatrixType & Ke) 
   VectorType BA = B - A;
   VectorType CA = C - A;
   VectorType CB = C - B;
-  float      L1 = CB.magnitude();
-  float      L2 = CA.magnitude();
-  float      L3 = BA.magnitude();
+  float L1 = CB.magnitude();
+  float L2 = CA.magnitude();
+  float L3 = BA.magnitude();
 
   float s = (L1 + L2 + L3) * .5;
   Float Area = sqrt(s * (s - L1) * (s - L2) * (s - L3));

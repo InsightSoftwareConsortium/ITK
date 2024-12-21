@@ -97,9 +97,9 @@ HexahedronCell<TCellInterface>::GetNumberOfBoundaryFeatures(int dimension) const
  */
 template <typename TCellInterface>
 bool
-HexahedronCell<TCellInterface>::GetBoundaryFeature(int                   dimension,
+HexahedronCell<TCellInterface>::GetBoundaryFeature(int dimension,
                                                    CellFeatureIdentifier featureId,
-                                                   CellAutoPointer &     cellPointer)
+                                                   CellAutoPointer & cellPointer)
 {
   switch (dimension)
   {
@@ -164,7 +164,7 @@ template <typename TCellInterface>
 void
 HexahedronCell<TCellInterface>::SetPointIds(PointIdConstIterator first, PointIdConstIterator last)
 {
-  int                  localId = 0;
+  int localId = 0;
   PointIdConstIterator ii(first);
 
   while (ii != last)
@@ -320,11 +320,11 @@ HexahedronCell<TCellInterface>::GetFace(CellFeatureIdentifier faceId, FaceAutoPo
 /** Evaluate the position inside the cell */
 template <typename TCellInterface>
 bool
-HexahedronCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
-                                                 PointsContainer *         points,
-                                                 CoordinateType *          closestPoint,
-                                                 CoordinateType            pcoord[],
-                                                 double *                  dist2,
+HexahedronCell<TCellInterface>::EvaluatePosition(CoordinateType * x,
+                                                 PointsContainer * points,
+                                                 CoordinateType * closestPoint,
+                                                 CoordinateType pcoord[],
+                                                 double * dist2,
                                                  InterpolationWeightType * weight)
 {
   // Throw an exception if trying to EvaluatePosition for anything other than
@@ -335,15 +335,15 @@ HexahedronCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
     // return false;
   }
 
-  static constexpr int    ITK_HEX_MAX_ITERATION = 10;
+  static constexpr int ITK_HEX_MAX_ITERATION = 10;
   static constexpr double ITK_HEX_CONVERGED = 1.e-03;
   static constexpr double ITK_DIVERGED = 1.e6;
 
-  CoordinateType          derivs[CellDimension3D * Self::NumberOfPoints]{ 0 };
+  CoordinateType derivs[CellDimension3D * Self::NumberOfPoints]{ 0 };
   InterpolationWeightType weights[Self::NumberOfPoints];
 
   //  set initial position for Newton's method
-  int            subId{ 0 };
+  int subId{ 0 };
   CoordinateType pcoords[CellDimension3D]{ 0.5, 0.5, 0.5 };
 
   // NOTE: Avoid compiler warning.  The code below only runs if PointType::Dimension == Self::PointDimension3D
@@ -533,7 +533,7 @@ HexahedronCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
 /** Compute iso-parametric interpolation functions */
 template <typename TCellInterface>
 void
-HexahedronCell<TCellInterface>::InterpolationFunctions(CoordinateType          pcoords[Self::CellDimension],
+HexahedronCell<TCellInterface>::InterpolationFunctions(CoordinateType pcoords[Self::CellDimension],
                                                        InterpolationWeightType sf[Self::NumberOfPoints])
 {
   // Throw an exception if trying to EvaluatePosition for anything other than
@@ -653,10 +653,10 @@ HexahedronCell<TCellInterface>::InterpolationDerivs(CoordinateType pcoords[Self:
 /** Evaluate the location inside the cell */
 template <typename TCellInterface>
 void
-HexahedronCell<TCellInterface>::EvaluateLocation(int &                     itkNotUsed(subId),
-                                                 PointsContainer *         points,
-                                                 CoordinateType            pcoords[Self::CellDimension],
-                                                 CoordinateType            x[Self::CellDimension],
+HexahedronCell<TCellInterface>::EvaluateLocation(int & itkNotUsed(subId),
+                                                 PointsContainer * points,
+                                                 CoordinateType pcoords[Self::CellDimension],
+                                                 CoordinateType x[Self::CellDimension],
                                                  InterpolationWeightType * weights)
 {
   // Throw an exception if trying to EvaluatePosition for anything other than

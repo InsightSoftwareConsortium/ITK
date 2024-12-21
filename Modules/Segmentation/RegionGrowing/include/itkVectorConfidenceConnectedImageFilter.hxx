@@ -122,7 +122,7 @@ VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
   unsigned int loop;
 
   const typename Superclass::InputImageConstPointer inputImage = this->GetInput();
-  const typename Superclass::OutputImagePointer     outputImage = this->GetOutput();
+  const typename Superclass::OutputImagePointer outputImage = this->GetOutput();
 
   // Zero the output
   const OutputImageRegionType region = outputImage->GetRequestedRegion();
@@ -144,7 +144,7 @@ VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
   m_ThresholdFunction->SetInputImage(inputImage);
 
   CovarianceMatrixType covariance;
-  MeanVectorType       mean;
+  MeanVectorType mean;
 
   using ComponentPixelType = typename InputPixelType::ValueType;
   using ComponentRealType = typename NumericTraits<ComponentPixelType>::RealType;
@@ -160,15 +160,15 @@ VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
   using MeanFunctionVectorType = typename VectorMeanImageFunctionType::OutputType;
   using CovarianceFunctionMatrixType = typename CovarianceImageFunctionType::OutputType;
 
-  auto          si = m_Seeds.begin();
-  auto          li = m_Seeds.end();
+  auto si = m_Seeds.begin();
+  auto li = m_Seeds.end();
   SizeValueType seed_cnt = 0;
   while (si != li)
   {
     if (region.IsInside(*si))
     {
       ++seed_cnt;
-      const MeanFunctionVectorType       meanContribution = meanFunction->EvaluateAtIndex(*si);
+      const MeanFunctionVectorType meanContribution = meanFunction->EvaluateAtIndex(*si);
       const CovarianceFunctionMatrixType covarianceContribution = varianceFunction->EvaluateAtIndex(*si);
       for (unsigned int ii = 0; ii < dimension; ++ii)
       {
@@ -282,7 +282,7 @@ VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
         mean[i] += pixelValueI;
         for (unsigned int j = i + 1; j < dimension; ++j)
         {
-          const auto              pixelValueJ = static_cast<ComponentRealType>(pixelValue[j]);
+          const auto pixelValueJ = static_cast<ComponentRealType>(pixelValue[j]);
           const ComponentRealType product = pixelValueI * pixelValueJ;
           covariance[i][j] += product;
           covariance[j][i] += product;

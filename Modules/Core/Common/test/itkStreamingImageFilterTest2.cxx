@@ -28,7 +28,7 @@ int
 itkStreamingImageFilterTest2(int, char *[])
 {
 
-  constexpr unsigned int                  numberOfStreamDivisions = 25;
+  constexpr unsigned int numberOfStreamDivisions = 25;
   const itk::XMLFileOutputWindow::Pointer logger = itk::XMLFileOutputWindow::New();
   logger->SetInstance(logger);
 
@@ -40,8 +40,8 @@ itkStreamingImageFilterTest2(int, char *[])
 
   // fill in an image
   constexpr ShortImage::IndexType index = { { 0, 0 } };
-  constexpr ShortImage::SizeType  size = { { 42, 64 } };
-  const ShortImage::RegionType    region{ index, size };
+  constexpr ShortImage::SizeType size = { { 42, 64 } };
+  const ShortImage::RegionType region{ index, size };
   if2->SetLargestPossibleRegion(region);
   if2->SetBufferedRegion(region);
   if2->Allocate();

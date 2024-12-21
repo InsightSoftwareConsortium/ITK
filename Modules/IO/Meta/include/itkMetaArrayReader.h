@@ -201,9 +201,9 @@ public:
    *  when the MetaArrayReader is destroyed. */
   template <typename TValue>
   void
-  GetOutput(MET_ValueEnumType              _metaElementType,
+  GetOutput(MET_ValueEnumType _metaElementType,
             VariableLengthVector<TValue> * _vector,
-            bool                           _letVectorManageData = true)
+            bool _letVectorManageData = true)
   {
     if (m_MetaArray.ElementType() != _metaElementType)
     {

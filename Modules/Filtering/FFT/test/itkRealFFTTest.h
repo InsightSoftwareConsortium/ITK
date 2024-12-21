@@ -44,8 +44,8 @@ test_fft(unsigned int * SizeOfDimensions)
 {
   using RealImageType = itk::Image<TPixel, VImageDimensions>;
   using ComplexImageType = itk::Image<std::complex<TPixel>, VImageDimensions>;
-  unsigned int                      counter = 0;
-  typename RealImageType::SizeType  imageSize;
+  unsigned int counter = 0;
+  typename RealImageType::SizeType imageSize;
   typename RealImageType::IndexType imageIndex;
 
   // We are testing the FFT for 1D, 2D, and 3D images. An array
@@ -125,8 +125,8 @@ test_fft(unsigned int * SizeOfDimensions)
   }
 
   // Get the size and the pointer to the complex image.
-  const typename ComplexImageType::Pointer    complexImage = R2C->GetOutput();
-  std::complex<TPixel> *                      fftbuf = complexImage->GetBufferPointer();
+  const typename ComplexImageType::Pointer complexImage = R2C->GetOutput();
+  std::complex<TPixel> * fftbuf = complexImage->GetBufferPointer();
   const typename ComplexImageType::SizeType & complexImageSize = complexImage->GetLargestPossibleRegion().GetSize();
 
   unsigned int sizes[4] = { 1, 1, 1, 1 };
@@ -230,8 +230,8 @@ test_fft_rtc(unsigned int * SizeOfDimensions)
 {
   using RealImageType = itk::Image<TPixel, VImageDimensions>;
   using ComplexImageType = itk::Image<std::complex<TPixel>, VImageDimensions>;
-  unsigned int                      counter = 0;
-  typename RealImageType::SizeType  imageSize;
+  unsigned int counter = 0;
+  typename RealImageType::SizeType imageSize;
   typename RealImageType::IndexType imageIndex;
 
   // We are testing the FFT for 1D, 2D, and 3D images. An array
@@ -302,12 +302,12 @@ test_fft_rtc(unsigned int * SizeOfDimensions)
   R2Cb->Update();
 
   // Get the size and the pointer to the complex image.
-  const typename ComplexImageType::Pointer    complexImageA = R2Ca->GetOutput();
-  std::complex<TPixel> *                      fftbufA = complexImageA->GetBufferPointer();
+  const typename ComplexImageType::Pointer complexImageA = R2Ca->GetOutput();
+  std::complex<TPixel> * fftbufA = complexImageA->GetBufferPointer();
   const typename ComplexImageType::SizeType & complexImageSizeA = complexImageA->GetLargestPossibleRegion().GetSize();
 
-  const typename ComplexImageType::Pointer    complexImageB = R2Cb->GetOutput();
-  std::complex<TPixel> *                      fftbufB = complexImageB->GetBufferPointer();
+  const typename ComplexImageType::Pointer complexImageB = R2Cb->GetOutput();
+  std::complex<TPixel> * fftbufB = complexImageB->GetBufferPointer();
   const typename ComplexImageType::SizeType & complexImageSizeB = complexImageB->GetLargestPossibleRegion().GetSize();
 
 
@@ -369,7 +369,7 @@ test_fft_rtc(unsigned int * SizeOfDimensions)
       for (unsigned int k = 0; k < std::min(sizesA[0], sizesB[0]); ++k)
       {
         const double val = itk::Math::abs(fftbufA[zStrideA + yStrideA + k]);
-        double       diff = itk::Math::abs(fftbufA[zStrideA + yStrideA + k] - fftbufB[zStrideB + yStrideB + k]);
+        double diff = itk::Math::abs(fftbufA[zStrideA + yStrideA + k] - fftbufB[zStrideB + yStrideB + k]);
         if (itk::Math::NotAlmostEquals(val, 0.0))
         {
           diff /= itk::Math::abs(val);

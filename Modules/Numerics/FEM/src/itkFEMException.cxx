@@ -35,8 +35,8 @@ FEMException::~FEMException() noexcept = default;
 
 FEMExceptionIO::FEMExceptionIO(const char * file,
                                unsigned int lineNumber,
-                               std::string  location,
-                               std::string  moreDescription)
+                               std::string location,
+                               std::string moreDescription)
   : FEMException(file, lineNumber)
 {
   SetDescription("IO error in FEM class: " + moreDescription);
@@ -55,9 +55,9 @@ FEMExceptionWrongClass::~FEMExceptionWrongClass() noexcept = default;
 
 FEMExceptionObjectNotFound::FEMExceptionObjectNotFound(const char * file,
                                                        unsigned int lineNumber,
-                                                       std::string  location,
-                                                       std::string  baseClassName,
-                                                       int          GN)
+                                                       std::string location,
+                                                       std::string baseClassName,
+                                                       int GN)
   : FEMException(file, lineNumber, location)
 {
   m_baseClassName = baseClassName;
@@ -71,8 +71,8 @@ FEMExceptionObjectNotFound::~FEMExceptionObjectNotFound() noexcept = default;
 
 FEMExceptionSolution::FEMExceptionSolution(const char * file,
                                            unsigned int lineNumber,
-                                           std::string  location,
-                                           std::string  moreDescription)
+                                           std::string location,
+                                           std::string moreDescription)
   : FEMException(file, lineNumber)
 {
   SetDescription("Error when solving FEM problem: " + moreDescription);

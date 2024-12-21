@@ -135,9 +135,9 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
     pointSet->SetPointData(static_cast<typename PointSetType::PointIdentifier>(i), vectorTmp);
   }
 
-  const typename VectorImageType::SizeType      size = this->m_ReferenceImage->GetLargestPossibleRegion().GetSize();
-  const typename VectorImageType::PointType     origin = this->m_ReferenceImage->GetOrigin();
-  const typename VectorImageType::SpacingType   spacing = this->m_ReferenceImage->GetSpacing();
+  const typename VectorImageType::SizeType size = this->m_ReferenceImage->GetLargestPossibleRegion().GetSize();
+  const typename VectorImageType::PointType origin = this->m_ReferenceImage->GetOrigin();
+  const typename VectorImageType::SpacingType spacing = this->m_ReferenceImage->GetSpacing();
   const typename VectorImageType::DirectionType direction = this->m_ReferenceImage->GetDirection();
 
   auto filter = FilterType::New();
@@ -233,7 +233,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   // q
   // dim+1=4 * numberOfLandmarks matrix
   vnl_matrix<ParametersValueType> q(ImageDimension + 1, numberOfLandmarks, 0.0F);
-  auto                            fixedIt = this->m_FixedLandmarks.begin();
+  auto fixedIt = this->m_FixedLandmarks.begin();
   for (unsigned int i = 0; fixedIt != this->m_FixedLandmarks.end(); ++i, ++fixedIt)
   {
     for (unsigned int dim = 0; dim < ImageDimension; ++dim)
@@ -247,7 +247,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   // p
   // dim=3 * numberOfLandmarks matrix
   vnl_matrix<ParametersValueType> p(ImageDimension, numberOfLandmarks, 0.0F);
-  auto                            movingIt = this->m_MovingLandmarks.begin();
+  auto movingIt = this->m_MovingLandmarks.begin();
   for (unsigned int i = 0; movingIt != this->m_MovingLandmarks.end(); ++i, ++movingIt)
   {
     for (unsigned int dim = 0; dim < ImageDimension; ++dim)
@@ -315,7 +315,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   // :: Solving code is from
   // https://www.itk.org/pipermail/insight-users/2008-December/028207.html
   const vnl_matrix<ParametersValueType> transposeAffine = vnl_qr<ParametersValueType>(Q).solve(C);
-  vnl_matrix<ParametersValueType>       Affine = transposeAffine.transpose();
+  vnl_matrix<ParametersValueType> Affine = transposeAffine.transpose();
 
   const vnl_matrix<ParametersValueType> AffineRotation(Affine.get_n_columns(0, ImageDimension));
 
@@ -323,7 +323,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   //
   // Define Matrix Type.
   const itk::Matrix<ParametersValueType, ImageDimension, ImageDimension> mA(AffineRotation);
-  itk::Vector<ParametersValueType, ImageDimension>                       mT;
+  itk::Vector<ParametersValueType, ImageDimension> mT;
   for (unsigned int t = 0; t < ImageDimension; ++t)
   {
     mT[t] = Affine(t, ImageDimension);
@@ -644,7 +644,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
 
   // Compute the centroids.
   PointType fixedCentroid{};
-  auto      fixedItr = this->m_FixedLandmarks.begin();
+  auto fixedItr = this->m_FixedLandmarks.begin();
   while (fixedItr != this->m_FixedLandmarks.end())
   {
     fixedCentroid[0] += (*fixedItr)[0];
@@ -655,7 +655,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   fixedCentroid[0] /= this->m_FixedLandmarks.size();
   fixedCentroid[1] /= this->m_FixedLandmarks.size();
 
-  auto      movingItr = this->m_MovingLandmarks.begin();
+  auto movingItr = this->m_MovingLandmarks.begin();
   PointType movingCentroid{};
   while (movingItr != this->m_MovingLandmarks.end())
   {
@@ -768,7 +768,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Comput
 {
   // Compute the centroids.
   PointType3D centroid{};
-  auto        fixedItr = inputLandmarks.begin();
+  auto fixedItr = inputLandmarks.begin();
   while (fixedItr != inputLandmarks.end())
   {
     centroid[0] += (*fixedItr)[0];
@@ -787,7 +787,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Comput
 template <typename TTransform, typename TFixedImage, typename TMovingImage>
 void
 LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::CreateMatrix(
-  itk::Matrix<ParametersValueType, 4, 4> &                               N,
+  itk::Matrix<ParametersValueType, 4, 4> & N,
   const itk::Matrix<ParametersValueType, ImageDimension, ImageDimension> M)
 {
   // On-diagonal elements.
@@ -811,7 +811,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Create
 template <typename TTransform, typename TFixedImage, typename TMovingImage>
 void
 LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::PrintSelf(std::ostream & os,
-                                                                                    Indent         indent) const
+                                                                                    Indent indent) const
 {
   using namespace print_helper;
 

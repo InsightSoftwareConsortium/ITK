@@ -183,8 +183,8 @@ main()
   normalGenerator->Initialize(101);
 
   MeasurementVectorType mv;
-  double                mean = 100;
-  double                standardDeviation = 30;
+  double mean = 100;
+  double standardDeviation = 30;
   for (unsigned int i = 0; i < 100; ++i)
   {
     mv[0] = (normalGenerator->GetVariate() * standardDeviation) + mean;

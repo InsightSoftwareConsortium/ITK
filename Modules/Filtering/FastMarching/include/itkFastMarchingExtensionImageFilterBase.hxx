@@ -41,7 +41,7 @@ FastMarchingExtensionImageFilterBase<TInput, TOutput, TAuxValue, VAuxDimension>:
 template <typename TInput, typename TOutput, typename TAuxValue, unsigned int VAuxDimension>
 void
 FastMarchingExtensionImageFilterBase<TInput, TOutput, TAuxValue, VAuxDimension>::PrintSelf(std::ostream & os,
-                                                                                           Indent         indent) const
+                                                                                           Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Aux alive values: ";
@@ -146,8 +146,8 @@ FastMarchingExtensionImageFilterBase<TInput, TOutput, TAuxValue, VAuxDimension>:
 
   if (m_AuxiliaryAliveValues)
   {
-    AuxValueContainerConstIterator       auxIter = m_AuxiliaryAliveValues->Begin();
-    NodePairContainerConstIterator       pointsIter = this->m_AlivePoints->Begin();
+    AuxValueContainerConstIterator auxIter = m_AuxiliaryAliveValues->Begin();
+    NodePairContainerConstIterator pointsIter = this->m_AlivePoints->Begin();
     const NodePairContainerConstIterator pointsEnd = this->m_AlivePoints->Begin();
 
     while (pointsIter != pointsEnd)
@@ -170,8 +170,8 @@ FastMarchingExtensionImageFilterBase<TInput, TOutput, TAuxValue, VAuxDimension>:
 
   if (m_AuxiliaryTrialValues)
   {
-    AuxValueContainerConstIterator       auxIter = m_AuxiliaryTrialValues->Begin();
-    NodePairContainerConstIterator       pointsIter = this->m_TrialPoints->Begin();
+    AuxValueContainerConstIterator auxIter = m_AuxiliaryTrialValues->Begin();
+    NodePairContainerConstIterator pointsIter = this->m_TrialPoints->Begin();
     const NodePairContainerConstIterator pointsEnd = this->m_TrialPoints->End();
 
     while (pointsIter != pointsEnd)
@@ -196,7 +196,7 @@ FastMarchingExtensionImageFilterBase<TInput, TOutput, TAuxValue, VAuxDimension>:
 template <typename TInput, typename TOutput, typename TAuxValue, unsigned int VAuxDimension>
 void
 FastMarchingExtensionImageFilterBase<TInput, TOutput, TAuxValue, VAuxDimension>::UpdateValue(OutputImageType * oImage,
-                                                                                             const NodeType &  iNode)
+                                                                                             const NodeType & iNode)
 {
   // A extension value at node is chosen such that
   // grad(F) dot_product grad(Phi) = 0
@@ -234,8 +234,8 @@ FastMarchingExtensionImageFilterBase<TInput, TOutput, TAuxValue, VAuxDimension>:
     // update auxiliary values
     for (unsigned int k = 0; k < AuxDimension; ++k)
     {
-      double       numer = 0.;
-      double       denom = 0.;
+      double numer = 0.;
+      double denom = 0.;
       AuxValueType auxVal;
 
       for (unsigned int j = 0; j < ImageDimension; ++j)

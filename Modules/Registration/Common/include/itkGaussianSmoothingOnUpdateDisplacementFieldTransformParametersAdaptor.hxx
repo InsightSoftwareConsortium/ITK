@@ -78,7 +78,7 @@ GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
 template <typename TTransform>
 void
 GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>::PrintSelf(std::ostream & os,
-                                                                                            Indent         indent) const
+                                                                                            Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

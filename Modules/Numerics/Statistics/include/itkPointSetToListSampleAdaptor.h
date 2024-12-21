@@ -178,7 +178,7 @@ public:
   private:
     ConstIterator() = delete;
     PointsContainerConstIteratorType m_Iter;
-    InstanceIdentifier               m_InstanceIdentifier;
+    InstanceIdentifier m_InstanceIdentifier;
   };
 
   /**

@@ -70,10 +70,10 @@ TestImageOfVectors(const std::string & fname, const std::string & intentCode = "
   std::cout << "======================== Initialized Direction" << std::endl;
   std::cout << myDirection << std::endl;
 
-  typename VectorImageType::IndexType        index{};
-  auto                                       size = itk::MakeFilled<typename VectorImageType::SizeType>(dimsize);
+  typename VectorImageType::IndexType index{};
+  auto size = itk::MakeFilled<typename VectorImageType::SizeType>(dimsize);
   const typename VectorImageType::RegionType imageRegion{ index, size };
-  auto                                       spacing = itk::MakeFilled<typename VectorImageType::SpacingType>(1.0);
+  auto spacing = itk::MakeFilled<typename VectorImageType::SpacingType>(1.0);
 
   const typename VectorImageType::Pointer vi =
     itk::IOTestHelper::AllocateImageFromRegionAndSpacing<VectorImageType>(imageRegion, spacing);
@@ -178,7 +178,7 @@ TestImageOfVectors(const std::string & fname, const std::string & intentCode = "
   if (!intentCode.empty())
   {
     const itk::MetaDataDictionary & dictionary = readback->GetMetaDataDictionary();
-    std::string                     readIntentCode;
+    std::string readIntentCode;
     if (itk::ExposeMetaData<std::string>(dictionary, "intent_code", readIntentCode))
     {
       if (readIntentCode != intentCode)

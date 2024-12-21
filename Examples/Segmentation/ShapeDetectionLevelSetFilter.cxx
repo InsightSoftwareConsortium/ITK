@@ -511,7 +511,7 @@ main(int argc, char * argv[])
   const double initialDistance = std::stod(argv[5]);
 
   // Software Guide : BeginCodeSnippet
-  NodeType     node;
+  NodeType node;
   const double seedValue = -initialDistance;
 
   node.SetValue(seedValue);

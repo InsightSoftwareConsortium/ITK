@@ -91,7 +91,7 @@ PadImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 
   // get pointers to the input and output
   const typename Superclass::InputImageConstPointer inputPtr = this->GetInput();
-  const typename Superclass::OutputImagePointer     outputPtr = this->GetOutput();
+  const typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
 
   if (!outputPtr || !inputPtr)
   {
@@ -100,11 +100,11 @@ PadImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 
   // we need to compute the output image size, and the
   // output image start index
-  unsigned int                     i;
-  typename TOutputImage::SizeType  outputSize;
+  unsigned int i;
+  typename TOutputImage::SizeType outputSize;
   typename TOutputImage::IndexType outputStartIndex;
-  typename TInputImage::SizeType   inputSize;
-  typename TInputImage::IndexType  inputStartIndex;
+  typename TInputImage::SizeType inputSize;
+  typename TInputImage::IndexType inputStartIndex;
 
   inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
   inputStartIndex = inputPtr->GetLargestPossibleRegion().GetIndex();

@@ -252,7 +252,7 @@ itkShapeLabelObjectAccessorsTest1(int argc, char * argv[])
   for (unsigned int n = 0; n < labelMap->GetNumberOfLabelObjects(); ++n)
   {
     constexpr itk::Functor::LabelLabelObjectAccessor<ShapeLabelObjectType> accessorLabel;
-    ShapeLabelObjectType *                                                 l = labelMap->GetNthLabelObject(n);
+    ShapeLabelObjectType * l = labelMap->GetNthLabelObject(n);
     if (l->GetLabel() != accessorLabel(l))
     {
       std::cout << "l->GetLabel2() != accessorLabel(l)" << std::endl;
@@ -377,7 +377,7 @@ itkShapeLabelObjectAccessorsTest1(int argc, char * argv[])
   // Check transforms
   for (unsigned int n = 0; n < labelMap->GetNumberOfLabelObjects(); ++n)
   {
-    ShapeLabelObjectType *                             l = labelMap->GetNthLabelObject(n);
+    ShapeLabelObjectType * l = labelMap->GetNthLabelObject(n);
     const ShapeLabelObjectType::AffineTransformPointer principleToPhysical =
       l->GetPrincipalAxesToPhysicalAxesTransform();
     std::cout << "Print principleToPhysical " << n << std::endl;

@@ -96,7 +96,7 @@ itkMomentsThresholdImageFilterTest(int argc, char * argv[])
 
 
   // Regression test: compare computed threshold
-  auto                             expectedThreshold = static_cast<FilterType::InputPixelType>(std::stod(argv[5]));
+  auto expectedThreshold = static_cast<FilterType::InputPixelType>(std::stod(argv[5]));
   const FilterType::InputPixelType resultThreshold = filter->GetThreshold();
   if (itk::Math::NotAlmostEquals(expectedThreshold, resultThreshold))
   {

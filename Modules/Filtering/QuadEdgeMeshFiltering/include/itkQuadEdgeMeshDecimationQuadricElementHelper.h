@@ -182,7 +182,7 @@ public:
   void
   AddPoint(const PointType & iP, const VectorType & iN, const CoordType & iWeight = static_cast<CoordType>(1.))
   {
-    unsigned int    k(0); /*one-line-declaration*/
+    unsigned int k(0); /*one-line-declaration*/
     const CoordType d = -iN * iP.GetVectorFromOrigin();
     for (unsigned int dim1 = 0; dim1 < PointDimension; ++dim1)
     {
@@ -251,11 +251,11 @@ public:
 
 protected:
   CoefficientVectorType m_Coefficients;
-  VNLMatrixType         m_A;
-  VNLVectorType         m_B;
-  unsigned int          m_Rank;
-  CoordType             m_SVDAbsoluteThreshold;
-  CoordType             m_SVDRelativeThreshold;
+  VNLMatrixType m_A;
+  VNLVectorType m_B;
+  unsigned int m_Rank;
+  CoordType m_SVDAbsoluteThreshold;
+  CoordType m_SVDRelativeThreshold;
   // bool                        m_MatrixFilled;
 
   void

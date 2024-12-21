@@ -93,9 +93,9 @@ public:
    * The value returned is always of type double; for RGB Images the value returned is the value of the first channel.
    */
   bool
-  ValueAtInObjectSpace(const PointType &   point,
-                       double &            value,
-                       unsigned int        depth = 0,
+  ValueAtInObjectSpace(const PointType & point,
+                       double & value,
+                       unsigned int depth = 0,
                        const std::string & name = "") const override;
 
   /** Returns the latest modified time of the object and its component. */

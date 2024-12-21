@@ -22,14 +22,14 @@
 
 template <typename TImage>
 bool
-ImageBoundaryFaceCalculatorTest(TImage *                          image,
-                                typename TImage::RegionType &     region,
+ImageBoundaryFaceCalculatorTest(TImage * image,
+                                typename TImage::RegionType & region,
                                 const typename TImage::SizeType & radius)
 {
   using FaceCalculatorType = itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TImage>;
   using FaceListType = typename FaceCalculatorType::FaceListType;
   FaceCalculatorType faceCalculator;
-  FaceListType       faceList;
+  FaceListType faceList;
 
   faceList = faceCalculator(image, region, radius);
   for (auto fit = faceList.begin(); fit != faceList.end(); ++fit)

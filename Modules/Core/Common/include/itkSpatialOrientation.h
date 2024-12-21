@@ -457,9 +457,9 @@ public:
 
 // Define how to print enumeration
 extern ITKCommon_EXPORT std::ostream &
-                        operator<<(std::ostream & out, const SpatialOrientationEnums::CoordinateTerms value);
+operator<<(std::ostream & out, const SpatialOrientationEnums::CoordinateTerms value);
 extern ITKCommon_EXPORT std::ostream &
-                        operator<<(std::ostream & out, const SpatialOrientationEnums::CoordinateMajornessTerms value);
+operator<<(std::ostream & out, const SpatialOrientationEnums::CoordinateMajornessTerms value);
 extern ITKCommon_EXPORT std::ostream &
 operator<<(std::ostream & out, const SpatialOrientationEnums::ValidCoordinateOrientations value);
 

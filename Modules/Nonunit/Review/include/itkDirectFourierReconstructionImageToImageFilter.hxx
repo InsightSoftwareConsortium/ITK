@@ -47,7 +47,7 @@ DirectFourierReconstructionImageToImageFilter<TInputImage,
 template <typename TInputImage, typename TOutputImage>
 void
 DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os,
-                                                                                    Indent         indent) const
+                                                                                    Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -71,7 +71,7 @@ DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::Genera
   Superclass::GenerateOutputInformation();
 
   ConstInputImagePointer inputImage = this->GetInput();
-  OutputImagePointer     outputImage = this->GetOutput();
+  OutputImagePointer outputImage = this->GetOutput();
 
   if (!inputImage || !outputImage)
   {
@@ -79,11 +79,11 @@ DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::Genera
   }
 
   RegionType inputRegion = inputImage->GetLargestPossibleRegion();
-  IndexType  inputStart = inputRegion.GetIndex();
-  SizeType   inputSize = inputRegion.GetSize();
+  IndexType inputStart = inputRegion.GetIndex();
+  SizeType inputSize = inputRegion.GetSize();
 
   IndexType outputStart;
-  SizeType  outputSize;
+  SizeType outputSize;
 
   // Conserve axial dimensions
   outputSize[2] = inputSize[m_ZDirection];
@@ -123,7 +123,7 @@ DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::Genera
   Superclass::GenerateInputRequestedRegion();
 
   OutputImagePointer outputImage = this->GetOutput();
-  InputImagePointer  inputImage = const_cast<InputImageType *>(this->GetInput());
+  InputImagePointer inputImage = const_cast<InputImageType *>(this->GetInput());
   if (!inputImage || !outputImage)
   {
     return;
@@ -131,7 +131,7 @@ DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::Genera
 
   // request maximum angular and radial information / to be optimized
 
-  SizeType  inputSize = inputImage->GetLargestPossibleRegion().GetSize();
+  SizeType inputSize = inputImage->GetLargestPossibleRegion().GetSize();
   IndexType inputStart = inputImage->GetLargestPossibleRegion().GetIndex();
 
   // crop to requested z-axis
@@ -149,7 +149,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
-  OutputImagePointer     outputImage = this->GetOutput();
+  OutputImagePointer outputImage = this->GetOutput();
   ConstInputImagePointer inputImage = this->GetInput();
 
   if (!inputImage || !outputImage)
@@ -162,11 +162,11 @@ DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::Genera
 
   // Crop angular input image size to 180 degrees
   typename InputImageType::RegionType inputROI = m_InputRequestedRegion;
-  typename InputImageType::SizeType   inputROISize = inputROI.GetSize();
-  typename InputImageType::IndexType  inputROIStart = inputROI.GetIndex();
+  typename InputImageType::SizeType inputROISize = inputROI.GetSize();
+  typename InputImageType::IndexType inputROIStart = inputROI.GetIndex();
 
   // the number of projections needed to cover 180 degrees
-  const auto   alpha_size = Math::Floor<unsigned int>((180 * (inputROISize[m_AlphaDirection])) / m_AlphaRange);
+  const auto alpha_size = Math::Floor<unsigned int>((180 * (inputROISize[m_AlphaDirection])) / m_AlphaRange);
   const double last_alpha_size = 1 + (180.0 * (inputROISize[m_AlphaDirection])) / m_AlphaRange - alpha_size;
   inputROIStart[m_AlphaDirection] += (inputROISize[m_AlphaDirection] - alpha_size) / 2;
   inputROISize[m_AlphaDirection] = alpha_size;
@@ -181,10 +181,10 @@ DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::Genera
   inputIt.GoToBegin();
 
   // Setup projection line
-  auto                           projectionLine = ProjectionLineType::New();
+  auto projectionLine = ProjectionLineType::New();
   ProjectionLineType::RegionType pRegion;
-  ProjectionLineType::SizeType   pSize;
-  ProjectionLineType::IndexType  pStart;
+  ProjectionLineType::SizeType pSize;
+  ProjectionLineType::IndexType pStart;
   pSize[0] = inputROISize[m_RDirection] * m_ZeroPadding;
   pStart[0] = inputROIStart[m_RDirection];
   pRegion.SetSize(pSize);
@@ -193,7 +193,7 @@ DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::Genera
   projectionLine->AllocateInitialized();
 
   ProjectionLineType::IndexType pIdx;
-  const unsigned int            pLineHalfShift = pSize[0] - inputROISize[m_RDirection] / 2;
+  const unsigned int pLineHalfShift = pSize[0] - inputROISize[m_RDirection] / 2;
 
   // Setup 1D FFT Filter
   auto FFT = FFTLineFilterType::New();
@@ -209,8 +209,8 @@ DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::Genera
 
   // Setup cartesian FFTSlice domain
   FFTSliceType::RegionType FFTSliceRegion;
-  FFTSliceType::SizeType   FFTSliceSize;
-  FFTSliceType::IndexType  FFTSliceStart;
+  FFTSliceType::SizeType FFTSliceSize;
+  FFTSliceType::IndexType FFTSliceStart;
 
   FFTSliceSize[0] = FFTSliceSize[1] = inputROISize[m_RDirection] * m_ZeroPadding * m_OverSampling;
   FFTSliceStart[0] = FFTSliceStart[1] = 0;
@@ -221,7 +221,7 @@ DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::Genera
   FFTSlice->SetRegions(FFTSliceRegion);
   FFTSlice->AllocateInitialized();
 
-  FFTSliceIteratorType    FFTSliceIt(FFTSlice, FFTSliceRegion);
+  FFTSliceIteratorType FFTSliceIt(FFTSlice, FFTSliceRegion);
   FFTSliceType::IndexType sIdx;
 
   const double r_max = inputROISize[m_RDirection] * m_ZeroPadding * m_Cutoff / 2.0 - 1;
@@ -229,8 +229,8 @@ DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::Genera
 
   // Only the central frame will be copied to the output
   OutputSliceType::RegionType outputWindow;
-  OutputSliceType::SizeType   outputWindowSize;
-  OutputSliceType::IndexType  outputWindowStart;
+  OutputSliceType::SizeType outputWindowSize;
+  OutputSliceType::IndexType outputWindowStart;
 
   const unsigned int outputWindowShift = inputROISize[m_RDirection] * (m_ZeroPadding * m_OverSampling - 1) / 2;
   const unsigned int outputWindowHalf = inputROISize[m_RDirection] * m_ZeroPadding * m_OverSampling / 2;
@@ -243,7 +243,7 @@ DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::Genera
   outputWindow.SetSize(outputWindowSize);
   outputWindow.SetIndex(outputWindowStart);
 
-  OutputSliceType::IndexType          wIdx;
+  OutputSliceType::IndexType wIdx;
   typename OutputImageType::IndexType oIdx;
 
   ProgressReporter progress(this, 0, outputImage->GetRequestedRegion().GetNumberOfPixels());
@@ -281,9 +281,9 @@ DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::Genera
       inputIt.NextLine();
     } // while ( !inputIt.IsAtEndOfSlice() )
 
-    double       u, v;
-    double       theta, r;
-    double       alpha;
+    double u, v;
+    double theta, r;
+    double alpha;
     unsigned int a_lo;
 
     // Resample the cartesian FFT Slice from polar lines

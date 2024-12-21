@@ -33,7 +33,7 @@ itkNormalizeImageFilterTest(int, char *[])
 
   // Generate a real image
   using SourceType = itk::RandomImageSource<ShortImage>;
-  auto                      source = SourceType::New();
+  auto source = SourceType::New();
   ShortImage::SizeValueType randomSize[3] = { 18, 17, 67 };
 
   source->SetSize(randomSize);
@@ -44,7 +44,7 @@ itkNormalizeImageFilterTest(int, char *[])
   source->SetMax(static_cast<ShortImage::PixelType>(maxValue));
 
   using NormalizeType = itk::NormalizeImageFilter<ShortImage, FloatImage>;
-  auto                           normalize = NormalizeType::New();
+  auto normalize = NormalizeType::New();
   const itk::SimpleFilterWatcher watch(normalize, "Streaming");
 
   normalize->SetInput(source->GetOutput());

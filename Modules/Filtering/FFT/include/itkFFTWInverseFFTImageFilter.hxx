@@ -42,7 +42,7 @@ FFTWInverseFFTImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData
 {
   // Get pointers to the input and output.
   const typename InputImageType::ConstPointer inputPtr = this->GetInput();
-  const typename OutputImageType::Pointer     outputPtr = this->GetOutput();
+  const typename OutputImageType::Pointer outputPtr = this->GetOutput();
 
   if (!inputPtr || !outputPtr)
   {
@@ -57,7 +57,7 @@ FFTWInverseFFTImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData
   outputPtr->SetBufferedRegion(outputPtr->GetRequestedRegion());
   outputPtr->Allocate();
 
-  const InputSizeType  inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
+  const InputSizeType inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
   const OutputSizeType outputSize = outputPtr->GetLargestPossibleRegion().GetSize();
 
   // Figure out sizes.
@@ -82,7 +82,7 @@ FFTWInverseFFTImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData
 
   auto * in = (typename FFTWProxyType::ComplexType *)fullToHalfFilter->GetOutput()->GetBufferPointer();
 
-  OutputPixelType *                out = outputPtr->GetBufferPointer();
+  OutputPixelType * out = outputPtr->GetBufferPointer();
   typename FFTWProxyType::PlanType plan;
 
   int sizes[ImageDimension];
@@ -106,7 +106,7 @@ FFTWInverseFFTImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateDat
 {
   using IteratorType = ImageRegionIterator<OutputImageType>;
   const unsigned long totalOutputSize = this->GetOutput()->GetRequestedRegion().GetNumberOfPixels();
-  IteratorType        it(this->GetOutput(), outputRegionForThread);
+  IteratorType it(this->GetOutput(), outputRegionForThread);
   while (!it.IsAtEnd())
   {
     it.Set(it.Value() / totalOutputSize);

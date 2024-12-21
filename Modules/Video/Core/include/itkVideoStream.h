@@ -357,9 +357,9 @@ protected:
 
   /** These maps cache a mapping between frame number and the meta data for
    * origin, spacing, direction, and number of components per pixel */
-  SpacingMapType                    m_SpacingCache{};
-  DirectionMapType                  m_DirectionCache{};
-  PointMapType                      m_OriginCache{};
+  SpacingMapType m_SpacingCache{};
+  DirectionMapType m_DirectionCache{};
+  PointMapType m_OriginCache{};
   NumberOfComponentsPerPixelMapType m_NumberOfComponentsPerPixelCache{};
 
 }; // end class VideoStream

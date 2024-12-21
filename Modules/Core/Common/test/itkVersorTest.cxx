@@ -121,7 +121,7 @@ RotationMatrixToVersorTest()
              gamma += small_degree_steps)
         {
           const itk::Matrix<double, 3, 3> MR = TestCreateRotationMatrixFromAngles(alpha, beta, gamma);
-          const itk::Versor<double>       VR = TestCreateRotationVersorFromAngles(alpha, beta, gamma);
+          const itk::Versor<double> VR = TestCreateRotationVersorFromAngles(alpha, beta, gamma);
 
           itk::Point<double, 3> testPoint;
           testPoint[0] = -1020.27;
@@ -131,8 +131,8 @@ RotationMatrixToVersorTest()
           itk::Versor<double> VFROMMR;
           VFROMMR.Set(MR);
           const itk::Matrix<double, 3, 3> VRMatrix = VR.GetMatrix();
-          const itk::Point<double, 3>     newMRtestPoint = (MR)*testPoint;
-          const itk::Point<double, 3>     newVRtestPoint = (VRMatrix)*testPoint;
+          const itk::Point<double, 3> newMRtestPoint = (MR)*testPoint;
+          const itk::Point<double, 3> newVRtestPoint = (VRMatrix)*testPoint;
 
           const itk::Point<double, 3> newVRFROMMRPoint = (VFROMMR.GetMatrix()) * testPoint;
           const itk::Point<double, 3> newVRFROMMRTransformPoint = VFROMMR.Transform(testPoint);
@@ -378,7 +378,7 @@ itkVersorTest(int, char *[])
     qa.Set(xa, angle);
 
     VectorType::ValueType xbInit[3] = { 3.0, 7.0, 9.0 };
-    VectorType            xb = xbInit;
+    VectorType xb = xbInit;
 
     VectorType xc = qa.Transform(xb);
 
@@ -413,7 +413,7 @@ itkVersorTest(int, char *[])
     qa.Set(xa, angle);
 
     constexpr PointType::ValueType xbInit[3] = { 3.0, 7.0, 9.0 };
-    PointType                      xb = xbInit;
+    PointType xb = xbInit;
 
     PointType xc = qa.Transform(xb);
 
@@ -449,7 +449,7 @@ itkVersorTest(int, char *[])
     qa.Set(xa, angle);
 
     CovariantVectorType::ValueType xbInit[3] = { 3.0, 7.0, 9.0 };
-    CovariantVectorType            xb = xbInit;
+    CovariantVectorType xb = xbInit;
 
     CovariantVectorType xc = qa.Transform(xb);
 
@@ -514,7 +514,7 @@ itkVersorTest(int, char *[])
 
     // First, create a known versor
     VectorType::ValueType x1Init[3] = { 2.5f, 1.5f, 3.5f };
-    const VectorType      x1 = x1Init;
+    const VectorType x1 = x1Init;
 
     const ValueType angle1 = std::atan(1.0) / 3.0; // 15 degrees in radians
 
@@ -523,10 +523,10 @@ itkVersorTest(int, char *[])
 
     // Get the components and scale them
     constexpr ValueType scale = 5.5;
-    ValueType           x = v1.GetX() * scale;
-    ValueType           y = v1.GetY() * scale;
-    ValueType           z = v1.GetZ() * scale;
-    ValueType           w = v1.GetW() * scale;
+    ValueType x = v1.GetX() * scale;
+    ValueType y = v1.GetY() * scale;
+    ValueType z = v1.GetZ() * scale;
+    ValueType w = v1.GetW() * scale;
 
     VersorType v2;
     v2.Set(x, y, z, w);
@@ -587,12 +587,12 @@ itkVersorTest(int, char *[])
     std::cout << "Test for Reciprocal and Conjugate Operations...";
 
     VectorType::ValueType x1Init[3] = { 2.5f, 1.5f, 0.5f };
-    VectorType            x1 = x1Init;
+    VectorType x1 = x1Init;
 
     const ValueType angle1 = std::atan(1.0) / 3.0; // 15 degrees in radians
 
     VectorType::ValueType x2Init[3] = { 1.5f, 0.5f, 0.5f };
-    VectorType            x2 = x2Init;
+    VectorType x2 = x2Init;
 
     const ValueType angle2 = std::atan(1.0) / 1.0; // 45 degrees in radians
 
@@ -602,7 +602,7 @@ itkVersorTest(int, char *[])
     v2.Set(x2, angle2);
 
     const VersorType v2r = v2.GetReciprocal();
-    VersorType       unit = v2 * v2r;
+    VersorType unit = v2 * v2r;
 
     if (itk::Math::abs(unit.GetX()) > epsilon || itk::Math::abs(unit.GetY()) > epsilon ||
         itk::Math::abs(unit.GetZ()) > epsilon || itk::Math::abs(unit.GetW() - 1.0) > epsilon)

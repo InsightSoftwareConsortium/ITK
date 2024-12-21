@@ -123,13 +123,13 @@ public:
   GenerateStreamableReadRegionFromRequestedRegion(const ImageIORegion & requestedRegion) const override;
 
   unsigned int
-  GetActualNumberOfSplitsForWriting(unsigned int          numberOfRequestedSplits,
+  GetActualNumberOfSplitsForWriting(unsigned int numberOfRequestedSplits,
                                     const ImageIORegion & pasteRegion,
                                     const ImageIORegion & largestPossibleRegion) override;
 
   ImageIORegion
-  GetSplitRegionForWriting(unsigned int          ithPiece,
-                           unsigned int          numberOfActualSplits,
+  GetSplitRegionForWriting(unsigned int ithPiece,
+                           unsigned int numberOfActualSplits,
                            const ImageIORegion & pasteRegion,
                            const ImageIORegion & largestPossibleRegion) override;
 
@@ -189,9 +189,9 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
   template <unsigned int VNRows, unsigned int VNColumns = VNRows>
   bool
-  WriteMatrixInMetaData(std::ostringstream &       strs,
+  WriteMatrixInMetaData(std::ostringstream & strs,
                         const MetaDataDictionary & metaDict,
-                        const std::string &        metaString) const;
+                        const std::string & metaString) const;
 
 private:
   /** Only used to synchronize the global variable across static libraries.*/
@@ -206,9 +206,9 @@ private:
 
 template <unsigned int VNRows, unsigned int VNColumns>
 bool
-MetaImageIO::WriteMatrixInMetaData(std::ostringstream &       strs,
+MetaImageIO::WriteMatrixInMetaData(std::ostringstream & strs,
                                    const MetaDataDictionary & metaDict,
-                                   const std::string &        metaString) const
+                                   const std::string & metaString) const
 {
   itk::Matrix<double, VNRows, VNColumns> mval;
   if (ExposeMetaData<itk::Matrix<double, VNRows, VNColumns>>(metaDict, metaString, mval))

@@ -262,7 +262,7 @@ protected:
   Float m_Alpha{};
   Float m_CurrentMaxSolution{};
 
-  bool         m_UseMassMatrix{};
+  bool m_UseMassMatrix{};
   unsigned int m_Iterations{};
 
   unsigned int m_ForceTIndex{};

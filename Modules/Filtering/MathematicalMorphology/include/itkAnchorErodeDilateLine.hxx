@@ -31,7 +31,7 @@ template <typename TInputPix, typename TCompare>
 void
 AnchorErodeDilateLine<TInputPix, TCompare>::DoLine(std::vector<TInputPix> & buffer,
                                                    std::vector<TInputPix> & inbuffer,
-                                                   unsigned int             bufflength)
+                                                   unsigned int bufflength)
 {
   // TCompare will be < for erosions
   // TFunction2 will be <=
@@ -64,10 +64,10 @@ AnchorErodeDilateLine<TInputPix, TCompare>::DoLine(std::vector<TInputPix> & buff
 
   const int middle = static_cast<int>(m_Size) / 2;
 
-  int           outLeftP = 0;
-  int           outRightP = static_cast<int>(bufflength) - 1;
-  int           inLeftP = 0;
-  int           inRightP = static_cast<int>(bufflength) - 1;
+  int outLeftP = 0;
+  int outRightP = static_cast<int>(bufflength) - 1;
+  int inLeftP = 0;
+  int inRightP = static_cast<int>(bufflength) - 1;
   HistogramType histo;
   if (bufflength <= m_Size)
   {
@@ -163,12 +163,12 @@ template <typename TInputPix, typename TCompare>
 bool
 AnchorErodeDilateLine<TInputPix, TCompare>::StartLine(std::vector<TInputPix> & buffer,
                                                       std::vector<TInputPix> & inbuffer,
-                                                      InputImagePixelType &    Extreme,
-                                                      int &                    outLeftP,
-                                                      int &                    itkNotUsed(outRightP),
-                                                      int &                    inLeftP,
-                                                      int &                    inRightP,
-                                                      int                      itkNotUsed(middle))
+                                                      InputImagePixelType & Extreme,
+                                                      int & outLeftP,
+                                                      int & itkNotUsed(outRightP),
+                                                      int & inLeftP,
+                                                      int & inRightP,
+                                                      int itkNotUsed(middle))
 {
   // This returns true to indicate return to startLine label in pseudo
   // code, and false to indicate finishLine
@@ -266,12 +266,12 @@ template <typename TInputPix, typename TCompare>
 void
 AnchorErodeDilateLine<TInputPix, TCompare>::FinishLine(std::vector<TInputPix> & buffer,
                                                        std::vector<TInputPix> & inbuffer,
-                                                       InputImagePixelType &    Extreme,
-                                                       int &                    outLeftP,
-                                                       int &                    outRightP,
-                                                       int &                    itkNotUsed(inLeftP),
-                                                       int &                    inRightP,
-                                                       int                      middle)
+                                                       InputImagePixelType & Extreme,
+                                                       int & outLeftP,
+                                                       int & outRightP,
+                                                       int & itkNotUsed(inLeftP),
+                                                       int & inRightP,
+                                                       int middle)
 {
   // Handles the right border.
   // First half of the structuring element

@@ -39,7 +39,7 @@ VnlComplexToComplex1DFFTImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   // get pointers to the input and output
   const typename Superclass::InputImageType * input = this->GetInput();
-  typename Superclass::OutputImageType *      output = this->GetOutput();
+  typename Superclass::OutputImageType * output = this->GetOutput();
 
   const typename Superclass::InputImageType::SizeType & inputSize = input->GetRequestedRegion().GetSize();
 
@@ -54,7 +54,7 @@ VnlComplexToComplex1DFFTImageFilter<TInputImage, TOutputImage>::GenerateData()
     [this, input, output, direction, vectorSize](const typename OutputImageType::RegionType & lambdaRegion) {
       using InputIteratorType = ImageLinearConstIteratorWithIndex<InputImageType>;
       using OutputIteratorType = ImageLinearIteratorWithIndex<OutputImageType>;
-      InputIteratorType  inputIt(input, lambdaRegion);
+      InputIteratorType inputIt(input, lambdaRegion);
       OutputIteratorType outputIt(output, lambdaRegion);
 
       inputIt.SetDirection(direction);
@@ -62,10 +62,10 @@ VnlComplexToComplex1DFFTImageFilter<TInputImage, TOutputImage>::GenerateData()
 
       using PixelType = typename TInputImage::PixelType;
       using VNLVectorType = vnl_vector<PixelType>;
-      VNLVectorType                    inputBuffer(vectorSize);
+      VNLVectorType inputBuffer(vectorSize);
       typename VNLVectorType::iterator inputBufferIt = inputBuffer.begin();
       // fft is done in-place
-      typename VNLVectorType::iterator                         outputBufferIt = inputBuffer.begin();
+      typename VNLVectorType::iterator outputBufferIt = inputBuffer.begin();
       vnl_fft_1d<typename NumericTraits<PixelType>::ValueType> v1d(vectorSize);
 
       // for every fft line

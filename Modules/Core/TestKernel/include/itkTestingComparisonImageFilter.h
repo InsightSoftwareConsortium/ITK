@@ -128,10 +128,10 @@ protected:
 
   OutputPixelType m_DifferenceThreshold{};
 
-  RealType        m_MeanDifference{};
+  RealType m_MeanDifference{};
   OutputPixelType m_MinimumDifference{ NumericTraits<OutputPixelType>::max() };
   OutputPixelType m_MaximumDifference{ NumericTraits<OutputPixelType>::NonpositiveMin() };
-  bool            m_VerifyInputInformation{ true };
+  bool m_VerifyInputInformation{ true };
 
   AccumulateType m_TotalDifference{};
 

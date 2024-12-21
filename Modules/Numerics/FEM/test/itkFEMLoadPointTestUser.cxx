@@ -140,8 +140,8 @@ itkFEMLoadPointTestUser(int, char *[])
   solver->SetInput(femObject);
 
   itk::fem::LinearSystemWrapperDenseVNL lsw_dvnl;
-  itk::fem::LinearSystemWrapperItpack   lsw_itpack;
-  itk::fem::LinearSystemWrapperVNL      lsw_vnl;
+  itk::fem::LinearSystemWrapperItpack lsw_itpack;
+  itk::fem::LinearSystemWrapperVNL lsw_vnl;
 
   // Solvers being tested
   int numsolvers = 3;
@@ -170,7 +170,7 @@ itkFEMLoadPointTestUser(int, char *[])
 
     solver->Update();
 
-    int               numDOF = femObject->GetNumberOfDegreesOfFreedom();
+    int numDOF = femObject->GetNumberOfDegreesOfFreedom();
     vnl_vector<float> soln(numDOF);
     for (int i = 0; i < numDOF; ++i)
     {

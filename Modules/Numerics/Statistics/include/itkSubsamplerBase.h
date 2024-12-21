@@ -130,9 +130,9 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   SampleConstPointer m_Sample{};
-  bool               m_RequestMaximumNumberOfResults{};
-  bool               m_CanSelectQuery{};
-  SeedType           m_Seed{};
+  bool m_RequestMaximumNumberOfResults{};
+  bool m_CanSelectQuery{};
+  SeedType m_Seed{};
 }; // end of class SubsamplerBase
 
 } // end of namespace Statistics

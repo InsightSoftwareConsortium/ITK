@@ -72,7 +72,7 @@ itkSupervisedImageClassifierTest(int, char *[])
   constexpr VecImageType::SizeType vecImgSize = { { IMGWIDTH, IMGHEIGHT, NFRAMES } };
 
   constexpr VecImageType::IndexType index{};
-  VecImageType::RegionType          region;
+  VecImageType::RegionType region;
 
   region.SetSize(vecImgSize);
   region.SetIndex(index);
@@ -330,7 +330,7 @@ itkSupervisedImageClassifierTest(int, char *[])
 
   using ProgressType = SupervisedImageClassifierTest::ShowProgressObject;
 
-  ProgressType                                          progressWatch(applyClassifier);
+  ProgressType progressWatch(applyClassifier);
   const itk::SimpleMemberCommand<ProgressType>::Pointer command = itk::SimpleMemberCommand<ProgressType>::New();
   command->SetCallbackFunction(&progressWatch, &ProgressType::ShowProgress);
   applyClassifier->AddObserver(itk::ProgressEvent(), command);

@@ -42,9 +42,9 @@ PyBuffer<TImage>::_GetArrayViewFromImage(ImageType * image)
   void * const buffer = image->GetBufferPointer();
 
   // Computing the length of data
-  const unsigned int  numberOfComponents = image->GetNumberOfComponentsPerPixel();
+  const unsigned int numberOfComponents = image->GetNumberOfComponentsPerPixel();
   const SizeValueType numberOfPixels = image->GetBufferedRegion().GetNumberOfPixels();
-  const auto          len = static_cast<Py_ssize_t>(numberOfPixels * numberOfComponents * sizeof(ComponentType));
+  const auto len = static_cast<Py_ssize_t>(numberOfPixels * numberOfComponents * sizeof(ComponentType));
 
   PyBuffer_FillInfo(&pyBuffer, nullptr, buffer, len, 0, PyBUF_CONTIG);
   return PyMemoryView_FromBuffer(&pyBuffer);
@@ -69,9 +69,9 @@ PyBuffer<TImage>::_get_image_view_from_contiguous_array(PyObject * arr, PyObject
                                                                                                   &PyBuffer_Release);
 
   const Py_ssize_t bufferLength = pyBuffer.len;
-  void * const     buffer = pyBuffer.buf;
+  void * const buffer = pyBuffer.buf;
 
-  PyObject * const   shapeseq = PySequence_Fast(shape, "expected sequence");
+  PyObject * const shapeseq = PySequence_Fast(shape, "expected sequence");
   const unsigned int dimension = PySequence_Size(shape);
 
   const long numberOfComponents = PyInt_AsLong(numOfComponent);
@@ -110,9 +110,9 @@ PyBuffer<TImage>::_get_image_view_from_contiguous_array(PyObject * arr, PyObject
 
   using InternalPixelType = typename TImage::InternalPixelType;
   using ImporterType = ImportImageContainer<SizeValueType, InternalPixelType>;
-  auto           importer = ImporterType::New();
+  auto importer = ImporterType::New();
   constexpr bool importImageFilterWillOwnTheBuffer = false;
-  auto * const   data = static_cast<InternalPixelType *>(buffer);
+  auto * const data = static_cast<InternalPixelType *>(buffer);
   importer->SetImportPointer(data, numberOfPixels, importImageFilterWillOwnTheBuffer);
 
   OutputImagePointer output = TImage::New();

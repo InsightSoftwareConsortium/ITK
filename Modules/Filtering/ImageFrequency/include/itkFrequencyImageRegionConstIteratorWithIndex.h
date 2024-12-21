@@ -139,7 +139,7 @@ public:
   GetFrequency() const
   {
     FrequencyType freq;
-    IndexType     freqInd = this->GetFrequencyBin();
+    IndexType freqInd = this->GetFrequencyBin();
     // FrequencyType freq;
     for (unsigned int dim = 0; dim < TImage::ImageDimension; ++dim)
     {
@@ -152,7 +152,7 @@ public:
   GetFrequencyModuloSquare() const
   {
     FrequencyValueType w2(0);
-    FrequencyType      w(this->GetFrequency());
+    FrequencyType w(this->GetFrequency());
 
     for (unsigned int dim = 0; dim < TImage::ImageDimension; ++dim)
     {

@@ -70,14 +70,14 @@ LevelSetEvolution<TEquationContainer, LevelSetDenseImage<TImage>>::ComputeIterat
       this->m_LevelSetContainer->GetDomainMapFilter();
     using DomainMapType = typename DomainMapImageFilterType::DomainMapType;
     const DomainMapType domainMap = domainMapFilter->GetDomainMap();
-    auto                mapIt = domainMap.begin();
-    auto                mapEnd = domainMap.end();
+    auto mapIt = domainMap.begin();
+    auto mapEnd = domainMap.end();
 
     const ThreadIdType maximumNumberOfThreads =
       this->m_SplitDomainMapComputeIterationThreader->GetMaximumNumberOfThreads();
     using DomainMapDomainType = typename SplitDomainMapComputeIterationThreaderType::DomainType;
-    DomainMapDomainType                                                                subdomain;
-    const DomainMapDomainType                                                          completeDomain(mapIt, mapEnd);
+    DomainMapDomainType subdomain;
+    const DomainMapDomainType completeDomain(mapIt, mapEnd);
     const typename SplitDomainMapComputeIterationThreaderType::DomainPartitionerType * domainParitioner =
       this->m_SplitDomainMapComputeIterationThreader->GetDomainPartitioner();
     const ThreadIdType numberOfThreadsThatWillBeUsed =
@@ -276,9 +276,9 @@ LevelSetEvolution<TEquationContainer, WhitakerSparseLevelSetImage<TOutput, VDime
   {
     const typename LevelSetType::ConstPointer levelSet =
       this->m_LevelSetContainerIteratorToProcessWhenThreading->GetLevelSet();
-    const LevelSetLayerType                                 zeroLayer = levelSet->GetLayer(0);
-    auto                                                    layerBegin = zeroLayer.begin();
-    auto                                                    layerEnd = zeroLayer.end();
+    const LevelSetLayerType zeroLayer = levelSet->GetLayer(0);
+    auto layerBegin = zeroLayer.begin();
+    auto layerEnd = zeroLayer.end();
     const typename SplitLevelSetPartitionerType::DomainType completeDomain(layerBegin, layerEnd);
     this->m_SplitLevelSetComputeIterationThreader->Execute(this, completeDomain);
 
@@ -398,7 +398,7 @@ LevelSetEvolution<TEquationContainer, MalcolmSparseLevelSetImage<VDimension>>::U
   while (it != this->m_LevelSetContainer->End())
   {
     const typename LevelSetType::Pointer levelSet = it->GetLevelSet();
-    const LevelSetIdentifierType         levelSetId = it->GetIdentifier();
+    const LevelSetIdentifierType levelSetId = it->GetIdentifier();
 
     const UpdateLevelSetFilterPointer updateLevelSet = UpdateLevelSetFilterType::New();
     updateLevelSet->SetInputLevelSet(levelSet);

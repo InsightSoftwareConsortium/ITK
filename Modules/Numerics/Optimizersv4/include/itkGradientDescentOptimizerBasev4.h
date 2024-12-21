@@ -201,9 +201,9 @@ protected:
   typename DomainThreader<ThreadedIndexedContainerPartitioner, Self>::Pointer m_ModifyGradientByLearningRateThreader{};
 
   /* Common variables for optimization control and reporting */
-  bool                                     m_Stop{ false };
+  bool m_Stop{ false };
   StopConditionObjectToObjectOptimizerEnum m_StopCondition{};
-  StopConditionDescriptionType             m_StopConditionDescription{};
+  StopConditionDescriptionType m_StopConditionDescription{};
 
   /** Current gradient */
   DerivativeType m_Gradient{};

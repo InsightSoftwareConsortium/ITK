@@ -77,28 +77,28 @@ protected:
 
 
   unsigned int
-  GetNumberOfSplitsInternal(unsigned int         dim,
+  GetNumberOfSplitsInternal(unsigned int dim,
                             const IndexValueType regionIndex[],
-                            const SizeValueType  regionSize[],
-                            unsigned int         requestedNumber) const override;
+                            const SizeValueType regionSize[],
+                            unsigned int requestedNumber) const override;
 
   unsigned int
-  GetSplitInternal(unsigned int   dim,
-                   unsigned int   splitI,
-                   unsigned int   numberOfPieces,
+  GetSplitInternal(unsigned int dim,
+                   unsigned int splitI,
+                   unsigned int numberOfPieces,
                    IndexValueType regionIndex[],
-                   SizeValueType  regionSize[]) const override;
+                   SizeValueType regionSize[]) const override;
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   static unsigned int
-  ComputeSplits(unsigned int         dim,
-                unsigned int         requestedNumber,
+  ComputeSplits(unsigned int dim,
+                unsigned int requestedNumber,
                 const IndexValueType regionIndex[],
-                const SizeValueType  regionSize[],
-                unsigned int         splits[]);
+                const SizeValueType regionSize[],
+                unsigned int splits[]);
 };
 } // end namespace itk
 

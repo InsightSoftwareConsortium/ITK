@@ -47,10 +47,10 @@ typename EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPoin
 template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 void
 EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::
-  GetLocalNeighborhoodValueAndDerivative(const PointType &     point,
-                                         MeasureType &         measure,
+  GetLocalNeighborhoodValueAndDerivative(const PointType & point,
+                                         MeasureType & measure,
                                          LocalDerivativeType & localDerivative,
-                                         const PixelType &     itkNotUsed(pixel)) const
+                                         const PixelType & itkNotUsed(pixel)) const
 {
   PointType closestPoint{};
 
@@ -77,7 +77,7 @@ template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComp
 void
 EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::PrintSelf(
   std::ostream & os,
-  Indent         indent) const
+  Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }

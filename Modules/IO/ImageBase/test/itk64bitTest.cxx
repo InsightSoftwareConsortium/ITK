@@ -29,8 +29,8 @@ int
 verifyContent(ImageType::Pointer image)
 {
   itk::ImageRegionConstIterator<ImageType> it(image, image->GetBufferedRegion());
-  constexpr unsigned long long             imageSize = 4 * 3 * 2;
-  unsigned long long                       value = 1;
+  constexpr unsigned long long imageSize = 4 * 3 * 2;
+  unsigned long long value = 1;
   while (!it.IsAtEnd() && value <= imageSize)
   {
     if (value == imageSize)

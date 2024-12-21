@@ -46,7 +46,7 @@ public:
 };
 // Define how to print enumeration
 extern ITKVideoCore_EXPORT std::ostream &
-                           operator<<(std::ostream & out, TemporalDataObjectEnums::TemporalUnit value);
+operator<<(std::ostream & out, TemporalDataObjectEnums::TemporalUnit value);
 
 /**
  * \class TemporalDataObject

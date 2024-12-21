@@ -44,7 +44,7 @@ DiscreteGaussianDerivativeImageFilter<TInputImage, TOutputImage>::GenerateInputR
 
   // Build an operator so that we can determine the kernel size
   GaussianDerivativeOperator<OutputPixelType, ImageDimension> oper;
-  typename TInputImage::SizeType                              radius;
+  typename TInputImage::SizeType radius;
 
   for (unsigned int i = 0; i < TInputImage::ImageDimension; ++i)
   {
@@ -216,7 +216,7 @@ DiscreteGaussianDerivativeImageFilter<TInputImage, TOutputImage>::GenerateData()
     lastFilter->ReleaseDataFlagOn();
     if constexpr (ImageDimension > 2)
     {
-      const unsigned int                     max_dim = ImageDimension - 1;
+      const unsigned int max_dim = ImageDimension - 1;
       std::vector<IntermediateFilterPointer> intermediateFilters;
       intermediateFilters.reserve(max_dim);
       for (unsigned int i = 1; i != max_dim; ++i)

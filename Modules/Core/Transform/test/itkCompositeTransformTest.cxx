@@ -158,7 +158,7 @@ itkCompositeTransformTest(int, char *[])
 
   /* Add an affine transform */
   using AffineType = itk::AffineTransform<ScalarType, VDimension>;
-  auto        affine = AffineType::New();
+  auto affine = AffineType::New();
   Matrix2Type matrix2;
   matrix2[0][0] = 1;
   matrix2[0][1] = 2;
@@ -291,7 +291,7 @@ itkCompositeTransformTest(int, char *[])
   inputVector[0] = 0.4;
   inputVector[1] = 0.6;
 
-  CompositeType::InputCovariantVectorType  inputCVector;
+  CompositeType::InputCovariantVectorType inputCVector;
   CompositeType::OutputCovariantVectorType outputCVector;
   inputCVector[0] = 0.4;
   inputCVector[1] = 0.6;
@@ -502,8 +502,8 @@ itkCompositeTransformTest(int, char *[])
 
   /* Test GetNumberOfParameters */
   std::cout << "GetNumberOfParameters: " << std::endl;
-  unsigned int       affineParamsN = affine->GetNumberOfParameters();
-  unsigned int       affine2ParamsN = affine2->GetNumberOfParameters();
+  unsigned int affineParamsN = affine->GetNumberOfParameters();
+  unsigned int affine2ParamsN = affine2->GetNumberOfParameters();
   const unsigned int nParameters = compositeTransform->GetNumberOfParameters();
   std::cout << "Number of parameters: " << nParameters << std::endl;
   if (nParameters != affineParamsN + affine2ParamsN)

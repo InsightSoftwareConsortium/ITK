@@ -37,8 +37,8 @@ itkShrinkImageStreamingTest(int, char *[])
 
   // fill in an image
   constexpr ShortImage::IndexType index = { { 100, 100 } };
-  constexpr ShortImage::SizeType  size = { { 8, 12 } };
-  const ShortImage::RegionType    region{ index, size };
+  constexpr ShortImage::SizeType size = { { 8, 12 } };
+  const ShortImage::RegionType region{ index, size };
   sourceImage->SetRegions(region);
   sourceImage->Allocate();
 

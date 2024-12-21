@@ -172,7 +172,7 @@ protected:
  * interesting to print out.
  */
 ITKCommon_EXPORT std::ostream &
-                 operator<<(std::ostream & os, const LightObject & o);
+operator<<(std::ostream & os, const LightObject & o);
 
 } // end namespace itk
 

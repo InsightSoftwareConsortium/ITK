@@ -41,7 +41,7 @@ itkGaussianDistributionTest(int, char *[])
 
   distributionFunction->Print(std::cout);
 
-  int    i;
+  int i;
   double x;
   double value;
   double diff;
@@ -318,7 +318,7 @@ itkGaussianDistributionTest(int, char *[])
   std::cout << "EvaluateInverseCDF(-10.0,m,v) = " << distributionFunction->EvaluateInverseCDF(-10.0, mean1, variance1)
             << std::endl;
 
-  const unsigned int               wrongNumberOfParameters = distributionFunction->GetNumberOfParameters() * 42;
+  const unsigned int wrongNumberOfParameters = distributionFunction->GetNumberOfParameters() * 42;
   DistributionType::ParametersType wrongParameters(wrongNumberOfParameters);
   wrongParameters.Fill(1.0);
   distributionFunction->SetParameters(wrongParameters);

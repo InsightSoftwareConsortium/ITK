@@ -69,29 +69,29 @@ namespace itk
  */
 struct image_info_defV3
 {
-  int   problemreading;
-  int   slice;
-  int   echo;
-  int   dynamic;
-  int   cardiac;
-  int   image_type_mr;
-  int   scan_sequence;
-  int   index;
+  int problemreading;
+  int slice;
+  int echo;
+  int dynamic;
+  int cardiac;
+  int image_type_mr;
+  int scan_sequence;
+  int index;
   float rescale_int;
   float rescale_slope;
   float scale_slope;
-  int   window_center;
-  int   window_width;
+  int window_center;
+  int window_width;
   float angAP;
   float angFH;
   float angRL;
   float offAP;
   float offFH;
   float offRL;
-  int   display_orientation;
-  int   slice_orientation;
-  int   fmri_status_indication;
-  int   image_type_ed_es;
+  int display_orientation;
+  int slice_orientation;
+  int fmri_status_indication;
+  int image_type_ed_es;
   float spacingx;
   float spacingy;
   float echo_time;
@@ -155,23 +155,23 @@ Version 4.2
  */
 struct image_info_defV4
 {
-  int   problemreading;
-  int   slice;
-  int   echo;
-  int   dynamic;
-  int   cardiac;
-  int   image_type_mr;
-  int   scan_sequence;
-  int   index;
-  int   image_bits;
-  int   scan_percent;
-  int   recon_dimx;
-  int   recon_dimy;
+  int problemreading;
+  int slice;
+  int echo;
+  int dynamic;
+  int cardiac;
+  int image_type_mr;
+  int scan_sequence;
+  int index;
+  int image_bits;
+  int scan_percent;
+  int recon_dimx;
+  int recon_dimy;
   float rescale_int;
   float rescale_slope;
   float scale_slope;
-  int   window_center;
-  int   window_width;
+  int window_center;
+  int window_width;
   float angAP;
   float angFH;
   float angRL;
@@ -180,27 +180,27 @@ struct image_info_defV4
   float offRL;
   float slice_thick;
   float slice_gap;
-  int   display_orientation;
-  int   slice_orientation;
-  int   fmri_status_indication;
-  int   image_type_ed_es;
+  int display_orientation;
+  int slice_orientation;
+  int fmri_status_indication;
+  int image_type_ed_es;
   float spacingx;
   float spacingy;
   float echo_time;
   float dyn_scan_begin_time;
   float trigger_time;
   float diffusion_b_factor;
-  int   num_averages;
+  int num_averages;
   float image_flip_angle;
-  int   cardiac_freq;
-  int   min_rr_int;
-  int   max_rr_int;
-  int   turbo_factor;
+  int cardiac_freq;
+  int min_rr_int;
+  int max_rr_int;
+  int turbo_factor;
   float inversion_delay;
   // Version 4.1 added diffusion gradient information
-  int   diffusion_b_value_number;
-  int   gradient_orientation_number;
-  int   contrast_type;
+  int diffusion_b_value_number;
+  int gradient_orientation_number;
+  int contrast_type;
   float diffusion_ap;
   float diffusion_fh;
   float diffusion_rl;
@@ -212,7 +212,7 @@ struct image_info_defV3
 GetImageInformationDefinitionV3(std::string file, int lineNum, PhilipsPAR * philipsPARClass)
 {
   struct image_info_defV3 tempInfo{};
-  std::string             currentLine = "";
+  std::string currentLine = "";
 
   if (lineNum < 89)
   {
@@ -252,7 +252,7 @@ struct image_info_defV4
 GetImageInformationDefinitionV4(std::string file, int lineNum, PhilipsPAR * philipsPARClass)
 {
   struct image_info_defV4 tempInfo{};
-  std::string             currentLine = "";
+  std::string currentLine = "";
 
   if (lineNum < 92)
   {
@@ -297,7 +297,7 @@ struct image_info_defV4
 GetImageInformationDefinitionV41(std::string file, int lineNum, PhilipsPAR * philipsPARClass)
 {
   struct image_info_defV4 tempInfo{};
-  std::string             currentLine = "";
+  std::string currentLine = "";
 
   if (lineNum < 99)
   {
@@ -345,7 +345,7 @@ struct image_info_defV4
 GetImageInformationDefinitionV42(std::string file, int lineNum, PhilipsPAR * philipsPARClass)
 {
   struct image_info_defV4 tempInfo{};
-  std::string             currentLine = "";
+  std::string currentLine = "";
 
   if (lineNum < 101)
   {
@@ -402,7 +402,7 @@ std::string
 PhilipsPAR::GetLineNumber(std::string file, int lineNum)
 {
   std::string line = "";
-  char        readFileBuffer[1024] = "";
+  char readFileBuffer[1024] = "";
 
   if (lineNum <= 0)
   {
@@ -487,9 +487,9 @@ PhilipsPAR::GetPARVersion(std::string parFile)
 std::string
 PhilipsPAR::GetGeneralInfoString(std::string file, int lineNum)
 {
-  std::string            currentLine = "";
+  std::string currentLine = "";
   std::string::size_type index;
-  std::string            outString = "";
+  std::string outString = "";
 
   if ((lineNum < 12) || (lineNum > 51))
   {
@@ -722,9 +722,9 @@ PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter * pPar)
       // Also get echo times and trigger_times.
       if (pPar->slice > 1)
       {
-        int                     lineIncrement = 89;
-        int                     echoIndex = 0;
-        int                     cardiacIndex = 0;
+        int lineIncrement = 89;
+        int echoIndex = 0;
+        int cardiacIndex = 0;
         struct image_info_defV3 tempInfo1 = GetImageInformationDefinitionV3(parFile, 90, this);
         if (tempInfo1.problemreading)
         {
@@ -924,9 +924,9 @@ PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter * pPar)
       // Only 1 slice, but how many repetitions of that slice?
       else
       {
-        int       lineIncrement = 89;
-        int       echoIndex = 0;
-        int       cardiacIndex = 0;
+        int lineIncrement = 89;
+        int echoIndex = 0;
+        int cardiacIndex = 0;
         const int slice = tempInfo.slice;
         const int firstEchoNumber = echoNumber;
         const int firstCardiacPhase = cardiacPhase;
@@ -1221,9 +1221,9 @@ PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter * pPar)
       // Also get echo times.
       if (pPar->slice > 1)
       {
-        int                     lineIncrement = 92;
-        int                     echoIndex = 0;
-        int                     cardiacIndex = 0;
+        int lineIncrement = 92;
+        int echoIndex = 0;
+        int cardiacIndex = 0;
         struct image_info_defV4 tempInfo1;
         switch (pPar->ResToolsVersion)
         {
@@ -1455,9 +1455,9 @@ PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter * pPar)
       // Only 1 slice, but how many repetitions of that slice?
       else
       {
-        int       lineIncrement = 92;
-        int       echoIndex = 0;
-        int       cardiacIndex = 0;
+        int lineIncrement = 92;
+        int echoIndex = 0;
+        int cardiacIndex = 0;
         const int slice = tempInfo.slice;
         const int firstEchoNumber = echoNumber;
         const int firstCardiacPhase = cardiacPhase;
@@ -1626,7 +1626,7 @@ PhilipsPAR::PARSliceIndexImageTypeVector
 PhilipsPAR::GetRECSliceIndexImageTypes(std::string parFile)
 {
   PhilipsPAR::PARSliceIndexImageTypeVector recSliceIndexImageTypes;
-  int                                      ResToolsVersion;
+  int ResToolsVersion;
 
   // Check version of PAR file.
   ResToolsVersion = this->GetPARVersion(parFile);
@@ -1639,9 +1639,9 @@ PhilipsPAR::GetRECSliceIndexImageTypes(std::string parFile)
   {
     case RESEARCH_IMAGE_EXPORT_TOOL_V3:
     {
-      struct image_info_defV3            tempInfo;
+      struct image_info_defV3 tempInfo;
       PhilipsPAR::PARSliceIndexImageType sliceAndType;
-      int                                lineIncrement = 89;
+      int lineIncrement = 89;
       tempInfo = GetImageInformationDefinitionV3(parFile, lineIncrement, this);
       while (!tempInfo.problemreading && tempInfo.slice)
       {
@@ -1655,9 +1655,9 @@ PhilipsPAR::GetRECSliceIndexImageTypes(std::string parFile)
     break;
     case RESEARCH_IMAGE_EXPORT_TOOL_V4:
     {
-      struct image_info_defV4            tempInfo;
+      struct image_info_defV4 tempInfo;
       PhilipsPAR::PARSliceIndexImageType sliceAndType;
-      int                                lineIncrement = 92;
+      int lineIncrement = 92;
       tempInfo = GetImageInformationDefinitionV4(parFile, lineIncrement, this);
       while (!tempInfo.problemreading && tempInfo.slice)
       {
@@ -1671,9 +1671,9 @@ PhilipsPAR::GetRECSliceIndexImageTypes(std::string parFile)
     break;
     case RESEARCH_IMAGE_EXPORT_TOOL_V4_1:
     {
-      struct image_info_defV4            tempInfo;
+      struct image_info_defV4 tempInfo;
       PhilipsPAR::PARSliceIndexImageType sliceAndType;
-      int                                lineIncrement = 99;
+      int lineIncrement = 99;
       tempInfo = GetImageInformationDefinitionV41(parFile, lineIncrement, this);
       while (!tempInfo.problemreading && tempInfo.slice)
       {
@@ -1687,9 +1687,9 @@ PhilipsPAR::GetRECSliceIndexImageTypes(std::string parFile)
     break;
     case RESEARCH_IMAGE_EXPORT_TOOL_V4_2:
     {
-      struct image_info_defV4            tempInfo;
+      struct image_info_defV4 tempInfo;
       PhilipsPAR::PARSliceIndexImageType sliceAndType;
-      int                                lineIncrement = 101;
+      int lineIncrement = 101;
       tempInfo = GetImageInformationDefinitionV42(parFile, lineIncrement, this);
       while (!tempInfo.problemreading && tempInfo.slice)
       {
@@ -1709,7 +1709,7 @@ PhilipsPAR::PARSliceIndexScanSequenceVector
 PhilipsPAR::GetRECSliceIndexScanningSequence(std::string parFile)
 {
   PhilipsPAR::PARSliceIndexScanSequenceVector recSliceIndexScanSequence;
-  int                                         ResToolsVersion;
+  int ResToolsVersion;
 
   // Check version of PAR file.
   ResToolsVersion = this->GetPARVersion(parFile);
@@ -1722,9 +1722,9 @@ PhilipsPAR::GetRECSliceIndexScanningSequence(std::string parFile)
   {
     case RESEARCH_IMAGE_EXPORT_TOOL_V3:
     {
-      struct image_info_defV3               tempInfo;
+      struct image_info_defV3 tempInfo;
       PhilipsPAR::PARSliceIndexScanSequence sliceAndSequence;
-      int                                   lineIncrement = 89;
+      int lineIncrement = 89;
       tempInfo = GetImageInformationDefinitionV3(parFile, lineIncrement, this);
       while (!tempInfo.problemreading && tempInfo.slice)
       {
@@ -1738,9 +1738,9 @@ PhilipsPAR::GetRECSliceIndexScanningSequence(std::string parFile)
     break;
     case RESEARCH_IMAGE_EXPORT_TOOL_V4:
     {
-      struct image_info_defV4               tempInfo;
+      struct image_info_defV4 tempInfo;
       PhilipsPAR::PARSliceIndexScanSequence sliceAndSequence;
-      int                                   lineIncrement = 92;
+      int lineIncrement = 92;
       tempInfo = GetImageInformationDefinitionV4(parFile, lineIncrement, this);
       while (!tempInfo.problemreading && tempInfo.slice)
       {
@@ -1754,9 +1754,9 @@ PhilipsPAR::GetRECSliceIndexScanningSequence(std::string parFile)
     break;
     case RESEARCH_IMAGE_EXPORT_TOOL_V4_1:
     {
-      struct image_info_defV4               tempInfo;
+      struct image_info_defV4 tempInfo;
       PhilipsPAR::PARSliceIndexScanSequence sliceAndSequence;
-      int                                   lineIncrement = 99;
+      int lineIncrement = 99;
       tempInfo = GetImageInformationDefinitionV41(parFile, lineIncrement, this);
       while (!tempInfo.problemreading && tempInfo.slice)
       {
@@ -1770,9 +1770,9 @@ PhilipsPAR::GetRECSliceIndexScanningSequence(std::string parFile)
     break;
     case RESEARCH_IMAGE_EXPORT_TOOL_V4_2:
     {
-      struct image_info_defV4               tempInfo;
+      struct image_info_defV4 tempInfo;
       PhilipsPAR::PARSliceIndexScanSequence sliceAndSequence;
-      int                                   lineIncrement = 101;
+      int lineIncrement = 101;
       tempInfo = GetImageInformationDefinitionV42(parFile, lineIncrement, this);
       while (!tempInfo.problemreading && tempInfo.slice)
       {
@@ -1792,7 +1792,7 @@ PhilipsPAR::PARImageTypeScanSequenceVector
 PhilipsPAR::GetImageTypesScanningSequence(std::string parFile)
 {
   PhilipsPAR::PARImageTypeScanSequenceVector recImageTypesScanSequence;
-  struct par_parameter                       parParam;
+  struct par_parameter parParam;
 
   // Read the PAR file.
   try
@@ -1811,8 +1811,8 @@ PhilipsPAR::GetImageTypesScanningSequence(std::string parFile)
       for (int scanIndex = 0; scanIndex < parParam.num_scanning_sequences; ++scanIndex)
       {
         PhilipsPAR::PARImageTypeScanSequence imageTypeAndSequence;
-        int                                  lineIncrement = 89;
-        int                     imageType[PAR_DEFAULT_IMAGE_TYPES_SIZE] = { -1, -1, -1, -1, -1, -1, -1, -1 };
+        int lineIncrement = 89;
+        int imageType[PAR_DEFAULT_IMAGE_TYPES_SIZE] = { -1, -1, -1, -1, -1, -1, -1, -1 };
         struct image_info_defV3 tempInfo = GetImageInformationDefinitionV3(parFile, lineIncrement, this);
         while (!tempInfo.problemreading && tempInfo.slice)
         {
@@ -1841,8 +1841,8 @@ PhilipsPAR::GetImageTypesScanningSequence(std::string parFile)
       for (int scanIndex = 0; scanIndex < parParam.num_scanning_sequences; ++scanIndex)
       {
         PhilipsPAR::PARImageTypeScanSequence imageTypeAndSequence;
-        int                                  lineIncrement = 92;
-        int                     imageType[PAR_DEFAULT_IMAGE_TYPES_SIZE] = { -1, -1, -1, -1, -1, -1, -1, -1 };
+        int lineIncrement = 92;
+        int imageType[PAR_DEFAULT_IMAGE_TYPES_SIZE] = { -1, -1, -1, -1, -1, -1, -1, -1 };
         struct image_info_defV4 tempInfo = GetImageInformationDefinitionV4(parFile, lineIncrement, this);
         while (!tempInfo.problemreading && tempInfo.slice)
         {
@@ -1871,8 +1871,8 @@ PhilipsPAR::GetImageTypesScanningSequence(std::string parFile)
       for (int scanIndex = 0; scanIndex < parParam.num_scanning_sequences; ++scanIndex)
       {
         PhilipsPAR::PARImageTypeScanSequence imageTypeAndSequence;
-        int                                  lineIncrement = 99;
-        int                     imageType[PAR_DEFAULT_IMAGE_TYPES_SIZE] = { -1, -1, -1, -1, -1, -1, -1, -1 };
+        int lineIncrement = 99;
+        int imageType[PAR_DEFAULT_IMAGE_TYPES_SIZE] = { -1, -1, -1, -1, -1, -1, -1, -1 };
         struct image_info_defV4 tempInfo = GetImageInformationDefinitionV41(parFile, lineIncrement, this);
         while (!tempInfo.problemreading && tempInfo.slice)
         {
@@ -1901,8 +1901,8 @@ PhilipsPAR::GetImageTypesScanningSequence(std::string parFile)
       for (int scanIndex = 0; scanIndex < parParam.num_scanning_sequences; ++scanIndex)
       {
         PhilipsPAR::PARImageTypeScanSequence imageTypeAndSequence;
-        int                                  lineIncrement = 101;
-        int                     imageType[PAR_DEFAULT_IMAGE_TYPES_SIZE] = { -1, -1, -1, -1, -1, -1, -1, -1 };
+        int lineIncrement = 101;
+        int imageType[PAR_DEFAULT_IMAGE_TYPES_SIZE] = { -1, -1, -1, -1, -1, -1, -1, -1 };
         struct image_info_defV4 tempInfo = GetImageInformationDefinitionV42(parFile, lineIncrement, this);
         while (!tempInfo.problemreading && tempInfo.slice)
         {
@@ -1931,9 +1931,9 @@ PhilipsPAR::GetImageTypesScanningSequence(std::string parFile)
 }
 
 bool
-PhilipsPAR::GetRECRescaleValues(std::string                             parFile,
+PhilipsPAR::GetRECRescaleValues(std::string parFile,
                                 PhilipsPAR::PARRescaleValuesContainer * rescaleValues,
-                                int                                     scan_sequence)
+                                int scan_sequence)
 {
   rescaleValues->clear();
   // Must match size of image_types
@@ -1956,9 +1956,9 @@ PhilipsPAR::GetRECRescaleValues(std::string                             parFile,
     case RESEARCH_IMAGE_EXPORT_TOOL_V3:
     {
       PhilipsPAR::PARRescaleValues rescale;
-      int                          imageType[PAR_DEFAULT_IMAGE_TYPES_SIZE] = { -1, -1, -1, -1, -1, -1, -1, -1 };
-      int                          lineIncrement = 89;
-      struct image_info_defV3      tempInfo = GetImageInformationDefinitionV3(parFile, lineIncrement, this);
+      int imageType[PAR_DEFAULT_IMAGE_TYPES_SIZE] = { -1, -1, -1, -1, -1, -1, -1, -1 };
+      int lineIncrement = 89;
+      struct image_info_defV3 tempInfo = GetImageInformationDefinitionV3(parFile, lineIncrement, this);
       while (!tempInfo.problemreading && tempInfo.slice)
       {
         if ((*(imageType + tempInfo.image_type_mr) < 0) && (tempInfo.scan_sequence == scan_sequence))
@@ -1977,9 +1977,9 @@ PhilipsPAR::GetRECRescaleValues(std::string                             parFile,
     case RESEARCH_IMAGE_EXPORT_TOOL_V4:
     {
       PhilipsPAR::PARRescaleValues rescale;
-      int                          imageType[PAR_DEFAULT_IMAGE_TYPES_SIZE] = { -1, -1, -1, -1, -1, -1, -1, -1 };
-      int                          lineIncrement = 92;
-      struct image_info_defV4      tempInfo = GetImageInformationDefinitionV4(parFile, lineIncrement, this);
+      int imageType[PAR_DEFAULT_IMAGE_TYPES_SIZE] = { -1, -1, -1, -1, -1, -1, -1, -1 };
+      int lineIncrement = 92;
+      struct image_info_defV4 tempInfo = GetImageInformationDefinitionV4(parFile, lineIncrement, this);
       while (!tempInfo.problemreading && tempInfo.slice)
       {
         if ((*(imageType + tempInfo.image_type_mr) < 0) && (tempInfo.scan_sequence == scan_sequence))
@@ -1998,9 +1998,9 @@ PhilipsPAR::GetRECRescaleValues(std::string                             parFile,
     case RESEARCH_IMAGE_EXPORT_TOOL_V4_1:
     {
       PhilipsPAR::PARRescaleValues rescale;
-      int                          imageType[PAR_DEFAULT_IMAGE_TYPES_SIZE] = { -1, -1, -1, -1, -1, -1, -1, -1 };
-      int                          lineIncrement = 99;
-      struct image_info_defV4      tempInfo = GetImageInformationDefinitionV41(parFile, lineIncrement, this);
+      int imageType[PAR_DEFAULT_IMAGE_TYPES_SIZE] = { -1, -1, -1, -1, -1, -1, -1, -1 };
+      int lineIncrement = 99;
+      struct image_info_defV4 tempInfo = GetImageInformationDefinitionV41(parFile, lineIncrement, this);
       while (!tempInfo.problemreading && tempInfo.slice)
       {
         if ((*(imageType + tempInfo.image_type_mr) < 0) && (tempInfo.scan_sequence == scan_sequence))
@@ -2019,9 +2019,9 @@ PhilipsPAR::GetRECRescaleValues(std::string                             parFile,
     case RESEARCH_IMAGE_EXPORT_TOOL_V4_2:
     {
       PhilipsPAR::PARRescaleValues rescale;
-      int                          imageType[PAR_DEFAULT_IMAGE_TYPES_SIZE] = { -1, -1, -1, -1, -1, -1, -1, -1 };
-      int                          lineIncrement = 101;
-      struct image_info_defV4      tempInfo = GetImageInformationDefinitionV42(parFile, lineIncrement, this);
+      int imageType[PAR_DEFAULT_IMAGE_TYPES_SIZE] = { -1, -1, -1, -1, -1, -1, -1, -1 };
+      int lineIncrement = 101;
+      struct image_info_defV4 tempInfo = GetImageInformationDefinitionV42(parFile, lineIncrement, this);
       while (!tempInfo.problemreading && tempInfo.slice)
       {
         if ((*(imageType + tempInfo.image_type_mr) < 0) && (tempInfo.scan_sequence == scan_sequence))
@@ -2042,9 +2042,9 @@ PhilipsPAR::GetRECRescaleValues(std::string                             parFile,
 }
 
 bool
-PhilipsPAR::GetDiffusionGradientOrientationAndBValues(std::string                               parFile,
+PhilipsPAR::GetDiffusionGradientOrientationAndBValues(std::string parFile,
                                                       PhilipsPAR::PARDiffusionValuesContainer * gradientValues,
-                                                      PhilipsPAR::PARBValuesContainer *         bValues)
+                                                      PhilipsPAR::PARBValuesContainer * bValues)
 {
   gradientValues->resize(0); // Reset to zero size.
   bValues->resize(0);
@@ -2081,7 +2081,7 @@ PhilipsPAR::GetDiffusionGradientOrientationAndBValues(std::string               
     }
 
     // Can use either version 4.1 or 4.2 GetImageInformationDefinition function.
-    int                     gradientDirectionCount = 0;
+    int gradientDirectionCount = 0;
     struct image_info_defV4 tempInfo = GetImageInformationDefinitionV41(parFile, lineIncrement, this);
     while (!tempInfo.problemreading && tempInfo.slice && (gradientDirectionCount < tempPar.max_num_grad_orient))
     {
@@ -2115,8 +2115,8 @@ PhilipsPAR::GetLabelTypesASL(std::string parFile, PhilipsPAR::PARLabelTypesASLCo
   if (ResToolsVersion >= RESEARCH_IMAGE_EXPORT_TOOL_V4_2)
   {
     struct image_info_defV4 tempInfo;
-    int                     aslLabelNumber = -1;
-    int                     lineIncrement = 101;
+    int aslLabelNumber = -1;
+    int lineIncrement = 101;
 
     struct par_parameter tempPar;
     try

@@ -135,7 +135,7 @@ itkConnectedComponentImageFilterTest(int argc, char * argv[])
   }
 
   itk::ImageRegionIterator<OutputImageType> it(relabel->GetOutput(), relabel->GetOutput()->GetBufferedRegion());
-  itk::ImageRegionIterator<RGBImageType>    cit(colored, colored->GetBufferedRegion());
+  itk::ImageRegionIterator<RGBImageType> cit(colored, colored->GetBufferedRegion());
 
   while (!it.IsAtEnd())
   {

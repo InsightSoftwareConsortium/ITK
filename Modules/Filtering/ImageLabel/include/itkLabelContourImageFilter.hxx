@@ -112,7 +112,7 @@ void
 LabelContourImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   const OutputRegionType & outputRegionForThread)
 {
-  OutputImageType *      output = this->GetOutput();
+  OutputImageType * output = this->GetOutput();
   const InputImageType * input = this->GetInput();
 
   ImageScanlineConstIterator inLineIt(input, outputRegionForThread);
@@ -122,12 +122,12 @@ LabelContourImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   for (inLineIt.GoToBegin(); !inLineIt.IsAtEnd(); inLineIt.NextLine(), outLineIt.NextLine())
   {
     const SizeValueType lineId = this->IndexToLinearIndex(inLineIt.GetIndex());
-    LineEncodingType    thisLine;
+    LineEncodingType thisLine;
     while (!inLineIt.IsAtEndOfLine())
     {
       const InputPixelType PVal = inLineIt.Get();
 
-      SizeValueType        length = 0;
+      SizeValueType length = 0;
       const InputIndexType thisIndex = inLineIt.GetIndex();
       outLineIt.Set(m_BackgroundValue);
       ++length;
@@ -156,8 +156,8 @@ LabelContourImageFilter<TInputImage, TOutputImage>::ThreadedIntegrateData(
 {
   OutputImageType * output = this->GetOutput();
 
-  const SizeValueType   pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
-  const SizeValueType   xsize = output->GetRequestedRegion().GetSize()[0];
+  const SizeValueType pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
+  const SizeValueType xsize = output->GetRequestedRegion().GetSize()[0];
   const OffsetValueType linecount = pixelcount / xsize;
   itkAssertInDebugAndIgnoreInReleaseMacro(SizeValueType(linecount) == m_LineMap.size());
 

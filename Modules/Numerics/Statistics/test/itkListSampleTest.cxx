@@ -287,7 +287,7 @@ itkListSampleTest(int argc, char * argv[])
     // copy from non-const iterator
     std::cerr << "Trying Iterator::Copy Constructor (from non-const)...";
     const SampleType::Iterator nonconst_iter = sample->Begin();
-    SampleType::ConstIterator  s2_iter(nonconst_iter);
+    SampleType::ConstIterator s2_iter(nonconst_iter);
     if (s2_iter != s_iter)
     {
       std::cerr << "FAILED" << std::endl;
@@ -407,7 +407,7 @@ itkListSampleTest(int argc, char * argv[])
   }
 
   VariableSizeMeasurementVectorType variableLengthVector;
-  constexpr unsigned int            newsize = 42;
+  constexpr unsigned int newsize = 42;
   variableLengthVector.SetSize(newsize);
 
   variableSizeSample->Clear();
@@ -446,7 +446,7 @@ itkListSampleTest(int argc, char * argv[])
   // Exercise the exception throwing when requesting
   // an element id that is outside the list range.
   const unsigned int largestId = sample->Size();
-  bool               exceptionWorks = false;
+  bool exceptionWorks = false;
   try
   {
     const MeasurementVectorType measurement = sample->GetMeasurementVector(largestId + 10);
@@ -493,7 +493,7 @@ itkListSampleTest(int argc, char * argv[])
   {
     using IteratorType = SampleType::Iterator;
     const IteratorType iter = sample->Begin();
-    IteratorType       iter2 = sample->Begin();
+    IteratorType iter2 = sample->Begin();
 
     std::cerr << "Trying Iterator operator=()...";
     iter2 = iter;
@@ -584,7 +584,7 @@ itkListSampleTest(int argc, char * argv[])
     std::cerr << "Trying ConstIterator operator!=() and operator=()...";
     using ConstIteratorType = SampleType::ConstIterator;
     const ConstIteratorType iter = sample->Begin();
-    ConstIteratorType       iter2 = sample->End();
+    ConstIteratorType iter2 = sample->End();
 
     iter2 = iter;
 
@@ -679,7 +679,7 @@ itkListSampleTest(int argc, char * argv[])
     std::cerr << "PASSED" << std::endl;
 
     std::cerr << "Trying ConstIterator constructor from sample...";
-    unsigned int      counter = 0;
+    unsigned int counter = 0;
     ConstIteratorType iter10(constSample);
     if (iter10 != constSample->Begin())
     {

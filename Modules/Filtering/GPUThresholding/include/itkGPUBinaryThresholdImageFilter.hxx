@@ -44,7 +44,7 @@ GPUBinaryThresholdImageFilter<TInputImage, TOutputImage>::GPUBinaryThresholdImag
   defines << "#define DIM_" << TInputImage::ImageDimension << '\n';
 
   std::string validTypeName;
-  bool        isValid = GetValidTypename(typeid(typename TInputImage::PixelType), validTypes, validTypeName);
+  bool isValid = GetValidTypename(typeid(typename TInputImage::PixelType), validTypes, validTypeName);
   if (isValid)
   {
     defines << "#define InPixelType " << validTypeName << '\n' << "#define OutPixelType " << validTypeName << '\n';

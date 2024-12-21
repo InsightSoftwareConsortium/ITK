@@ -129,7 +129,7 @@ bool
 TestMatch(itk::MetaDataDictionary & dict, const char * const key, TValue expectedValue)
 {
   std::istringstream is;
-  std::string        stringValue;
+  std::string stringValue;
   if (!itk::ExposeMetaData<std::string>(dict, key, stringValue))
   {
     std::cerr << "Key " << key << " not found" << std::endl;
@@ -162,14 +162,14 @@ itkMetaImageIOMetaDataTest(int argc, char * argv[])
   using ImageType = itk::Image<PixelType, Dim>;
   using SourceType = itk::RandomImageSource<ImageType>;
 
-  auto                     source = SourceType::New();
+  auto source = SourceType::New();
   ImageType::SizeValueType size[Dim] = { 32, 32 };
   source->SetSize(size);
   source->SetMin(itk::NumericTraits<PixelType>::min());
   source->SetMax(itk::NumericTraits<PixelType>::max());
   source->Update();
 
-  ImageType::Pointer        randImage(source->GetOutput());
+  ImageType::Pointer randImage(source->GetOutput());
   itk::MetaDataDictionary & dict(randImage->GetMetaDataDictionary());
   //
   // add an arbitrary key to check whether it persists with the image
@@ -193,72 +193,72 @@ itkMetaImageIOMetaDataTest(int argc, char * argv[])
   {
     // Add double
     const std::string key("double");
-    constexpr double  value(7.891011);
+    constexpr double value(7.891011);
     itk::EncapsulateMetaData<double>(dict, key, value);
   }
   {
     // Add float
     const std::string key("float");
-    constexpr float   value(1.23456);
+    constexpr float value(1.23456);
     itk::EncapsulateMetaData<float>(dict, key, value);
   }
   {
     // Add long
     const std::string key("long");
-    constexpr long    value(-31415926);
+    constexpr long value(-31415926);
     itk::EncapsulateMetaData<int>(dict, key, value);
   }
   {
     // Add unsigned long
-    const std::string       key("unsigned_long");
+    const std::string key("unsigned_long");
     constexpr unsigned long value(27182818);
     itk::EncapsulateMetaData<unsigned long>(dict, key, value);
   }
   {
     // Add long long
-    const std::string   key("long_long");
+    const std::string key("long_long");
     constexpr long long value(-8589934592ll);
     itk::EncapsulateMetaData<long long>(dict, key, value);
   }
   {
     // Add unsigned long long
-    const std::string            key("unsigned_long_long");
+    const std::string key("unsigned_long_long");
     constexpr unsigned long long value(8589934592ull);
     itk::EncapsulateMetaData<unsigned long long>(dict, key, value);
   }
   {
     // Add int
     const std::string key("int");
-    constexpr int     value(-3141592);
+    constexpr int value(-3141592);
     itk::EncapsulateMetaData<int>(dict, key, value);
   }
   {
     // Add unsigned int
-    const std::string      key("unsigned_int");
+    const std::string key("unsigned_int");
     constexpr unsigned int value(2718281);
     itk::EncapsulateMetaData<unsigned int>(dict, key, value);
   }
   {
     // Add short
     const std::string key("short");
-    constexpr short   value(-16384);
+    constexpr short value(-16384);
     itk::EncapsulateMetaData<short>(dict, key, value);
   }
   {
     // Add short
-    const std::string      key("unsigned_short");
+    const std::string key("unsigned_short");
     constexpr unsigned int value(8192);
     itk::EncapsulateMetaData<unsigned short>(dict, key, value);
   }
   {
     // Add char
     const std::string key("char");
-    constexpr char    value('c');
+    constexpr char value('c');
     itk::EncapsulateMetaData<char>(dict, key, value);
   }
   {
     const std::string key("bool");
-    constexpr bool    value(true);
+    constexpr bool value(true);
     itk::EncapsulateMetaData<bool>(dict, key, value);
   }
 

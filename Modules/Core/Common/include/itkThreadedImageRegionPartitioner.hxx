@@ -27,7 +27,7 @@ ThreadIdType
 ThreadedImageRegionPartitioner<VDimension>::PartitionDomain(const ThreadIdType threadId,
                                                             const ThreadIdType requestedTotal,
                                                             const DomainType & completeRegion,
-                                                            DomainType &       subRegion) const
+                                                            DomainType & subRegion) const
 {
   subRegion = completeRegion;
   const unsigned int maxNumberOfSplits = m_ImageRegionSplitter->GetSplit(threadId, requestedTotal, subRegion);

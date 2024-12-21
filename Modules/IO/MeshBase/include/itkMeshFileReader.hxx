@@ -44,7 +44,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Me
 template <typename TOutputMesh, typename ConvertPointPixelTraits, typename ConvertCellPixelTraits>
 void
 MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::PrintSelf(std::ostream & os,
-                                                                                        Indent         indent) const
+                                                                                        Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -77,7 +77,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Te
   if (!itksys::SystemTools::FileExists(m_FileName.c_str()))
   {
     MeshFileReaderException e(__FILE__, __LINE__);
-    std::ostringstream      msg;
+    std::ostringstream msg;
     msg << "The file doesn't exist. " << std::endl << "Filename = " << m_FileName << std::endl;
     e.SetDescription(msg.str().c_str());
     throw e;
@@ -124,7 +124,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
 {
   const typename TOutputMesh::Pointer output = this->GetOutput();
 
-  SizeValueType        index{};
+  SizeValueType index{};
   OutputCellIdentifier id{};
   while (index < m_MeshIO->GetCellBufferSize())
   {
@@ -139,7 +139,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
           itkExceptionMacro("Invalid Vertex Cell with number of points = " << numberOfPoints);
         }
         OutputCellAutoPointer cell;
-        auto *                vertexCell = new OutputVertexCellType;
+        auto * vertexCell = new OutputVertexCellType;
         for (unsigned int jj = 0; jj < OutputVertexCellType::NumberOfPoints; ++jj)
         {
           vertexCell->SetPointId(jj, static_cast<OutputPointIdentifier>(buffer[index++]));
@@ -161,7 +161,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
         for (unsigned int jj = 1; jj < numberOfPoints; ++jj)
         {
           OutputCellAutoPointer cell;
-          auto *                lineCell = new OutputLineCellType;
+          auto * lineCell = new OutputLineCellType;
           lineCell->SetPointId(0, pointIDBuffer);
           pointIDBuffer = static_cast<OutputPointIdentifier>(buffer[index++]);
           lineCell->SetPointId(1, pointIDBuffer);
@@ -177,7 +177,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
         {
           itkExceptionMacro("Invalid Line Cell with number of points = " << numberOfPoints);
         }
-        auto *                polyLineCell = new OutputPolyLineCellType;
+        auto * polyLineCell = new OutputPolyLineCellType;
         OutputCellAutoPointer cell;
 
         for (unsigned int jj = 0; jj < numberOfPoints; ++jj)
@@ -199,7 +199,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
         }
 
         OutputCellAutoPointer cell;
-        auto *                triangleCell = new OutputTriangleCellType;
+        auto * triangleCell = new OutputTriangleCellType;
         for (unsigned int jj = 0; jj < OutputTriangleCellType::NumberOfPoints; ++jj)
         {
           triangleCell->SetPointId(jj, static_cast<OutputPointIdentifier>(buffer[index++]));
@@ -218,7 +218,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
         }
 
         OutputCellAutoPointer cell;
-        auto *                quadrilateralCell = new OutputQuadrilateralCellType;
+        auto * quadrilateralCell = new OutputQuadrilateralCellType;
         for (unsigned int jj = 0; jj < OutputQuadrilateralCellType::NumberOfPoints; ++jj)
         {
           quadrilateralCell->SetPointId(jj, static_cast<OutputPointIdentifier>(buffer[index++]));
@@ -233,7 +233,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
         // For polyhedron, if the number of points is 3, then we treat it as
         // triangle cell
         OutputCellAutoPointer cell;
-        auto                  numberOfPoints = static_cast<unsigned int>(buffer[index++]);
+        auto numberOfPoints = static_cast<unsigned int>(buffer[index++]);
         if (numberOfPoints == OutputTriangleCellType::NumberOfPoints)
         {
           auto * triangleCell = new OutputTriangleCellType;
@@ -265,7 +265,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
         }
 
         OutputCellAutoPointer cell;
-        auto *                tetrahedronCell = new OutputTetrahedronCellType;
+        auto * tetrahedronCell = new OutputTetrahedronCellType;
         for (unsigned int jj = 0; jj < OutputTetrahedronCellType::NumberOfPoints; ++jj)
         {
           tetrahedronCell->SetPointId(jj, static_cast<OutputPointIdentifier>(buffer[index++]));
@@ -284,7 +284,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
         }
 
         OutputCellAutoPointer cell;
-        auto *                hexahedronCell = new OutputHexahedronCellType;
+        auto * hexahedronCell = new OutputHexahedronCellType;
         for (unsigned int jj = 0; jj < OutputHexahedronCellType::NumberOfPoints; ++jj)
         {
           hexahedronCell->SetPointId(jj, static_cast<OutputPointIdentifier>(buffer[index++]));
@@ -303,7 +303,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
         }
 
         OutputCellAutoPointer cell;
-        auto *                quadraticEdgeCell = new OutputQuadraticEdgeCellType;
+        auto * quadraticEdgeCell = new OutputQuadraticEdgeCellType;
         for (unsigned int jj = 0; jj < OutputQuadraticEdgeCellType::NumberOfPoints; ++jj)
         {
           quadraticEdgeCell->SetPointId(jj, static_cast<OutputPointIdentifier>(buffer[index++]));
@@ -322,7 +322,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
         }
 
         OutputCellAutoPointer cell;
-        auto *                quadraticTriangleCell = new OutputQuadraticTriangleCellType;
+        auto * quadraticTriangleCell = new OutputQuadraticTriangleCellType;
         for (unsigned int jj = 0; jj < OutputQuadraticTriangleCellType::NumberOfPoints; ++jj)
         {
           quadraticTriangleCell->SetPointId(jj, static_cast<OutputPointIdentifier>(buffer[index++]));
@@ -680,7 +680,7 @@ template <typename T>
 void
 MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::ConvertPointPixelBuffer(
   void * inputData,
-  T *    outputData,
+  T * outputData,
   size_t numberOfPixels)
 {
   // TODO:
@@ -720,7 +720,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Co
   else
   {
     MeshFileReaderException e(__FILE__, __LINE__);
-    std::ostringstream      msg;
+    std::ostringstream msg;
     msg << "Couldn't convert component type: " << std::endl
         << "    " << m_MeshIO->GetComponentTypeAsString(m_MeshIO->GetPointPixelComponentType()) << std::endl
         << "to one of: " << std::endl
@@ -751,7 +751,7 @@ template <typename T>
 void
 MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::ConvertCellPixelBuffer(
   void * inputData,
-  T *    outputData,
+  T * outputData,
   size_t numberOfPixels)
 {
   // TODO:
@@ -791,7 +791,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Co
   else
   {
     MeshFileReaderException e(__FILE__, __LINE__);
-    std::ostringstream      msg;
+    std::ostringstream msg;
     msg << "Couldn't convert component type: " << std::endl
         << "    " << m_MeshIO->GetComponentTypeAsString(m_MeshIO->GetCellPixelComponentType()) << std::endl
         << "to one of: " << std::endl

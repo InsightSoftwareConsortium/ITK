@@ -713,7 +713,7 @@ GiftiMeshIO::WriteMeshInformation()
 
   // write labelTable using labelMap and colorMap
   const MetaDataDictionary & metaDic = this->GetMetaDataDictionary();
-  LabelNameContainerPointer  labelMap;
+  LabelNameContainerPointer labelMap;
   if (ExposeMetaData<LabelNameContainerPointer>(metaDic, "labelContainer", labelMap))
   {
     if (labelMap)

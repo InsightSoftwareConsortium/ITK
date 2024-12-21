@@ -111,11 +111,11 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ImagePointer     m_Image{};
+  ImagePointer m_Image{};
   TransformPointer m_Transform{};
 
   MeshSizeType m_TransformDomainMeshSize{ MeshSizeType::Filled(1) };
-  bool         m_SetTransformDomainMeshSizeViaInitializer{ false };
+  bool m_SetTransformDomainMeshSizeViaInitializer{ false };
 
 }; // class BSplineTransformInitializer
 } // namespace itk

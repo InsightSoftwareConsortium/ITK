@@ -44,7 +44,7 @@ itkFixedArrayTest2(int, char *[])
 
   // Start a simple experiment
   clock_t t = clock();
-  double  acc1 = 0.0;
+  double acc1 = 0.0;
 
   for (unsigned int i = 0; i < nrun; ++i)
   {

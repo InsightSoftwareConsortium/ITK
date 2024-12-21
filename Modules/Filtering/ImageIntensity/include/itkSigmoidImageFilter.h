@@ -132,8 +132,8 @@ public:
   }
 
 private:
-  double  m_Alpha;
-  double  m_Beta;
+  double m_Alpha;
+  double m_Beta;
   TOutput m_OutputMinimum;
   TOutput m_OutputMaximum;
 };

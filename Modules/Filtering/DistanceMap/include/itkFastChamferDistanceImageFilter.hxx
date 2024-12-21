@@ -98,11 +98,11 @@ FastChamferDistanceImageFilter<TInputImage, TOutputImage>::GenerateDataND()
   constexpr int SIGN_MASK = 1;
   constexpr int INNER_MASK = 2;
 
-  auto                              r = MakeFilled<typename NeighborhoodIterator<TInputImage>::RadiusType>(1);
+  auto r = MakeFilled<typename NeighborhoodIterator<TInputImage>::RadiusType>(1);
   NeighborhoodIterator<TInputImage> it(r, this->GetOutput(), m_RegionToProcess);
 
   const unsigned int center_voxel = it.Size() / 2;
-  const auto         neighbor_type = make_unique_for_overwrite<int[]>(it.Size());
+  const auto neighbor_type = make_unique_for_overwrite<int[]>(it.Size());
 
   /** 1st Scan , using neighbors from center_voxel+1 to it.Size()-1 */
   /** Precomputing the neighbor types */

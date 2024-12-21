@@ -97,8 +97,8 @@ itkCenteredVersorTransformInitializerTest(int, char *[])
   movingImage->FillBuffer(0);
 
   RegionType internalRegion;
-  SizeType   internalSize;
-  IndexType  internalIndex;
+  SizeType internalSize;
+  IndexType internalIndex;
 
   internalIndex[0] = index[0] + 20;
   internalIndex[1] = index[1] + 30;
@@ -164,7 +164,7 @@ itkCenteredVersorTransformInitializerTest(int, char *[])
   initializer->InitializeTransform();
 
   TransformType::OutputVectorType translation2 = transform->GetTranslation();
-  TransformType::OffsetType       offset2 = transform->GetOffset();
+  TransformType::OffsetType offset2 = transform->GetOffset();
 
   { // Verfications
     TransformType::InputPointType fixedCenter;

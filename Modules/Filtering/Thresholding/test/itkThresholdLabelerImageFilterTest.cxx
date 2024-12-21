@@ -38,8 +38,8 @@ ThresholdLabelerImageFilterTestHelper(bool useRealTypeThresholds)
   using LabeledImageType = itk::Image<LabeledPixelType, Dimension>;
 
   // Create an image with stripes to label
-  InputImageType::IndexType  index = { { 0, 0 } };
-  InputImageType::SizeType   size = { { 32, 32 } };
+  InputImageType::IndexType index = { { 0, 0 } };
+  InputImageType::SizeType size = { { 32, 32 } };
   InputImageType::RegionType region{ index, size };
 
   auto inputImage = InputImageType::New();
@@ -77,7 +77,7 @@ ThresholdLabelerImageFilterTestHelper(bool useRealTypeThresholds)
   labels.push_back(3 + offset);
 
   // Fill in the image
-  unsigned int                         i;
+  unsigned int i;
   IndexValueVectorType::const_iterator indexIter;
   for (indexIter = yindexes.begin(), i = 0; indexIter != yindexes.end(); ++indexIter, ++i)
   {

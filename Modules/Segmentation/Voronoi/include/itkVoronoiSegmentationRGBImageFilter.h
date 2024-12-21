@@ -219,15 +219,15 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  double                        m_Mean[6]{};
-  double                        m_STD[6]{};
-  double                        m_MeanTolerance[6]{};
-  double                        m_STDTolerance[6]{};
-  double                        m_MeanPercentError[6]{};
-  double                        m_STDPercentError[6]{};
-  double                        m_MaxValueOfRGB{};
-  unsigned int                  m_TestMean[3]{};
-  unsigned int                  m_TestSTD[3]{};
+  double m_Mean[6]{};
+  double m_STD[6]{};
+  double m_MeanTolerance[6]{};
+  double m_STDTolerance[6]{};
+  double m_MeanPercentError[6]{};
+  double m_STDPercentError[6]{};
+  double m_MaxValueOfRGB{};
+  unsigned int m_TestMean[3]{};
+  unsigned int m_TestSTD[3]{};
   typename RGBHCVImage::Pointer m_WorkingImage{};
 
   bool

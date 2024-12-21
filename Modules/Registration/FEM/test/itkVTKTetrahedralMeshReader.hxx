@@ -223,7 +223,7 @@ VTKTetrahedralMeshReader<TOutputMesh>::GenerateData()
   //
 
   unsigned long numberOfCellPoints;
-  long          ids[4];
+  long ids[4];
 
   for (CellIdentifier cellId = 0; cellId < numberOfCells; ++cellId)
   {

@@ -220,7 +220,7 @@ public:
     // to be same as BeginOffset so that iterator end condition is met
     // immediately.
     IndexType ind(m_Region.GetIndex());
-    SizeType  size(m_Region.GetSize());
+    SizeType size(m_Region.GetSize());
     if (m_Region.GetNumberOfPixels() == 0)
     {
       // region is empty, probably has a size of 0 along one dimension
@@ -387,7 +387,7 @@ protected: // made protected so other iterators can access
 
   const InternalPixelType * m_Buffer{};
 
-  AccessorType        m_PixelAccessor{};
+  AccessorType m_PixelAccessor{};
   AccessorFunctorType m_PixelAccessorFunctor{};
 };
 } // end namespace itk

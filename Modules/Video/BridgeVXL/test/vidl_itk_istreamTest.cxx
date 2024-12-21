@@ -35,7 +35,7 @@ TestFormat(vidl_pixel_format expectedFormat)
   using StreamType = itk::vidl_itk_istream<VideoType>;
 
   StreamType * stream = new StreamType();
-  bool         out = (stream->format() == expectedFormat);
+  bool out = (stream->format() == expectedFormat);
   delete stream;
   return out;
 }

@@ -122,10 +122,10 @@ public:
    *  shared data which contains information from the other level sets). Using the
    *  new $H$ values, the previous $c_i$ are updated. */
   void
-  UpdatePixel(const unsigned int                  idx,
+  UpdatePixel(const unsigned int idx,
               NeighborhoodIterator<TInputImage> & iterator,
-              InputPixelType &                    newValue,
-              bool &                              status);
+              InputPixelType & newValue,
+              bool & status);
 
 protected:
   ScalarRegionBasedLevelSetFunction()
@@ -142,14 +142,14 @@ protected:
    *  Called only when sparse filters are used to prevent iteration through the
    *  entire image. */
   virtual void
-  UpdateSharedDataInsideParameters(const unsigned int &     iId,
+  UpdateSharedDataInsideParameters(const unsigned int & iId,
                                    const FeaturePixelType & iVal,
-                                   const ScalarValueType &  iChange) = 0;
+                                   const ScalarValueType & iChange) = 0;
 
   virtual void
-  UpdateSharedDataOutsideParameters(const unsigned int &     iId,
+  UpdateSharedDataOutsideParameters(const unsigned int & iId,
                                     const FeaturePixelType & iVal,
-                                    const ScalarValueType &  iChange) = 0;
+                                    const ScalarValueType & iChange) = 0;
 };
 } // namespace itk
 

@@ -121,7 +121,7 @@ AmoebaOptimizerv4::StartOptimization(bool /* doOnlyInitialization */)
   // expected parameter vector matches the one we have etc...)
   this->ValidateSettings();
 
-  ParametersType     parameters = this->m_Metric->GetParameters();
+  ParametersType parameters = this->m_Metric->GetParameters();
   const unsigned int n = parameters.GetSize();
 
   InternalParametersType delta(m_InitialSimplexDelta);
@@ -161,8 +161,8 @@ AmoebaOptimizerv4::StartOptimization(bool /* doOnlyInitialization */)
   // automated initialization - previously hidden inside vnl
   if (this->m_AutomaticInitialSimplex)
   {
-    constexpr double       relativeDiameter = 0.05;
-    constexpr double       zeroTermDelta = 0.00025;
+    constexpr double relativeDiameter = 0.05;
+    constexpr double zeroTermDelta = 0.00025;
     InternalParametersType automaticDelta(n);
     for (unsigned int i = 0; i < n; ++i)
     {
@@ -184,7 +184,7 @@ AmoebaOptimizerv4::StartOptimization(bool /* doOnlyInitialization */)
   // multiple restart heuristic
   if (this->m_OptimizeWithRestarts)
   {
-    bool         converged = false;
+    bool converged = false;
     unsigned int i = 1;
     while (!converged && (this->m_CurrentIteration < m_NumberOfIterations))
     {
@@ -251,7 +251,7 @@ AmoebaOptimizerv4::ValidateSettings()
   // if we got here it is safe to get the number of parameters the cost
   // function expects
   const ParametersType parameters = this->m_Metric->GetParameters();
-  const unsigned int   n = parameters.GetSize();
+  const unsigned int n = parameters.GetSize();
 
   // the user gave us data to use for the initial simplex, check that it
   // matches the number of parameters (simplex dimension is n+1 - the initial

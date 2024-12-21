@@ -290,18 +290,18 @@ protected:
   GenerateData() override;
 
 private:
-  bool         m_EstimateInverse{ false };
-  bool         m_EnforceStationaryBoundary{ true };
+  bool m_EstimateInverse{ false };
+  bool m_EnforceStationaryBoundary{ true };
   unsigned int m_SplineOrder{ 3 };
-  ArrayType    m_NumberOfControlPoints{};
-  ArrayType    m_NumberOfFittingLevels{};
+  ArrayType m_NumberOfControlPoints{};
+  ArrayType m_NumberOfFittingLevels{};
 
   typename WeightsContainerType::Pointer m_PointWeights{};
-  bool                                   m_UsePointWeights{ false };
+  bool m_UsePointWeights{ false };
 
-  OriginType    m_BSplineDomainOrigin{};
-  SpacingType   m_BSplineDomainSpacing{};
-  SizeType      m_BSplineDomainSize{};
+  OriginType m_BSplineDomainOrigin{};
+  SpacingType m_BSplineDomainSpacing{};
+  SizeType m_BSplineDomainSize{};
   DirectionType m_BSplineDomainDirection{};
 
   bool m_BSplineDomainIsDefined{ true };

@@ -108,7 +108,7 @@ itkComplexToRealFilterAndAdaptorTest(int, char *[])
   it.GoToBegin();
   while (!ot.IsAtEnd())
   {
-    const InputImageType::PixelType  input = it.Get();
+    const InputImageType::PixelType input = it.Get();
     const OutputImageType::PixelType output = ot.Get();
     const OutputImageType::PixelType real = input.real();
     if (!itk::Math::FloatAlmostEqual(real, output, 10, epsilon))

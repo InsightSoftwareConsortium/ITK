@@ -56,14 +56,14 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>::ThreadedProcessLabelObject(Labe
 {
   Superclass::ThreadedProcessLabelObject(labelObject);
 
-  ImageType *              output = this->GetOutput();
+  ImageType * output = this->GetOutput();
   const FeatureImageType * featureImage = this->GetFeatureImage();
 
   using HistogramType = typename LabelObjectType::HistogramType;
 
-  typename HistogramType::IndexType             histogramIndex(1);
+  typename HistogramType::IndexType histogramIndex(1);
   typename HistogramType::MeasurementVectorType mv(1);
-  typename HistogramType::SizeType              histogramSize(1);
+  typename HistogramType::SizeType histogramSize(1);
   histogramSize.Fill(m_NumberOfBins);
 
   typename HistogramType::MeasurementVectorType featureImageMin(1);
@@ -92,23 +92,23 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>::ThreadedProcessLabelObject(Labe
 
   FeatureImagePixelType min = NumericTraits<FeatureImagePixelType>::max();
   FeatureImagePixelType max = NumericTraits<FeatureImagePixelType>::NonpositiveMin();
-  double                sum = 0;
-  double                sum2 = 0;
-  double                sum3 = 0;
-  double                sum4 = 0;
-  IndexType             minIdx{};
-  IndexType             maxIdx{};
-  PointType             centerOfGravity{};
-  MatrixType            centralMoments{};
-  MatrixType            principalAxes{};
-  VectorType            principalMoments{};
+  double sum = 0;
+  double sum2 = 0;
+  double sum3 = 0;
+  double sum4 = 0;
+  IndexType minIdx{};
+  IndexType maxIdx{};
+  PointType centerOfGravity{};
+  MatrixType centralMoments{};
+  MatrixType principalAxes{};
+  VectorType principalMoments{};
 
 
   // iterate over all the indexes
   typename LabelObjectType::ConstIndexIterator it(labelObject);
   while (!it.IsAtEnd())
   {
-    const IndexType &             idx = it.GetIndex();
+    const IndexType & idx = it.GetIndex();
     const FeatureImagePixelType & v = featureImage->GetPixel(idx);
     mv[0] = v;
     histogram->GetIndex(mv, histogramIndex);
@@ -151,13 +151,13 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>::ThreadedProcessLabelObject(Labe
 
   // final computations
   const typename HistogramType::AbsoluteFrequencyType & totalFreq = histogram->GetTotalFrequency();
-  const double                                          mean = sum / totalFreq;
+  const double mean = sum / totalFreq;
   // Note that totalFreq could be 1. Stats on a population of size 1 are not useful.
   // We protect against dividing by 0 in that case.
   const double variance = (totalFreq > 1) ? (sum2 - (std::pow(sum, 2) / totalFreq)) / (totalFreq - 1) : 0;
   const double sigma = std::sqrt(variance);
   const double mean2 = mean * mean;
-  double       skewness;
+  double skewness;
   if (itk::Math::abs(variance * sigma) > itk::NumericTraits<double>::min())
   {
     skewness = ((sum3 - 3.0 * mean * sum2) / totalFreq + 2.0 * mean * mean2) / (variance * sigma);
@@ -236,7 +236,7 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>::ThreadedProcessLabelObject(Labe
 
     // Compute principal moments and axes
     const vnl_symmetric_eigensystem<double> eigen{ centralMoments.GetVnlMatrix().as_matrix() };
-    vnl_diag_matrix<double>                 pm{ eigen.D };
+    vnl_diag_matrix<double> pm{ eigen.D };
     for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       //    principalMoments[i] = 4 * std::sqrt( pm(i,i) );
@@ -246,9 +246,9 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>::ThreadedProcessLabelObject(Labe
 
     // Add a final reflection if needed for a proper rotation,
     // by multiplying the last row by the determinant
-    const vnl_real_eigensystem            eigenrot{ principalAxes.GetVnlMatrix().as_matrix() };
+    const vnl_real_eigensystem eigenrot{ principalAxes.GetVnlMatrix().as_matrix() };
     vnl_diag_matrix<std::complex<double>> eigenval{ eigenrot.D };
-    std::complex<double>                  det(1.0, 0.0);
+    std::complex<double> det(1.0, 0.0);
 
     for (unsigned int i = 0; i < ImageDimension; ++i)
     {

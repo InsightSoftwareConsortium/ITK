@@ -102,7 +102,7 @@ itkWarpHarmonicEnergyCalculatorTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(calculator->Compute());
 
   // Regression test: check the computed harmonic energy
-  double       expectedEnergy = std::stod(argv[3]);
+  double expectedEnergy = std::stod(argv[3]);
   const double computedEnergy = calculator->GetHarmonicEnergy();
   if (itk::Math::NotAlmostEquals(expectedEnergy, computedEnergy))
   {

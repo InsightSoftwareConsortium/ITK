@@ -64,13 +64,13 @@ public:
 
   /** create a logger and add it into LoggerManager */
   LoggerPointer
-  CreateLogger(const NameType &  name,
+  CreateLogger(const NameType & name,
                PriorityLevelEnum level,
                PriorityLevelEnum levelForFlushing = LoggerBase::PriorityLevelEnum::MUSTFLUSH);
 
   /** create a thread logger and add it into LoggerManager */
   ThreadLoggerPointer
-  CreateThreadLogger(const NameType &  name,
+  CreateThreadLogger(const NameType & name,
                      PriorityLevelEnum level,
                      PriorityLevelEnum levelForFlushing = LoggerBase::PriorityLevelEnum::MUSTFLUSH);
 

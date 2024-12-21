@@ -48,10 +48,10 @@ itkQuadEdgeMeshIteratorTest(int, char *[])
 //
 #define NumPoints 6
 #define NumEdges 6
-  MeshType::PixelType       a = std::sqrt(3.0) / 2.0;
+  MeshType::PixelType a = std::sqrt(3.0) / 2.0;
   const MeshType::PixelType points[NumPoints][3] = { { 1.0, 0.0, 0.0 },  { 0.5, a, 0.0 },   { -0.5, a, 0.0 },
                                                      { -1.0, 0.0, 0.0 }, { -0.5, -a, 0.0 }, { 0.5, -a, 0.0 } };
-  MeshType::PointType       pnts[NumPoints];
+  MeshType::PointType pnts[NumPoints];
   MeshType::PointIdentifier pids[NumPoints];
   for (int i = 0; i < NumPoints; ++i)
   {

@@ -347,7 +347,7 @@ itkSymmetricEigenAnalysisImageFilterTest(int argc, char * argv[])
   using FilterFixedDimensionType =
     itk::SymmetricEigenAnalysisFixedDimensionImageFilter<Dimension, InputImageType, InternalImageType>;
 
-  auto              orderFixedDimension = static_cast<itk::EigenValueOrderEnum>(std::stoi(argv[2]));
+  auto orderFixedDimension = static_cast<itk::EigenValueOrderEnum>(std::stoi(argv[2]));
   const std::string outputFilenameFixedDimension = argv[3];
   // Create an instance to exercise basic object methods
   auto filterFixedDimension = FilterFixedDimensionType::New();

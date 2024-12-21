@@ -123,8 +123,8 @@ private:
 
 int
 ThreadedIteratorRangePartitionerRunTest(
-  IteratorRangeDomainThreaderAssociate &                                       enclosingClass,
-  itk::ThreadIdType                                                            numberOfThreads,
+  IteratorRangeDomainThreaderAssociate & enclosingClass,
+  itk::ThreadIdType numberOfThreads,
   const IteratorRangeDomainThreaderAssociate::TestDomainThreader::DomainType & fullDomain)
 {
   std::cout << "Testing with " << numberOfThreads << " threads." << std::endl;
@@ -208,8 +208,8 @@ ThreadedIteratorRangePartitionerRunTest(
 
 // Helper function.
 void
-getIteratorFromIndex(const unsigned int                                                          index,
-                     const IteratorRangeDomainThreaderAssociate::DomainContainerType &           container,
+getIteratorFromIndex(const unsigned int index,
+                     const IteratorRangeDomainThreaderAssociate::DomainContainerType & container,
                      IteratorRangeDomainThreaderAssociate::DomainContainerType::const_iterator & it)
 {
   it = container.begin();
@@ -220,9 +220,9 @@ getIteratorFromIndex(const unsigned int                                         
 }
 
 void
-setStartEnd(const unsigned int                                                     start,
-            const unsigned int                                                     end,
-            const IteratorRangeDomainThreaderAssociate::DomainContainerType &      container,
+setStartEnd(const unsigned int start,
+            const unsigned int end,
+            const IteratorRangeDomainThreaderAssociate::DomainContainerType & container,
             IteratorRangeDomainThreaderAssociate::TestDomainThreader::DomainType & fullDomain)
 {
   std::cout << std::endl << "From starting iterator index = " << start << " ending iterator index " << end << std::endl;
@@ -239,7 +239,7 @@ setStartEnd(const unsigned int                                                  
 int
 itkThreadedIteratorRangePartitionerTest(int, char *[])
 {
-  IteratorRangeDomainThreaderAssociate                                         enclosingClass;
+  IteratorRangeDomainThreaderAssociate enclosingClass;
   const IteratorRangeDomainThreaderAssociate::TestDomainThreader::ConstPointer domainThreader =
     enclosingClass.GetDomainThreader();
 

@@ -125,7 +125,7 @@ template <typename TFixedImage, typename TMovingImage>
 void
 NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetDerivative(
   const TransformParametersType & parameters,
-  DerivativeType &                derivative) const
+  DerivativeType & derivative) const
 {
   if (!this->GetGradientImage())
   {
@@ -307,8 +307,8 @@ template <typename TFixedImage, typename TMovingImage>
 void
 NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDerivative(
   const TransformParametersType & parameters,
-  MeasureType &                   value,
-  DerivativeType &                derivative) const
+  MeasureType & value,
+  DerivativeType & derivative) const
 {
   if (!this->GetGradientImage())
   {

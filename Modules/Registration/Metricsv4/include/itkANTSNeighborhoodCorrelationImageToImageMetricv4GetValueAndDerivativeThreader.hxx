@@ -29,8 +29,8 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDo
                                                                              TNeighborhoodCorrelationMetric>::
   ThreadedExecution_impl(
     IdentityHelper<ThreadedImageRegionPartitioner<TImageToImageMetric::VirtualImageDimension>> itkNotUsed(self),
-    const DomainType &                                                                         virtualImageSubRegion,
-    const ThreadIdType                                                                         threadId)
+    const DomainType & virtualImageSubRegion,
+    const ThreadIdType threadId)
 {
   /* Store the casted pointer to avoid dynamic casting in tight loops. */
   auto associate = dynamic_cast<TNeighborhoodCorrelationMetric *>(this->m_Associate);
@@ -41,13 +41,13 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDo
 
   std::call_once(this->m_ANTSAssociateOnceFlag, [this, &associate]() { this->m_ANTSAssociate = associate; });
 
-  VirtualPointType   virtualPoint;
-  MeasureType        metricValueResult{};
-  MeasureType        metricValueSum{};
-  bool               pointIsValid;
-  ScanIteratorType   scanIt;
+  VirtualPointType virtualPoint;
+  MeasureType metricValueResult{};
+  MeasureType metricValueSum{};
+  bool pointIsValid;
+  ScanIteratorType scanIt;
   ScanParametersType scanParameters;
-  ScanMemType        scanMem;
+  ScanMemType scanMem;
 
   DerivativeType & localDerivativeResult = this->m_GetValueAndDerivativePerThreadVariables[threadId].LocalDerivatives;
 
@@ -109,7 +109,7 @@ void
 ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
   TDomainPartitioner,
   TImageToImageMetric,
-  TNeighborhoodCorrelationMetric>::ThreadedExecution_impl(IdentityHelper<T>  itkNotUsed(self),
+  TNeighborhoodCorrelationMetric>::ThreadedExecution_impl(IdentityHelper<T> itkNotUsed(self),
                                                           const DomainType & domain,
                                                           const ThreadIdType threadId)
 {
@@ -131,8 +131,8 @@ void
 ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
   TDomainPartitioner,
   TImageToImageMetric,
-  TNeighborhoodCorrelationMetric>::UpdateQueuesAtBeginningOfLine(const ScanIteratorType &   scanIt,
-                                                                 ScanMemType &              scanMem,
+  TNeighborhoodCorrelationMetric>::UpdateQueuesAtBeginningOfLine(const ScanIteratorType & scanIt,
+                                                                 ScanMemType & scanMem,
                                                                  const ScanParametersType & scanParameters,
                                                                  const ThreadIdType) const
 {
@@ -166,7 +166,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
     {
       typename ScanIteratorType::OffsetType internalIndex;
       typename ScanIteratorType::OffsetType offset;
-      const bool                            isInBounds = scanIt.IndexInBounds(indct, internalIndex, offset);
+      const bool isInBounds = scanIt.IndexInBounds(indct, internalIndex, offset);
       if (!isInBounds)
       {
         // std::cout << "DEBUG: error" << std::endl;
@@ -175,9 +175,9 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
 
       const typename VirtualImageType::IndexType index = scanIt.GetIndex(indct);
 
-      VirtualPointType     virtualPoint;
-      FixedImagePointType  mappedFixedPoint;
-      FixedImagePixelType  fixedImageValue;
+      VirtualPointType virtualPoint;
+      FixedImagePointType mappedFixedPoint;
+      FixedImagePixelType fixedImageValue;
       MovingImagePointType mappedMovingPoint;
       MovingImagePixelType movingImageValue;
 
@@ -226,8 +226,8 @@ void
 ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
   TDomainPartitioner,
   TImageToImageMetric,
-  TNeighborhoodCorrelationMetric>::UpdateQueuesToNextScanWindow(const ScanIteratorType &   scanIt,
-                                                                ScanMemType &              scanMem,
+  TNeighborhoodCorrelationMetric>::UpdateQueuesToNextScanWindow(const ScanIteratorType & scanIt,
+                                                                ScanMemType & scanMem,
                                                                 const ScanParametersType & scanParameters,
                                                                 const ThreadIdType) const
 {
@@ -250,7 +250,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
   {
     typename ScanIteratorType::OffsetType internalIndex;
     typename ScanIteratorType::OffsetType offset;
-    const bool                            isInBounds = scanIt.IndexInBounds(indct, internalIndex, offset);
+    const bool isInBounds = scanIt.IndexInBounds(indct, internalIndex, offset);
 
     if (!isInBounds)
     {
@@ -259,9 +259,9 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
 
     const typename VirtualImageType::IndexType index = scanIt.GetIndex(indct);
 
-    VirtualPointType     virtualPoint;
-    FixedImagePointType  mappedFixedPoint;
-    FixedImagePixelType  fixedImageValue;
+    VirtualPointType virtualPoint;
+    FixedImagePointType mappedFixedPoint;
+    FixedImagePixelType fixedImageValue;
     MovingImagePointType mappedMovingPoint;
     MovingImagePixelType movingImageValue;
 
@@ -315,9 +315,9 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
   TDomainPartitioner,
   TImageToImageMetric,
   TNeighborhoodCorrelationMetric>::InitializeScanning(const ImageRegionType & scanRegion,
-                                                      ScanIteratorType &      scanIt,
-                                                      ScanMemType &           scanMem,
-                                                      ScanParametersType &    scanParameters) const
+                                                      ScanIteratorType & scanIt,
+                                                      ScanMemType & scanMem,
+                                                      ScanParametersType & scanParameters) const
 {
   scanParameters.scanRegion = scanRegion;
   scanParameters.fixedImage = this->m_ANTSAssociate->m_FixedImage;
@@ -355,10 +355,10 @@ void
 ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
   TDomainPartitioner,
   TImageToImageMetric,
-  TNeighborhoodCorrelationMetric>::UpdateQueues(const ScanIteratorType &   scanIt,
-                                                ScanMemType &              scanMem,
+  TNeighborhoodCorrelationMetric>::UpdateQueues(const ScanIteratorType & scanIt,
+                                                ScanMemType & scanMem,
                                                 const ScanParametersType & scanParameters,
-                                                const ThreadIdType         threadId) const
+                                                const ThreadIdType threadId) const
 {
   if (scanIt.GetIndex()[0] == scanParameters.scanRegionBeginIndexDim0)
   {
@@ -377,7 +377,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
   TDomainPartitioner,
   TImageToImageMetric,
   TNeighborhoodCorrelationMetric>::ComputeInformationFromQueues(const ScanIteratorType & scanIt,
-                                                                ScanMemType &            scanMem,
+                                                                ScanMemType & scanMem,
                                                                 const ScanParametersType &,
                                                                 const ThreadIdType) const
 {
@@ -406,11 +406,11 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
   LocalRealType sumFixed = localZero;
   LocalRealType sumMoving = localZero;
   LocalRealType sumFixedMoving = localZero;
-  auto          itFixed2 = scanMem.QsumFixed2.begin();
-  auto          itMoving2 = scanMem.QsumMoving2.begin();
-  auto          itFixed = scanMem.QsumFixed.begin();
-  auto          itMoving = scanMem.QsumMoving.begin();
-  auto          itFixedMoving = scanMem.QsumFixedMoving.begin();
+  auto itFixed2 = scanMem.QsumFixed2.begin();
+  auto itMoving2 = scanMem.QsumMoving2.begin();
+  auto itFixed = scanMem.QsumFixed.begin();
+  auto itMoving = scanMem.QsumMoving.begin();
+  auto itFixedMoving = scanMem.QsumFixedMoving.begin();
 
   while (itFixed2 != scanMem.QsumFixed2.end())
   {
@@ -439,14 +439,14 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
 
   const typename VirtualImageType::IndexType oindex = scanIt.GetIndex();
 
-  VirtualPointType        virtualPoint;
-  FixedImagePointType     mappedFixedPoint;
-  FixedImagePixelType     fixedImageValue;
-  FixedImageGradientType  fixedImageGradient;
-  MovingImagePointType    mappedMovingPoint;
-  MovingImagePixelType    movingImageValue;
+  VirtualPointType virtualPoint;
+  FixedImagePointType mappedFixedPoint;
+  FixedImagePixelType fixedImageValue;
+  FixedImageGradientType fixedImageGradient;
+  MovingImagePointType mappedMovingPoint;
+  MovingImagePixelType movingImageValue;
   MovingImageGradientType movingImageGradient;
-  bool                    pointIsValid;
+  bool pointIsValid;
 
   this->m_ANTSAssociate->TransformVirtualIndexToPhysicalPoint(oindex, virtualPoint);
 
@@ -512,8 +512,8 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
   TNeighborhoodCorrelationMetric>::ComputeMovingTransformDerivative(const ScanIteratorType &,
                                                                     ScanMemType & scanMem,
                                                                     const ScanParametersType &,
-                                                                    DerivativeType &   deriv,
-                                                                    MeasureType &      localCC,
+                                                                    DerivativeType & deriv,
+                                                                    MeasureType & localCC,
                                                                     const ThreadIdType threadId) const
 {
   MovingImageGradientType derivWRTImage;
@@ -585,22 +585,22 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDo
                                                                              TImageToImageMetric,
                                                                              TNeighborhoodCorrelationMetric>::
   ProcessVirtualPoint_impl(IdentityHelper<ThreadedIndexedContainerPartitioner> itkNotUsed(self),
-                           const VirtualIndexType &                            virtualIndex,
-                           const VirtualPointType &                            itkNotUsed(virtualPoint),
-                           const ThreadIdType                                  threadId)
+                           const VirtualIndexType & virtualIndex,
+                           const VirtualPointType & itkNotUsed(virtualPoint),
+                           const ThreadIdType threadId)
 {
 
-  MeasureType        metricValueResult{};
-  bool               pointIsValid;
-  ScanIteratorType   scanIt;
+  MeasureType metricValueResult{};
+  bool pointIsValid;
+  ScanIteratorType scanIt;
   ScanParametersType scanParameters;
-  ScanMemType        scanMem;
+  ScanMemType scanMem;
 
   DerivativeType & localDerivativeResult = this->m_GetValueAndDerivativePerThreadVariables[threadId].LocalDerivatives;
 
 
   // convert virtualPoint to a single point region
-  auto                  singlePointSize = ImageRegionType::SizeType::Filled(1);
+  auto singlePointSize = ImageRegionType::SizeType::Filled(1);
   const ImageRegionType singlePointRegion(virtualIndex, singlePointSize);
 
   // use scanning variables just for a single point region

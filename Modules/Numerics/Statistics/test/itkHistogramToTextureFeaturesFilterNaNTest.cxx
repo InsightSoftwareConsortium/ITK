@@ -30,9 +30,9 @@ itkHistogramToTextureFeaturesFilterNaNTest(int, char *[])
   using ImageType = itk::Image<PixelType, Dimension>;
 
   // Build a constant image
-  auto                  image = ImageType::New();
+  auto image = ImageType::New();
   ImageType::RegionType region;
-  auto                  size = ImageType::SizeType::Filled(256);
+  auto size = ImageType::SizeType::Filled(256);
   region.SetSize(size);
   image->SetRegions(region);
   image->Allocate();

@@ -37,8 +37,8 @@ ProjectedIterativeDeconvolutionImageFilter<TSuperclass>::~ProjectedIterativeDeco
 template <typename TSuperclass>
 void
 ProjectedIterativeDeconvolutionImageFilter<TSuperclass>::Initialize(ProgressAccumulator * progress,
-                                                                    float                 progressWeight,
-                                                                    float                 iterationProgressWeight)
+                                                                    float progressWeight,
+                                                                    float iterationProgressWeight)
 {
   this->Superclass::Initialize(progress, progressWeight, iterationProgressWeight);
 
@@ -50,7 +50,7 @@ ProjectedIterativeDeconvolutionImageFilter<TSuperclass>::Initialize(ProgressAccu
 template <typename TSuperclass>
 void
 ProjectedIterativeDeconvolutionImageFilter<TSuperclass>::Iteration(ProgressAccumulator * progress,
-                                                                   float                 iterationProgressWeight)
+                                                                   float iterationProgressWeight)
 {
   this->Superclass::Iteration(progress, iterationProgressWeight);
 

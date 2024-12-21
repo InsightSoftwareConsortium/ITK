@@ -95,7 +95,7 @@ itkFEMElement2DC0LinearQuadrilateralStrainItpackTest(int argc, char * argv[])
   solver->SetLinearSystemWrapper(&WrapperItpack);
   solver->Update();
 
-  int               numDOF = femSO->GetFEMObject()->GetNumberOfDegreesOfFreedom();
+  int numDOF = femSO->GetFEMObject()->GetNumberOfDegreesOfFreedom();
   vnl_vector<float> soln(numDOF);
   float expectedResult[8] = { 0.0f, 0.0f, 4.11808e-07f, 3.47237e-08f, 5.54107e-07f, -1.65448e-07f, 0.0f, 0.0f };
 

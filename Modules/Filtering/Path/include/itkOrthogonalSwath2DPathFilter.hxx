@@ -115,8 +115,8 @@ OrthogonalSwath2DPathFilter<TParametricPath, TSwathMeritImage>::GenerateData()
   // end of triple for-loop covering x & F & L
 
   // Find the best starting and ending points (F & L) for the path
-  int    bestF = 0;
-  int    bestL = 0;
+  int bestF = 0;
+  int bestL = 0;
   double meritMax = NumericTraits<double>::NonpositiveMin();
   for (unsigned int F = 0; F < m_SwathSize[1]; ++F)
   {

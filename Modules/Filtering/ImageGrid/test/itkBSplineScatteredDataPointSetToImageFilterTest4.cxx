@@ -47,10 +47,10 @@ itkBSplineScatteredDataPointSetToImageFilterTest4(int, char *[])
 
   using FilterType = itk::BSplineScatteredDataPointSetToImageFilter<PointSetType, VectorImageType>;
 
-  auto                                 size = VectorImageType::SizeType::Filled(100);
+  auto size = VectorImageType::SizeType::Filled(100);
   constexpr VectorImageType::PointType origin{};
-  auto                                 spacing = itk::MakeFilled<VectorImageType::SpacingType>(1);
-  VectorImageType::DirectionType       direction;
+  auto spacing = itk::MakeFilled<VectorImageType::SpacingType>(1);
+  VectorImageType::DirectionType direction;
   direction.SetIdentity();
 
   // Instantiate example corresponding points with relative weighting
@@ -204,7 +204,7 @@ itkBSplineScatteredDataPointSetToImageFilterTest4(int, char *[])
   VectorImageType::PointType testPoint;
   testPoint.CastFrom(inputPoint);
 
-  VectorType     vector = interpolator->Evaluate(testPoint);
+  VectorType vector = interpolator->Evaluate(testPoint);
   const RealType testDistance = vector.GetNorm();
   const RealType approximateDistance = inputPoint.EuclideanDistanceTo(outputPoint);
 

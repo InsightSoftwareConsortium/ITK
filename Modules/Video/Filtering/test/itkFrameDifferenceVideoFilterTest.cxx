@@ -51,8 +51,8 @@ CreateInputFrame(InputPixelType val)
 {
   auto out = InputFrameType::New();
 
-  InputFrameType::RegionType          largestRegion;
-  InputFrameType::SizeType            sizeLR;
+  InputFrameType::RegionType largestRegion;
+  InputFrameType::SizeType sizeLR;
   constexpr InputFrameType::IndexType startLR{};
   sizeLR[0] = 50;
   sizeLR[1] = 40;
@@ -91,7 +91,7 @@ itkFrameDifferenceVideoFilterTest(int itkNotUsed(argc), char * itkNotUsed(argv)[
 
 
   // Set up an input VideoStream
-  auto                    inputVideo = InputVideoType::New();
+  auto inputVideo = InputVideoType::New();
   constexpr SizeValueType numInputFrames = 50;
   inputVideo->SetNumberOfBuffers(numInputFrames);
   itk::TemporalRegion inputTempRegion;
@@ -115,8 +115,8 @@ itkFrameDifferenceVideoFilterTest(int itkNotUsed(argc), char * itkNotUsed(argv)[
 
   // Make sure output largest possible temporal region is correct
   itk::TemporalRegion outputLargestTempRegion = filter->GetOutput()->GetLargestPossibleTemporalRegion();
-  SizeValueType       outputStart = outputLargestTempRegion.GetFrameStart();
-  SizeValueType       outputDuration = outputLargestTempRegion.GetFrameDuration();
+  SizeValueType outputStart = outputLargestTempRegion.GetFrameStart();
+  SizeValueType outputDuration = outputLargestTempRegion.GetFrameDuration();
   if (outputStart != 0)
   {
     std::cerr << "output's LargestPossibleTemporalRegion incorrect start. Got: " << outputStart << " Expected: 0"
@@ -144,7 +144,7 @@ itkFrameDifferenceVideoFilterTest(int itkNotUsed(argc), char * itkNotUsed(argv)[
 
     // Check the results
     constexpr OutputPixelType expectedVal = 1;
-    const OutputPixelType     actualVal = filter->GetOutput()->GetFrame(i)->GetPixel(checkPx);
+    const OutputPixelType actualVal = filter->GetOutput()->GetFrame(i)->GetPixel(checkPx);
     if (expectedVal != actualVal)
     {
       std::cerr << "Filter failed to compute frame " << i << " correctly for adjacent frames." << std::endl;
@@ -186,7 +186,7 @@ itkFrameDifferenceVideoFilterTest(int itkNotUsed(argc), char * itkNotUsed(argv)[
   for (unsigned int i = outputStart; i < outputStart + outputDuration; ++i)
   {
     constexpr OutputPixelType expectedVal = 4; // Difference of 2 squared
-    const OutputPixelType     actualVal = filter->GetOutput()->GetFrame(i)->GetPixel(checkPx);
+    const OutputPixelType actualVal = filter->GetOutput()->GetFrame(i)->GetPixel(checkPx);
     if (expectedVal != actualVal)
     {
       std::cerr << "Filter failed to compute frame " << i << " correctly with offset of 2." << std::endl;

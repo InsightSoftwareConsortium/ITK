@@ -189,8 +189,8 @@ private:
   using CoordImageRegionType = typename CoordImageType::RegionType;
 
   InterpolatorPointer m_Interpolator{};
-  PixelType           m_DefaultPixelValue{}; // default pixel value if the
-                                             // point is outside the image
+  PixelType m_DefaultPixelValue{}; // default pixel value if the
+                                   // point is outside the image
 };
 } // namespace itk
 

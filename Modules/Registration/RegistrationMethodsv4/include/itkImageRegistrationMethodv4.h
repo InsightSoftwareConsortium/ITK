@@ -235,7 +235,7 @@ public:
     return this->GetFixedImage(0);
   }
   virtual void
-                                 SetFixedImage(SizeValueType, const FixedImageType *);
+  SetFixedImage(SizeValueType, const FixedImageType *);
   virtual const FixedImageType * GetFixedImage(SizeValueType) const;
 
   /** Set the moving images. */
@@ -250,7 +250,7 @@ public:
     return this->GetMovingImage(0);
   }
   virtual void
-                                  SetMovingImage(SizeValueType, const MovingImageType *);
+  SetMovingImage(SizeValueType, const MovingImageType *);
   virtual const MovingImageType * GetMovingImage(SizeValueType) const;
 
   /** Set/get the fixed point sets. */
@@ -265,7 +265,7 @@ public:
     return this->GetFixedPointSet(0);
   }
   virtual void
-                               SetFixedPointSet(SizeValueType, const PointSetType *);
+  SetFixedPointSet(SizeValueType, const PointSetType *);
   virtual const PointSetType * GetFixedPointSet(SizeValueType) const;
 
   /** Set the moving point sets. */
@@ -280,7 +280,7 @@ public:
     return this->GetMovingPointSet(0);
   }
   virtual void
-                               SetMovingPointSet(SizeValueType, const PointSetType *);
+  SetMovingPointSet(SizeValueType, const PointSetType *);
   virtual const PointSetType * GetMovingPointSet(SizeValueType) const;
 
   /** Set/Get the optimizer. */
@@ -533,36 +533,36 @@ protected:
   SizeValueType m_CurrentLevel{};
   SizeValueType m_NumberOfLevels{ 0 };
   SizeValueType m_CurrentIteration{};
-  RealType      m_CurrentMetricValue{};
-  RealType      m_CurrentConvergenceValue{};
-  bool          m_IsConverged{};
+  RealType m_CurrentMetricValue{};
+  RealType m_CurrentConvergenceValue{};
+  bool m_IsConverged{};
 
-  FixedImagesContainerType      m_FixedSmoothImages{};
-  MovingImagesContainerType     m_MovingSmoothImages{};
-  FixedImageMasksContainerType  m_FixedImageMasks{};
+  FixedImagesContainerType m_FixedSmoothImages{};
+  MovingImagesContainerType m_MovingSmoothImages{};
+  FixedImageMasksContainerType m_FixedImageMasks{};
   MovingImageMasksContainerType m_MovingImageMasks{};
-  VirtualImagePointer           m_VirtualDomainImage{};
-  PointSetsContainerType        m_FixedPointSets{};
-  PointSetsContainerType        m_MovingPointSets{};
-  SizeValueType                 m_NumberOfFixedObjects{};
-  SizeValueType                 m_NumberOfMovingObjects{};
+  VirtualImagePointer m_VirtualDomainImage{};
+  PointSetsContainerType m_FixedPointSets{};
+  PointSetsContainerType m_MovingPointSets{};
+  SizeValueType m_NumberOfFixedObjects{};
+  SizeValueType m_NumberOfMovingObjects{};
 
-  OptimizerPointer     m_Optimizer{};
+  OptimizerPointer m_Optimizer{};
   OptimizerWeightsType m_OptimizerWeights{};
-  bool                 m_OptimizerWeightsAreIdentity{};
+  bool m_OptimizerWeightsAreIdentity{};
 
-  MetricPointer                                       m_Metric{};
-  MetricSamplingStrategyEnum                          m_MetricSamplingStrategy{};
-  MetricSamplingPercentageArrayType                   m_MetricSamplingPercentagePerLevel{};
-  SizeValueType                                       m_NumberOfMetrics{};
-  int                                                 m_FirstImageMetricIndex{};
+  MetricPointer m_Metric{};
+  MetricSamplingStrategyEnum m_MetricSamplingStrategy{};
+  MetricSamplingPercentageArrayType m_MetricSamplingPercentagePerLevel{};
+  SizeValueType m_NumberOfMetrics{};
+  int m_FirstImageMetricIndex{};
   std::vector<ShrinkFactorsPerDimensionContainerType> m_ShrinkFactorsPerLevel{};
-  SmoothingSigmasArrayType                            m_SmoothingSigmasPerLevel{};
-  bool                                                m_SmoothingSigmasAreSpecifiedInPhysicalUnits{};
+  SmoothingSigmasArrayType m_SmoothingSigmasPerLevel{};
+  bool m_SmoothingSigmasAreSpecifiedInPhysicalUnits{};
 
   bool m_ReseedIterator{};
-  int  m_RandomSeed{};
-  int  m_CurrentRandomSeed{};
+  int m_RandomSeed{};
+  int m_CurrentRandomSeed{};
 
 
   TransformParametersAdaptorsContainerType m_TransformParametersAdaptorsPerLevel{};

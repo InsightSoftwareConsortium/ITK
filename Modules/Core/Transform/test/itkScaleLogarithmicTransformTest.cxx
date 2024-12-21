@@ -26,7 +26,7 @@ itkScaleLogarithmicTransformTest(int, char *[])
 {
   using TransformType = itk::ScaleLogarithmicTransform<double>;
 
-  constexpr double       epsilon = 1e-10;
+  constexpr double epsilon = 1e-10;
   constexpr unsigned int N = 3;
 
   bool testStatus = true;
@@ -39,7 +39,7 @@ itkScaleLogarithmicTransformTest(int, char *[])
 
   /* Create a 3D identity transformation and show its parameters */
   {
-    auto                     identityTransform = TransformType::New();
+    auto identityTransform = TransformType::New();
     TransformType::ScaleType scale = identityTransform->GetScale();
     std::cout << "Scale from instantiating an identity transform:  ";
     for (unsigned int j = 0; j < N; ++j)
@@ -67,7 +67,7 @@ itkScaleLogarithmicTransformTest(int, char *[])
     auto scaleTransform = TransformType::New();
 
     TransformType::ScaleType::ValueType iscaleInit[3] = { 1, 4, 9 };
-    TransformType::ScaleType            iscale = iscaleInit;
+    TransformType::ScaleType iscale = iscaleInit;
 
     scaleTransform->SetScale(iscale);
 
@@ -96,8 +96,8 @@ itkScaleLogarithmicTransformTest(int, char *[])
     {
       // scale an itk::Point
       constexpr TransformType::InputPointType::ValueType pInit[3] = { 10, 10, 10 };
-      TransformType::InputPointType                      p = pInit;
-      TransformType::InputPointType                      q;
+      TransformType::InputPointType p = pInit;
+      TransformType::InputPointType q;
       for (unsigned int j = 0; j < N; ++j)
       {
         q[j] = p[j] * iscale[j];
@@ -127,8 +127,8 @@ itkScaleLogarithmicTransformTest(int, char *[])
     {
       // Scale an itk::Vector
       TransformType::InputVectorType::ValueType pInit[3] = { 10, 10, 10 };
-      TransformType::InputVectorType            p = pInit;
-      TransformType::OutputVectorType           q;
+      TransformType::InputVectorType p = pInit;
+      TransformType::OutputVectorType q;
       for (unsigned int j = 0; j < N; ++j)
       {
         q[j] = p[j] * iscale[j];
@@ -157,8 +157,8 @@ itkScaleLogarithmicTransformTest(int, char *[])
     {
       // Scale an itk::CovariantVector
       TransformType::InputCovariantVectorType::ValueType pInit[3] = { 10, 10, 10 };
-      TransformType::InputCovariantVectorType            p = pInit;
-      TransformType::OutputCovariantVectorType           q;
+      TransformType::InputCovariantVectorType p = pInit;
+      TransformType::OutputCovariantVectorType q;
       for (unsigned int j = 0; j < N; ++j)
       {
         q[j] = p[j] / iscale[j];

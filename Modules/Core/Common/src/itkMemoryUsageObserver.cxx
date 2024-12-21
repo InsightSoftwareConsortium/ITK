@@ -101,7 +101,7 @@ struct UNICODE_STRING
 {
   USHORT Length;
   USHORT MaximumLength;
-  PWSTR  Buffer;
+  PWSTR Buffer;
 };
 
 struct VM_COUNTERS
@@ -122,7 +122,7 @@ struct VM_COUNTERS
 #    else
   SIZE_T PeakVirtualSize;
   SIZE_T VirtualSize;
-  ULONG  PageFaultCount;
+  ULONG PageFaultCount;
   SIZE_T PeakWorkingSetSize;
   SIZE_T WorkingSetSize;
   SIZE_T QuotaPeakPagedPoolUsage;
@@ -139,27 +139,27 @@ struct SYSTEM_THREADS
   LARGE_INTEGER KernelTime;
   LARGE_INTEGER UserTime;
   LARGE_INTEGER CreateTime;
-  ULONG         WaitTime;
-  PVOID         StartAddress;
-  CLIENT_ID     ClientId;
-  KPRIORITY     Priority;
-  KPRIORITY     BasePriority;
-  ULONG         ContextSwitchCount;
-  LONG          State;
-  LONG          WaitReason;
+  ULONG WaitTime;
+  PVOID StartAddress;
+  CLIENT_ID ClientId;
+  KPRIORITY Priority;
+  KPRIORITY BasePriority;
+  ULONG ContextSwitchCount;
+  LONG State;
+  LONG WaitReason;
 };
 using PSYSTEM_THREADS = SYSTEM_THREADS *;
 
 struct SYSTEM_PROCESSES
 { // Information Class 5
-  ULONG          NextEntryDelta;
-  ULONG          MaximumNumberOfThreads;
-  ULONG          Reserved1[6];
-  LARGE_INTEGER  CreateTime;
-  LARGE_INTEGER  UserTime;
-  LARGE_INTEGER  KernelTime;
+  ULONG NextEntryDelta;
+  ULONG MaximumNumberOfThreads;
+  ULONG Reserved1[6];
+  LARGE_INTEGER CreateTime;
+  LARGE_INTEGER UserTime;
+  LARGE_INTEGER KernelTime;
   UNICODE_STRING ProcessName;
-  KPRIORITY      BasePriority;
+  KPRIORITY BasePriority;
 #    ifdef _WIN64
   ULONG pad1;
   ULONG ProcessId;
@@ -172,8 +172,8 @@ struct SYSTEM_PROCESSES
   ULONG ProcessId;
   ULONG InheritedFromProcessId;
 #    endif
-  ULONG       HandleCount;
-  ULONG       Reserved2[2];
+  ULONG HandleCount;
+  ULONG Reserved2[2];
   VM_COUNTERS VmCounters;
 #    if defined(_WIN64) || _WIN32_WINNT >= 0x500
   IO_COUNTERS IoCounters;
@@ -189,7 +189,7 @@ WindowsMemoryUsageObserver::GetMemoryUsage()
   MemoryLoadType mem = 0;
 
 #  if defined(SUPPORT_PSAPI)
-  DWORD                   pid = GetCurrentProcessId();
+  DWORD pid = GetCurrentProcessId();
   PROCESS_MEMORY_COUNTERS memoryCounters;
 
   HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, pid);
@@ -220,8 +220,8 @@ WindowsMemoryUsageObserver::GetMemoryUsage()
                              << "You should probably disable SUPPORT_TOOLHELP32");
   }
 
-  DWORD             pid = GetCurrentProcessId();
-  ULONG             n = 50;
+  DWORD pid = GetCurrentProcessId();
+  ULONG n = 50;
   PSYSTEM_PROCESSES sp = new SYSTEM_PROCESSES[n];
   // as we can't know how many processes are running, we loop and test a new size
   // every time.
@@ -288,7 +288,7 @@ LinuxMemoryUsageObserver::GetMemoryUsage()
   // the two fields we want
   //
   unsigned long vsize;
-  long          rss;
+  long rss;
 
   procstats >> pid >> comm >> state >> ppid >> pgrp >> session >> tty_nr >> tpgid >> flags >> minflt >> cminflt >>
     majflt >> cmajflt >> utime >> stime >> cutime >> cstime >> priority >> nice >> O >> itrealvalue >> starttime >>
@@ -315,10 +315,10 @@ MacOSXMemoryUsageObserver::GetMemoryUsage()
   //
   // this method comes from
   // https://stackoverflow.com/questions/5839626/how-is-top-able-to-see-memory-usage
-  const task_t           targetTask = mach_task_self();
+  const task_t targetTask = mach_task_self();
   struct task_basic_info ti;
   mach_msg_type_number_t count = TASK_BASIC_INFO_64_COUNT;
-  const kern_return_t    kr = task_info(targetTask, TASK_BASIC_INFO_64, (task_info_t)&ti, &count);
+  const kern_return_t kr = task_info(targetTask, TASK_BASIC_INFO_64, (task_info_t)&ti, &count);
   if (kr != KERN_SUCCESS)
   {
     return 0;
@@ -355,9 +355,9 @@ MemoryUsageObserverBase::MemoryLoadType
 SunSolarisMemoryUsageObserver::GetMemoryUsage()
 {
   MemoryLoadType mem = 0;
-  int            pid = getpid();
+  int pid = getpid();
 
-  FILE *            fp = nullptr;
+  FILE * fp = nullptr;
   std::stringstream command;
 
   command << "pmap " << pid << std::endl;
@@ -367,16 +367,16 @@ SunSolarisMemoryUsageObserver::GetMemoryUsage()
     itkGenericExceptionMacro("Error using pmap. Can execute pmap command");
   }
   char remaining[256];
-  int  pmappid = -1;
+  int pmappid = -1;
   fscanf(fp, "%d:%s", &pmappid, remaining);
   // the first word shall be the process ID
   if (pmappid != pid)
   {
     itkGenericExceptionMacro("Error using pmap. 1st line output shall be PID: name");
   }
-  bool        heapNotFound = true;
-  char        address[64], perms[32];
-  int         memUsage = 0;
+  bool heapNotFound = true;
+  char address[64], perms[32];
+  int memUsage = 0;
   std::string mapping;
   while (heapNotFound)
   {

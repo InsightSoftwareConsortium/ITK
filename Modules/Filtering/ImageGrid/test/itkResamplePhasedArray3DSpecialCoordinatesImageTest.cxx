@@ -45,9 +45,9 @@ itkResamplePhasedArray3DSpecialCoordinatesImageTest(int, char *[])
 {
   // Create and configure an image
   const InputImagePointerType image = InputImageType::New();
-  ImageIndexType              index = { { 0, 0, 0 } };
-  ImageSizeType               size = { { 13, 13, 9 } };
-  const ImageRegionType       region{ index, size };
+  ImageIndexType index = { { 0, 0, 0 } };
+  ImageSizeType size = { { 13, 13, 9 } };
+  const ImageRegionType region{ index, size };
   image->SetLargestPossibleRegion(region);
   image->SetBufferedRegion(region);
   image->SetAzimuthAngularSeparation(5.0 * 2.0 * itk::Math::pi / 360.0);
@@ -59,7 +59,7 @@ itkResamplePhasedArray3DSpecialCoordinatesImageTest(int, char *[])
   // Fill image with isoshells
   std::cout << "\nOriginal 3D Phased Array Data" << std::endl;
   itk::ImageRegionIteratorWithIndex<InputImageType> iter(image, region);
-  PixelType                                         value;
+  PixelType value;
   for (; !iter.IsAtEnd(); ++iter)
   {
     index = iter.GetIndex();

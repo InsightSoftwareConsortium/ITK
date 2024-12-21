@@ -36,7 +36,7 @@ itkVectorTest(int, char *[])
   using RealVector = itk::Vector<Real, 2>;
 
   constexpr int i = 4;
-  Real          f = 2.1;
+  Real f = 2.1;
 
   auto s = itk::MakeFilled<RealVector>(3.0);
   if (different(s[0], 3.0) || different(s[1], 3.0))

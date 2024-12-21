@@ -32,7 +32,7 @@ SpatialObjectDuplicator<TInputSpatialObject>::SpatialObjectDuplicator()
 template <typename TInputSpatialObject>
 void
 SpatialObjectDuplicator<TInputSpatialObject>::CopyObject(const InternalSpatialObjectType * source,
-                                                         InternalSpatialObjectType *       destination)
+                                                         InternalSpatialObjectType * destination)
 {
   using SOType = itk::SpatialObject<TInputSpatialObject::ObjectDimension>;
 
@@ -42,7 +42,7 @@ SpatialObjectDuplicator<TInputSpatialObject>::CopyObject(const InternalSpatialOb
 
   using ChildrenListType = typename TInputSpatialObject::ChildrenListType;
   ChildrenListType * children = source->GetChildren();
-  auto               it = children->begin();
+  auto it = children->begin();
   while (it != children->end())
   {
     this->CopyObject(*it, newSO);
@@ -79,7 +79,7 @@ SpatialObjectDuplicator<TInputSpatialObject>::Update()
   // Create the children
   using ChildrenListType = typename TInputSpatialObject::ChildrenListType;
   ChildrenListType * children = m_Input->GetChildren();
-  auto               it = children->begin();
+  auto it = children->begin();
   while (it != children->end())
   {
     this->CopyObject(*it, m_DuplicateSpatialObject);

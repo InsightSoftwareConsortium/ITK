@@ -305,7 +305,7 @@ itkFEMLinearSystemWrapperItpackTest(int argc, char * argv[])
     }
   }
 
-  int    integerPass = 1;
+  int integerPass = 1;
   double doublePass = 1.0;
 
   std::cout << "Test itpack parameter setting..." << std::endl;

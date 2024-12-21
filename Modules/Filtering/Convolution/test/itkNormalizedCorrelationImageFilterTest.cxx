@@ -77,7 +77,7 @@ itkNormalizedCorrelationImageFilterTest(int argc, char * argv[])
   // Create a filter
   using FilterType = itk::NormalizedCorrelationImageFilter<InputImageType, InputImageType, CorrelationImageType>;
 
-  auto                           filter = FilterType::New();
+  auto filter = FilterType::New();
   const itk::SimpleFilterWatcher watcher(filter, "Normalized correlation");
 
   filter->SetInput(input->GetOutput());

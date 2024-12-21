@@ -126,8 +126,8 @@ main(int argc, char * argv[])
   registrationFilter->ChooseMetric(0);
 
   unsigned int maxiters = 20;
-  float        E = 100;
-  float        p = 1;
+  float E = 100;
+  float p = 1;
   registrationFilter->SetElasticity(E, 0);
   registrationFilter->SetRho(p, 0);
   registrationFilter->SetGamma(1., 0);
@@ -214,7 +214,7 @@ main(int argc, char * argv[])
   registrationFilter->SetMovingImage(IntensityEqualizeFilter->GetOutput());
 
 
-  auto        writer = itk::ImageFileWriter<ImageType>::New();
+  auto writer = itk::ImageFileWriter<ImageType>::New();
   std::string ofn = "fixed.mha";
   writer->SetFileName(ofn.c_str());
   writer->SetInput(registrationFilter->GetFixedImage());

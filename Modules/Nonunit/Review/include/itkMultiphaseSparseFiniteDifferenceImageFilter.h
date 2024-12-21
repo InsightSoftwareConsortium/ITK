@@ -367,9 +367,9 @@ protected:
    * timestep and adding to the value of the previous iteration. */
   inline virtual ValueType
   CalculateUpdateValue(const OutputIndexType & itkNotUsed(idx),
-                       const TimeStepType &    dt,
-                       const ValueType &       value,
-                       const ValueType &       change)
+                       const TimeStepType & dt,
+                       const ValueType & value,
+                       const ValueType & change)
   {
     return (value + dt * change);
   }
@@ -465,8 +465,8 @@ protected:
   void
   ProcessStatusList(LayerType * InputList,
                     LayerType * OutputList,
-                    StatusType  ChangeToStatus,
-                    StatusType  SearchForStatus);
+                    StatusType ChangeToStatus,
+                    StatusType SearchForStatus);
 
   /** */
   void
@@ -476,11 +476,11 @@ protected:
   InitializeIteration() override;
 
   virtual void
-  UpdatePixel(unsigned int                           itkNotUsed(functionIndex),
-              unsigned int                           itkNotUsed(idx),
+  UpdatePixel(unsigned int itkNotUsed(functionIndex),
+              unsigned int itkNotUsed(idx),
               NeighborhoodIterator<InputImageType> & itkNotUsed(iterator),
-              ValueType &                            itkNotUsed(newValue),
-              bool &                                 itkNotUsed(status))
+              ValueType & itkNotUsed(newValue),
+              bool & itkNotUsed(status))
   {}
 
   itkGetConstMacro(ValueZero, ValueType);
@@ -538,7 +538,7 @@ protected:
 private:
   unsigned int m_CurrentFunctionIndex{};
 
-  double       m_RMSSum{ 0. };
+  double m_RMSSum{ 0. };
   unsigned int m_RMSCounter{ 0 };
 
   /** This flag is true when methods need to check boundary conditions and

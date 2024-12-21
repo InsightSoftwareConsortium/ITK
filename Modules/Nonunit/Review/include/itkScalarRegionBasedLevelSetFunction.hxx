@@ -26,7 +26,7 @@ template <typename TInputImage, typename TFeatureImage, typename TSharedData>
 auto
 ScalarRegionBasedLevelSetFunction<TInputImage, TFeatureImage, TSharedData>::ComputeOverlapParameters(
   const FeatureIndexType & globalIndex,
-  ScalarValueType &        product) -> ScalarValueType
+  ScalarValueType & product) -> ScalarValueType
 {
   // This conditional statement computes the amount of overlap s
   // and the presence of background pr
@@ -61,15 +61,15 @@ ScalarRegionBasedLevelSetFunction<TInputImage, TFeatureImage, TSharedData>::Comp
 template <typename TInputImage, typename TFeatureImage, typename TSharedData>
 void
 ScalarRegionBasedLevelSetFunction<TInputImage, TFeatureImage, TSharedData>::UpdatePixel(
-  const unsigned int                  idx,
+  const unsigned int idx,
   NeighborhoodIterator<TInputImage> & iterator,
-  InputPixelType &                    newValue,
-  bool &                              itkNotUsed(status))
+  InputPixelType & newValue,
+  bool & itkNotUsed(status))
 {
   unsigned int fId = this->m_FunctionId;
 
   // For each affected h val: h val = new hval (this will dirty some cvals)
-  InputIndexType   inputIndex = iterator.GetIndex(idx);
+  InputIndexType inputIndex = iterator.GetIndex(idx);
   FeatureIndexType globalIndex = this->m_SharedData->m_LevelSetDataPointerVector[fId]->GetFeatureIndex(inputIndex);
 
   FeaturePixelType featureVal = this->m_FeatureImage->GetPixel(inputIndex);
@@ -83,8 +83,8 @@ ScalarRegionBasedLevelSetFunction<TInputImage, TFeatureImage, TSharedData>::Upda
   UpdateSharedDataInsideParameters(fId, featureVal, change);
 
   // Compute the product factor
-  ListPixelType   L = this->m_SharedData->m_NearestNeighborListImage->GetPixel(globalIndex);
-  InputIndexType  itInputIndex;
+  ListPixelType L = this->m_SharedData->m_NearestNeighborListImage->GetPixel(globalIndex);
+  InputIndexType itInputIndex;
   ScalarValueType hVal;
 
   InputPixelType product = 1;

@@ -50,7 +50,7 @@ GetTestImage(int d1, int d2, int d3, int d4)
 int
 itkConstNeighborhoodIteratorTest(int, char *[])
 {
-  const TestImageType::Pointer                             img = GetTestImage(10, 10, 5, 3);
+  const TestImageType::Pointer img = GetTestImage(10, 10, 5, 3);
   itk::ConstNeighborhoodIterator<TestImageType>::IndexType loc;
   loc[0] = 4;
   loc[1] = 4;
@@ -61,8 +61,8 @@ itkConstNeighborhoodIteratorTest(int, char *[])
   radius[0] = radius[1] = radius[2] = radius[3] = 1;
 
   itk::ConstNeighborhoodIterator<TestImageType>::RegionType reg;
-  itk::ConstNeighborhoodIterator<TestImageType>::SizeType   sz;
-  itk::ConstNeighborhoodIterator<TestImageType>::IndexType  idx;
+  itk::ConstNeighborhoodIterator<TestImageType>::SizeType sz;
+  itk::ConstNeighborhoodIterator<TestImageType>::IndexType idx;
   idx[0] = idx[1] = idx[2] = 0;
   idx[3] = 1;
   sz[0] = sz[1] = 10;
@@ -224,7 +224,7 @@ itkConstNeighborhoodIteratorTest(int, char *[])
   // Test IndexInBounds
   //
   println("Testing IndexInBounds");
-  constexpr int                dims[4] = { 13, 11, 9, 7 };
+  constexpr int dims[4] = { 13, 11, 9, 7 };
   const TestImageType::Pointer iib_img = GetTestImage(dims[0], dims[1], dims[2], dims[3]);
   radius[0] = 4;
   radius[1] = 3;
@@ -233,7 +233,7 @@ itkConstNeighborhoodIteratorTest(int, char *[])
 
   println("Creating ConstNeighborhoodIterator");
   using IteratorType = itk::ConstNeighborhoodIterator<TestImageType>;
-  IteratorType             iib_it(radius, iib_img, iib_img->GetRequestedRegion());
+  IteratorType iib_it(radius, iib_img, iib_img->GetRequestedRegion());
   IteratorType::OffsetType resultOffset;
   IteratorType::OffsetType internalIndex;
 

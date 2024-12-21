@@ -104,7 +104,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::Initialize
 
     // We need to make robust measures only over the requested mask region
     itk::ImageRegionConstIteratorWithIndex<TFixedImage> fi(this->m_FixedImage, this->m_FixedImage->GetBufferedRegion());
-    const bool                                          fixedMaskIsPresent = !(this->m_FixedImageMask.IsNull());
+    const bool fixedMaskIsPresent = !(this->m_FixedImageMask.IsNull());
     if (fixedMaskIsPresent)
     {
       typename TFixedImage::PointType fixedSpacePhysicalPoint;
@@ -135,7 +135,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::Initialize
     {
       itk::ImageRegionConstIteratorWithIndex<TMovingImage> mi(this->m_MovingImage,
                                                               this->m_MovingImage->GetBufferedRegion());
-      const bool                                           movingMaskIsPresent = !(this->m_MovingImageMask.IsNull());
+      const bool movingMaskIsPresent = !(this->m_MovingImageMask.IsNull());
       if (movingMaskIsPresent)
       {
         typename TMovingImage::PointType movingSpacePhysicalPoint;
@@ -353,7 +353,7 @@ template <typename TFixedImage, typename TMovingImage>
 inline void
 MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValueThreadPreProcess(
   ThreadIdType threadId,
-  bool         withinSampleThread) const
+  bool withinSampleThread) const
 {
   this->Superclass::GetValueThreadPreProcess(threadId, withinSampleThread);
 
@@ -366,10 +366,10 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValueTh
 template <typename TFixedImage, typename TMovingImage>
 inline bool
 MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValueThreadProcessSample(
-  ThreadIdType                 threadId,
-  SizeValueType                fixedImageSample,
+  ThreadIdType threadId,
+  SizeValueType fixedImageSample,
   const MovingImagePointType & itkNotUsed(mappedPoint),
-  double                       movingImageValue) const
+  double movingImageValue) const
 {
   /**
    * Compute this sample's contribution to the marginal and
@@ -434,12 +434,12 @@ template <typename TFixedImage, typename TMovingImage>
 inline void
 MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValueThreadPostProcess(
   ThreadIdType threadId,
-  bool         itkNotUsed(withinSampleThread)) const
+  bool itkNotUsed(withinSampleThread)) const
 {
   const int maxI = this->m_NumberOfHistogramBins * (this->m_MMIMetricPerThreadVariables[threadId].JointPDFEndBin -
                                                     this->m_MMIMetricPerThreadVariables[threadId].JointPDFStartBin + 1);
 
-  const unsigned int        tPdfPtrOffset = (this->m_MMIMetricPerThreadVariables[threadId].JointPDFStartBin *
+  const unsigned int tPdfPtrOffset = (this->m_MMIMetricPerThreadVariables[threadId].JointPDFStartBin *
                                       this->m_MMIMetricPerThreadVariables[0].JointPDF->GetOffsetTable()[1]);
   JointPDFValueType * const pdfPtrStart =
     this->m_MMIMetricPerThreadVariables[0].JointPDF->GetBufferPointer() + tPdfPtrOffset;
@@ -448,7 +448,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValueTh
   // independent parts of the PDF.
   for (unsigned int t = 1; t < this->m_NumberOfWorkUnits; ++t)
   {
-    JointPDFValueType *       pdfPtr = pdfPtrStart;
+    JointPDFValueType * pdfPtr = pdfPtrStart;
     const JointPDFValueType * tPdfPtr =
       this->m_MMIMetricPerThreadVariables[t].JointPDF->GetBufferPointer() + tPdfPtrOffset;
     const JointPDFValueType * const tPdfPtrEnd = tPdfPtr + maxI;
@@ -543,7 +543,7 @@ template <typename TFixedImage, typename TMovingImage>
 inline void
 MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDerivativeThreadPreProcess(
   ThreadIdType threadId,
-  bool         itkNotUsed(withinSampleThread)) const
+  bool itkNotUsed(withinSampleThread)) const
 {
   this->m_MMIMetricPerThreadVariables[threadId].FixedImageMarginalPDF =
     std::vector<PDFValueType>(m_NumberOfHistogramBins, 0.0F);
@@ -557,10 +557,10 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAn
 template <typename TFixedImage, typename TMovingImage>
 inline bool
 MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDerivativeThreadProcessSample(
-  ThreadIdType                 threadId,
-  SizeValueType                fixedImageSample,
+  ThreadIdType threadId,
+  SizeValueType fixedImageSample,
   const MovingImagePointType & itkNotUsed(mappedPoint),
-  double                       movingImageValue,
+  double movingImageValue,
   const ImageDerivativesType & movingImageGradientValue) const
 {
   /**
@@ -596,7 +596,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAn
     }
   }
   // Move the pointer to the fist affected bin
-  int       pdfMovingIndex = static_cast<int>(movingImageParzenWindowIndex) - 1;
+  int pdfMovingIndex = static_cast<int>(movingImageParzenWindowIndex) - 1;
   const int pdfMovingIndexMax = static_cast<int>(movingImageParzenWindowIndex) + 2;
 
   const unsigned int fixedImageParzenWindowIndex = this->m_FixedImageSamples[fixedImageSample].valueIndex;
@@ -651,7 +651,7 @@ template <typename TFixedImage, typename TMovingImage>
 inline void
 MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDerivativeThreadPostProcess(
   ThreadIdType threadId,
-  bool         withinSampleThread) const
+  bool withinSampleThread) const
 {
   this->GetValueThreadPostProcess(threadId, withinSampleThread);
 
@@ -668,7 +668,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAn
     const unsigned int tPdfDPtrOffset = this->m_MMIMetricPerThreadVariables[threadId].JointPDFStartBin * rowSize;
     for (unsigned int t = 1; t < this->m_NumberOfWorkUnits; ++t)
     {
-      JointPDFDerivativesValueType *       pdfDPtr = pdfDPtrStart;
+      JointPDFDerivativesValueType * pdfDPtr = pdfDPtrStart;
       const JointPDFDerivativesValueType * tPdfDPtr =
         this->m_MMIMetricPerThreadVariables[t].JointPDFDerivatives->GetBufferPointer() + tPdfDPtrOffset;
       const JointPDFDerivativesValueType * const tPdfDPtrEnd = tPdfDPtr + maxI;
@@ -681,7 +681,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAn
 
     const PDFValueType nFactor = 1.0 / (this->m_MovingImageBinSize * this->m_NumberOfPixelsCounted);
 
-    JointPDFDerivativesValueType *             pdfDPtr = pdfDPtrStart;
+    JointPDFDerivativesValueType * pdfDPtr = pdfDPtrStart;
     const JointPDFDerivativesValueType * const tPdfDPtrEnd = pdfDPtrStart + maxI;
     // for(int i = 0; i < maxI; i++)
     while (pdfDPtr < tPdfDPtrEnd)
@@ -695,8 +695,8 @@ template <typename TFixedImage, typename TMovingImage>
 void
 MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDerivative(
   const ParametersType & parameters,
-  MeasureType &          value,
-  DerivativeType &       derivative) const
+  MeasureType & value,
+  DerivativeType & derivative) const
 {
   // Set output values to zero
   value = MeasureType{};
@@ -749,7 +749,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAn
   JointPDFValueType * jointPDFPtr = this->m_MMIMetricPerThreadVariables[0].JointPDF->GetBufferPointer();
 
   // Initialize sum to zero
-  PDFValueType       sum = 0.0;
+  PDFValueType sum = 0.0;
   const PDFValueType nFactor = 1.0 / (this->m_MovingImageBinSize * this->m_NumberOfPixelsCounted);
   for (unsigned int fixedIndex = 0; fixedIndex < this->m_NumberOfHistogramBins; ++fixedIndex)
   {
@@ -840,7 +840,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::CommonGetV
     totalMassOfPDF += this->m_MMIMetricPerThreadVariables[0].FixedImageMarginalPDF[i];
   }
 
-  const PDFValueType  normalizationFactor = 1.0 / this->m_MMIMetricPerThreadVariables[0].JointPDFSum;
+  const PDFValueType normalizationFactor = 1.0 / this->m_MMIMetricPerThreadVariables[0].JointPDFSum;
   JointPDFValueType * pdfPtr = this->m_MMIMetricPerThreadVariables[0].JointPDF->GetBufferPointer();
   for (unsigned int i = 0; i < this->m_NumberOfHistogramBins; ++i)
   {
@@ -883,11 +883,11 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetDerivat
 template <typename TFixedImage, typename TMovingImage>
 void
 MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::ComputePDFDerivatives(
-  ThreadIdType                 threadId,
-  unsigned int                 sampleNumber,
-  int                          pdfMovingIndex,
+  ThreadIdType threadId,
+  unsigned int sampleNumber,
+  int pdfMovingIndex,
   const ImageDerivativesType & movingImageGradientValue,
-  PDFValueType                 cubicBSplineDerivativeValue) const
+  PDFValueType cubicBSplineDerivativeValue) const
 {
   // Update bins in the PDF derivatives for the current intensity pair
   // Could pre-compute
@@ -962,9 +962,9 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::ComputePDF
   else
   {
     const WeightsValueType * weights = nullptr;
-    const IndexValueType *   indices = nullptr;
+    const IndexValueType * indices = nullptr;
 
-    BSplineTransformWeightsType *    weightsHelper = nullptr;
+    BSplineTransformWeightsType * weightsHelper = nullptr;
     BSplineTransformIndexArrayType * indicesHelper = nullptr;
 
     if (this->m_UseCachingOfBSplineWeights)
@@ -1004,7 +1004,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::ComputePDF
          * possible dimensions) which is multiplied by the moving image
          * gradient. */
         PDFValueType innerProduct;
-        int          parameterIndex;
+        int parameterIndex;
         if (this->m_UseCachingOfBSplineWeights)
         {
           innerProduct = movingImageGradientValue[dim] * weights[mu];

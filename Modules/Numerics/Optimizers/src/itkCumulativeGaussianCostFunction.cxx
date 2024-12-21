@@ -131,7 +131,7 @@ CumulativeGaussianCostFunction::EvaluateCumulativeGaussian(double argument) cons
     }
     else
     {
-      const int    temp = -static_cast<int>(argument * 100);
+      const int temp = -static_cast<int>(argument * 100);
       const double slope =
         (-y[temp + 1] + y[temp]) / (-(static_cast<float>(temp) + 1) / 100 + (static_cast<float>(temp) / 100));
       erfValue = (slope * (argument + (static_cast<float>(temp) + 1) / 100) - y[temp + 1]);

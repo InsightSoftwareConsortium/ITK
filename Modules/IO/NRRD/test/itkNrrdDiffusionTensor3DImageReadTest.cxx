@@ -62,9 +62,9 @@ itkNrrdDiffusionTensor3DImageReadTest(int argc, char * argv[])
   // volume is being read.  I/O errors will generate more than tiny
   // differences near representational precision.
 
-  float              err = 0;
+  float err = 0;
   myImage::IndexType coord{};
-  PixelType          sample = image->GetPixel(coord);
+  PixelType sample = image->GetPixel(coord);
   err += itk::Math::abs(sample(0, 0) - 4.0248222);
   err += itk::Math::abs(sample(0, 1) - -0.2367909);
   err += itk::Math::abs(sample(0, 2) - 0.23370844);

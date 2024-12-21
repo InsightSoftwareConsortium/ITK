@@ -29,7 +29,7 @@ itkChainCodePath2DTest(int, char *[])
 
   bool passed = true;
 
-  IndexType  index;
+  IndexType index;
   OffsetType offset;
 
   auto path = PathType::New();

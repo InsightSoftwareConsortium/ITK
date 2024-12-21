@@ -25,7 +25,7 @@ namespace itk
 template <unsigned int TPointDimension>
 LineSpatialObjectPoint<TPointDimension>::LineSpatialObjectPoint()
 {
-  unsigned int                  ii = 0;
+  unsigned int ii = 0;
   constexpr CovariantVectorType normal{};
   while (ii < TPointDimension - 1)
   {

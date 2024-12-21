@@ -90,10 +90,10 @@ WarpHarmonicEnergyCalculator<TInputImage>::Compute()
   m_HarmonicEnergy = 0.0;
 
   ZeroFluxNeumannBoundaryCondition<ImageType> nBc;
-  ConstNeighborhoodIteratorType               bIt;
+  ConstNeighborhoodIteratorType bIt;
 
   // Find the data-set boundary "faces"
-  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<ImageType>                        bC;
+  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<ImageType> bC;
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<ImageType>::FaceListType faceList =
     bC(m_Image, m_Region, m_NeighborhoodRadius);
 

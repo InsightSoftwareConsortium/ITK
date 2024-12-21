@@ -91,8 +91,8 @@ public:
   /** The update called from the FiniteDifferenceSparseImageFilter. This
       function replaces the ComputeUpdate function. */
   virtual NodeDataType
-  ComputeSparseUpdate(NeighborhoodType &      neighborhood,
-                      void *                  globalData,
+  ComputeSparseUpdate(NeighborhoodType & neighborhood,
+                      void * globalData,
                       const FloatOffsetType & offset = FloatOffsetType(0.0)) const = 0;
 
   /** This function provides support for a 2 step update computation that

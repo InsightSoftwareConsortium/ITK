@@ -209,9 +209,9 @@ BSplineTransformParametersAdaptor<TTransform>::AdaptTransformParameters()
     return;
   }
 
-  SizeType      newGridSize;
-  OriginType    newGridOrigin;
-  SpacingType   newGridSpacing;
+  SizeType newGridSize;
+  OriginType newGridOrigin;
+  SpacingType newGridSpacing;
   DirectionType newGridDirection;
   for (SizeValueType i = 0; i < SpaceDimension; ++i)
   {
@@ -225,7 +225,7 @@ BSplineTransformParametersAdaptor<TTransform>::AdaptTransformParameters()
   }
 
   const RegionType & coefficientImageRegion = this->m_Transform->GetCoefficientImages()[0]->GetLargestPossibleRegion();
-  const IndexType    newGridIndex = coefficientImageRegion.GetIndex();
+  const IndexType newGridIndex = coefficientImageRegion.GetIndex();
 
   //  Resample the coefficient images
   using CoefficientUpsampleFunctionType = BSplineResampleImageFunction<ImageType, ParametersValueType>;

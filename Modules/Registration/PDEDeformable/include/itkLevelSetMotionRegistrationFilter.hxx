@@ -37,7 +37,7 @@ LevelSetMotionRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>:
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
 LevelSetMotionRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::PrintSelf(std::ostream & os,
-                                                                                           Indent         indent) const
+                                                                                           Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

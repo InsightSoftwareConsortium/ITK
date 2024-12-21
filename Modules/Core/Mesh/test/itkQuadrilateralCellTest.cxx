@@ -49,11 +49,11 @@ itkQuadrilateralCellTest(int, char *[])
 
   public:
     bool
-    EvaluatePosition(CoordinateType *          inputPoint,
-                     PointsContainer *         points,
-                     CoordinateType *          closestPoint,
-                     CoordinateType            pcoord[],
-                     double *                  distance,
+    EvaluatePosition(CoordinateType * inputPoint,
+                     PointsContainer * points,
+                     CoordinateType * closestPoint,
+                     CoordinateType pcoord[],
+                     double * distance,
                      InterpolationWeightType * weights) override
     {
       return this->Superclass::EvaluatePosition(inputPoint, points, closestPoint, pcoord, distance, weights);
@@ -162,10 +162,10 @@ itkQuadrilateralCellTest(int, char *[])
   std::cout << inputPoint[1] << ", ";
   std::cout << inputPoint[2] << std::endl;
 
-  QuadrilateralCellType::CoordinateType          closestPoint[3];
-  double                                         distance;
+  QuadrilateralCellType::CoordinateType closestPoint[3];
+  double distance;
   QuadrilateralCellType::InterpolationWeightType weights[4];
-  QuadrilateralCellType::CoordinateType          pcoords[2]; // Quadrilateral has 2 parametric coordinates
+  QuadrilateralCellType::CoordinateType pcoords[2]; // Quadrilateral has 2 parametric coordinates
   bool isInside = testCell1->EvaluatePosition(inputPoint, points, closestPoint, pcoords, &distance, weights);
 
   if (!isInside)

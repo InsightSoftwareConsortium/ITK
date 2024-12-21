@@ -31,8 +31,8 @@ class IOTestHelper
 public:
   template <typename TImage>
   static typename TImage::Pointer
-  ReadImage(const std::string &           fileName,
-            const bool                    zeroOrigin = false,
+  ReadImage(const std::string & fileName,
+            const bool zeroOrigin = false,
             typename ImageIOBase::Pointer imageio = nullptr)
   {
     using ReaderType = itk::ImageFileReader<TImage>;
@@ -75,8 +75,8 @@ public:
 
   template <typename ImageType, typename ImageIOType>
   static void
-  WriteImage(typename ImageType::Pointer   image,
-             const std::string &           filename,
+  WriteImage(typename ImageType::Pointer image,
+             const std::string & filename,
              typename ImageIOType::Pointer imageio = nullptr)
   {
     const bool create_local_io_object{ imageio.IsNull() };
@@ -107,7 +107,7 @@ public:
 
       const std::string bad_root_path{ "/a_blatantly_obvious/bad_file_path/that/should/never/exist/on/the/computer/" };
       const std::string bad_filename{ bad_root_path + filename };
-      bool              exception_correctly_caught = false;
+      bool exception_correctly_caught = false;
 
       auto writer = WriterType::New();
       writer->SetImageIO(imageio);
@@ -196,7 +196,7 @@ public:
 
   template <typename ImageType>
   static typename ImageType::Pointer
-  AllocateImageFromRegionAndSpacing(const typename ImageType::RegionType &  region,
+  AllocateImageFromRegionAndSpacing(const typename ImageType::RegionType & region,
                                     const typename ImageType::SpacingType & spacing)
   {
     auto rval = ImageType::New();
@@ -208,9 +208,9 @@ public:
   }
   template <typename ImageType>
   static typename ImageType::Pointer
-  AllocateImageFromRegionAndSpacing(const typename ImageType::RegionType &  region,
+  AllocateImageFromRegionAndSpacing(const typename ImageType::RegionType & region,
                                     const typename ImageType::SpacingType & spacing,
-                                    int                                     vecLength)
+                                    int vecLength)
   {
     auto rval = ImageType::New();
     rval->SetSpacing(spacing);

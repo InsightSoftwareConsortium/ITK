@@ -46,7 +46,7 @@ itkThreadedImageRegionPartitionerTest(int, char *[])
   const ImageRegionType completeRegion{ index, size };
 
   // Define the expected results
-  ImageRegionType              expectedRegion;
+  ImageRegionType expectedRegion;
   std::vector<ImageRegionType> expectedSubRegions;
   size[1] = 25;
   expectedRegion.SetIndex(index);
@@ -68,7 +68,7 @@ itkThreadedImageRegionPartitionerTest(int, char *[])
   expectedSubRegions.push_back(expectedRegion);
 
   constexpr itk::ThreadIdType totalThreads = 4;
-  ImageRegionType             subRegion;
+  ImageRegionType subRegion;
   for (itk::ThreadIdType i = 0; i < totalThreads; ++i)
   {
     threadedImageRegionPartitioner->PartitionDomain(i, totalThreads, completeRegion, subRegion);

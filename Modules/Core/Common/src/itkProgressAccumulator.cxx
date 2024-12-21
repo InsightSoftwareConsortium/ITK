@@ -101,7 +101,7 @@ void
 ProgressAccumulator::ReportProgress(Object * who, const EventObject & event)
 {
   const ProgressEvent pe;
-  const StartEvent    se;
+  const StartEvent se;
 
   if (typeid(event) == typeid(pe))
   {

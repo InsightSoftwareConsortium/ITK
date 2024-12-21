@@ -90,7 +90,7 @@ itkKalmanLinearEstimatorTest(int, char *[])
   std::cout << estimation;
 
   const VectorType error = estimation - planeEquation;
-  const ValueType  errorMagnitude = dot_product(error, error);
+  const ValueType errorMagnitude = dot_product(error, error);
 
   std::cout << std::endl << "Errors : " << std::endl;
   std::cout << error;

@@ -502,9 +502,9 @@ protected:
 
 private:
   using OffsetTableType = std::vector<InstanceIdentifier>;
-  OffsetTableType           m_OffsetTable{};
+  OffsetTableType m_OffsetTable{};
   FrequencyContainerPointer m_FrequencyContainer{};
-  unsigned int              m_NumberOfInstances{ 0 };
+  unsigned int m_NumberOfInstances{ 0 };
 
   // This method is provided here just to avoid a "hidden" warning
   // related to the virtual method available in DataObject.
@@ -519,7 +519,7 @@ private:
   std::vector<std::vector<MeasurementType>> m_Max{};
 
   mutable MeasurementVectorType m_TempMeasurementVector{};
-  mutable IndexType             m_TempIndex{};
+  mutable IndexType m_TempIndex{};
 
   bool m_ClipBinsAtEnds{ true };
 };

@@ -268,9 +268,9 @@ public:
 
   /** Returns the value at a point. Returns true if that value is valid. */
   virtual bool
-  ValueAtInObjectSpace(const PointType &   point,
-                       double &            value,
-                       unsigned int        depth = 0,
+  ValueAtInObjectSpace(const PointType & point,
+                       double & value,
+                       unsigned int depth = 0,
                        const std::string & name = "") const;
 
   /** Returns true if the object can provide a "meaningful" value at
@@ -292,15 +292,15 @@ public:
 
   /** Return the value of the object at a point. */
   virtual bool
-  ValueAtChildrenInObjectSpace(const PointType &   point,
-                               double &            value,
-                               unsigned int        depth = 0,
+  ValueAtChildrenInObjectSpace(const PointType & point,
+                               double & value,
+                               unsigned int depth = 0,
                                const std::string & name = "") const;
 
   /** Return if the object is evaluable at a point. */
   virtual bool
-  IsEvaluableAtChildrenInObjectSpace(const PointType &   point,
-                                     unsigned int        depth = 0,
+  IsEvaluableAtChildrenInObjectSpace(const PointType & point,
+                                     unsigned int depth = 0,
                                      const std::string & name = "") const;
 
 
@@ -328,9 +328,9 @@ public:
   virtual
 #endif
     bool
-    ValueAtInWorldSpace(const PointType &   point,
-                        double &            value,
-                        unsigned int        depth = 0,
+    ValueAtInWorldSpace(const PointType & point,
+                        double & value,
+                        unsigned int depth = 0,
                         const std::string & name = "") const;
 
   /** World space equivalent to IsInsideInObjectSpace
@@ -365,11 +365,11 @@ public:
 
   /** Return the n-th order derivative value at the specified point. */
   virtual void
-  DerivativeAtInObjectSpace(const PointType &            point,
-                            short unsigned int           order,
-                            CovariantVectorType &        value,
-                            unsigned int                 depth = 0,
-                            const std::string &          name = "",
+  DerivativeAtInObjectSpace(const PointType & point,
+                            short unsigned int order,
+                            CovariantVectorType & value,
+                            unsigned int depth = 0,
+                            const std::string & name = "",
                             const DerivativeOffsetType & offset = MakeFilled<DerivativeOffsetType>(1));
 
   /** Return the n-th order derivative value at the specified point.
@@ -382,11 +382,11 @@ public:
   virtual
 #endif
     void
-    DerivativeAtInWorldSpace(const PointType &            point,
-                             short unsigned int           order,
-                             CovariantVectorType &        value,
-                             unsigned int                 depth = 0,
-                             const std::string &          name = "",
+    DerivativeAtInWorldSpace(const PointType & point,
+                             short unsigned int order,
+                             CovariantVectorType & value,
+                             unsigned int depth = 0,
+                             const std::string & name = "",
                              const DerivativeOffsetType & offset = MakeFilled<DerivativeOffsetType>(1));
 
 
@@ -466,8 +466,8 @@ public:
 
   virtual void
   AddChildrenToConstList(ChildrenConstListType * childrenCList,
-                         unsigned int            depth = 0,
-                         const std::string &     name = "") const;
+                         unsigned int depth = 0,
+                         const std::string & name = "") const;
 
   /** Get the number of children currently assigned to the object. */
   unsigned int
@@ -726,7 +726,7 @@ private:
 
   PropertyType m_Property{};
 
-  int    m_ParentId{ -1 };
+  int m_ParentId{ -1 };
   Self * m_Parent{ nullptr };
 
   RegionType m_LargestPossibleRegion{};

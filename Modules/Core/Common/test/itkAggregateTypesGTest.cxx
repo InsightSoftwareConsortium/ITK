@@ -279,8 +279,8 @@ public:
 
     //============ Test math with Aggregate Type ====================================
     {
-      const AggregateType                      knownAll2sAgg{ { 2, 2, 2, 2 } };
-      const AggregateType                      knownAll4sAgg{ { 4, 4, 4, 4 } };
+      const AggregateType knownAll2sAgg{ { 2, 2, 2, 2 } };
+      const AggregateType knownAll4sAgg{ { 4, 4, 4, 4 } };
       const typename AggregateType::OffsetType knownOffset = { { -2, -2, -2, -2 } };
       ITK_EXPECT_VECTOR_NEAR(knownAll2sAgg - knownAll4sAgg, knownOffset, 0);
     }
@@ -290,7 +290,7 @@ public:
       AggregateType known3s{ { 3, 3, 3, 3 } };
       AggregateType threes{};
       AggregateType known4s{ { 4, 4, 4, 4 } };
-      auto          p1 = itk::MakeFilled<itk::Point<double, 4>>(3.5);
+      auto p1 = itk::MakeFilled<itk::Point<double, 4>>(3.5);
       threes.CopyWithRound(p1);
       ITK_EXPECT_VECTOR_NEAR(threes, known4s, 0);
 
@@ -338,8 +338,8 @@ TEST(Specialized, Index)
   ITK_EXPECT_VECTOR_NEAR(IndexType::GetBasisIndex(2), twoBasis, 0);
   ITK_EXPECT_VECTOR_NEAR(IndexType::GetBasisIndex(3), threeBasis, 0);
 
-  constexpr IndexType       known3s{ { 3, 3, 3, 3 } };
-  IndexType                 threes;
+  constexpr IndexType known3s{ { 3, 3, 3, 3 } };
+  IndexType threes;
   IndexType::IndexValueType raw3s[4] = { 3, 3, 3, 3 };
   threes.SetIndex(raw3s);
   ITK_EXPECT_VECTOR_NEAR(threes, known3s, 0);
@@ -362,8 +362,8 @@ TEST(Specialized, Offset)
   ITK_EXPECT_VECTOR_NEAR(OffsetType::GetBasisOffset(2), twoBasis, 0);
   ITK_EXPECT_VECTOR_NEAR(OffsetType::GetBasisOffset(3), threeBasis, 0);
 
-  constexpr OffsetType                  known3s{ { 3, 3, 3, 3 } };
-  OffsetType                            threes;
+  constexpr OffsetType known3s{ { 3, 3, 3, 3 } };
+  OffsetType threes;
   constexpr OffsetType::OffsetValueType raw3s[4] = { 3, 3, 3, 3 };
   threes.SetOffset(raw3s);
   ITK_EXPECT_VECTOR_NEAR(threes, known3s, 0);
@@ -375,8 +375,8 @@ TEST(Specialized, Size)
   EXPECT_EQ(itk::Size<7>::GetSizeDimension(), 7);
 
   using SizeType = itk::Size<4>;
-  constexpr SizeType                known3s{ { 3, 3, 3, 3 } };
-  SizeType                          threes;
+  constexpr SizeType known3s{ { 3, 3, 3, 3 } };
+  SizeType threes;
   constexpr SizeType::SizeValueType raw3s[4] = { 3, 3, 3, 3 };
   threes.SetSize(raw3s);
   ITK_EXPECT_VECTOR_NEAR(threes, known3s, 0);

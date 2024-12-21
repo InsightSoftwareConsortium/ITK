@@ -102,14 +102,14 @@ template <typename TDomainPartitioner, typename TAssociate>
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 DomainThreader<TDomainPartitioner, TAssociate>::ThreaderCallback(void * arg)
 {
-  auto *             info = static_cast<MultiThreaderBase::WorkUnitInfo *>(arg);
-  auto *             str = static_cast<ThreadStruct *>(info->UserData);
-  DomainThreader *   thisDomainThreader = str->domainThreader;
+  auto * info = static_cast<MultiThreaderBase::WorkUnitInfo *>(arg);
+  auto * str = static_cast<ThreadStruct *>(info->UserData);
+  DomainThreader * thisDomainThreader = str->domainThreader;
   const ThreadIdType workUnitID = info->WorkUnitID;
   const ThreadIdType workUnitCount = info->NumberOfWorkUnits;
 
   // Get the sub-domain to process for this thread.
-  DomainType         subdomain;
+  DomainType subdomain;
   const ThreadIdType total = thisDomainThreader->GetDomainPartitioner()->PartitionDomain(
     workUnitID, workUnitCount, thisDomainThreader->m_CompleteDomain, subdomain);
 

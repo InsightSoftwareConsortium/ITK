@@ -48,9 +48,9 @@ MakePointOfIncreasingCoordValues()
 // value is written, a NaN coordinate value is expected to be read back.)
 template <typename TMesh>
 void
-Expect_lossless_writing_and_reading_of_points(const std::string &                            fileName,
+Expect_lossless_writing_and_reading_of_points(const std::string & fileName,
                                               const std::vector<typename TMesh::PointType> & points,
-                                              const bool                                     writeAsBinary)
+                                              const bool writeAsBinary)
 {
   const auto inputMesh = TMesh::New();
 
@@ -121,9 +121,9 @@ TEST(VTKPolyDataMeshIO, LosslessWriteAndReadOfPoints)
     using NumericLimits = std::numeric_limits<MeshType::CoordinateType>;
 
     std::vector<PointType> points;
-    std::mt19937           randomNumberEngine;
-    const auto             smallRandomValue = std::uniform_real_distribution<CoordinateType>{}(randomNumberEngine);
-    const auto             largeRandomValue =
+    std::mt19937 randomNumberEngine;
+    const auto smallRandomValue = std::uniform_real_distribution<CoordinateType>{}(randomNumberEngine);
+    const auto largeRandomValue =
       std::uniform_real_distribution<CoordinateType>{ CoordinateType{ 1 }, NumericLimits::max() }(randomNumberEngine);
 
     // Include random and boundary values with the test input.

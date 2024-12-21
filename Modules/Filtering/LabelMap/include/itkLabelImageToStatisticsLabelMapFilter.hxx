@@ -92,7 +92,7 @@ LabelImageToStatisticsLabelMapFilter<TInputImage, TFeatureImage, TOutputImage>::
 template <typename TInputImage, typename TFeatureImage, typename TOutputImage>
 void
 LabelImageToStatisticsLabelMapFilter<TInputImage, TFeatureImage, TOutputImage>::PrintSelf(std::ostream & os,
-                                                                                          Indent         indent) const
+                                                                                          Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

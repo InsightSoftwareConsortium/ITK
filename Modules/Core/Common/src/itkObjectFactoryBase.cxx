@@ -47,9 +47,9 @@ namespace
  */
 struct OverrideInformation
 {
-  std::string                            m_Description;
-  std::string                            m_OverrideWithName;
-  bool                                   m_EnabledFlag;
+  std::string m_Description;
+  std::string m_OverrideWithName;
+  bool m_EnabledFlag;
   itk::CreateObjectFunctionBase::Pointer m_CreateObject;
 };
 
@@ -121,17 +121,17 @@ public:
 
   ObjectFactoryBasePrivate() = default;
 
-  FactoryListType   m_RegisteredFactories{};
-  FactoryListType   m_InternalFactories{};
+  FactoryListType m_RegisteredFactories{};
+  FactoryListType m_InternalFactories{};
   std::atomic<bool> m_Initialized{ false };
-  bool              m_StrictVersionChecking{ false };
+  bool m_StrictVersionChecking{ false };
 };
 
 auto
 ObjectFactoryBase::GetPimplGlobalsPointer() -> ObjectFactoryBasePrivate *
 {
   const auto deleteLambda = []() { m_PimplGlobals->UnRegister(); };
-  auto *     globalInstance = Singleton<ObjectFactoryBasePrivate>("ObjectFactoryBase", deleteLambda);
+  auto * globalInstance = Singleton<ObjectFactoryBasePrivate>("ObjectFactoryBase", deleteLambda);
   if (globalInstance != m_PimplGlobals)
   {
     SynchronizeObjectFactoryBase(globalInstance);
@@ -260,7 +260,7 @@ ObjectFactoryBase::LoadDynamicFactories()
 #  endif
 
   const std::string itk_autoload_env{ "ITK_AUTOLOAD_PATH" };
-  std::string       LoadPath;
+  std::string LoadPath;
   if (!itksys::SystemTools::GetEnv(itk_autoload_env, LoadPath))
   {
     return;
@@ -401,7 +401,7 @@ ObjectFactoryBase::LoadLibrariesInPath(const char * path)
     if (NameIsSharedLibrary(file))
     {
       const std::string fullpath = CreateFullPath(path, file);
-      LibHandle         lib = DynamicLoader::OpenLibrary(fullpath.c_str());
+      LibHandle lib = DynamicLoader::OpenLibrary(fullpath.c_str());
       if (lib)
       {
         /**
@@ -697,10 +697,10 @@ ObjectFactoryBase::UnRegisterAllFactories()
  *
  */
 void
-ObjectFactoryBase::RegisterOverride(const char *               classOverride,
-                                    const char *               subclass,
-                                    const char *               description,
-                                    bool                       enableFlag,
+ObjectFactoryBase::RegisterOverride(const char * classOverride,
+                                    const char * subclass,
+                                    const char * description,
+                                    bool enableFlag,
                                     CreateObjectFunctionBase * createFunction)
 {
   OverrideInformation info;

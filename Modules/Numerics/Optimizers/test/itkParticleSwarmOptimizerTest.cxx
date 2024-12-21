@@ -67,10 +67,10 @@ itkParticleSwarmOptimizerTest(int argc, char * argv[])
   }
 
   constexpr unsigned int allIterations = 10;
-  constexpr double       threshold = 0.8;
-  unsigned int           success1{};
-  unsigned int           success2{};
-  unsigned int           success3{};
+  constexpr double threshold = 0.8;
+  unsigned int success1{};
+  unsigned int success2{};
+  unsigned int success3{};
 
   std::cout << "Particle Swarm Optimizer Test \n \n";
 
@@ -122,10 +122,10 @@ PSOTest1()
   // set optimizer parameters
   OptimizerType::ParameterBoundsType bounds;
   bounds.push_back(std::make_pair(-10, 10));
-  constexpr unsigned int        numberOfParticles = 10;
-  constexpr unsigned int        maxIterations = 100;
-  constexpr double              xTolerance = 0.1;
-  constexpr double              fTolerance = 0.001;
+  constexpr unsigned int numberOfParticles = 10;
+  constexpr unsigned int maxIterations = 100;
+  constexpr double xTolerance = 0.1;
+  constexpr double fTolerance = 0.001;
   OptimizerType::ParametersType initialParameters(1);
 
 
@@ -222,10 +222,10 @@ PSOTest2()
   OptimizerType::ParameterBoundsType bounds;
   bounds.push_back(std::make_pair(-10, 10));
   bounds.push_back(std::make_pair(-10, 10));
-  constexpr unsigned int        numberOfParticles = 10;
-  constexpr unsigned int        maxIterations = 100;
-  constexpr double              xTolerance = 0.1;
-  constexpr double              fTolerance = 0.001;
+  constexpr unsigned int numberOfParticles = 10;
+  constexpr unsigned int maxIterations = 100;
+  constexpr double xTolerance = 0.1;
+  constexpr double fTolerance = 0.001;
   OptimizerType::ParametersType initialParameters(2);
 
   itkOptimizer->SetParameterBounds(bounds);
@@ -301,10 +301,10 @@ PSOTest3()
   OptimizerType::ParameterBoundsType bounds;
   bounds.push_back(std::make_pair(-100, 100));
   bounds.push_back(std::make_pair(-100, 100));
-  constexpr unsigned int        numberOfParticles = 100;
-  constexpr unsigned int        maxIterations = 200;
-  constexpr double              xTolerance = 0.1;
-  constexpr double              fTolerance = 0.01;
+  constexpr unsigned int numberOfParticles = 100;
+  constexpr unsigned int maxIterations = 200;
+  constexpr double xTolerance = 0.1;
+  constexpr double fTolerance = 0.01;
   OptimizerType::ParametersType initialParameters(2);
 
   // Exercise Get/Set methods

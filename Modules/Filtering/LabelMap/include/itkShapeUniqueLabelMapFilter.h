@@ -158,13 +158,13 @@ protected:
 
     lines.push_back(priorityQueue.top());
     LineOfLabelObject prev = lines.back();
-    IndexType         prevIdx = prev.line.GetIndex();
+    IndexType prevIdx = prev.line.GetIndex();
     priorityQueue.pop();
 
     while (!priorityQueue.empty())
     {
       LineOfLabelObject l = priorityQueue.top();
-      IndexType         idx = l.line.GetIndex();
+      IndexType idx = l.line.GetIndex();
       priorityQueue.pop();
 
       bool newMainLine = false;
@@ -186,7 +186,7 @@ protected:
       }
       else
       {
-        OffsetValueType       prevLength = prev.line.GetLength();
+        OffsetValueType prevLength = prev.line.GetLength();
         const OffsetValueType length = l.line.GetLength();
 
         if (prevIdx[0] + prevLength > idx[0])
@@ -197,7 +197,7 @@ protected:
           // which line to keep. This is necessary to avoid the case where a
           // part of a label is over
           // a second label, and below in another part of the image.
-          bool                                                  keepCurrent;
+          bool keepCurrent;
           const typename TAttributeAccessor::AttributeValueType prevAttr = accessor(prev.labelObject);
           const typename TAttributeAccessor::AttributeValueType attr = accessor(l.labelObject);
           // this may be changed to a single boolean expression, but may become
@@ -306,7 +306,7 @@ protected:
     while (!it.IsAtEnd())
     {
       const typename LabelObjectType::LabelType label = it.GetLabel();
-      LabelObjectType *                         labelObject = it.GetLabelObject();
+      LabelObjectType * labelObject = it.GetLabelObject();
 
       if (labelObject->Empty())
       {
@@ -338,7 +338,7 @@ private:
       this->labelObject = _lo;
     }
 
-    LineType          line;
+    LineType line;
     LabelObjectType * labelObject;
   };
 

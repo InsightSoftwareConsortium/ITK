@@ -46,7 +46,7 @@ main(int, char *[])
   // Software Guide : BeginCodeSnippet
   using ImageType = itk::Image<unsigned char, 2>;
   using RandomImageSourceType = itk::RandomImageSource<ImageType>;
-  auto                     randomImageSource = RandomImageSourceType::New();
+  auto randomImageSource = RandomImageSourceType::New();
   ImageType::SizeValueType size[2];
   size[0] = 10;
   size[1] = 10;

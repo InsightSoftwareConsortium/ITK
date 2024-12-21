@@ -227,7 +227,7 @@ public:
 
   private:
     mutable MeasurementVectorType m_MeasurementVectorCache;
-    InstanceIdentifier            m_InstanceIdentifier;
+    InstanceIdentifier m_InstanceIdentifier;
   };
 
   /**
@@ -317,14 +317,14 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ImageConstPointer             m_Image{};
+  ImageConstPointer m_Image{};
   mutable MeasurementVectorType m_MeasurementVectorInternal{};
-  mutable InstanceIdentifier    m_InstanceIdentifierInternal{};
-  mutable IndexType             m_NeighborIndexInternal{};
-  NeighborhoodRadiusType        m_Radius{};
-  RegionType                    m_Region{};
-  bool                          m_UseImageRegion{ true };
-  OffsetTableType               m_OffsetTable{};
+  mutable InstanceIdentifier m_InstanceIdentifierInternal{};
+  mutable IndexType m_NeighborIndexInternal{};
+  NeighborhoodRadiusType m_Radius{};
+  RegionType m_Region{};
+  bool m_UseImageRegion{ true };
+  OffsetTableType m_OffsetTable{};
 
 }; // end of class ImageToNeighborhoodSampleAdaptor
 

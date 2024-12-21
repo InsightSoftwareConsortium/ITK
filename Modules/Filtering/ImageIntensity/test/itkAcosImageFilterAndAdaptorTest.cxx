@@ -116,7 +116,7 @@ itkAcosImageFilterAndAdaptorTest(int, char *[])
   it.GoToBegin();
   while (!ot.IsAtEnd())
   {
-    const InputImageType::PixelType  input = it.Get();
+    const InputImageType::PixelType input = it.Get();
     const OutputImageType::PixelType output = ot.Get();
     const OutputImageType::PixelType arccosinus = std::acos(input);
     if (!itk::Math::FloatAlmostEqual(arccosinus, output, 10, epsilon))

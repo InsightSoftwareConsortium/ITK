@@ -77,7 +77,7 @@ CurvatureFlowImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegio
 
   // get pointers to the input and output
   const typename Superclass::InputImagePointer inputPtr = const_cast<InputImageType *>(this->GetInput());
-  const OutputImagePointer                     outputPtr = this->GetOutput();
+  const OutputImagePointer outputPtr = this->GetOutput();
 
   if (!inputPtr || !outputPtr)
   {

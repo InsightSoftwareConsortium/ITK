@@ -83,7 +83,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 LabelImageToLabelMapFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
   const OutputImageRegionType & regionForThread,
-  ThreadIdType                  threadId)
+  ThreadIdType threadId)
 {
   TotalProgressReporter progress(this, this->GetInput()->GetRequestedRegion().GetNumberOfPixels());
 
@@ -104,7 +104,7 @@ LabelImageToLabelMapFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
       {
         // We've hit the start of a run
         const IndexType idx = it.GetIndex();
-        LengthType      length = 1;
+        LengthType length = 1;
         ++it;
         while (!it.IsAtEndOfLine() && it.Get() == value)
         {
@@ -140,7 +140,7 @@ LabelImageToLabelMapFilter<TInputImage, TOutputImage>::AfterThreadedGenerateData
       if (output->HasLabel(labelObject->GetLabel()))
       {
         // merge the lines in the output's object
-        LabelObjectType *                           lo = output->GetLabelObject(labelObject->GetLabel());
+        LabelObjectType * lo = output->GetLabelObject(labelObject->GetLabel());
         typename LabelObjectType::ConstLineIterator lit(labelObject);
         while (!lit.IsAtEnd())
         {

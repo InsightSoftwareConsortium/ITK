@@ -67,7 +67,7 @@ template <typename TProbe>
 void
 ResourceProbesCollectorBase<TProbe>::Report(std::ostream & os, bool printSystemInfo, bool printReportHead, bool useTabs)
 {
-  auto       probe = this->m_Probes.begin();
+  auto probe = this->m_Probes.begin();
   const auto end = this->m_Probes.end();
 
   if (probe == end)
@@ -96,11 +96,11 @@ ResourceProbesCollectorBase<TProbe>::Report(std::ostream & os, bool printSystemI
 
 template <typename TProbe>
 void
-ResourceProbesCollectorBase<TProbe>::Report(const char *   name,
+ResourceProbesCollectorBase<TProbe>::Report(const char * name,
                                             std::ostream & os,
-                                            bool           printSystemInfo,
-                                            bool           printReportHead,
-                                            bool           useTabs)
+                                            bool printSystemInfo,
+                                            bool printReportHead,
+                                            bool useTabs)
 {
   const IdType tid = name;
 
@@ -118,11 +118,11 @@ ResourceProbesCollectorBase<TProbe>::Report(const char *   name,
 template <typename TProbe>
 void
 ResourceProbesCollectorBase<TProbe>::ExpandedReport(std::ostream & os,
-                                                    bool           printSystemInfo,
-                                                    bool           printReportHead,
-                                                    bool           useTabs)
+                                                    bool printSystemInfo,
+                                                    bool printReportHead,
+                                                    bool useTabs)
 {
-  auto       probe = this->m_Probes.begin();
+  auto probe = this->m_Probes.begin();
   const auto end = this->m_Probes.end();
 
   if (probe == end)
@@ -151,11 +151,11 @@ ResourceProbesCollectorBase<TProbe>::ExpandedReport(std::ostream & os,
 
 template <typename TProbe>
 void
-ResourceProbesCollectorBase<TProbe>::ExpandedReport(const char *   name,
+ResourceProbesCollectorBase<TProbe>::ExpandedReport(const char * name,
                                                     std::ostream & os,
-                                                    bool           printSystemInfo,
-                                                    bool           printReportHead,
-                                                    bool           useTabs)
+                                                    bool printSystemInfo,
+                                                    bool printReportHead,
+                                                    bool useTabs)
 {
   const IdType tid = name;
 
@@ -174,7 +174,7 @@ template <typename TProbe>
 void
 ResourceProbesCollectorBase<TProbe>::JSONReport(std::ostream & os, bool printSystemInfo)
 {
-  auto       probe = this->m_Probes.begin();
+  auto probe = this->m_Probes.begin();
   const auto end = this->m_Probes.end();
 
   if (probe == end)

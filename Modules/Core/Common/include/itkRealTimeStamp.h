@@ -101,7 +101,7 @@ public:
 
   /** Default print out of a RealTimeStamp */
   friend ITKCommon_EXPORT std::ostream &
-                          operator<<(std::ostream & os, const RealTimeStamp & v);
+  operator<<(std::ostream & os, const RealTimeStamp & v);
 
 private:
   using SecondsCounterType = uint64_t;
@@ -114,7 +114,7 @@ private:
   using MicroSecondsDifferenceType = RealTimeInterval::MicroSecondsDifferenceType;
 
   /** Number of Seconds and Microseconds since... */
-  SecondsCounterType      m_Seconds;
+  SecondsCounterType m_Seconds;
   MicroSecondsCounterType m_MicroSeconds;
 };
 

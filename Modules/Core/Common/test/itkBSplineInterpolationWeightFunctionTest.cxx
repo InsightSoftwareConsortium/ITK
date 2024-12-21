@@ -98,7 +98,7 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
 
 
       constexpr double tolerance = 1e-6;
-      bool             symmetryForXBroken = false;
+      bool symmetryForXBroken = false;
 
       for (unsigned int nw = 0; nw < numberOfWeigts - indexDifference; ++nw)
       {
@@ -186,7 +186,7 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
 
 
       constexpr double tolerance = 1e-6;
-      bool             symmetryForXBroken = false;
+      bool symmetryForXBroken = false;
 
       for (unsigned int nw = 0; nw < numberOfWeigts - indexDifference; ++nw)
       {
@@ -249,14 +249,14 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
     auto function = FunctionType::New();
     function->Print(std::cout);
 
-    constexpr SizeType      size = FunctionType::SupportSize;
+    constexpr SizeType size = FunctionType::SupportSize;
     constexpr unsigned long numberOfWeights = FunctionType::NumberOfWeights;
 
     std::cout << "Number Of Weights: " << numberOfWeights << std::endl;
 
     ContinuousIndexType position;
-    WeightsType         weights;
-    IndexType           startIndex;
+    WeightsType weights;
+    IndexType startIndex;
 
     position.Fill(4.15);
     weights = function->Evaluate(position);
@@ -275,14 +275,14 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
     auto kernel = KernelType::New();
 
     using ImageType = itk::Image<char, SpaceDimension>;
-    auto                        image = ImageType::New();
+    auto image = ImageType::New();
     const ImageType::RegionType region{ startIndex, size };
 
     image->SetRegions(region);
     image->AllocateInitialized();
 
     using IteratorType = itk::ImageRegionConstIteratorWithIndex<ImageType>;
-    IteratorType  iter(image, image->GetBufferedRegion());
+    IteratorType iter(image, image->GetBufferedRegion());
     unsigned long counter = 0;
 
     while (!iter.IsAtEnd())

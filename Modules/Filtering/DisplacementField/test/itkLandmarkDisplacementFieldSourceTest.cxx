@@ -61,7 +61,7 @@ itkLandmarkDisplacementFieldSourceTest(int argc, char * argv[])
   start[0] = 0;
   start[1] = 0;
   const DisplacementFieldType::RegionType region{ start, size };
-  DisplacementFieldType::DirectionType    direction;
+  DisplacementFieldType::DirectionType direction;
   direction.SetIdentity();
 
   auto kernelTransform = itk::ThinPlateSplineKernelTransform<double, FilterType::ImageDimension>::New();

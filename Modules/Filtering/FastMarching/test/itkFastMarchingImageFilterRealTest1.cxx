@@ -71,7 +71,7 @@ itkFastMarchingImageFilterRealTest1(int itkNotUsed(argc), char * itkNotUsed(argv
   marcher->SetStoppingCriterion(criterion);
   ITK_TEST_SET_GET_VALUE(criterion, marcher->GetStoppingCriterion());
 
-  ShowProgressObject                                          progressWatch(marcher);
+  ShowProgressObject progressWatch(marcher);
   const itk::SimpleMemberCommand<ShowProgressObject>::Pointer command =
     itk::SimpleMemberCommand<ShowProgressObject>::New();
   command->SetCallbackFunction(&progressWatch, &ShowProgressObject::ShowProgress);
@@ -141,7 +141,7 @@ itkFastMarchingImageFilterRealTest1(int itkNotUsed(argc), char * itkNotUsed(argv
   marcher->SetOutputSize(size);
 
   // Set up a speed image of ones
-  auto                       speedImage = FloatImageType::New();
+  auto speedImage = FloatImageType::New();
   FloatImageType::RegionType region;
   region.SetSize(size);
   speedImage->SetLargestPossibleRegion(region);

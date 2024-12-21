@@ -66,7 +66,7 @@ public:
   {
     IdentifierType from;
     IdentifierType to;
-    ScalarType     saliency;
+    ScalarType saliency;
   };
 
   /** Define the container type used in this list data structure */

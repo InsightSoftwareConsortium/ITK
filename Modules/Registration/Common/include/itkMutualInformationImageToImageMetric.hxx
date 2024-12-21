@@ -100,7 +100,7 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::SampleFixedImage
   randIter.GoToBegin();
 
   typename SpatialSampleContainer::iterator iter;
-  const auto                                end = samples.end();
+  const auto end = samples.end();
 
   bool allOutside = true;
 
@@ -112,7 +112,7 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::SampleFixedImage
 
   // Number of random picks made from the portion of fixed image within the
   // fixed mask
-  SizeValueType       numberOfFixedImagePixelsVisited = 0;
+  SizeValueType numberOfFixedImagePixelsVisited = 0;
   const SizeValueType dryRunTolerance = this->GetFixedImageRegion().GetNumberOfPixels();
   for (iter = samples.begin(); iter != end; ++iter)
   {
@@ -202,9 +202,9 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValue(const P
   SumType dSumJoint;
 
   typename SpatialSampleContainer::const_iterator aiter;
-  const auto                                      aend = m_SampleA.end();
+  const auto aend = m_SampleA.end();
   typename SpatialSampleContainer::const_iterator biter;
-  const auto                                      bend = m_SampleB.end();
+  const auto bend = m_SampleB.end();
   for (biter = m_SampleB.begin(); biter != bend; ++biter)
   {
     dSumFixed.ResetToZero();
@@ -263,12 +263,12 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValue(const P
 template <typename TFixedImage, typename TMovingImage>
 void
 MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDerivative(const ParametersType & parameters,
-                                                                                      MeasureType &          value,
+                                                                                      MeasureType & value,
                                                                                       DerivativeType & derivative) const
 {
   value = MeasureType{};
   const unsigned int numberOfParameters = this->m_Transform->GetNumberOfParameters();
-  DerivativeType     temp(numberOfParameters);
+  DerivativeType temp(numberOfParameters);
   temp.Fill(0);
   derivative = temp;
 
@@ -294,9 +294,9 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDeriv
   SumType dDenominatorJoint;
 
   typename SpatialSampleContainer::iterator aiter;
-  const auto                                aend = m_SampleA.end();
+  const auto aend = m_SampleA.end();
   typename SpatialSampleContainer::iterator biter;
-  const auto                                bend = m_SampleB.end();
+  const auto bend = m_SampleB.end();
 
   // precalculate all the image derivatives for sample A
   using DerivativeContainer = std::vector<DerivativeType>;
@@ -304,8 +304,8 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDeriv
   sampleADerivatives.resize(m_NumberOfSpatialSamples);
 
   typename DerivativeContainer::iterator aditer;
-  DerivativeType                         tempDeriv(numberOfParameters);
-  TransformJacobianType                  jacobian(numberOfParameters, numberOfParameters);
+  DerivativeType tempDeriv(numberOfParameters);
+  TransformJacobianType jacobian(numberOfParameters, numberOfParameters);
   for (aiter = m_SampleA.begin(), aditer = sampleADerivatives.begin(); aiter != aend; ++aiter, ++aditer)
   {
     /** FIXME: is there a way to avoid the extra copying step? */
@@ -404,7 +404,7 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDeriv
 template <typename TFixedImage, typename TMovingImage>
 void
 MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetDerivative(const ParametersType & parameters,
-                                                                              DerivativeType &       derivative) const
+                                                                              DerivativeType & derivative) const
 {
   MeasureType value;
 
@@ -416,8 +416,8 @@ template <typename TFixedImage, typename TMovingImage>
 void
 MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::CalculateDerivatives(
   const FixedImagePointType & point,
-  DerivativeType &            derivatives,
-  TransformJacobianType &     jacobian) const
+  DerivativeType & derivatives,
+  TransformJacobianType & jacobian) const
 {
   const MovingImagePointType mappedPoint = this->m_Transform->TransformPoint(point);
 

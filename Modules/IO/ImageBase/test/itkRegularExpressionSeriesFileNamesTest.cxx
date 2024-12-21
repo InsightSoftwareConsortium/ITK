@@ -50,7 +50,7 @@ itkRegularExpressionSeriesFileNamesTest(int argc, char * argv[])
   bool numericSort = false;
   ITK_TEST_SET_GET_BOOLEAN(fit, NumericSort, numericSort);
 
-  std::vector<std::string>           names = fit->GetFileNames();
+  std::vector<std::string> names = fit->GetFileNames();
   std::vector<std::string>::iterator nit;
 
   // normal sort

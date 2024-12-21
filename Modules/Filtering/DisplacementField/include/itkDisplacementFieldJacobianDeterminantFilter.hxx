@@ -96,7 +96,7 @@ DisplacementFieldJacobianDeterminantFilter<TInputImage, TRealType, TOutputImage>
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
-  const InputImagePointer  inputPtr = const_cast<InputImageType *>(this->GetInput());
+  const InputImagePointer inputPtr = const_cast<InputImageType *>(this->GetInput());
   const OutputImagePointer outputPtr = this->GetOutput();
 
   if (!inputPtr || !outputPtr)
@@ -172,11 +172,11 @@ DisplacementFieldJacobianDeterminantFilter<TInputImage, TRealType, TOutputImage>
   const OutputImageRegionType & outputRegionForThread)
 {
   ZeroFluxNeumannBoundaryCondition<RealVectorImageType> nbc;
-  ConstNeighborhoodIteratorType                         bit;
-  ImageRegionIterator<TOutputImage>                     it;
+  ConstNeighborhoodIteratorType bit;
+  ImageRegionIterator<TOutputImage> it;
 
   // Find the data-set boundary "faces"
-  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<RealVectorImageType>                              bC;
+  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<RealVectorImageType> bC;
   const typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<RealVectorImageType>::FaceListType faceList =
     bC(dynamic_cast<const RealVectorImageType *>(m_RealValuedInputImage.GetPointer()),
        outputRegionForThread,
@@ -227,7 +227,7 @@ DisplacementFieldJacobianDeterminantFilter<TInputImage, TRealType, TOutputImage>
 template <typename TInputImage, typename TRealType, typename TOutputImage>
 void
 DisplacementFieldJacobianDeterminantFilter<TInputImage, TRealType, TOutputImage>::PrintSelf(std::ostream & os,
-                                                                                            Indent         indent) const
+                                                                                            Indent indent) const
 {
   using namespace print_helper;
 

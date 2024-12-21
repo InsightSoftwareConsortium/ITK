@@ -57,7 +57,7 @@ ShiftScaleLabelMapFilter<TImage>::GenerateData()
   while (it != labelObjects.end())
   {
     LabelObjectType * lo = *it;
-    auto              label = static_cast<PixelType>(m_Scale * lo->GetLabel() + m_Shift);
+    auto label = static_cast<PixelType>(m_Scale * lo->GetLabel() + m_Shift);
     lo->SetLabel(label);
     output->AddLabelObject(lo);
 

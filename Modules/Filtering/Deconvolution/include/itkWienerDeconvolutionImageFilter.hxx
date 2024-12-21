@@ -76,7 +76,7 @@ template <typename TInputImage, typename TKernelImage, typename TOutputImage, ty
 void
 WienerDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrecision>::PrintSelf(
   std::ostream & os,
-  Indent         indent) const
+  Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);
 

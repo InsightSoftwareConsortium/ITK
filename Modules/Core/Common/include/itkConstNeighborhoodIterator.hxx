@@ -48,8 +48,8 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>::InBounds() const
 template <typename TImage, typename TBoundaryCondition>
 bool
 ConstNeighborhoodIterator<TImage, TBoundaryCondition>::IndexInBounds(const NeighborIndexType n,
-                                                                     OffsetType &            internalIndex,
-                                                                     OffsetType &            offset) const
+                                                                     OffsetType & internalIndex,
+                                                                     OffsetType & offset) const
 {
   if (!m_NeedToUseBoundaryCondition)
   {
@@ -114,7 +114,7 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>::IndexInBounds(const Neigh
   }
   else
   {
-    bool               flag = true;
+    bool flag = true;
     const OffsetType & internalIndex = this->ComputeInternalIndex(n);
     // Is this pixel in bounds?
     for (DimensionValueType i = 0; i < Dimension; ++i)
@@ -186,7 +186,7 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>::ComputeInternalIndex(cons
   -> OffsetType
 {
   OffsetType ans;
-  auto       r = static_cast<unsigned long>(n);
+  auto r = static_cast<unsigned long>(n);
   for (long i = static_cast<long>(Dimension) - 1; i >= 0; --i)
   {
     ans[i] = static_cast<OffsetValueType>(r / this->GetStride(i));
@@ -200,7 +200,7 @@ auto
 ConstNeighborhoodIterator<TImage, TBoundaryCondition>::GetBoundingBoxAsImageRegion() const -> RegionType
 {
   constexpr IndexValueType zero{};
-  const RegionType         ans(this->GetIndex(zero), this->GetSize());
+  const RegionType ans(this->GetIndex(zero), this->GetSize());
 
   return ans;
 }
@@ -393,9 +393,9 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>::SetRegion(const RegionTyp
 
   // now determine whether boundary conditions are going to be needed
   const IndexType bStart = m_ConstImage->GetBufferedRegion().GetIndex();
-  const SizeType  bSize = m_ConstImage->GetBufferedRegion().GetSize();
+  const SizeType bSize = m_ConstImage->GetBufferedRegion().GetSize();
   const IndexType rStart = region.GetIndex();
-  const SizeType  rSize = region.GetSize();
+  const SizeType rSize = region.GetSize();
 
   m_NeedToUseBoundaryCondition = false;
   for (DimensionValueType i = 0; i < Dimension; ++i)
@@ -421,8 +421,8 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>::SetRegion(const RegionTyp
 
 template <typename TImage, typename TBoundaryCondition>
 void
-ConstNeighborhoodIterator<TImage, TBoundaryCondition>::Initialize(const SizeType &   radius,
-                                                                  const ImageType *  ptr,
+ConstNeighborhoodIterator<TImage, TBoundaryCondition>::Initialize(const SizeType & radius,
+                                                                  const ImageType * ptr,
                                                                   const RegionType & region)
 {
   m_ConstImage = ptr;
@@ -621,10 +621,10 @@ template <typename TImage, typename TBoundaryCondition>
 void
 ConstNeighborhoodIterator<TImage, TBoundaryCondition>::SetBound(const SizeType & size)
 {
-  SizeType                radius = this->GetRadius();
+  SizeType radius = this->GetRadius();
   const OffsetValueType * offset = m_ConstImage->GetOffsetTable();
-  const IndexType         imageBRStart = m_ConstImage->GetBufferedRegion().GetIndex();
-  SizeType                imageBRSize = m_ConstImage->GetBufferedRegion().GetSize();
+  const IndexType imageBRStart = m_ConstImage->GetBufferedRegion().GetIndex();
+  SizeType imageBRSize = m_ConstImage->GetBufferedRegion().GetSize();
 
   // Set the bounds and the wrapping offsets. Inner bounds are the loop
   // indices where the iterator will begin to overlap the edge of the image
@@ -645,11 +645,11 @@ template <typename TImage, typename TBoundaryCondition>
 void
 ConstNeighborhoodIterator<TImage, TBoundaryCondition>::SetPixelPointers(const IndexType & pos)
 {
-  const Iterator          _end = Superclass::End();
-  auto *                  ptr = const_cast<ImageType *>(m_ConstImage.GetPointer());
-  const SizeType          size = this->GetSize();
+  const Iterator _end = Superclass::End();
+  auto * ptr = const_cast<ImageType *>(m_ConstImage.GetPointer());
+  const SizeType size = this->GetSize();
   const OffsetValueType * OffsetTable = m_ConstImage->GetOffsetTable();
-  const SizeType          radius = this->GetRadius();
+  const SizeType radius = this->GetRadius();
 
   SizeType loop{};
 
@@ -690,8 +690,8 @@ template <typename TImage, typename TBoundaryCondition>
 ConstNeighborhoodIterator<TImage, TBoundaryCondition> &
 ConstNeighborhoodIterator<TImage, TBoundaryCondition>::operator+=(const OffsetType & idx)
 {
-  const Iterator          _end = this->End();
-  OffsetValueType         accumulator = 0;
+  const Iterator _end = this->End();
+  OffsetValueType accumulator = 0;
   const OffsetValueType * stride = this->GetImagePointer()->GetOffsetTable();
 
   // Repositioning neighborhood, previous bounds check on neighborhood
@@ -727,8 +727,8 @@ template <typename TImage, typename TBoundaryCondition>
 ConstNeighborhoodIterator<TImage, TBoundaryCondition> &
 ConstNeighborhoodIterator<TImage, TBoundaryCondition>::operator-=(const OffsetType & idx)
 {
-  const Iterator          _end = this->End();
-  OffsetValueType         accumulator = 0;
+  const Iterator _end = this->End();
+  OffsetValueType accumulator = 0;
   const OffsetValueType * stride = this->GetImagePointer()->GetOffsetTable();
 
   // Repositioning neighborhood, previous bounds check on neighborhood

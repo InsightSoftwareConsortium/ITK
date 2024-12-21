@@ -101,19 +101,19 @@ StretchIntensityImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateD
   const OutputImageRegionType & outputRegionForThread)
 {
   const TInputImage * inputPtr = this->GetInput();
-  TOutputImage *      outputPtr = this->GetOutput(0);
+  TOutputImage * outputPtr = this->GetOutput(0);
 
   TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
 
   const InputImageRegionType inputRegionForThread = outputRegionForThread;
 
   ImageRegionConstIterator<TInputImage> inputIt(inputPtr, inputRegionForThread);
-  ImageRegionIterator<TOutputImage>     outputIt(outputPtr, outputRegionForThread);
+  ImageRegionIterator<TOutputImage> outputIt(outputPtr, outputRegionForThread);
 
   while (!inputIt.IsAtEnd())
   {
     const InputPixelType x = inputIt.Get();
-    const RealType       value = static_cast<RealType>(x) * m_Scale + m_Shift;
+    const RealType value = static_cast<RealType>(x) * m_Scale + m_Shift;
 
     auto result = Math::Round<OutputPixelType>(value);
 

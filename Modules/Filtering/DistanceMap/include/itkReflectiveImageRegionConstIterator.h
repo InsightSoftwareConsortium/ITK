@@ -180,7 +180,7 @@ public:
   FillOffsets(const OffsetValueType & value);
 
 private:
-  bool       m_IsFirstPass[TImage::ImageDimension]{};
+  bool m_IsFirstPass[TImage::ImageDimension]{};
   OffsetType m_BeginOffset{};
   OffsetType m_EndOffset{};
 };

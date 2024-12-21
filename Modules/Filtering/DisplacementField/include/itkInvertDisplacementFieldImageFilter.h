@@ -172,15 +172,15 @@ private:
   // internal ivars necessary for multithreading basic operations
 
   typename DisplacementFieldType::Pointer m_ComposedField{};
-  typename RealImageType::Pointer         m_ScaledNormImage{};
+  typename RealImageType::Pointer m_ScaledNormImage{};
 
-  RealType    m_MaxErrorNorm{};
-  RealType    m_MeanErrorNorm{};
-  RealType    m_Epsilon{};
+  RealType m_MaxErrorNorm{};
+  RealType m_MeanErrorNorm{};
+  RealType m_Epsilon{};
   SpacingType m_DisplacementFieldSpacing{};
-  bool        m_DoThreadedEstimateInverse{ false };
-  bool        m_EnforceBoundaryCondition{ true };
-  std::mutex  m_Mutex{};
+  bool m_DoThreadedEstimateInverse{ false };
+  bool m_EnforceBoundaryCondition{ true };
+  std::mutex m_Mutex{};
 };
 
 } // end namespace itk

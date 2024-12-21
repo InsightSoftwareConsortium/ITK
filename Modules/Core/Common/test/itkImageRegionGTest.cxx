@@ -183,7 +183,7 @@ TEST(ImageRegion, CropDoesNotChangeRegionToBeCroppedWhenCropRegionIsEqual)
     for (const itk::SizeValueType sizeValue : { 1, 2 })
     {
       const RegionType region{ IndexType::Filled(indexValue), SizeType::Filled(sizeValue) };
-      auto             regionToBeCropped = region;
+      auto regionToBeCropped = region;
       EXPECT_TRUE(regionToBeCropped.Crop(region));
       EXPECT_EQ(regionToBeCropped, region);
     }

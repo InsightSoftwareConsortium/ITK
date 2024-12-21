@@ -106,7 +106,7 @@ public:
 
   /** Default print out of a RealTimeInterval */
   friend ITKCommon_EXPORT std::ostream &
-                          operator<<(std::ostream & os, const RealTimeInterval & v);
+  operator<<(std::ostream & os, const RealTimeInterval & v);
 
 private:
   friend class RealTimeStamp;

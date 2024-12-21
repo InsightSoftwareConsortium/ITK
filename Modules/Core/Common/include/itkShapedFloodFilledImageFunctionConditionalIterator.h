@@ -83,8 +83,8 @@ public:
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. This version of the constructor uses
    * an explicit list of seed pixels for the flood fill, the "startIndex" */
-  ShapedFloodFilledImageFunctionConditionalIterator(ImageType *              imagePtr,
-                                                    FunctionType *           fnPtr,
+  ShapedFloodFilledImageFunctionConditionalIterator(ImageType * imagePtr,
+                                                    FunctionType * fnPtr,
                                                     std::vector<IndexType> & startIndex)
     : Superclass(imagePtr, fnPtr, startIndex)
   {}

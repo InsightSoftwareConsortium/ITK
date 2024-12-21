@@ -66,16 +66,16 @@ struct ITKIOMINC_HIDDEN MINCImageIOPImpl
 
   // dimension size and start and step, in FILE ORDER!
 
-  char **    m_DimensionName;
+  char ** m_DimensionName;
   misize_t * m_DimensionSize;
-  double *   m_DimensionStart;
-  double *   m_DimensionStep;
-  int        m_DimensionIndices[5];
+  double * m_DimensionStart;
+  double * m_DimensionStep;
+  int m_DimensionIndices[5];
 
   midimhandle_t * m_MincFileDims;
   midimhandle_t * m_MincApparentDims;
-  mitype_t        m_Volume_type;
-  miclass_t       m_Volume_class;
+  mitype_t m_Volume_type;
+  miclass_t m_Volume_class;
 
   // MINC2 volume handle , currently opened
   mihandle_t m_Volume;
@@ -325,7 +325,7 @@ MINCImageIO::ReadImageInformation()
       // Error getting dimension name
       itkExceptionMacro("Could not get dimension name!");
     }
-    double       _sep;
+    double _sep;
     const char * _sign = "+";
     if (miget_dimension_separation(m_MINCPImpl->m_MincFileDims[i], MI_ORDER_FILE, &_sep) == MI_NOERROR && _sep < 0)
     {
@@ -751,8 +751,8 @@ MINCImageIO::ReadImageInformation()
                  m_MINCPImpl->m_Volume, attlist, group_name, sizeof(group_name), attribute, sizeof(attribute)) ==
                MI_NOERROR)
         {
-          mitype_t    att_data_type;
-          size_t      att_length;
+          mitype_t att_data_type;
+          size_t att_length;
           std::string entry_key = group_name;
           entry_key += ":";
           entry_key += attribute;
@@ -963,7 +963,7 @@ MINCImageIO::WriteImageInformation()
   for (unsigned int i = 0; i < nDims; ++i)
   {
     const unsigned int j = i + (nComp > 1 ? 1 : 0);
-    double             dir_cos[3];
+    double dir_cos[3];
     for (unsigned int k = 0; k < 3; ++k)
     {
       if (k < nDims)
@@ -1055,7 +1055,7 @@ MINCImageIO::WriteImageInformation()
   // now let's create the same dimension order and positive/negative step size as
   // in original image
   std::string dimension_order;
-  bool        dimorder_good = false;
+  bool dimorder_good = false;
   if (ExposeMetaData<std::string>(thisDic, "dimension_order", dimension_order))
   {
     // the format should be ((+|-)(X|Y|Z|V|T))*
@@ -1066,7 +1066,7 @@ MINCImageIO::WriteImageInformation()
       for (unsigned int i = 0; i < minc_dimensions && dimorder_good; ++i)
       {
         const bool positive = (dimension_order[i * 2] == '+');
-        int        j = 0;
+        int j = 0;
         switch (dimension_order[i * 2 + 1])
         {
           case 'v':
@@ -1234,7 +1234,7 @@ MINCImageIO::WriteImageInformation()
         it->first == "NRRD_kinds[3]" || it->first == "NRRD_space")
       continue;
 
-    const char *         d = strchr(it->first.c_str(), ':');
+    const char * d = strchr(it->first.c_str(), ':');
     MetaDataObjectBase * bs = it->second;
     if (d)
     {
@@ -1324,7 +1324,7 @@ MINCImageIO::Write(const void * buffer)
 {
   const unsigned int nDims = this->GetNumberOfDimensions();
   const unsigned int nComp = this->GetNumberOfComponents();
-  size_t             buffer_length = 1;
+  size_t buffer_length = 1;
 
   const auto start = make_unique_for_overwrite<misize_t[]>(nDims + (nComp > 1 ? 1 : 0));
   const auto count = make_unique_for_overwrite<misize_t[]>(nDims + (nComp > 1 ? 1 : 0));
@@ -1351,8 +1351,8 @@ MINCImageIO::Write(const void * buffer)
     buffer_length *= nComp;
   }
 
-  double   buffer_min;
-  double   buffer_max;
+  double buffer_min;
+  double buffer_max;
   mitype_t volume_data_type = MI_TYPE_UBYTE;
 
   switch (this->GetComponentType())

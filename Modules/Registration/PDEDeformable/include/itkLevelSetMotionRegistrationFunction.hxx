@@ -27,7 +27,7 @@ namespace itk
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 LevelSetMotionRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::LevelSetMotionRegistrationFunction()
 {
-  RadiusType   r;
+  RadiusType r;
   unsigned int j;
 
   for (j = 0; j < ImageDimension; ++j)
@@ -201,8 +201,8 @@ template <typename TFixedImage, typename TMovingImage, typename TDisplacementFie
 auto
 LevelSetMotionRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUpdate(
   const NeighborhoodType & it,
-  void *                   gd,
-  const FloatOffsetType &  itkNotUsed(offset)) -> PixelType
+  void * gd,
+  const FloatOffsetType & itkNotUsed(offset)) -> PixelType
 {
   const IndexType index = it.GetIndex();
 
@@ -220,7 +220,7 @@ LevelSetMotionRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField
     mappedPoint[j] += it.GetCenterPixel()[j];
   }
   PixelType update;
-  double    movingValue;
+  double movingValue;
   if (m_MovingImageInterpolator->IsInsideBuffer(mappedPoint))
   {
     movingValue = m_MovingImageInterpolator->Evaluate(mappedPoint);
@@ -248,10 +248,10 @@ LevelSetMotionRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField
     mSpacing.Fill(1.0);
   }
 
-  PointType    mPoint(mappedPoint);
+  PointType mPoint(mappedPoint);
   const double centralValue = m_SmoothMovingImageInterpolator->Evaluate(mPoint);
-  double       forwardDifferences[ImageDimension];
-  double       backwardDifferences[ImageDimension];
+  double forwardDifferences[ImageDimension];
+  double backwardDifferences[ImageDimension];
   for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     mPoint[j] += mSpacing[j];
@@ -288,13 +288,13 @@ LevelSetMotionRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField
   // gradient[j] = m(forwardDifferences[j], backwardDifferences[j])
   //
   CovariantVectorType gradient;
-  double              gradientMagnitude = 0.0;
+  double gradientMagnitude = 0.0;
   for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     if (forwardDifferences[j] * backwardDifferences[j] > 0.0)
     {
       const double bvalue = itk::Math::abs(backwardDifferences[j]);
-      double       gvalue = itk::Math::abs(forwardDifferences[j]);
+      double gvalue = itk::Math::abs(forwardDifferences[j]);
       if (gvalue > bvalue)
       {
         gvalue = bvalue;

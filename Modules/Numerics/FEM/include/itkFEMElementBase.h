@@ -398,9 +398,9 @@ public:
    */
   virtual Float
   InterpolateSolutionN(const VectorType & pt,
-                       const Solution &   sol,
-                       unsigned int       f,
-                       unsigned int       solutionIndex = 0) const;
+                       const Solution & sol,
+                       unsigned int f,
+                       unsigned int solutionIndex = 0) const;
 
   /**
    * Convenient way to access IDs of degrees of freedom
@@ -633,7 +633,7 @@ public:
    */
   virtual void
   ShapeFunctionGlobalDerivatives(const VectorType & pt,
-                                 MatrixType &       shapeDgl,
+                                 MatrixType & shapeDgl,
                                  const MatrixType * pJ = nullptr,
                                  const MatrixType * pshapeD = nullptr) const;
 

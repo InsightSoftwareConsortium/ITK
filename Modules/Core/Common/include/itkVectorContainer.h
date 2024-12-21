@@ -273,7 +273,7 @@ public:
     }
 
   private:
-    size_type      m_Pos{};
+    size_type m_Pos{};
     VectorIterator m_Iter{};
     friend class ConstIterator;
   };
@@ -415,7 +415,7 @@ public:
     }
 
   private:
-    size_type           m_Pos{};
+    size_type m_Pos{};
     VectorConstIterator m_Iter{};
     friend class Iterator;
   };

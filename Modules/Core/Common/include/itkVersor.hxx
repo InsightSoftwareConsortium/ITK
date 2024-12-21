@@ -246,7 +246,7 @@ Versor<T>
 Versor<T>::SquareRoot() const
 {
   const ValueType newScalar = std::sqrt(static_cast<double>(1.0 + m_W));
-  const double    sqrtOfTwo = std::sqrt(2.0f);
+  const double sqrtOfTwo = std::sqrt(2.0f);
 
   const double factor = 1.0f / (newScalar * sqrtOfTwo);
 
@@ -485,10 +485,10 @@ namespace
 template <typename InputVectorType, typename ValueType, typename OutputVectorType>
 inline const OutputVectorType
 localTransformVectorMath(const InputVectorType & VectorObject,
-                         const ValueType &       inputX,
-                         const ValueType &       inputY,
-                         const ValueType &       inputZ,
-                         const ValueType &       inputW)
+                         const ValueType & inputX,
+                         const ValueType & inputY,
+                         const ValueType & inputZ,
+                         const ValueType & inputW)
 {
   const ValueType xx = inputX * inputX;
   const ValueType yy = inputY * inputY;

@@ -38,9 +38,9 @@ cvLoadImage(const char * filename, int iscolor)
                                          { CV_16U, IPL_DEPTH_16U }, { CV_16S, IPL_DEPTH_16S },
                                          { CV_32S, IPL_DEPTH_32S }, { CV_32F, IPL_DEPTH_32F },
                                          { CV_64F, IPL_DEPTH_64F } };
-  cv::Mat            mat = cv::imread(filename, iscolor);
-  IplImage *         ipl = cvCreateImage(cvSize(mat.cols, mat.rows), matDepthToIplDepth[mat.depth()], mat.channels());
-  IplImage           iplTemp = cvIplImage(mat);
+  cv::Mat mat = cv::imread(filename, iscolor);
+  IplImage * ipl = cvCreateImage(cvSize(mat.cols, mat.rows), matDepthToIplDepth[mat.depth()], mat.channels());
+  IplImage iplTemp = cvIplImage(mat);
   cvCopy(&iplTemp, ipl);
   return ipl;
 }

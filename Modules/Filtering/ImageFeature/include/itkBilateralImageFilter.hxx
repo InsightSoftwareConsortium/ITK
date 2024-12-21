@@ -72,7 +72,7 @@ BilateralImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 
   // Pad the image by 2.5*sigma in all directions
   typename TInputImage::SizeType radius;
-  unsigned int                   i;
+  unsigned int i;
 
   if (m_AutomaticKernelSize)
   {
@@ -136,7 +136,7 @@ BilateralImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
   const InputImageType * inputImage = this->GetInput();
 
   const typename InputImageType::SpacingType inputSpacing = inputImage->GetSpacing();
-  const typename InputImageType::PointType   inputOrigin = inputImage->GetOrigin();
+  const typename InputImageType::PointType inputOrigin = inputImage->GetOrigin();
 
   if (m_AutomaticKernelSize)
   {
@@ -156,7 +156,7 @@ BilateralImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
     }
   }
 
-  typename GaussianImageSource<GaussianImageType>::Pointer   gaussianImage;
+  typename GaussianImageSource<GaussianImageType>::Pointer gaussianImage;
   typename GaussianImageSource<GaussianImageType>::ArrayType mean;
   typename GaussianImageSource<GaussianImageType>::ArrayType sigma;
 
@@ -180,10 +180,10 @@ BilateralImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
   // copy this small Gaussian image into a neighborhood
   m_GaussianKernel.SetRadius(radius);
 
-  KernelIteratorType                     kernel_it;
+  KernelIteratorType kernel_it;
   ImageRegionIterator<GaussianImageType> git(gaussianImage->GetOutput(),
                                              gaussianImage->GetOutput()->GetBufferedRegion());
-  double                                 norm = 0.0;
+  double norm = 0.0;
   for (git.GoToBegin(); !git.IsAtEnd(); ++git)
   {
     norm += git.Get();
@@ -236,12 +236,12 @@ BilateralImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread)
 {
   const typename TInputImage::ConstPointer input = this->GetInput();
-  const typename TOutputImage::Pointer     output = this->GetOutput();
+  const typename TOutputImage::Pointer output = this->GetOutput();
 
   const double rangeDistanceThreshold = m_DynamicRangeUsed;
 
   // Find the boundary "faces"
-  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>                              fC;
+  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType> fC;
   const typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList =
     fC(this->GetInput(), outputRegionForThread, m_GaussianKernel.GetRadius());
 
@@ -267,7 +267,7 @@ BilateralImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
     while (!b_iter.IsAtEnd())
     {
       // Setup
-      const auto          centerPixel = static_cast<OutputPixelRealType>(b_iter.GetCenterPixel());
+      const auto centerPixel = static_cast<OutputPixelRealType>(b_iter.GetCenterPixel());
       OutputPixelRealType val = 0.0;
       OutputPixelRealType normFactor = 0.0;
 

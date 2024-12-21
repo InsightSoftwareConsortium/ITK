@@ -29,10 +29,10 @@ namespace
 {
 template <typename TImageType>
 int
-itkPhysicalPointImageSourceTest(const std::string &                  fname,
-                                typename TImageType::SizeType &      size,
-                                typename TImageType::SpacingType &   spacing,
-                                typename TImageType::PointType &     origin,
+itkPhysicalPointImageSourceTest(const std::string & fname,
+                                typename TImageType::SizeType & size,
+                                typename TImageType::SpacingType & spacing,
+                                typename TImageType::PointType & origin,
                                 typename TImageType::DirectionType & direction)
 {
 
@@ -100,8 +100,8 @@ itkPhysicalPointImageSourceTest(int argc, char * argv[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(physicalPointImageSource, PhysicalPointImageSource, GenerateImageSource);
 
-  int                  testStatus = EXIT_SUCCESS;
-  auto                 spacing = itk::MakeFilled<ImageType::SpacingType>(1.0);
+  int testStatus = EXIT_SUCCESS;
+  auto spacing = itk::MakeFilled<ImageType::SpacingType>(1.0);
   ImageType::PointType origin{};
   if (std::stoi(argv[2]) == 0)
   {
@@ -123,7 +123,7 @@ itkPhysicalPointImageSourceTest(int argc, char * argv[])
   else
   {
     const itk::SpacePrecisionType theta = (argc >= 4) ? std::stod(argv[3]) : 0;
-    itk::SpacePrecisionType       M[] = { std::cos(theta), -std::sin(theta), std::sin(theta), std::cos(theta) };
+    itk::SpacePrecisionType M[] = { std::cos(theta), -std::sin(theta), std::sin(theta), std::cos(theta) };
 
     direction = vnl_matrix<itk::SpacePrecisionType>(M, 2, 2);
     testStatus = itkPhysicalPointImageSourceTest<itk::VectorImage<float, ImageDimension>>(

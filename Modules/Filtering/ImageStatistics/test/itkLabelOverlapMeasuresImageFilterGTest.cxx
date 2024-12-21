@@ -49,7 +49,7 @@ protected:
     {
       auto image = ImageType::New();
 
-      auto                                 imageSize = ImageType::SizeType::Filled(m_ImageSize);
+      auto imageSize = ImageType::SizeType::Filled(m_ImageSize);
       const typename ImageType::RegionType region(imageSize);
       image->SetRegions(region);
       image->Allocate();

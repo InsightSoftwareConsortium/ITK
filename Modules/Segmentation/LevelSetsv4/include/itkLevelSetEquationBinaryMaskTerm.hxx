@@ -62,7 +62,7 @@ auto
 LevelSetEquationBinaryMaskTerm<TInput, TLevelSetContainer>::Value(const LevelSetInputIndexType & index)
   -> LevelSetOutputRealType
 {
-  const InputPixelType   pixel = this->m_Mask->GetPixel(index);
+  const InputPixelType pixel = this->m_Mask->GetPixel(index);
   LevelSetOutputRealType value;
   if (pixel > 0)
   {
@@ -78,10 +78,10 @@ LevelSetEquationBinaryMaskTerm<TInput, TLevelSetContainer>::Value(const LevelSet
 template <typename TInput, typename TLevelSetContainer>
 auto
 LevelSetEquationBinaryMaskTerm<TInput, TLevelSetContainer>::Value(const LevelSetInputIndexType & index,
-                                                                  const LevelSetDataType &       itkNotUsed(data))
+                                                                  const LevelSetDataType & itkNotUsed(data))
   -> LevelSetOutputRealType
 {
-  const InputPixelType   pixel = this->m_Mask->GetPixel(index);
+  const InputPixelType pixel = this->m_Mask->GetPixel(index);
   LevelSetOutputRealType value;
   if (pixel > 0)
   {

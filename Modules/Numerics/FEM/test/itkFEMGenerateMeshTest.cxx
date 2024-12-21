@@ -37,7 +37,7 @@ itkFEMGenerateMeshTest(int, char *[])
   // Generate3DRectilinearMesh(m_Element,mySolver,MeshOriginV,MeshSizeV,ElementsPerDim);
 
   // Set up the solver object
-  itk::fem::Solver                 S;
+  itk::fem::Solver S;
   itk::fem::LinearSystemWrapperVNL lsw;
 
   S.SetLinearSystemWrapper(&lsw);

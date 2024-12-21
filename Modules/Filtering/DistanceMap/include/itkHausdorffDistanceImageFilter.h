@@ -149,7 +149,7 @@ protected:
 private:
   RealType m_HausdorffDistance{};
   RealType m_AverageHausdorffDistance{};
-  bool     m_UseImageSpacing{ true };
+  bool m_UseImageSpacing{ true };
 }; // end of class
 } // end namespace itk
 

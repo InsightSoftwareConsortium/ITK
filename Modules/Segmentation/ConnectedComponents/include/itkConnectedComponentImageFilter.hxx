@@ -75,7 +75,7 @@ ConnectedComponentImageFilter<TInputImage, TOutputImage, TMaskImage>::GenerateDa
   this->AllocateOutputs();
   this->SetupLineOffsets(false);
   const typename TInputImage::ConstPointer input = this->GetInput();
-  const typename TMaskImage::ConstPointer  mask = this->GetMaskImage();
+  const typename TMaskImage::ConstPointer mask = this->GetMaskImage();
 
   using MaskFilterType = MaskImageFilter<TInputImage, TMaskImage, TInputImage>;
   auto maskFilter = MaskFilterType::New();
@@ -92,7 +92,7 @@ ConnectedComponentImageFilter<TInputImage, TOutputImage, TMaskImage>::GenerateDa
   }
 
   const typename OutputImageType::RegionType & requestedRegion = this->GetOutput()->GetRequestedRegion();
-  const typename OutputImageType::SizeType &   requestedSize = requestedRegion.GetSize();
+  const typename OutputImageType::SizeType & requestedSize = requestedRegion.GetSize();
 
   // set up the vars used in the threads
   const SizeValueType pixelcount = requestedRegion.GetNumberOfPixels();
@@ -167,7 +167,7 @@ ConnectedComponentImageFilter<TInputImage, TOutputImage, TMaskImage>::DynamicThr
   const RegionType & outputRegionForThread)
 {
   const WorkUnitData workUnitData = this->CreateWorkUnitData(outputRegionForThread);
-  SizeValueType      lineId = workUnitData.firstLine;
+  SizeValueType lineId = workUnitData.firstLine;
 
   SizeValueType nbOfLabels = 0;
   for (ImageScanlineConstIterator inLineIt(m_Input, outputRegionForThread); !inLineIt.IsAtEnd(); inLineIt.NextLine())
@@ -221,7 +221,7 @@ ConnectedComponentImageFilter<TInputImage, TOutputImage, TMaskImage>::ThreadedWr
   // make much difference in practice.
   // Note - this is unnecessary if AllocateOutputs initializes to zero
 
-  OutputImageType *                    output = this->GetOutput();
+  OutputImageType * output = this->GetOutput();
   ImageRegionIterator<OutputImageType> oit(output, outputRegionForThread);
   ImageRegionIterator<OutputImageType> fstart = oit;
   ImageRegionIterator<OutputImageType> fend = oit;
@@ -233,7 +233,7 @@ ConnectedComponentImageFilter<TInputImage, TOutputImage, TMaskImage>::ThreadedWr
   {
     for (auto cIt = this->m_LineMap[thisIdx].begin(); cIt != this->m_LineMap[thisIdx].end(); ++cIt)
     {
-      const SizeValueType   Ilab = this->LookupSet(cIt->label);
+      const SizeValueType Ilab = this->LookupSet(cIt->label);
       const OutputPixelType lab = this->m_Consecutive[Ilab];
       oit.SetIndex(cIt->where);
       // initialize the non labelled pixels

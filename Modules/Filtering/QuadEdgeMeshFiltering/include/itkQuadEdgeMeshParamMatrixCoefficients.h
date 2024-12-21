@@ -162,21 +162,21 @@ public:
   {
     const InputPointIdentifier id1 = iEdge->GetOrigin();
     const InputPointIdentifier id2 = iEdge->GetDestination();
-    const InputPointType       pt1 = iMesh->GetPoint(id1);
-    const InputPointType       pt2 = iMesh->GetPoint(id2);
+    const InputPointType pt1 = iMesh->GetPoint(id1);
+    const InputPointType pt2 = iMesh->GetPoint(id2);
 
     InputCoordinateType oValue(0.0);
 
     if (iEdge->IsLeftSet())
     {
       const InputPointIdentifier idA = iEdge->GetLnext()->GetDestination();
-      const InputPointType       ptA = iMesh->GetPoint(idA);
+      const InputPointType ptA = iMesh->GetPoint(idA);
       oValue += TriangleHelper<InputPointType>::Cotangent(pt1, ptA, pt2);
     }
     if (iEdge->IsRightSet())
     {
       const InputPointIdentifier idB = iEdge->GetRnext()->GetOrigin();
-      const InputPointType       ptB = iMesh->GetPoint(idB);
+      const InputPointType ptB = iMesh->GetPoint(idB);
       oValue += TriangleHelper<InputPointType>::Cotangent(pt1, ptB, pt2);
     }
 
@@ -220,24 +220,24 @@ public:
   operator()(const InputMeshType * iMesh, InputQEType * iEdge) const override
   {
     const InputPointIdentifier id1 = iEdge->GetOrigin();
-    const InputPointType       pt1 = iMesh->GetPoint(id1);
+    const InputPointType pt1 = iMesh->GetPoint(id1);
 
     const InputPointIdentifier id2 = iEdge->GetDestination();
-    const InputPointType       pt2 = iMesh->GetPoint(id2);
+    const InputPointType pt2 = iMesh->GetPoint(id2);
 
     InputCoordinateType oValue{};
 
     if (iEdge->IsLeftSet())
     {
       const InputPointIdentifier idA = iEdge->GetLnext()->GetDestination();
-      const InputPointType       ptA = iMesh->GetPoint(idA);
+      const InputPointType ptA = iMesh->GetPoint(idA);
       oValue += TriangleHelper<InputPointType>::Cotangent(pt1, pt2, ptA);
     }
 
     if (iEdge->IsRightSet())
     {
       const InputPointIdentifier idB = iEdge->GetRnext()->GetOrigin();
-      const InputPointType       ptB = iMesh->GetPoint(idB);
+      const InputPointType ptB = iMesh->GetPoint(idB);
       oValue += TriangleHelper<InputPointType>::Cotangent(pt1, pt2, ptB);
     }
 
@@ -275,7 +275,7 @@ public:
   InputCoordinateType
   operator()(const InputMeshType * iMesh, InputQEType * iEdge) const
   {
-    const AuthalicMatrixCoefficients<TInputMesh>  authalic;
+    const AuthalicMatrixCoefficients<TInputMesh> authalic;
     const ConformalMatrixCoefficients<TInputMesh> conformal;
 
     const InputCoordinateType oValue = m_Lambda * conformal(iMesh, iEdge) + (1.0 - m_Lambda) * authalic(iMesh, iEdge);

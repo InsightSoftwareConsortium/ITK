@@ -192,7 +192,7 @@ public:
   /** Compute the equation value. */
   PixelType
   ComputeUpdate(const NeighborhoodType & neighborhood,
-                void *                   globalData,
+                void * globalData,
                 const FloatOffsetType & = FloatOffsetType(0.0)) override;
 
   void
@@ -414,10 +414,10 @@ protected:
 
   unsigned int m_FunctionId{};
 
-  std::slice      x_slice[Self::ImageDimension];
+  std::slice x_slice[Self::ImageDimension];
   OffsetValueType m_Center{};
   OffsetValueType m_xStride[Self::ImageDimension]{};
-  double          m_InvSpacing[Self::ImageDimension]{};
+  double m_InvSpacing[Self::ImageDimension]{};
 
   static double m_WaveDT;
   static double m_DT;

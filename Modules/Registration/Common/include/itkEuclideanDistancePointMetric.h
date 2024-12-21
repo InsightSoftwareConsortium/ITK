@@ -100,8 +100,8 @@ public:
   /**  Get value and derivatives for multiple valued optimizers. */
   void
   GetValueAndDerivative(const TransformParametersType & parameters,
-                        MeasureType &                   value,
-                        DerivativeType &                derivative) const;
+                        MeasureType & value,
+                        DerivativeType & derivative) const;
 
   /** Set/Get the distance map. */
   itkSetConstObjectMacro(DistanceMap, DistanceMapType);
@@ -124,7 +124,7 @@ protected:
 
 private:
   DistanceMapPointer m_DistanceMap{};
-  bool               m_ComputeSquaredDistance{ false };
+  bool m_ComputeSquaredDistance{ false };
 };
 } // end namespace itk
 

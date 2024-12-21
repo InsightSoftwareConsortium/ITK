@@ -36,7 +36,7 @@ CreateImage()
   auto image = ImageType::New();
 
   ImageType::IndexType start;
-  ImageType::SizeType  size;
+  ImageType::SizeType size;
 
   start.Fill(0);
 
@@ -63,9 +63,9 @@ CreateImage()
 static MaskImageType::Pointer
 CreateMaskImage()
 {
-  auto                     image = MaskImageType::New();
+  auto image = MaskImageType::New();
   MaskImageType::IndexType start;
-  MaskImageType::SizeType  size;
+  MaskImageType::SizeType size;
 
   start.Fill(0);
   size.Fill(10);
@@ -75,7 +75,7 @@ CreateMaskImage()
   image->AllocateInitialized();
 
   MaskImageType::IndexType startMask;
-  MaskImageType::SizeType  sizeMask;
+  MaskImageType::SizeType sizeMask;
 
   startMask[0] = 2;
   startMask[1] = 3;
@@ -103,7 +103,7 @@ CreateLargerMaskImage()
   auto image = MaskImageType::New();
 
   MaskImageType::IndexType start;
-  MaskImageType::SizeType  size;
+  MaskImageType::SizeType size;
 
   start[0] = 0;
   start[1] = 0;
@@ -121,14 +121,14 @@ CreateLargerMaskImage()
 int
 itkImageToListSampleFilterTest(int, char *[])
 {
-  const ImageType::Pointer     image = CreateImage();
+  const ImageType::Pointer image = CreateImage();
   const MaskImageType::Pointer maskImage = CreateMaskImage();
 
   // Generate a list sample from "image" confined to the mask, "maskImage".
   using ImageToListSampleFilterType = itk::Statistics::ImageToListSampleFilter<ImageType, MaskImageType>;
   auto filter = ImageToListSampleFilterType::New();
 
-  bool        pass = true;
+  bool pass = true;
   std::string failureMeassage = "";
 
   // Invoke update before adding an input. An exception should be
@@ -187,7 +187,7 @@ itkImageToListSampleFilterTest(int, char *[])
   // Check the sum of the pixels in the list sample. This should
   // be 945
   ListSampleType::ConstIterator lit = list->Begin();
-  unsigned int                  sum = 0;
+  unsigned int sum = 0;
   while (lit != list->End())
   {
     sum += lit.GetMeasurementVector()[0];

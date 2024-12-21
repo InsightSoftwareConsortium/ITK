@@ -133,7 +133,7 @@ main(int argc, char * argv[])
 
 
   const unsigned int numberOfIterations = std::stoi(argv[4]);
-  const double       timeStep = std::stod(argv[5]);
+  const double timeStep = std::stod(argv[5]);
 
 
   //  Software Guide : BeginLatex

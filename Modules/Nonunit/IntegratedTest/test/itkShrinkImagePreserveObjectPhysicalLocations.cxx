@@ -110,14 +110,14 @@ TImageType::PointType
 ComputeCG(TImageType::Pointer img)
 {
   itk::ImageRegionConstIteratorWithIndex<TImageType> it(img, img->GetLargestPossibleRegion());
-  TImageType::PointType                              Cg{};
-  double                                             sumMass = 0.0;
+  TImageType::PointType Cg{};
+  double sumMass = 0.0;
   while (!it.IsAtEnd())
   {
     const double value = it.Value();
     sumMass += value;
     const TImageType::IndexType indexPosition = it.GetIndex();
-    TImageType::PointType       physicalPosition;
+    TImageType::PointType physicalPosition;
     img->TransformIndexToPhysicalPoint(indexPosition, physicalPosition);
 
     for (unsigned int i = 0; i < TImageType::ImageDimension; ++i)
@@ -138,9 +138,9 @@ itkShrinkImagePreserveObjectPhysicalLocations(int, char *[])
 {
 
   /*  Make an image that is 32x32 */
-  TImageType::SizeType    newSize;
+  TImageType::SizeType newSize;
   TImageType::SpacingType newSpacing;
-  TImageType::PointType   newOrigin;
+  TImageType::PointType newOrigin;
 
   for (unsigned int i = 0; i < TImageType::ImageDimension; ++i)
   {
@@ -177,8 +177,8 @@ itkShrinkImagePreserveObjectPhysicalLocations(int, char *[])
   }
 
   const PyramidFilterType::Pointer MyPyramid = MakeTwoLevelPyramid(image);
-  const TImageType::Pointer        ReallySmallImage = MyPyramid->GetOutput(0);
-  const TImageType::Pointer        SmallImage = MyPyramid->GetOutput(1);
+  const TImageType::Pointer ReallySmallImage = MyPyramid->GetOutput(0);
+  const TImageType::Pointer SmallImage = MyPyramid->GetOutput(1);
 
   const itk::ShrinkImageFilter<TImageType, TImageType>::Pointer Shrinkfilter =
     itk::ShrinkImageFilter<TImageType, TImageType>::New();
@@ -213,7 +213,7 @@ itkShrinkImagePreserveObjectPhysicalLocations(int, char *[])
 // #define WriteDebugImaging
 #ifdef WriteDebugImaging
   using WriterType = itk::ImageFileWriter<WImageType>;
-  auto                                                  writer = WriterType::New();
+  auto writer = WriterType::New();
   itk::CastImageFilter<TImageType, WImageType>::Pointer castFilter =
     itk::CastImageFilter<TImageType, WImageType>::New();
 
@@ -257,7 +257,7 @@ itkShrinkImagePreserveObjectPhysicalLocations(int, char *[])
 
   // Known CG=[0,0]
   TImageType::PointType testCG;
-  int                   errorCount = 0;
+  int errorCount = 0;
   {
     TImageType::Pointer test = image;
     std::cout << "\nFullSizeImage...";

@@ -48,7 +48,7 @@ struct FFTWGlobalConfigurationGlobals
     : m_Instance(nullptr) {};
 
   FFTWGlobalConfiguration::Pointer m_Instance;
-  std::mutex                       m_CreationMutex;
+  std::mutex m_CreationMutex;
 };
 
 WisdomFilenameGeneratorBase::WisdomFilenameGeneratorBase() = default;
@@ -423,7 +423,7 @@ FFTWGlobalConfiguration::FFTWGlobalConfiguration()
     // If the environmental variable is set, then use it, else
     // use the requested directory
     std::string envSetPath;
-    const bool  WisdomCacheBaseEnvSet = itksys::SystemTools::GetEnv("ITK_FFTW_WISDOM_CACHE_BASE", envSetPath);
+    const bool WisdomCacheBaseEnvSet = itksys::SystemTools::GetEnv("ITK_FFTW_WISDOM_CACHE_BASE", envSetPath);
     if (WisdomCacheBaseEnvSet) // The environment variable overrides application settings.
     {
       this->m_WisdomCacheBase = envSetPath;
@@ -442,7 +442,7 @@ FFTWGlobalConfiguration::FFTWGlobalConfiguration()
     // Default library behavior should be to NOT write
     // cache files in the default home account
     std::string auto_import_env;
-    const bool  envITK_FFTW_WRITE_WISDOM_CACHEfound =
+    const bool envITK_FFTW_WRITE_WISDOM_CACHEfound =
       itksys::SystemTools::GetEnv("ITK_FFTW_WRITE_WISDOM_CACHE", auto_import_env);
     if (envITK_FFTW_WRITE_WISDOM_CACHEfound && isDeclineString(auto_import_env))
     {
@@ -457,7 +457,7 @@ FFTWGlobalConfiguration::FFTWGlobalConfiguration()
     // Default library behavior should be to NOT write
     // cache files in the default home account
     std::string auto_import_env;
-    const bool  envITK_FFTW_READ_WISDOM_CACHEfound =
+    const bool envITK_FFTW_READ_WISDOM_CACHEfound =
       itksys::SystemTools::GetEnv("ITK_FFTW_READ_WISDOM_CACHE", auto_import_env);
     if (envITK_FFTW_READ_WISDOM_CACHEfound && isDeclineString(auto_import_env))
     {
@@ -597,7 +597,7 @@ FFTWGlobalConfiguration::ImportWisdomFileFloat(const std::string &
 #  if defined(ITK_USE_FFTWF)
 #    ifdef _WIN32
   FILE * f;
-  int    fd;
+  int fd;
   if (!_sopen_s(&fd, path.c_str(), _O_RDONLY, _SH_DENYNO, _S_IREAD))
   {
     if ((f = _fdopen(fd, "r")) != nullptr)
@@ -631,7 +631,7 @@ FFTWGlobalConfiguration::ImportWisdomFileDouble(const std::string &
 #  if defined(ITK_USE_FFTWD)
 #    ifdef _WIN32
   FILE * f;
-  int    fd;
+  int fd;
   if (!_sopen_s(&fd, path.c_str(), _O_RDONLY, _SH_DENYNO, _S_IREAD))
   {
     if ((f = _fdopen(fd, "r")) != nullptr)
@@ -707,7 +707,7 @@ FFTWGlobalConfiguration::ExportWisdomFileDouble(const std::string &
 #  if defined(ITK_USE_FFTWD)
 #    ifdef _WIN32
   FILE * f;
-  int    fd;
+  int fd;
   if (!_sopen_s(&fd, path.c_str(), _O_RDONLY, _SH_DENYNO, _S_IREAD))
   {
     if ((f = _fdopen(fd, "r")) != nullptr)

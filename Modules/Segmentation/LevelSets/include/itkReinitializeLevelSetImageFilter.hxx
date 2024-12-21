@@ -134,15 +134,15 @@ void
 ReinitializeLevelSetImageFilter<TLevelSet>::GenerateDataFull()
 {
   const LevelSetConstPointer inputPtr = this->GetInput();
-  const LevelSetPointer      outputPtr = this->GetOutput();
-  const LevelSetPointer      tempLevelSet = m_Marcher->GetOutput();
+  const LevelSetPointer outputPtr = this->GetOutput();
+  const LevelSetPointer tempLevelSet = m_Marcher->GetOutput();
 
   // define iterators
   using IteratorType = ImageRegionIterator<LevelSetImageType>;
   using ConstIteratorType = ImageRegionConstIterator<LevelSetImageType>;
 
   ConstIteratorType inputIt(inputPtr, inputPtr->GetBufferedRegion());
-  IteratorType      outputIt(outputPtr, outputPtr->GetBufferedRegion());
+  IteratorType outputIt(outputPtr, outputPtr->GetBufferedRegion());
 
   IteratorType tempIt;
 
@@ -206,8 +206,8 @@ void
 ReinitializeLevelSetImageFilter<TLevelSet>::GenerateDataNarrowBand()
 {
   const LevelSetConstPointer inputPtr = this->GetInput();
-  const LevelSetPointer      outputPtr = this->GetOutput();
-  const LevelSetPointer      tempLevelSet = m_Marcher->GetOutput();
+  const LevelSetPointer outputPtr = this->GetOutput();
+  const LevelSetPointer tempLevelSet = m_Marcher->GetOutput();
 
   // define iterators
   using IteratorType = ImageRegionIterator<LevelSetImageType>;
@@ -282,7 +282,7 @@ ReinitializeLevelSetImageFilter<TLevelSet>::GenerateDataNarrowBand()
   pointsIt = procPoints->Begin();
   pointsEnd = procPoints->End();
 
-  NodeType  node;
+  NodeType node;
   PixelType inPixel;
 
   for (; pointsIt != pointsEnd; ++pointsIt)

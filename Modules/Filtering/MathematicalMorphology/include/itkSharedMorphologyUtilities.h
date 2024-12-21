@@ -29,34 +29,34 @@ NeedToDoFace(const TRegion AllImage, const TRegion face, const TLine line);
 
 template <typename TImage, typename TBres, typename TLine>
 int
-ComputeStartEnd(const typename TImage::IndexType  StartIndex,
-                const TLine                       line,
-                const float                       tol,
+ComputeStartEnd(const typename TImage::IndexType StartIndex,
+                const TLine line,
+                const float tol,
                 const typename TBres::OffsetArray LineOffsets,
                 const typename TImage::RegionType AllImage,
-                unsigned int &                    start,
-                unsigned int &                    end);
+                unsigned int & start,
+                unsigned int & end);
 
 template <typename TImage, typename TBres, typename TLine>
 int
-FillLineBuffer(typename TImage::ConstPointer             input,
-               const typename TImage::IndexType          StartIndex,
-               const TLine                               line,
-               const float                               tol,
-               const typename TBres::OffsetArray         LineOffsets,
-               const typename TImage::RegionType         AllImage,
+FillLineBuffer(typename TImage::ConstPointer input,
+               const typename TImage::IndexType StartIndex,
+               const TLine line,
+               const float tol,
+               const typename TBres::OffsetArray LineOffsets,
+               const typename TImage::RegionType AllImage,
                std::vector<typename TImage::PixelType> & inbuffer,
-               unsigned int &                            start,
-               unsigned int &                            end);
+               unsigned int & start,
+               unsigned int & end);
 
 template <typename TImage, typename TBres>
 void
-CopyLineToImage(const typename TImage::Pointer            output,
-                const typename TImage::IndexType          StartIndex,
-                const typename TBres::OffsetArray         LineOffsets,
+CopyLineToImage(const typename TImage::Pointer output,
+                const typename TImage::IndexType StartIndex,
+                const typename TBres::OffsetArray LineOffsets,
                 std::vector<typename TImage::PixelType> & outbuffer,
-                const unsigned int                        start,
-                const unsigned int                        end);
+                const unsigned int start,
+                const unsigned int end);
 
 // This returns a face with a normal between +/- 45 degrees of the
 // line. The face is enlarged so that AllImage is entirely filled by

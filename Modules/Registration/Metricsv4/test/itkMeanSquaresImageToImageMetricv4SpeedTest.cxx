@@ -39,9 +39,9 @@ itkMeanSquaresImageToImageMetricv4SpeedTest(int argc, char * argv[])
   constexpr unsigned int imageDimensionality = 3;
   using ImageType = itk::Image<double, imageDimensionality>;
 
-  auto                           size = ImageType::SizeType::Filled(imageSize);
+  auto size = ImageType::SizeType::Filled(imageSize);
   constexpr ImageType::IndexType index{};
-  const ImageType::RegionType    region{ index, size };
+  const ImageType::RegionType region{ index, size };
 
   /* Create simple test images. */
   auto fixedImage = ImageType::New();
@@ -103,7 +103,7 @@ itkMeanSquaresImageToImageMetricv4SpeedTest(int argc, char * argv[])
   metric->Initialize();
 
   // Evaluate with GetValueAndDerivative
-  MetricType::MeasureType    valueReturn1;
+  MetricType::MeasureType valueReturn1;
   MetricType::DerivativeType derivativeReturn;
 
   MetricType::MeasureType sum{};

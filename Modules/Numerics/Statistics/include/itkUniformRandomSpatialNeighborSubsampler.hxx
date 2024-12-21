@@ -54,7 +54,7 @@ UniformRandomSpatialNeighborSubsampler<TSample, TRegion>::InternalClone() const
 template <typename TSample, typename TRegion>
 void
 UniformRandomSpatialNeighborSubsampler<TSample, TRegion>::Search(const InstanceIdentifier & query,
-                                                                 SubsamplePointer &         results)
+                                                                 SubsamplePointer & results)
 {
   if (!this->m_RadiusInitialized)
   {
@@ -76,9 +76,9 @@ UniformRandomSpatialNeighborSubsampler<TSample, TRegion>::Search(const InstanceI
   IndexType searchEndIndex;
 
   IndexType constraintIndex = this->m_RegionConstraint.GetIndex();
-  SizeType  constraintSize = this->m_RegionConstraint.GetSize();
+  SizeType constraintSize = this->m_RegionConstraint.GetSize();
 
-  IndexType                            queryIndex;
+  IndexType queryIndex;
   typename RegionType::OffsetTableType offsetTable;
   this->m_SampleRegion.ComputeOffsetTable(offsetTable);
   ImageHelperType::ComputeIndex(this->m_SampleRegion.GetIndex(), query, offsetTable, queryIndex);
@@ -123,7 +123,7 @@ UniformRandomSpatialNeighborSubsampler<TSample, TRegion>::Search(const InstanceI
 
   unsigned int pointsFound = 0;
 
-  const std::set<InstanceIdentifier>   usedIds;
+  const std::set<InstanceIdentifier> usedIds;
   typename RegionType::OffsetValueType offset;
 
   // The trouble with decoupling the region from the sample is that

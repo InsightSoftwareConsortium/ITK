@@ -147,7 +147,7 @@ protected:
 
 private:
   SizeValueType m_MaximumSmoothingIterations{ 1000 };
-  bool          m_UseInterMode{ true };
+  bool m_UseInterMode{ true };
 };
 
 } // end namespace itk

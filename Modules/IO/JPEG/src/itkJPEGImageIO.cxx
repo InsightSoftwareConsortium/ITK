@@ -32,8 +32,8 @@
 // can longjmp out of the jpeg library
 struct itk_jpeg_error_mgr
 {
-  struct jpeg_error_mgr pub;           /* "public" fields */
-  jmp_buf               setjmp_buffer; /* for return to caller */
+  struct jpeg_error_mgr pub; /* "public" fields */
+  jmp_buf setjmp_buffer;     /* for return to caller */
 };
 
 extern "C"
@@ -112,7 +112,7 @@ JPEGImageIO::CanReadFile(const char * file)
 
   // read the first two bytes
   unsigned char magic[2];
-  auto          n = static_cast<int>(fread(magic, sizeof(magic), 1, JPEGfp.m_FilePointer));
+  auto n = static_cast<int>(fread(magic, sizeof(magic), 1, JPEGfp.m_FilePointer));
   if (n != 1)
   {
     return false;
@@ -127,7 +127,7 @@ JPEGImageIO::CanReadFile(const char * file)
   // go back to the start of the file
   fseek(JPEGfp.m_FilePointer, 0, SEEK_SET);
   // magic number is ok, try and read the header
-  struct itk_jpeg_error_mgr     jerr;
+  struct itk_jpeg_error_mgr jerr;
   struct jpeg_decompress_struct cinfo;
   cinfo.err = jpeg_std_error(&jerr.pub);
   // for any jpeg error call itk_jpeg_error_exit
@@ -162,7 +162,7 @@ JPEGImageIO::Read(void * buffer)
 {
   // use this class so return will call close
   const JPEGFileWrapper JPEGfp(this->GetFileName(), "rb");
-  FILE *                fp = JPEGfp.m_FilePointer;
+  FILE * fp = JPEGfp.m_FilePointer;
   if (!fp)
   {
     itkExceptionMacro("Error JPEGImageIO could not open file: " << this->GetFileName() << std::endl
@@ -172,7 +172,7 @@ JPEGImageIO::Read(void * buffer)
 
   // create jpeg decompression object and error handler
   struct jpeg_decompress_struct cinfo;
-  struct itk_jpeg_error_mgr     jerr;
+  struct itk_jpeg_error_mgr jerr;
 
   cinfo.err = jpeg_std_error(&jerr.pub);
   // for any jpeg error call itk_jpeg_error_exit
@@ -205,7 +205,7 @@ JPEGImageIO::Read(void * buffer)
 
   {
     const auto rowbytes = cinfo.output_width * this->GetNumberOfComponents();
-    auto *     tempImage = static_cast<JSAMPLE *>(buffer);
+    auto * tempImage = static_cast<JSAMPLE *>(buffer);
     for (size_t ui = 0; ui < cinfo.output_height; ++ui)
     {
       row_pointers[ui] = tempImage + rowbytes * ui;
@@ -335,7 +335,7 @@ JPEGImageIO::ReadImageInformation()
 
   // use this class so return will call close
   const JPEGFileWrapper JPEGfp(m_FileName.c_str(), "rb");
-  FILE *                fp = JPEGfp.m_FilePointer;
+  FILE * fp = JPEGfp.m_FilePointer;
   if (!fp)
   {
     itkExceptionMacro("Error JPEGImageIO could not open file: " << this->GetFileName() << std::endl
@@ -345,7 +345,7 @@ JPEGImageIO::ReadImageInformation()
 
   // create jpeg decompression object and error handler
   struct jpeg_decompress_struct cinfo;
-  struct itk_jpeg_error_mgr     jerr;
+  struct itk_jpeg_error_mgr jerr;
 
   cinfo.err = jpeg_std_error(&jerr.pub);
   jerr.pub.error_exit = itk_jpeg_error_exit;
@@ -468,7 +468,7 @@ JPEGImageIO::WriteSlice(const std::string & fileName, const void * const buffer)
 {
   // use this class so return will call close
   const JPEGFileWrapper JPEGfp(fileName.c_str(), "wb");
-  FILE *                fp = JPEGfp.m_FilePointer;
+  FILE * fp = JPEGfp.m_FilePointer;
   if (!fp)
   {
     itkExceptionMacro("Unable to open file " << fileName << " for writing." << std::endl
@@ -490,7 +490,7 @@ JPEGImageIO::WriteSlice(const std::string & fileName, const void * const buffer)
 
   auto * volatile row_pointers = new JSAMPROW[height];
 
-  struct itk_jpeg_error_mgr   jerr;
+  struct itk_jpeg_error_mgr jerr;
   struct jpeg_compress_struct cinfo;
   cinfo.err = jpeg_std_error(&jerr.pub);
 
@@ -566,7 +566,7 @@ JPEGImageIO::WriteSlice(const std::string & fileName, const void * const buffer)
 
   {
     const auto * ptr = static_cast<const JSAMPLE *>(buffer);
-    const auto   rowbytes = num_comp * width;
+    const auto rowbytes = num_comp * width;
     for (size_t ui = 0; ui < height; ++ui)
     {
       row_pointers[ui] = const_cast<JSAMPLE *>(ptr) + rowbytes * ui;

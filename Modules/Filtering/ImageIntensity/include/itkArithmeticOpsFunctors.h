@@ -193,7 +193,7 @@ public:
     return static_cast<TOutput>(n) / static_cast<TOutput>(d);
   }
   TDenominator m_Threshold;
-  TOutput      m_Constant;
+  TOutput m_Constant;
 };
 
 

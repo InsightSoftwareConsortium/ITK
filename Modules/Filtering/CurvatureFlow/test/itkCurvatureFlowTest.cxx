@@ -148,9 +148,9 @@ itkCurvatureFlowTest(int argc, char * argv[])
     std::cout << "Test when wrong function type." << std::endl;
     using FunctionType = itk::DummyFunction<ImageType>;
     filter = FilterType::New();
-    auto                        function = FunctionType::New();
-    auto                        dummy = ImageType::New();
-    auto                        size = ImageType::SizeType::Filled(3);
+    auto function = FunctionType::New();
+    auto dummy = ImageType::New();
+    auto size = ImageType::SizeType::Filled(3);
     const ImageType::RegionType region(size);
     dummy->SetRegions(region);
     dummy->Allocate();
@@ -190,7 +190,7 @@ itkCurvatureFlowTest(int argc, char * argv[])
   denoiser->SetTimeStep(0.05);
   denoiser->SetNumberOfIterations(8);
 
-  ShowProgressObject                                          progressWatch(denoiser);
+  ShowProgressObject progressWatch(denoiser);
   const itk::SimpleMemberCommand<ShowProgressObject>::Pointer command =
     itk::SimpleMemberCommand<ShowProgressObject>::New();
   command->SetCallbackFunction(&progressWatch, &ShowProgressObject::ShowProgress);
@@ -219,7 +219,7 @@ itkCurvatureFlowTest(int argc, char * argv[])
   IteratorType it1(denoiser->GetOutput(), denoiser->GetOutput()->GetBufferedRegion());
   IteratorType it2(streamer->GetOutput(), streamer->GetOutput()->GetBufferedRegion());
 
-  bool         testPass = true;
+  bool testPass = true;
   unsigned int failedPixels = 0;
   while (!it1.IsAtEnd())
   {

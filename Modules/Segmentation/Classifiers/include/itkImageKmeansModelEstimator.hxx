@@ -352,7 +352,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::WithCodebookUseGLA(
       for (unsigned int n = 0; n < m_CurrentNumberOfCodewords - emptycells; ++n)
       {
         double tempdistortion = 0.0;
-        int    bestcodeword = 0;
+        int bestcodeword = 0;
         for (unsigned int i = 0; i < m_NumberOfCodewords; ++i)
         {
           if ((m_CodewordDistortion[i][0] >= tempdistortion) && (m_CodewordHistogram[i][0] > 0))
@@ -411,7 +411,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::NearestNeighborSear
 
   // Declare the iterators for the image and the codebook
   const InputImageConstPointer inputImage = this->GetInputImage();
-  InputImageConstIterator      inputImageIt(inputImage, inputImage->GetBufferedRegion());
+  InputImageConstIterator inputImageIt(inputImage, inputImage->GetBufferedRegion());
   inputImageIt.GoToBegin();
 
   // Calculate the number of vectors in the input data set
@@ -432,7 +432,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::NearestNeighborSear
   {
     // Keep convention that ties go to lower index
     double bestdistortion = m_DoubleMaximum;
-    int    bestcodeword = 0;
+    int bestcodeword = 0;
 
     for (unsigned int i = 0; i < m_CurrentNumberOfCodewords; ++i)
     {
@@ -536,7 +536,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::SplitCodewords(int 
 template <typename TInputImage, typename TMembershipFunction>
 void
 ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::Perturb(double * oldCodeword,
-                                                                     int      scale,
+                                                                     int scale,
                                                                      double * newCodeword)
 {
   const double addoffset = m_OffsetAdd / std::pow(2.0, static_cast<double>(scale));

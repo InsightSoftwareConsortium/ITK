@@ -54,7 +54,7 @@ HoughTransform2DLinesImageFilter<TInputPixelType, TOutputPixelType>::GenerateOut
 
   // Get pointers to the input and output
   const InputImageConstPointer input = this->GetInput();
-  const OutputImagePointer     output = this->GetOutput();
+  const OutputImagePointer output = this->GetOutput();
 
   if (!input || !output)
   {
@@ -93,7 +93,7 @@ HoughTransform2DLinesImageFilter<TInputPixelType, TOutputPixelType>::GenerateDat
 {
   // Get the input and output pointers
   const InputImageConstPointer inputImage = this->GetInput(0);
-  const OutputImagePointer     outputImage = this->GetOutput(0);
+  const OutputImagePointer outputImage = this->GetOutput(0);
 
   // Allocate the output
   this->AllocateOutputs();
@@ -137,7 +137,7 @@ HoughTransform2DLinesImageFilter<TInputPixelType, TOutputPixelType>::Simplify()
 {
   // Get the input and output pointers.
   const InputImageConstPointer inputImage = this->GetInput(0);
-  const OutputImagePointer     outputImage = this->GetOutput(0);
+  const OutputImagePointer outputImage = this->GetOutput(0);
 
   if (!inputImage || !outputImage)
   {
@@ -198,7 +198,7 @@ HoughTransform2DLinesImageFilter<TInputPixelType, TOutputPixelType>::Simplify()
 
   ImageRegionConstIteratorWithIndex<OutputImageType> accusimple_it(m_SimplifyAccumulator,
                                                                    m_SimplifyAccumulator->GetRequestedRegion());
-  ImageRegionIteratorWithIndex<OutputImageType>      accu_it(outputImage, outputImage->GetRequestedRegion());
+  ImageRegionIteratorWithIndex<OutputImageType> accu_it(outputImage, outputImage->GetRequestedRegion());
 
   while (!accusimple_it.IsAtEnd())
   {
@@ -250,7 +250,7 @@ HoughTransform2DLinesImageFilter<TInputPixelType, TOutputPixelType>::GetLines() 
     const InternalImageType::Pointer postProcessImage = gaussianFilter->GetOutput();
 
     using MinMaxCalculatorType = MinimumMaximumImageCalculator<InternalImageType>;
-    auto                                        minMaxCalculator = MinMaxCalculatorType::New();
+    auto minMaxCalculator = MinMaxCalculatorType::New();
     itk::ImageRegionIterator<InternalImageType> it_input(postProcessImage,
                                                          postProcessImage->GetLargestPossibleRegion());
 
@@ -287,8 +287,8 @@ HoughTransform2DLinesImageFilter<TInputPixelType, TOutputPixelType>::GetLines() 
           const double Vx = radius * std::cos(teta);
           const double Vy = radius * std::sin(teta);
           const double norm = std::sqrt(Vx * Vx + Vy * Vy);
-          double       VxNorm = Vx / norm;
-          double       VyNorm = Vy / norm;
+          double VxNorm = Vx / norm;
+          double VyNorm = Vy / norm;
 
           if (teta <= 0 || teta >= Math::pi / 2)
           {
@@ -368,7 +368,7 @@ HoughTransform2DLinesImageFilter<TInputPixelType, TOutputPixelType>::PrintSelf(s
 
   os << indent << "LinesList: " << std::endl;
   unsigned int i = 0;
-  auto         it = m_LinesList.begin();
+  auto it = m_LinesList.begin();
   while (it != m_LinesList.end())
   {
     os << indent << '[' << i << "]: " << *it << std::endl;

@@ -42,9 +42,9 @@
 template <typename TImage, typename TInterpolator>
 int
 TestMattesMetricWithAffineTransform(TInterpolator * interpolator,
-                                    bool            useSampling,
-                                    bool            useExplicitJointPDFDerivatives,
-                                    bool            useCachingBSplineWeights)
+                                    bool useSampling,
+                                    bool useExplicitJointPDFDerivatives,
+                                    bool useCachingBSplineWeights)
 {
 
   //------------------------------------------------------------
@@ -59,8 +59,8 @@ TestMattesMetricWithAffineTransform(TInterpolator * interpolator,
     ImageDimension = MovingImageType::ImageDimension
   };
 
-  typename MovingImageType::SizeType   size = { { 100, 100 } };
-  typename MovingImageType::IndexType  index = { { 0, 0 } };
+  typename MovingImageType::SizeType size = { { 100, 100 } };
+  typename MovingImageType::IndexType index = { { 0, 0 } };
   typename MovingImageType::RegionType region{ index, size };
 
   typename MovingImageType::SpacingType imgSpacing;
@@ -93,7 +93,7 @@ TestMattesMetricWithAffineTransform(TInterpolator * interpolator,
 
   const double s = static_cast<double>(region.GetSize()[0]) / 2.0;
 
-  itk::Point<double, 2>  p;
+  itk::Point<double, 2> p;
   itk::Vector<double, 2> d;
 
   // Set the displacement
@@ -102,7 +102,7 @@ TestMattesMetricWithAffineTransform(TInterpolator * interpolator,
   displacement[1] = 5;
 
   ReferenceIteratorType ri(imgMoving, region);
-  TargetIteratorType    ti(imgFixed, region);
+  TargetIteratorType ti(imgFixed, region);
   ri.GoToBegin();
   while (!ri.IsAtEnd())
   {
@@ -154,7 +154,7 @@ TestMattesMetricWithAffineTransform(TInterpolator * interpolator,
     }
 
     {
-      int                count = 0;
+      int count = 0;
       TargetIteratorType ti1(imgFixedMask, region);
       ti1.GoToBegin();
       while (!ti1.IsAtEnd()) // Set a subset of fixed mask voxels to 1, so that requested number can be made more than
@@ -301,7 +301,7 @@ TestMattesMetricWithAffineTransform(TInterpolator * interpolator,
   // Set up an affine transform parameters
   //------------------------------------------------------------
   const unsigned int numberOfParameters = transformer->GetNumberOfParameters();
-  ParametersType     parameters(numberOfParameters);
+  ParametersType parameters(numberOfParameters);
 
   // set the parameters to the identity
   unsigned long count = 0;
@@ -355,8 +355,8 @@ TestMattesMetricWithAffineTransform(TInterpolator * interpolator,
   parameters[4] = 0;
   metric->GetValueAndDerivative(parameters, measure, derivative);
 
-  ParametersType                   parametersPlus(numberOfParameters);
-  ParametersType                   parametersMinus(numberOfParameters);
+  ParametersType parametersPlus(numberOfParameters);
+  ParametersType parametersMinus(numberOfParameters);
   typename MetricType::MeasureType measurePlus;
   typename MetricType::MeasureType measureMinus;
 
@@ -441,9 +441,9 @@ TestMattesMetricWithAffineTransform(TInterpolator * interpolator,
 template <typename TImage, typename TInterpolator>
 int
 TestMattesMetricWithBSplineTransform(TInterpolator * interpolator,
-                                     bool            useSampling,
-                                     bool            useExplicitJointPDFDerivatives,
-                                     bool            useCachingBSplineWeights)
+                                     bool useSampling,
+                                     bool useExplicitJointPDFDerivatives,
+                                     bool useCachingBSplineWeights)
 {
 
   //------------------------------------------------------------
@@ -458,8 +458,8 @@ TestMattesMetricWithBSplineTransform(TInterpolator * interpolator,
     ImageDimension = MovingImageType::ImageDimension
   };
 
-  const typename MovingImageType::SizeType   size = { { 100, 100 } };
-  const typename MovingImageType::IndexType  index = { { 0, 0 } };
+  const typename MovingImageType::SizeType size = { { 100, 100 } };
+  const typename MovingImageType::IndexType index = { { 0, 0 } };
   const typename MovingImageType::RegionType region{ index, size };
 
   typename MovingImageType::SpacingType imgSpacing;
@@ -492,7 +492,7 @@ TestMattesMetricWithBSplineTransform(TInterpolator * interpolator,
 
   const double s = static_cast<double>(region.GetSize()[0]) / 2.0;
 
-  itk::Point<double, 2>  p;
+  itk::Point<double, 2> p;
   itk::Vector<double, 2> d;
 
   // Set the displacement
@@ -501,7 +501,7 @@ TestMattesMetricWithBSplineTransform(TInterpolator * interpolator,
   displacement[1] = 5;
 
   ReferenceIteratorType ri(imgMoving, region);
-  TargetIteratorType    ti(imgFixed, region);
+  TargetIteratorType ti(imgFixed, region);
   ri.GoToBegin();
   while (!ri.IsAtEnd())
   {
@@ -591,7 +591,7 @@ TestMattesMetricWithBSplineTransform(TInterpolator * interpolator,
   // Set up a B-spline deformable transform parameters
   //------------------------------------------------------------
   const unsigned int numberOfParameters = transformer->GetNumberOfParameters();
-  ParametersType     parameters(numberOfParameters);
+  ParametersType parameters(numberOfParameters);
   parameters.Fill(0.0);
 
   //---------------------------------------------------------
@@ -600,7 +600,7 @@ TestMattesMetricWithBSplineTransform(TInterpolator * interpolator,
   //---------------------------------------------------------
 
   typename MetricType::DerivativeType derivative(numberOfParameters);
-  const unsigned int                  q = numberOfParameters / 4;
+  const unsigned int q = numberOfParameters / 4;
 
   std::cout << "q = " << q << std::endl;
   std::cout << "param[q]\tMI\tMI2\tdMI/dparam[q]" << std::endl;
@@ -627,8 +627,8 @@ TestMattesMetricWithBSplineTransform(TInterpolator * interpolator,
     typename MetricType::MeasureType measure;
     metric->GetValueAndDerivative(parameters, measure, derivative);
   }
-  ParametersType                   parametersPlus(numberOfParameters);
-  ParametersType                   parametersMinus(numberOfParameters);
+  ParametersType parametersPlus(numberOfParameters);
+  ParametersType parametersMinus(numberOfParameters);
   typename MetricType::MeasureType measurePlus;
   typename MetricType::MeasureType measureMinus;
 

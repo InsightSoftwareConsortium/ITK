@@ -105,8 +105,8 @@ main(int argc, char * argv[])
   using LandmarkContainerType = FilterType::LandmarkContainer;
   using LandmarkPointType = FilterType::LandmarkPointType;
 
-  auto          sourceLandmarks = LandmarkContainerType::New();
-  auto          targetLandmarks = LandmarkContainerType::New();
+  auto sourceLandmarks = LandmarkContainerType::New();
+  auto targetLandmarks = LandmarkContainerType::New();
   std::ifstream pointsFile;
   pointsFile.open(argv[1]);
 

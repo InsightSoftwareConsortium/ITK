@@ -158,8 +158,8 @@ public:
    * pixel that does not lie on a data set boundary. */
   PixelType
   ComputeUpdate(const NeighborhoodType & neighborhood,
-                void *                   globalData,
-                const FloatOffsetType &  offset = FloatOffsetType(0.0)) override;
+                void * globalData,
+                const FloatOffsetType & offset = FloatOffsetType(0.0)) override;
 
   void
   SetMinNorm(float ts = 1.0)
@@ -194,7 +194,7 @@ private:
   TimeStepType m_TimeStep{};
 
   SpacingType m_FixedImageSpacing{};
-  PointType   m_FixedImageOrigin{};
+  PointType m_FixedImageOrigin{};
 
   GradientCalculatorPointer m_FixedImageGradientCalculator{};
   GradientCalculatorPointer m_MovingImageGradientCalculator{};
@@ -211,7 +211,7 @@ private:
 
   unsigned int m_NumberOfSamples{ 1 };
   unsigned int m_NumberOfBins{ 4 };
-  float        m_Minnorm{ 1.0 };
+  float m_Minnorm{ 1.0 };
 
   bool m_DoInverse{ false };
 };

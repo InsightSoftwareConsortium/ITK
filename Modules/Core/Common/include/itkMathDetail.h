@@ -494,8 +494,8 @@ union FloatIEEE
   using UIntType = typename FloatIEEETraits<T>::UIntType;
 
   FloatType asFloat;
-  IntType   asInt;
-  UIntType  asUInt;
+  IntType asInt;
+  UIntType asUInt;
 
   FloatIEEE(FloatType f)
     : asFloat(f)

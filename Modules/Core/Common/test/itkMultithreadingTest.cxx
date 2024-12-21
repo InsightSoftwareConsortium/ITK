@@ -24,7 +24,7 @@
 namespace
 {
 std::shared_ptr<std::mutex> sharedMutex;
-bool                        debugPrint = false;
+bool debugPrint = false;
 } // namespace
 
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
@@ -43,8 +43,8 @@ execute(void * ptr)
   sharedMutex->unlock();
 
   constexpr int n = 10;
-  const int     m = *data;
-  double        sum = 1.0;
+  const int m = *data;
+  double sum = 1.0;
 
   for (int j = 0; j < m; ++j)
   {
@@ -82,9 +82,9 @@ itkMultithreadingTest(int argc, char * argv[])
   {
     return EXIT_FAILURE;
   }
-  const itk::TimeProbe                timeProbe;
+  const itk::TimeProbe timeProbe;
   const itk::TimeProbe::TimeStampType startTime = timeProbe.GetInstantValue();
-  int                                 data = 123;
+  int data = 123;
   for (int i = 0; i < count; ++i)
   {
     threader->SetSingleMethod(&execute, &data);

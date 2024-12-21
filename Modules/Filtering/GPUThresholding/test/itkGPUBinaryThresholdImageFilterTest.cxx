@@ -62,14 +62,14 @@ runGPUBinaryThresholdImageFilterTest(const std::string & inFile, const std::stri
   using GPUThresholdFilterType = itk::GPUBinaryThresholdImageFilter<InputImageType, OutputImageType>;
 
   // threshold parameters
-  constexpr InputPixelType  upperThreshold = 255;
-  constexpr InputPixelType  lowerThreshold = 175;
+  constexpr InputPixelType upperThreshold = 255;
+  constexpr InputPixelType lowerThreshold = 175;
   constexpr OutputPixelType outsideValue = 0;
   constexpr OutputPixelType insideValue = 255;
 
   for (int numberOfWorkUnits = 1; numberOfWorkUnits <= 8; ++numberOfWorkUnits)
   {
-    auto           CPUFilter = ThresholdFilterType::New();
+    auto CPUFilter = ThresholdFilterType::New();
     itk::TimeProbe cputimer;
     cputimer.Start();
 
@@ -115,8 +115,8 @@ runGPUBinaryThresholdImageFilterTest(const std::string & inFile, const std::stri
       // RMS Error check
       // ---------------
 
-      double                                    diff = 0;
-      unsigned int                              nPix = 0;
+      double diff = 0;
+      unsigned int nPix = 0;
       itk::ImageRegionIterator<OutputImageType> cit(CPUFilter->GetOutput(),
                                                     CPUFilter->GetOutput()->GetLargestPossibleRegion());
       itk::ImageRegionIterator<OutputImageType> git(GPUFilter->GetOutput(),

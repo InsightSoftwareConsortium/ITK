@@ -48,8 +48,8 @@ template <typename TInputImage, typename TKernelImage, typename TOutputImage, ty
 void
 IterativeDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrecision>::Initialize(
   ProgressAccumulator * progress,
-  float                 progressWeight,
-  float                 itkNotUsed(iterationProgressWeight))
+  float progressWeight,
+  float itkNotUsed(iterationProgressWeight))
 {
   // Generate an estimate if there is none or if the input has changed.
   if (!this->m_CurrentEstimate || m_InputMTime != this->GetInput()->GetMTime())
@@ -75,7 +75,7 @@ template <typename TInputImage, typename TKernelImage, typename TOutputImage, ty
 void
 IterativeDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrecision>::Finish(
   ProgressAccumulator * progress,
-  float                 progressWeight)
+  float progressWeight)
 {
   this->CropOutput(m_CurrentEstimate, progress, progressWeight);
 
@@ -113,7 +113,7 @@ IterativeDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInte
   progress->SetMiniPipelineFilter(this);
 
   const typename Superclass::InputImageConstPointer inputPtr = this->GetInput();
-  const typename Superclass::OutputImagePointer     outputPtr = this->GetOutput(0);
+  const typename Superclass::OutputImagePointer outputPtr = this->GetOutput(0);
 
   outputPtr->SetRequestedRegion(inputPtr->GetRequestedRegion());
   outputPtr->SetBufferedRegion(inputPtr->GetBufferedRegion());
@@ -142,7 +142,7 @@ template <typename TInputImage, typename TKernelImage, typename TOutputImage, ty
 void
 IterativeDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrecision>::PrintSelf(
   std::ostream & os,
-  Indent         indent) const
+  Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);
 

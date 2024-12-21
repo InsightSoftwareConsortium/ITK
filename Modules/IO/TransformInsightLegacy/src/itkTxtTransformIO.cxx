@@ -60,7 +60,7 @@ template <typename TParametersValueType>
 std::string
 TxtTransformIOTemplate<TParametersValueType>::trim(const std::string & source, const char * delims)
 {
-  std::string            result(source);
+  std::string result(source);
   std::string::size_type index = result.find_last_not_of(delims);
 
   if (index != std::string::npos)
@@ -92,7 +92,7 @@ TxtTransformIOTemplate<TParametersValueType>::ReadComponentFile(std::string Valu
   const std::string filePath = itksys::SystemTools::GetFilenamePath(this->GetFileName()) + "/";
 
   /* Use TransformFileReader to read each component file. */
-  auto              reader = TransformFileReaderTemplate<TParametersValueType>::New();
+  auto reader = TransformFileReaderTemplate<TParametersValueType>::New();
   const std::string componentFullPath = filePath + Value;
   reader->SetFileName(componentFullPath);
   try
@@ -112,7 +112,7 @@ void
 TxtTransformIOTemplate<TParametersValueType>::Read()
 {
   TransformPointer transform;
-  std::ifstream    in;
+  std::ifstream in;
 
   in.open(this->GetFileName(), std::ios::in | std::ios::binary);
   if (in.fail())
@@ -159,7 +159,7 @@ TxtTransformIOTemplate<TParametersValueType>::Read()
       itkExceptionMacro("Tags must be delimited by :");
     }
     const std::string Name = trim(line.substr(0, end));
-    std::string       Value = trim(line.substr(end + 1, line.length()));
+    std::string Value = trim(line.substr(end + 1, line.length()));
     // Push back
     itkDebugMacro("Name: \"" << Name << '"');
     itkDebugMacro("Value: \"" << Value << '"');

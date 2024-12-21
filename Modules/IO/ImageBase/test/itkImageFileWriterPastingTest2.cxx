@@ -31,8 +31,8 @@ using ImagePointer = ImageType::Pointer;
 bool
 SameImage(ImagePointer testImage, ImagePointer baselineImage)
 {
-  constexpr PixelType     intensityTolerance = 0;
-  constexpr int           radiusTolerance = 0;
+  constexpr PixelType intensityTolerance = 0;
+  constexpr int radiusTolerance = 0;
   constexpr unsigned long numberOfPixelTolerance = 0;
 
   using DiffType = itk::Testing::ComparisonImageFilter<ImageType, ImageType>;
@@ -109,7 +109,7 @@ itkImageFileWriterPastingTest2(int argc, char * argv[])
   writer->SetInput(monitor->GetOutput());
 
   // create a vaild region from the largest
-  itk::ImageIORegion            ioregion(3);
+  itk::ImageIORegion ioregion(3);
   itk::ImageIORegion::IndexType index;
 
   index.push_back(pasteIndex[0]);

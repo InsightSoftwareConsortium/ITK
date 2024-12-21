@@ -151,9 +151,9 @@ FastMarchingUpwindGradientImageFilter<TLevelSet, TSpeedImage>::GenerateData()
 
 template <typename TLevelSet, typename TSpeedImage>
 void
-FastMarchingUpwindGradientImageFilter<TLevelSet, TSpeedImage>::UpdateNeighbors(const IndexType &      index,
+FastMarchingUpwindGradientImageFilter<TLevelSet, TSpeedImage>::UpdateNeighbors(const IndexType & index,
                                                                                const SpeedImageType * speedImage,
-                                                                               LevelSetImageType *    output)
+                                                                               LevelSetImageType * output)
 {
   Superclass::UpdateNeighbors(index, speedImage, output);
 
@@ -172,7 +172,7 @@ FastMarchingUpwindGradientImageFilter<TLevelSet, TSpeedImage>::UpdateNeighbors(c
 
     if (m_TargetReachedMode == TargetConditionEnum::OneTarget)
     {
-      typename NodeContainer::ConstIterator       pointsIter = m_TargetPoints->Begin();
+      typename NodeContainer::ConstIterator pointsIter = m_TargetPoints->Begin();
       const typename NodeContainer::ConstIterator pointsEnd = m_TargetPoints->End();
       for (; pointsIter != pointsEnd; ++pointsIter)
       {
@@ -187,7 +187,7 @@ FastMarchingUpwindGradientImageFilter<TLevelSet, TSpeedImage>::UpdateNeighbors(c
     }
     else if (m_TargetReachedMode == TargetConditionEnum::SomeTargets)
     {
-      typename NodeContainer::ConstIterator       pointsIter = m_TargetPoints->Begin();
+      typename NodeContainer::ConstIterator pointsIter = m_TargetPoints->Begin();
       const typename NodeContainer::ConstIterator pointsEnd = m_TargetPoints->End();
       for (; pointsIter != pointsEnd; ++pointsIter)
       {
@@ -207,7 +207,7 @@ FastMarchingUpwindGradientImageFilter<TLevelSet, TSpeedImage>::UpdateNeighbors(c
     }
     else if (m_TargetReachedMode == TargetConditionEnum::AllTargets)
     {
-      typename NodeContainer::ConstIterator       pointsIter = m_TargetPoints->Begin();
+      typename NodeContainer::ConstIterator pointsIter = m_TargetPoints->Begin();
       const typename NodeContainer::ConstIterator pointsEnd = m_TargetPoints->End();
       for (; pointsIter != pointsEnd; ++pointsIter)
       {
@@ -249,10 +249,10 @@ FastMarchingUpwindGradientImageFilter<TLevelSet, TSpeedImage>::UpdateNeighbors(c
 template <typename TLevelSet, typename TSpeedImage>
 void
 FastMarchingUpwindGradientImageFilter<TLevelSet, TSpeedImage>::ComputeGradient(
-  const IndexType &         index,
+  const IndexType & index,
   const LevelSetImageType * output,
-  const LabelImageType *    itkNotUsed(labelImage),
-  GradientImageType *       gradientImage)
+  const LabelImageType * itkNotUsed(labelImage),
+  GradientImageType * gradientImage)
 {
   IndexType neighIndex = index;
 

@@ -127,8 +127,8 @@ itkSampleClassifierFilterTest2(int, char *[])
 
   MeasurementVectorType mv;
   itk::NumericTraits<MeasurementVectorType>::SetLength(mv, numberOfComponents);
-  double                 mean = mean1[0];
-  double                 standardDeviation = std::sqrt(covariance1[0][0]);
+  double mean = mean1[0];
+  double standardDeviation = std::sqrt(covariance1[0][0]);
   constexpr unsigned int numberOfSampleEachClass = 10;
   for (unsigned int i = 0; i < numberOfSampleEachClass; ++i)
   {
@@ -158,7 +158,7 @@ itkSampleClassifierFilterTest2(int, char *[])
   }
 
   // Check if the measurement vectors are correctly labelled.
-  const FilterType::MembershipSampleType *        membershipSample = filter->GetOutput();
+  const FilterType::MembershipSampleType * membershipSample = filter->GetOutput();
   FilterType::MembershipSampleType::ConstIterator iter = membershipSample->Begin();
 
   unsigned int sampleCounter = 0;

@@ -119,11 +119,11 @@ SliceImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread)
 {
   const InputImageConstPointer inputPtr = this->GetInput();
-  const OutputImagePointer     outputPtr = this->GetOutput();
+  const OutputImagePointer outputPtr = this->GetOutput();
 
   TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
 
-  const typename TInputImage::SizeType &  inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
+  const typename TInputImage::SizeType & inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
   const typename TInputImage::IndexType & inputIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
 
   // clamp start
@@ -137,7 +137,7 @@ SliceImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   using OutputIterator = ImageRegionIteratorWithIndex<TOutputImage>;
 
   OutputIndexType destIndex;
-  InputIndexType  srcIndex;
+  InputIndexType srcIndex;
 
   for (OutputIterator outIt(outputPtr, outputRegionForThread); !outIt.IsAtEnd(); ++outIt)
   {
@@ -163,13 +163,13 @@ SliceImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 
 
   // Get pointers to the input and output
-  const InputImagePointer  inputPtr = const_cast<TInputImage *>(this->GetInput());
+  const InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput());
   const OutputImagePointer outputPtr = this->GetOutput();
 
-  const typename TOutputImage::SizeType &  outputRequestedRegionSize = outputPtr->GetRequestedRegion().GetSize();
+  const typename TOutputImage::SizeType & outputRequestedRegionSize = outputPtr->GetRequestedRegion().GetSize();
   const typename TOutputImage::IndexType & outputRequestedRegionStartIndex = outputPtr->GetRequestedRegion().GetIndex();
 
-  const typename TInputImage::SizeType &  inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
+  const typename TInputImage::SizeType & inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
   const typename TInputImage::IndexType & inputIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
 
   // clamp start
@@ -227,17 +227,17 @@ SliceImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 
   // Get pointers to the input and output
   const InputImageConstPointer inputPtr = this->GetInput();
-  const OutputImagePointer     outputPtr = this->GetOutput();
+  const OutputImagePointer outputPtr = this->GetOutput();
 
   // Compute the output spacing, the output image size, and the
   // output image start index
   const typename TInputImage::SpacingType & inputSpacing = inputPtr->GetSpacing();
-  const typename TInputImage::SizeType &    inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
-  const typename TInputImage::IndexType &   inputIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
-  typename TInputImage::IndexType           inputStartIndex;
+  const typename TInputImage::SizeType & inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
+  const typename TInputImage::IndexType & inputIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
+  typename TInputImage::IndexType inputStartIndex;
 
   typename TOutputImage::SpacingType outputSpacing;
-  typename TOutputImage::SizeType    outputSize;
+  typename TOutputImage::SizeType outputSize;
 
   for (unsigned int i = 0; i < TOutputImage::ImageDimension; ++i)
   {
@@ -275,7 +275,7 @@ SliceImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   }
 
   const typename TInputImage::DirectionType & inputDirection = inputPtr->GetDirection();
-  typename TInputImage::DirectionType         flipMatrix;
+  typename TInputImage::DirectionType flipMatrix;
 
   // Need a matrix to model the reversing of directions, this should
   // maintain the physical location of the pixels

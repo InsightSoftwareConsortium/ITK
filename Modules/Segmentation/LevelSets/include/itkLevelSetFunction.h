@@ -215,7 +215,7 @@ public:
   /** Compute the equation value. */
   PixelType
   ComputeUpdate(const NeighborhoodType & it,
-                void *                   globalData,
+                void * globalData,
                 const FloatOffsetType & = FloatOffsetType(0.0)) override;
 
   /** Computes the time step for an update given a global data structure.

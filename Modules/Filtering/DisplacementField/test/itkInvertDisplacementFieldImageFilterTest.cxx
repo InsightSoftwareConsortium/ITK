@@ -37,9 +37,9 @@ itkInvertDisplacementFieldImageFilterTest(int argc, char * argv[])
   using DisplacementFieldType = itk::Image<VectorType, ImageDimension>;
 
   // Create a displacement field
-  DisplacementFieldType::PointType     origin;
-  DisplacementFieldType::SpacingType   spacing;
-  DisplacementFieldType::SizeType      size;
+  DisplacementFieldType::PointType origin;
+  DisplacementFieldType::SpacingType spacing;
+  DisplacementFieldType::SizeType size;
   DisplacementFieldType::DirectionType direction;
 
   direction.SetIdentity();
@@ -63,13 +63,13 @@ itkInvertDisplacementFieldImageFilterTest(int argc, char * argv[])
   constexpr float weight1 = 1.0;
 
   const DisplacementFieldType::RegionType region = field->GetLargestPossibleRegion();
-  const DisplacementFieldType::IndexType  startIndex = region.GetIndex();
+  const DisplacementFieldType::IndexType startIndex = region.GetIndex();
 
   itk::ImageRegionIteratorWithIndex<DisplacementFieldType> ItF(field, field->GetLargestPossibleRegion());
   for (ItF.GoToBegin(); !ItF.IsAtEnd(); ++ItF)
   {
     DisplacementFieldType::IndexType index = ItF.GetIndex();
-    bool                             isOnBoundary = false;
+    bool isOnBoundary = false;
     for (unsigned int d = 0; d < ImageDimension; ++d)
     {
       if (index[d] == startIndex[d] || index[d] == static_cast<int>(size[d]) - startIndex[d] - 1)

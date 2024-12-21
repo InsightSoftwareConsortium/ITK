@@ -42,8 +42,8 @@ itkFlipImageFilterTest(int argc, char * argv[])
 
   // Define a small input image
   constexpr ImageType::IndexType index = { { 10, 20, 30 } };
-  constexpr ImageType::SizeType  size = { { 5, 4, 3 } };
-  const ImageType::RegionType    region{ index, size };
+  constexpr ImageType::SizeType size = { { 5, 4, 3 } };
+  const ImageType::RegionType region{ index, size };
 
   ImageType::SpacingType spacing;
   spacing[0] = 1.1;
@@ -81,7 +81,7 @@ itkFlipImageFilterTest(int argc, char * argv[])
 
   const itk::SimpleFilterWatcher watcher(flipper, "FlipImageFilter");
 
-  bool                           bArray[ImageDimension] = { true, false, true };
+  bool bArray[ImageDimension] = { true, false, true };
   FlipperType::FlipAxesArrayType flipAxes(bArray);
 
   flipper->SetFlipAxes(flipAxes);
@@ -98,9 +98,9 @@ itkFlipImageFilterTest(int argc, char * argv[])
   const ImageType::Pointer outputImage = flipper->GetOutput();
 
   const ImageType::SpacingType & inputSpacing = inputImage->GetSpacing();
-  const ImageType::PointType &   inputOrigin = inputImage->GetOrigin();
+  const ImageType::PointType & inputOrigin = inputImage->GetOrigin();
   const ImageType::SpacingType & outputSpacing = outputImage->GetSpacing();
-  const ImageType::PointType &   outputOrigin = outputImage->GetOrigin();
+  const ImageType::PointType & outputOrigin = outputImage->GetOrigin();
 
   using IndexType = ImageType::IndexType;
   using IndexValueType = IndexType::IndexValueType;

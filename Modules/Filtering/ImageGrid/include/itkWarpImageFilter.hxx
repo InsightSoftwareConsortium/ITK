@@ -170,7 +170,7 @@ WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::AfterThreadedGen
 template <typename TInputImage, typename TOutputImage, typename TDisplacementField>
 void
 WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::EvaluateDisplacementAtPhysicalPoint(
-  const PointType &  point,
+  const PointType & point,
   DisplacementType & output)
 {
   this->EvaluateDisplacementAtPhysicalPoint(point, this->GetDisplacementField(), output);
@@ -179,9 +179,9 @@ WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::EvaluateDisplace
 template <typename TInputImage, typename TOutputImage, typename TDisplacementField>
 void
 WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::EvaluateDisplacementAtPhysicalPoint(
-  const PointType &             point,
+  const PointType & point,
   const DisplacementFieldType * fieldPtr,
-  DisplacementType &            output)
+  DisplacementType & output)
 {
   const ContinuousIndex<double, ImageDimension> index =
     fieldPtr->template TransformPhysicalPointToContinuousIndex<double>(point);
@@ -192,7 +192,7 @@ WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::EvaluateDisplace
    */
   IndexType baseIndex;
   IndexType neighIndex;
-  double    distance[ImageDimension];
+  double distance[ImageDimension];
 
   for (dim = 0; dim < ImageDimension; ++dim)
   {
@@ -224,12 +224,12 @@ WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::EvaluateDisplace
    */
   output.Fill(0);
 
-  double             totalOverlap = 0.0;
+  double totalOverlap = 0.0;
   const unsigned int numNeighbors(1 << TInputImage::ImageDimension);
 
   for (unsigned int counter = 0; counter < numNeighbors; ++counter)
   {
-    double       overlap = 1.0;   // fraction overlap
+    double overlap = 1.0;         // fraction overlap
     unsigned int upper = counter; // each bit indicates upper/lower neighbour
 
     // get neighbor index and overlap fraction
@@ -253,7 +253,7 @@ WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::EvaluateDisplace
     if (overlap)
     {
       const DisplacementType input = fieldPtr->GetPixel(neighIndex);
-      const unsigned int     displacementComponent = NumericTraits<DisplacementType>::GetLength(input);
+      const unsigned int displacementComponent = NumericTraits<DisplacementType>::GetLength(input);
       for (unsigned int k = 0; k < displacementComponent; ++k)
       {
         output[k] += overlap * static_cast<double>(input[k]);
@@ -277,16 +277,16 @@ void
 WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::DynamicThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread)
 {
-  OutputImageType *             outputPtr = this->GetOutput();
+  OutputImageType * outputPtr = this->GetOutput();
   const DisplacementFieldType * fieldPtr = this->GetDisplacementField();
 
   TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
 
   // iterator for the output image
   ImageRegionIteratorWithIndex<OutputImageType> outputIt(outputPtr, outputRegionForThread);
-  IndexType                                     index;
-  PointType                                     point;
-  DisplacementType                              displacement;
+  IndexType index;
+  PointType point;
+  DisplacementType displacement;
   NumericTraits<DisplacementType>::SetLength(displacement, ImageDimension);
   static_assert(PointType::Dimension == ImageDimension, "ERROR: Point type and ImageDimension must be the same!");
   if (this->m_DefFieldSameInformation)
@@ -376,7 +376,7 @@ WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::GenerateInputReq
   // the smallest region of the deformation field that fully
   // contains the physical space covered by the output's requested
   // region, se we do the easy thing and request the largest possible region
-  auto *                  fieldPtr = const_cast<DisplacementFieldType *>(this->GetDisplacementField());
+  auto * fieldPtr = const_cast<DisplacementFieldType *>(this->GetDisplacementField());
   const OutputImageType * outputPtr = this->GetOutput();
   if (fieldPtr != nullptr)
   {

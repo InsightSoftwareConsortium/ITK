@@ -144,7 +144,7 @@ itkGeodesicActiveContourShapePriorLevelSetImageFilterTest(int, char *[])
 
   while (!it.IsAtEnd())
   {
-    const ImageType::IndexType   index = it.GetIndex();
+    const ImageType::IndexType index = it.GetIndex();
     ShapeFunctionType::PointType point;
     inputImage->TransformIndexToPhysicalPoint(index, point);
     if (shape->Evaluate(point) <= 0.0)
@@ -264,7 +264,7 @@ itkGeodesicActiveContourShapePriorLevelSetImageFilterTest(int, char *[])
   // Connect an observer to the filter
   //
   using WatcherType = ShowIterationObject<FilterType>;
-  WatcherType                                          iterationWatcher(filter);
+  WatcherType iterationWatcher(filter);
   const itk::SimpleMemberCommand<WatcherType>::Pointer command = itk::SimpleMemberCommand<WatcherType>::New();
   command->SetCallbackFunction(&iterationWatcher, &WatcherType::ShowIteration);
   filter->AddObserver(itk::IterationEvent(), command);

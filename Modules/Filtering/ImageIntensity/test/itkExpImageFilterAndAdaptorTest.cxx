@@ -111,7 +111,7 @@ itkExpImageFilterAndAdaptorTest(int, char *[])
   {
     std::cout << ot.Get() << " = ";
     std::cout << std::exp(it.Get()) << std::endl;
-    const InputImageType::PixelType  input = it.Get();
+    const InputImageType::PixelType input = it.Get();
     const OutputImageType::PixelType output = ot.Get();
     const OutputImageType::PixelType exponential = std::exp(input);
     if (itk::Math::abs(exponential - output) > epsilon)

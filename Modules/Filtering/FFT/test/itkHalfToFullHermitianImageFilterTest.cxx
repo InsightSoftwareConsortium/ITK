@@ -40,7 +40,7 @@ itkHalfToFullHermitianImageFilterTest(int argc, char * argv[])
   using ComplexImageType = itk::Image<std::complex<float>, 2>;
   using RandomSourceType = itk::RandomImageSource<ImageType>;
 
-  auto                       source = RandomSourceType::New();
+  auto source = RandomSourceType::New();
   RandomSourceType::SizeType size;
   size[0] = std::stoi(argv[1]);
   size[1] = std::stoi(argv[2]);
@@ -78,7 +78,7 @@ itkHalfToFullHermitianImageFilterTest(int argc, char * argv[])
 
   // Test that the output is the expected size.
   const ComplexImageType::RegionType halfToFullOutputRegion = halfToFullFilter->GetOutput()->GetLargestPossibleRegion();
-  const ComplexImageType::SizeType   halfToFullOutputSize = halfToFullOutputRegion.GetSize();
+  const ComplexImageType::SizeType halfToFullOutputSize = halfToFullOutputRegion.GetSize();
   if (halfToFullOutputSize != size)
   {
     std::cerr << "HalfToFullHermitianImageFilter did not produce an image of the expected size. " << std::endl;

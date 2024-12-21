@@ -62,7 +62,7 @@ cube(unsigned int x, unsigned int y, unsigned int z)
   const float X = itk::Math::abs(x - static_cast<float>(WIDTH) / 2.0);
   const float Y = itk::Math::abs(y - static_cast<float>(HEIGHT) / 2.0);
   const float Z = itk::Math::abs(z - static_cast<float>(DEPTH) / 2.0);
-  float       dis;
+  float dis;
   if (!((X > RADIUS) && (Y > RADIUS) && (Z > RADIUS)))
   {
     dis = RADIUS - (std::max(std::max(X, Y), Z));
@@ -239,14 +239,14 @@ itkParallelSparseFieldLevelSetImageFilterTest(int argc, char * argv[])
   auto im_init = ImageType::New();
   auto im_target = ImageType::New();
 
-  ImageType::RegionType          r;
-  constexpr ImageType::SizeType  sz = { { PSFLSIFT::HEIGHT, PSFLSIFT::WIDTH, PSFLSIFT::DEPTH } };
+  ImageType::RegionType r;
+  constexpr ImageType::SizeType sz = { { PSFLSIFT::HEIGHT, PSFLSIFT::WIDTH, PSFLSIFT::DEPTH } };
   constexpr ImageType::IndexType idx = { { 0, 0, 0 } };
   r.SetSize(sz);
   r.SetIndex(idx);
 
-  ImageType::PointType     origin;
-  ImageType::SpacingType   spacing;
+  ImageType::PointType origin;
+  ImageType::SpacingType spacing;
   ImageType::DirectionType direction;
   origin[0] = 1.0;
   origin[1] = 10.0;

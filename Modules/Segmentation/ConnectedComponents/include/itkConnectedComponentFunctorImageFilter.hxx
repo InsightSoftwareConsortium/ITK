@@ -33,7 +33,7 @@ ConnectedComponentFunctorImageFilter<TInputImage, TOutputImage, TFunctor, TMaskI
   // Allocate the output and initialize to unlabeled
   this->AllocateOutputs();
 
-  constexpr OutputPixelType            maxPossibleLabel = NumericTraits<OutputPixelType>::max();
+  constexpr OutputPixelType maxPossibleLabel = NumericTraits<OutputPixelType>::max();
   const typename TOutputImage::Pointer output = this->GetOutput();
   output->FillBuffer(maxPossibleLabel);
 
@@ -50,8 +50,8 @@ ConnectedComponentFunctorImageFilter<TInputImage, TOutputImage, TFunctor, TMaskI
   constexpr auto kernelRadius = SizeType::Filled(1);
 
   const typename TInputImage::ConstPointer input = this->GetInput();
-  InputNeighborhoodIteratorType            init(kernelRadius, input, output->GetRequestedRegion());
-  OutputNeighborhoodIteratorType           onit(kernelRadius, output, output->GetRequestedRegion());
+  InputNeighborhoodIteratorType init(kernelRadius, input, output->GetRequestedRegion());
+  OutputNeighborhoodIteratorType onit(kernelRadius, output, output->GetRequestedRegion());
   onit.OverrideBoundaryCondition(&BC); // assign the boundary condition
 
   // only activate the indices that are "previous" to the current
@@ -129,8 +129,8 @@ ConnectedComponentFunctorImageFilter<TInputImage, TOutputImage, TFunctor, TMaskI
   while (!oit.IsAtEnd())
   {
     // Get the current pixel label
-    OutputPixelType       label = oit.Get();
-    const InputPixelType  value = it.Get();
+    OutputPixelType label = oit.Get();
+    const InputPixelType value = it.Get();
     const OutputPixelType originalLabel = label;
 
     // If the pixel is not background
@@ -138,7 +138,7 @@ ConnectedComponentFunctorImageFilter<TInputImage, TOutputImage, TFunctor, TMaskI
     {
       // loop over the "previous" neighbors to find labels.  this loop
       // may establish one or more new equivalence classes
-      typename InputNeighborhoodIteratorType::ConstIterator  isIt;
+      typename InputNeighborhoodIteratorType::ConstIterator isIt;
       typename OutputNeighborhoodIteratorType::ConstIterator osIt;
       for (isIt = init.Begin(), osIt = onit.Begin(); !osIt.IsAtEnd(); ++isIt, ++osIt)
       {

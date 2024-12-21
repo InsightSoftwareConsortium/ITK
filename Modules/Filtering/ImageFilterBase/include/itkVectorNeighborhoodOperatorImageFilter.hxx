@@ -81,10 +81,10 @@ VectorNeighborhoodOperatorImageFilter<TInputImage, TOutputImage>::DynamicThreade
   using FaceListType = typename BFC::FaceListType;
 
   const VectorNeighborhoodInnerProduct<InputImageType> smartInnerProduct;
-  BFC                                                  faceCalculator;
+  BFC faceCalculator;
 
   // Allocate output
-  OutputImageType *      output = this->GetOutput();
+  OutputImageType * output = this->GetOutput();
   const InputImageType * input = this->GetInput();
 
   // Break the input into a series of regions.  The first region is free

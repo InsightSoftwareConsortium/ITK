@@ -99,7 +99,7 @@ itkImageRegistrationMethodTest_13(int, char *[])
   bool pass = true;
 
   constexpr unsigned int dimension = 3;
-  unsigned int           j;
+  unsigned int j;
 
   using PixelType = float;
 
@@ -140,9 +140,9 @@ itkImageRegistrationMethodTest_13(int, char *[])
   constexpr double displacement[dimension] = { 7, 3, 2 };
   constexpr double scale[dimension] = { 0.80, 1.0, 1.0 };
 
-  FixedImageType::SizeType            size = { { 100, 100, 40 } };
+  FixedImageType::SizeType size = { { 100, 100, 40 } };
   constexpr FixedImageType::IndexType index = { { 0, 0, 0 } };
-  const FixedImageType::RegionType    region{ index, size };
+  const FixedImageType::RegionType region{ index, size };
 
   fixedImage->SetRegions(region);
   fixedImage->Allocate();
@@ -160,11 +160,11 @@ itkImageRegistrationMethodTest_13(int, char *[])
     center[j] = 0.5 * static_cast<double>(region.GetSize()[j]);
   }
 
-  itk::Point<double, dimension>  p;
+  itk::Point<double, dimension> p;
   itk::Vector<double, dimension> d;
 
   MovingImageIterator mIter(movingImage, region);
-  FixedImageIterator  fIter(fixedImage, region);
+  FixedImageIterator fIter(fixedImage, region);
 
   while (!mIter.IsAtEnd())
   {
@@ -254,7 +254,7 @@ itkImageRegistrationMethodTest_13(int, char *[])
    ************************************************************/
   constexpr unsigned int numberOfLoops = 3;
   constexpr unsigned int iter[numberOfLoops] = { 300, 300, 350 };
-  constexpr double       rates[numberOfLoops] = { 1e-3, 5e-4, 1e-4 };
+  constexpr double rates[numberOfLoops] = { 1e-3, 5e-4, 1e-4 };
 
   for (j = 0; j < numberOfLoops; ++j)
   {
@@ -389,11 +389,11 @@ namespace
 double
 F(itk::Vector<double, 3> & v)
 {
-  double           x = v[0];
-  double           y = v[1];
-  double           z = v[2];
+  double x = v[0];
+  double y = v[1];
+  double z = v[2];
   constexpr double s = 50;
-  double           value = 200.0 * std::exp(-(x * x + y * y + z * z) / (s * s));
+  double value = 200.0 * std::exp(-(x * x + y * y + z * z) / (s * s));
   x -= 8;
   y += 3;
   z += 0;

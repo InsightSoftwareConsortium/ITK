@@ -60,7 +60,7 @@ itkSTLContainerAdaptorTest(int, char *[])
     vectorContainer->Print(std::cout);
 
     { // define a local scope
-      AdaptorType  adaptor(vectorContainer);
+      AdaptorType adaptor(vectorContainer);
       TargetType & targetRef = adaptor.GetSTLContainerRef();
 
       std::cout << "Testing assignment... ";
@@ -68,7 +68,7 @@ itkSTLContainerAdaptorTest(int, char *[])
       targetRef.reserve(vectorSource.size());
       targetRef.assign(vectorSource.begin(), vectorSource.end());
 
-      auto                               it = vectorSource.begin();
+      auto it = vectorSource.begin();
       VectorContainerType::ConstIterator cIter = vectorContainer->Begin();
       while (it != vectorSource.end() && cIter != vectorContainer->End())
       {
@@ -108,7 +108,7 @@ itkSTLContainerAdaptorTest(int, char *[])
 
 
     { // define a local scope
-      ConstAdaptorType  constAdaptor(vectorContainer);
+      ConstAdaptorType constAdaptor(vectorContainer);
       ConstTargetType & constTargetRef = constAdaptor.GetSTLConstContainerRef();
 
       STLVectorType destination;
@@ -116,7 +116,7 @@ itkSTLContainerAdaptorTest(int, char *[])
       std::cout << "Testing reading assignment... ";
       destination.assign(constTargetRef.begin(), constTargetRef.end());
 
-      auto                               it = destination.begin();
+      auto it = destination.begin();
       VectorContainerType::ConstIterator cIter = vectorContainer->Begin();
       while (it != destination.end() && cIter != vectorContainer->End())
       {
@@ -183,7 +183,7 @@ itkSTLContainerAdaptorTest(int, char *[])
     mapContainer->Print(std::cout);
 
     { // define a local scope
-      AdaptorType  adaptor(mapContainer);
+      AdaptorType adaptor(mapContainer);
       TargetType & targetRef = adaptor.GetSTLContainerRef();
 
       std::cout << "Testing assignment... ";
@@ -193,7 +193,7 @@ itkSTLContainerAdaptorTest(int, char *[])
         targetRef[i] = mapSource[i];
       }
 
-      auto                            it = mapSource.begin();
+      auto it = mapSource.begin();
       MapContainerType::ConstIterator cIter = mapContainer->Begin();
       while (it != mapSource.end() && cIter != mapContainer->End())
       {
@@ -233,7 +233,7 @@ itkSTLContainerAdaptorTest(int, char *[])
 
 
     { // define a local scope
-      ConstAdaptorType  constAdaptor(mapContainer);
+      ConstAdaptorType constAdaptor(mapContainer);
       ConstTargetType & constTargetRef = constAdaptor.GetSTLConstContainerRef();
 
       STLMapType destination;
@@ -244,7 +244,7 @@ itkSTLContainerAdaptorTest(int, char *[])
         destination[i] = constTargetRef.find(i)->second;
       }
 
-      auto                            it = destination.begin();
+      auto it = destination.begin();
       MapContainerType::ConstIterator cIter = mapContainer->Begin();
       while (it != destination.end() && cIter != mapContainer->End())
       {

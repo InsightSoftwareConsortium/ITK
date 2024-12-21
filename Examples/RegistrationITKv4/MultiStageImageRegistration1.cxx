@@ -536,9 +536,9 @@ main(int argc, char * argv[])
   const FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
   const SpacingType fixedSpacing = fixedImage->GetSpacing();
-  const OriginType  fixedOrigin = fixedImage->GetOrigin();
-  const RegionType  fixedRegion = fixedImage->GetLargestPossibleRegion();
-  const SizeType    fixedSize = fixedRegion.GetSize();
+  const OriginType fixedOrigin = fixedImage->GetOrigin();
+  const RegionType fixedRegion = fixedImage->GetLargestPossibleRegion();
+  const SizeType fixedSize = fixedRegion.GetSize();
 
   ATransformType::InputPointType centerFixed;
   centerFixed[0] = fixedOrigin[0] + fixedSpacing[0] * fixedSize[0] / 2.0;

@@ -32,7 +32,7 @@ void
 DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>::CopyInputToOutput()
 {
   const typename TInputImage::ConstPointer input = this->GetInput();
-  const typename TOutputImage::Pointer     output = this->GetOutput();
+  const typename TOutputImage::Pointer output = this->GetOutput();
 
   if (!input || !output)
   {
@@ -48,7 +48,7 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>::CopyInputToOutput()
   }
 
   ImageRegionConstIterator<TInputImage> in(input, output->GetRequestedRegion());
-  ImageRegionIterator<TOutputImage>     out(output, output->GetRequestedRegion());
+  ImageRegionIterator<TOutputImage> out(output, output->GetRequestedRegion());
 
   while (!out.IsAtEnd())
   {
@@ -106,7 +106,7 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>::ApplyUpdateThreader
   // Execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.
   // Using the SplitRequestedRegion method from itk::ImageSource.
-  ThreadRegionType   splitRegion;
+  ThreadRegionType splitRegion;
   const ThreadIdType total = str->Filter->SplitRequestedRegion(workUnitID, workUnitCount, splitRegion);
 
   if (workUnitID < total)
@@ -184,12 +184,12 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>::CalculateChangeThre
 template <typename TInputImage, typename TOutputImage>
 void
 DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>::ThreadedApplyUpdate(
-  const TimeStepType &     dt,
+  const TimeStepType & dt,
   const ThreadRegionType & regionToProcess,
   ThreadIdType)
 {
   ImageRegionIterator<UpdateBufferType> u(m_UpdateBuffer, regionToProcess);
-  ImageRegionIterator<OutputImageType>  o(this->GetOutput(), regionToProcess);
+  ImageRegionIterator<OutputImageType> o(this->GetOutput(), regionToProcess);
 
   while (!u.IsAtEnd())
   {
@@ -235,12 +235,12 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>::ThreadedCalculateCh
   FaceCalculatorType faceCalculator;
 
   FaceListType faceList = faceCalculator(output, regionToProcess, radius);
-  auto         fIt = faceList.begin();
-  auto         fEnd = faceList.end();
+  auto fIt = faceList.begin();
+  auto fEnd = faceList.end();
 
   // Process the non-boundary region.
   NeighborhoodIteratorType nD(radius, output, *fIt);
-  UpdateIteratorType       nU(m_UpdateBuffer, *fIt);
+  UpdateIteratorType nU(m_UpdateBuffer, *fIt);
   nD.GoToBegin();
   while (!nD.IsAtEnd())
   {
@@ -253,7 +253,7 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>::ThreadedCalculateCh
   for (++fIt; fIt != fEnd; ++fIt)
   {
     NeighborhoodIteratorType bD(radius, output, *fIt);
-    UpdateIteratorType       bU(m_UpdateBuffer, *fIt);
+    UpdateIteratorType bU(m_UpdateBuffer, *fIt);
 
     bD.GoToBegin();
     while (!bD.IsAtEnd())

@@ -74,10 +74,10 @@ StatisticsImageFilter<TInputImage>::AfterStreamedGenerateData()
   Superclass::AfterStreamedGenerateData();
 
   const SizeValueType count = m_Count;
-  const RealType      sumOfSquares(m_SumOfSquares);
-  const PixelType     minimum = m_ThreadMin;
-  const PixelType     maximum = m_ThreadMax;
-  const RealType      sum(m_ThreadSum);
+  const RealType sumOfSquares(m_SumOfSquares);
+  const PixelType minimum = m_ThreadMin;
+  const PixelType maximum = m_ThreadMax;
+  const RealType sum(m_ThreadSum);
 
   const RealType mean = sum / static_cast<RealType>(count);
   const RealType variance =
@@ -101,9 +101,9 @@ StatisticsImageFilter<TInputImage>::ThreadedStreamedGenerateData(const RegionTyp
 
   CompensatedSummation<RealType> sum = RealType{};
   CompensatedSummation<RealType> sumOfSquares = RealType{};
-  SizeValueType                  count{};
-  PixelType                      min = NumericTraits<PixelType>::max();
-  PixelType                      max = NumericTraits<PixelType>::NonpositiveMin();
+  SizeValueType count{};
+  PixelType min = NumericTraits<PixelType>::max();
+  PixelType max = NumericTraits<PixelType>::NonpositiveMin();
 
   ImageScanlineConstIterator it(this->GetInput(), regionForThread);
 
@@ -113,7 +113,7 @@ StatisticsImageFilter<TInputImage>::ThreadedStreamedGenerateData(const RegionTyp
     while (!it.IsAtEndOfLine())
     {
       const PixelType & value = it.Get();
-      const auto        realValue = static_cast<RealType>(value);
+      const auto realValue = static_cast<RealType>(value);
       min = std::min(min, value);
       max = std::max(max, value);
 

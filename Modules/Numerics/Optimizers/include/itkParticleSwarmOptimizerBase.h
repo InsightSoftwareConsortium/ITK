@@ -71,10 +71,10 @@ public:
 
   struct ParticleData
   {
-    ParametersType                m_CurrentParameters;
-    ParametersType                m_CurrentVelocity;
+    ParametersType m_CurrentParameters;
+    ParametersType m_CurrentVelocity;
     CostFunctionType::MeasureType m_CurrentValue;
-    ParametersType                m_BestParameters;
+    ParametersType m_BestParameters;
     CostFunctionType::MeasureType m_BestValue;
   };
 
@@ -230,23 +230,23 @@ protected:
   void
   FileInitialization();
 
-  bool                                    m_PrintSwarm{};
-  std::ostringstream                      m_StopConditionDescription{};
-  bool                                    m_InitializeNormalDistribution{};
-  NumberOfParticlesType                   m_NumberOfParticles{};
-  NumberOfIterationsType                  m_MaximalNumberOfIterations{};
-  NumberOfGenerationsType                 m_NumberOfGenerationsWithMinimalImprovement{};
-  ParameterBoundsType                     m_ParameterBounds{};
-  ParametersType                          m_ParametersConvergenceTolerance{};
-  double                                  m_PercentageParticlesConverged{};
-  CostFunctionType::MeasureType           m_FunctionConvergenceTolerance{};
-  std::vector<ParticleData>               m_Particles{};
-  CostFunctionType::MeasureType           m_FunctionBestValue{ 0 };
-  std::vector<MeasureType>                m_FunctionBestValueMemory{};
-  ParametersType                          m_ParametersBestValue{};
-  NumberOfIterationsType                  m_IterationIndex{ 0 };
+  bool m_PrintSwarm{};
+  std::ostringstream m_StopConditionDescription{};
+  bool m_InitializeNormalDistribution{};
+  NumberOfParticlesType m_NumberOfParticles{};
+  NumberOfIterationsType m_MaximalNumberOfIterations{};
+  NumberOfGenerationsType m_NumberOfGenerationsWithMinimalImprovement{};
+  ParameterBoundsType m_ParameterBounds{};
+  ParametersType m_ParametersConvergenceTolerance{};
+  double m_PercentageParticlesConverged{};
+  CostFunctionType::MeasureType m_FunctionConvergenceTolerance{};
+  std::vector<ParticleData> m_Particles{};
+  CostFunctionType::MeasureType m_FunctionBestValue{ 0 };
+  std::vector<MeasureType> m_FunctionBestValueMemory{};
+  ParametersType m_ParametersBestValue{};
+  NumberOfIterationsType m_IterationIndex{ 0 };
   RandomVariateGeneratorType::IntegerType m_Seed{};
-  bool                                    m_UseSeed{};
+  bool m_UseSeed{};
 };
 } // end namespace itk
 

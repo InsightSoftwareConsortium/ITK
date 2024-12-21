@@ -146,8 +146,8 @@ RegularStepGradientDescentBaseOptimizer::AdvanceOneStep()
 
   const unsigned int spaceDimension = m_CostFunction->GetNumberOfParameters();
 
-  DerivativeType     transformedGradient(spaceDimension);
-  DerivativeType     previousTransformedGradient(spaceDimension);
+  DerivativeType transformedGradient(spaceDimension);
+  DerivativeType previousTransformedGradient(spaceDimension);
   const ScalesType & scales = this->GetScales();
 
   if (m_RelaxationFactor < 0.0)

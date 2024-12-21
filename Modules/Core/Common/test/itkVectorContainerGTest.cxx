@@ -110,7 +110,7 @@ TEST(VectorContainer, Make)
 
   const auto checkMove = [](auto stdVector) {
     const auto * const originalData = stdVector.data();
-    const auto         vectorContainer = itk::MakeVectorContainer(std::move(stdVector));
+    const auto vectorContainer = itk::MakeVectorContainer(std::move(stdVector));
 
     // After the "move", the vectorContainer should hold the original data pointer.
     ASSERT_NE(vectorContainer, nullptr);

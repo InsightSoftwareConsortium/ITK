@@ -111,7 +111,7 @@ public:
     }
 
     OptimizerType::DerivativeType gradient = optimizer->GetGradient();
-    OptimizerType::ScalesType     scales = optimizer->GetScales();
+    OptimizerType::ScalesType scales = optimizer->GetScales();
 
     double magnitude2 = 0.0;
 
@@ -200,19 +200,19 @@ main(int argc, char * argv[])
 
   using ImageReaderType = itk::ImageFileReader<ImageType>;
 
-  SpatialObjectType::Pointer      spatialObject;
-  TransformType::Pointer          transform;
-  OptimizerType::Pointer          optimizer;
-  IterationObserverType::Pointer  iterationObserver;
+  SpatialObjectType::Pointer spatialObject;
+  TransformType::Pointer transform;
+  OptimizerType::Pointer optimizer;
+  IterationObserverType::Pointer iterationObserver;
   LinearInterpolatorType::Pointer linearInterpolator;
-  MetricType::Pointer             metric;
-  RegistrationType::Pointer       registrationMethod;
-  ImageReaderType::Pointer        movingImageReader;
-  FixedPointSetType::Pointer      fixedPointSet;
-  ImageType::ConstPointer         movingImage;
+  MetricType::Pointer metric;
+  RegistrationType::Pointer registrationMethod;
+  ImageReaderType::Pointer movingImageReader;
+  FixedPointSetType::Pointer fixedPointSet;
+  ImageType::ConstPointer movingImage;
 
   SpatialObjectToImageFilterType::Pointer rasterizationFilter;
-  NarrowBandFilterType::Pointer           narrowBandPointSetFilter;
+  NarrowBandFilterType::Pointer narrowBandPointSetFilter;
 
 
   metric = MetricType::New();
@@ -267,7 +267,7 @@ main(int argc, char * argv[])
   ImageType::SizeType imageSize = region.GetSize();
 
   ImageType::SpacingType spacing = movingImage->GetSpacing();
-  ImageType::PointType   origin;
+  ImageType::PointType origin;
   origin[0] = (boxSize[0] - imageSize[0] * spacing[0]) / 2.0;
   origin[1] = (boxSize[1] - imageSize[1] * spacing[1]) / 2.0;
 

@@ -175,17 +175,17 @@ protected:
   DerivativeType m_Gradient{};
   DerivativeType m_PreviousGradient{};
 
-  bool               m_Stop{ false };
-  bool               m_Maximize{};
-  MeasureType        m_Value{};
-  double             m_GradientMagnitudeTolerance{};
-  double             m_MaximumStepLength{};
-  double             m_MinimumStepLength{};
-  double             m_CurrentStepLength{};
-  double             m_RelaxationFactor{};
-  StopConditionEnum  m_StopCondition{};
-  SizeValueType      m_NumberOfIterations{};
-  SizeValueType      m_CurrentIteration{};
+  bool m_Stop{ false };
+  bool m_Maximize{};
+  MeasureType m_Value{};
+  double m_GradientMagnitudeTolerance{};
+  double m_MaximumStepLength{};
+  double m_MinimumStepLength{};
+  double m_CurrentStepLength{};
+  double m_RelaxationFactor{};
+  StopConditionEnum m_StopCondition{};
+  SizeValueType m_NumberOfIterations{};
+  SizeValueType m_CurrentIteration{};
   std::ostringstream m_StopConditionDescription{};
 };
 } // end namespace itk

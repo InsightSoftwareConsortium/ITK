@@ -55,11 +55,11 @@ private:
   // The data members should never change after construction of the
   // ExceptionData object,
   // to ensure the consistency of the exception data.
-  const std::string  m_Location;
-  const std::string  m_Description;
-  const std::string  m_File;
+  const std::string m_Location;
+  const std::string m_Description;
+  const std::string m_File;
   const unsigned int m_Line;
-  std::string        m_What;
+  std::string m_What;
 };
 
 

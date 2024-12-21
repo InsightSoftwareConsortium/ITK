@@ -130,16 +130,16 @@ protected:
   ComputeStatistics();
 
 private:
-  ImageConstPointer    m_Image{};
+  ImageConstPointer m_Image{};
   SpatialObjectPointer m_SpatialObject{};
-  VectorType           m_Mean{};
-  AccumulateType       m_Sum{};
-  SizeValueType        m_NumberOfPixels{};
-  MatrixType           m_CovarianceMatrix{};
-  unsigned int         m_SampleDirection{};
-  ModifiedTimeType     m_InternalImageTime{};
-  ModifiedTimeType     m_InternalSpatialObjectTime{};
-  TimeStamp            m_ModifiedTime{};
+  VectorType m_Mean{};
+  AccumulateType m_Sum{};
+  SizeValueType m_NumberOfPixels{};
+  MatrixType m_CovarianceMatrix{};
+  unsigned int m_SampleDirection{};
+  ModifiedTimeType m_InternalImageTime{};
+  ModifiedTimeType m_InternalSpatialObjectTime{};
+  TimeStamp m_ModifiedTime{};
 
   typename SampleType::Pointer m_Sample{};
 };

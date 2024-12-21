@@ -40,7 +40,7 @@ MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimensio
 #if !defined(ITK_LEGACY_REMOVE)
 template <typename TParametersValueType, unsigned int VInputDimension, unsigned int VOutputDimension>
 MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimension>::MatrixOffsetTransformBase(
-  const MatrixType &       matrix,
+  const MatrixType & matrix,
   const OutputVectorType & offset)
   : m_Matrix(matrix)
   , m_Offset(offset)
@@ -98,7 +98,7 @@ MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimensio
 template <typename TParametersValueType, unsigned int VInputDimension, unsigned int VOutputDimension>
 void
 MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimension>::Compose(const Self * other,
-                                                                                            bool         pre)
+                                                                                            bool pre)
 {
   if (pre)
   {
@@ -172,7 +172,7 @@ MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimensio
   }
 
   vnl_vector<TParametersValueType> tvect = vnl_mat * vnl_vect;
-  OutputVectorPixelType            outVect;
+  OutputVectorPixelType outVect;
   outVect.SetSize(vectorDim);
   for (unsigned int i = 0; i < vectorDim; ++i)
   {
@@ -234,7 +234,7 @@ MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimensio
   }
 
   vnl_vector<TParametersValueType> tvect = vnl_mat * vnl_vect;
-  OutputVectorPixelType            outVect;
+  OutputVectorPixelType outVect;
   outVect.SetSize(vectorDim);
   for (unsigned int i = 0; i < vectorDim; ++i)
   {
@@ -281,7 +281,7 @@ MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimensio
   result.Fill(0.0);
 
   InputDiffusionTensor3DType dt(0.0);
-  const unsigned int         tDim = tensor.Size();
+  const unsigned int tDim = tensor.Size();
   for (unsigned int i = 0; i < tDim; ++i)
   {
     dt[i] = tensor[i];
@@ -331,7 +331,7 @@ MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimensio
     }
   }
 
-  JacobianType                        outTensor = jacobian * tensor * invJacobian;
+  JacobianType outTensor = jacobian * tensor * invJacobian;
   OutputSymmetricSecondRankTensorType outputTensor;
 
   for (unsigned int i = 0; i < VOutputDimension; ++i)

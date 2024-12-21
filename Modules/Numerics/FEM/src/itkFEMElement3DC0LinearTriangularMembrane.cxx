@@ -28,7 +28,7 @@ itk::LightObject::Pointer
 Element3DC0LinearTriangularMembrane::CreateAnother() const
 {
   itk::LightObject::Pointer smartPtr;
-  Pointer                   copyPtr = Self::New();
+  Pointer copyPtr = Self::New();
 
   copyPtr->SetNode(0, this->GetNode(0));
   copyPtr->SetNode(1, this->GetNode(1));
@@ -46,9 +46,9 @@ Element3DC0LinearTriangularMembrane::Element3DC0LinearTriangularMembrane()
   : Superclass()
 {}
 
-Element3DC0LinearTriangularMembrane::Element3DC0LinearTriangularMembrane(NodeIDType             n1_,
-                                                                         NodeIDType             n2_,
-                                                                         NodeIDType             n3_,
+Element3DC0LinearTriangularMembrane::Element3DC0LinearTriangularMembrane(NodeIDType n1_,
+                                                                         NodeIDType n2_,
+                                                                         NodeIDType n3_,
                                                                          Material::ConstPointer m_)
   : Superclass()
 {

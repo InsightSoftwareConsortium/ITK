@@ -179,7 +179,7 @@ ThreadPool::PrepareForFork()
 void
 ThreadPool::ResumeFromFork()
 {
-  ThreadPool *       instance = m_PimplGlobals->m_ThreadPoolInstance.GetPointer();
+  ThreadPool * instance = m_PimplGlobals->m_ThreadPoolInstance.GetPointer();
   const ThreadIdType threadCount = instance->m_Threads.size();
   instance->m_Threads.clear();
   instance->m_Stopping = false;

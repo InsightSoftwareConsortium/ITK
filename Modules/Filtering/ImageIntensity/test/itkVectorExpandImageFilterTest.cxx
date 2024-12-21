@@ -91,7 +91,7 @@ itkVectorExpandImageFilterTest(int, char *[])
 
 
   std::cout << "Create the input image pattern." << std::endl;
-  ImageType::RegionType         region;
+  ImageType::RegionType region;
   constexpr ImageType::SizeType size = { { 64, 64 } };
   region.SetSize(size);
 
@@ -100,7 +100,7 @@ itkVectorExpandImageFilterTest(int, char *[])
   input->SetBufferedRegion(region);
   input->Allocate();
 
-  int                          j, k;
+  int j, k;
   ImagePattern<ImageDimension> pattern;
   pattern.m_Offset = 64;
   for (j = 0; j < ImageDimension; ++j)
@@ -117,7 +117,7 @@ itkVectorExpandImageFilterTest(int, char *[])
   {
 
     const double value = pattern.Evaluate(inIter.GetIndex());
-    PixelType    pixel;
+    PixelType pixel;
     for (k = 0; k < VectorDimension; ++k)
     {
       pixel[k] = vectorCoeff[k] * value;
@@ -150,11 +150,11 @@ itkVectorExpandImageFilterTest(int, char *[])
 
   using PixelType = ImageType::PixelType;
   using ValueType = PixelType::ValueType;
-  ValueType            padValueArray[VectorDimension] = { 2.0, 7.0, 9.0 };
+  ValueType padValueArray[VectorDimension] = { 2.0, 7.0, 9.0 };
   ImageType::PixelType padValue(padValueArray);
   // TEST_RMV20100728   expander->SetEdgePaddingValue( padValue );
 
-  ShowProgressObject                                    progressWatch(expander);
+  ShowProgressObject progressWatch(expander);
   itk::SimpleMemberCommand<ShowProgressObject>::Pointer command = itk::SimpleMemberCommand<ShowProgressObject>::New();
   command->SetCallbackFunction(&progressWatch, &ShowProgressObject::ShowProgress);
   expander->AddObserver(itk::ProgressEvent(), command);
@@ -169,7 +169,7 @@ itkVectorExpandImageFilterTest(int, char *[])
   Iterator outIter(expanderOutput, expanderOutput->GetBufferedRegion());
 
   // compute non-padded output region
-  ImageType::RegionType     validRegion = expanderOutput->GetLargestPossibleRegion();
+  ImageType::RegionType validRegion = expanderOutput->GetLargestPossibleRegion();
   const ImageType::SizeType validSize = validRegion.GetSize();
 
   validRegion.SetSize(validSize);
@@ -177,7 +177,7 @@ itkVectorExpandImageFilterTest(int, char *[])
   for (; !outIter.IsAtEnd(); ++outIter)
   {
     const ImageType::IndexType index = outIter.GetIndex();
-    ImageType::PixelType       value = outIter.Get();
+    ImageType::PixelType value = outIter.Get();
 
     if (validRegion.IsInside(index))
     {
@@ -185,7 +185,7 @@ itkVectorExpandImageFilterTest(int, char *[])
       ImageType::PointType point;
       expanderOutput->TransformIndexToPhysicalPoint(outIter.GetIndex(), point);
       const ImageType::IndexType inputIndex = input->TransformPhysicalPointToIndex(point);
-      const double               baseValue = pattern.Evaluate(inputIndex);
+      const double baseValue = pattern.Evaluate(inputIndex);
 
       for (k = 0; k < VectorDimension; ++k)
       {

@@ -112,8 +112,8 @@ protected:
   // output
   LevelSetPointer m_OutputLevelSet{};
 
-  IdentifierType           m_CurrentLevelSetId{};
-  LevelSetOutputRealType   m_RMSChangeAccumulator{};
+  IdentifierType m_CurrentLevelSetId{};
+  LevelSetOutputRealType m_RMSChangeAccumulator{};
   EquationContainerPointer m_EquationContainer{};
 
   using LabelImageType = Image<int8_t, ImageDimension>;
@@ -136,13 +136,13 @@ protected:
 
   /** Return true if there is a pixel from the opposite layer (+1 or -1) moving in the same direction */
   bool
-  Con(const LevelSetInputType &      idx,
-      const LevelSetOutputType &     currentStatus,
+  Con(const LevelSetInputType & idx,
+      const LevelSetOutputType & currentStatus,
       const LevelSetOutputRealType & currentUpdate) const;
 
 private:
   // input
-  LevelSetPointer    m_InputLevelSet{};
+  LevelSetPointer m_InputLevelSet{};
   LevelSetOffsetType m_Offset{};
 
   using NodePairType = std::pair<LevelSetInputType, LevelSetOutputType>;

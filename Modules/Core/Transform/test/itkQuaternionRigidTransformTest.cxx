@@ -27,14 +27,14 @@ itkQuaternionRigidTransformTest(int, char *[])
   using CoordinateType = double;
   using TransformType = itk::QuaternionRigidTransform<CoordinateType>;
 
-  constexpr double       epsilon = 1e-10;
+  constexpr double epsilon = 1e-10;
   constexpr unsigned int N = 3;
 
   bool Ok = true;
 
   /* Create a 3D identity transformation and show its parameters */
   {
-    auto                      identityTransform = TransformType::New();
+    auto identityTransform = TransformType::New();
     TransformType::OffsetType offset = identityTransform->GetOffset();
     std::cout << "Vector from instantiating an identity transform:  ";
     std::cout << offset << std::endl;
@@ -55,7 +55,7 @@ itkQuaternionRigidTransformTest(int, char *[])
 
   /* Create a Rigid 3D transform with translation */
   {
-    auto                            translation = TransformType::New();
+    auto translation = TransformType::New();
     TransformType::OutputVectorType itransVector;
     itransVector[0] = 1;
     itransVector[1] = 4;
@@ -85,8 +85,8 @@ itkQuaternionRigidTransformTest(int, char *[])
     {
       // Translate an itk::Point
       constexpr TransformType::InputPointType::ValueType pInit[3] = { 10, 10, 10 };
-      const TransformType::InputPointType                p = pInit;
-      TransformType::InputPointType                      q;
+      const TransformType::InputPointType p = pInit;
+      TransformType::InputPointType q;
       q = p + itransVector;
       TransformType::OutputPointType r;
       r = translation->TransformPoint(p);
@@ -114,8 +114,8 @@ itkQuaternionRigidTransformTest(int, char *[])
     {
       // Translate an itk::Vector
       TransformType::InputVectorType::ValueType pInit[3] = { 10, 10, 10 };
-      TransformType::InputVectorType            p = pInit;
-      TransformType::OutputVectorType           q;
+      TransformType::InputVectorType p = pInit;
+      TransformType::OutputVectorType q;
       q = translation->TransformVector(p);
       for (unsigned int i = 0; i < N; ++i)
       {
@@ -140,8 +140,8 @@ itkQuaternionRigidTransformTest(int, char *[])
     {
       // Translate an itk::CovariantVector
       TransformType::InputCovariantVectorType::ValueType pInit[3] = { 10, 10, 10 };
-      TransformType::InputCovariantVectorType            p = pInit;
-      TransformType::OutputCovariantVectorType           q;
+      TransformType::InputCovariantVectorType p = pInit;
+      TransformType::OutputCovariantVectorType q;
       q = translation->TransformCovariantVector(p);
       for (unsigned int i = 0; i < N; ++i)
       {
@@ -194,7 +194,7 @@ itkQuaternionRigidTransformTest(int, char *[])
 
   /* Create a Rigid 3D transform with a rotation given by a Matrix */
   {
-    auto                             rotation = TransformType::New();
+    auto rotation = TransformType::New();
     TransformType::VnlQuaternionType qrotation;
 
     // 15 degrees in radians
@@ -266,8 +266,8 @@ itkQuaternionRigidTransformTest(int, char *[])
     {
       // Rotate an itk::Point
       constexpr TransformType::InputPointType::ValueType pInit[3] = { 10, 10, 10 };
-      TransformType::InputPointType                      p = pInit;
-      TransformType::InputPointType                      q;
+      TransformType::InputPointType p = pInit;
+      TransformType::InputPointType q;
 
       q[0] = p[0] * costh - p[1] * sinth;
       q[1] = p[0] * sinth + p[1] * costh;
@@ -299,7 +299,7 @@ itkQuaternionRigidTransformTest(int, char *[])
     {
       // Rotate an itk::Vector
       TransformType::InputVectorType::ValueType pInit[3] = { 10, 10, 10 };
-      TransformType::InputVectorType            p = pInit;
+      TransformType::InputVectorType p = pInit;
 
       TransformType::InputPointType q;
       q[0] = p[0] * costh - p[1] * sinth;
@@ -332,8 +332,8 @@ itkQuaternionRigidTransformTest(int, char *[])
     {
       // Rotate an itk::CovariantVector
       TransformType::InputCovariantVectorType::ValueType pInit[3] = { 10, 10, 10 };
-      TransformType::InputCovariantVectorType            p = pInit;
-      TransformType::OutputCovariantVectorType           q;
+      TransformType::InputCovariantVectorType p = pInit;
+      TransformType::OutputCovariantVectorType q;
 
       q[0] = p[0] * costh - p[1] * sinth;
       q[1] = p[0] * sinth + p[1] * costh;
@@ -403,7 +403,7 @@ itkQuaternionRigidTransformTest(int, char *[])
     // Test the Jacobian
     std::cout << "Testing ComputeJacobianWithRespectToParameters()" << std::endl;
 
-    auto                          quaternionRigid = TransformType::New();
+    auto quaternionRigid = TransformType::New();
     TransformType::ParametersType parameters(quaternionRigid->GetNumberOfParameters());
 
     parameters.Fill(0.0);
@@ -432,7 +432,7 @@ itkQuaternionRigidTransformTest(int, char *[])
     TransformType::JacobianType approxJacobian = jacobian;
     for (unsigned int k = 0; k < quaternionRigid->GetNumberOfParameters(); ++k)
     {
-      constexpr double              delta = 0.001;
+      constexpr double delta = 0.001;
       TransformType::ParametersType plusParameters;
       TransformType::ParametersType minusParameters;
 
@@ -473,7 +473,7 @@ itkQuaternionRigidTransformTest(int, char *[])
     TransformType::OutputPointType pOut;
     quaternionRigid->SetParameters(parameters);
     {
-      auto       inverseQuaternionRigid = TransformType::New();
+      auto inverseQuaternionRigid = TransformType::New();
       const bool inverseIsValid = quaternionRigid->GetInverse(inverseQuaternionRigid);
       if (!inverseIsValid)
       {
@@ -505,7 +505,7 @@ itkQuaternionRigidTransformTest(int, char *[])
 
   /* Create a Rigid 3D transform with a defined center and a rotation given by a Matrix */
   {
-    auto                             rotation = TransformType::New();
+    auto rotation = TransformType::New();
     TransformType::VnlQuaternionType qrotation;
 
     // 15 degrees in radians
@@ -601,8 +601,8 @@ itkQuaternionRigidTransformTest(int, char *[])
     {
       // Rotate an itk::Point
       constexpr TransformType::InputPointType::ValueType pInit[3] = { 10, 10, 10 };
-      TransformType::InputPointType                      p = pInit;
-      TransformType::InputPointType                      q;
+      TransformType::InputPointType p = pInit;
+      TransformType::InputPointType q;
 
       const CoordinateType x = p[0] - center[0];
       const CoordinateType y = p[1] - center[1];
@@ -638,7 +638,7 @@ itkQuaternionRigidTransformTest(int, char *[])
     {
       // Rotate an itk::Vector
       TransformType::InputVectorType::ValueType pInit[3] = { 10, 10, 10 };
-      TransformType::InputVectorType            p = pInit;
+      TransformType::InputVectorType p = pInit;
 
       TransformType::OutputVectorType q;
       q[0] = p[0] * costh - p[1] * sinth;
@@ -671,8 +671,8 @@ itkQuaternionRigidTransformTest(int, char *[])
     {
       // Rotate an itk::CovariantVector
       TransformType::InputCovariantVectorType::ValueType pInit[3] = { 10, 10, 10 };
-      TransformType::InputCovariantVectorType            p = pInit;
-      TransformType::OutputCovariantVectorType           q;
+      TransformType::InputCovariantVectorType p = pInit;
+      TransformType::OutputCovariantVectorType q;
 
       q[0] = p[0] * costh - p[1] * sinth;
       q[1] = p[0] * sinth + p[1] * costh;

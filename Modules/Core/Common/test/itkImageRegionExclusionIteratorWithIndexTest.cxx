@@ -97,7 +97,7 @@ RunTest(const TRegion & region, const TRegion & exclusionRegion)
   ev.SetExclusionRegion(exclusionRegion);
   ei.SetExclusionRegion(exclusionRegion);
 
-  unsigned int       numberOfPixelsVisited = 0;
+  unsigned int numberOfPixelsVisited = 0;
   const unsigned int pixelsToVisit = region.GetNumberOfPixels() - croppedExclusionRegion.GetNumberOfPixels();
 
   ev.GoToBegin();
@@ -258,8 +258,8 @@ itkImageRegionExclusionIteratorWithIndexTest(int, char *[])
   using RegionType = itk::ImageRegion<Dimension>;
 
   constexpr IndexType regionStart{};
-  auto                regionSize = itk::MakeFilled<SizeType>(7);
-  const RegionType    region{ regionStart, regionSize };
+  auto regionSize = itk::MakeFilled<SizeType>(7);
+  const RegionType region{ regionStart, regionSize };
 
   constexpr SizeType::SizeValueType size[2] = { 4, 7 };
 
@@ -291,8 +291,8 @@ itkImageRegionExclusionIteratorWithIndexTest(int, char *[])
   }
 
   // Test exclusion region completely outside the region.
-  auto             exclusionStart = IndexType::Filled(-3);
-  auto             exclusionSize = SizeType::Filled(2);
+  auto exclusionStart = IndexType::Filled(-3);
+  auto exclusionSize = SizeType::Filled(2);
   const RegionType exclusionRegion(exclusionStart, exclusionSize);
 
   if (!RunTest(region, exclusionRegion))

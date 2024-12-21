@@ -119,7 +119,7 @@ protected:
 
 private:
   OutputPixelType m_BackgroundColor{};
-  LabelPixelType  m_BackgroundValue{};
+  LabelPixelType m_BackgroundValue{};
 };
 } // end namespace itk
 

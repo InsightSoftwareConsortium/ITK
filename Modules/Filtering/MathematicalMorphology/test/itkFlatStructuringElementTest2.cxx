@@ -38,10 +38,10 @@ GetImage(const itk::FlatStructuringElement<VDimension> & flatElement)
   using ConstIterator = typename FlatStructuringElement<2U>::ConstIterator;
   using PixelType = unsigned char;
 
-  auto                           image = ImageType::New();
+  auto image = ImageType::New();
   typename ImageType::RegionType region;
-  RadiusType                     size = flatElement.GetRadius();
-  Index<VDimension>              centerIdx;
+  RadiusType size = flatElement.GetRadius();
+  Index<VDimension> centerIdx;
 
   for (unsigned int i = 0; i < VDimension; ++i)
   {
@@ -53,7 +53,7 @@ GetImage(const itk::FlatStructuringElement<VDimension> & flatElement)
   image->Allocate();
 
   ImageRegionIterator<ImageType> img_it(image, region);
-  ConstIterator                  kernel_it;
+  ConstIterator kernel_it;
   for (img_it.GoToBegin(), kernel_it = flatElement.Begin(); !img_it.IsAtEnd(); ++img_it, ++kernel_it)
   {
     if (*kernel_it)
@@ -112,7 +112,7 @@ itkFlatStructuringElementTest2(int argc, char * argv[])
   cast->Update();
   const ImageBoolType::Pointer testImgBool = cast->GetOutput();
 
-  const FSEType              flatStructure = FSEType::FromImage(testImgBool);
+  const FSEType flatStructure = FSEType::FromImage(testImgBool);
   const ImageUCType::Pointer imgFromStructure = GetImage(flatStructure);
 
   // Write result from GetImage for comparison with input image

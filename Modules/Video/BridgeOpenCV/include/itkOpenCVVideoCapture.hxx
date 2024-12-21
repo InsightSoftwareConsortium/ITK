@@ -148,7 +148,7 @@ OpenCVVideoCapture<TVideoStream>::retrieve(cv::Mat & image, int itkNotUsed(chann
 
   // Get the requested frame
   SizeValueType frameNum = m_VideoStream->GetRequestedTemporalRegion().GetFrameStart();
-  FrameType *   frame = m_VideoStream->GetFrame(frameNum);
+  FrameType * frame = m_VideoStream->GetFrame(frameNum);
 
   // Make sure frame isn't null
   if (!frame)
@@ -159,9 +159,9 @@ OpenCVVideoCapture<TVideoStream>::retrieve(cv::Mat & image, int itkNotUsed(chann
 
   // Instantiate the cv::Mat with the proper size and type
   typename FrameType::SizeType size = frame->GetLargestPossibleRegion().GetSize();
-  unsigned int                 depth = cv::DataDepth<typename itk::NumericTraits<PixelType>::ValueType>::value;
-  unsigned int                 channels = itk::NumericTraits<PixelType>::MeasurementVectorType::Dimension;
-  int                          matrixType = CV_MAKETYPE(depth, channels);
+  unsigned int depth = cv::DataDepth<typename itk::NumericTraits<PixelType>::ValueType>::value;
+  unsigned int channels = itk::NumericTraits<PixelType>::MeasurementVectorType::Dimension;
+  int matrixType = CV_MAKETYPE(depth, channels);
 
   // Copy the pixels -- There is probably a faster way to do this
   using ITKIterType = itk::ImageRegionConstIteratorWithIndex<FrameType>;
@@ -247,10 +247,10 @@ OpenCVVideoCapture<TVideoStream>::set(int propId, double value)
   }
 
   // Variables for use in cases
-  SizeValueType  maxFrame;
-  SizeValueType  nextFrame;
-  SizeValueType  ratioFrameOffset;
-  SizeValueType  newFrame;
+  SizeValueType maxFrame;
+  SizeValueType nextFrame;
+  SizeValueType ratioFrameOffset;
+  SizeValueType newFrame;
   TemporalRegion largestPossible;
   TemporalRegion newRequest;
 
@@ -341,8 +341,8 @@ OpenCVVideoCapture<TVideoStream>::get(int propId)
   }
 
   // Variables for use in cases
-  SizeValueType  frameNum = m_VideoStream->GetRequestedTemporalRegion().GetFrameStart();
-  SizeValueType  currentOffset;
+  SizeValueType frameNum = m_VideoStream->GetRequestedTemporalRegion().GetFrameStart();
+  SizeValueType currentOffset;
   TemporalRegion largest;
   TemporalRegion requested;
 

@@ -94,7 +94,7 @@ itkBinaryImageToShapeLabelMapFilterTest1(int argc, char * argv[])
 
 
   using L2IType = itk::LabelMapToLabelImageFilter<LabelMapType, ImageType>;
-  auto                           l2i = L2IType::New();
+  auto l2i = L2IType::New();
   const itk::SimpleFilterWatcher watcher2(l2i);
 
   l2i->SetInput(i2l->GetOutput());

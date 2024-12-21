@@ -119,8 +119,8 @@ main(int argc, char * argv[])
 
   const ImageType::ConstPointer inputImage = reader->GetOutput();
 
-  ImageType::PointType           origin = inputImage->GetOrigin();
-  ImageType::SpacingType         spacing = inputImage->GetSpacing();
+  ImageType::PointType origin = inputImage->GetOrigin();
+  ImageType::SpacingType spacing = inputImage->GetSpacing();
   const ImageType::DirectionType direction = inputImage->GetDirection();
 
   if (argc > 3)

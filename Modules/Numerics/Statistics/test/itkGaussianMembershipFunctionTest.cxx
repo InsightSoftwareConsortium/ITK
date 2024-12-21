@@ -80,7 +80,7 @@ itkGaussianMembershipFunctionTest(int, char *[])
   measurement[0] = 1.5;
 
   constexpr double trueValue = 0.3989;
-  const double     distanceComputed = function->Evaluate(measurement);
+  const double distanceComputed = function->Evaluate(measurement);
 
   if (itk::Math::abs(distanceComputed - trueValue) > tolerance)
   {

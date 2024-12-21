@@ -68,11 +68,11 @@ itkBSplineExponentialDiffeomorphicTransformParametersAdaptorTest(int, char *[])
   transform->SetConstantVelocityField(displacementField);
   transform->IntegrateVelocityField();
 
-  auto                                 point = itk::MakeFilled<TransformType::InputPointType>(50.0);
+  auto point = itk::MakeFilled<TransformType::InputPointType>(50.0);
   const TransformType::OutputPointType outputPointBeforeAdapt = transform->TransformPoint(point);
 
   const SpacingType spacingBefore = transform->GetConstantVelocityField()->GetSpacing();
-  const SizeType    sizeBefore = transform->GetConstantVelocityField()->GetLargestPossibleRegion().GetSize();
+  const SizeType sizeBefore = transform->GetConstantVelocityField()->GetLargestPossibleRegion().GetSize();
 
   /**
    * Instantiate the adaptor
@@ -82,7 +82,7 @@ itkBSplineExponentialDiffeomorphicTransformParametersAdaptorTest(int, char *[])
 
   std::cout << "Instantiate adaptor." << std::endl;
 
-  auto     requiredSpacing = itk::MakeFilled<SpacingType>(0.6);
+  auto requiredSpacing = itk::MakeFilled<SpacingType>(0.6);
   SizeType requiredSize;
   for (unsigned int d = 0; d < SpaceDimension; ++d)
   {
@@ -117,7 +117,7 @@ itkBSplineExponentialDiffeomorphicTransformParametersAdaptorTest(int, char *[])
 
 
   const SpacingType spacingAfter = transform->GetConstantVelocityField()->GetSpacing();
-  const SizeType    sizeAfter = transform->GetConstantVelocityField()->GetLargestPossibleRegion().GetSize();
+  const SizeType sizeAfter = transform->GetConstantVelocityField()->GetLargestPossibleRegion().GetSize();
 
   std::cout << "Spacing: " << spacingBefore << "(before), " << spacingAfter << "(after)." << std::endl;
   std::cout << "Size: " << sizeBefore << "(before), " << sizeAfter << "(after)." << std::endl;

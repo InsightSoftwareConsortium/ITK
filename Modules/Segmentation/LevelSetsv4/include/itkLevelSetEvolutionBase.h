@@ -159,14 +159,14 @@ protected:
 
   StoppingCriterionPointer m_StoppingCriterion{};
 
-  EquationContainerPointer                m_EquationContainer{};
+  EquationContainerPointer m_EquationContainer{};
   typename LevelSetContainerType::Pointer m_LevelSetContainer{};
 
   LevelSetOutputRealType m_Alpha{};
   LevelSetOutputRealType m_Dt{};
   LevelSetOutputRealType m_RMSChangeAccumulator{};
-  bool                   m_UserGloballyDefinedTimeStep{};
-  IdentifierType         m_NumberOfIterations{};
+  bool m_UserGloballyDefinedTimeStep{};
+  IdentifierType m_NumberOfIterations{};
 
   /** Helper members for threading. */
   typename LevelSetContainerType::Iterator m_LevelSetContainerIteratorToProcessWhenThreading{};

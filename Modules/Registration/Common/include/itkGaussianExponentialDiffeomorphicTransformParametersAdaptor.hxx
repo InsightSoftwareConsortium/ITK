@@ -80,7 +80,7 @@ GaussianExponentialDiffeomorphicTransformParametersAdaptor<TTransform>::AdaptTra
 template <typename TTransform>
 void
 GaussianExponentialDiffeomorphicTransformParametersAdaptor<TTransform>::PrintSelf(std::ostream & os,
-                                                                                  Indent         indent) const
+                                                                                  Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

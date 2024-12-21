@@ -83,15 +83,15 @@ CollidingFrontsImageFilter<TInputImage, TOutputImage>::GenerateData()
   multiplyFilter->SetInput2(fastMarchingFilter2->GetGradientImage());
   multiplyFilter->Update();
 
-  const OutputImagePointer                    multipliedImage = multiplyFilter->GetOutput();
-  typename NodeContainer::ConstIterator       pointsIter1 = m_SeedPoints1->Begin();
+  const OutputImagePointer multipliedImage = multiplyFilter->GetOutput();
+  typename NodeContainer::ConstIterator pointsIter1 = m_SeedPoints1->Begin();
   const typename NodeContainer::ConstIterator pointsEnd1 = m_SeedPoints1->End();
   for (; pointsIter1 != pointsEnd1; ++pointsIter1)
   {
     multipliedImage->SetPixel(pointsIter1.Value().GetIndex(), m_NegativeEpsilon);
   }
 
-  typename NodeContainer::ConstIterator       pointsIter2 = m_SeedPoints2->Begin();
+  typename NodeContainer::ConstIterator pointsIter2 = m_SeedPoints2->Begin();
   const typename NodeContainer::ConstIterator pointsEnd2 = m_SeedPoints2->End();
   for (; pointsIter2 != pointsEnd2; ++pointsIter2)
   {

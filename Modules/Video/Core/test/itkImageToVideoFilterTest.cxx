@@ -47,7 +47,7 @@ itkImageToVideoFilterTest(int argc, char * argv[])
   using ImageType = itk::Image<PixelType, Dimension>;
 
   // Get 3D image to represent a temporal dataset of 2D frames
-  const auto                        inputImage = itk::ReadImage<ImageType>(argv[1]);
+  const auto inputImage = itk::ReadImage<ImageType>(argv[1]);
   typename ImageType::DirectionType inputDirection;
   /* Set input image direction matrix to
    * 1  0 0

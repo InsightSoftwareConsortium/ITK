@@ -60,15 +60,15 @@ itkResampleImageTest6(int argc, char * argv[])
 
   // Create and configure an image
   const ImagePointerType image = ImageType::New();
-  ImageIndexType         index = { { 0, 0 } };
-  ImageSizeType          size = { { 64, 64 } };
-  const ImageRegionType  region{ index, size };
+  ImageIndexType index = { { 0, 0 } };
+  ImageSizeType size = { { 64, 64 } };
+  const ImageRegionType region{ index, size };
   image->SetLargestPossibleRegion(region);
   image->SetBufferedRegion(region);
   image->SetVectorLength(3);
   image->Allocate();
 
-  auto          newDims = static_cast<unsigned int>(64 * scaling);
+  auto newDims = static_cast<unsigned int>(64 * scaling);
   ImageSizeType osize = { { newDims, newDims } };
 
   ImageType::SpacingType spacing;
@@ -78,7 +78,7 @@ itkResampleImageTest6(int argc, char * argv[])
   // Fill image with a ramp
   std::cout << "init image..." << std::flush;
   itk::ImageRegionIteratorWithIndex<ImageType> iter(image, region);
-  PixelType                                    value;
+  PixelType value;
   value.SetSize(3);
 
   for (iter.GoToBegin(); !iter.IsAtEnd(); ++iter)

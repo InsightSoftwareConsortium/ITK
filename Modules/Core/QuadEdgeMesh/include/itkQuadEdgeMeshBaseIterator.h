@@ -216,8 +216,8 @@ protected:
 protected:
   QuadEdgeType * m_StartEdge{}; /**< Start edge */
   QuadEdgeType * m_Iterator{};  /**< Current iteration position */
-  int            m_OpType{};    /**< Operation type */
-  bool           m_Start{};     /**< Indicates iteration has just started */
+  int m_OpType{};               /**< Operation type */
+  bool m_Start{};               /**< Indicates iteration has just started */
 };
 
 /**
@@ -307,8 +307,8 @@ public:
 public:
   /** Object creation methods. */
   QuadEdgeMeshConstIterator(const QuadEdgeType * e = (QuadEdgeType *)0,
-                            int                  op = Superclass::OperatorOnext,
-                            bool                 start = true)
+                            int op = Superclass::OperatorOnext,
+                            bool start = true)
     : Superclass(const_cast<QuadEdgeType *>(e), op, start)
   {}
 
@@ -354,8 +354,8 @@ public:
 
 public:
   QuadEdgeMeshConstIteratorGeom(const QuadEdgeType * e = (QuadEdgeType *)0,
-                                int                  op = Superclass::OperatorOnext,
-                                bool                 start = true)
+                                int op = Superclass::OperatorOnext,
+                                bool start = true)
     : Superclass(e, op, start)
   {}
 

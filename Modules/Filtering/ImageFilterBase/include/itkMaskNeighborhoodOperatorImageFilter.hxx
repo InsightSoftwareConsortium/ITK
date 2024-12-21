@@ -53,7 +53,7 @@ MaskNeighborhoodOperatorImageFilter<TInputImage, TMaskImage, TOutputImage, TOper
   // Superclass handled the input image, now we just need to handle
   // the mask image is any.
   const InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput());
-  const MaskImagePointer  maskPtr = const_cast<TMaskImage *>(this->GetMaskImage());
+  const MaskImagePointer maskPtr = const_cast<TMaskImage *>(this->GetMaskImage());
 
   if (!inputPtr || !maskPtr)
   {
@@ -91,9 +91,9 @@ void
 MaskNeighborhoodOperatorImageFilter<TInputImage, TMaskImage, TOutputImage, TOperatorValueType>::
   DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
-  OutputImageType *      output = this->GetOutput();
+  OutputImageType * output = this->GetOutput();
   const InputImageType * input = this->GetInput();
-  const MaskImageType *  mask = this->GetMaskImage();
+  const MaskImageType * mask = this->GetMaskImage();
 
   // If mask is not specified, call the superclass...
   if (!mask)
@@ -112,7 +112,7 @@ MaskNeighborhoodOperatorImageFilter<TInputImage, TMaskImage, TOutputImage, TOper
   using BFC = NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>;
 
   using FaceListType = typename BFC::FaceListType;
-  BFC                faceCalculator;
+  BFC faceCalculator;
   const FaceListType faceList = faceCalculator(input, outputRegionForThread, this->GetOperator().GetRadius());
 
   TotalProgressReporter progress(this, output->GetRequestedRegion().GetNumberOfPixels());
@@ -123,8 +123,8 @@ MaskNeighborhoodOperatorImageFilter<TInputImage, TMaskImage, TOutputImage, TOper
   // Process non-boundary region and each of the boundary faces.
   // These are N-d regions which border the edge of the buffer.
   ConstNeighborhoodIterator<InputImageType> bit;
-  ImageRegionIterator<OutputImageType>      it;
-  ImageRegionConstIterator<MaskImageType>   mit;
+  ImageRegionIterator<OutputImageType> it;
+  ImageRegionConstIterator<MaskImageType> mit;
 
   for (const auto & face : faceList)
   {
@@ -158,7 +158,7 @@ template <typename TInputImage, typename TMaskImage, typename TOutputImage, type
 void
 MaskNeighborhoodOperatorImageFilter<TInputImage, TMaskImage, TOutputImage, TOperatorValueType>::PrintSelf(
   std::ostream & os,
-  Indent         indent) const
+  Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Default value : " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_DefaultValue)

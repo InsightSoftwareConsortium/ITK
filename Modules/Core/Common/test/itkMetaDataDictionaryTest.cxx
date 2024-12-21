@@ -29,7 +29,7 @@ itkMetaDataDictionaryTest(int, char *[])
   //-------Floats
   itk::EncapsulateMetaData<float>(MyDictionary, "ASimpleFloatInitalized", static_cast<float>(1.234560F));
   {
-    float      tempfloat = 0.0;
+    float tempfloat = 0.0;
     const bool IsValidReturn = itk::ExposeMetaData<float>(MyDictionary, "ASimpleFloatInitalized", tempfloat);
     if (IsValidReturn)
     {
@@ -101,8 +101,8 @@ itkMetaDataDictionaryTest(int, char *[])
   try
   {
     const itk::MetaDataDictionary & MyConstDictionary = MyDictionary;
-    auto                            itr = MyConstDictionary.Begin();
-    auto                            end = MyConstDictionary.End();
+    auto itr = MyConstDictionary.Begin();
+    auto end = MyConstDictionary.End();
 
     while (itr != end)
     {

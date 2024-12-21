@@ -76,7 +76,7 @@ itkMorphologicalGradientImageFilterTest2(int argc, char * argv[])
 
 
   using SRType = itk::FlatStructuringElement<dim>;
-  auto         elementRadius = itk::MakeFilled<SRType::RadiusType>(4);
+  auto elementRadius = itk::MakeFilled<SRType::RadiusType>(4);
   const SRType structuringElement2 = SRType::Box(elementRadius);
 
   using Gradient1Type = itk::MorphologicalGradientImageFilter<IType, IType, SRType>;

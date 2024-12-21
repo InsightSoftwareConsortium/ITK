@@ -207,7 +207,7 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   using PointIterator = MeshType::PointsContainer::ConstIterator;
-  PointIterator       pointIterator = mesh->GetPoints()->Begin();
+  PointIterator pointIterator = mesh->GetPoints()->Begin();
   const PointIterator pointEnd = mesh->GetPoints()->End();
 
   while (pointIterator != pointEnd)

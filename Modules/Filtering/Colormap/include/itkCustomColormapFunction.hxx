@@ -37,13 +37,13 @@ CustomColormapFunction<TScalar, TRGBPixel>::operator()(const TScalar & v) const 
     GREEN = 1,
     BLUE = 2
   };
-  RealType                  RGBValue[3] = { 0.0 };
+  RealType RGBValue[3] = { 0.0 };
   const ChannelType * const ColorChannel[3] = { &m_RedChannel, &m_GreenChannel, &m_BlueChannel };
 
   for (size_t color = RED; color <= BLUE; ++color) // Go through all the colors
   {
     const size_t size = ColorChannel[color]->size();
-    auto         index = Math::Ceil<size_t, RealType>(value * static_cast<RealType>(size - 1));
+    auto index = Math::Ceil<size_t, RealType>(value * static_cast<RealType>(size - 1));
 
     if (size == 1 || index < 1)
     {

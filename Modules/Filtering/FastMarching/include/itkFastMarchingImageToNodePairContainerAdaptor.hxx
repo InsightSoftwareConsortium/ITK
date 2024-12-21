@@ -119,8 +119,8 @@ FastMarchingImageToNodePairContainerAdaptor<TInput, TOutput, TImage>::GenerateDa
 
 template <typename TInput, typename TOutput, typename TImage>
 void
-FastMarchingImageToNodePairContainerAdaptor<TInput, TOutput, TImage>::SetPointsFromImage(const ImageType *       image,
-                                                                                         const LabelType &       iLabel,
+FastMarchingImageToNodePairContainerAdaptor<TInput, TOutput, TImage>::SetPointsFromImage(const ImageType * image,
+                                                                                         const LabelType & iLabel,
                                                                                          const OutputPixelType & iValue)
 {
   if (iLabel == Traits::Alive || iLabel == Traits::InitialTrial || iLabel == Traits::Forbidden)

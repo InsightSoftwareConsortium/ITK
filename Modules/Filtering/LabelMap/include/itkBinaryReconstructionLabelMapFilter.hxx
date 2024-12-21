@@ -45,7 +45,7 @@ BinaryReconstructionLabelMapFilter<TImage, TMarkerImage, TAttributeAccessor>::Th
   typename LabelObjectType::ConstIndexIterator it(labelObject);
   while (!it.IsAtEnd())
   {
-    const IndexType &            idx = it.GetIndex();
+    const IndexType & idx = it.GetIndex();
     const MarkerImagePixelType & v = maskImage->GetPixel(idx);
     if (v == m_ForegroundValue)
     {
@@ -64,7 +64,7 @@ BinaryReconstructionLabelMapFilter<TImage, TMarkerImage, TAttributeAccessor>::Th
 template <typename TImage, typename TMarkerImage, typename TAttributeAccessor>
 void
 BinaryReconstructionLabelMapFilter<TImage, TMarkerImage, TAttributeAccessor>::PrintSelf(std::ostream & os,
-                                                                                        Indent         indent) const
+                                                                                        Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

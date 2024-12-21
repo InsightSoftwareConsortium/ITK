@@ -57,10 +57,10 @@ public:
       return;
     }
 
-    const unsigned int                                             currentLevel = filter->GetCurrentLevel();
+    const unsigned int currentLevel = filter->GetCurrentLevel();
     const typename TFilter::ShrinkFactorsPerDimensionContainerType shrinkFactors =
       filter->GetShrinkFactorsPerDimension(currentLevel);
-    typename TFilter::SmoothingSigmasArrayType                 smoothingSigmas = filter->GetSmoothingSigmasPerLevel();
+    typename TFilter::SmoothingSigmasArrayType smoothingSigmas = filter->GetSmoothingSigmasPerLevel();
     typename TFilter::TransformParametersAdaptorsContainerType adaptors =
       filter->GetTransformParametersAdaptorsPerLevel();
 
@@ -77,12 +77,12 @@ int
 PerformTimeVaryingBSplineVelocityFieldImageRegistration(int argc, char * argv[])
 {
 
-  int    numberOfAffineIterations = 100;
-  int    numberOfDeformableIterationsLevel0 = 10;
-  int    numberOfDeformableIterationsLevel1 = 20;
-  int    numberOfDeformableIterationsLevel2 = 11;
+  int numberOfAffineIterations = 100;
+  int numberOfDeformableIterationsLevel0 = 10;
+  int numberOfDeformableIterationsLevel1 = 20;
+  int numberOfDeformableIterationsLevel2 = 11;
   double learningRate = 0.5;
-  auto   convergenceWindowSize = 10U;
+  auto convergenceWindowSize = 10U;
 
   if (argc >= 6)
   {
@@ -266,15 +266,15 @@ PerformTimeVaryingBSplineVelocityFieldImageRegistration(int argc, char * argv[])
 
   // Determine the parameters (size, spacing, etc) for the time-varying velocity field
 
-  typename FixedImageType::SizeType      fixedImageSize = fixedImage->GetBufferedRegion().GetSize();
-  typename FixedImageType::PointType     fixedImageOrigin = fixedImage->GetOrigin();
-  typename FixedImageType::SpacingType   fixedImageSpacing = fixedImage->GetSpacing();
+  typename FixedImageType::SizeType fixedImageSize = fixedImage->GetBufferedRegion().GetSize();
+  typename FixedImageType::PointType fixedImageOrigin = fixedImage->GetOrigin();
+  typename FixedImageType::SpacingType fixedImageSpacing = fixedImage->GetSpacing();
   typename FixedImageType::DirectionType fixedImageDirection = fixedImage->GetDirection();
 
-  typename TimeVaryingVelocityFieldControlPointLatticeType::SizeType      transformDomainMeshSize;
-  typename TimeVaryingVelocityFieldControlPointLatticeType::PointType     transformDomainOrigin;
-  typename TimeVaryingVelocityFieldControlPointLatticeType::SpacingType   transformDomainSpacing;
-  typename TimeVaryingVelocityFieldControlPointLatticeType::SizeType      transformDomainSize;
+  typename TimeVaryingVelocityFieldControlPointLatticeType::SizeType transformDomainMeshSize;
+  typename TimeVaryingVelocityFieldControlPointLatticeType::PointType transformDomainOrigin;
+  typename TimeVaryingVelocityFieldControlPointLatticeType::SpacingType transformDomainSpacing;
+  typename TimeVaryingVelocityFieldControlPointLatticeType::SizeType transformDomainSize;
   typename TimeVaryingVelocityFieldControlPointLatticeType::DirectionType transformDomainDirection;
 
   transformDomainDirection.SetIdentity();
@@ -333,9 +333,9 @@ PerformTimeVaryingBSplineVelocityFieldImageRegistration(int argc, char * argv[])
   velocityFieldLattice->Allocate();
   velocityFieldLattice->FillBuffer(zeroVector);
 
-  typename TransformType::VelocityFieldPointType     velocityFieldOrigin;
-  typename TransformType::VelocityFieldSpacingType   velocityFieldSpacing;
-  typename TransformType::VelocityFieldSizeType      velocityFieldSize;
+  typename TransformType::VelocityFieldPointType velocityFieldOrigin;
+  typename TransformType::VelocityFieldSpacingType velocityFieldSpacing;
+  typename TransformType::VelocityFieldSizeType velocityFieldSize;
   typename TransformType::VelocityFieldDirectionType velocityFieldDirection;
 
   velocityFieldOrigin.Fill(0.0);

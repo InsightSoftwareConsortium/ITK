@@ -160,8 +160,8 @@ public:
    */
   PixelType
   ComputeUpdate(const NeighborhoodType & neighborhood,
-                void *                   globalData,
-                const FloatOffsetType &  offset = FloatOffsetType(0.0)) override;
+                void * globalData,
+                const FloatOffsetType & offset = FloatOffsetType(0.0)) override;
 
 protected:
   MeanSquareRegistrationFunction();

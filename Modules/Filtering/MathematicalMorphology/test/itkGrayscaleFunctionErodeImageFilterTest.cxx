@@ -125,7 +125,7 @@ itkGrayscaleFunctionErodeImageFilterTest(int argc, char * argv[])
   const itk::SimpleFilterWatcher watcher(filter, "filter");
 
   // Create the structuring element
-  myKernelType           ball;
+  myKernelType ball;
   myKernelType::SizeType ballSize;
   ballSize[0] = 1;
   ballSize[1] = 4;

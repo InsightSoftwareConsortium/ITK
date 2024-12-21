@@ -329,9 +329,9 @@ protected:
   SetContainer(const LevelSetContainerType & iContainer);
 
 private:
-  HeavisideConstPointer       m_Heaviside{};
+  HeavisideConstPointer m_Heaviside{};
   DomainMapImageFilterPointer m_DomainMapFilter{};
-  LevelSetContainerType       m_Container{};
+  LevelSetContainerType m_Container{};
 };
 } // namespace itk
 

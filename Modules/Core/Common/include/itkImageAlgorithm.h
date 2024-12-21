@@ -68,9 +68,9 @@ struct ImageAlgorithm
    */
   template <typename InputImageType, typename OutputImageType>
   static void
-  Copy(const InputImageType *                       inImage,
-       OutputImageType *                            outImage,
-       const typename InputImageType::RegionType &  inRegion,
+  Copy(const InputImageType * inImage,
+       OutputImageType * outImage,
+       const typename InputImageType::RegionType & inRegion,
        const typename OutputImageType::RegionType & outRegion)
   {
     ImageAlgorithm::DispatchedCopy(inImage, outImage, inRegion, outRegion);
@@ -79,8 +79,8 @@ struct ImageAlgorithm
   /// \cond HIDE_SPECIALIZATION_DOCUMENTATION
   template <typename TPixel1, typename TPixel2, unsigned int VImageDimension>
   static void
-  Copy(const Image<TPixel1, VImageDimension> *                      inImage,
-       Image<TPixel2, VImageDimension> *                            outImage,
+  Copy(const Image<TPixel1, VImageDimension> * inImage,
+       Image<TPixel2, VImageDimension> * outImage,
        const typename Image<TPixel1, VImageDimension>::RegionType & inRegion,
        const typename Image<TPixel2, VImageDimension>::RegionType & outRegion)
   {
@@ -96,8 +96,8 @@ struct ImageAlgorithm
 
   template <typename TPixel1, typename TPixel2, unsigned int VImageDimension>
   static void
-  Copy(const VectorImage<TPixel1, VImageDimension> *                      inImage,
-       VectorImage<TPixel2, VImageDimension> *                            outImage,
+  Copy(const VectorImage<TPixel1, VImageDimension> * inImage,
+       VectorImage<TPixel2, VImageDimension> * outImage,
        const typename VectorImage<TPixel1, VImageDimension>::RegionType & inRegion,
        const typename VectorImage<TPixel2, VImageDimension>::RegionType & outRegion)
   {
@@ -122,15 +122,15 @@ struct ImageAlgorithm
   template <typename InputImageType, typename OutputImageType>
   static typename OutputImageType::RegionType
   EnlargeRegionOverBox(const typename InputImageType::RegionType & inputRegion,
-                       const InputImageType *                      inputImage,
-                       const OutputImageType *                     outputImage);
+                       const InputImageType * inputImage,
+                       const OutputImageType * outputImage);
 
   template <typename InputImageType, typename OutputImageType, typename TransformType>
   static typename OutputImageType::RegionType
   EnlargeRegionOverBox(const typename InputImageType::RegionType & inputRegion,
-                       const InputImageType *                      inputImage,
-                       const OutputImageType *                     outputImage,
-                       const TransformType *                       transform);
+                       const InputImageType * inputImage,
+                       const OutputImageType * outputImage,
+                       const TransformType * transform);
 
 private:
   /** This is an optimized method which requires the input and
@@ -139,20 +139,20 @@ private:
    */
   template <typename InputImageType, typename OutputImageType>
   static void
-  DispatchedCopy(const InputImageType *                       inImage,
-                 OutputImageType *                            outImage,
-                 const typename InputImageType::RegionType &  inRegion,
+  DispatchedCopy(const InputImageType * inImage,
+                 OutputImageType * outImage,
+                 const typename InputImageType::RegionType & inRegion,
                  const typename OutputImageType::RegionType & outRegion,
-                 TrueType                                     isSpecialized);
+                 TrueType isSpecialized);
 
   /** this is the reference image iterator implementation */
   template <typename InputImageType, typename OutputImageType>
   static void
-  DispatchedCopy(const InputImageType *                       inImage,
-                 OutputImageType *                            outImage,
-                 const typename InputImageType::RegionType &  inRegion,
+  DispatchedCopy(const InputImageType * inImage,
+                 OutputImageType * outImage,
+                 const typename InputImageType::RegionType & inRegion,
                  const typename OutputImageType::RegionType & outRegion,
-                 FalseType                                    isSpecialized = FalseType());
+                 FalseType isSpecialized = FalseType());
 
 
   /** A utility class to get the number of internal pixels to make up

@@ -193,8 +193,8 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ImageType2D::RegionType            region;
-  ImageType2D::RegionType::SizeType  size;
+  ImageType2D::RegionType region;
+  ImageType2D::RegionType::SizeType size;
   ImageType2D::RegionType::IndexType index;
 
   const ImageType3D::RegionType requestedRegion =
@@ -225,7 +225,7 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  SliceIteratorType  inputIt(inputImage, inputImage->GetRequestedRegion());
+  SliceIteratorType inputIt(inputImage, inputImage->GetRequestedRegion());
   LinearIteratorType outputIt(outputImage, outputImage->GetRequestedRegion());
 
   inputIt.SetFirstDirection(direction[1]);

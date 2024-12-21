@@ -251,9 +251,9 @@ TimeVaryingBSplineVelocityFieldTransformParametersAdaptor<TTransform>::AdaptTran
     return;
   }
 
-  const SizeType      requiredLatticeSize = this->GetRequiredControlPointLatticeSize();
-  const OriginType    requiredLatticeOrigin = this->GetRequiredControlPointLatticeOrigin();
-  const SpacingType   requiredLatticeSpacing = this->GetRequiredControlPointLatticeSpacing();
+  const SizeType requiredLatticeSize = this->GetRequiredControlPointLatticeSize();
+  const OriginType requiredLatticeOrigin = this->GetRequiredControlPointLatticeOrigin();
+  const SpacingType requiredLatticeSpacing = this->GetRequiredControlPointLatticeSpacing();
   const DirectionType requiredLatticeDirection = this->GetRequiredControlPointLatticeDirection();
 
   const RegionType & latticeRegion =
@@ -311,7 +311,7 @@ TimeVaryingBSplineVelocityFieldTransformParametersAdaptor<TTransform>::AdaptTran
     decompositionFilter->SetInput(upsampler->GetOutput());
     decompositionFilter->Update();
 
-    ImageRegionConstIterator<ComponentImageType>                         ItD(decompositionFilter->GetOutput(),
+    ImageRegionConstIterator<ComponentImageType> ItD(decompositionFilter->GetOutput(),
                                                      decompositionFilter->GetOutput()->GetLargestPossibleRegion());
     ImageRegionIterator<TimeVaryingVelocityFieldControlPointLatticeType> ItL(
       requiredLattice, requiredLattice->GetLargestPossibleRegion());

@@ -79,7 +79,7 @@ itkDivideImageFilterTest2(int, char *[])
   inputImageB->Allocate();
 
   // Initialize the content of Image A
-  InputImageType1::PixelType                      valueA(inputImageA->GetNumberOfComponentsPerPixel());
+  InputImageType1::PixelType valueA(inputImageA->GetNumberOfComponentsPerPixel());
   constexpr InputImageType1::PixelType::ValueType elementValueA = 2.0;
   valueA.Fill(elementValueA);
   inputImageA->FillBuffer(valueA);

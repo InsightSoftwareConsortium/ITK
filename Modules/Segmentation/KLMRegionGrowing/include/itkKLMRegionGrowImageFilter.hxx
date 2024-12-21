@@ -87,7 +87,7 @@ void
 KLMRegionGrowImageFilter<TInputImage, TOutputImage>::GenerateOutputImage()
 {
   const InputImageConstPointer inputImage = this->GetInput();
-  InputImageSizeType           inputImageSize = inputImage->GetBufferedRegion().GetSize();
+  InputImageSizeType inputImageSize = inputImage->GetBufferedRegion().GetSize();
 
   GridSizeType gridSize = this->GetGridSize();
 
@@ -119,7 +119,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::GenerateOutputImage()
     // Convert the mean region value to the correct output format
 
     MeanRegionIntensityType tmpMeanValue;
-    OutputImageVectorType   outMeanValue;
+    OutputImageVectorType outMeanValue;
     using OutputValueType = typename OutputImagePixelType::ValueType;
 
     tmpMeanValue = m_RegionsPointer[iregion]->GetMeanRegionIntensity();
@@ -179,7 +179,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::GenerateLabelledImage(Label
   -> LabelImagePointer
 {
   const InputImageConstPointer inputImage = this->GetInput();
-  InputImageSizeType           inputImageSize = inputImage->GetBufferedRegion().GetSize();
+  InputImageSizeType inputImageSize = inputImage->GetBufferedRegion().GetSize();
 
   GridSizeType gridSize = this->GetGridSize();
 
@@ -274,9 +274,9 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::InitializeKLM()
   // This implementation requires the image dimensions to be
   // multiples of the user specified grid sizes.
 
-  const InputImageConstPointer      inputImage = this->GetInput();
-  InputImageSizeType                inputImageSize = inputImage->GetBufferedRegion().GetSize();
-  GridSizeType                      gridSize = this->GetGridSize();
+  const InputImageConstPointer inputImage = this->GetInput();
+  InputImageSizeType inputImageSize = inputImage->GetBufferedRegion().GetSize();
+  GridSizeType gridSize = this->GetGridSize();
   typename TInputImage::SpacingType spacing = inputImage->GetSpacing();
 
   for (unsigned int idim = 0; idim < InputImageDimension; ++idim)
@@ -399,7 +399,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::InitializeKLM()
     // compute number of borders to be seen this dimension and area of
     // each border
     unsigned int numBorderThisDim = 1;
-    double       borderLengthTmp = 1;
+    double borderLengthTmp = 1;
     for (unsigned int jdim = 0; jdim < InputImageDimension; ++jdim)
     {
       numBorderThisDim *= numBordersAlongDim[jdim];
@@ -431,8 +431,8 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::InitializeKLM()
 
       // Find the two neighbor regions
 
-      unsigned int   intRegion1Index = 0;
-      unsigned int   intRegion2Index = 0;
+      unsigned int intRegion1Index = 0;
+      unsigned int intRegion2Index = 0;
       IndexValueType tmpVal = 1;
       for (unsigned int jdim = 0; jdim < InputImageDimension; ++jdim)
       {
@@ -568,7 +568,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::InitializeRegionParameters(
   }
 
   // Calculate the area and the mean associated with the region
-  GridSizeType                      gridSize = this->GetGridSize();
+  GridSizeType gridSize = this->GetGridSize();
   typename TInputImage::SpacingType spacing = inputImage->GetSpacing();
   m_InitialRegionArea = 1;
   for (unsigned int idim = 0; idim < InputImageDimension; ++idim)
@@ -694,8 +694,8 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::ResolveRegions()
 
   // Resolve region labels to contain only unique labels.
   // Go backward from largest to smallest region label
-  auto            regionsPointerIt = m_RegionsPointer.rbegin();
-  auto            regionsPointerItEnd = m_RegionsPointer.rend();
+  auto regionsPointerIt = m_RegionsPointer.rbegin();
+  auto regionsPointerItEnd = m_RegionsPointer.rend();
   RegionLabelType iregion = m_InitialNumberOfRegions;
   while (regionsPointerIt != regionsPointerItEnd)
   {
@@ -757,7 +757,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::ResolveRegions()
     const RegionLabelType labelValue = m_RegionsPointer[iregion]->GetRegionLabel();
 
     newLabelValue = remapLabelsVec[labelValue - 1];
-    const double                  newAreaValue = m_RegionsPointer[labelValue - 1]->GetRegionArea();
+    const double newAreaValue = m_RegionsPointer[labelValue - 1]->GetRegionArea();
     const MeanRegionIntensityType newMeanValue = m_RegionsPointer[labelValue - 1]->GetMeanRegionIntensity();
 
     m_RegionsPointer[iregion]->SetRegionParameters(newMeanValue, newAreaValue, newLabelValue);

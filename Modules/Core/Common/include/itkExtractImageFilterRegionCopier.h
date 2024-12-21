@@ -41,8 +41,8 @@ template <unsigned int T1, unsigned int T2>
 void
 ExtractImageFilterCopyRegion(
   const typename BinaryUnsignedIntDispatch<T1, T2>::FirstEqualsSecondType & firstEqualsSecond,
-  ImageRegion<T1> &                                                         destRegion,
-  const ImageRegion<T2> &                                                   srcRegion,
+  ImageRegion<T1> & destRegion,
+  const ImageRegion<T2> & srcRegion,
   const ImageRegion<T1> &)
 {
   ImageToImageFilterDefaultCopyRegion<T1, T2>(firstEqualsSecond, destRegion, srcRegion);
@@ -55,9 +55,9 @@ template <unsigned int T1, unsigned int T2>
 void
 ExtractImageFilterCopyRegion(
   const typename BinaryUnsignedIntDispatch<T1, T2>::FirstLessThanSecondType & firstLessThanSecond,
-  ImageRegion<T1> &                                                           destRegion,
-  const ImageRegion<T2> &                                                     srcRegion,
-  const ImageRegion<T1> &                                                     itkNotUsed(totalInputExtractionRegion))
+  ImageRegion<T1> & destRegion,
+  const ImageRegion<T2> & srcRegion,
+  const ImageRegion<T1> & itkNotUsed(totalInputExtractionRegion))
 {
   ImageToImageFilterDefaultCopyRegion<T1, T2>(firstLessThanSecond, destRegion, srcRegion);
 }
@@ -81,7 +81,7 @@ ExtractImageFilterCopyRegion(
 template <unsigned int T1, unsigned int T2>
 void
 ExtractImageFilterCopyRegion(const typename BinaryUnsignedIntDispatch<T1, T2>::FirstGreaterThanSecondType &,
-                             ImageRegion<T1> &       destRegion,
+                             ImageRegion<T1> & destRegion,
                              const ImageRegion<T2> & srcRegion,
                              const ImageRegion<T1> & totalInputExtractionRegion)
 {
@@ -90,11 +90,11 @@ ExtractImageFilterCopyRegion(const typename BinaryUnsignedIntDispatch<T1, T2>::F
   // With these values, lock the destRegion.Index to the corresponding index
   unsigned int dim;
 
-  Index<T1>         destIndex;
-  Size<T1>          destSize;
+  Index<T1> destIndex;
+  Size<T1> destSize;
   const Index<T2> & srcIndex = srcRegion.GetIndex();
-  const Size<T2> &  srcSize = srcRegion.GetSize();
-  int               count = 0;
+  const Size<T2> & srcSize = srcRegion.GetSize();
+  int count = 0;
   for (dim = 0; dim < T1; ++dim)
   {
     // for dimensions to be removed
@@ -141,7 +141,7 @@ class ITK_TEMPLATE_EXPORT ExtractImageFilterRegionCopier : public ImageRegionCop
 {
 public:
   virtual void
-  operator()(ImageRegion<T1> &       destRegion,
+  operator()(ImageRegion<T1> & destRegion,
              const ImageRegion<T2> & srcRegion,
              const ImageRegion<T1> & totalInputExtractionRegion) const
   {

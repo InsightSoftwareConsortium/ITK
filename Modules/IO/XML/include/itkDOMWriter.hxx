@@ -90,7 +90,7 @@ DOMWriter<TInput>::Update(DOMNodeType * outputdom, const void * userdata)
   this->GetLogger()->SetName(this->GetNameOfClass());
 
   // variable/info needed for logging
-  FancyString       info;
+  FancyString info;
   const FancyString objname = this->GetInput()->GetNameOfClass();
 
   // log start of writing

@@ -101,8 +101,8 @@
 struct node_type
 {
   unsigned int value;
-  node_type *  Next;
-  node_type *  Previous;
+  node_type * Next;
+  node_type * Previous;
 };
 
 

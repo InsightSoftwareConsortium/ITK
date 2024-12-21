@@ -138,43 +138,43 @@ protected:
    * normalizing the kernel if requested, shifting the kernel, and
    * taking the Fourier transform of the padded inputs. */
   void
-  PrepareInputs(const InputImageType *            input,
-                const KernelImageType *           kernel,
+  PrepareInputs(const InputImageType * input,
+                const KernelImageType * kernel,
                 InternalComplexImagePointerType & preparedInput,
                 InternalComplexImagePointerType & preparedKernel,
-                ProgressAccumulator *             progress,
-                float                             progressWeight);
+                ProgressAccumulator * progress,
+                float progressWeight);
 
   /** Prepare the input image. This includes padding the image and
    * taking the Fourier transform of the padded image. */
   void
-  PrepareInput(const InputImageType *            input,
+  PrepareInput(const InputImageType * input,
                InternalComplexImagePointerType & preparedInput,
-               ProgressAccumulator *             progress,
-               float                             progressWeight);
+               ProgressAccumulator * progress,
+               float progressWeight);
 
   /** Pad the input image. */
   void
-  PadInput(const InputImageType *     input,
+  PadInput(const InputImageType * input,
            InternalImagePointerType & paddedInput,
-           ProgressAccumulator *      progress,
-           float                      progressWeight);
+           ProgressAccumulator * progress,
+           float progressWeight);
 
   /** Take the Fourier transform of the padded input. */
   void
-  TransformPaddedInput(const InternalImageType *         paddedInput,
+  TransformPaddedInput(const InternalImageType * paddedInput,
                        InternalComplexImagePointerType & transformedInput,
-                       ProgressAccumulator *             progress,
-                       float                             progressWeight);
+                       ProgressAccumulator * progress,
+                       float progressWeight);
 
   /** Prepare the kernel. This includes resizing the input and kernel
    * images, normalizing the kernel if requested, shifting the kernel,
    * and taking the Fourier transform of the padded kernel. */
   void
-  PrepareKernel(const KernelImageType *           kernel,
+  PrepareKernel(const KernelImageType * kernel,
                 InternalComplexImagePointerType & preparedKernel,
-                ProgressAccumulator *             progress,
-                float                             progressWeight);
+                ProgressAccumulator * progress,
+                float progressWeight);
 
   /** Produce output from the final Fourier domain image. */
   void
@@ -206,8 +206,8 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  SizeValueType      m_SizeGreatestPrimeFactor{};
-  InternalSizeType   m_FFTPadSize{ { 0 } };
+  SizeValueType m_SizeGreatestPrimeFactor{};
+  InternalSizeType m_FFTPadSize{ { 0 } };
   InternalRegionType m_PaddedInputRegion{};
 };
 } // namespace itk

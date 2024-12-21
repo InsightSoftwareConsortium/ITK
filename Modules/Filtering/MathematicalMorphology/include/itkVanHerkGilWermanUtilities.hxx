@@ -40,13 +40,13 @@ template <typename PixelType, typename TFunction>
 void
 FillForwardExt(std::vector<PixelType> & pixbuffer,
                std::vector<PixelType> & fExtBuffer,
-               const unsigned int       KernLen,
-               unsigned int             len)
+               const unsigned int KernLen,
+               unsigned int len)
 {
   const unsigned int size = len;
   const unsigned int blocks = size / KernLen;
-  unsigned int       i = 0;
-  TFunction          m_TF;
+  unsigned int i = 0;
+  TFunction m_TF;
 
   for (unsigned int j = 0; j < blocks; ++j)
   {
@@ -79,13 +79,13 @@ template <typename PixelType, typename TFunction>
 void
 FillReverseExt(std::vector<PixelType> & pixbuffer,
                std::vector<PixelType> & rExtBuffer,
-               const unsigned int       KernLen,
-               unsigned int             len)
+               const unsigned int KernLen,
+               unsigned int len)
 {
-  auto                 size = (IndexValueType)(len);
+  auto size = (IndexValueType)(len);
   const IndexValueType blocks = size / static_cast<int>(KernLen);
-  IndexValueType       i = size - 1;
-  TFunction            m_TF;
+  IndexValueType i = size - 1;
+  TFunction m_TF;
 
   if (i > blocks * static_cast<int>(KernLen) - 1)
   {
@@ -114,17 +114,17 @@ FillReverseExt(std::vector<PixelType> & pixbuffer,
 
 template <typename TImage, typename TBres, typename TFunction, typename TLine>
 void
-DoFace(typename TImage::ConstPointer             input,
-       typename TImage::Pointer                  output,
-       typename TImage::PixelType                border,
-       TLine                                     line,
-       const typename TBres::OffsetArray         LineOffsets,
-       const unsigned int                        KernLen,
+DoFace(typename TImage::ConstPointer input,
+       typename TImage::Pointer output,
+       typename TImage::PixelType border,
+       TLine line,
+       const typename TBres::OffsetArray LineOffsets,
+       const unsigned int KernLen,
        std::vector<typename TImage::PixelType> & pixbuffer,
        std::vector<typename TImage::PixelType> & fExtBuffer,
        std::vector<typename TImage::PixelType> & rExtBuffer,
-       const typename TImage::RegionType         AllImage,
-       const typename TImage::RegionType         face)
+       const typename TImage::RegionType AllImage,
+       const typename TImage::RegionType face)
 {
   // iterate over the face
 
@@ -146,12 +146,12 @@ DoFace(typename TImage::ConstPointer             input,
   NormLine.Normalize();
   // set a generous tolerance
   const float tol = 1.0 / LineOffsets.size();
-  TFunction   m_TF;
+  TFunction m_TF;
   for (unsigned int it = 0; it < face.GetNumberOfPixels(); ++it)
   {
     const typename TImage::IndexType Ind = dumbImg->ComputeIndex(it);
-    unsigned int                     start; /*one-line-declaration*/
-    unsigned int                     end;   /*one-line-declaration*/
+    unsigned int start; /*one-line-declaration*/
+    unsigned int end;   /*one-line-declaration*/
     if (FillLineBuffer<TImage, TBres, TLine>(input, Ind, NormLine, tol, LineOffsets, AllImage, pixbuffer, start, end))
     {
       const unsigned int len = end - start + 1;

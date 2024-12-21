@@ -145,8 +145,8 @@ VTKImageExport<TInputImage>::WholeExtentCallback()
   }
 
   const InputRegionType region = input->GetLargestPossibleRegion();
-  InputSizeType         size = region.GetSize();
-  InputIndexType        index = region.GetIndex();
+  InputSizeType size = region.GetSize();
+  InputIndexType index = region.GetIndex();
 
   unsigned int i = 0;
   // Fill in the known portion of the extent.
@@ -349,7 +349,7 @@ template <typename TInputImage>
 void
 VTKImageExport<TInputImage>::PropagateUpdateExtentCallback(int * extent)
 {
-  InputSizeType  size;
+  InputSizeType size;
   InputIndexType index;
 
   for (unsigned int i = 0; i < InputImageDimension; ++i)
@@ -387,8 +387,8 @@ VTKImageExport<TInputImage>::DataExtentCallback()
   }
 
   const InputRegionType region = input->GetBufferedRegion();
-  InputSizeType         size = region.GetSize();
-  InputIndexType        index = region.GetIndex();
+  InputSizeType size = region.GetSize();
+  InputIndexType index = region.GetIndex();
 
   unsigned int i = 0;
   for (; i < InputImageDimension; ++i)

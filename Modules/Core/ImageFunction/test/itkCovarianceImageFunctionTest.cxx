@@ -34,9 +34,9 @@ itkCovarianceImageFunctionTest(int, char *[])
   using FunctionType = itk::CovarianceImageFunction<ImageType>;
 
   // Create and allocate the image
-  auto                  image = ImageType::New();
-  ImageType::SizeType   size;
-  ImageType::IndexType  start;
+  auto image = ImageType::New();
+  ImageType::SizeType size;
+  ImageType::IndexType start;
   ImageType::RegionType region;
 
   size[0] = 20;

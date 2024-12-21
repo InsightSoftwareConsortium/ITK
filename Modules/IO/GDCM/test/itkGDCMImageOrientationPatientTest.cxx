@@ -60,7 +60,7 @@ itkGDCMImageOrientationPatientTest(int argc, char * argv[])
   src2D->SetSpacing(spacing2D);
   src2D->SetSize(size2D);
 
-  auto           gdcmIO = ImageIOType::New();
+  auto gdcmIO = ImageIOType::New();
   DictionaryType dictionary;
 
   // Set all required DICOM fields
@@ -95,7 +95,7 @@ itkGDCMImageOrientationPatientTest(int argc, char * argv[])
 
   src2D->GetOutput()->SetMetaDataDictionary(dictionary);
 
-  auto               writer2D = Writer2DType::New();
+  auto writer2D = Writer2DType::New();
   std::ostringstream filename;
   filename.str("");
   filename << argv[1] << "/itkGDCMImageOrientationPatientTest.dcm";

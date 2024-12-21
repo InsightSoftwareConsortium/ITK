@@ -122,7 +122,7 @@ itkTwoLevelSetDenseImage2DTest(int argc, char * argv[])
   //  directly or indirectly.
   //
   const InputImageType::RegionType inputBufferedRegion = input->GetBufferedRegion();
-  const InputImageType::SizeType   inputBufferedRegionSize = inputBufferedRegion.GetSize();
+  const InputImageType::SizeType inputBufferedRegionSize = inputBufferedRegion.GetSize();
 
   fastMarching->SetOutputSize(inputBufferedRegionSize);
   fastMarching->Update();

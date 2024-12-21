@@ -75,8 +75,8 @@ public:
   /** Compute the equation value. */
   PixelType
   ComputeUpdate(const NeighborhoodType & it,
-                void *                   globalData,
-                const FloatOffsetType &  offset = FloatOffsetType(0.0)) override;
+                void * globalData,
+                const FloatOffsetType & offset = FloatOffsetType(0.0)) override;
 
   /** This method is called prior to each iteration of the solver. */
   void

@@ -71,8 +71,8 @@ public:
    * particular region of that image. This version of the constructor uses
    * an explicit seed pixel for the flood fill, the "startIndex" */
   FloodFilledSpatialFunctionConditionalConstIterator(const ImageType * imagePtr,
-                                                     FunctionType *    fnPtr,
-                                                     IndexType         startIndex);
+                                                     FunctionType * fnPtr,
+                                                     IndexType startIndex);
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. This version of the constructor

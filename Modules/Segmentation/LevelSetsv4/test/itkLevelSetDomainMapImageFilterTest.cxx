@@ -75,7 +75,7 @@ itkLevelSetDomainMapImageFilterTest(int, char *[])
   it.GoToBegin();
 
   const DomainMapType domainMap = filter->GetDomainMap();
-  const auto          mapEnd = domainMap.end();
+  const auto mapEnd = domainMap.end();
   while (!it.IsAtEnd())
   {
     const OutputImageType::IndexType out_index = it.GetIndex();

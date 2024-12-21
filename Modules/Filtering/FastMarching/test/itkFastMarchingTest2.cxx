@@ -52,7 +52,7 @@ itkFastMarchingTest2(int, char *[])
 
   auto marcher = FloatFMType::New();
 
-  ShowProgressObject                                          progressWatch(marcher);
+  ShowProgressObject progressWatch(marcher);
   const itk::SimpleMemberCommand<ShowProgressObject>::Pointer command =
     itk::SimpleMemberCommand<ShowProgressObject>::New();
   command->SetCallbackFunction(&progressWatch, &ShowProgressObject::ShowProgress);
@@ -121,7 +121,7 @@ itkFastMarchingTest2(int, char *[])
   marcher->SetOutputSize(size);
 
   // setup a speed image of ones
-  auto                   speedImage = FloatImage::New();
+  auto speedImage = FloatImage::New();
   FloatImage::RegionType region;
   region.SetSize(size);
   speedImage->SetLargestPossibleRegion(region);
@@ -134,7 +134,7 @@ itkFastMarchingTest2(int, char *[])
   MaskImage->SetBufferedRegion(region);
   MaskImage->Allocate();
 
-  itk::ImageRegionIterator<FloatImage>          speedIter(speedImage, speedImage->GetBufferedRegion());
+  itk::ImageRegionIterator<FloatImage> speedIter(speedImage, speedImage->GetBufferedRegion());
   itk::ImageRegionIteratorWithIndex<FloatImage> maskIter(MaskImage, MaskImage->GetBufferedRegion());
   while (!speedIter.IsAtEnd())
   {
@@ -168,14 +168,14 @@ itkFastMarchingTest2(int, char *[])
 
 
   // check the results
-  const FloatImage::Pointer            output = marcher->GetOutput();
+  const FloatImage::Pointer output = marcher->GetOutput();
   itk::ImageRegionIterator<FloatImage> iterator(output, output->GetBufferedRegion());
 
   bool passed = true;
   for (; !iterator.IsAtEnd(); ++iterator)
   {
     FloatImage::IndexType tempIndex = iterator.GetIndex();
-    auto                  outputValue = static_cast<float>(iterator.Get());
+    auto outputValue = static_cast<float>(iterator.Get());
 
     if (((tempIndex[0] > 22) && (tempIndex[0] < 42) && (tempIndex[1] > 27) && (tempIndex[1] < 37)) ||
         ((tempIndex[1] > 22) && (tempIndex[1] < 42) && (tempIndex[0] > 27) && (tempIndex[0] < 37)))

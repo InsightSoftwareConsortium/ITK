@@ -86,7 +86,7 @@ void
 TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::SetSpacing(const float spacing[3])
 {
   const Vector<float, 3> sf(spacing);
-  SpacingType            s;
+  SpacingType s;
   s.CastFrom(sf);
   this->SetSpacing(s);
 }
@@ -105,7 +105,7 @@ void
 TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::SetOrigin(const float origin[3])
 {
   const Point<float, 3> of(origin);
-  PointType             p;
+  PointType p;
   p.CastFrom(of);
   this->SetOrigin(p);
 }
@@ -176,23 +176,23 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::GenerateData()
 
 template <typename TInputMesh, typename TOutputImage>
 int
-TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::PolygonToImageRaster(PointVector    coords,
+TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::PolygonToImageRaster(PointVector coords,
                                                                                 Point1DArray & zymatrix,
-                                                                                int            extent[6])
+                                                                                int extent[6])
 {
   // convert the polygon into a rasterizable form by finding its
   // intersection with each z plane, and store the (x,y) coords
   // of each intersection in a vector called "matrix"
-  const int    zSize = extent[5] - extent[4] + 1;
-  const int    zInc = extent[3] - extent[2] + 1;
+  const int zSize = extent[5] - extent[4] + 1;
+  const int zInc = extent[3] - extent[2] + 1;
   Point2DArray matrix(zSize);
 
   // each iteration of the following loop examines one edge of the
   // polygon, where the endpoints of the edge are p1 and p2
-  auto      n = static_cast<int>(coords.size());
+  auto n = static_cast<int>(coords.size());
   PointType p0 = coords[0];
   PointType p1 = coords[n - 1];
-  double    area = 0.0;
+  double area = 0.0;
 
   for (int i = 0; i < n; ++i)
   {
@@ -238,7 +238,7 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::PolygonToImageRaster(
     {
       const double r = (p2[2] - static_cast<double>(z)) * temp;
       const double f = 1.0 - r;
-      Point2DType  XY;
+      Point2DType XY;
       XY[0] = r * p1[0] + f * p2[0];
       XY[1] = r * p1[1] + f * p2[1];
       matrix[z - extent[4]].push_back(XY);
@@ -283,19 +283,19 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::PolygonToImageRaster(
     for (int k = 0; k < n; ++k)
     {
       Point2DType & p2D1 = xylist[2 * k];
-      const double  X1 = p2D1[0];
-      const double  Y1 = p2D1[1];
+      const double X1 = p2D1[0];
+      const double Y1 = p2D1[1];
       Point2DType & p2D2 = xylist[2 * k + 1];
-      const double  X2 = p2D2[0];
-      const double  Y2 = p2D2[1];
+      const double X2 = p2D2[0];
+      const double Y2 = p2D2[1];
 
       if (Math::ExactlyEquals(Y2, Y1))
       {
         continue;
       }
       const double temp = 1.0 / (Y2 - Y1);
-      auto         ymin = static_cast<int>(std::ceil(Y1));
-      auto         ymax = static_cast<int>(std::ceil(Y2));
+      auto ymin = static_cast<int>(std::ceil(Y1));
+      auto ymax = static_cast<int>(std::ceil(Y2));
       for (int y = ymin; y < ymax; ++y)
       {
         const double r = (Y2 - y) * temp;
@@ -320,7 +320,7 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::RasterizeTriangles()
   const InputMeshPointer input = this->GetInput(0);
 
   const InputPointsContainerPointer myPoints = input->GetPoints();
-  InputPointsContainerIterator      points = myPoints->Begin();
+  InputPointsContainerIterator points = myPoints->Begin();
 
   int extent[6];
 
@@ -335,8 +335,8 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::RasterizeTriangles()
   const OutputImagePointer OutputImage = this->GetOutput();
 
   // need to transform points from physical to index coordinates
-  auto                    NewPoints = PointsContainer::New();
-  auto                    NewPointSet = PointSetType::New();
+  auto NewPoints = PointsContainer::New();
+  auto NewPointSet = PointSetType::New();
   PointSetType::PointType newpoint;
 
   unsigned int pointId = 0;
@@ -356,19 +356,19 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::RasterizeTriangles()
   // the stencil is kept in 'zymatrix' that provides
   // the x extents for each (y,z) coordinate for which a ray
   // parallel to the x axis intersects the polydata
-  const int    zInc = extent[3] - extent[2] + 1;
-  const int    zSize = extent[5] - extent[4] + 1;
+  const int zInc = extent[3] - extent[2] + 1;
+  const int zSize = extent[5] - extent[4] + 1;
   Point1DArray zymatrix(zInc * zSize);
-  PointVector  coords;
+  PointVector coords;
 
   const CellsContainerPointer cells = input->GetCells();
-  CellsContainerIterator      cellIt = cells->Begin();
+  CellsContainerIterator cellIt = cells->Begin();
 
   while (cellIt != cells->End())
   {
-    CellType *                         nextCell = cellIt->Value();
+    CellType * nextCell = cellIt->Value();
     typename CellType::PointIdIterator pointIt = nextCell->PointIdsBegin();
-    PointType                          p;
+    PointType p;
 
     switch (nextCell->GetType())
     {
@@ -406,7 +406,7 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::RasterizeTriangles()
   {
     for (int y = extent[2]; y <= extent[3]; ++y)
     {
-      const int     zyidx = (z - extent[4]) * zInc + (y - extent[2]);
+      const int zyidx = (z - extent[4]) * zInc + (y - extent[2]);
       Point1DVector xlist = zymatrix[zyidx];
 
       if (xlist.size() <= 1)
@@ -419,8 +419,8 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::RasterizeTriangles()
       }
       // get the first entry
       double lastx = xlist[0].m_X;
-      int    lastSign = xlist[0].m_Sign;
-      int    signproduct = 1;
+      int lastSign = xlist[0].m_Sign;
+      int signproduct = 1;
 
       // if adjacent x values are within tolerance of each
       // other, check whether the number of 'exits' and
@@ -430,12 +430,12 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::RasterizeTriangles()
       // surface
 
       std::vector<double> nlist;
-      const size_t        m = xlist.size();
+      const size_t m = xlist.size();
       for (size_t j = 1; j < m; ++j)
       {
         const Point1D p1D = xlist[j];
-        const double  x = p1D.m_X;
-        const int     sign = p1D.m_Sign;
+        const double x = p1D.m_X;
+        const int sign = p1D.m_Sign;
 
         // check absolute distance from lastx to x
         if (itk::Math::abs(x - lastx) > m_Tolerance)
@@ -453,7 +453,7 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::RasterizeTriangles()
       nlist.push_back(lastx);
 
       // create the stencil extents
-      int       minx1 = extent[0]; // minimum allowable x1 value
+      int minx1 = extent[0]; // minimum allowable x1 value
       const int n = static_cast<int>(nlist.size()) / 2;
 
       for (int i = 0; i < n; ++i)

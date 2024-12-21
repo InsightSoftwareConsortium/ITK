@@ -133,7 +133,7 @@ TernaryFunctorImageFilter<TInputImage1, TInputImage2, TInputImage3, TOutputImage
   ImageScanlineConstIterator inputIt1(inputPtr1, outputRegionForThread);
   ImageScanlineConstIterator inputIt2(inputPtr2, outputRegionForThread);
   ImageScanlineConstIterator inputIt3(inputPtr3, outputRegionForThread);
-  ImageScanlineIterator      outputIt(outputPtr, outputRegionForThread);
+  ImageScanlineIterator outputIt(outputPtr, outputRegionForThread);
 
   while (!inputIt1.IsAtEnd())
   {

@@ -72,7 +72,7 @@ SpatialFunctionImageEvaluatorFilter<TSpatialFunction, TInputImage, TOutputImage>
 template <typename TSpatialFunction, typename TInputImage, typename TOutputImage>
 void
 SpatialFunctionImageEvaluatorFilter<TSpatialFunction, TInputImage, TOutputImage>::PrintSelf(std::ostream & os,
-                                                                                            Indent         indent) const
+                                                                                            Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

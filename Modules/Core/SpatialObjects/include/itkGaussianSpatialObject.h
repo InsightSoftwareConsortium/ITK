@@ -112,9 +112,9 @@ public:
 
   /** Returns the value of the Gaussian at the given point. */
   bool
-  ValueAtInObjectSpace(const PointType &   point,
-                       double &            value,
-                       unsigned int        depth = 0,
+  ValueAtInObjectSpace(const PointType & point,
+                       double & value,
+                       unsigned int depth = 0,
                        const std::string & name = "") const override;
 
   /** Returns the $sigma = $ \c m_Radius level set of the Gaussian function, as an
@@ -152,7 +152,7 @@ private:
   ScalarType m_Maximum{};
   ScalarType m_RadiusInObjectSpace{};
   ScalarType m_SigmaInObjectSpace{};
-  PointType  m_CenterInObjectSpace{};
+  PointType m_CenterInObjectSpace{};
 };
 } // end namespace itk
 

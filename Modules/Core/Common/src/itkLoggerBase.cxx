@@ -73,7 +73,7 @@ LoggerBase::BuildFormattedEntry(PriorityLevelEnum level, const std::string & con
 {
   static const std::string levelString[] = { "(MUSTFLUSH) ", "(FATAL) ", "(CRITICAL) ", "(WARNING) ",
                                              "(INFO) ",      "(DEBUG) ", "(NOTSET) " };
-  std::ostringstream       s;
+  std::ostringstream s;
 
   switch (this->m_TimeStampFormat)
   {

@@ -112,7 +112,7 @@ ImageToListSampleFilter<TImage, TMaskImage>::GenerateData()
 {
   auto * output = static_cast<ListSampleType *>(this->ProcessObject::GetOutput(0));
 
-  const ImageType *     input = this->GetInput();
+  const ImageType * input = this->GetInput();
   const MaskImageType * maskImage = nullptr;
 
   // Verify whether the image and the mask have the same LargestPossibleRegion.

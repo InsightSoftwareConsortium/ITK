@@ -104,7 +104,7 @@ itkSmoothingRecursiveGaussianImageFilterOnVectorImageTest(int, char *[])
 
 
   // Create a  Filter
-  auto                           filter = myFilterType::New();
+  auto filter = myFilterType::New();
   const itk::SimpleFilterWatcher watchit(filter);
 
   // Connect the input images

@@ -53,7 +53,7 @@ MyDerivedCSNI<ImageType>::TestNewExposedProtectedMembers()
 int
 itkConstShapedNeighborhoodIteratorTest2(int, char *[])
 {
-  const TestImageType::Pointer            img = GetTestImage(10, 10, 5, 3);
+  const TestImageType::Pointer img = GetTestImage(10, 10, 5, 3);
   MyDerivedCSNI<TestImageType>::IndexType loc;
   loc[0] = 4;
   loc[1] = 4;
@@ -66,8 +66,8 @@ itkConstShapedNeighborhoodIteratorTest2(int, char *[])
 
   // region over which the iterator is defined
   MyDerivedCSNI<TestImageType>::RegionType reg;
-  MyDerivedCSNI<TestImageType>::SizeType   sz;
-  MyDerivedCSNI<TestImageType>::IndexType  idx;
+  MyDerivedCSNI<TestImageType>::SizeType sz;
+  MyDerivedCSNI<TestImageType>::IndexType idx;
   idx[0] = idx[1] = idx[2] = 0;
   idx[3] = 1;
   sz[0] = sz[1] = 10;

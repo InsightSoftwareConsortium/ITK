@@ -155,7 +155,7 @@ auto
 RingBuffer<TElement>::GetOffsetBufferIndex(OffsetValueType offset) -> OffsetValueType
 {
   const OffsetValueType moddedOffset = itk::Math::abs(offset) % this->GetNumberOfBuffers();
-  auto                  signedHeadIndex = static_cast<OffsetValueType>(m_HeadIndex);
+  auto signedHeadIndex = static_cast<OffsetValueType>(m_HeadIndex);
   if (offset >= 0)
   {
     return (signedHeadIndex + moddedOffset) % this->GetNumberOfBuffers();

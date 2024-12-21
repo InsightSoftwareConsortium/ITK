@@ -35,7 +35,7 @@ itkLevelSetNeighborhoodExtractorTest(int, char *[])
   source->SetOutputSize(size);
 
   SourceType::NodeType node;
-  auto                 index = ImageType::IndexType::Filled(8);
+  auto index = ImageType::IndexType::Filled(8);
 
   node.SetIndex(index);
   node.SetValue(-4.0);

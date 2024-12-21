@@ -168,8 +168,8 @@ private:
   CompensatedSummation<RealType> m_SumOfSquares{ 1 };
 
   SizeValueType m_Count{ 1 };
-  PixelType     m_ThreadMin{ 1 };
-  PixelType     m_ThreadMax{ 1 };
+  PixelType m_ThreadMin{ 1 };
+  PixelType m_ThreadMax{ 1 };
 
   std::mutex m_Mutex{};
 }; // end of class

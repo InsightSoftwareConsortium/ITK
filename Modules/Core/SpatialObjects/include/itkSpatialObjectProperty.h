@@ -166,7 +166,7 @@ private:
 
   std::string m_Name{};
 
-  std::map<std::string, double>      m_ScalarDictionary{};
+  std::map<std::string, double> m_ScalarDictionary{};
   std::map<std::string, std::string> m_StringDictionary{};
 };
 

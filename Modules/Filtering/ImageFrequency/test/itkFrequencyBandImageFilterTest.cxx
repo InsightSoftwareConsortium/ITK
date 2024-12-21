@@ -56,13 +56,13 @@ template <typename ImageType>
 typename ImageType::Pointer
 createImage(typename ImageType::SizeType size)
 {
-  auto                           image = ImageType::New();
+  auto image = ImageType::New();
   typename ImageType::RegionType region;
   region.SetSize(size);
   image->SetRegions(region);
   image->Allocate(false);
 
-  typename ImageType::PixelType       value = itk::NumericTraits<typename ImageType::PixelType>::Zero;
+  typename ImageType::PixelType value = itk::NumericTraits<typename ImageType::PixelType>::Zero;
   itk::ImageRegionIterator<ImageType> iter(image, region);
   while (!iter.IsAtEnd())
   {
@@ -86,7 +86,7 @@ itkFrequencyBandImageFilterTest(int argc, char * argv[])
   }
 
   const std::string evenOrOddInput = argv[1];
-  bool              isOdd = false;
+  bool isOdd = false;
   if (evenOrOddInput == "Even")
   {
     isOdd = false;

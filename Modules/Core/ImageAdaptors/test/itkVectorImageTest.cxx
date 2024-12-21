@@ -41,10 +41,10 @@
 
 template <typename TPixel, unsigned int VDimension, typename TAdaptor, unsigned int VVectorLength>
 bool
-testVectorImageAdaptor(typename TAdaptor::Pointer &                                      vectorImageAdaptor,
-                       const typename itk::VectorImage<TPixel, VDimension>::Pointer &    vectorImage,
+testVectorImageAdaptor(typename TAdaptor::Pointer & vectorImageAdaptor,
+                       const typename itk::VectorImage<TPixel, VDimension>::Pointer & vectorImage,
                        const typename itk::VectorImage<TPixel, VDimension>::RegionType & region,
-                       const unsigned int                                                componentToExtract)
+                       const unsigned int componentToExtract)
 {
   std::cout << "---------------------------------------------------------------" << std::endl;
   std::cout << "Testing " << typeid(TAdaptor).name();
@@ -84,10 +84,10 @@ testVectorImageAdaptor(typename TAdaptor::Pointer &                             
   {
     using CovariantVectorType = itk::CovariantVector<double, VDimension>;
     const CovariantVectorType input{ 0.0 };
-    CovariantVectorType       output1;
+    CovariantVectorType output1;
     vectorImageAdaptor->TransformLocalVectorToPhysicalVector(input, output1);
     const CovariantVectorType output2 = vectorImageAdaptor->TransformLocalVectorToPhysicalVector(input);
-    constexpr double          diff_tolerance = 1e-13;
+    constexpr double diff_tolerance = 1e-13;
     if ((input - output1).GetSquaredNorm() > diff_tolerance || (input - output2).GetSquaredNorm() > diff_tolerance)
     {
       std::cerr << "[FAILED]  ";
@@ -99,10 +99,10 @@ testVectorImageAdaptor(typename TAdaptor::Pointer &                             
   {
     using CovariantVectorType = itk::CovariantVector<double, VDimension>;
     const CovariantVectorType input{ 0.0 };
-    CovariantVectorType       output1;
+    CovariantVectorType output1;
     vectorImageAdaptor->TransformPhysicalVectorToLocalVector(input, output1);
     const CovariantVectorType output2 = vectorImageAdaptor->TransformPhysicalVectorToLocalVector(input);
-    constexpr double          diff_tolerance = 1e-13;
+    constexpr double diff_tolerance = 1e-13;
     if ((input - output1).GetSquaredNorm() > diff_tolerance || (input - output2).GetSquaredNorm() > diff_tolerance)
     {
       std::cerr << "[FAILED]  ";
@@ -156,9 +156,9 @@ testVectorImageBasicMethods()
 
   std::cout << "Testing Get/SetPixel methods." << std::endl;
 
-  auto                                     image = VectorImageType::New();
+  auto image = VectorImageType::New();
   const typename VectorImageType::SizeType size = { { 11, 9, 7 } };
-  typename VectorImageType::RegionType     region;
+  typename VectorImageType::RegionType region;
   region.SetSize(size);
   image->SetRegions(region);
   image->SetNumberOfComponentsPerPixel(VectorLength);
@@ -293,10 +293,10 @@ itkVectorImageTest(int, char * argv[])
       itk::TimeProbe clock;
       clock.Start();
 
-      auto                                     image = VariableLengthVectorImageType::New();
+      auto image = VariableLengthVectorImageType::New();
       VariableLengthVectorImageType::IndexType start;
-      InternalPixelType                        f(VectorLength);
-      VariableLengthVectorImageType::SizeType  size;
+      InternalPixelType f(VectorLength);
+      VariableLengthVectorImageType::SizeType size;
       for (unsigned int i = 0; i < VectorLength; ++i)
       {
         f[i] = i;
@@ -337,10 +337,10 @@ itkVectorImageTest(int, char * argv[])
 
       using InternalPixelType = itk::FixedArray<PixelType, VectorLength>;
 
-      auto                           image = FixedArrayImageType::New();
+      auto image = FixedArrayImageType::New();
       FixedArrayImageType::IndexType start;
-      InternalPixelType              f;
-      FixedArrayImageType::SizeType  size;
+      InternalPixelType f;
+      FixedArrayImageType::SizeType size;
       for (unsigned int i = 0; i < VectorLength; ++i)
       {
         f[i] = i;
@@ -394,10 +394,10 @@ itkVectorImageTest(int, char * argv[])
       itk::TimeProbe clock;
       clock.Start();
 
-      auto                                 vectorImage = VectorImageType::New();
-      VectorImageType::IndexType           start;
+      auto vectorImage = VectorImageType::New();
+      VectorImageType::IndexType start;
       itk::VariableLengthVector<PixelType> f(VectorLength);
-      VectorImageType::SizeType            size;
+      VectorImageType::SizeType size;
       for (unsigned int i = 0; i < VectorLength; ++i)
       {
         f[i] = i;
@@ -463,8 +463,8 @@ itkVectorImageTest(int, char * argv[])
     // Test with Region and Linear iterators...
     {
       // Create a  small image
-      auto                                 vectorImage = VectorImageType::New();
-      VectorImageType::IndexType           start;
+      auto vectorImage = VectorImageType::New();
+      VectorImageType::IndexType start;
       itk::VariableLengthVector<PixelType> f(VectorLength);
       itk::VariableLengthVector<PixelType> ZeroPixel(VectorLength);
       ZeroPixel.Fill(PixelType{});
@@ -503,7 +503,7 @@ itkVectorImageTest(int, char * argv[])
 
       using ConstIteratorType = itk::ImageRegionConstIterator<VectorImageType>;
       ConstIteratorType cit(vectorImage, vectorImage->GetBufferedRegion());
-      unsigned long     ctr = 0;
+      unsigned long ctr = 0;
       cit.GoToBegin();
       midCtr /= 2;
       while (!cit.IsAtEnd())
@@ -558,7 +558,7 @@ itkVectorImageTest(int, char * argv[])
           lcit.NextLine();
         }
 
-        auto               idx = VectorImageType::IndexType::Filled(1);
+        auto idx = VectorImageType::IndexType::Filled(1);
         LinearIteratorType lit(vectorImage, vectorImage->GetBufferedRegion());
         lit.SetIndex(idx);
         lit.Set(f);
@@ -583,10 +583,10 @@ itkVectorImageTest(int, char * argv[])
     // Create an image using itk::Vector
     using VectorPixelType = itk::Vector<PixelType, VectorLength>;
     using VectorImageType = itk::Image<itk::Vector<PixelType, VectorLength>, Dimension>;
-    auto                                 image = VectorImageType::New();
+    auto image = VectorImageType::New();
     constexpr VectorImageType::IndexType start{};
-    auto                                 size = VectorImageType::SizeType::Filled(5);
-    const VectorImageType::RegionType    region(start, size);
+    auto size = VectorImageType::SizeType::Filled(5);
+    const VectorImageType::RegionType region(start, size);
     image->SetRegions(region);
     image->Allocate();
 
@@ -710,8 +710,8 @@ itkVectorImageTest(int, char * argv[])
       auto radius = itk::MakeFilled<ConstNeighborhoodIteratorType::RadiusType>(1);
 
       ConstNeighborhoodIteratorType::RegionType region = vectorImage->GetBufferedRegion();
-      auto                                      size = ConstNeighborhoodIteratorType::SizeType::Filled(4);
-      auto                                      index = ConstNeighborhoodIteratorType::IndexType::Filled(1);
+      auto size = ConstNeighborhoodIteratorType::SizeType::Filled(4);
+      auto index = ConstNeighborhoodIteratorType::IndexType::Filled(1);
       region.SetIndex(index);
       region.SetSize(size);
 
@@ -784,7 +784,7 @@ itkVectorImageTest(int, char * argv[])
       auto offset = itk::MakeFilled<ConstNeighborhoodIteratorType::OffsetType>(1);
       cNit -= offset;
       const itk::VariableLengthVector<PixelType> pixel = cNit.GetCenterPixel();
-      itk::VariableLengthVector<PixelType>       correctAnswer(VectorLength);
+      itk::VariableLengthVector<PixelType> correctAnswer(VectorLength);
       correctAnswer.Fill(3);
       if (pixel != correctAnswer)
       {
@@ -915,7 +915,7 @@ itkVectorImageTest(int, char * argv[])
         cSnit.ActivateOffset(offset1);
 
         ConstShapedNeighborhoodIteratorType::IndexListType l = cSnit.GetActiveIndexList();
-        auto                                               ali = l.begin();
+        auto ali = l.begin();
         while (ali != l.end())
         {
           std::cout << *ali << ' ';

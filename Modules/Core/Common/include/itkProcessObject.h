@@ -586,7 +586,7 @@ protected:
    *  required or indexed it will be set to nullptr.
    */
   virtual void
-               RemoveInput(const DataObjectIdentifierType & key);
+  RemoveInput(const DataObjectIdentifierType & key);
   virtual void RemoveInput(DataObjectPointerArraySizeType);
 
   /** Return the main input */
@@ -973,7 +973,7 @@ private:
   NameSet m_RequiredInputNames{};
 
   /** These support the progress method and aborting filter execution. */
-  bool                  m_AbortGenerateData{};
+  bool m_AbortGenerateData{};
   std::atomic<uint32_t> m_Progress{};
 
 
@@ -982,7 +982,7 @@ private:
   /** Support processing data in multiple threads. Used by subclasses
    * (e.g., ImageSource). */
   itk::SmartPointer<MultiThreaderType> m_MultiThreader;
-  ThreadIdType                         m_NumberOfWorkUnits{};
+  ThreadIdType m_NumberOfWorkUnits{};
 
   bool m_ThreaderUpdateProgress{ true };
 

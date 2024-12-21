@@ -168,7 +168,7 @@ void
 IsolatedConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   const InputImageConstPointer inputImage = this->GetInput();
-  const OutputImagePointer     outputImage = this->GetOutput();
+  const OutputImagePointer outputImage = this->GetOutput();
 
   using AccumulateType = typename NumericTraits<InputImagePixelType>::AccumulateType;
 
@@ -193,16 +193,16 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
   auto function = FunctionType::New();
   function->SetInputImage(inputImage);
 
-  float             progressWeight = 0.0f;
-  float             cumulatedProgress = 0.0f;
-  IteratorType      it(outputImage, function, m_Seeds1);
+  float progressWeight = 0.0f;
+  float cumulatedProgress = 0.0f;
+  IteratorType it(outputImage, function, m_Seeds1);
   IterationReporter iterate(this, 0, 1);
 
   // If the upper threshold has not been set, find it.
   if (m_FindUpperThreshold)
   {
-    auto           lower = static_cast<AccumulateType>(m_Lower);
-    auto           upper = static_cast<AccumulateType>(m_Upper);
+    auto lower = static_cast<AccumulateType>(m_Lower);
+    auto upper = static_cast<AccumulateType>(m_Upper);
     AccumulateType guess = upper;
 
     // do a binary search to find an upper threshold that separates the
@@ -236,8 +236,8 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
       // seeds are not included, the sum should be zero.  Otherwise,
       // it will be other than zero.
       InputRealType seedIntensitySum{};
-      auto          si = m_Seeds2.begin();
-      const auto    li = m_Seeds2.end();
+      auto si = m_Seeds2.begin();
+      const auto li = m_Seeds2.end();
       while (si != li)
       {
         const auto value = static_cast<InputRealType>(outputImage->GetPixel(*si));
@@ -266,8 +266,8 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
   }
   else
   { // If the lower threshold has not been set, find it.
-    auto           lower = static_cast<AccumulateType>(m_Lower);
-    auto           upper = static_cast<AccumulateType>(m_Upper);
+    auto lower = static_cast<AccumulateType>(m_Lower);
+    auto upper = static_cast<AccumulateType>(m_Upper);
     AccumulateType guess = lower;
 
     // do a binary search to find a lower threshold that separates the
@@ -301,8 +301,8 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
       // seeds are not included, the sum should be zero.  Otherwise,
       // it will be other than zero.
       InputRealType seedIntensitySum{};
-      auto          si = m_Seeds2.begin();
-      const auto    li = m_Seeds2.end();
+      auto si = m_Seeds2.begin();
+      const auto li = m_Seeds2.end();
       while (si != li)
       {
         const auto value = static_cast<InputRealType>(outputImage->GetPixel(*si));
@@ -360,15 +360,15 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
   // it will be other than zero.
   InputRealType seed1IntensitySum{};
   InputRealType seed2IntensitySum{};
-  auto          si1 = m_Seeds1.begin();
-  const auto    li1 = m_Seeds1.end();
+  auto si1 = m_Seeds1.begin();
+  const auto li1 = m_Seeds1.end();
   while (si1 != li1)
   {
     const auto value = static_cast<InputRealType>(outputImage->GetPixel(*si1));
     seed1IntensitySum += value;
     ++si1;
   }
-  auto       si2 = m_Seeds2.begin();
+  auto si2 = m_Seeds2.begin();
   const auto li2 = m_Seeds2.end();
   while (si2 != li2)
   {

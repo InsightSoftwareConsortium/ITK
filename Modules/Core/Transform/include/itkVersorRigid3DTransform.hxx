@@ -36,7 +36,7 @@ VersorRigid3DTransform<TParametersValueType>::VersorRigid3DTransform(unsigned in
 #if !defined(ITK_LEGACY_REMOVE)
 // Constructor with arguments
 template <typename TParametersValueType>
-VersorRigid3DTransform<TParametersValueType>::VersorRigid3DTransform(const MatrixType &       matrix,
+VersorRigid3DTransform<TParametersValueType>::VersorRigid3DTransform(const MatrixType & matrix,
                                                                      const OutputVectorType & offset)
   : Superclass(matrix, offset)
 {}
@@ -124,7 +124,7 @@ VersorRigid3DTransform<TParametersValueType>::GetParameters() const -> const Par
 template <typename TParametersValueType>
 void
 VersorRigid3DTransform<TParametersValueType>::UpdateTransformParameters(const DerivativeType & update,
-                                                                        TParametersValueType   factor)
+                                                                        TParametersValueType factor)
 {
   const SizeValueType numberOfParameters = this->GetNumberOfParameters();
 
@@ -171,7 +171,7 @@ VersorRigid3DTransform<TParametersValueType>::UpdateTransformParameters(const De
   // of a particular length along the versor gradient
   // direction.
 
-  VersorType                 gradientRotation;
+  VersorType gradientRotation;
   const TParametersValueType norm = axis.GetNorm();
   if (Math::FloatAlmostEqual<TParametersValueType>(norm, 0.0))
   {

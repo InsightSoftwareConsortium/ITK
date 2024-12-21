@@ -41,7 +41,7 @@ public:
 };
 // Define how to print enumeration
 extern ITKOptimizers_EXPORT std::ostream &
-                            operator<<(std::ostream & out, const FRPROptimizerEnums::Optimization value);
+operator<<(std::ostream & out, const FRPROptimizerEnums::Optimization value);
 
 /** \class FRPROptimizer
  * \brief Implements Fletch-Reeves & Polak-Ribiere optimization using dBrent

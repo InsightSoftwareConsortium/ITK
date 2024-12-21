@@ -61,7 +61,7 @@ AttributePositionLabelMapFilter<TImage, TAttributeAccessor, VPhysicalPosition>::
 template <typename TImage, typename TAttributeAccessor, bool VPhysicalPosition>
 void
 AttributePositionLabelMapFilter<TImage, TAttributeAccessor, VPhysicalPosition>::PrintSelf(std::ostream & os,
-                                                                                          Indent         indent) const
+                                                                                          Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }

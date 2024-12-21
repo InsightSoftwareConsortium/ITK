@@ -37,7 +37,7 @@ GPUUnaryFunctorImageFilter<TInputImage, TOutputImage, TFunction, TParentImageFil
   using GPUInputImage = typename itk::GPUTraits<TInputImage>::Type;
   using GPUOutputImage = typename itk::GPUTraits<TOutputImage>::Type;
 
-  typename GPUInputImage::Pointer  inPtr = dynamic_cast<GPUInputImage *>(this->ProcessObject::GetInput(0));
+  typename GPUInputImage::Pointer inPtr = dynamic_cast<GPUInputImage *>(this->ProcessObject::GetInput(0));
   typename GPUOutputImage::Pointer otPtr = dynamic_cast<GPUOutputImage *>(this->ProcessObject::GetOutput(0));
 
   typename GPUOutputImage::SizeType outSize = otPtr->GetLargestPossibleRegion().GetSize();

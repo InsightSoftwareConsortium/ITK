@@ -62,7 +62,7 @@ EuclideanDistancePointMetric<TFixedPointSet, TMovingPointSet, TDistanceMap>::Get
     itkExceptionMacro("Moving point set has not been assigned");
   }
 
-  MovingPointIterator       pointItr = movingPointSet->GetPoints()->Begin();
+  MovingPointIterator pointItr = movingPointSet->GetPoints()->Begin();
   const MovingPointIterator pointEnd = movingPointSet->GetPoints()->End();
 
   MeasureType measure;
@@ -78,7 +78,7 @@ EuclideanDistancePointMetric<TFixedPointSet, TMovingPointSet, TDistanceMap>::Get
     const typename Superclass::OutputPointType transformedPoint = this->m_Transform->TransformPoint(inputPoint);
 
     double minimumDistance = NumericTraits<double>::max();
-    bool   closestPoint = false;
+    bool closestPoint = false;
 
     // Try to use the distance map to solve the closest point
     if (m_DistanceMap)
@@ -99,7 +99,7 @@ EuclideanDistancePointMetric<TFixedPointSet, TMovingPointSet, TDistanceMap>::Get
     // points and find the closest distance
     if (!closestPoint)
     {
-      FixedPointIterator       pointItr2 = fixedPointSet->GetPoints()->Begin();
+      FixedPointIterator pointItr2 = fixedPointSet->GetPoints()->Begin();
       const FixedPointIterator pointEnd2 = fixedPointSet->GetPoints()->End();
 
       while (pointItr2 != pointEnd2)
@@ -132,15 +132,15 @@ template <typename TFixedPointSet, typename TMovingPointSet, typename TDistanceM
 void
 EuclideanDistancePointMetric<TFixedPointSet, TMovingPointSet, TDistanceMap>::GetDerivative(
   const TransformParametersType & itkNotUsed(parameters),
-  DerivativeType &                itkNotUsed(derivative)) const
+  DerivativeType & itkNotUsed(derivative)) const
 {}
 
 template <typename TFixedPointSet, typename TMovingPointSet, typename TDistanceMap>
 void
 EuclideanDistancePointMetric<TFixedPointSet, TMovingPointSet, TDistanceMap>::GetValueAndDerivative(
   const TransformParametersType & parameters,
-  MeasureType &                   value,
-  DerivativeType &                derivative) const
+  MeasureType & value,
+  DerivativeType & derivative) const
 {
   value = this->GetValue(parameters);
   this->GetDerivative(parameters, derivative);
@@ -149,7 +149,7 @@ EuclideanDistancePointMetric<TFixedPointSet, TMovingPointSet, TDistanceMap>::Get
 template <typename TFixedPointSet, typename TMovingPointSet, typename TDistanceMap>
 void
 EuclideanDistancePointMetric<TFixedPointSet, TMovingPointSet, TDistanceMap>::PrintSelf(std::ostream & os,
-                                                                                       Indent         indent) const
+                                                                                       Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

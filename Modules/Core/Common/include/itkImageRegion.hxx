@@ -232,8 +232,8 @@ ImageRegion<VImageDimension>::Slice(const unsigned int dim) const -> SliceRegion
   }
 
   Index<SliceDimension> sliceIndex{};
-  Size<SliceDimension>  sliceSize{};
-  unsigned int          ii = 0;
+  Size<SliceDimension> sliceSize{};
+  unsigned int ii = 0;
   for (unsigned int i = 0; i < VImageDimension; ++i)
   {
     if (i != dim)

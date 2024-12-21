@@ -133,7 +133,7 @@ str_intent(const unsigned int intent)
 static int
 DumpNiftiHeader(const std::string & fname)
 {
-  int              swap;
+  int swap;
   nifti_1_header * hp = nifti_read_header(fname.c_str(), &swap, true);
   fputs("-------------------------------------------------------\n", stderr);
   if (!hp)
@@ -350,7 +350,7 @@ UpperToLowerOrder(int dim)
     }
   }
   auto * rval = new int[index + 1];
-  int    index2(0);
+  int index2(0);
   for (int i = 0; i < dim; ++i)
   {
     for (int j = 0; j <= i; j++, index2++)
@@ -536,13 +536,13 @@ NiftiImageIO::Read(void * buffer)
 {
   void * data = nullptr;
 
-  const ImageIORegion      regionToRead = this->GetIORegion();
-  ImageIORegion::SizeType  size = regionToRead.GetSize();
+  const ImageIORegion regionToRead = this->GetIORegion();
+  ImageIORegion::SizeType size = regionToRead.GetSize();
   ImageIORegion::IndexType start = regionToRead.GetIndex();
 
   size_t numElts = 1;
-  int    _origin[7];
-  int    _size[7];
+  int _origin[7];
+  int _size[7];
   {
     unsigned int i = 0;
     for (; i < start.size(); ++i)
@@ -696,7 +696,7 @@ NiftiImageIO::Read(void * buffer)
     // otherwise nifti is x y z t vec l m 0, itk is
     // vec x y z t l m o
     const auto * niftibuf = (const char *)data;
-    auto *       itkbuf = (char *)buffer;
+    auto * itkbuf = (char *)buffer;
     const size_t rowdist = this->m_NiftiImage->dim[1];
     const size_t slicedist = rowdist * this->m_NiftiImage->dim[2];
     const size_t volumedist = slicedist * this->m_NiftiImage->dim[3];
@@ -1395,7 +1395,7 @@ NiftiImageIO::ReadImageInformation()
   // Insert Orientation.
   // Need to encapsulate as much Nifti information as possible here.
   MetaDataDictionary & thisDic = this->GetMetaDataDictionary();
-  const std::string    classname(this->GetNameOfClass());
+  const std::string classname(this->GetNameOfClass());
   EncapsulateMetaData<std::string>(thisDic, ITK_InputFilterName, classname);
 
   // set the image orientation
@@ -1464,12 +1464,12 @@ NiftiImageIO::WriteImageInformation()
     itkExceptionMacro("Bad Nifti file name. No extension found for file: " << FName);
   }
   const std::string ExtensionName(tempextension);
-  char *            tempbasename = nifti_makebasename(FName.c_str());
+  char * tempbasename = nifti_makebasename(FName.c_str());
   const std::string BaseName(tempbasename);
   free(tempbasename); // Need to clear the extension
 
   const std::string::size_type ext = ExtensionName.rfind(".gz");
-  const bool                   IsCompressed = (ext == std::string::npos) ? false : true;
+  const bool IsCompressed = (ext == std::string::npos) ? false : true;
   if ((ExtensionName == ".nii" || ExtensionName == ".nii.gz") && this->GetUseLegacyModeForTwoFileWriting() == false)
   {
     this->m_NiftiImage->nifti_type = NIFTI_FTYPE_NIFTI1_1;
@@ -1593,12 +1593,12 @@ NiftiImageIO::WriteImageInformation()
     {
       // Each voxel is a vector. Set intent code to NIFTI_INTENT_VECTOR (default)
       // or NIFTI_INTENT_DISPVECT.
-      int         intentCode = NIFTI_INTENT_VECTOR;
+      int intentCode = NIFTI_INTENT_VECTOR;
       std::string intentCodeStrInMetaData;
       if (itk::ExposeMetaData<std::string>(thisDic, "intent_code", intentCodeStrInMetaData))
       {
         std::istringstream is(intentCodeStrInMetaData);
-        int                intentCodeInMetaData = -1;
+        int intentCodeInMetaData = -1;
         is >> intentCodeInMetaData;
         if (intentCodeInMetaData == NIFTI_INTENT_DISPVECT)
         {
@@ -1863,7 +1863,7 @@ IsAffine(const mat44 & nifti_mat)
   // Calculate the inverse and separate the inverse translation component
   // and the top 3x3 part of the inverse matrix
   const vnl_matrix_fixed<double, 4, 4> inv4x4Matrix = vnl_matrix_inverse<double>(mat.as_matrix()).as_matrix();
-  const vnl_vector_fixed<double, 3>    inv4x4Translation(inv4x4Matrix[0][3], inv4x4Matrix[1][3], inv4x4Matrix[2][3]);
+  const vnl_vector_fixed<double, 3> inv4x4Translation(inv4x4Matrix[0][3], inv4x4Matrix[1][3], inv4x4Matrix[2][3]);
   const vnl_matrix_fixed<double, 3, 3> inv4x4Top3x3 = inv4x4Matrix.extract(3, 3, 0, 0);
 
   // Grab just the top 3x3 matrix
@@ -1873,8 +1873,8 @@ IsAffine(const mat44 & nifti_mat)
   const vnl_vector_fixed<double, 3> inv3x3Translation = -(invTop3x3Matrix * mat.get_column(3).extract(3));
 
   // Make sure we adhere to the conditions of a 4x4 invertible affine transform matrix
-  const double     diff_matrix_array_one_norm = (inv4x4Top3x3 - invTop3x3Matrix).array_one_norm();
-  const double     diff_vector_translation_one_norm = (inv4x4Translation - inv3x3Translation).one_norm();
+  const double diff_matrix_array_one_norm = (inv4x4Top3x3 - invTop3x3Matrix).array_one_norm();
+  const double diff_vector_translation_one_norm = (inv4x4Translation - inv3x3Translation).one_norm();
   constexpr double normed_tolerance_matrix_close = 1e-2;
   return !((diff_matrix_array_one_norm > normed_tolerance_matrix_close) ||
            (diff_vector_translation_one_norm > normed_tolerance_matrix_close));
@@ -1942,7 +1942,7 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short dims, double spacing
           break;
       }
       const auto dir = orient.GetAsDirection();
-      const int  max_defined_orientation_dims = (dims > 3) ? 3 : dims;
+      const int max_defined_orientation_dims = (dims > 3) ? 3 : dims;
       for (int d = 0; d < max_defined_orientation_dims; ++d)
       {
         std::vector<double> direction(dims, 0.0);
@@ -2006,7 +2006,7 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short dims, double spacing
           vnl_matrix_fixed<float, 3, 3> rotation = sto_xyz.extract(3, 3, 0, 0);
           {
             // Ensure that the scales are approximately the same for spacing directions
-            bool            sform_scales_ok{ true };
+            bool sform_scales_ok{ true };
             constexpr float large_value_tolerance = 1e-3; // Numerical precision of sform is not very good
             if (itk::Math::abs(this->m_NiftiImage->dx - rotation.get_column(0).magnitude()) > large_value_tolerance)
             {
@@ -2035,7 +2035,7 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short dims, double spacing
 
           // Only orthonormal matricies have transpose as inverse
           const vnl_matrix_fixed<float, 3, 3> candidate_identity = rotation * rotation.transpose();
-          const bool                          is_orthonormal = candidate_identity.is_identity(1.0e-4);
+          const bool is_orthonormal = candidate_identity.is_identity(1.0e-4);
 
           return is_orthonormal;
         }
@@ -2072,8 +2072,8 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short dims, double spacing
             // extract rotation matrix
             const vnl_matrix_fixed<float, 3, 3> sform_3x3 = sform_as_matrix.extract(3, 3, 0, 0);
             const vnl_matrix_fixed<float, 3, 3> qform_3x3 = qform_as_matrix.extract(3, 3, 0, 0);
-            vnl_svd<float>                      sform_svd(sform_3x3.as_ref());
-            vnl_svd<float>                      qform_svd(qform_3x3.as_ref());
+            vnl_svd<float> sform_svd(sform_3x3.as_ref());
+            vnl_svd<float> qform_svd(qform_3x3.as_ref());
 
             // extract offset
             const vnl_vector<float> sform_offset{ sform_as_matrix.get_column(3).extract(3, 0) };
@@ -2170,7 +2170,7 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short dims, double spacing
     m_Origin[3] = this->m_NiftiImage->toffset * timingscale;
   }
 
-  const int           max_defined_orientation_dims = (dims > 3) ? 3 : dims;
+  const int max_defined_orientation_dims = (dims > 3) ? 3 : dims;
   std::vector<double> xDirection(dims, 0.0);
   for (int i = 0; i < max_defined_orientation_dims; ++i)
   {
@@ -2219,7 +2219,7 @@ NiftiImageIO::getQFormCodeFromDictionary() const
 {
   // The qform_code should be set to either NIFTI_XFORM_UNKNOWN or NIFTI_XFORM_SCANNER_ANAT.
   const MetaDataDictionary & thisDic = this->GetMetaDataDictionary();
-  std::string                temp;
+  std::string temp;
   if (itk::ExposeMetaData<std::string>(thisDic, "qform_code_name", temp))
   {
     return str_xform2code(temp);
@@ -2238,7 +2238,7 @@ NiftiImageIO::getSFormCodeFromDictionary() const
   // The sform code should be set to either NIFTI_XFORM_UNKNOWN, NIFTI_XFORM_ALIGNED_ANAT, NIFTI_XFORM_TALAIRACH or
   // NIFTI_XFORM_MNI_152.
   const MetaDataDictionary & thisDic = this->GetMetaDataDictionary();
-  std::string                temp;
+  std::string temp;
   if (itk::ExposeMetaData<std::string>(thisDic, "sform_code_name", temp))
   {
     return str_xform2code(temp);
@@ -2271,7 +2271,7 @@ NiftiImageIO::SetNIfTIOrientationFromImageIO(unsigned short origdims, unsigned s
   // The type here must be a float, because that matches the signature
   // of the nifti_make_orthog_mat44() method below.
   using DirectionMatrixComponentType = float;
-  const int                                 mindims(dims < 3 ? 3 : dims);
+  const int mindims(dims < 3 ? 3 : dims);
   std::vector<DirectionMatrixComponentType> dirx(mindims, 0.0f);
   {
     unsigned int i = 0;
@@ -2321,7 +2321,7 @@ NiftiImageIO::SetNIfTIOrientationFromImageIO(unsigned short origdims, unsigned s
   // Check if matrix is orthogonal and issue a warning if it was
   // coerced to orthogonal. Use same epsilon as used in SetImageIOOrientationFromNIfTI
   const unsigned int matDim(this->GetDirection(0).size());
-  vnl_matrix<float>  imageMat(matDim, matDim);
+  vnl_matrix<float> imageMat(matDim, matDim);
   for (unsigned c = 0; c < matDim; ++c)
   {
     auto col = this->GetDirection(c);
@@ -2339,7 +2339,7 @@ NiftiImageIO::SetNIfTIOrientationFromImageIO(unsigned short origdims, unsigned s
   // also issue a warning if original file had non-orthogonal matrix?
   {
     const MetaDataDictionary & thisDic = this->GetMetaDataDictionary();
-    std::string                temp;
+    std::string temp;
     if (itk::ExposeMetaData<std::string>(thisDic, "nifti_sform_corrected", temp) && temp == "YES")
     {
       itkWarningMacro("Non-orthogonal direction matrix in original nifti file was non-orthogonal");
@@ -2422,7 +2422,7 @@ NiftiImageIO::Write(const void * buffer)
     const size_t buffer_size = numVoxels * numComponents // Number of components
                                * this->m_NiftiImage->nbyper;
 
-    const auto         nifti_buf = make_unique_for_overwrite<char[]>(buffer_size);
+    const auto nifti_buf = make_unique_for_overwrite<char[]>(buffer_size);
     const auto * const itkbuf = (const char *)buffer;
     // Data must be rearranged to meet nifti organzation.
     // nifti_layout[vec][t][z][y][x] = itk_layout[t][z][y][z][vec]

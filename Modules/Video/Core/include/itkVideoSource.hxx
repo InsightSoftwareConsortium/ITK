@@ -138,7 +138,7 @@ void
 VideoSource<TOutputVideoStream>::GenerateOutputRequestedTemporalRegion(TemporalDataObject * output)
 {
   // Check if requested temporal region unset
-  bool                 resetNumFrames = false;
+  bool resetNumFrames = false;
   const TemporalRegion outputRequest = output->GetRequestedTemporalRegion();
 
   if (!outputRequest.GetFrameDuration())
@@ -250,7 +250,7 @@ template <typename TOutputVideoStream>
 void
 VideoSource<TOutputVideoStream>::ThreadedGenerateData(
   const typename TOutputVideoStream::SpatialRegionType & itkNotUsed(outputRegionForThread),
-  int                                                    itkNotUsed(threadId))
+  int itkNotUsed(threadId))
 {
   itkExceptionMacro("itk::ERROR: " << this->GetNameOfClass() << '(' << this << "): "
                                    << "Subclass should override this method!!!");
@@ -266,21 +266,21 @@ VideoSource<TOutputVideoStream>::ThreadedGenerateData(
 template <typename TOutputVideoStream>
 int
 VideoSource<TOutputVideoStream>::SplitRequestedSpatialRegion(
-  int                                              i,
-  int                                              num,
+  int i,
+  int num,
   typename TOutputVideoStream::SpatialRegionType & splitRegion)
 {
   // Get the output pointer and a pointer to the first output frame
   OutputVideoStreamType * outputPtr = this->GetOutput();
-  const SizeValueType     currentFrame = outputPtr->GetRequestedTemporalRegion().GetFrameStart();
-  OutputFrameType *       framePtr = outputPtr->GetFrame(currentFrame);
+  const SizeValueType currentFrame = outputPtr->GetRequestedTemporalRegion().GetFrameStart();
+  OutputFrameType * framePtr = outputPtr->GetFrame(currentFrame);
 
   const typename TOutputVideoStream::SizeType & requestedRegionSize = framePtr->GetRequestedRegion().GetSize();
 
   // Initialize the splitRegion to the output requested region
   splitRegion = framePtr->GetRequestedRegion();
   typename TOutputVideoStream::IndexType splitIndex = splitRegion.GetIndex();
-  typename TOutputVideoStream::SizeType  splitSize = splitRegion.GetSize();
+  typename TOutputVideoStream::SizeType splitSize = splitRegion.GetSize();
 
   // split on the outermost dimension available
   int splitAxis = framePtr->GetImageDimension() - 1;

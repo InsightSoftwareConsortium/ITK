@@ -83,7 +83,7 @@ itkSpatialObjectToImageFilterTest(int, char *[])
   // Testing spacing
   std::cout << "Testing Spacing: ";
 
-  float  spacingFloat[2];
+  float spacingFloat[2];
   double spacingDouble[2];
 
   for (unsigned int i = 0; i < 2; ++i)
@@ -119,7 +119,7 @@ itkSpatialObjectToImageFilterTest(int, char *[])
   // Testing Origin
   std::cout << "Testing Origin: ";
 
-  float  originFloat[2];
+  float originFloat[2];
   double originDouble[2];
 
   for (unsigned int i = 0; i < 2; ++i)

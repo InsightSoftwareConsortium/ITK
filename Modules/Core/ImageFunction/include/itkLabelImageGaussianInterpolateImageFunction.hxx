@@ -37,7 +37,7 @@ template <typename TInputImage, typename TCoordinate, typename TPixelCompare>
 auto
 LabelImageGaussianInterpolateImageFunction<TInputImage, TCoordinate, TPixelCompare>::EvaluateAtContinuousIndex(
   const ContinuousIndexType & cindex,
-  OutputType *                itkNotUsed(grad)) const -> OutputType
+  OutputType * itkNotUsed(grad)) const -> OutputType
 {
   vnl_vector<RealType> erfArray[ImageDimension];
   vnl_vector<RealType> gerfArray[ImageDimension];
@@ -50,7 +50,7 @@ LabelImageGaussianInterpolateImageFunction<TInputImage, TCoordinate, TPixelCompa
     this->ComputeErrorFunctionArray(region, d, cindex[d], erfArray[d], gerfArray[d], false);
   }
 
-  RealType   wmax = 0.0;
+  RealType wmax = 0.0;
   OutputType Vmax{};
 
   // Create a map object to store weights for each label encountered
@@ -63,7 +63,7 @@ LabelImageGaussianInterpolateImageFunction<TInputImage, TCoordinate, TPixelCompa
   for (ImageRegionConstIteratorWithIndex<InputImageType> It(this->GetInputImage(), region); !It.IsAtEnd(); ++It)
   {
     unsigned int j = It.GetIndex()[0] - region.GetIndex()[0];
-    RealType     w = erfArray[0][j];
+    RealType w = erfArray[0][j];
     for (unsigned int d = 1; d < ImageDimension; ++d)
     {
       j = It.GetIndex()[d] - region.GetIndex()[d];
@@ -71,8 +71,8 @@ LabelImageGaussianInterpolateImageFunction<TInputImage, TCoordinate, TPixelCompa
     }
 
     const OutputType V = It.Get();
-    auto             it = weightMap.find(V);
-    RealType         wtest = 0.0;
+    auto it = weightMap.find(V);
+    RealType wtest = 0.0;
 
     if (it != weightMap.end())
     {

@@ -104,14 +104,14 @@ public:
 
   /** Add a converter for a new MetaObject/SpatialObject type */
   void
-  RegisterMetaConverter(const char *            metaTypeName,
-                        const char *            spatialObjectTypeName,
+  RegisterMetaConverter(const char * metaTypeName,
+                        const char * spatialObjectTypeName,
                         MetaConverterBaseType * converter);
 
 protected:
   std::string m_FileName{};
-  bool        m_BinaryPoints{};
-  bool        m_WriteImagesInSeparateFile{};
+  bool m_BinaryPoints{};
+  bool m_WriteImagesInSeparateFile{};
 
   SpatialObjectWriter();
   ~SpatialObjectWriter() override = default;

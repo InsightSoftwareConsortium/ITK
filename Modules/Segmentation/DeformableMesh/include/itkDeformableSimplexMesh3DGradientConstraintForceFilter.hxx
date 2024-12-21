@@ -45,7 +45,7 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>::
 template <typename TInputMesh, typename TOutputMesh>
 void
 DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>::PrintSelf(std::ostream & os,
-                                                                                         Indent         indent) const
+                                                                                         Indent indent) const
 {
   using namespace print_helper;
 
@@ -109,10 +109,10 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>::S
 template <typename TInputMesh, typename TOutputMesh>
 double
 DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>::NextVoxel(const double * pp,
-                                                                                         int *          ic,
-                                                                                         double *       x,
-                                                                                         double *       y,
-                                                                                         double *       z)
+                                                                                         int * ic,
+                                                                                         double * x,
+                                                                                         double * y,
+                                                                                         double * z)
 {
   const double dp[3]{ pp[0], pp[1], pp[2] };
 
@@ -196,7 +196,7 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>::N
 template <typename TInputMesh, typename TOutputMesh>
 void
 DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>::ComputeExternalForce(
-  SimplexMeshGeometry *     data,
+  SimplexMeshGeometry * data,
   const GradientImageType * gradientImage)
 {
   // image coordinate
@@ -205,7 +205,7 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>::C
   coord[1] = static_cast<ImageIndexValueType>(data->pos[1]);
   coord[2] = static_cast<ImageIndexValueType>(data->pos[2]);
 
-  const OriginalImageType::PointType &   orgn = m_Image->GetOrigin();
+  const OriginalImageType::PointType & orgn = m_Image->GetOrigin();
   const OriginalImageType::SpacingType & sp = m_Image->GetSpacing();
 
   if (m_StartVoxel)
@@ -276,8 +276,8 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>::C
     // scan normal side
     if (side == SIDEEnum::NORMAL || side == SIDEEnum::BOTH)
     {
-      int    i = 0;
-      bool   stop = false;
+      int i = 0;
+      bool stop = false;
       double dist = 0.0;
 
       while (!stop)
@@ -333,8 +333,8 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>::C
       dp[0] *= -1.0;
       dp[1] *= -1.0;
       dp[2] *= -1.0;
-      int    ii = 0;
-      bool   stop = false;
+      int ii = 0;
+      bool stop = false;
       double dist = 0.0;
 
       while (!stop)
@@ -380,7 +380,7 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>::C
   // now fun begins try to use all the above
 
 
-  double            max = 0;
+  double max = 0;
   GradientIndexType coord2{};
   for (auto & imgVoxel : m_Positive)
   {

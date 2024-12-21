@@ -117,8 +117,8 @@ main(int argc, char * argv[])
 
   using RegistrationType = itk::ImageRegistrationMethod<FixedImageType, MovingImageType>;
 
-  const MetricType::Pointer       metric = MetricType::New();
-  const OptimizerType::Pointer    optimizer = OptimizerType::New();
+  const MetricType::Pointer metric = MetricType::New();
+  const OptimizerType::Pointer optimizer = OptimizerType::New();
   const InterpolatorType::Pointer interpolator = InterpolatorType::New();
   const RegistrationType::Pointer registration = RegistrationType::New();
 
@@ -140,7 +140,7 @@ main(int argc, char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  const FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
+  const FixedImageReaderType::Pointer fixedImageReader = FixedImageReaderType::New();
   const MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
@@ -159,8 +159,8 @@ main(int argc, char * argv[])
 
 
   TransformType::PhysicalDimensionsType fixedPhysicalDimensions;
-  TransformType::MeshSizeType           meshSize;
-  TransformType::OriginType             fixedOrigin;
+  TransformType::MeshSizeType meshSize;
+  TransformType::OriginType fixedOrigin;
 
   constexpr unsigned int numberOfGridNodesInOneDimension = 8;
 
@@ -208,7 +208,7 @@ main(int argc, char * argv[])
   optimizer->SetMaximumNumberOfFunctionEvaluations(1000);
 
   // Add time and memory probes
-  itk::TimeProbesCollectorBase   chronometer;
+  itk::TimeProbesCollectorBase chronometer;
   itk::MemoryProbesCollectorBase memorymeter;
 
   std::cout << std::endl << "Starting Registration" << std::endl;
@@ -278,7 +278,7 @@ main(int argc, char * argv[])
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
 
-  const WriterType::Pointer     writer = WriterType::New();
+  const WriterType::Pointer writer = WriterType::New();
   const CastFilterType::Pointer caster = CastFilterType::New();
 
 
@@ -365,8 +365,8 @@ main(int argc, char * argv[])
 
   fi.GoToBegin();
 
-  TransformType::InputPointType    fixedPoint;
-  TransformType::OutputPointType   movingPoint;
+  TransformType::InputPointType fixedPoint;
+  TransformType::OutputPointType movingPoint;
   DisplacementFieldType::IndexType index;
 
   VectorType displacement;

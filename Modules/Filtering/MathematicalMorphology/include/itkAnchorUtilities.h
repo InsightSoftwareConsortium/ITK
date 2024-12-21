@@ -33,26 +33,26 @@ namespace itk
  */
 template <typename TImage, typename TBres, typename TLine>
 int
-ComputeStartEnd(const typename TImage::IndexType  StartIndex,
-                const TLine                       line,
-                const float                       tol,
+ComputeStartEnd(const typename TImage::IndexType StartIndex,
+                const TLine line,
+                const float tol,
                 const typename TBres::OffsetArray LineOffsets,
                 const typename TImage::RegionType AllImage,
-                unsigned int &                    start,
-                unsigned int &                    end);
+                unsigned int & start,
+                unsigned int & end);
 
 template <typename TImage, typename TBres, typename TAnchor, typename TLine>
 void
-DoAnchorFace(const TImage *                            input,
-             TImage *                                  output,
-             typename TImage::PixelType                border,
-             TLine                                     line,
-             TAnchor &                                 AnchorLine,
-             typename TBres::OffsetArray               LineOffsets,
+DoAnchorFace(const TImage * input,
+             TImage * output,
+             typename TImage::PixelType border,
+             TLine line,
+             TAnchor & AnchorLine,
+             typename TBres::OffsetArray LineOffsets,
              std::vector<typename TImage::PixelType> & inbuffer,
              std::vector<typename TImage::PixelType> & outbuffer,
-             const typename TImage::RegionType         AllImage,
-             const typename TImage::RegionType         face);
+             const typename TImage::RegionType AllImage,
+             const typename TImage::RegionType face);
 
 } // namespace itk
 

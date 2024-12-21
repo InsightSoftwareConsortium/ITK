@@ -85,7 +85,7 @@ itkImageRegistrationMethodTest_9(int argc, char * argv[])
 
   imageSource->GenerateImages(size);
 
-  const FixedImageType::ConstPointer  fixedImage = imageSource->GetFixedImage();
+  const FixedImageType::ConstPointer fixedImage = imageSource->GetFixedImage();
   const MovingImageType::ConstPointer movingImage = imageSource->GetMovingImage();
 
   //
@@ -154,7 +154,7 @@ itkImageRegistrationMethodTest_9(int argc, char * argv[])
   constexpr double G_Tolerance = 1e-4;       // Gradient magnitude tolerance
   constexpr double X_Tolerance = 1e-8;       // Search space tolerance
   constexpr double Epsilon_Function = 1e-10; // Step
-  constexpr int    Max_Iterations = 100;     // Maximum number of iterations
+  constexpr int Max_Iterations = 100;        // Maximum number of iterations
 
   vnlOptimizer->set_f_tolerance(F_Tolerance);
   vnlOptimizer->set_g_tolerance(G_Tolerance);

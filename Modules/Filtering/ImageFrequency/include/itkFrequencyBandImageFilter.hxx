@@ -126,11 +126,11 @@ template <typename TImageType, typename TFrequencyIterator>
 void
 FrequencyBandImageFilter<TImageType, TFrequencyIterator>::BandPass(FrequencyIteratorType & freqIt)
 {
-  FrequencyValueType                            scalarFrequency;
+  FrequencyValueType scalarFrequency;
   typename FrequencyIteratorType::FrequencyType vectorFrequency;
-  FrequencyValueType                            maxFrequency;
-  FrequencyValueType                            minFrequency;
-  bool                                          freqIsNegative = false;
+  FrequencyValueType maxFrequency;
+  FrequencyValueType minFrequency;
+  bool freqIsNegative = false;
 
   if (this->m_RadialBand)
   {

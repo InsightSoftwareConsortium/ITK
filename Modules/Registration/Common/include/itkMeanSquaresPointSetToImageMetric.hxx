@@ -37,10 +37,10 @@ MeanSquaresPointSetToImageMetric<TFixedPointSet, TMovingImage>::GetValue(
     itkExceptionMacro("Fixed point set has not been assigned");
   }
 
-  PointIterator       pointItr = fixedPointSet->GetPoints()->Begin();
+  PointIterator pointItr = fixedPointSet->GetPoints()->Begin();
   const PointIterator pointEnd = fixedPointSet->GetPoints()->End();
 
-  PointDataIterator       pointDataItr = fixedPointSet->GetPointData()->Begin();
+  PointDataIterator pointDataItr = fixedPointSet->GetPointData()->Begin();
   const PointDataIterator pointDataEnd = fixedPointSet->GetPointData()->End();
 
   MeasureType measure{};
@@ -88,7 +88,7 @@ template <typename TFixedPointSet, typename TMovingImage>
 void
 MeanSquaresPointSetToImageMetric<TFixedPointSet, TMovingImage>::GetDerivative(
   const TransformParametersType & parameters,
-  DerivativeType &                derivative) const
+  DerivativeType & derivative) const
 {
   if (!this->GetGradientImage())
   {
@@ -110,10 +110,10 @@ MeanSquaresPointSetToImageMetric<TFixedPointSet, TMovingImage>::GetDerivative(
   derivative = DerivativeType(ParametersDimension);
   derivative.Fill(typename DerivativeType::ValueType{});
 
-  PointIterator       pointItr = fixedPointSet->GetPoints()->Begin();
+  PointIterator pointItr = fixedPointSet->GetPoints()->Begin();
   const PointIterator pointEnd = fixedPointSet->GetPoints()->End();
 
-  PointDataIterator       pointDataItr = fixedPointSet->GetPointData()->Begin();
+  PointDataIterator pointDataItr = fixedPointSet->GetPointData()->Begin();
   const PointDataIterator pointDataEnd = fixedPointSet->GetPointData()->End();
 
   TransformJacobianType jacobian(TMovingImage::ImageDimension, this->m_Transform->GetNumberOfParameters());
@@ -183,8 +183,8 @@ template <typename TFixedPointSet, typename TMovingImage>
 void
 MeanSquaresPointSetToImageMetric<TFixedPointSet, TMovingImage>::GetValueAndDerivative(
   const TransformParametersType & parameters,
-  MeasureType &                   value,
-  DerivativeType &                derivative) const
+  MeasureType & value,
+  DerivativeType & derivative) const
 {
   if (!this->GetGradientImage())
   {
@@ -207,10 +207,10 @@ MeanSquaresPointSetToImageMetric<TFixedPointSet, TMovingImage>::GetValueAndDeriv
   derivative = DerivativeType(ParametersDimension);
   derivative.Fill(typename DerivativeType::ValueType{});
 
-  PointIterator       pointItr = fixedPointSet->GetPoints()->Begin();
+  PointIterator pointItr = fixedPointSet->GetPoints()->Begin();
   const PointIterator pointEnd = fixedPointSet->GetPoints()->End();
 
-  PointDataIterator       pointDataItr = fixedPointSet->GetPointData()->Begin();
+  PointDataIterator pointDataItr = fixedPointSet->GetPointData()->Begin();
   const PointDataIterator pointDataEnd = fixedPointSet->GetPointData()->End();
 
   TransformJacobianType jacobian(TMovingImage::ImageDimension, this->m_Transform->GetNumberOfParameters());

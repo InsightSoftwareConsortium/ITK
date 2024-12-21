@@ -82,10 +82,10 @@ struct par_parameter // par_parameter
   char exam_time[PAR_DEFAULT_STRING_LENGTH];              // Examination
                                                           // date/time
   char series_type[PAR_DEFAULT_STRING_LENGTH];            // Series Type
-  int  scno;                                              // Acquisition nr
-  int  recno;                                             // Reconstruction nr
-  int  scan_duration;                                     // Scan Duration [sec]
-  int  cardiac_phases;                                    // Max. number of
+  int scno;                                               // Acquisition nr
+  int recno;                                              // Reconstruction nr
+  int scan_duration;                                      // Scan Duration [sec]
+  int cardiac_phases;                                     // Max. number of
                                                           // cardiac phases
   float trigger_times[PAR_DEFAULT_TRIGGER_TIMES_SIZE];    // trigger_time
                                                           // (float)
@@ -106,8 +106,8 @@ struct par_parameter // par_parameter
                                                           // or 16 bits]
   char technique[PAR_DEFAULT_STRING_LENGTH];              // Technique
   char scan_mode[PAR_DEFAULT_STRING_LENGTH];              // Scan mode
-  int  num_averages;                                      // Number of averages
-  int  scan_resolution[2];                                // Scan resolution
+  int num_averages;                                       // Number of averages
+  int scan_resolution[2];                                 // Scan resolution
                                                           //  (x, y)
   int scan_percent;                                       // Scan percentage
   int dim[3];                                             // Recon resolution
@@ -142,9 +142,9 @@ struct par_parameter // par_parameter
                                                           // <0=no 1=yes> ?
   int presaturation;                                      // Presaturation
                                                           //     <0=no 1=yes> ?
-  int   cardiac_freq;                                     // Cardiac frequency
-  int   min_rr_int;                                       // Min. RR interval
-  int   max_rr_int;                                       // Max. RR interval
+  int cardiac_freq;                                       // Cardiac frequency
+  int min_rr_int;                                         // Min. RR interval
+  int max_rr_int;                                         // Max. RR interval
   float phase_encode_vel[3];                              // Phase encoding
                                                           // velocity [cm/sec]
   int mtc;                                                // MTC
@@ -279,9 +279,9 @@ public:
   using PARDiffusionValuesContainer = VectorContainer<unsigned int, PARDiffusionValues>;
   using PARBValuesContainer = VectorContainer<unsigned int, double>;
   bool
-  GetDiffusionGradientOrientationAndBValues(std::string                   parFile,
+  GetDiffusionGradientOrientationAndBValues(std::string parFile,
                                             PARDiffusionValuesContainer * gradientValues,
-                                            PARBValuesContainer *         bValues);
+                                            PARBValuesContainer * bValues);
 
   // Returns a vector of ASL label types for the PAR file "parFile".
   using PARLabelTypesASLContainer = VectorContainer<unsigned int, int>;

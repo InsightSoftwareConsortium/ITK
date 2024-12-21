@@ -50,7 +50,7 @@ Logger::PriorityLevelEnum
 ThreadLogger::GetPriorityLevel() const
 {
   const std::lock_guard<std::mutex> lockGuard(m_Mutex);
-  const PriorityLevelEnum           level = this->m_PriorityLevel;
+  const PriorityLevelEnum level = this->m_PriorityLevel;
   return level;
 }
 
@@ -67,7 +67,7 @@ Logger::PriorityLevelEnum
 ThreadLogger::GetLevelForFlushing() const
 {
   const std::lock_guard<std::mutex> lockGuard(m_Mutex);
-  const PriorityLevelEnum           level = this->m_LevelForFlushing;
+  const PriorityLevelEnum level = this->m_LevelForFlushing;
   return level;
 }
 
@@ -82,7 +82,7 @@ ThreadLogger::DelayType
 ThreadLogger::GetDelay() const
 {
   const std::lock_guard<std::mutex> lockGuard(m_Mutex);
-  const DelayType                   delay = this->m_Delay;
+  const DelayType delay = this->m_Delay;
   return delay;
 }
 

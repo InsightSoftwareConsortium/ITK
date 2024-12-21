@@ -123,7 +123,7 @@ CompositeTransformIOHelperTemplate<TParametersValueType>::GetTransformList(const
 
 template <typename TParametersValueType>
 void
-CompositeTransformIOHelperTemplate<TParametersValueType>::SetTransformList(TransformType *     transform,
+CompositeTransformIOHelperTemplate<TParametersValueType>::SetTransformList(TransformType * transform,
                                                                            TransformListType & transformList)
 {
   // try each CompositeTransform Type, starting with
@@ -166,7 +166,7 @@ CompositeTransformIOHelperTemplate<TParametersValueType>::BuildTransformList(con
   const typename CompositeType::TransformQueueType & transforms = composite->GetTransformQueue();
   for (auto it = transforms.begin(); it != transforms.end(); ++it)
   {
-    const auto *                curTransform = static_cast<const TransformType *>(it->GetPointer());
+    const auto * curTransform = static_cast<const TransformType *>(it->GetPointer());
     const ConstTransformPointer curPtr = curTransform;
     this->m_TransformList.push_back(curPtr);
   }
@@ -176,7 +176,7 @@ CompositeTransformIOHelperTemplate<TParametersValueType>::BuildTransformList(con
 template <typename TParametersValueType>
 template <unsigned int VDimension>
 int
-CompositeTransformIOHelperTemplate<TParametersValueType>::InternalSetTransformList(TransformType *     transform,
+CompositeTransformIOHelperTemplate<TParametersValueType>::InternalSetTransformList(TransformType * transform,
                                                                                    TransformListType & transformList)
 {
   //

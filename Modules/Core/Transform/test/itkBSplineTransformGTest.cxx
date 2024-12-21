@@ -32,8 +32,8 @@ template <typename TParametersValueType, unsigned int VDimension, unsigned int V
 void
 bspline_eq(const itk::BSplineTransform<TParametersValueType, VDimension, VSplineOrder> * bspline1,
            const itk::BSplineTransform<TParametersValueType, VDimension, VSplineOrder> * bspline2,
-           const std::string &                                                           description = "",
-           double                                                                        tolerance = 1e-15)
+           const std::string & description = "",
+           double tolerance = 1e-15)
 {
   using BSplineType = itk::BSplineTransform<TParametersValueType, VDimension, VSplineOrder>;
   // Compare Transform Domain interface
@@ -114,7 +114,7 @@ TEST(ITKBSplineTransform, Copying_Clone)
   ASSERT_EQ(coeffImageArray.Size(), 2);
 
   const SizeType imageSize = itk::MakeSize(10, 10);
-  DirectionType  imageDirection; // filled with zeros
+  DirectionType imageDirection; // filled with zeros
   imageDirection(0, 1) = -1;
   imageDirection(1, 0) = 1;
 

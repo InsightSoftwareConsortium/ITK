@@ -48,7 +48,7 @@ BSplineTransform<TParametersValueType, VDimension, VSplineOrder>::BSplineTransfo
 
 
   constexpr OriginType meshOrigin{};
-  auto                 meshPhysical = MakeFilled<PhysicalDimensionsType>(1.0);
+  auto meshPhysical = MakeFilled<PhysicalDimensionsType>(1.0);
 
   DirectionType meshDirection;
   meshDirection.SetIdentity();
@@ -163,7 +163,7 @@ auto
 BSplineTransform<TParametersValueType, VDimension, VSplineOrder>::GetTransformDomainPhysicalDimensions() const
   -> PhysicalDimensionsType
 {
-  const MeshSizeType     size = this->GetTransformDomainMeshSize();
+  const MeshSizeType size = this->GetTransformDomainMeshSize();
   PhysicalDimensionsType physicalDim;
   for (unsigned int i = 0; i < VDimension; ++i)
   {
@@ -287,10 +287,10 @@ BSplineTransform<TParametersValueType, VDimension, VSplineOrder>::SetFixedParame
 template <typename TParametersValueType, unsigned int VDimension, unsigned int VSplineOrder>
 void
 BSplineTransform<TParametersValueType, VDimension, VSplineOrder>::SetFixedParametersFromTransformDomainInformation(
-  const OriginType &             meshOrigin,
+  const OriginType & meshOrigin,
   const PhysicalDimensionsType & meshPhysical,
-  const DirectionType &          meshDirection,
-  const MeshSizeType &           meshSize)
+  const DirectionType & meshDirection,
+  const MeshSizeType & meshSize)
 {
 
   // Set the grid size parameters
@@ -507,11 +507,11 @@ BSplineTransform<TParametersValueType, VDimension, VSplineOrder>::InsideValidReg
 
 template <typename TParametersValueType, unsigned int VDimension, unsigned int VSplineOrder>
 void
-BSplineTransform<TParametersValueType, VDimension, VSplineOrder>::TransformPoint(const InputPointType &    point,
-                                                                                 OutputPointType &         outputPoint,
-                                                                                 WeightsType &             weights,
+BSplineTransform<TParametersValueType, VDimension, VSplineOrder>::TransformPoint(const InputPointType & point,
+                                                                                 OutputPointType & outputPoint,
+                                                                                 WeightsType & weights,
                                                                                  ParameterIndexArrayType & indices,
-                                                                                 bool &                    inside) const
+                                                                                 bool & inside) const
 {
   inside = true;
 
@@ -535,14 +535,14 @@ BSplineTransform<TParametersValueType, VDimension, VSplineOrder>::TransformPoint
     this->m_WeightsFunction->Evaluate(index, weights, supportIndex);
 
     // For each dimension, correlate coefficient with weights
-    constexpr auto   supportSize = SizeType::Filled(SplineOrder + 1);
+    constexpr auto supportSize = SizeType::Filled(SplineOrder + 1);
     const RegionType supportRegion(supportIndex, supportSize);
 
     outputPoint.Fill(ScalarType{});
 
     using IteratorType = ImageScanlineConstIterator<ImageType>;
-    IteratorType                coeffIterator[SpaceDimension];
-    unsigned long               counter = 0;
+    IteratorType coeffIterator[SpaceDimension];
+    unsigned long counter = 0;
     const ParametersValueType * basePointer = this->m_CoefficientImages[0]->GetBufferPointer();
     for (unsigned int j = 0; j < SpaceDimension; ++j)
     {
@@ -596,7 +596,7 @@ template <typename TParametersValueType, unsigned int VDimension, unsigned int V
 void
 BSplineTransform<TParametersValueType, VDimension, VSplineOrder>::ComputeJacobianWithRespectToParameters(
   const InputPointType & point,
-  JacobianType &         jacobian) const
+  JacobianType & jacobian) const
 {
   // Zero all components of jacobian
   jacobian.SetSize(SpaceDimension, this->GetNumberOfParameters());
@@ -626,7 +626,7 @@ BSplineTransform<TParametersValueType, VDimension, VSplineOrder>::ComputeJacobia
   const IndexType startIndex = this->m_CoefficientImages[0]->GetLargestPossibleRegion().GetIndex();
 
   const MeshSizeType meshSize = this->GetTransformDomainMeshSize();
-  SizeType           cumulativeGridSizes;
+  SizeType cumulativeGridSizes;
   cumulativeGridSizes[0] = (meshSize[0] + SplineOrder);
   for (unsigned int d = 1; d < SpaceDimension; ++d)
   {

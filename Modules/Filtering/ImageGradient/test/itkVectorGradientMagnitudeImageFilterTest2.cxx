@@ -83,7 +83,7 @@ itkVectorGradientMagnitudeImageFilterTest2(int argc, char * argv[])
     extractedRegion.SetSize(2, 1);
     extractedRegion.SetIndex(2, std::stoi(argv[4]));
 
-    auto                       extractedImage = CharImage2Type::New();
+    auto extractedImage = CharImage2Type::New();
     CharImage2Type::RegionType reg;
     reg.SetSize(0, extractedRegion.GetSize()[0]);
     reg.SetSize(1, extractedRegion.GetSize()[1]);

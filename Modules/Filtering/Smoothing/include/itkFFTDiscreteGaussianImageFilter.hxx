@@ -89,7 +89,7 @@ FFTDiscreteGaussianImageFilter<TInputImage, TOutputImage>::GenerateKernelImage()
 
     // Set up kernel image
     const typename RealImageType::IndexType index{};
-    typename RealImageType::RegionType      region;
+    typename RealImageType::RegionType region;
     region.SetSize(kernelSize);
     region.SetIndex(index);
     m_KernelImage->SetRegions(region);
@@ -100,7 +100,7 @@ FFTDiscreteGaussianImageFilter<TInputImage, TOutputImage>::GenerateKernelImage()
     itk::ImageRegionIteratorWithIndex<RealImageType> kernelIt(m_KernelImage, region);
     while (!kernelIt.IsAtEnd())
     {
-      auto   imageIndex = kernelIt.GetIndex();
+      auto imageIndex = kernelIt.GetIndex();
       double val = 1;
       for (size_t dim = 0; dim < directionalOperators.GetSize(); ++dim)
       {

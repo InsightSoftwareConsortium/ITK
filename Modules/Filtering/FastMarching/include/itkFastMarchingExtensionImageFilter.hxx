@@ -149,8 +149,8 @@ FastMarchingExtensionImageFilter<TLevelSet, TAuxValue, VAuxDimension, TSpeedImag
 
   if (m_AuxAliveValues)
   {
-    typename AuxValueContainer::ConstIterator               auxIter = m_AuxAliveValues->Begin();
-    typename Superclass::NodeContainer::ConstIterator       pointsIter = (this->GetAlivePoints())->Begin();
+    typename AuxValueContainer::ConstIterator auxIter = m_AuxAliveValues->Begin();
+    typename Superclass::NodeContainer::ConstIterator pointsIter = (this->GetAlivePoints())->Begin();
     const typename Superclass::NodeContainer::ConstIterator pointsEnd = (this->GetAlivePoints())->End();
 
     for (; pointsIter != pointsEnd; ++pointsIter, ++auxIter)
@@ -173,8 +173,8 @@ FastMarchingExtensionImageFilter<TLevelSet, TAuxValue, VAuxDimension, TSpeedImag
 
   if (m_AuxTrialValues)
   {
-    typename AuxValueContainer::ConstIterator               auxIter = m_AuxTrialValues->Begin();
-    typename Superclass::NodeContainer::ConstIterator       pointsIter = (this->GetTrialPoints())->Begin();
+    typename AuxValueContainer::ConstIterator auxIter = m_AuxTrialValues->Begin();
+    typename Superclass::NodeContainer::ConstIterator pointsIter = (this->GetTrialPoints())->Begin();
     const typename Superclass::NodeContainer::ConstIterator pointsEnd = (this->GetTrialPoints())->End();
 
     for (; pointsIter != pointsEnd; ++pointsIter, ++auxIter)
@@ -199,9 +199,9 @@ FastMarchingExtensionImageFilter<TLevelSet, TAuxValue, VAuxDimension, TSpeedImag
 template <typename TLevelSet, typename TAuxValue, unsigned int VAuxDimension, typename TSpeedImage>
 double
 FastMarchingExtensionImageFilter<TLevelSet, TAuxValue, VAuxDimension, TSpeedImage>::UpdateValue(
-  const IndexType &      index,
+  const IndexType & index,
   const SpeedImageType * speed,
-  LevelSetImageType *    output)
+  LevelSetImageType * output)
 {
   // A extension value at node is chosen such that
   // grad(F) dot_product grad(Phi) = 0
@@ -225,8 +225,8 @@ FastMarchingExtensionImageFilter<TLevelSet, TAuxValue, VAuxDimension, TSpeedImag
     // update auxiliary values
     for (unsigned int k = 0; k < VAuxDimension; ++k)
     {
-      double       numer = 0.0;
-      double       denom = 0.;
+      double numer = 0.0;
+      double denom = 0.;
       AuxValueType auxVal;
 
       for (unsigned int j = 0; j < SetDimension; ++j)

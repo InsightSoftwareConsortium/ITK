@@ -55,15 +55,15 @@
 #define ITK_TEST_DIMENSION_MAX 6
 
 extern int
-RegressionTestImage(const char *       testImageFilename,
-                    const char *       baselineImageFilename,
-                    int                reportErrors,
-                    double             intensityTolerance,
+RegressionTestImage(const char * testImageFilename,
+                    const char * baselineImageFilename,
+                    int reportErrors,
+                    double intensityTolerance,
                     itk::SizeValueType numberOfPixelsTolerance = 0,
-                    unsigned int       radiusTolerance = 0,
-                    bool               verifyInputInformation = true,
-                    double             coordinateTolerance = 1.0e-6,
-                    double             directionTolerance = 1.0e-6);
+                    unsigned int radiusTolerance = 0,
+                    bool verifyInputInformation = true,
+                    double coordinateTolerance = 1.0e-6,
+                    double directionTolerance = 1.0e-6);
 
 extern int
 HashTestImage(const char * testImageFilename, const std::string md5hash);
@@ -78,12 +78,12 @@ using ComparePairType = std::pair<char *, char *>;
 struct RegressionTestParameters
 {
   std::vector<ComparePairType> compareList;
-  double                       intensityTolerance;
-  unsigned int                 numberOfPixelsTolerance;
-  unsigned int                 radiusTolerance;
-  bool                         verifyInputInformation;
-  double                       coordinateTolerance;
-  double                       directionTolerance;
+  double intensityTolerance;
+  unsigned int numberOfPixelsTolerance;
+  unsigned int radiusTolerance;
+  bool verifyInputInformation;
+  double coordinateTolerance;
+  double directionTolerance;
 };
 
 extern RegressionTestParameters &
@@ -114,7 +114,7 @@ struct ProcessedOutputType
 // A structure to hold redirect output parameters
 struct RedirectOutputParameters
 {
-  bool        redirect;
+  bool redirect;
   std::string fileName;
 };
 
@@ -133,15 +133,15 @@ extern void
 GetImageType(const char * fileName, itk::IOPixelEnum & pixelType, itk::IOComponentEnum & componentType);
 
 extern int
-RegressionTestImage(const char *       testImageFilename,
-                    const char *       baselineImageFilename,
-                    int                reportErrors,
-                    double             intensityTolerance,
+RegressionTestImage(const char * testImageFilename,
+                    const char * baselineImageFilename,
+                    int reportErrors,
+                    double intensityTolerance,
                     itk::SizeValueType numberOfPixelsTolerance,
-                    unsigned int       radiusTolerance,
-                    bool               verifyInputInformation,
-                    double             coordinateTolerance,
-                    double             directionTolerance);
+                    unsigned int radiusTolerance,
+                    bool verifyInputInformation,
+                    double coordinateTolerance,
+                    double directionTolerance);
 
 
 extern int

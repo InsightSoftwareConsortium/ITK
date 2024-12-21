@@ -54,7 +54,7 @@ itkExtractOrthogonalSwath2DImageFilterTest(int argc, char * argv[])
 
   // Set up the image
   std::cout << "Making a 64x64 white square centered in a 128x128 black image" << std::endl;
-  auto      inputImage = ImageType::New();
+  auto inputImage = ImageType::New();
   IndexType start;
   start[0] = 0;
   start[1] = 0;

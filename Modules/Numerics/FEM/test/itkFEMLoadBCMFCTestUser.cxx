@@ -202,7 +202,7 @@ itkFEMLoadBCMFCTestUser(int, char *[])
   solver->SetInput(femObject);
   solver->Update();
 
-  int               numDOF = femObject->GetNumberOfDegreesOfFreedom();
+  int numDOF = femObject->GetNumberOfDegreesOfFreedom();
   vnl_vector<float> soln(numDOF);
   float expectedResult[10] = { 0.283525f, 0.0f, 0.283525f, 1.70115f, 0.283525f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
 

@@ -454,7 +454,7 @@ JPEG2000ImageIO::Read(void * buffer)
 
   const ImageIORegion regionToRead = this->GetIORegion();
 
-  ImageIORegion::SizeType  size = regionToRead.GetSize();
+  ImageIORegion::SizeType size = regionToRead.GetSize();
   ImageIORegion::IndexType start = regionToRead.GetIndex();
 
   const unsigned int sizex = size[0];
@@ -506,7 +506,7 @@ JPEG2000ImageIO::Read(void * buffer)
     OPJ_UINT32 l_tile_index;
     OPJ_UINT32 l_data_size;
 
-    OPJ_UINT32     l_nb_comps;
+    OPJ_UINT32 l_nb_comps;
     const OPJ_BOOL tileHeaderRead = opj_read_tile_header(this->m_Internal->m_Dinfo,
                                                          l_stream,
                                                          &l_tile_index,
@@ -756,9 +756,9 @@ JPEG2000ImageIO::Write(const void * buffer)
   /* Create comment for codestream */
   if (parameters.cp_comment == nullptr)
   {
-    constexpr char      comment[] = "Created by OpenJPEG version ";
+    constexpr char comment[] = "Created by OpenJPEG version ";
     const SizeValueType clen = strlen(comment);
-    const char *        version = opj_version();
+    const char * version = opj_version();
 
     /* UniPG>> */
 #ifdef USE_JPWL
@@ -809,7 +809,7 @@ JPEG2000ImageIO::Write(const void * buffer)
 
   parameters.numresolution = numberOfResolutions;
 
-  OPJ_COLOR_SPACE      color_space = OPJ_CLRSPC_GRAY;
+  OPJ_COLOR_SPACE color_space = OPJ_CLRSPC_GRAY;
   opj_image_cmptparm_t cmptparms[3];
 
   if (this->GetNumberOfComponents() == 3)
@@ -875,7 +875,7 @@ JPEG2000ImageIO::Write(const void * buffer)
   l_image->y1 = !l_image->y0 ? (h - 1) * subsampling_dy + 1 : l_image->y0 + (h - 1) * subsampling_dy + 1;
 
   // HERE, copy the buffer
-  SizeValueType       index = 0;
+  SizeValueType index = 0;
   const SizeValueType numberOfPixels = SizeValueType(w) * SizeValueType(h);
   itkDebugMacro(" START COPY BUFFER");
   if (this->GetComponentType() == IOComponentEnum::UCHAR)
@@ -1045,17 +1045,17 @@ JPEG2000ImageIO::GenerateStreamableReadRegionFromRequestedRegion(const ImageIORe
 }
 
 void
-JPEG2000ImageIO::ComputeRegionInTileBoundaries(unsigned int    dimension,
-                                               SizeValueType   tileSize,
+JPEG2000ImageIO::ComputeRegionInTileBoundaries(unsigned int dimension,
+                                               SizeValueType tileSize,
                                                ImageIORegion & streamableRegion) const
 {
-  const SizeValueType  requestedSize = streamableRegion.GetSize(dimension);
+  const SizeValueType requestedSize = streamableRegion.GetSize(dimension);
   const IndexValueType requestedIndex = streamableRegion.GetIndex(dimension);
 
   const IndexValueType startQuantizedInTileSize = requestedIndex - (requestedIndex % tileSize);
   const IndexValueType requestedEnd = requestedIndex + requestedSize;
-  const SizeValueType  extendedSize = requestedEnd - startQuantizedInTileSize;
-  const SizeValueType  tileRemanent = extendedSize % tileSize;
+  const SizeValueType extendedSize = requestedEnd - startQuantizedInTileSize;
+  const SizeValueType tileRemanent = extendedSize % tileSize;
 
   SizeValueType sizeQuantizedInTileSize = extendedSize;
 

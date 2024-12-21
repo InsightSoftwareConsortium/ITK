@@ -588,14 +588,14 @@ template <unsigned int VDimension>
 auto
 Solver<VDimension>::GetDeformationEnergy(unsigned int SolutionIndex) -> Float
 {
-  Float               U = 0.0f;
+  Float U = 0.0f;
   Element::MatrixType LocalSolution;
 
   unsigned int numberOfElements = m_FEMObject->GetNumberOfElements();
   for (unsigned int index = 0; index < numberOfElements; ++index)
   {
     Element::Pointer e = m_FEMObject->GetElement(index);
-    unsigned int     Ne = e->GetNumberOfDegreesOfFreedom();
+    unsigned int Ne = e->GetNumberOfDegreesOfFreedom();
     LocalSolution.set_size(Ne, 1);
     // Step over all DOFs of element
     for (unsigned int j = 0; j < Ne; ++j)
@@ -661,7 +661,7 @@ Solver<VDimension>::ApplyBC(int dim, unsigned int matrix)
     if (LoadBC::Pointer c = dynamic_cast<LoadBC *>(l0.GetPointer()))
     {
       Element::DegreeOfFreedomIDType fdof = c->GetElement()->GetDegreeOfFreedom(c->GetDegreeOfFreedom());
-      Float                          fixedvalue = c->GetValue()[dim];
+      Float fixedvalue = c->GetValue()[dim];
 
       // Copy the corresponding row of the matrix to the vector that will
       // be later added to the master force vector.
@@ -714,7 +714,7 @@ Solver<VDimension>::ApplyBC(int dim, unsigned int matrix)
 
 template <unsigned int VDimension>
 void
-Solver<VDimension>::InitializeInterpolationGrid(const InterpolationGridSizeType &  size,
+Solver<VDimension>::InitializeInterpolationGrid(const InterpolationGridSizeType & size,
                                                 const InterpolationGridPointType & bb1,
                                                 const InterpolationGridPointType & bb2)
 {
@@ -874,9 +874,9 @@ Solver<VDimension>::FillInterpolationGrid()
 
 template <unsigned int VDimension>
 void
-Solver<VDimension>::InitializeInterpolationGrid(const InterpolationGridRegionType &    region,
-                                                const InterpolationGridPointType &     origin,
-                                                const InterpolationGridSpacingType &   spacing,
+Solver<VDimension>::InitializeInterpolationGrid(const InterpolationGridRegionType & region,
+                                                const InterpolationGridPointType & origin,
+                                                const InterpolationGridSpacingType & spacing,
                                                 const InterpolationGridDirectionType & direction)
 {
   InterpolationGridSizeType size = region.GetSize();

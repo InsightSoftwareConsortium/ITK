@@ -86,7 +86,7 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
 
   /* This size always comes from the moving image */
   const NumberOfParametersType globalDerivativeSize = this->GetCachedNumberOfParameters();
-  const ThreadIdType           numWorkUnitsUsed = this->GetNumberOfWorkUnitsUsed();
+  const ThreadIdType numWorkUnitsUsed = this->GetNumberOfWorkUnitsUsed();
 
   /* Store the number of valid points the enclosing class \c
    * m_NumberOfValidPoints by collecting the valid points per thread. */
@@ -167,12 +167,12 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
   TImageToImageMetric,
   TCorrelationMetric>::ProcessVirtualPoint(const VirtualIndexType & virtualIndex,
                                            const VirtualPointType & virtualPoint,
-                                           const ThreadIdType       threadId)
+                                           const ThreadIdType threadId)
 {
-  FixedImagePointType    mappedFixedPoint;
-  FixedImagePixelType    mappedFixedPixelValue;
+  FixedImagePointType mappedFixedPoint;
+  FixedImagePixelType mappedFixedPixelValue;
   FixedImageGradientType mappedFixedImageGradient;
-  bool                   pointIsValid = false;
+  bool pointIsValid = false;
   /* Transform the point into fixed and moving spaces, and evaluate.
    * Different behavior with pre-warping enabled is handled transparently.
    * Do this in a try block to catch exceptions and print more useful info
@@ -200,8 +200,8 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
     return pointIsValid;
   }
 
-  MovingImagePointType    mappedMovingPoint;
-  MovingImagePixelType    mappedMovingPixelValue;
+  MovingImagePointType mappedMovingPoint;
+  MovingImagePixelType mappedMovingPixelValue;
   MovingImageGradientType mappedMovingImageGradient;
   try
   {
@@ -263,17 +263,17 @@ bool
 CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
   TDomainPartitioner,
   TImageToImageMetric,
-  TCorrelationMetric>::ProcessPoint(const VirtualIndexType &        itkNotUsed(virtualIndex),
-                                    const VirtualPointType &        virtualPoint,
-                                    const FixedImagePointType &     itkNotUsed(mappedFixedPoint),
-                                    const FixedImagePixelType &     fixedImageValue,
-                                    const FixedImageGradientType &  itkNotUsed(mappedFixedImageGradient),
-                                    const MovingImagePointType &    itkNotUsed(mappedMovingPoint),
-                                    const MovingImagePixelType &    movingImageValue,
+  TCorrelationMetric>::ProcessPoint(const VirtualIndexType & itkNotUsed(virtualIndex),
+                                    const VirtualPointType & virtualPoint,
+                                    const FixedImagePointType & itkNotUsed(mappedFixedPoint),
+                                    const FixedImagePixelType & fixedImageValue,
+                                    const FixedImageGradientType & itkNotUsed(mappedFixedImageGradient),
+                                    const MovingImagePointType & itkNotUsed(mappedMovingPoint),
+                                    const MovingImagePixelType & movingImageValue,
                                     const MovingImageGradientType & movingImageGradient,
-                                    MeasureType &                   itkNotUsed(metricValueReturn),
-                                    DerivativeType &                itkNotUsed(localDerivativeReturn),
-                                    const ThreadIdType              threadId) const
+                                    MeasureType & itkNotUsed(metricValueReturn),
+                                    DerivativeType & itkNotUsed(localDerivativeReturn),
+                                    const ThreadIdType threadId) const
 {
 
   /*

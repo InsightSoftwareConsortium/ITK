@@ -32,7 +32,7 @@ NormalizeSineWave(double frequencyPerImage, unsigned int order, double pixelSpac
 
   constexpr unsigned int ImageDimension = 1;
   constexpr unsigned int imageSize = 1024;
-  const double           tol = std::pow(.000001, 1.0 / order);
+  const double tol = std::pow(.000001, 1.0 / order);
 
   const double frequency = frequencyPerImage * 2.0 * itk::Math::pi / (imageSize * pixelSpacing);
 

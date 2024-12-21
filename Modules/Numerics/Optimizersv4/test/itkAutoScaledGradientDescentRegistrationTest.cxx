@@ -35,13 +35,13 @@
 
 template <typename TMovingTransform>
 int
-itkAutoScaledGradientDescentRegistrationTestTemplated(int         numberOfIterations,
-                                                      double      shiftOfStep,
+itkAutoScaledGradientDescentRegistrationTestTemplated(int numberOfIterations,
+                                                      double shiftOfStep,
                                                       std::string scalesOption,
-                                                      bool        usePhysicalSpaceForShift,
-                                                      bool        estimateLearningRateOnce,
-                                                      bool        estimateLearningRateAtEachIteration,
-                                                      bool        estimateScales)
+                                                      bool usePhysicalSpaceForShift,
+                                                      bool estimateLearningRateOnce,
+                                                      bool estimateLearningRateAtEachIteration,
+                                                      bool estimateScales)
 {
   const unsigned int Dimension = TMovingTransform::SpaceDimension;
   using PixelType = double;
@@ -61,9 +61,9 @@ itkAutoScaledGradientDescentRegistrationTestTemplated(int         numberOfIterat
                                                                  typename MovingImageType::PixelType,
                                                                  Dimension>;
 
-  typename FixedImageType::ConstPointer  fixedImage;
+  typename FixedImageType::ConstPointer fixedImage;
   typename MovingImageType::ConstPointer movingImage;
-  typename ImageSourceType::Pointer      imageSource;
+  typename ImageSourceType::Pointer imageSource;
 
   imageSource = ImageSourceType::New();
 
@@ -219,7 +219,7 @@ itkAutoScaledGradientDescentRegistrationTestTemplated(int         numberOfIterat
   //
   // results
   //
-  ParametersType       finalParameters = movingTransform->GetParameters();
+  ParametersType finalParameters = movingTransform->GetParameters();
   const ParametersType fixedParameters = movingTransform->GetFixedParameters();
   std::cout << "Estimated scales = " << optimizer->GetScales() << std::endl;
   std::cout << "finalParameters = " << finalParameters << std::endl;
@@ -275,10 +275,10 @@ itkAutoScaledGradientDescentRegistrationTest(int argc, char ** const argv)
     return EXIT_FAILURE;
   }
   unsigned int numberOfIterations = 30;
-  double       shiftOfStep = 1.0;
-  bool         estimateLearningRateOnce = true;
-  bool         estimateLearningRateAtEachIteration = false;
-  bool         estimateScales = true;
+  double shiftOfStep = 1.0;
+  bool estimateLearningRateOnce = true;
+  bool estimateLearningRateAtEachIteration = false;
+  bool estimateScales = true;
 
   if (argc >= 2)
   {
@@ -306,7 +306,7 @@ itkAutoScaledGradientDescentRegistrationTest(int argc, char ** const argv)
   std::cout << std::endl << "Optimizing translation transform with shift scales" << std::endl;
   using TranslationTransformType = itk::TranslationTransform<double, Dimension>;
   constexpr bool usePhysicalSpaceForShift = false;
-  const int      ret1 =
+  const int ret1 =
     itkAutoScaledGradientDescentRegistrationTestTemplated<TranslationTransformType>(numberOfIterations,
                                                                                     shiftOfStep,
                                                                                     "shift",

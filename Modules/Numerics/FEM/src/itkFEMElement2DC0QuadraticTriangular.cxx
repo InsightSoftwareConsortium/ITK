@@ -27,7 +27,7 @@ namespace fem
 void
 Element2DC0QuadraticTriangular::GetIntegrationPointAndWeight(unsigned int i,
                                                              VectorType & pt,
-                                                             Float &      w,
+                                                             Float & w,
                                                              unsigned int order) const
 {
   // default integration order
@@ -164,8 +164,8 @@ Element2DC0QuadraticTriangular::GetLocalFromGlobalCoordinates(const VectorType &
   int LinearTris[4][3] = { { 0, 3, 5 }, { 3, 1, 4 }, { 5, 4, 2 }, { 4, 5, 3 } };
 
   VectorType pc(3);
-  int        i, subId;
-  bool       returnStatus = false;
+  int i, subId;
+  bool returnStatus = false;
   VectorType tempWeights(3);
   VectorType closest(3);
 

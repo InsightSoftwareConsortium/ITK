@@ -69,8 +69,8 @@ public:
   inline TOutput
   operator()(const TInput1 & A, const TInput2 & B) const
   {
-    const auto   dA = static_cast<double>(A);
-    const auto   dB = static_cast<double>(B);
+    const auto dA = static_cast<double>(A);
+    const auto dB = static_cast<double>(B);
     const double diff = dA - dB;
     const double cdiff1 =
       diff > NumericTraits<TOutput>::NonpositiveMin() ? diff : NumericTraits<TOutput>::NonpositiveMin();

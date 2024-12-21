@@ -56,15 +56,15 @@ AntiAliasBinaryImageFilter<TInputImage, TOutputImage>::AntiAliasBinaryImageFilte
 
 template <typename TInputImage, typename TOutputImage>
 auto
-AntiAliasBinaryImageFilter<TInputImage, TOutputImage>::CalculateUpdateValue(const IndexType &    idx,
+AntiAliasBinaryImageFilter<TInputImage, TOutputImage>::CalculateUpdateValue(const IndexType & idx,
                                                                             const TimeStepType & dt,
-                                                                            const ValueType &    value,
-                                                                            const ValueType &    change) -> ValueType
+                                                                            const ValueType & value,
+                                                                            const ValueType & change) -> ValueType
 {
   // This method introduces the constraint on the flow of the surface.
 
   const BinaryValueType binary_val = m_InputImage->GetPixel(idx);
-  const ValueType       new_value = value + dt * change;
+  const ValueType new_value = value + dt * change;
 
   if (Math::ExactlyEquals(binary_val, m_UpperBinaryValue))
   {

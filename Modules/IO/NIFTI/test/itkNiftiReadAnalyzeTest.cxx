@@ -141,12 +141,12 @@ WriteFile(const std::string & name, const unsigned char * buf, size_t buflen)
  */
 template <typename TImage>
 typename TImage::Pointer
-ReadImage(const std::string &                     fileName,
+ReadImage(const std::string & fileName,
           itk::NiftiImageIOEnums::Analyze75Flavor analyze_mode = itk::NiftiImageIOEnums::Analyze75Flavor::AnalyzeSPM)
 {
   using ReaderType = itk::ImageFileReader<TImage>;
 
-  auto                                      reader = ReaderType::New();
+  auto reader = ReaderType::New();
   const typename itk::NiftiImageIO::Pointer imageIO = itk::NiftiImageIO::New();
   {
     imageIO->SetLegacyAnalyze75Mode(analyze_mode);
@@ -176,11 +176,11 @@ ReadImage(const std::string &                     fileName,
 
 
 int
-itkNiftiAnalyzeContentsAndCoordinatesTest(char *                                  argv[],
-                                          unsigned char                           hist_orient_code,
-                                          itk::AnatomicalOrientation              expected_code,
+itkNiftiAnalyzeContentsAndCoordinatesTest(char * argv[],
+                                          unsigned char hist_orient_code,
+                                          itk::AnatomicalOrientation expected_code,
                                           itk::NiftiImageIOEnums::Analyze75Flavor analyze_mode,
-                                          bool                                    flip_x = false)
+                                          bool flip_x = false)
 {
   std::string hdrName(argv[1]);
   hdrName += "/littleEndian_";
@@ -230,7 +230,7 @@ itkNiftiAnalyzeContentsAndCoordinatesTest(char *                                
     return EXIT_FAILURE;
   }
 
-  const auto *                             fPtr = reinterpret_cast<const float *>(LittleEndian_img);
+  const auto * fPtr = reinterpret_cast<const float *>(LittleEndian_img);
   itk::ImageRegionConstIterator<ImageType> it(img, img->GetLargestPossibleRegion());
   it.GoToBegin();
   for (; !it.IsAtEnd(); ++it, ++fPtr)

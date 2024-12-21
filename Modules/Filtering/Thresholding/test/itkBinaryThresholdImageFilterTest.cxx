@@ -171,7 +171,7 @@ itkBinaryThresholdImageFilterTest(int, char *[])
   const OutputImageType::Pointer outputImage = filter->GetOutput();
 
   // Create an iterator for going through the image output
-  InputIteratorType  it(source->GetOutput(), source->GetOutput()->GetRequestedRegion());
+  InputIteratorType it(source->GetOutput(), source->GetOutput()->GetRequestedRegion());
   OutputIteratorType ot(outputImage, outputImage->GetRequestedRegion());
 
   // Check the content of the result image
@@ -179,7 +179,7 @@ itkBinaryThresholdImageFilterTest(int, char *[])
   it.GoToBegin();
   while (!ot.IsAtEnd())
   {
-    const InputPixelType  input = it.Get();
+    const InputPixelType input = it.Get();
     const OutputPixelType output = ot.Get();
 
     if (lower <= input && input <= upper)

@@ -37,7 +37,7 @@ template <typename TParametersValueType, unsigned int VDimension>
 void
 GaussianExponentialDiffeomorphicTransform<TParametersValueType, VDimension>::UpdateTransformParameters(
   const DerivativeType & update,
-  ScalarType             factor)
+  ScalarType factor)
 {
   //
   // Smooth the update field
@@ -56,7 +56,7 @@ GaussianExponentialDiffeomorphicTransform<TParametersValueType, VDimension>::Upd
   }
 
   const typename ConstantVelocityFieldType::RegionType & bufferedRegion = velocityField->GetBufferedRegion();
-  const SizeValueType                                    numberOfPixels = bufferedRegion.GetNumberOfPixels();
+  const SizeValueType numberOfPixels = bufferedRegion.GetNumberOfPixels();
 
   auto * updateFieldPointer =
     reinterpret_cast<DisplacementVectorType *>(const_cast<DerivativeType &>(update).data_block());
@@ -136,7 +136,7 @@ template <typename TParametersValueType, unsigned int VDimension>
 auto
 GaussianExponentialDiffeomorphicTransform<TParametersValueType, VDimension>::GaussianSmoothConstantVelocityField(
   ConstantVelocityFieldType * field,
-  ScalarType                  variance) -> ConstantVelocityFieldPointer
+  ScalarType variance) -> ConstantVelocityFieldPointer
 {
   if (variance <= 0.0)
   {
@@ -191,16 +191,16 @@ GaussianExponentialDiffeomorphicTransform<TParametersValueType, VDimension>::Gau
   const ScalarType weight2 = 1.0 - weight1;
 
   const typename ConstantVelocityFieldType::RegionType region = field->GetLargestPossibleRegion();
-  const typename ConstantVelocityFieldType::SizeType   size = region.GetSize();
-  const typename ConstantVelocityFieldType::IndexType  startIndex = region.GetIndex();
+  const typename ConstantVelocityFieldType::SizeType size = region.GetSize();
+  const typename ConstantVelocityFieldType::IndexType startIndex = region.GetIndex();
 
-  ImageRegionIteratorWithIndex<ConstantVelocityFieldType>      fieldIt(field, field->GetLargestPossibleRegion());
+  ImageRegionIteratorWithIndex<ConstantVelocityFieldType> fieldIt(field, field->GetLargestPossibleRegion());
   ImageRegionConstIteratorWithIndex<ConstantVelocityFieldType> smoothedFieldIt(smoothField,
                                                                                smoothField->GetLargestPossibleRegion());
   for (fieldIt.GoToBegin(), smoothedFieldIt.GoToBegin(); !fieldIt.IsAtEnd(); ++fieldIt, ++smoothedFieldIt)
   {
     typename ConstantVelocityFieldType::IndexType index = fieldIt.GetIndex();
-    bool                                          isOnBoundary = false;
+    bool isOnBoundary = false;
     for (unsigned int dimension = 0; dimension < Dimension; ++dimension)
     {
       if (index[dimension] == startIndex[dimension] ||
@@ -226,7 +226,7 @@ GaussianExponentialDiffeomorphicTransform<TParametersValueType, VDimension>::Gau
 template <typename TParametersValueType, unsigned int VDimension>
 void
 GaussianExponentialDiffeomorphicTransform<TParametersValueType, VDimension>::PrintSelf(std::ostream & os,
-                                                                                       Indent         indent) const
+                                                                                       Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

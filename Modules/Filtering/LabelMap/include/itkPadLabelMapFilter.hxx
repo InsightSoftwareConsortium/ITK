@@ -42,10 +42,10 @@ PadLabelMapFilter<TInputImage>::GenerateOutputInformation()
   }
 
   // Compute the new region size.
-  SizeType  size;
+  SizeType size;
   IndexType index;
 
-  const SizeType  inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
+  const SizeType inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
   const IndexType inputIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
 
   const SizeType originalPadSize = m_UpperBoundaryPadSize + m_LowerBoundaryPadSize;

@@ -152,10 +152,10 @@ PoolMultiThreader::SingleMethodExecute()
 }
 
 void
-PoolMultiThreader::ParallelizeArray(SizeValueType             firstIndex,
-                                    SizeValueType             lastIndexPlus1,
+PoolMultiThreader::ParallelizeArray(SizeValueType firstIndex,
+                                    SizeValueType lastIndexPlus1,
                                     ArrayThreadingFunctorType aFunc,
-                                    ProcessObject *           filter)
+                                    ProcessObject * filter)
 {
   if (!this->GetUpdateProgress())
   {
@@ -222,11 +222,11 @@ PoolMultiThreader::ParallelizeArray(SizeValueType             firstIndex,
 }
 
 void
-PoolMultiThreader::ParallelizeImageRegion(unsigned int         dimension,
+PoolMultiThreader::ParallelizeImageRegion(unsigned int dimension,
                                           const IndexValueType index[],
-                                          const SizeValueType  size[],
+                                          const SizeValueType size[],
                                           ThreadingFunctorType funcP,
-                                          ProcessObject *      filter)
+                                          ProcessObject * filter)
 {
   if (!this->GetUpdateProgress())
   {
@@ -254,11 +254,11 @@ PoolMultiThreader::ParallelizeImageRegion(unsigned int         dimension,
     else
     {
       const ImageRegionSplitterBase * splitter = ImageSourceCommon::GetGlobalDefaultSplitter();
-      const ThreadIdType              splitCount = splitter->GetNumberOfSplits(region, m_NumberOfWorkUnits);
-      ProgressReporter                reporter(filter, 0, splitCount);
+      const ThreadIdType splitCount = splitter->GetNumberOfSplits(region, m_NumberOfWorkUnits);
+      ProgressReporter reporter(filter, 0, splitCount);
       itkAssertOrThrowMacro(splitCount <= m_NumberOfWorkUnits, "Split count is greater than number of work units!");
       ImageIORegion iRegion;
-      ThreadIdType  total;
+      ThreadIdType total;
       for (ThreadIdType i = 1; i < splitCount; ++i)
       {
         iRegion = region;

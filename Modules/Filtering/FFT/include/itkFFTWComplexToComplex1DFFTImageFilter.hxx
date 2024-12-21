@@ -84,7 +84,7 @@ FFTWComplexToComplex1DFFTImageFilter<TInputImage, TOutputImage>::BeforeThreadedG
   OutputImageType * outputPtr = this->GetOutput();
 
   const typename OutputImageType::SizeType & outputSize = outputPtr->GetRequestedRegion().GetSize();
-  const unsigned int                         lineSize = outputSize[this->m_Direction];
+  const unsigned int lineSize = outputSize[this->m_Direction];
 
   if (this->m_PlanComputed)
   {
@@ -133,14 +133,14 @@ template <typename TInputImage, typename TOutputImage>
 void
 FFTWComplexToComplex1DFFTImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
   const OutputImageRegionType & outputRegion,
-  ThreadIdType                  threadID)
+  ThreadIdType threadID)
 {
   // get pointers to the input and output
   const InputImageType * inputPtr = this->GetInput();
-  OutputImageType *      outputPtr = this->GetOutput();
+  OutputImageType * outputPtr = this->GetOutput();
 
   const typename OutputImageType::SizeType & outputSize = outputPtr->GetRequestedRegion().GetSize();
-  const unsigned int                         lineSize = outputSize[this->m_Direction];
+  const unsigned int lineSize = outputSize[this->m_Direction];
 
   using InputIteratorType = itk::ImageLinearConstIteratorWithIndex<InputImageType>;
   using OutputIteratorType = itk::ImageLinearIteratorWithIndex<OutputImageType>;
@@ -151,7 +151,7 @@ FFTWComplexToComplex1DFFTImageFilter<TInputImage, TOutputImage>::ThreadedGenerat
   inputIt.SetDirection(this->m_Direction);
   outputIt.SetDirection(this->m_Direction);
 
-  typename InputIteratorType::PixelType *  inputBufferIt;
+  typename InputIteratorType::PixelType * inputBufferIt;
   typename OutputIteratorType::PixelType * outputBufferIt;
 
   // for every fft line

@@ -48,10 +48,10 @@ itkVectorConnectedComponentImageFilterTest(int argc, char * argv[])
   using LabelImageType = itk::Image<LabelPixelType, Dimension>;
 
   // create an image of vectors
-  auto                  image = ImageType::New();
+  auto image = ImageType::New();
   ImageType::RegionType region;
-  auto                  size = ImageType::SizeType::Filled(100);
-  ImageType::IndexType  index{};
+  auto size = ImageType::SizeType::Filled(100);
+  ImageType::IndexType index{};
 
   region.SetSize(size);
   region.SetIndex(index);

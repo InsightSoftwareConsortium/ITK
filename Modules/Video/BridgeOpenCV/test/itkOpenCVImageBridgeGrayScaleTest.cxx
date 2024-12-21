@@ -156,7 +156,7 @@ itkOpenCVImageBridgeTestTemplatedScalar(char * argv)
 
   // check results of itk::Image -> IplImage
   IplImage * dataConvertedInIpl = ConvertIplImageDataType<PixelType>(inIpl);
-  double     itkIplDiff = cvNorm(outIpl, dataConvertedInIpl);
+  double itkIplDiff = cvNorm(outIpl, dataConvertedInIpl);
 
   if (itkIplDiff != 0.0)
   {
@@ -189,7 +189,7 @@ itkOpenCVImageBridgeTestTemplatedScalar(char * argv)
 
   // check results of itk::Image -> IplImage
   IplImage outMatAsIpl = cvIplImage(outMat);
-  double   itkMatDiff = cvNorm(&outMatAsIpl, dataConvertedInIpl);
+  double itkMatDiff = cvNorm(&outMatAsIpl, dataConvertedInIpl);
   if (itkMatDiff != 0.0)
   {
     std::cerr << "Images didn't match for pixel type " << typeid(PixelType).name() << " for ITK -> cv::Mat (scalar)"

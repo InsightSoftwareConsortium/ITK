@@ -194,7 +194,7 @@ public:
       m_Elongation = 1;
       m_Orientation = 0;
       LabelPointType emptyPoint{};
-      unsigned int   numberOfVertices = 1 << ImageDimension;
+      unsigned int numberOfVertices = 1 << ImageDimension;
       m_OrientedBoundingBoxVertices.resize(numberOfVertices, emptyPoint);
       m_OrientedBoundingBoxVolume = 0;
       m_OrientedBoundingBoxSize.Fill(0);
@@ -216,34 +216,34 @@ public:
       }
     }
 
-    LabelPixelType                          m_Label;
-    RealType                                m_Sum;
-    LabelPointType                          m_Centroid;
-    LabelPointType                          m_WeightedCentroid;
-    SizeValueType                           m_ZeroOrderMoment;
-    IndexArrayType                          m_FirstOrderRawMoments;
-    AxesLengthType                          m_FirstOrderWeightedRawMoments;
-    SizeValueType                           m_FirstOrderRawCrossMoment;
-    RealType                                m_FirstOrderCentralCrossMoment;
-    MatrixType                              m_SecondOrderRawMoments;
-    MatrixType                              m_SecondOrderCentralMoments;
-    VectorType                              m_Eigenvalues;
-    MatrixType                              m_Eigenvectors;
+    LabelPixelType m_Label;
+    RealType m_Sum;
+    LabelPointType m_Centroid;
+    LabelPointType m_WeightedCentroid;
+    SizeValueType m_ZeroOrderMoment;
+    IndexArrayType m_FirstOrderRawMoments;
+    AxesLengthType m_FirstOrderWeightedRawMoments;
+    SizeValueType m_FirstOrderRawCrossMoment;
+    RealType m_FirstOrderCentralCrossMoment;
+    MatrixType m_SecondOrderRawMoments;
+    MatrixType m_SecondOrderCentralMoments;
+    VectorType m_Eigenvalues;
+    MatrixType m_Eigenvectors;
     FixedArray<float, Self::ImageDimension> m_AxesLength;
-    RealType                                m_Eccentricity;
-    RealType                                m_Elongation;
-    RealType                                m_Orientation;
-    BoundingBoxType                         m_BoundingBox;
-    LabelSizeType                           m_BoundingBoxSize;
-    RealType                                m_BoundingBoxVolume;
-    LabelIndicesType                        m_PixelIndices;
-    BoundingBoxVerticesType                 m_OrientedBoundingBoxVertices;
-    RealType                                m_OrientedBoundingBoxVolume;
-    LabelPointType                          m_OrientedBoundingBoxSize;
-    typename LabelImageType::Pointer        m_OrientedLabelImage;
-    typename IntensityImageType::Pointer    m_OrientedIntensityImage;
-    MatrixType                              m_RotationMatrix;
-    LabelPointType                          m_OrientedBoundingBoxOrigin;
+    RealType m_Eccentricity;
+    RealType m_Elongation;
+    RealType m_Orientation;
+    BoundingBoxType m_BoundingBox;
+    LabelSizeType m_BoundingBoxSize;
+    RealType m_BoundingBoxVolume;
+    LabelIndicesType m_PixelIndices;
+    BoundingBoxVerticesType m_OrientedBoundingBoxVertices;
+    RealType m_OrientedBoundingBoxVolume;
+    LabelPointType m_OrientedBoundingBoxSize;
+    typename LabelImageType::Pointer m_OrientedLabelImage;
+    typename IntensityImageType::Pointer m_OrientedIntensityImage;
+    MatrixType m_RotationMatrix;
+    LabelPointType m_OrientedBoundingBoxOrigin;
   };
 
   /** Type of the map used to store data per label */
@@ -513,9 +513,9 @@ private:
   bool m_CalculateOrientedLabelRegions{};
   bool m_CalculateOrientedIntensityRegions{};
 
-  MapType       m_LabelGeometryMapper{};
+  MapType m_LabelGeometryMapper{};
   LabelGeometry m_LabelGeometry{};
-  LabelsType    m_AllLabels{};
+  LabelsType m_AllLabels{};
 }; // end of class
 
 } // end namespace itk

@@ -62,7 +62,7 @@ namespace itk
       PointsContainerIterator pointIterator = points->Begin();                        \
       while (pointIterator != points->End())                                          \
       {                                                                               \
-        PointType       PointVariable = pointIterator.Value();                        \
+        PointType PointVariable = pointIterator.Value();                              \
         PointIdentifier PointIndex = pointIterator.Index();
 
 /** \def itkQEMeshForAllPointsEndMacro

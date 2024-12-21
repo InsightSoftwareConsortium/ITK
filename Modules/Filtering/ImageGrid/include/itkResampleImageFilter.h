@@ -346,8 +346,8 @@ protected:
 
   /** Cast pixel from interpolator output to PixelType. */
   itkLegacyMacro(virtual PixelType CastPixelWithBoundsChecking(const InterpolatorOutputType value,
-                                                               const ComponentType          minComponent,
-                                                               const ComponentType          maxComponent) const;)
+                                                               const ComponentType minComponent,
+                                                               const ComponentType maxComponent) const;)
 
 private:
   static PixelComponentType
@@ -367,7 +367,7 @@ private:
   void
   InitializeTransform();
 
-  SizeType                m_Size{};         // Size of the output image
+  SizeType m_Size{};                        // Size of the output image
   InterpolatorPointerType m_Interpolator{}; // Image function for
                                             // interpolation
   ExtrapolatorPointerType m_Extrapolator{}; // Image function for
@@ -375,11 +375,11 @@ private:
   PixelType m_DefaultPixelValue{};          // default pixel value
                                             // if the point is
                                             // outside the image
-  SpacingType     m_OutputSpacing{};        // output image spacing
+  SpacingType m_OutputSpacing{};            // output image spacing
   OriginPointType m_OutputOrigin{};         // output image origin
-  DirectionType   m_OutputDirection{};      // output image direction cosines
-  IndexType       m_OutputStartIndex{};     // output image start index
-  bool            m_UseReferenceImage{ false };
+  DirectionType m_OutputDirection{};        // output image direction cosines
+  IndexType m_OutputStartIndex{};           // output image start index
+  bool m_UseReferenceImage{ false };
 };
 } // end namespace itk
 

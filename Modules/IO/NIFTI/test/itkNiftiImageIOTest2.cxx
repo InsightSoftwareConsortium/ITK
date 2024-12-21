@@ -36,7 +36,7 @@ itkNiftiImageIOTest2(int argc, char * argv[])
   char * arg1 = argv[1];
   char * arg2 = argv[2];
   char * prefix = argv[3];
-  int    test_success = 0;
+  int test_success = 0;
 
   using ImageType = itk::Image<short, 3>;
   using ImagePointer = ImageType::Pointer;
@@ -51,7 +51,7 @@ itkNiftiImageIOTest2(int argc, char * argv[])
   {
     using ImageReaderType = itk::ImageFileReader<ImageType>;
     const itk::NiftiImageIO::Pointer io = itk::NiftiImageIO::New();
-    auto                             imageReader = ImageReaderType::New();
+    auto imageReader = ImageReaderType::New();
     imageReader->SetImageIO(io);
     imageReader->SetFileName(arg2);
     imageReader->Update();

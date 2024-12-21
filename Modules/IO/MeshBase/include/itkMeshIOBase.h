@@ -652,10 +652,10 @@ protected:
   /** Write buffer to output file stream with ascii style */
   template <typename T>
   void
-  WriteBufferAsAscii(T *             buffer,
+  WriteBufferAsAscii(T * buffer,
                      std::ofstream & outputFile,
-                     SizeValueType   numberOfLines,
-                     SizeValueType   numberOfComponents)
+                     SizeValueType numberOfLines,
+                     SizeValueType numberOfComponents)
   {
     for (SizeValueType ii = 0; ii < numberOfLines; ++ii)
     {
@@ -765,11 +765,11 @@ protected:
     with constant number of points */
   template <typename TInput, typename TOutput>
   void
-  WriteCellsBuffer(TInput *         input,
-                   TOutput *        output,
+  WriteCellsBuffer(TInput * input,
+                   TOutput * output,
                    CellGeometryEnum cellType,
-                   unsigned int     numberOfPoints,
-                   SizeValueType    numberOfCells)
+                   unsigned int numberOfPoints,
+                   SizeValueType numberOfCells)
   {
     if (input && output)
     {
@@ -821,7 +821,7 @@ protected:
 protected:
   /** Big or Little Endian, and the type of the file. (May be ignored.) */
   IOByteOrderEnum m_ByteOrder{ IOByteOrderEnum::OrderNotApplicable };
-  IOFileEnum      m_FileType{ IOFileEnum::ASCII };
+  IOFileEnum m_FileType{ IOFileEnum::ASCII };
 
   /** Filename to read */
   std::string m_FileName{};

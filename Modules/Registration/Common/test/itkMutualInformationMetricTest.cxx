@@ -48,9 +48,9 @@ itkMutualInformationMetricTest(int, char *[])
     ImageDimension = MovingImageType::ImageDimension
   };
 
-  constexpr MovingImageType::SizeType  size = { { 100, 100 } };
+  constexpr MovingImageType::SizeType size = { { 100, 100 } };
   constexpr MovingImageType::IndexType index = { { 0, 0 } };
-  const MovingImageType::RegionType    region{ index, size };
+  const MovingImageType::RegionType region{ index, size };
 
   auto imgMoving = MovingImageType::New();
   imgMoving->SetRegions(region);
@@ -70,7 +70,7 @@ itkMutualInformationMetricTest(int, char *[])
 
   const double s = static_cast<double>(region.GetSize()[0]) / 2.0;
 
-  itk::Point<double, 2>  p;
+  itk::Point<double, 2> p;
   itk::Vector<double, 2> d;
 
   // Set the displacement
@@ -79,7 +79,7 @@ itkMutualInformationMetricTest(int, char *[])
   displacement[1] = 0;
 
   ReferenceIteratorType ri(imgMoving, region);
-  TargetIteratorType    ti(imgFixed, region);
+  TargetIteratorType ti(imgFixed, region);
   ri.GoToBegin();
   while (!ri.IsAtEnd())
   {
@@ -155,7 +155,7 @@ itkMutualInformationMetricTest(int, char *[])
   // Set up an affine transform parameters
   //------------------------------------------------------------
   const unsigned int numberOfParameters = transformer->GetNumberOfParameters();
-  ParametersType     parameters(numberOfParameters);
+  ParametersType parameters(numberOfParameters);
 
   // set the parameters to the identity
   unsigned long count = 0;
@@ -187,7 +187,7 @@ itkMutualInformationMetricTest(int, char *[])
   // for parameters[4] = {-10,10}
   //---------------------------------------------------------
 
-  MetricType::MeasureType    measure;
+  MetricType::MeasureType measure;
   MetricType::DerivativeType derivative(numberOfParameters);
 
   itk::TimeProbesCollectorBase collector;

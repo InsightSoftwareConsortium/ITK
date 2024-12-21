@@ -211,16 +211,16 @@ protected:
    * iterators for the fixed image. */
   struct GlobalDataStruct
   {
-    double        m_SumOfSquaredDifference;
+    double m_SumOfSquaredDifference;
     SizeValueType m_NumberOfPixelsProcessed;
-    double        m_SumOfSquaredChange;
+    double m_SumOfSquaredChange;
   };
 
 private:
   /** Cache fixed image information. */
   SpacingType m_FixedImageSpacing{};
-  PointType   m_FixedImageOrigin{};
-  double      m_Normalizer{};
+  PointType m_FixedImageOrigin{};
+  double m_Normalizer{};
 
   /** Function to compute derivatives of the fixed image. */
   GradientCalculatorPointer m_FixedImageGradientCalculator{};
@@ -240,11 +240,11 @@ private:
   /** The metric value is the mean square difference in intensity between
    * the fixed image and transforming moving image computed over the
    * the overlapping region between the two images. */
-  mutable double        m_Metric{};
-  mutable double        m_SumOfSquaredDifference{};
+  mutable double m_Metric{};
+  mutable double m_SumOfSquaredDifference{};
   mutable SizeValueType m_NumberOfPixelsProcessed{};
-  mutable double        m_RMSChange{};
-  mutable double        m_SumOfSquaredChange{};
+  mutable double m_RMSChange{};
+  mutable double m_SumOfSquaredChange{};
 
   /** Mutex lock to protect modification to metric. */
   mutable std::mutex m_MetricCalculationMutex{};

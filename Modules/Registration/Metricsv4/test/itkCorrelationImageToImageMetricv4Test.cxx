@@ -28,10 +28,10 @@
  */
 template <typename TIndexType, typename TPointType>
 double
-itkCorrelationImageToImageMetricv4Test_GetToyImagePixelValue(TIndexType         index,
-                                                             TPointType         offset,
+itkCorrelationImageToImageMetricv4Test_GetToyImagePixelValue(TIndexType index,
+                                                             TPointType offset,
                                                              const unsigned int Dim,
-                                                             double             c)
+                                                             double c)
 {
   double v = 0.0;
   for (unsigned int i = 0; i < Dim; ++i)
@@ -47,8 +47,8 @@ itkCorrelationImageToImageMetricv4Test_GetToyImagePixelValue(TIndexType         
 
 template <typename TMetricPointer, typename TValue, typename TDerivativeType>
 int
-itkCorrelationImageToImageMetricv4Test_WithSpecifiedThreads(TMetricPointer &  metric,
-                                                            TValue &          value,
+itkCorrelationImageToImageMetricv4Test_WithSpecifiedThreads(TMetricPointer & metric,
+                                                            TValue & value,
                                                             TDerivativeType & derivative)
 {
   using MetricType = typename TMetricPointer::ObjectType;
@@ -66,7 +66,7 @@ itkCorrelationImageToImageMetricv4Test_WithSpecifiedThreads(TMetricPointer &  me
   }
 
   // Evaluate with GetValueAndDerivative
-  typename MetricType::MeasureType    valueReturn1;
+  typename MetricType::MeasureType valueReturn1;
   typename MetricType::DerivativeType derivativeReturn;
   try
   {
@@ -128,9 +128,9 @@ itkCorrelationImageToImageMetricv4Test(int, char ** const)
   constexpr unsigned int imageDimensionality = 3;
   using ImageType = itk::Image<double, imageDimensionality>;
 
-  auto                           size = ImageType::SizeType::Filled(imageSize);
+  auto size = ImageType::SizeType::Filled(imageSize);
   constexpr ImageType::IndexType index{};
-  const ImageType::RegionType    region{ index, size };
+  const ImageType::RegionType region{ index, size };
 
   /* Create simple test images. */
   auto fixedImage = ImageType::New();
@@ -156,7 +156,7 @@ itkCorrelationImageToImageMetricv4Test(int, char ** const)
   while (!itFixed.IsAtEnd())
   {
     const IndexType ind = itFixed.GetIndex();
-    const double    v = itkCorrelationImageToImageMetricv4Test_GetToyImagePixelValue(ind, p0, imageDimensionality, 0);
+    const double v = itkCorrelationImageToImageMetricv4Test_GetToyImagePixelValue(ind, p0, imageDimensionality, 0);
     itFixed.Set(v);
     ++itFixed;
   }
@@ -173,7 +173,7 @@ itkCorrelationImageToImageMetricv4Test(int, char ** const)
   while (!itMoving.IsAtEnd())
   {
     const IndexType ind = itMoving.GetIndex();
-    const double    v = itkCorrelationImageToImageMetricv4Test_GetToyImagePixelValue(ind, p1, imageDimensionality, 0);
+    const double v = itkCorrelationImageToImageMetricv4Test_GetToyImagePixelValue(ind, p1, imageDimensionality, 0);
     itMoving.Set(v);
     ++itMoving;
   }
@@ -207,7 +207,7 @@ itkCorrelationImageToImageMetricv4Test(int, char ** const)
 
   metric->SetMaximumNumberOfWorkUnits(1);
   std::cerr << "Setting number of metric threads to " << metric->GetMaximumNumberOfWorkUnits() << std::endl;
-  MetricType::MeasureType    value1;
+  MetricType::MeasureType value1;
   MetricType::DerivativeType derivative1;
 
   int ret = itkCorrelationImageToImageMetricv4Test_WithSpecifiedThreads(metric, value1, derivative1);
@@ -215,7 +215,7 @@ itkCorrelationImageToImageMetricv4Test(int, char ** const)
   {
     result = EXIT_FAILURE;
   }
-  MetricType::MeasureType    value2;
+  MetricType::MeasureType value2;
   MetricType::DerivativeType derivative2;
   metric->SetMaximumNumberOfWorkUnits(8);
   std::cerr << "Setting number of metric threads to " << metric->GetMaximumNumberOfWorkUnits() << std::endl;
@@ -250,7 +250,7 @@ itkCorrelationImageToImageMetricv4Test(int, char ** const)
   movingTransform->SetParameters(parameters);
   constexpr MetricType::MeasureType expectedMetricMax = itk::NumericTraits<MetricType::MeasureType>::max();
   std::cout << "Testing non-overlapping images. Expect a warning:" << std::endl;
-  MetricType::MeasureType    valueReturn;
+  MetricType::MeasureType valueReturn;
   MetricType::DerivativeType derivativeReturn;
   metric->GetValueAndDerivative(valueReturn, derivativeReturn);
   if (metric->GetNumberOfValidPoints() != 0 || itk::Math::NotExactlyEquals(valueReturn, expectedMetricMax))

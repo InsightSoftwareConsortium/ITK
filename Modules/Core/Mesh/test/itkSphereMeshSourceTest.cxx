@@ -31,9 +31,9 @@ itkSphereMeshSourceTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(mySphereMeshSource, SphereMeshSource, MeshSource);
 
 
-  constexpr fPointType            center{};
+  constexpr fPointType center{};
   constexpr fPointType::ValueType scaleInit[3] = { 1, 1, 1 };
-  const fPointType                scale = scaleInit;
+  const fPointType scale = scaleInit;
 
   mySphereMeshSource->SetCenter(center);
   mySphereMeshSource->SetResolutionX(1);
@@ -53,7 +53,7 @@ itkSphereMeshSourceTest(int, char *[])
   //  itk::Mesh<float>::PointsContainerPointer      myoutput = mySphereMeshSource->GetOutput()->GetPoints();
   //  itk::Mesh<float>::PointsContainer::Iterator   m_output = myoutput->Begin();
 
-  IPT   pt{};
+  IPT pt{};
   IPT * pt_ptr = &pt;
 
   for (int i = 0; i < 12; ++i)

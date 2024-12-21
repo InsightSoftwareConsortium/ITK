@@ -47,7 +47,7 @@ QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction<TMesh, TQEType>::Evaluate(QE
 
   // one-ring
   std::vector<PointIdentifier> pList;
-  QEType *                     g_sym = g->GetSym();
+  QEType * g_sym = g->GetSym();
   using QEIterator = typename QEType::IteratorGeom;
   for (QEIterator it = g_sym->BeginGeomOnext(); it != g_sym->EndGeomOnext(); ++it)
   {
@@ -71,7 +71,7 @@ QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction<TMesh, TQEType>::Evaluate(QE
   PointId2 = pList.back();
   pList.pop_back();
   const FaceRefType FirstFace = this->m_Mesh->FindEdge(PointId1, PointId2)->GetLeft();
-  bool              SecondFaceFound = false;
+  bool SecondFaceFound = false;
   while ((pList.size()) && (!SecondFaceFound))
   {
     PointId1 = PointId2;

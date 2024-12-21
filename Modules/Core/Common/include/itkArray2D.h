@@ -147,10 +147,10 @@ operator<<(std::ostream & os, const Array2D<TValue> & arr)
 // declaration of specialization
 template <>
 ITKCommon_EXPORT std::ostream &
-                 operator<<(std::ostream & os, const Array2D<float> & arr);
+operator<<(std::ostream & os, const Array2D<float> & arr);
 template <>
 ITKCommon_EXPORT std::ostream &
-                 operator<<(std::ostream & os, const Array2D<double> & arr);
+operator<<(std::ostream & os, const Array2D<double> & arr);
 
 } // namespace itk
 

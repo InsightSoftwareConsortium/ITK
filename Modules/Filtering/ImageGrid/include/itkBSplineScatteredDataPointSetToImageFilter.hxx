@@ -180,7 +180,7 @@ template <typename TInputPointSet, typename TOutputImage>
 void
 BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::GenerateData()
 {
-  TOutputImage *         output = this->GetOutput();
+  TOutputImage * output = this->GetOutput();
   const TInputPointSet * inputPointSet = this->GetInput();
 
   // Create the output image
@@ -408,7 +408,7 @@ template <typename TInputPointSet, typename TOutputImage>
 void
 BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::ThreadedGenerateDataForFitting(
   const RegionType & itkNotUsed(region),
-  ThreadIdType       threadId)
+  ThreadIdType threadId)
 {
   const TInputPointSet * input = this->GetInput();
 
@@ -444,7 +444,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Threade
   auto numberOfPointsPerThread = static_cast<SizeValueType>(input->GetNumberOfPoints() / numberOfWorkUnits);
 
   const unsigned int start = threadId * numberOfPointsPerThread;
-  unsigned int       end = start + numberOfPointsPerThread;
+  unsigned int end = start + numberOfPointsPerThread;
   if (threadId == this->GetNumberOfWorkUnits() - 1)
   {
     end = input->GetNumberOfPoints();
@@ -481,7 +481,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Threade
     RealType w2Sum = 0.0;
     for (ItW.GoToBegin(); !ItW.IsAtEnd(); ++ItW)
     {
-      RealType                          B = 1.0;
+      RealType B = 1.0;
       typename RealImageType::IndexType idx = ItW.GetIndex();
       for (unsigned int i = 0; i < ImageDimension; ++i)
       {
@@ -521,7 +521,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Threade
       w2Sum += B * B;
     }
 
-    RealImageType *      currentThreadOmegaLattice = this->m_OmegaLatticePerThread[threadId];
+    RealImageType * currentThreadOmegaLattice = this->m_OmegaLatticePerThread[threadId];
     PointDataImageType * currentThreadDeltaLattice = this->m_DeltaLatticePerThread[threadId];
 
     for (ItW.GoToBegin(); !ItW.IsAtEnd(); ++ItW)
@@ -549,7 +549,7 @@ template <typename TInputPointSet, typename TOutputImage>
 void
 BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::ThreadedGenerateDataForReconstruction(
   const RegionType & region,
-  ThreadIdType       itkNotUsed(threadId))
+  ThreadIdType itkNotUsed(threadId))
 {
   typename PointDataImageType::Pointer collapsedPhiLattices[ImageDimension + 1];
   for (unsigned int i = 0; i < ImageDimension; ++i)
@@ -599,9 +599,9 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Threade
   }
 
   FixedArray<RealType, ImageDimension> U;
-  auto                                 currentU = MakeFilled<FixedArray<RealType, ImageDimension>>(-1);
+  auto currentU = MakeFilled<FixedArray<RealType, ImageDimension>>(-1);
 
-  typename ImageType::IndexType                startIndex = this->GetOutput()->GetRequestedRegion().GetIndex();
+  typename ImageType::IndexType startIndex = this->GetOutput()->GetRequestedRegion().GetIndex();
   const typename PointDataImageType::IndexType startPhiIndex =
     this->m_PhiLattice->GetLargestPossibleRegion().GetIndex();
 
@@ -656,14 +656,14 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::AfterTh
 
     ImageRegionIterator<PointDataImageType> ItD(this->m_DeltaLatticePerThread[0],
                                                 this->m_DeltaLatticePerThread[0]->GetLargestPossibleRegion());
-    ImageRegionIterator<RealImageType>      ItO(this->m_OmegaLatticePerThread[0],
+    ImageRegionIterator<RealImageType> ItO(this->m_OmegaLatticePerThread[0],
                                            this->m_OmegaLatticePerThread[0]->GetLargestPossibleRegion());
 
     for (ThreadIdType n = 1; n < this->GetNumberOfWorkUnits(); ++n)
     {
       ImageRegionIterator<PointDataImageType> Itd(this->m_DeltaLatticePerThread[n],
                                                   this->m_DeltaLatticePerThread[n]->GetLargestPossibleRegion());
-      ImageRegionIterator<RealImageType>      Ito(this->m_OmegaLatticePerThread[n],
+      ImageRegionIterator<RealImageType> Ito(this->m_OmegaLatticePerThread[n],
                                              this->m_OmegaLatticePerThread[n]->GetLargestPossibleRegion());
 
       ItD.GoToBegin();
@@ -754,12 +754,12 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::RefineC
   constexpr PointDataType data{};
   refinedLattice->FillBuffer(data);
 
-  typename PointDataImageType::IndexType            idx;
-  typename PointDataImageType::IndexType            idxPsi;
-  typename PointDataImageType::IndexType            tmp;
-  typename PointDataImageType::IndexType            tmpPsi;
-  typename PointDataImageType::IndexType            off;
-  typename PointDataImageType::IndexType            offPsi;
+  typename PointDataImageType::IndexType idx;
+  typename PointDataImageType::IndexType idxPsi;
+  typename PointDataImageType::IndexType tmp;
+  typename PointDataImageType::IndexType tmpPsi;
+  typename PointDataImageType::IndexType off;
+  typename PointDataImageType::IndexType offPsi;
   typename PointDataImageType::RegionType::SizeType sizePsi;
 
   size.Fill(2);
@@ -873,10 +873,10 @@ template <typename TInputPointSet, typename TOutputImage>
 void
 BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::ThreadedGenerateDataForUpdatingResidualValues(
   const RegionType & itkNotUsed(region),
-  ThreadIdType       threadId)
+  ThreadIdType threadId)
 {
   const TInputPointSet * input = this->GetInput();
-  PointDataImagePointer  collapsedPhiLattices[ImageDimension + 1];
+  PointDataImagePointer collapsedPhiLattices[ImageDimension + 1];
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     collapsedPhiLattices[i] = PointDataImageType::New();
@@ -920,7 +920,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Threade
   }
 
   FixedArray<RealType, ImageDimension> U;
-  auto                                 currentU = MakeFilled<FixedArray<RealType, ImageDimension>>(-1);
+  auto currentU = MakeFilled<FixedArray<RealType, ImageDimension>>(-1);
 
   const typename PointDataImageType::IndexType startPhiIndex =
     this->m_PhiLattice->GetLargestPossibleRegion().GetIndex();
@@ -931,7 +931,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Threade
   auto numberOfPointsPerThread = static_cast<SizeValueType>(input->GetNumberOfPoints() / numberOfWorkUnits);
 
   const unsigned int start = threadId * numberOfPointsPerThread;
-  unsigned int       end = start + numberOfPointsPerThread;
+  unsigned int end = start + numberOfPointsPerThread;
   if (threadId == this->GetNumberOfWorkUnits() - 1)
   {
     end = input->GetNumberOfPoints();
@@ -986,15 +986,15 @@ void
 BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::CollapsePhiLattice(
   PointDataImageType * lattice,
   PointDataImageType * collapsedLattice,
-  const RealType       u,
-  const unsigned int   dimension)
+  const RealType u,
+  const unsigned int dimension)
 {
   for (ImageRegionIteratorWithIndex<PointDataImageType> It(collapsedLattice,
                                                            collapsedLattice->GetLargestPossibleRegion());
        !It.IsAtEnd();
        ++It)
   {
-    PointDataType                          data{};
+    PointDataType data{};
     typename PointDataImageType::IndexType idx = It.GetIndex();
     for (unsigned int i = 0; i < this->m_SplineOrder[dimension] + 1; ++i)
     {
@@ -1044,7 +1044,7 @@ template <typename TInputPointSet, typename TOutputImage>
 void
 BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::SetPhiLatticeParametricDomainParameters()
 {
-  typename PointDataImageType::PointType   origin;
+  typename PointDataImageType::PointType origin;
   typename PointDataImageType::SpacingType spacing;
 
   for (unsigned int i = 0; i < ImageDimension; ++i)
@@ -1102,7 +1102,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::NumberT
 template <typename TInputPointSet, typename TOutputImage>
 void
 BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::PrintSelf(std::ostream & os,
-                                                                                   Indent         indent) const
+                                                                                   Indent indent) const
 {
   using namespace print_helper;
 

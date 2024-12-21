@@ -48,9 +48,9 @@ public:
 
   /** Constructor. */
   MeshFileReaderException(const std::string & file,
-                          unsigned int        line,
-                          const char *        message = "Error in IO",
-                          const char *        loc = "Unknown");
+                          unsigned int line,
+                          const char * message = "Error in IO",
+                          const char * loc = "Unknown");
 };
 } // end namespace itk
 

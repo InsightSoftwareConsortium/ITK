@@ -43,13 +43,13 @@ itkCompareHistogramImageToImageMetricTest(int, char *[])
   using FixedImageSourceType = itk::GaussianImageSource<FixedImageType>;
 
   // Note: the following declarations are classical arrays
-  FixedImageType::SizeValueType  fixedImageSize[] = { 100, 100 };
+  FixedImageType::SizeValueType fixedImageSize[] = { 100, 100 };
   MovingImageType::SizeValueType movingImageSize[] = { 100, 100 };
 
-  FixedImageType::SpacingValueType  fixedImageSpacing[] = { 1.0f, 1.0f };
+  FixedImageType::SpacingValueType fixedImageSpacing[] = { 1.0f, 1.0f };
   MovingImageType::SpacingValueType movingImageSpacing[] = { 1.0f, 1.0f };
 
-  constexpr FixedImageType::PointValueType  fixedImageOrigin[] = { 0.0f, 0.0f };
+  constexpr FixedImageType::PointValueType fixedImageOrigin[] = { 0.0f, 0.0f };
   constexpr MovingImageType::PointValueType movingImageOrigin[] = { 0.0f, 0.0f };
 
   auto movingImageSource = MovingImageSourceType::New();
@@ -71,7 +71,7 @@ itkCompareHistogramImageToImageMetricTest(int, char *[])
   ITK_TRY_EXPECT_NO_EXCEPTION(fixedImageSource->Update());  // Force the filter to run
 
   const MovingImageType::Pointer movingImage = movingImageSource->GetOutput();
-  const FixedImageType::Pointer  fixedImage = fixedImageSource->GetOutput();
+  const FixedImageType::Pointer fixedImage = fixedImageSource->GetOutput();
 
   // Set up the metric.
   using MetricType = itk::KullbackLeiblerCompareHistogramImageToImageMetric<FixedImageType, MovingImageType>;
@@ -89,7 +89,7 @@ itkCompareHistogramImageToImageMetricTest(int, char *[])
   metric->SetEpsilon(epsilon);
   ITK_TEST_SET_GET_VALUE(epsilon, metric->GetEpsilon());
 
-  constexpr unsigned int              nBins = 256;
+  constexpr unsigned int nBins = 256;
   MetricType::HistogramType::SizeType histSize;
 
   histSize.SetSize(2);
@@ -159,7 +159,7 @@ itkCompareHistogramImageToImageMetricTest(int, char *[])
 
   // Print out metric value and derivative.
   const MetricType::MeasureType measure = metric->GetValue(parameters);
-  MetricType::DerivativeType    derivative;
+  MetricType::DerivativeType derivative;
   metric->GetDerivative(parameters, derivative);
 
   std::cout << "Metric value = " << measure << std::endl << "Derivative = " << derivative << std::endl;

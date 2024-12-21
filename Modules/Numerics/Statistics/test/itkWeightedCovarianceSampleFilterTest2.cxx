@@ -152,7 +152,7 @@ itkWeightedCovarianceSampleFilterTest2(int, char *[])
   using MeasurementVectorRealType = FilterType::MeasurementVectorRealType;
 
   MeasurementVectorRealType mean = filter->GetMean();
-  CovarianceMatrixType      matrix = filter->GetCovarianceMatrix();
+  CovarianceMatrixType matrix = filter->GetCovarianceMatrix();
 
   std::cout << "Mean: " << mean << std::endl;
   std::cout << "Covariance Matrix: " << matrix << std::endl;

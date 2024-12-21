@@ -239,7 +239,7 @@ private:
    * NumericSeriesFileNames class. Removing this functionality from here allows
    * to use additional SeriesFileNames such as the DICOM filenames generators.
    * */
-  std::string   m_SeriesFormat{};
+  std::string m_SeriesFormat{};
   SizeValueType m_StartIndex{ 1 };
   SizeValueType m_IncrementIndex{ 1 };
 

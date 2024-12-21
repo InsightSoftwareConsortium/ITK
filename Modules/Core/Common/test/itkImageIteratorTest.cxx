@@ -92,7 +92,7 @@ itkImageIteratorTest(int, char *[])
   using VectorImageIterator = itk::ImageIterator<VectorImageType>;
   using VectorImageConstIterator = itk::ImageConstIterator<VectorImageType>;
 
-  VectorImageIterator            itr1(o3, region);
+  VectorImageIterator itr1(o3, region);
   const VectorImageConstIterator itr2(o3, region);
 
   // Exercise copy constructor

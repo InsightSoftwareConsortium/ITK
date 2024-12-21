@@ -39,8 +39,8 @@ itkTIFFImageIOTest2(int argc, char * argv[])
   auto image = ImageType::New();
 
   ImageType::RegionType region;
-  ImageType::IndexType  start;
-  ImageType::SizeType   size;
+  ImageType::IndexType start;
+  ImageType::SizeType size;
 
   size[0] = 157;
   size[1] = 129;

@@ -206,10 +206,10 @@ protected:
 
   FeatureScalarType m_UpperThreshold{};
   FeatureScalarType m_LowerThreshold{};
-  ScalarValueType   m_EdgeWeight{};
-  ScalarValueType   m_SmoothingConductance{};
-  int               m_SmoothingIterations{};
-  ScalarValueType   m_SmoothingTimeStep{};
+  ScalarValueType m_EdgeWeight{};
+  ScalarValueType m_SmoothingConductance{};
+  int m_SmoothingIterations{};
+  ScalarValueType m_SmoothingTimeStep{};
 };
 } // end namespace itk
 

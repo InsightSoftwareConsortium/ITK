@@ -26,9 +26,9 @@
 extern "C"
 {
   ITK_ABI_EXPORT itk::Object *
-                 EquivalencyTable();
+  EquivalencyTable();
   ITK_ABI_EXPORT itk::Object *
-                 Image();
+  Image();
 
   ITK_ABI_EXPORT int
   dynamic_castDownCastEquivalencyTable(const char * type, const char * instanceSource, const itk::Object * base);

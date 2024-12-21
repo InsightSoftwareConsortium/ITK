@@ -85,10 +85,10 @@ GPUReduction<TElement>::isPow2(unsigned int x)
 
 template <typename TElement>
 void
-GPUReduction<TElement>::GetNumBlocksAndThreads(int   whichKernel,
-                                               int   n,
-                                               int   maxBlocks,
-                                               int   maxThreads,
+GPUReduction<TElement>::GetNumBlocksAndThreads(int whichKernel,
+                                               int n,
+                                               int maxBlocks,
+                                               int maxThreads,
                                                int & blocks,
                                                int & threads)
 {
@@ -188,7 +188,7 @@ GPUReduction<TElement>::RandomTest()
   this->InitializeKernel(size);
 
   unsigned int bytes = size * sizeof(TElement);
-  auto *       h_idata = (TElement *)malloc(bytes);
+  auto * h_idata = (TElement *)malloc(bytes);
 
   for (int i = 0; i < size; ++i)
   {
@@ -244,10 +244,10 @@ GPUReduction<TElement>::GPUGenerateData()
   // number of threads per block
   int maxThreads = m_SmallBlock ? 64 : 128;
 
-  int  whichKernel = 6;
-  int  maxBlocks = 64;
+  int whichKernel = 6;
+  int maxBlocks = 64;
   bool cpuFinalReduction = true;
-  int  cpuFinalThreshold = 1;
+  int cpuFinalThreshold = 1;
 
   int numBlocks = 0;
   int numThreads = 0;
@@ -291,15 +291,15 @@ GPUReduction<TElement>::GPUGenerateData()
 
 template <typename TElement>
 TElement
-GPUReduction<TElement>::GPUReduce(cl_int         n,
-                                  int            numThreads,
-                                  int            numBlocks,
-                                  int            itkNotUsed(maxThreads),
-                                  int            itkNotUsed(maxBlocks),
-                                  int            itkNotUsed(whichKernel),
-                                  bool           itkNotUsed(cpuFinalReduction),
-                                  int            itkNotUsed(cpuFinalThreshold),
-                                  double *       itkNotUsed(dTotalTime),
+GPUReduction<TElement>::GPUReduce(cl_int n,
+                                  int numThreads,
+                                  int numBlocks,
+                                  int itkNotUsed(maxThreads),
+                                  int itkNotUsed(maxBlocks),
+                                  int itkNotUsed(whichKernel),
+                                  bool itkNotUsed(cpuFinalReduction),
+                                  int itkNotUsed(cpuFinalThreshold),
+                                  double * itkNotUsed(dTotalTime),
                                   GPUDataPointer idata,
                                   GPUDataPointer odata)
 {

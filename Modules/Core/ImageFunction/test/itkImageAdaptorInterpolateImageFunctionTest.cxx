@@ -99,10 +99,10 @@ TestGeometricPoint(const InterpolatorType * interp, const PointType & point, boo
  * returns false otherwise
  */
 bool
-TestContinuousIndex(const InterpolatorType *    interp,
+TestContinuousIndex(const InterpolatorType * interp,
                     const ContinuousIndexType & index,
-                    bool                        isInside,
-                    OutputType                  trueValue)
+                    bool isInside,
+                    OutputType trueValue)
 {
   std::cout << " Index: " << index;
 
@@ -153,12 +153,12 @@ itkImageAdaptorInterpolateImageFunctionTest(int, char *[])
   constexpr unsigned int ImageDimension = ImageAdaptorInterpolate::ImageDimension;
 
   constexpr ImageType::SizeType size = { { 20, 40, 80 } };
-  constexpr double              origin[3] = { 0.5, 0.5, 0.5 };
-  constexpr double              spacing[3] = { 0.1, 0.05, 0.025 };
+  constexpr double origin[3] = { 0.5, 0.5, 0.5 };
+  constexpr double spacing[3] = { 0.1, 0.05, 0.025 };
 
 
   // Create a test image
-  auto                  image = ImageType::New();
+  auto image = ImageType::New();
   ImageType::RegionType region;
   region.SetSize(size);
 
@@ -177,7 +177,7 @@ itkImageAdaptorInterpolateImageFunctionTest(int, char *[])
 
   for (; !iter.IsAtEnd(); ++iter)
   {
-    IndexType      index = iter.GetIndex();
+    IndexType index = iter.GetIndex();
     unsigned short value = 0;
 
     for (unsigned int j = 0; j < ImageDimension; ++j)
@@ -207,15 +207,15 @@ itkImageAdaptorInterpolateImageFunctionTest(int, char *[])
   /* Test evaluation at continuous indices and corresponding
      gemetric points */
   std::cout << "Evaluate at: " << std::endl;
-  OutputType          output;
+  OutputType output;
   ContinuousIndexType cindex;
-  PointType           point;
-  bool                passed;
+  PointType point;
+  bool passed;
 
   // an integer position inside the image
   {
     itk::SpacePrecisionType darray[3] = { 10, 20, 40 };
-    constexpr double        temp = 70.0;
+    constexpr double temp = 70.0;
     output = OutputType(temp);
     cindex = ContinuousIndexType(darray);
     passed = ImageAdaptorInterpolate::TestContinuousIndex(interp, cindex, true, output);
@@ -237,7 +237,7 @@ itkImageAdaptorInterpolateImageFunctionTest(int, char *[])
   // position at the image border
   {
     itk::SpacePrecisionType darray[3] = { 0, 20, 40 };
-    constexpr double        temp = 60.0;
+    constexpr double temp = 60.0;
     output = OutputType(temp);
     cindex = ContinuousIndexType(darray);
     passed = ImageAdaptorInterpolate::TestContinuousIndex(interp, cindex, true, output);
@@ -259,8 +259,8 @@ itkImageAdaptorInterpolateImageFunctionTest(int, char *[])
   // position near image border
   {
     constexpr itk::SpacePrecisionType epsilon = 1.0e-10;
-    itk::SpacePrecisionType           darray[3] = { 19 - epsilon, 20, 40 };
-    constexpr double                  temp = 79.0;
+    itk::SpacePrecisionType darray[3] = { 19 - epsilon, 20, 40 };
+    constexpr double temp = 79.0;
     output = OutputType(temp);
     cindex = ContinuousIndexType(darray);
     passed = ImageAdaptorInterpolate::TestContinuousIndex(interp, cindex, true, output);
@@ -282,7 +282,7 @@ itkImageAdaptorInterpolateImageFunctionTest(int, char *[])
   // position outside the image
   {
     itk::SpacePrecisionType darray[3] = { 20, 20, 40 };
-    constexpr double        temp = 1.0;
+    constexpr double temp = 1.0;
     output = OutputType(temp);
     cindex = ContinuousIndexType(darray);
     passed = ImageAdaptorInterpolate::TestContinuousIndex(interp, cindex, false, output);
@@ -304,7 +304,7 @@ itkImageAdaptorInterpolateImageFunctionTest(int, char *[])
   // at non-integer position
   {
     itk::SpacePrecisionType darray[3] = { 5.25, 12.5, 42.0 };
-    constexpr double        temp = 59.75;
+    constexpr double temp = 59.75;
     output = OutputType(temp);
     cindex = ContinuousIndexType(darray);
     passed = ImageAdaptorInterpolate::TestContinuousIndex(interp, cindex, true, output);

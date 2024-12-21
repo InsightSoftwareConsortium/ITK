@@ -88,8 +88,8 @@ public:
   /** Empty implementation - this will not be used by GPU filters */
   PixelType
   ComputeUpdate(const NeighborhoodType & itkNotUsed(neighborhood),
-                void *                   itkNotUsed(globalData),
-                const FloatOffsetType &  itkNotUsed(offset) = FloatOffsetType(0.0)) override
+                void * itkNotUsed(globalData),
+                const FloatOffsetType & itkNotUsed(offset) = FloatOffsetType(0.0)) override
   {
     PixelType pix{};
     return pix;

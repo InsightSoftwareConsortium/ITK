@@ -70,8 +70,8 @@ public:
   int
   GetElementSQ(const unsigned short group,
                const unsigned short entry,
-               DCMTKSequence &      sequence,
-               const bool           throwException = true) const;
+               DCMTKSequence & sequence,
+               const bool throwException = true) const;
 
 private:
   DcmItem * m_DcmItem{ nullptr };
@@ -90,32 +90,32 @@ public:
   int
   GetStack(const unsigned short group,
            const unsigned short element,
-           DcmStack &           resultStack,
-           const bool           throwException = true) const;
+           DcmStack & resultStack,
+           const bool throwException = true) const;
   int
   GetElementCS(const unsigned short group,
                const unsigned short element,
-               std::string &        target,
-               const bool           throwException = true) const;
+               std::string & target,
+               const bool throwException = true) const;
 
   int
   GetElementOB(const unsigned short group,
                const unsigned short element,
-               std::string &        target,
-               const bool           throwException = true) const;
+               std::string & target,
+               const bool throwException = true) const;
 
   int
   GetElementCSorOB(const unsigned short group,
                    const unsigned short element,
-                   std::string &        target,
-                   const bool           throwException = true) const;
+                   std::string & target,
+                   const bool throwException = true) const;
 
   template <typename TType>
   int
   GetElementDSorOB(const unsigned short group,
                    const unsigned short element,
-                   TType &              target,
-                   const bool           throwException = true) const
+                   TType & target,
+                   const bool throwException = true) const
   {
     if (this->GetElementDS<TType>(group, element, 1, &target, false) == EXIT_SUCCESS)
     {
@@ -137,9 +137,9 @@ public:
   int
   GetElementDSorOB(const unsigned short group,
                    const unsigned short element,
-                   int                  count,
-                   TType *              target,
-                   const bool           throwException = true) const
+                   int count,
+                   TType * target,
+                   const bool throwException = true) const
   {
     if (this->GetElementDS<TType>(group, element, count, target, false) == EXIT_SUCCESS)
     {
@@ -164,24 +164,24 @@ public:
   int
   GetElementFD(const unsigned short group,
                const unsigned short element,
-               int                  count,
-               double *             target,
-               const bool           throwException = true) const;
+               int count,
+               double * target,
+               const bool throwException = true) const;
   int
   GetElementFD(const unsigned short group,
                const unsigned short element,
-               double &             target,
-               const bool           throwException = true) const;
+               double & target,
+               const bool throwException = true) const;
   int
   GetElementDS(const unsigned short group,
                const unsigned short element,
-               std::string &        target,
-               const bool           throwException = true) const;
+               std::string & target,
+               const bool throwException = true) const;
   int
   GetElementTM(const unsigned short group,
                const unsigned short element,
-               std::string &        target,
-               const bool           throwException = true) const;
+               std::string & target,
+               const bool throwException = true) const;
   /** Get an array of data values, as contained in a DICOM
    * DecimalString Item
    */
@@ -189,9 +189,9 @@ public:
   int
   GetElementDS(const unsigned short group,
                const unsigned short element,
-               unsigned short       count,
-               TType *              target,
-               const bool           throwException = true) const
+               unsigned short count,
+               TType * target,
+               const bool throwException = true) const
   {
     DcmStack resultStack;
     if (this->GetStack(group, element, resultStack, throwException) != EXIT_SUCCESS)
@@ -225,8 +225,8 @@ public:
   int
   GetElementSQ(const unsigned short group,
                const unsigned short element,
-               DCMTKSequence &      target,
-               const bool           throwException = true) const;
+               DCMTKSequence & target,
+               const bool throwException = true) const;
   int
   GetElementItem(unsigned short itemIndex, DCMTKItem & target, const bool throwException = true) const;
 
@@ -260,13 +260,13 @@ public:
   int
   GetElementLO(const unsigned short group,
                const unsigned short element,
-               std::string &        target,
-               const bool           throwException = true) const;
+               std::string & target,
+               const bool throwException = true) const;
   int
-  GetElementLO(const unsigned short       group,
-               const unsigned short       element,
+  GetElementLO(const unsigned short group,
+               const unsigned short element,
                std::vector<std::string> & target,
-               const bool                 throwException = true) const;
+               const bool throwException = true) const;
 
   /** Get an array of data values, as contained in a DICOM
    * DecimalString Item
@@ -275,11 +275,11 @@ public:
   int
   GetElementDS(const unsigned short group,
                const unsigned short element,
-               unsigned short       count,
-               TType *              target,
-               const bool           throwException = true) const
+               unsigned short count,
+               TType * target,
+               const bool throwException = true) const
   {
-    DcmTagKey    tagkey(group, element);
+    DcmTagKey tagkey(group, element);
     DcmElement * el;
     if (this->m_Dataset->findAndGetElement(tagkey, el) != EC_Normal)
     {
@@ -313,8 +313,8 @@ public:
   int
   GetElementDSorOB(const unsigned short group,
                    const unsigned short element,
-                   TType &              target,
-                   const bool           throwException = true) const
+                   TType & target,
+                   const bool throwException = true) const
   {
     if (this->GetElementDS<TType>(group, element, 1, &target, false) == EXIT_SUCCESS)
     {
@@ -349,113 +349,113 @@ public:
   int
   GetElementDS(const unsigned short group,
                const unsigned short element,
-               std::string &        target,
-               const bool           throwException = true) const;
+               std::string & target,
+               const bool throwException = true) const;
   int
   GetElementFD(const unsigned short group,
                const unsigned short element,
-               double &             target,
-               const bool           throwException = true) const;
+               double & target,
+               const bool throwException = true) const;
   int
   GetElementFD(const unsigned short group,
                const unsigned short element,
-               int                  count,
-               double *             target,
-               const bool           throwException = true) const;
+               int count,
+               double * target,
+               const bool throwException = true) const;
   int
   GetElementFL(const unsigned short group,
                const unsigned short element,
-               float &              target,
-               const bool           throwException = true) const;
+               float & target,
+               const bool throwException = true) const;
   int
   GetElementFLorOB(const unsigned short group,
                    const unsigned short element,
-                   float &              target,
-                   const bool           throwException = true) const;
+                   float & target,
+                   const bool throwException = true) const;
 
   int
   GetElementUS(const unsigned short group,
                const unsigned short element,
-               unsigned short &     target,
-               const bool           throwException = true) const;
+               unsigned short & target,
+               const bool throwException = true) const;
   int
   GetElementUS(const unsigned short group,
                const unsigned short element,
-               unsigned short *&    target,
-               const bool           throwException = true) const;
+               unsigned short *& target,
+               const bool throwException = true) const;
   /** Get a DecimalString Item as a single string
    */
   int
   GetElementCS(const unsigned short group,
                const unsigned short element,
-               std::string &        target,
-               const bool           throwException = true) const;
+               std::string & target,
+               const bool throwException = true) const;
 
   /** Get a PersonName Item as a single string
    */
   int
   GetElementPN(const unsigned short group,
                const unsigned short element,
-               std::string &        target,
-               const bool           throwException = true) const;
+               std::string & target,
+               const bool throwException = true) const;
 
   /** get an IS (Integer String Item
    */
   int
   GetElementIS(const unsigned short group,
                const unsigned short element,
-               itk::int32_t &       target,
-               const bool           throwException = true) const;
+               itk::int32_t & target,
+               const bool throwException = true) const;
 
   int
   GetElementSL(const unsigned short group,
                const unsigned short element,
-               itk::int32_t &       target,
-               const bool           throwException = true) const;
+               itk::int32_t & target,
+               const bool throwException = true) const;
 
   int
   GetElementISorOB(const unsigned short group,
                    const unsigned short element,
-                   itk::int32_t &       target,
-                   const bool           throwException = true) const;
+                   itk::int32_t & target,
+                   const bool throwException = true) const;
 
   int
   GetElementCSorOB(const unsigned short group,
                    const unsigned short element,
-                   std::string &        target,
-                   const bool           throwException = true) const;
+                   std::string & target,
+                   const bool throwException = true) const;
 
   /** get an OB OtherByte Item
    */
   int
   GetElementOB(const unsigned short group,
                const unsigned short element,
-               std::string &        target,
-               const bool           throwException = true) const;
+               std::string & target,
+               const bool throwException = true) const;
 
   int
   GetElementSQ(const unsigned short group,
-               unsigned short       entry,
-               DCMTKSequence &      sequence,
-               const bool           throwException = true) const;
+               unsigned short entry,
+               DCMTKSequence & sequence,
+               const bool throwException = true) const;
 
   int
   GetElementUI(const unsigned short group,
-               unsigned short       entry,
-               std::string &        target,
-               const bool           throwException = true) const;
+               unsigned short entry,
+               std::string & target,
+               const bool throwException = true) const;
 
   int
   GetElementDA(const unsigned short group,
                const unsigned short element,
-               std::string &        target,
-               const bool           throwException = true) const;
+               std::string & target,
+               const bool throwException = true) const;
 
   int
   GetElementTM(const unsigned short group,
                const unsigned short element,
-               std::string &        target,
-               const bool           throwException = true) const;
+               std::string & target,
+               const bool throwException = true) const;
 
   int
   GetDirCosines(vnl_vector<double> & dir1, vnl_vector<double> & dir2, vnl_vector<double> & dir3) const;
@@ -499,12 +499,12 @@ public:
   IsImageFile(const std::string & filename);
 
 private:
-  std::string      m_FileName;
-  DcmFileFormat *  m_DFile{ nullptr };
-  DcmDataset *     m_Dataset{ nullptr };
+  std::string m_FileName;
+  DcmFileFormat * m_DFile{ nullptr };
+  DcmDataset * m_Dataset{ nullptr };
   E_TransferSyntax m_Xfer{ EXS_Unknown };
-  Sint32           m_FrameCount{ 0 };
-  long             m_FileNumber{ -1L };
+  Sint32 m_FrameCount{ 0 };
+  long m_FileNumber{ -1L };
 };
 
 extern bool

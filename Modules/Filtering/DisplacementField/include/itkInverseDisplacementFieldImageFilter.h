@@ -195,10 +195,10 @@ protected:
   PrepareKernelBaseSpline();
 
 private:
-  SizeType                   m_Size{};            // Size of the output image
+  SizeType m_Size{};                              // Size of the output image
   KernelTransformPointerType m_KernelTransform{}; // Coordinate transform to
                                                   // use
-  SpacingType     m_OutputSpacing{};              // output image spacing
+  SpacingType m_OutputSpacing{};                  // output image spacing
   OriginPointType m_OutputOrigin{};               // output image origin
 
   unsigned int m_SubsamplingFactor{}; // factor to subsample the

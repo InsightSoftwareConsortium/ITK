@@ -228,7 +228,7 @@ private:
 
   /** The pointer to the object referred to by this smart pointer. */
   ObjectType * m_Pointer;
-  bool         m_IsOwner{ false };
+  bool m_IsOwner{ false };
 };
 
 template <typename T>

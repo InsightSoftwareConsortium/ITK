@@ -362,7 +362,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage,
         constexpr auto radius = TimeVaryingVelocityFieldType::SizeType::Filled(1);
 
         using FaceCalculatorType = NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TimeVaryingVelocityFieldType>;
-        FaceCalculatorType                        faceCalculator;
+        FaceCalculatorType faceCalculator;
         typename FaceCalculatorType::FaceListType faceList =
           faceCalculator(velocityField, velocityField->GetLargestPossibleRegion(), radius);
 
@@ -377,7 +377,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage,
           for (unsigned int d = 0; d < ImageDimension + 1; ++d)
           {
             const DisplacementVectorType vector = (ItV.GetNext(d) - ItV.GetPrevious(d)) * 0.5 * velocityFieldSpacing[d];
-            const RealType               vectorNorm = vector.GetNorm();
+            const RealType vectorNorm = vector.GetNorm();
             localSpatioTemporalNorm += vectorNorm;
             if (d < ImageDimension)
             {

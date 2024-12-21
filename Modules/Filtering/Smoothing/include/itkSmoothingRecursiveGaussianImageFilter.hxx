@@ -205,7 +205,7 @@ SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
   const typename TInputImage::ConstPointer inputImage(this->GetInput());
 
   const typename TInputImage::RegionType region = inputImage->GetRequestedRegion();
-  const typename TInputImage::SizeType   size = region.GetSize();
+  const typename TInputImage::SizeType size = region.GetSize();
 
   for (unsigned int d = 0; d < ImageDimension; ++d)
   {

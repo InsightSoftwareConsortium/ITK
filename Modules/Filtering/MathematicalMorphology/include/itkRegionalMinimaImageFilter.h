@@ -143,8 +143,8 @@ protected:
   GenerateData() override;
 
 private:
-  bool                 m_FullyConnected{ false };
-  bool                 m_FlatIsMinima{ true };
+  bool m_FullyConnected{ false };
+  bool m_FlatIsMinima{ true };
   OutputImagePixelType m_ForegroundValue{};
   OutputImagePixelType m_BackgroundValue{};
 }; // end of class

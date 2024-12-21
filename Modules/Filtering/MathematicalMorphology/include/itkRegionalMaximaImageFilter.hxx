@@ -73,7 +73,7 @@ RegionalMaximaImageFilter<TInputImage, TOutputImage>::GenerateData()
   this->AllocateOutputs();
 
   const InputImageType * input = this->GetInput();
-  OutputImageType *      output = this->GetOutput();
+  OutputImageType * output = this->GetOutput();
 
   // Delegate to the valued filter to find the minima
   auto regionalMax = ValuedRegionalMaximaImageFilter<TInputImage, TInputImage>::New();

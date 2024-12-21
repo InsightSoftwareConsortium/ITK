@@ -186,7 +186,7 @@ struct CopyConstructible
     void
     constraints()
     {
-      T   a(b);
+      T a(b);
       T * p = &a;
 
       const_constraints(a);
@@ -196,7 +196,7 @@ struct CopyConstructible
     void
     const_constraints(const T & a)
     {
-      T         c(a);
+      T c(a);
       const T * p = &a;
 
       Detail::IgnoreUnusedVariable(c);
@@ -938,7 +938,7 @@ struct IsFloatingPoint
     constraints()
     {
       const IntegralT a = FalseT();
-      const ExactT    b = FalseT();
+      const ExactT b = FalseT();
 
       Detail::IgnoreUnusedVariable(a);
       Detail::IgnoreUnusedVariable(b);
@@ -965,7 +965,7 @@ struct IsFixedPoint
     constraints()
     {
       IntegralT a = FalseT();
-      ExactT    b = TrueT();
+      ExactT b = TrueT();
 
       Detail::IgnoreUnusedVariable(a);
       Detail::IgnoreUnusedVariable(b);

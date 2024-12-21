@@ -87,15 +87,15 @@ public:
   CPUGenerateData(TElement * data, int size);
 
   TElement
-  GPUReduce(cl_int         n,
-            int            numThreads,
-            int            numBlocks,
-            int            maxThreads,
-            int            maxBlocks,
-            int            whichKernel,
-            bool           cpuFinalReduction,
-            int            cpuFinalThreshold,
-            double *       dTotalTime,
+  GPUReduce(cl_int n,
+            int numThreads,
+            int numBlocks,
+            int maxThreads,
+            int maxBlocks,
+            int whichKernel,
+            bool cpuFinalReduction,
+            int cpuFinalThreshold,
+            double * dTotalTime,
             GPUDataPointer idata,
             GPUDataPointer odata);
 
@@ -107,14 +107,14 @@ protected:
 
   /** GPU kernel manager for GPUFiniteDifferenceFunction class */
   GPUKernelManager::Pointer m_GPUKernelManager{};
-  GPUDataPointer            m_GPUDataManager{};
+  GPUDataPointer m_GPUDataManager{};
 
   /* GPU kernel handle for GPUComputeUpdate */
   int m_ReduceGPUKernelHandle{};
   int m_TestGPUKernelHandle{};
 
   unsigned int m_Size{};
-  bool         m_SmallBlock{};
+  bool m_SmallBlock{};
 
   TElement m_GPUResult, m_CPUResult{};
 };

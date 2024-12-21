@@ -41,7 +41,7 @@ itkEuclideanDistancePointSetMetricTest2Run()
   auto movingPoints = PointSetType::New();
 
   // Create a few points and apply a small offset to make the moving points
-  auto      pointMax = static_cast<float>(100.0);
+  auto pointMax = static_cast<float>(100.0);
   PointType fixedPoint{};
   fixedPoint[0] = 0.0;
   fixedPoint[1] = 0.0;
@@ -103,7 +103,7 @@ itkEuclideanDistancePointSetMetricTest2Run()
 
   const RegionType region{ regionIndex, regionSize };
 
-  auto                              displacementField = FieldType::New();
+  auto displacementField = FieldType::New();
   typename FieldType::DirectionType direction{};
   for (unsigned int d = 0; d < Dimension; ++d)
   {
@@ -124,7 +124,7 @@ itkEuclideanDistancePointSetMetricTest2Run()
   metric->SetMovingTransform(displacementTransform);
   // If we don't set this explicitly, it will still work because it will be taken from the
   // displacement field during initialization.
-  auto                                spacing = itk::MakeFilled<typename FieldType::SpacingType>(1.0);
+  auto spacing = itk::MakeFilled<typename FieldType::SpacingType>(1.0);
   const typename FieldType::PointType origin{};
   metric->SetVirtualDomain(spacing, origin, direction, region);
 
@@ -132,10 +132,10 @@ itkEuclideanDistancePointSetMetricTest2Run()
 
   // test
   const typename PointSetMetricType::MeasureType value = metric->GetValue();
-  typename PointSetMetricType::DerivativeType    derivative;
+  typename PointSetMetricType::DerivativeType derivative;
   metric->GetDerivative(derivative);
 
-  typename PointSetMetricType::MeasureType    value2;
+  typename PointSetMetricType::MeasureType value2;
   typename PointSetMetricType::DerivativeType derivative2;
   metric->GetValueAndDerivative(value2, derivative2);
 
@@ -220,7 +220,7 @@ itkEuclideanDistancePointSetMetricTest2Run()
 
   // Test with invalid virtual domain, i.e.
   // one that doesn't match the displacement field.
-  auto             badSize = RegionType::SizeType::Filled(static_cast<itk::SizeValueType>(pointMax / 2.0));
+  auto badSize = RegionType::SizeType::Filled(static_cast<itk::SizeValueType>(pointMax / 2.0));
   const RegionType badRegion{ regionIndex, badSize };
   metric->SetVirtualDomain(spacing, origin, direction, badRegion);
   ITK_TRY_EXPECT_EXCEPTION(metric->Initialize());

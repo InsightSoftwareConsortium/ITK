@@ -20,8 +20,8 @@
 
 namespace itk
 {
-MultivariateLegendrePolynomial::MultivariateLegendrePolynomial(unsigned int           dimension,
-                                                               unsigned int           degree,
+MultivariateLegendrePolynomial::MultivariateLegendrePolynomial(unsigned int dimension,
+                                                               unsigned int degree,
                                                                const DomainSizeType & domainSize)
 {
   if (dimension > 3 || dimension < 2)
@@ -183,8 +183,8 @@ void
 MultivariateLegendrePolynomial::CalculateYCoef(double norm_z, const CoefficientArrayType & coef)
 {
   // compute y_coef[i,j] = sum (0 <= k <= m-i-j) pijk * P(z)
-  unsigned int       y_index = 0;
-  unsigned int       c_index = 0;
+  unsigned int y_index = 0;
+  unsigned int c_index = 0;
   const unsigned int lxmax = m_Degree;
 
   for (unsigned int lx = 0; lx <= lxmax; ++lx)
@@ -192,7 +192,7 @@ MultivariateLegendrePolynomial::CalculateYCoef(double norm_z, const CoefficientA
     const unsigned int lymax = m_Degree - lx;
     for (unsigned int ly = 0; ly <= lymax; ly++, c_index++)
     {
-      unsigned int       z_index = c_index;
+      unsigned int z_index = c_index;
       const unsigned int lzmax = m_Degree - lx - ly;
       for (unsigned int lz = 0; lz <= lzmax; ++lz)
       {

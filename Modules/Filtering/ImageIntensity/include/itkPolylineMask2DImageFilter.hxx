@@ -112,9 +112,9 @@ PolylineMask2DImageFilter<TInputImage, TPolyline, TOutputImage>::GenerateData()
 
   /* define background, foreground pixel values and unlabeled pixel value */
   constexpr PixelType zero_val{};
-  auto                u_val = static_cast<PixelType>(0);
-  auto                b_val = static_cast<PixelType>(2);
-  auto                f_val = static_cast<PixelType>(255);
+  auto u_val = static_cast<PixelType>(0);
+  auto b_val = static_cast<PixelType>(2);
+  auto f_val = static_cast<PixelType>(255);
   outputImagePtr->FillBuffer(u_val);
 
   pstartVertex = piter.Value();
@@ -219,7 +219,7 @@ PolylineMask2DImageFilter<TInputImage, TPolyline, TOutputImage>::GenerateData()
 
   /* Mask the input image with the mask generated */
   InputImageConstIteratorType inputI(inputImagePtr, inputImagePtr->GetLargestPossibleRegion());
-  OutputImageIteratorType     outputI(outputImagePtr, outputImagePtr->GetLargestPossibleRegion());
+  OutputImageIteratorType outputI(outputImagePtr, outputImagePtr->GetLargestPossibleRegion());
   while (!outputI.IsAtEnd())
   {
     if (outputI.Get() == f_val)

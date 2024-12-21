@@ -48,7 +48,7 @@ TEST(ExceptionObject, TestDescriptionFromExceptionMacro)
   };
 
   const std::string message = "test message";
-  const TestClass   testObject{};
+  const TestClass testObject{};
 
   try
   {

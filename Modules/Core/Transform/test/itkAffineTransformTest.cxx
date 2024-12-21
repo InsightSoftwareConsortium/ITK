@@ -84,7 +84,7 @@ template <typename TVector>
 bool
 testVariableVector(const TVector & v1, const TVector & v2, int maxUlps = 4)
 {
-  bool               pass = true;
+  bool pass = true;
   const unsigned int D1 = v1.Size();
   const unsigned int D2 = v2.Size();
 
@@ -124,7 +124,7 @@ itkAffineTransformTest(int, char *[])
 
   /* Create a 2D identity transformation and show its parameters */
   using Affine2DType = itk::AffineTransform<double, 2>;
-  auto        id2 = Affine2DType::New();
+  auto id2 = Affine2DType::New();
   Matrix2Type matrix2 = id2->GetMatrix();
   Vector2Type vector2 = id2->GetOffset();
   std::cout << "Matrix from instantiating an identity transform:" << std::endl << matrix2;
@@ -343,7 +343,7 @@ itkAffineTransformTest(int, char *[])
 
   /* Transform a point */
   const itk::Point<double, 2> u2({ 3, 5 });
-  itk::Point<double, 2>       v2 = aff2->TransformPoint(u2);
+  itk::Point<double, 2> v2 = aff2->TransformPoint(u2);
   std::cout << "Transform a point:" << std::endl << v2[0] << " , " << v2[1] << std::endl;
 
   itk::Point<double, 2> v2T({ 41.37, 26.254 });
@@ -360,7 +360,7 @@ itkAffineTransformTest(int, char *[])
 
   /* Transform a vnl_vector */
   const vnl_vector_fixed<double, 2> x2{ 1, 2 };
-  vnl_vector_fixed<double, 2>       y2 = aff2->TransformVector(x2);
+  vnl_vector_fixed<double, 2> y2 = aff2->TransformVector(x2);
 
 
   std::cout << "Transform a vnl_vector:" << std::endl << y2[0] << " , " << y2[1] << std::endl;
@@ -378,7 +378,7 @@ itkAffineTransformTest(int, char *[])
 
   /* Transform a vector */
   const itk::Vector<double, 2> u3({ 3, 5 });
-  itk::Vector<double, 2>       v3 = aff2->TransformVector(u3);
+  itk::Vector<double, 2> v3 = aff2->TransformVector(u3);
   std::cout << "Transform a vector:" << std::endl << v3[0] << " , " << v3[1] << std::endl;
 
   itk::Vector<double, 2> v3T({ 35.37, 22.254 });
@@ -469,7 +469,7 @@ itkAffineTransformTest(int, char *[])
 
   /* Create a 3D transform and rotate in 3D */
   const itk::Vector<double, 3> axis({ .707, .707, .707 });
-  auto                         aff3 = Affine3DType::New();
+  auto aff3 = Affine3DType::New();
   aff3->Rotate3D(axis, 1.0, true);
   std::cout << "Create and rotate a 3D transform:" << std::endl;
   aff3->Print(std::cout);
@@ -547,7 +547,7 @@ itkAffineTransformTest(int, char *[])
   constexpr double data[] = { 5, 10, 15, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,  0,  5, 10, 15,
                               0, 0,  0,  0, 1, 0, 0, 0, 0, 0, 0, 0, 5, 10, 15, 0, 0,  1 };
 
-  const vnl_matrix<double>   vnlData(data, 3, 12);
+  const vnl_matrix<double> vnlData(data, 3, 12);
   Affine3DType::JacobianType expectedJacobian(vnlData);
   for (unsigned int i = 0; i < 3; ++i)
   {
@@ -621,7 +621,7 @@ itkAffineTransformTest(int, char *[])
   paff->Print(std::cout);
   Affine3DType::ParametersType parameters1(paff->GetNumberOfParameters());
   Affine3DType::ParametersType fixed_parameters = paff->GetFixedParameters();
-  const size_t                 fixed_params_size = fixed_parameters.Size();
+  const size_t fixed_params_size = fixed_parameters.Size();
   for (unsigned int q = 0; q < fixed_params_size; ++q)
   {
     fixed_parameters[q] = 100.0 + q;
@@ -678,7 +678,7 @@ itkAffineTransformTest(int, char *[])
   }
   {
     Affine3DType::ParametersType fixed_parameters_inv_inv = paff_inv_inv->GetFixedParameters();
-    double                       mag_error = 0;
+    double mag_error = 0;
     for (unsigned int q = 0; q < fixed_parameters_inv_inv.size(); ++q)
     {
       const double v = (fixed_parameters[q] - fixed_parameters_inv_inv[q]);

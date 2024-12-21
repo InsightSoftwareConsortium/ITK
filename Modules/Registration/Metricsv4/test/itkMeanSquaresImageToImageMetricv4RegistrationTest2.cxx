@@ -56,10 +56,10 @@ itkMeanSquaresImageToImageMetricv4RegistrationTest2(int argc, char * argv[])
   }
 
   double gTolerance = 1e-4;   // Gradient magnitude tolerance
-  int    maxIterations = 100; // Maximum number of iterations
+  int maxIterations = 100;    // Maximum number of iterations
   double lineSearchTol = 0.9; // Line search tolerance
   double stepLength = 1.0;    // Default step length
-  bool   trace = false;       // Tracing
+  bool trace = false;         // Tracing
 
   if (argc > 4)
   {
@@ -133,8 +133,8 @@ itkMeanSquaresImageToImageMetricv4RegistrationTest2(int argc, char * argv[])
   auto metric = MetricType::New();
 
   using PointType = PointSetType::PointType;
-  const PointSetType::Pointer                       pset(PointSetType::New());
-  unsigned long                                     ind = 0;
+  const PointSetType::Pointer pset(PointSetType::New());
+  unsigned long ind = 0;
   itk::ImageRegionIteratorWithIndex<FixedImageType> it(fixedImage, fixedImage->GetLargestPossibleRegion());
 
   for (it.GoToBegin(); !it.IsAtEnd(); ++it)

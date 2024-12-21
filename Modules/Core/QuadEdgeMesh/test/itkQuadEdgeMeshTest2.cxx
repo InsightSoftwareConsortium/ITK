@@ -81,16 +81,16 @@ itkQuadEdgeMeshTest2(int, char *[])
   }
 
   using CellIterator = MeshType::CellsContainer::Iterator;
-  CellIterator       cellIterator = mesh->GetCells()->Begin();
+  CellIterator cellIterator = mesh->GetCells()->Begin();
   const unsigned int ids[] = { 0, 1, 2, 1, 2, 0, 2, 0, 1 };
-  int                itIds = 0;
+  int itIds = 0;
 
   while (cellIterator != mesh->GetCells()->End())
   {
     MeshType::CellType * cellptr = cellIterator.Value();
-    auto *               lineCell = dynamic_cast<LineType *>(cellptr);
+    auto * lineCell = dynamic_cast<LineType *>(cellptr);
     lineCell->GetNameOfClass();
-    QuadEdgeType *             QEGeom = lineCell->GetQEGeom();
+    QuadEdgeType * QEGeom = lineCell->GetQEGeom();
     QuadEdgeType::IteratorGeom git = QEGeom->BeginGeomLnext();
     while (git != QEGeom->EndGeomLnext())
     {

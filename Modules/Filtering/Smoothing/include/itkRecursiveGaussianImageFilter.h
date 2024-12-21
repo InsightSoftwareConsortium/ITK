@@ -44,7 +44,7 @@ second derivative of a gaussian.  */
 };
 // Define how to print enumeration
 extern ITKSmoothing_EXPORT std::ostream &
-                           operator<<(std::ostream & out, const RecursiveGaussianImageFilterEnums::GaussianOrder value);
+operator<<(std::ostream & out, const RecursiveGaussianImageFilterEnums::GaussianOrder value);
 
 using GaussianOrderEnum = RecursiveGaussianImageFilterEnums::GaussianOrder;
 #if !defined(ITK_LEGACY_REMOVE)
@@ -222,15 +222,15 @@ protected:
 private:
   /** Compute the N coefficients in the recursive filter. */
   void
-  ComputeNCoefficients(ScalarRealType   sigmad,
-                       ScalarRealType   A1,
-                       ScalarRealType   B1,
-                       ScalarRealType   W1,
-                       ScalarRealType   L1,
-                       ScalarRealType   A2,
-                       ScalarRealType   B2,
-                       ScalarRealType   W2,
-                       ScalarRealType   L2,
+  ComputeNCoefficients(ScalarRealType sigmad,
+                       ScalarRealType A1,
+                       ScalarRealType B1,
+                       ScalarRealType W1,
+                       ScalarRealType L1,
+                       ScalarRealType A2,
+                       ScalarRealType B2,
+                       ScalarRealType W2,
+                       ScalarRealType L2,
                        ScalarRealType & N0,
                        ScalarRealType & N1,
                        ScalarRealType & N2,
@@ -241,11 +241,11 @@ private:
 
   /** Compute the D coefficients in the recursive filter. */
   void
-  ComputeDCoefficients(ScalarRealType   sigmad,
-                       ScalarRealType   W1,
-                       ScalarRealType   L1,
-                       ScalarRealType   W2,
-                       ScalarRealType   L2,
+  ComputeDCoefficients(ScalarRealType sigmad,
+                       ScalarRealType W1,
+                       ScalarRealType L1,
+                       ScalarRealType W2,
+                       ScalarRealType L2,
                        ScalarRealType & SD,
                        ScalarRealType & DD,
                        ScalarRealType & ED);

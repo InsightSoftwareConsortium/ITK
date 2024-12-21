@@ -185,7 +185,7 @@ public:
   }
 
 private:
-  unsigned int              m_ElementCount{ 0 };
+  unsigned int m_ElementCount{ 0 };
   std::unique_ptr<TPixel[]> m_Data;
 };
 

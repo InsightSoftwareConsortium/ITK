@@ -47,9 +47,9 @@ itkOptimizersHierarchyTest(int, char *[])
 
   constexpr unsigned int spaceDimension = 10;
 
-  OptimizerType::ParametersType       initialPosition(spaceDimension);
+  OptimizerType::ParametersType initialPosition(spaceDimension);
   const OptimizerType::ParametersType currentPosition(spaceDimension);
-  OptimizerType::ScalesType           parameterScale(spaceDimension);
+  OptimizerType::ScalesType parameterScale(spaceDimension);
 
   parameterScale.Fill(1.5);
   initialPosition.Fill(2.0);
@@ -149,7 +149,7 @@ itkOptimizersHierarchyTest(int, char *[])
 
   // Not used; empty method body; called for coverage purposes
   const CumulativeGaussianCostFunctionType::ParametersType parameters{};
-  CumulativeGaussianCostFunctionType::DerivativeType       derivative;
+  CumulativeGaussianCostFunctionType::DerivativeType derivative;
   cumGaussCostFunc->GetDerivative(parameters, derivative);
 
 

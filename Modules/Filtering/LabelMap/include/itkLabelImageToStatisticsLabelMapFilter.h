@@ -186,10 +186,10 @@ protected:
 
 private:
   OutputImagePixelType m_BackgroundValue{};
-  bool                 m_ComputeFeretDiameter{};
-  bool                 m_ComputePerimeter{};
-  unsigned int         m_NumberOfBins{};
-  bool                 m_ComputeHistogram{};
+  bool m_ComputeFeretDiameter{};
+  bool m_ComputePerimeter{};
+  unsigned int m_NumberOfBins{};
+  bool m_ComputeHistogram{};
 }; // end of class
 } // end namespace itk
 

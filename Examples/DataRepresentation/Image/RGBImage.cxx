@@ -83,12 +83,12 @@ main(int, char * argv[])
   using ReaderType = itk::ImageFileReader<ImageType>;
   // Software Guide : EndCodeSnippet
 
-  auto               reader = ReaderType::New();
+  auto reader = ReaderType::New();
   const char * const filename = argv[1];
   reader->SetFileName(filename);
   reader->Update();
 
-  const ImageType::Pointer       image = reader->GetOutput();
+  const ImageType::Pointer image = reader->GetOutput();
   constexpr ImageType::IndexType pixelIndex = { { 25, 35, 0 } };
 
   // Software Guide : BeginLatex

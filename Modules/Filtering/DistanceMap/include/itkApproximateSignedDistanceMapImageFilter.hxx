@@ -47,7 +47,7 @@ ApproximateSignedDistanceMapImageFilter<TInputImage, TOutputImage>::GenerateData
 
   // Calculate the largest possible distance in the output image.
   // this maximum is the distance from one corner of the image to the other.
-  OutputSizeType      outputSize = oRegion.GetSize();
+  OutputSizeType outputSize = oRegion.GetSize();
   OutputSizeValueType maximumDistance = 0;
 
   for (unsigned int i = 0; i < InputImageDimension; ++i)

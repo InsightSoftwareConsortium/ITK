@@ -230,7 +230,7 @@ protected:
   TInternalComputationValueType m_ConvergenceValue{};
 
   /** Store the best value and related parameters. */
-  MeasureType    m_CurrentBestValue{};
+  MeasureType m_CurrentBestValue{};
   ParametersType m_BestParameters{};
 
   bool m_ReturnBestParametersAndValue{ false };

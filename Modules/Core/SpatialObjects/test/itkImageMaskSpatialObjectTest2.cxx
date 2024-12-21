@@ -39,7 +39,7 @@ int
 itkImageMaskSpatialObjectTest2(int, char *[])
 {
   constexpr unsigned int VDimension = 3;
-  int                    retval = EXIT_SUCCESS;
+  int retval = EXIT_SUCCESS;
 
   using ImageMaskSpatialObject = itk::ImageMaskSpatialObject<VDimension>;
   using PixelType = ImageMaskSpatialObject::PixelType;
@@ -62,7 +62,7 @@ itkImageMaskSpatialObjectTest2(int, char *[])
   image->SetDirection(direction);
 
   constexpr ImageType::SizeType size = { { 50, 50, 50 } };
-  ImageType::PointType          origin;
+  ImageType::PointType origin;
   origin[0] = 1.51;
   origin[1] = 2.10;
   origin[2] = -300;
@@ -73,14 +73,14 @@ itkImageMaskSpatialObjectTest2(int, char *[])
   spacing[1] = 0.7;
   spacing[2] = 1.1;
   image->SetSpacing(spacing);
-  constexpr unsigned int         index_offset = 6543;
+  constexpr unsigned int index_offset = 6543;
   constexpr ImageType::IndexType index = { { index_offset, index_offset, index_offset } };
 
   const ImageType::RegionType region{ index, size };
   image->SetRegions(region);
   image->AllocateInitialized();
 
-  ImageType::RegionType  insideRegion;
+  ImageType::RegionType insideRegion;
   constexpr unsigned int INSIDE_SIZE = 30;
   constexpr unsigned int INSIDE_INDEX = index_offset + 10;
   {
@@ -136,7 +136,7 @@ itkImageMaskSpatialObjectTest2(int, char *[])
     while (!itr.IsAtEnd())
     {
       const ImageType::IndexType constIndex = itr.GetIndex();
-      const bool                 reference = insideRegion.IsInside(constIndex);
+      const bool reference = insideRegion.IsInside(constIndex);
 
       ImageType::PointType point;
       image->TransformIndexToPhysicalPoint(constIndex, point);
@@ -192,12 +192,12 @@ itkImageMaskSpatialObjectTest2(int, char *[])
                                                      INSIDE_SIZE * INSIDE_SIZE)) *
                        100.0);
     const ImageType::SpacingType incrementVector = (endPoint - startPoint) / static_cast<double>(numberOfSteps);
-    ImageType::PointType         point = startPoint;
+    ImageType::PointType point = startPoint;
     for (int i = 0; i < numberOfSteps; ++i)
     {
       point += incrementVector;
       const bool isInside = maskSO->IsInsideInWorldSpace(point);
-      double     value{};
+      double value{};
       maskSO->ValueAtInWorldSpace(point, value);
       const bool isZero = (itk::Math::ExactlyEquals(value, PixelType{}));
       if ((isInside && isZero) || (!isInside && !isZero))

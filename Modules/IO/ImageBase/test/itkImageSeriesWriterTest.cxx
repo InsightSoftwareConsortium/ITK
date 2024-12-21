@@ -48,7 +48,7 @@ itkImageSeriesWriterTest(int argc, char * argv[])
 
   using SeriesIdContainer = std::vector<std::string>;
   const SeriesIdContainer & seriesUID = nameGenerator->GetSeriesUIDs();
-  const std::string         seriesIdentifier = seriesUID.begin()->c_str();
+  const std::string seriesIdentifier = seriesUID.begin()->c_str();
 
   auto reader = ReaderType::New();
   reader->SetFileNames(nameGenerator->GetFileNames(seriesIdentifier));
@@ -130,7 +130,7 @@ itkImageSeriesWriterTest(int argc, char * argv[])
     std::cout << "Format = " << format << std::endl;
 
     const ImageNDType::RegionType region = reader->GetOutput()->GetBufferedRegion();
-    ImageNDType::SizeType         size = region.GetSize();
+    ImageNDType::SizeType size = region.GetSize();
 
     constexpr itk::SizeValueType startIndex = 0;
     fit->SetStartIndex(startIndex);

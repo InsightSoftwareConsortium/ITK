@@ -46,7 +46,7 @@ itkFFTWD_RealFFTTest(int, char *[])
 
   unsigned int SizeOfDimensions1[] = { 4, 4, 4 };
   unsigned int SizeOfDimensions2[] = { 3, 5, 4 };
-  int          rval = 0;
+  int rval = 0;
 
   std::cerr << "FFTWD:double,1 (4,4,4)" << std::endl;
   if ((test_fft<double,

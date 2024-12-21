@@ -30,8 +30,8 @@
 
 template <typename ImagePointerType, typename DerivativeType>
 void
-ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintDerivativeAsVectorImage(ImagePointerType   image,
-                                                                                 DerivativeType &   derivative,
+ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintDerivativeAsVectorImage(ImagePointerType image,
+                                                                                 DerivativeType & derivative,
                                                                                  itk::SizeValueType vecdim)
 {
 
@@ -151,9 +151,9 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
 
   constexpr itk::SizeValueType imageSize = 6;
 
-  auto                           size = ImageType::SizeType::Filled(imageSize);
+  auto size = ImageType::SizeType::Filled(imageSize);
   constexpr ImageType::IndexType index{};
-  const ImageType::RegionType    region{ index, size };
+  const ImageType::RegionType region{ index, size };
 
   /* Create simple test images. */
   auto fixedImage = ImageType::New();
@@ -184,7 +184,7 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
     ++itMoving;
   }
 
-  VectorType      zero;
+  VectorType zero;
   constexpr float def_value = -0.5;
 
   zero.Fill(def_value);
@@ -255,7 +255,7 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
 
 
   // Evaluate
-  MetricType::MeasureType    valueReturn1;
+  MetricType::MeasureType valueReturn1;
   MetricType::DerivativeType derivativeReturn;
   ITK_TRY_EXPECT_NO_EXCEPTION(metric->GetValueAndDerivative(valueReturn1, derivativeReturn));
 
@@ -295,7 +295,7 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
 
   const PointSetType::Pointer pset(PointSetType::New());
 
-  unsigned int                                 ind = 0;
+  unsigned int ind = 0;
   itk::ImageRegionIteratorWithIndex<ImageType> It(fixedImage, fixedImage->GetLargestPossibleRegion());
   for (It.GoToBegin(); !It.IsAtEnd(); ++It)
   {
@@ -322,7 +322,7 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
   ITK_TRY_EXPECT_NO_EXCEPTION(metricSparse->Initialize());
 
 
-  MetricType::MeasureType    valueReturnSparse;
+  MetricType::MeasureType valueReturnSparse;
   MetricType::DerivativeType derivativeReturnSparse;
   ITK_TRY_EXPECT_NO_EXCEPTION(metricSparse->GetValueAndDerivative(valueReturnSparse, derivativeReturnSparse));
 

@@ -124,7 +124,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
           const typename TFixedImage::PointType fixPnt = this->m_FixedTransform->TransformPoint(pit.Value());
 
           typename TFixedImage::IndexType idx;
-          const bool                      isInside = this->m_FixedImage->TransformPhysicalPointToIndex(fixPnt, idx);
+          const bool isInside = this->m_FixedImage->TransformPhysicalPointToIndex(fixPnt, idx);
           if (isInside)
           {
             const typename TFixedImage::PixelType currValue = this->m_FixedImage->GetPixel(idx);
@@ -319,7 +319,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
   // Create aliases to make variable name intent more clear
   // At this point the multiple thread partial values have been merged into
   // the zero'th element of the m_ThreaderJointPDF and m_ThreaderFixedImageMarginalPDF.
-  const auto &                l_JointPDF = this->m_ThreaderJointPDF[0];
+  const auto & l_JointPDF = this->m_ThreaderJointPDF[0];
   std::vector<PDFValueType> & l_FixedImageMarginalPDF = this->m_ThreaderFixedImageMarginalPDF[0];
 
   /* FixedMarginalPDF         JointPDF
@@ -337,7 +337,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
   auto nomalize_labmda = [&normalizationFactor](const JointPDFValueType & c) -> JointPDFValueType {
     return c * normalizationFactor;
   };
-  const size_t        number_of_JointPDF_bins = this->m_NumberOfHistogramBins * this->m_NumberOfHistogramBins;
+  const size_t number_of_JointPDF_bins = this->m_NumberOfHistogramBins * this->m_NumberOfHistogramBins;
   JointPDFValueType * pdfPtr = l_JointPDF->GetBufferPointer();
   std::transform(pdfPtr, pdfPtr + number_of_JointPDF_bins, pdfPtr, nomalize_labmda);
   std::transform(
@@ -357,7 +357,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
   }
 
   static constexpr PDFValueType closeToZero = std::numeric_limits<PDFValueType>::epsilon();
-  const PDFValueType            nFactor = 1.0 / (this->m_MovingImageBinSize * this->GetNumberOfValidPoints());
+  const PDFValueType nFactor = 1.0 / (this->m_MovingImageBinSize * this->GetNumberOfValidPoints());
 
   const auto temp_num_histogram_bins = this->m_NumberOfHistogramBins;
   /**
@@ -380,7 +380,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
       for (unsigned int movingIndex = 0; movingIndex < temp_num_histogram_bins; ++movingIndex)
       {
         const PDFValueType & movingImageMarginalPDF = this->m_MovingImageMarginalPDF[movingIndex];
-        const PDFValueType   jointPDFValue = *(jointPDFRowPtr++); /* Get Value and goto next bin in row */
+        const PDFValueType jointPDFValue = *(jointPDFRowPtr++); /* Get Value and goto next bin in row */
 
         // check for non-zero bin contribution, if movingImageMarginalPDF <= closeToZero, then so is joinPDFValue
         if (movingImageMarginalPDF > closeToZero &&
@@ -459,13 +459,13 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
 {
   const ThreadIdType localNumberOfWorkUnitsUsed = this->GetNumberOfWorkUnitsUsed();
 
-  const SizeValueType       numberOfVoxels = this->m_NumberOfHistogramBins * this->m_NumberOfHistogramBins;
+  const SizeValueType numberOfVoxels = this->m_NumberOfHistogramBins * this->m_NumberOfHistogramBins;
   JointPDFValueType * const pdfPtrStart = this->m_ThreaderJointPDF[0]->GetBufferPointer();
 
   for (unsigned int t = 1; t < localNumberOfWorkUnitsUsed; ++t)
   {
-    JointPDFValueType *             pdfPtr = pdfPtrStart;
-    const JointPDFValueType *       tPdfPtr = this->m_ThreaderJointPDF[t]->GetBufferPointer();
+    JointPDFValueType * pdfPtr = pdfPtrStart;
+    const JointPDFValueType * tPdfPtr = this->m_ThreaderJointPDF[t]->GetBufferPointer();
     const JointPDFValueType * const tPdfPtrEnd = tPdfPtr + numberOfVoxels;
     while (tPdfPtr < tPdfPtrEnd)
     {
@@ -478,7 +478,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
   }
 
   // Sum of this threads domain into the this->m_JointPDFSum that covers that part of the domain.
-  const JointPDFValueType *          pdfPtr = pdfPtrStart;
+  const JointPDFValueType * pdfPtr = pdfPtrStart;
   CompensatedSummation<PDFValueType> jointPDFSum;
   for (SizeValueType i = 0; i < numberOfVoxels; ++i)
   {
@@ -553,9 +553,9 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
                                             TVirtualImage,
                                             TInternalComputationValueType,
                                             TMetricTraits>::DerivativeBufferManager ::
-  Initialize(size_t                                    maxBufferLength,
-             const size_t                              cachedNumberOfLocalParameters,
-             std::mutex *                              parentDerivativeMutexPtr,
+  Initialize(size_t maxBufferLength,
+             const size_t cachedNumberOfLocalParameters,
+             std::mutex * parentDerivativeMutexPtr,
              typename JointPDFDerivativesType::Pointer parentJointPDFDerivatives)
 {
   m_CurrentFillSize = 0;
@@ -678,10 +678,10 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
 
   while (bufferIndex < m_CurrentFillSize)
   {
-    const OffsetValueType          ThisIndexOffset = *BufferOffsetContainerIter;
+    const OffsetValueType ThisIndexOffset = *BufferOffsetContainerIter;
     JointPDFDerivativesValueType * derivPtr = this->m_ParentJointPDFDerivatives->GetBufferPointer() + ThisIndexOffset;
 
-    PDFValueType *             derivativeContribution = *BufferPDFValuesContainerIter;
+    PDFValueType * derivativeContribution = *BufferPDFValuesContainerIter;
     const PDFValueType * const endContribution = derivativeContribution + m_CachedNumberOfLocalParameters;
     while (derivativeContribution < endContribution)
     {

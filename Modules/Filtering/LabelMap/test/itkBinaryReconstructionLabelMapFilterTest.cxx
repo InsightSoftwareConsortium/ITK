@@ -89,7 +89,7 @@ itkBinaryReconstructionLabelMapFilterTest(int argc, char * argv[])
   std::set<AttributeValueType> attributeSet;
   attributeSet.insert(attribute);
   opening->SetAttributeSet(attributeSet);
-  auto             obtainedAttributeSet = opening->GetAttributeSet();
+  auto obtainedAttributeSet = opening->GetAttributeSet();
   std::vector<int> diff;
   std::set_difference(attributeSet.begin(),
                       attributeSet.end(),

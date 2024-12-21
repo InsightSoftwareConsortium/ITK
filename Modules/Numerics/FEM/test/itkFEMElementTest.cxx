@@ -44,9 +44,9 @@ itkFEMElementTest(int argc, char * argv[])
 
   // Storage for list of or user-specified input file(s)
   char ** filelist;
-  char    buffer[80] = { '\0' };
-  int     numfiles = 0;
-  char *  fname;
+  char buffer[80] = { '\0' };
+  int numfiles = 0;
+  char * fname;
 
   // Solvers being tested
   int numsolvers = 3;
@@ -144,8 +144,8 @@ itkFEMElementTest(int argc, char * argv[])
 
   // Open a file handle & associate it with the input file
   std::string modelFile = itksys::SystemTools::GetFilenameName(fname);
-  double *    expectedSolution = nullptr;
-  double      tolerance;
+  double * expectedSolution = nullptr;
+  double tolerance;
 
   f.open(fname, std::ios::binary);
   if (!f)
@@ -173,8 +173,8 @@ itkFEMElementTest(int argc, char * argv[])
     // Declare and initialize linear system wrapper objects
 
     itk::fem::LinearSystemWrapperDenseVNL lsw_dvnl;
-    itk::fem::LinearSystemWrapperItpack   lsw_itpack;
-    itk::fem::LinearSystemWrapperVNL      lsw_vnl;
+    itk::fem::LinearSystemWrapperItpack lsw_itpack;
+    itk::fem::LinearSystemWrapperVNL lsw_vnl;
     for (s = 0; s < numsolvers; ++s)
     {
       if (s == 2)
@@ -549,7 +549,7 @@ CheckDisplacements(itk::fem::Solver & S, int s, char comment, double * expectedR
 // Prints the components of the problem for debugging/reporting purposes
 {
   std::cout << std::endl << comment << "Check Displacements: " << std::endl;
-  int  index = 0;
+  int index = 0;
   bool foundError = false;
 
   std::cout << std::endl << comment << "NodeArray: " << std::endl;

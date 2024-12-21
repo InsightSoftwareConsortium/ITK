@@ -43,8 +43,8 @@ GetClampTypeName()
   std::string name;
 #ifdef GCC_USEDEMANGLE
   const char * mangledName = typeid(T).name();
-  int          status;
-  char *       unmangled = abi::__cxa_demangle(mangledName, nullptr, nullptr, &status);
+  int status;
+  char * unmangled = abi::__cxa_demangle(mangledName, nullptr, nullptr, &status);
   name = unmangled;
   free(unmangled);
 #else
@@ -69,7 +69,7 @@ TestClampFromTo()
   const typename InputImageType::SizeType randomSize = { { 18, 17, 23 } };
   source->SetSize(randomSize);
   source->UpdateLargestPossibleRegion();
-  auto                                sourceCopy = InputImageType::New();
+  auto sourceCopy = InputImageType::New();
   typename InputImageType::RegionType region;
   region.SetSize(randomSize);
   sourceCopy->SetRegions(region);
@@ -90,7 +90,7 @@ TestClampFromTo()
   using InputIteratorType = itk::ImageRegionConstIterator<InputImageType>;
   using OutputIteratorType = itk::ImageRegionConstIterator<OutputImageType>;
 
-  InputIteratorType  it(sourceCopy, sourceCopy->GetLargestPossibleRegion());
+  InputIteratorType it(sourceCopy, sourceCopy->GetLargestPossibleRegion());
   OutputIteratorType ot(filter->GetOutput(), filter->GetOutput()->GetLargestPossibleRegion());
 
   bool success = true;
@@ -104,7 +104,7 @@ TestClampFromTo()
   constexpr auto expectedMax = static_cast<double>(itk::NumericTraits<TOutputPixelType>::max());
   while (!it.IsAtEnd())
   {
-    const TInputPixelType  inValue = it.Value();
+    const TInputPixelType inValue = it.Value();
     const TOutputPixelType outValue = ot.Value();
 
     const auto dInValue = static_cast<double>(inValue);
@@ -182,7 +182,7 @@ TestClampFromToWithCustomBounds()
   const typename InputImageType::SizeType randomSize = { { 18, 17, 23 } };
   source->SetSize(randomSize);
   source->UpdateLargestPossibleRegion();
-  auto                                sourceCopy = InputImageType::New();
+  auto sourceCopy = InputImageType::New();
   typename InputImageType::RegionType region;
   region.SetSize(randomSize);
   sourceCopy->SetRegions(region);
@@ -203,7 +203,7 @@ TestClampFromToWithCustomBounds()
   using InputIteratorType = itk::ImageRegionConstIterator<InputImageType>;
   using OutputIteratorType = itk::ImageRegionConstIterator<OutputImageType>;
 
-  InputIteratorType  it(sourceCopy, sourceCopy->GetLargestPossibleRegion());
+  InputIteratorType it(sourceCopy, sourceCopy->GetLargestPossibleRegion());
   OutputIteratorType ot(filter->GetOutput(), filter->GetOutput()->GetLargestPossibleRegion());
 
   bool success = true;
@@ -215,11 +215,11 @@ TestClampFromToWithCustomBounds()
   ot.GoToBegin();
   while (!it.IsAtEnd())
   {
-    TInputPixelType  inValue = it.Value();
+    TInputPixelType inValue = it.Value();
     TOutputPixelType outValue = ot.Value();
     TOutputPixelType expectedValue;
 
-    auto         dInValue = static_cast<double>(inValue);
+    auto dInValue = static_cast<double>(inValue);
     const double expectedMin = filter->GetLowerBound();
     const double expectedMax = filter->GetUpperBound();
 

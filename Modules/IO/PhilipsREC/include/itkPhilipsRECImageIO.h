@@ -159,7 +159,7 @@ private:
   GetSliceIndex(IndexValueType index) const;
 
   SliceIndexType * m_SliceIndex{};
-  IOByteOrderEnum  m_MachineByteOrder{};
+  IOByteOrderEnum m_MachineByteOrder{};
 };
 } // end namespace itk
 

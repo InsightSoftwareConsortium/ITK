@@ -77,8 +77,8 @@ main(int, char *[])
   // Software Guide : BeginCodeSnippet
   PointSetType::PixelType pixel;
   PointSetType::PointType point;
-  unsigned int            pointId = 0;
-  constexpr double        radius = 3.0;
+  unsigned int pointId = 0;
+  constexpr double radius = 3.0;
 
   for (unsigned int i = 0; i < 360; ++i)
   {
@@ -108,7 +108,7 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   using PointIterator = PointSetType::PointsContainer::ConstIterator;
-  PointIterator       pointIterator = pointSet->GetPoints()->Begin();
+  PointIterator pointIterator = pointSet->GetPoints()->Begin();
   const PointIterator pointEnd = pointSet->GetPoints()->End();
   while (pointIterator != pointEnd)
   {
@@ -142,7 +142,7 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   using PointDataIterator = PointSetType::PointDataContainer::ConstIterator;
-  PointDataIterator       pixelIterator = pointSet->GetPointData()->Begin();
+  PointDataIterator pixelIterator = pointSet->GetPointData()->Begin();
   const PointDataIterator pixelEnd = pointSet->GetPointData()->End();
   while (pixelIterator != pixelEnd)
   {

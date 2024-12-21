@@ -119,7 +119,7 @@ public:
   /** Compute the equation value with the additional shape prior term. */
   PixelType
   ComputeUpdate(const NeighborhoodType & neighborhood,
-                void *                   gd,
+                void * gd,
                 const FloatOffsetType & = FloatOffsetType(0.0)) override;
 
   /** Compute global time step from the global data structure. */
@@ -162,7 +162,7 @@ protected:
 
 private:
   ShapeFunctionPointer m_ShapeFunction{};
-  ScalarValueType      m_ShapePriorWeight{};
+  ScalarValueType m_ShapePriorWeight{};
 };
 } // end namespace itk
 

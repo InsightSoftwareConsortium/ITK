@@ -124,7 +124,7 @@ itkImageFunctionTest(int, char *[])
 
   auto image = ImageType::New();
 
-  auto     start = IndexType::Filled(1);
+  auto start = IndexType::Filled(1);
   SizeType size;
   size[0] = 3;
   size[1] = 4;
@@ -139,8 +139,8 @@ itkImageFunctionTest(int, char *[])
 
   /* Test SetInputImage & Accessors */
   function->SetInputImage(image);
-  const IndexType &                         endIndex = function->GetEndIndex();
-  const IndexType &                         startIndex = function->GetStartIndex();
+  const IndexType & endIndex = function->GetEndIndex();
+  const IndexType & startIndex = function->GetStartIndex();
   const FunctionType::ContinuousIndexType & endIndexC = function->GetEndContinuousIndex();
   const FunctionType::ContinuousIndexType & startIndexC = function->GetStartContinuousIndex();
 

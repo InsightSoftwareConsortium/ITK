@@ -26,7 +26,7 @@ namespace itk
 template <typename TTermContainer>
 void
 LevelSetEquationContainer<TTermContainer>::AddEquation(const LevelSetIdentifierType & iId,
-                                                       TermContainerType *            iEquation)
+                                                       TermContainerType * iEquation)
 {
   if (iEquation)
   {

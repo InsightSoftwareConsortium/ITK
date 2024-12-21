@@ -41,7 +41,7 @@ GetFirstPixelFromFilterOutput(const TPixel inputPixel)
 {
   using ImageType = itk::Image<TPixel>;
 
-  const auto                         image = ImageType::New();
+  const auto image = ImageType::New();
   const typename ImageType::SizeType imageSize = { { 1, 1 } };
   image->SetRegions(imageSize);
   image->Allocate();
@@ -65,7 +65,7 @@ TestThrowErrorOnEmptyResampleSpace(const TPixel inputPixel, const bool setUseRef
 {
   using ImageType = itk::Image<TPixel>;
 
-  const auto                         image = ImageType::New();
+  const auto image = ImageType::New();
   const typename ImageType::SizeType imageSize = { { 1, 1 } };
   image->SetRegions(imageSize);
   image->Allocate();

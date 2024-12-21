@@ -103,8 +103,8 @@ public:
   DistanceToLine(const VectorType & x,
                  const VectorType & p1,
                  const VectorType & p2,
-                 Float &            t,
-                 VectorType &       closestPoint) const;
+                 Float & t,
+                 VectorType & closestPoint) const;
 
 protected:
   void

@@ -116,9 +116,9 @@ GaussianSpatialObject<TDimension>::ComputeMyBoundingBox()
 
 template <unsigned int TDimension>
 bool
-GaussianSpatialObject<TDimension>::ValueAtInObjectSpace(const PointType &   point,
-                                                        double &            value,
-                                                        unsigned int        depth,
+GaussianSpatialObject<TDimension>::ValueAtInObjectSpace(const PointType & point,
+                                                        double & value,
+                                                        unsigned int depth,
                                                         const std::string & name) const
 {
   itkDebugMacro("Getting the value of the ellipse at " << point);

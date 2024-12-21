@@ -28,7 +28,7 @@ int
 itkComplexConjugateImageAdaptorTest(int, char *[])
 {
   // Create a test image.
-  auto                          image = ImageType::New();
+  auto image = ImageType::New();
   constexpr ImageType::SizeType size = { { 10, 10 } };
   image->SetRegions(size);
   image->Allocate();
@@ -39,7 +39,7 @@ itkComplexConjugateImageAdaptorTest(int, char *[])
   itk::ImageRegionIterator<ImageType> iter(image, region);
   for (iter.GoToBegin(); !iter.IsAtEnd(); ++iter)
   {
-    auto            randMax = static_cast<float>(RAND_MAX);
+    auto randMax = static_cast<float>(RAND_MAX);
     const PixelType pixel(static_cast<float>(rand()) / randMax, static_cast<float>(rand()) / randMax);
     iter.Set(pixel);
   }
@@ -51,7 +51,7 @@ itkComplexConjugateImageAdaptorTest(int, char *[])
   adaptor->SetImage(image);
 
   // Iterate over the pixels and check the functioning of the adaptor.
-  itk::ImageRegionIterator<ImageType>   iterA(image, region);
+  itk::ImageRegionIterator<ImageType> iterA(image, region);
   itk::ImageRegionIterator<AdaptorType> iterB(adaptor, region);
 
   for (iterA.GoToBegin(), iterB.GoToBegin(); !iterA.IsAtEnd(); ++iterA, ++iterB)

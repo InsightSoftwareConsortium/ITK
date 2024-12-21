@@ -69,7 +69,7 @@ itkOtsuThresholdCalculatorVersusOtsuMultipleThresholdsCalculatorTest(int argc, c
   otsuMultipleCalculator->SetNumberOfThresholds(numberOfThresholds);
 
   static constexpr int binsArray[] = { 4, 8, 16, 32, 64, 128, 256, 512, 1024 };
-  std::vector<int>     binsVector(binsArray, binsArray + sizeof(binsArray) / sizeof(binsArray[0]));
+  std::vector<int> binsVector(binsArray, binsArray + sizeof(binsArray) / sizeof(binsArray[0]));
   for (const auto & binsIterator : binsVector)
   {
     histogramGenerator->SetNumberOfBins(binsIterator);

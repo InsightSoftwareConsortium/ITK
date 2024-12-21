@@ -52,7 +52,7 @@ Hessian3DToVesselnessMeasureImageFilter<TPixel>::GenerateData()
   const typename EigenValueOutputImageType::ConstPointer eigenImage = m_SymmetricEigenValueFilter->GetOutput();
 
   // walk the region of eigen values and get the vesselness measure
-  EigenValueArrayType                                 eigenValue;
+  EigenValueArrayType eigenValue;
   ImageRegionConstIterator<EigenValueOutputImageType> it =
     ImageRegionConstIterator<EigenValueOutputImageType>(eigenImage, eigenImage->GetRequestedRegion());
   ImageRegionIterator<OutputImageType> oit;

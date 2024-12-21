@@ -106,7 +106,7 @@ template <typename TParametersValueType, unsigned int VDimension>
 auto
 ScaleTransform<TParametersValueType, VDimension>::TransformPoint(const InputPointType & point) const -> OutputPointType
 {
-  OutputPointType        result;
+  OutputPointType result;
   const InputPointType & center = this->GetCenter();
 
   for (unsigned int i = 0; i < SpaceDimension; ++i)
@@ -201,7 +201,7 @@ ScaleTransform<TParametersValueType, VDimension>::SetIdentity()
 template <typename TParametersValueType, unsigned int VDimension>
 void
 ScaleTransform<TParametersValueType, VDimension>::ComputeJacobianWithRespectToParameters(const InputPointType & p,
-                                                                                         JacobianType &         j) const
+                                                                                         JacobianType & j) const
 {
   j.SetSize(SpaceDimension, this->GetNumberOfLocalParameters());
   j.Fill(0.0);
@@ -257,7 +257,7 @@ template <typename TParametersValueType, unsigned int VDimension>
 inline auto
 ScaleTransform<TParametersValueType, VDimension>::BackTransform(const OutputPointType & point) const -> InputPointType
 {
-  InputPointType         result;
+  InputPointType result;
   const InputPointType & center = this->GetCenter();
 
   for (unsigned int i = 0; i < SpaceDimension; ++i)

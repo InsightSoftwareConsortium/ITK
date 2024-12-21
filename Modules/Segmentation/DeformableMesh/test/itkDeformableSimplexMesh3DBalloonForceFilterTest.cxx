@@ -52,10 +52,10 @@ itkDeformableSimplexMesh3DBalloonForceFilterTest(int argc, char * argv[])
   // declare the triangle to simplex mesh filter
   using SimplexFilterType = itk::TriangleMeshToSimplexMeshFilter<TriangleMeshType, SimplexMeshType>;
 
-  auto                 mySphereMeshSource = SphereMeshSourceType::New();
-  auto                 center = itk::MakeFilled<PointType>(10);
+  auto mySphereMeshSource = SphereMeshSourceType::New();
+  auto center = itk::MakeFilled<PointType>(10);
   PointType::ValueType scaleInit[3] = { 3, 3, 3 };
-  const VectorType     scale = scaleInit;
+  const VectorType scale = scaleInit;
 
   mySphereMeshSource->SetCenter(center);
   mySphereMeshSource->SetResolution(2);

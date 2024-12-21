@@ -37,7 +37,7 @@ MapRecord::Reset()
 /* SmapsRecord implementation */
 
 ITKCommon_EXPORT std::istream &
-                 operator>>(std::istream & in, SmapsRecord & record)
+operator>>(std::istream & in, SmapsRecord & record)
 {
   record.Reset();
 
@@ -90,7 +90,7 @@ ITKCommon_EXPORT std::istream &
       std::getline(stream, record.m_RecordName);
     }
 
-    std::string    token;
+    std::string token;
     std::streampos lastPos = in.tellg();
     // a token is defined with the following expression: "token: N kB"
     while (std::getline(in, token, ':').good())
@@ -122,7 +122,7 @@ ITKCommon_EXPORT std::istream &
 }
 
 ITKCommon_EXPORT std::istream &
-                 operator>>(std::istream & in, VMMapSummaryRecord & record)
+operator>>(std::istream & in, VMMapSummaryRecord & record)
 {
   record.Reset();
 
@@ -194,7 +194,7 @@ ITKCommon_EXPORT std::istream &
  */
 
 ITKCommon_EXPORT std::istream &
-                 operator>>(std::istream & in, VMMapRecord & record)
+operator>>(std::istream & in, VMMapRecord & record)
 {
   record.Reset();
   bool submapFound = false;
@@ -341,7 +341,7 @@ struct MapRecordConditionalPlusor
     return first;
   }
 
-  std::string  m_Filter;
+  std::string m_Filter;
   const char * m_Token;
 };
 

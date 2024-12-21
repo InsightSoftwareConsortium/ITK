@@ -45,7 +45,7 @@ ZeroCrossingImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
-  const typename Superclass::InputImagePointer  inputPtr = const_cast<TInputImage *>(this->GetInput());
+  const typename Superclass::InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput());
   const typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
 
   if (!inputPtr || !outputPtr)
@@ -91,18 +91,18 @@ void
 ZeroCrossingImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread)
 {
-  const typename OutputImageType::Pointer     output = this->GetOutput();
+  const typename OutputImageType::Pointer output = this->GetOutput();
   const typename InputImageType::ConstPointer input = this->GetInput();
 
   // Calculate iterator radius
   static constexpr auto radius = Size<ImageDimension>::Filled(1);
 
   // Find the data-set boundary "faces"
-  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>                        bC;
+  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage> bC;
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>::FaceListType faceList =
     bC(input, outputRegionForThread, radius);
 
-  TotalProgressReporter         progress(this, output->GetRequestedRegion().GetNumberOfPixels());
+  TotalProgressReporter progress(this, output->GetRequestedRegion().GetNumberOfPixels());
   constexpr InputImagePixelType zero{};
 
   ConstNeighborhoodIterator<TInputImage> bit =
@@ -125,8 +125,8 @@ ZeroCrossingImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
     bit.OverrideBoundaryCondition(&nbc);
     bit.GoToBegin();
 
-    static constexpr SizeValueType    neighborhoodSize = Math::UnsignedPower(3, ImageDimension);
-    static constexpr SizeValueType    center = neighborhoodSize / 2;
+    static constexpr SizeValueType neighborhoodSize = Math::UnsignedPower(3, ImageDimension);
+    static constexpr SizeValueType center = neighborhoodSize / 2;
     ImageRegionIterator<TOutputImage> it = ImageRegionIterator<OutputImageType>(output, face);
     while (!bit.IsAtEnd())
     {

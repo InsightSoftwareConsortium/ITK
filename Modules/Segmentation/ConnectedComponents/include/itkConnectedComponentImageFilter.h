@@ -198,7 +198,7 @@ protected:
 
 private:
   OutputPixelType m_BackgroundValue{};
-  LabelType       m_ObjectCount = 0;
+  LabelType m_ObjectCount = 0;
 
   typename TInputImage::ConstPointer m_Input{};
 };

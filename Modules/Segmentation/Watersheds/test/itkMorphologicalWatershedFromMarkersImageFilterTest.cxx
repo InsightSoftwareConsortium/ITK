@@ -74,7 +74,7 @@ itkMorphologicalWatershedFromMarkersImageFilterTest(int argc, char * argv[])
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
-  ImageType::RegionType           region = reader->GetOutput()->GetLargestPossibleRegion();
+  ImageType::RegionType region = reader->GetOutput()->GetLargestPossibleRegion();
   ImageType::RegionType::SizeType size = region.GetSize();
   for (unsigned int i = 0; i < size.GetSizeDimension(); ++i)
   {

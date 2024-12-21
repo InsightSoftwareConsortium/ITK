@@ -108,9 +108,9 @@ public:
         const VectorType & iBx,
         const VectorType & iBy,
         const VectorType & iBz,
-        VectorType &       oX,
-        VectorType &       oY,
-        VectorType &       oZ)
+        VectorType & oX,
+        VectorType & oY,
+        VectorType & oZ)
   {
     bool result1 = Solve(iA, iBx, 100000, oX);
     bool result2 = Solve(iA, iBy, 100000, oY);

@@ -45,7 +45,7 @@ CovarianceImageFunction<TInputImage, TCoordinate>::EvaluateAtIndex(const IndexTy
   }
 
   const unsigned int VectorDimension = this->GetInputImage()->GetNumberOfComponentsPerPixel();
-  RealType           covariance(VectorDimension, VectorDimension);
+  RealType covariance(VectorDimension, VectorDimension);
 
   if (!this->IsInsideBuffer(index))
   {

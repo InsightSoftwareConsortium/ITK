@@ -34,10 +34,10 @@ LevelSetEquationChanAndVeseExternalTerm<TInput, TLevelSetContainer>::LevelSetEqu
 template <typename TInput, typename TLevelSetContainer>
 void
 LevelSetEquationChanAndVeseExternalTerm<TInput, TLevelSetContainer>::ComputeProduct(const LevelSetInputIndexType & iP,
-                                                                                    LevelSetOutputRealType &       prod)
+                                                                                    LevelSetOutputRealType & prod)
 {
   this->ComputeProductTerm(iP, prod);
-  const LevelSetPointer        levelSet = this->m_LevelSetContainer->GetLevelSet(this->m_CurrentLevelSetId);
+  const LevelSetPointer levelSet = this->m_LevelSetContainer->GetLevelSet(this->m_CurrentLevelSetId);
   const LevelSetOutputRealType value = levelSet->Evaluate(iP);
   prod *= -(1 - this->m_Heaviside->Evaluate(-value));
 }
@@ -46,7 +46,7 @@ template <typename TInput, typename TLevelSetContainer>
 void
 LevelSetEquationChanAndVeseExternalTerm<TInput, TLevelSetContainer>::ComputeProductTerm(
   const LevelSetInputIndexType & iP,
-  LevelSetOutputRealType &       prod)
+  LevelSetOutputRealType & prod)
 {
   prod = -1 * NumericTraits<LevelSetOutputRealType>::OneValue();
 
@@ -61,14 +61,14 @@ LevelSetEquationChanAndVeseExternalTerm<TInput, TLevelSetContainer>::ComputeProd
 
     using DomainMapType = typename DomainMapImageFilterType::DomainMapType;
     const DomainMapType domainMap = this->m_DomainMapImageFilter->GetDomainMap();
-    auto                levelSetMapItr = domainMap.find(id);
+    auto levelSetMapItr = domainMap.find(id);
 
     if (levelSetMapItr != domainMap.end())
     {
       const IdListType * idList = levelSetMapItr->second.GetIdList();
 
       LevelSetIdentifierType kk;
-      LevelSetPointer        levelSet;
+      LevelSetPointer levelSet;
       LevelSetOutputRealType value;
 
       auto idListIt = idList->begin();
@@ -89,7 +89,7 @@ LevelSetEquationChanAndVeseExternalTerm<TInput, TLevelSetContainer>::ComputeProd
   else
   {
     LevelSetIdentifierType kk;
-    LevelSetPointer        levelSet;
+    LevelSetPointer levelSet;
     LevelSetOutputRealType value;
 
     typename LevelSetContainerType::Iterator lsIt = this->m_LevelSetContainer->Begin();

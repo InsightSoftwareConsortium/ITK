@@ -144,15 +144,15 @@ itkLabelStatisticsImageFilterTest(int argc, char * argv[])
     }
 
 
-    const RealType        min = filter->GetMinimum(labelValue);
-    const RealType        max = filter->GetMaximum(labelValue);
-    const RealType        median = filter->GetMedian(labelValue);
-    const RealType        mean = filter->GetMean(labelValue);
-    const RealType        sigma = filter->GetSigma(labelValue);
-    const RealType        variance = filter->GetVariance(labelValue);
-    const RealType        sum = filter->GetSum(labelValue);
+    const RealType min = filter->GetMinimum(labelValue);
+    const RealType max = filter->GetMaximum(labelValue);
+    const RealType median = filter->GetMedian(labelValue);
+    const RealType mean = filter->GetMean(labelValue);
+    const RealType sigma = filter->GetSigma(labelValue);
+    const RealType variance = filter->GetVariance(labelValue);
+    const RealType sum = filter->GetSum(labelValue);
     const BoundingBoxType box = filter->GetBoundingBox(labelValue);
-    const RegionType      region = filter->GetRegion(labelValue);
+    const RegionType region = filter->GetRegion(labelValue);
 
     std::cout << "Minimum   = " << min << std::endl;
     std::cout << "Maximum   = " << max << std::endl;

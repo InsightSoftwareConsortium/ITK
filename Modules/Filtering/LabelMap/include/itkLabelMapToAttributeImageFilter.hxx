@@ -63,9 +63,9 @@ LabelMapToAttributeImageFilter<TInputImage, TOutputImage, TAttributeAccessor>::G
 {
   // Allocate the output
   this->AllocateOutputs();
-  OutputImageType *      output = this->GetOutput();
+  OutputImageType * output = this->GetOutput();
   const InputImageType * input = this->GetInput();
-  ProgressReporter       progress(this, 0, output->GetRequestedRegion().GetNumberOfPixels());
+  ProgressReporter progress(this, 0, output->GetRequestedRegion().GetNumberOfPixels());
 
   const AttributeAccessorType accessor;
 
@@ -74,7 +74,7 @@ LabelMapToAttributeImageFilter<TInputImage, TOutputImage, TAttributeAccessor>::G
   for (typename InputImageType::ConstIterator loit(input); !loit.IsAtEnd(); ++loit)
   {
     using LabelObjectType = typename InputImageType::LabelObjectType;
-    const LabelObjectType *    labelObject = loit.GetLabelObject();
+    const LabelObjectType * labelObject = loit.GetLabelObject();
     const AttributeValueType & attribute = accessor(labelObject);
 
     typename LabelObjectType::ConstIndexIterator it(labelObject);
@@ -92,7 +92,7 @@ LabelMapToAttributeImageFilter<TInputImage, TOutputImage, TAttributeAccessor>::G
 template <typename TInputImage, typename TOutputImage, typename TAttributeAccessor>
 void
 LabelMapToAttributeImageFilter<TInputImage, TOutputImage, TAttributeAccessor>::PrintSelf(std::ostream & os,
-                                                                                         Indent         indent) const
+                                                                                         Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

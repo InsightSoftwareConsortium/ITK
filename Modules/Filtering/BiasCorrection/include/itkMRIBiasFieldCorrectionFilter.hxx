@@ -81,7 +81,7 @@ MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>::GetValue(const Parameters
 
   if (m_SamplingFactor[0] == 1 && m_SamplingFactor[1] == 1 && m_SamplingFactor[2] == 1)
   {
-    ImageRegionIterator<ImageType>             iIter(m_Image, m_Region);
+    ImageRegionIterator<ImageType> iIter(m_Image, m_Region);
     typename TBiasField::SimpleForwardIterator bIter(m_BiasField);
 
     bIter.Begin();
@@ -118,9 +118,9 @@ MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>::GetValue(const Parameters
   }
   else
   {
-    typename ImageType::IndexType  origIndex = m_Region.GetIndex();
+    typename ImageType::IndexType origIndex = m_Region.GetIndex();
     typename TBiasField::IndexType indexBias(SpaceDimension);
-    typename ImageType::SizeType   size = m_Region.GetSize();
+    typename ImageType::SizeType size = m_Region.GetSize();
     // Use indexing for incomplete sampling
 
     if (!m_Mask)
@@ -426,13 +426,13 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::Initialize(
 template <typename TInputImage, typename TOutputImage, typename TMaskImage>
 auto
 MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::EstimateBiasField(InputImageRegionType region,
-                                                                                       unsigned int         degree,
+                                                                                       unsigned int degree,
                                                                                        int maximumIteration)
   -> BiasFieldType
 {
   itkDebugMacro("Estimating bias field ");
 
-  bool                          cleanCoeffs = false;
+  bool cleanCoeffs = false;
   BiasFieldType::DomainSizeType biasSize;
   this->GetBiasFieldSize(region, biasSize);
   BiasFieldType bias(static_cast<unsigned int>(biasSize.size()), degree, biasSize);
@@ -489,7 +489,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::EstimateBia
   scales.Fill(100);
   optimizer->SetScales(scales);
 
-  const int                                   noOfBiasFieldCoefficients = bias.GetNumberOfCoefficients();
+  const int noOfBiasFieldCoefficients = bias.GetNumberOfCoefficients();
   typename EnergyFunctionType::ParametersType initialPosition(noOfBiasFieldCoefficients);
   for (int i = 0; i < noOfBiasFieldCoefficients; ++i)
   {
@@ -531,13 +531,13 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::EstimateBia
 
 template <typename TInputImage, typename TOutputImage, typename TMaskImage>
 void
-MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::CorrectImage(BiasFieldType &      bias,
+MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::CorrectImage(BiasFieldType & bias,
                                                                                   InputImageRegionType region)
 {
   itkDebugMacro("Correcting the image ");
   using Pixel = InternalImagePixelType;
   ImageRegionIterator<InternalImageType> iIter(m_InternalInput, region);
-  BiasFieldType::SimpleForwardIterator   bIter(&bias);
+  BiasFieldType::SimpleForwardIterator bIter(&bias);
 
   BiasFieldType::DomainSizeType biasSize;
   this->GetBiasFieldSize(region, biasSize);
@@ -586,12 +586,12 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::CorrectInte
   const IndexValueType lastSlice =
     region.GetIndex()[m_SlicingDirection] + static_cast<IndexValueType>(region.GetSize()[m_SlicingDirection]);
   InputImageRegionType sliceRegion;
-  InputImageIndexType  index = region.GetIndex();
-  InputImageSizeType   size = region.GetSize();
+  InputImageIndexType index = region.GetIndex();
+  InputImageSizeType size = region.GetSize();
 
   sliceRegion.SetSize(size);
   BiasFieldType bias = this->EstimateBiasField(sliceRegion, 0, m_InterSliceCorrectionMaximumIteration);
-  const double  globalBiasCoef = bias.GetCoefficients()[0];
+  const double globalBiasCoef = bias.GetCoefficients()[0];
 
   size[m_SlicingDirection] = 1;
   sliceRegion.SetSize(size);
@@ -649,7 +649,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::GenerateDat
   this->GetBiasFieldSize(*iter, biasSize);
   BiasFieldType bias(static_cast<unsigned int>(biasSize.size()), m_BiasFieldDegree, biasSize);
 
-  const int           nCoef = bias.GetNumberOfCoefficients();
+  const int nCoef = bias.GetNumberOfCoefficients();
   std::vector<double> lastBiasCoef;
   lastBiasCoef.resize(nCoef);
   for (int i = 0; i < nCoef; ++i)
@@ -830,11 +830,11 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::ExpImage(In
 template <typename TInputImage, typename TOutputImage, typename TMaskImage>
 void
 MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::GetBiasFieldSize(
-  InputImageRegionType            region,
+  InputImageRegionType region,
   BiasFieldType::DomainSizeType & biasSize)
 {
   InputImageSizeType size = region.GetSize();
-  int                biasDim = 0;
+  int biasDim = 0;
   for (unsigned int dim = 0; dim < ImageDimension; ++dim)
   {
     if (size[dim] > 1)
@@ -860,10 +860,10 @@ template <typename TInputImage, typename TOutputImage, typename TMaskImage>
 void
 MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::AdjustSlabRegions(
   SlabRegionVectorType & slabs,
-  OutputImageRegionType  requestedRegion)
+  OutputImageRegionType requestedRegion)
 {
   OutputImageIndexType indexFirst = requestedRegion.GetIndex();
-  OutputImageSizeType  size = requestedRegion.GetSize();
+  OutputImageSizeType size = requestedRegion.GetSize();
   OutputImageIndexType indexLast = indexFirst;
 
   for (SizeValueType i = 0; i < ImageDimension; ++i)
@@ -875,7 +875,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::AdjustSlabR
   const IndexValueType coordLast = indexLast[m_SlicingDirection];
 
 
-  OutputImageSizeType  tempSize = size;
+  OutputImageSizeType tempSize = size;
   OutputImageIndexType tempIndex = indexFirst;
 
   auto iter = slabs.begin();

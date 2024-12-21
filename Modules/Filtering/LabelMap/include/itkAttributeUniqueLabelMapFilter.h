@@ -121,7 +121,7 @@ private:
       this->line = l;
       this->labelObject = lo;
     }
-    LineType          line;
+    LineType line;
     LabelObjectType * labelObject;
   };
 

@@ -35,8 +35,8 @@ itkImageFileWriterTest2(int argc, char * argv[])
 
   auto image = ImageNDType::New();
 
-  auto                          size = itk::MakeFilled<ImageNDType::SizeType>(5);
-  auto                          index = itk::MakeFilled<ImageNDType::IndexType>(1);
+  auto size = itk::MakeFilled<ImageNDType::SizeType>(5);
+  auto index = itk::MakeFilled<ImageNDType::IndexType>(1);
   const ImageNDType::RegionType region{ index, size };
 
   image->SetRegions(region);
@@ -49,8 +49,8 @@ itkImageFileWriterTest2(int argc, char * argv[])
   std::cout << "Original Origin: " << image->GetOrigin() << std::endl;
 
   ImageNDType::PointType readPoint;
-  auto                   writer = WriterType::New();
-  auto                   reader = ReaderType::New();
+  auto writer = WriterType::New();
+  auto reader = ReaderType::New();
   try
   {
     writer->SetInput(image);

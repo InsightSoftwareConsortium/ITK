@@ -76,7 +76,7 @@ runGPUGradientAnisotropicDiffusionImageFilterTest(const std::string & inFile, co
 
   for (unsigned int idx = 0; idx < nThreadVec.size(); ++idx)
   {
-    int            numberOfWorkUnits = nThreadVec[idx];
+    int numberOfWorkUnits = nThreadVec[idx];
     itk::TimeProbe cputimer;
     cputimer.Start();
 
@@ -135,8 +135,8 @@ runGPUGradientAnisotropicDiffusionImageFilterTest(const std::string & inFile, co
       // RMS Error check
       // ---------------
 
-      double                                    diff = 0;
-      unsigned int                              nPix = 0;
+      double diff = 0;
+      unsigned int nPix = 0;
       itk::ImageRegionIterator<OutputImageType> cit(CPUFilter->GetOutput(),
                                                     CPUFilter->GetOutput()->GetLargestPossibleRegion());
       itk::ImageRegionIterator<OutputImageType> git(GPUFilter->GetOutput(),

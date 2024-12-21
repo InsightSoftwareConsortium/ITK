@@ -67,7 +67,7 @@ itkGeometricalQuadEdgeTest1(int, char *[])
 
   { // Define a local scope for testing constructors
 
-    DualQuadEdgeType   dummyQuadEdge1; // test constructor
+    DualQuadEdgeType dummyQuadEdge1;   // test constructor
     PrimalQuadEdgeType dummyQuadEdge2; // test constructor
 
     dummyQuadEdge1.SetRot(&dummyQuadEdge2); // Test SetRot()

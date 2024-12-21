@@ -166,11 +166,11 @@ public:
 
   /** Set Writer parameters. */
   void
-  SetWriterParameters(TemporalRatioType                  framesPerSecond,
+  SetWriterParameters(TemporalRatioType framesPerSecond,
                       const std::vector<SizeValueType> & dim,
-                      const char *                       fourCC,
-                      unsigned int                       nChannels,
-                      IOComponentEnum                    componentType) override;
+                      const char * fourCC,
+                      unsigned int nChannels,
+                      IOComponentEnum componentType) override;
 
 protected:
   FileListVideoIO();

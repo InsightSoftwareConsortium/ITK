@@ -73,8 +73,8 @@ protected:
   CreateNarrowBand() override
   {
     // Create a band
-    typename ImageType::SizeType   sz = this->GetInput()->GetRequestedRegion().GetSize();
-    typename ImageType::IndexType  tl = this->GetInput()->GetRequestedRegion().GetIndex();
+    typename ImageType::SizeType sz = this->GetInput()->GetRequestedRegion().GetSize();
+    typename ImageType::IndexType tl = this->GetInput()->GetRequestedRegion().GetIndex();
     typename Superclass::IndexType in;
 
     for (in[0] = 32 + tl[0]; in[0] < tl[0] + static_cast<long>(sz[0]); in[0]++)
@@ -95,7 +95,7 @@ template <typename TPoint>
 double
 SimpleSignedDistance(const TPoint & p)
 {
-  auto             center = itk::MakeFilled<TPoint>(32);
+  auto center = itk::MakeFilled<TPoint>(32);
   constexpr double radius = 19.5;
 
   double accum = 0.0;
@@ -125,9 +125,9 @@ itkNarrowBandImageFilterBaseTest(int argc, char * argv[])
   using WriterImageType = itk::Image<WriterPixelType, ImageDimension>;
   using PointType = itk::Point<double, ImageDimension>;
 
-  constexpr ImageType::SizeType  size = { { 64, 64 } };
+  constexpr ImageType::SizeType size = { { 64, 64 } };
   constexpr ImageType::IndexType index = { { 0, 0 } };
-  const ImageType::RegionType    region{ index, size };
+  const ImageType::RegionType region{ index, size };
 
   auto inputImage = ImageType::New();
   inputImage->SetRegions(region);
@@ -146,7 +146,7 @@ itkNarrowBandImageFilterBaseTest(int argc, char * argv[])
   }
 
   using RandomSourceType = itk::RandomImageSource<ImageType>;
-  auto                     randomSource = RandomSourceType::New();
+  auto randomSource = RandomSourceType::New();
   ImageType::SizeValueType tam[2];
   tam[0] = 64;
   tam[1] = 64;

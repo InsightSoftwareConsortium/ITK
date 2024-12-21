@@ -130,7 +130,7 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
   using SecondIteratorType = FloodFilledImageFunctionConditionalConstIterator<InputImageType, SecondFunctionType>;
 
   const typename Superclass::InputImageConstPointer inputImage = this->GetInput();
-  const typename Superclass::OutputImagePointer     outputImage = this->GetOutput();
+  const typename Superclass::OutputImagePointer outputImage = this->GetOutput();
 
   // Zero the output
   const OutputImageRegionType region = outputImage->GetRequestedRegion();
@@ -154,8 +154,8 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
 
     InputRealType sumOfSquares{};
 
-    auto          si = m_Seeds.begin();
-    const auto    li = m_Seeds.end();
+    auto si = m_Seeds.begin();
+    const auto li = m_Seeds.end();
     SizeValueType num = 0;
     while (si != li)
     {
@@ -196,8 +196,8 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
     InputRealType sum{};
     InputRealType sumOfSquares{};
 
-    auto          si = m_Seeds.begin();
-    const auto    li = m_Seeds.end();
+    auto si = m_Seeds.begin();
+    const auto li = m_Seeds.end();
     SizeValueType num = 0;
     while (si != li)
     {
@@ -228,8 +228,8 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
   // Find the highest and lowest seed intensity.
   InputRealType lowestSeedIntensity = itk::NumericTraits<InputImagePixelType>::max();
   InputRealType highestSeedIntensity = itk::NumericTraits<InputImagePixelType>::NonpositiveMin();
-  auto          si = m_Seeds.begin();
-  const auto    li = m_Seeds.end();
+  auto si = m_Seeds.begin();
+  const auto li = m_Seeds.end();
   while (si != li)
   {
     if (region.IsInside(*si))
@@ -299,8 +299,8 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
     secondFunction->SetInputImage(outputImage);
     secondFunction->ThresholdBetween(m_ReplaceValue, m_ReplaceValue);
 
-    auto                                 sum = InputRealType{};
-    auto                                 sumOfSquares = InputRealType{};
+    auto sum = InputRealType{};
+    auto sumOfSquares = InputRealType{};
     typename TOutputImage::SizeValueType numberOfSamples = 0;
 
     SecondIteratorType sit(inputImage, secondFunction, m_Seeds);

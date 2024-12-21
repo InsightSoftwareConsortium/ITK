@@ -142,7 +142,7 @@ protected:
   };
 
 private:
-  bool          m_ReverseOrdering{};
+  bool m_ReverseOrdering{};
   SizeValueType m_NumberOfObjects{};
 
 }; // end of class

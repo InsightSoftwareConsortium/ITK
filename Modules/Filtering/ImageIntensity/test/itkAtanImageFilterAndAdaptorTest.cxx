@@ -111,7 +111,7 @@ itkAtanImageFilterAndAdaptorTest(int, char *[])
   it.GoToBegin();
   while (!ot.IsAtEnd())
   {
-    const InputImageType::PixelType  input = it.Get();
+    const InputImageType::PixelType input = it.Get();
     const OutputImageType::PixelType output = ot.Get();
     const OutputImageType::PixelType arctangent = std::atan(input);
     if (!itk::Math::FloatAlmostEqual(arctangent, output, 10, epsilon))

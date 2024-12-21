@@ -495,7 +495,7 @@ TIFFImageIO::ReadImageInformation()
     if (TIFFIsCODECConfigured(this->m_InternalImage->m_Compression) != 1)
     {
       const TIFFCodec * c = TIFFFindCODEC(this->m_InternalImage->m_Compression);
-      const char *      codecName = (c != nullptr) ? static_cast<const char *>(c->name) : "unknown";
+      const char * codecName = (c != nullptr) ? static_cast<const char *>(c->name) : "unknown";
 
       itkExceptionMacro("TIFF CODEC \"" << codecName << "\" is not supported.");
     }
@@ -581,12 +581,12 @@ TIFFImageIO::InternalWrite(const void * buffer)
     pages = static_cast<uint16_t>(m_Dimensions[2]);
   }
 
-  auto         scomponents = static_cast<uint16_t>(this->GetNumberOfComponents());
+  auto scomponents = static_cast<uint16_t>(this->GetNumberOfComponents());
   const double resolution_x{ m_Spacing[0] != 0.0 ? 25.4 / m_Spacing[0] : 0.0 };
   const double resolution_y{ m_Spacing[1] != 0.0 ? 25.4 / m_Spacing[1] : 0.0 };
   // rowsperstrip is set to a default value but modified based on the tif scanlinesize before
   // passing it into the TIFFSetField (see below).
-  auto     rowsperstrip = uint32_t{ 0 };
+  auto rowsperstrip = uint32_t{ 0 };
   uint16_t bps;
 
   switch (this->GetComponentType())
@@ -678,7 +678,7 @@ TIFFImageIO::InternalWrite(const void * buffer)
       // if number of scalar components is greater than 3, that means we assume
       // there is alpha.
       const uint16_t extra_samples = scomponents - 3;
-      const auto     sample_info = make_unique_for_overwrite<uint16_t[]>(scomponents - 3);
+      const auto sample_info = make_unique_for_overwrite<uint16_t[]>(scomponents - 3);
       sample_info[0] = EXTRASAMPLE_ASSOCALPHA;
       for (uint16_t cc = 1; cc < scomponents - 3; ++cc)
       {
@@ -921,7 +921,7 @@ TIFFImageIO::ReadRawByteFromTag(unsigned int t, unsigned int & value_count)
     itkExceptionMacro("Need to call CanReadFile before");
   }
   const ttag_t tag = t;
-  void *       raw_data = nullptr;
+  void * raw_data = nullptr;
 
   const TIFFField * fld = TIFFFieldWithTag(m_InternalImage->m_Image, tag);
 
@@ -1054,7 +1054,7 @@ TIFFImageIO::ReadTIFFTags()
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
 
   void * raw_data = nullptr;
-  bool   mem_alloc = false;
+  bool mem_alloc = false;
 
   const int tagCount = TIFFGetTagListCount(m_InternalImage->m_Image);
 
@@ -1083,7 +1083,7 @@ TIFFImageIO::ReadTIFFTags()
 
 
     const char * field_name = TIFFFieldName(field);
-    int          value_count = 0;
+    int value_count = 0;
 
 
     const int read_count = TIFFFieldReadCount(field);
@@ -1157,7 +1157,7 @@ TIFFImageIO::ReadTIFFTags()
 #define itkEncapsulate(T1, T2)                                                         \
   if (value_count > 1)                                                                 \
   {                                                                                    \
-    auto      v_c = static_cast<size_t>(value_count);                                  \
+    auto v_c = static_cast<size_t>(value_count);                                       \
     Array<T1> a(v_c);                                                                  \
     for (unsigned int cnt = 0; cnt < v_c; ++cnt)                                       \
     {                                                                                  \
@@ -1326,11 +1326,11 @@ TIFFImageIO::ReadGenericImage(void * _out, unsigned int width, unsigned int heig
   tsize_t isize = TIFFScanlineSize(m_InternalImage->m_Image);
 #endif
 
-  size_t  inc;
+  size_t inc;
   tdata_t buf = _TIFFmalloc(static_cast<tmsize_t>(isize));
   isize /= sizeof(ComponentType);
 
-  auto *          out = static_cast<ComponentType *>(_out);
+  auto * out = static_cast<ComponentType *>(_out);
   ComponentType * image;
 
   if (m_InternalImage->m_PlanarConfig != PLANARCONFIG_CONTIG && m_InternalImage->m_SamplesPerPixel != 1)
@@ -1456,8 +1456,8 @@ TIFFImageIO::ReadGenericImage(void * _out, unsigned int width, unsigned int heig
 // iso component scalar
 template <typename TType>
 void
-TIFFImageIO::PutGrayscale(TType *      to,
-                          TType *      from,
+TIFFImageIO::PutGrayscale(TType * to,
+                          TType * from,
                           unsigned int xsize,
                           unsigned int ysize,
                           unsigned int toskew,
@@ -1477,8 +1477,8 @@ TIFFImageIO::PutGrayscale(TType *      to,
 // iso component scalar
 template <typename TType>
 void
-TIFFImageIO::PutRGB_(TType *      to,
-                     TType *      from,
+TIFFImageIO::PutRGB_(TType * to,
+                     TType * from,
                      unsigned int xsize,
                      unsigned int ysize,
                      unsigned int toskew,
@@ -1500,8 +1500,8 @@ TIFFImageIO::PutRGB_(TType *      to,
 
 template <typename TType, typename TFromType>
 void
-TIFFImageIO::PutPaletteRGB(TType *      to,
-                           TFromType *  from,
+TIFFImageIO::PutPaletteRGB(TType * to,
+                           TFromType * from,
                            unsigned int xsize,
                            unsigned int ysize,
                            unsigned int toskew,
@@ -1530,8 +1530,8 @@ TIFFImageIO::PutPaletteRGB(TType *      to,
 
 template <typename TType, typename TFromType>
 void
-TIFFImageIO::PutPaletteGrayscale(TType *      to,
-                                 TFromType *  from,
+TIFFImageIO::PutPaletteGrayscale(TType * to,
+                                 TFromType * from,
                                  unsigned int xsize,
                                  unsigned int ysize,
                                  unsigned int toskew,
@@ -1555,8 +1555,8 @@ TIFFImageIO::PutPaletteGrayscale(TType *      to,
 
 template <typename TType, typename TFromType>
 void
-TIFFImageIO::PutPaletteScalar(TType *      to,
-                              TFromType *  from,
+TIFFImageIO::PutPaletteScalar(TType * to,
+                              TFromType * from,
                               unsigned int xsize,
                               unsigned int ysize,
                               unsigned int toskew,

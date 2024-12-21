@@ -325,7 +325,7 @@ GrayscaleMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>::Mo
 template <typename TInputImage, typename TOutputImage, typename TKernel>
 void
 GrayscaleMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>::PrintSelf(std::ostream & os,
-                                                                                        Indent         indent) const
+                                                                                        Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

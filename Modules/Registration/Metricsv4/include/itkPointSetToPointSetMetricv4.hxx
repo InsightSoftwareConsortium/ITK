@@ -27,7 +27,7 @@ typename PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalCo
 PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::
   GetLocalNeighborhoodDerivative(const PointType & point, const PixelType & pixel) const
 {
-  MeasureType         measure;
+  MeasureType measure;
   LocalDerivativeType localDerivative;
   this->GetLocalNeighborhoodValueAndDerivative(point, measure, localDerivative, pixel);
   return localDerivative;

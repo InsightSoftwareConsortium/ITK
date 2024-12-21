@@ -162,19 +162,19 @@ protected:
 
   /** Nonterminal node generation routine */
   virtual KdTreeNodeType *
-  GenerateNonterminalNode(unsigned int            beginIndex,
-                          unsigned int            endIndex,
+  GenerateNonterminalNode(unsigned int beginIndex,
+                          unsigned int endIndex,
                           MeasurementVectorType & lowerBound,
                           MeasurementVectorType & upperBound,
-                          unsigned int            level);
+                          unsigned int level);
 
   /** Tree generation loop */
   KdTreeNodeType *
-  GenerateTreeLoop(unsigned int            beginIndex,
-                   unsigned int            endIndex,
+  GenerateTreeLoop(unsigned int beginIndex,
+                   unsigned int endIndex,
                    MeasurementVectorType & lowerBound,
                    MeasurementVectorType & upperBound,
-                   unsigned int            level);
+                   unsigned int level);
 
 private:
   /** Pointer to the input (source) sample */

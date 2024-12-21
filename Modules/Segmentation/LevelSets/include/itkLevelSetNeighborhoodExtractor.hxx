@@ -125,7 +125,7 @@ LevelSetNeighborhoodExtractor<TLevelSet>::GenerateDataFull()
   IndexType inputIndex;
 
   const SizeValueType totalPixels = m_InputLevelSet->GetBufferedRegion().GetNumberOfPixels();
-  SizeValueType       updateVisits = totalPixels / 10;
+  SizeValueType updateVisits = totalPixels / 10;
   if (updateVisits < 1)
   {
     updateVisits = 1;
@@ -158,11 +158,11 @@ LevelSetNeighborhoodExtractor<TLevelSet>::GenerateDataNarrowBand()
 
   pointsIter = m_InputNarrowBand->Begin();
   pointsEnd = m_InputNarrowBand->End();
-  NodeType     node;
+  NodeType node;
   const double maxValue = m_NarrowBandwidth / 2.0;
 
   const SizeValueType totalPixels = m_InputNarrowBand->Size();
-  SizeValueType       updateVisits = totalPixels / 10;
+  SizeValueType updateVisits = totalPixels / 10;
   if (updateVisits < 1)
   {
     updateVisits = 1;
@@ -191,7 +191,7 @@ LevelSetNeighborhoodExtractor<TLevelSet>::CalculateDistance(IndexType & index)
   m_LastPointIsInside = false;
 
   typename LevelSetImageType::PixelType centerValue;
-  PixelType                             inputPixel = m_InputLevelSet->GetPixel(index);
+  PixelType inputPixel = m_InputLevelSet->GetPixel(index);
   centerValue = static_cast<double>(inputPixel);
   centerValue -= m_LevelSetValue;
 
@@ -208,11 +208,11 @@ LevelSetNeighborhoodExtractor<TLevelSet>::CalculateDistance(IndexType & index)
 
   const bool inside = (centerValue <= 0.0);
 
-  IndexType                             neighIndex = index;
+  IndexType neighIndex = index;
   typename LevelSetImageType::PixelType neighValue;
-  NodeType                              neighNode;
-  SpacePrecisionType                    distance;
-  SpacePrecisionType                    spacing;
+  NodeType neighNode;
+  SpacePrecisionType distance;
+  SpacePrecisionType spacing;
 
   // In each dimension, find the distance to the zero set
   // by linear interpolating along the grid line.

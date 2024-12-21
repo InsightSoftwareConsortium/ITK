@@ -176,7 +176,7 @@ InternalTest(int argc, char * argv[])
     ImagePointType refData = parametricFilter->GetOutput()->GetPointData()->ElementAt(pointId);
 
     typename OutputMeshType::PointType position = parametricFilter->GetOutput()->GetPoints()->ElementAt(pointId);
-    PositionType                       refPoint = helper<PositionType>::GetPosition(image.GetPointer(), imageIterator);
+    PositionType refPoint = helper<PositionType>::GetPosition(image.GetPointer(), imageIterator);
 
     for (unsigned int dim = 0; dim < ImageDimension; ++dim)
     {

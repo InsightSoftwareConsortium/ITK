@@ -41,7 +41,7 @@ SpeckleNoiseImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
   ThreadIdType)
 {
   const InputImageType * inputPtr = this->GetInput();
-  OutputImageType *      outputPtr = this->GetOutput(0);
+  OutputImageType * outputPtr = this->GetOutput(0);
 
   // Create a random generator per thread
   IndexValueType indSeed = 0;
@@ -49,7 +49,7 @@ SpeckleNoiseImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
   {
     indSeed += outputRegionForThread.GetIndex(d);
   }
-  auto           rand = Statistics::MersenneTwisterRandomVariateGenerator::New();
+  auto rand = Statistics::MersenneTwisterRandomVariateGenerator::New();
   const uint32_t seed = Self::Hash(this->GetSeed(), uint32_t(indSeed));
   rand->Initialize(seed);
 
@@ -61,7 +61,7 @@ SpeckleNoiseImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
 
   // Define the iterators
   ImageScanlineConstIterator inputIt(inputPtr, inputRegionForThread);
-  ImageScanlineIterator      outputIt(outputPtr, outputRegionForThread);
+  ImageScanlineIterator outputIt(outputPtr, outputRegionForThread);
 
   TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
 
@@ -70,7 +70,7 @@ SpeckleNoiseImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
   const double theta = m_StandardDeviation * m_StandardDeviation;
   const double k = 1 / theta;
 
-  const auto   floork = Math::Floor<double>(k);
+  const auto floork = Math::Floor<double>(k);
   const double delta = k - floork;
   const double v0 = Math::e / (Math::e + delta);
 

@@ -54,11 +54,11 @@ template <typename TInputImage, typename TOutputImage>
 void
 TobogganImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
-  auto                     inputImage = static_cast<InputImageConstPointer>(this->GetInput());
+  auto inputImage = static_cast<InputImageConstPointer>(this->GetInput());
   const OutputImagePointer outputImage = this->GetOutput();
 
   constexpr OutputImagePixelType z{};
-  OutputImagePixelType           CurrentLabel{};
+  OutputImagePixelType CurrentLabel{};
 
   CurrentLabel += 2;
 
@@ -69,7 +69,7 @@ TobogganImageFilter<TInputImage, TOutputImage>::GenerateData()
   using InputIterator = ImageRegionConstIterator<InputImageType>;
   using OutputIterator = ImageRegionConstIterator<OutputImageType>;
 
-  InputIterator  inIt(inputImage, inputImage->GetRequestedRegion());
+  InputIterator inIt(inputImage, inputImage->GetRequestedRegion());
   OutputIterator outIt(outputImage, outputImage->GetRequestedRegion());
 
   // Walk through the image
@@ -83,9 +83,9 @@ TobogganImageFilter<TInputImage, TOutputImage>::GenerateData()
 
       OutputImagePixelType MinimumNeighborClass;
       OutputImagePixelType LabelForRegion = CurrentLabel;
-      bool                 FoundMinimum = false;
+      bool FoundMinimum = false;
 
-      auto      CurrentPositionIndex = outIt.GetIndex();
+      auto CurrentPositionIndex = outIt.GetIndex();
       IndexType MinimumNeighborIndex = CurrentPositionIndex;
 
       // This is the first pixel we've visited

@@ -51,7 +51,7 @@ KappaSigmaThresholdImageCalculator<TInputImage, TMaskImage>::Compute()
     // Compute the mean
     iIt.GoToBegin();
     SizeValueType count = 0;
-    double        mean = 0;
+    double mean = 0;
     while (!iIt.IsAtEnd())
     {
       if (!this->m_Mask || this->m_Mask->GetPixel(iIt.GetIndex()) == this->m_MaskValue)

@@ -278,7 +278,7 @@ public:
 
     for (unsigned int i = 0; i < VPointDimension; ++i)
     {
-      const auto     component = static_cast<RealType>(pa[i]);
+      const auto component = static_cast<RealType>(pa[i]);
       const RealType difference = static_cast<RealType>((*this)[i]) - component;
       sum += difference * difference;
     }
@@ -363,7 +363,7 @@ MakePoint(const TValue firstValue, const TVariadic... otherValues)
   static_assert(std::conjunction_v<std::is_same<TVariadic, TValue>...>,
                 "The other values should have the same type as the first value.");
 
-  constexpr unsigned int              dimension{ 1 + sizeof...(TVariadic) };
+  constexpr unsigned int dimension{ 1 + sizeof...(TVariadic) };
   const std::array<TValue, dimension> stdArray{ { firstValue, otherValues... } };
   return Point<TValue, dimension>{ stdArray };
 }

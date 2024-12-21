@@ -91,7 +91,7 @@ public:
       v[i] = parameters[i];
     }
     const VectorType Av = m_A * v;
-    double           val = (inner_product<double>(Av, v)) / 2.0;
+    double val = (inner_product<double>(Av, v)) / 2.0;
     val -= inner_product<double>(m_B, v);
     if (m_Negate)
     {
@@ -142,7 +142,7 @@ public:
 private:
   MatrixType m_A;
   VectorType m_B;
-  bool       m_Negate;
+  bool m_Negate;
 };
 
 
@@ -362,7 +362,7 @@ AmoebaTest1()
   OptimizerType::ParametersType finalPosition = itkOptimizer->GetCurrentPosition();
 
   constexpr double trueParameters[2] = { 2, -2 };
-  bool             pass = true;
+  bool pass = true;
 
   std::cout << "Right answer   = " << trueParameters[0] << " , " << trueParameters[1] << std::endl;
   std::cout << "Final position = " << finalPosition << std::endl;
@@ -533,7 +533,7 @@ AmoebaTest2()
   // we should have converged to the local minimum, -2
   {
     OptimizerType::ParametersType finalParameters = itkOptimizer->GetCurrentPosition();
-    constexpr double              knownParameters = -2.0;
+    constexpr double knownParameters = -2.0;
     std::cout << "Standard Amoeba:\n";
     std::cout << "Known parameters   = " << knownParameters << "   ";
     std::cout << "Estimated parameters = " << finalParameters << std::endl;
@@ -566,7 +566,7 @@ AmoebaTest2()
   {
     // we should have converged to the global minimum, 2
     OptimizerType::ParametersType finalParameters = itkOptimizer->GetCurrentPosition();
-    constexpr double              knownParameters = 2.0;
+    constexpr double knownParameters = 2.0;
     std::cout << "Amoeba with restarts:\n";
     std::cout << "Known parameters   = " << knownParameters << "   ";
     std::cout << "Estimated parameters = " << finalParameters << std::endl;

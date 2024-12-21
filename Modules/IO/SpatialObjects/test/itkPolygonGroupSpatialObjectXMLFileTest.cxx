@@ -70,12 +70,12 @@ testPolygonGroupEquivalence(PolygonGroup3DPointer & p1, PolygonGroup3DPointer & 
   //
   // Write out polygondata
   PolygonGroup3DType::ChildrenListType * children1 = p1->GetChildren();
-  auto                                   it1 = children1->begin();
-  auto                                   end1 = children1->end();
+  auto it1 = children1->begin();
+  auto end1 = children1->end();
 
   PolygonGroup3DType::ChildrenListType * children2 = p2->GetChildren();
-  auto                                   it2 = children2->begin();
-  auto                                   end2 = children2->end();
+  auto it2 = children2->begin();
+  auto end2 = children2->end();
 
   while (it1 != end1)
   {

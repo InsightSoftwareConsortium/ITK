@@ -134,10 +134,10 @@ template <typename TFixedImage, typename TMovingImage, typename TDisplacementFie
 auto
 SymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUpdate(
   const NeighborhoodType & it,
-  void *                   gd,
-  const FloatOffsetType &  itkNotUsed(offset)) -> PixelType
+  void * gd,
+  const FloatOffsetType & itkNotUsed(offset)) -> PixelType
 {
-  auto *          globalData = (GlobalDataStruct *)gd;
+  auto * globalData = (GlobalDataStruct *)gd;
   const IndexType FirstIndex = this->GetFixedImage()->GetLargestPossibleRegion().GetIndex();
   const IndexType LastIndex = this->GetFixedImage()->GetLargestPossibleRegion().GetIndex() +
                               this->GetFixedImage()->GetLargestPossibleRegion().GetSize();
@@ -146,13 +146,13 @@ SymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplaceme
   // Get fixed image related information
   // Note: no need to check the index is within
   // fixed image buffer. This is done by the external filter.
-  const auto                fixedValue = static_cast<double>(this->GetFixedImage()->GetPixel(index));
+  const auto fixedValue = static_cast<double>(this->GetFixedImage()->GetPixel(index));
   const CovariantVectorType fixedGradient = m_FixedImageGradientCalculator->EvaluateAtIndex(index);
 
   // Get moving image related information
-  IndexType                           tmpIndex = index;
-  PointType                           mappedNeighPoint;
-  CovariantVectorType                 movingGradient;
+  IndexType tmpIndex = index;
+  PointType mappedNeighPoint;
+  CovariantVectorType movingGradient;
   const DisplacementFieldType * const field = this->GetDisplacementField();
 
   using DisplacementPixelType = typename DisplacementFieldType::PixelType;
@@ -245,7 +245,7 @@ SymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplaceme
 
   // update the squared change value
   PointType newMappedCenterPoint;
-  bool      IsOutsideRegion = false;
+  bool IsOutsideRegion = false;
   for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     if (globalData)

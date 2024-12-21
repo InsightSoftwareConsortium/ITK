@@ -80,9 +80,9 @@ LineCell<TCellInterface>::GetNumberOfBoundaryFeatures(int dimension) const -> Ce
  */
 template <typename TCellInterface>
 bool
-LineCell<TCellInterface>::GetBoundaryFeature(int                   dimension,
+LineCell<TCellInterface>::GetBoundaryFeature(int dimension,
                                              CellFeatureIdentifier featureId,
-                                             CellAutoPointer &     cellPointer)
+                                             CellAutoPointer & cellPointer)
 {
   VertexAutoPointer vertexPointer;
   if ((dimension == 0) && this->GetVertex(featureId, vertexPointer))
@@ -119,7 +119,7 @@ template <typename TCellInterface>
 void
 LineCell<TCellInterface>::SetPointIds(PointIdConstIterator first, PointIdConstIterator last)
 {
-  int                  localId = 0;
+  int localId = 0;
   PointIdConstIterator ii(first);
 
   while (ii != last)

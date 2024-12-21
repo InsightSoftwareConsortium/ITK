@@ -128,8 +128,8 @@ private:
   InputCoordinateType m_RelativeTolerance{};
 
   BoundingBoxPointer m_BoundingBox{};
-  CriterionPointer   m_Criterion{};
-  DecimationPointer  m_Decimation{};
+  CriterionPointer m_Criterion{};
+  DecimationPointer m_Decimation{};
 };
 } // end namespace itk
 

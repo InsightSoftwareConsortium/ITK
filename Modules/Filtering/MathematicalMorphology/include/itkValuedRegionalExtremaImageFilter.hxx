@@ -69,7 +69,7 @@ ValuedRegionalExtremaImageFilter<TInputImage, TOutputImage, TFunction1, TFunctio
   this->AllocateOutputs();
 
   const InputImageType * input = this->GetInput();
-  OutputImageType *      output = this->GetOutput();
+  OutputImageType * output = this->GetOutput();
 
   // 2 phases
   ProgressReporter progress(this, 0, this->GetOutput()->GetRequestedRegion().GetNumberOfPixels() * 2);
@@ -78,7 +78,7 @@ ValuedRegionalExtremaImageFilter<TInputImage, TOutputImage, TFunction1, TFunctio
   using InputIterator = ImageRegionConstIterator<TInputImage>;
   using OutputIterator = ImageRegionIterator<TOutputImage>;
 
-  InputIterator  inIt(input, output->GetRequestedRegion());
+  InputIterator inIt(input, output->GetRequestedRegion());
   OutputIterator outIt(output, output->GetRequestedRegion());
 
   const InputImagePixelType firstValue = inIt.Get();
@@ -106,7 +106,7 @@ ValuedRegionalExtremaImageFilter<TInputImage, TOutputImage, TFunction1, TFunctio
     // Note : all comments refer to finding regional minima, because
     // it is briefer and clearer than trying to describe both regional
     // maxima and minima processes at the same time
-    auto            kernelRadius = ISizeType::Filled(1);
+    auto kernelRadius = ISizeType::Filled(1);
     NOutputIterator outNIt(kernelRadius, output, output->GetRequestedRegion());
     setConnectivity(&outNIt, m_FullyConnected);
 
@@ -126,7 +126,7 @@ ValuedRegionalExtremaImageFilter<TInputImage, TOutputImage, TFunction1, TFunctio
 
     outIt.GoToBegin();
     // set up the stack and neighbor list
-    IndexStack                              IS;
+    IndexStack IS;
     typename NOutputIterator::IndexListType IndexList = outNIt.GetActiveIndexList();
 
     while (!outIt.IsAtEnd())
@@ -165,7 +165,7 @@ ValuedRegionalExtremaImageFilter<TInputImage, TOutputImage, TFunction1, TFunctio
             outNIt += outIt.GetIndex() - outNIt.GetIndex();
 
             OutputImagePixelType NVal;
-            OutIndexType         idx;
+            OutIndexType idx;
             // Initialize the stack
             IS.push(outNIt.GetIndex());
             outNIt.SetCenterPixel(m_MarkerValue);

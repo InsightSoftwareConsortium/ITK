@@ -39,8 +39,8 @@ itkTemporalRegionTest(int, char *[])
   constexpr itk::SizeValueType testFrameDuration = 20;
 
   // Test time stamps and intervals
-  const itk::RealTimeStamp    stamp0;
-  itk::RealTimeStamp          stamp1 = stamp0;
+  const itk::RealTimeStamp stamp0;
+  itk::RealTimeStamp stamp1 = stamp0;
   const itk::RealTimeInterval oneSecond(1, 0);
   const itk::RealTimeInterval tenSeconds(10, 0);
   for (unsigned int i = 0; i < 1000000L; ++i)

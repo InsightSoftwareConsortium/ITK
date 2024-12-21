@@ -236,7 +236,7 @@ private:
   double m_SigmaMinimum{};
   double m_SigmaMaximum{};
 
-  unsigned int        m_NumberOfSigmaSteps{};
+  unsigned int m_NumberOfSigmaSteps{};
   SigmaStepMethodEnum m_SigmaStepMethod{};
 
   typename HessianToMeasureFilterType::Pointer m_HessianToMeasureFilter{};

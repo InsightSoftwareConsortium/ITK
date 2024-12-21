@@ -171,8 +171,8 @@ private:
   struct DenseFDThreadStruct
   {
     DenseFiniteDifferenceImageFilter * Filter;
-    TimeStepType                       TimeStep;
-    std::vector<TimeStepType>          TimeStepList;
+    TimeStepType TimeStep;
+    std::vector<TimeStepType> TimeStepList;
 
     BooleanStdVectorType ValidTimeStepList;
   };

@@ -28,10 +28,10 @@
 int
 itkFFTWF_RealFFTTest(
 #  ifndef ITK_USE_CUFFTW
-  int    argc,
+  int argc,
   char * argv[]
 #  else
-  int    itkNotUsed(argc),
+  int itkNotUsed(argc),
   char * itkNotUsed(argv)[]
 #  endif
 )
@@ -64,7 +64,7 @@ itkFFTWF_RealFFTTest(
 
   unsigned int SizeOfDimensions1[] = { 4, 4, 4 };
   unsigned int SizeOfDimensions2[] = { 3, 5, 4 };
-  int          rval = 0;
+  int rval = 0;
   std::cerr << "FFTWF:float,1 (4,4,4)" << std::endl;
   if ((test_fft<float,
                 1,

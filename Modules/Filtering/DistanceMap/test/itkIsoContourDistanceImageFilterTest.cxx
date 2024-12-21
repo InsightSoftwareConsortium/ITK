@@ -47,7 +47,7 @@ template <typename TPoint>
 double
 SimpleSignedDistance(const TPoint & p)
 {
-  auto             center = itk::MakeFilled<TPoint>(50);
+  auto center = itk::MakeFilled<TPoint>(50);
   constexpr double radius = 19.5;
 
   double accum = 0.0;
@@ -72,8 +72,8 @@ itkIsoContourDistanceImageFilterTest(int, char *[])
   using PointType = itk::Point<double, ImageDimension>;
 
   // Fill an input image with simple signed distance function
-  auto                        image = ImageType::New();
-  auto                        size = ImageType::SizeType::Filled(128);
+  auto image = ImageType::New();
+  auto size = ImageType::SizeType::Filled(128);
   const ImageType::RegionType region(size);
 
   image->SetRegions(region);
@@ -111,7 +111,7 @@ itkIsoContourDistanceImageFilterTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  ShowProgressObject                                          progressWatch(isocontour);
+  ShowProgressObject progressWatch(isocontour);
   const itk::SimpleMemberCommand<ShowProgressObject>::Pointer command =
     itk::SimpleMemberCommand<ShowProgressObject>::New();
   command->SetCallbackFunction(&progressWatch, &ShowProgressObject::ShowProgress);

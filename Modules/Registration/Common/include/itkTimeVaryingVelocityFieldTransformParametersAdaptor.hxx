@@ -187,9 +187,9 @@ TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>::AdaptTransformPa
     return;
   }
 
-  const SizeType      newFieldSize = this->GetRequiredSize();
-  const PointType     newFieldOrigin = this->GetRequiredOrigin();
-  const SpacingType   newFieldSpacing = this->GetRequiredSpacing();
+  const SizeType newFieldSize = this->GetRequiredSize();
+  const PointType newFieldOrigin = this->GetRequiredOrigin();
+  const SpacingType newFieldSpacing = this->GetRequiredSpacing();
   const DirectionType newFieldDirection = this->GetRequiredDirection();
 
   using IdentityTransformType = IdentityTransform<ParametersValueType, TotalDimension>;

@@ -61,7 +61,7 @@ TestBaseClassMethodsMeshIO(typename TMeshIO::Pointer meshIO)
   using FloatType = float;
 
   constexpr FloatType floatValue = 1.0;
-  bool                usePointPixel = true;
+  bool usePointPixel = true;
   meshIO->SetPixelType(floatValue, usePointPixel);
   LOCAL_ITK_TEST_SET_GET_VALUE(1, meshIO->GetNumberOfPointPixelComponents());
   LOCAL_ITK_TEST_SET_GET_VALUE(itk::MeshIOBase::MapComponentType<FloatType>::CType,

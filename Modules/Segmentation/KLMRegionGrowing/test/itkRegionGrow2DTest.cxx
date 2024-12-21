@@ -234,7 +234,7 @@ test_regiongrowKLM1D()
 
   constexpr unsigned int numPixels = 100;
   constexpr unsigned int numPixelsHalf = 50;
-  auto                   imageSize = ImageType::SizeType::Filled(numPixels);
+  auto imageSize = ImageType::SizeType::Filled(numPixels);
 
   constexpr ImageType::IndexType index{};
 
@@ -248,7 +248,7 @@ test_regiongrowKLM1D()
   ImageIterator inIt(image, image->GetBufferedRegion());
 
   using ImageData = ImageType::PixelType::VectorType;
-  ImageData    pixelData;
+  ImageData pixelData;
   unsigned int k = 0;
   while (!inIt.IsAtEnd())
   {
@@ -345,13 +345,13 @@ test_regiongrowKLM1D()
   const LabelledImageType::Pointer labelledImage = KLMFilter->GetLabelledImage();
 
   using OutputImageData = OutputImageType::PixelType::VectorType;
-  ImageData       pixelIn;
+  ImageData pixelIn;
   OutputImageData pixelOut;
 
   using LabelImageIterator = itk::ImageRegionIterator<LabelledImageType>;
   LabelImageIterator labelIt(labelledImage, labelledImage->GetBufferedRegion());
-  LabelType          pixelLabel;
-  LabelType          m = 1;
+  LabelType pixelLabel;
+  LabelType m = 1;
 
   inIt.GoToBegin();
   while (!inIt.IsAtEnd())
@@ -429,12 +429,12 @@ test_regiongrowKLM1D()
   std::cout << "Extracting and checking label image" << std::endl;
 
   const OutputImageType::Pointer outImage2 = KLMFilter->GetOutput();
-  OutputImageIterator            outIt2(outImage2, outImage2->GetBufferedRegion());
-  OutputImageData                pixelOut2a;
-  OutputImageData                pixelOut2b;
+  OutputImageIterator outIt2(outImage2, outImage2->GetBufferedRegion());
+  OutputImageData pixelOut2a;
+  OutputImageData pixelOut2b;
 
   const LabelledImageType::Pointer labelledImage2 = KLMFilter->GetLabelledImage();
-  LabelImageIterator               labelIt2(labelledImage2, labelledImage2->GetBufferedRegion());
+  LabelImageIterator labelIt2(labelledImage2, labelledImage2->GetBufferedRegion());
 
   pixelOut2a[0] = (numPixelsHalf - 1) * numPixelsHalf / 2;
   pixelOut2a[1] = (numPixels - 1) * numPixels / 2 - pixelOut2a[0];
@@ -556,14 +556,14 @@ test_regiongrowKLM1D()
   std::cout << "Extracting and checking label image" << std::endl;
 
   const OutputImageType::Pointer outImage3 = KLMFilter->GetOutput();
-  OutputImageIterator            outIt3(outImage3, outImage3->GetBufferedRegion());
-  OutputImageData                pixelOut3a;
-  OutputImageData                pixelOut3b;
-  OutputImageData                pixelOut3c;
-  OutputImageData                pixelOut3d;
+  OutputImageIterator outIt3(outImage3, outImage3->GetBufferedRegion());
+  OutputImageData pixelOut3a;
+  OutputImageData pixelOut3b;
+  OutputImageData pixelOut3c;
+  OutputImageData pixelOut3d;
 
   const LabelledImageType::Pointer labelledImage3 = KLMFilter->GetLabelledImage();
-  LabelImageIterator               labelIt3(labelledImage3, labelledImage3->GetBufferedRegion());
+  LabelImageIterator labelIt3(labelledImage3, labelledImage3->GetBufferedRegion());
 
   pixelOut3a[0] = (numPixelsQtr - 1) * numPixelsQtr / 2;
   pixelOut3a[1] = (numPixels - 1) * numPixels / 2 - (3 * numPixelsQtr - 1) * (3 * numPixelsQtr) / 2;
@@ -737,10 +737,10 @@ test_regiongrowKLM1D()
   std::cout << "Extracting and checking label image" << std::endl;
 
   const OutputImageType::Pointer outImage5 = KLMFilter->GetOutput();
-  OutputImageIterator            outIt5(outImage5, outImage5->GetBufferedRegion());
+  OutputImageIterator outIt5(outImage5, outImage5->GetBufferedRegion());
 
   const LabelledImageType::Pointer labelledImage5 = KLMFilter->GetLabelledImage();
-  LabelImageIterator               labelIt5(labelledImage5, labelledImage5->GetBufferedRegion());
+  LabelImageIterator labelIt5(labelledImage5, labelledImage5->GetBufferedRegion());
 
   OutputImageData pixelOut5in;
   OutputImageData pixelOut5out;
@@ -894,7 +894,7 @@ test_regiongrowKLM2D()
 
   using ImageData = ImageType::PixelType::VectorType;
   ImageData pixelData;
-  int       k = 0;
+  int k = 0;
   while (!inIt.IsAtEnd())
   {
 
@@ -944,8 +944,8 @@ test_regiongrowKLM2D()
   OutputImageIterator outIt(outImage, outImage->GetBufferedRegion());
 
   using OutputImageData = OutputImageType::PixelType::VectorType;
-  ImageData                                                pixelIn;
-  OutputImageData                                          pixelOut;
+  ImageData pixelIn;
+  OutputImageData pixelOut;
   constexpr itk::NumericTraits<OutputImageData>::ValueType pixelOutZero{};
 
   while (!inIt.IsAtEnd())
@@ -1204,11 +1204,11 @@ test_regiongrowKLM2D()
     return EXIT_FAILURE;
   }
 
-  HistogramType::ConstIterator       histIt = histogram->Begin();
+  HistogramType::ConstIterator histIt = histogram->Begin();
   const HistogramType::ConstIterator histItEnd = histogram->End();
 
   const double Sum = histogram->GetTotalFrequency();
-  double       labelEntropy = 0.0;
+  double labelEntropy = 0.0;
 
   while (histIt != histItEnd)
   {
@@ -1396,7 +1396,7 @@ test_regiongrowKLM3D()
 
   using ImageData = ImageType::PixelType::VectorType;
   ImageData pixelData;
-  int       k = 0;
+  int k = 0;
   while (!inIt.IsAtEnd())
   {
 
@@ -1451,8 +1451,8 @@ test_regiongrowKLM3D()
   OutputImageIterator outIt(outImage, outImage->GetBufferedRegion());
 
   using OutputImageData = OutputImageType::PixelType::VectorType;
-  ImageData                                                pixelIn;
-  OutputImageData                                          pixelOut;
+  ImageData pixelIn;
+  OutputImageData pixelOut;
   constexpr itk::NumericTraits<OutputImageData>::ValueType pixelOutZero{};
 
   while (!inIt.IsAtEnd())
@@ -1703,11 +1703,11 @@ test_regiongrowKLM3D()
     return EXIT_FAILURE;
   }
 
-  HistogramType::ConstIterator       histIt = histogram->Begin();
+  HistogramType::ConstIterator histIt = histogram->Begin();
   const HistogramType::ConstIterator histItEnd = histogram->End();
 
   const double Sum = histogram->GetTotalFrequency();
-  double       labelEntropy = 0.0;
+  double labelEntropy = 0.0;
 
   while (histIt != histItEnd)
   {
@@ -1761,7 +1761,7 @@ test_regiongrowKLM4D()
   auto image = ImageType::New();
 
   ImageType::SizeType imageSize;
-  constexpr int       multVal = 2;
+  constexpr int multVal = 2;
   imageSize[0] = 2 * multVal;
   imageSize[1] = 3 * multVal;
   imageSize[2] = 5 * multVal;
@@ -1798,7 +1798,7 @@ test_regiongrowKLM4D()
 
   using ImageData = ImageType::PixelType::VectorType;
   ImageData pixelData;
-  int       k = 0;
+  int k = 0;
   while (!inIt.IsAtEnd())
   {
 
@@ -1859,8 +1859,8 @@ test_regiongrowKLM4D()
   OutputImageIterator outIt(outImage, outImage->GetBufferedRegion());
 
   using OutputImageData = OutputImageType::PixelType::VectorType;
-  ImageData                                                pixelIn;
-  OutputImageData                                          pixelOut;
+  ImageData pixelIn;
+  OutputImageData pixelOut;
   constexpr itk::NumericTraits<OutputImageData>::ValueType pixelOutZero{};
 
   while (!inIt.IsAtEnd())
@@ -2090,11 +2090,11 @@ test_regiongrowKLM4D()
     return EXIT_FAILURE;
   }
 
-  HistogramType::ConstIterator       histIt = histogram->Begin();
+  HistogramType::ConstIterator histIt = histogram->Begin();
   const HistogramType::ConstIterator histItEnd = histogram->End();
 
   const double Sum = histogram->GetTotalFrequency();
-  double       labelEntropy = 0.0;
+  double labelEntropy = 0.0;
 
   while (histIt != histItEnd)
   {

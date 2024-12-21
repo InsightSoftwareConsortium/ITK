@@ -98,11 +98,11 @@ public:
   class SimplexCellVisitor
   {
   public:
-    InputMeshPointer                     mesh;
-    double                               totalArea;
-    double                               totalCurvature;
-    double                               minCellSize;
-    double                               maxCellSize;
+    InputMeshPointer mesh;
+    double totalArea;
+    double totalCurvature;
+    double minCellSize;
+    double maxCellSize;
     typename DoubleValueMapType::Pointer areaMap;
     typename DoubleValueMapType::Pointer curvatureMap;
 
@@ -129,9 +129,9 @@ public:
     {
       typename InputPolygonType::PointIdIterator it = poly->PointIdsBegin();
 
-      double                meanCurvature = 0;
+      double meanCurvature = 0;
       const PointIdentifier refPoint = *it;
-      double                val = mesh->GetMeanCurvature(*it++);
+      double val = mesh->GetMeanCurvature(*it++);
       meanCurvature += itk::Math::abs(val);
 
       PointIdentifier id1 = *it;

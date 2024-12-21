@@ -78,10 +78,10 @@ HistogramToImageFilter<THistogram, TImage, TFunction>::GenerateOutputInformation
   // Get the input and output pointers
   // Get from decorator
   const HistogramType * inputHistogram = this->GetInput();
-  OutputImageType *     outputImage = this->GetOutput();
+  OutputImageType * outputImage = this->GetOutput();
 
-  SizeType    size;
-  PointType   origin;
+  SizeType size;
+  PointType origin;
   SpacingType spacing;
   // Set the image size to the number of bins along each dimension.
   // TODO: is it possible to have a size 0 on one of the dimension? if yes, the size must be checked
@@ -122,7 +122,7 @@ HistogramToImageFilter<THistogram, TImage, TFunction>::GenerateData()
   // Get the input and output pointers
   // Get from decorator
   const HistogramType * inputHistogram = this->GetInput();
-  OutputImageType *     outputImage = this->GetOutput();
+  OutputImageType * outputImage = this->GetOutput();
 
   // Set the TotalFrequency in the functor
   this->SetTotalFrequency(static_cast<SizeValueType>(inputHistogram->GetTotalFrequency()));

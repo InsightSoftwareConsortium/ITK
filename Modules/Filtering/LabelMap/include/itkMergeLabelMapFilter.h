@@ -48,7 +48,7 @@ public:
 };
 // Define how to print enumeration
 extern ITKLabelMap_EXPORT std::ostream &
-                          operator<<(std::ostream & out, const MergeLabelMapFilterEnums::ChoiceMethod value);
+operator<<(std::ostream & out, const MergeLabelMapFilterEnums::ChoiceMethod value);
 
 using ChoiceMethodEnum = MergeLabelMapFilterEnums::ChoiceMethod;
 #if !defined(ITK_LEGACY_REMOVE)

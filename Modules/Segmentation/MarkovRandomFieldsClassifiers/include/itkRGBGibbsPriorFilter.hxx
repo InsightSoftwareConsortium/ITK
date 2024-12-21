@@ -87,10 +87,10 @@ template <typename TInputImage, typename TClassifiedImage>
 void
 RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::GreyScalarBoundary(LabelledImageIndexType Index3D)
 {
-  int       change;
-  int       signs[4];
-  int       x;
-  int       numx;
+  int change;
+  int signs[4];
+  int x;
+  int numx;
   LabelType origin;
   LabelType neighbors[4];
 
@@ -195,11 +195,11 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::GibbsTotalEnergy(int i)
   int frame = m_ImageWidth * m_ImageHeight;
   int rowsize = m_ImageWidth;
 
-  double       energy[2];
-  double       difenergy;
-  LabelType    label;
-  LabelType    originlabel;
-  LabelType    f[8];
+  double energy[2];
+  double difenergy;
+  LabelType label;
+  LabelType originlabel;
+  LabelType f[8];
   unsigned int j;
   unsigned int k;
   unsigned int neighborcount = 0;
@@ -290,7 +290,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::GibbsTotalEnergy(int i)
     {
       difenergy = energy[label] - energy[1 - label];
       const double rand_num{ rand() / 32768.0 };
-      double       energy_num{ std::exp(static_cast<double>(difenergy * 0.5 * size / (2 * size - m_Temp))) };
+      double energy_num{ std::exp(static_cast<double>(difenergy * 0.5 * size / (2 * size - m_Temp))) };
       if (rand_num < energy_num)
       {
         m_LabelledImage->SetPixel(offsetIndex3D, 1 - label);
@@ -305,13 +305,13 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::GibbsEnergy(unsigned int i, 
 {
   LabelledImageRegionIterator labelledImageIt(m_LabelledImage, m_LabelledImage->GetBufferedRegion());
 
-  LabelType    f[8];
-  int          j;
+  LabelType f[8];
+  int j;
   unsigned int neighborcount = 0;
-  int          simnum = 0;
-  int          changenum = 0;
-  bool         changeflag;
-  double       res = 0.0;
+  int simnum = 0;
+  int changenum = 0;
+  bool changeflag;
+  double res = 0.0;
 
   LabelledImageIndexType offsetIndex3D{};
 
@@ -645,8 +645,8 @@ template <typename TInputImage, typename TClassifiedImage>
 unsigned int
 RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::LabelRegion(int i, int l, int change)
 {
-  unsigned int       count = 1;
-  int                m;
+  unsigned int count = 1;
+  int m;
   const unsigned int frame = m_ImageWidth * m_ImageHeight;
   const unsigned int rowsize = m_ImageWidth;
 

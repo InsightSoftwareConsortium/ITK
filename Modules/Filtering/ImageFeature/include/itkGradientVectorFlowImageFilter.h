@@ -153,7 +153,7 @@ private:
                                                      // image
   int m_IterationNum{};                              // the iteration number
 
-  LaplacianFilterPointer                 m_LaplacianFilter{};
+  LaplacianFilterPointer m_LaplacianFilter{};
   typename Superclass::InputImagePointer m_IntermediateImage{};
 
   InternalImagePointer m_InternalImages[Superclass::InputImageDimension]{};

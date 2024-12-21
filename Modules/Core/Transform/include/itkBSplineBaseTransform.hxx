@@ -119,7 +119,7 @@ template <typename TParametersValueType, unsigned int VDimension, unsigned int V
 void
 BSplineBaseTransform<TParametersValueType, VDimension, VSplineOrder>::UpdateTransformParameters(
   const DerivativeType & update,
-  TParametersValueType   factor)
+  TParametersValueType factor)
 {
   const NumberOfParametersType numberOfParameters = this->GetNumberOfParameters();
 
@@ -179,7 +179,7 @@ BSplineBaseTransform<TParametersValueType, VDimension, VSplineOrder>::WrapAsImag
    * NOTE: For efficiency, parameters are not copied locally. The parameters
    * are assumed to be maintained by the caller.
    */
-  auto *                       dataPointer = const_cast<PixelType *>(this->m_InternalParametersBuffer.data_block());
+  auto * dataPointer = const_cast<PixelType *>(this->m_InternalParametersBuffer.data_block());
   const NumberOfParametersType numberOfPixels = this->GetNumberOfParametersPerDimension();
 
   for (unsigned int j = 0; j < SpaceDimension; ++j)
@@ -229,8 +229,8 @@ BSplineBaseTransform<TParametersValueType, VDimension, VSplineOrder>::PrintSelf(
 template <typename TParametersValueType, unsigned int VDimension, unsigned int VSplineOrder>
 void
 BSplineBaseTransform<TParametersValueType, VDimension, VSplineOrder>::
-  ComputeJacobianFromBSplineWeightsWithRespectToPosition(const InputPointType &    point,
-                                                         WeightsType &             weights,
+  ComputeJacobianFromBSplineWeightsWithRespectToPosition(const InputPointType & point,
+                                                         WeightsType & weights,
                                                          ParameterIndexArrayType & indexes) const
 {
   ContinuousIndexType index =
@@ -250,13 +250,13 @@ BSplineBaseTransform<TParametersValueType, VDimension, VSplineOrder>::
   this->m_WeightsFunction->Evaluate(index, weights, supportIndex);
 
   // For each dimension, copy the weight to the support region
-  constexpr auto   supportSize = SizeType::Filled(SplineOrder + 1);
+  constexpr auto supportSize = SizeType::Filled(SplineOrder + 1);
   const RegionType supportRegion(supportIndex, supportSize);
-  unsigned long    counter = 0;
+  unsigned long counter = 0;
 
   using IteratorType = ImageRegionIterator<ImageType>;
 
-  IteratorType                coeffIterator(this->m_CoefficientImages[0], supportRegion);
+  IteratorType coeffIterator(this->m_CoefficientImages[0], supportRegion);
   const ParametersValueType * basePointer = this->m_CoefficientImages[0]->GetBufferPointer();
   while (!coeffIterator.IsAtEnd())
   {
@@ -297,10 +297,10 @@ auto
 BSplineBaseTransform<TParametersValueType, VDimension, VSplineOrder>::TransformPoint(const InputPointType & point) const
   -> OutputPointType
 {
-  WeightsType             weights;
+  WeightsType weights;
   ParameterIndexArrayType indices;
-  OutputPointType         outputPoint;
-  bool                    inside;
+  OutputPointType outputPoint;
+  bool inside;
 
   this->TransformPoint(point, outputPoint, weights, indices, inside);
 

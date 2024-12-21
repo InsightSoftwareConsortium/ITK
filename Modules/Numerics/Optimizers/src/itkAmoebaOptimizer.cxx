@@ -61,8 +61,8 @@ AmoebaOptimizer::PrintSelf(std::ostream & os, Indent indent) const
 AmoebaOptimizer::MeasureType
 AmoebaOptimizer::GetValue() const
 {
-  ParametersType                                               parameters = this->GetCurrentPosition();
-  const unsigned int                                           numberOfParameters = parameters.Size();
+  ParametersType parameters = this->GetCurrentPosition();
+  const unsigned int numberOfParameters = parameters.Size();
   SingleValuedNonLinearVnlOptimizer::CostFunctionAdaptorType * costFunction = this->GetNonConstCostFunctionAdaptor();
 
   if (costFunction != nullptr)
@@ -130,9 +130,9 @@ AmoebaOptimizer::SetCostFunction(SingleValuedCostFunction * costFunction)
 void
 AmoebaOptimizer::StartOptimization()
 {
-  const ScalesType &                                           scales = GetScales();
-  const ParametersType &                                       initialPosition = GetInitialPosition();
-  InternalParametersType                                       delta(m_InitialSimplexDelta);
+  const ScalesType & scales = GetScales();
+  const ParametersType & initialPosition = GetInitialPosition();
+  InternalParametersType delta(m_InitialSimplexDelta);
   SingleValuedNonLinearVnlOptimizer::CostFunctionAdaptorType * costFunction = this->GetCostFunctionAdaptor();
   auto n = static_cast<unsigned int>(costFunction->get_number_of_unknowns());
 
@@ -185,8 +185,8 @@ AmoebaOptimizer::StartOptimization()
   // automated initialization - previously hidden inside vnl
   if (this->m_AutomaticInitialSimplex)
   {
-    constexpr double       relativeDiameter = 0.05;
-    constexpr double       zeroTermDelta = 0.00025;
+    constexpr double relativeDiameter = 0.05;
+    constexpr double zeroTermDelta = 0.00025;
     InternalParametersType automaticDelta(n);
     for (unsigned int i = 0; i < n; ++i)
     {
@@ -208,8 +208,8 @@ AmoebaOptimizer::StartOptimization()
   // multiple restart heuristic
   if (this->m_OptimizeWithRestarts)
   {
-    auto         totalEvaluations = static_cast<unsigned int>(m_VnlOptimizer->get_num_evaluations());
-    bool         converged = false;
+    auto totalEvaluations = static_cast<unsigned int>(m_VnlOptimizer->get_num_evaluations());
+    bool converged = false;
     unsigned int i = 1;
     while (!converged && (totalEvaluations < m_MaximumNumberOfIterations))
     {

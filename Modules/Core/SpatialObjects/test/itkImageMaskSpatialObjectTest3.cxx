@@ -42,8 +42,8 @@ itkImageMaskSpatialObjectTest3(int, char *[])
   using PixelType = ImageMaskSpatialObjectType::PixelType;
   using ImageType = itk::Image<PixelType, VDimension>;
 
-  auto                           image = ImageType::New();
-  constexpr ImageType::SizeType  size = { { 5, 5, 5 } };
+  auto image = ImageType::New();
+  constexpr ImageType::SizeType size = { { 5, 5, 5 } };
   constexpr ImageType::PointType origin{};
   image->SetOrigin(origin);
 

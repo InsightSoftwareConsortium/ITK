@@ -175,7 +175,7 @@ PolylineMaskImageFilter<TInputImage, TPolyline, TVector, TOutputImage>::Generate
   outputImagePtr->AllocateInitialized();
 
   InputImageConstIteratorType inputIt(inputImagePtr, inputImagePtr->GetLargestPossibleRegion());
-  OutputImageIteratorType     outputIt(outputImagePtr, outputImagePtr->GetLargestPossibleRegion());
+  OutputImageIteratorType outputIt(outputImagePtr, outputImagePtr->GetLargestPossibleRegion());
 
   using InterpolatorType = NearestNeighborInterpolateImageFunction<TInputImage, double>;
   using InterpolatorPointType = typename InterpolatorType::PointType;
@@ -185,7 +185,7 @@ PolylineMaskImageFilter<TInputImage, TPolyline, TVector, TOutputImage>::Generate
 
   // Generate input and output points
   InterpolatorPointType inputPoint;
-  ProjPlanePointType    outputPoint;
+  ProjPlanePointType outputPoint;
 
   // Generate a 2D image with the viewing polygon as a mask
   using ProjectionImageType = Image<PixelType, 2>;
@@ -206,9 +206,9 @@ PolylineMaskImageFilter<TInputImage, TPolyline, TVector, TOutputImage>::Generate
   using BoundingBoxType = BoundingBox<unsigned long, 2, double>;
   using CornerPointProjectionContainer = BoundingBoxType::PointsContainer;
 
-  auto                      cornerPointProjectionlist = CornerPointProjectionContainer::New();
-  CornerPointType           cornerPoint;
-  CornerPointType           originPoint;
+  auto cornerPointProjectionlist = CornerPointProjectionContainer::New();
+  CornerPointType cornerPoint;
+  CornerPointType originPoint;
   CornerPointProjectionType cornerProjectionPoint;
 
   originPoint[0] = 0.0;
@@ -294,7 +294,7 @@ PolylineMaskImageFilter<TInputImage, TPolyline, TVector, TOutputImage>::Generate
   projectionStart[1] = 0;
 
   ProjectionImageSizeType projectionSize;
-  const IndexValueType    pad = 5;
+  const IndexValueType pad = 5;
 
   projectionSize[0] = (IndexValueType)(bounds[1] - bounds[0]) + pad;
   projectionSize[1] = (IndexValueType)(bounds[3] - bounds[2]) + pad;
@@ -459,7 +459,7 @@ PolylineMaskImageFilter<TInputImage, TPolyline, TVector, TOutputImage>::Generate
   // demarcated by the polyline contour
 
   InputImageSpacingType inputImageSpacing;
-  InputImagePointType   inputImageOrigin;
+  InputImagePointType inputImageOrigin;
 
   inputImageSpacing = inputImagePtr->GetSpacing();
   inputImageOrigin = inputImagePtr->GetOrigin();
@@ -493,7 +493,7 @@ PolylineMaskImageFilter<TInputImage, TPolyline, TVector, TOutputImage>::Generate
 template <typename TInputImage, typename TPolyline, typename TVector, typename TOutputImage>
 void
 PolylineMaskImageFilter<TInputImage, TPolyline, TVector, TOutputImage>::PrintSelf(std::ostream & os,
-                                                                                  Indent         indent) const
+                                                                                  Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

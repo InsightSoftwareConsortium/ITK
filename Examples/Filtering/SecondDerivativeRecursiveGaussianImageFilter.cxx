@@ -105,7 +105,7 @@ main(int argc, char * argv[])
   reader->SetFileName(argv[1]);
 
   const std::string outputPrefix = argv[2];
-  std::string       outputFileName;
+  std::string outputFileName;
 
   try
   {

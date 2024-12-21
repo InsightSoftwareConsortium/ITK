@@ -171,7 +171,7 @@ int
 FEMPArray<T>::Renumber()
 {
   typename Superclass::iterator i;
-  int                           j = 0;
+  int j = 0;
   for (i = this->begin(); i != this->end(); ++i)
   {
     (*i)->SetGlobalNumber(j);

@@ -58,8 +58,8 @@ MetaSceneConverter<VDimension, PixelType, TMeshTraits>::CreateSpatialObjectScene
   SpatialObjectPointer soScene = nullptr;
 
   MetaScene::ObjectListType * list = mScene->GetObjectList();
-  auto                        it = list->begin();
-  auto                        itEnd = list->end();
+  auto it = list->begin();
+  auto itEnd = list->end();
 
   SpatialObjectPointer currentSO = nullptr;
 
@@ -189,8 +189,8 @@ MetaSceneConverter<VDimension, PixelType, TMeshTraits>::ReadMeta(const std::stri
 template <unsigned int VDimension, typename PixelType, typename TMeshTraits>
 MetaScene *
 MetaSceneConverter<VDimension, PixelType, TMeshTraits>::CreateMetaScene(const SpatialObjectType * soScene,
-                                                                        unsigned int              depth,
-                                                                        const std::string &       name)
+                                                                        unsigned int depth,
+                                                                        const std::string & name)
 {
   auto * metaScene = new MetaScene(VDimension);
   metaScene->APIVersion(m_MetaIOVersion);
@@ -295,9 +295,9 @@ MetaSceneConverter<VDimension, PixelType, TMeshTraits>::CreateMetaScene(const Sp
 template <unsigned int VDimension, typename PixelType, typename TMeshTraits>
 bool
 MetaSceneConverter<VDimension, PixelType, TMeshTraits>::WriteMeta(const SpatialObjectType * soScene,
-                                                                  const std::string &       fileName,
-                                                                  unsigned int              depth,
-                                                                  const std::string &       soName)
+                                                                  const std::string & fileName,
+                                                                  unsigned int depth,
+                                                                  const std::string & soName)
 {
   MetaScene * metaScene = this->CreateMetaScene(soScene, depth, soName);
 

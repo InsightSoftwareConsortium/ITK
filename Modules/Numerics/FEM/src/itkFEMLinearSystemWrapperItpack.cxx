@@ -330,9 +330,9 @@ LinearSystemWrapperItpack::AddMatrixValue(unsigned int i, unsigned int j, Float 
 }
 
 void
-LinearSystemWrapperItpack::GetColumnsOfNonZeroMatrixElementsInRow(unsigned int  row,
+LinearSystemWrapperItpack::GetColumnsOfNonZeroMatrixElementsInRow(unsigned int row,
                                                                   ColumnArray & cols,
-                                                                  unsigned int  matrixIndex)
+                                                                  unsigned int matrixIndex)
 {
   /* FIXME: error checking */
   if (!m_Matrices)
@@ -397,7 +397,7 @@ LinearSystemWrapperItpack::ScaleMatrix(Float scale, unsigned int matrixIndex)
       __FILE__, __LINE__, "LinearSystemWrapperItpack::ScaleMatrix", "m_Matrices", matrixIndex);
   }
 
-  int          i;
+  int i;
   doublereal * values = (*m_Matrices)[matrixIndex].GetA();
   for (i = 0; i < (*m_Matrices)[matrixIndex].GetIA()[this->m_Order] - 1; ++i)
   {
@@ -576,13 +576,13 @@ LinearSystemWrapperItpack::Solve()
   }
 
   /* itpack variables */
-  integer      N;
-  integer      NB;
-  integer      NW;
-  integer      NCG;
-  integer *    IWKSP;
+  integer N;
+  integer NB;
+  integer NW;
+  integer NCG;
+  integer * IWKSP;
   doublereal * WKSP;
-  integer      IERR = 0;
+  integer IERR = 0;
 
   /*********************************************************************
    * FIX ME: itpack does not allow for any non-zero diagonal elements
@@ -739,10 +739,10 @@ LinearSystemWrapperItpack::SwapMatrices(unsigned int matrixIndex1, unsigned int 
       __FILE__, __LINE__, "LinearSystemWrapperItpack::SwapMatrices", "m_Matrices", matrixIndex2);
   }
 
-  int          n = (*m_Matrices)[matrixIndex2].GetOrder();
-  int          nz = (*m_Matrices)[matrixIndex2].GetMaxNonZeroValues();
-  integer *    ia = (*m_Matrices)[matrixIndex2].GetIA();
-  integer *    ja = (*m_Matrices)[matrixIndex2].GetJA();
+  int n = (*m_Matrices)[matrixIndex2].GetOrder();
+  int nz = (*m_Matrices)[matrixIndex2].GetMaxNonZeroValues();
+  integer * ia = (*m_Matrices)[matrixIndex2].GetIA();
+  integer * ja = (*m_Matrices)[matrixIndex2].GetJA();
   doublereal * a = (*m_Matrices)[matrixIndex2].GetA();
 
   (*m_Matrices)[matrixIndex2].SetOrder((*m_Matrices)[matrixIndex1].GetOrder());
@@ -1013,8 +1013,8 @@ LinearSystemWrapperItpack::~LinearSystemWrapperItpack()
 
 FEMExceptionItpackSolver::FEMExceptionItpackSolver(const char * file,
                                                    unsigned int lineNumber,
-                                                   std::string  location,
-                                                   integer      errorCode)
+                                                   std::string location,
+                                                   integer errorCode)
   : FEMException(file, lineNumber)
 {
   std::string solverError;

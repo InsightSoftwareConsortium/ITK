@@ -126,12 +126,12 @@ DelaunayConformingQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::Process()
 
   m_FlipEdge->SetInput(output);
 
-  typename std::vector<OutputQEType *>           list_qe(5);
+  typename std::vector<OutputQEType *> list_qe(5);
   typename std::vector<OutputQEType *>::iterator it;
 
   OutputEdgeCellType * edge;
-  OutputQEType *       qe;
-  OutputQEType *       e_it;
+  OutputQEType * qe;
+  OutputQEType * e_it;
 
   CriterionValueType value;
 

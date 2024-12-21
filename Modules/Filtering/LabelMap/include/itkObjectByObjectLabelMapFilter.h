@@ -212,9 +212,9 @@ protected:
   GenerateData() override;
 
 private:
-  bool     m_ConstrainPaddingToImage{};
+  bool m_ConstrainPaddingToImage{};
   SizeType m_PadSize{};
-  bool     m_BinaryInternalOutput{};
+  bool m_BinaryInternalOutput{};
 
   bool m_KeepLabels{};
 
@@ -238,7 +238,7 @@ private:
   using BI2LMType = itk::BinaryImageToLabelMapFilter<InternalOutputImageType, LabelMapType>;
   typename BI2LMType::Pointer m_BI2LM{};
 
-  typename InputFilterType::Pointer  m_InputFilter{};
+  typename InputFilterType::Pointer m_InputFilter{};
   typename OutputFilterType::Pointer m_OutputFilter{};
 
 

@@ -59,14 +59,14 @@ PyVnl<TElement>::_GetVnlVectorFromArray(PyObject * arr, PyObject * const shape) 
   [[maybe_unused]] const std::unique_ptr<Py_buffer, decltype(&PyBuffer_Release)> bufferScopeGuard(&pyBuffer,
                                                                                                   &PyBuffer_Release);
 
-  const Py_ssize_t   bufferLength = pyBuffer.len;
+  const Py_ssize_t bufferLength = pyBuffer.len;
   const void * const buffer = pyBuffer.buf;
 
-  PyObject * const   shapeseq = PySequence_Fast(shape, "expected sequence");
+  PyObject * const shapeseq = PySequence_Fast(shape, "expected sequence");
   const unsigned int dimension = PySequence_Size(shape);
 
   PyObject * const item = PySequence_Fast_GET_ITEM(shapeseq, 0); // Only one dimension
-  const size_t     numberOfElements = static_cast<size_t>(PyInt_AsLong(item));
+  const size_t numberOfElements = static_cast<size_t>(PyInt_AsLong(item));
 
   const size_t len = numberOfElements * sizeof(DataType);
   if (bufferLength < 0 || static_cast<size_t>(bufferLength) != len)
@@ -117,10 +117,10 @@ PyVnl<TElement>::_GetVnlMatrixFromArray(PyObject * arr, PyObject * const shape) 
   [[maybe_unused]] const std::unique_ptr<Py_buffer, decltype(&PyBuffer_Release)> bufferScopeGuard(&pyBuffer,
                                                                                                   &PyBuffer_Release);
 
-  const Py_ssize_t   bufferLength = pyBuffer.len;
+  const Py_ssize_t bufferLength = pyBuffer.len;
   const void * const buffer = pyBuffer.buf;
 
-  PyObject * const   shapeseq = PySequence_Fast(shape, "expected sequence");
+  PyObject * const shapeseq = PySequence_Fast(shape, "expected sequence");
   const unsigned int dimension = PySequence_Size(shape);
 
   for (unsigned int i = 0; i < 2; ++i)

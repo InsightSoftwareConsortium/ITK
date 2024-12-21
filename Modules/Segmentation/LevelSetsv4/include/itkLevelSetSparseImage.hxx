@@ -176,9 +176,9 @@ LevelSetSparseImage<TOutput, VDimension>::GetAsLabelObject()
 
   while (lIt != lEnd)
   {
-    const LayerIdType        id = *lIt;
+    const LayerIdType id = *lIt;
     const LabelObjectPointer labelObject = this->m_LabelMap->GetLabelObject(id);
-    const SizeValueType      numberOfLines = labelObject->GetNumberOfLines();
+    const SizeValueType numberOfLines = labelObject->GetNumberOfLines();
 
     for (SizeValueType i = 0; i < numberOfLines; ++i)
     {

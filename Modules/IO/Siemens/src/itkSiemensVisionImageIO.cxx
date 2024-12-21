@@ -75,7 +75,7 @@ SiemensVisionImageIO::ReadHeader(const char * FileNameToRead)
   {
     RAISE_EXCEPTION();
   }
-  int    tmpInt;
+  int tmpInt;
   double tmpDble;
 
   // #define DEBUGHEADER

@@ -82,7 +82,7 @@ HoughTransform2DCirclesImageFilter<TInputPixelType, TOutputPixelType, TRadiusPix
 {
   // Get the input and output pointers
   const InputImageConstPointer inputImage = this->GetInput(0);
-  const OutputImagePointer     outputImage = this->GetOutput(0);
+  const OutputImagePointer outputImage = this->GetOutput(0);
 
   // Allocate the output
   this->AllocateOutputs();
@@ -112,7 +112,7 @@ HoughTransform2DCirclesImageFilter<TInputPixelType, TOutputPixelType, TRadiusPix
   {
     if (image_it.Get() > m_Threshold)
     {
-      const Index<2>                             inputIndex = image_it.GetIndex();
+      const Index<2> inputIndex = image_it.GetIndex();
       const typename DoGFunctionType::VectorType grad = DoGFunction->DoGFunctionType::EvaluateAtIndex(inputIndex);
 
       double Vx = grad[0];
@@ -161,7 +161,7 @@ HoughTransform2DCirclesImageFilter<TInputPixelType, TOutputPixelType, TRadiusPix
 
   // Compute the average radius
   ImageRegionConstIterator<OutputImageType> output_it(outputImage, outputImage->GetLargestPossibleRegion());
-  ImageRegionIterator<RadiusImageType>      radius_it(m_RadiusImage, m_RadiusImage->GetLargestPossibleRegion());
+  ImageRegionIterator<RadiusImageType> radius_it(m_RadiusImage, m_RadiusImage->GetLargestPossibleRegion());
   while (!output_it.IsAtEnd())
   {
     if (output_it.Get() > 1)
@@ -299,7 +299,7 @@ HoughTransform2DCirclesImageFilter<TInputPixelType, TOutputPixelType, TRadiusPix
 
   os << indent << "CirclesList: " << std::endl;
   unsigned int i = 0;
-  auto         it = m_CirclesList.begin();
+  auto it = m_CirclesList.begin();
   while (it != m_CirclesList.end())
   {
     os << indent << '[' << i << "]: " << *it << std::endl;

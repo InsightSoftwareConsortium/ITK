@@ -28,8 +28,8 @@ template <typename ImageType>
 int
 itkFFTDiscreteGaussianImageFilterTestProcedure(int argc, char ** argv)
 {
-  const float        sigma = (argc > 4) ? std::stof(argv[4]) : 0.0;
-  const float        kernelError = (argc > 5) ? std::stof(argv[5]) : 0.01;
+  const float sigma = (argc > 4) ? std::stof(argv[4]) : 0.0;
+  const float kernelError = (argc > 5) ? std::stof(argv[5]) : 0.01;
   const unsigned int kernelWidth = (argc > 6) ? std::stoi(argv[6]) : 32;
   const unsigned int filterDimensionality = (argc > 7) ? std::stoi(argv[7]) : ImageType::ImageDimension;
   const unsigned int kernelSource = (argc > 8) ? std::stoi(argv[8]) : 0;

@@ -27,7 +27,7 @@
 int
 itkDelaunayConformingQuadEdgeMeshFilterTestHelper(const std::string & input,
                                                   const std::string & output,
-                                                  const bool          cell_data)
+                                                  const bool cell_data)
 {
 
   // ** TYPEDEF **

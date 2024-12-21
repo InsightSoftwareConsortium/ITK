@@ -188,7 +188,7 @@ protected:
 
 private:
   ExpandFactorsArrayType m_ExpandFactors{};
-  InterpolatorPointer    m_Interpolator{};
+  InterpolatorPointer m_Interpolator{};
 };
 } // end namespace itk
 

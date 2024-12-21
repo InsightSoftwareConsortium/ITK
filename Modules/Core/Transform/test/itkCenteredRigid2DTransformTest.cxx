@@ -49,9 +49,9 @@ itkCenteredRigid2DTransformTest(int, char *[])
   std::cout << "==================================" << std::endl;
   std::cout << "Testing CenteredRigid 2D Transform" << std::endl << std::endl;
 
-  constexpr double       epsilon = 1e-10;
+  constexpr double epsilon = 1e-10;
   constexpr unsigned int N = 2;
-  bool                   Ok = true;
+  bool Ok = true;
 
   using CenteredRigidTransformType = itk::CenteredRigid2DTransform<double>;
   auto transform = CenteredRigidTransformType::New();
@@ -66,8 +66,8 @@ itkCenteredRigid2DTransformTest(int, char *[])
 
   // Rotate an itk::Point
   constexpr CenteredRigidTransformType::InputPointType::ValueType pInit[2] = { 10, 10 };
-  CenteredRigidTransformType::InputPointType                      p = pInit;
-  CenteredRigidTransformType::InputPointType                      q;
+  CenteredRigidTransformType::InputPointType p = pInit;
+  CenteredRigidTransformType::InputPointType q;
 
   q[0] = p[0] * costh - p[1] * sinth;
   q[1] = p[0] * sinth + p[1] * costh;
@@ -98,7 +98,7 @@ itkCenteredRigid2DTransformTest(int, char *[])
   transform->SetAngle(0);
 
   CenteredRigidTransformType::OffsetType::ValueType ioffsetInit[2] = { 1, 4 };
-  const CenteredRigidTransformType::OffsetType      ioffset = ioffsetInit;
+  const CenteredRigidTransformType::OffsetType ioffset = ioffsetInit;
 
   transform->SetOffset(ioffset);
 
@@ -129,7 +129,7 @@ itkCenteredRigid2DTransformTest(int, char *[])
     std::cout << "Testing Inverse:";
 
     // Populate the transform with some parameters
-    auto             transform2 = CenteredRigidTransformType::New();
+    auto transform2 = CenteredRigidTransformType::New();
     constexpr double a = 0.175;
     transform2->SetAngle(a);
 
@@ -329,7 +329,7 @@ itkCenteredRigid2DTransformTest(int, char *[])
     TransformType::JacobianType approxJacobian = jacobian;
     for (unsigned int k = 0; k < t1->GetNumberOfParameters(); ++k)
     {
-      constexpr double              delta = 0.001;
+      constexpr double delta = 0.001;
       TransformType::ParametersType plusParameters;
       TransformType::ParametersType minusParameters;
 

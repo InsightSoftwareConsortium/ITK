@@ -44,7 +44,7 @@ TestTransform()
   using SizeType = typename RegionType::SizeType;
 
   typename ImageType::PointType point;
-  RegionType                    region;
+  RegionType region;
 
   auto size = SizeType::Filled(10);
   region.SetSize(size);

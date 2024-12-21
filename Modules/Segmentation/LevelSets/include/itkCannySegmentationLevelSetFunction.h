@@ -130,7 +130,7 @@ protected:
 
 private:
   ScalarValueType m_Variance{};
-  double          m_Threshold{};
+  double m_Threshold{};
 
   typename CannyEdgeDetectionImageFilter<ImageType, ImageType>::Pointer m_Canny{};
 

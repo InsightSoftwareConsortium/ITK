@@ -85,7 +85,7 @@ InPlaceLabelMapFilter<TInputImage>::AllocateOutputs()
     Superclass::AllocateOutputs();
     // copy the content of the input image to the output image
     const TInputImage * input = this->GetInput();
-    TOutputImage *      output = this->GetOutput();
+    TOutputImage * output = this->GetOutput();
     itkAssertInDebugAndIgnoreInReleaseMacro(input != nullptr);
     itkAssertInDebugAndIgnoreInReleaseMacro(output != nullptr);
 

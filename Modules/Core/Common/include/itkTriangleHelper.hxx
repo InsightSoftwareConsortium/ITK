@@ -59,8 +59,8 @@ auto
 TriangleHelper<TPoint>::ComputeNormal(const PointType & iA, const PointType & iB, const PointType & iC) -> VectorType
 {
   const CrossVectorType cross;
-  VectorType            w = cross(iB - iA, iC - iA);
-  const CoordinateType  l2 = w.GetSquaredNorm();
+  VectorType w = cross(iB - iA, iC - iA);
+  const CoordinateType l2 = w.GetSquaredNorm();
 
   if (l2 != 0.0)
   {
@@ -83,7 +83,7 @@ TriangleHelper<TPoint>::Cotangent(const PointType & iA, const PointType & iB, co
     v21 /= std::sqrt(v21_l2);
   }
 
-  VectorType           v23 = iC - iB;
+  VectorType v23 = iC - iB;
   const CoordinateType v23_l2 = v23.GetSquaredNorm();
   if (Math::NotAlmostEquals(v23_l2, CoordinateType{}))
   {
@@ -100,14 +100,14 @@ TriangleHelper<TPoint>::Cotangent(const PointType & iA, const PointType & iB, co
 template <typename TPoint>
 auto
 TriangleHelper<TPoint>::ComputeBarycenter(const CoordinateType & iA1,
-                                          const PointType &      iP1,
+                                          const PointType & iP1,
                                           const CoordinateType & iA2,
-                                          const PointType &      iP2,
+                                          const PointType & iP2,
                                           const CoordinateType & iA3,
-                                          const PointType &      iP3) -> PointType
+                                          const PointType & iP3) -> PointType
 {
   const CoordinateType total = iA1 + iA2 + iA3;
-  PointType            oPt{};
+  PointType oPt{};
   if (Math::AlmostEquals(total, CoordinateType{}))
   {
     // in such case there is no barycenter;

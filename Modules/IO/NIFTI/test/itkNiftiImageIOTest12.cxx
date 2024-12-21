@@ -32,10 +32,10 @@ itkNiftiImageIOTest12(int argc, char * argv[])
     return EXIT_FAILURE;
   }
   constexpr unsigned int CmdLineTestDirPos = 1;
-  const std::string      testdir{ argv[CmdLineTestDirPos] };
+  const std::string testdir{ argv[CmdLineTestDirPos] };
   itksys::SystemTools::ChangeDirectory(testdir);
   constexpr unsigned int CmdLineFilenamePos = 2;
-  const std::string      imgfilename{ argv[CmdLineFilenamePos] };
+  const std::string imgfilename{ argv[CmdLineFilenamePos] };
 
   using ImageType = itk::VectorImage<unsigned char, 3>;
 
@@ -102,7 +102,7 @@ itkNiftiImageIOTest12(int argc, char * argv[])
     ITK_TEST_EXPECT_EQUAL(originalHash, readHash);
 
     constexpr ImageType::IndexType threeIndex = { { 3, 3, 3 } };
-    ImageType::PointType           origPhysLocationIndexThree;
+    ImageType::PointType origPhysLocationIndexThree;
     image->TransformIndexToPhysicalPoint<itk::SpacePrecisionType>(threeIndex, origPhysLocationIndexThree);
     ImageType::PointType readPhysLocationIndexThree;
     readImage->TransformIndexToPhysicalPoint<itk::SpacePrecisionType>(threeIndex, readPhysLocationIndexThree);

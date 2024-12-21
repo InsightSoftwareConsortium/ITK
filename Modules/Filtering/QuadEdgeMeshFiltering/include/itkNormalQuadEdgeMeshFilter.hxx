@@ -35,7 +35,7 @@ NormalQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::ComputeFaceNormal(OutputPolyg
   const OutputMeshPointer output = this->GetOutput();
 
   OutputPointType pt[3];
-  int             k(0);
+  int k(0);
 
   OutputQEType * edge = iPoly->GetEdgeRingEntry();
   OutputQEType * temp = edge;
@@ -54,7 +54,7 @@ void
 NormalQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::ComputeAllFaceNormals()
 {
   const OutputMeshPointer output = this->GetOutput();
-  OutputPolygonType *     poly;
+  OutputPolygonType * poly;
 
   for (OutputCellsContainerConstIterator cell_it = output->GetCells()->Begin(); cell_it != output->GetCells()->End();
        ++cell_it)
@@ -75,9 +75,9 @@ template <typename TInputMesh, typename TOutputMesh>
 void
 NormalQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::ComputeAllVertexNormals()
 {
-  const OutputMeshPointer            output = this->GetOutput();
+  const OutputMeshPointer output = this->GetOutput();
   const OutputPointsContainerPointer points = output->GetPoints();
-  OutputPointIdentifier              id;
+  OutputPointIdentifier id;
 
   OutputMeshType * outputMesh = this->GetOutput();
 
@@ -91,16 +91,16 @@ NormalQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::ComputeAllVertexNormals()
 template <typename TInputMesh, typename TOutputMesh>
 auto
 NormalQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::ComputeVertexNormal(const OutputPointIdentifier & iId,
-                                                                       OutputMeshType *              outputMesh)
+                                                                       OutputMeshType * outputMesh)
   -> OutputVertexNormalType
 {
 
-  OutputQEType *       edge = outputMesh->FindEdge(iId);
-  OutputQEType *       temp = edge;
+  OutputQEType * edge = outputMesh->FindEdge(iId);
+  OutputQEType * temp = edge;
   OutputCellIdentifier cell_id(0);
 
   OutputVertexNormalType n(0.);
-  OutputFaceNormalType   face_normal(0.);
+  OutputFaceNormalType face_normal(0.);
 
   do
   {
@@ -120,8 +120,8 @@ NormalQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::ComputeVertexNormal(const Out
 template <typename TInputMesh, typename TOutputMesh>
 auto
 NormalQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::Weight(const OutputPointIdentifier & iPId,
-                                                          const OutputCellIdentifier &  iCId,
-                                                          OutputMeshType *              outputMesh)
+                                                          const OutputCellIdentifier & iCId,
+                                                          OutputMeshType * outputMesh)
   -> OutputVertexNormalComponentType
 {
   if (m_Weight == WeightEnum::GOURAUD)
@@ -137,11 +137,11 @@ NormalQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::Weight(const OutputPointIdent
       // this test should be removed...
       if (poly->GetNumberOfPoints() == 3)
       {
-        OutputQEType *  edge = poly->GetEdgeRingEntry();
-        OutputQEType *  temp = edge;
+        OutputQEType * edge = poly->GetEdgeRingEntry();
+        OutputQEType * temp = edge;
         OutputPointType pt[3];
-        int             internal_id(0);
-        int             k(0);
+        int internal_id(0);
+        int k(0);
         do
         {
           pt[k] = outputMesh->GetPoint(temp->GetOrigin());

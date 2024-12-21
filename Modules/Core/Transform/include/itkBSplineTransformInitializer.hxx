@@ -56,9 +56,9 @@ BSplineTransformInitializer<TTransform, TImage>::InitializeTransform() const
     itkExceptionMacro("Image dimensionality does not match the transform.");
   }
 
-  OriginType             transformDomainOrigin;
+  OriginType transformDomainOrigin;
   PhysicalDimensionsType transformDomainPhysicalDimensions;
-  DirectionType          transformDomainDirection;
+  DirectionType transformDomainDirection;
 
   // Determine the image corners. We keep track of the relative location of
   // the corners using a binary labeling system. For example, in a 3-D
@@ -137,7 +137,7 @@ BSplineTransformInitializer<TTransform, TImage>::InitializeTransform() const
 
   transformDomainOrigin.Fill(0);
   PointIdentifier transformDomainOriginId = 0;
-  RealType        minDistance = NumericTraits<RealType>::max();
+  RealType minDistance = NumericTraits<RealType>::max();
 
   for (unsigned int d = 0; d < cornerPoints->GetNumberOfPoints(); ++d)
   {
@@ -163,7 +163,7 @@ BSplineTransformInitializer<TTransform, TImage>::InitializeTransform() const
   // axis.
 
   PointIdentifier minCornerId[SpaceDimension];
-  double          minAngle[SpaceDimension];
+  double minAngle[SpaceDimension];
 
   for (unsigned int d = 0; d < SpaceDimension; ++d)
   {

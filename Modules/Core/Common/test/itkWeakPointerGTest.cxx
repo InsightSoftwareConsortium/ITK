@@ -56,7 +56,7 @@ TEST(WeakPointer, CheckNull)
   ASSERT_TRUE(nullPtr.IsNull());
 
   const itk::LightObject::Pointer lightObject = itk::LightObject::New();
-  const WeakPointerType           ptr = lightObject.GetPointer();
+  const WeakPointerType ptr = lightObject.GetPointer();
   ASSERT_TRUE(ptr.IsNotNull());
 }
 
@@ -67,7 +67,7 @@ TEST(WeakPointer, CheckSerialization)
   std::cout << nullPtr << std::endl;
 
   const itk::LightObject::Pointer lightObject = itk::LightObject::New();
-  const WeakPointerType           ptr = lightObject.GetPointer();
+  const WeakPointerType ptr = lightObject.GetPointer();
   std::cout << ptr << std::endl;
 }
 

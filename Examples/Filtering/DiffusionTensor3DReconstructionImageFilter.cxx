@@ -79,10 +79,10 @@ main(int argc, char * argv[])
   }
 
   constexpr unsigned int Dimension = 3;
-  unsigned int           numberOfImages = 0;
-  unsigned int           numberOfGradientImages = 0;
-  bool                   readb0 = false;
-  double                 b0 = 0;
+  unsigned int numberOfImages = 0;
+  unsigned int numberOfGradientImages = 0;
+  bool readb0 = false;
+  double b0 = 0;
 
   using PixelType = unsigned short;
   using ImageType = itk::VectorImage<unsigned short, 3>;
@@ -138,7 +138,7 @@ main(int argc, char * argv[])
     img->GetMetaDataDictionary();
   std::vector<std::string> imgMetaKeys = imgMetaDictionary.GetKeys();
   std::vector<std::string>::const_iterator itKey = imgMetaKeys.begin();
-  std::string                              metaString;
+  std::string metaString;
 
   TensorReconstructionImageFilterType::GradientDirectionType vect3d;
   const TensorReconstructionImageFilterType::GradientDirectionContainerType::

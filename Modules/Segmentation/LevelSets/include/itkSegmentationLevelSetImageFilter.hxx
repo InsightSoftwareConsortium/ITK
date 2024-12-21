@@ -105,7 +105,7 @@ SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>::G
 template <typename TInputImage, typename TFeatureImage, typename TOutputPixelType>
 void
 SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>::PrintSelf(std::ostream & os,
-                                                                                         Indent         indent) const
+                                                                                         Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

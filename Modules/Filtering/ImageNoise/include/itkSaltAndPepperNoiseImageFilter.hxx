@@ -41,7 +41,7 @@ SaltAndPepperNoiseImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
   ThreadIdType)
 {
   const InputImageType * inputPtr = this->GetInput();
-  OutputImageType *      outputPtr = this->GetOutput(0);
+  OutputImageType * outputPtr = this->GetOutput(0);
 
   // Create a random generator per thread
   IndexValueType indSeed = 0;
@@ -49,7 +49,7 @@ SaltAndPepperNoiseImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
   {
     indSeed += outputRegionForThread.GetIndex(d);
   }
-  auto           rand = Statistics::MersenneTwisterRandomVariateGenerator::New();
+  auto rand = Statistics::MersenneTwisterRandomVariateGenerator::New();
   const uint32_t seed = Self::Hash(this->GetSeed(), uint32_t(indSeed));
   rand->Initialize(seed);
 
@@ -61,7 +61,7 @@ SaltAndPepperNoiseImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
 
   // Define the iterators
   ImageScanlineConstIterator inputIt(inputPtr, inputRegionForThread);
-  ImageScanlineIterator      outputIt(outputPtr, outputRegionForThread);
+  ImageScanlineIterator outputIt(outputPtr, outputRegionForThread);
 
   TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
 

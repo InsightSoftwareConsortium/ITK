@@ -180,7 +180,7 @@ int
 testCommandConstObject()
 {
 
-  const itk::Object::Pointer      o = itk::Object::New();
+  const itk::Object::Pointer o = itk::Object::New();
   const itk::Object::ConstPointer co = o;
 
   const itk::CStyleCommand::Pointer cmd = itk::CStyleCommand::New();
@@ -215,7 +215,7 @@ testCommandRecursiveObject()
   // a Command.
   // This is a super-mean test that is not likely to really be used.
 
-  const itk::Object::Pointer      o = itk::Object::New();
+  const itk::Object::Pointer o = itk::Object::New();
   const itk::Object::ConstPointer co = o;
 
   unsigned long idToRemove;

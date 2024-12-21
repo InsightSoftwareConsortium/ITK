@@ -134,7 +134,7 @@ protected:
 private:
   typename AuxValueContainer::Pointer m_AuxInsideValues{};
   typename AuxValueContainer::Pointer m_AuxOutsideValues{};
-  AuxImageConstPointer                m_AuxImage[VAuxDimension]{};
+  AuxImageConstPointer m_AuxImage[VAuxDimension]{};
 };
 } // namespace itk
 

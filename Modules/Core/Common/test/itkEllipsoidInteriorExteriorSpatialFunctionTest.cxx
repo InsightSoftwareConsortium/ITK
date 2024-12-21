@@ -58,7 +58,7 @@ itkEllipsoidInteriorExteriorSpatialFunctionTest(int, char *[])
   // (0,1,0) corresponds to the axes of length axes[0]
   // (1,0,0) corresponds to the axes of length axes[1]
   // (0,0,1) corresponds to the axes of length axes[2]
-  double                   data[] = { 0, 1, 0, 1, 0, 0, 0, 0, 1 };
+  double data[] = { 0, 1, 0, 1, 0, 0, 0, 0, 1 };
   const vnl_matrix<double> orientations(data, 3, 3);
 
   // Set the orientations of the ellipsoids
@@ -69,8 +69,8 @@ itkEllipsoidInteriorExteriorSpatialFunctionTest(int, char *[])
   double
     testPosition[dimension]; // position of a pixel in the function doitkEllipsoidInteriorExteriorSpatialFunctionTest
 
-  bool functionValue;            // Value of pixel at a given position
-  int  interiorPixelCounter = 0; // Count pixels inside ellipsoid
+  bool functionValue;           // Value of pixel at a given position
+  int interiorPixelCounter = 0; // Count pixels inside ellipsoid
 
   for (int x = 0; x < xExtent; ++x)
   {

@@ -36,7 +36,7 @@ HalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::GenerateOut
 
   // get pointers to the input and output
   const typename InputImageType::ConstPointer inputPtr = this->GetInput();
-  const typename OutputImageType::Pointer     outputPtr = this->GetOutput();
+  const typename OutputImageType::Pointer outputPtr = this->GetOutput();
 
   if (!inputPtr || !outputPtr)
   {
@@ -48,10 +48,10 @@ HalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::GenerateOut
   // has no meaning in the result of an FFT. For an IFFT, since the
   // spacing is propagated to the complex result, we can use the spacing
   // from the input to propagate back to the output.
-  const typename InputImageType::SizeType &  inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
+  const typename InputImageType::SizeType & inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
   const typename InputImageType::IndexType & inputStartIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
 
-  typename OutputImageType::SizeType  outputSize;
+  typename OutputImageType::SizeType outputSize;
   typename OutputImageType::IndexType outputStartIndex;
 
   // In 4.3.4 of the FFTW documentation, they indicate the size of

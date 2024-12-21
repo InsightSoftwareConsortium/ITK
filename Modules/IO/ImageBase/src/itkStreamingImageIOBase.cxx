@@ -46,7 +46,7 @@ StreamingImageIOBase::StreamReadBufferAsBinary(std::istream & file, void * _buff
 
   // compute the number of continuous bytes to be read
   std::streamsize sizeOfChunk = 1;
-  unsigned int    movingDirection = 0;
+  unsigned int movingDirection = 0;
   do
   {
     sizeOfChunk *= m_IORegion.GetSize(movingDirection);
@@ -61,7 +61,7 @@ StreamingImageIOBase::StreamReadBufferAsBinary(std::istream & file, void * _buff
   {
     // calculate the position to seek to in the file
     std::streampos seekPos = 0;
-    SizeValueType  subDimensionQuantity = 1;
+    SizeValueType subDimensionQuantity = 1;
     for (unsigned int i = 0; i < m_IORegion.GetImageDimension(); ++i)
     {
       seekPos = seekPos + static_cast<std::streamoff>(subDimensionQuantity * this->GetPixelSize() * currentIndex[i]);
@@ -173,7 +173,7 @@ StreamingImageIOBase::StreamWriteBufferAsBinary(std::ostream & file, const void 
 
   // compute the number of continuous bytes to be written
   std::streamsize sizeOfChunk = 1;
-  unsigned int    movingDirection = 0;
+  unsigned int movingDirection = 0;
   do
   {
     sizeOfChunk *= m_IORegion.GetSize(movingDirection);
@@ -187,7 +187,7 @@ StreamingImageIOBase::StreamWriteBufferAsBinary(std::ostream & file, const void 
   {
     // calculate the position to seek to in the file
     std::streampos seekPos = 0;
-    SizeValueType  subDimensionQuantity = 1;
+    SizeValueType subDimensionQuantity = 1;
     for (unsigned int i = 0; i < m_IORegion.GetImageDimension(); ++i)
     {
       seekPos = seekPos + static_cast<std::streamoff>(subDimensionQuantity * this->GetPixelSize() * currentIndex[i]);
@@ -246,7 +246,7 @@ StreamingImageIOBase::CanStreamWrite()
 }
 
 unsigned int
-StreamingImageIOBase::GetActualNumberOfSplitsForWriting(unsigned int          numberOfRequestedSplits,
+StreamingImageIOBase::GetActualNumberOfSplitsForWriting(unsigned int numberOfRequestedSplits,
                                                         const ImageIORegion & pasteRegion,
                                                         const ImageIORegion & largestPossibleRegion)
 {
@@ -265,7 +265,7 @@ StreamingImageIOBase::GetActualNumberOfSplitsForWriting(unsigned int          nu
     // we are going to be pasting (may be streaming too)
 
     // need to check to see if the file is compatible
-    std::string   errorMessage;
+    std::string errorMessage;
     const Pointer headerImageIOReader = dynamic_cast<StreamingImageIOBase *>(this->CreateAnother().GetPointer());
 
     try

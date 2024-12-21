@@ -38,11 +38,11 @@ public:
   OptImageToImageMetricsTest() = default;
 
   void
-  RunTest(FixedImageType *      fixed,
-          MovingImageType *     moving,
-          InterpolatorType *    interpolator,
-          TransformType *       transform,
-          MetricType *          metric,
+  RunTest(FixedImageType * fixed,
+          MovingImageType * moving,
+          InterpolatorType * interpolator,
+          TransformType * transform,
+          MetricType * metric,
           MetricInitializerType metricInitializer)
   {
     std::cout << "-------------------------------------------------------------------" << std::endl;
@@ -122,10 +122,10 @@ template <typename InterpolatorType,
           typename FixedImageReaderType,
           typename MovingImageReaderType>
 void
-BasicTest(FixedImageReaderType *  fixedImageReader,
+BasicTest(FixedImageReaderType * fixedImageReader,
           MovingImageReaderType * movingImageReader,
-          InterpolatorType *      interpolator,
-          TransformType *         transform)
+          InterpolatorType * interpolator,
+          TransformType * transform)
 {
   using FixedImageType = typename FixedImageReaderType::OutputImageType;
   using MovingImageType = typename MovingImageReaderType::OutputImageType;
@@ -133,12 +133,12 @@ BasicTest(FixedImageReaderType *  fixedImageReader,
   fixedImageReader->Update();
   movingImageReader->Update();
 
-  typename FixedImageType::Pointer  fixed = fixedImageReader->GetOutput();
+  typename FixedImageType::Pointer fixed = fixedImageReader->GetOutput();
   typename MovingImageType::Pointer moving = movingImageReader->GetOutput();
 
   // Mean squares
   using MetricType = itk::MeanSquaresImageToImageMetric<FixedImageType, MovingImageType>;
-  auto                                                          msMetric = MetricType::New();
+  auto msMetric = MetricType::New();
   MeanSquaresMetricInitializer<FixedImageType, MovingImageType> msMetricInitializer(msMetric);
 
   TestAMetric(fixedImageReader, movingImageReader, interpolator, transform, msMetric.GetPointer(), msMetricInitializer);
@@ -151,12 +151,12 @@ template <typename FixedImageReaderType,
           typename MetricType,
           typename MetricInitializerType>
 void
-TestAMetric(FixedImageReaderType *  fixedImageReader,
+TestAMetric(FixedImageReaderType * fixedImageReader,
             MovingImageReaderType * movingImageReader,
-            InterpolatorType *      interpolator,
-            TransformType *         transform,
-            MetricType *            metric,
-            MetricInitializerType   metricInitializer)
+            InterpolatorType * interpolator,
+            TransformType * transform,
+            MetricType * metric,
+            MetricInitializerType metricInitializer)
 {
   using FixedImageType = typename FixedImageReaderType::OutputImageType;
   using MovingImageType = typename MovingImageReaderType::OutputImageType;
@@ -188,13 +188,13 @@ BSplineLinearTest(FixedImageReaderType * fixedImageReader, MovingImageReaderType
   fixedImageReader->Update();
   movingImageReader->Update();
 
-  typename FixedImageType::Pointer       fixedImage = fixedImageReader->GetOutput();
-  typename MovingImageType::Pointer      movingImage = movingImageReader->GetOutput();
-  typename FixedImageType::SpacingType   fixedSpacing = fixedImage->GetSpacing();
-  typename FixedImageType::PointType     fixedOrigin = fixedImage->GetOrigin();
+  typename FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
+  typename MovingImageType::Pointer movingImage = movingImageReader->GetOutput();
+  typename FixedImageType::SpacingType fixedSpacing = fixedImage->GetSpacing();
+  typename FixedImageType::PointType fixedOrigin = fixedImage->GetOrigin();
   typename FixedImageType::DirectionType fixedDirection = fixedImage->GetDirection();
-  typename FixedImageType::RegionType    fixedRegion = fixedImage->GetBufferedRegion();
-  typename FixedImageType::SizeType      fixedSize = fixedRegion.GetSize();
+  typename FixedImageType::RegionType fixedRegion = fixedImage->GetBufferedRegion();
+  typename FixedImageType::SizeType fixedSize = fixedRegion.GetSize();
 
   constexpr unsigned int SpaceDimension = 2;
   constexpr unsigned int VSplineOrder = 3;
@@ -204,7 +204,7 @@ BSplineLinearTest(FixedImageReaderType * fixedImageReader, MovingImageReaderType
 
   auto bsplineTransform = TransformType::New();
 
-  typename TransformType::MeshSizeType           meshSize;
+  typename TransformType::MeshSizeType meshSize;
   typename TransformType::PhysicalDimensionsType physicalDimensions;
   for (unsigned int d = 0; d < SpaceDimension; ++d)
   {

@@ -71,7 +71,7 @@ LaplacianOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients() -> Coe
 
   // Create a vector of the correct size to hold the coefficients.
   const unsigned int w = this->Size();
-  CoefficientVector  coeffP(w);
+  CoefficientVector coeffP(w);
 
   // Set the coefficients
   double sum = 0.0;

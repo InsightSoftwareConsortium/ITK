@@ -30,7 +30,7 @@ VnlInverseFFTImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   // Get pointers to the input and output.
   const typename InputImageType::ConstPointer inputPtr = this->GetInput();
-  const typename OutputImageType::Pointer     outputPtr = this->GetOutput();
+  const typename OutputImageType::Pointer outputPtr = this->GetOutput();
 
   if (!inputPtr || !outputPtr)
   {

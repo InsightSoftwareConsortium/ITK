@@ -25,7 +25,7 @@ template <typename TInternalComputationValueType>
 void
 GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate<
   TInternalComputationValueType>::ThreadedExecution(const IndexRangeType & subrange,
-                                                    const ThreadIdType     itkNotUsed(threadId))
+                                                    const ThreadIdType itkNotUsed(threadId))
 {
   this->m_Associate->ModifyGradientByLearningRateOverSubRange(subrange);
 }

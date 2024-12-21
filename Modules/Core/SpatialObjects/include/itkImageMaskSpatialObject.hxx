@@ -139,8 +139,8 @@ auto
 ImageMaskSpatialObject<TDimension, TPixel>::ComputeMyBoundingBoxInIndexSpace() const -> RegionType
 {
   const ImagePointer imagePointer = this->GetImage();
-  const bool         useMaskValue = this->GetUseMaskValue();
-  const PixelType    maskValue = this->GetMaskValue();
+  const bool useMaskValue = this->GetUseMaskValue();
+  const PixelType maskValue = this->GetMaskValue();
 
   if (imagePointer == nullptr)
   {

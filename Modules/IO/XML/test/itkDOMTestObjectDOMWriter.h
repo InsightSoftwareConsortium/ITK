@@ -60,7 +60,7 @@ DOMTestObjectDOMWriter::GenerateData(DOMNodeType * outputdom, const void *) cons
   const InputType * input = this->GetInput();
 
   std::ofstream ofs;
-  FancyString   fn;
+  FancyString fn;
 
   outputdom->SetName("DOMTestObject");
 

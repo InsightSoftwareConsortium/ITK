@@ -52,7 +52,7 @@ itkDivideOrZeroOutImageFilterTest(int, char *[])
   divider->InPlaceOn();
   divider->UpdateLargestPossibleRegion();
 
-  const ImageType::RegionType                       region = divider->GetOutput()->GetLargestPossibleRegion();
+  const ImageType::RegionType region = divider->GetOutput()->GetLargestPossibleRegion();
   itk::ImageRegionConstIteratorWithIndex<ImageType> iter(divider->GetOutput(), region);
   for (; !iter.IsAtEnd(); ++iter)
   {

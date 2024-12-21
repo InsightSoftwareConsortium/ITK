@@ -70,8 +70,8 @@ PointsLocator<TPointsContainer>::FindClosestPoint(const PointType & query) const
 
 template <typename TPointsContainer>
 void
-PointsLocator<TPointsContainer>::FindClosestNPoints(const PointType &         query,
-                                                    unsigned int              numberOfNeighborsRequested,
+PointsLocator<TPointsContainer>::FindClosestNPoints(const PointType & query,
+                                                    unsigned int numberOfNeighborsRequested,
                                                     NeighborsIdentifierType & identifiers) const
 {
   unsigned int N = numberOfNeighborsRequested;
@@ -87,10 +87,10 @@ PointsLocator<TPointsContainer>::FindClosestNPoints(const PointType &         qu
 
 template <typename TPointsContainer>
 void
-PointsLocator<TPointsContainer>::FindClosestNPoints(const PointType &         query,
-                                                    unsigned int              numberOfNeighborsRequested,
+PointsLocator<TPointsContainer>::FindClosestNPoints(const PointType & query,
+                                                    unsigned int numberOfNeighborsRequested,
                                                     NeighborsIdentifierType & identifiers,
-                                                    std::vector<double> &     distances) const
+                                                    std::vector<double> & distances) const
 {
   unsigned int N = numberOfNeighborsRequested;
   if (N > this->m_Points->Size())
@@ -105,8 +105,8 @@ PointsLocator<TPointsContainer>::FindClosestNPoints(const PointType &         qu
 
 template <typename TPointsContainer>
 void
-PointsLocator<TPointsContainer>::FindPointsWithinRadius(const PointType &         query,
-                                                        double                    radius,
+PointsLocator<TPointsContainer>::FindPointsWithinRadius(const PointType & query,
+                                                        double radius,
                                                         NeighborsIdentifierType & identifiers) const
 {
   this->m_Tree->Search(query, radius, identifiers);

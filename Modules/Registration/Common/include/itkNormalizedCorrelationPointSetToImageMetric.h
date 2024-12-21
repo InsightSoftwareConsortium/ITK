@@ -90,8 +90,8 @@ public:
   /**  Get value and derivatives for multiple valued optimizers. */
   void
   GetValueAndDerivative(const TransformParametersType & parameters,
-                        MeasureType &                   value,
-                        DerivativeType &                derivative) const override;
+                        MeasureType & value,
+                        DerivativeType & derivative) const override;
 
   /** Set/Get SubtractMean boolean. If true, the sample mean is subtracted
    * from the sample values in the cross-correlation formula and

@@ -26,7 +26,7 @@ void
 FillRegionSequential(itk::SmartPointer<itk::Image<TPixelType, VDimension>> I)
 {
   itk::Size<VDimension> Index;
-  unsigned long         Location[VDimension];
+  unsigned long Location[VDimension];
 
 
   itk::ImageRegionIterator<itk::Image<TPixelType, VDimension>> data(I, I->GetRequestedRegion());
@@ -42,7 +42,7 @@ FillRegionSequential(itk::SmartPointer<itk::Image<TPixelType, VDimension>> I)
 
   for (unsigned int i = 0; i < ArrayLength; ++i, ++data)
   {
-    TPixelType   value = 0;
+    TPixelType value = 0;
     unsigned int mult = 1;
     for (unsigned int iDim = 0; iDim < VDimension; ++iDim, mult *= 10)
     {
@@ -51,7 +51,7 @@ FillRegionSequential(itk::SmartPointer<itk::Image<TPixelType, VDimension>> I)
     data.Set(value);
 
     unsigned int iDim = VDimension - 1;
-    bool         done = false;
+    bool done = false;
     while (!done)
     {
       ++Location[iDim];
@@ -101,7 +101,7 @@ PrintRegion(itk::SmartPointer<itk::Image<TPixelType, VDimension>> I)
     std::cout << iter.Get() << ' ';
 
     unsigned int iDim = VDimension - 1;
-    bool         done = false;
+    bool done = false;
     while (!done)
     {
       ++Location[iDim];
@@ -147,18 +147,18 @@ itkSliceIteratorTest(int, char *[])
   try
   {
     itk::ImageRegion<2> reg;
-    itk::Size<2>        hoodRadius;
-    itk::Size<2>        imgSize;
-    itk::Index<2>       zeroIndex;
+    itk::Size<2> hoodRadius;
+    itk::Size<2> imgSize;
+    itk::Index<2> zeroIndex;
     zeroIndex[0] = zeroIndex[1] = 0;
     imgSize[0] = imgSize[1] = 20;
     hoodRadius[0] = hoodRadius[1] = 2;
     reg.SetIndex(zeroIndex);
     reg.SetSize(imgSize);
 
-    const std::slice                                         hslice(10, 5, 1); // slice through the horizontal center
-    const std::slice                                         vslice(2, 5, 5);  // slice through the vertical center
-    itk::Neighborhood<int, 2>                                temp;
+    const std::slice hslice(10, 5, 1); // slice through the horizontal center
+    const std::slice vslice(2, 5, 5);  // slice through the vertical center
+    itk::Neighborhood<int, 2> temp;
     const itk::SliceIterator<int, itk::Neighborhood<int, 2>> hnsi(&temp, hslice);
     const itk::SliceIterator<int, itk::Neighborhood<int, 2>> vnsi(&temp, vslice);
     const itk::ConstSliceIterator<int, itk::Neighborhood<int, 2>> hnsi2(&temp, hslice);

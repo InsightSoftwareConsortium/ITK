@@ -78,11 +78,11 @@ public:
   }
 
   IPLFileSortInfo(const char * const filename,
-                  float              sliceLocation,
-                  int                sliceOffset,
-                  int                echoNumber,
-                  int                imageNumber,
-                  void *             data = nullptr)
+                  float sliceLocation,
+                  int sliceOffset,
+                  int echoNumber,
+                  int imageNumber,
+                  void * data = nullptr)
   {
     m_ImageFileName = filename;
     m_SliceLocation = sliceLocation;
@@ -108,11 +108,11 @@ public:
   IPLGetMacroDeclaration(Data, const void *);
 
 private:
-  std::string  m_ImageFileName{};
-  float        m_SliceLocation{};
-  int          m_SliceOffset{};
-  int          m_EchoNumber{};
-  int          m_ImageNumber{};
+  std::string m_ImageFileName{};
+  float m_SliceLocation{};
+  int m_SliceOffset{};
+  int m_EchoNumber{};
+  int m_ImageNumber{};
   const void * m_Data{};
 };
 
@@ -187,15 +187,15 @@ public:
 
   bool
   AddElementToList(const char * const filename,
-                   const float        sliceLocation,
-                   const int          offset,
-                   const int          XDim,
-                   const int          YDim,
-                   const float        XRes,
-                   const float        YRes,
-                   const int          imageNumber,
-                   const int          Key1,
-                   const int          Key2)
+                   const float sliceLocation,
+                   const int offset,
+                   const int XDim,
+                   const int YDim,
+                   const float XRes,
+                   const float YRes,
+                   const int imageNumber,
+                   const int Key1,
+                   const int Key2)
   {
     if (m_List.empty())
     {
@@ -241,7 +241,7 @@ public:
   {
     auto it = m_List.begin();
     auto itend = m_List.end();
-    int  i = 0;
+    int i = 0;
 
     for (i = 0; it != itend; i++, it++)
     {
@@ -288,14 +288,14 @@ public:
 
 private:
   ListType m_List{};
-  int      m_XDim{};
-  int      m_YDim{};
-  float    m_XRes{};
-  float    m_YRes{};
-  int      m_Key1{}; /** Key that must be matched for image to be used,
-                     i.e. seriesNumber, extensionkey */
-  int m_Key2{};      /** Key that must be matched for image to be used,
-                     i.e. echoNumber */
+  int m_XDim{};
+  int m_YDim{};
+  float m_XRes{};
+  float m_YRes{};
+  int m_Key1{}; /** Key that must be matched for image to be used,
+                i.e. seriesNumber, extensionkey */
+  int m_Key2{}; /** Key that must be matched for image to be used,
+                i.e. echoNumber */
   int m_SortOrder{};
 };
 } // namespace itk

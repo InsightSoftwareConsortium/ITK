@@ -63,11 +63,11 @@ AutoCropLabelMapFilter<TInputImage>::GenerateOutputInformation()
 
   while (!loit.IsAtEnd())
   {
-    const LabelObjectType *                     labelObject = loit.GetLabelObject();
+    const LabelObjectType * labelObject = loit.GetLabelObject();
     typename LabelObjectType::ConstLineIterator lit(labelObject);
     while (!lit.IsAtEnd())
     {
-      const IndexType &                          idx = lit.GetLine().GetIndex();
+      const IndexType & idx = lit.GetLine().GetIndex();
       const typename TInputImage::IndexValueType length = lit.GetLine().GetLength();
 
       // update the mins and maxs
@@ -94,7 +94,7 @@ AutoCropLabelMapFilter<TInputImage>::GenerateOutputInformation()
 
 
   // final computation
-  SizeType             regionSize;
+  SizeType regionSize;
   InputImageRegionType cropRegion;
 
   for (unsigned int i = 0; i < ImageDimension; ++i)

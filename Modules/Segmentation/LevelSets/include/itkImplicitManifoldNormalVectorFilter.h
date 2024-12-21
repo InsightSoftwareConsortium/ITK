@@ -207,10 +207,10 @@ private:
 
   /** Constants used in computations. */
   unsigned long m_Indicator[Self::ImageDimension]{};
-  unsigned int  m_NumVertex{};
+  unsigned int m_NumVertex{};
   NodeValueType m_DimConst{};
   NodeValueType m_DimConst2{};
-  RadiusType    m_ManifoldRadius{};
+  RadiusType m_ManifoldRadius{};
 };
 } // end namespace itk
 

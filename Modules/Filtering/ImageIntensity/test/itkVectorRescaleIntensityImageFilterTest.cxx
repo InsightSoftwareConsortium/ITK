@@ -36,10 +36,10 @@ itkVectorRescaleIntensityImageFilterTest(int, char *[])
   using InputImageType = itk::Image<InputPixelType, ImageDimension>;
   using OutputImageType = itk::Image<OutputPixelType, ImageDimension>;
 
-  auto                       inputImage = InputImageType::New();
+  auto inputImage = InputImageType::New();
   InputImageType::RegionType region;
-  InputImageType::SizeType   size;
-  InputImageType::IndexType  index;
+  InputImageType::SizeType size;
+  InputImageType::IndexType index;
 
   size.Fill(20);
   index.Fill(0);

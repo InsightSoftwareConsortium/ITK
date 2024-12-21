@@ -142,7 +142,7 @@ public:
   TData
   ConvertStringToValueType(const std::string str)
   {
-    TData              value;
+    TData value;
     std::istringstream isstream(str);
 
     if ((isstream >> value).fail() || !(isstream >> std::ws).eof())
@@ -164,15 +164,15 @@ public:
   Parse() = 0;
 
 protected:
-  std::string   m_FileName{};
-  char          m_FieldDelimiterCharacter{};
-  char          m_StringDelimiterCharacter{};
-  bool          m_UseStringDelimiterCharacter{};
-  bool          m_HasRowHeaders{};
-  bool          m_HasColumnHeaders{};
+  std::string m_FileName{};
+  char m_FieldDelimiterCharacter{};
+  char m_StringDelimiterCharacter{};
+  bool m_UseStringDelimiterCharacter{};
+  bool m_HasRowHeaders{};
+  bool m_HasColumnHeaders{};
   std::ifstream m_InputStream{};
-  int           m_EndOfColumnHeadersLine{};
-  std::string   m_Line{};
+  int m_EndOfColumnHeadersLine{};
+  std::string m_Line{};
 
   CSVFileReaderBase();
   ~CSVFileReaderBase() override = default;

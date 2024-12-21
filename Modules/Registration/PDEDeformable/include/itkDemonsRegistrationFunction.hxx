@@ -27,7 +27,7 @@ namespace itk
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 DemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::DemonsRegistrationFunction()
 {
-  RadiusType   r;
+  RadiusType r;
   unsigned int j;
 
   for (j = 0; j < ImageDimension; ++j)
@@ -63,7 +63,7 @@ DemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Demon
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
 DemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::PrintSelf(std::ostream & os,
-                                                                                     Indent         indent) const
+                                                                                     Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -144,14 +144,14 @@ template <typename TFixedImage, typename TMovingImage, typename TDisplacementFie
 auto
 DemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUpdate(
   const NeighborhoodType & it,
-  void *                   gd,
-  const FloatOffsetType &  itkNotUsed(offset)) -> PixelType
+  void * gd,
+  const FloatOffsetType & itkNotUsed(offset)) -> PixelType
 {
   // Get fixed image related information
   // Note: no need to check the index is within
   // fixed image buffer. This is done by the external filter.
   const IndexType index = it.GetIndex();
-  const auto      fixedValue = static_cast<double>(this->GetFixedImage()->GetPixel(index));
+  const auto fixedValue = static_cast<double>(this->GetFixedImage()->GetPixel(index));
 
   // Get moving image related information
   PointType mappedPoint;

@@ -70,7 +70,7 @@ LaplacianSharpeningImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   // Create the Laplacian operator
   LaplacianOperator<RealType, ImageDimension> oper;
-  double                                      s[ImageDimension];
+  double s[ImageDimension];
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     if (localInput->GetSpacing()[i] == 0.0)
@@ -109,7 +109,7 @@ LaplacianSharpeningImageFilter<TInputImage, TOutputImage>::GenerateData()
   filteredMinMaxFilter->SetInput(laplacianFilter->GetOutput());
   filteredMinMaxFilter->Update();
 
-  const auto     filteredShift = static_cast<RealType>(filteredMinMaxFilter->GetMinimum());
+  const auto filteredShift = static_cast<RealType>(filteredMinMaxFilter->GetMinimum());
   const RealType filteredScale = static_cast<RealType>(filteredMinMaxFilter->GetMaximum()) - filteredShift;
   filteredMinMaxFilter = nullptr;
 
@@ -120,7 +120,7 @@ LaplacianSharpeningImageFilter<TInputImage, TOutputImage>::GenerateData()
 
 
   binaryFilter->SetFunctor(
-    [filteredShift, inputScale, filteredScale, inputShift](const typename RealImageType::PixelType &  filteredPixel,
+    [filteredShift, inputScale, filteredScale, inputShift](const typename RealImageType::PixelType & filteredPixel,
                                                            const typename InputImageType::PixelType & inputPixel) {
       return inputPixel - ((filteredPixel - filteredShift) * (inputScale / filteredScale) + inputShift);
     });

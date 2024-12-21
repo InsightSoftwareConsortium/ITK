@@ -40,7 +40,7 @@ FixedCenterOfRotationAffineTransform<TParametersValueType, VDimension>::FixedCen
 #if !defined(ITK_LEGACY_REMOVE)
 template <typename TParametersValueType, unsigned int VDimension>
 FixedCenterOfRotationAffineTransform<TParametersValueType, VDimension>::FixedCenterOfRotationAffineTransform(
-  const MatrixType &       matrix,
+  const MatrixType & matrix,
   const OutputVectorType & offset)
   : Superclass(matrix, offset)
 {}

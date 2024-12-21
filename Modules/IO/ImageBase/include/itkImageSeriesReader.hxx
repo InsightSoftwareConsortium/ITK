@@ -77,7 +77,7 @@ ImageSeriesReader<TOutputImage>::ComputeMovingDimensionIndex(ReaderType * reader
   }
 
   const TOutputImage * first = reader->GetOutput();
-  SizeType             dimSize = first->GetLargestPossibleRegion().GetSize();
+  SizeType dimSize = first->GetLargestPossibleRegion().GetSize();
 
   // collapse the number of dimensions in image if any of the last
   // dimensions are one
@@ -135,11 +135,11 @@ ImageSeriesReader<TOutputImage>::GenerateOutputInformation()
   firstReader->UpdateOutputInformation();
   const TOutputImage * first = firstReader->GetOutput();
 
-  typename TOutputImage::SpacingType   spacing = first->GetSpacing();
-  typename TOutputImage::PointType     origin = first->GetOrigin();
+  typename TOutputImage::SpacingType spacing = first->GetSpacing();
+  typename TOutputImage::PointType origin = first->GetOrigin();
   typename TOutputImage::DirectionType direction = first->GetDirection();
-  ImageRegionType                      largestRegion = first->GetLargestPossibleRegion();
-  unsigned int                         numberOfComponents = first->GetNumberOfComponentsPerPixel();
+  ImageRegionType largestRegion = first->GetLargestPossibleRegion();
+  unsigned int numberOfComponents = first->GetNumberOfComponentsPerPixel();
 
   if (numberOfFiles == 1)
   {
@@ -236,8 +236,8 @@ void
 ImageSeriesReader<TOutputImage>::EnlargeOutputRequestedRegion(DataObject * output)
 {
   const typename TOutputImage::Pointer out = dynamic_cast<TOutputImage *>(output);
-  const ImageRegionType                requestedRegion = out->GetRequestedRegion();
-  const ImageRegionType                largestRegion = out->GetLargestPossibleRegion();
+  const ImageRegionType requestedRegion = out->GetRequestedRegion();
+  const ImageRegionType largestRegion = out->GetLargestPossibleRegion();
 
   if (m_UseStreaming)
   {
@@ -257,7 +257,7 @@ ImageSeriesReader<TOutputImage>::GenerateData()
 
   const ImageRegionType requestedRegion = output->GetRequestedRegion();
   const ImageRegionType largestRegion = output->GetLargestPossibleRegion();
-  ImageRegionType       sliceRegionToRequest = output->GetRequestedRegion();
+  ImageRegionType sliceRegionToRequest = output->GetRequestedRegion();
 
   // Each file must have the same size.
   SizeType validSize = largestRegion.GetSize();
@@ -290,13 +290,13 @@ ImageSeriesReader<TOutputImage>::GenerateData()
     this->m_OutputInformationMTime > this->m_MetaDataDictionaryArrayMTime && m_MetaDataDictionaryArrayUpdate;
 
   typename TOutputImage::InternalPixelType * outputBuffer = output->GetBufferPointer();
-  IndexType                                  sliceStartIndex = requestedRegion.GetIndex();
-  const auto                                 numberOfFiles = static_cast<int>(m_FileNames.size());
+  IndexType sliceStartIndex = requestedRegion.GetIndex();
+  const auto numberOfFiles = static_cast<int>(m_FileNames.size());
 
-  typename TOutputImage::PointType   prevSliceOrigin = output->GetOrigin();
+  typename TOutputImage::PointType prevSliceOrigin = output->GetOrigin();
   typename TOutputImage::SpacingType outputSpacing = output->GetSpacing();
-  double                             maxSpacingDeviation = 0.0;
-  bool                               prevSliceIsValid = false;
+  double maxSpacingDeviation = 0.0;
+  bool prevSliceIsValid = false;
 
   for (int i = 0; i != numberOfFiles; ++i)
   {
@@ -306,9 +306,9 @@ ImageSeriesReader<TOutputImage>::GenerateData()
     }
 
     const bool insideRequestedRegion = requestedRegion.IsInside(sliceStartIndex);
-    const int  iFileName = (m_ReverseOrder ? numberOfFiles - i - 1 : i);
-    bool       nonUniformSampling = false;
-    double     spacingDeviation = 0.0;
+    const int iFileName = (m_ReverseOrder ? numberOfFiles - i - 1 : i);
+    bool nonUniformSampling = false;
+    double spacingDeviation = 0.0;
 
     // check if we need this slice
     if (!insideRequestedRegion && !needToUpdateMetaDataDictionaryArray)

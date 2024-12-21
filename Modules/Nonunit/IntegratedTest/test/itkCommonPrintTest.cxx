@@ -95,7 +95,7 @@
 struct TestObject
 {
   float vector[3];
-  int   counter;
+  int counter;
 };
 
 

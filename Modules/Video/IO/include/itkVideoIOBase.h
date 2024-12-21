@@ -45,7 +45,7 @@ public:
 };
 // Define how to print enumeration
 extern ITKVideoIO_EXPORT std::ostream &
-                         operator<<(std::ostream & out, const VideoIOBaseEnums::ReadFrom value);
+operator<<(std::ostream & out, const VideoIOBaseEnums::ReadFrom value);
 /**
  * \class VideoIOBase
  * \brief Abstract superclass defines video IO interface.
@@ -145,11 +145,11 @@ public:
 
   /** Set Writer Parameters */
   virtual void
-  SetWriterParameters(TemporalRatioType                  framesPerSecond,
+  SetWriterParameters(TemporalRatioType framesPerSecond,
                       const std::vector<SizeValueType> & dim,
-                      const char *                       fourCC,
-                      unsigned int                       nChannels,
-                      IOComponentEnum                    componentType) = 0;
+                      const char * fourCC,
+                      unsigned int nChannels,
+                      IOComponentEnum componentType) = 0;
 
 protected:
   VideoIOBase();
@@ -159,16 +159,16 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Member Variables */
-  ReadFromEnum       m_ReadFrom{ ReadFromEnum::ReadFromFile };
-  TemporalRatioType  m_FramesPerSecond{ 0.0 };
-  FrameOffsetType    m_FrameTotal{};
-  FrameOffsetType    m_CurrentFrame{};
-  FrameOffsetType    m_IFrameInterval{};
-  FrameOffsetType    m_LastIFrame{};
-  TemporalRatioType  m_Ratio{ 0.0 };
+  ReadFromEnum m_ReadFrom{ ReadFromEnum::ReadFromFile };
+  TemporalRatioType m_FramesPerSecond{ 0.0 };
+  FrameOffsetType m_FrameTotal{};
+  FrameOffsetType m_CurrentFrame{};
+  FrameOffsetType m_IFrameInterval{};
+  FrameOffsetType m_LastIFrame{};
+  TemporalRatioType m_Ratio{ 0.0 };
   TemporalOffsetType m_PositionInMSec{ 0.0 };
-  bool               m_WriterOpen{ false };
-  bool               m_ReaderOpen{ false };
+  bool m_WriterOpen{ false };
+  bool m_ReaderOpen{ false };
 };
 } // end namespace itk
 

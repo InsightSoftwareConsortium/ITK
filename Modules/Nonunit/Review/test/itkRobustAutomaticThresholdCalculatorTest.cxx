@@ -78,7 +78,7 @@ itkRobustAutomaticThresholdCalculatorTest(int argc, char * argv[])
 
 
   // Regression test
-  auto                           expectedOutput = static_cast<CalculatorType::InputPixelType>(std::stod(argv[3]));
+  auto expectedOutput = static_cast<CalculatorType::InputPixelType>(std::stod(argv[3]));
   CalculatorType::InputPixelType computedOutput = calculator->GetOutput();
   if (itk::Math::NotAlmostEquals(expectedOutput, computedOutput))
   {

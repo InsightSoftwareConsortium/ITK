@@ -152,10 +152,10 @@ protected:
   bool m_GradientMagnitudeIsFixed{};
 
 private:
-  double       m_ConductanceParameter{};
-  double       m_ConductanceScalingParameter{};
+  double m_ConductanceParameter{};
+  double m_ConductanceScalingParameter{};
   unsigned int m_ConductanceScalingUpdateInterval{};
-  double       m_FixedAverageGradientMagnitude{};
+  double m_FixedAverageGradientMagnitude{};
 
   TimeStepType m_TimeStep{};
 };

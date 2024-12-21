@@ -59,8 +59,8 @@ public:
 template <typename TImage>
 void
 FillWithCircle(typename TImage::Pointer & image,
-               double *                   center,
-               double                     radius,
+               double * center,
+               double radius,
                typename TImage::PixelType foregnd,
                typename TImage::PixelType backgnd)
 {
@@ -71,7 +71,7 @@ FillWithCircle(typename TImage::Pointer & image,
   it.GoToBegin();
 
   typename TImage::IndexType index;
-  const double               r2 = itk::Math::sqr(radius);
+  const double r2 = itk::Math::sqr(radius);
 
   while (!it.IsAtEnd())
   {
@@ -136,7 +136,7 @@ itkLevelSetMotionRegistrationFilterTest(int argc, char * argv[])
   std::cout << std::endl;
 
   ImageType::SizeValueType sizeArray[ImageDimension] = { 128, 128 };
-  SizeType                 size;
+  SizeType size;
   size.SetSize(sizeArray);
 
   constexpr IndexType index{};
@@ -159,7 +159,7 @@ itkLevelSetMotionRegistrationFilterTest(int argc, char * argv[])
   initField->SetBufferedRegion(region);
   initField->Allocate();
 
-  double              center[ImageDimension];
+  double center[ImageDimension];
   constexpr PixelType fgnd = 250;
   constexpr PixelType bgnd = 15;
 

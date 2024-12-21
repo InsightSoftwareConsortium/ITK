@@ -23,7 +23,7 @@ namespace itk
 template <typename TParametersValueType, unsigned int VDimension>
 void
 VolumeSplineKernelTransform<TParametersValueType, VDimension>::ComputeG(const InputVectorType & x,
-                                                                        GMatrixType &           gmatrix) const
+                                                                        GMatrixType & gmatrix) const
 {
   const TParametersValueType r = x.GetNorm();
 
@@ -39,7 +39,7 @@ template <typename TParametersValueType, unsigned int VDimension>
 void
 VolumeSplineKernelTransform<TParametersValueType, VDimension>::ComputeDeformationContribution(
   const InputPointType & thisPoint,
-  OutputPointType &      result) const
+  OutputPointType & result) const
 {
   const unsigned long numberOfLandmarks = this->m_SourceLandmarks->GetNumberOfPoints();
 
@@ -47,7 +47,7 @@ VolumeSplineKernelTransform<TParametersValueType, VDimension>::ComputeDeformatio
 
   for (unsigned int lnd = 0; lnd < numberOfLandmarks; ++lnd)
   {
-    const InputVectorType      position = thisPoint - sp->Value();
+    const InputVectorType position = thisPoint - sp->Value();
     const TParametersValueType r = position.GetNorm();
     const TParametersValueType r3 = r * r * r;
 

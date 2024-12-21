@@ -127,8 +127,8 @@ public:
   /** Get value and derivatives of the similarity measure for multiple valued optimizers. */
   void
   GetValueAndDerivative(const TransformParametersType & parameters,
-                        MeasureType &                   Value,
-                        DerivativeType &                Derivative) const override;
+                        MeasureType & Value,
+                        DerivativeType & Derivative) const override;
 
   /** Initialize the Metric by making sure that all the components are present and plugged together correctly. */
   void

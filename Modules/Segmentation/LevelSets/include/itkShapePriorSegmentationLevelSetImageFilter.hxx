@@ -152,7 +152,7 @@ ShapePriorSegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPix
   const typename Superclass::FiniteDifferenceFunctionType::Pointer df = this->GetDifferenceFunction();
 
   typename Superclass::LayerType::ConstIterator layerIt;
-  NeighborhoodIterator<OutputImageType>         outputIt(
+  NeighborhoodIterator<OutputImageType> outputIt(
     df->GetRadius(), this->GetOutput(), this->GetOutput()->GetRequestedRegion());
 
   unsigned int counter = 0;

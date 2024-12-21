@@ -113,9 +113,9 @@ PolygonGroupSpatialObjectXMLFileReader::EndElement(const char * name)
   }
   else if (itksys::SystemTools::Strucmp(name, "POINT") == 0)
   {
-    double       pval[3];
+    double pval[3];
     const char * s = m_CurCharacterData.c_str();
-    char *       endptr;
+    char * endptr;
     for (double & i : pval)
     {
       i = strtod(s, &endptr);
@@ -172,10 +172,10 @@ public:
 template <typename T>
 void
 WriteMetaDataAttribute(PolygonGroupSpatialObjectXMLFileWriter * This,
-                       itk::MetaDataDictionary &                thisDic,
-                       const char * const                       MetaName,
-                       const char * const                       attName,
-                       std::ofstream &                          output)
+                       itk::MetaDataDictionary & thisDic,
+                       const char * const MetaName,
+                       const char * const attName,
+                       std::ofstream & output)
 {
   T value{};
 
@@ -238,16 +238,16 @@ PolygonGroupSpatialObjectXMLFileWriter::WriteFile()
   //
   // Write out polygondata
   GroupType::ChildrenListType * children = m_InputObject->GetChildren(GroupType::MaximumDepth, "PolygonSpatialObject");
-  auto                          it = children->begin();
-  auto                          end = children->end();
+  auto it = children->begin();
+  auto end = children->end();
   while (it != end)
   {
     WriteStartElement("POLYGON", output);
     output << std::endl;
     auto * curstrand = dynamic_cast<PolygonSpatialObjectType *>(it->GetPointer());
     PolygonSpatialObjectType::PolygonPointListType & polygonPoints = curstrand->GetPoints();
-    auto                                             pointIt = polygonPoints.begin();
-    auto                                             pointItEnd = polygonPoints.end();
+    auto pointIt = polygonPoints.begin();
+    auto pointItEnd = polygonPoints.end();
     while (pointIt != pointItEnd)
     {
       PolygonSpatialObjectType::PointType curpoint = pointIt->GetPositionInObjectSpace();

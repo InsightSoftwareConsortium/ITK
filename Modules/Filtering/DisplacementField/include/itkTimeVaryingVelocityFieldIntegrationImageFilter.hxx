@@ -63,7 +63,7 @@ TimeVaryingVelocityFieldIntegrationImageFilter<TTimeVaryingVelocityField,
                                                TDisplacementField>::GenerateOutputInformation()
 {
   const TimeVaryingVelocityFieldType * input = this->GetInput();
-  DisplacementFieldType *              output = this->GetOutput();
+  DisplacementFieldType * output = this->GetOutput();
   this->m_NumberOfTimePoints = input->GetLargestPossibleRegion().GetSize()[OutputImageDimension];
   if (!input || !output)
   {
@@ -80,9 +80,9 @@ TimeVaryingVelocityFieldIntegrationImageFilter<TTimeVaryingVelocityField,
   using OriginType = typename DisplacementFieldType::PointType;
   using DirectionType = typename DisplacementFieldType::DirectionType;
 
-  SizeType      size;
-  SpacingType   spacing;
-  OriginType    origin;
+  SizeType size;
+  SpacingType spacing;
+  OriginType origin;
   DirectionType direction;
 
   using InputSizeType = typename TimeVaryingVelocityFieldType::SizeType;
@@ -91,11 +91,11 @@ TimeVaryingVelocityFieldIntegrationImageFilter<TTimeVaryingVelocityField,
   using InputDirectionType = typename TimeVaryingVelocityFieldType::DirectionType;
   using InputRegionType = typename TimeVaryingVelocityFieldType::RegionType;
 
-  const InputSpacingType &   inputSpacing = input->GetSpacing();
-  const InputOriginType &    inputOrigin = input->GetOrigin();
+  const InputSpacingType & inputSpacing = input->GetSpacing();
+  const InputOriginType & inputOrigin = input->GetOrigin();
   const InputDirectionType & inputDirection = input->GetDirection();
-  const InputRegionType      requestedRegion = input->GetRequestedRegion();
-  const InputSizeType        requestedSize = requestedRegion.GetSize();
+  const InputRegionType requestedRegion = input->GetRequestedRegion();
+  const InputSizeType requestedSize = requestedRegion.GetSize();
 
   for (unsigned int i = 0; i < OutputImageDimension; ++i)
   {
@@ -155,7 +155,7 @@ TimeVaryingVelocityFieldIntegrationImageFilter<TTimeVaryingVelocityField, TDispl
 template <typename TTimeVaryingVelocityField, typename TDisplacementField>
 auto
 TimeVaryingVelocityFieldIntegrationImageFilter<TTimeVaryingVelocityField, TDisplacementField>::IntegrateVelocityAtPoint(
-  const PointType &                    initialSpatialPoint,
+  const PointType & initialSpatialPoint,
   const TimeVaryingVelocityFieldType * inputField) -> VectorType
 {
   // Solve the initial value problem using fourth-order Runge-Kutta
@@ -188,7 +188,7 @@ TimeVaryingVelocityFieldIntegrationImageFilter<TTimeVaryingVelocityField, TDispl
     const RegionType region = inputField->GetLargestPossibleRegion();
 
     typename RegionType::IndexType lastIndex = region.GetIndex();
-    typename RegionType::SizeType  size = region.GetSize();
+    typename RegionType::SizeType size = region.GetSize();
     for (unsigned int d = 0; d < InputImageDimension; ++d)
     {
       lastIndex[d] += (size[d] - 1);
@@ -280,7 +280,7 @@ template <typename TTimeVaryingVelocityField, typename TDisplacementField>
 void
 TimeVaryingVelocityFieldIntegrationImageFilter<TTimeVaryingVelocityField, TDisplacementField>::PrintSelf(
   std::ostream & os,
-  Indent         indent) const
+  Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

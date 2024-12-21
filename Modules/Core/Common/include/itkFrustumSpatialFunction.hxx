@@ -30,7 +30,7 @@ FrustumSpatialFunction<VDimension, TInput>::Evaluate(const InputType & position)
   static_assert(VDimension > 2, "VDimension must be greater than 2");
   static_assert(PointType::PointDimension > 2, "PointDimension of TInput must be greater than 2");
 
-  VectorType   relativePosition = position - m_Apex;
+  VectorType relativePosition = position - m_Apex;
   const double distanceToApex = relativePosition.GetNorm();
 
   // Check Top and Bottom planes. If the angle is negative, the top plane

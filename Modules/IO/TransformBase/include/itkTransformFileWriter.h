@@ -120,11 +120,11 @@ private:
   void
   PushBackTransformList(const Object * transObj);
 
-  std::string            m_FileName{};
+  std::string m_FileName{};
   ConstTransformListType m_TransformList{};
-  bool                   m_AppendMode{ false };
+  bool m_AppendMode{ false };
   /** Should we compress the data? */
-  bool                              m_UseCompression{ false };
+  bool m_UseCompression{ false };
   typename TransformIOType::Pointer m_TransformIO{};
 };
 

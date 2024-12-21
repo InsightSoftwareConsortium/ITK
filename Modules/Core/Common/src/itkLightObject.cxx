@@ -191,8 +191,8 @@ LightObject::PrintSelf(std::ostream & os, Indent indent) const
 {
 #ifdef GCC_USEDEMANGLE
   const char * mangledName = typeid(*this).name();
-  int          status;
-  char *       unmangled = abi::__cxa_demangle(mangledName, nullptr, nullptr, &status);
+  int status;
+  char * unmangled = abi::__cxa_demangle(mangledName, nullptr, nullptr, &status);
 
   os << indent << "RTTI typeinfo:   ";
 

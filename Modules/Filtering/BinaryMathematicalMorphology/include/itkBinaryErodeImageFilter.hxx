@@ -42,14 +42,14 @@ BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
   this->AllocateOutputs();
 
   // Retrieve input and output pointers
-  const typename OutputImageType::Pointer     output = this->GetOutput();
+  const typename OutputImageType::Pointer output = this->GetOutput();
   const typename InputImageType::ConstPointer input = this->GetInput();
 
   // Get values from superclass
-  const InputPixelType                    foregroundValue = this->GetForegroundValue();
-  const InputPixelType                    backgroundValue = this->GetBackgroundValue();
-  const KernelType                        kernel = this->GetKernel();
-  auto                                    radius = InputSizeType::Filled(1);
+  const InputPixelType foregroundValue = this->GetForegroundValue();
+  const InputPixelType backgroundValue = this->GetBackgroundValue();
+  const KernelType kernel = this->GetKernel();
+  auto radius = InputSizeType::Filled(1);
   const typename TOutputImage::RegionType outputRegion = output->GetBufferedRegion();
 
   // compute the size of the temp image. It is needed to create the progress
@@ -230,7 +230,7 @@ BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
 
         // paint the structuring element
         typename NeighborIndexContainer::const_iterator itIdx;
-        NeighborIndexContainer &                        idxDifferenceSet = this->GetDifferenceSet(centerPixelCode);
+        NeighborIndexContainer & idxDifferenceSet = this->GetDifferenceSet(centerPixelCode);
         for (itIdx = idxDifferenceSet.begin(); itIdx != idxDifferenceSet.end(); ++itIdx)
         {
           const IndexType idx = tmpRegIndexIt.GetIndex() + *itIdx;
@@ -299,7 +299,7 @@ BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
 
                   // paint the structuring element
                   NeighborIndexContainer & indexDifferenceSet = this->GetDifferenceSet(i);
-                  const auto               staticEndIndex = indexDifferenceSet.end();
+                  const auto staticEndIndex = indexDifferenceSet.end();
                   for (auto itIndex = indexDifferenceSet.begin(); itIndex != staticEndIndex; ++itIndex)
                   {
                     const IndexType idx(neighbIndex + *itIndex);
@@ -373,8 +373,8 @@ BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
   // Paint input image translated with respect to the SE CCs vectors
   // --> "( Xb0 UNION Xb1 UNION ... Xbn )"
   typename Superclass::ComponentVectorConstIterator vecIt;
-  auto                                              vecBeginIt = this->KernelCCVectorBegin();
-  auto                                              vecEndIt = this->KernelCCVectorEnd();
+  auto vecBeginIt = this->KernelCCVectorBegin();
+  auto vecEndIt = this->KernelCCVectorEnd();
 
   // iterator on output image
   ImageRegionIteratorWithIndex<OutputImageType> ouRegIndexIt(output, outputRegion);
@@ -450,7 +450,7 @@ BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
 
   for (inIt.GoToBegin(), outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt, ++inIt)
   {
-    const InputPixelType  inValue = inIt.Get();
+    const InputPixelType inValue = inIt.Get();
     const OutputPixelType outValue = outIt.Get();
     if (Math::ExactlyEquals(outValue, backgroundValue) && Math::NotExactlyEquals(inValue, foregroundValue))
     {

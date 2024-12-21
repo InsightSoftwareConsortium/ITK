@@ -147,9 +147,9 @@ public:
   /** Print Probe Results. */
   virtual void
   ExpandedReport(std::ostream & os = std::cout,
-                 bool           printSystemInfo = true,
-                 bool           printReportHead = true,
-                 bool           useTabs = false);
+                 bool printSystemInfo = true,
+                 bool printReportHead = true,
+                 bool useTabs = false);
 
   /** Print Probe Results. */
   virtual void

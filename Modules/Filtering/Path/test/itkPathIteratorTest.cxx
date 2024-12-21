@@ -86,7 +86,7 @@ itkPathIteratorTest(int, char *[])
   // Set up the path
   std::cout << "Making a square Path with v0 at (30,30) and v2 at (33,33)" << std::endl;
   VertexType v;
-  auto       path = PathType::New();
+  auto path = PathType::New();
   v.Fill(30);
   path->AddVertex(v);
   v[0] = 33;

@@ -169,8 +169,8 @@ public:
     float rms;
 
     // ALL HEADERS:
-    int32_t nlabl;         /**< Number of labels with useful data.  */
-    char    label[10][80]; /**< 10 labels of 80 characters.  */
+    int32_t nlabl;      /**< Number of labels with useful data.  */
+    char label[10][80]; /**< 10 labels of 80 characters.  */
   };
 
   /** Fei/Agard extended header */
@@ -189,7 +189,7 @@ public:
     float tiltaxis;  /**< tilt axis in degree  */
     float pixelsize; /**< pixel size (unit=m, huh if > 1)  */
     float magnification;
-    char  notused[76]; /**< fill up 128 bytes  */
+    char notused[76]; /**< fill up 128 bytes  */
   };
 
   /** pixel type enumeration */
@@ -287,7 +287,7 @@ protected:
 
 private:
   SizeValueType m_ExtendedHeaderSize{ 0 };
-  void *        m_ExtendedHeader{ nullptr };
+  void * m_ExtendedHeader{ nullptr };
 
   FeiExtendedHeader * m_ExtendedFeiHeader{ nullptr };
 

@@ -29,9 +29,9 @@ TestGaussianDerivativeImageFunction()
   using ImageType = itk::Image<PixelType, Dimension>;
 
   // Create and allocate the image
-  auto                           image = ImageType::New();
-  typename ImageType::SizeType   size;
-  typename ImageType::IndexType  start;
+  auto image = ImageType::New();
+  typename ImageType::SizeType size;
+  typename ImageType::IndexType start;
   typename ImageType::RegionType region;
 
   size[0] = 50;
@@ -94,7 +94,7 @@ TestGaussianDerivativeImageFunction()
   std::cout << "[PASSED] " << std::endl;
 
   std::cout << "Testing consistency within Index/Point/ContinuousIndex: ";
-  auto                                 index = itk::Index<Dimension>::Filled(25);
+  auto index = itk::Index<Dimension>::Filled(25);
   typename DoGFunctionType::OutputType gradientIndex;
   gradientIndex = DoG->EvaluateAtIndex(index);
 

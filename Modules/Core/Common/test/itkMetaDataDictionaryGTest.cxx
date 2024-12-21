@@ -181,7 +181,7 @@ TEST(MetaDataDictionary, CopyOnWrite)
 {
 
   {
-    itk::MetaDataDictionary       dic = createMetaDataDictionary();
+    itk::MetaDataDictionary dic = createMetaDataDictionary();
     const itk::MetaDataDictionary dic_copy = dic;
 
     // The use_count is not exposed in the interface, but it is in the
@@ -199,7 +199,7 @@ TEST(MetaDataDictionary, CopyOnWrite)
   }
 
   {
-    itk::MetaDataDictionary       dic = createMetaDataDictionary();
+    itk::MetaDataDictionary dic = createMetaDataDictionary();
     const itk::MetaDataDictionary dic_copy = dic;
 
     dic.Set("two", createMetaDataObject(22.0f));
@@ -212,7 +212,7 @@ TEST(MetaDataDictionary, CopyOnWrite)
   }
 
   {
-    itk::MetaDataDictionary       dic = createMetaDataDictionary();
+    itk::MetaDataDictionary dic = createMetaDataDictionary();
     const itk::MetaDataDictionary dic_copy = dic;
 
     dic.Set("three", createMetaDataObject(3.0f));
@@ -224,7 +224,7 @@ TEST(MetaDataDictionary, CopyOnWrite)
   }
 
   {
-    itk::MetaDataDictionary       dic = createMetaDataDictionary();
+    itk::MetaDataDictionary dic = createMetaDataDictionary();
     const itk::MetaDataDictionary dic_copy = dic;
 
     dic.Erase("two");
@@ -234,7 +234,7 @@ TEST(MetaDataDictionary, CopyOnWrite)
   }
 
   {
-    itk::MetaDataDictionary       dic = createMetaDataDictionary();
+    itk::MetaDataDictionary dic = createMetaDataDictionary();
     const itk::MetaDataDictionary dic_copy = dic;
 
     dic.Clear();
@@ -345,7 +345,7 @@ TEST(MetaDataDictionary, SupportsCStyleArrays)
   // Check a two-dimensional array.
   constexpr size_t numberOfRows{ 3 };
   constexpr size_t numberOfColumns{ 4 };
-  int              twoDimensionalArray[numberOfRows][numberOfColumns];
+  int twoDimensionalArray[numberOfRows][numberOfColumns];
 
   // Just ensure that each element of the two-dimentional array has a different value.
   int * const beginOfData = &(twoDimensionalArray[0][0]);

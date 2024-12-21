@@ -43,9 +43,9 @@ ActualTest(std::string filename, typename TImageType::SizeType size)
   using ConstIteratorType = itk::ImageRegionConstIterator<ImageType>;
 
 
-  const typename ImageType::IndexType  index{};
+  const typename ImageType::IndexType index{};
   const typename ImageType::RegionType region{ index, size };
-  itk::TimeProbesCollectorBase         chronometer;
+  itk::TimeProbesCollectorBase chronometer;
 
   { // begin write block
     auto image = ImageType::New();

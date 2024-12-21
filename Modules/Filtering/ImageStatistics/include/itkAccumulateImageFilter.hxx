@@ -36,19 +36,19 @@ AccumulateImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 {
   itkDebugMacro("GenerateOutputInformation Start");
 
-  typename TInputImage::IndexType      inputIndex;
-  typename TInputImage::SizeType       inputSize;
-  typename TOutputImage::SizeType      outputSize;
-  typename TOutputImage::IndexType     outputIndex;
-  typename TInputImage::SpacingType    inSpacing;
-  typename TInputImage::PointType      inOrigin;
-  typename TOutputImage::SpacingType   outSpacing;
+  typename TInputImage::IndexType inputIndex;
+  typename TInputImage::SizeType inputSize;
+  typename TOutputImage::SizeType outputSize;
+  typename TOutputImage::IndexType outputIndex;
+  typename TInputImage::SpacingType inSpacing;
+  typename TInputImage::PointType inOrigin;
+  typename TOutputImage::SpacingType outSpacing;
   typename TOutputImage::DirectionType outDirection;
-  typename TOutputImage::PointType     outOrigin;
+  typename TOutputImage::PointType outOrigin;
 
   // Get pointers to the input and output
   const typename Superclass::OutputImagePointer output = this->GetOutput();
-  const typename Superclass::InputImagePointer  input = const_cast<TInputImage *>(this->GetInput());
+  const typename Superclass::InputImagePointer input = const_cast<TInputImage *>(this->GetInput());
 
   if (!input || !output)
   {
@@ -99,11 +99,11 @@ AccumulateImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 
   if (this->GetInput())
   {
-    typename TInputImage::SizeType   inputSize;
-    typename TInputImage::IndexType  inputIndex;
-    typename TInputImage::SizeType   inputLargSize;
-    typename TInputImage::IndexType  inputLargIndex;
-    typename TOutputImage::SizeType  outputSize;
+    typename TInputImage::SizeType inputSize;
+    typename TInputImage::IndexType inputIndex;
+    typename TInputImage::SizeType inputLargSize;
+    typename TInputImage::IndexType inputLargIndex;
+    typename TOutputImage::SizeType outputSize;
     typename TOutputImage::IndexType outputIndex = this->GetOutput()->GetRequestedRegion().GetIndex();
     outputSize = this->GetOutput()->GetRequestedRegion().GetSize();
     inputLargSize = this->GetInput()->GetLargestPossibleRegion().GetSize();
@@ -124,7 +124,7 @@ AccumulateImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
     }
 
     const typename TInputImage::RegionType RequestedRegion(inputIndex, inputSize);
-    const InputImagePointer                input = const_cast<TInputImage *>(this->GetInput());
+    const InputImagePointer input = const_cast<TInputImage *>(this->GetInput());
     input->SetRequestedRegion(RequestedRegion);
   }
 
@@ -145,7 +145,7 @@ AccumulateImageFilter<TInputImage, TOutputImage>::GenerateData()
   using AccumulateType = typename NumericTraits<OutputPixelType>::AccumulateType;
 
   const typename Superclass::InputImageConstPointer inputImage = this->GetInput();
-  const typename TOutputImage::Pointer              outputImage = this->GetOutput();
+  const typename TOutputImage::Pointer outputImage = this->GetOutput();
   outputImage->SetBufferedRegion(outputImage->GetRequestedRegion());
   outputImage->Allocate();
 
@@ -155,7 +155,7 @@ AccumulateImageFilter<TInputImage, TOutputImage>::GenerateData()
   outputIterType outputIter(outputImage, outputImage->GetBufferedRegion());
   using inputIterType = ImageRegionConstIterator<TInputImage>;
 
-  typename TInputImage::SizeType  AccumulatedSize = inputImage->GetLargestPossibleRegion().GetSize();
+  typename TInputImage::SizeType AccumulatedSize = inputImage->GetLargestPossibleRegion().GetSize();
   typename TInputImage::IndexType AccumulatedIndex = inputImage->GetLargestPossibleRegion().GetIndex();
 
   const typename TInputImage::SizeValueType SizeAccumulateDimension = AccumulatedSize[m_AccumulateDimension];
@@ -183,7 +183,7 @@ AccumulateImageFilter<TInputImage, TOutputImage>::GenerateData()
       }
     }
     const typename TInputImage::RegionType AccumulatedRegion(AccumulatedIndex, AccumulatedSize);
-    inputIterType                          inputIter(inputImage, AccumulatedRegion);
+    inputIterType inputIter(inputImage, AccumulatedRegion);
     inputIter.GoToBegin();
     AccumulateType Value{};
     while (!inputIter.IsAtEnd())

@@ -117,9 +117,9 @@ itkMultiResolutionImageRegistrationMethodTest_2(int, char *[])
   constexpr double displacement[dimension] = { 7, 3, 2 };
   constexpr double angle = 10.0 / 180.0 * itk::Math::pi;
 
-  FixedImageType::SizeType            size = { { 100, 100, 40 } };
+  FixedImageType::SizeType size = { { 100, 100, 40 } };
   constexpr FixedImageType::IndexType index = { { 0, 0, 0 } };
-  const FixedImageType::RegionType    region{ index, size };
+  const FixedImageType::RegionType region{ index, size };
 
   fixedImage->SetRegions(region);
   fixedImage->Allocate();
@@ -137,7 +137,7 @@ itkMultiResolutionImageRegistrationMethodTest_2(int, char *[])
   }
 
   MovingImageIterator mIter(movingImage, region);
-  FixedImageIterator  fIter(fixedImage, region);
+  FixedImageIterator fIter(fixedImage, region);
 
   while (!mIter.IsAtEnd())
   {
@@ -377,11 +377,11 @@ namespace
 double
 F(itk::Vector<double, 3> & v)
 {
-  double           x = v[0];
-  double           y = v[1];
-  double           z = v[2];
+  double x = v[0];
+  double y = v[1];
+  double z = v[2];
   constexpr double s = 50;
-  double           value = 200.0 * std::exp(-(x * x + y * y + z * z) / (s * s));
+  double value = 200.0 * std::exp(-(x * x + y * y + z * z) / (s * s));
   x -= 8;
   y += 3;
   z += 0;

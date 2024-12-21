@@ -138,8 +138,8 @@ protected:
 private:
   /** kernel or structuring element to use. */
   KernelType m_Kernel{};
-  bool       m_FullyConnected{};
-  bool       m_PreserveIntensities{};
+  bool m_FullyConnected{};
+  bool m_PreserveIntensities{};
 }; // end of class
 } // end namespace itk
 

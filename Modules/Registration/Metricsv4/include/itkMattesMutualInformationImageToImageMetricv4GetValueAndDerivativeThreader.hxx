@@ -59,7 +59,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
             PDFValueType{});
 
   const ThreadIdType mattesAssociateNumWorkUnitsUsed = this->m_MattesAssociate->GetNumberOfWorkUnitsUsed();
-  const bool         reinitializeThreaderFixedImageMarginalPDF =
+  const bool reinitializeThreaderFixedImageMarginalPDF =
     (this->m_MattesAssociate->m_ThreaderFixedImageMarginalPDF.size() != mattesAssociateNumWorkUnitsUsed);
 
   if (reinitializeThreaderFixedImageMarginalPDF)
@@ -223,7 +223,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
                                                 const FixedImagePixelType & fixedImageValue,
                                                 const FixedImageGradientType &,
                                                 const MovingImagePointType &,
-                                                const MovingImagePixelType &    movingImageValue,
+                                                const MovingImagePixelType & movingImageValue,
                                                 const MovingImageGradientType & movingImageGradient,
                                                 MeasureType &,
                                                 DerivativeType &,
@@ -263,7 +263,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
     }
   }
   // Move the pointer to the first affected bin
-  OffsetValueType       pdfMovingIndex = static_cast<OffsetValueType>(movingImageParzenWindowIndex) - 1;
+  OffsetValueType pdfMovingIndex = static_cast<OffsetValueType>(movingImageParzenWindowIndex) - 1;
   const OffsetValueType pdfMovingIndexMax = static_cast<OffsetValueType>(movingImageParzenWindowIndex) + 2;
 
   const OffsetValueType fixedImageParzenWindowIndex =
@@ -391,10 +391,10 @@ void
 MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
                                                                          TImageToImageMetric,
                                                                          TMattesMutualInformationMetric>::
-  ComputePDFDerivativesLocalSupportTransform(const JacobianType &            jacobian,
+  ComputePDFDerivativesLocalSupportTransform(const JacobianType & jacobian,
                                              const MovingImageGradientType & movingImageGradient,
-                                             const PDFValueType &            cubicBSplineDerivativeValue,
-                                             DerivativeValueType *           localSupportDerivativeResultPtr) const
+                                             const PDFValueType & cubicBSplineDerivativeValue,
+                                             DerivativeValueType * localSupportDerivativeResultPtr) const
 {
   for (NumberOfParametersType mu = 0, maxElement = this->GetCachedNumberOfLocalParameters(); mu < maxElement; ++mu)
   {
@@ -448,7 +448,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
 
     JointPDFDerivativesValueType * const accumulatorPdfDPtrStart =
       this->m_MattesAssociate->m_JointPDFDerivatives->GetBufferPointer();
-    JointPDFDerivativesValueType *             accumulatorPdfDPtr = accumulatorPdfDPtrStart;
+    JointPDFDerivativesValueType * accumulatorPdfDPtr = accumulatorPdfDPtrStart;
     const JointPDFDerivativesValueType * const tempThreadPdfDPtrEnd =
       accumulatorPdfDPtrStart + histogramTotalElementsSize;
     while (accumulatorPdfDPtr < tempThreadPdfDPtrEnd)

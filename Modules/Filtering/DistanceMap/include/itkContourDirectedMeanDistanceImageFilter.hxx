@@ -147,7 +147,7 @@ ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>::AfterThreade
 
   // Find mean over all threads
   IdentifierType count = 0;
-  RealType       sum{};
+  RealType sum{};
 
   for (ThreadIdType i = 0; i < numberOfWorkUnits; ++i)
   {
@@ -168,7 +168,7 @@ template <typename TInputImage1, typename TInputImage2>
 void
 ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>::ThreadedGenerateData(
   const RegionType & outputRegionForThread,
-  ThreadIdType       threadId)
+  ThreadIdType threadId)
 {
   ZeroFluxNeumannBoundaryCondition<InputImage1Type> nbc;
 

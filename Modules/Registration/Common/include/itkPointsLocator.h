@@ -115,9 +115,9 @@ protected:
 
 private:
   PointsContainerPointer m_Points{};
-  SampleAdaptorPointer   m_SampleAdaptor{};
-  TreeGeneratorPointer   m_KdTreeGenerator{};
-  TreeConstPointer       m_Tree{};
+  SampleAdaptorPointer m_SampleAdaptor{};
+  TreeGeneratorPointer m_KdTreeGenerator{};
+  TreeConstPointer m_Tree{};
 };
 
 } // end namespace itk

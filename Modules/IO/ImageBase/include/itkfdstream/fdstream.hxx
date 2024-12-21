@@ -122,9 +122,9 @@ protected:
    * - at most, pbSize characters in putback area plus
    * - at most, bufSize characters in ordinary read buffer
    */
-  static constexpr ptrdiff_t pbSize = 4;               // size of putback area
-  static constexpr ptrdiff_t bufSize = 1024;           // size of the data buffer
-  char                       buffer[bufSize + pbSize]; // data buffer
+  static constexpr ptrdiff_t pbSize = 4;     // size of putback area
+  static constexpr ptrdiff_t bufSize = 1024; // size of the data buffer
+  char buffer[bufSize + pbSize];             // data buffer
 
 public:
   /* constructor

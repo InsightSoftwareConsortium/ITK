@@ -51,18 +51,18 @@ MedianOfThree(const TValue a, const TValue b, const TValue c);
  */
 template <typename TSample>
 void
-FindSampleBound(const TSample *                           sample,
-                const typename TSample::ConstIterator &   begin,
-                const typename TSample::ConstIterator &   end,
+FindSampleBound(const TSample * sample,
+                const typename TSample::ConstIterator & begin,
+                const typename TSample::ConstIterator & end,
                 typename TSample::MeasurementVectorType & min,
                 typename TSample::MeasurementVectorType & max);
 
 /** The endIndex should points one point after the last elements. */
 template <typename TSubsample>
 void
-FindSampleBoundAndMean(const TSubsample *                           sample,
-                       int                                          beginIndex,
-                       int                                          endIndex,
+FindSampleBoundAndMean(const TSubsample * sample,
+                       int beginIndex,
+                       int endIndex,
                        typename TSubsample::MeasurementVectorType & min,
                        typename TSubsample::MeasurementVectorType & max,
                        typename TSubsample::MeasurementVectorType & mean);
@@ -90,10 +90,10 @@ FindSampleBoundAndMean(const TSubsample *                           sample,
  */
 template <typename TSubsample>
 int
-Partition(TSubsample *                               sample,
-          unsigned int                               activeDimension,
-          int                                        beginIndex,
-          int                                        endIndex,
+Partition(TSubsample * sample,
+          unsigned int activeDimension,
+          int beginIndex,
+          int endIndex,
           const typename TSubsample::MeasurementType partitionValue);
 
 /** QuickSelect is an algorithm for finding the k-th largest element of a list.
@@ -115,11 +115,11 @@ Partition(TSubsample *                               sample,
  */
 template <typename TSubsample>
 typename TSubsample::MeasurementType
-QuickSelect(TSubsample *                         sample,
-            unsigned int                         activeDimension,
-            int                                  beginIndex,
-            int                                  endIndex,
-            int                                  kth,
+QuickSelect(TSubsample * sample,
+            unsigned int activeDimension,
+            int beginIndex,
+            int endIndex,
+            int kth,
             typename TSubsample::MeasurementType medianGuess);
 
 /** QuickSelect is an algorithm for finding the k-th largest element of a list.
@@ -168,10 +168,10 @@ template <typename TSubsample>
 void
 IntrospectiveSortLoop(TSubsample * sample,
                       unsigned int activeDimension,
-                      int          beginIndex,
-                      int          endIndex,
-                      int          depthLimit,
-                      int          sizeThreshold);
+                      int beginIndex,
+                      int endIndex,
+                      int depthLimit,
+                      int sizeThreshold);
 
 template <typename TSubsample>
 void

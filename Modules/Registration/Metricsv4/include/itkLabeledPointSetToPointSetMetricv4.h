@@ -154,7 +154,7 @@ private:
   MovingPointSetPointer
   GetLabeledMovingPointSet(const LabelType) const;
 
-  PointSetMetricPointer              m_PointSetMetric{};
+  PointSetMetricPointer m_PointSetMetric{};
   std::vector<PointSetMetricPointer> m_PointSetMetricClones{};
 
   LabelSetType m_FixedPointSetLabels{};

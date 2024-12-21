@@ -36,7 +36,7 @@ namespace itk
 struct OutputWindowGlobals
 {
   OutputWindow::Pointer m_Instance{ nullptr };
-  std::recursive_mutex  m_StaticInstanceLock;
+  std::recursive_mutex m_StaticInstanceLock;
 };
 
 /**

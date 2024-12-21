@@ -131,8 +131,8 @@ itkAtan2ImageFilterTest(int, char *[])
 
   while (!ot.IsAtEnd())
   {
-    const InputImageType::PixelType  input1 = it1.Get();
-    const InputImageType::PixelType  input2 = it2.Get();
+    const InputImageType::PixelType input1 = it1.Get();
+    const InputImageType::PixelType input2 = it2.Get();
     const OutputImageType::PixelType output = ot.Get();
     const OutputImageType::PixelType atan2 = std::atan2(input1, input2);
     if (!itk::Math::FloatAlmostEqual(atan2, output, 10, epsilon))

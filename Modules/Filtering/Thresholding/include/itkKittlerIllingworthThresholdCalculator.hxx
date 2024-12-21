@@ -30,7 +30,7 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>::Mean()
 {
   const HistogramType * data = this->GetInput();
 
-  auto   tot = static_cast<double>(data->GetTotalFrequency());
+  auto tot = static_cast<double>(data->GetTotalFrequency());
   double sum = 0;
 
   for (InstanceIdentifier i = 0; i < data->GetSize(0); ++i)
@@ -44,7 +44,7 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>::Mean()
   v[0] = mean;
 
   typename HistogramType::IndexType idx;
-  const bool                        status = data->GetIndex(v, idx);
+  const bool status = data->GetIndex(v, idx);
   itkAssertInDebugAndIgnoreInReleaseMacro(status);
   if (!status)
   {
@@ -59,7 +59,7 @@ double
 KittlerIllingworthThresholdCalculator<THistogram, TOutput>::A(InstanceIdentifier j)
 {
   const HistogramType * y = this->GetInput();
-  double                x = 0;
+  double x = 0;
   for (InstanceIdentifier i = 0; i <= j; ++i)
   {
     x += static_cast<double>(y->GetFrequency(i, 0));
@@ -72,7 +72,7 @@ double
 KittlerIllingworthThresholdCalculator<THistogram, TOutput>::B(InstanceIdentifier j)
 {
   const HistogramType * y = this->GetInput();
-  double                x = 0;
+  double x = 0;
   for (InstanceIdentifier i = 0; i <= j; ++i)
   {
     x += static_cast<double>(y->GetMeasurement(i, 0)) * static_cast<double>(y->GetFrequency(i, 0));
@@ -85,7 +85,7 @@ double
 KittlerIllingworthThresholdCalculator<THistogram, TOutput>::C(InstanceIdentifier j)
 {
   const HistogramType * y = this->GetInput();
-  double                x = 0;
+  double x = 0;
   for (InstanceIdentifier i = 0; i <= j; ++i)
   {
     auto temp = static_cast<double>(y->GetMeasurement(i, 0));
@@ -104,7 +104,7 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>::GenerateData()
   {
     itkExceptionMacro("Histogram is empty");
   }
-  const SizeValueType    size = histogram->GetSize(0);
+  const SizeValueType size = histogram->GetSize(0);
   const ProgressReporter progress(this, 0, size);
   if (size == 1)
   {
@@ -183,7 +183,7 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>::GenerateData()
       const double temp = -w2 / w1;
 
       typename HistogramType::MeasurementVectorType v(1);
-      typename HistogramType::IndexType             idx;
+      typename HistogramType::IndexType idx;
       v[0] = temp;
       const bool status = histogram->GetIndex(v, idx);
       itkAssertInDebugAndIgnoreInReleaseMacro(status);
@@ -212,7 +212,7 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>::GenerateData()
       else
       {
         typename HistogramType::MeasurementVectorType v(1);
-        typename HistogramType::IndexType             idx;
+        typename HistogramType::IndexType idx;
         v[0] = temp;
         const bool status = histogram->GetIndex(v, idx);
         itkAssertInDebugAndIgnoreInReleaseMacro(status);

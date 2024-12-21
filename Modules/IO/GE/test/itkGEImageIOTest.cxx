@@ -54,7 +54,7 @@ itkGEImageIOFactoryTest(int argc, char * argv[])
   char * filename = *++argv;
 
   ImagePointer input;
-  auto         imageReader = ImageReaderType::New();
+  auto imageReader = ImageReaderType::New();
 
   try
   {
@@ -87,10 +87,10 @@ itkGEImageIOTest(int argc, char * argv[])
   {
     return EXIT_FAILURE;
   }
-  const std::string         failmode(argv[1]);
-  const std::string         filetype(argv[2]);
-  const std::string         filename(argv[3]);
-  const bool                Failmode = failmode == std::string("true");
+  const std::string failmode(argv[1]);
+  const std::string filetype(argv[2]);
+  const std::string filename(argv[3]);
+  const bool Failmode = failmode == std::string("true");
   itk::ImageIOBase::Pointer io;
   if (filetype == "GE4")
   {
@@ -114,7 +114,7 @@ itkGEImageIOTest(int argc, char * argv[])
   }
 
   ImagePointer input;
-  auto         imageReader = ImageReaderType::New();
+  auto imageReader = ImageReaderType::New();
 
   try
   {

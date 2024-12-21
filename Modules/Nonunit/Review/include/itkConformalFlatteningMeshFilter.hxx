@@ -84,7 +84,7 @@ ConformalFlatteningMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
   using OutputPointsContainerPointer = typename TOutputMesh::PointsContainerPointer;
 
   InputMeshConstPointer inputMesh = this->GetInput();
-  OutputMeshPointer     outputMesh = this->GetOutput();
+  OutputMeshPointer outputMesh = this->GetOutput();
 
   if (!inputMesh)
   {
@@ -246,7 +246,7 @@ ConformalFlatteningMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
 
   while (cellIterator != cellEnd)
   {
-    CellType *   aCell = cellIterator.Value();
+    CellType * aCell = cellIterator.Value();
     unsigned int aCellNumberOfPoints = aCell->GetNumberOfPoints();
 
     if (aCellNumberOfPoints > 3)
@@ -486,7 +486,7 @@ ConformalFlatteningMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
       // same number of vertices.
 
       std::vector<double> v_r2(numberOfPoints);
-      auto                itv_r2 = v_r2.begin();
+      auto itv_r2 = v_r2.begin();
 
       for (i = 0; i < numberOfPoints; ++i, ++itv_r2)
       {

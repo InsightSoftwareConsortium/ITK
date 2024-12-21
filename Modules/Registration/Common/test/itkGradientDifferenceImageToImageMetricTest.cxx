@@ -39,13 +39,13 @@ itkGradientDifferenceImageToImageMetricTest(int, char *[])
   using FixedImageSourceType = itk::GaussianImageSource<FixedImageType>;
 
   // Note: the following declarations are classical arrays
-  FixedImageType::SizeValueType  fixedImageSize[] = { 100, 100 };
+  FixedImageType::SizeValueType fixedImageSize[] = { 100, 100 };
   MovingImageType::SizeValueType movingImageSize[] = { 100, 100 };
 
-  FixedImageType::SpacingValueType  fixedImageSpacing[] = { 1.0f, 1.0f };
+  FixedImageType::SpacingValueType fixedImageSpacing[] = { 1.0f, 1.0f };
   MovingImageType::SpacingValueType movingImageSpacing[] = { 1.0f, 1.0f };
 
-  constexpr FixedImageType::PointValueType  fixedImageOrigin[] = { 0.0f, 0.0f };
+  constexpr FixedImageType::PointValueType fixedImageOrigin[] = { 0.0f, 0.0f };
   constexpr MovingImageType::PointValueType movingImageOrigin[] = { 0.0f, 0.0f };
 
   auto movingImageSource = MovingImageSourceType::New();
@@ -67,7 +67,7 @@ itkGradientDifferenceImageToImageMetricTest(int, char *[])
   fixedImageSource->Update();  // Force the filter to run
 
   const MovingImageType::Pointer movingImage = movingImageSource->GetOutput();
-  const FixedImageType::Pointer  fixedImage = fixedImageSource->GetOutput();
+  const FixedImageType::Pointer fixedImage = fixedImageSource->GetOutput();
 
   // Set up the metric.
   using MetricType = itk::GradientDifferenceImageToImageMetric<FixedImageType, MovingImageType>;
@@ -121,7 +121,7 @@ itkGradientDifferenceImageToImageMetricTest(int, char *[])
     metric->Initialize();
 
     // Do some work
-    DerivativeType          derivatives(numberOfParameters);
+    DerivativeType derivatives(numberOfParameters);
     MetricType::MeasureType value;
     for (double y = -10.0; y <= 10.0; y += 5.0)
     {

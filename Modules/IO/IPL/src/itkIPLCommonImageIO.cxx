@@ -74,13 +74,13 @@ void
 IPLCommonImageIO::Read(void * buffer)
 {
   auto * img_buffer = (short *)buffer;
-  auto   it = m_FilenameList->begin();
-  auto   itend = m_FilenameList->end();
+  auto it = m_FilenameList->begin();
+  auto itend = m_FilenameList->end();
 
   for (; it != itend; ++it)
   {
     const std::string curfilename = (*it)->GetImageFileName();
-    std::ifstream     f;
+    std::ifstream f;
     this->OpenFileForReading(f, curfilename);
 
     f.seekg((*it)->GetSliceOffset(), std::ios::beg);
@@ -126,8 +126,8 @@ IPLCommonImageIO::ReadImageInformation()
   // GE images are stored in separate files per slice.
   // char imagePath[IOCommon::ITK_MAXPATHLEN+1];
   // TODO -- use std::string instead of C strings
-  char              imageMask[IOCommon::ITK_MAXPATHLEN + 1];
-  char              imagePath[IOCommon::ITK_MAXPATHLEN + 1];
+  char imageMask[IOCommon::ITK_MAXPATHLEN + 1];
+  char imagePath[IOCommon::ITK_MAXPATHLEN + 1];
   const std::string _imagePath = itksys::SystemTools::CollapseFullPath(FileNameToRead.c_str());
 
   FileNameToRead = _imagePath;
@@ -137,7 +137,7 @@ IPLCommonImageIO::ReadImageInformation()
   // if anything fails in the header read, just let
   // exceptions propagate up.
 
-  bool              isCT = false;
+  bool isCT = false;
   const std::string modality = m_ImageHeader->modality;
   if (modality == "CT")
   {
@@ -158,7 +158,7 @@ IPLCommonImageIO::ReadImageInformation()
   // Add header info to metadictionary
 
   itk::MetaDataDictionary & thisDic = this->GetMetaDataDictionary();
-  const std::string         classname(this->GetNameOfClass());
+  const std::string classname(this->GetNameOfClass());
   itk::EncapsulateMetaData<std::string>(thisDic, ITK_InputFilterName, classname);
   itk::EncapsulateMetaData<std::string>(thisDic, ITK_OnDiskStorageTypeName, std::string("SHORT"));
   itk::EncapsulateMetaData<short>(thisDic, ITK_OnDiskBitPerPixel, static_cast<short>(16));
@@ -445,14 +445,14 @@ IPLCommonImageIO::hdr2Double(char * hdr)
 
 int
 IPLCommonImageIO::AddElementToList(const char * const filename,
-                                   const float        sliceLocation,
-                                   const int          offset,
-                                   const int          XDim,
-                                   const int          YDim,
-                                   const float        XRes,
-                                   const float        YRes,
-                                   const int          Key1,
-                                   const int          Key2)
+                                   const float sliceLocation,
+                                   const int offset,
+                                   const int XDim,
+                                   const int YDim,
+                                   const float XRes,
+                                   const float YRes,
+                                   const int Key1,
+                                   const int Key2)
 {
   if (m_FilenameList->NumFiles() == 0)
   {
@@ -496,7 +496,7 @@ int
 IPLCommonImageIO::statTimeToAscii(void * clock, char * timeString, int len)
 {
 
-  auto               tclock = (time_t)*((int *)clock);
+  auto tclock = (time_t)*((int *)clock);
   const char * const asciiTime = ctime(&tclock);
 
   strncpy(timeString, asciiTime, len);

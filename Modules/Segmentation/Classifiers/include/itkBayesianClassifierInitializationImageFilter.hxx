@@ -115,7 +115,7 @@ BayesianClassifierInitializationImageFilter<TInputImage, TProbabilityPrecisionTy
   // find class covariances from the kmeans output to initialize the gaussian
   // density functions.
   ConstKMeansIteratorType itrKMeansImage(kmeansFilter->GetOutput(), kmeansFilter->GetOutput()->GetBufferedRegion());
-  CovarianceArrayType     sumsOfSquares(m_NumberOfClasses);    // sum of the
+  CovarianceArrayType sumsOfSquares(m_NumberOfClasses);        // sum of the
                                                                // square
                                                                // intensities
                                                                // for each
@@ -137,9 +137,9 @@ BayesianClassifierInitializationImageFilter<TInputImage, TProbabilityPrecisionTy
   sums.Fill(0.0);
   classCount.Fill(0);
 
-  const InputImageType *                    inputImage = this->GetInput();
+  const InputImageType * inputImage = this->GetInput();
   const typename InputImageType::RegionType imageRegion = inputImage->GetLargestPossibleRegion();
-  InputImageIteratorType                    itrInputImage(inputImage, imageRegion);
+  InputImageIteratorType itrInputImage(inputImage, imageRegion);
 
   itrInputImage.GoToBegin();
   itrKMeansImage.GoToBegin();
@@ -224,7 +224,7 @@ BayesianClassifierInitializationImageFilter<TInputImage, TProbabilityPrecisionTy
   const InputImageType * inputImage = this->GetInput();
 
   const typename InputImageType::RegionType imageRegion = inputImage->GetLargestPossibleRegion();
-  InputImageIteratorType                    itrInputImage(inputImage, imageRegion);
+  InputImageIteratorType itrInputImage(inputImage, imageRegion);
 
   if (!m_UserSuppliesMembershipFunctions)
   {
@@ -244,8 +244,8 @@ BayesianClassifierInitializationImageFilter<TInputImage, TProbabilityPrecisionTy
   OutputImageType * membershipImage = this->GetOutput();
 
   MembershipImageIteratorType itrMembershipImage(membershipImage, imageRegion);
-  MembershipPixelType         membershipPixel(m_NumberOfClasses);
-  MeasurementVectorType       mv;
+  MembershipPixelType membershipPixel(m_NumberOfClasses);
+  MeasurementVectorType mv;
 
   itrMembershipImage.GoToBegin();
   itrInputImage.GoToBegin();

@@ -406,7 +406,7 @@ protected:
 
 template <typename TImage>
 inline ConstNeighborhoodIteratorWithOnlyIndex<TImage>
-operator+(const ConstNeighborhoodIteratorWithOnlyIndex<TImage> &                      it,
+operator+(const ConstNeighborhoodIteratorWithOnlyIndex<TImage> & it,
           const typename ConstNeighborhoodIteratorWithOnlyIndex<TImage>::OffsetType & ind)
 {
   ConstNeighborhoodIteratorWithOnlyIndex<TImage> ret = it;
@@ -417,14 +417,14 @@ operator+(const ConstNeighborhoodIteratorWithOnlyIndex<TImage> &                
 template <typename TImage>
 inline ConstNeighborhoodIteratorWithOnlyIndex<TImage>
 operator+(const typename ConstNeighborhoodIteratorWithOnlyIndex<TImage>::OffsetType & ind,
-          const ConstNeighborhoodIteratorWithOnlyIndex<TImage> &                      it)
+          const ConstNeighborhoodIteratorWithOnlyIndex<TImage> & it)
 {
   return (it + ind);
 }
 
 template <typename TImage>
 inline ConstNeighborhoodIteratorWithOnlyIndex<TImage>
-operator-(const ConstNeighborhoodIteratorWithOnlyIndex<TImage> &                      it,
+operator-(const ConstNeighborhoodIteratorWithOnlyIndex<TImage> & it,
           const typename ConstNeighborhoodIteratorWithOnlyIndex<TImage>::OffsetType & ind)
 {
   ConstNeighborhoodIteratorWithOnlyIndex<TImage> ret = it;

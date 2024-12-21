@@ -194,7 +194,7 @@ itkQuadEdgeMeshBasicLayerTest(int, char *[])
 
   std::cout << "on Sym()... " << std::endl;
   constexpr int lnextDestinationOnSym[3] = { 2, 0, 1 };
-  int           test = 0;
+  int test = 0;
   for (IteratorGeom itLnext = e[4]->GetSym()->BeginGeomLnext(); itLnext != e[4]->GetSym()->EndGeomLnext();
        itLnext++, test++)
   {

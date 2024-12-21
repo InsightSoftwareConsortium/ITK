@@ -124,9 +124,9 @@ itkZeroFluxBoundaryConditionTest(int, char *[])
   // Test an image to cover one operator() method.
   auto image = ImageType::New();
 
-  constexpr SizeType  imageSize = { { 5, 5 } };
+  constexpr SizeType imageSize = { { 5, 5 } };
   constexpr IndexType imageIndex = { { 0, 0 } };
-  const RegionType    imageRegion{ imageIndex, imageSize };
+  const RegionType imageRegion{ imageIndex, imageSize };
   image->SetRegions(imageRegion);
   image->Allocate();
 
@@ -152,10 +152,10 @@ itkZeroFluxBoundaryConditionTest(int, char *[])
 
   RadiusType radius;
   radius[0] = radius[1] = 1;
-  IteratorType       it(radius, image, image->GetRequestedRegion());
+  IteratorType it(radius, image, image->GetRequestedRegion());
   VectorIteratorType vit(radius, vectorImage, vectorImage->GetRequestedRegion());
 
-  itk::ZeroFluxNeumannBoundaryCondition<ImageType>       bc;
+  itk::ZeroFluxNeumannBoundaryCondition<ImageType> bc;
   itk::ZeroFluxNeumannBoundaryCondition<VectorImageType> vbc;
 
   it.OverrideBoundaryCondition(&bc);
@@ -177,7 +177,7 @@ itkZeroFluxBoundaryConditionTest(int, char *[])
 
   RadiusType radiusTwo;
   radiusTwo[0] = radiusTwo[1] = 2;
-  IteratorType       it2(radiusTwo, image, image->GetRequestedRegion());
+  IteratorType it2(radiusTwo, image, image->GetRequestedRegion());
   VectorIteratorType vit2(radiusTwo, vectorImage, vectorImage->GetRequestedRegion());
 
   it2.OverrideBoundaryCondition(&bc);
@@ -200,8 +200,8 @@ itkZeroFluxBoundaryConditionTest(int, char *[])
   // Now test the input region calculation
   // Test 1
   std::cout << "GetInputRequestedRegion() Test 1" << std::endl;
-  IndexType  requestIndex{};
-  auto       requestSize = itk::MakeFilled<SizeType>(2);
+  IndexType requestIndex{};
+  auto requestSize = itk::MakeFilled<SizeType>(2);
   RegionType requestRegion{ requestIndex, requestSize };
 
   RegionType expectedRegion = requestRegion;

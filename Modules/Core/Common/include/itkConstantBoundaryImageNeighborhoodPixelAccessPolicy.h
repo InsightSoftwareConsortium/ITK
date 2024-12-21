@@ -114,11 +114,11 @@ public:
 
   /** Constructor called directly by the pixel proxy of
    * ShapedImageNeighborhoodRange. */
-  ConstantBoundaryImageNeighborhoodPixelAccessPolicy(const ImageSizeType &                   imageSize,
-                                                     const OffsetType &                      offsetTable,
+  ConstantBoundaryImageNeighborhoodPixelAccessPolicy(const ImageSizeType & imageSize,
+                                                     const OffsetType & offsetTable,
                                                      const NeighborhoodAccessorFunctorType & neighborhoodAccessor,
-                                                     const IndexType &                       pixelIndex,
-                                                     const PixelType                         constant = {}) noexcept
+                                                     const IndexType & pixelIndex,
+                                                     const PixelType constant = {}) noexcept
     : m_PixelIndexValue{ IsInside(pixelIndex, imageSize) ? CalculatePixelIndexValue(offsetTable, pixelIndex) : -1 }
     , m_NeighborhoodAccessor(neighborhoodAccessor)
     , m_Constant{ constant }

@@ -24,7 +24,7 @@ namespace itk
 
 template <typename TFrameType>
 void
-VideoStream<TFrameType>::SetFrameLargestPossibleSpatialRegion(SizeValueType                   frameNumber,
+VideoStream<TFrameType>::SetFrameLargestPossibleSpatialRegion(SizeValueType frameNumber,
                                                               typename TFrameType::RegionType region)
 {
   m_LargestPossibleSpatialRegionCache[frameNumber] = region;
@@ -52,7 +52,7 @@ VideoStream<TFrameType>::GetFrameLargestPossibleSpatialRegion(SizeValueType fram
 
 template <typename TFrameType>
 void
-VideoStream<TFrameType>::SetFrameRequestedSpatialRegion(SizeValueType                   frameNumber,
+VideoStream<TFrameType>::SetFrameRequestedSpatialRegion(SizeValueType frameNumber,
                                                         typename TFrameType::RegionType region)
 {
   m_RequestedSpatialRegionCache[frameNumber] = region;
@@ -80,7 +80,7 @@ VideoStream<TFrameType>::GetFrameRequestedSpatialRegion(SizeValueType frameNumbe
 
 template <typename TFrameType>
 void
-VideoStream<TFrameType>::SetFrameBufferedSpatialRegion(SizeValueType                   frameNumber,
+VideoStream<TFrameType>::SetFrameBufferedSpatialRegion(SizeValueType frameNumber,
                                                        typename TFrameType::RegionType region)
 {
   m_BufferedSpatialRegionCache[frameNumber] = region;
@@ -258,8 +258,8 @@ VideoStream<TFrameType>::SetMinimumBufferSize(SizeValueType minimumNumberOfFrame
   if (m_DataObjectBuffer->GetNumberOfBuffers() < minimumNumberOfFrames)
   {
     // Save the indices of all frames in the currently buffered region
-    const SizeValueType       bufferedStart = m_BufferedTemporalRegion.GetFrameStart();
-    const SizeValueType       bufferedDuration = m_BufferedTemporalRegion.GetFrameDuration();
+    const SizeValueType bufferedStart = m_BufferedTemporalRegion.GetFrameStart();
+    const SizeValueType bufferedDuration = m_BufferedTemporalRegion.GetFrameDuration();
     std::vector<DataObject *> frames(bufferedDuration - bufferedStart, nullptr);
     for (SizeValueType i = bufferedStart; i < bufferedStart + bufferedDuration; ++i)
     {
@@ -299,8 +299,8 @@ VideoStream<TFrameType>::InitializeEmptyFrames()
   {
     if (!m_DataObjectBuffer->BufferIsFull(i))
     {
-      const FramePointer                        newFrame = FrameType::New();
-      FrameType *                               newFrameRawPointer = newFrame.GetPointer();
+      const FramePointer newFrame = FrameType::New();
+      FrameType * newFrameRawPointer = newFrame.GetPointer();
       const typename BufferType::ElementPointer element =
         dynamic_cast<typename BufferType::ElementType *>(newFrameRawPointer);
       m_DataObjectBuffer->SetBufferContents(i, element);
@@ -364,7 +364,7 @@ VideoStream<TFrameType>::GetFrame(SizeValueType frameNumber) -> FrameType *
 
   // Fetch the frame
   const typename BufferType::ElementPointer element = m_DataObjectBuffer->GetBufferContents(frameNumber);
-  const FramePointer                        frame = dynamic_cast<FrameType *>(element.GetPointer());
+  const FramePointer frame = dynamic_cast<FrameType *>(element.GetPointer());
   return frame;
 }
 
@@ -374,7 +374,7 @@ auto
 VideoStream<TFrameType>::GetFrame(SizeValueType frameNumber) const -> const FrameType *
 {
   const typename BufferType::ElementPointer element = m_DataObjectBuffer->GetBufferContents(frameNumber);
-  const FrameConstPointer                   frame = dynamic_cast<FrameType *>(element.GetPointer());
+  const FrameConstPointer frame = dynamic_cast<FrameType *>(element.GetPointer());
   return frame;
 }
 
@@ -414,7 +414,7 @@ template <typename TFrameType>
 void
 VideoStream<TFrameType>::SetAllLargestPossibleSpatialRegions(typename TFrameType::RegionType region)
 {
-  SizeValueType       numFrames = m_LargestPossibleTemporalRegion.GetFrameDuration();
+  SizeValueType numFrames = m_LargestPossibleTemporalRegion.GetFrameDuration();
   const SizeValueType startFrame = m_LargestPossibleTemporalRegion.GetFrameStart();
 
   // If the largest region is infinite, use the largest of the requested or
@@ -440,7 +440,7 @@ template <typename TFrameType>
 void
 VideoStream<TFrameType>::SetAllRequestedSpatialRegions(typename TFrameType::RegionType region)
 {
-  SizeValueType       numFrames = m_LargestPossibleTemporalRegion.GetFrameDuration();
+  SizeValueType numFrames = m_LargestPossibleTemporalRegion.GetFrameDuration();
   const SizeValueType startFrame = m_LargestPossibleTemporalRegion.GetFrameStart();
 
   // If the largest region is infinite, use the largest of the requested or
@@ -466,7 +466,7 @@ template <typename TFrameType>
 void
 VideoStream<TFrameType>::SetAllBufferedSpatialRegions(typename TFrameType::RegionType region)
 {
-  SizeValueType       numFrames = m_LargestPossibleTemporalRegion.GetFrameDuration();
+  SizeValueType numFrames = m_LargestPossibleTemporalRegion.GetFrameDuration();
   const SizeValueType startFrame = m_LargestPossibleTemporalRegion.GetFrameStart();
 
   // If the largest region is infinite, use the largest of the requested or
@@ -492,7 +492,7 @@ template <typename TFrameType>
 void
 VideoStream<TFrameType>::SetAllFramesSpacing(typename TFrameType::SpacingType spacing)
 {
-  SizeValueType       numFrames = m_LargestPossibleTemporalRegion.GetFrameDuration();
+  SizeValueType numFrames = m_LargestPossibleTemporalRegion.GetFrameDuration();
   const SizeValueType startFrame = m_LargestPossibleTemporalRegion.GetFrameStart();
 
   // If the largest region is infinite, use the largest of the requested or
@@ -518,7 +518,7 @@ template <typename TFrameType>
 void
 VideoStream<TFrameType>::SetAllFramesOrigin(typename TFrameType::PointType origin)
 {
-  SizeValueType       numFrames = m_LargestPossibleTemporalRegion.GetFrameDuration();
+  SizeValueType numFrames = m_LargestPossibleTemporalRegion.GetFrameDuration();
   const SizeValueType startFrame = m_LargestPossibleTemporalRegion.GetFrameStart();
 
   // If the largest region is infinite, use the largest of the requested or
@@ -544,7 +544,7 @@ template <typename TFrameType>
 void
 VideoStream<TFrameType>::SetAllFramesDirection(typename TFrameType::DirectionType direction)
 {
-  SizeValueType       numFrames = m_LargestPossibleTemporalRegion.GetFrameDuration();
+  SizeValueType numFrames = m_LargestPossibleTemporalRegion.GetFrameDuration();
   const SizeValueType startFrame = m_LargestPossibleTemporalRegion.GetFrameStart();
 
   // If the largest region is infinite, use the largest of the requested or
@@ -569,7 +569,7 @@ template <typename TFrameType>
 void
 VideoStream<TFrameType>::SetAllFramesNumberOfComponentsPerPixel(NumberOfComponentsPerPixelType n)
 {
-  SizeValueType       numFrames = m_LargestPossibleTemporalRegion.GetFrameDuration();
+  SizeValueType numFrames = m_LargestPossibleTemporalRegion.GetFrameDuration();
   const SizeValueType startFrame = m_LargestPossibleTemporalRegion.GetFrameStart();
 
   // If the largest region is infinite, use the largest of the requested or

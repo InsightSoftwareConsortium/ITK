@@ -92,15 +92,15 @@ protected:
 
   void
   Reduce1DImage(const std::vector<double> & in,
-                OutputImageIterator &       out,
-                unsigned int                inTraverseSize,
-                ProgressReporter &          progress) override;
+                OutputImageIterator & out,
+                unsigned int inTraverseSize,
+                ProgressReporter & progress) override;
 
   void
   Expand1DImage(const std::vector<double> & in,
-                OutputImageIterator &       out,
-                unsigned int                inTraverseSize,
-                ProgressReporter &          progress) override;
+                OutputImageIterator & out,
+                unsigned int inTraverseSize,
+                ProgressReporter & progress) override;
 
 protected:
   BSplineCenteredResampleImageFilterBase() = default;

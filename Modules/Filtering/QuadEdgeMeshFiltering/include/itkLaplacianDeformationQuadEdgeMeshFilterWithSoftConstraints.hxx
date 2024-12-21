@@ -38,7 +38,7 @@ LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints<TInputMesh, TOutputMes
 
   typename OutputMeshType::PointsContainer * points = output->GetPoints();
 
-  typename OutputMeshType::PointsContainerIterator       pIt = points->Begin();
+  typename OutputMeshType::PointsContainerIterator pIt = points->Begin();
   const typename OutputMeshType::PointsContainerIterator pEnd = points->End();
 
   OutputPointIdentifier k = 0;
@@ -54,7 +54,7 @@ template <typename TInputMesh, typename TOutputMesh, typename TSolverTraits>
 void
 LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints<TInputMesh, TOutputMesh, TSolverTraits>::SetLocalLambda(
   OutputPointIdentifier vId,
-  OutputCoordinateType  iL)
+  OutputCoordinateType iL)
 {
   m_LocalLambdaSquare[vId] = iL * iL;
 }
@@ -70,24 +70,24 @@ LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints<TInputMesh, TOutputMes
 {
   OutputMeshType * output = this->GetOutput();
 
-  auto       it = this->m_InternalMap.begin();
+  auto it = this->m_InternalMap.begin();
   const auto end = this->m_InternalMap.end();
 
   while (it != end)
   {
     const OutputPointIdentifier vId1 = it->first;
-    const auto                  internalId1 = static_cast<unsigned int>(it->second);
+    const auto internalId1 = static_cast<unsigned int>(it->second);
 
     RowType row;
     this->FillMatrixRow(vId1, this->m_Order, NumericTraits<OutputCoordinateType>::OneValue(), row);
 
-    auto       rIt = row.begin();
+    auto rIt = row.begin();
     const auto rEnd = row.end();
 
     while (rIt != rEnd)
     {
       const OutputPointIdentifier vId2 = rIt->first;
-      const OutputCoordinateType  weight = rIt->second;
+      const OutputCoordinateType weight = rIt->second;
 
       const OutputPointType p = output->GetPoint(vId2);
       iBx[internalId1] += weight * p[0];
@@ -151,7 +151,7 @@ LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints<TInputMesh, TOutputMes
     for (auto cIt = this->m_Constraints.begin(); cIt != this->m_Constraints.end(); ++cIt)
     {
       const OutputPointIdentifier vId = cIt->first;
-      OutputPointType             p = points->GetElement(vId);
+      OutputPointType p = points->GetElement(vId);
       p += cIt->second;
 
       const OutputPointIdentifier index = this->m_InternalMap[vId];
@@ -182,13 +182,13 @@ LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints<TInputMesh, TOutputMes
 
     this->SolveLinearSystems(A, Cx, Cy, Cz, X, Y, Z);
 
-    auto       it = this->m_InternalMap.begin();
+    auto it = this->m_InternalMap.begin();
     const auto end = this->m_InternalMap.end();
 
     while (it != end)
     {
       const OutputPointIdentifier vId = it->first;
-      const auto                  internalId = static_cast<unsigned int>(it->second);
+      const auto internalId = static_cast<unsigned int>(it->second);
 
       OutputPointType & p = points->ElementAt(vId);
 
@@ -210,7 +210,7 @@ template <typename TInputMesh, typename TOutputMesh, typename TSolverTraits>
 void
 LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints<TInputMesh, TOutputMesh, TSolverTraits>::PrintSelf(
   std::ostream & os,
-  Indent         indent) const
+  Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }

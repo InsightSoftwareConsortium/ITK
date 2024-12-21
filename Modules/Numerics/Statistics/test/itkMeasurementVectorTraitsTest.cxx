@@ -131,7 +131,7 @@ itkMeasurementVectorTraitsTest(int, char *[])
   itkAssertSameLengthTest(measure4b, measure4b);
 
   // against same type with different length
-  MeasurementVectorType1  measure1bb;
+  MeasurementVectorType1 measure1bb;
   MeasurementVectorType2b measure2bb;
   MeasurementVectorType3b measure3bb;
   MeasurementVectorType4b measure4bb;

@@ -222,11 +222,11 @@ protected:
 private:
   typename RunLengthMatrixFilterType::Pointer m_RunLengthMatrixGenerator{};
 
-  FeatureValueVectorPointer     m_FeatureMeans{};
-  FeatureValueVectorPointer     m_FeatureStandardDeviations{};
+  FeatureValueVectorPointer m_FeatureMeans{};
+  FeatureValueVectorPointer m_FeatureStandardDeviations{};
   FeatureNameVectorConstPointer m_RequestedFeatures{};
-  OffsetVectorConstPointer      m_Offsets{};
-  bool                          m_FastCalculations{};
+  OffsetVectorConstPointer m_Offsets{};
+  bool m_FastCalculations{};
 };
 } // end of namespace Statistics
 } // end of namespace itk

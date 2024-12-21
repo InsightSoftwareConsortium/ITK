@@ -219,19 +219,19 @@ protected:
   StartOptimization();
 
 private:
-  MetricPointer          m_Metric{};
+  MetricPointer m_Metric{};
   OptimizerType::Pointer m_Optimizer{};
 
   MovingImageConstPointer m_MovingImage{};
-  FixedImageConstPointer  m_FixedImage{};
+  FixedImageConstPointer m_FixedImage{};
 
-  TransformPointer    m_Transform{};
+  TransformPointer m_Transform{};
   InterpolatorPointer m_Interpolator{};
 
   ParametersType m_InitialTransformParameters{};
   ParametersType m_LastTransformParameters{};
 
-  bool                 m_FixedImageRegionDefined{};
+  bool m_FixedImageRegionDefined{};
   FixedImageRegionType m_FixedImageRegion{};
 };
 } // end namespace itk

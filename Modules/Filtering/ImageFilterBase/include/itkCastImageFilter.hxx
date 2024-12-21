@@ -58,7 +58,7 @@ CastImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   // this filter allows the input the output to be of different dimensions
 
   // get pointers to the input and output
-  TOutputImage *      outputPtr = this->GetOutput();
+  TOutputImage * outputPtr = this->GetOutput();
   const TInputImage * inputPtr = this->GetInput();
 
   if (!outputPtr || !inputPtr)
@@ -96,7 +96,7 @@ CastImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateDataDispatche
   const OutputImageRegionType & outputRegionForThread)
 {
   const TInputImage * inputPtr = this->GetInput();
-  TOutputImage *      outputPtr = this->GetOutput(0);
+  TOutputImage * outputPtr = this->GetOutput(0);
 
   // Define the portion of the input to walk for this thread, using
   // the CallCopyOutputRegionToInputRegion method allows for the input
@@ -130,7 +130,7 @@ CastImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateDataDispatche
     return;
   }
   const TInputImage * inputPtr = this->GetInput();
-  TOutputImage *      outputPtr = this->GetOutput(0);
+  TOutputImage * outputPtr = this->GetOutput(0);
 
   // Define the portion of the input to walk for this thread, using
   // the CallCopyOutputRegionToInputRegion method allows for the input
@@ -143,7 +143,7 @@ CastImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateDataDispatche
 
   // Define the iterators
   ImageScanlineConstIterator inputIt(inputPtr, inputRegionForThread);
-  ImageScanlineIterator      outputIt(outputPtr, outputRegionForThread);
+  ImageScanlineIterator outputIt(outputPtr, outputRegionForThread);
 
   OutputPixelType value{ outputIt.Get() };
   while (!inputIt.IsAtEnd())

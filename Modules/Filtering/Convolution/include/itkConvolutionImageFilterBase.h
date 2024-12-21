@@ -160,7 +160,7 @@ private:
   bool m_Normalize{ false };
 
   DefaultBoundaryConditionType m_DefaultBoundaryCondition{};
-  BoundaryConditionType *      m_BoundaryCondition{};
+  BoundaryConditionType * m_BoundaryCondition{};
 
   OutputRegionModeEnum m_OutputRegionMode{ ConvolutionImageFilterBaseEnums::ConvolutionImageFilterOutputRegion::SAME };
 };

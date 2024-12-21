@@ -45,7 +45,7 @@ SEToFile(const TSEType & e, const std::string & fname)
   img->Allocate();
   img->FillBuffer(0);
 
-  typename TSEType::ConstIterator     SEIt;
+  typename TSEType::ConstIterator SEIt;
   itk::ImageRegionIterator<ImageType> it(img, region);
 
   for (SEIt = e.Begin(); SEIt != e.End(); ++SEIt, ++it)
@@ -72,10 +72,10 @@ itkFlatStructuringElementTest3(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  int               dimension = 2;
+  int dimension = 2;
   const std::string outputImage = argv[1];
-  const int         radius = std::stoi(argv[2]);
-  const int         lines = std::stoi(argv[3]);
+  const int radius = std::stoi(argv[2]);
+  const int lines = std::stoi(argv[3]);
   if (argc > 4)
   {
     dimension = std::stoi(argv[4]);
@@ -85,7 +85,7 @@ itkFlatStructuringElementTest3(int argc, char * argv[])
   {
     using SE2Type = itk::FlatStructuringElement<2>;
 
-    auto          r2 = itk::MakeFilled<SE2Type::RadiusType>(radius);
+    auto r2 = itk::MakeFilled<SE2Type::RadiusType>(radius);
     const SE2Type P = SE2Type::Polygon(r2, lines);
     SEToFile(P, outputImage);
   }
@@ -93,7 +93,7 @@ itkFlatStructuringElementTest3(int argc, char * argv[])
   {
     using SE3Type = itk::FlatStructuringElement<3>;
 
-    auto          r3 = itk::MakeFilled<SE3Type::RadiusType>(radius);
+    auto r3 = itk::MakeFilled<SE3Type::RadiusType>(radius);
     const SE3Type P = SE3Type::Polygon(r3, lines);
     SEToFile(P, outputImage);
   }

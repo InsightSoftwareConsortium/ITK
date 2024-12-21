@@ -82,9 +82,9 @@ public:
 };
 // Define how to print enumeration
 extern ITKCommon_EXPORT std::ostream &
-                        operator<<(std::ostream & out, const MultiThreaderBaseEnums::Threader value);
+operator<<(std::ostream & out, const MultiThreaderBaseEnums::Threader value);
 extern ITKCommon_EXPORT std::ostream &
-                        operator<<(std::ostream & out, const MultiThreaderBaseEnums::ThreadExitCode value);
+operator<<(std::ostream & out, const MultiThreaderBaseEnums::ThreadExitCode value);
 
 /** \class MultiThreaderBase
  * \brief A class for performing multithreaded execution
@@ -251,9 +251,9 @@ INTEL_SUPPRESS_warning_1292
 INTEL_PRAGMA_WARN_POP
   // clang-format on
   {
-    ThreadIdType       ThreadID;
-    ThreadIdType       NumberOfThreads;
-    void *             UserData;
+    ThreadIdType ThreadID;
+    ThreadIdType NumberOfThreads;
+    void * UserData;
     ThreadFunctionType ThreadFunction;
     enum
     {
@@ -277,9 +277,9 @@ ITK_GCC_PRAGMA_DIAG_POP()
    * (void *)arg passed into the SetSingleMethod. */
   struct WorkUnitInfo
   {
-    ThreadIdType       WorkUnitID;
-    ThreadIdType       NumberOfWorkUnits;
-    void *             UserData;
+    ThreadIdType WorkUnitID;
+    ThreadIdType NumberOfWorkUnits;
+    void * UserData;
     ThreadFunctionType ThreadFunction;
     using ThreadExitCodeEnum = MultiThreaderBaseEnums::ThreadExitCode;
     ThreadExitCodeEnum ThreadExitCode;
@@ -328,10 +328,10 @@ ITK_GCC_PRAGMA_DIAG_POP()
    * This implementation simply delegates parallelization to the old interface
    * SetSingleMethod+SingleMethodExecute. This method is meant to be overloaded! */
   virtual void
-  ParallelizeArray(SizeValueType             firstIndex,
-                   SizeValueType             lastIndexPlus1,
+  ParallelizeArray(SizeValueType firstIndex,
+                   SizeValueType lastIndexPlus1,
                    ArrayThreadingFunctorType aFunc,
-                   ProcessObject *           filter);
+                   ProcessObject * filter);
 
   /** Break up region into smaller chunks, and call the user-specified function or function object `funcP` for each
    * chunk, having the region of the chunk as argument. The type of such a chuck region is `ImageRegion<VDimension>`.
@@ -363,10 +363,10 @@ ITK_GCC_PRAGMA_DIAG_POP()
    * and no parallelization occurs. */
   template <unsigned int VDimension, typename TFunction>
   ITK_TEMPLATE_EXPORT void
-  ParallelizeImageRegionRestrictDirection(unsigned int                    restrictedDirection,
+  ParallelizeImageRegionRestrictDirection(unsigned int restrictedDirection,
                                           const ImageRegion<VDimension> & requestedRegion,
-                                          TFunction                       funcP,
-                                          ProcessObject *                 filter)
+                                          TFunction funcP,
+                                          ProcessObject * filter)
   {
     if constexpr (VDimension <= 1) // Cannot split, no parallelization
     {
@@ -379,7 +379,7 @@ ITK_GCC_PRAGMA_DIAG_POP()
       constexpr unsigned int SplitDimension = VDimension - 1;
 
       Index<SplitDimension> splitIndex{};
-      Size<SplitDimension>  splitSize{};
+      Size<SplitDimension> splitSize{};
       for (unsigned int splitDimension = 0, dimension = 0; dimension < VDimension; ++dimension)
       {
         if (dimension != restrictedDirection)
@@ -416,11 +416,11 @@ ITK_GCC_PRAGMA_DIAG_POP()
   /** Break up region into smaller chunks, and call the function with chunks as parameters.
    *  This overload does the actual work and should be implemented by derived classes. */
   virtual void
-  ParallelizeImageRegion(unsigned int         dimension,
+  ParallelizeImageRegion(unsigned int dimension,
                          const IndexValueType index[],
-                         const SizeValueType  size[],
+                         const SizeValueType size[],
                          ThreadingFunctorType funcP,
-                         ProcessObject *      filter);
+                         ProcessObject * filter);
 
 protected:
   MultiThreaderBase();
@@ -431,9 +431,9 @@ protected:
   struct ArrayCallback
   {
     ArrayThreadingFunctorType functor;
-    const SizeValueType       firstIndex;
-    const SizeValueType       lastIndexPlus1;
-    ProcessObject *           filter;
+    const SizeValueType firstIndex;
+    const SizeValueType lastIndexPlus1;
+    ProcessObject * filter;
   };
 
   static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
@@ -441,11 +441,11 @@ protected:
 
   struct RegionAndCallback
   {
-    ThreadingFunctorType   functor;
-    unsigned int           dimension;
+    ThreadingFunctorType functor;
+    unsigned int dimension;
     const IndexValueType * index;
-    const SizeValueType *  size;
-    ProcessObject *        filter;
+    const SizeValueType * size;
+    ProcessObject * filter;
   };
 
   static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION

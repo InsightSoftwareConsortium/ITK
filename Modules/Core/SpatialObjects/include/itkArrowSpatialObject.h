@@ -108,8 +108,8 @@ protected:
 
 private:
   VectorType m_DirectionInObjectSpace{};
-  PointType  m_PositionInObjectSpace{};
-  double     m_LengthInObjectSpace{};
+  PointType m_PositionInObjectSpace{};
+  double m_LengthInObjectSpace{};
 };
 
 } // end namespace itk

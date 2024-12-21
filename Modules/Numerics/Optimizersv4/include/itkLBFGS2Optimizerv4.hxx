@@ -124,11 +124,11 @@ LBFGS2Optimizerv4Template<TInternalComputationValueType>::ResumeOptimization()
 template <typename TInternalComputationValueType>
 auto
 LBFGS2Optimizerv4Template<TInternalComputationValueType>::EvaluateCostCallback(
-  void *                                                                          instance,
+  void * instance,
   const LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrecisionType * x,
-  LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrecisionType *       g,
-  const int                                                                       n,
-  const LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrecisionType   step) -> PrecisionType
+  LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrecisionType * g,
+  const int n,
+  const LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrecisionType step) -> PrecisionType
 {
   auto * optimizer = static_cast<LBFGS2Optimizerv4Template *>(instance);
   return optimizer->EvaluateCost(x, g, n, step);
@@ -137,8 +137,8 @@ template <typename TInternalComputationValueType>
 auto
 LBFGS2Optimizerv4Template<TInternalComputationValueType>::EvaluateCost(
   const LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrecisionType * x,
-  LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrecisionType *       g,
-  const int                                                                       n,
+  LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrecisionType * g,
+  const int n,
   const LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrecisionType) -> PrecisionType
 {
   ParametersType xItk(n);
@@ -172,16 +172,16 @@ LBFGS2Optimizerv4Template<TInternalComputationValueType>::EvaluateCost(
 template <typename TInternalComputationValueType>
 int
 LBFGS2Optimizerv4Template<TInternalComputationValueType>::UpdateProgressCallback(
-  void *                                           instance,
+  void * instance,
   const LBFGS2Optimizerv4Template::PrecisionType * x,
   const LBFGS2Optimizerv4Template::PrecisionType * g,
-  const LBFGS2Optimizerv4Template::PrecisionType   fx,
-  const LBFGS2Optimizerv4Template::PrecisionType   xnorm,
-  const LBFGS2Optimizerv4Template::PrecisionType   gnorm,
-  const LBFGS2Optimizerv4Template::PrecisionType   step,
-  int                                              n,
-  int                                              k,
-  int                                              ls)
+  const LBFGS2Optimizerv4Template::PrecisionType fx,
+  const LBFGS2Optimizerv4Template::PrecisionType xnorm,
+  const LBFGS2Optimizerv4Template::PrecisionType gnorm,
+  const LBFGS2Optimizerv4Template::PrecisionType step,
+  int n,
+  int k,
+  int ls)
 {
   auto * optimizer = static_cast<LBFGS2Optimizerv4Template *>(instance);
   return optimizer->UpdateProgress(x, g, fx, xnorm, gnorm, step, n, k, ls);
@@ -414,7 +414,7 @@ auto
 LBFGS2Optimizerv4Template<TInternalComputationValueType>::GetLineSearch() const -> LineSearchMethodEnum
 {
   LineSearchMethodEnum linesearch = LineSearchMethodEnum::LINESEARCH_DEFAULT;
-  const int            lbfgsLineSearch = m_Parameters.linesearch;
+  const int lbfgsLineSearch = m_Parameters.linesearch;
   if (lbfgsLineSearch == LBFGS_LINESEARCH_BACKTRACKING)
   {
     linesearch = LineSearchMethodEnum::LINESEARCH_BACKTRACKING;

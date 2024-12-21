@@ -163,7 +163,7 @@ main(int argc, char * argv[])
 
 
   const unsigned int numberOfIterations = std::stoi(argv[3]);
-  const double       timeStep = std::stod(argv[4]);
+  const double timeStep = std::stod(argv[4]);
   using RadiusType = FilterType::RadiusValueType;
   const RadiusType radius = atol(argv[5]);
 

@@ -295,12 +295,12 @@ vidl_itk_istream<TVideoStream>::advance()
 
   // We re-implement seeking forward because we want to be able to advance even
   // if the duration is infinite (and hence the video isn't seekable)
-  TemporalRegion  currentRequest = m_VideoStream->GetRequestedTemporalRegion();
+  TemporalRegion currentRequest = m_VideoStream->GetRequestedTemporalRegion();
   FrameOffsetType currentFrame = currentRequest.GetFrameStart();
 
   // we can't advance if we're at the end
   itk::IdentifierType firstFrame = m_VideoStream->GetLargestPossibleTemporalRegion().GetFrameStart();
-  FrameOffsetType     frameDuration = m_VideoStream->GetLargestPossibleTemporalRegion().GetFrameDuration();
+  FrameOffsetType frameDuration = m_VideoStream->GetLargestPossibleTemporalRegion().GetFrameDuration();
   if (frameDuration == 0 || currentFrame >= firstFrame + frameDuration - 2)
   {
     return false;

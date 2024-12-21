@@ -210,7 +210,7 @@ UpdateWhitakerSparseLevelSet<VDimension, TLevelSetValueType, TEquationContainer>
     inputIndex = currentIndex + this->m_Offset;
 
     const LevelSetOutputType currentValue = nodeIt->second;
-    LevelSetOutputType       tempUpdate = this->m_TimeStep * static_cast<LevelSetOutputType>(upIt->second);
+    LevelSetOutputType tempUpdate = this->m_TimeStep * static_cast<LevelSetOutputType>(upIt->second);
 
     if (tempUpdate > 0.5)
     {
@@ -444,7 +444,7 @@ UpdateWhitakerSparseLevelSet<VDimension, TLevelSetValueType, TEquationContainer>
     }
     else // !thereIsAPointWithLabelEqualTo0
     {    // change layers only
-      auto                     tempIt = nodeIt;
+      auto tempIt = nodeIt;
       const LevelSetOutputType t = tempIt->second;
       ++nodeIt;
       outputlayerMinus1.erase(tempIt);
@@ -550,7 +550,7 @@ UpdateWhitakerSparseLevelSet<VDimension, TLevelSetValueType, TEquationContainer>
     }
     else
     { // change layers only
-      auto                     tempIt = nodeIt;
+      auto tempIt = nodeIt;
       const LevelSetOutputType t = tempIt->second;
       ++nodeIt;
       outputLayerPlus1.erase(tempIt);
@@ -577,7 +577,7 @@ UpdateWhitakerSparseLevelSet<VDimension, TLevelSetValueType, TEquationContainer>
   LevelSetLayerType & outputLayerMinus2 = this->m_OutputLevelSet->GetLayer(LevelSetType::MinusTwoLayer());
   LevelSetLayerType & layerMinus1 = this->m_TempLevelSet->GetLayer(LevelSetType::MinusOneLayer());
 
-  auto       nodeIt = outputLayerMinus2.begin();
+  auto nodeIt = outputLayerMinus2.begin();
   const auto nodeEnd = outputLayerMinus2.end();
 
   while (nodeIt != nodeEnd)
@@ -681,7 +681,7 @@ UpdateWhitakerSparseLevelSet<VDimension, TLevelSetValueType, TEquationContainer>
   LevelSetLayerType & outputLayerPlus2 = this->m_OutputLevelSet->GetLayer(LevelSetType::PlusTwoLayer());
   LevelSetLayerType & layerPlusOne = this->m_TempLevelSet->GetLayer(LevelSetType::PlusOneLayer());
 
-  auto       nodeIt = outputLayerPlus2.begin();
+  auto nodeIt = outputLayerPlus2.begin();
   const auto nodeEnd = outputLayerPlus2.end();
 
   while (nodeIt != nodeEnd)
@@ -691,7 +691,7 @@ UpdateWhitakerSparseLevelSet<VDimension, TLevelSetValueType, TEquationContainer>
 
     neighIt.SetLocation(currentIndex);
 
-    bool               thereIsAPointWithLabelEqualToPlus1 = false;
+    bool thereIsAPointWithLabelEqualToPlus1 = false;
     LevelSetOutputType max = NumericTraits<LevelSetOutputType>::max();
 
     for (typename NeighborhoodIteratorType::Iterator it = neighIt.Begin(); !it.IsAtEnd(); ++it)
@@ -704,7 +704,7 @@ UpdateWhitakerSparseLevelSet<VDimension, TLevelSetValueType, TEquationContainer>
           thereIsAPointWithLabelEqualToPlus1 = true;
         }
         const LevelSetInputType neighborIndex = neighIt.GetIndex(it.GetNeighborhoodOffset());
-        auto                    phiIt = this->m_TempPhi.find(neighborIndex);
+        auto phiIt = this->m_TempPhi.find(neighborIndex);
         if (phiIt != this->m_TempPhi.end())
         {
           max = std::min(max, phiIt->second);
@@ -815,7 +815,7 @@ UpdateWhitakerSparseLevelSet<VDimension, TLevelSetValueType, TEquationContainer>
 
   while (nodeIt != nodeEnd)
   {
-    const LevelSetInputType  currentIndex = nodeIt->first;
+    const LevelSetInputType currentIndex = nodeIt->first;
     const LevelSetOutputType currentValue = nodeIt->second;
 
     outputlayerMinus1.insert(NodePairType(currentIndex, currentValue));
@@ -872,7 +872,7 @@ UpdateWhitakerSparseLevelSet<VDimension, TLevelSetValueType, TEquationContainer>
 
   while (nodeIt != nodeEnd)
   {
-    const LevelSetInputType  currentIndex = nodeIt->first;
+    const LevelSetInputType currentIndex = nodeIt->first;
     const LevelSetOutputType currentValue = nodeIt->second;
 
     outputLayerPlus1.insert(NodePairType(currentIndex, currentValue));

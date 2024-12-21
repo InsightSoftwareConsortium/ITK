@@ -93,7 +93,7 @@ DOMNodeXMLReader::Update(std::istream & is)
   const bool ok = XML_Parse(parser, s.data(), static_cast<int>(s.size()), false);
   if (!ok)
   {
-    ExceptionObject   e(__FILE__, __LINE__);
+    ExceptionObject e(__FILE__, __LINE__);
     const std::string message(XML_ErrorString(XML_GetErrorCode(parser)));
     e.SetDescription(message.c_str());
     throw e;

@@ -98,7 +98,7 @@ protected:
 
 private:
   ImageToImageFilter<TInputImage, TOutputImage> * m_Filter;
-  ImageSizeType                                   m_ImageSize;
+  ImageSizeType m_ImageSize;
 };
 
 
@@ -139,7 +139,7 @@ NullImageToImageFilterDriver<TInputImage, TOutputImage>::Execute()
   };
 
   // Set up input images
-  auto                             ip = TInputImage::New();
+  auto ip = TInputImage::New();
   typename TOutputImage::IndexType index;
 
   for (unsigned int i = 0; i < ImageDimension; ++i)

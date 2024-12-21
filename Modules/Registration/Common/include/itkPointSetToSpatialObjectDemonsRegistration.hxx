@@ -33,7 +33,7 @@ PointSetToSpatialObjectDemonsRegistration<TFixedPointSet,
 template <typename TFixedPointSet, typename TMovingSpatialObject>
 void
 PointSetToSpatialObjectDemonsRegistration<TFixedPointSet, TMovingSpatialObject>::PrintSelf(std::ostream & os,
-                                                                                           Indent         indent) const
+                                                                                           Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

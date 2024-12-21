@@ -49,7 +49,7 @@ itkNiftiLargeImageRegionReadTest(int argc, char * argv[])
 
   // Create a large image
   constexpr ImageType::SizeType size = { { 1034, 1034, 1020 } };
-  ImageType::RegionType         region;
+  ImageType::RegionType region;
   region.SetSize(size);
 
   {

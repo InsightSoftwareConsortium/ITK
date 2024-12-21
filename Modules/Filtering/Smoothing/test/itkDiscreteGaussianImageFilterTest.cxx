@@ -64,7 +64,7 @@ itkDiscreteGaussianImageFilterTest(int argc, char * argv[])
 
   // Set the value of the standard deviation of the Gaussian used for smoothing
   constexpr FilterType::SigmaArrayType::ValueType sigmaValue = 1.0;
-  auto                                            sigma = itk::MakeFilled<FilterType::SigmaArrayType>(sigmaValue);
+  auto sigma = itk::MakeFilled<FilterType::SigmaArrayType>(sigmaValue);
 
   filter->SetSigma(sigmaValue);
   ITK_TEST_SET_GET_VALUE(sigmaValue, filter->GetSigma());
@@ -85,12 +85,12 @@ itkDiscreteGaussianImageFilterTest(int argc, char * argv[])
 
   // Set other filter properties
   constexpr FilterType::ArrayType::ValueType varianceValue = 1.0;
-  auto                                       variance = itk::MakeFilled<FilterType::ArrayType>(varianceValue);
+  auto variance = itk::MakeFilled<FilterType::ArrayType>(varianceValue);
   filter->SetVariance(variance);
   ITK_TEST_SET_GET_VALUE(variance, filter->GetVariance());
 
   constexpr FilterType::ArrayType::ValueType maximumErrorValue = 0.01;
-  auto                                       maximumError = itk::MakeFilled<FilterType::ArrayType>(maximumErrorValue);
+  auto maximumError = itk::MakeFilled<FilterType::ArrayType>(maximumErrorValue);
   filter->SetMaximumError(maximumError);
   ITK_TEST_SET_GET_VALUE(maximumError, filter->GetMaximumError());
 
@@ -104,8 +104,8 @@ itkDiscreteGaussianImageFilterTest(int argc, char * argv[])
   // Verify kernel radius matches expectations for test parameters
   filter->UseImageSpacingOff();
   constexpr unsigned int EXPECTED_RADIUS = 3;
-  auto                   radius = filter->GetKernelRadius();
-  auto                   kernelSize = filter->GetKernelSize();
+  auto radius = filter->GetKernelRadius();
+  auto kernelSize = filter->GetKernelSize();
   for (unsigned int idx = 0; idx < Dimension; ++idx)
   {
     ITK_TEST_EXPECT_EQUAL(radius[idx], EXPECTED_RADIUS);

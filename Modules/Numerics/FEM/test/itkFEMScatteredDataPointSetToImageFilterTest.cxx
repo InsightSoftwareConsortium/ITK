@@ -73,7 +73,7 @@ itkFEMScatteredDataPointSetToImageFilterTest(int, char *[])
 
 
   // Construct a feature point set
-  auto      featurePoints = FeaturePointSetType::New();
+  auto featurePoints = FeaturePointSetType::New();
   PointType p0;
   PointType p1;
   PointType p2;
@@ -152,7 +152,7 @@ itkFEMScatteredDataPointSetToImageFilterTest(int, char *[])
   ConstIteratorType constIterator(DF, DF->GetRequestedRegion());
 
   // examine the results
-  bool       hasError = false;
+  bool hasError = false;
   VectorType realDisplacement;
   realDisplacement[0] = 1.0;
   realDisplacement[1] = 1.0;

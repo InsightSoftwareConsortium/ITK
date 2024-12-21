@@ -201,7 +201,7 @@ protected:
 
   SourceImageRegionType m_SourceRegion{};
 
-  InputImageIndexType    m_DestinationIndex{};
+  InputImageIndexType m_DestinationIndex{};
   InputSkipAxesArrayType m_DestinationSkipAxes{};
 
   static_assert(InputImageDimension >= SourceImageDimension,

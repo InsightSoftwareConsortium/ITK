@@ -100,7 +100,7 @@ BinShrinkImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   itkDebugMacro("BinShrinkImageFilter executing on region:" << outputRegionForThread);
 
   const InputImageType * inputPtr = this->GetInput();
-  OutputImageType *      outputPtr = this->GetOutput();
+  OutputImageType * outputPtr = this->GetOutput();
 
   using InputPixelType = typename InputImageType::PixelType;
   using OutputPixelType = typename OutputImageType::PixelType;
@@ -120,7 +120,7 @@ BinShrinkImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   }
 
   std::vector<OutputOffsetType> offsets;
-  OutputOffsetType              iOffset = negativeOffset;
+  OutputOffsetType iOffset = negativeOffset;
   while (iOffset[TInputImage::ImageDimension - 1] <= positiveOffset[TInputImage::ImageDimension - 1])
   {
     offsets.push_back(iOffset);
@@ -137,7 +137,7 @@ BinShrinkImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 
   // allocate accumulate line
   const size_t ln = outputRegionForThread.GetSize(0);
-  const auto   accBuffer = make_unique_for_overwrite<AccumulatePixelType[]>(ln);
+  const auto accBuffer = make_unique_for_overwrite<AccumulatePixelType[]>(ln);
 
   // convert the shrink factor for convenient multiplication
   typename TOutputImage::SizeType factorSize;
@@ -157,7 +157,7 @@ BinShrinkImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   {
     const OutputIndexType outputIndex = outputIterator.GetIndex();
 
-    auto                 offset = offsets.begin();
+    auto offset = offsets.begin();
     const InputIndexType startInputIndex = outputIndex * factorSize;
 
     inputIterator.SetIndex(startInputIndex + *offset);
@@ -215,7 +215,7 @@ BinShrinkImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
-  auto *                  inputPtr = const_cast<InputImageType *>(this->GetInput());
+  auto * inputPtr = const_cast<InputImageType *>(this->GetInput());
   const OutputImageType * outputPtr = this->GetOutput();
 
   itkAssertInDebugAndIgnoreInReleaseMacro(inputPtr != nullptr);
@@ -224,11 +224,11 @@ BinShrinkImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
   // Compute the input requested region (size and start index)
   // Use the image transformations to insure an input requested region
   // that will provide the proper range
-  const typename TOutputImage::SizeType &  outputRequestedRegionSize = outputPtr->GetRequestedRegion().GetSize();
+  const typename TOutputImage::SizeType & outputRequestedRegionSize = outputPtr->GetRequestedRegion().GetSize();
   const typename TOutputImage::IndexType & outputRequestedRegionStartIndex = outputPtr->GetRequestedRegion().GetIndex();
 
   typename TInputImage::IndexType inputIndex0;
-  typename TInputImage::SizeType  inputSize;
+  typename TInputImage::SizeType inputSize;
   for (unsigned int i = 0; i < TInputImage::ImageDimension; ++i)
   {
     inputIndex0[i] = outputRequestedRegionStartIndex[i] * m_ShrinkFactors[i];
@@ -259,7 +259,7 @@ BinShrinkImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 
   // Get pointers to the input and output
   const InputImageType * inputPtr = this->GetInput();
-  OutputImageType *      outputPtr = this->GetOutput();
+  OutputImageType * outputPtr = this->GetOutput();
 
   itkAssertInDebugAndIgnoreInReleaseMacro(inputPtr);
   itkAssertInDebugAndIgnoreInReleaseMacro(outputPtr != nullptr);
@@ -267,15 +267,15 @@ BinShrinkImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   // Compute the output spacing, the output image size, and the
   // output image start index
   const typename TInputImage::SpacingType & inputSpacing = inputPtr->GetSpacing();
-  const typename TInputImage::SizeType &    inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
-  const typename TInputImage::IndexType &   inputStartIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
+  const typename TInputImage::SizeType & inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
+  const typename TInputImage::IndexType & inputStartIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
 
   ContinuousIndex<double, ImageDimension> inputIndexOutputOrigin;
 
   typename TOutputImage::SpacingType outputSpacing(inputSpacing);
-  typename TOutputImage::SizeType    outputSize;
-  typename TOutputImage::PointType   outputOrigin;
-  typename TOutputImage::IndexType   outputStartIndex;
+  typename TOutputImage::SizeType outputSize;
+  typename TOutputImage::PointType outputOrigin;
+  typename TOutputImage::IndexType outputStartIndex;
 
   for (unsigned int i = 0; i < TOutputImage::ImageDimension; ++i)
   {

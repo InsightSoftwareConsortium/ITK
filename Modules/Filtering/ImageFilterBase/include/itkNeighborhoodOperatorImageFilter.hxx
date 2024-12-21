@@ -82,9 +82,9 @@ NeighborhoodOperatorImageFilter<TInputImage, TOutputImage, TOperatorValueType>::
   using FaceListType = typename BFC::FaceListType;
 
   const NeighborhoodInnerProduct<InputImageType, OperatorValueType, ComputingPixelType> smartInnerProduct;
-  BFC                                                                                   faceCalculator;
+  BFC faceCalculator;
 
-  OutputImageType *      output = this->GetOutput();
+  OutputImageType * output = this->GetOutput();
   const InputImageType * input = this->GetInput();
 
   // Break the input into a series of regions.  The first region is free

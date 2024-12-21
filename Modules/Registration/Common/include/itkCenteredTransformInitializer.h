@@ -154,7 +154,7 @@ private:
 
   bool m_UseMoments{ false };
 
-  const FixedImageCalculatorPointer  m_FixedCalculator{ FixedImageCalculatorType::New() };
+  const FixedImageCalculatorPointer m_FixedCalculator{ FixedImageCalculatorType::New() };
   const MovingImageCalculatorPointer m_MovingCalculator{ MovingImageCalculatorType::New() };
 }; // class CenteredTransformInitializer
 } // namespace itk

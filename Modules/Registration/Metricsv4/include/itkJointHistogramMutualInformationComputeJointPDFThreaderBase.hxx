@@ -58,13 +58,13 @@ void
 JointHistogramMutualInformationComputeJointPDFThreaderBase<TDomainPartitioner, TJointHistogramMetric>::ProcessPoint(
   const VirtualIndexType & itkNotUsed(virtualIndex),
   const VirtualPointType & virtualPoint,
-  const ThreadIdType       threadId)
+  const ThreadIdType threadId)
 {
-  typename AssociateType::Superclass::FixedImagePointType  mappedFixedPoint;
-  typename AssociateType::Superclass::FixedImagePixelType  fixedImageValue;
+  typename AssociateType::Superclass::FixedImagePointType mappedFixedPoint;
+  typename AssociateType::Superclass::FixedImagePixelType fixedImageValue;
   typename AssociateType::Superclass::MovingImagePointType mappedMovingPoint;
   typename AssociateType::Superclass::MovingImagePixelType movingImageValue;
-  bool                                                     pointIsValid = false;
+  bool pointIsValid = false;
 
   try
   {

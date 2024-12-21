@@ -71,8 +71,8 @@ CurvatureNDAnisotropicDiffusionFunction<TImage>::CurvatureNDAnisotropicDiffusion
 template <typename TImage>
 auto
 CurvatureNDAnisotropicDiffusionFunction<TImage>::ComputeUpdate(const NeighborhoodType & it,
-                                                               void *                   itkNotUsed(globalData),
-                                                               const FloatOffsetType &  itkNotUsed(offset)) -> PixelType
+                                                               void * itkNotUsed(globalData),
+                                                               const FloatOffsetType & itkNotUsed(offset)) -> PixelType
 {
   // Calculate the partial derivatives for each dimension
   double dx_forward[ImageDimension];

@@ -28,7 +28,7 @@ itkFEMElement3DMembraneTest(int, char *[])
   using ElementType = itk::fem::Element;
   using NodeType = ElementType::Node;
 
-  NodeType::Pointer       n0, n1, n2, n3, n4, n5, n6, n7;
+  NodeType::Pointer n0, n1, n2, n3, n4, n5, n6, n7;
   ElementType::VectorType pt(3);
 
   n0 = NodeType::New();

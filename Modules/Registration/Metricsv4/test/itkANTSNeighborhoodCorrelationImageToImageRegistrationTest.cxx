@@ -79,8 +79,8 @@ itkANTSNeighborhoodCorrelationImageToImageRegistrationTest(int argc, char * argv
 
   std::cout << argc << std::endl;
   unsigned int numberOfIterations = 10;
-  double       learningRate = 0.1;
-  double       deformationLearningRate = 1;
+  double learningRate = 0.1;
+  double deformationLearningRate = 1;
   if (argc >= 5)
   {
     numberOfIterations = std::stoi(argv[4]);
@@ -234,8 +234,8 @@ itkANTSNeighborhoodCorrelationImageToImageRegistrationTest(int argc, char * argv
   using PointSetType = MetricType::FixedSampledPointSetType;
   using PointType = PointSetType::PointType;
   std::cout << "Using sparse point set..." << std::endl;
-  const PointSetType::Pointer                       pset(PointSetType::New());
-  unsigned int                                      ind = 0;
+  const PointSetType::Pointer pset(PointSetType::New());
+  unsigned int ind = 0;
   itk::ImageRegionIteratorWithIndex<FixedImageType> It(fixedImage, fixedImage->GetLargestPossibleRegion());
   for (It.GoToBegin(); !It.IsAtEnd(); ++It)
   {

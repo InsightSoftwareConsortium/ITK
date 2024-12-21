@@ -21,8 +21,8 @@ namespace itk
 {
 void
 SingleValuedCostFunction::GetValueAndDerivative(const ParametersType & parameters,
-                                                MeasureType &          value,
-                                                DerivativeType &       derivative) const
+                                                MeasureType & value,
+                                                DerivativeType & derivative) const
 {
   value = this->GetValue(parameters);
   this->GetDerivative(parameters, derivative);

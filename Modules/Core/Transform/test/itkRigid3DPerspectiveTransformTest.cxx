@@ -28,7 +28,7 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
 
   using TransformType = itk::Rigid3DPerspectiveTransform<double>;
 
-  constexpr double       epsilon = 1e-10;
+  constexpr double epsilon = 1e-10;
   constexpr unsigned int N = 3;
 
   constexpr double focal = 100.0;
@@ -49,7 +49,7 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
     auto covVector = itk::MakeFilled<typename TransformType::InputCovariantVectorType>(1.0);
     ITK_TRY_EXPECT_EXCEPTION(transform->TransformCovariantVector(covVector));
 
-    auto                                         point = itk::MakeFilled<typename TransformType::InputPointType>(1.0);
+    auto point = itk::MakeFilled<typename TransformType::InputPointType>(1.0);
     typename TransformType::JacobianPositionType jacobianPosition;
     ITK_TRY_EXPECT_EXCEPTION(transform->ComputeJacobianWithRespectToPosition(point, jacobianPosition));
   }
@@ -129,10 +129,10 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
 
     {
       // Projecting  an itk::Point
-      auto                           p = itk::MakeFilled<TransformType::InputPointType>(10);
-      TransformType::InputPointType  q = p + ioffset;
+      auto p = itk::MakeFilled<TransformType::InputPointType>(10);
+      TransformType::InputPointType q = p + ioffset;
       TransformType::OutputPointType s;
-      const double                   factor = focal / q[2];
+      const double factor = focal / q[2];
       s[0] = q[0] * factor;
       s[1] = q[1] * factor;
       TransformType::OutputPointType r = translation->TransformPoint(p);
@@ -172,8 +172,8 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
     std::cout << offset << std::endl;
 
     using VersorType = TransformType::VersorType;
-    VersorType                  rotation;
-    VersorType::VectorType      axis;
+    VersorType rotation;
+    VersorType::VectorType axis;
     const VersorType::ValueType angle = 30.0f * std::atan(1.0f) / 45.0f;
     axis[0] = 1.0f;
     axis[1] = 1.0f;
@@ -185,10 +185,10 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
 
     {
       // Project an itk::Point
-      auto                           p = itk::MakeFilled<TransformType::InputPointType>(10.0);
-      TransformType::InputPointType  q = p + ioffset;
+      auto p = itk::MakeFilled<TransformType::InputPointType>(10.0);
+      TransformType::InputPointType q = p + ioffset;
       TransformType::OutputPointType s;
-      const double                   factor = focal / q[2];
+      const double factor = focal / q[2];
       s[0] = q[0] * factor;
       s[1] = q[1] * factor;
       TransformType::OutputPointType r = rigid->TransformPoint(p);

@@ -249,7 +249,7 @@ public:
   void
   WriteHistogramFile(unsigned int iterationNumber)
   {
-    const std::string  outputFileBase = "JointHistogram";
+    const std::string outputFileBase = "JointHistogram";
     std::ostringstream outputFilename;
     outputFilename << outputFileBase << "." << std::setfill('0')
                    << std::setw(3) << iterationNumber << "."
@@ -376,9 +376,9 @@ public:
   // Software Guide : BeginCodeSnippet
 
 private:
-  MetricPointer                 m_Metric;
+  MetricPointer m_Metric;
   HistogramToImageFilterPointer m_Filter;
-  HistogramFileWriterPointer    m_HistogramFileWriter;
+  HistogramFileWriterPointer m_HistogramFileWriter;
   // Software Guide : EndCodeSnippet
   std::string m_OutputFile;
 };
@@ -457,7 +457,7 @@ public:
   HistogramWriter m_JointHistogramWriter;
 
 private:
-  bool        m_WriteHistogramsAfterEveryIteration;
+  bool m_WriteHistogramsAfterEveryIteration;
   std::string m_InitialHistogramFile;
 };
 

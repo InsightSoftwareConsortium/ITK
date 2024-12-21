@@ -176,9 +176,9 @@ private:
 
   typename FastMarchingImageFilterType::Pointer m_Marcher{};
 
-  bool                 m_NarrowBanding{};
-  double               m_InputNarrowBandwidth{};
-  double               m_OutputNarrowBandwidth{};
+  bool m_NarrowBanding{};
+  double m_InputNarrowBandwidth{};
+  double m_OutputNarrowBandwidth{};
   NodeContainerPointer m_InputNarrowBand{};
   NodeContainerPointer m_OutputNarrowBand{};
 };

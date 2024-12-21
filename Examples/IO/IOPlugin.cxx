@@ -32,7 +32,7 @@ main(int argc, char * argv[])
 
 
   const char * envName = "ITK_AUTOLOAD_PATH";
-  char *       oldenv = getenv(envName);
+  char * oldenv = getenv(envName);
 
   std::string myenv = std::string(envName) + "=";
 
@@ -80,7 +80,7 @@ main(int argc, char * argv[])
       std::list<bool> enableflags = factory->GetEnableFlags();
       std::list<std::string>::const_iterator n = names.begin();
       std::list<std::string>::const_iterator d = descriptions.begin();
-      std::list<bool>::const_iterator        e = enableflags.begin();
+      std::list<bool>::const_iterator e = enableflags.begin();
       for (std::list<std::string>::const_iterator o = overrides.begin();
            o != overrides.end();
            ++o, ++n, ++d, e++)
@@ -171,7 +171,7 @@ main(int argc, char * argv[])
       std::cout << "EnableFlags size: " << enableflags.size() << std::endl;
       std::list<std::string>::const_iterator n = names.begin();
       std::list<std::string>::const_iterator d = descriptions.begin();
-      std::list<bool>::const_iterator        e = enableflags.begin();
+      std::list<bool>::const_iterator e = enableflags.begin();
       for (std::list<std::string>::const_iterator o = overrides.begin();
            o != overrides.end();
            ++o, ++n, ++d, ++e)

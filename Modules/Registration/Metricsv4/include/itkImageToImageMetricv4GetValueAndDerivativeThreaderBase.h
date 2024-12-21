@@ -120,7 +120,7 @@ protected:
   virtual bool
   ProcessVirtualPoint(const VirtualIndexType & virtualIndex,
                       const VirtualPointType & virtualPoint,
-                      const ThreadIdType       threadId);
+                      const ThreadIdType threadId);
 
   /** Method to calculate the metric value and derivative
    * given a point, value and image derivative for both fixed and moving
@@ -151,17 +151,17 @@ protected:
    * \warning  This is called from the threader, and thus must be thread-safe.
    */
   virtual bool
-  ProcessPoint(const VirtualIndexType &        virtualIndex,
-               const VirtualPointType &        virtualPoint,
-               const FixedImagePointType &     mappedFixedPoint,
-               const FixedImagePixelType &     mappedFixedPixelValue,
-               const FixedImageGradientType &  mappedFixedImageGradient,
-               const MovingImagePointType &    mappedMovingPoint,
-               const MovingImagePixelType &    mappedMovingPixelValue,
+  ProcessPoint(const VirtualIndexType & virtualIndex,
+               const VirtualPointType & virtualPoint,
+               const FixedImagePointType & mappedFixedPoint,
+               const FixedImagePixelType & mappedFixedPixelValue,
+               const FixedImageGradientType & mappedFixedImageGradient,
+               const MovingImagePointType & mappedMovingPoint,
+               const MovingImagePixelType & mappedMovingPixelValue,
                const MovingImageGradientType & mappedMovingImageGradient,
-               MeasureType &                   metricValueReturn,
-               DerivativeType &                localDerivativeReturn,
-               const ThreadIdType              threadId) const = 0;
+               MeasureType & metricValueReturn,
+               DerivativeType & localDerivativeReturn,
+               const ThreadIdType threadId) const = 0;
 
 
   /** Store derivative result from a single point calculation.

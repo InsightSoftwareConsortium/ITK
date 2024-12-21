@@ -99,7 +99,7 @@ MorphologicalWatershedFromMarkersImageFilter<TInputImage, TLabelImage>::Generate
 
   const LabelImageType * markerImage = this->GetMarkerImage();
   const InputImageType * inputImage = this->GetInput();
-  LabelImageType *       outputImage = this->GetOutput();
+  LabelImageType * outputImage = this->GetOutput();
 
   // Set up the progress reporter
   // we can't found the exact number of pixel to process in the 2nd pass, so we
@@ -123,7 +123,7 @@ MorphologicalWatershedFromMarkersImageFilter<TInputImage, TLabelImage>::Generate
   // iterator for the marker image
   using MarkerIteratorType = ConstShapedNeighborhoodIterator<LabelImageType>;
   typename MarkerIteratorType::ConstIterator nmIt;
-  MarkerIteratorType                         markerIt(radius, markerImage, markerImage->GetRequestedRegion());
+  MarkerIteratorType markerIt(radius, markerImage, markerImage->GetRequestedRegion());
   // add a boundary constant to avoid adding pixels on the border in the fah
   ConstantBoundaryCondition<LabelImageType> lcbc;
   lcbc.SetConstant(NumericTraits<LabelImagePixelType>::max());
@@ -132,7 +132,7 @@ MorphologicalWatershedFromMarkersImageFilter<TInputImage, TLabelImage>::Generate
 
   // iterator for the input image
   using InputIteratorType = ConstShapedNeighborhoodIterator<InputImageType>;
-  InputIteratorType                         inputIt(radius, inputImage, inputImage->GetRequestedRegion());
+  InputIteratorType inputIt(radius, inputImage, inputImage->GetRequestedRegion());
   typename InputIteratorType::ConstIterator niIt;
   setConnectivity(&inputIt, m_FullyConnected);
 
@@ -140,7 +140,7 @@ MorphologicalWatershedFromMarkersImageFilter<TInputImage, TLabelImage>::Generate
   using OutputIteratorType = ShapedNeighborhoodIterator<LabelImageType>;
   using OffsetType = typename OutputIteratorType::OffsetType;
   typename OutputIteratorType::Iterator noIt;
-  OutputIteratorType                    outputIt(radius, outputImage, outputImage->GetRequestedRegion());
+  OutputIteratorType outputIt(radius, outputImage, outputImage->GetRequestedRegion());
   setConnectivity(&outputIt, m_FullyConnected);
 
   //---------------------------------------------------------------------------
@@ -169,8 +169,8 @@ MorphologicalWatershedFromMarkersImageFilter<TInputImage, TLabelImage>::Generate
 
     // iterator for the status image
     using StatusIteratorType = ShapedNeighborhoodIterator<StatusImageType>;
-    typename StatusIteratorType::Iterator      nsIt;
-    StatusIteratorType                         statusIt(radius, statusImage, outputImage->GetRequestedRegion());
+    typename StatusIteratorType::Iterator nsIt;
+    StatusIteratorType statusIt(radius, statusImage, outputImage->GetRequestedRegion());
     ConstantBoundaryCondition<StatusImageType> bcbc;
     bcbc.SetConstant(true); // outside pixel are already processed
     statusIt.OverrideBoundaryCondition(&bcbc);
@@ -247,7 +247,7 @@ MorphologicalWatershedFromMarkersImageFilter<TInputImage, TLabelImage>::Generate
     {
       // store the current vars
       const InputImagePixelType currentValue = fah.begin()->first;
-      QueueType                 currentQueue = fah.begin()->second;
+      QueueType currentQueue = fah.begin()->second;
       // and remove them from the fah
       fah.erase(fah.begin());
 
@@ -265,7 +265,7 @@ MorphologicalWatershedFromMarkersImageFilter<TInputImage, TLabelImage>::Generate
         // iterate over the neighbors. If there is only one marker value, give
         // that value to the pixel, else keep it as is (watershed line)
         LabelImagePixelType marker = wsLabel;
-        bool                collision = false;
+        bool collision = false;
         for (noIt = outputIt.Begin(); noIt != outputIt.End(); ++noIt)
         {
           const LabelImagePixelType o = noIt.Get();
@@ -333,7 +333,7 @@ MorphologicalWatershedFromMarkersImageFilter<TInputImage, TLabelImage>::Generate
       const LabelImagePixelType markerPixel = markerIt.GetCenterPixel();
       if (markerPixel != bgLabel)
       {
-        const IndexType  idx = markerIt.GetIndex();
+        const IndexType idx = markerIt.GetIndex();
         const OffsetType shift = idx - inputIt.GetIndex();
         inputIt += shift;
 
@@ -380,7 +380,7 @@ MorphologicalWatershedFromMarkersImageFilter<TInputImage, TLabelImage>::Generate
     {
       // store the current vars
       const InputImagePixelType currentValue = fah.begin()->first;
-      QueueType                 currentQueue = fah.begin()->second;
+      QueueType currentQueue = fah.begin()->second;
       // and remove them from the fah
       fah.erase(fah.begin());
 
@@ -425,7 +425,7 @@ MorphologicalWatershedFromMarkersImageFilter<TInputImage, TLabelImage>::Generate
 template <typename TInputImage, typename TLabelImage>
 void
 MorphologicalWatershedFromMarkersImageFilter<TInputImage, TLabelImage>::PrintSelf(std::ostream & os,
-                                                                                  Indent         indent) const
+                                                                                  Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

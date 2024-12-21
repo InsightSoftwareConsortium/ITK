@@ -102,7 +102,7 @@ public:
 
 private:
   SizeValueType m_RequiredNumberOfOverlappingPixels;
-  double        m_PrecisionTolerance;
+  double m_PrecisionTolerance;
 };
 } // namespace Functor
 
@@ -300,7 +300,7 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   // Flip the moving images along all dimensions so that the correlation can be more easily handled.
   using FlipperType = itk::FlipImageFilter<LocalInputImageType>;
   constexpr auto flipAxes = MakeFilled<typename FlipperType::FlipAxesArrayType>(true);
-  auto           rotater = FlipperType::New();
+  auto rotater = FlipperType::New();
   rotater->SetFlipAxes(flipAxes);
   rotater->SetInput(inputImage);
   rotater->Update();
@@ -316,7 +316,7 @@ template <typename TInputImage, typename TOutputImage, typename TMaskImage>
 typename TMaskImage::Pointer
 MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>::PreProcessMask(
   const InputImageType * inputImage,
-  const MaskImageType *  inputMask)
+  const MaskImageType * inputMask)
 {
   typename MaskImageType::Pointer outputMask;
   if (inputMask)
@@ -353,7 +353,7 @@ template <typename TInputImage, typename TOutputImage, typename TMaskImage>
 typename TInputImage::Pointer
 MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>::PreProcessImage(
   const InputImageType * inputImage,
-  const MaskImageType *  inputMask)
+  const MaskImageType * inputMask)
 {
   // Wherever the mask is 0, the intensity image must also be 0.
   // We achieve this by multiplying the image with the mask, since the mask now contains
@@ -374,10 +374,10 @@ template <typename LocalInputImageType, typename LocalOutputImageType>
 typename LocalOutputImageType::Pointer
 MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>::CalculateForwardFFT(
   LocalInputImageType * inputImage,
-  InputSizeType &       FFTImageSize)
+  InputSizeType & FFTImageSize)
 {
   const typename LocalInputImageType::PixelType constantPixel = 0;
-  const typename LocalInputImageType::SizeType  upperPad =
+  const typename LocalInputImageType::SizeType upperPad =
     FFTImageSize - inputImage->GetLargestPossibleRegion().GetSize();
 
   using PadType = itk::ConstantPadImageFilter<LocalInputImageType, RealImageType>;
@@ -407,7 +407,7 @@ template <typename LocalInputImageType, typename LocalOutputImageType>
 typename LocalOutputImageType::Pointer
 MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>::CalculateInverseFFT(
   LocalInputImageType * inputImage,
-  RealSizeType &        combinedImageSize)
+  RealSizeType & combinedImageSize)
 {
   // The inverse Fourier transform normalizes by the number of voxels in the Fourier image.
   // It also converts the image from complex (with small imaginary values since
@@ -677,7 +677,7 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   // get pointers to the input and output
   const InputImageConstPointer fixedImage = this->GetFixedImage();
   const InputImageConstPointer movingImage = this->GetMovingImage();
-  const OutputImagePointer     output = this->GetOutput();
+  const OutputImagePointer output = this->GetOutput();
 
   // Compute the size of the output image.
   typename OutputImageType::SizeType size;
@@ -697,7 +697,7 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   // moving image provides that NCC score when centered at that
   // location.
   itk::ContinuousIndex<typename RealPointType::ValueType, ImageDimension> movingImageOffset;
-  RealPointType                                                           outputOrigin;
+  RealPointType outputOrigin;
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     movingImageOffset[i] = -static_cast<float>(movingImage->GetLargestPossibleRegion().GetSize()[i] - 1) / 2.0;
@@ -738,7 +738,7 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
 template <typename TInputImage, typename TOutputImage, typename TMaskImage>
 void
 MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>::PrintSelf(std::ostream & os,
-                                                                                            Indent         indent) const
+                                                                                            Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }

@@ -78,7 +78,7 @@ protected:
     CreateLabelImage(const std::vector<IndexType> & indices)
     {
       constexpr size_t size = 25;
-      auto             image = LabelImageType::New();
+      auto image = LabelImageType::New();
 
       auto imageSize = LabelImageType::SizeType::Filled(size);
       image->SetRegions(typename LabelImageType::RegionType(imageSize));
@@ -186,7 +186,7 @@ protected:
 TEST_F(UniqueLabelMapFixture, EmptyImage)
 {
   const std::vector<typename FixtureUtilities<2>::IndexType> indices = {};
-  auto                                                       image = FixtureUtilities<2>::CreateLabelImage(indices);
+  auto image = FixtureUtilities<2>::CreateLabelImage(indices);
   auto labelMap = FixtureUtilities<2>::LabelMapFromLabelImage(image.GetPointer(), 15);
 
   auto filter = itk::LabelUniqueLabelMapFilter<typename decltype(labelMap)::ObjectType>::New();
@@ -205,7 +205,7 @@ TEST_F(UniqueLabelMapFixture, EmptyImage)
 TEST_F(UniqueLabelMapFixture, OneLabel)
 {
   const std::vector<typename FixtureUtilities<2>::IndexType> indices = { { 10, 10 } };
-  auto                                                       image = FixtureUtilities<2>::CreateLabelImage(indices);
+  auto image = FixtureUtilities<2>::CreateLabelImage(indices);
   auto labelMap = FixtureUtilities<2>::LabelMapFromLabelImage(image.GetPointer(), 0);
 
   auto filter = itk::LabelUniqueLabelMapFilter<typename decltype(labelMap)::ObjectType>::New();
@@ -225,7 +225,7 @@ TEST_F(UniqueLabelMapFixture, OnesLabel)
 {
   const std::vector<typename FixtureUtilities<2>::IndexType> indices = { { 0, 0 }, { 1, 0 }, { 2, 0 }, { 3, 0 },
                                                                          { 0, 4 }, { 2, 4 }, { 0, 5 } };
-  auto                                                       image = FixtureUtilities<2>::CreateLabelImage(indices);
+  auto image = FixtureUtilities<2>::CreateLabelImage(indices);
   auto labelMap = FixtureUtilities<2>::LabelMapFromLabelImage(image.GetPointer(), 0);
 
   auto filter = itk::LabelUniqueLabelMapFilter<typename decltype(labelMap)::ObjectType>::New();
@@ -245,7 +245,7 @@ TEST_F(UniqueLabelMapFixture, Dilate1)
 {
   const std::vector<typename FixtureUtilities<2>::IndexType> indices = { { 0, 0 }, { 1, 0 }, { 2, 0 }, { 3, 0 },
                                                                          { 0, 4 }, { 2, 4 }, { 0, 10 } };
-  auto                                                       image = FixtureUtilities<2>::CreateLabelImage(indices);
+  auto image = FixtureUtilities<2>::CreateLabelImage(indices);
   auto labelMap = FixtureUtilities<2>::LabelMapFromLabelImage(image.GetPointer(), 1);
 
   auto filter = itk::LabelUniqueLabelMapFilter<typename decltype(labelMap)::ObjectType>::New();
@@ -277,7 +277,7 @@ TEST_F(UniqueLabelMapFixture, Dilate2)
 {
   const std::vector<typename FixtureUtilities<2>::IndexType> indices = { { 0, 0 }, { 1, 0 }, { 2, 0 }, { 3, 0 },
                                                                          { 0, 4 }, { 2, 4 }, { 0, 5 } };
-  auto                                                       image = FixtureUtilities<2>::CreateLabelImage(indices);
+  auto image = FixtureUtilities<2>::CreateLabelImage(indices);
   auto labelMap = FixtureUtilities<2>::LabelMapFromLabelImage(image.GetPointer(), 2);
 
   auto filter = itk::LabelUniqueLabelMapFilter<typename decltype(labelMap)::ObjectType>::New();

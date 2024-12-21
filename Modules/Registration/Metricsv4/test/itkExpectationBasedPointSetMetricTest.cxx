@@ -44,7 +44,7 @@ itkExpectationBasedPointSetMetricTestRun()
   unsigned long count = 0;
   for (float theta = 0; theta < 2.0 * itk::Math::pi; theta += 0.1)
   {
-    PointType       fixedPoint;
+    PointType fixedPoint;
     constexpr float radius = 100.0;
     fixedPoint[0] = radius * std::cos(theta);
     fixedPoint[1] = radius * std::sin(theta);
@@ -91,10 +91,10 @@ itkExpectationBasedPointSetMetricTestRun()
   metric->Initialize();
 
   const typename PointSetMetricType::MeasureType value = metric->GetValue();
-  typename PointSetMetricType::DerivativeType    derivative;
+  typename PointSetMetricType::DerivativeType derivative;
   metric->GetDerivative(derivative);
 
-  typename PointSetMetricType::MeasureType    value2;
+  typename PointSetMetricType::MeasureType value2;
   typename PointSetMetricType::DerivativeType derivative2;
   metric->GetValueAndDerivative(value2, derivative2);
 

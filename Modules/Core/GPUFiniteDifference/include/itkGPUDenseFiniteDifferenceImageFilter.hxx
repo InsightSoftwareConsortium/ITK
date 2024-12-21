@@ -155,7 +155,7 @@ GPUDenseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilte
   typename OutputImageType::Pointer output = this->GetOutput();
 
   TimeStepType timeStep;
-  void *       globalData;
+  void * globalData;
 
   auto * df = dynamic_cast<GPUFiniteDifferenceFunction<OutputImageType> *>(this->GetDifferenceFunction().GetPointer());
 

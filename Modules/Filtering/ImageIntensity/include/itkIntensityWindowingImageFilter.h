@@ -96,17 +96,17 @@ public:
       return m_OutputMaximum;
     }
     const RealType value = static_cast<RealType>(x) * m_Factor + m_Offset;
-    const auto     result = static_cast<TOutput>(value);
+    const auto result = static_cast<TOutput>(value);
     return result;
   }
 
 private:
   RealType m_Factor;
   RealType m_Offset;
-  TOutput  m_OutputMaximum;
-  TOutput  m_OutputMinimum;
-  TInput   m_WindowMaximum;
-  TInput   m_WindowMinimum;
+  TOutput m_OutputMaximum;
+  TOutput m_OutputMinimum;
+  TInput m_WindowMaximum;
+  TInput m_WindowMinimum;
 };
 } // end namespace Functor
 

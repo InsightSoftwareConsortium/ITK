@@ -453,7 +453,7 @@ public:
    * the inverse of the current Matrix. jac will be resized as needed, but it's
    * more efficient if it's already properly sized. */
   void
-  ComputeInverseJacobianWithRespectToPosition(const InputPointType &        x,
+  ComputeInverseJacobianWithRespectToPosition(const InputPointType & x,
                                               InverseJacobianPositionType & jac) const override;
   using Superclass::ComputeInverseJacobianWithRespectToPosition;
 
@@ -508,7 +508,7 @@ protected:
    * omitted, then the MatrixOffsetTransformBase is initialized to an identity
    * transformation in the appropriate number of dimensions. */
 #if !defined(ITK_LEGACY_REMOVE)
-  [[deprecated("Removed unused constructor")]] MatrixOffsetTransformBase(const MatrixType &       matrix,
+  [[deprecated("Removed unused constructor")]] MatrixOffsetTransformBase(const MatrixType & matrix,
                                                                          const OutputVectorType & offset);
 #endif
   explicit MatrixOffsetTransformBase(unsigned int paramDims = ParametersDimension);
@@ -584,16 +584,16 @@ protected:
   itkGetConstMacro(Singular, bool);
 
 private:
-  MatrixType                m_Matrix{ MatrixType::GetIdentity() };               // Matrix of the transformation
-  OutputVectorType          m_Offset{};                                          // Offset of the transformation
+  MatrixType m_Matrix{ MatrixType::GetIdentity() };                              // Matrix of the transformation
+  OutputVectorType m_Offset{};                                                   // Offset of the transformation
   mutable InverseMatrixType m_InverseMatrix{ InverseMatrixType::GetIdentity() }; // Inverse of the matrix
-  mutable bool              m_Singular{ false };                                 // Is m_Inverse singular?
+  mutable bool m_Singular{ false };                                              // Is m_Inverse singular?
 
-  InputPointType   m_Center{};
+  InputPointType m_Center{};
   OutputVectorType m_Translation{};
 
   /** To avoid recomputation of the inverse if not needed */
-  TimeStamp         m_MatrixMTime{};
+  TimeStamp m_MatrixMTime{};
   mutable TimeStamp m_InverseMatrixMTime{};
 }; // class MatrixOffsetTransformBase
 } // namespace itk

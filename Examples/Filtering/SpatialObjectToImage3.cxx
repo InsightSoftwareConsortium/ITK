@@ -142,8 +142,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  constexpr unsigned int                      numberOfPoints = 6;
-  typename PolygonType::PointType             point;
+  constexpr unsigned int numberOfPoints = 6;
+  typename PolygonType::PointType point;
   typename PolygonType::PointType::VectorType radial;
   radial[0] = 0.0;
   radial[1] = 0.0;

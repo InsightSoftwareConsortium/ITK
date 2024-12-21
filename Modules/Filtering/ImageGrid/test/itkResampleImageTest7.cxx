@@ -48,10 +48,10 @@ itkResampleImageTest7(int, char *[])
   using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, CoordinateType>;
 
   // Create and configure an image
-  const ImagePointerType  image = ImageType::New();
-  ImageIndexType          index = { { 0, 0 } };
+  const ImagePointerType image = ImageType::New();
+  ImageIndexType index = { { 0, 0 } };
   constexpr ImageSizeType size = { { 64, 64 } };
-  const ImageRegionType   region{ index, size };
+  const ImageRegionType region{ index, size };
   image->SetRegions(region);
   image->Allocate();
 

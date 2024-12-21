@@ -155,7 +155,7 @@ SampleClassifierFilter<TSample>::GenerateData()
   output->SetSample(this->GetInput());
   output->SetNumberOfClasses(this->m_NumberOfClasses);
 
-  typename TSample::ConstIterator       iter = sample->Begin();
+  typename TSample::ConstIterator iter = sample->Begin();
   const typename TSample::ConstIterator end = sample->End();
 
   while (iter != end)

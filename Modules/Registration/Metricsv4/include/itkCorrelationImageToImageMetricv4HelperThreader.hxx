@@ -96,13 +96,13 @@ bool
 CorrelationImageToImageMetricv4HelperThreader<TDomainPartitioner, TImageToImageMetric, TCorrelationMetric>::
   ProcessVirtualPoint(const VirtualIndexType & itkNotUsed(virtualIndex),
                       const VirtualPointType & virtualPoint,
-                      const ThreadIdType       threadId)
+                      const ThreadIdType threadId)
 {
-  FixedImagePointType  mappedFixedPoint;
-  FixedImagePixelType  mappedFixedPixelValue;
+  FixedImagePointType mappedFixedPoint;
+  FixedImagePixelType mappedFixedPixelValue;
   MovingImagePointType mappedMovingPoint;
   MovingImagePixelType mappedMovingPixelValue;
-  bool                 pointIsValid = false;
+  bool pointIsValid = false;
 
   /* Transform the point into fixed and moving spaces, and evaluate.
    * Different behavior with pre-warping enabled is handled transparently.

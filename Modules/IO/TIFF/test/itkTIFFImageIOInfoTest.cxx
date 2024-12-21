@@ -66,14 +66,14 @@ itkTIFFImageIOInfoTest(int argc, char * argv[])
   using MetaDataStringType = itk::MetaDataObject<std::string>;
 
   const DictionaryType & dictionary = tiffImageIO->GetMetaDataDictionary();
-  auto                   itr = dictionary.Begin();
-  auto                   end = dictionary.End();
+  auto itr = dictionary.Begin();
+  auto end = dictionary.End();
 
   std::cout << "MetaDataDictionary" << std::endl;
   while (itr != end)
   {
     const itk::MetaDataObjectBase::Pointer entry = itr->second;
-    const std::string                      tagkey = itr->first;
+    const std::string tagkey = itr->first;
 
     const MetaDataStringType::Pointer entryvalue = dynamic_cast<MetaDataStringType *>(entry.GetPointer());
 

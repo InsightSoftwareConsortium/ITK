@@ -180,8 +180,8 @@ protected:
 
 private:
   OutputPixelType m_OutputBackgroundValue{};
-  InputPixelType  m_InputForegroundValue{};
-  SizeValueType   m_NumberOfObjects{};
+  InputPixelType m_InputForegroundValue{};
+  SizeValueType m_NumberOfObjects{};
 };
 } // end namespace itk
 

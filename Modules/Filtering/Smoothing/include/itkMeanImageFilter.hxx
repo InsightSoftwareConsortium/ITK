@@ -40,7 +40,7 @@ void
 MeanImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread)
 {
-  const typename OutputImageType::Pointer     output = this->GetOutput();
+  const typename OutputImageType::Pointer output = this->GetOutput();
   const typename InputImageType::ConstPointer input = this->GetInput();
 
   const auto radius = this->GetRadius();
@@ -73,9 +73,9 @@ template <typename TInputImage, typename TOutputImage>
 template <typename TPixelAccessPolicy, typename TPixelType>
 void
 MeanImageFilter<TInputImage, TOutputImage>::GenerateDataInSubregion(
-  const TInputImage &                              inputImage,
-  TOutputImage &                                   outputImage,
-  const ImageRegion<InputImageDimension> &         imageRegion,
+  const TInputImage & inputImage,
+  TOutputImage & outputImage,
+  const ImageRegion<InputImageDimension> & imageRegion,
   const std::vector<Offset<InputImageDimension>> & neighborhoodOffsets,
   const TPixelType *)
 {
@@ -106,9 +106,9 @@ template <typename TInputImage, typename TOutputImage>
 template <typename TPixelAccessPolicy, typename TValueType>
 void
 MeanImageFilter<TInputImage, TOutputImage>::GenerateDataInSubregion(
-  const TInputImage &                              inputImage,
-  TOutputImage &                                   outputImage,
-  const ImageRegion<InputImageDimension> &         imageRegion,
+  const TInputImage & inputImage,
+  TOutputImage & outputImage,
+  const ImageRegion<InputImageDimension> & imageRegion,
   const std::vector<Offset<InputImageDimension>> & neighborhoodOffsets,
   const VariableLengthVector<TValueType> *)
 {
@@ -121,7 +121,7 @@ MeanImageFilter<TInputImage, TOutputImage>::GenerateDataInSubregion(
   // These temp variable are needed outside the loop for
   // VariableLengthVectors to avoid memory allocations on a per-pixel
   // basis.
-  InputRealType   sum(inputImage.GetNumberOfComponentsPerPixel());
+  InputRealType sum(inputImage.GetNumberOfComponentsPerPixel());
   OutputPixelType out(inputImage.GetNumberOfComponentsPerPixel());
 
   for (const auto & index : ImageRegionIndexRange<InputImageDimension>(imageRegion))

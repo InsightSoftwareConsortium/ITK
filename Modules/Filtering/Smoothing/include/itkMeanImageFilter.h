@@ -110,17 +110,17 @@ protected:
 private:
   template <typename TPixelAccessPolicy, typename TPixelType>
   static void
-  GenerateDataInSubregion(const TInputImage &                              inputImage,
-                          TOutputImage &                                   outputImage,
-                          const ImageRegion<InputImageDimension> &         imageRegion,
+  GenerateDataInSubregion(const TInputImage & inputImage,
+                          TOutputImage & outputImage,
+                          const ImageRegion<InputImageDimension> & imageRegion,
                           const std::vector<Offset<InputImageDimension>> & neighborhoodOffsets,
                           const TPixelType *);
 
   template <typename TPixelAccessPolicy, typename TValue>
   static void
-  GenerateDataInSubregion(const TInputImage &                              inputImage,
-                          TOutputImage &                                   outputImage,
-                          const ImageRegion<InputImageDimension> &         imageRegion,
+  GenerateDataInSubregion(const TInputImage & inputImage,
+                          TOutputImage & outputImage,
+                          const ImageRegion<InputImageDimension> & imageRegion,
                           const std::vector<Offset<InputImageDimension>> & neighborhoodOffsets,
                           const VariableLengthVector<TValue> *);
 };

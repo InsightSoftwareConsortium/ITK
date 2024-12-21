@@ -103,9 +103,9 @@ PolygonCell<TCellInterface>::GetNumberOfBoundaryFeatures(int dimension) const ->
  */
 template <typename TCellInterface>
 bool
-PolygonCell<TCellInterface>::GetBoundaryFeature(int                   dimension,
+PolygonCell<TCellInterface>::GetBoundaryFeature(int dimension,
                                                 CellFeatureIdentifier featureId,
-                                                CellAutoPointer &     cellPointer)
+                                                CellAutoPointer & cellPointer)
 {
   switch (dimension)
   {
@@ -387,7 +387,7 @@ template <typename TCellInterface>
 bool
 PolygonCell<TCellInterface>::GetEdge(CellFeatureIdentifier edgeId, EdgeAutoPointer & edgePointer)
 {
-  auto *             edge = new EdgeType;
+  auto * edge = new EdgeType;
   const unsigned int max_pointId = this->GetNumberOfPoints() - 1;
 
   if (edgeId < max_pointId)

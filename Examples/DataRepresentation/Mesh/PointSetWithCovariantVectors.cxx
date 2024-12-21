@@ -102,7 +102,7 @@ main(int, char *[])
   PointSetType::PixelType gradient;
   PointSetType::PointType point;
 
-  unsigned int     pointId = 0;
+  unsigned int pointId = 0;
   constexpr double radius = 300.0;
 
   for (unsigned int i = 0; i < 360; ++i)
@@ -139,7 +139,7 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   using PointDataIterator = PointSetType::PointDataContainer::ConstIterator;
-  PointDataIterator       pixelIterator = pointSet->GetPointData()->Begin();
+  PointDataIterator pixelIterator = pointSet->GetPointData()->Begin();
   const PointDataIterator pixelEnd = pointSet->GetPointData()->End();
 
   using PointIterator = PointSetType::PointsContainer::Iterator;

@@ -53,9 +53,9 @@ FileFreeImageIO ::ReadImageInformation()
   // spacing
   // origin
   // direction
-  std::vector<unsigned int>        sizeVector;
-  std::vector<double>              spacingVector;
-  std::vector<double>              originVector;
+  std::vector<unsigned int> sizeVector;
+  std::vector<double> spacingVector;
+  std::vector<double> originVector;
   std::vector<std::vector<double>> directionVector;
 
   itksys::RegularExpression findSize("Size=([^:$]*)");
@@ -186,12 +186,12 @@ FileFreeImageIO ::Write(const void *)
 {}
 
 void
-FileFreeImageIO ::SplitString(const std::string &        text,
-                              const std::string &        separators,
+FileFreeImageIO ::SplitString(const std::string & text,
+                              const std::string & separators,
                               std::vector<std::string> & words)
 {
   const std::string::size_type n = text.length();
-  std::string::size_type       start = text.find_first_not_of(separators);
+  std::string::size_type start = text.find_first_not_of(separators);
   while (start < n)
   {
     std::string::size_type stop = text.find_first_of(separators, start);

@@ -68,7 +68,7 @@ public:
       , height(s)
     {}
     IdentifierType label;
-    ScalarType     height;
+    ScalarType height;
 
     /** Necessary operator for sorting the adjacency lists */
     bool
@@ -92,7 +92,7 @@ public:
   /** Structure holding information about each segment in an image. */
   struct segment_t
   {
-    ScalarType  min;
+    ScalarType min;
     edge_list_t edge_list;
   };
 

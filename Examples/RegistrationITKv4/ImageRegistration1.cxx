@@ -564,8 +564,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   TransformType::ParametersType finalParameters = transform->GetParameters();
-  const double                  TranslationAlongX = finalParameters[0];
-  const double                  TranslationAlongY = finalParameters[1];
+  const double TranslationAlongX = finalParameters[0];
+  const double TranslationAlongY = finalParameters[1];
   // Software Guide : EndCodeSnippet
 
 

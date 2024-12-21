@@ -43,7 +43,7 @@ itkDiscreteHessianGaussianImageFunctionTestND(int argc, char * argv[])
 
   // Create the itk::DiscreteHessianGaussianImageFunction
   using HessianGaussianImageFunctionType = itk::DiscreteHessianGaussianImageFunction<ImageType, PixelType>;
-  typename HessianGaussianImageFunctionType::TensorType                       hessian;
+  typename HessianGaussianImageFunctionType::TensorType hessian;
   typename HessianGaussianImageFunctionType::TensorType::EigenValuesArrayType eigenValues;
 
   auto function = HessianGaussianImageFunctionType::New();
@@ -55,7 +55,7 @@ itkDiscreteHessianGaussianImageFunctionTestND(int argc, char * argv[])
   // Set up operator parameters
   const double sigma = std::stod(argv[3]);
 
-  double       maxError = 0.001;
+  double maxError = 0.001;
   unsigned int maxKernelWidth = 100;
   if (argc > 4)
   {
@@ -134,7 +134,7 @@ itkDiscreteHessianGaussianImageFunctionTestND(int argc, char * argv[])
   PointType point;
   using ContinuousIndexType = typename HessianGaussianImageFunctionType::ContinuousIndexType;
   const unsigned long nop = reader->GetOutput()->GetRequestedRegion().GetNumberOfPixels();
-  unsigned long       pixelNumber = 0;
+  unsigned long pixelNumber = 0;
   while (!it.IsAtEnd())
   {
     if (pixelNumber < nop / 3)
@@ -227,10 +227,10 @@ itkDiscreteHessianGaussianImageFunctionTestND(int argc, char * argv[])
   // Exercise another interpolation mode: LinearInterpolation
   {
     function->SetInterpolationMode(HessianGaussianImageFunctionType::InterpolationModeEnum::LinearInterpolation);
-    const ImageType *                    inputImage = reader->GetOutput();
+    const ImageType * inputImage = reader->GetOutput();
     const typename ImageType::RegionType region = inputImage->GetBufferedRegion();
-    typename ImageType::SizeType         size = region.GetSize();
-    typename ImageType::IndexType        index = region.GetIndex();
+    typename ImageType::SizeType size = region.GetSize();
+    typename ImageType::IndexType index = region.GetIndex();
     // Aim for the pixel at the center of the image
     for (unsigned int i = 0; i < Dimension; ++i)
     {

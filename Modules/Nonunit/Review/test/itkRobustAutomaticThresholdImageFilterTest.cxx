@@ -86,7 +86,7 @@ itkRobustAutomaticThresholdImageFilterTest(int argc, char * argv[])
 
 
   // Regression test
-  auto                       expectedThreshold = static_cast<FilterType::InputPixelType>(std::stod(argv[6]));
+  auto expectedThreshold = static_cast<FilterType::InputPixelType>(std::stod(argv[6]));
   FilterType::InputPixelType computedThreshold = filter->GetThreshold();
   if (itk::Math::NotAlmostEquals(expectedThreshold, computedThreshold))
   {

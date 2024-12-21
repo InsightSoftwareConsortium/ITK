@@ -32,9 +32,9 @@
 template <typename TInputImage, typename TBayesianClassifierInitializer, typename TBayesianClassifierFilter>
 int
 TestBayesianClassifierImageFilterWithNoPriors(typename TInputImage::Pointer image,
-                                              unsigned int                  numberOfClasses,
-                                              unsigned int                  numberOfSmoothingIterations,
-                                              char *                        outputFilename)
+                                              unsigned int numberOfClasses,
+                                              unsigned int numberOfSmoothingIterations,
+                                              char * outputFilename)
 {
   using BayesianClassifierInitializerType = TBayesianClassifierInitializer;
   using BayesianClassifierFilterType = TBayesianClassifierFilter;
@@ -98,11 +98,11 @@ TestBayesianClassifierImageFilterWithNoPriors(typename TInputImage::Pointer imag
 
 template <typename TInputImage, typename TBayesianClassifierInitializer, typename TBayesianClassifierFilter>
 int
-TestBayesianClassifierImageFilterWithPriors(typename TInputImage::Pointer                                image,
+TestBayesianClassifierImageFilterWithPriors(typename TInputImage::Pointer image,
                                             typename TBayesianClassifierFilter::PriorsImageType::Pointer priorsImage,
                                             unsigned int numberOfClasses,
                                             unsigned int numberOfSmoothingIterations,
-                                            char *       outputFilename)
+                                            char * outputFilename)
 {
   using BayesianClassifierInitializerType = TBayesianClassifierInitializer;
   using BayesianClassifierFilterType = TBayesianClassifierFilter;
@@ -199,10 +199,10 @@ itkBayesianClassifierImageFilterTest(int argc, char * argv[])
 
   const ReaderType::OutputImageType::Pointer inputImage = reader->GetOutput();
 
-  char *             outputFilename = argv[2];
+  char * outputFilename = argv[2];
   const unsigned int numberOfClasses = std::stoi(argv[3]);
   const unsigned int numberOfSmoothingIterations = std::stoi(argv[4]);
-  const bool         testPriors = std::stoi(argv[5]);
+  const bool testPriors = std::stoi(argv[5]);
 
 
   using LabelType = unsigned char;

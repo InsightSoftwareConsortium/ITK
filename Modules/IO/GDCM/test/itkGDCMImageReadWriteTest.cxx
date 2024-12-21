@@ -55,9 +55,9 @@ ReadWrite(const std::string & inputImage, const std::string & outputImage)
 
 template <unsigned int Dimension>
 int
-internalMain(const std::string &       inputImage,
-             const std::string &       outputImage,
-             const std::string &       expectedPixelType,
+internalMain(const std::string & inputImage,
+             const std::string & outputImage,
+             const std::string & expectedPixelType,
              itk::GDCMImageIO::Pointer gdcmImageIO)
 {
   const unsigned int numberOfComponents = gdcmImageIO->GetNumberOfComponents();

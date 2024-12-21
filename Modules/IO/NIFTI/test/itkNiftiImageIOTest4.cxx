@@ -50,11 +50,11 @@ itkNiftiImageIOTest4(int argc, char * argv[])
   }
 
   //
-  Test4ImageType::RegionType  imageRegion;
-  Test4ImageType::SizeType    size;
-  Test4ImageType::IndexType   index;
+  Test4ImageType::RegionType imageRegion;
+  Test4ImageType::SizeType size;
+  Test4ImageType::IndexType index;
   Test4ImageType::SpacingType spacing;
-  constexpr unsigned int      dimsize = 2;
+  constexpr unsigned int dimsize = 2;
 
   for (unsigned int i = 0; i < 3; ++i)
   {
@@ -79,7 +79,7 @@ itkNiftiImageIOTest4(int argc, char * argv[])
   using TransformType = itk::AffineTransform<double, 3>;
   using AxisType = itk::Vector<double, 3>;
 
-  auto     transform = TransformType::New();
+  auto transform = TransformType::New();
   AxisType axis;
   axis[0] = 1.0;
   axis[1] = 0.0;

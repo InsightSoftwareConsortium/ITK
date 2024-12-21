@@ -76,7 +76,7 @@ public:
   PartitionDomain(const ThreadIdType threadId,
                   const ThreadIdType requestedTotal,
                   const DomainType & completeDomain,
-                  DomainType &       subDomain) const = 0;
+                  DomainType & subDomain) const = 0;
 
 protected:
   ThreadedDomainPartitioner() = default;

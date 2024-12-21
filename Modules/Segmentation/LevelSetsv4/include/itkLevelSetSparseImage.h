@@ -116,7 +116,7 @@ protected:
   LevelSetSparseImage() = default;
   ~LevelSetSparseImage() override = default;
 
-  LayerMapType    m_Layers{};
+  LayerMapType m_Layers{};
   LabelMapPointer m_LabelMap{};
   LayerIdListType m_InternalLabelList{};
 

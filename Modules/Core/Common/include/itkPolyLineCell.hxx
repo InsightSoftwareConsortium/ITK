@@ -90,9 +90,9 @@ PolyLineCell<TCellInterface>::GetNumberOfBoundaryFeatures(int dimension) const -
  */
 template <typename TCellInterface>
 bool
-PolyLineCell<TCellInterface>::GetBoundaryFeature(int                   dimension,
+PolyLineCell<TCellInterface>::GetBoundaryFeature(int dimension,
                                                  CellFeatureIdentifier featureId,
-                                                 CellAutoPointer &     cellPointer)
+                                                 CellAutoPointer & cellPointer)
 {
   VertexAutoPointer vertexPointer;
   if ((dimension == 0) && this->GetVertex(featureId, vertexPointer))

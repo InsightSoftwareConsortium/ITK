@@ -77,7 +77,7 @@ AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, TAttribute, TFunct
   }
 
   // the real stuff, for useful lambda values
-  typename TOutputImage::Pointer     output = this->GetOutput();
+  typename TOutputImage::Pointer output = this->GetOutput();
   typename TInputImage::ConstPointer input = this->GetInput();
   // Allocate the output
   this->AllocateOutputs();
@@ -88,11 +88,11 @@ AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, TAttribute, TFunct
 
   constexpr auto kernelRadius = SizeType::Filled(1);
   using FaceCalculatorType = itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>;
-  FaceCalculatorType                        faceCalculator;
+  FaceCalculatorType faceCalculator;
   typename FaceCalculatorType::FaceListType faceList =
     faceCalculator(input, output->GetRequestedRegion(), kernelRadius);
   typename FaceCalculatorType::FaceListType::iterator fit;
-  ProgressReporter                                    progress(this, 0, buffsize * 4); // pretend we have 4 steps
+  ProgressReporter progress(this, 0, buffsize * 4); // pretend we have 4 steps
 
   fit = faceList.begin();
 
@@ -124,7 +124,7 @@ AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, TAttribute, TFunct
   progress.CompletedPixel();
 
   // set up the offset vector
-  OffsetVecType       TheseOffsets;
+  OffsetVecType TheseOffsets;
   OffsetDirectVecType TheseDirectOffsets;
   SetupOffsetVec(TheseDirectOffsets, TheseOffsets);
 
@@ -135,8 +135,8 @@ AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, TAttribute, TFunct
   for (SizeValueType k = 1; k < buffsize; ++k)
   {
     OffsetValueType ThisPos = m_SortPixels[k];
-    IndexType       ThisWhere = input->ComputeIndex(ThisPos);
-    InputPixelType  ThisPix = m_Raw[ThisPos];
+    IndexType ThisWhere = input->ComputeIndex(ThisPos);
+    InputPixelType ThisPix = m_Raw[ThisPos];
     MakeSet(ThisPos);
     // Some optimization of bounds check
     if (fit->IsInside(ThisWhere))
@@ -145,7 +145,7 @@ AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, TAttribute, TFunct
       for (const auto theseDirectOffset : TheseDirectOffsets)
       {
         OffsetValueType NeighInd = ThisPos + theseDirectOffset;
-        InputPixelType  NeighPix = m_Raw[NeighInd];
+        InputPixelType NeighPix = m_Raw[NeighInd];
         if (compare(NeighPix, ThisPix) || ((ThisPix == NeighPix) && (NeighInd < ThisPos)))
         {
           Union(NeighInd, ThisPos);
@@ -160,7 +160,7 @@ AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, TAttribute, TFunct
         if (output->GetRequestedRegion().IsInside(ThisWhere + TheseOffsets[i]))
         {
           OffsetValueType NeighInd = ThisPos + TheseDirectOffsets[i];
-          InputPixelType  NeighPix = m_Raw[NeighInd];
+          InputPixelType NeighPix = m_Raw[NeighInd];
           if (compare(NeighPix, ThisPix) || ((ThisPix == NeighPix) && (NeighInd < ThisPos)))
           {
             Union(NeighInd, ThisPos);
@@ -207,17 +207,17 @@ template <typename TInputImage, typename TOutputImage, typename TAttribute, type
 void
 AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, TAttribute, TFunction>::SetupOffsetVec(
   OffsetDirectVecType & PosOffsets,
-  OffsetVecType &       Offsets)
+  OffsetVecType & Offsets)
 {
   using NeighType = ConstShapedNeighborhoodIterator<TOutputImage>;
-  auto      KernRad = SizeType::Filled(1);
+  auto KernRad = SizeType::Filled(1);
   NeighType It(KernRad, this->GetOutput(), this->GetOutput()->GetRequestedRegion());
   setConnectivity(&It, m_FullyConnected);
-  typename NeighType::IndexListType                 OffsetList;
+  typename NeighType::IndexListType OffsetList;
   typename NeighType::IndexListType::const_iterator LIt;
 
   OffsetList = It.GetActiveIndexList();
-  IndexType       idx = this->GetOutput()->GetRequestedRegion().GetIndex();
+  IndexType idx = this->GetOutput()->GetRequestedRegion().GetIndex();
   OffsetValueType offset = this->GetOutput()->ComputeOffset(idx);
 
   for (LIt = OffsetList.begin(); LIt != OffsetList.end(); ++LIt)

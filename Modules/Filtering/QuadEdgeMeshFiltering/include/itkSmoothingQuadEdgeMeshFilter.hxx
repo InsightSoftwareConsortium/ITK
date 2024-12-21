@@ -58,12 +58,12 @@ SmoothingQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
   const OutputPointsContainerPointer temp = OutputPointsContainer::New();
   temp->Reserve(numberOfPoints);
 
-  OutputPointsContainerPointer  points;
+  OutputPointsContainerPointer points;
   OutputPointsContainerIterator it;
 
-  OutputPointType  p;
-  OutputPointType  q;
-  OutputPointType  r;
+  OutputPointType p;
+  OutputPointType q;
+  OutputPointType r;
   OutputVectorType v;
 
   OutputCoordType coeff;

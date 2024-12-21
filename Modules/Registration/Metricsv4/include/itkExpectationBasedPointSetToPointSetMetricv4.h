@@ -135,9 +135,9 @@ private:
   using NeighborsIterator = typename NeighborsIdentifierType::const_iterator;
 
   CoordinateType m_PointSetSigma{};
-  MeasureType    m_PreFactor{};
-  MeasureType    m_Denominator{};
-  unsigned int   m_EvaluationKNeighborhood{ 50 };
+  MeasureType m_PreFactor{};
+  MeasureType m_Denominator{};
+  unsigned int m_EvaluationKNeighborhood{ 50 };
 };
 } // end namespace itk
 

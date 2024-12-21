@@ -185,7 +185,7 @@ protected:
   CloseFile();
 
 private:
-  std::ifstream  m_InputFile{};
+  std::ifstream m_InputFile{};
   std::streampos m_PointsStartPosition{}; // file position for points relative to
                                           // std::ios::beg
 };

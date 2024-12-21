@@ -154,8 +154,8 @@ main(int argc, char * argv[])
 
   using RegistrationType = itk::ImageRegistrationMethod<FixedImageType, MovingImageType>;
 
-  const MetricType::Pointer       metric = MetricType::New();
-  const OptimizerType::Pointer    optimizer = OptimizerType::New();
+  const MetricType::Pointer metric = MetricType::New();
+  const OptimizerType::Pointer optimizer = OptimizerType::New();
   const InterpolatorType::Pointer interpolator = InterpolatorType::New();
   const RegistrationType::Pointer registration = RegistrationType::New();
 
@@ -177,7 +177,7 @@ main(int argc, char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  const FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
+  const FixedImageReaderType::Pointer fixedImageReader = FixedImageReaderType::New();
   const MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
@@ -198,8 +198,8 @@ main(int argc, char * argv[])
   constexpr unsigned int numberOfGridNodesInOneDimension = 7;
 
   TransformType::PhysicalDimensionsType fixedPhysicalDimensions;
-  TransformType::MeshSizeType           meshSize;
-  TransformType::OriginType             fixedOrigin;
+  TransformType::MeshSizeType meshSize;
+  TransformType::OriginType fixedOrigin;
 
   for (unsigned int i = 0; i < SpaceDimension; ++i)
   {
@@ -238,8 +238,8 @@ main(int argc, char * argv[])
 
 
   OptimizerType::BoundSelectionType boundSelect(transform->GetNumberOfParameters());
-  OptimizerType::BoundValueType     upperBound(transform->GetNumberOfParameters());
-  OptimizerType::BoundValueType     lowerBound(transform->GetNumberOfParameters());
+  OptimizerType::BoundValueType upperBound(transform->GetNumberOfParameters());
+  OptimizerType::BoundValueType lowerBound(transform->GetNumberOfParameters());
 
   boundSelect.Fill(0);
   upperBound.Fill(0.0);
@@ -288,7 +288,7 @@ main(int argc, char * argv[])
   metric->ReinitializeSeed(121212);
 
   // Add time and memory probes
-  itk::TimeProbesCollectorBase   chronometer;
+  itk::TimeProbesCollectorBase chronometer;
   itk::MemoryProbesCollectorBase memorymeter;
 
   std::cout << std::endl << "Starting Registration" << std::endl;
@@ -350,7 +350,7 @@ main(int argc, char * argv[])
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
 
-  const WriterType::Pointer     writer = WriterType::New();
+  const WriterType::Pointer writer = WriterType::New();
   const CastFilterType::Pointer caster = CastFilterType::New();
 
 
@@ -439,8 +439,8 @@ main(int argc, char * argv[])
 
     fi.GoToBegin();
 
-    TransformType::InputPointType    fixedPoint;
-    TransformType::OutputPointType   movingPoint;
+    TransformType::InputPointType fixedPoint;
+    TransformType::OutputPointType movingPoint;
     DisplacementFieldType::IndexType index;
 
     VectorType displacement;

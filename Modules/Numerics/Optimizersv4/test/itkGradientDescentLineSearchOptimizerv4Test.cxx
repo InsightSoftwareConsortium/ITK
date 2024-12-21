@@ -154,7 +154,7 @@ public:
   }
 
 private:
-  ParametersType       m_Parameters;
+  ParametersType m_Parameters;
   mutable unsigned int m_Iterations;
 };
 

@@ -1189,7 +1189,7 @@ void
 BinaryMask3DMeshSource<TInputImage, TOutputMesh>::AddCells(unsigned char celltype, unsigned char celltran, int index)
 {
 
-  int               i;
+  int i;
   IdentifierType ** currentrowtmp;
   IdentifierType ** currentframetmp;
 
@@ -1376,9 +1376,9 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::AddCells(unsigned char celltyp
     m_AvailableNodes[4] = 1;
   }
 
-  typename TriCell::CellAutoPointer        insertCell;
+  typename TriCell::CellAutoPointer insertCell;
   typename OutputMeshType::PointIdentifier tripoints[3];
-  auto *                                   tp = (unsigned char *)malloc(3 * sizeof(unsigned char));
+  auto * tp = (unsigned char *)malloc(3 * sizeof(unsigned char));
 
   auto * tpl = (IdentifierType *)malloc(3 * sizeof(IdentifierType));
 
@@ -2367,13 +2367,13 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::AddCells(unsigned char celltyp
 
 template <typename TInputImage, typename TOutputMesh>
 void
-BinaryMask3DMeshSource<TInputImage, TOutputMesh>::AddNodes(int               index,
-                                                           unsigned char *   nodesid,
-                                                           IdentifierType *  globalnodesid,
+BinaryMask3DMeshSource<TInputImage, TOutputMesh>::AddNodes(int index,
+                                                           unsigned char * nodesid,
+                                                           IdentifierType * globalnodesid,
                                                            IdentifierType ** currentrowtmp,
                                                            IdentifierType ** currentframetmp)
 {
-  int        i;
+  int i;
   OPointType new_p;
 
   for (i = 0; i < 3; ++i)
@@ -2595,7 +2595,7 @@ template <typename TInputImage, typename TOutputMesh>
 IdentifierType
 BinaryMask3DMeshSource<TInputImage, TOutputMesh>::SearchThroughLastRow(int index, int start, int end)
 {
-  int  mid;
+  int mid;
   auto lindex = static_cast<IdentifierType>(index);
 
   if ((end - start) > 1)
@@ -2638,8 +2638,8 @@ template <typename TInputImage, typename TOutputMesh>
 IdentifierType
 BinaryMask3DMeshSource<TInputImage, TOutputMesh>::SearchThroughLastFrame(int index, int start, int end)
 {
-  int            mid;
-  auto           lindex = static_cast<IdentifierType>(index);
+  int mid;
+  auto lindex = static_cast<IdentifierType>(index);
   IdentifierType result = 0;
 
   if ((end - start) > 1)

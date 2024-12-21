@@ -57,8 +57,8 @@ FlatStructuringElement<VDimension>::GeneratePolygon(TStructuringElement &, TRadi
 template <unsigned int VDimension>
 void
 FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringElement<2> & res,
-                                                    itk::Size<2>                     radius,
-                                                    unsigned int                     lines)
+                                                    itk::Size<2> radius,
+                                                    unsigned int lines)
 {
   // radial decomposition method from "Radial Decomposition of Discs
   // and Spheres" - CVGIP: Graphical Models and Image Processing
@@ -98,7 +98,7 @@ FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringElement<
   const double k1((Math::pi * static_cast<double>(radius[0])) / (static_cast<double>(lines)));
   const double k2((Math::pi * static_cast<double>(radius[1])) / (static_cast<double>(lines)));
   const double step(Math::pi / lines);
-  double       theta(0.0);
+  double theta(0.0);
 
   // just to ensure that we get the last one
   while (theta <= Math::pi / 2.0 + 0.0001)
@@ -129,16 +129,16 @@ FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringElement<
 template <unsigned int VDimension>
 void
 FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringElement<3> & res,
-                                                    itk::Size<3>                     radius,
-                                                    unsigned int                     lines)
+                                                    itk::Size<3> radius,
+                                                    unsigned int lines)
 {
   res.SetRadius(radius);
   res.SetDecomposable(true);
 
   // std::cout << "3 dimensions" << std::endl;
   unsigned int rr = 0;
-  int          iterations = 1;
-  const int    faces = lines * 2;
+  int iterations = 1;
+  const int faces = lines * 2;
   for (unsigned int i = 0; i < 3; ++i)
   {
     if (radius[i] > rr)
@@ -151,9 +151,9 @@ FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringElement<
     case 12:
     {
       // dodecahedron
-      const float            phi = (1.0 + std::sqrt(5.0)) / 2.0;
-      float                  b = 1.0 / phi;
-      float                  c = 2.0 - phi;
+      const float phi = (1.0 + std::sqrt(5.0)) / 2.0;
+      float b = 1.0 / phi;
+      float c = 2.0 - phi;
       constexpr unsigned int facets = 12;
       using FacetArrayType = std::vector<FacetType3>;
       FacetArrayType FacetArray;
@@ -161,7 +161,7 @@ FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringElement<
       // set up vectors normal to the faces - only put in 3 points for
       // each face:
       // face 1
-      LType3     PP{};
+      LType3 PP{};
       FacetType3 Fc;
       b /= 2.0;
       c /= 2.0;
@@ -406,9 +406,9 @@ FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringElement<
     case 20:
     {
       // Icosahedron
-      const float            phi = (1.0 + std::sqrt(5.0)) / 2.0;
-      const float            a = 0.5;
-      const float            b = 1.0 / (2.0 * phi);
+      const float phi = (1.0 + std::sqrt(5.0)) / 2.0;
+      const float a = 0.5;
+      const float b = 1.0 / (2.0 * phi);
       constexpr unsigned int facets = 20;
       using FacetArrayType = std::vector<FacetType3>;
       FacetArrayType FacetArray;
@@ -416,7 +416,7 @@ FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringElement<
       // set up vectors normal to the faces - only put in 3 points for
       // each face:
       // face 1
-      LType3     PP{};
+      LType3 PP{};
       FacetType3 Fc;
 
       PP[0] = 0;
@@ -728,7 +728,7 @@ FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringElement<
       // unit sphere
       // total number of facets is 8 * (4^iterations)
       const unsigned int facets = 8 * static_cast<int>(std::pow(4.0, iterations));
-      const double       sqrt2 = std::sqrt(2.0);
+      const double sqrt2 = std::sqrt(2.0);
 
       using FacetArrayType = std::vector<FacetType3>;
       FacetArrayType FacetArray;
@@ -936,7 +936,7 @@ FlatStructuringElement<VDimension>::Ball(RadiusType radius, bool radiusIsParamet
 
   // Create an image to hold the ellipsoid
   //
-  auto       sourceImage = ImageType::New();
+  auto sourceImage = ImageType::New();
   RadiusType size = radius;
   for (i = 0; i < static_cast<int>(VDimension); ++i)
   {
@@ -1028,10 +1028,10 @@ FlatStructuringElement<VDimension>::Ball(RadiusType radius, bool radiusIsParamet
 
 template <unsigned int VDimension>
 FlatStructuringElement<VDimension>
-FlatStructuringElement<VDimension>::Annulus(RadiusType   radius,
+FlatStructuringElement<VDimension>::Annulus(RadiusType radius,
                                             unsigned int thickness,
-                                            bool         includeCenter,
-                                            bool         radiusIsParametric)
+                                            bool includeCenter,
+                                            bool radiusIsParametric)
 {
   Self result{};
 
@@ -1041,7 +1041,7 @@ FlatStructuringElement<VDimension>::Annulus(RadiusType   radius,
 
   // Create an image to hold the ellipsoid
   //
-  auto       kernelImage = ImageType::New();
+  auto kernelImage = ImageType::New();
   RadiusType size = radius;
   for (unsigned int i = 0; i < VDimension; ++i)
   {
@@ -1203,7 +1203,7 @@ FlatStructuringElement<VDimension>::ComputeBufferFromLines()
 
   // Create an image to hold the ellipsoid
   //
-  auto       sourceImage = ImageType::New();
+  auto sourceImage = ImageType::New();
   RadiusType size = this->GetRadius();
   for (int i = 0; i < static_cast<int>(VDimension); ++i)
   {
@@ -1282,8 +1282,8 @@ template <unsigned int VDimension>
 FlatStructuringElement<VDimension>
 FlatStructuringElement<VDimension>::FromImage(const typename FlatStructuringElement<VDimension>::ImageType * image)
 {
-  Self              res{};
-  RadiusType        size = res.CheckImageSize(image);
+  Self res{};
+  RadiusType size = res.CheckImageSize(image);
   Index<VDimension> centerIdx;
 
   for (unsigned int i = 0; i < VDimension; ++i)

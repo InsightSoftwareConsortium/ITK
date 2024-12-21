@@ -112,15 +112,15 @@ private:
   using AnchorLineDilateType = AnchorErodeDilateLine<InputImagePixelType, TCompare2>;
 
   void
-  DoFaceOpen(InputImageConstPointer             input,
-             InputImagePointer                  output,
-             InputImagePixelType                border,
-             KernelLType                        line,
-             AnchorLineOpenType &               AnchorLineOpen,
-             const BresOffsetArray              LineOffsets,
+  DoFaceOpen(InputImageConstPointer input,
+             InputImagePointer output,
+             InputImagePixelType border,
+             KernelLType line,
+             AnchorLineOpenType & AnchorLineOpen,
+             const BresOffsetArray LineOffsets,
              std::vector<InputImagePixelType> & outbuffer,
-             const InputImageRegionType         AllImage,
-             const InputImageRegionType         face);
+             const InputImageRegionType AllImage,
+             const InputImageRegionType face);
 }; // end of class
 } // end namespace itk
 

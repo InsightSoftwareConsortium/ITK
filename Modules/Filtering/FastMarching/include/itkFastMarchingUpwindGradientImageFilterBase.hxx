@@ -87,7 +87,7 @@ FastMarchingUpwindGradientImageFilterBase<TInput, TOutput>::InitializeOutput(Out
 template <typename TInput, typename TOutput>
 void
 FastMarchingUpwindGradientImageFilterBase<TInput, TOutput>::UpdateNeighbors(OutputImageType * oImage,
-                                                                            const NodeType &  iNode)
+                                                                            const NodeType & iNode)
 {
   Superclass::UpdateNeighbors(oImage, iNode);
 
@@ -100,13 +100,13 @@ FastMarchingUpwindGradientImageFilterBase<TInput, TOutput>::UpdateNeighbors(Outp
 template <typename TInput, typename TOutput>
 void
 FastMarchingUpwindGradientImageFilterBase<TInput, TOutput>::ComputeGradient(OutputImageType * oImage,
-                                                                            const NodeType &  iNode)
+                                                                            const NodeType & iNode)
 {
   NodeType neighIndex = iNode;
 
-  OutputPixelType   centerPixel;
-  OutputPixelType   dx_forward;
-  OutputPixelType   dx_backward;
+  OutputPixelType centerPixel;
+  OutputPixelType dx_forward;
+  OutputPixelType dx_backward;
   GradientPixelType gradientPixel;
 
   constexpr OutputPixelType ZERO{};

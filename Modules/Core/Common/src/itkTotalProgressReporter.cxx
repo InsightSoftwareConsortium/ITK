@@ -22,9 +22,9 @@ namespace itk
 {
 //----------------------------------------------------------------------------
 TotalProgressReporter::TotalProgressReporter(ProcessObject * filter,
-                                             SizeValueType   totalNumberOfPixels,
-                                             SizeValueType   numberOfUpdates,
-                                             float           progressWeight)
+                                             SizeValueType totalNumberOfPixels,
+                                             SizeValueType numberOfUpdates,
+                                             float progressWeight)
   : m_Filter(filter)
   , m_ProgressWeight(progressWeight)
 {

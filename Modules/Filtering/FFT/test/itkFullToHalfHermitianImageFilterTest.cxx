@@ -41,7 +41,7 @@ itkFullToHalfHermitianImageFilterTest(int argc, char * argv[])
   using ComplexImageType = itk::Image<std::complex<float>, 2>;
   using RandomSourceType = itk::RandomImageSource<ImageType>;
 
-  auto                       source = RandomSourceType::New();
+  auto source = RandomSourceType::New();
   RandomSourceType::SizeType size;
   size[0] = std::stoi(argv[1]);
   size[1] = std::stoi(argv[2]);

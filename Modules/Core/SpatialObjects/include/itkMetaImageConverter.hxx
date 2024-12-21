@@ -54,9 +54,9 @@ MetaImageConverter<VDimension, PixelType, TSpatialObjectType>::AllocateImage(con
   using PointType = typename ImageType::PointType;
   using RegionType = typename ImageType::RegionType;
 
-  SizeType      size;
-  PointType     origin;
-  SpacingType   spacing;
+  SizeType size;
+  PointType origin;
+  SpacingType spacing;
   DirectionType direction;
 
   for (unsigned int i = 0; i < VDimension; ++i)
@@ -133,7 +133,7 @@ MetaImageConverter<VDimension, PixelType, TSpatialObjectType>::SpatialObjectToMe
 
   const ImageConstPointer SOImage = imageSO->GetImage();
 
-  int    size[VDimension];
+  int size[VDimension];
   double spacing[VDimension];
   double direction[VDimension * VDimension];
   double origin[VDimension];

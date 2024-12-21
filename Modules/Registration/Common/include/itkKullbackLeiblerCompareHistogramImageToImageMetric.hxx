@@ -51,10 +51,10 @@ KullbackLeiblerCompareHistogramImageToImageMetric<TFixedImage, TMovingImage>::Ev
 
   MeasureType KullbackLeibler{};
 
-  HistogramIteratorType       measured_it = histogram.Begin();
+  HistogramIteratorType measured_it = histogram.Begin();
   const HistogramIteratorType measured_end = histogram.End();
 
-  HistogramIteratorType       training_it = this->GetTrainingHistogram()->Begin();
+  HistogramIteratorType training_it = this->GetTrainingHistogram()->Begin();
   const HistogramIteratorType training_end = this->GetTrainingHistogram()->End();
 
   while (measured_it != measured_end)
@@ -94,7 +94,7 @@ KullbackLeiblerCompareHistogramImageToImageMetric<TFixedImage, TMovingImage>::Ev
 template <typename TFixedImage, typename TMovingImage>
 void
 KullbackLeiblerCompareHistogramImageToImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::ostream & os,
-                                                                                        Indent         indent) const
+                                                                                        Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

@@ -223,13 +223,13 @@ private:
 
   /** Gaussian kernel used for smoothing in the spatial domain */
   KernelType m_GaussianKernel{};
-  SizeType   m_Radius{};
-  bool       m_AutomaticKernelSize{};
+  SizeType m_Radius{};
+  bool m_AutomaticKernelSize{};
 
   /** Variables for the lookup table of range gaussian values */
-  unsigned long       m_NumberOfRangeGaussianSamples{};
-  double              m_DynamicRange{};
-  double              m_DynamicRangeUsed{};
+  unsigned long m_NumberOfRangeGaussianSamples{};
+  double m_DynamicRange{};
+  double m_DynamicRangeUsed{};
   std::vector<double> m_RangeGaussianTable{};
 };
 } // end namespace itk

@@ -104,7 +104,7 @@ LabelObject<TLabel, VImageDimension>::RemoveIndex(const IndexType & idx)
   {
     if (it->HasIndex(idx))
     {
-      IndexType        orgLineIndex = it->GetIndex();
+      IndexType orgLineIndex = it->GetIndex();
       const LengthType orgLineLength = it->GetLength();
 
       if (orgLineLength == 1)
@@ -315,7 +315,7 @@ LabelObject<TLabel, VImageDimension>::Optimize()
 
     // then check the lines consistency
     // we'll proceed line index by line index
-    IndexType  currentIdx = lineContainer.begin()->GetIndex();
+    IndexType currentIdx = lineContainer.begin()->GetIndex();
     LengthType currentLength = lineContainer.begin()->GetLength();
 
     auto it = lineContainer.begin();
@@ -323,7 +323,7 @@ LabelObject<TLabel, VImageDimension>::Optimize()
     while (it != lineContainer.end())
     {
       const LineType & line = *it;
-      IndexType        idx = line.GetIndex();
+      IndexType idx = line.GetIndex();
       const LengthType length = line.GetLength();
 
       // check the index to be sure that we are still in the same line idx

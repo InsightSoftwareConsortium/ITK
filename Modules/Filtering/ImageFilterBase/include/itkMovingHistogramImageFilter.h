@@ -149,13 +149,13 @@ protected:
   using HistogramType = THistogram;
 
   void
-  PushHistogram(HistogramType &        histogram,
+  PushHistogram(HistogramType & histogram,
                 const OffsetListType * addedList,
                 const OffsetListType * removedList,
-                const RegionType &     inputRegion,
-                const RegionType &     kernRegion,
+                const RegionType & inputRegion,
+                const RegionType & kernRegion,
                 const InputImageType * inputImage,
-                const IndexType        currentIdx);
+                const IndexType currentIdx);
 }; // end of class
 } // end namespace itk
 

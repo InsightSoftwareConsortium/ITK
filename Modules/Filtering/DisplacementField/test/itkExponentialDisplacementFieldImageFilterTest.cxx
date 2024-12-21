@@ -247,7 +247,7 @@ itkExponentialDisplacementFieldImageFilterTest(int, char *[])
   filter->SetComputeInverse(computeInverse);
 
   // Random number generator
-  vnl_random       rng;
+  vnl_random rng;
   constexpr double power = 5.0;
 
   it.GoToBegin();

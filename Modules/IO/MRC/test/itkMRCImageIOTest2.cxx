@@ -49,7 +49,7 @@ Test(const std::string & inFileName, const std::string & outFileName, const std:
   // prepare to iterate over the dictionary
   DictionaryType & dic = image->GetMetaDataDictionary();
 
-  auto       itr = dic.Begin();
+  auto itr = dic.Begin();
   const auto end = dic.End();
 
   while (itr != end)

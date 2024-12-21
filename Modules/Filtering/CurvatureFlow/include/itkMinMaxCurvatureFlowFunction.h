@@ -90,8 +90,8 @@ public:
   /** Compute the solution update for each pixel that does not lie on a the data set boundary. */
   PixelType
   ComputeUpdate(const NeighborhoodType & it,
-                void *                   globalData,
-                const FloatOffsetType &  offset = FloatOffsetType(0.0)) override;
+                void * globalData,
+                const FloatOffsetType & offset = FloatOffsetType(0.0)) override;
 
 protected:
   MinMaxCurvatureFlowFunction();

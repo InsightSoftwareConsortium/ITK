@@ -36,7 +36,7 @@ struct ExceptionGlobals
 {
   ExceptionGlobals() = default;
   FloatingPointExceptions::ExceptionActionEnum m_ExceptionAction{ FloatingPointExceptions::ExceptionActionEnum::ABORT };
-  bool                                         m_Enabled{ false };
+  bool m_Enabled{ false };
 };
 
 void

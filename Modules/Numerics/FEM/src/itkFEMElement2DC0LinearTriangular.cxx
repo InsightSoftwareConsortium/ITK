@@ -63,7 +63,7 @@ const unsigned int Element2DC0LinearTriangular::Nip[6] = { 0, 1, 3, 3, 6, 7 };
 void
 Element2DC0LinearTriangular::GetIntegrationPointAndWeight(unsigned int i,
                                                           VectorType & pt,
-                                                          Float &      w,
+                                                          Float & w,
                                                           unsigned int order) const
 {
   // default integration order

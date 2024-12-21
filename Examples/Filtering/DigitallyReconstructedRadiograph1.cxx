@@ -461,7 +461,7 @@ main(int argc, char * argv[])
 
   if (verbose)
   {
-    unsigned int                      i;
+    unsigned int i;
     const InputImageType::SpacingType spacing = image->GetSpacing();
     std::cout << std::endl << "Input ";
 
@@ -534,14 +534,14 @@ main(int argc, char * argv[])
   transform->SetTranslation(translation);
   transform->SetRotation(dtr * rx, dtr * ry, dtr * rz);
 
-  InputImageType::PointType   imOrigin = image->GetOrigin();
+  InputImageType::PointType imOrigin = image->GetOrigin();
   InputImageType::SpacingType imRes = image->GetSpacing();
 
   using InputImageRegionType = InputImageType::RegionType;
   using InputImageSizeType = InputImageRegionType::SizeType;
 
   const InputImageRegionType imRegion = image->GetBufferedRegion();
-  InputImageSizeType         imSize = imRegion.GetSize();
+  InputImageSizeType imSize = imRegion.GetSize();
 
   imOrigin[0] += imRes[0] * static_cast<double>(imSize[0]) / 2.0;
   imOrigin[1] += imRes[1] * static_cast<double>(imSize[1]) / 2.0;

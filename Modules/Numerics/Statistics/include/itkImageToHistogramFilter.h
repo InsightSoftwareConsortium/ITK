@@ -184,7 +184,7 @@ private:
   void
   ApplyMarginalScale(HistogramMeasurementVectorType & min,
                      HistogramMeasurementVectorType & max,
-                     HistogramSizeType &              size);
+                     HistogramSizeType & size);
 };
 } // end of namespace Statistics
 } // end of namespace itk

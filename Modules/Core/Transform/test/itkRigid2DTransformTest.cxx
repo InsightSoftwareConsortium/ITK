@@ -48,7 +48,7 @@ itkRigid2DTransformTest(int, char *[])
 
   using TransformType = itk::Rigid2DTransform<double>;
 
-  constexpr double       epsilon = 1e-10;
+  constexpr double epsilon = 1e-10;
   constexpr unsigned int N = 2;
 
 
@@ -80,9 +80,9 @@ itkRigid2DTransformTest(int, char *[])
 
   /* Create a Rigid 2D transform with translation */
   {
-    auto                                 translation = TransformType::New();
+    auto translation = TransformType::New();
     TransformType::OffsetType::ValueType ioffsetInit[2] = { 1, 4 };
-    TransformType::OffsetType            ioffset = ioffsetInit;
+    TransformType::OffsetType ioffset = ioffsetInit;
 
     translation->SetOffset(ioffset);
 
@@ -125,9 +125,9 @@ itkRigid2DTransformTest(int, char *[])
     {
       // Translate an itk::Point
       constexpr TransformType::InputPointType::ValueType pInit[2] = { 10, 10 };
-      const TransformType::InputPointType                p = pInit;
-      TransformType::InputPointType                      q = p + ioffset;
-      TransformType::OutputPointType                     r = translation->TransformPoint(p);
+      const TransformType::InputPointType p = pInit;
+      TransformType::InputPointType q = p + ioffset;
+      TransformType::OutputPointType r = translation->TransformPoint(p);
       for (unsigned int i = 0; i < N; ++i)
       {
         if (itk::Math::abs(q[i] - r[i]) > epsilon)
@@ -152,8 +152,8 @@ itkRigid2DTransformTest(int, char *[])
     {
       // Translate an itk::Vector
       TransformType::InputVectorType::ValueType pInit[2] = { 10, 10 };
-      TransformType::InputVectorType            p = pInit;
-      TransformType::OutputVectorType           q = translation->TransformVector(p);
+      TransformType::InputVectorType p = pInit;
+      TransformType::OutputVectorType q = translation->TransformVector(p);
       for (unsigned int i = 0; i < N; ++i)
       {
         if (itk::Math::abs(q[i] - p[i]) > epsilon)
@@ -177,8 +177,8 @@ itkRigid2DTransformTest(int, char *[])
     {
       // Translate an itk::CovariantVector
       TransformType::InputCovariantVectorType::ValueType pInit[2] = { 10, 10 };
-      TransformType::InputCovariantVectorType            p = pInit;
-      TransformType::OutputCovariantVectorType           q = translation->TransformCovariantVector(p);
+      TransformType::InputCovariantVectorType p = pInit;
+      TransformType::OutputCovariantVectorType q = translation->TransformCovariantVector(p);
       for (unsigned int i = 0; i < N; ++i)
       {
         if (itk::Math::abs(q[i] - p[i]) > epsilon)
@@ -229,7 +229,7 @@ itkRigid2DTransformTest(int, char *[])
 
   /* Create a Rigid 2D transform with a rotation given by a Matrix */
   {
-    auto                      rotation = TransformType::New();
+    auto rotation = TransformType::New();
     TransformType::MatrixType mrotation;
 
     mrotation.SetIdentity();
@@ -332,8 +332,8 @@ itkRigid2DTransformTest(int, char *[])
     {
       // Rotate an itk::Point
       constexpr TransformType::InputPointType::ValueType pInit[2] = { 10, 10 };
-      TransformType::InputPointType                      p = pInit;
-      TransformType::InputPointType                      q;
+      TransformType::InputPointType p = pInit;
+      TransformType::InputPointType q;
 
       q[0] = p[0] * costh + p[1] * sinth;
       q[1] = -p[0] * sinth + p[1] * costh;
@@ -363,7 +363,7 @@ itkRigid2DTransformTest(int, char *[])
     {
       // Rotate an itk::Vector
       TransformType::InputVectorType::ValueType pInit[2] = { 10, 10 };
-      TransformType::InputVectorType            p = pInit;
+      TransformType::InputVectorType p = pInit;
 
       TransformType::InputPointType q;
       q[0] = p[0] * costh + p[1] * sinth;
@@ -394,8 +394,8 @@ itkRigid2DTransformTest(int, char *[])
     {
       // Rotate an itk::CovariantVector
       TransformType::InputCovariantVectorType::ValueType pInit[2] = { 10, 10 };
-      TransformType::InputCovariantVectorType            p = pInit;
-      TransformType::OutputCovariantVectorType           q;
+      TransformType::InputCovariantVectorType p = pInit;
+      TransformType::OutputCovariantVectorType q;
 
       q[0] = p[0] * costh + p[1] * sinth;
       q[1] = -p[0] * sinth + p[1] * costh;
@@ -463,7 +463,7 @@ itkRigid2DTransformTest(int, char *[])
       auto t1 = TransformType::New();
 
       // Set parameters
-      double                        angle0 = -21.0 / 180.0 * itk::Math::pi;
+      double angle0 = -21.0 / 180.0 * itk::Math::pi;
       TransformType::InputPointType center;
       center[0] = 12.0;
       center[1] = -8.9;

@@ -109,7 +109,7 @@ private:
   using VectorType = Vector<CoordinateType, Self::SpaceDimension>;
 
   VectorType m_Translation{};
-  double     m_Radius{};
+  double m_Radius{};
 };
 } // end namespace itk
 

@@ -102,15 +102,15 @@ AnnulusOperator<TPixel, TDimension, TAllocator>::GenerateCoefficients() -> Coeff
 
   // Walk the neighborhood (this) and evaluate the sphere spatial
   // functions
-  double       sumNotExterior = 0.0;
-  double       sumNotExteriorSq = 0.0;
+  double sumNotExterior = 0.0;
+  double sumNotExteriorSq = 0.0;
   unsigned int countNotExterior = 0;
 
   const typename SizeType::SizeValueType w = this->Size();
 
-  const auto                     outside = std::make_unique<bool[]>(w);
-  CoefficientVector              coeffP(w);
-  OffsetType                     offset;
+  const auto outside = std::make_unique<bool[]>(w);
+  CoefficientVector coeffP(w);
+  OffsetType offset;
   typename SphereType::InputType point;
 
   for (unsigned int i = 0; i < w; ++i)
@@ -160,7 +160,7 @@ AnnulusOperator<TPixel, TDimension, TAllocator>::GenerateCoefficients() -> Coeff
   {
     // Calculate the mean and standard deviation of kernel values NOT
     // the exterior
-    auto         num = static_cast<double>(countNotExterior);
+    auto num = static_cast<double>(countNotExterior);
     const double mean = sumNotExterior / num;
     const double var = (sumNotExteriorSq - (sumNotExterior * sumNotExterior / num)) / (num - 1.0);
     const double std = std::sqrt(var);

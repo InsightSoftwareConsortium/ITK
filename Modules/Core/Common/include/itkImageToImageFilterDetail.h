@@ -179,7 +179,7 @@ struct BinaryUnsignedIntDispatch : public DispatchBase
 template <unsigned int D1, unsigned int D2>
 void
 ImageToImageFilterDefaultCopyRegion(const typename BinaryUnsignedIntDispatch<D1, D2>::FirstEqualsSecondType &,
-                                    ImageRegion<D1> &       destRegion,
+                                    ImageRegion<D1> & destRegion,
                                     const ImageRegion<D2> & srcRegion)
 {
   destRegion = srcRegion;
@@ -204,17 +204,17 @@ ImageToImageFilterDefaultCopyRegion(const typename BinaryUnsignedIntDispatch<D1,
 template <unsigned int D1, unsigned int D2>
 void
 ImageToImageFilterDefaultCopyRegion(const typename BinaryUnsignedIntDispatch<D1, D2>::FirstLessThanSecondType &,
-                                    ImageRegion<D1> &       destRegion,
+                                    ImageRegion<D1> & destRegion,
                                     const ImageRegion<D2> & srcRegion)
 {
   // Source dimension is greater than the destination dimension, copy the
   // first part of the source into the destination
   unsigned int dim;
 
-  Index<D1>         destIndex;
-  Size<D1>          destSize;
+  Index<D1> destIndex;
+  Size<D1> destSize;
   const Index<D2> & srcIndex = srcRegion.GetIndex();
-  const Size<D2> &  srcSize = srcRegion.GetSize();
+  const Size<D2> & srcSize = srcRegion.GetSize();
 
   // copy what we can
   for (dim = 0; dim < D1; ++dim)
@@ -246,17 +246,17 @@ ImageToImageFilterDefaultCopyRegion(const typename BinaryUnsignedIntDispatch<D1,
 template <unsigned int D1, unsigned int D2>
 void
 ImageToImageFilterDefaultCopyRegion(const typename BinaryUnsignedIntDispatch<D1, D2>::FirstGreaterThanSecondType &,
-                                    ImageRegion<D1> &       destRegion,
+                                    ImageRegion<D1> & destRegion,
                                     const ImageRegion<D2> & srcRegion)
 {
   // Source dimension is less than the destination dimension, copy source
   // into the first part of the destination and set zeros elsewhere.
   unsigned int dim;
 
-  Index<D1>         destIndex;
-  Size<D1>          destSize;
+  Index<D1> destIndex;
+  Size<D1> destSize;
   const Index<D2> & srcIndex = srcRegion.GetIndex();
-  const Size<D2> &  srcSize = srcRegion.GetSize();
+  const Size<D2> & srcSize = srcRegion.GetSize();
 
   // copy what we can
   for (dim = 0; dim < D2; ++dim)
@@ -349,7 +349,7 @@ operator!=(const ImageRegionCopier<D1, D2> & c1, const ImageRegionCopier<D1, D2>
 template <unsigned int D1, unsigned int D2>
 void
 ImageToImageFilterDefaultCopyInformation(const typename BinaryUnsignedIntDispatch<D1, D2>::FirstEqualsSecondType &,
-                                         ImageBase<D1> *       destImage,
+                                         ImageBase<D1> * destImage,
                                          const ImageBase<D2> * srcImage)
 {
   destImage->CopyInformation(srcImage);
@@ -359,7 +359,7 @@ ImageToImageFilterDefaultCopyInformation(const typename BinaryUnsignedIntDispatc
 template <unsigned int D1, unsigned int D2>
 void
 ImageToImageFilterDefaultCopyInformation(const typename BinaryUnsignedIntDispatch<D1, D2>::FirstGreaterThanSecondType &,
-                                         ImageBase<D1> *       destImage,
+                                         ImageBase<D1> * destImage,
                                          const ImageBase<D2> * srcImage)
 {
   using DestinationImageType = ImageBase<D1>;
@@ -368,12 +368,12 @@ ImageToImageFilterDefaultCopyInformation(const typename BinaryUnsignedIntDispatc
   // Copy what we can from the image from spacing and origin of the input
   // This logic needs to be augmented with logic that select which
   // dimensions to copy
-  const typename SourceImageType::SpacingType &   inputSpacing = srcImage->GetSpacing();
-  const typename SourceImageType::PointType &     inputOrigin = srcImage->GetOrigin();
+  const typename SourceImageType::SpacingType & inputSpacing = srcImage->GetSpacing();
+  const typename SourceImageType::PointType & inputOrigin = srcImage->GetOrigin();
   const typename SourceImageType::DirectionType & inputDirection = srcImage->GetDirection();
 
-  typename DestinationImageType::SpacingType   destSpacing;
-  typename DestinationImageType::PointType     destOrigin;
+  typename DestinationImageType::SpacingType destSpacing;
+  typename DestinationImageType::PointType destOrigin;
   typename DestinationImageType::DirectionType destDirection;
 
   // copy the input to the output and fill the rest of the

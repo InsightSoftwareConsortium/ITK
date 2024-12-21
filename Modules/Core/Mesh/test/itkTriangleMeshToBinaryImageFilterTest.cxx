@@ -42,13 +42,13 @@ itkTriangleMeshToBinaryImageFilterTest(int argc, char * argv[])
   using PointType = SphereMeshSourceType::PointType;
   using VectorType = SphereMeshSourceType::VectorType;
 
-  auto      mySphereMeshSource = SphereMeshSourceType::New();
+  auto mySphereMeshSource = SphereMeshSourceType::New();
   PointType center;
   center[0] = 50;
   center[1] = 50;
   center[2] = 50;
   PointType::ValueType scaleInit[3] = { 10, 10, 10 };
-  const VectorType     scale = scaleInit;
+  const VectorType scale = scaleInit;
 
   mySphereMeshSource->SetCenter(center);
   mySphereMeshSource->SetResolution(3);
@@ -80,14 +80,14 @@ itkTriangleMeshToBinaryImageFilterTest(int argc, char * argv[])
   imageFilter->SetSize(size);
 
   constexpr double dspacing[3] = { 2.0, 2.0, 2.0 };
-  constexpr float  fspacing[3] = { 3.0, 3.0, 3.0 };
+  constexpr float fspacing[3] = { 3.0, 3.0, 3.0 };
   constexpr double defaultSpacing[3] = { 1.0, 1.0, 1.0 };
   imageFilter->SetSpacing(dspacing);
   imageFilter->SetSpacing(fspacing);
   imageFilter->SetSpacing(defaultSpacing);
 
   constexpr double dorigin[3] = { 2.0, 2.0, 2.0 };
-  constexpr float  forigin[3] = { 3.0, 3.0, 3.0 };
+  constexpr float forigin[3] = { 3.0, 3.0, 3.0 };
   constexpr double defaultOrigin[3] = { 0.0, 0.0, 0.0 };
   imageFilter->SetOrigin(dorigin);
   imageFilter->SetOrigin(forigin);
@@ -95,7 +95,7 @@ itkTriangleMeshToBinaryImageFilterTest(int argc, char * argv[])
 
   imageFilter->Update();
 
-  auto                im = ImageType::New();
+  auto im = ImageType::New();
   ImageType::SizeType imSize;
   imSize[0] = imSize[1] = imSize[2] = 100;
   im->SetRegions(imSize);

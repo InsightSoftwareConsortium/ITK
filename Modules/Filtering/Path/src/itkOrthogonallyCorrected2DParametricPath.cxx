@@ -38,7 +38,7 @@ OrthogonallyCorrected2DParametricPath::Evaluate(const InputType & inputValue) co
 
   const InputType inputRange = m_OriginalPath->EndOfInput() - m_OriginalPath->StartOfInput();
   const InputType normalizedInput = (input - m_OriginalPath->StartOfInput()) / inputRange;
-  OutputType      output{};
+  OutputType output{};
 
   // Find the linearly interpolated offset error value for this exact time.
   const double softOrthogonalCorrectionTableIndex = normalizedInput * numOrthogonalCorrections;

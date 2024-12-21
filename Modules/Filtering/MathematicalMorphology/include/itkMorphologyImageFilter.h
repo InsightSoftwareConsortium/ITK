@@ -148,8 +148,8 @@ protected:
    * for the center pixel value. */
   virtual PixelType
   Evaluate(const NeighborhoodIteratorType & nit,
-           const KernelIteratorType         kernelBegin,
-           const KernelIteratorType         kernelEnd) = 0;
+           const KernelIteratorType kernelBegin,
+           const KernelIteratorType kernelEnd) = 0;
 
 private:
   /** Pointer to a persistent boundary condition object used

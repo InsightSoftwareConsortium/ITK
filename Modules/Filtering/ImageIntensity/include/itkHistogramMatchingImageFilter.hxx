@@ -51,7 +51,7 @@ HistogramMatchingImageFilter<TInputImage, TOutputImage, THistogramMeasurement>::
 template <typename TInputImage, typename TOutputImage, typename THistogramMeasurement>
 void
 HistogramMatchingImageFilter<TInputImage, TOutputImage, THistogramMeasurement>::PrintSelf(std::ostream & os,
-                                                                                          Indent         indent) const
+                                                                                          Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -220,7 +220,7 @@ HistogramMatchingImageFilter<TInputImage, TOutputImage, THistogramMeasurement>::
   m_QuantileTable[1][m_NumberOfMatchPoints + 1] = m_ReferenceMaxValue;
 
   {
-    const double                delta = 1.0 / (static_cast<double>(m_NumberOfMatchPoints) + 1.0);
+    const double delta = 1.0 / (static_cast<double>(m_NumberOfMatchPoints) + 1.0);
     const HistogramType * const referenceHistogram = this->GetReferenceHistogram();
     for (SizeValueType j = 1; j < m_NumberOfMatchPoints + 1; ++j)
     {
@@ -317,18 +317,18 @@ HistogramMatchingImageFilter<TInputImage, TOutputImage, THistogramMeasurement>::
   const OutputImageRegionType & outputRegionForThread)
 {
   const InputImageConstPointer input = this->GetSourceImage();
-  const OutputImagePointer     output = this->GetOutput();
+  const OutputImagePointer output = this->GetOutput();
 
   // Transform the source image and write to output.
   using InputConstIterator = ImageRegionConstIterator<InputImageType>;
   using OutputIterator = ImageRegionIterator<OutputImageType>;
 
   InputConstIterator inIter(input, outputRegionForThread);
-  OutputIterator     outIter(output, outputRegionForThread);
+  OutputIterator outIter(output, outputRegionForThread);
 
   for (SizeValueType i = 0; !outIter.IsAtEnd(); ++inIter, ++outIter, i++)
   {
-    const auto    srcValue = static_cast<double>(inIter.Get());
+    const auto srcValue = static_cast<double>(inIter.Get());
     SizeValueType j = 0;
     for (; j < m_NumberOfMatchPoints + 2; ++j)
     {
@@ -365,7 +365,7 @@ HistogramMatchingImageFilter<TInputImage, TOutputImage, THistogramMeasurement>::
 template <typename TInputImage, typename TOutputImage, typename THistogramMeasurement>
 void
 HistogramMatchingImageFilter<TInputImage, TOutputImage, THistogramMeasurement>::ComputeMinMaxMean(
-  const InputImageType *  image,
+  const InputImageType * image,
   THistogramMeasurement & minValue,
   THistogramMeasurement & maxValue,
   THistogramMeasurement & meanValue)
@@ -373,7 +373,7 @@ HistogramMatchingImageFilter<TInputImage, TOutputImage, THistogramMeasurement>::
   using ConstIterator = ImageRegionConstIterator<InputImageType>;
   ConstIterator iter(image, image->GetBufferedRegion());
 
-  double        sum = 0.0;
+  double sum = 0.0;
   SizeValueType count = 0;
 
   minValue = static_cast<THistogramMeasurement>(iter.Get());
@@ -403,8 +403,8 @@ HistogramMatchingImageFilter<TInputImage, TOutputImage, THistogramMeasurement>::
 template <typename TInputImage, typename TOutputImage, typename THistogramMeasurement>
 void
 HistogramMatchingImageFilter<TInputImage, TOutputImage, THistogramMeasurement>::ConstructHistogramFromIntensityRange(
-  const InputImageType *      image,
-  HistogramType *             histogram,
+  const InputImageType * image,
+  HistogramType * histogram,
   const THistogramMeasurement minHistogramValidValue,
   const THistogramMeasurement maxHistogramValidValue,
   const THistogramMeasurement imageTrueMinValue,
@@ -412,7 +412,7 @@ HistogramMatchingImageFilter<TInputImage, TOutputImage, THistogramMeasurement>::
 {
   {
     // allocate memory for the histogram
-    typename HistogramType::SizeType              size;
+    typename HistogramType::SizeType size;
     typename HistogramType::MeasurementVectorType lowerBound;
     typename HistogramType::MeasurementVectorType upperBound;
 
@@ -434,7 +434,7 @@ HistogramMatchingImageFilter<TInputImage, TOutputImage, THistogramMeasurement>::
     histogram->SetToZero();
   }
 
-  typename HistogramType::IndexType             index(1);
+  typename HistogramType::IndexType index(1);
   typename HistogramType::MeasurementVectorType measurement(1);
   using MeasurementType = typename HistogramType::MeasurementType;
   measurement[0] = MeasurementType{};

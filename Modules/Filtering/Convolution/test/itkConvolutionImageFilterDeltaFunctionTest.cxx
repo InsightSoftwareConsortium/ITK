@@ -43,7 +43,7 @@ itkConvolutionImageFilterDeltaFunctionTest(int argc, char * argv[])
 
   // Set up delta function image.
   const ImageType::RegionType region = reader->GetOutput()->GetLargestPossibleRegion();
-  auto                        deltaFunctionImage = ImageType::New();
+  auto deltaFunctionImage = ImageType::New();
   deltaFunctionImage->SetRegions(region);
   deltaFunctionImage->AllocateInitialized();
 

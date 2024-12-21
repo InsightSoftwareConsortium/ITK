@@ -59,7 +59,7 @@ public:
 
 private:
   std::ios & m_Ios;
-  std::ios   m_State;
+  std::ios m_State;
 };
 } // namespace itk
 

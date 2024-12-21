@@ -206,8 +206,8 @@ private:
   PointsContainerPointer m_CornersContainer{ PointsContainer::New() };
 #endif
   mutable BoundsArrayType m_Bounds{};
-  mutable TimeStamp       m_BoundsMTime{}; // The last time the bounds
-                                           // were computed.
+  mutable TimeStamp m_BoundsMTime{}; // The last time the bounds
+                                     // were computed.
 };
 } // end namespace itk
 

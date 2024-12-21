@@ -171,7 +171,7 @@ ImageConstIteratorWithIndex<TImage>::GoToReverseBegin()
 
   // Set the position at the end
   const InternalPixelType * buffer = m_Image->GetBufferPointer();
-  const OffsetValueType     offset = m_Image->ComputeOffset(m_PositionIndex);
+  const OffsetValueType offset = m_Image->ComputeOffset(m_PositionIndex);
   m_Position = buffer + offset;
 }
 

@@ -45,7 +45,7 @@ itkScalarImageToCooccurrenceMatrixFilterTest(int, char *[])
   constexpr InputImageType::SizeType inputImageSize = { { IMGWIDTH, IMGHEIGHT } };
 
   constexpr InputImageType::IndexType index{};
-  InputImageType::RegionType          region;
+  InputImageType::RegionType region;
 
   region.SetSize(inputImageSize);
   region.SetIndex(index);
@@ -153,8 +153,8 @@ itkScalarImageToCooccurrenceMatrixFilterTest(int, char *[])
 
     filter->SetInput(image);
 
-    constexpr InputImageType::OffsetType  offset1 = { { 0, 1 } };
-    constexpr InputImageType::OffsetType  offset2 = { { 1, 0 } };
+    constexpr InputImageType::OffsetType offset1 = { { 0, 1 } };
+    constexpr InputImageType::OffsetType offset2 = { { 1, 0 } };
     const FilterType::OffsetVectorPointer offsetV = FilterType::OffsetVector::New();
     offsetV->push_back(offset1);
     offsetV->push_back(offset2);

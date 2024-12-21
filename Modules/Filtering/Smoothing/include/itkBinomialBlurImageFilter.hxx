@@ -44,7 +44,7 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion
 
   Superclass::GenerateInputRequestedRegion();
 
-  const InputImagePointer  inputPtr = const_cast<TInputImage *>(this->GetInput(0));
+  const InputImagePointer inputPtr = const_cast<TInputImage *>(this->GetInput(0));
   const OutputImagePointer outputPtr = this->GetOutput(0);
 
   if (!inputPtr || !outputPtr)
@@ -52,9 +52,9 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion
     return;
   }
 
-  typename TOutputImage::RegionType           outputRegion;
-  typename TInputImage::RegionType            inputRegion;
-  typename TInputImage::RegionType::SizeType  inputSize;
+  typename TOutputImage::RegionType outputRegion;
+  typename TInputImage::RegionType inputRegion;
+  typename TInputImage::RegionType::SizeType inputSize;
   typename TInputImage::RegionType::IndexType inputIndex;
 
   outputRegion = outputPtr->GetRequestedRegion();
@@ -94,7 +94,7 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   // Get the input and output pointers
   const InputImageConstPointer inputPtr = this->GetInput(0);
-  const OutputImagePointer     outputPtr = this->GetOutput(0);
+  const OutputImagePointer outputPtr = this->GetOutput(0);
 
   // Allocate the output
   outputPtr->SetBufferedRegion(outputPtr->GetRequestedRegion());
@@ -112,7 +112,7 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
   tempPtr->Allocate();
 
   // How big is the input image?
-  typename TInputImage::SizeType  size = inputPtr->GetRequestedRegion().GetSize();
+  typename TInputImage::SizeType size = inputPtr->GetRequestedRegion().GetSize();
   typename TInputImage::IndexType startIndex = inputPtr->GetRequestedRegion().GetIndex();
 
   // Iterator Typedefs for this routine
@@ -126,7 +126,7 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
     this, 0, (outputPtr->GetRequestedRegion().GetNumberOfPixels()) * m_Repetitions * 2 * NDimensions);
 
   // Copy the input image to the temporary image
-  TempIterator  tempIt(tempPtr, tempPtr->GetRequestedRegion());
+  TempIterator tempIt(tempPtr, tempPtr->GetRequestedRegion());
   InputIterator inputIt(inputPtr, inputPtr->GetRequestedRegion());
 
   for (inputIt.GoToBegin(), tempIt.GoToBegin(); !tempIt.IsAtEnd(); ++tempIt, ++inputIt)
@@ -170,7 +170,7 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
           }
 
           // Average the pixel of interest and shifted pixel
-          double       pixelA = tempPtr->GetPixel(index);
+          double pixelA = tempPtr->GetPixel(index);
           const double pixelB = tempPtr->GetPixel(indexShift);
 
           pixelA += pixelB;
@@ -211,7 +211,7 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
           }
 
           // Average the pixel of interest and shifted pixel
-          double       pixelA = tempPtr->GetPixel(index);
+          double pixelA = tempPtr->GetPixel(index);
           const double pixelB = tempPtr->GetPixel(indexShift);
 
           pixelA += pixelB;
@@ -231,7 +231,7 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
   using OutputIterator = ImageRegionIterator<TOutputImage>;
 
   OutputIterator outIt(outputPtr, outputPtr->GetRequestedRegion());
-  TempIterator   tempIt2(tempPtr, outputPtr->GetRequestedRegion());
+  TempIterator tempIt2(tempPtr, outputPtr->GetRequestedRegion());
 
   for (outIt.GoToBegin(), tempIt2.GoToBegin(); !outIt.IsAtEnd(); ++outIt, ++tempIt2)
   {

@@ -59,9 +59,9 @@ ScalarChanAndVeseLevelSetFunction<TInputImage, TFeatureImage, TSharedData>::Upda
 template <typename TInputImage, typename TFeatureImage, typename TSharedData>
 void
 ScalarChanAndVeseLevelSetFunction<TInputImage, TFeatureImage, TSharedData>::UpdateSharedDataInsideParameters(
-  const unsigned int &     iId,
+  const unsigned int & iId,
   const FeaturePixelType & iVal,
-  const ScalarValueType &  iChange)
+  const ScalarValueType & iChange)
 {
   // update the foreground constant calculation of the current level-set
   // function
@@ -75,9 +75,9 @@ ScalarChanAndVeseLevelSetFunction<TInputImage, TFeatureImage, TSharedData>::Upda
 template <typename TInputImage, typename TFeatureImage, typename TSharedData>
 void
 ScalarChanAndVeseLevelSetFunction<TInputImage, TFeatureImage, TSharedData>::UpdateSharedDataOutsideParameters(
-  const unsigned int &     iId,
+  const unsigned int & iId,
   const FeaturePixelType & iVal,
-  const ScalarValueType &  iChange)
+  const ScalarValueType & iChange)
 {
   this->m_SharedData->m_LevelSetDataPointerVector[iId]->m_WeightedNumberOfPixelsOutsideLevelSet += iChange;
   this->m_SharedData->m_LevelSetDataPointerVector[iId]->m_WeightedSumOfPixelValuesOutsideLevelSet += iVal * iChange;
@@ -104,9 +104,9 @@ ScalarChanAndVeseLevelSetFunction<TInputImage, TFeatureImage, TSharedData>::Comp
 
   FeaturePixelType featureVal;
   FeatureIndexType globalIndex;
-  InputIndexType   itInputIndex, inputIndex;
-  InputPixelType   hVal;
-  ListPixelType    L;
+  InputIndexType itInputIndex, inputIndex;
+  InputPixelType hVal;
+  ListPixelType L;
 
   fIt.GoToBegin();
 
@@ -149,7 +149,7 @@ ScalarChanAndVeseLevelSetFunction<TInputImage, TFeatureImage, TSharedData>::Comp
   const FeaturePixelType & iValue,
   const FeatureIndexType & itkNotUsed(iIdx)) -> ScalarValueType
 {
-  const unsigned int    fId = this->m_FunctionId;
+  const unsigned int fId = this->m_FunctionId;
   const ScalarValueType cVals = this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_ForegroundConstantValues;
   const ScalarValueType t = (iValue - cVals);
 
@@ -162,7 +162,7 @@ ScalarChanAndVeseLevelSetFunction<TInputImage, TFeatureImage, TSharedData>::Comp
   const FeaturePixelType & iValue,
   const FeatureIndexType & itkNotUsed(iIdx)) -> ScalarValueType
 {
-  const unsigned int    fId = this->m_FunctionId;
+  const unsigned int fId = this->m_FunctionId;
   const ScalarValueType cBgrnd =
     this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_BackgroundConstantValues; //
                                                                                       // background

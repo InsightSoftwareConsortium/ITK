@@ -140,7 +140,7 @@ ScalarImageToCooccurrenceMatrixFilter<TImageType, THistogramFrequencyContainer, 
   output->Initialize(size, m_LowerBound, m_UpperBound);
 
   // Next, find the minimum radius that encloses all the offsets.
-  unsigned int                         minRadius = 0;
+  unsigned int minRadius = 0;
   typename OffsetVector::ConstIterator offsets;
   for (offsets = m_Offsets->Begin(); offsets != m_Offsets->End(); ++offsets)
   {
@@ -209,10 +209,10 @@ ScalarImageToCooccurrenceMatrixFilter<TImageType, THistogramFrequencyContainer, 
     }
 
     typename OffsetVector::ConstIterator offsets;
-    typename HistogramType::IndexType    index;
+    typename HistogramType::IndexType index;
     for (offsets = m_Offsets->Begin(); offsets != m_Offsets->End(); ++offsets)
     {
-      bool            pixelInBounds;
+      bool pixelInBounds;
       const PixelType pixelIntensity = neighborIt.GetPixel(offsets.Value(), pixelInBounds);
 
       if (!pixelInBounds)
@@ -245,8 +245,8 @@ ScalarImageToCooccurrenceMatrixFilter<TImageType, THistogramFrequencyContainer, 
 template <typename TImageType, typename THistogramFrequencyContainer, typename TMaskImageType>
 void
 ScalarImageToCooccurrenceMatrixFilter<TImageType, THistogramFrequencyContainer, TMaskImageType>::FillHistogramWithMask(
-  RadiusType            radius,
-  RegionType            region,
+  RadiusType radius,
+  RegionType region,
   const MaskImageType * maskImage)
 {
   // Iterate over all of those pixels and offsets, adding each
@@ -263,7 +263,7 @@ ScalarImageToCooccurrenceMatrixFilter<TImageType, THistogramFrequencyContainer, 
   using MaskNeighborhoodIteratorType = ConstNeighborhoodIterator<MaskImageType>;
   MaskNeighborhoodIteratorType maskNeighborIt(radius, maskImage, region);
 
-  MeasurementVectorType             cooccur(output->GetMeasurementVectorSize());
+  MeasurementVectorType cooccur(output->GetMeasurementVectorSize());
   typename HistogramType::IndexType index;
   for (neighborIt.GoToBegin(), maskNeighborIt.GoToBegin(); !neighborIt.IsAtEnd(); ++neighborIt, ++maskNeighborIt)
   {
@@ -288,7 +288,7 @@ ScalarImageToCooccurrenceMatrixFilter<TImageType, THistogramFrequencyContainer, 
         continue; // Go to the next loop if we're not in the mask
       }
 
-      bool            pixelInBounds;
+      bool pixelInBounds;
       const PixelType pixelIntensity = neighborIt.GetPixel(offsets.Value(), pixelInBounds);
 
       if (!pixelInBounds)
@@ -353,7 +353,7 @@ template <typename TImageType, typename THistogramFrequencyContainer, typename T
 void
 ScalarImageToCooccurrenceMatrixFilter<TImageType, THistogramFrequencyContainer, TMaskImageType>::PrintSelf(
   std::ostream & os,
-  Indent         indent) const
+  Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Offsets: " << this->GetOffsets() << std::endl;

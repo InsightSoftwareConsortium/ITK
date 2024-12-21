@@ -33,9 +33,9 @@ namespace
 {
 template <typename TFloatingPoint>
 void
-ReadFloatingPointsAsASCII(std::ifstream &        inputFile,
+ReadFloatingPointsAsASCII(std::ifstream & inputFile,
                           TFloatingPoint * const buffer,
-                          const SizeValueType    numberOfFloatingPoints)
+                          const SizeValueType numberOfFloatingPoints)
 {
   std::string str;
 
@@ -61,10 +61,10 @@ ReadFloatingPointsAsASCII(std::ifstream &        inputFile,
 
         const int numberOfChars = Math::CastWithRangeCheck<int>(str.size());
 
-        constexpr auto                                   double_NaN = std::numeric_limits<double>::quiet_NaN();
-        int                                              processedCharCount{ 0 };
+        constexpr auto double_NaN = std::numeric_limits<double>::quiet_NaN();
+        int processedCharCount{ 0 };
         const double_conversion::StringToDoubleConverter converter(0, double_NaN, double_NaN, "inf", "nan");
-        const auto                                       conversionResult =
+        const auto conversionResult =
           converter.StringTo<TFloatingPoint>(str.c_str(), numberOfChars, &processedCharCount);
 
         if (processedCharCount == numberOfChars && !std::isnan(conversionResult))
@@ -269,7 +269,7 @@ VTKPolyDataMeshIO::ReadMeshInformation()
   }
 
   unsigned int numLine = 0;
-  std::string  line;
+  std::string line;
 
   std::getline(inputFile, line, '\n');
   ++numLine;
@@ -279,8 +279,8 @@ VTKPolyDataMeshIO::ReadMeshInformation()
     const std::string versionString = line.substr(versionPos + 8);
     // Split the version string by "."
     std::vector<std::string> versionTokens;
-    std::istringstream       iss(versionString);
-    std::string              token;
+    std::istringstream iss(versionString);
+    std::string token;
     while (std::getline(iss, token, '.'))
     {
       versionTokens.push_back(token);
@@ -984,9 +984,9 @@ VTKPolyDataMeshIO::ReadCells(void * buffer)
 void
 VTKPolyDataMeshIO::ReadCellsBufferAsASCII(std::ifstream & inputFile, void * buffer)
 {
-  std::string   line;
+  std::string line;
   SizeValueType index = 0;
-  unsigned int  numPoints; // number of point in each cell
+  unsigned int numPoints; // number of point in each cell
 
   const MetaDataDictionary & metaDic = this->GetMetaDataDictionary();
   using GeometryIntegerType = unsigned int;
@@ -1225,9 +1225,9 @@ VTKPolyDataMeshIO::ReadCellsBufferAsBINARYConnectivityType(std::ifstream & input
   using ConnectivityType = TConnectivity;
   using GeometryIntegerType = unsigned int;
 
-  std::string                line;
+  std::string line;
   const MetaDataDictionary & metaDic = this->GetMetaDataDictionary();
-  unsigned int               numPoints; // number of point in each cell
+  unsigned int numPoints; // number of point in each cell
 
   auto * outputBuffer = static_cast<unsigned int *>(buffer);
   while (!inputFile.eof())
@@ -1242,8 +1242,8 @@ VTKPolyDataMeshIO::ReadCellsBufferAsBINARYConnectivityType(std::ifstream & input
       // OFFSETS line
       std::getline(inputFile, line, '\n');
       const auto inputOffsetsBuffer = make_unique_for_overwrite<OffsetType[]>(numberOfVertexOffsets);
-      void *     pvOffsets = inputOffsetsBuffer.get();
-      auto *     startBufferOffsets = static_cast<char *>(pvOffsets);
+      void * pvOffsets = inputOffsetsBuffer.get();
+      auto * startBufferOffsets = static_cast<char *>(pvOffsets);
       inputFile.read(startBufferOffsets, numberOfVertexOffsets * sizeof(OffsetType));
       auto * dataOffsets = static_cast<OffsetType *>(pvOffsets);
       if constexpr (itk::ByteSwapper<OffsetType>::SystemIsLittleEndian())
@@ -1262,8 +1262,8 @@ VTKPolyDataMeshIO::ReadCellsBufferAsBINARYConnectivityType(std::ifstream & input
         itkExceptionMacro("Expected CONNECTIVITY keyword in the VTK file");
       }
       const auto inputConnectivityBuffer = make_unique_for_overwrite<ConnectivityType[]>(numberOfVertexConnectivity);
-      void *     pvConnectivity = inputOffsetsBuffer.get();
-      auto *     startBufferConnectivity = static_cast<char *>(pvConnectivity);
+      void * pvConnectivity = inputOffsetsBuffer.get();
+      auto * startBufferConnectivity = static_cast<char *>(pvConnectivity);
       inputFile.read(startBufferConnectivity, numberOfVertexConnectivity * sizeof(ConnectivityType));
       auto * dataConnectivity = static_cast<ConnectivityType *>(pvConnectivity);
       if constexpr (itk::ByteSwapper<ConnectivityType>::SystemIsLittleEndian())
@@ -1292,8 +1292,8 @@ VTKPolyDataMeshIO::ReadCellsBufferAsBINARYConnectivityType(std::ifstream & input
       // OFFSETS line
       std::getline(inputFile, line, '\n');
       const auto inputOffsetsBuffer = make_unique_for_overwrite<OffsetType[]>(numberOfLinesOffsets);
-      void *     pvOffsets = inputOffsetsBuffer.get();
-      auto *     startBufferOffsets = static_cast<char *>(pvOffsets);
+      void * pvOffsets = inputOffsetsBuffer.get();
+      auto * startBufferOffsets = static_cast<char *>(pvOffsets);
       inputFile.read(startBufferOffsets, numberOfLinesOffsets * sizeof(OffsetType));
       auto * dataOffsets = static_cast<OffsetType *>(pvOffsets);
       if constexpr (itk::ByteSwapper<OffsetType>::SystemIsLittleEndian())
@@ -1312,8 +1312,8 @@ VTKPolyDataMeshIO::ReadCellsBufferAsBINARYConnectivityType(std::ifstream & input
         itkExceptionMacro("Expected CONNECTIVITY keyword in the VTK file");
       }
       const auto inputConnectivityBuffer = make_unique_for_overwrite<ConnectivityType[]>(numberOfLinesConnectivity);
-      void *     pvConnectivity = inputOffsetsBuffer.get();
-      auto *     startBufferConnectivity = static_cast<char *>(pvConnectivity);
+      void * pvConnectivity = inputOffsetsBuffer.get();
+      auto * startBufferConnectivity = static_cast<char *>(pvConnectivity);
       inputFile.read(startBufferConnectivity, numberOfLinesConnectivity * sizeof(ConnectivityType));
       auto * dataConnectivity = static_cast<ConnectivityType *>(pvConnectivity);
       if constexpr (itk::ByteSwapper<ConnectivityType>::SystemIsLittleEndian())
@@ -1354,8 +1354,8 @@ VTKPolyDataMeshIO::ReadCellsBufferAsBINARYConnectivityType(std::ifstream & input
       // OFFSETS line
       std::getline(inputFile, line, '\n');
       const auto inputOffsetsBuffer = make_unique_for_overwrite<OffsetType[]>(numberOfPolygonsOffsets);
-      void *     pvOffsets = inputOffsetsBuffer.get();
-      auto *     startBufferOffsets = static_cast<char *>(pvOffsets);
+      void * pvOffsets = inputOffsetsBuffer.get();
+      auto * startBufferOffsets = static_cast<char *>(pvOffsets);
       inputFile.read(startBufferOffsets, numberOfPolygonsOffsets * sizeof(OffsetType));
       auto * dataOffsets = static_cast<OffsetType *>(pvOffsets);
       if constexpr (itk::ByteSwapper<OffsetType>::SystemIsLittleEndian())
@@ -1374,8 +1374,8 @@ VTKPolyDataMeshIO::ReadCellsBufferAsBINARYConnectivityType(std::ifstream & input
         itkExceptionMacro("Expected CONNECTIVITY keyword in the VTK file");
       }
       const auto inputConnectivityBuffer = make_unique_for_overwrite<ConnectivityType[]>(numberOfPolygonsConnectivity);
-      void *     pvConnectivity = inputConnectivityBuffer.get();
-      auto *     startBufferConnectivity = static_cast<char *>(pvConnectivity);
+      void * pvConnectivity = inputConnectivityBuffer.get();
+      auto * startBufferConnectivity = static_cast<char *>(pvConnectivity);
       inputFile.read(startBufferConnectivity, numberOfPolygonsConnectivity * sizeof(ConnectivityType));
       auto * dataConnectivity = static_cast<ConnectivityType *>(pvConnectivity);
       if constexpr (itk::ByteSwapper<ConnectivityType>::SystemIsLittleEndian())
@@ -1409,7 +1409,7 @@ VTKPolyDataMeshIO::ReadCellsBufferAsBINARYOffsetType(std::ifstream & inputFile, 
   using OffsetType = TOffset;
 
   const MetaDataDictionary & metaDic = this->GetMetaDataDictionary();
-  std::string                connectivityType;
+  std::string connectivityType;
   ExposeMetaData<std::string>(metaDic, "connectivityType", connectivityType);
   const auto connectivityComponentType = this->GetComponentTypeFromString(connectivityType);
   switch (connectivityComponentType)
@@ -1468,10 +1468,10 @@ VTKPolyDataMeshIO::ReadCellsBufferAsBINARY(std::ifstream & inputFile, void * buf
   else
   {
     std::string line;
-    const auto  inputBuffer = make_unique_for_overwrite<unsigned int[]>(this->m_CellBufferSize - this->m_NumberOfCells);
-    void *      pv = inputBuffer.get();
-    auto *      startBuffer = static_cast<char *>(pv);
-    auto *      outputBuffer = static_cast<unsigned int *>(buffer);
+    const auto inputBuffer = make_unique_for_overwrite<unsigned int[]>(this->m_CellBufferSize - this->m_NumberOfCells);
+    void * pv = inputBuffer.get();
+    auto * startBuffer = static_cast<char *>(pv);
+    auto * outputBuffer = static_cast<unsigned int *>(buffer);
     while (!inputFile.eof())
     {
       std::getline(inputFile, line, '\n');
@@ -2064,7 +2064,7 @@ VTKPolyDataMeshIO::PrintSelf(std::ostream & os, Indent indent) const
   Superclass::PrintSelf(os, indent);
 
   const MetaDataDictionary & metaDic = this->GetMetaDataDictionary();
-  unsigned int               value = 0;
+  unsigned int value = 0;
 
   if (ExposeMetaData<unsigned int>(metaDic, "numberOfVertices", value))
   {
@@ -2114,16 +2114,16 @@ VTKPolyDataMeshIO::PrintSelf(std::ostream & os, Indent indent) const
 }
 
 void
-VTKPolyDataMeshIO::ReadComponentsAsASCII(std::ifstream &     inputFile,
-                                         float * const       buffer,
+VTKPolyDataMeshIO::ReadComponentsAsASCII(std::ifstream & inputFile,
+                                         float * const buffer,
                                          const SizeValueType numberOfComponents)
 {
   ReadFloatingPointsAsASCII(inputFile, buffer, numberOfComponents);
 }
 
 void
-VTKPolyDataMeshIO::ReadComponentsAsASCII(std::ifstream &     inputFile,
-                                         double * const      buffer,
+VTKPolyDataMeshIO::ReadComponentsAsASCII(std::ifstream & inputFile,
+                                         double * const buffer,
                                          const SizeValueType numberOfComponents)
 {
   ReadFloatingPointsAsASCII(inputFile, buffer, numberOfComponents);

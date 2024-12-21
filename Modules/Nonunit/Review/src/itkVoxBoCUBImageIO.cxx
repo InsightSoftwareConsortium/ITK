@@ -69,7 +69,7 @@ public:
   {
     // Read everything up to the \f symbol
     std::ostringstream oss;
-    unsigned char      byte = ReadByte();
+    unsigned char byte = ReadByte();
 
     while (byte != '\f')
     {
@@ -149,7 +149,7 @@ public:
       throw exception;
     }
 
-    auto     numberOfBytesToRead = Math::CastWithRangeCheck<unsigned int, SizeType>(bytes);
+    auto numberOfBytesToRead = Math::CastWithRangeCheck<unsigned int, SizeType>(bytes);
     SizeType bread = gzread(m_GzFile, data, numberOfBytesToRead);
     if (bread != bytes)
     {
@@ -173,7 +173,7 @@ public:
       throw exception;
     }
 
-    auto     numberOfBytesToWrite = Math::CastWithRangeCheck<unsigned int, SizeType>(bytes);
+    auto numberOfBytesToWrite = Math::CastWithRangeCheck<unsigned int, SizeType>(bytes);
     SizeType bwritten = gzwrite(m_GzFile, const_cast<void *>(data), numberOfBytesToWrite);
     if (bwritten != bytes)
     {
@@ -241,7 +241,7 @@ public:
     }
 
     const auto numberOfBytesToRead = Math::CastWithRangeCheck<SizeValueType, SizeType>(bytes);
-    SizeType   bread = fread(data, NumericTraits<SizeValueType>::OneValue(), numberOfBytesToRead, m_File);
+    SizeType bread = fread(data, NumericTraits<SizeValueType>::OneValue(), numberOfBytesToRead, m_File);
     if (bread != bytes)
     {
       std::ostringstream oss;
@@ -265,7 +265,7 @@ public:
     }
 
     const auto numberOfBytesToWrite = Math::CastWithRangeCheck<SizeValueType, SizeType>(bytes);
-    SizeType   bwritten = fwrite(data, NumericTraits<SizeValueType>::OneValue(), numberOfBytesToWrite, m_File);
+    SizeType bwritten = fwrite(data, NumericTraits<SizeValueType>::OneValue(), numberOfBytesToWrite, m_File);
     if (bwritten != bytes)
     {
       ExceptionObject exception;
@@ -496,7 +496,7 @@ VoxBoCUBImageIO::ReadImageInformation()
 
     // Get the key string
     std::istringstream iss(linebuffer);
-    std::string        key;
+    std::string key;
 
     // Read the key and strip the colon from it
     iss >> key;
@@ -587,7 +587,7 @@ VoxBoCUBImageIO::ReadImageInformation()
         if (it != m_OrientationMap.end())
         {
           // NOTE:  The itk::ImageIOBase direction is a std::vector<std::vector > >, and threeDDirection is a 3x3 matrix
-          itk::SpatialOrientationAdapter                soAdaptor;
+          itk::SpatialOrientationAdapter soAdaptor;
           itk::SpatialOrientationAdapter::DirectionType threeDDirection = soAdaptor.ToDirectionCosines(it->second);
           this->m_Direction[0][0] = threeDDirection[0][0];
           this->m_Direction[0][1] = threeDDirection[0][1];
@@ -604,7 +604,7 @@ VoxBoCUBImageIO::ReadImageInformation()
       else
       {
         // Encode the right hand side of the string in the meta-data dic
-        std::string        word;
+        std::string word;
         std::ostringstream oss;
         while (iss >> word)
         {
@@ -690,7 +690,7 @@ VoxBoCUBImageIO::WriteImageInformation()
 
   // Write the orientation code
   // NOTE:  The itk::ImageIOBase direction is a std::vector<std::vector > >, and threeDDirection is a 3x3 matrix
-  itk::SpatialOrientationAdapter                soAdaptor;
+  itk::SpatialOrientationAdapter soAdaptor;
   itk::SpatialOrientationAdapter::DirectionType threeDDirection;
   threeDDirection[0][0] = this->m_Direction[0][0];
   threeDDirection[0][1] = this->m_Direction[0][1];

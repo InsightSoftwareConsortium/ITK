@@ -233,9 +233,9 @@ main(int argc, char * argv[])
   scales[5] = 1.0 / translationScale;
 
   constexpr unsigned long numberOfIterations = 2000;
-  constexpr double        gradientTolerance = 1e-4; // convergence criterion
-  constexpr double        valueTolerance = 1e-4;    // convergence criterion
-  constexpr double        epsilonFunction = 1e-5;   // convergence criterion
+  constexpr double gradientTolerance = 1e-4; // convergence criterion
+  constexpr double valueTolerance = 1e-4;    // convergence criterion
+  constexpr double epsilonFunction = 1e-5;   // convergence criterion
 
 
   optimizer->SetScales(scales);

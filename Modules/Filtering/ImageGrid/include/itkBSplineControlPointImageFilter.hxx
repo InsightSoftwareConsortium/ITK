@@ -151,7 +151,7 @@ void
 BSplineControlPointImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
   const TInputImage * inputPtr = this->GetInput();
-  TOutputImage *      outputPtr = this->GetOutput();
+  TOutputImage * outputPtr = this->GetOutput();
 
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
@@ -178,7 +178,7 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenera
   const OutputImageRegionType & region)
 {
   const TInputImage * inputPtr = this->GetInput();
-  TOutputImage *      outputPtr = this->GetOutput();
+  TOutputImage * outputPtr = this->GetOutput();
 
   typename PointDataImageType::Pointer collapsedPhiLattices[ImageDimension + 1];
   for (unsigned int i = 0; i < ImageDimension; ++i)
@@ -214,9 +214,9 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenera
     }
   }
   FixedArray<RealType, ImageDimension> U;
-  auto                                 currentU = MakeFilled<FixedArray<RealType, ImageDimension>>(-1);
+  auto currentU = MakeFilled<FixedArray<RealType, ImageDimension>>(-1);
 
-  typename OutputImageType::IndexType          startIndex = outputPtr->GetRequestedRegion().GetIndex();
+  typename OutputImageType::IndexType startIndex = outputPtr->GetRequestedRegion().GetIndex();
   const typename PointDataImageType::IndexType startPhiIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
 
   RealArrayType epsilon;
@@ -270,15 +270,15 @@ template <typename TInputImage, typename TOutputImage>
 void
 BSplineControlPointImageFilter<TInputImage, TOutputImage>::CollapsePhiLattice(PointDataImageType * lattice,
                                                                               PointDataImageType * collapsedLattice,
-                                                                              const RealType       u,
-                                                                              const unsigned int   dimension)
+                                                                              const RealType u,
+                                                                              const unsigned int dimension)
 {
   for (ImageRegionIteratorWithIndex<PointDataImageType> It(collapsedLattice,
                                                            collapsedLattice->GetLargestPossibleRegion());
        !It.IsAtEnd();
        ++It)
   {
-    PointDataType                          data{};
+    PointDataType data{};
     typename PointDataImageType::IndexType idx = It.GetIndex();
     for (unsigned int i = 0; i < this->m_SplineOrder[dimension] + 1; ++i)
     {
@@ -326,8 +326,8 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>::CollapsePhiLattice(Po
 
 template <typename TInputImage, typename TOutputImage>
 unsigned int
-BSplineControlPointImageFilter<TInputImage, TOutputImage>::SplitRequestedRegion(unsigned int            i,
-                                                                                unsigned int            num,
+BSplineControlPointImageFilter<TInputImage, TOutputImage>::SplitRequestedRegion(unsigned int i,
+                                                                                unsigned int num,
                                                                                 OutputImageRegionType & splitRegion)
 {
   // Get the output pointer
@@ -335,9 +335,9 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>::SplitRequestedRegion(
 
   const SizeType requestedRegionSize = outputPtr->GetRequestedRegion().GetSize();
 
-  int                              splitAxis;
+  int splitAxis;
   typename TOutputImage::IndexType splitIndex;
-  typename TOutputImage::SizeType  splitSize;
+  typename TOutputImage::SizeType splitSize;
 
   // Initialize the splitRegion to the output requested region
   splitRegion = outputPtr->GetRequestedRegion();
@@ -422,12 +422,12 @@ BSplineControlPointImageFilter<TInputPointImage, TOutputImage>::RefineControlPoi
     constexpr PixelType data{};
     refinedLattice->FillBuffer(data);
 
-    typename ControlPointLatticeType::IndexType            idx;
-    typename ControlPointLatticeType::IndexType            idxPsi;
-    typename ControlPointLatticeType::IndexType            tmp;
-    typename ControlPointLatticeType::IndexType            tmpPsi;
-    typename ControlPointLatticeType::IndexType            off;
-    typename ControlPointLatticeType::IndexType            offPsi;
+    typename ControlPointLatticeType::IndexType idx;
+    typename ControlPointLatticeType::IndexType idxPsi;
+    typename ControlPointLatticeType::IndexType tmp;
+    typename ControlPointLatticeType::IndexType tmpPsi;
+    typename ControlPointLatticeType::IndexType off;
+    typename ControlPointLatticeType::IndexType offPsi;
     typename ControlPointLatticeType::RegionType::SizeType sizePsi;
 
     size.Fill(2);
@@ -542,7 +542,7 @@ BSplineControlPointImageFilter<TInputPointImage, TOutputImage>::RefineControlPoi
 
   // Specify the pose parameters of the control point lattice
 
-  typename PointDataImageType::PointType   origin;
+  typename PointDataImageType::PointType origin;
   typename PointDataImageType::SpacingType spacing;
 
   for (unsigned int i = 0; i < ImageDimension; ++i)

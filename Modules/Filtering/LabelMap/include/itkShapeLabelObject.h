@@ -604,7 +604,7 @@ public:
     // [maxX,minY], [maxX,maxY].
     for (unsigned int i = 0; i < OrientedBoundingBoxVerticesType::Length; ++i)
     {
-      constexpr unsigned int         msb = 1 << (ImageDimension - 1);
+      constexpr unsigned int msb = 1 << (ImageDimension - 1);
       Vector<double, ImageDimension> offset;
       for (unsigned int j = 0; j < ImageDimension; ++j)
       {
@@ -773,25 +773,25 @@ protected:
   }
 
 private:
-  RegionType    m_BoundingBox{};
+  RegionType m_BoundingBox{};
   SizeValueType m_NumberOfPixels{};
-  double        m_PhysicalSize{};
-  CentroidType  m_Centroid{};
+  double m_PhysicalSize{};
+  CentroidType m_Centroid{};
   SizeValueType m_NumberOfPixelsOnBorder{};
-  double        m_PerimeterOnBorder{};
-  double        m_FeretDiameter{};
-  VectorType    m_PrincipalMoments{};
-  MatrixType    m_PrincipalAxes{};
-  double        m_Elongation{};
-  double        m_Perimeter{};
-  double        m_Roundness{};
-  double        m_EquivalentSphericalRadius{};
-  double        m_EquivalentSphericalPerimeter{};
-  VectorType    m_EquivalentEllipsoidDiameter{};
-  double        m_Flatness{};
-  double        m_PerimeterOnBorderRatio{};
+  double m_PerimeterOnBorder{};
+  double m_FeretDiameter{};
+  VectorType m_PrincipalMoments{};
+  MatrixType m_PrincipalAxes{};
+  double m_Elongation{};
+  double m_Perimeter{};
+  double m_Roundness{};
+  double m_EquivalentSphericalRadius{};
+  double m_EquivalentSphericalPerimeter{};
+  VectorType m_EquivalentEllipsoidDiameter{};
+  double m_Flatness{};
+  double m_PerimeterOnBorderRatio{};
 
-  OrientedBoundingBoxSizeType  m_OrientedBoundingBoxSize{};
+  OrientedBoundingBoxSizeType m_OrientedBoundingBoxSize{};
   OrientedBoundingBoxPointType m_OrientedBoundingBoxOrigin{};
 };
 } // end namespace itk

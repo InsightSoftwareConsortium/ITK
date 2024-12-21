@@ -137,9 +137,9 @@ private:
   //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
-  typename GradientType::Pointer  m_GradientFilter;
+  typename GradientType::Pointer m_GradientFilter;
   typename ThresholdType::Pointer m_ThresholdFilter;
-  typename RescalerType::Pointer  m_RescaleFilter;
+  typename RescalerType::Pointer m_RescaleFilter;
 
   PixelType m_Threshold;
 };
@@ -233,7 +233,7 @@ CompositeExampleImageFilter<TImage>::GenerateData()
 template <typename TImage>
 void
 CompositeExampleImageFilter<TImage>::PrintSelf(std::ostream & os,
-                                               Indent         indent) const
+                                               Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

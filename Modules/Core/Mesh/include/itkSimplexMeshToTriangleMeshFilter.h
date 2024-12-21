@@ -112,7 +112,7 @@ public:
     {
       using PointIdIterator = typename SimplexPolygonType::PointIdIterator;
       PointIdIterator it = poly->PointIdsBegin();
-      InputPointType  center{};
+      InputPointType center{};
 
       InputPointType p{};
 
@@ -144,7 +144,7 @@ public:
 
   protected:
     InputMeshConstPointer m_Mesh;
-    PointMapPointer       m_CenterMap;
+    PointMapPointer m_CenterMap;
   };
 
   using SimplexVisitorInterfaceType = itk::

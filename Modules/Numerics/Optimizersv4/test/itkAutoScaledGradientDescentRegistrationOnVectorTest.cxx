@@ -35,8 +35,8 @@
 
 template <typename TMovingTransform>
 int
-itkAutoScaledGradientDescentRegistrationOnVectorTestTemplated(int         numberOfIterations,
-                                                              double      shiftOfStep,
+itkAutoScaledGradientDescentRegistrationOnVectorTestTemplated(int numberOfIterations,
+                                                              double shiftOfStep,
                                                               std::string scalesOption)
 {
   const unsigned int Dimension = TMovingTransform::SpaceDimension;
@@ -58,9 +58,9 @@ itkAutoScaledGradientDescentRegistrationOnVectorTestTemplated(int         number
                                                                  typename MovingImageType::PixelType,
                                                                  Dimension>;
 
-  typename FixedImageType::ConstPointer  fixedImage;
+  typename FixedImageType::ConstPointer fixedImage;
   typename MovingImageType::ConstPointer movingImage;
-  typename ImageSourceType::Pointer      imageSource;
+  typename ImageSourceType::Pointer imageSource;
 
   imageSource = ImageSourceType::New();
 
@@ -186,7 +186,7 @@ itkAutoScaledGradientDescentRegistrationOnVectorTestTemplated(int         number
   //
   // results
   //
-  ParametersType       finalParameters = movingTransform->GetParameters();
+  ParametersType finalParameters = movingTransform->GetParameters();
   const ParametersType fixedParameters = movingTransform->GetFixedParameters();
   std::cout << "Estimated scales = " << optimizer->GetScales() << std::endl;
   std::cout << "finalParameters = " << finalParameters << std::endl;
@@ -239,7 +239,7 @@ itkAutoScaledGradientDescentRegistrationOnVectorTest(int argc, char ** const arg
     return EXIT_FAILURE;
   }
   unsigned int numberOfIterations = 30;
-  double       shiftOfStep = 1.0;
+  double shiftOfStep = 1.0;
 
   if (argc >= 2)
   {

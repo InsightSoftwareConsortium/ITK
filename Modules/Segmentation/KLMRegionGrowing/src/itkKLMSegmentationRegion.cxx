@@ -33,8 +33,8 @@ KLMSegmentationRegion::PrintSelf(std::ostream & os, Indent indent) const
 
 void
 KLMSegmentationRegion::SetRegionParameters(MeanRegionIntensityType meanRegionIntensity,
-                                           double                  regionArea,
-                                           RegionLabelType         label)
+                                           double regionArea,
+                                           RegionLabelType label)
 {
   // Set the area, mean, and label associated with the region
   this->SetRegionArea(regionArea);
@@ -53,7 +53,7 @@ KLMSegmentationRegion::CombineRegionParameters(const Self * region)
   const double region1Area = this->GetRegionArea();
   const double region2Area = region->GetRegionArea();
 
-  const double            mergedRegionArea = region1Area + region2Area;
+  const double mergedRegionArea = region1Area + region2Area;
   MeanRegionIntensityType mergedRegionMean = region1Mean * region1Area + region2Mean * region2Area;
 
   if (mergedRegionArea <= 0)
@@ -185,7 +185,7 @@ KLMSegmentationRegion::InsertRegionBorder(KLMSegmentationBorder * pBorderCandida
 
 void
 KLMSegmentationRegion::InsertRegionBorder(RegionBorderVectorIterator RegionBorderVectorIt,
-                                          KLMSegmentationBorder *    pBorderCandidate)
+                                          KLMSegmentationBorder * pBorderCandidate)
 {
   // Ensure that the border candidate is not a null pointer
   if (pBorderCandidate == nullptr)
@@ -286,7 +286,7 @@ KLMSegmentationRegion::SpliceRegionBorders(Self * region)
 
   // Initialize the region iterators
 
-  auto       thisRegionBordersIt = thisRegionBorder.begin();
+  auto thisRegionBordersIt = thisRegionBorder.begin();
   const auto endOfThisRegionBorders = thisRegionBorder.end();
 
   auto thatRegionBordersIt = region->GetRegionBorderConstItBegin();

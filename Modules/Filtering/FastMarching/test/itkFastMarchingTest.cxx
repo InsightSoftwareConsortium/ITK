@@ -64,7 +64,7 @@ itkFastMarchingTest(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(marcher, FastMarchingImageFilter, ImageToImageFilter);
 
 
-  ShowProgressObject                                          progressWatch(marcher);
+  ShowProgressObject progressWatch(marcher);
   const itk::SimpleMemberCommand<ShowProgressObject>::Pointer command =
     itk::SimpleMemberCommand<ShowProgressObject>::New();
   command->SetCallbackFunction(&progressWatch, &ShowProgressObject::ShowProgress);
@@ -175,7 +175,7 @@ itkFastMarchingTest(int argc, char * argv[])
   ITK_TEST_SET_GET_BOOLEAN(marcher, OverrideOutputInformation, overrideOutputInformation);
 
   // setup a speed image of ones
-  auto                   speedImage = FloatImage::New();
+  auto speedImage = FloatImage::New();
   FloatImage::RegionType region;
   region.SetSize(size);
   speedImage->SetLargestPossibleRegion(region);
@@ -198,7 +198,7 @@ itkFastMarchingTest(int argc, char * argv[])
   marcher->Update();
 
   // check the results
-  const FloatImage::Pointer            output = marcher->GetOutput();
+  const FloatImage::Pointer output = marcher->GetOutput();
   itk::ImageRegionIterator<FloatImage> iterator(output, output->GetBufferedRegion());
 
   bool passed = true;
@@ -207,8 +207,8 @@ itkFastMarchingTest(int argc, char * argv[])
   {
 
     FloatImage::IndexType tempIndex;
-    double                distance;
-    float                 outputValue;
+    double distance;
+    float outputValue;
 
     tempIndex = iterator.GetIndex();
     tempIndex -= offset0;

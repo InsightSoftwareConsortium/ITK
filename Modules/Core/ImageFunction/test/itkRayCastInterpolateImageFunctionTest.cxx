@@ -40,9 +40,9 @@ itkRayCastInterpolateImageFunctionTest(int itkNotUsed(argc), char * itkNotUsed(a
   using RegionType = ImageType::RegionType;
 
   /* Allocate a simple test image */
-  auto                image = ImageType::New();
+  auto image = ImageType::New();
   constexpr IndexType start{};
-  SizeType            size;
+  SizeType size;
   size[0] = 30;
   size[1] = 30;
   size[2] = 30;

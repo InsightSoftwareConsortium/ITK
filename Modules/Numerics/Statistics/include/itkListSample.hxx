@@ -80,8 +80,8 @@ ListSample<TMeasurementVector>::GetMeasurementVector(InstanceIdentifier instance
 
 template <typename TMeasurementVector>
 void
-ListSample<TMeasurementVector>::SetMeasurement(InstanceIdentifier      instanceId,
-                                               unsigned int            dim,
+ListSample<TMeasurementVector>::SetMeasurement(InstanceIdentifier instanceId,
+                                               unsigned int dim,
                                                const MeasurementType & value)
 {
   if (instanceId < m_InternalContainer.size())

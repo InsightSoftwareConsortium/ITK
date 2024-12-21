@@ -191,7 +191,7 @@ public:
   GetFrequency() const
   {
     FrequencyType freq;
-    IndexType     freqInd = this->GetFrequencyBin();
+    IndexType freqInd = this->GetFrequencyBin();
 
     for (unsigned int dim = 0; dim < TImage::ImageDimension; ++dim)
     {
@@ -204,7 +204,7 @@ public:
   GetFrequencyModuloSquare() const
   {
     FrequencyValueType w2(0);
-    FrequencyType      w(this->GetFrequency());
+    FrequencyType w(this->GetFrequency());
 
     for (unsigned int dim = 0; dim < TImage::ImageDimension; ++dim)
     {
@@ -248,7 +248,7 @@ private:
   Init()
   {
     IndexType minIndex = this->m_Image->GetLargestPossibleRegion().GetIndex();
-    SizeType  sizeImage = this->m_Image->GetLargestPossibleRegion().GetSize();
+    SizeType sizeImage = this->m_Image->GetLargestPossibleRegion().GetSize();
     for (unsigned int dim = 0; dim < ImageType::ImageDimension; ++dim)
     {
       this->m_ZeroFrequencyIndex[dim] =
@@ -262,10 +262,10 @@ private:
     }
   }
 
-  IndexType     m_ZeroFrequencyIndex;
+  IndexType m_ZeroFrequencyIndex;
   FrequencyType m_FrequencyOrigin;
   FrequencyType m_FrequencySpacing;
-  bool          m_ActualXDimensionIsOdd;
+  bool m_ActualXDimensionIsOdd;
 };
 } // end namespace itk
 #endif

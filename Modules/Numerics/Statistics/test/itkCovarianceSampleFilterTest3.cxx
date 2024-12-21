@@ -73,7 +73,7 @@ itkCovarianceSampleFilterTest3(int, char *[])
 
   auto histogram = HistogramType::New();
 
-  HistogramType::SizeType              size(MeasurementVectorSize);
+  HistogramType::SizeType size(MeasurementVectorSize);
   HistogramType::MeasurementVectorType lowerBound(MeasurementVectorSize);
   HistogramType::MeasurementVectorType upperBound(MeasurementVectorSize);
 
@@ -93,7 +93,7 @@ itkCovarianceSampleFilterTest3(int, char *[])
   using MeanVectorType = MembershipFunctionType::MeanVectorType;
   using CovarianceMatrixType = MembershipFunctionType::CovarianceMatrixType;
 
-  MeanVectorType       mean(MeasurementVectorSize);
+  MeanVectorType mean(MeasurementVectorSize);
   CovarianceMatrixType covariance(MeasurementVectorSize, MeasurementVectorSize);
 
   mean[0] = 50;
@@ -120,7 +120,7 @@ itkCovarianceSampleFilterTest3(int, char *[])
   memberFunction->SetMean(mean);
   memberFunction->SetCovariance(covariance);
 
-  HistogramType::Iterator       itr = histogram->Begin();
+  HistogramType::Iterator itr = histogram->Begin();
   const HistogramType::Iterator end = histogram->End();
 
   using AbsoluteFrequencyType = HistogramType::AbsoluteFrequencyType;
@@ -168,7 +168,7 @@ itkCovarianceSampleFilterTest3(int, char *[])
   }
 
   const FilterType::MatrixDecoratedType * decorator = filter->GetCovarianceMatrixOutput();
-  FilterType::MatrixType                  covarianceOutput = decorator->Get();
+  FilterType::MatrixType covarianceOutput = decorator->Get();
 
   FilterType::MeasurementVectorRealType meanOutput = filter->GetMean();
 

@@ -131,8 +131,8 @@ void
 ImageToRectilinearFEMObjectFilter<TInputImage>::Generate2DRectilinearMesh()
 {
   ImageConstPointer image = this->GetInput();
-  ImageRegionType   region = image->GetLargestPossibleRegion();
-  ImageSizeType     size = region.GetSize();
+  ImageRegionType region = image->GetLargestPossibleRegion();
+  ImageSizeType size = region.GetSize();
 
   this->m_NumberOfElements[0] = size[0] / m_PixelsPerElement[0];
   this->m_NumberOfElements[1] = size[1] / m_PixelsPerElement[1];
@@ -144,8 +144,8 @@ ImageToRectilinearFEMObjectFilter<TInputImage>::Generate2DRectilinearMesh()
 
   // Create nodes
   Element::Node::Pointer n;
-  ImageIndexType         nodeIndex;
-  ImagePointType         nodePoint;
+  ImageIndexType nodeIndex;
+  ImagePointType nodePoint;
 
   if (this->m_Material)
   {
@@ -199,8 +199,8 @@ void
 ImageToRectilinearFEMObjectFilter<TInputImage>::Generate3DRectilinearMesh()
 {
   ImageConstPointer image = this->GetInput();
-  ImageRegionType   region = image->GetLargestPossibleRegion();
-  ImageSizeType     size = region.GetSize();
+  ImageRegionType region = image->GetLargestPossibleRegion();
+  ImageSizeType size = region.GetSize();
 
   this->m_NumberOfElements[0] = size[0] / m_PixelsPerElement[0];
   this->m_NumberOfElements[1] = size[1] / m_PixelsPerElement[1];
@@ -218,9 +218,9 @@ ImageToRectilinearFEMObjectFilter<TInputImage>::Generate3DRectilinearMesh()
 
   // Create nodes
   Element::Node::Pointer n;
-  ImageIndexType         nodeIndex;
-  ImagePointType         nodePoint;
-  int                    gn = 0; // number of node
+  ImageIndexType nodeIndex;
+  ImagePointType nodePoint;
+  int gn = 0; // number of node
   for (unsigned int k = 0; k <= m_NumberOfElements[2]; ++k)
   {
     nodeIndex[2] = k * m_PixelsPerElement[2];

@@ -30,7 +30,7 @@ itkBresenhamLineTest(int, char *[])
     v[0] = 1;
     v[1] = 1;
 
-    itk::BresenhamLine<2>       line;
+    itk::BresenhamLine<2> line;
     std::vector<itk::Offset<2>> offsets = line.BuildLine(v, 4);
 
     if (offsets.size() != 4)
@@ -60,7 +60,7 @@ itkBresenhamLineTest(int, char *[])
     p1[0] = 39;
     p1[1] = 39;
 
-    itk::BresenhamLine<2>      line;
+    itk::BresenhamLine<2> line;
     std::vector<itk::Index<2>> indices = line.BuildLine(p0, p1);
 
     if (indices.size() != 40)

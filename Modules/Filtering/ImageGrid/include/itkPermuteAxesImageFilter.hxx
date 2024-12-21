@@ -110,24 +110,24 @@ PermuteAxesImageFilter<TImage>::GenerateOutputInformation()
 
   // get pointers to the input and output
   const typename Superclass::InputImageConstPointer inputPtr = this->GetInput();
-  const typename Superclass::OutputImagePointer     outputPtr = this->GetOutput();
+  const typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
 
   if (!inputPtr || !outputPtr)
   {
     return;
   }
 
-  const typename TImage::SpacingType &   inputSpacing = inputPtr->GetSpacing();
-  const typename TImage::PointType &     inputOrigin = inputPtr->GetOrigin();
+  const typename TImage::SpacingType & inputSpacing = inputPtr->GetSpacing();
+  const typename TImage::PointType & inputOrigin = inputPtr->GetOrigin();
   const typename TImage::DirectionType & inputDirection = inputPtr->GetDirection();
-  const typename TImage::SizeType &      inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
-  const typename TImage::IndexType &     inputStartIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
+  const typename TImage::SizeType & inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
+  const typename TImage::IndexType & inputStartIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
 
-  typename TImage::SpacingType   outputSpacing;
-  typename TImage::PointType     outputOrigin;
+  typename TImage::SpacingType outputSpacing;
+  typename TImage::PointType outputOrigin;
   typename TImage::DirectionType outputDirection;
-  typename TImage::SizeType      outputSize;
-  typename TImage::IndexType     outputStartIndex;
+  typename TImage::SizeType outputSize;
+  typename TImage::IndexType outputStartIndex;
   for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     // origin does not change by a Permute.  But spacing, directions,
@@ -159,7 +159,7 @@ PermuteAxesImageFilter<TImage>::GenerateInputRequestedRegion()
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
-  const InputImagePointer  inputPtr = const_cast<TImage *>(this->GetInput());
+  const InputImagePointer inputPtr = const_cast<TImage *>(this->GetInput());
   const OutputImagePointer outputPtr = this->GetOutput();
 
   if (!inputPtr || !outputPtr)
@@ -167,10 +167,10 @@ PermuteAxesImageFilter<TImage>::GenerateInputRequestedRegion()
     return;
   }
 
-  const typename TImage::SizeType &  outputSize = outputPtr->GetRequestedRegion().GetSize();
+  const typename TImage::SizeType & outputSize = outputPtr->GetRequestedRegion().GetSize();
   const typename TImage::IndexType & outputIndex = outputPtr->GetRequestedRegion().GetIndex();
 
-  typename TImage::SizeType  inputSize;
+  typename TImage::SizeType inputSize;
   typename TImage::IndexType inputIndex;
 
   for (unsigned int j = 0; j < ImageDimension; ++j)
@@ -190,7 +190,7 @@ PermuteAxesImageFilter<TImage>::DynamicThreadedGenerateData(const OutputImageReg
 {
   // Get the input and output pointers
   const typename Superclass::InputImageConstPointer inputPtr = this->GetInput();
-  const typename Superclass::OutputImagePointer     outputPtr = this->GetOutput();
+  const typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
 
   TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
 

@@ -292,7 +292,7 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
   derivativeResult.Fill(DerivativeValueType{});
 
   DerivativeType metricDerivative;
-  MeasureType    metricValue{};
+  MeasureType metricValue{};
 
   // Loop over metrics
   DerivativeValueType totalMagnitude{};
@@ -302,7 +302,7 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
     this->m_MetricValueArray[j] = metricValue;
 
     const DerivativeValueType magnitude = metricDerivative.magnitude();
-    DerivativeValueType       weightOverMagnitude{};
+    DerivativeValueType weightOverMagnitude{};
     totalMagnitude += magnitude;
 
     if (magnitude > NumericTraits<DerivativeValueType>::epsilon())
@@ -401,7 +401,7 @@ template <unsigned int TFixedDimension,
 void
 ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>::PrintSelf(
   std::ostream & os,
-  Indent         indent) const
+  Indent indent) const
 {
   os << indent << "Weights of metric derivatives: " << this->m_MetricWeights << std::endl;
   os << indent << "The multivariate contains the following metrics: " << std::endl << std::endl;

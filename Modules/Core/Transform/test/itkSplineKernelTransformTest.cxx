@@ -104,7 +104,7 @@ itkSplineKernelTransformTest(int, char *[])
 
   { // Testing the number of parameters
     const EBSTransform2DType::ParametersType parameters1 = ebs2D->GetParameters();
-    const unsigned int                       numberOfParameters = parameters1.Size();
+    const unsigned int numberOfParameters = parameters1.Size();
     if (numberOfParameters != 4 * 2)
     {
       std::cerr << "Number of parameters was not updated after" << std::endl;
@@ -268,7 +268,7 @@ itkSplineKernelTransformTest(int, char *[])
     }
     {
       TPSTransform2DType::JacobianPositionType testJacobian;
-      TPSTransform2DType::InputPointType       testVector;
+      TPSTransform2DType::InputPointType testVector;
       testVector[0] = 0.0;
       testVector[1] = 1.0;
       bool exceptionCaught = false;
@@ -456,8 +456,8 @@ itkSplineKernelTransformTest(int, char *[])
   TPSTransform3DType::ParametersType parameters1 = tps3D->GetParameters();
   tps3D->SetParameters(parameters1);
   TPSTransform3DType::ParametersType parameters2 = tps3D->GetParameters();
-  const unsigned int                 numberOfParameters = parameters1.Size();
-  constexpr double                   tolerance = 1e-7;
+  const unsigned int numberOfParameters = parameters1.Size();
+  constexpr double tolerance = 1e-7;
   for (unsigned int pr = 0; pr < numberOfParameters; ++pr)
   {
     if (itk::Math::abs(parameters1[pr] - parameters2[pr]) > tolerance)

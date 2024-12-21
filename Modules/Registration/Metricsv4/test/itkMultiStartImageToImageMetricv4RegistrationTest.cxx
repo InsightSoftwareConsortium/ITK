@@ -152,9 +152,9 @@ itkMultiStartImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   auto metric = MetricType::New();
   //  metric->SetNumberOfHistogramBins(20);
   using PointType = PointSetType::PointType;
-  const PointSetType::Pointer                          pset(PointSetType::New());
-  unsigned long                                        ind = 0;
-  unsigned long                                        ct = 0;
+  const PointSetType::Pointer pset(PointSetType::New());
+  unsigned long ind = 0;
+  unsigned long ct = 0;
   itk::ImageRegionIteratorWithIndex<InternalImageType> It(fixedImage, fixedImage->GetLargestPossibleRegion());
   for (It.GoToBegin(); !It.IsAtEnd(); ++It)
   {
@@ -198,9 +198,9 @@ itkMultiStartImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   optimizer->SetMinimumConvergenceValue(-1.e-5);
 
   using MOptimizerType = itk::MultiStartOptimizerv4;
-  auto                               MOptimizer = MOptimizerType::New();
+  auto MOptimizer = MOptimizerType::New();
   MOptimizerType::ParametersListType parametersList = MOptimizer->GetParametersList();
-  constexpr float                    rotplus = 10;
+  constexpr float rotplus = 10;
   //  for (  float i = 180; i <= 180; i+=rotplus )
   for (float i = 0; i < 360; i += rotplus)
   {

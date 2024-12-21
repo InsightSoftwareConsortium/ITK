@@ -201,13 +201,13 @@ protected:
   GenerateData() override;
 
 private:
-  bool                 m_FullyConnected{};
+  bool m_FullyConnected{};
   OutputImagePixelType m_OutputBackgroundValue{};
-  InputImagePixelType  m_InputForegroundValue{};
-  bool                 m_ComputeFeretDiameter{};
-  bool                 m_ComputePerimeter{};
-  unsigned int         m_NumberOfBins{};
-  bool                 m_ComputeHistogram{};
+  InputImagePixelType m_InputForegroundValue{};
+  bool m_ComputeFeretDiameter{};
+  bool m_ComputePerimeter{};
+  unsigned int m_NumberOfBins{};
+  bool m_ComputeHistogram{};
 }; // end of class
 } // end namespace itk
 

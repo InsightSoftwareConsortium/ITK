@@ -190,9 +190,9 @@ public:
   }
 
   std::vector<SizeValueType> m_Vector;
-  TInputPixel                m_Min;
-  TInputPixel                m_Max;
-  SizeValueType              m_Count;
+  TInputPixel m_Min;
+  TInputPixel m_Max;
+  SizeValueType m_Count;
 };
 
 /// \cond HIDE_SPECIALIZATION_DOCUMENTATION

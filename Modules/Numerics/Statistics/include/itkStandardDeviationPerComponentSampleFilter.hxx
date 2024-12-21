@@ -141,7 +141,7 @@ StandardDeviationPerComponentSampleFilter<TSample>::GenerateData()
   using TotalAbsoluteFrequencyType = typename TSample::TotalAbsoluteFrequencyType;
   TotalAbsoluteFrequencyType totalFrequency{};
 
-  typename TSample::ConstIterator       iter = input->Begin();
+  typename TSample::ConstIterator iter = input->Begin();
   const typename TSample::ConstIterator end = input->End();
 
   MeasurementVectorType diff;

@@ -75,7 +75,7 @@ itkSubsampleTest3(int, char *[])
   }
 
   const FilterType::MeasurementVectorDecoratedType * decorator = filter->GetOutput();
-  FilterType::MeasurementVectorType                  meanOutput = decorator->Get();
+  FilterType::MeasurementVectorType meanOutput = decorator->Get();
 
   FilterType::MeasurementVectorType mean;
 

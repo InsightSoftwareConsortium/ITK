@@ -159,7 +159,7 @@ testStringToolsWithStdVector()
 
   // read all data elements in the string
   std::vector<float> dataOut1;
-  std::string        s = svalue;
+  std::string s = svalue;
   itk::StringTools::ToData(s, dataOut1);
   // check successful or not
   if (dataOut1.size() != (dataIn.size() + 1) && dataOut1.back() != 10.0f)
@@ -238,7 +238,7 @@ testStringToolsWithItkArray()
 {
   using DataType = itk::Array<double>;
 
-  DataType    dataIn(10, -0.1);
+  DataType dataIn(10, -0.1);
   std::string svalue;
   itk::StringTools::FromData(svalue, dataIn);
   // add one more data element to the end of the string
@@ -246,7 +246,7 @@ testStringToolsWithItkArray()
 
   // read all data elements in the string
   std::string s = svalue;
-  DataType    dataOut1;
+  DataType dataOut1;
   itk::StringTools::ToData(s, dataOut1);
   // check successful or not
   if (dataOut1.GetSize() != (dataIn.GetSize() + 1) && dataOut1[10] != 10.0)

@@ -31,10 +31,10 @@ DilateObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::DilateObj
 template <typename TInputImage, typename TOutputImage, typename TKernel>
 void
 DilateObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::Evaluate(OutputNeighborhoodIteratorType & nit,
-                                                                                const KernelType &               kernel)
+                                                                                const KernelType & kernel)
 {
-  unsigned int             i;
-  KernelIteratorType       kernel_it;
+  unsigned int i;
+  KernelIteratorType kernel_it;
   const KernelIteratorType kernelEnd = kernel.End();
 
   bool valid = true;

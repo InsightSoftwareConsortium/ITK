@@ -219,8 +219,8 @@ void
 LabelMapContourOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>::DynamicThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread)
 {
-  OutputImageType *        output = this->GetOutput();
-  auto *                   input = const_cast<LabelMapType *>(this->GetInput());
+  OutputImageType * output = this->GetOutput();
+  auto * input = const_cast<LabelMapType *>(this->GetInput());
   const FeatureImageType * input2 = this->GetFeatureImage();
 
   FunctorType function(m_Functor);
@@ -228,7 +228,7 @@ LabelMapContourOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>::Dynam
   function.SetOpacity(m_Opacity);
 
   ImageScanlineConstIterator featureIt(input2, outputRegionForThread);
-  ImageScanlineIterator      outputIt(output, outputRegionForThread);
+  ImageScanlineIterator outputIt(output, outputRegionForThread);
 
   while (!featureIt.IsAtEnd())
   {
@@ -249,8 +249,8 @@ void
 LabelMapContourOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>::ThreadedProcessLabelObject(
   LabelObjectType * labelObject)
 {
-  OutputImageType *        output = this->GetOutput();
-  auto *                   input = const_cast<LabelMapType *>(this->GetInput());
+  OutputImageType * output = this->GetOutput();
+  auto * input = const_cast<LabelMapType *>(this->GetInput());
   const FeatureImageType * input2 = this->GetFeatureImage();
 
   FunctorType function(m_Functor);
@@ -293,7 +293,7 @@ LabelMapContourOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>::Gener
 template <typename TLabelMap, typename TFeatureImage, typename TOutputImage>
 void
 LabelMapContourOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>::PrintSelf(std::ostream & os,
-                                                                                     Indent         indent) const
+                                                                                     Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

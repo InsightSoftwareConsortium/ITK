@@ -28,7 +28,7 @@ template <typename TFixedImage, typename TMovingImage, typename TDisplacementFie
 FastSymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::
   FastSymmetricForcesDemonsRegistrationFunction()
 {
-  RadiusType   r;
+  RadiusType r;
   unsigned int j;
 
   for (j = 0; j < ImageDimension; ++j)
@@ -64,7 +64,7 @@ template <typename TFixedImage, typename TMovingImage, typename TDisplacementFie
 void
 FastSymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::PrintSelf(
   std::ostream & os,
-  Indent         indent) const
+  Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -148,10 +148,10 @@ template <typename TFixedImage, typename TMovingImage, typename TDisplacementFie
 auto
 FastSymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUpdate(
   const NeighborhoodType & it,
-  void *                   gd,
-  const FloatOffsetType &  itkNotUsed(offset)) -> PixelType
+  void * gd,
+  const FloatOffsetType & itkNotUsed(offset)) -> PixelType
 {
-  auto *          globalData = (GlobalDataStruct *)gd;
+  auto * globalData = (GlobalDataStruct *)gd;
   const IndexType FirstIndex = this->GetFixedImage()->GetLargestPossibleRegion().GetIndex();
   const IndexType LastIndex = this->GetFixedImage()->GetLargestPossibleRegion().GetIndex() +
                               this->GetFixedImage()->GetLargestPossibleRegion().GetSize();
@@ -161,12 +161,12 @@ FastSymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDispla
   // Get fixed image related information
   // Note: no need to check the index is within
   // fixed image buffer. This is done by the external filter.
-  const auto                fixedValue = static_cast<double>(this->GetFixedImage()->GetPixel(index));
+  const auto fixedValue = static_cast<double>(this->GetFixedImage()->GetPixel(index));
   const CovariantVectorType fixedGradient = m_FixedImageGradientCalculator->EvaluateAtIndex(index);
 
   // Get moving image related information
   // use warped moving image to get moving value and gradient fast(er).
-  const auto                movingValue = static_cast<double>(m_MovingImageWarper->GetOutput()->GetPixel(index));
+  const auto movingValue = static_cast<double>(m_MovingImageWarper->GetOutput()->GetPixel(index));
   const CovariantVectorType movingGradient = m_WarpedMovingImageGradientCalculator->EvaluateAtIndex(index);
 
   // unfortunately (since it's a little redundant) we still need the mapped
@@ -217,7 +217,7 @@ FastSymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDispla
 
   // update the squared change value
   PointType newMappedCenterPoint;
-  bool      IsOutsideRegion = false;
+  bool IsOutsideRegion = false;
   for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     if (globalData)

@@ -114,7 +114,7 @@ main(int argc, char ** argv)
   using FaceCalculatorType =
     itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<ImageType>;
 
-  FaceCalculatorType               faceCalculator;
+  FaceCalculatorType faceCalculator;
   FaceCalculatorType::FaceListType faceList;
   // Software Guide : EndCodeSnippet
 
@@ -167,7 +167,7 @@ main(int argc, char ** argv)
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  IteratorType             out;
+  IteratorType out;
   NeighborhoodIteratorType it;
 
   for (fit = faceList.begin(); fit != faceList.end(); ++fit)

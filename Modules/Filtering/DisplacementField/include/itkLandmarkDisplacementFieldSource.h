@@ -167,9 +167,9 @@ private:
   /** Region of the output image. */
   OutputImageRegionType m_OutputRegion{};
 
-  SpacingType     m_OutputSpacing{};
+  SpacingType m_OutputSpacing{};
   OriginPointType m_OutputOrigin{};
-  DirectionType   m_OutputDirection{};
+  DirectionType m_OutputDirection{};
 
   LandmarkContainerPointer m_SourceLandmarks{};
   LandmarkContainerPointer m_TargetLandmarks{};

@@ -51,7 +51,7 @@ AnchorOpenCloseImageFilter<TImage, TKernel, TCompare1, TCompare2>::DynamicThread
   // will improve cache performance when working along non raster
   // directions.
 
-  AnchorLineErodeType  AnchorLineErode;
+  AnchorLineErodeType AnchorLineErode;
   AnchorLineDilateType AnchorLineDilate;
 
   AnchorLineOpenType AnchorLineOpen;
@@ -88,14 +88,14 @@ AnchorOpenCloseImageFilter<TImage, TKernel, TCompare1, TCompare2>::DynamicThread
 
   // iterate over all the structuring elements
   typename KernelType::DecompType decomposition = this->GetKernel().GetLines();
-  BresType                        BresLine;
+  BresType BresLine;
 
   // first stage -- all of the erosions if we are doing an opening
   for (unsigned int i = 0; i < decomposition.size() - 1; ++i)
   {
-    const KernelLType     ThisLine = decomposition[i];
+    const KernelLType ThisLine = decomposition[i];
     const BresOffsetArray TheseOffsets = BresLine.BuildLine(ThisLine, bufflength);
-    unsigned int          SELength = GetLinePixels<KernelLType>(ThisLine);
+    unsigned int SELength = GetLinePixels<KernelLType>(ThisLine);
     // want lines to be odd
     if (!(SELength % 2))
     {
@@ -112,10 +112,10 @@ AnchorOpenCloseImageFilter<TImage, TKernel, TCompare1, TCompare2>::DynamicThread
   }
   // now do the opening in the middle of the chain
   {
-    const unsigned int                   i = static_cast<unsigned int>(decomposition.size()) - 1;
-    const KernelLType                    ThisLine = decomposition[i];
+    const unsigned int i = static_cast<unsigned int>(decomposition.size()) - 1;
+    const KernelLType ThisLine = decomposition[i];
     const typename BresType::OffsetArray TheseOffsets = BresLine.BuildLine(ThisLine, bufflength);
-    unsigned int                         SELength = GetLinePixels<KernelLType>(ThisLine);
+    unsigned int SELength = GetLinePixels<KernelLType>(ThisLine);
     // want lines to be odd
     if (!(SELength % 2))
     {
@@ -134,9 +134,9 @@ AnchorOpenCloseImageFilter<TImage, TKernel, TCompare1, TCompare2>::DynamicThread
   // Now for the rest of the dilations -- note that i needs to be signed
   for (int i = static_cast<int>(decomposition.size()) - 2; i >= 0; --i)
   {
-    const KernelLType                    ThisLine = decomposition[i];
+    const KernelLType ThisLine = decomposition[i];
     const typename BresType::OffsetArray TheseOffsets = BresLine.BuildLine(ThisLine, bufflength);
-    unsigned int                         SELength = GetLinePixels<KernelLType>(ThisLine);
+    unsigned int SELength = GetLinePixels<KernelLType>(ThisLine);
     // want lines to be odd
     if (!(SELength % 2))
     {
@@ -163,15 +163,15 @@ AnchorOpenCloseImageFilter<TImage, TKernel, TCompare1, TCompare2>::DynamicThread
 template <typename TImage, typename TKernel, typename TCompare1, typename TCompare2>
 void
 AnchorOpenCloseImageFilter<TImage, TKernel, TCompare1, TCompare2>::DoFaceOpen(
-  InputImageConstPointer             input,
-  InputImagePointer                  output,
-  InputImagePixelType                border,
-  KernelLType                        line,
-  AnchorLineOpenType &               AnchorLineOpen,
-  const BresOffsetArray              LineOffsets,
+  InputImageConstPointer input,
+  InputImagePointer output,
+  InputImagePixelType border,
+  KernelLType line,
+  AnchorLineOpenType & AnchorLineOpen,
+  const BresOffsetArray LineOffsets,
   std::vector<InputImagePixelType> & outbuffer,
-  const InputImageRegionType         AllImage,
-  const InputImageRegionType         face)
+  const InputImageRegionType AllImage,
+  const InputImageRegionType face)
 {
   // iterate over the face
 
@@ -196,8 +196,8 @@ AnchorOpenCloseImageFilter<TImage, TKernel, TCompare1, TCompare2>::DoFaceOpen(
   for (unsigned int it = 0; it < face.GetNumberOfPixels(); ++it)
   {
     const typename TImage::IndexType Ind = dumbImg->ComputeIndex(it);
-    unsigned int                     start;
-    unsigned int                     end;
+    unsigned int start;
+    unsigned int end;
     if (FillLineBuffer<TImage, BresType, KernelLType>(
           input, Ind, NormLine, tol, LineOffsets, AllImage, outbuffer, start, end))
     {

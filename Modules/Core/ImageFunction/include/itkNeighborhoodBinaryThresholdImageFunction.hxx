@@ -61,10 +61,10 @@ NeighborhoodBinaryThresholdImageFunction<TInputImage, TCoordinate>::EvaluateAtIn
   it.SetLocation(index);
 
   // Walk the neighborhood
-  bool               allInside = true;
-  const PixelType    lower = this->GetLower();
-  const PixelType    upper = this->GetUpper();
-  PixelType          value;
+  bool allInside = true;
+  const PixelType lower = this->GetLower();
+  const PixelType upper = this->GetUpper();
+  PixelType value;
   const unsigned int size = it.Size();
   for (unsigned int i = 0; i < size; ++i)
   {

@@ -86,8 +86,8 @@ public:
   /**  Get value and derivatives for multiple valued optimizers. */
   void
   GetValueAndDerivative(const TransformParametersType & parameters,
-                        MeasureType &                   value,
-                        DerivativeType &                derivative) const override;
+                        MeasureType & value,
+                        DerivativeType & derivative) const override;
 
 protected:
   MeanSquaresPointSetToImageMetric() = default;

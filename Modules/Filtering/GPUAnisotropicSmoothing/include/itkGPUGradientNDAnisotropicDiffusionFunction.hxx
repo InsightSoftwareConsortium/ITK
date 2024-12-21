@@ -31,7 +31,7 @@ template <typename TImage>
 GPUGradientNDAnisotropicDiffusionFunction<TImage>::GPUGradientNDAnisotropicDiffusionFunction()
 {
   unsigned int i, j;
-  RadiusType   r;
+  RadiusType r;
 
   for (i = 0; i < ImageDimension; ++i)
   {
@@ -118,15 +118,15 @@ GPUGradientNDAnisotropicDiffusionFunction<TImage>::GPUGradientNDAnisotropicDiffu
 template <typename TImage>
 void
 GPUGradientNDAnisotropicDiffusionFunction<TImage>::GPUComputeUpdate(const typename TImage::Pointer output,
-                                                                    typename TImage::Pointer       buffer,
+                                                                    typename TImage::Pointer buffer,
                                                                     void * itkNotUsed(globalData))
 {
   /** Launch GPU kernel to update buffer with output
    * GPU version of ComputeUpdate() - compute entire update buffer */
   using GPUImageType = typename itk::GPUTraits<TImage>::Type;
 
-  typename GPUImageType::Pointer  inPtr = dynamic_cast<GPUImageType *>(output.GetPointer());
-  typename GPUImageType::Pointer  bfPtr = dynamic_cast<GPUImageType *>(buffer.GetPointer());
+  typename GPUImageType::Pointer inPtr = dynamic_cast<GPUImageType *>(output.GetPointer());
+  typename GPUImageType::Pointer bfPtr = dynamic_cast<GPUImageType *>(buffer.GetPointer());
   typename GPUImageType::SizeType outSize = bfPtr->GetLargestPossibleRegion().GetSize();
 
   int imgSize[3];

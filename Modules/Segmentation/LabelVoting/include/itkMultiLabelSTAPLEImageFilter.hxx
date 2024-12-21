@@ -397,7 +397,7 @@ MultiLabelSTAPLEImageFilter<TInputImage, TOutputImage, TWeights>::GenerateData()
     }
 
     // now determine the label with the maximum W
-    auto        winningLabel = this->m_LabelForUndecidedPixels;
+    auto winningLabel = this->m_LabelForUndecidedPixels;
     WeightsType winningLabelW = 0;
     for (OutputPixelType ci = 0; ci < this->m_TotalLabelCount; ++ci)
     {

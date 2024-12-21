@@ -90,19 +90,19 @@ protected:
   using SizeValueType = typename HistogramType::SizeValueType;
 
   InstanceIdentifier
-  MaxEntropyThresholding(const HistogramType *       histogram,
+  MaxEntropyThresholding(const HistogramType * histogram,
                          const std::vector<double> & normHisto,
                          const std::vector<double> & P1,
                          const std::vector<double> & P2);
 
   InstanceIdentifier
-  MaxEntropyThresholding2(const HistogramType *       histogram,
+  MaxEntropyThresholding2(const HistogramType * histogram,
                           const std::vector<double> & normHisto,
                           const std::vector<double> & P1,
                           const std::vector<double> & P2);
 
   InstanceIdentifier
-  MaxEntropyThresholding3(const HistogramType *       histogram,
+  MaxEntropyThresholding3(const HistogramType * histogram,
                           const std::vector<double> & normHisto,
                           const std::vector<double> & P1,
                           const std::vector<double> & P2);
@@ -110,7 +110,7 @@ protected:
 private:
   InstanceIdentifier m_FirstBin{};
   InstanceIdentifier m_LastBin{};
-  SizeValueType      m_Size{};
+  SizeValueType m_Size{};
 };
 
 } // end namespace itk

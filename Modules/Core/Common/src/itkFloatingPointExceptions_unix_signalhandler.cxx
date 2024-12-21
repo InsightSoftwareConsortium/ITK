@@ -94,7 +94,7 @@ extern "C"
   {
     std::cout << "FPE Signal Caught" << std::endl;
     std::cout.flush();
-    int          fe_code = sip->si_code;
+    int fe_code = sip->si_code;
     unsigned int excepts = fetestexcept(FE_ALL_EXCEPT);
 
     std::stringstream msg;
@@ -138,7 +138,7 @@ extern "C"
     {
 #if DEFINED_INTEL
       unsigned short x87cr, x87sr;
-      unsigned int   mxcsr;
+      unsigned int mxcsr;
 
       getx87cr(x87cr);
       getx87sr(x87sr);

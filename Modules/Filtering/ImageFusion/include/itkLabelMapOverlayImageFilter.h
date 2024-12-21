@@ -201,7 +201,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  double      m_Opacity{};
+  double m_Opacity{};
   FunctorType m_Functor{};
 
 }; // end of class

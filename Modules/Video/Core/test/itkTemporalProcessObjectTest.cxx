@@ -59,9 +59,9 @@ public:
 };
 // Define how to print enumeration
 extern ITKVideoCore_EXPORT std::ostream &
-                           operator<<(std::ostream & out, const CallRecordEnums::RecordType value);
+operator<<(std::ostream & out, const CallRecordEnums::RecordType value);
 extern ITKVideoCore_EXPORT std::ostream &
-                           operator<<(std::ostream & out, const CallRecordEnums::MethodType value);
+operator<<(std::ostream & out, const CallRecordEnums::MethodType value);
 
 /** Print enum values */
 std::ostream &
@@ -185,7 +185,7 @@ public:
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(CallRecord);
 
 protected:
-  SizeValueType  m_CallerId;
+  SizeValueType m_CallerId;
   RecordTypeEnum m_RecordType;
   MethodTypeEnum m_MethodType;
 };
@@ -604,7 +604,7 @@ itkTemporalProcessObjectTest(int, char *[])
 
   // Set up requested region for the end of the pipeline
   const itk::TemporalRegion endLargestPossibleRegion = tpo3->GetOutput()->GetLargestPossibleTemporalRegion();
-  itk::TemporalRegion       finalRequest;
+  itk::TemporalRegion finalRequest;
   finalRequest.SetFrameStart(endLargestPossibleRegion.GetFrameStart());
   finalRequest.SetFrameDuration(1);
   itk::TemporalProcessObjectTest::DummyTemporalDataObject * finalOutput = tpo3->GetOutput();
@@ -639,7 +639,7 @@ itkTemporalProcessObjectTest(int, char *[])
   // Print out duration of buffered output region
   const itk::TemporalProcessObjectTest::DummyTemporalDataObject::Pointer outputObject = tpo3->GetOutput();
   const OffsetValueType outputStart = outputObject->GetBufferedTemporalRegion().GetFrameStart();
-  const SizeValueType   outputDuration = outputObject->GetBufferedTemporalRegion().GetFrameDuration();
+  const SizeValueType outputDuration = outputObject->GetBufferedTemporalRegion().GetFrameDuration();
   std::cout << "Buffered Output Region: " << outputStart << "->" << outputStart + outputDuration - 1 << std::endl;
 
   // Create a list of CallRecord items representing the correct

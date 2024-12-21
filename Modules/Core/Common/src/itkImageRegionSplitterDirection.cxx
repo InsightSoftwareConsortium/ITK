@@ -33,10 +33,10 @@ ImageRegionSplitterDirection::PrintSelf(std::ostream & os, Indent indent) const
 }
 
 unsigned int
-ImageRegionSplitterDirection::GetNumberOfSplitsInternal(unsigned int         dim,
+ImageRegionSplitterDirection::GetNumberOfSplitsInternal(unsigned int dim,
                                                         const IndexValueType itkNotUsed(regionIndex)[],
-                                                        const SizeValueType  regionSize[],
-                                                        unsigned int         requestedNumber) const
+                                                        const SizeValueType regionSize[],
+                                                        unsigned int requestedNumber) const
 {
   requestedNumber = std::max(1u, requestedNumber);
   // split on the outermost dimension available
@@ -53,18 +53,18 @@ ImageRegionSplitterDirection::GetNumberOfSplitsInternal(unsigned int         dim
 
   // determine the actual number of pieces that will be generated
   const SizeValueType range = regionSize[splitAxis];
-  const auto          valuesPerPiece = Math::Ceil<unsigned int>(range / static_cast<double>(requestedNumber));
-  const unsigned int  maxPieceUsed = Math::Ceil<unsigned int>(range / static_cast<double>(valuesPerPiece)) - 1;
+  const auto valuesPerPiece = Math::Ceil<unsigned int>(range / static_cast<double>(requestedNumber));
+  const unsigned int maxPieceUsed = Math::Ceil<unsigned int>(range / static_cast<double>(valuesPerPiece)) - 1;
 
   return maxPieceUsed + 1;
 }
 
 unsigned int
-ImageRegionSplitterDirection::GetSplitInternal(unsigned int   dim,
-                                               unsigned int   i,
-                                               unsigned int   numberOfPieces,
+ImageRegionSplitterDirection::GetSplitInternal(unsigned int dim,
+                                               unsigned int i,
+                                               unsigned int numberOfPieces,
                                                IndexValueType regionIndex[],
-                                               SizeValueType  regionSize[]) const
+                                               SizeValueType regionSize[]) const
 {
   // split on the outermost dimension available
   // and avoid the current dimension
@@ -80,8 +80,8 @@ ImageRegionSplitterDirection::GetSplitInternal(unsigned int   dim,
   }
 
   // determine the actual number of pieces that will be generated
-  const auto         range = static_cast<double>(regionSize[splitAxis]);
-  const auto         valuesPerPiece = Math::Ceil<unsigned int>(range / static_cast<double>(numberOfPieces));
+  const auto range = static_cast<double>(regionSize[splitAxis]);
+  const auto valuesPerPiece = Math::Ceil<unsigned int>(range / static_cast<double>(numberOfPieces));
   const unsigned int maxPieceIdUsed = Math::Ceil<unsigned int>(range / static_cast<double>(valuesPerPiece)) - 1;
 
 

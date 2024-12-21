@@ -219,7 +219,7 @@ main(int argc, char * argv[])
 
   const FixedImageType::RegionType region =
     fixedImage->GetLargestPossibleRegion();
-  FixedImageType::SizeType    size = region.GetSize();
+  FixedImageType::SizeType size = region.GetSize();
   FixedImageType::SpacingType spacing = fixedImage->GetSpacing();
 
   optimizerScales[0] = 1.0 / 0.1; // make angle move slowly
@@ -270,9 +270,9 @@ main(int argc, char * argv[])
 
   using ParametersType = RegistrationType::ParametersType;
   ParametersType finalParameters = registration->GetLastTransformParameters();
-  const double   finalAngle = finalParameters[0];
-  const double   finalTranslationX = finalParameters[1];
-  const double   finalTranslationY = finalParameters[2];
+  const double finalAngle = finalParameters[0];
+  const double finalTranslationX = finalParameters[1];
+  const double finalTranslationY = finalParameters[2];
 
   const double rotationCenterX =
     registration->GetOutput()->Get()->GetFixedParameters()[0];
@@ -281,7 +281,7 @@ main(int argc, char * argv[])
 
 
   const unsigned int numberOfIterations = optimizer->GetCurrentIteration();
-  const double       bestValue = optimizer->GetValue();
+  const double bestValue = optimizer->GetValue();
 
   // Print out results
   const double finalAngleInDegrees = finalAngle * 180.0 / itk::Math::pi;

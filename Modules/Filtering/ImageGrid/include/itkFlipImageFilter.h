@@ -137,7 +137,7 @@ protected:
 
 private:
   FlipAxesArrayType m_FlipAxes{};
-  bool              m_FlipAboutOrigin{ true };
+  bool m_FlipAboutOrigin{ true };
 };
 } // end namespace itk
 

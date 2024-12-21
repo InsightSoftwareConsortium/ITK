@@ -147,8 +147,8 @@ protected:
 
 
 private:
-  InputPixelType  m_InputForegroundValue{};
-  InputPixelType  m_InputBackgroundValue{};
+  InputPixelType m_InputForegroundValue{};
+  InputPixelType m_InputBackgroundValue{};
   OutputPixelType m_OutputForegroundValue{};
   OutputPixelType m_OutputBackgroundValue{};
 };

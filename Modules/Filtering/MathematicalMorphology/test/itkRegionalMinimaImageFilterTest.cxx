@@ -30,8 +30,8 @@ int
 RegionalMinimaImageFilterTestHelper(std::string inputImageFile,
                                     std::string outputImageFile,
                                     std::string outputImageFile2,
-                                    bool        fullyConnected,
-                                    bool        flatIsMinima)
+                                    bool fullyConnected,
+                                    bool flatIsMinima)
 {
   using InputImageType = TInputImage;
   using OutputImageType = TInputImage;

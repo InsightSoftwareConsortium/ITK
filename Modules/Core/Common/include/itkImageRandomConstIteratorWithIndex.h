@@ -231,9 +231,9 @@ private:
 
   using GeneratorPointer = typename Statistics::MersenneTwisterRandomVariateGenerator::Pointer;
   GeneratorPointer m_Generator{ Statistics::MersenneTwisterRandomVariateGenerator::New() };
-  SizeValueType    m_NumberOfSamplesRequested{};
-  SizeValueType    m_NumberOfSamplesDone{};
-  SizeValueType    m_NumberOfPixelsInRegion{};
+  SizeValueType m_NumberOfSamplesRequested{};
+  SizeValueType m_NumberOfSamplesDone{};
+  SizeValueType m_NumberOfPixelsInRegion{};
 };
 } // end namespace itk
 

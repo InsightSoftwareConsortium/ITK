@@ -73,7 +73,7 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>::Scal
 
   // select all "previous" neighbors that are face+edge+vertex
   // connected to the current pixel. do not include the center pixel.
-  const unsigned int        centerIndex = hood.GetCenterNeighborhoodIndex();
+  const unsigned int centerIndex = hood.GetCenterNeighborhoodIndex();
   const OffsetVectorPointer offsets = OffsetVector::New();
   for (unsigned int d = 0; d < centerIndex; ++d)
   {
@@ -112,7 +112,7 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>::Full
 {
   const size_t numOffsets = this->m_Offsets->size();
   const size_t numFeatures = this->m_RequestedFeatures->size();
-  auto **      features = new double *[numOffsets];
+  auto ** features = new double *[numOffsets];
   for (size_t i = 0; i < numOffsets; ++i)
   {
     features[i] = new double[numFeatures];
@@ -342,7 +342,7 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>::SetI
 template <typename TImage, typename THistogramFrequencyContainer>
 void
 ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>::PrintSelf(std::ostream & os,
-                                                                                      Indent         indent) const
+                                                                                      Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "RequestedFeatures: " << this->GetRequestedFeatures() << std::endl;

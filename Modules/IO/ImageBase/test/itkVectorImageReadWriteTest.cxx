@@ -51,7 +51,7 @@ itkVectorImageReadWriteTest(int argc, char * argv[])
   //
   // Create ON and OFF vectors
   constexpr PixelType vector0{};
-  PixelType           vector1;
+  PixelType vector1;
   vector1[0] = 1.0;
   vector1[1] = 2.0;
   vector1[2] = 3.0;
@@ -60,8 +60,8 @@ itkVectorImageReadWriteTest(int argc, char * argv[])
   using ConstIteratorType = itk::ImageLinearConstIteratorWithIndex<ImageType>;
 
   // Create the 9x9 input image
-  auto                        size = ImageType::SizeType::Filled(9);
-  ImageType::IndexType        index{};
+  auto size = ImageType::SizeType::Filled(9);
+  ImageType::IndexType index{};
   const ImageType::RegionType region{ index, size };
   inputImage->SetRegions(region);
   inputImage->Allocate();

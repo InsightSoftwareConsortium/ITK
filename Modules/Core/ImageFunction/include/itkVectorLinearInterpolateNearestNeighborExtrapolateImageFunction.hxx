@@ -44,7 +44,7 @@ VectorLinearInterpolateNearestNeighborExtrapolateImageFunction<TInputImage, TCoo
   //
   IndexType baseIndex;
   IndexType neighIndex;
-  double    distance[ImageDimension];
+  double distance[ImageDimension];
 
   for (dim = 0; dim < ImageDimension; ++dim)
   {
@@ -82,7 +82,7 @@ VectorLinearInterpolateNearestNeighborExtrapolateImageFunction<TInputImage, TCoo
 
   for (unsigned int counter = 0; counter < m_Neighbors; ++counter)
   {
-    double       overlap = 1.0;   // fraction overlap
+    double overlap = 1.0;         // fraction overlap
     unsigned int upper = counter; // each bit indicates upper/lower neighbour
 
     // get neighbor index and overlap fraction

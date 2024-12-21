@@ -42,13 +42,13 @@ imagesDifferent(ImageType * baselineImage, ImageType * outputImage)
 {
   constexpr double tol = 1.e-3; // tolerance
 
-  typename ImageType::PointType     origin = outputImage->GetOrigin();
+  typename ImageType::PointType origin = outputImage->GetOrigin();
   typename ImageType::DirectionType direction = outputImage->GetDirection();
-  typename ImageType::SpacingType   spacing = outputImage->GetSpacing();
+  typename ImageType::SpacingType spacing = outputImage->GetSpacing();
 
-  typename ImageType::PointType     origin_d = baselineImage->GetOrigin();
+  typename ImageType::PointType origin_d = baselineImage->GetOrigin();
   typename ImageType::DirectionType direction_d = baselineImage->GetDirection();
-  typename ImageType::SpacingType   spacing_d = baselineImage->GetSpacing();
+  typename ImageType::SpacingType spacing_d = baselineImage->GetSpacing();
 
   // Image info validation
   bool result = false; // no difference by default

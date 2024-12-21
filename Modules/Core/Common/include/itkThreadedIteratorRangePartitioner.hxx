@@ -31,7 +31,7 @@ ThreadIdType
 ThreadedIteratorRangePartitioner<TIterator>::PartitionDomain(const ThreadIdType threadId,
                                                              const ThreadIdType requestedTotal,
                                                              const DomainType & completeDomain,
-                                                             DomainType &       subDomain) const
+                                                             DomainType & subDomain) const
 {
   // overallIndexRange is expected to be inclusive
 

@@ -99,7 +99,7 @@ private:
 
   std::ifstream m_Ifstream{};
   std::ofstream m_Ofstream{};
-  bool          m_IsCompressed{};
+  bool m_IsCompressed{};
 
   const std::unique_ptr<GiplImageIOInternals> m_Internal;
 };

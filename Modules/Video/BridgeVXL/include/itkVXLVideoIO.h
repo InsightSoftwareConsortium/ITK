@@ -142,11 +142,11 @@ public:
 
   /** Set Writer Parameters */
   void
-  SetWriterParameters(TemporalRatioType                  fps,
+  SetWriterParameters(TemporalRatioType fps,
                       const std::vector<SizeValueType> & dim,
-                      const char *                       fourCC,
-                      unsigned int                       nChannels,
-                      IOComponentEnum                    componentType) override;
+                      const char * fourCC,
+                      unsigned int nChannels,
+                      IOComponentEnum componentType) override;
 
 protected:
   VXLVideoIO();
@@ -190,10 +190,10 @@ protected:
 
 private:
   /** Member Variables */
-  vidl_pixel_format                        m_PixelFormat{};
-  vidl_frame_sptr                          m_VIDLFrame{};
-  vidl_ffmpeg_istream *                    m_Reader{};
-  vidl_ffmpeg_ostream *                    m_Writer{};
+  vidl_pixel_format m_PixelFormat{};
+  vidl_frame_sptr m_VIDLFrame{};
+  vidl_ffmpeg_istream * m_Reader{};
+  vidl_ffmpeg_ostream * m_Writer{};
   vidl_ffmpeg_ostream_params::encoder_type m_Encoder{};
 
 

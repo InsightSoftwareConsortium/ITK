@@ -34,7 +34,7 @@ class Point1D
 {
 public:
   double m_X;
-  int    m_Sign;
+  int m_Sign;
 
   Point1D() = default;
   Point1D(const double p, const int s)

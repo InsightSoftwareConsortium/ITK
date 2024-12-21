@@ -68,7 +68,7 @@ FEMObject<VDimension>::Clear()
   for (int e = 0; e < numElements; ++e)
   {
     Element::Pointer el = this->GetElement(e);
-    unsigned int     Npts = el->GetNumberOfNodes();
+    unsigned int Npts = el->GetNumberOfNodes();
     for (unsigned int pt = 0; pt < Npts; ++pt)
     {
       el->GetNode(pt)->m_elements.clear();
@@ -87,7 +87,7 @@ FEMObject<VDimension>::Clear()
   for (int e = 0; e < numLoads; ++e)
   {
     Element::Pointer dummy;
-    Load *           l = this->GetLoad(e).GetPointer();
+    Load * l = this->GetLoad(e).GetPointer();
     l->SetElement(dummy);
   }
   this->m_LoadContainer->Initialize();
@@ -104,7 +104,7 @@ FEMObject<VDimension>::DeepCopy(FEMObject * Copy)
   this->Clear();
 
   // copy node information
-  int                         numNodes = Copy->GetNumberOfNodes();
+  int numNodes = Copy->GetNumberOfNodes();
   fem::Element::Node::Pointer n1;
 
   itk::fem::Element::VectorType pt(VDimension);
@@ -139,7 +139,7 @@ FEMObject<VDimension>::DeepCopy(FEMObject * Copy)
   }
 
   // copy element information
-  int                       numElements = Copy->GetNumberOfElements();
+  int numElements = Copy->GetNumberOfElements();
   itk::LightObject::Pointer a = nullptr;
   for (int i = 0; i < numElements; ++i)
   {
@@ -188,7 +188,7 @@ FEMObject<VDimension>::DeepCopy(FEMObject * Copy)
 
       o1->SetNode(lCopy->GetNode());
 
-      int                dim = VDimension;
+      int dim = VDimension;
       vnl_vector<double> F(dim);
       for (int i = 0; i < dim; ++i)
       {
@@ -213,7 +213,7 @@ FEMObject<VDimension>::DeepCopy(FEMObject * Copy)
 
       o1->SetElement(this->GetElementWithGlobalNumber(lCopy->GetElement()->GetGlobalNumber()));
 
-      int                numRHS = lCopy->GetValue().size();
+      int numRHS = lCopy->GetValue().size();
       vnl_vector<double> F(numRHS);
       for (int i = 0; i < numRHS; ++i)
       {
@@ -233,9 +233,9 @@ FEMObject<VDimension>::DeepCopy(FEMObject * Copy)
       auto o1 = fem::LoadBCMFC::New();
       o1->SetGlobalNumber(lCopy->GetGlobalNumber());
 
-      int   NumLHS;
-      int   elementGN;
-      int   DOF;
+      int NumLHS;
+      int elementGN;
+      int DOF;
       float Value;
 
       NumLHS = lCopy->GetNumberOfLeftHandSideTerms();
@@ -386,7 +386,7 @@ FEMObject<VDimension>::GenerateGFN()
     // Add the elements in the nodes list of elements
     // FIXME: should be removed once Mesh is there
     Element::Pointer el = this->GetElement(e);
-    unsigned int     Npts = el->GetNumberOfNodes();
+    unsigned int Npts = el->GetNumberOfNodes();
     for (unsigned int pt = 0; pt < Npts; ++pt)
     {
       el->GetNode(pt)->m_elements.insert(el);
@@ -475,7 +475,7 @@ void
 FEMObject<VDimension>::AddNextMaterialInternal(Material * e)
 {
   MaterialIdentifier size = this->m_MaterialContainer->Size();
-  Material::Pointer  m(e);
+  Material::Pointer m(e);
   this->m_MaterialContainer->InsertElement(size, m);
 }
 

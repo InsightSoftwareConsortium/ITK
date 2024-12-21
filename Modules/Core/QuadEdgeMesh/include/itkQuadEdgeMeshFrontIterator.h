@@ -131,7 +131,7 @@ protected:
     }
 
   public:
-    QEType *       m_Edge;
+    QEType * m_Edge;
     CoordinateType m_Cost;
   };
 
@@ -272,8 +272,8 @@ public:
 public:
   /** Object creation methods. */
   QuadEdgeMeshConstFrontIterator(const MeshType * itkNotUsed(mesh) = (MeshType *)0,
-                                 bool             itkNotUsed(start) = true,
-                                 QEType *         itkNotUsed(seed) = (QEType *)nullptr)
+                                 bool itkNotUsed(start) = true,
+                                 QEType * itkNotUsed(seed) = (QEType *)nullptr)
   {}
 
   /** \todo do we need here a    : Superclass( mesh, start, seed ) { } */

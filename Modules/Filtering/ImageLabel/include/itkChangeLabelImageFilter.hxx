@@ -36,7 +36,7 @@ namespace itk
  */
 template <typename TInputImage, typename TOutputImage>
 void
-ChangeLabelImageFilter<TInputImage, TOutputImage>::SetChange(const InputPixelType &  original,
+ChangeLabelImageFilter<TInputImage, TOutputImage>::SetChange(const InputPixelType & original,
                                                              const OutputPixelType & result)
 {
   const OutputPixelType current = this->GetFunctor().GetChange(original);

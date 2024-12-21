@@ -50,8 +50,8 @@ ConstNeighborhoodIteratorWithOnlyIndex<TImage>::InBounds() const
 template <typename TImage>
 bool
 ConstNeighborhoodIteratorWithOnlyIndex<TImage>::IndexInBounds(const NeighborIndexType n,
-                                                              OffsetType &            internalIndex,
-                                                              OffsetType &            offset) const
+                                                              OffsetType & internalIndex,
+                                                              OffsetType & offset) const
 {
   if (!m_NeedToUseBoundaryCondition)
   {
@@ -107,7 +107,7 @@ auto
 ConstNeighborhoodIteratorWithOnlyIndex<TImage>::ComputeInternalIndex(NeighborIndexType n) const -> OffsetType
 {
   OffsetType ans;
-  auto       r = static_cast<unsigned long>(n);
+  auto r = static_cast<unsigned long>(n);
   for (long i = static_cast<long>(Dimension) - 1; i >= 0; --i)
   {
     ans[i] = static_cast<OffsetValueType>(r / this->GetStride(i));
@@ -121,15 +121,15 @@ auto
 ConstNeighborhoodIteratorWithOnlyIndex<TImage>::GetBoundingBoxAsImageRegion() const -> RegionType
 {
   constexpr IndexValueType zero{};
-  const RegionType         ans(this->GetIndex(zero), this->GetSize());
+  const RegionType ans(this->GetIndex(zero), this->GetSize());
 
   return ans;
 }
 
 
 template <typename TImage>
-ConstNeighborhoodIteratorWithOnlyIndex<TImage>::ConstNeighborhoodIteratorWithOnlyIndex(const SizeType &   radius,
-                                                                                       const ImageType *  ptr,
+ConstNeighborhoodIteratorWithOnlyIndex<TImage>::ConstNeighborhoodIteratorWithOnlyIndex(const SizeType & radius,
+                                                                                       const ImageType * ptr,
                                                                                        const RegionType & region)
 {
   this->Initialize(radius, ptr, region);
@@ -168,8 +168,8 @@ ConstNeighborhoodIteratorWithOnlyIndex<TImage>::GoToEnd()
 
 template <typename TImage>
 void
-ConstNeighborhoodIteratorWithOnlyIndex<TImage>::Initialize(const SizeType &   radius,
-                                                           const ImageType *  ptr,
+ConstNeighborhoodIteratorWithOnlyIndex<TImage>::Initialize(const SizeType & radius,
+                                                           const ImageType * ptr,
                                                            const RegionType & region)
 {
   m_ConstImage = ptr;
@@ -183,9 +183,9 @@ ConstNeighborhoodIteratorWithOnlyIndex<TImage>::Initialize(const SizeType &   ra
 
   // now determine whether boundary conditions are going to be needed
   const IndexType bStart = ptr->GetBufferedRegion().GetIndex();
-  const SizeType  bSize = ptr->GetBufferedRegion().GetSize();
+  const SizeType bSize = ptr->GetBufferedRegion().GetSize();
   const IndexType rStart = region.GetIndex();
-  const SizeType  rSize = region.GetSize();
+  const SizeType rSize = region.GetSize();
 
   m_NeedToUseBoundaryCondition = false;
   for (DimensionValueType i = 0; i < Dimension; ++i)
@@ -278,7 +278,7 @@ ConstNeighborhoodIteratorWithOnlyIndex<TImage>::IsAtEnd() const
   // is at the bound for that dimension.
   if (this->GetIndex()[Dimension - 1] > this->m_EndIndex[Dimension - 1])
   {
-    ExceptionObject    e(__FILE__, __LINE__);
+    ExceptionObject e(__FILE__, __LINE__);
     std::ostringstream msg;
     msg << "In method IsAtEnd, GetIndex()[Dimension - 1] = " << GetIndex()[Dimension - 1]
         << " is greater than m_EndIndex[Dimension - 1] = " << this->m_EndIndex[Dimension - 1] << std::endl
@@ -403,9 +403,9 @@ template <typename TImage>
 void
 ConstNeighborhoodIteratorWithOnlyIndex<TImage>::SetBound(const SizeType & size)
 {
-  SizeType        radius = this->GetRadius();
+  SizeType radius = this->GetRadius();
   const IndexType imageBRStart = m_ConstImage->GetBufferedRegion().GetIndex();
-  SizeType        imageBRSize = m_ConstImage->GetBufferedRegion().GetSize();
+  SizeType imageBRSize = m_ConstImage->GetBufferedRegion().GetSize();
 
   // Set the bounds and the wrapping offsets. Inner bounds are the loop
   // indices where the iterator will begin to overlap the edge of the image

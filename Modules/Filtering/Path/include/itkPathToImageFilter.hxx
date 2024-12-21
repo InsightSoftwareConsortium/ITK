@@ -189,11 +189,11 @@ PathToImageFilter<TInputPath, TOutputImage>::GenerateData()
   itkDebugMacro("PathToImageFilter::GenerateData() called");
 
   // Get the input and output pointers
-  const InputPathType *    InputPath = this->GetInput();
+  const InputPathType * InputPath = this->GetInput();
   const OutputImagePointer OutputImage = this->GetOutput();
 
   // Generate the image
-  double   origin[OutputImageDimension];
+  double origin[OutputImageDimension];
   SizeType size;
 
   for (i = 0; i < OutputImageDimension; ++i)

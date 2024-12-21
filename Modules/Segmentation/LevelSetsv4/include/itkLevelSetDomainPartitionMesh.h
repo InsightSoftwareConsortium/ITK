@@ -74,7 +74,7 @@ protected:
   AllocateListDomain();
 
 private:
-  MeshPointer  m_Mesh{};
+  MeshPointer m_Mesh{};
   ListMeshType m_ListDomain{};
 };
 

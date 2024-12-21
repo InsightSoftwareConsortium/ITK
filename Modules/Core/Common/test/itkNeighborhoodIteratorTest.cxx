@@ -22,7 +22,7 @@
 int
 itkNeighborhoodIteratorTest(int, char *[])
 {
-  const TestImageType::Pointer                        img = GetTestImage(10, 10, 5, 3);
+  const TestImageType::Pointer img = GetTestImage(10, 10, 5, 3);
   itk::NeighborhoodIterator<TestImageType>::IndexType loc;
   loc[0] = 4;
   loc[1] = 4;

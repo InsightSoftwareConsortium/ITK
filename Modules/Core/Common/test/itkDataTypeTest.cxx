@@ -22,7 +22,7 @@
 int
 itkDataTypeTest(int, char *[])
 {
-  int                 status = 0;
+  int status = 0;
   itk::Vector<int, 4> v;
 
   v[0] = 1;

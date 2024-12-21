@@ -128,7 +128,7 @@ testMetaArray(int argc, char * argv[])
 
   // Read them
   std::cout << "Read VariableLengthVector short" << std::endl;
-  itk::VariableLengthVector<short>    rvecs;
+  itk::VariableLengthVector<short> rvecs;
   const itk::MetaArrayReader::Pointer arrayReader = itk::MetaArrayReader::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(arrayReader, MetaArrayReader, LightProcessObject);

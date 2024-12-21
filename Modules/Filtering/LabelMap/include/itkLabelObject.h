@@ -395,7 +395,7 @@ public:
     InternalIteratorType m_Iterator;
     InternalIteratorType m_Begin;
     InternalIteratorType m_End;
-    IndexType            m_Index;
+    IndexType m_Index;
   };
 
 protected:
@@ -407,7 +407,7 @@ private:
   using LineContainerType = typename std::deque<LineType>;
 
   LineContainerType m_LineContainer{};
-  LabelType         m_Label{};
+  LabelType m_Label{};
 };
 } // end namespace itk
 

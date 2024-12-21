@@ -53,10 +53,10 @@ solve_with_warning(const vnl_matrix<V> & M, const vnl_matrix<V> & B)
 int
 test_svd()
 {
-  double                   data[] = { 1, 1, 1, 1, 2, 3, 1, 3, 6 };
-  vnl_matrix<double>       M(data, 3, 3);
+  double data[] = { 1, 1, 1, 1, 2, 3, 1, 3, 6 };
+  vnl_matrix<double> M(data, 3, 3);
   const vnl_matrix<double> B(3, 1, 7.0); // column vector [7 7 7]^T
-  vnl_matrix<double>       result = solve_with_warning(M, B);
+  vnl_matrix<double> result = solve_with_warning(M, B);
   std::cout << "Original svd problem solution" << std::endl;
   print_vnl_matrix(result);
   M(2, 2) = 5;
@@ -70,7 +70,7 @@ int
 itkNumericsTest(int, char *[])
 {
   test_svd();
-  double             data[] = { 1, 1, 1, 1, 2, 3, 1, 3, 6 };
+  double data[] = { 1, 1, 1, 1, 2, 3, 1, 3, 6 };
   vnl_matrix<double> mat(data, 3, 3);
   std::cout << std::endl << "A matrix" << std::endl;
   for (unsigned int r = 0; r < mat.rows(); ++r)

@@ -57,14 +57,14 @@ itkResampleImageTest5(int argc, char * argv[])
 
   // Create and configure an image
   const ImagePointerType image = ImageType::New();
-  ImageIndexType         index = { { 0, 0 } };
-  ImageSizeType          size = { { 64, 64 } };
-  const ImageRegionType  region{ index, size };
+  ImageIndexType index = { { 0, 0 } };
+  ImageSizeType size = { { 64, 64 } };
+  const ImageRegionType region{ index, size };
   image->SetLargestPossibleRegion(region);
   image->SetBufferedRegion(region);
   image->Allocate();
 
-  auto          newDims = static_cast<unsigned int>(64 * scaling);
+  auto newDims = static_cast<unsigned int>(64 * scaling);
   ImageSizeType osize = { { newDims, newDims } };
 
   ImageType::SpacingType spacing;

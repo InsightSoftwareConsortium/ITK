@@ -44,9 +44,9 @@ itkDifferenceOfGaussiansGradientTest(int, char *[])
 
   //-----------------Create a new input image--------------------
   // Image size and spacing parameters
-  TImageType::SizeValueType    sourceImageSize[] = { 20, 20, 20 };
+  TImageType::SizeValueType sourceImageSize[] = { 20, 20, 20 };
   TImageType::SpacingValueType sourceImageSpacing[] = { 1.0, 1.0, 1.0 };
-  TImageType::PointValueType   sourceImageOrigin[] = { 0, 0, 0 };
+  TImageType::PointValueType sourceImageOrigin[] = { 0, 0, 0 };
 
   // Creates the sourceImage (but doesn't set the size or allocate memory)
   auto sourceImage = TImageType::New();
@@ -100,7 +100,7 @@ itkDifferenceOfGaussiansGradientTest(int, char *[])
   printf("Sphere spatial function created\n");
 
   //---------Create and initialize a spatial function iterator-----------
-  TImageType::IndexType                seedPos;
+  TImageType::IndexType seedPos;
   constexpr TImageType::IndexValueType pos[] = { 10, 10, 10 };
   seedPos.SetIndex(pos);
 
@@ -148,7 +148,7 @@ itkDifferenceOfGaussiansGradientTest(int, char *[])
 
   // Create a differennce of gaussians gradient filter
   using TDOGFilterType = itk::DifferenceOfGaussiansGradientImageFilter<TOutputType, double>;
-  auto                           DOGFilter = TDOGFilterType::New();
+  auto DOGFilter = TDOGFilterType::New();
   const itk::SimpleFilterWatcher watcher(DOGFilter);
 
   // We're filtering the output of the binomial filter

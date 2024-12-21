@@ -29,7 +29,7 @@ namespace itk
 template <typename TInputImage, typename TOutputImage>
 void
 DiscreteGaussianImageFilter<TInputImage, TOutputImage>::GenerateKernel(const unsigned int dimension,
-                                                                       KernelType &       oper) const
+                                                                       KernelType & oper) const
 {
   // Determine the size of the operator in this dimension.  Note that the
   // Gaussian is built as a 1D operator in each of the specified directions.

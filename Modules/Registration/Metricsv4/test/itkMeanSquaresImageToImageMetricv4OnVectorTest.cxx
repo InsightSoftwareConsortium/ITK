@@ -38,9 +38,9 @@ itkMeanSquaresImageToImageMetricv4OnVectorTest(int, char ** const)
   using VectorType = itk::Vector<double, vectorLength>;
   using ImageType = itk::Image<VectorType, imageDimensionality>;
 
-  auto                           size = ImageType::SizeType::Filled(imageSize);
+  auto size = ImageType::SizeType::Filled(imageSize);
   constexpr ImageType::IndexType index{};
-  const ImageType::RegionType    region{ index, size };
+  const ImageType::RegionType region{ index, size };
 
   /* Create simple test images. */
   auto fixedImage = ImageType::New();
@@ -121,7 +121,7 @@ itkMeanSquaresImageToImageMetricv4OnVectorTest(int, char ** const)
   std::cout << "Initialized" << std::endl;
 
   /* Evaluate with GetValueAndDerivative */
-  MetricType::MeasureType    valueReturn1;
+  MetricType::MeasureType valueReturn1;
   MetricType::DerivativeType derivativeReturn;
   try
   {

@@ -380,9 +380,9 @@ protected:
    */
   unsigned int m_NMFC{};
 
-  ElementContainerPointer  m_ElementContainer{};
-  NodeContainerPointer     m_NodeContainer{};
-  LoadContainerPointer     m_LoadContainer{};
+  ElementContainerPointer m_ElementContainer{};
+  NodeContainerPointer m_NodeContainer{};
+  LoadContainerPointer m_LoadContainer{};
   MaterialContainerPointer m_MaterialContainer{};
 
 private:

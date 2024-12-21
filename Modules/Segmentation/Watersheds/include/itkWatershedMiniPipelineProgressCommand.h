@@ -78,9 +78,9 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  double          m_Count{ 0.0 };
+  double m_Count{ 0.0 };
   ProcessObject * m_Filter{ nullptr };
-  unsigned int    m_NumberOfFilters{ 1 };
+  unsigned int m_NumberOfFilters{ 1 };
 };
 } // end namespace itk
 

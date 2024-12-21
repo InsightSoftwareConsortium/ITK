@@ -51,7 +51,7 @@ QuadEdgeMeshTopologyChecker<TMesh>::ValidateEulerCharacteristic() const
   const CellIdentifier numFaces = m_Mesh->ComputeNumberOfFaces();
   // Number of Boundaries
   typename BoundaryEdges::OutputType listOfBoundaries = boundaryEdges->Evaluate((*m_Mesh));
-  auto                               numBounds = static_cast<CellIdentifier>(listOfBoundaries->size());
+  auto numBounds = static_cast<CellIdentifier>(listOfBoundaries->size());
   delete listOfBoundaries;
 
   /**
@@ -87,7 +87,7 @@ QuadEdgeMeshTopologyChecker<TMesh>::ValidateEulerCharacteristic() const
   }
 
   // Look is they are isolated edges
-  CellsContainerConstIterator       cellIterator = m_Mesh->GetCells()->Begin();
+  CellsContainerConstIterator cellIterator = m_Mesh->GetCells()->Begin();
   const CellsContainerConstIterator cellEnd = m_Mesh->GetCells()->End();
   while (cellIterator != cellEnd)
   {

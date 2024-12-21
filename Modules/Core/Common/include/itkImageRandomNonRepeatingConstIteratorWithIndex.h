@@ -42,7 +42,7 @@ class NodeOfPermutation
 public:
   SizeValueType m_Priority;
   SizeValueType m_Index;
-  double        m_Value;
+  double m_Value;
 
   NodeOfPermutation()
   {
@@ -74,8 +74,8 @@ class RandomPermutation
 public:
   using GeneratorPointer = typename Statistics::MersenneTwisterRandomVariateGenerator::Pointer;
   NodeOfPermutation * m_Permutation;
-  GeneratorPointer    m_Generator;
-  SizeValueType       m_Size;
+  GeneratorPointer m_Generator;
+  SizeValueType m_Size;
 
   RandomPermutation(SizeValueType sz)
   {
@@ -357,9 +357,9 @@ private:
   void
   UpdatePosition();
 
-  SizeValueType       m_NumberOfSamplesRequested{};
-  SizeValueType       m_NumberOfSamplesDone{};
-  SizeValueType       m_NumberOfPixelsInRegion{};
+  SizeValueType m_NumberOfSamplesRequested{};
+  SizeValueType m_NumberOfSamplesDone{};
+  SizeValueType m_NumberOfPixelsInRegion{};
   RandomPermutation * m_Permutation{};
 };
 } // end namespace itk

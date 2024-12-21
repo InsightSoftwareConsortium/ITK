@@ -57,7 +57,7 @@ template <unsigned int TDimension>
 ModifiedTimeType
 FEMObjectSpatialObject<TDimension>::GetMTime() const
 {
-  ModifiedTimeType       latestMTime = Superclass::GetMTime();
+  ModifiedTimeType latestMTime = Superclass::GetMTime();
   const ModifiedTimeType femobjectMTime = m_FEMObject->GetMTime();
 
   if (femobjectMTime > latestMTime)

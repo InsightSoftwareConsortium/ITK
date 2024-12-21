@@ -122,12 +122,12 @@ public:
     QueueRealType sFixedFixed;
     QueueRealType sMovingMoving;
 
-    FixedImageGradientType  fixedImageGradient;
+    FixedImageGradientType fixedImageGradient;
     MovingImageGradientType movingImageGradient;
 
-    FixedImagePointType  mappedFixedPoint;
+    FixedImagePointType mappedFixedPoint;
     MovingImagePointType mappedMovingPoint;
-    VirtualPointType     virtualPoint;
+    VirtualPointType virtualPoint;
   };
 
   // For dense scan over one image region
@@ -135,14 +135,14 @@ public:
   {
     // const values during scanning
     ImageRegionType scanRegion;
-    SizeValueType   numberOfFillZero; // for each queue
-    SizeValueType   windowLength;     // number of voxels in the scanning window
-    IndexValueType  scanRegionBeginIndexDim0;
+    SizeValueType numberOfFillZero; // for each queue
+    SizeValueType windowLength;     // number of voxels in the scanning window
+    IndexValueType scanRegionBeginIndexDim0;
 
-    typename FixedImageType::ConstPointer   fixedImage;
-    typename MovingImageType::ConstPointer  movingImage;
+    typename FixedImageType::ConstPointer fixedImage;
+    typename MovingImageType::ConstPointer movingImage;
     typename VirtualImageType::ConstPointer virtualImage;
-    RadiusType                              radius;
+    RadiusType radius;
   };
 
 protected:
@@ -186,7 +186,7 @@ protected:
   bool
   ProcessVirtualPoint(const VirtualIndexType & virtualIndex,
                       const VirtualPointType & virtualPoint,
-                      const ThreadIdType       threadId) override
+                      const ThreadIdType threadId) override
   {
     return ProcessVirtualPoint_impl(IdentityHelper<TDomainPartitioner>(), virtualIndex, virtualPoint, threadId);
   }
@@ -194,17 +194,17 @@ protected:
   /* specific overloading for sparse CC metric */
   bool
   ProcessVirtualPoint_impl(IdentityHelper<ThreadedIndexedContainerPartitioner> itkNotUsed(self),
-                           const VirtualIndexType &                            virtualIndex,
-                           const VirtualPointType &                            virtualPoint,
-                           const ThreadIdType                                  threadId);
+                           const VirtualIndexType & virtualIndex,
+                           const VirtualPointType & virtualPoint,
+                           const ThreadIdType threadId);
 
   /* for other default case */
   template <typename T>
   bool
-  ProcessVirtualPoint_impl(IdentityHelper<T>        itkNotUsed(self),
+  ProcessVirtualPoint_impl(IdentityHelper<T> itkNotUsed(self),
                            const VirtualIndexType & virtualIndex,
                            const VirtualPointType & virtualPoint,
-                           const ThreadIdType       threadId)
+                           const ThreadIdType threadId)
   {
     return Superclass::ProcessVirtualPoint(virtualIndex, virtualPoint, threadId);
   }
@@ -214,17 +214,17 @@ protected:
    * It is not used for either sparse or dense threader.
    * */
   bool
-  ProcessPoint(const VirtualIndexType &        itkNotUsed(virtualIndex),
-               const VirtualPointType &        itkNotUsed(virtualPoint),
-               const FixedImagePointType &     itkNotUsed(mappedFixedPoint),
-               const FixedImagePixelType &     itkNotUsed(mappedFixedPixelValue),
-               const FixedImageGradientType &  itkNotUsed(mappedFixedImageGradient),
-               const MovingImagePointType &    itkNotUsed(mappedMovingPoint),
-               const MovingImagePixelType &    itkNotUsed(mappedMovingPixelValue),
+  ProcessPoint(const VirtualIndexType & itkNotUsed(virtualIndex),
+               const VirtualPointType & itkNotUsed(virtualPoint),
+               const FixedImagePointType & itkNotUsed(mappedFixedPoint),
+               const FixedImagePixelType & itkNotUsed(mappedFixedPixelValue),
+               const FixedImageGradientType & itkNotUsed(mappedFixedImageGradient),
+               const MovingImagePointType & itkNotUsed(mappedMovingPoint),
+               const MovingImagePixelType & itkNotUsed(mappedMovingPixelValue),
                const MovingImageGradientType & itkNotUsed(mappedMovingImageGradient),
-               MeasureType &                   itkNotUsed(metricValueReturn),
-               DerivativeType &                itkNotUsed(localDerivativeReturn),
-               const ThreadIdType              itkNotUsed(threadId)) const override
+               MeasureType & itkNotUsed(metricValueReturn),
+               DerivativeType & itkNotUsed(localDerivativeReturn),
+               const ThreadIdType itkNotUsed(threadId)) const override
   {
     itkExceptionMacro("ProcessPoint should never be reached in ANTS CC metric threader class.");
   }
@@ -239,8 +239,8 @@ protected:
   void
   ThreadedExecution_impl(
     IdentityHelper<ThreadedImageRegionPartitioner<TImageToImageMetric::VirtualImageDimension>> itkNotUsed(self),
-    const DomainType &                                                                         virtualImageSubRegion,
-    const ThreadIdType                                                                         threadId);
+    const DomainType & virtualImageSubRegion,
+    const ThreadIdType threadId);
 
   /* for other default case */
   template <typename T>
@@ -252,54 +252,54 @@ protected:
   /** Create an iterator over the virtual sub region */
   void
   InitializeScanning(const ImageRegionType & scanRegion,
-                     ScanIteratorType &      scanIt,
-                     ScanMemType &           scanMem,
-                     ScanParametersType &    scanParameters) const;
+                     ScanIteratorType & scanIt,
+                     ScanMemType & scanMem,
+                     ScanParametersType & scanParameters) const;
 
   /** Update the queues for the next point.  Calls either \c
    * UpdateQueuesAtBeginningOfLine or \c UpdateQueuesToNextScanWindow. */
   void
-  UpdateQueues(const ScanIteratorType &   scanIt,
-               ScanMemType &              scanMem,
+  UpdateQueues(const ScanIteratorType & scanIt,
+               ScanMemType & scanMem,
                const ScanParametersType & scanParameters,
-               const ThreadIdType         threadId) const;
+               const ThreadIdType threadId) const;
 
   void
-  UpdateQueuesAtBeginningOfLine(const ScanIteratorType &   scanIt,
-                                ScanMemType &              scanMem,
+  UpdateQueuesAtBeginningOfLine(const ScanIteratorType & scanIt,
+                                ScanMemType & scanMem,
                                 const ScanParametersType & scanParameters,
-                                const ThreadIdType         threadId) const;
+                                const ThreadIdType threadId) const;
 
   /** Increment the iterator and check to see if we're at the end of the
    * line.  If so, go to the next line.  Otherwise, add the
    * the values for the next hyperplane. */
   void
-  UpdateQueuesToNextScanWindow(const ScanIteratorType &   scanIt,
-                               ScanMemType &              scanMem,
+  UpdateQueuesToNextScanWindow(const ScanIteratorType & scanIt,
+                               ScanMemType & scanMem,
                                const ScanParametersType & scanParameters,
-                               const ThreadIdType         threadId) const;
+                               const ThreadIdType threadId) const;
 
   /** Test to see if there are any voxels we need to handle in the current
    * window. */
   bool
-  ComputeInformationFromQueues(const ScanIteratorType &   scanIt,
-                               ScanMemType &              scanMem,
+  ComputeInformationFromQueues(const ScanIteratorType & scanIt,
+                               ScanMemType & scanMem,
                                const ScanParametersType & scanParameters,
-                               const ThreadIdType         threadId) const;
+                               const ThreadIdType threadId) const;
 
   void
-  ComputeMovingTransformDerivative(const ScanIteratorType &   scanIt,
-                                   ScanMemType &              scanMem,
+  ComputeMovingTransformDerivative(const ScanIteratorType & scanIt,
+                                   ScanMemType & scanMem,
                                    const ScanParametersType & scanParameters,
-                                   DerivativeType &           deriv,
-                                   MeasureType &              localCC,
-                                   const ThreadIdType         threadId) const;
+                                   DerivativeType & deriv,
+                                   MeasureType & localCC,
+                                   const ThreadIdType threadId) const;
 
 private:
   /** Internal pointer to the metric object in use by this threader.
    *  This will avoid costly dynamic casting in tight loops. */
   TNeighborhoodCorrelationMetric * m_ANTSAssociate{};
-  std::once_flag                   m_ANTSAssociateOnceFlag{};
+  std::once_flag m_ANTSAssociateOnceFlag{};
 };
 
 

@@ -225,8 +225,8 @@ BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>::InitializePyr
 template <typename TInputImage, typename TOutputImage>
 void
 BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>::Reduce1DImage(const std::vector<double> & in,
-                                                                                 OutputImageIterator &       out,
-                                                                                 unsigned int       inTraverseSize,
+                                                                                 OutputImageIterator & out,
+                                                                                 unsigned int inTraverseSize,
                                                                                  ProgressReporter & progress)
 {
   const SizeValueType outTraverseSize = inTraverseSize / 2;
@@ -273,7 +273,7 @@ BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>::Reduce1DImage
   for (SizeValueType outK = 0; outK < outTraverseSize; ++outK)
   {
     const IndexValueType i1 = 2 * outK;
-    const double         outVal = (temp[i1] + temp[i1 + 1]) / 2.0;
+    const double outVal = (temp[i1] + temp[i1 + 1]) / 2.0;
     out.Set(static_cast<OutputImagePixelType>(outVal));
     ++out;
     progress.CompletedPixel();
@@ -287,14 +287,14 @@ BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>::Reduce1DImage
 template <typename TInputImage, typename TOutputImage>
 void
 BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>::Expand1DImage(const std::vector<double> & in,
-                                                                                 OutputImageIterator &       out,
-                                                                                 unsigned int       inTraverseSize,
+                                                                                 OutputImageIterator & out,
+                                                                                 unsigned int inTraverseSize,
                                                                                  ProgressReporter & progress)
 {
   IndexValueType i1;
   IndexValueType i2;
 
-  IndexValueType      inK;
+  IndexValueType inK;
   const SizeValueType outTraverseSize = inTraverseSize * 2;
   // inTraverseSize = outTraverseSize/2;  // ensures that an even number is used.
   IndexValueType inModK; // number for modulus math of in

@@ -30,9 +30,9 @@
 
 template <typename InIm1Type, typename InIm2Type, typename ResImType, typename OpType>
 int
-checkImOnImRes(typename InIm1Type::Pointer   A,
-               typename InIm2Type::Pointer   B,
-               typename ResImType::Pointer   Res,
+checkImOnImRes(typename InIm1Type::Pointer A,
+               typename InIm2Type::Pointer B,
+               typename ResImType::Pointer Res,
                typename ResImType::PixelType FG,
                typename ResImType::PixelType BG)
 {
@@ -69,9 +69,9 @@ checkImOnImRes(typename InIm1Type::Pointer   A,
 
 template <typename InIm1Type, typename ConstType, typename ResImType, typename OpType>
 int
-checkImOnConstRes(typename InIm1Type::Pointer   A,
-                  ConstType                     B,
-                  typename ResImType::Pointer   Res,
+checkImOnConstRes(typename InIm1Type::Pointer A,
+                  ConstType B,
+                  typename ResImType::Pointer Res,
                   typename ResImType::PixelType FG,
                   typename ResImType::PixelType BG)
 {
@@ -106,9 +106,9 @@ checkImOnConstRes(typename InIm1Type::Pointer   A,
 
 template <typename ConstType, typename InIm1Type, typename ResImType, typename OpType>
 int
-checkConstOnImRes(ConstType                     A,
-                  typename InIm1Type::Pointer   B,
-                  typename ResImType::Pointer   Res,
+checkConstOnImRes(ConstType A,
+                  typename InIm1Type::Pointer B,
+                  typename ResImType::Pointer Res,
                   typename ResImType::PixelType FG,
                   typename ResImType::PixelType BG)
 {

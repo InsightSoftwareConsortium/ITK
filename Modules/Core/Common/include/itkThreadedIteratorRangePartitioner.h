@@ -148,7 +148,7 @@ public:
   PartitionDomain(const ThreadIdType threadId,
                   const ThreadIdType requestedTotal,
                   const DomainType & completeDomain,
-                  DomainType &       subDomain) const override;
+                  DomainType & subDomain) const override;
 
 protected:
   ThreadedIteratorRangePartitioner() = default;

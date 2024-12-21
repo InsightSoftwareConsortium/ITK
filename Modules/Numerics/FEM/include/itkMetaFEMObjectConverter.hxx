@@ -113,7 +113,7 @@ MetaFEMObjectConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectTy
 
   while (it_elements != elementlist.end())
   {
-    FEMObjectElement *        element = (*it_elements);
+    FEMObjectElement * element = (*it_elements);
     itk::LightObject::Pointer a = ObjectFactoryBase::CreateInstance(element->m_ElementName);
     a->UnRegister();
     fem::Element::Pointer o1 = dynamic_cast<fem::Element *>(a.GetPointer());
@@ -149,7 +149,7 @@ MetaFEMObjectConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectTy
 
       o1->SetNode(load->m_NodeNumber);
 
-      int                dim = load->m_Dim;
+      int dim = load->m_Dim;
       vnl_vector<double> F(dim);
       for (int i = 0; i < dim; ++i)
       {
@@ -167,7 +167,7 @@ MetaFEMObjectConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectTy
 
       o1->SetElement(myFEMObject->GetElementWithGlobalNumber(load->m_ElementGN));
 
-      int                numRHS = load->m_NumRHS;
+      int numRHS = load->m_NumRHS;
       vnl_vector<double> F(numRHS);
       for (int i = 0; i < numRHS; ++i)
       {
@@ -181,9 +181,9 @@ MetaFEMObjectConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectTy
       auto o1 = fem::LoadBCMFC::New();
       o1->SetGlobalNumber(load->m_GN);
 
-      int   NumLHS;
-      int   elementGN;
-      int   DOF;
+      int NumLHS;
+      int elementGN;
+      int DOF;
       float Value;
       NumLHS = load->m_NumLHS;
 
@@ -226,7 +226,7 @@ MetaFEMObjectConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectTy
       if (numRows)
       {
         std::vector<float> forcevector = force[0];
-        auto               numCols = static_cast<int>(forcevector.size());
+        auto numCols = static_cast<int>(forcevector.size());
         o1->GetForce().set_size(numRows, numCols);
         for (int i = 0; i < numRows; ++i)
         {
@@ -263,7 +263,7 @@ MetaFEMObjectConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectTy
       o1->SetEta(load->m_Variance);
       o1->GetElementArray().resize(1);
 
-      auto               dim = static_cast<int>(load->m_Undeformed.size());
+      auto dim = static_cast<int>(load->m_Undeformed.size());
       vnl_vector<double> source;
       vnl_vector<double> target;
       vnl_vector<double> point;
@@ -333,9 +333,9 @@ MetaFEMObjectConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjec
   const int numSONodes = curFEMObject->GetNumberOfNodes();
   for (int i = 0; i < numSONodes; ++i)
   {
-    auto *                           Node = new FEMObjectNode(VDimension);
+    auto * Node = new FEMObjectNode(VDimension);
     fem::Element::Node::ConstPointer SONode = curFEMObject->GetNode(i);
-    fem::Element::VectorType         pt = SONode->GetCoordinates();
+    fem::Element::VectorType pt = SONode->GetCoordinates();
 
     Node->m_GN = SONode->GetGlobalNumber();
     for (unsigned int j = 0; j < VDimension; ++j)
@@ -350,7 +350,7 @@ MetaFEMObjectConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjec
   for (int i = 0; i < numMaterial; ++i)
   {
     fem::Material::ConstPointer SOMaterial = curFEMObject->GetMaterial(i);
-    auto *                      Material = new FEMObjectMaterial;
+    auto * Material = new FEMObjectMaterial;
 
     // check for the material type
     std::string mat_name = SOMaterial->GetNameOfClass();
@@ -376,8 +376,8 @@ MetaFEMObjectConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjec
   for (int i = 0; i < numElements; ++i)
   {
     fem::Element::ConstPointer SOElement = curFEMObject->GetElement(i);
-    const int                  numNodes = SOElement->GetNumberOfNodes();
-    auto *                     Element = new FEMObjectElement(numNodes);
+    const int numNodes = SOElement->GetNumberOfNodes();
+    auto * Element = new FEMObjectElement(numNodes);
 
     Element->m_GN = SOElement->GetGlobalNumber();
     Element->m_Dim = VDimension;
@@ -398,7 +398,7 @@ MetaFEMObjectConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjec
   for (int ll = 0; ll < numLoads; ++ll)
   {
     fem::Load::ConstPointer SOLoad = curFEMObject->GetLoad(ll);
-    auto *                  Load = new FEMObjectLoad;
+    auto * Load = new FEMObjectLoad;
 
     // check for the load/bc type
     std::string load_name = SOLoad->GetNameOfClass();
@@ -439,8 +439,8 @@ MetaFEMObjectConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjec
     }
     else if (load_name == "LoadBCMFC")
     {
-      int   elementGN;
-      int   DOF;
+      int elementGN;
+      int DOF;
       float Value;
 
       fem::LoadBCMFC::ConstPointer SOLoadCast = dynamic_cast<const fem::LoadBCMFC *>(SOLoad.GetPointer());

@@ -64,8 +64,8 @@ itkPolygonSpatialObjectIsInsideInObjectSpaceTest(int argc, char * argv[])
 
   // Get polygon points from CSV file
   PolygonPointListType polygonPointList;
-  std::ifstream        fs;
-  char                 data[100];
+  std::ifstream fs;
+  char data[100];
 
   fs.open(csvFileName);
   if (fs.good())
@@ -77,7 +77,7 @@ itkPolygonSpatialObjectIsInsideInObjectSpaceTest(int argc, char * argv[])
     {
       std::stringstream ss(data);
 
-      PolygonPointType                             polygonPt;
+      PolygonPointType polygonPt;
       const itk::SpatialObject<Dimension>::Pointer so = itk::SpatialObject<Dimension>::New();
       polygonPt.SetSpatialObject(so);
       PointType pt;

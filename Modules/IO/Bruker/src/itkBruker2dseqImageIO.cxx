@@ -53,11 +53,11 @@ GetParameter(const itk::MetaDataDictionary & dict, const std::string & name)
 // Internal function to rescale pixel according to slope & intercept
 template <typename T>
 void
-Rescale(T *                         buffer,
+Rescale(T * buffer,
         const std::vector<double> & slopes,
         const std::vector<double> & offsets,
-        const SizeType              frameSize,
-        const SizeType              frameCount)
+        const SizeType frameSize,
+        const SizeType frameCount)
 {
   SizeType i = 0;
   for (SizeType f = 0; f < frameCount; ++f)
@@ -73,7 +73,7 @@ Rescale(T *                         buffer,
 // Internal function to swap slices and volumes
 template <typename T>
 void
-SwapSlicesAndVolumes(T *            buffer,
+SwapSlicesAndVolumes(T * buffer,
                      const SizeType sizeX,
                      const SizeType sizeY,
                      const SizeType sizeZ,
@@ -82,8 +82,8 @@ SwapSlicesAndVolumes(T *            buffer,
 {
   const SizeType szSlice = sizeX * sizeY;
   std::vector<T> tempBuffer(szSlice * sizeZ * sizeToSwap * sizeNoSwap);
-  T *            toPixel = &(tempBuffer[0]);
-  T *            fromNoSwapVol = buffer;
+  T * toPixel = &(tempBuffer[0]);
+  T * fromNoSwapVol = buffer;
   for (SizeType n = 0; n < sizeNoSwap; ++n)
   {
     T * fromSwapVol = fromNoSwapVol;
@@ -120,8 +120,8 @@ void
 ReverseSliceOrder(T * buffer, const SizeType sizeX, const SizeType sizeY, const SizeType sz, const SizeType sizeToSwap)
 {
   const SizeType ss = sizeX * sizeY;
-  T *            fromVol = buffer;
-  T              temp;
+  T * fromVol = buffer;
+  T temp;
   for (SizeType v = 0; v < sizeToSwap; ++v)
   {
     T * fromSlice = fromVol;
@@ -202,7 +202,7 @@ ReadJCAMPDX(const std::string & filename, MetaDataDictionary & dict)
     }
 
     const std::string parname = line.substr(3, epos - 3);
-    std::string       par = line.substr(epos + 1);
+    std::string par = line.substr(epos + 1);
     if (par[0] == '(')
     {
       // Array value
@@ -236,8 +236,8 @@ ReadJCAMPDX(const std::string & filename, MetaDataDictionary & dict)
         else
         {
           // An array of numbers
-          std::stringstream   lineStream(lines);
-          double              doubleValue;
+          std::stringstream lineStream(lines);
+          double doubleValue;
           std::vector<double> doubleArray;
           while (lineStream >> doubleValue)
           {
@@ -262,8 +262,8 @@ ReadJCAMPDX(const std::string & filename, MetaDataDictionary & dict)
           std::vector<std::vector<std::string>> stringArrayArray;
           while (leftBracket != std::string::npos)
           {
-            std::string::size_type   stringStart = leftBracket + 1;
-            std::string::size_type   stringEnd = lines.find(',', stringStart);
+            std::string::size_type stringStart = leftBracket + 1;
+            std::string::size_type stringEnd = lines.find(',', stringStart);
             std::vector<std::string> stringArray;
             while (stringStart < rightBracket)
             {
@@ -287,9 +287,9 @@ ReadJCAMPDX(const std::string & filename, MetaDataDictionary & dict)
           std::vector<std::vector<double>> doubleArrayArray;
           while (leftBracket != std::string::npos)
           {
-            std::istringstream  arrayStream(lines.substr(leftBracket, rightBracket - leftBracket));
+            std::istringstream arrayStream(lines.substr(leftBracket, rightBracket - leftBracket));
             std::vector<double> doubleArray;
-            double              doubleValue;
+            double doubleValue;
             while (arrayStream >> doubleValue)
             {
               doubleArray.push_back(doubleValue);
@@ -311,7 +311,7 @@ ReadJCAMPDX(const std::string & filename, MetaDataDictionary & dict)
     {
       // A single value
       std::istringstream streamPar(par);
-      double             value;
+      double value;
       streamPar >> value;
       if (streamPar.fail())
       {
@@ -488,7 +488,7 @@ Bruker2dseqImageIO::Read(void * buffer)
     }
 
     std::vector<char> dataFromDisk(numberOfBytesOnDisk);
-    char *            dataFromDiskBuffer = &(dataFromDisk[0]);
+    char * dataFromDiskBuffer = &(dataFromDisk[0]);
     stream2Dseq.read(dataFromDiskBuffer, numberOfBytesOnDisk);
     if (stream2Dseq.fail())
     {
@@ -536,7 +536,7 @@ Bruker2dseqImageIO::Read(void * buffer)
   else
   {
     const auto numberOfBytesOnDisk = this->GetImageSizeInBytes();
-    auto *     charBuffer = static_cast<char *>(buffer);
+    auto * charBuffer = static_cast<char *>(buffer);
     stream2Dseq.read(charBuffer, numberOfBytesOnDisk);
     if (stream2Dseq.fail())
     {
@@ -546,11 +546,11 @@ Bruker2dseqImageIO::Read(void * buffer)
   }
 
   const MetaDataDictionary & dict = this->GetMetaDataDictionary();
-  const auto                 slopes = GetParameter<std::vector<double>>(dict, "VisuCoreDataSlope");
-  const auto                 offsets = GetParameter<std::vector<double>>(dict, "VisuCoreDataOffs");
-  const SizeType             frameCount = static_cast<SizeType>(GetParameter<double>(dict, "VisuCoreFrameCount"));
-  const SizeType             frameDim = static_cast<SizeType>(GetParameter<double>(dict, "VisuCoreDim"));
-  SizeType                   frameSize = this->GetDimensions(0) * this->GetDimensions(1);
+  const auto slopes = GetParameter<std::vector<double>>(dict, "VisuCoreDataSlope");
+  const auto offsets = GetParameter<std::vector<double>>(dict, "VisuCoreDataOffs");
+  const SizeType frameCount = static_cast<SizeType>(GetParameter<double>(dict, "VisuCoreFrameCount"));
+  const SizeType frameDim = static_cast<SizeType>(GetParameter<double>(dict, "VisuCoreDim"));
+  SizeType frameSize = this->GetDimensions(0) * this->GetDimensions(1);
 
   if (frameDim == 3)
   {
@@ -788,8 +788,8 @@ Bruker2dseqImageIO::ReadImageInformation()
 
   const SizeType brukerDim = static_cast<SizeType>(GetParameter<double>(dict, "VisuCoreDim"));
   const SizeType frames = static_cast<SizeType>(GetParameter<double>(dict, "VisuCoreFrameCount"));
-  const auto     size = GetParameter<std::vector<double>>(dict, "VisuCoreSize");
-  const auto     FoV = GetParameter<std::vector<double>>(dict, "VisuCoreExtent");
+  const auto size = GetParameter<std::vector<double>>(dict, "VisuCoreSize");
+  const auto FoV = GetParameter<std::vector<double>>(dict, "VisuCoreExtent");
 
   if (brukerDim == 1)
   {
@@ -811,8 +811,8 @@ Bruker2dseqImageIO::ReadImageInformation()
     halfStep[1] = FoV[1] / (2 * size[1]);
     SizeType sizeZ = 1;
     SizeType sizeT = 1;
-    double   spacingZ = 1;
-    double   reverseZ = 1;
+    double spacingZ = 1;
+    double reverseZ = 1;
     if (brukerDim == 2)
     {
       // The obvious way to get number of slices is sum of SlicePacksSlices - but single-slice images do not store this!
@@ -861,7 +861,7 @@ Bruker2dseqImageIO::ReadImageInformation()
         // changing.
         const vnl_vector<double> corner1(&position[0], 3);
         const vnl_vector<double> corner2(&position[3], 3);
-        vnl_vector<double>       diff = corner2 - corner1;
+        vnl_vector<double> diff = corner2 - corner1;
         if (diff[1] != 0)
         {
           reverseZ = -1;
@@ -911,7 +911,7 @@ Bruker2dseqImageIO::ReadImageInformation()
 
     // Now work out the correct ITK origin including the half-voxel offset
     const vnl_vector<double> corner(&position[0], 3);
-    vnl_vector<double>       origin = corner + dirMatrix * halfStep;
+    vnl_vector<double> origin = corner + dirMatrix * halfStep;
 
     this->SetOrigin(0, origin[0]);
     this->SetOrigin(1, origin[1]);

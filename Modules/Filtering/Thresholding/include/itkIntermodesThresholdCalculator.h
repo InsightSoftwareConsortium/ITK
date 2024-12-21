@@ -107,7 +107,7 @@ private:
   BimodalTest(const std::vector<double> & h);
 
   SizeValueType m_MaximumSmoothingIterations{};
-  bool          m_UseInterMode{};
+  bool m_UseInterMode{};
 };
 
 } // end namespace itk

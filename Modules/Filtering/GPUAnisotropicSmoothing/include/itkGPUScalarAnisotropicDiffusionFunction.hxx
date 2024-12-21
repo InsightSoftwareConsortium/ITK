@@ -63,7 +63,7 @@ GPUScalarAnisotropicDiffusionFunction<TImage>::GPUCalculateAverageGradientMagnit
 {
   // GPU kernel to compute Average Squared Gradient Magnitude
   using GPUImageType = typename itk::GPUTraits<TImage>::Type;
-  typename GPUImageType::Pointer  inPtr = dynamic_cast<GPUImageType *>(ip);
+  typename GPUImageType::Pointer inPtr = dynamic_cast<GPUImageType *>(ip);
   typename GPUImageType::SizeType outSize = inPtr->GetLargestPossibleRegion().GetSize();
 
   int imgSize[3];
@@ -100,7 +100,7 @@ GPUScalarAnisotropicDiffusionFunction<TImage>::GPUCalculateAverageGradientMagnit
   }
 
   typename GPUKernelManager::Pointer kernelManager = this->m_AnisotropicDiffusionFunctionGPUKernelManager;
-  int                                kernelHandle = this->m_AverageGradientMagnitudeSquaredGPUKernelHandle;
+  int kernelHandle = this->m_AverageGradientMagnitudeSquaredGPUKernelHandle;
 
   // Set arguments
   int argidx = 0;
@@ -148,7 +148,7 @@ GPUScalarAnisotropicDiffusionFunction<TImage>::GPUCalculateAverageGradientMagnit
   kernelManager->LaunchKernel(kernelHandle, ImageDim, globalSize, localSize);
 
   // Read back intermediate sums from GPU and compute final value
-  double     sum = 0;
+  double sum = 0;
   const auto intermSum = make_unique_for_overwrite<float[]>(bufferSize);
 
   this->m_AnisotropicDiffusionFunctionGPUBuffer->SetCPUBufferPointer(intermSum.get());

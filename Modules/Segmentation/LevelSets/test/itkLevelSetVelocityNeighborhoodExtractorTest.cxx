@@ -36,7 +36,7 @@ itkLevelSetVelocityNeighborhoodExtractorTest(int, char *[])
   source->SetOutputSize(size);
 
   SourceType::NodeType node;
-  auto                 index = ImageType::IndexType::Filled(8);
+  auto index = ImageType::IndexType::Filled(8);
 
   node.SetIndex(index);
   node.SetValue(-4.0);
@@ -83,7 +83,7 @@ itkLevelSetVelocityNeighborhoodExtractorTest(int, char *[])
 
   std::cout << "Inside Points" << std::endl;
 
-  Iterator    iterEnd = extractor->GetInsidePoints()->End();
+  Iterator iterEnd = extractor->GetInsidePoints()->End();
   AuxIterator aIter = extractor->GetAuxInsideValues()->Begin();
   for (Iterator iter = extractor->GetInsidePoints()->Begin(); iter != iterEnd; iter++, aIter++)
   {

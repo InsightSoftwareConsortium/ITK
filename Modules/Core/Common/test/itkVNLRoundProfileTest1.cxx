@@ -198,7 +198,7 @@ itkVNLRoundProfileTest1(int, char *[])
   //
   // Now test the correctness of the output
   //
-  auto       inpItr = input.begin();
+  auto inpItr = input.begin();
   const auto inputEnd = input.end();
 
   auto outItr1 = output1.begin();

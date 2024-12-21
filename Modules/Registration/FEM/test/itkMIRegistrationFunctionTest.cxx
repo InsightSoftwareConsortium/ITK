@@ -48,13 +48,13 @@ itkMIRegistrationFunctionTest(int, char *[])
   using FixedImageSourceType = itk::GaussianImageSource<FixedImageType>;
 
   // Create the two images
-  FixedImageType::SizeValueType  fixedImageSize[] = { 100, 100 };
+  FixedImageType::SizeValueType fixedImageSize[] = { 100, 100 };
   MovingImageType::SizeValueType movingImageSize[] = { 100, 100 };
 
-  FixedImageType::SpacingValueType  fixedImageSpacing[] = { 1.0f, 1.0f };
+  FixedImageType::SpacingValueType fixedImageSpacing[] = { 1.0f, 1.0f };
   MovingImageType::SpacingValueType movingImageSpacing[] = { 1.0f, 1.0f };
 
-  FixedImageType::PointValueType  fixedImageOrigin[] = { 0.0f, 0.0f };
+  FixedImageType::PointValueType fixedImageOrigin[] = { 0.0f, 0.0f };
   MovingImageType::PointValueType movingImageOrigin[] = { 0.0f, 0.0f };
 
   auto movingImageSource = MovingImageSourceType::New();
@@ -76,7 +76,7 @@ itkMIRegistrationFunctionTest(int, char *[])
   fixedImageSource->Update();
 
   MovingImageType::Pointer movingImage = movingImageSource->GetOutput();
-  FixedImageType::Pointer  fixedImage = fixedImageSource->GetOutput();
+  FixedImageType::Pointer fixedImage = fixedImageSource->GetOutput();
 
   // Set up the metric
   using MetricFunctionType = itk::MIRegistrationFunction<FixedImageType, MovingImageType, DisplacementFieldType>;

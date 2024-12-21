@@ -57,7 +57,7 @@ Expect_CopyAndMoveConstructible(const T & value)
   const auto copiedValue = value;
   EXPECT_EQ(copiedValue, value);
 
-  auto       nonConstValue = value;
+  auto nonConstValue = value;
   const auto movedValue = std::move(nonConstValue);
   EXPECT_EQ(movedValue, value);
 }
@@ -142,9 +142,9 @@ Expect_Assignable(const T & value1, const T & value2)
 void
 SetRandomIndexAndSize(itk::ImageIORegion & region)
 {
-  std::mt19937                                       randomNumberEngine;
+  std::mt19937 randomNumberEngine;
   std::uniform_int_distribution<itk::IndexValueType> indexDistribution(std::numeric_limits<itk::IndexValueType>::min());
-  std::uniform_int_distribution<itk::SizeValueType>  sizeDistribution(std::numeric_limits<itk::SizeValueType>::min());
+  std::uniform_int_distribution<itk::SizeValueType> sizeDistribution(std::numeric_limits<itk::SizeValueType>::min());
 
   const unsigned int imageDimension{ region.GetImageDimension() };
 

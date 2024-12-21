@@ -45,7 +45,7 @@ itkVectorContainerToListSampleAdaptorTest(int, char *[])
 
   // Set the vector container
   constexpr unsigned int containerSize = 3;
-  auto                   container = ContainerType::New();
+  auto container = ContainerType::New();
   container->Reserve(containerSize);
   for (unsigned int i = 0; i < container->Size(); ++i)
   {
@@ -57,15 +57,15 @@ itkVectorContainerToListSampleAdaptorTest(int, char *[])
   ITK_TEST_SET_GET_VALUE(container, adaptor->GetVectorContainer());
 
   constexpr typename AdaptorType::InstanceIdentifier expectedSize = 3;
-  const typename AdaptorType::InstanceIdentifier     size = adaptor->Size();
+  const typename AdaptorType::InstanceIdentifier size = adaptor->Size();
   ITK_TEST_EXPECT_EQUAL(expectedSize, size);
 
   constexpr typename AdaptorType::AbsoluteFrequencyType expectedFreq = 1;
-  const typename AdaptorType::AbsoluteFrequencyType     freq = adaptor->GetFrequency(instance);
+  const typename AdaptorType::AbsoluteFrequencyType freq = adaptor->GetFrequency(instance);
   ITK_TEST_EXPECT_EQUAL(expectedFreq, freq);
 
   constexpr typename AdaptorType::TotalAbsoluteFrequencyType expectedTotalFreq = 3;
-  const typename AdaptorType::TotalAbsoluteFrequencyType     totalFreq = adaptor->GetTotalFrequency();
+  const typename AdaptorType::TotalAbsoluteFrequencyType totalFreq = adaptor->GetTotalFrequency();
   ITK_TEST_EXPECT_EQUAL(expectedTotalFreq, totalFreq);
 
 

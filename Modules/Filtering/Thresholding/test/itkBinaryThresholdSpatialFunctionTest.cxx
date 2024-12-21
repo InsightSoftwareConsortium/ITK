@@ -90,7 +90,7 @@ itkBinaryThresholdSpatialFunctionTest(int, char *[])
 
     // Check results
     const CoordRep val = p * std::sqrt(2.0) - parameters[0];
-    const bool     expected = (lowerThreshold <= val && upperThreshold >= val);
+    const bool expected = (lowerThreshold <= val && upperThreshold >= val);
     if (output != expected)
     {
       std::cerr << "Test failed!" << std::endl;

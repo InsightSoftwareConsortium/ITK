@@ -81,8 +81,8 @@ SymmetricEllipsoidInteriorExteriorSpatialFunction<VDimension, TInput>::PrintSelf
 template <unsigned int VDimension, typename TInput>
 void
 SymmetricEllipsoidInteriorExteriorSpatialFunction<VDimension, TInput>::SetOrientation(VectorType orientation,
-                                                                                      double     uniqueAxis,
-                                                                                      double     symmetricAxes)
+                                                                                      double uniqueAxis,
+                                                                                      double symmetricAxes)
 {
   m_Orientation = orientation;     // Orientation of unique axis of ellipsoid
   m_SymmetricAxes = symmetricAxes; // Length of symmetric axes

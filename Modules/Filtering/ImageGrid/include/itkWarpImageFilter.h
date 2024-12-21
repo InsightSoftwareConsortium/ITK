@@ -272,23 +272,23 @@ protected:
    * interpolators at this point handle edge conditions properly
    */
   void
-  EvaluateDisplacementAtPhysicalPoint(const PointType &             point,
+  EvaluateDisplacementAtPhysicalPoint(const PointType & point,
                                       const DisplacementFieldType * fieldPtr,
-                                      DisplacementType &            output);
+                                      DisplacementType & output);
 
   bool m_DefFieldSameInformation{};
   // variables for deffield interpolator
   IndexType m_StartIndex, m_EndIndex{};
 
 private:
-  PixelType     m_EdgePaddingValue{};
-  SpacingType   m_OutputSpacing{};
-  PointType     m_OutputOrigin{};
+  PixelType m_EdgePaddingValue{};
+  SpacingType m_OutputSpacing{};
+  PointType m_OutputOrigin{};
   DirectionType m_OutputDirection{};
 
   InterpolatorPointer m_Interpolator{};
-  SizeType            m_OutputSize{};       // Size of the output image
-  IndexType           m_OutputStartIndex{}; // output image start index
+  SizeType m_OutputSize{};        // Size of the output image
+  IndexType m_OutputStartIndex{}; // output image start index
 };
 } // end namespace itk
 

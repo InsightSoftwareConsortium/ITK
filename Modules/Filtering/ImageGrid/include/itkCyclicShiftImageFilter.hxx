@@ -58,7 +58,7 @@ CyclicShiftImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 
   // The index and size of the image needed to compute the shift
   const IndexType outIdx = this->GetOutput()->GetLargestPossibleRegion().GetIndex();
-  const SizeType  outSize = this->GetOutput()->GetLargestPossibleRegion().GetSize();
+  const SizeType outSize = this->GetOutput()->GetLargestPossibleRegion().GetSize();
 
   TotalProgressReporter progress(this, this->GetOutput()->GetRequestedRegion().GetNumberOfPixels());
 

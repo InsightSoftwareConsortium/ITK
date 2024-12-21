@@ -48,7 +48,7 @@ template <typename TPoint>
 double
 SimpleSignedDistance(const TPoint & p)
 {
-  auto             center = itk::MakeFilled<TPoint>(50);
+  auto center = itk::MakeFilled<TPoint>(50);
   constexpr double radius = 19.5;
 
   double accum = 0.0;
@@ -75,8 +75,8 @@ itkReinitializeLevelSetImageFilterTest(int, char *[])
   using PointType = itk::Point<double, ImageDimension>;
 
   // Fill an input image with simple signed distance function
-  auto                        image = ImageType::New();
-  auto                        size = ImageType::SizeType::Filled(128);
+  auto image = ImageType::New();
+  auto size = ImageType::SizeType::Filled(128);
   const ImageType::RegionType region(size);
 
   image->SetRegions(region);
@@ -106,7 +106,7 @@ itkReinitializeLevelSetImageFilterTest(int, char *[])
   auto reinitializer = ReinitializerType::New();
   reinitializer->SetInput(multiplier->GetOutput());
 
-  ShowProgressObject                                          progressWatch(reinitializer);
+  ShowProgressObject progressWatch(reinitializer);
   const itk::SimpleMemberCommand<ShowProgressObject>::Pointer command =
     itk::SimpleMemberCommand<ShowProgressObject>::New();
   command->SetCallbackFunction(&progressWatch, &ShowProgressObject::ShowProgress);
@@ -142,7 +142,7 @@ itkReinitializeLevelSetImageFilterTest(int, char *[])
   calculator->SetImage(difference->GetOutput());
   calculator->Compute();
 
-  const double    maxAbsDifference = calculator->GetMaximum();
+  const double maxAbsDifference = calculator->GetMaximum();
   const IndexType maxAbsDifferenceIndex = calculator->GetIndexOfMaximum();
 
   std::cout << "Max. abs. difference = " << maxAbsDifference;
@@ -206,13 +206,13 @@ itkReinitializeLevelSetImageFilterTest(int, char *[])
   using ContainerIterator = NodeContainerType::ConstIterator;
 
   const NodeContainerPointer nodes2 = reinitializer->GetOutputNarrowBand();
-  ContainerIterator          nodeIter = nodes2->Begin();
-  const ContainerIterator    nodeEnd = nodes2->End();
+  ContainerIterator nodeIter = nodes2->Begin();
+  const ContainerIterator nodeEnd = nodes2->End();
 
   while (nodeIter != nodeEnd)
   {
     const ImageType::IndexType nodeIndex = nodeIter.Value().GetIndex();
-    const double               product = image->GetPixel(nodeIndex) * reinitializer->GetOutput()->GetPixel(nodeIndex);
+    const double product = image->GetPixel(nodeIndex) * reinitializer->GetOutput()->GetPixel(nodeIndex);
     if (product < 0.0)
     {
       std::cout << "Product: " << product;

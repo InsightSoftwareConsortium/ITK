@@ -54,7 +54,7 @@ Assert_SetFixedParameters_throws_when_size_is_less_than_NDimensions()
     using TransformBaseType = itk::MatrixOffsetTransformBase<double, VDimension, VDimension>;
     using FixedParametersType = typename TransformBaseType::FixedParametersType;
 
-    const auto                transformBase = TransformBaseType::New();
+    const auto transformBase = TransformBaseType::New();
     const FixedParametersType fixedParameters(size);
     ASSERT_THROW(transformBase->SetFixedParameters(fixedParameters), itk::ExceptionObject);
   }

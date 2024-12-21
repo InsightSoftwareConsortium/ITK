@@ -40,7 +40,7 @@ TestLogLevel(itk::DCMTKImageIO::Pointer & io, itk::DCMTKImageIO::LogLevelEnum ll
 int
 itkDCMTKLoggerTest(int, char *[])
 {
-  itk::DCMTKImageIO::Pointer      io = itk::DCMTKImageIO::New();
+  itk::DCMTKImageIO::Pointer io = itk::DCMTKImageIO::New();
   itk::DCMTKImageIO::LogLevelEnum logLevel = io->GetLogLevel();
   if (logLevel != itk::DCMTKImageIO::LogLevelEnum::FATAL_LOG_LEVEL)
   {

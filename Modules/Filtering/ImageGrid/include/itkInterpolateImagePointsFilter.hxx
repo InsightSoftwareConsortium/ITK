@@ -59,7 +59,7 @@ template <typename TInputImage, typename TOutputImage, typename TCoordinate, typ
 void
 InterpolateImagePointsFilter<TInputImage, TOutputImage, TCoordinate, InterpolatorType>::SetInterpolationCoordinate(
   const CoordImageType * coordinate,
-  unsigned int           setDimension)
+  unsigned int setDimension)
 {
   // Set each coordinate as an input.  Note that Input '0' is for the image.
   this->SetInput(setDimension + 1, coordinate); // This is a data filter input
@@ -75,7 +75,7 @@ InterpolateImagePointsFilter<TInputImage, TOutputImage, TCoordinate, Interpolato
   // There is a direct mapping between the desired outputRegion and the
   // CoordRegion. coordRegion is set to outputRegionForThread.
   const RegionCopierType regionCopier;
-  CoordImageRegionType   coordRegion;
+  CoordImageRegionType coordRegion;
   regionCopier(coordRegion, outputRegionForThread);
 
   // Setup iterator for the output
@@ -153,14 +153,14 @@ InterpolateImagePointsFilter<TInputImage, TOutputImage, TCoordinate, Interpolato
   // Thus this method was explicitly written.
   //
   const CoordImageTypePointer xCoordPtr = const_cast<TInputImage *>(this->GetInput(1));
-  const OutputImagePointer    outputPtr = this->GetOutput();
+  const OutputImagePointer outputPtr = this->GetOutput();
 
   // We need to compute the output spacing, the output image size, and the
   // output image start index. This is all determined by the coordinate data
 
   const typename TOutputImage::SpacingType & outputSpacing = xCoordPtr->GetSpacing();
-  const typename TOutputImage::SizeType &    outputSize = xCoordPtr->GetLargestPossibleRegion().GetSize();
-  const typename TOutputImage::IndexType &   outputStartIndex = xCoordPtr->GetLargestPossibleRegion().GetIndex();
+  const typename TOutputImage::SizeType & outputSize = xCoordPtr->GetLargestPossibleRegion().GetSize();
+  const typename TOutputImage::IndexType & outputStartIndex = xCoordPtr->GetLargestPossibleRegion().GetIndex();
 
   outputPtr->SetSpacing(outputSpacing);
 

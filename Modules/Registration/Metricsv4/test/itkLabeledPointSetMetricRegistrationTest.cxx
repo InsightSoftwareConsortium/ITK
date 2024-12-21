@@ -84,7 +84,7 @@ itkLabeledPointSetMetricRegistrationTestPerMetric(unsigned int numberOfIteration
   {
     auto label = static_cast<unsigned int>(1.5 + count / 35);
 
-    PointType       fixedPoint;
+    PointType fixedPoint;
     constexpr float radius = 100.0;
     fixedPoint[0] = radius * std::cos(theta);
     fixedPoint[1] = radius * std::sin(theta);
@@ -153,8 +153,8 @@ itkLabeledPointSetMetricRegistrationTestPerMetric(unsigned int numberOfIteration
 
   // applying the resultant transform to moving points and verify result
   std::cout << "Fixed\tMoving\tMovingTransformed\tFixedTransformed\tDiff" << std::endl;
-  bool                                                            passed = true;
-  const typename PointType::ValueType                             tolerance = 1e-2;
+  bool passed = true;
+  const typename PointType::ValueType tolerance = 1e-2;
   const typename AffineTransformType::InverseTransformBasePointer movingInverse =
     metric->GetMovingTransform()->GetInverseTransform();
   const typename AffineTransformType::InverseTransformBasePointer fixedInverse =
@@ -199,7 +199,7 @@ itkLabeledPointSetMetricRegistrationTest(int argc, char * argv[])
 
   {
     using PointSetMetricType = itk::EuclideanDistancePointSetToPointSetMetricv4<PointSetType>;
-    auto      metric = PointSetMetricType::New();
+    auto metric = PointSetMetricType::New();
     const int success =
       itkLabeledPointSetMetricRegistrationTestPerMetric<PointSetMetricType>(numberOfIterations, metric.GetPointer());
 

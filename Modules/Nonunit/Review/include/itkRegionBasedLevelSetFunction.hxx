@@ -81,7 +81,7 @@ RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::ComputeHImage()
 {
   // The phi function
   InputImageConstPointer contourImage = this->m_InitialImage;
-  InputImagePointer      hBuffer =
+  InputImagePointer hBuffer =
     this->m_SharedData->m_LevelSetDataPointerVector[this->m_FunctionId]->m_HeavisideFunctionOfLevelSetImage;
 
   // Iterator for the phi function
@@ -203,7 +203,7 @@ RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::ComputeCurvature(con
 template <typename TInput, typename TFeature, typename TSharedData>
 void
 RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::ComputeHessian(const NeighborhoodType & it,
-                                                                           GlobalDataStruct *       gd)
+                                                                           GlobalDataStruct * gd)
 {
   const ScalarValueType inputValue = it.GetCenterPixel();
 
@@ -242,8 +242,8 @@ RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::ComputeHessian(const
 template <typename TInput, typename TFeature, typename TSharedData>
 auto
 RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::ComputeUpdate(const NeighborhoodType & it,
-                                                                          void *                   globalData,
-                                                                          const FloatOffsetType &  offset) -> PixelType
+                                                                          void * globalData,
+                                                                          const FloatOffsetType & offset) -> PixelType
 {
   // Access the neighborhood center pixel of phi
   const ScalarValueType inputValue = it.GetCenterPixel();
@@ -252,7 +252,7 @@ RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::ComputeUpdate(const 
   ScalarValueType curvature_term{};
   ScalarValueType curvature{};
   ScalarValueType globalTerm{};
-  VectorType      advection_field;
+  VectorType advection_field;
   ScalarValueType x_energy, advection_term = ScalarValueType{};
 
   // Access the global data structure
@@ -357,7 +357,7 @@ template <typename TInput, typename TFeature, typename TSharedData>
 auto
 RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::ComputeGlobalTerm(
   const ScalarValueType & itkNotUsed(inputPixel),
-  const InputIndexType &  inputIndex) -> ScalarValueType
+  const InputIndexType & inputIndex) -> ScalarValueType
 {
   // computes if it belongs to background
   ScalarValueType product = 1;

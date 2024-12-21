@@ -129,7 +129,7 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>::GenerateData()
     this->m_MeanErrorNorm = RealType{};
     this->m_MaxErrorNorm = RealType{};
 
-    float               newProgress = static_cast<float>(2 * iteration - 1) / (2 * m_MaximumNumberOfIterations);
+    float newProgress = static_cast<float>(2 * iteration - 1) / (2 * m_MaximumNumberOfIterations);
     ProgressTransformer pt(oldProgress, newProgress, this);
     this->m_DoThreadedEstimateInverse = false;
     this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
@@ -170,12 +170,12 @@ void
 InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(const RegionType & region)
 {
   const typename DisplacementFieldType::RegionType fullRegion = this->m_ComposedField->GetRequestedRegion();
-  const typename DisplacementFieldType::SizeType   size = fullRegion.GetSize();
-  const typename DisplacementFieldType::IndexType  startIndex = fullRegion.GetIndex();
-  const typename DisplacementFieldType::PixelType  zeroVector{};
+  const typename DisplacementFieldType::SizeType size = fullRegion.GetSize();
+  const typename DisplacementFieldType::IndexType startIndex = fullRegion.GetIndex();
+  const typename DisplacementFieldType::PixelType zeroVector{};
 
   ImageRegionIterator<DisplacementFieldType> ItE(this->m_ComposedField, region);
-  ImageRegionIterator<RealImageType>         ItS(this->m_ScaledNormImage, region);
+  ImageRegionIterator<RealImageType> ItS(this->m_ScaledNormImage, region);
 
   if (this->m_DoThreadedEstimateInverse)
   {
@@ -183,7 +183,7 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>::DynamicThreadedGe
 
     for (ItI.GoToBegin(), ItE.GoToBegin(), ItS.GoToBegin(); !ItI.IsAtEnd(); ++ItI, ++ItE, ++ItS)
     {
-      VectorType     update = ItE.Get();
+      VectorType update = ItE.Get();
       const RealType scaledNorm = ItS.Get();
 
       if (scaledNorm > this->m_Epsilon * this->m_MaxErrorNorm)
@@ -209,8 +209,8 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>::DynamicThreadedGe
   else
   {
     VectorType inverseSpacing;
-    RealType   localMean{};
-    RealType   localMax{};
+    RealType localMean{};
+    RealType localMax{};
     for (unsigned int d = 0; d < ImageDimension; ++d)
     {
       inverseSpacing[d] = 1.0 / this->m_DisplacementFieldSpacing[d];
@@ -218,7 +218,7 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>::DynamicThreadedGe
     for (ItE.GoToBegin(), ItS.GoToBegin(); !ItE.IsAtEnd(); ++ItE, ++ItS)
     {
       const VectorType & displacement = ItE.Get();
-      RealType           scaledNorm = 0.0;
+      RealType scaledNorm = 0.0;
       for (unsigned int d = 0; d < ImageDimension; ++d)
       {
         scaledNorm += itk::Math::sqr(displacement[d] * inverseSpacing[d]);

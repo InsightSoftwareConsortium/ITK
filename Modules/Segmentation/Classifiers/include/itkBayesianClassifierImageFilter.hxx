@@ -157,8 +157,8 @@ BayesianClassifierImageFilter<TInputVectorImage, TLabelsType, TPosteriorsPrecisi
       itkExceptionMacro("Second output type does not correspond to expected Posteriors Image Type");
     }
 
-    InputImageIteratorType      itrMembershipImage(membershipImage, imageRegion);
-    PriorsImageIteratorType     itrPriorsImage(priorsImage, imageRegion);
+    InputImageIteratorType itrMembershipImage(membershipImage, imageRegion);
+    PriorsImageIteratorType itrPriorsImage(priorsImage, imageRegion);
     PosteriorsImageIteratorType itrPosteriorsImage(posteriorsImage, imageRegion);
 
     itrMembershipImage.GoToBegin();
@@ -170,8 +170,8 @@ BayesianClassifierImageFilter<TInputVectorImage, TLabelsType, TPosteriorsPrecisi
 
     while (!itrMembershipImage.IsAtEnd())
     {
-      PosteriorsPixelType       posteriors(numberOfClasses);
-      const PriorsPixelType     priors = itrPriorsImage.Get();
+      PosteriorsPixelType posteriors(numberOfClasses);
+      const PriorsPixelType priors = itrPriorsImage.Get();
       const MembershipPixelType memberships = itrMembershipImage.Get();
       for (unsigned int i = 0; i < numberOfClasses; ++i)
       {
@@ -192,7 +192,7 @@ BayesianClassifierImageFilter<TInputVectorImage, TLabelsType, TPosteriorsPrecisi
       itkExceptionMacro("Second output type does not correspond to expected Posteriors Image Type");
     }
 
-    InputImageIteratorType      itrMembershipImage(membershipImage, imageRegion);
+    InputImageIteratorType itrMembershipImage(membershipImage, imageRegion);
     PosteriorsImageIteratorType itrPosteriorsImage(posteriorsImage, imageRegion);
 
     itrMembershipImage.GoToBegin();
@@ -245,7 +245,7 @@ BayesianClassifierImageFilter<TInputVectorImage, TLabelsType, TPosteriorsPrecisi
                                                 this->GetPosteriorImage()->GetBufferedRegion());
 
   PosteriorsPixelType p;
-  const unsigned int  numberOfClasses = this->GetPosteriorImage()->GetVectorLength();
+  const unsigned int numberOfClasses = this->GetPosteriorImage()->GetVectorLength();
 
   for (unsigned int iter = 0; iter < m_NumberOfSmoothingIterations; ++iter)
   {
@@ -334,7 +334,7 @@ BayesianClassifierImageFilter<TInputVectorImage, TLabelsType, TPosteriorsPrecisi
     itkExceptionMacro("Second output type does not correspond to expected Posteriors Image Type");
   }
 
-  OutputImageIteratorType     itrLabelsImage(labels, imageRegion);
+  OutputImageIteratorType itrLabelsImage(labels, imageRegion);
   PosteriorsImageIteratorType itrPosteriorsImage(posteriorsImage, imageRegion);
 
   const DecisionRulePointer decisionRule = DecisionRuleType::New();
@@ -342,7 +342,7 @@ BayesianClassifierImageFilter<TInputVectorImage, TLabelsType, TPosteriorsPrecisi
   itrLabelsImage.GoToBegin();
   itrPosteriorsImage.GoToBegin();
 
-  typename PosteriorsImageType::PixelType         posteriorsPixel;
+  typename PosteriorsImageType::PixelType posteriorsPixel;
   typename DecisionRuleType::MembershipVectorType posteriorsVector;
   posteriorsPixel = itrPosteriorsImage.Get();
   posteriorsVector.reserve(posteriorsPixel.Size());

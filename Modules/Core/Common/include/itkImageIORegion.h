@@ -181,14 +181,14 @@ protected:
 
 private:
   unsigned int m_ImageDimension{ 2 };
-  IndexType    m_Index{ IndexType(2) };
-  SizeType     m_Size{ SizeType(2) };
+  IndexType m_Index{ IndexType(2) };
+  SizeType m_Size{ SizeType(2) };
 };
 
 
 // Declare operator<<
 extern ITKCommon_EXPORT std::ostream &
-                        operator<<(std::ostream & os, const ImageIORegion & region);
+operator<<(std::ostream & os, const ImageIORegion & region);
 
 
 /** \class ImageIORegionAdaptor
@@ -208,8 +208,8 @@ public:
 
   static void
   Convert(const ImageRegionType & inImageRegion,
-          ImageIORegionType &     outIORegion,
-          const ImageIndexType &  largestRegionIndex)
+          ImageIORegionType & outIORegion,
+          const ImageIndexType & largestRegionIndex)
   {
     //
     // The ImageRegion and ImageIORegion objects may have different dimensions.
@@ -227,7 +227,7 @@ public:
 
     const unsigned int minDimension = std::min(ioDimension, imageDimension);
 
-    const ImageSizeType &  size = inImageRegion.GetSize();
+    const ImageSizeType & size = inImageRegion.GetSize();
     const ImageIndexType & index = inImageRegion.GetIndex();
 
     for (unsigned int i = 0; i < minDimension; ++i)
@@ -248,10 +248,10 @@ public:
 
   static void
   Convert(const ImageIORegionType & inIORegion,
-          ImageRegionType &         outImageRegion,
-          const ImageIndexType &    largestRegionIndex)
+          ImageRegionType & outImageRegion,
+          const ImageIndexType & largestRegionIndex)
   {
-    auto           size = MakeFilled<ImageSizeType>(1); // initialize with default values
+    auto size = MakeFilled<ImageSizeType>(1); // initialize with default values
     ImageIndexType index{};
 
     //

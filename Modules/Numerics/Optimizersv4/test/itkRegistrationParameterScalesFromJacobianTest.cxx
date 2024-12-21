@@ -124,8 +124,8 @@ itkRegistrationParameterScalesFromJacobianTest(int, char *[])
   using MovingImageType = itk::Image<PixelType, ImageDimension>;
   using VirtualImageType = itk::Image<PixelType, ImageDimension>;
 
-  auto                            fixedImage = FixedImageType::New();
-  auto                            movingImage = MovingImageType::New();
+  auto fixedImage = FixedImageType::New();
+  auto movingImage = MovingImageType::New();
   const VirtualImageType::Pointer virtualImage = fixedImage;
 
   auto size = MovingImageType::SizeType::Filled(100);
@@ -231,8 +231,8 @@ itkRegistrationParameterScalesFromJacobianTest(int, char *[])
   const FloatType learningRate = 1.0 / stepScale;
   std::cout << "The learning rate of Jacobian for the affine transform = " << learningRate << std::endl;
 
-  FloatType                   theoreticalStepScale = 0.0;
-  FloatType                   count = 0.0;
+  FloatType theoreticalStepScale = 0.0;
+  FloatType count = 0.0;
   VirtualImageType::PointType lowerPoint;
   virtualImage->TransformIndexToPhysicalPoint(virtualImage->GetLargestPossibleRegion().GetIndex(), lowerPoint);
 
@@ -317,7 +317,7 @@ itkRegistrationParameterScalesFromJacobianTest(int, char *[])
   std::cout << "The learning rate of Jacobian for the displacement field transform = " << localLearningRate
             << std::endl;
 
-  bool            localStepScalePass = false;
+  bool localStepScalePass = false;
   const FloatType theoreticalLocalStepScale = std::sqrt(2.0);
   if (itk::Math::abs((localStepScale - theoreticalLocalStepScale) / theoreticalLocalStepScale) < 0.01)
   {

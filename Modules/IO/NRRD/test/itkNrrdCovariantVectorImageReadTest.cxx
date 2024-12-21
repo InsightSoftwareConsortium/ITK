@@ -57,7 +57,7 @@ itkNrrdCovariantVectorImageReadTest(int argc, char * argv[])
   const myImage::Pointer image = reader->GetOutput();
   // The test image has been constructed so that the vector coefficients
   // coincide with sample coordinates
-  double       err = 0;
+  double err = 0;
   unsigned int idx = 0;
   for (unsigned int zi = 0; zi < 5; ++zi)
   {

@@ -28,7 +28,7 @@ itkArrayTest(int, char *[])
   using FloatArrayType = itk::Array<float>;
   using DoubleArrayType = itk::Array<double>;
 
-  const FloatArrayType  fa(10);
+  const FloatArrayType fa(10);
   const DoubleArrayType da(10);
 
   /**
@@ -51,8 +51,8 @@ itkArrayTest(int, char *[])
   // Create an itk::Array which does not manage its own memory
   //
   constexpr unsigned int n = 7;
-  float                  buffer[n];
-  FloatArrayType         notMyOwnBoss;
+  float buffer[n];
+  FloatArrayType notMyOwnBoss;
   notMyOwnBoss.SetSize(n);
   notMyOwnBoss.SetData(buffer, false);
   notMyOwnBoss.Fill(4.0);
@@ -102,8 +102,8 @@ itkArrayTest(int, char *[])
   // to a user allocated buffer where the user wants to
   // maintain responsibility for deleting the array.
   constexpr size_t testSizeForArraySetDataSameSize = 10;
-  FloatArrayType   objectToCopy(testSizeForArraySetDataSameSize);
-  auto *           data = new float[testSizeForArraySetDataSameSize];
+  FloatArrayType objectToCopy(testSizeForArraySetDataSameSize);
+  auto * data = new float[testSizeForArraySetDataSameSize];
   objectToCopy.SetDataSameSize(data); // This implicitly means LetArrayManageMemory=false
 
   // Make a copy of the array which is not managing its own memory.
