@@ -103,7 +103,7 @@ public:
 
 protected:
   PyImageFilter();
-  virtual ~PyImageFilter();
+  ~PyImageFilter() override;
 
   void
   GenerateInputRequestedRegion() override;

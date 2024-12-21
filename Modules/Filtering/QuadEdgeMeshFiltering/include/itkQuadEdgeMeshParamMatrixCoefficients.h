@@ -273,7 +273,7 @@ public:
   {}
 
   InputCoordinateType
-  operator()(const InputMeshType * iMesh, InputQEType * iEdge) const
+  operator()(const InputMeshType * iMesh, InputQEType * iEdge) const override
   {
     const AuthalicMatrixCoefficients<TInputMesh>  authalic;
     const ConformalMatrixCoefficients<TInputMesh> conformal;

@@ -245,7 +245,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  virtual void
+  void
   VerifyPreconditions() const override;
 
   void

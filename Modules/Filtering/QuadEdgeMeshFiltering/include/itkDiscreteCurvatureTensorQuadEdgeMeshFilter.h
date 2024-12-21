@@ -56,11 +56,11 @@ public:
 
 protected:
   DiscreteCurvatureTensorQuadEdgeMeshFilter() = default;
-  ~DiscreteCurvatureTensorQuadEdgeMeshFilter() = default;
+  ~DiscreteCurvatureTensorQuadEdgeMeshFilter() override = default;
 
   /// TODO to be implemented
-  virtual void
-  GenerateData()
+  void
+  GenerateData() override
   {}
 };
 } // namespace itk

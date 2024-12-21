@@ -75,7 +75,7 @@ public:
 
 protected:
   PyCommand();
-  ~PyCommand();
+  ~PyCommand() override;
   void
   PyExecute();
   PyCommand(const Self &); // Not implemented.
