@@ -68,14 +68,13 @@ FillImage(itk::Image<itk::Index<VDimension>, VDimension> * img)
   using ImageType = itk::Image<IndexType, VDimension>;
   const itk::Size<VDimension> size = img->GetRequestedRegion().GetSize();
 
-  unsigned int                        i;
   IndexType                           loop{};
   itk::ImageRegionIterator<ImageType> it(img, img->GetRequestedRegion());
 
   while (!it.IsAtEnd())
   {
     it.Value() = loop;
-    for (i = 0; i < VDimension; ++i)
+    for (unsigned int i = 0; i < VDimension; ++i)
     {
       loop[i]++;
       if (static_cast<unsigned int>(loop[i]) == size[i])

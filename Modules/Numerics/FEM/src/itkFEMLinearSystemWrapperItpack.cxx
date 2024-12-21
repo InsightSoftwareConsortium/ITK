@@ -397,9 +397,8 @@ LinearSystemWrapperItpack::ScaleMatrix(Float scale, unsigned int matrixIndex)
       __FILE__, __LINE__, "LinearSystemWrapperItpack::ScaleMatrix", "m_Matrices", matrixIndex);
   }
 
-  int          i;
   doublereal * values = (*m_Matrices)[matrixIndex].GetA();
-  for (i = 0; i < (*m_Matrices)[matrixIndex].GetIA()[this->m_Order] - 1; ++i)
+  for (int i = 0; i < (*m_Matrices)[matrixIndex].GetIA()[this->m_Order] - 1; ++i)
   {
     values[i] = values[i] * scale;
   }
@@ -668,13 +667,11 @@ LinearSystemWrapperItpack::Solve()
   m_IPARM[7] = NW;
   IWKSP = new integer[3 * N];
   WKSP = new doublereal[NW + 2];
-
-  integer i;
-  for (i = 0; i < NW; ++i)
+  for (integer i = 0; i < NW; ++i)
   {
     WKSP[i] = 0.0;
   }
-  for (i = 0; i < (3 * N); ++i)
+  for (integer i = 0; i < (3 * N); ++i)
   {
     IWKSP[i] = 0;
   }
@@ -991,10 +988,9 @@ LinearSystemWrapperItpack::~LinearSystemWrapperItpack()
 {
   delete m_Matrices;
 
-  unsigned int i;
   if (m_Vectors)
   {
-    for (i = 0; i < m_NumberOfVectors; ++i)
+    for (unsigned int i = 0; i < m_NumberOfVectors; ++i)
     {
       delete[] (*m_Vectors)[i];
     }
@@ -1003,7 +999,7 @@ LinearSystemWrapperItpack::~LinearSystemWrapperItpack()
 
   if (m_Solutions)
   {
-    for (i = 0; i < m_NumberOfSolutions; ++i)
+    for (unsigned int i = 0; i < m_NumberOfSolutions; ++i)
     {
       delete[] (*m_Solutions)[i];
     }

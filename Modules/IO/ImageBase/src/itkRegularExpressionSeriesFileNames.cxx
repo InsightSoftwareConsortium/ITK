@@ -100,10 +100,10 @@ RegularExpressionSeriesFileNames::GetFileNames()
 
   // Now, store the sorted names in a vector
   m_FileNames.clear();
-  std::vector<std::pair<std::string, std::string>>::iterator siter;
-  for (siter = sortedBySubMatch.begin(); siter != sortedBySubMatch.end(); ++siter)
+
+  for (auto & siter : sortedBySubMatch)
   {
-    m_FileNames.push_back(siter->first);
+    m_FileNames.push_back(siter.first);
   }
 
   return m_FileNames;

@@ -235,15 +235,13 @@ DiscreteGradientMagnitudeGaussianImageFunction<TInputImage, TOutput>::EvaluateAt
   {
     using NumberOfNeighborsType = unsigned int;
 
-    unsigned int                dim; // index over dimension
     constexpr NumberOfNeighborsType neighbors = 1 << ImageDimension2;
 
     // Compute base index = closet index below point
     // Compute distance from point to base index
     IndexType baseIndex;
     double    distance[ImageDimension2];
-
-    for (dim = 0; dim < ImageDimension2; ++dim)
+    for (unsigned int dim = 0; dim < ImageDimension2; ++dim)
     {
       baseIndex[dim] = Math::Floor<IndexValueType>(cindex[dim]);
       distance[dim] = cindex[dim] - static_cast<double>(baseIndex[dim]);
@@ -262,7 +260,7 @@ DiscreteGradientMagnitudeGaussianImageFunction<TInputImage, TOutput>::EvaluateAt
       IndexType             neighIndex;
 
       // get neighbor index and overlap fraction
-      for (dim = 0; dim < ImageDimension2; ++dim)
+      for (unsigned int dim = 0; dim < ImageDimension2; ++dim)
       {
         if (upper & 1)
         {

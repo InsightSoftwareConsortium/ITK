@@ -65,14 +65,13 @@ DiscreteHessianGaussianImageFunction<TInputImage, TOutput>::RecomputeGaussianKer
   /* Create 3*N operators (N=ImageDimension) where the
    * first N are zero-order, the second N are first-order
    * and the third N are second order */
-  unsigned int idx;
   unsigned int maxRadius = 0;
 
   for (unsigned int direction = 0; direction < Self::ImageDimension2; ++direction)
   {
     for (unsigned int order = 0; order <= 2; ++order)
     {
-      idx = Self::ImageDimension2 * order + direction;
+      const auto idx = Self::ImageDimension2 * order + direction;
       m_OperatorArray[idx].SetDirection(direction);
       m_OperatorArray[idx].SetMaximumKernelWidth(m_MaximumKernelWidth);
       m_OperatorArray[idx].SetMaximumError(m_MaximumError);
@@ -138,7 +137,6 @@ DiscreteHessianGaussianImageFunction<TInputImage, TOutput>::RecomputeGaussianKer
   // The order of calculation in the 3D case is: dxx, dxy, dxz, dyy,
   // dyz, dzz
 
-  unsigned int opidx; // current operator index in m_OperatorArray
   unsigned int kernelidx = 0;
 
   for (unsigned int i = 0; i < Self::ImageDimension2; ++i)
@@ -155,7 +153,7 @@ DiscreteHessianGaussianImageFunction<TInputImage, TOutput>::RecomputeGaussianKer
 
       for (unsigned int direction = 0; direction < Self::ImageDimension2; ++direction)
       {
-        opidx = Self::ImageDimension2 * orderArray[direction] + direction;
+        const auto opidx = Self::ImageDimension2 * orderArray[direction] + direction;
         convolutionFilter->SetInput(kernelImage);
         convolutionFilter->SetOperator(m_OperatorArray[opidx]);
         convolutionFilter->Update();
@@ -169,8 +167,7 @@ DiscreteHessianGaussianImageFunction<TInputImage, TOutput>::RecomputeGaussianKer
       // Copy kernel image to neighborhood. Do not copy boundaries.
       ImageRegionConstIterator<KernelImageType> it(kernelImage, kernelRegion);
       it.GoToBegin();
-      idx = 0;
-
+      unsigned int idx = 0;
       while (!it.IsAtEnd())
       {
         m_KernelArray[kernelidx][idx] = it.Get();
@@ -232,15 +229,13 @@ DiscreteHessianGaussianImageFunction<TInputImage, TOutput>::EvaluateAtContinuous
   {
     using NumberOfNeighborsType = unsigned int;
 
-    unsigned int                    dim; // index over dimension
     constexpr NumberOfNeighborsType neighbors = 1 << ImageDimension2;
 
     // Compute base index = closet index below point
     // Compute distance from point to base index
     IndexType baseIndex;
     double    distance[ImageDimension2];
-
-    for (dim = 0; dim < ImageDimension2; ++dim)
+    for (unsigned int dim = 0; dim < ImageDimension2; ++dim)
     {
       baseIndex[dim] = Math::Floor<IndexValueType>(cindex[dim]);
       distance[dim] = cindex[dim] - static_cast<double>(baseIndex[dim]);
@@ -249,9 +244,8 @@ DiscreteHessianGaussianImageFunction<TInputImage, TOutput>::EvaluateAtContinuous
     // Interpolated value is the weighted sum of each of the surrounding
     // neighbors. The weight for each neighbor is the fraction overlap
     // of the neighbor pixel with respect to a pixel centered on point.
-    OutputType hessian, currentHessian;
+    OutputType hessian;
     TOutput    totalOverlap{};
-
     for (NumberOfNeighborsType counter = 0; counter < neighbors; ++counter)
     {
       double                overlap = 1.0;   // fraction overlap
@@ -259,7 +253,7 @@ DiscreteHessianGaussianImageFunction<TInputImage, TOutput>::EvaluateAtContinuous
       IndexType             neighIndex;
 
       // get neighbor index and overlap fraction
-      for (dim = 0; dim < ImageDimension2; ++dim)
+      for (unsigned int dim = 0; dim < ImageDimension2; ++dim)
       {
         if (upper & 1)
         {
@@ -277,7 +271,7 @@ DiscreteHessianGaussianImageFunction<TInputImage, TOutput>::EvaluateAtContinuous
       // get neighbor value only if overlap is not zero
       if (overlap)
       {
-        currentHessian = this->EvaluateAtIndex(neighIndex);
+        const auto currentHessian = this->EvaluateAtIndex(neighIndex);
         for (unsigned int i = 0; i < hessian.Size(); ++i)
         {
           hessian[i] += overlap * currentHessian[i];

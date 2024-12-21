@@ -45,13 +45,12 @@ itkArchetypeSeriesFileNamesTest(int argc, char * argv[])
     fit->SetArchetype(archetype);
     ITK_TEST_SET_GET_VALUE(archetype, fit->GetArchetype());
 
-    std::vector<std::string>           names = fit->GetFileNames();
-    std::vector<std::string>::iterator nit;
+    std::vector<std::string> names = fit->GetFileNames();
 
     std::cout << "List of returned filenames: " << std::endl;
-    for (nit = names.begin(); nit != names.end(); ++nit)
+    for (auto & name : names)
     {
-      std::cout << "File: " << nit->c_str() << std::endl;
+      std::cout << "File: " << name.c_str() << std::endl;
     }
 
     std::cout << fit;

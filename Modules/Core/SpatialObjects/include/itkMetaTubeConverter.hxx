@@ -134,8 +134,7 @@ MetaTubeConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectType
   auto * tubeMO = new MetaTube(VDimension);
 
   // fill in the tube information
-  typename TubeSpatialObjectType::TubePointListType::const_iterator it;
-  for (it = tubeSO->GetPoints().begin(); it != tubeSO->GetPoints().end(); ++it)
+  for (auto it = tubeSO->GetPoints().begin(); it != tubeSO->GetPoints().end(); ++it)
   {
     auto * pnt = new TubePnt(VDimension);
 

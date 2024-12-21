@@ -78,17 +78,14 @@ void
 ScalableAffineTransform<TParametersValueType, VDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-
-  unsigned int i;
-
   os << indent << "Scale : ";
-  for (i = 0; i < VDimension; ++i)
+  for (unsigned int i = 0; i < VDimension; ++i)
   {
     os << m_Scale[i] << ' ';
   }
   os << std::endl;
   os << indent << "MatrixScale : ";
-  for (i = 0; i < VDimension; ++i)
+  for (unsigned int i = 0; i < VDimension; ++i)
   {
     os << m_MatrixScale[i] << ' ';
   }
@@ -111,9 +108,8 @@ template <typename TParametersValueType, unsigned int VDimension>
 void
 ScalableAffineTransform<TParametersValueType, VDimension>::SetScale(const InputVectorType & scale)
 {
-  unsigned int i;
 
-  for (i = 0; i < VDimension; ++i)
+  for (unsigned int i = 0; i < VDimension; ++i)
   {
     m_Scale[i] = scale[i];
   }
@@ -125,9 +121,8 @@ template <typename TParametersValueType, unsigned int VDimension>
 void
 ScalableAffineTransform<TParametersValueType, VDimension>::SetScale(const double scale[VDimension])
 {
-  unsigned int i;
 
-  for (i = 0; i < VDimension; ++i)
+  for (unsigned int i = 0; i < VDimension; ++i)
   {
     m_Scale[i] = scale[i];
   }

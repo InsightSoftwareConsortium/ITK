@@ -44,8 +44,7 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>::FloodFilledFunct
 {
   this->m_Image = imagePtr;
   m_Function = fnPtr;
-  unsigned int i;
-  for (i = 0; i < startIndex.size(); ++i)
+  for (unsigned int i = 0; i < startIndex.size(); ++i)
   {
     m_Seeds.push_back(startIndex[i]);
   }

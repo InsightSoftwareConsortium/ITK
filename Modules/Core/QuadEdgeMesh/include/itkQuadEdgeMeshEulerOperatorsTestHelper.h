@@ -183,31 +183,31 @@ CreateTetraedronMesh(typename TMesh::Pointer mesh)
 
   using PointType = typename TMesh::PointType;
   std::vector<PointType> pts(4);
-  int                    i(0);
-  pts[i][0] = 0.;
-  pts[i][1] = 1.;
-  pts[i++][2] = 0.;
-  pts[i][0] = 0.;
-  pts[i][1] = -1.;
-  pts[i++][2] = 0.;
-  pts[i][0] = -1.;
-  pts[i][1] = 0.;
-  pts[i++][2] = 0.;
-  pts[i][0] = 0.;
-  pts[i][1] = 0.;
-  pts[i++][2] = 1.;
-
-  for (i = 0; i < expectedNumPts; ++i)
+  {
+    int i(0);
+    pts[i][0] = 0.;
+    pts[i][1] = 1.;
+    pts[i++][2] = 0.;
+    pts[i][0] = 0.;
+    pts[i][1] = -1.;
+    pts[i++][2] = 0.;
+    pts[i][0] = -1.;
+    pts[i][1] = 0.;
+    pts[i++][2] = 0.;
+    pts[i][0] = 0.;
+    pts[i][1] = 0.;
+    pts[i++][2] = 1.;
+  }
+  for (int i = 0; i < expectedNumPts; ++i)
   {
     mesh->SetPoint(i, pts[i]);
   }
 
   typename CellType::CellAutoPointer cellpointer;
-  QEPolygonCellType *                poly;
 
-  for (i = 0; i < expectedNumCells; ++i)
+  for (int i = 0; i < expectedNumCells; ++i)
   {
-    poly = new QEPolygonCellType(3);
+    QEPolygonCellType * poly = new QEPolygonCellType(3);
     cellpointer.TakeOwnership(poly);
     cellpointer->SetPointId(0, simpleSquareCells[3 * i]);
     cellpointer->SetPointId(1, simpleSquareCells[3 * i + 1]);
@@ -240,28 +240,27 @@ CreateSamosa(typename TMesh::Pointer mesh)
 
   using PointType = typename TMesh::PointType;
   std::vector<PointType> pts(3);
-  int                    i(0);
-  pts[i][0] = 0.;
-  pts[i][1] = 1.;
-  pts[i++][2] = 0.;
-  pts[i][0] = 0.;
-  pts[i][1] = -1.;
-  pts[i++][2] = 0.;
-  pts[i][0] = -1.;
-  pts[i][1] = 0.;
-  pts[i++][2] = 0.;
-
-  for (i = 0; i < expectedNumPts; ++i)
+  {
+    int i(0);
+    pts[i][0] = 0.;
+    pts[i][1] = 1.;
+    pts[i++][2] = 0.;
+    pts[i][0] = 0.;
+    pts[i][1] = -1.;
+    pts[i++][2] = 0.;
+    pts[i][0] = -1.;
+    pts[i][1] = 0.;
+    pts[i++][2] = 0.;
+  }
+  for (int i = 0; i < expectedNumPts; ++i)
   {
     mesh->SetPoint(i, pts[i]);
   }
 
   typename CellType::CellAutoPointer cellpointer;
-  QEPolygonCellType *                poly;
-
-  for (i = 0; i < expectedNumCells; ++i)
+  for (int i = 0; i < expectedNumCells; ++i)
   {
-    poly = new QEPolygonCellType(3);
+    QEPolygonCellType * poly = new QEPolygonCellType(3);
     cellpointer.TakeOwnership(poly);
     cellpointer->SetPointId(0, simpleSquareCells[3 * i]);
     cellpointer->SetPointId(1, simpleSquareCells[3 * i + 1]);

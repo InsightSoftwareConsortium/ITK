@@ -140,13 +140,12 @@ GDCMSeriesFileNames::GetFileNames(const std::string serie)
   }
   m_SerieHelper->OrderFileList(flist);
 
-  gdcm::FileList::iterator it;
   if (!flist->empty())
   {
     ProgressReporter progress(this, 0, static_cast<itk::SizeValueType>(flist->size()), 10);
-    for (it = flist->begin(); it != flist->end(); ++it)
+    for (auto & it : *flist)
     {
-      gdcm::FileWithName * header = *it;
+      gdcm::FileWithName * header = it;
       m_InputFileNames.push_back(header->filename);
       progress.CompletedPixel();
     }

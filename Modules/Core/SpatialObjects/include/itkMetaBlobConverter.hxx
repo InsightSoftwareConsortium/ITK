@@ -96,8 +96,7 @@ MetaBlobConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectType
   auto * Blob = new MetaBlob(VDimension);
 
   // fill in the Blob information
-  typename BlobSpatialObjectType::BlobPointListType::const_iterator it;
-  for (it = blobSO->GetPoints().begin(); it != blobSO->GetPoints().end(); ++it)
+  for (auto it = blobSO->GetPoints().begin(); it != blobSO->GetPoints().end(); ++it)
   {
     auto * pnt = new BlobPnt(VDimension);
 

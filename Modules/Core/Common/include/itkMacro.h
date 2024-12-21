@@ -862,7 +862,7 @@ compilers.
 // clang-format off
 /** Set a decorated input. This defines the Set"name"() and a Set"name"Input() method */
 #define itkSetDecoratedInputMacro(name, type)                                                                       \
-  virtual void Set##name##Input(const SimpleDataObjectDecorator<type> * _arg)                                       \
+  virtual void Set## name## Input(const SimpleDataObjectDecorator<type> * _arg)                                       \
   {                                                                                                                 \
     itkDebugMacro("setting input " #name " to " << _arg);                                                           \
     if (_arg != itkDynamicCastInDebugMode<SimpleDataObjectDecorator<type> *>(this->ProcessObject::GetInput(#name))) \
@@ -871,8 +871,8 @@ compilers.
       this->Modified();                                                                                             \
     }                                                                                                               \
   }                                                                                                                 \
-  virtual void Set##name(const SimpleDataObjectDecorator<type> * _arg) { this->Set##name##Input(_arg); }            \
-  virtual void Set##name(const type & _arg)                                                                         \
+  virtual void Set## name(const SimpleDataObjectDecorator<type> * _arg) { this->Set## name## Input(_arg); }            \
+  virtual void Set## name(const type & _arg)                                                                         \
   {                                                                                                                 \
     using DecoratorType = SimpleDataObjectDecorator<type>;                                                          \
     itkDebugMacro("setting input " #name " to " << _arg);                                                           \
@@ -887,7 +887,7 @@ compilers.
     ITK_GCC_PRAGMA_POP                                                                                              \
     auto newInput = DecoratorType::New();                                                                           \
     newInput->Set(_arg);                                                                                            \
-    this->Set##name##Input(newInput);                                                                               \
+    this->Set## name## Input(newInput);                                                                               \
   }                                                                                                                 \
   ITK_MACROEND_NOOP_STATEMENT
 // clang-format on
@@ -982,14 +982,14 @@ compilers.
 /** Set built-in type or regular C++ type.  Creates member Set"name"() (e.g., SetVisibility()); */
 // clang-format off
 #define itkSetMacro(name, type)                     \
-  virtual void Set##name(type _arg)                 \
+  virtual void Set## name(type _arg)                 \
   {                                                 \
     itkDebugMacro("setting " #name " to " << _arg); \
     ITK_GCC_PRAGMA_PUSH                             \
     ITK_GCC_SUPPRESS_Wfloat_equal                   \
-    if (this->m_##name != _arg)                     \
+    if (this->m_## name != _arg)                     \
     {                                               \
-      this->m_##name = std::move(_arg);             \
+      this->m_## name = std::move(_arg);             \
       this->Modified();                             \
     }                                               \
     ITK_GCC_PRAGMA_POP                              \
@@ -1076,15 +1076,15 @@ compilers.
  * Create member Set"name"() (e.q., SetRadius()). \#defines are
  * convenience for clamping open-ended values. */
 #define itkSetClampMacro(name, type, min, max)                                  \
-  virtual void Set##name(type _arg)                                             \
+  virtual void Set## name(type _arg)                                             \
   {                                                                             \
     const type temp_extrema = (_arg <= min ? min : (_arg >= max ? max : _arg)); \
     itkDebugMacro("setting " << #name " to " << _arg);                          \
     ITK_GCC_PRAGMA_PUSH                                                         \
     ITK_GCC_SUPPRESS_Wfloat_equal                                               \
-    if (this->m_##name != temp_extrema)                                         \
+    if (this->m_## name != temp_extrema)                                         \
     {                                                                           \
-      this->m_##name = temp_extrema;                                            \
+      this->m_## name = temp_extrema;                                            \
       this->Modified();                                                         \
     }                                                                           \
     ITK_GCC_PRAGMA_POP                                                          \
@@ -1097,12 +1097,12 @@ compilers.
  * Creates method Set"name"() (e.g., SetPoints()). Note that using
  * smart pointers requires using raw pointers when setting input. */
 #define itkSetObjectMacro(name, type)                  \
-  virtual void Set##name(type * _arg)                  \
+  virtual void Set## name(type * _arg)                  \
   {                                                    \
     itkDebugMacro("setting " << #name " to " << _arg); \
-    if (this->m_##name != _arg)                        \
+    if (this->m_## name != _arg)                        \
     {                                                  \
-      this->m_##name = _arg;                           \
+      this->m_## name = _arg;                           \
       this->Modified();                                \
     }                                                  \
   }                                                    \
@@ -1200,33 +1200,73 @@ compilers.
   virtual void name##Off() { this->Set##name(false); } \
   ITK_MACROEND_NOOP_STATEMENT
 
+
+/**
+ * \brief A utility function to encapsulate a commonly used paradigm
+ * for filling one container with a value for Set##Name# Methods
+ *
+ * returns false if no values were changed.
+ * return true if any of the values are changed.
+ * \ingroup ITKCommon
+ */
+template <typename MemberContainerType, typename CopyFromValueType, typename LoopEndType>
+bool
+ContainerFillWithCheck(MemberContainerType & m, const CopyFromValueType & c, const LoopEndType N)
+{
+  bool value_updated = false;
+  for (unsigned int i = 0; i < N; ++i)
+  {
+    ITK_GCC_PRAGMA_PUSH
+    ITK_GCC_SUPPRESS_Wfloat_equal
+    if (m[i] != c)
+    {
+      m[i] = c;
+      value_updated = true;
+    }
+    ITK_GCC_PRAGMA_POP
+  }
+  return value_updated;
+}
+
+/**
+ * \brief A utility function to encapsulate a commonly used paradigm
+ * for copying one container to another inside of a "Set##Name# Methods
+ *
+ * returns false if no values were changed.
+ * return true if any of the values are changed.
+ * \ingroup ITKCommon
+ */
+template <typename MemberContainerType, typename CopyFromContainerType, typename LoopEndType>
+bool
+ContainerCopyWithCheck(MemberContainerType & m, const CopyFromContainerType & c, const LoopEndType N)
+{
+  bool value_updated = false;
+  for (LoopEndType i = 0; i < N; ++i)
+  {
+    ITK_GCC_PRAGMA_PUSH
+    ITK_GCC_SUPPRESS_Wfloat_equal
+    if (m[i] != c[i])
+    {
+      m[i] = c[i];
+      value_updated = true;
+    }
+    ITK_GCC_PRAGMA_POP
+  }
+  return value_updated;
+}
+
 // clang-format off
 /** General set vector macro creates a single method that copies specified
  * number of values into object.
  * Examples: void SetColor(c,3) */
-#define itkSetVectorMacro(name, type, count) \
-  virtual void Set##name(type data[])        \
-  {                                          \
-    unsigned int i;                          \
-    for (i = 0; i < count; ++i)              \
-    {                                        \
-      ITK_GCC_PRAGMA_PUSH                        \
-      ITK_GCC_SUPPRESS_Wfloat_equal              \
-      if (data[i] != this->m_##name[i])      \
-      {                                      \
-        break;                               \
-      }                                      \
-      ITK_GCC_PRAGMA_POP                     \
-    }                                        \
-    if (i < count)                           \
-    {                                        \
-      this->Modified();                      \
-      for (i = 0; i < count; ++i)            \
-      {                                      \
-        this->m_##name[i] = data[i];         \
-      }                                      \
-    }                                        \
-  }                                          \
+#define itkSetVectorMacro(name, type, count)                    \
+  virtual void Set## name(type data[])                          \
+  {                                                             \
+    if (ContainerCopyWithCheck( this->m_## name, data, count))  \
+    {                                                           \
+      this->Modified();                                         \
+    }                                                           \
+  }                                                             \
   ITK_MACROEND_NOOP_STATEMENT
 // clang-format on
 
@@ -1442,5 +1482,7 @@ compilers.
 // Must include itkExceptionObject.h at the end of the file
 // because it depends on the macros defined above
 #include "itkExceptionObject.h"
+
+
 #undef allow_inclusion_of_itkExceptionObject_h
 #endif // itkMacro_h

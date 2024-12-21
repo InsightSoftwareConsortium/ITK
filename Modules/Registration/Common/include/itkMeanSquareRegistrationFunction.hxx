@@ -27,10 +27,9 @@ namespace itk
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 MeanSquareRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::MeanSquareRegistrationFunction()
 {
-  RadiusType   r;
-  unsigned int j;
+  RadiusType r;
 
-  for (j = 0; j < ImageDimension; ++j)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     r[j] = 0;
   }

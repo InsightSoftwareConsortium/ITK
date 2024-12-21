@@ -945,8 +945,8 @@ NrrdImageIO::Write(const void * buffer)
   }
   const unsigned int  nrrdDim = baseDim + spaceDim;
   std::vector<double> spaceDirStd(spaceDim);
-  unsigned int        axi;
-  for (axi = 0; axi < spaceDim; ++axi)
+
+  for (unsigned int axi = 0; axi < spaceDim; ++axi)
   {
     size[axi + baseDim] = this->GetDimensions(axi);
     kind[axi + baseDim] = nrrdKindDomain;
@@ -984,6 +984,7 @@ NrrdImageIO::Write(const void * buffer)
       const char * field = airEnumStr(nrrdField, nrrdField_thicknesses);
       if (!strncmp(keyField, field, strlen(field)))
       {
+        unsigned int axi;
         if (1 == sscanf(keyField + strlen(field), "[%u]", &axi) && axi + baseDim < nrrd->dim)
         {
           double thickness = 0.0;
@@ -994,6 +995,7 @@ NrrdImageIO::Write(const void * buffer)
       field = airEnumStr(nrrdField, nrrdField_centers);
       if (!strncmp(keyField, field, strlen(field)))
       {
+        unsigned int axi;
         if (1 == sscanf(keyField + strlen(field), "[%u]", &axi) && axi + baseDim < nrrd->dim)
         {
           std::string value;
@@ -1004,6 +1006,7 @@ NrrdImageIO::Write(const void * buffer)
       field = airEnumStr(nrrdField, nrrdField_kinds);
       if (!strncmp(keyField, field, strlen(field)))
       {
+        unsigned int axi;
         if (1 == sscanf(keyField + strlen(field), "[%u]", &axi) && axi + baseDim < nrrd->dim)
         {
           std::string value;
@@ -1014,6 +1017,7 @@ NrrdImageIO::Write(const void * buffer)
       field = airEnumStr(nrrdField, nrrdField_labels);
       if (!strncmp(keyField, field, strlen(field)))
       {
+        unsigned int axi;
         if (1 == sscanf(keyField + strlen(field), "[%u]", &axi) && axi + baseDim < nrrd->dim)
         {
           std::string value;

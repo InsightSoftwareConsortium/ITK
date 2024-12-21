@@ -58,23 +58,9 @@ template <typename TOutputImage>
 void
 RandomImageSource<TOutputImage>::SetSize(SizeValueArrayType sizeArray)
 {
-  const unsigned int count = TOutputImage::ImageDimension;
-  unsigned int       i;
-
-  for (i = 0; i < count; ++i)
-  {
-    if (sizeArray[i] != this->m_Size[i])
-    {
-      break;
-    }
-  }
-  if (i < count)
+  if (ContainerCopyWithCheck(m_Size, sizeArray, TOutputImage::ImageDimension))
   {
     this->Modified();
-    for (i = 0; i < count; ++i)
-    {
-      this->m_Size[i] = sizeArray[i];
-    }
   }
 }
 
@@ -89,23 +75,9 @@ template <typename TOutputImage>
 void
 RandomImageSource<TOutputImage>::SetSpacing(SpacingValueArrayType spacingArray)
 {
-  const unsigned int count = TOutputImage::ImageDimension;
-  unsigned int       i;
-
-  for (i = 0; i < count; ++i)
-  {
-    if (Math::NotExactlyEquals(spacingArray[i], this->m_Spacing[i]))
-    {
-      break;
-    }
-  }
-  if (i < count)
+  if (ContainerCopyWithCheck(m_Spacing, spacingArray, TOutputImage::ImageDimension))
   {
     this->Modified();
-    for (i = 0; i < count; ++i)
-    {
-      this->m_Spacing[i] = spacingArray[i];
-    }
   }
 }
 
@@ -113,23 +85,9 @@ template <typename TOutputImage>
 void
 RandomImageSource<TOutputImage>::SetOrigin(PointValueArrayType originArray)
 {
-  const unsigned int count = TOutputImage::ImageDimension;
-  unsigned int       i;
-
-  for (i = 0; i < count; ++i)
-  {
-    if (Math::NotExactlyEquals(originArray[i], this->m_Origin[i]))
-    {
-      break;
-    }
-  }
-  if (i < count)
+  if (ContainerCopyWithCheck(m_Origin, originArray, TOutputImage::ImageDimension))
   {
     this->Modified();
-    for (i = 0; i < count; ++i)
-    {
-      this->m_Origin[i] = originArray[i];
-    }
   }
 }
 

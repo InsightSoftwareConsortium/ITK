@@ -40,13 +40,11 @@ namespace itk
 void
 PlatformMultiThreader::MultipleMethodExecute()
 {
-  ThreadIdType threadCount;
-
   HANDLE processId[ITK_MAX_THREADS];
 
   // obey the global maximum number of threads limit
   m_NumberOfWorkUnits = std::min(m_NumberOfWorkUnits, MultiThreaderBase::GetGlobalMaximumNumberOfThreads());
-  for (threadCount = 0; threadCount < m_NumberOfWorkUnits; ++threadCount)
+  for (ThreadIdType threadCount = 0; threadCount < m_NumberOfWorkUnits; ++threadCount)
   {
     if (m_MultipleMethod[threadCount] == nullptr)
     {
@@ -63,7 +61,7 @@ PlatformMultiThreader::MultipleMethodExecute()
   //
   // First, start up the m_NumberOfWorkUnits-1 processes.  Keep track
   // of their process ids for use later in the waitid call
-  for (threadCount = 1; threadCount < m_NumberOfWorkUnits; ++threadCount)
+  for (ThreadIdType threadCount = 1; threadCount < m_NumberOfWorkUnits; ++threadCount)
   {
     m_ThreadInfoArray[threadCount].UserData = m_MultipleData[threadCount];
     m_ThreadInfoArray[threadCount].NumberOfWorkUnits = m_NumberOfWorkUnits;
@@ -84,12 +82,12 @@ PlatformMultiThreader::MultipleMethodExecute()
   // The parent thread has finished its method - so now it
   // waits for each of the other processes to
   // exit
-  for (threadCount = 1; threadCount < m_NumberOfWorkUnits; ++threadCount)
+  for (ThreadIdType threadCount = 1; threadCount < m_NumberOfWorkUnits; ++threadCount)
   {
     WaitForSingleObject(processId[threadCount], INFINITE);
   }
   // close the threads
-  for (threadCount = 1; threadCount < m_NumberOfWorkUnits; ++threadCount)
+  for (ThreadIdType threadCount = 1; threadCount < m_NumberOfWorkUnits; ++threadCount)
   {
     CloseHandle(processId[threadCount]);
   }

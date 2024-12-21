@@ -402,20 +402,19 @@ itkMeshTest(int, char *[])
      * This should be the test tetrahedron, except that we have done an
      * explicit assignment which removes this.
      */
-    std::set<MeshType::CellIdentifier>           neighborSet;
-    std::set<MeshType::CellIdentifier>::iterator cell;
+    std::set<MeshType::CellIdentifier> neighborSet;
     mesh->GetCellBoundaryFeatureNeighbors(1,             // Topological dimension of feature.
                                           1,             // CellIdentifier
                                           0,             // CellFeatureIdentifier
                                           &neighborSet); // Where to put result.
 
     std::cout << "Neighbors (hex edge 0):" << std::endl;
-    for (cell = neighborSet.begin(); cell != neighborSet.end(); ++cell)
+    for (unsigned long cell : neighborSet)
     {
-      std::cout << "Id " << *cell << ": ";
+      std::cout << "Id " << cell << ": ";
       CellAutoPointer cellPointer;
 
-      if (mesh->GetCell(*cell, cellPointer))
+      if (mesh->GetCell(cell, cellPointer))
       {
         std::cout << cellPointer->GetNameOfClass();
       }
@@ -450,12 +449,12 @@ itkMeshTest(int, char *[])
                                           &neighborSet); // Where to put result.
 
     std::cout << "Neighbors (hex edge 1):" << std::endl;
-    for (cell = neighborSet.begin(); cell != neighborSet.end(); ++cell)
+    for (unsigned long cell : neighborSet)
     {
-      std::cout << "Id " << *cell << ": ";
+      std::cout << "Id " << cell << ": ";
       CellAutoPointer cellPointer;
 
-      if (mesh->GetCell(*cell, cellPointer))
+      if (mesh->GetCell(cell, cellPointer))
       {
         std::cout << cellPointer->GetNameOfClass();
       }
@@ -474,12 +473,12 @@ itkMeshTest(int, char *[])
                                           &neighborSet); // Where to put result.
 
     std::cout << "Neighbors (tet edge 3):" << std::endl;
-    for (cell = neighborSet.begin(); cell != neighborSet.end(); ++cell)
+    for (unsigned long cell : neighborSet)
     {
-      std::cout << "Id " << *cell << ": ";
+      std::cout << "Id " << cell << ": ";
       CellAutoPointer cellPointer;
 
-      if (mesh->GetCell(*cell, cellPointer))
+      if (mesh->GetCell(cell, cellPointer))
       {
         std::cout << cellPointer->GetNameOfClass();
       }

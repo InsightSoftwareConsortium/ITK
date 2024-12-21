@@ -131,9 +131,8 @@ HDF5ReadWriteTest2(const char * fileName)
   expectedRegion.SetSize(0, 5);
   expectedRegion.SetSize(1, 5);
   expectedRegion.SetSize(2, 1);
-  typename MonitorFilterType::RegionVectorType   writerRegionVector = writerMonitor->GetUpdatedBufferedRegions();
-  typename ImageType::RegionType::IndexValueType iRegion;
-  for (iRegion = 0; iRegion < 5; ++iRegion)
+  typename MonitorFilterType::RegionVectorType writerRegionVector = writerMonitor->GetUpdatedBufferedRegions();
+  for (typename ImageType::RegionType::IndexValueType iRegion = 0; iRegion < 5; ++iRegion)
   {
     expectedRegion.SetIndex(2, iRegion);
     if (writerRegionVector[iRegion] != expectedRegion)
@@ -215,7 +214,7 @@ HDF5ReadWriteTest2(const char * fileName)
   expectedRegion.SetSize(0, 5);
   expectedRegion.SetSize(1, 5);
   expectedRegion.SetSize(2, 1);
-  for (iRegion = 0; iRegion < 5; ++iRegion)
+  for (typename ImageType::RegionType::IndexValueType iRegion = 0; iRegion < 5; ++iRegion)
   {
     expectedRegion.SetIndex(2, iRegion);
     if (readerRegionVector[iRegion] != expectedRegion)

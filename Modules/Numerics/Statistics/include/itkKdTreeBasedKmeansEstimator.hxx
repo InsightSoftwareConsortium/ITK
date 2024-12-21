@@ -66,11 +66,10 @@ double
 KdTreeBasedKmeansEstimator<TKdTree>::GetSumOfSquaredPositionChanges(InternalParametersType & previous,
                                                                     InternalParametersType & current)
 {
-  double       temp;
-  double       sum = 0.0;
-  unsigned int i;
+  double temp;
+  double sum = 0.0;
 
-  for (i = 0; i < static_cast<unsigned int>(previous.size()); ++i)
+  for (unsigned int i = 0; i < static_cast<unsigned int>(previous.size()); ++i)
   {
     temp = m_DistanceMetric->Evaluate(previous[i], current[i]);
     sum += temp;

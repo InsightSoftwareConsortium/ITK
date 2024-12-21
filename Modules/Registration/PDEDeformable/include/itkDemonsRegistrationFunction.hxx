@@ -27,10 +27,9 @@ namespace itk
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 DemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::DemonsRegistrationFunction()
 {
-  RadiusType   r;
-  unsigned int j;
+  RadiusType r;
 
-  for (j = 0; j < ImageDimension; ++j)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     r[j] = 0;
   }

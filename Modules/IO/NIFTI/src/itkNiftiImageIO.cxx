@@ -1113,8 +1113,8 @@ NiftiImageIO::ReadImageInformation()
     // with T = 1; this causes ImageFileReader to erroneously ignore the
     // reported
     // direction cosines.
-    unsigned int realdim;
-    for (realdim = this->m_NiftiImage->dim[0]; this->m_NiftiImage->dim[realdim] == 1 && realdim > 3; realdim--)
+    unsigned int realdim = this->m_NiftiImage->dim[0];
+    for (; this->m_NiftiImage->dim[realdim] == 1 && realdim > 3; realdim--)
     {
     }
     this->SetNumberOfDimensions(realdim);

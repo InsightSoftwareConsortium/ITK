@@ -103,8 +103,7 @@ itkVtkConnectedComponentImageFilterTest(int argc, char * argv[])
   filterContainer["Triangle"] = TriangleFilterType::New();
   filterContainer["Yen"] = YenFilterType::New();
 
-  auto it = filterContainer.begin();
-  for (it = filterContainer.begin(); it != filterContainer.end(); ++it)
+  for (auto it = filterContainer.begin(); it != filterContainer.end(); ++it)
   {
     it->second->SetInsideValue(255);
     it->second->SetOutsideValue(0);

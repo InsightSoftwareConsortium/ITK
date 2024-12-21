@@ -29,21 +29,10 @@ template <typename TImage>
 void
 ExtractOrthogonalSwath2DImageFilter<TImage>::SetSpacing(const double * spacing)
 {
-  unsigned int i;
 
-  for (i = 0; i < ImageDimension; ++i)
+  if (ContainerCopyWithCheck(m_Spacing, spacing, Self::ImageDimension))
   {
-    if (Math::NotExactlyEquals(spacing[i], m_Spacing[i]))
-    {
-      break;
-    }
-  }
-  if (i < ImageDimension)
-  {
-    for (i = 0; i < ImageDimension; ++i)
-    {
-      m_Spacing[i] = spacing[i];
-    }
+    this->Modified();
   }
 }
 
@@ -51,21 +40,9 @@ template <typename TImage>
 void
 ExtractOrthogonalSwath2DImageFilter<TImage>::SetSpacing(const float * spacing)
 {
-  unsigned int i;
-
-  for (i = 0; i < ImageDimension; ++i)
+  if (ContainerCopyWithCheck(m_Spacing, spacing, Self::ImageDimension))
   {
-    if (Math::NotExactlyEquals(static_cast<double>(spacing[i]), m_Spacing[i]))
-    {
-      break;
-    }
-  }
-  if (i < ImageDimension)
-  {
-    for (i = 0; i < ImageDimension; ++i)
-    {
-      m_Spacing[i] = spacing[i];
-    }
+    this->Modified();
   }
 }
 
@@ -81,21 +58,9 @@ template <typename TImage>
 void
 ExtractOrthogonalSwath2DImageFilter<TImage>::SetOrigin(const double * origin)
 {
-  unsigned int i;
-
-  for (i = 0; i < ImageDimension; ++i)
+  if (ContainerCopyWithCheck(m_Origin, origin, Self::ImageDimension))
   {
-    if (Math::NotExactlyEquals(origin[i], m_Origin[i]))
-    {
-      break;
-    }
-  }
-  if (i < ImageDimension)
-  {
-    for (i = 0; i < ImageDimension; ++i)
-    {
-      m_Origin[i] = origin[i];
-    }
+    this->Modified();
   }
 }
 
@@ -103,21 +68,9 @@ template <typename TImage>
 void
 ExtractOrthogonalSwath2DImageFilter<TImage>::SetOrigin(const float * origin)
 {
-  unsigned int i;
-
-  for (i = 0; i < ImageDimension; ++i)
+  if (ContainerCopyWithCheck(m_Origin, origin, Self::ImageDimension))
   {
-    if (Math::NotExactlyEquals(static_cast<double>(origin[i]), m_Origin[i]))
-    {
-      break;
-    }
-  }
-  if (i < ImageDimension)
-  {
-    for (i = 0; i < ImageDimension; ++i)
-    {
-      m_Origin[i] = origin[i];
-    }
+    this->Modified();
   }
 }
 

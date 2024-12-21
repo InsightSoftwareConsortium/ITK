@@ -161,8 +161,7 @@ QuadEdgeMesh<TPixel, VDimension, TTraits>::Splice(QEPrimal * a, QEPrimal * b) ->
     const PointIdentifier newOriginId = this->AddPoint(newOrigin);
 
     // ...and inform Onext ring of b that their Origin() have changed:
-    typename QEPrimal::IteratorGeom it;
-    for (it = b->BeginGeomOnext(); it != b->EndGeomOnext(); ++it)
+    for (auto it = b->BeginGeomOnext(); it != b->EndGeomOnext(); ++it)
     {
       it.Value()->SetOrigin(newOriginId);
     }
@@ -310,8 +309,7 @@ QuadEdgeMesh<TPixel, VDimension, TTraits>::Splice(QEPrimal * a, QEPrimal * b) ->
     // We need to inform the edges ranging from a->Onext() to b that
     // their Origin() have changed. Let's over do it (read, be lazy) and
     // inform the full Onext() ring:
-    typename QEPrimal::IteratorGeom it;
-    for (it = a->BeginGeomOnext(); it != a->EndGeomOnext(); ++it)
+    for (auto it = a->BeginGeomOnext(); it != a->EndGeomOnext(); ++it)
     {
       it.Value()->SetOrigin(orgId);
     }

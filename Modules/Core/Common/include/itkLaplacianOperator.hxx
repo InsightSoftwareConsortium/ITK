@@ -45,13 +45,13 @@ template <typename TPixel, unsigned int VDimension, typename TAllocator>
 void
 LaplacianOperator<TPixel, VDimension, TAllocator>::Fill(const CoefficientVector & coeff)
 {
-  typename Superclass::CoefficientVector::const_iterator it;
+
 
   const std::slice temp_slice(0, coeff.size(), 1);
 
   typename Self::SliceIteratorType data(this, temp_slice);
 
-  it = coeff.begin();
+  typename Superclass::CoefficientVector::const_iterator it = coeff.begin();
 
   // Copy the coefficients into the neighborhood
   for (data = data.Begin(); data < data.End(); ++data, ++it)

@@ -115,9 +115,7 @@ FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>::Thre
   const ThreadRegionType & regionToProcess,
   ThreadIdType)
 {
-  typename NodeListType::Iterator it;
-
-  for (it = regionToProcess.first; it != regionToProcess.last; ++it)
+  for (auto it = regionToProcess.first; it != regionToProcess.last; ++it)
   {
     // all sparse image node types must have Data and Update members to be used
     // with this filter
