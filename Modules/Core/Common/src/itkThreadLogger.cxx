@@ -91,7 +91,7 @@ ThreadLogger::AddLogOutput(OutputType * output)
 {
   const std::lock_guard<std::mutex> lockGuard(m_Mutex);
   this->m_OperationQ.push(ADD_LOG_OUTPUT);
-  this->m_OutputQ.push(output);
+  this->m_OutputQ.emplace(output);
 }
 
 void

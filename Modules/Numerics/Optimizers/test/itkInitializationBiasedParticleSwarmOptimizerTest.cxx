@@ -163,7 +163,7 @@ IBPSOTest1(typename OptimizerType::CoefficientType inertiaCoefficient,
 
   // set optimizer parameters
   OptimizerType::ParameterBoundsType bounds;
-  bounds.push_back(std::make_pair(-10, 10));
+  bounds.emplace_back(-10, 10);
   constexpr unsigned int        numberOfParticles = 10;
   constexpr unsigned int        maxIterations = 200;
   constexpr double              xTolerance = 0.1;
@@ -289,8 +289,8 @@ IBPSOTest2(typename OptimizerType::CoefficientType inertiaCoefficient,
 
   // set optimizer parameters
   OptimizerType::ParameterBoundsType bounds;
-  bounds.push_back(std::make_pair(-10, 10));
-  bounds.push_back(std::make_pair(-10, 10));
+  bounds.emplace_back(-10, 10);
+  bounds.emplace_back(-10, 10);
   constexpr unsigned int        numberOfParticles = 10;
   constexpr unsigned int        maxIterations = 200;
   constexpr double              xTolerance = 0.1;
@@ -388,8 +388,8 @@ IBPSOTest3(typename OptimizerType::CoefficientType inertiaCoefficient,
 
   // set optimizer parameters
   OptimizerType::ParameterBoundsType bounds;
-  bounds.push_back(std::make_pair(-100, 100));
-  bounds.push_back(std::make_pair(-100, 100));
+  bounds.emplace_back(-100, 100);
+  bounds.emplace_back(-100, 100);
   constexpr unsigned int        numberOfParticles = 100;
   constexpr unsigned int        maxIterations = 1000;
   constexpr double              xTolerance = 0.1;

@@ -370,7 +370,7 @@ main()
       centroid[j] = estimatedMeans[index++];
     }
     membershipFunction->SetCentroid(centroid);
-    membershipFunctionVector.push_back(membershipFunction);
+    membershipFunctionVector.emplace_back(membershipFunction);
   }
   classifier->SetMembershipFunctions(membershipFunctionVectorObject);
 

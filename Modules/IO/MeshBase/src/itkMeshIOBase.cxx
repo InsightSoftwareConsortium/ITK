@@ -44,13 +44,13 @@ MeshIOBase::GetSupportedWriteExtensions() const
 void
 MeshIOBase::AddSupportedReadExtension(const char * extension)
 {
-  this->m_SupportedReadExtensions.push_back(extension);
+  this->m_SupportedReadExtensions.emplace_back(extension);
 }
 
 void
 MeshIOBase::AddSupportedWriteExtension(const char * extension)
 {
-  this->m_SupportedWriteExtensions.push_back(extension);
+  this->m_SupportedWriteExtensions.emplace_back(extension);
 }
 
 unsigned int

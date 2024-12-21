@@ -36,7 +36,7 @@ itkImageSeriesReaderVectorTest(int argc, char * argv[])
   VectorImageSeriesReader::FileNamesContainer fnames;
   for (int i = 1; i < argc; ++i)
   {
-    fnames.push_back(argv[i]);
+    fnames.emplace_back(argv[i]);
   }
 
 

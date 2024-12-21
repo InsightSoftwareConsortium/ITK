@@ -42,12 +42,12 @@ itkImageSeriesReaderDimensionsTest(int argc, char * argv[])
   using Reader5DType = itk::ImageSeriesReader<Image5DType>;
 
   Reader2DType::FileNamesContainer fname;
-  fname.push_back(argv[1]);
+  fname.emplace_back(argv[1]);
 
   Reader2DType::FileNamesContainer fnames;
   for (int i = 1; i < argc; ++i)
   {
-    fnames.push_back(argv[i]);
+    fnames.emplace_back(argv[i]);
   }
 
 

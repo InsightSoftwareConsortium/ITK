@@ -674,7 +674,7 @@ ProcessObject::GetOutputs()
     // only include the primary if it's required or set
     if (output.first != m_IndexedOutputs[0]->first || output.second.IsNotNull())
     {
-      res.push_back(output.second.GetPointer());
+      res.emplace_back(output.second.GetPointer());
     }
   }
   return res;
@@ -967,7 +967,7 @@ ProcessObject::GetInputs()
     // only include the primary if it's required or set
     if (input.first != m_IndexedInputs[0]->first || input.second.IsNotNull() || this->IsRequiredInputName(input.first))
     {
-      res.push_back(input.second.GetPointer());
+      res.emplace_back(input.second.GetPointer());
     }
   }
   return res;

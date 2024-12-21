@@ -64,13 +64,13 @@ ImageIOBase::GetSupportedReadExtensions() const
 void
 ImageIOBase::AddSupportedReadExtension(const char * extension)
 {
-  this->m_SupportedReadExtensions.push_back(extension);
+  this->m_SupportedReadExtensions.emplace_back(extension);
 }
 
 void
 ImageIOBase::AddSupportedWriteExtension(const char * extension)
 {
-  this->m_SupportedWriteExtensions.push_back(extension);
+  this->m_SupportedWriteExtensions.emplace_back(extension);
 }
 
 void

@@ -200,7 +200,7 @@ itkBSplineSyNPointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(ar
     fieldTransformAdaptor->SetMeshSizeForTheUpdateField(newUpdateMeshSize);
     fieldTransformAdaptor->SetMeshSizeForTheTotalField(newTotalMeshSize);
 
-    adaptors.push_back(fieldTransformAdaptor);
+    adaptors.emplace_back(fieldTransformAdaptor);
   }
 
   displacementFieldRegistration->SetFixedPointSet(fixedPoints);

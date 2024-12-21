@@ -64,7 +64,7 @@ TEST(ImageRandomConstIteratorWithIndex, IsDeterministicWhenGlobalRandomSeedsAreR
 
       while (!iterator.IsAtEnd())
       {
-        samples.push_back({ iterator.Get(), iterator.GetIndex() });
+        samples.emplace_back(iterator.Get(), iterator.GetIndex());
         ++iterator;
       }
       return samples;

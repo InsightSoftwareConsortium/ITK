@@ -112,8 +112,8 @@ itkPNGImageIOTest2(int argc, char * argv[])
   // Check supported file extensions
   // Expecting ".png" and ".PNG"
   itk::ImageIOBase::ArrayOfExtensionsType expectedExtensions;
-  expectedExtensions.push_back(".png");
-  expectedExtensions.push_back(".PNG");
+  expectedExtensions.emplace_back(".png");
+  expectedExtensions.emplace_back(".PNG");
 
   // Read extensions
   itk::ImageIOBase::ArrayOfExtensionsType readExtensions = io->GetSupportedReadExtensions();

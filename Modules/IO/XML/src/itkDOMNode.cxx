@@ -265,7 +265,7 @@ DOMNode::AddChildAtEnd(DOMNode * node)
   }
 
   node->m_Parent = this;
-  this->m_Children.push_back(Pointer(node));
+  this->m_Children.emplace_back(node);
 }
 
 /** Replace a child (throw exception if not able to replace). */

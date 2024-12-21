@@ -37,7 +37,7 @@ itkImageSeriesReaderSamplingTest(int argc, char * argv[])
   for (int i = 1; i < argc; ++i)
   {
     std::cout << argv[i] << std::endl;
-    fnames.push_back(argv[i]);
+    fnames.emplace_back(argv[i]);
   }
 
   std::cout << "testing reading a series of 2D images to 3D with extra slices" << std::endl;

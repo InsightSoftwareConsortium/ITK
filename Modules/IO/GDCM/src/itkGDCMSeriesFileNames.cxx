@@ -92,7 +92,7 @@ GDCMSeriesFileNames::GetSeriesUIDs()
       // Create its unique series ID
       const std::string id = m_SerieHelper->CreateUniqueSeriesIdentifier(file).c_str();
 
-      m_SeriesUIDs.push_back(id.c_str());
+      m_SeriesUIDs.emplace_back(id.c_str());
     }
     flist = m_SerieHelper->GetNextSingleSerieUIDFileSet();
   }

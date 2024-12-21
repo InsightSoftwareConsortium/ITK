@@ -148,7 +148,7 @@ create_threaded_data2(int num_threads, itk::LoggerBase * logger)
   ThreadDataVec threadData;
   for (int ii = 0; ii < num_threads; ++ii)
   {
-    threadData.push_back(ThreadDataStruct());
+    threadData.emplace_back();
     threadData[ii].logger = logger;
   }
   return threadData;
