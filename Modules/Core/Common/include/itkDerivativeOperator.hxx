@@ -36,11 +36,11 @@ DerivativeOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients() -> Co
     unsigned int  j = 1;
     for (; j < w - 1; ++j)
     {
-      PixelRealType next = coeff[j - 1] + coeff[j + 1] - 2 * coeff[j];
+      const PixelRealType next = coeff[j - 1] + coeff[j + 1] - 2 * coeff[j];
       coeff[j - 1] = previous;
       previous = next;
     }
-    PixelRealType next = coeff[j - 1] - 2 * coeff[j];
+    const PixelRealType next = coeff[j - 1] - 2 * coeff[j];
     coeff[j - 1] = previous;
     coeff[j] = next;
   }
@@ -50,11 +50,11 @@ DerivativeOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients() -> Co
     unsigned int  j = 1;
     for (; j < w - 1; ++j)
     {
-      PixelRealType next = -0.5 * coeff[j - 1] + 0.5 * coeff[j + 1];
+      const PixelRealType next = -0.5 * coeff[j - 1] + 0.5 * coeff[j + 1];
       coeff[j - 1] = previous;
       previous = next;
     }
-    PixelRealType next = -0.5 * coeff[j - 1];
+    const PixelRealType next = -0.5 * coeff[j - 1];
     coeff[j - 1] = previous;
     coeff[j] = next;
   }

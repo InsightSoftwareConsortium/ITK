@@ -122,7 +122,7 @@ FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>::IsPixelIn
         IndexType tempIndex;
         for (unsigned int i = 0; i < dim; ++i)
         {
-          unsigned int counterCopy = counter;
+          const unsigned int counterCopy = counter;
           tempIndex[i] = index[i] + static_cast<int>((counterCopy >> i) & 0x0001);
         }
 
@@ -164,7 +164,7 @@ FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>::IsPixelIn
         IndexType tempIndex;
         for (unsigned int i = 0; i < dim; ++i)
         {
-          unsigned int counterCopy = counter;
+          const unsigned int counterCopy = counter;
           tempIndex[i] = index[i] + static_cast<int>((counterCopy >> i) & 0x0001);
         }
 

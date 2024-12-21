@@ -558,19 +558,19 @@ DownHeap(TSubsample * sample, unsigned int activeDimension, int beginIndex, int 
   while (true)
   {
     // location of first child
-    int largerChild = beginIndex + 2 * (currentNode - beginIndex) + 1;
-    int leftChild = largerChild;
-    int rightChild = leftChild + 1;
+    int       largerChild = beginIndex + 2 * (currentNode - beginIndex) + 1;
+    const int leftChild = largerChild;
+    const int rightChild = leftChild + 1;
     if (leftChild > endIndex - 1)
     {
       // leaf node
       return;
     }
 
-    const auto            initValue = sample->GetMeasurementVectorByIndex(leftChild)[activeDimension];
-    SampleMeasurementType leftChildValue = initValue;
-    SampleMeasurementType rightChildValue = initValue;
-    SampleMeasurementType largerChildValue = initValue;
+    const auto                  initValue = sample->GetMeasurementVectorByIndex(leftChild)[activeDimension];
+    const SampleMeasurementType leftChildValue = initValue;
+    SampleMeasurementType       rightChildValue = initValue;
+    SampleMeasurementType       largerChildValue = initValue;
 
     if (rightChild < endIndex)
     {
@@ -633,14 +633,15 @@ IntrospectiveSortLoop(TSubsample * sample,
     }
 
     --depthLimit;
-    int cut = Partition<TSubsample>(sample,
-                                    activeDimension,
-                                    beginIndex,
-                                    endIndex,
-                                    MedianOfThree<SampleMeasurementType>(
-                                      sample->GetMeasurementVectorByIndex(beginIndex)[activeDimension],
-                                      sample->GetMeasurementVectorByIndex(beginIndex + length / 2)[activeDimension],
-                                      sample->GetMeasurementVectorByIndex(endIndex - 1)[activeDimension]));
+    const int cut =
+      Partition<TSubsample>(sample,
+                            activeDimension,
+                            beginIndex,
+                            endIndex,
+                            MedianOfThree<SampleMeasurementType>(
+                              sample->GetMeasurementVectorByIndex(beginIndex)[activeDimension],
+                              sample->GetMeasurementVectorByIndex(beginIndex + length / 2)[activeDimension],
+                              sample->GetMeasurementVectorByIndex(endIndex - 1)[activeDimension]));
     IntrospectiveSortLoop<TSubsample>(sample, activeDimension, cut, endIndex, depthLimit, sizeThreshold);
     endIndex = cut;
     length = endIndex - beginIndex;
