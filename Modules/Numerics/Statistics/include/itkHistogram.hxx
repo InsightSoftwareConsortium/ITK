@@ -255,8 +255,8 @@ Histogram<TMeasurement, TFrequencyContainer>::GetIndex(const MeasurementVectorTy
 
   for (unsigned int dim = 0; dim < measurementVectorSize; ++dim)
   {
-    MeasurementType tempMeasurement = measurement[dim];
-    IndexValueType  begin = 0;
+    const MeasurementType tempMeasurement = measurement[dim];
+    IndexValueType        begin = 0;
     if (tempMeasurement < m_Min[dim][begin])
     {
       // one of measurement is below the minimum
