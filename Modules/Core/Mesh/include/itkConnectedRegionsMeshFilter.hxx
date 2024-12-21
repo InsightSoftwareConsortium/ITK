@@ -322,7 +322,7 @@ ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
       {
         IdentifierType regionId = static_cast<IdentifierType>(m_Visited[cellId]);
         // see if cell is on region
-        for (unsigned long & i : m_RegionList)
+        for (const auto & i : m_RegionList)
         {
           if (i == regionId)
           {
