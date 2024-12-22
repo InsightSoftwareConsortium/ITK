@@ -133,9 +133,7 @@ itkMathRoundTest2(int, char *[])
   {
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << "Test passed" << std::endl;
-    return EXIT_SUCCESS;
-  }
+
+  std::cout << "Test passed" << std::endl;
+  return EXIT_SUCCESS;
 }

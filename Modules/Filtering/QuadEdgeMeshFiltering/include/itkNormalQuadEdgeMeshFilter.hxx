@@ -128,90 +128,88 @@ NormalQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::Weight(const OutputPointIdent
   {
     return static_cast<OutputVertexNormalComponentType>(1.0);
   }
-  else
+
+
+  auto * poly = dynamic_cast<OutputPolygonType *>(outputMesh->GetCells()->GetElement(iCId));
+  if (poly != nullptr) // this test should be removed...
   {
-
-    auto * poly = dynamic_cast<OutputPolygonType *>(outputMesh->GetCells()->GetElement(iCId));
-    if (poly != nullptr) // this test should be removed...
+    // this test should be removed...
+    if (poly->GetNumberOfPoints() == 3)
     {
-      // this test should be removed...
-      if (poly->GetNumberOfPoints() == 3)
+      OutputQEType *  edge = poly->GetEdgeRingEntry();
+      OutputQEType *  temp = edge;
+      OutputPointType pt[3];
+      int             internal_id(0);
+      int             k(0);
+      do
       {
-        OutputQEType *  edge = poly->GetEdgeRingEntry();
-        OutputQEType *  temp = edge;
-        OutputPointType pt[3];
-        int             internal_id(0);
-        int             k(0);
-        do
+        pt[k] = outputMesh->GetPoint(temp->GetOrigin());
+        if (temp->GetOrigin() == iPId)
         {
-          pt[k] = outputMesh->GetPoint(temp->GetOrigin());
-          if (temp->GetOrigin() == iPId)
-          {
-            internal_id = k;
-          }
-
-          temp = temp->GetLnext();
-          ++k;
-        } while (temp != edge);
-
-        switch (m_Weight)
-        {
-          default:
-          case WeightEnum::GOURAUD:
-          {
-            return static_cast<OutputVertexNormalComponentType>(1.);
-          }
-          case WeightEnum::THURMER:
-          {
-            // this implementation may be included inside itkTriangle
-            OutputVectorType u;
-            OutputVectorType v;
-            switch (internal_id)
-            {
-              case 0:
-                u = pt[1] - pt[0];
-                v = pt[2] - pt[0];
-                break;
-              case 1:
-                u = pt[0] - pt[1];
-                v = pt[2] - pt[1];
-                break;
-              case 2:
-                u = pt[0] - pt[2];
-                v = pt[1] - pt[2];
-                break;
-            }
-            typename OutputVectorType::RealValueType norm_u = u.GetNorm();
-            if (norm_u > itk::Math::eps)
-            {
-              norm_u = 1. / norm_u;
-              u *= norm_u;
-            }
-
-            typename OutputVectorType::RealValueType norm_v = v.GetNorm();
-            if (norm_v > itk::Math::eps)
-            {
-              norm_v = 1. / norm_v;
-              v *= norm_v;
-            }
-            return static_cast<OutputVertexNormalComponentType>(std::acos(u * v));
-          }
-          case WeightEnum::AREA:
-          {
-            return static_cast<OutputVertexNormalComponentType>(TriangleType::ComputeArea(pt[0], pt[1], pt[2]));
-          }
+          internal_id = k;
         }
-      }
-      else
+
+        temp = temp->GetLnext();
+        ++k;
+      } while (temp != edge);
+
+      switch (m_Weight)
       {
-        std::cout << "Input should be a triangular mesh!!!" << std::endl;
-        return static_cast<OutputVertexNormalComponentType>(0.);
+        default:
+        case WeightEnum::GOURAUD:
+        {
+          return static_cast<OutputVertexNormalComponentType>(1.);
+        }
+        case WeightEnum::THURMER:
+        {
+          // this implementation may be included inside itkTriangle
+          OutputVectorType u;
+          OutputVectorType v;
+          switch (internal_id)
+          {
+            case 0:
+              u = pt[1] - pt[0];
+              v = pt[2] - pt[0];
+              break;
+            case 1:
+              u = pt[0] - pt[1];
+              v = pt[2] - pt[1];
+              break;
+            case 2:
+              u = pt[0] - pt[2];
+              v = pt[1] - pt[2];
+              break;
+          }
+          typename OutputVectorType::RealValueType norm_u = u.GetNorm();
+          if (norm_u > itk::Math::eps)
+          {
+            norm_u = 1. / norm_u;
+            u *= norm_u;
+          }
+
+          typename OutputVectorType::RealValueType norm_v = v.GetNorm();
+          if (norm_v > itk::Math::eps)
+          {
+            norm_v = 1. / norm_v;
+            v *= norm_v;
+          }
+          return static_cast<OutputVertexNormalComponentType>(std::acos(u * v));
+        }
+        case WeightEnum::AREA:
+        {
+          return static_cast<OutputVertexNormalComponentType>(TriangleType::ComputeArea(pt[0], pt[1], pt[2]));
+        }
       }
     }
     else
     {
+      std::cout << "Input should be a triangular mesh!!!" << std::endl;
       return static_cast<OutputVertexNormalComponentType>(0.);
     }
+  }
+  else
+  {
+    return static_cast<OutputVertexNormalComponentType>(0.);
   }
 }
 

@@ -139,10 +139,8 @@ compareImages(ImageType * imageToTest, ImageType * knownImage, double difference
     std::cerr << "Unequal images, with " << numberOfDiffPixels << " unequal pixels" << std::endl;
     return false;
   }
-  else
-  {
-    return true;
-  }
+
+  return true;
 }
 
 template <typename ImageType, typename ForwardFFTType, typename InverseFFTType, typename FrequencyIteratorType>

@@ -75,10 +75,8 @@ public:
     {
       return (TOutputPixel)m_ForegroundValue;
     }
-    else
-    {
-      return m_BackgroundValue;
-    }
+
+    return m_BackgroundValue;
   }
 
   bool m_IsForeground;

@@ -207,10 +207,8 @@ public:
     {
       return (static_cast<PointIdIterator>(nullptr));
     }
-    else
-    {
-      return &m_PointIds.front();
-    }
+
+    return &m_PointIds.front();
   }
 
   PointIdIterator
@@ -221,10 +219,8 @@ public:
     {
       return (static_cast<PointIdIterator>(nullptr));
     }
-    else
-    {
-      return &m_PointIds.back() + 1;
-    }
+
+    return &m_PointIds.back() + 1;
   }
 
   PointIdConstIterator
@@ -236,10 +232,8 @@ public:
     {
       return (static_cast<PointIdIterator>(nullptr));
     }
-    else
-    {
-      return &m_PointIds.front();
-    }
+
+    return &m_PointIds.front();
   }
 
   PointIdConstIterator
@@ -250,10 +244,8 @@ public:
     {
       return (static_cast<PointIdIterator>(nullptr));
     }
-    else
-    {
-      return &m_PointIds.back() + 1;
-    }
+
+    return &m_PointIds.back() + 1;
   }
 
   /** QuadEdge internal flavor of cell API */

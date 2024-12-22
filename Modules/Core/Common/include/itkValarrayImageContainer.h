@@ -112,10 +112,8 @@ public:
     {
       return &(this->ValarrayType::operator[](0));
     }
-    else
-    {
-      return nullptr;
-    }
+
+    return nullptr;
   }
 
   /** Get the number of elements currently stored in the container. */

@@ -211,11 +211,9 @@ itkQuasiNewtonOptimizerv4TestTemplated(int         numberOfIterations,
     std::cout << "Test FAILED." << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << "Test PASSED." << std::endl;
-    return EXIT_SUCCESS;
-  }
+
+  std::cout << "Test PASSED." << std::endl;
+  return EXIT_SUCCESS;
 }
 
 int
@@ -258,9 +256,7 @@ itkQuasiNewtonOptimizerv4Test(int argc, char ** const argv)
     std::cout << std::endl << "Tests PASSED." << std::endl;
     return EXIT_SUCCESS;
   }
-  else
-  {
-    std::cout << std::endl << "Tests FAILED." << std::endl;
-    return EXIT_FAILURE;
-  }
+
+  std::cout << std::endl << "Tests FAILED." << std::endl;
+  return EXIT_FAILURE;
 }

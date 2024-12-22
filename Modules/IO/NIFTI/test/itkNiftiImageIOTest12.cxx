@@ -115,11 +115,9 @@ itkNiftiImageIOTest12(int argc, char * argv[])
       std::cerr << origPhysLocationIndexThree << " != " << readPhysLocationIndexThree << std::endl;
       return EXIT_FAILURE;
     }
-    else
-    {
-      std::cout << "Index location [3,3,3] represents same physical space:" << std::endl;
-      std::cerr << origPhysLocationIndexThree << " != " << readPhysLocationIndexThree << std::endl;
-    }
+
+    std::cout << "Index location [3,3,3] represents same physical space:" << std::endl;
+    std::cerr << origPhysLocationIndexThree << " != " << readPhysLocationIndexThree << std::endl;
   }
   catch (const itk::ExceptionObject & e)
   {

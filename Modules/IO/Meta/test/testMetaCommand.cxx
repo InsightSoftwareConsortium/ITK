@@ -80,10 +80,8 @@ testMetaCommand(int argc, char * argv[])
       std::cout << "Expected parse failure that did not occur, so test failed" << std::endl;
       return 1;
     }
-    else
-    {
-      return (command.GetValueAsInt("SumOfValues") - SumValue);
-    }
+
+    return (command.GetValueAsInt("SumOfValues") - SumValue);
   }
   else
   {

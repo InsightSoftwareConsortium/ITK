@@ -342,11 +342,9 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
       std::cerr << "Test failed" << std::endl;
       return EXIT_FAILURE;
     }
-    else
-    {
-      std::cerr << "Test succeeded" << std::endl;
-      return EXIT_SUCCESS;
-    }
+
+    std::cerr << "Test succeeded" << std::endl;
+    return EXIT_SUCCESS;
   }
   catch (const itk::ExceptionObject & err)
   {

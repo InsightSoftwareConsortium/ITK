@@ -492,10 +492,8 @@ Mesh<TPixelType, VDimension, TMeshTraits>::RemoveBoundaryAssignment(int         
     m_BoundaryAssignmentsContainers[dimension]->DeleteIndex(assignId);
     return true;
   }
-  else
-  {
-    return false;
-  }
+
+  return false;
 }
 
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
@@ -536,10 +534,8 @@ Mesh<TPixelType, VDimension, TMeshTraits>::GetNumberOfCells() const -> CellIdent
   {
     return 0;
   }
-  else
-  {
-    return m_CellsContainer->Size();
-  }
+
+  return m_CellsContainer->Size();
 }
 
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
@@ -584,11 +580,9 @@ Mesh<TPixelType, VDimension, TMeshTraits>::GetCellBoundaryFeature(int           
     {
       return true;
     }
-    else
-    {
-      boundary.Reset();
-      return false;
-    }
+
+    boundary.Reset();
+    return false;
   }
 
   /**

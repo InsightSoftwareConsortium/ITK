@@ -177,10 +177,8 @@ public:
     {
       return m_Max - m_Min;
     }
-    else
-    {
-      return TInputPixel{};
-    }
+
+    return TInputPixel{};
   }
 
   static bool

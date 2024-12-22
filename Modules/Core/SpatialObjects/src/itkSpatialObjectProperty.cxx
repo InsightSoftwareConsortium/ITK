@@ -113,10 +113,8 @@ SpatialObjectProperty::GetTagScalarValue(const std::string & tag, double & value
     value = it->second;
     return true;
   }
-  else
-  {
-    return false;
-  }
+
+  return false;
 }
 
 bool
@@ -128,10 +126,8 @@ SpatialObjectProperty::GetTagStringValue(const std::string & tag, std::string & 
     value = it->second;
     return true;
   }
-  else
-  {
-    return false;
-  }
+
+  return false;
 }
 
 

@@ -49,10 +49,8 @@ CompositeTransform<TParametersValueType, VDimension>::GetTransformCategory() con
   {
     return Self::TransformCategoryEnum::DisplacementField;
   }
-  else
-  {
-    return Self::TransformCategoryEnum::UnknownTransformCategory;
-  }
+
+  return Self::TransformCategoryEnum::UnknownTransformCategory;
 }
 
 
@@ -422,11 +420,9 @@ CompositeTransform<TParametersValueType, VDimension>::GetInverse(Self * inverse)
       inverse->ClearTransformQueue();
       return false;
     }
-    else
-    {
-      /* Push to front to reverse the transform order */
-      inverse->PushFrontTransform(inverseTransform);
-    }
+
+    /* Push to front to reverse the transform order */
+    inverse->PushFrontTransform(inverseTransform);
   }
 
   /* Copy the optimization flags */

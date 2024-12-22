@@ -151,10 +151,8 @@ public:
     {
       return m_Faces[dimension].first;
     }
-    else
-    {
-      return m_Faces[dimension].second;
-    }
+
+    return m_Faces[dimension].second;
   }
 
   void
@@ -190,10 +188,8 @@ public:
     {
       return &(m_FlatHashes[dimension].first);
     }
-    else
-    {
-      return &(m_FlatHashes[dimension].second);
-    }
+
+    return &(m_FlatHashes[dimension].second);
   }
 
   void
@@ -250,10 +246,8 @@ public:
     {
       return m_Valid[dimension].first;
     }
-    else
-    {
-      return m_Valid[dimension].second;
-    }
+
+    return m_Valid[dimension].second;
   }
 
 protected:

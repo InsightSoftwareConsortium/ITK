@@ -62,10 +62,8 @@ public:
     {
       return true;
     }
-    else
-    {
-      return false;
-    }
+
+    return false;
   }
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(ConstSparseFieldLayerIterator);
@@ -296,10 +294,8 @@ public:
     {
       return true;
     }
-    else
-    {
-      return false;
-    }
+
+    return false;
   }
 
   /** Returns the number of elements in the list. Size() executes in constant

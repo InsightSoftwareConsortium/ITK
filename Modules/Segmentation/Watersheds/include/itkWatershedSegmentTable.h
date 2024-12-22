@@ -78,10 +78,8 @@ public:
       {
         return true;
       }
-      else
-      {
-        return false;
-      }
+
+      return false;
     }
   };
 
@@ -125,10 +123,8 @@ public:
     {
       return nullptr;
     }
-    else
-    {
-      return &(result->second);
-    }
+
+    return &(result->second);
   }
 
   /** Lookup a segment in the table.  Returns a const pointer
@@ -142,10 +138,8 @@ public:
     {
       return 0;
     }
-    else
-    {
-      return &(result->second);
-    }
+
+    return &(result->second);
   }
 
   /** Returns TRUE if the entry key is found in the table.  FALSE if the key is
@@ -157,10 +151,8 @@ public:
     {
       return false;
     }
-    else
-    {
-      return true;
-    }
+
+    return true;
   }
 
   /** Deletes an entry from the table.   */

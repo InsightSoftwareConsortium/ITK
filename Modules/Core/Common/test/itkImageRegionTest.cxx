@@ -350,9 +350,7 @@ itkImageRegionTest(int, char *[])
     std::cout << "ImageRegion test passed." << std::endl;
     return EXIT_SUCCESS;
   }
-  else
-  {
-    std::cout << "ImageRegion test failed." << std::endl;
-    return EXIT_FAILURE;
-  }
+
+  std::cout << "ImageRegion test failed." << std::endl;
+  return EXIT_FAILURE;
 }

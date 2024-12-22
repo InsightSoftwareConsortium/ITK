@@ -167,7 +167,7 @@ public:
     {
       return NUMBER_OF_PIXELS;
     }
-    else if (s == "PhysicalSize")
+    if (s == "PhysicalSize")
     {
       return PHYSICAL_SIZE;
     }

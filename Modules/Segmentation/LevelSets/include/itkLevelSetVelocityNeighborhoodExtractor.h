@@ -105,10 +105,8 @@ public:
     {
       return nullptr;
     }
-    else
-    {
-      return m_AuxImage[idx];
-    }
+
+    return m_AuxImage[idx];
   }
 
   /** Get the container of auxiliary values associated with the inside

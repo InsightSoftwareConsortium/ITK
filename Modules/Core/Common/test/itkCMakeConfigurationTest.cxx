@@ -49,10 +49,9 @@ itkCMakeInformationPrintFile(const char * name, std::ostream & os)
     os << " does not exist.\n";
     return;
   }
-  else
-  {
-    os << " has " << fs.st_size << " bytes";
-  }
+
+  os << " has " << fs.st_size << " bytes";
+
 
   const std::ifstream fin(name);
   if (fin)

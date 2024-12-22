@@ -205,12 +205,10 @@ DiscreteHessianGaussianImageFunction<TInputImage, TOutput>::Evaluate(const Point
     this->ConvertPointToNearestIndex(point, index);
     return this->EvaluateAtIndex(index);
   }
-  else
-  {
-    ContinuousIndexType cindex;
-    this->ConvertPointToContinuousIndex(point, cindex);
-    return this->EvaluateAtContinuousIndex(cindex);
-  }
+
+  ContinuousIndexType cindex;
+  this->ConvertPointToContinuousIndex(point, cindex);
+  return this->EvaluateAtContinuousIndex(cindex);
 }
 
 /** Evaluate the function at specified ContinuousIndex position.*/
@@ -225,69 +223,67 @@ DiscreteHessianGaussianImageFunction<TInputImage, TOutput>::EvaluateAtContinuous
     this->ConvertContinuousIndexToNearestIndex(cindex, index);
     return this->EvaluateAtIndex(index);
   }
-  else
+
+  using NumberOfNeighborsType = unsigned int;
+
+  constexpr NumberOfNeighborsType neighbors = 1 << ImageDimension2;
+
+  // Compute base index = closet index below point
+  // Compute distance from point to base index
+  IndexType baseIndex;
+  double    distance[ImageDimension2];
+  for (unsigned int dim = 0; dim < ImageDimension2; ++dim)
   {
-    using NumberOfNeighborsType = unsigned int;
+    baseIndex[dim] = Math::Floor<IndexValueType>(cindex[dim]);
+    distance[dim] = cindex[dim] - static_cast<double>(baseIndex[dim]);
+  }
 
-    constexpr NumberOfNeighborsType neighbors = 1 << ImageDimension2;
+  // Interpolated value is the weighted sum of each of the surrounding
+  // neighbors. The weight for each neighbor is the fraction overlap
+  // of the neighbor pixel with respect to a pixel centered on point.
+  OutputType hessian;
+  TOutput    totalOverlap{};
+  for (NumberOfNeighborsType counter = 0; counter < neighbors; ++counter)
+  {
+    double                overlap = 1.0;   // fraction overlap
+    NumberOfNeighborsType upper = counter; // each bit indicates upper/lower neighbour
+    IndexType             neighIndex;
 
-    // Compute base index = closet index below point
-    // Compute distance from point to base index
-    IndexType baseIndex;
-    double    distance[ImageDimension2];
+    // get neighbor index and overlap fraction
     for (unsigned int dim = 0; dim < ImageDimension2; ++dim)
     {
-      baseIndex[dim] = Math::Floor<IndexValueType>(cindex[dim]);
-      distance[dim] = cindex[dim] - static_cast<double>(baseIndex[dim]);
+      if (upper & 1)
+      {
+        neighIndex[dim] = baseIndex[dim] + 1;
+        overlap *= distance[dim];
+      }
+      else
+      {
+        neighIndex[dim] = baseIndex[dim];
+        overlap *= 1.0 - distance[dim];
+      }
+      upper >>= 1;
     }
 
-    // Interpolated value is the weighted sum of each of the surrounding
-    // neighbors. The weight for each neighbor is the fraction overlap
-    // of the neighbor pixel with respect to a pixel centered on point.
-    OutputType hessian;
-    TOutput    totalOverlap{};
-    for (NumberOfNeighborsType counter = 0; counter < neighbors; ++counter)
+    // get neighbor value only if overlap is not zero
+    if (overlap)
     {
-      double                overlap = 1.0;   // fraction overlap
-      NumberOfNeighborsType upper = counter; // each bit indicates upper/lower neighbour
-      IndexType             neighIndex;
-
-      // get neighbor index and overlap fraction
-      for (unsigned int dim = 0; dim < ImageDimension2; ++dim)
+      const auto currentHessian = this->EvaluateAtIndex(neighIndex);
+      for (unsigned int i = 0; i < hessian.Size(); ++i)
       {
-        if (upper & 1)
-        {
-          neighIndex[dim] = baseIndex[dim] + 1;
-          overlap *= distance[dim];
-        }
-        else
-        {
-          neighIndex[dim] = baseIndex[dim];
-          overlap *= 1.0 - distance[dim];
-        }
-        upper >>= 1;
+        hessian[i] += overlap * currentHessian[i];
       }
-
-      // get neighbor value only if overlap is not zero
-      if (overlap)
-      {
-        const auto currentHessian = this->EvaluateAtIndex(neighIndex);
-        for (unsigned int i = 0; i < hessian.Size(); ++i)
-        {
-          hessian[i] += overlap * currentHessian[i];
-        }
-        totalOverlap += overlap;
-      }
-
-      if (totalOverlap == 1.0)
-      {
-        // finished
-        break;
-      }
+      totalOverlap += overlap;
     }
 
-    return hessian;
+    if (totalOverlap == 1.0)
+    {
+      // finished
+      break;
+    }
   }
+
+  return hessian;
 }
 } // end namespace itk
 

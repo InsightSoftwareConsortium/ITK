@@ -182,7 +182,7 @@ public:
 
       return LegendreSum(norm_x, m_Degree, m_CachedXCoef);
     }
-    else if (m_Dimension == 3)
+    if (m_Dimension == 3)
     {
       if (index[2] != m_PrevZ)
       {
@@ -257,17 +257,15 @@ public:
           m_Index[dim] += 1;
           return *this;
         }
+
+        if (dim == m_Dimension - 1)
+        {
+          m_IsAtEnd = true;
+          break;
+        }
         else
         {
-          if (dim == m_Dimension - 1)
-          {
-            m_IsAtEnd = true;
-            break;
-          }
-          else
-          {
-            m_Index[dim] = 0;
-          }
+          m_Index[dim] = 0;
         }
       }
       return *this;

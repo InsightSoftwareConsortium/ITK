@@ -118,14 +118,12 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>::IncrementThresholds(InstanceI
       // Exit the for loop if a threshold has been incremented
       break;
     }
-    else // If this threshold can't be incremented
+    // If this threshold can't be incremented
+    // If it's the lowest threshold
+    if (j == 0)
     {
-      // If it's the lowest threshold
-      if (j == 0)
-      {
-        // We couldn't increment because we're done
-        return false;
-      }
+      // We couldn't increment because we're done
+      return false;
     }
   }
   // We incremented

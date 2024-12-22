@@ -677,11 +677,9 @@ itkBSplineInterpolateImageFunctionTest(int itkNotUsed(argc), char * itkNotUsed(a
 
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << "All tests successfully passed" << std::endl;
-    return EXIT_SUCCESS;
-  }
+
+  std::cout << "All tests successfully passed" << std::endl;
+  return EXIT_SUCCESS;
 }
 
 void

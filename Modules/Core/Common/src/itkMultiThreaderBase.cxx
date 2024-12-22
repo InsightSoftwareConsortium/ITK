@@ -199,7 +199,7 @@ MultiThreaderBase::ThreaderTypeFromString(std::string threaderString)
   {
     return ThreaderEnum::Platform;
   }
-  else if (threaderString == "POOL")
+  if (threaderString == "POOL")
   {
     return ThreaderEnum::Pool;
   }

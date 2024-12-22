@@ -98,10 +98,8 @@ NormalVariateGenerator::GetVariate()
   {
     return m_GScale * m_Gausssave[m_Gaussfaze];
   }
-  else
-  {
-    return FastNorm();
-  }
+
+  return FastNorm();
 }
 
 /*      -----------------------------------------------------   */

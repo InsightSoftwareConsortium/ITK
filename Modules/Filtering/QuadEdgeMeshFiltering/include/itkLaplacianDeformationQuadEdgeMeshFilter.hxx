@@ -91,10 +91,8 @@ LaplacianDeformationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>::
     {
       return OutputCoordinateType{};
     }
-    else
-    {
-      return (1. / (2. * area));
-    }
+
+    return (1. / (2. * area));
   }
   else
   {
@@ -157,10 +155,8 @@ LaplacianDeformationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>::
     oV(it->second);
     return true;
   }
-  else
-  {
-    return false;
-  }
+
+  return false;
 }
 
 template <typename TInputMesh, typename TOutputMesh, typename TSolverTraits>

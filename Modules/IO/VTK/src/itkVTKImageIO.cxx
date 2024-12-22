@@ -100,10 +100,8 @@ VTKImageIO::CanReadFile(const char * filename)
   {
     return true;
   }
-  else
-  {
-    return false;
-  }
+
+  return false;
 }
 
 
@@ -157,7 +155,7 @@ VTKImageIO::GetComponentTypeAsString(IOComponentEnum t)
   {
     return "vtktypeuint64";
   }
-  else if (t == IOComponentEnum::LONGLONG)
+  if (t == IOComponentEnum::LONGLONG)
   {
     return "vtktypeint64";
   }

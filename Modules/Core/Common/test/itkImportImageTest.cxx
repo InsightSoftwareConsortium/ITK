@@ -121,9 +121,7 @@ itkImportImageTest(int, char *[])
     std::cout << "ImportImageFilter test passed." << std::endl;
     return EXIT_SUCCESS;
   }
-  else
-  {
-    std::cout << "ImportImageFilter test failed." << std::endl;
-    return EXIT_FAILURE;
-  }
+
+  std::cout << "ImportImageFilter test failed." << std::endl;
+  return EXIT_FAILURE;
 }

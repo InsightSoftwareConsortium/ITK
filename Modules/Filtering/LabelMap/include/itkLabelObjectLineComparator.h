@@ -53,7 +53,7 @@ public:
       {
         return true;
       }
-      else if (idx1[i] > idx2[i])
+      if (idx1[i] > idx2[i])
       {
         return false;
       }

@@ -111,10 +111,8 @@ public:
                        m_VoxelIncrement[1] * spacing[1] * m_VoxelIncrement[1] * spacing[1] +
                        m_VoxelIncrement[2] * spacing[2] * m_VoxelIncrement[2] * spacing[2]);
     }
-    else
-    {
-      return 0.;
-    }
+
+    return 0.;
   }
 
   /// Set the initial zero state of the object
@@ -655,10 +653,8 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::CalcRa
   {
     return true;
   }
-  else
-  {
-    return false;
-  }
+
+  return false;
 }
 
 /* -----------------------------------------------------------------------

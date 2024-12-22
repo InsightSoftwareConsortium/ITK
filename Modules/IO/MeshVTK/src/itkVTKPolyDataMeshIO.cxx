@@ -166,10 +166,8 @@ VTKPolyDataMeshIO::CanReadFile(const char * fileName)
   {
     return true;
   }
-  else
-  {
-    return false;
-  }
+
+  return false;
 }
 
 bool

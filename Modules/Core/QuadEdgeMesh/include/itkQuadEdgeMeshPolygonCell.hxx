@@ -135,10 +135,8 @@ QuadEdgeMeshPolygonCell<TCellInterface>::GetNumberOfPoints() const
   {
     return n;
   }
-  else
-  {
-    return 0;
-  }
+
+  return 0;
 }
 
 // ---------------------------------------------------------------------

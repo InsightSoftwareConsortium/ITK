@@ -122,8 +122,6 @@ itkNrrdDiffusionTensor3DImageReadTest(int argc, char * argv[])
     std::cout << "failure because err == " << err << "> " << thresh << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    return EXIT_SUCCESS;
-  }
+
+  return EXIT_SUCCESS;
 }

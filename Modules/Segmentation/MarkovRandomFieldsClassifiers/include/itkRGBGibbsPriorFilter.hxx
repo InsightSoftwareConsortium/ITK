@@ -409,10 +409,8 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::GibbsEnergy(unsigned int i, 
   {
     return res -= m_CliqueWeight_4;
   }
-  else
-  {
-    return res -= m_CliqueWeight_6;
-  }
+
+  return res -= m_CliqueWeight_6;
 }
 
 template <typename TInputImage, typename TClassifiedImage>

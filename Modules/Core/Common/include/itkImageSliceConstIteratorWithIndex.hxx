@@ -92,11 +92,9 @@ ImageSliceConstIteratorWithIndex<TImage>::NextSlice()
       this->m_Remaining = true;
       break;
     }
-    else
-    {
-      this->m_Position -= this->m_OffsetTable[n + 1] - this->m_OffsetTable[n];
-      this->m_PositionIndex[n] = this->m_BeginIndex[n];
-    }
+
+    this->m_Position -= this->m_OffsetTable[n + 1] - this->m_OffsetTable[n];
+    this->m_PositionIndex[n] = this->m_BeginIndex[n];
   }
 }
 
@@ -127,11 +125,9 @@ ImageSliceConstIteratorWithIndex<TImage>::PreviousSlice()
       this->m_Remaining = true;
       break;
     }
-    else
-    {
-      this->m_Position += this->m_OffsetTable[n + 1] - this->m_OffsetTable[n];
-      this->m_PositionIndex[n] = this->m_EndIndex[n] - 1;
-    }
+
+    this->m_Position += this->m_OffsetTable[n + 1] - this->m_OffsetTable[n];
+    this->m_PositionIndex[n] = this->m_EndIndex[n] - 1;
   }
 }
 

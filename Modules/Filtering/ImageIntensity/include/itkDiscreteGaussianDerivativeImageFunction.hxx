@@ -177,12 +177,10 @@ DiscreteGaussianDerivativeImageFunction<TInputImage, TOutput>::Evaluate(const Po
     this->ConvertPointToNearestIndex(point, index);
     return this->EvaluateAtIndex(index);
   }
-  else
-  {
-    ContinuousIndexType cindex;
-    this->ConvertPointToContinuousIndex(point, cindex);
-    return this->EvaluateAtContinuousIndex(cindex);
-  }
+
+  ContinuousIndexType cindex;
+  this->ConvertPointToContinuousIndex(point, cindex);
+  return this->EvaluateAtContinuousIndex(cindex);
 }
 
 /** Evaluate the function at specified ContinuousIndex position.*/
@@ -197,67 +195,65 @@ DiscreteGaussianDerivativeImageFunction<TInputImage, TOutput>::EvaluateAtContinu
     this->ConvertContinuousIndexToNearestIndex(cindex, index);
     return this->EvaluateAtIndex(index);
   }
-  else
+
+  using NumberOfNeighborsType = unsigned int;
+
+
+  constexpr NumberOfNeighborsType numberOfNeighbors = 1 << ImageDimension2;
+
+  // Compute base index = closet index below point
+  // Compute distance from point to base index
+  IndexType baseIndex;
+  double    distance[ImageDimension2];
+
+  for (unsigned int dim = 0; dim < ImageDimension2; ++dim)
   {
-    using NumberOfNeighborsType = unsigned int;
+    baseIndex[dim] = Math::Floor<IndexValueType>(cindex[dim]);
+    distance[dim] = cindex[dim] - static_cast<double>(baseIndex[dim]);
+  }
 
+  // Interpolated value is the weighted sum of each of the surrounding
+  // neighbors. The weight for each neighbor is the fraction overlap
+  // of the neighbor pixel with respect to a pixel centered on point.
+  TOutput value{};
+  TOutput totalOverlap{};
 
-    constexpr NumberOfNeighborsType numberOfNeighbors = 1 << ImageDimension2;
+  for (NumberOfNeighborsType counter = 0; counter < numberOfNeighbors; ++counter)
+  {
+    double                overlap = 1.0;   // fraction overlap
+    NumberOfNeighborsType upper = counter; // each bit indicates upper/lower neighbour
+    IndexType             neighIndex;
 
-    // Compute base index = closet index below point
-    // Compute distance from point to base index
-    IndexType baseIndex;
-    double    distance[ImageDimension2];
-
+    // get neighbor index and overlap fraction
     for (unsigned int dim = 0; dim < ImageDimension2; ++dim)
     {
-      baseIndex[dim] = Math::Floor<IndexValueType>(cindex[dim]);
-      distance[dim] = cindex[dim] - static_cast<double>(baseIndex[dim]);
+      if (upper & 1)
+      {
+        neighIndex[dim] = baseIndex[dim] + 1;
+        overlap *= distance[dim];
+      }
+      else
+      {
+        neighIndex[dim] = baseIndex[dim];
+        overlap *= 1.0 - distance[dim];
+      }
+      upper >>= 1;
     }
 
-    // Interpolated value is the weighted sum of each of the surrounding
-    // neighbors. The weight for each neighbor is the fraction overlap
-    // of the neighbor pixel with respect to a pixel centered on point.
-    TOutput value{};
-    TOutput totalOverlap{};
-
-    for (NumberOfNeighborsType counter = 0; counter < numberOfNeighbors; ++counter)
+    // get neighbor value only if overlap is not zero
+    if (overlap)
     {
-      double                overlap = 1.0;   // fraction overlap
-      NumberOfNeighborsType upper = counter; // each bit indicates upper/lower neighbour
-      IndexType             neighIndex;
-
-      // get neighbor index and overlap fraction
-      for (unsigned int dim = 0; dim < ImageDimension2; ++dim)
-      {
-        if (upper & 1)
-        {
-          neighIndex[dim] = baseIndex[dim] + 1;
-          overlap *= distance[dim];
-        }
-        else
-        {
-          neighIndex[dim] = baseIndex[dim];
-          overlap *= 1.0 - distance[dim];
-        }
-        upper >>= 1;
-      }
-
-      // get neighbor value only if overlap is not zero
-      if (overlap)
-      {
-        value += overlap * static_cast<TOutput>(this->EvaluateAtIndex(neighIndex));
-        totalOverlap += overlap;
-      }
-
-      if (totalOverlap == 1.0)
-      {
-        // finished
-        break;
-      }
+      value += overlap * static_cast<TOutput>(this->EvaluateAtIndex(neighIndex));
+      totalOverlap += overlap;
     }
-    return (static_cast<OutputType>(value));
+
+    if (totalOverlap == 1.0)
+    {
+      // finished
+      break;
+    }
   }
+  return (static_cast<OutputType>(value));
 }
 } // end namespace itk
 

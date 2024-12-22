@@ -189,10 +189,9 @@ ExecuteAndExamine(typename TransformInitializerType::Pointer                init
     std::cout << "[FAILED]" << std::endl;
     return false;
   }
-  else
-  {
-    std::cout << " Landmark alignment using " << transform->GetNameOfClass() << " [PASSED]" << std::endl;
-  }
+
+  std::cout << " Landmark alignment using " << transform->GetNameOfClass() << " [PASSED]" << std::endl;
+
   return true;
 }
 

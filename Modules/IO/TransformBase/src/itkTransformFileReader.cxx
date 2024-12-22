@@ -49,11 +49,9 @@ struct KernelTransformHelper
       kernelTransform->ComputeWMatrix();
       return 0;
     }
-    else
-    {
-      // try one less dimension
-      return KernelTransformHelper<TParameterType, Dimension - 1>::InitializeWMatrix(transform);
-    }
+
+    // try one less dimension
+    return KernelTransformHelper<TParameterType, Dimension - 1>::InitializeWMatrix(transform);
   }
 };
 

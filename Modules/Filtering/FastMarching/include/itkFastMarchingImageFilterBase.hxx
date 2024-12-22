@@ -371,18 +371,16 @@ FastMarchingImageFilterBase<TInput, TOutput>::CheckTopology(OutputImageType * oI
             this->m_LabelImage->SetPixel(iNode, Traits::Topology);
             return false;
           }
-          else
-          {
-            ItC.GoToBegin();
 
-            while (!ItC.IsAtEnd())
+          ItC.GoToBegin();
+
+          while (!ItC.IsAtEnd())
+          {
+            if (ItC.GetCenterPixel() == otherLabel)
             {
-              if (ItC.GetCenterPixel() == otherLabel)
-              {
-                ItC.SetCenterPixel(minLabel);
-              }
-              ++ItC;
+              ItC.SetCenterPixel(minLabel);
             }
+            ++ItC;
           }
         }
       }
@@ -856,10 +854,8 @@ FastMarchingImageFilterBase<TInput, TOutput>::IsCriticalC2Configuration3D(const 
       {
         return 1;
       }
-      else
-      {
-        return 2;
-      }
+
+      return 2;
     }
   }
 

@@ -255,9 +255,7 @@ itkFilterDispatchTest(int, char *[])
     std::cout << "The test has passed." << std::endl;
     return EXIT_SUCCESS;
   }
-  else
-  {
-    std::cout << "The test has failed." << std::endl;
-    return EXIT_FAILURE;
-  }
+
+  std::cout << "The test has failed." << std::endl;
+  return EXIT_FAILURE;
 }

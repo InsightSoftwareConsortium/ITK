@@ -147,10 +147,7 @@ public:
       {
         return static_cast<OutputPixelType>(255);
       }
-      else
-      {
-        return itk::Math::Round<OutputPixelType>(-(30.0 * std::log(A)));
-      }
+      return itk::Math::Round<OutputPixelType>(-(30.0 * std::log(A)));
     }
     else
     {

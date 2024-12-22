@@ -1030,14 +1030,13 @@ JPEG2000ImageIO::GenerateStreamableReadRegionFromRequestedRegion(const ImageIORe
   {
     return ImageIOBase::GenerateStreamableReadRegionFromRequestedRegion(requestedRegion);
   }
-  else
-  {
-    // Compute the required set of tiles that fully contain the requested region
-    streamableRegion = requestedRegion;
 
-    this->ComputeRegionInTileBoundaries(0, this->m_Internal->m_TileWidth, streamableRegion);
-    this->ComputeRegionInTileBoundaries(1, this->m_Internal->m_TileHeight, streamableRegion);
-  }
+  // Compute the required set of tiles that fully contain the requested region
+  streamableRegion = requestedRegion;
+
+  this->ComputeRegionInTileBoundaries(0, this->m_Internal->m_TileWidth, streamableRegion);
+  this->ComputeRegionInTileBoundaries(1, this->m_Internal->m_TileHeight, streamableRegion);
+
 
   itkDebugMacro("Streamable region = " << streamableRegion);
 

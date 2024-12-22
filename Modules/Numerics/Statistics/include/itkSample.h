@@ -125,19 +125,17 @@ public:
       {
         return;
       }
+
+      // If the new size is different from the current size, then
+      // only change the measurement vector size if the container is empty.
+      if (this->Size())
+      {
+        itkExceptionMacro("Attempting to change the measurement vector size of a non-empty Sample");
+      }
       else
       {
-        // If the new size is different from the current size, then
-        // only change the measurement vector size if the container is empty.
-        if (this->Size())
-        {
-          itkExceptionMacro("Attempting to change the measurement vector size of a non-empty Sample");
-        }
-        else
-        {
-          this->m_MeasurementVectorSize = s;
-          this->Modified();
-        }
+        this->m_MeasurementVectorSize = s;
+        this->Modified();
       }
     }
     else

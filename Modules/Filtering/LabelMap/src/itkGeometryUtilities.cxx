@@ -50,10 +50,8 @@ GeometryUtilities::GammaN2p1(const long n)
   {
     return Factorial(n / 2);
   }
-  else
-  {
-    return std::sqrt(itk::Math::pi) * DoubleFactorial(n) / std::pow(2, (n + 1) / 2.0);
-  }
+
+  return std::sqrt(itk::Math::pi) * DoubleFactorial(n) / std::pow(2, (n + 1) / 2.0);
 }
 
 double

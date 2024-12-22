@@ -483,7 +483,7 @@ itkPatchBasedDenoisingImageFilterTest(int argc, char * argv[])
                                               kernelBandwidthMultFactor,
                                               noiseModel, noiseModelFidelityWeight );
     }*/
-  else if (numComponents == 3 && numDimensions == 2)
+  if (numComponents == 3 && numDimensions == 2)
   {
     return doDenoising<ThreeComponent2DImage>(inFileName,
                                               outFileName,

@@ -127,10 +127,8 @@ public:
     {
       return Superclass::GetMeasurementVectorSize();
     }
-    else
-    {
-      return m_Image->GetNumberOfComponentsPerPixel();
-    }
+
+    return m_Image->GetNumberOfComponentsPerPixel();
   }
 
   /** method to return frequency for a specified id */

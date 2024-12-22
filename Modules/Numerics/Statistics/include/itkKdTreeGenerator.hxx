@@ -199,18 +199,16 @@ KdTreeGenerator<TSample>::GenerateTreeLoop(unsigned int            beginIndex,
       // return the pointer to empty terminal node
       return m_Tree->GetEmptyTerminalNode();
     }
-    else
+
+    auto * ptr = new KdTreeTerminalNode<TSample>();
+
+    for (unsigned int j = beginIndex; j < endIndex; ++j)
     {
-      auto * ptr = new KdTreeTerminalNode<TSample>();
-
-      for (unsigned int j = beginIndex; j < endIndex; ++j)
-      {
-        ptr->AddInstanceIdentifier(this->GetSubsample()->GetInstanceIdentifier(j));
-      }
-
-      // return a terminal node
-      return ptr;
+      ptr->AddInstanceIdentifier(this->GetSubsample()->GetInstanceIdentifier(j));
     }
+
+    // return a terminal node
+    return ptr;
   }
   else
   {

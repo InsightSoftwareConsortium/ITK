@@ -214,7 +214,7 @@ MedianOfThree(const TValue a, const TValue b, const TValue c)
     {
       return b;
     }
-    else if (a < c)
+    if (a < c)
     {
       return c;
     }

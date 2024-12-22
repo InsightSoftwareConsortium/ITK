@@ -174,14 +174,12 @@ VertexCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
     }
     return true;
   }
-  else
+
+  if (pcoord)
   {
-    if (pcoord)
-    {
-      pcoord[0] = -10.0;
-    }
-    return false;
+    pcoord[0] = -10.0;
   }
+  return false;
 }
 } // end namespace itk
 

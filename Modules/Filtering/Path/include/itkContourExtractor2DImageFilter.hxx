@@ -658,21 +658,19 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateInputRequestedRegion()
       input->SetRequestedRegion(requestedRegion);
       return;
     }
-    else
-    {
-      // Couldn't crop the region (requested region is outside the largest
-      // possible region).  Throw an exception.
 
-      // store what we tried to request (prior to trying to crop)
-      input->SetRequestedRegion(requestedRegion);
+    // Couldn't crop the region (requested region is outside the largest
+    // possible region).  Throw an exception.
 
-      // build an exception
-      InvalidRequestedRegionError e(__FILE__, __LINE__);
-      e.SetLocation(ITK_LOCATION);
-      e.SetDescription("Requested region is outside the largest possible region.");
-      e.SetDataObject(input);
-      throw e;
-    }
+    // store what we tried to request (prior to trying to crop)
+    input->SetRequestedRegion(requestedRegion);
+
+    // build an exception
+    InvalidRequestedRegionError e(__FILE__, __LINE__);
+    e.SetLocation(ITK_LOCATION);
+    e.SetDescription("Requested region is outside the largest possible region.");
+    e.SetDataObject(input);
+    throw e;
   }
   else
   {

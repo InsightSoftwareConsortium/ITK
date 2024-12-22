@@ -56,10 +56,8 @@ public:
     {
       return static_cast<TOutput>(A);
     }
-    else
-    {
-      return m_OutsideValue;
-    }
+
+    return m_OutsideValue;
   }
 
   /** Method to explicitly set the outside value of the mask */

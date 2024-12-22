@@ -165,14 +165,12 @@ itkConvolutionImageFilterStreamingTest(int argc, char * argv[])
 
     return doConvolutionImageFilterStreamingTest<FrequencyConvolutionType>(argc, argv);
   }
-  else // spatial
-  {
-    using SpatialConvolutionType = itk::ConvolutionImageFilter<ImageType>;
+  // spatial
+  using SpatialConvolutionType = itk::ConvolutionImageFilter<ImageType>;
 
-    // Do a quick filter sanity check before the test
-    auto convoluter = SpatialConvolutionType::New();
-    ITK_EXERCISE_BASIC_OBJECT_METHODS(convoluter, ConvolutionImageFilter, ConvolutionImageFilterBase);
+  // Do a quick filter sanity check before the test
+  auto convoluter = SpatialConvolutionType::New();
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(convoluter, ConvolutionImageFilter, ConvolutionImageFilterBase);
 
-    return doConvolutionImageFilterStreamingTest<SpatialConvolutionType>(argc, argv);
-  }
+  return doConvolutionImageFilterStreamingTest<SpatialConvolutionType>(argc, argv);
 }

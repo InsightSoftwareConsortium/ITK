@@ -132,10 +132,8 @@ itkLessTest(int, char *[])
     {
       return (EXIT_FAILURE);
     }
-    else
-    {
-      std::cout << "Step 1 passed" << std::endl;
-    }
+
+    std::cout << "Step 1 passed" << std::endl;
   }
 
   {
@@ -162,10 +160,8 @@ itkLessTest(int, char *[])
     {
       return (EXIT_FAILURE);
     }
-    else
-    {
-      std::cout << "Step 2 passed " << std::endl;
-    }
+
+    std::cout << "Step 2 passed " << std::endl;
   }
   // Now try testing with constant : 3 != Im2
   {
@@ -189,10 +185,8 @@ itkLessTest(int, char *[])
     {
       return (EXIT_FAILURE);
     }
-    else
-    {
-      std::cout << "Step 3 passed" << std::endl;
-    }
+
+    std::cout << "Step 3 passed" << std::endl;
   }
   // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;

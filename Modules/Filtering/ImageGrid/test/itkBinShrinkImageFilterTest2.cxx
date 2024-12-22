@@ -113,8 +113,6 @@ itkBinShrinkImageFilterTest2(int, char *[])
   {
     return EXIT_SUCCESS;
   }
-  else
-  {
-    return EXIT_FAILURE;
-  }
+
+  return EXIT_FAILURE;
 }

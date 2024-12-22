@@ -82,10 +82,8 @@ VoronoiSegmentationImageFilter<TInputImage, TOutputImage, TBinaryPriorImage>::Te
   {
     return true;
   }
-  else
-  {
-    return false;
-  }
+
+  return false;
 }
 
 template <typename TInputImage, typename TOutputImage, typename TBinaryPriorImage>

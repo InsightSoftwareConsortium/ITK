@@ -160,10 +160,8 @@ RingBuffer<TElement>::GetOffsetBufferIndex(OffsetValueType offset) -> OffsetValu
   {
     return (signedHeadIndex + moddedOffset) % this->GetNumberOfBuffers();
   }
-  else
-  {
-    return (signedHeadIndex + (this->GetNumberOfBuffers() - moddedOffset)) % this->GetNumberOfBuffers();
-  }
+
+  return (signedHeadIndex + (this->GetNumberOfBuffers() - moddedOffset)) % this->GetNumberOfBuffers();
 }
 
 } // end namespace itk

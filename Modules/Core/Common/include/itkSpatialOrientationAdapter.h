@@ -51,7 +51,7 @@ Max3(double x, double y, double z)
   {
     return 0;
   }
-  else if ((absY > obliquityThresholdCosineValue) && (absY > absX) && (absY > absZ))
+  if ((absY > obliquityThresholdCosineValue) && (absY > absX) && (absY > absZ))
   {
     return 1;
   }

@@ -381,7 +381,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValueTh
   {
     return false;
   }
-  else if (movingImageValue > this->m_MovingImageTrueMax)
+  if (movingImageValue > this->m_MovingImageTrueMax)
   {
     return false;
   }
@@ -572,7 +572,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAn
   {
     return false;
   }
-  else if (movingImageValue > this->m_MovingImageTrueMax)
+  if (movingImageValue > this->m_MovingImageTrueMax)
   {
     return false;
   }
