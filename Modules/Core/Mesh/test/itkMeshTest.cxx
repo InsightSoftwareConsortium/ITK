@@ -409,12 +409,12 @@ itkMeshTest(int, char *[])
                                           &neighborSet); // Where to put result.
 
     std::cout << "Neighbors (hex edge 0):" << std::endl;
-    for (auto cell = neighborSet.begin(); cell != neighborSet.end(); ++cell)
+    for (const auto cell : neighborSet)
     {
-      std::cout << "Id " << *cell << ": ";
+      std::cout << "Id " << cell << ": ";
       CellAutoPointer cellPointer;
 
-      if (mesh->GetCell(*cell, cellPointer))
+      if (mesh->GetCell(cell, cellPointer))
       {
         std::cout << cellPointer->GetNameOfClass();
       }
@@ -449,12 +449,12 @@ itkMeshTest(int, char *[])
                                           &neighborSet); // Where to put result.
 
     std::cout << "Neighbors (hex edge 1):" << std::endl;
-    for (auto cell = neighborSet.begin(); cell != neighborSet.end(); ++cell)
+    for (const auto cell : neighborSet)
     {
-      std::cout << "Id " << *cell << ": ";
+      std::cout << "Id " << cell << ": ";
       CellAutoPointer cellPointer;
 
-      if (mesh->GetCell(*cell, cellPointer))
+      if (mesh->GetCell(cell, cellPointer))
       {
         std::cout << cellPointer->GetNameOfClass();
       }
@@ -473,12 +473,12 @@ itkMeshTest(int, char *[])
                                           &neighborSet); // Where to put result.
 
     std::cout << "Neighbors (tet edge 3):" << std::endl;
-    for (auto cell = neighborSet.begin(); cell != neighborSet.end(); ++cell)
+    for (const auto cell : neighborSet)
     {
-      std::cout << "Id " << *cell << ": ";
+      std::cout << "Id " << cell << ": ";
       CellAutoPointer cellPointer;
 
-      if (mesh->GetCell(*cell, cellPointer))
+      if (mesh->GetCell(cell, cellPointer))
       {
         std::cout << cellPointer->GetNameOfClass();
       }
