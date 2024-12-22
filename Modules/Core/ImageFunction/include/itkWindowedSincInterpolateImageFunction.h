@@ -46,7 +46,7 @@ public:
 
 private:
   /** Equal to \f$ \frac{\pi}{2 m} \f$ */
-  static const double m_Factor;
+  static constexpr double m_Factor = itk::Math::pi / (2 * VRadius);
 };
 
 /**
@@ -68,7 +68,7 @@ public:
 
 private:
   /** Equal to \f$ \frac{\pi}{m} \f$ */
-  static const double m_Factor;
+  static constexpr double m_Factor = itk::Math::pi / VRadius;
 };
 
 /**
@@ -90,7 +90,7 @@ public:
 
 private:
   /** Equal to \f$ \frac{1}{m^2} \f$ */
-  static const double m_Factor;
+  static constexpr double m_Factor = 1.0 / (VRadius * VRadius);
 };
 
 /**
@@ -112,14 +112,14 @@ public:
     if (A == 0.0)
     {
       return static_cast<TOutput>(1.0);
-    }
+    } // namespace Function
     const double z = m_Factor * A;
     return static_cast<TOutput>(std::sin(z) / z);
-  }
+  } // namespace itk
 
 private:
   /** Equal to \f$ \frac{\pi}{m} \f$ */
-  static const double m_Factor;
+  static constexpr double m_Factor = itk::Math::pi / VRadius;
 };
 
 /**
@@ -141,10 +141,10 @@ public:
 
 private:
   /** Equal to \f$ \frac{\pi}{m} \f$ */
-  static const double m_Factor1;
+  static constexpr double m_Factor1 = itk::Math::pi / VRadius;
 
   /** Equal to \f$ \frac{2 \pi}{m} \f$  */
-  static const double m_Factor2;
+  static constexpr double m_Factor2 = 2.0 * itk::Math::pi / VRadius;
 };
 } // namespace Function
 

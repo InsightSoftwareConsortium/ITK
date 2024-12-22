@@ -23,29 +23,6 @@
 
 namespace itk
 {
-
-// Constant definitions for functions
-namespace Function
-{
-template <unsigned int VRadius, typename TInput, typename TOutput>
-const double CosineWindowFunction<VRadius, TInput, TOutput>::m_Factor = itk::Math::pi / (2 * VRadius);
-
-template <unsigned int VRadius, typename TInput, typename TOutput>
-const double HammingWindowFunction<VRadius, TInput, TOutput>::m_Factor = itk::Math::pi / VRadius;
-
-template <unsigned int VRadius, typename TInput, typename TOutput>
-const double WelchWindowFunction<VRadius, TInput, TOutput>::m_Factor = 1.0 / (VRadius * VRadius);
-
-template <unsigned int VRadius, typename TInput, typename TOutput>
-const double LanczosWindowFunction<VRadius, TInput, TOutput>::m_Factor = itk::Math::pi / VRadius;
-
-template <unsigned int VRadius, typename TInput, typename TOutput>
-const double BlackmanWindowFunction<VRadius, TInput, TOutput>::m_Factor1 = itk::Math::pi / VRadius;
-
-template <unsigned int VRadius, typename TInput, typename TOutput>
-const double BlackmanWindowFunction<VRadius, TInput, TOutput>::m_Factor2 = 2.0 * itk::Math::pi / VRadius;
-} // end namespace Function
-
 template <typename TInputImage,
           unsigned int VRadius,
           typename TWindowFunction,
