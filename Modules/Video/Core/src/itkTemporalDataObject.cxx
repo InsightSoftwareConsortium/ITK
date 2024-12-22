@@ -164,7 +164,7 @@ TemporalDataObject::GetUnbufferedRequestedTemporalRegion()
   }
 
   // Handle case with unbuffered frames at end -- TODO: FIX FOR REAL TIME!!!!!
-  else if (reqEnd > bufEnd)
+  if (reqEnd > bufEnd)
   {
     TemporalRegionType out;
     out.SetFrameStart(bufEnd + 1);

@@ -94,10 +94,8 @@ SegmentationLevelSetFunction<TImageType, TFeatureImageType>::PropagationSpeed(co
   {
     return (static_cast<ScalarValueType>(m_Interpolator->EvaluateAtContinuousIndex(cdx)));
   }
-  else
-  {
-    return (static_cast<ScalarValueType>(m_SpeedImage->GetPixel(idx)));
-  }
+
+  return (static_cast<ScalarValueType>(m_SpeedImage->GetPixel(idx)));
 }
 
 template <typename TImageType, typename TFeatureImageType>

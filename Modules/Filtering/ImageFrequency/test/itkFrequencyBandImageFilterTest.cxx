@@ -336,9 +336,7 @@ itkFrequencyBandImageFilterTest(int argc, char * argv[])
     std::cout << "Test PASSED!" << std::endl;
     return EXIT_SUCCESS;
   }
-  else
-  {
-    std::cout << "Test FAILED!" << std::endl;
-    return EXIT_FAILURE;
-  }
+
+  std::cout << "Test FAILED!" << std::endl;
+  return EXIT_FAILURE;
 }

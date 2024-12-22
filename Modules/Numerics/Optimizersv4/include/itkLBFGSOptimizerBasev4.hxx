@@ -35,10 +35,8 @@ LBFGSOptimizerBaseHelperv4<TInternalVnlOptimizerType>::report_iter()
   {
     return true;
   }
-  else
-  {
-    return false;
-  }
+
+  return false;
 }
 
 } // namespace itk

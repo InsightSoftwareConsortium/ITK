@@ -104,7 +104,7 @@ public:
     {
       return MINIMUM;
     }
-    else if (s == "Maximum")
+    if (s == "Maximum")
     {
       return MAXIMUM;
     }

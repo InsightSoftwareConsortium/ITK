@@ -111,7 +111,7 @@ GetH5TypeSpecialize(float, H5::PredType::NATIVE_FLOAT) GetH5TypeSpecialize(doubl
   {
     return IOComponentEnum::UCHAR;
   }
-  else if (type == H5::PredType::NATIVE_CHAR)
+  if (type == H5::PredType::NATIVE_CHAR)
   {
     return IOComponentEnum::CHAR;
   }

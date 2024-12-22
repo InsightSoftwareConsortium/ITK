@@ -147,14 +147,12 @@ RegistrationParameterScalesFromShiftBase<TMetric>::EstimateStepScale(const Param
   {
     return FloatType{};
   }
-  else
-  {
-    const FloatType factor = this->m_SmallParameterVariation / maxStep;
-    ParametersType  smallStep(step.size());
-    // Use a small step to have a linear approximation.
-    smallStep = step * factor;
-    return this->ComputeMaximumVoxelShift(smallStep) / factor;
-  }
+
+  const FloatType factor = this->m_SmallParameterVariation / maxStep;
+  ParametersType  smallStep(step.size());
+  // Use a small step to have a linear approximation.
+  smallStep = step * factor;
+  return this->ComputeMaximumVoxelShift(smallStep) / factor;
 }
 
 /**

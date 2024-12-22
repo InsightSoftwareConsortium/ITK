@@ -57,25 +57,23 @@ ImageVectorOptimizerParametersHelper<TValue, VVectorDimension, VImageDimension>:
     m_ParameterImage = nullptr;
     return;
   }
-  else
+
+  auto * image = dynamic_cast<ParameterImageType *>(object);
+  if (image == nullptr)
   {
-    auto * image = dynamic_cast<ParameterImageType *>(object);
-    if (image == nullptr)
-    {
-      itkGenericExceptionMacro("ImageVectorOptimizerParametersHelper::SetParametersObject: object is "
-                               "not of proper image type. Expected VectorImage, received "
-                               << object->GetNameOfClass());
-    }
-    m_ParameterImage = image;
-    // The PixelContainer for Image<Vector> points to type Vector, so we have
-    // to determine the number of raw elements of type TValue in the buffer
-    // and cast a pointer to it for assignment to the Array data pointer.
-    const typename CommonContainerType::SizeValueType sz = image->GetPixelContainer()->Size() * VVectorDimension;
-    auto * valuePointer = reinterpret_cast<TValue *>(image->GetPixelContainer()->GetBufferPointer());
-    // Set the Array's pointer to the image data buffer. By default it will
-    // not manage the memory.
-    container->SetData(valuePointer, sz, false);
+    itkGenericExceptionMacro("ImageVectorOptimizerParametersHelper::SetParametersObject: object is "
+                             "not of proper image type. Expected VectorImage, received "
+                             << object->GetNameOfClass());
   }
+  m_ParameterImage = image;
+  // The PixelContainer for Image<Vector> points to type Vector, so we have
+  // to determine the number of raw elements of type TValue in the buffer
+  // and cast a pointer to it for assignment to the Array data pointer.
+  const typename CommonContainerType::SizeValueType sz = image->GetPixelContainer()->Size() * VVectorDimension;
+  auto * valuePointer = reinterpret_cast<TValue *>(image->GetPixelContainer()->GetBufferPointer());
+  // Set the Array's pointer to the image data buffer. By default it will
+  // not manage the memory.
+  container->SetData(valuePointer, sz, false);
 }
 
 } // namespace itk

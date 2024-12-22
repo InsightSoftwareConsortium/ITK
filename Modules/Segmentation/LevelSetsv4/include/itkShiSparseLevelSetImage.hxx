@@ -52,18 +52,16 @@ ShiSparseLevelSetImage<VDimension>::Evaluate(const InputType & inputIndex) const
   {
     return static_cast<OutputType>(this->MinusThreeLayer());
   }
+
+  const LayerIdType status = this->m_LabelMap->GetPixel(mapIndex);
+
+  if (status == this->PlusThreeLayer())
+  {
+    return static_cast<OutputType>(this->PlusThreeLayer());
+  }
   else
   {
-    const LayerIdType status = this->m_LabelMap->GetPixel(mapIndex);
-
-    if (status == this->PlusThreeLayer())
-    {
-      return static_cast<OutputType>(this->PlusThreeLayer());
-    }
-    else
-    {
-      itkGenericExceptionMacro("status " << static_cast<int>(status) << " should be 3 or -3");
-    }
+    itkGenericExceptionMacro("status " << static_cast<int>(status) << " should be 3 or -3");
   }
 }
 

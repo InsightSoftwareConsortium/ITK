@@ -315,10 +315,9 @@ itkLBFGS2Optimizerv4Test(int, char *[])
     std::cout << "[FAILURE]" << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << "[SUCCESS]" << std::endl;
-  }
+
+  std::cout << "[SUCCESS]" << std::endl;
+
 
   //
   // Test stopping when number of iterations reached

@@ -117,16 +117,14 @@ itkCumulativeGaussianOptimizerTest(int, char *[])
     std::cout << "[TEST DONE]" << std::endl;
     return EXIT_SUCCESS;
   }
-  else
-  {
-    std::cerr << std::endl << "Test Failed with a Fit Error of " << optimizer->GetFitError() << std::endl << std::endl;
 
-    // Print out the resulting parameters.
-    std::cerr << "Fitted mean = " << optimizer->GetComputedMean() << std::endl;
-    std::cerr << "Fitted standard deviation = " << optimizer->GetComputedStandardDeviation() << std::endl;
-    std::cerr << "Fitted upper asymptote = " << optimizer->GetUpperAsymptote() << std::endl;
-    std::cerr << "Fitted lower asymptote = " << optimizer->GetLowerAsymptote() << std::endl;
+  std::cerr << std::endl << "Test Failed with a Fit Error of " << optimizer->GetFitError() << std::endl << std::endl;
 
-    return EXIT_FAILURE;
-  }
+  // Print out the resulting parameters.
+  std::cerr << "Fitted mean = " << optimizer->GetComputedMean() << std::endl;
+  std::cerr << "Fitted standard deviation = " << optimizer->GetComputedStandardDeviation() << std::endl;
+  std::cerr << "Fitted upper asymptote = " << optimizer->GetUpperAsymptote() << std::endl;
+  std::cerr << "Fitted lower asymptote = " << optimizer->GetLowerAsymptote() << std::endl;
+
+  return EXIT_FAILURE;
 }

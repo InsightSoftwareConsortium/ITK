@@ -76,10 +76,8 @@ public:
     {
       return envelope * std::sin(phase);
     }
-    else
-    {
-      return envelope * std::cos(phase);
-    }
+
+    return envelope * std::cos(phase);
   }
 
   /** Set/Get the standard deviation of the Gaussian envelope. */

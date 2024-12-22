@@ -57,10 +57,8 @@ public:
     {
       return 0.5;
     }
-    else
-    {
-      return 1.0;
-    }
+
+    return 1.0;
   }
 
 protected:

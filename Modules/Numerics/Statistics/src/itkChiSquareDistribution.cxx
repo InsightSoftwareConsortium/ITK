@@ -133,7 +133,7 @@ ChiSquareDistribution::InverseCDF(double p, SizeValueType degreesOfFreedom)
   {
     return 0.0;
   }
-  else if (p >= 1.0)
+  if (p >= 1.0)
   {
     return itk::NumericTraits<double>::max();
   }

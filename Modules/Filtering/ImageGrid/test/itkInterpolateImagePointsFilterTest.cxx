@@ -301,11 +301,9 @@ itkInterpolateImagePointsFilterTest(int, char *[])
     std::cout << "\n*** " << testStatus << " tests failed" << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << "\nAll tests successfully passed\n" << std::endl;
-    return EXIT_SUCCESS;
-  }
+
+  std::cout << "\nAll tests successfully passed\n" << std::endl;
+  return EXIT_SUCCESS;
 }
 
 void

@@ -173,12 +173,10 @@ ImageBoundaryFacesCalculator<TImage>::operator()(const TImage * img, RegionType 
   {
     return FaceListType{};
   }
-  else
-  {
-    FaceListType faceList = std::move(result.m_BoundaryFaces);
-    faceList.push_front(result.m_NonBoundaryRegion);
-    return faceList;
-  }
+
+  FaceListType faceList = std::move(result.m_BoundaryFaces);
+  faceList.push_front(result.m_NonBoundaryRegion);
+  return faceList;
 }
 
 

@@ -92,9 +92,7 @@ itkFourierSeriesPathTest(int, char *[])
     std::cout << "Test passed" << std::endl;
     return EXIT_SUCCESS;
   }
-  else
-  {
-    std::cout << "Test failed" << std::endl;
-    return EXIT_FAILURE;
-  }
+
+  std::cout << "Test failed" << std::endl;
+  return EXIT_FAILURE;
 }

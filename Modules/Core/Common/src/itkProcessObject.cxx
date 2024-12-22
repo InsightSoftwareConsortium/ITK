@@ -1053,10 +1053,8 @@ ProcessObject::MakeNameFromIndex(DataObjectPointerArraySizeType idx) const
   {
     return { globalIndexNames[idx] };
   }
-  else
-  {
-    return '_' + std::to_string(idx);
-  }
+
+  return '_' + std::to_string(idx);
 }
 
 

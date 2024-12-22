@@ -155,10 +155,8 @@ HilbertPath<TIndexValue, VDimension>::SetBit(const PathIndexType x,
   {
     return (x | (1 << (width - i - 1)));
   }
-  else
-  {
-    return (x & ~(1 << (width - i - 1)));
-  }
+
+  return (x & ~(1 << (width - i - 1)));
 }
 
 template <typename TIndexValue, unsigned int VDimension>
@@ -215,7 +213,7 @@ HilbertPath<TIndexValue, VDimension>::GetDirection(const PathIndexType x, const 
   {
     return 0;
   }
-  else if (x % 2 == 0)
+  if (x % 2 == 0)
   {
     return (this->GetTrailingSetBits(x - 1, n) % n);
   }
@@ -233,10 +231,8 @@ HilbertPath<TIndexValue, VDimension>::GetEntry(const PathIndexType x) -> PathInd
   {
     return 0;
   }
-  else
-  {
-    return (this->GetGrayCode(2 * static_cast<PathIndexType>((x - 1) / 2)));
-  }
+
+  return (this->GetGrayCode(2 * static_cast<PathIndexType>((x - 1) / 2)));
 }
 
 template <typename TIndexValue, unsigned int VDimension>

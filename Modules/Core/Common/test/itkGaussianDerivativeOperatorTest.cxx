@@ -118,7 +118,7 @@ itkGaussianDerivativeOperatorTest(int argc, char * argv[])
     std::cout << "Test finished." << std::endl;
     return EXIT_SUCCESS;
   }
-  else if (argc > 1)
+  if (argc > 1)
   {
     std::cerr << "Missing Parameters." << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " [variance error width order spacing]"
@@ -177,8 +177,6 @@ itkGaussianDerivativeOperatorTest(int argc, char * argv[])
   {
     return EXIT_SUCCESS;
   }
-  else
-  {
-    return EXIT_FAILURE;
-  }
+
+  return EXIT_FAILURE;
 }

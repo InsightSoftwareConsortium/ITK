@@ -181,13 +181,11 @@ ActualTest(std::string inputFileName,
       std::cout << "TEST PASSED" << std::endl;
       return EXIT_SUCCESS;
     }
-    else
-    {
-      std::cout << "UnExpected ExceptionObject caught !" << std::endl;
-      std::cout << err << std::endl;
-      std::cout << "TEST FAILED" << std::endl;
-      return EXIT_FAILURE;
-    }
+
+    std::cout << "UnExpected ExceptionObject caught !" << std::endl;
+    std::cout << err << std::endl;
+    std::cout << "TEST FAILED" << std::endl;
+    return EXIT_FAILURE;
   }
 
   if (expectException == 1)

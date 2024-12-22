@@ -80,16 +80,14 @@ EigenAnalysis2DImageFilter<TInputImage, TEigenValueImage, TEigenVectorImage>::Ge
   {
     return eigenVector;
   }
-  else
-  {
-    itkWarningMacro(
 
-      << "EigenAnalysis2DImageFilter::GetMaxEigenVector(): dynamic_cast has failed. A reinterpret_cast is being "
-         "attempted."
-      << std::endl
-      << "Type name is: " << typeid(*this->GetOutput(2)).name());
-    return reinterpret_cast<EigenVectorImageType *>(this->ProcessObject::GetOutput(2));
-  }
+  itkWarningMacro(
+
+    << "EigenAnalysis2DImageFilter::GetMaxEigenVector(): dynamic_cast has failed. A reinterpret_cast is being "
+       "attempted."
+    << std::endl
+    << "Type name is: " << typeid(*this->GetOutput(2)).name());
+  return reinterpret_cast<EigenVectorImageType *>(this->ProcessObject::GetOutput(2));
 }
 
 template <typename TInputImage, typename TEigenValueImage, typename TEigenVectorImage>

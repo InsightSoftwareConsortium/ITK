@@ -107,15 +107,14 @@ TestSettingTranslation()
   {
     return true;
   }
-  else
-  {
-    std::cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
-    std::cout << "r1\n" << r1 << std::endl;
-    std::cout << "r2\n" << r2 << std::endl;
-    std::cout << "r3\n" << r3 << std::endl;
-    std::cout << p1 << '\n' << p2 << '\n' << p3 << std::endl;
-    std::cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
-  }
+
+  std::cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
+  std::cout << "r1\n" << r1 << std::endl;
+  std::cout << "r2\n" << r2 << std::endl;
+  std::cout << "r3\n" << r3 << std::endl;
+  std::cout << p1 << '\n' << p2 << '\n' << p3 << std::endl;
+  std::cout << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << std::endl;
+
 
   return false;
 }
@@ -203,10 +202,8 @@ itkRigid3DTransformTest(int, char *[])
         std::cerr << "Reported Result is     : " << r << std::endl;
         return EXIT_FAILURE;
       }
-      else
-      {
-        std::cout << "Ok translating an itk::Point " << std::endl;
-      }
+
+      std::cout << "Ok translating an itk::Point " << std::endl;
     }
 
     {
@@ -229,10 +226,8 @@ itkRigid3DTransformTest(int, char *[])
         std::cerr << "Reported Result is      : " << q << std::endl;
         return EXIT_FAILURE;
       }
-      else
-      {
-        std::cout << "Ok translating an itk::Vector " << std::endl;
-      }
+
+      std::cout << "Ok translating an itk::Vector " << std::endl;
     }
 
     {
@@ -255,10 +250,8 @@ itkRigid3DTransformTest(int, char *[])
         std::cerr << "Reported Result is      : " << q << std::endl;
         return EXIT_FAILURE;
       }
-      else
-      {
-        std::cout << "Ok translating an itk::CovariantVector " << std::endl;
-      }
+
+      std::cout << "Ok translating an itk::CovariantVector " << std::endl;
     }
 
     {
@@ -283,10 +276,8 @@ itkRigid3DTransformTest(int, char *[])
         std::cerr << "Reported Result is      : " << q << std::endl;
         return EXIT_FAILURE;
       }
-      else
-      {
-        std::cout << "Ok translating an vnl_Vector " << std::endl;
-      }
+
+      std::cout << "Ok translating an vnl_Vector " << std::endl;
     }
   }
 
@@ -383,10 +374,8 @@ itkRigid3DTransformTest(int, char *[])
         std::cerr << "Reported Result is     : " << r << std::endl;
         return EXIT_FAILURE;
       }
-      else
-      {
-        std::cout << "Ok translating an itk::Point " << std::endl;
-      }
+
+      std::cout << "Ok translating an itk::Point " << std::endl;
     }
 
     {
@@ -416,10 +405,8 @@ itkRigid3DTransformTest(int, char *[])
         std::cerr << "Reported Result is     : " << r << std::endl;
         return EXIT_FAILURE;
       }
-      else
-      {
-        std::cout << "Ok rotating an itk::Vector " << std::endl;
-      }
+
+      std::cout << "Ok rotating an itk::Vector " << std::endl;
     }
 
     {
@@ -450,10 +437,8 @@ itkRigid3DTransformTest(int, char *[])
         std::cerr << "Reported Result is             : " << r << std::endl;
         return EXIT_FAILURE;
       }
-      else
-      {
-        std::cout << "Ok translating an itk::CovariantVector " << std::endl;
-      }
+
+      std::cout << "Ok translating an itk::CovariantVector " << std::endl;
     }
 
     {
@@ -486,10 +471,8 @@ itkRigid3DTransformTest(int, char *[])
         std::cerr << "Reported Result is           : " << r << std::endl;
         return EXIT_FAILURE;
       }
-      else
-      {
-        std::cout << "Ok translating an vnl_Vector " << std::endl;
-      }
+
+      std::cout << "Ok translating an vnl_Vector " << std::endl;
     }
 
     {

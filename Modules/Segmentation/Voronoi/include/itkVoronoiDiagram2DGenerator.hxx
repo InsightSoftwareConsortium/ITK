@@ -95,7 +95,7 @@ VoronoiDiagram2DGenerator<TCoordinate>::comp(PointType arg1, PointType arg2)
   {
     return true;
   }
-  else if (arg1[1] > arg2[1])
+  if (arg1[1] > arg2[1])
   {
     return false;
   }
@@ -201,7 +201,7 @@ VoronoiDiagram2DGenerator<TCoordinate>::Pointonbnd(int VertID)
   {
     return 1;
   }
-  else if (almostsame(currVert[1], m_Pymax))
+  if (almostsame(currVert[1], m_Pymax))
   {
     return 2;
   }
@@ -666,7 +666,7 @@ VoronoiDiagram2DGenerator<TCoordinate>::getRightReg(FortuneHalfEdge * he) -> For
   {
     return (m_BottomSite);
   }
-  else if (he->m_RorL)
+  if (he->m_RorL)
   {
     return (he->m_Edge->m_Reg[0]);
   }
@@ -684,7 +684,7 @@ VoronoiDiagram2DGenerator<TCoordinate>::getLeftReg(FortuneHalfEdge * he) -> Fort
   {
     return (m_BottomSite);
   }
-  else if (he->m_RorL)
+  if (he->m_RorL)
   {
     return (he->m_Edge->m_Reg[1]);
   }

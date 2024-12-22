@@ -196,11 +196,9 @@ Thread(int tnum)
     // Success.
     return EXIT_FAILURE;
   }
-  else
-  {
-    // Failure.
-    return EXIT_SUCCESS;
-  }
+
+  // Failure.
+  return EXIT_SUCCESS;
 }
 
 } // namespace itkSTLThreadTestImpl

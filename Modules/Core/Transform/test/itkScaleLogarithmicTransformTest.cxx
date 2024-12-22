@@ -118,10 +118,8 @@ itkScaleLogarithmicTransformTest(int, char *[])
         std::cerr << "Reported Result is  : " << r << std::endl;
         return EXIT_FAILURE;
       }
-      else
-      {
-        std::cout << "Successful scaling an itk::Point " << std::endl;
-      }
+
+      std::cout << "Successful scaling an itk::Point " << std::endl;
     }
 
     {
@@ -148,10 +146,8 @@ itkScaleLogarithmicTransformTest(int, char *[])
         std::cerr << "Reported Result is      : " << q << std::endl;
         return EXIT_FAILURE;
       }
-      else
-      {
-        std::cout << "Successful scaling an itk::Vector " << std::endl;
-      }
+
+      std::cout << "Successful scaling an itk::Vector " << std::endl;
     }
 
     {
@@ -178,10 +174,8 @@ itkScaleLogarithmicTransformTest(int, char *[])
         std::cerr << "Reported Result is      : " << q << std::endl;
         return EXIT_FAILURE;
       }
-      else
-      {
-        std::cout << "Successful scaling an itk::CovariantVector " << std::endl;
-      }
+
+      std::cout << "Successful scaling an itk::CovariantVector " << std::endl;
     }
 
     {
@@ -210,10 +204,8 @@ itkScaleLogarithmicTransformTest(int, char *[])
         std::cerr << "Reported Result is      : " << q << std::endl;
         return EXIT_FAILURE;
       }
-      else
-      {
-        std::cout << "Successful scaling an vnl_Vector " << std::endl;
-      }
+
+      std::cout << "Successful scaling an vnl_Vector " << std::endl;
     }
 
 
@@ -235,10 +227,8 @@ itkScaleLogarithmicTransformTest(int, char *[])
         std::cerr << "but GetCenter() returned : " << c2 << std::endl;
         return EXIT_FAILURE;
       }
-      else
-      {
-        std::cout << "Successful SetCenter() / GetCenter() " << std::endl;
-      }
+
+      std::cout << "Successful SetCenter() / GetCenter() " << std::endl;
     }
 
 
@@ -270,10 +260,8 @@ itkScaleLogarithmicTransformTest(int, char *[])
         std::cerr << "but GetParameters() returned : " << p2 << std::endl;
         return EXIT_FAILURE;
       }
-      else
-      {
-        std::cout << "Successful SetParameters() / GetParameters() " << std::endl;
-      }
+
+      std::cout << "Successful SetParameters() / GetParameters() " << std::endl;
     }
   }
 

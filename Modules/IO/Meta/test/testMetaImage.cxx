@@ -227,10 +227,9 @@ testMetaImage(int, char *[])
     std::cout << "MET_ImageModalityToString: FAIL" << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << "Modality  = " << modality << std::endl;
-  }
+
+  std::cout << "Modality  = " << modality << std::endl;
+
 
   // Testing Append function
   std::cout << "Testing Append:";

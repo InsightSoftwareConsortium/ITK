@@ -38,11 +38,9 @@ ImageRegionConstIteratorWithIndex<TImage>::operator++()
       this->m_Remaining = true;
       break;
     }
-    else
-    {
-      this->m_Position -= this->m_OffsetTable[in] * (static_cast<OffsetValueType>(this->m_Region.GetSize()[in]) - 1);
-      this->m_PositionIndex[in] = this->m_BeginIndex[in];
-    }
+
+    this->m_Position -= this->m_OffsetTable[in] * (static_cast<OffsetValueType>(this->m_Region.GetSize()[in]) - 1);
+    this->m_PositionIndex[in] = this->m_BeginIndex[in];
   }
 
   if (!this->m_Remaining) // It will not advance here otherwise
@@ -70,11 +68,9 @@ ImageRegionConstIteratorWithIndex<TImage>::operator--()
       this->m_Remaining = true;
       break;
     }
-    else
-    {
-      this->m_Position += this->m_OffsetTable[in] * (static_cast<OffsetValueType>(this->m_Region.GetSize()[in]) - 1);
-      this->m_PositionIndex[in] = this->m_EndIndex[in] - 1;
-    }
+
+    this->m_Position += this->m_OffsetTable[in] * (static_cast<OffsetValueType>(this->m_Region.GetSize()[in]) - 1);
+    this->m_PositionIndex[in] = this->m_EndIndex[in] - 1;
   }
 
   if (!this->m_Remaining) // It will not advance here otherwise

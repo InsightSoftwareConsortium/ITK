@@ -51,11 +51,10 @@ itkLightObjectTest(int, char *[])
       std::cout << "Test FAILED !" << std::endl;
       return EXIT_FAILURE;
     }
-    else
-    {
-      std::cout << "After assignment to another SmartPointer" << std::endl;
-      std::cout << "reference count is:  " << counts2 << std::endl;
-    }
+
+    std::cout << "After assignment to another SmartPointer" << std::endl;
+    std::cout << "reference count is:  " << counts2 << std::endl;
+
   } // terminate the scope for the SmartPointer. Reference count should
     // decrement at this point.
 
@@ -66,11 +65,10 @@ itkLightObjectTest(int, char *[])
     std::cout << "Test FAILED !" << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << "After destroying one SmartPointer" << std::endl;
-    std::cout << "reference count is:  " << counts3 << std::endl;
-  }
+
+  std::cout << "After destroying one SmartPointer" << std::endl;
+  std::cout << "reference count is:  " << counts3 << std::endl;
+
 
   std::cout << "Test PASSED !" << std::endl;
 

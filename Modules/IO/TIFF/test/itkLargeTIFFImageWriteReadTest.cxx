@@ -171,16 +171,14 @@ itkLargeTIFFImageWriteReadTest(int argc, char * argv[])
 
     return itkLargeTIFFImageWriteReadTestHelper<ImageType>(filename, size);
   }
-  else
-  {
-    constexpr unsigned int Dimension = 3;
 
-    using PixelType = unsigned short;
-    using ImageType = itk::Image<PixelType, Dimension>;
+  constexpr unsigned int Dimension = 3;
 
-    auto size = ImageType::SizeType::Filled(atol(argv[2]));
-    size[2] = atol(argv[3]);
+  using PixelType = unsigned short;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
-    return itkLargeTIFFImageWriteReadTestHelper<ImageType>(filename, size);
-  }
+  auto size = ImageType::SizeType::Filled(atol(argv[2]));
+  size[2] = atol(argv[3]);
+
+  return itkLargeTIFFImageWriteReadTestHelper<ImageType>(filename, size);
 }

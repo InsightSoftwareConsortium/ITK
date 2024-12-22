@@ -88,10 +88,9 @@ itkDTITubeSpatialObjectTest(int, char *[])
     std::cout << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << "[PASSED]" << std::endl;
-  }
+
+  std::cout << "[PASSED]" << std::endl;
+
 
   TubeType::CovariantVectorType derivative;
 
@@ -113,10 +112,9 @@ itkDTITubeSpatialObjectTest(int, char *[])
     std::cout << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << "[PASSED]" << std::endl;
-  }
+
+  std::cout << "[PASSED]" << std::endl;
+
 
   std::cout << "itkTubeSpatialObjectTest ";
   if (passed)
@@ -169,10 +167,9 @@ itkDTITubeSpatialObjectTest(int, char *[])
     std::cout << "[FAILED] [" << nbChildren << "!= 3]" << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << "[PASSED]" << std::endl;
-  }
+
+  std::cout << "[PASSED]" << std::endl;
+
 
   // testing the RemoveChild() function...
   std::cout << "Removing 1" << std::endl;
@@ -190,10 +187,9 @@ itkDTITubeSpatialObjectTest(int, char *[])
     std::cout << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << "[PASSED]" << std::endl;
-  }
+
+  std::cout << "[PASSED]" << std::endl;
+
 
   tubeNet1->AddChild(tube1);
   tubeNet1->AddChild(tube2);
@@ -232,10 +228,9 @@ itkDTITubeSpatialObjectTest(int, char *[])
     std::cout << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << "[PASSED]" << std::endl;
-  }
+
+  std::cout << "[PASSED]" << std::endl;
+
 
   tubeNet1->RemoveChild(tube1);
   tubeNet1->RemoveChild(tube2);
@@ -277,10 +272,9 @@ itkDTITubeSpatialObjectTest(int, char *[])
     std::cout << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << "[PASSED]" << std::endl;
-  }
+
+  std::cout << "[PASSED]" << std::endl;
+
 
   tubeNet1->Update();
 
@@ -290,10 +284,9 @@ itkDTITubeSpatialObjectTest(int, char *[])
     std::cout << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << "[PASSED]" << std::endl;
-  }
+
+  std::cout << "[PASSED]" << std::endl;
+
 
   auto translation = itk::MakeFilled<Vector>(10);
   tubeNet1->GetModifiableObjectToParentTransform()->Translate(translation, false);
@@ -323,10 +316,9 @@ itkDTITubeSpatialObjectTest(int, char *[])
     std::cout << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << "[PASSED]" << std::endl;
-  }
+
+  std::cout << "[PASSED]" << std::endl;
+
 
   std::cout << "DerivativeAt()...";
   try

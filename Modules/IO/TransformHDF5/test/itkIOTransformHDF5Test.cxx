@@ -394,7 +394,7 @@ itkIOTransformHDF5Test(int argc, char * argv[])
       const int result2 = oneTest<double>("Transforms_double.hdf5", "TransformsBad_double.hdf5", false);
       return (!(result1 == EXIT_SUCCESS && result2 == EXIT_SUCCESS));
     }
-    else if (testType == "compressed")
+    if (testType == "compressed")
     {
       const int result1 = oneTest<float>("Transforms_float_compressed.h5", "TransformsBad_float_compressed.h5", true);
       const int result2 =

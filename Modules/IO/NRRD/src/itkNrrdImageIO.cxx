@@ -55,10 +55,8 @@ NrrdImageIO::SupportsDimension(unsigned long dim)
   {
     return dim <= NRRD_DIM_MAX;
   }
-  else
-  {
-    return dim <= NRRD_DIM_MAX - 1;
-  }
+
+  return dim <= NRRD_DIM_MAX - 1;
 }
 
 void

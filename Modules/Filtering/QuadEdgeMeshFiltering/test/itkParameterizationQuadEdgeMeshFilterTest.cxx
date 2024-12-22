@@ -170,7 +170,7 @@ itkParameterizationQuadEdgeMeshFilterTest(int argc, char * argv[])
     return ParameterizationQuadEdgeMeshFilterTest<IterativeSolverTraits>(
       argv[1], std::stoi(argv[2]), std::stoi(argv[3]), argv[5]);
   }
-  else if (std::stoi(argv[4]) == 1)
+  if (std::stoi(argv[4]) == 1)
   {
     return ParameterizationQuadEdgeMeshFilterTest<LUSolverTraits>(
       argv[1], std::stoi(argv[2]), std::stoi(argv[3]), argv[5]);

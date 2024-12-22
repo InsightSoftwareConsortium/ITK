@@ -239,7 +239,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
   {
     return false;
   }
-  else if (movingImageValue > this->m_MattesAssociate->m_MovingImageTrueMax)
+  if (movingImageValue > this->m_MattesAssociate->m_MovingImageTrueMax)
   {
     return false;
   }

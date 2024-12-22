@@ -54,10 +54,9 @@ itkIdentityTransformTest(int, char *[])
     std::cerr << "Error Transforming Point" << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << " [ PASSED ] " << std::endl;
-  }
+
+  std::cout << " [ PASSED ] " << std::endl;
+
 
   // Test TransformVector
   std::cout << "Testing TransformVector: ";
@@ -79,10 +78,9 @@ itkIdentityTransformTest(int, char *[])
     std::cerr << "Error with TransformVector itk::Vector" << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << " [ PASSED ] " << std::endl;
-  }
+
+  std::cout << " [ PASSED ] " << std::endl;
+
 
   // Test TransformVector vnl_vector
   std::cout << "Testing TransformVector (vnl): ";
@@ -104,10 +102,9 @@ itkIdentityTransformTest(int, char *[])
     std::cerr << "Error with TransformVector vnlVector" << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << " [ PASSED ] " << std::endl;
-  }
+
+  std::cout << " [ PASSED ] " << std::endl;
+
 
   // Test TransformCovariantVector
   std::cout << "Testing TransformCovariantVector: ";
@@ -129,10 +126,9 @@ itkIdentityTransformTest(int, char *[])
     std::cerr << "Error with TransformVector CovariantVector" << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << " [ PASSED ] " << std::endl;
-  }
+
+  std::cout << " [ PASSED ] " << std::endl;
+
 
   const IdentityTransformType::ParametersType params(0);
   transform->SetParameters(params);
@@ -151,10 +147,9 @@ itkIdentityTransformTest(int, char *[])
     std::cerr << "Error with Jacobian: " << jacobian << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << " [ PASSED ] " << std::endl;
-  }
+
+  std::cout << " [ PASSED ] " << std::endl;
+
 
   IdentityTransformType::JacobianPositionType jacobianWrtPos;
   transform->ComputeJacobianWithRespectToPosition(p, jacobianWrtPos);

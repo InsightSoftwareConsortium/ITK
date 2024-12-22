@@ -186,7 +186,7 @@ private:
       {
         return NumericTraits<HistogramMeasurementType>::max();
       }
-      else if (from <= fromMin)
+      if (from <= fromMin)
       {
         return NumericTraits<HistogramMeasurementType>::min();
       }

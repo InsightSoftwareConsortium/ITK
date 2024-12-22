@@ -189,10 +189,8 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
   {
     return this->m_VirtualImage->TransformPhysicalPointToIndex(point, index);
   }
-  else
-  {
-    itkExceptionMacro("m_VirtualImage is undefined. Cannot transform.");
-  }
+
+  itkExceptionMacro("m_VirtualImage is undefined. Cannot transform.");
 }
 
 template <unsigned int TFixedDimension,
@@ -270,10 +268,8 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
   {
     return this->GetTimeStamp();
   }
-  else
-  {
-    return this->GetVirtualImage()->GetTimeStamp();
-  }
+
+  return this->GetVirtualImage()->GetTimeStamp();
 }
 
 template <unsigned int TFixedDimension,
@@ -331,10 +327,8 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
     }
     return this->ComputeParameterOffsetFromVirtualIndex(index, numberOfLocalParameters);
   }
-  else
-  {
-    itkExceptionMacro("m_VirtualImage is undefined. Cannot calculate offset.");
-  }
+
+  itkExceptionMacro("m_VirtualImage is undefined. Cannot calculate offset.");
 }
 
 template <unsigned int TFixedDimension,
@@ -351,10 +345,8 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
     const OffsetValueType offset = this->m_VirtualImage->ComputeOffset(index) * numberOfLocalParameters;
     return offset;
   }
-  else
-  {
-    itkExceptionMacro("m_VirtualImage is undefined. Cannot calculate offset.");
-  }
+
+  itkExceptionMacro("m_VirtualImage is undefined. Cannot calculate offset.");
 }
 
 template <unsigned int TFixedDimension,
@@ -370,11 +362,9 @@ typename ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, 
   {
     return this->m_VirtualImage->GetSpacing();
   }
-  else
-  {
-    auto spacing = MakeFilled<VirtualSpacingType>(NumericTraits<typename VirtualSpacingType::ValueType>::OneValue());
-    return spacing;
-  }
+
+  auto spacing = MakeFilled<VirtualSpacingType>(NumericTraits<typename VirtualSpacingType::ValueType>::OneValue());
+  return spacing;
 }
 
 template <unsigned int TFixedDimension,
@@ -390,12 +380,10 @@ typename ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, 
   {
     return this->m_VirtualImage->GetDirection();
   }
-  else
-  {
-    auto direction =
-      MakeFilled<VirtualDirectionType>(NumericTraits<typename VirtualDirectionType::ValueType>::OneValue());
-    return direction;
-  }
+
+  auto direction =
+    MakeFilled<VirtualDirectionType>(NumericTraits<typename VirtualDirectionType::ValueType>::OneValue());
+  return direction;
 }
 
 template <unsigned int TFixedDimension,
@@ -410,11 +398,9 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
   {
     return this->m_VirtualImage->GetOrigin();
   }
-  else
-  {
-    VirtualOriginType origin{};
-    return origin;
-  }
+
+  VirtualOriginType origin{};
+  return origin;
 }
 
 template <unsigned int TFixedDimension,
@@ -429,10 +415,8 @@ const typename ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualI
   {
     return this->m_VirtualImage->GetBufferedRegion();
   }
-  else
-  {
-    itkExceptionMacro("m_VirtualImage is undefined. Cannot return region. ");
-  }
+
+  itkExceptionMacro("m_VirtualImage is undefined. Cannot return region. ");
 }
 
 template <unsigned int TFixedDimension,

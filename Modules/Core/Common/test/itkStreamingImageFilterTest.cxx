@@ -142,9 +142,7 @@ itkStreamingImageFilterTest(int, char *[])
     std::cout << "ImageStreamingFilter test passed." << std::endl;
     return EXIT_SUCCESS;
   }
-  else
-  {
-    std::cout << "ImageStreaming Filter test failed." << std::endl;
-    return EXIT_FAILURE;
-  }
+
+  std::cout << "ImageStreaming Filter test failed." << std::endl;
+  return EXIT_FAILURE;
 }

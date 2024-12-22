@@ -411,37 +411,35 @@ QuadrilateralCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
     }
     return true;
   }
-  else
-  {
-    CoordinateType pc[CellDimension];
-    CoordinateType w[NumberOfPoints];
-    if (closestPoint)
-    {
-      for (unsigned int i = 0; i < CellDimension; ++i) // only approximate ??
-      {
-        if (pcoords[i] < 0.0)
-        {
-          pc[i] = 0.0;
-        }
-        else if (pcoords[i] > 1.0)
-        {
-          pc[i] = 1.0;
-        }
-        else
-        {
-          pc[i] = pcoords[i];
-        }
-      }
-      this->EvaluateLocation(subId, points, pc, closestPoint, (InterpolationWeightType *)w);
 
-      *dist2 = 0;
-      for (unsigned int i = 0; i < CellDimension; ++i)
+  CoordinateType pc[CellDimension];
+  CoordinateType w[NumberOfPoints];
+  if (closestPoint)
+  {
+    for (unsigned int i = 0; i < CellDimension; ++i) // only approximate ??
+    {
+      if (pcoords[i] < 0.0)
       {
-        *dist2 += (closestPoint[i] - x[i]) * (closestPoint[i] - x[i]);
+        pc[i] = 0.0;
+      }
+      else if (pcoords[i] > 1.0)
+      {
+        pc[i] = 1.0;
+      }
+      else
+      {
+        pc[i] = pcoords[i];
       }
     }
-    return false;
+    this->EvaluateLocation(subId, points, pc, closestPoint, (InterpolationWeightType *)w);
+
+    *dist2 = 0;
+    for (unsigned int i = 0; i < CellDimension; ++i)
+    {
+      *dist2 += (closestPoint[i] - x[i]) * (closestPoint[i] - x[i]);
+    }
   }
+  return false;
 }
 
 /** Compute iso-parametric interpolation functions */

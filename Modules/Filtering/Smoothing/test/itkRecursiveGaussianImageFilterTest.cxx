@@ -250,10 +250,9 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
         std::cerr << "Central pixel at sigma = " << sigmaB << " = " << valueB << std::endl;
         return EXIT_FAILURE;
       }
-      else
-      {
-        std::cout << "PASSED !" << std::endl;
-      }
+
+      std::cout << "PASSED !" << std::endl;
+
 
     } // end of test for normalization across scales
 
@@ -299,10 +298,9 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
         std::cout << "error: " << error << std::endl;
         return EXIT_FAILURE;
       }
-      else
-      {
-        std::cout << "PASSED !" << std::endl;
-      }
+
+      std::cout << "PASSED !" << std::endl;
+
 
     } // end of test for normalization
 
@@ -357,10 +355,8 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
         std::cerr << " : " << derivativeUpperBound << " ] " << std::endl;
         return EXIT_FAILURE;
       }
-      else
-      {
-        std::cout << "PASSED !" << std::endl;
-      }
+
+      std::cout << "PASSED !" << std::endl;
 
 
       // Now do the similar testing between First Derivative and Second
@@ -400,10 +396,8 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
         std::cerr << " : " << secondDerivativeUpperBound << " ] " << std::endl;
         return EXIT_FAILURE;
       }
-      else
-      {
-        std::cout << "PASSED !" << std::endl;
-      }
+
+      std::cout << "PASSED !" << std::endl;
 
 
     } // end of test for normalization among derivatives

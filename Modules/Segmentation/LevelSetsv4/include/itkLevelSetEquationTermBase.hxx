@@ -70,10 +70,8 @@ LevelSetEquationTermBase<TInputImage, TLevelSetContainer>::Evaluate(const LevelS
   {
     return this->m_Coefficient * this->Value(iP);
   }
-  else
-  {
-    return LevelSetOutputRealType{};
-  }
+
+  return LevelSetOutputRealType{};
 }
 // ----------------------------------------------------------------------------
 
@@ -88,10 +86,8 @@ LevelSetEquationTermBase<TInputImage, TLevelSetContainer>::Evaluate(const LevelS
   {
     return this->m_Coefficient * this->Value(iP, iData);
   }
-  else
-  {
-    return LevelSetOutputRealType{};
-  }
+
+  return LevelSetOutputRealType{};
 }
 // ----------------------------------------------------------------------------
 

@@ -57,7 +57,7 @@ ConstNeighborhoodIteratorWithOnlyIndex<TImage>::IndexInBounds(const NeighborInde
   {
     return true;
   }
-  else if (this->InBounds()) // Is this whole neighborhood in bounds?
+  if (this->InBounds()) // Is this whole neighborhood in bounds?
   {
     return true;
   }

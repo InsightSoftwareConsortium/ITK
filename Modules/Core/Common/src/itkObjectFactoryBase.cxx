@@ -588,11 +588,9 @@ ObjectFactoryBase::RegisterFactory(ObjectFactoryBase * factory, InsertionPositio
         m_PimplGlobals->m_RegisteredFactories.insert(fitr, factory);
         break;
       }
-      else
-      {
-        itkGenericExceptionMacro("Position" << position << " is outside range. \
+
+      itkGenericExceptionMacro("Position" << position << " is outside range. \
           Only " << numberOfFactories << " factories are registered");
-      }
     }
   }
   factory->Register();

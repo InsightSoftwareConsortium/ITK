@@ -65,10 +65,8 @@ SegmentTable<TScalar>::Add(IdentifierType a, const segment_t & t)
   {
     return false;
   }
-  else
-  {
-    return true;
-  }
+
+  return true;
 }
 } // end namespace watershed
 } // end namespace itk

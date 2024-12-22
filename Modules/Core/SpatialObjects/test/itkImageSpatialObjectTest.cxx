@@ -107,10 +107,9 @@ itkImageSpatialObjectTest(int, char *[])
     std::cerr << " differs from " << returnedValue << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << "[PASSED]" << std::endl;
-  }
+
+  std::cout << "[PASSED]" << std::endl;
+
 
   ImageSpatialObject::DerivativeVectorType derivative;
   imageSO->DerivativeAtInWorldSpace(q, 1, derivative);
@@ -148,10 +147,8 @@ itkImageSpatialObjectTest(int, char *[])
     std::cerr << " by more than " << epsilon << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << "[PASSED]" << std::endl;
-  }
+
+  std::cout << "[PASSED]" << std::endl;
 
 
   imageSO->DerivativeAtInWorldSpace(q, 1, derivative);
@@ -172,10 +169,8 @@ itkImageSpatialObjectTest(int, char *[])
     std::cerr << " by more than " << epsilon << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << "[PASSED]" << std::endl;
-  }
+
+  std::cout << "[PASSED]" << std::endl;
 
 
   std::cout << "Test finished." << std::endl;

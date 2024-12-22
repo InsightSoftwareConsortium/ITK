@@ -213,10 +213,8 @@ public:
     {
       return m_SizeOfObjectsInPixels[obj - 1];
     }
-    else
-    {
-      return 0;
-    }
+
+    return 0;
   }
 
   /** Get the size of a particular object in physical space (in units of pixel
@@ -229,10 +227,8 @@ public:
     {
       return m_SizeOfObjectsInPhysicalUnits[obj - 1];
     }
-    else
-    {
-      return 0;
-    }
+
+    return 0;
   }
 
 #ifdef ITK_USE_CONCEPT_CHECKING

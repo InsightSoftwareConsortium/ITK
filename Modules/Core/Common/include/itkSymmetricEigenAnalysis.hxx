@@ -31,10 +31,8 @@ SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ComputeEigenValues(const
   {
     return ComputeEigenValuesWithEigenLibrary(A, D);
   }
-  else
-  {
-    return ComputeEigenValuesLegacy(A, D);
-  }
+
+  return ComputeEigenValuesLegacy(A, D);
 }
 
 template <typename TMatrix, typename TVector, typename TEigenMatrix>
@@ -47,10 +45,8 @@ SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ComputeEigenValuesAndVec
   {
     return ComputeEigenValuesAndVectorsWithEigenLibrary(A, EigenValues, EigenVectors);
   }
-  else
-  {
-    return ComputeEigenValuesAndVectorsLegacy(A, EigenValues, EigenVectors);
-  }
+
+  return ComputeEigenValuesAndVectorsLegacy(A, EigenValues, EigenVectors);
 }
 
 template <typename TMatrix, typename TVector, typename TEigenMatrix>

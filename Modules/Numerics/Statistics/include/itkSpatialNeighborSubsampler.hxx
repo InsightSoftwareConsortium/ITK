@@ -173,11 +173,9 @@ SpatialNeighborSubsampler<TSample, TRegion>::Search(const InstanceIdentifier & q
         someRemaining = true;
         break;
       }
-      else
-      {
-        offset -= offsetTable[dim] * (static_cast<typename RegionType::OffsetValueType>(searchSize[dim]) - 1);
-        positionIndex[dim] = searchIndex[dim];
-      }
+
+      offset -= offsetTable[dim] * (static_cast<typename RegionType::OffsetValueType>(searchSize[dim]) - 1);
+      positionIndex[dim] = searchIndex[dim];
     }
   }
 } // end Search method

@@ -106,10 +106,8 @@ FiniteCylinderSpatialFunction<VDimension, TInput>::Evaluate(const InputType & po
   {
     return 1;
   }
-  else
-  {
-    return 0;
-  }
+
+  return 0;
 }
 
 template <unsigned int VDimension, typename TInput>

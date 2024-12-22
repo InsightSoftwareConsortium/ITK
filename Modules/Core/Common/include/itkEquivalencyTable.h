@@ -98,10 +98,8 @@ public:
     {
       return a;
     }
-    else
-    {
-      return result->second;
-    }
+
+    return result->second;
   }
 
   /** Lookup an equivalency in the table by recursing through all
@@ -120,10 +118,8 @@ public:
     {
       return false;
     }
-    else
-    {
-      return true;
-    }
+
+    return true;
   }
 
   /** Erases the entry with key a.  */

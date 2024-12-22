@@ -463,7 +463,7 @@ ImageIOBase::GetComponentTypeFromString(const std::string & typeString)
   {
     return IOComponentEnum::UCHAR;
   }
-  else if (typeString.compare("char") == 0)
+  if (typeString.compare("char") == 0)
   {
     return IOComponentEnum::CHAR;
   }
@@ -556,7 +556,7 @@ ImageIOBase::GetPixelTypeFromString(const std::string & pixelString)
   {
     return IOPixelEnum::SCALAR;
   }
-  else if (pixelString.compare("vector") == 0)
+  if (pixelString.compare("vector") == 0)
   {
     return IOPixelEnum::VECTOR;
   }

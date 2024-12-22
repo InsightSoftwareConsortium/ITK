@@ -62,22 +62,21 @@ itkNormalQuadEdgeMeshFilterTest(int argc, char * argv[])
     std::cout << "   * 2:  AREA" << std::endl;
     return EXIT_FAILURE;
   }
-  else
+
+  switch (param)
   {
-    switch (param)
-    {
-      default:
-      case 0:
-        weight_type = NormalFilterType::WeightEnum::GOURAUD;
-        break;
-      case 1:
-        weight_type = NormalFilterType::WeightEnum::THURMER;
-        break;
-      case 2:
-        weight_type = NormalFilterType::WeightEnum::AREA;
-        break;
-    }
+    default:
+    case 0:
+      weight_type = NormalFilterType::WeightEnum::GOURAUD;
+      break;
+    case 1:
+      weight_type = NormalFilterType::WeightEnum::THURMER;
+      break;
+    case 2:
+      weight_type = NormalFilterType::WeightEnum::AREA;
+      break;
   }
+
 
   auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);

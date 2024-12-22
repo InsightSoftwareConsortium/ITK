@@ -206,10 +206,8 @@ ComputeStartEnd(const typename TImage::IndexType  StartIndex,
         {
           break;
         }
-        else
-        {
-          --sPos;
-        }
+
+        --sPos;
       }
     }
     else
@@ -239,10 +237,8 @@ ComputeStartEnd(const typename TImage::IndexType  StartIndex,
         {
           break;
         }
-        else
-        {
-          ++ePos;
-        }
+
+        ++ePos;
       }
     }
     else

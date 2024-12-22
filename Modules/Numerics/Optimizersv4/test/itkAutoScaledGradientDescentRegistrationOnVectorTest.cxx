@@ -220,11 +220,9 @@ itkAutoScaledGradientDescentRegistrationOnVectorTestTemplated(int         number
     std::cout << "Test FAILED." << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << "Test PASSED." << std::endl;
-    return EXIT_SUCCESS;
-  }
+
+  std::cout << "Test PASSED." << std::endl;
+  return EXIT_SUCCESS;
 }
 
 int
@@ -266,8 +264,6 @@ itkAutoScaledGradientDescentRegistrationOnVectorTest(int argc, char ** const arg
   {
     return EXIT_SUCCESS;
   }
-  else
-  {
-    return EXIT_FAILURE;
-  }
+
+  return EXIT_FAILURE;
 }

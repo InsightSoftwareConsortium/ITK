@@ -354,7 +354,7 @@ private:
         {
           return true;
         }
-        else if (lla.line.GetIndex()[i] < llb.line.GetIndex()[i])
+        if (lla.line.GetIndex()[i] < llb.line.GetIndex()[i])
         {
           return false;
         }

@@ -115,10 +115,8 @@ protected:
     {
       return true;
     }
-    else
-    {
-      return false;
-    }
+
+    return false;
   }
 };
 } // end namespace itk

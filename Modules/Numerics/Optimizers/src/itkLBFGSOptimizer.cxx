@@ -314,9 +314,7 @@ LBFGSOptimizer::GetStopConditionDescription() const
     }
     return m_StopConditionDescription.str();
   }
-  else
-  {
-    return { "" };
-  }
+
+  return { "" };
 }
 } // end namespace itk

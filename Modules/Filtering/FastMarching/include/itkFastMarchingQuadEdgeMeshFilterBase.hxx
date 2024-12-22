@@ -70,10 +70,8 @@ FastMarchingQuadEdgeMeshFilterBase<TInput, TOutput>::GetLabelValueForGivenNode(c
   {
     return it->second;
   }
-  else
-  {
-    return Traits::Far;
-  }
+
+  return Traits::Far;
 }
 
 template <typename TInput, typename TOutput>
@@ -276,31 +274,29 @@ FastMarchingQuadEdgeMeshFilterBase<TInput, TOutput>::Solve(OutputMeshType *     
     {
       return ComputeUpdate(iVal1, iVal2, norm2, sq_norm2, norm1, sq_norm1, dot, iF);
     }
+
+    OutputVectorRealType      sq_norm3;
+    OutputVectorRealType      norm3;
+    OutputVectorRealType      dot1;
+    OutputVectorRealType      dot2;
+    OutputPointIdentifierType new_id;
+
+    const bool unfolded =
+      UnfoldTriangle(oMesh, iId, iCurrentPoint, iId1, iP1, iId2, iP2, norm3, sq_norm3, dot1, dot2, new_id);
+
+    if (unfolded)
+    {
+      const OutputVectorRealType t_sq_norm3 = norm3 * norm3;
+
+      auto                       val3 = static_cast<OutputVectorRealType>(this->GetOutputValue(oMesh, new_id));
+      const OutputVectorRealType t1 = ComputeUpdate(iVal1, val3, norm3, t_sq_norm3, norm1, sq_norm1, dot1, iF);
+      const OutputVectorRealType t2 = ComputeUpdate(iVal2, val3, norm3, t_sq_norm3, norm2, sq_norm2, dot2, iF);
+
+      return std::min(t1, t2);
+    }
     else
     {
-      OutputVectorRealType      sq_norm3;
-      OutputVectorRealType      norm3;
-      OutputVectorRealType      dot1;
-      OutputVectorRealType      dot2;
-      OutputPointIdentifierType new_id;
-
-      const bool unfolded =
-        UnfoldTriangle(oMesh, iId, iCurrentPoint, iId1, iP1, iId2, iP2, norm3, sq_norm3, dot1, dot2, new_id);
-
-      if (unfolded)
-      {
-        const OutputVectorRealType t_sq_norm3 = norm3 * norm3;
-
-        auto                       val3 = static_cast<OutputVectorRealType>(this->GetOutputValue(oMesh, new_id));
-        const OutputVectorRealType t1 = ComputeUpdate(iVal1, val3, norm3, t_sq_norm3, norm1, sq_norm1, dot1, iF);
-        const OutputVectorRealType t2 = ComputeUpdate(iVal2, val3, norm3, t_sq_norm3, norm2, sq_norm2, dot2, iF);
-
-        return std::min(t1, t2);
-      }
-      else
-      {
-        return ComputeUpdate(iVal1, iVal2, norm2, sq_norm2, norm1, sq_norm1, dot, iF);
-      }
+      return ComputeUpdate(iVal1, iVal2, norm2, sq_norm2, norm1, sq_norm1, dot, iF);
     }
   }
 
@@ -370,10 +366,8 @@ FastMarchingQuadEdgeMeshFilterBase<TInput, TOutput>::ComputeUpdate(const OutputV
   {
     return t + iVal1;
   }
-  else
-  {
-    return std::min(iNorm2 * iF + iVal1, iNorm1 * iF + iVal2);
-  }
+
+  return std::min(iNorm2 * iF + iVal1, iNorm1 * iF + iVal2);
 }
 
 template <typename TInput, typename TOutput>

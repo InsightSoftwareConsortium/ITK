@@ -30,10 +30,8 @@ template <typename InputPixelType>
 class ITK_TEMPLATE_EXPORT InvertIntensityFunctor{ public: InputPixelType operator()(InputPixelType input)
                                                     const { if (input){ return InputPixelType {};
 }
-else
-{
-  return NumericTraits<InputPixelType>::OneValue();
-}
+
+return NumericTraits<InputPixelType>::OneValue();
 } // namespace itk
 }
 ;

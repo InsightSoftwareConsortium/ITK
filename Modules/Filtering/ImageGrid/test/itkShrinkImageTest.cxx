@@ -217,10 +217,8 @@ itkShrinkImageTest(int, char *[])
     std::cout << std::flush;
     return EXIT_SUCCESS;
   }
-  else
-  {
-    std::cout << "ShrinkImageFilter test failed." << std::endl;
-    std::cout << std::flush;
-    return EXIT_FAILURE;
-  }
+
+  std::cout << "ShrinkImageFilter test failed." << std::endl;
+  std::cout << std::flush;
+  return EXIT_FAILURE;
 }

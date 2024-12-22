@@ -105,11 +105,9 @@ public:
       {
         return;
       }
-      else
-      {
-        this->m_MeasurementVectorSize = s;
-        this->Modified();
-      }
+
+      this->m_MeasurementVectorSize = s;
+      this->Modified();
     }
     else
     {

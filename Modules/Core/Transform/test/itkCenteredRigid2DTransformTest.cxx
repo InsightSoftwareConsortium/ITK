@@ -88,10 +88,9 @@ itkCenteredRigid2DTransformTest(int, char *[])
     std::cerr << "Reported Result is     : " << r << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << " [ PASSED ] " << std::endl;
-  }
+
+  std::cout << " [ PASSED ] " << std::endl;
+
 
   std::cout << "Testing Translation:";
 
@@ -120,10 +119,9 @@ itkCenteredRigid2DTransformTest(int, char *[])
     std::cerr << "Reported Result is     : " << r << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << " [ PASSED ] " << std::endl;
-  }
+
+  std::cout << " [ PASSED ] " << std::endl;
+
 
   {
     std::cout << "Testing Inverse:";
@@ -173,10 +171,9 @@ itkCenteredRigid2DTransformTest(int, char *[])
       std::cerr << "Reported Result is     : " << p3 << std::endl;
       return EXIT_FAILURE;
     }
-    else
-    {
-      std::cout << " [ PASSED ] " << std::endl;
-    }
+
+    std::cout << " [ PASSED ] " << std::endl;
+
 
     // Get inverse transform and transform point p2 to obtain point p3
     const CenteredRigidTransformType::Pointer inversebis =
@@ -207,10 +204,8 @@ itkCenteredRigid2DTransformTest(int, char *[])
       std::cerr << "Reported Result is     : " << p3 << std::endl;
       return EXIT_FAILURE;
     }
-    else
-    {
-      std::cout << " [ PASSED ] " << std::endl;
-    }
+
+    std::cout << " [ PASSED ] " << std::endl;
   }
 
   {

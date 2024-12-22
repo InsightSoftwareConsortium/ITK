@@ -372,10 +372,9 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
     std::cout << tubeN1->GetNumberOfChildren() << " instead of 9 [FAILED]" << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << "[PASSED]" << std::endl;
-  }
+
+  std::cout << "[PASSED]" << std::endl;
+
 
   std::cout << "Testing Writing SceneSpatialObject: " << std::endl;
 
@@ -435,10 +434,9 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
     std::cout << "No Scene : [FAILED]" << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << " [PASSED]" << std::endl;
-  }
+
+  std::cout << " [PASSED]" << std::endl;
+
 
   std::cout << "Testing Number of children:";
   if (myScene->GetNumberOfChildren(1) != 12)
@@ -447,10 +445,9 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
     std::cout << " [FAILED]" << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << " [PASSED]" << std::endl;
-  }
+
+  std::cout << " [PASSED]" << std::endl;
+
 
   std::cout << "Testing CenterLine Position:";
 

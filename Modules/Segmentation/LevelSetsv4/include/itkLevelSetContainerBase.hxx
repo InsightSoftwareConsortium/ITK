@@ -82,10 +82,8 @@ LevelSetContainerBase<TIdentifier, TLevelSet>::GetLevelSet(const LevelSetIdentif
   {
     return it->second;
   }
-  else
-  {
-    return nullptr;
-  }
+
+  return nullptr;
 }
 
 template <typename TIdentifier, typename TLevelSet>
@@ -100,28 +98,26 @@ LevelSetContainerBase<TIdentifier, TLevelSet>::AddLevelSet(const LevelSetIdentif
     this->Modified();
     return true;
   }
+
+  if (m_Container.empty())
+  {
+    m_Container.insert(LevelSetPairType(iId, iLevelSet));
+    this->Modified();
+    return true;
+  }
   else
   {
-    if (m_Container.empty())
+    auto it = m_Container.find(iId);
+
+    if (it != m_Container.end())
+    {
+      return false;
+    }
+    else
     {
       m_Container.insert(LevelSetPairType(iId, iLevelSet));
       this->Modified();
       return true;
-    }
-    else
-    {
-      auto it = m_Container.find(iId);
-
-      if (it != m_Container.end())
-      {
-        return false;
-      }
-      else
-      {
-        m_Container.insert(LevelSetPairType(iId, iLevelSet));
-        this->Modified();
-        return true;
-      }
     }
   }
 }
@@ -141,10 +137,8 @@ LevelSetContainerBase<TIdentifier, TLevelSet>::RemoveLevelSet(const LevelSetIden
 
     return true;
   }
-  else
-  {
-    return false;
-  }
+
+  return false;
 }
 
 template <typename TIdentifier, typename TLevelSet>

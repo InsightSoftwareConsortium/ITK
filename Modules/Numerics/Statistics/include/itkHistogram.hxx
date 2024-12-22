@@ -266,11 +266,10 @@ Histogram<TMeasurement, TFrequencyContainer>::GetIndex(const MeasurementVectorTy
         index[dim] = (IndexValueType)0;
         continue;
       }
-      else
-      { // set an illegal value and return 0
-        index[dim] = (IndexValueType)m_Size[dim];
-        return false;
-      }
+
+      // set an illegal value and return 0
+      index[dim] = (IndexValueType)m_Size[dim];
+      return false;
     }
 
     IndexValueType end = static_cast<IndexValueType>(m_Min[dim].size()) - 1;
@@ -284,11 +283,10 @@ Histogram<TMeasurement, TFrequencyContainer>::GetIndex(const MeasurementVectorTy
         index[dim] = (IndexValueType)m_Size[dim] - 1;
         continue;
       }
-      else
-      { // set an illegal value and return 0
-        index[dim] = (IndexValueType)m_Size[dim];
-        return false;
-      }
+
+      // set an illegal value and return 0
+      index[dim] = (IndexValueType)m_Size[dim];
+      return false;
     }
 
     // Binary search for the bin where this measurement could be
@@ -617,27 +615,25 @@ Histogram<TMeasurement, TFrequencyContainer>::Quantile(unsigned int dimension, d
     const double interval = max - min;
     return min + ((p - p_n_prev) / binProportion) * interval;
   }
-  else
-  {
-    InstanceIdentifier n = size - 1;
-    InstanceIdentifier m{};
-    double             p_n = 1.0;
-    do
-    {
-      f_n = this->GetFrequency(n, dimension);
-      cumulated += f_n;
-      p_n_prev = p_n;
-      p_n = 1.0 - cumulated / totalFrequency;
-      --n;
-      ++m;
-    } while (m < size && p_n > p);
 
-    const double binProportion = f_n / totalFrequency;
-    const auto   min = static_cast<double>(this->GetBinMin(dimension, n + 1));
-    const auto   max = static_cast<double>(this->GetBinMax(dimension, n + 1));
-    const double interval = max - min;
-    return max - ((p_n_prev - p) / binProportion) * interval;
-  }
+  InstanceIdentifier n = size - 1;
+  InstanceIdentifier m{};
+  double             p_n = 1.0;
+  do
+  {
+    f_n = this->GetFrequency(n, dimension);
+    cumulated += f_n;
+    p_n_prev = p_n;
+    p_n = 1.0 - cumulated / totalFrequency;
+    --n;
+    ++m;
+  } while (m < size && p_n > p);
+
+  const double binProportion = f_n / totalFrequency;
+  const auto   min = static_cast<double>(this->GetBinMin(dimension, n + 1));
+  const auto   max = static_cast<double>(this->GetBinMax(dimension, n + 1));
+  const double interval = max - min;
+  return max - ((p_n_prev - p) / binProportion) * interval;
 }
 
 template <typename TMeasurement, typename TFrequencyContainer>

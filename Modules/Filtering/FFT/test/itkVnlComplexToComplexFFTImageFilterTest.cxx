@@ -109,7 +109,7 @@ itkVnlComplexToComplexFFTImageFilterTest(int argc, char * argv[])
     }
     return EXIT_SUCCESS;
   }
-  else if (pixelTypeString.compare("double") == 0)
+  if (pixelTypeString.compare("double") == 0)
   {
     switch (dimension)
     {

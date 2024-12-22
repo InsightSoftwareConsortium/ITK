@@ -103,9 +103,7 @@ itkPhasedArray3DSpecialCoordinatesImageTest(int, char *[])
     std::cout << "PhasedArray3DSpecialCoordinatesImage tests passed" << std::endl;
     return EXIT_SUCCESS;
   }
-  else
-  {
-    std::cout << "PhasedArray3DSpecialCoordinatesImage tests failed" << std::endl;
-    return EXIT_FAILURE;
-  }
+
+  std::cout << "PhasedArray3DSpecialCoordinatesImage tests failed" << std::endl;
+  return EXIT_FAILURE;
 }

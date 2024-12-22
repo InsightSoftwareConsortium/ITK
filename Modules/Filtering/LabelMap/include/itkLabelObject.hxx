@@ -122,7 +122,7 @@ LabelObject<TLabel, VImageDimension>::RemoveIndex(const IndexType & idx)
         it->SetLength(orgLineLength - 1);
         return true;
       }
-      else if (orgLineIndex[0] + static_cast<IndexValueType>(orgLineLength) - 1 == idx[0])
+      if (orgLineIndex[0] + static_cast<IndexValueType>(orgLineLength) - 1 == idx[0])
       {
         // decrease the length by one
         it->SetLength(orgLineLength - 1);

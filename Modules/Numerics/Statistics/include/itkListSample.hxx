@@ -108,10 +108,8 @@ ListSample<TMeasurementVector>::GetFrequency(InstanceIdentifier instanceId) cons
   {
     return 1;
   }
-  else
-  {
-    return 0;
-  }
+
+  return 0;
 }
 
 template <typename TMeasurementVector>

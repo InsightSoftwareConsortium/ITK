@@ -276,10 +276,8 @@ MorphologicalWatershedFromMarkersImageFilter<TInputImage, TLabelImage>::Generate
               collision = true;
               break;
             }
-            else
-            {
-              marker = o;
-            }
+
+            marker = o;
           }
         }
         if (!collision)

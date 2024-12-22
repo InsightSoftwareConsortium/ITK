@@ -416,10 +416,9 @@ QuadEdgeMesh<TPixel, VDimension, TTraits>::FindFirstUnusedPointIndex() -> PointI
         m_FreePointIndexes.pop();
         return (pid);
       }
-      else
-      {
-        m_FreePointIndexes.pop();
-      }
+
+      m_FreePointIndexes.pop();
+
     } while (!m_FreePointIndexes.empty());
   }
 
