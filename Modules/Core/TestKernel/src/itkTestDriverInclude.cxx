@@ -886,10 +886,10 @@ HashTestImage(const char * testImageFilename, const std::vector<std::string> & b
 
 
   // print out all md5 baselines
-  for (auto iter = baselineMD5Vector.begin(); iter != baselineMD5Vector.end(); ++iter)
+  for (const auto & baselienMD5 : baselineMD5Vector)
   {
     std::cout << "<DartMeasurement name=\"BaselineMD5\" type=\"text/string\">";
-    std::cout << *iter;
+    std::cout << baselienMD5;
     std::cout << "</DartMeasurement>" << std::endl;
   }
 

@@ -54,9 +54,9 @@ itkRegularExpressionSeriesFileNamesTest(int argc, char * argv[])
 
   // normal sort
   std::cout << "Normal Sort--------" << std::endl;
-  for (auto nit = names.begin(); nit != names.end(); ++nit)
+  for (auto & name : names)
   {
-    std::cout << "File: " << nit->c_str() << std::endl;
+    std::cout << "File: " << name.c_str() << std::endl;
   }
 
   // Show only those files with numbers in the names
@@ -70,9 +70,9 @@ itkRegularExpressionSeriesFileNamesTest(int argc, char * argv[])
   fit->SetSubMatch(subMatch);
   names = fit->GetFileNames();
   std::cout << "Numeric sort on only files with numbers in the names--------" << std::endl;
-  for (auto nit = names.begin(); nit != names.end(); ++nit)
+  for (auto & name : names)
   {
-    std::cout << "File: " << nit->c_str() << std::endl;
+    std::cout << "File: " << name.c_str() << std::endl;
   }
 
 
@@ -89,9 +89,9 @@ itkRegularExpressionSeriesFileNamesTest(int argc, char * argv[])
   names = fit->GetFileNames();
   std::cout << "Numeric sort on only files with numbers in the names.  Sort on the first set of numbers.--------"
             << std::endl;
-  for (auto nit = names.begin(); nit != names.end(); ++nit)
+  for (auto & name : names)
   {
-    std::cout << "File: " << nit->c_str() << std::endl;
+    std::cout << "File: " << name.c_str() << std::endl;
   }
 
   // Show only those files with numbers in the names followed by other
@@ -106,9 +106,9 @@ itkRegularExpressionSeriesFileNamesTest(int argc, char * argv[])
   names = fit->GetFileNames();
   std::cout << "Numeric sort on only files with numbers in the names.  Sort on the second set of numbers.--------"
             << std::endl;
-  for (auto nit = names.begin(); nit != names.end(); ++nit)
+  for (auto & name : names)
   {
-    std::cout << "File: " << nit->c_str() << std::endl;
+    std::cout << "File: " << name.c_str() << std::endl;
   }
 
 

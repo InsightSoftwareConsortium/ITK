@@ -143,9 +143,9 @@ GDCMSeriesFileNames::GetFileNames(const std::string serie)
   if (!flist->empty())
   {
     ProgressReporter progress(this, 0, static_cast<itk::SizeValueType>(flist->size()), 10);
-    for (gdcm::FileList::iterator it = flist->begin(); it != flist->end(); ++it)
+    for (auto & element : *flist)
     {
-      gdcm::FileWithName * header = *it;
+      gdcm::FileWithName * header = element;
       m_InputFileNames.push_back(header->filename);
       progress.CompletedPixel();
     }
