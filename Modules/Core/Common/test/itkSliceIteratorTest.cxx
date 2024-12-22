@@ -128,12 +128,12 @@ PrintRegion(itk::SmartPointer<itk::Image<TPixelType, VDimension>> I)
 
 template <typename TContainer>
 void
-PrintSlice(TContainer s)
+PrintSlice(TContainer s_container)
 {
   std::cout << '[';
-  for (s = s.Begin(); s < s.End(); ++s)
+  for (auto iter = s_container.Begin(); iter < s_container.End(); ++iter)
   {
-    std::cout << *s << ' ';
+    std::cout << *iter << ' ';
   }
   std::cout << ']' << std::endl;
 }
