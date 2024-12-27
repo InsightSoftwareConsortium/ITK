@@ -213,7 +213,7 @@ LBFGSOptimizerBasev4<TInternalVnlOptimizerType>::GetStopConditionDescription() c
     return m_StopConditionDescription.str();
   }
 
-  return { "" };
+  return {};
 }
 
 template class ITKOptimizersv4_EXPORT LBFGSOptimizerBasev4<vnl_lbfgs>;
