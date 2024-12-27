@@ -360,10 +360,7 @@ JPEG2000ImageIO::ReadImageInformation()
     this->m_Internal->m_Dinfo = nullptr;
   }
 
-  if (l_image)
-  {
-    opj_image_destroy(l_image);
-  }
+  opj_image_destroy(l_image);
 }
 
 void
