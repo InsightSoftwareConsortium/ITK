@@ -25,6 +25,7 @@
 
 namespace itk
 {
+// clang-format off
 namespace Function
 {
 /**
@@ -41,12 +42,10 @@ public:
   inline TOutput
   operator()(const TInput & A) const
   {
-    return static_cast<TOutput>(std::cos(A * m_Factor));
+    /** Equal to \f$ \frac{\pi}{2 m} \f$ */
+    static constexpr double factor = Math::pi / (2 * VRadius);
+    return static_cast<TOutput>(std::cos(A * factor));
   }
-
-private:
-  /** Equal to \f$ \frac{\pi}{2 m} \f$ */
-  static constexpr double m_Factor = itk::Math::pi / (2 * VRadius);
 };
 
 /**
@@ -63,12 +62,10 @@ public:
   inline TOutput
   operator()(const TInput & A) const
   {
-    return static_cast<TOutput>(0.54 + 0.46 * std::cos(A * m_Factor));
+    /** Equal to \f$ \frac{\pi}{m} \f$ */
+    static constexpr double factor = Math::pi / VRadius;
+    return static_cast<TOutput>(0.54 + 0.46 * std::cos(A * factor));
   }
-
-private:
-  /** Equal to \f$ \frac{\pi}{m} \f$ */
-  static constexpr double m_Factor = itk::Math::pi / VRadius;
 };
 
 /**
@@ -85,12 +82,10 @@ public:
   inline TOutput
   operator()(const TInput & A) const
   {
-    return static_cast<TOutput>(1.0 - A * m_Factor * A);
+    /** Equal to \f$ \frac{1}{m^2} \f$ */
+    static constexpr double factor = 1.0 / (VRadius * VRadius);
+    return static_cast<TOutput>(1.0 - A * factor * A);
   }
-
-private:
-  /** Equal to \f$ \frac{1}{m^2} \f$ */
-  static constexpr double m_Factor = 1.0 / (VRadius * VRadius);
 };
 
 /**
@@ -113,13 +108,11 @@ public:
     {
       return static_cast<TOutput>(1.0);
     } // namespace Function
-    const double z = m_Factor * A;
+    /** Equal to \f$ \frac{\pi}{m} \f$ */
+    static constexpr double factor = Math::pi / VRadius;
+    const double z = factor * A;
     return static_cast<TOutput>(std::sin(z) / z);
   } // namespace itk
-
-private:
-  /** Equal to \f$ \frac{\pi}{m} \f$ */
-  static constexpr double m_Factor = itk::Math::pi / VRadius;
 };
 
 /**
@@ -136,17 +129,16 @@ public:
   inline TOutput
   operator()(const TInput & A) const
   {
-    return static_cast<TOutput>(0.42 + 0.5 * std::cos(A * m_Factor1) + 0.08 * std::cos(A * m_Factor2));
+    /** Equal to \f$ \frac{\pi}{m} \f$ */
+    static constexpr double factor1 = Math::pi / VRadius;
+
+    /** Equal to \f$ \frac{2 \pi}{m} \f$  */
+    static constexpr double factor2 = 2.0 * Math::pi / VRadius;
+    return static_cast<TOutput>(0.42 + 0.5 * std::cos(A * factor1) + 0.08 * std::cos(A * factor2));
   }
-
-private:
-  /** Equal to \f$ \frac{\pi}{m} \f$ */
-  static constexpr double m_Factor1 = itk::Math::pi / VRadius;
-
-  /** Equal to \f$ \frac{2 \pi}{m} \f$  */
-  static constexpr double m_Factor2 = 2.0 * itk::Math::pi / VRadius;
 };
 } // namespace Function
+// clang-format on
 
 /**
  * \class WindowedSincInterpolateImageFunction
@@ -356,7 +348,7 @@ private:
   inline double
   Sinc(double x) const
   {
-    const double px = itk::Math::pi * x;
+    const double px = Math::pi * x;
 
     return (x == 0.0) ? 1.0 : std::sin(px) / px;
   }
