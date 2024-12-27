@@ -165,7 +165,7 @@ public:
   static std::string
   ZeroValue()
   {
-    return { "" };
+    return {};
   }
 };
 
