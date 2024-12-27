@@ -12,7 +12,7 @@ test_matrix_fixed_ref()
   {
     constexpr double bulk_data_array[4]{ 1.0, 2.0, 3.0, 4.0 };
     vnl_matrix_fixed<double, 2, 2> initial_fixed_size_matrix(bulk_data_array);
-    vnl_matrix_ref<double> ref_to_data( initial_fixed_size_matrix.as_ref() );
+    vnl_matrix_ref<double> ref_to_data(initial_fixed_size_matrix.as_ref());
 
     TEST("vnl_matrix_ref{ vnl_matrix_fixed } share data pointer",
          initial_fixed_size_matrix.data_block() == ref_to_data.data_block(),
@@ -44,7 +44,8 @@ test_matrix_fixed_ref()
   typedef vnl_matrix_fixed_ref<double, rows, cols> mfr;
   typedef vnl_matrix_fixed_ref_const<double, rows, cols> mfrc;
 
-  unsigned int i, j;
+  unsigned int i;
+  unsigned int j;
   mf mat; // copy in
   for (i = 0; i < rows; ++i)
     for (j = 0; j < cols; ++j)
@@ -55,7 +56,7 @@ test_matrix_fixed_ref()
 
   // fixed_ref_const
   const mf & cmf = mat;
-  mfrc cref(cmf);
+  const mfrc cref(cmf);
   // check address
   for (i = 0; i < rows; ++i)
   {
@@ -69,24 +70,24 @@ test_matrix_fixed_ref()
   //    get_row
   for (i = 0; i < rows; ++i)
   {
-    vnl_vector_fixed<double, cols> row_copy = cmf.get_row(i);
-    vnl_vector_fixed<double, cols> row_copy2 = mat.get_row(i);
+    const vnl_vector_fixed<double, cols> row_copy = cmf.get_row(i);
+    const vnl_vector_fixed<double, cols> row_copy2 = mat.get_row(i);
     TEST("get_row", row_copy, row_copy2);
   }
   //    get_col
   for (j = 0; j < cols; ++j)
   {
-    vnl_vector_fixed<double, rows> col_copy = cmf.get_column(j);
-    vnl_vector_fixed<double, rows> col_copy2 = mat.get_column(j);
+    const vnl_vector_fixed<double, rows> col_copy = cmf.get_column(j);
+    const vnl_vector_fixed<double, rows> col_copy2 = mat.get_column(j);
     TEST("get_column", col_copy, col_copy2);
   }
   //    get_diagonal
-  vnl_vector_fixed<double, 3> v(0, 11, 22);
+  const vnl_vector_fixed<double, 3> v(0, 11, 22);
   TEST("get_diagonal()", cmf.get_diagonal(), v);
 
   // fixed_ref (non-const)
   // wrap around mat
-  mfr ref(mat);
+  const mfr ref(mat);
   // check address
   for (i = 0; i < rows; ++i)
   {
@@ -102,7 +103,7 @@ test_matrix_fixed_ref()
     std::generate(new_row.begin(), new_row.end(), std::rand);
 
     ref.set_row(i, new_row);
-    vnl_vector_fixed<double, cols> row_copy = mat.get_row(i);
+    const vnl_vector_fixed<double, cols> row_copy = mat.get_row(i);
     TEST("set_row", new_row, row_copy);
   }
   //    set_col
@@ -112,7 +113,7 @@ test_matrix_fixed_ref()
     std::generate(new_col.begin(), new_col.end(), std::rand);
 
     ref.set_column(j, new_col);
-    vnl_vector_fixed<double, rows> col_copy = mat.get_column(j);
+    const vnl_vector_fixed<double, rows> col_copy = mat.get_column(j);
     TEST("set_col", new_col, col_copy);
   }
   //   set diagonal
@@ -125,7 +126,7 @@ test_matrix_fixed_ref()
   {
     //    assign from const mfr
     std::generate(other.begin(), other.end(), std::rand);
-    mfrc cref(other);
+    const mfrc cref(other);
     ref = cref;
     TEST("assign_const_ref", ref, other); // mfr vs mf
     // test different addresses
@@ -135,34 +136,40 @@ test_matrix_fixed_ref()
   // arithmetic
   {
     // plus
-    mf a, b;
+    mf a;
+    mf b;
     std::generate(a.begin(), a.end(), std::rand);
     std::generate(b.begin(), b.end(), std::rand);
-    mfrc arefc(a), brefc(b);
-    mf mc = arefc + brefc;
+    const mfrc arefc(a);
+    const mfrc brefc(b);
+    const mf mc = arefc + brefc;
 
-    mfr aref(a), bref(b);
-    mf m = aref + bref;
+    const mfr aref(a);
+    const mfr bref(b);
+    const mf m = aref + bref;
 
-    mf m2 = arefc + bref;
-    mf m3 = arefc + brefc;
+    const mf m2 = arefc + bref;
+    const mf m3 = arefc + brefc;
     TEST("plus", mc, m);
     TEST("plus", mc, m2);
     TEST("plus", mc, m3);
   }
   {
     // times
-    mf a, b;
+    mf a;
+    mf b;
     std::generate(a.begin(), a.end(), std::rand);
     std::generate(b.begin(), b.end(), std::rand);
-    mfrc arefc(a), brefc(b);
-    mf mc = arefc + brefc;
+    const mfrc arefc(a);
+    const mfrc brefc(b);
+    const mf mc = arefc + brefc;
 
-    mfr aref(a), bref(b);
-    mf m = aref + bref;
+    const mfr aref(a);
+    const mfr bref(b);
+    const mf m = aref + bref;
 
-    mf m2 = arefc + bref;
-    mf m3 = arefc + brefc;
+    const mf m2 = arefc + bref;
+    const mf m3 = arefc + brefc;
     TEST("plus", mc, m);
     TEST("plus", mc, m2);
     TEST("plus", mc, m3);

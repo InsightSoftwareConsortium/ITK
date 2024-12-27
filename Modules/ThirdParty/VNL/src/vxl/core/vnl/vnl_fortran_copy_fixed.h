@@ -26,19 +26,19 @@
 template <class T, unsigned R, unsigned C>
 class VNL_EXPORT vnl_fortran_copy_fixed
 {
- public:
+public:
   // Constructors/Destructors--------------------------------------------------
 
-  vnl_fortran_copy_fixed(vnl_matrix_fixed<T, R, C> const & M);
+  vnl_fortran_copy_fixed(const vnl_matrix_fixed<T, R, C> & M);
 
   // Operations----------------------------------------------------------------
-  operator T*() { return data; }
+  operator T *() { return data; }
 
- protected:
+protected:
   // Data Members--------------------------------------------------------------
-  T data[R*C];
+  T data[R * C];
 
- private:
+private:
   // Helpers-------------------------------------------------------------------
 };
 

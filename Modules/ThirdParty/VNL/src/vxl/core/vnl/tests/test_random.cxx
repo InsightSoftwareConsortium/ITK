@@ -16,17 +16,17 @@ test_random()
 
   TEST("lrand32", mz_random.lrand32(), 3501493769ul);
   TEST("lrand32(0,10)", mz_random.lrand32(0, 10), 9);
-  double d1 = mz_random.drand32(0, 1);
+  const double d1 = mz_random.drand32(0, 1);
   TEST_NEAR("drand32(0,1)", d1, 0.6158541, 1e-7);
-  double d2 = mz_random.drand64(0, 1);
+  const double d2 = mz_random.drand64(0, 1);
   TEST_NEAR("drand64(0,1)", d2, 0.2257411, 1e-7);
 
   double sum = 0.0;
   double sum_sq = 0.0;
-  int n = 10000;
+  const int n = 10000;
   for (int i = 0; i < n; ++i)
   {
-    double r = mz_random.normal();
+    const double r = mz_random.normal();
     sum += r;
     sum_sq += r * r;
   }
@@ -40,7 +40,7 @@ test_random()
   sum_sq = 0.0;
   for (int i = 0; i < n; ++i)
   {
-    double r = mz_random.normal64();
+    const double r = mz_random.normal64();
     sum += r;
     sum_sq += r * r;
   }

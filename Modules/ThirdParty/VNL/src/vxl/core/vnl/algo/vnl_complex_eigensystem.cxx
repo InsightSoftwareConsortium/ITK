@@ -9,7 +9,7 @@
 #include <vnl/algo/vnl_netlib.h> // zgeev_()
 
 void
-vnl_complex_eigensystem::compute(vnl_matrix<std::complex<double>> const & A, bool right, bool left)
+vnl_complex_eigensystem::compute(const vnl_matrix<std::complex<double>> & A, bool right, bool left)
 {
   A.assert_size(N, N);
 
@@ -35,11 +35,11 @@ vnl_complex_eigensystem::compute(vnl_matrix<std::complex<double>> const & A, boo
   long work_space = 10 * N;
   vnl_vector<std::complex<double>> work(work_space);
 
-  long rwork_space = 2 * N;
+  const long rwork_space = 2 * N;
   vnl_vector<double> rwork(rwork_space);
 
   long info;
-  long tmpN = N;
+  const long tmpN = N;
   v3p_netlib_zgeev_(right ? "V" : "N",                // jobvl
                     left ? "V" : "N",                 // jobvr
                     &tmpN,                            // n
@@ -88,7 +88,7 @@ vnl_complex_eigensystem::compute(vnl_matrix<std::complex<double>> const & A, boo
 //--------------------------------------------------------------------------------
 
 //
-vnl_complex_eigensystem::vnl_complex_eigensystem(vnl_matrix<std::complex<double>> const & A, bool right, bool left)
+vnl_complex_eigensystem::vnl_complex_eigensystem(const vnl_matrix<std::complex<double>> & A, bool right, bool left)
   : N(A.rows())
   // L and R are intentionally not initialized.
   , W(N)
@@ -97,8 +97,8 @@ vnl_complex_eigensystem::vnl_complex_eigensystem(vnl_matrix<std::complex<double>
 }
 
 //
-vnl_complex_eigensystem::vnl_complex_eigensystem(vnl_matrix<double> const & A_real,
-                                                 vnl_matrix<double> const & A_imag,
+vnl_complex_eigensystem::vnl_complex_eigensystem(const vnl_matrix<double> & A_real,
+                                                 const vnl_matrix<double> & A_imag,
                                                  bool right,
                                                  bool left)
   : N(A_real.rows())

@@ -13,7 +13,7 @@ vnl_sparse_matrix_linear_system<double>::get_rhs(vnl_vector<double> & b) const
 
 template <>
 void
-vnl_sparse_matrix_linear_system<double>::transpose_multiply(vnl_vector<double> const & b, vnl_vector<double> & x) const
+vnl_sparse_matrix_linear_system<double>::transpose_multiply(const vnl_vector<double> & b, vnl_vector<double> & x) const
 {
   A_.pre_mult(b, x);
 }
@@ -27,7 +27,7 @@ vnl_sparse_matrix_linear_system<float>::get_rhs(vnl_vector<double> & b) const
 
 template <>
 void
-vnl_sparse_matrix_linear_system<float>::transpose_multiply(vnl_vector<double> const & b, vnl_vector<double> & x) const
+vnl_sparse_matrix_linear_system<float>::transpose_multiply(const vnl_vector<double> & b, vnl_vector<double> & x) const
 {
   static vnl_vector<float> x_float;
   static vnl_vector<float> b_float;
@@ -44,7 +44,7 @@ vnl_sparse_matrix_linear_system<float>::transpose_multiply(vnl_vector<double> co
 
 template <>
 void
-vnl_sparse_matrix_linear_system<double>::multiply(vnl_vector<double> const & x, vnl_vector<double> & b) const
+vnl_sparse_matrix_linear_system<double>::multiply(const vnl_vector<double> & x, vnl_vector<double> & b) const
 {
   A_.mult(x, b);
 }
@@ -52,7 +52,7 @@ vnl_sparse_matrix_linear_system<double>::multiply(vnl_vector<double> const & x, 
 
 template <>
 void
-vnl_sparse_matrix_linear_system<float>::multiply(vnl_vector<double> const & x, vnl_vector<double> & b) const
+vnl_sparse_matrix_linear_system<float>::multiply(const vnl_vector<double> & x, vnl_vector<double> & b) const
 {
   static vnl_vector<float> x_float;
   static vnl_vector<float> b_float;
@@ -70,7 +70,7 @@ vnl_sparse_matrix_linear_system<float>::multiply(vnl_vector<double> const & x, v
 
 template <class T>
 void
-vnl_sparse_matrix_linear_system<T>::apply_preconditioner(vnl_vector<double> const & x, vnl_vector<double> & px) const
+vnl_sparse_matrix_linear_system<T>::apply_preconditioner(const vnl_vector<double> & x, vnl_vector<double> & px) const
 {
   assert(x.size() == px.size());
 

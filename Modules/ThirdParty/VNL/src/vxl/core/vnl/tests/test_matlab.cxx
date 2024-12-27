@@ -28,7 +28,7 @@
 // get a byte-swapped file, short of reading in a native file and swapping it
 // and writing it back out, and that isn't any easier.
 void
-matlab_write_swapped(std::ostream & f, const float * array, unsigned size, char const * name)
+matlab_write_swapped(std::ostream & f, const float * array, unsigned size, const char * name)
 {
   vnl_matlab_header hdr;
   hdr.type = NONnative_BYTE_ORDER + vnl_matlab_header::vnl_COLUMN_WISE + vnl_matlab_header::vnl_SINGLE_PRECISION;
@@ -41,18 +41,18 @@ matlab_write_swapped(std::ostream & f, const float * array, unsigned size, char 
   byteswap::swap32(&hdr.cols);
   byteswap::swap32(&hdr.imag);
   byteswap::swap32(&hdr.namlen);
-  f.write((char const *)&hdr, sizeof(hdr));
-  f.write((char const *)name, std::strlen(name) + 1);
+  f.write((const char *)&hdr, sizeof(hdr));
+  f.write((const char *)name, std::strlen(name) + 1);
   for (unsigned i = 0; i < size; ++i)
   {
     float dummy = array[i];
     byteswap::swap32(&dummy);
-    f.write((char const *)&dummy, sizeof(dummy));
+    f.write((const char *)&dummy, sizeof(dummy));
   }
 }
 
 static void
-fsm_assert_(int lineno, bool pass, char const * expr)
+fsm_assert_(int lineno, bool pass, const char * expr)
 {
   std::cout << __FILE__ " : " << lineno << std::endl;
   testlib_test_assert(expr, pass);
@@ -90,15 +90,15 @@ test_matlab()
   // vnl_matlab_write, vnl_matlab_read
   {
     std::string tmp_nam = vul_temp_filename(), tmp_nam2 = vul_temp_filename();
-    char const * file = !tmp_nam.empty() ? tmp_nam.c_str() : "smoo.mat";
-    char const * file2 = !tmp_nam2.empty() ? tmp_nam2.c_str() : "smoo2.mat";
+    const char * file = !tmp_nam.empty() ? tmp_nam.c_str() : "smoo.mat";
+    const char * file2 = !tmp_nam2.empty() ? tmp_nam2.c_str() : "smoo2.mat";
     {
       std::ofstream f(file);
 #ifdef LEAVE_IMAGES_BEHIND
       vpl_chmod(file, 0666); // -rw-rw-rw-
 #endif
       vnl_matlab_write(f, v.begin(), v.size(), "v");
-      vnl_matlab_write(f, (double const * const *)M.data_array(), M.rows(), M.cols(), (char const *)"M");
+      vnl_matlab_write(f, (const double * const *)M.data_array(), M.rows(), M.cols(), (const char *)"M");
 
       // write swapped matlab file
       std::ofstream f2(file2);

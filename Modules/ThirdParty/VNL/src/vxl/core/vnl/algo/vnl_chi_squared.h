@@ -24,7 +24,8 @@
 //  $P(x < X) =$ vnl_chi_squared_cumulative(X,d).
 // Internally, T=double is used.
 template <class T>
-double vnl_chi_squared_cumulative(T chisq, long dof);
+double
+vnl_chi_squared_cumulative(T chisq, long dof);
 
 //------------------------------------------------------------
 
@@ -46,22 +47,21 @@ double vnl_chi_squared_cumulative(T chisq, long dof);
 //
 
 template <class T>
-double vnl_chi_squared_statistic_1 (T const *A, T const *B,
-                                    int n, bool normalize);
+double
+vnl_chi_squared_statistic_1(const T * A, const T * B, int n, bool normalize);
 
 //:
 // $\displaystyle   \sum_i \frac{ (a[i] - b[i])^2 }{ b[i] } $
 template <class T>
-double vnl_chi_squared_statistic_2 (T const *A, T const *B,
-                                    int n, bool normalize);
+double
+vnl_chi_squared_statistic_2(const T * A, const T * B, int n, bool normalize);
 
 //:
 // $\displaystyle   \sum_i \frac{ (a[i] - b[i])^2 }{ a[i] + b[i] } $
 template <class T>
-double vnl_chi_squared_statistic_12(T const *A, T const *B,
-                                    int n, bool normalize);
+double
+vnl_chi_squared_statistic_12(const T * A, const T * B, int n, bool normalize);
 
-#define VNL_CHI_SQUARED_INSTANTIATE(T) \
-extern "please include vnl/algo/vnl_chi_squared.hxx first"
+#define VNL_CHI_SQUARED_INSTANTIATE(T) extern "please include vnl/algo/vnl_chi_squared.hxx first"
 
 #endif // vnl_chi_squared_h_

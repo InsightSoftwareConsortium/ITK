@@ -14,12 +14,12 @@
 static void
 vnl_solve_symmetric_le(const vnl_matrix<double> & S, const vnl_vector<double> & b, vnl_vector<double> & x)
 {
-  vnl_cholesky chol(S, vnl_cholesky::estimate_condition);
+  const vnl_cholesky chol(S, vnl_cholesky::estimate_condition);
   if (chol.rcond() > 1e-8)
     x = chol.solve(b);
   else
   {
-    vnl_svd<double> svd(S);
+    const vnl_svd<double> svd(S);
     x = svd.solve(b);
   }
 }
@@ -37,19 +37,19 @@ vnl_solve_qp_with_equality_constraints(const vnl_matrix<double> & H,
 {
   // Test inputs
   // unsigned n=H.rows();   // Number of unknowns
-  unsigned nc = A.rows(); // Number of equality constraints
+  const unsigned nc = A.rows(); // Number of equality constraints
   assert(H.cols() == H.rows());
   assert(g.size() == H.rows());
   assert(A.cols() == H.rows());
   assert(b.size() == nc);
 
   vnl_matrix<double> H_inv;
-  vnl_cholesky Hchol(H, vnl_cholesky::estimate_condition);
+  const vnl_cholesky Hchol(H, vnl_cholesky::estimate_condition);
   if (Hchol.rcond() > 1e-8)
     H_inv = Hchol.inverse();
   else
   {
-    vnl_svd<double> Hsvd(H);
+    const vnl_svd<double> Hsvd(H);
     H_inv = Hsvd.inverse();
   }
 
@@ -60,11 +60,11 @@ vnl_solve_qp_with_equality_constraints(const vnl_matrix<double> & H,
     return true;
   }
 
-  vnl_vector<double> b1 = (b + A * H_inv * g) * -1.0;
+  const vnl_vector<double> b1 = (b + A * H_inv * g) * -1.0;
 
   // Solve for lagrange multipliers, lambda
   vnl_vector<double> lambda; // Lagrange multipliers
-  vnl_matrix<double> AHA = A * H_inv * A.transpose();
+  const vnl_matrix<double> AHA = A * H_inv * A.transpose();
   vnl_solve_symmetric_le(AHA, b1, lambda);
 
   x = (H_inv * (g + A.transpose() * lambda)) * -1.0;
@@ -85,19 +85,19 @@ vnl_solve_qp_zero_sum(const vnl_matrix<double> & H, const vnl_vector<double> & g
   assert(g.size() == H.rows());
 
   vnl_matrix<double> H_inv;
-  vnl_cholesky Hchol(H, vnl_cholesky::estimate_condition);
+  const vnl_cholesky Hchol(H, vnl_cholesky::estimate_condition);
   if (Hchol.rcond() > 1e-8)
     H_inv = Hchol.inverse();
   else
   {
-    vnl_svd<double> Hsvd(H);
+    const vnl_svd<double> Hsvd(H);
     H_inv = Hsvd.inverse();
   }
 
-  double b1 = -1.0 * (H_inv * g).sum();
+  const double b1 = -1.0 * (H_inv * g).sum();
 
   // Sum of elements in H_inv  (= 1'*H_inv*1)
-  double H_inv_sum = vnl_c_vector<double>::sum(H_inv.begin(), H_inv.size());
+  const double H_inv_sum = vnl_c_vector<double>::sum(H_inv.begin(), H_inv.size());
 
   if (std::fabs(H_inv_sum) < 1e-8)
   {
@@ -107,7 +107,7 @@ vnl_solve_qp_zero_sum(const vnl_matrix<double> & H, const vnl_vector<double> & g
   }
 
   // Solve for lagrange multiplier, lambda
-  double lambda = b1 / H_inv_sum;
+  const double lambda = b1 / H_inv_sum;
 
   vnl_vector<double> g1(g);
   g1 += lambda;
@@ -126,7 +126,7 @@ vnl_solve_qp_update_x(vnl_vector<double> & x,
                       std::vector<bool> & valid,
                       unsigned & n_valid)
 {
-  unsigned n = x.size();
+  const unsigned n = x.size();
   // Check non-negativity constraints
   int worst_i = -1;
   double min_alpha = 1.0;
@@ -134,7 +134,7 @@ vnl_solve_qp_update_x(vnl_vector<double> & x,
   {
     if (dx[i] < 0.0)
     {
-      double alpha = -1.0 * x1[i] / dx[i];
+      const double alpha = -1.0 * x1[i] / dx[i];
       if (alpha < min_alpha)
       {
         min_alpha = alpha;
@@ -180,8 +180,8 @@ vnl_solve_qp_non_neg_step(const vnl_matrix<double> & H,
   // H1,A1,g1,x1 contain subsets defined by valid array
   // ie solve H1.dx+(H1.x+g1)=0 subject to A1.dx=(b-A1.x1)
 
-  unsigned n = H.rows();  // Full number of unknowns
-  unsigned nc = A.rows(); // Number of equality constraints
+  const unsigned n = H.rows();  // Full number of unknowns
+  const unsigned nc = A.rows(); // Number of equality constraints
 
   vnl_matrix<double> H1(n_valid, n_valid);
   vnl_matrix<double> A1(nc, n_valid);
@@ -249,7 +249,7 @@ vnl_solve_qp_non_neg_sum_one_step(const vnl_matrix<double> & H,
   // H1,g1,x1 contain subsets defined by valid array
   // ie solve H1.dx+(H1.x+g1)=0 subject to sum(dx)=0
 
-  unsigned n = H.rows(); // Full number of unknowns
+  const unsigned n = H.rows(); // Full number of unknowns
 
   vnl_matrix<double> H1(n_valid, n_valid);
   unsigned j1 = 0;
@@ -317,7 +317,7 @@ vnl_solve_qp_with_non_neg_constraints(const vnl_matrix<double> & H,
                                       bool verbose)
 {
   // Test inputs
-  unsigned n = H.rows(); // Number of unknowns
+  const unsigned n = H.rows(); // Number of unknowns
   // unsigned nc=A.rows();  // Number of equality constraints
   assert(H.cols() == n);
   assert(g.size() == n);
@@ -376,7 +376,7 @@ vnl_solve_qp_non_neg_sum_one(const vnl_matrix<double> & H,
                              bool verbose)
 {
   // Test inputs
-  unsigned n = H.rows(); // Number of unknowns
+  const unsigned n = H.rows(); // Number of unknowns
   assert(H.cols() == n);
   assert(g.size() == n);
 

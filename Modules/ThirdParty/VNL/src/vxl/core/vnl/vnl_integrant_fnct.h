@@ -9,11 +9,12 @@
 
 class VNL_EXPORT vnl_integrant_fnct
 {
- public:
+public:
   vnl_integrant_fnct() = default;
   virtual ~vnl_integrant_fnct() = default;
 
-  virtual double f_(double /*x*/) = 0;
+  virtual double
+  f_(double /*x*/) = 0;
 };
 
 #endif

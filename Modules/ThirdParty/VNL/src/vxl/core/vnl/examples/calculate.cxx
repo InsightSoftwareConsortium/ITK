@@ -37,52 +37,52 @@ const vnl_decnum one("1");
 const vnl_decnum half("5e-1");
 
 vnl_decnum
-round(vnl_decnum const & a)
+round(const vnl_decnum & a)
 {
   return floor(a + half);
 }
 vnl_decnum
-min(vnl_decnum const & a, vnl_decnum const & b)
+min(const vnl_decnum & a, const vnl_decnum & b)
 {
   return (a < b) ? a : b;
 }
 vnl_decnum
-max(vnl_decnum const & a, vnl_decnum const & b)
+max(const vnl_decnum & a, const vnl_decnum & b)
 {
   return (a < b) ? b : a;
 }
 vnl_decnum
-unaryminus(vnl_decnum const & a)
+unaryminus(const vnl_decnum & a)
 {
   return -a;
 }
 vnl_decnum
-prod(vnl_decnum const & a, vnl_decnum const & b)
+prod(const vnl_decnum & a, const vnl_decnum & b)
 {
   return a * b;
 }
 vnl_decnum
-quot(vnl_decnum const & a, vnl_decnum const & b)
+quot(const vnl_decnum & a, const vnl_decnum & b)
 {
   return a / b;
 }
 vnl_decnum
-modulo(vnl_decnum const & a, vnl_decnum const & b)
+modulo(const vnl_decnum & a, const vnl_decnum & b)
 {
   return a % b;
 }
 vnl_decnum
-sum(vnl_decnum const & a, vnl_decnum const & b)
+sum(const vnl_decnum & a, const vnl_decnum & b)
 {
   return a + b;
 }
 vnl_decnum
-diff(vnl_decnum const & a, vnl_decnum const & b)
+diff(const vnl_decnum & a, const vnl_decnum & b)
 {
   return a - b;
 }
 vnl_decnum
-fac(vnl_decnum const & a)
+fac(const vnl_decnum & a)
 {
   if (a <= one)
     return one;
@@ -90,7 +90,7 @@ fac(vnl_decnum const & a)
     return a * fac(a - one);
 }
 vnl_decnum
-binom(vnl_decnum const & a, vnl_decnum const & b)
+binom(const vnl_decnum & a, const vnl_decnum & b)
 {
   if (a < zero || b < zero || a < b)
     return zero;
@@ -113,7 +113,7 @@ public:
 };
 
 void
-ErrorExit(std::string const & expr, char const * t, unsigned long s)
+ErrorExit(const std::string & expr, const char * t, unsigned long s)
 {
   std::cerr << "Error parsing expression -- " << t << ":\n" << expr << '\n';
   while (s--)
@@ -124,7 +124,7 @@ ErrorExit(std::string const & expr, char const * t, unsigned long s)
 
 //: find end of argument, i.e., comma or ')'
 int
-arglength(std::string const & expr, unsigned long s, int l)
+arglength(const std::string & expr, unsigned long s, int l)
 {
   int i = 0;
   int level = 0;
@@ -145,7 +145,7 @@ arglength(std::string const & expr, unsigned long s, int l)
 
 //: find matching bracket or other end of block
 int
-blocklength(std::string const & expr, unsigned long s, int l)
+blocklength(const std::string & expr, unsigned long s, int l)
 {
   int i = 0;
   if (expr[s] == '-' || expr[s] == '+') // unary minus or plus
@@ -383,10 +383,8 @@ hierarchy_brackets(std::string & expr, unsigned long s, int l)
 }
 
 node
-build_tree(std::string const & expr, unsigned long s, int l)
+build_tree(const std::string & expr, unsigned long s, int l)
 {
-  int i, j;
-  node n;
   // expr[s]--expr[s+l-1] is any of:
   //  (number)
   //  function()
@@ -400,7 +398,8 @@ build_tree(std::string const & expr, unsigned long s, int l)
     ErrorExit(expr, "empty block", s);
   if (expr[s] == ')')
     ErrorExit(expr, "empty ()", s);
-  j = blocklength(expr, s, l);
+  int j = blocklength(expr, s, l);
+  node n;
   if (j == l && expr[s] >= '0' && expr[s] <= '9')
   { // number
     n.func1 = nullptr;
@@ -438,6 +437,7 @@ build_tree(std::string const & expr, unsigned long s, int l)
       ErrorExit(expr, "unknown function call", s);
     n.param1 = new node();
     n.param2 = nullptr;
+    int i;
     for (i = j; i < l - 1; ++i)
       if (expr[s + i] == ',')
         break;
@@ -496,7 +496,7 @@ build_tree(std::string const & expr, unsigned long s, int l)
 
 //: Return str, but after removing spaces, making lowercase, and adding ()
 std::string
-simplify(char const * str)
+simplify(const char * str)
 {
   std::string expr = "";
   // remove all spaces and tabs:

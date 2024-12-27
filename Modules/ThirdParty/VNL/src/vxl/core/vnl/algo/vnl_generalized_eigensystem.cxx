@@ -28,7 +28,7 @@ vnl_generalized_eigensystem::vnl_generalized_eigensystem(const vnl_matrix<double
   vnl_vector<double> work2(n);
   vnl_vector<double> V1(n * n);
 
-  long want_eigenvectors = 1;
+  const long want_eigenvectors = 1;
   long ierr = -1;
 
   // Call EISPACK rsg.

@@ -39,89 +39,99 @@
 
 constexpr int VNL_ALLOC_ALIGN = 8;
 constexpr std::size_t VNL_ALLOC_MAX_BYTES = 256;
-constexpr std::size_t VNL_ALLOC_NFREELISTS = VNL_ALLOC_MAX_BYTES/VNL_ALLOC_ALIGN;
+constexpr std::size_t VNL_ALLOC_NFREELISTS = VNL_ALLOC_MAX_BYTES / VNL_ALLOC_ALIGN;
 
 class VNL_EXPORT vnl_alloc
 {
-  static std::size_t ROUND_UP(std::size_t bytes) {
-    return (bytes + VNL_ALLOC_ALIGN-1) & ~(VNL_ALLOC_ALIGN - 1);
+  static std::size_t
+  ROUND_UP(std::size_t bytes)
+  {
+    return (bytes + VNL_ALLOC_ALIGN - 1) & ~(VNL_ALLOC_ALIGN - 1);
   }
   union obj;
   friend union obj;
-  union obj {
+  union obj
+  {
     union obj * free_list_link;
-    char client_data[1];    /* The client sees this.        */
+    char client_data[1]; /* The client sees this.        */
   };
-# if defined ( _AIX )
+#if defined(_AIX)
   static obj * free_list[];
   // Specifying a size results in duplicate def for 4.1
-# else
+#else
   static obj * free_list[VNL_ALLOC_NFREELISTS];
-# endif
-  static  std::size_t FREELIST_INDEX(std::size_t bytes) {
-    return (bytes + VNL_ALLOC_ALIGN-1)/VNL_ALLOC_ALIGN - 1;
+#endif
+  static std::size_t
+  FREELIST_INDEX(std::size_t bytes)
+  {
+    return (bytes + VNL_ALLOC_ALIGN - 1) / VNL_ALLOC_ALIGN - 1;
   }
 
   // Returns an object of size n, and optionally adds to size n free li*st.
-  static void *refill(std::size_t n);
+  static void *
+  refill(std::size_t n);
   // Allocates a chunk for nobjs of size size.  nobjs may be reduced
   // if it is inconvenient to allocate the requested number.
-  static char *chunk_alloc(std::size_t size, int &nobjs);
+  static char *
+  chunk_alloc(std::size_t size, int & nobjs);
 
   // Chunk allocation state.
-  static char *start_free;
-  static char *end_free;
+  static char * start_free;
+  static char * end_free;
   static std::size_t heap_size;
 
   class lock
   {
-   public:
+  public:
     lock() = default;
     ~lock() = default;
   };
   friend class lock;
 
- public:
+public:
   // this one is needed for proper vcl_simple_alloc wrapping
   typedef char value_type;
 
   /* n must be > 0      */
-  static void * allocate(std::size_t n) {
-    obj * * my_free_list;
-    obj *  result;
-
-    if (n > VNL_ALLOC_MAX_BYTES) {
-      return (void*)new char[n];
+  static void *
+  allocate(std::size_t n)
+  {
+    if (n > VNL_ALLOC_MAX_BYTES)
+    {
+      return (void *)new char[n];
     }
-    my_free_list = free_list + FREELIST_INDEX(n);
+    obj ** my_free_list = free_list + FREELIST_INDEX(n);
     // Acquire the lock here with a constructor call.
     // This ensures that it is released in exit or during stack
     // unwinding.
-    result = *my_free_list;
-    if (result == nullptr) {
-      void *r = refill(ROUND_UP(n));
+    obj * result = *my_free_list;
+    if (result == nullptr)
+    {
+      void * r = refill(ROUND_UP(n));
       return r;
     }
-    *my_free_list = result -> free_list_link;
+    *my_free_list = result->free_list_link;
     return result;
   }
 
   /* p may not be 0 */
-  static void deallocate(void *p, std::size_t n)
+  static void
+  deallocate(void * p, std::size_t n)
   {
-    obj *q = (obj *)p;
-    obj *  * my_free_list;
+    obj * q = (obj *)p;
 
-    if (n > VNL_ALLOC_MAX_BYTES) {
-      delete [] (char*)p;
+    if (n > VNL_ALLOC_MAX_BYTES)
+    {
+      delete[] (char *)p;
       return;
     }
-    my_free_list = free_list + FREELIST_INDEX(n);
-    q -> free_list_link = *my_free_list;
+    obj ** my_free_list = free_list + FREELIST_INDEX(n);
+    q->free_list_link = *my_free_list;
     *my_free_list = q;
   }
 
-  static void * reallocate(void *p, std::size_t old_sz, std::size_t new_sz);
+  static void *
+  reallocate(void * p, std::size_t old_sz, std::size_t new_sz);
 };
 
-# endif // vnl_alloc_h_
+#endif // vnl_alloc_h_

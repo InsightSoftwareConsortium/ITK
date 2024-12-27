@@ -62,10 +62,10 @@
 template <class T>
 class VNL_EXPORT vnl_quaternion : public vnl_vector_fixed<T, 4>
 {
- private:
-  typedef vnl_vector_fixed<T,4> Base;
- public:
+private:
+  typedef vnl_vector_fixed<T, 4> Base;
 
+public:
   //: Constructor for null quaternion
   vnl_quaternion() = default;
 
@@ -79,87 +79,144 @@ class VNL_EXPORT vnl_quaternion : public vnl_vector_fixed<T, 4>
 
   //: Construct quaternion from axis and angle of rotation.
   // \note If you specify an angle in [0, 2pi], then methods angle() and axis() will return the same values.
-  // However, if you specify an angle in [-2pi, 0], then methods angle() and axis() will return values with opposite signs.
+  // However, if you specify an angle in [-2pi, 0], then methods angle() and axis() will return values with opposite
+  // signs.
   // \sa vnl_quaternion::angle()
   // \sa vnl_quaternion::axis()
-  vnl_quaternion(vnl_vector_fixed<T,3> const& axis, double angle);
+  vnl_quaternion(const vnl_vector_fixed<T, 3> & axis, double angle);
 
   //: Construct quaternion from 3x3 row-major matrix
-  explicit vnl_quaternion(vnl_matrix_fixed<T,3,3> const& transform);
+  explicit vnl_quaternion(const vnl_matrix_fixed<T, 3, 3> & transform);
 
   //: Construct quaternion from a 3D vector
-  vnl_quaternion(vnl_vector_fixed<T,3> const& vec);
+  vnl_quaternion(const vnl_vector_fixed<T, 3> & vec);
 
   //: Construct quaternion from a 4D vector
-  vnl_quaternion (vnl_vector_fixed<T,4> const& vec);
+  vnl_quaternion(const vnl_vector_fixed<T, 4> & vec);
 
   //: Copy constructor -- Creates a copy of from quaternion.
-  inline vnl_quaternion(vnl_quaternion<T> const& from) : Base(from) {}
+  inline vnl_quaternion(const vnl_quaternion<T> & from)
+    : Base(from)
+  {}
 
   //: Free internal array
   inline ~vnl_quaternion() = default; // vnl_vector_fixed will free data array
 
   //:  Overloads assignment operator to copy rhs quaternion into lhs quaternion.
-  inline vnl_quaternion& operator= (vnl_quaternion<T> const& rhs) { Base::operator=(rhs); return *this; }
+  inline vnl_quaternion &
+  operator=(const vnl_quaternion<T> & rhs)
+  {
+    Base::operator=(rhs);
+    return *this;
+  }
 
   //: Imaginary component, parallel to axis of rotation.
   // Use this accessor to both get and set the component.
-  inline T& x() { return this->operator()(0); }
+  inline T &
+  x()
+  {
+    return this->operator()(0);
+  }
   //: Imaginary component, parallel to axis of rotation.
   // Use this accessor to both get and set the component.
-  inline T& y() { return this->operator()(1); }
+  inline T &
+  y()
+  {
+    return this->operator()(1);
+  }
   //: Imaginary component, parallel to axis of rotation.
   // Use this accessor to both get and set the component.
-  inline T& z() { return this->operator()(2); }
+  inline T &
+  z()
+  {
+    return this->operator()(2);
+  }
   //: Real component.
   // Use this accessor to both get and set the component.
-  inline T& r() { return this->operator()(3); }
+  inline T &
+  r()
+  {
+    return this->operator()(3);
+  }
 
   //: Imaginary component, parallel to axis of rotation.
   // Use this accessor to get the component.
-  inline T x() const { return this->operator()(0); }
+  inline T
+  x() const
+  {
+    return this->operator()(0);
+  }
   //: Imaginary component, parallel to axis of rotation.
   // Use this accessor to get the component.
-  inline T y() const { return this->operator()(1); }
+  inline T
+  y() const
+  {
+    return this->operator()(1);
+  }
   //: Imaginary component, parallel to axis of rotation.
   // Use this accessor to get the component.
-  inline T z() const { return this->operator()(2); }
+  inline T
+  z() const
+  {
+    return this->operator()(2);
+  }
   //: Real component.
   // Use this accessor to get the component.
-  inline T r() const { return this->operator()(3); }
+  inline T
+  r() const
+  {
+    return this->operator()(3);
+  }
 
   //: Copies and returns the real part.
-  inline T real() const { return (*this)[3]; }
+  inline T
+  real() const
+  {
+    return (*this)[3];
+  }
 
   //: Copies and returns the imaginary part.
-  inline vnl_vector_fixed<T,3> imaginary() const { return this->extract(3,0); }
+  inline vnl_vector_fixed<T, 3>
+  imaginary() const
+  {
+    return this->extract(3, 0);
+  }
 
   //: Axis of rotation.
-  // \note Axis not well defined for theta==0. In such a case (or if provided axis==(0,0,0)), this function returns (0,0,1).
-  vnl_vector_fixed<T,3> axis() const;
+  // \note Axis not well defined for theta==0. In such a case (or if provided axis==(0,0,0)), this function returns
+  // (0,0,1).
+  vnl_vector_fixed<T, 3>
+  axis() const;
 
   //: Angle of rotation.
   // \note Returned angle lies in [0, 2*pi]
-  double angle() const;
+  double
+  angle() const;
 
   //: 3x3 rotation matrix
   // The orthonormal vectors are the rows of the matrix, not its columns
-  vnl_matrix_fixed<T,3,3> rotation_matrix_transpose() const;
+  vnl_matrix_fixed<T, 3, 3>
+  rotation_matrix_transpose() const;
 
   //: 4x4 rotation matrix
-  vnl_matrix_fixed<T,4,4> rotation_matrix_transpose_4() const;
+  vnl_matrix_fixed<T, 4, 4>
+  rotation_matrix_transpose_4() const;
 
   //: Same real, opposite img part
-  vnl_quaternion<T> conjugate() const;
+  vnl_quaternion<T>
+  conjugate() const;
 
   //: Inverse for nonzero quat
-  vnl_quaternion<T> inverse() const;
+  vnl_quaternion<T>
+  inverse() const;
 
-  vnl_quaternion<T> operator* (vnl_quaternion<T> const&) const;
+  vnl_quaternion<T>
+  operator*(const vnl_quaternion<T> &) const;
 
   //: Rotate 3D v
   // The quaternion must be normalised first.
-  vnl_vector_fixed<T,3> rotate(vnl_vector_fixed<T,3> const&) const;
+  vnl_vector_fixed<T, 3>
+  rotate(const vnl_vector_fixed<T, 3> &) const;
 
   //: Rotation representation in Euler angles.
   // The angles returned will be [theta_X,theta_Y,theta_Z]
@@ -167,15 +224,17 @@ class VNL_EXPORT vnl_quaternion : public vnl_vector_fixed<T, 4>
   // about the X axis, then theta_Y about the Y-axis, etc.
   // The axes stay in a fixed reference frame.
   // The quaternion mut be normalised first.
-  vnl_vector_fixed<T,3> rotation_euler_angles() const;
+  vnl_vector_fixed<T, 3>
+  rotation_euler_angles() const;
 };
 
 //: operator<<
 // \relatesalso vnl_quaternion
 template <class T>
-std::istream& operator>> (std::istream& is, vnl_quaternion<T> &q)
+std::istream &
+operator>>(std::istream & is, vnl_quaternion<T> & q)
 {
-  vnl_vector_fixed<T,4> v;
+  vnl_vector_fixed<T, 4> v;
   is >> v;
   q = vnl_quaternion<T>(v);
   return is;
@@ -185,9 +244,10 @@ std::istream& operator>> (std::istream& is, vnl_quaternion<T> &q)
 //: operator<<
 // \relatesalso vnl_quaternion
 template <class T>
-inline std::ostream& operator<< (std::ostream& os, vnl_quaternion<T> const& q)
+inline std::ostream &
+operator<<(std::ostream & os, const vnl_quaternion<T> & q)
 {
-  return os << *((const vnl_vector_fixed<T,4>*) &q);
+  return os << *((const vnl_vector_fixed<T, 4> *)&q);
 }
 
 #define VNL_QUATERNION_INSTANTIATE(T) extern "Please #include <vnl/vnl_quaternion.hxx> first"

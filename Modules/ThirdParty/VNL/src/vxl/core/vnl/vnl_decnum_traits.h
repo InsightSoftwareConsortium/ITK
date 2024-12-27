@@ -12,7 +12,7 @@
 template <>
 class VNL_EXPORT vnl_numeric_traits<vnl_decnum>
 {
- public:
+public:
   //: Additive identity
   static const vnl_decnum zero; // = 0L
   //: Multiplicative identity
@@ -29,7 +29,6 @@ class VNL_EXPORT vnl_numeric_traits<vnl_decnum>
   using self = vnl_decnum;
   //: Name of type which results from using a unary operator-()
   using signed_t = self;
-
 };
 
 #endif // vnl_decnum_traits_h_

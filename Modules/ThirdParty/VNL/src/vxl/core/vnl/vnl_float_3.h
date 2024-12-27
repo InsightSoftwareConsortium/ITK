@@ -17,12 +17,12 @@
 #include "vnl_T_n.h"
 
 //: class vnl_float_3 : a vnl_vector of 3 floats.
-vnl_T_n_impl(float,3);
+vnl_T_n_impl(float, 3);
 
 //: Cross product of two 3-vectors
 //  \relatesalso vnl_vector_fixed
-inline
-vnl_float_3 vnl_cross_3d(vnl_float_3 const& v1, vnl_float_3 const& v2)
+inline vnl_float_3
+vnl_cross_3d(const vnl_float_3 & v1, const vnl_float_3 & v2)
 {
   vnl_float_3 result;
   result[0] = v1[1] * v2[2] - v1[2] * v2[1];

@@ -20,7 +20,7 @@ display_mask(const std::vector<std::vector<bool>> & mask)
 static void
 test_crs_index()
 {
-  std::vector<bool> null_col(8, false);
+  const std::vector<bool> null_col(8, false);
   std::vector<std::vector<bool>> mask(10, null_col);
 
   mask[0][1] = true;
@@ -43,7 +43,7 @@ test_crs_index()
 
   display_mask(mask);
 
-  vnl_crs_index crs(mask);
+  const vnl_crs_index crs(mask);
 
   TEST("num rows", crs.num_rows(), (int)mask.size());
   TEST("num cols", crs.num_cols(), (int)mask[0].size());
@@ -56,7 +56,7 @@ test_crs_index()
   {
     for (int j = 0; j < crs.num_cols(); ++j)
     {
-      int idx = crs(i, j);
+      const int idx = crs(i, j);
       if (((idx < 0) == mask[i][j]) && idx != curr++)
         valid = false;
       std::cout << crs(i, j) << ' ';

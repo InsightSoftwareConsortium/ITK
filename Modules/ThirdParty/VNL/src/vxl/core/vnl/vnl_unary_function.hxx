@@ -27,19 +27,20 @@
 
 //: Return bounding cube of range (outputs)
 template <class RETURN, class ARGUMENT>
-RETURN vnl_unary_function<RETURN, ARGUMENT>::get_range_min() const
+RETURN
+vnl_unary_function<RETURN, ARGUMENT>::get_range_min() const
 {
   return std::numeric_limits<RETURN>::min();
 }
 
 //: Return bounding cube of range (outputs)
 template <class RETURN, class ARGUMENT>
-RETURN vnl_unary_function<RETURN, ARGUMENT>::get_range_max() const
+RETURN
+vnl_unary_function<RETURN, ARGUMENT>::get_range_max() const
 {
   return std::numeric_limits<RETURN>::max();
 }
 
-#define VNL_UNARY_FUNCTION_INSTANTIATE(S,T) \
-template class VNL_EXPORT vnl_unary_function<S, T >
+#define VNL_UNARY_FUNCTION_INSTANTIATE(S, T) template class VNL_EXPORT vnl_unary_function<S, T>
 
 #endif // vnl_unary_function_hxx_

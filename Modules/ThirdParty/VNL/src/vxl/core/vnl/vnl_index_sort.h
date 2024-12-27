@@ -17,9 +17,8 @@
 template <class TValue, class TIndex>
 class vnl_index_sort
 {
- public:
-
-   //: typedefs for vector sorting
+public:
+  //: typedefs for vector sorting
   typedef vnl_vector<TValue> SortVectorType;
   typedef vnl_vector<TIndex> SortVectorIndexType;
 
@@ -28,21 +27,22 @@ class vnl_index_sort
   typedef vnl_matrix<TIndex> SortMatrixIndexType;
 
   //: matrix sort along rows or columns?
-  enum DirectionType {ByRow, ByColumn} Direction;
+  enum DirectionType
+  {
+    ByRow,
+    ByColumn
+  } Direction;
 
   //: just sort indices
-  void vector_sort(
-    const SortVectorType& values,
-    SortVectorIndexType& indices)
+  void
+  vector_sort(const SortVectorType & values, SortVectorIndexType & indices)
   {
     sortIndices(values, indices);
   }
 
   //: sort indices and values
-  void vector_sort(
-    const SortVectorType& values,
-    SortVectorType& sorted_values,
-    SortVectorIndexType& indices)
+  void
+  vector_sort(const SortVectorType & values, SortVectorType & sorted_values, SortVectorIndexType & indices)
   {
     vector_sort(values, indices);
 
@@ -51,12 +51,11 @@ class vnl_index_sort
   }
 
   //: sort indices, return sorted values in place
-  void vector_sort_in_place(
-    SortVectorType& values,
-    SortVectorIndexType& indices)
+  void
+  vector_sort_in_place(SortVectorType & values, SortVectorIndexType & indices)
   {
     vector_sort(values, indices);
-    SortVectorType tmpValues(values);
+    const SortVectorType tmpValues(values);
 
     // gets values and indices from sorted indices
     reindexValues(tmpValues, indices, values);
@@ -64,11 +63,11 @@ class vnl_index_sort
 
   //: matrix sort
   // specify along rows or columns
-  void matrix_sort(
-    DirectionType direction,
-    const SortMatrixType& values,
-    SortMatrixType& sorted_values,
-    SortMatrixIndexType& indices)
+  void
+  matrix_sort(DirectionType direction,
+              const SortMatrixType & values,
+              SortMatrixType & sorted_values,
+              SortMatrixIndexType & indices)
   {
     sorted_values.set_size(values.rows(), values.cols());
     indices.set_size(values.rows(), values.cols());
@@ -76,8 +75,7 @@ class vnl_index_sort
     SortVectorType valVect;
     SortVectorType sortedValVect;
     SortVectorIndexType indVect;
-    for (unsigned int vIx = 0;
-         vIx < (direction == ByRow ? values.rows() : values.cols()); vIx++)
+    for (unsigned int vIx = 0; vIx < (direction == ByRow ? values.rows() : values.cols()); vIx++)
     {
       getVector(values, direction, vIx, valVect);
       vector_sort(valVect, sortedValVect, indVect);
@@ -86,14 +84,15 @@ class vnl_index_sort
     }
   }
 
- private:
+private:
   //: Implementation class - Do Not Use.
   // Author - Ian Scott
   template <class T, class I>
   struct sort_index_compare_functor
   {
-    const T *data;
-    bool operator () (const I &a, const I &b)
+    const T * data;
+    bool
+    operator()(const I & a, const I & b)
     {
       return data[a] < data[b];
     }
@@ -101,35 +100,32 @@ class vnl_index_sort
 
   //: sort the indices of a vector
   // Author - Ian Scott
-  void sortIndices(const SortVectorType& v, SortVectorIndexType& s)
+  void
+  sortIndices(const SortVectorType & v, SortVectorIndexType & s)
   {
     sort_index_compare_functor<TValue, TIndex> c;
     c.data = v.data_block();
     s.set_size(v.size());
 
-    for (TIndex ix = 0; ix < (TIndex) v.size(); ix++) s[ix] = ix;
+    for (TIndex ix = 0; ix < (TIndex)v.size(); ix++)
+      s[ix] = ix;
 
     std::sort(s.begin(), s.end(), c);
   }
 
   //: reorder values from sorted indices
-  void reindexValues(
-    const SortVectorType& values,
-    const SortVectorIndexType& indices,
-    SortVectorType& sorted_values)
+  void
+  reindexValues(const SortVectorType & values, const SortVectorIndexType & indices, SortVectorType & sorted_values)
   {
     sorted_values.set_size(values.size());
-    for (TIndex ix = 0; ix < (TIndex) values.size(); ix++)
+    for (TIndex ix = 0; ix < (TIndex)values.size(); ix++)
       sorted_values[ix] = values[indices[ix]];
   }
 
   //: get specified vector from matrix depending on direction
-  template<class T>
-  void getVector(
-    const vnl_matrix<T>& fromMat,
-    DirectionType direction,
-    int whichVect,
-    vnl_vector<T>& toVect)
+  template <class T>
+  void
+  getVector(const vnl_matrix<T> & fromMat, DirectionType direction, int whichVect, vnl_vector<T> & toVect)
   {
     switch (direction)
     {
@@ -146,12 +142,9 @@ class vnl_index_sort
   }
 
   //: put specified vector to matrix depending on direction
-  template<class T>
-  void putVector(
-    const vnl_vector<T>& fromVect,
-    DirectionType direction,
-    int whichVect,
-    vnl_matrix<T>& toMat)
+  template <class T>
+  void
+  putVector(const vnl_vector<T> & fromVect, DirectionType direction, int whichVect, vnl_matrix<T> & toMat)
   {
     switch (direction)
     {

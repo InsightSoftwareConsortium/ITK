@@ -30,14 +30,14 @@
 //: XML save vnl_vector_fixed to stream.
 // \relatesalso vnl_vector_fixed
 template <class T, unsigned n>
-void x_write(std::ostream & os, vnl_vector_fixed<T,n> const& v,
-             std::string name="vnl_vector_fixed");
+void
+x_write(std::ostream & os, const vnl_vector_fixed<T, n> & v, std::string name = "vnl_vector_fixed");
 
 //: XML save vnl_vector_fixed as a 2-level tree to stream.
 // \relatesalso vnl_vector_fixed
 template <class T, unsigned n>
-void x_write_tree(std::ostream & os, vnl_vector_fixed<T,n> const& v,
-                  std::string name="vnl_vector_fixed");
+void
+x_write_tree(std::ostream & os, const vnl_vector_fixed<T, n> & v, std::string name = "vnl_vector_fixed");
 
 #define VNL_XIO_VECTOR_FIXED_INSTANTIATE(T) extern "Please #include <vnl/xio/vnl_xio_vector_fixed.hxx> first"
 

@@ -28,10 +28,9 @@ static void
 test_operators()
 {
   std::complex<double> a(-5.);
-  std::complex<double> b(7., -1.);
-  std::complex<double> c;
+  const std::complex<double> b(7., -1.);
   // Numerically deterministic double precision
-  c = a + b;
+  std::complex<double> c = a + b;
   TEST("sum", c, std::complex<double>(2., -1.));
   c = a - b;
   TEST("difference", c, std::complex<double>(-12., 1.));
@@ -48,7 +47,7 @@ test_operators()
   a *= b;
   TEST("*=", a, std::complex<double>(-35., 5.));
   // Numerically could have small floating point truncation errors
-  std::complex<double> a_pre = a;
+  const std::complex<double> a_pre = a;
   a /= b;
   TEST_NEAR("/=", a, std::complex<double>(-5.), 1e-12);
   std::cout << "a /= b " << a_pre << " /= " << b << "\n         --> " << a
@@ -69,7 +68,7 @@ test_vector()
             << "dot_product(a,b)=" << dot_product(a, b) << '\n'
             << "inner_product(a,b)=" << inner_product(a, b) << '\n';
 
-  std::complex<double> i(0, 1);
+  const std::complex<double> i(0, 1);
 
   TEST_NEAR("inner_product() conjugates correctly", inner_product(i * a, b), i * inner_product(a, b), 1e-12);
   TEST_NEAR("inner_product() conjugates correctly", inner_product(a, i * b), -i * inner_product(a, b), 1e-12);
@@ -90,11 +89,11 @@ test_cosine()
   vnl_random rng(1234567);
   for (int i = 0; i < 20; ++i)
   {
-    double u = rng.drand32(vnl_math::pi_over_2);
-    double v = rng.drand32(2.0);
-    std::complex<double> c(u, v);
-    std::complex<double> d = std::cos(c);
-    std::complex<double> e = tc_acos(d);
+    const double u = rng.drand32(vnl_math::pi_over_2);
+    const double v = rng.drand32(2.0);
+    const std::complex<double> c(u, v);
+    const std::complex<double> d = std::cos(c);
+    const std::complex<double> e = tc_acos(d);
     std::cout << c << ' ' << d << ' ' << e << '\n';
     TEST_NEAR("acos", c, e, 1e-12);
   }
@@ -115,7 +114,8 @@ TESTMAIN(test_complex);
 std::complex<double>
 tc_acos(std::complex<double> x)
 {
-  double a = std::real(x), b = std::imag(x);
+  const double a = std::real(x);
+  const double b = std::imag(x);
   // special cases:
   if (b == 0 && a > 1)
     return { 0.0, std::log(a + std::sqrt(a * a - 1)) }; // == acosh(a)
@@ -125,11 +125,12 @@ tc_acos(std::complex<double> x)
   // the general case:
   // the result c + d*i satisfies a = cos(c)*cosh(d), b = -sin(c)*sinh(d)
   // hence $\frac{a^2}{\cos^2(c)} - \frac{b^2}{\sin^2(c)} = 1$.
-  double q = (a * a - 1) * (a * a - 1) + b * b * (b * b + 2 * a * a + 2);
-  double t = 0.5 * (1 + a * a + b * b - std::sqrt(q));
+  const double q = (a * a - 1) * (a * a - 1) + b * b * (b * b + 2 * a * a + 2);
+  const double t = 0.5 * (1 + a * a + b * b - std::sqrt(q));
   // this $t = \cos^2(c)$ solves the latter biquadratic equation and lies in [0,1].
-  double aa = a / std::sqrt(t), bb = b / std::sqrt(1 - t);
-  double r_real = std::acos(std::sqrt(t));
-  double r_imag = std::log(std::fabs(aa - bb));
+  const double aa = a / std::sqrt(t);
+  const double bb = b / std::sqrt(1 - t);
+  const double r_real = std::acos(std::sqrt(t));
+  const double r_imag = std::log(std::fabs(aa - bb));
   return { r_real, r_imag };
 }

@@ -53,85 +53,231 @@
 template <int N>
 class vnl_finite_int
 {
- private:
+private:
   int val_; //!< value of this number (smallest nonnegative representation)
 
   typedef vnl_finite_int<N> Base;
- public:
+
+public:
   //: The number of different finite_int numbers of this type
-  static unsigned int cardinality() { return N; }
+  static unsigned int
+  cardinality()
+  {
+    return N;
+  }
 
   //: Creates a finite int element.
   //  Default constructor gives 0.
   //  Also serves as automatic cast from int to vnl_finite_int.
-  inline vnl_finite_int(int x = 0) : val_((x %= N) < 0 ? N + x : x) {
+  inline vnl_finite_int(int x = 0)
+    : val_((x %= N) < 0 ? N + x : x)
+  {
     assert(N > 1);
   }
   //  Copy constructor
-  inline vnl_finite_int(Base const& x) : val_(int(x)), mo_(x.mo_), lp1_(x.lp1_) {}
+  inline vnl_finite_int(const Base & x)
+    : val_(int(x))
+    , mo_(x.mo_)
+    , lp1_(x.lp1_)
+  {}
   //  Destructor
   inline ~vnl_finite_int() = default;
   // Implicit conversions
-  inline operator int() const { return val_; }
-  inline operator int() { return val_; }
-  inline operator long() const { return val_; }
-  inline operator long() { return val_; }
-  inline operator short() const { short r = (short)val_; assert(r == val_); return r; }
-  inline operator short() { short r = (short)val_; assert(r == val_); return r; }
+  inline
+  operator int() const
+  {
+    return val_;
+  }
+  inline
+  operator int()
+  {
+    return val_;
+  }
+  inline
+  operator long() const
+  {
+    return val_;
+  }
+  inline
+  operator long()
+  {
+    return val_;
+  }
+  inline
+  operator short() const
+  {
+    short r = (short)val_;
+    assert(r == val_);
+    return r;
+  }
+  inline
+  operator short()
+  {
+    short r = (short)val_;
+    assert(r == val_);
+    return r;
+  }
 
   //: Assignment
-  inline Base& operator=(Base const& x) { val_ = int(x); mo_=x.mo_; lp1_=x.lp1_; return *this; }
-  inline Base& operator=(int x) { x%=N; val_ = x<0 ? N+x : x; mo_=lp1_=0; return *this; }
+  inline Base &
+  operator=(const Base & x)
+  {
+    val_ = int(x);
+    mo_ = x.mo_;
+    lp1_ = x.lp1_;
+    return *this;
+  }
+  inline Base &
+  operator=(int x)
+  {
+    x %= N;
+    val_ = x < 0 ? N + x : x;
+    mo_ = lp1_ = 0;
+    return *this;
+  }
 
   //: Comparison of finite int numbers.
   // Note that finite ints have no order, so < and > make no sense.
-  inline bool operator==(Base const& x) const { return val_ == int(x); }
-  inline bool operator!=(Base const& x) const { return val_ != int(x); }
-  inline bool operator==(int x) const { return operator==(Base(x)); }
-  inline bool operator!=(int x) const { return !operator==(x); }
+  inline bool
+  operator==(const Base & x) const
+  {
+    return val_ == int(x);
+  }
+  inline bool
+  operator!=(const Base & x) const
+  {
+    return val_ != int(x);
+  }
+  inline bool
+  operator==(int x) const
+  {
+    return operator==(Base(x));
+  }
+  inline bool
+  operator!=(int x) const
+  {
+    return !operator==(x);
+  }
 
   //: Unary minus - returns the additive inverse
-  inline Base operator-() const { return Base(N-val_); }
+  inline Base
+  operator-() const
+  {
+    return Base(N - val_);
+  }
   //: Unary plus - returns the current number
-  inline Base operator+() const { return *this; }
+  inline Base
+  operator+() const
+  {
+    return *this;
+  }
   //: Unary not - returns true if finite int number is equal to zero.
-  inline bool operator!() const { return val_ == 0; }
+  inline bool
+  operator!() const
+  {
+    return val_ == 0;
+  }
 
   //: Plus&assign: replace lhs by lhs + rhs
-  inline Base& operator+=(Base const& r) { mo_=lp1_=0; val_ += int(r); if (val_ >= int(N)) val_ -= N; return *this; }
-  inline Base& operator+=(int r) { return operator=(val_+r); }
+  inline Base &
+  operator+=(const Base & r)
+  {
+    mo_ = lp1_ = 0;
+    val_ += int(r);
+    if (val_ >= int(N))
+      val_ -= N;
+    return *this;
+  }
+  inline Base &
+  operator+=(int r)
+  {
+    return operator=(val_ + r);
+  }
   //: Minus&assign: replace lhs by lhs - rhs
-  inline Base& operator-=(Base const& r) { mo_=lp1_=0; val_ -= int(r); if (val_ < 0) val_ += N; return *this; }
-  inline Base& operator-=(int r) { return operator=(val_-r); }
-  //: Multiply&assign: replace lhs by lhs * rhs
-  inline Base& operator*=(int r) {
-    r %=N; if (r<0) r=N+r;
-    // This rather complicated implementation is necessary to avoid integer overflow
-    if (N<=0x7fff || (val_<=0x7fff && r<=0x7fff)) { val_ *= r; val_ %= N; return *this; }
-    else { int v=val_; operator+=(v); operator*=(r/2); if (r%2) operator+=(v); return *this; }
+  inline Base &
+  operator-=(const Base & r)
+  {
+    mo_ = lp1_ = 0;
+    val_ -= int(r);
+    if (val_ < 0)
+      val_ += N;
+    return *this;
+  }
+  inline Base &
+  operator-=(int r)
+  {
+    return operator=(val_ - r);
   }
   //: Multiply&assign: replace lhs by lhs * rhs
-  inline Base& operator*=(Base const& r) {
-    mo_=0;
-    if (lp1_!=0 && r.lp1_!=0) set_log(lp1_+r.lp1_-2); else lp1_=0;
+  inline Base &
+  operator*=(int r)
+  {
+    r %= N;
+    if (r < 0)
+      r = N + r;
     // This rather complicated implementation is necessary to avoid integer overflow
-    unsigned int s=int(r);
-    if (N<=0x7fff || (val_<=0x7fff && s<=0x7fff)) { val_ *= s; val_ %= N; return *this; }
-    else { int v=val_; operator+=(v); operator*=(s/2); if (s%2) operator+=(v); return *this; }
+    if (N <= 0x7fff || (val_ <= 0x7fff && r <= 0x7fff))
+    {
+      val_ *= r;
+      val_ %= N;
+      return *this;
+    }
+    else
+    {
+      const int v = val_;
+      operator+=(v);
+      operator*=(r / 2);
+      if (r % 2)
+        operator+=(v);
+      return *this;
+    }
+  }
+  //: Multiply&assign: replace lhs by lhs * rhs
+  inline Base &
+  operator*=(const Base & r)
+  {
+    mo_ = 0;
+    if (lp1_ != 0 && r.lp1_ != 0)
+      set_log(lp1_ + r.lp1_ - 2);
+    else
+      lp1_ = 0;
+    // This rather complicated implementation is necessary to avoid integer overflow
+    const unsigned int s = int(r);
+    if (N <= 0x7fff || (val_ <= 0x7fff && s <= 0x7fff))
+    {
+      val_ *= s;
+      val_ %= N;
+      return *this;
+    }
+    else
+    {
+      const int v = val_;
+      operator+=(v);
+      operator*=(s / 2);
+      if (s % 2)
+        operator+=(v);
+      return *this;
+    }
   }
 
   //: Return the Euler totient function, i.e., the number of units of this ring
   //  This number also equals the periodicity of the exponent: every unit,
   //  when raised to this power, yields 1.
-  static unsigned int totient() {
+  static unsigned int
+  totient()
+  {
     static unsigned int t_ = 0; // cached value
-    if (t_ != 0) return t_;
-    std::vector<unsigned int> d = decompose();
-    t_ = 1; unsigned int p = 1;
-    for (unsigned int i : d)
+    if (t_ != 0)
+      return t_;
+    const std::vector<unsigned int> d = decompose();
+    t_ = 1;
+    unsigned int p = 1;
+    for (const unsigned int i : d)
     {
-      if (p != i) t_ *= i-1;
-      else           t_ *= i;
+      if (p != i)
+        t_ *= i - 1;
+      else
+        t_ *= i;
       p = i;
     }
     return t_;
@@ -139,68 +285,144 @@ class vnl_finite_int
 
   //: Multiplicative inverse.
   //  Uses exp() and log() for efficient computation, unless log() is not defined.
-  Base reciproc() const {
+  Base
+  reciproc() const
+  {
     assert(is_unit());
-    if (val_==1) return *this;
-    Base z = smallest_generator();
-    if (z!=1) return exp(Base::totient()-log());
-    for (unsigned int r=1; r<=N/2; ++r) {
-      unsigned int t=int(*this*int(r));
-      if (t==1) return r; else if (t==N-1) return N-r;
+    if (val_ == 1)
+      return *this;
+    const Base z = smallest_generator();
+    if (z != 1)
+      return exp(Base::totient() - log());
+    for (unsigned int r = 1; r <= N / 2; ++r)
+    {
+      const unsigned int t = int(*this * int(r));
+      if (t == 1)
+        return r;
+      else if (t == N - 1)
+        return N - r;
     }
     return 0; // This will never be executed
   }
 
   //: Divide&assign.  Uses r.reciproc() for efficient computation.
-  inline Base& operator/=(Base const& r) {
+  inline Base &
+  operator/=(const Base & r)
+  {
     assert(r.is_unit());
     return val_ == 0 ? operator=(0) : operator*=(r.reciproc());
   }
 
   //: Pre-increment (++r).
-  inline Base& operator++() { mo_=lp1_=0; ++val_; if (val_==N) val_=0; return *this; }
+  inline Base &
+  operator++()
+  {
+    mo_ = lp1_ = 0;
+    ++val_;
+    if (val_ == N)
+      val_ = 0;
+    return *this;
+  }
   //: Pre-decrement (--r).
-  inline Base& operator--() { mo_=lp1_=0; if (val_==0) val_=N; --val_; return *this; }
+  inline Base &
+  operator--()
+  {
+    mo_ = lp1_ = 0;
+    if (val_ == 0)
+      val_ = N;
+    --val_;
+    return *this;
+  }
   //: Post-increment (r++).
-  inline Base operator++(int) {Base b=*this; mo_=lp1_=0; ++val_; if (val_==N) val_=0; return b; }
+  inline Base
+  operator++(int)
+  {
+    Base b = *this;
+    mo_ = lp1_ = 0;
+    ++val_;
+    if (val_ == N)
+      val_ = 0;
+    return b;
+  }
   //: Post-decrement (r--).
-  inline Base operator--(int) {Base b=*this; mo_=lp1_=0; if (val_==0) val_=N; --val_; return b;}
+  inline Base
+  operator--(int)
+  {
+    Base b = *this;
+    mo_ = lp1_ = 0;
+    if (val_ == 0)
+      val_ = N;
+    --val_;
+    return b;
+  }
 
   //: Write N as the unique product of prime factors.
-  static std::vector<unsigned int> decompose() {
+  static std::vector<unsigned int>
+  decompose()
+  {
     static std::vector<unsigned int> decomposition_ = std::vector<unsigned int>(); // cached value
     if (!decomposition_.empty())
       return decomposition_;
     unsigned int r = N;
-    for (unsigned int d=2; d*d<=r; ++d)
-      while (r%d == 0) { decomposition_.push_back(d); r /= d; }
-    if (r > 1) decomposition_.push_back(r);
+    for (unsigned int d = 2; d * d <= r; ++d)
+      while (r % d == 0)
+      {
+        decomposition_.push_back(d);
+        r /= d;
+      }
+    if (r > 1)
+      decomposition_.push_back(r);
     return decomposition_;
   }
 
   //: Return true when N is a prime number, i.e., when this ring is a field
-  static inline bool is_field() {
-    std::vector<unsigned int> d = Base::decompose();
+  static inline bool
+  is_field()
+  {
+    const std::vector<unsigned int> d = Base::decompose();
     return d.size() == 1;
   }
 
   //: Return true only when x is a unit in this ring.
   //  In a field, all numbers except 0 are units.
   //  The total number of units is given by the Euler totient function.
-  bool is_unit() const { return gcd(val_) == 1; }
+  bool
+  is_unit() const
+  {
+    return gcd(val_) == 1;
+  }
 
   //: Return true only when x is a zero divisor, i.e., is not a unit.
-  inline bool is_zero_divisor() const { return gcd(val_) != 1; }
+  inline bool
+  is_zero_divisor() const
+  {
+    return gcd(val_) != 1;
+  }
 
   //: The additive order of x is the smallest nonnegative r such that r*x == 0.
-  inline unsigned int additive_order() const { if (val_ == 0) return 1; return N/gcd(val_); }
+  inline unsigned int
+  additive_order() const
+  {
+    if (val_ == 0)
+      return 1;
+    return N / gcd(val_);
+  }
 
   //: The multiplicative order of x is the smallest r (>0) such that x^r == 1.
-  unsigned int multiplicative_order() const {
-    if (mo_ != 0) return mo_;
-    if (gcd(val_) != 1) return -1; // should actually return infinity
+  unsigned int
+  multiplicative_order() const
+  {
+    if (mo_ != 0)
+      return mo_;
+    if (gcd(val_) != 1)
+      return -1; // should actually return infinity
     Base y = val_;
-    for (int r=1; r<N; ++r) { if (y==1) return mo_=r; y *= val_; }
+    for (int r = 1; r < N; ++r)
+    {
+      if (y == 1)
+        return mo_ = r;
+      y *= val_;
+    }
     return 0; // this should not happen
   }
 
@@ -208,73 +430,134 @@ class vnl_finite_int
   //  This is only possible if the units form a cyclic group for multiplication.
   //  If not, smallest_generator() returns 1 to indicate this fact.
   //  Note that the multiplication group of a finite \e field is always cyclic.
-  static Base smallest_generator() {
+  static Base
+  smallest_generator()
+  {
     static Base gen_ = 0; // cached value
-    if (gen_ != 0) return gen_;
-    if (N==2) return gen_=1;
-    unsigned int h = Base::totient() / 2; // note that totient() is always even
-    for (gen_=2; gen_!=0; ++gen_) {
+    if (gen_ != 0)
+      return gen_;
+    if (N == 2)
+      return gen_ = 1;
+    const unsigned int h = Base::totient() / 2; // note that totient() is always even
+    for (gen_ = 2; gen_ != 0; ++gen_)
+    {
       // calculate gen_^h
-      unsigned int g=h; Base y = 1, z = gen_; while (g>0) { if (g%2) y *= z; g/=2; z*=z; }
+      unsigned int g = h;
+      Base y = 1;
+      Base z = gen_;
+      while (g > 0)
+      {
+        if (g % 2)
+          y *= z;
+        g /= 2;
+        z *= z;
+      }
       // quick elimination of non-generator:
-      if (y == 1) continue;
+      if (y == 1)
+        continue;
       // calculate gen_.multiplicative_order() only if really necessary:
-      if (gen_.multiplicative_order() == Base::totient()) { gen_.set_log(1); return gen_; }
+      if (gen_.multiplicative_order() == Base::totient())
+      {
+        gen_.set_log(1);
+        return gen_;
+      }
     }
     assert(!Base::is_field()); // can only reach this point when N is not prime
-    return gen_=1;
+    return gen_ = 1;
   }
 
   //: Return the r-th power of this number.
-  inline Base pow(int r) {
-    r %= Base::totient(); if (r<0) r += Base::totient();
-    if (r==0) return 1; if (r==1) return *this;
-    Base y = 1, z = *this; int s=r; while (s!=0) { if (s%2) y*=z; s/=2; z*=z; }
-    if (lp1_ != 0) y.set_log(r*(lp1_-1));
+  inline Base
+  pow(int r)
+  {
+    r %= Base::totient();
+    if (r < 0)
+      r += Base::totient();
+    if (r == 0)
+      return 1;
+    if (r == 1)
+      return *this;
+    Base y = 1;
+    Base z = *this;
+    int s = r;
+    while (s != 0)
+    {
+      if (s % 2)
+        y *= z;
+      s /= 2;
+      z *= z;
+    }
+    if (lp1_ != 0)
+      y.set_log(r * (lp1_ - 1));
     return y;
   }
 
   //: Return the smallest nonnegative exponent r for which x=g^r, where g is the smallest generator.
-  unsigned int log() const {
-    if (is_zero_divisor()) return -1; // should actually return minus infinity
-    if (lp1_ != 0) return lp1_-1;
-    Base z = smallest_generator();
-    assert(N==2||z!=1); // otherwise, the units of this ring do not form a cyclic group
+  unsigned int
+  log() const
+  {
+    if (is_zero_divisor())
+      return -1; // should actually return minus infinity
+    if (lp1_ != 0)
+      return lp1_ - 1;
+    const Base z = smallest_generator();
+    assert(N == 2 || z != 1); // otherwise, the units of this ring do not form a cyclic group
     Base y = 1;
-    for (lp1_=1; lp1_<=N; ++lp1_) {
-      if (y == *this) return lp1_-1;
+    for (lp1_ = 1; lp1_ <= N; ++lp1_)
+    {
+      if (y == *this)
+        return lp1_ - 1;
       y *= z;
     }
     return -1; // should never reach this point
   }
 
   //: Return the inverse of log(), i.e., return g^r where g is the smallest generator.
-  static inline Base exp(int r) {
+  static inline Base
+  exp(int r)
+  {
     Base z = smallest_generator();
-    assert(N==2||z!=1); // otherwise, the units of this ring do not form a cyclic group
+    assert(N == 2 || z != 1); // otherwise, the units of this ring do not form a cyclic group
     return z.pow(r);
   }
 
   //: Calculate the greatest common divisor of l and N.
-  static inline unsigned int gcd(unsigned int l, unsigned int n) {
+  static inline unsigned int
+  gcd(unsigned int l, unsigned int n)
+  {
     unsigned int l1 = n;
-    while (l!=0) { unsigned int t = l; l = l1 % l; l1 = t; }
+    while (l != 0)
+    {
+      const unsigned int t = l;
+      l = l1 % l;
+      l1 = t;
+    }
     return l1;
   }
-  static inline unsigned int gcd(unsigned int l) { return gcd(l, N); }
+  static inline unsigned int
+  gcd(unsigned int l)
+  {
+    return gcd(l, N);
+  }
 
- private:
+private:
   //: private function to set cached value of lp1_ when available
-  void set_log(unsigned int r) const { r %= Base::totient(); lp1_ = r+1; }
+  void
+  set_log(unsigned int r) const
+  {
+    r %= Base::totient();
+    lp1_ = r + 1;
+  }
 
-  mutable unsigned int mo_{0};  //!< cached value for multiplicative order
-  mutable unsigned int lp1_{0}; //!< cached value for 1+log()
+  mutable unsigned int mo_{ 0 };  //!< cached value for multiplicative order
+  mutable unsigned int lp1_{ 0 }; //!< cached value for 1+log()
 };
 
 //: formatted output
 // \relatesalso vnl_finite_int
 template <int N>
-inline std::ostream& operator<< (std::ostream& s, vnl_finite_int<N> const& r)
+inline std::ostream &
+operator<<(std::ostream & s, const vnl_finite_int<N> & r)
 {
   return s << int(r);
 }
@@ -282,141 +565,193 @@ inline std::ostream& operator<< (std::ostream& s, vnl_finite_int<N> const& r)
 //: simple input
 // \relatesalso vnl_finite_int
 template <int N>
-inline std::istream& operator>> (std::istream& s, vnl_finite_int<N>& r)
+inline std::istream &
+operator>>(std::istream & s, vnl_finite_int<N> & r)
 {
-  int n; s >> n; r=n; return s;
+  int n;
+  s >> n;
+  r = n;
+  return s;
 }
 
 //: Returns the sum of two finite int numbers.
 // \relatesalso vnl_finite_int
 template <int N>
-inline vnl_finite_int<N> operator+ (vnl_finite_int<N> const& r1, vnl_finite_int<N> const& r2)
+inline vnl_finite_int<N>
+operator+(const vnl_finite_int<N> & r1, const vnl_finite_int<N> & r2)
 {
-  vnl_finite_int<N> result(r1); return result += r2;
+  vnl_finite_int<N> result(r1);
+  return result += r2;
 }
 
 //: Returns the sum of two finite int numbers.
 // \relatesalso vnl_finite_int
 template <int N>
-inline vnl_finite_int<N> operator+ (vnl_finite_int<N> const& r1, int r2)
+inline vnl_finite_int<N>
+operator+(const vnl_finite_int<N> & r1, int r2)
 {
-  vnl_finite_int<N> result(r1); return result += r2;
+  vnl_finite_int<N> result(r1);
+  return result += r2;
 }
 
 //: Returns the sum of two finite int numbers.
 // \relatesalso vnl_finite_int
 template <int N>
-inline vnl_finite_int<N> operator+ (int r2, vnl_finite_int<N> const& r1)
+inline vnl_finite_int<N>
+operator+(int r2, const vnl_finite_int<N> & r1)
 {
-  vnl_finite_int<N> result(r1); return result += r2;
+  vnl_finite_int<N> result(r1);
+  return result += r2;
 }
 
 //: Returns the difference of two finite int numbers.
 // \relatesalso vnl_finite_int
 template <int N>
-inline vnl_finite_int<N> operator- (vnl_finite_int<N> const& r1, vnl_finite_int<N> const& r2)
+inline vnl_finite_int<N>
+operator-(const vnl_finite_int<N> & r1, const vnl_finite_int<N> & r2)
 {
-  vnl_finite_int<N> result(r1); return result -= r2;
+  vnl_finite_int<N> result(r1);
+  return result -= r2;
 }
 
 //: Returns the difference of two finite int numbers.
 // \relatesalso vnl_finite_int
 template <int N>
-inline vnl_finite_int<N> operator- (vnl_finite_int<N> const& r1, int r2)
+inline vnl_finite_int<N>
+operator-(const vnl_finite_int<N> & r1, int r2)
 {
-  vnl_finite_int<N> result(r1); return result -= r2;
+  vnl_finite_int<N> result(r1);
+  return result -= r2;
 }
 
 //: Returns the difference of two finite int numbers.
 // \relatesalso vnl_finite_int
 template <int N>
-inline vnl_finite_int<N> operator- (int r2, vnl_finite_int<N> const& r1)
+inline vnl_finite_int<N>
+operator-(int r2, const vnl_finite_int<N> & r1)
 {
-  vnl_finite_int<N> result(-r1); return result += r2;
+  vnl_finite_int<N> result(-r1);
+  return result += r2;
 }
 
 //: Returns the product of two finite int numbers.
 // \relatesalso vnl_finite_int
 template <int N>
-inline vnl_finite_int<N> operator* (vnl_finite_int<N> const& r1, vnl_finite_int<N> const& r2)
+inline vnl_finite_int<N>
+operator*(const vnl_finite_int<N> & r1, const vnl_finite_int<N> & r2)
 {
-  vnl_finite_int<N> result(r1); return result *= r2;
+  vnl_finite_int<N> result(r1);
+  return result *= r2;
 }
 
 //: Returns the product of two finite int numbers.
 // \relatesalso vnl_finite_int
 template <int N>
-inline vnl_finite_int<N> operator* (vnl_finite_int<N> const& r1, int r2)
+inline vnl_finite_int<N>
+operator*(const vnl_finite_int<N> & r1, int r2)
 {
-  vnl_finite_int<N> result(r1); return result *= r2;
+  vnl_finite_int<N> result(r1);
+  return result *= r2;
 }
 
 //: Returns the product of two finite int numbers.
 // \relatesalso vnl_finite_int
 template <int N>
-inline vnl_finite_int<N> operator* (int r2, vnl_finite_int<N> const& r1)
+inline vnl_finite_int<N>
+operator*(int r2, const vnl_finite_int<N> & r1)
 {
-  vnl_finite_int<N> result(r1); return result *= r2;
+  vnl_finite_int<N> result(r1);
+  return result *= r2;
 }
 
 //: Returns the quotient of two finite int numbers.
 //  Uses r2.reciproc() for efficient computation.
 // \relatesalso vnl_finite_int
 template <int N>
-inline vnl_finite_int<N> operator/(vnl_finite_int<N> const& r1, vnl_finite_int<N> const& r2)
+inline vnl_finite_int<N>
+operator/(const vnl_finite_int<N> & r1, const vnl_finite_int<N> & r2)
 {
-  assert(r2.is_unit()); return r1 == 0 ? vnl_finite_int<N>(0) : r1*r2.reciproc();
+  assert(r2.is_unit());
+  return r1 == 0 ? vnl_finite_int<N>(0) : r1 * r2.reciproc();
 }
 
 //: Returns the quotient of two finite int numbers.
 // \relatesalso vnl_finite_int
 template <int N>
-inline vnl_finite_int<N> operator/ (vnl_finite_int<N> const& r1, int r2)
+inline vnl_finite_int<N>
+operator/(const vnl_finite_int<N> & r1, int r2)
 {
-  vnl_finite_int<N> result(r1); return result /= r2;
+  vnl_finite_int<N> result(r1);
+  return result /= r2;
 }
 
 //: Returns the quotient of two finite int numbers.
 // \relatesalso vnl_finite_int
 template <int N>
-inline vnl_finite_int<N> operator/ (int r1, vnl_finite_int<N> const& r2)
+inline vnl_finite_int<N>
+operator/(int r1, const vnl_finite_int<N> & r2)
 {
-  vnl_finite_int<N> result(r1); return result /= r2;
+  vnl_finite_int<N> result(r1);
+  return result /= r2;
 }
 
 //:
 // \relatesalso vnl_finite_int
 template <int N>
-inline bool operator== (int  r1, vnl_finite_int<N> const& r2) { return r2==r1; }
+inline bool
+operator==(int r1, const vnl_finite_int<N> & r2)
+{
+  return r2 == r1;
+}
 
 //:
 // \relatesalso vnl_finite_int
 template <int N>
-inline bool operator!= (int  r1, vnl_finite_int<N> const& r2) { return r2!=r1; }
+inline bool
+operator!=(int r1, const vnl_finite_int<N> & r2)
+{
+  return r2 != r1;
+}
 
 namespace vnl_math
 {
-  //:
-  // \relatesalso vnl_finite_int
-  template <int N>
-  inline vnl_finite_int<N> squared_magnitude(vnl_finite_int<N> const& x) { return x*x; }
+//:
+// \relatesalso vnl_finite_int
+template <int N>
+inline vnl_finite_int<N>
+squared_magnitude(const vnl_finite_int<N> & x)
+{
+  return x * x;
+}
 
-  //:
-  // \relatesalso vnl_finite_int
-  template <int N>
-  inline vnl_finite_int<N> sqr(vnl_finite_int<N> const& x) { return x*x; }
+//:
+// \relatesalso vnl_finite_int
+template <int N>
+inline vnl_finite_int<N>
+sqr(const vnl_finite_int<N> & x)
+{
+  return x * x;
+}
 
-  //:
-  // \relatesalso vnl_finite_int
-  template <int N>
-  inline bool isnan(vnl_finite_int<N> const& ) {return false;}
+//:
+// \relatesalso vnl_finite_int
+template <int N>
+inline bool
+isnan(const vnl_finite_int<N> &)
+{
+  return false;
+}
 
-  //:
-  // \relatesalso vnl_finite_int
-  template <int N>
-  inline bool isfinite(vnl_finite_int<N> const& ) {return true;}
+//:
+// \relatesalso vnl_finite_int
+template <int N>
+inline bool
+isfinite(const vnl_finite_int<N> &)
+{
+  return true;
+}
 
- } // end namespace vnl_math
+} // end namespace vnl_math
 
 //: finite modulo-N arithmetic with polynomials of degree < M
 //
@@ -435,159 +770,283 @@ namespace vnl_math
 template <int N, int M>
 class vnl_finite_int_poly
 {
-  typedef vnl_finite_int_poly<N,M> Base;
+  typedef vnl_finite_int_poly<N, M> Base;
   typedef vnl_finite_int<N> Scalar;
 
   std::vector<Scalar> val_; //!< M-tuple (or degree M-1 polynomial) representing this
 
   // This essentially implements std::pow(N,int) which is not always available
-  static unsigned int Ntothe(unsigned int m) { return m==0?1:m==1?N:Ntothe(m/2)*Ntothe((m+1)/2); }
- public:
+  static unsigned int
+  Ntothe(unsigned int m)
+  {
+    return m == 0 ? 1 : m == 1 ? N : Ntothe(m / 2) * Ntothe((m + 1) / 2);
+  }
+
+public:
   //: The number of different finite_int polynomials of this type
-  static unsigned int cardinality() { return Ntothe(M); }
+  static unsigned int
+  cardinality()
+  {
+    return Ntothe(M);
+  }
 
   //: Creates a general finite_int_poly.
-  inline vnl_finite_int_poly(std::vector<Scalar> p) : val_(std::move(p)) {
+  inline vnl_finite_int_poly(std::vector<Scalar> p)
+    : val_(std::move(p))
+  {
     static_assert(N > 1, "N must be > 1");
     static_assert(M > 0, "M must be > 0");
     assert(val_.size() <= M);
   }
   //: Creates a degree 0 finite_int_poly.
-  inline vnl_finite_int_poly(Scalar const& n) : val_(std::vector<Scalar>(1)) { assert(N>1); assert(M>0); val_[0]=n; }
+  inline vnl_finite_int_poly(const Scalar & n)
+    : val_(std::vector<Scalar>(1))
+  {
+    assert(N > 1);
+    assert(M > 0);
+    val_[0] = n;
+  }
   //: Default constructor. Creates a degree 0 finite_int_poly equal to 0.
-  inline vnl_finite_int_poly() : val_(std::vector<Scalar>(1)) { assert(N>1); assert(M>0); val_[0]=0; }
+  inline vnl_finite_int_poly()
+    : val_(std::vector<Scalar>(1))
+  {
+    assert(N > 1);
+    assert(M > 0);
+    val_[0] = 0;
+  }
   //  Copy constructor
-  inline vnl_finite_int_poly(Base const& x) : val_(x.val_) {}
+  inline vnl_finite_int_poly(const Base & x)
+    : val_(x.val_)
+  {}
   //  Destructor
   inline ~vnl_finite_int_poly() = default;
 
   //: Formal degree of this polynomial
-  inline std::size_t deg() const { return val_.size() - 1; }
+  inline std::size_t
+  deg() const
+  {
+    return val_.size() - 1;
+  }
 
   //: Effective degree of this polynomial; equals -1 when this polynomial is 0.
-  int degree() const { for (int i=deg(); i>=0; --i) if (val_[i]!=0) return i; return -1; }
+  int
+  degree() const
+  {
+    for (int i = deg(); i >= 0; --i)
+      if (val_[i] != 0)
+        return i;
+    return -1;
+  }
 
   //: Access to individual coefficients
-  inline Scalar operator[](unsigned int i) const { assert(i<M); return i<=deg() ? val_[i] : Scalar(0); }
+  inline Scalar
+  operator[](unsigned int i) const
+  {
+    assert(i < M);
+    return i <= deg() ? val_[i] : Scalar(0);
+  }
 
   //: Assignment
-  inline Base& operator=(Base const& x) { val_ = x.val_; return *this; }
-  inline Base& operator=(Scalar const& n) { val_ = std::vector<Scalar>(1); val_[0] = n; return *this; }
+  inline Base &
+  operator=(const Base & x) = default;
+  inline Base &
+  operator=(const Scalar & n)
+  {
+    val_ = std::vector<Scalar>(1);
+    val_[0] = n;
+    return *this;
+  }
 
   //: Comparison of finite int polys.
-  bool operator==(Base const& x) const {
-    for (unsigned int i=0; i<=deg(); ++i)
-      if (val_[i] != x[i]) return false;
-    for (unsigned int i=deg()+1; i<=x.deg(); ++i)
-      if (x[i] != 0) return false;
+  bool
+  operator==(const Base & x) const
+  {
+    for (unsigned int i = 0; i <= deg(); ++i)
+      if (val_[i] != x[i])
+        return false;
+    for (unsigned int i = deg() + 1; i <= x.deg(); ++i)
+      if (x[i] != 0)
+        return false;
     return true;
   }
-  inline bool operator!=(Base const& x) const { return !operator==(x); }
-  bool operator==(Scalar const& x) const {
-    if (x!=val_[0]) return false;
-    for (unsigned int i=1; i<=deg(); ++i) if (val_[i] != 0) return false;
+  inline bool
+  operator!=(const Base & x) const
+  {
+    return !operator==(x);
+  }
+  bool
+  operator==(const Scalar & x) const
+  {
+    if (x != val_[0])
+      return false;
+    for (unsigned int i = 1; i <= deg(); ++i)
+      if (val_[i] != 0)
+        return false;
     return true;
   }
-  inline bool operator!=(Scalar const& x) const { return !operator==(x); }
+  inline bool
+  operator!=(const Scalar & x) const
+  {
+    return !operator==(x);
+  }
 
   //: Unary minus - returns the additive inverse
-  Base operator-() const { std::vector<Scalar> p = val_; for (unsigned int i=0; i<p.size(); ++i) p[i]=-p[i]; return p; }
+  Base
+  operator-() const
+  {
+    std::vector<Scalar> p = val_;
+    for (unsigned int i = 0; i < p.size(); ++i)
+      p[i] = -p[i];
+    return p;
+  }
   //: Unary plus - returns the current polynomial
-  inline Base operator+() const { return *this; }
+  inline Base
+  operator+() const
+  {
+    return *this;
+  }
   //: Unary not - returns true if finite int poly is equal to zero.
-  bool operator!() const { for (unsigned int i=0; i<=deg(); ++i) if (val_[i] != 0) return false; return true; }
+  bool
+  operator!() const
+  {
+    for (unsigned int i = 0; i <= deg(); ++i)
+      if (val_[i] != 0)
+        return false;
+    return true;
+  }
 
   //: Plus&assign: replace lhs by lhs + rhs
-  Base& operator+=(Base const& r) {
-    for (unsigned int i=0; i<=r.deg(); ++i)
-      if (i<=deg()) val_[i] += r[i];
-      else          val_.push_back(r[i]);
+  Base &
+  operator+=(const Base & r)
+  {
+    for (unsigned int i = 0; i <= r.deg(); ++i)
+      if (i <= deg())
+        val_[i] += r[i];
+      else
+        val_.push_back(r[i]);
     return *this;
   }
   //: Minus&assign: replace lhs by lhs - rhs
-  Base& operator-=(Base const& r) {
-    for (unsigned int i=0; i<=r.deg(); ++i)
-      if (i<=deg()) val_[i] -= r[i];
-      else          val_.push_back(-r[i]);
+  Base &
+  operator-=(const Base & r)
+  {
+    for (unsigned int i = 0; i <= r.deg(); ++i)
+      if (i <= deg())
+        val_[i] -= r[i];
+      else
+        val_.push_back(-r[i]);
     return *this;
   }
 
   //: Scalar multiple of this
-  Base& operator*=(Scalar const& n) { for (unsigned int i=0; i<=deg(); ++i) val_[i] *= n; return *this; }
+  Base &
+  operator*=(const Scalar & n)
+  {
+    for (unsigned int i = 0; i <= deg(); ++i)
+      val_[i] *= n;
+    return *this;
+  }
 
   //: The additive order of x is the smallest positive r such that r*x == 0.
-  unsigned int additive_order() const {
+  unsigned int
+  additive_order() const
+  {
     unsigned int r = N;
-    for (unsigned int i=0; i<=deg(); ++i)
-      if (val_[i] != 0) r=Scalar::gcd(val_[i],r);
-    return N/r;
+    for (unsigned int i = 0; i <= deg(); ++i)
+      if (val_[i] != 0)
+        r = Scalar::gcd(val_[i], r);
+    return N / r;
   }
 
   //: get/set the (irreducible) modulo polynomial of degree M
   //  Note that this polynomial has to be set only once, i.e., once set,
   //  it applies to all vnl_finite_int_polys with the same N and M.
-  static std::vector<Scalar>& modulo_polynomial(std::vector<Scalar> p = std::vector<Scalar>())
+  static std::vector<Scalar> &
+  modulo_polynomial(std::vector<Scalar> p = std::vector<Scalar>())
   {
-    static std::vector<Scalar> poly_(M+1, Scalar(0));
-    if (p.empty()) {         // retrieval
+    static std::vector<Scalar> poly_(M + 1, Scalar(0));
+    if (p.empty())
+    {                        // retrieval
       assert(poly_[M] != 0); // cannot retrieve before having set
-    } else {
-      assert(p.size() == M+1 && p[M].is_unit());// must be of effective degree M
+    }
+    else
+    {
+      assert(p.size() == M + 1 && p[M].is_unit()); // must be of effective degree M
       // Now set poly_, thereby making the coefficient poly_[M] equal to -1.
-      Scalar f = -1/p[M];
-      for (int m=0; m<=M; ++m) poly_[m] = f*p[m];
+      const Scalar f = -1 / p[M];
+      for (int m = 0; m <= M; ++m)
+        poly_[m] = f * p[m];
     }
     return poly_;
   }
 
   //: Multiply&assign: replace lhs by lhs * rhs, modulo the "modulo" polynomial
-  Base& operator*=(Base const& r) {
-    Base x = *this; *this = r; *this *= x[0];
-    while (val_.size() < M) val_.push_back(0);
-    for (int i=1; i<=x.degree(); ++i)
-      for (unsigned int j=0; j<=r.deg(); ++j)
-        add_modulo_poly(i+j, x[i]*r[j]);
+  Base &
+  operator*=(const Base & r)
+  {
+    const Base x = *this;
+    *this = r;
+    *this *= x[0];
+    while (val_.size() < M)
+      val_.push_back(0);
+    for (int i = 1; i <= x.degree(); ++i)
+      for (unsigned int j = 0; j <= r.deg(); ++j)
+        add_modulo_poly(i + j, x[i] * r[j]);
     return *this;
   }
 
   //: Return the multiplicative order of this polynomial.
-  inline unsigned int multiplicative_order() const {
+  inline unsigned int
+  multiplicative_order() const
+  {
     Base t = Scalar(1);
     unsigned int order = 0;
-    do t *= *this, ++order; while (t != Scalar(1) && t != Scalar(0));
-    return t==Scalar(1) ? order : -1;
+    do
+      t *= *this, ++order;
+    while (t != Scalar(1) && t != Scalar(0));
+    return t == Scalar(1) ? order : -1;
   }
 
   //: Return true when this ring is a field.
   //  Note that this requires that N is a prime, but that condition is not
   //  sufficient: also the "modulo" polynomial must be irreducible.
-  static inline bool is_field() {
-    if (!Scalar::is_field()) return false;
+  static inline bool
+  is_field()
+  {
+    if (!Scalar::is_field())
+      return false;
 
     std::vector<Scalar> mod_p = Base::modulo_polynomial();
     mod_p.pop_back(); // remove the "-1" coefficient of X^M
-    return Base(mod_p).multiplicative_order()+1 == Base::cardinality();
+    return Base(mod_p).multiplicative_order() + 1 == Base::cardinality();
   }
 
   //: Return the smallest multiplicative generator of the units in this ring.
   //  This is only possible if the units form a cyclic group for multiplication.
   //  If not, smallest_generator() returns 1 to indicate this fact.
   //  Note that the multiplication group of a finite \e field is always cyclic.
-  static Base smallest_generator() {
-    if (!Base::is_field()) return Scalar(1);
+  static Base
+  smallest_generator()
+  {
+    if (!Base::is_field())
+      return Scalar(1);
     std::vector<Scalar> mod_p = Base::modulo_polynomial();
     mod_p.pop_back(); // remove the "-1" coefficient of X^M
     return Base(mod_p);
   }
 
- private:
+private:
   //: Add x to the i-th degree coefficient of val_, possibly reducing modulo the "modulo" poly.
-  void add_modulo_poly(unsigned int m, Scalar const& x)
+  void
+  add_modulo_poly(unsigned int m, const Scalar & x)
   {
-    if (m < M) val_[m] += x;
-    else {
+    if (m < M)
+      val_[m] += x;
+    else
+    {
       std::vector<Scalar> p = modulo_polynomial(); // where p[M] == -1
-      for (int k=0; k<M; ++k) add_modulo_poly(m-M+k, x*p[k]); // recursive call
+      for (int k = 0; k < M; ++k)
+        add_modulo_poly(m - M + k, x * p[k]); // recursive call
     }
   }
 };
@@ -595,35 +1054,43 @@ class vnl_finite_int_poly
 //: Returns the sum of two finite int polynomials.
 // \relatesalso vnl_finite_int_poly
 template <int N, int M>
-inline vnl_finite_int_poly<N,M> operator+ (vnl_finite_int_poly<N,M> const& r1, vnl_finite_int_poly<N,M> const& r2)
+inline vnl_finite_int_poly<N, M>
+operator+(const vnl_finite_int_poly<N, M> & r1, const vnl_finite_int_poly<N, M> & r2)
 {
-  vnl_finite_int_poly<N,M> result=r1; return result += r2;
+  vnl_finite_int_poly<N, M> result = r1;
+  return result += r2;
 }
 
 //: Returns the difference of two finite int polynomials.
 // \relatesalso vnl_finite_int_poly
 template <int N, int M>
-inline vnl_finite_int_poly<N,M> operator- (vnl_finite_int_poly<N,M> const& r1, vnl_finite_int_poly<N,M> const& r2)
+inline vnl_finite_int_poly<N, M>
+operator-(const vnl_finite_int_poly<N, M> & r1, const vnl_finite_int_poly<N, M> & r2)
 {
-  vnl_finite_int_poly<N,M> result=r1; return result -= r2;
+  vnl_finite_int_poly<N, M> result = r1;
+  return result -= r2;
 }
 
 //: Returns a scalar multiple of a finite int polynomial.
 // \relatesalso vnl_finite_int
 // \relatesalso vnl_finite_int_poly
 template <int N, int M>
-inline vnl_finite_int_poly<N,M> operator* (vnl_finite_int_poly<N,M> const& r1, vnl_finite_int<N> const& r2)
+inline vnl_finite_int_poly<N, M>
+operator*(const vnl_finite_int_poly<N, M> & r1, const vnl_finite_int<N> & r2)
 {
-  vnl_finite_int_poly<N,M> result(r1); return result *= r2;
+  vnl_finite_int_poly<N, M> result(r1);
+  return result *= r2;
 }
 
 //: Returns a scalar multiple of a finite int polynomial.
 // \relatesalso vnl_finite_int
 // \relatesalso vnl_finite_int_poly
 template <int N, int M>
-inline vnl_finite_int_poly<N,M> operator* (vnl_finite_int<N> const& r2, vnl_finite_int_poly<N,M> const& r1)
+inline vnl_finite_int_poly<N, M>
+operator*(const vnl_finite_int<N> & r2, const vnl_finite_int_poly<N, M> & r1)
 {
-  vnl_finite_int_poly<N,M> result(r1); return result *= r2;
+  vnl_finite_int_poly<N, M> result(r1);
+  return result *= r2;
 }
 
 //: Multiplies two finite int polynomials.
@@ -631,26 +1098,36 @@ inline vnl_finite_int_poly<N,M> operator* (vnl_finite_int<N> const& r2, vnl_fini
 //  Do this by calling modulo_polynomial(p), where p is a vector of length M+1.
 // \relatesalso vnl_finite_int_poly
 template <int N, int M>
-inline vnl_finite_int_poly<N,M> operator* (vnl_finite_int_poly<N,M> const& r1, vnl_finite_int_poly<N,M> const& r2)
+inline vnl_finite_int_poly<N, M>
+operator*(const vnl_finite_int_poly<N, M> & r1, const vnl_finite_int_poly<N, M> & r2)
 {
-  vnl_finite_int_poly<N,M> result(r1); return result *= r2;
+  vnl_finite_int_poly<N, M> result(r1);
+  return result *= r2;
 }
 
 //: formatted output
 // \relatesalso vnl_finite_int_poly
 template <int N, int M>
-inline std::ostream& operator<< (std::ostream& s, vnl_finite_int_poly<N,M> const& r)
+inline std::ostream &
+operator<<(std::ostream & s, const vnl_finite_int_poly<N, M> & r)
 {
   bool out = false;
-  for (unsigned int i=0; i<=r.deg(); ++i) {
-    if (r[i] == 0) continue;
-    if (out) s << '+';
+  for (unsigned int i = 0; i <= r.deg(); ++i)
+  {
+    if (r[i] == 0)
+      continue;
+    if (out)
+      s << '+';
     out = true;
-    if (r[i] != 1 || i==0) s << r[i];
-    if (i>0) s << 'X';
-    if (i>1) s << '^' << i;
+    if (r[i] != 1 || i == 0)
+      s << r[i];
+    if (i > 0)
+      s << 'X';
+    if (i > 1)
+      s << '^' << i;
   }
-  if (!out) s << '0';
+  if (!out)
+    s << '0';
   return s;
 }
 

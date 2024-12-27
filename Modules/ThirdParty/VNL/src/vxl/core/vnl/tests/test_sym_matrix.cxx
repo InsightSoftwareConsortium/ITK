@@ -14,7 +14,12 @@ test_int()
   // CONSTRUCTORS //
   //////////////////
 
+#if VNL_CONFIG_CHECK_BOUNDS
+  // ssm1 must be mutable for VNL_CONFIG_CHECK_BOUNDS
   vnl_sym_matrix<int> sm1(2);
+#else
+  const vnl_sym_matrix<int> sm1(2);
+#endif
   TEST("\n\nvnl_sym_matrix<int> m1(2)", (sm1.rows() == 2 && sm1.columns() == 2), true);
   vnl_sym_matrix<int> sm2(2, 2);
   TEST(
@@ -59,7 +64,7 @@ test_int()
   TEST("operator ==", (sm5 == sm6 && !(sm5 == sm4) && !(sm4 == sm3)), true);
   std::cout << "sm4 sm3\n" << sm4 << std::endl << sm3 << std::endl << std::endl;
 
-  vnl_vector<int> v1(2, 5);
+  const vnl_vector<int> v1(2, 5);
   sm5.set_half_row(v1, 1);
   TEST("set_half_row",
        (sm5(0, 0) == 0 && sm5(0, 1) == 5 && sm5(0, 2) == 0 && sm5(1, 0) == 5 && sm5(1, 1) == 5 && sm5(1, 2) == 2 &&

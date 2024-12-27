@@ -16,7 +16,7 @@ struct vnl_rosenbrock : public vnl_least_squares_function
   {}
 
   void
-  f(vnl_vector<double> const & x, vnl_vector<double> & y) override
+  f(const vnl_vector<double> & x, vnl_vector<double> & y) override
   {
     TEST("size of x", x.size(), 2);
     TEST("size of y", y.size(), 2);
@@ -25,7 +25,7 @@ struct vnl_rosenbrock : public vnl_least_squares_function
   }
 
   void
-  gradf(vnl_vector<double> const & x, vnl_matrix<double> & J) override
+  gradf(const vnl_vector<double> & x, vnl_matrix<double> & J) override
   {
     TEST("size of x", x.size(), 2);
     TEST("size of J", J.rows() == 2 && J.cols() == 2, true);
@@ -38,23 +38,22 @@ struct vnl_rosenbrock : public vnl_least_squares_function
 
 struct linear_est : public vnl_least_squares_function
 {
-  linear_est(vnl_matrix<double> const &A, vnl_vector<double> b, bool with_grad)
-      : vnl_least_squares_function(A.cols(), A.rows(),
-                                   with_grad ? use_gradient : no_gradient)
-      , A_(A)
-      , b_(std::move(b))
+  linear_est(const vnl_matrix<double> & A, vnl_vector<double> b, bool with_grad)
+    : vnl_least_squares_function(A.cols(), A.rows(), with_grad ? use_gradient : no_gradient)
+    , A_(A)
+    , b_(std::move(b))
   {
     assert(A_.rows() == b_.size());
   }
 
   void
-  f(vnl_vector<double> const & x, vnl_vector<double> & y) override
+  f(const vnl_vector<double> & x, vnl_vector<double> & y) override
   {
     y = A_ * x - b_;
   }
 
   void
-  gradf(vnl_vector<double> const & /*x*/, vnl_matrix<double> & J) override
+  gradf(const vnl_vector<double> & /*x*/, vnl_matrix<double> & J) override
   {
     J = A_;
   }
@@ -68,7 +67,7 @@ do_rosenbrock_test(bool with_grad)
 {
   vnl_rosenbrock f(with_grad);
 
-  vnl_double_2 x0(2.7, -1.3);
+  const vnl_double_2 x0(2.7, -1.3);
   std::cout << "x0 = " << x0 << std::endl;
 
   vnl_levenberg_marquardt lm(f);
@@ -81,7 +80,7 @@ do_rosenbrock_test(bool with_grad)
   lm.diagnose_outcome(std::cout);
   std::cout << "x1 = " << x1 << std::endl;
 
-  double err = std::abs(x1[0] - 1) + std::abs(x1[1] - 1);
+  const double err = std::abs(x1[0] - 1) + std::abs(x1[1] - 1);
   std::cout << "err = " << err << std::endl;
   TEST_NEAR("converged to (1, 1)", err, 0.0, 1e-10);
 }
@@ -135,7 +134,7 @@ do_linear_test(bool with_grad)
   true_cov(0, 1) = 75;
   true_cov(1, 1) = 1384.14;
 
-  vnl_matrix<double> covar = lm.get_JtJ();
+  const vnl_matrix<double> covar = lm.get_JtJ();
   std::cout << "Cov(x) =\n" << covar << std::endl;
   TEST_NEAR("covariance approximation", (true_cov - covar).array_two_norm(), 0, 1e-5);
 }

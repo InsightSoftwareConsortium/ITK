@@ -20,19 +20,21 @@
 
 class VNL_EXPORT vnl_double_3x2 : public vnl_matrix_fixed<double, 3, 2>
 {
- private:
+private:
   typedef vnl_matrix_fixed<double, 3, 2> Base;
- public:
 
+public:
   vnl_double_3x2() = default;
 
-  vnl_double_3x2(double r00, double r01,
-                 double r10, double r11,
-                 double r20, double r21) {
-    vnl_double_3x2& M = *this;
-    M(0,0) = r00;    M(0,1) = r01;
-    M(1,0) = r10;    M(1,1) = r11;
-    M(2,0) = r20;    M(2,1) = r21;
+  vnl_double_3x2(double r00, double r01, double r10, double r11, double r20, double r21)
+  {
+    vnl_double_3x2 & M = *this;
+    M(0, 0) = r00;
+    M(0, 1) = r01;
+    M(1, 0) = r10;
+    M(1, 1) = r11;
+    M(2, 0) = r20;
+    M(2, 1) = r21;
   }
 };
 

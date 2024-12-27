@@ -65,7 +65,7 @@ angle_0_to_2pi(double angle)
   angle = std::fmod(angle, vnl_math::twopi);
   if (angle >= 0)
     return angle;
-  double a = angle + vnl_math::twopi;
+  const double a = angle + vnl_math::twopi;
   if (a > 0 && a < vnl_math::twopi)
     return a;
   // added by Nhon: this fixes a bug when angle >= -1.1721201390607859e-016 :

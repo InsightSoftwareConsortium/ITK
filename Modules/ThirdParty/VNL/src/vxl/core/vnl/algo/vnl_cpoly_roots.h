@@ -30,17 +30,17 @@
 class VNL_ALGO_EXPORT vnl_cpoly_roots
 {
 public:
-  vnl_cpoly_roots(vnl_vector<std::complex<double> > const & a);
-  vnl_cpoly_roots(vnl_vector<double> const & a_real,
-                  vnl_vector<double> const & a_imag);
+  vnl_cpoly_roots(const vnl_vector<std::complex<double>> & a);
+  vnl_cpoly_roots(const vnl_vector<double> & a_real, const vnl_vector<double> & a_imag);
 
   // the roots can be found in here :
-  vnl_vector<std::complex<double> > solns;
+  vnl_vector<std::complex<double>> solns;
 
 private:
-  unsigned N; //degree
+  unsigned N; // degree
   //: does the actual work
-  void compute(vnl_vector<std::complex<double> > const & a);
+  void
+  compute(const vnl_vector<std::complex<double>> & a);
 };
 
 #endif // vnl_cpoly_roots_h_

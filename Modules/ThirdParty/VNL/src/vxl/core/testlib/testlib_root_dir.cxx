@@ -19,17 +19,17 @@ testlib_root_dir()
 {
   char * ptr = std::getenv("VXLSRC");
   if (ptr)
-    return std::string(ptr);
+    return { ptr };
 
   ptr = std::getenv("VCLSRC");
   if (ptr)
-    return std::string(ptr);
+    return { ptr };
 
   ptr = std::getenv("VXL_SRC");
   if (ptr)
-    return std::string(ptr);
+    return { ptr };
 
-  return std::string(VCL_SOURCE_ROOT_DIR);
+  return { VCL_SOURCE_ROOT_DIR };
 
   // std::cerr<<"ERROR: testlib_root_dir() Unable to retrieve directory from\n"
   //      <<"$VCLSRC or $VXLSRC or $VXL_SRC.  Sorry.\n";

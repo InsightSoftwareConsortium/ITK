@@ -45,8 +45,8 @@ static void
 test_adjugate()
 {
   int data[] = { 1, -1, 1, -1, 1, 1, -1, -1, 1, 1, 1, 1, 1, -1, -1, 1 };
-  vnl_matrix<int> m(data, 4, 4);
-  vnl_matrix<int> m_adj = vnl_adjugate(m);
+  const vnl_matrix<int> m(data, 4, 4);
+  const vnl_matrix<int> m_adj = vnl_adjugate(m);
   vnl_matrix<int> identity(4, 4);
   identity.set_identity();
   TEST("vnl_adjugate", (m * m_adj - 16 * identity).array_inf_norm(), 0);
@@ -56,14 +56,14 @@ static void
 test_matrix_inverse()
 {
   double data[] = { 1., -1., 1., -1., 1., 1., -1., -1., 1., 1., 1., 1., 1., -1., -1., 1. };
-  vnl_matrix<double> m(data, 4, 4);
+  const vnl_matrix<double> m(data, 4, 4);
   vnl_svd_economy<double> svde(m);
   vnl_matrix<double> V = svde.V();
   vnl_svd<double> svd(m);
   vnl_matrix<double> V0 = svd.V();
   TEST_NEAR("vnl_svd_economy", V[0][1], V0[0][1], 1e-6);
 
-  vnl_matrix<double> inv{ vnl_matrix_inverse<double>(m).as_matrix() };
+  const vnl_matrix<double> inv{ vnl_matrix_inverse<double>(m).as_matrix() };
   vnl_matrix<double> identity(4, 4);
   identity.set_identity();
   TEST_NEAR("vnl_matrix_inverse", (m * inv - identity).array_inf_norm(), 0, 1e-6);
@@ -107,13 +107,14 @@ public:
     : vnl_cost_function(2)
   {}
   double
-  f(vnl_vector<double> const & x) override
+  f(const vnl_vector<double> & x) override
   {
-    double u = x[0] - x[1] * x[1], v = x[1] - 1;
+    const double u = x[0] - x[1] * x[1];
+    const double v = x[1] - 1;
     return u * u + v * v + 1;
   }
   void
-  gradf(vnl_vector<double> const & x, vnl_vector<double> & g) override
+  gradf(const vnl_vector<double> & x, vnl_vector<double> & g) override
   {
     g[0] = 2 * x[0] - 2 * x[1] * x[1];
     g[1] = 4 * x[1] * x[1] * x[1] - 4 * x[0] * x[1] + 2 * x[1] - 2;
@@ -128,12 +129,12 @@ public:
     : vnl_cost_function(1)
   {}
   double
-  f(vnl_vector<double> const &) override
+  f(const vnl_vector<double> &) override
   {
     return 0;
   }
   void
-  gradf(vnl_vector<double> const &, vnl_vector<double> & gradient) override
+  gradf(const vnl_vector<double> &, vnl_vector<double> & gradient) override
   {
     gradient[0] = 1;
   }
@@ -153,7 +154,7 @@ test_powell()
   F_broken fb;
   vnl_vector<double> x2(1, 0);
   vnl_conjugate_gradient cg2(fb);
-  bool rv = cg2.minimize(x2);
+  const bool rv = cg2.minimize(x2);
   TEST("vnl_conjugate_gradient on broken function should fail", rv, false);
 
 
@@ -215,7 +216,7 @@ public:
     : vnl_least_squares_function(2, 2, no_gradient)
   {}
   void
-  f(vnl_vector<double> const & x, vnl_vector<double> & fx) override
+  f(const vnl_vector<double> & x, vnl_vector<double> & fx) override
   {
     fx[0] = x[0] - x[1] * x[1];
     fx[1] = x[1] - 1;
@@ -226,7 +227,7 @@ static void
 test_discrete_diff()
 {
   F_test_discrete_diff f;
-  double h = 0.1;
+  const double h = 0.1;
   vnl_vector<double> x(2);
   x[0] = 5.0;
   x[1] = 9.0;
@@ -240,9 +241,14 @@ test_discrete_diff()
 static void
 test_generalized_schur()
 {
-  vnl_matrix<float> A(4, 4, 0.0f), B(4, 4, 0.0f), L(4, 4, 1.0f), R(4, 4, 1.0f);
-  vnl_vector<float> ar(4, 0.0f), ai(4, 0.0f), b(4, 0.0f);
-  bool r = vnl_generalized_schur(&A, &B, &ar, &ai, &b, &L, &R);
+  vnl_matrix<float> A(4, 4, 0.0f);
+  vnl_matrix<float> B(4, 4, 0.0f);
+  vnl_matrix<float> L(4, 4, 1.0f);
+  vnl_matrix<float> R(4, 4, 1.0f);
+  vnl_vector<float> ar(4, 0.0f);
+  vnl_vector<float> ai(4, 0.0f);
+  vnl_vector<float> b(4, 0.0f);
+  const bool r = vnl_generalized_schur(&A, &B, &ar, &ai, &b, &L, &R);
   TEST("vnl_generalized_schur", r, true);
 }
 

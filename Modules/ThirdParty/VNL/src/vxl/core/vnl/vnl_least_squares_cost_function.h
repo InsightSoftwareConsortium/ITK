@@ -22,17 +22,19 @@
 //: An adaptor that converts a vnl_least_squares_function to a vnl_cost_function
 class VNL_EXPORT vnl_least_squares_cost_function : public vnl_cost_function
 {
- public:
-  vnl_least_squares_cost_function(vnl_least_squares_function* f);
+public:
+  vnl_least_squares_cost_function(vnl_least_squares_function * f);
 
-  double f(const vnl_vector<double>& x) override;
+  double
+  f(const vnl_vector<double> & x) override;
 
-  void gradf(const vnl_vector<double>& x, vnl_vector<double>& gradient) override;
+  void
+  gradf(const vnl_vector<double> & x, vnl_vector<double> & gradient) override;
 
- protected:
+protected:
   vnl_vector<double> storage_;
   vnl_matrix<double> jacobian_;
-  vnl_least_squares_function* f_;
+  vnl_least_squares_function * f_;
 };
 
 #endif // vnl_least_squares_cost_function_h_

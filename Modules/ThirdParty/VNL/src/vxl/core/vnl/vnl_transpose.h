@@ -37,50 +37,72 @@
 
 class VNL_EXPORT vnl_transpose
 {
-  const vnl_matrix<double>& M_;
- public:
+  const vnl_matrix<double> & M_;
 
+public:
   //: Make a vnl_transpose object referring to matrix M
-  vnl_transpose(const vnl_matrix<double>& M): M_(M) {}
+  vnl_transpose(const vnl_matrix<double> & M)
+    : M_(M)
+  {}
 
   //: Noisily convert a vnl_transpose to a matrix
 
 
-#if ! VXL_USE_HISTORICAL_IMPLICIT_CONVERSIONS
-  explicit operator vnl_matrix<double> () const { return M_.transpose(); }
+#if !VXL_USE_HISTORICAL_IMPLICIT_CONVERSIONS
+  explicit
+  operator vnl_matrix<double>() const
+  {
+    return M_.transpose();
+  }
 #else
-#if VXL_LEGACY_FUTURE_REMOVE
-  VXL_DEPRECATED_MSG("Implicit cast conversion is dangerous.\nUSE: .as_matrix() or .as_ref() member function for clarity.")
-#endif
-  operator vnl_matrix<double> () const {
+#  if VXL_LEGACY_FUTURE_REMOVE
+  VXL_DEPRECATED_MSG(
+    "Implicit cast conversion is dangerous.\nUSE: .as_matrix() or .as_ref() member function for clarity.")
+#  endif
+  operator vnl_matrix<double>() const
+  {
     std::cerr << "vnl_transpose being converted to matrix -- help! I don't wanna go!\n";
     return M_.transpose();
   }
 #endif
 
-//: Quietly convert a vnl_transpose to a matrix
-vnl_matrix<double> as_matrix( ) const { return M_.transpose(); }
-#if ! VXL_LEGACY_FUTURE_REMOVE
+  //: Quietly convert a vnl_transpose to a matrix
+  vnl_matrix<double>
+  as_matrix() const
+  {
+    return M_.transpose();
+  }
+#if !VXL_LEGACY_FUTURE_REMOVE
   VXL_DEPRECATED_MSG("Deprecated inconsistent name.\nUSE: .as_matrix() new consistent name.")
-  vnl_matrix<double> asMatrix () const { return this->as_matrix(); }
+  vnl_matrix<double>
+  asMatrix() const
+  {
+    return this->as_matrix();
+  }
 #endif
 
   //: Return M' * O
-  vnl_matrix<double> operator* (const vnl_matrix<double>& O) {
+  vnl_matrix<double>
+  operator*(const vnl_matrix<double> & O)
+  {
     vnl_matrix<double> ret(M_.columns(), O.columns());
     vnl_fastops::AtB(ret, M_, O);
     return ret;
   }
 
   //: Return M' * O
-  vnl_vector<double> operator* (const vnl_vector<double>& O) {
+  vnl_vector<double>
+  operator*(const vnl_vector<double> & O)
+  {
     vnl_vector<double> ret(M_.columns());
     vnl_fastops::AtB(ret, M_, O);
     return ret;
   }
 
   //: Return A * B'
-  friend vnl_matrix<double> operator* (const vnl_matrix<double>& A, const vnl_transpose& B) {
+  friend vnl_matrix<double>
+  operator*(const vnl_matrix<double> & A, const vnl_transpose & B)
+  {
     vnl_matrix<double> ret(A.rows(), B.M_.rows());
     vnl_fastops::ABt(ret, A, B.M_);
     return ret;

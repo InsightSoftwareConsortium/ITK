@@ -3,7 +3,7 @@
 
 // MS compatible compilers support #pragma once
 #if defined(_MSC_VER)
-# pragma once
+#  pragma once
 #endif
 //:
 // \file
@@ -79,15 +79,15 @@
 //      are called driven by smart_ptr interface...
 //
 
-#if defined( __GNUC__ ) && ( defined( __i386__ ) || defined( __x86_64__ ) )
+#if defined(__GNUC__) && (defined(__i386__) || defined(__x86_64__))
 
-# include "internal/vcl_atomic_count_gcc_x86.h"
+#  include "internal/vcl_atomic_count_gcc_x86.h"
 
 #elif defined(WIN32) || defined(_WIN32) || defined(__WIN32__)
 
 #  include "internal/vcl_atomic_count_win32.h"
 
-#elif defined( __GNUC__ ) && ( __GNUC__ * 100 + __GNUC_MINOR__ >= 401 )
+#elif defined(__GNUC__) && (__GNUC__ * 100 + __GNUC_MINOR__ >= 401)
 
 #  include "internal/vcl_atomic_count_sync.h"
 
@@ -103,7 +103,7 @@
 #else
 
 // Use #define BOOST_DISABLE_THREADS to avoid the error
-#error Unrecognized threading platform
+#  error Unrecognized threading platform
 
 #endif
 

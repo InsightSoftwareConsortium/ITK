@@ -3,10 +3,14 @@
 #define vnl_algo_fwd_h_
 
 
-template <class T> struct vnl_matrix_inverse;
-template <class T> class vnl_svd;
-template <class T> class vnl_qr;
-template <class T> class vnl_symmetric_eigensystem;
+template <class T>
+struct vnl_matrix_inverse;
+template <class T>
+class vnl_svd;
+template <class T>
+class vnl_qr;
+template <class T>
+class vnl_symmetric_eigensystem;
 struct vnl_amoeba_SimplexCorner;
 class vnl_cholesky;
 class vnl_complex_eigensystem;

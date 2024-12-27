@@ -44,13 +44,13 @@ distance_squared(const std::vector<vnl_vector<T>> & s1,
   vnl_vector<double> stats(nstests);
   for (unsigned st = 0; st < nstests; ++st)
   {
-    std::clock_t t0 = std::clock();
+    const std::clock_t t0 = std::clock();
     for (int l = 0; l < n_loops; ++l)
     {
       for (unsigned i = 0; i < d.size(); ++i)
         d[i] = vnl_vector_ssd(s1[i], s2[i]);
     }
-    std::clock_t t1 = std::clock();
+    const std::clock_t t1 = std::clock();
     stats[st] = (1e9 * ((double(t1) - double(t0))) / ((double)n_loops * (double)CLOCKS_PER_SEC));
   }
   std::sort(stats.begin(), stats.end());
@@ -68,13 +68,13 @@ dot_product(const std::vector<vnl_vector<T>> & s1,
   vnl_vector<double> stats(nstests);
   for (unsigned st = 0; st < nstests; ++st)
   {
-    std::clock_t t0 = std::clock();
+    const std::clock_t t0 = std::clock();
     for (int l = 0; l < n_loops; ++l)
     {
       for (unsigned i = 0; i < d.size(); ++i)
         d[i] = dot_product(s1[i], s2[i]);
     }
-    std::clock_t t1 = std::clock();
+    const std::clock_t t1 = std::clock();
     stats[st] = (1e9 * ((double(t1) - double(t0))) / ((double)n_loops * (double)CLOCKS_PER_SEC));
   }
   std::sort(stats.begin(), stats.end());
@@ -89,13 +89,13 @@ mat_x_vec(const vnl_matrix<T> & s1, const std::vector<vnl_vector<T>> & s2, int n
   vnl_vector<double> stats(nstests);
   for (unsigned st = 0; st < nstests; ++st)
   {
-    std::clock_t t0 = std::clock();
+    const std::clock_t t0 = std::clock();
     for (int l = 0; l < n_loops; ++l)
     {
       for (unsigned i = 0; i < s2.size(); ++i)
         s1 * s2[i];
     }
-    std::clock_t t1 = std::clock();
+    const std::clock_t t1 = std::clock();
     stats[st] = (1e6 * ((double(t1) - double(t0))) / ((double)n_loops * (double)CLOCKS_PER_SEC));
   }
   std::sort(stats.begin(), stats.end());
@@ -110,13 +110,13 @@ vec_x_mat(const std::vector<vnl_vector<T>> & s1, const vnl_matrix<T> & s2, int n
   vnl_vector<double> stats(nstests);
   for (unsigned st = 0; st < nstests; ++st)
   {
-    std::clock_t t0 = std::clock();
+    const std::clock_t t0 = std::clock();
     for (int l = 0; l < n_loops; ++l)
     {
       for (unsigned i = 0; i < s2.size(); ++i)
         s1[i] * s2;
     }
-    std::clock_t t1 = std::clock();
+    const std::clock_t t1 = std::clock();
     stats[st] = (1e6 * ((double(t1) - double(t0))) / ((double)n_loops * (double)CLOCKS_PER_SEC));
   }
   std::sort(stats.begin(), stats.end());
@@ -177,7 +177,9 @@ void
 run_for_size(unsigned m, unsigned n, T /*dummy*/, const char * type, const char * size, vnl_random & rng)
 {
   constexpr unsigned n_data = 10;
-  std::vector<vnl_vector<T>> x(n_data), y(n_data), z(n_data);
+  std::vector<vnl_vector<T>> x(n_data);
+  std::vector<vnl_vector<T>> y(n_data);
+  std::vector<vnl_vector<T>> z(n_data);
   std::vector<T> v(n_data);
   vnl_matrix<T> A(m, n);
 
@@ -192,7 +194,7 @@ run_for_size(unsigned m, unsigned n, T /*dummy*/, const char * type, const char 
   }
   fill_with_rng(A.begin(), A.end(), -10000, 10000, rng);
 
-  int n_loops = 1000000 / m;
+  const int n_loops = 1000000 / m;
   std::cout << "\nTimes to operator on " << type << ' ' << m << "-d vectors and " << m << " x " << n
             << " matrices, size " << size << '\n'
             << "Sum of square differences       " << std::flush;

@@ -42,70 +42,102 @@ class vnl_least_squares_function;
 
 class VNL_ALGO_EXPORT vnl_amoeba
 {
- public:
+public:
   int verbose;
   int maxiter;
   double X_tolerance;
   double F_tolerance;
 
   //: Define maximum number of iterations to use
-  void set_max_iterations(int n) { maxiter = n; }
+  void
+  set_max_iterations(int n)
+  {
+    maxiter = n;
+  }
 
   //: Define tolerance on elements of x
-  void set_x_tolerance(double tol) { X_tolerance = tol; }
+  void
+  set_x_tolerance(double tol)
+  {
+    X_tolerance = tol;
+  }
 
   //: Define tolerance on function evaluation
-  void set_f_tolerance(double tol) { F_tolerance = tol; }
+  void
+  set_f_tolerance(double tol)
+  {
+    F_tolerance = tol;
+  }
 
   //: Define scaling used to select starting vertices relative to initial x0.
   //  I.e. the i'th vertex has x[i] = x0[i]*(1+relative_diameter)
-  void set_relative_diameter(double r) { relative_diameter = r; }
+  void
+  set_relative_diameter(double r)
+  {
+    relative_diameter = r;
+  }
 
-  void set_zero_term_delta(double d) { zero_term_delta = d; }
+  void
+  set_zero_term_delta(double d)
+  {
+    zero_term_delta = d;
+  }
   //: Scaling used to select starting vertices relative to initial x0.
   //  I.e. the i'th vertex has x[i] = x0[i]*(1+relative_diameter)
   double relative_diameter;
   double zero_term_delta;
   //: Construct and supply function to be minimized
-  vnl_amoeba(vnl_cost_function& f);
+  vnl_amoeba(vnl_cost_function & f);
 
   //: Modify x to minimise function supplied in constructor
   //  Start simplex defined by scaling elements of x
-  void minimize(vnl_vector<double>& x);
+  void
+  minimize(vnl_vector<double> & x);
 
   //: Perform optimisation.
   //  Start simplex defined by adding dx[i] to each x[i]
-  void minimize(vnl_vector<double>& x, const vnl_vector<double>& dx);
+  void
+  minimize(vnl_vector<double> & x, const vnl_vector<double> & dx);
 
-  double get_end_error() const { return end_error_; }
+  double
+  get_end_error() const
+  {
+    return end_error_;
+  }
 
   //: Number of evaluations used in last call to minimize
-  int get_num_evaluations() const { return num_evaluations_; }
+  int
+  get_num_evaluations() const
+  {
+    return num_evaluations_;
+  }
 
- public:
+public:
   //: Modify x so as to minimise f(x)
-  static void minimize(vnl_cost_function& f, vnl_vector<double>& x);
+  static void
+  minimize(vnl_cost_function & f, vnl_vector<double> & x);
 
   //: Modify x so as to minimise f(x)
   //  Start simplex defined by adding dx[i] to each x[i]
-  static void minimize(vnl_cost_function& f, vnl_vector<double>& x,
-                       const vnl_vector<double>& dx);
+  static void
+  minimize(vnl_cost_function & f, vnl_vector<double> & x, const vnl_vector<double> & dx);
 
   //: Modify x so as to minimise f(x)
   //  delta defines relative size of initial simplex
   //  ie the i'th vertex has xi[i] = x[i]*(1+delta)
-  static void minimize(vnl_cost_function& f, vnl_vector<double>& x,
-                       double delta);
+  static void
+  minimize(vnl_cost_function & f, vnl_vector<double> & x, double delta);
 
   //: Modify x so as to minimise f(x)
-  static void minimize(vnl_least_squares_function& f, vnl_vector<double>& x);
+  static void
+  minimize(vnl_least_squares_function & f, vnl_vector<double> & x);
 
   static bool default_verbose;
 
- protected:
-  vnl_cost_function* fptr;
+protected:
+  vnl_cost_function * fptr;
   double end_error_;
-  int num_evaluations_;
+  int num_evaluations_{ 0 };
 };
 
 // Private struct needs to be declared in the header file
@@ -116,9 +148,10 @@ struct vnl_amoeba_SimplexCorner
   double fv;
 
   vnl_amoeba_SimplexCorner(int = 0);
-  vnl_amoeba_SimplexCorner& operator= (const vnl_amoeba_SimplexCorner& that);
-  static int compare(vnl_amoeba_SimplexCorner const& s1,
-                     vnl_amoeba_SimplexCorner const& s2);
+  vnl_amoeba_SimplexCorner &
+  operator=(const vnl_amoeba_SimplexCorner & that);
+  static int
+  compare(const vnl_amoeba_SimplexCorner & s1, const vnl_amoeba_SimplexCorner & s2);
 };
 
 #endif // vnl_amoeba_h_

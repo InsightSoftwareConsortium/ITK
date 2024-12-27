@@ -14,7 +14,7 @@ test_real_npolynomial_io()
             << "test_real_npolynomial_io\n"
             << "************************\n";
   //// test constructors, accessors
-  vnl_vector<double> coeffs(4), coeffs2;
+  vnl_vector<double> coeffs(4);
   vnl_matrix<unsigned int> exponents(4, 2);
 
   coeffs(0) = 0.1;
@@ -31,7 +31,7 @@ test_real_npolynomial_io()
   exponents(2, 1) = 7;
   exponents(3, 1) = 8;
 
-  coeffs2 = coeffs * 2.0;
+  vnl_vector<double> coeffs2 = coeffs * 2.0;
 
   // vsl_print_summary(std::cout, coeffs);
 

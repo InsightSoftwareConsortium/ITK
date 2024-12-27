@@ -26,38 +26,52 @@
 template <class T>
 class VNL_EXPORT vnl_sparse_matrix_linear_system : public vnl_linear_system
 {
- public:
+public:
   //::Constructor from vnl_sparse_matrix<double> for system Ax = b
   // Keeps a reference to the original sparse matrix A and vector b so DO NOT DELETE THEM!!
-  vnl_sparse_matrix_linear_system(vnl_sparse_matrix<T> const& A, vnl_vector<T> const& b) :
-    vnl_linear_system(A.columns(), A.rows()), A_(A), b_(b), jacobi_precond_() {}
+  vnl_sparse_matrix_linear_system(const vnl_sparse_matrix<T> & A, const vnl_vector<T> & b)
+    : vnl_linear_system(A.columns(), A.rows())
+    , A_(A)
+    , b_(b)
+    , jacobi_precond_()
+  {}
 
   //:  Implementations of the vnl_linear_system virtuals.
-  void multiply(vnl_vector<double> const& x, vnl_vector<double> & b) const override;
+  void
+  multiply(const vnl_vector<double> & x, vnl_vector<double> & b) const override;
   //:  Implementations of the vnl_linear_system virtuals.
-  void transpose_multiply(vnl_vector<double> const& b, vnl_vector<double> & x) const override;
+  void
+  transpose_multiply(const vnl_vector<double> & b, vnl_vector<double> & x) const override;
   //:  Implementations of the vnl_linear_system virtuals.
-  void get_rhs(vnl_vector<double>& b) const override;
+  void
+  get_rhs(vnl_vector<double> & b) const override;
   //:  Implementations of the vnl_linear_system virtuals.
-  void apply_preconditioner(vnl_vector<double> const& x, vnl_vector<double> & px) const override;
+  void
+  apply_preconditioner(const vnl_vector<double> & x, vnl_vector<double> & px) const override;
 
- protected:
-  vnl_sparse_matrix<T> const& A_;
-  vnl_vector<T> const& b_;
+protected:
+  const vnl_sparse_matrix<T> & A_;
+  const vnl_vector<T> & b_;
   vnl_vector<double> jacobi_precond_;
 };
 
 template <>
-VNL_EXPORT void vnl_sparse_matrix_linear_system<double>::get_rhs(vnl_vector<double>& b) const;
+VNL_EXPORT void
+vnl_sparse_matrix_linear_system<double>::get_rhs(vnl_vector<double> & b) const;
 template <>
-VNL_EXPORT void vnl_sparse_matrix_linear_system<double>::transpose_multiply(vnl_vector<double> const& b, vnl_vector<double> & x) const;
+VNL_EXPORT void
+vnl_sparse_matrix_linear_system<double>::transpose_multiply(const vnl_vector<double> & b, vnl_vector<double> & x) const;
 template <>
-VNL_EXPORT void vnl_sparse_matrix_linear_system<float>::get_rhs(vnl_vector<double>& b) const;
+VNL_EXPORT void
+vnl_sparse_matrix_linear_system<float>::get_rhs(vnl_vector<double> & b) const;
 template <>
-VNL_EXPORT void vnl_sparse_matrix_linear_system<float>::transpose_multiply(vnl_vector<double> const& b, vnl_vector<double> & x) const;
+VNL_EXPORT void
+vnl_sparse_matrix_linear_system<float>::transpose_multiply(const vnl_vector<double> & b, vnl_vector<double> & x) const;
 template <>
-VNL_EXPORT void vnl_sparse_matrix_linear_system<double>::multiply(vnl_vector<double> const& x, vnl_vector<double> & b) const;
+VNL_EXPORT void
+vnl_sparse_matrix_linear_system<double>::multiply(const vnl_vector<double> & x, vnl_vector<double> & b) const;
 template <>
-VNL_EXPORT void vnl_sparse_matrix_linear_system<float>::multiply(vnl_vector<double> const& x, vnl_vector<double> & b) const;
+VNL_EXPORT void
+vnl_sparse_matrix_linear_system<float>::multiply(const vnl_vector<double> & x, vnl_vector<double> & b) const;
 
 #endif // vnl_sparse_matrix_linear_system_h_

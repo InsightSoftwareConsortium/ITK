@@ -24,7 +24,7 @@ vnl_lbfgsb::vnl_lbfgsb(vnl_cost_function & f)
 void
 vnl_lbfgsb::init_parameters()
 {
-  long n = this->f_->get_number_of_unknowns();
+  const long n = this->f_->get_number_of_unknowns();
   this->bound_selection_.set_size(n);
   this->bound_selection_.fill(0);
   this->max_corrections_ = 5;
@@ -37,8 +37,8 @@ bool
 vnl_lbfgsb::minimize(vnl_vector<double> & x)
 {
   // Basic setup.
-  long n = this->f_->get_number_of_unknowns();
-  long m = this->max_corrections_;
+  const long n = this->f_->get_number_of_unknowns();
+  const long m = this->max_corrections_;
 
   // Function and gradient.
   double f = 0;
@@ -67,7 +67,7 @@ vnl_lbfgsb::minimize(vnl_vector<double> & x)
 
   // Verbosity level inside lbfgs implementation.
   // (-1 no o/p, 0 start and end, 1 every iter)
-  long const iprint = trace ? 1 : -1;
+  const long iprint = trace ? 1 : -1;
 
   // Initialize iteration.
   this->num_evaluations_ = 0;

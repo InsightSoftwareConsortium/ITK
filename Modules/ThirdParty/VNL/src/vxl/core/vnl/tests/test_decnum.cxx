@@ -39,170 +39,170 @@ run_constructor_tests()
 
   std::cout << "long constructor:\n";
   {
-    vnl_decnum b(0L);
+    const vnl_decnum b(0L);
     TEST("vnl_decnum b(0L);", b, 0L);
   }
   {
-    vnl_decnum b(1L);
+    const vnl_decnum b(1L);
     TEST("vnl_decnum b(1L);", b, 1L);
   }
   {
-    vnl_decnum b(-1L);
+    const vnl_decnum b(-1L);
     TEST("vnl_decnum b(-1L);", b, -1L);
   }
   {
-    vnl_decnum b(0x7fffL);
+    const vnl_decnum b(0x7fffL);
     TEST("vnl_decnum b(0x7fffL);", b, 0x7fffL);
   }
   {
-    vnl_decnum b(-0x7fffL);
+    const vnl_decnum b(-0x7fffL);
     TEST("vnl_decnum b(-0x7fffL);", b, -0x7fffL);
   }
   {
-    vnl_decnum b(0x7fffffffL);
+    const vnl_decnum b(0x7fffffffL);
     TEST("vnl_decnum b(0x7fffffffL);", b, 0x7fffffffL);
   }
   {
-    vnl_decnum b(-0x7fffffffL);
+    const vnl_decnum b(-0x7fffffffL);
     TEST("vnl_decnum b(-0x7fffffffL);", b, -0x7fffffffL);
   }
   {
-    vnl_decnum b(0xf00000L);
+    const vnl_decnum b(0xf00000L);
     TEST("vnl_decnum b(0xf00000L);", b, 0xf00000);
   }
 
   std::cout << "double constructor:\n";
   {
-    vnl_decnum b(0.0);
+    const vnl_decnum b(0.0);
     TEST("vnl_decnum b(0.0);", b, 0L);
   }
   {
-    vnl_decnum b(1.0);
+    const vnl_decnum b(1.0);
     TEST("vnl_decnum b(1.0);", b, 1L);
   }
   {
-    vnl_decnum b(-1.0);
+    const vnl_decnum b(-1.0);
     TEST("vnl_decnum b(-1.0);", b, -1L);
   }
   {
-    vnl_decnum b(1234.0);
+    const vnl_decnum b(1234.0);
     TEST("vnl_decnum(1234.0)", b, 1234L);
   }
   {
-    vnl_decnum b(-1234.);
+    const vnl_decnum b(-1234.);
     TEST("vnl_decnum(-1234.)", b, -1234L);
   }
   {
-    vnl_decnum b(1234e3);
+    const vnl_decnum b(1234e3);
     TEST("vnl_decnum(1234e3)", b, 1234000L);
   }
   {
-    vnl_decnum b(-1234e3);
+    const vnl_decnum b(-1234e3);
     TEST("vnl_decnum(-1234e3)", b, -1234000L);
   }
   {
-    vnl_decnum b(1234e-3);
+    const vnl_decnum b(1234e-3);
     TEST("vnl_decnum(1234e-3)", long(b * "1000"), 1234L);
   }
   {
-    vnl_decnum b(1.234);
+    const vnl_decnum b(1.234);
     TEST("vnl_decnum(1.234)", long(b * "1000"), 1234L);
   }
 
   std::cout << "char* constructor:\n";
   {
-    vnl_decnum b("-1");
+    const vnl_decnum b("-1");
     TEST("vnl_decnum b(\"-1\");", b, -1L);
   }
   {
-    vnl_decnum b("+1");
+    const vnl_decnum b("+1");
     TEST("vnl_decnum b(\"+1\");", b, 1L);
   }
   {
-    vnl_decnum b("1");
+    const vnl_decnum b("1");
     TEST("vnl_decnum b(\"1\");", b, 1L);
   }
   {
-    vnl_decnum b("123");
+    const vnl_decnum b("123");
     TEST("vnl_decnum b(\"123\");", b, 123L);
   }
   {
-    vnl_decnum b("123e5");
+    const vnl_decnum b("123e5");
     TEST("vnl_decnum b(\"123e5\");", b, 12300000L);
   }
   {
-    vnl_decnum b("-123e+4");
+    const vnl_decnum b("-123e+4");
     TEST("vnl_decnum b(\"-123e+4\");", b, -1230000L);
   }
   {
-    vnl_decnum b("-1e120");
+    const vnl_decnum b("-1e120");
     std::stringstream s;
     s << b << ' ';
     // verify that b outputs as  "-1e120"
-    bool t = s.str()[0] == '-' && s.str()[1] == '1' && s.str()[2] == 'e' && s.str()[3] == '1' && s.str()[4] == '2' &&
-             s.str()[5] == '0' && s.str()[6] == ' ';
+    const bool t = s.str()[0] == '-' && s.str()[1] == '1' && s.str()[2] == 'e' && s.str()[3] == '1' &&
+                   s.str()[4] == '2' && s.str()[5] == '0' && s.str()[6] == ' ';
     TEST("vnl_decnum b(\"-1e120\") outputs as \"-1e120\"", t, true);
   }
   {
-    vnl_decnum b("0");
+    const vnl_decnum b("0");
     TEST("vnl_decnum b(\"0\");", b, 0L);
   }
   {
-    vnl_decnum b("00");
+    const vnl_decnum b("00");
     TEST("vnl_decnum b(\"00\");", b, 0L);
   }
   {
-    vnl_decnum b("012334567");
+    const vnl_decnum b("012334567");
     TEST("vnl_decnum b(\"012334567\");", b, 12334567L);
   }
   {
-    vnl_decnum b("9");
+    const vnl_decnum b("9");
     TEST("vnl_decnum b(\"9\");", b, 9L);
   }
   {
-    vnl_decnum b(" 9");
+    const vnl_decnum b(" 9");
     TEST("vnl_decnum b(\" 9\");", b, 9L);
   }
 
   // infinity and NaN:
   {
-    vnl_decnum b("-123");
+    const vnl_decnum b("-123");
     TEST("isfinite(-123)", vnl_math::isfinite(b), true);
   }
   {
-    vnl_decnum b("0");
+    const vnl_decnum b("0");
     TEST("isfinite(0)", vnl_math::isfinite(b), true);
   }
   {
-    vnl_decnum b("1e999");
+    const vnl_decnum b("1e999");
     TEST("isfinite(1e999)", vnl_math::isfinite(b), true);
   }
   {
-    vnl_decnum b("NaN");
+    const vnl_decnum b("NaN");
     TEST("isfinite(NaN)", vnl_math::isfinite(b), false);
   }
   {
-    vnl_decnum b("NaN");
+    const vnl_decnum b("NaN");
     TEST("isnan(NaN)", vnl_math::isnan(b), true);
   }
   {
-    vnl_decnum b("1e999");
+    const vnl_decnum b("1e999");
     TEST("isnan(1e999)", vnl_math::isnan(b), false);
   }
   {
-    vnl_decnum b("+Inf");
+    const vnl_decnum b("+Inf");
     TEST("vnl_decnum(\"+Inf\")", vnl_math::isfinite(b), false);
   }
   {
-    vnl_decnum b("Infinity");
+    const vnl_decnum b("Infinity");
     TEST("vnl_decnum(\"Infinity\")", vnl_math::isfinite(b), false);
   }
   {
-    vnl_decnum b("-Infin");
+    const vnl_decnum b("-Infin");
     TEST("vnl_decnum(\"-Infin\")", vnl_math::isfinite(b), false);
   }
   {
-    vnl_decnum b("Inf");
+    const vnl_decnum b("Inf");
     TEST("isnan(Inf)", vnl_math::isnan(b), false);
   }
 
@@ -252,12 +252,12 @@ run_constructor_tests()
 
   std::cout << "vnl_decnum& constructor:\n";
   {
-    vnl_decnum b50(vnl_decnum(0L));
+    const vnl_decnum b50(vnl_decnum(0L));
     TEST("vnl_decnum b50(vnl_decnum(0L));", b50, 0L);
   }
 
   {
-    vnl_decnum b51(vnl_decnum(100L));
+    const vnl_decnum b51(vnl_decnum(100L));
     TEST("vnl_decnum b51(vnl_decnum(100L));", b51, 100L);
   }
 }
@@ -296,7 +296,7 @@ run_assignment_tests()
 
   // vnl_decnum& assignment operator
   b1 = "0";
-  vnl_decnum b5(0x1ffffL);
+  const vnl_decnum b5(0x1ffffL);
   TEST_RUN("b1 = b5", b1 = b5, b1, b5);
 }
 
@@ -304,12 +304,12 @@ static void
 run_logical_comparison_tests()
 {
   std::cout << "\nStarting logical comparison tests:\n";
-  vnl_decnum b0(0L);
-  vnl_decnum b1(1L);
-  vnl_decnum b2(0x7fffL);
-  vnl_decnum b3(-0x7fffL);
-  vnl_decnum p_inf("+Inf");
-  vnl_decnum m_inf("-Inf");
+  const vnl_decnum b0(0L);
+  const vnl_decnum b1(1L);
+  const vnl_decnum b2(0x7fffL);
+  const vnl_decnum b3(-0x7fffL);
+  const vnl_decnum p_inf("+Inf");
+  const vnl_decnum m_inf("-Inf");
 
   TEST("b0 == b0", b0 == b0, true);
   TEST("b0 == b1", b0 == b1, false);
@@ -418,12 +418,12 @@ run_division_tests()
   {
     for (long k = -6; k < 9; k += 3)
     {
-      vnl_decnum bi(i + k);
+      const vnl_decnum bi(i + k);
       for (long j = 0xffff; j != 0; j /= -16)
       {
         for (long l = -4; l < 9; l += 3)
         { // avoid division by zero...
-          vnl_decnum bj(j + l);
+          const vnl_decnum bj(j + l);
           vnl_decnum bij(long((i + k) / (j + l)));
           {
             std::stringstream s;
@@ -447,7 +447,8 @@ run_large_division_tests()
 {
   std::cout << "\nStarting large division tests:\n";
 
-  vnl_decnum a("10000000"), b("10000001");
+  vnl_decnum a("10000000");
+  vnl_decnum b("10000001");
   b *= a;
   vnl_decnum c = b / 10000001;
   std::cout << b << " / 10000001 = " << c << ", must be 10000000\n";
@@ -513,8 +514,8 @@ run_multiplication_division_tests()
 {
   std::cout << "\nCheck example in book:\n";
 
-  vnl_decnum b2 = "4294967295"; // == 0xffffffff         // Create vnl_decnum object
-  vnl_decnum b3 = "12345e30";   // Create vnl_decnum object
+  const vnl_decnum b2 = "4294967295"; // == 0xffffffff         // Create vnl_decnum object
+  const vnl_decnum b3 = "12345e30";   // Create vnl_decnum object
 
   std::cout << "b2 = " << b2 << '\n' << "b3 = " << b3 << std::endl;
 
@@ -531,8 +532,11 @@ run_addition_subtraction_tests()
 {
   std::cout << "\nStarting addition, subtraction tests:\n";
 
-  long i, j;
-  vnl_decnum bi, bj, bij;
+  long i;
+  long j;
+  vnl_decnum bi;
+  vnl_decnum bj;
+  vnl_decnum bij;
 
   {
     for (i = 1; i < 0xffff; i *= -3)
@@ -557,10 +561,12 @@ run_addition_subtraction_tests()
     }
   }
 
-  vnl_decnum b0(0L);
-  vnl_decnum zillion("1000000000000000000000000000000000000");
-  vnl_decnum b1000000(1000000L), b1000000000000("1000000000000");
-  vnl_decnum p_inf("+Inf"), m_inf("-Inf");
+  const vnl_decnum b0(0L);
+  const vnl_decnum zillion("1000000000000000000000000000000000000");
+  const vnl_decnum b1000000(1000000L);
+  const vnl_decnum b1000000000000("1000000000000");
+  const vnl_decnum p_inf("+Inf");
+  const vnl_decnum m_inf("-Inf");
 
   TEST("-p_inf == m_inf", -p_inf, m_inf);
   TEST("-m_inf == p_inf", -m_inf, p_inf);
@@ -616,8 +622,8 @@ run_addition_subtraction_tests()
   TEST("m_inf - zillion == m_inf", m_inf - zillion, m_inf);
 
   // example in book
-  vnl_decnum b2 = "4294967295"; // == 0xffffffff         // Create vnl_decnum object
-  vnl_decnum b3 = "12345e30";   // Create vnl_decnum object
+  const vnl_decnum b2 = "4294967295"; // == 0xffffffff         // Create vnl_decnum object
+  const vnl_decnum b3 = "12345e30";   // Create vnl_decnum object
   TEST("(b2+b3) - b2 = b3", (b2 + b3) - b2 == b3, 1);
   TEST("(b2+b3) - b3 = b2", (b2 + b3) - b3 == b2, 1);
   std::cout << b3 << '\n';
@@ -686,8 +692,12 @@ run_multiplication_tests()
 {
   std::cout << "\nStarting multiplication tests:\n";
 
-  vnl_decnum b0(0L), b1000(1000L), b1000000(1000000L), zillion("1000000000000000000");
-  vnl_decnum p_inf("+Inf"), m_inf("-Inf");
+  const vnl_decnum b0(0L);
+  const vnl_decnum b1000(1000L);
+  const vnl_decnum b1000000(1000000L);
+  const vnl_decnum zillion("1000000000000000000");
+  const vnl_decnum p_inf("+Inf");
+  const vnl_decnum m_inf("-Inf");
 
   TEST("b0*b0 == b0", b0 * b0, b0);
   TEST("b0*b1000 == b0", b0 * b1000, b0);
@@ -707,8 +717,9 @@ run_multiplication_tests()
 static void
 run_left_shift_tests()
 {
-  vnl_decnum b1(1L);
-  vnl_decnum p_inf("+Inf"), m_inf("-Inf");
+  const vnl_decnum b1(1L);
+  const vnl_decnum p_inf("+Inf");
+  const vnl_decnum m_inf("-Inf");
 
   // left shift
   TEST("int(b1) == 1", int(b1), 1);
@@ -737,8 +748,9 @@ run_left_shift_tests()
 static void
 run_right_shift_tests()
 {
-  vnl_decnum b2("1e78");
-  vnl_decnum p_inf("+Inf"), m_inf("-Inf");
+  const vnl_decnum b2("1e78");
+  const vnl_decnum p_inf("+Inf");
+  const vnl_decnum m_inf("-Inf");
 
   // right shift
   TEST("b2 == vnl_decnum(\"1e78\")", b2, vnl_decnum("1e78"));
@@ -772,7 +784,8 @@ run_normalisation_tests()
 {
   std::cout << "\nStarting normalisation tests:\n";
 
-  vnl_decnum a("-1e10"), b = a;
+  vnl_decnum a("-1e10");
+  vnl_decnum b = a;
   TEST("a stored as -1e10", a.data(), "1");
   TEST("b stored as -1e10", b.data(), "1");
   a += 1L;

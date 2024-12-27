@@ -30,68 +30,96 @@
 //  it might be a good idea to use vnl_svd instead.
 class VNL_ALGO_EXPORT vnl_cholesky
 {
- public:
+public:
   //: Modes of computation.  See constructor for details.
-  enum Operation {
+  enum Operation
+  {
     quiet,
     verbose,
     estimate_condition
   };
 
   //: Make cholesky decomposition of M optionally computing the reciprocal condition number.
-  vnl_cholesky(vnl_matrix<double> const& M, Operation mode = verbose);
- ~vnl_cholesky() = default;
+  vnl_cholesky(const vnl_matrix<double> & M, Operation mode = verbose);
+  ~vnl_cholesky() = default;
 
   //: Solve LS problem M x = b
-  vnl_vector<double> solve(vnl_vector<double> const& b) const;
+  vnl_vector<double>
+  solve(const vnl_vector<double> & b) const;
 
   //: Solve LS problem M x = b
-  void solve(vnl_vector<double> const& b, vnl_vector<double>* x) const;
+  void
+  solve(const vnl_vector<double> & b, vnl_vector<double> * x) const;
 
   //: Compute determinant
-  double determinant() const;
+  double
+  determinant() const;
 
   //   Compute inverse.  Not efficient.
   // It's broken, I don't have time to fix it.
   // Mail awf@robots if you need it and I'll tell you as much as I can
   // to fix it.
-  vnl_matrix<double> inverse() const;
+  vnl_matrix<double>
+  inverse() const;
 
   //: Return lower-triangular factor.
-  vnl_matrix<double> lower_triangle() const;
+  vnl_matrix<double>
+  lower_triangle() const;
 
   //: Return upper-triangular factor.
-  vnl_matrix<double> upper_triangle() const;
+  vnl_matrix<double>
+  upper_triangle() const;
 
   //: Return the decomposition matrix
-  vnl_matrix<double> const& L_badly_named_method() const { return A_; }
+  const vnl_matrix<double> &
+  L_badly_named_method() const
+  {
+    return A_;
+  }
 
   //: A Success/failure flag
-  int rank_deficiency() const { return num_dims_rank_def_; }
+  int
+  rank_deficiency() const
+  {
+    return num_dims_rank_def_;
+  }
 
   //: Return reciprocal condition number (smallest/largest singular values).
   // As long as rcond()>sqrt(precision) the decomposition can be used for
   // solving equations safely.
   // Not calculated unless Operation mode at construction was estimate_condition.
-  double rcond() const { return rcond_; }
+  double
+  rcond() const
+  {
+    return rcond_;
+  }
 
   //: Return computed nullvector.
   // Not calculated unless Operation mode at construction was estimate_condition.
-  vnl_vector<double>      & nullvector()       { return nullvector_; }
-  vnl_vector<double> const& nullvector() const { return nullvector_; }
+  vnl_vector<double> &
+  nullvector()
+  {
+    return nullvector_;
+  }
+  const vnl_vector<double> &
+  nullvector() const
+  {
+    return nullvector_;
+  }
 
- protected:
+protected:
   // Data Members--------------------------------------------------------------
   vnl_matrix<double> A_;
   double rcond_;
   long num_dims_rank_def_;
   vnl_vector<double> nullvector_;
 
- private:
+private:
   //: Copy constructor - privatised to avoid it being used
-  vnl_cholesky(vnl_cholesky const & that) = delete;
+  vnl_cholesky(const vnl_cholesky & that) = delete;
   //: Assignment operator - privatised to avoid it being used
-  vnl_cholesky& operator=(vnl_cholesky const & that) = delete;
+  vnl_cholesky &
+  operator=(const vnl_cholesky & that) = delete;
 };
 
 #endif // vnl_cholesky_h_
