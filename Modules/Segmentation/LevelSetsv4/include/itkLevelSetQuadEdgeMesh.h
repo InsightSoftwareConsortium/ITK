@@ -65,23 +65,23 @@ public:
 
   /** Returns the value of the level set function at a given location iP */
   virtual OutputType
-  Evaluate(const InputType & iP) const;
+  Evaluate(const InputType & iP) const override;
 
   /** Returns the image gradient of the level set function at a given location iP
    * \todo to be implemented */
   virtual GradientType
-  EvaluateGradient(const InputType & iP) const;
+  EvaluateGradient(const InputType & iP) const override;
 
   /** Returns the image hessian of the level set function at a given location iP
    * \todo to be implemented */
   virtual HessianType
-  EvaluateHessian(const InputType & iP) const;
+  EvaluateHessian(const InputType & iP) const override;
 
 
   /** Returns the value of the level set function at a given location iP
    * as part of the LevelSetDataType*/
   virtual void
-  Evaluate(const InputType & iP, LevelSetDataType & ioData) const;
+  Evaluate(const InputType & iP, LevelSetDataType & ioData) const override;
 
   /** Returns the gradient of the level set function at a given location iP
    * as part of the LevelSetDataType
@@ -93,7 +93,7 @@ public:
    * as part of the LevelSetDataType
    * \todo to be implemented */
   virtual void
-  EvaluateHessian(const InputType & iP, LevelSetDataType & ioData) const;
+  EvaluateHessian(const InputType & iP, LevelSetDataType & ioData) const override;
 
   /** Initial the level set pointer */
   virtual void
@@ -101,7 +101,7 @@ public:
 
   /** Copy level set information from data object */
   virtual void
-  CopyInformation(const DataObject * data);
+  CopyInformation(const DataObject * data) override;
 
   /** Graft data object as level set object */
   virtual void
@@ -109,7 +109,7 @@ public:
 
 protected:
   LevelSetQuadEdgeMesh() = default;
-  virtual ~LevelSetQuadEdgeMesh() = default;
+  virtual ~LevelSetQuadEdgeMesh() override = default;
 
 private:
   MeshPointer m_Mesh{};

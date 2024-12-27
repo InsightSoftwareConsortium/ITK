@@ -291,14 +291,14 @@ template <typename TSmapsDataType>
 class ITK_TEMPLATE_EXPORT SmapsFileParser : public MapFileParser<TSmapsDataType>
 {
 public:
-  virtual ~SmapsFileParser() = default;
+  virtual ~SmapsFileParser() override = default;
   /** Load and parse the smaps file pointed by smapsFileLocation.
    *  If smapsFileLocation is empty, load the file located at
    *  "/proc/" + PID + "/smaps"
    *  Throw an exception is the file can't be opened.
    */
   virtual void
-  ReadFile(const std::string & mapFileLocation = "");
+  ReadFile(const std::string & mapFileLocation = "") override;
 };
 
 /** \class VMMapFileParser
@@ -310,12 +310,12 @@ template <typename TVMMapDataType>
 class ITK_TEMPLATE_EXPORT VMMapFileParser : public MapFileParser<TVMMapDataType>
 {
 public:
-  virtual ~VMMapFileParser() = default;
+  virtual ~VMMapFileParser() override = default;
   /** If no vmmap file, create one using "vmmap pid" command
    *  Throw an exception is the file can't be created/opened.
    */
   virtual void
-  ReadFile(const std::string & mapFileLocation = "");
+  ReadFile(const std::string & mapFileLocation = "") override;
 };
 } // end namespace itk
 
