@@ -941,7 +941,7 @@ itkVectorImageTest(int, char * argv[])
               std::cerr << "ConstShapedNeighborhoodIterator returned incorrect index [FAILED]" << std::endl;
             }
           }
-          ci++;
+          ++ci;
         }
 
         //
