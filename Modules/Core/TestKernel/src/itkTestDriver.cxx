@@ -105,7 +105,7 @@ AddEntriesBeforeLibraryPath(const ArgumentsList & args)
       libpath += ITK_TEST_DRIVER_PATH_SEP;
       libpath += oldenv;
     }
-    itksys::SystemTools::PutEnv(libpath.c_str());
+    itksys::SystemTools::PutEnv(libpath);
     // on some 64 bit systems, LD_LIBRARY_PATH_64 is used before
     // LD_LIBRARY_PATH if it is set. It can lead the test to load
     // the system library instead of the expected one, so this
@@ -121,7 +121,7 @@ AddEntriesBeforeLibraryPath(const ArgumentsList & args)
         libpath64 += ITK_TEST_DRIVER_PATH_SEP;
         libpath64 += oldenv64;
       }
-      itksys::SystemTools::PutEnv(libpath64.c_str());
+      itksys::SystemTools::PutEnv(libpath64);
     }
 
     ++i;
@@ -145,7 +145,7 @@ AddEntriesBeforeEnvironment(const ArgumentsList & args)
       env += ITK_TEST_DRIVER_PATH_SEP;
       env += oldenv;
     }
-    itksys::SystemTools::PutEnv(env.c_str());
+    itksys::SystemTools::PutEnv(env);
 
     i += 2;
   }
@@ -168,7 +168,7 @@ AddEntriesBeforeEnvironmentWithSeparator(const ArgumentsList & args)
       env += args[i + 2];
       env += oldenv;
     }
-    itksys::SystemTools::PutEnv(env.c_str());
+    itksys::SystemTools::PutEnv(env);
 
     i += 3;
   }

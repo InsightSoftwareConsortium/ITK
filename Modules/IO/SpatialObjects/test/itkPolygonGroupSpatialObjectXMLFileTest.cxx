@@ -205,7 +205,7 @@ itkPolygonGroupSpatialObjectXMLFileTest(int argc, char * argv[])
     std::cerr << "Error Reading file" << std::endl;
     return EXIT_FAILURE;
   }
-  itksys::SystemTools::RemoveFile(xmlfilename.c_str());
+  itksys::SystemTools::RemoveFile(xmlfilename);
 
   return testPolygonGroupEquivalence(PolygonGroup, PGroupFromFile);
 }

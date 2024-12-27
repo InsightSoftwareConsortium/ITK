@@ -417,7 +417,7 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
       const std::string datafilenamePath = ::itksys::SystemTools::GetFilenamePath(datafilename);
       if (datafilenamePath.empty())
       {
-        const std::string fileNamePath = ::itksys::SystemTools::GetFilenamePath(m_FileName.c_str());
+        const std::string fileNamePath = ::itksys::SystemTools::GetFilenamePath(m_FileName);
         m_DataFileName = fileNamePath + "/" + datafilename;
       }
       else
@@ -568,7 +568,7 @@ StimulateImageIO::Write(const void * buffer)
     // determine datafile given the spr filename
     m_DataFileName = m_FileName;
     m_DataFileName.replace(m_DataFileName.length() - 3, 3, "sdt");
-    file << "\nstimFileName: " << m_DataFileName.c_str();
+    file << "\nstimFileName: " << m_DataFileName;
 
     // Last carrier return:
     file << '\n';
