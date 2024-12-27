@@ -252,13 +252,13 @@ main(int argc, char * argv[])
       {
         snprintf(filename,
                  sizeof(filename),
-                 "ReferenceImage%d.mhd",
+                 "ReferenceImage%u.mhd",
                  referenceImageIndex);
         ++referenceImageIndex;
       }
       else
       {
-        snprintf(filename, sizeof(filename), "Gradient%d.mhd", i);
+        snprintf(filename, sizeof(filename), "Gradient%u.mhd", i);
       }
       gradientWriter->SetFileName(filename);
       gradientWriter->Update();
