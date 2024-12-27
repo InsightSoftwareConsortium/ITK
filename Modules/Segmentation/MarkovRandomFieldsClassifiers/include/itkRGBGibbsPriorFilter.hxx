@@ -624,7 +624,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::RegionEraser()
   while (!labelledImageIt.IsAtEnd())
   {
     j = 0;
-    while ((m_Region[i] != valid_region_counter[j]) && (j < k))
+    while ((j < k) && (m_Region[i] != valid_region_counter[j]))
     {
       ++j;
     }
