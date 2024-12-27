@@ -259,7 +259,7 @@ main(int argc, char * argv[])
     double u[2];
     u[0] = (*itPoints).GetPositionInObjectSpace()[0];
     u[1] = (*itPoints).GetPositionInObjectSpace()[1];
-    itPoints++;
+    ++itPoints;
     double v[2];
     v[0] = u[0] - (*itPoints).GetPositionInObjectSpace()[0];
     v[1] = u[1] - (*itPoints).GetPositionInObjectSpace()[1];
@@ -295,7 +295,7 @@ main(int argc, char * argv[])
         localOutputImage->SetPixel(localIndex, 255);
       }
     }
-    itLines++;
+    ++itLines;
   }
   // Software Guide : EndCodeSnippet
 

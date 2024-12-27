@@ -207,7 +207,7 @@ MorphologicalWatershedFromMarkersImageFilter<TInputImage, TLabelImage>::Generate
 
         // search the background pixels in the neighborhood
         for (nmIt = markerIt.Begin(), nsIt = statusIt.Begin(), niIt = inputIt.Begin(); nmIt != markerIt.End();
-             nmIt++, nsIt++, niIt++)
+             ++nmIt, ++nsIt, ++niIt)
         {
           if (!nsIt.Get() && nmIt.Get() == bgLabel)
           {
@@ -285,7 +285,7 @@ MorphologicalWatershedFromMarkersImageFilter<TInputImage, TLabelImage>::Generate
           // set the marker value
           outputIt.SetCenterPixel(marker);
           // and propagate to the neighbors
-          for (niIt = inputIt.Begin(), nsIt = statusIt.Begin(); niIt != inputIt.End(); niIt++, nsIt++)
+          for (niIt = inputIt.Begin(), nsIt = statusIt.Begin(); niIt != inputIt.End(); ++niIt, ++nsIt)
           {
             if (!nsIt.Get())
             {
@@ -395,7 +395,7 @@ MorphologicalWatershedFromMarkersImageFilter<TInputImage, TLabelImage>::Generate
         const LabelImagePixelType currentMarker = outputIt.GetCenterPixel();
         // get the current value of the pixel
         // iterate over neighbors to propagate the marker
-        for (noIt = outputIt.Begin(), niIt = inputIt.Begin(); noIt != outputIt.End(); noIt++, niIt++)
+        for (noIt = outputIt.Begin(), niIt = inputIt.Begin(); noIt != outputIt.End(); ++noIt, ++niIt)
         {
           if (noIt.Get() == wsLabel)
           {
