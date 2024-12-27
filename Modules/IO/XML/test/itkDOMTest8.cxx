@@ -44,7 +44,7 @@ itkDOMTest8(int argc, char * argv[])
     // create the file in the directory
     std::string fn(argv[1]);
     fn.append(argv[2]);
-    itk::FileTools::CreateFile(fn.c_str());
+    itk::FileTools::CreateFile(fn);
 
     // the testings are successful if reached here
   }

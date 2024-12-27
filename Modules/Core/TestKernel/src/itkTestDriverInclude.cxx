@@ -259,7 +259,7 @@ ProcessArguments(int * argc, ArgumentStringType * argv, ProcessedOutputType * pr
       // set the environment which will be read by the subprocess
       std::string threadEnv = "ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=";
       threadEnv += (*argv)[i + 1];
-      itksys::SystemTools::PutEnv(threadEnv.c_str());
+      itksys::SystemTools::PutEnv(threadEnv);
       // and set the number of threads locally for the comparison
       itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(std::stoi((*argv)[i + 1]));
       *argv += 2;

@@ -48,7 +48,7 @@ main(int argc, char * argv[])
 #endif
     }
     myenv += std::string(argv[3]);
-    itksys::SystemTools::PutEnv(myenv.c_str());
+    itksys::SystemTools::PutEnv(myenv);
 
     itk::ObjectFactoryBase::ReHash();
   }

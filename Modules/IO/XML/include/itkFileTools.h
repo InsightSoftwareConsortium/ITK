@@ -62,7 +62,7 @@ FileTools::CreateDirectory(const std::string & dir)
   }
 
   // do nothing if it already exists
-  if (dir.empty() || "." == dir || itksys::SystemTools::FileIsDirectory(dir.c_str()))
+  if (dir.empty() || "." == dir || itksys::SystemTools::FileIsDirectory(dir))
   {
     return;
   }
@@ -71,7 +71,7 @@ FileTools::CreateDirectory(const std::string & dir)
   itksys::SystemTools::MakeDirectory(dir.c_str());
 
   // check successful or not
-  if (!itksys::SystemTools::FileIsDirectory(dir.c_str()))
+  if (!itksys::SystemTools::FileIsDirectory(dir))
   {
     ExceptionObject eo(__FILE__, __LINE__, "directory cannot be created");
     throw eo;
@@ -82,7 +82,7 @@ FileTools::CreateDirectory(const std::string & dir)
 inline void
 FileTools::CreateFile(const std::string & fn)
 {
-  if (fn.empty() || itksys::SystemTools::FileIsDirectory(fn.c_str()))
+  if (fn.empty() || itksys::SystemTools::FileIsDirectory(fn))
   {
     ExceptionObject eo(__FILE__, __LINE__, "file cannot be created");
     throw eo;
@@ -95,11 +95,11 @@ FileTools::CreateFile(const std::string & fn)
   }
 
   // make sure the directory exists
-  const std::string dir = itksys::SystemTools::GetFilenamePath(fn.c_str());
+  const std::string dir = itksys::SystemTools::GetFilenamePath(fn);
   FileTools::CreateDirectory(dir);
 
   // create the file
-  itksys::SystemTools::Touch(fn.c_str(), true);
+  itksys::SystemTools::Touch(fn, true);
 
   // check successful or not
   if (!itksys::SystemTools::FileExists(fn.c_str(), true))
