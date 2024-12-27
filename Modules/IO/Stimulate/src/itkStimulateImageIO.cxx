@@ -305,7 +305,7 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
     else if (text.find("dataType") < text.length())
     {
       char pixelType[256];
-      sscanf(line, "%*s %s", pixelType);
+      sscanf(line, "%*s %255s", pixelType);
       text = pixelType;
       SetPixelType(IOPixelEnum::SCALAR);
       if (text.find("BYTE") < text.length())
@@ -361,7 +361,7 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
       // space
       // only a ':' separate field from value, we assume there is no other ':'
       char * pch = strchr(line, ':');
-      sscanf(++pch, "%s", m_FidName); // delete any white space left
+      sscanf(++pch, "%255s", m_FidName); // delete any white space left
       itkDebugMacro("fidName was specified");
     }
     else if (text.find("sdtOrient") < text.length())
@@ -372,7 +372,7 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
       // space
       // only a ':' separate field from value, we assume there is no other ':'
       char * pch = strchr(line, ':');
-      sscanf(++pch, "%s", m_SdtOrient); // delete any white space left
+      sscanf(++pch, "%255s", m_SdtOrient); // delete any white space left
       itkDebugMacro("Orientation was specified");
     }
     else if (text.find("dsplyThres") < text.length())
