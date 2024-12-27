@@ -249,7 +249,7 @@ Solve( unsigned int m, unsigned int n, const double * b, double * x )
 
   // Initialize.
 
-  unsigned int localVecs = std::min( localSize, std::min( m,n ) );
+  unsigned int const localVecs = std::min( localSize, std::min( m,n ) );
 
   if( this->nout )
     {
@@ -261,7 +261,7 @@ Solve( unsigned int m, unsigned int n, const double * b, double * x )
     (*this->nout) << " localSize (no. of vectors for local reorthogonalization) = " << this->localSize << std::endl;
     }
 
-  int pfreq = 20;
+  int const pfreq = 20;
   int pcount = 0;
   this->damped = ( this->damp > zero );
 
@@ -405,11 +405,11 @@ Solve( unsigned int m, unsigned int n, const double * b, double * x )
     this->Scale( n, (- beta), v );
     this->Aprod2( m, n, v, u );    // v = A'*u
     if ( localOrtho ) {
-      unsigned int localOrthoLimit = localVQueueFull ? localVecs : localPointer+1;
+      unsigned int const localOrthoLimit = localVQueueFull ? localVecs : localPointer+1;
 
       for( unsigned int localOrthoCount =0; localOrthoCount<localOrthoLimit;
            ++localOrthoCount) {
-        double d = std::inner_product(v,v+n,localV+n*localOrthoCount,0.0);
+        double const d = std::inner_product(v,v+n,localV+n*localOrthoCount,0.0);
         daxpy( n, -d, localV+localOrthoCount*n, v );
       }
     }
@@ -428,25 +428,25 @@ Solve( unsigned int m, unsigned int n, const double * b, double * x )
     //----------------------------------------------------------------
     // Construct rotation Qhat_{k,2k+1}.
 
-    double alphahat = this->D2Norm( alphabar, damp );
-    double chat     = alphabar/alphahat;
-    double shat     = damp/alphahat;
+    double const alphahat = this->D2Norm( alphabar, damp );
+    double const chat     = alphabar/alphahat;
+    double const shat     = damp/alphahat;
 
     // Use a plane rotation (Q_i) to turn B_i to R_i.
 
-    double rhoold   = rho;
+    double const rhoold   = rho;
     rho      = D2Norm(alphahat, beta);
-    double c        = alphahat/rho;
-    double s        = beta/rho;
-    double thetanew = s*alpha;
+    double const c        = alphahat/rho;
+    double const s        = beta/rho;
+    double const thetanew = s*alpha;
     alphabar = c*alpha;
 
     // Use a plane rotation (Qbar_i) to turn R_i^T into R_i^bar.
 
-    double rhobarold = rhobar;
-    double zetaold   = zeta;
-    double thetabar  = sbar*rho;
-    double rhotemp   = cbar*rho;
+    double const rhobarold = rhobar;
+    double const zetaold   = zeta;
+    double const thetabar  = sbar*rho;
+    double const rhotemp   = cbar*rho;
     rhobar    = this->D2Norm(cbar*rho, thetanew);
     cbar      = cbar*rho/rhobar;
     sbar      = thetanew/rhobar;
@@ -464,20 +464,20 @@ Solve( unsigned int m, unsigned int n, const double * b, double * x )
     // Estimate ||r||.
 
     // Apply rotation Qhat_{k,2k+1}.
-    double betaacute =   chat* betadd;
-    double betacheck = - shat* betadd;
+    double const betaacute =   chat* betadd;
+    double const betacheck = - shat* betadd;
 
     // Apply rotation Q_{k,k+1}.
-    double betahat   =   c*betaacute;
+    double const betahat   =   c*betaacute;
     betadd    = - s*betaacute;
 
     // Apply rotation Qtilde_{k-1}.
     // betad = betad_{k-1} here.
 
-    double thetatildeold = thetatilde;
-    double rhotildeold   = this->D2Norm(rhodold, thetabar);
-    double ctildeold     = rhodold/rhotildeold;
-    double stildeold     = thetabar/rhotildeold;
+    double const thetatildeold = thetatilde;
+    double const rhotildeold   = this->D2Norm(rhodold, thetabar);
+    double const ctildeold     = rhodold/rhotildeold;
+    double const stildeold     = thetabar/rhotildeold;
     thetatilde    = stildeold* rhobar;
     rhodold       =   ctildeold* rhobar;
     betad         = - stildeold*betad + ctildeold*betahat;
@@ -486,7 +486,7 @@ Solve( unsigned int m, unsigned int n, const double * b, double * x )
     // rhodold = rhod_k  here.
 
     tautildeold   = (zetaold - thetatildeold*tautildeold)/rhotildeold;
-    double taud          = (zeta - thetatilde*tautildeold)/rhodold;
+    double const taud          = (zeta - thetatilde*tautildeold)/rhodold;
     d             = d + betacheck*betacheck;
     this->normr         = sqrt(d + Sqr(betad - taud) + Sqr(betadd));
 
@@ -515,9 +515,9 @@ Solve( unsigned int m, unsigned int n, const double * b, double * x )
 
     test1   = this->normr / this->normb;
     test2   = this->normAr/(this->normA*this->normr);
-    double test3   = one/this->condA;
-    double t1      = test1/(one + this->normA*this->normx/this->normb);
-    double rtol    = this->btol + this->atol*this->normA*normx/this->normb;
+    double const test3   = one/this->condA;
+    double const t1      = test1/(one + this->normA*this->normx/this->normb);
+    double const rtol    = this->btol + this->atol*this->normA*normx/this->normb;
 
     // The following tests guard against extremely small values of
     // atol, btol or ctol.  (The user may have set any or all of

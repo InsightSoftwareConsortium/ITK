@@ -6,7 +6,9 @@
 void
 test_real_npolynomial()
 {
-  vnl_vector<double> coef_0(3), coef_1(3), coef_2(4);
+  vnl_vector<double> coef_0(3);
+  vnl_vector<double> coef_1(3);
+  vnl_vector<double> coef_2(4);
   for (unsigned int i = 0; i < 3; ++i)
     coef_0(i) = i + 1.0; // f0 = X + 2Y + 3Z
   for (unsigned int i = 0; i < 3; ++i)
@@ -14,7 +16,9 @@ test_real_npolynomial()
   for (unsigned int i = 0; i < 4; ++i)
     coef_2(i) = 2 * i + 1.0; // f2 = X^3 + 3X^2Y + 5XY^2 + 7Y^3
 
-  vnl_matrix<unsigned int> expo_0(3, 3, 0U), expo_1(3, 2, 0U), expo_2(4, 2, 0U);
+  vnl_matrix<unsigned int> expo_0(3, 3, 0U);
+  vnl_matrix<unsigned int> expo_1(3, 2, 0U);
+  vnl_matrix<unsigned int> expo_2(4, 2, 0U);
   for (unsigned int i = 0; i < 3; ++i)
     expo_0(i, i) = 1;
   expo_1(0, 0) = 2;
@@ -23,7 +27,9 @@ test_real_npolynomial()
   for (unsigned int i = 0; i < 4; ++i)
     expo_2(i, 1) = expo_2(3 - i, 0) = i;
 
-  vnl_real_npolynomial f0(coef_0, expo_0), f1(coef_1, expo_1), f2(coef_2, expo_2);
+  const vnl_real_npolynomial f0(coef_0, expo_0);
+  vnl_real_npolynomial f1(coef_1, expo_1);
+  vnl_real_npolynomial f2(coef_2, expo_2);
 
   std::cout << "f0 = " << f0 << "f1 = " << f1 << "f2 = " << f2;
   TEST("f0 has total degree 1", f0.degree(), 1);

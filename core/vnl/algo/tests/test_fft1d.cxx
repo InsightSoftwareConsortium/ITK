@@ -34,7 +34,7 @@ test_fft_1d(int n)
 
   // calculate prime factors for this size array
   //============================================
-  vnl_fft_prime_factors<double> oPFx(n);
+  const vnl_fft_prime_factors<double> oPFx(n);
   if (!oPFx)
   {
     std::cerr << "cannot decompose X-size " << n << ")into the form (2^P)(3^Q)(5^R)\n";
@@ -98,8 +98,14 @@ test_fft_1d(int n)
     }
   TEST("test backward C-array", test_Ptr, true);
 
-  double fArrayRealError = 0.0, fArrayImagError = 0.0, fVecRealError = 0.0, fVecImagError = 0.0, fPtrRealError = 0.0,
-         fPtrImagError = 0.0, fFwdRealError = 0.0, fFwdImagError = 0.0;
+  double fArrayRealError = 0.0;
+  double fArrayImagError = 0.0;
+  double fVecRealError = 0.0;
+  double fVecImagError = 0.0;
+  double fPtrRealError = 0.0;
+  double fPtrImagError = 0.0;
+  double fFwdRealError = 0.0;
+  double fFwdImagError = 0.0;
 
   for (int iC = 0; iC < n; iC++)
   {

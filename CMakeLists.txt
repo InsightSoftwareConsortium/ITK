@@ -13,11 +13,9 @@
 #
 #   vxl-maintainers@lists.sf.net
 
-cmake_minimum_required(VERSION 3.10.2)
+cmake_minimum_required(VERSION 3.10.2...3.20.3)
 if(CMAKE_VERSION VERSION_LESS 3.12.0)
   cmake_policy(VERSION ${CMAKE_VERSION})
-else()
-  cmake_policy(VERSION 3.10.2...3.20.3)
 endif()
 
 if(NOT CMAKE_CXX_STANDARD)
@@ -67,7 +65,7 @@ foreach(p
 endforeach()
 
 project(VXL #Project name must be all caps to have properly generated VXL_VERSION_* variables
-    VERSION 5.3.0.0 # defines #MAJOR,MINOR,PATCH,TWEAK}
+    VERSION 5.5.1.0 # defines #MAJOR,MINOR,PATCH,TWEAK}
     DESCRIPTION "A multi-platform collection of C++ software libraries for Computer Vision and Image Understanding."
     LANGUAGES CXX C)
 

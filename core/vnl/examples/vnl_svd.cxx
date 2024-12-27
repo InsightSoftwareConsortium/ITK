@@ -6,7 +6,7 @@
 
 template <class D> // D is often double or float
 vnl_matrix<D>
-solve_with_warning(vnl_matrix<D> const & M, vnl_matrix<D> const & B)
+solve_with_warning(const vnl_matrix<D> & M, const vnl_matrix<D> & B)
 {
   // Take svd of vnl_matrix<D> M, setting singular values
   // smaller than 1e-8 to 0, and hold the result.
@@ -18,7 +18,7 @@ solve_with_warning(vnl_matrix<D> const & M, vnl_matrix<D> const & B)
 }
 
 template vnl_matrix<double>
-solve_with_warning(vnl_matrix<double> const &, vnl_matrix<double> const &);
+solve_with_warning(const vnl_matrix<double> &, const vnl_matrix<double> &);
 
 int
 main()

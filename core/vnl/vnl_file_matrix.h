@@ -21,17 +21,22 @@
 template <class T>
 class VNL_EXPORT vnl_file_matrix : public vnl_matrix<T>
 {
- private:
+private:
+public:
+  vnl_file_matrix(const char * filename);
 
- public:
-  vnl_file_matrix(char const* filename);
+  explicit
+  operator bool() const
+  {
+    return (ok_) ? true : false;
+  }
+  bool
+  operator!() const
+  {
+    return !ok_;
+  }
 
-  explicit operator bool () const
-    { return (ok_)? true : false; }
-  bool operator!() const
-    { return !ok_; }
-
- private:
+private:
   bool ok_;
 };
 

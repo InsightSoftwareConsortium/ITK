@@ -9,8 +9,14 @@ test_sparse_lu()
 {
   // mat0 of Kenneth S. Kunder's Sparse 1.3a release
   vnl_sparse_matrix<double> A(4, 4);
-  std::vector<int> cols0(2), cols1(3), cols2(3), cols3(2);
-  std::vector<double> vals0(2), vals1(3), vals2(3), vals3(2);
+  std::vector<int> cols0(2);
+  std::vector<int> cols1(3);
+  std::vector<int> cols2(3);
+  std::vector<int> cols3(2);
+  std::vector<double> vals0(2);
+  std::vector<double> vals1(3);
+  std::vector<double> vals2(3);
+  std::vector<double> vals3(2);
   cols0[0] = 0;
   cols0[1] = 1;
   vals0[0] = 2.0;
@@ -37,7 +43,8 @@ test_sparse_lu()
   A.set_row(3, cols3, vals3);
   for (A.reset(); A.next();)
     std::cout << "A[" << A.getrow() << "][" << A.getcolumn() << "]= " << A.value() << '\n';
-  vnl_vector<double> b(4, 0.0), x(4);
+  vnl_vector<double> b(4, 0.0);
+  vnl_vector<double> x(4);
   b[0] = 34.0;
   vnl_sparse_lu lu(A, vnl_sparse_lu::verbose);
   lu.solve(b, &x);
@@ -57,7 +64,8 @@ test_sparse_lu()
   Ap(0, 1) = 1;
   Ap(1, 2) = 1;
   Ap(2, 0) = 1;
-  vnl_vector<double> bp(3), xp(3);
+  vnl_vector<double> bp(3);
+  vnl_vector<double> xp(3);
   bp[0] = 2.0;
   bp[1] = 3.0;
   bp[2] = 1.0;
@@ -68,7 +76,9 @@ test_sparse_lu()
   TEST_NEAR("solution of mat5 example", xp[2], 3, 1.e-03);
 
   // test matrix derived from Poisson birth-death queue
-  double s = -0.01, l = 0.5, m = 0.5;
+  const double s = -0.01;
+  const double l = 0.5;
+  const double m = 0.5;
   vnl_sparse_matrix<double> S(6, 6);
   S(0, 0) = s + l;
   S(0, 1) = -l;
@@ -84,7 +94,8 @@ test_sparse_lu()
   S(4, 5) = -l;
   S(5, 4) = -m;
   S(5, 5) = m + s;
-  vnl_vector<double> bbd(6), xbd(6);
+  vnl_vector<double> bbd(6);
+  vnl_vector<double> xbd(6);
   bbd[0] = 0;
   bbd[1] = 0;
   bbd[2] = l;
@@ -98,10 +109,10 @@ test_sparse_lu()
   TEST_NEAR("test solution of birth-death matrix", xbd[2], 1.06622, 1.e-04);
   det = lubd.determinant();
   std::cout << "birth-death determinant = " << det << '\n';
-  double cond = lubd.rcond();
+  const double cond = lubd.rcond();
   std::cout << "birth-death condition number = " << cond << '\n';
   TEST_NEAR("birth-death matrix condition number", cond, 0.03756, 1.e-04);
-  double upbnd = lubd.max_error_bound();
+  const double upbnd = lubd.max_error_bound();
   std::cout << "birth-death upper error bound = " << upbnd << '\n';
   TEST_NEAR("birth-death upper error", upbnd, 5.923e-015, 1.e-016);
 }

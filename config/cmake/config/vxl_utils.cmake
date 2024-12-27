@@ -70,7 +70,7 @@ endmacro()
 #                      not its default value; otherwise, the relative path in
 #                      the vxl source tree is used.
 #  DISABLE_MSVC_MP     Disable automatic addition of the "/MP" flag in MSVC
-#                      builds.  Avoids MSVC warning C5102: ignoring invalid 
+#                      builds.  Avoids MSVC warning C5102: ignoring invalid
 #                      command-line macro definition '/MP'
 #
 function( vxl_add_library )

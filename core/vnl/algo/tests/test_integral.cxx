@@ -41,11 +41,11 @@ public:
   double
   f_(double rho) override
   {
-    double x2 = std::pow(p0_.get(0) + rho * std::sin(theta_) * std::cos(phi_), 2);
-    double y2 = std::pow(p0_.get(1) + rho * std::sin(theta_) * std::sin(phi_), 2);
-    double z2 = std::pow(p0_.get(2) + rho * std::cos(theta_), 2);
-    double term1 = oneoversr2_ * ((x2 + y2) * oneoversr2_ - 2);
-    double term2 = std::exp(-(x2 + y2) * oneoversr2_ / 2) * std::exp(-z2 * oneoversz2_ / 2);
+    const double x2 = std::pow(p0_.get(0) + rho * std::sin(theta_) * std::cos(phi_), 2);
+    const double y2 = std::pow(p0_.get(1) + rho * std::sin(theta_) * std::sin(phi_), 2);
+    const double z2 = std::pow(p0_.get(2) + rho * std::cos(theta_), 2);
+    const double term1 = oneoversr2_ * ((x2 + y2) * oneoversr2_ - 2);
+    const double term2 = std::exp(-(x2 + y2) * oneoversr2_ / 2) * std::exp(-z2 * oneoversz2_ / 2);
     return normalizer_ * term1 * term2;
   }
 
@@ -72,8 +72,8 @@ test_integral()
   my_test_integrant f;
   vnl_simpson_integral simpson_integral;
 
-  double a = 0;
-  double b = 1;
+  const double a = 0;
+  const double b = 1;
 
   TEST_NEAR("simpson integral of x/(1+x^2) from  0 to 1 is: ",
             simpson_integral.integral(&f, a, b, 100),

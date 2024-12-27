@@ -34,12 +34,13 @@
 //    computation.  For the moment it's non-const, but we'll see...
 class VNL_EXPORT vnl_least_squares_function
 {
- public:
-  enum  UseGradient {
+public:
+  enum UseGradient
+  {
     no_gradient,
     use_gradient
   };
-  bool failure;
+  bool failure{ false };
 
   //: Construct vnl_least_squares_function.
   // Passing number of parameters (unknowns, domain dimension) and number of
@@ -49,59 +50,91 @@ class VNL_EXPORT vnl_least_squares_function
   vnl_least_squares_function(unsigned int number_of_unknowns,
                              unsigned int number_of_residuals,
                              UseGradient g = use_gradient)
-  : failure(false), p_(number_of_unknowns), n_(number_of_residuals),
-    use_gradient_(g == use_gradient)
-  { dim_warning(p_,n_); }
+    : p_(number_of_unknowns)
+    , n_(number_of_residuals)
+    , use_gradient_(g == use_gradient)
+  {
+    dim_warning(p_, n_);
+  }
 
   virtual ~vnl_least_squares_function() = default;
 
   // the virtuals may call this to signal a failure.
-  void throw_failure() { failure = true; }
-  void clear_failure() { failure = false; }
+  void
+  throw_failure()
+  {
+    failure = true;
+  }
+  void
+  clear_failure()
+  {
+    failure = false;
+  }
 
   //: The main function.
   //  Given the parameter vector x, compute the vector of residuals fx.
   //  Fx has been sized appropriately before the call.
-  virtual void f(vnl_vector<double> const& x, vnl_vector<double>& fx) = 0;
+  virtual void
+  f(const vnl_vector<double> & x, vnl_vector<double> & fx) = 0;
 
   //: Calculate the Jacobian, given the parameter vector x.
-  virtual void gradf(vnl_vector<double> const& x, vnl_matrix<double>& jacobian);
+  virtual void
+  gradf(const vnl_vector<double> & x, vnl_matrix<double> & jacobian);
 
   //: Use this to compute a finite-difference gradient other than lmdif
-  void fdgradf(vnl_vector<double> const& x, vnl_matrix<double>& jacobian,
-               double stepsize);
+  void
+  fdgradf(const vnl_vector<double> & x, vnl_matrix<double> & jacobian, double stepsize);
 
   //: Use this to compute a finite-forward-difference gradient other than lmdif
   // This takes about half as many estimates as fdgradf
-  void ffdgradf(vnl_vector<double> const& x, vnl_matrix<double>& jacobian,
-                double stepsize);
+  void
+  ffdgradf(const vnl_vector<double> & x, vnl_matrix<double> & jacobian, double stepsize);
 
   //: Called after each LM iteration to print debugging etc.
-  virtual void trace(int iteration,
-                     vnl_vector<double> const& x,
-                     vnl_vector<double> const& fx);
+  virtual void
+  trace(int iteration, const vnl_vector<double> & x, const vnl_vector<double> & fx);
 
   //: Compute the rms error at x by calling f and returning the norm of the residual vector.
-  double rms(vnl_vector<double> const& x);
+  double
+  rms(const vnl_vector<double> & x);
 
   //: Return the number of unknowns
-  unsigned int get_number_of_unknowns() const { return p_; }
+  unsigned int
+  get_number_of_unknowns() const
+  {
+    return p_;
+  }
 
   //: Return the number of residuals.
-  unsigned int get_number_of_residuals() const { return n_; }
+  unsigned int
+  get_number_of_residuals() const
+  {
+    return n_;
+  }
 
   //: Return true if the derived class has indicated that gradf has been implemented
-  bool has_gradient() const { return use_gradient_; }
+  bool
+  has_gradient() const
+  {
+    return use_gradient_;
+  }
 
- protected:
+protected:
   unsigned int p_;
   unsigned int n_;
   bool use_gradient_;
 
-  void init(unsigned int number_of_unknowns, unsigned int number_of_residuals)
-  { p_ = number_of_unknowns; n_ = number_of_residuals; dim_warning(p_,n_); }
- private:
-  void dim_warning(unsigned int n_unknowns, unsigned int n_residuals);
+  void
+  init(unsigned int number_of_unknowns, unsigned int number_of_residuals)
+  {
+    p_ = number_of_unknowns;
+    n_ = number_of_residuals;
+    dim_warning(p_, n_);
+  }
+
+private:
+  void
+  dim_warning(unsigned int n_unknowns, unsigned int n_residuals);
 };
 
 #endif // vnl_least_squares_function_h_

@@ -26,8 +26,3 @@ if(APPLE AND DC1394_FOUND)
                        "-framework CoreServices"
                        "-framework IOKit" )
 endif()
-
-
-
-
-

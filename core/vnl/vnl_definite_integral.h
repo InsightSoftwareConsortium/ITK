@@ -14,13 +14,17 @@
 
 class VNL_EXPORT vnl_definite_integral
 {
- protected:
-  static vnl_integrant_fnct *pfnct_;
+protected:
+  static vnl_integrant_fnct * pfnct_;
 
- public:
+public:
   vnl_definite_integral() { pfnct_ = nullptr; }
 
-  void set_fnct(vnl_integrant_fnct* f) { pfnct_ = f; }
+  void
+  set_fnct(vnl_integrant_fnct * f)
+  {
+    pfnct_ = f;
+  }
 
   // destructor
   virtual ~vnl_definite_integral() { pfnct_ = nullptr; }

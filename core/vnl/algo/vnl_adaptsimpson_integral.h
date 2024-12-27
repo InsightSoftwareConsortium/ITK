@@ -10,25 +10,29 @@
 
 class VNL_ALGO_EXPORT vnl_adaptsimpson_integral : public vnl_definite_integral
 {
- private:
+private:
   //: used to wrap the function class to an ordinary function.
-   static double int_fnct_(double *x);
+  static double
+  int_fnct_(double * x);
 
- protected:
-
+protected:
   //: maximum recursion depth
   int depth_;
 
   //: real computation
-  double  adaptivesimpson(double(*f)(double*), double a, double b, double eps, int level, int level_max);
+  double
+  adaptivesimpson(double (*f)(double *), double a, double b, double eps, int level, int level_max);
 
- public:
-  vnl_adaptsimpson_integral(int depth = 32) : depth_(depth) {}
+public:
+  vnl_adaptsimpson_integral(int depth = 32)
+    : depth_(depth)
+  {}
 
   //: a and b are integral limits respectively.
   // n is the number of intervals used in integral.
   // accuracy is the accuracy you want to achieve. Normally accuracy > 1e-11)
-  double integral(vnl_integrant_fnct *f, double a, double b, double accuracy);
+  double
+  integral(vnl_integrant_fnct * f, double a, double b, double accuracy);
 };
 
 #endif

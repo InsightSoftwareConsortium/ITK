@@ -26,46 +26,71 @@ template <class T>
 struct vnl_fft_prime_factors
 {
 private:
-
 public:
   vnl_fft_prime_factors();
 
   //: constructor takes the size of the signal.
   vnl_fft_prime_factors(int N) { construct(N); }
 
-  ~vnl_fft_prime_factors () { destruct(); }
+  ~vnl_fft_prime_factors() { destruct(); }
 
   //: array of twiddle factors.
-  T const *trigs () const { return trigs_; }
+  const T *
+  trigs() const
+  {
+    return trigs_;
+  }
 
   //: number which was factorized
-  int number () const { return number_; }
+  int
+  number() const
+  {
+    return number_;
+  }
 
   //: exponents P, Q, R.
-  long const *pqr () const { return pqr_; }
+  const long *
+  pqr() const
+  {
+    return pqr_;
+  }
 
-  explicit operator bool () const
-    { return (trigs_ && info_ >= 0)? true : false; }
-  bool operator!() const
-    { return (trigs_ && info_ >= 0)? false : true; }
+  explicit
+  operator bool() const
+  {
+    return (trigs_ && info_ >= 0) ? true : false;
+  }
+  bool
+  operator!() const
+  {
+    return (trigs_ && info_ >= 0) ? false : true;
+  }
 
-  void resize(int N) {
+  void
+  resize(int N)
+  {
     destruct();
     construct(N);
   }
 
- private:
-  T *trigs_;
-  long number_;   // the number that is being split into prime-facs
-  long pqr_[3];   // store P, Q and R
+private:
+  T * trigs_;
+  long number_; // the number that is being split into prime-facs
+  long pqr_[3]; // store P, Q and R
   long info_;
 
-  void construct(int N);
-  void destruct();
+  void
+  construct(int N);
+  void
+  destruct();
 
   // disallow copying
-  vnl_fft_prime_factors (vnl_fft_prime_factors<T> const &) { }
-  vnl_fft_prime_factors<T>& operator= (vnl_fft_prime_factors<T> const &) { return *this; }
+  vnl_fft_prime_factors(const vnl_fft_prime_factors<T> &) {}
+  vnl_fft_prime_factors<T> &
+  operator=(const vnl_fft_prime_factors<T> &)
+  {
+    return *this;
+  }
 };
 
 #endif // vnl_fft_prime_factors_h_

@@ -26,7 +26,7 @@ struct bm_quartic1 : public vnl_cost_function
   double
   f(const vnl_vector<double> & x) override
   {
-    double y = (2 - x[0]) * (2 - x[0]);
+    const double y = (2 - x[0]) * (2 - x[0]);
     return y * y + 10;
   }
 };
@@ -35,8 +35,12 @@ void
 test_bracket_minimum()
 {
   bm_square1 f1;
-  double a = 5, b = 6, c;
-  double fa, fb, fc;
+  double a = 5;
+  double b = 6;
+  double c;
+  double fa;
+  double fb;
+  double fc;
 
   vnl_bracket_minimum(f1, a, b, c, fa, fb, fc);
 

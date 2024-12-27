@@ -16,10 +16,10 @@
 #  include <vcl_msvc_warnings.h>
 #endif
 
-#define VNL_SCALAR_JOIN_ITERATOR_INSTANTIATE(T) \
-template class VNL_EXPORT vnl_scalar_join_iterator_indexed_pair<T >;\
-template class VNL_EXPORT vnl_scalar_join_iterator<T >; \
-template VNL_EXPORT std::ostream& operator<<(std::ostream& s, const vnl_scalar_join_iterator_indexed_pair<T >& p);\
+#define VNL_SCALAR_JOIN_ITERATOR_INSTANTIATE(T)                       \
+  template class VNL_EXPORT vnl_scalar_join_iterator_indexed_pair<T>; \
+  template class VNL_EXPORT vnl_scalar_join_iterator<T>;              \
+  template VNL_EXPORT std::ostream & operator<<(std::ostream & s, const vnl_scalar_join_iterator_indexed_pair<T> & p);
 
 #include <cassert>
 #include "vnl_matrix.h"
@@ -27,36 +27,37 @@ template VNL_EXPORT std::ostream& operator<<(std::ostream& s, const vnl_scalar_j
 // Helper class to hold the sorted arrays of indices.
 
 template <class T>
-bool vnl_scalar_join_iterator_indexed_pair<T>::operator ==
-    (const vnl_scalar_join_iterator_indexed_pair<T>& that) const
+bool
+vnl_scalar_join_iterator_indexed_pair<T>::operator==(const vnl_scalar_join_iterator_indexed_pair<T> & that) const
 {
   return (*that.object) == (*object);
 }
 
 template <class T>
-bool vnl_scalar_join_iterator_indexed_pair<T>::operator <
-    (const vnl_scalar_join_iterator_indexed_pair<T>& that) const
+bool
+vnl_scalar_join_iterator_indexed_pair<T>::operator<(const vnl_scalar_join_iterator_indexed_pair<T> & that) const
 {
   return (*object) < (*that.object);
 }
 
 template <class T>
-std::ostream& operator<<(std::ostream& s,
-                        const vnl_scalar_join_iterator_indexed_pair<T>& p)
+std::ostream &
+operator<<(std::ostream & s, const vnl_scalar_join_iterator_indexed_pair<T> & p)
 {
   return s << p.original_index << ' ' << *(p.object) << '\n';
 }
 
 template <class T>
-vnl_scalar_join_iterator<T>::vnl_scalar_join_iterator
-    (const vnl_matrix<T>& relation1, unsigned column1,
-     const vnl_matrix<T>& relation2, unsigned column2):
-  n1(relation1.rows()),
-  n2(relation2.rows()),
-  pI1(new std::list<vnl_scalar_join_iterator_indexed_pair<T > >(n1)),
-  pI2(new std::list<vnl_scalar_join_iterator_indexed_pair<T > >(n2)),
-  I1(*pI1),
-  I2(*pI2)
+vnl_scalar_join_iterator<T>::vnl_scalar_join_iterator(const vnl_matrix<T> & relation1,
+                                                      unsigned column1,
+                                                      const vnl_matrix<T> & relation2,
+                                                      unsigned column2)
+  : n1(relation1.rows())
+  , n2(relation2.rows())
+  , pI1(new std::list<vnl_scalar_join_iterator_indexed_pair<T>>(n1))
+  , pI2(new std::list<vnl_scalar_join_iterator_indexed_pair<T>>(n2))
+  , I1(*pI1)
+  , I2(*pI2)
 {
   // Sort on appropriate columns
   {
@@ -75,7 +76,8 @@ vnl_scalar_join_iterator<T>::vnl_scalar_join_iterator
   index2 = I2.begin();
 
   // Loop to first
-  for (;;) {
+  for (;;)
+  {
     T star1 = *(*index1).object;
     T star2 = *(*index2).object;
     if (star1 == star2)
@@ -97,18 +99,21 @@ vnl_scalar_join_iterator<T>::~vnl_scalar_join_iterator()
 }
 
 template <class T>
-bool vnl_scalar_join_iterator<T>::done() const
+bool
+vnl_scalar_join_iterator<T>::done() const
 {
   return (index1 == I1.end()) || (index2 == I2.end());
 }
 
 //: Increment the iterator to point to the next pair of rows.
 template <class T>
-void vnl_scalar_join_iterator<T>::next()
+void
+vnl_scalar_join_iterator<T>::next()
 {
   T obj1 = *(*index1).object;
   // increment i2, check if still valid/same
-  if (++index2 == I2.end()) return;
+  if (++index2 == I2.end())
+    return;
 
   T nextobj2 = *(*index2).object;
   if (obj1 == nextobj2)
@@ -119,11 +124,13 @@ void vnl_scalar_join_iterator<T>::next()
 
   // So, objects are different (in fact, obj1 > obj2 right now), lockstep until
   // they match or we're done.
-  while (!done()) {
+  while (!done())
+  {
     T obj1 = *(*index1).object;
     T obj2 = *(*index2).object;
 
-    if (obj1 == obj2) {
+    if (obj1 == obj2)
+    {
       // If they're equal, hack back along obj2's array to find the start of the
       // stretch of equal ones.  This allows join
       //      1 3     3 5
@@ -141,20 +148,23 @@ void vnl_scalar_join_iterator<T>::next()
 }
 
 template <class T>
-unsigned vnl_scalar_join_iterator<T>::row1() const
+unsigned
+vnl_scalar_join_iterator<T>::row1() const
 {
   return (*index1).original_index;
 }
 
 template <class T>
-unsigned vnl_scalar_join_iterator<T>::row2() const
+unsigned
+vnl_scalar_join_iterator<T>::row2() const
 {
   return (*index2).original_index;
 }
 
 //: Postfix ++ should not be used. Only present for instantiation purposes.
 template <class T>
-vnl_scalar_join_iterator<T> vnl_scalar_join_iterator<T>::operator++(int)
+vnl_scalar_join_iterator<T>
+vnl_scalar_join_iterator<T>::operator++(int)
 {
   std::cerr << "This should not happen! postfix ++ called\n";
   return *this;

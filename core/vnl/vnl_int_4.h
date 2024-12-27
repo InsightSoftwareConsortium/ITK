@@ -15,6 +15,6 @@
 #include "vnl_T_n.h"
 
 //: class vnl_int_4 : a vnl_vector of 4 ints.
-vnl_T_n_impl(int,4);
+vnl_T_n_impl(int, 4);
 
 #endif // vnl_int_4_h_

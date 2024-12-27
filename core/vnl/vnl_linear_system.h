@@ -26,42 +26,57 @@
 //    To solve the system, use an algorithm like vnl_lsqr.
 class VNL_EXPORT vnl_linear_system
 {
- public:
-
-  vnl_linear_system(unsigned int number_of_unknowns, unsigned int number_of_residuals) :
-    p_(number_of_unknowns), n_(number_of_residuals) {}
+public:
+  vnl_linear_system(unsigned int number_of_unknowns, unsigned int number_of_residuals)
+    : p_(number_of_unknowns)
+    , n_(number_of_residuals)
+  {}
 
   virtual ~vnl_linear_system();
 
   //: Compute A*x,  putting result in y
-  virtual void multiply(vnl_vector<double> const& x, vnl_vector<double>& y) const = 0;
+  virtual void
+  multiply(const vnl_vector<double> & x, vnl_vector<double> & y) const = 0;
 
   //: Compute A_transpose * y, putting result in x
-  virtual void transpose_multiply(vnl_vector<double> const& y, vnl_vector<double>& x) const = 0;
+  virtual void
+  transpose_multiply(const vnl_vector<double> & y, vnl_vector<double> & x) const = 0;
 
   //; Put the right-hand side of the system Ax = b into b
-  virtual void get_rhs(vnl_vector<double>& b) const = 0;
+  virtual void
+  get_rhs(vnl_vector<double> & b) const = 0;
 
   //; (Optional) Apply a suitable preconditioner to x.
   // A preconditioner is an approximation of the inverse of A.
   // Common choices are Jacobi (1/diag(A'A)), Gauss-Seidel,
   // and incomplete LU or Cholesky decompositions.
   // The default implementation applies the identity.
-  virtual void apply_preconditioner(vnl_vector<double> const& x, vnl_vector<double>& px) const;
+  virtual void
+  apply_preconditioner(const vnl_vector<double> & x, vnl_vector<double> & px) const;
 
   //: Return the number of unknowns
-  unsigned int get_number_of_unknowns() const { return p_; }
+  unsigned int
+  get_number_of_unknowns() const
+  {
+    return p_;
+  }
 
   //: Return the number of residuals.
-  unsigned int get_number_of_residuals() const { return n_; }
+  unsigned int
+  get_number_of_residuals() const
+  {
+    return n_;
+  }
 
   //: Compute rms error for parameter vector x
-  double get_rms_error(vnl_vector<double> const& x) const;
+  double
+  get_rms_error(const vnl_vector<double> & x) const;
 
   //: Compute relative residual (|Ax - b| / |b| )for parameter vector x
-  double get_relative_residual(vnl_vector<double> const& x) const;
+  double
+  get_relative_residual(const vnl_vector<double> & x) const;
 
- protected:
+protected:
   unsigned int p_;
   unsigned int n_;
 };

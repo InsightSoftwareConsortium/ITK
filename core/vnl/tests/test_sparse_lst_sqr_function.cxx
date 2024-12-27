@@ -18,9 +18,9 @@ public:
   void
   fij(int /*i*/,
       int /*j*/,
-      vnl_vector<double> const & ai,
-      vnl_vector<double> const & bj,
-      vnl_vector<double> const & c,
+      const vnl_vector<double> & ai,
+      const vnl_vector<double> & bj,
+      const vnl_vector<double> & c,
       vnl_vector<double> & eij) override
   {
     eij[0] = (ai[0] * ai[0] - bj[0] * ai[1]) * bj[2] * bj[2] * bj[2] + c[0] * ai[0];
@@ -30,9 +30,9 @@ public:
   void
   jac_Aij(unsigned int /*i*/,
           unsigned int /*j*/,
-          vnl_vector<double> const & ai,
-          vnl_vector<double> const & bj,
-          vnl_vector<double> const & c,
+          const vnl_vector<double> & ai,
+          const vnl_vector<double> & bj,
+          const vnl_vector<double> & c,
           vnl_matrix<double> & Aij) override
   {
     Aij[0][0] = 2.0 * ai[0] * bj[2] * bj[2] * bj[2] + c[0];
@@ -44,9 +44,9 @@ public:
   void
   jac_Bij(unsigned int /*i*/,
           unsigned int /*j*/,
-          vnl_vector<double> const & ai,
-          vnl_vector<double> const & bj,
-          vnl_vector<double> const & /*c*/,
+          const vnl_vector<double> & ai,
+          const vnl_vector<double> & bj,
+          const vnl_vector<double> & /*c*/,
           vnl_matrix<double> & Bij) override
   {
     Bij[0][0] = -ai[1] * bj[2] * bj[2] * bj[2];
@@ -60,9 +60,9 @@ public:
   void
   jac_Cij(unsigned int /*i*/,
           unsigned int /*j*/,
-          vnl_vector<double> const & ai,
-          vnl_vector<double> const & /*bj*/,
-          vnl_vector<double> const & /*c*/,
+          const vnl_vector<double> & ai,
+          const vnl_vector<double> & /*bj*/,
+          const vnl_vector<double> & /*c*/,
           vnl_matrix<double> & Cij) override
   {
     Cij[0][0] = ai[0];
@@ -74,10 +74,10 @@ public:
   void
   compute_weight_ij(int i,
                     int j,
-                    vnl_vector<double> const & /*ai*/,
-                    vnl_vector<double> const & /*bj*/,
-                    vnl_vector<double> const & /*c*/,
-                    vnl_vector<double> const & /*fij*/,
+                    const vnl_vector<double> & /*ai*/,
+                    const vnl_vector<double> & /*bj*/,
+                    const vnl_vector<double> & /*c*/,
+                    const vnl_vector<double> & /*fij*/,
                     double & weight) override
   {
     weight = double((i + 1) * (j + 1)) / (this->number_of_a() * this->number_of_b());
@@ -88,7 +88,7 @@ public:
 static void
 test_sparse_lst_sqr_function()
 {
-  std::vector<bool> null_row(4, false);
+  const std::vector<bool> null_row(4, false);
   std::vector<std::vector<bool>> mask(3, null_row);
 
   //        |1 1 0 0|
@@ -142,7 +142,10 @@ test_sparse_lst_sqr_function()
   TEST("number_of_residuals", num_valid, true);
   TEST("index_e", index_valid, true);
 
-  vnl_vector<double> ai(2), bj(3), c(2), e(2);
+  vnl_vector<double> ai(2);
+  vnl_vector<double> bj(3);
+  vnl_vector<double> c(2);
+  vnl_vector<double> e(2);
   ai[0] = 5.0;
   ai[1] = -1.0;
   bj[0] = 1.2;
@@ -154,8 +157,12 @@ test_sparse_lst_sqr_function()
 
   my_func.fij(0, 0, ai, bj, c, e);
   std::cout << "e  = " << e << std::endl;
-  vnl_matrix<double> Aij(2, 2), Bij(2, 3), Cij(2, 2);
-  vnl_matrix<double> fd_Aij(2, 2), fd_Bij(2, 3), fd_Cij(2, 2);
+  vnl_matrix<double> Aij(2, 2);
+  vnl_matrix<double> Bij(2, 3);
+  vnl_matrix<double> Cij(2, 2);
+  vnl_matrix<double> fd_Aij(2, 2);
+  vnl_matrix<double> fd_Bij(2, 3);
+  vnl_matrix<double> fd_Cij(2, 2);
   my_func.jac_Aij(0, 0, ai, bj, c, Aij);
   my_func.fd_jac_Aij(0, 0, ai, bj, c, fd_Aij, step);
   my_func.jac_Bij(0, 0, ai, bj, c, Bij);
@@ -194,16 +201,18 @@ test_sparse_lst_sqr_function()
 
   // apply weights
   vnl_vector<double> wf(f);
-  std::vector<vnl_matrix<double>> wA(A), wB(B), wC(C);
+  std::vector<vnl_matrix<double>> wA(A);
+  std::vector<vnl_matrix<double>> wB(B);
+  std::vector<vnl_matrix<double>> wC(C);
   my_func.apply_weights(weights, wf);
   my_func.apply_weights(weights, wA, wB, wC);
 
-  double w_norm = my_func.number_of_a() * my_func.number_of_b();
+  const double w_norm = my_func.number_of_a() * my_func.number_of_b();
   for (unsigned int i = 0; i < my_func.number_of_a(); ++i)
   {
     for (unsigned int j = 0; j < my_func.number_of_b(); ++j)
     {
-      int k = my_func.residual_indices()(i, j);
+      const int k = my_func.residual_indices()(i, j);
       if (k < 0)
         continue;
       TEST_NEAR("valid weights", weights[k], double((i + 1) * (j + 1)) / w_norm, 1e-10);

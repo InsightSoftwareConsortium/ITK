@@ -171,7 +171,7 @@ testlib_main(int argc, char * argv[])
                 << "----------------------------------------\n"
                 << std::flush;
 
-      int result = testlib_run_test_unit(i, argc, argv);
+      const int result = testlib_run_test_unit(i, argc, argv);
 
       std::cout << "----------------------------------------\n"
                 << testlib_test_name_[i] << " returned " << result << ' ' << (result == 0 ? "(PASS)" : "(FAIL)") << '\n'

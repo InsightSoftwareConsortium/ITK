@@ -9,15 +9,13 @@
 #  include "vcl_msvc_warnings.h"
 #endif
 
-void f(std::map<int, std::string,std::less<int> >*,
-       std::set<int,std::less<int> >*,
-       std::list<int>*
-      )
-{
-}
+void
+f(std::map<int, std::string, std::less<int>> *, std::set<int, std::less<int>> *, std::list<int> *)
+{}
 
 
-int test_stlfwd_main(int /*argc*/,char* /*argv*/[])
+int
+test_stlfwd_main(int /*argc*/, char * /*argv*/[])
 {
   return 0;
 }

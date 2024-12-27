@@ -25,22 +25,22 @@
 template <class T>
 class VNL_EXPORT vnl_fortran_copy
 {
- public:
+public:
   // Constructors/Destructors--------------------------------------------------
 
-  vnl_fortran_copy(vnl_matrix<T> const & M);
+  vnl_fortran_copy(const vnl_matrix<T> & M);
 
   ~vnl_fortran_copy();
 
   // Operations----------------------------------------------------------------
-  operator T*() { return data; }
+  operator T *() { return data; }
 
- protected:
+protected:
   // Data Members--------------------------------------------------------------
   int sz;
-  T *data;
+  T * data;
 
- private:
+private:
   // Helpers-------------------------------------------------------------------
 };
 

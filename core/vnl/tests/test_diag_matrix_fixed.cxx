@@ -17,7 +17,7 @@ test_diag_matrix_fixed()
   for (unsigned i = 0; i < N; i++)
     m1(i, i) = i * 0.25 - 0.25;
 
-  vnl_diag_matrix_fixed<double, N> const m1c = m1; // must be const in order to use m(i,j)
+  const vnl_diag_matrix_fixed<double, N> m1c = m1; // must be const in order to use m(i,j)
   std::cout << "m1 = " << m1 << " =\n";
   for (unsigned i = 0; i < N; i++)
   {
@@ -31,7 +31,7 @@ test_diag_matrix_fixed()
   for (unsigned i = 0; i < N; i++)
     m2(i, i) = 2.0 - 1.25 * i;
 
-  vnl_diag_matrix_fixed<double, N> const m2c = m2;
+  const vnl_diag_matrix_fixed<double, N> m2c = m2;
   std::cout << "m2 = " << m2 << " =\n";
   for (unsigned i = 0; i < N; i++)
   {
@@ -41,15 +41,15 @@ test_diag_matrix_fixed()
     std::cout << '\n';
   }
 
-  vnl_diag_matrix_fixed<double, N> const sum = m1 + m2;
+  const vnl_diag_matrix_fixed<double, N> sum = m1 + m2;
   std::cout << "sum = " << sum << '\n';
   TEST("sum", sum(0, 0) == 1.75 && sum(1, 1) == 0.75 && sum(2, 2) == -0.25, true);
 
-  vnl_diag_matrix_fixed<double, N> const diff = m1 - m2;
+  const vnl_diag_matrix_fixed<double, N> diff = m1 - m2;
   std::cout << "difference = " << diff << " =\n";
   TEST("difference", diff(0, 0) == -2.25 && diff(1, 1) == -0.75 && diff(2, 2) == 0.75, true);
 
-  vnl_diag_matrix_fixed<double, N> const prod = m1 * m2;
+  const vnl_diag_matrix_fixed<double, N> prod = m1 * m2;
   std::cout << "product = " << prod << '\n';
   TEST("product", prod(0, 0) == -0.5 && prod(1, 1) == 0.0 && prod(2, 2) == -0.125, true);
 

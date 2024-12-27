@@ -19,7 +19,7 @@ bool vnl_amoeba::default_verbose = false;
 
 vnl_amoeba::vnl_amoeba(vnl_cost_function & f)
   : fptr(&f)
-  , num_evaluations_(0)
+
 {
   verbose = default_verbose;
   maxiter = f.get_number_of_unknowns() * 200;
@@ -88,7 +88,7 @@ struct vnl_amoebaFit : public vnl_amoeba
 };
 
 int
-vnl_amoeba_SimplexCorner::compare(vnl_amoeba_SimplexCorner const & s1, vnl_amoeba_SimplexCorner const & s2)
+vnl_amoeba_SimplexCorner::compare(const vnl_amoeba_SimplexCorner & s1, const vnl_amoeba_SimplexCorner & s2)
 {
   return vnl_math::sgn(s1.fv - s2.fv);
 }
@@ -112,7 +112,7 @@ maxabsdiff(const vnl_vector<double> & a, const vnl_vector<double> & b)
   double v = 0;
   for (unsigned i = 0; i < a.size(); ++i)
   {
-    double ad = vnl_math::abs(a[i] - b[i]);
+    const double ad = vnl_math::abs(a[i] - b[i]);
     if (ad > v)
       v = ad;
   }
@@ -131,7 +131,7 @@ simplex_diameter(const std::vector<vnl_amoeba_SimplexCorner> & simplex)
   double max = 0;
   for (unsigned i = 0; i < simplex.size() - 1; i++)
   {
-    double thismax = maxabsdiff(simplex[i].v, simplex[i + 1].v);
+    const double thismax = maxabsdiff(simplex[i].v, simplex[i + 1].v);
     if (thismax > max)
       max = thismax;
   }
@@ -165,7 +165,7 @@ operator==(const vnl_amoeba_SimplexCorner & a, const vnl_amoeba_SimplexCorner & 
 void
 vnl_amoebaFit::set_up_simplex_relative(std::vector<vnl_amoeba_SimplexCorner> & simplex, const vnl_vector<double> & x)
 {
-  int n = x.size();
+  const int n = x.size();
 
   simplex[0].v = x;
   simplex[0].fv = f(x);
@@ -195,7 +195,7 @@ vnl_amoebaFit::set_up_simplex_absolute(std::vector<vnl_amoeba_SimplexCorner> & s
                                        const vnl_vector<double> & x,
                                        const vnl_vector<double> & dx)
 {
-  int n = x.size();
+  const int n = x.size();
 
   simplex[0].v = x;
   simplex[0].fv = f(x);
@@ -242,7 +242,7 @@ void
 vnl_amoebaFit::amoeba(vnl_vector<double> & x)
 {
   // Set up a simplex near the initial guess.
-  int n = x.size();
+  const int n = x.size();
   std::vector<vnl_amoeba_SimplexCorner> simplex(n + 1, vnl_amoeba_SimplexCorner(n));
 
   set_up_simplex_relative(simplex, x);
@@ -253,7 +253,7 @@ void
 vnl_amoebaFit::amoeba(vnl_vector<double> & x, const vnl_vector<double> & dx)
 {
   // Set up a simplex near the initial guess.
-  int n = x.size();
+  const int n = x.size();
   std::vector<vnl_amoeba_SimplexCorner> simplex(n + 1, vnl_amoeba_SimplexCorner(n));
 
   set_up_simplex_absolute(simplex, x, dx);
@@ -264,7 +264,7 @@ vnl_amoebaFit::amoeba(vnl_vector<double> & x, const vnl_vector<double> & dx)
 void
 vnl_amoebaFit::amoeba(vnl_vector<double> & x, std::vector<vnl_amoeba_SimplexCorner> & simplex)
 {
-  int n = x.size();
+  const int n = x.size();
   sort_simplex(simplex);
 
   if (verbose > 1)
@@ -281,7 +281,6 @@ vnl_amoebaFit::amoeba(vnl_vector<double> & x, std::vector<vnl_amoeba_SimplexCorn
   vnl_amoeba_SimplexCorner expand(n);
   vnl_amoeba_SimplexCorner contract(n);
   vnl_amoeba_SimplexCorner shrink(n);
-  vnl_amoeba_SimplexCorner * next;
 
   vnl_vector<double> vbar(n);
   while (cnt < maxiter)
@@ -300,7 +299,7 @@ vnl_amoebaFit::amoeba(vnl_vector<double> & x, std::vector<vnl_amoeba_SimplexCorn
 
     set_corner_a_plus_bl(&reflect, vbar, simplex[n].v, -1);
 
-    next = &reflect;
+    vnl_amoeba_SimplexCorner * next = &reflect;
     const char * how = "reflect ";
     if (reflect.fv < simplex[n - 1].fv)
     {
@@ -360,7 +359,7 @@ vnl_amoebaFit::amoeba(vnl_vector<double> & x, std::vector<vnl_amoeba_SimplexCorn
         std::cerr << "\nFirst corner: " << simplex[0].v;
       if (verbose > 1)
       {
-        std::streamsize a = std::cerr.width(10);
+        const std::streamsize a = std::cerr.width(10);
         std::cerr << '\n' << simplex << '\n';
         std::cerr.width(a);
       }
@@ -440,7 +439,7 @@ public:
   ~vnl_amoeba_LSCF() override = default;
 
   double
-  f(vnl_vector<double> const & x) override
+  f(const vnl_vector<double> & x) override
   {
     ls_->f(x, fx);
     return fx.squared_magnitude();

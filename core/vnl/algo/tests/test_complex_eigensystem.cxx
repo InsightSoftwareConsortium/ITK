@@ -35,14 +35,14 @@ test_complex_eigensystem1()
   TEST("vnl_complex_eigensystem constructor", eig.N, N);
   for (unsigned i = 0; i < N; i++)
   {
-    std::complex<double> w = eig.W[i];
+    const std::complex<double> w = eig.W[i];
     std::cout << "  W[" << i << "] = " << w << '\n';
     //
-    vnl_vector<std::complex<double>> l = eig.left_eigen_vector(i);
+    const vnl_vector<std::complex<double>> l = eig.left_eigen_vector(i);
     vnl_vector<std::complex<double>> err = l * A - l * w;
     testlib_test_assert_near("  Left  eigenvalue residue", err.magnitude());
     //
-    vnl_vector<std::complex<double>> r = eig.right_eigen_vector(i);
+    const vnl_vector<std::complex<double>> r = eig.right_eigen_vector(i);
     err = A * r - w * r;
     testlib_test_assert_near("  Right eigenvalue residue", err.magnitude());
   }
@@ -54,7 +54,7 @@ test_complex_eigensystem2()
   // The standard version of ZLAHQR fails to converge on this 6x6 matrix
   // because the maximum number of iterations is reached. Removing the
   // upper limit makes it work, though.
-  double Adata[6][6] = {
+  const double Adata[6][6] = {
     { 6.811898476755, -0.750947244402, 0.029620459055, 0.082784816274, -0.003265374870, 0.000128799864 },
     { -0.302642078990, 7.243967032503, -0.238733709072, -1.593479414193, 0.057672293761, -0.002070468886 },
     { -0.224780478514, 1.663978565954, 6.516036730518, -0.364143980645, -0.711203495953, 0.056672152613 },
@@ -66,7 +66,7 @@ test_complex_eigensystem2()
   for (int i = 0; i < 6; ++i)
     for (int j = 0; j < 6; ++j)
       A[i][j] = Adata[i][j]; //(0.77+i) + (0.1+j)*(0.33+j);
-  vnl_complex_eigensystem eig(A);
+  const vnl_complex_eigensystem eig(A);
   TEST("vnl_complex_eigensystem constructor", eig.N, 6);
   for (int i = 0; i < 6; ++i)
     std::cout << "  W[" << i << "] = " << eig.eigen_value(i) << '\n';

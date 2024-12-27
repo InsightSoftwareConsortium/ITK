@@ -27,13 +27,12 @@
 //         [1 2];
 // \endverbatim
 
-vnl_real_npolynomial::vnl_real_npolynomial(vnl_vector<double> c,
-                                           const vnl_matrix<unsigned int> &p)
-    : coeffs_{std::move(c)}
-    , polyn_(p)
-    , nvar_{p.cols()}
-    , nterms_{p.rows()}
-    , ideg_{p.max_value()}
+vnl_real_npolynomial::vnl_real_npolynomial(vnl_vector<double> c, const vnl_matrix<unsigned int> & p)
+  : coeffs_{ std::move(c) }
+  , polyn_(p)
+  , nvar_{ p.cols() }
+  , nterms_{ p.rows() }
+  , ideg_{ p.max_value() }
 {
   assert(coeffs_.size() == polyn_.rows());
   simplify();
@@ -184,13 +183,13 @@ vnl_real_npolynomial::operator-() const
   for (unsigned int i = 0; i < nterms_; ++i)
     coef(i) = -coeffs_(i);
 
-  vnl_matrix<unsigned int> poly = polyn_;
+  const vnl_matrix<unsigned int> poly = polyn_;
 
   return vnl_real_npolynomial(coef, poly);
 }
 
 vnl_real_npolynomial
-vnl_real_npolynomial::operator+(vnl_real_npolynomial const & P) const
+vnl_real_npolynomial::operator+(const vnl_real_npolynomial & P) const
 {
   assert(nvar_ == P.nvar_); // both polynomials must have the same variables
 
@@ -231,7 +230,7 @@ vnl_real_npolynomial::operator+(double P) const
 }
 
 vnl_real_npolynomial
-vnl_real_npolynomial::operator-(vnl_real_npolynomial const & P) const
+vnl_real_npolynomial::operator-(const vnl_real_npolynomial & P) const
 {
   assert(nvar_ == P.nvar_); // both polynomials must have the same variables
 
@@ -253,7 +252,8 @@ vnl_real_npolynomial::operator-(vnl_real_npolynomial const & P) const
   return vnl_real_npolynomial(coef, poly);
 }
 
-vnl_real_npolynomial vnl_real_npolynomial::operator*(vnl_real_npolynomial const & P) const
+vnl_real_npolynomial
+vnl_real_npolynomial::operator*(const vnl_real_npolynomial & P) const
 {
   assert(nvar_ == P.nvar_); // both polynomials must have the same variables
 
@@ -273,36 +273,37 @@ vnl_real_npolynomial vnl_real_npolynomial::operator*(vnl_real_npolynomial const 
   return vnl_real_npolynomial(coef, poly);
 }
 
-vnl_real_npolynomial vnl_real_npolynomial::operator*(double P) const
+vnl_real_npolynomial
+vnl_real_npolynomial::operator*(double P) const
 {
   vnl_vector<double> coef(nterms_);
   for (unsigned int i = 0; i < nterms_; ++i)
     coef(i) = coeffs_(i) * P;
 
-  vnl_matrix<unsigned int> poly = polyn_;
+  const vnl_matrix<unsigned int> poly = polyn_;
 
   return vnl_real_npolynomial(coef, poly);
 }
 
 std::ostream &
-operator<<(std::ostream & os, vnl_real_npolynomial const & P)
+operator<<(std::ostream & os, const vnl_real_npolynomial & P)
 {
   return os << P.asString() << std::endl;
 }
 vnl_real_npolynomial &
-vnl_real_npolynomial::operator+=(vnl_real_npolynomial const & rhs)
+vnl_real_npolynomial::operator+=(const vnl_real_npolynomial & rhs)
 {
   *this = (*this) + rhs;
   return *this;
 }
 vnl_real_npolynomial &
-vnl_real_npolynomial::operator-=(vnl_real_npolynomial const & rhs)
+vnl_real_npolynomial::operator-=(const vnl_real_npolynomial & rhs)
 {
   *this = (*this) - rhs;
   return *this;
 }
 vnl_real_npolynomial &
-vnl_real_npolynomial::operator*=(vnl_real_npolynomial const & rhs)
+vnl_real_npolynomial::operator*=(const vnl_real_npolynomial & rhs)
 {
   *this = (*this) * rhs;
   return *this;

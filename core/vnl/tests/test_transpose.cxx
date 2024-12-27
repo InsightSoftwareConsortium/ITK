@@ -13,7 +13,7 @@ test_transpose()
     for (unsigned int j = 0; j < X.cols(); ++j)
       X[i][j] = (i + 1) * 3 + (j + 1) * (j + i);
 
-  vnl_matrix<double> old_X(X);
+  const vnl_matrix<double> old_X(X);
 
   vnl_matlab_print(std::cout, X, "X");
 

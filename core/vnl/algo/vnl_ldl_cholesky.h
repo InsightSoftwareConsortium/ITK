@@ -28,78 +28,116 @@
 //  it might be a good idea to use vnl_svd instead.
 class VNL_ALGO_EXPORT vnl_ldl_cholesky
 {
- public:
+public:
   //: Modes of computation.  See constructor for details.
-  enum Operation {
+  enum Operation
+  {
     quiet,
     verbose,
     estimate_condition
   };
 
   //: Make cholesky decomposition of M optionally computing the reciprocal condition number.
-  vnl_ldl_cholesky(vnl_matrix<double> const& M, Operation mode = verbose);
- ~vnl_ldl_cholesky() = default;
+  vnl_ldl_cholesky(const vnl_matrix<double> & M, Operation mode = verbose);
+  ~vnl_ldl_cholesky() = default;
 
   //: Solve LS problem M x = b
-  vnl_vector<double> solve(vnl_vector<double> const& b) const;
+  vnl_vector<double>
+  solve(const vnl_vector<double> & b) const;
 
   //: Solve LS problem M x = b
-  void solve(vnl_vector<double> const& b, vnl_vector<double>* x) const;
+  void
+  solve(const vnl_vector<double> & b, vnl_vector<double> * x) const;
 
   //: Solve equation of form Lx=y (in-place)
   //  x is overwritten with solution
-  void solve_lx(vnl_vector<double>& y);
+  void
+  solve_lx(vnl_vector<double> & y);
 
   //: Compute determinant
-  double determinant() const;
+  double
+  determinant() const;
 
   //: Compute rank-1 update, ie the decomposition of (M+v.v')
   //  If the initial state is the decomposition of M, then
   //  L and D are updated so that on exit  LDL'=M+v.v'
-  void rank1_update(const vnl_vector<double>& v);
+  void
+  rank1_update(const vnl_vector<double> & v);
 
   //: Multi-rank update, ie the decomposition of (M+W.W')
   //  If the initial state is the decomposition of M, then
   //  L and D are updated so that on exit  LDL'=M+W.W'
-  void update(const vnl_matrix<double>& W);
+  void
+  update(const vnl_matrix<double> & W);
 
   //:   Compute inverse.  Not efficient.
   //  Note that you rarely need the inverse - backsubstitution
   //  is faster and less prone to rounding errors.
-  vnl_matrix<double> inverse() const;
+  vnl_matrix<double>
+  inverse() const;
 
   //: Return lower-triangular factor.
-  const vnl_matrix<double>& lower_triangle() const { return L_; }
+  const vnl_matrix<double> &
+  lower_triangle() const
+  {
+    return L_;
+  }
 
   //: Return upper-triangular factor.
-  vnl_matrix<double> upper_triangle() const { return L_.transpose(); }
+  vnl_matrix<double>
+  upper_triangle() const
+  {
+    return L_.transpose();
+  }
 
   //: Return elements of diagonal matrix D in LDL'
-  const vnl_vector<double>& diagonal() const { return d_; }
+  const vnl_vector<double> &
+  diagonal() const
+  {
+    return d_;
+  }
 
   //: Efficient computation of x' * inv(M) * x
   //  Useful when M is a covariance matrix!
-  double xt_m_inv_x(const vnl_vector<double>& x) const;
+  double
+  xt_m_inv_x(const vnl_vector<double> & x) const;
 
   //: Efficient computation of x' * M * x
   //  Twice as fast as explicitly computing x' * M * x
-  double xt_m_x(const vnl_vector<double>& x) const;
+  double
+  xt_m_x(const vnl_vector<double> & x) const;
 
   //: A Success/failure flag
-  int rank_deficiency() const { return num_dims_rank_def_; }
+  int
+  rank_deficiency() const
+  {
+    return num_dims_rank_def_;
+  }
 
   //: Return reciprocal condition number (smallest/largest singular values).
   // As long as rcond()>sqrt(precision) the decomposition can be used for
   // solving equations safely.
   // Not calculated unless Operation mode at construction was estimate_condition.
-  double rcond() const { return rcond_; }
+  double
+  rcond() const
+  {
+    return rcond_;
+  }
 
   //: Return computed nullvector.
   // Not calculated unless Operation mode at construction was estimate_condition.
-  vnl_vector<double>      & nullvector()       { return nullvector_; }
-  vnl_vector<double> const& nullvector() const { return nullvector_; }
+  vnl_vector<double> &
+  nullvector()
+  {
+    return nullvector_;
+  }
+  const vnl_vector<double> &
+  nullvector() const
+  {
+    return nullvector_;
+  }
 
- protected:
+protected:
   // Data Members--------------------------------------------------------------
 
   //: Lower triangular matrix
@@ -113,16 +151,18 @@ class VNL_ALGO_EXPORT vnl_ldl_cholesky
   long num_dims_rank_def_;
   vnl_vector<double> nullvector_;
 
- private:
+private:
   //: Copy constructor - privatised to avoid it being used
-  vnl_ldl_cholesky(vnl_ldl_cholesky const & that) = delete;
+  vnl_ldl_cholesky(const vnl_ldl_cholesky & that) = delete;
   //: Assignment operator - privatised to avoid it being used
-  vnl_ldl_cholesky& operator=(vnl_ldl_cholesky const & that) = delete;
+  vnl_ldl_cholesky &
+  operator=(const vnl_ldl_cholesky & that) = delete;
 
   //: Solve Mx=b, overwriting input vector with the solution.
   //  x points to beginning of an n-element vector containing b
   //  On exit, x[i] filled with solution vector.
-  void inplace_solve(double* x) const;
+  void
+  inplace_solve(double * x) const;
 };
 
 #endif // vnl_ldl_cholesky_h_

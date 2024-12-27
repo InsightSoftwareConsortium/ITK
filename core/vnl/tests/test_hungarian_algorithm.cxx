@@ -11,10 +11,10 @@ test_hungarian_algorithm_1()
 {
   // Create input image
   constexpr int cost_val[6][6] = { { 4, 12, 11, 20, 16, 19 }, { 12, 8, 20, 13, 22, 18 }, { 6, 9, 4, 15, 9, 12 },
-                         { 12, 4, 12, 6, 14, 8 },   { 12, 10, 6, 9, 5, 3 },    { 13, 7, 12, 2, 10, 4 } };
+                                   { 12, 4, 12, 6, 14, 8 },   { 12, 10, 6, 9, 5, 3 },    { 13, 7, 12, 2, 10, 4 } };
 
   // Create the cost matrix
-  vnl_matrix<int> cost(&cost_val[0][0], 6, 6);
+  const vnl_matrix<int> cost(&cost_val[0][0], 6, 6);
 
   vnl_hungarian_algorithm<int> HungarianClassTest;
   HungarianClassTest.SetCostMatrix(cost);
@@ -34,7 +34,7 @@ test_hungarian_algorithm_1()
   std::vector<unsigned> assignment = HungarianClassTest.GetAssignmentVector();
 
   std::cout << "assignment vector:\n" << '(';
-  for (unsigned int i : assignment)
+  for (const unsigned int i : assignment)
     std::cout << ' ' << i;
   std::cout << " )\n";
 
@@ -47,10 +47,10 @@ test_hungarian_algorithm_1()
   TEST_NEAR("total cost", HungarianClassTest.GetTotalCost(), 31, 1e-11);
 
   constexpr double cost_val2[6][6] = { { 2, 3.0, 1, 0.1, 2, 7 }, { 1, 0, 1, 2, 3.0, 4 }, { 0, 0, 9, 5, 4.4, 2 },
-                             { 1, 5, 6, 3, 0, 1 },     { 0, 1, 2, 0, 1, 2 },   { 2, 3, 1, 0.1, 1, 1 } };
+                                       { 1, 5, 6, 3, 0, 1 },     { 0, 1, 2, 0, 1, 2 },   { 2, 3, 1, 0.1, 1, 1 } };
 
   // Create the cost matrix
-  vnl_matrix<double> cost2(&cost_val2[0][0], 6, 6);
+  const vnl_matrix<double> cost2(&cost_val2[0][0], 6, 6);
 
   vnl_hungarian_algorithm<double> HungarianClassTest2;
   HungarianClassTest2.SetCostMatrix(cost2);
@@ -74,7 +74,7 @@ test_hungarian_algorithm_1()
   std::vector<unsigned> assignment2 = HungarianClassTest2.GetAssignmentVector();
 
   std::cout << "assignment vector:" << std::endl << '(';
-  for (unsigned int i : assignment2)
+  for (const unsigned int i : assignment2)
     std::cout << ' ' << i;
   std::cout << " )\n";
 
@@ -90,7 +90,7 @@ test_hungarian_algorithm_1()
 static vnl_random randgen;
 
 static void
-check_solution(std::vector<unsigned> const & assign, unsigned const * solution, unsigned const N)
+check_solution(const std::vector<unsigned> & assign, const unsigned * solution, const unsigned N)
 {
   TEST("  assignment vector size", assign.size(), N);
   bool okay = true;
@@ -112,7 +112,7 @@ check_solution(std::vector<unsigned> const & assign, unsigned const * solution, 
 
 
 static std::vector<unsigned>
-make_up_solution(unsigned const M, unsigned const N)
+make_up_solution(const unsigned M, const unsigned N)
 {
   // True solution
   std::vector<unsigned> true_assn(M);
@@ -138,11 +138,11 @@ make_up_solution(unsigned const M, unsigned const N)
 }
 
 static void
-test_skewed_problem(unsigned const M, unsigned const N)
+test_skewed_problem(const unsigned M, const unsigned N)
 {
   std::cout << "Creating " << M << 'x' << N << " matrix" << std::endl;
   vnl_matrix<double> cost(M, N);
-  double low = std::min(M, N) + 5.0;
+  const double low = std::min(M, N) + 5.0;
   for (unsigned i = 0; i < M; ++i)
   {
     for (unsigned j = 0; j < N; ++j)
@@ -173,25 +173,25 @@ test_skewed_problem(unsigned const M, unsigned const N)
 
   std::cout << "Costs computed for " << M << 'x' << N << " matrix" << std::endl;
 
-  std::vector<unsigned> assn = vnl_hungarian_algorithm<double>(cost);
+  const std::vector<unsigned> assn = vnl_hungarian_algorithm<double>(cost);
 
   check_solution(assn, &true_assn[0], M);
 }
 
 
 static void
-run_test(vnl_matrix<double> const & cost, unsigned solution[])
+run_test(const vnl_matrix<double> & cost, unsigned solution[])
 {
   {
     std::cout << "Test " << cost.rows() << 'x' << cost.cols() << " matrix" << std::endl;
-    std::vector<unsigned> assign = vnl_hungarian_algorithm<double>(cost);
+    const std::vector<unsigned> assign = vnl_hungarian_algorithm<double>(cost);
     check_solution(assign, solution, cost.rows());
   }
 
   {
     std::cout << "Test transposed problem" << std::endl;
-    vnl_matrix<double> costT = cost.transpose();
-    std::vector<unsigned> assign = vnl_hungarian_algorithm<double>(costT);
+    const vnl_matrix<double> costT = cost.transpose();
+    const std::vector<unsigned> assign = vnl_hungarian_algorithm<double>(costT);
 
     std::vector<unsigned> solutionT(costT.rows(), unsigned(-1));
     for (unsigned i = 0; i < cost.rows(); ++i)
@@ -214,7 +214,7 @@ test_hungarian_algorithm_2()
     constexpr double cost_val[3][3] = { { 1, 2, 3 }, { 2, 4, 6 }, { 3, 6, 9 } };
 
     // Create the cost matrix
-    vnl_matrix<double> cost(&cost_val[0][0], 3, 3);
+    const vnl_matrix<double> cost(&cost_val[0][0], 3, 3);
 
     std::cout << "//-----------------------//\n"
               << "//       Matrix 3        //\n"
@@ -224,7 +224,7 @@ test_hungarian_algorithm_2()
 
     std::vector<unsigned> assign = vnl_hungarian_algorithm<double>(cost);
     std::cout << "assignment vector:\n" << '(';
-    for (unsigned int i : assign)
+    for (const unsigned int i : assign)
       std::cout << ' ' << i;
     std::cout << " )" << std::endl;
     TEST("Test 3x3 cost matrix", assign.size() == 3 && assign[0] == 2 && assign[1] == 1 && assign[2] == 0, true);
@@ -234,7 +234,7 @@ test_hungarian_algorithm_2()
     constexpr double cost_val[4][4] = {
       { 2.0, 1.0, 5.0, 3.0 }, { 0.5, 6.0, 3.0, 0.5 }, { 5.0, 2.0, 1.0, 6.0 }, { 7.0, 1.0, 3.0, 0.1 }
     };
-    vnl_matrix<double> cost(&cost_val[0][0], 4, 4);
+    const vnl_matrix<double> cost(&cost_val[0][0], 4, 4);
 
     std::cout << "//-----------------------//\n"
               << "//       Matrix 4        //\n"
@@ -250,7 +250,7 @@ test_hungarian_algorithm_2()
 
   {
     constexpr double cost_val[3][4] = { { 2.0, 1.0, 5.0, 3.0 }, { 0.5, 6.0, 3.0, 0.5 }, { 7.0, 1.0, 3.0, 0.1 } };
-    vnl_matrix<double> cost(&cost_val[0][0], 3, 4);
+    const vnl_matrix<double> cost(&cost_val[0][0], 3, 4);
 
     std::cout << "//-----------------------//\n"
               << "//       Matrix 5        //\n"
@@ -266,7 +266,7 @@ test_hungarian_algorithm_2()
     // test where the greedy solution is not the optimal
     std::cout << "\n\nTest when greedy != optimal\n";
     constexpr double cost_val[3][4] = { { 2.0, 1.0, 5.0, 3.0 }, { 0.5, 0.2, 3.0, 0.5 }, { 7.0, 1.0, 3.0, 0.1 } };
-    vnl_matrix<double> cost(&cost_val[0][0], 3, 4);
+    const vnl_matrix<double> cost(&cost_val[0][0], 3, 4);
 
     std::cout << "//-----------------------//\n"
               << "//       Matrix 6        //\n"
@@ -283,7 +283,7 @@ test_hungarian_algorithm_2()
     // solution
     std::cout << "\n\nTest when row-by-row min != optimal\n";
     constexpr double cost_val[3][4] = { { 2.0, 1.0, 5.0, 3.0 }, { 0.5, 6.0, 3.0, 0.5 }, { 0.1, 1.0, 3.0, 0.2 } };
-    vnl_matrix<double> cost(&cost_val[0][0], 3, 4);
+    const vnl_matrix<double> cost(&cost_val[0][0], 3, 4);
 
     std::cout << "//-----------------------//\n"
               << "//       Matrix 7        //\n"
@@ -300,7 +300,7 @@ test_hungarian_algorithm_2()
       { 2.0, 0.5, 7.0 }, { 1.1, 6.0, 1.0 }, { 1.0, 2.0, 1.0 }, { 5.0, 3.0, 3.0 }, { 3.0, 0.5, 0.1 }
     };
 
-    vnl_matrix<double> cost(&cost_val[0][0], 5, 3);
+    const vnl_matrix<double> cost(&cost_val[0][0], 5, 3);
 
     std::cout << "//-----------------------//\n"
               << "//       Matrix 8        //\n"
@@ -320,7 +320,7 @@ test_hungarian_algorithm_2()
       { 2.0, 0.5, 7.0 }, { 1.1, 6.0, 1.0 }, { 1.0, 2.0, 1.0 }, { Inf, 3.0, 3.0 }, { 3.0, 0.5, 0.1 }
     };
 
-    vnl_matrix<double> cost(&cost_val[0][0], 5, 3);
+    const vnl_matrix<double> cost(&cost_val[0][0], 5, 3);
 
     std::cout << "//-----------------------//\n"
               << "//       Matrix 9        //\n"
@@ -338,7 +338,7 @@ test_hungarian_algorithm_2()
       { 2.0, 0.5, 7.0 }, { 1.1, 6.0, 1.0 }, { 1.0, 2.0, 1.0 }, { Inf, 3.0, 3.0 }, { 3.0, 0.5, 0.1 }
     };
 
-    vnl_matrix<double> cost(&cost_val[0][0], 5, 3);
+    const vnl_matrix<double> cost(&cost_val[0][0], 5, 3);
 
     std::cout << "//-----------------------//\n"
               << "//       Matrix 10       //\n"

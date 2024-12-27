@@ -15,6 +15,6 @@
 #include "vnl_T_n.h"
 
 //: class vnl_float_4 : a vnl_vector of 4 floats.
-vnl_T_n_impl(float,4);
+vnl_T_n_impl(float, 4);
 
 #endif // vnl_float_4_h_

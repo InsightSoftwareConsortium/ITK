@@ -23,16 +23,16 @@
 #include "vnl/vnl_complexify.h"
 #include <vnl/algo/vnl_fft_2d.h>
 
-inline static double
+static inline double
 function(unsigned i, unsigned j)
 {
   return i * j;
 }
 
 void
-test_cplx(vnl_fft_prime_factors<double> const & /*prx*/,
-          vnl_fft_prime_factors<double> const & /*pry*/,
-          vnl_matrix<std::complex<double>> const & M,
+test_cplx(const vnl_fft_prime_factors<double> & /*prx*/,
+          const vnl_fft_prime_factors<double> & /*pry*/,
+          const vnl_matrix<std::complex<double>> & M,
           int dir)
 {
   vnl_matrix<std::complex<double>> fft_matrix = M;
@@ -50,8 +50,8 @@ test_fft2d()
   constexpr unsigned int cols = 64;
 
   // calculate prime factors for this size array
-  vnl_fft_prime_factors<double> prx(rows);
-  vnl_fft_prime_factors<double> pry(cols);
+  const vnl_fft_prime_factors<double> prx(rows);
+  const vnl_fft_prime_factors<double> pry(cols);
 
   if (!prx)
   {
@@ -85,7 +85,7 @@ test_fft2d()
   vnl_complexify(real_array, imag_array, cplx_array, rows * cols);
 
   // data as matrices :
-  vnl_matrix<std::complex<double>> cplx_matrix(cplx_array, rows, cols);
+  const vnl_matrix<std::complex<double>> cplx_matrix(cplx_array, rows, cols);
 
   //--------------------------------------------------------------------------------
 
@@ -101,7 +101,7 @@ test_fft2d()
   fft.fwd_transform(fft_matrix);
   fft.bwd_transform(fft_matrix);
 
-  double error = (fft_matrix - std::complex<double>(cplx_matrix.size()) * cplx_matrix).fro_norm();
+  const double error = (fft_matrix - std::complex<double>(cplx_matrix.size()) * cplx_matrix).fro_norm();
   std::cout << "error = " << error << std::endl;
   TEST_NEAR("fwd-bwd error", error, 0.0, 1e-7); // increase for float
 }

@@ -36,38 +36,45 @@
 // In addition, the function computes the generalized eigenvalues
 // (alphar(k) + i alphai(k) : beta(k) for k = 0, 1, 2,...
 template <class T>
-bool vnl_generalized_schur(vnl_matrix<T> *A,
-                           vnl_matrix<T> *B,
-                           vnl_vector<T> *alphar,
-                           vnl_vector<T> *alphai,
-                           vnl_vector<T> *beta,
-                           vnl_matrix<T> *L,
-                           vnl_matrix<T> *R);
+bool
+vnl_generalized_schur(vnl_matrix<T> * A,
+                      vnl_matrix<T> * B,
+                      vnl_vector<T> * alphar,
+                      vnl_vector<T> * alphai,
+                      vnl_vector<T> * beta,
+                      vnl_matrix<T> * L,
+                      vnl_matrix<T> * R);
 
 template <>
-VNL_ALGO_EXPORT bool vnl_generalized_schur(vnl_matrix<double> *A,
-                           vnl_matrix<double> *B,
-                           vnl_vector<double> *alphar,
-                           vnl_vector<double> *alphai,
-                           vnl_vector<double> *beta,
-                           vnl_matrix<double> *L,
-                           vnl_matrix<double> *R);
+VNL_ALGO_EXPORT bool
+vnl_generalized_schur(vnl_matrix<double> * A,
+                      vnl_matrix<double> * B,
+                      vnl_vector<double> * alphar,
+                      vnl_vector<double> * alphai,
+                      vnl_vector<double> * beta,
+                      vnl_matrix<double> * L,
+                      vnl_matrix<double> * R);
 
 #ifdef _MSC_VER
 #  include <vcl_msvc_warnings.h>
 #endif
 
 template <class T>
-T vnl_generalized_schur_convert_cast(double a) { return static_cast<T>(a); }
+T
+vnl_generalized_schur_convert_cast(double a)
+{
+  return static_cast<T>(a);
+}
 
 template <class T>
-inline bool vnl_generalized_schur(vnl_matrix<T> *A,
-                                  vnl_matrix<T> *B,
-                                  vnl_vector<T> *alphar,
-                                  vnl_vector<T> *alphai,
-                                  vnl_vector<T> *beta,
-                                  vnl_matrix<T> *L,
-                                  vnl_matrix<T> *R)
+inline bool
+vnl_generalized_schur(vnl_matrix<T> * A,
+                      vnl_matrix<T> * B,
+                      vnl_vector<T> * alphar,
+                      vnl_vector<T> * alphai,
+                      vnl_vector<T> * beta,
+                      vnl_matrix<T> * L,
+                      vnl_matrix<T> * R)
 {
   vnl_matrix<double> A_(A->rows(), A->cols());
   vnl_matrix<double> B_(B->rows(), B->cols());
@@ -80,7 +87,7 @@ inline bool vnl_generalized_schur(vnl_matrix<T> *A,
   vnl_matrix<double> L_;
   vnl_matrix<double> R_;
 
-  if (! vnl_generalized_schur/*<double>*/(&A_, &B_, &alphar_, &alphai_, &beta_, &L_, &R_))
+  if (!vnl_generalized_schur /*<double>*/ (&A_, &B_, &alphar_, &alphai_, &beta_, &L_, &R_))
     return false;
 
   std::transform(A_.begin(), A_.end(), A->begin(), vnl_generalized_schur_convert_cast<T>);
@@ -92,8 +99,8 @@ inline bool vnl_generalized_schur(vnl_matrix<T> *A,
   alphai->set_size(alphai_.size());
   std::transform(alphai_.begin(), alphai_.end(), alphai->begin(), vnl_generalized_schur_convert_cast<T>);
 
-  beta  ->set_size(beta_  .size());
-  std::transform(beta_  .begin(), beta_  .end(), beta  ->begin(), vnl_generalized_schur_convert_cast<T>);
+  beta->set_size(beta_.size());
+  std::transform(beta_.begin(), beta_.end(), beta->begin(), vnl_generalized_schur_convert_cast<T>);
 
   L->set_size(L_.rows(), L_.cols());
   std::transform(L_.begin(), L_.end(), L->begin(), vnl_generalized_schur_convert_cast<T>);

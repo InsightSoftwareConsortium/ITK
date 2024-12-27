@@ -31,27 +31,30 @@ class vnl_cost_function;
 
 class VNL_ALGO_EXPORT vnl_conjugate_gradient : public vnl_nonlinear_minimizer
 {
- public:
+public:
   // Constructors/Destructors--------------------------------------------------
 
   //: Initialize with the function object that is to be minimized.
-  vnl_conjugate_gradient(vnl_cost_function& f) { init( f); }
+  vnl_conjugate_gradient(vnl_cost_function & f) { init(f); }
 
   //: Initialize as above, and then run minimization.
-  vnl_conjugate_gradient(vnl_cost_function& f, vnl_vector<double>& x) {
+  vnl_conjugate_gradient(vnl_cost_function & f, vnl_vector<double> & x)
+  {
     init(f);
     minimize(x);
   }
 
   //: Initialize all variables
-  void init(vnl_cost_function &f);
+  void
+  init(vnl_cost_function & f);
 
   //: Destructor.
   ~vnl_conjugate_gradient() override;
 
   // Operations----------------------------------------------------------------
 
-  void diagnose_outcome(std::ostream&) const;
+  void
+  diagnose_outcome(std::ostream &) const;
   void diagnose_outcome(/*std::ostream& = std::cout*/) const;
 
   // Computations--------------------------------------------------------------
@@ -59,21 +62,25 @@ class VNL_ALGO_EXPORT vnl_conjugate_gradient : public vnl_nonlinear_minimizer
   //: Minimize the function supplied in the constructor until convergence or failure.
   // On return, x is such that f(x) is the lowest value achieved.
   // Returns true for convergence, false for failure.
-  bool minimize(vnl_vector<double>& x);
+  bool
+  minimize(vnl_vector<double> & x);
 
- protected:
+protected:
   // Data Members--------------------------------------------------------------
 
-  vnl_cost_function *f_;
+  vnl_cost_function * f_;
   double final_step_size_;
 
   // Helpers-------------------------------------------------------------------
 
-  static double valuecomputer_( double *x, void* userdata);
-  static void gradientcomputer_( double *g, double *x, void* userdata);
-  static void valueandgradientcomputer_( double *v, double *g, double *x, void* userdata);
-  static void preconditioner_( double *out, double *in, void* userdata);
-
+  static double
+  valuecomputer_(double * x, void * userdata);
+  static void
+  gradientcomputer_(double * g, double * x, void * userdata);
+  static void
+  valueandgradientcomputer_(double * v, double * g, double * x, void * userdata);
+  static void
+  preconditioner_(double * out, double * in, void * userdata);
 };
 
 #endif // vnl_conjugate_gradient_h_

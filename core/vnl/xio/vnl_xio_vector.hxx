@@ -6,23 +6,26 @@
 #include <vsl/vsl_basic_xml_element.h>
 
 //=================================================================================
-template<class T>
-void x_write(std::ostream & os, vnl_vector<T> const& v, std::string name)
+template <class T>
+void
+x_write(std::ostream & os, const vnl_vector<T> & v, std::string name)
 {
   vsl_basic_xml_element element(name);
   element.add_attribute("size", v.size());
-  for (unsigned i=0; i<v.size(); ++i)
+  for (unsigned i = 0; i < v.size(); ++i)
     element.append_cdata(v.get(i));
   element.x_write(os);
 }
 
 //=================================================================================
-template<class T>
-void x_write_tree(std::ostream & os, vnl_vector<T> const& v, std::string name)
+template <class T>
+void
+x_write_tree(std::ostream & os, const vnl_vector<T> & v, std::string name)
 {
   vsl_basic_xml_element element(name);
   element.add_attribute("size", v.size());
-  for (unsigned i=0; i<v.size(); ++i) {
+  for (unsigned i = 0; i < v.size(); ++i)
+  {
     element.append_cdata("<element>");
     element.append_cdata(v.get(i));
     element.append_cdata("</element>");
@@ -31,8 +34,8 @@ void x_write_tree(std::ostream & os, vnl_vector<T> const& v, std::string name)
 }
 
 #undef VNL_XIO_VECTOR_INSTANTIATE
-#define VNL_XIO_VECTOR_INSTANTIATE(T) \
-template VNL_EXPORT void x_write(std::ostream &, vnl_vector<T > const&, std::string); \
-template VNL_EXPORT void x_write_tree(std::ostream &, vnl_vector<T > const&, std::string)
+#define VNL_XIO_VECTOR_INSTANTIATE(T)                                                   \
+  template VNL_EXPORT void x_write(std::ostream &, vnl_vector<T> const &, std::string); \
+  template VNL_EXPORT void x_write_tree(std::ostream &, vnl_vector<T> const &, std::string)
 
 #endif // vnl_xio_vector_hxx_

@@ -14,17 +14,20 @@ template <typename FloatingType>
 inline void
 makeNumDen(FloatingType d, int_type & num_, int_type & den_)
 {
-  bool sign = d < 0;
+  const bool sign = d < 0;
   if (sign)
     d = -d;
 
   // Continued fraction approximation of abs(d): recursively determined
-  int_type den = 0L, num = 1L, prev_den = 1L, prev_num = 0L;
+  int_type den = 0L;
+  int_type num = 1L;
+  int_type prev_den = 1L;
+  int_type prev_num = 0L;
 
   while (d * num < 1e9 && d * den < 1e9)
   {
-    int_type a = static_cast<int_type>(d); // integral part of d
-    d -= a;                                // certainly >= 0
+    const int_type a = static_cast<int_type>(d); // integral part of d
+    d -= a;                                      // certainly >= 0
     int_type temp = num;
     num = a * num + prev_num;
     prev_num = temp;
@@ -44,34 +47,29 @@ makeNumDen(FloatingType d, int_type & num_, int_type & den_)
 
 //: Creates a rational from a double.
 //  This is done by computing the continued fraction approximation for d.
-vnl_rational::vnl_rational(double d)
-{
-  makeNumDen<double>(d, num_, den_);
-}
+vnl_rational::vnl_rational(double d) { makeNumDen<double>(d, num_, den_); }
 
 //: Creates a rational from a double.
 //  This is done by computing the continued fraction approximation for d.
-vnl_rational::vnl_rational(float f)
-{
-  makeNumDen<double>(f, num_, den_);
-}
+vnl_rational::vnl_rational(float f) { makeNumDen<double>(f, num_, den_); }
 
 //: Multiply/assign: replace lhs by lhs * rhs
 //  Note that 0 * Inf and Inf * 0 are undefined.
 //  Also note that there could be integer overflow during this calculation!
 //  In that case, an approximate result will be returned.
 vnl_rational &
-vnl_rational::operator*=(vnl_rational const & r)
+vnl_rational::operator*=(const vnl_rational & r)
 {
   assert(num_ != 0 || den_ != 0); // 0 * Inf is undefined
-  int_type a = vnl_rational::gcd(r.numerator(), den_), b = vnl_rational::gcd(r.denominator(), num_);
+  int_type a = vnl_rational::gcd(r.numerator(), den_);
+  int_type b = vnl_rational::gcd(r.denominator(), num_);
   num_ /= b;
   den_ /= a;
   a = r.numerator() / a;
   b = r.denominator() / b;
   // find out whether overflow would occur; in that case, return approximate result
-  double n = double(a) * double(num_);
-  double d = double(b) * double(den_);
+  const double n = double(a) * double(num_);
+  const double d = double(b) * double(den_);
   if (n < maxint_as_double && d < maxint_as_double)
   {
     num_ *= a;
@@ -89,11 +87,11 @@ vnl_rational::operator*=(vnl_rational const & r)
 vnl_rational &
 vnl_rational::operator*=(int_type r)
 {
-  int_type a = vnl_rational::gcd(r, den_);
+  const int_type a = vnl_rational::gcd(r, den_);
   den_ /= a;
   r /= a;
   // find out whether overflow would occur; in that case, return approximate result
-  double n = double(r) * double(num_);
+  const double n = double(r) * double(num_);
   if (n < maxint_as_double)
   {
     num_ *= r;
@@ -109,16 +107,18 @@ vnl_rational::operator*=(int_type r)
 //  Also note that there could be integer overflow during this calculation!
 //  In that case, an approximate result will be returned.
 vnl_rational &
-vnl_rational::operator/=(vnl_rational const & r)
+vnl_rational::operator/=(const vnl_rational & r)
 {
   assert(num_ != 0 || den_ != 0); // 0/0, Inf/Inf undefined
-  int_type a = vnl_rational::gcd(r.numerator(), num_), b = vnl_rational::gcd(r.denominator(), den_);
+  int_type a = vnl_rational::gcd(r.numerator(), num_);
+  int_type b = vnl_rational::gcd(r.denominator(), den_);
   num_ /= a;
   den_ /= b;
   a = r.numerator() / a;
   b = r.denominator() / b;
   // find out whether overflow would occur; in that case, return approximate result
-  double n = double(b) * double(num_), d = double(a) * double(den_);
+  const double n = double(b) * double(num_);
+  const double d = double(a) * double(den_);
   if (n < maxint_as_double && d < maxint_as_double)
   {
     num_ *= b;
@@ -138,11 +138,11 @@ vnl_rational &
 vnl_rational::operator/=(int_type r)
 {
   assert(num_ != 0 || r != 0); // 0/0 undefined
-  int_type a = vnl_rational::gcd(r, num_);
+  const int_type a = vnl_rational::gcd(r, num_);
   num_ /= a;
   r /= a;
   // find out whether overflow would occur; in that case, return approximate result
-  double d = double(r) * double(den_);
+  const double d = double(r) * double(den_);
   if (d < maxint_as_double)
   {
     den_ *= r;

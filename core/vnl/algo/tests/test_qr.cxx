@@ -10,9 +10,9 @@
 //--------------------------------------------------------------------------------
 
 void
-test_matrix(char const * name, const vnl_matrix<double> & A, double det = 0)
+test_matrix(const char * name, const vnl_matrix<double> & A, double det = 0)
 {
-  vnl_qr<double> qr(A);
+  const vnl_qr<double> qr(A);
 
   std::string n(name);
   n += ": ";
@@ -31,7 +31,7 @@ double_test()
   double A_data[] = {
     89, 21, 27, 62, 71, 0, 84, 13, 41, 16, 9, 3,
   };
-  vnl_matrix<double> A(A_data, 4, 3);
+  const vnl_matrix<double> A(A_data, 4, 3);
 
   test_matrix("A", A);
   test_matrix("AT", A.transpose());
@@ -43,15 +43,15 @@ double_test()
 
   double b_data[] = { 68, 39, 39, 50 };
 
-  vnl_vector<double> b(b_data, 4);
-  vnl_qr<double> qr(A);
+  const vnl_vector<double> b(b_data, 4);
+  const vnl_qr<double> qr(A);
 
   vnl_matlab_print(std::cout, qr.Q(), "Q");
   vnl_matlab_print(std::cout, qr.R(), "R");
 
-  vnl_vector<double> x = qr.solve(b);
+  const vnl_vector<double> x = qr.solve(b);
 
-  double res = (A * x - b).magnitude();
+  const double res = (A * x - b).magnitude();
 
   TEST_NEAR("Solve residual", res, 37.8841, 1e-3);
 
@@ -59,7 +59,7 @@ double_test()
     double S_data[] = {
       89, 21, 27, 62, 71, 0, 84, 13, 41,
     };
-    vnl_matrix<double> S(S_data, 3, 3);
+    const vnl_matrix<double> S(S_data, 3, 3);
     test_matrix("S", S, 66431);
     test_matrix("S-100", S - 100, -79869);
   }
@@ -94,8 +94,8 @@ void
 new_test(T *)
 {
   vnl_random rng(1000);
-  unsigned m = 5; // m must be >= n when using the netlib QR algorithms,
-  unsigned n = 5; // but n >= m for a random A and b to have exact solution.
+  const unsigned m = 5; // m must be >= n when using the netlib QR algorithms,
+  const unsigned n = 5; // but n >= m for a random A and b to have exact solution.
 
   vnl_matrix<T> A(m, n);
   test_util_fill_random(A.begin(), A.end(), rng);
@@ -105,16 +105,16 @@ new_test(T *)
   test_util_fill_random(b.begin(), b.end(), rng);
   vnl_matlab_print(std::cout, b, "b");
 
-  vnl_qr<T> qr(A);
-  vnl_matrix<T> const & Q = qr.Q();
-  vnl_matrix<T> const & R = qr.R();
-  vnl_vector<T> x = qr.solve(b);
+  const vnl_qr<T> qr(A);
+  const vnl_matrix<T> & Q = qr.Q();
+  const vnl_matrix<T> & R = qr.R();
+  const vnl_vector<T> x = qr.solve(b);
 
   vnl_matlab_print(std::cout, Q, "Q");
   vnl_matlab_print(std::cout, R, "R");
   vnl_matlab_print(std::cout, x, "x");
 
-  vnl_matrix<T> QR(Q * R);
+  const vnl_matrix<T> QR(Q * R);
   vnl_matlab_print(std::cout, QR, "QR");
 
   vnl_matrix<T> I(m, m);
@@ -166,13 +166,13 @@ complex_test()
   b(3) = ct(0.0538, 0.0402);
   b(4) = ct(1.8634, .64558);
   vnl_matlab_print(std::cout, b, "b");
-  vnl_qr<ct> qr(A);
+  const vnl_qr<ct> qr(A);
   vnl_matlab_print(std::cout, A, "A");
   const vnl_matrix<ct> & Q = qr.Q();
   vnl_matlab_print(std::cout, Q, "Q");
   const vnl_matrix<ct> & R = qr.R();
   vnl_matlab_print(std::cout, R, "R");
-  vnl_vector<ct> x = qr.solve(b);
+  const vnl_vector<ct> x = qr.solve(b);
   vnl_matlab_print(std::cout, x, "solve");
   TEST_NEAR("||Ax - b||", (A * x - b).two_norm(), 0, 1e-5);
 }

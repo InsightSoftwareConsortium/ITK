@@ -84,339 +84,1067 @@
 
 class VNL_EXPORT vnl_decnum
 {
- private:
-   char sign_{' '}; // Sign of vnl_decnum ('+' or '-'; for zero and NaN, the
-                    // sign is ' ')
-   std::string
-       data_; // The decimal mantissa data (absolute value)
-              // data_ consists of decimals (0-9) only, guaranteed without
-              // leading zero. This holds even for zero: represented by "".
-              // The only exceptions are "Inf" and "NaN".
-   long exp_{
-       0L}; // The exponent; nonnegative for integers. Zero for Inf and NaN.
+private:
+  char sign_{ ' ' }; // Sign of vnl_decnum ('+' or '-'; for zero and NaN, the
+                     // sign is ' ')
+  std::string data_; // The decimal mantissa data (absolute value)
+                     // data_ consists of decimals (0-9) only, guaranteed without
+                     // leading zero. This holds even for zero: represented by "".
+                     // The only exceptions are "Inf" and "NaN".
+  long exp_{ 0L };   // The exponent; nonnegative for integers. Zero for Inf and NaN.
 
-   // private constructor: arguments should satisfy the above constraints
-   vnl_decnum(char s, std::string d, long e)
-       : sign_(s), data_(std::move(d)), exp_(e) {}
- public:
-  std::string data() const { return data_; }
-  char       sign() const { return sign_; }
-  long       exp () const { return exp_; }
+  // private constructor: arguments should satisfy the above constraints
+  vnl_decnum(char s, std::string d, long e)
+    : sign_(s)
+    , data_(std::move(d))
+    , exp_(e)
+  {}
+
+public:
+  std::string
+  data() const
+  {
+    return data_;
+  }
+  char
+  sign() const
+  {
+    return sign_;
+  }
+  long
+  exp() const
+  {
+    return exp_;
+  }
   //: Default constructor - creates the number zero.
-  vnl_decnum() : data_("") {}
+  vnl_decnum()
+    : data_("")
+  {}
   // Copy constructor
-  vnl_decnum(vnl_decnum const& r) = default;
+  vnl_decnum(const vnl_decnum & r) = default;
   //: Constructor from string
   //  This is the principal constructor for vnl_decnum; it essentially parses
   //  the input into (in that order) the sign, the mantissa, and the exponent,
   //  which turn out (surprise!) to be the three data members of this class.
   //  Parsing stops at the first unexpected character, so in the worst case
   //  no characters can be used and the decnum is zero.
-  vnl_decnum(std::string const&);
-  vnl_decnum(char const* r) { operator=(std::string(r)); }
+  vnl_decnum(const std::string &);
+  vnl_decnum(const char * r) { operator=(std::string(r)); }
   //: Creates a vnl_decnum from an unsigned long integer.
   explicit vnl_decnum(unsigned long);
   //: Creates a vnl_decnum from a long integer.
   // Uses the "unsigned long" constructor and additionally sets the sign
   explicit vnl_decnum(long r)
-  : sign_(r<0 ? '-' : r>0 ? '+' : ' ')
-  { vnl_decnum d((unsigned long)(r<0?-r:r)); data_=d.data(); exp_=d.exp(); }
+    : sign_(r < 0   ? '-'
+            : r > 0 ? '+'
+                    : ' ')
+  {
+    const vnl_decnum d((unsigned long)(r < 0 ? -r : r));
+    data_ = d.data();
+    exp_ = d.exp();
+  }
   //: Creates a vnl_decnum from an unsigned integer.
   // Uses the "unsigned long" constructor.
   explicit vnl_decnum(unsigned int r)
-  : sign_(r>0 ? '+' : ' ')
-  { vnl_decnum d((unsigned long)r); data_=d.data(); exp_=d.exp(); }
+    : sign_(r > 0 ? '+' : ' ')
+  {
+    const vnl_decnum d((unsigned long)r);
+    data_ = d.data();
+    exp_ = d.exp();
+  }
   //: Creates a vnl_decnum from an integer.
   // Uses the "unsigned long" constructor and additionally sets the sign
   explicit vnl_decnum(int r)
-  : sign_(r<0 ? '-' : r>0 ? '+' : ' ')
-  { vnl_decnum d((unsigned long)(r<0?-r:r)); data_=d.data(); exp_=d.exp(); }
+    : sign_(r < 0   ? '-'
+            : r > 0 ? '+'
+                    : ' ')
+  {
+    const vnl_decnum d((unsigned long)(r < 0 ? -r : r));
+    data_ = d.data();
+    exp_ = d.exp();
+  }
   //: Creates a vnl_decnum from a double.
   // No guarantees on the precise result!
   // Integers will be correctly converted, though.
   vnl_decnum(double);
 
-  ~vnl_decnum() = default;    // Destructor
+  ~vnl_decnum() = default; // Destructor
 
   //: Implicit type conversion to a decimal string
   operator std::string() const;
 
-  operator long() const;  // type conversion
-  operator unsigned long() const;  // type conversion, drop the sign
-  operator int() const;  // type conversion
+  operator long() const;          // type conversion
+  operator unsigned long() const; // type conversion, drop the sign
+  operator int() const;           // type conversion
   operator unsigned int() const;  // type conversion, drop the sign
 
   //: Unary plus operator
-  inline vnl_decnum operator+() const { return *this; }
+  inline vnl_decnum
+  operator+() const
+  {
+    return *this;
+  }
   //: Unary minus operator
-  inline vnl_decnum operator-() const { if (sign_==' ') return *this; else return vnl_decnum(sign_=='-'?'+':'-', data_, exp_); }
+  inline vnl_decnum
+  operator-() const
+  {
+    if (sign_ == ' ')
+      return *this;
+    else
+      return { sign_ == '-' ? '+' : '-', data_, exp_ };
+  }
 
   //: Left "bit" shift operator (actually: digit shift, or exponent translation)
-  inline vnl_decnum operator<<(long int r) const { return sign_==' ' ? *this : vnl_decnum(sign_, data_, exp_+r); }
-  inline vnl_decnum operator<<(int r) const { return operator<<((long int)r); }
+  inline vnl_decnum
+  operator<<(long int r) const
+  {
+    return sign_ == ' ' ? *this : vnl_decnum(sign_, data_, exp_ + r);
+  }
+  inline vnl_decnum
+  operator<<(int r) const
+  {
+    return operator<<((long int)r);
+  }
   //: Right "bit" shift operator (actually: digit shift, or exponent translation)
-  inline vnl_decnum operator>>(long int r) const { return sign_==' ' ? *this : vnl_decnum(sign_, data_, exp_-r); }
-  inline vnl_decnum operator>>(int r) const { return operator>>((long int)r); }
+  inline vnl_decnum
+  operator>>(long int r) const
+  {
+    return sign_ == ' ' ? *this : vnl_decnum(sign_, data_, exp_ - r);
+  }
+  inline vnl_decnum
+  operator>>(int r) const
+  {
+    return operator>>((long int)r);
+  }
   //: Left "bit" shift operator (actually: digit shift, or exponent translation)
-  inline vnl_decnum& operator<<=(long int r) { if (sign_!=' ') exp_ += r; return *this; }
-  inline vnl_decnum& operator<<=(int r) { if (sign_!=' ') exp_ += r; return *this; }
+  inline vnl_decnum &
+  operator<<=(long int r)
+  {
+    if (sign_ != ' ')
+      exp_ += r;
+    return *this;
+  }
+  inline vnl_decnum &
+  operator<<=(int r)
+  {
+    if (sign_ != ' ')
+      exp_ += r;
+    return *this;
+  }
   //: Right "bit" shift operator (actually: digit shift, or exponent translation)
-  inline vnl_decnum& operator>>=(long int r) { if (sign_!=' ') exp_ -= r; return *this; }
-  inline vnl_decnum& operator>>=(int r) { if (sign_!=' ') exp_ -= r; return *this; }
+  inline vnl_decnum &
+  operator>>=(long int r)
+  {
+    if (sign_ != ' ')
+      exp_ -= r;
+    return *this;
+  }
+  inline vnl_decnum &
+  operator>>=(int r)
+  {
+    if (sign_ != ' ')
+      exp_ -= r;
+    return *this;
+  }
 
   //: Remove all trailing zeros from the mantissa, and increase the exponent accordingly.
   // Return the (thus modified) *this.
   // This effectively compactifies the data representation of *this, and meanwhile increases the exponent.
   // No other methods have this effect; to the contrary: e.g. operator+(1) often decreases the exponent to 0.
-  vnl_decnum& compactify();
+  vnl_decnum &
+  compactify();
 
   //: Expand integers to their non-compactified representation, i.e., without "e" notation.
   // Other operators (like + or -) might implicitly have this effect, as the implementation here indeed suggests.
-  inline vnl_decnum& expand() { return *this = operator+(1L)-1L; }
+  inline vnl_decnum &
+  expand()
+  {
+    return *this = operator+(1L) - 1L;
+  }
 
   //: Assignment operator; no compactification or expansion occurs
-  inline vnl_decnum& operator=(const vnl_decnum& r) { sign_=r.sign(); data_=r.data(); exp_=r.exp(); return *this; }
+  inline vnl_decnum &
+  operator=(const vnl_decnum & r)
+  {
+    sign_ = r.sign();
+    data_ = r.data();
+    exp_ = r.exp();
+    return *this;
+  }
   //: Sum
-  vnl_decnum operator+(vnl_decnum const& r) const;
+  vnl_decnum
+  operator+(const vnl_decnum & r) const;
   //: Difference
-  inline vnl_decnum operator-(vnl_decnum const& r) const { return operator+(-r); }
+  inline vnl_decnum
+  operator-(const vnl_decnum & r) const
+  {
+    return operator+(-r);
+  }
   //: Product
-  vnl_decnum operator*(vnl_decnum const& r) const;
+  vnl_decnum
+  operator*(const vnl_decnum & r) const;
   //: division operator
   // \returns integral part of quotient (long division) of *this with \p r
   // When \p r is zero, the result is Inf,
   // unless also *this is zero, in which case the result is NaN.
-  vnl_decnum operator/(vnl_decnum const& r) const;
+  vnl_decnum
+  operator/(const vnl_decnum & r) const;
   //: modulo operator
   // \returns remainder of long division of *this with \p r
   // When \p r is zero, the result equals *this.
-  vnl_decnum operator%(vnl_decnum const& r) const;
+  vnl_decnum
+  operator%(const vnl_decnum & r) const;
 
-  inline vnl_decnum& operator+=(vnl_decnum const& r) { return *this = operator+(r); }
-  inline vnl_decnum& operator-=(vnl_decnum const& r) { return *this = operator+(-r); }
-  inline vnl_decnum& operator*=(vnl_decnum const& r) { return *this = operator*(r); }
-  inline vnl_decnum& operator/=(vnl_decnum const& r) { return *this = operator/(r); }
-  inline vnl_decnum& operator%=(vnl_decnum const& r) { return *this = operator%(r); }
+  inline vnl_decnum &
+  operator+=(const vnl_decnum & r)
+  {
+    return *this = operator+(r);
+  }
+  inline vnl_decnum &
+  operator-=(const vnl_decnum & r)
+  {
+    return *this = operator+(-r);
+  }
+  inline vnl_decnum &
+  operator*=(const vnl_decnum & r)
+  {
+    return *this = operator*(r);
+  }
+  inline vnl_decnum &
+  operator/=(const vnl_decnum & r)
+  {
+    return *this = operator/(r);
+  }
+  inline vnl_decnum &
+  operator%=(const vnl_decnum & r)
+  {
+    return *this = operator%(r);
+  }
 
   // === overloads for the above operators with other datatypes as rhs:
 
-  inline vnl_decnum& operator=(std::string const& r) { return operator=(vnl_decnum(r)); }
-  inline vnl_decnum& operator=(char const* r) { return operator=(vnl_decnum(std::string(r))); }
-  inline vnl_decnum& operator=(unsigned long r) { return operator=(vnl_decnum(r)); }
-  inline vnl_decnum& operator=(long r) { return operator=(vnl_decnum(r)); }
-  inline vnl_decnum& operator=(unsigned  int r) { return operator=(vnl_decnum(r)); }
-  inline vnl_decnum& operator=(int r) { return operator=(vnl_decnum(r)); }
-  inline vnl_decnum& operator=(double r) { return operator=(vnl_decnum(r)); }
+  inline vnl_decnum &
+  operator=(const std::string & r)
+  {
+    return operator=(vnl_decnum(r));
+  }
+  inline vnl_decnum &
+  operator=(const char * r)
+  {
+    return operator=(vnl_decnum(std::string(r)));
+  }
+  inline vnl_decnum &
+  operator=(unsigned long r)
+  {
+    return operator=(vnl_decnum(r));
+  }
+  inline vnl_decnum &
+  operator=(long r)
+  {
+    return operator=(vnl_decnum(r));
+  }
+  inline vnl_decnum &
+  operator=(unsigned int r)
+  {
+    return operator=(vnl_decnum(r));
+  }
+  inline vnl_decnum &
+  operator=(int r)
+  {
+    return operator=(vnl_decnum(r));
+  }
+  inline vnl_decnum &
+  operator=(double r)
+  {
+    return operator=(vnl_decnum(r));
+  }
 
-  inline vnl_decnum operator+(std::string const& r) const { return operator+(vnl_decnum(r)); }
-  inline vnl_decnum operator+(char const* r) const { return operator+(vnl_decnum(std::string(r))); }
-  inline vnl_decnum operator+(unsigned long r) const { return operator+(vnl_decnum(r)); }
-  inline vnl_decnum operator+(long r) const { return operator+(vnl_decnum(r)); }
-  inline vnl_decnum operator+(unsigned int r) const { return operator+(vnl_decnum(r)); }
-  inline vnl_decnum operator+(int r) const { return operator+(vnl_decnum(r)); }
-  inline vnl_decnum operator+(double r) const { return operator+(vnl_decnum(r)); }
+  inline vnl_decnum
+  operator+(const std::string & r) const
+  {
+    return operator+(vnl_decnum(r));
+  }
+  inline vnl_decnum
+  operator+(const char * r) const
+  {
+    return operator+(vnl_decnum(std::string(r)));
+  }
+  inline vnl_decnum
+  operator+(unsigned long r) const
+  {
+    return operator+(vnl_decnum(r));
+  }
+  inline vnl_decnum
+  operator+(long r) const
+  {
+    return operator+(vnl_decnum(r));
+  }
+  inline vnl_decnum
+  operator+(unsigned int r) const
+  {
+    return operator+(vnl_decnum(r));
+  }
+  inline vnl_decnum
+  operator+(int r) const
+  {
+    return operator+(vnl_decnum(r));
+  }
+  inline vnl_decnum
+  operator+(double r) const
+  {
+    return operator+(vnl_decnum(r));
+  }
 
-  inline vnl_decnum operator-(std::string const& r) const { return operator-(vnl_decnum(r)); }
-  inline vnl_decnum operator-(char const* r) const { return operator-(vnl_decnum(std::string(r))); }
-  inline vnl_decnum operator-(unsigned long r) const { return operator-(vnl_decnum(r)); }
-  inline vnl_decnum operator-(long r) const { return operator+(vnl_decnum(-r)); }
-  inline vnl_decnum operator-(unsigned int r) const { return operator-(vnl_decnum(r)); }
-  inline vnl_decnum operator-(int r) const { return operator+(vnl_decnum(-r)); }
-  inline vnl_decnum operator-(double r) const { return operator+(vnl_decnum(-r)); }
+  inline vnl_decnum
+  operator-(const std::string & r) const
+  {
+    return operator-(vnl_decnum(r));
+  }
+  inline vnl_decnum
+  operator-(const char * r) const
+  {
+    return operator-(vnl_decnum(std::string(r)));
+  }
+  inline vnl_decnum
+  operator-(unsigned long r) const
+  {
+    return operator-(vnl_decnum(r));
+  }
+  inline vnl_decnum
+  operator-(long r) const
+  {
+    return operator+(vnl_decnum(-r));
+  }
+  inline vnl_decnum
+  operator-(unsigned int r) const
+  {
+    return operator-(vnl_decnum(r));
+  }
+  inline vnl_decnum
+  operator-(int r) const
+  {
+    return operator+(vnl_decnum(-r));
+  }
+  inline vnl_decnum
+  operator-(double r) const
+  {
+    return operator+(vnl_decnum(-r));
+  }
 
-  inline vnl_decnum operator*(std::string const& r) const { return operator*(vnl_decnum(r)); }
-  inline vnl_decnum operator*(char const* r) const { return operator*(vnl_decnum(std::string(r))); }
-  inline vnl_decnum operator*(unsigned long r) const { return operator*(vnl_decnum(r)); }
-  inline vnl_decnum operator*(long r) const { return operator*(vnl_decnum(r)); }
-  inline vnl_decnum operator*(unsigned int r) const { return operator*(vnl_decnum(r)); }
-  inline vnl_decnum operator*(int r) const { return operator*(vnl_decnum(r)); }
-  inline vnl_decnum operator*(double r) const { return operator*(vnl_decnum(r)); }
+  inline vnl_decnum
+  operator*(const std::string & r) const
+  {
+    return operator*(vnl_decnum(r));
+  }
+  inline vnl_decnum
+  operator*(const char * r) const
+  {
+    return operator*(vnl_decnum(std::string(r)));
+  }
+  inline vnl_decnum
+  operator*(unsigned long r) const
+  {
+    return operator*(vnl_decnum(r));
+  }
+  inline vnl_decnum
+  operator*(long r) const
+  {
+    return operator*(vnl_decnum(r));
+  }
+  inline vnl_decnum
+  operator*(unsigned int r) const
+  {
+    return operator*(vnl_decnum(r));
+  }
+  inline vnl_decnum
+  operator*(int r) const
+  {
+    return operator*(vnl_decnum(r));
+  }
+  inline vnl_decnum
+  operator*(double r) const
+  {
+    return operator*(vnl_decnum(r));
+  }
 
-  inline vnl_decnum operator/(std::string const& r) const { return operator/(vnl_decnum(r)); }
-  inline vnl_decnum operator/(char const* r) const { return operator/(vnl_decnum(std::string(r))); }
-  inline vnl_decnum operator/(unsigned long r) const { return operator/(vnl_decnum(r)); }
-  inline vnl_decnum operator/(long r) const { return operator/(vnl_decnum(r)); }
-  inline vnl_decnum operator/(unsigned int r) const { return operator/(vnl_decnum(r)); }
-  inline vnl_decnum operator/(int r) const { return operator/(vnl_decnum(r)); }
-  inline vnl_decnum operator/(double r) const { return operator/(vnl_decnum(r)); }
+  inline vnl_decnum
+  operator/(const std::string & r) const
+  {
+    return operator/(vnl_decnum(r));
+  }
+  inline vnl_decnum
+  operator/(const char * r) const
+  {
+    return operator/(vnl_decnum(std::string(r)));
+  }
+  inline vnl_decnum
+  operator/(unsigned long r) const
+  {
+    return operator/(vnl_decnum(r));
+  }
+  inline vnl_decnum
+  operator/(long r) const
+  {
+    return operator/(vnl_decnum(r));
+  }
+  inline vnl_decnum
+  operator/(unsigned int r) const
+  {
+    return operator/(vnl_decnum(r));
+  }
+  inline vnl_decnum
+  operator/(int r) const
+  {
+    return operator/(vnl_decnum(r));
+  }
+  inline vnl_decnum
+  operator/(double r) const
+  {
+    return operator/(vnl_decnum(r));
+  }
 
-  inline vnl_decnum operator%(std::string const& r) const { return operator%(vnl_decnum(r)); }
-  inline vnl_decnum operator%(char const* r) const { return operator%(vnl_decnum(std::string(r))); }
-  inline vnl_decnum operator%(unsigned long r) const { return operator%(vnl_decnum(r)); }
-  inline vnl_decnum operator%(long r) const { return operator%(vnl_decnum(r)); }
-  inline vnl_decnum operator%(unsigned int r) const { return operator%(vnl_decnum(r)); }
-  inline vnl_decnum operator%(int r) const { return operator%(vnl_decnum(r)); }
-  inline vnl_decnum operator%(double r) const { return operator%(vnl_decnum(r)); }
+  inline vnl_decnum
+  operator%(const std::string & r) const
+  {
+    return operator%(vnl_decnum(r));
+  }
+  inline vnl_decnum
+  operator%(const char * r) const
+  {
+    return operator%(vnl_decnum(std::string(r)));
+  }
+  inline vnl_decnum
+  operator%(unsigned long r) const
+  {
+    return operator%(vnl_decnum(r));
+  }
+  inline vnl_decnum
+  operator%(long r) const
+  {
+    return operator%(vnl_decnum(r));
+  }
+  inline vnl_decnum
+  operator%(unsigned int r) const
+  {
+    return operator%(vnl_decnum(r));
+  }
+  inline vnl_decnum
+  operator%(int r) const
+  {
+    return operator%(vnl_decnum(r));
+  }
+  inline vnl_decnum
+  operator%(double r) const
+  {
+    return operator%(vnl_decnum(r));
+  }
 
-  inline vnl_decnum& operator+=(std::string const& r) { return *this = operator+(vnl_decnum(r)); }
-  inline vnl_decnum& operator-=(std::string const& r) { return *this = operator-(vnl_decnum(r)); }
-  inline vnl_decnum& operator*=(std::string const& r) { return *this = operator*(vnl_decnum(r)); }
-  inline vnl_decnum& operator/=(std::string const& r) { return *this = operator/(vnl_decnum(r)); }
-  inline vnl_decnum& operator%=(std::string const& r) { return *this = operator%(vnl_decnum(r)); }
+  inline vnl_decnum &
+  operator+=(const std::string & r)
+  {
+    return *this = operator+(vnl_decnum(r));
+  }
+  inline vnl_decnum &
+  operator-=(const std::string & r)
+  {
+    return *this = operator-(vnl_decnum(r));
+  }
+  inline vnl_decnum &
+  operator*=(const std::string & r)
+  {
+    return *this = operator*(vnl_decnum(r));
+  }
+  inline vnl_decnum &
+  operator/=(const std::string & r)
+  {
+    return *this = operator/(vnl_decnum(r));
+  }
+  inline vnl_decnum &
+  operator%=(const std::string & r)
+  {
+    return *this = operator%(vnl_decnum(r));
+  }
 
-  inline vnl_decnum& operator+=(char const* r) { return *this = operator+(std::string(r)); }
-  inline vnl_decnum& operator-=(char const* r) { return *this = operator-(std::string(r)); }
-  inline vnl_decnum& operator*=(char const* r) { return *this = operator*(std::string(r)); }
-  inline vnl_decnum& operator/=(char const* r) { return *this = operator/(std::string(r)); }
-  inline vnl_decnum& operator%=(char const* r) { return *this = operator%(std::string(r)); }
+  inline vnl_decnum &
+  operator+=(const char * r)
+  {
+    return *this = operator+(std::string(r));
+  }
+  inline vnl_decnum &
+  operator-=(const char * r)
+  {
+    return *this = operator-(std::string(r));
+  }
+  inline vnl_decnum &
+  operator*=(const char * r)
+  {
+    return *this = operator*(std::string(r));
+  }
+  inline vnl_decnum &
+  operator/=(const char * r)
+  {
+    return *this = operator/(std::string(r));
+  }
+  inline vnl_decnum &
+  operator%=(const char * r)
+  {
+    return *this = operator%(std::string(r));
+  }
 
-  inline vnl_decnum& operator+=(unsigned long r) { return *this = operator+(vnl_decnum(r)); }
-  inline vnl_decnum& operator-=(unsigned long r) { return *this = operator-(vnl_decnum(r)); }
-  inline vnl_decnum& operator*=(unsigned long r) { return *this = operator*(vnl_decnum(r)); }
-  inline vnl_decnum& operator/=(unsigned long r) { return *this = operator/(vnl_decnum(r)); }
-  inline vnl_decnum& operator%=(unsigned long r) { return *this = operator%(vnl_decnum(r)); }
+  inline vnl_decnum &
+  operator+=(unsigned long r)
+  {
+    return *this = operator+(vnl_decnum(r));
+  }
+  inline vnl_decnum &
+  operator-=(unsigned long r)
+  {
+    return *this = operator-(vnl_decnum(r));
+  }
+  inline vnl_decnum &
+  operator*=(unsigned long r)
+  {
+    return *this = operator*(vnl_decnum(r));
+  }
+  inline vnl_decnum &
+  operator/=(unsigned long r)
+  {
+    return *this = operator/(vnl_decnum(r));
+  }
+  inline vnl_decnum &
+  operator%=(unsigned long r)
+  {
+    return *this = operator%(vnl_decnum(r));
+  }
 
-  inline vnl_decnum& operator+=(long r) { return *this = operator+(vnl_decnum(r)); }
-  inline vnl_decnum& operator-=(long r) { return *this = operator+(vnl_decnum(-r)); }
-  inline vnl_decnum& operator*=(long r) { return *this = operator*(vnl_decnum(r)); }
-  inline vnl_decnum& operator/=(long r) { return *this = operator/(vnl_decnum(r)); }
-  inline vnl_decnum& operator%=(long r) { return *this = operator%(vnl_decnum(r)); }
+  inline vnl_decnum &
+  operator+=(long r)
+  {
+    return *this = operator+(vnl_decnum(r));
+  }
+  inline vnl_decnum &
+  operator-=(long r)
+  {
+    return *this = operator+(vnl_decnum(-r));
+  }
+  inline vnl_decnum &
+  operator*=(long r)
+  {
+    return *this = operator*(vnl_decnum(r));
+  }
+  inline vnl_decnum &
+  operator/=(long r)
+  {
+    return *this = operator/(vnl_decnum(r));
+  }
+  inline vnl_decnum &
+  operator%=(long r)
+  {
+    return *this = operator%(vnl_decnum(r));
+  }
 
-  inline vnl_decnum& operator+=(unsigned int r) { return *this = operator+(vnl_decnum(r)); }
-  inline vnl_decnum& operator-=(unsigned int r) { return *this = operator-(vnl_decnum(r)); }
-  inline vnl_decnum& operator*=(unsigned int r) { return *this = operator*(vnl_decnum(r)); }
-  inline vnl_decnum& operator/=(unsigned int r) { return *this = operator/(vnl_decnum(r)); }
-  inline vnl_decnum& operator%=(unsigned int r) { return *this = operator%(vnl_decnum(r)); }
+  inline vnl_decnum &
+  operator+=(unsigned int r)
+  {
+    return *this = operator+(vnl_decnum(r));
+  }
+  inline vnl_decnum &
+  operator-=(unsigned int r)
+  {
+    return *this = operator-(vnl_decnum(r));
+  }
+  inline vnl_decnum &
+  operator*=(unsigned int r)
+  {
+    return *this = operator*(vnl_decnum(r));
+  }
+  inline vnl_decnum &
+  operator/=(unsigned int r)
+  {
+    return *this = operator/(vnl_decnum(r));
+  }
+  inline vnl_decnum &
+  operator%=(unsigned int r)
+  {
+    return *this = operator%(vnl_decnum(r));
+  }
 
-  inline vnl_decnum& operator+=(int r) { return *this = operator+(vnl_decnum(r)); }
-  inline vnl_decnum& operator-=(int r) { return *this = operator+(vnl_decnum(-r)); }
-  inline vnl_decnum& operator*=(int r) { return *this = operator*(vnl_decnum(r)); }
-  inline vnl_decnum& operator/=(int r) { return *this = operator/(vnl_decnum(r)); }
-  inline vnl_decnum& operator%=(int r) { return *this = operator%(vnl_decnum(r)); }
+  inline vnl_decnum &
+  operator+=(int r)
+  {
+    return *this = operator+(vnl_decnum(r));
+  }
+  inline vnl_decnum &
+  operator-=(int r)
+  {
+    return *this = operator+(vnl_decnum(-r));
+  }
+  inline vnl_decnum &
+  operator*=(int r)
+  {
+    return *this = operator*(vnl_decnum(r));
+  }
+  inline vnl_decnum &
+  operator/=(int r)
+  {
+    return *this = operator/(vnl_decnum(r));
+  }
+  inline vnl_decnum &
+  operator%=(int r)
+  {
+    return *this = operator%(vnl_decnum(r));
+  }
 
-  inline vnl_decnum& operator+=(double r) { return *this = operator+(vnl_decnum(r)); }
-  inline vnl_decnum& operator-=(double r) { return *this = operator+(vnl_decnum(-r)); }
-  inline vnl_decnum& operator*=(double r) { return *this = operator*(vnl_decnum(r)); }
-  inline vnl_decnum& operator/=(double r) { return *this = operator/(vnl_decnum(r)); }
-  inline vnl_decnum& operator%=(double r) { return *this = operator%(vnl_decnum(r)); }
+  inline vnl_decnum &
+  operator+=(double r)
+  {
+    return *this = operator+(vnl_decnum(r));
+  }
+  inline vnl_decnum &
+  operator-=(double r)
+  {
+    return *this = operator+(vnl_decnum(-r));
+  }
+  inline vnl_decnum &
+  operator*=(double r)
+  {
+    return *this = operator*(vnl_decnum(r));
+  }
+  inline vnl_decnum &
+  operator/=(double r)
+  {
+    return *this = operator/(vnl_decnum(r));
+  }
+  inline vnl_decnum &
+  operator%=(double r)
+  {
+    return *this = operator%(vnl_decnum(r));
+  }
 
   //: prefix increment (++b)
-  inline vnl_decnum& operator++() { return *this = operator+(1L); }
+  inline vnl_decnum &
+  operator++()
+  {
+    return *this = operator+(1L);
+  }
   //: decrement
-  inline vnl_decnum& operator--() { return *this = operator-(1L); }
+  inline vnl_decnum &
+  operator--()
+  {
+    return *this = operator-(1L);
+  }
   //: postfix increment (b++)
-  inline vnl_decnum operator++(int) { vnl_decnum b=(*this); operator++(); return b; }
+  inline vnl_decnum
+  operator++(int)
+  {
+    const vnl_decnum b = (*this);
+    operator++();
+    return b;
+  }
   //: decrement
-  inline vnl_decnum operator--(int) { vnl_decnum b=(*this); operator--(); return b; }
+  inline vnl_decnum
+  operator--(int)
+  {
+    const vnl_decnum b = (*this);
+    operator--();
+    return b;
+  }
 
-  bool operator==(vnl_decnum const&) const; // equality
-  bool operator< (vnl_decnum const&) const; // less than
-  inline bool operator!=(vnl_decnum const& r) const { return !operator==(r); }
-  inline bool operator> (vnl_decnum const& r) const { return r<(*this); }
-  inline bool operator<=(vnl_decnum const& r) const { return !operator>(r); }
-  inline bool operator>=(vnl_decnum const& r) const { return !operator<(r); }
+  bool
+  operator==(const vnl_decnum &) const; // equality
+  bool
+  operator<(const vnl_decnum &) const; // less than
+  inline bool
+  operator!=(const vnl_decnum & r) const
+  {
+    return !operator==(r);
+  }
+  inline bool
+  operator>(const vnl_decnum & r) const
+  {
+    return r < (*this);
+  }
+  inline bool
+  operator<=(const vnl_decnum & r) const
+  {
+    return !operator>(r);
+  }
+  inline bool
+  operator>=(const vnl_decnum & r) const
+  {
+    return !operator<(r);
+  }
 
-  inline bool operator==(std::string const& r) const { return operator==(vnl_decnum(r)); }
-  inline bool operator< (std::string const& r) const { return operator< (vnl_decnum(r)); }
-  inline bool operator!=(std::string const& r) const { return operator!=(vnl_decnum(r)); }
-  inline bool operator> (std::string const& r) const { return operator> (vnl_decnum(r)); }
-  inline bool operator<=(std::string const& r) const { return operator<=(vnl_decnum(r)); }
-  inline bool operator>=(std::string const& r) const { return operator>=(vnl_decnum(r)); }
+  inline bool
+  operator==(const std::string & r) const
+  {
+    return operator==(vnl_decnum(r));
+  }
+  inline bool
+  operator<(const std::string & r) const
+  {
+    return operator<(vnl_decnum(r));
+  }
+  inline bool
+  operator!=(const std::string & r) const
+  {
+    return operator!=(vnl_decnum(r));
+  }
+  inline bool
+  operator>(const std::string & r) const
+  {
+    return operator>(vnl_decnum(r));
+  }
+  inline bool
+  operator<=(const std::string & r) const
+  {
+    return operator<=(vnl_decnum(r));
+  }
+  inline bool
+  operator>=(const std::string & r) const
+  {
+    return operator>=(vnl_decnum(r));
+  }
 
-  inline bool operator==(char const* r) const { return operator==(std::string(r)); }
-  inline bool operator< (char const* r) const { return operator< (std::string(r)); }
-  inline bool operator!=(char const* r) const { return operator!=(std::string(r)); }
-  inline bool operator> (char const* r) const { return operator> (std::string(r)); }
-  inline bool operator<=(char const* r) const { return operator<=(std::string(r)); }
-  inline bool operator>=(char const* r) const { return operator>=(std::string(r)); }
+  inline bool
+  operator==(const char * r) const
+  {
+    return operator==(std::string(r));
+  }
+  inline bool
+  operator<(const char * r) const
+  {
+    return operator<(std::string(r));
+  }
+  inline bool
+  operator!=(const char * r) const
+  {
+    return operator!=(std::string(r));
+  }
+  inline bool
+  operator>(const char * r) const
+  {
+    return operator>(std::string(r));
+  }
+  inline bool
+  operator<=(const char * r) const
+  {
+    return operator<=(std::string(r));
+  }
+  inline bool
+  operator>=(const char * r) const
+  {
+    return operator>=(std::string(r));
+  }
 
-  inline bool operator==(unsigned long r) const { return operator==(vnl_decnum(r)); }
-  inline bool operator< (unsigned long r) const { return operator< (vnl_decnum(r)); }
-  inline bool operator!=(unsigned long r) const { return operator!=(vnl_decnum(r)); }
-  inline bool operator> (unsigned long r) const { return operator> (vnl_decnum(r)); }
-  inline bool operator<=(unsigned long r) const { return operator<=(vnl_decnum(r)); }
-  inline bool operator>=(unsigned long r) const { return operator>=(vnl_decnum(r)); }
+  inline bool
+  operator==(unsigned long r) const
+  {
+    return operator==(vnl_decnum(r));
+  }
+  inline bool
+  operator<(unsigned long r) const
+  {
+    return operator<(vnl_decnum(r));
+  }
+  inline bool
+  operator!=(unsigned long r) const
+  {
+    return operator!=(vnl_decnum(r));
+  }
+  inline bool
+  operator>(unsigned long r) const
+  {
+    return operator>(vnl_decnum(r));
+  }
+  inline bool
+  operator<=(unsigned long r) const
+  {
+    return operator<=(vnl_decnum(r));
+  }
+  inline bool
+  operator>=(unsigned long r) const
+  {
+    return operator>=(vnl_decnum(r));
+  }
 
-  inline bool operator==(long r) const { return operator==(vnl_decnum(r)); }
-  inline bool operator< (long r) const { return operator< (vnl_decnum(r)); }
-  inline bool operator!=(long r) const { return operator!=(vnl_decnum(r)); }
-  inline bool operator> (long r) const { return operator> (vnl_decnum(r)); }
-  inline bool operator<=(long r) const { return operator<=(vnl_decnum(r)); }
-  inline bool operator>=(long r) const { return operator>=(vnl_decnum(r)); }
+  inline bool
+  operator==(long r) const
+  {
+    return operator==(vnl_decnum(r));
+  }
+  inline bool
+  operator<(long r) const
+  {
+    return operator<(vnl_decnum(r));
+  }
+  inline bool
+  operator!=(long r) const
+  {
+    return operator!=(vnl_decnum(r));
+  }
+  inline bool
+  operator>(long r) const
+  {
+    return operator>(vnl_decnum(r));
+  }
+  inline bool
+  operator<=(long r) const
+  {
+    return operator<=(vnl_decnum(r));
+  }
+  inline bool
+  operator>=(long r) const
+  {
+    return operator>=(vnl_decnum(r));
+  }
 
-  inline bool operator==(unsigned int r) const { return operator==(vnl_decnum(r)); }
-  inline bool operator< (unsigned int r) const { return operator< (vnl_decnum(r)); }
-  inline bool operator!=(unsigned int r) const { return operator!=(vnl_decnum(r)); }
-  inline bool operator> (unsigned int r) const { return operator> (vnl_decnum(r)); }
-  inline bool operator<=(unsigned int r) const { return operator<=(vnl_decnum(r)); }
-  inline bool operator>=(unsigned int r) const { return operator>=(vnl_decnum(r)); }
+  inline bool
+  operator==(unsigned int r) const
+  {
+    return operator==(vnl_decnum(r));
+  }
+  inline bool
+  operator<(unsigned int r) const
+  {
+    return operator<(vnl_decnum(r));
+  }
+  inline bool
+  operator!=(unsigned int r) const
+  {
+    return operator!=(vnl_decnum(r));
+  }
+  inline bool
+  operator>(unsigned int r) const
+  {
+    return operator>(vnl_decnum(r));
+  }
+  inline bool
+  operator<=(unsigned int r) const
+  {
+    return operator<=(vnl_decnum(r));
+  }
+  inline bool
+  operator>=(unsigned int r) const
+  {
+    return operator>=(vnl_decnum(r));
+  }
 
-  inline bool operator==(int r) const { return operator==(vnl_decnum(r)); }
-  inline bool operator< (int r) const { return operator< (vnl_decnum(r)); }
-  inline bool operator!=(int r) const { return operator!=(vnl_decnum(r)); }
-  inline bool operator> (int r) const { return operator> (vnl_decnum(r)); }
-  inline bool operator<=(int r) const { return operator<=(vnl_decnum(r)); }
-  inline bool operator>=(int r) const { return operator>=(vnl_decnum(r)); }
+  inline bool
+  operator==(int r) const
+  {
+    return operator==(vnl_decnum(r));
+  }
+  inline bool
+  operator<(int r) const
+  {
+    return operator<(vnl_decnum(r));
+  }
+  inline bool
+  operator!=(int r) const
+  {
+    return operator!=(vnl_decnum(r));
+  }
+  inline bool
+  operator>(int r) const
+  {
+    return operator>(vnl_decnum(r));
+  }
+  inline bool
+  operator<=(int r) const
+  {
+    return operator<=(vnl_decnum(r));
+  }
+  inline bool
+  operator>=(int r) const
+  {
+    return operator>=(vnl_decnum(r));
+  }
 
-  inline bool operator==(double r) const { return operator==(vnl_decnum(r)); }
-  inline bool operator< (double r) const { return operator< (vnl_decnum(r)); }
-  inline bool operator!=(double r) const { return operator!=(vnl_decnum(r)); }
-  inline bool operator> (double r) const { return operator> (vnl_decnum(r)); }
-  inline bool operator<=(double r) const { return operator<=(vnl_decnum(r)); }
-  inline bool operator>=(double r) const { return operator>=(vnl_decnum(r)); }
+  inline bool
+  operator==(double r) const
+  {
+    return operator==(vnl_decnum(r));
+  }
+  inline bool
+  operator<(double r) const
+  {
+    return operator<(vnl_decnum(r));
+  }
+  inline bool
+  operator!=(double r) const
+  {
+    return operator!=(vnl_decnum(r));
+  }
+  inline bool
+  operator>(double r) const
+  {
+    return operator>(vnl_decnum(r));
+  }
+  inline bool
+  operator<=(double r) const
+  {
+    return operator<=(vnl_decnum(r));
+  }
+  inline bool
+  operator>=(double r) const
+  {
+    return operator>=(vnl_decnum(r));
+  }
 
-  inline vnl_decnum abs() const { return sign_=='-' ? operator-() : *this; }
-  inline vnl_decnum trunc() const { return exp_>=0L ? *this : vnl_decnum(sign_,data_.substr(0L,data_.length()+exp_),0L); }
-  inline vnl_decnum roundup() const { return operator==(trunc()) ? *this : sign_=='-' ? trunc()-1 : trunc()+1; }
-  inline vnl_decnum floor() const { return sign_=='-' ? roundup() : trunc(); }
-  inline vnl_decnum ceil() const { return sign_=='-' ? trunc() : roundup(); }
-  inline vnl_decnum pow(unsigned long p) const { return p==0L ? vnl_decnum(1L) : p==1L ? *this : pow(p/2)*pow((p+1)/2); }
+  inline vnl_decnum
+  abs() const
+  {
+    return sign_ == '-' ? operator-() : *this;
+  }
+  inline vnl_decnum
+  trunc() const
+  {
+    return exp_ >= 0L ? *this : vnl_decnum(sign_, data_.substr(0L, data_.length() + exp_), 0L);
+  }
+  inline vnl_decnum
+  roundup() const
+  {
+    return operator==(trunc()) ? *this : sign_ == '-' ? trunc() - 1 : trunc() + 1;
+  }
+  inline vnl_decnum
+  floor() const
+  {
+    return sign_ == '-' ? roundup() : trunc();
+  }
+  inline vnl_decnum
+  ceil() const
+  {
+    return sign_ == '-' ? trunc() : roundup();
+  }
+  inline vnl_decnum
+  pow(unsigned long p) const
+  {
+    return p == 0L ? vnl_decnum(1L) : p == 1L ? *this : pow(p / 2) * pow((p + 1) / 2);
+  }
 
- private: // === Helper functions ===
+private: // === Helper functions ===
   //: Returns the sum of the two first arguments (interpreted as mantissas with the same exponent).
   // Both arguments should consist of digits only.
   // The third argument will be used as the exponent of the result.
-  static vnl_decnum plus(std::string const&, std::string const&, long);
+  static vnl_decnum
+  plus(const std::string &, const std::string &, long);
   //: Returns the difference of the two first arguments (interpreted as mantissas with the same exponent).
   // Both arguments should consist of digits only
   // and the first one should be numerically larger than the second one.
   // The third argument will be used as the exponent of the result.
-  static vnl_decnum minus(std::string const&, std::string const&, long);
+  static vnl_decnum
+  minus(const std::string &, const std::string &, long);
   //: This is "operator<" for strings.
   // The arguments should consist of digits only (interpreted as mantissas with the same exponent).
   // The shorter of the two arguments is implicitly zero-padded.
-  static bool comp(std::string const&, std::string const&);
+  static bool
+  comp(const std::string &, const std::string &);
   // Append n zeros to the source string, and return the new padded string
-  inline static std::string add_zeros(std::string const& source, unsigned long n)
-  { std::string d = source; while (n--!=0) d.push_back('0'); return d; }
+  static inline std::string
+  add_zeros(const std::string & source, unsigned long n)
+  {
+    std::string d = source;
+    while (n-- != 0)
+      d.push_back('0');
+    return d;
+  }
   //: Returns the product of the two arguments.
   // The first argument should consist of digits only;
   // the second argument should be a single digit.
-  static std::string mult(std::string const&, char);
+  static std::string
+  mult(const std::string &, char);
   //: Returns the largest one-significant-digit divisor of the two arguments.
   // The largest multiple of the second argument not larger than the first one
   // is returned in the second argument.
   // (I.e.: the product of the original second argument with the returned divisor.)
   // The arguments should consist of digits only
   // and the first one should be numerically larger than the second one.
-  static std::string div(std::string const&, std::string&);
+  static std::string
+  div(const std::string &, std::string &);
 };
 
 //: decimal output
 // \relatesalso vnl_decnum
-inline std::ostream& operator<<(std::ostream& s, vnl_decnum const& r)
-{ return s << std::string(r); }
+inline std::ostream &
+operator<<(std::ostream & s, const vnl_decnum & r)
+{
+  return s << std::string(r);
+}
 
 //: decimal input
 // \relatesalso vnl_decnum
-VNL_EXPORT std::istream& operator>>(std::istream& s, vnl_decnum& r);
+VNL_EXPORT std::istream &
+operator>>(std::istream & s, vnl_decnum & r);
 
-inline vnl_decnum ceil(vnl_decnum const& x) { return x.ceil(); }
-inline vnl_decnum floor(vnl_decnum const& x) { return x.floor(); }
-inline vnl_decnum pow(vnl_decnum const& x, unsigned long p) { return x.pow(p); }
+inline vnl_decnum
+ceil(const vnl_decnum & x)
+{
+  return x.ceil();
+}
+inline vnl_decnum
+floor(const vnl_decnum & x)
+{
+  return x.floor();
+}
+inline vnl_decnum
+pow(const vnl_decnum & x, unsigned long p)
+{
+  return x.pow(p);
+}
 
 namespace vnl_math
 {
-  inline vnl_decnum abs(vnl_decnum const& x) { return x.abs(); }
-  inline vnl_decnum sqr(vnl_decnum const& x) { return x*x; }
-  inline vnl_decnum cube(vnl_decnum const& x) { return x*x*x; }
-  inline vnl_decnum squared_magnitude(vnl_decnum const& x) { return x*x; }
-  inline bool isnan(vnl_decnum const& x) { return x.data() == "NaN"; }
-  inline bool isfinite(vnl_decnum const& x) { return x.data() != "Inf" && x.data() != "NaN"; }
-  inline vnl_decnum max(vnl_decnum const& x, vnl_decnum const& y) { return (x < y) ? y : x; }
-  inline vnl_decnum min(vnl_decnum const& x, vnl_decnum const& y) { return (x < y) ? x : y; }
-  inline int sgn(vnl_decnum x) { return x.sign()==' '?0:x.sign()=='+'?1:-1; }
-  inline int sgn0(vnl_decnum x) { return x.sign()=='-'?-1:1; }
+inline vnl_decnum
+abs(const vnl_decnum & x)
+{
+  return x.abs();
 }
+inline vnl_decnum
+sqr(const vnl_decnum & x)
+{
+  return x * x;
+}
+inline vnl_decnum
+cube(const vnl_decnum & x)
+{
+  return x * x * x;
+}
+inline vnl_decnum
+squared_magnitude(const vnl_decnum & x)
+{
+  return x * x;
+}
+inline bool
+isnan(const vnl_decnum & x)
+{
+  return x.data() == "NaN";
+}
+inline bool
+isfinite(const vnl_decnum & x)
+{
+  return x.data() != "Inf" && x.data() != "NaN";
+}
+inline vnl_decnum
+max(const vnl_decnum & x, const vnl_decnum & y)
+{
+  return (x < y) ? y : x;
+}
+inline vnl_decnum
+min(const vnl_decnum & x, const vnl_decnum & y)
+{
+  return (x < y) ? x : y;
+}
+inline int
+sgn(vnl_decnum x)
+{
+  return x.sign() == ' ' ? 0 : x.sign() == '+' ? 1 : -1;
+}
+inline int
+sgn0(vnl_decnum x)
+{
+  return x.sign() == '-' ? -1 : 1;
+}
+} // namespace vnl_math
 
 #endif // vnl_decnum_h_

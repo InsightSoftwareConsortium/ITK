@@ -2,11 +2,11 @@
 #define VCL_LEGACY_ALIASES_H_
 
 #if !defined(VXL_LEGACY_FUTURE_REMOVE)
-# define VXL_CONSTEXPR_FUNC constexpr  //constexpr in C++11, empty in C++98
-# define VXL_CONSTEXPR_VAR  constexpr  //constexpr in C++11, empty in C++98
-# define VXL_FULLCXX11SUPPORT 1
-# define VCL_STATIC_CONST_INIT_FLOAT_DECL(x) = x
-# define VCL_STATIC_CONST_INIT_FLOAT_DEFN(x) /* initialized at declaration */
+#  define VXL_CONSTEXPR_FUNC constexpr // constexpr in C++11, empty in C++98
+#  define VXL_CONSTEXPR_VAR constexpr  // constexpr in C++11, empty in C++98
+#  define VXL_FULLCXX11SUPPORT 1
+#  define VCL_STATIC_CONST_INIT_FLOAT_DECL(x) = x
+#  define VCL_STATIC_CONST_INIT_FLOAT_DEFN(x) /* initialized at declaration */
 #endif
 
 /*
@@ -193,31 +193,33 @@
 // Microsoft has finally implemented snprintf in Visual Studio 2015. On earlier
 // versions you can simulate it as below.
 #if defined(_MSC_VER) && _MSC_VER < 1900
-__inline int c99_vsnprintf(char *outBuf, size_t size, const char *format, va_list ap)
+__inline int
+c99_vsnprintf(char * outBuf, size_t size, const char * format, va_list ap)
 {
-    int count = -1;
+  int count = -1;
 
-    if (size != 0)
-        count = _vsnprintf_s(outBuf, size, _TRUNCATE, format, ap);
-    if (count == -1)
-        count = _vscprintf(format, ap);
+  if (size != 0)
+    count = _vsnprintf_s(outBuf, size, _TRUNCATE, format, ap);
+  if (count == -1)
+    count = _vscprintf(format, ap);
 
-    return count;
+  return count;
 }
 
-__inline int vcl_snprintf(char *outBuf, size_t size, const char *format, ...)
+__inline int
+vcl_snprintf(char * outBuf, size_t size, const char * format, ...)
 {
-    int count;
-    va_list ap;
+  int count;
+  va_list ap;
 
-    va_start(ap, format);
-    count = c99_vsnprintf(outBuf, size, format, ap);
-    va_end(ap);
+  va_start(ap, format);
+  count = c99_vsnprintf(outBuf, size, format, ap);
+  va_end(ap);
 
-    return count;
+  return count;
 }
 #else
-#define vcl_snprintf std::snprintf
+#  define vcl_snprintf std::snprintf
 #endif
 
 #define vcl_scanf std::scanf
@@ -630,15 +632,15 @@ __inline int vcl_snprintf(char *outBuf, size_t size, const char *format, ...)
 #define vcl_indirect_array std::indirect_array
 #define vcl_vector std::vector
 
-# define vcl_memory_prefix std
+#define vcl_memory_prefix std
 
-#define vcl_bad_weak_ptr            std::bad_weak_ptr
-#define vcl_shared_ptr              std::shared_ptr
-#define vcl_static_pointer_cast     std::static_pointer_cast
-#define vcl_dynamic_pointer_cast    std::dynamic_pointer_cast
-#define vcl_const_pointer_cast      std::const_pointer_cast
-#define vcl_get_deleter             std::get_deleter
-#define vcl_weak_ptr                std::weak_ptr
+#define vcl_bad_weak_ptr std::bad_weak_ptr
+#define vcl_shared_ptr std::shared_ptr
+#define vcl_static_pointer_cast std::static_pointer_cast
+#define vcl_dynamic_pointer_cast std::dynamic_pointer_cast
+#define vcl_const_pointer_cast std::const_pointer_cast
+#define vcl_get_deleter std::get_deleter
+#define vcl_weak_ptr std::weak_ptr
 #define vcl_enable_shared_from_this std::enable_shared_from_this
 
 #define vnl_math_isnan vnl_math::isnan
@@ -661,4 +663,4 @@ __inline int vcl_snprintf(char *outBuf, size_t size, const char *format, ...)
 #define vnl_math_hypot vnl_math::hypot
 
 
-#endif //VCL_LEGACY_ALIASES_H_
+#endif // VCL_LEGACY_ALIASES_H_

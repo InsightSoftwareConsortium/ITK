@@ -9,9 +9,9 @@
 
 #include "vnl/vnl_matlab_write.h"
 
-vnl_matlab_filewrite::vnl_matlab_filewrite(char const * file_name, char const * basename)
+vnl_matlab_filewrite::vnl_matlab_filewrite(const char * file_name, const char * basename)
   : basename_(basename ? basename : "targetvar")
-  , variable_int_(0)
+
 {
   out_.open(file_name, std::ios::out | std::ios::binary);
   if (out_.bad())
@@ -19,10 +19,10 @@ vnl_matlab_filewrite::vnl_matlab_filewrite(char const * file_name, char const * 
 }
 
 std::string
-vnl_matlab_filewrite::make_var_name(char const * variable_name)
+vnl_matlab_filewrite::make_var_name(const char * variable_name)
 {
   if (variable_name)
-    return std::string(variable_name);
+    return { variable_name };
   else
   {
     std::stringstream ss;
@@ -35,51 +35,51 @@ vnl_matlab_filewrite::make_var_name(char const * variable_name)
 
 //: scalar
 void
-vnl_matlab_filewrite::write(double v, char const * variable_name)
+vnl_matlab_filewrite::write(double v, const char * variable_name)
 {
   vnl_matlab_write(out_, v, make_var_name(variable_name).c_str());
 }
 
 //: vector
 void
-vnl_matlab_filewrite::write(vnl_vector<double> const & v, char const * variable_name)
+vnl_matlab_filewrite::write(const vnl_vector<double> & v, const char * variable_name)
 {
   vnl_matlab_write(out_, v.data_block(), v.size(), make_var_name(variable_name).c_str());
 }
 
 void
-vnl_matlab_filewrite::write(vnl_vector<std::complex<double>> const & v, char const * variable_name)
+vnl_matlab_filewrite::write(const vnl_vector<std::complex<double>> & v, const char * variable_name)
 {
   vnl_matlab_write(out_, v.data_block(), v.size(), make_var_name(variable_name).c_str());
 }
 
 //: matrix
 void
-vnl_matlab_filewrite::write(vnl_matrix<float> const & M, char const * variable_name)
+vnl_matlab_filewrite::write(const vnl_matrix<float> & M, const char * variable_name)
 {
   vnl_matlab_write(out_, M.data_array(), M.rows(), M.cols(), make_var_name(variable_name).c_str());
 }
 
 void
-vnl_matlab_filewrite::write(vnl_matrix<double> const & M, char const * variable_name)
+vnl_matlab_filewrite::write(const vnl_matrix<double> & M, const char * variable_name)
 {
   vnl_matlab_write(out_, M.data_array(), M.rows(), M.cols(), make_var_name(variable_name).c_str());
 }
 
 void
-vnl_matlab_filewrite::write(vnl_matrix<std::complex<float>> const & M, char const * variable_name)
+vnl_matlab_filewrite::write(const vnl_matrix<std::complex<float>> & M, const char * variable_name)
 {
   vnl_matlab_write(out_, M.data_array(), M.rows(), M.cols(), make_var_name(variable_name).c_str());
 }
 
 void
-vnl_matlab_filewrite::write(vnl_matrix<std::complex<double>> const & M, char const * variable_name)
+vnl_matlab_filewrite::write(const vnl_matrix<std::complex<double>> & M, const char * variable_name)
 {
   vnl_matlab_write(out_, M.data_array(), M.rows(), M.cols(), make_var_name(variable_name).c_str());
 }
 
 void
-vnl_matlab_filewrite::write(double const * const * M, int rows, int cols, char const * variable_name)
+vnl_matlab_filewrite::write(const double * const * M, int rows, int cols, const char * variable_name)
 {
   vnl_matlab_write(out_, M, rows, cols, make_var_name(variable_name).c_str());
 }

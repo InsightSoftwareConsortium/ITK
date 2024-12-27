@@ -15,6 +15,6 @@
 
 #include "vnl_matrix_fixed.h"
 
-typedef vnl_matrix_fixed<float,3,4> vnl_float_3x4;
+typedef vnl_matrix_fixed<float, 3, 4> vnl_float_3x4;
 
 #endif // vnl_float_3x4_h_

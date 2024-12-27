@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <cstddef>
 #include <cmath>
+#include <limits>
 #include <iostream>
 
 #include "vnl/vnl_matrix_fixed.h"
@@ -39,7 +40,7 @@ sum_vector(const vnl_vector_fixed<T, n> & v)
 static void
 test_size()
 {
-  vnl_matrix_fixed<double, 3, 4> m;
+  const vnl_matrix_fixed<double, 3, 4> m{};
   TEST("memory footprint", sizeof(m), sizeof(double[12]));
 }
 
@@ -50,9 +51,9 @@ test_multiply()
   double data_m2[8] = { 2, 3, 4, 5, 6, 7, 8, 9 };
   double data_v1[2] = { 7, 8 };
 
-  vnl_matrix_fixed<double, 3, 2> m1(data_m1);
-  vnl_matrix_fixed<double, 2, 4> m2(data_m2);
-  vnl_vector_fixed<double, 2> v1(data_v1);
+  const vnl_matrix_fixed<double, 3, 2> m1(data_m1);
+  const vnl_matrix_fixed<double, 2, 4> m2(data_m2);
+  const vnl_vector_fixed<double, 2> v1(data_v1);
 
   vnl_matrix_fixed<double, 3, 4> mr = m1 * m2;
   TEST("Matrix-matrix multiply",
@@ -236,7 +237,7 @@ test_int()
   vnl_int_2x2 m6(m6values);
   TEST("vnl_int_2x2 m6({1,2,3,4})", m6.get(1, 1), 4);
   int m7values[] = { 5, 6, 7, 8 };
-  vnl_int_2x2 m7(m7values);
+  const vnl_int_2x2 m7(m7values);
   TEST("vnl_int_2x2 m7({5,6,7,8})", m7.get(1, 1), 8);
   TEST("m5=m6*m7",
        ((m5 = m6 * m7), (m5.get(0, 0) == 19 && m5.get(0, 1) == 22 && m5.get(1, 0) == 43 && m5.get(1, 1) == 50)),
@@ -252,11 +253,11 @@ test_int()
   {
     int data[16] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
 
-    vnl_vector<int> flat(data, 16);
+    const vnl_vector<int> flat(data, 16);
 
-    vnl_matrix_fixed<int, 4, 4> sq(data);
-    vnl_matrix_fixed<int, 2, 8> lg(data);
-    vnl_matrix_fixed<int, 8, 2> wd(data);
+    const vnl_matrix_fixed<int, 4, 4> sq(data);
+    const vnl_matrix_fixed<int, 2, 8> lg(data);
+    const vnl_matrix_fixed<int, 8, 2> wd(data);
 
     TEST("sq.flatten_row_major", flat.is_equal(sq.flatten_row_major().as_vector(), 10e-6), true);
     TEST("lg.flatten_row_major", flat.is_equal(lg.flatten_row_major().as_vector(), 10e-6), true);
@@ -294,19 +295,21 @@ test_int()
        true);
 
   { // test operator-() on unsigned values
-    unsigned int vvalues[] = {1, 2, 3, 4};
-    int out_values[] = {-1, -2, -3, -4};
-    const vnl_matrix_fixed<int,2,2> outm( out_values);
+    unsigned int vvalues[] = { 1, 2, 3, 4 };
+    int out_values[] = { -1, -2, -3, -4 };
+    const vnl_matrix_fixed<int, 2, 2> outm(out_values);
 
-    vnl_matrix_fixed<unsigned int,2,2> unsigned_m22(vvalues);
-    const vnl_matrix_fixed<int,2,2> minus_v1 = -unsigned_m22;
-    const vnl_matrix_fixed<int,2,2> minus_v2 = unsigned_m22.operator-();
+    const vnl_matrix_fixed<unsigned int, 2, 2> unsigned_m22(vvalues);
+    const vnl_matrix_fixed<int, 2, 2> minus_v1 = -unsigned_m22;
+    const vnl_matrix_fixed<int, 2, 2> minus_v2 = unsigned_m22.operator-();
     TEST("unsigned_m22.operator-()",
          (outm(0, 0) == minus_v1(0, 0) && outm(0, 1) == minus_v1(0, 1) && outm(1, 0) == minus_v1(1, 0) &&
-          outm(1, 1) == minus_v1(1, 1)), true);
+          outm(1, 1) == minus_v1(1, 1)),
+         true);
     TEST("unsigned_m22.operator-()",
          (outm(0, 0) == minus_v2(0, 0) && outm(0, 1) == minus_v2(0, 1) && outm(1, 0) == minus_v2(1, 0) &&
-          outm(1, 1) == minus_v2(1, 1)), true);
+          outm(1, 1) == minus_v2(1, 1)),
+         true);
   }
 }
 
@@ -372,7 +375,7 @@ test_float()
   vnl_float_2x2 d6(d6values);
   TEST("vnl_float_2x2 d6({1.0,2.0,3.0,4.0})", d6.get(1, 1), 4.0);
   float d7values[] = { 5.0, 6.0, 7.0, 8.0 };
-  vnl_float_2x2 d7(d7values);
+  const vnl_float_2x2 d7(d7values);
   TEST("vnl_float_2x2 d7({5.0,6.0,7.0,8.0})", d7.get(1, 1), 8.0);
   TEST("d5=d6*d7",
        ((d5 = d6 * d7), (d5.get(0, 0) == 19.0 && d5.get(0, 1) == 22.0 && d5.get(1, 0) == 43.0 && d5.get(1, 1) == 50.0)),
@@ -382,11 +385,10 @@ test_float()
        true);
 
   // additional tests
-  vnl_float_2x2 m1, m2;
   float mvalues[] = { 0, -2, 2, 0 };
   vnl_float_2x2 m(mvalues);
-  m1 = m;
-  m2 = m;
+  vnl_float_2x2 m1 = m;
+  vnl_float_2x2 m2 = m;
   vnl_matrix<float> m3;
   TEST("m(i,j)", (m(0, 0) == 0 && m(0, 1) == -2 && m(1, 0) == 2 && m(1, 1) == 0), true);
   TEST("m.max_value()", m.max_value(), 2);
@@ -476,7 +478,7 @@ test_double()
   vnl_double_2x2 d6(d6values);
   TEST("vnl_double_2x2 d6({1.0,2.0,3.0,4.0})", d6.get(1, 1), 4.0);
   double d7values[] = { 5.0, 6.0, 7.0, 8.0 };
-  vnl_double_2x2 d7(d7values);
+  const vnl_double_2x2 d7(d7values);
   TEST("vnl_double_2x2 d7({5.0,6.0,7.0,8.0})", d7.get(1, 1), 8.0);
   TEST("d5=d6*d7",
        ((d5 = d6 * d7), (d5.get(0, 0) == 19.0 && d5.get(0, 1) == 22.0 && d5.get(1, 0) == 43.0 && d5.get(1, 1) == 50.0)),
@@ -492,11 +494,11 @@ test_double()
   TEST("apply(sqrt)", d8[0][0] == 0 && d8[0][1] == 1 && d8[1][0] == 3 && d8[1][1] == 4, true);
 
   {
-    vnl_matrix_fixed<double, 4, 20> m(1.);
-    vnl_vector_fixed<double, 4> vr = m.apply_rowwise(sum_vector);
+    const vnl_matrix_fixed<double, 4, 20> m(1.);
+    const vnl_vector_fixed<double, 4> vr = m.apply_rowwise(sum_vector);
     for (unsigned int i = 0; i < vr.size(); ++i)
       TEST("vr.apply_rowwise(sum_vector)", vr.get(i), 20.);
-    vnl_vector_fixed<double, 20> vc = m.apply_columnwise(sum_vector);
+    const vnl_vector_fixed<double, 20> vc = m.apply_columnwise(sum_vector);
     for (unsigned int i = 0; i < vc.size(); ++i)
       TEST("vc.apply_columnwise(sum_vector)", vc.get(i), 4.);
   }
@@ -586,15 +588,15 @@ test_matrix_fixed()
   std::printf("splork = [ %g %g %g ]\n", splork(0), splork(1), splork(2));
 
   std::printf("Now watch the mallocs\n");
-  vnl_matrix_ref<double> CX = X.as_ref();
-  vnl_vector_ref<double> cv = v.as_ref();
+  const vnl_matrix_ref<double> CX = X.as_ref();
+  const vnl_vector_ref<double> cv = v.as_ref();
   vnl_vector<double> Xv = CX * (cv + cv);
   std::printf("X v = [ %g %g %g ]\n", Xv[0], Xv[1], Xv[2]);
 
   verbose_malloc = false;
 
   // test that vnl_double_3x3's can be multiplied
-  vnl_double_3x3 A(datablock);
+  const vnl_double_3x3 A(datablock);
   vnl_double_3x3 B = A * A;
 
   // test that vnl_double_3x3's can be added and subtracted

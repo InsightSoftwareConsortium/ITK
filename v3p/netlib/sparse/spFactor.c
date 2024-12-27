@@ -1541,7 +1541,7 @@ register  ElementPtr  pDiag;
 int  I;
 ElementPtr  ChosenPivot, pOtherInRow, pOtherInCol;
 RealNumber  Magnitude, LargestInCol, LargestOffDiagonal;
-RealNumber  FindBiggestInColExclude();
+RealNumber  FindBiggestInColExclude(MatrixPtr, ElementPtr, int);
 
 /* Begin `QuicklySearchDiagonal'. */
     ChosenPivot = NULL;
@@ -1708,7 +1708,7 @@ register  ElementPtr  pDiag;
 int  NumberOfTies=0, Size = Matrix->Size;
 ElementPtr  ChosenPivot=0;
 RealNumber  Magnitude=0, Ratio=0, RatioOfAccepted =0, LargestInCol=0;
-RealNumber  FindBiggestInColExclude();
+RealNumber  FindBiggestInColExclude(MatrixPtr, ElementPtr, int);
 
 /* Begin `SearchDiagonal'. */
     ChosenPivot = NULL;
@@ -1837,7 +1837,7 @@ long  Product=0, MinMarkowitzProduct=0;
 ElementPtr  ChosenPivot=0, pLargestElement=0;
 RealNumber  Magnitude=0, LargestElementMag=0,
  Ratio=0, RatioOfAccepted=0, LargestInCol=0;
-RealNumber  FindLargestInCol();
+RealNumber  FindLargestInCol(ElementPtr);
 
 /* Begin `SearchEntireMatrix'. */
     ChosenPivot = NULL;

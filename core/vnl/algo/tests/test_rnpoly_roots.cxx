@@ -11,7 +11,8 @@ print_roots(vnl_rnpoly_solve & solver)
   std::vector<vnl_vector<double> *> im = solver.imag();
   const unsigned int dim = re[0]->size();
   std::cout << "Roots are:" << std::endl;
-  std::vector<vnl_vector<double> *>::iterator rp, ip;
+  std::vector<vnl_vector<double> *>::iterator rp;
+  std::vector<vnl_vector<double> *>::iterator ip;
   for (rp = re.begin(), ip = im.begin(); rp != re.end(); ++rp, ++ip)
   {
     for (unsigned int i = 0; i < dim; ++i)
@@ -31,7 +32,7 @@ unit_circles_intersect()
   constexpr unsigned int dim = 2; // two-dimensional problem setting
 
   double f1_data[] = { 1.0, 1.0, -1.0 };
-  vnl_vector<double> f1(f1_data, 3);
+  const vnl_vector<double> f1(f1_data, 3);
   vnl_matrix<unsigned int> p1(3, dim, 0);
   p1(0, 0) = 2;
   p1(1, 1) = 2;
@@ -39,24 +40,25 @@ unit_circles_intersect()
   std::cout << poly1; // X^2 +Y^2 -1
 
   double f2_data[] = { 1.0, -1.0 };
-  vnl_vector<double> f2(f2_data, 2);
+  const vnl_vector<double> f2(f2_data, 2);
   vnl_matrix<unsigned int> p2(2, 2, 0);
   p2(0, 0) = 1;
-  vnl_real_npolynomial monom1(f2, p2);
+  const vnl_real_npolynomial monom1(f2, p2);
   std::cout << monom1; // X-1
 
   vnl_real_npolynomial poly2 = monom1 * monom1; // (X-1)^2
   poly2 = poly2 - 1;
 
-  vnl_vector<double> f3(1, 1.0);
+  const vnl_vector<double> f3(1, 1.0);
   vnl_matrix<unsigned int> p3(1, dim, 0);
   p3(0, 1) = 2;
-  vnl_real_npolynomial monom3(f3, p3); // Y^2
+  const vnl_real_npolynomial monom3(f3, p3); // Y^2
 
   poly2 = poly2 + monom3;
   std::cout << poly2; // (X-1)^2 +Y^2 -1 = X^2 -2X +Y^2
 
-  std::vector<vnl_vector<double> *>::iterator rp, ip;
+  std::vector<vnl_vector<double> *>::iterator rp;
+  const std::vector<vnl_vector<double> *>::iterator ip;
 
   std::vector<vnl_real_npolynomial *> l(1, &poly1);
   l.push_back(&poly2);
@@ -72,8 +74,8 @@ unit_circles_intersect()
     TEST_NEAR("x==0.5", root[0], 0.5, 1e-9);
     TEST_NEAR("y==sqrt(0.75)", root[1] * root[1], 0.75, 1e-9);
   }
-  std::vector<vnl_vector<double> *> roots_r = solver.real();
-  std::vector<vnl_vector<double> *> roots_i = solver.imag();
+  const std::vector<vnl_vector<double> *> roots_r = solver.real();
+  const std::vector<vnl_vector<double> *> roots_i = solver.imag();
   TEST("and no more finite imaginary roots", roots_r.size(), 2);
   TEST("and equally many imaginary parts", roots_i.size(), 2);
   print_roots(solver);
@@ -98,7 +100,8 @@ ellipses_intersect()
   vnl_real_npolynomial poly4(f1, p1);
   std::cout << poly4; // 2 X^2 +Y^2 -1
 
-  std::vector<vnl_vector<double> *>::iterator rp, ip;
+  std::vector<vnl_vector<double> *>::iterator rp;
+  const std::vector<vnl_vector<double> *>::iterator ip;
 
   std::vector<vnl_real_npolynomial *> l(1, &poly3);
   l.push_back(&poly4);
@@ -164,10 +167,10 @@ single_fourth_degree()
   pol(3, 0) = 1;
   pol(4, 0) = 0;
   vnl_real_npolynomial monom1(coeffs, pol);
-  std::vector<vnl_real_npolynomial *> l(1, &monom1);
+  const std::vector<vnl_real_npolynomial *> l(1, &monom1);
   vnl_rnpoly_solve solver(l);
   std::vector<vnl_vector<double> *> realVal = solver.real();
-  std::vector<vnl_vector<double> *> imagVal = solver.imag();
+  const std::vector<vnl_vector<double> *> imagVal = solver.imag();
 
   TEST("Real part of roots has size 4", realVal.size(), 4);
   TEST("Imag part of roots has size 4", imagVal.size(), 4);
@@ -199,7 +202,7 @@ scaled_fourth_degree()
   coeffs[4] = 4121959965347122688.0;
 
   // Scale before computing roots:
-  double factor = std::sqrt(std::sqrt(coeffs[4] / coeffs[0]));
+  const double factor = std::sqrt(std::sqrt(coeffs[4] / coeffs[0]));
   // this is the 4th root of the scale difference between first and last coef
   double mfactor = 1.0;
   for (int i = 0; i <= 4; ++i)
@@ -212,13 +215,14 @@ scaled_fourth_degree()
   pol(3, 0) = 1;
   pol(4, 0) = 0;
   vnl_real_npolynomial monom1(coeffs, pol);
-  std::vector<vnl_real_npolynomial *> l(1, &monom1);
+  const std::vector<vnl_real_npolynomial *> l(1, &monom1);
   vnl_rnpoly_solve solver(l);
   std::vector<vnl_vector<double> *> realVal = solver.real();
   std::vector<vnl_vector<double> *> imagVal = solver.imag();
 
   // Scale back the roots:
-  std::vector<vnl_vector<double> *>::iterator rp, ip;
+  std::vector<vnl_vector<double> *>::iterator rp;
+  std::vector<vnl_vector<double> *>::iterator ip;
   for (rp = realVal.begin(), ip = imagVal.begin(); rp != realVal.end(); ++rp, ++ip)
   {
     for (unsigned int i = 0; i < dim; ++i)

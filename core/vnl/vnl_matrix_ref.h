@@ -37,17 +37,15 @@ class VNL_EXPORT vnl_matrix_ref : public vnl_matrix<T>
 {
   typedef vnl_matrix<T> Base;
 
- public:
-
+public:
   // Constructors/Destructors--------------------------------------------------
-  vnl_matrix_ref(unsigned int row, unsigned int col, const T *datablck)
+  vnl_matrix_ref(unsigned int row, unsigned int col, const T * datablck)
     : vnl_matrix<T>(row, col, const_cast<T *>(datablck), false)
-  { }
+  {}
 
   vnl_matrix_ref(const vnl_matrix_ref<T> & other)
-  : vnl_matrix<T>(other.rows(), other.cols(),
-      const_cast<T *>(other.data_block()), false)
-  { }
+    : vnl_matrix<T>(other.rows(), other.cols(), const_cast<T *>(other.data_block()), false)
+  {}
 
   ~vnl_matrix_ref() override = default;
 
@@ -55,8 +53,10 @@ class VNL_EXPORT vnl_matrix_ref : public vnl_matrix<T>
   // due to other constructor definitions.
   //: assignment and move-assignment is disallowed
   //  because it does not define external memory to be managed.
-  vnl_matrix_ref & operator=( vnl_matrix_ref<T> const& ) = delete;
-  vnl_matrix_ref & operator=( vnl_matrix_ref<T> && ) = delete;
+  vnl_matrix_ref &
+  operator=(const vnl_matrix_ref<T> &) = delete;
+  vnl_matrix_ref &
+  operator=(vnl_matrix_ref<T> &&) = delete;
 
   //: Reference to self to make non-const temporaries.
   // This is intended for passing vnl_matrix_fixed objects to
@@ -72,16 +72,31 @@ class VNL_EXPORT vnl_matrix_ref : public vnl_matrix<T>
   // \attention Use this only to pass the reference to a
   // function. Otherwise, the underlying object will be destructed and
   // you'll be left with undefined behaviour.
-  vnl_matrix_ref& non_const() { return *this; }
+  vnl_matrix_ref &
+  non_const()
+  {
+    return *this;
+  }
 
- private:
+private:
   //: Resizing is disallowed
-  bool resize (unsigned int, unsigned int) { return false; }
+  bool
+  resize(unsigned int, unsigned int)
+  {
+    return false;
+  }
   //: Resizing is disallowed
-  bool make_size (unsigned int, unsigned int) { return false; }
+  bool
+  make_size(unsigned int, unsigned int)
+  {
+    return false;
+  }
   //: Resizing is disallowed
-  bool set_size (unsigned int, unsigned int) { return false; }
-
+  bool
+  set_size(unsigned int, unsigned int)
+  {
+    return false;
+  }
 };
 
 #endif // vnl_matrix_ref_h_

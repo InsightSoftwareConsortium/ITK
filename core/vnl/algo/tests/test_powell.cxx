@@ -48,16 +48,16 @@ public:
   double
   f(const vnl_vector<double> & x) override
   {
-    double a = 10 * (x[1] - x[0] * x[0]);
-    double b = 1 - x[0];
+    const double a = 10 * (x[1] - x[0] * x[0]);
+    const double b = 1 - x[0];
     return a * a + b * b;
   }
 
   void
   gradf(const vnl_vector<double> & x, vnl_vector<double> & g) override
   {
-    double a = 10 * (x[1] - x[0] * x[0]);
-    double b = 1 - x[0];
+    const double a = 10 * (x[1] - x[0] * x[0]);
+    const double b = 1 - x[0];
     g[0] = 2 * a * (-20 * x[0]) - 2 * b;
     g[1] = 20 * a;
   }
@@ -151,13 +151,13 @@ test_rosenbrock_2d()
             << " test_rosenbrock_2d()\n"
             << "----------------------\n";
   vnl_test_powell_rosenbrock c;
-  vnl_double_2 xmin(1.0, 1.0); // true minimum
+  const vnl_double_2 xmin(1.0, 1.0); // true minimum
   vnl_powell powell(&c);
-  vnl_double_2 x0(-2, 2); // initial x
+  const vnl_double_2 x0(-2, 2); // initial x
   vnl_vector<double> x = x0.as_vector();
 
   powell.minimize(x);
-  double r = (x - xmin).magnitude();
+  const double r = (x - xmin).magnitude();
   TEST_NEAR("test_rosenbrock_2d", r, 0, 1e-6);
   std::cout << "Number of evaluations: " << powell.get_num_evaluations() << std::endl << std::endl;
 }
