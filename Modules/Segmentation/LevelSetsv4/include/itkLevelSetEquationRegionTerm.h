@@ -48,7 +48,7 @@ protected:
     : Superclass()
   {}
 
-  virtual ~LevelSetEquationRegionTerm() = default;
+  virtual ~LevelSetEquationRegionTerm() override = default;
 };
 } // namespace itk
 #endif // itkLevelSetEquationRegionTerm_h
