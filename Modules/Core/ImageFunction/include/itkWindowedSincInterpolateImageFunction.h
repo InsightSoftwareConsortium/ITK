@@ -345,11 +345,10 @@ private:
   unsigned int m_WeightOffsetTable[m_OffsetTableSize][ImageDimension]{};
 
   /** The sinc function */
-  inline double
-  Sinc(double x) const
+  static double
+  Sinc(const double x)
   {
     const double px = Math::pi * x;
-
     return (x == 0.0) ? 1.0 : std::sin(px) / px;
   }
 };
