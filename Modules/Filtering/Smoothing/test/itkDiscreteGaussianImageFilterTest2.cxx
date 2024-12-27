@@ -109,7 +109,7 @@ itkDiscreteGaussianImageFilterTest2(int argc, char * argv[])
     itkDiscreteGaussianImageFilterTestA<itk::Image<ScalarPixelType, 3>>(
       argv[3], argv[4], sigma, kernelError, kernelWidth, filterDimensionality);
   }
-  else if (img_dim == 3 && vec_dim == 1)
+  else if (img_dim == 3 && vec_dim == 3)
   {
     itkDiscreteGaussianImageFilterTestA<itk::Image<VectorPixelType, 3>>(
       argv[3], argv[4], sigma, kernelError, kernelWidth, filterDimensionality);
