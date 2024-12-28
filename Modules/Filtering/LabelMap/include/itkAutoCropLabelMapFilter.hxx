@@ -43,13 +43,10 @@ AutoCropLabelMapFilter<TInputImage>::GenerateOutputInformation()
   const InputImageType * input = this->GetInput();
 
   // update the input if needed
-  if (input->GetSource())
+  ProcessObject * upstream = input->GetSource();
+  if (upstream)
   {
-    ProcessObject * upstream = input->GetSource();
-    if (upstream)
-    {
-      upstream->Update();
-    }
+    upstream->Update();
   }
 
   // find the bounding box of the objects

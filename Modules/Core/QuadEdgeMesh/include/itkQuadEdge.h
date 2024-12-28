@@ -248,7 +248,7 @@ public:
     {
       return (this->m_Rot->m_Rot);
     }
-    return (this->m_Rot);
+    return nullptr;
   }
 
   inline const Self *
@@ -258,7 +258,7 @@ public:
     {
       return (this->m_Rot->m_Rot);
     }
-    return (this->m_Rot);
+    return nullptr;
   }
 
   /** Returns next edge with same Left face

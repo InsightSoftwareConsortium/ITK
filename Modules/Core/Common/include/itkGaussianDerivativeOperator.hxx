@@ -42,7 +42,7 @@ GaussianDerivativeOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients
 
   // Calculate scale-space normalization factor for derivatives
   double norm;
-  if (m_NormalizeAcrossScale && m_Order)
+  if (m_NormalizeAcrossScale)
   {
     norm = std::pow(m_Variance, m_Order / 2.0);
   }

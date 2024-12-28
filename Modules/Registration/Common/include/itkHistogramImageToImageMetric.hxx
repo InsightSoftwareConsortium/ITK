@@ -268,7 +268,7 @@ HistogramImageToImageMetric<TFixedImage, TMovingImage>::ComputeHistogram(const T
   {
     index = ti.GetIndex();
 
-    if (fixedRegion.IsInside(index) && (!m_UsePaddingValue || (m_UsePaddingValue && ti.Get() > m_PaddingValue)))
+    if (fixedRegion.IsInside(index) && (!m_UsePaddingValue || (ti.Get() > m_PaddingValue)))
     {
       InputPointType inputPoint;
       fixedImage->TransformIndexToPhysicalPoint(index, inputPoint);

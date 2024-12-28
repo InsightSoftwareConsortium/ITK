@@ -209,12 +209,9 @@ public:
     {
       return VLength;
     }
-    if (b.Size() != 0)
+    if (b.Size() != VLength)
     {
-      if (b.Size() != VLength)
-      {
-        itkGenericExceptionMacro(<< errMsg);
-      }
+      itkGenericExceptionMacro(<< errMsg);
     }
     return 0;
   }
@@ -244,12 +241,9 @@ public:
     {
       return VLength;
     }
-    if (!b.empty())
+    if (b.size() != VLength)
     {
-      if (b.size() != VLength)
-      {
-        itkGenericExceptionMacro(<< errMsg);
-      }
+      itkGenericExceptionMacro(<< errMsg);
     }
     return 0;
   }
