@@ -66,7 +66,7 @@ itkSparseFieldLayerTest(int, char *[])
       unsigned int                                    i = 3999;
       while (cit != layer->End())
       {
-        if (cit->value != i || cit->value != i)
+        if (cit->value != i)
         {
           return EXIT_FAILURE;
         }

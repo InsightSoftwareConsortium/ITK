@@ -93,12 +93,7 @@ main(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  int exampleAction = 0;
-
-  if (argc >= 4)
-  {
-    exampleAction = std::stoi(argv[3]);
-  }
+  int exampleAction = std::stoi(argv[3]);
 
   constexpr unsigned int Dimension = 2;
   using InputPixelType = unsigned char;

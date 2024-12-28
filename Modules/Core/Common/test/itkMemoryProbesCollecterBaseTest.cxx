@@ -69,7 +69,7 @@ itkMemoryProbesCollecterBaseTest(int, char *[])
   delete[] buf;
   Sleep(5000);
   probe.Stop();
-  if (total != 0 && total < probe.GetTotal())
+  if (total < probe.GetTotal())
   {
     std::cerr << "Freeing memory should result in less memory but it is " << probe.GetTotal() << probe.GetUnit()
               << " instead of " << total << probe.GetUnit() << std::endl;
