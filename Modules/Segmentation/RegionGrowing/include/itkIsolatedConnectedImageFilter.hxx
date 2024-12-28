@@ -338,7 +338,7 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
   {
     function->ThresholdBetween(m_Lower, m_IsolatedValue);
   }
-  else if (!m_FindUpperThreshold)
+  else
   {
     function->ThresholdBetween(m_IsolatedValue, m_Upper);
   }
