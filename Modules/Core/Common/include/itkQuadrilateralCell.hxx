@@ -373,7 +373,7 @@ QuadrilateralCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
     // Test for bad divergence (S.Hirschberg 11.12.2001)
     else if ((itk::Math::abs(pcoords[0]) > ITK_DIVERGED) || (itk::Math::abs(pcoords[1]) > ITK_DIVERGED))
     {
-      return -1;
+      return false;
     }
 
     //  if not converged, repeat

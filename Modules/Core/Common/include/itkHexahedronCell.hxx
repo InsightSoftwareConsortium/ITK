@@ -452,7 +452,7 @@ HexahedronCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
     else if ((itk::Math::abs(pcoords[0]) > ITK_DIVERGED) || (itk::Math::abs(pcoords[1]) > ITK_DIVERGED) ||
              (itk::Math::abs(pcoords[2]) > ITK_DIVERGED))
     {
-      return -1;
+      return false;
     }
 
     //  if not converged, repeat
