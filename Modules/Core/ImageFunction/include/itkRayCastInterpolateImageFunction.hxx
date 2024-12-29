@@ -921,7 +921,6 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::Adjust
     err.SetDescription("The ray traversal direction is unset "
                        "- AdjustRayLength().");
     throw err;
-    return false;
   }
 
   int  Istart[3];
