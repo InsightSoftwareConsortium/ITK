@@ -702,6 +702,7 @@ struct HasNumericTraits
     void
     constraints()
     {
+      // This is here to cause compile-time failures, if a provided custom type is missing some methods.
       Detail::UniqueType<typename NumericTraits<T>::ValueType>();
       Detail::UniqueType<typename NumericTraits<T>::PrintType>();
       Detail::UniqueType<typename NumericTraits<T>::AbsType>();
@@ -709,6 +710,7 @@ struct HasNumericTraits
       Detail::UniqueType<typename NumericTraits<T>::RealType>();
       Detail::UniqueType<typename NumericTraits<T>::ScalarRealType>();
       Detail::UniqueType<typename NumericTraits<T>::FloatType>();
+
       T a{};
 
       // Test these methods that take an instance of T to
