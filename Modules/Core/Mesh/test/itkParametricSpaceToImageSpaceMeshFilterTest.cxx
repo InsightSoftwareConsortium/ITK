@@ -29,7 +29,6 @@ struct helper
 template <unsigned int VDimension>
 struct helper<itk::Index<VDimension>>
 {
-  static constexpr unsigned int Dimension = VDimension;
   using PositionType = itk::Index<VDimension>;
 
   template <class TImage, class TIterator>
@@ -43,7 +42,6 @@ struct helper<itk::Index<VDimension>>
 template <typename TCoord, unsigned int VDimension>
 struct helper<itk::Point<TCoord, VDimension>>
 {
-  static constexpr unsigned int Dimension = VDimension;
   using PositionType = itk::Point<TCoord, VDimension>;
 
   template <class TImage, class TIterator>

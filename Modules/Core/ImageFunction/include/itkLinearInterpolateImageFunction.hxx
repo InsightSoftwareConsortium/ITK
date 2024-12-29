@@ -51,8 +51,6 @@ LinearInterpolateImageFunction<TInputImage, TCoordinate>::EvaluateUnoptimized(co
 
   // When RealType is VariableLengthVector, 'value' will be resized properly
   // below when it's assigned again.
-  Concept::Detail::UniqueType<typename NumericTraits<RealType>::ScalarRealType>();
-
   RealType value;
   // Initialize variable "value" with overloaded function so that
   // in the case of variable length vectors the "value" is initialized
