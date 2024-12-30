@@ -36,31 +36,31 @@ using __gnu_cxx::__exchange_and_add;
 
 class vcl_atomic_count
 {
- public:
+public:
+  explicit vcl_atomic_count(long v)
+    : value_(v)
+  {}
 
-    explicit vcl_atomic_count(long v) : value_(v) {}
+  void
+  operator++()
+  {
+    __atomic_add(&value_, 1);
+  }
 
-    void operator++()
-    {
-        __atomic_add(&value_, 1);
-    }
+  long
+  operator--()
+  {
+    return __exchange_and_add(&value_, -1) - 1;
+  }
 
-    long operator--()
-    {
-        return __exchange_and_add(&value_, -1) - 1;
-    }
+  operator long() const { return __exchange_and_add(&value_, 0); }
 
-    operator long() const
-    {
-        return __exchange_and_add(&value_, 0);
-    }
+private:
+  vcl_atomic_count(const vcl_atomic_count &) = delete;
+  vcl_atomic_count &
+  operator=(const vcl_atomic_count &) = delete;
 
- private:
-
-    vcl_atomic_count(vcl_atomic_count const &);
-    vcl_atomic_count & operator=(vcl_atomic_count const &);
-
-    mutable _Atomic_word value_;
+  mutable _Atomic_word value_;
 };
 
 #endif // #ifndef vcl_atomic_count_gcc_h_

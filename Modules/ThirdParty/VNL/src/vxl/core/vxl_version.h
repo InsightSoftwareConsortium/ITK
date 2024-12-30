@@ -21,21 +21,17 @@
 
 //: Version number as a string literal.
 // This is in the format "major.minor.patch".
-#define VXL_VERSION_STRING \
-  VXL_VERSION_TO_STRING(VXL_VERSION_MAJOR.VXL_VERSION_MINOR.VXL_VERSION_PATCH)
+#define VXL_VERSION_STRING VXL_VERSION_TO_STRING(VXL_VERSION_MAJOR.VXL_VERSION_MINOR.VXL_VERSION_PATCH)
 
 //: Version date as a string literal.
 // This is in the format "CCYY-MM-DD".
-#define VXL_VERSION_DATE \
-  VXL_VERSION_TO_STRING(VXL_VERSION_DATE_YEAR-VXL_VERSION_DATE_MONTH-VXL_VERSION_DATE_DAY)
+#define VXL_VERSION_DATE VXL_VERSION_TO_STRING(VXL_VERSION_DATE_YEAR - VXL_VERSION_DATE_MONTH - VXL_VERSION_DATE_DAY)
 
 //: Version date accessible from preprocessor.
 // This is an integer in the format CCYYMMDD.
 #define VXL_VERSION_DATE_FULL \
-  VXL_VERSION_DATE_FULL0(VXL_VERSION_DATE_YEAR, \
-                         VXL_VERSION_DATE_MONTH, \
-                         VXL_VERSION_DATE_DAY)
-#define VXL_VERSION_DATE_FULL0(y,m,d) VXL_VERSION_DATE_FULL1(y,m,d)
-#define VXL_VERSION_DATE_FULL1(y,m,d) y##m##d
+  VXL_VERSION_DATE_FULL0(VXL_VERSION_DATE_YEAR, VXL_VERSION_DATE_MONTH, VXL_VERSION_DATE_DAY)
+#define VXL_VERSION_DATE_FULL0(y, m, d) VXL_VERSION_DATE_FULL1(y, m, d)
+#define VXL_VERSION_DATE_FULL1(y, m, d) y##m##d
 
 #endif // vxl_version_h_

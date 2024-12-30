@@ -11,20 +11,20 @@ check_pointer(const void *)
 static void
 test_static_const_definition()
 {
-#define ONE_ZERO(Type)                                                                                                 \
-  do                                                                                                                   \
-  {                                                                                                                    \
-    check_pointer(&vnl_numeric_traits<Type>::zero);                                                                    \
-    check_pointer(&vnl_numeric_traits<Type>::one);                                                                     \
-    check_pointer(&vnl_numeric_traits<const Type>::zero);                                                              \
-    check_pointer(&vnl_numeric_traits<const Type>::one);                                                               \
+#define ONE_ZERO(Type)                                    \
+  do                                                      \
+  {                                                       \
+    check_pointer(&vnl_numeric_traits<Type>::zero);       \
+    check_pointer(&vnl_numeric_traits<Type>::one);        \
+    check_pointer(&vnl_numeric_traits<const Type>::zero); \
+    check_pointer(&vnl_numeric_traits<const Type>::one);  \
   } while (false)
-#define ALL(Type)                                                                                                      \
-  ONE_ZERO(Type);                                                                                                      \
-  do                                                                                                                   \
-  {                                                                                                                    \
-    check_pointer(&vnl_numeric_traits<Type>::maxval);                                                                  \
-    check_pointer(&vnl_numeric_traits<const Type>::maxval);                                                            \
+#define ALL(Type)                                           \
+  ONE_ZERO(Type);                                           \
+  do                                                        \
+  {                                                         \
+    check_pointer(&vnl_numeric_traits<Type>::maxval);       \
+    check_pointer(&vnl_numeric_traits<const Type>::maxval); \
   } while (false)
 
   ALL(bool);
@@ -125,14 +125,14 @@ test_numeric_traits()
 #endif
   // Testing maxval values
 
-  char cm = vnl_numeric_traits<char>::maxval;
-  signed char scm = vnl_numeric_traits<signed char>::maxval;
+  const char cm = vnl_numeric_traits<char>::maxval;
+  const signed char scm = vnl_numeric_traits<signed char>::maxval;
   unsigned char ucm = vnl_numeric_traits<unsigned char>::maxval;
-  short sm = vnl_numeric_traits<short>::maxval;
+  const short sm = vnl_numeric_traits<short>::maxval;
   unsigned short usm = vnl_numeric_traits<unsigned short>::maxval;
-  int im = vnl_numeric_traits<int>::maxval;
+  const int im = vnl_numeric_traits<int>::maxval;
   unsigned int uim = vnl_numeric_traits<unsigned int>::maxval;
-  long lm = vnl_numeric_traits<long>::maxval;
+  const long lm = vnl_numeric_traits<long>::maxval;
   unsigned long ulm = vnl_numeric_traits<unsigned long>::maxval;
   float fm = vnl_numeric_traits<float>::maxval;
   double dm = vnl_numeric_traits<double>::maxval;
@@ -161,7 +161,10 @@ test_numeric_traits()
   TEST("vnl_numeric_traits<char>::maxval must be at least 127", cm >= 127, true);
   TEST("vnl_numeric_traits<signed char>::maxval must be at least 127", scm >= 127, true);
   TEST("vnl_numeric_traits<unsigned char>::maxval must be larger than that", ucm > scm, true);
+  /* always true comparison of constant 32767 with expression of type 'unsigned char' is always true
+   * at compiletime, and throws a warning.
   TEST("vnl_numeric_traits<short>::maxval must be larger than that", sm > ucm, true);
+  */
   TEST("vnl_numeric_traits<int>::maxval must be at least as large", im >= sm, true);
   TEST("vnl_numeric_traits<unsigned short>::maxval must be larger than <short>", usm > sm, true);
   TEST(
@@ -226,7 +229,7 @@ test_numeric_traits()
 #endif
     for (int j = 7; j >= 0; --j)
     {
-      int n = int(((x[i]) >> j) & 1);
+      const int n = int(((x[i]) >> j) & 1);
       nr_of_ones += n;
       std::cout << n;
     }
@@ -244,7 +247,7 @@ test_numeric_traits()
 #endif
     for (int j = 7; j >= 0; --j)
     {
-      int n = int(((x[i]) >> j) & 1);
+      const int n = int(((x[i]) >> j) & 1);
       nr_of_ones += n;
       std::cout << n;
     }

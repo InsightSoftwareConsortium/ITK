@@ -20,7 +20,7 @@ vcl_destroy(T * p)
 
 template <class U, class V>
 inline void
-vcl_construct(U * p, V const & value)
+vcl_construct(U * p, const V & value)
 {
   new (p) U(value);
 }
@@ -47,18 +47,18 @@ vnl_matlab_read_data(std::istream & s, double * p, unsigned n)
   ::vnl_read_bytes(s, p, n * sizeof(*p));
 }
 
-#define implement_read_complex_data(T)                                                                                 \
-  template <>                                                                                                          \
-  void vnl_matlab_read_data(std::istream & s, std::complex<T> * ptr, unsigned n)                                       \
-  {                                                                                                                    \
-    T * re = vnl_c_vector<T>::allocate_T(n);                                                                           \
-    T * im = vnl_c_vector<T>::allocate_T(n);                                                                           \
-    ::vnl_read_bytes(s, re, n * sizeof(T));                                                                            \
-    ::vnl_read_bytes(s, im, n * sizeof(T));                                                                            \
-    for (unsigned i = 0; i < n; ++i)                                                                                   \
-      ptr[i] = std::complex<T>(re[i], im[i]);                                                                          \
-    vnl_c_vector<T>::deallocate(re, n);                                                                                \
-    vnl_c_vector<T>::deallocate(im, n);                                                                                \
+#define implement_read_complex_data(T)                                           \
+  template <>                                                                    \
+  void vnl_matlab_read_data(std::istream & s, std::complex<T> * ptr, unsigned n) \
+  {                                                                              \
+    T * re = vnl_c_vector<T>::allocate_T(n);                                     \
+    T * im = vnl_c_vector<T>::allocate_T(n);                                     \
+    ::vnl_read_bytes(s, re, n * sizeof(T));                                      \
+    ::vnl_read_bytes(s, im, n * sizeof(T));                                      \
+    for (unsigned i = 0; i < n; ++i)                                             \
+      ptr[i] = std::complex<T>(re[i], im[i]);                                    \
+    vnl_c_vector<T>::deallocate(re, n);                                          \
+    vnl_c_vector<T>::deallocate(im, n);                                          \
   }
 
 implement_read_complex_data(float) implement_read_complex_data(double)
@@ -69,9 +69,7 @@ implement_read_complex_data(float) implement_read_complex_data(double)
 
   vnl_matlab_readhdr::vnl_matlab_readhdr(std::istream & s_)
   : s(s_)
-  , varname(nullptr)
-  , data_read(false)
-  , need_swap(false)
+
 {
   read_hdr();
 }
@@ -88,7 +86,8 @@ vnl_matlab_readhdr::operator bool() const
   return (s.good() && !s.eof()) ? true : false; // FIXME
 }
 
-bool vnl_matlab_readhdr::operator!() const
+bool
+vnl_matlab_readhdr::operator!() const
 {
   return (s.good() && !s.eof()) ? false : true; // FIXME
 }
@@ -215,92 +214,92 @@ vnl_matlab_readhdr::type_chck(std::complex<double> &)
   return !is_single() && is_complex();
 }
 
-#define fsm_define_methods(T)                                                                                          \
-  bool vnl_matlab_readhdr::read_data(T & v)                                                                            \
-  {                                                                                                                    \
-    if (!type_chck(v))                                                                                                 \
-    {                                                                                                                  \
-      std::cerr << "type_check\n";                                                                                     \
-      return false;                                                                                                    \
-    }                                                                                                                  \
-    if (rows() != 1U || cols() != 1U)                                                                                  \
-    {                                                                                                                  \
-      std::cerr << "size0\n";                                                                                          \
-      return false;                                                                                                    \
-    }                                                                                                                  \
-    vnl_matlab_read_data(s, &v, 1);                                                                                    \
-    if (need_swap)                                                                                                     \
-    {                                                                                                                  \
-      if (sizeof(v) == 4U)                                                                                             \
-        byteswap::swap32(&v);                                                                                          \
-      else                                                                                                             \
-        byteswap::swap64(&v);                                                                                          \
-    }                                                                                                                  \
-    data_read = true;                                                                                                  \
-    return !!*this;                                                                                                    \
-  }                                                                                                                    \
-  bool vnl_matlab_readhdr::read_data(T * p)                                                                            \
-  {                                                                                                                    \
-    if (!type_chck(p[0]))                                                                                              \
-    {                                                                                                                  \
-      std::cerr << "type_check\n";                                                                                     \
-      return false;                                                                                                    \
-    }                                                                                                                  \
-    if (rows() != 1U && cols() != 1U)                                                                                  \
-    {                                                                                                                  \
-      std::cerr << "size1\n";                                                                                          \
-      return false;                                                                                                    \
-    }                                                                                                                  \
-    vnl_matlab_read_data(s, p, rows() * cols());                                                                       \
-    if (need_swap)                                                                                                     \
-    {                                                                                                                  \
-      for (long i = 0; i < rows() * cols(); ++i)                                                                       \
-      {                                                                                                                \
-        if (sizeof(*p) == 4U)                                                                                          \
-          byteswap::swap32(&(p[i]));                                                                                   \
-        else                                                                                                           \
-          byteswap::swap64(&(p[i]));                                                                                   \
-      }                                                                                                                \
-    }                                                                                                                  \
-    data_read = true;                                                                                                  \
-    return !!*this;                                                                                                    \
-  }                                                                                                                    \
-  bool vnl_matlab_readhdr::read_data(T * const * m)                                                                    \
-  {                                                                                                                    \
-    if (!type_chck(m[0][0]))                                                                                           \
-    {                                                                                                                  \
-      std::cerr << "type_check\n";                                                                                     \
-      return false;                                                                                                    \
-    }                                                                                                                  \
-    T * tmp = vnl_c_vector<T>::allocate_T(rows() * cols());                                                            \
-    vnl_matlab_read_data(s, tmp, rows() * cols());                                                                     \
-    if (need_swap)                                                                                                     \
-    {                                                                                                                  \
-      for (long i = 0; i < rows() * cols(); ++i)                                                                       \
-      {                                                                                                                \
-        if (sizeof(T) == 4U)                                                                                           \
-          byteswap::swap32(&(tmp[i]));                                                                                 \
-        else                                                                                                           \
-          byteswap::swap64(&(tmp[i]));                                                                                 \
-      }                                                                                                                \
-    }                                                                                                                  \
-    int a, b;                                                                                                          \
-    if (is_rowwise())                                                                                                  \
-    {                                                                                                                  \
-      a = cols();                                                                                                      \
-      b = 1;                                                                                                           \
-    }                                                                                                                  \
-    else                                                                                                               \
-    {                                                                                                                  \
-      a = 1;                                                                                                           \
-      b = rows();                                                                                                      \
-    }                                                                                                                  \
-    for (long i = 0; i < rows(); ++i)                                                                                  \
-      for (long j = 0; j < cols(); ++j)                                                                                \
-        m[i][j] = tmp[a * i + b * j];                                                                                  \
-    vnl_c_vector<T>::deallocate(tmp, rows() * cols());                                                                 \
-    data_read = true;                                                                                                  \
-    return !!*this;                                                                                                    \
+#define fsm_define_methods(T)                               \
+  bool vnl_matlab_readhdr::read_data(T & v)                 \
+  {                                                         \
+    if (!type_chck(v))                                      \
+    {                                                       \
+      std::cerr << "type_check\n";                          \
+      return false;                                         \
+    }                                                       \
+    if (rows() != 1U || cols() != 1U)                       \
+    {                                                       \
+      std::cerr << "size0\n";                               \
+      return false;                                         \
+    }                                                       \
+    vnl_matlab_read_data(s, &v, 1);                         \
+    if (need_swap)                                          \
+    {                                                       \
+      if (sizeof(v) == 4U)                                  \
+        byteswap::swap32(&v);                               \
+      else                                                  \
+        byteswap::swap64(&v);                               \
+    }                                                       \
+    data_read = true;                                       \
+    return !!*this;                                         \
+  }                                                         \
+  bool vnl_matlab_readhdr::read_data(T * p)                 \
+  {                                                         \
+    if (!type_chck(p[0]))                                   \
+    {                                                       \
+      std::cerr << "type_check\n";                          \
+      return false;                                         \
+    }                                                       \
+    if (rows() != 1U && cols() != 1U)                       \
+    {                                                       \
+      std::cerr << "size1\n";                               \
+      return false;                                         \
+    }                                                       \
+    vnl_matlab_read_data(s, p, rows() * cols());            \
+    if (need_swap)                                          \
+    {                                                       \
+      for (long i = 0; i < rows() * cols(); ++i)            \
+      {                                                     \
+        if (sizeof(*p) == 4U)                               \
+          byteswap::swap32(&(p[i]));                        \
+        else                                                \
+          byteswap::swap64(&(p[i]));                        \
+      }                                                     \
+    }                                                       \
+    data_read = true;                                       \
+    return !!*this;                                         \
+  }                                                         \
+  bool vnl_matlab_readhdr::read_data(T * const * m)         \
+  {                                                         \
+    if (!type_chck(m[0][0]))                                \
+    {                                                       \
+      std::cerr << "type_check\n";                          \
+      return false;                                         \
+    }                                                       \
+    T * tmp = vnl_c_vector<T>::allocate_T(rows() * cols()); \
+    vnl_matlab_read_data(s, tmp, rows() * cols());          \
+    if (need_swap)                                          \
+    {                                                       \
+      for (long i = 0; i < rows() * cols(); ++i)            \
+      {                                                     \
+        if (sizeof(T) == 4U)                                \
+          byteswap::swap32(&(tmp[i]));                      \
+        else                                                \
+          byteswap::swap64(&(tmp[i]));                      \
+      }                                                     \
+    }                                                       \
+    int a, b;                                               \
+    if (is_rowwise())                                       \
+    {                                                       \
+      a = cols();                                           \
+      b = 1;                                                \
+    }                                                       \
+    else                                                    \
+    {                                                       \
+      a = 1;                                                \
+      b = rows();                                           \
+    }                                                       \
+    for (long i = 0; i < rows(); ++i)                       \
+      for (long j = 0; j < cols(); ++j)                     \
+        m[i][j] = tmp[a * i + b * j];                       \
+    vnl_c_vector<T>::deallocate(tmp, rows() * cols());      \
+    data_read = true;                                       \
+    return !!*this;                                         \
   }
 
 fsm_define_methods(float);
@@ -344,7 +343,7 @@ vnl_matlab_read_or_die(std::istream & s, vnl_vector<T> & v, char const * name)
 
 template <class T>
 bool
-vnl_matlab_read_or_die(std::istream & s, vnl_matrix<T> & M, char const * name)
+vnl_matlab_read_or_die(std::istream & s, vnl_matrix<T> & M, const char * name)
 {
   vnl_matlab_readhdr h(s);
   if (!s) // eof?
@@ -370,8 +369,8 @@ vnl_matlab_read_or_die(std::istream & s, vnl_matrix<T> & M, char const * name)
   return true;
 }
 
-#define inst(T)                                                                                                        \
-  template VNL_EXPORT bool vnl_matlab_read_or_die(std::istream &, vnl_vector<T> &, char const *);                      \
+#define inst(T)                                                                                   \
+  template VNL_EXPORT bool vnl_matlab_read_or_die(std::istream &, vnl_vector<T> &, char const *); \
   template VNL_EXPORT bool vnl_matlab_read_or_die(std::istream &, vnl_matrix<T> &, char const *);
 
 inst(double);

@@ -30,7 +30,7 @@ public:
   void
   Aprod1(unsigned int m, unsigned int n, const double * x, double * y) const override
   {
-    vnl_vector_ref<double> x_ref(n, const_cast<double *>(x));
+    const vnl_vector_ref<double> x_ref(n, const_cast<double *>(x));
     vnl_vector_ref<double> y_ref(m, y);
 
     vnl_vector_ref<double> tmp(m, rw);
@@ -49,7 +49,7 @@ public:
   Aprod2(unsigned int m, unsigned int n, double * x, const double * y) const override
   {
     vnl_vector_ref<double> x_ref(n, x);
-    vnl_vector_ref<double> y_ref(m, const_cast<double *>(y));
+    const vnl_vector_ref<double> y_ref(m, const_cast<double *>(y));
 
     vnl_vector_ref<double> tmp(n, this->rw);
     this->ls_->transpose_multiply(y_ref, tmp);
@@ -125,15 +125,15 @@ vnl_lsqr::minimize(vnl_vector<double> & result)
 {
   const long m = ls_->get_number_of_residuals();
   const long n = ls_->get_number_of_unknowns();
-  double damp = 0;
+  const double damp = 0;
 
   // NOTE: rw is a scratch space used for both intermediate residual and unknown computations
   std::vector<double> rw(std::max(m, n));
-  std::vector<double> v(n);
+  const std::vector<double> v(n);
   std::vector<double> se(n);
 
-  double atol = 0;
-  double btol = 0;
+  const double atol = 0;
+  const double btol = 0;
 
   vnl_vector<double> rhs(m);
   ls_->get_rhs(rhs);

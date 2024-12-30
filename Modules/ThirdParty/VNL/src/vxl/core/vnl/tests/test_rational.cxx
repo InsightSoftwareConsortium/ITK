@@ -16,7 +16,7 @@
 inline vnl_rational
 vnl_sqrt(vnl_rational x)
 {
-  return vnl_rational(std::sqrt(double(x)));
+  return { std::sqrt(double(x)) };
 }
 
 namespace
@@ -101,23 +101,27 @@ test_converting_constructors()
 static void
 test_operators()
 {
-  vnl_rational a(-5L), b(7, -1), c, d(3, 7), e(2, 0);
-  vnl_rational z_default;
+  vnl_rational a(-5L);
+  const vnl_rational b(7, -1);
+  vnl_rational c;
+  vnl_rational d(3, 7);
+  const vnl_rational e(2, 0);
+  const vnl_rational z_default;
   TEST("==", z_default == 0L, true);
 
-  vnl_rational z_int(static_cast<int>(0));
+  const vnl_rational z_int(static_cast<int>(0));
   TEST("==", z_int == 0L, true);
-  vnl_rational z_uint(static_cast<unsigned int>(0));
+  const vnl_rational z_uint(static_cast<unsigned int>(0));
   TEST("==", z_uint == 0L, true);
 
-  vnl_rational z_short(static_cast<int>(0));
+  const vnl_rational z_short(static_cast<int>(0));
   TEST("==", z_short == 0L, true);
-  vnl_rational z_ushort(static_cast<unsigned int>(0));
+  const vnl_rational z_ushort(static_cast<unsigned int>(0));
   TEST("==", z_ushort == 0L, true);
 
-  vnl_rational z_long(static_cast<long>(0));
+  const vnl_rational z_long(static_cast<long>(0));
   TEST("==", z_long == 0L, true);
-  vnl_rational z_ulong(static_cast<unsigned long>(0));
+  const vnl_rational z_ulong(static_cast<unsigned long>(0));
   TEST("==", z_ulong == 0L, true);
 #if 0
   vnl_rational z_mixed(static_cast<short>(0), static_cast<unsigned int>(1) );
@@ -235,17 +239,22 @@ test_infinite()
 static void
 test_frac()
 {
-  vnl_rational r(-15, -20), s(1234321L, -1111111L), p;
+  vnl_rational r(-15, -20);
+  vnl_rational s(1234321L, -1111111L);
   TEST("vnl_math::isfinite", vnl_math::isfinite(r), true);
   TEST("vnl_math::isnan", vnl_math::isnan(r), false);
   TEST("simplify", r.numerator() == 3 && r.denominator() == 4, true);
   TEST("sign in numerator", s.numerator() == -1234321L && s.denominator() == 1111111L, true);
   // All 5-digit numbers below are prime numbers, and small enough so that the multiplications in the constructors do
   // not overflow
-  long p1 = 46309L, p2 = 46349L, p3 = 46327L, p4 = 46337L, p5 = 46351L;
+  const long p1 = 46309L;
+  const long p2 = 46349L;
+  const long p3 = 46327L;
+  const long p4 = 46337L;
+  const long p5 = 46351L;
   r = vnl_rational(p1 * p2, p3 * p4);
   s = vnl_rational(p3 * p4, p1 * p5);
-  p = r * s;
+  vnl_rational p = r * s;
   TEST("large multiplication without overflow", p.numerator() == p2 && p.denominator() == p5, true);
   r = vnl_rational(p1 * p2, p3 * p4);
   s = vnl_rational(p1 * p5, p3 * p4);
@@ -265,18 +274,26 @@ test_frac()
 static void
 test_long_64()
 {
-  long l1 = 1234321234321L, l2 = 2 * l1, l3 = 123456787654321L, l4 = l3 + 1;
-  vnl_rational r(-l1, -l2) /* denom = 2*num */, s(l3, -l4) /* relatively prime */, p;
+  const long l1 = 1234321234321L;
+  const long l2 = 2 * l1;
+  const long l3 = 123456787654321L;
+  const long l4 = l3 + 1;
+  vnl_rational r(-l1, -l2) /* denom = 2*num */;
+  vnl_rational s(l3, -l4) /* relatively prime */;
   TEST("vnl_math::isfinite", vnl_math::isfinite(r), true);
   TEST("vnl_math::isnan", vnl_math::isnan(s), false);
   TEST("simplify", r.numerator() == 1 && r.denominator() == 2, true);
   TEST("sign in numerator", s.numerator() == -l3 && s.denominator() == l4, true);
   // The 10-digit numbers below are prime numbers, and small enough so that the multiplications in the constructors do
   // not overflow (at least, on systems where "long" is 64 bit)
-  long p1 = 1999999117L, p2 = 1999999121L, p3 = 1999999151L, p4 = 1999999171L, p5 = 1999999207L;
+  const long p1 = 1999999117L;
+  const long p2 = 1999999121L;
+  const long p3 = 1999999151L;
+  const long p4 = 1999999171L;
+  const long p5 = 1999999207L;
   r = vnl_rational(p1 * p2, p3 * p4);
   s = vnl_rational(p4 * p3, p1 * p5);
-  p = r * s;
+  vnl_rational p = r * s;
   TEST("large multiplication without overflow", p.numerator() == p2 && p.denominator() == p5, true);
   r = vnl_rational(p1 * p2, p3 * p4);
   s = vnl_rational(p1 * p5, p4 * p3);
@@ -304,7 +321,7 @@ test_approx()
   TEST("construct from double", d, vnl_rational(3, 7));
   d = vnl_rational(-1.23456);
   TEST("construct from double", d, vnl_rational(-123456, 100000));
-  vnl_rational pi = vnl_rational(vnl_math::pi);
+  const vnl_rational pi = vnl_rational(vnl_math::pi);
   auto pi_a = double(pi);
   TEST("pi", pi_a - vnl_math::pi < 1e-18 && vnl_math::pi - pi_a < 1e-18, true);
   std::cout << "Best rational approximation of pi: " << pi << " = " << pi_a << '\n'
@@ -334,7 +351,8 @@ test_sqrt()
   vnl_rational d(16, 9);
   TEST("sqrt", vnl_sqrt(d), vnl_rational(4, 3));
   d = vnl_sqrt(vnl_rational(2L));
-  double sqrt2 = std::sqrt(2.0), sqrt_2 = double(d);
+  const double sqrt2 = std::sqrt(2.0);
+  const double sqrt_2 = double(d);
   std::cout << "Best rational approximation of sqrt(2): " << d << " = " << sqrt_2 << '\n'
             << "Compare this with sqrt(2) in 20 decimals:                     " << sqrt2 << std::endl;
   TEST("sqrt(2)", sqrt2 - sqrt_2 < 1e-18 && sqrt_2 - sqrt2 < 1e-18, true);
@@ -343,10 +361,10 @@ test_sqrt()
 static void
 test_zero_one()
 {
-  vnl_rational n = vnl_numeric_traits<vnl_rational>::zero;
+  const vnl_rational n = vnl_numeric_traits<vnl_rational>::zero;
   std::cout << "zero = " << n << '\n';
   TEST("zero", n, 0L);
-  vnl_rational u = vnl_numeric_traits<vnl_rational>::one;
+  const vnl_rational u = vnl_numeric_traits<vnl_rational>::one;
   std::cout << "one  = " << u << '\n';
   TEST("one", u, 1L);
 }

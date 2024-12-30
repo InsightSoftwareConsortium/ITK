@@ -96,43 +96,43 @@ run_constructor_tests()
 
   std::cout << "long constructor:\n";
   {
-    vnl_bignum b(0L);
+    const vnl_bignum b(0L);
     TEST("vnl_bignum b(0L);", b, 0L);
   }
   {
-    vnl_bignum b(1L);
+    const vnl_bignum b(1L);
     TEST("vnl_bignum b(1L);", b, 1L);
   }
   {
-    vnl_bignum b(-1L);
+    const vnl_bignum b(-1L);
     TEST("vnl_bignum b(-1L);", b, -1L);
   }
   {
-    vnl_bignum b(0x7fffL);
+    const vnl_bignum b(0x7fffL);
     TEST("vnl_bignum b(0x7fffL);", b, 0x7fffL);
   }
   {
-    vnl_bignum b(-0x7fffL);
+    const vnl_bignum b(-0x7fffL);
     TEST("vnl_bignum b(-0x7fffL);", b, -0x7fffL);
   }
   {
-    vnl_bignum b(0x7fffffffL);
+    const vnl_bignum b(0x7fffffffL);
     TEST("vnl_bignum b(0x7fffffffL);", b, 0x7fffffffL);
   }
   {
-    vnl_bignum b(-0x7fffffffL);
+    const vnl_bignum b(-0x7fffffffL);
     TEST("vnl_bignum b(-0x7fffffffL);", b, -0x7fffffffL);
   }
   {
-    vnl_bignum b(0xf00000L);
+    const vnl_bignum b(0xf00000L);
     TEST("vnl_bignum b(0xf00000L);", b, 0xf00000);
   }
   {
-    vnl_bignum b(LONG_MAX);
+    const vnl_bignum b(LONG_MAX);
     TEST("vnl_bignum b(LONG_MAX);", b, LONG_MAX);
   }
   {
-    vnl_bignum b(LONG_MIN);
+    const vnl_bignum b(LONG_MIN);
     TEST("vnl_bignum b(LONG_MIN);", b, LONG_MIN);
   }
 
@@ -174,7 +174,7 @@ run_constructor_tests()
     TEST("vnl_bignum b(-1234567e3);", (double)b, -1234567e3);
   }
   {
-    vnl_bignum b(double(0xf00000));
+    const vnl_bignum b(double(0xf00000));
     TEST("vnl_bignum b(double(0xf00000));", b, 0xf00000);
   }
 
@@ -216,27 +216,27 @@ run_constructor_tests()
 
   std::cout << "char* constructor:\n";
   {
-    vnl_bignum b("-1");
+    const vnl_bignum b("-1");
     TEST("vnl_bignum b(\"-1\");", b, -1L);
   }
   {
-    vnl_bignum b("+1");
+    const vnl_bignum b("+1");
     TEST("vnl_bignum b(\"+1\");", b, 1L);
   }
   {
-    vnl_bignum b("1");
+    const vnl_bignum b("1");
     TEST("vnl_bignum b(\"1\");", b, 1L);
   }
   {
-    vnl_bignum b("123");
+    const vnl_bignum b("123");
     TEST("vnl_bignum b(\"123\");", b, 123L);
   }
   {
-    vnl_bignum b("123e5");
+    const vnl_bignum b("123e5");
     TEST("vnl_bignum b(\"123e5\");", b, 12300000L);
   }
   {
-    vnl_bignum b("-123e+4");
+    const vnl_bignum b("-123e+4");
     TEST("vnl_bignum b(\"-123e+4\");", b, -1230000L);
   }
   {
@@ -244,7 +244,7 @@ run_constructor_tests()
     TEST("vnl_bignum b(\"123e12\");", (double)b, 123e12);
   }
   {
-    vnl_bignum b("-1e120");
+    const vnl_bignum b("-1e120");
     std::stringstream s;
     s << b;
     std::cout << b << '\n';
@@ -262,64 +262,64 @@ run_constructor_tests()
     std::cout << "length of string: " << s.str().length() << std::endl;
   }
   {
-    vnl_bignum b("0x0");
+    const vnl_bignum b("0x0");
     TEST("vnl_bignum b(\"0x0\");", b, 0x0);
   }
   {
-    vnl_bignum b("0x9");
+    const vnl_bignum b("0x9");
     TEST("vnl_bignum b(\"0x9\");", b, 0x9);
   }
   {
-    vnl_bignum b("0xa");
+    const vnl_bignum b("0xa");
     TEST("vnl_bignum b(\"0xa\");", b, 0xa);
   }
   {
-    vnl_bignum b("0xf");
+    const vnl_bignum b("0xf");
     TEST("vnl_bignum b(\"0xf\");", b, 0xf);
   }
   {
-    vnl_bignum b("0xA");
+    const vnl_bignum b("0xA");
     TEST("vnl_bignum b(\"0xA\");", b, 0xa);
   }
   {
-    vnl_bignum b("0xF");
+    const vnl_bignum b("0xF");
     TEST("vnl_bignum b(\"0xF\");", b, 0xf);
   }
   {
-    vnl_bignum b("0x1aF");
+    const vnl_bignum b("0x1aF");
     TEST("vnl_bignum b(\"0x1aF\");", b, 0x1af);
   }
   {
-    vnl_bignum b("0");
+    const vnl_bignum b("0");
     TEST("vnl_bignum b(\"0\");", b, 0);
   }
   {
-    vnl_bignum b("00");
+    const vnl_bignum b("00");
     TEST("vnl_bignum b(\"00\");", b, 0);
   }
   {
-    vnl_bignum b("012334567");
+    const vnl_bignum b("012334567");
     TEST("vnl_bignum b(\"012334567\");", b, 012334567);
   }
   {
-    vnl_bignum b("9");
+    const vnl_bignum b("9");
     TEST("vnl_bignum b(\"9\");", b, 9);
   }
   {
-    vnl_bignum b(" 9");
+    const vnl_bignum b(" 9");
     TEST("vnl_bignum b(\" 9\");", b, 9);
   }
   // infinity:
   {
-    vnl_bignum b("+Inf");
+    const vnl_bignum b("+Inf");
     TEST("vnl_bignum b(\"+Inf\");", b.is_plus_infinity(), true);
   }
   {
-    vnl_bignum b("Infinity");
+    const vnl_bignum b("Infinity");
     TEST("vnl_bignum b(\"Infinity\");", b.is_plus_infinity(), true);
   }
   {
-    vnl_bignum b("-Infin");
+    const vnl_bignum b("-Infin");
     TEST("vnl_bignum b(\"-Infin\");", b.is_minus_infinity(), true);
   }
 
@@ -551,7 +551,7 @@ run_assignment_tests()
 
   // vnl_bignum& assignment operator
   b1 = "0";
-  vnl_bignum b5(0x1ffffL);
+  const vnl_bignum b5(0x1ffffL);
   TEST_RUN("b1 = b5", b1 = b5, b1, b5);
 }
 
@@ -559,12 +559,12 @@ static void
 run_logical_comparison_tests()
 {
   std::cout << "\nStarting logical comparison tests:\n";
-  vnl_bignum b0(0L);
-  vnl_bignum b1(1L);
+  const vnl_bignum b0(0L);
+  const vnl_bignum b1(1L);
   vnl_bignum b2(0x7fffL);
-  vnl_bignum b3(-0x7fffL);
-  vnl_bignum p_inf("+Inf");
-  vnl_bignum m_inf("-Inf");
+  const vnl_bignum b3(-0x7fffL);
+  const vnl_bignum p_inf("+Inf");
+  const vnl_bignum m_inf("-Inf");
 
   TEST("b0 == b0", b0 == b0, true);
   TEST("b0 == b1", b0 == b1, false);
@@ -670,7 +670,6 @@ run_division_tests()
   TEST("vnl_bignum(\"+Inf\")/(-1L)", vnl_bignum("+Inf") / (-1L), vnl_bignum("-Inf"));
   TEST("vnl_bignum(-1L)/0L", vnl_bignum(-1L) / 0L, vnl_bignum("-Inf"));
 
-  long i, j, k, l;
   long div_errors = 0;
   long mod_errors = 0;
 
@@ -678,18 +677,18 @@ run_division_tests()
             << "   for (j = 0x7ffffff; j > 0; j /= 0x10)\n"
             << "     for (k = 1; k < 17; ++k)\n"
             << "       for (l = 1; l < 17; ++l)\n         ";
-  for (i = 0xffffff; i > 0; i /= 0x10)
+  for (long i = 0xffffff; i > 0; i /= 0x10)
   {
     std::cout.put('.');
     std::cout.flush();
-    for (j = 0x7ffffff; j > 0; j /= 0x10)
+    for (long j = 0x7ffffff; j > 0; j /= 0x10)
     {
-      for (k = 1; k < 17; ++k)
+      for (long k = 1; k < 17; ++k)
       {
-        for (l = 1; l < 17; ++l)
+        for (long l = 1; l < 17; ++l)
         {
-          vnl_bignum b1(i + k);
-          vnl_bignum b2(j + l);
+          const vnl_bignum b1(i + k);
+          const vnl_bignum b2(j + l);
           vnl_bignum b3(long((i + k) / (j + l)));
           if (b1 / b2 != b3)
           {
@@ -742,7 +741,8 @@ run_large_division_tests()
 {
   std::cout << "\nStarting large division tests:\n";
 
-  vnl_bignum a("10000000"), b("10000001");
+  vnl_bignum a("10000000");
+  vnl_bignum b("10000001");
   b *= a;
   vnl_bignum c = b / 10000001;
   std::cout << b << " / 10000001 = " << c << ", must be 10000000\n";
@@ -824,8 +824,8 @@ run_multiplication_division_tests()
 {
   std::cout << "\nCheck example in book:\n";
 
-  vnl_bignum b2 = "0xffffffff"; // Create vnl_bignum object
-  vnl_bignum b3 = "12345e30";   // Create vnl_bignum object
+  const vnl_bignum b2 = "0xffffffff"; // Create vnl_bignum object
+  const vnl_bignum b3 = "12345e30";   // Create vnl_bignum object
 
   std::cout << "b2 = " << b2 << std::endl << "b3 = " << b3 << std::endl;
 
@@ -839,24 +839,22 @@ run_addition_subtraction_tests()
 {
   std::cout << "\nStarting addition, subtraction tests:\n";
 
-  long i, j;
   long add_errors = 0;
   long sub_errors = 0;
-  vnl_bignum bi, bj, bij;
 
   std::cout << " for (i = 1; i < 0xfffffff;  i *= 3)\n"
             << "   for (j = 1; j < 0xfffffff; j *= 3)\n      ";
 
   {
-    for (i = 1; i < 0xfffffff; i *= 3)
+    for (long i = 1; i < 0xfffffff; i *= 3)
     {
       std::cout.put('.');
       std::cout.flush();
-      for (j = 1; j < 0xfffffff; j *= 3)
+      for (long j = 1; j < 0xfffffff; j *= 3)
       {
-        bi = i;
-        bj = j;
-        bij = vnl_bignum(i + j);
+        const vnl_bignum bi = i;
+        const vnl_bignum bj = j;
+        vnl_bignum bij = vnl_bignum(i + j);
         if (bi + bj != bij)
         {
           TEST("bi + bj == vnl_bignum(i + j)", false, true);
@@ -877,10 +875,12 @@ run_addition_subtraction_tests()
   TEST("bi + bj == vnl_bignum(i + j)", add_errors, 0);
   TEST("bi - bj == vnl_bignum(i - j)", sub_errors, 0);
 
-  vnl_bignum b0(0L);
-  vnl_bignum zillion("1000000000000000000");
-  vnl_bignum b1000(1000L), b1000000(1000000L);
-  vnl_bignum p_inf("+Inf"), m_inf("-Inf");
+  const vnl_bignum b0(0L);
+  const vnl_bignum zillion("1000000000000000000");
+  const vnl_bignum b1000(1000L);
+  const vnl_bignum b1000000(1000000L);
+  const vnl_bignum p_inf("+Inf");
+  const vnl_bignum m_inf("-Inf");
 
   TEST("-b0 == b0", -b0, b0);
   TEST("-p_inf == m_inf", -p_inf, m_inf);
@@ -928,8 +928,8 @@ run_addition_subtraction_tests()
   TEST("m_inf - zillion == m_inf", m_inf - zillion, m_inf);
 
   // example in book
-  vnl_bignum b2 = "0xffffffff"; // Create vnl_bignum object
-  vnl_bignum b3 = "12345e30";   // Create vnl_bignum object
+  const vnl_bignum b2 = "0xffffffff"; // Create vnl_bignum object
+  const vnl_bignum b3 = "12345e30";   // Create vnl_bignum object
   TEST("(b2+b3) - b2 = b3", (b2 + b3) - b2 == b3, 1);
   TEST("(b2+b3) - b3 = b2", (b2 + b3) - b3 == b2, 1);
   b3.dump();
@@ -1012,8 +1012,12 @@ run_multiplication_tests()
 {
   std::cout << "\nStarting multiplication tests:\n";
 
-  vnl_bignum b0(0L), b1000(1000L), b1000000(1000000L), zillion("1000000000000000000");
-  vnl_bignum p_inf("+Inf"), m_inf("-Inf");
+  const vnl_bignum b0(0L);
+  const vnl_bignum b1000(1000L);
+  const vnl_bignum b1000000(1000000L);
+  const vnl_bignum zillion("1000000000000000000");
+  const vnl_bignum p_inf("+Inf");
+  const vnl_bignum m_inf("-Inf");
 
   TEST("b0*b0 == b0", b0 * b0, b0);
   TEST("b0*b1000 == b0", b0 * b1000, b0);
@@ -1034,7 +1038,8 @@ static void
 run_left_shift_tests()
 {
   vnl_bignum b1(1L);
-  vnl_bignum p_inf("+Inf"), m_inf("-Inf");
+  const vnl_bignum p_inf("+Inf");
+  const vnl_bignum m_inf("-Inf");
 
   // left shift
   TEST("int(b1) == 1", int(b1), 1);
@@ -1083,8 +1088,9 @@ run_left_shift_tests()
 static void
 run_right_shift_tests()
 {
-  vnl_bignum b2("4294967296");
-  vnl_bignum p_inf("+Inf"), m_inf("-Inf");
+  const vnl_bignum b2("4294967296");
+  const vnl_bignum p_inf("+Inf");
+  const vnl_bignum m_inf("-Inf");
 
   // right shift
   TEST("b2 == vnl_bignum(\"4294967296\")", b2, vnl_bignum("4294967296"));

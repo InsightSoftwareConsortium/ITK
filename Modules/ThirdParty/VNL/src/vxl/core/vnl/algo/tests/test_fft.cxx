@@ -35,7 +35,7 @@ test_fft_1d(unsigned int N)
   tmp /= N;
   vnl_matlab_print(std::cout, tmp, "tmp");
 
-  double err = (tmp - signal).two_norm();
+  const double err = (tmp - signal).two_norm();
   std::cout << "err = " << err << std::endl;
   TEST_NEAR("test fwd-bwd", err, 0.0, 1e-10);
 }
@@ -59,7 +59,7 @@ test_fft_2d(unsigned int M, unsigned int N)
   tmp /= (M * N);
   vnl_matlab_print(std::cout, tmp, "tmp");
 
-  double err = (tmp - signal).fro_norm();
+  const double err = (tmp - signal).fro_norm();
   std::cout << "err = " << err << std::endl;
   TEST_NEAR("test fwd-bwd", err, 0.0, 1e-10);
 }

@@ -75,10 +75,10 @@ main(int argc, char * argv[])
   return r;
 }
 
-#  define TEST(t, a, b)                                                                                                \
-    if (a != b)                                                                                                        \
-      std::cerr << t << " FAILED.\n";                                                                                  \
-    else                                                                                                               \
+#  define TEST(t, a, b)               \
+    if (a != b)                       \
+      std::cerr << t << " FAILED.\n"; \
+    else                              \
       std::cout << t << " check PASSED." << std::endl;
 
 #  define TESTMAIN(x) // no-op

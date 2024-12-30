@@ -4,7 +4,7 @@
 // MS compatible compilers support #pragma once
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1020)
-# pragma once
+#  pragma once
 #endif
 //:
 // \file
@@ -28,33 +28,31 @@
 
 class vcl_atomic_count
 {
- public:
+public:
+  explicit vcl_atomic_count(long v)
+    : value_(v)
+  {}
 
-    explicit vcl_atomic_count( long v ): value_( v )
-    {
-    }
+  long
+  operator++()
+  {
+    return BOOST_INTERLOCKED_INCREMENT(&value_);
+  }
 
-    long operator++()
-    {
-        return BOOST_INTERLOCKED_INCREMENT( &value_ );
-    }
+  long
+  operator--()
+  {
+    return BOOST_INTERLOCKED_DECREMENT(&value_);
+  }
 
-    long operator--()
-    {
-        return BOOST_INTERLOCKED_DECREMENT( &value_ );
-    }
+  operator long() const { return static_cast<const long volatile &>(value_); }
 
-    operator long() const
-    {
-        return static_cast<long const volatile &>( value_ );
-    }
+private:
+  vcl_atomic_count(const vcl_atomic_count &) = delete;
+  vcl_atomic_count &
+  operator=(const vcl_atomic_count &) = delete;
 
- private:
-
-    vcl_atomic_count( vcl_atomic_count const & );
-    vcl_atomic_count & operator=( vcl_atomic_count const & );
-
-    long value_;
+  long value_;
 };
 
 #endif // #ifndef vcl_atomic_count_win32_h_

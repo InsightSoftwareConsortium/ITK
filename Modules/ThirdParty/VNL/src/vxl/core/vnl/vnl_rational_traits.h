@@ -16,7 +16,7 @@
 template <>
 class vnl_numeric_traits<vnl_rational>
 {
- public:
+public:
   //: Additive identity
   static VNL_EXPORT const vnl_rational zero; // = 0L
   //: Multiplicative identity
@@ -39,16 +39,16 @@ class vnl_numeric_traits<vnl_rational>
 };
 
 template <>
-class vnl_numeric_traits<vnl_rational const> : public vnl_numeric_traits<vnl_rational>
-{
-};
+class vnl_numeric_traits<const vnl_rational> : public vnl_numeric_traits<vnl_rational>
+{};
 
-std::ostream& operator<<(std::ostream&, const std::complex<vnl_rational>&);
+std::ostream &
+operator<<(std::ostream &, const std::complex<vnl_rational> &);
 
 template <>
-class vnl_numeric_traits<std::complex<vnl_rational> >
+class vnl_numeric_traits<std::complex<vnl_rational>>
 {
- public:
+public:
   //: Additive identity
   static const std::complex<vnl_rational> zero; // = std::complex<vnl_rational>(0L,0L)
   //: Multiplicative identity
@@ -64,14 +64,15 @@ class vnl_numeric_traits<std::complex<vnl_rational> >
 };
 
 template <>
-class vnl_numeric_traits<std::complex<vnl_rational> const> : public vnl_numeric_traits<std::complex<vnl_rational> >
-{
-};
+class vnl_numeric_traits<const std::complex<vnl_rational>> : public vnl_numeric_traits<std::complex<vnl_rational>>
+{};
 
 namespace vnl_math
 {
-  vnl_rational squared_magnitude(std::complex<vnl_rational> const& );
-  vnl_rational abs(std::complex<vnl_rational> const& );
-}
+vnl_rational
+squared_magnitude(const std::complex<vnl_rational> &);
+vnl_rational
+abs(const std::complex<vnl_rational> &);
+} // namespace vnl_math
 
 #endif // vnl_rational_traits_h_

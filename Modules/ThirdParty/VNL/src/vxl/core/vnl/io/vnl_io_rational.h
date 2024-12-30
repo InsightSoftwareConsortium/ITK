@@ -15,14 +15,17 @@
 
 //: Binary save vnl_rational to stream.
 //  \relatesalso vnl_rational
-void vsl_b_write(vsl_b_ostream & os, vnl_rational const& v);
+void
+vsl_b_write(vsl_b_ostream & os, const vnl_rational & v);
 
 //: Binary load vnl_rational from stream.
 //  \relatesalso vnl_rational
-void vsl_b_read(vsl_b_istream & is, vnl_rational & v);
+void
+vsl_b_read(vsl_b_istream & is, vnl_rational & v);
 
 //: Print human readable summary of object to a stream
 //  \relatesalso vnl_rational
-void vsl_print_summary(std::ostream & os, vnl_rational const& b);
+void
+vsl_print_summary(std::ostream & os, const vnl_rational & b);
 
 #endif // vnl_io_rational_h

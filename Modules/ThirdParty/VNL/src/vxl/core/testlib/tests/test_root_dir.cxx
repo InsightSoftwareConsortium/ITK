@@ -10,7 +10,7 @@ static void
 test_root_dir()
 {
   // Check that a file exists
-  std::string path = testlib_root_dir() + "/core/testlib/testlib_root_dir.h";
+  const std::string path = testlib_root_dir() + "/core/testlib/testlib_root_dir.h";
 
   std::fstream is(path.c_str(), std::ios::in);
 

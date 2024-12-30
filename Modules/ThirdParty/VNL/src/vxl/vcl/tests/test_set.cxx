@@ -5,9 +5,10 @@
 #  include "vcl_msvc_warnings.h"
 #endif
 
-int test_set_main(int /*argc*/,char* /*argv*/[])
+int
+test_set_main(int /*argc*/, char * /*argv*/[])
 {
-  typedef std::set<int, std::less<int> > myset;
+  typedef std::set<int, std::less<int>> myset;
   myset s;
 
   s.insert(1);

@@ -25,7 +25,7 @@
 #include <cassert>
 #include "vnl/vnl_export.h"
 
-//:Evaluation of real polynomials at real and complex points.
+//: Evaluation of real polynomials at real and complex points.
 //    vnl_real_polynomial represents a univariate polynomial with real
 //    coefficients, stored as a vector of doubles.  This allows
 //    evaluation of the polynomial $p(x)$ at given values of $x$,
@@ -39,87 +39,147 @@
 //    Roots may be extracted using the roots() method.
 class VNL_EXPORT vnl_real_polynomial
 {
- public:
+public:
   //: Initialize polynomial.
   // The polynomial is $ a[0] x^d + a[1] x^{d-1} + \cdots + a[d] = 0 $.
-  vnl_real_polynomial(vnl_vector<double> const & a): coeffs_(a) {
-    if (a.empty()) { coeffs_.set_size(1); coeffs_(0)=0.0; }
+  vnl_real_polynomial(const vnl_vector<double> & a)
+    : coeffs_(a)
+  {
+    if (a.empty())
+    {
+      coeffs_.set_size(1);
+      coeffs_(0) = 0.0;
+    }
   }
 
   //: Initialize polynomial from C vector.
   // The parameter len is the number
   // of coefficients, one greater than the degree.
-  vnl_real_polynomial(double const * a, unsigned len): coeffs_(a, len) {
-    if (len==0) { coeffs_.set_size(1); coeffs_(0)=0.0; }
+  vnl_real_polynomial(const double * a, unsigned len)
+    : coeffs_(a, len)
+  {
+    if (len == 0)
+    {
+      coeffs_.set_size(1);
+      coeffs_(0) = 0.0;
+    }
   }
 
   //: Initialize polynomial from double.
   // Useful when adding or multiplying a polynomial and a number.
-  vnl_real_polynomial(double a): coeffs_(1u, a) {}
+  vnl_real_polynomial(double a)
+    : coeffs_(1u, a)
+  {}
 
   //: Initialize polynomial of a given degree.
-  vnl_real_polynomial(int d): coeffs_(static_cast<unsigned int>(d)+1u) { assert (d>=0); }
-  vnl_real_polynomial(unsigned int d): coeffs_(d+1u) { }
+  vnl_real_polynomial(int d)
+    : coeffs_(static_cast<unsigned int>(d) + 1u)
+  {
+    assert(d >= 0);
+  }
+  vnl_real_polynomial(unsigned int d)
+    : coeffs_(d + 1u)
+  {}
 
   //: comparison operator
-  bool operator==(vnl_real_polynomial const& p) const { return p.coefficients() == coeffs_; }
+  bool
+  operator==(const vnl_real_polynomial & p) const
+  {
+    return p.coefficients() == coeffs_;
+  }
 
   //: Evaluate polynomial at value x
-  double evaluate(double x) const;
+  double
+  evaluate(double x) const;
 
   //: Evaluate integral at x (assuming constant of integration is zero)
-  double evaluate_integral(double x) const;
+  double
+  evaluate_integral(double x) const;
 
   //: Evaluate integral between x1 and x2
-  double evaluate_integral(double x1, double x2) const;
+  double
+  evaluate_integral(double x1, double x2) const;
 
   //: Evaluate derivative at value x
-  double devaluate(double x) const;
+  double
+  devaluate(double x) const;
 
   //: Evaluate polynomial at complex value x
-  std::complex<double> evaluate(std::complex<double> const& x) const;
+  std::complex<double>
+  evaluate(const std::complex<double> & x) const;
 
 
   //: Evaluate derivative at complex value x
-  std::complex<double> devaluate(std::complex<double> const& x) const;
+  std::complex<double>
+  devaluate(const std::complex<double> & x) const;
 
   //: Return derivative of this polynomial
-  vnl_real_polynomial derivative() const;
+  vnl_real_polynomial
+  derivative() const;
 
   //: Return primitive function (inverse derivative) of this polynomial
   // Since a primitive function is not unique, the one with constant = 0 is returned
-  vnl_real_polynomial primitive() const;
+  vnl_real_polynomial
+  primitive() const;
 
   //: Add rhs to this and return *this
-  vnl_real_polynomial& operator+=(vnl_real_polynomial const& rhs);
+  vnl_real_polynomial &
+  operator+=(const vnl_real_polynomial & rhs);
 
   //: Subtract rhs from this and return *this
-  vnl_real_polynomial& operator-=(vnl_real_polynomial const& rhs);
+  vnl_real_polynomial &
+  operator-=(const vnl_real_polynomial & rhs);
 
   //: Multiply rhs with this and return *this
-  vnl_real_polynomial& operator*=(vnl_real_polynomial const& rhs);
+  vnl_real_polynomial &
+  operator*=(const vnl_real_polynomial & rhs);
 
   // Data Access---------------------------------------------------------------
 
   //: Return the degree (highest power of x) of the polynomial.
-  int     degree() const { return int(coeffs_.size()) - 1; }
+  int
+  degree() const
+  {
+    return int(coeffs_.size()) - 1;
+  }
 
   //: Access to the polynomial coefficients
-  double& operator [] (int i)       { return coeffs_[i]; }
+  double &
+  operator[](int i)
+  {
+    return coeffs_[i];
+  }
   //: Access to the polynomial coefficients
-  double  operator [] (int i) const { return coeffs_[i]; }
+  double
+  operator[](int i) const
+  {
+    return coeffs_[i];
+  }
 
   //: Return the vector of coefficients
-  const vnl_vector<double>& coefficients() const { return coeffs_; }
+  const vnl_vector<double> &
+  coefficients() const
+  {
+    return coeffs_;
+  }
   //: Return the vector of coefficients
-        vnl_vector<double>& coefficients()       { return coeffs_; }
+  vnl_vector<double> &
+  coefficients()
+  {
+    return coeffs_;
+  }
 
-  void set_coefficients(vnl_vector<double> const& coeffs) {coeffs_ = coeffs;}
+  void
+  set_coefficients(const vnl_vector<double> & coeffs)
+  {
+    coeffs_ = coeffs;
+  }
 
   //: Print this polynomial to stream
-  void print(std::ostream& os) const;
+  void
+  print(std::ostream & os) const;
 
- protected:
+protected:
   //: The coefficients of the polynomial.
   // coeffs_.back() is the const term.
   // coeffs_[n] is the coefficient of the x^(d-n) term,
@@ -130,19 +190,22 @@ class VNL_EXPORT vnl_real_polynomial
 
 //: Returns polynomial which is sum of two polynomials f1(x)+f2(x)
 // \relatesalso vnl_real_polynomial
-VNL_EXPORT vnl_real_polynomial operator+(const vnl_real_polynomial& f1, const vnl_real_polynomial& f2);
+VNL_EXPORT vnl_real_polynomial
+operator+(const vnl_real_polynomial & f1, const vnl_real_polynomial & f2);
 
 //: Returns polynomial which is different of two polynomials f1(x)-f2(x)
 // \relatesalso vnl_real_polynomial
-VNL_EXPORT vnl_real_polynomial operator-(const vnl_real_polynomial& f1, const vnl_real_polynomial& f2);
+VNL_EXPORT vnl_real_polynomial
+operator-(const vnl_real_polynomial & f1, const vnl_real_polynomial & f2);
 
 //: Returns polynomial which is product of two polynomials f1(x)*f2(x)
-VNL_EXPORT vnl_real_polynomial operator*(const vnl_real_polynomial& f1, const vnl_real_polynomial& f2);
+VNL_EXPORT vnl_real_polynomial
+operator*(const vnl_real_polynomial & f1, const vnl_real_polynomial & f2);
 
 //: Returns RMS difference between f1 and f2 over range [x1,x2]
 // $\frac1{\sqrt{|x_2-x_1|}}\,\sqrt{\int_{x_1}^{x_2}\left(f_1(x)-f_2(x)\right)^2\,dx}$
 // \relatesalso vnl_real_polynomial
-VNL_EXPORT double vnl_rms_difference(const vnl_real_polynomial& f1, const vnl_real_polynomial& f2,
-                          double x1, double x2);
+VNL_EXPORT double
+vnl_rms_difference(const vnl_real_polynomial & f1, const vnl_real_polynomial & f2, double x1, double x2);
 
 #endif // vnl_real_polynomial_h_

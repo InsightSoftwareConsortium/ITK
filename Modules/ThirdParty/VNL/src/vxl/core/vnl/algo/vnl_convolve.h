@@ -36,10 +36,8 @@
 //  then vnl_convolve_cyclic() is applied.
 //
 template <class T1, class T2, class U>
-VNL_EXPORT
-vnl_vector<U>
-vnl_convolve(vnl_vector<T1> const& v1, vnl_vector<T2> const& v2,
-             U*, int use_fft = 0);
+VNL_EXPORT vnl_vector<U>
+vnl_convolve(const vnl_vector<T1> & v1, const vnl_vector<T2> & v2, U *, int use_fft = 0);
 
 
 //: Convolve two vnl_vector<T>'s, with the same base type T.
@@ -49,10 +47,8 @@ vnl_convolve(vnl_vector<T1> const& v1, vnl_vector<T2> const& v2,
 //
 //  \relatesalso vnl_vector
 template <class T>
-VNL_EXPORT
-vnl_vector<T>
-vnl_convolve(vnl_vector<T> const& v1, vnl_vector<T> const& v2,
-             int use_fft = 0);
+VNL_EXPORT vnl_vector<T>
+vnl_convolve(const vnl_vector<T> & v1, const vnl_vector<T> & v2, int use_fft = 0);
 
 
 //: Cyclically convolve two vnl_vector<T>'s of the same length.
@@ -74,42 +70,34 @@ vnl_convolve(vnl_vector<T> const& v1, vnl_vector<T> const& v2,
 //  \relatesalso vnl_vector
 
 template <class T1, class T2, class U>
-VNL_EXPORT
-vnl_vector<U>
-vnl_convolve_cyclic(vnl_vector<T1> const& v1, vnl_vector<T2> const& v2,
-                    U*, bool use_fft = false);
+VNL_EXPORT vnl_vector<U>
+vnl_convolve_cyclic(const vnl_vector<T1> & v1, const vnl_vector<T2> & v2, U *, bool use_fft = false);
 
 // Not yet implemented
 template <class T1, class T2, class U>
 vnl_matrix<U>
-vnl_convolve(vnl_matrix<T1> const& v1, vnl_matrix<T2> const& v2,
-             U*, int use_fft = 0);
+vnl_convolve(const vnl_matrix<T1> & v1, const vnl_matrix<T2> & v2, U *, int use_fft = 0);
 
 // Not yet implemented
 template <class T>
 vnl_matrix<T>
-vnl_convolve(vnl_matrix<T> const& v1, vnl_matrix<T> const& v2,
-             int use_fft = 0);
+vnl_convolve(const vnl_matrix<T> & v1, const vnl_matrix<T> & v2, int use_fft = 0);
 
 // Not yet implemented
 template <class T1, class T2, class U>
 vnl_matrix<U>
-vnl_convolve_cyclic(vnl_matrix<T1> const& v1, vnl_matrix<T2> const& v2,
-                    U*, bool use_fft = false);
+vnl_convolve_cyclic(const vnl_matrix<T1> & v1, const vnl_matrix<T2> & v2, U *, bool use_fft = false);
 
 // Not yet implemented
 template <class T1, class T2, class U>
 vnl_matrix<U>
-vnl_convolve(vnl_matrix<T1> const& v1, vnl_vector<T2> const& v2,
-             U*, int use_fft = 0);
+vnl_convolve(const vnl_matrix<T1> & v1, const vnl_vector<T2> & v2, U *, int use_fft = 0);
 
 // Not yet implemented
 template <class T>
 vnl_matrix<T>
-vnl_convolve(vnl_matrix<T> const& v1, vnl_vector<T> const& v2,
-             int use_fft = 0);
+vnl_convolve(const vnl_matrix<T> & v1, const vnl_vector<T> & v2, int use_fft = 0);
 
-#define VNL_CONVOLVE_INSTANTIATE(T) \
-extern "please include vnl/algo/vnl_convolve.hxx first"
+#define VNL_CONVOLVE_INSTANTIATE(T) extern "please include vnl/algo/vnl_convolve.hxx first"
 
 #endif // vnl_convolve_h_

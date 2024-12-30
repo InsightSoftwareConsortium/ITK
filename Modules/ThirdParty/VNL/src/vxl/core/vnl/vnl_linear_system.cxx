@@ -10,7 +10,7 @@
 vnl_linear_system::~vnl_linear_system() = default;
 
 void
-vnl_linear_system::apply_preconditioner(vnl_vector<double> const & x, vnl_vector<double> & px) const
+vnl_linear_system::apply_preconditioner(const vnl_vector<double> & x, vnl_vector<double> & px) const
 {
   assert(px.size() == x.size());
 
@@ -18,7 +18,7 @@ vnl_linear_system::apply_preconditioner(vnl_vector<double> const & x, vnl_vector
 }
 
 double
-vnl_linear_system::get_rms_error(vnl_vector<double> const & x) const
+vnl_linear_system::get_rms_error(const vnl_vector<double> & x) const
 {
   vnl_vector<double> resid(n_);
   vnl_vector<double> b(n_);
@@ -32,7 +32,7 @@ vnl_linear_system::get_rms_error(vnl_vector<double> const & x) const
 }
 
 double
-vnl_linear_system::get_relative_residual(vnl_vector<double> const & x) const
+vnl_linear_system::get_relative_residual(const vnl_vector<double> & x) const
 {
   vnl_vector<double> resid(n_);
   vnl_vector<double> b(n_);

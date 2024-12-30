@@ -20,20 +20,26 @@
 //
 // \relatesalso vnl_vector
 
-template<class T> VNL_EXPORT
-bool operator<(vnl_vector<T> const& lhs, vnl_vector<T> const& rhs)
+template <class T>
+VNL_EXPORT bool
+operator<(const vnl_vector<T> & lhs, const vnl_vector<T> & rhs)
 {
-  if (&lhs == &rhs)  return false;              // same object => equal.
+  if (&lhs == &rhs)
+    return false; // same object => equal.
 
-  if (lhs.size() < rhs.size())  return true;    // Size different ?
-  else if (lhs.size() > rhs.size()) return false;
+  if (lhs.size() < rhs.size())
+    return true; // Size different ?
+  else if (lhs.size() > rhs.size())
+    return false;
 
-  for (unsigned i = 0; i < lhs.size(); i++)         // For each index
+  for (unsigned i = 0; i < lhs.size(); i++) // For each index
   {
-    if (lhs(i) < rhs(i)) return true; // Element different ?
-    else if (lhs(i) > rhs(i)) return false;
+    if (lhs(i) < rhs(i))
+      return true; // Element different ?
+    else if (lhs(i) > rhs(i))
+      return false;
   }
-  return false;                                 // Else all same.
+  return false; // Else all same.
 }
 
 //: Define a complete ordering on vnl_matrix
@@ -44,22 +50,30 @@ bool operator<(vnl_vector<T> const& lhs, vnl_vector<T> const& rhs)
 //
 // \relatesalso vnl_matrix
 
-template<class T> VNL_EXPORT
-bool operator<(vnl_matrix<T> const& lhs, vnl_matrix<T> const& rhs)
+template <class T>
+VNL_EXPORT bool
+operator<(const vnl_matrix<T> & lhs, const vnl_matrix<T> & rhs)
 {
-  if (&lhs == &rhs)  return false;              // same object => equal.
+  if (&lhs == &rhs)
+    return false; // same object => equal.
 
-  if (lhs.rows() < rhs.rows())  return true;        // Size different ?
-  else if (lhs.rows() > rhs.rows()) return false;
-  else if (lhs.cols() < rhs.cols())  return true;
-  else if (lhs.cols() > rhs.cols()) return false;
+  if (lhs.rows() < rhs.rows())
+    return true; // Size different ?
+  else if (lhs.rows() > rhs.rows())
+    return false;
+  else if (lhs.cols() < rhs.cols())
+    return true;
+  else if (lhs.cols() > rhs.cols())
+    return false;
 
-  for (unsigned i = 0; i < lhs.size(); i++)         // For each index
+  for (unsigned i = 0; i < lhs.size(); i++) // For each index
   {
-    if (lhs.data_block()[i] < rhs.data_block()[i]) return true; // Element different ?
-    else if (lhs.data_block()[i] > rhs.data_block()[i]) return false;
+    if (lhs.data_block()[i] < rhs.data_block()[i])
+      return true; // Element different ?
+    else if (lhs.data_block()[i] > rhs.data_block()[i])
+      return false;
   }
-  return false;                                 // Else all same.
+  return false; // Else all same.
 }
 
 //: Define a complete ordering on vnl_vector_fixed
@@ -67,8 +81,9 @@ bool operator<(vnl_matrix<T> const& lhs, vnl_matrix<T> const& rhs)
 //
 // \relatesalso vnl_vector_fixed
 
-template<class T, unsigned int n> VNL_EXPORT
-bool operator<(vnl_vector_fixed<T,n> const& lhs, vnl_vector_fixed<T,n> const& rhs)
+template <class T, unsigned int n>
+VNL_EXPORT bool
+operator<(const vnl_vector_fixed<T, n> & lhs, const vnl_vector_fixed<T, n> & rhs)
 {
   return lhs.as_ref() < rhs.as_ref();
 }
@@ -78,8 +93,9 @@ bool operator<(vnl_vector_fixed<T,n> const& lhs, vnl_vector_fixed<T,n> const& rh
 //
 // \relatesalso vnl_matrix_fixed
 
-template<class T, unsigned int n, unsigned int m> VNL_EXPORT
-bool operator<(vnl_matrix_fixed<T,n,m> const& lhs, vnl_matrix_fixed<T,n,m> const& rhs)
+template <class T, unsigned int n, unsigned int m>
+VNL_EXPORT bool
+operator<(const vnl_matrix_fixed<T, n, m> & lhs, const vnl_matrix_fixed<T, n, m> & rhs)
 {
   return lhs.as_ref() < rhs.as_ref();
 }

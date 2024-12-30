@@ -47,8 +47,8 @@ get_rotation_matrix_euler_angle(const double phi, const CartAxis axis, vnl_matri
   if (std::fabs(phi) < std::numeric_limits<double>::epsilon())
     return;
 
-  double cos_phi = std::cos(phi);
-  double sin_phi = std::sin(phi);
+  const double cos_phi = std::cos(phi);
+  const double sin_phi = std::sin(phi);
 
   switch (axis)
   {
@@ -83,15 +83,15 @@ get_rotation_matrix_euler_angle(const double phi, const CartAxis axis, vnl_matri
 static bool
 calc_and_test_matrix(const vnl_vector<double> & axis, const vnl_matrix_fixed<double, 3, 3> & M)
 {
-  vnl_matrix<double> R = vnl_rotation_matrix(axis);
+  const vnl_matrix<double> R = vnl_rotation_matrix(axis);
 
   // Check that rotation matrix is 3x3
   bool success = (3 == R.rows() && 3 == R.cols());
   if (!success)
     return false;
 
-  vnl_matrix<double> D = R - M;
-  double max_err = D.absolute_value_max();
+  const vnl_matrix<double> D = R - M;
+  const double max_err = D.absolute_value_max();
 
   // Check that rotation matrix is correct within a tolerance
   success = success && (max_err <= dtol);
@@ -118,7 +118,7 @@ test_euler_rotations()
   for (unsigned i = 0; i < ntrials; ++i)
   {
     bool this_trial_ok = true;
-    double ang = randgen.drand32(-4 * vnl_math::pi, 4 * vnl_math::pi);
+    const double ang = randgen.drand32(-4 * vnl_math::pi, 4 * vnl_math::pi);
 
     vnl_vector<double> axis(3);       // The magnitude of this vector indicates the angle of rotation
     vnl_matrix_fixed<double, 3, 3> M; // True answer

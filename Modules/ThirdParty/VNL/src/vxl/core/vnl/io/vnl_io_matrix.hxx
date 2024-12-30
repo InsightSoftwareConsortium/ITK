@@ -12,8 +12,9 @@
 
 //=================================================================================
 //: Binary save self to stream.
-template<class T>
-void vsl_b_write(vsl_b_ostream & os, const vnl_matrix<T> & p)
+template <class T>
+void
+vsl_b_write(vsl_b_ostream & os, const vnl_matrix<T> & p)
 {
   constexpr short version_no = 2;
   vsl_b_write(os, version_no);
@@ -27,77 +28,86 @@ void vsl_b_write(vsl_b_ostream & os, const vnl_matrix<T> & p)
 
 //=================================================================================
 //: Binary load self from stream.
-template<class T>
-void vsl_b_read(vsl_b_istream &is, vnl_matrix<T> & p)
+template <class T>
+void
+vsl_b_read(vsl_b_istream & is, vnl_matrix<T> & p)
 {
-  if (!is) return;
+  if (!is)
+    return;
 
   short v;
   unsigned m, n;
   vsl_b_read(is, v);
   switch (v)
   {
-   case 1:
+    case 1:
 #if !VXL_LEGACY_FUTURE_REMOVE
-    vsl_b_read(is, m);
-    vsl_b_read(is, n);
-    p.set_size(m, n);
-    // Calling begin() on empty matrix causes segfault
-    if (m*n>0)
-      vsl_b_read_block_old(is, p.begin(), p.size());
+      vsl_b_read(is, m);
+      vsl_b_read(is, n);
+      p.set_size(m, n);
+      // Calling begin() on empty matrix causes segfault
+      if (m * n > 0)
+        vsl_b_read_block_old(is, p.begin(), p.size());
 #else
-    std::cerr << "I/O ERROR: Old version 1 file formats are no longer supported since deprecation of required function vsl_b_read_block_old in 2006\n";
+      std::cerr << "I/O ERROR: Old version 1 file formats are no longer supported since deprecation of required "
+                   "function vsl_b_read_block_old in 2006\n";
 #endif
-    break;
+      break;
 
-   case 2:
-    vsl_b_read(is, m);
-    vsl_b_read(is, n);
-    p.set_size(m, n);
-    // Calling begin() on empty matrix causes segfault
-    if (m*n>0)
-      vsl_block_binary_read(is, p.data_block(), p.size());
-    break;
+    case 2:
+      vsl_b_read(is, m);
+      vsl_b_read(is, n);
+      p.set_size(m, n);
+      // Calling begin() on empty matrix causes segfault
+      if (m * n > 0)
+        vsl_block_binary_read(is, p.data_block(), p.size());
+      break;
 
-   default:
-    std::cerr << "I/O ERROR: vsl_b_read(vsl_b_istream&, vnl_matrix<T>&)\n"
-             << "           Unknown version number "<< v << '\n';
-    is.is().clear(std::ios::badbit); // Set an unrecoverable IO error on stream
-    return;
+    default:
+      std::cerr << "I/O ERROR: vsl_b_read(vsl_b_istream&, vnl_matrix<T>&)\n"
+                << "           Unknown version number " << v << '\n';
+      is.is().clear(std::ios::badbit); // Set an unrecoverable IO error on stream
+      return;
   }
 }
 
 //====================================================================================
 //: Output a human readable summary to the stream
-template<class T>
-void vsl_print_summary(std::ostream & os,const vnl_matrix<T> & p)
+template <class T>
+void
+vsl_print_summary(std::ostream & os, const vnl_matrix<T> & p)
 {
-  os<<"Size: "<<p.rows()<<" x "<<p.cols()<<std::endl;
+  os << "Size: " << p.rows() << " x " << p.cols() << std::endl;
 
-  unsigned int m = 5; unsigned int n = 5;
+  unsigned int m = 5;
+  unsigned int n = 5;
 
 
-  if (m>p.rows()) m=p.rows();
-  if (n>p.cols()) n=p.cols();
+  if (m > p.rows())
+    m = p.rows();
+  if (n > p.cols())
+    n = p.cols();
 
   vsl_indent_inc(os);
-  for (unsigned int i=0;i<m;i++)
+  for (unsigned int i = 0; i < m; i++)
   {
-     os<<vsl_indent()<<" (";
+    os << vsl_indent() << " (";
 
-     for ( unsigned int j=0; j<n; j++)
-        os<<p(i,j)<<' ';
-      if (p.cols()>n) os<<"...";
-        os<<")\n";
+    for (unsigned int j = 0; j < n; j++)
+      os << p(i, j) << ' ';
+    if (p.cols() > n)
+      os << "...";
+    os << ")\n";
   }
-  if (p.rows()>m) os <<vsl_indent()<<" (...\n";
+  if (p.rows() > m)
+    os << vsl_indent() << " (...\n";
   vsl_indent_dec(os);
 }
 
 
-#define VNL_IO_MATRIX_INSTANTIATE(T) \
-template VNL_EXPORT void vsl_print_summary(std::ostream &, const vnl_matrix<T > &); \
-template VNL_EXPORT void vsl_b_read(vsl_b_istream &, vnl_matrix<T > &); \
-template VNL_EXPORT void vsl_b_write(vsl_b_ostream &, const vnl_matrix<T > &)
+#define VNL_IO_MATRIX_INSTANTIATE(T)                                                 \
+  template VNL_EXPORT void vsl_print_summary(std::ostream &, const vnl_matrix<T> &); \
+  template VNL_EXPORT void vsl_b_read(vsl_b_istream &, vnl_matrix<T> &);             \
+  template VNL_EXPORT void vsl_b_write(vsl_b_ostream &, const vnl_matrix<T> &)
 
 #endif // vnl_io_matrix_hxx_

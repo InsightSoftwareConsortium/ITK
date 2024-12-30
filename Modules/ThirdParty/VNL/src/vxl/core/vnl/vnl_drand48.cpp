@@ -93,7 +93,8 @@ static constexpr double tiny = 1.0e-300;
 static double
 local_copysign(double x, double y)
 {
-  std::uint32_t hx, hy;
+  std::uint32_t hx;
+  std::uint32_t hy;
   GET_HIGH_WORD(hx, x);
   GET_HIGH_WORD(hy, y);
   SET_HIGH_WORD(x, (hx & 0x7fffffff) | (hy & 0x80000000));
@@ -103,9 +104,10 @@ local_copysign(double x, double y)
 static double
 local_ldexp(double x, int n)
 {
-  std::int32_t k, hx, lx;
+  std::int32_t hx;
+  std::int32_t lx;
   EXTRACT_WORDS(hx, lx, x);
-  k = (hx & 0x7ff00000) >> 20; /* extract exponent */
+  std::int32_t k = (hx & 0x7ff00000) >> 20; /* extract exponent */
   if (k == 0)
   { /* 0 or subnormal x */
     if ((lx | (hx & 0x7fffffff)) == 0)

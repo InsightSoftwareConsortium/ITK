@@ -45,7 +45,7 @@ sse_iovect_callback(const long * n, const long * m, double * q, const long * j, 
 
 vnl_sparse_symmetric_eigensystem::vnl_sparse_symmetric_eigensystem()
 
-    = default;
+  = default;
 
 vnl_sparse_symmetric_eigensystem::~vnl_sparse_symmetric_eigensystem()
 {
@@ -82,23 +82,23 @@ vnl_sparse_symmetric_eigensystem::CalculateNPairs(vnl_sparse_matrix<double> & M,
 
   current_system = this;
 
-  long dim = mat->columns();
-  long nvals = (smallest) ? -n : n;
-  long nperm = 0;
-  long nmval = n;
-  long nmvec = dim;
+  const long dim = mat->columns();
+  const long nvals = (smallest) ? -n : n;
+  const long nperm = 0;
+  const long nmval = n;
+  const long nmvec = dim;
   std::vector<double> temp_vals(n * 4);
   std::vector<double> temp_vecs(n * dim);
 
   // set nblock = std::max(10, dim/6) :
-  long nblock = (dim < 60) ? dim / 6 : 10;
+  const long nblock = (dim < 60) ? dim / 6 : 10;
 
   // isn't this rather a lot ? -- fsm
-  long maxop = dim * 10; // dim*20;
+  const long maxop = dim * 10; // dim*20;
 
   // set maxj = std::max(40, maxop*nblock, 6*nblock+1) :
   long maxj = maxop * nblock; // 2*n+1;
-  long t1 = 6 * nblock + 1;
+  const long t1 = 6 * nblock + 1;
   if (maxj < t1)
     maxj = t1;
   if (maxj < 40)
@@ -107,7 +107,7 @@ vnl_sparse_symmetric_eigensystem::CalculateNPairs(vnl_sparse_matrix<double> & M,
   // Calculate size of workspace needed.  These expressions come from
   // the LASO documentation.
   int work_size = dim * nblock;
-  int t2 = maxj * (2 * nblock + 3) + 2 * n + 6 + (2 * nblock + 2) * (nblock + 1);
+  const int t2 = maxj * (2 * nblock + 3) + 2 * n + 6 + (2 * nblock + 2) * (nblock + 1);
   if (work_size < t2)
     work_size = t2;
   work_size += 2 * dim * nblock + maxj * (nblock + n + 2) + 2 * nblock * nblock + 3 * n;
@@ -466,7 +466,7 @@ vnl_sparse_symmetric_eigensystem::CalculateNPairs(vnl_sparse_matrix<double> & A,
   int evIx;
   for (evIx = 0; evIx < nvalues; evIx++)
   {
-    vnl_vector_ref<double> tempEVec(matSize, &Z[evIx * matSize]);
+    const vnl_vector_ref<double> tempEVec(matSize, &Z[evIx * matSize]);
     vectors[evIx] = tempEVec;
   }
 

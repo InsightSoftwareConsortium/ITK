@@ -17,5 +17,3 @@ If you are adding some new functionality to VXL and you need a third party libra
 that VXL can depend on this additional library) then you can temporarily add the file to the NewCMake subdirectory.
 Please also submit it to CMake at cmake@www.cmake.org, and delete it from the VXL repository when the next
 version of CMake is widely available.
-
-

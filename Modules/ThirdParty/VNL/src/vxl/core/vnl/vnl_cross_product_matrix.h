@@ -30,33 +30,38 @@
 // \endverbatim
 class vnl_cross_product_matrix : public vnl_double_3x3
 {
- public:
+public:
   typedef vnl_double_3x3 base;
 
-  vnl_cross_product_matrix(vnl_vector_fixed<double,3> const& v) { set(v.data_block()); }
-  vnl_cross_product_matrix(vnl_vector<double> const& v) { set(v.data_block()); }
-  vnl_cross_product_matrix(const double* v) { set(v); }
-  vnl_cross_product_matrix(vnl_cross_product_matrix const& that) = default;
- ~vnl_cross_product_matrix() = default;
+  vnl_cross_product_matrix(const vnl_vector_fixed<double, 3> & v) { set(v.data_block()); }
+  vnl_cross_product_matrix(const vnl_vector<double> & v) { set(v.data_block()); }
+  vnl_cross_product_matrix(const double * v) { set(v); }
+  vnl_cross_product_matrix(const vnl_cross_product_matrix & that) = default;
+  ~vnl_cross_product_matrix() = default;
 
-  vnl_cross_product_matrix& operator=(const vnl_cross_product_matrix& that) {
-    base::operator= (that);
-    return *this;
-  }
+  vnl_cross_product_matrix &
+  operator=(const vnl_cross_product_matrix & that) = default;
 
   //: Construct a vnl_cross_product_matrix from a C-array of 3 doubles.
   //  Overrides a method in vnl_matrix.
-  inline vnl_cross_product_matrix& set(const double* v)
+  inline vnl_cross_product_matrix &
+  set(const double * v)
   {
-    double const& e1 = v[0];
-    double const& e2 = v[1];
-    double const& e3 = v[2];
+    const double & e1 = v[0];
+    const double & e2 = v[1];
+    const double & e3 = v[2];
 
     vnl_cross_product_matrix & E = *this;
 
-    E(0,0) =   0; E(0,1) = -e3; E(0,2) =  e2;
-    E(1,0) =  e3; E(1,1) =   0; E(1,2) = -e1;
-    E(2,0) = -e2; E(2,1) =  e1; E(2,2) =   0;
+    E(0, 0) = 0;
+    E(0, 1) = -e3;
+    E(0, 2) = e2;
+    E(1, 0) = e3;
+    E(1, 1) = 0;
+    E(1, 2) = -e1;
+    E(2, 0) = -e2;
+    E(2, 1) = e1;
+    E(2, 2) = 0;
 
     return *this;
   }

@@ -22,13 +22,13 @@ vnl_fft_setgpfa(double * triggs, long size, long pqr[3], long * info)
 void
 vnl_fft_gpfa(float * a,
              float * b,
-             float const * triggs,
+             const float * triggs,
              long inc,
              long jump,
              long n,
              long lot,
              long isign,
-             long const pqr[3],
+             const long pqr[3],
              long * info)
 {
   v3p_netlib_gpfa_(a, b, triggs, &inc, &jump, &n, &lot, &isign, pqr);
@@ -38,13 +38,13 @@ vnl_fft_gpfa(float * a,
 void
 vnl_fft_gpfa(double * a,
              double * b,
-             double const * triggs,
+             const double * triggs,
              long inc,
              long jump,
              long n,
              long lot,
              long isign,
-             long const pqr[3],
+             const long pqr[3],
              long * info)
 {
   v3p_netlib_dgpfa_(a, b, triggs, &inc, &jump, &n, &lot, &isign, pqr);

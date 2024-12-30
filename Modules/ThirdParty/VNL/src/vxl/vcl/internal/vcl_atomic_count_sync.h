@@ -24,31 +24,31 @@
 
 class vcl_atomic_count
 {
- public:
+public:
+  explicit vcl_atomic_count(long v)
+    : value_(v)
+  {}
 
-    explicit vcl_atomic_count( long v ) : value_( v ) {}
+  void
+  operator++()
+  {
+    __sync_add_and_fetch(&value_, 1);
+  }
 
-    void operator++()
-    {
-        __sync_add_and_fetch( &value_, 1 );
-    }
+  long
+  operator--()
+  {
+    return __sync_add_and_fetch(&value_, -1);
+  }
 
-    long operator--()
-    {
-        return __sync_add_and_fetch( &value_, -1 );
-    }
+  operator long() const { return __sync_fetch_and_add(&value_, 0); }
 
-    operator long() const
-    {
-        return __sync_fetch_and_add( &value_, 0 );
-    }
+private:
+  vcl_atomic_count(const vcl_atomic_count &) = delete;
+  vcl_atomic_count &
+  operator=(const vcl_atomic_count &) = delete;
 
- private:
-
-    vcl_atomic_count(vcl_atomic_count const &);
-    vcl_atomic_count & operator=(vcl_atomic_count const &);
-
-    mutable long value_;
+  mutable long value_;
 };
 
 #endif // #ifndef vcl_atomic_count_sync_h_

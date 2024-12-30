@@ -17,16 +17,20 @@
 #include "vnl/vnl_export.h"
 
 template <class T>
-class VNL_EXPORT vnl_identity : public vnl_unary_function<T,T>
+class VNL_EXPORT vnl_identity : public vnl_unary_function<T, T>
 {
- public:
-  vnl_unary_function<T,T>* Copy() const override {
-    vnl_identity<T>* copy = new vnl_identity<T>;
+public:
+  vnl_unary_function<T, T> *
+  Copy() const override
+  {
+    vnl_identity<T> * copy = new vnl_identity<T>;
     *copy = *this;
     return copy;
   }
 
-  T f(T const& x) override {
+  T
+  f(const T & x) override
+  {
     return x;
   }
 };

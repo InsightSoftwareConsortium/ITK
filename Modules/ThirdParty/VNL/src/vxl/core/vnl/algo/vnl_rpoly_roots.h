@@ -36,8 +36,8 @@ class vnl_real_polynomial;
 
 class VNL_ALGO_EXPORT vnl_rpoly_roots
 {
- public:
-// Constructors/Destructors--------------------------------------------------
+public:
+  // Constructors/Destructors--------------------------------------------------
 
   //: The constructor calculates the roots.
   // This is the most efficient interface
@@ -47,48 +47,73 @@ class VNL_ALGO_EXPORT vnl_rpoly_roots
   // Note that if the routine fails, not all roots will be found.  In this case,
   // the "realroots" and "roots" functions will return fewer than n roots.
 
-  vnl_rpoly_roots(const vnl_vector<double>& a);
+  vnl_rpoly_roots(const vnl_vector<double> & a);
 
   //: Calculate roots of a vnl_real_polynomial. Same comments apply.
-  vnl_rpoly_roots(const vnl_real_polynomial& poly);
+  vnl_rpoly_roots(const vnl_real_polynomial & poly);
 
   // Operations----------------------------------------------------------------
 
   //: Return i'th complex root
-  std::complex<double> operator [] (int i) const { return {r_[i], i_[i]}; }
+  std::complex<double>
+  operator[](int i) const
+  {
+    return { r_[i], i_[i] };
+  }
 
   //: Complex vector of all roots.
-  vnl_vector<std::complex<double> > roots() const;
+  vnl_vector<std::complex<double>>
+  roots() const;
 
   //: Real part of root I.
-  const double& real(int i) const { return r_[i]; }
+  const double &
+  real(int i) const
+  {
+    return r_[i];
+  }
 
   //: Imaginary part of root I.
-  const double& imag(int i) const { return i_[i]; }
+  const double &
+  imag(int i) const
+  {
+    return i_[i];
+  }
 
   //: Vector of real parts of roots
-  vnl_vector<double>& real() { return r_; }
+  vnl_vector<double> &
+  real()
+  {
+    return r_;
+  }
 
   //: Vector of imaginary parts of roots
-  vnl_vector<double>& imag() { return i_; }
+  vnl_vector<double> &
+  imag()
+  {
+    return i_;
+  }
 
   //: Return real roots only.
   //  Roots are real if the absolute value of their imaginary part is less than
   //  the optional argument TOL. TOL defaults to 1e-12 [untested]
-  vnl_vector<double> realroots(double tol = 1e-12) const;
+  vnl_vector<double>
+  realroots(double tol = 1e-12) const;
 
   // Computations--------------------------------------------------------------
 
   //: Compute roots using Jenkins-Traub algorithm.
-  bool compute();
+  bool
+  compute();
 
   //: Compute roots using QR decomposition of companion matrix. [unimplemented]
-  bool compute_qr();
+  bool
+  compute_qr();
 
   //: Compute roots using Laguerre algorithm. [unimplemented]
-  bool compute_laguerre();
+  bool
+  compute_laguerre();
 
- protected:
+protected:
   // Data Members--------------------------------------------------------------
   vnl_vector<double> coeffs_;
 

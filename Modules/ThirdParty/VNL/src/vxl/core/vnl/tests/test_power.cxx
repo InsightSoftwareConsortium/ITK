@@ -7,17 +7,21 @@
 static void
 test_power()
 {
-  double eps = 1e-11;
-  vnl_double_2x2 residue2, id2;
+  const double eps = 1e-11;
+  vnl_double_2x2 residue2;
+  vnl_double_2x2 id2;
   id2.set_identity();
-  vnl_matrix<double> ID2 = id2.as_ref();
-  vnl_double_3x3 residue3, id3;
+  const vnl_matrix<double> ID2 = id2.as_ref();
+  vnl_double_3x3 residue3;
+  vnl_double_3x3 id3;
   id3.set_identity();
-  vnl_matrix<double> ID3 = id3.as_ref();
-  vnl_double_4x4 residue4, id4;
+  const vnl_matrix<double> ID3 = id3.as_ref();
+  vnl_double_4x4 residue4;
+  vnl_double_4x4 id4;
   id4.set_identity();
-  vnl_matrix<double> ID4 = id4.as_ref();
-  vnl_matrix<double> M, Mi;
+  const vnl_matrix<double> ID4 = id4.as_ref();
+  vnl_matrix<double> M;
+  vnl_matrix<double> Mi;
 
   // 11th power of the identity 2x2 matrix
   vnl_double_2x2 id2i = vnl_power(id2, 11);

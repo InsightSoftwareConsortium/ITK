@@ -17,12 +17,12 @@
 #include "vnl_T_n.h"
 
 //: class vnl_float_2 : a vnl_vector of 2 floats.
-vnl_T_n_impl(float,2);
+vnl_T_n_impl(float, 2);
 
 //: Cross product of two 2-vectors
 //  \relatesalso vnl_vector_fixed
-inline
-float vnl_cross_2d(vnl_float_2 const& v1, vnl_float_2 const& v2)
+inline float
+vnl_cross_2d(const vnl_float_2 & v1, const vnl_float_2 & v2)
 {
   return v1[0] * v2[1] - v1[1] * v2[0];
 }

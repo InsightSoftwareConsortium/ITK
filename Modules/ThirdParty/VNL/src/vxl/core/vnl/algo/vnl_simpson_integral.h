@@ -10,18 +10,19 @@
 
 class VNL_ALGO_EXPORT vnl_simpson_integral : public vnl_definite_integral
 {
- private:
+private:
   //: used to extract integrand functions of the vnl_integrant_fnct.
-  static double int_fnct_(double* x);
+  static double
+  int_fnct_(double * x);
 
- public:
-
+public:
   vnl_simpson_integral() = default;
 
   //: a and b are integral limits respectively.
   // n is the number of intervals used in integral.
   // The actual subinterval used is 2* num_intervals_
-  double integral(vnl_integrant_fnct *f, double a, double b, long n);
+  double
+  integral(vnl_integrant_fnct * f, double a, double b, long n);
 };
 
 #endif

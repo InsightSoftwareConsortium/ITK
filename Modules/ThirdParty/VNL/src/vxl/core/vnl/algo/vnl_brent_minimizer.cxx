@@ -50,7 +50,7 @@ double
 vnl_brent_minimizer::minimize_given_bounds(double ax, double bx, double cx)
 {
   vnl_brent_minimizer_func f(*f_);
-  double fb = f(bx);
+  const double fb = f(bx);
 
   return minimize_given_bounds_and_one_f(ax, bx, cx, fb);
 }
@@ -81,7 +81,6 @@ vnl_brent_minimizer::minimize_given_bounds_and_one_f(double ax, double bx, doubl
   double fx = fb;
   double fw = fx;
   double fv = fw;
-  double fu;
 
   double m = 0.5 * (ax + cx);             // Midpoint of (a,c)
   double tol = EPS * std::fabs(x) + xtol; // Tolerance to use
@@ -94,7 +93,9 @@ vnl_brent_minimizer::minimize_given_bounds_and_one_f(double ax, double bx, doubl
   while (std::fabs(x - m) > (tol2 - 0.5 * (cx - ax)))
   {
     // Variables for parabolic interpolation
-    double p = 0.0, q = 0.0, r = 0.0;
+    double p = 0.0;
+    double q = 0.0;
+    double r = 0.0;
     if (std::fabs(e) > tol)
     {
       // Fit a parabola
@@ -139,7 +140,7 @@ vnl_brent_minimizer::minimize_given_bounds_and_one_f(double ax, double bx, doubl
     }
 
     // Perform the function evaluation
-    fu = f(u);
+    const double fu = f(u);
 
     // Update our current bounds
     if (fu <= fx)
@@ -207,8 +208,10 @@ vnl_brent_minimizer::minimize_given_bounds_and_all_f(double ax, double bx, doubl
 
   double x = bx; // Current best estimate of minimum
   double fx = fb;
-  double w, fw; // Next best point
-  double v, fv; // Third best point
+  double w;
+  double fw; // Next best point
+  double v;
+  double fv; // Third best point
 
   if (fa < fc)
   {
@@ -225,7 +228,8 @@ vnl_brent_minimizer::minimize_given_bounds_and_all_f(double ax, double bx, doubl
     fv = fa;
   }
 
-  double u, fu; // Most recently evaluated point and its value
+  double u;
+  // Most recently evaluated point and its value
 
   double m = 0.5 * (ax + cx);             // Midpoint of (a,c)
   double tol = EPS * std::fabs(x) + xtol; // Tolerance to use
@@ -238,7 +242,9 @@ vnl_brent_minimizer::minimize_given_bounds_and_all_f(double ax, double bx, doubl
   while (std::fabs(x - m) > (tol2 - 0.5 * (cx - ax)))
   {
     // Variables for parabolic interpolation
-    double p = 0.0, q = 0.0, r = 0.0;
+    double p = 0.0;
+    double q = 0.0;
+    double r = 0.0;
     if (std::fabs(e) > tol)
     {
       // Fit a parabola
@@ -283,7 +289,7 @@ vnl_brent_minimizer::minimize_given_bounds_and_all_f(double ax, double bx, doubl
     }
 
     // Perform the function evaluation
-    fu = f(u);
+    const double fu = f(u);
 
     // Update our current bounds
     if (fu <= fx)
@@ -334,7 +340,9 @@ vnl_brent_minimizer::minimize(double x)
 {
   double ax = x - 1.0;
   double cx = x + 1.0;
-  double fa, fx, fc;
+  double fa;
+  double fx;
+  double fc;
   vnl_bracket_minimum(*f_, ax, x, cx, fa, fx, fc);
 
   return minimize_given_bounds_and_all_f(ax, x, cx, fa, fx, fc);

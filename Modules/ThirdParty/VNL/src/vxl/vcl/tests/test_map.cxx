@@ -6,10 +6,11 @@
 #  include "vcl_msvc_warnings.h"
 #endif
 
-int test_map_main(int /*argc*/,char* /*argv*/[])
+int
+test_map_main(int /*argc*/, char * /*argv*/[])
 {
   bool okay = true;
-  typedef std::map<int, double, std::less<int> > mymap;
+  typedef std::map<int, double, std::less<int>> mymap;
   mymap m;
 
   m.insert(mymap::value_type(1, 2718));
@@ -23,7 +24,7 @@ int test_map_main(int /*argc*/,char* /*argv*/[])
   i = m.find(2);
   okay = okay && (i != m.end()) && ((*i).second == 3141);
 
-  if ( okay )
+  if (okay)
     return 0;
   else
     return 1;

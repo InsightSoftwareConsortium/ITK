@@ -23,15 +23,15 @@ test_generalized_eigensystem()
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, -1, 0, 0, 0, 0, 2, 0, 0,
   };
 
-  vnl_matrix<double> S(Sdata, 6, 6);
-  vnl_matrix<double> C(Cdata, 6, 6);
+  const vnl_matrix<double> S(Sdata, 6, 6);
+  const vnl_matrix<double> C(Cdata, 6, 6);
 
-  vnl_generalized_eigensystem gev(C, S);
+  const vnl_generalized_eigensystem gev(C, S);
 
   std::cout << "V = " << gev.V << std::endl
             << "D = " << gev.D << std::endl
             << "residual = " << C * gev.V - S * gev.V * gev.D << std::endl;
-  double err = (C * gev.V - S * gev.V * gev.D).fro_norm();
+  const double err = (C * gev.V - S * gev.V * gev.D).fro_norm();
   std::cout << "Recomposition residual = " << err << std::endl;
 
   TEST_NEAR("Recomposition residual < 1e-12", err, 0.0, 1e-12);

@@ -6,7 +6,7 @@
 #include <vnl/algo/vnl_complex_eigensystem.h>
 
 void
-vnl_cpoly_roots::compute(vnl_vector<std::complex<double>> const & a)
+vnl_cpoly_roots::compute(const vnl_vector<std::complex<double>> & a)
 {
   // construct companion matrix
   vnl_matrix<std::complex<double>> comp(N, N);
@@ -26,14 +26,14 @@ vnl_cpoly_roots::compute(vnl_vector<std::complex<double>> const & a)
 #endif
 }
 
-vnl_cpoly_roots::vnl_cpoly_roots(vnl_vector<std::complex<double>> const & a)
+vnl_cpoly_roots::vnl_cpoly_roots(const vnl_vector<std::complex<double>> & a)
   : solns(a.size())
   , N(a.size()) // degree
 {
   compute(a);
 }
 
-vnl_cpoly_roots::vnl_cpoly_roots(vnl_vector<double> const & a_real, vnl_vector<double> const & a_imag)
+vnl_cpoly_roots::vnl_cpoly_roots(const vnl_vector<double> & a_real, const vnl_vector<double> & a_imag)
   : solns(a_real.size())
   , N(a_real.size()) // degree
 {

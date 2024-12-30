@@ -12,86 +12,93 @@
 
 //=================================================================================
 //: Binary save self to stream.
-template<class T>
-void vsl_b_write(vsl_b_ostream & os, const vnl_sym_matrix<T> & p)
+template <class T>
+void
+vsl_b_write(vsl_b_ostream & os, const vnl_sym_matrix<T> & p)
 {
   constexpr short version_no = 2;
   vsl_b_write(os, version_no);
   vsl_b_write(os, p.rows());
 
   // Calling p.begin() on empty matrix causes segfault
-  if (p.size()>0)
+  if (p.size() > 0)
     vsl_block_binary_write(os, p.data_block(), p.size());
 }
 
 //=================================================================================
 //: Binary load self from stream.
-template<class T>
-void vsl_b_read(vsl_b_istream &is, vnl_sym_matrix<T> & p)
+template <class T>
+void
+vsl_b_read(vsl_b_istream & is, vnl_sym_matrix<T> & p)
 {
-  if (!is) return;
+  if (!is)
+    return;
 
   short v;
   unsigned n;
   vsl_b_read(is, v);
   switch (v)
   {
-   case 1:
+    case 1:
 #if !VXL_LEGACY_FUTURE_REMOVE
-    vsl_b_read(is, n);
-    p.set_size(n);
-    // Calling begin() on empty matrix causes segfault
-    if (n>0)
-      vsl_b_read_block_old(is, p.data_block(), p.size());
-    break;
+      vsl_b_read(is, n);
+      p.set_size(n);
+      // Calling begin() on empty matrix causes segfault
+      if (n > 0)
+        vsl_b_read_block_old(is, p.data_block(), p.size());
+      break;
 #else
-    std::cerr << "I/O ERROR: Old version 1 file formats are no longer supported since deprecation of required function vsl_b_read_block_old in 2006\n";
+      std::cerr << "I/O ERROR: Old version 1 file formats are no longer supported since deprecation of required "
+                   "function vsl_b_read_block_old in 2006\n";
 #endif
-   case 2:
-    vsl_b_read(is, n);
-    p.set_size(n);
-    // Calling begin() on empty matrix causes segfault
-    if (n>0)
-      vsl_block_binary_read(is, p.data_block(), p.size());
-    break;
+    case 2:
+      vsl_b_read(is, n);
+      p.set_size(n);
+      // Calling begin() on empty matrix causes segfault
+      if (n > 0)
+        vsl_block_binary_read(is, p.data_block(), p.size());
+      break;
 
-   default:
-    std::cerr << "I/O ERROR: vsl_b_read(vsl_b_istream&, vnl_sym_matrix<T>&)\n"
-             << "           Unknown version number "<< v << '\n';
-    is.is().clear(std::ios::badbit); // Set an unrecoverable IO error on stream
-    return;
+    default:
+      std::cerr << "I/O ERROR: vsl_b_read(vsl_b_istream&, vnl_sym_matrix<T>&)\n"
+                << "           Unknown version number " << v << '\n';
+      is.is().clear(std::ios::badbit); // Set an unrecoverable IO error on stream
+      return;
   }
 }
 
 //====================================================================================
 //: Output a human readable summary to the stream
-template<class T>
-void vsl_print_summary(std::ostream & os,const vnl_sym_matrix<T> & p)
+template <class T>
+void
+vsl_print_summary(std::ostream & os, const vnl_sym_matrix<T> & p)
 {
-  os<<"Size: "<<p.rows()<<" x "<<p.cols()<<std::endl;
+  os << "Size: " << p.rows() << " x " << p.cols() << std::endl;
 
   unsigned int n = 5;
 
 
-  if (n>p.cols()) n=p.cols();
+  if (n > p.cols())
+    n = p.cols();
 
   vsl_indent_inc(os);
-  for (unsigned int i=0;i<n;i++)
+  for (unsigned int i = 0; i < n; i++)
   {
-    os<<vsl_indent()<<" (";
+    os << vsl_indent() << " (";
 
-    for ( unsigned int j=0; j<=i; j++)
-      os<<p(i,j)<<' ';
+    for (unsigned int j = 0; j <= i; j++)
+      os << p(i, j) << ' ';
     os << std::endl;
   }
-  if (p.rows()>n) os <<vsl_indent()<<" (...\n";
+  if (p.rows() > n)
+    os << vsl_indent() << " (...\n";
   vsl_indent_dec(os);
 }
 
 
-#define VNL_IO_SYM_MATRIX_INSTANTIATE(T) \
-template VNL_EXPORT void vsl_print_summary(std::ostream &, const vnl_sym_matrix<T > &); \
-template VNL_EXPORT void vsl_b_read(vsl_b_istream &, vnl_sym_matrix<T > &); \
-template VNL_EXPORT void vsl_b_write(vsl_b_ostream &, const vnl_sym_matrix<T > &)
+#define VNL_IO_SYM_MATRIX_INSTANTIATE(T)                                                 \
+  template VNL_EXPORT void vsl_print_summary(std::ostream &, const vnl_sym_matrix<T> &); \
+  template VNL_EXPORT void vsl_b_read(vsl_b_istream &, vnl_sym_matrix<T> &);             \
+  template VNL_EXPORT void vsl_b_write(vsl_b_ostream &, const vnl_sym_matrix<T> &)
 
 #endif // vnl_io_sym_matrix_hxx_

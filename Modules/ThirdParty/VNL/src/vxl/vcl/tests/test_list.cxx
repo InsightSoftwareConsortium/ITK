@@ -5,7 +5,8 @@
 #  include "vcl_msvc_warnings.h"
 #endif
 
-int test_list_main(int /*argc*/,char* /*argv*/[])
+int
+test_list_main(int /*argc*/, char * /*argv*/[])
 {
   using container = std::list<int>;
   container m;

@@ -6,7 +6,7 @@ void
 test_rpoly_roots()
 {
   double coeffs[] = { 5, 4, 3, 2, 1 };
-  vnl_vector<double> a(coeffs, 5);
+  const vnl_vector<double> a(coeffs, 5);
 
   vnl_rpoly_roots roots(a);
 
@@ -16,7 +16,7 @@ test_rpoly_roots()
   // TEST("degree", roots.degree(), 4);
 
   // Evaluate results
-  vnl_real_polynomial p(a);
+  const vnl_real_polynomial p(a);
   for (int i = 0; i < p.degree(); ++i)
     TEST_NEAR("Root residual", std::abs(p.evaluate(roots[i])), 0.0, 1e-12);
 }

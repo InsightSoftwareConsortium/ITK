@@ -93,7 +93,7 @@ set( vcl_sources
   internal/vcl_atomic_count_sync.h
   internal/vcl_atomic_count_win32.h
   internal/vcl_interlocked.h
-  
+
 )
 
 
