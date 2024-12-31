@@ -34,7 +34,6 @@ class IOCommonEnums
 {
 public:
   /**
-   * \ingroup IOFilters
    * \ingroup ITKIOImageBase
    * enumerated constants for the different data types
    */
