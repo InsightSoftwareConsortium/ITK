@@ -45,10 +45,11 @@ namespace itk
  *
  * An AnatomicalOrientation object can be constructed unambiguously with the following syntax:
  *
- * \code
- *  AnatomicalOrientation(AnatomicalOrientation::CoordinateEnum::RightToLeft,
- *                        AnatomicalOrientation::CoordinateEnum::AnteriorToPosterior,
- *                        AnatomicalOrientation::CoordinateEnum::InferiorToSuperior);
+   \code
+       AnatomicalOrientation(AnatomicalOrientation::CoordinateEnum::RightToLeft,
+                             AnatomicalOrientation::CoordinateEnum::AnteriorToPosterior,
+                             AnatomicalOrientation::CoordinateEnum::InferiorToSuperior);
+   \endcode
  *
  *
  * The orientations were previously defined in the itk::SpatialOrientation class. However,
