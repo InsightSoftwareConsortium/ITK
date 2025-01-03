@@ -184,7 +184,10 @@ int
 secondTest()
 {
   std::filebuf fb;
-  fb.open("IllegalTransform.txt", std::ios::out);
+  if (!fb.open("IllegalTransform.txt", std::ios::out))
+  {
+    return EXIT_FAILURE;
+  }
   std::ostream os(&fb);
   os << "#Insight Transform File V1.0" << std::endl
      << "#Transform 0" << std::endl
@@ -227,7 +230,10 @@ int
 thirdTest()
 {
   std::filebuf fb;
-  fb.open("IllegalMat.mat", std::ios::out);
+  if (!fb.open("IllegalMat.mat", std::ios::out))
+  {
+    return EXIT_FAILURE;
+  }
   std::ostream os(&fb);
   os << "Baz, Bar" << std::endl;
   fb.close();
