@@ -7,7 +7,7 @@ shopt -s dotglob
 readonly name="nifti"
 readonly ownership="NIFTI Upstream <nifti@github.com>"
 readonly subtree="Modules/ThirdParty/NIFTI/src/nifti"
-readonly repo="https://github.com/NIFTI-Imaging/nifti_clib.git"
+readonly repo="https://github.com/InsightSoftwareConsortium/nifti_clib.git"
 readonly tag="master"
 readonly shortlog=false
 readonly paths="
