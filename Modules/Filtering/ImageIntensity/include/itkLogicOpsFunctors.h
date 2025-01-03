@@ -365,10 +365,8 @@ public:
     {
       return static_cast<TOutput>(B);
     }
-    else
-    {
-      return static_cast<TOutput>(C);
-    }
+
+    return static_cast<TOutput>(C);
   }
 };
 

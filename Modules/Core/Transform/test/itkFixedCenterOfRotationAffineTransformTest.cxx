@@ -59,10 +59,9 @@ itkFixedCenterOfRotationAffineTransformTest(int, char *[])
     std::cout << "[FAILURE]" << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << "[SUCCESS]" << std::endl;
-  }
+
+  std::cout << "[SUCCESS]" << std::endl;
+
 
   /* Create and show a simple 2D transform from given parameters */
   matrix2[0][0] = 1.0;
@@ -91,10 +90,9 @@ itkFixedCenterOfRotationAffineTransformTest(int, char *[])
     std::cout << "[FAILURE]" << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << "[SUCCESS]" << std::endl;
-  }
+
+  std::cout << "[SUCCESS]" << std::endl;
+
 
   /** Test set matrix after setting components */
   double scale1[2];
@@ -129,10 +127,9 @@ itkFixedCenterOfRotationAffineTransformTest(int, char *[])
     std::cout << "[FAILURE]" << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << "[SUCCESS]" << std::endl;
-  }
+
+  std::cout << "[SUCCESS]" << std::endl;
+
 
   /** Try scaling */
   std::cout << "Testing scaling: ";
@@ -147,10 +144,9 @@ itkFixedCenterOfRotationAffineTransformTest(int, char *[])
     std::cout << "[FAILURE]" << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << "[SUCCESS]" << std::endl;
-  }
+
+  std::cout << "[SUCCESS]" << std::endl;
+
 
   /** Test the parameters */
   std::cout << "Setting/Getting parameters: ";
@@ -182,10 +178,9 @@ itkFixedCenterOfRotationAffineTransformTest(int, char *[])
     std::cout << "[FAILURE]" << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << "[SUCCESS]" << std::endl;
-  }
+
+  std::cout << "[SUCCESS]" << std::endl;
+
 
   /** Testing point transformation */
   std::cout << "Transforming Point: ";
@@ -218,10 +213,9 @@ itkFixedCenterOfRotationAffineTransformTest(int, char *[])
     std::cout << "[FAILURE]" << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << "[SUCCESS]" << std::endl;
-  }
+
+  std::cout << "[SUCCESS]" << std::endl;
+
 
   std::cout << "Done!" << std::endl;
 

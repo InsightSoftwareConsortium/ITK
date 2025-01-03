@@ -173,10 +173,8 @@ FrequencyBandImageFilter<TImageType, TFrequencyIterator>::BandPass(FrequencyIter
       {
         return;
       }
-      else
-      {
-        freqIt.Set(PixelType{});
-      }
+
+      freqIt.Set(PixelType{});
     }
   }
 
@@ -189,10 +187,8 @@ FrequencyBandImageFilter<TImageType, TFrequencyIterator>::BandPass(FrequencyIter
       {
         return;
       }
-      else
-      {
-        freqIt.Set(PixelType{});
-      }
+
+      freqIt.Set(PixelType{});
     }
   }
 }

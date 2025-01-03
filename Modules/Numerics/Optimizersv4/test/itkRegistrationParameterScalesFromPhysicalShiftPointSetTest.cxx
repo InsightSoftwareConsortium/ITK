@@ -380,9 +380,7 @@ itkRegistrationParameterScalesFromPhysicalShiftPointSetTest(int, char *[])
     std::cout << "Test passed" << std::endl;
     return EXIT_SUCCESS;
   }
-  else
-  {
-    std::cerr << "Test failed" << std::endl;
-    return EXIT_FAILURE;
-  }
+
+  std::cerr << "Test failed" << std::endl;
+  return EXIT_FAILURE;
 }

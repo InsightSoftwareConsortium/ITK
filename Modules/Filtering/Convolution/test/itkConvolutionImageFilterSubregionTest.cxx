@@ -154,14 +154,12 @@ itkConvolutionImageFilterSubregionTest(int argc, char * argv[])
 
     return doConvolutionImageFilterSubregionTest<FrequencyConvolutionType>(argc, argv);
   }
-  else // spatial
-  {
-    using SpatialConvolutionType = itk::ConvolutionImageFilter<ImageType>;
+  // spatial
+  using SpatialConvolutionType = itk::ConvolutionImageFilter<ImageType>;
 
-    // Do a quick filter sanity check before the test
-    auto convoluter = SpatialConvolutionType::New();
-    ITK_EXERCISE_BASIC_OBJECT_METHODS(convoluter, ConvolutionImageFilter, ConvolutionImageFilterBase);
+  // Do a quick filter sanity check before the test
+  auto convoluter = SpatialConvolutionType::New();
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(convoluter, ConvolutionImageFilter, ConvolutionImageFilterBase);
 
-    return doConvolutionImageFilterSubregionTest<SpatialConvolutionType>(argc, argv);
-  }
+  return doConvolutionImageFilterSubregionTest<SpatialConvolutionType>(argc, argv);
 }

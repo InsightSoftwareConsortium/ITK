@@ -92,18 +92,17 @@ ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition>::DeactivateIndex(Nei
   {
     return;
   }
-  else
+
+  while (n != *it)
   {
-    while (n != *it)
+    ++it;
+    if (it == m_ActiveIndexList.end())
     {
-      ++it;
-      if (it == m_ActiveIndexList.end())
-      {
-        return;
-      }
+      return;
     }
-    m_ActiveIndexList.erase(it);
   }
+  m_ActiveIndexList.erase(it);
+
 
   // Did we just deactivate the index at the center of the neighborhood?
   if (n == this->GetCenterNeighborhoodIndex())

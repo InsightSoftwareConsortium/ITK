@@ -230,10 +230,8 @@ itkTIFFImageIOTestPalette(int argc, char * argv[])
       std::cerr << "Palette not written as it was read at position [" << i << "]." << std::endl;
       return EXIT_FAILURE;
     }
-    else
-    {
-      std::cout << "Read and written palette are equal" << std::endl;
-    }
+
+    std::cout << "Read and written palette are equal" << std::endl;
   }
 
   // Exercise other methods

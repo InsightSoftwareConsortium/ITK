@@ -223,7 +223,7 @@ private:
         {
           return itk::NumericTraits<OutPixelType>::NonpositiveMin();
         }
-        else if (result > itk::NumericTraits<OutPixelType>::max())
+        if (result > itk::NumericTraits<OutPixelType>::max())
         {
           return itk::NumericTraits<OutPixelType>::max();
         }

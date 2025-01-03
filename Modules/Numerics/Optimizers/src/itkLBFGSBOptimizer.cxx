@@ -368,10 +368,8 @@ LBFGSBOptimizerHelper::report_iter()
   {
     return true;
   }
-  else
-  {
-    return false;
-  }
+
+  return false;
 }
 
 std::string

@@ -137,7 +137,7 @@ itkRegionalMinimaImageFilterTest(int argc, char * argv[])
     return RegionalMinimaImageFilterTestHelper<Image2DType, Image2DType>(
       inputImageFile, outputImageFile, outputImageFile2, fullyConnected, flatIsMinima);
   }
-  else if (dimension == 3)
+  if (dimension == 3)
   {
     using Image3DType = itk::Image<PixelType, 3>;
     return RegionalMinimaImageFilterTestHelper<Image3DType, Image3DType>(

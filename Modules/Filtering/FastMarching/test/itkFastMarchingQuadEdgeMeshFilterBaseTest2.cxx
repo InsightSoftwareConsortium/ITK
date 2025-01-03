@@ -160,8 +160,6 @@ itkFastMarchingQuadEdgeMeshFilterBaseTest2(int, char *[])
   {
     return EXIT_FAILURE;
   }
-  else
-  {
-    return EXIT_SUCCESS;
-  }
+
+  return EXIT_SUCCESS;
 }

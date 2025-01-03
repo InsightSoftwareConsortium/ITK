@@ -681,10 +681,8 @@ MakeImageBufferRange(TImage * const image)
   {
     return {};
   }
-  else
-  {
-    return ImageBufferRange<TImage>{ *image };
-  }
+
+  return ImageBufferRange<TImage>{ *image };
 }
 
 

@@ -390,10 +390,8 @@ AmoebaTest1()
     std::cerr << "[TEST 1 FAILURE]\n";
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << "succeeded\n";
-  }
+
+  std::cout << "succeeded\n";
 
   // Set now the function to maximize
   //
@@ -465,10 +463,7 @@ AmoebaTest1()
       std::cerr << "[TEST 1 FAILURE]\n";
       return EXIT_FAILURE;
     }
-    else
-    {
-      std::cout << "succeeded\n";
-    }
+    std::cout << "succeeded\n";
   }
   std::cout << "[TEST 1 SUCCESS]\n";
   return EXIT_SUCCESS;

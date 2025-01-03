@@ -77,7 +77,7 @@ FrustumSpatialFunction<VDimension, TInput>::Evaluate(const InputType & position)
 
     return 1;
   }
-  else if (m_RotationPlane == RotationPlaneEnum::RotateInYZPlane)
+  if (m_RotationPlane == RotationPlaneEnum::RotateInYZPlane)
   {
     const double dx = relativePosition[0];
     const double dy = relativePosition[1];

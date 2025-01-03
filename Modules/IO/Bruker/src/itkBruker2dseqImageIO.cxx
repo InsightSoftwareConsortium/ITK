@@ -185,7 +185,7 @@ ReadJCAMPDX(const std::string & filename, MetaDataDictionary & dict)
       // Comment line
       continue;
     }
-    else if (line.substr(0, 5) == "##END")
+    if (line.substr(0, 5) == "##END")
     {
       // There should be one comment line after this line in the file
       continue;
@@ -599,10 +599,8 @@ Bruker2dseqImageIO::Read(void * buffer)
       {
         break;
       }
-      else
-      {
-        sizeToSwap *= std::stoi(i[0].c_str());
-      }
+
+      sizeToSwap *= std::stoi(i[0].c_str());
     }
     if (sizeToSwap > 1)
     {

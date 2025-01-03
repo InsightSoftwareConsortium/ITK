@@ -53,17 +53,15 @@ MalcolmSparseLevelSetImage<VDimension>::Evaluate(const InputType & inputPixel) c
   {
     return MinusOneLayer();
   }
+
+  const char status = this->m_LabelMap->GetPixel(mapIndex);
+  if (status == PlusOneLayer())
+  {
+    return PlusOneLayer();
+  }
   else
   {
-    const char status = this->m_LabelMap->GetPixel(mapIndex);
-    if (status == PlusOneLayer())
-    {
-      return PlusOneLayer();
-    }
-    else
-    {
-      itkGenericExceptionMacro("status " << static_cast<int>(status) << " should be 1 or -1");
-    }
+    itkGenericExceptionMacro("status " << static_cast<int>(status) << " should be 1 or -1");
   }
 }
 

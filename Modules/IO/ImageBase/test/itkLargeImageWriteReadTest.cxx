@@ -180,16 +180,14 @@ itkLargeImageWriteReadTest(int argc, char * argv[])
 
     return ActualTest<ImageType>(filename, size);
   }
-  else
-  {
-    constexpr unsigned int Dimension = 3;
 
-    using PixelType = unsigned short;
-    using ImageType = itk::Image<PixelType, Dimension>;
+  constexpr unsigned int Dimension = 3;
 
-    auto size = ImageType::SizeType::Filled(atol(argv[2]));
-    size[2] = atol(argv[3]);
+  using PixelType = unsigned short;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
-    return ActualTest<ImageType>(filename, size);
-  }
+  auto size = ImageType::SizeType::Filled(atol(argv[2]));
+  size[2] = atol(argv[3]);
+
+  return ActualTest<ImageType>(filename, size);
 }

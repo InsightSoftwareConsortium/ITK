@@ -64,7 +64,7 @@ DTITubeSpatialObjectPoint<TPointDimension>::TranslateEnumToChar(DTITubeSpatialOb
       // Just fall through.
       break;
   }
-  return { "" };
+  return {};
 }
 
 template <unsigned int TPointDimension>

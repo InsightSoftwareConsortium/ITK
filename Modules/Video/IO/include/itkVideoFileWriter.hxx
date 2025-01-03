@@ -282,10 +282,8 @@ VideoFileWriter<TInputVideoStream>::InitializeVideoIO()
 
       return true;
     }
-    else
-    {
-      return false;
-    }
+
+    return false;
   }
   else
   {

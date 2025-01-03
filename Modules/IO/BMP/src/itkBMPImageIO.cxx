@@ -203,7 +203,7 @@ BMPImageIO::Read(void * buffer)
           posLine = 0;
           continue;
         }
-        else if (byte2 == 1)
+        if (byte2 == 1)
         {
           // End of bitmap data
           break;
@@ -691,14 +691,12 @@ BMPImageIO::GetColorPaletteEntry(const unsigned char entry) const
   {
     return m_ColorPalette[entry];
   }
-  else
-  {
-    RGBPixelType p;
-    p.SetRed(0);
-    p.SetGreen(0);
-    p.SetBlue(0);
-    return p;
-  }
+
+  RGBPixelType p;
+  p.SetRed(0);
+  p.SetGreen(0);
+  p.SetBlue(0);
+  return p;
 }
 
 void

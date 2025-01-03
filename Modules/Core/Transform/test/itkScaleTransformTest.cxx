@@ -121,10 +121,8 @@ itkScaleTransformTest(int, char *[])
         std::cerr << "Reported Result is  : " << r << std::endl;
         return EXIT_FAILURE;
       }
-      else
-      {
-        std::cout << "Ok scaling an itk::Point " << std::endl;
-      }
+
+      std::cout << "Ok scaling an itk::Point " << std::endl;
     }
 
     {
@@ -151,10 +149,8 @@ itkScaleTransformTest(int, char *[])
         std::cerr << "Reported Result is      : " << q << std::endl;
         return EXIT_FAILURE;
       }
-      else
-      {
-        std::cout << "Ok scaling an itk::Vector " << std::endl;
-      }
+
+      std::cout << "Ok scaling an itk::Vector " << std::endl;
     }
 
     {
@@ -181,10 +177,8 @@ itkScaleTransformTest(int, char *[])
         std::cerr << "Reported Result is      : " << q << std::endl;
         return EXIT_FAILURE;
       }
-      else
-      {
-        std::cout << "Ok scaling an itk::CovariantVector " << std::endl;
-      }
+
+      std::cout << "Ok scaling an itk::CovariantVector " << std::endl;
     }
 
     {
@@ -213,10 +207,8 @@ itkScaleTransformTest(int, char *[])
         std::cerr << "Reported Result is      : " << q << std::endl;
         return EXIT_FAILURE;
       }
-      else
-      {
-        std::cout << "Ok scaling an vnl_Vector " << std::endl;
-      }
+
+      std::cout << "Ok scaling an vnl_Vector " << std::endl;
     }
 
 
@@ -238,10 +230,8 @@ itkScaleTransformTest(int, char *[])
         std::cerr << "but GetCenter() returned : " << c2 << std::endl;
         return EXIT_FAILURE;
       }
-      else
-      {
-        std::cout << "Ok SetCenter() / GetCenter() " << std::endl;
-      }
+
+      std::cout << "Ok SetCenter() / GetCenter() " << std::endl;
     }
   }
 

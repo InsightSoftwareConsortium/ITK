@@ -59,11 +59,9 @@ HistogramToImageFilter<THistogram, TImage, TFunction>::SetTotalFrequency(SizeVal
   {
     return;
   }
-  else
-  {
-    this->GetFunctor().SetTotalFrequency(n);
-    this->Modified();
-  }
+
+  this->GetFunctor().SetTotalFrequency(n);
+  this->Modified();
 }
 
 template <typename THistogram, typename TImage, typename TFunction>

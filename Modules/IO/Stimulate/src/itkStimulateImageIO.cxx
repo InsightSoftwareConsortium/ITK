@@ -95,10 +95,8 @@ StimulateImageIO::CanReadFile(const char * filename)
   {
     return true;
   }
-  else
-  {
-    return false;
-  }
+
+  return false;
 }
 
 void

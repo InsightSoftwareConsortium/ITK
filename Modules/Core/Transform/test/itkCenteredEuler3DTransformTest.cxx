@@ -122,10 +122,9 @@ itkCenteredEuler3DTransformTest(int, char *[])
     std::cerr << "Reported Result is     : " << r << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << " [ PASSED ] " << std::endl;
-  }
+
+  std::cout << " [ PASSED ] " << std::endl;
+
 
   std::cout << "Testing Translation:";
 
@@ -155,10 +154,9 @@ itkCenteredEuler3DTransformTest(int, char *[])
     std::cerr << "Reported Result is     : " << r << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << " [ PASSED ] " << std::endl;
-  }
+
+  std::cout << " [ PASSED ] " << std::endl;
+
 
   // Testing Parameters
   std::cout << "Testing Set/Get Parameters: ";

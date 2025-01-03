@@ -70,10 +70,8 @@ AntiAliasBinaryImageFilter<TInputImage, TOutputImage>::CalculateUpdateValue(cons
   {
     return (std::max(new_value, this->GetValueZero()));
   }
-  else
-  {
-    return (std::min(new_value, this->GetValueZero()));
-  }
+
+  return (std::min(new_value, this->GetValueZero()));
 }
 
 template <typename TInputImage, typename TOutputImage>

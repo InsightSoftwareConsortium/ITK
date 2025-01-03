@@ -116,7 +116,7 @@ itkPatchBasedDenoisingImageFilterDefaultTest(int argc, char * argv[])
   {
     return doDenoising<OneComponent2DImage>(inFileName, outFileName);
   }
-  else if (numDimensions == 3)
+  if (numDimensions == 3)
   {
     return doDenoising<OneComponent3DImage>(inFileName, outFileName);
   }

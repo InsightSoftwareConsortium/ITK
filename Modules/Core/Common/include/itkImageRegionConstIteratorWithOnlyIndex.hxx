@@ -37,10 +37,8 @@ ImageRegionConstIteratorWithOnlyIndex<TImage>::operator++()
       this->m_Remaining = true;
       break;
     }
-    else
-    {
-      this->m_PositionIndex[in] = this->m_BeginIndex[in];
-    }
+
+    this->m_PositionIndex[in] = this->m_BeginIndex[in];
   }
 
   return *this;
@@ -62,10 +60,8 @@ ImageRegionConstIteratorWithOnlyIndex<TImage>::operator--()
       this->m_Remaining = true;
       break;
     }
-    else
-    {
-      this->m_PositionIndex[in] = this->m_EndIndex[in] - 1;
-    }
+
+    this->m_PositionIndex[in] = this->m_EndIndex[in] - 1;
   }
 
   return *this;

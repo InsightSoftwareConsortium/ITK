@@ -41,10 +41,8 @@ SimpleSignedDistance(const TPoint & p)
     {
       return radius;
     }
-    else
-    {
-      return -radius;
-    }
+
+    return -radius;
   }
   else
   {

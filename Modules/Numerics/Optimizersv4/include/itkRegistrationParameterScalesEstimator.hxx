@@ -95,10 +95,8 @@ RegistrationParameterScalesEstimator<TMetric>::GetTransform()
   {
     return this->m_Metric->GetMovingTransform();
   }
-  else
-  {
-    return this->m_Metric->GetFixedTransform();
-  }
+
+  return this->m_Metric->GetFixedTransform();
 }
 
 template <typename TMetric>
@@ -109,10 +107,8 @@ RegistrationParameterScalesEstimator<TMetric>::GetDimension()
   {
     return MovingDimension;
   }
-  else
-  {
-    return FixedDimension;
-  }
+
+  return FixedDimension;
 }
 
 template <typename TMetric>
@@ -124,8 +120,8 @@ RegistrationParameterScalesEstimator<TMetric>::IsDisplacementFieldTransform()
   {
     return true;
   }
-  else if (!this->m_TransformForward && this->m_Metric->GetFixedTransform()->GetTransformCategory() ==
-                                          FixedTransformType::TransformCategoryEnum::DisplacementField)
+  if (!this->m_TransformForward && this->m_Metric->GetFixedTransform()->GetTransformCategory() ==
+                                     FixedTransformType::TransformCategoryEnum::DisplacementField)
   {
     return true;
   }
@@ -213,10 +209,8 @@ RegistrationParameterScalesEstimator<TMetric>::TransformHasLocalSupportForScales
   {
     return true;
   }
-  else
-  {
-    return false;
-  }
+
+  return false;
 }
 
 template <typename TMetric>
@@ -227,10 +221,8 @@ RegistrationParameterScalesEstimator<TMetric>::GetNumberOfLocalParameters()
   {
     return this->m_Metric->GetMovingTransform()->GetNumberOfLocalParameters();
   }
-  else
-  {
-    return this->m_Metric->GetFixedTransform()->GetNumberOfLocalParameters();
-  }
+
+  return this->m_Metric->GetFixedTransform()->GetNumberOfLocalParameters();
 }
 
 template <typename TMetric>
@@ -409,10 +401,8 @@ RegistrationParameterScalesEstimator<TMetric>::CheckGeneralAffineTransform()
   {
     return this->CheckGeneralAffineTransformTemplated<MovingTransformType>();
   }
-  else
-  {
-    return this->CheckGeneralAffineTransformTemplated<FixedTransformType>();
-  }
+
+  return this->CheckGeneralAffineTransformTemplated<FixedTransformType>();
 }
 
 template <typename TMetric>

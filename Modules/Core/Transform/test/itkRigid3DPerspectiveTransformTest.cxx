@@ -151,10 +151,8 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
         std::cerr << "Reported Result is     : " << r << std::endl;
         return EXIT_FAILURE;
       }
-      else
-      {
-        std::cout << "Ok translating an itk::Point " << std::endl;
-      }
+
+      std::cout << "Ok translating an itk::Point " << std::endl;
     }
   }
 
@@ -207,10 +205,8 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
         std::cerr << "Reported Result is     : " << r << std::endl;
         return EXIT_FAILURE;
       }
-      else
-      {
-        std::cout << "Ok rotating an itk::Point " << std::endl;
-      }
+
+      std::cout << "Ok rotating an itk::Point " << std::endl;
     }
   }
 

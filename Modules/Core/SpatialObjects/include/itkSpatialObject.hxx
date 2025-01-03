@@ -159,10 +159,8 @@ SpatialObject<TDimension>::IsInsideInObjectSpace(const PointType &   point,
   {
     return Self::IsInsideChildrenInObjectSpace(point, depth - 1, name);
   }
-  else
-  {
-    return false;
-  }
+
+  return false;
 }
 
 template <unsigned int TDimension>
@@ -219,16 +217,14 @@ SpatialObject<TDimension>::IsEvaluableAtInObjectSpace(const PointType &   point,
   {
     return true;
   }
+
+  if (depth > 0)
+  {
+    return IsEvaluableAtChildrenInObjectSpace(point, depth - 1, name);
+  }
   else
   {
-    if (depth > 0)
-    {
-      return IsEvaluableAtChildrenInObjectSpace(point, depth - 1, name);
-    }
-    else
-    {
-      return false;
-    }
+    return false;
   }
 }
 
@@ -274,11 +270,9 @@ SpatialObject<TDimension>::ValueAtInObjectSpace(const PointType &   point,
       value = m_DefaultInsideValue;
       return true;
     }
-    else
-    {
-      value = m_DefaultOutsideValue;
-      return true;
-    }
+
+    value = m_DefaultOutsideValue;
+    return true;
   }
   else
   {
@@ -445,10 +439,8 @@ SpatialObject<TDimension>::RemoveChild(Self * pointer)
 
     return true;
   }
-  else
-  {
-    return false;
-  }
+
+  return false;
 }
 
 template <unsigned int TDimension>

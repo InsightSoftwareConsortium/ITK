@@ -278,10 +278,8 @@ PolygonCell<TCellInterface>::PointIdsBegin() -> PointIdIterator
   {
     return &m_PointIds.front();
   }
-  else
-  {
-    return nullptr;
-  }
+
+  return nullptr;
 }
 
 /**
@@ -297,10 +295,8 @@ PolygonCell<TCellInterface>::PointIdsBegin() const -> PointIdConstIterator
   {
     return &m_PointIds.front();
   }
-  else
-  {
-    return nullptr;
-  }
+
+  return nullptr;
 }
 
 /**
@@ -315,10 +311,8 @@ PolygonCell<TCellInterface>::PointIdsEnd() -> PointIdIterator
   {
     return &m_PointIds.back() + 1;
   }
-  else
-  {
-    return nullptr;
-  }
+
+  return nullptr;
 }
 
 /**
@@ -334,10 +328,8 @@ PolygonCell<TCellInterface>::PointIdsEnd() const -> PointIdConstIterator
   {
     return &m_PointIds.back() + 1;
   }
-  else
-  {
-    return nullptr;
-  }
+
+  return nullptr;
 }
 
 /**

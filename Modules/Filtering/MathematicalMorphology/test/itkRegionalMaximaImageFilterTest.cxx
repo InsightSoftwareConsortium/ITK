@@ -137,7 +137,7 @@ itkRegionalMaximaImageFilterTest(int argc, char * argv[])
     return RegionalMaximaImageFilterTestHelper<Image2DType, Image2DType>(
       inputImageFile, outputImageFile, outputImageFile2, fullyConnected, flatIsMaxima);
   }
-  else if (dimension == 3)
+  if (dimension == 3)
   {
     using Image3DType = itk::Image<PixelType, 3>;
     return RegionalMaximaImageFilterTestHelper<Image3DType, Image3DType>(

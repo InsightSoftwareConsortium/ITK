@@ -341,10 +341,9 @@ itkRGBInterpolateImageFunctionTest(int, char *[])
     std::cout << "*** Some test failed" << std::endl;
     return flag;
   }
-  else
-  {
-    std::cout << "All tests successfully passed" << std::endl;
-  }
+
+  std::cout << "All tests successfully passed" << std::endl;
+
 
   return EXIT_SUCCESS;
 }

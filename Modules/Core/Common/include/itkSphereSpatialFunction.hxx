@@ -38,10 +38,8 @@ SphereSpatialFunction<VImageDimension, TInput>::Evaluate(const InputType & posit
   {
     return 1;
   }
-  else
-  {
-    return 0; // outside the sphere
-  }
+
+  return 0; // outside the sphere
 }
 
 template <unsigned int VImageDimension, typename TInput>

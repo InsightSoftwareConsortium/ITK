@@ -264,10 +264,9 @@ itkConjugateGradientOptimizerTest(int, char *[])
     std::cout << "[FAILURE]" << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << "[SUCCESS]" << std::endl;
-  }
+
+  std::cout << "[SUCCESS]" << std::endl;
+
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;

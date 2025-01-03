@@ -357,9 +357,7 @@ itkHoughTransform2DLinesImageTest(int, char *[])
     std::cout << "Test succeeded!" << std::endl;
     return EXIT_SUCCESS;
   }
-  else
-  {
-    std::cout << "Test FAILED!" << std::endl;
-    return EXIT_FAILURE;
-  }
+
+  std::cout << "Test FAILED!" << std::endl;
+  return EXIT_FAILURE;
 }

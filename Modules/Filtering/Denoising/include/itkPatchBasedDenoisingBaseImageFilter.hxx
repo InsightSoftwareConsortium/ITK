@@ -241,10 +241,8 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>::Halt()
   {
     return true;
   }
-  else
-  {
-    return false;
-  }
+
+  return false;
 }
 
 template <typename TInputImage, typename TOutputImage>

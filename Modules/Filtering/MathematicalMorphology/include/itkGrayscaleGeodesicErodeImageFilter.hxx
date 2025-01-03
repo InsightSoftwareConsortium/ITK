@@ -118,22 +118,20 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>::GenerateInputReque
       markerPtr->SetRequestedRegion(markerRequestedRegion);
       return;
     }
-    else
-    {
-      // Couldn't crop the region (requested region is outside the largest
-      // possible region).  Throw an exception.
 
-      // store what we tried to request (prior to trying to crop)
-      markerPtr->SetRequestedRegion(markerRequestedRegion);
+    // Couldn't crop the region (requested region is outside the largest
+    // possible region).  Throw an exception.
 
-      // build an exception
-      InvalidRequestedRegionError e(__FILE__, __LINE__);
-      e.SetLocation(ITK_LOCATION);
-      e.SetDescription(
-        "Requested region for the marker image is (at least partially) outside the largest possible region.");
-      e.SetDataObject(markerPtr);
-      throw e;
-    }
+    // store what we tried to request (prior to trying to crop)
+    markerPtr->SetRequestedRegion(markerRequestedRegion);
+
+    // build an exception
+    InvalidRequestedRegionError e(__FILE__, __LINE__);
+    e.SetLocation(ITK_LOCATION);
+    e.SetDescription(
+      "Requested region for the marker image is (at least partially) outside the largest possible region.");
+    e.SetDataObject(markerPtr);
+    throw e;
   }
   else
   {

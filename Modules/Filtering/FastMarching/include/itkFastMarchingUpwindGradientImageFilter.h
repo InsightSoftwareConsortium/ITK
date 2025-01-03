@@ -273,10 +273,8 @@ protected:
     {
       return false;
     }
-    else
-    {
-      return true;
-    }
+
+    return true;
   }
 
   /** Check that the conditions to set the target reached mode are satisfied.

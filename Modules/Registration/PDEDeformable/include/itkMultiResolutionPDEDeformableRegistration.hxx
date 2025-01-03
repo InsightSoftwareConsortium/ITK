@@ -530,10 +530,8 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,
   {
     return true;
   }
-  else
-  {
-    return false;
-  }
+
+  return false;
 }
 
 template <typename TFixedImage,

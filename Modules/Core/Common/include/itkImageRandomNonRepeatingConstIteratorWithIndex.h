@@ -58,10 +58,8 @@ public:
     {
       return m_Value < b.m_Value;
     }
-    else
-    {
-      return m_Priority < b.m_Priority;
-    }
+
+    return m_Priority < b.m_Priority;
   }
 };
 
@@ -104,10 +102,8 @@ public:
       ostrm << "Error: RandomPermuation does not have " << i << " elements" << std::endl;
       throw std::runtime_error(ostrm.str());
     }
-    else
-    {
-      m_Permutation[i].m_Priority = priority;
-    }
+
+    m_Permutation[i].m_Priority = priority;
   }
 
   void

@@ -171,10 +171,9 @@ I18nOpenForWriting(const std::string & str, const bool append = false)
   {
     return I18nOpen(str, O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR);
   }
-  else
-  {
-    return I18nOpen(str, O_WRONLY | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR);
-  }
+
+  return I18nOpen(str, O_WRONLY | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR);
+
 #else
   if (!append)
   {

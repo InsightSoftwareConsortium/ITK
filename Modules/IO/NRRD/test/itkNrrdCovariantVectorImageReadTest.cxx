@@ -84,8 +84,6 @@ itkNrrdCovariantVectorImageReadTest(int argc, char * argv[])
     std::cout << "test FAILED because values not as expected\n";
     return EXIT_FAILURE;
   }
-  else
-  {
-    return EXIT_SUCCESS;
-  }
+
+  return EXIT_SUCCESS;
 }

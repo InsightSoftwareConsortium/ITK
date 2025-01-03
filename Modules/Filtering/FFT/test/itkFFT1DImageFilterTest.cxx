@@ -118,7 +118,7 @@ itkFFT1DImageFilterTest(int argc, char * argv[])
     }
     return doTest<FFTForwardType, FFTInverseType>(argv[1], argv[2]);
   }
-  else if (backend == 1) // Vnl backend
+  if (backend == 1) // Vnl backend
   {
     // Verify object factory returns expected type
     using VnlForwardType = itk::VnlForward1DFFTImageFilter<ImageType, ComplexImageType>;

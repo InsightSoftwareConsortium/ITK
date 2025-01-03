@@ -278,10 +278,8 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::ProcessIsolatedFace
   {
     return temp;
   }
-  else
-  {
-    return this->m_Mesh->FindEdge(org);
-  }
+
+  return this->m_Mesh->FindEdge(org);
 }
 
 template <typename TMesh, typename TQEType>
@@ -567,25 +565,23 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::IsEdgeLinkingTwoDif
   {
     return false;
   }
+
+  t = e->GetSym();
+  e_it = t;
+  bool dest_border;
+  do
+  {
+    dest_border = e_it->IsAtBorder();
+    e_it = e_it->GetOnext();
+  } while ((e_it != t) && (!dest_border));
+
+  if (!dest_border)
+  {
+    return false;
+  }
   else
   {
-    t = e->GetSym();
-    e_it = t;
-    bool dest_border;
-    do
-    {
-      dest_border = e_it->IsAtBorder();
-      e_it = e_it->GetOnext();
-    } while ((e_it != t) && (!dest_border));
-
-    if (!dest_border)
-    {
-      return false;
-    }
-    else
-    {
-      return true;
-    }
+    return true;
   }
 }
 

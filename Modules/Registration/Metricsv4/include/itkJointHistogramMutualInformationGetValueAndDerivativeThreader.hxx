@@ -117,7 +117,7 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader<
   {
     return false;
   }
-  else if (movingImageValue > this->m_JointAssociate->m_MovingImageTrueMax)
+  if (movingImageValue > this->m_JointAssociate->m_MovingImageTrueMax)
   {
     return false;
   }
@@ -218,10 +218,8 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader<
       this->m_ThreaderFixedImageMarginalPDFInterpolator[threadId]->Evaluate(leftpoint);
     return deriv / delta;
   }
-  else
-  {
-    return InternalComputationValueType{};
-  }
+
+  return InternalComputationValueType{};
 }
 
 template <typename TDomainPartitioner, typename TImageToImageMetric, typename TJointHistogramMetric>
@@ -265,10 +263,8 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader<
       this->m_JointHistogramMIPerThreadVariables[threadId].MovingImageMarginalPDFInterpolator->Evaluate(leftpoint);
     return deriv / delta;
   }
-  else
-  {
-    return InternalComputationValueType{};
-  }
+
+  return InternalComputationValueType{};
 }
 
 template <typename TDomainPartitioner, typename TImageToImageMetric, typename TJointHistogramMetric>

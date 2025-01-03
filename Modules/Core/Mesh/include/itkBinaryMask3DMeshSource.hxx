@@ -2473,20 +2473,18 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::AddNodes(int               ind
         {
           continue;
         }
-        else
+
+        if (nodesid[i] == 9)
         {
-          if (nodesid[i] == 9)
-          {
-            globalnodesid[i] = this->SearchThroughLastRow((index % m_ImageWidth) * 13 - 3, 0, m_LastRowNum - 1);
-          }
-          if (nodesid[i] == 10)
-          {
-            globalnodesid[i] = this->SearchThroughLastRow((index % m_ImageWidth) * 13 + 22, 0, m_LastRowNum - 1);
-          }
-          if (m_PointFound != 0)
-          {
-            continue;
-          }
+          globalnodesid[i] = this->SearchThroughLastRow((index % m_ImageWidth) * 13 - 3, 0, m_LastRowNum - 1);
+        }
+        if (nodesid[i] == 10)
+        {
+          globalnodesid[i] = this->SearchThroughLastRow((index % m_ImageWidth) * 13 + 22, 0, m_LastRowNum - 1);
+        }
+        if (m_PointFound != 0)
+        {
+          continue;
         }
       }
       if ((m_LastFrameNum != 0) && ((nodesid[i] == 1) || (nodesid[i] == 2) || (nodesid[i] == 3) || (nodesid[i] == 4)))
@@ -2497,22 +2495,20 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::AddNodes(int               ind
         {
           continue;
         }
-        else
+
+        if (nodesid[i] == 4)
         {
-          if (nodesid[i] == 4)
-          {
-            globalnodesid[i] =
-              this->SearchThroughLastFrame((index % (m_ImageWidth * m_ImageHeight)) * 13 - 11, 0, m_LastFrameNum - 1);
-          }
-          if (nodesid[i] == 1)
-          {
-            globalnodesid[i] = this->SearchThroughLastFrame(
-              (index % (m_ImageWidth * m_ImageHeight) - m_ImageWidth) * 13 + 3, 0, m_LastFrameNum - 1);
-          }
-          if (m_PointFound != 0)
-          {
-            continue;
-          }
+          globalnodesid[i] =
+            this->SearchThroughLastFrame((index % (m_ImageWidth * m_ImageHeight)) * 13 - 11, 0, m_LastFrameNum - 1);
+        }
+        if (nodesid[i] == 1)
+        {
+          globalnodesid[i] = this->SearchThroughLastFrame(
+            (index % (m_ImageWidth * m_ImageHeight) - m_ImageWidth) * 13 + 3, 0, m_LastFrameNum - 1);
+        }
+        if (m_PointFound != 0)
+        {
+          continue;
         }
       }
     }
@@ -2598,16 +2594,14 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::SearchThroughLastRow(int index
       m_PointFound = 1;
       return m_LastRow[mid][1];
     }
+
+    if (lindex > m_LastRow[mid][0])
+    {
+      return this->SearchThroughLastRow(index, mid + 1, end);
+    }
     else
     {
-      if (lindex > m_LastRow[mid][0])
-      {
-        return this->SearchThroughLastRow(index, mid + 1, end);
-      }
-      else
-      {
-        return this->SearchThroughLastRow(index, start, mid);
-      }
+      return this->SearchThroughLastRow(index, start, mid);
     }
   }
   else

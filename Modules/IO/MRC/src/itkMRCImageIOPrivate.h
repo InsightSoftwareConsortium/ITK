@@ -73,7 +73,7 @@ min_max_element(TInputIter first, TInputIter last)
       }
       break;
     }
-    else if (*first < *prev)
+    if (*first < *prev)
     {
       if (*first < *(result.first))
       {

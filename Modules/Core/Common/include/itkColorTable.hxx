@@ -281,12 +281,10 @@ ColorTable<TComponent>::GetColor(unsigned int c)
   {
     return m_Color[c];
   }
-  else
-  {
-    RGBPixel<TComponent> pixel;
-    pixel.Set(0, 0, 0);
-    return pixel;
-  }
+
+  RGBPixel<TComponent> pixel;
+  pixel.Set(0, 0, 0);
+  return pixel;
 }
 
 template <typename TComponent>
@@ -329,10 +327,8 @@ ColorTable<TComponent>::GetColorName(unsigned int c)
   {
     return m_ColorName[c];
   }
-  else
-  {
-    return "";
-  }
+
+  return "";
 }
 
 template <typename TComponent>

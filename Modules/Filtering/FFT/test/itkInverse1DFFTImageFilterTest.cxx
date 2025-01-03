@@ -106,7 +106,7 @@ itkInverse1DFFTImageFilterTest(int argc, char * argv[])
 
     return doTest<FFTInverseType>(argv[1], argv[2], argv[3]);
   }
-  else if (backend == 1)
+  if (backend == 1)
   {
     using FFTInverseType = itk::VnlInverse1DFFTImageFilter<ComplexImageType, ImageType>;
 

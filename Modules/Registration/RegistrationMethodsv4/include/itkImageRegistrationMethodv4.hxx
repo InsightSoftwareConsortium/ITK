@@ -779,10 +779,8 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
         itkDebugMacro("clone copy allocation of output transform");
         return;
       }
-      else
-      {
-        itkExceptionMacro("Unable to convert InitialTransform input to the OutputTransform type");
-      }
+
+      itkExceptionMacro("Unable to convert InitialTransform input to the OutputTransform type");
     }
   }
 
@@ -1085,10 +1083,8 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   {
     return;
   }
-  else
-  {
-    matrixOffsetOutputTransform->SetCenter(center);
-  }
+
+  matrixOffsetOutputTransform->SetCenter(center);
 }
 
 template <typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>

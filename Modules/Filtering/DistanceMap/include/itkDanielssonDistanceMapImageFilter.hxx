@@ -46,13 +46,12 @@ DanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::Make
   {
     return VoronoiImageType::New().GetPointer();
   }
-  else
+
+  if (idx == 2)
   {
-    if (idx == 2)
-    {
-      return VectorImageType::New().GetPointer();
-    }
+    return VectorImageType::New().GetPointer();
   }
+
   return Superclass::MakeOutput(idx);
 }
 

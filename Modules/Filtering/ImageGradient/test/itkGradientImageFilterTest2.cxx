@@ -129,7 +129,7 @@ itkGradientImageFilterTest2(int argc, char * argv[])
   {
     return DoIt<itk::Image<float, 2>>(infname, outfname);
   }
-  else if (dimension == 3)
+  if (dimension == 3)
     return DoIt<itk::Image<float, 3>>(infname, outfname);
 
   return EXIT_FAILURE;

@@ -74,18 +74,16 @@ ConstantVelocityFieldTransform<TParametersValueType, VDimension>::GetInverse(Sel
   {
     return false;
   }
-  else
-  {
-    inverse->SetFixedParameters(this->GetFixedParameters());
-    inverse->SetUpperTimeBound(this->GetLowerTimeBound());
-    inverse->SetLowerTimeBound(this->GetUpperTimeBound());
-    inverse->SetDisplacementField(this->m_InverseDisplacementField);
-    inverse->SetInverseDisplacementField(this->m_DisplacementField);
-    inverse->SetInterpolator(this->m_Interpolator);
-    inverse->SetConstantVelocityField(this->m_ConstantVelocityField);
-    inverse->SetConstantVelocityFieldInterpolator(this->m_ConstantVelocityFieldInterpolator);
-    return true;
-  }
+
+  inverse->SetFixedParameters(this->GetFixedParameters());
+  inverse->SetUpperTimeBound(this->GetLowerTimeBound());
+  inverse->SetLowerTimeBound(this->GetUpperTimeBound());
+  inverse->SetDisplacementField(this->m_InverseDisplacementField);
+  inverse->SetInverseDisplacementField(this->m_DisplacementField);
+  inverse->SetInterpolator(this->m_Interpolator);
+  inverse->SetConstantVelocityField(this->m_ConstantVelocityField);
+  inverse->SetConstantVelocityFieldInterpolator(this->m_ConstantVelocityFieldInterpolator);
+  return true;
 }
 
 template <typename TParametersValueType, unsigned int VDimension>

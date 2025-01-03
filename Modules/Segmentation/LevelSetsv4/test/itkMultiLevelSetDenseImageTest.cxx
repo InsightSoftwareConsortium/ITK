@@ -145,20 +145,18 @@ itkMultiLevelSetDenseImageTest(int, char *[])
         {
           return EXIT_FAILURE;
         }
-        else
-        {
-          for (const auto & lIt : *lout)
-          {
-            std::cout << lIt << ' ' << level_set[lIt]->Evaluate(out_index) << std::endl;
-          }
-          std::cout << std::endl;
 
-          // lout->sort();
-          if (*lout != solution)
-          {
-            std::cerr << "FAILURE!!!" << std::endl;
-            return EXIT_FAILURE;
-          }
+        for (const auto & lIt : *lout)
+        {
+          std::cout << lIt << ' ' << level_set[lIt]->Evaluate(out_index) << std::endl;
+        }
+        std::cout << std::endl;
+
+        // lout->sort();
+        if (*lout != solution)
+        {
+          std::cerr << "FAILURE!!!" << std::endl;
+          return EXIT_FAILURE;
         }
       }
     }

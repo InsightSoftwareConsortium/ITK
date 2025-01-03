@@ -413,10 +413,8 @@ MinMaxCurvatureFlowFunction<TImage>::ComputeUpdate(const NeighborhoodType & it,
   {
     return (std::max(update, PixelType{}));
   }
-  else
-  {
-    return (std::min(update, PixelType{}));
-  }
+
+  return (std::min(update, PixelType{}));
 }
 } // end namespace itk
 

@@ -161,10 +161,8 @@ protected:
     {
       return NumericTraits<NodeValueType>::OneValue();
     }
-    else
-    {
-      return static_cast<NodeValueType>(std::exp(m_FluxStopConstant * v));
-    }
+
+    return static_cast<NodeValueType>(std::exp(m_FluxStopConstant * v));
   }
 
 private:

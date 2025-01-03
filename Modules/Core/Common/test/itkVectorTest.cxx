@@ -241,9 +241,7 @@ itkVectorTest(int, char *[])
     std::cout << "Vector test passed." << std::endl;
     return EXIT_SUCCESS;
   }
-  else
-  {
-    std::cout << "Vector test failed." << std::endl;
-    return EXIT_FAILURE;
-  }
+
+  std::cout << "Vector test failed." << std::endl;
+  return EXIT_FAILURE;
 }

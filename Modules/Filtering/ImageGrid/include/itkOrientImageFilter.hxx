@@ -129,7 +129,7 @@ OrientImageFilter<TInputImage, TOutputImage>::DeterminePermutationsAndFlips(
             // Axis i is already in place
             continue;
           }
-          else if (AnatomicalOrientation::SameOrientationAxes(fixed_codes[i], moving_codes[j]))
+          if (AnatomicalOrientation::SameOrientationAxes(fixed_codes[i], moving_codes[j]))
           {
             // The cyclic permutation (i j) applies. Therefore, the remainder
             // is (k), i.e., stationary

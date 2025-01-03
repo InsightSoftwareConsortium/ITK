@@ -34,22 +34,20 @@ TriangleHelper<TPoint>::IsObtuse(const PointType & iA, const PointType & iB, con
   {
     return true;
   }
+
+  if (v02 * v12 < 0.0)
+  {
+    return true;
+  }
   else
   {
-    if (v02 * v12 < 0.0)
+    if (v01 * -v12 < 0.0)
     {
       return true;
     }
     else
     {
-      if (v01 * -v12 < 0.0)
-      {
-        return true;
-      }
-      else
-      {
-        return false;
-      }
+      return false;
     }
   }
 }
@@ -235,18 +233,16 @@ TriangleHelper<TPoint>::ComputeMixedArea(const PointType & iP1, const PointType 
 
     return 0.125 * (sq_d02 * cot_theta_210 + sq_d01 * cot_theta_021);
   }
+
+  auto area = static_cast<CoordinateType>(TriangleType::ComputeArea(iP1, iP2, iP3));
+
+  if ((iP2 - iP1) * (iP3 - iP1) < CoordinateType{})
+  {
+    return 0.5 * area;
+  }
   else
   {
-    auto area = static_cast<CoordinateType>(TriangleType::ComputeArea(iP1, iP2, iP3));
-
-    if ((iP2 - iP1) * (iP3 - iP1) < CoordinateType{})
-    {
-      return 0.5 * area;
-    }
-    else
-    {
-      return 0.25 * area;
-    }
+    return 0.25 * area;
   }
 }
 } // namespace itk

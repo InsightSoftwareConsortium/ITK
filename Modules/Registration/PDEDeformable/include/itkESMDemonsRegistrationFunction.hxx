@@ -215,7 +215,7 @@ ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Co
         warpedMovingGradient[dim] = 0.0;
         continue;
       }
-      else if (index[dim] == FirstIndex[dim])
+      if (index[dim] == FirstIndex[dim])
       {
         // compute derivative
         tmpIndex[dim] += 1;

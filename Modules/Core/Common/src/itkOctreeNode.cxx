@@ -95,10 +95,8 @@ OctreeNode::IsNodeColored() const
 
     return this->m_Branch >= first && this->m_Branch <= last;
   }
-  else
-  {
-    return false;
-  }
+
+  return false;
 }
 
 void

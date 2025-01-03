@@ -166,10 +166,8 @@ CoxDeBoorBSplineKernelFunction<VSplineOrder, TRealValueType>::Evaluate(const TRe
   {
     return PolynomialType(this->m_BSplineShapeFunctions.get_row(which)).evaluate(absValue);
   }
-  else
-  {
-    return TRealValueType{ 0.0 };
-  }
+
+  return TRealValueType{ 0.0 };
 }
 
 template <unsigned int VSplineOrder, typename TRealValueType>
@@ -208,10 +206,8 @@ CoxDeBoorBSplineKernelFunction<VSplineOrder, TRealValueType>::EvaluateNthDerivat
     {
       return -der;
     }
-    else
-    {
-      return der;
-    }
+
+    return der;
   }
   else
   {

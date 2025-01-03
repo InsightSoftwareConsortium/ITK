@@ -154,10 +154,8 @@ public:
     {
       return this->Evaluate(x);
     }
-    else
-    {
-      return GetCachedValue(x);
-    }
+
+    return GetCachedValue(x);
   }
 
   /** Evaluate the function at point x.  */

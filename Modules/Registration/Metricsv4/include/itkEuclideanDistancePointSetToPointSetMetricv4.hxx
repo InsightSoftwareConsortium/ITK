@@ -38,10 +38,8 @@ typename EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPoin
   {
     return distance;
   }
-  else
-  {
-    return 0;
-  }
+
+  return 0;
 }
 
 template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>

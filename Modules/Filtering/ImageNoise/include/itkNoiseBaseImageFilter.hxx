@@ -50,7 +50,7 @@ NoiseBaseImageFilter<TInputImage, TOutputImage>::ClampCast(const double value) -
   {
     return NumericTraits<OutputImagePixelType>::max();
   }
-  else if (value <= static_cast<double>(NumericTraits<OutputImagePixelType>::NonpositiveMin()))
+  if (value <= static_cast<double>(NumericTraits<OutputImagePixelType>::NonpositiveMin()))
   {
     return NumericTraits<OutputImagePixelType>::NonpositiveMin();
   }

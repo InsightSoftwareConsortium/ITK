@@ -338,7 +338,7 @@ TriangleMeshToSimplexMeshFilter<TInputMesh, TOutputMesh>::CreateCells()
             wrongIdx = compare.first;
             break;
           }
-          else if (compare.second == lastIdx && compare.first != wrongIdx)
+          if (compare.second == lastIdx && compare.first != wrongIdx)
           {
             tmpMap->InsertElement(compare.second, compare.first);
             lastIdx = compare.first;
@@ -387,10 +387,9 @@ TriangleMeshToSimplexMeshFilter<TInputMesh, TOutputMesh>::CreateCells()
       {
         break;
       }
-      else
-      {
-        nextIdx = newIdx;
-      }
+
+      nextIdx = newIdx;
+
       ++featureId;
     }
     ++points;

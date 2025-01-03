@@ -172,11 +172,9 @@ GaussianDistribution::PDF(double x, const ParametersType & p)
   {
     return PDF(x, p[0], p[1]);
   }
-  else
-  {
-    itkGenericExceptionMacro("Invalid number of parameters to describe distribution. Expected 2 parameters, but got "
-                             << p.size() << " parameters.");
-  }
+
+  itkGenericExceptionMacro("Invalid number of parameters to describe distribution. Expected 2 parameters, but got "
+                           << p.size() << " parameters.");
 }
 
 double
@@ -222,7 +220,7 @@ GaussianDistribution::InverseCDF(double p)
   {
     return itk::NumericTraits<double>::NonpositiveMin();
   }
-  else if (p >= 1.0)
+  if (p >= 1.0)
   {
     return itk::NumericTraits<double>::max();
   }
@@ -262,7 +260,7 @@ GaussianDistribution::InverseCDF(double p, double mean, double variance)
   {
     return x;
   }
-  else if (Math::ExactlyEquals(x, itk::NumericTraits<double>::max()))
+  if (Math::ExactlyEquals(x, itk::NumericTraits<double>::max()))
   {
     return x;
   }
@@ -298,11 +296,9 @@ GaussianDistribution::EvaluatePDF(double x) const
 
     return GaussianDistribution::PDF(x, m_Parameters[0], m_Parameters[1]);
   }
-  else
-  {
-    itkGenericExceptionMacro("Invalid number of parameters to describe distribution. Expected 2 parameters, but got "
-                             << m_Parameters.size() << " parameters.");
-  }
+
+  itkGenericExceptionMacro("Invalid number of parameters to describe distribution. Expected 2 parameters, but got "
+                           << m_Parameters.size() << " parameters.");
 }
 
 double
@@ -317,11 +313,9 @@ GaussianDistribution::EvaluatePDF(double x, const ParametersType & p) const
 
     return GaussianDistribution::PDF(x, p[0], p[1]);
   }
-  else
-  {
-    itkGenericExceptionMacro("Invalid number of parameters to describe distribution. Expected 2 parameters, but got "
-                             << p.size() << " parameters.");
-  }
+
+  itkGenericExceptionMacro("Invalid number of parameters to describe distribution. Expected 2 parameters, but got "
+                           << p.size() << " parameters.");
 }
 
 double
@@ -347,11 +341,9 @@ GaussianDistribution::EvaluateCDF(double x) const
 
     return GaussianDistribution::CDF(x, m_Parameters[0], m_Parameters[1]);
   }
-  else
-  {
-    itkGenericExceptionMacro("Invalid number of parameters to describe distribution. Expected 2 parameters, but got "
-                             << m_Parameters.size() << " parameters.");
-  }
+
+  itkGenericExceptionMacro("Invalid number of parameters to describe distribution. Expected 2 parameters, but got "
+                           << m_Parameters.size() << " parameters.");
 }
 
 double
@@ -366,11 +358,9 @@ GaussianDistribution::EvaluateCDF(double x, const ParametersType & p) const
 
     return GaussianDistribution::CDF(x, p[0], p[1]);
   }
-  else
-  {
-    itkGenericExceptionMacro("Invalid number of parameters to describe distribution. Expected 2 parameters, but got "
-                             << p.size() << " parameters.");
-  }
+
+  itkGenericExceptionMacro("Invalid number of parameters to describe distribution. Expected 2 parameters, but got "
+                           << p.size() << " parameters.");
 }
 
 double
@@ -396,11 +386,9 @@ GaussianDistribution::EvaluateInverseCDF(double p) const
 
     return GaussianDistribution::InverseCDF(p, m_Parameters[0], m_Parameters[1]);
   }
-  else
-  {
-    itkGenericExceptionMacro("Invalid number of parameters to describe distribution. Expected 2 parameters, but got "
-                             << m_Parameters.size() << " parameters.");
-  }
+
+  itkGenericExceptionMacro("Invalid number of parameters to describe distribution. Expected 2 parameters, but got "
+                           << m_Parameters.size() << " parameters.");
 }
 
 double
@@ -415,11 +403,9 @@ GaussianDistribution::EvaluateInverseCDF(double p, const ParametersType & params
 
     return GaussianDistribution::InverseCDF(p, params[0], params[1]);
   }
-  else
-  {
-    itkGenericExceptionMacro("Invalid number of parameters to describe distribution. Expected 2 parameters, but got "
-                             << params.size() << " parameters.");
-  }
+
+  itkGenericExceptionMacro("Invalid number of parameters to describe distribution. Expected 2 parameters, but got "
+                           << params.size() << " parameters.");
 }
 
 double

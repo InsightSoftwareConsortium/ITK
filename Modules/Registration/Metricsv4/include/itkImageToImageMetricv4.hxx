@@ -570,10 +570,8 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   {
     return this->m_SparseGetValueAndDerivativeThreader->GetNumberOfWorkUnitsUsed();
   }
-  else
-  {
-    return this->m_DenseGetValueAndDerivativeThreader->GetNumberOfWorkUnitsUsed();
-  }
+
+  return this->m_DenseGetValueAndDerivativeThreader->GetNumberOfWorkUnitsUsed();
 }
 
 template <typename TFixedImage,
@@ -646,11 +644,9 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
     // over which we're evaluating over.
     return this->m_VirtualSampledPointSet->GetNumberOfPoints();
   }
-  else
-  {
-    const typename VirtualImageType::RegionType region = this->GetVirtualRegion();
-    return region.GetNumberOfPixels();
-  }
+
+  const typename VirtualImageType::RegionType region = this->GetVirtualRegion();
+  return region.GetNumberOfPixels();
 }
 
 template <typename TFixedImage,

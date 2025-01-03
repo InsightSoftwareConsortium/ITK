@@ -184,7 +184,7 @@ private:
       {
         return true;
       }
-      else if (m_Count < dc.m_Count)
+      if (m_Count < dc.m_Count)
       {
         return false;
       }

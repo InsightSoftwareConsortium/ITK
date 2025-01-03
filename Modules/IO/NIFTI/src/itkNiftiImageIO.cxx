@@ -291,7 +291,7 @@ str_xform2code(const std::string & codeName)
   {
     return NIFTI_XFORM_SCANNER_ANAT;
   }
-  else if (codeName == "NIFTI_XFORM_ALIGNED_ANAT")
+  if (codeName == "NIFTI_XFORM_ALIGNED_ANAT")
   {
     return NIFTI_XFORM_ALIGNED_ANAT;
   }
@@ -855,7 +855,7 @@ NiftiImageIO::CanReadFile(const char * FileNameToRead)
   {
     return true;
   }
-  else if (imageFTYPE == 0 && (this->GetLegacyAnalyze75Mode() != NiftiImageIOEnums::Analyze75Flavor::AnalyzeReject))
+  if (imageFTYPE == 0 && (this->GetLegacyAnalyze75Mode() != NiftiImageIOEnums::Analyze75Flavor::AnalyzeReject))
   {
     return true;
   }
@@ -1999,46 +1999,42 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short dims, double spacing
         {
           return false;
         }
-        else
+
+        const vnl_matrix_fixed<float, 4, 4> sto_xyz{ &(this->m_NiftiImage->sto_xyz.m[0][0]) };
+        // vnl_vector_fixed<float, 3>                          translation;
+        vnl_matrix_fixed<float, 3, 3> rotation = sto_xyz.extract(3, 3, 0, 0);
         {
-          const vnl_matrix_fixed<float, 4, 4> sto_xyz{ &(this->m_NiftiImage->sto_xyz.m[0][0]) };
-          // vnl_vector_fixed<float, 3>                          translation;
-          vnl_matrix_fixed<float, 3, 3> rotation = sto_xyz.extract(3, 3, 0, 0);
+          // Ensure that the scales are approximately the same for spacing directions
+          bool            sform_scales_ok{ true };
+          constexpr float large_value_tolerance = 1e-3; // Numerical precision of sform is not very good
+          if (itk::Math::abs(this->m_NiftiImage->dx - rotation.get_column(0).magnitude()) > large_value_tolerance)
           {
-            // Ensure that the scales are approximately the same for spacing directions
-            bool            sform_scales_ok{ true };
-            constexpr float large_value_tolerance = 1e-3; // Numerical precision of sform is not very good
-            if (itk::Math::abs(this->m_NiftiImage->dx - rotation.get_column(0).magnitude()) > large_value_tolerance)
-            {
-              sform_scales_ok = false;
-            }
-            else if (itk::Math::abs(this->m_NiftiImage->dy - rotation.get_column(1).magnitude()) >
-                     large_value_tolerance)
-            {
-              sform_scales_ok = false;
-            }
-            else if (itk::Math::abs(this->m_NiftiImage->dz - rotation.get_column(2).magnitude()) >
-                     large_value_tolerance)
-            {
-              sform_scales_ok = false;
-            }
-            if (!sform_scales_ok)
-            {
-              itkWarningMacro(<< this->GetFileName() << " has unexpected scales in sform");
-            }
+            sform_scales_ok = false;
           }
-          // Remove scale from columns
-          for (int i = 0; i < 3; ++i)
+          else if (itk::Math::abs(this->m_NiftiImage->dy - rotation.get_column(1).magnitude()) > large_value_tolerance)
           {
-            rotation.set_column(i, rotation.get_column(i).normalize());
+            sform_scales_ok = false;
           }
-
-          // Only orthonormal matricies have transpose as inverse
-          const vnl_matrix_fixed<float, 3, 3> candidate_identity = rotation * rotation.transpose();
-          const bool                          is_orthonormal = candidate_identity.is_identity(1.0e-4);
-
-          return is_orthonormal;
+          else if (itk::Math::abs(this->m_NiftiImage->dz - rotation.get_column(2).magnitude()) > large_value_tolerance)
+          {
+            sform_scales_ok = false;
+          }
+          if (!sform_scales_ok)
+          {
+            itkWarningMacro(<< this->GetFileName() << " has unexpected scales in sform");
+          }
         }
+        // Remove scale from columns
+        for (int i = 0; i < 3; ++i)
+        {
+          rotation.set_column(i, rotation.get_column(i).normalize());
+        }
+
+        // Only orthonormal matricies have transpose as inverse
+        const vnl_matrix_fixed<float, 3, 3> candidate_identity = rotation * rotation.transpose();
+        const bool                          is_orthonormal = candidate_identity.is_identity(1.0e-4);
+
+        return is_orthonormal;
       }();
 
       // The sform can more closely match the DICOM representation of directions.
@@ -2145,7 +2141,7 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short dims, double spacing
       this->m_SFORM_Corrected = false;
       return this->m_NiftiImage->sto_xyz;
     }
-    else if (this->m_NiftiImage->qform_code != NIFTI_XFORM_UNKNOWN)
+    if (this->m_NiftiImage->qform_code != NIFTI_XFORM_UNKNOWN)
     {
       this->m_SFORM_Corrected = false;
       return this->m_NiftiImage->qto_xyz;

@@ -132,11 +132,10 @@ TIFFImageIO::GetFormat()
           m_ImageFormat = TIFFImageIO::PALETTE_GRAYSCALE;
           return m_ImageFormat;
         }
-        else
-        { // if not expanding read grayscale palette as palette
-          m_ImageFormat = TIFFImageIO::PALETTE_RGB;
-          return m_ImageFormat;
-        }
+
+        // if not expanding read grayscale palette as palette
+        m_ImageFormat = TIFFImageIO::PALETTE_RGB;
+        return m_ImageFormat;
       }
   }
   m_ImageFormat = TIFFImageIO::OTHER;

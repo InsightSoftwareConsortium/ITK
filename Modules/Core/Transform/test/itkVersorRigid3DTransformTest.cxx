@@ -153,10 +153,8 @@ itkVersorRigid3DTransformTest(int, char *[])
         std::cerr << "Reported Result is   : " << r << std::endl;
         return EXIT_FAILURE;
       }
-      else
-      {
-        std::cout << "Ok rotating an itk::Point " << std::endl;
-      }
+
+      std::cout << "Ok rotating an itk::Point " << std::endl;
     }
 
     {
@@ -183,10 +181,8 @@ itkVersorRigid3DTransformTest(int, char *[])
         std::cerr << "Reported Result is    : " << r << std::endl;
         return EXIT_FAILURE;
       }
-      else
-      {
-        std::cout << "Ok rotating an itk::Vector " << std::endl;
-      }
+
+      std::cout << "Ok rotating an itk::Vector " << std::endl;
     }
 
     {
@@ -213,10 +209,8 @@ itkVersorRigid3DTransformTest(int, char *[])
         std::cerr << "Reported Result is              : " << r << std::endl;
         return EXIT_FAILURE;
       }
-      else
-      {
-        std::cout << "Ok rotating an itk::CovariantVector " << std::endl;
-      }
+
+      std::cout << "Ok rotating an itk::CovariantVector " << std::endl;
     }
 
     {
@@ -246,10 +240,8 @@ itkVersorRigid3DTransformTest(int, char *[])
         std::cerr << "Reported Result is        : " << r << std::endl;
         return EXIT_FAILURE;
       }
-      else
-      {
-        std::cout << "Ok rotating an vnl_Vector " << std::endl;
-      }
+
+      std::cout << "Ok rotating an vnl_Vector " << std::endl;
     }
   }
 
@@ -288,10 +280,9 @@ itkVersorRigid3DTransformTest(int, char *[])
       std::cerr << "The center point was not invariant to rotation " << std::endl;
       return EXIT_FAILURE;
     }
-    else
-    {
-      std::cout << "Ok center is invariant to rotation." << std::endl;
-    }
+
+    std::cout << "Ok center is invariant to rotation." << std::endl;
+
 
     const unsigned int np = transform->GetNumberOfParameters();
 

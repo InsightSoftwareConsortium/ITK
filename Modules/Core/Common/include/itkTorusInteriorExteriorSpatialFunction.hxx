@@ -35,10 +35,8 @@ TorusInteriorExteriorSpatialFunction<VDimension, TInput>::Evaluate(const InputTy
   {
     return true;
   }
-  else
-  {
-    return false;
-  }
+
+  return false;
 }
 
 template <unsigned int VDimension, typename TInput>

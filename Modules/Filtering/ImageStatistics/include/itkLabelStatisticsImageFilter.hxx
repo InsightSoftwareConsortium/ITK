@@ -277,10 +277,8 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetMinimum(LabelPixelType 
     // label does not exist, return a default value
     return NumericTraits<PixelType>::max();
   }
-  else
-  {
-    return mapIt->second.m_Minimum;
-  }
+
+  return mapIt->second.m_Minimum;
 }
 
 template <typename TInputImage, typename TLabelImage>
@@ -293,10 +291,8 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetMaximum(LabelPixelType 
     // label does not exist, return a default value
     return NumericTraits<PixelType>::NonpositiveMin();
   }
-  else
-  {
-    return mapIt->second.m_Maximum;
-  }
+
+  return mapIt->second.m_Maximum;
 }
 
 template <typename TInputImage, typename TLabelImage>
@@ -309,10 +305,8 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetMean(LabelPixelType lab
     // label does not exist, return a default value
     return PixelType{};
   }
-  else
-  {
-    return mapIt->second.m_Mean;
-  }
+
+  return mapIt->second.m_Mean;
 }
 
 template <typename TInputImage, typename TLabelImage>
@@ -325,10 +319,8 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetSum(LabelPixelType labe
     // label does not exist, return a default value
     return PixelType{};
   }
-  else
-  {
-    return mapIt->second.m_Sum;
-  }
+
+  return mapIt->second.m_Sum;
 }
 
 template <typename TInputImage, typename TLabelImage>
@@ -341,10 +333,8 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetSigma(LabelPixelType la
     // label does not exist, return a default value
     return PixelType{};
   }
-  else
-  {
-    return mapIt->second.m_Sigma;
-  }
+
+  return mapIt->second.m_Sigma;
 }
 
 template <typename TInputImage, typename TLabelImage>
@@ -357,10 +347,8 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetVariance(LabelPixelType
     // label does not exist, return a default value
     return PixelType{};
   }
-  else
-  {
-    return mapIt->second.m_Variance;
-  }
+
+  return mapIt->second.m_Variance;
 }
 
 template <typename TInputImage, typename TLabelImage>
@@ -374,10 +362,8 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetBoundingBox(LabelPixelT
     // label does not exist, return a default value
     return emptyBox;
   }
-  else
-  {
-    return mapIt->second.m_BoundingBox;
-  }
+
+  return mapIt->second.m_BoundingBox;
 }
 
 template <typename TInputImage, typename TLabelImage>
@@ -392,21 +378,19 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetRegion(LabelPixelType l
     // label does not exist, return a default value
     return emptyRegion;
   }
-  else
+
+  BoundingBoxType bbox = this->GetBoundingBox(label);
+  IndexType       index;
+  SizeType        size;
+
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    BoundingBoxType bbox = this->GetBoundingBox(label);
-    IndexType       index;
-    SizeType        size;
-
-    for (unsigned int i = 0; i < ImageDimension; ++i)
-    {
-      index[i] = bbox[2 * i];
-      size[i] = bbox[2 * i + 1] - bbox[2 * i] + 1;
-    }
-    const RegionType region(index, size);
-
-    return region;
+    index[i] = bbox[2 * i];
+    size[i] = bbox[2 * i + 1] - bbox[2 * i] + 1;
   }
+  const RegionType region(index, size);
+
+  return region;
 }
 
 template <typename TInputImage, typename TLabelImage>
@@ -419,10 +403,8 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetCount(LabelPixelType la
     // label does not exist, return a default value
     return 0;
   }
-  else
-  {
-    return mapIt->second.m_Count;
-  }
+
+  return mapIt->second.m_Count;
 }
 
 template <typename TInputImage, typename TLabelImage>
@@ -436,30 +418,28 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetMedian(LabelPixelType l
     // label does not exist OR histograms not enabled, return the default value
     return median;
   }
-  else
+
+  typename HistogramType::SizeValueType bin = 0;
+
+  typename HistogramType::IndexType index;
+  index.SetSize(1);
+  RealType total = 0;
+
+  // count bins until just over half the distribution is counted
+  while (total <= (mapIt->second.m_Count / 2) && (bin < m_NumBins[0]))
   {
-    typename HistogramType::SizeValueType bin = 0;
-
-    typename HistogramType::IndexType index;
-    index.SetSize(1);
-    RealType total = 0;
-
-    // count bins until just over half the distribution is counted
-    while (total <= (mapIt->second.m_Count / 2) && (bin < m_NumBins[0]))
-    {
-      index[0] = bin;
-      total += mapIt->second.m_Histogram->GetFrequency(index);
-      ++bin;
-    }
-    --bin;
     index[0] = bin;
-
-    // return center of bin range
-    const RealType lowRange = mapIt->second.m_Histogram->GetBinMin(0, bin);
-    const RealType highRange = mapIt->second.m_Histogram->GetBinMax(0, bin);
-    median = lowRange + (highRange - lowRange) / 2;
-    return median;
+    total += mapIt->second.m_Histogram->GetFrequency(index);
+    ++bin;
   }
+  --bin;
+  index[0] = bin;
+
+  // return center of bin range
+  const RealType lowRange = mapIt->second.m_Histogram->GetBinMin(0, bin);
+  const RealType highRange = mapIt->second.m_Histogram->GetBinMax(0, bin);
+  median = lowRange + (highRange - lowRange) / 2;
+  return median;
 }
 
 template <typename TInputImage, typename TLabelImage>
@@ -472,11 +452,9 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetHistogram(LabelPixelTyp
     // label does not exist, return a default value
     return nullptr;
   }
-  else
-  {
-    // this will be zero if histograms have not been enabled
-    return mapIt->second.m_Histogram;
-  }
+
+  // this will be zero if histograms have not been enabled
+  return mapIt->second.m_Histogram;
 }
 
 template <typename TImage, typename TLabelImage>

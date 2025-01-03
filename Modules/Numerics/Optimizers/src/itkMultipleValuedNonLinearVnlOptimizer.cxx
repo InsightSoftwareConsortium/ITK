@@ -94,10 +94,8 @@ MultipleValuedNonLinearVnlOptimizer::GetUseCostFunctionGradient() const
   {
     return m_CostFunctionAdaptor->GetUseGradient();
   }
-  else
-  {
-    return m_UseGradient;
-  }
+
+  return m_UseGradient;
 }
 
 /** The purpose of this method is to get around the lack of iteration reporting

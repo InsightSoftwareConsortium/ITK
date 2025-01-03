@@ -207,10 +207,8 @@ PolyLineCell<TCellInterface>::PointIdsEnd() -> PointIdIterator
   {
     return &m_PointIds.back() + 1;
   }
-  else
-  {
-    return nullptr;
-  }
+
+  return nullptr;
 }
 
 /**
@@ -226,10 +224,8 @@ PolyLineCell<TCellInterface>::PointIdsEnd() const -> PointIdConstIterator
   {
     return &m_PointIds.back() + 1;
   }
-  else
-  {
-    return nullptr;
-  }
+
+  return nullptr;
 }
 
 /**

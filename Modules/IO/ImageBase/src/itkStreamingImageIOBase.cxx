@@ -256,7 +256,7 @@ StreamingImageIOBase::GetActualNumberOfSplitsForWriting(unsigned int          nu
     // fall back to super classses non-streaming implementation
     return ImageIOBase::GetActualNumberOfSplitsForWriting(numberOfRequestedSplits, pasteRegion, largestPossibleRegion);
   }
-  else if (!itksys::SystemTools::FileExists(m_FileName.c_str()))
+  if (!itksys::SystemTools::FileExists(m_FileName.c_str()))
   {
     // file doesn't exits so we don't have potential problems
   }
@@ -366,10 +366,9 @@ StreamingImageIOBase::GenerateStreamableReadRegionFromRequestedRegion(const Imag
   {
     return ImageIOBase::GenerateStreamableReadRegionFromRequestedRegion(requestedRegion);
   }
-  else
-  {
-    streamableRegion = requestedRegion;
-  }
+
+  streamableRegion = requestedRegion;
+
 
   return streamableRegion;
 }

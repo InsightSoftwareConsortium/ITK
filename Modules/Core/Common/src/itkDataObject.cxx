@@ -215,11 +215,9 @@ DataObject::DisconnectSource(ProcessObject * arg, const DataObjectIdentifierType
     this->Modified();
     return true;
   }
-  else
-  {
-    itkDebugMacro("could not disconnect source  " << arg << ", source output name " << name);
-    return false;
-  }
+
+  itkDebugMacro("could not disconnect source  " << arg << ", source output name " << name);
+  return false;
 }
 
 bool
@@ -234,12 +232,10 @@ DataObject::ConnectSource(ProcessObject * arg, const DataObjectIdentifierType & 
     this->Modified();
     return true;
   }
-  else
-  {
-    itkDebugMacro("could not connect source  " << arg << ", source output name " << name);
 
-    return false;
-  }
+  itkDebugMacro("could not connect source  " << arg << ", source output name " << name);
+
+  return false;
 }
 
 //----------------------------------------------------------------------------

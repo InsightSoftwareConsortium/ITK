@@ -273,54 +273,52 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>::GetNeighbors(PointIdentifier  
 
     return list;
   }
+
+  IndexArray neighborArray = GetNeighbors(idx);
+
+  auto foundIt1 = std::find(list->begin(), list->end(), neighborArray[0]);
+  auto foundIt2 = std::find(list->begin(), list->end(), neighborArray[1]);
+  auto foundIt3 = std::find(list->begin(), list->end(), neighborArray[2]);
+  auto endIt = list->end();
+  bool found1 = false;
+  if (foundIt1 != endIt)
+  {
+    found1 = true;
+  }
+  bool found2 = false;
+  if (foundIt2 != endIt)
+  {
+    found2 = true;
+  }
+  bool found3 = false;
+  if (foundIt3 != endIt)
+  {
+    found3 = true;
+  }
+
+  if (!found1)
+  {
+    list->push_back(neighborArray[0]);
+  }
+  if (!found2)
+  {
+    list->push_back(neighborArray[1]);
+  }
+  if (!found3)
+  {
+    list->push_back(neighborArray[2]);
+  }
+
+  if (radius == 0)
+  {
+    return list;
+  }
   else
   {
-    IndexArray neighborArray = GetNeighbors(idx);
-
-    auto foundIt1 = std::find(list->begin(), list->end(), neighborArray[0]);
-    auto foundIt2 = std::find(list->begin(), list->end(), neighborArray[1]);
-    auto foundIt3 = std::find(list->begin(), list->end(), neighborArray[2]);
-    auto endIt = list->end();
-    bool found1 = false;
-    if (foundIt1 != endIt)
-    {
-      found1 = true;
-    }
-    bool found2 = false;
-    if (foundIt2 != endIt)
-    {
-      found2 = true;
-    }
-    bool found3 = false;
-    if (foundIt3 != endIt)
-    {
-      found3 = true;
-    }
-
-    if (!found1)
-    {
-      list->push_back(neighborArray[0]);
-    }
-    if (!found2)
-    {
-      list->push_back(neighborArray[1]);
-    }
-    if (!found3)
-    {
-      list->push_back(neighborArray[2]);
-    }
-
-    if (radius == 0)
-    {
-      return list;
-    }
-    else
-    {
-      list = GetNeighbors(neighborArray[0], radius - 1, list);
-      list = GetNeighbors(neighborArray[1], radius - 1, list);
-      list = GetNeighbors(neighborArray[2], radius - 1, list);
-      return list;
-    }
+    list = GetNeighbors(neighborArray[0], radius - 1, list);
+    list = GetNeighbors(neighborArray[1], radius - 1, list);
+    list = GetNeighbors(neighborArray[2], radius - 1, list);
+    return list;
   }
 }
 

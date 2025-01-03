@@ -368,10 +368,8 @@ protected:
     {
       return this->AddExponentialMapUpdate(a, b);
     }
-    else
-    {
-      return this->AddEuclideanUpdate(a, b);
-    }
+
+    return this->AddEuclideanUpdate(a, b);
   }
 
   template <typename RealT>

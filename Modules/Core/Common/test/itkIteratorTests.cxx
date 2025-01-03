@@ -172,9 +172,7 @@ itkIteratorTests(int, char *[])
     std::cout << "Iterator tests passed" << std::endl;
     return EXIT_SUCCESS;
   }
-  else
-  {
-    std::cout << "Iterator tests failed" << std::endl;
-    return EXIT_FAILURE;
-  }
+
+  std::cout << "Iterator tests failed" << std::endl;
+  return EXIT_FAILURE;
 }

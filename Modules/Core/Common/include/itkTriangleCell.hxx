@@ -351,10 +351,8 @@ TriangleCell<TCellInterface>::ComputeCircumCenter(PointsContainer * iPoints) -> 
 
     return oP;
   }
-  else
-  {
-    return p[0];
-  }
+
+  return p[0];
 }
 
 template <typename TCellInterface>
@@ -461,134 +459,133 @@ TriangleCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
 
     return true;
   }
-  else
+
+  if (closestPoint)
   {
-    if (closestPoint)
+    double lt; // parameter along the line (not used)
+    if (b1 < 0.0 && b2 < 0.0)
     {
-      double lt; // parameter along the line (not used)
-      if (b1 < 0.0 && b2 < 0.0)
+      dist2Point = 0;
+      for (unsigned int i = 0; i < PointDimension; ++i)
       {
-        dist2Point = 0;
-        for (unsigned int i = 0; i < PointDimension; ++i)
-        {
-          dist2Point += (x[i] - pt3[i]) * (x[i] - pt3[i]);
-        }
-        dist2Line1 = this->DistanceToLine(x, pt1, pt3, lt, closestPoint1);
-        dist2Line2 = this->DistanceToLine(x, pt3, pt2, lt, closestPoint2);
-        if (dist2Point < dist2Line1)
-        {
-          *minDist2 = dist2Point;
-          closest = pt3;
-        }
-        else
-        {
-          *minDist2 = dist2Line1;
-          closest = closestPoint1;
-        }
-        if (dist2Line2 < *minDist2)
-        {
-          *minDist2 = dist2Line2;
-          closest = closestPoint2;
-        }
-        unsigned int i = 0;
-        for (; i < PointDimension; ++i)
-        {
-          closestPoint[i] = closest[i];
-        }
-        for (; i < 3; ++i)
-        {
-          closestPoint[i] = 0.;
-        }
+        dist2Point += (x[i] - pt3[i]) * (x[i] - pt3[i]);
       }
-      else if (b2 < 0.0 && b3 < 0.0)
+      dist2Line1 = this->DistanceToLine(x, pt1, pt3, lt, closestPoint1);
+      dist2Line2 = this->DistanceToLine(x, pt3, pt2, lt, closestPoint2);
+      if (dist2Point < dist2Line1)
       {
-        dist2Point = 0;
-        for (unsigned int i = 0; i < PointDimension; ++i)
-        {
-          dist2Point += (x[i] - pt1[i]) * (x[i] - pt1[i]);
-        }
-        dist2Line1 = this->DistanceToLine(x, pt1, pt3, lt, closestPoint1);
-        dist2Line2 = this->DistanceToLine(x, pt1, pt2, lt, closestPoint2);
-        if (dist2Point < dist2Line1)
-        {
-          *minDist2 = dist2Point;
-          closest = pt1;
-        }
-        else
-        {
-          *minDist2 = dist2Line1;
-          closest = closestPoint1;
-        }
-        if (dist2Line2 < *minDist2)
-        {
-          *minDist2 = dist2Line2;
-          closest = closestPoint2;
-        }
-        unsigned int i = 0;
-        for (; i < PointDimension; ++i)
-        {
-          closestPoint[i] = closest[i];
-        }
-        for (; i < 3; ++i)
-        {
-          closestPoint[i] = 0.;
-        }
+        *minDist2 = dist2Point;
+        closest = pt3;
       }
-      else if (b1 < 0.0 && b3 < 0.0)
+      else
       {
-        dist2Point = 0;
-        for (unsigned int i = 0; i < PointDimension; ++i)
-        {
-          dist2Point += (x[i] - pt2[i]) * (x[i] - pt2[i]);
-        }
-        dist2Line1 = this->DistanceToLine(x, pt2, pt3, lt, closestPoint1);
-        dist2Line2 = this->DistanceToLine(x, pt1, pt2, lt, closestPoint2);
-        if (dist2Point < dist2Line1)
-        {
-          *minDist2 = dist2Point;
-          closest = pt2;
-        }
-        else
-        {
-          *minDist2 = dist2Line1;
-          closest = closestPoint1;
-        }
-        if (dist2Line2 < *minDist2)
-        {
-          *minDist2 = dist2Line2;
-          closest = closestPoint2;
-        }
-        unsigned int i = 0;
-        for (; i < PointDimension; ++i)
-        {
-          closestPoint[i] = closest[i];
-        }
-        for (; i < 3; ++i)
-        {
-          closestPoint[i] = 0.;
-        }
+        *minDist2 = dist2Line1;
+        closest = closestPoint1;
       }
-      else if (b1 < 0.0)
+      if (dist2Line2 < *minDist2)
       {
-        *minDist2 = this->DistanceToLine(x, pt2, pt3, lt, closestPoint);
+        *minDist2 = dist2Line2;
+        closest = closestPoint2;
       }
-      else if (b2 < 0.0)
+      unsigned int i = 0;
+      for (; i < PointDimension; ++i)
       {
-        *minDist2 = this->DistanceToLine(x, pt1, pt3, lt, closestPoint);
+        closestPoint[i] = closest[i];
       }
-      else if (b3 < 0.0)
+      for (; i < 3; ++i)
       {
-        *minDist2 = this->DistanceToLine(x, pt1, pt2, lt, closestPoint);
+        closestPoint[i] = 0.;
       }
     }
-    if (pcoord)
+    else if (b2 < 0.0 && b3 < 0.0)
     {
-      pcoord[0] = b1;
-      pcoord[1] = b2;
-      pcoord[2] = b3;
+      dist2Point = 0;
+      for (unsigned int i = 0; i < PointDimension; ++i)
+      {
+        dist2Point += (x[i] - pt1[i]) * (x[i] - pt1[i]);
+      }
+      dist2Line1 = this->DistanceToLine(x, pt1, pt3, lt, closestPoint1);
+      dist2Line2 = this->DistanceToLine(x, pt1, pt2, lt, closestPoint2);
+      if (dist2Point < dist2Line1)
+      {
+        *minDist2 = dist2Point;
+        closest = pt1;
+      }
+      else
+      {
+        *minDist2 = dist2Line1;
+        closest = closestPoint1;
+      }
+      if (dist2Line2 < *minDist2)
+      {
+        *minDist2 = dist2Line2;
+        closest = closestPoint2;
+      }
+      unsigned int i = 0;
+      for (; i < PointDimension; ++i)
+      {
+        closestPoint[i] = closest[i];
+      }
+      for (; i < 3; ++i)
+      {
+        closestPoint[i] = 0.;
+      }
     }
-    // Just fall through to default return false;
+    else if (b1 < 0.0 && b3 < 0.0)
+    {
+      dist2Point = 0;
+      for (unsigned int i = 0; i < PointDimension; ++i)
+      {
+        dist2Point += (x[i] - pt2[i]) * (x[i] - pt2[i]);
+      }
+      dist2Line1 = this->DistanceToLine(x, pt2, pt3, lt, closestPoint1);
+      dist2Line2 = this->DistanceToLine(x, pt1, pt2, lt, closestPoint2);
+      if (dist2Point < dist2Line1)
+      {
+        *minDist2 = dist2Point;
+        closest = pt2;
+      }
+      else
+      {
+        *minDist2 = dist2Line1;
+        closest = closestPoint1;
+      }
+      if (dist2Line2 < *minDist2)
+      {
+        *minDist2 = dist2Line2;
+        closest = closestPoint2;
+      }
+      unsigned int i = 0;
+      for (; i < PointDimension; ++i)
+      {
+        closestPoint[i] = closest[i];
+      }
+      for (; i < 3; ++i)
+      {
+        closestPoint[i] = 0.;
+      }
+    }
+    else if (b1 < 0.0)
+    {
+      *minDist2 = this->DistanceToLine(x, pt2, pt3, lt, closestPoint);
+    }
+    else if (b2 < 0.0)
+    {
+      *minDist2 = this->DistanceToLine(x, pt1, pt3, lt, closestPoint);
+    }
+    else if (b3 < 0.0)
+    {
+      *minDist2 = this->DistanceToLine(x, pt1, pt2, lt, closestPoint);
+    }
   }
+  if (pcoord)
+  {
+    pcoord[0] = b1;
+    pcoord[1] = b2;
+    pcoord[2] = b3;
+  }
+  // Just fall through to default return false;
+
   return false; // Default case that should never be reached.
 }
 } // end namespace itk

@@ -128,9 +128,8 @@ itkBinaryThresholdImageFunctionTest(int, char *[])
     std::cout << "Failed!" << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << "Passed!" << std::endl;
-  }
+
+  std::cout << "Passed!" << std::endl;
+
   return EXIT_SUCCESS;
 }

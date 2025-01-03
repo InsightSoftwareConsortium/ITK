@@ -96,14 +96,12 @@ itkLevelSetDomainMapImageFilterTest(int, char *[])
         {
           return EXIT_FAILURE;
         }
-        else
+
+        for (const auto & lIt : *lout)
         {
-          for (const auto & lIt : *lout)
-          {
-            std::cout << lIt << ' ';
-          }
-          std::cout << std::endl;
+          std::cout << lIt << ' ';
         }
+        std::cout << std::endl;
       }
     }
     ++it;

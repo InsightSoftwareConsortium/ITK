@@ -100,10 +100,8 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>::GetKernelVarianceArray()
     }
     return adjustedVariance;
   }
-  else
-  {
-    return this->GetVariance();
-  }
+
+  return this->GetVariance();
 }
 
 template <typename TInputImage, typename TOutputImage>

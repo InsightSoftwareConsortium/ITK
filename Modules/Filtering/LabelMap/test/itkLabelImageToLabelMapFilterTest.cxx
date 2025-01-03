@@ -125,7 +125,7 @@ itkLabelImageToLabelMapFilterTest(int, char *[])
           itkAssertOrThrowMacro((val == 3), "Error in Label Image (foreground).");
           continue;
         }
-        else if (ctrJ == 7)
+        if (ctrJ == 7)
         {
           itkAssertOrThrowMacro((val == 5), "Error in Label Image (foreground).");
         }

@@ -129,10 +129,8 @@ GaussianOperator<TPixel, VDimension, TAllocator>::ModifiedBesselI1(double y)
   {
     return -accumulator;
   }
-  else
-  {
-    return accumulator;
-  }
+
+  return accumulator;
 }
 
 template <typename TPixel, unsigned int VDimension, typename TAllocator>
@@ -152,40 +150,38 @@ GaussianOperator<TPixel, VDimension, TAllocator>::ModifiedBesselI(int n, double 
   {
     return 0.0;
   }
+
+  const double toy = 2.0 / itk::Math::abs(y);
+  double       qip = 0.0;
+  double       accumulator = 0.0;
+  double       qi = 1.0;
+
+  for (int j = 2 * (n + static_cast<int>(std::sqrt(ACCURACY * n))); j > 0; j--)
+  {
+    const double qim = qip + j * toy * qi;
+    qip = qi;
+    qi = qim;
+    if (itk::Math::abs(qi) > 1.0e10)
+    {
+      accumulator *= 1.0e-10;
+      qi *= 1.0e-10;
+      qip *= 1.0e-10;
+    }
+    if (j == n)
+    {
+      accumulator = qip;
+    }
+  }
+
+  accumulator *= ModifiedBesselI0(y) / qi;
+
+  if (y < 0.0 && (n & 1))
+  {
+    return -accumulator;
+  }
   else
   {
-    const double toy = 2.0 / itk::Math::abs(y);
-    double       qip = 0.0;
-    double       accumulator = 0.0;
-    double       qi = 1.0;
-
-    for (int j = 2 * (n + static_cast<int>(std::sqrt(ACCURACY * n))); j > 0; j--)
-    {
-      const double qim = qip + j * toy * qi;
-      qip = qi;
-      qi = qim;
-      if (itk::Math::abs(qi) > 1.0e10)
-      {
-        accumulator *= 1.0e-10;
-        qi *= 1.0e-10;
-        qip *= 1.0e-10;
-      }
-      if (j == n)
-      {
-        accumulator = qip;
-      }
-    }
-
-    accumulator *= ModifiedBesselI0(y) / qi;
-
-    if (y < 0.0 && (n & 1))
-    {
-      return -accumulator;
-    }
-    else
-    {
-      return accumulator;
-    }
+    return accumulator;
   }
 }
 } // end namespace itk

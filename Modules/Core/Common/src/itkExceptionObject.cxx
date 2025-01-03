@@ -91,12 +91,10 @@ ExceptionObject::operator==(const ExceptionObject & orig) const
   {
     return true;
   }
-  else
-  {
-    return (thisData != nullptr) && (origData != nullptr) && thisData->m_Location == origData->m_Location &&
-           thisData->m_Description == origData->m_Description && thisData->m_File == origData->m_File &&
-           thisData->m_Line == origData->m_Line;
-  }
+
+  return (thisData != nullptr) && (origData != nullptr) && thisData->m_Location == origData->m_Location &&
+         thisData->m_Description == origData->m_Description && thisData->m_File == origData->m_File &&
+         thisData->m_Line == origData->m_Line;
 }
 
 void

@@ -122,10 +122,9 @@ itkEuler3DTransformTest(int, char *[])
     std::cerr << "Reported Result is     : " << r << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << " [ PASSED ] " << std::endl;
-  }
+
+  std::cout << " [ PASSED ] " << std::endl;
+
 
   std::cout << "Testing Rotation Change from ZXY to ZYX consistency:";
 
@@ -155,10 +154,9 @@ itkEuler3DTransformTest(int, char *[])
               << "operations performed in reverse order." << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << " [ PASSED ] " << std::endl;
-  }
+
+  std::cout << " [ PASSED ] " << std::endl;
+
 
   std::cout << "Testing Translation:";
 
@@ -188,10 +186,9 @@ itkEuler3DTransformTest(int, char *[])
     std::cerr << "Reported Result is     : " << r << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << " [ PASSED ] " << std::endl;
-  }
+
+  std::cout << " [ PASSED ] " << std::endl;
+
 
   // Testing Parameters
   std::cout << "Testing Set/Get Parameters: ";

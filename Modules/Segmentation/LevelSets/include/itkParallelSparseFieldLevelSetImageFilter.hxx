@@ -681,28 +681,26 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ComputeInitia
       {
         continue;
       }
-      else
+
+      // Optimize a little.
+      // Go further FORWARD and find the first index (k) in the cumulative
+      // freq distribution s.t. m_ZCumulativeFrequency[k] !=
+      // m_ZCumulativeFrequency[j] This is to be done because if we have a
+      // flat patch in the cumulative freq. dist. then we can choose
+      // a bound midway in that flat patch .
       {
-        // Optimize a little.
-        // Go further FORWARD and find the first index (k) in the cumulative
-        // freq distribution s.t. m_ZCumulativeFrequency[k] !=
-        // m_ZCumulativeFrequency[j] This is to be done because if we have a
-        // flat patch in the cumulative freq. dist. then we can choose
-        // a bound midway in that flat patch .
+        unsigned int k = 1;
+        for (; j + k < m_ZSize; ++k)
         {
-          unsigned int k = 1;
-          for (; j + k < m_ZSize; ++k)
+          if (m_ZCumulativeFrequency[j + k] != m_ZCumulativeFrequency[j])
           {
-            if (m_ZCumulativeFrequency[j + k] != m_ZCumulativeFrequency[j])
-            {
-              break;
-            }
+            break;
           }
-          //
-          m_Boundary[i] = static_cast<unsigned int>((j + k / 2));
         }
-        break;
+        //
+        m_Boundary[i] = static_cast<unsigned int>((j + k / 2));
       }
+      break;
     }
   }
 
@@ -2106,34 +2104,32 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::CheckLoadBala
       {
         continue;
       }
-      else
-      {
-        // do some optimization !
-        // go further FORWARD and find the first index (k) in the cumulative
-        // freq distribution s.t. m_ZCumulativeFrequency[k] !=
-        // m_ZCumulativeFrequency[j]. This is to be done because if we have a
-        // flat patch in the cum freq dist then ... . we can choose a bound
-        // midway in that flat patch
-        unsigned int k = 1;
-        for (; j + k < m_ZSize; ++k)
-        {
-          if (m_ZCumulativeFrequency[j + k] != m_ZCumulativeFrequency[j])
-          {
-            break;
-          }
-        }
 
-        // if ALL new boundaries same as the original then NO NEED TO DO
-        // ThreadedLoadBalance() next !!!
-        auto newBoundary = static_cast<unsigned int>((j + (j + k)) / 2);
-        if (newBoundary != m_Boundary[i])
+      // do some optimization !
+      // go further FORWARD and find the first index (k) in the cumulative
+      // freq distribution s.t. m_ZCumulativeFrequency[k] !=
+      // m_ZCumulativeFrequency[j]. This is to be done because if we have a
+      // flat patch in the cum freq dist then ... . we can choose a bound
+      // midway in that flat patch
+      unsigned int k = 1;
+      for (; j + k < m_ZSize; ++k)
+      {
+        if (m_ZCumulativeFrequency[j + k] != m_ZCumulativeFrequency[j])
         {
-          //
-          m_BoundaryChanged = true;
-          m_Boundary[i] = newBoundary;
+          break;
         }
-        break;
       }
+
+      // if ALL new boundaries same as the original then NO NEED TO DO
+      // ThreadedLoadBalance() next !!!
+      auto newBoundary = static_cast<unsigned int>((j + (j + k)) / 2);
+      if (newBoundary != m_Boundary[i])
+      {
+        //
+        m_BoundaryChanged = true;
+        m_Boundary[i] = newBoundary;
+      }
+      break;
     }
   }
 

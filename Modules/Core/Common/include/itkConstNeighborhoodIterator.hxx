@@ -55,7 +55,7 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>::IndexInBounds(const Neigh
   {
     return true;
   }
-  else if (this->InBounds()) // Is this whole neighborhood in bounds?
+  if (this->InBounds()) // Is this whole neighborhood in bounds?
   {
     return true;
   }
@@ -108,7 +108,7 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>::IndexInBounds(const Neigh
   {
     return true;
   }
-  else if (this->InBounds()) // Is this whole neighborhood in bounds?
+  if (this->InBounds()) // Is this whole neighborhood in bounds?
   {
     return true;
   }
@@ -162,21 +162,19 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>::GetPixel(NeighborIndexTyp
     IsInBounds = true;
     return (m_NeighborhoodAccessorFunctor.Get(this->operator[](n)));
   }
+
+  OffsetType offset;
+  OffsetType internalIndex;
+  const bool flag = this->IndexInBounds(n, internalIndex, offset);
+  if (flag)
+  {
+    IsInBounds = true;
+    return (m_NeighborhoodAccessorFunctor.Get(this->operator[](n)));
+  }
   else
   {
-    OffsetType offset;
-    OffsetType internalIndex;
-    const bool flag = this->IndexInBounds(n, internalIndex, offset);
-    if (flag)
-    {
-      IsInBounds = true;
-      return (m_NeighborhoodAccessorFunctor.Get(this->operator[](n)));
-    }
-    else
-    {
-      IsInBounds = false;
-      return (m_NeighborhoodAccessorFunctor.BoundaryCondition(internalIndex, offset, this, this->m_BoundaryCondition));
-    }
+    IsInBounds = false;
+    return (m_NeighborhoodAccessorFunctor.BoundaryCondition(internalIndex, offset, this, this->m_BoundaryCondition));
   }
 }
 

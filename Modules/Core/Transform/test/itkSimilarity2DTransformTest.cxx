@@ -78,10 +78,9 @@ itkSimilarity2DTransformTest(int, char *[])
     std::cerr << "Error with Identity transform" << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << " [ PASSED ] " << std::endl;
-  }
+
+  std::cout << " [ PASSED ] " << std::endl;
+
 
   // Test SetAngle/GetAngle
   auto transform1 = SimilarityTransformType::New();
@@ -99,10 +98,9 @@ itkSimilarity2DTransformTest(int, char *[])
     std::cerr << "transform2->GetAngle: " << transform2->GetAngle() << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << " [ PASSED ] " << std::endl;
-  }
+
+  std::cout << " [ PASSED ] " << std::endl;
+
 
   transform1->SetIdentity();
   transform1->SetAngle(-angle1);
@@ -115,10 +113,9 @@ itkSimilarity2DTransformTest(int, char *[])
     std::cerr << "transform2->GetAngle: " << transform2->GetAngle() << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << " [ PASSED ] " << std::endl;
-  }
+
+  std::cout << " [ PASSED ] " << std::endl;
+
   // Test the Set/Get Parameters
   std::cout << "Testing Set/GetParameters():" << std::endl;
   SimilarityTransformType::ParametersType params(6);
@@ -150,10 +147,9 @@ itkSimilarity2DTransformTest(int, char *[])
     std::cerr << "Output:" << outputParams << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << " [ PASSED ] " << std::endl;
-  }
+
+  std::cout << " [ PASSED ] " << std::endl;
+
 
   // 15 degrees in radians
   transform->SetCenter({}); // Explicitly reset center to default values
@@ -186,10 +182,9 @@ itkSimilarity2DTransformTest(int, char *[])
     std::cerr << "Reported Result is     : " << r << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << " [ PASSED ] " << std::endl;
-  }
+
+  std::cout << " [ PASSED ] " << std::endl;
+
 
   std::cout << "Testing Translation:";
 
@@ -218,10 +213,9 @@ itkSimilarity2DTransformTest(int, char *[])
     std::cerr << "Reported Result is     : " << r << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << " [ PASSED ] " << std::endl;
-  }
+
+  std::cout << " [ PASSED ] " << std::endl;
+
 
   // Testing the Jacobian
   std::cout << "Testing Jacobian:";
@@ -238,10 +232,9 @@ itkSimilarity2DTransformTest(int, char *[])
     std::cerr << "Error with Jacobian: " << jacobian0 << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << " [ PASSED ] " << std::endl;
-  }
+
+  std::cout << " [ PASSED ] " << std::endl;
+
 
   {
     // Test instantiation, inverse computation, back transform etc.

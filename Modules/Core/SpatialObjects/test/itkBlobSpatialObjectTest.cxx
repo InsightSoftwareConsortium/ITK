@@ -77,10 +77,9 @@ itkBlobSpatialObjectTest(int, char *[])
     std::cout << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << "[PASSED]" << std::endl;
-  }
+
+  std::cout << "[PASSED]" << std::endl;
+
 
   // Point consistency
   std::cout << "Point consistency: ";

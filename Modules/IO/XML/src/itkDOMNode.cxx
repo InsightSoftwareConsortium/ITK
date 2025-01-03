@@ -58,10 +58,8 @@ DOMNode::GetAttribute(const std::string & key) const
   {
     return "";
   }
-  else
-  {
-    return i->second;
-  }
+
+  return i->second;
 }
 
 /** Check whether has an attribute. */
@@ -315,10 +313,8 @@ DOMNode::GetChild(IdentifierType i)
   {
     return nullptr;
   }
-  else
-  {
-    return (DOMNode *)this->m_Children[i];
-  }
+
+  return (DOMNode *)this->m_Children[i];
 }
 
 /** Retrieve a child by index (return nullptr if out of range). */
@@ -409,10 +405,8 @@ DOMNode::GetSibling(OffsetType i)
   {
     return nullptr;
   }
-  else
-  {
-    return parent->GetChild(j);
-  }
+
+  return parent->GetChild(j);
 }
 
 /** Retrieve an older or younger sibling by distance (return nullptr if no such sibling). */
@@ -434,10 +428,8 @@ DOMNode::GetRoot()
   {
     return this;
   }
-  else
-  {
-    return node->GetRoot();
-  }
+
+  return node->GetRoot();
 }
 
 /** Return the root node. */
@@ -596,10 +588,8 @@ DOMNode::Find(const std::string & path)
   {
     return node;
   }
-  else
-  {
-    return node->Find(rpath);
-  }
+
+  return node->Find(rpath);
 }
 
 /**

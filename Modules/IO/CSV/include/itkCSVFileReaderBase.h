@@ -149,10 +149,8 @@ public:
     {
       return std::numeric_limits<TData>::quiet_NaN();
     }
-    else
-    {
-      return value;
-    }
+
+    return value;
   }
 
   /** This method must be defined in derived classes to parse the entire

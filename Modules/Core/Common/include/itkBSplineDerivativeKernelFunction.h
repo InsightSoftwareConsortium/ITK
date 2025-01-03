@@ -109,7 +109,7 @@ private:
     {
       return TRealValueType{ 0.5 };
     }
-    else if ((u > TRealValueType{ -1.0 }) && (u < TRealValueType{ 0.0 }))
+    if ((u > TRealValueType{ -1.0 }) && (u < TRealValueType{ 0.0 }))
     {
       return TRealValueType{ 1.0 };
     }
@@ -139,7 +139,7 @@ private:
     {
       return (TRealValueType{ -2.0 } * u);
     }
-    else if ((u >= TRealValueType{ 0.5 }) && (u < TRealValueType{ 1.5 }))
+    if ((u >= TRealValueType{ 0.5 }) && (u < TRealValueType{ 1.5 }))
     {
       return (TRealValueType{ -1.5 } + u);
     }
@@ -161,7 +161,7 @@ private:
     {
       return (TRealValueType{ -2.0 } * u + TRealValueType{ 1.5 } * u * u);
     }
-    else if ((u > TRealValueType{ -1.0 }) && (u < TRealValueType{ 0.0 }))
+    if ((u > TRealValueType{ -1.0 }) && (u < TRealValueType{ 0.0 }))
     {
       return (TRealValueType{ -2.0 } * u - TRealValueType{ 1.5 } * u * u);
     }

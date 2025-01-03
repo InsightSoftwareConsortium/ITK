@@ -63,10 +63,8 @@ SparseFrequencyContainer2::GetFrequency(const InstanceIdentifier id) const
   {
     return iter->second;
   }
-  else
-  {
-    return 0;
-  }
+
+  return 0;
 }
 
 bool

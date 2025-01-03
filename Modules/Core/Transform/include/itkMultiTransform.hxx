@@ -316,11 +316,9 @@ MultiTransform<TParametersValueType, VDimension, VSubDimensions>::GetInverse(Sel
       inverse->ClearTransformQueue();
       return false;
     }
-    else
-    {
-      /* Add to end of queue to preserve transform order */
-      inverse->PushBackTransform(inverseTransform);
-    }
+
+    /* Add to end of queue to preserve transform order */
+    inverse->PushBackTransform(inverseTransform);
   }
 
   return true;

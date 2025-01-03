@@ -82,7 +82,7 @@ PermuteAxesImageFilter<TImage>::SetOrder(const PermuteOrderArrayType & order)
       err.SetDescription("Order indices is out of range");
       throw err;
     }
-    else if (used[order[j]])
+    if (used[order[j]])
     {
       ExceptionObject err(__FILE__, __LINE__);
       err.SetLocation(ITK_LOCATION);

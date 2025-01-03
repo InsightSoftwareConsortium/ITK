@@ -26,7 +26,7 @@ EquivalencyTable::Add(unsigned long a, unsigned long b)
   {
     return false;
   }
-  else if (a < b)
+  if (a < b)
   { // swap a, b
     const unsigned long temp = a;
     a = b;
@@ -40,10 +40,8 @@ EquivalencyTable::Add(unsigned long a, unsigned long b)
     {
       return false;
     }
-    else
-    {
-      return (this->Add((*(result.first)).second, b));
-    }
+
+    return (this->Add((*(result.first)).second, b));
   }
   else
   {
@@ -58,7 +56,7 @@ EquivalencyTable::AddAndFlatten(unsigned long a, unsigned long b)
   {
     return false;
   }
-  else if (a < b)
+  if (a < b)
   { // swap a, b
     const unsigned long temp = a;
     a = b;
@@ -74,10 +72,8 @@ EquivalencyTable::AddAndFlatten(unsigned long a, unsigned long b)
     {
       return false;
     }
-    else
-    {
-      return (this->Add((*(result.first)).second, bFlattened));
-    }
+
+    return (this->Add((*(result.first)).second, bFlattened));
   }
   else
   {

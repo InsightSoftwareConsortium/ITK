@@ -704,9 +704,7 @@ itkBSplineResampleImageFilterTest(int itkNotUsed(argc), char * itkNotUsed(argv)[
 
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << "All tests successfully passed" << std::endl;
-    return EXIT_SUCCESS;
-  }
+
+  std::cout << "All tests successfully passed" << std::endl;
+  return EXIT_SUCCESS;
 }

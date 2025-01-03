@@ -48,10 +48,8 @@ public:
     {
       return static_cast<TOutput>(A);
     }
-    else
-    {
-      return static_cast<TOutput>(B);
-    }
+
+    return static_cast<TOutput>(B);
   }
 };
 } // namespace Functor

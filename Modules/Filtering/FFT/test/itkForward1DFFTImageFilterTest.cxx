@@ -109,7 +109,7 @@ itkForward1DFFTImageFilterTest(int argc, char * argv[])
 
     return doTest<FFTForwardType>(argv[1], argv[2]);
   }
-  else if (backend == 1)
+  if (backend == 1)
   {
     using FFTForwardType = itk::VnlForward1DFFTImageFilter<ImageType, ComplexImageType>;
 

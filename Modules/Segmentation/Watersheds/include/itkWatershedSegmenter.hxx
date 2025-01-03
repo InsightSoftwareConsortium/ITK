@@ -704,7 +704,7 @@ Segmenter<TInputImage>::LabelMinima(InputImageTypePointer                img,
         foundFlatRegion = true;
         break;
       }
-      else if (currentValue > searchIt.GetPixel(nPos))
+      if (currentValue > searchIt.GetPixel(nPos))
       {
         foundSinglePixelMinimum = false;
       }
@@ -1201,7 +1201,7 @@ Segmenter<TInputImage>::MakeOutput(DataObjectPointerArraySizeType idx) -> DataOb
   {
     return OutputImageType::New().GetPointer();
   }
-  else if (idx == 1)
+  if (idx == 1)
   {
     return SegmentTableType::New().GetPointer();
   }

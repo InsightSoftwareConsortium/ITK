@@ -300,10 +300,8 @@ public:
     {
       return true;
     }
-    else
-    {
-      return false;
-    }
+
+    return false;
   }
 
   /** Turn On/Off the flag which determines whether Positive or Negative speed

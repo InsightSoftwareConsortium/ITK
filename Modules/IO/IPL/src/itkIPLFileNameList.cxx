@@ -43,7 +43,7 @@ private:
     {
       return true;
     }
-    else if (echoNumDiff > 0)
+    if (echoNumDiff > 0)
     {
       return false;
     }

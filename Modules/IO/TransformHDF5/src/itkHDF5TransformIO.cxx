@@ -103,7 +103,7 @@ HDF5TransformIOTemplate<TParametersValueType>::GetH5TypeFromString() const
   {
     return H5::PredType::NATIVE_DOUBLE;
   }
-  else if (!NameParametersValueTypeString.compare(std::string("float")))
+  if (!NameParametersValueTypeString.compare(std::string("float")))
   {
     return H5::PredType::NATIVE_FLOAT;
   }

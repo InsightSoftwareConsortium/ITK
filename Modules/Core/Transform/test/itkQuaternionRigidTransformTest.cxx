@@ -105,10 +105,8 @@ itkQuaternionRigidTransformTest(int, char *[])
         std::cerr << "Reported Result is     : " << r << std::endl;
         return EXIT_FAILURE;
       }
-      else
-      {
-        std::cout << "Ok translating an itk::Point " << std::endl;
-      }
+
+      std::cout << "Ok translating an itk::Point " << std::endl;
     }
 
     {
@@ -131,10 +129,8 @@ itkQuaternionRigidTransformTest(int, char *[])
         std::cerr << "Reported Result is      : " << q << std::endl;
         return EXIT_FAILURE;
       }
-      else
-      {
-        std::cout << "Ok translating an itk::Vector " << std::endl;
-      }
+
+      std::cout << "Ok translating an itk::Vector " << std::endl;
     }
 
     {
@@ -157,10 +153,8 @@ itkQuaternionRigidTransformTest(int, char *[])
         std::cerr << "Reported Result is      : " << q << std::endl;
         return EXIT_FAILURE;
       }
-      else
-      {
-        std::cout << "Ok translating an itk::CovariantVector " << std::endl;
-      }
+
+      std::cout << "Ok translating an itk::CovariantVector " << std::endl;
     }
 
     {
@@ -185,10 +179,8 @@ itkQuaternionRigidTransformTest(int, char *[])
         std::cerr << "Reported Result is      : " << q << std::endl;
         return EXIT_FAILURE;
       }
-      else
-      {
-        std::cout << "Ok translating an vnl_Vector " << std::endl;
-      }
+
+      std::cout << "Ok translating an vnl_Vector " << std::endl;
     }
   }
 
@@ -290,10 +282,8 @@ itkQuaternionRigidTransformTest(int, char *[])
         std::cerr << "Reported Result is     : " << r << std::endl;
         return EXIT_FAILURE;
       }
-      else
-      {
-        std::cout << "Ok translating an itk::Point " << std::endl;
-      }
+
+      std::cout << "Ok translating an itk::Point " << std::endl;
     }
 
     {
@@ -323,10 +313,8 @@ itkQuaternionRigidTransformTest(int, char *[])
         std::cerr << "Reported Result is     : " << r << std::endl;
         return EXIT_FAILURE;
       }
-      else
-      {
-        std::cout << "Ok rotating an itk::Vector " << std::endl;
-      }
+
+      std::cout << "Ok rotating an itk::Vector " << std::endl;
     }
 
     {
@@ -356,10 +344,8 @@ itkQuaternionRigidTransformTest(int, char *[])
         std::cerr << "Reported Result is             : " << r << std::endl;
         return EXIT_FAILURE;
       }
-      else
-      {
-        std::cout << "Ok translating an itk::CovariantVector " << std::endl;
-      }
+
+      std::cout << "Ok translating an itk::CovariantVector " << std::endl;
     }
 
     {
@@ -392,10 +378,8 @@ itkQuaternionRigidTransformTest(int, char *[])
         std::cerr << "Reported Result is           : " << r << std::endl;
         return EXIT_FAILURE;
       }
-      else
-      {
-        std::cout << "Ok translating an vnl_Vector " << std::endl;
-      }
+
+      std::cout << "Ok translating an vnl_Vector " << std::endl;
     }
   }
 
@@ -481,10 +465,9 @@ itkQuaternionRigidTransformTest(int, char *[])
         std::cerr << " [ FAILED ] " << std::endl;
         return EXIT_FAILURE;
       }
-      else
-      {
-        std::cout << " [ PASSED ] compute inverse transform" << std::endl;
-      }
+
+      std::cout << " [ PASSED ] compute inverse transform" << std::endl;
+
       pOut = inverseQuaternionRigid->TransformPoint(quaternionRigid->TransformPoint(pInit));
     }
     // pOut should equate pInit
@@ -629,10 +612,8 @@ itkQuaternionRigidTransformTest(int, char *[])
         std::cerr << "Reported Result is     : " << r << std::endl;
         return EXIT_FAILURE;
       }
-      else
-      {
-        std::cout << "Ok translating an itk::Point " << std::endl;
-      }
+
+      std::cout << "Ok translating an itk::Point " << std::endl;
     }
 
     {
@@ -662,10 +643,8 @@ itkQuaternionRigidTransformTest(int, char *[])
         std::cerr << "Reported Result is     : " << r << std::endl;
         return EXIT_FAILURE;
       }
-      else
-      {
-        std::cout << "Ok rotating an itk::Vector " << std::endl;
-      }
+
+      std::cout << "Ok rotating an itk::Vector " << std::endl;
     }
 
     {
@@ -695,10 +674,8 @@ itkQuaternionRigidTransformTest(int, char *[])
         std::cerr << "Reported Result is             : " << r << std::endl;
         return EXIT_FAILURE;
       }
-      else
-      {
-        std::cout << "Ok translating an itk::CovariantVector " << std::endl;
-      }
+
+      std::cout << "Ok translating an itk::CovariantVector " << std::endl;
     }
 
     {
@@ -731,10 +708,8 @@ itkQuaternionRigidTransformTest(int, char *[])
         std::cerr << "Reported Result is           : " << r << std::endl;
         return EXIT_FAILURE;
       }
-      else
-      {
-        std::cout << "Ok translating an vnl_Vector " << std::endl;
-      }
+
+      std::cout << "Ok translating an vnl_Vector " << std::endl;
     }
   }
 

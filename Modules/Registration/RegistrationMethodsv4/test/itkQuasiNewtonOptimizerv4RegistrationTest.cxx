@@ -330,7 +330,7 @@ itkQuasiNewtonOptimizerv4RegistrationTest(int argc, char * argv[])
     // using AffineTransformType = itk::Euler2DTransform<double>;
     return itkQuasiNewtonOptimizerv4RegistrationTestMain<2, AffineTransformType>(argc, argv);
   }
-  else if (Dimension == 3)
+  if (Dimension == 3)
   {
     using AffineTransformType = itk::AffineTransform<double, 3>;
     // using AffineTransformType = itk::Euler3DTransform<double>;

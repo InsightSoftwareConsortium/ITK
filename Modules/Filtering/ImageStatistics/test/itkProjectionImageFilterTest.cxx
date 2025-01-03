@@ -60,10 +60,8 @@ public:
     {
       return 100;
     }
-    else
-    {
-      return 0;
-    }
+
+    return 0;
   }
 
   bool m_IsForeground{ false };

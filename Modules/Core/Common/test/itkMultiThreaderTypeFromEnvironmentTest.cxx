@@ -92,8 +92,6 @@ itkMultiThreaderTypeFromEnvironmentTest(int argc, char * argv[])
     std::cout << "Test PASSED!" << std::endl;
     return EXIT_SUCCESS;
   }
-  else
-  {
-    return EXIT_FAILURE;
-  }
+
+  return EXIT_FAILURE;
 }

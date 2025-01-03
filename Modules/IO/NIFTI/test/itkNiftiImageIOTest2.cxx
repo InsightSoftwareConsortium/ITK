@@ -67,8 +67,6 @@ itkNiftiImageIOTest2(int argc, char * argv[])
   {
     return test_success;
   }
-  else
-  {
-    return !test_success;
-  }
+
+  return !test_success;
 }

@@ -57,10 +57,8 @@ LevelSetEquationCurvatureTerm<TInput, TLevelSetContainer, TCurvatureImage>::Valu
   {
     return iData.MeanCurvature.m_Value;
   }
-  else
-  {
-    return m_CurvatureImage->GetPixel(iP) * iData.MeanCurvature.m_Value;
-  }
+
+  return m_CurvatureImage->GetPixel(iP) * iData.MeanCurvature.m_Value;
 }
 
 template <typename TInput, typename TLevelSetContainer, typename TCurvatureImage>
@@ -105,10 +103,8 @@ LevelSetEquationCurvatureTerm<TInput, TLevelSetContainer, TCurvatureImage>::Valu
   {
     return this->m_CurrentLevelSetPointer->EvaluateMeanCurvature(iP);
   }
-  else
-  {
-    return m_CurvatureImage->GetPixel(iP) * this->m_CurrentLevelSetPointer->EvaluateMeanCurvature(iP);
-  }
+
+  return m_CurvatureImage->GetPixel(iP) * this->m_CurrentLevelSetPointer->EvaluateMeanCurvature(iP);
 }
 
 } // namespace itk

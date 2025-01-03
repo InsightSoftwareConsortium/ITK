@@ -109,16 +109,14 @@ DisplacementFieldTransform<TParametersValueType, VDimension>::GetInverse(Self * 
   {
     return false;
   }
-  else
-  {
-    inverse->SetFixedParameters(this->GetFixedParameters());
-    inverse->SetDisplacementField(this->m_InverseDisplacementField);
-    inverse->SetInverseDisplacementField(this->m_DisplacementField);
-    inverse->SetInterpolator(this->m_InverseInterpolator);
-    inverse->SetInverseInterpolator(this->m_Interpolator);
 
-    return true;
-  }
+  inverse->SetFixedParameters(this->GetFixedParameters());
+  inverse->SetDisplacementField(this->m_InverseDisplacementField);
+  inverse->SetInverseDisplacementField(this->m_DisplacementField);
+  inverse->SetInterpolator(this->m_InverseInterpolator);
+  inverse->SetInverseInterpolator(this->m_Interpolator);
+
+  return true;
 }
 
 template <typename TParametersValueType, unsigned int VDimension>

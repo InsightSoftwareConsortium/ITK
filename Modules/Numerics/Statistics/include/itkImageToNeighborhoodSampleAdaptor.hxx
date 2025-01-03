@@ -52,20 +52,18 @@ ImageToNeighborhoodSampleAdaptor<TImage, TBoundaryCondition>::GetMeasurementVect
   {
     return m_MeasurementVectorInternal;
   }
-  else
-  {
-    IndexType reqIndex;
-    ImageHelper<ImageType::ImageDimension, ImageType::ImageDimension>::ComputeIndex(
-      m_Region.GetIndex(), id, m_OffsetTable, reqIndex);
 
-    const OffsetType offset = reqIndex - m_NeighborIndexInternal;
+  IndexType reqIndex;
+  ImageHelper<ImageType::ImageDimension, ImageType::ImageDimension>::ComputeIndex(
+    m_Region.GetIndex(), id, m_OffsetTable, reqIndex);
 
-    m_NeighborIndexInternal = reqIndex;
-    m_MeasurementVectorInternal[0] += offset;
-    m_InstanceIdentifierInternal = id;
+  const OffsetType offset = reqIndex - m_NeighborIndexInternal;
 
-    return m_MeasurementVectorInternal;
-  }
+  m_NeighborIndexInternal = reqIndex;
+  m_MeasurementVectorInternal[0] += offset;
+  m_InstanceIdentifierInternal = id;
+
+  return m_MeasurementVectorInternal;
 }
 
 /** returns the number of measurement vectors in this container*/

@@ -167,10 +167,8 @@ protected:
     {
       return true;
     }
-    else
-    {
-      return false;
-    }
+
+    return false;
   }
 
   /** Initialize the state of filter and equation before each iteration.

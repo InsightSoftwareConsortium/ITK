@@ -119,10 +119,8 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::ComparePoints2D(Point
   {
     return (a[0] < b[0]);
   }
-  else
-  {
-    return (a[1] < b[1]);
-  }
+
+  return (a[1] < b[1]);
 }
 
 template <typename TInputMesh, typename TOutputImage>
@@ -413,10 +411,9 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::RasterizeTriangles()
       {
         continue; // this is a peripheral point in the zy projection plane
       }
-      else
-      {
-        std::sort(xlist.begin(), xlist.end(), ComparePoints1D);
-      }
+
+      std::sort(xlist.begin(), xlist.end(), ComparePoints1D);
+
       // get the first entry
       double lastx = xlist[0].m_X;
       int    lastSign = xlist[0].m_Sign;

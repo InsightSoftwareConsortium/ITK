@@ -56,7 +56,7 @@ PipelineMonitorImageFilter<TImageType>::VerifyInputFilterExecutedStreaming(int e
   {
     return true;
   }
-  else if (expectedNumber < 0 && static_cast<unsigned int>(-expectedNumber) <= this->GetNumberOfUpdates())
+  if (expectedNumber < 0 && static_cast<unsigned int>(-expectedNumber) <= this->GetNumberOfUpdates())
   {
     return true;
   }

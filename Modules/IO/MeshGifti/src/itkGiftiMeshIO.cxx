@@ -108,10 +108,8 @@ GiftiMeshIO::GetLabelColorTable()
   {
     return colorMap;
   }
-  else
-  {
-    return nullptr;
-  }
+
+  return nullptr;
 }
 
 GiftiMeshIO::LabelNameContainerPointer
@@ -122,10 +120,8 @@ GiftiMeshIO::GetLabelNameTable()
   {
     return labelMap;
   }
-  else
-  {
-    return nullptr;
-  }
+
+  return nullptr;
 }
 
 void

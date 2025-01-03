@@ -405,16 +405,15 @@ EdgeDecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>::CheckQEProcessing
           itkDebugMacro("RemoveSamosa");
           return 1;
         } // end if( OriginOrderIsTwo && DestinationOrderIsTwo )
-        else
-        {
-          // two triangles share three points and two edges
-          // the last edge is duplicated = two edge cells
-          // having the same points. It is a valid manifold case
-          // but you have to decimate it the right way.
-          // from the top the drawing of that case looks like an Eye
-          itkDebugMacro("RemoveEye");
-          return 2;
-        } // end else if( OriginOrderIsTwo && DestinationOrderIsTwo )
+
+        // two triangles share three points and two edges
+        // the last edge is duplicated = two edge cells
+        // having the same points. It is a valid manifold case
+        // but you have to decimate it the right way.
+        // from the top the drawing of that case looks like an Eye
+        itkDebugMacro("RemoveEye");
+        return 2;
+        // end else if( OriginOrderIsTwo && DestinationOrderIsTwo )
       } // end if( OriginOrderIsTwo || DestinationOrderIsTwo )
       else // if( OriginOrderIsTwo || DestinationOrderIsTwo )
       {
@@ -424,10 +423,9 @@ EdgeDecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>::CheckQEProcessing
           itkDebugMacro("NumberOfCommonVerticesIn0Ring( ) > 2");
           return 3;
         } // end if( NumberOfCommonVerticesIn0Ring( ) > 2 )
-        else
-        {
-          return 0;
-        }
+
+        return 0;
+
       } // end else if( OriginOrderIsTwo || DestinationOrderIsTwo )
     } // end if( LeftIsTriangle && RightIsTriangle )
     else // if( LeftIsTriangle && RightIsTriangle )
@@ -437,17 +435,16 @@ EdgeDecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>::CheckQEProcessing
         itkDebugMacro("NumberOfCommonVerticesIn0Ring( ) > 1");
         return 4;
       } // end if( NumberOfCommonVerticesIn0Ring( ) > 1 )
-      else // if( NumberOfCommonVerticesIn0Ring( ) > 1 )
+      // if( NumberOfCommonVerticesIn0Ring( ) > 1 )
+      if (RightIsTriangle)
       {
-        if (RightIsTriangle)
-        {
-          return 5;
-        }
-        else
-        {
-          return 6;
-        }
-      } // end else if( NumberOfCommonVerticesIn0Ring( ) > 1 )
+        return 5;
+      }
+      else
+      {
+        return 6;
+      }
+      // end else if( NumberOfCommonVerticesIn0Ring( ) > 1 )
     } // end else if( LeftIsTriangle && RightIsTriangle )
   } // end if( LeftIsTriangle || RightIsTriangle )
   else // if( LeftIsTriangle || RightIsTriangle )
@@ -456,10 +453,9 @@ EdgeDecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>::CheckQEProcessing
     {
       return 7;
     }
-    else
-    {
-      return 0;
-    }
+
+    return 0;
+
   } // end if( LeftIsTriangle || RightIsTriangle )
 
   //   return 0;
@@ -568,10 +564,8 @@ EdgeDecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>::IsCriterionSatisf
   {
     return true;
   }
-  else
-  {
-    return this->m_Criterion->is_satisfied(this->GetOutput(), 0, m_Priority.second);
-  }
+
+  return this->m_Criterion->is_satisfied(this->GetOutput(), 0, m_Priority.second);
 }
 } // namespace itk
 #endif

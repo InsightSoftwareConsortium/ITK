@@ -90,10 +90,8 @@ SpatialObjectPoint<TPointDimension>::GetTagScalarValue(const std::string & tag, 
     value = iter->second;
     return true;
   }
-  else
-  {
-    return false;
-  }
+
+  return false;
 }
 
 template <unsigned int TPointDimension>

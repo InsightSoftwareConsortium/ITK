@@ -110,7 +110,7 @@ itkTIFFImageIOTest(int argc, char * argv[])
               << "[pixeltype: 1:RBG<char>(default); 2:RBG<ushort>; 3:short; 4:float; 5:ushort]" << std::endl;
     return EXIT_FAILURE;
   }
-  else if (argc == 4)
+  if (argc == 4)
   {
     dimension = std::stoi(argv[3]);
   }
@@ -125,7 +125,7 @@ itkTIFFImageIOTest(int argc, char * argv[])
     using PixelType = itk::RGBPixel<unsigned char>;
     return itkTIFFImageIOTestHelper<itk::Image<PixelType, 2>>(argc, argv);
   }
-  else if (dimension == 2 && pixelType == 2)
+  if (dimension == 2 && pixelType == 2)
   {
     using PixelType = itk::RGBPixel<unsigned short>;
     return itkTIFFImageIOTestHelper<itk::Image<PixelType, 2>>(argc, argv);

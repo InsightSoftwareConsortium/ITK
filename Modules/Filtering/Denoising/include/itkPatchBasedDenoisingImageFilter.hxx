@@ -92,11 +92,9 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::GetThreadData(int thr
   {
     return m_ThreadData[threadId];
   }
-  else
-  {
-    itkExceptionMacro("Invalid thread id " << threadId << " or GetThreadData called before m_ThreadData (size="
-                                           << m_ThreadData.size() << ") was initialized.");
-  }
+
+  itkExceptionMacro("Invalid thread id " << threadId << " or GetThreadData called before m_ThreadData (size="
+                                         << m_ThreadData.size() << ") was initialized.");
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -182,21 +180,19 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::GenerateInputRequeste
     inputPtr->SetRequestedRegion(inputRequestedRegion);
     return;
   }
-  else
-  {
-    // Couldn't crop the region (requested region is outside the largest
-    // possible region). Throw an exception.
 
-    // Store what we tried to request (prior to trying to crop)
-    inputPtr->SetRequestedRegion(inputRequestedRegion);
+  // Couldn't crop the region (requested region is outside the largest
+  // possible region). Throw an exception.
 
-    // Build an exception
-    InvalidRequestedRegionError e(__FILE__, __LINE__);
-    e.SetLocation(ITK_LOCATION);
-    e.SetDescription("Requested region is (at least partially) outside the largest possible region");
-    e.SetDataObject(inputPtr);
-    throw e;
-  }
+  // Store what we tried to request (prior to trying to crop)
+  inputPtr->SetRequestedRegion(inputRequestedRegion);
+
+  // Build an exception
+  InvalidRequestedRegionError e(__FILE__, __LINE__);
+  e.SetLocation(ITK_LOCATION);
+  e.SetDescription("Requested region is (at least partially) outside the largest possible region");
+  e.SetDataObject(inputPtr);
+  throw e;
 }
 
 template <typename TInputImage, typename TOutputImage>

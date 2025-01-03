@@ -185,10 +185,8 @@ ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordinate>::GetGauss
   {
     return this->m_Gaussians[i].GetPointer();
   }
-  else
-  {
-    return nullptr;
-  }
+
+  return nullptr;
 }
 
 /**

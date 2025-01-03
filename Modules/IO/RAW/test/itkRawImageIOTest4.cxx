@@ -203,10 +203,9 @@ itkRawImageIOTest4(int argc, char * argv[])
     std::cerr << "Reading Raw BigEndian FAILED !!" << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << "Reading Raw BigEndian PASSED !!" << std::endl << std::endl;
-  }
+
+  std::cout << "Reading Raw BigEndian PASSED !!" << std::endl << std::endl;
+
 
   std::cout << "Testing read of Little Endian File" << std::endl;
   fileIsBigEndian = false;
@@ -216,10 +215,9 @@ itkRawImageIOTest4(int argc, char * argv[])
     std::cerr << "Reading Raw LittleEndian FAILED !!" << std::endl;
     return EXIT_FAILURE;
   }
-  else
-  {
-    std::cout << "Reading Raw LittleEndian PASSED !!" << std::endl << std::endl;
-  }
+
+  std::cout << "Reading Raw LittleEndian PASSED !!" << std::endl << std::endl;
+
 
   std::cout << "Test PASSED !!" << std::endl << std::endl;
 

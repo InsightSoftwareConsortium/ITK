@@ -209,21 +209,19 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>::GenerateData()
         threshold = Tprev;
         break;
       }
+
+      typename HistogramType::MeasurementVectorType v(1);
+      typename HistogramType::IndexType             idx;
+      v[0] = temp;
+      const bool status = histogram->GetIndex(v, idx);
+      itkAssertInDebugAndIgnoreInReleaseMacro(status);
+      if (status)
+      {
+        threshold = Math::Floor<IndexValueType>(static_cast<double>(idx[0]));
+      }
       else
       {
-        typename HistogramType::MeasurementVectorType v(1);
-        typename HistogramType::IndexType             idx;
-        v[0] = temp;
-        const bool status = histogram->GetIndex(v, idx);
-        itkAssertInDebugAndIgnoreInReleaseMacro(status);
-        if (status)
-        {
-          threshold = Math::Floor<IndexValueType>(static_cast<double>(idx[0]));
-        }
-        else
-        {
-          itkExceptionMacro("KittlerIllingworthThresholdCalculator failed to lookup threshold");
-        }
+        itkExceptionMacro("KittlerIllingworthThresholdCalculator failed to lookup threshold");
       }
     }
   }

@@ -192,7 +192,7 @@ public:
     {
       return VLength;
     }
-    else if (b->Size() != VLength)
+    if (b->Size() != VLength)
     {
       itkGenericExceptionMacro(<< errMsg);
     }
@@ -229,7 +229,7 @@ public:
     {
       return VLength;
     }
-    else if (b->Size() != VLength)
+    if (b->Size() != VLength)
     {
       itkGenericExceptionMacro(<< errMsg);
     }
@@ -262,7 +262,7 @@ public:
     {
       return VLength;
     }
-    else if (b->size() != VLength)
+    if (b->size() != VLength)
     {
       itkGenericExceptionMacro(<< errMsg);
     }
@@ -277,7 +277,7 @@ public:
     {
       return VLength;
     }
-    else if (l != VLength)
+    if (l != VLength)
     {
       itkGenericExceptionMacro(<< errMsg);
     }
@@ -292,7 +292,7 @@ public:
     {
       return VLength;
     }
-    else if (l != VLength)
+    if (l != VLength)
     {
       itkGenericExceptionMacro(<< errMsg);
     }

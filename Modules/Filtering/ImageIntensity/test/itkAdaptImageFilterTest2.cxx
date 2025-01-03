@@ -191,9 +191,6 @@ itkAdaptImageFilterTest2(int, char *[])
     std::cout << "AdaptImageFilterTest2 passed" << std::endl;
     return EXIT_SUCCESS;
   }
-  else
-  {
-    std::cout << "AdaptImageFilterTest2 passed" << std::endl;
-    return EXIT_FAILURE;
-  }
+  std::cout << "AdaptImageFilterTest2 passed" << std::endl;
+  return EXIT_FAILURE;
 }

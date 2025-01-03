@@ -82,11 +82,9 @@ TestKernelTransform(const char * name, KernelType *)
     std::cout << "PASS" << std::endl;
     return 0;
   }
-  else
-  {
-    std::cout << "FAIL" << std::endl;
-    return 1;
-  }
+
+  std::cout << "FAIL" << std::endl;
+  return 1;
 }
 
 // Main Program

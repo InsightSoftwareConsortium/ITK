@@ -96,7 +96,7 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>::S
   {
     return -1;
   }
-  else if (a > 0)
+  if (a > 0)
   {
     return 1;
   }

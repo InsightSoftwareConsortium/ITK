@@ -32,20 +32,18 @@ LevelSetFunction<TImageType>::ComputeCurvatureTerm(const NeighborhoodType & neig
   {
     return this->ComputeMeanCurvature(neighborhood, offset, gd);
   }
+
+  if constexpr (ImageDimension == 3)
+  {
+    return this->Compute3DMinimalCurvature(neighborhood, offset, gd);
+  }
+  else if constexpr (ImageDimension == 2)
+  {
+    return this->ComputeMeanCurvature(neighborhood, offset, gd);
+  }
   else
   {
-    if constexpr (ImageDimension == 3)
-    {
-      return this->Compute3DMinimalCurvature(neighborhood, offset, gd);
-    }
-    else if constexpr (ImageDimension == 2)
-    {
-      return this->ComputeMeanCurvature(neighborhood, offset, gd);
-    }
-    else
-    {
-      return this->ComputeMinimalCurvature(neighborhood, offset, gd);
-    }
+    return this->ComputeMinimalCurvature(neighborhood, offset, gd);
   }
 }
 

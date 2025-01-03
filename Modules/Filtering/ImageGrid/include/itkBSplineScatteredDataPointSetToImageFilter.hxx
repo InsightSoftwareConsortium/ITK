@@ -376,10 +376,8 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::SplitRe
   {
     return this->GetNumberOfWorkUnits();
   }
-  else // we split on the output region for reconstruction
-  {
-    return Superclass::SplitRequestedRegion(i, num, splitRegion);
-  }
+  // we split on the output region for reconstruction
+  return Superclass::SplitRequestedRegion(i, num, splitRegion);
 }
 
 template <typename TInputPointSet, typename TOutputImage>

@@ -147,10 +147,8 @@ MixtureModelComponentBase<TSample>::GetWeight(unsigned int index) const
   {
     return m_Weights[index];
   }
-  else
-  {
-    itkExceptionMacro("Weight array is not allocated.");
-  }
+
+  itkExceptionMacro("Weight array is not allocated.");
 }
 
 template <typename TSample>

@@ -132,10 +132,8 @@ TDistribution::CDF(double x, SizeValueType degreesOfFreedom)
   {
     return 1.0 - 0.5 * dbetai_(&bx, &pin, &qin);
   }
-  else
-  {
-    return 0.5 * dbetai_(&bx, &pin, &qin);
-  }
+
+  return 0.5 * dbetai_(&bx, &pin, &qin);
 }
 
 double
@@ -156,7 +154,7 @@ TDistribution::InverseCDF(double p, SizeValueType degreesOfFreedom)
   {
     return itk::NumericTraits<double>::NonpositiveMin();
   }
-  else if (p >= 1.0)
+  if (p >= 1.0)
   {
     return itk::NumericTraits<double>::max();
   }
@@ -342,10 +340,8 @@ TDistribution::GetVariance() const
 
       return dof / (dof - 2.0);
     }
-    else
-    {
-      return NumericTraits<double>::quiet_NaN();
-    }
+
+    return NumericTraits<double>::quiet_NaN();
   }
   else
   {

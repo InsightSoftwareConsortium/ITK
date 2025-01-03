@@ -99,21 +99,19 @@ QuadEdgeMeshFrontBaseIterator<TMesh, TQE>::operator++()
     {
       continue;
     }
-    else
-    {
-      // Mark the destination as visited:
-      m_IsPointVisited->SetElement(oEdge->GetDestination(), true);
 
-      // Compute the Cost of the new OriginType:
-      const CoordinateType oCost = this->GetCost(oEdge) + fit->m_Cost;
+    // Mark the destination as visited:
+    m_IsPointVisited->SetElement(oEdge->GetDestination(), true);
 
-      // Push the Sym() on the front:
-      m_Front->push_back(FrontAtom(oEdge->GetSym(), oCost));
+    // Compute the Cost of the new OriginType:
+    const CoordinateType oCost = this->GetCost(oEdge) + fit->m_Cost;
 
-      // We still want to handle oEdge
-      m_CurrentEdge = oEdge;
-      return (*this);
-    }
+    // Push the Sym() on the front:
+    m_Front->push_back(FrontAtom(oEdge->GetSym(), oCost));
+
+    // We still want to handle oEdge
+    m_CurrentEdge = oEdge;
+    return (*this);
   }
 
   // All the edge->Origin() neighbours were already visited. Remove
