@@ -344,10 +344,12 @@ protected:
   virtual void
   LinearThreadedGenerateData(const OutputImageRegionType & outputRegionForThread);
 
+#if !defined(ITK_LEGACY_REMOVE)
   /** Cast pixel from interpolator output to PixelType. */
   itkLegacyMacro(virtual PixelType CastPixelWithBoundsChecking(const InterpolatorOutputType value,
                                                                const ComponentType          minComponent,
                                                                const ComponentType          maxComponent) const;)
+#endif
 
 private:
   static PixelComponentType
