@@ -345,7 +345,7 @@ StreamingImageIOBase::GetActualNumberOfSplitsForWriting(unsigned int          nu
 
     // need to remove the file incase the file doesn't match our
     // current header/meta data information
-    if (!itksys::SystemTools::RemoveFile(m_FileName.c_str()))
+    if (!itksys::SystemTools::RemoveFile(m_FileName))
     {
       itkExceptionMacro("Unable to remove file for streaming: " << m_FileName);
     }

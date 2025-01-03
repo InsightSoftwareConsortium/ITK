@@ -136,7 +136,7 @@ main(int, char *[])
     std::cout << "Normal = " << (*it).GetNormalInObjectSpace() << std::endl;
     std::cout << "Color = " << (*it).GetColor() << std::endl;
     std::cout << std::endl;
-    it++;
+    ++it;
   }
   // Software Guide : EndCodeSnippet
 

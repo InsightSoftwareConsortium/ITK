@@ -414,7 +414,7 @@ LabelMap<TLabelObject>::PushLabelObject(LabelObjectType * labelObject)
       // search for an unused label
       LabelType                         label = firstLabel;
       LabelObjectContainerConstIterator it;
-      for (it = m_LabelObjectContainer.begin(); it != m_LabelObjectContainer.end(); it++, label++)
+      for (it = m_LabelObjectContainer.begin(); it != m_LabelObjectContainer.end(); ++it, ++label)
       {
         assert((it->second.IsNotNull()));
         if (label == m_BackgroundValue)

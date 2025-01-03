@@ -64,11 +64,11 @@ TimeVaryingVelocityFieldIntegrationImageFilter<TTimeVaryingVelocityField,
 {
   const TimeVaryingVelocityFieldType * input = this->GetInput();
   DisplacementFieldType *              output = this->GetOutput();
-  this->m_NumberOfTimePoints = input->GetLargestPossibleRegion().GetSize()[OutputImageDimension];
   if (!input || !output)
   {
     return;
   }
+  this->m_NumberOfTimePoints = input->GetLargestPossibleRegion().GetSize()[OutputImageDimension];
 
   //
   // The ImageBase::CopyInformation() method ca not be used here

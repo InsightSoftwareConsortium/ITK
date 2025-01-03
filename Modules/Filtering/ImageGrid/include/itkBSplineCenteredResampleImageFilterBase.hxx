@@ -365,7 +365,7 @@ BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>::Expand1DImage
 
   // Now apply the Haar[-x]
   --out;
-  for (IndexValueType j = outTraverseSize - 1; j > 0L; j--)
+  for (IndexValueType j = outTraverseSize - 1; j > 0L; --j)
   {
     // out[j] = (out[j] + out[j-1]/2.0;
     outVal = out.Get();

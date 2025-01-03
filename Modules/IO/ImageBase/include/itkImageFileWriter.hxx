@@ -117,7 +117,7 @@ ImageFileWriter<TInputImage>::Write()
     ImageFileWriterException              e(__FILE__, __LINE__);
     std::ostringstream                    msg;
     const std::list<LightObject::Pointer> allobjects = ObjectFactoryBase::CreateAllInstance("itkImageIOBase");
-    msg << " Could not create IO object for writing file " << m_FileName.c_str() << std::endl;
+    msg << " Could not create IO object for writing file " << m_FileName << std::endl;
     if (!allobjects.empty())
     {
       msg << "  Tried to create one of the following:" << std::endl;

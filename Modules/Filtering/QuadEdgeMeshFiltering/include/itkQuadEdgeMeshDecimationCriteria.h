@@ -135,14 +135,14 @@ public:
   using typename Superclass::PriorityType;
 
   inline bool
-  is_satisfied(MeshType * iMesh, const ElementType & itkNotUsed(iElement), const MeasureType & itkNotUsed(iValue)) const
+  is_satisfied(MeshType * iMesh, const ElementType & itkNotUsed(iElement), const MeasureType & itkNotUsed(iValue)) const override
   {
     return (iMesh->GetNumberOfPoints() <= this->m_NumberOfElements);
   }
 
 protected:
   NumberOfPointsCriterion() = default;
-  ~NumberOfPointsCriterion() = default;
+  ~NumberOfPointsCriterion() override = default;
 };
 
 /**
@@ -276,14 +276,14 @@ public:
   using typename Superclass::PriorityType;
 
   inline bool
-  is_satisfied(MeshType *, const ElementType &, const MeasureType & iValue) const
+  is_satisfied(MeshType *, const ElementType &, const MeasureType & iValue) const override
   {
     return (iValue >= this->m_MeasureBound);
   }
 
 protected:
   MinMeasureBoundCriterion() = default;
-  ~MinMeasureBoundCriterion() = default;
+  ~MinMeasureBoundCriterion() override = default;
 };
 } // namespace itk
 

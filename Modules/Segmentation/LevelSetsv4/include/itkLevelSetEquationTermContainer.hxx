@@ -186,7 +186,7 @@ LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::GetTerm(const st
 
   if (it == m_Container.end())
   {
-    itkGenericExceptionMacro("the term " << iName.c_str() << " is not present in the container");
+    itkGenericExceptionMacro("the term " << iName << " is not present in the container");
   }
 
   return it->second;

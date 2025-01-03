@@ -395,7 +395,7 @@ BMPImageIO::ReadImageInformation()
     // error checking
     if ((infoSize != 40) && (infoSize != 12))
     {
-      itkExceptionMacro("Unknown file type! " << m_FileName.c_str() << " is not a Windows BMP file!");
+      itkExceptionMacro("Unknown file type! " << m_FileName << " is not a Windows BMP file!");
     }
 
     // there are two different types of BMP files
@@ -429,7 +429,7 @@ BMPImageIO::ReadImageInformation()
     // error checking
     if ((infoSize != 40) && (infoSize != 12))
     {
-      itkExceptionMacro("Unknown file type! " << m_FileName.c_str() << " is not a Windows BMP file!");
+      itkExceptionMacro("Unknown file type! " << m_FileName << " is not a Windows BMP file!");
     }
 
     // there are two different types of BMP files

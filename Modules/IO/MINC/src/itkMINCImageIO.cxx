@@ -292,7 +292,7 @@ MINCImageIO::ReadImageInformation()
   if (miopen_volume(m_FileName.c_str(), MI2_OPEN_READ, &m_MINCPImpl->m_Volume) < 0)
   {
     // Error opening the volume
-    itkExceptionMacro("Could not open file \"" << m_FileName.c_str() << "\".");
+    itkExceptionMacro("Could not open file \"" << m_FileName << "\".");
   }
 
   // find out how many dimensions are there regularly sampled
@@ -1059,7 +1059,7 @@ MINCImageIO::WriteImageInformation()
   if (ExposeMetaData<std::string>(thisDic, "dimension_order", dimension_order))
   {
     // the format should be ((+|-)(X|Y|Z|V|T))*
-    // std::cout<<"Restoring original dimension order:"<<dimension_order.c_str()<<std::endl;
+    // std::cout<<"Restoring original dimension order:"<<dimension_order<<std::endl;
     if (dimension_order.length() == (minc_dimensions * 2))
     {
       dimorder_good = true;
@@ -1073,7 +1073,7 @@ MINCImageIO::WriteImageInformation()
           case 'V':
             if (nComp <= 1)
             {
-              itkDebugMacro("Dimension order is incorrect " << dimension_order.c_str());
+              itkDebugMacro("Dimension order is incorrect " << dimension_order);
               dimorder_good = false;
             }
             else
@@ -1085,7 +1085,7 @@ MINCImageIO::WriteImageInformation()
           case 'T':
             if (nComp <= 1)
             {
-              itkDebugMacro("Dimension order is incorrect " << dimension_order.c_str());
+              itkDebugMacro("Dimension order is incorrect " << dimension_order);
               dimorder_good = false;
             }
             else
@@ -1106,7 +1106,7 @@ MINCImageIO::WriteImageInformation()
             j = m_MINCPImpl->m_NDims - 1 - ((nComp > 1 ? 1 : 0) + 2);
             break;
           default:
-            itkDebugMacro("Dimension order is incorrect " << dimension_order.c_str());
+            itkDebugMacro("Dimension order is incorrect " << dimension_order);
             dimorder_good = false;
             j = 0;
             break;
@@ -1140,7 +1140,7 @@ MINCImageIO::WriteImageInformation()
     }
     else
     {
-      itkDebugMacro("Dimension order is incorrect " << dimension_order.c_str());
+      itkDebugMacro("Dimension order is incorrect " << dimension_order);
     }
   }
 
@@ -1196,14 +1196,14 @@ MINCImageIO::WriteImageInformation()
     // Error opening the volume
     MINCIOFreeTmpDimHandle(minc_dimensions, m_MINCPImpl->m_MincApparentDims);
     mifree_volume_props(hprops);
-    itkExceptionMacro("Could not open file \"" << m_FileName.c_str() << "\".");
+    itkExceptionMacro("Could not open file \"" << m_FileName << "\".");
   }
 
   if (micreate_volume_image(m_MINCPImpl->m_Volume) < 0)
   {
     // Error opening the volume
     mifree_volume_props(hprops);
-    itkExceptionMacro("Could not create image in  file \"" << m_FileName.c_str() << "\".");
+    itkExceptionMacro("Could not create image in  file \"" << m_FileName << "\".");
   }
 
   if (miset_apparent_dimension_order(m_MINCPImpl->m_Volume, minc_dimensions, m_MINCPImpl->m_MincApparentDims) < 0)

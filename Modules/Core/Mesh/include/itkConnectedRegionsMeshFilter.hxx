@@ -208,7 +208,7 @@ ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
     }
   }
   // Otherwise, seeds are used to indicate the region
-  else if (m_ExtractionMode == PointSeededRegions)
+  else
   {
     m_NumberOfCellsInRegion = 0;
     if (m_ExtractionMode == PointSeededRegions)

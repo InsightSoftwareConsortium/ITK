@@ -450,7 +450,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
   if (m_MeshIO.IsNull())
   {
     std::ostringstream msg;
-    msg << " Could not create IO object for file " << m_FileName.c_str() << std::endl;
+    msg << " Could not create IO object for file " << m_FileName << std::endl;
     if (!m_ExceptionMessage.empty())
     {
       msg << m_ExceptionMessage;

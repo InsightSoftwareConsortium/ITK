@@ -111,7 +111,7 @@ ActualTest(std::string inputFileName,
 
   // We remove the output file
   // NOTE ALEX: should we check it exists first?
-  itksys::SystemTools::RemoveFile(outputFileName.c_str());
+  itksys::SystemTools::RemoveFile(outputFileName);
 
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType, 3>;

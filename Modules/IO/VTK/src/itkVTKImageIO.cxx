@@ -270,7 +270,7 @@ VTKImageIO::InternalReadImageInformation(std::ifstream & file)
       this->SetNumberOfComponents(3);
       this->SetPixelType(IOPixelEnum::VECTOR);
       char pixelType[256];
-      sscanf(text.c_str(), "%*s %*s %s", pixelType);
+      sscanf(text.c_str(), "%*s %*s %255s", pixelType);
       text = pixelType;
 
       this->SetPixelTypeFromString(text);
@@ -317,7 +317,7 @@ VTKImageIO::InternalReadImageInformation(std::ifstream & file)
       char         pixelType[256];
       unsigned int numComp = 1;
       // numComp is optional
-      sscanf(text.c_str(), "%*s %*s %s %u", pixelType, &numComp);
+      sscanf(text.c_str(), "%*s %*s %255s %u", pixelType, &numComp);
       text = pixelType;
       if (numComp == 1)
       {
@@ -346,7 +346,7 @@ VTKImageIO::InternalReadImageInformation(std::ifstream & file)
       readAttribute = true;
 
       char pixelType[256];
-      sscanf(text.c_str(), "%*s %*s %s", pixelType);
+      sscanf(text.c_str(), "%*s %*s %255s", pixelType);
       text = pixelType;
       this->SetPixelType(IOPixelEnum::SYMMETRICSECONDRANKTENSOR);
       this->SetNumberOfComponents(6);

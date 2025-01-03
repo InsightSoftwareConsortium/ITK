@@ -239,7 +239,7 @@ itkHDF5ImageIOStreamingReadWriteTest(int argc, char * argv[])
   {
     prefix = *++argv;
     --argc;
-    itksys::SystemTools::ChangeDirectory(prefix.c_str());
+    itksys::SystemTools::ChangeDirectory(prefix);
   }
   itk::ObjectFactoryBase::RegisterFactory(itk::HDF5ImageIOFactory::New());
 

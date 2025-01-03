@@ -114,7 +114,7 @@ itkShapedNeighborhoodIteratorTest(int, char *[])
     while (!ci.IsAtEnd())
     {
       std::cout << ci.GetNeighborhoodIndex() << " -> " << ci.GetNeighborhoodOffset() << " = " << ci.Get() << std::endl;
-      ci++;
+      ++ci;
     }
   }
 
@@ -131,7 +131,7 @@ itkShapedNeighborhoodIteratorTest(int, char *[])
     while (ci != it.Begin())
     {
       std::cout << ci.GetNeighborhoodIndex() << " -> " << ci.GetNeighborhoodOffset() << " = " << ci.Get() << std::endl;
-      ci--;
+      --ci;
     }
     std::cout << ci.GetNeighborhoodIndex() << " -> " << ci.GetNeighborhoodOffset() << " = " << ci.Get() << std::endl;
   }

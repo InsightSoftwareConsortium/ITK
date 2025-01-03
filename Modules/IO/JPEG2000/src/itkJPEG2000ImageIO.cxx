@@ -360,10 +360,7 @@ JPEG2000ImageIO::ReadImageInformation()
     this->m_Internal->m_Dinfo = nullptr;
   }
 
-  if (l_image)
-  {
-    opj_image_destroy(l_image);
-  }
+  opj_image_destroy(l_image);
 }
 
 void
@@ -712,7 +709,7 @@ JPEG2000ImageIO::Write(const void * buffer)
   opj_cparameters_t parameters;
   opj_set_default_encoder_parameters(&parameters);
 
-  const std::string extension = itksys::SystemTools::GetFilenameLastExtension(this->m_FileName.c_str());
+  const std::string extension = itksys::SystemTools::GetFilenameLastExtension(this->m_FileName);
   if (extension == ".j2k")
   {
     parameters.cod_format = static_cast<int>(JPEG2000ImageIOInternal::DecodingFormatEnum::J2K_CFMT);

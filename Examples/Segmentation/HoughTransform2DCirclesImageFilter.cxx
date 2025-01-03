@@ -254,7 +254,7 @@ main(int argc, char * argv[])
         localOutputImage->SetPixel(localIndex, 255);
       }
     }
-    itCircles++;
+    ++itCircles;
   }
   // Software Guide : EndCodeSnippet
 

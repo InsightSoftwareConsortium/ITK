@@ -101,7 +101,7 @@ MeshFileWriter<TInputMesh>::Write()
   {
     MeshFileWriterException e(__FILE__, __LINE__);
     std::ostringstream      msg;
-    msg << " Could not create IO object for file " << m_FileName.c_str() << std::endl
+    msg << " Could not create IO object for file " << m_FileName << std::endl
         << "  Tried to create one of the following:" << std::endl;
     {
       for (auto & allobject : ObjectFactoryBase::CreateAllInstance("itkMeshIOBase"))

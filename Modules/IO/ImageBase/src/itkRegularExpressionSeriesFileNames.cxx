@@ -60,9 +60,9 @@ RegularExpressionSeriesFileNames::GetFileNames()
 
   // Process all files in the directory
   itksys::Directory fileDir;
-  if (!fileDir.Load(m_Directory.c_str()))
+  if (!fileDir.Load(m_Directory))
   {
-    itkExceptionMacro("Directory " << m_Directory.c_str() << " cannot be read!");
+    itkExceptionMacro("Directory " << m_Directory << " cannot be read!");
   }
 
   std::vector<std::pair<std::string, std::string>> sortedBySubMatch;

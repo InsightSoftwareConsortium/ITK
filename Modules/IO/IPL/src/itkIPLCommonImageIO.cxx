@@ -128,7 +128,7 @@ IPLCommonImageIO::ReadImageInformation()
   // TODO -- use std::string instead of C strings
   char              imageMask[IOCommon::ITK_MAXPATHLEN + 1];
   char              imagePath[IOCommon::ITK_MAXPATHLEN + 1];
-  const std::string _imagePath = itksys::SystemTools::CollapseFullPath(FileNameToRead.c_str());
+  const std::string _imagePath = itksys::SystemTools::CollapseFullPath(FileNameToRead);
 
   FileNameToRead = _imagePath;
 

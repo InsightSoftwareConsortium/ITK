@@ -48,7 +48,7 @@ main(int argc, char * argv[])
 #endif
     }
     myenv += std::string(argv[3]);
-    itksys::SystemTools::PutEnv(myenv.c_str());
+    itksys::SystemTools::PutEnv(myenv);
 
     itk::ObjectFactoryBase::ReHash();
   }
@@ -83,7 +83,7 @@ main(int argc, char * argv[])
       std::list<bool>::const_iterator        e = enableflags.begin();
       for (std::list<std::string>::const_iterator o = overrides.begin();
            o != overrides.end();
-           ++o, ++n, ++d, e++)
+           ++o, ++n, ++d, ++e)
       {
         std::cout << "    Override " << *o << " with " << *n << std::endl
                   << "      described as \"" << *d << "\"" << std::endl

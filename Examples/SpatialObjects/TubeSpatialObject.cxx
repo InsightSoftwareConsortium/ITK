@@ -167,8 +167,8 @@ main(int, char *[])
     std::cout << "Second Normal: " << (*it).GetNormal2InObjectSpace()
               << std::endl;
     std::cout << "Color = " << (*it).GetColor() << std::endl;
-    it++;
-    i++;
+    ++it;
+    ++i;
   }
   // Software Guide : EndCodeSnippet
 

@@ -125,7 +125,7 @@ template <typename ValueType, typename MeanType>
 void
 ResourceProbe<ValueType, MeanType>::Start()
 {
-  this->m_NumberOfStarts++;
+  ++(this->m_NumberOfStarts);
   this->m_StartValue = this->GetInstantValue();
 }
 
@@ -143,7 +143,7 @@ ResourceProbe<ValueType, MeanType>::Stop()
   this->UpdateMinimumMaximumMeasuredValue(probevalue);
   this->m_TotalValue += probevalue;
   this->m_ProbeValueList.push_back(probevalue);
-  this->m_NumberOfStops++;
+  ++(this->m_NumberOfStops);
   this->m_NumberOfIteration = static_cast<CountType>(this->m_ProbeValueList.size());
 }
 

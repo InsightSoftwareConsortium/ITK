@@ -307,7 +307,7 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
     else if (text.find("dataType") < text.length())
     {
       char pixelType[256];
-      sscanf(line, "%*s %s", pixelType);
+      sscanf(line, "%*s %255s", pixelType);
       text = pixelType;
       SetPixelType(IOPixelEnum::SCALAR);
       if (text.find("BYTE") < text.length())
@@ -363,7 +363,7 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
       // space
       // only a ':' separate field from value, we assume there is no other ':'
       char * pch = strchr(line, ':');
-      sscanf(++pch, "%s", m_FidName); // delete any white space left
+      sscanf(++pch, "%255s", m_FidName); // delete any white space left
       itkDebugMacro("fidName was specified");
     }
     else if (text.find("sdtOrient") < text.length())
@@ -374,7 +374,7 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
       // space
       // only a ':' separate field from value, we assume there is no other ':'
       char * pch = strchr(line, ':');
-      sscanf(++pch, "%s", m_SdtOrient); // delete any white space left
+      sscanf(++pch, "%255s", m_SdtOrient); // delete any white space left
       itkDebugMacro("Orientation was specified");
     }
     else if (text.find("dsplyThres") < text.length())
@@ -417,7 +417,7 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
       const std::string datafilenamePath = ::itksys::SystemTools::GetFilenamePath(datafilename);
       if (datafilenamePath.empty())
       {
-        const std::string fileNamePath = ::itksys::SystemTools::GetFilenamePath(m_FileName.c_str());
+        const std::string fileNamePath = ::itksys::SystemTools::GetFilenamePath(m_FileName);
         m_DataFileName = fileNamePath + "/" + datafilename;
       }
       else
@@ -568,7 +568,7 @@ StimulateImageIO::Write(const void * buffer)
     // determine datafile given the spr filename
     m_DataFileName = m_FileName;
     m_DataFileName.replace(m_DataFileName.length() - 3, 3, "sdt");
-    file << "\nstimFileName: " << m_DataFileName.c_str();
+    file << "\nstimFileName: " << m_DataFileName;
 
     // Last carrier return:
     file << '\n';

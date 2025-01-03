@@ -674,7 +674,7 @@ ImageIOBase::OpenFileForWriting(std::ofstream & outputStream, const std::string 
     // opening a nonexistent file for reading + writing is not allowed on some platforms
     if (!itksys::SystemTools::FileExists(filename.c_str()))
     {
-      itksys::SystemTools::Touch(filename.c_str(), true);
+      itksys::SystemTools::Touch(filename, true);
       // don't worry about failure here, errors should be detected later when the file
       // is "actually" opened, unless there is a race condition
     }

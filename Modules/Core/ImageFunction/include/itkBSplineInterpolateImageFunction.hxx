@@ -270,7 +270,6 @@ BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::SetI
       err.SetLocation(ITK_LOCATION);
       err.SetDescription("SplineOrder must be between 0 and 5. Requested spline order has not been implemented yet.");
       throw err;
-      break;
     }
   }
 }
@@ -395,7 +394,6 @@ BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::SetD
       err.SetDescription(
         "SplineOrder (for derivatives) must be between 1 and 5. Requested spline order has not been implemented yet.");
       throw err;
-      break;
     }
   }
 }

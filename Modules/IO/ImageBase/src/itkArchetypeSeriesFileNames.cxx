@@ -84,14 +84,14 @@ ArchetypeSeriesFileNames::Scan()
   std::string unixArchetype = m_Archetype;
   itksys::SystemTools::ConvertToUnixSlashes(unixArchetype);
 
-  if (itksys::SystemTools::FileIsDirectory(unixArchetype.c_str()))
+  if (itksys::SystemTools::FileIsDirectory(unixArchetype))
   {
     return;
   }
 
   // Parse the fileNameName and fileNamePath
-  const std::string origFileName = itksys::SystemTools::GetFilenameName(unixArchetype.c_str());
-  std::string       fileNamePath = itksys::SystemTools::GetFilenamePath(unixArchetype.c_str());
+  const std::string origFileName = itksys::SystemTools::GetFilenameName(unixArchetype);
+  std::string       fileNamePath = itksys::SystemTools::GetFilenamePath(unixArchetype);
   std::string       pathPrefix;
 
   // "Clean" the filename by escaping any special characters with backslashes.
