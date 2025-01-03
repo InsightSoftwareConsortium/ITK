@@ -621,7 +621,7 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
   os << indent << "Threshold for reference B0 image: " << m_Threshold << std::endl;
   os << indent << "BValue: " << m_BValue << std::endl;
   if (this->m_GradientImageTypeEnumeration ==
-      DiffusionTensor3DReconstructionImageFilterEnums::GradientImageFormat::GradientIsInManyImages)
+      DiffusionTensor3DReconstructionImageFilterEnums::GradientImageFormat::GradientIsInASingleImage)
   {
     os << indent << "Gradient images haven been supplied " << std::endl;
   }
