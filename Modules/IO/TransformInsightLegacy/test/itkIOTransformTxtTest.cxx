@@ -201,7 +201,10 @@ int
 secondTest(const std::string & outputDirectory)
 {
   std::filebuf fb;
-  fb.open((outputDirectory + "IllegalTransform.txt"), std::ios::out);
+  if (!fb.open((outputDirectory + "IllegalTransform.txt"), std::ios::out))
+  {
+    return EXIT_FAILURE;
+  }
   std::ostream os(&fb);
   os << "#Insight Transform File V1.0" << std::endl
      << "#Transform 0" << std::endl
