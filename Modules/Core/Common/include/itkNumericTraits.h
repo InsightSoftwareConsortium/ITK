@@ -308,14 +308,14 @@ public:
     return !val;
   }
   static constexpr bool
-  IsNegative(bool val)
+  IsNegative(bool itkNotUsed(val))
   {
-    return val ? false : false;
+    return false;
   }
   static constexpr bool
-  IsNonnegative(bool val)
+  IsNonnegative(bool itkNotUsed(val))
   {
-    return val ? true : true;
+    return true;
   }
   static constexpr bool IsSigned = false;
   static constexpr bool IsInteger = true;
@@ -640,14 +640,14 @@ public:
     return val == Zero;
   }
   static constexpr bool
-  IsNegative(unsigned char val)
+  IsNegative(unsigned char itkNotUsed(val))
   {
-    return val ? false : false;
+    return false;
   }
   static constexpr bool
-  IsNonnegative(unsigned char val)
+  IsNonnegative(unsigned char itkNotUsed(val))
   {
-    return val ? true : true;
+    return true;
   }
   static constexpr bool IsSigned = false;
   static constexpr bool IsInteger = true;
@@ -845,14 +845,14 @@ public:
     return val == Zero;
   }
   static constexpr bool
-  IsNegative(unsigned short val)
+  IsNegative(unsigned short itkNotUsed(val))
   {
-    return val ? false : false;
+    return false;
   }
   static constexpr bool
-  IsNonnegative(unsigned short val)
+  IsNonnegative(unsigned short itkNotUsed(val))
   {
-    return val ? true : true;
+    return true;
   }
   static constexpr bool IsSigned = false;
   static constexpr bool IsInteger = true;
@@ -1069,14 +1069,14 @@ public:
     return val == Zero;
   }
   static constexpr bool
-  IsNegative(unsigned int val)
+  IsNegative(unsigned int itkNotUsed(val))
   {
-    return val ? false : false;
+    return false;
   }
   static constexpr bool
-  IsNonnegative(unsigned int val)
+  IsNonnegative(unsigned int itkNotUsed(val))
   {
-    return val ? true : true;
+    return true;
   }
   static constexpr bool IsSigned = false;
   static constexpr bool IsInteger = true;
