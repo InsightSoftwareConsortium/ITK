@@ -609,7 +609,7 @@
   \defgroup Deprecated Deprecated Classes
 
   Classes that are scheduled to be removed from the toolkit. Their
-  funcionality is now provided by other classes or changes in the toolkit have
+  functionality is now provided by other classes or changes in the toolkit have
   made them useless. Please report to their documentation and look in to their
   "Deprecated" section. This section should indicate what to do to replace
   this class in any affected code.

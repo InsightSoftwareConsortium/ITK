@@ -31,7 +31,7 @@ or sets of pipelines were:
 - [Praxix](https://code.google.com/archive/p/praxix/) was a collection
   of command line programs for image processing using ITK.
 - [ITK One Shot](https://github.com/daviddoria/ITK_OneShot) was a
-  collecion of short programs to perform specific operations on images.
+  collection of short programs to perform specific operations on images.
 - [ITKApps](https://github.com/InsightSoftwareConsortium/ITKApps) were
   a variety of applications written with ITK, ranging from simple uses
   of the toolkit to complex and GUI-based applications.

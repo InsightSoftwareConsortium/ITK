@@ -58,7 +58,7 @@ This is a rapid description of the transforms implemented in the toolkit
 
 \li \b Rigid3D: This transform is specific for 3D, it supports only rotations and translations. Rotations are represented using \e Quaternions.
 
-\li \b Rigid3DPerspective: A composition of a \e Rigid3D transform followed by a perpective projection. This transformation is intended to be used in applications like X-Rays projections.
+\li \b Rigid3DPerspective: A composition of a \e Rigid3D transform followed by a perspective projection. This transformation is intended to be used in applications like X-Rays projections.
 
 \li \b Translation: A N-Dimensional translation internally represented as a vector.
 
@@ -95,7 +95,7 @@ The following optimization methods are available:
 
 \li <b> Amoeba </b>: Nelder Meade Downhill Simplex.
 
-\li <b> One Plus One Evolutionary </b>: Stategy that simulates the biological evolution of a set of samples in the search space.
+\li <b> One Plus One Evolutionary </b>: Strategy that simulates the biological evolution of a set of samples in the search space.
 
 
 

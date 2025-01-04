@@ -140,7 +140,7 @@
   Another group of iterators support a moving neighborhood. Here the
   neighborhood can "iterate" over an image and a calculation can iterate
   over the neighborhood.  This allows N-dimensional implementations of
-  convolution and finite differences to be implemented succintly.
+  convolution and finite differences to be implemented succinctly.
   This class of iterators is described in detail on the page
   \ref NeighborhoodIteratorsPage.
 

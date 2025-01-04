@@ -142,5 +142,5 @@ and the second one being the title of the example in the
 #### Maintaining the documentation
 
 The documentation is built nightly on the latest ITK commit, and deployed to GitHub pages
-at https://insightsoftwareconsortium.github.io/ITKDoxygen/, whose code is maintaned at
+at https://insightsoftwareconsortium.github.io/ITKDoxygen/, whose code is maintained at
 https://github.com/InsightSoftwareConsortium/ITKDoxygen.
