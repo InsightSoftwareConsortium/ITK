@@ -305,7 +305,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>::SetMRFNeighborhoodWeight(std::vec
 
     if (m_NeighborhoodSize != static_cast<int>(betaMatrix.size()))
     {
-      throw ExceptionObject(__FILE__, __LINE__, "NeighborhoodSize != betaMatrix.szie()", ITK_LOCATION);
+      throw ExceptionObject(__FILE__, __LINE__, "NeighborhoodSize != betaMatrix.size()", ITK_LOCATION);
     }
 
     // Allocate memory for the weights of the 3D MRF algorithm
