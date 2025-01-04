@@ -37,11 +37,11 @@ development of your application. That will included things like:
 
 It is worth to point out that the software development process using in
 ITK and VTK are already following many of the FDA Guidelines for
-software developement. In particular
+software development. In particular
 
 - Continuous Testing via Dashboard ([CTest](https://cmake.org/cmake/help/latest/manual/ctest.1.html))
 - Version control ([git](https://git-scm.com/))
-- Configuration standarization ([CMake](https://cmake.org/))
+- Configuration standardization ([CMake](https://cmake.org/))
 - Bug tracking ([GitHub](https://github.com/features/issues)/[GitLab issues](https://docs.gitlab.com/ee/user/project/issues/))
 
 ## General guidelines
@@ -57,5 +57,5 @@ medical devices you must look at the following documents:
 - [Guidance for the Submission of Premarket Notifications For Radionuclide Dose Calibrators - Guidance for Industry](https://www.fda.gov/regulatory-information/search-fda-guidance-documents/guidance-submission-premarket-notifications-radionuclide-dose-calibrators-guidance-industry)
 - [Content of Premarket Submissions for Device Software Functions](https://www.fda.gov/regulatory-information/search-fda-guidance-documents/content-premarket-submissions-device-software-functions)
 
-These and other relevant documents can be found at the [FDA Guidance Doument search](https://www.fda.gov/regulatory-information/search-fda-guidance-documents)
+These and other relevant documents can be found at the [FDA Guidance Document search](https://www.fda.gov/regulatory-information/search-fda-guidance-documents)
 and the [Medical Devices and Radiation-Emitting Products Guidance Documents](https://www.fda.gov/medical-devices/device-advice-comprehensive-regulatory-assistance/guidance-documents-medical-devices-and-radiation-emitting-products) sites.

@@ -6,7 +6,7 @@ A question that is often asked is: I am trying to read/write a DICOM image,
 but the pixel data has changed (the scalar range has changed from input file).
 
 This surely comes from the fact that you did not used the proper
-pixel type to instanciate your reader. You have to consider:
+pixel type to instantiate your reader. You have to consider:
 
 - `Bits Allocated`
 - `Bits Stored`
@@ -114,7 +114,7 @@ is however allowed that both files uses different transfer syntax uid
 (implicit/explicit, little/big endian). When a DICOM file is sent to a
 PACS, it is up to the implementor to decide what to do in case of
 duplicate `SOP Instance UID`. In most case you should expect that the
-image is not resent, as standard garantee this is already the same
+image is not resent, as standard guarantee this is already the same
 object.
 
 > ⚠️ **Warning**

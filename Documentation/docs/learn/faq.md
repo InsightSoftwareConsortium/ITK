@@ -66,7 +66,7 @@ possible to read/write 3D datasets as collections of 2D slices each one
 in an independent BMP, PNG or JPEG file by using the
 [`ImageSeriesReader`](https://itk.org/Doxygen/html/classitk_1_1ImageSeriesReader.html) and [`itk::ImageSeriesWriter`](https://itk.org/Doxygen/html/classitk_1_1ImageSeriesWriter.html).
 
-‡ It is higly recommended not using this format. RAW is not a format, it
+‡ It is highly recommended not using this format. RAW is not a format, it
 is insufficient, inconsistent and simply dangerous. A RAW file without a
 header is useless, and once you add a header, it is not RAW anymore.
 
@@ -158,7 +158,7 @@ GDCM is an open source package developed by the Creatis team at
 INSA-Lyon. It is distributed under a license similar to ITK: http://gdcm.sourceforge.net/Copyright.html.
 
 GCDM uses CMake in order to configure its build process, so you will
-find a familiar setup. Once you download, configure and buid GDCM, you
+find a familiar setup. Once you download, configure and build GDCM, you
 can reconfigure ITK by running CMake in your ITK build, going into the
 advanced options and enabling `USE_GDCM`.
 
@@ -461,7 +461,7 @@ the `Pixel Data` (`0x7fe0,0x0010`), thus it imply that the unused bits are
 **zeros**. In ITK, there is no such thing as 12-bit pixel type, thus
 when instanciating your reader you declare a 16-bit pixel type. This
 buffer is then passed back to GDCM which sees an array of 16bits values
-and then simply used the simpliest way to store this buffer back on
+and then simply used the simplest way to store this buffer back on
 disk: `Bits Stored = 16` and `High Bit = 15`. In case you have not made any
 change to your pixel buffer, implicitly the first 4 bits will be zero
 again. The only difference being that they are not as clearly declared

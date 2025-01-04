@@ -312,7 +312,7 @@ and intuitive.
 SpatialObjects now only have two spaces and two transforms directly associated with them:
 * ObjectSpace is the space that is "local" to each object.   It is the physical space in which its data/parameters are defined.  For
 example, for an ImageSpatialObject it is the "PhysicalSpace" (see Image Class definition) of the Image.   For an Line/Tube/DTI and other
-point-based SpatialObjects, it is the inherent space in which the Point coordinates are specififed.   Typically, when a SpatialObject is
+point-based SpatialObjects, it is the inherent space in which the Point coordinates are specified.   Typically, when a SpatialObject is
 extracted from an Image, the parameters/coordinates of the SpatialObject are the space as the physical space of the source Image.   Any
 children of a SpatialObject are defined within the ObjectSpace of that parent SpatialObject.
 
