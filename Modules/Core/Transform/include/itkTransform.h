@@ -529,9 +529,11 @@ public:
                       " is unimplemented for "
                       << this->GetNameOfClass());
   }
+
+#if !defined(ITK_LEGACY_REMOVE)
   itkLegacyMacro(virtual void ComputeJacobianWithRespectToPosition(const InputPointType & x, JacobianType & jacobian)
                    const;)
-
+#endif
 
   /** This provides the ability to get a local jacobian value
    *  in a dense/local transform, e.g. DisplacementFieldTransform. For such
@@ -540,8 +542,11 @@ public:
    *  since there is no change with respect to position. */
   virtual void
   ComputeInverseJacobianWithRespectToPosition(const InputPointType & pnt, InverseJacobianPositionType & jacobian) const;
+
+#if !defined(ITK_LEGACY_REMOVE)
   itkLegacyMacro(virtual void ComputeInverseJacobianWithRespectToPosition(const InputPointType & x,
                                                                           JacobianType &         jacobian) const;)
+#endif
 
   /** Apply this transform to an image without resampling.
    *
