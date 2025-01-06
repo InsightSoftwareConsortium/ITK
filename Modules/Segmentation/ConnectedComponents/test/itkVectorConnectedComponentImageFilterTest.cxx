@@ -196,7 +196,7 @@ itkVectorConnectedComponentImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  // The following just ensures that this filter can be intantiated
+  // The following just ensures that this filter can be instantiated
   // with VectorImages
   using VectorImageType = itk::VectorImage<float, 2>;
   using VectorImageFilterType =

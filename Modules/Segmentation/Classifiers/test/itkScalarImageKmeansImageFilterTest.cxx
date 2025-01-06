@@ -80,7 +80,7 @@ itkScalarImageKmeansImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  // Before we add any mean check that an expection is thrown
+  // Before we add any mean check that an exception is thrown
   ITK_TRY_EXPECT_EXCEPTION(kmeansFilter->Update());
 
 

@@ -116,7 +116,7 @@ itkCompositeTransformTest(int, char *[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(compositeTransform, CompositeTransform, MultiTransform);
 
-  /* Test obects */
+  /* Test objects */
   using Matrix2Type = itk::Matrix<ScalarType, VDimension, VDimension>;
   using Vector2Type = itk::Vector<ScalarType, VDimension>;
 

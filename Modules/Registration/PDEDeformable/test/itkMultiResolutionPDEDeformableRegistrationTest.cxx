@@ -146,7 +146,7 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
 
   if (argc < 2)
   {
-    std::cerr << "Missing parametes." << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " WarpedImage" << std::endl;
     return EXIT_FAILURE;
   }

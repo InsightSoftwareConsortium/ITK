@@ -19,7 +19,7 @@ In practical terms that means that the classes in this directory are not
 considered to be a permanent part of the ITK toolkit, and therefore they may
 disappear in the future or their API may change without notice.
 
-The copyright of files in this directory may not have been transfered yet to
+The copyright of files in this directory may not have been transferred yet to
 the [Insight Software Consortium (ISC)](https://www.insightsoftwareconsortium.org/)
 and therefore may not be assumed to be under the same BSD-like license of the
 rest of the toolkit. During the time that files are in this directory, users
@@ -31,7 +31,7 @@ that are candidates to be added to the ITK toolkit.
 Files in this directory are not expected to stay here for more than one
 release cycle. The classes are expected to mature as a result of discussions
 among developers, and when they are ready and their copyright has been
-transfered to the ISC, then they should be moved to their permanent directory
+transferred to the ISC, then they should be moved to their permanent directory
 in the toolkit.
 
 Some classes may not reach the level required for becoming a permante

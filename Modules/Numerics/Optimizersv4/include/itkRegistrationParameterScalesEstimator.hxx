@@ -311,7 +311,7 @@ RegistrationParameterScalesEstimator<TMetric>::SampleVirtualDomain()
 
   if (!this->m_Metric->SupportsArbitraryVirtualDomainSamples() && !this->m_VirtualDomainPointSet)
   {
-    itkExceptionMacro(" The assigned metric does not support aribitrary virtual domain sampling, "
+    itkExceptionMacro(" The assigned metric does not support arbitrary virtual domain sampling, "
                       " yet this->m_VirtualDomainPointSet has not been assigned. ");
   }
 

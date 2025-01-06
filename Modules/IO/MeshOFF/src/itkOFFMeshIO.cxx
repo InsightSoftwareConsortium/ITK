@@ -103,7 +103,7 @@ OFFMeshIO::ReadMeshInformation()
   // Read and analyze the first line in the file
   std::string line;
 
-  // The OFF file must containe "OFF"
+  // The OFF file must contain "OFF"
   std::getline(m_InputFile, line, '\n'); // delimiter is '\n'
   if (line.find("OFF") == std::string::npos)
   {

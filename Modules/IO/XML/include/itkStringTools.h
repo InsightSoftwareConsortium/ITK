@@ -125,11 +125,11 @@ public:
   static std::string &
   TrimRight(std::string & str, const std::string & dislike = " \t\n\r");
 
-  /** Method to covert lower-case characters to upper cases in a string. */
+  /** Method to convert lower-case characters to upper cases in a string. */
   static std::string &
   ToUpperCase(std::string & str);
 
-  /** Method to covert upper-case characters to lower cases in a string. */
+  /** Method to convert upper-case characters to lower cases in a string. */
   static std::string &
   ToLowerCase(std::string & str);
 

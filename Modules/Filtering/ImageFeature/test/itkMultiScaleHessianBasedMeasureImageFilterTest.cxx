@@ -219,7 +219,7 @@ itkMultiScaleHessianBasedMeasureImageFilterTest(int argc, char * argv[])
 
   if (argc > 9)
   {
-    // Change sigma step to equispaced type and regnerate vesselness image
+    // Change sigma step to equispaced type and regenerate vesselness image
     auto sigmaStepMethod = static_cast<MultiScaleEnhancementFilterType::SigmaStepMethodEnum>(
       MultiScaleEnhancementFilterType::SigmaStepMethodEnum::EquispacedSigmaSteps);
     multiScaleEnhancementFilter->SetSigmaStepMethod(sigmaStepMethod);
@@ -251,7 +251,7 @@ itkMultiScaleHessianBasedMeasureImageFilterTest(int argc, char * argv[])
 
   if (argc > 10)
   {
-    // Change NonNegativeHessianBasedMeasure to Off and regnerate vesselness image
+    // Change NonNegativeHessianBasedMeasure to Off and regenerate vesselness image
     nonNegativeHessianBasedMeasure = false;
     ITK_TEST_SET_GET_BOOLEAN(
       multiScaleEnhancementFilter, NonNegativeHessianBasedMeasure, nonNegativeHessianBasedMeasure);

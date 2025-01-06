@@ -101,7 +101,7 @@ DOMNodeXMLWriter::Update()
   std::ofstream os(this->m_FileName.c_str());
   if (!os.is_open())
   {
-    itkExceptionMacro("failed openning the output XML file");
+    itkExceptionMacro("failed opening the output XML file");
   }
 
   this->Update(os);

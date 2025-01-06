@@ -216,7 +216,7 @@ ConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage>::GetKernelPadSiz
 
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    // Pad by 1 if the size fo the image in this dimension is even.
+    // Pad by 1 if the size of the image in this dimension is even.
     padSize[i] = 1 - (kernelSize[i] % 2);
   }
 

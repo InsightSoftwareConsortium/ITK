@@ -280,7 +280,7 @@ GPUKernelManager::GetKernelWorkGroupInfo(int kernelIdx, cl_kernel_work_group_inf
       valueSize = sizeof(cl_ulong);
       break;
     default:
-      itkGenericExceptionMacro("Unknown type of work goup information");
+      itkGenericExceptionMacro("Unknown type of work group information");
   }
 
   cl_int errid = clGetKernelWorkGroupInfo(

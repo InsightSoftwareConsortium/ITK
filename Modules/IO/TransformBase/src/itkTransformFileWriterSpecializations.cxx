@@ -283,7 +283,7 @@ AddToTransformList(typename TInputTransformType::ConstPointer &             tran
      Following steps are needed to process a composite transform:
      1) Use the compositeTransformIOHelper to get the input transforms list.
      2) Iterate through the input transform list, convert each sub transform and put them in the output transform list.
-     3) Use a composite IO Helper agian to set the output transform list into the converted composite transform.
+     3) Use a composite IO Helper again to set the output transform list into the converted composite transform.
     */
     CompositeTransformIOHelperTemplate<InputParameterValueType> inputHelper;
     InputConstTransformListType inputTransformList = inputHelper.GetTransformList(transform);

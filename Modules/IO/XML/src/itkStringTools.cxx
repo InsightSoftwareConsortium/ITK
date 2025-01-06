@@ -80,7 +80,7 @@ StringTools::TrimRight(std::string & str, const std::string & dislike)
   return str;
 }
 
-/** Method to covert lower-case characters to upper cases in a string. */
+/** Method to convert lower-case characters to upper cases in a string. */
 std::string &
 StringTools::ToUpperCase(std::string & str)
 {
@@ -91,7 +91,7 @@ StringTools::ToUpperCase(std::string & str)
   return str;
 }
 
-/** Method to covert upper-case characters to lower cases in a string. */
+/** Method to convert upper-case characters to lower cases in a string. */
 std::string &
 StringTools::ToLowerCase(std::string & str)
 {

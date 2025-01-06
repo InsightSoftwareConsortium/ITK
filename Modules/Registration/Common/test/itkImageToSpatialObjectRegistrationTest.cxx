@@ -258,7 +258,7 @@ itkImageToSpatialObjectRegistrationTest(int, char *[])
 
   ImageType::Pointer image = imageFilter->GetOutput();
 
-  // blurr the image to have a global maximum
+  // blur the image to have a global maximum
   using GaussianFilterType = itk::DiscreteGaussianImageFilter<ImageType, ImageType>;
   auto gaussianFilter = GaussianFilterType::New();
 

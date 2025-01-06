@@ -277,11 +277,11 @@ VXLVideoIO::ReadImageInformation()
     this->m_FramesPerSecond = localStream.frame_rate();
     this->m_NumberOfComponents = this->GetNChannelsFromPixelFormat(this->m_PixelFormat);
 
-    // Assing the component type
+    // Assign the component type
     unsigned int bytesPerPixel = this->GetSizeFromPixelFormat(this->m_PixelFormat);
     if (bytesPerPixel == 0)
     {
-      itkExceptionMacro("Faile to load local steam. FFMPEG libraries seems to be missing in VXL installation.");
+      itkExceptionMacro("Failed to load local steam. FFMPEG libraries seems to be missing in VXL installation.");
     }
     if (bytesPerPixel == 1)
     {
@@ -297,7 +297,7 @@ VXLVideoIO::ReadImageInformation()
     }
 
     // Try to figure out if there are I-Frame issues we need to worry about
-    // and compensate accrodingly
+    // and compensate accordingly
     if (this->m_FrameTotal > 0)
     {
       localStream.advance(); // Advance to first frame (0)

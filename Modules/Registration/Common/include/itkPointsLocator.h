@@ -74,7 +74,7 @@ public:
   using SampleAdaptorType = Statistics::VectorContainerToListSampleAdaptor<PointsContainer>;
   using SampleAdaptorPointer = typename SampleAdaptorType::Pointer;
 
-  /** Types fo the KdTreeGenerator */
+  /** Types of the KdTreeGenerator */
   using TreeGeneratorType = Statistics::KdTreeGenerator<SampleAdaptorType>;
   using TreeGeneratorPointer = typename TreeGeneratorType::Pointer;
   using TreeType = typename TreeGeneratorType::KdTreeType;

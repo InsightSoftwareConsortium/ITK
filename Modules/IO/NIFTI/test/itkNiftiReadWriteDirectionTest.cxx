@@ -128,7 +128,7 @@ itkNiftiReadWriteDirectionTest(int argc, char * argv[])
   if (!itk::ExposeMetaData<std::string>(dictionary, "ITK_sform_corrected", temp) || temp != "NO")
   {
     std::cerr << "ITK_sform_corrected metadata flag was not properly set" << std::endl;
-    std::cerr << " expected NO, recieved:" << temp.c_str() << std::endl;
+    std::cerr << " expected NO, received:" << temp.c_str() << std::endl;
     return EXIT_FAILURE;
   }
 

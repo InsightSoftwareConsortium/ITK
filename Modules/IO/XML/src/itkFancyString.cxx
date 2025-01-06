@@ -103,7 +103,7 @@ FancyString::TrimRight(const std::string & dislike)
   return *this;
 }
 
-/** Method to covert lower-case characters to upper cases in a string. */
+/** Method to convert lower-case characters to upper cases in a string. */
 FancyString &
 FancyString::ToUpperCase()
 {
@@ -111,7 +111,7 @@ FancyString::ToUpperCase()
   return *this;
 }
 
-/** Method to covert upper-case characters to lower cases in a string. */
+/** Method to convert upper-case characters to lower cases in a string. */
 FancyString &
 FancyString::ToLowerCase()
 {

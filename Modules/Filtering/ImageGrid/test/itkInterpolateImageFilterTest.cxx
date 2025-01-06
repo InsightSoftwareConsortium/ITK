@@ -100,7 +100,7 @@ itkInterpolateImageFilterTest(int, char *[])
     ++outIter;
   }
 
-  // excerise other methods
+  // exercise other methods
   filter->GetInput1();
   filter->GetInput2();
   filter->GetInterpolator();

@@ -206,7 +206,7 @@ public:
     this->SetNthTransformToOptimizeOn(this->GetNumberOfTransforms() - 1);
   }
 
-  /* Get whether the Nth transform is set to be optimizied */
+  /* Get whether the Nth transform is set to be optimized */
   /* NOTE: ambiguous function name here - are we getting if the Nth transform
       is set to be optimized, or the Nth of the transforms that are set to be
       optimized? */

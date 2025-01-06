@@ -370,7 +370,7 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::CheckStatus(QEType 
   const PointIdentifier number_common_vertices = CommonVertexNeighboor(e);
   if (number_common_vertices > 2)
   {
-    itkDebugMacro("The 2 vertices have more than 2 common neighboor vertices.");
+    itkDebugMacro("The 2 vertices have more than 2 common neighbor vertices.");
     return TOO_MANY_COMMON_VERTICES;
   }
 

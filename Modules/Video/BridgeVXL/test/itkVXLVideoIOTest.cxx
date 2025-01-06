@@ -422,7 +422,7 @@ test_VXLVideoIO(char *        input,
     writer->SetInput(cameraFrame);
     writer->Update();
 
-    // Overwirte the file right away so we're not saving pictures of the tester!
+    // Overwrite the file right away so we're not saving pictures of the tester!
     std::ofstream fs;
     fs.open(cameraOutput);
     fs << "EMPTY... deleted picture from webcam\n";
@@ -455,7 +455,7 @@ test_VXLVideoIO(char *        input,
   if (vxlIO_write->GetFramesPerSecond() != fps || vxlIO_write->GetDimensions(0) != width ||
       vxlIO_write->GetDimensions(1) != height || vxlIO_write->GetNumberOfComponents() != nChannels)
   {
-    std::cerr << "Didn't set writer parmeters correctly" << std::endl;
+    std::cerr << "Didn't set writer parameters correctly" << std::endl;
     ret = EXIT_FAILURE;
   }
 

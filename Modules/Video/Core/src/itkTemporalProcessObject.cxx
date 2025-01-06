@@ -64,7 +64,7 @@ TemporalProcessObject::EnlargeOutputRequestedRegion(DataObject * output)
 
 //
 // EnlargeOutputRequestedTemporalRegion
-// TODO: Hanle RealTime
+// TODO: Handle RealTime
 //
 void
 TemporalProcessObject::EnlargeOutputRequestedTemporalRegion(TemporalDataObject * output)
@@ -138,7 +138,7 @@ TemporalProcessObject::GenerateOutputRequestedTemporalRegion(TemporalDataObject 
     output->SetRequestedTemporalRegion(requestedRegion);
 
     // Warn the user about this corner case
-    itkWarningMacro("Largest possible temporal region is infinte. Setting "
+    itkWarningMacro("Largest possible temporal region is infinite. Setting "
                     "requested temporal region's duration to 1");
   }
 
@@ -186,7 +186,7 @@ TemporalProcessObject::GenerateInputRequestedRegion()
 
 //
 // GenerateInputRequestedTemporalRegion
-// TODO: Hanle RealTime
+// TODO: Handle RealTime
 //
 void
 TemporalProcessObject::GenerateInputRequestedTemporalRegion()
@@ -257,7 +257,7 @@ TemporalProcessObject::GenerateDefaultLargestPossibleTemporalRegion()
 
 //
 // UpdateOutputInformation
-// TODO: Hanle RealTime
+// TODO: Handle RealTime
 //
 void
 TemporalProcessObject::UpdateOutputInformation()
@@ -317,7 +317,7 @@ TemporalProcessObject::UpdateOutputData(DataObject * itkNotUsed(output))
   // that it does not propagate the call to its inputs before calling
   // GenerateData. This is done because the temporal streaming system that is
   // active by default will re-set the requested temporal region on the input
-  // multiple times in order to stream the data without requireing all data to
+  // multiple times in order to stream the data without requiring all data to
   // be loaded at once.
 
   // Prevent chasing the tail

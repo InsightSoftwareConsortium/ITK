@@ -297,7 +297,7 @@ test_regiongrowKLM1D()
     std::cout << err << std::endl;                        \
     return EXIT_FAILURE;                                  \
   }                                                       \
-  std::cout << std::endl << "Filter has been udpated" << std::endl
+  std::cout << std::endl << "Filter has been updated" << std::endl
 
   std::cout << std::endl << "First test, lambda = 0" << std::endl;
 

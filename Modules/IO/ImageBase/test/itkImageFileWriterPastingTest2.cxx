@@ -108,7 +108,7 @@ itkImageFileWriterPastingTest2(int argc, char * argv[])
   writer->SetFileName(argv[2]);
   writer->SetInput(monitor->GetOutput());
 
-  // create a vaild region from the largest
+  // create a valid region from the largest
   itk::ImageIORegion            ioregion(3);
   itk::ImageIORegion::IndexType index;
 

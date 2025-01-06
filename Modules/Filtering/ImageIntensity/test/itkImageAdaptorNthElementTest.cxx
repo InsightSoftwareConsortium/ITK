@@ -132,7 +132,7 @@ itkImageAdaptorNthElementTest(int, char *[])
   }
 
 
-  std::cout << "Container Image Initializaed" << std::endl;
+  std::cout << "Container Image Initialized" << std::endl;
 
   //-------------------------------------------------------------
   //                 Create and Initialize the Float image
@@ -171,7 +171,7 @@ itkImageAdaptorNthElementTest(int, char *[])
     ++itf;
   }
 
-  std::cout << "Float Image Initializaed" << std::endl;
+  std::cout << "Float Image Initialized" << std::endl;
 
 
   //-------------------------------------------------------------
@@ -198,7 +198,7 @@ itkImageAdaptorNthElementTest(int, char *[])
   myFloatImageType::Pointer myFloatOutputImage = filter->GetOutput();
   myFloatOutputImage->SetSpacing(spacing);
 
-  std::cout << "Float Output Image Initializaed" << std::endl;
+  std::cout << "Float Output Image Initialized" << std::endl;
 
   //-------------------------------------------------------------
   //         Force the execution of the filter

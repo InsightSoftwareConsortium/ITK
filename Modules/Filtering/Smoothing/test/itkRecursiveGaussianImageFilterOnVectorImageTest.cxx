@@ -89,7 +89,7 @@ itkRecursiveGaussianImageFilterOnVectorImageTest(int, char *[])
   ITK_TRY_EXPECT_NO_EXCEPTION(filterY->Update());
 
 
-  // Test a few pixels of the  fitlered image
+  // Test a few pixels of the filtered image
   //
   const ImageType::Pointer filteredImage = filterY->GetOutput();
   ConstIteratorType        cit(filteredImage, filteredImage->GetRequestedRegion());

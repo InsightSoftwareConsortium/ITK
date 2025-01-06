@@ -115,13 +115,13 @@ itkVideoStreamTest(int, char *[])
   video2->SetFrame(1, frame2);
   video2->SetFrame(2, frame3);
 
-  // Test retreiving frames
+  // Test retrieving frames
   const FrameType::Pointer outFrame1 = video2->GetFrame(0);
   const FrameType::Pointer outFrame2 = video2->GetFrame(1);
   const FrameType::Pointer outFrame3 = video2->GetFrame(2);
   if (outFrame3 != frame3 || outFrame2 != frame2 || outFrame1 != frame1)
   {
-    std::cerr << "Frames not retreived correctly" << std::endl;
+    std::cerr << "Frames not retrieved correctly" << std::endl;
     return EXIT_FAILURE;
   }
 

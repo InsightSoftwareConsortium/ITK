@@ -625,7 +625,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   {
     itkExceptionMacro("The virtual sampled point set has zero points because "
                       "no fixed sampled points were within the virtual "
-                      "domain after mapping. There are no points to evaulate.");
+                      "domain after mapping. There are no points to evaluate.");
   }
 }
 

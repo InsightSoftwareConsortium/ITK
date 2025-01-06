@@ -76,7 +76,7 @@ public:
           const unsigned int       start = 0,
           const unsigned int       stride = 1);
 
-  /** Reference oeprator. */
+  /** Reference operator. */
   OutputPixelType
   operator()(const std::slice & s, const ConstNeighborhoodIterator<TImage> & it, const OperatorType & op) const
   {

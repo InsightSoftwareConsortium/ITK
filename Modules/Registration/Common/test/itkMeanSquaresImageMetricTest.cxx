@@ -311,8 +311,8 @@ itkMeanSquaresImageMetricTest(int, char *[])
   movingImage->SetOrigin(bSplineTestMovingImageOrigin);
 
   // Initialise BSplineTransform
-  auto bSplineTransform = BSplineTransformType::New();
-  auto initializer = InitializerType::New();
+  auto                               bSplineTransform = BSplineTransformType::New();
+  auto                               initializer = InitializerType::New();
   BSplineTransformType::MeshSizeType meshSize;
   meshSize.Fill(nodesPerDimension - splineOrder);
   initializer->SetTransform(bSplineTransform);
@@ -322,7 +322,7 @@ itkMeanSquaresImageMetricTest(int, char *[])
 
   // Set bSplineTransform parameters with MersenneTwister
   ParametersType bSplineParameters(bSplineTransform->GetNumberOfParameters());
-  auto generator = GeneratorType::New();
+  auto           generator = GeneratorType::New();
   generator->Initialize();
   for (unsigned int d = 0; d < bSplineParameters.Size(); ++d)
   {
@@ -340,7 +340,7 @@ itkMeanSquaresImageMetricTest(int, char *[])
   metricCacheTest->SetUseCachingOfBSplineWeights(true);
   ITK_TRY_EXPECT_NO_EXCEPTION(metricCacheTest->Initialize());
 
-    // Compute derivatives with and without weights caching
+  // Compute derivatives with and without weights caching
   MetricType::DerivativeType derivativeWithCaching, derivativeNoCaching;
   metricCacheTest->GetDerivative(bSplineParameters, derivativeWithCaching);
   metricCacheTest->SetUseCachingOfBSplineWeights(false);
@@ -361,7 +361,7 @@ itkMeanSquaresImageMetricTest(int, char *[])
   movingImage->SetOrigin(movingImageOrigin);
   if (!sameDerivative)
   {
-    std::cout << "\nTesting weights caching derivative calculation for BSpline Transfrom... FAILED" << std::endl;
+    std::cout << "\nTesting weights caching derivative calculation for BSpline Transform... FAILED" << std::endl;
     std::cout << "Computed derivative using weights caching was:\n"
               << derivativeWithCaching << "\n Derivative should be:\n"
               << derivativeNoCaching << "\n"
@@ -369,7 +369,7 @@ itkMeanSquaresImageMetricTest(int, char *[])
 
     return EXIT_FAILURE;
   }
-  std::cout << "\nTesting weights caching derivative calculation for BSpline Transfrom... PASSED\n" << std::endl;
+  std::cout << "\nTesting weights caching derivative calculation for BSpline Transform... PASSED\n" << std::endl;
 
   //-------------------------------------------------------
   // exercise misc member functions

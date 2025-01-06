@@ -39,7 +39,7 @@ test_VXLVideoIOFactory(char * input, char * output, itk::SizeValueType itkNotUse
   // There's something strange going on here that makes the factories not be
   // registered by default because of the order in which the includes happen.
   // The real strangeness seems to be in ITK's system with the modularized
-  // framework since none of the factories get reigstered by default.
+  // framework since none of the factories get registered by default.
   itk::ObjectFactoryBase::RegisterFactory(itk::VXLVideoIOFactory::New());
 
 

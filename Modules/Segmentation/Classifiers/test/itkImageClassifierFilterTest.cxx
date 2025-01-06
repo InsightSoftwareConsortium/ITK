@@ -68,7 +68,7 @@ itkImageClassifierFilterTest(int argc, char * argv[])
   image->Allocate();
 
   // Fill the first half of the input image with pixel intensities
-  // gnerated from a normal distribution defined by the following parameters
+  // generated from a normal distribution defined by the following parameters
   constexpr double mean = 10.5;
   constexpr double standardDeviation = 5.0;
 

@@ -213,7 +213,7 @@ itkObjectToObjectOptimizerBaseTest(int, char *[])
   ScalesType weightsReturn = optimizer->GetWeights();
   if (weightsReturn.Size() != 0 || !optimizer->GetWeightsAreIdentity())
   {
-    std::cerr << "Expected returned weights to be empty, and flag set to idenity. But got: " << weightsReturn
+    std::cerr << "Expected returned weights to be empty, and flag set to identity. But got: " << weightsReturn
               << ", GetWeightsAreIdentity: " << optimizer->GetWeightsAreIdentity() << std::endl;
     return EXIT_FAILURE;
   }

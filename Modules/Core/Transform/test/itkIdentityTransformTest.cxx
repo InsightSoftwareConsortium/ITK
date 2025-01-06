@@ -134,7 +134,7 @@ itkIdentityTransformTest(int, char *[])
   transform->SetParameters(params);
   ITK_TEST_SET_GET_VALUE(params, transform->GetParameters());
 
-  // The number of parameters is 0 for the indentity transformation
+  // The number of parameters is 0 for the identity transformation
   ITK_TEST_SET_GET_VALUE(0, transform->GetNumberOfParameters());
 
   // Testing the Jacobian

@@ -450,7 +450,7 @@ test_OpenCVVideoIO(char *          input,
   if (opencvIO->GetFramesPerSecond() != fps || opencvIO->GetDimensions(0) != width ||
       opencvIO->GetDimensions(1) != height || opencvIO->GetNumberOfComponents() != nChannels)
   {
-    std::cerr << "Didn't set writer parmeters correctly" << std::endl;
+    std::cerr << "Didn't set writer parameters correctly" << std::endl;
     ret = EXIT_FAILURE;
   }
 

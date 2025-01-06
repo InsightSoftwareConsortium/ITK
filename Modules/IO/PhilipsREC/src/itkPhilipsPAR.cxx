@@ -604,7 +604,7 @@ PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter * pPar)
       inString.clear();
       // It appears that the max number of mixes
       // parameter indicates the number of experiment
-      // repititions.  This assumption is based on
+      // repetitions.  This assumption is based on
       // the T1 mapping images that use the look-locker
       // sequence.
       inString.str(this->GetGeneralInfoString(parFile, 31));
@@ -1088,7 +1088,7 @@ PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter * pPar)
       inString.clear();
       // It appears that the max number of mixes
       // parameter indicates the number of experiment
-      // repititions.  This assumption is based on
+      // repetitions.  This assumption is based on
       // the T1 mapping images that use the look-locker
       // sequence.
       inString.str(this->GetGeneralInfoString(parFile, 30));

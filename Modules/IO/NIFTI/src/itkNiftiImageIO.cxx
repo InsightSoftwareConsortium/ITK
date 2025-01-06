@@ -1223,7 +1223,7 @@ NiftiImageIO::ReadImageInformation()
   }
 
   // there are a wide variety of intents we ignore
-  // but a few wee need to care about
+  // but a few we need to care about
   this->m_ConvertRAS = false;
   switch (this->m_NiftiImage->intent_code)
   {
@@ -2030,7 +2030,7 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short dims, double spacing
           rotation.set_column(i, rotation.get_column(i).normalize());
         }
 
-        // Only orthonormal matricies have transpose as inverse
+        // Only orthonormal matrices have transpose as inverse
         const vnl_matrix_fixed<float, 3, 3> candidate_identity = rotation * rotation.transpose();
         const bool                          is_orthonormal = candidate_identity.is_identity(1.0e-4);
 

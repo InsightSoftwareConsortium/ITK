@@ -442,7 +442,7 @@ PhilipsRECImageIO::Read(void * buffer)
   /* Returns proper name for cases 1,2,3,4,5,6 */
   std::string ImageFileName = GetImageFileName(this->m_FileName);
   // NOTE: gzFile operations act just like FILE * operations when the files
-  // are not in gzip fromat.
+  // are not in gzip format.
   // This greatly simplifies the following code, and gzFile types are used
   // everywhere.
   // In addition, it has the added benefit of reading gzip compressed image

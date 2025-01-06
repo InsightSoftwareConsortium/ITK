@@ -62,7 +62,7 @@ itkMaximumRatioDecisionRuleTest(int, char *[])
     std::cerr << "Exception= " << excp << std::endl;
   }
 
-  // Set aprior probablity
+  // Set aprior probability
   using APrioriVectorType = MaximumRatioDecisionRuleType::APrioriVectorType;
   using APrioriValueType = MaximumRatioDecisionRuleType::APrioriValueType;
 

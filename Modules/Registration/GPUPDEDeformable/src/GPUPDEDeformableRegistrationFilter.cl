@@ -117,7 +117,7 @@ __kernel void SmoothingFilterReorder(__global OUTPIXELTYPE *imgIn, __global OUTP
     // get_global_id() is beyond the image region. This is due to that
     // thread with threadId loads elements at
     // (threadId - radius + blockSize * k)
-    // where k is an interger.
+    // where k is an integer.
     //
     // Otherwise, some boundary voxel may be not loaded. For example,
     // let us assume,
@@ -218,7 +218,7 @@ __kernel void SmoothingFilter(__global OUTPIXELTYPE *imgIn, __global OUTPIXELTYP
     // get_global_id() is beyond the image region. This is due to that
     // thread with threadId loads elements at
     // (threadId - radius + blockSize * k)
-    // where k is an interger.
+    // where k is an integer.
     //
     // Otherwise, some boundary voxel may be not loaded. For example,
     // let us assume,

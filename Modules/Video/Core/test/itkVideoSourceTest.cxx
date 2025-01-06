@@ -251,7 +251,7 @@ itkVideoSourceTest(int, char *[])
   // temporal region manually set
   //////
 
-  // Reset videoSource and the requsted temporal region of tdo
+  // Reset videoSource and the requested temporal region of tdo
   videoSource = VideoSourceType::New();
   videoSource->UpdateOutputInformation();
 
@@ -266,12 +266,12 @@ itkVideoSourceTest(int, char *[])
   // Propagate the request
   videoSource->PropagateRequestedRegion(videoSource->GetOutput());
 
-  // Since the largest possible region's duration is infinte, the request
+  // Since the largest possible region's duration is infinite, the request
   // should have duration 1
   if (videoSource->GetOutput()->GetRequestedTemporalRegion().GetFrameDuration() != 1)
   {
     std::cerr << "videoSource's output's requested temporal region not set "
-              << "correctly after propagate for with infinte largest region" << std::endl;
+              << "correctly after propagate for with infinite largest region" << std::endl;
     return EXIT_FAILURE;
   }
 

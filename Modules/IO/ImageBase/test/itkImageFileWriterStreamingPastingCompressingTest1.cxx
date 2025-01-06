@@ -151,7 +151,7 @@ ActualTest(std::string inputFileName,
   writer->SetFileName(outputFileName);
   writer->SetInput(monitor->GetOutput());
 
-  // create a vaild region from the largest
+  // create a valid region from the largest
   itk::ImageIORegion ioregion(3);
   itk::ImageIORegionAdaptor<3>::Convert(pasteRegion, ioregion, largestRegion.GetIndex());
 

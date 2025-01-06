@@ -345,7 +345,7 @@ protected:
   private:
     // How many AccumulatorElements used
     size_t m_CurrentFillSize{ 0 };
-    // Continguous chunk of memory for efficiency
+    // Contiguous chunk of memory for efficiency
     std::vector<PDFValueType> m_MemoryBlock;
     // The (number of lines in the buffer) * (cells per line)
     size_t                       m_MemoryBlockSize;

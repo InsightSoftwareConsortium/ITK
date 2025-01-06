@@ -7,7 +7,7 @@ endif()
 createtestdriver(ITKVideoBridgeVXL "${ITKVideoBridgeVXL-Test_LIBRARIES};vul;vidl" "${ITKVideoBridgeVXLTests}")
 
 #Disable this test for now ( to avoid polluting the dashboard)
-# due to potential VXL ffmpeg (vidl_ffmpeg_ostream) related memoery leaks.
+# due to potential VXL ffmpeg (vidl_ffmpeg_ostream) related memory leaks.
 #When deleting the ostream after writing into a video file, seg faults will happen
 
 #itk_add_test(NAME VXLVideoIOTest

@@ -293,8 +293,8 @@ StreamingImageIOBase::GetActualNumberOfSplitsForWriting(unsigned int          nu
     // 2)pixel type
     // this->GetPixelType() is not verified because the metaio file format
     // stores all multi-component types as arrays, so it does not
-    // distinguish between pixel types. Also as long as the compoent
-    // and number of compoents match we should be able to paste, that
+    // distinguish between pixel types. Also as long as the component
+    // and number of components match we should be able to paste, that
     // is the numbers should be the same it is just the interpretation
     // that is not matching
     else if (headerImageIOReader->GetNumberOfComponents() != this->GetNumberOfComponents() ||

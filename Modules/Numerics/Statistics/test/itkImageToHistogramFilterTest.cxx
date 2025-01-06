@@ -332,7 +332,7 @@ itkImageToHistogramFilterTest(int, char *[])
 
   std::cout << "Histogram of the red component" << std::endl;
 
-  // We exepct to have 127 bins, each with a frequency of 127x127 = 16129.
+  // We expect to have 127 bins, each with a frequency of 127x127 = 16129.
   constexpr unsigned int expectedFrequency = 127 * 127;
 
   for (unsigned int bin = 0; bin < histogramSize; ++bin)

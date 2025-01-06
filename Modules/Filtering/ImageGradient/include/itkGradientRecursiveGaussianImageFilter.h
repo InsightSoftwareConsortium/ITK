@@ -202,7 +202,7 @@ private:
   TransformOutputPixel(ImageRegionIterator<VectorImage<TValue, ImageDimension>> & it)
   {
     // To transform Variable length vector we need to convert to and
-    // fro the CovariantVectorType
+    // from the CovariantVectorType
     const CovariantVectorType gradient(it.Get().GetDataPointer());
     CovariantVectorType       physicalGradient;
     it.GetImage()->TransformLocalVectorToPhysicalVector(gradient, physicalGradient);

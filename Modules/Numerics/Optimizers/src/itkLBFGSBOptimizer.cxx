@@ -429,7 +429,7 @@ LBFGSBOptimizer::GetStopConditionDescription() const
         stopConditionDescription << "Gradient tolerance too small";
         break;
       case vnl_nonlinear_minimizer::FAILED_USER_REQUEST:
-        stopConditionDescription << "Failed user requeset";
+        stopConditionDescription << "Failed user request";
         break;
     }
   }

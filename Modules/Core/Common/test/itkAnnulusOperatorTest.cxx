@@ -84,7 +84,7 @@ itkAnnulusOperatorTest(int, char *[])
 
   // Compute again having the center bright
   std::cout << std::endl << std::endl;
-  std::cout << "Rebuiling annulus with a bright center";
+  std::cout << "Rebuilding annulus with a bright center";
   normalizedAnnulus.BrightCenterOn();
   normalizedAnnulus.CreateOperator();
   std::cout << ", N = " << normalizedAnnulusSize << ", r = " << normalizedAnnulus.GetInnerRadius()

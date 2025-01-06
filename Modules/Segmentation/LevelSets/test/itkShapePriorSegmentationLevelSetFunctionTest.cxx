@@ -30,7 +30,7 @@
  * into a simple test filter, derived from DenseFiniteDifferenceImageFilter.
  *
  * Note that this test only tests the shape prior term of the level set
- * evolution. The other terms are excerised in other tests.
+ * evolution. The other terms are exercised in other tests.
  *
  * In this test an initial level set is generated that is perturbed from
  * the shape model used in the level set function. The level set is evolved
