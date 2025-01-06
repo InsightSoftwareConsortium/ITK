@@ -176,7 +176,7 @@ LSMImageIO::ReadImageInformation()
     // no zeiss info, just use tiff spacing
     return;
   }
-  // FIXME byte swap, when should it happen? writting?
+  // FIXME byte swap, when should it happen? writing?
   ByteSwapper<double>::SwapFromSystemToLittleEndian(&zi->F64VoxelSizeX);
   ByteSwapper<double>::SwapFromSystemToLittleEndian(&zi->F64VoxelSizeY);
   ByteSwapper<double>::SwapFromSystemToLittleEndian(&zi->F64VoxelSizeZ);

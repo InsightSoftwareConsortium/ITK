@@ -438,7 +438,7 @@ __kernel void ComputeUpdate(__global const IMGPIXELTYPE *fix,
       change[gidx] = 0;
       return;
       }
-    // to match checks in teh CPU version of the Demons Registration Function,
+    // to match checks in the CPU version of the Demons Registration Function,
     // compare diff with 0.001
     if (diff > -0.001 && diff < 0.001)
       {

@@ -504,7 +504,7 @@ creategoogletestdriver(ITKRegistration "${ITKRegistrationCommon-Test_LIBRARIES}"
 if(BUILD_EXAMPLES)
   #The historical examples from RegistrationITKv3 should no longer be used
   #as exemplars for best practices, but do provide reasonable historically
-  #relavant tests to exercise the toolkit in ways that older software
+  #relevant tests to exercise the toolkit in ways that older software
   #bases may continue to use for backwards compatibility reasons.
   add_subdirectory(RegistrationITKv3)
 endif()

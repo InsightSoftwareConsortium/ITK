@@ -243,7 +243,7 @@ CORDirCosines()
 
 /* common code for DTi and sym matrix tests
  *
- * Could probably be made to fo the image of vector test as well
+ * Could probably be made of the image of vector test as well
  */
 template <typename PixelType, unsigned int VDimension>
 int

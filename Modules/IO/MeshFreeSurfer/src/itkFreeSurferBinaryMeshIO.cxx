@@ -119,7 +119,7 @@ FreeSurferBinaryMeshIO::ReadMeshInformation()
   if (m_FileTypeIdentifier == (-2 & 0x00ffffff))
   {
     constexpr unsigned int numberOfCellPoints = 3;
-    // Read input commend
+    // Read input comment
     int byte;
 
     //  Extract Comment, and ignore it.
@@ -211,7 +211,7 @@ FreeSurferBinaryMeshIO::ReadMeshInformation()
   }
   else
   {
-    itkExceptionMacro("Unvalid file type " << m_FileTypeIdentifier);
+    itkExceptionMacro("Invalid file type " << m_FileTypeIdentifier);
   }
 
   // Set default point pixel component and point pixel type

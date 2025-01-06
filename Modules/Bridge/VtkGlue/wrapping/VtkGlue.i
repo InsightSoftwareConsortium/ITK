@@ -1,4 +1,4 @@
-/* This file declares various VTK datatype to SWIG so they can be refered as*/
+/* This file declares various VTK datatype to SWIG so they can be referred as*/
 /* something else than SwigObject*/
 /* Python bindings have been tested successfully.*/
 /* TODO: Test TCL bindings*/

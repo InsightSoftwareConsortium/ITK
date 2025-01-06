@@ -45,6 +45,6 @@ TEST(Euler3DTransform, TestSetGetCenterAfterSetIdentity)
   EXPECT_EQ(eulerTransformWithCenter->GetCenter(), centerOfRotation);
   eulerTransformWithCenter->SetIdentity();
   // The center of rotation should be preserved when the transform is set to identity.
-  // Reseting a transform to identity should not affect the FixedParameters.
+  // Resetting a transform to identity should not affect the FixedParameters.
   EXPECT_EQ(eulerTransformWithCenter->GetCenter(), centerOfRotation);
 }

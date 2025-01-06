@@ -348,7 +348,7 @@ OBJMeshIO::WriteMeshInformation()
   std::ofstream outputFile;
   outputFile.open(this->m_FileName.c_str());
 
-  // Test whether input file was opened successfuly
+  // Test whether input file was opened successfully
   if (!outputFile.is_open())
   {
     itkExceptionMacro("Unable to open file\n"
@@ -378,7 +378,7 @@ OBJMeshIO::WritePoints(void * buffer)
   std::ofstream outputFile;
   outputFile.open(this->m_FileName.c_str(), std::ios_base::app);
 
-  // Test whether input file was opened successfuly
+  // Test whether input file was opened successfully
   if (!outputFile.is_open())
   {
     itkExceptionMacro("Unable to open file\n"
@@ -488,7 +488,7 @@ OBJMeshIO::WriteCells(void * buffer)
   std::ofstream outputFile;
   outputFile.open(this->m_FileName.c_str(), std::ios_base::app);
 
-  // Test whether input file was opened successfuly
+  // Test whether input file was opened successfully
   if (!outputFile.is_open())
   {
     itkExceptionMacro("Unable to open file\n"
@@ -591,7 +591,7 @@ OBJMeshIO::WritePointData(void * buffer)
   std::ofstream outputFile;
   outputFile.open(this->m_FileName.c_str(), std::ios_base::app);
 
-  // Test whether input file was opened successfuly
+  // Test whether input file was opened successfully
   if (!outputFile.is_open())
   {
     itkExceptionMacro("Unable to open file\n"

@@ -33,7 +33,7 @@
 // class. Hans Johnson pointed out that the current initializer class
 // uses the image information to construct the B-spline grid in contrast
 // to how the image domain resides in physical space. So, for example, if
-// a user initilializes a control point grid from a given image and then
+// a user initializes a control point grid from a given image and then
 // constructs a second control point grid from a permuted version of the
 // given image (using the itkPermuteAxesImageFilter class) the second control
 // point grid will be oriented completely different from the first image

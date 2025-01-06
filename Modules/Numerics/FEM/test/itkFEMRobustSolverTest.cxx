@@ -54,7 +54,7 @@ itkFEMRobustSolverTest(int, char *[])
   constexpr unsigned int DataDimension = 2;
   constexpr unsigned int ParameterDimension = 2;
 
-  /** Solver type alias suppot */
+  /** Solver type alias support */
   using SolverType = itk::fem::RobustSolver<DataDimension>;
 
   /** FEMObject type alias support */
@@ -81,7 +81,7 @@ itkFEMRobustSolverTest(int, char *[])
   using ElementContainerType = FEMObjectType::ElementContainerType;
   using MaterialContainerType = FEMObjectType::MaterialContainerType;
 
-  /** intepolation grid type alias support */
+  /** interpolation grid type alias support */
   using InterpolationGridType = itk::Image<itk::fem::Element::ConstPointer, ParameterDimension>;
 
   auto solver = SolverType::New();
@@ -248,7 +248,7 @@ itkFEMRobustSolverTest(int, char *[])
   femObject->AddNextLoad(itk::fem::Load::Pointer(load2));
   femObject->AddNextLoad(itk::fem::Load::Pointer(load3));
 
-  /** finialize mesh to produce global DOF */
+  /** finalize mesh to produce global DOF */
   femObject->FinalizeMesh();
 
   /** set interpolation grid */

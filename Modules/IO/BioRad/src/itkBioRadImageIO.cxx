@@ -207,7 +207,7 @@ BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
   bioradheader h;
   if constexpr (sizeof(h) != BIORAD_HEADER_LENGTH)
   {
-    itkExceptionMacro("Problem of alignement on your platform");
+    itkExceptionMacro("Problem of alignment on your platform");
   }
   file.seekg(0, std::ios::beg);
   bioradheader * p = &h;
@@ -292,7 +292,7 @@ BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
     bioradnote note;
     if constexpr (sizeof(note) != 96)
     {
-      itkExceptionMacro("BIORadImageIO:Problem with structure alignmet");
+      itkExceptionMacro("BIORadImageIO:Problem with structure alignment");
     }
     while (!file.eof())
     {
@@ -413,7 +413,7 @@ BioRadImageIO::Write(const void * buffer)
   bioradheader * p = &header;
   if constexpr (sizeof(header) != BIORAD_HEADER_LENGTH)
   {
-    itkExceptionMacro("Problem of alignement on your platform");
+    itkExceptionMacro("Problem of alignment on your platform");
   }
   // In particular `notes' needs to be set to zero to indicate there is no notes
   header.nx = static_cast<unsigned short>(m_Dimensions[0]);

@@ -25,7 +25,7 @@
 
 
 /**
- * Function to convert image of double precison vector pixels to a
+ * Function to convert image of double precision vector pixels to a
  * representation of scalar values that are easy to view and test.
  * NOTE: Similar function in itkSymmetricEigenAnalysisImageFilterTest.cxx
  */

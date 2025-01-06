@@ -195,7 +195,7 @@ GE5ImageIO::ReadHeader(const char * FileNameToRead)
   //
   // if i didn't see it with my own eyes I wouldn't believe it.
   // Signa 5x either have a proper header or they don't!
-  // Appparently Version 2 files do always have a header or
+  // Apparently Version 2 files do always have a header or
   // we'd be totally lost!
   // if they don't have a header, we have to make assumptions
   // about where they start and hope we're right; below, the offset
@@ -507,7 +507,7 @@ GE5ImageIO::ModifyImageInformation()
 
     const float origin1[3] = { hdr1->tlhcR, hdr1->tlhcA, hdr1->tlhcS };
 
-    // Origin shopuld always come from the first slice
+    // Origin should always come from the first slice
     this->SetOrigin(0, -hdr1->tlhcR);
     this->SetOrigin(1, -hdr1->tlhcA);
     this->SetOrigin(2, hdr1->tlhcS);

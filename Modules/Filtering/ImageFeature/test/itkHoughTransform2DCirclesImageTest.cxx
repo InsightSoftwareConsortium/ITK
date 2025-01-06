@@ -290,7 +290,7 @@ Test_Center_IsInside_SpatialObject_from_GetCircles()
   if (!isInside)
   {
     std::cout << "ERROR: The center of the actual circle should be inside the"
-              << " spacial object of the detected circle!" << std::endl;
+              << " spatial object of the detected circle!" << std::endl;
     std::cout << circle << std::endl;
   }
   return isInside;

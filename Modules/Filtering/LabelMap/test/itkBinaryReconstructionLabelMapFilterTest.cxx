@@ -100,7 +100,7 @@ itkBinaryReconstructionLabelMapFilterTest(int argc, char * argv[])
   if (!diff.empty())
   {
     std::cerr << "Error" << std::endl;
-    std::cerr << " Obtained attribute set differs from expected atribute set" << std::endl;
+    std::cerr << " Obtained attribute set differs from expected attribute set" << std::endl;
     for (auto it1 = attributeSet.cbegin(), it2 = obtainedAttributeSet.cbegin();
          it1 != attributeSet.cend() || it2 != obtainedAttributeSet.cend();
          ++it1, ++it2)

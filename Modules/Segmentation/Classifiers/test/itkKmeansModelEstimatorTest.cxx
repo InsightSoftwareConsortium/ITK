@@ -291,8 +291,8 @@ itkKmeansModelEstimatorTest(int, char *[])
   std::cout << "The final codebook (cluster centers are: " << std::endl;
   std::cout << applyKmeansEstimator->GetCodebook() << std::endl;
   std::cout << "The threshold parameter used was: " << applyKmeansEstimator->GetThreshold() << std::endl;
-  std::cout << "The additive ofset parameter used was: " << applyKmeansEstimator->GetOffsetAdd() << std::endl;
-  std::cout << "The multiplicative ofset parameter used was: " << applyKmeansEstimator->GetOffsetMultiply()
+  std::cout << "The additive offset parameter used was: " << applyKmeansEstimator->GetOffsetAdd() << std::endl;
+  std::cout << "The multiplicative offset parameter used was: " << applyKmeansEstimator->GetOffsetMultiply()
             << std::endl;
   std::cout << "The maximum number of attempted splits in codebook: " << applyKmeansEstimator->GetMaxSplitAttempts()
             << std::endl;

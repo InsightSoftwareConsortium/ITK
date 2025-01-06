@@ -213,7 +213,7 @@ itkImageToImageMetricv4RegistrationTestRunAll(int argc, char * argv[])
   using ImageType = itk::Image<double, Dimension>;
 
   // options
-  // we have two options for iterations and step size to accomodate
+  // we have two options for iterations and step size to accommodate
   // the different behavior of metrics
   int                           numberOfIterations1 = 50;
   typename ImageType::PixelType maximumStepSize1 = 1.0;

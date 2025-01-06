@@ -91,7 +91,7 @@ itkIsoContourDistanceImageFilterTest(int, char *[])
     ++iter;
   }
 
-  // Squash up the level sets by mulitplying with a scalar
+  // Squash up the level sets by multiplying with a scalar
   using MultiplierType = itk::ShiftScaleImageFilter<ImageType, ImageType>;
   auto multiplier = MultiplierType::New();
   multiplier->SetInput(image);

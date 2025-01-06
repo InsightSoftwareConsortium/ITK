@@ -194,7 +194,7 @@ main(int argc, char * argv[])
 
   registration->SetInitialTransformParameters(transform->GetParameters());
 
-  std::cout << "Intial Parameters = " << std::endl;
+  std::cout << "Initial Parameters = " << std::endl;
   std::cout << transform->GetParameters() << std::endl;
 
   //

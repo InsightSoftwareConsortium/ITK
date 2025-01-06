@@ -130,7 +130,7 @@ itkMultiTransformTest(int, char *[])
 
   auto multiTransform = MultiTransformType::New();
 
-  /* Test obects */
+  /* Test objects */
   using Matrix2Type = itk::Matrix<ScalarType, VDimension, VDimension>;
   using Vector2Type = itk::Vector<ScalarType, VDimension>;
 

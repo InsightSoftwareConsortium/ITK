@@ -243,7 +243,7 @@ ComponentToString(IOComponentEnum cType)
   return rval;
 }
 // Function:    H5Object::doesAttrExist
-///\brief       test for existence of attribut
+///\brief       test for existence of attribute
 ///\param       name - IN: Name of the attribute
 ///\return      true if attribute exists, false otherwise
 ///\exception   none
@@ -900,8 +900,8 @@ HDF5ImageIO::ReadImageInformation()
   }
   catch (...)
   {
-    itkExceptionMacro("Unspecified error occured during ReadImageInformation " << this->GetFileName() << " with "
-                                                                               << this->GetNameOfClass());
+    itkExceptionMacro("Unspecified error occurred during ReadImageInformation " << this->GetFileName() << " with "
+                                                                                << this->GetNameOfClass());
   }
 }
 
@@ -1249,8 +1249,8 @@ HDF5ImageIO::WriteImageInformation()
   }
   catch (...)
   {
-    itkExceptionMacro("Unspecified error occured during WriteImageInformation: " << this->GetFileName() << " with "
-                                                                                 << this->GetNameOfClass());
+    itkExceptionMacro("Unspecified error occurred during WriteImageInformation: " << this->GetFileName() << " with "
+                                                                                  << this->GetNameOfClass());
   }
   //
   // only write image information once.
@@ -1309,8 +1309,8 @@ HDF5ImageIO::Write(const void * buffer)
   }
   catch (...)
   {
-    itkExceptionMacro("Unspecified error occured during Write: " << this->GetFileName() << " with "
-                                                                 << this->GetNameOfClass());
+    itkExceptionMacro("Unspecified error occurred during Write: " << this->GetFileName() << " with "
+                                                                  << this->GetNameOfClass());
   }
   // TODO: including this line allows the IO object to be re-used multiple times for writing, but
   // but causes the streaming tests for HDF5ImageIO to fail.

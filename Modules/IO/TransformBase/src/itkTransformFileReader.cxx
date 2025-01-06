@@ -55,7 +55,7 @@ struct KernelTransformHelper
   }
 };
 
-// Template specialized class to stop initializing Kernel Transfoms.
+// Template specialized class to stop initializing Kernel Transforms.
 template <typename TParameterType>
 struct KernelTransformHelper<TParameterType, 0>
 {

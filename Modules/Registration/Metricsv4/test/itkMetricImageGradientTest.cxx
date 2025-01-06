@@ -44,7 +44,7 @@
  *
  * This test validates computing Dm from with and w/out gradient filter.
  *
- * Dm is the gradient of moving iamge m at y,
+ * Dm is the gradient of moving image m at y,
  * and it is the output of:
  *  TransformAndEvaluateMovingPoint
  *

@@ -142,7 +142,7 @@ itkRingBufferTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  // Try retreiving the object and compare time stamps
+  // Try retrieving the object and compare time stamps
   const itk::Object::Pointer objOut = ringBuffer->GetBufferContents(0);
   if (obj1->GetTimeStamp() != objOut->GetTimeStamp())
   {

@@ -158,6 +158,6 @@ itkVotingBinaryImageFilterTest(int argc, char * argv[])
       itkGenericExceptionMacro("Input image is a real, long, long long, or an unknown component type");
   }
 
-  std::cerr << "Unexcpected program flow!" << std::endl;
+  std::cerr << "Unexpected program flow!" << std::endl;
   return EXIT_FAILURE;
 }

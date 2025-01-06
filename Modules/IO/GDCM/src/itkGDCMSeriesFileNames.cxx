@@ -85,7 +85,7 @@ GDCMSeriesFileNames::GetSeriesUIDs()
   gdcm::FileList * flist = m_SerieHelper->GetFirstSingleSerieUIDFileSet();
   while (flist)
   {
-    if (!flist->empty()) // make sure we have at leat one serie
+    if (!flist->empty()) // make sure we have at least one serie
     {
       gdcm::File * file = (*flist)[0]; // for example take the first one
 
@@ -119,7 +119,7 @@ GDCMSeriesFileNames::GetFileNames(const std::string serie)
     bool found = false;
     while (flist && !found)
     {
-      if (!flist->empty()) // make sure we have at leat one serie
+      if (!flist->empty()) // make sure we have at least one serie
       {
         gdcm::File *      file = (*flist)[0]; // for example take the first one
         const std::string id = m_SerieHelper->CreateUniqueSeriesIdentifier(file).c_str();

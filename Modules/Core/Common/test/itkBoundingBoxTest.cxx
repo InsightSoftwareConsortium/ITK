@@ -158,7 +158,7 @@ itkBoundingBoxTest(int, char *[])
   Q = qval3;
   if (!my3DBox->IsInside(Q))
   {
-    std::cerr << "Point " << Q << " Should be repoted inside " << std::endl;
+    std::cerr << "Point " << Q << " Should be reported inside " << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -166,7 +166,7 @@ itkBoundingBoxTest(int, char *[])
   Q = qval4;
   if (my3DBox->IsInside(Q))
   {
-    std::cerr << "Point " << Q << " Should be repoted outside " << std::endl;
+    std::cerr << "Point " << Q << " Should be reported outside " << std::endl;
     return EXIT_FAILURE;
   }
 

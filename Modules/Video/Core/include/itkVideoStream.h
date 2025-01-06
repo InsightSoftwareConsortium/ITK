@@ -72,7 +72,7 @@ public:
   using SpacingMapType = typename std::map<SizeValueType, SpacingType>;
   using NumberOfComponentsPerPixelMapType = typename std::map<SizeValueType, NumberOfComponentsPerPixelType>;
 
-  /** Access the spacial dimensionality of the frames */
+  /** Access the spatial dimensionality of the frames */
   static constexpr unsigned int FrameDimension = FrameType::ImageDimension;
   static unsigned int
   GetFrameDimension()

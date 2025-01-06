@@ -66,7 +66,7 @@ itkDeformableSimplexMesh3DFilterTest(int, char *[])
   using SimplexFilterType = itk::TriangleMeshToSimplexMeshFilter<TriangleMeshType, SimplexMeshType>;
 
 
-  // decalre the simplex mesh volume calculator
+  // declare the simplex mesh volume calculator
   using SimplexVolumeType = itk::SimplexMeshVolumeCalculator<SimplexMeshType>;
 
   // create the actual mesh, sphere

@@ -107,7 +107,7 @@ itkNiftiImageIOTest12(int argc, char * argv[])
     ImageType::PointType readPhysLocationIndexThree;
     readImage->TransformIndexToPhysicalPoint<itk::SpacePrecisionType>(threeIndex, readPhysLocationIndexThree);
 
-    // If the origins, and the spacings, and the direction cosines are the smae,
+    // If the origins, and the spacings, and the direction cosines are the same,
     // then index locations should all represent the same physical locations as well.
     if (origPhysLocationIndexThree.EuclideanDistanceTo(readPhysLocationIndexThree) > 1e-5)
     {

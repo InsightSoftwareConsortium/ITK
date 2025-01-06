@@ -1431,7 +1431,7 @@ MINCImageIO::Write(const void * buffer)
   {
     itkExceptionMacro(" Can not set real value hyperslab!!\n");
   }
-  // TODO: determine what to do if we are streming
+  // TODO: determine what to do if we are streaming
   this->CloseVolume();
 }
 

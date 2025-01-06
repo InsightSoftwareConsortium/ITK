@@ -168,7 +168,7 @@ itkWeightedCovarianceSampleFilterTest(int, char *[])
   {
     if (itk::Math::abs(meanExpected33[i] - mean[i]) > epsilon)
     {
-      std::cerr << "The computed mean value is incorrrect" << std::endl;
+      std::cerr << "The computed mean value is incorrect" << std::endl;
       return EXIT_FAILURE;
     }
   }
@@ -192,7 +192,7 @@ itkWeightedCovarianceSampleFilterTest(int, char *[])
     for (unsigned int j = 0; j < MeasurementVectorSize; ++j)
       if (itk::Math::abs(matrixExpected33[i][j] - matrix[i][j]) > epsilon)
       {
-        std::cerr << "Computed covariance matrix value is incorrrect" << std::endl;
+        std::cerr << "Computed covariance matrix value is incorrect" << std::endl;
         return EXIT_FAILURE;
       }
   }
@@ -233,7 +233,7 @@ itkWeightedCovarianceSampleFilterTest(int, char *[])
   {
     if (itk::Math::abs(meanExpected3[i] - mean[i]) > epsilon)
     {
-      std::cerr << "The computed mean value is incorrrect" << std::endl;
+      std::cerr << "The computed mean value is incorrect" << std::endl;
       return EXIT_FAILURE;
     }
   }
@@ -258,7 +258,7 @@ itkWeightedCovarianceSampleFilterTest(int, char *[])
     {
       if (itk::Math::abs(matrixExpected[i][j] - matrix[i][j]) > epsilon)
       {
-        std::cerr << "Computed covariance matrix value is incorrrect" << std::endl;
+        std::cerr << "Computed covariance matrix value is incorrect" << std::endl;
         return EXIT_FAILURE;
       }
     }
@@ -286,7 +286,7 @@ itkWeightedCovarianceSampleFilterTest(int, char *[])
   {
     if (itk::Math::abs(meanExpected3[i] - mean[i]) > epsilon)
     {
-      std::cerr << "The computed mean value is incorrrect" << std::endl;
+      std::cerr << "The computed mean value is incorrect" << std::endl;
       return EXIT_FAILURE;
     }
   }
@@ -297,7 +297,7 @@ itkWeightedCovarianceSampleFilterTest(int, char *[])
     {
       if (itk::Math::abs(matrixExpected[i][j] - matrix[i][j]) > epsilon)
       {
-        std::cerr << "Computed covariance matrix value is incorrrect" << std::endl;
+        std::cerr << "Computed covariance matrix value is incorrect" << std::endl;
         return EXIT_FAILURE;
       }
     }
@@ -360,7 +360,7 @@ itkWeightedCovarianceSampleFilterTest(int, char *[])
   {
     if (itk::Math::abs(meanExpected3[i] - mean[i]) > epsilon)
     {
-      std::cerr << "The computed mean value is incorrrect" << std::endl;
+      std::cerr << "The computed mean value is incorrect" << std::endl;
       return EXIT_FAILURE;
     }
   }
@@ -371,7 +371,7 @@ itkWeightedCovarianceSampleFilterTest(int, char *[])
     {
       if (itk::Math::abs(matrixExpected[i][j] - matrix[i][j]) > epsilon)
       {
-        std::cerr << "Computed covariance matrix value is incorrrect" << std::endl;
+        std::cerr << "Computed covariance matrix value is incorrect" << std::endl;
         return EXIT_FAILURE;
       }
     }

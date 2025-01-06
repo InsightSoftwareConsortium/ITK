@@ -254,7 +254,7 @@ itkGPUDemons(int, char * argv[])
   fixedImageCaster->SetInput(fixedImageReader->GetOutput());
   movingImageCaster->SetInput(movingImageReader->GetOutput());
 
-  // maching intensity histogram
+  // matching intensity histogram
   using MatchingFilterType = itk::HistogramMatchingImageFilter<InternalImageType, InternalImageType>;
   auto matcher = MatchingFilterType::New();
 
@@ -368,7 +368,7 @@ itkCPUDemons(int, char * argv[])
   fixedImageCaster->SetInput(fixedImageReader->GetOutput());
   movingImageCaster->SetInput(movingImageReader->GetOutput());
 
-  // maching intensity histogram
+  // matching intensity histogram
   using MatchingFilterType = itk::HistogramMatchingImageFilter<InternalImageType, InternalImageType>;
   auto matcher = MatchingFilterType::New();
 

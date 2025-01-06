@@ -72,7 +72,7 @@ itkFEMElement2DC0LinearQuadrilateralStressTestFEMObject(int, char *[])
   m->SetYoungsModulus(30000000.0); /* Young modulus */
   m->SetPoissonsRatio(0.3);
   m->SetCrossSectionalArea(.0); /* Crossection area */
-  m->SetMomentOfInterita(1.0);  /* Momemt of inertia */
+  m->SetMomentOfInterita(1.0);  /* Moment of inertia */
   femObject->AddNextMaterial(m);
 
   itk::fem::Element2DC0LinearQuadrilateralStress::Pointer e1;

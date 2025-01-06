@@ -71,7 +71,7 @@ MRCImageIO::CanReadFile(const char * filename)
 
   try
   {
-    // this may throw an expection, but we just return false
+    // this may throw an exception, but we just return false
     this->OpenFileForReading(file, fname);
   }
   catch (const ExceptionObject &)
@@ -344,7 +344,7 @@ MRCImageIO::UpdateHeaderFromImageIO()
 {
   MRCHeaderObject::Header header{};
 
-  itkAssertOrThrowMacro(this->GetNumberOfDimensions() != 0, "Invalid Dimension for Writting");
+  itkAssertOrThrowMacro(this->GetNumberOfDimensions() != 0, "Invalid Dimension for Writing");
   if (this->GetNumberOfDimensions() > 3)
   {
     itkExceptionMacro("MRC Writer can not write more than 3-dimensional images");
@@ -559,7 +559,7 @@ MRCImageIO::Write(const void * buffer)
     {
       if (m_MRCHeader.IsNull())
       {
-        // need to determin the size of the header in the file by
+        // need to determine the size of the header in the file by
         // reading the header into m_MRCHeader
 
         // we assume that GetActualNumberOfSplitsForWriting is called

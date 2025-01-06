@@ -72,7 +72,7 @@ HashImageFilter<TImageType>::AfterThreadedGenerateData()
 
     if (strcmp(input->GetNameOfClass(), "VectorImage") == 0)
     {
-      // spacial case for VectorImages
+      // special case for VectorImages
       numberOfComponent = ImageType::AccessorFunctorType::GetVectorLength(input);
     }
     else if (sizeof(PixelType) % sizeof(ValueType) != 0)

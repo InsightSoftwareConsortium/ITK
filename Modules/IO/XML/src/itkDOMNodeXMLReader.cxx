@@ -111,7 +111,7 @@ DOMNodeXMLReader::Update()
   std::ifstream is(this->m_FileName.c_str());
   if (!is.is_open())
   {
-    itkExceptionMacro("failed openning the input XML file");
+    itkExceptionMacro("failed opening the input XML file");
   }
 
   this->Update(is);

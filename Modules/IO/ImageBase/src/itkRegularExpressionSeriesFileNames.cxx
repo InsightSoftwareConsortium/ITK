@@ -88,7 +88,7 @@ RegularExpressionSeriesFileNames::GetFileNames()
   }
 
   // Sort the files. The files are sorted by the sub match defined by
-  // m_SubMatch. Sorting can be alpahbetic or numeric.
+  // m_SubMatch. Sorting can be alphabetic or numeric.
   if (m_NumericSort)
   {
     std::sort(sortedBySubMatch.begin(), sortedBySubMatch.end(), lt_pair_numeric_string_string());

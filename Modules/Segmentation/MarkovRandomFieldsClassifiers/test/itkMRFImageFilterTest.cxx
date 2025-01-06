@@ -413,7 +413,7 @@ itkMRFImageFilterTest(int, char *[])
   // for iteration
   //---------------------------------------------------------------------
 
-  // Set up the nighborhood iterators
+  // Set up the neighborhood iterators
   // Labelled image neighborhood iterator typedef
 
   using OutImageNeighborhoodIterator = itk::NeighborhoodIterator<ClassImageType>;

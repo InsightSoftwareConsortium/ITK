@@ -104,7 +104,7 @@ TEST(Copy, AllowsUsingAutoKeywordCopyingWithoutWarnings)
   // Sanity check: the copy of the vector and the copy of the array still have the same elements.
   EXPECT_TRUE(std::equal(copyOfVector.cbegin(), copyOfVector.cend(), copyOfArray.cbegin(), copyOfArray.cend()));
 
-  // The following demonstates an `itk::Copy` use case when having structured bindings:
+  // The following demonstrates an `itk::Copy` use case when having structured bindings:
   auto originalPair =
     std::make_pair(std::vector<std::intmax_t>{ 1, 2, 3, 4 }, std::array<std::intmax_t, 4>{ 1, 2, 3, 4 });
   const auto [first, second] = itk::Copy(GetReference(originalPair));

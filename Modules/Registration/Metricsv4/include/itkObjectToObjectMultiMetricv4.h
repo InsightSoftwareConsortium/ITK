@@ -26,7 +26,7 @@
 namespace itk
 {
 /** \class ObjectToObjectMultiMetricv4
- * \brief This class takes one ore more ObjectToObject metrics and assigns weights to their derivatives
+ * \brief This class takes one or more ObjectToObject metrics and assigns weights to their derivatives
  * to compute a single result.
  *
  * This class takes N ObjectToObject-derived component metrics and assigns a weight to each of the metrics'

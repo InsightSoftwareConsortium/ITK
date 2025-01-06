@@ -34,7 +34,7 @@ itkMinimumMaximumImageCalculatorTest(int, char *[])
   constexpr double   origin[3] = { 0.0, 0.0, 0.0 };
   constexpr double   spacing[3] = { 1, 1, 1 };
 
-  std::cout << "Testing Minimum and Maximum Image Calulator:\n";
+  std::cout << "Testing Minimum and Maximum Image Calculator:\n";
 
   // Allocate a simple test image
   auto                  image = ImageType::New();

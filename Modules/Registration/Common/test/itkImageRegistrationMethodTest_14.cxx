@@ -89,12 +89,12 @@ F(itk::Vector<double, 3> & v);
  * Note: the optimization performance can be improved by
  * setting the image origin to center of mass of the image.
  *
- * Implementaton of this class is based on:
+ * Implementation of this class is based on:
  * Viola, P. and Wells III, W. (1997).
  * "Alignment by Maximization of Mutual Information"
  * International Journal of Computer Vision, 24(2):137-154
  *
- * Caveat: this exampe only work for 3D images
+ * Caveat: this example only works for 3D images
  *
  */
 

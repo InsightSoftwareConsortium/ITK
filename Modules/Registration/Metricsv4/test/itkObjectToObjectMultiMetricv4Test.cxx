@@ -91,7 +91,7 @@ itkObjectToObjectMultiMetricv4TestEvaluate(ObjectToObjectMultiMetricv4TestMultiM
   multiVariateMetric->GetDerivative(ResultOfGetDerivative);
   for (MultiMetricType::NumberOfParametersType p = 0; p < multiVariateMetric->GetNumberOfParameters(); ++p)
   {
-    // When accumulation is done accross multiple threads, the accumulations can be done
+    // When accumulation is done across multiple threads, the accumulations can be done
     // in different orders resulting in slightly different numerical results.
     // The FloatAlmostEqual is used to address the multi-threaded accumulation differences
     if (!itk::Math::FloatAlmostEqual(ResultOfGetDerivative[p], DerivResultOfGetValueAndDerivative[p], 8, 1e-15))

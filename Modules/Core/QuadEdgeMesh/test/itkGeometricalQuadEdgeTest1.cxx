@@ -75,7 +75,7 @@ itkGeometricalQuadEdgeTest1(int, char *[])
 
   PrimalQuadEdgeType * qe = HelperType::MakeQuadEdges();
   // this will only call the method
-  // a more rigorous test woul dbe needed
+  // a more rigorous test would be needed
   qe->SetRight(1);
   qe->GetSym();
   qe->GetOprev();

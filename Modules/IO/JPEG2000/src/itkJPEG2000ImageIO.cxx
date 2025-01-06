@@ -746,7 +746,7 @@ JPEG2000ImageIO::Write(const void * buffer)
   {
     if (parameters.POC[i].prg == -1)
     {
-      // TODO should this be and excpetion? can we continue loading
+      // TODO should this be and exception? can we continue loading
       // and expect good results
       std::cerr << "Unrecognized progression order in option -P (POC n " << i + 1
                 << ") [LRCP, RLCP, RPCL, PCRL, CPRL] !!" << std::endl;

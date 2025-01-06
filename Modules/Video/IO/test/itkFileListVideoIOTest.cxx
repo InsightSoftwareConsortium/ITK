@@ -207,7 +207,7 @@ test_FileListVideoIO(const char *  input,
   if (itk::Math::NotExactlyEquals(fileListIO->GetFramesPerSecond(), fps) || fileListIO->GetDimensions(0) != width ||
       fileListIO->GetDimensions(1) != height || fileListIO->GetNumberOfComponents() != nChannels)
   {
-    std::cerr << "Didn't set writer parmeters correctly" << std::endl;
+    std::cerr << "Didn't set writer parameters correctly" << std::endl;
     std::cerr << "  FpS -> Got: " << fileListIO->GetFramesPerSecond() << " Expected: " << fps << std::endl;
     std::cerr << "  width -> Got: " << fileListIO->GetDimensions(0) << " Expected: " << width << std::endl;
     std::cerr << "  height -> Got: " << fileListIO->GetDimensions(1) << " Expected: " << height << std::endl;

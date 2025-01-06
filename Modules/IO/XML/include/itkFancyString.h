@@ -162,11 +162,11 @@ public:
   FancyString &
   TrimRight(const std::string & dislike = " \t\n\r");
 
-  /** Method to covert lower-case characters to upper cases in a string. */
+  /** Method to convert lower-case characters to upper cases in a string. */
   FancyString &
   ToUpperCase();
 
-  /** Method to covert upper-case characters to lower cases in a string. */
+  /** Method to convert upper-case characters to lower cases in a string. */
   FancyString &
   ToLowerCase();
 

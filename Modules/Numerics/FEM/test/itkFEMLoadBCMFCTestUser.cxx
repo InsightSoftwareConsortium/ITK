@@ -87,7 +87,7 @@ itkFEMLoadBCMFCTestUser(int, char *[])
   m->SetYoungsModulus(200000000000.0); /* Young modulus */
   m->SetPoissonsRatio(0.3);
   m->SetCrossSectionalArea(2000.0); /* Crossection area */
-  m->SetMomentOfInertia(1.0);       /* Momemt of inertia */
+  m->SetMomentOfInertia(1.0);       /* Moment of inertia */
   femObject->AddNextMaterial(m);
 
   m = itk::fem::MaterialLinearElasticity::New();
@@ -95,7 +95,7 @@ itkFEMLoadBCMFCTestUser(int, char *[])
   m->SetYoungsModulus(200000.0); /* Young modulus */
   m->SetPoissonsRatio(0.3);
   m->SetCrossSectionalArea(1200.0); /* Crossection area */
-  m->SetMomentOfInertia(1.0);       /* Momemt of inertia */
+  m->SetMomentOfInertia(1.0);       /* Moment of inertia */
   femObject->AddNextMaterial(m);
 
   m = itk::fem::MaterialLinearElasticity::New();
@@ -103,7 +103,7 @@ itkFEMLoadBCMFCTestUser(int, char *[])
   m->SetYoungsModulus(70000.0); /* Young modulus */
   m->SetPoissonsRatio(0.3);
   m->SetCrossSectionalArea(900.0); /* Crossection area */
-  m->SetMomentOfInertia(1.0);      /* Momemt of inertia */
+  m->SetMomentOfInertia(1.0);      /* Moment of inertia */
   femObject->AddNextMaterial(m);
 
   itk::fem::Element2DC0LinearLineStress::Pointer e1;
