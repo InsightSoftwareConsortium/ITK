@@ -109,6 +109,12 @@ ImageScanlineIterator(SmartPointer<RLEImage<TPixel, VImageDimension, CounterType
                       const typename RLEImage<TPixel, VImageDimension, CounterType>::RegionType &)
   -> ImageScanlineIterator<RLEImage<TPixel, VImageDimension, CounterType>>;
 
+// Deduction guide for class template argument deduction (CTAD).
+template <typename TPixel, unsigned int VImageDimension, typename CounterType>
+ImageScanlineIterator(RLEImage<TPixel, VImageDimension, CounterType> *,
+                      const typename RLEImage<TPixel, VImageDimension, CounterType>::RegionType &)
+  -> ImageScanlineIterator<RLEImage<TPixel, VImageDimension, CounterType>>;
+
 } // end namespace itk
 
 #endif // itkRLEImageScanlineIterator_h
