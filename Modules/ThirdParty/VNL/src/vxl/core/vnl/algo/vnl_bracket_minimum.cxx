@@ -16,7 +16,7 @@ static const double EPSqr = 1e-14;
 inline void
 swap(double & a, double & b)
 {
-  const double x = a;
+  double x = a;
   a = b;
   b = x;
 }
@@ -68,8 +68,7 @@ vnl_bracket_minimum(vnl_cost_function & fn, double & a, double & b, double & c, 
   while (fc < fb) // Keep stepping until we go uphill again
   {
     // Use parabolic interpolation to estimate position of centre
-    double p;
-    double q;
+    double p, q;
     vnl_fit_parabola(a, b, c, fa, fb, fc, p, q);
 
     // Ensure q not within EPSqr of zero
@@ -82,7 +81,7 @@ vnl_bracket_minimum(vnl_cost_function & fn, double & a, double & b, double & c, 
     // For true quadratic function, minima is at b+p/q
     double du = p / q;
 
-    const double tol = EPS * (1.0 + std::max(std::fabs(b), std::fabs(c)));
+    double tol = EPS * (1.0 + std::max(std::fabs(b), std::fabs(c)));
 
     // Don't evaluate too close to b
     if (du >= 0 && du < tol)
@@ -98,7 +97,7 @@ vnl_bracket_minimum(vnl_cost_function & fn, double & a, double & b, double & c, 
     else if ((c - u) < tol && (c - u) >= 0)
       u -= tol; // u<c by small amount
 
-    const double u_limit = b + 100 * (c - b); // Some way along the line
+    double u_limit = b + 100 * (c - b); // Some way along the line
     double fu = 0.0;
 
     if ((u - b) * (c - u) > 0.0) // u in range (b,c), allowing for c<b

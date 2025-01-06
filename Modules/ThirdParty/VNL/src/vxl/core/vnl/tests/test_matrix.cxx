@@ -137,7 +137,7 @@ test_int()
     constexpr size_t lrow = 2;
     constexpr size_t lcol = 3;
     constexpr int some_data[lrow * lcol] = { 1, 2, 3, 4, 5, 6 };
-    const vnl_matrix<int> mrc(some_data, lrow, lcol);
+    vnl_matrix<int> mrc(some_data, lrow, lcol);
     vnl_vector<int> v;
 
     TEST("v = mrc.get_row(0)", (v = mrc.get_row(0), (v.get(0) == 1 && v.get(1) == 2 && v.get(2) == 3)), true);
@@ -191,11 +191,11 @@ test_int()
   {
     int data[16] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
 
-    const vnl_vector<int> flat(data, 16);
+    vnl_vector<int> flat(data, 16);
 
-    const vnl_matrix<int> sq(data, 4, 4);
-    const vnl_matrix<int> lg(data, 2, 8);
-    const vnl_matrix<int> wd(data, 8, 2);
+    vnl_matrix<int> sq(data, 4, 4);
+    vnl_matrix<int> lg(data, 2, 8);
+    vnl_matrix<int> wd(data, 8, 2);
 
     TEST("sq.flatten_row_major", flat.is_equal(sq.flatten_row_major(), 10e-6), true);
     TEST("lg.flatten_row_major", flat.is_equal(lg.flatten_row_major(), 10e-6), true);
@@ -258,7 +258,7 @@ test_int()
   vnl_matrix<int> m6(2, 2, 4, m6values);
   TEST("vnl_matrix<int> m6(2,2,4,{1,2,3,4})", m6.get(1, 1), 4);
   int m7values[] = { 5, 6, 7, 8 };
-  const vnl_matrix<int> m7(2, 2, 4, m7values);
+  vnl_matrix<int> m7(2, 2, 4, m7values);
   TEST("vnl_matrix<int> m7(2,2,4,{5,6,7,8})", m7.get(1, 1), 8);
   TEST("m5=m6*m7",
        ((m5 = m6 * m7), (m5.get(0, 0) == 19 && m5.get(0, 1) == 22 && m5.get(1, 0) == 43 && m5.get(1, 1) == 50)),
@@ -267,7 +267,7 @@ test_int()
        ((m6 *= m7), (m6.get(0, 0) == 19 && m6.get(0, 1) == 22 && m6.get(1, 0) == 43 && m6.get(1, 1) == 50)),
        true);
   int c0values[] = { 1, 0 };
-  const vnl_matrix<int> c0(2, 1, 2, c0values);
+  vnl_matrix<int> c0(2, 1, 2, c0values);
   vnl_matrix<int> c1;
   TEST("c1=m6*c0",
        ((c1 = m6 * c0),
@@ -315,18 +315,18 @@ test_int()
   int v1values[] = { 1, 0, 0 };
   int v2values[] = { 0, 1, 0 };
   int v3values[] = { 0, 0, 1 };
-  const vnl_matrix<int> v1(3, 1, 3, v1values);
-  const vnl_matrix<int> v2(3, 1, 3, v2values);
-  const vnl_matrix<int> v3(3, 1, 3, v3values);
+  vnl_matrix<int> v1(3, 1, 3, v1values);
+  vnl_matrix<int> v2(3, 1, 3, v2values);
+  vnl_matrix<int> v3(3, 1, 3, v3values);
   TEST("dot_product(v1,v2)", (dot_product(v1, v2) == 0 && dot_product(v1, v3) == 0 && dot_product(v2, v3) == 0), true);
   v = v3;
   TEST("4d-v=3d-v", (v.rows() == 3 && v.columns() == 1 && v == v3), true);
 
   // Zero-size
   {
-    const vnl_matrix<int> m1(0, 3);
+    vnl_matrix<int> m1(0, 3);
     vnl_matrix<int> m2(3, 4);
-    const vnl_matrix<int> m3(4, 0);
+    vnl_matrix<int> m3(4, 0);
     vnl_matrix<int> m = m1 * (m2 * m3);
     TEST("zero-size mult rows", m.rows(), 0);
     TEST("zero-size mult cols", m.columns(), 0);
@@ -341,32 +341,32 @@ test_int()
   }
 
   {
-    const vnl_matrix<int> m(5, 10, 1);
-    const vnl_vector<int> vr = m.apply_rowwise(sum_vector);
+    vnl_matrix<int> m(5, 10, 1);
+    vnl_vector<int> vr = m.apply_rowwise(sum_vector);
     for (unsigned int i = 0; i < vr.size(); ++i)
       TEST("vr.apply_rowwise(sum_vector)", vr.get(i), 10);
-    const vnl_vector<int> vc = m.apply_columnwise(sum_vector);
+    vnl_vector<int> vc = m.apply_columnwise(sum_vector);
     for (unsigned int i = 0; i < vc.size(); ++i)
       TEST("vc.apply_columnwise(sum_vector)", vc.get(i), 5);
   }
 
   { // test operator-() on unsigned values
-    unsigned int vvalues[] = { 1, 2, 3, 4 };
-    int out_values[] = { -1, -2, -3, -4 };
+    unsigned int vvalues[] = {1, 2, 3, 4};
+    int out_values[] = {-1, -2, -3, -4};
     const vnl_matrix<int> outm(2, 2, 4, out_values);
 
-    const vnl_matrix<unsigned int> unsigned_m22(2, 2, 4, vvalues);
+    vnl_matrix<unsigned int> unsigned_m22(2, 2, 4, vvalues);
     const vnl_matrix<int> minus_v1 = -unsigned_m22;
     const vnl_matrix<int> minus_v2 = unsigned_m22.operator-();
     TEST("unsigned_m22.operator-()",
          (outm(0, 0) == minus_v1(0, 0) && outm(0, 1) == minus_v1(0, 1) && outm(1, 0) == minus_v1(1, 0) &&
-          outm(1, 1) == minus_v1(1, 1)),
-         true);
+          outm(1, 1) == minus_v1(1, 1)), true);
     TEST("unsigned_m22.operator-()",
          (outm(0, 0) == minus_v2(0, 0) && outm(0, 1) == minus_v2(0, 1) && outm(1, 0) == minus_v2(1, 0) &&
-          outm(1, 1) == minus_v2(1, 1)),
-         true);
+          outm(1, 1) == minus_v2(1, 1)), true);
   }
+
+
 }
 
 
@@ -438,7 +438,7 @@ test_float()
   vnl_matrix<float> d6(2, 2, 4, d6values);
   TEST("vnl_matrix<float> d6(2,2,4,{1.0,2.0,3.0,4.0})", d6.get(1, 1), 4.0);
   float d7values[] = { 5.0, 6.0, 7.0, 8.0 };
-  const vnl_matrix<float> d7(2, 2, 4, d7values);
+  vnl_matrix<float> d7(2, 2, 4, d7values);
   TEST("vnl_matrix<float> d7(2,2,4,{5.0,6.0,7.0,8.0})", d7.get(1, 1), 8.0);
   TEST("d5=d6*d7",
        ((d5 = d6 * d7), (d5.get(0, 0) == 19.0 && d5.get(0, 1) == 22.0 && d5.get(1, 0) == 43.0 && d5.get(1, 1) == 50.0)),
@@ -448,9 +448,7 @@ test_float()
        true);
 
   // additional tests
-  vnl_matrix<float> m0;
-  vnl_matrix<float> m1;
-  vnl_matrix<float> m2;
+  vnl_matrix<float> m0, m1, m2;
   float mvalues[] = { 0, -2, 2, 0 };
   vnl_matrix<float> m(2, 2, 4, mvalues);
   m0 = m;
@@ -482,9 +480,9 @@ test_float()
   float v1values[] = { 1, 0, 0 };
   float v2values[] = { 0, 1, 0 };
   float v3values[] = { 0, 0, 1 };
-  const vnl_matrix<float> v1(3, 1, 3, v1values);
-  const vnl_matrix<float> v2(3, 1, 3, v2values);
-  const vnl_matrix<float> v3(3, 1, 3, v3values);
+  vnl_matrix<float> v1(3, 1, 3, v1values);
+  vnl_matrix<float> v2(3, 1, 3, v2values);
+  vnl_matrix<float> v3(3, 1, 3, v3values);
   TEST("dot_product(v1,v2)", (dot_product(v1, v2) == 0 && dot_product(v1, v3) == 0 && dot_product(v2, v3) == 0), true);
   v = v3;
   TEST("4d-v=3d-v", (v.rows() == 3 && v.columns() == 1 && v == v3), true);
@@ -494,11 +492,11 @@ test_float()
   TEST("zero-size after clear()", v.columns(), 0);
 
   {
-    const vnl_matrix<float> m(5, 10, 1);
-    const vnl_vector<float> vr = m.apply_rowwise(sum_vector);
+    vnl_matrix<float> m(5, 10, 1);
+    vnl_vector<float> vr = m.apply_rowwise(sum_vector);
     for (unsigned int i = 0; i < vr.size(); ++i)
       TEST("vr.apply_rowwise(sum_vector)", vr.get(i), 10);
-    const vnl_vector<float> vc = m.apply_columnwise(sum_vector);
+    vnl_vector<float> vc = m.apply_columnwise(sum_vector);
     for (unsigned int i = 0; i < vc.size(); ++i)
       TEST("vc.apply_columnwise(sum_vector)", vc.get(i), 5);
   }
@@ -571,7 +569,7 @@ test_double()
   vnl_matrix<double> d6(2, 2, 4, d6values);
   TEST("vnl_matrix<double> d6(2,2,4,{1.0,2.0,3.0,4.0})", d6.get(1, 1), 4.0);
   double d7values[] = { 5.0, 6.0, 7.0, 8.0 };
-  const vnl_matrix<double> d7(2, 2, 4, d7values);
+  vnl_matrix<double> d7(2, 2, 4, d7values);
   TEST("vnl_matrix<double> d7(2,2,4,{5.0,6.0,7.0,8.0})", d7.get(1, 1), 8.0);
   TEST("d5=d6*d7",
        ((d5 = d6 * d7), (d5.get(0, 0) == 19.0 && d5.get(0, 1) == 22.0 && d5.get(1, 0) == 43.0 && d5.get(1, 1) == 50.0)),
@@ -608,11 +606,11 @@ test_double()
   TEST("vnl_copy(T, S)", d9 == d2, true);
 
   {
-    const vnl_matrix<double> m(5, 10, 1);
-    const vnl_vector<double> vr = m.apply_rowwise(sum_vector);
+    vnl_matrix<double> m(5, 10, 1);
+    vnl_vector<double> vr = m.apply_rowwise(sum_vector);
     for (unsigned int i = 0; i < vr.size(); ++i)
       TEST("vr.apply_rowwise(sum_vector)", vr.get(i), 10);
-    const vnl_vector<double> vc = m.apply_columnwise(sum_vector);
+    vnl_vector<double> vc = m.apply_columnwise(sum_vector);
     for (unsigned int i = 0; i < vc.size(); ++i)
       TEST("vc.apply_columnwise(sum_vector)", vc.get(i), 5);
   }

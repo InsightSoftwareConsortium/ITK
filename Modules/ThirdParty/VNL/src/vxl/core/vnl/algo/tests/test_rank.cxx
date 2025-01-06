@@ -4,7 +4,7 @@
 #include "testlib/testlib_test.h"
 
 inline int
-svd_rank(const vnl_matrix<double> & M)
+svd_rank(vnl_matrix<double> const & M)
 {
   return vnl_svd<double>(M, 1e-8).rank();
 }

@@ -11,20 +11,17 @@
 #include <vnl/algo/vnl_netlib.h> // for dchscdf_()
 
 template <class T>
-double
-vnl_chi_squared_cumulative(T chisq, long dof)
+double vnl_chi_squared_cumulative(T chisq, long dof)
 {
-  double cdf;
-  const double chisqr = chisq;
-  v3p_netlib_dchscdf_(&chisqr, &dof, &cdf);
+  double cdf, chisqr = chisq;
+  v3p_netlib_dchscdf_(&chisqr,&dof,&cdf);
   return cdf;
 }
 
 //------------------------------------------------------------
 
 template <class T>
-double
-vnl_chi_squared_statistic_1(const T * A, const T * B, int n, bool normalize)
+double vnl_chi_squared_statistic_1 (T const *A, T const *B, int n, bool normalize)
 {
   double sum = 0;
 
@@ -32,28 +29,25 @@ vnl_chi_squared_statistic_1(const T * A, const T * B, int n, bool normalize)
   {
     T sumA = 0;
     T sumB = 0;
-    for (int i = 0; i < n; ++i)
-    {
+    for (int i=0; i<n; ++i) {
       sumA += A[i];
       sumB += B[i];
     }
 
-    for (int i = 0; i < n; ++i)
-      if (A[i])
-      {
-        const double a = double(A[i]) / sumA;
-        const double b = double(B[i]) / sumB;
-        const double tmp = a - b;
-        sum += tmp * tmp / a;
+    for (int i=0; i<n; ++i)
+      if (A[i]) {
+        double a = double(A[i])/sumA;
+        double b = double(B[i])/sumB;
+        double tmp = a - b;
+        sum += tmp*tmp/a;
       }
   }
   else
   {
-    for (int i = 0; i < n; ++i)
-      if (A[i])
-      {
-        const double tmp = A[i] - B[i];
-        sum += tmp * tmp / A[i];
+    for (int i=0; i<n; ++i)
+      if (A[i]) {
+        double tmp = A[i] - B[i];
+        sum += tmp*tmp/A[i];
       }
   }
 
@@ -61,15 +55,13 @@ vnl_chi_squared_statistic_1(const T * A, const T * B, int n, bool normalize)
 }
 
 template <class T>
-double
-vnl_chi_squared_statistic_2(const T * A, const T * B, int n, bool normalize)
+double vnl_chi_squared_statistic_2 (T const *A, T const *B, int n, bool normalize)
 {
   return vnl_chi_squared_statistic_1(B, A, n, normalize);
 }
 
 template <class T>
-double
-vnl_chi_squared_statistic_12(const T * A, const T * B, int n, bool normalize)
+double vnl_chi_squared_statistic_12(T const *A, T const *B, int n, bool normalize)
 {
   double sum = 0;
 
@@ -77,28 +69,25 @@ vnl_chi_squared_statistic_12(const T * A, const T * B, int n, bool normalize)
   {
     T sumA = 0;
     T sumB = 0;
-    for (int i = 0; i < n; ++i)
-    {
+    for (int i=0; i<n; ++i) {
       sumA += A[i];
       sumB += B[i];
     }
 
-    for (int i = 0; i < n; ++i)
-      if (A[i] || B[i])
-      {
-        const double a = double(A[i]) / sumA;
-        const double b = double(B[i]) / sumB;
-        const double tmp = a - b;
-        sum += tmp * tmp / (a + b);
+    for (int i=0; i<n; ++i)
+      if (A[i] || B[i]) {
+        double a = double(A[i])/sumA;
+        double b = double(B[i])/sumB;
+        double tmp = a - b;
+        sum += tmp*tmp/(a + b);
       }
   }
   else
   {
-    for (int i = 0; i < n; ++i)
-      if (A[i] || B[i])
-      {
-        const double tmp = A[i] - B[i];
-        sum += tmp * tmp / (A[i] + B[i]);
+    for (int i=0; i<n; ++i)
+      if (A[i] || B[i]) {
+        double tmp = A[i] - B[i];
+        sum += tmp*tmp/(A[i] + B[i]);
       }
   }
 
@@ -106,10 +95,10 @@ vnl_chi_squared_statistic_12(const T * A, const T * B, int n, bool normalize)
 }
 
 #undef VNL_CHI_SQUARED_INSTANTIATE
-#define VNL_CHI_SQUARED_INSTANTIATE(T)                                                          \
-  template VNL_ALGO_EXPORT double vnl_chi_squared_cumulative(T chisq, long dof);                \
-  template VNL_ALGO_EXPORT double vnl_chi_squared_statistic_1(T const *, T const *, int, bool); \
-  template VNL_ALGO_EXPORT double vnl_chi_squared_statistic_2(T const *, T const *, int, bool); \
-  template VNL_ALGO_EXPORT double vnl_chi_squared_statistic_12(T const *, T const *, int, bool)
+#define VNL_CHI_SQUARED_INSTANTIATE(T) \
+template VNL_ALGO_EXPORT double vnl_chi_squared_cumulative  (T chisq, long dof); \
+template VNL_ALGO_EXPORT double vnl_chi_squared_statistic_1 (T const *, T const *, int, bool); \
+template VNL_ALGO_EXPORT double vnl_chi_squared_statistic_2 (T const *, T const *, int, bool); \
+template VNL_ALGO_EXPORT double vnl_chi_squared_statistic_12(T const *, T const *, int, bool)
 
 #endif // vnl_chi_squared_hxx_

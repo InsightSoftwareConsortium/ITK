@@ -15,16 +15,14 @@
 //: Easy conversion between vectors and matrices templated over different types.
 // \relatesalso vnl_matrix
 // \relatesalso vnl_vector
-template <class S, class T>
-VNL_EXPORT void
-vnl_copy(const S * const src, T * const dst, const unsigned n);
+template <class S, class T> VNL_EXPORT
+void vnl_copy(S const * const src, T *const dst, const unsigned n);
 
 
 //: Easy conversion between vectors and matrices templated over different types.
 // \relatesalso vnl_matrix
 // \relatesalso vnl_vector
-template <class S, class T>
-VNL_EXPORT void
-vnl_copy(const S &, T &);
+template <class S, class T> VNL_EXPORT
+void vnl_copy(S const &, T &);
 
 #endif // vnl_copy_h_

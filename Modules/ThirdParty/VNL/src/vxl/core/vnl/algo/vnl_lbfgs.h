@@ -38,12 +38,11 @@
 
 class VNL_ALGO_EXPORT vnl_lbfgs : public vnl_nonlinear_minimizer
 {
-public:
+ public:
   vnl_lbfgs();
-  vnl_lbfgs(vnl_cost_function & f);
+  vnl_lbfgs(vnl_cost_function& f);
 
-  bool
-  minimize(vnl_vector<double> & x);
+  bool minimize(vnl_vector<double>& x);
 
   //: Step accuracy/speed tradeoff.
   // Effectively the number of correction vectors to the diagonal approximation
@@ -67,10 +66,9 @@ public:
   // single evaluation.
   double default_step_length;
 
-private:
-  void
-  init_parameters();
-  vnl_cost_function * f_{ nullptr };
+ private:
+  void init_parameters();
+  vnl_cost_function *f_{nullptr};
   //  vnl_lbfgs() {} // default constructor makes no sense
   // does too.  Can set values for parameters.
 };

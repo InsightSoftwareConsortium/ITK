@@ -30,3 +30,4 @@ if(GEOTIFF_INCLUDE_DIR)
     set( GEOTIFF_LIBRARIES ${GEOTIFF_LIBRARY} )
   endif()
 endif()
+

@@ -62,7 +62,7 @@ static void SolveComplexMatrix( MatrixPtr,
                         RealVector, RealVector, RealVector, RealVector );
 static void SolveComplexTransposedMatrix( MatrixPtr,
                         RealVector, RealVector, RealVector, RealVector );
-#elif spCOMPLEX
+#elseif spCOMPLEX
 static void SolveComplexMatrix( MatrixPtr, RealVector, RealVector );
 static void SolveComplexTransposedMatrix( MatrixPtr,
                         RealVector, RealVector );
@@ -73,6 +73,7 @@ static void SolveComplexTransposedMatrix( MatrixPtr,
 
 
 
+
 /*!
  *  Performs forward elimination and back substitution to find the
  *  unknown vector from the \a RHS vector and factored matrix.  This
@@ -223,6 +224,7 @@ void SolveComplexMatrix();
 
 
 
+
 #if spCOMPLEX
 /*!
  *  Performs forward elimination and back substitution to find the
@@ -388,6 +390,7 @@ ComplexNumber  Temp;
 
 
 
+
 #if TRANSPOSE
 /*!
  *  Performs forward elimination and back substitution to find the
@@ -532,6 +535,7 @@ void SolveComplexTransposedMatrix();
 
 
 
+
 #if TRANSPOSE AND spCOMPLEX
 /*!
  *  Performs forward elimination and back substitution to find the

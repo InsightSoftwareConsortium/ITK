@@ -9,19 +9,15 @@
 static void
 test_inverse()
 {
-  const double eps = 1e-11;
+  double eps = 1e-11;
   vnl_random rng(9667566ul);
-  vnl_double_2x2 residue2;
-  vnl_double_2x2 id2;
+  vnl_double_2x2 residue2, id2;
   id2.set_identity();
-  vnl_double_3x3 residue3;
-  vnl_double_3x3 id3;
+  vnl_double_3x3 residue3, id3;
   id3.set_identity();
-  vnl_double_4x4 residue4;
-  vnl_double_4x4 id4;
+  vnl_double_4x4 residue4, id4;
   id4.set_identity();
-  vnl_matrix<double> M;
-  vnl_matrix<double> Mi;
+  vnl_matrix<double> M, Mi;
 
   // 2x2 inverse of a specific matrix
   vnl_double_2x2 id2i = vnl_inverse(id2);
@@ -55,7 +51,7 @@ test_inverse()
   // 2x2 inverse of random matrix
   for (double & i : M2)
     i = rng.drand32(-1.0, 1.0);
-  const vnl_double_2x2 m2r(M2);
+  vnl_double_2x2 m2r(M2);
   m2i = vnl_inverse(m2r);
   residue2 = m2r * m2i - id2;
   TEST_NEAR("rand 2x2 vnl_inverse", residue2.array_inf_norm(), 0.0, eps);
@@ -101,7 +97,7 @@ test_inverse()
   // 3x3 inverse of random matrix
   for (double & i : M3)
     i = rng.drand32(-1.0, 1.0);
-  const vnl_double_3x3 m3r(M3);
+  vnl_double_3x3 m3r(M3);
   m3i = vnl_inverse(m3r);
   residue3 = m3r * m3i - id3;
   TEST_NEAR("3x3 vnl_inverse", residue3.array_inf_norm(), 0.0, eps);
@@ -149,7 +145,7 @@ test_inverse()
   // 4x4 inverse of random matrix
   for (double & i : M4)
     i = rng.drand32(-1.0, 1.0);
-  const vnl_double_4x4 m4r(M4);
+  vnl_double_4x4 m4r(M4);
   m4i = vnl_inverse(m4r);
   residue4 = m4r * m4i - id4;
   TEST_NEAR("4x4 vnl_inverse", residue4.array_inf_norm(), 0.0, eps);
@@ -164,7 +160,7 @@ test_inverse()
 
   // 4x4 inverse of a specific sparse matrix
   double M4s[16] = { 0.9998, 0.0, 0.02, 0.059, 0.0, 1.0, 0.0, 0.0, -0.02, 0.0, 0.9998, 0.0, 0.0, 0.0, 0.0, 1.0 };
-  const vnl_double_4x4 m4s(M4s);
+  vnl_double_4x4 m4s(M4s);
   m4i = vnl_inverse(m4s);
   residue4 = m4s * m4i - id4;
   TEST_NEAR("4x4 vnl_inverse", residue4.array_inf_norm(), 0.0, eps);

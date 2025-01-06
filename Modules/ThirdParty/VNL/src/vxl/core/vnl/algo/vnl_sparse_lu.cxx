@@ -9,15 +9,26 @@
 
 // destructor - undo the spCreate() from the constructor(s)
 // (memory leak fix of 7 Feb. 2008 by Toon Huysmans)
-vnl_sparse_lu::~vnl_sparse_lu() { spDestroy(pmatrix_); }
+vnl_sparse_lu::~vnl_sparse_lu()
+{
+  spDestroy(pmatrix_);
+}
 
 //: constructor - controls if condition information is computed
-vnl_sparse_lu::vnl_sparse_lu(const vnl_sparse_matrix<double> & M, operation mode)
+vnl_sparse_lu::vnl_sparse_lu(vnl_sparse_matrix<double> const & M, operation mode)
   : A_(M)
+  , factored_(false)
+  , condition_computed_(false)
   , mode_(mode)
-
+  , norm_(0)
+  , rcond_(0)
+  , largest_(0)
+  , pivot_thresh_(0)
+  , absolute_thresh_(0)
+  , diag_pivoting_(1)
+  , pmatrix_(nullptr)
 {
-  const int n = (int)M.columns();
+  int n = (int)M.columns();
   assert(n == (int)(M.rows()));
   int error = 0;
   pmatrix_ = spCreate(n, 0, &error);
@@ -30,9 +41,9 @@ vnl_sparse_lu::vnl_sparse_lu(const vnl_sparse_matrix<double> & M, operation mode
   spElement * pelement = nullptr;
   for (A_.reset(); A_.next();)
   {
-    const int r = A_.getrow();
-    const int c = A_.getcolumn();
-    const double v = A_.value();
+    int r = A_.getrow();
+    int c = A_.getcolumn();
+    double v = A_.value();
     pelement = spGetElement(pmatrix_, r + 1, c + 1);
     if (pelement == nullptr)
     {
@@ -67,14 +78,14 @@ vnl_sparse_lu::est_condition()
 
 //: Solve least squares problem M x = b.
 void
-vnl_sparse_lu::solve(const vnl_vector<double> & b, vnl_vector<double> * x)
+vnl_sparse_lu::solve(vnl_vector<double> const & b, vnl_vector<double> * x)
 {
   if (!pmatrix_)
   {
     std::cout << "In vnl_sparse_lu::solve(..) - matrix not defined\n";
     return;
   }
-  const unsigned n = b.size();
+  unsigned n = b.size();
   assert(n == A_.columns());
   auto * rhs = new spREAL[n + 1];
   for (unsigned i = 0; i < n; ++i)
@@ -118,7 +129,7 @@ vnl_sparse_lu::solve(const vnl_vector<double> & b, vnl_vector<double> * x)
 
 //: Solve least squares problem M x = b.
 vnl_vector<double>
-vnl_sparse_lu::solve(const vnl_vector<double> & b)
+vnl_sparse_lu::solve(vnl_vector<double> const & b)
 {
   vnl_vector<double> ret(b.size());
   this->solve(b, &ret);
@@ -127,14 +138,14 @@ vnl_sparse_lu::solve(const vnl_vector<double> & b)
 
 //: Solve problem M^t x = b
 void
-vnl_sparse_lu::solve_transpose(const vnl_vector<double> & b, vnl_vector<double> * x)
+vnl_sparse_lu::solve_transpose(vnl_vector<double> const & b, vnl_vector<double> * x)
 {
   if (!pmatrix_)
   {
     std::cout << "In vnl_sparse_lu::solve(..) - matrix not defined\n";
     return;
   }
-  const unsigned n = b.size();
+  unsigned n = b.size();
   assert(n == A_.columns());
   auto * rhs = new spREAL[n + 1];
   for (unsigned i = 0; i < n; ++i)
@@ -178,7 +189,7 @@ vnl_sparse_lu::solve_transpose(const vnl_vector<double> & b, vnl_vector<double> 
 
 //: Solve problem M^t x = b
 vnl_vector<double>
-vnl_sparse_lu::solve_transpose(const vnl_vector<double> & b)
+vnl_sparse_lu::solve_transpose(vnl_vector<double> const & b)
 {
   vnl_vector<double> ret(b.size());
   this->solve_transpose(b, &ret);
@@ -234,7 +245,7 @@ vnl_sparse_lu::rcond()
   return rcond_;
 }
 
-//: Estimated upper bound of error in solution
+//:Estimated upper bound of error in solution
 double
 vnl_sparse_lu::max_error_bound()
 {
@@ -248,7 +259,7 @@ vnl_sparse_lu::max_error_bound()
       return 0;
     factored_ = true;
   }
-  const double roundoff = spRoundoff(pmatrix_, largest_);
+  double roundoff = spRoundoff(pmatrix_, largest_);
   if (rcond_ > 0)
     return roundoff / rcond_;
   return 0;

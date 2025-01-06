@@ -17,7 +17,11 @@
 //: Default constructor.
 // memory is set to 5, line_search_accuracy to 0.9.
 // Calls init_parameters
-vnl_lbfgs::vnl_lbfgs() { init_parameters(); }
+vnl_lbfgs::vnl_lbfgs()
+
+{
+  init_parameters();
+}
 
 //: Constructor. f is the cost function to be minimized.
 // Calls init_parameters
@@ -65,7 +69,7 @@ vnl_lbfgs::minimize(vnl_vector<double> & x)
               << (w.size() / 128.0 / 1024.0) << " MB], ErrorScale = " << f_->reported_error(1)
               << ", xnorm = " << x.magnitude() << std::endl;
 
-  const bool we_trace = (verbose_ && !trace);
+  bool we_trace = (verbose_ && !trace);
 
   if (we_trace)
     std::cerr << "vnl_lbfgs: ";
@@ -103,8 +107,8 @@ vnl_lbfgs::minimize(vnl_vector<double> & x)
       best_f = f;
     }
 
-#define print_(i, a, b, c, d)                                                                           \
-  std::cerr << std::setw(6) << (i) << ' ' << std::setw(20) << (a) << ' ' << std::setw(20) << (b) << ' ' \
+#define print_(i, a, b, c, d)                                                                                          \
+  std::cerr << std::setw(6) << (i) << ' ' << std::setw(20) << (a) << ' ' << std::setw(20) << (b) << ' '                \
             << std::setw(20) << (c) << ' ' << std::setw(20) << (d) << '\n'
 
     if (check_derivatives_)
@@ -114,8 +118,8 @@ vnl_lbfgs::minimize(vnl_vector<double> & x)
       if (verbose_)
       {
         int l = n;
-        const int limit = 100;
-        const int limit_tail = 10;
+        int limit = 100;
+        int limit_tail = 10;
         if (l > limit + limit_tail)
         {
           std::cerr << " [ Showing only first " << limit << " components ]\n";

@@ -32,9 +32,7 @@ vnl_brent::minimize_given_bounds_and_1st_f(double ax, double bx, double fb, doub
 void
 vnl_brent::bracket_minimum(double * ax, double * bx, double * cx)
 {
-  double fa;
-  double fb;
-  double fc;
+  double fa, fb, fc;
   bracket_minimum(ax, bx, cx, &fa, &fb, &fc);
 }
 
@@ -51,9 +49,7 @@ vnl_brent::minimize(double x)
   double ax = x - 1.0;
   double xx = x + 1.0;
   double bx = 0.0;
-  double fa;
-  double fx;
-  double fb;
+  double fa, fx, fb;
   bracket_minimum(&ax, &xx, &bx, &fa, &fx, &fb);
   minimize_given_bounds(bx, xx, ax, ftol, &x);
   return x;

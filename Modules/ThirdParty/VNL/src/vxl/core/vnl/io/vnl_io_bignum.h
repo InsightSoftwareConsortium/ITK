@@ -15,17 +15,14 @@
 
 //: Binary save vnl_bignum to stream.
 //  \relatesalso vnl_bignum
-void
-vsl_b_write(vsl_b_ostream & os, const vnl_bignum & v);
+void vsl_b_write(vsl_b_ostream & os, vnl_bignum const& v);
 
 //: Binary load vnl_bignum from stream.
 //  \relatesalso vnl_bignum
-void
-vsl_b_read(vsl_b_istream & is, vnl_bignum & v);
+void vsl_b_read(vsl_b_istream & is, vnl_bignum & v);
 
 //: Print human readable summary of object to a stream
 //  \relatesalso vnl_bignum
-void
-vsl_print_summary(std::ostream & os, const vnl_bignum & b);
+void vsl_print_summary(std::ostream & os, vnl_bignum const& b);
 
 #endif // vnl_io_bignum_h

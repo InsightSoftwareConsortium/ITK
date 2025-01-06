@@ -14,7 +14,7 @@
 // This is replacing a member template...
 template <class T>
 T
-vnl_real_polynomial_evaluate(const double * a, int n, const T & x)
+vnl_real_polynomial_evaluate(double const * a, int n, T const & x)
 {
   --n;
   T acc = a[n];
@@ -39,10 +39,10 @@ vnl_real_polynomial_evaluate(const double * a, int n, const T & x)
 
 //: Instantiate templates before use
 template double vnl_real_polynomial_evaluate
-SELECT(double)(const double *, int, const double &);
-template std::complex<double> vnl_real_polynomial_evaluate SELECT(std::complex<double>)(const double *,
+SELECT(double)(double const *, int, double const &);
+template std::complex<double> vnl_real_polynomial_evaluate SELECT(std::complex<double>)(double const *,
                                                                                         int,
-                                                                                        const std::complex<double> &);
+                                                                                        std::complex<double> const &);
 
 //: Evaluate polynomial at value x
 double
@@ -54,7 +54,7 @@ vnl_real_polynomial::evaluate(double x) const
 
 //: Evaluate polynomial at complex value x
 std::complex<double>
-vnl_real_polynomial::evaluate(const std::complex<double> & x) const
+vnl_real_polynomial::evaluate(std::complex<double> const & x) const
 {
   return vnl_real_polynomial_evaluate SELECT(std::complex<double>)(coeffs_.data_block(), coeffs_.size(), x);
 }
@@ -70,7 +70,7 @@ vnl_real_polynomial::devaluate(double x) const
 
 //: Evaluate derivative at complex value x. Not implemented.
 std::complex<double>
-vnl_real_polynomial::devaluate(const std::complex<double> & x) const
+vnl_real_polynomial::devaluate(std::complex<double> const & x) const
 {
   return derivative().evaluate(x);
 }
@@ -79,7 +79,7 @@ vnl_real_polynomial::devaluate(const std::complex<double> & x) const
 double
 vnl_real_polynomial::evaluate_integral(double x) const
 {
-  const int d = coeffs_.size() - 1;
+  int d = coeffs_.size() - 1;
   const double * f = coeffs_.data_block();
   double sum = 0.0;
   int di = 1;
@@ -154,8 +154,7 @@ operator-(const vnl_real_polynomial & f1, const vnl_real_polynomial & f2)
 }
 
 //: Returns polynomial which is product of two polynomials f1(x)*f2(x)
-vnl_real_polynomial
-operator*(const vnl_real_polynomial & f1, const vnl_real_polynomial & f2)
+vnl_real_polynomial operator*(const vnl_real_polynomial & f1, const vnl_real_polynomial & f2)
 {
   const unsigned int d1 = f1.degree();
   const unsigned int d2 = f2.degree();
@@ -172,7 +171,7 @@ operator*(const vnl_real_polynomial & f1, const vnl_real_polynomial & f2)
 }
 //: Add rhs to this and return *this
 vnl_real_polynomial &
-vnl_real_polynomial::operator+=(const vnl_real_polynomial & rhs)
+vnl_real_polynomial::operator+=(vnl_real_polynomial const & rhs)
 {
   *this = (*this) + rhs;
   return *this;
@@ -180,7 +179,7 @@ vnl_real_polynomial::operator+=(const vnl_real_polynomial & rhs)
 
 //: Subtract rhs from this and return *this
 vnl_real_polynomial &
-vnl_real_polynomial::operator-=(const vnl_real_polynomial & rhs)
+vnl_real_polynomial::operator-=(vnl_real_polynomial const & rhs)
 {
   *this = (*this) - rhs;
   return *this;
@@ -188,7 +187,7 @@ vnl_real_polynomial::operator-=(const vnl_real_polynomial & rhs)
 
 //: multiply rhs with this and return *this
 vnl_real_polynomial &
-vnl_real_polynomial::operator*=(const vnl_real_polynomial & rhs)
+vnl_real_polynomial::operator*=(vnl_real_polynomial const & rhs)
 {
   *this = (*this) * rhs;
   return *this;
@@ -199,13 +198,13 @@ vnl_real_polynomial::operator*=(const vnl_real_polynomial & rhs)
 double
 vnl_rms_difference(const vnl_real_polynomial & f1, const vnl_real_polynomial & f2, double x1, double x2)
 {
-  const double dx = std::fabs(x2 - x1);
+  double dx = std::fabs(x2 - x1);
   if (dx == 0.0)
     return 0;
 
-  const vnl_real_polynomial df = f2 - f1;
-  const vnl_real_polynomial df2 = df * df;
-  const double area = std::fabs(df2.evaluate_integral(x1, x2));
+  vnl_real_polynomial df = f2 - f1;
+  vnl_real_polynomial df2 = df * df;
+  double area = std::fabs(df2.evaluate_integral(x1, x2));
   return std::sqrt(area / dx);
 }
 
@@ -213,7 +212,7 @@ vnl_rms_difference(const vnl_real_polynomial & f1, const vnl_real_polynomial & f
 vnl_real_polynomial
 vnl_real_polynomial::derivative() const
 {
-  const int d = degree();
+  int d = degree();
   vnl_vector<double> cd(d);
   for (int i = d - 1, di = 1; i >= 0; --i, ++di)
     cd[i] = coeffs_[i] * di;
@@ -225,7 +224,7 @@ vnl_real_polynomial::derivative() const
 vnl_real_polynomial
 vnl_real_polynomial::primitive() const
 {
-  const int d = coeffs_.size(); // degree+1
+  int d = coeffs_.size(); // degree+1
   vnl_vector<double> cd(d + 1);
   cd[d] = 0.0; // constant term
   for (int i = d - 1, di = 1; i >= 0; --i, ++di)
@@ -236,7 +235,7 @@ vnl_real_polynomial::primitive() const
 void
 vnl_real_polynomial::print(std::ostream & os) const
 {
-  const int d = degree();
+  int d = degree();
   bool first_coeff = true; // to avoid '+' in front of equation
 
   for (int i = 0; i <= d; ++i)

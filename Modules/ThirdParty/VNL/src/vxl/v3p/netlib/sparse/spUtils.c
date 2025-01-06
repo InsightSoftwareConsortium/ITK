@@ -80,7 +80,7 @@ static void ComplexMatrixMultiply( MatrixPtr,
                         RealVector, RealVector, RealVector, RealVector );
 static void ComplexTransposedMatrixMultiply( MatrixPtr,
                         RealVector, RealVector, RealVector, RealVector );
-#elif spCOMPLEX
+#elseif spCOMPLEX
 static void ComplexMatrixMultiply( MatrixPtr,
                         RealVector, RealVector );
 static void ComplexTransposedMatrixMultiply( MatrixPtr,

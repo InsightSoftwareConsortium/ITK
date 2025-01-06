@@ -17,13 +17,21 @@ vnl_random::linear_congruential_lrand32()
 //: Construct with seed
 vnl_random::vnl_random(unsigned long seed)
   : linear_congruential_previous(seed)
-
+  , mz_array_position(0UL)
+  , mz_borrow(0)
+  , mz_previous_normal_flag(0)
 {
   reseed(seed);
 }
 
 //: Construct with seed
-vnl_random::vnl_random(unsigned long seed[vnl_random_array_size]) { reseed(seed); }
+vnl_random::vnl_random(unsigned long seed[vnl_random_array_size])
+  : mz_array_position(0UL)
+  , mz_borrow(0)
+  , mz_previous_normal_flag(0)
+{
+  reseed(seed);
+}
 
 vnl_random::vnl_random(const vnl_random & r)
   : linear_congruential_previous(r.linear_congruential_previous)
@@ -53,7 +61,11 @@ vnl_random::operator=(const vnl_random & r)
   return *this;
 }
 
-vnl_random::vnl_random() { reseed(); }
+vnl_random::vnl_random()
+
+{
+  reseed();
+}
 
 vnl_random::~vnl_random()
 {
@@ -123,16 +135,14 @@ vnl_random::normal()
   }
   else
   {
-    double x;
-    double y;
-    double r2;
+    double x, y, r2;
     do
     {
       x = drand32(-1.0, 1.0);
       y = drand32(-1.0, 1.0);
       r2 = x * x + y * y;
     } while (r2 >= 1.0 || r2 == 0.0);
-    const double fac = std::sqrt(-2.0 * std::log(r2) / r2);
+    double fac = std::sqrt(-2.0 * std::log(r2) / r2);
     mz_previous_normal = x * fac;
     mz_previous_normal_flag = 1;
     return y * fac;
@@ -155,16 +165,14 @@ vnl_random::normal64()
   }
   else
   {
-    double x;
-    double y;
-    double r2;
+    double x, y, r2;
     do
     {
       x = drand64(-1.0, 1.0);
       y = drand64(-1.0, 1.0);
       r2 = x * x + y * y;
     } while (r2 >= 1.0 || r2 == 0.0);
-    const double fac = std::sqrt(-2.0 * std::log(r2) / r2);
+    double fac = std::sqrt(-2.0 * std::log(r2) / r2);
     mz_previous_normal = x * fac;
     mz_previous_normal_flag = 1;
     return y * fac;
@@ -174,8 +182,8 @@ vnl_random::normal64()
 unsigned long
 vnl_random::lrand32()
 {
-  const unsigned long p1 = mz_array[(vnl_random_array_size + mz_array_position - mz_previous1) % vnl_random_array_size];
-  const unsigned long p2 = (p1 - mz_array[mz_array_position] - mz_borrow) & 0xffffffff;
+  unsigned long p1 = mz_array[(vnl_random_array_size + mz_array_position - mz_previous1) % vnl_random_array_size];
+  unsigned long p2 = (p1 - mz_array[mz_array_position] - mz_borrow) & 0xffffffff;
   if (p2 < p1)
     mz_borrow = 0;
   if (p2 > p1)
@@ -193,8 +201,8 @@ vnl_random::lrand32(int lower, int upper)
   // Note: we have to reject some numbers otherwise we get a very slight bias
   // towards the lower part of the range lower - upper. See below
 
-  const unsigned long range = upper - lower + 1;
-  const unsigned long denom = 0xffffffff / range;
+  unsigned long range = upper - lower + 1;
+  unsigned long denom = 0xffffffff / range;
   unsigned long ran;
   while ((ran = lrand32()) >= denom * range)
     ;
@@ -212,8 +220,8 @@ vnl_random::lrand32(int lower, int upper, int & count)
   // version of the above function that returns the number of lrand32()
   // calls made.
 
-  const unsigned long range = upper - lower + 1;
-  const unsigned long denom = 0xffffffff / range;
+  unsigned long range = upper - lower + 1;
+  unsigned long denom = 0xffffffff / range;
   unsigned long ran;
   count = 1;
   while ((ran = lrand32()) >= denom * range)

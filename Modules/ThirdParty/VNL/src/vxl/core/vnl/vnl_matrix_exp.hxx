@@ -8,21 +8,20 @@
 #include "vnl_matrix_exp.h"
 #include <cassert>
 #ifdef DEBUG
-#  ifdef _MSC_VER
-#    include <vcl_msvc_warnings.h>
-#  endif
+#ifdef _MSC_VER
+#  include <vcl_msvc_warnings.h>
+#endif
 #endif
 
 template <class Matrix>
-bool
-vnl_matrix_exp(const Matrix & X, Matrix & expX, double max_err)
+bool vnl_matrix_exp(Matrix const &X, Matrix &expX, double max_err)
 {
   assert(X.rows() == X.cols());
   assert(X.rows() == expX.rows());
   assert(X.cols() == expX.cols());
   assert(max_err > 0);
 
-  const double norm_X = X.operator_inf_norm();
+  double norm_X = X.operator_inf_norm();
 #ifdef DEBUG
   std::cerr << "norm_X = " << norm_X << std::endl;
 #endif
@@ -31,16 +30,14 @@ vnl_matrix_exp(const Matrix & X, Matrix & expX, double max_err)
   expX.set_identity();
   Matrix acc(X);
   double norm_acc_bound = norm_X;
-  for (unsigned n = 1; true; ++n)
-  {
+  for (unsigned n=1; true; ++n) {
     expX += acc;
 #ifdef DEBUG
     std::cerr << "n=" << n << std::endl;
 #endif
 
-    if (norm_X < n)
-    {
-      const double err_bound = norm_acc_bound / (1 - norm_X / n);
+    if (norm_X < n) {
+      double err_bound = norm_acc_bound / (1 - norm_X/n);
 #ifdef DEBUG
       std::cerr << "err_bound = " << err_bound << std::endl;
 #endif
@@ -49,9 +46,9 @@ vnl_matrix_exp(const Matrix & X, Matrix & expX, double max_err)
     }
 
     acc = acc * X;
-    acc /= n + 1;
+    acc /= n+1;
 
-    norm_acc_bound *= norm_X / (n + 1);
+    norm_acc_bound *= norm_X/(n+1);
   }
 
   return true;
@@ -59,14 +56,13 @@ vnl_matrix_exp(const Matrix & X, Matrix & expX, double max_err)
 
 
 template <class Matrix>
-Matrix
-vnl_matrix_exp(const Matrix & X)
+Matrix vnl_matrix_exp(Matrix const &X)
 {
   Matrix expX(X.rows(), X.cols());
 #ifndef NDEBUG
   bool retval =
 #endif
-    vnl_matrix_exp(X, expX, 1e-10);
+  vnl_matrix_exp(X, expX, 1e-10);
 
   assert(retval);
   return expX;
@@ -75,8 +71,8 @@ vnl_matrix_exp(const Matrix & X)
 //------------------------------------------------------------------------------
 
 #undef VNL_MATRIX_EXP_INSTANTIATE
-#define VNL_MATRIX_EXP_INSTANTIATE(Matrix)                                   \
-  template VNL_EXPORT bool vnl_matrix_exp(Matrix const &, Matrix &, double); \
-  template VNL_EXPORT Matrix vnl_matrix_exp(Matrix const &)
+#define VNL_MATRIX_EXP_INSTANTIATE(Matrix) \
+template VNL_EXPORT bool vnl_matrix_exp(Matrix const&, Matrix &, double); \
+template VNL_EXPORT Matrix vnl_matrix_exp(Matrix const&)
 
 #endif // vnl_matrix_exp_hxx_

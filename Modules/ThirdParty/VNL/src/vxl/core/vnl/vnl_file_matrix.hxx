@@ -18,12 +18,11 @@
 
 //: Load matrix from filename.
 template <class T>
-vnl_file_matrix<T>::vnl_file_matrix(const char * filename)
+vnl_file_matrix<T>::vnl_file_matrix(char const* filename)
 {
-  if (filename && filename[0] == '-' && filename[1] == '\0')
+  if (filename && filename[0]=='-' && filename[1]=='\0')
     ok_ = this->read_ascii(std::cin);
-  else
-  {
+  else {
     std::ifstream o(filename);
     ok_ = this->read_ascii(o);
   }
@@ -35,6 +34,7 @@ vnl_file_matrix<T>::vnl_file_matrix(const char * filename)
 //--------------------------------------------------------------------------------
 
 #undef VNL_FILE_MATRIX_INSTANTIATE
-#define VNL_FILE_MATRIX_INSTANTIATE(T) template class VNL_EXPORT vnl_file_matrix<T>
+#define VNL_FILE_MATRIX_INSTANTIATE(T) \
+template class VNL_EXPORT vnl_file_matrix<T >
 
 #endif // vnl_file_matrix_hxx_

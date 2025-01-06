@@ -19,7 +19,6 @@
 //: Return a matrix whose columns span is the orthogonal complement of v.
 //  \relatesalso vnl_matrix
 template <class T>
-vnl_matrix<T>
-vnl_orthogonal_complement(const vnl_vector<T> & v);
+vnl_matrix<T> vnl_orthogonal_complement(vnl_vector<T> const &v);
 
 #endif // vnl_orthogonal_complement_h_

@@ -30,58 +30,64 @@
 
 class vcl_atomic_count
 {
-private:
-  class scoped_lock
-  {
-  public:
-    scoped_lock(pthread_mutex_t & m)
-      : m_(m)
+ private:
+
+    class scoped_lock
     {
-      pthread_mutex_lock(&m_);
+    public:
+
+        scoped_lock(pthread_mutex_t & m): m_(m)
+        {
+            pthread_mutex_lock(&m_);
+        }
+
+        ~scoped_lock()
+        {
+            pthread_mutex_unlock(&m_);
+        }
+
+    private:
+
+        pthread_mutex_t & m_;
+    };
+
+ public:
+
+    explicit vcl_atomic_count(long v): value_(v)
+    {
+        pthread_mutex_init(&mutex_, 0);
     }
 
-    ~scoped_lock() { pthread_mutex_unlock(&m_); }
+    ~vcl_atomic_count()
+    {
+        pthread_mutex_destroy(&mutex_);
+    }
 
-  private:
-    pthread_mutex_t & m_;
-  };
+    void operator++()
+    {
+        scoped_lock lock(mutex_);
+        ++value_;
+    }
 
-public:
-  explicit vcl_atomic_count(long v)
-    : value_(v)
-  {
-    pthread_mutex_init(&mutex_, 0);
-  }
+    long operator--()
+    {
+        scoped_lock lock(mutex_);
+        return --value_;
+    }
 
-  ~vcl_atomic_count() { pthread_mutex_destroy(&mutex_); }
+    operator long() const
+    {
+        scoped_lock lock(mutex_);
+        return value_;
+    }
 
-  void
-  operator++()
-  {
-    scoped_lock lock(mutex_);
-    ++value_;
-  }
+ private:
 
-  long
-  operator--()
-  {
-    scoped_lock lock(mutex_);
-    return --value_;
-  }
+    vcl_atomic_count(vcl_atomic_count const &);
+    vcl_atomic_count & operator=(vcl_atomic_count const &);
 
-  operator long() const
-  {
-    scoped_lock lock(mutex_);
-    return value_;
-  }
-
-private:
-  vcl_atomic_count(const vcl_atomic_count &) = delete;
-  vcl_atomic_count &
-  operator=(const vcl_atomic_count &) = delete;
-
-  mutable pthread_mutex_t mutex_;
-  long value_;
+    mutable pthread_mutex_t mutex_;
+    long value_;
 };
 
 #endif // #ifndef vcl_atomic_count_pthreads_h_

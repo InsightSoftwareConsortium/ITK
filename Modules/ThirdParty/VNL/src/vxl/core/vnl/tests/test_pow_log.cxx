@@ -7,7 +7,7 @@
 // certainly in those cases where b is relatively small.
 // Negative exponents make of course no sense since the result must be int.
 // Beware of overflow!
-static inline int
+inline static int
 int_pow(int a, unsigned int b)
 {
   if (b == 0)
@@ -16,9 +16,9 @@ int_pow(int a, unsigned int b)
     return a;
   else
   {
-    const long asquare = static_cast<long>(a) * static_cast<long>(a);
-    const long r1 = static_cast<long>(int_pow(static_cast<int>(asquare), b / 2));
-    const long r2 = static_cast<long>(int_pow(a, b % 2));
+    long asquare = static_cast<long>(a) * static_cast<long>(a);
+    long r1 = static_cast<long>(int_pow(static_cast<int>(asquare), b / 2));
+    long r2 = static_cast<long>(int_pow(a, b % 2));
     return static_cast<int>(r1 * r2);
   }
 }
@@ -26,7 +26,7 @@ int_pow(int a, unsigned int b)
 // A recursive implementation for a^b with a double and b integer;
 // this is a more accurate alternative for std::pow(double a,double b),
 // certainly in those cases where b is relatively small.
-static inline double
+inline static double
 int_pow(double a, int b)
 {
   if (b == 0)
@@ -44,7 +44,7 @@ int_pow(double a, int b)
 //  std::floor(std::log(double a)/std::log(8.0)).
 // Negative arguments make of course no sense; strictly speaking, also a=0
 // makes no sense, but in that case a "very negative" value is returned.
-static inline int
+inline static int
 log8(unsigned int a)
 {
   if (a == 0)

@@ -23,7 +23,7 @@ print_hex(const T p)
   for (int i = (sizeof(p) - 1); i >= 0; --i)
   {
     str << std::setfill('0') << std::setw(2);
-    const auto curr_value = static_cast<short>((reinterpret_cast<const unsigned char *>(&p))[i]);
+    const auto curr_value = static_cast<short>((reinterpret_cast<unsigned char const *>(&p))[i]);
     str << curr_value;
   }
   str << std::dec;
@@ -113,12 +113,12 @@ test_math()
   test_static_const_definition();
   test_math_constants();
 
-  const int n = -11;
-  const float f = -7.5f;
-  const double d = -vnl_math::pi;
-  const std::complex<double> i(0, 1);
-  const std::complex<double> z(-1, 2);
-  const std::complex<double> e_ipi = std::exp(d * i);
+  int n = -11;
+  float f = -7.5f;
+  double d = -vnl_math::pi;
+  std::complex<double> i(0, 1);
+  std::complex<double> z(-1, 2);
+  std::complex<double> e_ipi = std::exp(d * i);
 
   std::cout << "n = " << n << '\n'
             << "f = " << f << '\n'
@@ -406,8 +406,8 @@ test_math()
   std::cout << "conv_eps = " << conv_eps << " = 2pi - " << vnl_math::twopi - conv_eps << std::endl;
   TEST(
     "vnl_math::angle_0_to_2pi(-10eps)", conv_eps < vnl_math::twopi - vnl_math_test_2_epsilon && conv_eps > 6.283, true);
-  const double ang = vnl_math::twopi - eps;
-  const double conv_ang = vnl_math::angle_0_to_2pi(ang);
+  double ang = vnl_math::twopi - eps;
+  double conv_ang = vnl_math::angle_0_to_2pi(ang);
   std::cout << "conv_ang = " << conv_ang << " = 2pi - " << vnl_math::twopi - conv_ang << std::endl;
   TEST("vnl_math::angle_0_to_2pi(2pi-10eps)", conv_ang, ang);
   // test vnl_math::angle_minuspi_to_pi() for "extreme values":
@@ -436,16 +436,16 @@ test_math()
 
     std::cout << "+ +" << std::endl;
 
-    const unsigned short x_short_u = 7;
-    const unsigned short y_short_u = 2;
+    unsigned short x_short_u = 7;
+    unsigned short y_short_u = 2;
     signed short x_short_s = 7;
     signed short y_short_s = 2;
-    const unsigned int x_int_u = 7;
-    const unsigned int y_int_u = 2;
+    unsigned int x_int_u = 7;
+    unsigned int y_int_u = 2;
     signed int x_int_s = 7;
     signed int y_int_s = 2;
-    const unsigned long x_long_u = 7;
-    const unsigned long y_long_u = 2;
+    unsigned long x_long_u = 7;
+    unsigned long y_long_u = 2;
     signed long x_long_s = 7;
     signed long y_long_s = 2;
     float x_float = 7;
@@ -596,16 +596,16 @@ test_math()
 
     std::cout << "+ +" << std::endl;
 
-    const unsigned short x_short_u = 7;
-    const unsigned short y_short_u = 2;
+    unsigned short x_short_u = 7;
+    unsigned short y_short_u = 2;
     signed short x_short_s = 7;
     signed short y_short_s = 2;
-    const unsigned int x_int_u = 7;
-    const unsigned int y_int_u = 2;
+    unsigned int x_int_u = 7;
+    unsigned int y_int_u = 2;
     signed int x_int_s = 7;
     signed int y_int_s = 2;
-    const unsigned long x_long_u = 7;
-    const unsigned long y_long_u = 2;
+    unsigned long x_long_u = 7;
+    unsigned long y_long_u = 2;
     signed long x_long_s = 7;
     signed long y_long_s = 2;
     float x_float = 7;
@@ -717,12 +717,12 @@ test_math()
 #endif
   }
 
-#define RETURN_TYPE_TEST(funcname, argtypename, returntypename)                                                 \
-  {                                                                                                             \
-    const bool test_return_type =                                                                               \
-      std::is_same<decltype(vnl_math ::funcname(static_cast<argtypename>(123.4))), returntypename>();           \
-    TEST("vnl_math::" #funcname "<" #argtypename "> returns " #returntypename " type", test_return_type, true); \
-  }                                                                                                             \
+#define RETURN_TYPE_TEST(funcname, argtypename, returntypename)                                                        \
+  {                                                                                                                    \
+    const bool test_return_type =                                                                                      \
+      std::is_same<decltype(vnl_math ::funcname(static_cast<argtypename>(123.4))), returntypename>();                  \
+    TEST("vnl_math::" #funcname "<" #argtypename "> returns " #returntypename " type", test_return_type, true);        \
+  }                                                                                                                    \
   void()
 
   RETURN_TYPE_TEST(isinf, int, bool);

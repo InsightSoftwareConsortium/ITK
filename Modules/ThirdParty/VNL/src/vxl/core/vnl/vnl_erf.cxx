@@ -34,11 +34,9 @@ vnl_erfc(double x)
 
 
   // Local variables
-  double xden;
-  double xnum;
-  double result;
-  double del;
-  double ysq;
+  double xden, xnum, result;
+  int i;
+  double y, del, ysq;
 
   // ------------------------------------------------------------------
 
@@ -139,7 +137,7 @@ vnl_erfc(double x)
   //
   //  Latest modification: March 19, 1990
 
-  const double y = std::abs(x);
+  y = std::abs(x);
   // ------------------------------------------------------------------
   //  Evaluate  erfc  for  |X| <= 0.46875
   // ------------------------------------------------------------------
@@ -153,7 +151,7 @@ vnl_erfc(double x)
   {
     xnum = c[8] * y;
     xden = y;
-    for (int i = 0; i < 7; ++i)
+    for (i = 0; i < 7; ++i)
     {
       xnum = (xnum + c[i]) * y;
       xden = (xden + d[i]) * y;

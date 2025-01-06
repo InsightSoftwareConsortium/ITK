@@ -6,14 +6,15 @@
 #endif
 #include "vcl_compiler.h"
 
-int
-test_preprocessor_main(int /*argc*/, char * /*argv*/[])
+int test_preprocessor_main(int /*argc*/,char* /*argv*/[])
 {
-  const int result = 0;
-  std::cout << "VXL version identified as: " << VXL_VERSION_MAJOR << "." << VXL_VERSION_MINOR << "."
-            << VXL_VERSION_PATCH;
+  int result = 0;
+  std::cout << "VXL version identified as: "
+            <<  VXL_VERSION_MAJOR << "."
+            <<  VXL_VERSION_MINOR << "."
+            <<  VXL_VERSION_PATCH ;
 
-  std::cout << "Version identified implies release identified: ";
+  std::cout <<  "Version identified implies release identified: ";
   std::cout << "PASSED\n";
   return result;
 }

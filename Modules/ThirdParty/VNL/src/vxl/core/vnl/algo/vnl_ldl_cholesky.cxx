@@ -23,7 +23,7 @@
 // slowdown:     7.0    4.6    2.8    1.4   1.18   1.04   1.02
 // \endverbatim
 
-vnl_ldl_cholesky::vnl_ldl_cholesky(const vnl_matrix<double> & M, Operation mode)
+vnl_ldl_cholesky::vnl_ldl_cholesky(vnl_matrix<double> const & M, Operation mode)
   : L_(M)
 {
   long n = M.columns();
@@ -99,7 +99,7 @@ dot(const double * v1, unsigned s, const double * v2, unsigned n)
 void
 vnl_ldl_cholesky::solve_lx(vnl_vector<double> & x)
 {
-  const unsigned n = d_.size();
+  unsigned n = d_.size();
   for (unsigned i = 1; i < n; ++i)
     x[i] -= dot(L_[i], x.data_block(), i);
 }
@@ -110,7 +110,7 @@ vnl_ldl_cholesky::solve_lx(vnl_vector<double> & x)
 void
 vnl_ldl_cholesky::inplace_solve(double * x) const
 {
-  const unsigned n = d_.size();
+  unsigned n = d_.size();
   // Solve Ly=b for y
   for (unsigned i = 1; i < n; ++i)
     x[i] -= dot(L_[i], x, i);
@@ -135,7 +135,7 @@ vnl_ldl_cholesky::inplace_solve(double * x) const
 double
 vnl_ldl_cholesky::xt_m_inv_x(const vnl_vector<double> & x) const
 {
-  const unsigned n = d_.size();
+  unsigned n = d_.size();
   assert(x.size() == n);
   vnl_vector<double> y = x;
   // Solve Ly=x for y and compute sum as we go
@@ -153,7 +153,7 @@ vnl_ldl_cholesky::xt_m_inv_x(const vnl_vector<double> & x) const
 double
 vnl_ldl_cholesky::xt_m_x(const vnl_vector<double> & x) const
 {
-  const unsigned n = d_.size();
+  unsigned n = d_.size();
   assert(x.size() == n);
   double sum = 0.0;
   const double * xd = x.data_block();
@@ -161,7 +161,7 @@ vnl_ldl_cholesky::xt_m_x(const vnl_vector<double> & x) const
   unsigned c = n;
   for (unsigned i = 0; i < n; ++i, ++xd, L_col += (n + 1), --c)
   {
-    const double xLi = dot(L_col, n, xd, c); // x * i-th column
+    double xLi = dot(L_col, n, xd, c); // x * i-th column
     sum += xLi * xLi * d_[i];
   }
   return sum;
@@ -172,7 +172,7 @@ vnl_ldl_cholesky::xt_m_x(const vnl_vector<double> & x) const
 //  The right-hand-side std::vector x may be b,
 //  which will give a fractional increase in speed.
 void
-vnl_ldl_cholesky::solve(const vnl_vector<double> & b, vnl_vector<double> * xp) const
+vnl_ldl_cholesky::solve(vnl_vector<double> const & b, vnl_vector<double> * xp) const
 {
   assert(b.size() == d_.size());
   *xp = b;
@@ -181,7 +181,7 @@ vnl_ldl_cholesky::solve(const vnl_vector<double> & b, vnl_vector<double> * xp) c
 
 //: Solve least squares problem M x = b.
 vnl_vector<double>
-vnl_ldl_cholesky::solve(const vnl_vector<double> & b) const
+vnl_ldl_cholesky::solve(vnl_vector<double> const & b) const
 {
   assert(b.size() == L_.columns());
 
@@ -194,7 +194,7 @@ vnl_ldl_cholesky::solve(const vnl_vector<double> & b) const
 double
 vnl_ldl_cholesky::determinant() const
 {
-  const unsigned n = d_.size();
+  unsigned n = d_.size();
   double det = 1.0;
   for (unsigned i = 0; i < n; ++i)
     det *= d_[i];
@@ -210,15 +210,15 @@ vnl_ldl_cholesky::determinant() const
 void
 vnl_ldl_cholesky::rank1_update(const vnl_vector<double> & v)
 {
-  const unsigned n = d_.size();
+  unsigned n = d_.size();
   assert(v.size() == n);
   double a = 1.0;
   vnl_vector<double> w = v; // Workspace, modified as algorithm goes along
   for (unsigned j = 0; j < n; ++j)
   {
-    const double a2 = a + w[j] * w[j] / d_[j];
+    double a2 = a + w[j] * w[j] / d_[j];
     d_[j] *= a2;
-    const double gamma = w[j] / d_[j];
+    double gamma = w[j] / d_[j];
     d_[j] /= a;
     a = a2;
 
@@ -236,19 +236,18 @@ vnl_ldl_cholesky::rank1_update(const vnl_vector<double> & v)
 void
 vnl_ldl_cholesky::update(const vnl_matrix<double> & W0)
 {
-  const unsigned n = d_.size();
+  unsigned n = d_.size();
   assert(W0.rows() == n);
-  const unsigned r = W0.columns();
+  unsigned r = W0.columns();
 
-  vnl_matrix<double> W(W0); // Workspace
-  vnl_vector<double> a(r, 1.0);
-  vnl_vector<double> gamma(r); // Workspace
+  vnl_matrix<double> W(W0);               // Workspace
+  vnl_vector<double> a(r, 1.0), gamma(r); // Workspace
   for (unsigned j = 0; j < n; ++j)
   {
     double * Wj = W[j];
     for (unsigned i = 0; i < r; ++i)
     {
-      const double a2 = a[i] + Wj[i] * Wj[i] / d_[j];
+      double a2 = a[i] + Wj[i] * Wj[i] / d_[j];
       d_[j] *= a2;
       gamma[i] = Wj[i] / d_[j];
       d_[j] /= a[i];
@@ -274,10 +273,10 @@ vnl_ldl_cholesky::inverse() const
   if (num_dims_rank_def_)
   {
     std::cerr << "vnl_ldl_cholesky: Calling inverse() on rank-deficient matrix\n";
-    return {};
+    return vnl_matrix<double>();
   }
 
-  const unsigned int n = d_.size();
+  unsigned int n = d_.size();
   vnl_matrix<double> R(n, n);
   R.set_identity();
 

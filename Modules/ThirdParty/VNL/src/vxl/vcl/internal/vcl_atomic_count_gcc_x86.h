@@ -22,59 +22,60 @@
 
 class vcl_atomic_count
 {
-public:
-  explicit vcl_atomic_count(long v)
-    : value_(static_cast<int>(v))
-  {}
+ public:
 
-  void
-  operator++()
-  {
-    __asm__("lock\n\t"
-            "incl %0"
-            : "+m"(value_)
-            :    // output (%0)
-            :    // inputs
+    explicit vcl_atomic_count( long v ) : value_( static_cast< int >( v ) ) {}
+
+    void operator++()
+    {
+        __asm__
+        (
+            "lock\n\t"
+            "incl %0":
+            "+m"( value_ ): // output (%0)
+            : // inputs
             "cc" // clobbers
-    );
-  }
+        );
+    }
 
-  long
-  operator--()
-  {
-    return atomic_exchange_and_add(&value_, -1) - 1;
-  }
+    long operator--()
+    {
+        return atomic_exchange_and_add( &value_, -1 ) - 1;
+    }
 
-  operator long() const { return atomic_exchange_and_add(&value_, 0); }
+    operator long() const
+    {
+        return atomic_exchange_and_add( &value_, 0 );
+    }
 
-private:
-  vcl_atomic_count(const vcl_atomic_count &) = delete;
-  vcl_atomic_count &
-  operator=(const vcl_atomic_count &) = delete;
+ private:
 
-  mutable int value_;
+    vcl_atomic_count(vcl_atomic_count const &) = delete;
+    vcl_atomic_count & operator=(vcl_atomic_count const &) = delete;
 
-private:
-  static int
-  atomic_exchange_and_add(int * pw, int dv)
-  {
-    // int r = *pw;
-    // *pw += dv;
-    // return r;
+    mutable int value_;
 
-    int r;
+ private:
 
-    __asm__ __volatile__("lock\n\t"
-                         "xadd %1, %0"
-                         : "+m"(*pw), "=r"(r)
-                         : // outputs (%0, %1)
-                         "1"(dv)
-                         :              // inputs (%2 == %1)
-                         "memory", "cc" // clobbers
-    );
+    static int atomic_exchange_and_add( int * pw, int dv )
+    {
+        // int r = *pw;
+        // *pw += dv;
+        // return r;
 
-    return r;
-  }
+        int r;
+
+        __asm__ __volatile__
+        (
+            "lock\n\t"
+            "xadd %1, %0":
+            "+m"( *pw ), "=r"( r ): // outputs (%0, %1)
+            "1"( dv ): // inputs (%2 == %1)
+            "memory", "cc" // clobbers
+        );
+
+        return r;
+    }
 };
 
 #endif // #ifndef vcl_atomic_count_gcc_x86_h_
