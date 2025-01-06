@@ -13,7 +13,7 @@
 
 template <class S, class T>
 void
-vnl_copy(S const * const src, T * const dst, const unsigned n)
+vnl_copy(const S * const src, T * const dst, const unsigned n)
 {
   for (unsigned int i = 0; i < n; ++i)
     dst[i] = T(src[i]);
@@ -21,7 +21,7 @@ vnl_copy(S const * const src, T * const dst, const unsigned n)
 
 template <class S, class T>
 void
-vnl_copy(S const & src, T & dst)
+vnl_copy(const S & src, T & dst)
 {
   assert(src.size() == dst.size());
   vnl_copy(src.begin(), dst.begin(), src.size());
@@ -39,12 +39,12 @@ VNL_COPY_INSTANTIATE0(double, long double);
 VNL_COPY_INSTANTIATE0(long double, double);
 #endif
 
-#define vnl_copy_macro(S, D)                                                                                           \
-  template <>                                                                                                          \
-  VNL_EXPORT void vnl_copy(std::complex<S> const * const src, std::complex<D> * const dst, const unsigned n)           \
-  {                                                                                                                    \
-    for (unsigned int i = 0; i < n; ++i)                                                                               \
-      dst[i] = std::complex<D>((D)std::real(src[i]), (D)std::imag(src[i]));                                            \
+#define vnl_copy_macro(S, D)                                                                                 \
+  template <>                                                                                                \
+  VNL_EXPORT void vnl_copy(std::complex<S> const * const src, std::complex<D> * const dst, const unsigned n) \
+  {                                                                                                          \
+    for (unsigned int i = 0; i < n; ++i)                                                                     \
+      dst[i] = std::complex<D>((D)std::real(src[i]), (D)std::imag(src[i]));                                  \
   }
 
 vnl_copy_macro(float, double);
@@ -53,12 +53,12 @@ vnl_copy_macro(double, long double);
 vnl_copy_macro(long double, double);
 #undef vnl_copy_macro
 
-#define vnl_copy_dumb(S)                                                                                               \
-  template <>                                                                                                          \
-  VNL_EXPORT void vnl_copy(S const * const src, S * const dst, const unsigned n)                                       \
-  {                                                                                                                    \
-    for (unsigned int i = 0; i < n; ++i)                                                                               \
-      dst[i] = src[i];                                                                                                 \
+#define vnl_copy_dumb(S)                                                         \
+  template <>                                                                    \
+  VNL_EXPORT void vnl_copy(S const * const src, S * const dst, const unsigned n) \
+  {                                                                              \
+    for (unsigned int i = 0; i < n; ++i)                                         \
+      dst[i] = src[i];                                                           \
   }
 
 vnl_copy_dumb(float);
@@ -66,16 +66,16 @@ vnl_copy_dumb(double);
 #undef vnl_copy_dumb
 
 // vnl_* containers
-#define VNL_COPY_INSTANTIATE(S, T)                                                                                     \
-  template VNL_EXPORT void vnl_copy(vnl_vector<S> const &, vnl_vector<T> &);                                           \
-  template VNL_EXPORT void vnl_copy(vnl_matrix<S> const &, vnl_matrix<T> &);                                           \
+#define VNL_COPY_INSTANTIATE(S, T)                                           \
+  template VNL_EXPORT void vnl_copy(vnl_vector<S> const &, vnl_vector<T> &); \
+  template VNL_EXPORT void vnl_copy(vnl_matrix<S> const &, vnl_matrix<T> &); \
   template VNL_EXPORT void vnl_copy(vnl_diag_matrix<S> const &, vnl_diag_matrix<T> &)
 
 VNL_COPY_INSTANTIATE(float, float);
 VNL_COPY_INSTANTIATE(double, double);
 
-#define VNL_COPY_INSTANTIATE_twoway(S, T)                                                                              \
-  VNL_COPY_INSTANTIATE(S, T);                                                                                          \
+#define VNL_COPY_INSTANTIATE_twoway(S, T) \
+  VNL_COPY_INSTANTIATE(S, T);             \
   VNL_COPY_INSTANTIATE(T, S)
 
 VNL_COPY_INSTANTIATE_twoway(float, double);

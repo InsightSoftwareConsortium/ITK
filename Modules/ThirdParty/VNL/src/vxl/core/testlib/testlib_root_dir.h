@@ -27,6 +27,7 @@
 //  If another build system is used in which this is not created,
 //  the function will return the value of either of the environment
 //  variables: VXLSRC, VCLSRC or VXL_SRC in that order.
-std::string testlib_root_dir();
+std::string
+testlib_root_dir();
 
 #endif // testlib_root_dir_h_

@@ -1,4 +1,4 @@
 
-void vxl_static_test_function(int i)
-{
-}
+void
+vxl_static_test_function(int i)
+{}

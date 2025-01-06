@@ -13,10 +13,10 @@ test_matrix_fixed_double_2_2_io()
             << "***************************************\n";
   //// test constructors, accessors
   double datablock[4] = { 1.1, 1.2, 2.1, 2.2 };
-  vnl_matrix_fixed<double, 2, 2> m_out(datablock), m_in0, m_in1;
+  vnl_matrix_fixed<double, 2, 2> m_out(datablock), m_in0;
 
   // Give some initial content
-  m_in1 = m_out * 2.0;
+  vnl_matrix_fixed<double, 2, 2> m_in1 = m_out * 2.0;
 
   vsl_b_ofstream bfs_out("vnl_matrix_fixed_io.bvl.tmp", std::ios::out | std::ios::binary);
   TEST("vnl_matrix_fixed_io.bvl.tmp for writing", (!bfs_out), false);

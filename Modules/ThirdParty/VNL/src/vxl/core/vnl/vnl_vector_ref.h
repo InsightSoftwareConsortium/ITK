@@ -23,7 +23,7 @@
 template <class T>
 class VNL_EXPORT vnl_vector_ref : public vnl_vector<T>
 {
- public:
+public:
   using Base = vnl_vector<T>;
 
   //: Constructor
@@ -32,13 +32,13 @@ class VNL_EXPORT vnl_vector_ref : public vnl_vector<T>
   //        and can only be used on data in a read/write senses.
   //        There is no way to pass 'const T *' in a way that vnl_vector_ref
   //        can preserve memory access.
-  vnl_vector_ref(size_t n, T *space);
+  vnl_vector_ref(size_t n, T * space);
 
   //: Copy constructor
   // Do \e not call anything else than the default constructor of vnl_vector<T>
   // (That is why the default copy constructor is \e not good.)
   // NOTE: This interface breaks const correctness,
-  vnl_vector_ref(const vnl_vector_ref<T>& v);
+  vnl_vector_ref(const vnl_vector_ref<T> & v);
 
   //: Destructor
   // Prevents base destructor from releasing memory we don't own
@@ -58,37 +58,54 @@ class VNL_EXPORT vnl_vector_ref : public vnl_vector<T>
   // \attention Use this only to pass the reference to a
   // function. Otherwise, the underlying object will be destructed and
   // you'll be left with undefined behaviour.
-  vnl_vector_ref& non_const();
+  vnl_vector_ref &
+  non_const();
 
   //: Copy and move constructor from vnl_matrix_ref<T> is disallowed by default
   // due to other constructor definitions.
   //: assignment and move-assignment is disallowed
   //  because it does not define external memory to be managed.
-  vnl_vector_ref & operator=( vnl_vector_ref<T> const& ) = delete;
-  vnl_vector_ref & operator=( vnl_vector_ref<T> && ) = delete;
+  vnl_vector_ref &
+  operator=(const vnl_vector_ref<T> &) = delete;
+  vnl_vector_ref &
+  operator=(vnl_vector_ref<T> &&) = delete;
 
   //: Explicit conversion to a vnl_vector_ref or vnl_vector.
   // This is a cheap conversion for those functions that have an interface
   // for vnl_vector but not for vnl_vector_fixed. There is also a
   // conversion operator that should work most of the time.
   // \sa vnl_vector_ref::non_const
-  vnl_vector_ref<T> as_ref() { return *this; }
-  const vnl_vector_ref<T> as_ref() const { return *this; }
-  vnl_vector<T> as_vector() const { return vnl_vector<T>(this->data_block(), this->size()); }
+  vnl_vector_ref<T>
+  as_ref()
+  {
+    return *this;
+  }
+  const vnl_vector_ref<T>
+  as_ref() const
+  {
+    return *this;
+  }
+  vnl_vector<T>
+  as_vector() const
+  {
+    return vnl_vector<T>(this->data_block(), this->size());
+  }
 };
 
 //: Create a reference vector with part of an existing vector.
 template <class T>
-inline const vnl_vector_ref<T> vnl_vector_ref_extract(const vnl_vector <T> &v, unsigned start, unsigned len)
+inline const vnl_vector_ref<T>
+vnl_vector_ref_extract(const vnl_vector<T> & v, unsigned start, unsigned len)
 {
-  return vnl_vector_ref<T>(len, const_cast<T *>(v.data_block()+start));
+  return vnl_vector_ref<T>(len, const_cast<T *>(v.data_block() + start));
 }
 
 //: Create a reference vector with part of an existing vector.
 template <class T>
-inline vnl_vector_ref<T> vnl_vector_ref_extract(vnl_vector <T> &v, unsigned start, unsigned len)
+inline vnl_vector_ref<T>
+vnl_vector_ref_extract(vnl_vector<T> & v, unsigned start, unsigned len)
 {
-  return vnl_vector_ref<T>(len, v.data_block()+start);
+  return vnl_vector_ref<T>(len, v.data_block() + start);
 }
 
 

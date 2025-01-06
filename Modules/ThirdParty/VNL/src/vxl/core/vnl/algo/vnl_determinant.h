@@ -23,42 +23,44 @@
 #include <vnl/algo/vnl_algo_export.h>
 
 //: direct evaluation for 2x2 matrix
-template <class T> T vnl_determinant(T const *row0,
-                                     T const *row1);
+template <class T>
+T
+vnl_determinant(const T * row0, const T * row1);
 
 //: direct evaluation for 3x3 matrix
-template <class T> T vnl_determinant(T const *row0,
-                                     T const *row1,
-                                     T const *row2);
+template <class T>
+T
+vnl_determinant(const T * row0, const T * row1, const T * row2);
 
 //: direct evaluation for 4x4 matrix
-template <class T> T vnl_determinant(T const *row0,
-                                     T const *row1,
-                                     T const *row2,
-                                     T const *row3);
+template <class T>
+T
+vnl_determinant(const T * row0, const T * row1, const T * row2, const T * row3);
 
 // overload for int.  Cannot specialize the template because gcc
 // 2.95.4 can't handle the default value.  This overload must appear
 // before the template declaration because VC.net 7.0 gets confused
 // otherwise.
-int VNL_ALGO_EXPORT vnl_determinant(vnl_matrix<int> const &M, bool balance = false);
+int VNL_ALGO_EXPORT
+vnl_determinant(const vnl_matrix<int> & M, bool balance = false);
 
 //: evaluation using direct methods for sizes of 2x2, 3x3, and 4x4 or qr decomposition for other matrices.
 //  \relatesalso vnl_matrix
 template <class T>
-T vnl_determinant(vnl_matrix<T> const &M, bool balance = false);
+T
+vnl_determinant(const vnl_matrix<T> & M, bool balance = false);
 
 //: evaluation using direct methods for sizes of 2x2, 3x3, and 4x4 or qr decomposition for other matrices.
 //  convenience overload from vnl_matrix<T> variant
 //  \relatesalso vnl_matrix_fixed
 template <class T, unsigned m, unsigned n>
-inline T vnl_determinant(vnl_matrix_fixed<T,m,n> const &M, bool balance = false)
+inline T
+vnl_determinant(const vnl_matrix_fixed<T, m, n> & M, bool balance = false)
 {
-  return vnl_determinant( M.as_ref(), balance );
+  return vnl_determinant(M.as_ref(), balance);
 }
 
 
-#define VNL_DETERMINANT_INSTANTIATE(T) \
-extern "you must include vnl/algo/vnl_determinant.hxx first"
+#define VNL_DETERMINANT_INSTANTIATE(T) extern "you must include vnl/algo/vnl_determinant.hxx first"
 
 #endif // vnl_algo_determinant_h_

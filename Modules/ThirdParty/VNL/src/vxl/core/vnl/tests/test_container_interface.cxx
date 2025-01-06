@@ -49,7 +49,7 @@ test_common_interface()
   m(0, 0);
   m.fill(0);
   m.fill_diagonal(0);
-  vnl_vector<int> v(2, 1);
+  const vnl_vector<int> v(2, 1);
   m.set_diagonal(v);
   int data[4] = { 0, 1, 2, 3 };
   m.set(data);
@@ -93,7 +93,7 @@ test_common_interface()
   {
     typename TContainer::element_type data[4] = { 1, 2, 3, 4 };
     unsigned int indices[2] = { 1, 0 };
-    vnl_vector<unsigned int> i(indices, 2);
+    const vnl_vector<unsigned int> i(indices, 2);
     TContainer matrix(2, 2);
     matrix.copy_in(data);
 #if !defined(_MSC_VER) // This code is failing on VS15 in Release mode for vnl_matrix_fixed

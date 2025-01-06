@@ -22,17 +22,22 @@
 template <class T>
 class VNL_EXPORT vnl_file_vector : public vnl_vector<T>
 {
- private:
+private:
+public:
+  vnl_file_vector(const char * filename);
 
- public:
-  vnl_file_vector(char const* filename);
+  explicit
+  operator bool() const
+  {
+    return (ok_) ? true : false;
+  }
+  bool
+  operator!() const
+  {
+    return !ok_;
+  }
 
-  explicit operator bool () const
-    { return (ok_)? true : false; }
-  bool operator!() const
-    { return !ok_; }
-
- private:
+private:
   bool ok_;
 };
 

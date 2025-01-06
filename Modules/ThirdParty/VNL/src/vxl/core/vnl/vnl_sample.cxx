@@ -21,7 +21,7 @@ vnl_sample_reseed(int seed)
 double
 vnl_sample_uniform(double a, double b)
 {
-  double u = vnl_drand48(); // uniform on [0, 1)
+  const double u = vnl_drand48(); // uniform on [0, 1)
   return (1.0 - u) * a + u * b;
 }
 
@@ -34,10 +34,10 @@ vnl_sample_uniform01()
 void
 vnl_sample_normal_2(double * x, double * y)
 {
-  double u = vnl_sample_uniform(1, 0); // not (0,1): should not return 0
-  double theta = vnl_sample_uniform(0, vnl_math::twopi);
+  const double u = vnl_sample_uniform(1, 0); // not (0,1): should not return 0
+  const double theta = vnl_sample_uniform(0, vnl_math::twopi);
 
-  double r = std::sqrt(-2 * std::log(u));
+  const double r = std::sqrt(-2 * std::log(u));
 
   if (x)
     *x = r * std::cos(theta);

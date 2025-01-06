@@ -41,30 +41,41 @@
 
 class VNL_ALGO_EXPORT vnl_complex_eigensystem
 {
- public:
+public:
   // please do not add underscores to my members - they are publicly accessible
-  unsigned int const N;
-  vnl_matrix<std::complex<double> > L; // left evecs
-  vnl_matrix<std::complex<double> > R; // right evecs
-  vnl_vector<std::complex<double> > W; // evals
+  const unsigned int N;
+  vnl_matrix<std::complex<double>> L; // left evecs
+  vnl_matrix<std::complex<double>> R; // right evecs
+  vnl_vector<std::complex<double>> W; // evals
 
   // constructors
-  vnl_complex_eigensystem(vnl_matrix<double> const& A_real,
-                          vnl_matrix<double> const& A_imag,
-                          bool right=true, bool left=false);
+  vnl_complex_eigensystem(const vnl_matrix<double> & A_real,
+                          const vnl_matrix<double> & A_imag,
+                          bool right = true,
+                          bool left = false);
 
-  vnl_complex_eigensystem(vnl_matrix<std::complex<double> > const& A,
-                          bool right=true, bool left=false);
+  vnl_complex_eigensystem(const vnl_matrix<std::complex<double>> & A, bool right = true, bool left = false);
 
   // convenience methods
-  std::complex<double> eigen_value(unsigned i) const { return W[i]; }
-  vnl_vector<std::complex<double> > left_eigen_vector(unsigned i)
-      const { return L.get_row(i); }
-  vnl_vector<std::complex<double> > right_eigen_vector(unsigned i)
-      const { return R.get_row(i); }
+  std::complex<double>
+  eigen_value(unsigned i) const
+  {
+    return W[i];
+  }
+  vnl_vector<std::complex<double>>
+  left_eigen_vector(unsigned i) const
+  {
+    return L.get_row(i);
+  }
+  vnl_vector<std::complex<double>>
+  right_eigen_vector(unsigned i) const
+  {
+    return R.get_row(i);
+  }
 
- private:
-  void compute(vnl_matrix<std::complex<double> > const&,bool,bool);
+private:
+  void
+  compute(const vnl_matrix<std::complex<double>> &, bool, bool);
 };
 
 #endif // vnl_complex_eigensystem_h_

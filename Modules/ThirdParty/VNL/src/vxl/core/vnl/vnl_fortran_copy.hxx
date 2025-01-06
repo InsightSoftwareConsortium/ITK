@@ -11,16 +11,16 @@
 
 //: Generate a fortran column-storage matrix from the given matrix.
 template <class T>
-vnl_fortran_copy<T>::vnl_fortran_copy(vnl_matrix<T> const & M)
+vnl_fortran_copy<T>::vnl_fortran_copy(const vnl_matrix<T> & M)
 {
-  unsigned n = M.rows();
-  unsigned p = M.columns();
+  const unsigned n = M.rows();
+  const unsigned p = M.columns();
 
-  data = vnl_c_vector<T>::allocate_T(sz = n*p);
-  T *d = data;
+  data = vnl_c_vector<T>::allocate_T(sz = n * p);
+  T * d = data;
   for (unsigned j = 0; j < p; ++j)
     for (unsigned i = 0; i < n; ++i)
-      *d++ = M(i,j);
+      *d++ = M(i, j);
 }
 
 //: Destructor
@@ -33,7 +33,6 @@ vnl_fortran_copy<T>::~vnl_fortran_copy()
 //--------------------------------------------------------------------------------
 
 #undef VNL_FORTRAN_COPY_INSTANTIATE
-#define VNL_FORTRAN_COPY_INSTANTIATE(T) \
-template class VNL_EXPORT vnl_fortran_copy<T >
+#define VNL_FORTRAN_COPY_INSTANTIATE(T) template class VNL_EXPORT vnl_fortran_copy<T>
 
 #endif // vnl_fortran_copy_hxx_

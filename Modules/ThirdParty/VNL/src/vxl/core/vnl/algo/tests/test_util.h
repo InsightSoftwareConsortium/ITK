@@ -6,7 +6,7 @@ class vnl_random;
 #ifdef _MSC_VER
 #  include "vcl_msvc_warnings.h"
 #endif
-#define macro(T) void test_util_fill_random(T *begin, T *end, vnl_random &rng)
+#define macro(T) void test_util_fill_random(T * begin, T * end, vnl_random & rng)
 macro(float);
 macro(std::complex<float>);
 macro(double);

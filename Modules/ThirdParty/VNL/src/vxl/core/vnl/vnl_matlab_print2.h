@@ -35,20 +35,21 @@
 template <class T>
 struct VNL_EXPORT vnl_matlab_print_proxy
 {
-  T const &obj;
-  char const *name;
+  const T & obj;
+  const char * name;
   vnl_matlab_print_format format;
-  vnl_matlab_print_proxy(T const &obj_,
-                         char const *name_,
-                         vnl_matlab_print_format format_)
-    : obj(obj_), name(name_), format(format_) { }
+  vnl_matlab_print_proxy(const T & obj_, const char * name_, vnl_matlab_print_format format_)
+    : obj(obj_)
+    , name(name_)
+    , format(format_)
+  {}
   ~vnl_matlab_print_proxy() = default;
 };
 
 // Output operator for the proxies.
 template <class T>
-inline
-std::ostream &operator<<(std::ostream &os, vnl_matlab_print_proxy<T> const &mp)
+inline std::ostream &
+operator<<(std::ostream & os, const vnl_matlab_print_proxy<T> & mp)
 {
   return vnl_matlab_print(os, mp.obj, mp.name, mp.format);
 }
@@ -57,20 +58,19 @@ std::ostream &operator<<(std::ostream &os, vnl_matlab_print_proxy<T> const &mp)
 // derived from vnl_vector, vnl_matrix etc because the overload
 // resolution is done in the operator<< above.
 template <class T>
-inline
-vnl_matlab_print_proxy<T>
-vnl_matlab_print(T const &obj,
-                 char const *name = nullptr,
+inline vnl_matlab_print_proxy<T>
+vnl_matlab_print(const T & obj,
+                 const char * name = nullptr,
                  vnl_matlab_print_format format = vnl_matlab_print_format_default)
 {
   return vnl_matlab_print_proxy<T>(obj, name, format);
 }
 
-#define VNL_MATLAB_PRINT2_INSTANTIATE(T) \
-template struct VNL_EXPORT vnl_matlab_print_proxy<T >; \
-/* template std::ostream& \
-                       operator<<(std::ostream&, vnl_matlab_print_proxy<T > const&); */ \
-/* template vnl_matlab_print_proxy<T > \
-                       vnl_matlab_print(T const&, char const*, vnl_matlab_print_format) */
+#define VNL_MATLAB_PRINT2_INSTANTIATE(T)                                                  \
+  template struct VNL_EXPORT vnl_matlab_print_proxy<T>;                                   \
+  /* template std::ostream&                                                               \
+                         operator<<(std::ostream&, vnl_matlab_print_proxy<T > const&); */ \
+  /* template vnl_matlab_print_proxy<T >                                                  \
+                         vnl_matlab_print(T const&, char const*, vnl_matlab_print_format) */
 
 #endif // vnl_matlab_print2_h_

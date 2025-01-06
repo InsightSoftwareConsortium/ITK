@@ -23,32 +23,31 @@
 
 class VNL_ALGO_EXPORT vnl_generalized_eigensystem
 {
- public:
-// Public data members because they're unique.
+public:
+  // Public data members because they're unique.
   long n;
 
-//: Solves the generalized eigenproblem Ax=Bx
-//  Solve real generalized eigensystem $A x = \lambda B x$ for
-//  $\lambda$ and $x$, where $A$ symmetric, $B$ positive definite.
-//  Initializes storage for the matrix $V = [ x_0 x_1 .. x_n ]$ and
-//  the vnl_diag_matrix $D = [ \lambda_0 \lambda_1 ... \lambda_n ]$.
-//  The eigenvalues are sorted into increasing order (of value, not
-//  absolute value).
-//
-//  Uses vnl_cholesky decomposition $C^\top C = B$, to convert to
-//  $C^{-\top} A C^{-1} x = \lambda x$ and then uses the
-//  symmetric eigensystem code.   It will print a verbose warning
-//  if $B$ is not positive definite.
+  //: Solves the generalized eigenproblem Ax=Bx
+  //  Solve real generalized eigensystem $A x = \lambda B x$ for
+  //  $\lambda$ and $x$, where $A$ symmetric, $B$ positive definite.
+  //  Initializes storage for the matrix $V = [ x_0 x_1 .. x_n ]$ and
+  //  the vnl_diag_matrix $D = [ \lambda_0 \lambda_1 ... \lambda_n ]$.
+  //  The eigenvalues are sorted into increasing order (of value, not
+  //  absolute value).
+  //
+  //  Uses vnl_cholesky decomposition $C^\top C = B$, to convert to
+  //  $C^{-\top} A C^{-1} x = \lambda x$ and then uses the
+  //  symmetric eigensystem code.   It will print a verbose warning
+  //  if $B$ is not positive definite.
 
-  vnl_generalized_eigensystem(const vnl_matrix<double>& A,
-                              const vnl_matrix<double>& B);
+  vnl_generalized_eigensystem(const vnl_matrix<double> & A, const vnl_matrix<double> & B);
 
-//: Public eigenvectors.
-//  After construction, this contains the matrix of eigenvectors.
+  //: Public eigenvectors.
+  //  After construction, this contains the matrix of eigenvectors.
   vnl_matrix<double> V;
 
-//: Public eigenvalues.
-//  After construction, this contains the diagonal matrix of eigenvalues, stored as a vector.
+  //: Public eigenvalues.
+  //  After construction, this contains the diagonal matrix of eigenvalues, stored as a vector.
   vnl_diag_matrix<double> D;
 };
 

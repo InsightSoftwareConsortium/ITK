@@ -61,33 +61,29 @@
 //             M13  M23  M33
 // \endverbatim
 template <class T>
-void vnl_symmetric_eigensystem_compute_eigenvals(
-       T M11, T M12, T M13,
-              T M22, T M23,
-                     T M33,
-       T &l1, T &l2, T &l3);
+void
+vnl_symmetric_eigensystem_compute_eigenvals(T M11, T M12, T M13, T M22, T M23, T M33, T & l1, T & l2, T & l3);
 
 //: Find eigenvalues of a symmetric matrix
 template <class T>
-bool vnl_symmetric_eigensystem_compute(vnl_matrix<T> const & A,
-                                       vnl_matrix<T> & V,
-                                       vnl_vector<T> & D);
+bool
+vnl_symmetric_eigensystem_compute(const vnl_matrix<T> & A, vnl_matrix<T> & V, vnl_vector<T> & D);
 
 //: Computes and stores the eigensystem decomposition of a symmetric matrix.
 
 template <class T>
 class vnl_symmetric_eigensystem
 {
- public:
+public:
   //: Solve real symmetric eigensystem $A x = \lambda x$
-  vnl_symmetric_eigensystem(vnl_matrix<T> const & M);
+  vnl_symmetric_eigensystem(const vnl_matrix<T> & M);
 
- protected:
+protected:
   // need this here to get inits in correct order, but still keep gentex
   // in the right order.
   int n_;
 
- public:
+public:
   //: Public eigenvectors.
   //  After construction, the columns of V are the eigenvectors, sorted by
   // increasing eigenvalue, from most negative to most positive.
@@ -99,14 +95,20 @@ class vnl_symmetric_eigensystem
   vnl_diag_matrix<T> D;
 
   //: Recover specified eigenvector after computation.
-  vnl_vector<T> get_eigenvector(int i) const;
+  vnl_vector<T>
+  get_eigenvector(int i) const;
 
   //: Recover specified eigenvalue after computation.
-  T             get_eigenvalue(int i) const;
+  T
+  get_eigenvalue(int i) const;
 
   //: Convenience method to get least-squares nullvector.
   // It is deliberate that the signature is the same as on vnl_svd<T>.
-  vnl_vector<T> nullvector() const { return get_eigenvector(0); }
+  vnl_vector<T>
+  nullvector() const
+  {
+    return get_eigenvector(0);
+  }
 
   //: Return the matrix $V  D  V^\top$.
   //  This can be useful if you've modified $D$.  So an inverse is obtained using
@@ -116,28 +118,40 @@ class vnl_symmetric_eigensystem
   //   vnl_matrix<double> Ainverse = eig.recompose();
   // \endcode
 
-  vnl_matrix<T> recompose() const { return V * D * V.transpose(); }
+  vnl_matrix<T>
+  recompose() const
+  {
+    return V * D * V.transpose();
+  }
 
   //: return product of eigenvalues.
-  T determinant() const;
+  T
+  determinant() const;
 
   //: return the pseudoinverse.
-  vnl_matrix<T> pinverse() const;
+  vnl_matrix<T>
+  pinverse() const;
 
   //: return the square root, if positive semi-definite.
-  vnl_matrix<T> square_root() const;
+  vnl_matrix<T>
+  square_root() const;
 
   //: return the inverse of the square root, if positive semi-definite.
-  vnl_matrix<T> inverse_square_root() const;
+  vnl_matrix<T>
+  inverse_square_root() const;
 
   //: Solve LS problem M x = b
-  vnl_vector<T> solve(vnl_vector<T> const & b);
+  vnl_vector<T>
+  solve(const vnl_vector<T> & b);
 
   //: Solve LS problem M x = b
-  void solve(vnl_vector<T> const & b, vnl_vector<T> * x) { *x = solve(b); }
+  void
+  solve(const vnl_vector<T> & b, vnl_vector<T> * x)
+  {
+    *x = solve(b);
+  }
 };
 
-#define VNL_SYMMETRIC_EIGENSYSTEM_INSTANTIATE(T) \
-extern "please include vnl/algo/vnl_symmetric_eigensystem.hxx first"
+#define VNL_SYMMETRIC_EIGENSYSTEM_INSTANTIATE(T) extern "please include vnl/algo/vnl_symmetric_eigensystem.hxx first"
 
 #endif // vnl_symmetric_eigensystem_h_

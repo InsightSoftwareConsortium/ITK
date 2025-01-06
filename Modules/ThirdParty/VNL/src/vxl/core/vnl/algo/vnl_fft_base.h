@@ -21,9 +21,10 @@ struct VNL_ALGO_EXPORT vnl_fft_base
   vnl_fft_base() = default;
 
   //: dir = +1/-1 according to direction of transform.
-  void transform(std::complex<T> *signal, int dir);
+  void
+  transform(std::complex<T> * signal, int dir);
 
- protected:
+protected:
   //: prime factorizations of signal dimensions.
   vnl_fft_prime_factors<T> factors_[D];
 };

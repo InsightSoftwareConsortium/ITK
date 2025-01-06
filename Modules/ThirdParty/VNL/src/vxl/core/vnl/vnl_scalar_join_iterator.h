@@ -69,68 +69,88 @@ class vnl_scalar_join_iterator_indexed_pair;
 template <class T>
 class VNL_EXPORT vnl_scalar_join_iterator
 {
- private:
-
- protected:
+private:
+protected:
   unsigned n1;
   unsigned n2;
-  std::list<vnl_scalar_join_iterator_indexed_pair<T> >* pI1;
-  std::list<vnl_scalar_join_iterator_indexed_pair<T> >* pI2;
-  std::list<vnl_scalar_join_iterator_indexed_pair<T> >& I1;
-  std::list<vnl_scalar_join_iterator_indexed_pair<T> >& I2;
-  typename std::list<vnl_scalar_join_iterator_indexed_pair<T> >::iterator index1;
-  typename std::list<vnl_scalar_join_iterator_indexed_pair<T> >::iterator index2;
+  std::list<vnl_scalar_join_iterator_indexed_pair<T>> * pI1;
+  std::list<vnl_scalar_join_iterator_indexed_pair<T>> * pI2;
+  std::list<vnl_scalar_join_iterator_indexed_pair<T>> & I1;
+  std::list<vnl_scalar_join_iterator_indexed_pair<T>> & I2;
+  typename std::list<vnl_scalar_join_iterator_indexed_pair<T>>::iterator index1;
+  typename std::list<vnl_scalar_join_iterator_indexed_pair<T>>::iterator index2;
 
- public:
-
+public:
   //: Initialize this iterator to the join of relation1(:,column1) and relation2(:,column2).
   // The algorithm sorts an array of pointers to each row and
   // traversal of the iterator runs through these to produce the join.
   // After construction the row1() and row2() methods indicate the first pair.
-  vnl_scalar_join_iterator(const vnl_matrix<T>& relation1, unsigned column1,
-                           const vnl_matrix<T>& relation2, unsigned column2);
+  vnl_scalar_join_iterator(const vnl_matrix<T> & relation1,
+                           unsigned column1,
+                           const vnl_matrix<T> & relation2,
+                           unsigned column2);
 
   ~vnl_scalar_join_iterator();
 
 
   //: Return true if all pairs have been seen.
-  explicit operator bool () const
-    { return (!done())? true : false; }
+  explicit
+  operator bool() const
+  {
+    return (!done()) ? true : false;
+  }
 
   //: Return false if all pairs have been seen.
-  bool operator!() const
-    { return (!done())? false : true; }
+  bool
+  operator!() const
+  {
+    return (!done()) ? false : true;
+  }
 
   //: Advance to the next pair.  This is prefix ++.
-  inline vnl_scalar_join_iterator<T>& operator ++ () { next(); return *this; }
+  inline vnl_scalar_join_iterator<T> &
+  operator++()
+  {
+    next();
+    return *this;
+  }
 
-  bool done() const;
-  void next();
+  bool
+  done() const;
+  void
+  next();
 
   //: Return the index of the current row in the first relation.
-  unsigned row1() const;
+  unsigned
+  row1() const;
   //: Return the index of the current row in the second relation.
-  unsigned row2() const;
+  unsigned
+  row2() const;
 
- private:
+private:
   // Postfix ++ is private as it would be costly to implement.
-  vnl_scalar_join_iterator<T> operator++ (int);
-
+  vnl_scalar_join_iterator<T>
+  operator++(int);
 };
 
 //: Helper class to hold the sorted arrays of indices.
 template <class T>
 class VNL_EXPORT vnl_scalar_join_iterator_indexed_pair
 {
- public:
-  const T* object;
+public:
+  const T * object;
   int original_index;
 
   vnl_scalar_join_iterator_indexed_pair() = default;
-  vnl_scalar_join_iterator_indexed_pair(const T* object_, int original_index_):object(object_), original_index(original_index_) {}
+  vnl_scalar_join_iterator_indexed_pair(const T * object_, int original_index_)
+    : object(object_)
+    , original_index(original_index_)
+  {}
 
-  bool operator == (const vnl_scalar_join_iterator_indexed_pair<T>& that) const;
-  bool operator <  (const vnl_scalar_join_iterator_indexed_pair<T>& that) const;
+  bool
+  operator==(const vnl_scalar_join_iterator_indexed_pair<T> & that) const;
+  bool
+  operator<(const vnl_scalar_join_iterator_indexed_pair<T> & that) const;
 };
 
 #endif // vnl_scalar_join_iterator_h_

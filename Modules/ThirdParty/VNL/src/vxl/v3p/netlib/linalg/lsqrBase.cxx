@@ -436,14 +436,14 @@ Solve( unsigned int m, unsigned int n, const double * b, double * x )
     // Use a plane rotation to eliminate the subdiagonal element (beta)
     // of the lower-bidiagonal matrix, giving an upper-bidiagonal matrix.
     //----------------------------------------------------------------
-    double rho    =   this->D2Norm( rhbar1, beta );
-    double cs     =   rhbar1/rho;
-    double sn     =   beta  /rho;
-    double theta  =   sn * alpha;
+    double const rho    =   this->D2Norm( rhbar1, beta );
+    double const cs     =   rhbar1/rho;
+    double const sn     =   beta  /rho;
+    double const theta  =   sn * alpha;
     rhobar = - cs * alpha;
-    double phi    =   cs * phibar;
+    double const phi    =   cs * phibar;
     phibar =   sn * phibar;
-    double tau    =   sn * phi;
+    double const tau    =   sn * phi;
 
 
     //----------------------------------------------------------------
@@ -470,7 +470,7 @@ Solve( unsigned int m, unsigned int n, const double * b, double * x )
       {
       for ( unsigned int i = 0; i < n; i++ )
         {
-        double t = w[i];
+        double const t = w[i];
         x[i]   = t1 * t + x[i];
         w[i]   = t2 * t + v[i];
         dknorm = ( t3 * t )*( t3 * t ) + dknorm;
@@ -486,7 +486,7 @@ Solve( unsigned int m, unsigned int n, const double * b, double * x )
     //----------------------------------------------------------------
     dknorm = sqrt( dknorm );
     dnorm  = this->D2Norm( dnorm, dknorm );
-    double dxk  = fabs( phi* dknorm );
+    double const dxk  = fabs( phi* dknorm );
     if ( this->dxmax < dxk)
       {
       this->dxmax  = dxk;
@@ -664,7 +664,7 @@ TerminationPrintOut()
 
   if ( this->nout )
     {
-    std::string exitt = " Exit LSQR. ";
+    std::string const exitt = " Exit LSQR. ";
 
     (*this->nout) << exitt.c_str();
     (*this->nout) << "istop = ";

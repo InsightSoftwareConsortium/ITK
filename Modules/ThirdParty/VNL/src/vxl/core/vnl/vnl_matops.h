@@ -24,21 +24,30 @@
 //    matlab_print has been moved to vnl_matlab_print.h.
 class VNL_EXPORT vnl_matops
 {
- public:
-  static double homg_diff(vnl_matrix<double> const& A, vnl_matrix<double> const& B);
+public:
+  static double
+  homg_diff(const vnl_matrix<double> & A, const vnl_matrix<double> & B);
 
   //: Laminating
-  static vnl_matrix<double> cat(vnl_matrix<double> const& A, vnl_matrix<double> const& B);
-  static vnl_matrix<double> cat(vnl_matrix<double> const& A, vnl_vector<double> const& B);
-  static vnl_matrix<double> cat(vnl_vector<double> const& A, vnl_matrix<double> const& B);
+  static vnl_matrix<double>
+  cat(const vnl_matrix<double> & A, const vnl_matrix<double> & B);
+  static vnl_matrix<double>
+  cat(const vnl_matrix<double> & A, const vnl_vector<double> & B);
+  static vnl_matrix<double>
+  cat(const vnl_vector<double> & A, const vnl_matrix<double> & B);
 
-  static vnl_matrix<double> vcat(vnl_matrix<double> const& A, vnl_matrix<double> const& B);
+  static vnl_matrix<double>
+  vcat(const vnl_matrix<double> & A, const vnl_matrix<double> & B);
 
   //: Conversions
-  static vnl_matrix<double> f2d(vnl_matrix<float> const&);
-  static vnl_vector<double> f2d(vnl_vector<float> const&);
-  static vnl_matrix<float>  d2f(vnl_matrix<double> const&);
-  static vnl_vector<float>  d2f(vnl_vector<double> const&);
+  static vnl_matrix<double>
+  f2d(const vnl_matrix<float> &);
+  static vnl_vector<double>
+  f2d(const vnl_vector<float> &);
+  static vnl_matrix<float>
+  d2f(const vnl_matrix<double> &);
+  static vnl_vector<float>
+  d2f(const vnl_vector<double> &);
 };
 
 #endif // vnl_matops_h_

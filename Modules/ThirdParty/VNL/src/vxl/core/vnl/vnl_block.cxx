@@ -7,7 +7,7 @@
 #include <cassert>
 
 void
-vnl_block_raise_exception(char const * FILE, int LINE, char const * why)
+vnl_block_raise_exception(const char * FILE, int LINE, const char * why)
 {
   std::cerr << FILE << ":" << LINE << ": " << why << std::endl;
   assert(!"raise_exeption() called");

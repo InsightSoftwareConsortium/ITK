@@ -10,7 +10,7 @@ static void
 test_sample_uniform()
 {
   std::cout << "*************** sample uniform ***************\n";
-  unsigned const N = 100000;
+  const unsigned N = 100000;
   double a = 123.456;
   double b = 543.210;
   vnl_sample_reseed(); // initialise the random seed in a random way
@@ -59,7 +59,7 @@ static void
 test_sample_normal()
 {
   std::cout << "*************** sample normal ***************\n";
-  unsigned const N = 100000;
+  const unsigned N = 100000;
   double mu = 1.552;
   double sigma = 3.729;
   vnl_sample_reseed(); // initialise the random seed in a random way
@@ -108,7 +108,7 @@ static void
 test_sample_binomial()
 {
   std::cout << "*************** sample binomial ***************\n";
-  unsigned const N = 100000;
+  const unsigned N = 100000;
   int n = 10;
   double p = 0.4;
   vnl_sample_reseed(); // initialise the random seed in a random way
@@ -148,7 +148,7 @@ static void
 test_sample_bernoulli()
 {
   std::cout << "*************** sample Bernoulli ***************\n";
-  unsigned const N = 100000;
+  const unsigned N = 100000;
   double p = 0.7;
   vnl_sample_reseed(); // initialise the random seed in a random way
 

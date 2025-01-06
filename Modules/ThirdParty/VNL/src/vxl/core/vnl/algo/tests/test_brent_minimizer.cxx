@@ -30,7 +30,7 @@ struct brent_f2 : public vnl_cost_function
   f(const vnl_vector<double> & x) override
   {
     n_evals++;
-    double y = (2 - x[0]) * (2 - x[0]);
+    const double y = (2 - x[0]) * (2 - x[0]);
     return y * y + 10;
   }
 };
@@ -65,9 +65,9 @@ test_brent_minimizer()
 
   vnl_vector<double> v(1);
   v[0] = 2;
-  double f2_a = f2.f(v);
+  const double f2_a = f2.f(v);
   v[0] = x;
-  double f2_b = f2.f(v);
+  const double f2_b = f2.f(v);
   std::cout << "f2(2)-f2(x)=" << f2_a - f2_b << std::endl;
 }
 

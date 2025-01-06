@@ -33,7 +33,7 @@
 
 // this is an empty class template.
 // only the specializations make sense.
-#if !defined(_MSC_VER) || (_MSC_VER >= 1800 )
+#if !defined(_MSC_VER) || (_MSC_VER >= 1800)
 template <class T>
 class VNL_EXPORT vnl_numeric_traits;
 #else
@@ -42,11 +42,11 @@ class VNL_EXPORT vnl_numeric_traits;
 // Since the non-specialized template doesn't make any sense, make
 // sure that any types "accidently" derived from it will cause
 // compiler errors.
-class VNL_EXPORT vnl_numeric_traits_not_a_valid_type { };
+class VNL_EXPORT vnl_numeric_traits_not_a_valid_type{};
 template <class T>
 class VNL_EXPORT vnl_numeric_traits
 {
- public:
+public:
   //: Additive identity
   static constexpr vnl_numeric_traits_not_a_valid_type zero;
 
@@ -74,7 +74,7 @@ class VNL_EXPORT vnl_numeric_traits
 template <>
 class VNL_EXPORT vnl_numeric_traits<bool>
 {
- public:
+public:
   //: Additive identity
   static constexpr bool zero = false;
   //: Multiplicative identity
@@ -94,13 +94,14 @@ class VNL_EXPORT vnl_numeric_traits<bool>
 };
 
 template <>
-class VNL_EXPORT vnl_numeric_traits<bool const> : public vnl_numeric_traits<bool> {};
+class VNL_EXPORT vnl_numeric_traits<const bool> : public vnl_numeric_traits<bool>
+{};
 #endif
 
-template<>
+template <>
 class VNL_EXPORT vnl_numeric_traits<char>
 {
- public:
+public:
   //: Additive identity
   static constexpr char zero = 0;
   //: Multiplicative identity
@@ -108,13 +109,13 @@ class VNL_EXPORT vnl_numeric_traits<char>
   //: Maximum value which this type can assume.
   //  It is 127 (and not 255) since "char" is not guaranteed to be unsigned.
 #ifdef _MSC_VER
-#ifdef _CHAR_UNSIGNED
+#  ifdef _CHAR_UNSIGNED
   static constexpr char maxval = 255;
-#else
+#  else
   static constexpr char maxval = 127;
-#endif
+#  endif
 #else
-  static constexpr char maxval = (char(255)<char(0)?char(127):char(255));
+  static constexpr char maxval = (char(255) < char(0) ? char(127) : char(255));
 #endif
   //: Return value of abs()
   typedef unsigned char abs_t;
@@ -128,13 +129,14 @@ class VNL_EXPORT vnl_numeric_traits<char>
   using signed_t = std::make_signed<self>::type;
 };
 
-template<>
-class VNL_EXPORT vnl_numeric_traits<char const> : public vnl_numeric_traits<char> {};
+template <>
+class VNL_EXPORT vnl_numeric_traits<const char> : public vnl_numeric_traits<char>
+{};
 
-template<>
+template <>
 class VNL_EXPORT vnl_numeric_traits<unsigned char>
 {
- public:
+public:
   //: Additive identity
   static constexpr unsigned char zero = 0;
   //: Multiplicative identity
@@ -153,13 +155,14 @@ class VNL_EXPORT vnl_numeric_traits<unsigned char>
   using signed_t = std::make_signed<self>::type;
 };
 
-template<>
-class VNL_EXPORT vnl_numeric_traits<unsigned char const> : public vnl_numeric_traits<unsigned char> {};
+template <>
+class VNL_EXPORT vnl_numeric_traits<const unsigned char> : public vnl_numeric_traits<unsigned char>
+{};
 
-template<>
+template <>
 class VNL_EXPORT vnl_numeric_traits<signed char>
 {
- public:
+public:
   //: Additive identity
   static constexpr signed char zero = 0;
   //: Multiplicative identity
@@ -178,15 +181,16 @@ class VNL_EXPORT vnl_numeric_traits<signed char>
   using signed_t = std::make_signed<self>::type;
 };
 
-template<>
-class VNL_EXPORT vnl_numeric_traits<signed char const> : public vnl_numeric_traits<signed char> {};
+template <>
+class VNL_EXPORT vnl_numeric_traits<const signed char> : public vnl_numeric_traits<signed char>
+{};
 
-template<>
+template <>
 class VNL_EXPORT vnl_numeric_traits<short>
 {
- public:
+public:
   //: Additive identity
-  static constexpr short zero  = 0;
+  static constexpr short zero = 0;
   //: Multiplicative identity
   static constexpr short one = 1;
   //: Maximum value which this type can assume
@@ -203,15 +207,16 @@ class VNL_EXPORT vnl_numeric_traits<short>
   using signed_t = std::make_signed<self>::type;
 };
 
-template<>
-class VNL_EXPORT vnl_numeric_traits<short const> : public vnl_numeric_traits<short> {};
+template <>
+class VNL_EXPORT vnl_numeric_traits<const short> : public vnl_numeric_traits<short>
+{};
 
-template<>
+template <>
 class VNL_EXPORT vnl_numeric_traits<unsigned short>
 {
- public:
+public:
   //: Additive identity
-  static constexpr unsigned short zero  = 0;
+  static constexpr unsigned short zero = 0;
   //: Multiplicative identity
   static constexpr unsigned short one = 1;
   //: Maximum value which this type can assume
@@ -228,15 +233,16 @@ class VNL_EXPORT vnl_numeric_traits<unsigned short>
   using signed_t = std::make_signed<self>::type;
 };
 
-template<>
-class VNL_EXPORT vnl_numeric_traits<unsigned short const> : public vnl_numeric_traits<unsigned short> {};
+template <>
+class VNL_EXPORT vnl_numeric_traits<const unsigned short> : public vnl_numeric_traits<unsigned short>
+{};
 
-template<>
+template <>
 class VNL_EXPORT vnl_numeric_traits<int>
 {
- public:
+public:
   //: Additive identity
-  static constexpr int zero  = 0;
+  static constexpr int zero = 0;
   //: Multiplicative identity
   static constexpr int one = 1;
   //: Maximum value which this type can assume
@@ -253,15 +259,16 @@ class VNL_EXPORT vnl_numeric_traits<int>
   using signed_t = std::make_signed<self>::type;
 };
 
-template<>
-class VNL_EXPORT vnl_numeric_traits<int const> : public vnl_numeric_traits<int> {};
+template <>
+class VNL_EXPORT vnl_numeric_traits<const int> : public vnl_numeric_traits<int>
+{};
 
-template<>
+template <>
 class VNL_EXPORT vnl_numeric_traits<unsigned int>
 {
- public:
+public:
   //: Additive identity
-  static constexpr unsigned int zero  = 0;
+  static constexpr unsigned int zero = 0;
   //: Multiplicative identity
   static constexpr unsigned int one = 1;
   //: Maximum value which this type can assume
@@ -278,19 +285,21 @@ class VNL_EXPORT vnl_numeric_traits<unsigned int>
   using signed_t = std::make_signed<self>::type;
 };
 
-template<>
-class VNL_EXPORT vnl_numeric_traits<unsigned int const> : public vnl_numeric_traits<unsigned int> {};
+template <>
+class VNL_EXPORT vnl_numeric_traits<const unsigned int> : public vnl_numeric_traits<unsigned int>
+{};
 
-template<>
+template <>
 class VNL_EXPORT vnl_numeric_traits<long>
 {
- public:
+public:
   //: Additive identity
-  static constexpr long zero  = 0;
+  static constexpr long zero = 0;
   //: Multiplicative identity
   static constexpr long one = 1;
   //: Maximum value which this type can assume
-  static constexpr long maxval = sizeof(long)==8?static_cast<long>((vxl_uint_64)(-1)/2):0x7fffffffL; // = 0x7fffffffL or 0x7fffffffffffffffL;
+  static constexpr long maxval =
+    sizeof(long) == 8 ? static_cast<long>((vxl_uint_64)(-1) / 2) : 0x7fffffffL; // = 0x7fffffffL or 0x7fffffffffffffffL;
   //: Return value of abs()
   typedef unsigned long abs_t;
   //: Name of a type twice as long as this one for accumulators and products.
@@ -303,19 +312,21 @@ class VNL_EXPORT vnl_numeric_traits<long>
   using signed_t = std::make_signed<self>::type;
 };
 
-template<>
-class VNL_EXPORT vnl_numeric_traits<long const> : public vnl_numeric_traits<long > {};
+template <>
+class VNL_EXPORT vnl_numeric_traits<const long> : public vnl_numeric_traits<long>
+{};
 
-template<>
+template <>
 class VNL_EXPORT vnl_numeric_traits<unsigned long>
 {
- public:
+public:
   //: Additive identity
-  static constexpr unsigned long zero  = 0;
+  static constexpr unsigned long zero = 0;
   //: Multiplicative identity
   static constexpr unsigned long one = 1;
   //: Maximum value which this type can assume
-  static constexpr unsigned long maxval =  sizeof(unsigned long)==8?static_cast<unsigned long>((vxl_uint_64)(-1)):0xffffffffL ;
+  static constexpr unsigned long maxval =
+    sizeof(unsigned long) == 8 ? static_cast<unsigned long>((vxl_uint_64)(-1)) : 0xffffffffL;
   // = 0xffffffffL or 0xffffffffffffffffL;
   //: Return value of abs()
   typedef unsigned long abs_t;
@@ -329,21 +340,22 @@ class VNL_EXPORT vnl_numeric_traits<unsigned long>
   using signed_t = std::make_signed<self>::type;
 };
 
-template<>
-class VNL_EXPORT vnl_numeric_traits<unsigned long const> : public vnl_numeric_traits<unsigned long> {};
+template <>
+class VNL_EXPORT vnl_numeric_traits<const unsigned long> : public vnl_numeric_traits<unsigned long>
+{};
 
 
-//long long - target type will have width of at least 64 bits. (since C++11)
-template<>
+// long long - target type will have width of at least 64 bits. (since C++11)
+template <>
 class VNL_EXPORT vnl_numeric_traits<long long>
 {
- public:
+public:
   //: Additive identity
-  static constexpr long long zero  = 0;
+  static constexpr long long zero = 0;
   //: Multiplicative identity
   static constexpr long long one = 1;
   //: Maximum value which this type can assume
-  static constexpr long long maxval =  sizeof(long long)==8?((vxl_uint_64)(-1))/2:0x7fffffffL ;
+  static constexpr long long maxval = sizeof(long long) == 8 ? ((vxl_uint_64)(-1)) / 2 : 0x7fffffffL;
   //: Return value of abs()
   typedef unsigned long long abs_t;
   //: Name of a type twice as long as this one for accumulators and products.
@@ -356,19 +368,20 @@ class VNL_EXPORT vnl_numeric_traits<long long>
   using signed_t = std::make_signed<self>::type;
 };
 
-template<>
-class VNL_EXPORT vnl_numeric_traits<long long const> : public vnl_numeric_traits<long long> {};
+template <>
+class VNL_EXPORT vnl_numeric_traits<const long long> : public vnl_numeric_traits<long long>
+{};
 
-template<>
+template <>
 class VNL_EXPORT vnl_numeric_traits<unsigned long long>
 {
- public:
+public:
   //: Additive identity
-  static constexpr unsigned long long zero  = 0;
+  static constexpr unsigned long long zero = 0;
   //: Multiplicative identity
   static constexpr unsigned long long one = 1;
   //: Maximum value which this type can assume
-  static constexpr unsigned long long maxval = sizeof(unsigned long long)==8?(vxl_uint_64)(-1):0xffffffffL;
+  static constexpr unsigned long long maxval = sizeof(unsigned long long) == 8 ? (vxl_uint_64)(-1) : 0xffffffffL;
   //: Return value of abs()
   typedef unsigned long long abs_t;
   //: Name of a type twice as long as this one for accumulators and products.
@@ -381,14 +394,15 @@ class VNL_EXPORT vnl_numeric_traits<unsigned long long>
   using signed_t = std::make_signed<self>::type;
 };
 
-template<>
-class VNL_EXPORT vnl_numeric_traits<unsigned long long const> : public vnl_numeric_traits<unsigned long long> {};
+template <>
+class VNL_EXPORT vnl_numeric_traits<const unsigned long long> : public vnl_numeric_traits<unsigned long long>
+{};
 
 
-template<>
+template <>
 class VNL_EXPORT vnl_numeric_traits<float>
 {
- public:
+public:
   //: Additive identity
   static constexpr float zero = 0.0F;
   //: Multiplicative identity
@@ -407,13 +421,14 @@ class VNL_EXPORT vnl_numeric_traits<float>
   using signed_t = self;
 };
 
-template<>
-class VNL_EXPORT vnl_numeric_traits<float const> : public vnl_numeric_traits<float> {};
+template <>
+class VNL_EXPORT vnl_numeric_traits<const float> : public vnl_numeric_traits<float>
+{};
 
-template<>
+template <>
 class VNL_EXPORT vnl_numeric_traits<double>
 {
- public:
+public:
   //: Additive identity
   static constexpr double zero = 0.0;
   //: Multiplicative identity
@@ -432,13 +447,14 @@ class VNL_EXPORT vnl_numeric_traits<double>
   using signed_t = self;
 };
 
-template<>
-class VNL_EXPORT vnl_numeric_traits<double const> : public vnl_numeric_traits<double> {};
+template <>
+class VNL_EXPORT vnl_numeric_traits<const double> : public vnl_numeric_traits<double>
+{};
 
-template<>
+template <>
 class VNL_EXPORT vnl_numeric_traits<long double>
 {
- public:
+public:
   //: Additive identity
   static constexpr long double zero = 0.0;
   //: Multiplicative identity
@@ -457,19 +473,20 @@ class VNL_EXPORT vnl_numeric_traits<long double>
   using signed_t = self;
 };
 
-template<>
-class VNL_EXPORT vnl_numeric_traits<long double const> : public vnl_numeric_traits<long double> {};
+template <>
+class VNL_EXPORT vnl_numeric_traits<const long double> : public vnl_numeric_traits<long double>
+{};
 
-template<>
-class VNL_EXPORT vnl_numeric_traits< std::complex<float> >
+template <>
+class VNL_EXPORT vnl_numeric_traits<std::complex<float>>
 {
- public:
+public:
   //: Additive identity
   static const std::complex<float> zero;
   //: Multiplicative identity
   static const std::complex<float> one;
   // Maximum value which this type can assume; makes no sense for this type
-  //static const std::complex<float> maxval;
+  // static const std::complex<float> maxval;
 
   //: Return value of abs()
   typedef float abs_t;
@@ -483,19 +500,20 @@ class VNL_EXPORT vnl_numeric_traits< std::complex<float> >
   using signed_t = self;
 };
 
-template<>
-class VNL_EXPORT vnl_numeric_traits<std::complex<float> const> : public vnl_numeric_traits<std::complex<float> > {};
+template <>
+class VNL_EXPORT vnl_numeric_traits<const std::complex<float>> : public vnl_numeric_traits<std::complex<float>>
+{};
 
-template<>
-class VNL_EXPORT vnl_numeric_traits< std::complex<double> >
+template <>
+class VNL_EXPORT vnl_numeric_traits<std::complex<double>>
 {
- public:
+public:
   //: Additive identity
   static const std::complex<double> zero;
   //: Multiplicative identity
   static const std::complex<double> one;
   // Maximum value which this type can assume; makes no sense for this type
-  //static const std::complex<double> maxval;
+  // static const std::complex<double> maxval;
 
   //: Return value of abs()
   typedef double abs_t;
@@ -509,19 +527,20 @@ class VNL_EXPORT vnl_numeric_traits< std::complex<double> >
   using signed_t = self;
 };
 
-template<>
-class VNL_EXPORT vnl_numeric_traits<std::complex<double> const> : public vnl_numeric_traits<std::complex<double> > {};
+template <>
+class VNL_EXPORT vnl_numeric_traits<const std::complex<double>> : public vnl_numeric_traits<std::complex<double>>
+{};
 
-template<>
-class VNL_EXPORT vnl_numeric_traits< std::complex<long double> >
+template <>
+class VNL_EXPORT vnl_numeric_traits<std::complex<long double>>
 {
- public:
+public:
   //: Additive identity
   static const std::complex<long double> zero;
   //: Multiplicative identity
   static const std::complex<long double> one;
   // Maximum value which this type can assume; makes no sense for this type
-  //static const std::complex<long double> maxval;
+  // static const std::complex<long double> maxval;
 
   //: Return value of abs()
   typedef long double abs_t;
@@ -535,7 +554,9 @@ class VNL_EXPORT vnl_numeric_traits< std::complex<long double> >
   using signed_t = self;
 };
 
-template<>
-class VNL_EXPORT vnl_numeric_traits<std::complex<long double> const> : public vnl_numeric_traits<std::complex<long double> > {};
+template <>
+class VNL_EXPORT vnl_numeric_traits<const std::complex<long double>>
+  : public vnl_numeric_traits<std::complex<long double>>
+{};
 
 #endif // vnl_numeric_traits_h_

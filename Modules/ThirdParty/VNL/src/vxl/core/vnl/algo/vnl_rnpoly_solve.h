@@ -34,45 +34,58 @@
 class VNL_ALGO_EXPORT vnl_rnpoly_solve
 {
   // Data Members--------------------------------------------------------------
-  std::vector<vnl_real_npolynomial*> ps_;   // the input
-  std::vector<vnl_vector<double>*> r_; // the output (real part)
-  std::vector<vnl_vector<double>*> i_; // the output (imaginary part)
+  std::vector<vnl_real_npolynomial *> ps_; // the input
+  std::vector<vnl_vector<double> *> r_;    // the output (real part)
+  std::vector<vnl_vector<double> *> i_;    // the output (imaginary part)
 
- public:
-
+public:
   // Constructor---------------------------------------------------------------
 
   //: The constructor already does all the calculations
-  inline vnl_rnpoly_solve(std::vector<vnl_real_npolynomial*>  ps)
-    : ps_(std::move(ps)) { compute(); }
+  inline vnl_rnpoly_solve(std::vector<vnl_real_npolynomial *> ps)
+    : ps_(std::move(ps))
+  {
+    compute();
+  }
 
   // Destructor----------------------------------------------------------------
 
- ~vnl_rnpoly_solve();
+  ~vnl_rnpoly_solve();
 
   // Operations----------------------------------------------------------------
 
   //: Array of real parts of roots
-  inline std::vector<vnl_vector<double>*> real() { return r_; }
+  inline std::vector<vnl_vector<double> *>
+  real()
+  {
+    return r_;
+  }
 
   //: Array of imaginary parts of roots
-  inline std::vector<vnl_vector<double>*> imag() { return i_; }
+  inline std::vector<vnl_vector<double> *>
+  imag()
+  {
+    return i_;
+  }
 
   //: Return real roots only.
   //  Roots are real if the absolute value of their imaginary part is less than
   //  the optional argument tol, which defaults to 1e-12 [untested]
-  std::vector<vnl_vector<double>*> realroots(double tol = 1e-12);
+  std::vector<vnl_vector<double> *>
+  realroots(double tol = 1e-12);
 
   // Computations--------------------------------------------------------------
 
- private:
+private:
   //: Compute roots using continuation algorithm.
-  bool compute();
+  bool
+  compute();
 
-  void Read_Input(std::vector<unsigned int>& ideg,
-                  std::vector<unsigned int>& terms,
-                  std::vector<int>& polyn,
-                  std::vector<double>& coeff);
+  void
+  Read_Input(std::vector<unsigned int> & ideg,
+             std::vector<unsigned int> & terms,
+             std::vector<int> & polyn,
+             std::vector<double> & coeff);
 };
 
 #endif // vnl_rnpoly_solve_h_

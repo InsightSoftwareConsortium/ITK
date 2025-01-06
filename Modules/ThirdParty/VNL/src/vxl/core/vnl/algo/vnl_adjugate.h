@@ -19,12 +19,15 @@
 
 #include <vnl/algo/vnl_algo_export.h>
 
-template <class T> class vnl_matrix;
+template <class T>
+class vnl_matrix;
 
 template <class T>
-void vnl_adjugate(vnl_matrix<T> const &A, vnl_matrix<T> *out);
+void
+vnl_adjugate(const vnl_matrix<T> & A, vnl_matrix<T> * out);
 
 template <class T>
-vnl_matrix<T> vnl_adjugate(vnl_matrix<T> const &A);
+vnl_matrix<T>
+vnl_adjugate(const vnl_matrix<T> & A);
 
 #endif // vnl_adjugate_h_

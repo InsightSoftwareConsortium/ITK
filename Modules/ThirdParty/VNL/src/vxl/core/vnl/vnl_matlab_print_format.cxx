@@ -48,7 +48,7 @@ vnl_matlab_print_format
 vnl_matlab_print_format_set(vnl_matlab_print_format f)
 {
   vnl_matlab_print_format_init();
-  vnl_matlab_print_format old = the_format;
+  const vnl_matlab_print_format old = the_format;
   the_format = f;
   return old;
 }

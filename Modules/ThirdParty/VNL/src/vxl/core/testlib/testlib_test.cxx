@@ -114,7 +114,7 @@ void
 testlib_test_assert_near(const std::string & msg, double expr, double target, double tol)
 {
   std::cout << msg << " should be " << target << ", is " << expr << ", " << std::flush;
-  double diff = std::abs(expr - target);
+  const double diff = std::abs(expr - target);
   if (target != 0.0 && diff != 0.0)
     std::cout << "difference " << diff << ", " << std::flush;
   testlib_test_perform(diff <= tol);
@@ -124,7 +124,7 @@ void
 testlib_test_assert_near(const std::string & msg, std::complex<double> expr, std::complex<double> target, double tol)
 {
   std::cout << msg << " should be " << target << ", is " << expr << ", " << std::flush;
-  double diff = std::abs(expr - target);
+  const double diff = std::abs(expr - target);
   if (target != std::complex<double>(0, 0) && diff != 0.0)
     std::cout << "difference " << diff << ", " << std::flush;
   testlib_test_perform(diff <= tol);
@@ -139,7 +139,7 @@ testlib_test_assert_near_relative(const std::string & msg, double expr, double t
     max = std::abs(expr);
   if (max == 0.0 || target == 0.0)
     max = 1.0;
-  double diff = std::abs(expr - target) / max;
+  const double diff = std::abs(expr - target) / max;
   if (target != 0.0 && diff != 0.0)
     std::cout << "relative difference " << diff << ", " << std::flush;
   testlib_test_perform(diff <= tol);
@@ -157,7 +157,7 @@ testlib_test_assert_near_relative(const std::string & msg,
     max = std::abs(expr);
   if (max == 0.0 || target == std::complex<double>(0, 0))
     max = 1.0;
-  double diff = std::abs(expr - target) / max;
+  const double diff = std::abs(expr - target) / max;
   if (target != std::complex<double>(0, 0) && diff != 0.0)
     std::cout << "relative difference " << diff << ", " << std::flush;
   testlib_test_perform(diff <= tol);
@@ -167,7 +167,7 @@ void
 testlib_test_assert_far(const std::string & msg, double expr, double target, double tol)
 {
   std::cout << msg << " should not be " << target << ", is " << expr << ", " << std::flush;
-  double diff = std::abs(expr - target);
+  const double diff = std::abs(expr - target);
   if (target != 0.0 && diff != 0.0)
     std::cout << "difference " << diff << ", " << std::flush;
   testlib_test_perform(diff > tol);
@@ -177,7 +177,7 @@ void
 testlib_test_assert_far(const std::string & msg, std::complex<double> expr, std::complex<double> target, double tol)
 {
   std::cout << msg << " should not be " << target << ", is " << expr << ", " << std::flush;
-  double diff = std::abs(expr - target);
+  const double diff = std::abs(expr - target);
   if (target != std::complex<double>(0, 0) && diff != 0.0)
     std::cout << "difference " << diff << ", " << std::flush;
   testlib_test_perform(diff > tol);
@@ -187,7 +187,7 @@ void
 testlib_test_assert_equal(const std::string & msg, long expr, long target)
 {
   std::cout << msg << " should be " << target << ", is " << expr << ", " << std::flush;
-  long diff = std::abs(expr - target);
+  const long diff = std::abs(expr - target);
   if (target != 0 && diff != 0)
     std::cout << "difference " << diff << ", " << std::flush;
   testlib_test_perform(diff == 0);

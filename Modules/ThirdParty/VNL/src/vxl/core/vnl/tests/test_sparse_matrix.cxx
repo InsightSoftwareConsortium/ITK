@@ -18,7 +18,7 @@ test_sparse_int()
   TEST("(vnl_sparse_matrix)(i,j)", m0(1111, 2222), 3333);
   const vnl_sparse_matrix<int> ma = m0;
   TEST("copy constructor", ma, m0);
-  vnl_sparse_matrix<int> m2(m1);
+  const vnl_sparse_matrix<int> m2(m1);
   TEST("vnl_sparse_matrix<int> m2(m1)", m1, m2);
   TEST("(const vnl_sparse_matrix)(i,j)", ma(1111, 2222), 3333);
   vnl_sparse_matrix<int> mb;
@@ -147,7 +147,7 @@ test_sparse_double()
             << "***********************************\n";
   vnl_sparse_matrix<double> d0(2, 2);
   TEST("vnl_sparse_matrix<double> d0(2,2)", (d0.rows() == 2 && d0.columns() == 2), true);
-  vnl_sparse_matrix<double> d1(3, 4);
+  const vnl_sparse_matrix<double> d1(3, 4);
   TEST("vnl_sparse_matrix<double> d1(3,4)", (d1.rows() == 3 && d1.columns() == 4), true);
   vnl_sparse_matrix<double> d2 = d0;
   TEST("copy constructor", d0, d2);
@@ -157,7 +157,7 @@ test_sparse_double()
   TEST("d2(1,0) = 4.0", d2(1, 0), 4.0);
   TEST("!(d0 == d2)", (d0 == d2), false);
   TEST("d0 != d2", (d0 != d2), true);
-  vnl_sparse_matrix<double> d3(d2);
+  const vnl_sparse_matrix<double> d3(d2);
   TEST("vnl_sparse_matrix<double> d3(d2)", d2, d3);
   TEST("d0=d2", (d0 = d2, (d0 == d2)), true);
 
@@ -183,12 +183,12 @@ test_sparse_complex()
   TEST("copy constructor", d0, d2);
   TEST("d2.put(1,1,3.0)", (d2.put(1, 1, 3.0), d2.get(1, 1)), 3.0);
   TEST("d2.get(1,1)", d2.get(1, 1), 3.0);
-  std::complex<double> r4i12(4.0, 12.0);
+  const std::complex<double> r4i12(4.0, 12.0);
   d2(1, 0) = r4i12;
   TEST("d2(1,0) = 4+12i", d2(1, 0), r4i12);
   TEST("!(d0 == d2)", (d0 == d2), false);
   TEST("d0 != d2", (d0 != d2), true);
-  vnl_sparse_matrix<std::complex<double>> d3(d2);
+  const vnl_sparse_matrix<std::complex<double>> d3(d2);
   TEST("vnl_sparse_matrix<complex_double> d3(d2)", d2, d3);
   TEST("assignment operator", (d0 = d2, (d0 == d2)), true);
 

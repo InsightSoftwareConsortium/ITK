@@ -24,40 +24,41 @@
 // It is now simply a wrapper around vnl_brent_minimizer.
 class VNL_ALGO_EXPORT vnl_brent : public vnl_brent_minimizer
 {
- public:
-  vnl_brent(vnl_cost_function* functor);
- ~vnl_brent() override;
+public:
+  vnl_brent(vnl_cost_function * functor);
+  ~vnl_brent() override;
 
   //: Find a minimum of f(x) near to ax.
-  double minimize(double ax);
+  double
+  minimize(double ax);
 
   //: Find the minimum value of f(x) within a<= x <= c.
   // The minimum value is the return value, and *xmin the relevant value of x.
   // You need to provide a bracket for the minimum
   // Also returns fa = f(a), etc.
-  double minimize_given_bounds(double ax, double bx, double cx,
-                               double tol,
-                               double *xmin);
+  double
+  minimize_given_bounds(double ax, double bx, double cx, double tol, double * xmin);
 
   //: Save time over minimize_given_bounds() if you know f(b)
   // This function avoids a single computation of f, if you already know
   // it.
-  double minimize_given_bounds_and_1st_f(double ax, double bx, double fb,
-                                         double cx,  double tol, double *xmin);
+  double
+  minimize_given_bounds_and_1st_f(double ax, double bx, double fb, double cx, double tol, double * xmin);
 
   //: Given distinct points ax, and bx, find a bracket for the minimum.
   // Return a bracket ax > bx > cx, f(b) < f(a), f(b) < f(c) for minimum.
   // Also returns fa = f(a), etc.
   //
   // You should probably use vnl_bracket_minimum instead of this function.
-  void bracket_minimum(double *ax, double *bx, double *cx,
-                       double *fa, double *fb, double *fc);
+  void
+  bracket_minimum(double * ax, double * bx, double * cx, double * fa, double * fb, double * fc);
 
   //: Given distinct points ax, and bx, find a bracket for the minimum.
   // Return a bracket ax > bx > cx, f(b) < f(a), f(b) < f(c) for minimum.
   //
   // You should probably use vnl_bracket_minimum instead of this function.
-  void bracket_minimum(double *ax, double *bx, double *cx);
+  void
+  bracket_minimum(double * ax, double * bx, double * cx);
 };
 
 #endif // vnl_brent_h_

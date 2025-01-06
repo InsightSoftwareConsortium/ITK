@@ -14,7 +14,7 @@
 
 template <class T, class S>
 static void
-test_hilbert(T /*dummy*/, char const * type, S residual)
+test_hilbert(T /*dummy*/, const char * type, S residual)
 {
   std::cout << "----- Testing svd<" << type << ">(Hilbert_3x3) -----" << std::endl;
   using abs_t = typename vnl_numeric_traits<T>::abs_t;
@@ -26,13 +26,13 @@ test_hilbert(T /*dummy*/, char const * type, S residual)
 
   std::cout << "H = <" << type << ">[ " << H << "]\n";
 
-  vnl_svd<T> svd(H);
+  const vnl_svd<T> svd(H);
 
   std::cout << "rcond(H) = " << svd.well_condition() << std::endl;
 
-  vnl_matrix<T> Hinv = svd.inverse();
+  const vnl_matrix<T> Hinv = svd.inverse();
 
-  vnl_matrix<T> X = Hinv * H;
+  const vnl_matrix<T> X = Hinv * H;
 
   std::cout << "H*inv(H) = " << X << std::endl;
 
@@ -40,7 +40,7 @@ test_hilbert(T /*dummy*/, char const * type, S residual)
   I = 0.0;
   I.fill_diagonal(1.0);
 
-  vnl_matrix<T> res = X - I;
+  const vnl_matrix<T> res = X - I;
   TEST_NEAR("Hilbert recomposition residual", res.fro_norm(), 0, residual);
 }
 
@@ -49,15 +49,15 @@ static void
 test_ls()
 {
   std::cout << "----- Testing svd on a Least Squares problem -----" << std::endl;
-  double a = 0.15;
-  double b = 1.2;
-  double c = 3.1;
+  const double a = 0.15;
+  const double b = 1.2;
+  const double c = 3.1;
 
   // Generate parabola design matrix
   vnl_matrix<double> D(100, 3);
   for (int n = 0; n < 100; ++n)
   {
-    double x = n;
+    const double x = n;
     D(n, 0) = x * x;
     D(n, 1) = x;
     D(n, 2) = 1.0;
@@ -67,21 +67,21 @@ test_ls()
   vnl_vector<double> y(100);
   for (int n = 0; n < 100; ++n)
   {
-    double x = n;
-    double fx = a * x * x + b * x + c;
+    const double x = n;
+    const double fx = a * x * x + b * x + c;
     // Add sawtooth "noise"
     y(n) = fx + (n % 4 - 2) / 10.0;
   }
   std::cout << "y = [" << y << "]\n";
 
   // Extract vnl_svd<double>
-  vnl_svd<double> svd(D);
+  const vnl_svd<double> svd(D);
 
   // Solve for parameters
-  vnl_double_3 A = svd.solve(y);
+  const vnl_double_3 A = svd.solve(y);
   std::cout << "A = " << A << '\n';
 
-  vnl_double_3 T(a, b, c);
+  const vnl_double_3 T(a, b, c);
   TEST_NEAR("Least squares residual", (A - T).squared_magnitude(), 0, 0.005);
 }
 
@@ -92,28 +92,28 @@ test_pmatrix()
   double pdata[] = {
     2, 0, 0, 0, 3, 10, 5, 5, 5, 12, 6, 6,
   };
-  vnl_matrix<double> P(pdata, 3, 4);
-  vnl_svd<double> svd(P, 1e-8);
+  const vnl_matrix<double> P(pdata, 3, 4);
+  const vnl_svd<double> svd(P, 1e-8);
 
-  vnl_matrix<double> res = svd.recompose() - P;
+  const vnl_matrix<double> res = svd.recompose() - P;
   TEST_NEAR("PMatrix recomposition residual", res.fro_norm(), 0, 1e-12);
   std::cout << " Inv = " << svd.inverse() << std::endl;
 
   TEST("singularities = 2", svd.singularities(), 2);
   TEST("rank = 2", svd.rank(), 2);
 
-  vnl_matrix<double> N = svd.nullspace();
+  const vnl_matrix<double> N = svd.nullspace();
   TEST("nullspace dimension", N.columns(), 2);
   std::cout << "null(P) =\n" << N << std::endl;
 
-  vnl_matrix<double> PN = P * N;
+  const vnl_matrix<double> PN = P * N;
   std::cout << "P * null(P) =\n" << PN << std::endl;
   TEST_NEAR("P nullspace residual", PN.fro_norm(), 0, 1e-12);
 
-  vnl_vector<double> n = svd.nullvector();
+  const vnl_vector<double> n = svd.nullvector();
   TEST_NEAR("P nullvector residual", (P * n).magnitude(), 0, 1e-12);
 
-  vnl_vector<double> l = svd.left_nullvector();
+  const vnl_vector<double> l = svd.left_nullvector();
   std::cout << "left_nullvector(P) = " << l << std::endl;
   TEST_NEAR("P left nullvector residual", (l * P).magnitude(), 0, 1e-12);
 }
@@ -124,17 +124,17 @@ test_I()
   double Idata[] = {
     1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0,
   };
-  vnl_matrix<double> P(3, 4, 12, Idata);
+  const vnl_matrix<double> P(3, 4, 12, Idata);
   vnl_svd<double> svd(P);
   std::cout << svd;
 
-  vnl_vector_fixed<double, 4> w_expected(1, 1, 1, 0);
+  const vnl_vector_fixed<double, 4> w_expected(1, 1, 1, 0);
   TEST_NEAR("Singular values", vnl_vector_ssd(w_expected, svd.W().diagonal().as_ref()), 0, 1e-16);
 }
 
 template <class T>
 void
-test_svd_recomposition(char const * type, double maxres, T * /* tag */, vnl_random & rng)
+test_svd_recomposition(const char * type, double maxres, T * /* tag */, vnl_random & rng)
 {
   // Test inversion of 5x5 matrix of T :
   std::cout << "----- Testing vnl_svd<" << type << "> recomposition -----\n";
@@ -143,12 +143,12 @@ test_svd_recomposition(char const * type, double maxres, T * /* tag */, vnl_rand
   test_util_fill_random(A.begin(), A.end(), rng);
 
   std::cout << "A = [\n" << A << "]\n";
-  vnl_svd<T> svd(A);
+  const vnl_svd<T> svd(A);
 
-  vnl_matrix<T> B = svd.recompose();
+  const vnl_matrix<T> B = svd.recompose();
   std::cout << "B = [\n" << B << "]\n";
 
-  double residual = (A - B).fro_norm();
+  const double residual = (A - B).fro_norm();
   TEST_NEAR("vnl_svd<float> recomposition residual", residual, 0, maxres);
 }
 
@@ -158,12 +158,12 @@ template <class T>
 static void
 test_nullvector(char const * type, double max_err, T *, vnl_random & rng)
 {
-  int n = 5;
+  const int n = 5;
   vnl_matrix<T> A(n, n + 1);
   test_util_fill_random(A.begin(), A.end(), rng);
-  vnl_svd<T> svd(A);
-  vnl_vector<T> x = svd.nullvector();
-  vnl_vector<T> Ax = A * x;
+  const vnl_svd<T> svd(A);
+  const vnl_vector<T> x = svd.nullvector();
+  const vnl_vector<T> Ax = A * x;
   std::cout << __FILE__ ": type = " << type << std::endl;
   vnl_matlab_print(std::cout, A, "A", vnl_matlab_print_format_long);
   std::cout << __FILE__ ": || x|| = " << x.two_norm() << std::endl

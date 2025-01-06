@@ -27,22 +27,22 @@
 #  include <vcl_msvc_warnings.h>
 #endif
 
-typedef int (*TestMainFunction)( int, char*[] );
+typedef int (*TestMainFunction)(int, char *[]);
 
 //: Declare the existence of the test.
 // If you DECLARE( x ), then you will need to define a function int x_main(int,char*[]).
 #ifdef _MSC_VER
-#define DECLARE( testname ) int _cdecl testname ## _main ( int argc, char* argv[] )
+#  define DECLARE(testname) int _cdecl testname##_main(int argc, char * argv[])
 #else
-#define DECLARE( testname )  int testname ## _main ( int argc, char* argv[] )
+#  define DECLARE(testname) int testname##_main(int argc, char * argv[])
 #endif
 
-void testlib_register_test(const std::string &, TestMainFunction);
+void
+testlib_register_test(const std::string &, TestMainFunction);
 
 //: Register the test with the driver.
 // \param testname should be the same as one of the tests declared with DECLARE.
-#define REGISTER( testname ) \
-   testlib_register_test(#testname, & testname ## _main );
+#define REGISTER(testname) testlib_register_test(#testname, &testname##_main);
 
 //: Define the main() routine for this test driver.
 // This allows the main function to be defined in the driver code
@@ -50,14 +50,15 @@ void testlib_register_test(const std::string &, TestMainFunction);
 // "awf-weirdness". This also means that functionality from the test
 // library, such as testlib_root_dir, can be used even if it is not
 // used to create a test driver.
-#define DEFINE_MAIN \
-   int testlib_main(int,char*[]); \
-   void testlib_cleanup(); \
-   int main( int argc, char* argv[] ) { \
-     register_tests(); \
-     int retval = testlib_main( argc, argv ); \
-     testlib_cleanup(); \
-     return retval; \
-   }
+#define DEFINE_MAIN                        \
+  int testlib_main(int, char *[]);         \
+  void testlib_cleanup();                  \
+  int main(int argc, char * argv[])        \
+  {                                        \
+    register_tests();                      \
+    int retval = testlib_main(argc, argv); \
+    testlib_cleanup();                     \
+    return retval;                         \
+  }
 
 #endif // TESTLIB_REGISTER_H_

@@ -10,13 +10,14 @@
 
 class vnl_analytic_integrant : public vnl_integrant_fnct
 {
- public:
+public:
   vnl_analytic_integrant() = default;
   ~vnl_analytic_integrant() override = default;
 
   // the function every derived class has to implement, which is to evaluate
   // the function value at point x
-  double f_(double /*x*/) override = 0;
+  double
+  f_(double /*x*/) override = 0;
 };
 
 #endif

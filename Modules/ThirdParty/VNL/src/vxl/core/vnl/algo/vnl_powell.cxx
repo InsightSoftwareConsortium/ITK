@@ -42,7 +42,7 @@ public:
   {}
 
   void
-  init(vnl_vector<double> const & x0, vnl_vector<double> const & dx)
+  init(const vnl_vector<double> & x0, const vnl_vector<double> & dx)
   {
     x0_ = x0;
     dx_ = dx;
@@ -54,7 +54,7 @@ public:
   f(const vnl_vector<double> & x) override
   {
     uninit(x[0], tmpx_);
-    double e = f_->f(tmpx_);
+    const double e = f_->f(tmpx_);
     powell_->pub_report_eval(e);
     return e;
   }
@@ -71,7 +71,7 @@ vnl_nonlinear_minimizer::ReturnCodes
 vnl_powell::minimize(vnl_vector<double> & p)
 {
   // verbose_ = true;
-  int n = p.size();
+  const int n = p.size();
   vnl_powell_1dfun f1d(n, functor_, this);
 
   vnl_matrix<double> xi(n, n, vnl_matrix_identity);
@@ -82,7 +82,7 @@ vnl_powell::minimize(vnl_vector<double> & p)
   vnl_vector<double> pt = p;
   while (num_iterations_ < unsigned(maxfev))
   {
-    double fp = fret;
+    const double fp = fret;
     int ibig = 0;
     double del = 0.0;
 
@@ -91,7 +91,7 @@ vnl_powell::minimize(vnl_vector<double> & p)
       // xit = ith column of xi
       for (int j = 0; j < n; ++j)
         xit[j] = xi[j][i];
-      double fptt = fret;
+      const double fptt = fret;
 
       // 1D minimization along xi
       f1d.init(p, xit);
@@ -108,7 +108,9 @@ vnl_powell::minimize(vnl_vector<double> & p)
       double xx = initial_step_;
       double bx;
       {
-        double fa, fxx, fb;
+        double fa;
+        double fxx;
+        double fb;
         vnl_bracket_minimum(f1d, ax, xx, bx, fa, fxx, fb);
       }
       brent.set_x_tolerance(linmin_xtol_);
@@ -144,11 +146,11 @@ vnl_powell::minimize(vnl_vector<double> & p)
       pt[j] = p[j];
     }
 
-    double fptt = functor_->f(ptt);
+    const double fptt = functor_->f(ptt);
     report_eval(fret);
     if (fptt < fp)
     {
-      double t = 2.0 * (fp - 2.0 * fret + fptt) * vnl_math::sqr(fp - fret - del) - del * vnl_math::sqr(fp - fptt);
+      const double t = 2.0 * (fp - 2.0 * fret + fptt) * vnl_math::sqr(fp - fret - del) - del * vnl_math::sqr(fp - fptt);
       if (t < 0.0)
       {
         f1d.init(p, xit);
@@ -165,7 +167,9 @@ vnl_powell::minimize(vnl_vector<double> & p)
         double xx = 1.0;
         double bx;
         {
-          double fa, fxx, fb;
+          double fa;
+          double fxx;
+          double fb;
           vnl_bracket_minimum(f1d, ax, xx, bx, fa, fxx, fb);
         }
         brent.set_x_tolerance(linmin_xtol_);

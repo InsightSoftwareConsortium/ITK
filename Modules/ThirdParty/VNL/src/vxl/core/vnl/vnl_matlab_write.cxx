@@ -16,72 +16,72 @@
 #endif
 
 static void
-vnl_write_bytes(std::ostream & s, void const * p, unsigned bytes)
+vnl_write_bytes(std::ostream & s, const void * p, unsigned bytes)
 {
-  s.write((char const *)p, bytes);
+  s.write((const char *)p, bytes);
 }
 
 // ------------------------------ traits without tears ------------------------------
 
 // template <class T> long scalar_precision(T const &);
 static long
-vnl_scalar_precision(float const &)
+vnl_scalar_precision(const float &)
 {
   return vnl_matlab_header::vnl_SINGLE_PRECISION;
 }
 static long
-vnl_scalar_precision(double const &)
+vnl_scalar_precision(const double &)
 {
   return vnl_matlab_header::vnl_DOUBLE_PRECISION;
 }
 static long
-vnl_scalar_precision(std::complex<float> const &)
+vnl_scalar_precision(const std::complex<float> &)
 {
   return vnl_matlab_header::vnl_SINGLE_PRECISION;
 }
 static long
-vnl_scalar_precision(std::complex<double> const &)
+vnl_scalar_precision(const std::complex<double> &)
 {
   return vnl_matlab_header::vnl_DOUBLE_PRECISION;
 }
 
 // template <class T> long is_complex(T const &);
 static long
-vnl_is_complex(float const &)
+vnl_is_complex(const float &)
 {
   return 0;
 }
 static long
-vnl_is_complex(double const &)
+vnl_is_complex(const double &)
 {
   return 0;
 }
 static long
-vnl_is_complex(std::complex<float> const &)
+vnl_is_complex(const std::complex<float> &)
 {
   return 1;
 }
 static long
-vnl_is_complex(std::complex<double> const &)
+vnl_is_complex(const std::complex<double> &)
 {
   return 1;
 }
 
 // template <class T> void vnl_write_real(std::ostream &, T const *, unsigned );
 static void
-vnl_write_real(std::ostream & s, float const * data, unsigned n)
+vnl_write_real(std::ostream & s, const float * data, unsigned n)
 {
   ::vnl_write_bytes(s, data, n * sizeof(*data));
 }
 
 static void
-vnl_write_real(std::ostream & s, double const * data, unsigned n)
+vnl_write_real(std::ostream & s, const double * data, unsigned n)
 {
   ::vnl_write_bytes(s, data, n * sizeof(*data));
 }
 
 static void
-vnl_write_real(std::ostream & s, std::complex<float> const * data, unsigned n)
+vnl_write_real(std::ostream & s, const std::complex<float> * data, unsigned n)
 {
   float dummy;
   for (unsigned i = 0; i < n; ++i)
@@ -92,7 +92,7 @@ vnl_write_real(std::ostream & s, std::complex<float> const * data, unsigned n)
 }
 
 static void
-vnl_write_real(std::ostream & s, std::complex<double> const * data, unsigned n)
+vnl_write_real(std::ostream & s, const std::complex<double> * data, unsigned n)
 {
   double dummy;
   for (unsigned i = 0; i < n; ++i)
@@ -105,15 +105,15 @@ vnl_write_real(std::ostream & s, std::complex<double> const * data, unsigned n)
 // template <class T> void vnl_write_imag(std::ostream &, T const *, unsigned );
 
 static void
-vnl_write_imag(std::ostream &, float const *, unsigned)
+vnl_write_imag(std::ostream &, const float *, unsigned)
 {}
 
 static void
-vnl_write_imag(std::ostream &, double const *, unsigned)
+vnl_write_imag(std::ostream &, const double *, unsigned)
 {}
 
 static void
-vnl_write_imag(std::ostream & s, std::complex<float> const * data, unsigned n)
+vnl_write_imag(std::ostream & s, const std::complex<float> * data, unsigned n)
 {
   float dummy;
   for (unsigned i = 0; i < n; ++i)
@@ -124,7 +124,7 @@ vnl_write_imag(std::ostream & s, std::complex<float> const * data, unsigned n)
 }
 
 static void
-vnl_write_imag(std::ostream & s, std::complex<double> const * data, unsigned n)
+vnl_write_imag(std::ostream & s, const std::complex<double> * data, unsigned n)
 {
   double dummy;
   for (unsigned i = 0; i < n; ++i)
@@ -139,7 +139,7 @@ vnl_write_imag(std::ostream & s, std::complex<double> const * data, unsigned n)
 //: scalars
 template <class T>
 bool
-vnl_matlab_write(std::ostream & s, T const & x, char const * name)
+vnl_matlab_write(std::ostream & s, const T & x, const char * name)
 {
   vnl_matlab_header hdr;
   hdr.type = native_BYTE_ORDER + vnl_matlab_header::vnl_COLUMN_WISE + vnl_scalar_precision(x);
@@ -160,7 +160,7 @@ vnl_matlab_write(std::ostream & s, T const & x, char const * name)
 //: 1D array
 template <class T>
 bool
-vnl_matlab_write(std::ostream & s, T const * v, unsigned n, char const * name)
+vnl_matlab_write(std::ostream & s, const T * v, unsigned n, const char * name)
 {
   vnl_matlab_header hdr;
   hdr.type = native_BYTE_ORDER + vnl_matlab_header::vnl_COLUMN_WISE + vnl_scalar_precision(v[0]);
@@ -176,13 +176,13 @@ vnl_matlab_write(std::ostream & s, T const * v, unsigned n, char const * name)
 
   return s.good() != 0;
 }
-#define array1D_instantiate(T)                                                                                         \
+#define array1D_instantiate(T) \
   template VNL_EXPORT bool vnl_matlab_write(std::ostream &, T const *, unsigned, char const *);
 
 //: 2D array
 template <class T>
 bool
-vnl_matlab_write(std::ostream & s, T const * const * data, unsigned rows, unsigned cols, char const * name)
+vnl_matlab_write(std::ostream & s, const T * const * data, unsigned rows, unsigned cols, const char * name)
 {
   vnl_matlab_header hdr;
   hdr.type = native_BYTE_ORDER + vnl_matlab_header::vnl_ROW_WISE + vnl_scalar_precision(data[0][0]);
@@ -200,7 +200,7 @@ vnl_matlab_write(std::ostream & s, T const * const * data, unsigned rows, unsign
 
   return s.good() != 0;
 }
-#define array2D_instantiate(T)                                                                                         \
+#define array2D_instantiate(T) \
   template VNL_EXPORT bool vnl_matlab_write(std::ostream &, T const * const *, unsigned, unsigned, char const *);
 
 //--------------------------------------------------------------------------------

@@ -19,16 +19,25 @@
 //: Holds one half of a discretely sampled 1D gaussian distribution
 class VNL_ALGO_EXPORT vnl_gaussian_kernel_1d
 {
- public:
+public:
   // Constructors/Destructors--------------------------------------------------
-  vnl_gaussian_kernel_1d(double sigma, double cutoff = 0.5/256.0);
+  vnl_gaussian_kernel_1d(double sigma, double cutoff = 0.5 / 256.0);
 
-  double G(double x) const;
+  double
+  G(double x) const;
 
-  int width() const { return vec_.size(); }
-  double operator [] (int i) const { return vec_[i]; }
+  int
+  width() const
+  {
+    return vec_.size();
+  }
+  double
+  operator[](int i) const
+  {
+    return vec_[i];
+  }
 
- protected:
+protected:
   // Data Members--------------------------------------------------------------
   vnl_vector<double> vec_;
   double inscale_;

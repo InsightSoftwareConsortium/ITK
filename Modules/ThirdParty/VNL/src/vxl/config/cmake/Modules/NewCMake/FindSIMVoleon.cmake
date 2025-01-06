@@ -72,4 +72,3 @@ endif()
   if(SIMVOLEON_LIBRARY)
     set( SIMVOLEON_FOUND "YES" )
   endif()
-

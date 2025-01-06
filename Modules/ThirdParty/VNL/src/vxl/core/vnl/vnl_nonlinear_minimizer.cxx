@@ -9,18 +9,17 @@
 
 //: Default ctor sets verbosity etc.
 vnl_nonlinear_minimizer::vnl_nonlinear_minimizer()
-    : ftol(xtol * 0.01) // Termination tolerance on F (sum of squared residuals)
-      ,
-      epsfcn(xtol * 0.001) // Step length for FD Jacobian
+  : ftol(xtol * 0.01)    // Termination tolerance on F (sum of squared residuals)
+  , epsfcn(xtol * 0.001) // Step length for FD Jacobian
 
 {}
 
 vnl_nonlinear_minimizer::~vnl_nonlinear_minimizer() = default;
 
-vnl_matrix<double> const &
+const vnl_matrix<double> &
 vnl_nonlinear_minimizer::get_covariance()
 {
-  static vnl_matrix<double> null;
+  static const vnl_matrix<double> null;
   return null;
 }
 
@@ -71,7 +70,7 @@ vnl_nonlinear_minimizer::is_a() const
 //: Return true if the name of the class matches the argument
 //  Used by polymorphic IO
 bool
-vnl_nonlinear_minimizer::is_class(std::string const & s) const
+vnl_nonlinear_minimizer::is_class(const std::string & s) const
 {
   return s == vnl_nonlinear_minimizer::is_a();
 }

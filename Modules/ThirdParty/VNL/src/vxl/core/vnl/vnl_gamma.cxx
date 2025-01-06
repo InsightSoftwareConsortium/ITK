@@ -25,7 +25,7 @@ vnl_log_gamma(double x)
   zp -= 5.00757863970517583837 / (x + 3.0);
   zp += 0.0114684895434781459556 / (x + 4.0);
 
-  double x1 = x + 4.65;
+  const double x1 = x + 4.65;
 
   return std::log(zp) + (x - 0.5) * std::log(x1) - x1;
 }
@@ -74,7 +74,7 @@ vnl_gamma_cont_frac(double a, double x)
   double cf = d;
   for (int i = 1; i <= MAX_ITS; i++)
   {
-    double a_i = i * (a - i);
+    const double a_i = i * (a - i);
     b_i += 2.0;
     d = a_i * d + b_i;
     if (std::fabs(d) < vnl_very_small)
@@ -83,7 +83,7 @@ vnl_gamma_cont_frac(double a, double x)
     if (std::fabs(c) < vnl_very_small)
       c = vnl_very_small;
     d = 1.0 / d;
-    double delta = d * c;
+    const double delta = d * c;
     cf *= delta;
     if (std::fabs(delta - 1.0) < MaxRelError)
       return std::exp(-x + a * std::log(x) - vnl_log_gamma(a)) * cf;
@@ -121,15 +121,15 @@ vnl_gamma_q(double a, double x)
 double
 vnl_digamma(double z)
 {
-  double t0 = (z - 0.5) / (z + 4.65) - 1.0;
-  double tlg = std::log(4.65 + z);
-  double tc = 2.50662827563479526904;
-  double t1 = 225.525584619175212544 / z;
-  double t2 = -268.295973841304927459 / (1 + z);
-  double t3 = +80.9030806934622512966 / (2 + z);
-  double t4 = -5.00757863970517583837 / (3 + z);
-  double t5 = 0.0114684895434781459556 / (4 + z);
-  double neu = t1 / z + t2 / (1 + z) + t3 / (2 + z) + t4 / (3 + z) + t5 / (4 + z);
-  double den = tc + t1 + t2 + t3 + t4 + t5;
+  const double t0 = (z - 0.5) / (z + 4.65) - 1.0;
+  const double tlg = std::log(4.65 + z);
+  const double tc = 2.50662827563479526904;
+  const double t1 = 225.525584619175212544 / z;
+  const double t2 = -268.295973841304927459 / (1 + z);
+  const double t3 = +80.9030806934622512966 / (2 + z);
+  const double t4 = -5.00757863970517583837 / (3 + z);
+  const double t5 = 0.0114684895434781459556 / (4 + z);
+  const double neu = t1 / z + t2 / (1 + z) + t3 / (2 + z) + t4 / (3 + z) + t5 / (4 + z);
+  const double den = tc + t1 + t2 + t3 + t4 + t5;
   return t0 - (neu / den) + tlg;
 }

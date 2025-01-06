@@ -27,9 +27,10 @@
 
 class VNL_ALGO_EXPORT vnl_sparse_lu
 {
- public:
+public:
   //: Modes of computation.  See constructor for details.
-  enum operation {
+  enum operation
+  {
     quiet,
     verbose,
     estimate_condition,
@@ -37,72 +38,95 @@ class VNL_ALGO_EXPORT vnl_sparse_lu
   };
 
   //: Make sparse_lu decomposition of M optionally computing the reciprocal condition number.
-  vnl_sparse_lu(vnl_sparse_matrix<double> const& M, operation mode = quiet);
- ~vnl_sparse_lu();
+  vnl_sparse_lu(const vnl_sparse_matrix<double> & M, operation mode = quiet);
+  ~vnl_sparse_lu();
 
   //: set the relative pivot threshold should be between 0 and 1
   // If set to one then pivoting is complete and slow
   // If near zero then roundoff error may be prohibitive but computation is fast
   // Typical values are between 0.01 and 0.1.
-  void set_pivot_thresh(double pivot_thresh){pivot_thresh_=pivot_thresh;}
+  void
+  set_pivot_thresh(double pivot_thresh)
+  {
+    pivot_thresh_ = pivot_thresh;
+  }
 
   //: set the threshold on absolute element magnitude for pivoting
   // Should be either zero or significantly smaller than the absolute
   // value of the smallest diagonal element.
-  void set_absolute_thresh(double absolute_thresh){absolute_thresh_=absolute_thresh;}
+  void
+  set_absolute_thresh(double absolute_thresh)
+  {
+    absolute_thresh_ = absolute_thresh;
+  }
   //: set diagonal pivoting mode, normally 1 which gives priority to diagonal elements.
-  void set_diagonal_pivoting(int diag_pivoting){diag_pivoting_=diag_pivoting;}
+  void
+  set_diagonal_pivoting(int diag_pivoting)
+  {
+    diag_pivoting_ = diag_pivoting;
+  }
 
   //: Solve problem M x = b
-  vnl_vector<double> solve(vnl_vector<double> const& b);
+  vnl_vector<double>
+  solve(const vnl_vector<double> & b);
 
   //: Solve problem M x = b
-  void solve(vnl_vector<double> const& b, vnl_vector<double>* x);
+  void
+  solve(const vnl_vector<double> & b, vnl_vector<double> * x);
 
   //: Solve problem M^t x = b
-  vnl_vector<double> solve_transpose(vnl_vector<double> const& b);
+  vnl_vector<double>
+  solve_transpose(const vnl_vector<double> & b);
 
   //: Solve problem M^t x = b
-  void solve_transpose(vnl_vector<double> const& b, vnl_vector<double>* x);
+  void
+  solve_transpose(const vnl_vector<double> & b, vnl_vector<double> * x);
 
   //: Compute determinant
-  double determinant();
+  double
+  determinant();
 
   //: Return reciprocal condition number (smallest/largest singular values).
   // As long as rcond()>sqrt(precision) the decomposition can be used for
   // solving equations safely.
   // Not calculated unless operation mode at construction includes estimate_condition.
-  double rcond();
+  double
+  rcond();
 
   //: An estimate of maximum error in solution.
   // Not calculated unless operation mode at construction includes estimate_condition.
-  double max_error_bound();
+  double
+  max_error_bound();
 
- protected:
+protected:
   // Internals
-  void decompose_matrix();
-  bool est_condition();
+  void
+  decompose_matrix();
+  bool
+  est_condition();
   // Data Members--------------------------------------------------------------
   vnl_sparse_matrix<double> A_;
-  bool factored_;
-  bool condition_computed_;
+  bool factored_{ false };
+  bool condition_computed_{ false };
   operation mode_;
-  double norm_;
-  double rcond_;
-  double largest_;
-  double pivot_thresh_;
-  double absolute_thresh_;
-  int diag_pivoting_;
- private:
+  double norm_{ 0 };
+  double rcond_{ 0 };
+  double largest_{ 0 };
+  double pivot_thresh_{ 0 };
+  double absolute_thresh_{ 0 };
+  int diag_pivoting_{ 1 };
+
+private:
   //: Copy constructor - privatised to avoid it being used
-  vnl_sparse_lu(vnl_sparse_lu const & that);
+  vnl_sparse_lu(const vnl_sparse_lu & that);
   //: Assignment operator - privatised to avoid it being used
-  vnl_sparse_lu& operator=(vnl_sparse_lu const & that);
+  vnl_sparse_lu &
+  operator=(const vnl_sparse_lu & that);
   //: The internal matrix representation
   //
   // We don't use the typedef spMatrix directly here to avoid exposing
   // the implementation detail (sparse/spMatrix.h) to the user.
-  void* pmatrix_;
+  void * pmatrix_{ nullptr };
 };
 
 #endif // vnl_sparse_lu_h_

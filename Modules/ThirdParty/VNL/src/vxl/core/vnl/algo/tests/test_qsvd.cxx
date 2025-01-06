@@ -10,8 +10,19 @@ test_qsvd()
 {
   float AA[9] = { 2.f / 3, -1.36f / 3, .2f / 3, 2.8f / 3, .4f / 3, 1.f / 3, 1, .16f, -.2f };
   float BB[9] = { .16f, -.224f, -.768f, .8f, .36f, -.48f, 1.12f, -.168f, -.576f };
-  float U[9], V[9], Q[9], Alpha[3], Beta[3], Work[12];
-  long m = 3, n = 3, p = 3, k, l, Iwork[3], info;
+  float U[9];
+  float V[9];
+  float Q[9];
+  float Alpha[3];
+  float Beta[3];
+  float Work[12];
+  long m = 3;
+  long n = 3;
+  long p = 3;
+  long k;
+  long l;
+  long Iwork[3];
+  long info;
 
   std::printf("m = 3, n = 3, p = 3\n");
   v3p_netlib_sggsvd_(
