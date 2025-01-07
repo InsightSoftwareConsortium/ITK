@@ -569,7 +569,7 @@ DOMNode::Find(const std::string & path)
     if (pos != std::string::npos)
     {
       const std::string s2 = s.substr(pos + 1);
-      s = s.substr(0, pos);
+      s.resize(pos);
       std::istringstream iss(s2);
       IdentifierType     i = 0;
       iss >> i;
