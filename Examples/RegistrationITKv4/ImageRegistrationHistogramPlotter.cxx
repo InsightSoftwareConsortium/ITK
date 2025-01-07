@@ -377,7 +377,6 @@ private:
   HistogramToImageFilterPointer m_Filter;
   HistogramFileWriterPointer    m_HistogramFileWriter;
   // Software Guide : EndCodeSnippet
-  std::string m_OutputFile;
 };
 
 // Command - observer invoked after every iteration of the optimizer
