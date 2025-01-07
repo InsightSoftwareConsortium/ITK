@@ -37,7 +37,7 @@ template <typename TMovingTransform>
 int
 itkAutoScaledGradientDescentRegistrationTestTemplated(int         numberOfIterations,
                                                       double      shiftOfStep,
-                                                      std::string scalesOption,
+                                                      const std::string & scalesOption,
                                                       bool        usePhysicalSpaceForShift,
                                                       bool        estimateLearningRateOnce,
                                                       bool        estimateLearningRateAtEachIteration,

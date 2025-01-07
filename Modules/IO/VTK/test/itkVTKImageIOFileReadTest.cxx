@@ -23,7 +23,7 @@
 
 template <class TImage>
 int
-ReadImage(const std::string fileName, typename TImage::Pointer image)
+ReadImage(const std::string & fileName, typename TImage::Pointer image)
 {
 
   using IOType = itk::VTKImageIO;

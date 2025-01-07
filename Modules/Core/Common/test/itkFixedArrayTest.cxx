@@ -31,7 +31,7 @@ Set_c_Array(int x[3])
 }
 
 void
-Print_Array(itk::FixedArray<int, 3> x, std::ostream & os)
+Print_Array(const itk::FixedArray<int, 3> & x, std::ostream & os)
 {
   os << '{' << x[0] << ',' << x[1] << ',' << x[2] << '}' << std::endl;
 }
@@ -43,7 +43,7 @@ Print_c_ArrayConst(const int x[3], std::ostream & os)
 }
 
 void
-Print_Array5(itk::FixedArray<int, 5> x, std::ostream & os)
+Print_Array5(const itk::FixedArray<int, 5> & x, std::ostream & os)
 {
   os << '{' << x[0] << ',' << x[1] << ',' << x[2] << ',' << x[3] << ',' << x[4] << '}' << std::endl;
 }

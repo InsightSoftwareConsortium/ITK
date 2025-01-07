@@ -25,7 +25,7 @@
 
 template <typename T>
 void
-printPalette(std::vector<T> palette)
+printPalette(const std::vector<T> & palette)
 {
   for (unsigned int i = 0; i < palette.size(); ++i)
   {

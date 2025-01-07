@@ -140,7 +140,7 @@ public:
    */
   template <typename TData>
   TData
-  ConvertStringToValueType(const std::string str)
+  ConvertStringToValueType(const std::string & str)
   {
     TData              value;
     std::istringstream isstream(str);

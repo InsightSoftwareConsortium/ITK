@@ -87,9 +87,9 @@ SameImage(std::string testImageFileName, ImagePointer baselineImage)
 }
 
 bool
-ActualTest(std::string inputFileName,
-           std::string outputFileNameBase,
-           std::string outputFileNameExtension,
+ActualTest(const std::string & inputFileName,
+           const std::string & outputFileNameBase,
+           const std::string & outputFileNameExtension,
            bool        streamWriting,
            bool        pasteWriting,
            bool        compressWriting,

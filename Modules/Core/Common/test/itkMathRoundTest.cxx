@@ -17,10 +17,11 @@
  *=========================================================================*/
 
 #include <iostream>
+#include <string_view>
 #include "itkIndex.h"
 
 bool
-math_test_helper(std::string str, bool test)
+math_test_helper(const std::string_view str, bool test)
 {
   if (!test)
   {

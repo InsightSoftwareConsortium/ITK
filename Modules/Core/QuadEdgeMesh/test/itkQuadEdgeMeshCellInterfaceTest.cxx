@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include <iostream>
+#include <string_view>
 
 #include "itkQuadEdgeMesh.h"
 
@@ -66,7 +67,7 @@ public:
 // Test the cell interface
 template <typename TCell>
 int
-TestCellInterface(std::string name, TCell * aCell)
+TestCellInterface(const std::string_view name, TCell * aCell)
 {
 
   const CellAutoPointer cell(aCell, true);
@@ -174,7 +175,7 @@ TestCellInterface(std::string name, TCell * aCell)
 
 template <typename TCell>
 int
-TestQECellInterface(std::string name, TCell * aCell)
+TestQECellInterface(const std::string_view name, TCell * aCell)
 {
   std::cout << "-------- " << name << '(' << aCell->GetNameOfClass() << ')' << std::endl;
 

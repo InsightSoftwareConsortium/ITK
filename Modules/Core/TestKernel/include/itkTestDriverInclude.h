@@ -66,7 +66,7 @@ RegressionTestImage(const char *       testImageFilename,
                     double             directionTolerance = 1.0e-6);
 
 extern int
-HashTestImage(const char * testImageFilename, const std::string md5hash);
+HashTestImage(const char * testImageFilename, const std::string & md5hash);
 
 
 extern std::map<std::string, int>

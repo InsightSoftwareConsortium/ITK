@@ -39,7 +39,7 @@ template <typename TMovingTransform>
 int
 itkQuasiNewtonOptimizerv4TestTemplated(int         numberOfIterations,
                                        double      shiftOfStep,
-                                       std::string scalesOption,
+                                       const std::string & scalesOption,
                                        bool        usePhysicalSpaceForShift = true)
 {
   const unsigned int Dimension = TMovingTransform::SpaceDimension;
