@@ -254,8 +254,9 @@ datalad save -m "ENH: Pre-updates for ITK-v<itk-release-version>"
 Upload the tree to archival storage with:
 
 ```bash
+rm -rf ~/data/pre-archive && rm -f ~/data/pre-archive.tar.gz
 datalad export-archive ~/data/pre-archive
-rm -rf ~/data/pre-archive && mkdir -p ~/data/pre-archive && tar -xf ~/data/pre-archive.tar.gz -C ~/data/
+tar -xf ~/data/pre-archive.tar.gz -C ~/data/
 cd ~/data/pre-archive
 w3 put . --no-wrap -n ITKData-pre-verify -H
 cd -
@@ -282,8 +283,9 @@ add your DID, obtained with `w3 whoami`, to the shared space.
 Upload the repository update to web3.storage:
 
 ```bash
+rm -rf ~/data/itk-archive && rm -f ~/data/itk-archive.tar.gz
+tar -xf ~/data/itk-archive.tar.gz -C ~/data/
 datalad export-archive ~/data/itk-archive
-rm -rf ~/data/itk-archive && mkdir -p ~/data/itk-archive && tar -xf ~/data/itk-archive.tar.gz -C ~/data/
 cd ~/data/itk-archive
 w3 put . --no-wrap -n ITKData-v<itk-release-version> -H
 cd -
