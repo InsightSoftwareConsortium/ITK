@@ -25,34 +25,31 @@ namespace itk
 struct IPLFileSortInfo_ascend_compare : public std::greater<IPLFileSortInfo *>
 {
 private:
-  int
-  qsort_IPLFileSortInfo_ascend_compar(IPLFileSortInfo * item1, IPLFileSortInfo * item2)
+  bool
+  sort_IPLFileSortInfo_ascend_compare(IPLFileSortInfo * item1, IPLFileSortInfo * item2)
   {
-    const int ImageNoDiff = item1->GetImageNumber() - item2->GetImageNumber();
 
-    if (ImageNoDiff < 0)
+    if (item1->GetImageNumber() < item2->GetImageNumber())
     {
       return true;
     }
-    if (ImageNoDiff > 0)
+    if (item1->GetImageNumber() > item2->GetImageNumber())
     {
       return false;
     }
-    const int echoNumDiff = item1->GetEchoNumber() - item2->GetEchoNumber();
-    if (echoNumDiff < 0)
+    if (item1->GetEchoNumber() < item2->GetEchoNumber())
     {
       return true;
     }
-    if (echoNumDiff > 0)
+    if (item1->GetEchoNumber() > item2->GetEchoNumber())
     {
       return false;
     }
-    const float sliceGap = item1->GetSliceLocation() - item2->GetSliceLocation();
-    if (sliceGap < 0.0)
+    if (item1->GetSliceLocation() < item2->GetSliceLocation())
     {
       return true;
     }
-    if (sliceGap > 0.0)
+    if (item1->GetSliceLocation() > item2->GetSliceLocation())
     {
       return false;
     }
@@ -63,52 +60,48 @@ public:
   bool
   operator()(IPLFileSortInfo * item1, IPLFileSortInfo * item2)
   {
-    return qsort_IPLFileSortInfo_ascend_compar(item1, item2);
+    return sort_IPLFileSortInfo_ascend_compare(item1, item2);
   }
 };
 
 struct IPLFileSortInfo_descend_compare : public std::greater<IPLFileSortInfo *>
 {
 private:
-  int
-  qsort_IPLFileSortInfo_descend_compar(IPLFileSortInfo * item1, IPLFileSortInfo * item2)
+  bool
+  sort_IPLFileSortInfo_descend_compare(IPLFileSortInfo * item1, IPLFileSortInfo * item2)
   {
-    const int ImageNoDiff = item1->GetImageNumber() - item2->GetImageNumber();
-
-    if (ImageNoDiff < 0)
+    if (item1->GetImageNumber() < item2->GetImageNumber())
     {
       return false;
     }
-    if (ImageNoDiff > 0)
+    if (item1->GetImageNumber() > item2->GetImageNumber())
     {
       return true;
     }
-    const int echoNumDiff = item1->GetEchoNumber() - item2->GetEchoNumber();
-    if (echoNumDiff < 0)
+    if (item1->GetEchoNumber() < item2->GetEchoNumber())
     {
       return false;
     }
-    if (echoNumDiff > 0)
+    if (item1->GetEchoNumber() > item2->GetEchoNumber())
     {
       return true;
     }
-    const float sliceGap = item1->GetSliceLocation() - item2->GetSliceLocation();
-    if (sliceGap < 0.0)
+    if (item1->GetSliceLocation() < item2->GetSliceLocation())
     {
       return false;
     }
-    if (sliceGap > 0.0)
+    if (item1->GetSliceLocation() > item2->GetSliceLocation())
     {
       return true;
     }
-    return (item1->GetImageFileName() >= item2->GetImageFileName());
+    return (item1->GetImageFileName() > item2->GetImageFileName());
   }
 
 public:
   bool
   operator()(IPLFileSortInfo * item1, IPLFileSortInfo * item2)
   {
-    return qsort_IPLFileSortInfo_descend_compar(item1, item2);
+    return sort_IPLFileSortInfo_descend_compare(item1, item2);
   }
 };
 
