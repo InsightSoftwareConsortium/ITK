@@ -398,7 +398,10 @@ static int
 secondTest()
 {
   std::filebuf fb;
-  fb.open("Rotation.xfm", std::ios::out);
+  if (!fb.open("Rotation.xfm", std::ios::out))
+  {
+    return EXIT_FAILURE;
+  }
   std::ostream os(&fb);
   os << "MNI Transform File" << std::endl;
   os << "Transform_Type = Linear;" << std::endl;
@@ -530,7 +533,10 @@ check_composite2(const char * transform_file, const char * transform_grid_file)
   constexpr double tolerance = 1e-5;
 
   std::filebuf fb;
-  fb.open(transform_file, std::ios::out);
+  if (!fb.open(transform_file, std::ios::out))
+  {
+    return EXIT_FAILURE;
+  }
   std::ostream os(&fb);
   std::cout << "Testing reading of composite transform" << std::endl << std::endl << std::endl << std::endl;
   // create concatenation of two transforms:
