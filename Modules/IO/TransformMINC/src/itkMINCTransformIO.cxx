@@ -279,7 +279,7 @@ MINCTransformIOTemplate<TParametersValueType>::WriteOneTransform(const int      
     }
     else
     {
-      itkExceptionMacro("Transform type:" << transformType.c_str() << "is Unsupported");
+      itkExceptionMacro("Transform type:" << transformType << "is Unsupported");
     }
   }
 }
@@ -340,7 +340,7 @@ MINCTransformIOTemplate<TParametersValueType>::Write()
 
   if (wrt != VIO_OK)
   {
-    itkExceptionMacro("Error writing XFM:" << xfm_filename.c_str());
+    itkExceptionMacro("Error writing XFM:" << xfm_filename);
   }
 }
 
