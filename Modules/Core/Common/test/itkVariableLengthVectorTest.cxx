@@ -108,7 +108,7 @@ itkVariableLengthVectorTest(int, char *[])
 
       DoubleVariableLengthVectorType x(d, 3, false);
       ASSERT(x.IsAProxy(), "Unexpected VLV value");
-      ASSERT((x[0] == 0.1) && (x[0] == 0.1), "Unexpected VLV value");
+      ASSERT((x[0] == 0.1) && (d[0] == 0.1), "Unexpected VLV value");
 
       // ===[ Keep old values
       // ---[ Shrink To Fit
