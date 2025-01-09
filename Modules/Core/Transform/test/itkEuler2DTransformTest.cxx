@@ -26,7 +26,7 @@
 namespace
 {
 bool
-CheckEqual(itk::Point<double, 2> p1, itk::Point<double, 2> p2)
+CheckEqual(const itk::Point<double, 2> & p1, const itk::Point<double, 2> & p2)
 {
   constexpr double epsilon = 1e-5;
 

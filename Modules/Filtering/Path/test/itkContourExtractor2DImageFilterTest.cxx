@@ -456,7 +456,7 @@ static itkContourExtractor2DImageFilterTestNamespace::MyVertexListList expected_
 
 void
 ShowExtractorAsVariables(itkContourExtractor2DImageFilterTestNamespace::ExtractorType::Pointer extractor,
-                         std::string                                                           name)
+                         const std::string &                                                   name)
 {
   for (unsigned long i = 0; i < extractor->GetNumberOfIndexedOutputs(); ++i)
   {

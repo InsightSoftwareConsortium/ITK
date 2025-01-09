@@ -96,7 +96,7 @@ public:
   itkNewMacro(Self);
 
   static int
-  Exercise(itk::EigenValueOrderEnum order, std::string outputFilename)
+  Exercise(itk::EigenValueOrderEnum order, const std::string & outputFilename)
   {
 
     using SymmetricEigenAnalysisImageFilterType = SymmetricEigenAnalysisImageFilter<InputImageType, InternalImageType>;
@@ -202,7 +202,7 @@ public:
   itkNewMacro(Self);
 
   static int
-  Exercise(itk::EigenValueOrderEnum order, std::string outputFilename)
+  Exercise(itk::EigenValueOrderEnum order, const std::string & outputFilename)
   {
 
     using SymmetricEigenAnalysisFixedDimensionImageFilterType =

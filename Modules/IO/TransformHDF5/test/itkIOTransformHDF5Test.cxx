@@ -39,7 +39,7 @@
 
 template <typename TParametersValueType, typename DisplacementTransformType>
 static int
-ReadWriteTest(const std::string fileName, const bool isRealDisplacementField, const bool useCompression)
+ReadWriteTest(const std::string & fileName, const bool isRealDisplacementField, const bool useCompression)
 {
   // First make a DisplacementField with known values
   constexpr double aNumberThatCanNotBeRepresentedInFloatingPoint = 1e-5 + 1e-7 + 1e-9 + 1e-13;
@@ -177,7 +177,7 @@ ReadWriteTest(const std::string fileName, const bool isRealDisplacementField, co
 
 template <typename TParametersValueType>
 static int
-oneTest(const std::string goodname, const std::string badname, const bool useCompression)
+oneTest(const std::string & goodname, const std::string badname, const bool useCompression)
 {
   using AffineTransformType = typename itk::AffineTransform<TParametersValueType, 4>;
   using AffineTransformTypeNotRegistered = typename itk::AffineTransform<TParametersValueType, 10>;

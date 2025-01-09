@@ -29,7 +29,7 @@
 
 template <typename PixelType, unsigned int Dimension>
 int
-ReadWriteCompare(PixelType value, std::string type)
+ReadWriteCompare(PixelType value, const std::string & type)
 {
   std::cout << "Testing: " << type << std::endl;
   using ImageType = itk::Image<PixelType, 3>;

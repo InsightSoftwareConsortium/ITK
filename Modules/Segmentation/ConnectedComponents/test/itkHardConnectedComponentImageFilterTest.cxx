@@ -23,7 +23,7 @@
 
 template <typename TPixel>
 int
-DoIt(int argc, char * argv[], const std::string pixelType)
+DoIt(int argc, char * argv[], const std::string & pixelType)
 {
   if (argc < 2)
   {

@@ -37,7 +37,7 @@ template <typename TMovingTransform>
 int
 itkAutoScaledGradientDescentRegistrationOnVectorTestTemplated(int         numberOfIterations,
                                                               double      shiftOfStep,
-                                                              std::string scalesOption)
+                                                              const std::string & scalesOption)
 {
   const unsigned int Dimension = TMovingTransform::SpaceDimension;
 

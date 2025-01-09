@@ -75,7 +75,7 @@ Convert(std::string optionString)
 
 template <typename TValue>
 std::vector<TValue>
-ConvertVector(std::string optionString)
+ConvertVector(const std::string & optionString)
 {
   std::vector<TValue>    values;
   std::string::size_type crosspos = optionString.find('x', 0);
