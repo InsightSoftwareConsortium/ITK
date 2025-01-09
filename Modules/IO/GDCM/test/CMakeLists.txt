@@ -5,8 +5,6 @@ set(ITKIOGDCMTests
     itkGDCMImageIONoCrashTest.cxx
     itkGDCMImageReadSeriesWriteTest.cxx
     itkGDCMImageReadWriteTest.cxx
-    itkGDCMSeriesReadImageWriteTest.cxx
-    itkGDCMSeriesMissingDicomTagTest.cxx
     itkGDCMSeriesStreamReadImageWriteTest.cxx
     itkGDCMImagePositionPatientTest.cxx
     itkGDCMImageIOOrthoDirTest.cxx
@@ -111,21 +109,6 @@ itk_add_test(
 
 itk_add_test(
   NAME
-  itkGDCMSeriesReadImageWriteTest
-  COMMAND
-  ITKIOGDCMTestDriver
-  itkGDCMSeriesReadImageWriteTest
-  DATA{${ITK_DATA_ROOT}/Input/DicomSeries/,REGEX:Image[0-9]+.dcm}
-  ${ITK_TEST_OUTPUT_DIR}/itkGDCMSeriesReadImageWriteTest.vtk
-  ${ITK_TEST_OUTPUT_DIR})
-
-set_property(
-  TEST itkGDCMSeriesReadImageWriteTest
-  APPEND
-  PROPERTY DEPENDS ITKData)
-
-itk_add_test(
-  NAME
   itkGDCMSeriesStreamReadImageWriteTest1
   COMMAND
   ITKIOGDCMTestDriver
@@ -191,14 +174,6 @@ itk_add_test(
 
 itk_add_test(
   NAME
-  itkGDCMSeriesMissingDicomTagTest
-  COMMAND
-  ITKIOGDCMTestDriver
-  itkGDCMSeriesMissingDicomTagTest
-  DATA{${ITK_DATA_ROOT}/Input/DicomSeries2/,Image0075.dcm,Image0076-missingTag.dcm})
-
-itk_add_test(
-  NAME
   itkGDCMImageIOOrthoDirTest
   COMMAND
   ITKIOGDCMTestDriver
@@ -212,11 +187,6 @@ itk_add_test(
   ITKIOGDCMTestDriver
   itkGDCMImageOrientationPatientTest
   ${ITK_TEST_OUTPUT_DIR})
-
-set_property(
-  TEST itkGDCMSeriesMissingDicomTagTest
-  APPEND
-  PROPERTY DEPENDS ITKData)
 
 itk_add_test(
   NAME
