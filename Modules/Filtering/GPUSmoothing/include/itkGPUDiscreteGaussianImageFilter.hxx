@@ -230,7 +230,7 @@ GPUDiscreteGaussianImageFilter<TInputImage, TOutputImage>::GPUGenerateData()
     // Middle filters convolves from real to real
     if (filterDimensionality > 2)
     {
-      for (i = 1; i < filterDimensionality - 1; ++i)
+      for (unsigned int i = 1; i < filterDimensionality - 1; ++i)
       {
         typename IntermediateFilterType::Pointer f = m_IntermediateFilters[i - 1];
         f->SetOperator(oper[i]);
