@@ -50,6 +50,13 @@ namespace itk
  * values of the output pixels from the blurred higher
  * dimensional image.
  *
+ * This filter is great for large spatial sigmas. Numerical differences to
+ * BilateralImageFilter are negligible for most purposes.
+ *
+ * NOTE: This filter is slow for small intensity sigmas and large pixel types
+ * (e.g. short, int, or float with large intensity range).
+ *
+ *
  * [1] Sylvain Paris and Frédo Durand,
  *     A Fast Approximation of the Bilateral Filter using a Signal Processing
  *     Approach,
