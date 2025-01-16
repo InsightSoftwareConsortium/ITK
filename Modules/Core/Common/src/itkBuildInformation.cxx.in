@@ -87,7 +87,7 @@ BuildInformation::GetValue(const MapKeyType & key)
   {
     return it->second.m_Value;
   }
-  return {};;
+  return {};
 }
 
 const BuildInformation::MapValueDescriptionType
@@ -100,7 +100,7 @@ BuildInformation::GetDescription(const MapKeyType & key)
   {
     return it->second.m_Description;
   }
-  return {};;
+  return {};
 }
 
 const std::vector<  BuildInformation::MapKeyType >
