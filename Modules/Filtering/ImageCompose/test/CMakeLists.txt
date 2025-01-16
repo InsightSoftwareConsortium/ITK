@@ -5,6 +5,7 @@ set(ITKImageComposeTests
     itkCompose3DCovariantVectorImageFilterTest.cxx
     itkCompose2DVectorImageFilterTest.cxx
     itkComposeRGBImageFilterTest.cxx
+    itkComposeBigVectorImageFilterTest.cxx
     itkImageToVectorImageFilterTest.cxx
     itkImageReadRealAndImaginaryWriteComplexTest.cxx
     itkComposeRGBAImageFilterTest.cxx
@@ -44,6 +45,19 @@ itk_add_test(
   COMMAND
   ITKImageComposeTestDriver
   itkComposeRGBImageFilterTest)
+
+if(ITK_COMPUTER_MEMORY_SIZE GREATER 6)
+    itk_add_test(
+        NAME
+        itkComposeBigVectorImageFilterTest
+        COMMAND
+        ITKImageComposeTestDriver
+        itkComposeBigVectorImageFilterTest)
+    set_tests_properties(itkComposeBigVectorImageFilterTest
+            PROPERTIES
+            RESOURCE_LOCK
+            MEMORY_SIZE)
+endif()
 itk_add_test(
   NAME
   itkImageToVectorImageFilterTest
