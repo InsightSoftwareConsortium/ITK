@@ -40,9 +40,9 @@ do
     "-h"|"--help")
       shift;
       help=true
-      break;;
+      break;
     *)
-      break;;
+      break;
   esac
 done
 

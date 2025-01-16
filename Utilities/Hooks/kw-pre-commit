@@ -99,11 +99,11 @@ check_whitespace() {
 	     sed 's/^[^:]*: whitespace: //')
 	if $approx_tab_in_indent; then
 		case ",$ws," in
-			*,tab-in-indent,*) check_tab "$1" ;;
+			*,tab-in-indent,*) check_tab "$1" ;
 		esac
 	fi
 	case ",$ws," in
-		*,no-lf-at-eof,*) check_no_lf_at_eof "$1" ;;
+		*,no-lf-at-eof,*) check_no_lf_at_eof "$1" ;
 	esac
 }
 bad=$(git diff-index --name-only --cached $against -- |
@@ -116,10 +116,10 @@ test -z "$bad" || die "$bad"
 # Check file modes and sizes.
 mode_looks_exe() {
 	case "$1" in
-		*.bat) return 0 ;;
-		*.cmd) return 0 ;;
-		*.exe) return 0 ;;
-		*.com) return 0 ;;
+		*.bat) return 0 ;
+		*.cmd) return 0 ;
+		*.exe) return 0 ;
+		*.com) return 0 ;
 	esac
 	git cat-file blob "$2" | head -1 | grep "^#!/" > /dev/null
 }
@@ -150,10 +150,10 @@ mode_non_file () {
 }
 check_mode() {
 	case "$dst_mode" in
-		100755) mode_looks_exe "$file" "$dst_obj" || mode_bad_exe ;;
-		100644) mode_looks_exe "$file" "$dst_obj" && mode_not_exe ;;
-		160000) ;;
-		*)	mode_non_file ;;
+		100755) mode_looks_exe "$file" "$dst_obj" || mode_bad_exe ;
+		100644) mode_looks_exe "$file" "$dst_obj" && mode_not_exe ;
+		160000) ;
+		*)	mode_non_file ;
 	esac
 }
 
@@ -200,25 +200,25 @@ check_size() {
 	test "$dst_obj" != "$zero" || return
 	max_KiB=$(git check-attr hooks.MaxObjectKiB -- "$file" | sed 's/^[^:]*: hooks.MaxObjectKiB: //')
 	case "$max_KiB" in
-		'unset') ;;
-		'set') ;;
-		'unspecified') ;;
-		*) size_validate_max_KiB || return ;;
+		'unset') ;
+		'set') ;
+		'unspecified') ;
+		*) size_validate_max_KiB || return ;
 	esac
 	max_bytes=$(git check-attr hooks-max-size -- "$file" | sed 's/^[^:]*: hooks-max-size: //')
 	case "$max_bytes" in
-		'unset')       return ;; # No maximum for this object.
-		'set')         max_bytes="$size_max_bytes" ;; # Use local default.
+		'unset')       return ; # No maximum for this object.
+		'set')         max_bytes="$size_max_bytes" ; # Use local default.
 		'unspecified')
 			# Fall back to max KiB setting.
 			case "$max_KiB" in
-				'unset')       return ;; # No maximum for this object.
-				'set')         max_bytes=$(("${size_max_KiB}" * 1024)) ;; # Use local default.
-				'unspecified') max_bytes="$size_max_bytes" ;; # Use local default.
-				*) max_bytes=$(("${max_KiB}" * 1024)) ;;
+				'unset')       return ; # No maximum for this object.
+				'set')         max_bytes=$(("${size_max_KiB}" * 1024)) ; # Use local default.
+				'unspecified') max_bytes="$size_max_bytes" ; # Use local default.
+				*) max_bytes=$(("${max_KiB}" * 1024)) ;
 			esac
-			;;
-		*) size_validate_max_bytes || return ;;
+			;
+		*) size_validate_max_bytes || return ;
 	esac
 	if test "$max_bytes" -gt "0"; then
 		file_bytes=$(git cat-file -s "$dst_obj")

@@ -39,8 +39,8 @@ find_data_objects() {
   egrep '\.(cid)$' |
   while read mode type obj path; do
     case "$path" in
-      *.cid)  echo CID/$(git cat-file blob $obj) ;;
-      *)      die "Unknown ExternalData content link: $path" ;;
+      *.cid)  echo CID/$(git cat-file blob $obj) ;
+      *)      die "Unknown ExternalData content link: $path" ;
     esac
   done | sort | uniq
   return_pipe_status
@@ -127,14 +127,14 @@ verbose=
 # Parse command line options.
 while test $# != 0; do
   case "$1" in
-    --tgz) formats="$formats tgz" ;;
-    --txz) formats="$formats txz" ;;
-    --zip) formats="$formats zip" ;;
-    --verbose) verbose=-v ;;
-    --) shift; break ;;
-    -v) shift; version="$1" ;;
-    -*) usage ;;
-    *) test -z "$commit" && commit="$1" || usage ;;
+    --tgz) formats="$formats tgz" ;
+    --txz) formats="$formats txz" ;
+    --zip) formats="$formats zip" ;
+    --verbose) verbose=-v ;
+    --) shift; break ;
+    -v) shift; version="$1" ;
+    -*) usage ;
+    *) test -z "$commit" && commit="$1" || usage ;
   esac
   shift
 done
