@@ -128,14 +128,14 @@ itkGEImageIOTest(int argc, char * argv[])
     if (Failmode)
     {
       std::cout << "Caught unexpected exception. Test Failed!" << std::endl;
+      std::cout << e << std::endl;
+      return EXIT_FAILURE;
     }
     else
     {
       std::cout << "Caught expected exception. Test Passed!" << std::endl;
       return EXIT_SUCCESS;
     }
-    std::cout << e << std::endl;
-    return Failmode ? 1 : 0;
   }
 
   if (failmode == std::string("true"))
