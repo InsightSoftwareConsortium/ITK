@@ -30,7 +30,7 @@ namespace itk
 /**
  * \class FastBilateralImageFilter
  * \brief A fast approximation to the bilateral filter
- * \ingroup FastBilateral
+ * \ingroup ITKImageFeature
  *
  * This filter is a fast approximation to the bilateral filter.
  * Blurring is performed on an image based on the distance of pixels in
@@ -43,12 +43,19 @@ namespace itk
  * an image, this filter places the values of each pixel into a higher
  * dimensional image determined by the position and intensity of a pixel.
  * How many bins are used is determined by the sigma values provided
- * to the filter. Larger sigmas will result in more aggresive downsampling
+ * to the filter. Larger sigmas will result in more aggressive downsampling
  * and less running time overall. After the data of an image
  * has been organized into bins, a DiscreteGaussianImageFilter is applied.
  * Finally, the output image is constructed by interpolating the
  * values of the output pixels from the blurred higher
  * dimensional image.
+ *
+ * This filter is great for large spatial sigmas. Numerical differences to
+ * BilateralImageFilter are negligible for most purposes.
+ *
+ * NOTE: This filter is slow for small intensity sigmas and large pixel types
+ * (e.g. short, int, or float with large intensity range).
+ *
  *
  * [1] Sylvain Paris and Frédo Durand,
  *     A Fast Approximation of the Bilateral Filter using a Signal Processing
@@ -154,7 +161,7 @@ protected:
   void
   GenerateInputRequestedRegion() override;
 
-  /** Standard pipline method */
+  /** Standard pipeline method */
   void
   GenerateData() override;
 
