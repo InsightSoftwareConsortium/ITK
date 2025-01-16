@@ -43,7 +43,7 @@ namespace itk
  * an image, this filter places the values of each pixel into a higher
  * dimensional image determined by the position and intensity of a pixel.
  * How many bins are used is determined by the sigma values provided
- * to the filter. Larger sigmas will result in more aggresive downsampling
+ * to the filter. Larger sigmas will result in more aggressive downsampling
  * and less running time overall. After the data of an image
  * has been organized into bins, a DiscreteGaussianImageFilter is applied.
  * Finally, the output image is constructed by interpolating the
@@ -161,7 +161,7 @@ protected:
   void
   GenerateInputRequestedRegion() override;
 
-  /** Standard pipline method */
+  /** Standard pipeline method */
   void
   GenerateData() override;
 
