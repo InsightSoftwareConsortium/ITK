@@ -68,7 +68,7 @@ while test "$#" != 0; do
     --cached) mode="cached" ;;
     --clang-format) shift; clang_format="$1" ;;
     --help) echo "$help"; exit 0 ;;
-    --modified) mode="modified" ;
+    --modified) mode="modified" ;;
     --last) mode="last" ;;
     --tracked) mode="tracked" ;;
     --) shift ; break ;;
@@ -106,13 +106,13 @@ fi
 
 # Select listing mode.
 case "$mode" in
-    '')       echo "$usage"; exit 0 ;
-    amend)    git_ls='git diff-tree  --diff-filter=AM --name-only HEAD -r --no-commit-id' ;
-    cached)   git_ls='git diff-index --diff-filter=AM --name-only HEAD --cached' ;
-    modified) git_ls='git diff-index --diff-filter=AM --name-only HEAD' ;
-    last)     git_ls='git diff-index --diff-filter=AM --name-only HEAD~1' ;
-    tracked)  git_ls='git ls-files' ;
-    *) die "invalid mode: $mode" ;
+    '')       echo "$usage"; exit 0 ;;
+    amend)    git_ls='git diff-tree  --diff-filter=AM --name-only HEAD -r --no-commit-id' ;;
+    cached)   git_ls='git diff-index --diff-filter=AM --name-only HEAD --cached' ;;
+    modified) git_ls='git diff-index --diff-filter=AM --name-only HEAD' ;;
+    last)     git_ls='git diff-index --diff-filter=AM --name-only HEAD~1' ;;
+    tracked)  git_ls='git ls-files' ;;
+    *) die "invalid mode: $mode" ;;
 esac
 
 # List files as selected above.

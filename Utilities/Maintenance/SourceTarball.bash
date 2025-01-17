@@ -127,14 +127,14 @@ verbose=
 # Parse command line options.
 while test $# != 0; do
   case "$1" in
-    --tgz) formats="$formats tgz" ;
-    --txz) formats="$formats txz" ;
-    --zip) formats="$formats zip" ;
-    --verbose) verbose=-v ;
-    --) shift; break ;
-    -v) shift; version="$1" ;
-    -*) usage ;
-    *) test -z "$commit" && commit="$1" || usage ;
+    --tgz) formats="$formats tgz" ;;
+    --txz) formats="$formats txz" ;;
+    --zip) formats="$formats zip" ;;
+    --verbose) verbose=-v ;;
+    --) shift; break ;;
+    -v) shift; version="$1" ;;
+    -*) usage ;;
+    *) test -z "$commit" && commit="$1" || usage ;;
   esac
   shift
 done

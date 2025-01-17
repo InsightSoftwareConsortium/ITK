@@ -48,10 +48,10 @@ run_style_on_file() {
       sed 's/^[^:]*: hooks.style: //')
   has_style_attr=1
   case "$style" in
-    'unset')        has_style_attr=1 ;
-    'set')          has_style_attr=0 ;
-    'unspecified')  has_style_attr=1 ;
-    *)              echo ",$style," | grep -iq ",$2," && has_style_attr=0 ;
+    'unset')        has_style_attr=1 ;;
+    'set')          has_style_attr=0 ;;
+    'unspecified')  has_style_attr=1 ;;
+    *)              echo ",$style," | grep -iq ",$2," && has_style_attr=0 ;;
   esac
   if ! git diff-files --quiet -- "$1" && test $has_style_attr -eq 0; then
     # A way to always allow skipping.

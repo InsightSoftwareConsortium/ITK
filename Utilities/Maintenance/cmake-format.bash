@@ -69,7 +69,7 @@ while test "$#" != 0; do
     --cmake-format) shift; cmake_format="$1" ;;
     --help) echo "$help"; exit 0 ;;
     --modified) mode="modified" ;;
-    --last) mode="last" ;
+    --last) mode="last" ;;
     --tracked) mode="tracked" ;;
     --) shift ; break ;;
     -*) die "$usage" ;;
