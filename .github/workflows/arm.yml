@@ -1,4 +1,4 @@
-name: ITK.macOS.Arm64
+name: ITK.Arm64
 
 on:
     push:
@@ -32,9 +32,18 @@ env:
     CMakeVersion: "4.0.1"
 
 jobs:
-  build:
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 0
+    python:
+        runs-on: ${{ matrix.os }}
+        timeout-minutes: 0
+        strategy:
+          matrix:
+            os: [ubuntu-24.04-arm, macos-14]
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+              with:
+                fetch-depth: 5
+                clean: true
 
     strategy:
       fail-fast: false
