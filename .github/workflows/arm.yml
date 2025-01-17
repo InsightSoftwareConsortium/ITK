@@ -1,4 +1,4 @@
-name: ITK.macOS.Arm64
+name: ITK.Arm64
 
 on:
     push:
@@ -36,12 +36,24 @@ env:
 jobs:
   build:
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 0
+    timeout-minutes: 600
 
     strategy:
       fail-fast: false
       matrix:
         include:
+          - os: ubuntu-24.04-arm
+            name: "Ubuntu-24.04-arm"
+            cmake-build-type: "Release"
+            cmake-generator: "Ninja"
+            python-version: ""
+            ctest-cache: |
+              BUILD_SHARED_LIBS:BOOL=OFF
+              BUILD_EXAMPLES:BOOL=OFF
+              ITK_WRAP_PYTHON:BOOL=OFF
+              ITK_USE_CLANG_FORMAT:BOOL=OFF
+            ctest-options: ""
+
           - os: macos-15
             name: "x86_64-rosetta"
             cmake-build-type: "Release"
@@ -67,7 +79,7 @@ jobs:
               ITK_USE_CLANG_FORMAT:BOOL=OFF
             ctest-options: "-E itkPyBufferMemoryLeakTest"
 
-    name: macOS-${{ matrix.name }}
+    name: ARMBUILD-${{ matrix.name }}
 
     steps:
       - name: Checkout
