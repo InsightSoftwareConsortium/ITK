@@ -14,8 +14,8 @@
 prg=$0
 if [ ! -e "$prg" ]; then
   case $prg in
-    (*/*) exit 1;
-    (*) prg=$(command -v -- "$prg") || exit;
+    (*/*) exit 1;;
+    (*) prg=$(command -v -- "$prg") || exit;;
   esac
 fi
 dir=$(
@@ -64,23 +64,23 @@ for arg in $@ ; do
     -showconfig)
       showconfigure
       exit $status
-      ;
+      ;;
     -show)
       echo @_PKG_CONFIG_COMPILER@ $@ `pkg-config $pc_args --define-variable=prefix=$dir --cflags --libs @_PKG_CONFIG_LIBNAME@`
       exit $status
-      ;
+      ;;
     -help)
       usage
       exit $status
-      ;
+      ;;
     --*)
       # gather pkg-config specific options
       pc_args="$pc_args $arg"
-      ;
+      ;;
     *)
       @_PKG_CONFIG_COMPILER@ $@ `pkg-config $pc_args --define-variable=prefix=$dir --cflags --libs @_PKG_CONFIG_LIBNAME@`
       status=$?
       exit $status
-      ;
+      ;;
   esac
 done
