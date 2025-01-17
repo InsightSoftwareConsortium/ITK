@@ -69,8 +69,8 @@ Availability of the C++11 standard allows use of many Standard Library
 features. These were previously implemented as portable ITK classes.
 The standard library classes are preferred over ITK's implementations.
 The most notable examples of this are:
- * [atomic integers](https://itk.org/Doxygen413/html/classitk_1_1AtomicInt.html) should be replaced by `std::atomic`.
- * [mutex locks](https://itk.org/Doxygen413/html/classitk_1_1MutexLock.html)
+ * [atomic integers](https://docs.itk.org/projects/doxygen/en/v4.13.0/classitk_1_1AtomicInt.html) should be replaced by `std::atomic`.
+ * [mutex locks](https://docs.itk.org/projects/doxygen/en/v4.13.0/classitk_1_1MutexLock.html)
 and related classes should be replaced by the similarly named classes from STL's
 [`<mutex>`](https://en.cppreference.com/w/cpp/header/mutex) header.
  * `itksys::hash_map` should be replaced by [std::unordered_map](https://en.cppreference.com/w/cpp/container/unordered_map).
