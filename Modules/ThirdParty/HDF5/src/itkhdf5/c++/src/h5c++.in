@@ -172,7 +172,7 @@ fi
 case "$CXX" in
   gcc)
     kind="gcc"
-    ;
+    ;;
   mpicc|mpcc|mpicc_r)
     # Is this gcc masquarading as an MPI compiler?
     if test "`${CXX} -v 2>&1 | sed -n 2p | cut -c1-3`" = "gcc"; then
@@ -181,10 +181,10 @@ case "$CXX" in
       # Nope
       kind="$host_os"
     fi
-    ;
+    ;;
   *)
     kind="$host_os"
-    ;
+    ;;
 esac
 
 for arg in $@ ; do
