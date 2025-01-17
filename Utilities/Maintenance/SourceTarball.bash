@@ -39,8 +39,8 @@ find_data_objects() {
   egrep '\.(cid)$' |
   while read mode type obj path; do
     case "$path" in
-      *.cid)  echo CID/$(git cat-file blob $obj) ;
-      *)      die "Unknown ExternalData content link: $path" ;
+      *.cid)  echo CID/$(git cat-file blob $obj) ;;
+      *)      die "Unknown ExternalData content link: $path" ;;
     esac
   done | sort | uniq
   return_pipe_status

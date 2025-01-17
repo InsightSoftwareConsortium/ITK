@@ -64,16 +64,16 @@ clang_format=''
 mode=''
 while test "$#" != 0; do
     case "$1" in
-    --amend) mode="amend" ;
-    --cached) mode="cached" ;
-    --clang-format) shift; clang_format="$1" ;
-    --help) echo "$help"; exit 0 ;
+    --amend) mode="amend" ;;
+    --cached) mode="cached" ;;
+    --clang-format) shift; clang_format="$1" ;;
+    --help) echo "$help"; exit 0 ;;
     --modified) mode="modified" ;
-    --last) mode="last" ;
-    --tracked) mode="tracked" ;
-    --) shift ; break ;
-    -*) die "$usage" ;
-    *) break ;
+    --last) mode="last" ;;
+    --tracked) mode="tracked" ;;
+    --) shift ; break ;;
+    -*) die "$usage" ;;
+    *) break ;;
     esac
     shift
 done
