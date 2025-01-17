@@ -45,7 +45,7 @@ learn/fda_off_the_shelf_sw_guidelines.md
 :maxdepth: 1
 :caption: 🔨 Develop
 
-API <https://itk.org/Doxygen/html/index.html>
+API <https://docs.itk.org/projects/doxygen/en/stable/index.html>
 Discussion <https://discourse.itk.org>
 Issue tracker <https://github.com/InsightSoftwareConsortium/ITK/issues>
 supported_compilers

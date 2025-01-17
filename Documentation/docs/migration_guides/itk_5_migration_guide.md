@@ -368,7 +368,7 @@ It should be replaced by [itk::SimpleFilterWatcher](../../../Modules/Core/Common
 `itksys::hash_map` has been removed. It should be replaced by `std::unordered_map`.
 
 `WatershedImageFilter` produces slightly different results due to changes of `hash_map`.
-Generally, [MorphologicalWatersheds](https://itk.org/Doxygen/html/classitk_1_1MorphologicalWatershedImageFilter.html)
+Generally, [MorphologicalWatersheds](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1MorphologicalWatershedImageFilter.html)
 produce more stable results and should be preferred to regular watersheds.
 
 Since `itk::ProgressReporter` does not work well with the new threading model,
