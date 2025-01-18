@@ -29,17 +29,17 @@ namespace itk
  * ConnectedComponentImageFilter labels the objects in a binary image
  * (non-zero pixels are considered to be objects, zero-valued pixels
  * are considered to be background).
- * Each distinct object is assigned a unique label. The filter experiments
- * with some improvements to the existing implementation, and is based on
+ * Each distinct object is assigned a unique label. The filter is based on
  * run length encoding along raster lines.
  * If the output background value is set to zero (the default), the final
  * object labels start with 1 and are consecutive. If the output background
  * is set to a non-zero value (by calling the SetBackgroundValue() routine of the filter),
  * the final labels start at 0, and remain consecutive except for skipping the background
  * value as needed. Objects that are reached earlier by a raster order scan have a lower
- * label. This is different to the behaviour of the original connected
- * component image filter which did not produce consecutive labels or
- * impose any particular ordering.
+ * label.
+ *
+ * By default, connectivity is defined as face-connected (e.g. 4-connected on a 2D image).
+ * Use SetFullyConnected(true) to change to fully-connected (e.g. 8-connected on a 2D image).
  *
  * After the filter is executed, ObjectCount holds the number of connected components.
  *
