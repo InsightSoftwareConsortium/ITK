@@ -172,7 +172,7 @@ __kernel void ComputeUpdate(__global const INPIXELTYPE *in, __global BUFPIXELTYP
 
   // centralized derivatives, half directonal derivatives
   float dx[3], dx_f, dx_b, delta, Cx, Cxd;
-  unsigned int tidx, tx, ty, tz;;
+  unsigned int tidx, tx, ty, tz;
 
   // shared memory
   __local float sm[BLOCK_SIZE+2][BLOCK_SIZE+2][BLOCK_SIZE+2];

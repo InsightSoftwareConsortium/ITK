@@ -38,12 +38,12 @@ force=''
 # Parse the command line options.
 while test $# != 0; do
   case "$1" in
-    --no-topic) no_topic=1 ;;
-    --force) force=--force ;;
-    --dry-run)  dry_run=--dry-run ;;
-    --) shift; break ;;
-    -*) usage ;;
-    *) test -z "$remote" || usage ; remote="$1" ;;
+    --no-topic) no_topic=1 ;
+    --force) force=--force ;
+    --dry-run)  dry_run=--dry-run ;
+    --) shift; break ;
+    -*) usage ;
+    *) test -z "$remote" || usage ; remote="$1" ;
   esac
   shift
 done
