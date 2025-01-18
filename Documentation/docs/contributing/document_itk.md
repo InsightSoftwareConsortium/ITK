@@ -1,15 +1,22 @@
 # Document ITK
 
-The ITK code documentation is available online at https://itk.org/Doxygen/html/.
+The ITK code documentation is available online at https://docs.itk.org/projects/doxygen/.
 
 By default, the latest released documentation version is displayed,
 but documentation for previous versions is available at by choosing the
-appropriate version at the bottom of the above page, e.g.
-https://itk.org/Doxygen53/html/index.html.
+appropriate version from the ReadTheDocs interface at the bottom right of a page, e.g.
+https://docs.itk.org/projects/doxygen/en/v5.3.0/.
 
 ## Using Doxygen for C++ code
 
-### Dependencies
+### Build Option 1: Use Docker
+
+The ITK Doxygen documentation can be built using Docker as described in the
+[ITKDoxygen repository](https://github.com/InsightSoftwareConsortium/ITKDoxygen).
+
+### Build Option 2: Use CMake, Doxygen Dot
+
+#### Dependencies
 
 Generating a complete Doxygen documentation requires (besides CMake and
 the ITK source code):
@@ -22,7 +29,7 @@ Preferable:
 - [Dot](https://graphviz.org/doc/info/lang.html) from [GraphViz](https://graphviz.org/)
   for generating inheritance and dependency graphs.
 
-## Generating the Doxygen documentation
+#### Generating the Doxygen documentation
 
 Generating the Doxygen documentation for ITK requires:
 

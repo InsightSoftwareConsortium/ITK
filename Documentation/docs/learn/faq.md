@@ -13,7 +13,7 @@ optional modules (e.g. [ITKVTKGlue](https://github.com/InsightSoftwareConsortium
 
 The following table identifies the file formats that ITK can read/write
 via a factory mechanism based on the file extension
-([`itk::ImageIOFactory`](https://itk.org/Doxygen/html/classitk_1_1ImageIOFactory.html)). Some proprietary files format are only imported.
+([`itk::ImageIOFactory`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1ImageIOFactory.html)). Some proprietary files format are only imported.
 
 More information on supported file formats is available on the
 [ITK-Wasm Image File Formats](https://wasm.itk.org/en/latest/introduction/file_formats/images.html)
@@ -32,31 +32,31 @@ images.
 | ----------- | ---------- | ------ |
 | Analyze 7.5 | `itk::AnalyzeImageIO` | |
 | [BioRad](https://www.bio-rad.com/) | | |
-| [BMP](https://en.wikipedia.org/wiki/BMP_file_format) † | [`itk::BMPImageIO`](https://itk.org/Doxygen/html/classitk_1_1BMPImageIO.html) | |
-| [DICOM](https://dicom.nema.org/) | [`itk::GDCMImageIO`](https://itk.org/Doxygen/html/classitk_1_1GDCMImageIO.html) | |
+| [BMP](https://en.wikipedia.org/wiki/BMP_file_format) † | [`itk::BMPImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1BMPImageIO.html) | |
+| [DICOM](https://dicom.nema.org/) | [`itk::GDCMImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1GDCMImageIO.html) | |
 | [DICOM Series](https://dicom.nema.org/) | | |
-| GE 4x | [`itk::GE4ImageIO`](https://itk.org/Doxygen/html/classitk_1_1GE4ImageIO.html) | |
-| GE 5x | [`itk::GE5ImageIO`](https://itk.org/Doxygen/html/classitk_1_1GE5ImageIO.html) | |
-| GE Advantage Windows | | [`itk::GEAdwImageIO`](https://itk.org/Doxygen/html/classitk_1_1GEAdwImageIO.html) |
-| [GIPL](https://www.ncbi.nlm.nih.gov/pubmed/12956259) (Guy's Image Processing Lab) (.gipl) | [`itk::GiplImageIO`](https://itk.org/Doxygen/html/classitk_1_1GiplImageIO.html) | |
-| IPLCommon | [`itk::IPLCommonImageIO`](https://itk.org/Doxygen/html/classitk_1_1IPLCommonImageIO.html) | |
+| GE 4x | [`itk::GE4ImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1GE4ImageIO.html) | |
+| GE 5x | [`itk::GE5ImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1GE5ImageIO.html) | |
+| GE Advantage Windows | | [`itk::GEAdwImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1GEAdwImageIO.html) |
+| [GIPL](https://www.ncbi.nlm.nih.gov/pubmed/12956259) (Guy's Image Processing Lab) (.gipl) | [`itk::GiplImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1GiplImageIO.html) | |
+| IPLCommon | [`itk::IPLCommonImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1IPLCommonImageIO.html) | |
 | [ITK HDF5](https://support.hdfgroup.org/HDF5/) | | |
-| [JPEG](https://en.wikipedia.org/wiki/JPEG_File_Interchange_Format) † | [`itk::JPEGImageIO`](https://itk.org/Doxygen/html/classitk_1_1JPEGImageIO.html) | |
-| [LSM](https://www.openwetware.org/wiki/Dissecting_LSM_files) | [`itk::LSMImageIO`](https://itk.org/Doxygen/html/classitk_1_1LSMImageIO.html) | |
-| [MetaImage](https://itk.org/Wiki/ITK/MetaIO/Documentation) (.mha/.mhd) | [`itk::MetaImageIO`](https://itk.org/Doxygen/html/classitk_1_1MetaImageIO.html) | |
-| [MINC 2.0](https://en.wikibooks.org/wiki/MINC/SoftwareDevelopment/MINC2.0_File_Format_Reference) (Medical Image NetCDF) | [`itk::MINCImagIO`](https://itk.org/Doxygen/html/classitk_1_1MINCImageIO.html) | |
-| [MGH](https://surfer.nmr.mgh.harvard.edu/fswiki/FsTutorial/MghFormat) | [`itk:MGHImageIO`](https://itk.org/Doxygen/html/classitk_1_1MGHImageIO.html) | |
-| [MRC](http://www.ccpem.ac.uk/mrc_format/mrc_format.php) | [`itk::MRCImageIO`](https://itk.org/Doxygen/html/classitk_1_1MRCImageIO.html) | |
-| [NIfTI](https://nifti.nimh.nih.gov/nifti-1) (.nii) | [`itk::NiftiImageIO`](https://itk.org/Doxygen/html/classitk_1_1NiftiImageIO.html) | |
-| [NRRD](http://teem.sourceforge.net/nrrd/format.html) (.nhdr/.nrrd) | [`itk::NrrdImageIO`](https://itk.org/Doxygen/html/classitk_1_1NrrdImageIO.html) | |
-| [PNG](https://en.wikipedia.org/wiki/Portable_Network_Graphics) † | [`itk::PNGImageIO`](https://itk.org/Doxygen/html/classitk_1_1PNGImageIO.html) | |
-| Raw ‡ | [`itk::RawImageIO`](https://itk.org/Doxygen/html/classitk_1_1RawImageIO.html) | |
+| [JPEG](https://en.wikipedia.org/wiki/JPEG_File_Interchange_Format) † | [`itk::JPEGImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1JPEGImageIO.html) | |
+| [LSM](https://www.openwetware.org/wiki/Dissecting_LSM_files) | [`itk::LSMImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1LSMImageIO.html) | |
+| [MetaImage](https://itk.org/Wiki/ITK/MetaIO/Documentation) (.mha/.mhd) | [`itk::MetaImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1MetaImageIO.html) | |
+| [MINC 2.0](https://en.wikibooks.org/wiki/MINC/SoftwareDevelopment/MINC2.0_File_Format_Reference) (Medical Image NetCDF) | [`itk::MINCImagIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1MINCImageIO.html) | |
+| [MGH](https://surfer.nmr.mgh.harvard.edu/fswiki/FsTutorial/MghFormat) | [`itk:MGHImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1MGHImageIO.html) | |
+| [MRC](http://www.ccpem.ac.uk/mrc_format/mrc_format.php) | [`itk::MRCImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1MRCImageIO.html) | |
+| [NIfTI](https://nifti.nimh.nih.gov/nifti-1) (.nii) | [`itk::NiftiImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1NiftiImageIO.html) | |
+| [NRRD](http://teem.sourceforge.net/nrrd/format.html) (.nhdr/.nrrd) | [`itk::NrrdImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1NrrdImageIO.html) | |
+| [PNG](https://en.wikipedia.org/wiki/Portable_Network_Graphics) † | [`itk::PNGImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1PNGImageIO.html) | |
+| Raw ‡ | [`itk::RawImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1RawImageIO.html) | |
 | [Scanco microCT volume file format](https://www.scanco.ch/en/support/customer-login/faq-customers/faq-customers-import-export.html) | | |
-| Siemens Vision | | [`itk::SiemensVisionImageIO`](https://itk.org/Doxygen/html/classitk_1_1SiemensVisionImageIO.html) |
-| Stimulate (spr/sdt) | [`itk::StimulateImageIO`](https://itk.org/Doxygen/html/classitk_1_1TIFFImageIO.html) | |
+| Siemens Vision | | [`itk::SiemensVisionImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1SiemensVisionImageIO.html) |
+| Stimulate (spr/sdt) | [`itk::StimulateImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1TIFFImageIO.html) | |
 | [TIFF](https://en.wikipedia.org/wiki/TIFF) | [`itk::TIFFImageIO`]() | |
 | [Varian FDF](https://github.com/InsightSoftwareConsortium/ITKIOFDF) | | |
-| [VTK Structured Points](https://www.vtk.org/VTK/img/file-formats.pdf) | [`itk::VTKImageIO`](https://itk.org/Doxygen/html/classitk_1_1VTKImageIO.html) | |
+| [VTK Structured Points](https://www.vtk.org/VTK/img/file-formats.pdf) | [`itk::VTKImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1VTKImageIO.html) | |
 
 † BMP, PNG and JPEG are not very good formats for 3D medical images.
 They only support 2D images and a limited set of pixel types such as
@@ -64,7 +64,7 @@ unsigned char, and unsigned short. The great advantage of BMP, PNG and
 JPEG is that you can view them with almost any image viewer. It is
 possible to read/write 3D datasets as collections of 2D slices each one
 in an independent BMP, PNG or JPEG file by using the
-[`ImageSeriesReader`](https://itk.org/Doxygen/html/classitk_1_1ImageSeriesReader.html) and [`itk::ImageSeriesWriter`](https://itk.org/Doxygen/html/classitk_1_1ImageSeriesWriter.html).
+[`ImageSeriesReader`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1ImageSeriesReader.html) and [`itk::ImageSeriesWriter`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1ImageSeriesWriter.html).
 
 ‡ It is highly recommended not using this format. RAW is not a format, it
 is insufficient, inconsistent and simply dangerous. A RAW file without a
@@ -81,7 +81,7 @@ contains a good set of tools for performing such conversions.
 
 You can also take advantage of the VTK readers/importers. All you need
 is then use the VTKImageToImage adaptor in order to convert the
-[`vtkImageData`](https://vtk.org/doc/nightly/html/classvtkImageData.html) into an [`itk::Image`](https://itk.org/Doxygen/html/classitk_1_1Image.html).
+[`vtkImageData`](https://vtk.org/doc/nightly/html/classvtkImageData.html) into an [`itk::Image`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1Image.html).
 
 Supported VTK file formats can be found in https://docs.vtk.org/en/latest/supported_data_formats.html.
 
@@ -93,13 +93,13 @@ formats:
 | File Format | Read/Write | Import |
 | ----------- | ---------- | ------ |
 | [BYU](http://www.eg-models.de/formats/Format_Byu.html) |
- [`itk::BYUMeshIO`](https://itk.org/Doxygen/html/classitk_1_1BYUMeshIO.html) | |
-| [FreeSurfer surface, binary and ASCII](http://www.grahamwideman.com/gw/brain/fs/surfacefileformats.htm) | [`itk::FreeSurferBinaryMeshIO`](https://itk.org/Doxygen/html/classitk_1_1FreeSurferBinaryMeshIO.html), [`itk::FreeSurferAsciiMeshIO`](https://itk.org/Doxygen/html/classitk_1_1FreeSurferAsciiMeshIO.html) | |
-| [OFF](https://en.wikipedia.org/wiki/OFF_%28file_format%29) | [`ìtk::OFFMeshIO`](https://itk.org/Doxygen/html/classitk_1_1OFFMeshIO.html) | |
+ [`itk::BYUMeshIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1BYUMeshIO.html) | |
+| [FreeSurfer surface, binary and ASCII](http://www.grahamwideman.com/gw/brain/fs/surfacefileformats.htm) | [`itk::FreeSurferBinaryMeshIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1FreeSurferBinaryMeshIO.html), [`itk::FreeSurferAsciiMeshIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1FreeSurferAsciiMeshIO.html) | |
+| [OFF](https://en.wikipedia.org/wiki/OFF_%28file_format%29) | [`ìtk::OFFMeshIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1OFFMeshIO.html) | |
 | [STL](https://en.wikipedia.org/wiki/STL_%28file_format%29) | | |
 | [SWC Neuron Morphology](https://swc-specification.readthedocs.io/en/latest/) | | |
-| [OBJ](https://en.wikipedia.org/wiki/Wavefront_.obj_file) | [`ìtk::OBJMeshIO`](https://itk.org/Doxygen/html/classitk_1_1OBJMeshIO.html) | |
-| [VTK legacy file format for vtkPolyData](https://www.vtk.org/wp-content/uploads/2015/04/file-formats.pdf) | [`itk::VTKPolyDataMeshIO`](https://itk.org/Doxygen/html/classitk_1_1VTKPolyDataMeshIO.html) | |
+| [OBJ](https://en.wikipedia.org/wiki/Wavefront_.obj_file) | [`ìtk::OBJMeshIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1OBJMeshIO.html) | |
+| [VTK legacy file format for vtkPolyData](https://www.vtk.org/wp-content/uploads/2015/04/file-formats.pdf) | [`itk::VTKPolyDataMeshIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1VTKPolyDataMeshIO.html) | |
 
 More information on supported mesh and point set file formats is available on the
 [ITK-Wasm Mesh and Point Set File Formats](https://wasm.itk.org/en/latest/introduction/file_formats/meshes.html)
@@ -111,9 +111,9 @@ ITK supports reading and writing the following transform file formats:
 
 | File Format | Read/Write | Import |
 | ----------- | ---------- | ------ |
-| InsightLegacy | [`itk::TxtTransformIOTemplate`](https://itk.org/Doxygen/html/classitk_1_1TxtTransformIOTemplate.html) | |
-| ITK HDF5 | [`itk::HDF5TransformIOTemplate`](https://itk.org/Doxygen/html/classitk_1_1HDF5TransformIOTemplate.html) | |
-| MATLAB | [`itk::MatlabTransformIOTemplate`](https://itk.org/Doxygen/html/classitk_1_1MatlabTransformIOTemplate.html) | |
+| InsightLegacy | [`itk::TxtTransformIOTemplate`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1TxtTransformIOTemplate.html) | |
+| ITK HDF5 | [`itk::HDF5TransformIOTemplate`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1HDF5TransformIOTemplate.html) | |
+| MATLAB | [`itk::MatlabTransformIOTemplate`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1MatlabTransformIOTemplate.html) | |
 | MINC (Medical Image NetCDF) | `itk::MINCTransformIOTemplate` | |
 
 #### DICOM data
@@ -127,7 +127,7 @@ in case of desperation.
 1. Use the [itk-wasm dicom](https://itk-wasm-dicom-docs.on.fleek.co/#/),
    package, which is available from [here](https://itk-wasm-dicom-python-docs.on.fleek.co/).
    It has the broadest support and is the easiest to use.
-1. Use the [`itk::ImageSeriesReader`](https://itk.org/Doxygen/html/classitk_1_1ImageSeriesReader.html) in combination with the
+1. Use the [`itk::ImageSeriesReader`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1ImageSeriesReader.html) in combination with the
    `DicomSeriesFileNames`. For a full example on how to do this,
    please look at the [`DicomSeriesReadImageWrite2.cxx`](https://github.com/InsightSoftwareConsortium/ITK/blob/master/Examples/IO/DicomSeriesReadImageWrite2.cxx)
    code.
@@ -520,8 +520,8 @@ overview](http://www.itk.org/CourseWare/Training/RegistrationMethodsOverview.pdf
 
 ### Why can't I read any image files? or Why am I getting the exception message: `There are no registered IO factories.`?
 
-When trying to read or write a file using the [`itk::ImageFileReader`](https://itk.org/Doxygen/html/classitk_1_1ImageFileReader.html)
-or the [`itk::ImageFileWriter`](https://itk.org/Doxygen/html/classitk_1_1ImageFileWriter.html) I got an exception with the following message:
+When trying to read or write a file using the [`itk::ImageFileReader`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1ImageFileReader.html)
+or the [`itk::ImageFileWriter`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1ImageFileWriter.html) I got an exception with the following message:
 
 ```{bash}
 itk::ImageFileReaderException (00F7F494)

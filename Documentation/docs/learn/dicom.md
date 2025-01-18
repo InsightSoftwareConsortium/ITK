@@ -59,7 +59,7 @@ $ DicomImageReadPrintTags image.dcm | grep "Image Pixel Value"
 ## Why did the header of my DICOM file change?
 
 A common question that frequently arises after using
-[`itk::GDCMImageIO`](https://itk.org/Doxygen/html/classitk_1_1GDCMImageIO.html)
+[`itk::GDCMImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1GDCMImageIO.html)
 to read, update and write out a DICOM file is: why did my header file
 change during the update mechanism?
 
