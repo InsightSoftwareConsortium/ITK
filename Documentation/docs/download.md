@@ -20,66 +20,33 @@ Additionally, wheels for external modules are available through the Python Packa
 
 **Guide and Textbook**
 
-- [InsightSoftwareGuide-Book1-5.3.0.pdf](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.3.0/InsightSoftwareGuide-Book1-5.3.0.pdf)
-- [InsightSoftwareGuide-Book2-5.3.0.pdf](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.3.0/InsightSoftwareGuide-Book2-5.3.0.pdf)
+- [InsightSoftwareGuide-Book1-5.4.0.pdf](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.0/InsightSoftwareGuide-Book1-5.4.0.pdf)
+- [InsightSoftwareGuide-Book2-5.4.0.pdf](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.0/InsightSoftwareGuide-Book2-5.4.0.pdf)
 
 **Library Sources**
 
-- [InsightToolkit-5.3.0.tar.gz](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.3.0/InsightToolkit-5.3.0.tar.gz)
-- [InsightToolkit-5.3.0.zip](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.3.0/InsightToolkit-5.3.0.zip)
+- [InsightToolkit-5.4.0.tar.gz](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.0/InsightToolkit-5.4.0.tar.gz)
+- [InsightToolkit-5.4.0.zip](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.0/InsightToolkit-5.4.0.zip)
 
 **Testing Data**
 
 Unpack optional testing data in the same directory where the Library Source is unpacked.
 
-- [InsightData-5.3.0.tar.gz](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.3.0/InsightData-5.3.0.tar.gz)
-- [InsightData-5.3.0.zip](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.3.0/InsightData-5.3.0.zip)
+- [InsightData-5.4.0.tar.gz](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.0/InsightData-5.4.0.tar.gz)
+- [InsightData-5.4.0.zip](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.0/InsightData-5.4.0.zip)
 
-**Checksums**
+**Checksums and Signatures**
 
-- [MD5SUMS](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.3.0/MD5SUMS)
-- [SHA512SUMS](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.3.0/SHA512SUMS)
+- [InsightToolkit-5.4.0.tar.gz.asc](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.0/InsightToolkit-5.4.0.tar.gz.asc)
+- [InsightToolkit-5.4.0.zip.asc](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.0/InsightToolkit-5.4.0.zip.asc)
 
+- [InsightData-5.4.0.tar.gz.asc](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.0/InsightData-5.4.0.tar.gz.asc)
+- [InsightData-5.4.0.zip.asc](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.0/InsightData-5.4.0.zip.asc)
+
+- [MD5SUMS](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.0/MD5SUMS)
+- [SHA512SUMS](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.0/SHA512SUMS)
 
 Additional releases can be downloaded from [ITK's GitHub Releases page].
-
-✨ Latest pre-release
----------------------
-
-More information on this release can be found in the [release notes](releases/5.4rc01.md).
-
-### Python packages
-
-To install the [ITK Python packages],
-
-```bash
-pip install --upgrade pip
-pip install --pre --upgrade itk
-```
-
-### Release artifacts
-
-**Guide and Textbook**
-
-- [InsightSoftwareGuide-Book1-5.4rc01.pdf](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4rc01/InsightSoftwareGuide-Book1-5.4rc01.pdf)
-- [InsightSoftwareGuide-Book2-5.4rc01.pdf](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4rc01/InsightSoftwareGuide-Book2-5.4rc01.pdf)
-
-**Library Sources**
-
-- [InsightToolkit-5.4rc01.tar.gz](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4rc01/InsightToolkit-5.4rc01.tar.gz)
-- [InsightToolkit-5.4rc01.zip](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4rc01/InsightToolkit-5.4rc01.zip)
-
-**Testing Data**
-
-Unpack optional testing data in the same directory where the Library Source is unpacked.
-
-- [InsightData-5.4rc01.tar.gz](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4rc01/InsightData-5.4rc01.tar.gz)
-- [InsightData-5.4rc01.zip](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4rc01/InsightData-5.4rc01.zip)
-
-**Checksums**
-
-- [MD5SUMS](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4rc01/MD5SUMS)
-- [SHA512SUMS](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4rc01/SHA512SUMS)
 
 📦 Package managers
 -------------------
@@ -143,9 +110,9 @@ where `ITKLatestRelease` is the name of the local repository created.
 Additionally, specific releases can be cloned using the tags, for example:
 
 ```bash
-git clone -b v5.3.0 https://github.com/InsightSoftwareConsortium/ITK ITK-5.3.0
+git clone -b v5.4.0 https://github.com/InsightSoftwareConsortium/ITK ITK-5.4.0
 ```
-where `v5.3.0` corresponds to ITK 5.3.0, and the `ITK-5.3.0` is the name
+where `v5.4.0` corresponds to ITK 5.4.0, and the `ITK-5.4.0` is the name
 of the local repository created.
 
 ### Update
@@ -180,7 +147,7 @@ instructions to update it.
 Alternatively, one may checkout a specific release tag using
 
 ```bash
-git checkout v5.3.0
+git checkout v5.4.0
 ```
 
 Release tags never move. Repeat the command with a different tag to get a
@@ -192,13 +159,11 @@ git tag
 
 [blog post]: https://blog.kitware.com/itk-packages-in-linux-distributions/
 [CMake]: https://cmake.org/
-[download page]: https://itk.org/ITK/resources/software.html
 [Git]: https://git-scm.com
 [GNU Guix]: https://guix.gnu.org/
 [ITK Python packages]: https://itkpythonpackage.readthedocs.io/en/latest/Quick_start_guide.html
-[ITK's GitHub Releases
-page]: https://github.com/InsightSoftwareConsortium/ITK/releases
+[ITK's GitHub Releases page]: https://github.com/InsightSoftwareConsortium/ITK/releases
 [ITKPythonPackage]: https://itkpythonpackage.readthedocs.io/en/latest/index.html
-[ITK Software Guide]: https://itk.org/ItkSoftwareGuide.pdf
+[ITK Software Guide]: https://github.com/InsightSoftwareConsortium/ITKSoftwareGuide/releases
 [PyPI]: https://pypi.org/search/?q=itk
 [vcpkg]: https://github.com/microsoft/vcpkg
