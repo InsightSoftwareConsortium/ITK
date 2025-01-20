@@ -28,7 +28,7 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 env:
-    ExternalDataVersion: 5.3.0
+    ExternalDataVersion: 5.4.0
 
 jobs:
     macOS-Python:
@@ -59,7 +59,7 @@ jobs:
 
                 curl -L https://github.com/InsightSoftwareConsortium/ITK/releases/download/v${{ env.ExternalDataVersion }}/InsightData-${{ env.ExternalDataVersion }}.tar.gz -O
                 cmake -E tar xfz InsightData-${{ env.ExternalDataVersion }}.tar.gz
-                cmake -E rename InsightToolkit-${{ env.ExternalDataVersion }}/.ExternalData/MD5 ${{ github.workspace }}/.ExternalData/MD5
+                cmake -E rename InsightToolkit-${{ env.ExternalDataVersion }}/.ExternalData/CID ${{ github.workspace }}/.ExternalData/CID
 
             - name: Configure CTest script
               run: |
