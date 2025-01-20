@@ -9,7 +9,7 @@ Current Maintainers
 
 The current ITK maintainers with a trusted GPG key are:
 
-  * Matt McCormick (@thewtex) <matt.mccormick@kitware.com>
+  * Matt McCormick (@thewtex) <matt@mmmccormick.com>
   * Pablo Hernandez-Cerdan <pablo.hernandez.cerdan@outlook.com>
   * Brad King (@bradking) <brad.king@kitware.com>
   * Jean-Christophe Fillion-Robin (@jcfr) <jchris.fillionr@kitware.com>
@@ -37,8 +37,8 @@ When releasing a new ITK version, the following steps are be taken:
     * Tarballs are tested locally.
     * Generate Python packages and ITKPythonBuilds.
     * Tarballs are posted to [ITK GitHub Releases].
-    * Tarballs are archived on the [ITK data.kitware.com Releases].
-    * Tarballs are linked from the ITK [download page].
+    * Tarballs are archived on the [ITKReleases NumFOCUS GDrive].
+    * Tarballs are linked from the [ITK Documentation].
     * Python packages are uploaded to PyPI
     * conda-forge libitk and itk Packages are updated
   * Announcement
@@ -75,7 +75,7 @@ When releasing a new ITK version, the following steps are be taken:
   * **Updating documentation, guides and websites**.
   * **Generate tarballs**
     * Tarballs are posted to [ITK GitHub Releases].
-    * Tarballs are linked from the ITK [download page].
+    * Tarballs are linked from the [ITK Documentation].
   * Announcement
 
 Initial steps
@@ -495,6 +495,14 @@ md5sum ./Insight* > MD5SUMS
 sha512sum ./Insight* > SHA512SUMS
 ```
 
+Sign the source and data tarballs.
+
+```
+for ff in Insight*; do gpg --armor --detach-sign $ff; done
+```
+
+The `*.asc` files provide a [signed release].
+
 Generate Python Packages
 ------------------------
 
@@ -718,26 +726,12 @@ Doxygen HTML pages. Use the files to upload and create:
 Prior to the release, new `Remote` modules should be enabled in the Doxygen
 build's configuration.
 
-Run CMake in the binary build and enable `BUILD_DOXYGEN`, configure and
-generate, then:
+Download the tarballs from the `latest` [ITKDoxygen Release] and rename the files to use
+the current version. Create a new [ITKDoxygen Release] with the files on a
+`vMAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION` tag.
 
-```bash
-cd Binaries/ITK
-make Documentation
-cd Utilities
-mv old_doxygen_directory DoxygenInsightToolkit-$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION
-tar -cf DoxygenInsightToolkit-$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.tar DoxygenInsightToolkit-$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION
-gzip -9 DoxygenInsightToolkit-$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.tar
-```
-
-Historical note: Before ITK 3.8, the documentation used to be generated in a
-directory called `Documentation/Doxygen`.
-
-Unpackage the Doxygen tarball, then upload to the Kitware web server to serve
-at "https://itk.org/Doxygen$MAJOR_VERSION$MINOR_VERSION/html/". Contact
-Kitware Sys-admin to setup a new rsync target. After the upload is complete,
-verify that routing is set up so the path is not clobbered by the website /
-blog.
+ReadTheDocs will automatically generate a new rendered version based on this
+tagged release.
 
 Update the ITK Software Guide
 -----------------------------
@@ -817,6 +811,33 @@ gzip -9 ${prefix}.tar
 git archive --format=zip -9 --prefix=${prefix}/ --output=${prefix}.zip ${tag}
 ```
 
+Release Notes Posts
+-------------------
+
+To get started with the release notes, first use the download link
+cookiecutter to generate [download page](https://github.com/InsightSoftwareConsortium/ITK/blob/master/Documentation/docs/download.md) markdown:
+
+```bash
+pip install cookiecutter
+cookiecutter ~/src/ITK/Utilities/Maintenance/DownloadLinksCookieCutter/
+```
+
+Start with the previous GitHub Release markdown content to produce the
+release notes.
+
+To generate the changelog by running
+
+```bash
+cd ITK
+./Utilities/Maintenance/AuthorsChangesSince.py $old_version
+```
+
+The log is generated at */tmp/AuthorsChangesSince/Changelog.md*.
+
+The count of recent authors is found in the script output, and a list of new authors
+are found at */tmp/AuthorsChangesSince/NewAuthors.txt*.
+
+
 Upload the release artifacts to GitHub
 --------------------------------------
 
@@ -846,6 +867,10 @@ Upload the release artifacts. These include:
 - InsightToolkit-$version.zip
 - InsightData-$version.tar.gz
 - InsightData-$version.zip
+- InsightToolkit-$version.tar.gz.asc
+- InsightToolkit-$version.zip.asc
+- InsightData-$version.tar.gz.asc
+- InsightData-$version.zip.asc
 - MD5SUMS
 - SHA512SUMS
 - InsightDoxygenDocHtml-$version.tar.gz
@@ -864,12 +889,10 @@ pre-release* box.
 Click *Update release*.
 
 
-Upload the release artifacts to data.kitware.com
+Upload the release artifacts to GDrive
 ------------------------------------------------
 
-Backup and archive the release artifacts in the [data.kitware.com ITK
-Collection Releases
-folder](https://data.kitware.com/#collection/57b5c9e58d777f126827f5a1/folder/5b1ec0378d777f2e622561e9).
+Backup and archive the release artifacts in the [ITKReleases NumFOCUS GDrive].
 
 This should include
 
@@ -888,18 +911,19 @@ a PR.
 Update the Website
 ------------------
 
-The website is managed by Kitware folks. Access is currently granted to the ITK
+Update the [download].
+
+Access is currently granted to the ITK
 maintainer group.
 
   * Add or modify the `Current Release` entries on the
-    [download page](https://itk.org/ITK/resources/software.html).
-  * Update the [documentation page](https://itk.org/ITK/help/documentation.html) with a
-    link to the Doxygen files for the new release.
-  * Update the API documentation with a new link. See [PR 3804](https://github.com/InsightSoftwareConsortium/ITK/pull/3804/commits/fb00e5b22ad0e5e838779965bfe7254edaae18d1) for an example change.
+    [download page]
   * Verify that the links work !
 
-Contact Communications at <comm@kitware.com> in order to update the above pages
-and to produce a press release.
+The itk.org website is managed by Kitware folks. Contact Dženan Zukić <dzenan.zukic@kitware.com>
+in order to create a WordPress blog post for the release with the release
+notes. This will generate a new entry on the https://itk.org landing page for
+the release.
 
 Update Issue Tracker
 --------------------
@@ -920,33 +944,6 @@ when trying the new release.
 This means that a number of ITK developers should download the tarballs or do
 Git checkouts with the release tag, and build the toolkit in as many
 configurations as possible.
-
-Release Notes Posts
--------------------
-
-To get started with the release notes, first use the download link
-cookiecutter to generate [Download page](https://github.com/InsightSoftwareConsortium/ITK/blob/master/Documentation/docs/download.md) markdown:
-
-```bash
-pip install cookiecutter
-cookiecutter ~/src/ITK/Utilities/Maintenance/DownloadLinksCookieCutter/
-```
-
-Start with the previous GitHub Release markdown content to produce the
-release notes.
-
-To generate the changelog by running
-
-```bash
-cd ITK
-./Utilities/Maintenance/AuthorsChangesSince.py $old_version
-```
-
-The log is generated at */tmp/AuthorsChangesSince/Changelog.md*.
-
-The count of recent authors is found in the script output, and a list of new authors
-are found at */tmp/AuthorsChangesSince/NewAuthors.txt*.
-
 
 Announcements
 -------------
@@ -982,11 +979,12 @@ excellent packaging.
 [Dashboard]: https://open.cdash.org/index.php?project=Insight
 [datalad]: https://www.datalad.org/
 [community]: https://discourse.itk.org/
-[documentation page]: https://www.itk.org/ITK/help/documentation.html
-[download page]: https://itk.org/ITK/resources/software.html
+[documentation page]: https://docs.itk.org/
+[download page]: https://docs.itk.org/en/latest/download.html
 [GitHub]: https://github.com/InsightSoftwareConsortium/ITK
 [IPFS]: https://ipfs.tech/
 [ipfs-desktop]: https://github.com/ipfs/ipfs-desktop/releases
+[ITKDoxygen Release]: https://github.com/InsightSoftwareConsortium/ITKDoxygen/releases
 [ITKPythonPackage]: https://itkpythonpackage.readthedocs.io/en/latest/index.html
 [ITKTestingData]: https://github.com/InsightSoftwareConsortium/ITKTestingData
 [ITK discussion]: https://discourse.itk.org/
@@ -995,11 +993,13 @@ excellent packaging.
 [ITK issue tracking]: https://issues.itk.org/
 [ITK Software Guide]: https://itk.org/ItkSoftwareGuide.pdf
 [ITK wiki]: https://itk.org/Wiki/ITK
-[ITK Sphinx examples]: https://itk.org/ITKExamples/
+[ITK Sphinx examples]: https://examples.itk.org/
+[ITKReleases NumFOCUS GDrive]: https://drive.google.com/drive/folders/1-uE7lKAZN4PT52vJJuDqr6KT656r6Dn_?usp=drive_link
 [kubo]: https://github.com/ipfs/kubo
 [pinata]: https://pinata.cloud
 [releases page]: https://itk.org/Wiki/ITK/Releases
 [release schedule]: https://itk.org/Wiki/ITK/Release_Schedule
+[signed release]: https://github.com/ossf/scorecard/blob/49c0eed3a423f00c872b5c3c9f1bbca9e8aae799/docs/checks.md#signed-releases
 [Software Guide]: https://itk.org/ItkSoftwareGuide.pdf
 [@web3-storage/w3cli]: https://www.npmjs.com/package/@web3-storage/w3cli
 [install the w3cli]: https://web3.storage/docs/w3cli/
@@ -1012,6 +1012,5 @@ excellent packaging.
 [ResearchGate]: https://www.researchgate.net/project/Insight-Toolkit-ITK
 [SourceForge]: https://sourceforge.net/downloads/itk/itk/
 [ITK GitHub Releases]: https://github.com/InsightSoftwareConsortium/ITK/releases
-[ITK data.kitware.com Releases]: https://data.kitware.com/#item/5b22a47f8d777f2e622564d8
 [ITK GitHub Milestones]: https://github.com/InsightSoftwareConsortium/ITK/milestones
 [macos-14 GitHub Action Runner]: https://github.com/actions/runner-images/blob/main/images/macos/macos-14-Readme.md
