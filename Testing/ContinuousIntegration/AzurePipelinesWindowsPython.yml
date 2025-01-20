@@ -25,7 +25,7 @@ pr:
     - Utilities/ITKv5Preparation/*
     - Utilities/Maintenance/*
 variables:
-  ExternalDataVersion: 5.3.0
+  ExternalDataVersion: 5.4.0
 jobs:
 - job: Windows
   timeoutInMinutes: 0
@@ -57,7 +57,7 @@ jobs:
 
         curl -L https://github.com/InsightSoftwareConsortium/ITK/releases/download/v$(ExternalDataVersion)/InsightData-$(ExternalDataVersion).tar.gz -O
         cmake -E tar xfz InsightData-$(ExternalDataVersion).tar.gz
-        cmake -E rename InsightToolkit-$(ExternalDataVersion)/.ExternalData/MD5 $(Build.SourcesDirectory)/.ExternalData/MD5
+        cmake -E rename InsightToolkit-$(ExternalDataVersion)/.ExternalData/CID $(Build.SourcesDirectory)/.ExternalData/CID
       workingDirectory: $(Agent.BuildDirectory)
       displayName: 'Download dashboard script and testing data'
 
