@@ -719,16 +719,16 @@ Generate Doxygen Documentation
 Note: links to the nightly generated Doxygen can be found in the footer of the
 Doxygen HTML pages. Use the files to upload and create:
 
-  * `InsightDoxygenDocTag-MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.gz`
-  * `InsightDoxygenXml-MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.tar.gz`
-  * `InsightDoxygenDocHtml-MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.tar.gz.`
+  * `InsightDoxygenDocTag-$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.gz`
+  * `InsightDoxygenXml-$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.tar.gz`
+  * `InsightDoxygenDocHtml-$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.tar.gz.`
 
 Prior to the release, new `Remote` modules should be enabled in the Doxygen
 build's configuration.
 
 Download the tarballs from the `latest` [ITKDoxygen Release] and rename the files to use
 the current version. Create a new [ITKDoxygen Release] with the files on a
-`vMAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION` tag.
+`v$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION` tag.
 
 ReadTheDocs will automatically generate a new rendered version based on this
 tagged release.
