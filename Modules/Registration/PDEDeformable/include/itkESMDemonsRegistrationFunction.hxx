@@ -171,7 +171,7 @@ ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Co
   const FloatOffsetType &  itkNotUsed(offset)) -> PixelType
 {
   auto *    globalData = (GlobalDataStruct *)gd;
-  PixelType update;
+  PixelType update{};
   IndexType FirstIndex = this->GetFixedImage()->GetLargestPossibleRegion().GetIndex();
   IndexType LastIndex = this->GetFixedImage()->GetLargestPossibleRegion().GetIndex() +
                         this->GetFixedImage()->GetLargestPossibleRegion().GetSize();
@@ -190,7 +190,6 @@ ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Co
 
   if (movingPixValue == NumericTraits<MovingPixelType>::max())
   {
-    update.Fill(0.0);
     return update;
   }
 
@@ -324,7 +323,7 @@ ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Co
   }
   else if (this->m_UseGradientType == GradientEnum::MappedMoving)
   {
-    PointType mappedPoint;
+    PointType mappedPoint{};
     this->GetFixedImage()->TransformIndexToPhysicalPoint(index, mappedPoint);
     for (unsigned int j = 0; j < ImageDimension; ++j)
     {
@@ -352,11 +351,7 @@ ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Co
   const double usedGradientTimes2SquaredMagnitude = usedGradientTimes2.GetSquaredNorm();
 
   const double speedValue = fixedValue - movingValue;
-  if (itk::Math::abs(speedValue) < m_IntensityDifferenceThreshold)
-  {
-    update.Fill(0.0);
-  }
-  else
+  if (itk::Math::abs(speedValue) >= m_IntensityDifferenceThreshold)
   {
     double denom;
     if (m_Normalizer > 0.0)
@@ -370,11 +365,7 @@ ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Co
       denom = usedGradientTimes2SquaredMagnitude;
     }
 
-    if (denom < m_DenominatorThreshold)
-    {
-      update.Fill(0.0);
-    }
-    else
+    if (denom >= m_DenominatorThreshold)
     {
       const double factor = 2.0 * speedValue / denom;
 

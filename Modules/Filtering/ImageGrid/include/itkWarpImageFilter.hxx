@@ -283,9 +283,9 @@ WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::DynamicThreadedG
 
   // iterator for the output image
   ImageRegionIteratorWithIndex<OutputImageType> outputIt(outputPtr, outputRegionForThread);
-  IndexType                                     index;
-  PointType                                     point;
-  DisplacementType                              displacement;
+  IndexType                                     index{};
+  PointType                                     point{};
+  DisplacementType                              displacement{};
   NumericTraits<DisplacementType>::SetLength(displacement, ImageDimension);
   static_assert(PointType::Dimension == ImageDimension, "ERROR: Point type and ImageDimension must be the same!");
   if (this->m_DefFieldSameInformation)
