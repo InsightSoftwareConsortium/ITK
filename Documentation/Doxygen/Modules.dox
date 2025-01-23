@@ -139,7 +139,7 @@
 
 
 /**
- \ defgroup ImageEnhancement Image Enhancement Filters
+  \defgroup ImageEnhancement Image Enhancement Filters
   \ingroup ImageFilters
 
   Image enhancement filters process an image to enhance the appearance
