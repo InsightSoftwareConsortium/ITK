@@ -162,7 +162,7 @@ TEST_F(StatisticsLabelMapFixture, 2D_zero)
   using namespace itk::GTest::TypedefsAndConstructors::Dimension2;
 
   auto image = Utils::CreateImage();
-  auto labelImage = Utils ::CreateLabelImage();
+  auto labelImage = Utils::CreateLabelImage();
 
   constexpr Utils::LabelPixelType label = 1;
   labelImage->FillBuffer(label);
@@ -199,7 +199,7 @@ TEST_F(StatisticsLabelMapFixture, 2D_ones_with_outliers)
   image->SetPixel(itk::MakeIndex(0, 1), -32000);
 
 
-  auto                            labelImage = Utils ::CreateLabelImage();
+  auto                            labelImage = Utils::CreateLabelImage();
   constexpr Utils::LabelPixelType label = 1;
   labelImage->FillBuffer(label);
   labelImage->SetPixel(itk::MakeIndex(0, 0), 0);
@@ -227,7 +227,7 @@ TEST_F(StatisticsLabelMapFixture, 2D_rand_with_outliers)
   using namespace itk::GTest::TypedefsAndConstructors::Dimension2;
 
   auto image = Utils::CreateImageRandom(500, 0);
-  auto labelImage = Utils ::CreateLabelImage();
+  auto labelImage = Utils::CreateLabelImage();
 
   // Test with outliers outside the label.
   image->SetPixel(itk::MakeIndex(0, 0), 32000);
@@ -262,7 +262,7 @@ TEST_F(StatisticsLabelMapFixture, 2D_even)
   using namespace itk::GTest::TypedefsAndConstructors::Dimension2;
 
   auto image = Utils::CreateImage();
-  auto labelImage = Utils ::CreateLabelImage();
+  auto labelImage = Utils::CreateLabelImage();
 
   // Set label with two elements far apart, the median should be average
   image->SetPixel(itk::MakeIndex(0, 0), 10);
@@ -300,7 +300,7 @@ TEST_F(StatisticsLabelMapFixture, 2D_three)
   using namespace itk::GTest::TypedefsAndConstructors::Dimension2;
 
   auto image = Utils::CreateImage();
-  auto labelImage = Utils ::CreateLabelImage();
+  auto labelImage = Utils::CreateLabelImage();
 
   // Set label with two elements far apart, the median should be average
   image->SetPixel(itk::MakeIndex(0, 0), 1);
