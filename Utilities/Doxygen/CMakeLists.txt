@@ -5,7 +5,6 @@ if(ITK_BUILD_DOCUMENTATION)
   find_package(Doxygen)
   find_package(Gnuplot)
   find_package(HTMLHelp)
-  find_package(Perl)
   find_package(Wget)
 endif()
 
@@ -109,12 +108,9 @@ mark_as_advanced(
   ITK_DOXYGEN_XML
   ITK_DOXYGEN_SERVER_BASED_SEARCH)
 
-find_package(Perl)
+if(Python3_EXECUTABLE)
+  set(ITK_DOXYGEN_INPUT_FILTER "${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/itkgroup.py")
 
-if(PERL_FOUND)
-  set(ITK_DOXYGEN_INPUT_FILTER "${PERL_EXECUTABLE} ${ITK_BINARY_DIR}/Utilities/Doxygen/itkdoxygen.pl")
-
-  configure_file(${ITK_SOURCE_DIR}/Utilities/Doxygen/itkdoxygen.pl.in ${ITK_BINARY_DIR}/Utilities/Doxygen/itkdoxygen.pl)
 else()
   set(ITK_DOXYGEN_INPUT_FILTER)
 endif()
