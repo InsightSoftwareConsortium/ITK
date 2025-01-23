@@ -75,10 +75,7 @@ main(int argc, char * argv[])
   constexpr unsigned int Dimension = 2;
   using InputPixelType = float;
   using InputImageType = itk::VectorImage<InputPixelType, Dimension>;
-  using ReaderType = itk::ImageFileReader<InputImageType>;
-
-  auto reader = ReaderType::New();
-  reader->SetFileName(membershipImageFileName);
+  const auto input = itk::ReadImage<InputImageType>(membershipImageFileName);
 
   using LabelType = unsigned char;
   using PriorType = float;
@@ -94,7 +91,7 @@ main(int argc, char * argv[])
   auto filter = ClassifierFilterType::New();
 
 
-  filter->SetInput(reader->GetOutput());
+  filter->SetInput(input);
 
   if (argv[3])
   {
@@ -130,19 +127,12 @@ main(int argc, char * argv[])
   rescaler->SetOutputMinimum(0);
   rescaler->SetOutputMaximum(255);
 
-  using WriterType = itk::ImageFileWriter<OutputImageType>;
-
-  auto writer = WriterType::New();
-  writer->SetFileName(labelMapImageFileName);
-
   //
   // Write labelmap to file
   //
-  writer->SetInput(rescaler->GetOutput());
-
   try
   {
-    writer->Update();
+    itk::WriteImage(rescaler->GetOutput(), labelMapImageFileName)
   }
   catch (const itk::ExceptionObject & excp)
   {

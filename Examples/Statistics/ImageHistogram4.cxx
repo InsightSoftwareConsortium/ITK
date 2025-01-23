@@ -89,16 +89,9 @@ main(int argc, char * argv[])
   using RGBImageType = itk::Image<RGBPixelType, Dimension>;
   // Software Guide : EndCodeSnippet
 
-
-  using ReaderType = itk::ImageFileReader<RGBImageType>;
-
-  auto reader = ReaderType::New();
-
-  reader->SetFileName(argv[1]);
-
   try
   {
-    reader->Update();
+    const auto input = itk::ReadImage<RGBImageType>(argv[1]);
   }
   catch (const itk::ExceptionObject & excp)
   {
@@ -187,7 +180,7 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  histogramFilter->SetInput(reader->GetOutput());
+  histogramFilter->SetInput(input);
   // Software Guide : EndCodeSnippet
 
 

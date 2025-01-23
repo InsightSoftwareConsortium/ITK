@@ -84,15 +84,9 @@ main(int argc, char * argv[])
   using ImageType = itk::Image<PixelType, Dimension>;
   // Software Guide : EndCodeSnippet
 
-  using ReaderType = itk::ImageFileReader<ImageType>;
-
-  auto reader = ReaderType::New();
-
-  reader->SetFileName(argv[1]);
-
   try
   {
-    reader->Update();
+    const auto input = itk::ReadImage<ImageType>(argv[1]);
   }
   catch (const itk::ExceptionObject & excp)
   {
@@ -144,7 +138,7 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  histogramGenerator->SetInput(reader->GetOutput());
+  histogramGenerator->SetInput(input);
 
   histogramGenerator->Compute();
   // Software Guide : EndCodeSnippet

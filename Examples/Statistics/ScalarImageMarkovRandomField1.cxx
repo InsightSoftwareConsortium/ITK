@@ -105,9 +105,8 @@ main(int argc, char * argv[])
   // Software Guide : BeginLatex
   //
   // First we define the pixel type and dimension of the image that we intend
-  // to classify. With this image type we can also declare the
-  // \doxygen{ImageFileReader} needed for reading the input image, create one
-  // and set its input filename. In this particular case we choose to use
+  // to classify and read the input image.In this particular case we choose to
+  // use
   // \code{short} as pixel type, which is typical for MicroMRI and CT
   // data sets.
   //
@@ -119,9 +118,7 @@ main(int argc, char * argv[])
 
   using ImageType = itk::Image<PixelType, Dimension>;
 
-  using ReaderType = itk::ImageFileReader<ImageType>;
-  auto reader = ReaderType::New();
-  reader->SetFileName(inputImageFileName);
+  const auto input = itk::ReadImage<ImageType>(inputImageFileName);
   // Software Guide : EndCodeSnippet
 
 
@@ -139,9 +136,8 @@ main(int argc, char * argv[])
 
   using LabelImageType = itk::Image<LabelPixelType, Dimension>;
 
-  using LabelReaderType = itk::ImageFileReader<LabelImageType>;
-  auto labelReader = LabelReaderType::New();
-  labelReader->SetFileName(inputLabelImageFileName);
+  const auto labelInput =
+    itk::ReadImage<LabelImageType>(inputLabelImageFileName);
   // Software Guide : EndCodeSnippet
 
 
@@ -166,7 +162,7 @@ main(int argc, char * argv[])
     itk::ComposeImageFilter<ImageType, ArrayImageType>;
 
   auto scalarToArrayFilter = ScalarToArrayFilterType::New();
-  scalarToArrayFilter->SetInput(reader->GetOutput());
+  scalarToArrayFilter->SetInput(input);
   // Software Guide : EndCodeSnippet
 
 

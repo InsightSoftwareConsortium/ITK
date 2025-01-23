@@ -61,9 +61,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginLatex
   //
   // First we define the pixel type and dimension of the image that we intend
-  // to classify. With this image type we can also declare the
-  // \doxygen{ImageFileReader} needed for reading the input image, create one
-  // and set its input filename.
+  // to classify. With this image type we can also read the input image.
   //
   // Software Guide : EndLatex
 
@@ -72,10 +70,7 @@ main(int argc, char * argv[])
   constexpr unsigned int Dimension = 2;
 
   using ImageType = itk::Image<PixelType, Dimension>;
-
-  using ReaderType = itk::ImageFileReader<ImageType>;
-  auto reader = ReaderType::New();
-  reader->SetFileName(inputImageFileName);
+  const auto input = itk::ReadImage<ImageType>(inputImageFileName);
   // Software Guide : EndCodeSnippet
 
 
@@ -92,7 +87,7 @@ main(int argc, char * argv[])
 
   auto kmeansFilter = KMeansFilterType::New();
 
-  kmeansFilter->SetInput(reader->GetOutput());
+  kmeansFilter->SetInput(input);
 
   const unsigned int numberOfInitialClasses = std::stoi(argv[4]);
   // Software Guide : EndCodeSnippet
@@ -162,39 +157,17 @@ main(int argc, char * argv[])
   // The \doxygen{ScalarImageKmeansImageFilter} is predefined for producing an
   // 8 bits scalar image as output. This output image contains labels
   // associated to each one of the classes in the K-Means algorithm. In the
-  // following lines we use the \code{OutputImageType} in order to instantiate
-  // the type of a \doxygen{ImageFileWriter}. Then create one, and connect it
-  // to the output of the classification filter.
+  // following lines we use the \code{OutputImageType}to write the output of
+  // the classification filter to file.
   //
   // Software Guide : EndLatex
+
 
   // Software Guide : BeginCodeSnippet
   using OutputImageType = KMeansFilterType::OutputImageType;
-
-  using WriterType = itk::ImageFileWriter<OutputImageType>;
-
-  auto writer = WriterType::New();
-
-  writer->SetInput(kmeansFilter->GetOutput());
-
-  writer->SetFileName(outputImageFileName);
-  // Software Guide : EndCodeSnippet
-
-
-  // Software Guide : BeginLatex
-  //
-  // We are now ready for triggering the execution of the pipeline. This is
-  // done by simply invoking the \code{Update()} method in the writer. This
-  // call will propagate the update request to the reader and then to the
-  // classifier.
-  //
-  // Software Guide : EndLatex
-
-
-  // Software Guide : BeginCodeSnippet
   try
   {
-    writer->Update();
+    itk::WriteImage(kmeansFilter->GetOutput(), outputImageFileName)
   }
   catch (const itk::ExceptionObject & excp)
   {

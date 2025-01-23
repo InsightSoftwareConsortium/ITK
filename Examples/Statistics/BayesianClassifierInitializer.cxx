@@ -85,13 +85,9 @@ main(int argc, char * argv[])
     itk::BayesianClassifierInitializationImageFilter<ImageType>;
   auto bayesianInitializer = BayesianInitializerType::New();
 
-  using ReaderType = itk::ImageFileReader<ImageType>;
-  auto reader = ReaderType::New();
-  reader->SetFileName(argv[1]);
-
   try
   {
-    reader->Update();
+    const auto input = itk::ReadImage<ImageType>(argv[1]);
   }
   catch (const itk::ExceptionObject & excp)
   {
@@ -100,16 +96,10 @@ main(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  bayesianInitializer->SetInput(reader->GetOutput());
+  bayesianInitializer->SetInput(input);
   bayesianInitializer->SetNumberOfClasses(std::stoi(argv[3]));
 
   // TODO add test where we specify membership functions
-
-  using WriterType =
-    itk::ImageFileWriter<BayesianInitializerType::OutputImageType>;
-  auto writer = WriterType::New();
-  writer->SetInput(bayesianInitializer->GetOutput());
-  writer->SetFileName(argv[2]);
 
   try
   {
@@ -124,7 +114,7 @@ main(int argc, char * argv[])
 
   try
   {
-    writer->Update();
+    itk::WriteImage(bayesianInitializer->GetOutput(), argv[2])
   }
   catch (const itk::ExceptionObject & excp)
   {

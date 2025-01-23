@@ -62,15 +62,9 @@ main(int argc, char * argv[])
 
   using ImageType = itk::Image<PixelType, Dimension>;
 
-  using ReaderType = itk::ImageFileReader<ImageType>;
-
-  auto reader = ReaderType::New();
-
-  reader->SetFileName(argv[1]);
-
   try
   {
-    reader->Update();
+    const auto input = itk::ReadImage<ImageType>(argv[1]);
   }
   catch (const itk::ExceptionObject & excp)
   {
@@ -88,7 +82,7 @@ main(int argc, char * argv[])
 
   auto adaptor = AdaptorType::New();
 
-  adaptor->SetImage(reader->GetOutput());
+  adaptor->SetImage(input);
 
   // Create the K-d tree structure
   using TreeGeneratorType =
