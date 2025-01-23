@@ -67,16 +67,12 @@ namespace itk
  * The class is based in part on Hybrid/vtkLandmarkTransform originally
  * implemented in python by David G. Gobbi.
  *
- * The solution is based on
- * Berthold K. P. Horn (1987), "Closed-form solution of absolute orientation
- * using unit quaternions,"
+ * The solution is based on \cite horn1987.
  * https://people.csail.mit.edu/bkph/papers/Absolute_Orientation.pdf
  *
  * The Affine Transform initializer is based on an algorithm by H Spaeth,
- * and is described in the Insight Journal Article
- * "Affine Transformation for Landmark Based Registration Initializer
- * in ITK" by Kim E.Y., Johnson H., Williams N.
- * available at https://midasjournal.org/browse/publication/825
+ * and is described in \cite kim2011, available at
+ * https://doi.org/10.54294/fge470
  *
  * \ingroup ITKRegistrationCommon
  *

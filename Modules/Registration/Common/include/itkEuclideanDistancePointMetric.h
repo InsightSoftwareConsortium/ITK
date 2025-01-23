@@ -35,8 +35,7 @@ namespace itk
  *  If the number of points is high, the possibility of setting a distance map
  *  should improve the speed of the closest point computation.
  *
- *  Reference: "A Method for Registration of 3-D Shapes",
- *             IEEE PAMI, Vol 14, No. 2, February 1992
+ *  For more details see \cite besl1992.
  *
  * \ingroup RegistrationMetrics
  * \ingroup ITKRegistrationCommon

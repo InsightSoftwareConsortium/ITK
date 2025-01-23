@@ -39,11 +39,7 @@ namespace itk
  * The measure is derived from a reliability measure known as the kappa
  * statistic. \f$S\f$ is sensitive to both differences in size and in
  * location and have been in the literature for comparing two segmentation masks.
- * For more information see:
- * "Morphometric Analysis of White Matter Lesions in MR Images: Method and
- * Validation", A. P. Zijdenbos, B. M. Dawant, R. A. Margolin and
- * A. C. Palmer, IEEE Trans. on Medical Imaging, 13(4) pp 716-724,1994
- *
+ * For more information see \cite zijdenbos1994.
  *
  * This filter requires the largest possible region of the first image
  * and the same corresponding region in the second image.

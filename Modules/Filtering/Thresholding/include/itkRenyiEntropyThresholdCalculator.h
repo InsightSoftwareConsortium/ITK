@@ -28,11 +28,7 @@ namespace itk
  * \class RenyiEntropyThresholdCalculator
  * \brief Computes the RenyiEntropy's threshold for an image.
  *
- * Kapur J.N., Sahoo P.K., and Wong A.K.C. (1985) "A New Method for
- * Gray-Level Picture Thresholding Using the Entropy of the Histogram"
- * Graphical Models and Image Processing, 29(3): 273-285
- * M. Emre Celebi
- * 06.15.2007
+ * For algorithmic details see \cite kapur1985.
  *
  * This class is templated over the input histogram type.
  * \warning This calculator assumes that the input histogram has only one dimension.

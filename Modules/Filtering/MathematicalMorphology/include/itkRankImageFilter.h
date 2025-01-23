@@ -38,7 +38,7 @@ namespace itk
  * cropped at the boundary, and is therefore smaller.
  *
  * This filter uses a recursive implementation - essentially the one
- * by Huang 1979, I believe, to compute the rank,
+ * by Huang \cite huang1979, I believe, to compute the rank,
  * and is therefore usually a lot faster than the direct
  * implementation. The extensions to Huang are support for arbitrary
  * pixel types (using c++ maps) and arbitrary neighborhoods. I presume

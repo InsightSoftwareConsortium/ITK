@@ -30,8 +30,7 @@ namespace itk
  * BinaryGrindPeakImageFilter grinds peaks in a grayscale image.
  *
  * Geodesic morphology and the grind peak algorithm is described in
- * Chapter 6 of Pierre Soille's book "Morphological Image Analysis:
- * Principles and Applications", Second Edition, Springer, 2003.
+ * \cite soille2004.
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *

@@ -74,10 +74,7 @@ namespace itk
  * The variance can be set via methods SetFixedImageStandardDeviation()
  * and SetMovingImageStandardDeviation().
  *
- * Implementation of this class is based on:
- * Viola, P. and Wells III, W. (1997).
- * "Alignment by Maximization of Mutual Information"
- * International Journal of Computer Vision, 24(2):137-154
+ * Implementation of this class is based on \cite viola1997.
  *
  * \sa KernelFunctionBase
  * \sa GaussianKernelFunction

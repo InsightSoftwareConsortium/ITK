@@ -33,9 +33,7 @@ namespace itk
  * interest.
  *
  * Geodesic morphology and the connected opening algorithm is
- * described in Chapter 6 of Pierre Soille's book "Morphological Image
- * Analysis: Principles and Applications", Second Edition, Springer,
- * 2003.
+ * described in \cite soille2004.
  *
  * \sa GrayscaleGeodesicDilateImageFilter
  * \sa MorphologyImageFilter, GrayscaleDilateImageFilter, GrayscaleFunctionDilateImageFilter, BinaryDilateImageFilter

@@ -38,8 +38,7 @@ namespace itk
  *
  * References:
  * Modeled after a slice iterator proposed by Bjarne Stroustrup
- * in C++ Programming Language, Third Edition. Bjarne Stroustrup.  Addison
- * Wesley, Reading, MA. 1997.
+ * in \cite stroustrup1997.
  *
  * \ingroup Iterators
  * \ingroup ITKCommon

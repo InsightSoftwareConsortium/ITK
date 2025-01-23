@@ -34,19 +34,13 @@ namespace itk
  * The marker image must be less than or equal to the mask image
  * (on a pixel by pixel basis).
  *
- * Geodesic morphology is described in Chapter 6.2 of Pierre Soille's
- * book "Morphological Image Analysis: Principles and Applications",
- * Second Edition, Springer, 2003.
+ * Geodesic morphology is described in \cite soille2004.
  *
  * Algorithm implemented in this filter is based on algorithm described
- * by Kevin Robinson and  Paul F. Whelan in "Efficient Morphological
- * Reconstruction: A Downhill Filter", Pattern Recognition Letters, Volume
- * 25, Issue 15, November 2004, Pages 1759-1767.
+ * in \cite robinson2004.
  *
  * The algorithm, a description of the transform and some applications
- * can be found in "Morphological Grayscale Reconstruction in Image Analysis:
- * Applications and Efficient Algorithms", Luc Vincent, IEEE Transactions on
- * image processing, Vol. 2, April 1993.
+ * can be found in \cite vincent1993.
  *
  * \author Richard Beare. Department of Medicine, Monash University,
  * Melbourne, Australia.

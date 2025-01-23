@@ -28,9 +28,7 @@ namespace itk
  * \class IsoDataThresholdCalculator
  * \brief Computes the IsoData threshold for an image. Aka intermeans
  *
- * Iterative procedure based on the isodata algorithm [T.W. Ridler, S. Calvard, Picture
- * thresholding using an iterative selection method, IEEE Trans. System, Man and
- * Cybernetics, SMC-8 (1978) 630-632.]
+ * Iterative procedure based on the isodata algorithm \cite ridler1978.
  * The procedure divides the image into objects and background by taking an initial threshold,
  * then the averages of the pixels at or below the threshold and pixels above are computed.
  * The averages of those two values are computed, the threshold is incremented and the

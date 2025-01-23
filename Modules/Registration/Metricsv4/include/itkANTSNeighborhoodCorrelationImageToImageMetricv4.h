@@ -30,13 +30,7 @@ namespace itk
  * for each voxel between two images, with speed optimizations for dense
  * registration.
  *
- * Please cite this reference for more details:
- *
- * Brian B. Avants, Nicholas J. Tustison, Gang Song, Philip A. Cook,
- * Arno Klein, James C. Gee, A reproducible evaluation of ANTs similarity metric
- * performance in brain image registration, NeuroImage, Volume 54, Issue 3,
- * 1 February 2011, Pages 2033-2044, ISSN 1053-8119,
- * DOI: 10.1016/j.neuroimage.2010.09.025.
+ * Please see \cite avants2011 for more details.
  *
  * Around each voxel, the neighborhood is defined as a N-Dimensional
  * rectangle centered at the voxel. The size of the rectangle is 2*radius+1.

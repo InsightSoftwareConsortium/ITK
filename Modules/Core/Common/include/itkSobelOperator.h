@@ -61,9 +61,7 @@ namespace itk
  * The current implementation of the Sobel operator is for 2 and 3 dimensions only.
  * The ND version is planned for future releases.
  *
- * The extension to 3D is from the publication
- *  "Irwin Sobel. An Isotropic 3x3x3 Volume Gradient Operator.
- * Technical report, Hewlett-Packard Laboratories, April 1995."
+ * The extension to 3D was described in \cite sobel1995.
  *
  * The Sobel operator in 3D has the kernel
  *

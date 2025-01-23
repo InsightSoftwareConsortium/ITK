@@ -46,7 +46,10 @@ namespace itk
  * Fast and Accurate Redistancing for Level Set Methods
  * `Krissian K. and Westin C.F.',
  * EUROCAST NeuroImaging Workshop Las Palmas Spain,
- * Ninth International Conference on Computer Aided Systems Theory , pages 48-51, Feb 2003.
+ * Ninth International Conference on Computer Aided Systems Theory ,
+ * pages 48-51, Feb 2003.
+ * NOTE: Attribution is incorrect, the manuscript does not appear to be
+ * part of the EUROCAST'03 proceedings (https://doi.org/10.1007/b13239).
  *
  * \ingroup ImageFeatureExtraction
  * \ingroup ITKDistanceMap

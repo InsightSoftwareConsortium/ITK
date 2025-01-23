@@ -43,8 +43,7 @@ namespace itk
  * the input image minus the height parameter h.
  *
  * Geodesic morphology and the H-Maxima algorithm is described in
- * Chapter 6 of Pierre Soille's book "Morphological Image Analysis:
- * Principles and Applications", Second Edition, Springer, 2003.
+ * \cite soille2004.
  *
  * The height parameter is set using SetHeight.
  *

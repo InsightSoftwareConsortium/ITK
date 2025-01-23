@@ -40,20 +40,8 @@ namespace itk
  * \brief Evaluates the Centered B-Spline interpolation of an image.  Spline order may be from 0 to 5.
  *
  * This class defines N-Dimension CenteredB-Spline transformation.
- * It is based on:
- *    [1] M. Unser,
- *       "Splines: A Perfect Fit for Signal and Image Processing,"
- *        IEEE Signal Processing Magazine, vol. 16, no. 6, pp. 22-38,
- *        November 1999.
- *    [2] M. Unser, A. Aldroubi and M. Eden,
- *        "B-Spline Signal Processing: Part I--Theory,"
- *        IEEE Transactions on Signal Processing, vol. 41, no. 2, pp. 821-832,
- *        February 1993.
- *    [3] M. Unser, A. Aldroubi and M. Eden,
- *        "B-Spline Signal Processing: Part II--Efficient Design and Applications,"
- *        IEEE Transactions on Signal Processing, vol. 41, no. 2, pp. 834-848,
- *        February 1993.
- * And code obtained from bigwww.epfl.ch by Philippe Thevenaz
+ * It is based on \cite unser1999, \cite unser1993 and \cite unser1993a.
+ * Code obtained from bigwww.epfl.ch by Philippe Thevenaz
  *
  * Limitations:  Spline order must be between 0 and 5.
  *               Spline order must be set before setting the image.

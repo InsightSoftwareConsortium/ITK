@@ -25,8 +25,7 @@ namespace itk
 /** \class ElasticBodyReciprocalSplineKernelTransform
  * This class defines the elastic body spline (EBS) transformation.
  * It is implemented in as straightforward a manner as possible from
- * the IEEE TMI paper by Davis, Khotanzad, Flamig, and Harms,
- * Vol. 16 No. 3 June 1997
+ * \cite davis1997.
  * Taken from the paper:
  * The EBS "is based on a physical model of a homogeneous, isotropic,
  * three-dimensional elastic body. The model can approximate the way

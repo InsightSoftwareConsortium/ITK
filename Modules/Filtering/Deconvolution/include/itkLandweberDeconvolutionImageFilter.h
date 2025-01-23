@@ -61,8 +61,7 @@ public:
  * algorithm.
  *
  * This filter implements the Landweber deconvolution algorithm as
- * defined in Bertero M and Boccacci P, "Introduction to Inverse
- * Problems in Imaging", 1998. The algorithm assumes that the input
+ * defined in \cite bertero1998. The algorithm assumes that the input
  * image has been formed by a linear shift-invariant system with a
  * known kernel.
  *

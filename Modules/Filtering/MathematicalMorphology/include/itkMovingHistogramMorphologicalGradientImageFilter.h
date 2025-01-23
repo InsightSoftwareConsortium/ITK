@@ -219,9 +219,7 @@ class ITK_TEMPLATE_EXPORT MorphologicalGradientHistogram<bool> : public VectorMo
  * \brief Morphological gradients enhance the variation of pixel
  * intensity in a given neighborhood.
  *
- * Morphological gradient is described in Chapter 3.8.1 of Pierre
- * Soille's book  "Morphological Image Analysis: Principles and
- * Applications", Second Edition, Springer, 2003.
+ * Morphological gradient is described in \cite soille2004a.
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *

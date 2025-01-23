@@ -49,15 +49,8 @@ namespace itk
  * reasonable choice of structuring element is
  * itk::BinaryBallStructuringElement.
  *
- * This implementation is based on the papers:
- *
- * L.Vincent "Morphological transformations of binary images with
- * arbitrary structuring elements", and
- *
- * N.Nikopoulos et al. "An efficient algorithm for 3d binary
- * morphological transformations with 3d structuring elements
- * for arbitrary size and shape". IEEE Transactions on Image
- * Processing. Vol. 9. No. 3. 2000. pp. 283-286.
+ * This implementation is based on the papers \cite vincent1991 and
+ * \cite nikopoulos1997.
  *
  * \sa ImageToImageFilter BinaryErodeImageFilter BinaryMorphologyImageFilter
  * \ingroup ITKBinaryMathematicalMorphology

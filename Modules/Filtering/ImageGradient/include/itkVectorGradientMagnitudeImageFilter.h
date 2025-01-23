@@ -117,12 +117,8 @@ namespace itk
  * 3D solver is), so it cannot multithread for data other than 3D in
  * UsePrincipleComponents=On mode.
  *
- * \par References
+ * For algorithmic details see \cite sapiro1996.
  *
- * [1] G. Sapiro and D. Ringach, "Anisotropic Diffusion of Multivalued Images
- * with Application to Color Filtering," IEEE Transactions on Image Processing,
- * Vol 5, No. 11 pp. 1582-1586, 1996
-
  * \ingroup GradientFilters
  *
  * \sa Image

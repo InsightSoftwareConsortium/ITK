@@ -29,11 +29,7 @@ namespace itk
  * \brief Computes the MaximumEntropy's threshold for an image.
  *
  * Implements Kapur-Sahoo-Wong (Maximum Entropy) thresholding method
- * Kapur J.N., Sahoo P.K., and Wong A.K.C. (1985) "A New Method for
- * Gray-Level Picture Thresholding Using the Entropy of the Histogram"
- * Graphical Models and Image Processing, 29(3): 273-285
- * M. Emre Celebi
- * 06.15.2007
+ * \cite kapur1985.
  *
  * This class is templated over the input histogram type.
  * \warning This calculator assumes that the input histogram has only one dimension.

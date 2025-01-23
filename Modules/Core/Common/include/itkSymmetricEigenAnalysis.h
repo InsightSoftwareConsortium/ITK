@@ -191,10 +191,9 @@ static constexpr EigenValueOrderEnum DoNotOrder = EigenValueOrderEnum::DoNotOrde
  * netlib/tred1.c
  * netlib/tred2.c
  *
- * Reference:
- *     num. math. 11, 293-306(1968) by bowdler, martin, reinsch, and
- *     wilkinson.
- *     handbook for auto. comp., vol.ii-linear algebra, 227-240(1971).
+ * For algorithmic descriptions see \cite bowdler1968 and
+ * \cite bowdler1971.
+ *
  * \ingroup ITKCommon
  */
 
@@ -385,9 +384,8 @@ private:
    *  Function adapted from netlib/tred1.c.
    *  [Changed: remove static vars, enforce const correctness.
    *            Use vnl routines as necessary].
-   *  Reference:
-   *  num. math. 11, 181-195(1968) by martin, reinsch, and wilkinson.
-   *    handbook for auto. comp., vol.ii-linear algebra, 212-226(1971).    */
+   *  For algorithmic descriptions see \cite martin1968 and  \cite
+   *  martin1971. */
   void
   ReduceToTridiagonalMatrix(double * a, double * d, double * e, double * e2) const;
 
@@ -409,9 +407,8 @@ private:
    *  Function adapted from netlib/tred2.c.
    *  [Changed: remove static vars, enforce const correctness.
    *            Use vnl routines as necessary].
-   *  Reference:
-   *  num. math. 11, 181-195(1968) by martin, reinsch, and wilkinson.
-   *    handbook for auto. comp., vol.ii-linear algebra, 212-226(1971).    */
+   *  For algorithmic descriptions see \cite martin1968 and \cite
+   *  martin1971. */
   void
   ReduceToTridiagonalMatrixAndGetTransformation(const double * a, double * d, double * e, double * z) const;
 
@@ -433,9 +430,7 @@ private:
    *
    * Reference
    *  This subroutine is a translation of the algol procedure tql1,
-   *  num. math. 11, 293-306(1968) by bowdler, martin, reinsch, and
-   *  wilkinson.
-   *  handbook for auto. comp., vol.ii-linear algebra, 227-240(1971).
+   *  \cite bowdler1968 and \cite bowdler1971.
    *
    *  Questions and comments should be directed to Burton s. Garbow,
    *  Mathematics and Computer Science Div., Argonne National Laboratory.
@@ -472,9 +467,7 @@ private:
    *
    * Reference
    *  This subroutine is a translation of the algol procedure tql1,
-   *  num. math. 11, 293-306(1968) by bowdler, martin, reinsch, and
-   *  wilkinson.
-   *  handbook for auto. comp., vol.ii-linear algebra, 227-240(1971).
+   *  \cite bowdler1968 and \cite bowdler1971.
    *
    *  Questions and comments should be directed to Burton s. Garbow,
    *  Mathematics and Computer Science Div., Argonne National Laboratory.

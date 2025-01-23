@@ -73,9 +73,7 @@ extern ITKFastMarching_EXPORT std::ostream &
  * Fast Marching sweeps through N grid points in (N log N) steps to obtain
  * the arrival time value as the front propagates through the grid.
  *
- * Implementation of this class is based on Chapter 8 of
- * "Level Set Methods and Fast Marching Methods", J.A. Sethian,
- * Cambridge Press, Second edition, 1999.
+ * Implementation of this class is based on \cite sethian1999a.
  *
  * This class is templated over the level set image type and the speed
  * image type. The initial front is specified by two containers: one

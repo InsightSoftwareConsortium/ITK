@@ -28,7 +28,7 @@ namespace itk
  * \brief Denoise an image using curvature driven flow.
  *
  * CurvatureFlowImageFilter implements a curvature driven image denoising
- * algorithm. Iso-brightness contours in the grayscale input image are viewed
+ * algorithm \cite sethian1999. Iso-brightness contours in the grayscale input image are viewed
  * as a level set. The level set is then evolved using a curvature-based speed
  * function:
  *
@@ -68,10 +68,6 @@ namespace itk
  * \warning This filter assumes that the input and output types have the
  * same dimensions. This filter also requires that the output image pixels
  * are of a floating point type. This filter works for any dimensional images.
- *
- * Reference:
- * "Level Set Methods and Fast Marching Methods", J.A. Sethian,
- * Cambridge Press, Chapter 16, Second edition, 1999.
  *
  * \sa DenseFiniteDifferenceImageFilter
  * \sa CurvatureFlowFunction

@@ -112,14 +112,7 @@ namespace itk
  * https://doi.org/10.54294/0d55to
  *
  *
- * \par REFERENCE
- * S. Lee, G. Wolberg, and S. Y. Shin, "Scattered Data Interpolation
- * with Multilevel B-Splines", IEEE Transactions on Visualization and
- * Computer Graphics, 3(3):228-244, 1997.
- *
- * \par REFERENCE
- * N.J. Tustison and J.C. Gee, "Generalized n-D C^k Scattered Data Approximation
- * with Confidence Values", Proceedings of the MIAR conference, August 2006.
+ * For additional information see \cite lee1997 and \cite tustison2006.
  *
  * \ingroup ITKImageGrid
  *

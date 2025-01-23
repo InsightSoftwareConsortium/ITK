@@ -42,9 +42,7 @@ namespace itk
  * This filter is intended to be used for initializing the process of
  * Physics-Based Non-Rigid Registration. It selects a fraction of non-masked
  * points with highest variance. Optionally, tensors are computed for each
- * point and stored as pixel values. [ M. Bierling, Displacement estimation
- * by hierarchical block matching, Proc. SPIE Vis. Comm. and Image Proc.,
- * vol. 1001, pp. 942-951, 1988. ].
+ * point and stored as pixel values \cite bierling1988.
  *
  * The filter is templated over input image and mask and output pointset.
  * \author Andriy Kot, Center for Real-Time Computing, Old Dominion University,

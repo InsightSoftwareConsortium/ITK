@@ -119,7 +119,7 @@ namespace itk
 /**
  * \class QuadEdge
  * \brief Base class for the implementation of a quad-edge data structure as
- * proposed in "Guibas and Stolfi 1985"
+ * proposed in \cite guibas1985.
  *
  * \author Alexandre Gouaillard, Leonardo Florez-Valencia, Eric Boix
  *

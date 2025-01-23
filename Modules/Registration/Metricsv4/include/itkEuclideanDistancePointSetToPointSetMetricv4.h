@@ -32,9 +32,7 @@ namespace itk
  *  We only have to handle the individual point case as the parent
  *  class handles the aggregation.
  *
- *  Reference:
- *    PJ Besl and ND McKay, "A Method for Registration of 3-D Shapes",
- *    IEEE PAMI, Vol 14, No. 2, February 1992
+ *  For complete details see \cite besl1992.
  *
  * \ingroup ITKMetricsv4
  */

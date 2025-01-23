@@ -52,14 +52,9 @@ namespace itk
  *
  * \par NOTES
  * This implementation uses a sparse field level set solver instead of the
- * narrow band implementation described in the reference below, which may
+ * narrow band implementation described in \cite whitaker2000, which may
  * introduce some differences in how fast and how accurately (in terms of RMS
  * error) the solution converges.
- *
- * \par REFERENCES
- * Whitaker, Ross.  "Reducing Aliasing Artifacts In Iso-Surfaces of Binary
- * Volumes"  IEEE Volume Visualization and Graphics Symposium, October 2000,
- * pp.23-32.
  *
  * \par PARAMETERS
  *  The MaximumRMSChange parameter is used to determine when the solution has

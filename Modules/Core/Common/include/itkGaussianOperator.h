@@ -47,9 +47,7 @@ namespace itk
  *
  * References:
  * The Gaussian kernel contained in this operator was described
- * by Tony Lindeberg (Discrete Scale-Space Theory and the Scale-Space
- * Primal Sketch.  Dissertation. Royal Institute of Technology, Stockholm,
- * Sweden. May 1991.).
+ * in \cite lindeberg1991.
  *
  * \note GaussianOperator does not have any user-declared "special member function",
  * following the C++ Rule of Zero: the compiler will generate them if necessary.

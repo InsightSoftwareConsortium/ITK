@@ -20,7 +20,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        python -m pip install comment-spell-check~=0.2.2
+        python -m pip install comment-spell-check~=0.3.0
         curl -O https://raw.githubusercontent.com/SimpleITK/SimpleITK/master/.github/workflows/additional_dictionary.txt
 
     - name: Spell check Modules directory
@@ -29,6 +29,7 @@ jobs:
           --miss \
           --prefix "gdcm" --exclude ThirdParty \
           --dict additional_dictionary.txt \
+          --bibtex Documentation/Doxygen/doxygen.bib \
           --dict .github/workflows/itk_dict.txt \
           --suffix ".h" \
           --suffix ".hxx" \

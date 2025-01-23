@@ -47,10 +47,7 @@ namespace itk
  *
  * This filter is N-dimensional and known to be efficient
  * in computational time. The algorithm is the N-dimensional version
- * of the 4SED algorithm given for two dimensions in:
- *
- * Danielsson, Per-Erik.  Euclidean Distance Mapping.  Computer
- * Graphics and Image Processing 14, 227-248 (1980).
+ * of the 4SED algorithm given for two dimensions in \cite danielsson1980.
  *
  * \ingroup ImageFeatureExtraction
  * \ingroup ITKDistanceMap

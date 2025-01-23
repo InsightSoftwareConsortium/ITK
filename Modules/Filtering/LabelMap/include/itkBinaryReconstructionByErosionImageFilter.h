@@ -39,9 +39,7 @@ namespace itk
  * image, and is defined as the erosion of the marker image with
  * respect to the mask image iterated until stability.
  *
- * Geodesic morphology is described in Chapter 6.2 of Pierre Soille's
- * book "Morphological Image Analysis: Principles and Applications",
- * Second Edition, Springer, 2003.
+ * Geodesic morphology is described in \cite soille2004.
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *

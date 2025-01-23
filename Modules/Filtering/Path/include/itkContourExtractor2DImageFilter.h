@@ -44,9 +44,7 @@ namespace itk
  * sub-pixel resolution for the output contours.
  *
  * The marching squares algorithm is a special case of the marching cubes
- * algorithm (Lorensen, William and Harvey E. Cline. Marching Cubes: A High
- * Resolution 3D Surface Construction Algorithm. Computer Graphics (SIGGRAPH 87
- * Proceedings) 21(4) July 1987, p. 163-170). A simple explanation is available
+ * algorithm \cite lorensen1987. A simple explanation is available
  * here: http://users.polytech.unice.fr/~lingrand/MarchingCubes/algo.html
  *
  * There is an ambiguous case in the marching squares algorithm: if a given

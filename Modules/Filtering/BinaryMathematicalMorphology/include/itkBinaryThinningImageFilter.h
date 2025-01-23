@@ -41,11 +41,7 @@ namespace itk
  *
  * This filter is a sequential thinning algorithm and known to be computational time
  * dependable on the image size.  The algorithm corresponds with the 2D
- * implementation described in:
- *
- * Rafael C. Gonzales and Richard E. Woods.
- * Digital Image Processing.
- * Addison Wesley, 491-494, (1993).
+ * implementation described in \cite gonzales1993.
  *
  * To do: Make this filter ND.
  *

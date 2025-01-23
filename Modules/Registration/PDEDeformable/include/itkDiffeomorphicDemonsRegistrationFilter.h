@@ -30,12 +30,8 @@ namespace itk
  * \brief Deformably register two images using a diffeomorphic demons algorithm.
  *
  * This class was contributed by Tom Vercauteren, INRIA & Mauna Kea Technologies,
- * based on a variation of the DemonsRegistrationFilter. The basic modification
- * is to use diffeomorphism exponentials.
- *
- * See T. Vercauteren, X. Pennec, A. Perchant and N. Ayache,
- * "Non-parametric Diffeomorphic Image Registration with the Demons Algorithm",
- * Proc. of MICCAI 2007.
+ * based on a variation of the DemonsRegistrationFilter \cite
+ * vercauteren2007. The basic modification is to use diffeomorphism exponentials.
  *
  * DiffeomorphicDemonsRegistrationFilter implements the demons deformable algorithm that
  * register two images by computing the deformation field which will map a

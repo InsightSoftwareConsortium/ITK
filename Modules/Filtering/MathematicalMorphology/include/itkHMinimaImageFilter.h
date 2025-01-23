@@ -43,8 +43,7 @@ namespace itk
  * the input image plus the height parameter h.
  *
  * Geodesic morphology and the H-Minima algorithm is described in
- * Chapter 6 of Pierre Soille's book "Morphological Image Analysis:
- * Principles and Applications", Second Edition, Springer, 2003.
+ * \cite soille2004.
  *
  * \sa GrayscaleGeodesicDilateImageFilter, HMinimaImageFilter, HConvexImageFilter
  * \sa MorphologyImageFilter, GrayscaleDilateImageFilter, GrayscaleFunctionDilateImageFilter, BinaryDilateImageFilter
