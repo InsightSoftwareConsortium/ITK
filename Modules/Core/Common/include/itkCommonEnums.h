@@ -212,7 +212,10 @@ public:
   enum class Octree : uint8_t
   {
     UNKNOWN_PLANE,   ///< The plane is Unknown
-    SAGITAL_PLANE,   ///< The plane is Sagittal
+    SAGITTAL_PLANE,  ///< The plane is Sagittal
+#if !defined(ITK_LEGACY_REMOVE)
+    SAGITAL_PLANE = SAGITTAL_PLANE, ///< Support misspelling
+#endif
     CORONAL_PLANE,   ///< The plane is Coronal
     TRANSVERSE_PLANE ///< The plane is Transverse
   };

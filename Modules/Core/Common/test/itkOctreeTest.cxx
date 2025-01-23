@@ -114,7 +114,7 @@ itkOctreeTest(int, char *[])
 
   // Test streaming enumeration for OctreeEnums::Octree elements
   const std::set<itk::OctreeEnums::Octree> allOctree{ itk::OctreeEnums::Octree::UNKNOWN_PLANE,
-                                                      itk::OctreeEnums::Octree::SAGITAL_PLANE,
+                                                      itk::OctreeEnums::Octree::SAGITTAL_PLANE,
                                                       itk::OctreeEnums::Octree::CORONAL_PLANE,
                                                       itk::OctreeEnums::Octree::TRANSVERSE_PLANE };
   for (const auto & ee : allOctree)
