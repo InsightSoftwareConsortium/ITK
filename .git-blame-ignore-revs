@@ -96,3 +96,35 @@ fbbc7aa38cf23d0966b1dbd0f9825797e84c2502
 f3899ce8c6d53fc077c4e0bfa2c6f1fe56166b57
 # STYLE: Initial run of cmake-format
 efa749515db840b54f7329b261d3ec4c3a575f83
+# STYLE: Prefer explicit const designation
+375ee8c47a03792d0d3d5447c6b4c4be6b9f2fb4
+# STYLE: Replace itkTypeMacro calls with `itkOverrideGetNameOfClassMacro`
+2c264ea2ef62e916c6ef947599ce659cc8fce5fe
+# STYLE: Remove recursive inclusion of .h files
+f84720ee0823964bd135de8eb973acc40c1e70e1
+# STYLE: Use `auto` for declaration of variables initialized by `New()`
+828453d1bf61c487310d2d8c9570093e08798a40
+# STYLE: Replace postfix by prefix increment in `for` loops in ITK/Modules
+971aef211cad336ba75cb2da114fc86e873444e5
+# STYLE: Call ITK_DISALLOW_COPY_AND_MOVE, not ITK_DISALLOW_COPY_AND_ASSIGN
+4c0982ddec474b1701d695839c78c7e888659ef4
+# STYLE: Pefer = default to explicitly trivial implementations
+5142ed7bb5e4e5042734fc47bf556a2342be6cec
+# STYLE: Prefer constexpr for const numeric literals
+605cea4735634acdc3222d1e0f1d3fcb2db05e26
+# STYLE: Prefer C++11 type alias over typedef
+66e5d6b3bcc28f1a85b702086b6cedc8cab6723b
+# STYLE: Provide a well documented macro for repeated code
+4a3257e293a9682b2d8b9063f72bddcae98d70dc
+# STYLE: Use "typename" for template parameters
+86bbb9d092d21bb309b0260c0b4082d9af966b67
+# STYLE: ITK_EXPORT had no use
+b788601abbeebd72e5504b10a75a9f417f666c35
+# STYLE:  Removed the MSVS6 compiler pragma 4786
+f1bc82756aaf853c50b6c2b5cfb4dfd88bc4824f
+# STYLE:  Converted module names to use camel case
+540228ef42fb667b3255f8610baa5cd9d7b6760d
+# STYLE: Change for development tool compliance
+13f99f81510fd76b0409b98dac6a4670436e007a
+# STYLE: Change to hxx extension for dev tools
+2fccd272862ab7cc408d643c8db2e1cb5d098fcf
