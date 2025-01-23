@@ -49,7 +49,7 @@ dynamic_castDownCast(const char * type, const char * instanceSource, const itk::
 namespace LibraryC
 {
 
-ITKObjectProducer ::ITKObjectProducer()
+ITKObjectProducer::ITKObjectProducer()
 {
   m_EquivalencyTable = itk::EquivalencyTable::New();
   using ImageType = itk::Image<float, 3>;

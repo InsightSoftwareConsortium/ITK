@@ -115,7 +115,7 @@ MetaContour::Closed(bool close)
 }
 
 bool
-MetaContour ::Closed() const
+MetaContour::Closed() const
 {
   return m_Closed;
 }

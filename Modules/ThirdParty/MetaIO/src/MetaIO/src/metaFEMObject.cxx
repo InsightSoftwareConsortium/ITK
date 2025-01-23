@@ -1417,7 +1417,7 @@ MetaFEMObject::ReadGlobalNumber()
 }
 
 // string containing all whitespace characters
-const std::string MetaFEMObject ::whitespaces = " \t\n\r";
+const std::string MetaFEMObject::whitespaces = " \t\n\r";
 
 #if (METAIO_USE_NAMESPACE)
 }

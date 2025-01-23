@@ -166,7 +166,7 @@ template <typename TImage1, typename TImage2>
 struct MakeJoin
 {
   using FunctorType = JoinFunctor<typename TImage1::PixelType, typename TImage2::PixelType>;
-  using ImageType = Image<typename FunctorType::JoinType, TImage1 ::ImageDimension>;
+  using ImageType = Image<typename FunctorType::JoinType, TImage1::ImageDimension>;
 };
 } // namespace Functor
 

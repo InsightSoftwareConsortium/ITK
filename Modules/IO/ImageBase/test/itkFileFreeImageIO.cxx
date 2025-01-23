@@ -25,12 +25,12 @@
 namespace itk
 {
 
-FileFreeImageIO ::FileFreeImageIO() {}
+FileFreeImageIO::FileFreeImageIO() {}
 
 FileFreeImageIO::~FileFreeImageIO() {}
 
 bool
-FileFreeImageIO ::CanReadFile(const char * filename)
+FileFreeImageIO::CanReadFile(const char * filename)
 {
   itksys::RegularExpression findPrefix("^FileFreeIO::");
   if (findPrefix.find(filename))
@@ -44,7 +44,7 @@ FileFreeImageIO ::CanReadFile(const char * filename)
 }
 
 void
-FileFreeImageIO ::ReadImageInformation()
+FileFreeImageIO::ReadImageInformation()
 {
 
   // type
@@ -166,27 +166,27 @@ FileFreeImageIO ::ReadImageInformation()
 
 // Read from the generated image
 void
-FileFreeImageIO ::Read(void * buffer)
+FileFreeImageIO::Read(void * buffer)
 {
   memset(buffer, static_cast<unsigned char>(175), this->GetImageSizeInBytes());
 }
 
 bool
-FileFreeImageIO ::CanWriteFile(const char *)
+FileFreeImageIO::CanWriteFile(const char *)
 {
   return false;
 }
 
 void
-FileFreeImageIO ::WriteImageInformation()
+FileFreeImageIO::WriteImageInformation()
 {}
 
 void
-FileFreeImageIO ::Write(const void *)
+FileFreeImageIO::Write(const void *)
 {}
 
 void
-FileFreeImageIO ::SplitString(const std::string &        text,
+FileFreeImageIO::SplitString(const std::string &        text,
                               const std::string &        separators,
                               std::vector<std::string> & words)
 {
@@ -205,7 +205,7 @@ FileFreeImageIO ::SplitString(const std::string &        text,
 }
 
 void
-FileFreeImageIO ::PrintSelf(std::ostream & os, Indent indent) const
+FileFreeImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }

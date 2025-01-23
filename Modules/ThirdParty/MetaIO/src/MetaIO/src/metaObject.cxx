@@ -161,7 +161,7 @@ MetaObject::ClearFields()
 
 // Clear UserFields
 void
-MetaObject ::ClearUserFields()
+MetaObject::ClearUserFields()
 {
   // Clear write field
   auto it = m_UserDefinedWriteFields.begin();
@@ -230,7 +230,7 @@ MetaObject ::ClearUserFields()
 
 // Clear AdditionalReadFields
 void
-MetaObject ::ClearAdditionalFields()
+MetaObject::ClearAdditionalFields()
 {
   // Clear read field
   auto it = m_AdditionalReadFields.begin();
@@ -1788,7 +1788,7 @@ MetaObject::M_Write()
 
 
 bool
-MetaObject ::Append(const char * _headName)
+MetaObject::Append(const char * _headName)
 {
   META_DEBUG_PRINT( "MetaObject: Append" );
 
@@ -1824,7 +1824,7 @@ MetaObject ::Append(const char * _headName)
 
 // Get the user field
 void *
-MetaObject ::GetUserField(const char * _name)
+MetaObject::GetUserField(const char * _name)
 {
   auto it = m_UserDefinedReadFields.begin();
   auto end = m_UserDefinedReadFields.end();
@@ -1874,31 +1874,31 @@ MetaObject ::GetUserField(const char * _name)
 }
 
 int
-MetaObject ::GetNumberOfAdditionalReadFields()
+MetaObject::GetNumberOfAdditionalReadFields()
 {
   return static_cast<int>(m_AdditionalReadFields.size());
 }
 
 char *
-MetaObject ::GetAdditionalReadFieldName(int i)
+MetaObject::GetAdditionalReadFieldName(int i)
 {
   return m_AdditionalReadFields[i]->name;
 }
 
 char *
-MetaObject ::GetAdditionalReadFieldValue(int i)
+MetaObject::GetAdditionalReadFieldValue(int i)
 {
   return reinterpret_cast<char *>(m_AdditionalReadFields[i]->value);
 }
 
 int
-MetaObject ::GetAdditionalReadFieldValueLength(int i)
+MetaObject::GetAdditionalReadFieldValueLength(int i)
 {
   return m_AdditionalReadFields[i]->length;
 }
 
 bool
-MetaObject ::AddUserField(const char * _fieldName, MET_ValueEnumType _type, int _length, bool _required, int _dependsOn)
+MetaObject::AddUserField(const char * _fieldName, MET_ValueEnumType _type, int _length, bool _required, int _dependsOn)
 {
   auto it = m_UserDefinedReadFields.begin();
   auto end = m_UserDefinedReadFields.end();
