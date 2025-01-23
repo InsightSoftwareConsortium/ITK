@@ -36,7 +36,7 @@ Sleep(unsigned int milliseconds)
 int
 itkMemoryProbesCollecterBaseTest(int, char *[])
 {
-  constexpr size_t bufsize = 256L * 1024L * 1024L; // 256 MiB
+  constexpr size_t bufsize = 768L * 1024L * 1024L; // 768 MiB
 
   itk::MemoryProbesCollectorBase mcollecter;
   itk::MemoryProbe               probe;
