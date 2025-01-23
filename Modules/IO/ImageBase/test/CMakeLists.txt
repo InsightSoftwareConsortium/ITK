@@ -40,6 +40,50 @@ set(ITKIOImageBaseTests
     itkImageFileReaderManyComponentVectorTest.cxx)
 
 createtestdriver(ITKIOImageBase "${ITKIOImageBase-Test_LIBRARIES}" "${ITKIOImageBaseTests}")
+
+if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 16)
+  itk_add_test(
+    NAME
+    itkLargeImageWriteConvertReadTest
+    COMMAND
+    ITKIOImageBaseTestDriver
+    itkLargeImageWriteConvertReadTest
+    ${ITK_TEST_OUTPUT_DIR}/itkLargeImageWriteConvertReadTest.mha
+    30000L)
+  set_tests_properties(itkLargeImageWriteConvertReadTest
+    PROPERTIES
+    RESOURCE_LOCK
+    MEMORY_SIZE)
+
+  itk_add_test(
+    NAME
+    itkLargeImageWriteReadTest_2D
+    COMMAND
+    ITKIOImageBaseTestDriver
+    itkLargeImageWriteReadTest
+    ${ITK_TEST_OUTPUT_DIR}/itkLargeImageWriteReadTest_2D.mha
+    30000L)
+  set_tests_properties(itkLargeImageWriteReadTest_2D
+    PROPERTIES
+    RESOURCE_LOCK
+    MEMORY_SIZE)
+
+  itk_add_test(
+    NAME
+    itkLargeImageWriteReadTest_3D
+    COMMAND
+    ITKIOImageBaseTestDriver
+    itkLargeImageWriteReadTest
+    ${ITK_TEST_OUTPUT_DIR}/itkLargeImageWriteReadTest_3D.mha
+    30000L
+    4L)
+  set_tests_properties(itkLargeImageWriteReadTest_3D
+    PROPERTIES
+    RESOURCE_LOCK
+    MEMORY_SIZE)
+
+endif()
+
 itk_add_test(
   NAME
   itkArchetypeSeriesFileNamesTest
