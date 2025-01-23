@@ -255,15 +255,6 @@ RegularStepGradientDescentBaseOptimizer::PrintSelf(std::ostream & os, Indent ind
   os << indent << "CurrentIteration: " << m_CurrentIteration << std::endl;
   os << indent << "Value: " << m_Value << std::endl;
   os << indent << "Maximize: " << m_Maximize << std::endl;
-  if (m_CostFunction)
-  {
-    os << indent << "CostFunction: " << &m_CostFunction << std::endl;
-  }
-  else
-  {
-    os << indent << "CostFunction: "
-       << "(None)" << std::endl;
-  }
   os << indent << "CurrentStepLength: " << m_CurrentStepLength << std::endl;
   os << indent << "StopCondition: " << m_StopCondition << std::endl;
   os << indent << "Gradient: " << m_Gradient << std::endl;
