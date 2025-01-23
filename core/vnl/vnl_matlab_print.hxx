@@ -31,7 +31,7 @@ vnl_matlab_print(std::ostream & s, const T * array, unsigned length, vnl_matlab_
   {
     // Format according to selected style
     // In both cases an exact 0 goes out as such
-    vnl_matlab_print_scalar(array[j], buf, format);
+    vnl_matlab_print_scalar(array[j], buf, sizeof(buf), format);
     s << buf;
   }
 
