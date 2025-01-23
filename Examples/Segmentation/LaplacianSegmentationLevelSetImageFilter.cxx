@@ -125,16 +125,8 @@ main(int argc, char * argv[])
   thresholder->SetOutsideValue(0);
   thresholder->SetInsideValue(255);
 
-  using ReaderType = itk::ImageFileReader<InternalImageType>;
-  using WriterType = itk::ImageFileWriter<OutputImageType>;
-
-  auto reader1 = ReaderType::New();
-  auto reader2 = ReaderType::New();
-  auto writer = WriterType::New();
-
-  reader1->SetFileName(argv[1]);
-  reader2->SetFileName(argv[2]);
-  writer->SetFileName(argv[3]);
+  const auto input1 = itk::ReadImage<InternalImageType>(argv[1]);
+  const auto input2 = itk::ReadImage<InternalImageType>(argv[2]);
 
   //  Software Guide : BeginLatex
   //
@@ -223,11 +215,10 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  diffusion->SetInput(reader1->GetOutput());
-  laplacianSegmentation->SetInput(reader2->GetOutput());
+  diffusion->SetInput(input1);
+  laplacianSegmentation->SetInput(input2);
   laplacianSegmentation->SetFeatureImage(diffusion->GetOutput());
   thresholder->SetInput(laplacianSegmentation->GetOutput());
-  writer->SetInput(thresholder->GetOutput());
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -241,7 +232,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   try
   {
-    writer->Update();
+    itk::WriteImage(thresholder->GetOutput(), argv[3])
   }
   catch (const itk::ExceptionObject & excep)
   {

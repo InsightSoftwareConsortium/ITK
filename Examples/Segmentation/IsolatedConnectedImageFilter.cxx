@@ -92,18 +92,7 @@ main(int argc, char * argv[])
 
   auto caster = CastingFilterType::New();
 
-
-  // We instantiate reader and writer types
-  //
-  using ReaderType = itk::ImageFileReader<InternalImageType>;
-  using WriterType = itk::ImageFileWriter<OutputImageType>;
-
-  auto reader = ReaderType::New();
-  auto writer = WriterType::New();
-
-  reader->SetFileName(argv[1]);
-  writer->SetFileName(argv[2]);
-
+  const auto input = itk::ReadImage<InternalImageType>(argv[1]);
 
   using CurvatureFlowImageFilterType =
     itk::CurvatureFlowImageFilter<InternalImageType, InternalImageType>;
@@ -144,7 +133,6 @@ main(int argc, char * argv[])
   smoothing->SetInput(reader->GetOutput());
   isolatedConnected->SetInput(smoothing->GetOutput());
   caster->SetInput(isolatedConnected->GetOutput());
-  writer->SetInput(caster->GetOutput());
   // Software Guide : EndCodeSnippet
 
 
@@ -211,7 +199,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   try
   {
-    writer->Update();
+    itk::WriteImage(caster->GetOutput(), argv[2])
   }
   catch (const itk::ExceptionObject & excep)
   {

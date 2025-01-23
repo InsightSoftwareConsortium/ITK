@@ -88,12 +88,10 @@ main(int argc, char * argv[])
   //
   //  Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  using ReaderType = itk::ImageFileReader<ImageType>;
-  auto reader = ReaderType::New();
-  reader->SetFileName(argv[1]);
+  using ImageType::Pointer localImage;
   try
   {
-    reader->Update();
+    localImage = itk::ReadImage<ImageType>(argv[1]);
   }
   catch (const itk::ExceptionObject & excep)
   {
@@ -101,7 +99,6 @@ main(int argc, char * argv[])
     std::cerr << excep << std::endl;
     return EXIT_FAILURE;
   }
-  const ImageType::Pointer localImage = reader->GetOutput();
   // Software Guide : EndCodeSnippet
 
 
@@ -146,7 +143,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  houghFilter->SetInput(reader->GetOutput());
+  houghFilter->SetInput(localImage);
 
   houghFilter->SetNumberOfCircles(std::stoi(argv[3]));
   houghFilter->SetMinimumRadius(std::stod(argv[4]));
@@ -265,15 +262,10 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using WriterType = itk::ImageFileWriter<ImageType>;
-  auto writer = WriterType::New();
-
-  writer->SetFileName(argv[2]);
-  writer->SetInput(localOutputImage);
 
   try
   {
-    writer->Update();
+    itk::WriteImage(localOutputImage, argv[2])
   }
   catch (const itk::ExceptionObject & excep)
   {

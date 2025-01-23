@@ -84,9 +84,10 @@ main(int argc, char * argv[])
   using ImageType = itk::Image<PixelType, Dimension>;
   // Software Guide : EndCodeSnippet
 
+  using ImageType::Pointer input;
   try
   {
-    const auto input = itk::ReadImage<ImageType>(argv[1]);
+    input = itk::ReadImage<ImageType>(argv[1]);
   }
   catch (const itk::ExceptionObject & excp)
   {

@@ -91,16 +91,8 @@ main(int argc, char * argv[])
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
 
-  // We instantiate reader and writer types
-  //
-  using ReaderType = itk::ImageFileReader<InputImageType>;
-  using WriterType = itk::ImageFileWriter<OutputImageType>;
+  const auto input = itk::ReadImage<InputImageType>(argv[1]);
 
-  auto reader = ReaderType::New();
-  auto writer = WriterType::New();
-
-  reader->SetFileName(argv[1]);
-  writer->SetFileName(argv[2]);
 
   //  Software Guide : BeginLatex
   //
@@ -135,7 +127,6 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   confidenceConnected->SetInput(reader->GetOutput());
-  writer->SetInput(confidenceConnected->GetOutput());
   // Software Guide : EndCodeSnippet
 
 
@@ -252,7 +243,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   try
   {
-    writer->Update();
+    itk::WriteImage(confidenceConnected->GetOutput(), argv[2])
   }
   catch (const itk::ExceptionObject & excep)
   {

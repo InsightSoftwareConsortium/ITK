@@ -51,15 +51,10 @@ main(int argc, char * argv[])
   using ImageMaskSpatialObject = itk::ImageMaskSpatialObject<3>;
 
   using ImageType = ImageMaskSpatialObject::ImageType;
-  using ReaderType = itk::ImageFileReader<ImageType>;
-
-  auto reader = ReaderType::New();
-
-  reader->SetFileName(argv[1]);
-
+  using ImageType::Pointer input;
   try
   {
-    reader->Update();
+    input = itk::ReadImage<ImageType>(argv[1]);
   }
   catch (const itk::ExceptionObject & excp)
   {
@@ -69,7 +64,7 @@ main(int argc, char * argv[])
 
   auto maskSO = ImageMaskSpatialObject::New();
 
-  maskSO->SetImage(reader->GetOutput());
+  maskSO->SetImage(input);
   maskSO->Update();
 
   std::cout << "Bounding Box Region: "

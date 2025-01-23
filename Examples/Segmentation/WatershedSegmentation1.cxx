@@ -105,7 +105,6 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using FileReaderType = itk::ImageFileReader<RGBImageType>;
   using CastFilterType = itk::CastImageFilter<RGBImageType, VectorImageType>;
   using DiffusionFilterType =
     itk::VectorGradientAnisotropicDiffusionImageFilter<VectorImageType,
@@ -115,10 +114,7 @@ main(int argc, char * argv[])
   using WatershedFilterType = itk::WatershedImageFilter<ScalarImageType>;
   // Software Guide : EndCodeSnippet
 
-  using FileWriterType = itk::ImageFileWriter<RGBImageType>;
-
-  auto reader = FileReaderType::New();
-  reader->SetFileName(argv[1]);
+  const auto input = itk::ReadImage<RGBImageType>(argv[1]);
 
   auto caster = CastFilterType::New();
 
@@ -199,9 +195,6 @@ main(int argc, char * argv[])
   // Software Guide : EndCodeSnippet
 
 
-  auto writer = FileWriterType::New();
-  writer->SetFileName(argv[2]);
-
   // Software Guide : BeginLatex
   //
   // The filters are connected into a single pipeline, with readers and
@@ -210,17 +203,16 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
-  caster->SetInput(reader->GetOutput());
+  caster->SetInput(input);
   diffusion->SetInput(caster->GetOutput());
   gradient->SetInput(diffusion->GetOutput());
   watershed->SetInput(gradient->GetOutput());
   colormapper->SetInput(watershed->GetOutput());
-  writer->SetInput(colormapper->GetOutput());
   // Software Guide : EndCodeSnippet
 
   try
   {
-    writer->Update();
+    itk::WriteImage(colormapper->GetOutput(), argv[2])
   }
   catch (const itk::ExceptionObject & e)
   {

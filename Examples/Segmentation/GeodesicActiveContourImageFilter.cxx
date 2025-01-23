@@ -163,18 +163,7 @@ main(int argc, char * argv[])
   thresholder->SetOutsideValue(0);
   thresholder->SetInsideValue(255);
 
-
-  // We instantiate reader and writer types in the following lines.
-  //
-  using ReaderType = itk::ImageFileReader<InternalImageType>;
-  using WriterType = itk::ImageFileWriter<OutputImageType>;
-
-  auto reader = ReaderType::New();
-  auto writer = WriterType::New();
-
-  reader->SetFileName(argv[1]);
-  writer->SetFileName(argv[2]);
-
+  const auto input = itk::ReadImage<InternalImageType>(argv[1]);
 
   //  The RescaleIntensityImageFilter type is declared below. This filter will
   //  renormalize image before sending them to writers.
@@ -301,7 +290,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  smoothing->SetInput(reader->GetOutput());
+  smoothing->SetInput(input);
   gradientMagnitude->SetInput(smoothing->GetOutput());
   sigmoid->SetInput(gradientMagnitude->GetOutput());
 
@@ -309,7 +298,6 @@ main(int argc, char * argv[])
   geodesicActiveContour->SetFeatureImage(sigmoid->GetOutput());
 
   thresholder->SetInput(geodesicActiveContour->GetOutput());
-  writer->SetInput(thresholder->GetOutput());
   // Software Guide : EndCodeSnippet
 
 
@@ -423,38 +411,29 @@ main(int argc, char * argv[])
   auto caster3 = CastFilterType::New();
   auto caster4 = CastFilterType::New();
 
-  auto writer1 = WriterType::New();
-  auto writer2 = WriterType::New();
-  auto writer3 = WriterType::New();
-  auto writer4 = WriterType::New();
-
   caster1->SetInput(smoothing->GetOutput());
-  writer1->SetInput(caster1->GetOutput());
-  writer1->SetFileName("GeodesicActiveContourImageFilterOutput1.png");
   caster1->SetOutputMinimum(0);
   caster1->SetOutputMaximum(255);
-  writer1->Update();
+  itk::WriteImage(caster1->GetOutput(),
+                  "GeodesicActiveContourImageFilterOutput1.png");
 
   caster2->SetInput(gradientMagnitude->GetOutput());
-  writer2->SetInput(caster2->GetOutput());
-  writer2->SetFileName("GeodesicActiveContourImageFilterOutput2.png");
   caster2->SetOutputMinimum(0);
   caster2->SetOutputMaximum(255);
-  writer2->Update();
+  itk::WriteImage(caster2->GetOutput(),
+                  "GeodesicActiveContourImageFilterOutput2.png");
 
   caster3->SetInput(sigmoid->GetOutput());
-  writer3->SetInput(caster3->GetOutput());
-  writer3->SetFileName("GeodesicActiveContourImageFilterOutput3.png");
   caster3->SetOutputMinimum(0);
   caster3->SetOutputMaximum(255);
-  writer3->Update();
+  itk::WriteImage(caster3->GetOutput(),
+                  "GeodesicActiveContourImageFilterOutput3.png");
 
   caster4->SetInput(fastMarching->GetOutput());
-  writer4->SetInput(caster4->GetOutput());
-  writer4->SetFileName("GeodesicActiveContourImageFilterOutput4.png");
   caster4->SetOutputMinimum(0);
   caster4->SetOutputMaximum(255);
-
+  itk::WriteImage(caster4->GetOutput(),
+                  "GeodesicActiveContourImageFilterOutput4.png");
 
   //  The FastMarchingImageFilter requires the user to specify the
   //  size of the image to be produced as output. This is done using the
@@ -463,8 +442,7 @@ main(int argc, char * argv[])
   //  only after the \code{Update()} methods of this filter has been called
   //  directly or indirectly.
   //
-  fastMarching->SetOutputSize(
-    reader->GetOutput()->GetBufferedRegion().GetSize());
+  fastMarching->SetOutputSize(input->GetBufferedRegion().GetSize());
 
 
   //  Software Guide : BeginLatex
@@ -478,7 +456,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   try
   {
-    writer->Update();
+    itk::WriteImage(thresholder->GetOutput(), argv[2])
   }
   catch (const itk::ExceptionObject & excep)
   {
@@ -499,8 +477,6 @@ main(int argc, char * argv[])
             << geodesicActiveContour->GetElapsedIterations() << std::endl;
   std::cout << "RMS change: " << geodesicActiveContour->GetRMSChange()
             << std::endl;
-
-  writer4->Update();
 
 
   // The following writer type is used to save the output of the time-crossing

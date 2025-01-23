@@ -89,9 +89,10 @@ main(int argc, char * argv[])
   using RGBImageType = itk::Image<RGBPixelType, Dimension>;
   // Software Guide : EndCodeSnippet
 
+  using RGBImageType::Pointer input;
   try
   {
-    const auto input = itk::ReadImage<RGBImageType>(argv[1]);
+    input = itk::ReadImage<RGBImageType>(argv[1]);
   }
   catch (const itk::ExceptionObject & excp)
   {
