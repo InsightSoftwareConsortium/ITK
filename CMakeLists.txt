@@ -494,11 +494,11 @@ option(
 mark_as_advanced(ITK_USE_64BITS_IDS)
 
 # ITK turn on concept checking
-option(
-  ITK_USE_CONCEPT_CHECKING
-  "Turn on concept checking to give helpful errors at compile time if a type cannot be used as a template parameter."
-  ON)
-mark_as_advanced(ITK_USE_CONCEPT_CHECKING)
+if(ITK_USE_CONCEPT_CHECKING)
+  message(
+    WARNING
+      "Ignoring ITK_USE_CONCEPT_CHECKING, as concept checking is performed unconditionally. This variable is no longer used")
+endif()
 if(ITK_USE_STRICT_CONCEPT_CHECKING)
   message(
     WARNING

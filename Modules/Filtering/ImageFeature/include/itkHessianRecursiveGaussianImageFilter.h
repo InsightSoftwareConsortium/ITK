@@ -134,12 +134,8 @@ public:
   void
   GenerateInputRequestedRegion() override;
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<PixelType>));
   itkConceptMacro(OutputHasPixelTraitsCheck, (Concept::HasPixelTraits<OutputPixelType>));
-  // End concept checking
-#endif
 
 protected:
   HessianRecursiveGaussianImageFilter();

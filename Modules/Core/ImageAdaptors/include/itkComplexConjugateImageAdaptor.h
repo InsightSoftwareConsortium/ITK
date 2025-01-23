@@ -80,13 +80,9 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ComplexConjugateImageAdaptor);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking. */
   itkConceptMacro(InputConvertibleToComplex,
                   (Concept::Convertible<std::complex<typename NumericTraits<typename TImage::PixelType>::ValueType>,
                                         typename TImage::PixelType>));
-  // End concept checking. */
-#endif
 
 protected:
   ComplexConjugateImageAdaptor() = default;

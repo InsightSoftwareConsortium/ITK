@@ -128,11 +128,7 @@ public:
   itkGetConstReferenceMacro(State, GPUFiniteDifferenceFilterEnum);
 #endif
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(OutputPixelIsFloatingPointCheck, (Concept::IsFloatingPoint<OutputPixelValueType>));
-  // End concept checking
-#endif
 
   /** Methods to get timers */
   itkGetConstReferenceMacro(InitTime, TimeProbe);

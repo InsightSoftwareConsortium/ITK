@@ -53,11 +53,6 @@ public:
 
   using ValueArrayType = ValueType[Self::PointDimension];
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
-  // End concept checking
-#endif
-
 public:
   QuadEdgeMeshPoint() = default;
   QuadEdgeMeshPoint(const Self &) = default;

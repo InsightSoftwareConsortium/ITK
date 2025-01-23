@@ -138,13 +138,9 @@ public:
   bool
   CanRunInPlace() const override;
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   // This concept does not work with variable length vector images
   // itkConceptMacro( InputHasNumericTraitsCheck,
   //( Concept::HasNumericTraits< PixelType > ) );
-  // End concept checking
-#endif
 
 protected:
   SmoothingRecursiveGaussianImageFilter();

@@ -89,13 +89,9 @@ public:
   /** Determine the image dimension. */
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<typename TInputImage::PixelType::ValueType>));
   itkConceptMacro(OutputHasNumericTraitsCheck,
                   (Concept::HasNumericTraits<typename TOutputImage::PixelType::ValueType>));
-  // End concept checking
-#endif
 
 protected:
   VectorCurvatureAnisotropicDiffusionImageFilter()

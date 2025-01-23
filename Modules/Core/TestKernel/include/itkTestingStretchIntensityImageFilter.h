@@ -83,14 +83,10 @@ public:
   const TInputImage *
   GetInput() const;
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputPixelType>));
   itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<OutputPixelType>));
   itkConceptMacro(RealTypeMultiplyOperatorCheck, (Concept::MultiplyOperator<RealType>));
   itkConceptMacro(RealTypeAdditiveOperatorsCheck, (Concept::AdditiveOperators<RealType>));
-  // End concept checking
-#endif
 
 protected:
   StretchIntensityImageFilter();

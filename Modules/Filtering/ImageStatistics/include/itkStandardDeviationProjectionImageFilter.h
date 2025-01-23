@@ -129,16 +129,11 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(InputPixelToOutputPixelTypeGreaterAdditiveOperatorCheck,
                   (Concept::AdditiveOperators<TAccumulate, InputPixelType, TAccumulate>));
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputPixelType>));
 
   itkConceptMacro(AccumulateHasNumericTraitsCheck, (Concept::HasNumericTraits<TAccumulate>));
-
-  // End concept checking
-#endif
 
 protected:
   StandardDeviationProjectionImageFilter() = default;

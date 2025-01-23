@@ -116,8 +116,6 @@ public:
   itkSetMacro(StencilRadius, RadiusValueType);
   itkGetConstMacro(StencilRadius, RadiusValueType);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(UnsignedLongConvertibleToOutputCheck,
                   (Concept::Convertible<unsigned long, typename TOutputImage::PixelType>));
   itkConceptMacro(OutputLessThanComparableCheck, (Concept::LessThanComparable<typename TOutputImage::PixelType>));
@@ -129,8 +127,6 @@ public:
                   (Concept::GreaterThanComparable<typename TOutputImage::PixelType, unsigned long>));
   itkConceptMacro(UnsignedLongOutputAditiveOperatorsCheck,
                   (Concept::AdditiveOperators<unsigned long, typename TOutputImage::PixelType>));
-  // End concept checking
-#endif
 
 protected:
   MinMaxCurvatureFlowImageFilter();

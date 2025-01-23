@@ -169,11 +169,7 @@ public:
   itkSetMacro(NumberOfRangeGaussianSamples, unsigned long);
   itkGetConstMacro(NumberOfRangeGaussianSamples, unsigned long);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<OutputPixelType>));
-  // End concept checking
-#endif
 
 protected:
   /** Constructor. */

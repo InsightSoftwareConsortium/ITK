@@ -131,11 +131,7 @@ public:
   DataObjectPointer
   MakeOutput(const DataObjectIdentifierType & name) override;
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<PixelType>));
-  // End concept checking
-#endif
 
 protected:
   StatisticsImageFilter();

@@ -127,11 +127,7 @@ public:
   DataObject::Pointer
   MakeOutput(DataObjectPointerArraySizeType idx) override;
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(VectorComponentHasNumericTraitsCheck, (Concept::HasNumericTraits<VectorComponentType>));
-  // End concept checking
-#endif
 
 protected:
   EigenAnalysis2DImageFilter();

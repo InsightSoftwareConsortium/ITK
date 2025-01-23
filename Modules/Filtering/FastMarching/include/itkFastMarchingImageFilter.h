@@ -374,14 +374,10 @@ public:
   itkGetConstReferenceMacro(OverrideOutputInformation, bool);
   itkBooleanMacro(OverrideOutputInformation);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<SetDimension, SpeedImageDimension>));
   itkConceptMacro(SpeedConvertibleToDoubleCheck, (Concept::Convertible<typename TSpeedImage::PixelType, double>));
   itkConceptMacro(DoubleConvertibleToLevelSetCheck, (Concept::Convertible<double, PixelType>));
   itkConceptMacro(LevelSetOStreamWritableCheck, (Concept::OStreamWritable<PixelType>));
-  // End concept checking
-#endif
 
 protected:
   FastMarchingImageFilter();

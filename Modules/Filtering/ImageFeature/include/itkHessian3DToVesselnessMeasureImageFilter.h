@@ -117,11 +117,7 @@ public:
   itkSetMacro(Alpha2, double);
   itkGetConstMacro(Alpha2, double);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(DoubleConvertibleToOutputCheck, (Concept::Convertible<double, OutputPixelType>));
-  // End concept checking
-#endif
 
 protected:
   Hessian3DToVesselnessMeasureImageFilter();

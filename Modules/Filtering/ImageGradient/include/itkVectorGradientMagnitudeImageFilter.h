@@ -273,13 +273,9 @@ public:
   static int
   CubicSolver(const double *, double *);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, ImageDimension>));
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<typename InputPixelType::ValueType>));
   itkConceptMacro(RealTypeHasNumericTraitsCheck, (Concept::HasNumericTraits<RealType>));
-  // End concept checking
-#endif
 
 protected:
   VectorGradientMagnitudeImageFilter();

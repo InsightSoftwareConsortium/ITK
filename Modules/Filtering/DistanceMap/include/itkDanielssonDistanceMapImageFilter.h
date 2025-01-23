@@ -174,17 +174,13 @@ public:
   DataObjectPointer
   MakeOutput(DataObjectPointerArraySizeType idx) override;
 
-#ifdef ITK_USE_CONCEPT_CHECKING
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
   static constexpr unsigned int VoronoiImageDimension = TVoronoiImage::ImageDimension;
 
-  // Begin concept checking
   itkConceptMacro(InputOutputSameDimensionCheck, (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
   itkConceptMacro(InputVoronoiSameDimensionCheck, (Concept::SameDimension<InputImageDimension, VoronoiImageDimension>));
   itkConceptMacro(DoubleConvertibleToOutputCheck, (Concept::Convertible<double, OutputPixelType>));
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputPixelType, OutputPixelType>));
-  // End concept checking
-#endif
 
 protected:
   DanielssonDistanceMapImageFilter();

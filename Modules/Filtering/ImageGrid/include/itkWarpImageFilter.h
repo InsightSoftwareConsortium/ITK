@@ -224,15 +224,11 @@ public:
   void
   AfterThreadedGenerateData() override;
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(SameDimensionCheck1, (Concept::SameDimension<ImageDimension, InputImageDimension>));
   itkConceptMacro(SameDimensionCheck2, (Concept::SameDimension<ImageDimension, DisplacementFieldDimension>));
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<typename TInputImage::InternalPixelType>));
   itkConceptMacro(DisplacementFieldHasNumericTraitsCheck,
                   (Concept::HasNumericTraits<typename TDisplacementField::PixelType::ValueType>));
-  // End concept checking
-#endif
 
 protected:
   WarpImageFilter();

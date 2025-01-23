@@ -87,9 +87,7 @@ public:
 
   static constexpr unsigned int ImageDimension = TImageType::ImageDimension;
 
-#ifdef ITK_USE_CONCEPT_CHECKING
   itkConceptMacro(ImageTypeHasNumericTraitsCheck, (Concept::HasNumericTraits<typename TImageType::PixelType>));
-#endif
 
   /** Frequency Iterator types */
   using FrequencyIteratorType = TFrequencyIterator;

@@ -227,14 +227,10 @@ protected:
   virtual void
   ApplyGPImageFilter();
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(
     SameDimension,
     (Concept::SameDimension<Self::InputImageType::ImageDimension, Self::ClassifiedImageType::ImageDimension>));
   itkConceptMacro(DimensionShouldBe3, (Concept::SameDimension<Self::InputImageType::ImageDimension, 3>));
-  // End concept checking
-#endif
 
 private:
   using InputImageSizeType = typename TInputImage::SizeType;

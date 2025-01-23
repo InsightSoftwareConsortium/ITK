@@ -193,10 +193,8 @@ public:
   itkSetEnumMacro(AreaComputationType, AreaEnum);
   itkGetMacro(AreaComputationType, AreaEnum);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
   itkConceptMacro(SameDimensionCheck1, (Concept::SameDimension<InputPointDimension, OutputPointDimension>));
   itkConceptMacro(SameDimensionCheck2, (Concept::SameDimension<InputPointDimension, 3>));
-#endif
 
 protected:
   /** Default constructor*/

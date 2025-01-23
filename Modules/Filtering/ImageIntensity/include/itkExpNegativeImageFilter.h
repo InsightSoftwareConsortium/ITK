@@ -125,12 +125,8 @@ public:
     return this->GetFunctor().GetFactor();
   }
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(InputConvertibleToDoubleCheck, (Concept::Convertible<typename TInputImage::PixelType, double>));
   itkConceptMacro(DoubleConvertibleToOutputCheck, (Concept::Convertible<double, typename TOutputImage::PixelType>));
-  // End concept checking
-#endif
 
 protected:
   ExpNegativeImageFilter() = default;

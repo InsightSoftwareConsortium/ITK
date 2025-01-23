@@ -280,8 +280,6 @@ public:
 #endif
   itkGetConstReferenceMacro(BValue, TTensorPixelType);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(ReferenceEqualityComparableCheck, (Concept::EqualityComparable<ReferencePixelType>));
   itkConceptMacro(TensorEqualityComparableCheck, (Concept::EqualityComparable<TensorPixelType>));
   itkConceptMacro(GradientConvertibleToDoubleCheck, (Concept::Convertible<GradientPixelType, double>));
@@ -293,8 +291,6 @@ public:
 
   itkConceptMacro(ReferenceOStreamWritableCheck, (Concept::OStreamWritable<ReferencePixelType>));
   itkConceptMacro(TensorOStreamWritableCheck, (Concept::OStreamWritable<TensorPixelType>));
-  // End concept checking
-#endif
 
 protected:
   DiffusionTensor3DReconstructionImageFilter();

@@ -179,8 +179,6 @@ public:
   DataObjectPointer
   MakeOutput(DataObjectPointerArraySizeType idx) override;
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(UnsignedIntConvertibleToLabelsCheck, (Concept::Convertible<unsigned int, TLabelsType>));
   itkConceptMacro(PosteriorsAdditiveOperatorsCheck, (Concept::AdditiveOperators<TPosteriorsPrecisionType>));
   itkConceptMacro(IntConvertibleToPosteriorsCheck, (Concept::Convertible<int, TPosteriorsPrecisionType>));
@@ -190,8 +188,6 @@ public:
   itkConceptMacro(
     InputPriorsPosteriorsMultiplyOperatorCheck,
     (Concept::MultiplyOperator<typename InputPixelType::ValueType, PriorsPixelType, PosteriorsPixelType>));
-  // End concept checking
-#endif
 
 protected:
   BayesianClassifierImageFilter();

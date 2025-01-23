@@ -191,11 +191,7 @@ public:
     return this->m_CannyFunction->GetCannyImage();
   }
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<TOutputPixelType>));
-  // End concept checking
-#endif
 
 protected:
   ~CannySegmentationLevelSetImageFilter() override = default;

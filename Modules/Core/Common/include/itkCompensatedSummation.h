@@ -124,10 +124,8 @@ private:
   AccumulateType m_Sum{};
   AccumulateType m_Compensation{};
 
-// Maybe support more types in the future with template specialization.
-#ifdef ITK_USE_CONCEPT_CHECKING
+  // Maybe support more types in the future with template specialization.
   itkConceptMacro(OnlyDefinedForFloatingPointTypes, (itk::Concept::IsFloatingPoint<TFloat>));
-#endif // ITK_USE_CONCEPT_CHECKING
 };
 
 void ITKCommon_EXPORT

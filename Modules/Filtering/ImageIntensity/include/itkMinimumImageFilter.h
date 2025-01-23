@@ -89,16 +89,12 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(MinimumImageFilter);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(Input1ConvertibleToInput2Check,
                   (Concept::Convertible<typename TInputImage1::PixelType, typename TInputImage2::PixelType>));
   itkConceptMacro(Input2ConvertibleToOutputCheck,
                   (Concept::Convertible<typename TInputImage2::PixelType, typename TOutputImage::PixelType>));
   itkConceptMacro(Input1LessThanInput2Check,
                   (Concept::LessThanComparable<typename TInputImage1::PixelType, typename TInputImage2::PixelType>));
-  // End concept checking
-#endif
 
 protected:
   MinimumImageFilter()

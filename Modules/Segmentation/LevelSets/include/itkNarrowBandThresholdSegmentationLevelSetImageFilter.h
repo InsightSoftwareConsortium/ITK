@@ -203,11 +203,7 @@ public:
     return m_ThresholdFunction->GetSmoothingConductance();
   }
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<TOutputPixelType>));
-  // End concept checking
-#endif
 
 protected:
   ~NarrowBandThresholdSegmentationLevelSetImageFilter() override = default;

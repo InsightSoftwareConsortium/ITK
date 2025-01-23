@@ -865,14 +865,12 @@ private:
   /** Flag to know if derivative should be calculated */
   mutable bool m_ComputeDerivative{};
 
-/** Only floating-point images are currently supported. To support integer images,
- * several small changes must be made */
-#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Only floating-point images are currently supported. To support integer images,
+   * several small changes must be made */
   using FixedImagePixelValueType = typename PixelTraits<FixedImagePixelType>::ValueType;
   using MovingImagePixelValueType = typename PixelTraits<MovingImagePixelType>::ValueType;
   itkConceptMacro(OnlyDefinedForFloatingPointTypes0, (itk::Concept::IsFloatingPoint<FixedImagePixelValueType>));
   itkConceptMacro(OnlyDefinedForFloatingPointTypes1, (itk::Concept::IsFloatingPoint<MovingImagePixelValueType>));
-#endif // ITK_USE_CONCEPT_CHECKING
 };
 } // namespace itk
 

@@ -175,15 +175,10 @@ public:
   itkSetMacro(UseImageSpacing, bool);
   itkGetConstMacro(UseImageSpacing, bool);
 
-
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(IntConvertibleToOutputCheck, (Concept::Convertible<int, TOutputPixelType>));
   itkConceptMacro(InputGreaterThanDoubleCheck, (Concept::GreaterThanComparable<PixelType, double>));
   itkConceptMacro(OutputPlusIntCheck, (Concept::AdditiveOperators<TOutputPixelType, int>));
   itkConceptMacro(OutputDividedByIntCheck, (Concept::DivisionOperators<TOutputPixelType, int>));
-  // End concept checking
-#endif
 
 protected:
   HoughTransform2DCirclesImageFilter();

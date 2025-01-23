@@ -171,8 +171,6 @@ public:
    * an object's boundary. */
   itkGetConstMacro(UseBoundaryCondition, bool);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(SameDimensionCheck1, (Concept::SameDimension<ImageDimension, OutputImageDimension>));
   itkConceptMacro(SameDimensionCheck2, (Concept::SameDimension<ImageDimension, KernelDimension>));
   itkConceptMacro(OutputInputEqualityComparableCheck,
@@ -181,8 +179,6 @@ public:
   itkConceptMacro(IntConvertibleToOutputCheck, (Concept::Convertible<int, typename TOutputImage::PixelType>));
   itkConceptMacro(InputEqualityComparable, (Concept::EqualityComparable<PixelType>));
   itkConceptMacro(InputOStreamWritableCheck, (Concept::OStreamWritable<PixelType>));
-  // End concept checking
-#endif
 
 protected:
   ObjectMorphologyImageFilter();

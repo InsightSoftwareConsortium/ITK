@@ -78,12 +78,8 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(RGBToLuminanceImageFilter);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(InputHasNumericTraitsCheck,
                   (Concept::HasNumericTraits<typename TInputImage::PixelType::ComponentType>));
-  // End concept checking
-#endif
 
 protected:
   RGBToLuminanceImageFilter()

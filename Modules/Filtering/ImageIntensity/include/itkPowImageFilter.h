@@ -111,11 +111,6 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(PowImageFilter);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
-  // End concept checking
-#endif
-
 protected:
   PowImageFilter()
   {

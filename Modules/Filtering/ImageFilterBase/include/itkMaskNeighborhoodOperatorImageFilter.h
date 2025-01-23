@@ -134,16 +134,12 @@ public:
   /** Turn on and off the UseDefaultValue flag. */
   itkBooleanMacro(UseDefaultValue);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(OutputEqualityComparableCheck, (Concept::EqualityComparable<OutputPixelType>));
   itkConceptMacro(SameDimensionCheck1, (Concept::SameDimension<InputImageDimension, ImageDimension>));
   itkConceptMacro(SameDimensionCheck2, (Concept::SameDimension<InputImageDimension, MaskImageDimension>));
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputPixelType, OutputPixelType>));
   itkConceptMacro(OperatorConvertibleToOutputCheck, (Concept::Convertible<OperatorValueType, OutputPixelType>));
   itkConceptMacro(OutputOStreamWritable, (Concept::OStreamWritable<OutputPixelType>));
-  // End concept checking
-#endif
 
 protected:
   MaskNeighborhoodOperatorImageFilter()

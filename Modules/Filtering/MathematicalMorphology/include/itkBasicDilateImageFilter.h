@@ -85,15 +85,11 @@ public:
   /** Type of the pixels in the Kernel. */
   using KernelPixelType = typename TKernel::PixelType;
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<PixelType, typename TOutputImage::PixelType>));
   itkConceptMacro(SameDimensionCheck1, (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
   itkConceptMacro(SameDimensionCheck2, (Concept::SameDimension<InputImageDimension, KernelDimension>));
   itkConceptMacro(InputGreaterThanComparableCheck, (Concept::GreaterThanComparable<PixelType>));
   itkConceptMacro(KernelGreaterThanComparableCheck, (Concept::GreaterThanComparable<KernelPixelType>));
-  // End concept checking
-#endif
 
 protected:
   BasicDilateImageFilter();

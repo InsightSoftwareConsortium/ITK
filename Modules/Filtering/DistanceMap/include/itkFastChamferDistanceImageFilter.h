@@ -126,8 +126,6 @@ public:
   NarrowBandPointer
   GetNarrowBand() const;
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<ImageDimension, OutputImageDimension>));
   itkConceptMacro(SameTypeCheck, (Concept::SameType<PixelType, typename TOutputImage::PixelType>));
   itkConceptMacro(FloatConvertibleToPixelTypeCheck, (Concept::Convertible<float, PixelType>));
@@ -137,8 +135,6 @@ public:
   itkConceptMacro(PixelTypeFloatAdditiveOperatorsCheck, (Concept::AdditiveOperators<PixelType, float, float>));
   itkConceptMacro(FloatGreaterThanPixelTypeCheck, (Concept::GreaterThanComparable<float, PixelType>));
   itkConceptMacro(FloatLessThanPixelTypeCheck, (Concept::LessThanComparable<float, PixelType>));
-  // End concept checking
-#endif
 
 protected:
   FastChamferDistanceImageFilter();

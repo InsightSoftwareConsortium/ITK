@@ -171,14 +171,10 @@ public:
   static constexpr unsigned int InputImage2Dimension = TInputImage2::ImageDimension;
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(SameDimensionCheck1,
                   (Concept::SameDimension<Self::InputImage1Dimension, Self::InputImage2Dimension>));
   itkConceptMacro(SameDimensionCheck2,
                   (Concept::SameDimension<Self::InputImage1Dimension, Self::OutputImageDimension>));
-  // End concept checking
-#endif
 
 protected:
   BinaryFunctorImageFilter();

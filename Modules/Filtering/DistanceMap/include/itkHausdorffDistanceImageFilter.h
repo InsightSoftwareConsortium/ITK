@@ -122,11 +122,7 @@ public:
   itkGetConstMacro(HausdorffDistance, RealType);
   itkGetConstMacro(AverageHausdorffDistance, RealType);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(Input1HasNumericTraitsCheck, (Concept::HasNumericTraits<InputImage1PixelType>));
-  // End concept checking
-#endif
 
 protected:
   HausdorffDistanceImageFilter();

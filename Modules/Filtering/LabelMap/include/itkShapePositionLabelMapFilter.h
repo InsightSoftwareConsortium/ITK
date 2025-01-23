@@ -66,16 +66,12 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ShapePositionLabelMapFilter);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   /*  itkConceptMacro(InputEqualityComparableCheck,
       (Concept::EqualityComparable<InputImagePixelType>));
     itkConceptMacro(IntConvertibleToInputCheck,
       (Concept::Convertible<int, InputImagePixelType>));
     itkConceptMacro(InputOStreamWritableCheck,
       (Concept::OStreamWritable<InputImagePixelType>));*/
-  // End concept checking
-#endif
 
   /**
    * Set/Get the attribute to use to get the object position. The default

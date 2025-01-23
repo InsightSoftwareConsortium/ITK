@@ -319,13 +319,7 @@ public:
   itkLegacyMacro(unsigned int GetInternalNumberOfStreamDivisions() const;)
   itkLegacyMacro(void SetInternalNumberOfStreamDivisions(unsigned int);)
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
-
   itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<OutputPixelValueType>));
-
-  // End concept checking
-#endif
 
 protected:
   DiscreteGaussianImageFilter()

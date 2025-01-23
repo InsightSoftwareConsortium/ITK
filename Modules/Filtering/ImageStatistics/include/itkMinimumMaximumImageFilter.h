@@ -109,13 +109,9 @@ public:
     return Superclass::GetNumberOfStreamDivisions();
   }
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(LessThanComparableCheck, (Concept::LessThanComparable<PixelType>));
   itkConceptMacro(GreaterThanComparableCheck, (Concept::GreaterThanComparable<PixelType>));
   itkConceptMacro(OStreamWritableCheck, (Concept::OStreamWritable<PixelType>));
-  // End concept checking
-#endif
 
 protected:
   MinimumMaximumImageFilter();

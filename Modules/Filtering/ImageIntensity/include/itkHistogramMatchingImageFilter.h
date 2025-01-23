@@ -170,8 +170,6 @@ public:
   itkGetModifiableObjectMacro(SourceHistogram, HistogramType);
   itkGetModifiableObjectMacro(OutputHistogram, HistogramType);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(IntConvertibleToInputCheck, (Concept::Convertible<int, InputPixelType>));
   itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<ImageDimension, OutputImageDimension>));
   itkConceptMacro(DoubleConvertibleToInputCheck, (Concept::Convertible<double, InputPixelType>));
@@ -179,8 +177,6 @@ public:
   itkConceptMacro(InputConvertibleToDoubleCheck, (Concept::Convertible<InputPixelType, double>));
   itkConceptMacro(OutputConvertibleToDoubleCheck, (Concept::Convertible<OutputPixelType, double>));
   itkConceptMacro(SameTypeCheck, (Concept::SameType<InputPixelType, OutputPixelType>));
-  // End concept checking
-#endif
 
 protected:
   HistogramMatchingImageFilter();

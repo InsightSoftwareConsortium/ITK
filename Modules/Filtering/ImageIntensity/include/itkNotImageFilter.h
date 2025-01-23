@@ -116,13 +116,9 @@ public:
   }
 
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<typename TInputImage::PixelType, bool>));
   itkConceptMacro(OutputConvertibleToOutputCheck, (Concept::Convertible<bool, typename TOutputImage::PixelType>));
   itkConceptMacro(InputNotOperatorCheck, (Concept::NotOperator<typename TInputImage::PixelType>));
-  // End concept checking
-#endif
 
 protected:
   NotImageFilter()

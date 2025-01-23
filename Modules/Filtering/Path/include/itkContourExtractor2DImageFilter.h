@@ -185,14 +185,10 @@ public:
   itkSetMacro(ContourValue, InputRealType);
   itkGetConstReferenceMacro(ContourValue, InputRealType);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(DimensionShouldBe2, (Concept::SameDimension<Self::InputImageDimension, 2>));
   itkConceptMacro(InputPixelTypeComparable, (Concept::Comparable<InputPixelType>));
   itkConceptMacro(InputHasPixelTraitsCheck, (Concept::HasPixelTraits<InputPixelType>));
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputPixelType>));
-  // End concept checking
-#endif
 
 protected:
   ContourExtractor2DImageFilter();

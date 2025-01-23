@@ -61,10 +61,7 @@ struct OpenCVBasicTypeBridge<TPoint, cv::Point_<typename TPoint::CoordinateType>
     return OpenCVDataType(iP[0], iP[1]);
   }
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<TPoint::PointDimension, 2>));
-#endif
 };
 
 template <typename TPoint>
@@ -91,10 +88,7 @@ struct OpenCVBasicTypeBridge<TPoint, cv::Point3_<typename TPoint::CoordinateType
     return OpenCVDataType(iP[0], iP[1], iP[2]);
   }
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<TPoint::PointDimension, 3>));
-#endif
 };
 
 template <>

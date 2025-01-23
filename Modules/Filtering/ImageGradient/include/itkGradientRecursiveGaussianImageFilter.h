@@ -171,13 +171,9 @@ public:
   itkGetConstMacro(UseImageDirection, bool);
   itkBooleanMacro(UseImageDirection);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   // Does not seem to work with wrappings, disabled
   // itkConceptMacro( InputHasNumericTraitsCheck,
   //                 ( Concept::HasNumericTraits< PixelType > ) );
-  // End concept checking
-#endif
 
 protected:
   GradientRecursiveGaussianImageFilter();

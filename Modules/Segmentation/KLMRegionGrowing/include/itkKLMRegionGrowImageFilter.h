@@ -285,17 +285,13 @@ public:
   void
   PrintAlgorithmBorderStats();
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<typename InputImagePixelType::ValueType>));
   itkConceptMacro(SameDimension, (Concept::SameDimension<Self::InputImageDimension, Self::OutputImageDimension>));
-#  if defined(THIS_CONCEPT_FAILS_ON_GCC)
+#if defined(THIS_CONCEPT_FAILS_ON_GCC)
   /** The input pixel type must be the same as that of the output image. */
   itkConceptMacro(SameVectorDimension,
                   (Concept::SameDimension<Self::InputImageVectorDimension, Self::OutputImageVectorDimension>));
-#  endif
-  // End concept checking
-#endif
+#endif // end THIS_CONCEPT_FAILS_ON_GCC
 
 protected:
   KLMRegionGrowImageFilter();

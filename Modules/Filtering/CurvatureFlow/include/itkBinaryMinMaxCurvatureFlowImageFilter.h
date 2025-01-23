@@ -111,12 +111,8 @@ public:
   itkSetMacro(Threshold, double);
   itkGetConstMacro(Threshold, double);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(InputConvertibleToOutputCheck,
                   (Concept::Convertible<typename TInputImage::PixelType, typename TOutputImage::PixelType>));
-  // End concept checking
-#endif
 
 protected:
 protected:

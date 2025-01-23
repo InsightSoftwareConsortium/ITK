@@ -234,16 +234,12 @@ public:
     return this->GetFunctor().GetOutputMaximum();
   }
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(InputConvertibleToDoubleCheck, (Concept::Convertible<typename TInputImage::PixelType, double>));
   itkConceptMacro(OutputAdditiveOperatorsCheck, (Concept::AdditiveOperators<OutputPixelType>));
   itkConceptMacro(DoubleConvertibleToOutputCheck, (Concept::Convertible<double, OutputPixelType>));
   itkConceptMacro(OutputTimesDoubleCheck, (Concept::MultiplyOperator<OutputPixelType, double>));
   itkConceptMacro(OutputDoubleAdditiveOperatorsCheck,
                   (Concept::AdditiveOperators<OutputPixelType, OutputPixelType, double>));
-  // End concept checking
-#endif
 
 protected:
   SigmoidImageFilter() = default;

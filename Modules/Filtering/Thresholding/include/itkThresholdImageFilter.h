@@ -89,12 +89,8 @@ public:
   using PixelType = typename TImage::PixelType;
 
   /** The pixel type must support comparison operators. */
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(PixelTypeComparableCheck, (Concept::Comparable<PixelType>));
   itkConceptMacro(PixelTypeOStreamWritableCheck, (Concept::OStreamWritable<PixelType>));
-  // End concept checking
-#endif
 
   /** Set the "outside" pixel value. The default value
    * PixelType{}. */

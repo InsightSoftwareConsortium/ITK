@@ -373,11 +373,7 @@ public:
                     "error value will not be set or used.");
   }
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<typename TOutputImage::PixelType>));
-  // End concept checking
-#endif
 
 protected:
   ~NarrowBandLevelSetImageFilter() override = default;

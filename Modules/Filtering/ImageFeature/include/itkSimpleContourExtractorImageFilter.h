@@ -117,12 +117,8 @@ public:
    * pixel in the output image. */
   itkGetConstReferenceMacro(OutputBackgroundValue, OutputPixelType);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputPixelType>));
   itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<OutputPixelType>));
-  // End concept checking
-#endif
 
 protected:
   SimpleContourExtractorImageFilter();

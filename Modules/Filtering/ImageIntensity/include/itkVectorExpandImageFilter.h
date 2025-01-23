@@ -157,12 +157,8 @@ public:
   void
   GenerateInputRequestedRegion() override;
 
-#  ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputValueType>));
   itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<OutputValueType>));
-  // End concept checking
-#  endif
 
 protected:
   VectorExpandImageFilter();

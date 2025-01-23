@@ -151,11 +151,7 @@ public:
   itkGetConstMacro(StopOnTargets, bool);
   itkBooleanMacro(StopOnTargets);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputPixelType>));
-  // End concept checking
-#endif
 
 protected:
   CollidingFrontsImageFilter();

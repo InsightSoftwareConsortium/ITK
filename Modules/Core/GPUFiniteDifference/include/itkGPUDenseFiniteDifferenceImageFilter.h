@@ -87,13 +87,9 @@ public:
   /** The container type for the update buffer. */
   using UpdateBufferType = OutputImageType;
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(OutputTimesDoubleCheck, (Concept::MultiplyOperator<PixelType, double>));
   itkConceptMacro(OutputAdditiveOperatorsCheck, (Concept::AdditiveOperators<PixelType>));
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<typename TInputImage::PixelType, PixelType>));
-  // End concept checking
-#endif
 
   /** Get OpenCL Kernel source as a string, creates a GetOpenCLSource method */
   itkGetOpenCLSourceFromKernelMacro(GPUDenseFiniteDifferenceImageFilterKernel);
