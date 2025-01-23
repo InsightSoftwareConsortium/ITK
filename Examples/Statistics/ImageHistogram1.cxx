@@ -92,9 +92,10 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
+  using ImageType::Pointer input;
   try
   {
-    const auto input = itk::ReadImage<ImageType>(argv[1]);
+    input = itk::ReadImage<ImageType>(argv[1]);
   }
   catch (const itk::ExceptionObject & excp)
   {

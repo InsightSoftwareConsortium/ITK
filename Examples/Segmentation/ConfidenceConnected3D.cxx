@@ -60,15 +60,7 @@ main(int argc, char * argv[])
     itk::CastImageFilter<InternalImageType, OutputImageType>;
   auto caster = CastingFilterType::New();
 
-
-  using ReaderType = itk::ImageFileReader<InternalImageType>;
-  using WriterType = itk::ImageFileWriter<OutputImageType>;
-
-  auto reader = ReaderType::New();
-  auto writer = WriterType::New();
-
-  reader->SetFileName(argv[1]);
-  writer->SetFileName(argv[2]);
+  const auto input = itk::ReadImage<InternalImageType>(argv[1]);
 
   using CurvatureFlowImageFilterType =
     itk::CurvatureFlowImageFilter<InternalImageType, InternalImageType>;
@@ -78,10 +70,9 @@ main(int argc, char * argv[])
     itk::ConfidenceConnectedImageFilter<InternalImageType, InternalImageType>;
   auto confidenceConnected = ConnectedFilterType::New();
 
-  smoothing->SetInput(reader->GetOutput());
+  smoothing->SetInput(input);
   confidenceConnected->SetInput(smoothing->GetOutput());
   caster->SetInput(confidenceConnected->GetOutput());
-  writer->SetInput(caster->GetOutput());
 
   smoothing->SetNumberOfIterations(2);
   smoothing->SetTimeStep(0.05);
@@ -123,7 +114,7 @@ main(int argc, char * argv[])
 
   try
   {
-    writer->Update();
+    itk::WriteImage(caster->GetOutput(), argv[2]);
   }
   catch (const itk::ExceptionObject & excep)
   {

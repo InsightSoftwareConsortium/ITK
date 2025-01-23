@@ -134,16 +134,8 @@ main(int argc, char * argv[])
   thresholder->SetOutsideValue(0);
   thresholder->SetInsideValue(255);
 
-  using ReaderType = itk::ImageFileReader<InternalImageType>;
-  using WriterType = itk::ImageFileWriter<OutputImageType>;
-
-  auto reader1 = ReaderType::New();
-  auto reader2 = ReaderType::New();
-  auto writer = WriterType::New();
-
-  reader1->SetFileName(argv[1]);
-  reader2->SetFileName(argv[2]);
-  writer->SetFileName(argv[3]);
+  const auto input1 = itk::ReadImage<InternalImageType>(argv[1]);
+  const auto input2 = itk::ReadImage<InternalImageType>(argv[2]);
 
   //  Software Guide : BeginLatex
   //
@@ -249,18 +241,16 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  diffusion->SetInput(reader1->GetOutput());
-  cannySegmentation->SetInput(reader2->GetOutput());
+  diffusion->SetInput(input1);
+  cannySegmentation->SetInput(input2);
   cannySegmentation->SetFeatureImage(diffusion->GetOutput());
   thresholder->SetInput(cannySegmentation->GetOutput());
-  writer->SetInput(thresholder->GetOutput());
   // Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
   //
-  //  Invoking the \code{Update()} method on the writer triggers the
-  //  execution of the pipeline.  As usual, the call is placed in a
+  //  As usual, the write image call is placed in a
   //  \code{try/catch} block to handle any exceptions that may be thrown.
   //
   //  Software Guide : EndLatex
@@ -268,7 +258,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   try
   {
-    writer->Update();
+    itk::WriteImage(thresholder->GetOutput(), argv[3])
   }
   catch (const itk::ExceptionObject & excep)
   {

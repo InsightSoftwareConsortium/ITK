@@ -71,15 +71,7 @@ main(int argc, char * argv[])
   using OutputImageType = itk::Image<OutputPixelType, 2>;
   // Software Guide : EndCodeSnippet
 
-
-  using ReaderType = itk::ImageFileReader<InputImageType>;
-  using WriterType = itk::ImageFileWriter<OutputImageType>;
-
-  auto reader = ReaderType::New();
-  auto writer = WriterType::New();
-
-  reader->SetFileName(argv[1]);
-  writer->SetFileName(argv[2]);
+  const auto input = itk::ReadImage<InputImageType>(argv[1]);
 
   //  Software Guide : BeginLatex
   //
@@ -114,21 +106,20 @@ main(int argc, char * argv[])
 
 
   // Software Guide : BeginCodeSnippet
-  relabeler->SetInput(reader->GetOutput());
-  writer->SetInput(relabeler->GetOutput());
-  writer->Update();
-  // Software Guide : EndCodeSnippet
+  relabeler->SetInput(input);
+  itk::WriteImage(relabeler->GetOutput(), argv[2])
+    // Software Guide : EndCodeSnippet
 
 
-  // Software Guide : BeginLatex
-  //
-  // We can now query the size of each one of the connected components, both
-  // in pixel units and in physical units.
-  //
-  // Software Guide : EndLatex
+    // Software Guide : BeginLatex
+    //
+    // We can now query the size of each one of the connected components, both
+    // in pixel units and in physical units.
+    //
+    // Software Guide : EndLatex
 
-  // Software Guide : BeginCodeSnippet
-  using SizesInPixelsType = std::vector<itk::SizeValueType>;
+    // Software Guide : BeginCodeSnippet
+    using SizesInPixelsType = std::vector<itk::SizeValueType>;
   const SizesInPixelsType & sizesInPixels =
     relabeler->GetSizeOfObjectsInPixels();
 

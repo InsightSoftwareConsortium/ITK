@@ -134,18 +134,8 @@ main(int argc, char * argv[])
     itk::CastImageFilter<InternalImageType, OutputImageType>;
   auto caster = CastingFilterType::New();
 
-
-  // We instantiate reader and writer types
-  //
-  using ReaderType = itk::ImageFileReader<InternalImageType>;
-  using WriterType = itk::ImageFileWriter<OutputImageType>;
-
-  auto reader = ReaderType::New();
-  auto writer = WriterType::New();
-
-  reader->SetFileName(argv[1]);
-  writer->SetFileName(argv[2]);
-
+  // Read the input image
+  const auto input = itk::ReadImage<InternalImageType>(argv[1]);
 
   //  Software Guide : BeginLatex
   //
@@ -199,7 +189,7 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  Now it is time to create a simple, linear pipeline. A file reader is
-  //  added at the beginning of the pipeline and a cast filter and writer are
+  //  added at the beginning of the pipeline and a cast filter is
   //  added at the end. The cast filter is required here to convert
   //  \code{float} pixel types to integer types since only a few image file
   //  formats support \code{float} types.
@@ -207,10 +197,9 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  smoothing->SetInput(reader->GetOutput());
+  smoothing->SetInput(input);
   confidenceConnected->SetInput(smoothing->GetOutput());
   caster->SetInput(confidenceConnected->GetOutput());
-  writer->SetInput(caster->GetOutput());
   // Software Guide : EndCodeSnippet
 
 
@@ -330,8 +319,8 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  The invocation of the \code{Update()} method on the writer triggers the
-  //  execution of the pipeline.  It is recommended to place update calls in a
+  //  The invocation of \code{WriteImage} triggers the
+  //  execution of the pipeline.  It is recommended to place write calls in a
   //  \code{try/catch} block in case errors occur and exceptions are thrown.
   //
   //  Software Guide : EndLatex
@@ -339,7 +328,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   try
   {
-    writer->Update();
+    itk::WriteImage(caster->GetOutput(), argv[2])
   }
   catch (const itk::ExceptionObject & excep)
   {

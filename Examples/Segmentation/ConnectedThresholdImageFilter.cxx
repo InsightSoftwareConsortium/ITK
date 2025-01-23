@@ -130,15 +130,7 @@ main(int argc, char * argv[])
 
   // We instantiate reader and writer types
   //
-  using ReaderType = itk::ImageFileReader<InternalImageType>;
-  using WriterType = itk::ImageFileWriter<OutputImageType>;
-
-  auto reader = ReaderType::New();
-  auto writer = WriterType::New();
-
-  reader->SetFileName(argv[1]);
-  writer->SetFileName(argv[2]);
-
+  const auto input = itk::ReadImage<InternalImageType>(argv[1]);
 
   //  Software Guide : BeginLatex
   //
@@ -204,7 +196,6 @@ main(int argc, char * argv[])
   smoothing->SetInput(reader->GetOutput());
   connectedThreshold->SetInput(smoothing->GetOutput());
   caster->SetInput(connectedThreshold->GetOutput());
-  writer->SetInput(caster->GetOutput());
   // Software Guide : EndCodeSnippet
 
 
@@ -294,7 +285,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   try
   {
-    writer->Update();
+    itk::WriteImage(caster->GetOutput(), argv[2]);
   }
   catch (const itk::ExceptionObject & excep)
   {

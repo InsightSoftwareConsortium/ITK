@@ -55,17 +55,7 @@ main(int argc, char * argv[])
   using RGBImageType = itk::Image<RGBPixelType, Dimension>;
 
 
-  //
-  // We instantiate reader and writer types
-  //
-  using ReaderType = itk::ImageFileReader<InternalImageType>;
-  using WriterType = itk::ImageFileWriter<RGBImageType>;
-
-  auto reader = ReaderType::New();
-  auto writer = WriterType::New();
-
-  reader->SetFileName(argv[1]);
-  writer->SetFileName(argv[2]);
+  const auto input = itk::ReadImage<InternalImageType>(argv[1]);
 
 
   //
@@ -77,7 +67,7 @@ main(int argc, char * argv[])
 
   auto gradienMagnitudeFilter = GradientMagnitudeFilterType::New();
 
-  gradienMagnitudeFilter->SetInput(reader->GetOutput());
+  gradienMagnitudeFilter->SetInput(input);
   gradienMagnitudeFilter->SetSigma(1.0);
 
 
@@ -114,11 +104,9 @@ main(int argc, char * argv[])
 
   colorMapFilter->SetInput(watershedFilter->GetOutput());
 
-  writer->SetInput(colorMapFilter->GetOutput());
-
   try
   {
-    writer->Update();
+    itk::WriteImage(colorMapFilter->GetOutput(), argv[2])
   }
   catch (const itk::ExceptionObject & excep)
   {

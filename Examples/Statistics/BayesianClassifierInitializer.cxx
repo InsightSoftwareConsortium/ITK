@@ -85,9 +85,10 @@ main(int argc, char * argv[])
     itk::BayesianClassifierInitializationImageFilter<ImageType>;
   auto bayesianInitializer = BayesianInitializerType::New();
 
+  using ImageType::Pointer input;
   try
   {
-    const auto input = itk::ReadImage<ImageType>(argv[1]);
+    input = itk::ReadImage<ImageType>(argv[1]);
   }
   catch (const itk::ExceptionObject & excp)
   {

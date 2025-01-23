@@ -245,17 +245,7 @@ main(int argc, char * argv[])
   // Software Guide : EndCodeSnippet
 
 
-  // We instantiate reader and writer types in the following lines.
-  //
-  using ReaderType = itk::ImageFileReader<InternalImageType>;
-  using WriterType = itk::ImageFileWriter<OutputImageType>;
-
-  auto reader = ReaderType::New();
-  auto writer = WriterType::New();
-
-  reader->SetFileName(inputImageFile);
-  writer->SetFileName(outputImageFile);
-
+  const auto input = itk::ReadImage<InternalImageType>(inputImageFile);
 
   //  The RescaleIntensityImageFilter type is declared below. This filter will
   //  renormalize image before sending them to writers.
@@ -389,7 +379,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  smoothing->SetInput(reader->GetOutput());
+  smoothing->SetInput(input);
   gradientMagnitude->SetInput(smoothing->GetOutput());
   sigmoid->SetInput(gradientMagnitude->GetOutput());
 
@@ -397,8 +387,6 @@ main(int argc, char * argv[])
   shapeDetection->SetFeatureImage(sigmoid->GetOutput());
 
   thresholder->SetInput(shapeDetection->GetOutput());
-
-  writer->SetInput(thresholder->GetOutput());
   // Software Guide : EndCodeSnippet
 
 
@@ -572,37 +560,26 @@ main(int argc, char * argv[])
   auto caster3 = CastFilterType::New();
   auto caster4 = CastFilterType::New();
 
-  auto writer1 = WriterType::New();
-  auto writer2 = WriterType::New();
-  auto writer3 = WriterType::New();
-  auto writer4 = WriterType::New();
-
   const std::string outputImageFilePrefix =
     itksys::SystemTools::GetFilenameWithoutExtension(outputImageFile);
   caster1->SetInput(smoothing->GetOutput());
-  writer1->SetInput(caster1->GetOutput());
-  writer1->SetFileName(outputImageFilePrefix + "Smoothing.png");
   caster1->SetOutputMinimum(0);
   caster1->SetOutputMaximum(255);
-  writer1->Update();
+  itk::WriteImage(caster1->GetOutput(),
+                  outputImageFilePrefix + "Smoothing.png")
 
-  caster2->SetInput(gradientMagnitude->GetOutput());
-  writer2->SetInput(caster2->GetOutput());
-  writer2->SetFileName(outputImageFilePrefix + "GradientMagnitude.png");
+    caster2->SetInput(gradientMagnitude->GetOutput());
   caster2->SetOutputMinimum(0);
   caster2->SetOutputMaximum(255);
-  writer2->Update();
+  itk::WriteImage(caster2->GetOutput(),
+                  outputImageFilePrefix + "GradientMagnitude.png")
 
-  caster3->SetInput(sigmoid->GetOutput());
-  writer3->SetInput(caster3->GetOutput());
-  writer3->SetFileName(outputImageFilePrefix + "Sigmoid.png");
+    caster3->SetInput(sigmoid->GetOutput());
   caster3->SetOutputMinimum(0);
   caster3->SetOutputMaximum(255);
-  writer3->Update();
+  itk::WriteImage(caster3->GetOutput(),outputImageFilePrefix + "Sigmoid.png"))
 
   caster4->SetInput(fastMarching->GetOutput());
-  writer4->SetInput(caster4->GetOutput());
-  writer4->SetFileName(outputImageFilePrefix + "FastMarching.png");
   caster4->SetOutputMinimum(0);
   caster4->SetOutputMaximum(255);
 
@@ -619,8 +596,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  fastMarching->SetOutputSize(
-    reader->GetOutput()->GetBufferedRegion().GetSize());
+  fastMarching->SetOutputSize(input->GetBufferedRegion().GetSize());
   // Software Guide : EndCodeSnippet
 
 
@@ -691,7 +667,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   try
   {
-    writer->Update();
+    itk::WriteImage(thresholder->GetOutput(), outputImageFile);
   }
   catch (const itk::ExceptionObject & excep)
   {
@@ -712,16 +688,17 @@ main(int argc, char * argv[])
             << shapeDetection->GetElapsedIterations() << std::endl;
   std::cout << "RMS change: " << shapeDetection->GetRMSChange() << std::endl;
 
-  writer4->Update();
+  itk::WriteImage(caster4->GetOutput(),
+                  outputImageFilePrefix + "FastMarching.png")
 
 
-  // The following writer type is used to save the output of the time-crossing
-  // map in a file with appropriate pixel representation. The advantage of
-  // saving this image in native format is that it can be used with a viewer
-  // to help determine an appropriate threshold to be used on the output of
-  // the fastmarching filter.
-  //
-  using InternalWriterType = itk::ImageFileWriter<InternalImageType>;
+    // The following writer type is used to save the output of the
+    // time-crossing map in a file with appropriate pixel representation. The
+    // advantage of saving this image in native format is that it can be used
+    // with a viewer to help determine an appropriate threshold to be used on
+    // the output of the fastmarching filter.
+    //
+    using InternalWriterType = itk::ImageFileWriter<InternalImageType>;
 
   auto mapWriter = InternalWriterType::New();
   mapWriter->SetInput(fastMarching->GetOutput());

@@ -92,20 +92,8 @@ main(int argc, char * argv[])
   using ClassImageType = itk::Image<unsigned short, NDIMENSION>;
   // Software Guide : EndCodeSnippet
 
-
-  // We instantiate reader and writer types
-  //
-  using ReaderType = itk::ImageFileReader<ClassImageType>;
-  using WriterType = itk::ImageFileWriter<ClassImageType>;
-
-  auto inputimagereader = ReaderType::New();
-  auto trainingimagereader = ReaderType::New();
-  auto writer = WriterType::New();
-
-  inputimagereader->SetFileName(argv[1]);
-  trainingimagereader->SetFileName(argv[2]);
-  writer->SetFileName(argv[3]);
-
+  const auto input_image = itk::ReadImage<ClassImageType>(argv[1]);
+  const auto training_image = itk::ReadImage<ClassImageType>(argv[2]);
 
   // We convert the input into vector images
   //
@@ -133,13 +121,9 @@ main(int argc, char * argv[])
   VecIterator vecIt(vecImage, vecImage->GetBufferedRegion());
   vecIt.GoToBegin();
 
-  inputimagereader->Update();
-  trainingimagereader->Update();
-
   using ClassIterator = itk::ImageRegionIterator<ClassImageType>;
 
-  ClassIterator inputIt(inputimagereader->GetOutput(),
-                        inputimagereader->GetOutput()->GetBufferedRegion());
+  ClassIterator inputIt(input_image, input_image->GetBufferedRegion());
   inputIt.GoToBegin();
 
   // Set up the vector to store the image  data
@@ -181,7 +165,7 @@ main(int argc, char * argv[])
 
   applyEstimateModel->SetNumberOfModels(NUM_CLASSES);
   applyEstimateModel->SetInputImage(vecImage);
-  applyEstimateModel->SetTrainingImage(trainingimagereader->GetOutput());
+  applyEstimateModel->SetTrainingImage(training_image);
 
 
   // Run the gaussian classifier algorithm
@@ -284,7 +268,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   applyGibbsImageFilter->SetInput(vecImage);
   applyGibbsImageFilter->SetClassifier(myClassifier);
-  applyGibbsImageFilter->SetTrainingImage(trainingimagereader->GetOutput());
+  applyGibbsImageFilter->SetTrainingImage(training_image);
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -299,28 +283,27 @@ main(int argc, char * argv[])
 
   std::cout << "applyGibbsImageFilter: " << applyGibbsImageFilter;
 
-  writer->SetInput(applyGibbsImageFilter->GetOutput());
-  writer->Update();
+  itk::WriteImage(applyGibbsImageFilter->GetOutput(), argv[3])
 
-  //  Software Guide : BeginLatex
-  //
-  //  We execute this program on the image \code{brainweb89.png}. The
-  //  following parameters are passed to the command line:
-  //
-  //  \small
-  //  \begin{verbatim}
-  // GibbsGuide.exe brainweb89.png brainweb89_train.png brainweb_gp.png
-  //  \end{verbatim}
-  //  \normalsize
-  //
-  //  \code{brainweb89train} is a training image that helps to estimate the
-  //  object statistics.
-  //
-  //  Note that in order to successfully segment other images, one has to
-  //  create suitable training images for them. We can also segment color
-  //  (RGB) and other multi-channel images.
-  //
-  //  Software Guide : EndLatex
+    //  Software Guide : BeginLatex
+    //
+    //  We execute this program on the image \code{brainweb89.png}. The
+    //  following parameters are passed to the command line:
+    //
+    //  \small
+    //  \begin{verbatim}
+    // GibbsGuide.exe brainweb89.png brainweb89_train.png brainweb_gp.png
+    //  \end{verbatim}
+    //  \normalsize
+    //
+    //  \code{brainweb89train} is a training image that helps to estimate the
+    //  object statistics.
+    //
+    //  Note that in order to successfully segment other images, one has to
+    //  create suitable training images for them. We can also segment color
+    //  (RGB) and other multi-channel images.
+    //
+    //  Software Guide : EndLatex
 
-  return EXIT_SUCCESS;
+    return EXIT_SUCCESS;
 }
