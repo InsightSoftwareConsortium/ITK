@@ -229,8 +229,8 @@ operator<<(std::ostream & out, const OctreeEnums::Octree value)
     {
       case OctreeEnums::Octree::UNKNOWN_PLANE:
         return "itk::OctreeEnums::Octree::UNKNOWN_PLANE";
-      case OctreeEnums::Octree::SAGITAL_PLANE:
-        return "itk::OctreeEnums::Octree::SAGITAL_PLANE";
+      case OctreeEnums::Octree::SAGITTAL_PLANE:
+        return "itk::OctreeEnums::Octree::SAGITTAL_PLANE";
       case OctreeEnums::Octree::CORONAL_PLANE:
         return "itk::OctreeEnums::Octree::CORONAL_PLANE";
       case OctreeEnums::Octree::TRANSVERSE_PLANE:
