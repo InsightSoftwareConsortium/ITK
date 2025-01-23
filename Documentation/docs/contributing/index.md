@@ -17,7 +17,7 @@ Setup
 Before you begin, perform initial setup:
 
   1. [Register for a GitHub](https://github.com/join) account.
-  2. Optionally download our [one page PDF desk reference](https://raw.githubusercontent.com/InsightSoftwareConsortium/ITK/master/Documentation/GitCheatSheet.pdf).
+  2. Optionally download our [one page PDF desk reference](https://raw.githubusercontent.com/InsightSoftwareConsortium/ITK/master/Documentation/docs/contributing/GitCheatSheet.pdf).
   3. Follow the [download instructions] to create a local ITK clone:
 
 ```bash
