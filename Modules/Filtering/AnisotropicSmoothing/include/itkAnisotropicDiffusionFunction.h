@@ -119,10 +119,7 @@ namespace itk
  * application is wholly dependent on the results you want from a specific data
  * set and the number or iterations you perform.
  *
- * \par References
- * Pietro Perona and Jitendra Malik, ``Scale-space and edge detection using
- * anisotropic diffusion,'' IEEE Transactions on Pattern Analysis Machine
- * Intelligence, vol. 12, pp. 629-639, 1990.
+ * For additional details see \cite perona1990.
  *
  * \sa VectorAnisotropicDiffusionFunction
  * \sa ScalarAnisotropicDiffusionFunction

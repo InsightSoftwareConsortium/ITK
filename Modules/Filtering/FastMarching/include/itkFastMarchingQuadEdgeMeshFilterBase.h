@@ -35,9 +35,7 @@ namespace itk
   If the speed function is constant and of value one, fast marching results is
   an approximate geodesic function from the initial alive points.
 
-  Implementation of this class is based on
-  "Fast Marching Methods on Triangulated Domains", Kimmel, R., and Sethian, J.A.,
-  Proc. Nat. Acad. Sci., 95, pp. 8341-8435, 1998.
+  Implementation of this class is based on \cite kimmel1998.
 
   \ingroup ITKFastMarching
 */

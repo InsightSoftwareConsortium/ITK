@@ -104,13 +104,7 @@ operator<<(std::ostream & out, const DiffusionTensor3DReconstructionImageFilterE
  * images (expected to be scalar data types) and the internal representation
  * of the DiffusionTensor3D pixel (double, float etc).
  *
- * \par References:
- * \li<a href="http://lmi.bwh.harvard.edu/papers/pdfs/2002/westinMEDIA02.pdf">[1]</a>
- * <em>C.F.Westin, S.E.Maier, H.Mamata, A.Nabavi, F.A.Jolesz, R.Kikinis,
- * "Processing and visualization for Diffusion tensor MRI", Medical image
- * Analysis, 2002, pp 93-108.</em>
- * \li<a href="splweb.bwh.harvard.edu:8000/pages/papers/westin/ISMRM2002.pdf">[2]</a>
- * <em>A Dual Tensor Basis Solution to the Stejskal-Tanner Equations for DT-MRI</em>
+ * For additional details see \cite westin2002 and \cite westin2002a.
  *
  * \warning
  * Although this filter has been written to support multiple threads, please

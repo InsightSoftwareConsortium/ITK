@@ -28,8 +28,7 @@ namespace itk
  * \class MomentsThresholdCalculator
  * \brief Computes the Moments's threshold for an image.
  *
- *  W. Tsai, "Moment-preserving thresholding: a new approach," Computer Vision,
- * Graphics, and Image Processing, vol. 29, pp. 377-393, 1985.
+ * For algorithmic details see \cite tsai1985.
  *
  * This class is templated over the input histogram type.
  * \warning This calculator assumes that the input histogram has only one dimension.

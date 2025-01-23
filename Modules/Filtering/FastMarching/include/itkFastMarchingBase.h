@@ -98,12 +98,7 @@ extern ITKFastMarching_EXPORT std::ostream &
  * \par Topology constraints:
  * Additional flexibility in this class includes the implementation of
  * topology constraints for image-based fast marching.  Further details
- * can be found in the paper
- *
- * NJ Tustison, BA Avants, MF Siqueira, JC Gee. "Topological Well-
- * Composedness and Glamorous Glue: A Digital Gluing Algorithm for
- * Topologically Constrained Front Propagation, IEEE Transactions on
- * Image Processing, 20(6):1756-1761, June 2011.
+ * can be found in \cite tustison2011a.
  *
  * Essentially, one can constrain the propagating front(s) such that
  * they either:

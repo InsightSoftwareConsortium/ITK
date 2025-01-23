@@ -46,7 +46,9 @@ namespace itk
  * final combinations. In the first table, we record the final combination that
  * can be transformed from the current combination. The entries of the second
  * table are made up of the transforming sequence that is necessary for the
- * current combination transform to one of the final combinations.
+ * current combination transform to one of the final combinations. For
+ * more details see \cite lorensen1987.
+ *
  *
  * \par
  * We then go through the 3D volume voxel by voxel, using those two tables we have defined
@@ -57,10 +59,6 @@ namespace itk
  * The ObjectValue parameter is used to identify the object. In most applications,
  * pixels in the object region are assigned to "1", so the default value of ObjectValue is
  * set to "1"
- *
- * \par REFERENCE
- * W. Lorensen and H. Cline, "Marching Cubes: A High Resolution 3D Surface Construction Algorithm",
- * Computer Graphics 21, pp. 163-169, 1987.
  *
  * \par INPUT
  * The input should be a 3D binary image.

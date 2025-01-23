@@ -31,11 +31,9 @@ namespace itk
  * This filter performs Gaussian blurring by separable convolution of an image
  * and a discrete Gaussian operator (kernel).
  *
- * The Gaussian operator used here was described by Tony Lindeberg (Discrete
- * Scale-Space Theory and the Scale-Space Primal Sketch.  Dissertation. Royal
- * Institute of Technology, Stockholm, Sweden. May 1991.) The Gaussian kernel
- * used here was designed so that smoothing and derivative operations commute
- * after discretization.
+ * The Gaussian operator used here was described by Tony Lindeberg in
+ * \cite lindeberg1991. The Gaussian kernel used here was designed so
+ * that smoothing and derivative operations commute after discretization.
  *
  * The variance or standard deviation (sigma) will be evaluated as pixel units
  * if SetUseImageSpacing is off (false) or as physical units if

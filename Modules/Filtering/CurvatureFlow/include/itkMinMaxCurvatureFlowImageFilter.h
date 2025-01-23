@@ -28,7 +28,7 @@ namespace itk
  * \brief Denoise an image using min/max curvature flow.
  *
  * MinMaxCurvatureFlowImageFilter implements a curvature driven image denoising
- * algorithm. Iso-brightness contours in the grayscale input image are viewed
+ * algorithm \cite sethian1999. Iso-brightness contours in the grayscale input image are viewed
  * as a level set. The level set is then evolved using a curvature-based speed
  * function:
  *
@@ -60,10 +60,6 @@ namespace itk
  * are of a real type. This filter works for any dimensional images,
  * however for dimensions greater than 3D, an expensive brute-force search
  * is used to compute the local threshold.
- *
- * Reference:
- * "Level Set Methods and Fast Marching Methods", J.A. Sethian,
- * Cambridge Press, Chapter 16, Second edition, 1999.
  *
  * \sa MinMaxCurvatureFlowFunction
  * \sa CurvatureFlowImageFilter

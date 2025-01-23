@@ -38,20 +38,10 @@ namespace itk
  * Output: The output is the updated transform which has been added to the
  * composite transform.
  *
- * This implementation is based on the source code in Advanced Normalization Tools (ANTs)
+ * This implementation is based on the source code in Advanced
+ * Normalization Tools (ANTs) \cite avants2011.
  *
- *   Avants, B. B.; Tustison, N. J.; Song, G.; Cook, P. A.; Klein, A. & Gee, J. C.
- *   A reproducible evaluation of ANTs similarity metric performance in brain image registration.
- *   Neuroimage, Penn Image Computing and Science Laboratory, University of Pennsylvania,
- *   2011, 54, 2033-2044
- *
- * The original paper discussing the method is here:
- *
- *  Avants, B. B.; Epstein, C. L.; Grossman, M. & Gee, J. C.
- *  Symmetric diffeomorphic image registration with cross-correlation:
- *  evaluating automated labeling of elderly and neurodegenerative brain.
- *  Med Image Anal, Department of Radiology, University of Pennsylvania,
- *  2008, 12, 26-41
+ * The original paper discussing the method is \cite avants2008.
  *
  * The method evolved since that time with crucial contributions from Gang Song and
  * Nick Tustison. Though similar in spirit, this implementation is not identical.

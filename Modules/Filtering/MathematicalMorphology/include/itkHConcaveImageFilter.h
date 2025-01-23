@@ -33,8 +33,7 @@ namespace itk
  * This filter uses the HMinimaImageFilter.
  *
  * Geodesic morphology and the H-Convex algorithm is described in
- * Chapter 6 of Pierre Soille's book "Morphological Image Analysis:
- * Principles and Applications", Second Edition, Springer, 2003.
+ * \cite soille2004.
  *
  * \sa GrayscaleGeodesicDilateImageFilter, HMaximaImageFilter,
  * \sa MorphologyImageFilter, GrayscaleDilateImageFilter, GrayscaleFunctionDilateImageFilter, BinaryDilateImageFilter

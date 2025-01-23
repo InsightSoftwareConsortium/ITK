@@ -28,17 +28,7 @@ namespace itk
  * \class YenThresholdCalculator
  * \brief Computes the Yen's threshold for an image.
  *
- * Implements Yen  thresholding method
- * 1) Yen J.C., Chang F.J., and Chang S. (1995) "A New Criterion
- *    for Automatic Multilevel Thresholding" IEEE Trans. on Image
- *    Processing, 4(3): 370-378
- * 2) Sezgin M. and Sankur B. (2004) "Survey over Image Thresholding
- *    Techniques and Quantitative Performance Evaluation" Journal of
- *    Electronic Imaging, 13(1): 146-165
- *    https://citeseer.ist.psu.edu/sezgin04survey.html
- *
- * M. Emre Celebi
- * 06.15.2007
+ * Implements Yen  thresholding method \cite yen1995, \cite sezgin2004.
  *
  * This class is templated over the input histogram type.
  * \warning This calculator assumes that the input histogram has only one dimension.

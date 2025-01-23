@@ -30,9 +30,7 @@ namespace itk
  * element. It subtracts the background from the input image.
  * The output of the filter transforms the black valleys into white peaks.
  *
- * Top-hats are described in Chapter 4.5 of Pierre Soille's book
- * "Morphological Image Analysis: Principles and Applications",
- * Second Edition, Springer, 2003.
+ * Top-hats are described in \cite soille2004b.
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *

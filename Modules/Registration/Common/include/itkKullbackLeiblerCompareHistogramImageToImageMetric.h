@@ -32,13 +32,7 @@ namespace itk
  *  This class computers the KL-metric by comparing the histograms
  *  of the testing histogram formed by the overlap of intensities in
  *  the images, to a training histogram. It is based on the
- *  following paper:
- *
- *  Albert C.S. Chung, William M. Wells III, Alexander Norbash, and
- *  W. Eric L.  Grimson, Multi-modal Image Registration by
- *  Minimising Kullback-Leibler Distance, In Medical Image Computing
- *  and Computer-Assisted Intervention - MICCAI 2002, LNCS 2489,
- *  pp. 525 - 532.
+ *  algorithm described in \cite chung2002.
  *
  *  The metric is given by KL(P_test||P_train)
  *  = Sum_{i1,i2} P_test(i1,i2) std::log(P_test(i1,i2)/P_train(i1,i2))

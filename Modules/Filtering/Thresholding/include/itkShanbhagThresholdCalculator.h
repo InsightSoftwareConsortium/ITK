@@ -28,8 +28,7 @@ namespace itk
  * \class ShanbhagThresholdCalculator
  * \brief Computes the Shanbhag threshold for an image. Aka intermeans
  *
- * Shanhbag A.G. (1994) "Utilization of Information Measure as a Means of
- * Image Thresholding" Graphical Models and Image Processing, 56(5): 414-419
+ * For algorithmic details see \cite shanbhag1994.
  *
  * This class is templated over the input histogram type.
  * \warning This calculator assumes that the input histogram has only one dimension.

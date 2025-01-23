@@ -36,15 +36,10 @@ namespace itk
  *
  * This class takes as input a displacement field, smooths it on demand using
  * the specified B-spline parameters.  This represents an alternative approach
- * to B-spline (FFD) registration and is explained more in detail in the
- * reference given below.
+ * to B-spline (FFD) registration and is explained more in detail in
+ * \cite tustison2009.
  *
  * \author Nicholas J. Tustison
- *
- * \par REFERENCE
- * NJ Tustison, BB Avants, JC Gee, "Directly Manipulated Free-Form Deformation
- * Image Registration", IEEE Transactions on Image Processing, 18(3):624-635,
- * 2009.
  *
  * \ingroup ITKDisplacementField
  */

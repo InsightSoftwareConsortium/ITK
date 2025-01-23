@@ -30,9 +30,9 @@ namespace itk
  * \class SymmetricForcesDemonsRegistrationFunction
  *
  * This class encapsulate the PDE which drives the demons registration
- * algorithm (formula (5) in J.-P. Thirions's paper "Fast Non-Rigid Matching of
- * 3D Medical Images", May 1995). It is used by SymmetricForcesDemonsRegistrationFilter
- * to compute the output displacement field which will map a moving image onto a
+ * algorithm (formula 5 in \cite thirion1995). It is used by
+ * SymmetricForcesDemonsRegistrationFilter to compute the output
+ * displacement field which will map a moving image onto a
  * a fixed image.
  *
  * This class was contributed by Corinne Mattmann, ETH Zurich, Switzerland.

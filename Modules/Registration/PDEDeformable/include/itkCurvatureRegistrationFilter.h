@@ -30,10 +30,7 @@ namespace itk
  * \brief Deformably register two images using the fast curvature algorithm.
  *
  * CurvatureRegistrationFilter implements the fast (i.e., O(n log n) )
- * registration method described in B. Fischer and J. Modersitzki,
- * "A unified approach to fast image registration and a new curvature
- * based registration technique," Linear Algebra and its Applications,
- * vol. 380, pp. 107-124, 2004.
+ * registration method described in \cite fischer2004.
  *
  * A deformation field is represented as a image whose pixel type is some
  * vector type with at least N elements, where N is the dimension of

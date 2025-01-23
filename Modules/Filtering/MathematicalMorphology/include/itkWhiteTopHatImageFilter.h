@@ -28,9 +28,7 @@ namespace itk
 /** \class WhiteTopHatImageFilter
  * \brief White top hat extracts local maxima that are larger than the structuring element
  *
- * Top-hats are described in Chapter 4.5 of Pierre Soille's book
- * "Morphological Image Analysis: Principles and Applications",
- * Second Edition, Springer, 2003.
+ * Top-hats are described in \cite soille2004b.
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *

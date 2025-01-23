@@ -31,13 +31,8 @@ namespace itk
  * various computer vision tasks such as texture segmentation,
  * motion analysis, and object recognition. It is essentially
  * a complex sinusoid enveloped within a Gaussian.
- * See the discussion in
- *
- *   Andreas Klein, Forester Lee, and Amir A. Amini, "Quantitative
- *   Coronary Angiography with Deformable Spline Models", IEEE-TMI
- *   16(5):468-482, October 1997.
- *
- * for a basic discussion including additional references.
+ * See \cite klein1997 for a basic discussion
+ * including additional references.
  *
  * This implementation was contributed as a paper to the Insight Journal
  * https://doi.org/10.54294/dhogdz

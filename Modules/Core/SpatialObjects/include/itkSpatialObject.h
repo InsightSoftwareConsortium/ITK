@@ -38,8 +38,8 @@ namespace itk
  * \class SpatialObject
  * \brief Implementation of the composite pattern
  *
- * The purpose of this class is to implement the composite pattern [Design
- * Patterns, Gamma, 1995] within itk, so that it becomes easy to create an
+ * The purpose of this class is to implement the composite pattern
+ * \cite gamma1994 within ITK, so that it becomes easy to create an
  * environment containing objects within a scene, and to manipulate the
  * environment as a whole or any of its component objects.  An
  * object has a list of transformations to transform object coordinates

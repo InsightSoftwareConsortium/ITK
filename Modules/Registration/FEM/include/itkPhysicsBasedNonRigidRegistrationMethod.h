@@ -43,9 +43,7 @@ namespace fem
  * Based Non-Rigid Registration. It computes feature points from the
  * moving image, then computes displacements of the feature points in the
  * fixed image via block-matching, then computes deformation field of a
- * whole image using linear elastic model[ M. Bierling, Displacement
- * estimation by hierarchical block matching, Proc. SPIE Vis. Comm. and
- * Image Proc., vol. 1001, pp. 942-951, 1988. ].
+ * whole image using linear elastic model \cite bierling1988.
  *
  * The filter is templated over fixed image, moving image, mask, mesh and
  * deformation field image.

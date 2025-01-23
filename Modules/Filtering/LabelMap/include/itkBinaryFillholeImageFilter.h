@@ -30,8 +30,7 @@ namespace itk
  * BinaryFillholeImageFilter fills holes in a binary image.
  *
  * Geodesic morphology and the Fillhole algorithm is described in
- * Chapter 6 of Pierre Soille's book "Morphological Image Analysis:
- * Principles and Applications", Second Edition, Springer, 2003.
+ * \cite soille2004.
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *

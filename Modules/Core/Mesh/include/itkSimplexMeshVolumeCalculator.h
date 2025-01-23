@@ -40,9 +40,7 @@ namespace itk
  * The original implementation has been replaced with an algorithm
  * based on the discrete form of the divergence theorem.  The general
  * assumption here is that the model is of  closed surface.  For more
- * details see the following reference  (Alyassin A.M. et al,
- * "Evaluation of new algorithms for the interactive measurement of
- * surface area and volume", Med Phys 21(6) 1994.).
+ * details see \cite alyassin1994.
  * \ingroup ITKMesh
  *
  * \sphinx

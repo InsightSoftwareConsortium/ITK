@@ -27,7 +27,8 @@ namespace itk
  * \class HessianToObjectnessMeasureImageFilter
  * \brief A filter to enhance M-dimensional objects in N-dimensional images
  *
- * The objectness measure is a generalization of Frangi's vesselness measure,
+ * The objectness measure is a generalization of Frangi's vesselness
+ * measure \cite frangi1998,
  * which is based on the analysis of the Hessian eigen system. The filter
  * can enhance blob-like structures (M=0), vessel-like structures (M=1), 2D
  * plate-like structures (M=2), hyper-plate-like structures (M=3) in N-dimensional
@@ -35,13 +36,6 @@ namespace itk
  * The filter takes an image of a Hessian pixels ( SymmetricSecondRankTensor pixels
  * pixels ) and produces an enhanced image. The Hessian input image can be produced
  * using itk::HessianRecursiveGaussianImageFilter.
- *
- *
- * \par References
- * Frangi, AF, Niessen, WJ, Vincken, KL, & Viergever, MA (1998). Multiscale Vessel
- * Enhancement Filtering. In Wells, WM, Colchester, A, & Delp, S, Editors, MICCAI '98
- * Medical Image Computing and Computer-Assisted Intervention, Lecture Notes in Computer
- * Science, pages 130-137, Springer Verlag, 1998.
  *
  * Additional information can be from in the Insight Journal:
  * https://doi.org/10.54294/urgadx

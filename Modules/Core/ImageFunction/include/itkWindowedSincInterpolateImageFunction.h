@@ -155,12 +155,7 @@ public:
  * approximated using a limited support 'windowed' sinc filter.
  *
  * \par
- * This function is based on the following publication:
- *
- * \par
- * Erik H. W. Meijering, Wiro J. Niessen, Josien P. W. Pluim,
- * Max A. Viergever: Quantitative Comparison of Sinc-Approximating
- * Kernels for Medical Image Interpolation. MICCAI 1999, pp. 210-217
+ * This function is based on \cite meijering1999.
  *
  * \par
  * In this work, several 'windows' are estimated. In two dimensions, the

@@ -57,9 +57,7 @@ namespace itk
  * outside the image, and over-weights the valid part of the
  * neighborhood.
  *
- * For detail description, reference "Adaptive Image Contrast
- * Enhancement using Generalizations of Histogram Equalization."
- * J.Alex Stark. IEEE Transactions on Image Processing, May 2000.
+ * For a detailed description see \cite stark2000.
  *
  * \ingroup ImageEnhancement
  * \ingroup ITKImageStatistics

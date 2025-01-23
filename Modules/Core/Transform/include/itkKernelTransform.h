@@ -34,9 +34,8 @@ namespace itk
 /**
  * \class KernelTransform
  * Intended to be a base class for elastic body spline and thin plate spline.
- * This is implemented in as straightforward a manner as possible from the
- * IEEE TMI paper by Davis, Khotanzad, Flamig, and Harms, Vol. 16,
- * No. 3 June 1997. Notation closely follows their paper, so if you have it
+ * This is implemented in as straightforward a manner as possible from
+ * \cite davis1997. Notation closely follows the paper, so if you have it
  * in front of you, this code will make a lot more sense.
  *
  * KernelTransform:
@@ -49,10 +48,7 @@ namespace itk
  * This formulation allows the stiffness of the spline to
  * be adjusted, allowing the spline to vary from interpolating the
  * landmarks to approximating the landmarks.  This part of the
- * formulation is based on the short paper by R. Sprengel, K. Rohr,
- * H. Stiehl. "Thin-Plate Spline Approximation for Image
- * Registration". In 18th International Conference of the IEEE
- * Engineering in Medicine and Biology Society. 1996.
+ * formulation is based on \cite sprengel1996.
  *
  *
  * \ingroup ITKTransform

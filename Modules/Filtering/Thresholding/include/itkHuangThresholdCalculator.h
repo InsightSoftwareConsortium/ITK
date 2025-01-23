@@ -29,10 +29,8 @@ namespace itk
  * \brief Computes the Huang's threshold for an image.
  *
  * This calculator computes the Huang's fuzzy threshold which separates an image
- * into foreground and background components. Uses Shannon's entropy
+ * into foreground and background components \cite huang1995. Uses Shannon's entropy
  * function (one can also use Yager's entropy function)
- * Huang L.-K. and Wang M.-J.J. (1995) "Image Thresholding by Minimizing
- * the Measures of Fuzziness" Pattern Recognition, 28(1): 41-51
  * Reimplemented (to handle 16-bit efficiently) by Johannes Schindelin Jan 31, 2011
  *
  * This class is templated over the input histogram type.

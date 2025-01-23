@@ -59,11 +59,7 @@ namespace itk
  *
  * \f[ \nabla \cdot \frac{\nabla f}{\mid \nabla f \mid} \f] .
  *
- * \par References
- *  R. Whitaker and X. Xue. Variable-Conductance, Level-Set Curvature for
- *  Image Denoising, International Conference on Image Processing, 2001
- *  pp. 142-145, Vol.3.
- *
+ * For additional information see \cite whitaker2001.
  *
  * \sa AnisotropicDiffusionFunction
  * \ingroup FiniteDifferenceFunctions

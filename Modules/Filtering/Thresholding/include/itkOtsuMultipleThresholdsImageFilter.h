@@ -39,7 +39,7 @@ namespace itk
  * for the ThresholdLabelerImageFilter.
  *
  * This filter also includes an option to use the valley emphasis algorithm from
- * H.F. Ng, "Automatic thresholding for defect detection", Pattern Recognition Letters, (27): 1644-1649, 2006.
+ * \cite ng2006.
  * The valley emphasis algorithm is particularly effective when the object to be thresholded is small.
  * See the following tests for examples:
  * itkOtsuMultipleThresholdsImageFilterTest3 and itkOtsuMultipleThresholdsImageFilterTest4

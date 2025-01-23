@@ -39,9 +39,7 @@ namespace itk
  *
  * This filter uses Luc Vincent's algorithm, which employs raster and
  * antiraster propagation steps followed by a FIFO based propagation
- * step. "Morphological grayscale reconstruction in image analysis -
- * applications and efficient algorithms" -- IEEE Transactions on
- * Image processing, Vol 2, No 2, pp 176-201, April 1993
+ * step \cite vincent1993.
  *
  * \author Richard Beare. Department of Medicine, Monash University,
  * Melbourne, Australia.

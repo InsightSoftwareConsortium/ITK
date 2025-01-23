@@ -30,13 +30,7 @@ namespace itk
 {
 /** \class JointHistogramMutualInformationImageToImageMetricv4
  * \brief Computes the mutual information between two images to be
- * registered using the method referenced below.
- *
- * References:
- * [1] "Optimization of Mutual Information for MultiResolution Image
- *      Registration"
- *      P. Thevenaz and M. Unser
- *      IEEE Transactions in Image Processing, 9(12) December 2000.
+ * registered using the method described in \cite thevenaz2000.
  *
  * \ingroup ITKMetricsv4
  */

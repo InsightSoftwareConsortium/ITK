@@ -64,19 +64,10 @@ operator<<(std::ostream & out, const NormalQuadEdgeMeshFilterEnums::Weight value
  *    <li> AREA \f$ \omega_i = Area(t_i)\f$ [3] </li>
  * </ul>
  *
- * These weights are defined in the literature:
- * <ul>
- *    <li> [1] Henri Gouraud. Continuous shading of curved surfaces.
- *    IEEE Transaction on Computers, 20(6):623-629, 1971 </li>
- *    <li> [2] Shuangshuang Jin, Robert R. Lewis, and David West.
- *    A comparison of algorithms for vertex normal computation.
- *    The Visual Computer, 21(1-2):71-82, 2005. </li>
- *    <li> [3] Grit Thurmer and Charles A. Wuthrich.
- *    Computing vertex normals from polygonal facets.
- *    Journal of Graphic Tools, 3(1):43-46, 1998. </li>
- * </ul>
+ * These weights are defined in the literature \cite gouraud1971,
+ * \cite jin2005 and \cite thurmer1998.
  *
- * \note By default the weight is set to the TURMER weight.
+ * \note By default the weight is set to the THURMER weight.
  *
  * \todo Fix run-time issues regarding the difference between the Traits of
  * TInputMesh and the one of TOutputMesh. Right now, it only works if

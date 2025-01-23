@@ -75,10 +75,8 @@ extern ITKCommon_EXPORT std::ostream &
  * lest the operator size become unreasonably large.
  *
  * References:
- * The Gaussian kernel contained in this operator was described
- * by Tony Lindeberg  (Discrete Scale-Space Theory and the Scale-Space
- * Primal Sketch. Dissertation. Royal Institute of Technology, Stockholm,
- * Sweden. May 1991.).
+ * The Gaussian kernel contained in this operator was described in
+ * \cite lindeberg1999.
  *
  * \author Ivan Macia, Vicomtech, Spain, https://www.vicomtech.org/en
  *

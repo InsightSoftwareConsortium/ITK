@@ -26,11 +26,8 @@ namespace itk
 
 /**
  * \class IntermodesThresholdCalculator
- * \brief Computes the Intermodes's threshold for an image.
+ * \brief Computes the Intermodes's threshold for an image \cite prewitt1966.
  *
- * J. M. S. Prewitt and M. L. Mendelsohn, "The analysis of cell images," in
- * Annals of the New York Academy of Sciences, vol. 128, pp. 1035-1053, 1966.
- *  *
  * Assumes a bimodal histogram. The histogram needs is smoothed (using a
  * running average of size 3, iteratively) until there are only two local maxima.
  * j and k

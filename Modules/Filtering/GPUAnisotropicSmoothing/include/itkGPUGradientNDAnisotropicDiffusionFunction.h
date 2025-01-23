@@ -29,7 +29,7 @@ namespace itk
  * \class GPUGradientNDAnisotropicDiffusionFunction
  *
  * This class implements an N-dimensional version of the classic Perona-Malik
- * anisotropic diffusion equation for scalar-valued images on the GPU.  See
+ * anisotropic diffusion equation \cite perona1990 for scalar-valued images on the GPU.  See
  * itkAnisotropicDiffusionFunction for an overview of the anisotropic diffusion
  * framework and equation.
  *
@@ -44,11 +44,6 @@ namespace itk
  * The numerical implementation of this equation is similar to that described
  * in the Perona-Malik paper below, but uses a more robust technique
  * for gradient magnitude estimation and has been generalized to N-dimensions.
- *
- * \par References
- * Pietro Perona and Jalhandra Malik, ``Scale-space and edge detection using
- * anisotropic diffusion,'' IEEE Transactions on Pattern Analysis Machine
- * Intelligence, vol. 12, pp. 629-639, 1990.
  *
  * \ingroup ITKGPUAnisotropicSmoothing
  */

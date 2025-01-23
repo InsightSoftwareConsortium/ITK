@@ -37,11 +37,7 @@ namespace itk
  *
  * This filter is a sequential pruning algorithm and known to be computational time
  * dependable of the image size.  The algorithm is the N-dimensional version
- * of that given for two dimensions in:
- *
- * Rafael C. Gonzales and Richard E. Woods.
- * Digital Image Processing.
- * Addison Wesley, 491-494, (1993).
+ * of that given for two dimensions in \cite gonzales1993.
  *
  * \sa MorphologyImageFilter
  * \sa BinaryErodeImageFilter

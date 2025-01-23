@@ -38,23 +38,9 @@ namespace itk
  *        to up/down sample an image by a factor of 2.
  *
  * This class defines N-Dimension Centered L2 B-Spline transformation.
- * It is based on:
- *    [1] M. Unser,
- *       "Splines: A Perfect Fit for Signal and Image Processing,"
- *        IEEE Signal Processing Magazine, vol. 16, no. 6, pp. 22-38,
- *        November 1999.
- *    [2] M. Unser, A. Aldroubi and M. Eden,
- *        "B-Spline Signal Processing: Part I--Theory,"
- *        IEEE Transactions on Signal Processing, vol. 41, no. 2, pp. 821-832,
- *        February 1993.
- *    [3] M. Unser, A. Aldroubi and M. Eden,
- *        "B-Spline Signal Processing: Part II--Efficient Design and Applications,"
- *        IEEE Transactions on Signal Processing, vol. 41, no. 2, pp. 834-848,
- *        February 1993.
- *    [4] P. Brigger, F. Miller, K. Illgner, M. Unser, "Centered Pyramids,"
- *        IEEE Transactions on Image Processing, vol. 8, no. 9, pp. 1254-1264,
- *        September 1999.
- * And code obtained from bigwww.epfl.ch by Philippe Thevenaz
+ * It is based on \cite unser1999, \cite unser1993, \cite unser1993a,
+ * and \cite brigger1999.
+ * Code obtained from bigwww.epfl.ch by Philippe Thevenaz
  *
  * Limitations:  Spline order for the centered L2 pyramid must be between 0 and 4.
  *               This code cannot be multi-threaded since the entire image must be

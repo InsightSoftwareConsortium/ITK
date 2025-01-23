@@ -28,7 +28,7 @@ namespace itk
  * \brief Denoise a binary image using min/max curvature flow.
  *
  * BinaryMinMaxCurvatureFlowImageFilter implements a curvature driven image
- * denoising algorithm. This filter assumes that the image is essentially
+ * denoising algorithm \cite sethian1999. This filter assumes that the image is essentially
  * binary: consisting of two classes. Iso-brightness contours in the input
  * image are viewed as a level set. The level set is then evolved using
  * a curvature-based speed function:
@@ -59,10 +59,6 @@ namespace itk
  * \warning This filter assumes that the input and output types have the
  * same dimensions. This filter also requires that the output image pixels
  * are of a real type. This filter works for any dimensional images.
- *
- * Reference:
- * "Level Set Methods and Fast Marching Methods", J.A. Sethian,
- * Cambridge Press, Chapter 16, Second edition, 1999.
  *
  * \sa BinaryMinMaxCurvatureFlowFunction
  * \sa CurvatureFlowImageFilter

@@ -101,27 +101,13 @@ operator<<(std::ostream & out, const PatchBasedDenoisingBaseImageFilterEnums::Fi
  * image, and the weights balancing the regularization and data fidelity when the noise model is
  * known.
  *
- * This class of methods stems from the following two independent and simultaneous publications:
- *
- * Suyash P. Awate, Ross T. Whitaker.
- * Higher-Order Image Statistics for Unsupervised, Information-Theoretic, Adaptive, Image Filtering.
- * IEEE Int. Conf. Computer Vision and Pattern Recognition (CVPR) 2005; (2):44-51.
- *
- * Antoni Buades, Bartomeu Coll, Jean-Michel Morel.
- * A Non-Local Algorithm for Image Denoising.
- * IEEE Int. Conf. Computer Vision and Pattern Recognition (CVPR) 2005; (2):60-65.
+ * This class of methods stems from the following two independent and
+ * simultaneous publications \cite awate2005 and \cite buades2005.
  *
  * While the former work considers the denoising algorithm as performing entropy reduction using
  * nonparametric density estimation, the latter work treats it as nonparametric regression. Details
- * underlying this class of methods appear in:
- *
- * Suyash P. Awate, Ross T. Whitaker.
- * Unsupervised, Information-Theoretic, Adaptive Image Filtering for Image Restoration.
- * IEEE Transactions on Pattern Analysis and Machine Intelligence (TPAMI) 2006; 28(3):364-376.
- *
- * Antoni Buades, Bartomeu Coll, Jean-Michel Morel.
- * Nonlocal Image and Movie Denoising.
- * International Journal of Computer Vision (IJCV) 2008; 76(2):123-139.
+ * underlying this class of methods appear in \cite awate2006 and
+ * \cite buades2008.
  *
  * This class provides the base software framework for implementing patch-based denoising methods
  * for multi-dimensional and multi-channel (i.e. vector-valued pixels) images. This framework is

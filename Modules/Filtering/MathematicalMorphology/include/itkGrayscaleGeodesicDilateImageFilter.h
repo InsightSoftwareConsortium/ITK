@@ -42,9 +42,7 @@ namespace itk
  * The marker image must be less than or equal to the mask image
  * (on a pixel by pixel basis).
  *
- * Geodesic morphology is described in Chapter 6 of Pierre Soille's
- * book "Morphological Image Analysis: Principles and Applications",
- * Second Edition, Springer, 2003.
+ * Geodesic morphology is described in \cite soille2004.
  *
  * A noniterative version of this algorithm can be found in the
  * ReconstructionByDilationImageFilter. This noniterative solution is

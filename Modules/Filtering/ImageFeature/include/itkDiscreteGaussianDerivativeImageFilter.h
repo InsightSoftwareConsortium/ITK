@@ -29,9 +29,8 @@ namespace itk
  * This filter calculates Gaussian derivative by separable convolution of an image
  * and a discrete Gaussian derivative operator (kernel).
  *
- * The Gaussian operators used here were described by Tony Lindeberg (Discrete
- * Scale-Space Theory and the Scale-Space Primal Sketch.  Dissertation. Royal
- * Institute of Technology, Stockholm, Sweden. May 1991.)
+ * The Gaussian operators used here were described by Tony Lindeberg
+ * \cite lindeberg1991.
  *
  * The variance or standard deviation (sigma) will be evaluated as pixel units
  * if SetUseImageSpacing is off (false) or as physical units if

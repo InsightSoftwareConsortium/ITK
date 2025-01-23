@@ -27,7 +27,7 @@ namespace itk
  * \brief Deformably register two images using level set motion.
  *
  * LevelSetMotionFilter implements a deformable registration algorithm that
- * aligns a fixed and a moving image under level set motion. The
+ * aligns a fixed and a moving image under level set motion \cite vemuri2003. The
  * equations of motion are similar to those of the
  * DemonsRegistrationFilter. The main differences are:
  *    (1) Gradients of the moving image are calculated on a smoothed
@@ -77,10 +77,6 @@ namespace itk
  *
  * \warning This filter assumes that the fixed image type, moving image type
  * and deformation field type all have the same number of dimensions.
- *
- * Ref: B.C. Vemuri, J. Ye, Y. Chen, C.M. Leonard. "Image
- * registration via level-set motion: applications to atlas-based
- * segmentation". Medical Image Analysis. Vol. 7. pp. 1-20. 2003.
  *
  * \sa LevelSetMotionRegistrationFunction
  * \sa DemonsRegistrationFilter

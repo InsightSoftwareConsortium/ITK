@@ -48,10 +48,9 @@ namespace itk
  * is transform each point (with the specified transform) and construct the
  * k-d tree from the transformed points.
  *
- * Contributed by Nicholas J. Tustison, James C. Gee in the Insight Journal
- * paper: https://doi.org/10.54294/791z7t
+ * Contributed by Nicholas J. Tustison, James C. Gee in \cite tustison2010a.
  *
- * \note The original work reported in Tustison et al. 2011 optionally employed
+ * \note The original work reported in \cite tustison2011 optionally employed
  * a regularization term to prevent the moving point set(s) from coalescing
  * to a single point location. However, within the registration framework,
  * this term is of limited utility as such regularization is dictated by the
@@ -60,11 +59,6 @@ namespace itk
  * be considered "moving" but this is also not applicable for this particular
  * implementation.
  *
- * \par REFERENCE
- *
- * N.J. Tustison, S. P. Awate, G. Song, T. S. Cook, and J. C. Gee.
- * "Point set registration using Havrda-Charvat-Tsallis entropy measures"
- * IEEE Transactions on Medical Imaging, 30(2):451-60, 2011.
  * \ingroup ITKMetricsv4
  */
 

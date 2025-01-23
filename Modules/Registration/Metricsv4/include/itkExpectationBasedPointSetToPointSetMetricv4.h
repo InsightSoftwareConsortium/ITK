@@ -31,12 +31,8 @@ namespace itk
  * This information-theoretic point set measure models each point set
  * as a sum of Gaussians.  To speed up computation, evaluation of the local
  * value/derivative is done in a user-specified neighborhood using the k-d
- * tree constructed in the superclass.
- *
- *  Reference:
- *    Pluta J, Avants BB, Glynn S, Awate S, Gee JC, Detre JA,
- *    "Appearance and incomplete label matching for diffeomorphic template
- *     "based hippocampus segmentation", Hippocampus, 2009 Jun; 19(6):565-71.
+ * tree constructed in the superclass. For more information
+ * see \cite pluta2009.
  *
  * \ingroup ITKMetricsv4
  */

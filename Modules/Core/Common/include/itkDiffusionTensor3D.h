@@ -64,10 +64,7 @@ namespace itk
  * NIA AG 17919, PI: E.V. Sullivan.
  *
  *
- * \par References
- * E. R. Melhem, S. Mori, G. Mukundan, M. A. Kraut, M. G. Pomper, and
- * P. C. M. van Zijl, "Diffusion tensor MR imaging of the brain and white
- * matter tractography," Am. J. Roentgenol., vol. 178, pp. 3-16, 2002.
+ * For algorithmic details see \cite melhem2002.
  *
  * \sa SymmetricSecondRankTensor
  *

@@ -33,17 +33,13 @@ namespace itk
  * independently.
  *
  * This class implements the recursive filtering
- * method proposed by R.Deriche in IEEE-PAMI
- * Vol.12, No.1, January 1990, pp 78-87.
+ * method described in \cite deriche1990.
  *
  * Details of the implementation are described in the technical report:
  * R. Deriche, "Recursively Implementing The Gaussian and Its Derivatives",
  * INRIA, 1993, ftp://ftp.inria.fr/INRIA/tech-reports/RR/RR-1893.ps.gz
  *
- * Further improvements of the algorithm are described in:
- * G. Farnebäck & C.-F. Westin, "Improving Deriche-style Recursive Gaussian
- * Filters". J Math Imaging Vis 26, 293–299 (2006).
- * https://doi.org/10.1007/s10851-006-8464-z
+ * Further improvements of the algorithm are described in \cite farneback2006.
  *
  * \ingroup ImageFilters
  * \ingroup ITKImageFilterBase
