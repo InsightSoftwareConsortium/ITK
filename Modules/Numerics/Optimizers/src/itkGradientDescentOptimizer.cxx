@@ -41,13 +41,7 @@ GradientDescentOptimizer::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Maximize: " << m_Maximize << std::endl;
   os << indent << "CurrentIteration: " << m_CurrentIteration;
   os << indent << "Value: " << m_Value;
-  if (m_CostFunction)
-  {
-    os << indent << "CostFunction: " << m_CostFunction;
-  }
   os << indent << "StopCondition: " << m_StopCondition;
-  os << std::endl;
-  os << indent << "Gradient: " << m_Gradient;
   os << std::endl;
 }
 
