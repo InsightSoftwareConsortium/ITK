@@ -14,7 +14,7 @@ commands to track it:
 mkdir -p ~/Dashboards/ITKScripts
 cd ~/Dashboards/ITKScripts
 git init
-git remote add -t dashboard origin https://itk.org/ITK.git
+git remote add -t dashboard origin https://github.com/InsightSoftwareConsortium/ITK.git
 git pull origin
 ```
 
