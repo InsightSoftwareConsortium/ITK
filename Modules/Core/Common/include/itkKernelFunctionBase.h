@@ -58,11 +58,7 @@ public:
   TRealValueType
   Evaluate(const TRealValueType & u) const override = 0;
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(TRealValueTypeIsFloatingPointCheck, (Concept::IsFloatingPoint<TRealValueType>));
-  // End concept checking
-#endif
 
 protected:
   KernelFunctionBase() = default;

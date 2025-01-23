@@ -131,10 +131,8 @@ public:
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
-#ifdef ITK_USE_CONCEPT_CHECKING
   itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
-#endif
 
   /** Transform type alias */
   using TransformType = Transform<double, InputImageDimension, OutputImageDimension>;

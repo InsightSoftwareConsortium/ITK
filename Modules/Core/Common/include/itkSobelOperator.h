@@ -120,11 +120,7 @@ public:
   // virtual void CreateToRadius(const unsigned long);
 
 protected:
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(SignedOutputPixelType, (Concept::Signed<typename NumericTraits<TPixel>::ValueType>));
-  // End concept checking
-#endif
 
   /** Type alias support for coefficient vector type.*/
   using typename Superclass::CoefficientVector;

@@ -109,14 +109,10 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ConstrainedValueAdditionImageFilter);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(Input1ConvertibleToDoubleCheck, (Concept::Convertible<typename TInputImage1::PixelType, double>));
   itkConceptMacro(Input2ConvertibleToDoubleCheck, (Concept::Convertible<typename TInputImage2::PixelType, double>));
   itkConceptMacro(DoubleConvertibleToOutputCastCheck, (Concept::Convertible<double, typename TOutputImage::PixelType>));
   itkConceptMacro(DoubleLessThanOutputCheck, (Concept::LessThanComparable<double, typename TOutputImage::PixelType>));
-  // End concept checking
-#endif
 
 protected:
   ConstrainedValueAdditionImageFilter()

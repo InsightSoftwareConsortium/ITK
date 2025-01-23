@@ -210,14 +210,10 @@ public:
   void
   BeforeThreadedGenerateData() override;
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<typename TInputImage::PixelType::ValueType>));
   itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<ValueType>));
   itkConceptMacro(DisplacementFieldHasNumericTraitsCheck,
                   (Concept::HasNumericTraits<typename TDisplacementField::PixelType::ValueType>));
-  // End concept checking
-#endif
 
 protected:
   WarpVectorImageFilter();

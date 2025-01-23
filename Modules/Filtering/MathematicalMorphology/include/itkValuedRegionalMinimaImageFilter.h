@@ -79,13 +79,9 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ValuedRegionalMinimaImageFilter);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(InputPixelTypeComparable, (Concept::LessThanComparable<InputImagePixelType>));
   itkConceptMacro(InputHasPixelTraitsCheck, (Concept::HasPixelTraits<InputImagePixelType>));
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputImagePixelType>));
-  // End concept checking
-#endif
 
 protected:
   ValuedRegionalMinimaImageFilter() { this->SetMarkerValue(NumericTraits<typename TOutputImage::PixelType>::max()); }

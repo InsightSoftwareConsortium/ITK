@@ -82,12 +82,8 @@ public:
   using ElementBaseType = itk::fem::Element;
   using ElementBasePointerType = itk::fem::Element::ConstPointer;
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
-//  itkConceptMacro(SameDimensionOrMinusOne,
-//    (Concept::SameDimensionOrMinusOne<VDimension, 3>));
-// End concept checking
-#endif
+  // itkConceptMacro(SameDimensionOrMinusOne,
+  //   (Concept::SameDimensionOrMinusOne<VDimension, 3>));
 
   /**Get/Set the number of voxels/pixels in each dimension used
    *during the mesh generation

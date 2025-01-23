@@ -80,16 +80,12 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(BinaryReconstructionLabelMapFilter);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   /*  itkConceptMacro(InputEqualityComparableCheck,
       (Concept::EqualityComparable<PixelType>));
     itkConceptMacro(IntConvertibleToInputCheck,
       (Concept::Convertible<int, PixelType>));
     itkConceptMacro(InputOStreamWritableCheck,
       (Concept::OStreamWritable<PixelType>));*/
-  // End concept checking
-#endif
 
   /** Set/Get the marker image */
   itkSetInputMacro(MarkerImage, MarkerImageType);

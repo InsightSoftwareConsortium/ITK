@@ -196,13 +196,9 @@ public:
   void
   GenerateOutputInformation() override;
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(InputConvertibleToOutput, (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
   itkConceptMacro(SameDimension, (Concept::SameDimension<Self::InputImageDimension, Self::OutputImageDimension>));
   itkConceptMacro(DimensionShouldBe3, (Concept::SameDimension<Self::InputImageDimension, 3>));
-  // End concept checking
-#endif
 
 protected:
   OrientImageFilter();

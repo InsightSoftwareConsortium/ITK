@@ -116,14 +116,10 @@ public:
   itkGetConstReferenceMacro(FullyConnected, bool);
   itkBooleanMacro(FullyConnected);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(OutputEqualityComparableCheck, (Concept::EqualityComparable<OutputPixelType>));
   itkConceptMacro(InputComparableCheck, (Concept::Comparable<InputPixelType>));
   itkConceptMacro(InputOStreamWritableCheck, (Concept::OStreamWritable<InputPixelType>));
   itkConceptMacro(OutputOStreamWritableCheck, (Concept::OStreamWritable<OutputPixelType>));
-  // End concept checking
-#endif
 
 protected:
   DoubleThresholdImageFilter();

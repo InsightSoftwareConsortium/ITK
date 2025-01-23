@@ -117,11 +117,7 @@ public:
   using ROIFilterType = RegionOfInterestImageFilter<FeatureImageType, FeatureImageType>;
   using ROIFilterPointer = typename ROIFilterType::Pointer;
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<OutputPixelType>));
-  // End concept checking
-#endif
 
   /** Set/Get the feature image to be used for speed function of the level set
    *  equation.  Equivalent to calling Set/GetInput(1, ..) */

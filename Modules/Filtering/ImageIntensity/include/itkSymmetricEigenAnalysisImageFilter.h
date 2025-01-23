@@ -284,11 +284,7 @@ public:
     return this->GetFunctor().GetDimension();
   }
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputValueType>));
-  // End concept checking
-#endif
 
 protected:
   SymmetricEigenAnalysisImageFilter() { this->SetDimension(TInputImage::ImageDimension); }
@@ -374,11 +370,7 @@ public:
     return this->GetFunctor().GetDimension();
   }
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputValueType>));
-  // End concept checking
-#endif
 
 protected:
   SymmetricEigenAnalysisFixedDimensionImageFilter() = default;

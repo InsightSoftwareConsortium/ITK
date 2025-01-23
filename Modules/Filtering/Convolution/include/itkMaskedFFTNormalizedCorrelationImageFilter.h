@@ -216,11 +216,7 @@ public:
   /** Get the maximum number of overlapping pixels. */
   itkGetMacro(MaximumNumberOfOverlappingPixels, SizeValueType);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(OutputPixelTypeIsFloatingPointCheck, (Concept::IsFloatingPoint<OutputPixelType>));
-  // End concept checking
-#endif
 
 protected:
   MaskedFFTNormalizedCorrelationImageFilter()

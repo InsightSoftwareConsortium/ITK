@@ -70,16 +70,12 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(StatisticsPositionLabelMapFilter);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   /*  itkConceptMacro(InputEqualityComparableCheck,
       (Concept::EqualityComparable<InputImagePixelType>));
     itkConceptMacro(IntConvertibleToInputCheck,
       (Concept::Convertible<int, InputImagePixelType>));
     itkConceptMacro(InputOStreamWritableCheck,
       (Concept::OStreamWritable<InputImagePixelType>));*/
-  // End concept checking
-#endif
 
 protected:
   StatisticsPositionLabelMapFilter();

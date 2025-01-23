@@ -86,11 +86,7 @@ public:
   itkGetConstReferenceMacro(FullyConnected, bool);
   itkBooleanMacro(FullyConnected);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(InputOStreamWritableCheck, (Concept::OStreamWritable<InputImagePixelType>));
-  // End concept checking
-#endif
 
   /** Set the value in the image to consider as "foreground". Defaults to
    * maximum value of InputPixelType. */

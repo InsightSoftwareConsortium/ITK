@@ -90,11 +90,7 @@ public:
   itkSetMacro(UseImageSpacing, bool);
   itkGetConstMacro(UseImageSpacing, bool);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, ImageDimension>));
-  // End concept checking
-#endif
 
 protected:
   LaplacianSharpeningImageFilter() { m_UseImageSpacing = true; }

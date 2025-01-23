@@ -90,12 +90,8 @@ public:
     this->SetLowerBoundaryCropSize(s);
   }
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
   itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
-  // End concept checking
-#endif
 
 protected:
   CropImageFilter()

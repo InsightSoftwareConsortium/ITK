@@ -75,12 +75,10 @@ public:
   OutputType
   operator()(const InputType & A) const;
 
-#ifdef ITK_USE_CONCEPT_CHECKING
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputType, OutputType>));
   itkConceptMacro(InputConvertibleToDoubleCheck, (Concept::Convertible<InputType, double>));
   itkConceptMacro(DoubleLessThanComparableToOutputCheck, (Concept::LessThanComparable<double, OutputType>));
   itkConceptMacro(DoubleGreaterThanComparableToOutputCheck, (Concept::GreaterThanComparable<double, OutputType>));
-#endif
 
 private:
   OutputType m_LowerBound;

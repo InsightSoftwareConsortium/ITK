@@ -142,8 +142,6 @@ public:
   /** get FEMFilter */
   itkGetConstObjectMacro(FEMFilter, FEMFilterType);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   /* Currently only the 3D implementation is available due to a narrow
      definition of the filter in the original proposal
      and lack of available resources. */
@@ -153,8 +151,6 @@ public:
   itkConceptMacro(MeshDimensionShouldBe3, (Concept::SameDimension<TMesh::PointType::PointDimension, 3u>));
   itkConceptMacro(DeformationFieldImageDimensionShouldBe3,
                   (Concept::SameDimension<TDeformationField::ImageDimension, 3u>));
-  // End concept checking
-#endif
 
 protected:
   PhysicsBasedNonRigidRegistrationMethod();

@@ -74,16 +74,12 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(AttributeRelabelLabelMapFilter);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   /*  itkConceptMacro(InputEqualityComparableCheck,
       (Concept::EqualityComparable<InputImagePixelType>));
     itkConceptMacro(IntConvertibleToInputCheck,
       (Concept::Convertible<int, InputImagePixelType>));
     itkConceptMacro(InputOStreamWritableCheck,
       (Concept::OStreamWritable<InputImagePixelType>));*/
-  // End concept checking
-#endif
 
   /**
    * Set/Get the order of labeling of the objects. By default, the objects with

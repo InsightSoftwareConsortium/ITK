@@ -92,11 +92,9 @@ public:
     Topology
   };
 
-#ifdef ITK_USE_CONCEPT_CHECKING
   itkConceptMacro(DoubleConvertibleOutputCheck, (Concept::Convertible<double, OutputPixelType>));
 
   itkConceptMacro(OutputOStreamWritableCheck, (Concept::OStreamWritable<OutputPixelType>));
-#endif
 };
 
 

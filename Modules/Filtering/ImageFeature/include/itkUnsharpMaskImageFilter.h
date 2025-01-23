@@ -100,11 +100,9 @@ public:
    */
   itkNewMacro(Self);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
   itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, ImageDimension>));
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<OutputPixelType>));
   itkConceptMacro(InternalTypeIsFloatingPoint, (Concept::IsFloatingPoint<TInternalPrecision>));
-#endif
 
   using GaussianType =
     SmoothingRecursiveGaussianImageFilter<TInputImage, Image<TInternalPrecision, TOutputImage::ImageDimension>>;

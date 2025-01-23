@@ -141,12 +141,8 @@ public:
     return (this->GetFunctor().GetDistanceThreshold());
   }
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(InputValueHasNumericTraitsCheck, (Concept::HasNumericTraits<InputValueType>));
   itkConceptMacro(InputValyeTypeIsFloatingCheck, (Concept::IsFloatingPoint<InputValueType>));
-  // End concept checking
-#endif
 
 protected:
   VectorConnectedComponentImageFilter() = default;

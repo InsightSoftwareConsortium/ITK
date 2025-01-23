@@ -80,11 +80,7 @@ public:
   /** Type of the pixels in the Kernel. */
   using KernelPixelType = typename TKernel::PixelType;
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(KernelGreaterThanComparableCheck, (Concept::GreaterThanComparable<KernelPixelType>));
-  // End concept checking
-#endif
 
 protected:
   DilateObjectMorphologyImageFilter();

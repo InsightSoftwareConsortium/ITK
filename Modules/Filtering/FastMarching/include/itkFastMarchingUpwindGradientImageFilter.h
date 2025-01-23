@@ -230,14 +230,10 @@ public:
    */
   itkGetConstReferenceMacro(TargetValue, double);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(LevelSetDoubleDivisionOperatorsCheck,
                   (Concept::DivisionOperators<typename TLevelSet::PixelType, double>));
   itkConceptMacro(LevelSetDoubleDivisionAndAssignOperatorsCheck,
                   (Concept::DivisionAndAssignOperators<typename TLevelSet::PixelType, double>));
-  // End concept checking
-#endif
 
 protected:
   FastMarchingUpwindGradientImageFilter();

@@ -337,13 +337,9 @@ public:
     return m_Data[ThreadNum].m_Layers[0];
   }
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(OutputEqualityComparableCheck, (Concept::EqualityComparable<PixelType>));
   itkConceptMacro(DoubleConvertibleToOutputCheck, (Concept::Convertible<double, PixelType>));
   itkConceptMacro(OutputOStreamWritableCheck, (Concept::OStreamWritable<PixelType>));
-  // End concept checking
-#endif
 
 protected:
   ParallelSparseFieldLevelSetImageFilter();

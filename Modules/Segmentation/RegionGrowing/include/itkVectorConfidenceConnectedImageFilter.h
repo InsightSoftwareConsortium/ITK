@@ -140,14 +140,9 @@ public:
   virtual const SeedsContainerType &
   GetSeeds() const;
 
-
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(OutputEqualityComparableCheck, (Concept::EqualityComparable<OutputImagePixelType>));
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<typename InputImagePixelType::ValueType>));
   itkConceptMacro(OutputOStreamWritableCheck, (Concept::OStreamWritable<OutputImagePixelType>));
-  // End concept checking
-#endif
 
 protected:
   VectorConfidenceConnectedImageFilter();

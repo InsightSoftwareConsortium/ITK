@@ -169,11 +169,7 @@ public:
   ModifiedTimeType
   GetMTime() const override;
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<OutputPixelComponentType>));
-  // End concept checking
-#endif
 
 protected:
   InverseDisplacementFieldImageFilter();

@@ -101,13 +101,9 @@ public:
   itkSetMacro(BackgroundValue, LabelPixelType);
   itkGetConstReferenceMacro(BackgroundValue, LabelPixelType);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(OutputPixelShouldHaveValueType, (Concept::HasValueType<OutputPixelType>));
   itkConceptMacro(OutputPixelShouldHaveBracketOperator,
                   (Concept::BracketOperator<OutputPixelType, unsigned int, typename OutputPixelType::ValueType>));
-  // End concept checking
-#endif
 
   /** Empty the color LUT container. */
   void

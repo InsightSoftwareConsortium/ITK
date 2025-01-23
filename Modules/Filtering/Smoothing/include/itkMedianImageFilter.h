@@ -84,13 +84,9 @@ public:
 
   using InputSizeType = typename InputImageType::SizeType;
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputPixelType, OutputPixelType>));
   itkConceptMacro(InputLessThanComparableCheck, (Concept::LessThanComparable<InputPixelType>));
-  // End concept checking
-#endif
 
 protected:
   MedianImageFilter();

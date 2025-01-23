@@ -75,11 +75,7 @@ public:
   SizeValueType
   GetSizeGreatestPrimeFactor() const override;
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(ImageDimensionsMatchCheck, (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
-  // End concept checking
-#endif
 
 protected:
   VnlForwardFFTImageFilter() = default;

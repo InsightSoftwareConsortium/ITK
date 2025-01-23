@@ -94,10 +94,7 @@ public:
   using OutputOffsetType = typename TOutputImage::OffsetType;
   using OutputImagePixelType = typename TOutputImage::PixelType;
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Concept checking -- input and output dimensions must be the same
   itkConceptMacro(SameDimension, (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
-#endif
 
   using EnclosingFilter = ImageToImageFilter<TInputImage, TOutputImage>;
 

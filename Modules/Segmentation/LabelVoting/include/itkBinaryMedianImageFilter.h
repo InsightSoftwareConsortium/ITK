@@ -106,15 +106,11 @@ public:
   void
   GenerateInputRequestedRegion() override;
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(InputEqualityComparableCheck, (Concept::EqualityComparable<typename TInputImage::PixelType>));
   itkConceptMacro(InputConvertibleToOutputCheck,
                   (Concept::Convertible<typename TInputImage::PixelType, typename TOutputImage::PixelType>));
   itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
   itkConceptMacro(InputOStreamWritableCheck, (Concept::OStreamWritable<typename TInputImage::PixelType>));
-  // End concept checking
-#endif
 
 protected:
   BinaryMedianImageFilter();

@@ -73,9 +73,8 @@ public:
   /** The type of the input image. */
   using InputImageType = TInputImage;
 
-#ifdef ITK_USE_CONCEPT_CHECKING
   itkConceptMacro(ImageDimensionCheck, (Concept::SameDimensionOrMinusOneOrTwo<3, Self::InputImageDimension>));
-#endif
+
   /** Set the input image of this image exporter. */
   using Superclass::SetInput;
   void

@@ -75,11 +75,7 @@ public:
   using OutputPixelType = typename TOutputImage::PixelType;
   using InputPixelValueType = typename NumericTraits<InputPixelType>::ValueType;
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputPixelValueType, OutputPixelType>));
-  // End concept checking
-#endif
 
 protected:
   ComplexToRealImageFilter()

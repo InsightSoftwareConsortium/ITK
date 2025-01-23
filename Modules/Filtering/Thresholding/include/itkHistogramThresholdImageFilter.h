@@ -181,13 +181,9 @@ public:
   itkSetObjectMacro(Calculator, CalculatorType);
   itkGetModifiableObjectMacro(Calculator, CalculatorType);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(OutputEqualityComparableCheck, (Concept::EqualityComparable<OutputPixelType>));
   itkConceptMacro(InputOStreamWritableCheck, (Concept::OStreamWritable<InputPixelType>));
   itkConceptMacro(OutputOStreamWritableCheck, (Concept::OStreamWritable<OutputPixelType>));
-  // End concept checking
-#endif
 
 protected:
   HistogramThresholdImageFilter();

@@ -142,7 +142,6 @@ set(DOXYGEN_PREDEFINED
     "size_t=vcl_size_t"
     "ITK_USE_FFTWD"
     "ITK_USE_FFTWF"
-    "ITK_USE_CONCEPT_CHECKING"
     "itkMacro_h"
     "ITK_LEGACY_REMOVE"
     "ITK_FUTURE_LEGACY_REMOVE"

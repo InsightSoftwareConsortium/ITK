@@ -121,12 +121,8 @@ public:
   /** Return the computed similarity index. */
   itkGetConstMacro(SimilarityIndex, RealType);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(Input1HasNumericTraitsCheck, (Concept::HasNumericTraits<InputImage1PixelType>));
   itkConceptMacro(Input2HasNumericTraitsCheck, (Concept::HasNumericTraits<InputImage2PixelType>));
-  // End concept checking
-#endif
 
 protected:
   SimilarityIndexImageFilter();

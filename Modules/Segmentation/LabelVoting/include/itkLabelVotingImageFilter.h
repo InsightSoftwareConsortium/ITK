@@ -144,8 +144,6 @@ public:
     }
   }
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputPixelType, OutputPixelType>));
   itkConceptMacro(IntConvertibleToInputCheck, (Concept::Convertible<int, InputPixelType>));
   itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, ImageDimension>));
@@ -154,8 +152,6 @@ public:
   itkConceptMacro(InputPlusIntCheck, (Concept::AdditiveOperators<InputPixelType, int>));
   itkConceptMacro(InputIncrementDecrementOperatorsCheck, (Concept::IncrementDecrementOperators<InputPixelType>));
   itkConceptMacro(OutputOStreamWritableCheck, (Concept::OStreamWritable<OutputPixelType>));
-  // End concept checking
-#endif
 
 protected:
   LabelVotingImageFilter();

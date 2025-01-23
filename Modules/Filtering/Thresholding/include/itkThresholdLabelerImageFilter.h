@@ -144,13 +144,9 @@ public:
   using RealThresholdVector = std::vector<RealThresholdType>;
 
   /** The input and output pixel types must support comparison operators. */
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(PixelTypeComparable, (Concept::Comparable<InputPixelType>));
   itkConceptMacro(OutputPixelTypeComparable, (Concept::Comparable<OutputPixelType>));
   itkConceptMacro(OutputPixelTypeOStreamWritable, (Concept::OStreamWritable<OutputPixelType>));
-  // End concept checking
-#endif
 
   /** Set the vector of thresholds. */
   void

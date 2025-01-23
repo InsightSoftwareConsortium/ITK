@@ -85,12 +85,8 @@ public:
   using OutputPixelType = typename TOutputImage::PixelType;
 
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(ConvertibleCheck, (Concept::Convertible<InputPixelType, OutputPixelType>));
   itkConceptMacro(InputGreaterThanIntCheck, (Concept::GreaterThanComparable<InputPixelType, InputPixelType>));
-  // End concept checking
-#endif
 
 protected:
   AbsImageFilter()

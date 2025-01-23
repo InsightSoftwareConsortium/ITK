@@ -75,16 +75,12 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(StatisticsLabelMapFilter);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
-/*  itkConceptMacro(InputEqualityComparableCheck,
+  /*itkConceptMacro(InputEqualityComparableCheck,
     (Concept::EqualityComparable<InputImagePixelType>));
   itkConceptMacro(IntConvertibleToInputCheck,
     (Concept::Convertible<int, InputImagePixelType>));
   itkConceptMacro(InputOStreamWritableCheck,
     (Concept::OStreamWritable<InputImagePixelType>));*/
-// End concept checking
-#endif
 
   /** Set the feature image */
   void

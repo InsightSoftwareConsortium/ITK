@@ -154,12 +154,8 @@ public:
     return this->GetNumberOfIterations();
   }
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(DoubleConvertibleToOutputCheck, (Concept::Convertible<double, typename TOutputImage::PixelType>));
   itkConceptMacro(InputOStreamWritableCheck, (Concept::OStreamWritable<typename TInputImage::PixelType>));
-  // End concept checking
-#endif
 
 protected:
   AntiAliasBinaryImageFilter();

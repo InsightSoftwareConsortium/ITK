@@ -222,11 +222,7 @@ public:
     this->SetIsInitialized(true);
   }
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(OutputPixelIsFloatingPointCheck, (Concept::IsFloatingPoint<OutputPixelValueType>));
-  // End concept checking
-#endif
 
 protected:
   FiniteDifferenceImageFilter();

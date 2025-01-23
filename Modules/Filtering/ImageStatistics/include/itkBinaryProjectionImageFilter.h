@@ -143,12 +143,8 @@ public:
    * NumericTraits<PixelType>::NonpositiveMin(). */
   itkGetConstMacro(BackgroundValue, OutputPixelType);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(InputPixelTypeGreaterThanComparable, (Concept::EqualityComparable<InputPixelType>));
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputPixelType>));
-  // End concept checking
-#endif
 
 protected:
   BinaryProjectionImageFilter()

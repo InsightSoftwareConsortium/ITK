@@ -187,11 +187,7 @@ public:
   /** Get the false discovery rate for the specified individual label. */
   RealType GetFalseDiscoveryRate(LabelType) const;
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(Input1HasNumericTraitsCheck, (Concept::HasNumericTraits<LabelType>));
-  // End concept checking
-#endif
 
 protected:
   LabelOverlapMeasuresImageFilter();

@@ -99,12 +99,8 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(InputPixelTypeGreaterThanComparable, (Concept::GreaterThanComparable<InputPixelType>));
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputPixelType>));
-  // End concept checking
-#endif
 
 protected:
   MaximumProjectionImageFilter() = default;

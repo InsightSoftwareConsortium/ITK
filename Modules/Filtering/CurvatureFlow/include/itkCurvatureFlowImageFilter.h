@@ -140,8 +140,6 @@ public:
   /** Get the timestep parameter. */
   itkGetConstMacro(TimeStep, TimeStepType);
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(DoubleConvertibleToOutputCheck, (Concept::Convertible<double, PixelType>));
   itkConceptMacro(OutputConvertibleToDoubleCheck, (Concept::Convertible<PixelType, double>));
   itkConceptMacro(OutputDivisionOperatorsCheck, (Concept::DivisionOperators<PixelType>));
@@ -149,8 +147,6 @@ public:
   itkConceptMacro(IntOutputMultiplyOperatorCheck, (Concept::MultiplyOperator<int, PixelType, PixelType>));
   itkConceptMacro(OutputLessThanDoubleCheck, (Concept::LessThanComparable<PixelType, double>));
   itkConceptMacro(OutputDoubleAdditiveOperatorsCheck, (Concept::AdditiveOperators<PixelType, double>));
-  // End concept checking
-#endif
 
 protected:
   CurvatureFlowImageFilter();

@@ -97,16 +97,12 @@ public:
     m_Seeds.push_front(seed);
   }
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, ImageDimension>));
   itkConceptMacro(IntConvertibleToOutputCheck, (Concept::Convertible<int, OutputPixelType>));
   itkConceptMacro(UnsignedShortConvertibleToOutputCheck, (Concept::Convertible<unsigned short, OutputPixelType>));
   itkConceptMacro(OutputEqualityComparableCheck, (Concept::EqualityComparable<OutputPixelType>));
   itkConceptMacro(UnsignedCharConvertibleToOutputCheck, (Concept::Convertible<unsigned char, OutputPixelType>));
   itkConceptMacro(OutputIncrementDecrementOperatorsCheck, (Concept::IncrementDecrementOperators<OutputPixelType>));
-  // End concept checking
-#endif
 
 protected:
   HardConnectedComponentImageFilter() = default;

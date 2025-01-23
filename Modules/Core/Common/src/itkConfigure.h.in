@@ -73,7 +73,6 @@
 #cmakedefine ITK_LEGACY_REMOVE
 #cmakedefine ITK_LEGACY_SILENT
 #cmakedefine ITK_FUTURE_LEGACY_REMOVE
-#cmakedefine ITK_USE_CONCEPT_CHECKING
 #cmakedefine ITK_USE_FFTWF
 #cmakedefine ITK_USE_FFTWD
 #cmakedefine ITK_USE_CUFFTW

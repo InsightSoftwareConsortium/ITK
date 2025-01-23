@@ -101,12 +101,8 @@ public:
   /** Neighborhood iterator type */
   using NeighborhoodIteratorType = ConstNeighborhoodIterator<Image<float, 2>>;
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(LessThanComparableCheck, (Concept::LessThanComparable<InputImagePixelType>));
   itkConceptMacro(OStreamWritableCheck, (Concept::OStreamWritable<InputImagePixelType>));
-  // End concept checking
-#endif
 
 protected:
   TobogganImageFilter() = default;

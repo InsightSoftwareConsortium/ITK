@@ -140,11 +140,7 @@ public:
     return m_CurvesFunction->GetDerivativeSigma();
   }
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
   itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<TOutputPixelType>));
-  // End concept checking
-#endif
 
 protected:
   ~CurvesLevelSetImageFilter() override = default;

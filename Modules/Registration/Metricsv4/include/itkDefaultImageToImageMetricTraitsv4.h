@@ -106,13 +106,11 @@ public:
   using DefaultMovingImageGradientCalculator =
     CentralDifferenceImageFunction<MovingImageType, CoordinateRepresentationType>;
 
-/** Only floating-point images are currently supported. To support integer images,
- * several small changes must be made to use an internal floating-point type for
- * computations rather than the image pixel type itself. */
-#ifdef ITK_USE_CONCEPT_CHECKING
+  /** Only floating-point images are currently supported. To support integer images,
+   * several small changes must be made to use an internal floating-point type for
+   * computations rather than the image pixel type itself. */
   itkConceptMacro(OnlyDefinedForFloatingPointTypes0, (itk::Concept::IsFloatingPoint<FixedRealType>));
   itkConceptMacro(OnlyDefinedForFloatingPointTypes1, (itk::Concept::IsFloatingPoint<MovingRealType>));
-#endif // ITK_USE_CONCEPT_CHECKING
 };
 } // end namespace itk
 
