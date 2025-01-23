@@ -24,6 +24,7 @@
 
 #include <iostream>
 #include "itkTestingMacros.h"
+#include "itkArray.h"
 
 namespace
 {
@@ -243,18 +244,28 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
 
   constexpr unsigned int numLevel = 3;
   unsigned int           numIterations[numLevel];
+  itk::Array<unsigned int> numIterationsArray;
+
+  numIterationsArray.SetSize(numLevel);
   numIterations[0] = 64;
+  numIterationsArray[0] = numIterations[0];
 
   unsigned int ilevel;
   for (ilevel = 1; ilevel < numLevel; ++ilevel)
   {
     numIterations[ilevel] = numIterations[ilevel - 1] / 2;
+    numIterationsArray[ilevel] = numIterations[ilevel];
   }
 
   registrator->SetNumberOfLevels(numLevel);
   ITK_TEST_SET_GET_VALUE(numLevel, registrator->GetNumberOfLevels());
+  registrator->SetNumberOfLevels(numLevel + 2);
+  ITK_TEST_SET_GET_VALUE(numLevel + 2, registrator->GetNumberOfLevels());
 
-  registrator->SetNumberOfIterations(numIterations);
+  registrator->SetNumberOfIterations(numIterationsArray);
+  // NumberOfLevels should now be numLevel because numIterationsArray is of size numLevel.
+  ITK_TEST_SET_GET_VALUE(numLevel, registrator->GetNumberOfLevels());
+
   RegistrationType::NumberOfIterationsType numIterationsArr;
   numIterationsArr.SetData(numIterations, numLevel);
   ITK_TEST_SET_GET_VALUE(numIterationsArr, registrator->GetNumberOfIterations());

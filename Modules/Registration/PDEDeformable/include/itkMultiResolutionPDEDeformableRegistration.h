@@ -220,7 +220,7 @@ public:
   itkGetModifiableObjectMacro(FieldExpander, FieldExpanderType);
 
   /** Set number of iterations per multi-resolution levels. */
-  itkSetMacro(NumberOfIterations, NumberOfIterationsType);
+  virtual void SetNumberOfIterations(NumberOfIterationsType numberOfIterations);
   itkSetVectorMacro(NumberOfIterations, unsigned int, m_NumberOfLevels);
 
   /** Get number of iterations per multi-resolution levels. */

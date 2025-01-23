@@ -201,6 +201,33 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,
                                          TRealType,
                                          TFloatImageType,
                                          TRegistrationType,
+                                         TDefaultRegistrationType>::SetNumberOfIterations(NumberOfIterationsType numberOfIterations)
+{
+  // In case numberOfIterations.GetSize() differs from this->m_numberOfLevels, first set the
+  // latter to equal the former.
+  this->SetNumberOfLevels(numberOfIterations.GetSize());
+  // Now do the requested set
+  if (this->m_NumberOfIterations != numberOfIterations)
+  {
+    this->m_NumberOfIterations = std::move(numberOfIterations);
+    this->Modified();
+  }
+}
+
+template <typename TFixedImage,
+          typename TMovingImage,
+          typename TDisplacementField,
+          typename TRealType,
+          typename TFloatImageType,
+          typename TRegistrationType,
+          typename TDefaultRegistrationType>
+void
+MultiResolutionPDEDeformableRegistration<TFixedImage,
+                                         TMovingImage,
+                                         TDisplacementField,
+                                         TRealType,
+                                         TFloatImageType,
+                                         TRegistrationType,
                                          TDefaultRegistrationType>::SetNumberOfLevels(unsigned int num)
 {
   if (m_NumberOfLevels != num)
