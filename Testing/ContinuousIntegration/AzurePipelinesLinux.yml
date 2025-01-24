@@ -182,7 +182,7 @@ jobs:
   timeoutInMinutes: 0
   cancelTimeoutInMinutes: 300
   pool:
-    vmImage: ubuntu-20.04
+    vmImage: ubuntu-24.04
   steps:
     - checkout: self
       clean: true
