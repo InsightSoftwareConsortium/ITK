@@ -214,7 +214,7 @@ public:
     UNKNOWN_PLANE,   ///< The plane is Unknown
     SAGITTAL_PLANE,  ///< The plane is Sagittal
 #if !defined(ITK_LEGACY_REMOVE)
-    SAGITAL_PLANE = SAGITTAL_PLANE, ///< Support misspelling
+    SAGITAL_PLANE [[deprecated("Use SAGITTAL_PLANE instead")]] = SAGITTAL_PLANE, ///< Support misspelling
 #endif
     CORONAL_PLANE,   ///< The plane is Coronal
     TRANSVERSE_PLANE ///< The plane is Transverse

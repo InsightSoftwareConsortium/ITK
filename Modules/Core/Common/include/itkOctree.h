@@ -51,7 +51,7 @@ public:
   // for backwards compatibility
   static constexpr OctreeEnum UNKNOWN_PLANE = OctreeEnum::UNKNOWN_PLANE;
   static constexpr OctreeEnum SAGITTAL_PLANE = OctreeEnum::SAGITTAL_PLANE;
-  static constexpr OctreeEnum SAGITAL_PLANE = OctreeEnum::SAGITAL_PLANE;
+  [[deprecated("Use SAGITTAL_PLANE instead")]] static constexpr OctreeEnum SAGITAL_PLANE = OctreeEnum::SAGITTAL_PLANE;
   static constexpr OctreeEnum CORONAL_PLANE = OctreeEnum::CORONAL_PLANE;
   static constexpr OctreeEnum TRANSVERSE_PLANE = OctreeEnum::TRANSVERSE_PLANE;
 #endif
@@ -189,7 +189,7 @@ public:
 #if !defined(ITK_LEGACY_REMOVE)
   static constexpr OctreeEnum UNKNOWN_PLANE = OctreeEnum::UNKNOWN_PLANE;
   static constexpr OctreeEnum SAGITTAL_PLANE = OctreeEnum::SAGITTAL_PLANE;
-  static constexpr OctreeEnum SAGITAL_PLANE = OctreeEnum::SAGITAL_PLANE;
+  [[deprecated("Use SAGITTAL_PLANE instead")]] static constexpr OctreeEnum SAGITAL_PLANE = OctreeEnum::SAGITTAL_PLANE;
   static constexpr OctreeEnum CORONAL_PLANE = OctreeEnum::CORONAL_PLANE;
   static constexpr OctreeEnum TRANSVERSE_PLANE = OctreeEnum::TRANSVERSE_PLANE;
 #endif
