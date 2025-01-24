@@ -130,7 +130,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  smoothing->SetInput(reader->GetOutput());
+  smoothing->SetInput(input);
   isolatedConnected->SetInput(smoothing->GetOutput());
   caster->SetInput(isolatedConnected->GetOutput());
   // Software Guide : EndCodeSnippet
@@ -199,7 +199,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   try
   {
-    itk::WriteImage(caster->GetOutput(), argv[2])
+    itk::WriteImage(caster->GetOutput(), argv[2]);
   }
   catch (const itk::ExceptionObject & excep)
   {

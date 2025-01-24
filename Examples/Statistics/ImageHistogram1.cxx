@@ -92,7 +92,7 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using ImageType::Pointer input;
+  ImageType::Pointer input;
   try
   {
     input = itk::ReadImage<ImageType>(argv[1]);

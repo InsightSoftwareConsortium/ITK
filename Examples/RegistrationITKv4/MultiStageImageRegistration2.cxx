@@ -254,17 +254,11 @@ main(int argc, char * argv[])
   //
   //  Software Guide : EndLatex
 
-  using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
-  using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
+  const auto fixedImage = itk::ReadImage<FixedImageType>(argv[1]);
+  const auto movingImage = itk::ReadImage<MovingImageType>(argv[2]);
 
-  auto fixedImageReader = FixedImageReaderType::New();
-  auto movingImageReader = MovingImageReaderType::New();
-
-  fixedImageReader->SetFileName(argv[1]);
-  movingImageReader->SetFileName(argv[2]);
-
-  transRegistration->SetFixedImage(fixedImageReader->GetOutput());
-  transRegistration->SetMovingImage(movingImageReader->GetOutput());
+  transRegistration->SetFixedImage(fixedImage);
+  transRegistration->SetMovingImage(movingImage);
   transRegistration->SetObjectName("TranslationRegistration");
 
   //  Software Guide : BeginLatex
@@ -368,8 +362,6 @@ main(int argc, char * argv[])
     affineMetric->SetNumberOfHistogramBins(std::stoi(argv[7]));
   }
 
-  fixedImageReader->Update();
-  const FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
   // Software Guide : BeginCodeSnippet
   using FixedImageCalculatorType =
@@ -406,8 +398,8 @@ main(int argc, char * argv[])
   affineRegistration->InPlaceOn();
   // Software Guide : EndCodeSnippet
 
-  affineRegistration->SetFixedImage(fixedImageReader->GetOutput());
-  affineRegistration->SetMovingImage(movingImageReader->GetOutput());
+  affineRegistration->SetFixedImage(fixedImage);
+  affineRegistration->SetMovingImage(movingImage);
   affineRegistration->SetObjectName("AffineRegistration");
 
   //  Software Guide : BeginLatex
@@ -597,7 +589,7 @@ main(int argc, char * argv[])
   auto resample = ResampleFilterType::New();
 
   resample->SetTransform(compositeTransform);
-  resample->SetInput(movingImageReader->GetOutput());
+  resample->SetInput(movingImage);
 
   PixelType backgroundGrayLevel = 100;
   if (argc > 4)
@@ -615,16 +607,10 @@ main(int argc, char * argv[])
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
   using CastFilterType =
     itk::CastImageFilter<FixedImageType, OutputImageType>;
-  using WriterType = itk::ImageFileWriter<OutputImageType>;
-
-  auto writer = WriterType::New();
   auto caster = CastFilterType::New();
 
-  writer->SetFileName(argv[3]);
-
   caster->SetInput(resample->GetOutput());
-  writer->SetInput(caster->GetOutput());
-  writer->Update();
+  itk::WriteImage(caster->GetOutput(), argv[3]);
 
   //  Software Guide : BeginLatex
   //
@@ -657,7 +643,6 @@ main(int argc, char * argv[])
   checker->SetInput2(resample->GetOutput());
 
   caster->SetInput(checker->GetOutput());
-  writer->SetInput(caster->GetOutput());
 
   resample->SetDefaultPixelValue(0);
 
@@ -679,16 +664,14 @@ main(int argc, char * argv[])
 
   if (argc > 5)
   {
-    writer->SetFileName(argv[5]);
-    writer->Update();
+    itk::WriteImage(caster->GetOutput(), argv[5]);
   }
 
   // After registration
   resample->SetTransform(compositeTransform);
   if (argc > 6)
   {
-    writer->SetFileName(argv[6]);
-    writer->Update();
+    itk::WriteImage(caster->GetOutput(), argv[6]);
   }
 
   return EXIT_SUCCESS;

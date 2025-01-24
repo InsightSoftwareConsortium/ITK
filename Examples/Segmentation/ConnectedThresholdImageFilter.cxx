@@ -193,7 +193,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  smoothing->SetInput(reader->GetOutput());
+  smoothing->SetInput(input);
   connectedThreshold->SetInput(smoothing->GetOutput());
   caster->SetInput(connectedThreshold->GetOutput());
   // Software Guide : EndCodeSnippet

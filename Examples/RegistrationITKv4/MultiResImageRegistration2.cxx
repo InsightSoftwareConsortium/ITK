@@ -244,14 +244,8 @@ main(int argc, char * argv[])
   registration->SetTransform(transform);
   // Software Guide : EndCodeSnippet
 
-  using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
-  using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
-
-  auto fixedImageReader = FixedImageReaderType::New();
-  auto movingImageReader = MovingImageReaderType::New();
-
-  fixedImageReader->SetFileName(argv[1]);
-  movingImageReader->SetFileName(argv[2]);
+  const auto fixedImage = itk::ReadImage<FixedImageType>(argv[1]);
+  const auto movingImage = itk::ReadImage<MovingImageType>(argv[2]);
 
   using FixedCastFilterType =
     itk::CastImageFilter<FixedImageType, InternalImageType>;
@@ -260,8 +254,8 @@ main(int argc, char * argv[])
   auto fixedCaster = FixedCastFilterType::New();
   auto movingCaster = MovingCastFilterType::New();
 
-  fixedCaster->SetInput(fixedImageReader->GetOutput());
-  movingCaster->SetInput(movingImageReader->GetOutput());
+  fixedCaster->SetInput(fixedImage);
+  movingCaster->SetInput(movingImage);
 
   registration->SetFixedImage(fixedCaster->GetOutput());
   registration->SetMovingImage(movingCaster->GetOutput());
@@ -289,8 +283,8 @@ main(int argc, char * argv[])
                                       MovingImageType>;
   auto initializer = TransformInitializerType::New();
   initializer->SetTransform(transform);
-  initializer->SetFixedImage(fixedImageReader->GetOutput());
-  initializer->SetMovingImage(movingImageReader->GetOutput());
+  initializer->SetFixedImage(fixedImage);
+  initializer->SetMovingImage(movingImage);
   initializer->MomentsOn();
   initializer->InitializeTransform();
   registration->SetInitialTransformParameters(transform->GetParameters());
@@ -533,9 +527,8 @@ main(int argc, char * argv[])
   auto resample = ResampleFilterType::New();
 
   resample->SetTransform(finalTransform);
-  resample->SetInput(movingImageReader->GetOutput());
+  resample->SetInput(movingImage);
 
-  const FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
   PixelType backgroundGrayLevel = 100;
   if (argc > 4)
@@ -553,16 +546,10 @@ main(int argc, char * argv[])
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
   using CastFilterType =
     itk::CastImageFilter<FixedImageType, OutputImageType>;
-  using WriterType = itk::ImageFileWriter<OutputImageType>;
-
-  auto writer = WriterType::New();
   auto caster = CastFilterType::New();
 
-  writer->SetFileName(argv[3]);
-
   caster->SetInput(resample->GetOutput());
-  writer->SetInput(caster->GetOutput());
-  writer->Update();
+  itk::WriteImage(caster->GetOutput(), argv[3]);
 
   //  Software Guide : BeginLatex
   //
@@ -613,7 +600,6 @@ main(int argc, char * argv[])
   checker->SetInput2(resample->GetOutput());
 
   caster->SetInput(checker->GetOutput());
-  writer->SetInput(caster->GetOutput());
 
   resample->SetDefaultPixelValue(0);
 
@@ -625,16 +611,14 @@ main(int argc, char * argv[])
 
   if (argc > 5)
   {
-    writer->SetFileName(argv[5]);
-    writer->Update();
+    itk::WriteImage(caster->GetOutput(), argv[5]);
   }
 
   // After registration
   resample->SetTransform(finalTransform);
   if (argc > 6)
   {
-    writer->SetFileName(argv[6]);
-    writer->Update();
+    itk::WriteImage(caster->GetOutput(), argv[6]);
   }
 
   return EXIT_SUCCESS;

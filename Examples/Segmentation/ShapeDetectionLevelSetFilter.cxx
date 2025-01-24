@@ -566,18 +566,19 @@ main(int argc, char * argv[])
   caster1->SetOutputMinimum(0);
   caster1->SetOutputMaximum(255);
   itk::WriteImage(caster1->GetOutput(),
-                  outputImageFilePrefix + "Smoothing.png")
+                  outputImageFilePrefix + "Smoothing.png");
 
-    caster2->SetInput(gradientMagnitude->GetOutput());
+  caster2->SetInput(gradientMagnitude->GetOutput());
   caster2->SetOutputMinimum(0);
   caster2->SetOutputMaximum(255);
   itk::WriteImage(caster2->GetOutput(),
-                  outputImageFilePrefix + "GradientMagnitude.png")
+                  outputImageFilePrefix + "GradientMagnitude.png");
 
-    caster3->SetInput(sigmoid->GetOutput());
+  caster3->SetInput(sigmoid->GetOutput());
   caster3->SetOutputMinimum(0);
   caster3->SetOutputMaximum(255);
-  itk::WriteImage(caster3->GetOutput(),outputImageFilePrefix + "Sigmoid.png"))
+  itk::WriteImage(caster3->GetOutput(),
+                  outputImageFilePrefix + "Sigmoid.png");
 
   caster4->SetInput(fastMarching->GetOutput());
   caster4->SetOutputMinimum(0);
@@ -689,16 +690,16 @@ main(int argc, char * argv[])
   std::cout << "RMS change: " << shapeDetection->GetRMSChange() << std::endl;
 
   itk::WriteImage(caster4->GetOutput(),
-                  outputImageFilePrefix + "FastMarching.png")
+                  outputImageFilePrefix + "FastMarching.png");
 
 
-    // The following writer type is used to save the output of the
-    // time-crossing map in a file with appropriate pixel representation. The
-    // advantage of saving this image in native format is that it can be used
-    // with a viewer to help determine an appropriate threshold to be used on
-    // the output of the fastmarching filter.
-    //
-    using InternalWriterType = itk::ImageFileWriter<InternalImageType>;
+  // The following writer type is used to save the output of the
+  // time-crossing map in a file with appropriate pixel representation. The
+  // advantage of saving this image in native format is that it can be used
+  // with a viewer to help determine an appropriate threshold to be used on
+  // the output of the fastmarching filter.
+  //
+  using InternalWriterType = itk::ImageFileWriter<InternalImageType>;
 
   auto mapWriter = InternalWriterType::New();
   mapWriter->SetInput(fastMarching->GetOutput());

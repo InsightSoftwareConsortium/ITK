@@ -456,7 +456,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   try
   {
-    itk::WriteImage(thresholder->GetOutput(), argv[2])
+    itk::WriteImage(thresholder->GetOutput(), argv[2]);
   }
   catch (const itk::ExceptionObject & excep)
   {

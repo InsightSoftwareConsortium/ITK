@@ -106,7 +106,7 @@ main(int argc, char * argv[])
 
   try
   {
-    itk::WriteImage(colorMapFilter->GetOutput(), argv[2])
+    itk::WriteImage(colorMapFilter->GetOutput(), argv[2]);
   }
   catch (const itk::ExceptionObject & excep)
   {
