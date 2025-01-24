@@ -532,6 +532,10 @@ if(ITK_USE_BRAINWEB_DATA)
       TEST ITKv3DeformableRegistration8Test3
       APPEND
       PROPERTY LABELS RUNS_LONG)
+    set_property(
+      TEST ITKv3DeformableRegistration8Test3
+      APPEND
+      PROPERTIES RESOURCE_LOCK MEMORY_SIZE)
 
     itk_add_test(
       NAME
@@ -637,6 +641,10 @@ if(ITK_USE_BRAINWEB_DATA)
       TEST ITKv3DeformableRegistration8Test7
       APPEND
       PROPERTY LABELS RUNS_LONG)
+    set_property(
+      TEST ITKv3DeformableRegistration8Test7
+      APPEND
+      PROPERTY RUN_SERIAL True)
 
     itk_add_test(
       NAME
@@ -659,6 +667,10 @@ if(ITK_USE_BRAINWEB_DATA)
       TEST ITKv3DeformableRegistration8Test8
       APPEND
       PROPERTY LABELS RUNS_LONG)
+    set_property(
+      TEST ITKv3DeformableRegistration8Test8
+      APPEND
+      PROPERTY RUN_SERIAL True)
 
     set(NUMBER_OF_BSPLINE_GRID_NODES 100)
     itk_add_test(
