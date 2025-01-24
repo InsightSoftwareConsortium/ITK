@@ -132,7 +132,7 @@ main(int argc, char * argv[])
   //
   try
   {
-    itk::WriteImage(rescaler->GetOutput(), labelMapImageFileName)
+    itk::WriteImage(rescaler->GetOutput(), labelMapImageFileName);
   }
   catch (const itk::ExceptionObject & excp)
   {

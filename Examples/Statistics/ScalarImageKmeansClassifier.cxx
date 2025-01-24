@@ -167,7 +167,7 @@ main(int argc, char * argv[])
   using OutputImageType = KMeansFilterType::OutputImageType;
   try
   {
-    itk::WriteImage(kmeansFilter->GetOutput(), outputImageFileName)
+    itk::WriteImage(kmeansFilter->GetOutput(), outputImageFileName);
   }
   catch (const itk::ExceptionObject & excp)
   {

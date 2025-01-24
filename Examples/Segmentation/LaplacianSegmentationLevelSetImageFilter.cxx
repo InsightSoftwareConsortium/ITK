@@ -232,7 +232,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   try
   {
-    itk::WriteImage(thresholder->GetOutput(), argv[3])
+    itk::WriteImage(thresholder->GetOutput(), argv[3]);
   }
   catch (const itk::ExceptionObject & excep)
   {

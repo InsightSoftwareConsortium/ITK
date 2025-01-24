@@ -283,27 +283,27 @@ main(int argc, char * argv[])
 
   std::cout << "applyGibbsImageFilter: " << applyGibbsImageFilter;
 
-  itk::WriteImage(applyGibbsImageFilter->GetOutput(), argv[3])
+  itk::WriteImage(applyGibbsImageFilter->GetOutput(), argv[3]);
 
-    //  Software Guide : BeginLatex
-    //
-    //  We execute this program on the image \code{brainweb89.png}. The
-    //  following parameters are passed to the command line:
-    //
-    //  \small
-    //  \begin{verbatim}
-    // GibbsGuide.exe brainweb89.png brainweb89_train.png brainweb_gp.png
-    //  \end{verbatim}
-    //  \normalsize
-    //
-    //  \code{brainweb89train} is a training image that helps to estimate the
-    //  object statistics.
-    //
-    //  Note that in order to successfully segment other images, one has to
-    //  create suitable training images for them. We can also segment color
-    //  (RGB) and other multi-channel images.
-    //
-    //  Software Guide : EndLatex
+  //  Software Guide : BeginLatex
+  //
+  //  We execute this program on the image \code{brainweb89.png}. The
+  //  following parameters are passed to the command line:
+  //
+  //  \small
+  //  \begin{verbatim}
+  // GibbsGuide.exe brainweb89.png brainweb89_train.png brainweb_gp.png
+  //  \end{verbatim}
+  //  \normalsize
+  //
+  //  \code{brainweb89train} is a training image that helps to estimate the
+  //  object statistics.
+  //
+  //  Note that in order to successfully segment other images, one has to
+  //  create suitable training images for them. We can also segment color
+  //  (RGB) and other multi-channel images.
+  //
+  //  Software Guide : EndLatex
 
-    return EXIT_SUCCESS;
+  return EXIT_SUCCESS;
 }

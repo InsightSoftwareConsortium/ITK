@@ -576,7 +576,7 @@ main(int argc, char * argv[])
     caster1->SetInput(smoothing->GetOutput());
     caster1->SetOutputMinimum(0);
     caster1->SetOutputMaximum(255);
-    itk::WriteImage(caster1->GetOutput(), argv[10])
+    itk::WriteImage(caster1->GetOutput(), argv[10]);
   }
   catch (const itk::ExceptionObject & err)
   {
@@ -663,7 +663,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   try
   {
-    itk::WriteImage(thresholder->GetOutput(),argv[2]))
+    itk::WriteImage(thresholder->GetOutput(), argv[2]);
   }
   catch (const itk::ExceptionObject & excep)
   {
@@ -679,7 +679,7 @@ main(int argc, char * argv[])
     caster4->SetInput(fastMarching->GetOutput());
     caster4->SetOutputMinimum(0);
     caster4->SetOutputMaximum(255);
-    itk::WriteImage(caster4->GetOutput(), "FastMarchingFilterOutput4.png")
+    itk::WriteImage(caster4->GetOutput(), "FastMarchingFilterOutput4.png");
   }
   catch (const itk::ExceptionObject & err)
   {

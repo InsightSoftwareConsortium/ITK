@@ -377,17 +377,11 @@ main(int argc, const char * argv[])
   registration->SetOptimizer(optimizer);
   registration->SetMetric(metric);
 
-  using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
-  using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
+  const auto fixedImage = itk::ReadImage<FixedImageType>(fixedImageFile);
+  const auto movingImage = itk::ReadImage<MovingImageType>(movingImageFile);
 
-  auto fixedImageReader = FixedImageReaderType::New();
-  auto movingImageReader = MovingImageReaderType::New();
-
-  fixedImageReader->SetFileName(fixedImageFile);
-  movingImageReader->SetFileName(movingImageFile);
-
-  registration->SetFixedImage(fixedImageReader->GetOutput());
-  registration->SetMovingImage(movingImageReader->GetOutput());
+  registration->SetFixedImage(fixedImage);
+  registration->SetMovingImage(movingImage);
 
 
   using ParametersType = OptimizerType::ParametersType;
@@ -568,10 +562,7 @@ main(int argc, const char * argv[])
   auto resample = ResampleFilterType::New();
 
   resample->SetTransform(transform);
-  resample->SetInput(movingImageReader->GetOutput());
-
-  const FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
-
+  resample->SetInput(movingImage);
 
   resample->SetSize(fixedImage->GetLargestPossibleRegion().GetSize());
   resample->SetOutputOrigin(fixedImage->GetOrigin());
@@ -586,20 +577,10 @@ main(int argc, const char * argv[])
 
   using CastFilterType =
     itk::CastImageFilter<FixedImageType, OutputImageType>;
-
-  using WriterType = itk::ImageFileWriter<OutputImageType>;
-
-
-  auto writer = WriterType::New();
   auto caster = CastFilterType::New();
-
-
-  writer->SetFileName(outImagefile);
-
-
   caster->SetInput(resample->GetOutput());
-  writer->SetInput(caster->GetOutput());
-  writer->Update();
+
+  itk::WriteImage(caster->GetOutput(), outImagefile);
 
   //
   // Generate checkerboards before and after registration
@@ -612,7 +593,6 @@ main(int argc, const char * argv[])
   checker->SetInput2(resample->GetOutput());
 
   caster->SetInput(checker->GetOutput());
-  writer->SetInput(caster->GetOutput());
 
   resample->SetDefaultPixelValue(0);
 
@@ -627,8 +607,7 @@ main(int argc, const char * argv[])
   }
   if (checkerBoardBefore != std::string(""))
   {
-    writer->SetFileName(checkerBoardBefore);
-    writer->Update();
+    itk::WriteImage(caster->GetOutput(), checkerBoardBefore);
   }
 
 
@@ -636,8 +615,7 @@ main(int argc, const char * argv[])
   resample->SetTransform(transform);
   if (checkerBoardAfter != std::string(""))
   {
-    writer->SetFileName(checkerBoardAfter);
-    writer->Update();
+    itk::WriteImage(caster->GetOutput(), checkerBoardAfter);
   }
 
   //  Software Guide : BeginLatex

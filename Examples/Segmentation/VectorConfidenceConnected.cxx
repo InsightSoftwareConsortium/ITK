@@ -126,7 +126,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  confidenceConnected->SetInput(reader->GetOutput());
+  confidenceConnected->SetInput(input);
   // Software Guide : EndCodeSnippet
 
 
@@ -243,7 +243,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   try
   {
-    itk::WriteImage(confidenceConnected->GetOutput(), argv[2])
+    itk::WriteImage(confidenceConnected->GetOutput(), argv[2]);
   }
   catch (const itk::ExceptionObject & excep)
   {

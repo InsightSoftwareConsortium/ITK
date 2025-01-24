@@ -107,19 +107,19 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   relabeler->SetInput(input);
-  itk::WriteImage(relabeler->GetOutput(), argv[2])
-    // Software Guide : EndCodeSnippet
+  itk::WriteImage(relabeler->GetOutput(), argv[2]);
+  // Software Guide : EndCodeSnippet
 
 
-    // Software Guide : BeginLatex
-    //
-    // We can now query the size of each one of the connected components, both
-    // in pixel units and in physical units.
-    //
-    // Software Guide : EndLatex
+  // Software Guide : BeginLatex
+  //
+  // We can now query the size of each one of the connected components, both
+  // in pixel units and in physical units.
+  //
+  // Software Guide : EndLatex
 
-    // Software Guide : BeginCodeSnippet
-    using SizesInPixelsType = std::vector<itk::SizeValueType>;
+  // Software Guide : BeginCodeSnippet
+  using SizesInPixelsType = std::vector<itk::SizeValueType>;
   const SizesInPixelsType & sizesInPixels =
     relabeler->GetSizeOfObjectsInPixels();
 

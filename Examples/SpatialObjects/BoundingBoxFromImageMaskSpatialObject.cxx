@@ -51,7 +51,7 @@ main(int argc, char * argv[])
   using ImageMaskSpatialObject = itk::ImageMaskSpatialObject<3>;
 
   using ImageType = ImageMaskSpatialObject::ImageType;
-  using ImageType::Pointer input;
+  ImageType::Pointer input;
   try
   {
     input = itk::ReadImage<ImageType>(argv[1]);

@@ -88,7 +88,7 @@ main(int argc, char * argv[])
   //
   //  Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  using ImageType::Pointer localImage;
+  ImageType::Pointer localImage;
   try
   {
     localImage = itk::ReadImage<ImageType>(argv[1]);
@@ -265,7 +265,7 @@ main(int argc, char * argv[])
 
   try
   {
-    itk::WriteImage(localOutputImage, argv[2])
+    itk::WriteImage(localOutputImage, argv[2]);
   }
   catch (const itk::ExceptionObject & excep)
   {

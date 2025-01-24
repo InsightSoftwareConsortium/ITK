@@ -85,7 +85,7 @@ main(int argc, char * argv[])
     itk::BayesianClassifierInitializationImageFilter<ImageType>;
   auto bayesianInitializer = BayesianInitializerType::New();
 
-  using ImageType::Pointer input;
+  ImageType::Pointer input;
   try
   {
     input = itk::ReadImage<ImageType>(argv[1]);
@@ -115,7 +115,7 @@ main(int argc, char * argv[])
 
   try
   {
-    itk::WriteImage(bayesianInitializer->GetOutput(), argv[2])
+    itk::WriteImage(bayesianInitializer->GetOutput(), argv[2]);
   }
   catch (const itk::ExceptionObject & excp)
   {

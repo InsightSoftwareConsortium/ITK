@@ -62,6 +62,7 @@ main(int argc, char * argv[])
 
   using ImageType = itk::Image<PixelType, Dimension>;
 
+  ImageType::Pointer input;
   try
   {
     const auto input = itk::ReadImage<ImageType>(argv[1]);

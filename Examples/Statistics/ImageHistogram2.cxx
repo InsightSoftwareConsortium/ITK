@@ -72,9 +72,9 @@ main(int argc, char * argv[])
   constexpr unsigned int Dimension = 2;
 
   using ImageType = itk::Image<PixelType, Dimension>;
-  using ImageType::Pointer = input;
   // Software Guide : EndCodeSnippet
 
+  ImageType::Pointer input;
   try
   {
     input = itk::ReadImage<ImageType>(argv[1]);
