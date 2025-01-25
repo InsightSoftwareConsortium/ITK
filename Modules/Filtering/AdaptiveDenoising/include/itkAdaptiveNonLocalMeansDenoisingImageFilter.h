@@ -60,7 +60,7 @@ public:
   typedef SmartPointer<const Self>                                 ConstPointer;
 
   /** Runtime information support. */
-  itkTypeMacro(AdaptiveNonLocalMeansDenoisingImageFilter, NonLocalPatchBasedImageFilter);
+  itkOverrideGetNameOfClassMacro(AdaptiveNonLocalMeansDenoisingImageFilter);
 
   /** Standard New method. */
   itkNewMacro(Self);

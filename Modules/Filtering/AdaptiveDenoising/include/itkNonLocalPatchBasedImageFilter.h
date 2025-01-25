@@ -71,7 +71,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Runtime information support. */
-  itkTypeMacro(NonLocalPatchBasedImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(NonLocalPatchBasedImageFilter);
 
   /** Standard New method. */
   itkNewMacro(Self);

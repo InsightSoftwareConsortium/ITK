@@ -58,7 +58,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VarianceImageFilter, BoxImageFilter);
+  itkOverrideGetNameOfClassMacro(VarianceImageFilter);
 
   /** Image typedef support. */
   typedef typename InputImageType::PixelType               InputPixelType;
