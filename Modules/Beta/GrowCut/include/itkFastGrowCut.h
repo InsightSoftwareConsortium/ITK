@@ -69,7 +69,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods).  */
-   itkOverrideGetNameOfClassMacro(FastGrowCut);
+  itkOverrideGetNameOfClassMacro(FastGrowCut);
 
   using InputImageType = TInputImage;
   using IntensityPixelType = typename InputImageType::PixelType;
@@ -85,9 +85,9 @@ public:
   using SizeType = typename InputImageType::SizeType;
   using SpacingType = typename InputImageType::SpacingType;
 
-  //using SeedsContainerType = std::vector<IndexType>;
+  // using SeedsContainerType = std::vector<IndexType>;
 
-  //using InputRealType = typename NumericTraits<IntensityPixelType>::RealType;
+  // using InputRealType = typename NumericTraits<IntensityPixelType>::RealType;
 
 
   /** Reset to initial state. This forces full recomputation of the result label volume.
