@@ -48,7 +48,7 @@ public:
   using ConstTransformListType = typename Superclass::ConstTransformListType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(DCMTKTransformIO, TransformIOBaseTemplate);
+  itkOverrideGetNameOfClassMacro(DCMTKTransformIO);
 
   itkNewMacro(Self);
 
