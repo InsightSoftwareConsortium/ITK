@@ -60,7 +60,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(LinearAnisotropicDiffusionLBRImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(LinearAnisotropicDiffusionLBRImageFilter);
 
   using ImageType = TImage;
   using PixelType = typename ImageType::PixelType;

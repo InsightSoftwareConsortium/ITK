@@ -63,7 +63,7 @@ public:
   /// Method for creation through the object factory.
   itkNewMacro(Self);
   /// Run-time type information (and related methods).
-  itkTypeMacro(StructureTensorImageFilter, Superclass);
+  itkOverrideGetNameOfClassMacro(StructureTensorImageFilter);
 
   using InputImageDimensionType = typename Superclass::InputImageType::ImageDimensionType;
   static constexpr InputImageDimensionType InputImageDimension = Superclass::InputImageType::ImageDimension;
