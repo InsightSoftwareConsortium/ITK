@@ -131,7 +131,7 @@ set(DOXYGEN_PREDEFINED
     "itkVirtualGetNameOfClassMacro(thisClass)= virtual const char * GetNameOfClass() const;"
     "itkOverrideGetNameOfClassMacro(thisClass)= const char * GetNameOfClass() const override;"
     "itkEventMacro(thisClass,superclass)=                   class thisClass : public superclass {};"
-    "itkDeclareExceptionMacro(newexcp,parentexcp,whatmessage)=         namespace itk {         class newexcp : public parentexcp {        public:       newexcp(const char *file, unsigned int lineNumber) :        parentexcp(file, lineNumber)          { this->SetDescription(whatmessage); }          newexcp(const std::string & file, unsigned int lineNumber) :          parentexcp(file, lineNumber)          { this->SetDescription(whatmessage); }          itkTypeMacro(newexcp, , parentexcp);         };        }"
+    "itkDeclareExceptionMacro(newexcp,parentexcp,whatmessage)=         namespace itk {         class newexcp : public parentexcp {        public:       newexcp(const char *file, unsigned int lineNumber) :        parentexcp(file, lineNumber)          { this->SetDescription(whatmessage); }          newexcp(const std::string & file, unsigned int lineNumber) :          parentexcp(file, lineNumber)          { this->SetDescription(whatmessage); }           itkOverrideGetNameOfClassMacro(newexcp, );         };        }"
     "itkConceptMacro(thisName,thisConcept)=                   /* This class requires thisName                       in the form of thisConcept */"
     "std::numeric_limits=                   std::numeric_limits"
     "ITK_TYPENAME=                   typename"
