@@ -50,7 +50,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MGHImageIO, ImageIOBase);
+  itkOverrideGetNameOfClassMacro(MGHImageIO);
 
   /*-------- This part of the interfaces deals with reading data. ----- */
 
