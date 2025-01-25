@@ -51,7 +51,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(LabelSelectionImageAdaptor, ImageAdaptor);
+  itkOverrideGetNameOfClassMacro(LabelSelectionImageAdaptor);
 
   void
   SetAcceptedValue(typename TImage::PixelType value)

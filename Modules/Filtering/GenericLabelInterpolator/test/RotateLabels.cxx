@@ -118,7 +118,7 @@ public:
   using ConstPointer = itk::SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FixedGaussianInterpolator, GaussianInterpolateImageFunction);
+  itkOverrideGetNameOfClassMacro(FixedGaussianInterpolator);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
