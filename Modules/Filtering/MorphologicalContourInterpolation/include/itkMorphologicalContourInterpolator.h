@@ -80,7 +80,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MorphologicalContourInterpolator, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(MorphologicalContourInterpolator);
 
   /** Interpolate only this label. Interpolates all labels if set to 0 (default). */
   itkSetMacro(Label, typename TImage::PixelType);
