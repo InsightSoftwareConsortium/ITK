@@ -97,7 +97,6 @@ LoopTriangleEdgeCellSubdivisionQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::AddN
   {
     itkExceptionMacro(<< "Wire edge detected");
   }
-
   return;
 }
 

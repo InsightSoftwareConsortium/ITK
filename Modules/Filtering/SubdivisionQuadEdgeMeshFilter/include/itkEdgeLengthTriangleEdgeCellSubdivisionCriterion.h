@@ -60,7 +60,7 @@ public:
   using SubdivisionCellContainer = typename Superclass::SubdivisionCellContainer;
 
   /** Run-time type information (and related methods).   */
-  itkTypeMacro(EdgeLengthTriangleEdgeCellSubdivisionCriterion, QuadEdgeMeshSubdivisionCriterion);
+  itkOverrideGetNameOfClassMacro(EdgeLengthTriangleEdgeCellSubdivisionCriterion);
   itkNewMacro(Self);
 
   void

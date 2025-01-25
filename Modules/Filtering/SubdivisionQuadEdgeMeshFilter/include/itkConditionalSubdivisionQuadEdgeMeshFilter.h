@@ -58,7 +58,7 @@ public:
   using CriterionPointer = typename CriterionType::Pointer;
 
   /** Run-time type information (and related methods).   */
-  itkTypeMacro(ConditionalSubdivisionQuadEdgeMeshFilter, QuadEdgeMeshToQuadEdgeMeshFilter);
+  itkOverrideGetNameOfClassMacro(ConditionalSubdivisionQuadEdgeMeshFilter);
   itkNewMacro(Self);
 
 #ifdef ITK_USE_CONCEPT_CHECKING

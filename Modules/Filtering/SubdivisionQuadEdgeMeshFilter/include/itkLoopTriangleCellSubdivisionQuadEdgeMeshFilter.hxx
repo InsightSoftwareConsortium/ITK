@@ -276,7 +276,6 @@ LoopTriangleCellSubdivisionQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::Smoothin
       opt[kk] = (1.0 - nn * beta) * ipt[kk] + beta * opt[kk];
     }
   }
-
   return opt;
 }
 } // namespace itk

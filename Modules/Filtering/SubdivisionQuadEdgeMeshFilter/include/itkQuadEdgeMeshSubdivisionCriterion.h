@@ -57,7 +57,7 @@ public:
   using SubdivisionCellContainer = typename TCellSubdivisionFilter::SubdivisionCellContainer;
 
   /** Run-time type information (and related methods).   */
-  itkTypeMacro(QuadEdgeMeshSubdivisionCriterion, Object);
+  itkOverrideGetNameOfClassMacro(QuadEdgeMeshSubdivisionCriterion);
 
   virtual void
   Compute(MeshType * mesh, SubdivisionCellContainer & edgeList) = 0;

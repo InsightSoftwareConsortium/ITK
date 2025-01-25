@@ -178,6 +178,5 @@ itkCriterionTriangleCellSubdivisionQuadEdgeMeshFilterTest(int argc, char * argv[
     std::cerr << "You must have subdivision type " << std::endl;
     return EXIT_FAILURE;
   }
-
   return EXIT_SUCCESS;
 }

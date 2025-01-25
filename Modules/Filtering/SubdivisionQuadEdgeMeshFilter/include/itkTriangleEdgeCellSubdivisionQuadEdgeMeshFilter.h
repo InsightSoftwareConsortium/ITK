@@ -82,7 +82,7 @@ public:
   using SubdivisionCellContainerConstIterator = typename SubdivisionCellContainer::const_iterator;
 
   /** Run-time type information (and related methods).   */
-  itkTypeMacro(TriangleEdgeCellSubdivisionQuadEdgeMeshFilter, TriangleCellSubdivisionQuadEdgeMeshFilter);
+  itkOverrideGetNameOfClassMacro(TriangleEdgeCellSubdivisionQuadEdgeMeshFilter);
   itkGetConstReferenceMacro(EdgesToBeSubdivided, SubdivisionCellContainer);
 
   void
