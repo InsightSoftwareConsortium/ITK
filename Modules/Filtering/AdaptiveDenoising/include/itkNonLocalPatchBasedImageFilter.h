@@ -71,13 +71,13 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Runtime information support. */
-  itkTypeMacro(NonLocalPatchBasedImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(NonLocalPatchBasedImageFilter);
 
   /** Standard New method. */
   itkNewMacro(Self);
 
   /** ImageDimension constants */
-  itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Some convenient typedefs. */
   using InputImageType = TInputImage;

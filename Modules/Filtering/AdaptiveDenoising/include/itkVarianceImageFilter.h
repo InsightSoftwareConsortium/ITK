@@ -41,8 +41,8 @@ public:
   ITK_DISALLOW_COPY_AND_MOVE(VarianceImageFilter);
 
   /** Extract dimension from input and output image. */
-  itkStaticConstMacro(InputImageDimension, unsigned int, TInputImage::ImageDimension);
-  itkStaticConstMacro(OutputImageDimension, unsigned int, TOutputImage::ImageDimension);
+  static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
+  static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
   /** Convenient typedefs for simplifying declarations. */
   typedef TInputImage  InputImageType;
@@ -58,7 +58,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VarianceImageFilter, BoxImageFilter);
+  itkOverrideGetNameOfClassMacro(VarianceImageFilter);
 
   /** Image typedef support. */
   typedef typename InputImageType::PixelType               InputPixelType;

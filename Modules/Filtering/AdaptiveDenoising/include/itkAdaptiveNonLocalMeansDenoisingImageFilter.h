@@ -60,13 +60,13 @@ public:
   typedef SmartPointer<const Self>                                 ConstPointer;
 
   /** Runtime information support. */
-  itkTypeMacro(AdaptiveNonLocalMeansDenoisingImageFilter, NonLocalPatchBasedImageFilter);
+  itkOverrideGetNameOfClassMacro(AdaptiveNonLocalMeansDenoisingImageFilter);
 
   /** Standard New method. */
   itkNewMacro(Self);
 
   /** ImageDimension constants */
-  itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Some convenient typedefs. */
   typedef TInputImage                        InputImageType;
