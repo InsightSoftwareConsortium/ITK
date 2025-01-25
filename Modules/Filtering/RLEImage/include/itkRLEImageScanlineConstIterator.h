@@ -59,7 +59,7 @@ public:
   using PixelType = typename Superclass::PixelType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageScanlineConstIterator, ImageRegionConstIterator);
+  itkOverrideGetNameOfClassMacro(ImageScanlineConstIterator);
 
   /** Default constructor. Needed since we provide a cast constructor. */
   ImageScanlineConstIterator()
