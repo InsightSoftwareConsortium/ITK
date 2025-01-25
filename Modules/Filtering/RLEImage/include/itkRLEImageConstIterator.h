@@ -54,7 +54,7 @@ public:
   static constexpr unsigned int ImageIteratorDimension = VImageDimension;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacroNoParent(ImageConstIterator);
+  itkVirtualGetNameOfClassMacro(ImageConstIterator);
 
   /** Image type alias support. */
   using ImageType = RLEImage<TPixel, VImageDimension, CounterType>;
