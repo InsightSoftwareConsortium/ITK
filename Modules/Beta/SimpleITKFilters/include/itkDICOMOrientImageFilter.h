@@ -96,7 +96,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-   itkOverrideGetNameOfClassMacro(DICOMOrientImageFilter);
+  itkOverrideGetNameOfClassMacro(DICOMOrientImageFilter);
 
   using OrientationEnum = DICOMOrientation::OrientationEnum;
 

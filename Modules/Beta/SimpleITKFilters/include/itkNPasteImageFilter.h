@@ -72,7 +72,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-   itkOverrideGetNameOfClassMacro(NPasteImageFilter);
+  itkOverrideGetNameOfClassMacro(NPasteImageFilter);
 
   /** Typedefs from Superclass */
   using InputImagePointer = typename Superclass::InputImagePointer;

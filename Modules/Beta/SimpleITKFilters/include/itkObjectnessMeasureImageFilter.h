@@ -97,7 +97,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-   itkOverrideGetNameOfClassMacro(ObjectnessMeasureImageFilter);
+  itkOverrideGetNameOfClassMacro(ObjectnessMeasureImageFilter);
 
 
   /** Set/Get Alpha, the weight corresponding to R_A

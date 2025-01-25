@@ -39,9 +39,9 @@ namespace itk
 class SimpleITKFilters_EXPORT DICOMOrientation
 {
 public:
-  constexpr static unsigned int Dimension = 3;
+  static constexpr unsigned int Dimension = 3;
   using DirectionType = typename ImageBase<Dimension>::DirectionType;
-  constexpr static unsigned int ImageDimension = Dimension;
+  static constexpr unsigned int ImageDimension = Dimension;
 
 
   enum class CoordinateEnum : uint8_t
@@ -63,7 +63,7 @@ private:
     TertiaryMinor = 16
   };
 
-  constexpr static uint32_t
+  static constexpr uint32_t
   toOrientation(const CoordinateEnum primary, const CoordinateEnum secondary, const CoordinateEnum tertiary)
   {
     return (static_cast<uint32_t>(primary) << static_cast<uint8_t>(CoordinateMajornessTermsEnum::PrimaryMinor)) +
@@ -79,9 +79,9 @@ public:
 #  define ITK_ORIENTATIONENUM toOrientation
 #else
 
-#  define ITK_ORIENTATIONENUM(P, S, T)                                                                                 \
-    (static_cast<uint32_t>(P) << static_cast<uint8_t>(CoordinateMajornessTermsEnum::PrimaryMinor)) +                   \
-      (static_cast<uint32_t>(S) << static_cast<uint8_t>(CoordinateMajornessTermsEnum::SecondaryMinor)) +               \
+#  define ITK_ORIENTATIONENUM(P, S, T)                                                                   \
+    (static_cast<uint32_t>(P) << static_cast<uint8_t>(CoordinateMajornessTermsEnum::PrimaryMinor)) +     \
+      (static_cast<uint32_t>(S) << static_cast<uint8_t>(CoordinateMajornessTermsEnum::SecondaryMinor)) + \
       (static_cast<uint32_t>(T) << static_cast<uint8_t>(CoordinateMajornessTermsEnum::TertiaryMinor))
 
 #endif

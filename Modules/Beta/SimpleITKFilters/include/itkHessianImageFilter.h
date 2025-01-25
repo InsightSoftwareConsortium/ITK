@@ -66,7 +66,7 @@ public:
 
 
   /** Run-time type information (and related methods).   */
-   itkOverrideGetNameOfClassMacro(HessianImageFilter);
+  itkOverrideGetNameOfClassMacro(HessianImageFilter);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

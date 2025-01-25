@@ -74,7 +74,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-   itkOverrideGetNameOfClassMacro(MaskedAssignImageFilter);
+  itkOverrideGetNameOfClassMacro(MaskedAssignImageFilter);
 
   /** Typedefs **/
   using InputImageType = TInputImage;
