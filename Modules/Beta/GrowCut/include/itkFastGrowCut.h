@@ -69,7 +69,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods).  */
-  itkTypeMacro(FastGrowCut, ImageToImageFilter);
+   itkOverrideGetNameOfClassMacro(FastGrowCut);
 
   using InputImageType = TInputImage;
   using IntensityPixelType = typename InputImageType::PixelType;
