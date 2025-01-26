@@ -47,7 +47,7 @@ public:
   ITK_DISALLOW_COPY_AND_MOVE(BSplineGradientImageFilter);
 
   /** Extract dimension from input image. */
-  itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Standard class type alias. */
   using Self = BSplineGradientImageFilter;
@@ -71,7 +71,7 @@ public:
   /** Image type alias support. */
   using InputPixelType = typename InputImageType::PixelType;
   using OutputValueType = TOutputValueType;
-  using OutputPixelType = CovariantVector<OutputValueType, itkGetStaticConstMacro(OutputImageDimension)>;
+  using OutputPixelType = CovariantVector<OutputValueType, Self::OutputImageDimension>;
   using OutputImageRegionType = typename OutputImageType::RegionType;
 
 #ifdef ITK_USE_CONCEPT_CHECKING

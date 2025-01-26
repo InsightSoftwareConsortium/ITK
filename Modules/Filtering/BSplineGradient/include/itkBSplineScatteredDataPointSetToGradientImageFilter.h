@@ -59,8 +59,8 @@ public:
   ITK_DISALLOW_COPY_AND_MOVE(BSplineScatteredDataPointSetToGradientImageFilter);
 
   /** Extract dimension from input image. */
-  itkStaticConstMacro(PointSetDimension, unsigned int, TInputPointSet::PointDimension);
-  itkStaticConstMacro(ImageDimension, unsigned int, TInputPointSet::PointDimension);
+  static constexpr unsigned int PointSetDimension = TInputPointSet::PointDimension;
+  static constexpr unsigned int ImageDimension = TInputPointSet::PointDimension;
 
   /** Standard class type alias. */
   using Self = BSplineScatteredDataPointSetToGradientImageFilter;
@@ -68,8 +68,7 @@ public:
   /** Convenient type alias for simplifying declarations. */
   using InputPointSetType = TInputPointSet;
   using InputPointSetPointer = typename InputPointSetType::Pointer;
-  using OutputImageType = Image<CovariantVector<TOutputValueType, itkGetStaticConstMacro(ImageDimension)>,
-                                itkGetStaticConstMacro(ImageDimension)>;
+  using OutputImageType = Image<CovariantVector<TOutputValueType, Self::ImageDimension>, Self::ImageDimension>;
   using OutputImagePointer = typename OutputImageType::Pointer;
 
   /** Standard class type alias. */
@@ -85,7 +84,7 @@ public:
 
   /** Image type alias support. */
   using InputPixelType = typename InputPointSetType::PixelType;
-  itkStaticConstMacro(InputVectorDimension, unsigned int, InputPixelType::Dimension);
+  static constexpr unsigned int InputVectorDimension = InputPixelType::Dimension;
 
   using InputPointType = typename InputPointSetType::PointType;
   using OutputValueType = TOutputValueType;

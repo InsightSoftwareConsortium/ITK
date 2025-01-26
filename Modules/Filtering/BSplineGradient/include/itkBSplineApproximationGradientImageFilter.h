@@ -52,7 +52,7 @@ class ITK_TEMPLATE_EXPORT BSplineApproximationGradientImageFilter
 public:
   ITK_DISALLOW_COPY_AND_MOVE(BSplineApproximationGradientImageFilter);
 
-  itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   using Self = BSplineApproximationGradientImageFilter;
 
@@ -70,9 +70,9 @@ public:
 
   using OutputValueType = TOutputValueType;
   using InputPixelType = typename InputImageType::PixelType;
-  using PointSetType = PointSet<InputPixelType, itkGetStaticConstMacro(ImageDimension)>;
+  using PointSetType = PointSet<InputPixelType, Self::ImageDimension>;
 
-  itkStaticConstMacro(InputVectorDimension, unsigned int, InputPixelType::Dimension);
+  static constexpr unsigned int InputVectorDimension = InputPixelType::Dimension;
 
   /** Internal filter type */
   /** Internal filter type */
@@ -83,7 +83,7 @@ public:
   using ImageToPointSetFilterType = ImageToPointSetFilter<InputImageType, MeshType>;
   using ImageToPointSetFilterPointerType = typename ImageToPointSetFilterType::Pointer;
 
-  using ControlPointSpacingRatioType = FixedArray<double, itkGetStaticConstMacro(ImageDimension)>;
+  using ControlPointSpacingRatioType = FixedArray<double, Self::ImageDimension>;
 
   /** Set/Get number of levels.  This is the number of levels used in the
    * BSplineScatteredDataPointSetToImageFilter for calculating the BSpline grid.

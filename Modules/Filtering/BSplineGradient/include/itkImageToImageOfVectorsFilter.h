@@ -67,7 +67,7 @@ public:
   itkOverrideGetNameOfClassMacro(ImageToImageOfVectorsFilter);
 
   using InputImageType = TInputImage;
-  itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   using InputPixelType = typename InputImageType::InternalPixelType;
 
