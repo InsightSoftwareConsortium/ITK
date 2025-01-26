@@ -45,7 +45,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FDFImageIO, ImageIOBase);
+  itkOverrideGetNameOfClassMacro(FDFImageIO);
 
   bool
   SupportsDimension(unsigned long dim) override
