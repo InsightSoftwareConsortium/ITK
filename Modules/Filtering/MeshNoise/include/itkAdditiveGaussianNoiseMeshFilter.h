@@ -56,7 +56,7 @@ public:
   using OutputMeshPointer = typename OutputMeshType::Pointer;
 
   /** Type for representing coordinates. */
-  using CoordRepType = typename TInput::CoordRepType;
+  using CoordinateType = typename TInput::CoordinateType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -65,12 +65,12 @@ public:
   itkOverrideGetNameOfClassMacro(AdditiveGaussianNoiseMeshFilter);
 
   /** Mean of noise. */
-  itkGetConstMacro(Mean, CoordRepType);
-  itkSetMacro(Mean, CoordRepType);
+  itkGetConstMacro(Mean, CoordinateType);
+  itkSetMacro(Mean, CoordinateType);
 
   /** Variance of noise. */
-  itkGetConstMacro(Sigma, CoordRepType);
-  itkSetMacro(Sigma, CoordRepType);
+  itkGetConstMacro(Sigma, CoordinateType);
+  itkSetMacro(Sigma, CoordinateType);
 
   /** Initialization seed. */
   itkGetConstMacro(Seed, int);
@@ -87,8 +87,8 @@ protected:
   void
   GenerateData() override;
 
-  CoordRepType m_Mean;
-  CoordRepType m_Sigma;
+  CoordinateType m_Mean;
+  CoordinateType m_Sigma;
   int          m_Seed;
 };
 

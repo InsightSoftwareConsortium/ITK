@@ -50,7 +50,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Type for representing coordinates. */
-  using CoordRepType = typename TInputMesh::CoordRepType;
+  using CoordinateType = typename TInputMesh::CoordinateType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -59,12 +59,12 @@ public:
   itkOverrideGetNameOfClassMacro(AdditiveGaussianNoiseQuadEdgeMeshFilter);
 
   /** Mean of noise. */
-  itkGetConstMacro(Mean, CoordRepType);
-  itkSetMacro(Mean, CoordRepType);
+  itkGetConstMacro(Mean, CoordinateType);
+  itkSetMacro(Mean, CoordinateType);
 
   /** Variance of noise. */
-  itkGetConstMacro(Sigma, CoordRepType);
-  itkSetMacro(Sigma, CoordRepType);
+  itkGetConstMacro(Sigma, CoordinateType);
+  itkSetMacro(Sigma, CoordinateType);
 
   /** Initialization seed. */
   itkGetConstMacro(Seed, int);
@@ -81,8 +81,8 @@ protected:
   void
   GenerateData() override;
 
-  CoordRepType m_Mean;
-  CoordRepType m_Sigma;
+  CoordinateType m_Mean;
+  CoordinateType m_Sigma;
   int          m_Seed;
 };
 

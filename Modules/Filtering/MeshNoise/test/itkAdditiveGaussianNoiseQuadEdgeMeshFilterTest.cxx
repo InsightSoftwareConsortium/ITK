@@ -43,8 +43,8 @@ itkAdditiveGaussianNoiseQuadEdgeMeshFilterTest(int itkNotUsed(argc), char * itkN
   constexpr double SPHERE_SCALE = 10.0;
 
   constexpr int                 NOISE_SEED = 100;
-  const TMesh::CoordRepType     NOISE_SIGMA = SPHERE_SCALE * 0.01;
-  constexpr TMesh::CoordRepType NOISE_MEAN = 1.0;
+  const TMesh::CoordinateType     NOISE_SIGMA = SPHERE_SCALE * 0.01;
+  constexpr TMesh::CoordinateType NOISE_MEAN = 1.0;
 
   ///////////
   // Logic //
