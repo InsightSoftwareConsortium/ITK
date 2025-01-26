@@ -88,7 +88,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(DescoteauxEigenToMeasureParameterEstimationFilter, EigenToMeasureParameterEstimationFilter);
+  itkOverrideGetNameOfClassMacro(DescoteauxEigenToMeasureParameterEstimationFilter);
 
   /** Setter/Getter methods for setting FrobeniusNormWeight */
   itkSetMacro(FrobeniusNormWeight, RealType);

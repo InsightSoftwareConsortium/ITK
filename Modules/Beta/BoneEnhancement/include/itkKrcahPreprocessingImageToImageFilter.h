@@ -67,7 +67,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(KrcahPreprocessingImageToImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(KrcahPreprocessingImageToImageFilter);
 
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */

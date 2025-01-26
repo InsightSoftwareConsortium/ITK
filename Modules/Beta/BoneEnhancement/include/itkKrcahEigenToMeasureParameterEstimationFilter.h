@@ -113,7 +113,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(KrcahEigenToMeasureParameterEstimationFilter, EigenToMeasureParameterEstimationFilter);
+  itkOverrideGetNameOfClassMacro(KrcahEigenToMeasureParameterEstimationFilter);
 
   /***\class KrcahImplementationEnum
    * Krcah implementation type
