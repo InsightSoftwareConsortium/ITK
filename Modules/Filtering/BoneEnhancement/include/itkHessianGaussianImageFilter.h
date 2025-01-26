@@ -68,7 +68,7 @@ public:
   using RealType = typename NumericTraits<PixelType>::RealType;
 
   /** Image dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Define the image type for internal computations
       RealType is usually 'double' in NumericTraits.

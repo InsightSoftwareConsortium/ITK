@@ -70,7 +70,7 @@ public:
   using InputImageRegionType = typename InputImageType::RegionType;
   using InputImagePixelType = typename InputImageType::PixelType;
   using PixelValueType = typename InputImagePixelType::ValueType;
-  itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Output image typedefs. */
   using OutputImageType = TOutputImage;
