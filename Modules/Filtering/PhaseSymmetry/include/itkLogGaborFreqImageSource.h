@@ -40,7 +40,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Dimensionality of the output image */
-  itkStaticConstMacro(ImageDimension, unsigned int, TOutputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
   using OutputImageType = TOutputImage;
   using OutputImageRegionType = typename TOutputImage::RegionType;

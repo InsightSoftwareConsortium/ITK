@@ -63,7 +63,7 @@ public:
   using RangeType = std::vector<std::vector<double>>;
 
   /** Dimensionality of the output image */
-  itkStaticConstMacro(NDimensions, unsigned int, TOutputImage::ImageDimension);
+  static constexpr unsigned int NDimensions = TOutputImage::ImageDimension;
 
   /** Type used to store gaussian parameters. */
 

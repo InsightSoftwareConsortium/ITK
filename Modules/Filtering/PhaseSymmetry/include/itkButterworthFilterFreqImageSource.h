@@ -46,7 +46,7 @@ public:
   itkNewMacro(Self);
 
   /** Dimensionality of the output image. */
-  itkStaticConstMacro(ImageDimension, unsigned int, TOutputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
   using OutputImageType = TOutputImage;
   using SpacingType = typename TOutputImage::SpacingType;

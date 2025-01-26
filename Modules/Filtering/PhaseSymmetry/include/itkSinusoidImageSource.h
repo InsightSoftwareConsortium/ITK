@@ -53,7 +53,7 @@ public:
   using OutputImageType = TOutputImage;
 
   /** Dimensionality of the output image */
-  itkStaticConstMacro(ImageDimension, unsigned int, TOutputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
   /** Type used to store Sinusoid parameters. */
   using ArrayType = FixedArray<double, ImageDimension>;
