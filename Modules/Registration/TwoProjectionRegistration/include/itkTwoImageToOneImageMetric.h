@@ -81,9 +81,7 @@ public:
   static constexpr unsigned int FixedImageDimension = TFixedImage::ImageDimension;
 
   /**  Type of the Transform Base class */
-  using TransformType = Transform<CoordinateRepresentationType,
-                                  itkGetStaticConstMacro(MovingImageDimension),
-                                  itkGetStaticConstMacro(FixedImageDimension)>;
+  using TransformType = Transform<CoordinateRepresentationType, Self::MovingImageDimension, Self::FixedImageDimension>;
 
   using TransformPointer = typename TransformType::Pointer;
   using InputPointType = typename TransformType::InputPointType;
@@ -97,8 +95,8 @@ public:
 
   /** Gaussian filter to compute the gradient of the Moving Image */
   using RealType = typename NumericTraits<MovingImagePixelType>::RealType;
-  using GradientPixelType = CovariantVector<RealType, itkGetStaticConstMacro(MovingImageDimension)>;
-  using GradientImageType = Image<GradientPixelType, itkGetStaticConstMacro(MovingImageDimension)>;
+  using GradientPixelType = CovariantVector<RealType, Self::MovingImageDimension>;
+  using GradientImageType = Image<GradientPixelType, Self::MovingImageDimension>;
   using GradientImagePointer = SmartPointer<GradientImageType>;
   using GradientImageFilterType = GradientRecursiveGaussianImageFilter<MovingImageType, GradientImageType>;
   using GradientImageFilterPointer = typename GradientImageFilterType::Pointer;
@@ -106,12 +104,12 @@ public:
 
   /**  Type for the mask of the fixed image. Only pixels that are "inside"
        this mask will be considered for the computation of the metric */
-  typedef SpatialObject<itkGetStaticConstMacro(FixedImageDimension)> FixedImageMaskType;
+  typedef SpatialObject<Self::FixedImageDimension> FixedImageMaskType;
   using FixedImageMaskPointer = typename FixedImageMaskType::Pointer;
 
   /**  Type for the mask of the moving image. Only pixels that are "inside"
        this mask will be considered for the computation of the metric */
-  typedef SpatialObject<itkGetStaticConstMacro(MovingImageDimension)> MovingImageMaskType;
+  typedef SpatialObject<Self::MovingImageDimension> MovingImageMaskType;
   using MovingImageMaskPointer = typename MovingImageMaskType::Pointer;
 
 
