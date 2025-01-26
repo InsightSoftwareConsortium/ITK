@@ -86,20 +86,20 @@ public:
   using ParametersType = typename Superclass::ParametersType;
 
   /** Standard vector type for this class. */
-  using InputVectorType = Vector<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)>;
-  using OutputVectorType = Vector<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)>;
+  using InputVectorType = Vector<TParametersValueType, Self::SpaceDimension>;
+  using OutputVectorType = Vector<TParametersValueType, Self::SpaceDimension>;
 
   /** Standard covariant vector type for this class. */
-  using InputCovariantVectorType = CovariantVector<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)>;
-  using OutputCovariantVectorType = CovariantVector<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)>;
+  using InputCovariantVectorType = CovariantVector<TParametersValueType, Self::SpaceDimension>;
+  using OutputCovariantVectorType = CovariantVector<TParametersValueType, Self::SpaceDimension>;
 
   /** Standard vnl_vector type for this class. */
-  using InputVnlVectorType = vnl_vector_fixed<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)>;
-  using OutputVnlVectorType = vnl_vector_fixed<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)>;
+  using InputVnlVectorType = vnl_vector_fixed<TParametersValueType, Self::SpaceDimension>;
+  using OutputVnlVectorType = vnl_vector_fixed<TParametersValueType, Self::SpaceDimension>;
 
   /** Standard coordinate point type for this class. */
-  using InputPointType = Point<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)>;
-  using OutputPointType = Point<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)>;
+  using InputPointType = Point<TParametersValueType, Self::SpaceDimension>;
+  using OutputPointType = Point<TParametersValueType, Self::SpaceDimension>;
 
   /** Method to transform a point.
    * This method transforms first two dimensions of a point from cartesian
