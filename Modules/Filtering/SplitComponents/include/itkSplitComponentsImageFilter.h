@@ -71,7 +71,7 @@ public:
   using ComponentsMaskType = FixedArray<bool, TComponents>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SplitComponentsImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(SplitComponentsImageFilter);
 
   /** Method of creation through the object factory. */
   itkNewMacro(Self);
