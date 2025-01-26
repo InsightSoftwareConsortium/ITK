@@ -52,7 +52,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(LabelSetDilateImageFilter, LabelSetMorphBaseImageFilter);
+  itkOverrideGetNameOfClassMacro(LabelSetDilateImageFilter);
 
   /** Pixel Type of the input image */
   using InputImageType = TInputImage;

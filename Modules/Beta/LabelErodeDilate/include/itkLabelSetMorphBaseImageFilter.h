@@ -58,7 +58,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(LabelSetMorphBaseImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(LabelSetMorphBaseImageFilter);
 
   /** Pixel Type of the input image */
   using InputImageType = TInputImage;
