@@ -73,7 +73,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(FirstOrderTextureFeaturesImageFilter, MovingHistogramMorphologyImageFilter);
+  itkOverrideGetNameOfClassMacro(FirstOrderTextureFeaturesImageFilter);
 
   /** Image related type alias. */
   using InputImageType = TInputImage;

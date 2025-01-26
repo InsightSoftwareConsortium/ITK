@@ -102,7 +102,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(CoocurrenceTextureFeaturesImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(CoocurrenceTextureFeaturesImageFilter);
 
   /** standard New() method support */
   itkNewMacro(Self);
