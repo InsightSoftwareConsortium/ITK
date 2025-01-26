@@ -71,10 +71,10 @@ public:
   using PointDataContainerIterator = typename PointDataContainer::Iterator;
 
   /** The dimension of the output mesh. */
-  itkStaticConstMacro(PointDimension, unsigned int, TOutputMesh::PointDimension);
+  static constexpr unsigned int PointDimension = TOutputMesh::PointDimension;
 
   /** ImageDimension constant */
-  itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
 protected:
   ImageToPointSetFilter() {}
