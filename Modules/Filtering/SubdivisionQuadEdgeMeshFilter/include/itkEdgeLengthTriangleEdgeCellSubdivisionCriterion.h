@@ -51,7 +51,7 @@ public:
   using CellsContainerIterator = typename Superclass::CellsContainerIterator;
   using CellsContainerConstIterator = typename Superclass::CellsContainerConstIterator;
   using PointType = typename Superclass::PointType;
-  using CoordRepType = typename Superclass::CoordRepType;
+  using CoordinateType = typename Superclass::CoordinateType;
   using PointIdentifier = typename Superclass::PointIdentifier;
   using CellIdentifier = typename Superclass::CellIdentifier;
   using CellType = typename Superclass::CellType;
@@ -66,15 +66,15 @@ public:
   void
   Compute(MeshType * mesh, SubdivisionCellContainer & edgeList) override;
 
-  itkGetConstMacro(MaximumLength, CoordRepType);
-  itkSetMacro(MaximumLength, CoordRepType);
+  itkGetConstMacro(MaximumLength, CoordinateType);
+  itkSetMacro(MaximumLength, CoordinateType);
 
 protected:
-  EdgeLengthTriangleEdgeCellSubdivisionCriterion() { m_MaximumLength = NumericTraits<CoordRepType>::max(); }
+  EdgeLengthTriangleEdgeCellSubdivisionCriterion() { m_MaximumLength = NumericTraits<CoordinateType>::max(); }
   ~EdgeLengthTriangleEdgeCellSubdivisionCriterion() override = default;
 
 private:
-  CoordRepType m_MaximumLength;
+  CoordinateType m_MaximumLength;
 };
 
 } // namespace itk

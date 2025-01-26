@@ -59,7 +59,7 @@ public:
   using InputCellsContainerIterator = typename InputMeshType::CellsContainerIterator;
   using InputCellsContainerConstIterator = typename InputMeshType::CellsContainerConstIterator;
   using InputPointType = typename InputMeshType::PointType;
-  using InputCoordType = typename InputMeshType::CoordRepType;
+  using InputCoordType = typename InputMeshType::CoordinateType;
   using InputPointIdentifier = typename InputMeshType::PointIdentifier;
   using InputCellIdentifier = typename InputMeshType::CellIdentifier;
   using InputCellType = typename InputMeshType::CellType;
@@ -76,7 +76,7 @@ public:
   using OutputCellsContainerIterator = typename OutputMeshType::CellsContainerIterator;
   using OutputCellsContainerConstIterator = typename OutputMeshType::CellsContainerConstIterator;
   using OutputPointType = typename OutputMeshType::PointType;
-  using OutputCoordType = typename OutputMeshType::CoordRepType;
+  using OutputCoordType = typename OutputMeshType::CoordinateType;
   using OutputPointIdentifier = typename OutputMeshType::PointIdentifier;
   using OutputCellIdentifier = typename OutputMeshType::CellIdentifier;
   using OutputCellType = typename OutputMeshType::CellType;

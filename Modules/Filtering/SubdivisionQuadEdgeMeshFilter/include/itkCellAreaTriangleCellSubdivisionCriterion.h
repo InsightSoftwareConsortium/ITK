@@ -52,7 +52,7 @@ public:
   using CellsContainerIterator = typename Superclass::CellsContainerIterator;
   using CellsContainerConstIterator = typename Superclass::CellsContainerConstIterator;
   using PointType = typename Superclass::PointType;
-  using CoordRepType = typename Superclass::CoordRepType;
+  using CoordinateType = typename Superclass::CoordinateType;
   using PointIdentifier = typename Superclass::PointIdentifier;
   using CellIdentifier = typename Superclass::CellIdentifier;
   using CellType = typename Superclass::CellType;
@@ -67,15 +67,15 @@ public:
   void
   Compute(MeshType * mesh, SubdivisionCellContainer & cellIds) override;
 
-  itkGetConstMacro(MaximumArea, CoordRepType);
-  itkSetMacro(MaximumArea, CoordRepType);
+  itkGetConstMacro(MaximumArea, CoordinateType);
+  itkSetMacro(MaximumArea, CoordinateType);
 
 protected:
-  CellAreaTriangleCellSubdivisionCriterion() { m_MaximumArea = NumericTraits<CoordRepType>::max(); }
+  CellAreaTriangleCellSubdivisionCriterion() { m_MaximumArea = NumericTraits<CoordinateType>::max(); }
   ~CellAreaTriangleCellSubdivisionCriterion() override = default;
 
 private:
-  CoordRepType m_MaximumArea;
+  CoordinateType m_MaximumArea;
 };
 
 } // namespace itk

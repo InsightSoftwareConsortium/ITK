@@ -48,7 +48,7 @@ public:
   using CellsContainerIterator = typename MeshType::CellsContainerIterator;
   using CellsContainerConstIterator = typename MeshType::CellsContainerConstIterator;
   using PointType = typename MeshType::PointType;
-  using CoordRepType = typename MeshType::CoordRepType;
+  using CoordinateType = typename MeshType::CoordinateType;
   using PointIdentifier = typename MeshType::PointIdentifier;
   using CellIdentifier = typename MeshType::CellIdentifier;
   using CellType = typename MeshType::CellType;

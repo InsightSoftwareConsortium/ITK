@@ -53,7 +53,7 @@ public:
   using InputCellsContainerIterator = typename Superclass::InputCellsContainerIterator;
   using InputCellsContainerConstIterator = typename Superclass::InputCellsContainerConstIterator;
   using InputPointType = typename Superclass::InputPointType;
-  using InputCoordType = typename Superclass::InputCoordRepType;
+  using InputCoordType = typename Superclass::InputCoordinateType;
   using InputPointIdentifier = typename Superclass::InputPointIdentifier;
   using InputCellIdentifier = typename Superclass::InputCellIdentifier;
   using InputCellType = typename Superclass::InputCellType;

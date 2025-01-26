@@ -54,7 +54,7 @@ CellAreaTriangleCellSubdivisionCriterion<TTriangleCellSubdivisionFilter>::Comput
       ++nn;
     }
 
-    CoordRepType area = TriangleHelper<PointType>::ComputeArea(pointArray[0], pointArray[1], pointArray[2]);
+    CoordinateType area = TriangleHelper<PointType>::ComputeArea(pointArray[0], pointArray[1], pointArray[2]);
     if (area > m_MaximumArea)
     {
       cellIds.push_back(static_cast<typename SubdivisionCellContainer::value_type>(cter->Index()));
