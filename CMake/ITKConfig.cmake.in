@@ -115,6 +115,9 @@ set(ITK_USE_GPU "@ITK_USE_GPU@")
 set(ITK_WRAPPING "@ITK_WRAPPING@")
 # ITK_WRAP_DOC is disabled by default.
 
+# expose C++ standard used to build ITK for supporting external packages
+set(ITK_CXX_STANDARD CMAKE_CXX_STANDARD)
+
 if( NOT DEFINED ITK_WRAP_PYTHON)
   set(ITK_WRAP_PYTHON "@ITK_WRAP_PYTHON@")
 endif()
