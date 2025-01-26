@@ -224,8 +224,8 @@ FastBilateralImageFilter<TInputImage, TOutputImage>::GenerateData()
     gridImageBlurFilter->SetVariance(variance);
     gridWeightBlurFilter->SetVariance(variance);
 
-    gridImageBlurFilter->SetUseImageSpacingOff();
-    gridWeightBlurFilter->SetUseImageSpacingOff();
+    gridImageBlurFilter->UseImageSpacingOff();
+    gridWeightBlurFilter->UseImageSpacingOff();
 
     gridImageBlurFilter->SetMaximumKernelWidth(maxWidth);
     gridWeightBlurFilter->SetMaximumKernelWidth(maxWidth);
