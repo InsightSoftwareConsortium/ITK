@@ -61,7 +61,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information. */
-  itkTypeMacro(MedialThicknessImageFilter3D, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(MedialThicknessImageFilter3D);
 
   /** Standard New macro. */
   itkNewMacro(Self);
