@@ -67,7 +67,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(AnalyzeObjectEntry, Object);
+  itkOverrideGetNameOfClassMacro(AnalyzeObjectEntry);
 
   /**
    * \brief Copy

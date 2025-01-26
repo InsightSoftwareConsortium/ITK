@@ -57,7 +57,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(AnalyzeObjectMap, TImage);
+  itkOverrideGetNameOfClassMacro(AnalyzeObjectMap);
 
   /**
    * \brief an assignment operator
