@@ -115,7 +115,7 @@ public:
 
   /** Typedef for an array of doubles that specifies the DomainSigma
    *  in each spacial dimension. */
-  using DomainSigmaArrayType = FixedArray<double, itkGetStaticConstMacro(ImageDimension)>;
+  using DomainSigmaArrayType = FixedArray<double, Self::ImageDimension>;
 
   /** Standard get/set macros for filter parameters.
    *  DomainSigma is specified in the same units as the Image spacing.
@@ -164,13 +164,13 @@ protected:
 
   /** The type of image to use as the higher dimensional grid.
    * The blurring is performed on this image type. */
-  using GridType = typename itk::Image<float, itkGetStaticConstMacro(ImageDimension) + 1>;
+  using GridType = typename itk::Image<float, Self::ImageDimension + 1>;
 
   /** Grid types */
   using GridPixelType = typename GridType::PixelType;
   using GridIndexType = typename GridType::IndexType;
   using GridSizeType = typename GridType::SizeType;
-  using GridSizeValueType = typename Size<itkGetStaticConstMacro(ImageDimension) + 1>::SizeValueType;
+  using GridSizeValueType = typename Size<Self::ImageDimension + 1>::SizeValueType;
   using GridRegionType = typename GridType::RegionType;
 
   /** Grid image iterator type. */
