@@ -64,7 +64,7 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
   itkNewMacro(Self);
-  itkTypeMacro(ImageToImageOfVectorsFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(ImageToImageOfVectorsFilter);
 
   using InputImageType = TInputImage;
   itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);

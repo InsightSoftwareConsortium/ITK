@@ -66,7 +66,7 @@ public:
 
   itkNewMacro(Self);
 
-  itkTypeMacro(BSplineApproximationGradientImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(BSplineApproximationGradientImageFilter);
 
   using OutputValueType = TOutputValueType;
   using InputPixelType = typename InputImageType::PixelType;

@@ -66,7 +66,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(BSplineGradientImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(BSplineGradientImageFilter);
 
   /** Image type alias support. */
   using InputPixelType = typename InputImageType::PixelType;

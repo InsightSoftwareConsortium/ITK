@@ -81,7 +81,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(BSplineScatteredDataPointSetToGradientImageFilter, PointSetToImageFilter);
+  itkOverrideGetNameOfClassMacro(BSplineScatteredDataPointSetToGradientImageFilter);
 
   /** Image type alias support. */
   using InputPixelType = typename InputPointSetType::PixelType;
