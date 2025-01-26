@@ -25,9 +25,6 @@
  */
 
 /* $Id$ */
-#ifdef USE_SSE
-#include <emmintrin.h>
-#endif
 
 #ifndef __LBFGS_H__
 #define __LBFGS_H__
@@ -62,7 +59,7 @@ typedef double lbfgsfloatval_t;
 #endif
 
 
-/**
+/** 
  * \addtogroup liblbfgs_api libLBFGS API
  * @{
  *
@@ -71,7 +68,7 @@ typedef double lbfgsfloatval_t;
 
 /**
  * Return values of lbfgs().
- *
+ * 
  *  Roughly speaking, a negative value indicates an error.
  */
 enum {
@@ -368,7 +365,7 @@ typedef struct {
  *  function and its gradients when needed. A client program must implement
  *  this function to evaluate the values of the objective function and its
  *  gradients, given current values of variables.
- *
+ *  
  *  @param  instance    The user data sent for lbfgs() function by the client.
  *  @param  x           The current values of variables.
  *  @param  g           The gradient vector. The callback function must compute
@@ -505,14 +502,14 @@ void lbfgs_parameter_init(lbfgs_parameter_t *param);
  *  when libLBFGS is built with SSE/SSE2 optimization routines. A user does
  *  not have to use this function for libLBFGS built without SSE/SSE2
  *  optimization.
- *
+ *  
  *  @param  n           The number of variables.
  */
 lbfgsfloatval_t* lbfgs_malloc(int n);
 
 /**
  * Free an array of variables.
- *
+ *  
  *  @param  x           The array of variables allocated by ::lbfgs_malloc
  *                      function.
  */

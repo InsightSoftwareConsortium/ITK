@@ -22,7 +22,7 @@
 #include "ITKOptimizersv4Export.h"
 #include <memory>
 
-#include "lbfgs.h"
+#include "itk_lbfgs.h"
 
 namespace itk
 {
