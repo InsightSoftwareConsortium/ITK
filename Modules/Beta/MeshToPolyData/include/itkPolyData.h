@@ -49,7 +49,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PolyData, DataObject);
+  itkOverrideGetNameOfClassMacro(PolyData);
 
   /** Type of PointData or CellData */
   using PixelType = TPixel;

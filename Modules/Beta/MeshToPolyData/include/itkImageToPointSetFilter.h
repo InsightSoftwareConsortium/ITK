@@ -50,7 +50,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageToPointSetFilter, ImageToMeshFilter);
+  itkOverrideGetNameOfClassMacro(ImageToPointSetFilter);
 
   /** Some convenient type alias. */
   using InputImageType = TInputImage;

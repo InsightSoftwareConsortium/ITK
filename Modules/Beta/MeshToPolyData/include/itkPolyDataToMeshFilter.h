@@ -51,7 +51,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information. */
-  itkTypeMacro(PolyDataToMeshFilter, ProcessObject);
+  itkOverrideGetNameOfClassMacro(PolyDataToMeshFilter);
 
   static constexpr unsigned int PointDimension = TInputPolyData::PointDimension;
 

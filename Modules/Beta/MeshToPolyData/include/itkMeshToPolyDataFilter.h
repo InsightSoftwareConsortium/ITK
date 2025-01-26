@@ -73,7 +73,7 @@ public:
   using PolyDataType = PolyData< typename InputMeshType::PixelType >;
 
   /** Run-time type information. */
-  itkTypeMacro( MeshToPolyDataFilter, ProcessObject );
+  itkOverrideGetNameOfClassMacro( MeshToPolyDataFilter);
 
   /** Standard New macro. */
   itkNewMacro( Self );
