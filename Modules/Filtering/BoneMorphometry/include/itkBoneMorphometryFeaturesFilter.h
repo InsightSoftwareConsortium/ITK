@@ -69,7 +69,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(BoneMorphometryFeaturesFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(BoneMorphometryFeaturesFilter);
 
   /** Image related type alias. */
   using InputImagePointer = typename TInputImage::Pointer;
