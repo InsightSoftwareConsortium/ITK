@@ -91,7 +91,7 @@ BSplineGradientImageFilter<TInputImage, TOutputValueType, TCoordRep, TCoefficien
     index = it.GetIndex();
     for (i = 0; i < ImageDimension; ++i)
     {
-      contIndex[i] = static_cast<CoordRepType>(index[i]);
+      contIndex[i] = static_cast<CoordinateType>(index[i]);
     }
     it.Set(interpolator->EvaluateDerivativeAtContinuousIndex(contIndex));
   }
