@@ -77,7 +77,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(TwoProjectionImageRegistrationMethod, ProcessObject);
+  itkOverrideGetNameOfClassMacro(TwoProjectionImageRegistrationMethod);
 
   /**  Type of the Fixed image. */
   using FixedImageType = TFixedImage;

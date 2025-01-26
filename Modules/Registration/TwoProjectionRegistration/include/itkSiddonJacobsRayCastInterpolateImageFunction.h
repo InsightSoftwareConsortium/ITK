@@ -90,7 +90,7 @@ public:
 
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SiddonJacobsRayCastInterpolateImageFunction, InterpolateImageFunction);
+  itkOverrideGetNameOfClassMacro(SiddonJacobsRayCastInterpolateImageFunction);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

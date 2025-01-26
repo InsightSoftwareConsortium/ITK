@@ -57,7 +57,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(NormalizedCorrelationTwoImageToOneImageMetric, Object);
+  itkOverrideGetNameOfClassMacro(NormalizedCorrelationTwoImageToOneImageMetric);
 
 
   /** Types transferred from the base class */

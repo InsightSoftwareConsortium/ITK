@@ -64,7 +64,7 @@ public:
   using CoordinateRepresentationType = Superclass::ParametersValueType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(TwoImageToOneImageMetric, SingleValuedCostFunction);
+  itkOverrideGetNameOfClassMacro(TwoImageToOneImageMetric);
 
   /**  Type of the moving Image. */
   using MovingImageType = TMovingImage;
