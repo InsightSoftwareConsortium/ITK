@@ -51,8 +51,7 @@ public:
 
   /** Standard class type alias. */
   using Self = PhysicalCentralDifferenceImageFunction;
-  using Superclass =
-    ImageFunction<TInputImage, CovariantVector<double, itkGetStaticConstMacro(ImageDimension)>, TCoordRep>;
+  using Superclass = ImageFunction<TInputImage, CovariantVector<double, Self::ImageDimension>, TCoordRep>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
