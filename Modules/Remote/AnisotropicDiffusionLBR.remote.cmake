@@ -64,5 +64,5 @@ itk_fetch_module(
   "
   MODULE_COMPLIANCE_LEVEL 2
   GIT_REPOSITORY https://github.com/InsightSoftwareConsortium/ITKAnisotropicDiffusionLBR.git
-  GIT_TAG 1e4a4e9bac1f40058dd57abc7a49443d9ac6376b
+  GIT_TAG 4dbdfe9dd209c0f266a821d1cc2c2135c8057bf9
   )
