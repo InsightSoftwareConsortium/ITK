@@ -70,7 +70,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(CartesianToPolarTransform, Transform);
+  itkOverrideGetNameOfClassMacro(CartesianToPolarTransform);
 
   /** Dimension of the domain space. */
   static constexpr unsigned int SpaceDimension = NDimensions;
