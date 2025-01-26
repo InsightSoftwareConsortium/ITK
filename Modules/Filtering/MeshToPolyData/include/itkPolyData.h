@@ -57,7 +57,7 @@ public:
   using MeshTraits = DefaultStaticMeshTraits< PixelType, PointDimension, PointDimension, float, float, CellPixelType >;
 
   /** Convenient type alias obtained from TMeshTraits template parameter. */
-  using CoordRepType = typename MeshTraits::CoordRepType;
+  using CoordinateType = typename MeshTraits::CoordinateType;
   using PointIdentifier = typename MeshTraits::PointIdentifier;
   using PointType = typename MeshTraits::PointType;
   using PointsContainer = typename MeshTraits::PointsContainer;

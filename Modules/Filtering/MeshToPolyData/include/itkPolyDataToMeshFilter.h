@@ -60,7 +60,7 @@ public:
   using OutputMeshType = Mesh<typename InputPolyDataType::PixelType, PointDimension>;
   using MeshType = OutputMeshType;
 
-  using OutputCoordRepType = typename OutputMeshType::CoordRepType;
+  using OutputCoordinateType = typename OutputMeshType::CoordinateType;
   using OutputPointPixelType = typename OutputMeshType::PixelType;
   using OutputCellPixelType = typename OutputMeshType::CellPixelType;
   using OutputPointType = typename OutputMeshType::PointType;
