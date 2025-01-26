@@ -65,7 +65,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(TileMontage, ProcessObject);
+  itkOverrideGetNameOfClassMacro(TileMontage);
 
   /** Dimensionality of input images. */
   static constexpr unsigned int ImageDimension = ImageType::ImageDimension;

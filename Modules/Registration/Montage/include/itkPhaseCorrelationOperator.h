@@ -57,7 +57,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PhaseCorrelationOperator, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(PhaseCorrelationOperator);
 
   /** ImageDimension enumeration. */
   static constexpr unsigned int ImageDimension = VImageDimension;

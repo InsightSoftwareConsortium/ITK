@@ -130,7 +130,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PhaseCorrelationOptimizer, ProcessObject);
+  itkOverrideGetNameOfClassMacro(PhaseCorrelationOptimizer);
 
   /**  Type of the inputs. */
   static constexpr unsigned int ImageDimension = VImageDimension;

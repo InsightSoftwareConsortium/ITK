@@ -146,7 +146,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PhaseCorrelationImageRegistrationMethod, ProcessObject);
+  itkOverrideGetNameOfClassMacro(PhaseCorrelationImageRegistrationMethod);
 
   /**  Type of the Fixed image. */
   using FixedImageType = TFixedImage;

@@ -53,7 +53,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(NMinimaMaximaImageCalculator, Object);
+  itkOverrideGetNameOfClassMacro(NMinimaMaximaImageCalculator);
 
   /** Type definition for the input image. */
   using ImageType = TInputImage;

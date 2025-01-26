@@ -71,7 +71,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(TileMergeImageFilter, TileMontage);
+  itkOverrideGetNameOfClassMacro(TileMergeImageFilter);
 
   /** Dimensionality of input images. */
   static constexpr unsigned int ImageDimension = ImageType::ImageDimension;
