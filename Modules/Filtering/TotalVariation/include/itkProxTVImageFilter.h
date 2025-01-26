@@ -56,7 +56,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information. */
-  itkTypeMacro(ProxTVImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(ProxTVImageFilter);
 
   /** Standard New macro. */
   itkNewMacro(Self);
