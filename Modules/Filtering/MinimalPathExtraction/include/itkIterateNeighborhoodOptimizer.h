@@ -53,7 +53,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(IterateNeighborhoodOptimizer, SingleValuedNonLinearOptimizer);
+  itkOverrideGetNameOfClassMacro(IterateNeighborhoodOptimizer);
 
   /** Configure whether the local maxima or minima is found.
    *  The default is to minimize the cost function (maximize = false ).*/

@@ -63,7 +63,7 @@ public:
 
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SpeedFunctionPathInformation, LightObject);
+  itkOverrideGetNameOfClassMacro(SpeedFunctionPathInformation);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

@@ -65,7 +65,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SingleImageCostFunction, SingleValuedCostFunction);
+  itkOverrideGetNameOfClassMacro(SingleImageCostFunction);
 
   /** MeasureType type alias.
    *  It defines a type used to return the cost function value. */
