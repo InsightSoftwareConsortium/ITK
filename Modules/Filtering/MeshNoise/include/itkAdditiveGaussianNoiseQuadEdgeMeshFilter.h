@@ -56,7 +56,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(AdditiveGaussianNoiseQuadEdgeMeshFilter, QuadEdgeMeshToQuadEdgeMeshFilter);
+  itkOverrideGetNameOfClassMacro(AdditiveGaussianNoiseQuadEdgeMeshFilter);
 
   /** Mean of noise. */
   itkGetConstMacro(Mean, CoordRepType);

@@ -62,7 +62,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(AdditiveGaussianNoiseMeshFilter, MeshToMeshFilter);
+  itkOverrideGetNameOfClassMacro(AdditiveGaussianNoiseMeshFilter);
 
   /** Mean of noise. */
   itkGetConstMacro(Mean, CoordRepType);
