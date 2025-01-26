@@ -82,7 +82,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(KrcahEigenToMeasureImageFilter, EigenToMeasureImageFilter);
+  itkOverrideGetNameOfClassMacro(KrcahEigenToMeasureImageFilter);
 
   /** Explicitely state the eigenvalues are ordered by magnitude for this filter */
   typename Superclass::EigenValueOrderEnum

@@ -77,7 +77,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(MultiScaleHessianEnhancementImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(MultiScaleHessianEnhancementImageFilter);
 
   /** Input Image typedefs. */
   using InputImageType = TInputImage;

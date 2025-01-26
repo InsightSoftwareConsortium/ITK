@@ -110,7 +110,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(MaximumAbsoluteValueImageFilter, BinaryFunctorImageFilter);
+  itkOverrideGetNameOfClassMacro(MaximumAbsoluteValueImageFilter);
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
   itkConceptMacro(Input1ConvertableToOutputCheck, (Concept::Convertible<Input1PixelType, OutputPixelType>));
