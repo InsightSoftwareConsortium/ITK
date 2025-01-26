@@ -42,7 +42,7 @@ itkAdditiveGaussianNoiseMeshFilterTest(int itkNotUsed(argc), char * itkNotUsed(a
   constexpr int    SPHERE_RESOLUTION = 5;
   constexpr double SPHERE_SCALE = 10.0;
 
-  constexpr int                 NOISE_SEED = 100;
+  constexpr int                   NOISE_SEED = 100;
   const TMesh::CoordinateType     NOISE_SIGMA = SPHERE_SCALE * 0.01;
   constexpr TMesh::CoordinateType NOISE_MEAN = 1.0;
 
@@ -53,7 +53,7 @@ itkAdditiveGaussianNoiseMeshFilterTest(int itkNotUsed(argc), char * itkNotUsed(a
   TSphere::Pointer sphere = TSphere::New();
 
   sphere->SetResolution(SPHERE_RESOLUTION);
-  sphere->SetScale(SPHERE_SCALE);
+  sphere->SetScale(TSphere::VectorType(SPHERE_SCALE));
 
   TNoise::Pointer noise = TNoise::New();
 
