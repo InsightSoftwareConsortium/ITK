@@ -78,7 +78,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PhaseSymmetryImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(PhaseSymmetryImageFilter);
 
   itkStaticConstMacro(InputImageDimension, unsigned int, TInputImage::ImageDimension);
   itkStaticConstMacro(OutputImageDimension, unsigned int, TOutputImage::ImageDimension);

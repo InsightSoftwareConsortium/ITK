@@ -52,7 +52,7 @@ public:
   using ArrayType = FixedArray<double, ImageDimension>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(LogGaborFreqImageSource, GenerateImageSource);
+  itkOverrideGetNameOfClassMacro(LogGaborFreqImageSource);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

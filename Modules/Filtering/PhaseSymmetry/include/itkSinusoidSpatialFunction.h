@@ -59,7 +59,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SinusoidSpatialFunction, SpatialFunction);
+  itkOverrideGetNameOfClassMacro(SinusoidSpatialFunction);
 
   /** Input type for the function. */
   using InputType = typename Superclass::InputType;

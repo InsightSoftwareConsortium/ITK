@@ -75,7 +75,7 @@ public:
   using SizeValueType = typename TOutputImage::SizeValueType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SteerableFilterFreqImageSource, ImageSource);
+  itkOverrideGetNameOfClassMacro(SteerableFilterFreqImageSource);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

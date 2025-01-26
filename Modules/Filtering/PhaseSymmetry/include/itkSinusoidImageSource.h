@@ -67,7 +67,7 @@ public:
   using ParametersType = typename Superclass::ParametersType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SinusoidImageSource, ParametricImageSource);
+  itkOverrideGetNameOfClassMacro(SinusoidImageSource);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
