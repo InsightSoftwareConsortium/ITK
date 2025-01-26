@@ -88,19 +88,19 @@ public:
   static constexpr unsigned int ImageDimension = ImageType::ImageDimension;
 
   /** Type used for representing point components */
-  using CoordRepType = Superclass::ParametersValueType;
+  using CoordinateType = Superclass::ParametersValueType;
 
   /** Type for locations */
   using IndexType = Index<ImageDimension>;
-  using PointType = Point<CoordRepType, ImageDimension>;
-  using ContinuousIndexType = ContinuousIndex<CoordRepType, ImageDimension>;
+  using PointType = Point<CoordinateType, ImageDimension>;
+  using ContinuousIndexType = ContinuousIndex<CoordinateType, ImageDimension>;
 
   /** Type of the Interpolator class */
-  using InterpolatorType = InterpolateImageFunction<ImageType, CoordRepType>;
-  using DefaultInterpolatorType = LinearInterpolateImageFunction<ImageType, CoordRepType>;
+  using InterpolatorType = InterpolateImageFunction<ImageType, CoordinateType>;
+  using DefaultInterpolatorType = LinearInterpolateImageFunction<ImageType, CoordinateType>;
 
   /** Type of the GradientImageFunction class */
-  using GradientImageFunctionType = PhysicalCentralDifferenceImageFunction<ImageType, CoordRepType>;
+  using GradientImageFunctionType = PhysicalCentralDifferenceImageFunction<ImageType, CoordinateType>;
 
   /** Get/set the Interpolator. */
   itkSetObjectMacro(Interpolator, InterpolatorType);

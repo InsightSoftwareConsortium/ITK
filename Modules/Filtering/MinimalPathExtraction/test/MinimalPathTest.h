@@ -195,7 +195,7 @@ Test_SpeedToPath_GradientDescent_ND(int argc, char * argv[])
   using WriterType = itk::ImageFileWriter<OutputImageType>;
   using PathType = itk::PolyLineParametricPath<Dimension>;
   using PathFilterType = itk::SpeedFunctionToPathFilter<ImageType, PathType>;
-  using CoordRepType = typename PathFilterType::CostFunctionType::CoordRepType;
+  using CoordinateType = typename PathFilterType::CostFunctionType::CoordinateType;
   using PathIteratorType = itk::PathIterator<OutputImageType, PathType>;
 
   try
@@ -232,7 +232,7 @@ Test_SpeedToPath_GradientDescent_ND(int argc, char * argv[])
     speed->DisconnectPipeline();
 
     // Create Interpolator
-    using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, CoordRepType>;
+    using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, CoordinateType>;
     typename InterpolatorType::Pointer interp = InterpolatorType::New();
 
     // Create Cost Function
@@ -329,7 +329,7 @@ Test_SpeedToPath_RegularStepGradientDescent_ND(int argc, char * argv[])
   using WriterType = itk::ImageFileWriter<OutputImageType>;
   using PathType = itk::PolyLineParametricPath<Dimension>;
   using PathFilterType = itk::SpeedFunctionToPathFilter<ImageType, PathType>;
-  using CoordRepType = typename PathFilterType::CostFunctionType::CoordRepType;
+  using CoordinateType = typename PathFilterType::CostFunctionType::CoordinateType;
   using PathIteratorType = itk::PathIterator<OutputImageType, PathType>;
 
   try
@@ -377,7 +377,7 @@ Test_SpeedToPath_RegularStepGradientDescent_ND(int argc, char * argv[])
         minspacing = spacing[dim];
 
     // Create Interpolator
-    using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, CoordRepType>;
+    using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, CoordinateType>;
     typename InterpolatorType::Pointer interp = InterpolatorType::New();
 
     // Create Cost Function
@@ -479,7 +479,7 @@ Test_SpeedToPath_IterateNeighborhood_ND(int argc, char * argv[])
   using WriterType = itk::ImageFileWriter<OutputImageType>;
   using PathType = itk::PolyLineParametricPath<Dimension>;
   using PathFilterType = itk::SpeedFunctionToPathFilter<ImageType, PathType>;
-  using CoordRepType = typename PathFilterType::CostFunctionType::CoordRepType;
+  using CoordinateType = typename PathFilterType::CostFunctionType::CoordinateType;
   using PathIteratorType = itk::PathIterator<OutputImageType, PathType>;
 
   try
@@ -516,7 +516,7 @@ Test_SpeedToPath_IterateNeighborhood_ND(int argc, char * argv[])
     speed->DisconnectPipeline();
 
     // Create Interpolator
-    using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, CoordRepType>;
+    using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, CoordinateType>;
     typename InterpolatorType::Pointer interp = InterpolatorType::New();
 
     // Create Cost Function
@@ -616,7 +616,7 @@ Test_SpeedToPath_IterateNeighborhood_ExtendedSeed_ND(int argc, char * argv[])
   using WriterType = itk::ImageFileWriter<OutputImageType>;
   using PathType = itk::PolyLineParametricPath<Dimension>;
   using PathFilterType = itk::SpeedFunctionToPathFilter<ImageType, PathType>;
-  using CoordRepType = typename PathFilterType::CostFunctionType::CoordRepType;
+  using CoordinateType = typename PathFilterType::CostFunctionType::CoordinateType;
   using PathIteratorType = itk::PathIterator<OutputImageType, PathType>;
 
   try
@@ -653,7 +653,7 @@ Test_SpeedToPath_IterateNeighborhood_ExtendedSeed_ND(int argc, char * argv[])
     speed->DisconnectPipeline();
 
     // Create Interpolator
-    using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, CoordRepType>;
+    using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, CoordinateType>;
     typename InterpolatorType::Pointer interp = InterpolatorType::New();
 
     // Create Cost Function
