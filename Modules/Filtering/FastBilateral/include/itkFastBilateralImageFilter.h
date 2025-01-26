@@ -85,7 +85,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FastBilateralImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(FastBilateralImageFilter);
 
   /** Dimensionality of the input image. Dimensionality of the output image
    *  is assumed to be the same. */
