@@ -132,7 +132,10 @@ ComposeImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(const
       if constexpr (std::is_same<OutputPixelType,
                                  std::complex<typename NumericTraits<OutputPixelType>::ValueType>>::value)
       {
-        oit.Set({ inputItContainer[0].Get(), inputItContainer[1].Get() });
+        using ValueType = typename NumericTraits<OutputPixelType>::ValueType;
+        const OutputPixelType current_pixel = OutputPixelType{ static_cast<ValueType>(inputItContainer[0].Get()),
+                                                               static_cast<ValueType>(inputItContainer[1].Get()) };
+        oit.Set(current_pixel);
         ++(inputItContainer[0]);
         ++(inputItContainer[1]);
       }
