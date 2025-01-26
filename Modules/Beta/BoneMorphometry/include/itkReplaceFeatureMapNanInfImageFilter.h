@@ -63,7 +63,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(ReplaceFeatureMapNanInfImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(ReplaceFeatureMapNanInfImageFilter);
 
 protected:
   /** Input Image related type alias. */
