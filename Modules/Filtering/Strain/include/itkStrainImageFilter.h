@@ -96,7 +96,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(StrainImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(StrainImageFilter);
 
   /** Set the filter used to calculate the gradients internally. The default is
    * an itk::GradientImageFilter. */

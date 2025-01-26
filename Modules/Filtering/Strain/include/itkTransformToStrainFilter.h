@@ -77,7 +77,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(TransformToStrainFilter, GenerateImageSource);
+  itkOverrideGetNameOfClassMacro(TransformToStrainFilter);
 
   /** Get/Set the coordinate transformation.
    * Set the coordinate transform to use for resampling.  Note that this must
