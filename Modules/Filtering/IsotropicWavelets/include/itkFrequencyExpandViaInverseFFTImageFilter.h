@@ -62,7 +62,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FrequencyExpandViaInverseFFTImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(FrequencyExpandViaInverseFFTImageFilter);
 
   /** ImageDimension enumeration. */
   static constexpr unsigned int ImageDimension = TImageType::ImageDimension;

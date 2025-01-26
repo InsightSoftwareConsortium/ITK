@@ -53,7 +53,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ZeroDCImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(ZeroDCImageFilter);
 
   /** Typedef to describe the output image region type. */
   using ImageRegionType = typename TImageType::RegionType;

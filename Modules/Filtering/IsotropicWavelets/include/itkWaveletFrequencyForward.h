@@ -87,7 +87,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(WaveletFrequencyForward, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(WaveletFrequencyForward);
   virtual void
   SetLevels(unsigned int n);
 

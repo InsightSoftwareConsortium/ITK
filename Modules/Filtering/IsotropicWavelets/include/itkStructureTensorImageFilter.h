@@ -99,7 +99,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(StructureTensorImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(StructureTensorImageFilter);
 
   /** Some convenient type alias. */
   using InputImageType = typename Superclass::InputImageType;

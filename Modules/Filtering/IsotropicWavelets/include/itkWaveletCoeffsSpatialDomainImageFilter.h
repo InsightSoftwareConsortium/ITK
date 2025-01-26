@@ -70,7 +70,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(WaveletCoeffsSpatialDomainImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(WaveletCoeffsSpatialDomainImageFilter);
 
   using ImageType = TImageType;
   using IntType = unsigned int;

@@ -64,7 +64,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SimoncelliIsotropicWavelet, IsotropicWaveletFrequencyFunction);
+  itkOverrideGetNameOfClassMacro(SimoncelliIsotropicWavelet);
 
   /** Input type for the function. */
   using InputType = typename Superclass::InputType;

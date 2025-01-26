@@ -66,7 +66,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(IsotropicWaveletFrequencyFunction, IsotropicFrequencyFunction);
+  itkOverrideGetNameOfClassMacro(IsotropicWaveletFrequencyFunction);
 
   /** Input type for the function. */
   using InputType = typename Superclass::InputType;

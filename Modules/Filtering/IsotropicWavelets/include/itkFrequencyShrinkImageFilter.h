@@ -88,7 +88,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FrequencyShrinkImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(FrequencyShrinkImageFilter);
 
   /** Typedef to images */
   using ImageType = TImageType;

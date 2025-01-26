@@ -44,7 +44,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FrequencyFunction, SpatialFunction);
+  itkOverrideGetNameOfClassMacro(FrequencyFunction);
 
   /** Input type for the function. */
   using InputType = typename Superclass::InputType;

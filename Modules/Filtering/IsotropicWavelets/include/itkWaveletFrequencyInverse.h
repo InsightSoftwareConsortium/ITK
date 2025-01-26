@@ -75,7 +75,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(WaveletFrequencyInverse, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(WaveletFrequencyInverse);
 
   /** Number of levels/scales. Maximum depends on size of image */
   void

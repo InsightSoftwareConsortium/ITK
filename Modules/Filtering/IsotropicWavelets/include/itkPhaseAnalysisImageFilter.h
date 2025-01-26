@@ -80,7 +80,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(PhaseAnalysisImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(PhaseAnalysisImageFilter);
 
   /** Some convenient type alias. */
   using InputImageType = typename Superclass::InputImageType;

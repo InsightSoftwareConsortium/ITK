@@ -57,7 +57,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(HeldIsotropicWavelet, IsotropicWaveletFrequencyFunction);
+  itkOverrideGetNameOfClassMacro(HeldIsotropicWavelet);
 
   /** Input type for the function. */
   using InputType = typename Superclass::InputType;

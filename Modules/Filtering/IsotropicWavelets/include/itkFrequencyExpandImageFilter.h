@@ -114,7 +114,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FrequencyExpandImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(FrequencyExpandImageFilter);
 
   /** Typedef to describe the output image region type. */
   using ImageRegionType = typename TImageType::RegionType;

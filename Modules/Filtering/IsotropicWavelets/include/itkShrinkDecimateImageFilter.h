@@ -55,7 +55,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ShrinkDecimateImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(ShrinkDecimateImageFilter);
 
   /** Typedef to images */
   using OutputImageType = TOutputImage;

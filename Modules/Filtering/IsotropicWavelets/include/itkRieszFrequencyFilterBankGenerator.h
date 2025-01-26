@@ -54,7 +54,7 @@ public:
   itkNewMacro(Self);
 
   /** Creation through object factory macro */
-  itkTypeMacro(RieszFrequencyFilterBankGenerator, GenerateImageSourceFilter);
+  itkOverrideGetNameOfClassMacro(RieszFrequencyFilterBankGenerator);
 
   /** Inherit types from Superclass. */
   using OutputImageType = typename Superclass::OutputImageType;

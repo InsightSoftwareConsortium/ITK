@@ -51,7 +51,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(RieszFrequencyFunction, FrequencyFunction);
+  itkOverrideGetNameOfClassMacro(RieszFrequencyFunction);
 
   /** Input type for the function. */
   using InputType = typename Superclass::InputType;

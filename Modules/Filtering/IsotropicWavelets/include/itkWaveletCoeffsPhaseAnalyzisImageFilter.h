@@ -77,7 +77,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(WaveletCoeffsPhaseAnalyzisImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(WaveletCoeffsPhaseAnalyzisImageFilter);
 
   /** Flag to store the number of levels, highpasssubbands, output index, applysoftthreshold,
   thresholdnumofsigmas.**/

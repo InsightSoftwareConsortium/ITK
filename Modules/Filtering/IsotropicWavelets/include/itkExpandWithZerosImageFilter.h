@@ -75,7 +75,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ExpandWithZerosImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(ExpandWithZerosImageFilter);
 
   /** Typedef to describe the output image region type. */
   using OutputImageRegionType = typename TOutputImage::RegionType;

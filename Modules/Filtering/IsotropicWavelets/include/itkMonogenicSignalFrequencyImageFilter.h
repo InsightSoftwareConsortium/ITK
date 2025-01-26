@@ -61,7 +61,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(MonogenicSignalFrequencyImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(MonogenicSignalFrequencyImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /// This ensure that InputPixelType is complex<float||double>

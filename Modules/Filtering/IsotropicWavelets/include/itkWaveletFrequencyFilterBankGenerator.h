@@ -65,7 +65,7 @@ public:
   itkNewMacro(Self);
 
   /** Creation through object factory macro */
-  itkTypeMacro(WaveletFrequencyFilterBankGenerator, GenerateImageSourceFilter);
+  itkOverrideGetNameOfClassMacro(WaveletFrequencyFilterBankGenerator);
 
   /** Inherit types from Superclass. */
   using OutputImageType = typename Superclass::OutputImageType;

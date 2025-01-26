@@ -58,7 +58,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(PhaseAnalysisSoftThresholdImageFilter, PhaseAnalysisImageFilter);
+  itkOverrideGetNameOfClassMacro(PhaseAnalysisSoftThresholdImageFilter);
 
   /** Some convenient type alias. */
   using InputImageType = typename Superclass::InputImageType;
