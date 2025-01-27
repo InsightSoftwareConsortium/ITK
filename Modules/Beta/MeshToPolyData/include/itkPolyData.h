@@ -31,16 +31,16 @@ namespace itk
  *
  * \ingroup MeshToPolyData
  */
-template< typename TPixel, typename TCellPixel = TPixel >
-class ITK_TEMPLATE_EXPORT PolyData: public DataObject
+template <typename TPixel, typename TCellPixel = TPixel>
+class ITK_TEMPLATE_EXPORT PolyData : public DataObject
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(PolyData);
 
   using Self = PolyData;
   using Superclass = DataObject;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   static constexpr unsigned int PointDimension = 3;
 
@@ -54,7 +54,7 @@ public:
   /** Type of PointData or CellData */
   using PixelType = TPixel;
   using CellPixelType = TCellPixel;
-  using MeshTraits = DefaultStaticMeshTraits< PixelType, PointDimension, PointDimension, float, float, CellPixelType >;
+  using MeshTraits = DefaultStaticMeshTraits<PixelType, PointDimension, PointDimension, float, float, CellPixelType>;
 
   /** Convenient type alias obtained from TMeshTraits template parameter. */
   using CoordinateType = typename MeshTraits::CoordinateType;
@@ -64,72 +64,100 @@ public:
   using PointDataContainer = typename MeshTraits::PointDataContainer;
   using CellIdentifier = typename MeshTraits::CellIdentifier;
   using CellDataContainer = typename MeshTraits::CellDataContainer;
-  using CellsContainer = VectorContainer< CellIdentifier, uint32_t >;
+  using CellsContainer = VectorContainer<CellIdentifier, uint32_t>;
 
-  void Initialize() override;
+  void
+  Initialize() override;
 
-  PointIdentifier GetNumberOfPoints() const;
+  PointIdentifier
+  GetNumberOfPoints() const;
 
   /** Define Set/Get access routines for each internal container.
    * Methods also exist to add points, cells, etc. one at a time
    * rather than through an entire container. */
-  void SetPoints(PointsContainer *);
-  PointsContainer * GetPoints();
-  const PointsContainer * GetPoints() const;
+  void
+  SetPoints(PointsContainer *);
+  PointsContainer *
+  GetPoints();
+  const PointsContainer *
+  GetPoints() const;
 
   /** Vertices in format [1 pointIndex1 1 pointIndex2 1 pointIndex3 ... ] */
-  void SetVertices(CellsContainer *);
-  CellsContainer * GetVertices();
-  const CellsContainer* GetVertices() const;
+  void
+  SetVertices(CellsContainer *);
+  CellsContainer *
+  GetVertices();
+  const CellsContainer *
+  GetVertices() const;
 
   /** Lines in format [nPointsLine1 pointIndex1 pointIndex2 nPointsLine2 pointIndex1 pointIndex2 ... ] */
-  void SetLines(CellsContainer *);
-  CellsContainer * GetLines();
-  const CellsContainer* GetLines() const;
+  void
+  SetLines(CellsContainer *);
+  CellsContainer *
+  GetLines();
+  const CellsContainer *
+  GetLines() const;
 
   /** Polygons in format [nPointsPolygon1 pointIndex1 pointIndex2 nPointsPolygon2 pointIndex1 pointIndex2 ... ] */
-  void SetPolygons(CellsContainer *);
-  CellsContainer * GetPolygons();
-  const CellsContainer* GetPolygons() const;
+  void
+  SetPolygons(CellsContainer *);
+  CellsContainer *
+  GetPolygons();
+  const CellsContainer *
+  GetPolygons() const;
 
-  /** TriangleStrips in format [nPointsTriangleStrip1 pointIndex1 pointIndex2 nPointsTriangleStrip2 pointIndex1 pointIndex2 ... ] */
-  void SetTriangleStrips(CellsContainer *);
-  CellsContainer * GetTriangleStrips();
-  const CellsContainer* GetTriangleStrips() const;
+  /** TriangleStrips in format [nPointsTriangleStrip1 pointIndex1 pointIndex2 nPointsTriangleStrip2 pointIndex1
+   * pointIndex2 ... ] */
+  void
+  SetTriangleStrips(CellsContainer *);
+  CellsContainer *
+  GetTriangleStrips();
+  const CellsContainer *
+  GetTriangleStrips() const;
 
-  void SetPointData(PointDataContainer *);
-  PointDataContainer * GetPointData();
-  const PointDataContainer * GetPointData() const;
+  void
+  SetPointData(PointDataContainer *);
+  PointDataContainer *
+  GetPointData();
+  const PointDataContainer *
+  GetPointData() const;
 
   /** Access routines to fill the Points container, and get information
    * from it. */
   void SetPoint(PointIdentifier, PointType);
-  bool GetPoint(PointIdentifier, PointType *) const;
+  bool
+            GetPoint(PointIdentifier, PointType *) const;
   PointType GetPoint(PointIdentifier) const;
 
   /** Access routines to fill the PointData container, and get information
    * from it. */
   void SetPointData(PointIdentifier, PixelType);
-  bool GetPointData(PointIdentifier, PixelType *) const;
+  bool
+  GetPointData(PointIdentifier, PixelType *) const;
 
   /** Access m_CellDataContainer, which contains data associated with
    *  the mesh's cells.  Optionally, this can be nullptr, indicating that
    *  no data are associated with the cells.  The data for a cell can
    *  be accessed through its cell identifier.  */
-  void SetCellData(CellDataContainer *);
-  CellDataContainer *  GetCellData();
-  const CellDataContainer * GetCellData() const;
+  void
+  SetCellData(CellDataContainer *);
+  CellDataContainer *
+  GetCellData();
+  const CellDataContainer *
+  GetCellData() const;
 
   /** Access routines to fill the CellData container, and get information
    *  from it.  */
   void SetCellData(CellIdentifier, CellPixelType);
-  bool GetCellData(CellIdentifier, CellPixelType *) const;
+  bool
+  GetCellData(CellIdentifier, CellPixelType *) const;
 
 protected:
   PolyData();
   ~PolyData() override = default;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** An object containing points used by the mesh.  Individual points are
    * accessed through point identifiers. */
@@ -147,13 +175,14 @@ protected:
   typename PointDataContainer::Pointer m_PointDataContainer;
 
   typename CellDataContainer::Pointer m_CellDataContainer;
+
 private:
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPolyData.hxx"
+#  include "itkPolyData.hxx"
 #endif
 
 #endif // itkPolyData_h

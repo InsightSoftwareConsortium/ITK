@@ -25,11 +25,12 @@
 #include "itkMeshToPolyDataFilter.h"
 #include "itkVector.h"
 
-template<typename TMesh>
+template <typename TMesh>
 class PipelineFunctor
 {
 public:
-  int operator()(itk::wasm::Pipeline & pipeline)
+  int
+  operator()(itk::wasm::Pipeline & pipeline)
   {
     using MeshType = TMesh;
 
@@ -56,21 +57,20 @@ public:
   }
 };
 
-int main (int argc, char * argv[])
+int
+main(int argc, char * argv[])
 {
   itk::wasm::Pipeline pipeline("mesh-to-poly-data", "Convert an itk::Mesh to an itk::PolyData", argc, argv);
 
   itk::WasmMeshIOFactory::RegisterOneFactory();
 
   return itk::wasm::SupportInputMeshTypes<PipelineFunctor,
-   uint8_t,
-   int8_t,
-   float,
-   double,
-   itk::Vector<uint8_t, 3>,
-   itk::Vector<float, 3>,
-   itk::VariableLengthVector<uint8_t>,
-   itk::VariableLengthVector<float>
-   >
-  ::Dimensions<2U,3U>("mesh", pipeline);
+                                          uint8_t,
+                                          int8_t,
+                                          float,
+                                          double,
+                                          itk::Vector<uint8_t, 3>,
+                                          itk::Vector<float, 3>,
+                                          itk::VariableLengthVector<uint8_t>,
+                                          itk::VariableLengthVector<float>>::Dimensions<2U, 3U>("mesh", pipeline);
 }

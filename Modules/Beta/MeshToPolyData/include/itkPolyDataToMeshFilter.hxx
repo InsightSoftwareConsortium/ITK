@@ -77,8 +77,8 @@ PolyDataToMeshFilter<TInputPolyData>::GetInput(unsigned int idx) const
 
 
 template <typename TInputPolyData>
-ProcessObject::DataObjectPointer PolyDataToMeshFilter<TInputPolyData>::MakeOutput(
-  ProcessObject::DataObjectPointerArraySizeType)
+ProcessObject::DataObjectPointer
+PolyDataToMeshFilter<TInputPolyData>::MakeOutput(ProcessObject::DataObjectPointerArraySizeType)
 {
   return MeshType::New().GetPointer();
 }
@@ -206,9 +206,9 @@ PolyDataToMeshFilter<TInputPolyData>::GenerateData()
 
     while (inputCellItr != inputCellEnd)
     {
-    #ifndef NDEBUG
+#ifndef NDEBUG
       auto numPoints = inputCellItr.Value();
-    #endif
+#endif
       ++inputCellItr;
 
       // Verify vertex contains exactly one point ID

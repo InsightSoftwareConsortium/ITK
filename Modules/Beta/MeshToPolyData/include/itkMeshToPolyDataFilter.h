@@ -26,14 +26,19 @@
 namespace itk
 {
 
-template<typename T>
-class HasCellTraits {
-    typedef char Yes[1];
-    typedef char No[2];
-    template<typename C> static Yes& test(typename C::CellTraits *); // selected if C is a class type
-    template<typename C> static No&  test(...);      // selected otherwise
-  public:
-    static bool const value = sizeof(test<T>(0)) == sizeof(Yes);
+template <typename T>
+class HasCellTraits
+{
+  typedef char Yes[1];
+  typedef char No[2];
+  template <typename C>
+  static Yes &
+  test(typename C::CellTraits *); // selected if C is a class type
+  template <typename C>
+  static No &
+  test(...); // selected otherwise
+public:
+  static bool const value = sizeof(test<T>(0)) == sizeof(Yes);
 };
 
 /** \class MeshToPolyDataFilter
@@ -54,8 +59,8 @@ class HasCellTraits {
  * \ingroup MeshToPolyData
  *
  */
-template< typename TInputMesh >
-class MeshToPolyDataFilter: public ProcessObject
+template <typename TInputMesh>
+class MeshToPolyDataFilter : public ProcessObject
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(MeshToPolyDataFilter);
@@ -65,57 +70,70 @@ public:
   using InputMeshType = TInputMesh;
 
   /** Standard class typedefs. */
-  using Self = MeshToPolyDataFilter< InputMeshType >;
+  using Self = MeshToPolyDataFilter<InputMeshType>;
   using Superclass = ProcessObject;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  using PolyDataType = PolyData< typename InputMeshType::PixelType >;
+  using PolyDataType = PolyData<typename InputMeshType::PixelType>;
 
   /** Run-time type information. */
-  itkOverrideGetNameOfClassMacro( MeshToPolyDataFilter);
+  itkOverrideGetNameOfClassMacro(MeshToPolyDataFilter);
 
   /** Standard New macro. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** Set the mesh input of this process object.  */
   using Superclass::SetInput;
-  void SetInput(const InputMeshType *input);
+  void
+  SetInput(const InputMeshType * input);
 
   /** Get the mesh input of this process object.  */
-  const InputMeshType * GetInput() const;
+  const InputMeshType *
+  GetInput() const;
 
-  const InputMeshType * GetInput(unsigned int idx) const;
+  const InputMeshType *
+  GetInput(unsigned int idx) const;
 
-  PolyDataType * GetOutput();
-  const PolyDataType * GetOutput() const;
+  PolyDataType *
+  GetOutput();
+  const PolyDataType *
+  GetOutput() const;
 
-  PolyDataType * GetOutput(unsigned int idx);
+  PolyDataType *
+  GetOutput(unsigned int idx);
 
 protected:
   MeshToPolyDataFilter();
   ~MeshToPolyDataFilter() override = default;
 
-  void PrintSelf( std::ostream& os, Indent indent ) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
-  template < typename TInputMeshDispatch, typename std::enable_if< !HasCellTraits<TInputMeshDispatch>::value, int>::type = 0 >
-  void GenerateDataDispatch();
+  template <typename TInputMeshDispatch,
+            typename std::enable_if<!HasCellTraits<TInputMeshDispatch>::value, int>::type = 0>
+  void
+  GenerateDataDispatch();
 
-  template < typename TInputMeshDispatch, typename std::enable_if< HasCellTraits<TInputMeshDispatch>::value, int>::type = 0 >
-  void GenerateDataDispatch();
+  template <typename TInputMeshDispatch,
+            typename std::enable_if<HasCellTraits<TInputMeshDispatch>::value, int>::type = 0>
+  void
+  GenerateDataDispatch();
 
-  ProcessObject::DataObjectPointer MakeOutput(ProcessObject::DataObjectPointerArraySizeType idx) override;
-  ProcessObject::DataObjectPointer MakeOutput(const ProcessObject::DataObjectIdentifierType &) override;
+  ProcessObject::DataObjectPointer
+  MakeOutput(ProcessObject::DataObjectPointerArraySizeType idx) override;
+  ProcessObject::DataObjectPointer
+  MakeOutput(const ProcessObject::DataObjectIdentifierType &) override;
 
 private:
-
 };
-}
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMeshToPolyDataFilter.hxx"
+#  include "itkMeshToPolyDataFilter.hxx"
 #endif
 
 #endif // itkMeshToPolyDataFilter

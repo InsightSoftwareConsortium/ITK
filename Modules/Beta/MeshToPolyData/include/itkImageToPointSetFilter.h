@@ -34,17 +34,17 @@ namespace itk
  *
  * \ingroup MeshToPolyData
  */
-template< typename TInputImage, typename TOutputMesh >
-class ITK_TEMPLATE_EXPORT ImageToPointSetFilter: public ImageToMeshFilter< TInputImage, TOutputMesh >
+template <typename TInputImage, typename TOutputMesh>
+class ITK_TEMPLATE_EXPORT ImageToPointSetFilter : public ImageToMeshFilter<TInputImage, TOutputMesh>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(ImageToPointSetFilter);
 
   /** Standard class type alias. */
   using Self = ImageToPointSetFilter;
-  using Superclass = ImageToMeshFilter< TInputImage, TOutputMesh >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToMeshFilter<TInputImage, TOutputMesh>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -80,7 +80,8 @@ protected:
   ImageToPointSetFilter() {}
   virtual ~ImageToPointSetFilter() {}
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
 };
@@ -88,7 +89,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageToPointSetFilter.hxx"
+#  include "itkImageToPointSetFilter.hxx"
 #endif
 
 #endif
