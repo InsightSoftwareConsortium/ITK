@@ -86,6 +86,7 @@ set(DOXYGEN_EXPAND_ONLY_PREDEF "YES")
 set(DOXYGEN_SEARCH_INCLUDES "NO")
 set(DOXYGEN_PREDEFINED
     "itkNotUsed(x)=x"
+    "itkLegacyMacro(x)=[[deprecated]] x"
     "itkStaticConstMacro(name,type,value)=static constexpr type name = value"
     "itkSetInputMacro(name, type, number)=                   virtual void Set##name##Input(const type *_arg)\;                   virtual void SetInput##number(const type *_arg)\;"
     "itkGetInputMacro(name, type, number)=                   virtual const type * Get##name##Input() const\;                   virtual const type * GetInput##number() const\;"
