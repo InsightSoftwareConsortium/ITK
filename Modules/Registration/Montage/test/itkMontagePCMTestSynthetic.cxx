@@ -303,9 +303,9 @@ PhaseCorrelationRegistration(int argc, char * argv[])
             pass = false;
           }
         } // for peakMethod
-      }   // for padMethod
-    }     // for testCoefficients
-  }       // for size1
+      } // for padMethod
+    } // for testCoefficients
+  } // for size1
 
   std::cout << *pcm;
 

@@ -648,7 +648,7 @@ TileMontage<TImageType, TCoordinate>::OptimizeTiles()
       std::cout << std::endl;
     }
 
-    static float const sqrtDim = std::sqrt(ImageDimension);
+    static const float sqrtDim = std::sqrt(ImageDimension);
     if (maxCost < m_AbsoluteThreshold * sqrtDim)
     {
       outlierExists = false;
