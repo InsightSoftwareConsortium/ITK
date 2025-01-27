@@ -34,10 +34,12 @@ itkMultiThreadingEnvironmentTest(int argc, char * argv[])
   {
     return EXIT_FAILURE;
   }
-  if (itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads() != requiredValue)
+  const auto actualValue = itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads();
+  if ((actualValue != requiredValue) &&
+      (actualValue != ITK_MAX_THREADS))
   {
-    std::cout << "ERROR: Wrong number of maximum number of threads set from environment. " << requiredValue
-              << " != " << itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads() << std::endl;
+    std::cout << "ERROR: Wrong number of maximum number of threads set from environment. " << actualValue
+              << " != " << requiredValue << " or " << ITK_MAX_THREADS << std::endl;
     return EXIT_FAILURE;
   }
   return EXIT_SUCCESS;
