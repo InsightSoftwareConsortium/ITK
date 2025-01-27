@@ -269,14 +269,15 @@ itkThreadedIteratorRangePartitionerTest3(int, char *[])
   using DomainContainerType = IteratorRangeDomainThreaderAssociate::DomainContainerType;
   auto container = DomainContainerType::New();
 
-  for (unsigned int i = 0; i < ITK_DEFAULT_MAX_THREADS + 10; ++i)
+  // ITK_DEFAULT_MAX_THREADS is at least 1, so we have at least 100 elements in container.
+  for (unsigned int i = 0; i < ITK_DEFAULT_MAX_THREADS + 99; ++i)
   {
     container->SetElement(static_cast<int>(i * 2), 2 * i + 1);
   }
   DomainType fullDomain(container->Begin(), container->End());
 
   /* Test with single thread */
-  setStartEnd(0, 103, container, fullDomain);
+  setStartEnd(0, 100, container, fullDomain);
   itk::ThreadIdType numberOfThreads = 1;
   if (ThreadedIteratorRangePartitionerRunTest(enclosingClass, numberOfThreads, fullDomain) != EXIT_SUCCESS)
   {
@@ -284,7 +285,7 @@ itkThreadedIteratorRangePartitionerTest3(int, char *[])
   }
 
   /* Test with range that doesn't start at 0 */
-  setStartEnd(2, 105, container, fullDomain);
+  setStartEnd(5, 100, container, fullDomain);
   numberOfThreads = 1;
   if (ThreadedIteratorRangePartitionerRunTest(enclosingClass, numberOfThreads, fullDomain) != EXIT_SUCCESS)
   {
@@ -295,7 +296,7 @@ itkThreadedIteratorRangePartitionerTest3(int, char *[])
   if (domainThreader->GetMultiThreader()->GetGlobalMaximumNumberOfThreads() > 1)
   {
     /* Test with default number of threads. */
-    setStartEnd(6, 109, container, fullDomain);
+    setStartEnd(6, 89, container, fullDomain);
     numberOfThreads = domainThreader->GetMultiThreader()->GetGlobalDefaultNumberOfThreads();
     if (ThreadedIteratorRangePartitionerRunTest(enclosingClass, numberOfThreads, fullDomain) != EXIT_SUCCESS)
     {

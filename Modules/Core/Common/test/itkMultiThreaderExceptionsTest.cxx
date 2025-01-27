@@ -16,6 +16,8 @@
  *
  *=========================================================================*/
 
+#include <algorithm>
+
 #include "itkImageSource.h"
 #include "itkTestingMacros.h"
 
@@ -56,7 +58,7 @@ protected:
     TOutputImage * output = nullptr;
     output = this->GetOutput(0);
     typename TOutputImage::RegionType largestPossibleRegion;
-    largestPossibleRegion.SetSize({ { 4 } });
+    largestPossibleRegion.SetSize({ { std::min(4, ITK_DEFAULT_MAX_THREADS) } });
     output->SetLargestPossibleRegion(largestPossibleRegion);
   }
 
@@ -96,7 +98,7 @@ itkMultiThreaderExceptionsTest(int, char *[])
     const typename itk::DummyImageSource<OutputImageType>::Pointer dummySrc =
       itk::DummyImageSource<OutputImageType>::New();
     dummySrc->SetNumberOfWorkUnits(4);
-    for (itk::IndexValueType i = 0; i < 4; ++i)
+    for (itk::IndexValueType i = 0; i < dummySrc->GetNumberOfWorkUnits(); ++i)
     {
       dummySrc->SetExceptionIndex(i);
       ITK_TRY_EXPECT_EXCEPTION(dummySrc->Update());
