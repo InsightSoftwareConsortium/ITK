@@ -70,7 +70,7 @@ public:
   using FeatureTypePointer = typename FeatureType::Pointer;
 
   /** Run-time type information. */
-  itkTypeMacro(PointFeature, MeshToMeshFilter);
+  itkOverrideGetNameOfClassMacro(PointFeature);
 
   /** Standard New macro. */
   itkNewMacro(Self);
