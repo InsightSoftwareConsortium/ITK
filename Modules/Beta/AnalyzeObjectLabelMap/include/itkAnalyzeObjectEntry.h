@@ -88,8 +88,7 @@ public:
   virtual std::string
   GetName() const
   {
-    itkDebugMacro("returning "
-                  << "Name of " << this->m_Name);
+    itkDebugMacro("returning " << "Name of " << this->m_Name);
     return std::string(this->m_Name);
   }
 
@@ -101,9 +100,8 @@ public:
 
     strncpy(temp, _arg.c_str(), 31);
     temp[31] = '\0';
-    itkDebugMacro("setting "
-                  << "Name"
-                  << " to " << temp);
+    itkDebugMacro("setting " << "Name"
+                             << " to " << temp);
     if (strcmp(this->m_Name, temp) != 0)
     {
       strncpy(this->m_Name, temp, 32);

@@ -22,10 +22,7 @@ namespace itk
 
 AnalyzeObjectEntry::~AnalyzeObjectEntry() = default;
 
-AnalyzeObjectEntry::AnalyzeObjectEntry()
-{
-  std::memset(this->m_Name, 0, sizeof(this->m_Name));
-}
+AnalyzeObjectEntry::AnalyzeObjectEntry() { std::memset(this->m_Name, 0, sizeof(this->m_Name)); }
 
 // AnalyzeObjectEntry & AnalyzeObjectEntry
 // ::operator=( const AnalyzeObjectEntry & rhs )
