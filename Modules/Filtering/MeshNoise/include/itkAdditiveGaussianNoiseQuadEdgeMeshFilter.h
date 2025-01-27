@@ -83,7 +83,7 @@ protected:
 
   CoordinateType m_Mean;
   CoordinateType m_Sigma;
-  int          m_Seed;
+  int            m_Seed;
 };
 
 } // end namespace itk
