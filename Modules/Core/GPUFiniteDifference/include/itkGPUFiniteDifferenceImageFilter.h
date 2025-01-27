@@ -87,8 +87,7 @@ public:
   }
 
   /** This method sets the pointer to a FiniteDifferenceFunction object that
-   * will be used by the filter to calculate updates at image pixels.
-   * \returns A FiniteDifferenceObject pointer. */
+   * will be used by the filter to calculate updates at image pixels. */
   void
   SetDifferenceFunction(FiniteDifferenceFunctionType * differenceFunction) override
   {
