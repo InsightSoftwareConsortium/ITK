@@ -241,7 +241,7 @@ private:
   std::vector<RegionType>           m_Regions;                 // regions which completely cover the output,
                                                                // grouped by the set of contributing input tiles
   std::vector<ContributingTiles> m_RegionContributors; // set of input tiles which contribute to corresponding regions
-};                                                     // class TileMergeImageFilter
+}; // class TileMergeImageFilter
 
 } // namespace itk
 

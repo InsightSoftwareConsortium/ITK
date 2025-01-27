@@ -253,7 +253,11 @@ protected:
   using Superclass::MakeOutput;
 
   /** Make a DataObject of the correct type to be used as the specified output. */
-  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType) override { return TransformOutputType::New(); }
+  DataObjectPointer
+  MakeOutput(DataObjectPointerArraySizeType) override
+  {
+    return TransformOutputType::New();
+  }
 
   /** For reading if only filename was given. */
   using ReaderType = ImageFileReader<ImageType>;

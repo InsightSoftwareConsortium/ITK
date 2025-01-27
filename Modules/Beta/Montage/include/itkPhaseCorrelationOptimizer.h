@@ -67,7 +67,7 @@ public:
 
 /** Define how to print enumerations */
 extern Montage_EXPORT std::ostream &
-                      operator<<(std::ostream & out, const PhaseCorrelationOptimizerEnums::PeakInterpolationMethod value);
+operator<<(std::ostream & out, const PhaseCorrelationOptimizerEnums::PeakInterpolationMethod value);
 
 
 /** \class PhaseCorrelationOptimizer
