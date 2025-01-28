@@ -174,7 +174,7 @@ MZ3MeshIO::ReadMeshInformation()
     m_Ifstream.read((char *)&nskip, static_cast<std::streamsize>(sizeof(nskip)));
   }
 
-  const auto isFace = (attr & 1) != 0;
+  // const auto isFace = (attr & 1) != 0;
   const auto isVert = (attr & 2) != 0;
   const auto isRGBA = (attr & 4) != 0;
   const auto isScalar = (attr & 8) != 0;

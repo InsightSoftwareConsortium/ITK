@@ -200,8 +200,8 @@ protected:
       // Write face indices
       for (SizeValueType i = 0; i < m_NumberOfCells; ++i)
       {
-        const auto cellType = buffer[index++];
-        const auto numberOfPoints = buffer[index++];
+        [[maybe_unused]] const auto cellType = buffer[index++];
+        const auto                  numberOfPoints = buffer[index++];
         if (numberOfPoints == 3)
         {
           for (unsigned int jj = 0; jj < 3; ++jj)
@@ -226,8 +226,8 @@ protected:
       // Write face indices
       for (SizeValueType i = 0; i < m_NumberOfCells; ++i)
       {
-        const auto cellType = buffer[index++];
-        const auto numberOfPoints = buffer[index++];
+        [[maybe_unused]] const auto cellType = buffer[index++];
+        const auto                  numberOfPoints = buffer[index++];
         if (numberOfPoints == 3)
         {
           for (unsigned int jj = 0; jj < 3; ++jj)
