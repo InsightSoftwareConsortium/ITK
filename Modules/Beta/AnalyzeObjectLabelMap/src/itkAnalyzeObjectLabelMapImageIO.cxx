@@ -109,7 +109,6 @@ AnalyzeObjectLabelMapImageIO::Read(void * buffer)
   // Analyze object files are run length encoded a plane at a time.
 
   int    index = 0;
-  int    voxel_count_sum = 0;
   auto * tobuf = (unsigned char *)buffer;
 
   // The following commented out code is a starting attempt at streaming.
@@ -186,6 +185,7 @@ AnalyzeObjectLabelMapImageIO::Read(void * buffer)
 
   //      std::ofstream myfile;
   //      myfile.open("VoxelInformationReader.txt", myfile.app);
+  //  int    voxel_count_sum = 0;
   while (!this->m_InputFileStream
             .read(reinterpret_cast<char *>(RunLengthArray), sizeof(RunLengthElement) * NumberOfRunLengthElementsPerRead)
             .eof())
@@ -206,7 +206,7 @@ AnalyzeObjectLabelMapImageIO::Read(void * buffer)
         tobuf[index] = i.voxel_value;
         index++;
       }
-      voxel_count_sum += i.voxel_count;
+      // voxel_count_sum += i.voxel_count;
       //          myfile <<"index = "<<index
       //            << " voxel_count_sum= " << voxel_count_sum
       //            << " Volume size = "<<VolumeSize<<std::endl;
