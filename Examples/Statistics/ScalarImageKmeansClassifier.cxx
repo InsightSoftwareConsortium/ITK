@@ -157,14 +157,12 @@ main(int argc, char * argv[])
   // The \doxygen{ScalarImageKmeansImageFilter} is predefined for producing an
   // 8 bits scalar image as output. This output image contains labels
   // associated to each one of the classes in the K-Means algorithm. In the
-  // following lines we use the \code{OutputImageType}to write the output of
-  // the classification filter to file.
+  // following lines we write the output of the classification filter to file.
   //
   // Software Guide : EndLatex
 
 
   // Software Guide : BeginCodeSnippet
-  using OutputImageType = KMeansFilterType::OutputImageType;
   try
   {
     itk::WriteImage(kmeansFilter->GetOutput(), outputImageFileName);
