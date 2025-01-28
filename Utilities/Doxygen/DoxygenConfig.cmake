@@ -9,6 +9,7 @@ set(DOXYGEN_BRIEF_MEMBER_DESC "NO")
 set(DOXYGEN_FULL_PATH_NAMES "NO")
 set(DOXYGEN_STRIP_FROM_PATH "${ITK_BINARY_DIR}/Utilities/")
 set(DOXYGEN_TAB_SIZE "2")
+set(DOXYGEN_NUM_PROC_THREADS "0")
 set(DOXYGEN_ALIASES
     "starteraliasnotused=@par not used"
     "wiki=\\par Wiki Examples: ^^ \\li <a href=\\\"https://www.itk.org/Wiki/ITK/Examples\\\">All Media Wiki Examples</a> ^^"
