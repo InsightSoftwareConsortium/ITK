@@ -461,7 +461,8 @@ public:
    * memory usage.
    */
   void
-  Squeeze();
+  Squeeze()
+  {}
 
   /**
    * Tell the container to release any memory it may have allocated and

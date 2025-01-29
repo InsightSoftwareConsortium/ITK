@@ -78,15 +78,6 @@ ImageToMeshFilter<TInputImage, TOutputMesh>::GetOutput() -> OutputMeshType *
   return dynamic_cast<OutputMeshType *>(this->ProcessObject::GetOutput(0));
 }
 
-/**
- * copy information from first input to all outputs
- * This is a void implementation to prevent the
- * ProcessObject version to be called
- */
-template <typename TInputImage, typename TOutputMesh>
-void
-ImageToMeshFilter<TInputImage, TOutputMesh>::GenerateOutputInformation()
-{}
 } // end namespace itk
 
 #endif

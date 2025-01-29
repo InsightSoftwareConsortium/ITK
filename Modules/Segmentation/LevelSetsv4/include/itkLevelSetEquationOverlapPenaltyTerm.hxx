@@ -34,11 +34,6 @@ LevelSetEquationOverlapPenaltyTerm<TInput, TLevelSetContainer>::LevelSetEquation
 
 template <typename TInput, typename TLevelSetContainer>
 void
-LevelSetEquationOverlapPenaltyTerm<TInput, TLevelSetContainer>::Update()
-{}
-
-template <typename TInput, typename TLevelSetContainer>
-void
 LevelSetEquationOverlapPenaltyTerm<TInput, TLevelSetContainer>::UpdatePixel(
   const LevelSetInputIndexType & itkNotUsed(index),
   const LevelSetOutputRealType & itkNotUsed(oldValue),

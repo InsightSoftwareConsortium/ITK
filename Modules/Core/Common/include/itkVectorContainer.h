@@ -549,7 +549,8 @@ public:
    * with other containers in the toolkit.
    */
   void
-  Squeeze();
+  Squeeze()
+  {}
 
   /**
    * Clear the elements. The final size will be zero.

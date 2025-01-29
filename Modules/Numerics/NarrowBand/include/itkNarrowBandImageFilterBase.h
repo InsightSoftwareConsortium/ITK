@@ -271,7 +271,8 @@ protected:
   /** This method allows deallocation of data and further post processing
    */
   void
-  PostProcessOutput() override;
+  PostProcessOutput() override
+  {}
 
   /* This function clears all pixels from the narrow band */
   void

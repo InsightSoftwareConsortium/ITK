@@ -32,11 +32,6 @@ LevelSetEquationBinaryMaskTerm<TInput, TLevelSetContainer>::LevelSetEquationBina
 
 template <typename TInput, typename TLevelSetContainer>
 void
-LevelSetEquationBinaryMaskTerm<TInput, TLevelSetContainer>::Update()
-{}
-
-template <typename TInput, typename TLevelSetContainer>
-void
 LevelSetEquationBinaryMaskTerm<TInput, TLevelSetContainer>::InitializeParameters()
 {
   this->SetUp();

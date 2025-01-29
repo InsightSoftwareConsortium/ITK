@@ -125,11 +125,6 @@ LevelSetEquationAdvectionTerm<TInput, TLevelSetContainer>::Initialize(const Leve
 
 template <typename TInput, typename TLevelSetContainer>
 void
-LevelSetEquationAdvectionTerm<TInput, TLevelSetContainer>::Update()
-{}
-
-template <typename TInput, typename TLevelSetContainer>
-void
 LevelSetEquationAdvectionTerm<TInput, TLevelSetContainer>::UpdatePixel(
   const LevelSetInputIndexType & itkNotUsed(iP),
   const LevelSetOutputRealType & itkNotUsed(oldValue),

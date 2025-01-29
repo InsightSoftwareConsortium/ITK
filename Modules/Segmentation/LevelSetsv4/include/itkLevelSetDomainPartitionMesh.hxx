@@ -48,11 +48,6 @@ LevelSetDomainPartitionMesh<TMesh>::PopulateListDomain()
   }
 }
 
-template <typename TMesh>
-void
-LevelSetDomainPartitionMesh<TMesh>::AllocateListDomain()
-{}
-
 } // end namespace itk
 
 #endif
