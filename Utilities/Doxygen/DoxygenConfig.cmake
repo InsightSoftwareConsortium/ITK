@@ -59,7 +59,6 @@ set(DOXYGEN_REFERENCED_BY_RELATION "YES")
 set(DOXYGEN_REFERENCES_RELATION "YES")
 set(DOXYGEN_HTML_HEADER "${ITK_SOURCE_DIR}/Documentation/Doxygen/DoxygenHeader.html")
 set(DOXYGEN_HTML_FOOTER "${ITK_SOURCE_DIR}/Documentation/Doxygen/DoxygenFooter.html")
-set(DOXYGEN_HTML_EXTRA_STYLESHEET "${ITK_SOURCE_DIR}/Documentation/Doxygen/ITKDoxygenStyle.css")
 set(DOXYGEN_HTML_EXTRA_FILES "${ITK_SOURCE_DIR}/Utilities/Doxygen/serviceWorker.js"
                              "${ITK_SOURCE_DIR}/Utilities/Doxygen/workbox-sw.prod.v2.0.1.js")
 set(DOXYGEN_HTML_TIMESTAMP "YES")
