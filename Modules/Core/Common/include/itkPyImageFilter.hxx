@@ -24,10 +24,6 @@ namespace itk
 {
 
 template <class TInputImage, class TOutputImage>
-PyImageFilter<TInputImage, TOutputImage>::PyImageFilter()
-{}
-
-template <class TInputImage, class TOutputImage>
 PyImageFilter<TInputImage, TOutputImage>::~PyImageFilter()
 {
   if (this->m_GenerateDataCallable)
