@@ -102,7 +102,7 @@ public:
   }
 
 protected:
-  PyImageFilter();
+  PyImageFilter() = default;
   ~PyImageFilter() override;
 
   void

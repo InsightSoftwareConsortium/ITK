@@ -431,7 +431,8 @@ protected:
   ThreadedApplyUpdate(const InputImageRegionType & regionToProcess, const int itkNotUsed(threadId));
 
   void
-  PostProcessOutput() override;
+  PostProcessOutput() override
+  {}
 
   virtual void
   SetThreadData(int threadId, const ThreadDataStruct & data);

@@ -283,11 +283,6 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>::ThreadedCalculateChange(co
 
 template <typename TInputImage, typename TOutputImage>
 void
-NarrowBandImageFilterBase<TInputImage, TOutputImage>::PostProcessOutput()
-{}
-
-template <typename TInputImage, typename TOutputImage>
-void
 NarrowBandImageFilterBase<TInputImage, TOutputImage>::GetSplitRegion(const size_t & i, ThreadRegionType & splitRegion)
 {
   splitRegion.first = m_RegionList[i].Begin;

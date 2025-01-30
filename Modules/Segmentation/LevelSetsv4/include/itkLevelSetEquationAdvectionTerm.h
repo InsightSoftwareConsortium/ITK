@@ -109,7 +109,8 @@ public:
 
   /** \todo to be documented. */
   void
-  Update() override;
+  Update() override
+  {}
 
   /** Initialize the parameters in the terms prior to an iteration */
   void

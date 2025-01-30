@@ -141,7 +141,8 @@ protected:
 
   /** Some type alias associated with the output mesh. */
   void
-  GenerateOutputInformation() override;
+  GenerateOutputInformation() override
+  {}
 
 private:
   DistanceFilterPointer m_DistanceFilter{};

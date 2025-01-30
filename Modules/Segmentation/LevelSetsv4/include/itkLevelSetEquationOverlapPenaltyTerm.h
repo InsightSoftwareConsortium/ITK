@@ -94,7 +94,8 @@ public:
 
   /** Update the term parameter values at end of iteration */
   void
-  Update() override;
+  Update() override
+  {}
 
   /** Initialize parameters in the terms prior to an iteration */
   void

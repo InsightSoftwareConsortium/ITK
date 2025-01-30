@@ -71,7 +71,8 @@ protected:
   /** Allocate a list mesh with each node being a list of overlapping
    *  level set support at that pixel */
   void
-  AllocateListDomain();
+  AllocateListDomain()
+  {}
 
 private:
   MeshPointer  m_Mesh{};

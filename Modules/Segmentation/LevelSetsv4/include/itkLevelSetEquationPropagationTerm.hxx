@@ -56,11 +56,6 @@ LevelSetEquationPropagationTerm<TInput, TLevelSetContainer, TPropagationImage>::
 
 template <typename TInput, typename TLevelSetContainer, typename TPropagationImage>
 void
-LevelSetEquationPropagationTerm<TInput, TLevelSetContainer, TPropagationImage>::Update()
-{}
-
-template <typename TInput, typename TLevelSetContainer, typename TPropagationImage>
-void
 LevelSetEquationPropagationTerm<TInput, TLevelSetContainer, TPropagationImage>::UpdatePixel(
   const LevelSetInputIndexType & itkNotUsed(iP),
   const LevelSetOutputRealType & itkNotUsed(oldValue),

@@ -87,9 +87,10 @@ public:
   OutputMeshType *
   GetOutput();
 
-  /** Prepare the output */
+  /** Prepare the output. This is a void implementation to prevent the ProcessObject version to be called. */
   void
-  GenerateOutputInformation() override;
+  GenerateOutputInformation() override
+  {}
 
 protected:
   ImageToMeshFilter();

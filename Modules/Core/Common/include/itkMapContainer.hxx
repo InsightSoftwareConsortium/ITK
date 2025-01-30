@@ -227,16 +227,6 @@ MapContainer<TElementIdentifier, TElement>::Reserve(ElementIdentifier sz)
 }
 
 /**
- * Tell the container to try to minimize its memory usage for storage of
- * the current number of elements.  This is NOT guaranteed to decrease
- * memory usage.
- */
-template <typename TElementIdentifier, typename TElement>
-void
-MapContainer<TElementIdentifier, TElement>::Squeeze()
-{}
-
-/**
  * Tell the container to release any memory it may have allocated and
  * return itself to its initial state.
  */

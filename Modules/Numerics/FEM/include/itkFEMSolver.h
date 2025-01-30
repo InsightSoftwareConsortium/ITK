@@ -382,7 +382,8 @@ protected:
 
   /** Decompose matrix using svd, qr, etc. if needed. */
   void
-  DecomposeK();
+  DecomposeK()
+  {}
 
   /** Solve for the displacement vector u. May be overridden in derived
    * classes. */

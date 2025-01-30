@@ -236,20 +236,5 @@ LevelSetEvolutionBase<TEquationContainer, TLevelSet>::Evolve()
   }
 }
 
-template <typename TEquationContainer, typename TLevelSet>
-void
-LevelSetEvolutionBase<TEquationContainer, TLevelSet>::AllocateUpdateBuffer()
-{}
-
-template <typename TEquationContainer, typename TLevelSet>
-void
-LevelSetEvolutionBase<TEquationContainer, TLevelSet>::ComputeIteration()
-{}
-
-template <typename TEquationContainer, typename TLevelSet>
-void
-LevelSetEvolutionBase<TEquationContainer, TLevelSet>::ComputeTimeStepForNextIteration()
-{}
-
 } // namespace itk
 #endif // itkLevelSetEvolutionBase_hxx

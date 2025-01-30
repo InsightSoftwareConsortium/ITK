@@ -519,11 +519,6 @@ Solver<VDimension>::AssembleF(int dim)
 
 template <unsigned int VDimension>
 void
-Solver<VDimension>::DecomposeK()
-{}
-
-template <unsigned int VDimension>
-void
 Solver<VDimension>::RunSolver()
 {
 

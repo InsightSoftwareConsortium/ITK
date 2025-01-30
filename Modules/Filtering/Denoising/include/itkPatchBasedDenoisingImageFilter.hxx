@@ -2334,11 +2334,6 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ComputeGradientJointE
 
 template <typename TInputImage, typename TOutputImage>
 void
-PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::PostProcessOutput()
-{}
-
-template <typename TInputImage, typename TOutputImage>
-void
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
