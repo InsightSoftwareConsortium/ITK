@@ -228,8 +228,8 @@ itkDataObjectAndProcessObjectTest(int, char *[])
   ITK_TEST_SET_GET_VALUE(true, process->GetReleaseDataBeforeUpdateFlag());
 
   ITK_TEST_EXPECT_TRUE(itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads() <= process->GetNumberOfWorkUnits());
-  process->SetNumberOfWorkUnits(ITK_MAX_THREADS - 1);
-  ITK_TEST_SET_GET_VALUE(ITK_MAX_THREADS - 1, process->GetNumberOfWorkUnits());
+  process->SetNumberOfWorkUnits(itk::ITK_MAX_THREADS - 1);
+  ITK_TEST_SET_GET_VALUE(itk::ITK_MAX_THREADS - 1, process->GetNumberOfWorkUnits());
   process->SetNumberOfWorkUnits(0);
   ITK_TEST_SET_GET_VALUE(1, process->GetNumberOfWorkUnits());
   process->SetNumberOfWorkUnits(itk::NumericTraits<itk::ThreadIdType>::max());
