@@ -432,8 +432,6 @@ main(int argc, char * argv[])
   caster4->SetInput(fastMarching->GetOutput());
   caster4->SetOutputMinimum(0);
   caster4->SetOutputMaximum(255);
-  itk::WriteImage(caster4->GetOutput(),
-                  "GeodesicActiveContourImageFilterOutput4.png");
 
   //  The FastMarchingImageFilter requires the user to specify the
   //  size of the image to be produced as output. This is done using the
@@ -478,6 +476,8 @@ main(int argc, char * argv[])
   std::cout << "RMS change: " << geodesicActiveContour->GetRMSChange()
             << std::endl;
 
+  itk::WriteImage(caster4->GetOutput(),
+                  "GeodesicActiveContourImageFilterOutput4.png");
 
   // The following writer type is used to save the output of the time-crossing
   // map in a file with appropriate pixel representation. The advantage of
