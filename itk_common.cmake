@@ -93,7 +93,7 @@
 #
 #==========================================================================*/
 
-cmake_minimum_required(VERSION 3.16.3 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.22.1 FATAL_ERROR)
 
 set(dashboard_user_home "$ENV{HOME}")
 
@@ -332,23 +332,6 @@ foreach(v
 endforeach(v)
 message("Dashboard script configuration:\n${vars}\n")
 
-# Git does not update submodules by default so they appear as local
-# modifications in the work tree.  CTest 2.8.2 does this automatically.
-# To support CTest 2.8.0 and 2.8.1 we wrap Git in a script.
-if(${CMAKE_VERSION} VERSION_LESS 2.8.2)
-  if(UNIX)
-    configure_file(${dashboard_self_dir}/gitmod.sh.in
-                   ${CTEST_DASHBOARD_ROOT}/gitmod.sh
-                   @ONLY)
-    set(CTEST_GIT_COMMAND ${CTEST_DASHBOARD_ROOT}/gitmod.sh)
-  else()
-    configure_file(${dashboard_self_dir}/gitmod.bat.in
-                   ${CTEST_DASHBOARD_ROOT}/gitmod.bat
-                   @ONLY)
-    set(CTEST_GIT_COMMAND ${CTEST_DASHBOARD_ROOT}/gitmod.bat)
-  endif()
-endif()
-
 # Avoid non-ascii characters in tool output.
 set(ENV{LC_ALL} C)
 
@@ -399,13 +382,6 @@ if(NOT DEFINED dashboard_loop)
   endif()
 endif()
 
-# CTest 2.6 crashes with message() after ctest_test.
-macro(safe_message)
-  if(NOT "${CMAKE_VERSION}" VERSION_LESS 2.8 OR NOT safe_message_skip)
-    message(${ARGN})
-  endif()
-endmacro()
-
 if(COMMAND dashboard_hook_init)
   dashboard_hook_init()
 endif()
@@ -435,7 +411,7 @@ while(NOT dashboard_done)
   if(NOT EXISTS "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt"
      OR "${dashboard_do_cache}")
     set(dashboard_fresh 1)
-    safe_message("Writing initial dashboard cache...")
+    message("Writing initial dashboard cache...")
     write_cache()
   endif()
 
@@ -444,7 +420,7 @@ while(NOT dashboard_done)
     ctest_update(RETURN_VALUE count)
   endif()
   set(CTEST_CHECKOUT_COMMAND) # checkout on first iteration only
-  safe_message("Found ${count} changed files")
+  message("Found ${count} changed files")
 
   if(dashboard_fresh OR NOT dashboard_continuous OR count GREATER 0)
     ctest_configure(RETURN_VALUE configure_return)
@@ -461,7 +437,6 @@ while(NOT dashboard_done)
       dashboard_hook_test()
     endif()
     ctest_test(${CTEST_TEST_ARGS} RETURN_VALUE test_return)
-    set(safe_message_skip 1) # Block furhter messages
 
     if(dashboard_do_coverage)
       if(COMMAND dashboard_hook_coverage)
