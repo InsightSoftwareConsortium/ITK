@@ -141,7 +141,8 @@ public:
    * \param dt New time step.
    */
   virtual void
-  SetTimeStep(Float dt);
+  SetTimeStep(Float itkNotUsed(dt))
+  {}
 
   /** Returns the Solution for the specified nodal point. */
   Float

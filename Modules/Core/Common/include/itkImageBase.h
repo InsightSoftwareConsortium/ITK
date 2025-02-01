@@ -249,7 +249,8 @@ public:
    *
    */
   virtual void
-  Allocate(bool initialize = false);
+  Allocate(bool itkNotUsed(initialize) = false)
+  {}
 
   /** Allocates the pixel buffer of the image, zero-initializing its pixels. `AllocateInitialized()` is equivalent to
    * `Allocate(true)`. It is just intended to make the code more readable. */

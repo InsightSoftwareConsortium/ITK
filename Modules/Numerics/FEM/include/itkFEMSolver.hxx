@@ -108,11 +108,6 @@ Solver<VDimension>::GetTimeStep() const -> Float
 }
 
 template <unsigned int VDimension>
-void
-Solver<VDimension>::SetTimeStep(Float itkNotUsed(dt))
-{}
-
-template <unsigned int VDimension>
 auto
 Solver<VDimension>::GetSolution(unsigned int i, unsigned int which) -> Float
 {

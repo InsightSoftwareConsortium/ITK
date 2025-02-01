@@ -554,11 +554,6 @@ SegmentTreeGenerator<TScalar>::MergeSegments(SegmentTableTypePointer           s
 
 template <typename TScalar>
 void
-SegmentTreeGenerator<TScalar>::GenerateOutputRequestedRegion(DataObject * itkNotUsed(output))
-{}
-
-template <typename TScalar>
-void
 SegmentTreeGenerator<TScalar>::GenerateInputRequestedRegion()
 {
   Superclass::GenerateInputRequestedRegion();

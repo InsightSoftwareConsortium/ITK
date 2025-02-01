@@ -90,11 +90,6 @@ BoundaryResolver<TPixelType, TDimension>::GenerateData()
 // --------------------PIPELINE METHODS------------------------
 // ------------------------------------------------------------
 template <typename TPixelType, unsigned int TDimension>
-void
-BoundaryResolver<TPixelType, TDimension>::GenerateOutputRequestedRegion(DataObject *)
-{}
-
-template <typename TPixelType, unsigned int TDimension>
 typename BoundaryResolver<TPixelType, TDimension>::DataObjectPointer
 BoundaryResolver<TPixelType, TDimension>::MakeOutput(DataObjectPointerArraySizeType)
 {

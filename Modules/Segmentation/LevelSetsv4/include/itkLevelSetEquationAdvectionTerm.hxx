@@ -119,19 +119,6 @@ LevelSetEquationAdvectionTerm<TInput, TLevelSetContainer>::GenerateAdvectionImag
 }
 
 template <typename TInput, typename TLevelSetContainer>
-void
-LevelSetEquationAdvectionTerm<TInput, TLevelSetContainer>::Initialize(const LevelSetInputIndexType &)
-{}
-
-template <typename TInput, typename TLevelSetContainer>
-void
-LevelSetEquationAdvectionTerm<TInput, TLevelSetContainer>::UpdatePixel(
-  const LevelSetInputIndexType & itkNotUsed(iP),
-  const LevelSetOutputRealType & itkNotUsed(oldValue),
-  const LevelSetOutputRealType & itkNotUsed(newValue))
-{}
-
-template <typename TInput, typename TLevelSetContainer>
 auto
 LevelSetEquationAdvectionTerm<TInput, TLevelSetContainer>::AdvectionSpeed(const LevelSetInputIndexType & iP) const
   -> VectorType

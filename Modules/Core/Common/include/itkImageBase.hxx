@@ -37,13 +37,6 @@
 
 namespace itk
 {
-
-template <unsigned int VImageDimension>
-void
-ImageBase<VImageDimension>::Allocate(bool)
-{}
-
-
 template <unsigned int VImageDimension>
 void
 ImageBase<VImageDimension>::Initialize()
