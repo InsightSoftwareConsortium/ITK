@@ -37,19 +37,6 @@ LevelSetEquationLaplacianTerm<TInput, TLevelSetContainer>::InitializeParameters(
 }
 
 template <typename TInput, typename TLevelSetContainer>
-void
-LevelSetEquationLaplacianTerm<TInput, TLevelSetContainer>::Initialize(const LevelSetInputIndexType &)
-{}
-
-template <typename TInput, typename TLevelSetContainer>
-void
-LevelSetEquationLaplacianTerm<TInput, TLevelSetContainer>::UpdatePixel(
-  const LevelSetInputIndexType & itkNotUsed(iP),
-  const LevelSetOutputRealType & itkNotUsed(oldValue),
-  const LevelSetOutputRealType & itkNotUsed(newValue))
-{}
-
-template <typename TInput, typename TLevelSetContainer>
 auto
 LevelSetEquationLaplacianTerm<TInput, TLevelSetContainer>::LaplacianSpeed(
   const LevelSetInputIndexType & itkNotUsed(iP)) const -> LevelSetOutputRealType

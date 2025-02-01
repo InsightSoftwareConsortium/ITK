@@ -154,7 +154,8 @@ protected:
 
   unsigned short m_Face{ 0 };
   void
-  GenerateOutputRequestedRegion(DataObject * output) override;
+  GenerateOutputRequestedRegion(DataObject * itkNotUsed(output)) override
+  {}
 };
 } // end namespace watershed
 } // end namespace itk

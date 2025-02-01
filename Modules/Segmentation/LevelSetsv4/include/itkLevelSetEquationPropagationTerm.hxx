@@ -49,20 +49,6 @@ LevelSetEquationPropagationTerm<TInput, TLevelSetContainer, TPropagationImage>::
 }
 
 template <typename TInput, typename TLevelSetContainer, typename TPropagationImage>
-void
-LevelSetEquationPropagationTerm<TInput, TLevelSetContainer, TPropagationImage>::Initialize(
-  const LevelSetInputIndexType &)
-{}
-
-template <typename TInput, typename TLevelSetContainer, typename TPropagationImage>
-void
-LevelSetEquationPropagationTerm<TInput, TLevelSetContainer, TPropagationImage>::UpdatePixel(
-  const LevelSetInputIndexType & itkNotUsed(iP),
-  const LevelSetOutputRealType & itkNotUsed(oldValue),
-  const LevelSetOutputRealType & itkNotUsed(newValue))
-{}
-
-template <typename TInput, typename TLevelSetContainer, typename TPropagationImage>
 auto
 LevelSetEquationPropagationTerm<TInput, TLevelSetContainer, TPropagationImage>::PropagationSpeed(
   const LevelSetInputIndexType & iP) const -> LevelSetOutputRealType

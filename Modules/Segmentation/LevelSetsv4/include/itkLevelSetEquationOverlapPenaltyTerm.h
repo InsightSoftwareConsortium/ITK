@@ -103,7 +103,8 @@ public:
 
   /** Initialize term parameters in the dense case by computing for each pixel location */
   void
-  Initialize(const LevelSetInputIndexType & index) override;
+  Initialize(const LevelSetInputIndexType & itkNotUsed(index)) override
+  {}
 
   /** Compute the sum of Heaviside functions in the multi-levelset cases
    *  except the current levelset */
@@ -112,9 +113,10 @@ public:
 
   /** Supply updates at pixels to keep the term parameters always updated */
   void
-  UpdatePixel(const LevelSetInputIndexType & index,
-              const LevelSetOutputRealType & oldValue,
-              const LevelSetOutputRealType & newValue) override;
+  UpdatePixel(const LevelSetInputIndexType & itkNotUsed(index),
+              const LevelSetOutputRealType & itkNotUsed(oldValue),
+              const LevelSetOutputRealType & itkNotUsed(newValue)) override
+  {}
 
 
 protected:

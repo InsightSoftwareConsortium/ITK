@@ -219,7 +219,8 @@ protected:
 
   /** Methods required by the itk pipeline */
   void
-  GenerateOutputRequestedRegion(DataObject * output) override;
+  GenerateOutputRequestedRegion(DataObject * itkNotUsed(output)) override
+  {}
 
   void
   GenerateInputRequestedRegion() override;

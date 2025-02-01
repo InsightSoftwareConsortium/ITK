@@ -94,13 +94,15 @@ public:
 
   /** Initialize term parameters in the dense case by computing for each pixel location */
   void
-  Initialize(const LevelSetInputIndexType & iP) override;
+  Initialize(const LevelSetInputIndexType & itkNotUsed(iP)) override
+  {}
 
   /** Supply updates at pixels to keep the term parameters always updated */
   void
-  UpdatePixel(const LevelSetInputIndexType & iP,
-              const LevelSetOutputRealType & oldValue,
-              const LevelSetOutputRealType & newValue) override;
+  UpdatePixel(const LevelSetInputIndexType & itkNotUsed(iP),
+              const LevelSetOutputRealType & itkNotUsed(oldValue),
+              const LevelSetOutputRealType & itkNotUsed(newValue)) override
+  {}
 
 protected:
   LevelSetEquationBinaryMaskTerm();

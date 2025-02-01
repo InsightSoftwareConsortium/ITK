@@ -77,19 +77,6 @@ LevelSetEquationCurvatureTerm<TInput, TLevelSetContainer, TCurvatureImage>::Init
 }
 
 template <typename TInput, typename TLevelSetContainer, typename TCurvatureImage>
-void
-LevelSetEquationCurvatureTerm<TInput, TLevelSetContainer, TCurvatureImage>::Initialize(const LevelSetInputIndexType &)
-{}
-
-template <typename TInput, typename TLevelSetContainer, typename TCurvatureImage>
-void
-LevelSetEquationCurvatureTerm<TInput, TLevelSetContainer, TCurvatureImage>::UpdatePixel(
-  const LevelSetInputIndexType & itkNotUsed(iP),
-  const LevelSetOutputRealType & itkNotUsed(oldValue),
-  const LevelSetOutputRealType & itkNotUsed(newValue))
-{}
-
-template <typename TInput, typename TLevelSetContainer, typename TCurvatureImage>
 auto
 LevelSetEquationCurvatureTerm<TInput, TLevelSetContainer, TCurvatureImage>::Value(const LevelSetInputIndexType & iP)
   -> LevelSetOutputRealType
