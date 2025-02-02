@@ -125,7 +125,7 @@ namespace itk
  * type. You will get a compilation error if the pixel type of the
  * output image is not float or double.
  *
- * For algorithmic details see \cite padfield 2012 and \cite padfield2010.
+ * For algorithmic details see \cite padfield2012 and \cite padfield2010.
  *
  * \author: Dirk Padfield, GE Global Research, padfield\@research.ge.com
  * \ingroup ITKConvolution
