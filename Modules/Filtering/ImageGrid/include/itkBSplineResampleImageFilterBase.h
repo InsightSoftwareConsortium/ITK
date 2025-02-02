@@ -44,7 +44,7 @@ namespace itk
  *        up/down sample an image by a factor of 2.
  *
  * This class defines N-Dimension B-Spline transformation.
- * It is based on \cite unser199, \cite unser1993 and \cite unser1993a.
+ * It is based on \cite unser1999, \cite unser1993 and \cite unser1993a.
  * Code obtained from bigwww.epfl.ch by Philippe Thevenaz
  *
  * Limitations:  Spline order for the l2 pyramid must be between 0 and 3.

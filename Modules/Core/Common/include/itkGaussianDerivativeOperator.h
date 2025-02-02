@@ -76,7 +76,7 @@ extern ITKCommon_EXPORT std::ostream &
  *
  * References:
  * The Gaussian kernel contained in this operator was described in
- * \cite lindeberg1999.
+ * \cite lindeberg1991.
  *
  * \author Ivan Macia, Vicomtech, Spain, https://www.vicomtech.org/en
  *
