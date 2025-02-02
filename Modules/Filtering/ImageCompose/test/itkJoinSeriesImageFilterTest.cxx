@@ -224,6 +224,6 @@ itkJoinSeriesImageFilterTest(int, char *[])
   }
 
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

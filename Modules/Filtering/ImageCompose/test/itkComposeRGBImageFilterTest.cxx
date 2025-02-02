@@ -115,7 +115,6 @@ itkComposeRGBImageFilterTest(int, char *[])
     ++ib;
   }
 
-  std::cout << "Test Passed !" << std::endl;
-
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

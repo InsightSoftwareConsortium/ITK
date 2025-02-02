@@ -61,6 +61,6 @@ itkImageToVectorImageFilterTest(int argc, char * argv[])
   writer->Update();
 
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

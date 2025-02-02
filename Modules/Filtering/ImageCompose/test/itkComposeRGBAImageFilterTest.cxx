@@ -97,6 +97,6 @@ itkComposeRGBAImageFilterTest(int argc, char * argv[])
   writer->SetInput(filterCompose->GetOutput());
   writer->Update();
 
-  // Return
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

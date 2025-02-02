@@ -103,7 +103,6 @@ itkCompose2DVectorImageFilterTest(int, char *[])
     ++i1;
   }
 
-  std::cout << "Test Passed !" << std::endl;
-
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

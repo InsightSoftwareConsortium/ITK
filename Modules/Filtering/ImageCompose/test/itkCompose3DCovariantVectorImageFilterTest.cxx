@@ -117,7 +117,6 @@ itkCompose3DCovariantVectorImageFilterTest(int, char *[])
     ++i2;
   }
 
-  std::cout << "Test Passed !" << std::endl;
-
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }
