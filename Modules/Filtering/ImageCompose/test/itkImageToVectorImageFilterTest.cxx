@@ -25,6 +25,13 @@
 int
 itkImageToVectorImageFilterTest(int argc, char * argv[])
 {
+  if (argc < 3)
+  {
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << "  input1 input2 ... inputn output" << std::endl;
+    return EXIT_FAILURE;
+  }
 
   using PixelType = unsigned char;
 
@@ -35,13 +42,6 @@ itkImageToVectorImageFilterTest(int argc, char * argv[])
   using WriterType = itk::ImageFileWriter<VectorImageType>;
 
   using FilterType = itk::ComposeImageFilter<ScalarImageType>;
-
-  if (argc < 3)
-  {
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv) << "  input1 input2 ... inputn output" << std::endl;
-    return EXIT_FAILURE;
-  }
 
   auto filter = FilterType::New();
   int  f = 0;

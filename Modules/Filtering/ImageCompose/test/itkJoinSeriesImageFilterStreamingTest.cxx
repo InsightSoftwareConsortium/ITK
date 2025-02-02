@@ -27,6 +27,13 @@
 int
 itkJoinSeriesImageFilterStreamingTest(int argc, char * argv[])
 {
+  if (argc < 3)
+  {
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage OutputImage" << std::endl;
+    return EXIT_FAILURE;
+  }
+
   using ImageType = itk::Image<unsigned char, 3>;
   using SliceImageType = itk::Image<unsigned char, 2>;
 
@@ -34,14 +41,6 @@ itkJoinSeriesImageFilterStreamingTest(int argc, char * argv[])
   using SliceExtractorFilterType = itk::ExtractImageFilter<ImageType, SliceImageType>;
   using JoinSeriesFilterType = itk::JoinSeriesImageFilter<SliceImageType, ImageType>;
   using ImageFileWriterType = itk::ImageFileWriter<ImageType>;
-
-
-  if (argc < 3)
-  {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage OutputImage" << std::endl;
-    return EXIT_FAILURE;
-  }
-
 
   const std::string inputFileName = argv[1];
   const std::string outputFileName = argv[2];
