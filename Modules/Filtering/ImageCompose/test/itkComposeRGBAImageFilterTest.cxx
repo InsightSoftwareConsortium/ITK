@@ -31,7 +31,7 @@ itkComposeRGBAImageFilterTest(int argc, char * argv[])
 
   if (argc < 6)
   {
-    std::cerr << "Error: missing arguments" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage: " << std::endl;
     std::cerr << itkNameOfTestExecutableMacro(argv) << " outputFile inputFileR inputFileG inputFileB inputFileA"
               << std::endl;
