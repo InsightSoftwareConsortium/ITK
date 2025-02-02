@@ -61,7 +61,7 @@ itkImageReadRealAndImaginaryWriteComplexTest(int argc, char * argv[])
   auto readerImag = ReaderType::New();
   auto writer = WriterType::New();
 
-  auto RealAndImaginary2Complex = RealAndImaginary2ComplexFilterType::New();
+  auto realAndImaginary2Complex = RealAndImaginary2ComplexFilterType::New();
 
   readerReal->SetFileName(argv[1]);
   readerImag->SetFileName(argv[2]);
@@ -71,12 +71,12 @@ itkImageReadRealAndImaginaryWriteComplexTest(int argc, char * argv[])
   readerReal->Update();
   readerImag->Update();
 
-  RealAndImaginary2Complex->SetInput1(readerReal->GetOutput());
-  RealAndImaginary2Complex->SetInput2(readerImag->GetOutput());
+  realAndImaginary2Complex->SetInput1(readerReal->GetOutput());
+  realAndImaginary2Complex->SetInput2(readerImag->GetOutput());
 
-  ITK_TRY_EXPECT_NO_EXCEPTION(RealAndImaginary2Complex->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(realAndImaginary2Complex->Update());
 
-  writer->SetInput(RealAndImaginary2Complex->GetOutput());
+  writer->SetInput(realAndImaginary2Complex->GetOutput());
   writer->Update();
 
   // check that the default template parameters work
