@@ -19,6 +19,7 @@
 #include <iostream>
 #include "itkComposeImageFilter.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 int
 itkCompose2DVectorImageFilterTest(int, char *[])
@@ -63,16 +64,7 @@ itkCompose2DVectorImageFilterTest(int, char *[])
   filter->SetInput1(zeroImage);
   filter->SetInput2(oneImage);
 
-  try
-  {
-    filter->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception caught !" << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
   using OutputImageType = FilterType::OutputImageType;
 

@@ -73,18 +73,10 @@ itkImageReadRealAndImaginaryWriteComplexTest(int argc, char * argv[])
   RealAndImaginary2Complex->SetInput1(readerReal->GetOutput());
   RealAndImaginary2Complex->SetInput2(readerImag->GetOutput());
 
-  writer->SetInput(RealAndImaginary2Complex->GetOutput());
+  ITK_TRY_EXPECT_NO_EXCEPTION(RealAndImaginary2Complex->Update());
 
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Error writing the magnitude image: " << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  writer->SetInput(RealAndImaginary2Complex->GetOutput());
+  writer->Update();
 
   // check that the default template parameters work
   using DefaultParametersFilterType = itk::ComposeImageFilter<InputImageType>;

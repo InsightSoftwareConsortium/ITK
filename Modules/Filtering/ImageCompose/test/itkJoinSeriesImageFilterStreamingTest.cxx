@@ -95,16 +95,7 @@ itkJoinSeriesImageFilterStreamingTest(int argc, char * argv[])
   writer->SetFileName(outputFileName);
   writer->SetNumberOfStreamDivisions(numberOfSlices);
 
-
-  try
-  {
-    writer->Update();
-  }
-  catch (...)
-  {
-    std::cerr << "Exception while trying to stream write file." << std::endl;
-    throw;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
   std::cout << "Number of Updates: " << monitor1->GetNumberOfUpdates() << std::endl;
   std::cout << "Verifying ImageFileReader to ExtractImageFilter pipeline interaction" << std::endl;

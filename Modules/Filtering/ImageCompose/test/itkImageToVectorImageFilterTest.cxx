@@ -53,20 +53,14 @@ itkImageToVectorImageFilterTest(int argc, char * argv[])
     filter->SetInput(f++, reader->GetOutput());
   }
 
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
+
   auto writer = WriterType::New();
   writer->SetFileName(argv[argc - 1]);
+  writer->SetInput(filter->GetOutput());
+  writer->Update();
 
-  try
-  {
-    writer->SetInput(filter->GetOutput());
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Error while writing the file" << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
 }
