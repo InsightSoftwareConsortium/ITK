@@ -37,14 +37,6 @@ itkComposeRGBAImageFilterTest(int argc, char * argv[])
               << std::endl;
   }
 
-  // ARGUMENTS:
-  // argv[0] = Executable name
-  // argv[1] = Output file name and path
-  // argv[2] = Input 1 file name and path
-  // argv[2] = Input 2 file name and path
-  // argv[2] = Input 3 file name and path
-  // argv[2] = Input 4 file name and path
-
   // Get arguments
   char * OutputFilename = argv[1];
   char * Input1Filename = argv[2];
