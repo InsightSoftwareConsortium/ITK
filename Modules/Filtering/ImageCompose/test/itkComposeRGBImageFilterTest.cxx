@@ -19,6 +19,7 @@
 #include <iostream>
 #include "itkRGBPixel.h"
 #include "itkComposeImageFilter.h"
+#include "itkTestingMacros.h"
 
 int
 itkComposeRGBImageFilterTest(int, char *[])
@@ -69,17 +70,7 @@ itkComposeRGBImageFilterTest(int, char *[])
   filter->SetInput2(greenImage);
   filter->SetInput3(blueImage);
 
-  try
-  {
-    filter->Update();
-  }
-
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception caught !" << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
   const OutputImageType::Pointer rgbImage = filter->GetOutput();
 
@@ -124,7 +115,6 @@ itkComposeRGBImageFilterTest(int, char *[])
     ++ib;
   }
 
-  std::cout << "Test Passed !" << std::endl;
-
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

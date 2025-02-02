@@ -19,6 +19,7 @@
 #include <iostream>
 #include "itkComposeImageFilter.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 int
 itkCompose3DCovariantVectorImageFilterTest(int, char *[])
@@ -69,17 +70,7 @@ itkCompose3DCovariantVectorImageFilterTest(int, char *[])
   filter->SetInput2(oneImage);
   filter->SetInput3(twoImage);
 
-  try
-  {
-    filter->Update();
-  }
-
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception caught !" << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
   using OutputImageType = FilterType::OutputImageType;
 
@@ -126,7 +117,6 @@ itkCompose3DCovariantVectorImageFilterTest(int, char *[])
     ++i2;
   }
 
-  std::cout << "Test Passed !" << std::endl;
-
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }
