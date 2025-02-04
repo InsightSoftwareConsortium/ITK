@@ -52,5 +52,5 @@ https://github.com/albarji/proxTV
 "
   MODULE_COMPLIANCE_LEVEL 2
   GIT_REPOSITORY https://github.com/InsightSoftwareConsortium/ITKTotalVariation.git
-  GIT_TAG 0b4f9450f7c98b8db6dee5990bbd9be5d6e6c4d2
+  GIT_TAG 38c25ae8167df32f32fe7d52cb66445bbc10c471
   )

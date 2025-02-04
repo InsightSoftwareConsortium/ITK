@@ -51,5 +51,5 @@ itk_fetch_module(
   "
   MODULE_COMPLIANCE_LEVEL 2
   GIT_REPOSITORY https://github.com/InsightSoftwareConsortium/ITKMeshNoise.git
-  GIT_TAG 2b2ccb53f7eb0fb03034cc89ac6793e35e2427c2
+  GIT_TAG 5b4ea2e603147f0c5808a3efe0941651f3aad9b1
   )
