@@ -38,10 +38,7 @@ namespace itk
  *
  * \sa ShapePriorSegmentationLevelSetImageFilter
  *
- * \par REFERENCES
- * \par
- * [1] Leventon, M.E. et al. "Statistical Shape Influence in Geodesic Active Contours", CVPR 2000.
- *
+ * For algorithmic details see \cite leventon2000.
  *
  * \ingroup Numerics Optimizers
  * \ingroup ITKLevelSets

@@ -56,13 +56,7 @@ namespace itk
  * Stable State Thresholding works well on images with a large number
  * of objects to be counted.
  *
- * \par References:
- * 1) Urish KL, August J, Huard J. "Unsupervised segmentation for myofiber
- * counting in immunofluorescent microscopy images". Insight Journal.
- * ISC/NA-MIC/MICCAI Workshop on Open-Source Software (2005)
- * https://doi.org/10.54294/h1vbsl
- * 2) Pikaz A, Averbuch, A. "Digital image thresholding based on topological
- * stable-state". Pattern Recognition, 29(5): 829-843, 1996.
+ * For algorithmic details see \cite urish2005 and \cite pikaz1996.
  *
  * \par
  * Questions: email Ken Urish at ken.urish(at)gmail.com

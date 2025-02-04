@@ -243,12 +243,7 @@ private:
  *  FiniteDifferenceFunction to use for calculations.  This is set using the
  *  method SetDifferenceFunction in the parent class.
  *
- * \par REFERENCES
- * Whitaker, Ross. A Level-Set Approach to 3D Reconstruction from Range Data.
- * International Journal of Computer Vision.  V. 29 No. 3, 203-231. 1998.
- *
- * \par
- * Sethian, J.A. Level Set Methods. Cambridge University Press. 1996.
+ * For algorithmic details see \cite whitaker1998 and \cite sethian1996.
  *
  * \ingroup ITKLevelSets
  */

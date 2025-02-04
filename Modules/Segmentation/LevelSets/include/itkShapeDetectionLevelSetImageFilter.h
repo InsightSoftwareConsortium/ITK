@@ -88,12 +88,7 @@ namespace itk
  * See SparseFieldLevelSetImageFilter and
  * SegmentationLevelSetImageFilter for more information.
  *
- * \par REFERENCES
- * \par
- *    "Shape Modeling with Front Propagation: A Level Set Approach",
- *    R. Malladi, J. A. Sethian and B. C. Vermuri.
- *    IEEE Trans. on Pattern Analysis and Machine Intelligence,
- *    Vol 17, No. 2, pp 158-174, February 1995
+ * For algorithmic details see \cite malladi1995.
  *
  * \sa SegmentationLevelSetImageFilter
  * \sa ShapeDetectionLevelSetFunction

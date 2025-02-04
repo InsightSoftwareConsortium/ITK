@@ -55,11 +55,7 @@ namespace itk
  *
  * Note that there is no advection term in this function.
  *
- * This implementation is based on:
- * "Shape Modeling with Front Propagation: A Level Set Approach",
- * R. Malladi, J. A. Sethian and B. C. Vermuri.
- * IEEE Trans. on Pattern Analysis and Machine Intelligence,
- * Vol 17, No. 2, pp 158-174, February 1995
+ * This implementation is based on \cite malladi1995.
  *
  * \sa LevelSetFunction
  * \sa SegmentationLevelSetImageFunction

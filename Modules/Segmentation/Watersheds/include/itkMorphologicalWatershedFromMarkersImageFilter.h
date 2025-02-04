@@ -62,8 +62,7 @@ namespace itk
  * image.
  *
  * The morphological watershed transform algorithm is described in
- * Chapter 9.2 of Pierre Soille's book "Morphological Image Analysis:
- * Principles and Applications", Second Edition, Springer, 2003.
+ * \cite soille2004c.
  *
  * This code was contributed in the Insight Journal paper:
  * "The watershed transform in ITK - discussion and new developments"

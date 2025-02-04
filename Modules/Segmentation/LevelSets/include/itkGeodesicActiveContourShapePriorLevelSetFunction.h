@@ -66,7 +66,7 @@ namespace itk
  * This term behaves like a doublet attracting the contour to the edges.
  *
  * This class extends the basic LevelSetFunction with a shape prior term
- * as developed in [1].
+ * as developed in \cite leventon2000.
  *
  * \f$ \zeta( \phi^{*} - \phi) \f$
  *
@@ -81,10 +81,6 @@ namespace itk
  * \sa SegmentationLevelSetFunction
  * \sa ShapePriorSegmentationLevelSetFunction
  * \sa ShapeSignedDistanceFunction
- *
- * \par REFERENCES
- * \par
- * [1] Leventon, M.E. et al. "Statistical Shape Influence in Geodesic Active Contours", CVPR 2000.
  *
  * \ingroup FiniteDifferenceFunctions
  * \ingroup ITKLevelSets

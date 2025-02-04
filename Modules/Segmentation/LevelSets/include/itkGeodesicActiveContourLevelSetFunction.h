@@ -60,11 +60,7 @@ namespace itk
  *
  * This term behaves like a doublet attracting the contour to the edges.
  *
- * This implementation is based on:
- * "Geodesic Active Contours",
- * V. Caselles, R. Kimmel and G. Sapiro.
- * International Journal on Computer Vision,
- * Vol 22, No. 1, pp 61-97, 1997
+ * This implementation is based on \cite caselles1997.
  *
  * \sa LevelSetFunction
  * \sa SegmentationLevelSetImageFunction
