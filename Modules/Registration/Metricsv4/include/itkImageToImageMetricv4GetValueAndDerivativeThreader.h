@@ -120,6 +120,7 @@ protected:
   {
     return this->m_CachedNumberOfLocalParameters;
   }
+
 };
 
 /** \class ImageToImageMetricv4GetValueAndDerivativeThreader
@@ -195,6 +196,7 @@ protected:
   {
     return this->m_CachedNumberOfLocalParameters;
   }
+
 };
 
 } // end namespace itk

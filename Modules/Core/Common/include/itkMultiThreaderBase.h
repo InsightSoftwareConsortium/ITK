@@ -263,6 +263,7 @@ INTEL_PRAGMA_WARN_POP
       STD_EXCEPTION,
       UNKNOWN
     } ThreadExitCode;
+
   };
   // clang-format off
 ITK_GCC_PRAGMA_DIAG_POP()

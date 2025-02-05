@@ -200,6 +200,7 @@ public:
   static bool
   GetLabelFromTag(const std::string & tag, std::string & labelId);
 
+
   using CompressionEnum = GDCMImageIOEnums::Compression;
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level

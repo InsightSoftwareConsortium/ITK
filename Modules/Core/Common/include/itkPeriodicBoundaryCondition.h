@@ -105,6 +105,7 @@ public:
    */
   OutputPixelType
   GetPixel(const IndexType & index, const TInputImage * image) const override;
+
 };
 } // end namespace itk
 

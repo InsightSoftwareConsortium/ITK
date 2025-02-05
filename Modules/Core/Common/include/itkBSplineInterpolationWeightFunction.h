@@ -122,6 +122,7 @@ protected:
   BSplineInterpolationWeightFunction() = default;
   ~BSplineInterpolationWeightFunction() override = default;
 };
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

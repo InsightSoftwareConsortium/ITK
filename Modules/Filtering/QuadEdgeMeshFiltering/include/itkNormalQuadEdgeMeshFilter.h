@@ -194,6 +194,7 @@ protected:
    */
   void
   GenerateData() override;
+
 };
 } // namespace itk
 

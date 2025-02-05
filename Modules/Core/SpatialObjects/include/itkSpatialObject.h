@@ -683,6 +683,7 @@ public:
   {
     return IsInsideInObjectSpace(point, depth, name);
   }
+
 #endif
 
 protected:

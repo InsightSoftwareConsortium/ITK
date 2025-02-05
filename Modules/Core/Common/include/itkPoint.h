@@ -123,6 +123,7 @@ public:
   Point(const TPointValueType & v)
     : BaseArray(v)
   {}
+
   Point(const ValueType & v)
     : BaseArray(v)
   {}

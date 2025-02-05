@@ -144,8 +144,8 @@ public:
       m_NeighborhoodAccessor.Set(imageBufferPointer + m_PixelIndexValue, pixelValue);
     }
   }
-};
 
+};
 
 } // namespace itk
 

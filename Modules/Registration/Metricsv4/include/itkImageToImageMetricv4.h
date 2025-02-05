@@ -871,6 +871,7 @@ private:
   using MovingImagePixelValueType = typename PixelTraits<MovingImagePixelType>::ValueType;
   itkConceptMacro(OnlyDefinedForFloatingPointTypes0, (itk::Concept::IsFloatingPoint<FixedImagePixelValueType>));
   itkConceptMacro(OnlyDefinedForFloatingPointTypes1, (itk::Concept::IsFloatingPoint<MovingImagePixelValueType>));
+
 };
 } // namespace itk
 

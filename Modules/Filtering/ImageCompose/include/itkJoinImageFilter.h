@@ -48,6 +48,7 @@ template <typename TPixel1, typename TPixel2>
 class JoinFunctor
 {
 public:
+
   /** Standard type alias */
   using Self = JoinFunctor;
 
@@ -160,6 +161,7 @@ private:
   {
     out[idx] = static_cast<JoinValueType>(B);
   }
+
 }; // class JoinFunction
 
 template <typename TImage1, typename TImage2>

@@ -44,6 +44,7 @@ public:
   MetaEvent();
   ~MetaEvent() override;
 };
+
 } // end namespace itk
 
 #endif

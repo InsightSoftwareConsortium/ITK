@@ -141,6 +141,7 @@ protected:
    */
   void
   DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+
 };
 } // end of namespace itk
 

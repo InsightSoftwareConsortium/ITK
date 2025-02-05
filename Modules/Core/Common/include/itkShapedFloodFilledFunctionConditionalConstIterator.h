@@ -294,6 +294,7 @@ protected: // made protected so other iterators can access
    * 8 (26 in 3D).
    */
   bool m_FullyConnected{};
+
 };
 } // end namespace itk
 
