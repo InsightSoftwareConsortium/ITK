@@ -118,10 +118,7 @@ public:
    * the MaximumNumberOfIterations, the Scales, and the
    * the InitialPosition before calling this method.
    *
-   * Described in:
-   * Spall, J.C. (1998), "Implementation of the Simultaneous Perturbation
-   * Algorithm for Stochastic Optimization", IEEE Trans. Aerosp. Electron.
-   * Syst. 34(3), 817-823.
+   * Described in \cite spall1998a.
    */
   virtual void
   GuessParameters(SizeValueType numberOfGradientEstimates, double initialStepSize);

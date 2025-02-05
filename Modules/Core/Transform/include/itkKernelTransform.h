@@ -226,10 +226,7 @@ public:
    * spline to approximate rather than interpolate the landmarks.
    * Stiffness values are usually rather small, typically in the range
    * of 0.001 to 0.1. The approximating spline formulation is based on
-   * the short paper by R. Sprengel, K. Rohr, H. Stiehl. "Thin-Plate
-   * Spline Approximation for Image Registration". In 18th
-   * International Conference of the IEEE Engineering in Medicine and
-   * Biology Society. 1996.
+   * \cite sprengel1996.
    */
   itkSetClampMacro(Stiffness, double, 0.0, NumericTraits<double>::max());
   itkGetConstMacro(Stiffness, double);

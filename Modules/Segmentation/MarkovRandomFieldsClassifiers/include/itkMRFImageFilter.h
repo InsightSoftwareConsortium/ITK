@@ -342,9 +342,7 @@ protected:
   Allocate();
 
   /** Apply MRF Classifier. In this example the images are labelled using
-   * Iterated Conditional Mode algorithm by J. Besag, "On statistical
-   * analysis of dirty pictures," J. Royal Stat. Soc. B, vol. 48,
-   * pp. 259-302, 1986. */
+   * Iterated Conditional Mode algorithm \cite besag1986.*/
   virtual void
   ApplyMRFImageFilter();
 
