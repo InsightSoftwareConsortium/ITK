@@ -338,7 +338,7 @@ endif()
 mark_as_advanced(GDCM_USE_SYSTEM_LIBXML2)
 
 if(GDCM_USE_SYSTEM_LJPEG)
-  find_package(LJPEG REQUIRED)
+  #find_package(LJPEG REQUIRED)
   set(GDCM_LJPEG_LIBRARIES ${LJPEG_LIBRARIES})
 else()
   set(GDCM_LJPEG_LIBRARIES gdcmjpeg8 gdcmjpeg12 gdcmjpeg16)
