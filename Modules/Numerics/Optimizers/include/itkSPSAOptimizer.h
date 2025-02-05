@@ -50,13 +50,8 @@ extern ITKOptimizers_EXPORT std::ostream &
  * \brief An optimizer based on simultaneous perturbation...
  *
  * This optimizer is an implementation of the Simultaneous
- * Perturbation Stochastic Approximation method, described in:
- *
- * - https://www.jhuapl.edu/SPSA/
- *
- * - Spall, J.C. (1998), "An Overview of the Simultaneous
- * Perturbation Method for Efficient Optimization," Johns
- * Hopkins APL Technical Digest, vol. 19, pp. 482-492
+ * Perturbation Stochastic Approximation method, described in
+ * \cite spall1998.
  *
  * \ingroup Optimizers
  * \ingroup ITKOptimizers

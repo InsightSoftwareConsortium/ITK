@@ -104,21 +104,8 @@ operator<<(std::ostream & out, const HistogramToTextureFeaturesFilterEnums::Text
  * http://www.cssip.uq.edu.au/meastex/www/algs/algs/algs.html
  * https://www.ucalgary.ca/~mhallbey/texture/texture_tutorial.html
  *
- * Print references:
- *
- * Haralick, R.M., K. Shanmugam and I. Dinstein. 1973.  Textural Features for
- * Image Classification. IEEE Transactions on Systems, Man and Cybernetics.
- * SMC-3(6):610-620.
- *
- * Haralick, R.M. 1979. Statistical and Structural Approaches to Texture.
- * Proceedings of the IEEE, 67:786-804.
- *
- * R.W. Conners and C.A. Harlow. A Theoretical Comparison of Texture Algorithms.
- * IEEE Transactions on Pattern Analysis and Machine Intelligence,  2:204-222, 1980.
- *
- * R.W. Conners, M.M. Trivedi, and C.A. Harlow. Segmentation of a High-Resolution
- * Urban Scene using Texture  Operators. Computer Vision, Graphics and Image
- * Processing, 25:273-310,  1984.
+ * For algorithmic details see \cite haralick1973, \cite haralick1979,
+ * \cite conners1980 and \cite conners1984.
  *
  * \sa ScalarImageToCooccurrenceMatrixFilter
  * \sa ScalarImageToTextureFeaturesFilter

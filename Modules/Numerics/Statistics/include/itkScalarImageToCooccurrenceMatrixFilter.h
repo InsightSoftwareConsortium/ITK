@@ -35,10 +35,7 @@ namespace Statistics
  *
  * This filters creates a grey-level co-occurrence matrix from a N-D scalar
  * image. This is the first step in texture description a la Haralick. (See
- * Haralick, R.M., K. Shanmugam and I. Dinstein. 1973. Textural Features for
- * Image Classification. IEEE Transactions on Systems, Man and Cybernetics.
- * SMC-3(6):610-620. See also Haralick, R.M. 1979. Statistical and Structural
- * Approaches to Texture. Proceedings of the IEEE, 67:786-804.)
+ * \cite haralick1973 and \cite haralick1979.
  *
  * The basic idea is as follows:
  * Given an image and an offset (e.g. (1, -1) for a 2-d image), grey-level

@@ -41,7 +41,7 @@ public:
   {
     /** The default algorithm (MoreThuente method). */
     LINESEARCH_DEFAULT = 0,
-    /** MoreThuente method proposed by More and Thuente. */
+    /** MoreThuente method proposed by More and Thuente \cite more1994. */
     LINESEARCH_MORETHUENTE = 0,
     /**
      * Backtracking method with the Armijo condition.
@@ -85,10 +85,10 @@ extern ITKOptimizersv4_EXPORT std::ostream &
 
 /**
  * \class LBFGS2Optimizerv4Template
- * \brief Wrap of the libLBFGS[1] algorithm for use in ITKv4 registration framework.
- * LibLBFGS is a translation of LBFGS code by Nocedal [2] and adds the orthantwise
- * limited-memory Quasi-Newton method [3] for optimization with L1-norm on the
- * parameters.
+ * \brief Wrap of the [libLBFGS](https://www.chokkan.org/software/liblbfgs/) algorithm for use in ITKv4 registration
+ * framework. LibLBFGS is a translation of LBFGS code by Nocedal [NETLIB
+ * lbfgs](http://users.iems.northwestern.edu/~nocedal/lbfgs.html) and adds the orthantwise limited-memory Quasi-Newton
+ * method \cite galen2007 for optimization with L1-norm on the parameters.
  *
  * LBFGS is a quasi-Newton method uses an approximate estimate of the inverse Hessian
  * \f$ (\nabla^2 f(x) )^-1 \f$ to scale the gradient step:
@@ -101,7 +101,7 @@ extern ITKOptimizersv4_EXPORT std::ostream &
  * thus only the gradient of the objective function is required.
  *
  * The step size \f$ s \f$ is determined through line search which defaults to
- * the approach by More and Thuente [4]. This line search approach finds a step
+ * the approach by More and Thuente  \cite more1994. This line search approach finds a step
  * size such that
  * \f[
  * \lVert \nabla f(x + s (\nabla^2 f(x_n) )^{-1} \nabla f(x) ) \rVert
@@ -112,7 +112,7 @@ extern ITKOptimizersv4_EXPORT std::ostream &
  * and SetGradientLineSearchAccuracy()
  *
  * Instead of the More-Tunete method, backtracking with three different
- * conditions [7] are available and can be set through SetLineSearch():
+ * conditions \cite dennis1983 are available and can be set through SetLineSearch():
  *  - LINESEARCH_BACKTRACKING_ARMIJO
  *  - LINESEARCH_BACKTRACKING_WOLFE
  *  - LINESEARCH_BACKTRACKING_STRONG_WOLFE
@@ -127,31 +127,11 @@ extern ITKOptimizersv4_EXPORT std::ostream &
  * through SetMaximumIterations() (default 0 = no maximum).
  *
  *
- * References:
- *
- * [1] [libLBFGS](https://www.chokkan.org/software/liblbfgs/)
- *
- * [2] [NETLIB lbfgs](http://users.iems.northwestern.edu/~nocedal/lbfgs.html)
- *
- * [3] Galen Andrew and Jianfeng Gao.
- * Scalable training of L1-regularized log-linear models.
- * 24th International Conference on Machine Learning, pp. 33-40, 2007.
- *
- * [4] Jorge Nocedal.
- * Updating Quasi-Newton Matrices with Limited Storage.
- * Mathematics of Computation, Vol. 35, No. 151, pp. 773-782, 1980.
- *
- * [5] Dong C. Liu and Jorge Nocedal.
- * On the limited memory BFGS method for large scale optimization.
- * Mathematical Programming B, Vol. 45, No. 3, pp. 503-528, 1989.
- *
- * [6] More, J. J. and D. J. Thuente.
- * Line Search Algorithms with Guaranteed Sufficient Decrease.
- * ACM Transactions on Mathematical Software 20, no. 3 (1994): 286-307.
- *
- * [7] John E. Dennis and Robert B. Schnabel.
- * Numerical Methods for Unconstrained Optimization and Nonlinear Equations,
- * Englewood Cliffs, 1983.
+ * For algorithmic details see
+ * [libLBFGS](https://www.chokkan.org/software/liblbfgs/), [NETLIB
+ * lbfgs](http://users.iems.northwestern.edu/~nocedal/lbfgs.html),
+ * \cite galen2007, \cite nocedal1980, \cite liu1989,
+ * \cite more1994, and \dennis1983.
  *
  * \ingroup ITKOptimizersv4
  */

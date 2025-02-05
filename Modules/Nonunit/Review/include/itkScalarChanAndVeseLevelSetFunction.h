@@ -33,16 +33,7 @@ namespace itk
  *
  * \author Mosaliganti K., Smith B., Gelas A., Gouaillard A., Megason S.
  *
- * Based on the papers:
- *
- *        "An active contour model without edges"
- *         T. Chan and L. Vese.
- *         In Scale-Space Theories in Computer Vision, pages 141-151, 1999.
- *
- *         "Segmenting and Tracking Fluorescent Cells in Dynamic 3-D
- *          Microscopy With Coupled Active Surfaces"
- *          Dufour, Shinin, Tajbakhsh, Guillen-Aghion, Olivo-Marin
- *          In IEEE Transactions on Image Processing, vol. 14, No 9, Sep. 2005
+ * Based on the papers \cite chan1999 and \cite dufour2005.
  *
  *  This code was taken from the Insight Journal paper:
  *
