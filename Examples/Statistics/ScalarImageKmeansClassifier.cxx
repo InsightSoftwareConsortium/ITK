@@ -70,7 +70,17 @@ main(int argc, char * argv[])
   constexpr unsigned int Dimension = 2;
 
   using ImageType = itk::Image<PixelType, Dimension>;
-  const auto input = itk::ReadImage<ImageType>(inputImageFileName);
+  ImageType::Pointer input;
+  try
+  {
+    input = itk::ReadImage<ImageType>(argv[1]);
+  }
+  catch (const itk::ExceptionObject & excp)
+  {
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
+  }
+  
   // Software Guide : EndCodeSnippet
 
 

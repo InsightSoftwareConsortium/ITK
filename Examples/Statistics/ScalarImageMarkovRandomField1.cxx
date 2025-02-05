@@ -117,8 +117,16 @@ main(int argc, char * argv[])
   constexpr unsigned int Dimension = 2;
 
   using ImageType = itk::Image<PixelType, Dimension>;
-
-  const auto input = itk::ReadImage<ImageType>(inputImageFileName);
+  ImageType::Pointer input;
+  try
+  {
+    input = itk::ReadImage<ImageType>(inputImageFileName);
+  }
+  catch (const itk::ExceptionObject & excp)
+  {
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
+  }
   // Software Guide : EndCodeSnippet
 
 
@@ -420,23 +428,12 @@ main(int argc, char * argv[])
   intensityRescaler->SetOutputMaximum(255);
   intensityRescaler->SetInput(mrfFilter->GetOutput());
 
-  // Software Guide : BeginCodeSnippet
-  using WriterType = itk::ImageFileWriter<OutputImageType>;
-
-  auto writer = WriterType::New();
-
-  writer->SetInput(intensityRescaler->GetOutput());
-
-  writer->SetFileName(outputImageFileName);
-  // Software Guide : EndCodeSnippet
-
-
   // Software Guide : BeginLatex
   //
   // We are now ready for triggering the execution of the pipeline. This is
-  // done by simply invoking the \code{Update()} method in the writer. This
-  // call will propagate the update request to the reader and then to the MRF
-  // filter.
+  // done by simply invoking the \code{WriteImage()} function. This call will
+  // propagate the update request to the MRF filter and writes the  processed
+  // image to the specified file.
   //
   // Software Guide : EndLatex
 
@@ -444,12 +441,10 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   try
   {
-    writer->Update();
+    itk::WriteImage(intensityRescaler->GetOutput(), outputImageFileName);
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Problem encountered while writing ";
-    std::cerr << " image file : " << argv[2] << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
   }
