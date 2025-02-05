@@ -67,15 +67,21 @@ main(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  // input parameters
-  const char * membershipImageFileName = argv[1];
-  const char * labelMapImageFileName = argv[2];
 
   // setup reader
   constexpr unsigned int Dimension = 2;
   using InputPixelType = float;
   using InputImageType = itk::VectorImage<InputPixelType, Dimension>;
-  const auto input = itk::ReadImage<InputImageType>(membershipImageFileName);
+  InputImageType::Pointer input;
+  try
+  {
+    input = itk::ReadImage<InputImageType>(argv[1]);
+  }
+  catch (const itk::ExceptionObject & excp)
+  {
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
+  }
 
   using LabelType = unsigned char;
   using PriorType = float;
@@ -132,7 +138,7 @@ main(int argc, char * argv[])
   //
   try
   {
-    itk::WriteImage(rescaler->GetOutput(), labelMapImageFileName);
+    itk::WriteImage(rescaler->GetOutput(), argv[2]);
   }
   catch (const itk::ExceptionObject & excp)
   {

@@ -55,9 +55,6 @@ main(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  const char * inputImageFileName = argv[1];
-
-
   // Software Guide : BeginLatex
   //
   // First we define the pixel type and dimension of the image that we intend
@@ -70,7 +67,17 @@ main(int argc, char * argv[])
   constexpr unsigned int Dimension = 2;
 
   using ImageType = itk::Image<PixelType, Dimension>;
-  const auto input = itk::ReadImage<ImageType>(inputImageFileName);
+  ImageType::Pointer input;
+  try
+  {
+    input = itk::ReadImage<ImageType>(argv[1]);
+  }
+  catch (const itk::ExceptionObject & excp)
+  {
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
+  }
+
   // Software Guide : EndCodeSnippet
 
 
@@ -149,9 +156,6 @@ main(int argc, char * argv[])
   // Software Guide : EndCodeSnippet
 
 
-  const char * outputImageFileName = argv[2];
-
-
   // Software Guide : BeginLatex
   //
   // The \doxygen{ScalarImageKmeansImageFilter} is predefined for producing an
@@ -165,7 +169,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   try
   {
-    itk::WriteImage(kmeansFilter->GetOutput(), outputImageFileName);
+    itk::WriteImage(kmeansFilter->GetOutput(), argv[2]);
   }
   catch (const itk::ExceptionObject & excp)
   {

@@ -166,12 +166,15 @@ main(int argc, char * argv[])
     rescaler->SetInput(extractedComponentImage);
     rescaler->SetOutputMinimum(0);
     rescaler->SetOutputMaximum(255);
-    using ExtractedComponentWriterType =
-      itk::ImageFileWriter<OutputImageType>;
-    auto rescaledImageWriter = ExtractedComponentWriterType::New();
-    rescaledImageWriter->SetInput(rescaler->GetOutput());
-    rescaledImageWriter->SetFileName(argv[5]);
-    rescaledImageWriter->Update();
+    try
+    {
+      itk::WriteImage(rescaler->GetOutput(), argv[5]);
+    }
+    catch (const itk::ExceptionObject & excp)
+    {
+      std::cerr << excp << std::endl;
+      return EXIT_FAILURE;
+    }
   }
 
   return EXIT_SUCCESS;
