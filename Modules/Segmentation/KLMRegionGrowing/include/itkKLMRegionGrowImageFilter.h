@@ -102,10 +102,7 @@ namespace itk
  * Appropriate padding must be performed by the user if any image which
  * are not multiples of the grid sizes are used.
  *
- * For more information about the algorithm, see G. Koepfler, C. Lopez
- * and J. M. Morel, ``A Multiscale Algorithm for Image Segmentation by
- * Variational Method,'' {\em SIAM Journal of Numerical Analysis},
- * vol. 31, pp. 282-299, 1994.
+ * For more information about the algorithm, see \cite koepfler1994.
  *
  * Algorithm details:
  *

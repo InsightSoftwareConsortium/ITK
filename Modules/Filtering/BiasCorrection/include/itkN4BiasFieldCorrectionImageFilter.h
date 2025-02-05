@@ -35,7 +35,7 @@ namespace itk
  * \brief Implementation of the N4  bias field correction algorithm.
  *
  * The nonparametric nonuniform intensity normalization (N3) algorithm, as
- * introduced by Sled et al. in 1998 is a method for correcting nonuniformity
+ * introduced by Sled et al. in 1998 \cite sled1998 is a method for correcting nonuniformity
  * associated with MR images. The algorithm assumes a simple parametric model
  * (Gaussian) for the bias field and does not require tissue class segmentation.
  * In addition, there are only a couple of parameters to tune with the default

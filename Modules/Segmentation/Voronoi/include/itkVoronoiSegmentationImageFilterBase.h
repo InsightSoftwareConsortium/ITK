@@ -47,10 +47,7 @@ namespace itk
  * image segmentation can be implemented by deriving image filters from this class, by
  * implementing the virtual methods
  *
- * Detailed information about this algorithm can be found in:
- *  " Semi-automated color segmentation of anatomical tissue,"
- *   C. Imelinska, M. Downes, and W. Yuan
- *  Computerized Medical Imaging and Graphics, Vor.24, pp 173-180, 2000.
+ * Detailed information about this algorithm can be found in \cite imelinska2000.
  *
  * \ingroup HybridSegmentation
  * \ingroup ITKVoronoi

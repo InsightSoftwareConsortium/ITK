@@ -45,9 +45,7 @@ namespace itk
  * provided, the algorithm will only search pixels within the
  * narrowband.
  *
- * Implementation of this class is based on Chapter 11 of
- * "Level Set Methods and Fast Marching Methods", J.A. Sethian,
- * Cambridge Press, Second edition, 1999.
+ * Implementation of this class is based on \cite sethian1999b.
  *
  * \ingroup LevelSetSegmentation
  *

@@ -29,7 +29,7 @@ namespace itk
  * finite difference image filter.  (See FiniteDifferenceImageFilter.)
  *
  * LevelSetFunction implements a generic level set function.  This function is
- * an expanded form of the basic equation developed in [1].
+ * an expanded form of the basic equation developed in \cite sethian1996.
  *
  * \f$\phi_{t} + \alpha
  * \stackrel{\rightharpoonup}{A}(\mathbf{x})\cdot\nabla\phi + \beta
@@ -53,10 +53,6 @@ namespace itk
  * that you pass Initialize is the radius of the neighborhood needed to perform
  * the calculations.  If your subclass does not do any additional neighborhood
  * processing, then the default radius should be 1 in each direction.
- *
- * \par REFERENCES
- * \par
- * [1] Sethian, J.A. Level Set Methods. Cambridge University Press. 1996.
  *
  * \ingroup FiniteDifferenceFunctions
  * \ingroup Functions

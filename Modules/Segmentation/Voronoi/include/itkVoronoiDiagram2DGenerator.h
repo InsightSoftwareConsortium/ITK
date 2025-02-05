@@ -29,9 +29,7 @@ namespace itk
  * \brief Implement the Sweep Line Algorithm for the construction of the
  *        2D Voronoi Diagram.
  *
- * Detailed information on this method can be found in:
- * "A sweepline algorithm for Voronoi diagrams."
- * S. Fortune, Algorithmica 2, 153-174, 1987.
+ * Detailed information on this method can be found in \cite fortune1987.
  *
  * Input parameters are:
  * (1) Size of the region.

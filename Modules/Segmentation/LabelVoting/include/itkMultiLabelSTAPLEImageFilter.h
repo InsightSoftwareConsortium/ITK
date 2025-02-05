@@ -45,19 +45,10 @@ namespace itk
  * this estimated ground truth.
  *
  * The algorithm is based on the binary STAPLE algorithm by Warfield et al. as
- * published originally in
- *
- * S. Warfield, K. Zou, W. Wells, "Validation of image segmentation and expert
- * quality with an expectation-maximization algorithm" in MICCAI 2002: Fifth
- * International Conference on Medical Image Computing and Computer-Assisted
- * Intervention, Springer-Verlag, Heidelberg, Germany, 2002, pp. 298-306
+ * published originally in \cite warfield2002.
  *
  * The multi-label algorithm implemented here is described in detail in
- *
- * T. Rohlfing, D. B. Russakoff, and C. R. Maurer, Jr., "Performance-based
- * classifier combination in atlas-based image segmentation using
- * expectation-maximization parameter estimation," IEEE Transactions on
- * Medical Imaging, vol. 23, pp. 983-994, Aug. 2004.
+ * \cite rohlfing2004.
  *
  * \par INPUTS
  * All input volumes to this filter must be segmentations of an image,

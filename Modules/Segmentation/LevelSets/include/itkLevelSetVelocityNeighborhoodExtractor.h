@@ -42,9 +42,7 @@ namespace itk
  * the level set, the type of the auxiliary/velocity variables and the
  * number of auxiliary/velocity variables.
  *
- * Implementation of this class is based on Chapter 11 of
- * "Level Set Methods and Fast Marching Methods", J.A. Sethian,
- * Cambridge Press, Second edition, 1999.
+ * Implementation of this class is based on \cite sethian1999b.
  *
  * \ingroup LevelSetSegmentation
  *

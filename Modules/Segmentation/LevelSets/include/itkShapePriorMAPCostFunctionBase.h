@@ -28,18 +28,14 @@ namespace itk
  * \brief Represents the base class of maximum aprior (MAP) cost function used
  * ShapePriorSegmentationLevelSetImageFilter to estimate the shape parameters.
  *
- * This class follows the shape and pose parameters estimation developed in [1].
+ * This class follows the shape and pose parameters estimation
+ * developed in \cite leventon2000.
  *
  * This class has two template parameters, the feature image type representing the
  * edge potential map and the pixel type used to
  * represent the output level set in the ShapePriorSegmentationLevelSetImageFilter.
  *
  * \sa ShapePriorSegmentationLevelSetImageFilter
- *
- * \par REFERENCES
- * \par
- * [1] Leventon, M.E. et al. "Statistical Shape Influence in Geodesic Active Contours", CVPR 2000.
- *
  *
  * \ingroup Numerics Optimizers
  * \ingroup ITKLevelSets
