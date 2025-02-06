@@ -131,7 +131,7 @@ extern ITKOptimizersv4_EXPORT std::ostream &
  * [libLBFGS](https://www.chokkan.org/software/liblbfgs/), [NETLIB
  * lbfgs](http://users.iems.northwestern.edu/~nocedal/lbfgs.html),
  * \cite galen2007, \cite nocedal1980, \cite liu1989,
- * \cite more1994, and \dennis1983.
+ * \cite more1994, and \cite dennis1983.
  *
  * \ingroup ITKOptimizersv4
  */
