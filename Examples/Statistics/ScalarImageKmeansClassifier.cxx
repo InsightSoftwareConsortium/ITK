@@ -59,147 +59,132 @@ main(int argc, char * argv[])
   //
   // First we define the pixel type and dimension of the image that we intend
   // to classify. With this image type we can also read the input image.
+  // We start a try-catch block which encloses most of the code in the
+  // example.
   //
   // Software Guide : EndLatex
-
-  // Software Guide : BeginCodeSnippet
-  using PixelType = short;
-  constexpr unsigned int Dimension = 2;
-
-  using ImageType = itk::Image<PixelType, Dimension>;
-  ImageType::Pointer input;
-  try
-  {
-    input = itk::ReadImage<ImageType>(argv[1]);
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
-
-  // Software Guide : EndCodeSnippet
-
-
-  // Software Guide : BeginLatex
-  //
-  // With the \code{ImageType} we instantiate the type of the
-  // \doxygen{ScalarImageKmeansImageFilter} that will compute the K-Means
-  // model and then classify the image pixels.
-  //
-  // Software Guide : EndLatex
-
-  // Software Guide : BeginCodeSnippet
-  using KMeansFilterType = itk::ScalarImageKmeansImageFilter<ImageType>;
-
-  auto kmeansFilter = KMeansFilterType::New();
-
-  kmeansFilter->SetInput(input);
-
-  const unsigned int numberOfInitialClasses = std::stoi(argv[4]);
-  // Software Guide : EndCodeSnippet
-
-
-  // Software Guide : BeginLatex
-  //
-  // In general the classification will produce as output an image whose pixel
-  // values are integers associated to the labels of the classes. Since
-  // typically these integers will be generated in order (0,1,2,...N), the
-  // output image will tend to look very dark when displayed with naive
-  // viewers. It is therefore convenient to have the option of spreading the
-  // label values over the dynamic range of the output image pixel type. When
-  // this is done, the dynamic range of the pixels is divided by the number of
-  // classes in order to define the increment between labels. For example, an
-  // output image of 8 bits will have a dynamic range of [0:256], and when it
-  // is used for holding four classes, the non-contiguous labels will be
-  // (0,64,128,192). The selection of the mode to use is done with the method
-  // \code{SetUseNonContiguousLabels()}.
-  //
-  // Software Guide : EndLatex
-
-  // Software Guide : BeginCodeSnippet
-  const unsigned int useNonContiguousLabels = std::stoi(argv[3]);
-
-  kmeansFilter->SetUseNonContiguousLabels(useNonContiguousLabels);
-  // Software Guide : EndCodeSnippet
-
-
-  constexpr unsigned int argoffset = 5;
-
-  if (static_cast<unsigned int>(argc) < numberOfInitialClasses + argoffset)
-  {
-    std::cerr << "Error: " << std::endl;
-    std::cerr << numberOfInitialClasses << " classes has been specified ";
-    std::cerr << "but no enough means have been provided in the command ";
-    std::cerr << "line arguments " << std::endl;
-    return EXIT_FAILURE;
-  }
-
-
-  // Software Guide : BeginLatex
-  //
-  // For each one of the classes we must provide a tentative initial value for
-  // the mean of the class. Given that this is a scalar image, each one of the
-  // means is simply a scalar value. Note however that in a general case of
-  // K-Means, the input image would be a vector image and therefore the means
-  // will be vectors of the same dimension as the image pixels.
-  //
-  // Software Guide : EndLatex
-
-
-  // Software Guide : BeginCodeSnippet
-  for (unsigned int k = 0; k < numberOfInitialClasses; ++k)
-  {
-    const double userProvidedInitialMean = std::stod(argv[k + argoffset]);
-    kmeansFilter->AddClassWithInitialMean(userProvidedInitialMean);
-  }
-  // Software Guide : EndCodeSnippet
-
-
-  // Software Guide : BeginLatex
-  //
-  // The \doxygen{ScalarImageKmeansImageFilter} is predefined for producing an
-  // 8 bits scalar image as output. This output image contains labels
-  // associated to each one of the classes in the K-Means algorithm. In the
-  // following lines we write the output of the classification filter to file.
-  //
-  // Software Guide : EndLatex
-
 
   // Software Guide : BeginCodeSnippet
   try
   {
+    using PixelType = short;
+    constexpr unsigned int Dimension = 2;
+
+    using ImageType = itk::Image<PixelType, Dimension>;
+
+    auto input = itk::ReadImage<ImageType>(argv[1]);
+    // Software Guide : EndCodeSnippet
+
+    // Software Guide : BeginLatex
+    //
+    // With the \code{ImageType} we instantiate the type of the
+    // \doxygen{ScalarImageKmeansImageFilter} that will compute the K-Means
+    // model and then classify the image pixels.
+    //
+    // Software Guide : EndLatex
+
+    // Software Guide : BeginCodeSnippet
+    using KMeansFilterType = itk::ScalarImageKmeansImageFilter<ImageType>;
+
+    auto kmeansFilter = KMeansFilterType::New();
+
+    kmeansFilter->SetInput(input);
+
+    const unsigned int numberOfInitialClasses = std::stoi(argv[4]);
+    // Software Guide : EndCodeSnippet
+
+    // Software Guide : BeginLatex
+    //
+    // In general the classification will produce as output an image whose
+    // pixel values are integers associated to the labels of the classes.
+    // Since typically these integers will be generated in order (0,1,2,...N),
+    // the output image will tend to look very dark when displayed with naive
+    // viewers. It is therefore convenient to have the option of spreading the
+    // label values over the dynamic range of the output image pixel type.
+    // When this is done, the dynamic range of the pixels is divided by the
+    // number of classes in order to define the increment between labels. For
+    // example, an output image of 8 bits will have a dynamic range of
+    // [0:256], and when it is used for holding four classes, the
+    // non-contiguous labels will be (0,64,128,192). The selection of the mode
+    // to use is done with the method
+    // \code{SetUseNonContiguousLabels()}.
+    //
+    // Software Guide : EndLatex
+
+    // Software Guide : BeginCodeSnippet
+    const unsigned int useNonContiguousLabels = std::stoi(argv[3]);
+
+    kmeansFilter->SetUseNonContiguousLabels(useNonContiguousLabels);
+    // Software Guide : EndCodeSnippet
+
+    constexpr unsigned int argoffset = 5;
+
+    if (static_cast<unsigned int>(argc) < numberOfInitialClasses + argoffset)
+    {
+      std::cerr << "Error: " << std::endl;
+      std::cerr << numberOfInitialClasses << " classes has been specified ";
+      std::cerr << "but no enough means have been provided in the command ";
+      std::cerr << "line arguments " << std::endl;
+      return EXIT_FAILURE;
+    }
+
+    // Software Guide : BeginLatex
+    //
+    // For each one of the classes we must provide a tentative initial value
+    // for the mean of the class. Given that this is a scalar image, each one
+    // of the means is simply a scalar value. Note however that in a general
+    // case of K-Means, the input image would be a vector image and therefore
+    // the means will be vectors of the same dimension as the image pixels.
+    //
+    // Software Guide : EndLatex
+
+    // Software Guide : BeginCodeSnippet
+    for (unsigned int k = 0; k < numberOfInitialClasses; ++k)
+    {
+      const double userProvidedInitialMean = std::stod(argv[k + argoffset]);
+      kmeansFilter->AddClassWithInitialMean(userProvidedInitialMean);
+    }
+    // Software Guide : EndCodeSnippet
+
+    // Software Guide : BeginLatex
+    //
+    // The \doxygen{ScalarImageKmeansImageFilter} is predefined for producing
+    // an 8 bits scalar image as output. This output image contains labels
+    // associated to each one of the classes in the K-Means algorithm. The
+    // following line writes the output of the classification filter to file.
+    //
+    // Software Guide : EndLatex
+
+    // Software Guide : BeginCodeSnippet
     itk::WriteImage(kmeansFilter->GetOutput(), argv[2]);
+    // Software Guide : EndCodeSnippet
+
+    // Software Guide : BeginLatex
+    //
+    // At this point the classification is done, the labeled image is saved in
+    // a file, and we can take a look at the means that were found as a result
+    // of the model estimation performed inside the classifier filter.
+    //
+    // Software Guide : EndLatex
+
+    // Software Guide : BeginCodeSnippet
+    KMeansFilterType::ParametersType estimatedMeans =
+      kmeansFilter->GetFinalMeans();
+
+    const unsigned int numberOfClasses = estimatedMeans.Size();
+
+    for (unsigned int i = 0; i < numberOfClasses; ++i)
+    {
+      std::cout << "cluster[" << i << "] ";
+      std::cout << "    estimated mean : " << estimatedMeans[i] << std::endl;
+    }
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Problem encountered while writing ";
-    std::cerr << " image file : " << argv[2] << std::endl;
-    std::cerr << excp << std::endl;
+    std::cerr << "ITK exception caught:\n" << excp << std::endl;
     return EXIT_FAILURE;
   }
-  // Software Guide : EndCodeSnippet
-
-
-  // Software Guide : BeginLatex
-  //
-  // At this point the classification is done, the labeled image is saved in a
-  // file, and we can take a look at the means that were found as a result of
-  // the model estimation performed inside the classifier filter.
-  //
-  // Software Guide : EndLatex
-
-  // Software Guide : BeginCodeSnippet
-  KMeansFilterType::ParametersType estimatedMeans =
-    kmeansFilter->GetFinalMeans();
-
-  const unsigned int numberOfClasses = estimatedMeans.Size();
-
-  for (unsigned int i = 0; i < numberOfClasses; ++i)
-  {
-    std::cout << "cluster[" << i << "] ";
-    std::cout << "    estimated mean : " << estimatedMeans[i] << std::endl;
-  }
+  return EXIT_SUCCESS;
 
   // Software Guide : EndCodeSnippet
 
@@ -217,6 +202,4 @@ main(int argc, char * argv[])
   //  The means were estimated by ScalarImageKmeansModelEstimator.cxx.
   //
   //  Software Guide : EndLatex
-
-  return EXIT_SUCCESS;
 }
