@@ -97,7 +97,8 @@ protected:
   PrintHeader(std::ostream & os, Indent indent) const;
 
   virtual void
-  PrintTrailer(std::ostream & os, Indent indent) const;
+  PrintTrailer(std::ostream & itkNotUsed(os), Indent itkNotUsed(indent)) const
+  {}
 
 private:
   IndexType  m_Index{};

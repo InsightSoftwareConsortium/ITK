@@ -130,13 +130,6 @@ EuclideanDistancePointMetric<TFixedPointSet, TMovingPointSet, TDistanceMap>::Get
 
 template <typename TFixedPointSet, typename TMovingPointSet, typename TDistanceMap>
 void
-EuclideanDistancePointMetric<TFixedPointSet, TMovingPointSet, TDistanceMap>::GetDerivative(
-  const TransformParametersType & itkNotUsed(parameters),
-  DerivativeType &                itkNotUsed(derivative)) const
-{}
-
-template <typename TFixedPointSet, typename TMovingPointSet, typename TDistanceMap>
-void
 EuclideanDistancePointMetric<TFixedPointSet, TMovingPointSet, TDistanceMap>::GetValueAndDerivative(
   const TransformParametersType & parameters,
   MeasureType &                   value,

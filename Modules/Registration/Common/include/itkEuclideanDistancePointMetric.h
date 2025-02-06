@@ -90,7 +90,9 @@ public:
 
   /** Get the derivatives of the match measure. */
   void
-  GetDerivative(const TransformParametersType & parameters, DerivativeType & Derivative) const override;
+  GetDerivative(const TransformParametersType & itkNotUsed(parameters),
+                DerivativeType &                itkNotUsed(derivative)) const override
+  {}
 
   /**  Get the match measure, i.e. the value for single valued optimizers. */
   MeasureType
