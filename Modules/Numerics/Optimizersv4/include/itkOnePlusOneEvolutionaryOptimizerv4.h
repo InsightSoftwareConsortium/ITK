@@ -52,15 +52,8 @@ namespace itk
  * by Martin Styner, Univ. of North Carolina at Chapel Hill, and his
  * colleagues.
  *
- * For more details. refer to the following articles.
- * "Parametric estimate of intensity inhomogeneities applied to MRI"
- * Martin Styner, G. Gerig, Christian Brechbuehler, Gabor Szekely,
- * IEEE TRANSACTIONS ON MEDICAL IMAGING; 19(3), pp. 153-165, 2000,
- * (https://www.cs.unc.edu/~styner/docs/tmi00.pdf)
- *
- * "Evaluation of 2D/3D bias correction with 1+1ES-optimization"
- * Martin Styner, Prof. Dr. G. Gerig (IKT, BIWI, ETH Zuerich), TR-197
- * (https://www.cs.unc.edu/~styner/docs/StynerTR97.pdf)
+ * For more details refer to the following articles \cite styner2000
+ * and \cite styner1997.
  *
  * \sa NormalVariateGenerator
  * \ingroup ITKOptimizersv4

@@ -28,9 +28,7 @@ namespace itk
 /** \class ParticleSwarmOptimizerBase
  * \brief Abstract implementation of a Particle Swarm Optimization (PSO) algorithm.
  *
- * The PSO algorithm was originally presented in:<br>
- * J. Kennedy, R. Eberhart, "Particle Swarm Optimization",
- * Proc. IEEE Int. Neural Networks, 1995.<br>
+ * The PSO algorithm was originally presented in \cite kennedy1995.
  *
  * The algorithm is a stochastic global search optimization approach.
  * Optimization is performed by maintaining a swarm of particles that traverse

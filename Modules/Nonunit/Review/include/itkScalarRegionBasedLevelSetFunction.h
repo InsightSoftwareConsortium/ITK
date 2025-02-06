@@ -33,11 +33,7 @@ namespace itk
  * integrating values on the image domain. NOTE: The convention followed is
  * inside of the level-set function is negative and outside is positive.
  *
- * Based on the paper:
- *
- *        "An active contour model without edges"
- *         T. Chan and L. Vese.
- *         In Scale-Space Theories in Computer Vision, pages 141-151, 1999.
+ * Based on the paper \cite chan2001.
  *
  * \author Mosaliganti K., Smith B., Gelas A., Gouaillard A., Megason S.
  *

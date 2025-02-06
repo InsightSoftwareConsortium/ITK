@@ -48,18 +48,7 @@ class ITK_FORWARD_EXPORT LBFGSBOptimizerHelperv4;
  *
  * See also the documentation in Numerics/lbfgsb.c
  *
- * References:
- *
- * [1] R. H. Byrd, P. Lu and J. Nocedal.
- * A Limited Memory Algorithm for Bound Constrained Optimization, (1995),
- * SIAM Journal on Scientific and Statistical Computing ,
- * 16, 5, pp. 1190-1208.
- *
- * [2] C. Zhu, R. H. Byrd and J. Nocedal.
- * L-BFGS-B: Algorithm 778: L-BFGS-B, FORTRAN routines for large scale
- * bound constrained optimization (1997),
- * ACM Transactions on Mathematical Software,
- * Vol 23, Num. 4, pp. 550 - 560.
+ * For algorithmic details see \cite byrd1995 and \cite zhu1997.
  *
  * \ingroup Numerics Optimizersv4
  * \ingroup ITKOptimizersv4

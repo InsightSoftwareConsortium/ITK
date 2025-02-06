@@ -35,9 +35,7 @@ namespace itk
  * volume) while attribute closings fill dark regions that meet the
  * attribute criteria.
  *
- * This filter is implemented using the method of Wilkinson, "A
- * comparison of algorithms for Connected set openings and Closings",
- * A. Meijster and M. H. Wilkinson, PAMI, vol 24, no. 4, April 2002.
+ * This filter is implemented using the method describe in \cite meijster2002.
  *
  * This code was contributed in the Insight Journal paper
  *

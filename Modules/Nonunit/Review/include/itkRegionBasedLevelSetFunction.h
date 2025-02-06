@@ -31,11 +31,7 @@ namespace itk
  * This class implements a level set function that computes the speed image by
  * integrating values on the image domain.
  *
- * Based on the paper:
- *
- *        "An active contour model without edges"
- *         T. Chan and L. Vese.
- *         In Scale-Space Theories in Computer Vision, pages 141-151, 1999.
+ * Based on the paper \cite chan1999.
  *
  * \author Mosaliganti K., Smith B., Gelas A., Gouaillard A., Megason S.
  *
@@ -459,12 +455,7 @@ protected:
 
   /** \brief Compute the laplacian term
       \return \f$ \Delta \phi - \div(\frac{\nabla \phi}{|\nabla \phi|}) \f$
-      For details see
-
-      \par REFERENCE
-      Li, C.M. and Xu, C.Y. and Gui, C. and Fox, M.D.
-      "Level Set Evolution without Re-Initialization: A New Variational Formulation",
-      CVPR05. 2005. pp. 430-436.
+      For details see \cite li2005.
   */
 
   /** \brief Compute the laplacian

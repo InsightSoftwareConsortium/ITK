@@ -40,9 +40,7 @@ namespace Statistics
  *
  *  Revision date 31 May 1996
  *      This is a revised version of the algorithm described in
- *
- *      ACM Transactions on Mathematical Software, Vol 22, No 1
- *      March 1996, pp 119-127.
+ *      \cite wallace1996.
  *
  * It is somewhat faster, and uses less memory as the vector of variates is
  * updated in-situ. It has passed all the same statistical tests as described

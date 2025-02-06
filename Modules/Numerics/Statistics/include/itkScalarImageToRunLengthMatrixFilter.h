@@ -36,18 +36,8 @@ namespace Statistics
  *  used for image texture description.
  *
  * This filters creates a grey-level run length matrix from a N-D scalar
- * image. This is another possible texture description.  See the following
- * references.
- * M. M. Galloway. Texture analysis using gray level run lengths. Computer
- * Graphics and Image Processing, 4:172-179, 1975.
- *
- * A. Chu, C. M. Sehgal, and J. F. Greenleaf. Use of gray value distribution of
- * run lengths for texture analysis.  Pattern Recognition Letters, 11:415-420,
- * 1990.
- *
- * B. R. Dasarathy and E. B. Holder. Image characterizations based on joint
- * gray-level run-length distributions. Pattern Recognition Letters, 12:490-502,
- * 1991.
+ * image. This is another possible texture description.
+ * See \cite galloway1975, \cite chu1990 and \cite dasarathy1991.
  *
  * The basic idea is as follows:
  * Given an image and an offset (e.g. (1, -1) for a 2-d image), each element

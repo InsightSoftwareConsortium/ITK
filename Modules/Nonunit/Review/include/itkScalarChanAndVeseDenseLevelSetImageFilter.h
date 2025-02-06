@@ -27,11 +27,7 @@ namespace itk
 /** \class ScalarChanAndVeseDenseLevelSetImageFilter
  * \brief Dense implementation of the Chan and Vese multiphase level set image filter.
  *
- * This code was adapted from the paper:
- *
- *        "An active contour model without edges"
- *         T. Chan and L. Vese.
- *         In Scale-Space Theories in Computer Vision, pages 141-151, 1999.
+ * This code was adapted from the paper \cite chan1999.
  *
  * \author Mosaliganti K., Smith B., Gelas A., Gouaillard A., Megason S.
  *

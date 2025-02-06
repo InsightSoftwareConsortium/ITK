@@ -28,11 +28,7 @@ namespace itk
  * \brief Implementation of a biased/regularized Particle Swarm Optimization
  *        (PSO) algorithm.
  *
- * This PSO algorithm was originally described in:
- * M. P. Wachowiak, R. Smolikova, Y. Zheng, J. M. Zurada, A. S. Elmaghraby,
- * "An approach to multimodal biomedical image registration utilizing particle
- * swarm optimization", IEEE Transactions on Evolutionary Computing,
- * vol. 8(3): 289-301, 2004.
+ * This PSO algorithm was originally described in \cite wachowiak2004.
  *
  * The algorithm uses a stochastic optimization approach. Optimization
  * is performed by maintaining a swarm (flock) of
