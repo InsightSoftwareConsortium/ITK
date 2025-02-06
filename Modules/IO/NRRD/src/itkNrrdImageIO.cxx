@@ -488,8 +488,8 @@ NrrdImageIO::ReadImageInformation()
                 iFlipFactors[1] = -1;
                 break;
               case nrrdSpaceLeftAnteriorSuperior:
-                spaceDir[0] *= -1; // R -> L
-                iFlipFactors[0] = -1;
+                spaceDir[1] *= -1; // A -> P
+                iFlipFactors[1] = -1;
                 break;
               case nrrdSpaceLeftPosteriorSuperior:
                 // no change needed
@@ -537,7 +537,7 @@ NrrdImageIO::ReadImageInformation()
             spaceOrigin[1] *= -1; // A -> P
             break;
           case nrrdSpaceLeftAnteriorSuperior:
-            spaceOrigin[0] *= -1; // R -> L
+            spaceOrigin[1] *= -1; // A -> P
             break;
           case nrrdSpaceLeftPosteriorSuperior:
             // no change needed
