@@ -46,7 +46,8 @@ namespace itk
  * from the negative gradient of the edge potential image. This term behaves like
  * a doublet attracting the contour to the edges.
  *
- * \par This implementation is based on \cite lorigo2001.
+ * \par Reference:
+ * This implementation is based on \cite lorigo2001.
  *
  * \sa LevelSetFunction
  * \sa SegmentationLevelSetImageFunction
