@@ -86,6 +86,9 @@ public:
     MPEG2MainProfileHighLevel,
     MPEG4AVCH264HighProfileLevel4_1,
     MPEG4AVCH264BDcompatibleHighProfileLevel4_1,
+    HTJ2KLossless,
+    HTJ2KRPCLLossless,
+    HTJ2K,
     TS_END
   } TSType;
 
