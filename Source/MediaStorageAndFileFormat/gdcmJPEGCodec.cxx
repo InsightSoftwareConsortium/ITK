@@ -180,10 +180,9 @@ bool JPEGCodec::Decode(DataElement const &in, DataElement &out)
         // Ok so we are decoding a multiple frame jpeg DICOM file:
         // if we are lucky, we might be trying to decode some sort of broken multi-frame
         // DICOM file. In this case check that we have read all Fragment properly:
-        if( i >= this->GetDimensions()[2] )
+        if( i >= this->GetDimensions()[2] && nfrags == this->GetNumberOfDimensions() )
           {
           // JPEGInvalidSecondFrag.dcm
-          assert( nfrags == this->GetNumberOfDimensions() ); (void)nfrags; // sentinel
           gdcmWarningMacro( "Invalid JPEG Fragment found at pos #" << i + 1 << ". Skipping it" );
           }
         else

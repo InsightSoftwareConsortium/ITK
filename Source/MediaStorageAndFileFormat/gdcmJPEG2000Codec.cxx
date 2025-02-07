@@ -493,7 +493,10 @@ bool JPEG2000Codec::CanDecode(TransferSyntax const &ts) const
   return ts == TransferSyntax::JPEG2000Lossless
       || ts == TransferSyntax::JPEG2000
       || ts == TransferSyntax::JPEG2000Part2Lossless
-      || ts == TransferSyntax::JPEG2000Part2;
+      || ts == TransferSyntax::JPEG2000Part2
+      || ts == TransferSyntax::HTJ2KLossless
+      || ts == TransferSyntax::HTJ2KRPCLLossless
+      || ts == TransferSyntax::HTJ2K;
 }
 
 bool JPEG2000Codec::CanCode(TransferSyntax const &ts) const
