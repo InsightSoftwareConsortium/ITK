@@ -7,12 +7,13 @@ set(ITKImageStatisticsTests
     itkImageMomentsTest.cxx
     itkMinimumMaximumImageFilterTest.cxx
     itkImagePCAShapeModelEstimatorTest.cxx
-    itkMaximumProjectionImageFilterTest2.cxx
-    itkMaximumProjectionImageFilterTest3.cxx
     itkMinimumProjectionImageFilterTest.cxx
     itkMeanProjectionImageFilterTest.cxx
     itkImagePCADecompositionCalculatorTest.cxx
     itkMaximumProjectionImageFilterTest.cxx
+    itkMaximumProjectionImageFilterTest2.cxx
+    itkMaximumProjectionImageFilterTest3.cxx
+    itkMaximumProjectionImageFilterTest4.cxx
     itkMedianProjectionImageFilterTest.cxx
     itkHistogramToEntropyImageFilterTest1.cxx
     itkHistogramToEntropyImageFilterTest2.cxx
@@ -177,6 +178,20 @@ itk_add_test(
   1
   DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection.mhd,HeadMRVolume.raw}
   ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeMaximumProjection2D1.tif)
+itk_add_test(
+        NAME
+        itkMaximumProjectionImageFilterTest4_1
+        COMMAND
+        ITKImageStatisticsTestDriver
+        --compare-MD5
+          ${ITK_TEST_OUTPUT_DIR}/VHFColorMaximumProjection2D1.tif
+          c0674d2b9a01cb2d6fae981c32c95877
+        itkMaximumProjectionImageFilterTest4
+        2
+        DATA{${ITK_DATA_ROOT}/Input/VHFColor.mhd,VHFColor.mhd.raw}
+        ${ITK_TEST_OUTPUT_DIR}/VHFColorMaximumProjection2D1.tif
+)
+
 itk_add_test(
   NAME
   itkMinimumProjectionImageFilterTest
