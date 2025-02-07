@@ -55,13 +55,40 @@ public:
   inline void
   Initialize()
   {
-    m_Maximum = NumericTraits<TInputPixel>::NonpositiveMin();
+
+    // check if scalar or fixed length array type
+    if constexpr (std::is_same<TInputPixel, typename NumericTraits<TInputPixel>::ValueType>::value)
+    {
+      m_Maximum = NumericTraits<TInputPixel>::NonpositiveMin();
+    }
+    else
+    {
+      m_Maximum = TInputPixel();
+      m_Maximum.Fill(NumericTraits<typename TInputPixel::ValueType>::NonpositiveMin());
+    }
   }
 
   inline void
   operator()(const TInputPixel & input)
   {
-    m_Maximum = std::max(m_Maximum, input);
+    if constexpr (std::is_same<TInputPixel, typename NumericTraits<TInputPixel>::ValueType>::value)
+    {
+      m_Maximum = std::max(m_Maximum, input);
+    }
+    else
+    {
+      if (itk::NumericTraits<TInputPixel>::GetLength(m_Maximum) == 0)
+      {
+        m_Maximum = input;
+      }
+      else
+      {
+        for (unsigned int i = 0; i < itk::NumericTraits<TInputPixel>::GetLength(m_Maximum); ++i)
+        {
+          m_Maximum[i] = std::max(m_Maximum[i], input[i]);
+        }
+      }
+    }
   }
 
   inline TInputPixel
@@ -99,7 +126,8 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  itkConceptMacro(InputPixelTypeGreaterThanComparable, (Concept::GreaterThanComparable<InputPixelType>));
+  itkConceptMacro(InputPixelTypeGreaterThanComparable,
+                  (Concept::GreaterThanComparable<typename itk::NumericTraits<InputPixelType>::ValueType>));
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputPixelType>));
 
 protected:

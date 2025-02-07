@@ -120,6 +120,13 @@ ProjectionImageFilter<TInputImage, TOutputImage, TAccumulator>::GenerateOutputIn
   output->SetDirection(outDirection);
   output->SetLargestPossibleRegion(outputRegion);
 
+  // Support VectorImages by setting number of components on output.
+  const unsigned int numComponents = input->GetNumberOfComponentsPerPixel();
+  if (numComponents != output->GetNumberOfComponentsPerPixel())
+  {
+    output->SetNumberOfComponentsPerPixel(numComponents);
+  }
+
   itkDebugMacro("GenerateOutputInformation End");
 }
 

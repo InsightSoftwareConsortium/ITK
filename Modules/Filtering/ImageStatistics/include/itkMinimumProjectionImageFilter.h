@@ -54,13 +54,39 @@ public:
   inline void
   Initialize()
   {
-    m_Minimum = NumericTraits<TInputPixel>::max();
+    if constexpr (std::is_same<TInputPixel, typename NumericTraits<TInputPixel>::ValueType>::value)
+    {
+      m_Minimum = NumericTraits<TInputPixel>::max();
+    }
+    else
+    {
+      m_Minimum = TInputPixel();
+      m_Minimum.Fill(NumericTraits<typename TInputPixel::ValueType>::max());
+    }
   }
 
   inline void
   operator()(const TInputPixel & input)
   {
-    m_Minimum = std::min(m_Minimum, input);
+
+    if constexpr (std::is_same<TInputPixel, typename NumericTraits<TInputPixel>::ValueType>::value)
+    {
+      m_Minimum = std::min(m_Minimum, input);
+    }
+    else
+    {
+      if (itk::NumericTraits<TInputPixel>::GetLength(m_Minimum) == 0)
+      {
+        m_Minimum = input;
+      }
+      else
+      {
+        for (unsigned int i = 0; i < itk::NumericTraits<TInputPixel>::GetLength(m_Minimum); ++i)
+        {
+          m_Minimum[i] = std::min(m_Minimum[i], input[i]);
+        }
+      }
+    }
   }
 
   inline TInputPixel
@@ -98,7 +124,8 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  itkConceptMacro(InputPixelTypeGreaterThanComparable, (Concept::LessThanComparable<InputPixelType>));
+  itkConceptMacro(InputPixelTypeGreaterThanComparable,
+                  (Concept::LessThanComparable<typename itk::NumericTraits<InputPixelType>::ValueType>));
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputPixelType>));
 
 protected:
