@@ -29,13 +29,13 @@ namespace itk
  *
  * The Gaussian function G(x) is given by
  * \f[
- * G(\vec{x}) = m e^{-\|\S^{-1} \vec{x}\|^2 / 2},
+ * G(\vec{x}) = m e^{-\|S^{-1} \vec{x}\|^2 / 2},
  * \f]
- * where m is a scaling factor set by SetMaximum(), and \f$\S\f$ is the
+ * where m is a scaling factor set by SetMaximum(), and \f$S\f$ is the
  * (invertible) matrix associated to the IndexToObjectTransform of the object
- * multiplied by the Sigma parameter.  If \f$\S\f$ is symmetric and positive
+ * multiplied by the Sigma parameter.  If \f$S\f$ is symmetric and positive
  * definite, and m is chosen so that the integral of G(x) is 1, then G will
- * denote a normal distribution with mean 0 and covariance matrix \f$\S \times
+ * denote a normal distribution with mean 0 and covariance matrix \f$S \times
  * Sigma\f$.
  * \ingroup ITKSpatialObjects
  */
@@ -117,7 +117,7 @@ public:
                        unsigned int        depth = 0,
                        const std::string & name = "") const override;
 
-  /** Returns the $sigma = $ \c m_Radius level set of the Gaussian function, as an
+  /** Returns the sigma = \c m_Radius level set of the Gaussian function, as an
    * EllipseSpatialObject. */
   typename EllipseSpatialObject<TDimension>::Pointer
   GetEllipsoid() const;

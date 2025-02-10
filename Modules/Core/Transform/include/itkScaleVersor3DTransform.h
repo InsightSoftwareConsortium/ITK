@@ -30,7 +30,7 @@ namespace itk
  * The transform can be described as:
  * \f$ (\textbf{R}_v + \textbf{S})\textbf{x} \f$ where \f$\textbf{R}_v\f$ is the
  * rotation matrix given the versor, and
- * \f$S=\left( \begin{array}{ccc}s_0-1 & 0 & 0 \\ 0 & s_1-1 & 0 \\ 0 & 0 & s_2-1 \end{array} \right)\ \f$
+ * \f$S=\left( \begin{array}{ccc}s_0-1 & 0 & 0 \\ 0 & s_1-1 & 0 \\ 0 & 0 & s_2-1 \end{array} \right) \f$
  *
  *
  * \note This transform's scale parameters are not related to the

@@ -93,7 +93,6 @@ protected:
   using typename Superclass::GMatrixType;
   /** Compute G(x)
    * For the elastic body spline, this is:
-   * \f$ G(x) = [alpha*r(x)^2*I - 3*x*x']*r(x) \f$
    * \f$ G(x) = [\alpha*r(x)^2*I - 3*x*x']*r(x) \f$
    * where
    * \f$\alpha = 12 ( 1 - \nu ) - 1\f$

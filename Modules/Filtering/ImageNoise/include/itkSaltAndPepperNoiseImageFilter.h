@@ -44,7 +44,7 @@ namespace itk
  * \begin{cases}
  * M,   & \quad \text{if } U < p/2 \\
  * m,   & \quad \text{if } U > 1 - p/2 \\
- * I_0, & \quad \text{if } p/2 \geq U \leq 1 - p/2
+ * I_0, & \quad \text{if } p/2 \geq U \leq 1 - p/2
  * \end{cases} \f$
  *
  * \par

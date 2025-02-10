@@ -46,7 +46,7 @@ namespace itk
  *  \f$ U \f$ and lower threshold \f$ L \f$ according to the following formula.
  *
  * \par
- *  \f$  f(x) = \left\{ \begin{array}{ll} g(x) - L & \mbox{if $(g)x < (U-L)/2 + L$} \\ U - g(x) & \mbox{otherwise}
+ *  \f$  f(x) = \left\{ \begin{array}{ll} g(x) - L & \mbox{if g(x) < (U-L)/2 + L} \\ U - g(x) & \mbox{otherwise}
  * \end{array} \right. \f$
  *
  * \sa SegmentationLevelSetImageFunction

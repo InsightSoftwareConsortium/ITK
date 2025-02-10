@@ -32,7 +32,7 @@ namespace itk
  * equivalent to multiplying the Fourier transform of the two images,
  * the inverse filter consists of inverting the multiplication. In
  * other words, this filter computes the following:
- * \f[ hat{F}(\omega) =
+ * \f[ \hat{F}(\omega) =
  *       \begin{cases}
  *         G(\omega) / H(\omega) & \text{if $|H(\omega)| \geq \epsilon$} \\
  *         0                     & \text{otherwise}

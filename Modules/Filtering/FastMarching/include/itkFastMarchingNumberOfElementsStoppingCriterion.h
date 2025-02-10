@@ -31,7 +31,7 @@ namespace itk
  *
  * \note For itk::Image, one element is one pixel. So the number of elements is directly
  * linked to the physical size of the object, i.e.
- * \f$ PhysicalSize = TargetNumberOfElements \cdot \prod_{i=1}{dim} Spacing_{i} \f$
+ * \f$ PhysicalSize = TargetNumberOfElements \cdot \prod_{i=1}^{dim} Spacing_{i} \f$
  *
  * \note For itk::QuadEdgeMesh, one element is one vertex.
  *

@@ -35,14 +35,14 @@ namespace itk
  * It can be modeled as:
  *
  * \par
- * \f$ I = I_0 \ast G \f$
+ * \f$ I = I_0 \ast G \f$
  *
  * \par
  * where \f$ G \f$ is a is a gamma distributed random variable of mean 1 and
  * variance proportional to the noise level:
  *
  * \par
- * \f$ G \sim \Gamma(\frac{1}{\sigma^2}, \sigma^2) \f$
+ * \f$ G \sim \Gamma(\frac{1}{\sigma^2}, \sigma^2) \f$
  *
  * \author Gaetan Lehmann
  *
