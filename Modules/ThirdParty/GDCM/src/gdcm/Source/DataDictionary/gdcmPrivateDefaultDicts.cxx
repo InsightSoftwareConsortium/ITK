@@ -38,6 +38,9 @@ using DICT_ENTRY = struct
 };
 
 static const DICT_ENTRY DICOMV3DataDict [] = {
+  {0x0049,0x0010,"AIR",VR::LO,VM::VM1,"?Possibly PHI?",false },
+  {0x0049,0x0011,"AIR",VR::LO,VM::VM1,"?number?",false },
+  {0x0049,0x0013,"AIR",VR::LT,VM::VM1,"?Long desc possibly PHI?",false },
   {0x0021,0x0010,"SIEMENS MR FMRI",VR::SQ,VM::VM1,"?",false },
   {0x0021,0x0011,"SIEMENS MR FMRI",VR::LO,VM::VM1,"?",false },
   {0x0021,0x0012,"SIEMENS MR FMRI",VR::SQ,VM::VM1,"?",false },

@@ -1,16 +1,6 @@
 if(NOT DEFINED CMAKE_MINIMUM_REQUIRED_VERSION)
-  cmake_minimum_required(VERSION 2.8.7)
+  cmake_minimum_required(VERSION 2.8.7...${GDCM_MAX_VALIDATED_CMAKE_VERSION})
 endif()
-
-foreach(p
-    CMP0022
-    CMP0042
-    CMP0063 # CMake 3.3.2
-    )
-  if(POLICY ${p})
-    cmake_policy(SET ${p} NEW)
-  endif()
-endforeach()
 
 # http://www.linuxhacker.at/socketxx
 if(NOT SOCKETXX_NAMESPACE)

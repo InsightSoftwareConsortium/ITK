@@ -10,7 +10,7 @@ endif()
 #----------------------------------------------------------------------------
 
 project(GDCM
-  VERSION 3.0.24
+  VERSION 3.0.25
   LANGUAGES CXX C
 )
 ## NOTE: the "DESCRIPTION" feature of project() was introduced in cmake 3.10.0
@@ -179,6 +179,10 @@ macro(CHECK_INCLUDE_FILE_CONCAT FILE VARIABLE)
     set(UUID_INCLUDES ${UUID_INCLUDES} ${FILE})
   endif()
 endmacro()
+
+if(UNIX)
+  include(GNUInstallDirs)
+endif()
 
 #include(${GDCM_SOURCE_DIR}/CMake/gdcmPlatformCxxTests.cmake)
 #
@@ -696,6 +700,7 @@ if(GDCM_STANDALONE)
         HEADERS_DESTINATION   "${GDCM_INSTALL_INCLUDE_DIR}/vtk${vtk_version_suffix}"
         CMAKE_DESTINATION     "${GDCM_INSTALL_PACKAGE_DIR}"
         LICENSE_DESTINATION   "${GDCM_INSTALL_DATA_DIR}/vtkgdcm-${GDCM_SHORT_VERSION}"
+        SPDX_DESTINATION      "${GDCM_INSTALL_DATA_DIR}/vtkgdcm-${GDCM_SHORT_VERSION}"
         HIERARCHY_DESTINATION "${GDCM_INSTALL_LIB_DIR}/vtk${vtk_version_suffix}/hierarchy/vtkgdcm"
         LIBRARY_NAME_SUFFIX   "${vtkgdcm_library_suffix}"
         VERSION               "${GDCM_VERSION}"

@@ -78,6 +78,7 @@ int source::read_into_segments( char * out, int len, image_info const & ii )
         int nvalues = read(out + 0 * llen, llen);
         assert( nvalues == llen ); (void)nvalues;
         bool b = seek(pos + 1 * plane);
+        (void)b;
         assert(b);
         nvalues = read(out + 1 * llen, llen);
         assert( nvalues == llen ); (void)nvalues;

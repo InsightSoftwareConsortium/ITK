@@ -392,7 +392,7 @@ static void x16printf(char *buf, int size, Float f) {
       strcpy(buf, mant);
       return;
     }
-    strncpy(buf, mant, iexp + 1);
+    memcpy(buf, mant, iexp + 1);
     buf[iexp + 1] = '.';
     strncpy(buf + iexp + 2, mant + iexp + 1, size - iexp - 1);
     buf[size] = 0;
@@ -409,7 +409,7 @@ static void x16printf(char *buf, int size, Float f) {
     for(j=0; j< -1 - iexp; j++) {
       buf[j+1] = '0';
     }
-    strncpy(buf - iexp, mant, size + 1 + iexp);
+    memcpy(buf - iexp, mant, size + 1 + iexp);
     buf[size] = 0;
     clean(buf);
   }

@@ -454,6 +454,7 @@ bool FileChangeTransferSyntax::InitializeCopy()
         ISO_14495_1 = JPEG-LS Near-lossless Compression
         ISO_15444_1 = JPEG 2000 Irreversible Compression
         ISO_13818_2 = MPEG2 Compression
+        ISO_15444_15 = High-Throughput JPEG 2000 Irreversible Compression
          */
         Attribute<0x0028,0x2114> at3;
         const TransferSyntax ts_orig = Internals->TS;
@@ -465,6 +466,14 @@ bool FileChangeTransferSyntax::InitializeCopy()
         else if( ts_orig == TransferSyntax::JPEGLSNearLossless )
           {
           static const CSComp newvalues2[] = {"ISO_14495_1"};
+          at3.SetValues( newvalues2, 1 );
+          }
+        else if (
+          ts_orig == TransferSyntax::HTJ2KLossless ||
+          ts_orig == TransferSyntax::HTJ2KRPCLLossless ||
+          ts_orig == TransferSyntax::HTJ2K )
+          {
+          static const CSComp newvalues2[] = {"ISO_15444_15"};
           at3.SetValues( newvalues2, 1 );
           }
         else if (
