@@ -33,7 +33,7 @@
 
   \code
 
-  ForAllThePixels  p   in   image Do   p = 100
+  ForAllThePixels  p   in   image Do   p = 10
 
   \endcode
 
@@ -198,19 +198,19 @@
   iterators that can walk a region defined by a spatial function.)
   The region for an iterator is defined at constructor time.  Regions
   are not validated, so the programmer is responsible for assigning a
-  region that is within the image. Iterator methods Begin() and End()
+  region that is within the image. Iterator methods `Begin()` and `End()`
   are defined relative to the region.  See below.
 
   \section IteratorAPI Iterator API
 
   \subsection IteratorsPositioning Position
 
-  \subsection IteratorsIntervals Half Open Intervals - Begin/End
+  \subsection IteratorsIntervals Half Open Intervals - `Begin`/`End`
   Like most iterator implementations, ImageIterators walk a half-open
-  interval.  Begin is defined as the first pixel in the region. End is
+  interval.  `Begin` is defined as the first pixel in the region. `End` is
   defined as one pixel past the last pixel in the region (one pixel
-  past in the same row). So Begin points a valid pixel in the region
-  and End points to a pixel that is outside the region.
+  past in the same row). So `Begin` points a valid pixel in the region
+  and `End` points to a pixel that is outside the region.
 
   \subsection IteratorsDereferencing Dereferencing
 
@@ -220,51 +220,51 @@
 
   \code
   PixelType * p;    // creation of the pointer
-  *p = 100;         // write access to a data
+  *p = 10;          // write access to a data
   PixelType a = *p; // read access to data
   \endcode
 
   Iterators dereference data using <TT>Set()</TT> and <TT>Get()</TT>
 
   \code
-  imageIterator.Set( 100 );
+  imageIterator.Set( 10 );
   PixelType a = imageIterator.Get();
   \endcode
 
 
-  \subsection IteratorsOperatorPlusPlus operator++
+  \subsection IteratorsOperatorPlusPlus `operator++`
 
-  The ++ operator will move the image iterator to the next pixel,
+  The `++ operator` will move the image iterator to the next pixel,
   according to the particular order in which this iterator walks
-  the imaage.
+  the image.
 
-  \subsection IteratorsOperatorMinusMinus operator--
+  \subsection IteratorsOperatorMinusMinus `operator--`
 
-  The -- operator will move the image iterator to the previous pixel,
+  The `-- operator` will move the image iterator to the previous pixel,
   according to the particular order in which this iterator walks
-  the imaage.
+  the image.
 
-  \subsection IteratorsIteratorsBegin Begin()
-  Begin() returns an iterator for the same image and region as the current
+  \subsection IteratorsIteratorsBegin `Begin()`
+  `Begin()` returns an iterator for the same image and region as the current
   iterator but positioned at the first pixel in the region. The current iterator
   is not modified.
 
-  \subsection IteratorsIteratorsEnd End()
-  End() returns an iterator for the same image and region as the current
+  \subsection IteratorsIteratorsEnd `End()`
+  `End()` returns an iterator for the same image and region as the current
   iterator but positioned one pixel past the last pixel in the region.
   The current iterator is not modified.
 
-  \subsection IteratorsIteratorsGotoBegin GotoBegin()
-  GotoBegin() repositions the iterator to the first pixel in the region.
+  \subsection IteratorsIteratorsGotoBegin `GotoBegin()`
+  `GotoBegin()` repositions the iterator to the first pixel in the region.
 
-  \subsection IteratorsGotoEnd GotoEnd()
-  GotoEnd() repositions the iterator to one pixel past (in the same
+  \subsection IteratorsGotoEnd `GotoEnd()`
+  `GotoEnd()` repositions the iterator to one pixel past (in the same
   row) the last pixel in the region.
 
-  \subsection IteratorsIsAtBegin IsAtBegin()
-  IsAtBegin() returns true if the iterator is positioned at the first
-  pixel in the region, returns false otherwise. IsAtBegin() is faster than
-  comparing an iterator for equivalence to the iterator returned by Begion().
+  \subsection IteratorsIsAtBegin `IsAtBegin()`
+  `IsAtBegin()` returns true if the iterator is positioned at the first
+  pixel in the region, returns false otherwise. `IsAtBegin()` is faster than
+  comparing an iterator for equivalence to the iterator returned by `Begin()`.
 
   \code
   if (it.IsAtBegin()) {}   // Fast
@@ -272,11 +272,11 @@
   if (it == it.Begin()) {} // Slow
   \endcode
 
-  \subsection IteratorsIsAtEnd IsAtEnd()
-  IsAtEnd() returns true if the iterator is positioned one pixel past
-  the last pixel in the region, returns false otherwise. IsAtEnd()
+  \subsection IteratorsIsAtEnd `IsAtEnd()`
+  `IsAtEnd()` returns true if the iterator is positioned one pixel past
+  the last pixel in the region, returns false otherwise. `IsAtEnd()`
   is faster than comparing an iterator for equivalence to the iterator
-  returned by End().
+  returned by `End()`.
 
   \code
   if (it.IsAtEnd()) {}   // Fast
