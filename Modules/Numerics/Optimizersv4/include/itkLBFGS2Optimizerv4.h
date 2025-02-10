@@ -105,9 +105,9 @@ extern ITKOptimizersv4_EXPORT std::ostream &
  * the approach by More and Thuente  \cite more1994. This line search approach finds a step
  * size such that
  * \f[
- * \lVert \nabla f(x + s (\nabla^2 f(x_n) )^{-1} \nabla f(x) ) \rVert
+ * \| \nabla f(x + s (\nabla^2 f(x_n) )^{-1} \nabla f(x) ) \|
  *   \le
- * \nu \lVert \nabla f(x) \rVert
+ * \nu \| \nabla f(x) \|
  * \f]
  * The parameter \f$\nu\f$ is set through SetLineSearchAccuracy() (default 0.9)
  * and SetGradientLineSearchAccuracy()
@@ -120,7 +120,7 @@ extern ITKOptimizersv4_EXPORT std::ostream &
  *
  * The optimization stops when either the gradient satisfies the condition
  * \f[
- * \lVert \nabla f(x) \rVert \le \epsilon \max(1, \lVert X \rVert)
+ * \| \nabla f(x) \| \le \epsilon \max(1, \| X \|)
  * \f]
  * or a maximum number of function evaluations has been reached.
  * The tolerance \f$\epsilon\f$ is set through SetSolutionAccuracy()
@@ -380,7 +380,7 @@ public:
    *  problems. Setting this parameter to a positive value activates
    *  Orthant-Wise Limited-memory Quasi-Newton (OWL-QN) method, which
    *  minimizes the objective function F(x) combined with the L1 norm |x|
-   *  of the variables, \f$F(x) + C |x|}. \f$. This parameter is the coefficient
+   *  of the variables, \f$F(x) + C |x| \f$. This parameter is the coefficient
    *  for the |x|, i.e., C. As the L1 norm |x| is not differentiable at
    *  zero, the library modifies function and gradient evaluations from
    *  a client program suitably; a client program thus have only to return

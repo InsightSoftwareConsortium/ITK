@@ -43,9 +43,9 @@ namespace itk
  * The step size \f$ s \f$ is determined through line search with the approach
  * by More and Thuente \cite more1994. This line search approach finds a step size such that
  * \f[
- * \lVert \nabla f(x + s (\nabla^2 f(x_n) )^{-1} \nabla f(x) ) \rVert
+ * \| \nabla f(x + s (\nabla^2 f(x_n) )^{-1} \nabla f(x) ) \|
  *   \le
- * \nu \lVert \nabla f(x) \rVert
+ * \nu \| \nabla f(x) \|
  * \f]
  * The parameter \f$ \nu \f$ is set through SetLineSearchAccuracy() (default 0.9)
  * The default step length, i.e. starting step length for the line search,
@@ -53,7 +53,7 @@ namespace itk
  *
  * The optimization stops when either the gradient satisfies the condition
  * \f[
- * \lVert \nabla f(x) \rVert \le \epsilon \max(1, \lVert X \rVert)
+ * \| \nabla f(x) \| \le \epsilon \max(1, \| X \|)
  * \f]
  * or a maximum number of function evaluations has been reached.
  * The tolerance \f$\epsilon\f$ is set through SetGradientConvergenceTolerance()
