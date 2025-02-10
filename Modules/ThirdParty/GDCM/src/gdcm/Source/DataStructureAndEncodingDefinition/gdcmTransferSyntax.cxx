@@ -81,9 +81,15 @@ static const char *TSStrings[] = {
   "1.2.840.10008.1.2.4.102",
   // MPEG-4 AVC/H.264 BD-compatible High Profile / Level 4.1
   "1.2.840.10008.1.2.4.103",
+  // High-Throughput JPEG 2000 Image Compression (Lossless Only)
+  "1.2.840.10008.1.2.4.201",
+  // High-Throughput JPEG 2000 with RPCL Options Image Compression (Lossless Only)
+  "1.2.840.10008.1.2.4.202",
+  // High-Throughput JPEG 2000 Image Compression
+  "1.2.840.10008.1.2.4.203",
   // Unknown
-  "Unknown Transfer Syntax", // Pretty sure we never use this case...
-  nullptr // Compilers have no obligation to finish by NULL, do it ourself
+  "Unknown Transfer Syntax", // Pretty sure we never use this case... until a new transfer syntax is added
+  nullptr // Compilers have no obligation to finish by NULL, do it ourselves
 };
 
 TransferSyntax::TSType TransferSyntax::GetTSType(const char *cstr)
@@ -162,7 +168,8 @@ bool TransferSyntax::IsLossy() const
     TSField == MPEG2MainProfile ||
     TSField == MPEG2MainProfileHighLevel ||
     TSField == MPEG4AVCH264HighProfileLevel4_1 ||
-    TSField == MPEG4AVCH264BDcompatibleHighProfileLevel4_1
+    TSField == MPEG4AVCH264BDcompatibleHighProfileLevel4_1 ||
+    TSField == HTJ2K
   )
     {
     return true;
@@ -211,7 +218,8 @@ bool TransferSyntax::IsLossless() const
     TSField == MPEG2MainProfile ||
     TSField == MPEG2MainProfileHighLevel ||
     TSField == MPEG4AVCH264HighProfileLevel4_1 ||
-    TSField == MPEG4AVCH264BDcompatibleHighProfileLevel4_1
+    TSField == MPEG4AVCH264BDcompatibleHighProfileLevel4_1 ||
+    TSField == HTJ2K
   )
     {
     return false;
@@ -300,6 +308,10 @@ bool TransferSyntax::IsEncapsulated() const
   case MPEG4AVCH264BDcompatibleHighProfileLevel4_1:
   //case ImplicitVRBigEndianACRNEMA:
   //case WeirdPapryus:
+  case HTJ2KLossless:
+  case HTJ2KRPCLLossless:
+  case HTJ2K:
+
     ret = true;
     break;
   default:
