@@ -92,8 +92,7 @@ formats:
 
 | File Format | Read/Write | Import |
 | ----------- | ---------- | ------ |
-| [BYU](http://www.eg-models.de/formats/Format_Byu.html) |
- [`itk::BYUMeshIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1BYUMeshIO.html) | |
+| [BYU](http://www.eg-models.de/formats/Format_Byu.html) | [`itk::BYUMeshIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1BYUMeshIO.html) | |
 | [FreeSurfer surface, binary and ASCII](http://www.grahamwideman.com/gw/brain/fs/surfacefileformats.htm) | [`itk::FreeSurferBinaryMeshIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1FreeSurferBinaryMeshIO.html), [`itk::FreeSurferAsciiMeshIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1FreeSurferAsciiMeshIO.html) | |
 | [OFF](https://en.wikipedia.org/wiki/OFF_%28file_format%29) | [`ìtk::OFFMeshIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1OFFMeshIO.html) | |
 | [STL](https://en.wikipedia.org/wiki/STL_%28file_format%29) | | |
@@ -132,7 +131,7 @@ in case of desperation.
    please look at the [`DicomSeriesReadImageWrite2.cxx`](https://github.com/InsightSoftwareConsortium/ITK/blob/master/Examples/IO/DicomSeriesReadImageWrite2.cxx)
    code.
 1. Write a MetaImage header. This is a small text file holding
-   information about the image: spacing, dimensions, pixelt type, etc.
+   information about the image: spacing, dimensions, pixel type, etc.
    This header can hold the list of DICOM files you want to read. The
    only restriction is that the files must be uncompressed. You can
    take an existing MetaImage header and modify it in order to fit
@@ -415,9 +414,9 @@ More details can be found in the Wikipedia article [Houndfield Units](https://en
 
 MRI images measure two types of relaxation times, T1 and T2.
 
-The units are millisecons and the two relaxation concepts relate to how
+The units are milliseconds and the two relaxation concepts relate to how
 long it takes for the molecules in the tissue to realign themselves with
-a magentic field after being perturbed.
+a magnetic field after being perturbed.
 
 Details on the MRI units are available on the [Relaxation (NMR)](https://en.wikipedia.org/wiki/Relaxation_%28NMR%29)
 Wikipedia article.
@@ -459,7 +458,7 @@ High Bit       = 15
 Since DICOM V3, you **cannot** store any overlay in the unused bits of
 the `Pixel Data` (`0x7fe0,0x0010`), thus it imply that the unused bits are
 **zeros**. In ITK, there is no such thing as 12-bit pixel type, thus
-when instanciating your reader you declare a 16-bit pixel type. This
+when instantiating your reader you declare a 16-bit pixel type. This
 buffer is then passed back to GDCM which sees an array of 16bits values
 and then simply used the simplest way to store this buffer back on
 disk: `Bits Stored = 16` and `High Bit = 15`. In case you have not made any
