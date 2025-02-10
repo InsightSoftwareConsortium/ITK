@@ -55,7 +55,7 @@ namespace itk
  * surrounded by four borders.
  *
  * Initial regions of a 8 by 9 image with a 4 by 3 grid partition.
- * \f[\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+ * \f[\begin{array}{|c|c|c|c|c|c|c|c|c|}
  * \hline
  *   1 & 1 & 1 & 2 & 2 & 2 & 3 & 3 & 3 \\ \hline
  *   1 & 1 & 1 & 2 & 2 & 2 & 3 & 3 & 3 \\ \hline
@@ -65,10 +65,10 @@ namespace itk
  *   7 & 7 & 7 & 8 & 8 & 8 & 9 & 9 & 9 \\ \hline
  *   a & a & a & b & b & b & c & c & c \\ \hline
  *   a & a & a & b & b & b & c & c & c \\ \hline
- *  \end{tabular}\f]
+ *  \end{array}\f]
  *
  * Region borders are shown as "E".
- * \f[\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+ * \f[\begin{array}{|c|c|c|c|c|c|c|c|c|c|c|}
  * \hline
  *   C & C & C &   & C & C & C &   & C & C & C \\ \hline
  *   C & C & C & E & C & C & C & E & C & C & C \\ \hline
@@ -81,7 +81,7 @@ namespace itk
  *     & E &   &   &   & E &   &   &   & E &   \\ \hline
  *   C & C & C &   & C & C & C &   & C & C & C \\ \hline
  *   C & C & C & E & C & C & C & E & C & C & C \\ \hline
- *  \end{tabular}\f]
+ *  \end{array}\f]
  *
  * \ingroup RegionGrowingSegmentation
  * \ingroup ITKKLMRegionGrowing
@@ -206,11 +206,11 @@ public:
    * Lambda set to -1.0.
    *
    * For example, take an image with 3 regions A, B, C
-   * \f[\begin{tabular}{|c|c|}
+   * \f[\begin{array}{|c|c|}
    * \hline
    *   A & A \\ \hline
    *   B & C \\ \hline
-   *  \end{tabular}\f]
+   *  \end{array}\f]
    * where region A has region borders A-B and A-C;
    * region B has region borders A-B and B-C; and
    * region C has region borders A-C and B-C.

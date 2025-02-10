@@ -97,23 +97,23 @@ extern ITKMarkovRandomFieldsClassifiers_EXPORT std::ostream &
  * assigned a weight 1.5.  A weight of 1.3 is assigned to the influence of
  * the north, south, east, west, and diagonal pixels in the previous and next
  * slices.
- * \f[\begin{tabular}{ccc}
- *  \begin{tabular}{|c|c|c|}
+ * \f[\begin{array}{ccc}
+ *  \begin{array}{|c|c|c|}
  *   1.3 & 1.3 & 1.3 \\
  *   1.3 & 1.5 & 1.3 \\
  *   1.3 & 1.3 & 1.3 \\
- *  \end{tabular} &
- *  \begin{tabular}{|c|c|c|}
+ *  \end{array} &
+ *  \begin{array}{|c|c|c|}
  *   1.7 & 1.7 & 1.7 \\
  *   1.7 & 0 & 1.7 \\
  *   1.7 & 1.7 & 1.7 \\
- *  \end{tabular} &
- *  \begin{tabular}{|c|c|c|}
+ *  \end{array} &
+ *  \begin{array}{|c|c|c|}
  *   1.3 & 1.3 & 1.3 \\
  *   1.5 & 1.5 & 1.3 \\
  *   1.3 & 1.3 & 1.3 \\
- *  \end{tabular} \\
- * \end{tabular}\f]
+ *  \end{array} \\
+ * \end{array}\f]
  *
  * The user needs to set the neighborhood size using the SetNeighborhoodRadius
  * function. The details on the semantics of a neighborhood can be found
