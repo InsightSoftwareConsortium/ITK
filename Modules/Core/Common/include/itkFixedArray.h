@@ -181,6 +181,9 @@ public:
     ConstIterator m_Iterator;
   };
 
+  /** The type of an element. */
+  using value_type = TValue;
+
   /** A pointer to the ValueType. */
   using pointer = ValueType *;
 
@@ -459,7 +462,6 @@ public:
   {
     return MakeFilled<FixedArray>(value);
   }
-
 };
 
 template <typename TValue, unsigned int VLength>
