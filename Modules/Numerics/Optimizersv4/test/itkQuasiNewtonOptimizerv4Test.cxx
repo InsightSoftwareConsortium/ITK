@@ -37,10 +37,10 @@
 
 template <typename TMovingTransform>
 int
-itkQuasiNewtonOptimizerv4TestTemplated(int         numberOfIterations,
-                                       double      shiftOfStep,
+itkQuasiNewtonOptimizerv4TestTemplated(int                 numberOfIterations,
+                                       double              shiftOfStep,
                                        const std::string & scalesOption,
-                                       bool        usePhysicalSpaceForShift = true)
+                                       bool                usePhysicalSpaceForShift = true)
 {
   const unsigned int Dimension = TMovingTransform::SpaceDimension;
   using PixelType = double;

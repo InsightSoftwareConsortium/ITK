@@ -90,10 +90,10 @@ bool
 ActualTest(const std::string & inputFileName,
            const std::string & outputFileNameBase,
            const std::string & outputFileNameExtension,
-           bool        streamWriting,
-           bool        pasteWriting,
-           bool        compressWriting,
-           int         expectException = -1)
+           bool                streamWriting,
+           bool                pasteWriting,
+           bool                compressWriting,
+           int                 expectException = -1)
 {
 
   std::cout << "Writing Combination: ";
