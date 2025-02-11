@@ -82,7 +82,6 @@ public:
 
       return false;
     }
-
   };
 
   /** Structure for storing lists of adjacencies (edges) and their

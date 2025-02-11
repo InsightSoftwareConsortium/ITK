@@ -102,7 +102,6 @@ protected:
    * \sa ProcessObject::ReleaseInputs() */
   void
   ReleaseInputs() override;
-
 };
 
 } // end namespace itk

@@ -33,7 +33,8 @@ namespace itk
  *
  * For one iteration the location of one vertex is computed as follows:
  * \f[
- * \boldsymbol{ v' }_i = v_i + m_{RelaxationFactor} \cdot \frac{ \sum_j w_{ij} ( \boldsymbol{ v_j } - \boldsymbol{ v_i } )
+ * \boldsymbol{ v' }_i = v_i + m_{RelaxationFactor} \cdot \frac{ \sum_j w_{ij} ( \boldsymbol{ v_j } - \boldsymbol{ v_i }
+ * )
  * }{ \sum_j w_{ij} } \f]
  *
  * where \f$ w_{ij} \f$ is computed by the means of the set functor

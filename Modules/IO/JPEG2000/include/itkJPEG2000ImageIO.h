@@ -59,7 +59,6 @@ public:
     BMP_DFMT = 2,
     YUV_DFMT = 3
   };
-
 };
 // Define how to print enumeration
 extern ITKIOJPEG2000_EXPORT std::ostream &

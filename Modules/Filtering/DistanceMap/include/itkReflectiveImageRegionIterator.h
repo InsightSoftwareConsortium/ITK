@@ -102,7 +102,6 @@ protected:
 
   Self &
   operator=(const ReflectiveImageRegionConstIterator<TImage> & it);
-
 };
 } // end namespace itk
 

@@ -802,7 +802,6 @@ public:
     m_RelativeLocation = location;
     SubtractIndex(m_RelativeLocation, m_BufferedRegionData.m_Index);
   }
-
 };
 
 } // namespace itk

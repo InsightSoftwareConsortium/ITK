@@ -122,7 +122,6 @@ protected:
   ImageSliceIteratorWithIndex(const ImageSliceConstIteratorWithIndex<TImage> & it);
   Self &
   operator=(const ImageSliceConstIteratorWithIndex<TImage> & it);
-
 };
 } // end namespace itk
 

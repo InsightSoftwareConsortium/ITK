@@ -77,7 +77,6 @@ LBFGSBOptimizerv4::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "BoundSelection: " << m_BoundSelection << std::endl;
 
   os << indent << "MaximumNumberOfCorrections: " << m_MaximumNumberOfCorrections << std::endl;
-
 }
 
 void

@@ -186,7 +186,6 @@ protected:
      * classes for efficiency. */
     JacobianType MovingTransformJacobian;
     JacobianType MovingTransformJacobianPositional;
-
   };
 
   itkPadStruct(ITK_CACHE_LINE_ALIGNMENT,

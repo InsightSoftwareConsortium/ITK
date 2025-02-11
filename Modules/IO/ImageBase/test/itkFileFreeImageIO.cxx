@@ -186,9 +186,7 @@ FileFreeImageIO::Write(const void *)
 {}
 
 void
-FileFreeImageIO::SplitString(const std::string &        text,
-                              const std::string &        separators,
-                              std::vector<std::string> & words)
+FileFreeImageIO::SplitString(const std::string & text, const std::string & separators, std::vector<std::string> & words)
 {
   const std::string::size_type n = text.length();
   std::string::size_type       start = text.find_first_not_of(separators);
