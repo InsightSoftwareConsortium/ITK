@@ -534,7 +534,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Threade
         idx[i] += static_cast<unsigned int>(p[i]);
         if (this->m_CloseDimension[i])
         {
-          idx[i] %= size[i];
+          idx[i] %= currentThreadDeltaLattice->GetLargestPossibleRegion().GetSize()[i];
         }
       }
       RealType wc = this->m_PointWeights->GetElement(n);
