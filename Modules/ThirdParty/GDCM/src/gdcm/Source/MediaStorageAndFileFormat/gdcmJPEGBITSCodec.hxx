@@ -16,6 +16,18 @@
 
 #include <limits.h>
 
+#if !defined(LIBJPEG_TURBO_VERSION_NUMBER)
+#define GDCM_JPEG_IS_LOSSLESS(CINFO) CINFO.process == JPROC_LOSSLESS
+#define GDCM_JPEG_IS_SEQUENTIAL(CINFO) CINFO.process == JPROC_SEQUENTIAL
+#define GDCM_JPEG_IS_PROGRESSIVE(CINFO) CINFO.process == JPROC_PROGRESSIVE
+#else
+// cinfo->master->lossless looks to be the right check for losslessness but the master structire is private
+#define GDCM_JPEG_IS_LOSSLESS(CINFO) CINFO.data_precision == 12 || CINFO.data_precision == 16
+#define GDCM_JPEG_IS_SEQUENTIAL(CINFO)  CINFO.progressive_mode == FALSE
+#define GDCM_JPEG_IS_PROGRESSIVE(CINFO) CINFO.progressive_mode == TRUE
+#endif
+
+
 /*
  * jdatasrc.c
  *
@@ -218,7 +230,7 @@ term_source (j_decompress_ptr cinfo)
  * for closing it after finishing decompression.
  */
 
-GLOBAL(void)
+METHODDEF(void)
 jpeg_stdio_src (j_decompress_ptr cinfo, std::istream & infile, bool flag)
 {
   my_src_ptr src;
@@ -463,8 +475,8 @@ bool JPEGBITSCodec::GetHeaderInfo(std::istream &is, TransferSyntax &ts)
       {
       assert( cinfo.num_components == 3 );
       PI = PhotometricInterpretation::YBR_FULL_422;
-      if( cinfo.process == JPROC_LOSSLESS )
-        PI = PhotometricInterpretation::RGB; // wotsit ?
+      //if( cinfo.process == JPROC_LOSSLESS )
+      PI = PhotometricInterpretation::RGB; // wotsit ?
       this->PF.SetSamplesPerPixel( 3 );
       this->PlanarConfiguration = 1;
       }
@@ -486,7 +498,7 @@ bool JPEGBITSCodec::GetHeaderInfo(std::istream &is, TransferSyntax &ts)
       assert( 0 ); //TODO
       }
     }
-  if( cinfo.process == JPROC_LOSSLESS )
+  if( GDCM_JPEG_IS_LOSSLESS(cinfo) )
     {
     int predictor = cinfo.Ss;
     /* not very user friendly... */
@@ -500,14 +512,14 @@ bool JPEGBITSCodec::GetHeaderInfo(std::istream &is, TransferSyntax &ts)
       break;
       }
     }
-  else if( cinfo.process == JPROC_SEQUENTIAL )
+  else if( GDCM_JPEG_IS_SEQUENTIAL(cinfo) )
     {
     if( this->BitSample == 8 )
       ts = TransferSyntax::JPEGBaselineProcess1;
     else if( this->BitSample == 12 )
       ts = TransferSyntax::JPEGExtendedProcess2_4;
     }
-  else if( cinfo.process == JPROC_PROGRESSIVE )
+  else if( GDCM_JPEG_IS_PROGRESSIVE(cinfo) )
     {
     if( this->BitSample == 8 )
       {
@@ -528,7 +540,7 @@ bool JPEGBITSCodec::GetHeaderInfo(std::istream &is, TransferSyntax &ts)
     assert(0); // TODO
     return false;
     }
-  if( cinfo.process == JPROC_LOSSLESS )
+  if( GDCM_JPEG_IS_LOSSLESS(cinfo) )
     {
     LossyFlag = false;
     }
@@ -764,6 +776,7 @@ bool JPEGBITSCodec::DecodeByStreams(std::istream &is, std::ostream &os)
     // First of all are we using the proper JPEG decoder (correct bit sample):
     if( jerr.pub.num_warnings )
       {
+#ifdef JWRN_MUST_DOWNSCALE
       // PHILIPS_Gyroscan-12-MONO2-Jpeg_Lossless.dcm
       if ( jerr.pub.msg_code == JWRN_MUST_DOWNSCALE )
         {
@@ -781,6 +794,9 @@ bool JPEGBITSCodec::DecodeByStreams(std::istream &is, std::ostream &os)
         {
         assert( 0 );
         }
+#else
+      assert(0);
+#endif
       }
     // Let's check the color space:
     // JCS_UNKNOWN    -> 0
@@ -824,7 +840,7 @@ bool JPEGBITSCodec::DecodeByStreams(std::istream &is, std::ostream &os)
       break;
     case JCS_RGB:
       //assert( GetPhotometricInterpretation() == PhotometricInterpretation::RGB );
-        if ( cinfo.process == JPROC_LOSSLESS )
+        if ( GDCM_JPEG_IS_LOSSLESS(cinfo) )
           {
           cinfo.jpeg_color_space = JCS_UNKNOWN;
           cinfo.out_color_space = JCS_UNKNOWN;
@@ -851,7 +867,7 @@ bool JPEGBITSCodec::DecodeByStreams(std::istream &is, std::ostream &os)
         cinfo.jpeg_color_space = JCS_UNKNOWN;
         cinfo.out_color_space = JCS_UNKNOWN;
         }
-      if ( cinfo.process == JPROC_LOSSLESS )
+      if ( GDCM_JPEG_IS_LOSSLESS(cinfo) )
         {
         //cinfo.jpeg_color_space = JCS_UNKNOWN;
         //cinfo.out_color_space = JCS_UNKNOWN;
@@ -867,14 +883,14 @@ bool JPEGBITSCodec::DecodeByStreams(std::istream &is, std::ostream &os)
       break;
     case JCS_CMYK:
       assert( GetPhotometricInterpretation() == PhotometricInterpretation::CMYK );
-      if ( cinfo.process == JPROC_LOSSLESS )
+      if ( GDCM_JPEG_IS_LOSSLESS(cinfo) )
         {
         cinfo.jpeg_color_space = JCS_UNKNOWN;
         cinfo.out_color_space = JCS_UNKNOWN;
         }
       break;
     case JCS_UNKNOWN:
-      if ( cinfo.process == JPROC_LOSSLESS )
+      if ( GDCM_JPEG_IS_LOSSLESS(cinfo) )
         {
         cinfo.jpeg_color_space = JCS_UNKNOWN;
         cinfo.out_color_space = JCS_UNKNOWN;
@@ -958,7 +974,7 @@ bool JPEGBITSCodec::DecodeByStreams(std::istream &is, std::ostream &os)
 
   /* we are done decompressing the file, now is a good time to store the type
      of compression used: lossless or not */
-  if( cinfo.process == JPROC_LOSSLESS )
+  if( GDCM_JPEG_IS_LOSSLESS(cinfo) )
     {
     LossyFlag = false;
     }
@@ -1130,7 +1146,7 @@ term_destination (j_compress_ptr cinfo)
  * for closing it after finishing compression.
  */
 
-GLOBAL(void)
+ METHODDEF(void)
 jpeg_stdio_dest (j_compress_ptr cinfo, /*FILE * */ std::ostream * outfile)
 {
   my_dest_ptr dest;
@@ -1281,7 +1297,11 @@ bool JPEGBITSCodec::InternalCode(const char* input, unsigned long len, std::ostr
    */
   if( !LossyFlag )
     {
+#ifdef LIBJPEG_TURBO_VERSION_NUMBER
+    jpeg_enable_lossless(&cinfo, 1, 0);
+#else
     jpeg_simple_lossless (&cinfo, 1, 0);
+#endif
     //jpeg_simple_lossless (&cinfo, 7, 0);
     }
 
@@ -1508,7 +1528,11 @@ bool JPEGBITSCodec::EncodeBuffer(std::ostream &os, const char *data, size_t data
     {
     if( !LossyFlag )
       {
-      jpeg_simple_lossless (&cinfo, 1, 0);
+#ifdef LIBJPEG_TURBO_VERSION_NUMBER
+    jpeg_enable_lossless(&cinfo, 1, 0);
+#else
+    jpeg_simple_lossless (&cinfo, 1, 0);
+#endif
       //jpeg_simple_lossless (&cinfo, 7, 0);
       }
     }
