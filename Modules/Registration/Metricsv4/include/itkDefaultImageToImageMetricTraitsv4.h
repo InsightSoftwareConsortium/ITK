@@ -111,7 +111,6 @@ public:
    * computations rather than the image pixel type itself. */
   itkConceptMacro(OnlyDefinedForFloatingPointTypes0, (itk::Concept::IsFloatingPoint<FixedRealType>));
   itkConceptMacro(OnlyDefinedForFloatingPointTypes1, (itk::Concept::IsFloatingPoint<MovingRealType>));
-
 };
 } // end namespace itk
 

@@ -57,7 +57,10 @@ itkNrrdImageIOTestGenerateRandomImage(unsigned int size)
 
 template <typename TPixelType, unsigned int VImageDimension>
 int
-itkNrrdImageIOTestReadWriteTest(const std::string & fn, unsigned int size, const std::string & inputFile, bool compression = false)
+itkNrrdImageIOTestReadWriteTest(const std::string & fn,
+                                unsigned int        size,
+                                const std::string & inputFile,
+                                bool                compression = false)
 {
   using ImageType = itk::Image<TPixelType, VImageDimension>;
 

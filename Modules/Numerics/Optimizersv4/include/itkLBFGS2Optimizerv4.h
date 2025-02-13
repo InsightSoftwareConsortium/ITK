@@ -78,7 +78,6 @@ public:
      */
     LINESEARCH_BACKTRACKING_STRONG_WOLFE = 3,
   };
-
 };
 // Define how to print enumeration
 extern ITKOptimizersv4_EXPORT std::ostream &

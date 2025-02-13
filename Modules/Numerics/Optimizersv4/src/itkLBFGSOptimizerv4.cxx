@@ -31,7 +31,6 @@ LBFGSOptimizerv4::PrintSelf(std::ostream & os, Indent indent) const
   Superclass::PrintSelf(os, indent);
   os << indent << "LineSearchAccuracy: " << m_LineSearchAccuracy << std::endl;
   os << indent << "DefaultStepLength: " << m_DefaultStepLength << std::endl;
-
 }
 
 void

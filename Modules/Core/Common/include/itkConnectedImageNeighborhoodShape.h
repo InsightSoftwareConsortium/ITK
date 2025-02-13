@@ -248,7 +248,6 @@ private:
   {
     return (includeCenterPixel ? 1 : 0) + CalculateNumberOfConnectedNeighbors(maximumCityblockDistance);
   }
-
 };
 
 /** Generates the offsets for a connected image neighborhood shape. */

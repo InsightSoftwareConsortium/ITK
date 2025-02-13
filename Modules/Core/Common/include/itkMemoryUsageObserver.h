@@ -90,7 +90,6 @@ public:
 
   MemoryLoadType
   GetMemoryUsage() override;
-
 };
 #endif // __linux__
 
@@ -103,7 +102,6 @@ public:
 
   MemoryLoadType
   GetMemoryUsage() override;
-
 };
 #endif // Mac OS X
 
@@ -116,7 +114,6 @@ public:
 
   virtual MemoryLoadType
   GetMemoryUsage();
-
 };
 #endif // Sun Solaris
 
@@ -129,7 +126,6 @@ public:
 
   MemoryLoadType
   GetMemoryUsage() override;
-
 };
 
 #  if defined(ITK_HAS_MALLINFO) || defined(ITK_HAS_MALLINFO2)
@@ -145,7 +141,6 @@ public:
 
   MemoryLoadType
   GetMemoryUsage() override;
-
 };
 
 #  endif // Mallinfo

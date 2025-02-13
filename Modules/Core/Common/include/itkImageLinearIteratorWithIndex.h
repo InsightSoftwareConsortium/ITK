@@ -120,7 +120,6 @@ protected:
   ImageLinearIteratorWithIndex(const ImageLinearConstIteratorWithIndex<TImage> & it);
   Self &
   operator=(const ImageLinearConstIteratorWithIndex<TImage> & it);
-
 };
 } // end namespace itk
 

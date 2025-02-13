@@ -13,7 +13,7 @@ clean = { cmd = "git clean -fdx", description = "Clean the repository" }
 python = ">=3.12.0,<3.13"
 
 [tool.pixi.feature.pre-commit.dependencies]
-pre-commit = ">=4.0.1,<5"
+pre-commit = ">=4.1.0,<5"
 
 [tool.pixi.feature.pre-commit.tasks]
 pre-commit-install = { cmd = "pre-commit install -f -t pre-commit -t prepare-commit-msg -t commit-msg", description = "Install pre-commit hooks" }

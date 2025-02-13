@@ -201,7 +201,8 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,
                                          TRealType,
                                          TFloatImageType,
                                          TRegistrationType,
-                                         TDefaultRegistrationType>::SetNumberOfIterations(NumberOfIterationsType numberOfIterations)
+                                         TDefaultRegistrationType>::SetNumberOfIterations(NumberOfIterationsType
+                                                                                            numberOfIterations)
 {
   // In case numberOfIterations.GetSize() differs from this->m_numberOfLevels, first set the
   // latter to equal the former.

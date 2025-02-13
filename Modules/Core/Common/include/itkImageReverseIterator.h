@@ -118,7 +118,6 @@ protected:
   ImageReverseIterator(const ImageRegionReverseConstIterator<TImage> & it);
   Self &
   operator=(const ImageRegionReverseConstIterator<TImage> & it);
-
 };
 } // end namespace itk
 

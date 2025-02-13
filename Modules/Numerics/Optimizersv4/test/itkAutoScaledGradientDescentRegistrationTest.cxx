@@ -35,13 +35,13 @@
 
 template <typename TMovingTransform>
 int
-itkAutoScaledGradientDescentRegistrationTestTemplated(int         numberOfIterations,
-                                                      double      shiftOfStep,
+itkAutoScaledGradientDescentRegistrationTestTemplated(int                 numberOfIterations,
+                                                      double              shiftOfStep,
                                                       const std::string & scalesOption,
-                                                      bool        usePhysicalSpaceForShift,
-                                                      bool        estimateLearningRateOnce,
-                                                      bool        estimateLearningRateAtEachIteration,
-                                                      bool        estimateScales)
+                                                      bool                usePhysicalSpaceForShift,
+                                                      bool                estimateLearningRateOnce,
+                                                      bool                estimateLearningRateAtEachIteration,
+                                                      bool                estimateScales)
 {
   const unsigned int Dimension = TMovingTransform::SpaceDimension;
   using PixelType = double;

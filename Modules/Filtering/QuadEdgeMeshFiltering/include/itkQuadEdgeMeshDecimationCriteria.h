@@ -135,7 +135,9 @@ public:
   using typename Superclass::PriorityType;
 
   inline bool
-  is_satisfied(MeshType * iMesh, const ElementType & itkNotUsed(iElement), const MeasureType & itkNotUsed(iValue)) const override
+  is_satisfied(MeshType *          iMesh,
+               const ElementType & itkNotUsed(iElement),
+               const MeasureType & itkNotUsed(iValue)) const override
   {
     return (iMesh->GetNumberOfPoints() <= this->m_NumberOfElements);
   }

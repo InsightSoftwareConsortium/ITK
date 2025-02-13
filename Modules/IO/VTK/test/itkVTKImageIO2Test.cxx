@@ -302,7 +302,11 @@ public:
 
 template <typename TScalar>
 int
-Test1AsciiBinary(std::string filePrefix, std::string outputPath, const std::string & typeName, bool ascii, bool read = true)
+Test1AsciiBinary(std::string         filePrefix,
+                 std::string         outputPath,
+                 const std::string & typeName,
+                 bool                ascii,
+                 bool                read = true)
 {
   std::string ab;
   if (ascii)

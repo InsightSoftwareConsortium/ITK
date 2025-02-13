@@ -253,7 +253,6 @@ public:
   {
     return (this->m_CurrentEdge);
   }
-
 };
 
 /**

@@ -212,8 +212,8 @@ public:
    */
   enum class Octree : uint8_t
   {
-    UNKNOWN_PLANE,   ///< The plane is Unknown
-    SAGITTAL_PLANE,  ///< The plane is Sagittal
+    UNKNOWN_PLANE,  ///< The plane is Unknown
+    SAGITTAL_PLANE, ///< The plane is Sagittal
 #if !defined(ITK_LEGACY_REMOVE)
     SAGITAL_PLANE [[deprecated("Use SAGITTAL_PLANE instead")]] = SAGITTAL_PLANE, ///< Support misspelling
 #endif
