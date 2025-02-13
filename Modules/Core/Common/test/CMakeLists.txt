@@ -1714,6 +1714,7 @@ if(ITK_BUILD_SHARED_LIBS AND ITK_DYNAMIC_LOADING)
 endif()
 
 set(ITKCommonGTests
+    itkArrayGTest.cxx
     itkArray2DGTest.cxx
     itkAggregateTypesGTest.cxx
     itkBitCastGTest.cxx
