@@ -170,9 +170,10 @@ public:
 private:
   unsigned int m_CumulativeIterationIndex{ 0 };
 };
-
+namespace
+{
 int
-main(int argc, char * argv[])
+ExampleMain(int argc, const char * const argv[])
 {
   if (argc < 4)
   {
@@ -393,20 +394,13 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  try
-  {
-    transRegistration->Update();
-    std::cout
-      << "Optimizer stop condition: "
-      << transRegistration->GetOptimizer()->GetStopConditionDescription()
-      << std::endl;
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cout << "ExceptionObject caught !" << std::endl;
-    std::cout << err << std::endl;
-    return EXIT_FAILURE;
-  }
+
+  transRegistration->Update();
+  std::cout
+    << "Optimizer stop condition: "
+    << transRegistration->GetOptimizer()->GetStopConditionDescription()
+    << std::endl;
+
 
   compositeTransform->AddTransform(
     transRegistration->GetModifiableTransform());
@@ -741,20 +735,12 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  try
-  {
-    affineRegistration->Update();
-    std::cout
-      << "Optimizer stop condition: "
-      << affineRegistration->GetOptimizer()->GetStopConditionDescription()
-      << std::endl;
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cout << "ExceptionObject caught !" << std::endl;
-    std::cout << err << std::endl;
-    return EXIT_FAILURE;
-  }
+
+  affineRegistration->Update();
+  std::cout
+    << "Optimizer stop condition: "
+    << affineRegistration->GetOptimizer()->GetStopConditionDescription()
+    << std::endl;
 
   compositeTransform->AddTransform(
     affineRegistration->GetModifiableTransform());
@@ -931,15 +917,9 @@ main(int argc, char * argv[])
   // Before registration
   using TransformType = itk::IdentityTransform<double, Dimension>;
   TransformType::Pointer identityTransform;
-  try
-  {
-    identityTransform = TransformType::New();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    err.Print(std::cerr);
-    return EXIT_FAILURE;
-  }
+
+  identityTransform = TransformType::New();
+
   identityTransform->SetIdentity();
   resample->SetTransform(identityTransform);
 
@@ -956,4 +936,28 @@ main(int argc, char * argv[])
   }
 
   return EXIT_SUCCESS;
+}
+} // namespace
+
+
+int
+main(int argc, char * argv[])
+{
+  try
+  {
+    return ExampleMain(argc, argv);
+  }
+  catch (const itk::ExceptionObject & exceptionObject)
+  {
+    std::cerr << "ITK exception caught:\n" << exceptionObject << '\n';
+  }
+  catch (const std::exception & stdException)
+  {
+    std::cerr << "std exception caught:\n" << stdException.what() << '\n';
+  }
+  catch (...)
+  {
+    std::cerr << "Unhandled exception!\n";
+  }
+  return EXIT_FAILURE;
 }
