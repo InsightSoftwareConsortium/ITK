@@ -40,9 +40,10 @@
 #include "itkPointSet.h"
 #include <fstream>
 
-
+namespace
+{
 int
-main(int argc, char * argv[])
+ExampleMain(int argc, const char * const argv[])
 {
   if (argc < 4)
   {
@@ -72,16 +73,8 @@ main(int argc, char * argv[])
     itk::LinearInterpolateImageFunction<InputImageType, double>;
 
   InputImageType::ConstPointer inputImage;
-  try
-  {
-    inputImage = itk::ReadImage<InputImageType>(argv[2]);
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception thrown " << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+
+  inputImage = itk::ReadImage<InputImageType>(argv[2]);
 
 
   // Software Guide : BeginLatex
@@ -157,16 +150,8 @@ main(int argc, char * argv[])
   resampler->SetInput(inputImage);
 
   // Set and write deformed image
-  try
-  {
-    itk::WriteImage(resampler->GetOutput(), argv[3]);
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception thrown " << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+
+  itk::WriteImage(resampler->GetOutput(), argv[3]);
 
 
   // Software Guide : BeginLatex
@@ -206,15 +191,31 @@ main(int argc, char * argv[])
   }
 
   // Write computed deformation field
+
+  itk::WriteImage(field, argv[4]);
+
+
+  return EXIT_SUCCESS;
+}
+} // namespace
+int
+main(int argc, char * argv[])
+{
   try
   {
-    itk::WriteImage(field, argv[4]);
+    return ExampleMain(argc, argv);
   }
-  catch (const itk::ExceptionObject & excp)
+  catch (const itk::ExceptionObject & exceptionObject)
   {
-    std::cerr << "Exception thrown " << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
+    std::cerr << "ITK exception caught:\n" << exceptionObject << '\n';
   }
-  return EXIT_SUCCESS;
+  catch (const std::exception & stdException)
+  {
+    std::cerr << "std exception caught:\n" << stdException.what() << '\n';
+  }
+  catch (...)
+  {
+    std::cerr << "Unhandled exception!\n";
+  }
+  return EXIT_FAILURE;
 }

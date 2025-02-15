@@ -166,8 +166,11 @@ public:
   }
 };
 
+namespace
+{
+
 int
-main(int argc, char * argv[])
+ExampleMain(int argc, const char * const argv[])
 {
   if (argc < 4)
   {
@@ -438,19 +441,12 @@ main(int argc, char * argv[])
   registration->AddObserver(itk::IterationEvent(), command);
   registration->SetNumberOfLevels(3);
 
-  try
-  {
-    registration->Update();
-    std::cout << "Optimizer stop condition: "
-              << registration->GetOptimizer()->GetStopConditionDescription()
-              << std::endl;
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cout << "ExceptionObject caught !" << std::endl;
-    std::cout << err << std::endl;
-    return EXIT_FAILURE;
-  }
+
+  registration->Update();
+  std::cout << "Optimizer stop condition: "
+            << registration->GetOptimizer()->GetStopConditionDescription()
+            << std::endl;
+
 
   std::cout << "Optimizer Stopping Condition = "
             << optimizer->GetStopCondition() << std::endl;
@@ -622,4 +618,27 @@ main(int argc, char * argv[])
   }
 
   return EXIT_SUCCESS;
+}
+} // namespace
+
+int
+main(int argc, char * argv[])
+{
+  try
+  {
+    return ExampleMain(argc, argv);
+  }
+  catch (const itk::ExceptionObject & exceptionObject)
+  {
+    std::cerr << "ITK exception caught:\n" << exceptionObject << '\n';
+  }
+  catch (const std::exception & stdException)
+  {
+    std::cerr << "std exception caught:\n" << stdException.what() << '\n';
+  }
+  catch (...)
+  {
+    std::cerr << "Unhandled exception!\n";
+  }
+  return EXIT_FAILURE;
 }
