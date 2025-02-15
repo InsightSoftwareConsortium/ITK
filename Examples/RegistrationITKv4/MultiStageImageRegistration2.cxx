@@ -174,8 +174,10 @@ private:
   unsigned int m_CumulativeIterationIndex{ 0 };
 };
 
+namespace
+{
 int
-main(int argc, char * argv[])
+ExampleMain(int argc, const char * argv[])
 {
   if (argc < 4)
   {
@@ -215,8 +217,8 @@ main(int argc, char * argv[])
   //  Type definitions are the same as previous example with an important
   //  subtle change: the transform type is not passed to the registration
   //  method as a template parameter anymore. In this case, the registration
-  //  filter will consider the transform base class \doxygen{Transform} as the
-  //  type of its output transform.
+  //  filter will consider the transform base class \doxygen{Transform} as
+  //  the type of its output transform.
   //
   //  Software Guide : EndLatex
 
@@ -235,9 +237,9 @@ main(int argc, char * argv[])
   //  Instead of passing the transform type, we create an explicit
   //  instantiation of the transform object outside of the registration
   //  filter, and connect that to the registration object using the
-  //  \code{SetInitialTransform()} method. Also, by calling \code{InPlaceOn()}
-  //  method, this transform object will be the output transform of the
-  //  registration filter or will be grafted to the output.
+  //  \code{SetInitialTransform()} method. Also, by calling
+  //  \code{InPlaceOn()} method, this transform object will be the output
+  //  transform of the registration filter or will be grafted to the output.
   //
   //  Software Guide : EndLatex
 
@@ -263,13 +265,13 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  As in the previous example, the first stage is run using only one level
-  //  of registration at a coarse resolution level. However, notice that we do
-  //  not need to update the translation registration filter at this step
-  //  since the output of this stage will be directly connected to the initial
-  //  input of the next stage. Due to ITK's pipeline structure, when we call
-  //  the \code{Update()} at the last stage, the first stage will be updated
-  //  as well.
+  //  As in the previous example, the first stage is run using only one
+  //  level of registration at a coarse resolution level. However, notice
+  //  that we do not need to update the translation registration filter at
+  //  this step since the output of this stage will be directly connected to
+  //  the initial input of the next stage. Due to ITK's pipeline structure,
+  //  when we call the \code{Update()} at the last stage, the first stage
+  //  will be updated as well.
   //
   //  Software Guide : EndLatex
 
@@ -306,7 +308,8 @@ main(int argc, char * argv[])
   auto observer1 = CommandIterationUpdate::New();
   transOptimizer->AddObserver(itk::IterationEvent(), observer1);
 
-  // Create the Command interface observer and register it with the optimizer.
+  // Create the Command interface observer and register it with the
+  // optimizer.
   //
   using TranslationCommandType =
     RegistrationInterfaceCommand<TRegistrationType>;
@@ -317,9 +320,9 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  Now we upgrade to an Affine transform as the second stage of
-  //  registration process, and as before, we initially define and instantiate
-  //  different components of the current registration stage. We have used a
-  //  new optimizer but the same metric in new configurations.
+  //  registration process, and as before, we initially define and
+  //  instantiate different components of the current registration stage. We
+  //  have used a new optimizer but the same metric in new configurations.
   //
   //  Software Guide : EndLatex
 
@@ -334,10 +337,10 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  Again notice that \emph{TransformType} is not passed to the type
-  //  definition of the registration filter. It is important because when the
-  //  registration filter considers transform base class \doxygen{Transform}
-  //  as the type of its output transform, it prevents the type mismatch when
-  //  the two stages are cascaded to each other.
+  //  definition of the registration filter. It is important because when
+  //  the registration filter considers transform base class
+  //  \doxygen{Transform} as the type of its output transform, it prevents
+  //  the type mismatch when the two stages are cascaded to each other.
   //
   //  Then, all components are instantiated using their \code{New()} method
   //  and connected to the registration object among the transform type.
@@ -466,7 +469,8 @@ main(int argc, char * argv[])
   affineRegistration->SetShrinkFactorsPerLevel(shrinkFactorsPerLevel2);
   affineRegistration->SetSmoothingSigmasPerLevel(smoothingSigmasPerLevel2);
 
-  // Create the Command interface observer and register it with the optimizer.
+  // Create the Command interface observer and register it with the
+  // optimizer.
   //
   using AffineCommandType = RegistrationInterfaceCommand<ARegistrationType>;
   auto command2 = AffineCommandType::New();
@@ -484,20 +488,14 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  try
-  {
-    affineRegistration->Update();
-    std::cout
-      << "Optimizer stop condition: "
-      << affineRegistration->GetOptimizer()->GetStopConditionDescription()
-      << std::endl;
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cout << "ExceptionObject caught !" << std::endl;
-    std::cout << err << std::endl;
-    return EXIT_FAILURE;
-  }
+
+  affineRegistration->Update();
+  std::cout
+    << "Optimizer stop condition: "
+    << affineRegistration->GetOptimizer()->GetStopConditionDescription()
+    << std::endl;
+
+
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -534,9 +532,9 @@ main(int argc, char * argv[])
   //
   //  Let's execute this example using the same multi-modality images as
   //  before. The registration converges after $6$ iterations in the first
-  //  stage, also in $45$ and $11$ iterations corresponding to the first level
-  //  and second level of the Affine stage.
-  //  The final results when printed as an array of parameters are:
+  //  stage, also in $45$ and $11$ iterations corresponding to the first
+  //  level and second level of the Affine stage. The final results when
+  //  printed as an array of parameters are:
   //
   //  \begin{verbatim}
   //  Translation parameters after first registration stage:
@@ -625,10 +623,10 @@ main(int argc, char * argv[])
   // \label{fig:MultiStageImageRegistration2Outputs}
   // \end{figure}
   //
-  //  The result of resampling the moving image is presented in the left image
-  //  of Figure \ref{fig:MultiStageImageRegistration2Outputs}. The center and
-  //  right images of the figure depict a checkerboard composite of the fixed
-  //  and moving images before and after registration.
+  //  The result of resampling the moving image is presented in the left
+  //  image of Figure \ref{fig:MultiStageImageRegistration2Outputs}. The
+  //  center and right images of the figure depict a checkerboard composite
+  //  of the fixed and moving images before and after registration.
   //
   //  Software Guide : EndLatex
 
@@ -650,15 +648,9 @@ main(int argc, char * argv[])
   // Before registration
   using TransformType = itk::IdentityTransform<double, Dimension>;
   TransformType::Pointer identityTransform;
-  try
-  {
-    identityTransform = TransformType::New();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    err.Print(std::cerr);
-    return EXIT_FAILURE;
-  }
+
+  identityTransform = TransformType::New();
+
   identityTransform->SetIdentity();
   resample->SetTransform(identityTransform);
 
@@ -674,5 +666,28 @@ main(int argc, char * argv[])
     itk::WriteImage(caster->GetOutput(), argv[6]);
   }
 
+
   return EXIT_SUCCESS;
+}
+} // namespace
+int
+main(int argc, const char * argv[])
+{
+  try
+  {
+    return ExampleMain(argc, argv);
+  }
+  catch (const itk::ExceptionObject & exceptionObject)
+  {
+    std::cerr << "ITK exception caught:\n" << exceptionObject << '\n';
+  }
+  catch (const std::exception & stdException)
+  {
+    std::cerr << "std exception caught:\n" << stdException.what() << '\n';
+  }
+  catch (...)
+  {
+    std::cerr << "Unhandled exception!\n";
+  }
+  return EXIT_FAILURE;
 }

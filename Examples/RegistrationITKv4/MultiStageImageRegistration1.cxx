@@ -170,9 +170,10 @@ public:
 private:
   unsigned int m_CumulativeIterationIndex{ 0 };
 };
-
+namespace
+{
 int
-main(int argc, char * argv[])
+ExampleMain(int argc, char * argv[])
 {
   if (argc < 4)
   {
@@ -185,6 +186,7 @@ main(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
+
   constexpr unsigned int Dimension = 2;
   using PixelType = float;
 
@@ -195,21 +197,21 @@ main(int argc, char * argv[])
   //
   //  In a multistage scenario, each stage needs an individual instantiation
   //  of the \doxygen{ImageRegistrationMethodv4}, so each stage can possibly
-  //  have a different transform, a different optimizer, and a different image
-  //  metric and can be performed in multiple levels.
-  //  The configuration of the registration method at each stage closely
-  //  follows the procedure in the previous section.
+  //  have a different transform, a different optimizer, and a different
+  //  image metric and can be performed in multiple levels. The
+  //  configuration of the registration method at each stage closely follows
+  //  the procedure in the previous section.
   //
   //  In early stages we can use simpler transforms and more aggressive
   //  optimization parameters to take big steps toward the optimal value.
-  //  Then, at the final stage we can have a more complex transform to do fine
-  //  adjustments of the final parameters.
+  //  Then, at the final stage we can have a more complex transform to do
+  //  fine adjustments of the final parameters.
   //
   //  A possible scheme is to use a simple translation transform for initial
   //  coarse registration levels and upgrade to an affine transform at the
   //  finer level.
-  //  Since we have two different types of transforms, we can use a multistage
-  //  registration approach as shown in the current example.
+  //  Since we have two different types of transforms, we can use a
+  //  multistage registration approach as shown in the current example.
   //
   //  First we need to configure the registration components of the initial
   //  stage. The instantiation of the transform type requires only the
@@ -247,7 +249,8 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  Then, all the components are instantiated using their \code{New()}
-  //  method and connected to the registration object as in previous examples.
+  //  method and connected to the registration object as in previous
+  //  examples.
   //
   //  Software Guide : EndLatex
 
@@ -278,8 +281,8 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  After setting the initial parameters, the initial transform can be
-  //  passed to the registration filter by \code{SetMovingInitialTransform()}
-  //  method.
+  //  passed to the registration filter by
+  //  \code{SetMovingInitialTransform()} method.
   //
   //  \index{itk::Image\-Registration\-Methodv4!SetMovingInitialTransform()}
   //
@@ -393,20 +396,13 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  try
-  {
-    transRegistration->Update();
-    std::cout
-      << "Optimizer stop condition: "
-      << transRegistration->GetOptimizer()->GetStopConditionDescription()
-      << std::endl;
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cout << "ExceptionObject caught !" << std::endl;
-    std::cout << err << std::endl;
-    return EXIT_FAILURE;
-  }
+
+  transRegistration->Update();
+  std::cout
+    << "Optimizer stop condition: "
+    << transRegistration->GetOptimizer()->GetStopConditionDescription()
+    << std::endl;
+
 
   compositeTransform->AddTransform(
     transRegistration->GetModifiableTransform());
@@ -449,7 +445,8 @@ main(int argc, char * argv[])
   // Software Guide : BeginLatex
   //
   //  Again all the components are instantiated using their \code{New()}
-  //  method and connected to the registration object like in previous stages.
+  //  method and connected to the registration object like in previous
+  //  stages.
   //
   // Software Guide : EndLatex
 
@@ -462,9 +459,9 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  //  The current stage can be initialized using the initial transform of the
-  //  registration and the result transform of the previous stage, so that
-  //  both are concatenated into the composite transform.
+  //  The current stage can be initialized using the initial transform of
+  //  the registration and the result transform of the previous stage, so
+  //  that both are concatenated into the composite transform.
   //
   // Software Guide : EndLatex
 
@@ -494,19 +491,20 @@ main(int argc, char * argv[])
   //  parameters set, which are set by default to [0, 0].
   //  However, consider a situation where the
   //  origin of the virtual space, in which the registration is run, is far
-  //  away from the zero origin. In such cases, leaving the center of rotation
-  //  as the default value can make the optimization process unstable.
-  //  Therefore, we are always interested to set the center of rotation to the
-  //  center of virtual space which is usually the fixed image space.
+  //  away from the zero origin. In such cases, leaving the center of
+  //  rotation as the default value can make the optimization process
+  //  unstable. Therefore, we are always interested to set the center of
+  //  rotation to the center of virtual space which is usually the fixed
+  //  image space.
   //
   //  Note that either center of gravity or geometrical center can be used
   //  as the center of rotation. In this example center of rotation is set
   //  to the geometrical center of the fixed image. We could also use
   //  \doxygen{ImageMomentsCalculator} filter to compute the center of mass.
   //
-  //  Based on the above discussion, the user must set the fixed parameters of
-  //  the registration transform outside of the registration method, so first
-  //  we instantiate an object of the output transform type.
+  //  Based on the above discussion, the user must set the fixed parameters
+  //  of the registration transform outside of the registration method, so
+  //  first we instantiate an object of the output transform type.
   //
   // Software Guide : EndLatex
 
@@ -551,11 +549,12 @@ main(int argc, char * argv[])
   //  Then, the initialized output transform should be connected to
   //  the registration object by using \code{SetInitialTransform()} method.
   //
-  //  It is important to distinguish between the \code{SetInitialTransform()}
-  //  and \code{SetMovingInitialTransform()} that was used to initialize the
-  //  registration stage based on the results of the previous stages.
-  //  You can assume that the first one is used for direct manipulation of the
-  //  optimizable transform in current registration process.
+  //  It is important to distinguish between the
+  //  \code{SetInitialTransform()} and \code{SetMovingInitialTransform()}
+  //  that was used to initialize the registration stage based on the
+  //  results of the previous stages. You can assume that the first one is
+  //  used for direct manipulation of the optimizable transform in current
+  //  registration process.
   //
   // Software Guide : EndLatex
 
@@ -565,33 +564,33 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  The set of optimizable parameters in the Affine transform have different
-  //  dynamic ranges. Typically the parameters associated with the matrix
-  //  have values around $[-1:1]$, although they are not restricted to this
-  //  interval.  Parameters associated with translations, on the other hand,
-  //  tend to have much higher values, typically on the order of $10.0$ to
-  //  $100.0$. This difference in dynamic range negatively affects the
-  //  performance of gradient descent optimizers. ITK provides some mechanisms
-  //  to compensate for such differences in values among the parameters when
-  //  they are passed to the optimizer.
+  //  The set of optimizable parameters in the Affine transform have
+  //  different dynamic ranges. Typically the parameters associated with the
+  //  matrix have values around $[-1:1]$, although they are not restricted
+  //  to this interval.  Parameters associated with translations, on the
+  //  other hand, tend to have much higher values, typically on the order of
+  //  $10.0$ to $100.0$. This difference in dynamic range negatively affects
+  //  the performance of gradient descent optimizers. ITK provides some
+  //  mechanisms to compensate for such differences in values among the
+  //  parameters when they are passed to the optimizer.
   //
   //  The first mechanism consists of providing an
-  //  array of scale factors to the optimizer. These factors re-normalize the
-  //  gradient components before they are used to compute the step of the
-  //  optimizer at the current iteration.
-  //  These scales are estimated by the user intuitively as shown in previous
-  //  examples of this chapter. In our particular case, a common choice
-  //  for the scale parameters is to set all those associated
-  //  with the matrix coefficients to $1.0$, that is, the first $N \times N$
-  //  factors. Then, we set the remaining scale factors to a small value.
+  //  array of scale factors to the optimizer. These factors re-normalize
+  //  the gradient components before they are used to compute the step of
+  //  the optimizer at the current iteration. These scales are estimated by
+  //  the user intuitively as shown in previous examples of this chapter. In
+  //  our particular case, a common choice for the scale parameters is to
+  //  set all those associated with the matrix coefficients to $1.0$, that
+  //  is, the first $N \times N$ factors. Then, we set the remaining scale
+  //  factors to a small value.
   //
   //  Software Guide : EndLatex
 
   //  Software Guide : BeginLatex
   //
-  //  Here the affine transform is represented by the matrix $\bf{M}$ and the
-  //  vector $\bf{T}$. The transformation of a point $\bf{P}$ into $\bf{P'}$
-  //  is expressed as
+  //  Here the affine transform is represented by the matrix $\bf{M}$ and
+  //  the vector $\bf{T}$. The transformation of a point $\bf{P}$ into
+  //  $\bf{P'}$ is expressed as
   //
   //  \begin{equation}
   //  \left[
@@ -621,21 +620,23 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  Based on the above discussion, we need much smaller scales for
-  //  translation parameters of vector $\bf{T}$ ($T_x$, $T_y$) compared to the
-  //  parameters of matrix $\bf{M}$ ($M_{11}$, $M_{12}$, $M_{21}$, $M_{22}$).
-  //  However, it is not easy to have an intuitive estimation of all parameter
-  //  scales when we have to deal with a large parameter space.
+  //  translation parameters of vector $\bf{T}$ ($T_x$, $T_y$) compared to
+  //  the parameters of matrix $\bf{M}$ ($M_{11}$, $M_{12}$, $M_{21}$,
+  //  $M_{22}$). However, it is not easy to have an intuitive estimation of
+  //  all parameter scales when we have to deal with a large parameter
+  //  space.
   //
-  //  Fortunately, ITKv4 provides a framework for automated parameter scaling.
+  //  Fortunately, ITKv4 provides a framework for automated parameter
+  //  scaling.
   //  \doxygen{RegistrationParameterScalesEstimator} vastly reduces the
   //  difficulty of tuning parameters for different transform/metric
-  //  combinations. Parameter scales are estimated by analyzing the result of
-  //  a small parameter update on the change in the magnitude of physical
+  //  combinations. Parameter scales are estimated by analyzing the result
+  //  of a small parameter update on the change in the magnitude of physical
   //  space deformation induced by the transformation.
   //
-  //  The impact from a unit change of a parameter may be defined in multiple
-  //  ways, such as the maximum shift of voxels in index or physical space, or
-  //  the average norm of transform Jacobian. Filters
+  //  The impact from a unit change of a parameter may be defined in
+  //  multiple ways, such as the maximum shift of voxels in index or
+  //  physical space, or the average norm of transform Jacobian. Filters
   //  \doxygen{RegistrationParameterScalesFromPhysicalShift} and
   //  \doxygen{RegistrationParameterScalesFromIndexShift} use the first
   //  definition to estimate the scales, while the
@@ -662,18 +663,18 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  The step length has to be proportional to the expected values of the
-  //  parameters in the search space. Since the expected values of the matrix
-  //  coefficients are around $1.0$, the initial step of the optimization
-  //  should be a small number compared to $1.0$. As a guideline, it is
-  //  useful to think of the matrix coefficients as combinations of
-  //  $cos(\theta)$ and $sin(\theta)$.  This leads to use values close to the
-  //  expected rotation measured in radians. For example, a rotation of $1.0$
-  //  degree is about $0.017$ radians.
+  //  parameters in the search space. Since the expected values of the
+  //  matrix coefficients are around $1.0$, the initial step of the
+  //  optimization should be a small number compared to $1.0$. As a
+  //  guideline, it is useful to think of the matrix coefficients as
+  //  combinations of $cos(\theta)$ and $sin(\theta)$.  This leads to use
+  //  values close to the expected rotation measured in radians. For
+  //  example, a rotation of $1.0$ degree is about $0.017$ radians.
   //
   //  However, we need not worry about the above considerations.
-  //  Thanks to the \emph{ScalesEstimator}, the initial step size can also be
-  //  estimated automatically, either at each iteration or only at the first
-  //  iteration. In this example we choose to estimate learning rate
+  //  Thanks to the \emph{ScalesEstimator}, the initial step size can also
+  //  be estimated automatically, either at each iteration or only at the
+  //  first iteration. In this example we choose to estimate learning rate
   //  once at the beginning of the registration process.
   //
   //  Software Guide : EndLatex
@@ -698,9 +699,9 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  At the second stage, we run two levels of registration, where the second
-  //  level is run in full resolution in which we do the final adjustments
-  //  of the output parameters.
+  //  At the second stage, we run two levels of registration, where the
+  //  second level is run in full resolution in which we do the final
+  //  adjustments of the output parameters.
   //
   //  Software Guide : EndLatex
 
@@ -741,20 +742,12 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  try
-  {
-    affineRegistration->Update();
-    std::cout
-      << "Optimizer stop condition: "
-      << affineRegistration->GetOptimizer()->GetStopConditionDescription()
-      << std::endl;
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cout << "ExceptionObject caught !" << std::endl;
-    std::cout << err << std::endl;
-    return EXIT_FAILURE;
-  }
+
+  affineRegistration->Update();
+  std::cout
+    << "Optimizer stop condition: "
+    << affineRegistration->GetOptimizer()->GetStopConditionDescription()
+    << std::endl;
 
   compositeTransform->AddTransform(
     affineRegistration->GetModifiableTransform());
@@ -784,14 +777,14 @@ main(int argc, char * argv[])
   //  \end{itemize}
   //
   //  The second image is the result of intentionally rotating the first
-  //  image by $10$ degrees and then translating by $(-13,-17)$.  Both images
-  //  have unit-spacing and are shown in Figure
+  //  image by $10$ degrees and then translating by $(-13,-17)$.  Both
+  //  images have unit-spacing and are shown in Figure
   //  \ref{fig:FixedMovingMultiStageImageRegistration1}.
   //
   //  The registration converges after $5$ iterations in the translation
-  //  stage. Also, in the second stage, the registration converges after $46$
-  //  iterations in the first level, and $6$ iterations in the second level.
-  //  The final results when printed as an array of parameters are:
+  //  stage. Also, in the second stage, the registration converges after
+  //  $46$ iterations in the first level, and $6$ iterations in the second
+  //  level. The final results when printed as an array of parameters are:
   //
   //  \begin{verbatim}
   //  Initial parameters of the registration process:
@@ -826,16 +819,17 @@ main(int argc, char * argv[])
   //  \end{equation}
   //
   //  In this form, it is easier to interpret the effect of the
-  //  transform. The matrix $\bf{M}$ is responsible for scaling, rotation and
-  //  shearing while $\bf{T}$ is responsible for translations.
+  //  transform. The matrix $\bf{M}$ is responsible for scaling, rotation
+  //  and shearing while $\bf{T}$ is responsible for translations.
   //
   //  The second component of the matrix values is usually associated with
   //  $\sin{\theta}$. We obtain the rotation through SVD of the affine
   //  matrix. The value is $9.975$ degrees, which is approximately the
   //  intentional misalignment of $10.0$ degrees.
   //
-  //  Also, let's compute the total translation values resulting from initial
-  //  transform, translation transform, and the Affine transform together.
+  //  Also, let's compute the total translation values resulting from
+  //  initial transform, translation transform, and the Affine transform
+  //  together.
   //
   //  In $X$ direction:
   //  \begin{equation}
@@ -851,18 +845,20 @@ main(int argc, char * argv[])
   //
   //  It is important to note that once the images are registered at a
   //  sub-pixel level, any further improvement of the registration relies
-  //  heavily on the quality of the interpolator. It may then be reasonable to
-  //  use a coarse and fast interpolator in the lower resolution levels and
-  //  switch to a high-quality but slow interpolator in the final resolution
-  //  level. However, in this example we used a linear interpolator for all
-  //  stages and different registration levels since it is so fast.
+  //  heavily on the quality of the interpolator. It may then be reasonable
+  //  to use a coarse and fast interpolator in the lower resolution levels
+  //  and switch to a high-quality but slow interpolator in the final
+  //  resolution level. However, in this example we used a linear
+  //  interpolator for all stages and different registration levels since it
+  //  is so fast.
   //
   // \begin{figure}
   // \center
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceBorder20}
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceR10X13Y17}
   // \itkcaption[AffineTransform registration]{Fixed and moving images
-  // provided as input to the registration method using the AffineTransform.}
+  // provided as input to the registration method using the
+  // AffineTransform.}
   // \label{fig:FixedMovingMultiStageImageRegistration1}
   // \end{figure}
   //
@@ -909,10 +905,10 @@ main(int argc, char * argv[])
   // \label{fig:MultiStageImageRegistration1Outputs}
   // \end{figure}
   //
-  //  The result of resampling the moving image is presented in the left image
-  //  of Figure \ref{fig:MultiStageImageRegistration1Outputs}. The center and
-  //  right images of the figure depict a checkerboard composite of the fixed
-  //  and moving images before and after registration.
+  //  The result of resampling the moving image is presented in the left
+  //  image of Figure \ref{fig:MultiStageImageRegistration1Outputs}. The
+  //  center and right images of the figure depict a checkerboard composite
+  //  of the fixed and moving images before and after registration.
   //
   //  Software Guide : EndLatex
 
@@ -931,15 +927,9 @@ main(int argc, char * argv[])
   // Before registration
   using TransformType = itk::IdentityTransform<double, Dimension>;
   TransformType::Pointer identityTransform;
-  try
-  {
-    identityTransform = TransformType::New();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    err.Print(std::cerr);
-    return EXIT_FAILURE;
-  }
+
+  identityTransform = TransformType::New();
+
   identityTransform->SetIdentity();
   resample->SetTransform(identityTransform);
 
@@ -954,6 +944,29 @@ main(int argc, char * argv[])
   {
     itk::WriteImage(caster->GetOutput(), argv[6]);
   }
+}
+return EXIT_SUCCESS;
+}
+}
 
-  return EXIT_SUCCESS;
+int
+main(int argc, const char * argv[])
+{
+  try
+  {
+    return ExampleMain(argc, argv);
+  }
+  catch (const itk::ExceptionObject & exceptionObject)
+  {
+    std::cerr << "ITK exception caught:\n" << exceptionObject << '\n';
+  }
+  catch (const std::exception & stdException)
+  {
+    std::cerr << "std exception caught:\n" << stdException.what() << '\n';
+  }
+  catch (...)
+  {
+    std::cerr << "Unhandled exception!\n";
+  }
+  return EXIT_FAILURE;
 }

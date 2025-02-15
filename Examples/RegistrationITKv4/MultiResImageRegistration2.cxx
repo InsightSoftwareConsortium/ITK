@@ -166,8 +166,11 @@ public:
   }
 };
 
+namespace
+{
+
 int
-main(int argc, char * argv[])
+ExampleMain(int argc, char * argv[])
 {
   if (argc < 4)
   {
@@ -193,10 +196,10 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  The configuration of the registration method in this example closely
-  //  follows the procedure in the previous section. The main changes involve
-  //  the construction and initialization of the transform. The instantiation
-  //  of the transform type requires only the dimension of the space and the
-  //  type used for representing space coordinates.
+  //  follows the procedure in the previous section. The main changes
+  //  involve the construction and initialization of the transform. The
+  //  instantiation of the transform type requires only the dimension of the
+  //  space and the type used for representing space coordinates.
   //
   //  \index{itk::AffineTransform!Instantiation}
   //
@@ -230,8 +233,8 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  The transform is constructed using the standard \code{New()} method and
-  //  assigning it to a SmartPointer.
+  //  The transform is constructed using the standard \code{New()} method
+  //  and assigning it to a SmartPointer.
   //
   //  \index{itk::AffineTransform!New()}
   //  \index{itk::AffineTransform!Pointer}
@@ -267,11 +270,12 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  One of the easiest ways of preparing a consistent set of parameters for
-  //  the transform is to use the \doxygen{CenteredTransformInitializer}. Once
-  //  the transform is initialized, we can invoke its \code{GetParameters()}
-  //  method to extract the array of parameters. Finally the array is passed
-  //  to the registration method using its
+  //  One of the easiest ways of preparing a consistent set of parameters
+  //  for the transform is to use the
+  //  \doxygen{CenteredTransformInitializer}. Once the transform is
+  //  initialized, we can invoke its \code{GetParameters()} method to
+  //  extract the array of parameters. Finally the array is passed to the
+  //  registration method using its
   //  \code{SetInitialTransformParameters()} method.
   //
   //  Software Guide : EndLatex
@@ -298,16 +302,16 @@ main(int argc, char * argv[])
   //  interval.  Parameters associated with translations, on the other hand,
   //  tend to have much higher values, typically in the order of $10.0$ to
   //  $100.0$. This difference in dynamic range negatively affects the
-  //  performance of gradient descent optimizers. ITK provides a mechanism to
-  //  compensate for such differences in values among the parameters when
-  //  they are passed to the optimizer. The mechanism consists of providing an
-  //  array of scale factors to the optimizer. These factors re-normalize the
-  //  gradient components before they are used to compute the step of the
-  //  optimizer at the current iteration. In our particular case, a common
-  //  choice for the scale parameters is to set to $1.0$ all those associated
-  //  with the matrix coefficients, that is, the first $N \times N$
-  //  factors. Then, we set the remaining scale factors to a small value. The
-  //  following code sets up the scale coefficients.
+  //  performance of gradient descent optimizers. ITK provides a mechanism
+  //  to compensate for such differences in values among the parameters when
+  //  they are passed to the optimizer. The mechanism consists of providing
+  //  an array of scale factors to the optimizer. These factors re-normalize
+  //  the gradient components before they are used to compute the step of
+  //  the optimizer at the current iteration. In our particular case, a
+  //  common choice for the scale parameters is to set to $1.0$ all those
+  //  associated with the matrix coefficients, that is, the first $N \times
+  //  N$ factors. Then, we set the remaining scale factors to a small value.
+  //  The following code sets up the scale coefficients.
   //
   //  Software Guide : EndLatex
 
@@ -325,9 +329,9 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  Here the affine transform is represented by the matrix $\bf{M}$ and the
-  //  vector $\bf{T}$. The transformation of a point $\bf{P}$ into $\bf{P'}$
-  //  is expressed as
+  //  Here the affine transform is represented by the matrix $\bf{M}$ and
+  //  the vector $\bf{T}$. The transformation of a point $\bf{P}$ into
+  //  $\bf{P'}$ is expressed as
   //
   //  \begin{equation}
   //  \left[
@@ -410,14 +414,15 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  The step length has to be proportional to the expected values of the
-  //  parameters in the search space. Since the expected values of the matrix
-  //  coefficients are around $1.0$, the initial step of the optimization
-  //  should be a small number compared to $1.0$. As a guideline, it is
-  //  useful to think of the matrix coefficients as combinations of
-  //  $cos(\theta)$ and $sin(\theta)$.  This leads to use values close to the
-  //  expected rotation measured in radians. For example, a rotation of $1.0$
-  //  degree is about $0.017$ radians. As in the previous example, the
-  //  maximum and minimum step length of the optimizer are set by the
+  //  parameters in the search space. Since the expected values of the
+  //  matrix coefficients are around $1.0$, the initial step of the
+  //  optimization should be a small number compared to $1.0$. As a
+  //  guideline, it is useful to think of the matrix coefficients as
+  //  combinations of $cos(\theta)$ and $sin(\theta)$.  This leads to use
+  //  values close to the expected rotation measured in radians. For
+  //  example, a rotation of $1.0$ degree is about $0.017$ radians. As in
+  //  the previous example, the maximum and minimum step length of the
+  //  optimizer are set by the
   //  \code{RegistrationInterfaceCommand} when it is called at the beginning
   //  of registration at each multi-resolution level.
   //
@@ -431,26 +436,20 @@ main(int argc, char * argv[])
   auto observer = CommandIterationUpdate::New();
   optimizer->AddObserver(itk::IterationEvent(), observer);
 
-  // Create the Command interface observer and register it with the optimizer.
+  // Create the Command interface observer and register it with the
+  // optimizer.
   //
   using CommandType = RegistrationInterfaceCommand<RegistrationType>;
   auto command = CommandType::New();
   registration->AddObserver(itk::IterationEvent(), command);
   registration->SetNumberOfLevels(3);
 
-  try
-  {
-    registration->Update();
-    std::cout << "Optimizer stop condition: "
-              << registration->GetOptimizer()->GetStopConditionDescription()
-              << std::endl;
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cout << "ExceptionObject caught !" << std::endl;
-    std::cout << err << std::endl;
-    return EXIT_FAILURE;
-  }
+
+  registration->Update();
+  std::cout << "Optimizer stop condition: "
+            << registration->GetOptimizer()->GetStopConditionDescription()
+            << std::endl;
+
 
   std::cout << "Optimizer Stopping Condition = "
             << optimizer->GetStopCondition() << std::endl;
@@ -484,8 +483,8 @@ main(int argc, char * argv[])
   // [1.00164, 0.00147688, 0.00168372, 1.0027, 12.6296, 16.4768]
   //  \end{verbatim}
   //
-  //  By reordering them as coefficient of matrix $\bf{M}$ and vector $\bf{T}$
-  //  they can now be seen as
+  //  By reordering them as coefficient of matrix $\bf{M}$ and vector
+  //  $\bf{T}$ they can now be seen as
   //
   //  \begin{equation}
   //  M =
@@ -502,17 +501,17 @@ main(int argc, char * argv[])
   //  \end{equation}
   //
   //  In this form, it is easier to interpret the effect of the
-  //  transform. The matrix $\bf{M}$ is responsible for scaling, rotation and
-  //  shearing while $\bf{T}$ is responsible for translations.  It can be seen
-  //  that the translation values in this case closely match the true
-  //  misalignment introduced in the moving image.
+  //  transform. The matrix $\bf{M}$ is responsible for scaling, rotation
+  //  and shearing while $\bf{T}$ is responsible for translations.  It can
+  //  be seen that the translation values in this case closely match the
+  //  true misalignment introduced in the moving image.
   //
   //  It is important to note that once the images are registered at a
   //  sub-pixel level, any further improvement of the registration relies
-  //  heavily on the quality of the interpolator. It may then be reasonable to
-  //  use a coarse and fast interpolator in the lower resolution levels and
-  //  switch to a high-quality but slow interpolator in the final resolution
-  //  level.
+  //  heavily on the quality of the interpolator. It may then be reasonable
+  //  to use a coarse and fast interpolator in the lower resolution levels
+  //  and switch to a high-quality but slow interpolator in the final
+  //  resolution level.
   //
   //  Software Guide : EndLatex
 
@@ -560,13 +559,14 @@ main(int argc, char * argv[])
   // \includegraphics[width=0.32\textwidth]{MultiResImageRegistration2CheckerboardAfter}
   // \itkcaption[Multi-Resolution Registration Input Images]{Mapped moving
   // image (left) and composition of fixed and moving images before (center)
-  // and after (right) multi-resolution registration with the AffineTransform
-  // class.} \label{fig:MultiResImageRegistration2Output} \end{figure}
+  // and after (right) multi-resolution registration with the
+  // AffineTransform class.} \label{fig:MultiResImageRegistration2Output}
+  // \end{figure}
   //
   //  The result of resampling the moving image is shown in the left image
   //  of Figure \ref{fig:MultiResImageRegistration2Output}. The center and
-  //  right images of the figure present a checkerboard composite of the fixed
-  //  and moving images before and after registration.
+  //  right images of the figure present a checkerboard composite of the
+  //  fixed and moving images before and after registration.
   //
   //  Software Guide : EndLatex
 
@@ -584,8 +584,9 @@ main(int argc, char * argv[])
   //
   //  Figure \ref{fig:MultiResImageRegistration2Trace} (left) presents the
   //  sequence of translations followed by the optimizer as it searched the
-  //  parameter space. The right side of the same figure shows the sequence of
-  //  metric values computed as the optimizer explored the parameter space.
+  //  parameter space. The right side of the same figure shows the sequence
+  //  of metric values computed as the optimizer explored the parameter
+  //  space.
   //
   //  Software Guide : EndLatex
 
@@ -622,4 +623,27 @@ main(int argc, char * argv[])
   }
 
   return EXIT_SUCCESS;
+}
+} // namespace
+
+int
+main(int argc, const char * argv[])
+{
+  try
+  {
+    return ExampleMain(argc, argv);
+  }
+  catch (const itk::ExceptionObject & exceptionObject)
+  {
+    std::cerr << "ITK exception caught:\n" << exceptionObject << '\n';
+  }
+  catch (const std::exception & stdException)
+  {
+    std::cerr << "std exception caught:\n" << stdException.what() << '\n';
+  }
+  catch (...)
+  {
+    std::cerr << "Unhandled exception!\n";
+  }
+  return EXIT_FAILURE;
 }
