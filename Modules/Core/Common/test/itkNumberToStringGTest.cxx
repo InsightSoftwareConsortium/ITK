@@ -18,8 +18,8 @@
 
 // First include the header file to be tested:
 #include "itkNumberToString.h"
+#include "itkMath.h"
 #include <gtest/gtest.h>
-#include <cmath> // For std::pow.
 
 namespace
 {
@@ -91,22 +91,22 @@ Test_decimal_notation_supports_up_to_twentyone_digits()
   const itk::NumberToString<TValue> numberToString{};
   const auto                        message = std::string("Floating point type: ") + floatingPointTypeName<TValue>;
 
-  for (int8_t exponent{ 20 }; exponent > 0; --exponent)
+  for (uint64_t exponent{ 20 }; exponent > 0; --exponent)
   {
-    const TValue power_of_ten{ std::pow(TValue{ 10 }, static_cast<TValue>(exponent)) };
+    const TValue power_of_ten{ static_cast<TValue>(itk::Math::UnsignedPower(10, exponent - 1)) * TValue{ 10 } };
 
     // Test +/- 10 ^ exponent
     EXPECT_EQ(numberToString(power_of_ten), '1' + std::string(exponent, '0')) << message;
     EXPECT_EQ(numberToString(-power_of_ten), "-1" + std::string(exponent, '0')) << message;
   }
 
-  for (int8_t exponent{ -6 }; exponent < 0; ++exponent)
+  for (uint64_t exponent{ 6 }; exponent > 0; --exponent)
   {
-    const TValue power_of_ten{ std::pow(TValue{ 10 }, static_cast<TValue>(exponent)) };
+    const TValue power_of_ten{ TValue{ 1 } / static_cast<TValue>(itk::Math::UnsignedPower(10, exponent)) };
 
-    // Test +/- 10 ^ exponent
-    EXPECT_EQ(numberToString(power_of_ten), "0." + std::string(-1 - exponent, '0') + '1') << message;
-    EXPECT_EQ(numberToString(-power_of_ten), "-0." + std::string(-1 - exponent, '0') + '1') << message;
+    // Test +/- 10 ^ -exponent
+    EXPECT_EQ(numberToString(power_of_ten), "0." + std::string(exponent - 1, '0') + '1') << message;
+    EXPECT_EQ(numberToString(-power_of_ten), "-0." + std::string(exponent - 1, '0') + '1') << message;
   }
 }
 
