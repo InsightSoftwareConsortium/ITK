@@ -143,7 +143,7 @@ IterativeInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::Generat
         smallestError = 0;
         for (unsigned int j = 0; j < ImageDimension; ++j)
         {
-          smallestError += std::pow(mappedPoint[j] + forwardVector[j] - originalPoint[j], 2);
+          smallestError += Math::sqr(mappedPoint[j] + forwardVector[j] - originalPoint[j]);
         }
         smallestError = std::sqrt(smallestError);
       }
@@ -167,7 +167,7 @@ IterativeInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::Generat
             double                      tmp = 0;
             for (unsigned int l = 0; l < ImageDimension; ++l)
             {
-              tmp += std::pow(mappedPoint[l] + forwardVector[l] - originalPoint[l], 2);
+              tmp += Math::sqr(mappedPoint[l] + forwardVector[l] - originalPoint[l]);
             }
             tmp = std::sqrt(tmp);
             if (tmp < smallestError)
@@ -187,7 +187,7 @@ IterativeInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::Generat
             double                      tmp = 0;
             for (unsigned int l = 0; l < ImageDimension; ++l)
             {
-              tmp += std::pow(mappedPoint[l] + forwardVector[l] - originalPoint[l], 2);
+              tmp += Math::sqr(mappedPoint[l] + forwardVector[l] - originalPoint[l]);
             }
             tmp = std::sqrt(tmp);
             if (tmp < smallestError)

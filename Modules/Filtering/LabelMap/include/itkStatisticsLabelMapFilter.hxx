@@ -128,7 +128,7 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>::ThreadedProcessLabelObject(Labe
 
     // increase the sums
     sum += v;
-    sum2 += std::pow(static_cast<double>(v), 2);
+    sum2 += Math::sqr(static_cast<double>(v));
     sum3 += std::pow(static_cast<double>(v), 3);
     sum4 += std::pow(static_cast<double>(v), 4);
 
@@ -154,7 +154,7 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>::ThreadedProcessLabelObject(Labe
   const double                                          mean = sum / totalFreq;
   // Note that totalFreq could be 1. Stats on a population of size 1 are not useful.
   // We protect against dividing by 0 in that case.
-  const double variance = (totalFreq > 1) ? (sum2 - (std::pow(sum, 2) / totalFreq)) / (totalFreq - 1) : 0;
+  const double variance = (totalFreq > 1) ? (sum2 - (Math::sqr(sum) / totalFreq)) / (totalFreq - 1) : 0;
   const double sigma = std::sqrt(variance);
   const double mean2 = mean * mean;
   double       skewness;

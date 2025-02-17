@@ -18,6 +18,8 @@
 #ifndef itkTorusInteriorExteriorSpatialFunction_hxx
 #define itkTorusInteriorExteriorSpatialFunction_hxx
 
+#include "itkMath.h"
+
 
 namespace itk
 {
@@ -29,7 +31,7 @@ TorusInteriorExteriorSpatialFunction<VDimension, TInput>::Evaluate(const InputTy
   const double y = position[1] - m_Origin[1];
   const double z = position[2] - m_Origin[2];
 
-  const double k = std::pow(m_MajorRadius - std::sqrt(x * x + y * y), 2.0) + z * z;
+  const double k = Math::sqr(m_MajorRadius - std::sqrt(x * x + y * y)) + z * z;
 
   if (k <= (m_MinorRadius * m_MinorRadius))
   {
