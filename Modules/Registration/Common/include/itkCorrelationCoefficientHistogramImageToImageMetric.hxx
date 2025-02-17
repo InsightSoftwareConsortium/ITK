@@ -18,6 +18,7 @@
 #ifndef itkCorrelationCoefficientHistogramImageToImageMetric_hxx
 #define itkCorrelationCoefficientHistogramImageToImageMetric_hxx
 
+#include "itkMath.h"
 
 namespace itk
 {
@@ -81,10 +82,10 @@ CorrelationCoefficientHistogramImageToImageMetric<TFixedImage, TMovingImage>::Va
   for (unsigned int i = 0; i < this->m_HistogramSize[0]; ++i)
   {
     varX += static_cast<double>(histogram.GetFrequency(i, 0)) / histogram.GetTotalFrequency() *
-            std::pow(histogram.GetMeasurement(i, 0), 2);
+            Math::sqr(histogram.GetMeasurement(i, 0));
   }
 
-  return varX - std::pow(MeanX(histogram), 2);
+  return varX - Math::sqr(MeanX(histogram));
 }
 
 template <typename TFixedImage, typename TMovingImage>
@@ -97,10 +98,10 @@ CorrelationCoefficientHistogramImageToImageMetric<TFixedImage, TMovingImage>::Va
   for (unsigned int i = 0; i < this->m_HistogramSize[1]; ++i)
   {
     varY += static_cast<double>(histogram.GetFrequency(i, 1)) / histogram.GetTotalFrequency() *
-            std::pow(histogram.GetMeasurement(i, 1), 2);
+            Math::sqr(histogram.GetMeasurement(i, 1));
   }
 
-  return varY - std::pow(MeanY(histogram), 2);
+  return varY - Math::sqr(MeanY(histogram));
 }
 
 template <typename TFixedImage, typename TMovingImage>

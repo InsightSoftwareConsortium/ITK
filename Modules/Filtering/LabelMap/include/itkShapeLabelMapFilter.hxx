@@ -475,7 +475,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ComputeFeretDiameter(LabelObjectType *
       for (unsigned int i = 0; i < ImageDimension; ++i)
       {
         const OffsetValueType indexDifference = (iIt1->operator[](i) - iIt2->operator[](i));
-        length += std::pow(indexDifference * spacing[i], 2);
+        length += Math::sqr(indexDifference * spacing[i]);
       }
       if (feretDiameter < length)
       {

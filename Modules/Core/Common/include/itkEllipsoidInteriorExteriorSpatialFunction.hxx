@@ -18,6 +18,7 @@
 #ifndef itkEllipsoidInteriorExteriorSpatialFunction_hxx
 #define itkEllipsoidInteriorExteriorSpatialFunction_hxx
 
+#include "itkMath.h"
 #include <cmath>
 
 namespace itk
@@ -43,8 +44,7 @@ EllipsoidInteriorExteriorSpatialFunction<VDimension, TInput>::Evaluate(const Inp
     {
       orientationVector[j] = m_Orientations[i][j];
     }
-    distanceSquared +=
-      std::pow(static_cast<double>((orientationVector * pointVector) / (.5 * m_Axes[i])), static_cast<double>(2));
+    distanceSquared += Math::sqr(static_cast<double>((orientationVector * pointVector) / (.5 * m_Axes[i])));
   }
 
   if (distanceSquared <= 1)

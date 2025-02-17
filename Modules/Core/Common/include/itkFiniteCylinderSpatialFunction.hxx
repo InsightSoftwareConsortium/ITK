@@ -19,6 +19,7 @@
 #define itkFiniteCylinderSpatialFunction_hxx
 
 #include "itkFloatingPointExceptions.h"
+#include "itkMath.h"
 #include <cmath>
 
 namespace itk
@@ -102,7 +103,7 @@ FiniteCylinderSpatialFunction<VDimension, TInput>::Evaluate(const InputType & po
   }
 
   if (itk::Math::abs(distanceFromCenter) <= (halfAxisLength) &&
-      m_Radius >= std::sqrt(std::pow(pointVector.GetNorm(), 2.0) - std::pow(distanceFromCenter, 2.0)))
+      m_Radius >= std::sqrt(Math::sqr(pointVector.GetNorm()) - Math::sqr(distanceFromCenter)))
   {
     return 1;
   }

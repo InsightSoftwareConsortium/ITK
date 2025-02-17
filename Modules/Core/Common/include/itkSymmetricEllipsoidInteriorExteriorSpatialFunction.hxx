@@ -18,6 +18,7 @@
 #ifndef itkSymmetricEllipsoidInteriorExteriorSpatialFunction_hxx
 #define itkSymmetricEllipsoidInteriorExteriorSpatialFunction_hxx
 
+#include "itkMath.h"
 #include <cmath>
 
 namespace itk
@@ -48,11 +49,9 @@ SymmetricEllipsoidInteriorExteriorSpatialFunction<VDimension, TInput>::Evaluate(
     pointVector[i] = position[i] - m_Center[i];
   }
 
-  uniqueTerm =
-    std::pow(static_cast<double>(((pointVector * m_Orientation) / (.5 * m_UniqueAxis))), static_cast<double>(2));
+  uniqueTerm = Math::sqr(static_cast<double>(((pointVector * m_Orientation) / (.5 * m_UniqueAxis))));
   symmetricVector = pointVector - (m_Orientation * (pointVector * m_Orientation));
-  symmetricTerm =
-    std::pow(static_cast<double>(((symmetricVector.GetNorm()) / (.5 * m_SymmetricAxes))), static_cast<double>(2));
+  symmetricTerm = Math::sqr(static_cast<double>(((symmetricVector.GetNorm()) / (.5 * m_SymmetricAxes))));
 
   if ((uniqueTerm + symmetricTerm) >= 0 && (uniqueTerm + symmetricTerm) <= 1)
   {
