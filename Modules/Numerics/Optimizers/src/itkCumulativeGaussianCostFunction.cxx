@@ -50,7 +50,7 @@ CumulativeGaussianCostFunction::CalculateFitError(MeasureType * setTestArray)
   double fitError = 0.0;
   for (int i = 0; i < static_cast<int>(numberOfElements); ++i)
   {
-    fitError += std::pow((setTestArray->get(i) - m_OriginalDataArray.get(i)), 2);
+    fitError += Math::sqr(setTestArray->get(i) - m_OriginalDataArray.get(i));
   }
   return (std::sqrt((1 / numberOfElements) * fitError));
 }

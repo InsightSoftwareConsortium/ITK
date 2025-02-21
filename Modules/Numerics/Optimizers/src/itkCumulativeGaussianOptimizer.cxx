@@ -57,7 +57,7 @@ CumulativeGaussianOptimizer::ExtendGaussian(MeasureType * originalArray,
 
   for (int i = 0; i < static_cast<int>(extendedArray->GetNumberOfElements()); ++i)
   {
-    extendedArray->put(i, amplitude * std::exp(-(std::pow((i - mean), 2) / (2 * std::pow(sd, 2)))));
+    extendedArray->put(i, amplitude * std::exp(-(Math::sqr(i - mean) / (2 * Math::sqr(sd)))));
   }
   // Then insert the originalArray over the middle section of extendedArray.
   for (int i = 0; i < static_cast<int>(originalArray->GetNumberOfElements()); ++i)
@@ -185,7 +185,7 @@ CumulativeGaussianOptimizer::MeasureGaussianParameters(MeasureType * array)
   // Calculate the standard deviation
   for (int i = 0; i < static_cast<int>(array->GetNumberOfElements()); ++i)
   {
-    m_ComputedStandardDeviation += array->get(i) * std::pow((i - m_ComputedMean), 2);
+    m_ComputedStandardDeviation += array->get(i) * Math::sqr(i - m_ComputedMean);
   }
   m_ComputedStandardDeviation = std::sqrt(m_ComputedStandardDeviation / sum);
 
@@ -232,7 +232,7 @@ CumulativeGaussianOptimizer::RecalculateExtendedArrayFromGaussianParameters(Meas
     if (i < startingPointForInsertion ||
         i >= startingPointForInsertion + static_cast<int>(originalArray->GetNumberOfElements()))
     {
-      extendedArray->put(i, amplitude * std::exp(-(std::pow((i - mean), 2) / (2 * std::pow(sd, 2)))));
+      extendedArray->put(i, amplitude * std::exp(-(Math::sqr(i - mean) / (2 * Math::sqr(sd)))));
     }
   }
   return extendedArray;
@@ -283,9 +283,9 @@ CumulativeGaussianOptimizer::StartOptimization()
   // Generate new Gaussian array with final parameters.
   for (int i = 0; i < sampledGaussianArraySize; ++i)
   {
-    sampledGaussianArray->put(i,
-                              m_ComputedAmplitude * std::exp(-(std::pow((i - m_ComputedMean), 2) /
-                                                               (2 * std::pow(m_ComputedStandardDeviation, 2)))));
+    sampledGaussianArray->put(
+      i,
+      m_ComputedAmplitude * std::exp(-(Math::sqr(i - m_ComputedMean) / (2 * Math::sqr(m_ComputedStandardDeviation)))));
   }
   // Add 0.5 to the mean of the sampled Gaussian curve to make up for the 0.5
   // shift during derivation, then take the integral of the Gaussian sample

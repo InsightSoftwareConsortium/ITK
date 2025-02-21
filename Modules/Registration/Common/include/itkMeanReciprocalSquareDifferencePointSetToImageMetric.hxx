@@ -19,6 +19,7 @@
 #define itkMeanReciprocalSquareDifferencePointSetToImageMetric_hxx
 
 #include "itkImageRegionConstIteratorWithIndex.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -51,7 +52,7 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage
   MeasureType measure{};
 
   this->m_NumberOfPixelsCounted = 0;
-  const double lambdaSquared = std::pow(this->m_Lambda, 2);
+  const double lambdaSquared = Math::sqr(this->m_Lambda);
 
   this->SetTransformParameters(parameters);
 
@@ -107,7 +108,7 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage
 
   this->m_NumberOfPixelsCounted = 0;
 
-  const double lambdaSquared = std::pow(this->m_Lambda, 2);
+  const double lambdaSquared = Math::sqr(this->m_Lambda);
 
   this->SetTransformParameters(parameters);
 
@@ -161,7 +162,7 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage
         {
           // Will it be computationally more efficient to instead calculate the
           // derivative using finite differences ?
-          sum -= jacobian(dim, par) * gradient[dim] / (std::pow(lambdaSquared + diffSquared, 2));
+          sum -= jacobian(dim, par) * gradient[dim] / Math::sqr(lambdaSquared + diffSquared);
         }
         derivative[par] += diff * sum;
       }
@@ -207,7 +208,7 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage
   MeasureType measure{};
 
   this->SetTransformParameters(parameters);
-  const double lambdaSquared = std::pow(this->m_Lambda, 2);
+  const double lambdaSquared = Math::sqr(this->m_Lambda);
 
   const unsigned int ParametersDimension = this->GetNumberOfParameters();
   derivative = DerivativeType(ParametersDimension);
@@ -258,7 +259,7 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage
         RealType sum{};
         for (unsigned int dim = 0; dim < Self::FixedPointSetDimension; ++dim)
         {
-          sum -= jacobian(dim, par) * gradient[dim] * std::pow(lambdaSquared + diffSquared, 2);
+          sum -= jacobian(dim, par) * gradient[dim] * Math::sqr(lambdaSquared + diffSquared);
         }
         derivative[par] += diff * sum;
       }
