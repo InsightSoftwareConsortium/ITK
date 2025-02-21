@@ -60,8 +60,8 @@ namespace itk
  * both the mutual information and its derivatives with respect to the
  * transform parameters.
  *
- * The calculations are based on the method of Mattes et al \cite
- * mattes2001, \cite mattes2003 where the probability density distribution are estimated using
+ * The calculations are based on the method of Mattes et al
+ * \cite mattes2001, \cite mattes2003 where the probability density distribution are estimated using
  * Parzen histograms. Since the fixed image PDF does not contribute
  * to the derivatives, it does not need to be smooth. Hence,
  * a zero order (box car) BSpline kernel is used

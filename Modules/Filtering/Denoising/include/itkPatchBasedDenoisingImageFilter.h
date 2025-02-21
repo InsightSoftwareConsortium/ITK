@@ -51,8 +51,7 @@ namespace itk
  * parameter (namely, sigma) using leave-one-out cross validation. It implements schemes for random
  * sampling of patches non-locally (from the entire image) as well as semi-locally (from the spatial
  * proximity of the pixel being denoised at the specific point in time). It implements a specific
- * scheme for defining patch weights (mask) as described in \cite
- * awate2005 and \cite awate2006.
+ * scheme for defining patch weights (mask) as described in \cite awate2005 and \cite awate2006.
  *
  * \ingroup Filtering
  * \ingroup ITKDenoising
