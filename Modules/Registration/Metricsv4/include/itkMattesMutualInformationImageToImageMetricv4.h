@@ -41,8 +41,8 @@ namespace itk
  * This class is templated over the FixedImage type and the MovingImage
  * type.
  *
- * The calculations are based on the method of Mattes et al \cite
- * mattes2001, \cite mattes2003,
+ * The calculations are based on the method of Mattes et al
+ * \cite mattes2001, \cite mattes2003,
  * where the probability density distribution are estimated using
  * Parzen histograms. Since the fixed image PDF does not contribute
  * to the derivatives, it does not need to be smooth. Hence,

@@ -385,8 +385,8 @@ private:
    *  Function adapted from netlib/tred1.c.
    *  [Changed: remove static vars, enforce const correctness.
    *            Use vnl routines as necessary].
-   *  For algorithmic descriptions see \cite martin1968 and  \cite
-   *  martin1971. */
+   *  For algorithmic descriptions see \cite martin1968 and
+   *  \cite martin1971. */
   void
   ReduceToTridiagonalMatrix(double * a, double * d, double * e, double * e2) const;
 
@@ -408,8 +408,8 @@ private:
    *  Function adapted from netlib/tred2.c.
    *  [Changed: remove static vars, enforce const correctness.
    *            Use vnl routines as necessary].
-   *  For algorithmic descriptions see \cite martin1968 and \cite
-   *  martin1971. */
+   *  For algorithmic descriptions see \cite martin1968 and
+   *  \cite martin1971. */
   void
   ReduceToTridiagonalMatrixAndGetTransformation(const double * a, double * d, double * e, double * z) const;
 
