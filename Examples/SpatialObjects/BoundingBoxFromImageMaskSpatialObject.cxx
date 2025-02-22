@@ -48,28 +48,30 @@ main(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  using ImageMaskSpatialObject = itk::ImageMaskSpatialObject<3>;
-
-  using ImageType = ImageMaskSpatialObject::ImageType;
-  ImageType::Pointer input;
   try
   {
+
+    using ImageMaskSpatialObject = itk::ImageMaskSpatialObject<3>;
+
+    using ImageType = ImageMaskSpatialObject::ImageType;
+    ImageType::Pointer input;
     input = itk::ReadImage<ImageType>(argv[1]);
+
+
+    auto maskSO = ImageMaskSpatialObject::New();
+
+    maskSO->SetImage(input);
+    maskSO->Update();
+
+    std::cout << "Bounding Box Region: "
+              << maskSO->GetMyBoundingBoxInWorldSpace()->GetBounds()
+              << std::endl;
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << excp << std::endl;
+    std::cerr << "ITK exception caught:\n" << excp << std::endl;
     return EXIT_FAILURE;
   }
-
-  auto maskSO = ImageMaskSpatialObject::New();
-
-  maskSO->SetImage(input);
-  maskSO->Update();
-
-  std::cout << "Bounding Box Region: "
-            << maskSO->GetMyBoundingBoxInWorldSpace()->GetBounds()
-            << std::endl;
 
   return EXIT_SUCCESS;
 }
