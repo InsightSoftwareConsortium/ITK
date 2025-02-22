@@ -47,5 +47,5 @@ itk_fetch_module(
   "ITK FFT accelerated backends using the VkFFT library for Vulkan/CUDA/HIP/OpenCL compatibility."
   MODULE_COMPLIANCE_LEVEL 3
   GIT_REPOSITORY https://github.com/InsightSoftwareConsortium/ITKVkFFTBackend.git
-  GIT_TAG 0d6863b3dfa4a7505c41585023b6f91ea2a07a7f
+  GIT_TAG c54664fab268aa1e5930e86207e040067f142b4b
   )
