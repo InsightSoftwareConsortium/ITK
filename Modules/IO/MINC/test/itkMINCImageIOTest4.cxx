@@ -23,11 +23,11 @@
 #include "itkMINCImageIOFactory.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itksys/SystemTools.hxx"
 
 #include "itkImageMomentsCalculator.h"
 #include "itkStdStreamStateSave.h"
 #include "itkTestingMacros.h"
-
 template <typename ImageType>
 int
 test_image_moments(const char * input_image,
@@ -36,9 +36,17 @@ test_image_moments(const char * input_image,
                    double       mx,
                    double       my,
                    double       mz,
-                   double       epsilon)
+                   double       epsilon,
+                   bool         RAStofromLPS)
 {
-  // itk::MINCImageIO::Pointer mincIO1 = itk::MINCImageIO::New();
+  if (RAStofromLPS)
+  { // need to flip expected moments to match flipped coordinate system
+    mx = -mx;
+    my = -my;
+  }
+
+  itk::MINCImageIO::Pointer mincIO1 = itk::MINCImageIO::New();
+  mincIO1->SetRAStoLPS(RAStofromLPS);
 
   using ReaderType = itk::ImageFileReader<ImageType>;
 
@@ -50,7 +58,8 @@ test_image_moments(const char * input_image,
 
   auto calculator = MomentsCalculatorType::New();
 
-  // reader->SetImageIO( mincIO1 );
+  if (itksys::SystemTools::StringEndsWith(input_image, ".mnc"))
+    reader->SetImageIO(mincIO1);
 
   reader->SetFileName(input_image);
 
@@ -90,6 +99,11 @@ test_image_moments(const char * input_image,
   {
     auto writer = WriterType::New();
     writer->SetFileName(output_image);
+    // writer should use default RAS to LPS flag, to satisfy comparison after
+    mincIO1->SetRAStoLPS(RAStofromLPS);
+    if (itksys::SystemTools::StringEndsWith(output_image, ".mnc")) // HACK to enable use .mhd files
+      writer->SetImageIO(mincIO1);
+
     writer->SetInput(reader->GetOutput());
     writer->Update();
   }
@@ -105,16 +119,18 @@ itkMINCImageIOTest4(int argc, char * argv[])
   // scope.
   const itk::StdStreamStateSave coutState(std::cout);
 
-  if (argc < 3)
+  if (argc < 4)
   {
     std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " inputfile outputfile [sum mx my mz ]" << std::endl;
+    std::cerr << " inputfile outputfile <RAS->LPS> [sum mx my mz ]" << std::endl;
     return EXIT_FAILURE;
   }
 
   const char * input = argv[1];
   const char * output = argv[2];
+  int          RAStofromLPSTest = atoi(argv[3]);
+  bool         RAStofromLPS = RAStofromLPSTest < 0 ? false : RAStofromLPSTest == 1;
 
   double total = 0.0;
   double mx = 0.0;
@@ -123,14 +139,14 @@ itkMINCImageIOTest4(int argc, char * argv[])
 
   itk::MINCImageIOFactory::RegisterOneFactory();
 
-  if (argc > 3)
+  if (argc > 4)
   {
-    if (argc == 7)
+    if (argc == 8)
     {
-      total = std::stod(argv[3]);
-      mx = std::stod(argv[4]);
-      my = std::stod(argv[5]);
-      mz = std::stod(argv[6]);
+      total = std::stod(argv[4]);
+      mx = std::stod(argv[5]);
+      my = std::stod(argv[6]);
+      mz = std::stod(argv[7]);
     }
     else
     {
@@ -148,12 +164,14 @@ itkMINCImageIOTest4(int argc, char * argv[])
     int ret = EXIT_SUCCESS;
 
     std::cout.precision(10);
-    if (test_image_moments<itk::Image<double, 3>>(input, nullptr, total, mx, my, mz, epsilon) != EXIT_SUCCESS)
+    if (test_image_moments<itk::Image<double, 3>>(input, nullptr, total, mx, my, mz, epsilon, RAStofromLPS) !=
+        EXIT_SUCCESS)
     {
       ret = EXIT_FAILURE;
     }
     // write out only float image
-    if (test_image_moments<itk::Image<float, 3>>(input, output, total, mx, my, mz, epsilon) != EXIT_SUCCESS)
+    if (test_image_moments<itk::Image<float, 3>>(input, output, total, mx, my, mz, epsilon, RAStofromLPS) !=
+        EXIT_SUCCESS)
     {
       ret = EXIT_FAILURE;
     }
