@@ -50,7 +50,7 @@ LabelSetMorphBaseImageFilter<TInputImage, doDilate, TOutputImage>::LabelSetMorph
   }
   m_UseImageSpacing = false;
 
-  this->SetRadius(1);
+  this->m_Radius.Fill(1);
 
   this->DynamicMultiThreadingOff();
 }
