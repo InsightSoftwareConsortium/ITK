@@ -29,6 +29,7 @@
 #define itkBoundingBox_hxx
 
 #include <algorithm> // For max.
+#include <bitset>
 
 namespace itk
 {
@@ -94,12 +95,11 @@ BoundingBox<TPointIdentifier, VPointDimension, TCoordinate, TPointsContainer>::C
 
   for (SizeValueType j = 0; j < NumberOfCorners; ++j)
   {
-    PointType pnt;
+    const std::bitset<PointDimension> cornerBitset{ j };
+    PointType                         pnt;
     for (unsigned int i = 0; i < PointDimension; ++i)
     {
-      pnt[i] = center[i] +
-               std::pow(-1.0, (static_cast<double>(j / (static_cast<int>(std::pow(2.0, static_cast<double>(i))))))) *
-                 radius[i];
+      pnt[i] = center[i] + (cornerBitset[i] ? -1 : 1) * radius[i];
     }
 
     result[j] = pnt;
