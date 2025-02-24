@@ -51,12 +51,12 @@ LabelSetDilateImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
   }
   float progressPerDimension = 1.0 / ImageDimension;
 
-  auto * progress = new ProgressReporter(this,
-                                         threadId,
-                                         NumberOfRows[this->m_CurrentDimension],
-                                         30,
-                                         this->m_CurrentDimension * progressPerDimension,
-                                         progressPerDimension);
+  ProgressReporter progress(this,
+                            threadId,
+                            NumberOfRows[this->m_CurrentDimension],
+                            30,
+                            this->m_CurrentDimension * progressPerDimension,
+                            progressPerDimension);
 
   // this is where the work happens. We use a distance image with
   // floating point pixel to perform the parabolic operations. The
@@ -114,7 +114,7 @@ LabelSetDilateImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
           inputIterator,
           outputDistIterator,
           outputIterator,
-          *progress,
+          progress,
           LineLength,
           this->m_CurrentDimension,
           this->m_MagnitudeSign,
@@ -132,7 +132,7 @@ LabelSetDilateImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
                                              inputDistIterator,
                                              outputDistIterator,
                                              outputIterator,
-                                             *progress,
+                                             progress,
                                              LineLength,
                                              this->m_CurrentDimension,
                                              this->m_MagnitudeSign,
