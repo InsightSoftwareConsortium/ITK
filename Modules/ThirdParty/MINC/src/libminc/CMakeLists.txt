@@ -70,7 +70,7 @@ IF(NOT LIBMINC_EXTERNALLY_CONFIGURED)
   FIND_PACKAGE(ZLIB REQUIRED)
   SET(HDF5_NO_FIND_PACKAGE_CONFIG_FILE ON)
   FIND_PACKAGE(HDF5 REQUIRED COMPONENTS C )
-  
+
   IF(LIBMINC_USE_NIFTI)
   IF (LIBMINC_USE_SYSTEM_NIFTI)
     FIND_PACKAGE(NIFTI)
@@ -82,7 +82,7 @@ IF(NOT LIBMINC_EXTERNALLY_CONFIGURED)
   ELSE()
   SET(NIFTI_FOUND OFF)
   ENDIF()
-  
+
   SET(HAVE_ZLIB ON)
 ELSE(NOT LIBMINC_EXTERNALLY_CONFIGURED)
   #TODO: set paths for HDF5 etc
@@ -132,9 +132,9 @@ CHECK_FUNCTION_EXISTS(fork     HAVE_WORKING_FORK)
 CHECK_FUNCTION_EXISTS(vfork    HAVE_WORKING_VFORK)
 CHECK_FUNCTION_EXISTS(fdopen   HAVE_FDOPEN)
 CHECK_FUNCTION_EXISTS(strdup   HAVE_STRDUP)
-CHECK_FUNCTION_EXISTS(getpwnam HAVE_GETPWNAM) 
+CHECK_FUNCTION_EXISTS(getpwnam HAVE_GETPWNAM)
 CHECK_FUNCTION_EXISTS(select   HAVE_SELECT)
-CHECK_FUNCTION_EXISTS(strerror HAVE_STRERROR) 
+CHECK_FUNCTION_EXISTS(strerror HAVE_STRERROR)
 CHECK_FUNCTION_EXISTS(sysconf  HAVE_SYSCONF)
 CHECK_FUNCTION_EXISTS(system   HAVE_SYSTEM)
 
@@ -222,7 +222,7 @@ IF(LIBMINC_MINC1_SUPPORT)
 ENDIF(LIBMINC_MINC1_SUPPORT)
 
 IF(LIBMINC_BUILD_EZMINC)
-  set(LIBMINC_INCLUDE_DIRS_CONFIG    
+  set(LIBMINC_INCLUDE_DIRS_CONFIG
     ${CMAKE_CURRENT_SOURCE_DIR}/ezminc
   )
   INCLUDE_DIRECTORIES(
@@ -303,8 +303,8 @@ SET(minc1_LIB_SRCS
    )
 
 SET(minc1_HEADERS
-  libsrc/minc.h 
-  libsrc/voxel_loop.h 
+  libsrc/minc.h
+  libsrc/voxel_loop.h
   libsrc/nd_loop.h
   libsrc/minc_compat.h
   libsrc/minc_simple.h
@@ -329,9 +329,9 @@ SET(minc2_LIB_SRCS
 
 SET(minc2_HEADERS
   libsrc2/minc2.h
-  libsrc2/minc2_defs.h 
-  libsrc2/minc2_structs.h 
-  libsrc2/minc2_api.h 
+  libsrc2/minc2_defs.h
+  libsrc2/minc2_structs.h
+  libsrc2/minc2_api.h
 )
 
 # volume_io2
@@ -375,7 +375,7 @@ SET(volume_io_LIB_SRCS
 )
 
 IF(LIBMINC_NIFTI_SUPPORT)
-    SET(volume_io_LIB_SRCS 
+    SET(volume_io_LIB_SRCS
         ${volume_io_LIB_SRCS}
         ${LIBMINC_NIFTI_SOURCES}
     )
@@ -384,19 +384,19 @@ ENDIF(LIBMINC_NIFTI_SUPPORT)
 
 SET(volume_io_HEADERS
     volume_io/Include/volume_io/alloc.h
-    volume_io/Include/volume_io/arrays.h 
-    volume_io/Include/volume_io/basic.h 
-    volume_io/Include/volume_io/def_math.h 
-    volume_io/Include/volume_io/files.h 
-    volume_io/Include/volume_io/geom_structs.h 
-    volume_io/Include/volume_io/geometry.h 
-    volume_io/Include/volume_io/multidim.h 
-    volume_io/Include/volume_io/progress.h 
-    volume_io/Include/volume_io/string_funcs.h 
-    volume_io/Include/volume_io/system_dependent.h 
-    volume_io/Include/volume_io/transforms.h 
-    volume_io/Include/volume_io/vol_io_prototypes.h 
-    volume_io/Include/volume_io/volume.h 
+    volume_io/Include/volume_io/arrays.h
+    volume_io/Include/volume_io/basic.h
+    volume_io/Include/volume_io/def_math.h
+    volume_io/Include/volume_io/files.h
+    volume_io/Include/volume_io/geom_structs.h
+    volume_io/Include/volume_io/geometry.h
+    volume_io/Include/volume_io/multidim.h
+    volume_io/Include/volume_io/progress.h
+    volume_io/Include/volume_io/string_funcs.h
+    volume_io/Include/volume_io/system_dependent.h
+    volume_io/Include/volume_io/transforms.h
+    volume_io/Include/volume_io/vol_io_prototypes.h
+    volume_io/Include/volume_io/volume.h
     volume_io/Include/volume_io/volume_cache.h
 )
 
@@ -410,7 +410,7 @@ ELSE(LIBMINC_BUILD_SHARED_LIBS)
 ENDIF(LIBMINC_BUILD_SHARED_LIBS)
 
 IF(LIBMINC_NIFTI_SUPPORT)
-    SET(NIFTI_LIBRARIES 
+    SET(NIFTI_LIBRARIES
         ${NIFTI_LIBRARY} ${ZNZ_LIBRARY}
     )
     get_filename_component(NIFTI_LIBRARY_NAME "${NIFTI_LIBRARY}" NAME)
@@ -438,11 +438,11 @@ SET(LIBMINC_STATIC_LIBRARIES ${LIBMINC_LIBRARY_STATIC} ${HDF5_LIBRARY} ${NIFTI_L
 SET(LIBMINC_STATIC_LIBRARIES_CONFIG ${LIBMINC_LIBRARY_STATIC} ${HDF5_LIBRARY_NAME} ${NIFTI_LIBRARIES} ${ZLIB_LIBRARY_NAME})
 
 IF(UNIX)
-  SET(LIBMINC_LIBRARIES ${LIBMINC_LIBRARIES} m dl ${RT_LIBRARY})
-  SET(LIBMINC_STATIC_LIBRARIES ${LIBMINC_STATIC_LIBRARIES} m dl  ${RT_LIBRARY})
-  
-  SET(LIBMINC_LIBRARIES_CONFIG ${LIBMINC_LIBRARIES_CONFIG} m dl ${RT_LIBRARY_NAME})
-  SET(LIBMINC_STATIC_LIBRARIES_CONFIG ${LIBMINC_STATIC_LIBRARIES_CONFIG} m dl ${RT_LIBRARY_NAME})
+  SET(LIBMINC_LIBRARIES ${LIBMINC_LIBRARIES} m ${CMAKE_DL_LIBS} ${RT_LIBRARY})
+  SET(LIBMINC_STATIC_LIBRARIES ${LIBMINC_STATIC_LIBRARIES} m ${CMAKE_DL_LIBS} ${RT_LIBRARY})
+
+  SET(LIBMINC_LIBRARIES_CONFIG ${LIBMINC_LIBRARIES_CONFIG} m ${CMAKE_DL_LIBS} ${RT_LIBRARY_NAME})
+  SET(LIBMINC_STATIC_LIBRARIES_CONFIG ${LIBMINC_STATIC_LIBRARIES_CONFIG} m ${CMAKE_DL_LIBS} ${RT_LIBRARY_NAME})
 ENDIF(UNIX)
 
 SET(minc_LIB_SRCS ${minc2_LIB_SRCS} ${minc_common_SRCS})
@@ -482,13 +482,13 @@ ENDIF()
 #EXPORT(TARGETS ${LIBMINC_LIBRARY} FILE "${LIBMINC_EXPORTED_TARGETS}.cmake")
 
 IF(UNIX)
-  TARGET_LINK_LIBRARIES(${LIBMINC_LIBRARY} m dl )
+  TARGET_LINK_LIBRARIES(${LIBMINC_LIBRARY} m ${CMAKE_DL_LIBS} )
 
 #ITK: Skip static library build
 IF(0)
   IF(LIBMINC_BUILD_SHARED_LIBS)
     ADD_LIBRARY(${LIBMINC_LIBRARY_STATIC} STATIC ${minc_LIB_SRCS} ${minc_HEADERS} ${volume_io_LIB_SRCS} ${volume_io_HEADERS} )
-    TARGET_LINK_LIBRARIES(${LIBMINC_LIBRARY_STATIC} ${HDF5_LIBRARY} ${NIFTI_LIBRARIES} ${ZLIB_LIBRARY} ${RT_LIBRARY} m dl )
+    TARGET_LINK_LIBRARIES(${LIBMINC_LIBRARY_STATIC} ${HDF5_LIBRARY} ${NIFTI_LIBRARIES} ${ZLIB_LIBRARY} ${RT_LIBRARY} m ${CMAKE_DL_LIBS} )
     IF(LIBMINC_MINC1_SUPPORT)
       TARGET_LINK_LIBRARIES(${LIBMINC_LIBRARY} ${NETCDF_LIBRARY})
     ENDIF(LIBMINC_MINC1_SUPPORT)
@@ -497,8 +497,8 @@ IF(0)
 ENDIF(0)
 ENDIF(UNIX)
 
-SET_TARGET_PROPERTIES(${LIBMINC_LIBRARY} 
- PROPERTIES 
+SET_TARGET_PROPERTIES(${LIBMINC_LIBRARY}
+ PROPERTIES
   SOVERSION ${LIBMINC_SOVERSION})
 
 IF(LIBMINC_MINC1_SUPPORT)
@@ -511,10 +511,10 @@ ENDIF(LIBMINC_MINC1_SUPPORT)
 
 IF( LIBMINC_INSTALL_LIB_DIR )
   INSTALL(
-    TARGETS 
-      ${LIBMINC_LIBRARY} 
+    TARGETS
+      ${LIBMINC_LIBRARY}
     EXPORT
-      ${LIBMINC_EXPORTED_TARGETS} 
+      ${LIBMINC_EXPORTED_TARGETS}
     LIBRARY DESTINATION ${LIBMINC_INSTALL_LIB_DIR} COMPONENT libraries
     ARCHIVE DESTINATION ${LIBMINC_INSTALL_LIB_DIR} COMPONENT libraries
     RUNTIME DESTINATION ${LIBMINC_INSTALL_LIB_DIR} COMPONENT libraries
@@ -589,9 +589,9 @@ configure_file(UseLIBMINC.cmake.in
 IF(LIBMINC_INSTALL_LIB_DIR AND NOT LIBMINC_INSTALL_NO_DEVELOPMENT)
   INSTALL(
     FILES
-     ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/Use${LIBMINC_EXTERNAL_LIB_PREFIX}LIBMINC.cmake 
+     ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/Use${LIBMINC_EXTERNAL_LIB_PREFIX}LIBMINC.cmake
      ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/${LIBMINC_EXTERNAL_LIB_PREFIX}LIBMINCConfig.cmake
-    DESTINATION 
+    DESTINATION
      ${LIBMINC_INSTALL_LIB_DIR}/cmake
     COMPONENT Development)
 ENDIF(LIBMINC_INSTALL_LIB_DIR AND NOT LIBMINC_INSTALL_NO_DEVELOPMENT)
