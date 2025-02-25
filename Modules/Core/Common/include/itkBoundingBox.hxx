@@ -97,9 +97,7 @@ BoundingBox<TPointIdentifier, VPointDimension, TCoordinate, TPointsContainer>::C
     PointType pnt;
     for (unsigned int i = 0; i < PointDimension; ++i)
     {
-      pnt[i] = center[i] +
-               std::pow(-1.0, (static_cast<double>(j / (static_cast<int>(std::pow(2.0, static_cast<double>(i))))))) *
-                 radius[i];
+      pnt[i] = center[i] + ((((j >> i) % 2ULL) == 0) ? 1 : -1) * radius[i];
     }
 
     result[j] = pnt;
