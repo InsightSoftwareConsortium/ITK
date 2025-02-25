@@ -59,12 +59,12 @@ LabelSetErodeImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
   }
   float progressPerDimension = 1.0 / ImageDimension;
 
-  auto * progress = new ProgressReporter(this,
-                                         threadId,
-                                         NumberOfRows[this->m_CurrentDimension],
-                                         30,
-                                         this->m_CurrentDimension * progressPerDimension,
-                                         progressPerDimension);
+  ProgressReporter progress(this,
+                            threadId,
+                            NumberOfRows[this->m_CurrentDimension],
+                            30,
+                            this->m_CurrentDimension * progressPerDimension,
+                            progressPerDimension);
 
   using InputConstIteratorType = ImageLinearConstIteratorWithIndex<TInputImage>;
   using OutputIteratorType = ImageLinearIteratorWithIndex<TOutputImage>;
@@ -109,7 +109,7 @@ LabelSetErodeImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
           inputIterator,
           outputDistIterator,
           outputIterator,
-          *progress,
+          progress,
           LineLength,
           this->m_CurrentDimension,
           this->m_MagnitudeSign,
@@ -129,7 +129,7 @@ LabelSetErodeImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
                                             inputDistIterator,
                                             outputDistIterator,
                                             outputIterator,
-                                            *progress,
+                                            progress,
                                             LineLength,
                                             this->m_CurrentDimension,
                                             this->m_MagnitudeSign,
