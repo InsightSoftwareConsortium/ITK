@@ -132,8 +132,7 @@ public:
   using BoundingBoxType = itk::FixedArray<typename LabelIndexType::IndexValueType, Self::ImageDimension * 2>;
   using BoundingBoxFloatType = itk::FixedArray<float, Self::ImageDimension * 2>;
 
-  // using BoundingBoxVerticesType = itk::FixedArray<
-  // LabelPointType,std::pow(2.0,Self::ImageDimension)>;
+  // using BoundingBoxVerticesType = itk::FixedArray<LabelPointType, 1ULL << Self::ImageDimension>;
   using BoundingBoxVerticesType = std::vector<LabelPointType>;
 
   /** Axes Length-related type alias */
