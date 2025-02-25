@@ -68,8 +68,7 @@ AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>::InitializeIteration(
   }
   if (m_TimeStep > (minSpacing / double{ 1ULL << (ImageDimension + 1) }))
   {
-    //    f->SetTimeStep(1.0 / std::pow(2.0,
-    // static_cast<double>(ImageDimension)));
+    //    f->SetTimeStep(1.0 / double{ 1ULL << ImageDimension });
     itkWarningMacro("Anisotropic diffusion unstable time step: "
                     << m_TimeStep << std::endl
                     << "Stable time step for this image must be smaller than "
