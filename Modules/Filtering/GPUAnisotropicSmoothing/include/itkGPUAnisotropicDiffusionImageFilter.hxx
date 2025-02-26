@@ -62,7 +62,7 @@ GPUAnisotropicDiffusionImageFilter<TInputImage, TOutputImage, TParentImageFilter
     itkWarningMacro("Anisotropic diffusion unstable time step: "
                     << this->GetTimeStep() << std::endl
                     << "Stable time step for this image must be smaller than "
-                    << minSpacing / double{ 1ULL << (ImageDimension + 1) }));
+                    << minSpacing / double{ 1ULL << (ImageDimension + 1) });
   }
 
   if (this->m_GradientMagnitudeIsFixed == false)
