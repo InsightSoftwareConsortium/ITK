@@ -56,16 +56,17 @@ doDilate(char * In, char * Out, int radius)
 int
 itkLabelSetDilateTest(int argc, char * argv[])
 {
-  int dim1;
-
-  itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads(1);
-  itk::IOComponentEnum ComponentType;
 
   if (argc != 4)
   {
     std::cerr << "Usage: " << argv[0] << "inputimage radius outputimage" << std::endl;
     return (EXIT_FAILURE);
   }
+
+  int dim1;
+
+  itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads(1);
+  itk::IOComponentEnum ComponentType;
 
   if (!readImageInfo(argv[1], &ComponentType, &dim1))
   {
