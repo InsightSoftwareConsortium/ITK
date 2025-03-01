@@ -118,7 +118,7 @@ DoLineDilateFirstPass(LineBufferType &    lineBuf,
 
 template <class LineBufferType, class RealType, bool doDilate>
 void
-DoLine(LineBufferType & lineBuf, LineBufferType & tmpLineBuf, const RealType magnitude, const RealType m_Extreme)
+DoLine(LineBufferType & lineBuf, LineBufferType & tmpLineBuf, const RealType magnitude, const RealType extreme)
 {
   // contact point algorithm
   long koffset = 0, newcontact = 0; // how far away the search starts.
@@ -128,7 +128,7 @@ DoLine(LineBufferType & lineBuf, LineBufferType & tmpLineBuf, const RealType mag
   // negative half of the parabola
   for (long pos = 0; pos < lineLength; pos++)
   {
-    auto baseVal = (RealType)m_Extreme; // the base value for comparison
+    auto baseVal = (RealType)extreme; // the base value for comparison
     for (long krange = koffset; krange <= 0; krange++)
     {
       // difference needs to be paramaterised
@@ -147,7 +147,7 @@ DoLine(LineBufferType & lineBuf, LineBufferType & tmpLineBuf, const RealType mag
   koffset = newcontact = 0;
   for (long pos = lineLength - 1; pos >= 0; pos--)
   {
-    auto baseVal = (RealType)m_Extreme; // the base value for comparison
+    auto baseVal = (RealType)extreme; // the base value for comparison
     for (long krange = koffset; krange >= 0; krange--)
     {
       RealType T = tmpLineBuf[pos + krange] - magnitude * krange * krange;
@@ -169,7 +169,7 @@ DoLineLabelProp(LineBufferType & lineBuf,
                 LabBufferType &  labelBuf,
                 LabBufferType &  tmpLabelBuf,
                 const RealType   magnitude,
-                const RealType   m_Extreme)
+                const RealType   extreme)
 {
   // contact point algorithm
   long koffset = 0, newcontact = 0; // how far away the search starts.
@@ -180,7 +180,7 @@ DoLineLabelProp(LineBufferType & lineBuf,
   // negative half of the parabola
   for (long pos = 0; pos < lineLength; pos++)
   {
-    auto      baseVal = (RealType)m_Extreme; // the base value for comparison
+    auto      baseVal = (RealType)extreme; // the base value for comparison
     LabelType baseLab = labelBuf[pos];
     for (long krange = koffset; krange <= 0; krange++)
     {
@@ -203,7 +203,7 @@ DoLineLabelProp(LineBufferType & lineBuf,
 #if 1
   for (long pos = lineLength - 1; pos >= 0; pos--)
   {
-    auto baseVal = (RealType)m_Extreme; // the base value for comparison
+    auto baseVal = (RealType)extreme; // the base value for comparison
     // initialize the label to the previously pro
     LabelType baseLab = tmpLabelBuf[pos];
     for (long krange = koffset; krange >= 0; krange--)
@@ -238,8 +238,8 @@ doOneDimensionErodeFirstPass(TInIter &          inputIterator,
                              ProgressReporter & progress,
                              const unsigned     lineLength,
                              const unsigned     direction,
-                             const int          m_MagnitudeSign,
-                             const bool         m_UseImageSpacing,
+                             const int          magnitudeSign,
+                             const bool         useImageSpacing,
                              const RealType     image_scale,
                              const RealType     sigma,
                              const bool         lastpass)
@@ -249,14 +249,14 @@ doOneDimensionErodeFirstPass(TInIter &          inputIterator,
   using LineBufferType = typename itk::Array<RealType>;
   using LabelBufferType = typename itk::Array<typename TInIter::PixelType>;
   RealType iscale = 1.0;
-  if (m_UseImageSpacing)
+  if (useImageSpacing)
   {
     iscale = image_scale;
   }
   // restructure equation to reduce numerical error
-  //  const RealType magnitude = (m_MagnitudeSign * iscale * iscale)/(2.0 *
+  //  const RealType magnitude = (magnitudeSign * iscale * iscale)/(2.0 *
   // sigma);
-  const RealType  magnitude = (m_MagnitudeSign * iscale * iscale) / (2.0);
+  const RealType  magnitude = (magnitudeSign * iscale * iscale) / (2.0);
   LineBufferType  lineBuf(lineLength);
   LabelBufferType labBuf(lineLength);
 
@@ -376,8 +376,8 @@ doOneDimensionDilateFirstPass(TInIter &          inputIterator,
                               ProgressReporter & progress,
                               const unsigned     lineLength,
                               const unsigned     direction,
-                              const int          m_MagnitudeSign,
-                              const bool         m_UseImageSpacing,
+                              const int          magnitudeSign,
+                              const bool         useImageSpacing,
                               const RealType     image_scale,
                               const RealType     sigma)
 {
@@ -386,14 +386,14 @@ doOneDimensionDilateFirstPass(TInIter &          inputIterator,
   using LineBufferType = typename itk::Array<RealType>;
   using LabelBufferType = typename itk::Array<typename TInIter::PixelType>;
   RealType iscale = 1.0;
-  if (m_UseImageSpacing)
+  if (useImageSpacing)
   {
     iscale = image_scale;
   }
   // restructure equation to reduce numerical error
-  // const RealType magnitude = (m_MagnitudeSign * iscale * iscale)/(2.0 *
+  // const RealType magnitude = (magnitudeSign * iscale * iscale)/(2.0 *
   // sigma);
-  const RealType  magnitude = (m_MagnitudeSign * iscale * iscale) / (2.0);
+  const RealType  magnitude = (magnitudeSign * iscale * iscale) / (2.0);
   LineBufferType  lineBuf(lineLength);
   LabelBufferType labBuf(lineLength);
   LineBufferType  tmpLineBuf(lineLength);
@@ -459,9 +459,9 @@ doOneDimensionErode(TInIter &          inputIterator,
                     ProgressReporter & progress,
                     const unsigned     lineLength,
                     const unsigned     direction,
-                    const int          m_MagnitudeSign,
-                    const bool         m_UseImageSpacing,
-                    const RealType     m_Extreme,
+                    const int          magnitudeSign,
+                    const bool         useImageSpacing,
+                    const RealType     extreme,
                     const RealType     image_scale,
                     const RealType     sigma,
                     const RealType     BaseSigma,
@@ -471,11 +471,11 @@ doOneDimensionErode(TInIter &          inputIterator,
   using LineBufferType = typename itk::Array<RealType>;
   using LabelBufferType = typename itk::Array<typename TInIter::PixelType>;
   RealType iscale = 1.0;
-  if (m_UseImageSpacing)
+  if (useImageSpacing)
   {
     iscale = image_scale;
   }
-  const RealType  magnitude = (m_MagnitudeSign * iscale * iscale) / (2.0 * sigma);
+  const RealType  magnitude = (magnitudeSign * iscale * iscale) / (2.0 * sigma);
   LineBufferType  lineBuf(lineLength);
   LabelBufferType labBuf(lineLength);
 
@@ -554,7 +554,7 @@ doOneDimensionErode(TInIter &          inputIterator,
 
       std::copy(&(lineBuf[first]), &(lineBuf[last + 1]), &(ShortLineBuf[1]));
 
-      DoLine<LineBufferType, RealType, false>(ShortLineBuf, tmpShortLineBuf, magnitude, m_Extreme);
+      DoLine<LineBufferType, RealType, false>(ShortLineBuf, tmpShortLineBuf, magnitude, extreme);
       // copy the segment back into the full line buffer
       std::copy(&(ShortLineBuf[1]), &(ShortLineBuf[SLL + 1]), &(lineBuf[first]));
     }
@@ -600,9 +600,9 @@ doOneDimensionDilate(TInIter &          inputIterator,
                      ProgressReporter & progress,
                      const unsigned     lineLength,
                      const unsigned     direction,
-                     const int          m_MagnitudeSign,
-                     const bool         m_UseImageSpacing,
-                     const RealType     m_Extreme,
+                     const int          magnitudeSign,
+                     const bool         useImageSpacing,
+                     const RealType     extreme,
                      const RealType     image_scale,
                      const RealType     sigma)
 {
@@ -611,13 +611,13 @@ doOneDimensionDilate(TInIter &          inputIterator,
   using LineBufferType = typename itk::Array<RealType>;
   using LabelBufferType = typename itk::Array<typename TInIter::PixelType>;
   RealType iscale = 1.0;
-  if (m_UseImageSpacing)
+  if (useImageSpacing)
   {
     iscale = image_scale;
   }
   // restructure equation to reduce numerical error
-  const RealType magnitude = (m_MagnitudeSign * iscale * iscale) / (2.0 * sigma);
-  //  const RealType magnitude = (m_MagnitudeSign * iscale * iscale)/(2.0 );
+  const RealType magnitude = (magnitudeSign * iscale * iscale) / (2.0 * sigma);
+  //  const RealType magnitude = (magnitudeSign * iscale * iscale)/(2.0 );
   LineBufferType  lineBuf(lineLength);
   LabelBufferType labBuf(lineLength);
   LineBufferType  tmpLineBuf(lineLength);
@@ -652,7 +652,7 @@ doOneDimensionDilate(TInIter &          inputIterator,
     }
 
     DoLineLabelProp<LineBufferType, LabelBufferType, RealType, true>(
-      lineBuf, tmpLineBuf, labBuf, tmpLabBuf, magnitude, m_Extreme);
+      lineBuf, tmpLineBuf, labBuf, tmpLabBuf, magnitude, extreme);
     // copy the line buffer back to the image
     unsigned j = 0;
     while (!outputDistIterator.IsAtEndOfLine())
