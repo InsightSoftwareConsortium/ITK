@@ -59,8 +59,10 @@ itkLabelSetDilateTest(int argc, char * argv[])
 
   if (argc != 4)
   {
-    std::cerr << "Usage: " << argv[0] << "inputimage radius outputimage" << std::endl;
-    return (EXIT_FAILURE);
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " inputimage radius outputimage" << std::endl;
+    return EXIT_FAILURE;
   }
 
   int dim1;
