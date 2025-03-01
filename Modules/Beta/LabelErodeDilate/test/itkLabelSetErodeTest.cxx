@@ -20,6 +20,7 @@
 #include "itkImageFileWriter.h"
 
 #include "itkLabelSetErodeImageFilter.h"
+#include "itkTestingMacros.h"
 
 #include "read_info.cxx"
 
@@ -33,15 +34,7 @@ doErode(char * In, char * Out, int radius)
   using ReaderType = typename itk::ImageFileReader<MaskImType>;
   typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(In);
-  try
-  {
-    reader->Update();
-  }
-  catch (itk::ExceptionObject & excp)
-  {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
   // Label dilation
   using FilterType = typename itk::LabelSetErodeImageFilter<MaskImType, MaskImType>;
@@ -53,15 +46,8 @@ doErode(char * In, char * Out, int radius)
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(Out);
-  try
-  {
-    writer->Update();
-  }
-  catch (itk::ExceptionObject & excp)
-  {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
   return EXIT_SUCCESS;
 }
