@@ -73,7 +73,7 @@ itkLabelSetDilateTest(int argc, char * argv[])
   if (!readImageInfo(argv[1], &ComponentType, &dim1))
   {
     std::cerr << "Failed to open " << argv[1] << std::endl;
-    return (EXIT_FAILURE);
+    return EXIT_FAILURE;
   }
 
   int status = EXIT_FAILURE;
@@ -87,7 +87,7 @@ itkLabelSetDilateTest(int argc, char * argv[])
       break;
     default:
       std::cerr << "Unsupported dimension" << std::endl;
-      return (EXIT_FAILURE);
+      return EXIT_FAILURE;
       break;
   }
   return status;
