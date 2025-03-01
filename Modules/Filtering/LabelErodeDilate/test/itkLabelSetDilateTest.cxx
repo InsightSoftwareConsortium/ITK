@@ -88,7 +88,6 @@ itkLabelSetDilateTest(int argc, char * argv[])
     default:
       std::cerr << "Unsupported dimension" << std::endl;
       return EXIT_FAILURE;
-      break;
   }
   return status;
 }
