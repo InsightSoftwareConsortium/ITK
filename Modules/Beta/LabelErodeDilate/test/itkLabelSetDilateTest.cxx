@@ -51,7 +51,6 @@ doDilate(char * In, char * Out, int radius)
   return EXIT_SUCCESS;
 }
 
-/////////////////////////////////
 
 int
 itkLabelSetDilateTest(int argc, char * argv[])

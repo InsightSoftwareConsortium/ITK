@@ -52,7 +52,6 @@ doErode(char * In, char * Out, int radius)
   return EXIT_SUCCESS;
 }
 
-/////////////////////////////////////////////
 
 int
 itkLabelSetErodeTest(int argc, char * argv[])
