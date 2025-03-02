@@ -240,7 +240,7 @@ doOneDimensionErodeFirstPass(TInIter &          inputIterator,
                              const unsigned     direction,
                              const int          magnitudeSign,
                              const bool         useImageSpacing,
-                             const RealType     image_scale,
+                             const RealType     imageScale,
                              const RealType     sigma,
                              const bool         lastpass)
 {
@@ -251,7 +251,7 @@ doOneDimensionErodeFirstPass(TInIter &          inputIterator,
   RealType iscale = 1.0;
   if (useImageSpacing)
   {
-    iscale = image_scale;
+    iscale = imageScale;
   }
   // restructure equation to reduce numerical error
   //  const RealType magnitude = (magnitudeSign * iscale * iscale)/(2.0 *
@@ -378,7 +378,7 @@ doOneDimensionDilateFirstPass(TInIter &          inputIterator,
                               const unsigned     direction,
                               const int          magnitudeSign,
                               const bool         useImageSpacing,
-                              const RealType     image_scale,
+                              const RealType     imageScale,
                               const RealType     sigma)
 {
   // specialised version for binary erosion during first pass. We can
@@ -388,7 +388,7 @@ doOneDimensionDilateFirstPass(TInIter &          inputIterator,
   RealType iscale = 1.0;
   if (useImageSpacing)
   {
-    iscale = image_scale;
+    iscale = imageScale;
   }
   // restructure equation to reduce numerical error
   // const RealType magnitude = (magnitudeSign * iscale * iscale)/(2.0 *
@@ -462,7 +462,7 @@ doOneDimensionErode(TInIter &          inputIterator,
                     const int          magnitudeSign,
                     const bool         useImageSpacing,
                     const RealType     extreme,
-                    const RealType     image_scale,
+                    const RealType     imageScale,
                     const RealType     sigma,
                     const RealType     BaseSigma,
                     const bool         lastpass)
@@ -473,7 +473,7 @@ doOneDimensionErode(TInIter &          inputIterator,
   RealType iscale = 1.0;
   if (useImageSpacing)
   {
-    iscale = image_scale;
+    iscale = imageScale;
   }
   const RealType  magnitude = (magnitudeSign * iscale * iscale) / (2.0 * sigma);
   LineBufferType  lineBuf(lineLength);
@@ -603,7 +603,7 @@ doOneDimensionDilate(TInIter &          inputIterator,
                      const int          magnitudeSign,
                      const bool         useImageSpacing,
                      const RealType     extreme,
-                     const RealType     image_scale,
+                     const RealType     imageScale,
                      const RealType     sigma)
 {
   // specialised version for binary erosion during first pass. We can
@@ -613,7 +613,7 @@ doOneDimensionDilate(TInIter &          inputIterator,
   RealType iscale = 1.0;
   if (useImageSpacing)
   {
-    iscale = image_scale;
+    iscale = imageScale;
   }
   // restructure equation to reduce numerical error
   const RealType magnitude = (magnitudeSign * iscale * iscale) / (2.0 * sigma);
