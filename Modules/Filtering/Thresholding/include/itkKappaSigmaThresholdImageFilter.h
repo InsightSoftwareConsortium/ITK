@@ -96,17 +96,20 @@ public:
 
   /** Set the mask value used to select which pixels will be considered in the
    * threshold computation (optional, only in case a MaskImage is set). */
+  /** @ITKStartGrouping */
   itkSetMacro(MaskValue, MaskPixelType);
   itkGetConstMacro(MaskValue, MaskPixelType);
-
+  /** @ITKEndGrouping */
   /** Set the Sigma multiplier (Kappa) to adjust the pixel rejection rate. */
+  /** @ITKStartGrouping */
   itkSetMacro(SigmaFactor, double);
   itkGetConstMacro(SigmaFactor, double);
-
+  /** @ITKEndGrouping */
   /** Set the number of rejection passes. */
+  /** @ITKStartGrouping */
   itkSetMacro(NumberOfIterations, unsigned int);
   itkGetConstMacro(NumberOfIterations, unsigned int);
-
+  /** @ITKEndGrouping */
   itkConceptMacro(OutputComparableCheck, (Concept::Comparable<OutputPixelType>));
   itkConceptMacro(OutputOStreamWritableCheck, (Concept::OStreamWritable<OutputPixelType>));
 

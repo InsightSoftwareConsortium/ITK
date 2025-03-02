@@ -116,9 +116,10 @@ public:
   /** Get/Set the coordinate transformation.
    * Set the KernelBase spline used for resampling the displacement grid.
    * */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(KernelTransform, KernelTransformType);
   itkGetModifiableObjectMacro(KernelTransform, KernelTransformType);
-
+  /** @ITKEndGrouping */
   /** Set the size of the output image. */
   itkSetMacro(Size, SizeType);
 
@@ -126,18 +127,20 @@ public:
   itkGetConstReferenceMacro(Size, SizeType);
 
   /** Set the output image spacing. */
+  /** @ITKStartGrouping */
   itkSetMacro(OutputSpacing, SpacingType);
   virtual void
   SetOutputSpacing(const double * spacing);
-
+  /** @ITKEndGrouping */
   /** Get the output image spacing. */
   itkGetConstReferenceMacro(OutputSpacing, SpacingType);
 
   /** Set the output image origin. */
+  /** @ITKStartGrouping */
   itkSetMacro(OutputOrigin, OriginPointType);
   virtual void
   SetOutputOrigin(const double * origin);
-
+  /** @ITKEndGrouping */
   /** Get the output image origin. */
   itkGetConstReferenceMacro(OutputOrigin, OriginPointType);
 
@@ -146,9 +149,10 @@ public:
    * field but with low precision. A small value of this factor will produce a
    * precise computation of the inverse field at the price of large memory
    * consumption and long computational time. */
+  /** @ITKStartGrouping */
   itkSetMacro(SubsamplingFactor, unsigned int);
   itkGetConstMacro(SubsamplingFactor, unsigned int);
-
+  /** @ITKEndGrouping */
   /** InverseDisplacementFieldImageFilter produces an image which is a different size
    * than its input.  As such, it needs to provide an implementation
    * for GenerateOutputInformation() in order to inform the pipeline

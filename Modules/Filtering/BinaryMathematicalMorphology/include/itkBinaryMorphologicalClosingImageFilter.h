@@ -95,10 +95,11 @@ public:
 
   /** A safe border is added to input image to avoid borders effects
    * and remove it once the closing is done */
+  /** @ITKStartGrouping */
   itkSetMacro(SafeBorder, bool);
   itkGetConstReferenceMacro(SafeBorder, bool);
   itkBooleanMacro(SafeBorder);
-
+  /** @ITKEndGrouping */
 protected:
   BinaryMorphologicalClosingImageFilter();
   ~BinaryMorphologicalClosingImageFilter() override = default;

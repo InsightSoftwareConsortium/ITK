@@ -99,27 +99,30 @@ public:
    * Set/Get whether the maximum Feret diameter should be computed or not.
    * Default value is false because of the high computation time required.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(ComputeFeretDiameter, bool);
   itkGetConstReferenceMacro(ComputeFeretDiameter, bool);
   itkBooleanMacro(ComputeFeretDiameter);
-
+  /** @ITKEndGrouping */
   /**
    * Set/Get whether the perimeter should be computed or not.
    * Default value is true;
    */
+  /** @ITKStartGrouping */
   itkSetMacro(ComputePerimeter, bool);
   itkGetConstReferenceMacro(ComputePerimeter, bool);
   itkBooleanMacro(ComputePerimeter);
-
+  /** @ITKEndGrouping */
   /**
    * Set/Get whether the oriented bounding box should be
    * computed or not. Default value is false because of potential
    * memory consumption issues with sparse labels.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(ComputeOrientedBoundingBox, bool);
   itkGetConstReferenceMacro(ComputeOrientedBoundingBox, bool);
   itkBooleanMacro(ComputeOrientedBoundingBox);
-
+  /** @ITKEndGrouping */
   /** Set the label image */
   void
   SetLabelImage(const TLabelImage * input)

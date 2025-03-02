@@ -80,14 +80,16 @@ public:
   itkOverrideGetNameOfClassMacro(IterativeDeconvolutionImageFilter);
 
   /** Set/get the number of iterations. */
+  /** @ITKStartGrouping */
   itkSetMacro(NumberOfIterations, unsigned int);
   itkGetMacro(NumberOfIterations, unsigned int);
-
+  /** @ITKEndGrouping */
   /** Set/get the current estimate. */
   itkGetModifiableObjectMacro(CurrentEstimate, InternalImageType);
 
   /** Stop iteration. When this method is called, the iteration will
    * halt after the current iteration has completed. */
+  /** @ITKStartGrouping */
   void
   SetStopIteration(bool stop)
   {
@@ -95,7 +97,7 @@ public:
     m_StopIteration = stop;
   }
   itkGetConstMacro(StopIteration, bool);
-
+  /** @ITKEndGrouping */
   /** Get the current iteration. */
   itkGetConstMacro(Iteration, unsigned int);
 

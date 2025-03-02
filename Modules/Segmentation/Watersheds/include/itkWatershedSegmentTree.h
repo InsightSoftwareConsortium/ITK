@@ -51,6 +51,7 @@ public:
   ITK_DISALLOW_COPY_AND_MOVE(SegmentTree);
 
   /** Define itk Smart Pointers for this object */
+  /** @ITKStartGrouping */
   using Self = SegmentTree;
   using Superclass = DataObject;
   using Pointer = SmartPointer<Self>;
@@ -59,6 +60,7 @@ public:
   itkOverrideGetNameOfClassMacro(SegmentTree);
   using ScalarType = TScalar;
 
+  /** @ITKEndGrouping */
   /** Elements of the list (nodes of the tree).  A record of a merge
    * between two segments (IdentifierType labels) at a particular
    * saliency.   */

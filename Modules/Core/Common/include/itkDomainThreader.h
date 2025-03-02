@@ -91,9 +91,10 @@ public:
   Execute(AssociateType * enclosingClass, const DomainType & completeDomain);
 
   /** Set/Get the DomainPartitioner. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(DomainPartitioner, DomainPartitionerType);
   itkGetModifiableObjectMacro(DomainPartitioner, DomainPartitionerType);
-
+  /** @ITKEndGrouping */
   /** Accessor for number of work units that were actually used in the last
    * ThreadedExecution. */
   itkGetConstMacro(NumberOfWorkUnitsUsed, ThreadIdType);
@@ -106,13 +107,15 @@ public:
    * \warning When setting the desired number of work units, it might be clamped by
    * itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads().
    * */
+  /** @ITKStartGrouping */
   itkSetClampMacro(NumberOfWorkUnits, ThreadIdType, 1, ITK_MAX_THREADS);
   itkGetConstMacro(NumberOfWorkUnits, ThreadIdType);
-
+  /** @ITKEndGrouping */
   /** Convenience methods to set/get the maximum number of threads to use.
    * \warning When setting the maximum number of threads, it will be clamped by
    * itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads().
    * */
+  /** @ITKStartGrouping */
   ThreadIdType
   GetMaximumNumberOfThreads() const
   {
@@ -120,7 +123,7 @@ public:
   }
   void
   SetMaximumNumberOfThreads(const ThreadIdType threads);
-
+  /** @ITKEndGrouping */
 protected:
   DomainThreader();
   ~DomainThreader() override = default;

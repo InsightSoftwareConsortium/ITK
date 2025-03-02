@@ -84,6 +84,7 @@ public:
   using NormalVectorType = typename NodeType::NodeDataType;
 
   /** GlobalData methods are not needed in this class. */
+  /** @ITKStartGrouping */
   void *
   GetGlobalDataPointer() const override
   {
@@ -92,7 +93,7 @@ public:
   void
   ReleaseGlobalDataPointer(void *) const override
   {}
-
+  /** @ITKEndGrouping */
   /** For the global time step, we return the time step parameter. */
   TimeStepType
   ComputeGlobalTimeStep(void *) const override

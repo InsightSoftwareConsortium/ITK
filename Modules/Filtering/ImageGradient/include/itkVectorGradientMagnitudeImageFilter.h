@@ -100,7 +100,7 @@ namespace itk
  * derivative values are summed during computation.  Specify these weights
  * using the SetComponentWeights method.  The argument to this method is a C
  * array of TRealValue type.
-
+ *
  * \par Constraints
  * The filter requires an image with at least two dimensions and a vector
  * length of at least 2.  The theory supports extension to scalar images, but
@@ -195,11 +195,12 @@ public:
       if you want to calculate the gradient in the space in which the data was
       acquired; use Off to ignore image spacing and to calculate the gradient
       in the image space. Default is On. */
+  /** @ITKStartGrouping */
   void
   SetUseImageSpacing(bool);
   itkGetConstMacro(UseImageSpacing, bool);
   itkBooleanMacro(UseImageSpacing);
-
+  /** @ITKEndGrouping */
 #if !defined(ITK_FUTURE_LEGACY_REMOVE)
   /** Set the derivative weights according to the spacing of the input image
       (1/spacing). Use this option if you want to calculate the gradient in the
@@ -231,23 +232,26 @@ public:
 
   /** Directly Set/Get the array of weights used in the gradient calculations.
       Note that calling UseImageSpacingOn will clobber these values. */
+  /** @ITKStartGrouping */
   itkSetMacro(DerivativeWeights, DerivativeWeightsType);
   itkGetConstReferenceMacro(DerivativeWeights, DerivativeWeightsType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the array of weightings for the different components of the
       vector.  Default values are 1.0. */
+  /** @ITKStartGrouping */
   itkSetMacro(ComponentWeights, ComponentWeightsType);
   itkGetConstReferenceMacro(ComponentWeights, ComponentWeightsType);
-
+  /** @ITKEndGrouping */
   /** Set/Get principle components calculation mode.  When this is set to TRUE/ON,
       the gradient calculation will involve a principle component analysis of
       the partial derivatives of the color components.  When this value is set
       to FALSE/OFF, the calculation is done as a square root of weighted sum of the
       derivatives squared.  Default is UsePrincipleComponents = true. */
+  /** @ITKStartGrouping */
   itkSetMacro(UsePrincipleComponents, bool);
   itkGetConstMacro(UsePrincipleComponents, bool);
   itkBooleanMacro(UsePrincipleComponents);
-
+  /** @ITKEndGrouping */
 #if !defined(ITK_FUTURE_LEGACY_REMOVE)
   /** \deprecated Use VectorGradientMagnitudeImageFilter::UsePrincipleComponentsOn instead. */
   void
@@ -485,9 +489,10 @@ protected:
   /** These weights are used to scale
       vector component values when they are combined to produce  a scalar.  The
       square root */
+  /** @ITKStartGrouping */
   ComponentWeightsType m_ComponentWeights = ComponentWeightsType::Filled(1);
   ComponentWeightsType m_SqrtComponentWeights = ComponentWeightsType::Filled(1);
-
+  /** @ITKEndGrouping */
 private:
   bool m_UseImageSpacing{ true };
   bool m_UsePrincipleComponents{};

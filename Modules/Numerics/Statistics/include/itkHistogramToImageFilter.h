@@ -111,6 +111,7 @@ public:
    * (Functors do not have to derive from itk::LightObject, so they do
    * not necessarily have a reference count. So we cannot return a
    * SmartPointer.) */
+  /** @ITKStartGrouping */
   FunctorType &
   GetFunctor()
   {
@@ -121,6 +122,7 @@ public:
   {
     return m_Functor;
   }
+  /** @ITKEndGrouping */
 
   void
   SetTotalFrequency(SizeValueType n);

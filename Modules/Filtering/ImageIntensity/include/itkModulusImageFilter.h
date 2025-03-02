@@ -66,6 +66,7 @@ public:
   itkOverrideGetNameOfClassMacro(ModulusImageFilter);
 
   /** Set/Get the dividend */
+  /** @ITKStartGrouping */
   virtual void
   SetDividend(InputPixelType _arg)
   {
@@ -76,7 +77,7 @@ public:
   {
     return this->GetConstant2();
   }
-
+  /** @ITKEndGrouping */
 
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputPixelType>));
 

@@ -151,8 +151,10 @@ public:
   using typename Superclass::OutputImageRegionType;
 
   /** Set get the binary ON value of the input image. */
+  /** @ITKStartGrouping */
   itkSetMacro(ForegroundValue, InputPixelType);
   itkGetConstMacro(ForegroundValue, InputPixelType);
+  /** @ITKEndGrouping */
 
   /** After the filter is updated, this method returns a std::vector<double> of
    *  all Specificity (true negative fraction, q) values for the expert
@@ -199,8 +201,10 @@ public:
   /** Set/Get the maximum number of iterations after which the STAPLE algorithm
    *  will be considered to have converged.  In general this SHOULD NOT be set and
    *  the algorithm should be allowed to converge on its own. */
+  /** @ITKStartGrouping */
   itkSetClampMacro(MaximumIterations, unsigned int, 1, NumericTraits<unsigned int>::max());
   itkGetConstMacro(MaximumIterations, unsigned int);
+  /** @ITKEndGrouping */
 
   /** Scales the estimated prior probability that a pixel will be inside the
    *  targeted object of segmentation.  The default prior probability g_t is
@@ -209,8 +213,10 @@ public:
    *  ConfidenceWeight will scale this default value as g_t = g_t *
    *  ConfidenceWeight.  In general, ConfidenceWeight should be left to the
    *  default of 1.0. */
+  /** @ITKStartGrouping */
   itkSetMacro(ConfidenceWeight, double);
   itkGetConstMacro(ConfidenceWeight, double);
+  /** @ITKEndGrouping */
 
   /** Get the number of elapsed iterations of the iterative E-M algorithm. */
   itkGetConstMacro(ElapsedIterations, unsigned int);

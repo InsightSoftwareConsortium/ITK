@@ -53,6 +53,7 @@ public:
   itkOverrideGetNameOfClassMacro(JPEGImageIO);
 
   /** Set/Get the level of quality for the output images. */
+  /** @ITKStartGrouping */
   virtual void
   SetQuality(int _JPEGQuality)
   {
@@ -63,17 +64,19 @@ public:
   {
     return this->GetCompressionLevel();
   }
-
+  /** @ITKEndGrouping */
   /**  */
+  /** @ITKStartGrouping */
   itkSetMacro(Progressive, bool);
   itkGetConstMacro(Progressive, bool);
   itkBooleanMacro(Progressive);
-
+  /** @ITKEndGrouping */
   /** Convert to RGB if out_color_space is CMYK, default is true */
+  /** @ITKStartGrouping */
   itkSetMacro(CMYKtoRGB, bool);
   itkGetConstMacro(CMYKtoRGB, bool);
   itkBooleanMacro(CMYKtoRGB);
-
+  /** @ITKEndGrouping */
   /*-------- This part of the interface deals with reading data. ------ */
 
   /** Determine the file type. Returns true if this ImageIO can read the

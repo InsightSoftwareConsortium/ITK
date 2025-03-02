@@ -87,7 +87,7 @@ OCTREE_OCTANT(const unsigned int VoxX,
  * \defgroup Octant directional identifying functions
  * These functions determine if the directions are in the "lower" or
  * "upper" portion of the Octree in the given directions.
- * @{
+ * @ITKStartGrouping
  */
 inline unsigned int
 XF(const unsigned int octantID)
@@ -107,7 +107,7 @@ ZF(const unsigned int octantID)
   return (octantID >> 2) & 1; // Just return 1 if 2nd bit is a one
 }
 
-/** @} */ // End of defgroup
+/** @ITKEndGrouping */ // End of defgroup
 
 template <typename TPixel, unsigned int ColorTableSize, typename MappingFunctionType>
 int

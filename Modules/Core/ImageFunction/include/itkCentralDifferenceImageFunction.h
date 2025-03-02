@@ -199,10 +199,11 @@ public:
    * amount of computation performed when the flag is ON.
    * The default value of this flag is On.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(UseImageDirection, bool);
   itkGetConstMacro(UseImageDirection, bool);
   itkBooleanMacro(UseImageDirection);
-
+  /** @ITKEndGrouping */
 protected:
   CentralDifferenceImageFunction();
   ~CentralDifferenceImageFunction() override = default;

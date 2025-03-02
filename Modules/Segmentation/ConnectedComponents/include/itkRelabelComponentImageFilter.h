@@ -153,9 +153,10 @@ public:
 
   /** Get/Set the number of objects enumerated and described when the
    * filter is printed. */
+  /** @ITKStartGrouping */
   itkSetMacro(NumberOfObjectsToPrint, SizeValueType);
   itkGetConstReferenceMacro(NumberOfObjectsToPrint, SizeValueType);
-
+  /** @ITKEndGrouping */
   /** Set the minimum size in pixels for an object. All objects
    * smaller than this size will be discarded and will not appear
    * in the output label map. NumberOfObjects will count only the
@@ -173,10 +174,11 @@ public:
 
   /** Controls whether the object labels are sorted by size.
    * If false, initial order of labels is kept. */
+  /** @ITKStartGrouping */
   itkSetMacro(SortByObjectSize, bool);
   itkGetConstMacro(SortByObjectSize, bool);
   itkBooleanMacro(SortByObjectSize);
-
+  /** @ITKEndGrouping */
   /** Get the size of each object in pixels. This information is only
    * valid after the filter has executed.  Size of the background is
    * not calculated.  Size of object #1 is

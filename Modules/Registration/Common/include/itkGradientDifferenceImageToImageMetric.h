@@ -133,9 +133,10 @@ public:
 
   /** Set/Get the value of Delta used for computing derivatives by finite
    * differences in the GetDerivative() method */
+  /** @ITKStartGrouping */
   itkSetMacro(DerivativeDelta, double);
   itkGetConstReferenceMacro(DerivativeDelta, double);
-
+  /** @ITKEndGrouping */
 protected:
   GradientDifferenceImageToImageMetric();
   ~GradientDifferenceImageToImageMetric() override = default;
@@ -165,6 +166,7 @@ private:
   /** The range of the moving image gradients. */
   mutable MovedGradientPixelType m_MinMovedGradient[MovedImageDimension]{};
   mutable MovedGradientPixelType m_MaxMovedGradient[MovedImageDimension]{};
+
   /** The range of the fixed image gradients. */
   mutable FixedGradientPixelType m_MinFixedGradient[FixedImageDimension]{};
   mutable FixedGradientPixelType m_MaxFixedGradient[FixedImageDimension]{};

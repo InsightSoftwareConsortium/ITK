@@ -76,34 +76,38 @@ public:
   using Self = CompensatedSummation;
 
   /** Constructors. */
+  /** @ITKStartGrouping */
   CompensatedSummation() = default;
   CompensatedSummation(FloatType value);
-
+  /** @ITKEndGrouping */
   /** Copy constructor. */
   CompensatedSummation(const Self &) = default;
+
   /** Assignment operator. */
   Self &
   operator=(const Self &) = default;
 
   /** Add an element to the sum. */
+  /** @ITKStartGrouping */
   void
   AddElement(const FloatType & element);
   Self &
   operator+=(const FloatType & rhs);
   Self &
   operator+=(const Self & rhs);
-
+  /** @ITKEndGrouping */
   /** Subtract an element from the sum. */
   Self &
   operator-=(const FloatType & rhs);
 
   /** Division and multiplication. These do not provide any numerical advantages
    * relative to vanilla division and multiplication. */
+  /** @ITKStartGrouping */
   Self &
   operator*=(const FloatType & rhs);
   Self &
   operator/=(const FloatType & rhs);
-
+  /** @ITKEndGrouping */
   /** Reset the sum and compensation to zero. */
   void
   ResetToZero();

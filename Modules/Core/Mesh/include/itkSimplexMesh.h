@@ -90,6 +90,7 @@ public:
 
   /** */
   using CellAutoPointer = typename CellType::CellAutoPointer;
+
   /** */
   using LineType = itk::LineCell<CellType>;
 
@@ -286,12 +287,13 @@ public:
   ComputeNormal(PointIdentifier idx) const;
 
 protected:
-  //  /** Constructor for use by New() method. */
+  /** Constructor for use by New() method. */
+  /** @ITKStartGrouping */
   SimplexMesh();
   ~SimplexMesh() override;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
-
+  /** @ITKEndGrouping */
   /**
    * The map stores a SimplexMeshGeometry object for each mesh point
    */

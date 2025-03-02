@@ -133,10 +133,11 @@ public:
    * to true, the labels are selected in order to span the dynamic range of the
    * output image. This last option is useful when the output image is intended
    * only for display. The default value is false. */
+  /** @ITKStartGrouping */
   itkSetMacro(UseNonContiguousLabels, bool);
   itkGetConstReferenceMacro(UseNonContiguousLabels, bool);
   itkBooleanMacro(UseNonContiguousLabels);
-
+  /** @ITKEndGrouping */
   /** Set Region method to constrain classification to a certain region */
   void
   SetImageRegion(const ImageRegionType & region);

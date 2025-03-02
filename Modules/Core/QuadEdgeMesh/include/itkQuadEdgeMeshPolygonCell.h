@@ -78,7 +78,7 @@ public:
   using EdgeCellType = QuadEdgeMeshLineCell<CellType>;
   using EdgeCellListType = std::vector<EdgeCellType *>;
 
-  //** */
+  /** */
   using PointIdIterator = typename CellTraits::PointIdIterator;
   using PointIdConstIterator = typename CellTraits::PointIdConstIterator;
   using PointIdInternalIterator = typename CellTraits::PointIdInternalIterator;
@@ -97,11 +97,13 @@ public:
   itkOverrideGetNameOfClassMacro(QuadEdgeMeshPolygonCell);
 
   /** Object memory management methods. */
+  /** @ITKStartGrouping */
   QuadEdgeMeshPolygonCell(PointIdentifier nPoints = 0);
   QuadEdgeMeshPolygonCell(QuadEdgeType * e);
   ~QuadEdgeMeshPolygonCell() override;
-
+  /** @ITKEndGrouping */
   /** Accessors for m_Ident. */
+  /** @ITKStartGrouping */
   void
   SetIdent(CellIdentifier cid)
   {
@@ -112,8 +114,9 @@ public:
   {
     return (m_Ident);
   }
-
+  /** @ITKEndGrouping */
   /** Lnext ring entry accessors. */
+  /** @ITKStartGrouping */
   QuadEdgeType *
   GetEdgeRingEntry() const
   {
@@ -124,7 +127,7 @@ public:
   {
     m_EdgeRingEntry = entry;
   }
-
+  /** @ITKEndGrouping */
   /** Implement the standard CellInterface. */
   SelfAutoPointer
   New();

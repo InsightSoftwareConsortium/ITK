@@ -34,6 +34,7 @@ namespace itk
 {
 /** Platform specific type alias for simple types
  */
+/** @ITKStartGrouping */
 #if defined(ITK_USE_PTHREADS)
 constexpr size_t ITK_MAX_THREADS = ITK_DEFAULT_MAX_THREADS;
 using MutexType = pthread_mutex_t;
@@ -44,7 +45,7 @@ using ThreadProcessIdType = pthread_t;
 constexpr ThreadProcessIdType ITK_DEFAULT_THREAD_ID = 0;
 #  endif
 using ITK_THREAD_RETURN_TYPE = void *;
-
+/** @ITKEndGrouping */
 constexpr ITK_THREAD_RETURN_TYPE ITK_THREAD_RETURN_DEFAULT_VALUE = nullptr;
 using itk::ITK_THREAD_RETURN_DEFAULT_VALUE; // We need this out of the itk namespace for #define to work below
 using ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION = itk::ITK_THREAD_RETURN_TYPE;

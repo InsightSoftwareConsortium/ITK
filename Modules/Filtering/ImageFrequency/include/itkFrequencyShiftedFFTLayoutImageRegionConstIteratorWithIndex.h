@@ -220,6 +220,7 @@ public:
    * This is: N/2 if N even, (N - 1)/2 if N odd.
    */
   itkGetConstReferenceMacro(ZeroFrequencyIndex, IndexType);
+
   /** Origin of frequencies is zero for FFT output. */
   itkGetConstReferenceMacro(FrequencyOrigin, FrequencyType);
 
@@ -233,6 +234,7 @@ public:
 
   /** Does nothing. This member only affects HalfHermitianFrequencyIterator.
    * Provided for homogeneous interface between iterators. */
+  /** @ITKStartGrouping */
   void
   SetActualXDimensionIsOdd(bool value)
   {
@@ -240,7 +242,7 @@ public:
   }
   itkGetMacro(ActualXDimensionIsOdd, bool);
   itkBooleanMacro(ActualXDimensionIsOdd);
-
+  /** @ITKEndGrouping */
 private:
   /** Calculate m_ZeroFrequencyIndex, and frequency spacing/origin.
    * Called by constructors.  */

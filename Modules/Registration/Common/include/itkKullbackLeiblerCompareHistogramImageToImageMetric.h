@@ -121,6 +121,7 @@ public:
   }
 
   /** Forms the histogram of the training images to prepare to evaluate the */
+
   /** metric. Must set all parameters first */
   void
   Initialize() override;
@@ -128,11 +129,12 @@ public:
 protected:
   /** Constructor is protected to ensure that \c New() function is used to
       create instances. */
+  /** @ITKStartGrouping */
   KullbackLeiblerCompareHistogramImageToImageMetric();
   ~KullbackLeiblerCompareHistogramImageToImageMetric() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
-
+  /** @ITKEndGrouping */
   /** Form the Histogram for the Training data */
   void
   FormTrainingHistogram();

@@ -122,31 +122,37 @@ public:
   using DataObjectPointer = typename DataObject::Pointer;
 
   /** Set/Get the Fixed image. */
+  /** @ITKStartGrouping */
   void
   SetFixedImage(const FixedImageType * fixedImage);
   itkGetConstObjectMacro(FixedImage, FixedImageType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the Moving image. */
+  /** @ITKStartGrouping */
   void
   SetMovingImage(const MovingImageType * movingImage);
   itkGetConstObjectMacro(MovingImage, MovingImageType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the Optimizer. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(Optimizer, OptimizerType);
   itkGetModifiableObjectMacro(Optimizer, OptimizerType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the Metric. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(Metric, MetricType);
   itkGetModifiableObjectMacro(Metric, MetricType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the Transform. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(Transform, TransformType);
   itkGetModifiableObjectMacro(Transform, TransformType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the Interpolator. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(Interpolator, InterpolatorType);
   itkGetModifiableObjectMacro(Interpolator, InterpolatorType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the initial transformation parameters. */
   virtual void
   SetInitialTransformParameters(const ParametersType & param);
@@ -172,9 +178,11 @@ public:
    the ImageMetric in order to restrict the metric computation to
    consider only this region.  */
   itkGetConstReferenceMacro(FixedImageRegion, FixedImageRegionType);
+
   /** True if a region has been defined for the fixed image to which
    the ImageMetric will limit its computation */
   itkGetConstMacro(FixedImageRegionDefined, bool);
+
   /** Turn on/off the use of a fixed image region to which
    the ImageMetric will limit its computation.
    \warning The region must have been previously defined using the

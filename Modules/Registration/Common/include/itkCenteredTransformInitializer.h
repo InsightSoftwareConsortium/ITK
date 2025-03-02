@@ -121,6 +121,7 @@ public:
 
   /** Select between using the geometrical center of the images or
       using the center of mass given by the image intensities. */
+  /** @ITKStartGrouping */
   void
   GeometryOn()
   {
@@ -131,11 +132,12 @@ public:
   {
     m_UseMoments = true;
   }
-
+  /** @ITKEndGrouping */
   /** Get() access to the moments calculators */
+  /** @ITKStartGrouping */
   itkGetModifiableObjectMacro(FixedCalculator, FixedImageCalculatorType);
   itkGetModifiableObjectMacro(MovingCalculator, MovingImageCalculatorType);
-
+  /** @ITKEndGrouping */
 protected:
   CenteredTransformInitializer() = default;
   ~CenteredTransformInitializer() override = default;

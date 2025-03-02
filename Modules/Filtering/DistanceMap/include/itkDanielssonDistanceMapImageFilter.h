@@ -124,24 +124,27 @@ public:
   using VectorImagePointer = typename VectorImageType::Pointer;
 
   /** Set/Get if the distance should be squared. */
+  /** @ITKStartGrouping */
   itkSetMacro(SquaredDistance, bool);
   itkGetConstReferenceMacro(SquaredDistance, bool);
   itkBooleanMacro(SquaredDistance);
-
+  /** @ITKEndGrouping */
   /** Set/Get if the input is binary. If this variable is set, each
    * nonzero pixel in the input image will be given a unique numeric
    * code to be used by the Voronoi partition.  If the image is binary
    * but you are not interested in the Voronoi regions of the
    * different nonzero pixels, then you need not set this.  */
+  /** @ITKStartGrouping */
   itkSetMacro(InputIsBinary, bool);
   itkGetConstReferenceMacro(InputIsBinary, bool);
   itkBooleanMacro(InputIsBinary);
-
+  /** @ITKEndGrouping */
   /** Set/Get if image spacing should be used in computing distances. */
+  /** @ITKStartGrouping */
   itkSetMacro(UseImageSpacing, bool);
   itkGetConstReferenceMacro(UseImageSpacing, bool);
   itkBooleanMacro(UseImageSpacing);
-
+  /** @ITKEndGrouping */
   /** Get Voronoi Map
    * This map shows for each pixel what object is closest to it.
    * Each object should be labeled by a number (larger than 0),

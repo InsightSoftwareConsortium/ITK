@@ -61,11 +61,12 @@ public:
   itkGetConstMacro(FileNames, std::vector<std::string>);
 
   /** Override SetFileName to do parsing. */
+  /** @ITKStartGrouping */
   void
   SetFileName(const std::string & fileList) override;
   void
   SetFileName(const char * fileList) override;
-
+  /** @ITKEndGrouping */
   /** Close the reader and writer and reset members. */
   void
   FinishReadingOrWriting() override;
@@ -107,6 +108,7 @@ public:
   SetNextFrameToRead(FrameOffsetType frameNumber) override;
 
   /** Accessor functions for video specific information. */
+  /** @ITKStartGrouping */
   TemporalOffsetType
   GetPositionInMSec() const override
   {
@@ -138,7 +140,7 @@ public:
   {
     return this->m_LastIFrame;
   }
-
+  /** @ITKEndGrouping */
   /** Override accessors to pass through to internal image reader. */
   double
   GetSpacing(unsigned int i) const override;

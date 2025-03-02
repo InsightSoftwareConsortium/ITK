@@ -88,26 +88,29 @@ public:
   using OutputPixelType = typename OutputImageType::PixelType;
 
   /** Specify the maximum number of iteration. */
+  /** @ITKStartGrouping */
   itkSetMacro(MaximumNumberOfIterations, unsigned int);
   itkGetConstMacro(MaximumNumberOfIterations, unsigned int);
-
+  /** @ITKEndGrouping */
   /** If AutomaticNumberOfIterations is off, the number of iterations is
    * given by MaximumNumberOfIterations. If it is on, we try to get
    * the lowest good number (which may not be larger than
    * MaximumNumberOfIterations ) */
+  /** @ITKStartGrouping */
   itkSetMacro(AutomaticNumberOfIterations, bool);
   itkGetConstMacro(AutomaticNumberOfIterations, bool);
   itkBooleanMacro(AutomaticNumberOfIterations);
-
+  /** @ITKEndGrouping */
   /** If ComputeInverse is on, the filter will compute the exponential
    * of the opposite (minus) of the input vector field. The output displacement
    * fields computed with ComputeInverse set to on and off respectively
    * therefore represent spatial transformations that are inverses of
    * each other. */
+  /** @ITKStartGrouping */
   itkSetMacro(ComputeInverse, bool);
   itkGetConstMacro(ComputeInverse, bool);
   itkBooleanMacro(ComputeInverse);
-
+  /** @ITKEndGrouping */
   /** Image dimension. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int OutputImageDimension = TInputImage::ImageDimension;

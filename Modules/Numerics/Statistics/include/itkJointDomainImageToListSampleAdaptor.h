@@ -175,10 +175,11 @@ public:
   GetMeasurementVector(InstanceIdentifier id) const override;
 
   /** Method to set UsePixelContainer flag */
+  /** @ITKStartGrouping */
   itkSetMacro(UsePixelContainer, bool);
   itkGetConstMacro(UsePixelContainer, bool);
   itkBooleanMacro(UsePixelContainer);
-
+  /** @ITKEndGrouping */
   //  void PrintSelf(std::ostream& os, Indent indent) const override;
 
   /** \class ConstIterator

@@ -75,6 +75,7 @@ public:
   }
 
   /** Set/Get the mean of the function. */
+  /** @ITKStartGrouping */
   void
   SetMean(double mean)
   {
@@ -85,8 +86,9 @@ public:
   {
     return m_Mean;
   }
-
+  /** @ITKEndGrouping */
   /** Set/Get the standard deviation of the function. */
+  /** @ITKStartGrouping */
   void
   SetSigma(double sigma)
   {
@@ -97,7 +99,7 @@ public:
   {
     return m_Sigma;
   }
-
+  /** @ITKEndGrouping */
 private:
   double m_Mean;
   double m_Sigma;

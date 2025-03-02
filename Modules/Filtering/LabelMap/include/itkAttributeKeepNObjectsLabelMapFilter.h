@@ -85,16 +85,18 @@ public:
    * highest value are kept. Turming ReverseOrdering to true make this filter
    * keep the objects with the smallest values
    */
+  /** @ITKStartGrouping */
   itkSetMacro(ReverseOrdering, bool);
   itkGetConstReferenceMacro(ReverseOrdering, bool);
   itkBooleanMacro(ReverseOrdering);
-
+  /** @ITKEndGrouping */
   /**
    * Set/Get the number of objects to keep
    */
+  /** @ITKStartGrouping */
   itkSetMacro(NumberOfObjects, SizeValueType);
   itkGetConstReferenceMacro(NumberOfObjects, SizeValueType);
-
+  /** @ITKEndGrouping */
 protected:
   AttributeKeepNObjectsLabelMapFilter();
   ~AttributeKeepNObjectsLabelMapFilter() override = default;

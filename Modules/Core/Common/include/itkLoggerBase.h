@@ -124,9 +124,10 @@ public:
    * \sa SetHumanReadableFormat()
    *
    */
+  /** @ITKStartGrouping */
   itkSetEnumMacro(TimeStampFormat, TimeStampFormatEnum);
   itkGetConstReferenceMacro(TimeStampFormat, TimeStampFormatEnum);
-
+  /** @ITKEndGrouping */
   /** Set/Get the specific text format to use when the time stamp format type
    * is set to HUMANREADABLE. For a description of the acceptable formats
    * please look at the man page of the strftime() method. The default is set
@@ -135,9 +136,10 @@ public:
    * \sa SetTimeStampFormat
    *
    */
+  /** @ITKStartGrouping */
   itkSetStringMacro(HumanReadableFormat);
   itkGetStringMacro(HumanReadableFormat);
-
+  /** @ITKEndGrouping */
   /** Provides a default formatted log entry */
   virtual std::string
   BuildFormattedEntry(PriorityLevelEnum level, const std::string & content);

@@ -89,24 +89,27 @@ public:
    * FullyConnectedOff.  For objects that are 1 pixel wide, use
    * FullyConnectedOn.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(FullyConnected, bool);
   itkGetConstReferenceMacro(FullyConnected, bool);
   itkBooleanMacro(FullyConnected);
-
+  /** @ITKEndGrouping */
   /**
    * Set/Get whether the watershed pixel must be marked or not. Default
    * is true. Set it to false do not only avoid writing watershed pixels,
    * it also decrease algorithm complexity.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(MarkWatershedLine, bool);
   itkGetConstReferenceMacro(MarkWatershedLine, bool);
   itkBooleanMacro(MarkWatershedLine);
-
+  /** @ITKEndGrouping */
   /**
    */
+  /** @ITKStartGrouping */
   itkSetMacro(Level, InputImagePixelType);
   itkGetConstMacro(Level, InputImagePixelType);
-
+  /** @ITKEndGrouping */
 protected:
   MorphologicalWatershedImageFilter();
   ~MorphologicalWatershedImageFilter() override = default;

@@ -93,6 +93,7 @@ public:
    * This has no effect with ITK_USE_CUFFTW.
    * /sa FFTWGlobalConfiguration
    */
+  /** @ITKStartGrouping */
   virtual void
   SetPlanRigor(const int & value)
   {
@@ -114,7 +115,7 @@ public:
     this->SetPlanRigor(FFTWGlobalConfiguration::GetPlanRigorValue(name));
 #endif
   }
-
+  /** @ITKEndGrouping */
   SizeValueType
   GetSizeGreatestPrimeFactor() const override;
 

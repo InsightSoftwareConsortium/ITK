@@ -84,10 +84,11 @@ public:
    * This option has no effect if none of the size of the input image is even,
    * but is required to restore the original image if at least one
    * of the dimensions has an odd size. */
+  /** @ITKStartGrouping */
   itkSetMacro(Inverse, bool);
   itkGetConstReferenceMacro(Inverse, bool);
   itkBooleanMacro(Inverse);
-
+  /** @ITKEndGrouping */
 protected:
   FFTShiftImageFilter();
   ~FFTShiftImageFilter() override = default;

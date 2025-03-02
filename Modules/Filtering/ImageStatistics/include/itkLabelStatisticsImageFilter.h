@@ -289,9 +289,10 @@ public:
   }
 
   /** Set the label image */
+  /** @ITKStartGrouping */
   itkSetInputMacro(LabelInput, TLabelImage);
   itkGetInputMacro(LabelInput, TLabelImage);
-
+  /** @ITKEndGrouping */
   /** Does the specified label exist? Can only be called after a call
    * a call to Update(). */
   bool

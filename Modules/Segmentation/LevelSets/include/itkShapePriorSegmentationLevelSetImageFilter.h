@@ -115,26 +115,35 @@ public:
   using OptimizerPointer = typename OptimizerType::Pointer;
 
   /** Set/Get the shape signed distance function. */
+  /** @ITKStartGrouping */
   virtual void
   SetShapeFunction(ShapeFunctionType * s);
   itkGetModifiableObjectMacro(ShapeFunction, ShapeFunctionType);
+  /** @ITKEndGrouping */
 
   /** Set/Get the shape prior MAP cost function. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(CostFunction, CostFunctionType);
   itkGetModifiableObjectMacro(CostFunction, CostFunctionType);
+  /** @ITKEndGrouping */
 
   /** Set/Get the optimizer. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(Optimizer, OptimizerType);
   itkGetModifiableObjectMacro(Optimizer, OptimizerType);
+  /** @ITKEndGrouping */
 
   /** Set/Get the initial parameters. These are the initial parameters applied
    * to the ShapeFunction. The user should refer to the documentation of
    * the particular type of ShapeSignedDistanceFunction used to determine
    * the meaning of the parameters. */
+  /** @ITKStartGrouping */
   itkSetMacro(InitialParameters, ParametersType);
   itkGetConstMacro(InitialParameters, ParametersType);
+  /** @ITKEndGrouping */
 
   /** Set/Get the scaling of the shape prior term. */
+  /** @ITKStartGrouping */
   void
   SetShapePriorScaling(ValueType v)
   {
@@ -150,6 +159,7 @@ public:
   {
     return m_ShapePriorSegmentationFunction->GetShapePriorWeight();
   }
+  /** @ITKEndGrouping */
 
   /** Set the shape prior segmentation function. In general, this should only be called
    * by a subclass of this object. It is made public to allow itk::Command objects access. */

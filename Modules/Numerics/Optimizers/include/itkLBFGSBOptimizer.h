@@ -104,25 +104,28 @@ public:
   itkBooleanMacro(Trace);
 
   /** Set the lower bound value for each variable. */
+  /** @ITKStartGrouping */
   virtual void
   SetLowerBound(const BoundValueType & value);
   itkGetConstReferenceMacro(LowerBound, BoundValueType);
-
+  /** @ITKEndGrouping */
   /** Set the upper bound value for each variable. */
+  /** @ITKStartGrouping */
   virtual void
   SetUpperBound(const BoundValueType & value);
   itkGetConstReferenceMacro(UpperBound, BoundValueType);
-
+  /** @ITKEndGrouping */
   /** Set the boundary condition for each variable, where
    * select[i] = 0 if x[i] is unbounded,
    *           = 1 if x[i] has only a lower bound,
    *           = 2 if x[i] has both lower and upper bounds, and
    *           = 3 if x[1] has only an upper bound
    */
+  /** @ITKStartGrouping */
   virtual void
   SetBoundSelection(const BoundSelectionType & value);
   itkGetConstReferenceMacro(BoundSelection, BoundSelectionType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the CostFunctionConvergenceFactor. Algorithm terminates
    * when the reduction in cost function is less than factor * epsmcj
    * where epsmch is the machine precision.

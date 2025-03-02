@@ -90,11 +90,12 @@ public:
   Set(const ComponentType * val);
 
   /** Get the contained object */
+  /** @ITKStartGrouping */
   virtual const ComponentType *
   Get() const;
   virtual ComponentType *
   GetModifiable();
-
+  /** @ITKEndGrouping */
   /** The most recent MTime of this object and the held component */
   ModifiedTimeType
   GetMTime() const override;

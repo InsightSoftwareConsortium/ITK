@@ -41,14 +41,19 @@ public:
    */
   enum class Analyze75Flavor : uint8_t
   {
+
     /** Behavior introduced in ITK4.0 by NIFTI reader interpreting Analyze files */
     AnalyzeITK4 = 4,
+
     /** Will ignore orientation code and negative pixel dimensions */
     AnalyzeFSL = 3,
+
     /** Will ignore orientation code and respect negative pixel dimensions */
     AnalyzeSPM = 2,
+
     /** Same as AnalyzeITK4 but will show warning about deprecated file format (Default)*/
     AnalyzeITK4Warning = 1,
+
     /** Reject Analyze files as potentially wrong  */
     AnalyzeReject = 0
   };
@@ -61,10 +66,13 @@ public:
   {
     /** 2-file Nifti (consisting of .hdr and .img file). */
     TwoFileNifti = 2,
+
     /** 1-file Nifti (consisting of .nii file). */
     OneFileNifti = 1,
+
     /** Legacy Analyze 7.5 format (consisting of .hdr and .img file). */
     Analyze75 = 0,
+
     /** Some other file format, or file system error. */
     OtherOrError = -1,
   };
@@ -76,11 +84,12 @@ using Analyze75Flavor = NiftiImageIOEnums::Analyze75Flavor;
 #endif
 
 /** Define how to print enumerations */
+/** @ITKStartGrouping */
 extern ITKIONIFTI_EXPORT std::ostream &
                          operator<<(std::ostream & out, const NiftiImageIOEnums::Analyze75Flavor value);
 extern ITKIONIFTI_EXPORT std::ostream &
                          operator<<(std::ostream & out, const NiftiImageIOEnums::NiftiFileEnum value);
-
+/** @ITKEndGrouping */
 /**
  * \class NiftiImageIO
  *
@@ -178,16 +187,18 @@ public:
   GenerateStreamableReadRegionFromRequestedRegion(const ImageIORegion & requestedRegion) const override;
 
   /** Set the slope and intercept for voxel value rescaling. */
+  /** @ITKStartGrouping */
   itkSetMacro(RescaleSlope, double);
   itkSetMacro(RescaleIntercept, double);
-
+  /** @ITKEndGrouping */
   /** A mode to allow the Nifti filter to read and write to the LegacyAnalyze75 format as interpreted by
    * the nifti library maintainers.  This format does not properly respect the file orientation fields.
    * By default this is set by configuration option ITK_NIFTI_IO_ANALYZE_FLAVOR
    */
+  /** @ITKStartGrouping */
   itkSetMacro(LegacyAnalyze75Mode, NiftiImageIOEnums::Analyze75Flavor);
   itkGetConstMacro(LegacyAnalyze75Mode, NiftiImageIOEnums::Analyze75Flavor);
-
+  /** @ITKEndGrouping */
   /** Enable conversion of vector coordinates between RAS coordinate system (in NIFTI file) and
    * LPS (ITK convention) when reading or writing a generic vector image file (intent code: 1007).
    *
@@ -196,10 +207,11 @@ public:
    * By default an ITK vector image is written to NIFTI file as a generic vector image, unless
    * "intent_code" field is set explicitly to set to "1006" (displacement vector).
    */
+  /** @ITKStartGrouping */
   itkSetMacro(ConvertRASVectors, bool);
   itkGetConstMacro(ConvertRASVectors, bool);
   itkBooleanMacro(ConvertRASVectors);
-
+  /** @ITKEndGrouping */
   /** Enable conversion of vector coordinates between RAS coordinate system (in NIFTI file) and
    * LPS (ITK convention) when reading or writing a "displacement vector" file (intent code: 1006).
    *
@@ -215,15 +227,17 @@ public:
    \endcode
    *
    */
+  /** @ITKStartGrouping */
   itkSetMacro(ConvertRASDisplacementVectors, bool);
   itkGetConstMacro(ConvertRASDisplacementVectors, bool);
   itkBooleanMacro(ConvertRASDisplacementVectors);
-
+  /** @ITKEndGrouping */
   /** Allow to read nifti files with non-orthogonal sform*/
+  /** @ITKStartGrouping */
   itkSetMacro(SFORM_Permissive, bool);
   itkGetConstMacro(SFORM_Permissive, bool);
   itkBooleanMacro(SFORM_Permissive);
-
+  /** @ITKEndGrouping */
 protected:
   NiftiImageIO();
   ~NiftiImageIO() override;

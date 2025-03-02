@@ -89,29 +89,32 @@ public:
    * If the optimum is expected to be near the initial value it is likely
    * that initializing with a normal distribution will result in faster
    * convergence.*/
+  /** @ITKStartGrouping */
   itkSetMacro(InitializeNormalDistribution, bool);
   itkGetMacro(InitializeNormalDistribution, bool);
   itkBooleanMacro(InitializeNormalDistribution);
-
+  /** @ITKEndGrouping */
   /**
    * Specify the initial swarm. Useful for evaluating PSO variants. If the
    * initial swarm is set it will be used. To revert to random initialization
    * (uniform or normal particle distributions) set using an empty swarm.
    */
+  /** @ITKStartGrouping */
   void
   SetInitialSwarm(const SwarmType & initialSwarm);
   void
   ClearSwarm();
-
+  /** @ITKEndGrouping */
   /**
    * Indicate whether or not to output the swarm information when printing an
    * object. By default this option is turned off as it generates too much
    * information.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(PrintSwarm, bool);
   itkGetMacro(PrintSwarm, bool);
   itkBooleanMacro(PrintSwarm);
-
+  /** @ITKEndGrouping */
   /** Start optimization. */
   void
   StartOptimization() override;
@@ -119,30 +122,34 @@ public:
 
   /** Set/Get number of particles in the swarm - the maximal number of function
       evaluations is m_MaximalNumberOfIterations*m_NumberOfParticles */
+  /** @ITKStartGrouping */
   void
   SetNumberOfParticles(NumberOfParticlesType n);
   itkGetMacro(NumberOfParticles, NumberOfParticlesType);
-
+  /** @ITKEndGrouping */
   /** Set/Get maximal number of iterations - the maximal number of function
       evaluations is m_MaximalNumberOfIterations*m_NumberOfParticles */
+  /** @ITKStartGrouping */
   itkSetMacro(MaximalNumberOfIterations, NumberOfIterationsType);
   itkGetMacro(MaximalNumberOfIterations, NumberOfIterationsType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the number of generations to continue with minimal improvement in
    *  the function value, |f_best(g_i) - f_best(g_k)|<threshold where
    *  k <= i+NumberOfGenerationsWithMinimalImprovement
    *  Minimal value is one.*/
+  /** @ITKStartGrouping */
   itkSetMacro(NumberOfGenerationsWithMinimalImprovement, NumberOfGenerationsType);
   itkGetMacro(NumberOfGenerationsWithMinimalImprovement, NumberOfGenerationsType);
-
-  /**Set/Get the parameter bounds. Search for optimal value is inside these
+  /** @ITKEndGrouping */
+  /** Set/Get the parameter bounds. Search for optimal value is inside these
      bounds. NOTE: It is assumed that the first entry is the minimal value,
      second is the maximal value. */
+  /** @ITKStartGrouping */
   virtual void
   SetParameterBounds(ParameterBoundsType & bounds);
   void
   SetParameterBounds(std::pair<ParametersType::ValueType, ParametersType::ValueType> & bounds, unsigned int n);
-
+  /** @ITKEndGrouping */
   ParameterBoundsType
   GetParameterBounds() const;
 
@@ -162,28 +169,32 @@ public:
    */
   itkSetMacro(FunctionConvergenceTolerance, MeasureType);
   itkGetMacro(FunctionConvergenceTolerance, MeasureType);
-  /**Set parameters convergence tolerance using the same value for all, sz,
+
+  /** Set parameters convergence tolerance using the same value for all, sz,
      parameters*/
+  /** @ITKStartGrouping */
   void
   SetParametersConvergenceTolerance(ValueType convergenceTolerance, unsigned int sz);
   itkSetMacro(ParametersConvergenceTolerance, ParametersType);
   itkGetMacro(ParametersConvergenceTolerance, ParametersType);
   itkGetMacro(PercentageParticlesConverged, double);
   itkSetMacro(PercentageParticlesConverged, double);
-
-  /**Set the random number seed for the swarm. Use this method to
+  /** @ITKEndGrouping */
+  /** Set the random number seed for the swarm. Use this method to
    * produce repeatable results, typically, for testing.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(Seed, RandomVariateGeneratorType::IntegerType);
   itkGetMacro(Seed, RandomVariateGeneratorType::IntegerType);
-
+  /** @ITKEndGrouping */
   /** Use a specific seed to initialize the random number
    * generator. If On, use m_Seed to seed the random number
    * generator. Default is Off. */
+  /** @ITKStartGrouping */
   itkSetMacro(UseSeed, bool);
   itkGetMacro(UseSeed, bool);
   itkBooleanMacro(UseSeed);
-
+  /** @ITKEndGrouping */
   /** Get the function value for the current position.
    *  NOTE: This value is only valid during and after the execution of the
    *        StartOptimization() method.*/

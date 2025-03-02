@@ -58,10 +58,11 @@ public:
   using ConstPointer = SmartPointer<const Self>;
   using SampleType = TSample;
 
-  /**Standard Macros */
+  /** Standard Macros */
+  /** @ITKStartGrouping */
   itkOverrideGetNameOfClassMacro(MeanSampleFilter);
   itkNewMacro(Self);
-
+  /** @ITKEndGrouping */
   /** Type of each measurement vector in sample */
   using MeasurementVectorType = typename SampleType::MeasurementVectorType;
 

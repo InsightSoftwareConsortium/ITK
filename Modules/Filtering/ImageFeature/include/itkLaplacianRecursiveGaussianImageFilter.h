@@ -100,18 +100,20 @@ public:
   itkOverrideGetNameOfClassMacro(LaplacianRecursiveGaussianImageFilter);
 
   /** Set/Get Sigma value. Sigma is measured in the units of image spacing. */
+  /** @ITKStartGrouping */
   void
   SetSigma(RealType sigma);
   RealType
   GetSigma() const;
-
+  /** @ITKEndGrouping */
   /** Define which normalization factor will be used for the Gaussian
    *  \sa  RecursiveGaussianImageFilter::SetNormalizeAcrossScale
    */
+  /** @ITKStartGrouping */
   void
   SetNormalizeAcrossScale(bool normalize);
   itkGetConstMacro(NormalizeAcrossScale, bool);
-
+  /** @ITKEndGrouping */
 protected:
   LaplacianRecursiveGaussianImageFilter();
   ~LaplacianRecursiveGaussianImageFilter() override = default;

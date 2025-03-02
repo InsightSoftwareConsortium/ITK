@@ -78,13 +78,15 @@ public:
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
   /** Set/Get spacing of the new dimension */
+  /** @ITKStartGrouping */
   itkSetMacro(Spacing, double);
   itkGetConstMacro(Spacing, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get origin of the new dimension */
+  /** @ITKStartGrouping */
   itkSetMacro(Origin, double);
   itkGetConstMacro(Origin, double);
-
+  /** @ITKEndGrouping */
   itkConceptMacro(InputConvertibleToOutputCheck,
                   (Concept::Convertible<typename TInputImage::PixelType, typename TOutputImage::PixelType>));
 

@@ -219,9 +219,10 @@ public:
    * Values are copied individually instead of with a binary copy.  This
    * allows the ValueType's assignment operator to be executed.
    */
+  /** @ITKStartGrouping */
   FixedArray(const ValueType r[VLength]);
   FixedArray(const ValueType &);
-
+  /** @ITKEndGrouping */
   /** Explicit constructor for std::array. */
   explicit FixedArray(const std::array<ValueType, VLength> & stdArray)
   {
@@ -279,6 +280,7 @@ public:
 
   /** Allow the FixedArray to be indexed normally.  No bounds checking is done.
    */
+  /** @ITKStartGrouping */
   // false positive warnings with GCC
   ITK_GCC_PRAGMA_PUSH
   ITK_GCC_SUPPRESS_Warray_bounds
@@ -293,8 +295,9 @@ public:
     return m_InternalArray[index];
   }
   ITK_GCC_PRAGMA_POP
-
+  /** @ITKEndGrouping */
   /** Set/Get element methods are more convenient in wrapping languages */
+  /** @ITKStartGrouping */
   void
   SetElement(unsigned int index, const_reference value)
   {
@@ -305,7 +308,7 @@ public:
   {
     return m_InternalArray[index];
   }
-
+  /** @ITKEndGrouping */
   /** Return a pointer to the data. */
   ValueType *
   GetDataPointer()

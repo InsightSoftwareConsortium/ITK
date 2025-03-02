@@ -117,34 +117,39 @@ public:
   /** Set/Get value to replace thresholded pixels. Pixels that lie *
    *  within Lower and Upper (inclusive) will be replaced with this
    *  value. The default is 1. */
+  /** @ITKStartGrouping */
   itkSetMacro(ReplaceValue, OutputImagePixelType);
   itkGetConstMacro(ReplaceValue, OutputImagePixelType);
-
+  /** @ITKEndGrouping */
   /** Type of DataObjects to use for scalar inputs */
   using InputPixelObjectType = SimpleDataObjectDecorator<InputImagePixelType>;
 
   /** Set Upper and Lower Threshold inputs as values */
+  /** @ITKStartGrouping */
   virtual void SetUpper(InputImagePixelType);
   virtual void SetLower(InputImagePixelType);
-
+  /** @ITKEndGrouping */
   /** Set Threshold inputs that are connected to the pipeline */
+  /** @ITKStartGrouping */
   virtual void
   SetUpperInput(const InputPixelObjectType *);
   virtual void
   SetLowerInput(const InputPixelObjectType *);
-
+  /** @ITKEndGrouping */
   /** Get Upper and Lower Threshold inputs as values. */
+  /** @ITKStartGrouping */
   virtual InputImagePixelType
   GetUpper() const;
   virtual InputImagePixelType
   GetLower() const;
-
+  /** @ITKEndGrouping */
   /** Get Threshold inputs that are connected to the pipeline. */
+  /** @ITKStartGrouping */
   virtual InputPixelObjectType *
   GetUpperInput();
   virtual InputPixelObjectType *
   GetLowerInput();
-
+  /** @ITKEndGrouping */
   /** Image dimension constants. */
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
@@ -168,9 +173,10 @@ public:
 
   /** Type of connectivity to use (fully connected OR 4(2D), 6(3D),
    * 2*N(ND) connectivity). */
+  /** @ITKStartGrouping */
   itkSetEnumMacro(Connectivity, ConnectedThresholdImageFilterEnums::Connectivity);
   itkGetEnumMacro(Connectivity, ConnectedThresholdImageFilterEnums::Connectivity);
-
+  /** @ITKEndGrouping */
 protected:
   ConnectedThresholdImageFilter();
   ~ConnectedThresholdImageFilter() override = default;

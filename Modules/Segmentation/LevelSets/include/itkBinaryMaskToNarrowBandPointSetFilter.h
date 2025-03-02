@@ -126,9 +126,10 @@ public:
       maximum distance from the binary mask edges to
       the points in the narrow band. The full width of
       the full narrow band will be double of this value. */
+  /** @ITKStartGrouping */
   itkSetMacro(BandWidth, float);
   itkGetConstMacro(BandWidth, float);
-
+  /** @ITKEndGrouping */
 protected:
   BinaryMaskToNarrowBandPointSetFilter();
   ~BinaryMaskToNarrowBandPointSetFilter() override = default;

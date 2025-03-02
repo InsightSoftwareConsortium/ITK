@@ -145,8 +145,10 @@ public:
   /**
    * Set/get Hilbert order.  The multi-dimensional space is of size 2^(HilbertOrder).
    */
+  /** @ITKStartGrouping */
   itkSetClampMacro(HilbertOrder, HilbertOrderType, 1, NumericTraits<HilbertOrderType>::max());
   itkGetConstMacro(HilbertOrder, HilbertOrderType);
+  /** @ITKEndGrouping */
 
   /** Convert the path index to the multidimensional index location */
   IndexType

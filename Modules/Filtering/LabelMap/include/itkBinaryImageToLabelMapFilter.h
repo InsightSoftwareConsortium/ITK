@@ -117,10 +117,11 @@ public:
    * FullyConnectedOff.  For objects that are 1 pixel wide, use
    * FullyConnectedOn.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(FullyConnected, bool);
   itkGetConstReferenceMacro(FullyConnected, bool);
   itkBooleanMacro(FullyConnected);
-
+  /** @ITKEndGrouping */
   // only set after completion
   itkGetConstReferenceMacro(NumberOfObjects, SizeValueType);
 
@@ -128,16 +129,18 @@ public:
    * Set/Get the value used as "background" in the output image.
    * Defaults to NumericTraits<OutputPixelType>::NonpositiveMin().
    */
+  /** @ITKStartGrouping */
   itkSetMacro(OutputBackgroundValue, OutputPixelType);
   itkGetConstMacro(OutputBackgroundValue, OutputPixelType);
-
+  /** @ITKEndGrouping */
   /**
    * Set/Get the value to be consider "foreground" in the input image.
    * Defaults to NumericTraits<InputPixelType>::max().
    */
+  /** @ITKStartGrouping */
   itkSetMacro(InputForegroundValue, InputPixelType);
   itkGetConstMacro(InputForegroundValue, InputPixelType);
-
+  /** @ITKEndGrouping */
 protected:
   BinaryImageToLabelMapFilter();
   ~BinaryImageToLabelMapFilter() override = default;

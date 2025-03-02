@@ -73,6 +73,7 @@ public:
   /** Provide pass-through constructors corresponding to all the STL
    * map constructors.  These are for internal use only since this is also
    * an Object which must be constructed through the "New()" routine. */
+  /** @ITKStartGrouping */
   MapContainer()
     : MapType()
   {}
@@ -88,7 +89,7 @@ public:
   MapContainer(TInputIterator first, TInputIterator last, const MapKeyCompareType & comp)
     : MapType(first, last, comp)
   {}
-
+  /** @ITKEndGrouping */
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 

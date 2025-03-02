@@ -114,16 +114,18 @@ public:
    * FullyConnectedOff.  For objects that are 1 pixel wide, use
    * FullyConnectedOn.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(FullyConnected, bool);
   itkGetConstReferenceMacro(FullyConnected, bool);
   itkBooleanMacro(FullyConnected);
-
+  /** @ITKEndGrouping */
   /**
    * Set/Get the value used to mark all pixels which are not extrema.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(MarkerValue, typename TInputImage::PixelType);
   itkGetConstReferenceMacro(MarkerValue, typename TInputImage::PixelType);
-
+  /** @ITKEndGrouping */
   /**
    * Get whether the image is flat or not.
    */

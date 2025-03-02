@@ -59,9 +59,10 @@ public:
   using typename Superclass::NodeType;
 
   /** Get/set the threshold used by the stopping criteria. */
+  /** @ITKStartGrouping */
   itkSetMacro(TargetNumberOfElements, IdentifierType);
   itkGetMacro(TargetNumberOfElements, IdentifierType);
-
+  /** @ITKEndGrouping */
   bool
   IsSatisfied() const override
   {

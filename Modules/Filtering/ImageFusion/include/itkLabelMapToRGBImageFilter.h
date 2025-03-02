@@ -83,6 +83,7 @@ public:
   /** Set/Get the rgb functor - defaults to a reasonable set of colors.
    * This can be used to apply a different colormap.
    */
+  /** @ITKStartGrouping */
   virtual void
   SetFunctor(const FunctorType & functor)
   {
@@ -102,7 +103,7 @@ public:
   {
     return m_Functor;
   }
-
+  /** @ITKEndGrouping */
 protected:
   LabelMapToRGBImageFilter() = default;
   ~LabelMapToRGBImageFilter() override = default;

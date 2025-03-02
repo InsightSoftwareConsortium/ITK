@@ -101,9 +101,10 @@ public:
   GetPruning();
 
   /** Set/Get the iteration value */
+  /** @ITKStartGrouping */
   itkSetMacro(Iteration, unsigned int);
   itkGetConstMacro(Iteration, unsigned int);
-
+  /** @ITKEndGrouping */
   /** ImageDimension enumeration   */
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;

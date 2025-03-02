@@ -99,9 +99,10 @@ public:
 
   /** Allow the user to specify the axis in the input image that will
    *  correspond to the temporal axis in the output temporal object. */
+  /** @ITKStartGrouping */
   itkGetMacro(FrameAxis, IndexValueType);
   itkSetMacro(FrameAxis, IndexValueType);
-
+  /** @ITKEndGrouping */
 protected:
   ImageToVideoFilter();
   ~ImageToVideoFilter() override = default;

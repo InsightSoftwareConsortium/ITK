@@ -41,9 +41,10 @@ public:
   ITK_DISALLOW_COPY_AND_MOVE(QuadraticTriangleCell);
 
   /** Standard class type aliases. */
+  /** @ITKStartGrouping */
   itkCellCommonTypedefs(QuadraticTriangleCell);
   itkCellInheritedTypedefs(TCellInterface);
-
+  /** @ITKEndGrouping */
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(QuadraticTriangleCell);
 
@@ -62,6 +63,7 @@ public:
   static constexpr unsigned int CellDimension = 2;
 
   /** Implement the standard CellInterface. */
+  /** @ITKStartGrouping */
   CellGeometryEnum
   GetType() const override
   {
@@ -69,7 +71,7 @@ public:
   }
   void
   MakeCopy(CellAutoPointer &) const override;
-
+  /** @ITKEndGrouping */
   unsigned int
   GetDimension() const override;
 

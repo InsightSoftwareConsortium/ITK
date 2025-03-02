@@ -60,23 +60,27 @@ public:
   using typename Superclass::OutputType;
 
   /** Set/Get and set the center of the cylinder. */
+  /** @ITKStartGrouping */
   itkGetConstMacro(Center, InputType);
   itkSetMacro(Center, InputType);
-
+  /** @ITKEndGrouping */
   /** Get and set the medial axis length of the cylinder. */
+  /** @ITKStartGrouping */
   itkGetConstMacro(AxisLength, double);
   itkSetMacro(AxisLength, double);
-
+  /** @ITKEndGrouping */
   /** Get and set the radius length of the cylinder. */
+  /** @ITKStartGrouping */
   itkGetConstMacro(Radius, double);
   itkSetMacro(Radius, double);
-
+  /** @ITKEndGrouping */
   /** Set the orientation vectors (must be orthogonal) of the ellipsoid axes.
    * Must be normalized!!!!! */
+  /** @ITKStartGrouping */
   itkGetConstMacro(Orientation, InputType);
   virtual void
   SetOrientation(const InputType _Orientation);
-
+  /** @ITKEndGrouping */
   /** Evaluates the function at a given position. */
   OutputType
   Evaluate(const InputType & position) const override;

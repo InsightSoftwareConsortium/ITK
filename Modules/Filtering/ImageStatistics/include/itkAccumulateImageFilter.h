@@ -90,18 +90,20 @@ public:
   /** Set the direction in which to accumulate the data.  It must be
    * set before the update of the filter. Defaults to the last
    * dimension. */
+  /** @ITKStartGrouping */
   itkGetConstMacro(AccumulateDimension, unsigned int);
   itkSetMacro(AccumulateDimension, unsigned int);
-
+  /** @ITKEndGrouping */
   /** Perform a division by the size of the accumulated dimension
    * after the accumulation is done. If true, the output image is the
    * average of the accumulated dimension, if false the output is the
    * sum of the pixels along the selected direction.  The default
    * value is false. */
+  /** @ITKStartGrouping */
   itkSetMacro(Average, bool);
   itkGetConstMacro(Average, bool);
   itkBooleanMacro(Average);
-
+  /** @ITKEndGrouping */
 protected:
   AccumulateImageFilter();
   ~AccumulateImageFilter() override = default;

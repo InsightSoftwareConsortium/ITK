@@ -68,6 +68,7 @@ public:
   itkOverrideGetNameOfClassMacro(CumulativeGaussianOptimizer);
 
   /** Set and get macros. */
+  /** @ITKStartGrouping */
   itkSetMacro(DifferenceTolerance, double);
   itkGetMacro(DifferenceTolerance, double);
   itkSetMacro(Verbose, bool);
@@ -79,7 +80,7 @@ public:
   itkGetMacro(LowerAsymptote, double);
   itkGetMacro(FinalSampledArray, MeasureType *);
   itkGetMacro(FitError, double);
-
+  /** @ITKEndGrouping */
   void
   SetDataArray(MeasureType * cumGaussianArray);
 

@@ -83,9 +83,10 @@ public:
 
   /** Get/Set method for the point set container which will be actually used
    * for storing measurement vectors. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(VectorContainer, VectorContainerType);
   itkGetConstObjectMacro(VectorContainer, VectorContainerType);
-
+  /** @ITKEndGrouping */
   /** Returns the number of measurement vectors in this container. */
   InstanceIdentifier
   Size() const override;

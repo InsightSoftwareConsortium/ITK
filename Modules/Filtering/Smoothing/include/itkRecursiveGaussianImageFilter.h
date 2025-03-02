@@ -116,9 +116,10 @@ public:
    * kernel.  The default is 1.0. An exception will be generated if
    * the Sigma value is less than or equal to zero.
    */
+  /** @ITKStartGrouping */
   itkGetConstMacro(Sigma, ScalarRealType);
   itkSetMacro(Sigma, ScalarRealType);
-
+  /** @ITKEndGrouping */
   /** Type of the output image */
   using OutputImageType = TOutputImage;
 
@@ -132,6 +133,7 @@ public:
   static constexpr GaussianOrderEnum FirstOrder = GaussianOrderEnum::FirstOrder;
   static constexpr GaussianOrderEnum SecondOrder = GaussianOrderEnum::SecondOrder;
 #endif
+
   /** Set/Get the flag for normalizing the gaussian over scale-space.
 
       This flag enables the analysis of the differential shape of
@@ -181,9 +183,10 @@ public:
       \li FirstOrder is equivalent to convolving with the first derivative of a Gaussian.
       \li SecondOrder is equivalent to convolving with the second derivative of a Gaussian.
     */
+  /** @ITKStartGrouping */
   itkSetMacro(Order, GaussianOrderEnum);
   itkGetConstMacro(Order, GaussianOrderEnum);
-
+  /** @ITKEndGrouping */
   /** Explicitly set a zeroth order derivative. */
   void
   SetZeroOrder();

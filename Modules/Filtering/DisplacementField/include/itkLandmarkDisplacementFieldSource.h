@@ -99,30 +99,35 @@ public:
   /** Get/Set the coordinate transformation.
    * Set the KernelBase spline used for resampling the displacement grid.
    * */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(KernelTransform, KernelTransformType);
   itkGetModifiableObjectMacro(KernelTransform, KernelTransformType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the output image size. */
+  /** @ITKStartGrouping */
   itkSetMacro(OutputRegion, OutputImageRegionType);
   itkGetConstReferenceMacro(OutputRegion, OutputImageRegionType);
-
+  /** @ITKEndGrouping */
   /** Set the output image spacing. */
+  /** @ITKStartGrouping */
   itkSetMacro(OutputSpacing, SpacingType);
   virtual void
   SetOutputSpacing(const double * spacing);
-
+  /** @ITKEndGrouping */
   /** Get the output image spacing. */
   itkGetConstReferenceMacro(OutputSpacing, SpacingType);
 
   /** Set the output image origin. */
+  /** @ITKStartGrouping */
   itkSetMacro(OutputOrigin, OriginPointType);
   virtual void
   SetOutputOrigin(const double * origin);
-
+  /** @ITKEndGrouping */
   /** Set/Get the output direction cosine matrix. */
+  /** @ITKStartGrouping */
   itkSetMacro(OutputDirection, DirectionType);
   itkGetConstReferenceMacro(OutputDirection, DirectionType);
-
+  /** @ITKEndGrouping */
   /** Get the output image origin. */
   itkGetConstReferenceMacro(OutputOrigin, OriginPointType);
 

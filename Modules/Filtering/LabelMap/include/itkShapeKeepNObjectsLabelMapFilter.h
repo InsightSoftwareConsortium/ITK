@@ -83,23 +83,26 @@ public:
    * highest value are kept. Turning ReverseOrdering to true make this filter
    * keep the objects with the smallest values
    */
+  /** @ITKStartGrouping */
   itkSetMacro(ReverseOrdering, bool);
   itkGetConstReferenceMacro(ReverseOrdering, bool);
   itkBooleanMacro(ReverseOrdering);
-
+  /** @ITKEndGrouping */
   /**
    * Set/Get the number of objects to keep
    */
+  /** @ITKStartGrouping */
   itkSetMacro(NumberOfObjects, SizeValueType);
   itkGetConstReferenceMacro(NumberOfObjects, SizeValueType);
-
+  /** @ITKEndGrouping */
   /**
    * Set/Get the attribute to use to select the object to keep.
    * Default is "Size".
    */
+  /** @ITKStartGrouping */
   itkGetConstMacro(Attribute, AttributeType);
   itkSetMacro(Attribute, AttributeType);
-
+  /** @ITKEndGrouping */
   void
   SetAttribute(const std::string & s)
   {

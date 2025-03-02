@@ -50,13 +50,14 @@ public:
   ITK_DISALLOW_COPY_AND_MOVE(OneWayEquivalencyTable);
 
   /**  Standard type alias and smart pointer declarations.   */
+  /** @ITKStartGrouping */
   using Self = OneWayEquivalencyTable;
   using Superclass = DataObject;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
   itkNewMacro(Self);
   itkOverrideGetNameOfClassMacro(OneWayEquivalencyTable);
-
+  /** @ITKEndGrouping */
   /** Define the container type for this table */
   using HashTableType = std::unordered_map<unsigned long, unsigned long>;
 

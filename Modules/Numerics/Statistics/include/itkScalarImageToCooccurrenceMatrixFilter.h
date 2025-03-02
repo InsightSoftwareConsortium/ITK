@@ -133,16 +133,18 @@ public:
 
   /** Get/Set the offset or offsets over which the co-occurrence pairs will be computed.
       Calling either of these methods clears the previous offsets. */
+  /** @ITKStartGrouping */
   itkSetConstObjectMacro(Offsets, OffsetVector);
   itkGetConstObjectMacro(Offsets, OffsetVector);
-
+  /** @ITKEndGrouping */
   void
   SetOffset(const OffsetType offset);
 
   /** Set number of histogram bins along each axis */
+  /** @ITKStartGrouping */
   itkSetMacro(NumberOfBinsPerAxis, unsigned int);
   itkGetConstMacro(NumberOfBinsPerAxis, unsigned int);
-
+  /** @ITKEndGrouping */
   /** Set the min and max (inclusive) pixel value that will be placed in the
     histogram */
   void
@@ -153,10 +155,11 @@ public:
 
   /** Set the calculator to normalize the histogram (divide all bins by the
     total frequency). Normalization is off by default. */
+  /** @ITKStartGrouping */
   itkSetMacro(Normalize, bool);
   itkGetConstMacro(Normalize, bool);
   itkBooleanMacro(Normalize);
-
+  /** @ITKEndGrouping */
   /** Method to set/get the image */
   using Superclass::SetInput;
   void
@@ -178,9 +181,10 @@ public:
 
   /** Set the pixel value of the mask that should be considered "inside" the
     object. Defaults to one. */
+  /** @ITKStartGrouping */
   itkSetMacro(InsidePixelValue, MaskPixelType);
   itkGetConstMacro(InsidePixelValue, MaskPixelType);
-
+  /** @ITKEndGrouping */
 protected:
   ScalarImageToCooccurrenceMatrixFilter();
   ~ScalarImageToCooccurrenceMatrixFilter() override = default;

@@ -119,10 +119,11 @@ public:
   /** Set/Get whether the filter should run one iteration or until
    * convergence. When run to convergence, this filter is equivalent
    * to "reconstruction by dilation". Default is off. */
+  /** @ITKStartGrouping */
   itkSetMacro(RunOneIteration, bool);
   itkGetConstMacro(RunOneIteration, bool);
   itkBooleanMacro(RunOneIteration);
-
+  /** @ITKEndGrouping */
   /** Get the number of iterations used to produce the current
    * output. */
   itkGetConstMacro(NumberOfIterationsUsed, unsigned long);
@@ -133,10 +134,11 @@ public:
    * FullyConnectedOff.  For objects that are 1 pixel wide, use
    * FullyConnectedOn.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(FullyConnected, bool);
   itkGetConstReferenceMacro(FullyConnected, bool);
   itkBooleanMacro(FullyConnected);
-
+  /** @ITKEndGrouping */
   itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<MarkerImageDimension, OutputImageDimension>));
   itkConceptMacro(InputComparableCheck, (Concept::Comparable<MarkerImagePixelType>));
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<MarkerImagePixelType, OutputImagePixelType>));

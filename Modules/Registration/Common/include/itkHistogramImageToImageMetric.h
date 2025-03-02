@@ -95,9 +95,10 @@ public:
 
   /** Factor to increase the upper bound for the samples in the histogram.
       Default value is 0.001 */
+  /** @ITKStartGrouping */
   itkSetMacro(UpperBoundIncreaseFactor, double);
   itkGetConstMacro(UpperBoundIncreaseFactor, double);
-
+  /** @ITKEndGrouping */
   /** The padding value. */
   itkSetMacro(PaddingValue, FixedImagePixelType);
 
@@ -112,9 +113,10 @@ public:
   /** Set whether the padding value should be used to determine which pixels
       should be ignored when calculating the similarity measure. Those pixels
       in the fixed image which have the padding value will be ignored. */
+  /** @ITKStartGrouping */
   itkSetMacro(UsePaddingValue, bool);
   itkGetConstMacro(UsePaddingValue, bool);
-
+  /** @ITKEndGrouping */
   /** Sets the step length used to calculate the derivative. */
   itkSetMacro(DerivativeStepLength, double);
 
@@ -167,15 +169,19 @@ public:
 protected:
   /** Constructor is protected to ensure that \c New() function is used to
       create instances. */
+  /** @ITKStartGrouping */
   HistogramImageToImageMetric();
   ~HistogramImageToImageMetric() override = default;
-
+  /** @ITKEndGrouping */
   /** The histogram size. */
   HistogramSizeType m_HistogramSize{};
+
   /** The lower bound for samples in the histogram. */
   mutable MeasurementVectorType m_LowerBound{};
+
   /** The upper bound for samples in the histogram. */
   mutable MeasurementVectorType m_UpperBound{};
+
   /** The increase in the upper bound. */
   double m_UpperBoundIncreaseFactor{};
 

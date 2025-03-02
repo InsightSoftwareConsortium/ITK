@@ -79,9 +79,10 @@ public:
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Was the original truncated dimension size in the x-dimension odd? */
+  /** @ITKStartGrouping */
   itkSetGetDecoratedInputMacro(ActualXDimensionIsOdd, bool);
   itkBooleanMacro(ActualXDimensionIsOdd);
-
+  /** @ITKEndGrouping */
 protected:
   HalfToFullHermitianImageFilter();
   ~HalfToFullHermitianImageFilter() override = default;

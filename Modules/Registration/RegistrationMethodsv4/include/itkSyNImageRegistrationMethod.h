@@ -135,54 +135,64 @@ public:
   using NumberOfIterationsArrayType = Array<SizeValueType>;
 
   /** Set/Get the learning rate. */
+  /** @ITKStartGrouping */
   itkSetMacro(LearningRate, RealType);
   itkGetConstMacro(LearningRate, RealType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the number of iterations per level. */
+  /** @ITKStartGrouping */
   itkSetMacro(NumberOfIterationsPerLevel, NumberOfIterationsArrayType);
   itkGetConstMacro(NumberOfIterationsPerLevel, NumberOfIterationsArrayType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the convergence threshold */
+  /** @ITKStartGrouping */
   itkSetMacro(ConvergenceThreshold, RealType);
   itkGetConstMacro(ConvergenceThreshold, RealType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the convergence window size */
+  /** @ITKStartGrouping */
   itkSetMacro(ConvergenceWindowSize, unsigned int);
   itkGetConstMacro(ConvergenceWindowSize, unsigned int);
-
+  /** @ITKEndGrouping */
   /** Let the user control whether we compute metric derivatives in the downsampled or full-res space.
    *  The default is 'true' --- classic SyN --- but there may be advantages to the other approach.
    *  Classic SyN did not have this possibility. This implementation will let us explore the question.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(DownsampleImagesForMetricDerivatives, bool);
   itkGetConstMacro(DownsampleImagesForMetricDerivatives, bool);
-
+  /** @ITKEndGrouping */
   /** Allow the user to average the gradients in the mid-point domain. Default false.
    *  One might choose to do this to further reduce bias.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(AverageMidPointGradients, bool);
   itkGetConstMacro(AverageMidPointGradients, bool);
-
+  /** @ITKEndGrouping */
   /**
    * Get/Set the Gaussian smoothing variance for the update field.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(GaussianSmoothingVarianceForTheUpdateField, RealType);
   itkGetConstReferenceMacro(GaussianSmoothingVarianceForTheUpdateField, RealType);
-
+  /** @ITKEndGrouping */
   /**
    * Get/Set the Gaussian smoothing variance for the total field.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(GaussianSmoothingVarianceForTheTotalField, RealType);
   itkGetConstReferenceMacro(GaussianSmoothingVarianceForTheTotalField, RealType);
-
+  /** @ITKEndGrouping */
   /** Get modifiable FixedToMiddle and MovingToMiddle transforms to save the current state of the registration. */
+  /** @ITKStartGrouping */
   itkGetModifiableObjectMacro(FixedToMiddleTransform, OutputTransformType);
   itkGetModifiableObjectMacro(MovingToMiddleTransform, OutputTransformType);
-
+  /** @ITKEndGrouping */
   /** Set FixedToMiddle and MovingToMiddle transforms to restore the registration from a saved state. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(FixedToMiddleTransform, OutputTransformType);
   itkSetObjectMacro(MovingToMiddleTransform, OutputTransformType);
-
+  /** @ITKEndGrouping */
 protected:
   SyNImageRegistrationMethod();
   ~SyNImageRegistrationMethod() override = default;

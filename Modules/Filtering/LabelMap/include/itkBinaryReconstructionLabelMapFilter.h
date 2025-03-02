@@ -88,9 +88,10 @@ public:
       (Concept::OStreamWritable<PixelType>));*/
 
   /** Set/Get the marker image */
+  /** @ITKStartGrouping */
   itkSetInputMacro(MarkerImage, MarkerImageType);
   itkGetInputMacro(MarkerImage, MarkerImageType);
-
+  /** @ITKEndGrouping */
   /** Set the input image */
   void
   SetInput1(TImage * input)
@@ -109,9 +110,10 @@ public:
    * Set/Get the value used as "foreground" in the output image.
    * Defaults to NumericTraits<MaskPixelType>::max().
    */
+  /** @ITKStartGrouping */
   itkSetMacro(ForegroundValue, MarkerImagePixelType);
   itkGetConstMacro(ForegroundValue, MarkerImagePixelType);
-
+  /** @ITKEndGrouping */
 protected:
   BinaryReconstructionLabelMapFilter();
   ~BinaryReconstructionLabelMapFilter() override = default;

@@ -142,11 +142,12 @@ protected:
 
   /** Returns the term contribution for a given location iP, i.e.
    *  \f$ \omega_i( p ) \f$. */
+  /** @ITKStartGrouping */
   LevelSetOutputRealType
   Value(const LevelSetInputIndexType & iP) override;
   LevelSetOutputRealType
   Value(const LevelSetInputIndexType & iP, const LevelSetDataType & iData) override;
-
+  /** @ITKEndGrouping */
   LevelSetOutputRealType m_NeighborhoodScales[ImageDimension]{};
 
 private:

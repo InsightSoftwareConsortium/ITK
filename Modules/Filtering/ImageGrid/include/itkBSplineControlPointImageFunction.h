@@ -164,21 +164,24 @@ public:
   /**
    * Set/Get the parametric spacing of the B-spline object domain.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(Spacing, SpacingType);
   itkGetConstMacro(Spacing, SpacingType);
-
+  /** @ITKEndGrouping */
   /**
    * Set/Get the parametric origin of the B-spline object domain.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(Origin, OriginType);
   itkGetConstMacro(Origin, OriginType);
-
+  /** @ITKEndGrouping */
   /**
    * Set/Get the parametric size of the B-spline object domain.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(Size, SizeType);
   itkGetConstMacro(Size, SizeType);
-
+  /** @ITKEndGrouping */
   /**
    * Set/Get the epsilon used for B-splines.  The B-spline parametric domain in
    * 1-D is defined on the half-closed interval [a,b).  Extension to n-D is
@@ -187,9 +190,10 @@ public:
    * the B-spline epsilon to push the edge of the image boundary inside the
    * B-spline parametric domain.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(BSplineEpsilon, RealType);
   itkGetConstMacro(BSplineEpsilon, RealType);
-
+  /** @ITKEndGrouping */
   /**
    * Evaluate the resulting B-spline object at a specified point in the
    * parametric domain.

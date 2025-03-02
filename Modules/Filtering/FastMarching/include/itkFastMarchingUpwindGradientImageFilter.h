@@ -180,19 +180,22 @@ public:
   itkSetMacro(GenerateGradientImage, bool);
 
   /** Get the GenerateGradientImage flag. */
+  /** @ITKStartGrouping */
   itkGetConstReferenceMacro(GenerateGradientImage, bool);
   itkBooleanMacro(GenerateGradientImage);
-
+  /** @ITKEndGrouping */
   /** Set how long (in terms of arrival times) after targets are reached the
    * front must stop.  This is useful to ensure that the level set of target
    * arrival time is smooth. */
   itkSetMacro(TargetOffset, double);
+
   /** Get the TargetOffset ivar. */
   itkGetConstReferenceMacro(TargetOffset, double);
 
   /** Choose whether the front must stop when the first target has been reached
    * or all targets have been reached.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(TargetReachedMode, TargetConditionEnum);
   itkGetConstReferenceMacro(TargetReachedMode, TargetConditionEnum);
   void
@@ -213,7 +216,7 @@ public:
     this->SetTargetReachedMode(TargetConditionEnum::SomeTargets);
     m_NumberOfTargets = numberOfTargets;
   }
-
+  /** @ITKEndGrouping */
   void
   SetTargetReachedModeToAllTargets()
   {

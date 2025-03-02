@@ -73,18 +73,21 @@ public:
   using typename Superclass::InputImageType;
 
   /** Set/Get the Estimation of the mean pixel value for the object. */
+  /** @ITKStartGrouping */
   itkSetMacro(Mean, double);
   itkGetConstMacro(Mean, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get the estimation of the STD of the pixel value for the
    *  object. */
+  /** @ITKStartGrouping */
   itkSetMacro(STD, double);
   itkGetConstMacro(STD, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get the Tolerance of Mean for classifying the regions. */
+  /** @ITKStartGrouping */
   itkSetMacro(MeanTolerance, double);
   itkGetConstMacro(MeanTolerance, double);
-
+  /** @ITKEndGrouping */
   /** Set the Tolerance of STD for classifying the regions. */
   itkSetMacro(STDTolerance, double);
 
@@ -98,10 +101,11 @@ public:
   itkGetConstMacro(MeanPercentError, double);
 
   /** Set/Get the STD percent error. */
+  /** @ITKStartGrouping */
   itkGetConstMacro(STDPercentError, double);
   void
   SetSTDPercentError(double x);
-
+  /** @ITKEndGrouping */
   /** Take a prior from other segmentation node, should be an
    * binary object. */
   void

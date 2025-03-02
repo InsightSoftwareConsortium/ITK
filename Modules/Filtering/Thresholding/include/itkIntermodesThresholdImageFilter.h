@@ -99,10 +99,11 @@ public:
 
   /** Select whether midpoint (intermode=true) or minimum between
      peaks is used. */
+  /** @ITKStartGrouping */
   itkSetMacro(UseInterMode, bool);
   itkGetConstReferenceMacro(UseInterMode, bool);
   itkBooleanMacro(UseInterMode);
-
+  /** @ITKEndGrouping */
   /** Image related type alias. */
   static constexpr unsigned int InputImageDimension = InputImageType::ImageDimension;
   static constexpr unsigned int OutputImageDimension = OutputImageType::ImageDimension;

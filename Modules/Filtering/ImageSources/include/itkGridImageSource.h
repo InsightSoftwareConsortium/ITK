@@ -94,30 +94,36 @@ public:
   using PixelArrayContainerType = VectorContainer<PixelArrayType>;
 
   /** Set/Get kernel function used to create the grid. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(KernelFunction, KernelFunctionType);
   itkGetConstReferenceObjectMacro(KernelFunction, KernelFunctionType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the standard deviation of the Gaussians or width of the box
    * functions.*/
+  /** @ITKStartGrouping */
   itkSetMacro(Sigma, ArrayType);
   itkGetConstReferenceMacro(Sigma, ArrayType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the grid spacing of the peaks. */
+  /** @ITKStartGrouping */
   itkSetMacro(GridSpacing, ArrayType);
   itkGetConstReferenceMacro(GridSpacing, ArrayType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the grid offset. */
+  /** @ITKStartGrouping */
   itkSetMacro(GridOffset, ArrayType);
   itkGetConstReferenceMacro(GridOffset, ArrayType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the dimensions which are gridded. */
+  /** @ITKStartGrouping */
   itkSetMacro(WhichDimensions, BoolArrayType);
   itkGetConstReferenceMacro(WhichDimensions, BoolArrayType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the scale factor to multiply the true value of the grid. */
+  /** @ITKStartGrouping */
   itkSetMacro(Scale, RealType);
   itkGetConstReferenceMacro(Scale, RealType);
-
+  /** @ITKEndGrouping */
 protected:
   GridImageSource();
   ~GridImageSource() override = default;

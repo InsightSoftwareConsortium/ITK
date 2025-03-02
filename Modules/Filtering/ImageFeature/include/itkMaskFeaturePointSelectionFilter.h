@@ -111,26 +111,31 @@ public:
    * 0 <= connect < ImageDimension; 0 is vertex connectivity (e.g., 26 in 3D),
    * 1 is edge connectivity (e.g., 18 in 3D), 2 is face connectivity
    * (e.g., 6 in 3D), etc */
+  /** @ITKStartGrouping */
   itkSetMacro(NonConnectivity, unsigned int);
   itkGetMacro(NonConnectivity, unsigned int);
-
+  /** @ITKEndGrouping */
   /** set/get mask */
+  /** @ITKStartGrouping */
   itkSetInputMacro(MaskImage, MaskType);
   itkGetInputMacro(MaskImage, MaskType);
-
+  /** @ITKEndGrouping */
   /** set/get half size of the block for calculating variance */
+  /** @ITKStartGrouping */
   itkSetMacro(BlockRadius, SizeType);
   itkGetConstReferenceMacro(BlockRadius, SizeType);
-
+  /** @ITKEndGrouping */
   /** enable/disable tensor computations */
+  /** @ITKStartGrouping */
   itkSetMacro(ComputeStructureTensors, bool);
   itkGetMacro(ComputeStructureTensors, bool);
   itkBooleanMacro(ComputeStructureTensors);
-
+  /** @ITKEndGrouping */
   /** set fraction of eligible points to select */
+  /** @ITKStartGrouping */
   itkSetClampMacro(SelectFraction, double, 0, 1);
   itkGetMacro(SelectFraction, double);
-
+  /** @ITKEndGrouping */
   itkConceptMacro(ImageDimensionShouldBe3, (Concept::SameDimension<TImage::ImageDimension, 3u>));
   itkConceptMacro(MaskDimensionShouldBe3, (Concept::SameDimension<TMask::ImageDimension, 3u>));
   itkConceptMacro(PointDimensionShouldBe3, (Concept::SameDimension<TFeatures::PointType::PointDimension, 3u>));

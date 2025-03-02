@@ -52,6 +52,7 @@
  * @param dt Dual edge type.
  * \todo Should this macro be added to doxygen macros?
  */
+/** @ITKStartGrouping */
 #define itkQEAccessorsMacro(st, pt, dt)                                                          \
   pt * GetOnext() { return (dynamic_cast<pt *>(this->st::GetOnext())); }                         \
                                                                                                  \
@@ -113,7 +114,7 @@
   const pt * GetInvDnext() const { return (dynamic_cast<const pt *>(this->st::GetInvDnext())); } \
                                                                                                  \
   ITK_MACROEND_NOOP_STATEMENT
-
+/** @ITKEndGrouping */
 namespace itk
 {
 /**
@@ -143,6 +144,7 @@ public:
   using ConstIterator = QuadEdgeMeshConstIterator<Self>;
 
   /** Basic iterators methods. */
+  /** @ITKStartGrouping */
   inline itkQEDefineIteratorMethodsMacro(Onext);
   // itkQEDefineIteratorMethodsMacro( Sym );
   // itkQEDefineIteratorMethodsMacro( Lnext );
@@ -156,8 +158,10 @@ public:
   // itkQEDefineIteratorMethodsMacro( InvLnext );
   // itkQEDefineIteratorMethodsMacro( InvRnext );
   // itkQEDefineIteratorMethodsMacro( InvDnext );
+  /** @ITKEndGrouping */
 
   /** Object creation methods. */
+  /** @ITKStartGrouping */
   QuadEdge();
   QuadEdge(const QuadEdge &) = default;
   QuadEdge(QuadEdge &&) = default;
@@ -166,8 +170,10 @@ public:
   QuadEdge &
   operator=(QuadEdge &&) = default;
   virtual ~QuadEdge();
+  /** @ITKEndGrouping */
 
   /** Sub-algebra Set methods. */
+  /** @ITKStartGrouping */
   inline void
   SetOnext(Self * onext)
   {
@@ -178,10 +184,12 @@ public:
   {
     this->m_Rot = rot;
   }
+  /** @ITKEndGrouping */
 
   /** Sub-algebra Get methods.
    *  Returns edge with same Origin (see
    *  "Accessing adjacent edges"). */
+  /** @ITKStartGrouping */
   inline Self *
   GetOnext()
   {
@@ -202,6 +210,7 @@ public:
   {
     return this->m_Rot;
   }
+  /** @ITKEndGrouping */
 
   /**
    * \brief Basic quad-edge topological method.
@@ -241,6 +250,7 @@ public:
 
   /** Returns the symmetric edge
    * (see "Accessing adjacent edges"). */
+  /** @ITKStartGrouping */
   inline Self *
   GetSym()
   {
@@ -260,6 +270,7 @@ public:
     }
     return nullptr;
   }
+  /** @ITKEndGrouping */
 
   /** Returns next edge with same Left face
    * (see "Accessing adjacent edges"). */
@@ -323,6 +334,7 @@ public:
   GetDprev() const;
 
   /** Inverse operators */
+  /** @ITKStartGrouping */
   inline Self *
   GetInvRot()
   {
@@ -413,8 +425,10 @@ public:
   {
     return this->GetDprev();
   }
+  /** @ITKEndGrouping */
 
   /** Queries. */
+  /** @ITKStartGrouping */
   inline bool
   IsHalfEdge() const
   {
@@ -427,9 +441,9 @@ public:
   }
   bool
   IsEdgeInOnextRing(Self * testEdge) const;
-
   bool
   IsLnextGivenSizeCyclic(const int size) const;
+  /** @ITKEndGrouping */
 
   unsigned int
   GetOrder() const;

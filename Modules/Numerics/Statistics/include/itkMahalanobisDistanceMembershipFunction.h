@@ -70,9 +70,10 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** \see LightObject::GetNameOfClass() */
+  /** @ITKStartGrouping */
   itkOverrideGetNameOfClassMacro(MahalanobisDistanceMembershipFunction);
   itkNewMacro(Self);
-
+  /** @ITKEndGrouping */
   /** SmartPointer class for superclass */
   using MembershipFunctionPointer = typename Superclass::Pointer;
 

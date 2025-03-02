@@ -91,10 +91,11 @@ public:
    * the highest attribute values are labeled first. Set ReverseOrdering to true
    * make the one with the smallest attributes be labeled first.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(ReverseOrdering, bool);
   itkGetConstReferenceMacro(ReverseOrdering, bool);
   itkBooleanMacro(ReverseOrdering);
-
+  /** @ITKEndGrouping */
 protected:
   AttributeUniqueLabelMapFilter();
   ~AttributeUniqueLabelMapFilter() override = default;

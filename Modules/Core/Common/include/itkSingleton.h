@@ -93,12 +93,13 @@ public:
 
   /** Set/Get the pointer to GlobalSingleton.
    * Note that SetGlobalSingleton is not concurrent thread safe. */
+  /** @ITKStartGrouping */
   static Self *
   GetInstance();
   static void
   SetInstance(Self * instance);
   ~SingletonIndex();
-
+  /** @ITKEndGrouping */
 private:
   // Internal struct to store the instance pointer and the delete function object of a global object.
   struct GlobalObject

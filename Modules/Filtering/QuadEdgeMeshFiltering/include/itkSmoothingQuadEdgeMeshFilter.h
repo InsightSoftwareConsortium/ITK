@@ -68,6 +68,7 @@ public:
 
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(SmoothingQuadEdgeMeshFilter);
+
   /** New macro for creation of through a Smart Pointer   */
   itkNewMacro(Self);
 
@@ -97,18 +98,21 @@ public:
   SetCoefficientsMethod(CoefficientsComputation * iMethod);
 
   /** Set/Get the number of iterations */
+  /** @ITKStartGrouping */
   itkSetMacro(NumberOfIterations, unsigned int);
   itkGetConstMacro(NumberOfIterations, unsigned int);
-
+  /** @ITKEndGrouping */
   /** Set/Get if DelaunayConformingQuadEdgeMeshFilter is used at the end of each iterations */
+  /** @ITKStartGrouping */
   itkBooleanMacro(DelaunayConforming);
   itkSetMacro(DelaunayConforming, bool);
   itkGetConstMacro(DelaunayConforming, bool);
-
+  /** @ITKEndGrouping */
   /** Set/Get relaxation factor applied for each iteration */
+  /** @ITKStartGrouping */
   itkSetMacro(RelaxationFactor, OutputCoordType);
   itkGetConstMacro(RelaxationFactor, OutputCoordType);
-
+  /** @ITKEndGrouping */
 protected:
   SmoothingQuadEdgeMeshFilter();
   ~SmoothingQuadEdgeMeshFilter() override;

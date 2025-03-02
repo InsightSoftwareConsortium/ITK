@@ -121,22 +121,24 @@ public:
   SetIndex(const IndexType & index);
 
   /** Get index defining the corner of the region. */
+  /** @ITKStartGrouping */
   const IndexType &
   GetIndex() const;
   IndexType &
   GetModifiableIndex();
-
+  /** @ITKEndGrouping */
   /** Set the size of the region. This plus the index determines the
    * rectangular shape, or extent, of the region. */
   void
   SetSize(const SizeType & size);
 
   /** Get the size of the region. */
+  /** @ITKStartGrouping */
   const SizeType &
   GetSize() const;
   SizeType &
   GetModifiableSize();
-
+  /** @ITKEndGrouping */
   /** Convenience methods to get the size of the image in a particular
    * coordinate direction i. Do not try to access image sizes beyond the
    * the ImageDimension. */

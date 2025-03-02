@@ -114,6 +114,7 @@ public:
 
   /** Get/Set the threshold values that will be used to calculate the speed
     function. */
+  /** @ITKStartGrouping */
   void
   SetUpperThreshold(ValueType v)
   {
@@ -139,9 +140,11 @@ public:
   {
     return m_ThresholdFunction->GetLowerThreshold();
   }
+  /** @ITKEndGrouping */
 
   /** Set/Get the weight applied to the edge (Laplacian) attractor in the speed
    *  term function. Zero will turn this term off. */
+  /** @ITKStartGrouping */
   void
   SetEdgeWeight(ValueType v)
   {
@@ -154,10 +157,12 @@ public:
   {
     return m_ThresholdFunction->GetEdgeWeight();
   }
+  /** @ITKEndGrouping */
 
   /** Anisotropic diffusion is applied to the FeatureImage before calculating
    * the Laplacian (edge) term. This method sets/gets the number of diffusion
    * iterations. */
+  /** @ITKStartGrouping */
   void
   SetSmoothingIterations(int v)
   {
@@ -170,10 +175,12 @@ public:
   {
     return m_ThresholdFunction->GetSmoothingIterations();
   }
+  /** @ITKEndGrouping */
 
   /** Anisotropic diffusion is applied to the FeatureImage before calculating
    * the Laplacian (edge) term. This method sets/gets the diffusion time
    * step. */
+  /** @ITKStartGrouping */
   void
   SetSmoothingTimeStep(ValueType v)
   {
@@ -186,10 +193,12 @@ public:
   {
     return m_ThresholdFunction->GetSmoothingTimeStep();
   }
+  /** @ITKEndGrouping */
 
   /** Anisotropic diffusion is applied to the FeatureImage before calculating
    * the Laplacian (edge) term. This method sets/gets the smoothing
    * conductance. */
+  /** @ITKStartGrouping */
   void
   SetSmoothingConductance(ValueType v)
   {
@@ -202,6 +211,7 @@ public:
   {
     return m_ThresholdFunction->GetSmoothingConductance();
   }
+  /** @ITKEndGrouping */
 
   itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<TOutputPixelType>));
 

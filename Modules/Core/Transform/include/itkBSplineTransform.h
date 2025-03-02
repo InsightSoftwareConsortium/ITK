@@ -230,6 +230,7 @@ public:
    * Parameter indices for the i-th dimension can be obtained by adding
    * ( i * this->GetNumberOfParametersPerDimension() ) to the indices array.
    */
+  /** @ITKStartGrouping */
   using Superclass::TransformPoint;
   void
   TransformPoint(const InputPointType &    point,
@@ -237,7 +238,7 @@ public:
                  WeightsType &             weights,
                  ParameterIndexArrayType & indices,
                  bool &                    inside) const override;
-
+  /** @ITKEndGrouping */
   /** Compute the Jacobian in one position. */
   void
   ComputeJacobianWithRespectToParameters(const InputPointType &, JacobianType &) const override;
@@ -301,6 +302,7 @@ private:
   SetCoefficientImageInformationFromFixedParameters() override;
 
   /** Methods have empty implementations */
+  /** @ITKStartGrouping */
   void
   SetFixedParametersGridSizeFromTransformDomainInformation() const override
   {}
@@ -313,7 +315,7 @@ private:
   void
   SetFixedParametersGridDirectionFromTransformDomainInformation() const override
   {}
-
+  /** @ITKEndGrouping */
   /** Check if a continuous index is inside the valid region. */
   bool
   InsideValidRegion(ContinuousIndexType &) const override;

@@ -83,7 +83,6 @@ namespace itk
  * \ingroup ImageIterators
  * \ingroup ITKCommon
  */
-
 template <unsigned int VImageDimension>
 class ConnectedImageNeighborhoodShape
 {
@@ -107,7 +106,6 @@ public:
     , m_IncludeCenterPixel{ includeCenterPixel }
     , m_NumberOfOffsets{ CalculateNumberOfOffsets(maximumCityblockDistance, includeCenterPixel) }
   {}
-
 
   /** Returns the number of offsets needed for this shape. */
   constexpr size_t

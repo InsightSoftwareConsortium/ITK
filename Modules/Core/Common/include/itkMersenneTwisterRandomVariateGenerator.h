@@ -236,11 +236,12 @@ public:
    *
    * \note This method is thread-safe.
    */
+  /** @ITKStartGrouping */
   inline void
   SetSeed(const IntegerType oneSeed);
   inline void
   SetSeed();
-
+  /** @ITKEndGrouping */
   /** Return the current seed
    *
    * \note This method is thread-safe.

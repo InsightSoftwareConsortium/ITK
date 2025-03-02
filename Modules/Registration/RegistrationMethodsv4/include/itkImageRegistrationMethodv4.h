@@ -224,6 +224,7 @@ public:
   using MetricSamplePointSetType = typename ImageMetricType::FixedSampledPointSetType;
 
   /** Set/get the fixed images. */
+  /** @ITKStartGrouping */
   virtual void
   SetFixedImage(const FixedImageType * image)
   {
@@ -237,8 +238,10 @@ public:
   virtual void
                                  SetFixedImage(SizeValueType, const FixedImageType *);
   virtual const FixedImageType * GetFixedImage(SizeValueType) const;
+  /** @ITKEndGrouping */
 
   /** Set the moving images. */
+  /** @ITKStartGrouping */
   virtual void
   SetMovingImage(const MovingImageType * image)
   {
@@ -252,8 +255,10 @@ public:
   virtual void
                                   SetMovingImage(SizeValueType, const MovingImageType *);
   virtual const MovingImageType * GetMovingImage(SizeValueType) const;
+  /** @ITKEndGrouping */
 
   /** Set/get the fixed point sets. */
+  /** @ITKStartGrouping */
   virtual void
   SetFixedPointSet(const PointSetType * pointSet)
   {
@@ -267,8 +272,10 @@ public:
   virtual void
                                SetFixedPointSet(SizeValueType, const PointSetType *);
   virtual const PointSetType * GetFixedPointSet(SizeValueType) const;
+  /** @ITKEndGrouping */
 
   /** Set the moving point sets. */
+  /** @ITKStartGrouping */
   virtual void
   SetMovingPointSet(const PointSetType * pointSet)
   {
@@ -282,10 +289,13 @@ public:
   virtual void
                                SetMovingPointSet(SizeValueType, const PointSetType *);
   virtual const PointSetType * GetMovingPointSet(SizeValueType) const;
+  /** @ITKEndGrouping */
 
   /** Set/Get the optimizer. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(Optimizer, OptimizerType);
   itkGetModifiableObjectMacro(Optimizer, OptimizerType);
+  /** @ITKEndGrouping */
 
   /**
    * Set/Get the optimizer weights.  Allows setting of a per-local-parameter
@@ -295,17 +305,23 @@ public:
    * The size of the weights must be equal to the number of the local transformation
    * parameters.
    */
+  /** @ITKStartGrouping */
   void
   SetOptimizerWeights(OptimizerWeightsType &);
   itkGetConstMacro(OptimizerWeights, OptimizerWeightsType);
+  /** @ITKEndGrouping */
 
   /** Set/Get the metric. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(Metric, MetricType);
   itkGetModifiableObjectMacro(Metric, MetricType);
+  /** @ITKEndGrouping */
 
   /** Set/Get the metric sampling strategy. */
+  /** @ITKStartGrouping */
   itkSetEnumMacro(MetricSamplingStrategy, MetricSamplingStrategyEnum);
   itkGetEnumMacro(MetricSamplingStrategy, MetricSamplingStrategyEnum);
+  /** @ITKEndGrouping */
 
   /** Reinitialize the seed for the random number generators that
    * select the samples for some metric sampling strategies.
@@ -318,19 +334,23 @@ public:
    * will indeed increase the non-deterministic behavior of the
    * metric.
    */
+  /** @ITKStartGrouping */
   void
   MetricSamplingReinitializeSeed();
   void
   MetricSamplingReinitializeSeed(int seed);
+  /** @ITKEndGrouping */
 
   /** Set the metric sampling percentage. Valid values are in (0.0, 1.0] */
   void
   SetMetricSamplingPercentage(const RealType);
 
   /** Set the metric sampling percentage. Valid values are in (0.0,1.0]. */
+  /** @ITKStartGrouping */
   virtual void
   SetMetricSamplingPercentagePerLevel(const MetricSamplingPercentageArrayType & samplingPercentages);
   itkGetConstMacro(MetricSamplingPercentagePerLevel, MetricSamplingPercentageArrayType);
+  /** @ITKEndGrouping */
 
   /** Set/Get the initial fixed transform. */
   itkSetGetDecoratedObjectInputMacro(FixedInitialTransform, InitialTransformType);
@@ -356,10 +376,12 @@ public:
   itkSetGetDecoratedObjectInputMacro(InitialTransform, InitialTransformType);
 
   /** Set/Get the transform adaptors. */
+  /** @ITKStartGrouping */
   void
   SetTransformParametersAdaptorsPerLevel(TransformParametersAdaptorsContainerType &);
   const TransformParametersAdaptorsContainerType &
   GetTransformParametersAdaptorsPerLevel() const;
+  /** @ITKEndGrouping */
 
   /**
    * Set/Get the number of multi-resolution levels.  In setting the number of
@@ -368,9 +390,11 @@ public:
    *   \li sigma smoothing parameter
    *   \li transform adaptor with specific parameters for the specified level
    */
+  /** @ITKStartGrouping */
   void
   SetNumberOfLevels(const SizeValueType);
   itkGetConstMacro(NumberOfLevels, SizeValueType);
+  /** @ITKEndGrouping */
 
   /**
    * Set the shrink factors for each level where each level has a constant
@@ -421,16 +445,20 @@ public:
    * filter (specifically, the \c itkDiscreteGaussianImageFilter) is applied.  Sigma values are
    * specified according to the option \c m_SmoothingSigmasAreSpecifiedInPhysicalUnits.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(SmoothingSigmasPerLevel, SmoothingSigmasArrayType);
   itkGetConstMacro(SmoothingSigmasPerLevel, SmoothingSigmasArrayType);
+  /** @ITKEndGrouping */
 
   /**
    * Set/Get whether to specify the smoothing sigmas for each level in physical units
    * (default) or in terms of voxels.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(SmoothingSigmasAreSpecifiedInPhysicalUnits, bool);
   itkGetConstMacro(SmoothingSigmasAreSpecifiedInPhysicalUnits, bool);
   itkBooleanMacro(SmoothingSigmasAreSpecifiedInPhysicalUnits);
+  /** @ITKEndGrouping */
 
   /** Make a DataObject of the correct type to be used as the specified output. */
   using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
@@ -438,10 +466,12 @@ public:
   DataObjectPointer MakeOutput(DataObjectPointerArraySizeType) override;
 
   /** Return the transform resulting from the registration process. */
+  /** @ITKStartGrouping */
   virtual DecoratedOutputTransformType *
   GetOutput();
   virtual const DecoratedOutputTransformType *
   GetOutput() const;
+  /** @ITKEndGrouping */
 
   virtual DecoratedOutputTransformType *
   GetTransformOutput()
@@ -477,18 +507,22 @@ public:
   /** Request that the InitialTransform be grafted onto the output,
    * there by not creating a copy.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(InPlace, bool);
   itkGetConstMacro(InPlace, bool);
   itkBooleanMacro(InPlace);
+  /** @ITKEndGrouping */
 
   /**
    * Initialize the current linear transform to be optimized with the center of the
    * previous transform in the queue.  This provides a much better initialization than
    * the default origin.
    */
+  /** @ITKStartGrouping */
   itkBooleanMacro(InitializeCenterOfLinearOutputTransform);
   itkSetMacro(InitializeCenterOfLinearOutputTransform, bool);
   itkGetConstMacro(InitializeCenterOfLinearOutputTransform, bool);
+  /** @ITKEndGrouping */
 
   /**
    * We try to initialize the center of a linear transform (specifically those

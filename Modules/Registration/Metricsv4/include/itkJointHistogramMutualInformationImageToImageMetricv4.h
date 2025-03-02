@@ -61,9 +61,12 @@ public:
 
   /** Type used for representing parameter values  */
   using typename Superclass::CoordinateRepresentationType;
+
   /** Type used internally for computations */
+
   /** It should be possible to derive the internal computation type from the class object. */
   using InternalComputationValueType = TInternalComputationValueType;
+
   /**  Type of the parameters. */
   using typename Superclass::ParametersType;
   using typename Superclass::ParametersValueType;
@@ -129,13 +132,15 @@ public:
 
 
   /** Get/Set the number of histogram bins */
+  /** @ITKStartGrouping */
   itkSetClampMacro(NumberOfHistogramBins, SizeValueType, 5, NumericTraits<SizeValueType>::max());
   itkGetConstReferenceMacro(NumberOfHistogramBins, SizeValueType);
-
+  /** @ITKEndGrouping */
   /** Get/Set option to smooth the joint pdf after it's updated */
+  /** @ITKStartGrouping */
   itkSetMacro(VarianceForJointPDFSmoothing, TInternalComputationValueType);
   itkGetMacro(VarianceForJointPDFSmoothing, TInternalComputationValueType);
-
+  /** @ITKEndGrouping */
   /** Initialize the metric. Make sure all essential inputs are plugged in. */
   void
   Initialize() override;

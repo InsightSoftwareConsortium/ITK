@@ -79,9 +79,10 @@ public:
    * Transform.
    * By selecting INVERSE, this filter will perform an inverse Fourier
    * Transform. */
+  /** @ITKStartGrouping */
   itkSetMacro(TransformDirection, TransformDirectionType);
   itkGetConstMacro(TransformDirection, TransformDirectionType);
-
+  /** @ITKEndGrouping */
   /** Get the direction in which the filter is to be applied. */
   itkGetConstMacro(Direction, unsigned int);
 

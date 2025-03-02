@@ -306,9 +306,10 @@ public:
   /** This method specifies the bulk transform to be applied.
    * The default is the identity transform.
    */
+  /** @ITKStartGrouping */
   itkSetConstObjectMacro(BulkTransform, BulkTransformType);
   itkGetConstObjectMacro(BulkTransform, BulkTransformType);
-
+  /** @ITKEndGrouping */
   /** Return the region of the grid wholly within the support region */
   itkGetConstReferenceMacro(ValidRegion, RegionType);
 

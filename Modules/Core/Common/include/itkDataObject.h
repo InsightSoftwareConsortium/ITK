@@ -77,13 +77,14 @@ public:
 
 
   /** Get the data object that is throwing this exception. */
+  /** @ITKStartGrouping */
   const DataObject *
   GetDataObject() const noexcept;
 #if !defined(ITK_LEGACY_REMOVE)
   DataObject *
   GetDataObject() noexcept;
 #endif
-
+  /** @ITKEndGrouping */
 protected:
   /** Print exception information.  This method can be overridden by
    * specific exception subtypes.  The default is to print out the
@@ -427,13 +428,14 @@ public:
 
   /** The maximum MTime of all upstream filters and data objects.
    * This does not include the MTime of this data object. */
+  /** @ITKStartGrouping */
   void
   SetPipelineMTime(ModifiedTimeType time)
   {
     m_PipelineMTime = time;
   }
   itkGetConstReferenceMacro(PipelineMTime, ModifiedTimeType);
-
+  /** @ITKEndGrouping */
   /** MTime for the last time this DataObject was generated. */
   virtual ModifiedTimeType
   GetUpdateMTime() const;
@@ -443,9 +445,10 @@ public:
    *  the Unix epoch. That is the time 00:00:00 UTC on 1 January 1970
    *  (or 1970-01-01T00:00:00Z ISO 8601)
    */
+  /** @ITKStartGrouping */
   itkSetMacro(RealTimeStamp, RealTimeStamp);
   itkGetConstReferenceMacro(RealTimeStamp, RealTimeStamp);
-
+  /** @ITKEndGrouping */
   /** Setup a DataObject to receive new data.  This method is called
    * by the pipeline mechanism on each output of filter that needs
    * to execute.  The default implementation is to return a DataObject

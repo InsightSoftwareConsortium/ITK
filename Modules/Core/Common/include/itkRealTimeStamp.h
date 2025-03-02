@@ -61,6 +61,7 @@ public:
   using TimeRepresentationType = RealTimeInterval::TimeRepresentationType;
 
   /** Return time in multiple units. */
+  /** @ITKStartGrouping */
   TimeRepresentationType
   GetTimeInMicroSeconds() const;
   TimeRepresentationType
@@ -73,8 +74,9 @@ public:
   GetTimeInHours() const;
   TimeRepresentationType
   GetTimeInDays() const;
-
+  /** @ITKEndGrouping */
   /** Arithmetic operations between RealTimeInterval and RealTimeStamp. */
+  /** @ITKStartGrouping */
   RealTimeInterval
   operator-(const Self &) const;
   Self
@@ -85,8 +87,9 @@ public:
   operator+=(const RealTimeInterval &);
   const Self &
   operator-=(const RealTimeInterval &);
-
+  /** @ITKEndGrouping */
   /** Comparison operations. */
+  /** @ITKStartGrouping */
   bool
   operator>(const Self &) const;
   bool
@@ -98,7 +101,7 @@ public:
   operator<=(const Self &) const;
   bool
   operator>=(const Self &) const;
-
+  /** @ITKEndGrouping */
   /** Default print out of a RealTimeStamp */
   friend ITKCommon_EXPORT std::ostream &
                           operator<<(std::ostream & os, const RealTimeStamp & v);

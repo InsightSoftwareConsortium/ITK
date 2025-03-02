@@ -113,8 +113,10 @@ public:
   using NarrowBandIterator = typename NarrowBandType::Iterator;
 
   /** Set/Get IsoSurfaceValue to use in the input image */
+  /** @ITKStartGrouping */
   itkSetMacro(IsoSurfaceValue, ValueType);
   itkGetConstMacro(IsoSurfaceValue, ValueType);
+  /** @ITKEndGrouping */
 
   /** Root Mean Square Change between successive iterations */
   //  itkGetConstMacro( RMSChange, ValueType);
@@ -123,6 +125,7 @@ public:
    *   entire narrow band can be constructed using this method.  Usually,
    *   however, the narrow band is initialized and reinitialized automatically
    *   by the subclass. */
+  /** @ITKStartGrouping */
   void
   InsertNarrowBandNode(const BandNodeType & node)
   {
@@ -152,6 +155,7 @@ public:
     m_NarrowBand->PushBack(tmpnode);
     this->Modified();
   }
+  /** @ITKEndGrouping */
 
   /** Set the narrow band total radius. The narrow band width will be
    * twice this value (positive and negative distance to the zero level
@@ -237,6 +241,7 @@ protected:
   Defines a subregion of the narrowband. */
   struct ThreadRegionType
   {
+
     /** this is the actual first element */
     NarrowBandIterator first;
 

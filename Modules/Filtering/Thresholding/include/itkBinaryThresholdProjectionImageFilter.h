@@ -125,19 +125,22 @@ public:
 
   /** Set/Get the output value used as "foreground". Defaults to
    * maximum value of PixelType. */
+  /** @ITKStartGrouping */
   itkSetMacro(ForegroundValue, OutputPixelType);
   itkGetConstMacro(ForegroundValue, OutputPixelType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the output value used as "background". Defaults to
    * NumericTraits<PixelType>::NonpositiveMin(). */
+  /** @ITKStartGrouping */
   itkSetMacro(BackgroundValue, OutputPixelType);
   itkGetConstMacro(BackgroundValue, OutputPixelType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the input value consider as "threshold". Defaults to
    *  NumericTraits<InputPixelType>::max() */
+  /** @ITKStartGrouping */
   itkSetMacro(ThresholdValue, InputPixelType);
   itkGetConstMacro(ThresholdValue, InputPixelType);
-
+  /** @ITKEndGrouping */
   itkConceptMacro(InputPixelTypeGreaterThanComparable, (Concept::GreaterThanComparable<InputPixelType>));
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputPixelType>));
 

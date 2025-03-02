@@ -115,9 +115,10 @@ public:
   itkOverrideGetNameOfClassMacro(InvertIntensityImageFilter);
 
   /** Set/Get the maximum intensity value for the inversion. */
+  /** @ITKStartGrouping */
   itkSetMacro(Maximum, InputPixelType);
   itkGetConstReferenceMacro(Maximum, InputPixelType);
-
+  /** @ITKEndGrouping */
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

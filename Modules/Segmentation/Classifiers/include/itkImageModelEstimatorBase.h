@@ -94,9 +94,10 @@ public:
   // using TrainingImagePointer = typename TTrainingImage::Pointer;
 
   /** Get/Set the input image. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(InputImage, InputImageType);
   itkGetModifiableObjectMacro(InputImage, InputImageType);
-
+  /** @ITKEndGrouping */
   /** Set the classified image. */
   void
   SetMembershipFunctions(MembershipFunctionPointerVector membershipFunctions)

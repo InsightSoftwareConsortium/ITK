@@ -111,10 +111,11 @@ public:
   SetKernel(const KernelType & kernel) override;
 
   /** Set/Get the backend filter class. */
+  /** @ITKStartGrouping */
   void
   SetAlgorithm(AlgorithmEnum algo);
   itkGetConstMacro(Algorithm, AlgorithmEnum);
-
+  /** @ITKEndGrouping */
   /** MorphologicalGradientImageFilter need to set its internal filters as
     modified */
   void

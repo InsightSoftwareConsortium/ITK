@@ -99,9 +99,10 @@ public:
    * noise in the solution, but results in higher approximation error
    * in the deblurred image. Default value is 0.0, yielding the same
    * results as the InverseDeconvolutionImageFilter. */
+  /** @ITKStartGrouping */
   itkSetMacro(RegularizationConstant, double);
   itkGetConstMacro(RegularizationConstant, double);
-
+  /** @ITKEndGrouping */
 protected:
   TikhonovDeconvolutionImageFilter();
   ~TikhonovDeconvolutionImageFilter() override = default;
@@ -154,6 +155,7 @@ public:
 
   /** Set/get the regular constant. This needs to be a non-negative
    * real value. */
+  /** @ITKStartGrouping */
   void
   SetRegularizationConstant(double constant)
   {
@@ -164,9 +166,10 @@ public:
   {
     return m_RegularizationConstant;
   }
-
+  /** @ITKEndGrouping */
   /** Set/get the threshold value below which complex magnitudes are considered
    * to be zero. */
+  /** @ITKStartGrouping */
   void
   SetKernelZeroMagnitudeThreshold(double mu)
   {
@@ -177,7 +180,7 @@ public:
   {
     return m_KernelZeroMagnitudeThreshold;
   }
-
+  /** @ITKEndGrouping */
 private:
   double m_RegularizationConstant = 0.0;
   double m_KernelZeroMagnitudeThreshold = 0.0;

@@ -109,13 +109,15 @@ public:
   using HistogramPointer = typename HistogramType::Pointer;
 
   /** Set and Get the source image */
+  /** @ITKStartGrouping */
   itkSetInputMacro(SourceImage, InputImageType);
   itkGetInputMacro(SourceImage, InputImageType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the reference image. */
+  /** @ITKStartGrouping */
   itkSetInputMacro(ReferenceImage, InputImageType);
   itkGetInputMacro(ReferenceImage, InputImageType);
-
+  /** @ITKEndGrouping */
   /** Set the reference histogram.  The reference histogram must
    * have the first bin minimum be the smallest intensity value for the
    * reference image space and the last bin maximum must contain the largest
@@ -124,26 +126,30 @@ public:
    * that are used to populate the histogram to a smaller intensity range
    * than is represented by the smallest and largest intensity values.)
    */
+  /** @ITKStartGrouping */
   itkSetInputMacro(ReferenceHistogram, HistogramType);
   itkGetInputMacro(ReferenceHistogram, HistogramType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the number of histogram levels used. */
+  /** @ITKStartGrouping */
   itkSetMacro(NumberOfHistogramLevels, SizeValueType);
   itkGetConstMacro(NumberOfHistogramLevels, SizeValueType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the number of match points used. */
+  /** @ITKStartGrouping */
   itkSetMacro(NumberOfMatchPoints, SizeValueType);
   itkGetConstMacro(NumberOfMatchPoints, SizeValueType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the threshold at mean intensity flag.
    * If true, only source (reference) pixels which are greater
    * than the mean source (reference) intensity is used in
    * the histogram matching. If false, all pixels are
    * used. */
+  /** @ITKStartGrouping */
   itkSetMacro(ThresholdAtMeanIntensity, bool);
   itkGetConstMacro(ThresholdAtMeanIntensity, bool);
   itkBooleanMacro(ThresholdAtMeanIntensity);
-
+  /** @ITKEndGrouping */
   /** Set/Get if the reference histogram is regenerated from
    * the supplied ReferenceImage (true) or supplied directly
    * as in input argument (false).  If SetReferenceHistogram(myhistogram)
@@ -153,10 +159,11 @@ public:
    * indicated by GenerateReferenceHistogramFromImage choice will be used
    * and the other object will be ignored.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(GenerateReferenceHistogramFromImage, bool);
   itkGetConstMacro(GenerateReferenceHistogramFromImage, bool);
   itkBooleanMacro(GenerateReferenceHistogramFromImage);
-
+  /** @ITKEndGrouping */
   /** This filter requires all of the input to be in the buffer. */
   void
   GenerateInputRequestedRegion() override;
@@ -164,9 +171,10 @@ public:
   /** Methods to get the histograms of the source, reference, and
    * output. Objects are only valid after Update() has been called
    * on this filter. */
+  /** @ITKStartGrouping */
   itkGetModifiableObjectMacro(SourceHistogram, HistogramType);
   itkGetModifiableObjectMacro(OutputHistogram, HistogramType);
-
+  /** @ITKEndGrouping */
   itkConceptMacro(IntConvertibleToInputCheck, (Concept::Convertible<int, InputPixelType>));
   itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<ImageDimension, OutputImageDimension>));
   itkConceptMacro(DoubleConvertibleToInputCheck, (Concept::Convertible<double, InputPixelType>));

@@ -253,6 +253,7 @@ public:
 #endif
 
   /** Set/Get the type of used image forces */
+  /** @ITKStartGrouping */
   virtual void
   SetUseGradientType(GradientEnum gtype)
   {
@@ -263,6 +264,7 @@ public:
   {
     return m_UseGradientType;
   }
+  /** @ITKEndGrouping */
 
 protected:
   ESMDemonsRegistrationFunction();

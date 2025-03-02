@@ -106,17 +106,19 @@ public:
    * FullyConnectedOff.
    * \note For objects that are 1 pixel wide, use FullyConnectedOn.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(FullyConnected, bool);
   itkGetConstReferenceMacro(FullyConnected, bool);
   itkBooleanMacro(FullyConnected);
-
+  /** @ITKEndGrouping */
   /**
    * Set/Get the background value used to identify the objects and mark the
    * pixels not on the border of the objects.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(BackgroundValue, OutputImagePixelType);
   itkGetConstMacro(BackgroundValue, OutputImagePixelType);
-
+  /** @ITKEndGrouping */
 protected:
   LabelContourImageFilter();
   ~LabelContourImageFilter() override = default;

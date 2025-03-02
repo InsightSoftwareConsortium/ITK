@@ -324,6 +324,7 @@ public:
   /** Add/Remove a neighborhood offset (from the center of the neighborhood)
    *  to/from the active list.  Active list offsets are the only locations
    *  updated and accessible through the iterator.  */
+  /** @ITKStartGrouping */
   void
   ActivateOffset(const OffsetType & off)
   {
@@ -334,7 +335,7 @@ public:
   {
     this->DeactivateIndex(Superclass::GetNeighborhoodIndex(off));
   }
-
+  /** @ITKEndGrouping */
   /** Activates a whole range of offsets, for example, an std::vector<OffsetType>,
    * which could be from GenerateImageNeighborhoodOffsets(shape). */
   template <typename TOffsets>
@@ -372,6 +373,7 @@ public:
   /** Add non-zero neighborhood offsets to the active list. The
    * radius of the neighborhood must match the radius of the shaped
    * iterator */
+  /** @ITKStartGrouping */
   template <typename TNeighborPixel>
   void
   CreateActiveListFromNeighborhood(const Neighborhood<TNeighborPixel, Self::Dimension> &);
@@ -381,7 +383,7 @@ public:
     // just delegate to the templated version
     this->CreateActiveListFromNeighborhood<PixelType>(neighborhood);
   }
-
+  /** @ITKEndGrouping */
   /** Reimplements the operator++ method so that only active pixel locations
    * are updated. */
   Self &

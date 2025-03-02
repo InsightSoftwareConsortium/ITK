@@ -97,11 +97,12 @@ public:
   static constexpr unsigned int ImageDimension = TLabelImage::ImageDimension;
 
   /** Set the label image */
+  /** @ITKStartGrouping */
   itkSetInputMacro(TargetImage, LabelImageType);
   itkGetInputMacro(TargetImage, LabelImageType);
   itkSetInputMacro(SourceImage, LabelImageType);
   itkGetInputMacro(SourceImage, LabelImageType);
-
+  /** @ITKEndGrouping */
 
   /** Get the label set measures. */
   MapType
@@ -120,6 +121,7 @@ public:
   RealType GetTargetOverlap(LabelType) const;
 
   /** Get the union overlap (Jaccard coefficient) over all labels. */
+  /** @ITKStartGrouping */
   RealType
   GetUnionOverlap() const;
   RealType
@@ -127,17 +129,19 @@ public:
   {
     return this->GetUnionOverlap();
   }
-
+  /** @ITKEndGrouping */
   /** Get the union overlap (Jaccard coefficient) for the specified individual
    * label. */
+  /** @ITKStartGrouping */
   RealType GetUnionOverlap(LabelType) const;
   RealType
   GetJaccardCoefficient(LabelType label) const
   {
     return this->GetUnionOverlap(label);
   }
-
+  /** @ITKEndGrouping */
   /** Get the mean overlap (Dice coefficient) over all labels. */
+  /** @ITKStartGrouping */
   RealType
   GetMeanOverlap() const;
   RealType
@@ -145,16 +149,17 @@ public:
   {
     return this->GetMeanOverlap();
   }
-
+  /** @ITKEndGrouping */
   /** Get the mean overlap (Dice coefficient) for the specified individual
    * label. */
+  /** @ITKStartGrouping */
   RealType GetMeanOverlap(LabelType) const;
   RealType
   GetDiceCoefficient(LabelType label) const
   {
     return this->GetMeanOverlap(label);
   }
-
+  /** @ITKEndGrouping */
   /** Get the volume similarity over all labels. */
   RealType
   GetVolumeSimilarity() const;

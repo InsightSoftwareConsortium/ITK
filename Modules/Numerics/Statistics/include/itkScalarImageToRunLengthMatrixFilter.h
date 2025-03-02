@@ -223,9 +223,10 @@ public:
    * Set the pixel value of the mask that should be considered "inside" the
    * object. Defaults to 1.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(InsidePixelValue, PixelType);
   itkGetConstMacro(InsidePixelValue, PixelType);
-
+  /** @ITKEndGrouping */
 protected:
   ScalarImageToRunLengthMatrixFilter();
   ~ScalarImageToRunLengthMatrixFilter() override = default;

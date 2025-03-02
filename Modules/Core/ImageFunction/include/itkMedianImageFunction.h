@@ -112,10 +112,11 @@ public:
 
   /** Get/Set the radius of the neighborhood over which the
       statistics are evaluated */
+  /** @ITKStartGrouping */
   void
   SetNeighborhoodRadius(unsigned int);
   itkGetConstReferenceMacro(NeighborhoodRadius, unsigned int);
-
+  /** @ITKEndGrouping */
 protected:
   MedianImageFunction();
   ~MedianImageFunction() override = default;

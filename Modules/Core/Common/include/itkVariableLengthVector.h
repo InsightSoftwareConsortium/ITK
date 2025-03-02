@@ -94,7 +94,8 @@ public:
   /**\name Policies
    * The following Policies will be used by \c itk::VariableLengthVector::SetSize
    */
-  //@{
+  /** @ITKStartGrouping */
+
   /** \c VariableLengthVector empty base-class for allocation policies.
    * All Allocation Policies are expected to inherit from this empty base
    * class.
@@ -301,7 +302,7 @@ public:
                TValue2 *    itkNotUsed(newBuffer)) const
     {}
   };
-  //@}
+  /** @ITKEndGrouping */
 
 
   /** The element type stored at each location in the Array. */
@@ -471,6 +472,7 @@ public:
    */
   template <typename TExpr1, typename TExpr2, typename TBinaryOp>
   VariableLengthVector(const VariableLengthVectorExpression<TExpr1, TExpr2, TBinaryOp> & rhs);
+
   /** Assignment from an Expression Template vector.
    * \tparam TExpr1 Type of the left sub-expression
    * \tparam TExpr2 Type of the right sub-expression
@@ -572,6 +574,7 @@ public:
   operator=(const TValue & v);
 
   /** Return the number of elements in the Array  */
+  /** @ITKStartGrouping */
   unsigned int
   Size() const
   {
@@ -587,13 +590,14 @@ public:
   {
     return m_NumElements;
   }
-
+  /** @ITKEndGrouping */
   /** Return reference to the element at specified index. No range checking. */
   TValue &
   operator[](unsigned int i)
   {
     return this->m_Data[i];
   }
+
   /** Return reference to the element at specified index. No range checking. */
   const TValue &
   operator[](unsigned int i) const
@@ -1034,6 +1038,7 @@ template <typename TExpr>
 struct GetType
 {
   using Type = TExpr;
+
   /** Fetches the i-th element from an array (expression).
    * \note the default unspecialized behaviour returns the input number \c v.
    */
@@ -1370,7 +1375,7 @@ GetSquaredNorm(const TExpr & v)
 }
 
 /**\name Serialization */
-//@{
+
 /** Serialization of \c VariableLengthVector
  * \relates itk::VariableLengthVector
  */
@@ -1393,10 +1398,9 @@ operator<<(std::ostream & os, const VariableLengthVector<TValue> & arr)
   os << ']';
   return os;
 }
-//@}
 
 /**\name Standard compliance functions */
-//@{
+
 /** \c swap() overload for \c VariableLengthVector
  * \throw None
  * \relates itk::VariableLengthVector
@@ -1420,7 +1424,6 @@ swap(VariableLengthVector<T> & l_, VariableLengthVector<T> & r_) noexcept
 {
   l_.Swap(r_);
 }
-//@}
 
 } // namespace itk
 

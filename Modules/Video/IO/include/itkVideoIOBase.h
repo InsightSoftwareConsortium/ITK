@@ -46,6 +46,7 @@ public:
 // Define how to print enumeration
 extern ITKVideoIO_EXPORT std::ostream &
                          operator<<(std::ostream & out, const VideoIOBaseEnums::ReadFrom value);
+
 /**
  * \class VideoIOBase
  * \brief Abstract superclass defines video IO interface.
@@ -128,6 +129,7 @@ public:
   SetNextFrameToRead(FrameOffsetType frameNumber) = 0;
 
   /** Virtual accessor functions to be implemented in each derived class */
+  /** @ITKStartGrouping */
   virtual TemporalOffsetType
   GetPositionInMSec() const = 0;
   virtual TemporalRatioType
@@ -140,7 +142,7 @@ public:
   GetCurrentFrame() const = 0;
   virtual FrameOffsetType
   GetLastIFrame() const = 0;
-
+  /** @ITKEndGrouping */
   /*-------- This part of the interfaces deals with writing data. ----- */
 
   /** Set Writer Parameters */

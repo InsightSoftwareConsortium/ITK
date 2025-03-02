@@ -70,6 +70,7 @@ public:
    * Maximization is implemented here by notifying the CostFunctionAdaptor
    * which in its turn will multiply the function values and its derivative by
    * -1.0. */
+  /** @ITKStartGrouping */
   itkGetConstReferenceMacro(Maximize, bool);
   itkSetMacro(Maximize, bool);
   itkBooleanMacro(Maximize);
@@ -93,16 +94,17 @@ public:
   {
     this->MaximizeOn();
   }
-
+  /** @ITKEndGrouping */
   /** Return Cached Values. These method have the advantage of not triggering a
    * recomputation of the metric value, but it has the disadvantage of returning
    * a value that may not be the one corresponding to the current parameters. For
    * GUI update purposes, this method is a good option, for mathematical
    * validation you should rather call GetValue(). */
+  /** @ITKStartGrouping */
   itkGetConstReferenceMacro(CachedValue, MeasureType);
   itkGetConstReferenceMacro(CachedDerivative, DerivativeType);
   itkGetConstReferenceMacro(CachedCurrentPosition, ParametersType);
-
+  /** @ITKEndGrouping */
   /** Returns true if derived optimizer supports using scales.
    * For optimizers that do not support scaling, this
    * default function is overridden to return false.*/

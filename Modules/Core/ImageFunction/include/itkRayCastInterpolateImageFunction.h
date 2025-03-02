@@ -132,22 +132,26 @@ public:
   /** Connect the Transform.
    * This Transformation is used to calculate the new focal point position.
    * */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(Transform, TransformType);
   itkGetModifiableObjectMacro(Transform, TransformType);
-
+  /** @ITKEndGrouping */
   /** Connect the Interpolator. */
   itkSetObjectMacro(Interpolator, InterpolatorType);
+
   /** Get a pointer to the Interpolator.  */
   itkGetModifiableObjectMacro(Interpolator, InterpolatorType);
 
   /** The focal point or position of the ray source. */
+  /** @ITKStartGrouping */
   itkSetMacro(FocalPoint, InputPointType);
   itkGetConstMacro(FocalPoint, InputPointType);
-
+  /** @ITKEndGrouping */
   /** The threshold above which voxels along the ray path are integrated. */
+  /** @ITKStartGrouping */
   itkSetMacro(Threshold, double);
   itkGetConstMacro(Threshold, double);
-
+  /** @ITKEndGrouping */
   /** Check if a point is inside the image buffer.
    * \warning For efficiency, no validity checking of
    * the input image pointer is done. */

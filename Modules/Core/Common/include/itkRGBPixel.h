@@ -96,12 +96,14 @@ public:
   /** Prevents copy-initialization from `nullptr`, as well as from `0` (NULL). */
   RGBPixel(std::nullptr_t) = delete;
 #else
+
   /** Constructor to fill Red=Blue=Green= r.
    * \note ITK_LEGACY_REMOVE=ON will disallow implicit conversion from a component value. */
   RGBPixel(const ComponentType & r) { this->Fill(r); }
 #endif
 
   /** Pass-through constructor for the Array base class. */
+  /** @ITKStartGrouping */
   template <typename TRGBPixelValueType>
   RGBPixel(const RGBPixel<TRGBPixelValueType> & r)
     : BaseArray(r)
@@ -109,8 +111,10 @@ public:
   RGBPixel(const ComponentType r[3])
     : BaseArray(r)
   {}
+  /** @ITKEndGrouping */
 
   /** Pass-through assignment operator for the Array base class. */
+  /** @ITKStartGrouping */
   template <typename TRGBPixelValueType>
   Self &
   operator=(const RGBPixel<TRGBPixelValueType> & r)
@@ -118,11 +122,13 @@ public:
     BaseArray::operator=(r);
     return *this;
   }
+  /** @ITKEndGrouping */
 
   Self &
   operator=(const ComponentType r[3]);
 
   /** Arithmetic operations between pixels. Return a new RGBPixel. */
+  /** @ITKStartGrouping */
   Self
   operator+(const Self & r) const;
   Self
@@ -131,8 +137,10 @@ public:
   operator*(const ComponentType & r) const;
   Self
   operator/(const ComponentType & r) const;
+  /** @ITKEndGrouping */
 
   /** Arithmetic-assignment operators. */
+  /** @ITKStartGrouping */
   const Self &
   operator+=(const Self & r);
   const Self &
@@ -141,6 +149,7 @@ public:
   operator*=(const ComponentType & r);
   const Self &
   operator/=(const ComponentType & r);
+  /** @ITKEndGrouping */
 
   /** Implements strict weak ordering. For use in STL, e.g. std::map. */
   bool

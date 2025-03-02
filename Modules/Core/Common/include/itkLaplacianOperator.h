@@ -99,10 +99,11 @@ public:
   /** Sets the weights that are applied to the derivative in each axial
    *  direction when the kernel is computed.  These weights are all 1.0 by
    *  default. This method must be called BEFORE CreateOperator */
+  /** @ITKStartGrouping */
   void
   SetDerivativeScalings(const double * s);
   itkGetConstMacro(DerivativeScalings, const double *);
-
+  /** @ITKEndGrouping */
 protected:
   /** Type alias support for coefficient vector type.*/
   using typename Superclass::CoefficientVector;

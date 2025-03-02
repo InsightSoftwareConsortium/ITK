@@ -170,7 +170,6 @@ public:
     return *this;
   }
 
-
   /** Get the offset. This provides a read only pointer to the offset.
    * \sa SetOffset() */
   const OffsetValueType *

@@ -88,6 +88,7 @@ public:
    * Get/Set The output DOM object will be created automatically, but the user
    * can appoint a user DOM object as the output by calling this function.
    */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(DOMNodeXML, OutputType);
 #if !defined(ITK_LEGACY_REMOVE)
   // Provide backwards compatible interface
@@ -97,7 +98,7 @@ public:
     this->SetDOMNodeXML(_arg);
   }
 #endif
-
+  /** @ITKEndGrouping */
   /**
    * Provide an interface to match that
    * of other ProcessObjects
@@ -105,6 +106,7 @@ public:
    * by returning a non-const pointer
    * for the generated Object.
    */
+  /** @ITKStartGrouping */
   // NOTE:  The m_DOMNodeXML is only
   //       exposed via the Source generation interface
   //       by the GetOutput() method that mimics
@@ -119,7 +121,7 @@ public:
   {
     return this->m_DOMNodeXML.GetPointer();
   }
-
+  /** @ITKEndGrouping */
 #if !defined(ITK_LEGACY_REMOVE)
   // This interface was exposed in ITKv4 when the itkGetModifiableObjectMacro was used
   virtual OutputType *
@@ -185,5 +187,4 @@ operator>>(std::istream & is, itk::DOMNode & object)
   reader->Update(is);
   return is;
 }
-
 #endif // itkDOMNodeXMLReader_h

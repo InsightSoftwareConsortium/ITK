@@ -194,17 +194,20 @@ public:
   GetNumberOfValidRequiredInputs() const override;
 
   /** Get/Set the internal registrator. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(RegistrationFilter, RegistrationType);
   itkGetModifiableObjectMacro(RegistrationFilter, RegistrationType);
-
+  /** @ITKEndGrouping */
   /** Get/Set the fixed image pyramid. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(FixedImagePyramid, FixedImagePyramidType);
   itkGetModifiableObjectMacro(FixedImagePyramid, FixedImagePyramidType);
-
+  /** @ITKEndGrouping */
   /** Get/Set the moving image pyramid. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(MovingImagePyramid, MovingImagePyramidType);
   itkGetModifiableObjectMacro(MovingImagePyramid, MovingImagePyramidType);
-
+  /** @ITKEndGrouping */
   /** Set number of multi-resolution levels. */
   virtual void
   SetNumberOfLevels(unsigned int num);
@@ -216,14 +219,16 @@ public:
   itkGetConstReferenceMacro(CurrentLevel, unsigned int);
 
   /** Get/Set the moving image pyramid. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(FieldExpander, FieldExpanderType);
   itkGetModifiableObjectMacro(FieldExpander, FieldExpanderType);
-
+  /** @ITKEndGrouping */
   /** Set number of iterations per multi-resolution levels. */
+  /** @ITKStartGrouping */
   virtual void
   SetNumberOfIterations(NumberOfIterationsType numberOfIterations);
   itkSetVectorMacro(NumberOfIterations, unsigned int, m_NumberOfLevels);
-
+  /** @ITKEndGrouping */
   /** Get number of iterations per multi-resolution levels. */
   itkGetConstReferenceMacro(NumberOfIterations, NumberOfIterationsType);
 

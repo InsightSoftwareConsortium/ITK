@@ -47,13 +47,14 @@ public:
   ITK_DISALLOW_COPY_AND_MOVE(EquivalencyTable);
 
   /** Standard smart pointer declarations */
+  /** @ITKStartGrouping */
   using Self = EquivalencyTable;
   using Superclass = DataObject;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
   itkNewMacro(Self);
   itkOverrideGetNameOfClassMacro(EquivalencyTable);
-
+  /** @ITKEndGrouping */
   /** Define the container type for the table. */
   using HashTableType = std::unordered_map<unsigned long, unsigned long, std::hash<unsigned long>>;
 

@@ -345,8 +345,10 @@ protected:
   ~BSplineBaseTransform() override = default;
 
   /** Get/Set to allow subclasses to access and manipulate the weights function. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(WeightsFunction, WeightsFunctionType);
   itkGetModifiableObjectMacro(WeightsFunction, WeightsFunctionType);
+  /** @ITKEndGrouping */
 
   /** Wrap flat array into images of coefficients. */
   void

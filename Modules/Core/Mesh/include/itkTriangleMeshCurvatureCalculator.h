@@ -102,9 +102,10 @@ public:
   using CurvaturesEnum = TriangleMeshCurvatureCalculatorEnums::Curvatures;
 
   /** Methods specify mode of operation for the calculator. */
+  /** @ITKStartGrouping */
   itkSetMacro(CurvatureType, TriangleMeshCurvatureCalculatorEnums::Curvatures);
   itkGetConstMacro(CurvatureType, TriangleMeshCurvatureCalculatorEnums::Curvatures);
-
+  /** @ITKEndGrouping */
   /** Set the input mesh. */
   itkSetObjectMacro(TriangleMesh, InputMeshType);
 

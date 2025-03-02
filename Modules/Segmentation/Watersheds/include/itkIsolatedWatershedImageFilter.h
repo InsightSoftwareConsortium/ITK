@@ -80,37 +80,43 @@ public:
   /** Set seed point 1. This seed will be isolated from Seed2 (if
    *  possible). All pixels connected to this seed will be replaced
    *  with ReplaceValue1. */
+  /** @ITKStartGrouping */
   itkSetMacro(Seed1, IndexType);
   itkGetConstMacro(Seed1, IndexType);
-
+  /** @ITKEndGrouping */
   /** Set seed point 2. This seed will be isolated from Seed1 (if
    *  possible). All pixels connected to this seed will be replaced
    *  with ReplaceValue2. */
+  /** @ITKStartGrouping */
   itkSetMacro(Seed2, IndexType);
   itkGetConstMacro(Seed2, IndexType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the Watershed threshold. The default is 0. */
+  /** @ITKStartGrouping */
   itkSetMacro(Threshold, double);
   itkGetConstMacro(Threshold, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get the precision required for the intensity threshold
    *  value. The default is .001. */
+  /** @ITKStartGrouping */
   itkSetMacro(IsolatedValueTolerance, double);
   itkGetConstMacro(IsolatedValueTolerance, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get the limit on the upper waterlevel value. The default is
    *  1.0. */
+  /** @ITKStartGrouping */
   itkSetMacro(UpperValueLimit, double);
   itkGetConstMacro(UpperValueLimit, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get value to replace Seed1(Seed2) pixels, pixels that are
    *  within the basin that contains Seed1(Seed2) this  value. The
    *  default is 1(0). */
+  /** @ITKStartGrouping */
   itkSetMacro(ReplaceValue1, OutputImagePixelType);
   itkGetConstMacro(ReplaceValue1, OutputImagePixelType);
   itkSetMacro(ReplaceValue2, OutputImagePixelType);
   itkGetConstMacro(ReplaceValue2, OutputImagePixelType);
-
+  /** @ITKEndGrouping */
   /** Get value that isolates the two seeds. */
   itkGetConstMacro(IsolatedValue, double);
 

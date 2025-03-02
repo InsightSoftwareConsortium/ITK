@@ -86,10 +86,11 @@ public:
 
   /** Set/Get whether or not the filter will use the spacing information of the input image in its calculations. Use
    * this option if derivatives are required in physical space. */
+  /** @ITKStartGrouping */
   itkBooleanMacro(UseImageSpacing);
   itkSetMacro(UseImageSpacing, bool);
   itkGetConstMacro(UseImageSpacing, bool);
-
+  /** @ITKEndGrouping */
   itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, ImageDimension>));
 
 protected:

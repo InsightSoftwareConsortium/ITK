@@ -82,9 +82,10 @@ public:
   using SampleType = itk::Statistics::ListSample<VectorType>;
 
   /** Set/Get the direction of the sample */
+  /** @ITKStartGrouping */
   itkSetMacro(SampleDirection, unsigned int);
   itkGetConstMacro(SampleDirection, unsigned int);
-
+  /** @ITKEndGrouping */
   /** Set the input image. */
   itkSetConstObjectMacro(Image, ImageType);
 

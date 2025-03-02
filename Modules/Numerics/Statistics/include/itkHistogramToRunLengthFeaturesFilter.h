@@ -57,6 +57,7 @@ using RunLengthFeatureEnum = HistogramToRunLengthFeaturesFilterEnums::RunLengthF
 // Define how to print enumeration
 extern ITKStatistics_EXPORT std::ostream &
 operator<<(std::ostream & out, const HistogramToRunLengthFeaturesFilterEnums::RunLengthFeature value);
+
 /**
  * \class HistogramToRunLengthFeaturesFilter
  *  \brief This class computes texture feature coefficients from a grey level
@@ -112,12 +113,13 @@ public:
   using FrequencyType = typename HistogramType::TotalAbsoluteFrequencyType;
 
   /** Method to Set/Get the input Histogram */
+  /** @ITKStartGrouping */
   using Superclass::SetInput;
   void
   SetInput(const HistogramType * histogram);
   const HistogramType *
   GetInput() const;
-
+  /** @ITKEndGrouping */
   /** Smart Pointer type to a DataObject. */
   using DataObjectPointer = DataObject::Pointer;
 
@@ -125,65 +127,75 @@ public:
   using MeasurementObjectType = SimpleDataObjectDecorator<MeasurementType>;
 
   /** Methods to return the short run emphasis. */
+  /** @ITKStartGrouping */
   MeasurementType
   GetShortRunEmphasis() const;
   const MeasurementObjectType *
   GetShortRunEmphasisOutput() const;
-
+  /** @ITKEndGrouping */
   /** Methods to return the long run emphasis. */
+  /** @ITKStartGrouping */
   MeasurementType
   GetLongRunEmphasis() const;
   const MeasurementObjectType *
   GetLongRunEmphasisOutput() const;
-
+  /** @ITKEndGrouping */
   /** Methods to return the grey level nonuniformity. */
+  /** @ITKStartGrouping */
   MeasurementType
   GetGreyLevelNonuniformity() const;
   const MeasurementObjectType *
   GetGreyLevelNonuniformityOutput() const;
-
+  /** @ITKEndGrouping */
   /** Methods to return the run length nonuniformity. */
+  /** @ITKStartGrouping */
   MeasurementType
   GetRunLengthNonuniformity() const;
   const MeasurementObjectType *
   GetRunLengthNonuniformityOutput() const;
-
+  /** @ITKEndGrouping */
   /** Methods to return the low grey level run emphasis. */
+  /** @ITKStartGrouping */
   MeasurementType
   GetLowGreyLevelRunEmphasis() const;
   const MeasurementObjectType *
   GetLowGreyLevelRunEmphasisOutput() const;
-
+  /** @ITKEndGrouping */
   /** Methods to return the high grey level run emphasis. */
+  /** @ITKStartGrouping */
   MeasurementType
   GetHighGreyLevelRunEmphasis() const;
   const MeasurementObjectType *
   GetHighGreyLevelRunEmphasisOutput() const;
-
+  /** @ITKEndGrouping */
   /** Methods to return the short run low grey level run emphasis. */
+  /** @ITKStartGrouping */
   MeasurementType
   GetShortRunLowGreyLevelEmphasis() const;
   const MeasurementObjectType *
   GetShortRunLowGreyLevelEmphasisOutput() const;
-
+  /** @ITKEndGrouping */
   /** Methods to return the short run high grey level run emphasis. */
+  /** @ITKStartGrouping */
   MeasurementType
   GetShortRunHighGreyLevelEmphasis() const;
   const MeasurementObjectType *
   GetShortRunHighGreyLevelEmphasisOutput() const;
-
+  /** @ITKEndGrouping */
   /** Methods to return the long run low grey level run emphasis. */
+  /** @ITKStartGrouping */
   MeasurementType
   GetLongRunLowGreyLevelEmphasis() const;
   const MeasurementObjectType *
   GetLongRunLowGreyLevelEmphasisOutput() const;
-
+  /** @ITKEndGrouping */
   /** Methods to return the long run high grey level run emphasis. */
+  /** @ITKStartGrouping */
   MeasurementType
   GetLongRunHighGreyLevelEmphasis() const;
   const MeasurementObjectType *
   GetLongRunHighGreyLevelEmphasisOutput() const;
-
+  /** @ITKEndGrouping */
   itkGetMacro(TotalNumberOfRuns, unsigned long);
 
 #if !defined(ITK_LEGACY_REMOVE)

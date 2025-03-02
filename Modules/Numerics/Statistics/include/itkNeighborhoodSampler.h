@@ -53,9 +53,10 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** \see LightObject::GetNameOfClass() */
+  /** @ITKStartGrouping */
   itkOverrideGetNameOfClassMacro(NeighborhoodSampler);
   itkNewMacro(Self);
-
+  /** @ITKEndGrouping */
   /** Typedefs for Measurement vector, measurement, Instance Identifier,
    * frequency, size, size element value from the template argument TSample */
   using typename Superclass::SampleType;

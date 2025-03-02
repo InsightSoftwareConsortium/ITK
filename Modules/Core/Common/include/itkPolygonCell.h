@@ -52,9 +52,10 @@ public:
   ITK_DISALLOW_COPY_AND_MOVE(PolygonCell);
 
   /** Standard class type aliases. */
+  /** @ITKStartGrouping */
   itkCellCommonTypedefs(PolygonCell);
   itkCellInheritedTypedefs(TCellInterface);
-
+  /** @ITKEndGrouping */
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(PolygonCell);
 
@@ -76,6 +77,7 @@ public:
   itkCellVisitMacro(CellGeometryEnum::POLYGON_CELL);
 
   /** Implement the standard CellInterface. */
+  /** @ITKStartGrouping */
   CellGeometryEnum
   GetType() const override
   {
@@ -83,7 +85,7 @@ public:
   }
   void
   MakeCopy(CellAutoPointer &) const override;
-
+  /** @ITKEndGrouping */
   unsigned int
   GetDimension() const override;
 
@@ -140,6 +142,7 @@ public:
   GetEdge(CellFeatureIdentifier, EdgeAutoPointer &);
 
   /** Constructor and destructor */
+  /** @ITKStartGrouping */
   PolygonCell() = default;
   PolygonCell(PointIdentifier NumberOfPoints)
   {
@@ -149,7 +152,7 @@ public:
     }
     this->BuildEdges();
   }
-
+  /** @ITKEndGrouping */
   ~PolygonCell() override = default;
 
 protected:

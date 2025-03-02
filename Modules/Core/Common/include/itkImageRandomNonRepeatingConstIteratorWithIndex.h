@@ -235,6 +235,7 @@ public:
 
   /** Default constructor. Needed since we provide a cast constructor. */
   ImageRandomNonRepeatingConstIteratorWithIndex() = default;
+
   ~ImageRandomNonRepeatingConstIteratorWithIndex() override { delete m_Permutation; }
 
   /** Constructor establishes an iterator to walk a particular image and a
@@ -323,6 +324,7 @@ public:
   }
 
   /** Set/Get number of random samples to extract from the image region. */
+  /** @ITKStartGrouping */
   void
   SetNumberOfSamples(SizeValueType number)
   {
@@ -332,12 +334,12 @@ public:
       m_NumberOfSamplesRequested = m_NumberOfPixelsInRegion;
     }
   }
-
   SizeValueType
   GetNumberOfSamples() const
   {
     return m_NumberOfSamplesRequested;
   }
+  /** @ITKEndGrouping */
 
   /** Reinitialize the seed of the random number generator. */
   void

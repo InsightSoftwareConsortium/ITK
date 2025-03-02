@@ -145,21 +145,23 @@ public:
    * context cannot be dereferenced safely */
 
   /** Returns an iterator to the beginning of the map */
+  /** @ITKStartGrouping */
   // Blacklisted by igenerator.py
   Iterator
   Begin();
   // Blacklisted by igenerator.py
   ConstIterator
   Begin() const;
-
+  /** @ITKEndGrouping */
   /** Returns an iterator to the end of the map */
+  /** @ITKStartGrouping */
   // Blacklisted by igenerator.py
   Iterator
   End();
   // Blacklisted by igenerator.py
   ConstIterator
   End() const;
-
+  /** @ITKEndGrouping */
   /** Returns an iterator matching the string key */
   Iterator
   Find(const std::string & key);

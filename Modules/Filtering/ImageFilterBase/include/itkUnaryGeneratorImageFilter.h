@@ -88,6 +88,7 @@ public:
    *
    * The functor defines an operation done per pixel.
    */
+  /** @ITKStartGrouping */
   void
   SetFunctor(const std::function<ConstRefFunctionType> & f)
   {
@@ -106,12 +107,14 @@ public:
 
     this->Modified();
   }
+  /** @ITKEndGrouping */
 
 
   /** Set the pixel functor by a C function pointer
    *
    * The functor defines an operation done per pixel.
    */
+  /** @ITKStartGrouping */
   void
   SetFunctor(ConstRefFunctionType * funcPointer)
   {
@@ -130,6 +133,7 @@ public:
 
     this->Modified();
   }
+  /** @ITKEndGrouping */
 
 
   /** Set the pixel functor by a "Functor Object"
@@ -177,12 +181,13 @@ protected:
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
+  /** @ITKStartGrouping */
   template <typename TFunctor>
   void
   DynamicThreadedGenerateDataWithFunctor(const TFunctor &, const OutputImageRegionType & outputRegionForThread);
   void
   DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
-
+  /** @ITKEndGrouping */
 private:
   std::function<void(const OutputImageRegionType &)> m_DynamicThreadedGenerateDataFunction{};
 };

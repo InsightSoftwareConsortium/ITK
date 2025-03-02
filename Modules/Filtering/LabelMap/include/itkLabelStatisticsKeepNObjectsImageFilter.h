@@ -98,28 +98,32 @@ public:
    * Set/Get the value used as "background" in the output image.
    * Defaults to NumericTraits<PixelType>::NonpositiveMin().
    */
+  /** @ITKStartGrouping */
   itkSetMacro(BackgroundValue, OutputImagePixelType);
   itkGetConstMacro(BackgroundValue, OutputImagePixelType);
-
+  /** @ITKEndGrouping */
   /**
    * Set/Get the number of objects to keep
    */
+  /** @ITKStartGrouping */
   itkGetConstMacro(NumberOfObjects, SizeValueType);
   itkSetMacro(NumberOfObjects, SizeValueType);
-
+  /** @ITKEndGrouping */
   /**
    * Set/Get the ordering of the objects. By default, the ones with the
    * highest value are kept. Turming ReverseOrdering to true make this filter
    * keep the objects with the smallest values
    */
+  /** @ITKStartGrouping */
   itkGetConstMacro(ReverseOrdering, bool);
   itkSetMacro(ReverseOrdering, bool);
   itkBooleanMacro(ReverseOrdering);
-
+  /** @ITKEndGrouping */
   /**
    * Set/Get the attribute to use to select the object to keep. The default
    * is "Mean".
    */
+  /** @ITKStartGrouping */
   itkGetConstMacro(Attribute, AttributeType);
   itkSetMacro(Attribute, AttributeType);
   void
@@ -127,7 +131,7 @@ public:
   {
     this->SetAttribute(LabelObjectType::GetAttributeFromName(s));
   }
-
+  /** @ITKEndGrouping */
   /** Set the feature image */
   void
   SetFeatureImage(const TFeatureImage * input)

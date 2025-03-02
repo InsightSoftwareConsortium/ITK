@@ -127,25 +127,30 @@ public:
   itkOverrideGetNameOfClassMacro(BlockMatchingImageFilter);
 
   /** set/get half size */
+  /** @ITKStartGrouping */
   itkSetMacro(BlockRadius, ImageSizeType);
   itkGetConstMacro(BlockRadius, ImageSizeType);
-
+  /** @ITKEndGrouping */
   /** set/get half window */
+  /** @ITKStartGrouping */
   itkSetMacro(SearchRadius, ImageSizeType);
   itkGetConstMacro(SearchRadius, ImageSizeType);
-
+  /** @ITKEndGrouping */
   /** set/get fixed image */
+  /** @ITKStartGrouping */
   itkSetInputMacro(FixedImage, FixedImageType);
   itkGetInputMacro(FixedImage, FixedImageType);
-
+  /** @ITKEndGrouping */
   /** set/get floating image */
+  /** @ITKStartGrouping */
   itkSetInputMacro(MovingImage, MovingImageType);
   itkGetInputMacro(MovingImage, MovingImageType);
-
+  /** @ITKEndGrouping */
   /** set/get point list */
+  /** @ITKStartGrouping */
   itkSetInputMacro(FeaturePoints, FeaturePointsType);
   itkGetInputMacro(FeaturePoints, FeaturePointsType);
-
+  /** @ITKEndGrouping */
   inline DisplacementsType *
   GetDisplacements()
   {

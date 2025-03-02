@@ -80,9 +80,10 @@ public:
   itkOverrideGetNameOfClassMacro(CyclicShiftImageFilter);
 
   /** Set/get the shift. Shifts may be positive or negative. */
+  /** @ITKStartGrouping */
   itkSetMacro(Shift, OffsetType);
   itkGetConstMacro(Shift, OffsetType);
-
+  /** @ITKEndGrouping */
 protected:
   CyclicShiftImageFilter();
   ~CyclicShiftImageFilter() override = default;

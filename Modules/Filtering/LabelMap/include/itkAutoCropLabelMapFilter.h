@@ -96,9 +96,10 @@ public:
   /**
    * Set/Get the border added to the mask before the crop. The default is 0 on * all the axis.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(CropBorder, SizeType);
   itkGetConstReferenceMacro(CropBorder, SizeType);
-
+  /** @ITKEndGrouping */
 protected:
   AutoCropLabelMapFilter();
   ~AutoCropLabelMapFilter() override = default;

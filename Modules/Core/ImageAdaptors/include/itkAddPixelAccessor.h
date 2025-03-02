@@ -93,13 +93,14 @@ public:
   }
 
   /** Constructors */
+  /** @ITKStartGrouping */
   AddPixelAccessor()
     : m_Value(TPixel{})
   {}
   AddPixelAccessor(const Self & apa)
     : m_Value(apa.m_Value)
   {}
-
+  /** @ITKEndGrouping */
 private:
   TPixel m_Value;
 };

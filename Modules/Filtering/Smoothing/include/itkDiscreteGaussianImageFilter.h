@@ -125,33 +125,43 @@ public:
    * dimension. If UseImageSpacing is true, the units are the physical units
    * of your image.  If UseImageSpacing is false then the units are
    * pixels. */
+  /** @ITKStartGrouping */
   itkSetMacro(Variance, ArrayType);
   itkGetConstMacro(Variance, const ArrayType);
+  /** @ITKEndGrouping */
 
   /** The algorithm will size the discrete kernel so that the error
    * resulting from truncation of the kernel is no greater than
    * MaximumError. The default is 0.01 in each dimension. */
+  /** @ITKStartGrouping */
   itkSetMacro(MaximumError, ArrayType);
   itkGetConstMacro(MaximumError, const ArrayType);
+  /** @ITKEndGrouping */
 
   /** Set the kernel to be no wider than MaximumKernelWidth pixels,
    *  even if MaximumError demands it. The default is 32 pixels. */
+  /** @ITKStartGrouping */
   itkGetConstMacro(MaximumKernelWidth, unsigned int);
   itkSetMacro(MaximumKernelWidth, unsigned int);
+  /** @ITKEndGrouping */
 
   /** Set the number of dimensions to smooth. Defaults to the image
    * dimension. Can be set to less than ImageDimension, smoothing all
    * the dimensions less than FilterDimensionality.  For instance, to
    * smooth the slices of a volume without smoothing in Z, set the
    * FilterDimensionality to 2. */
+  /** @ITKStartGrouping */
   itkGetConstMacro(FilterDimensionality, unsigned int);
   itkSetMacro(FilterDimensionality, unsigned int);
+  /** @ITKEndGrouping */
 
   /** Set/get the boundary condition. */
+  /** @ITKStartGrouping */
   itkSetMacro(InputBoundaryCondition, BoundaryConditionType *);
   itkGetConstMacro(InputBoundaryCondition, BoundaryConditionType *);
   itkSetMacro(RealBoundaryCondition, RealBoundaryConditionPointerType);
   itkGetConstMacro(RealBoundaryCondition, RealBoundaryConditionPointerType);
+  /** @ITKEndGrouping */
 
   /** Convenience Set methods for setting all dimensional parameters
    *  to the same values. */
@@ -205,8 +215,10 @@ public:
     }
     this->SetVariance(variance);
   }
+
   /** SetSigmaArray is preserved for interface
    *  backwards compatibility. */
+  /** @ITKStartGrouping */
   void
   SetSigmaArray(const ArrayType & sigmas)
   {
@@ -217,6 +229,7 @@ public:
   {
     this->SetVariance(sigma * sigma);
   }
+  /** @ITKEndGrouping */
 
   /** Get the Sigma value. */
   ArrayType
@@ -280,9 +293,11 @@ public:
    * into account and to specify the Gaussian variance in real world units;
    * use Off to ignore the image spacing and to specify the Gaussian variance
    * in voxel units. Default is On. */
+  /** @ITKStartGrouping */
   itkSetMacro(UseImageSpacing, bool);
   itkGetConstMacro(UseImageSpacing, bool);
   itkBooleanMacro(UseImageSpacing);
+  /** @ITKEndGrouping */
 
 #if !defined(ITK_FUTURE_LEGACY_REMOVE)
   /** Use the image spacing information in calculations. Use this option if you

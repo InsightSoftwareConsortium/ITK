@@ -111,20 +111,22 @@ public:
   itkOverrideGetNameOfClassMacro(GradientMagnitudeRecursiveGaussianImageFilter);
 
   /** Set/Get Sigma value. Sigma is measured in the units of image spacing.  */
+  /** @ITKStartGrouping */
   void
   SetSigma(RealType sigma);
   RealType
   GetSigma();
-
+  /** @ITKEndGrouping */
   /** Set/Get the normalization factor that will be used for the Gaussian.
    *
    *  \sa  RecursiveGaussianImageFilter::SetNormalizeAcrossScale
    */
+  /** @ITKStartGrouping */
   void
   SetNormalizeAcrossScale(bool normalize);
   itkGetConstMacro(NormalizeAcrossScale, bool);
   itkBooleanMacro(NormalizeAcrossScale);
-
+  /** @ITKEndGrouping */
   void
   SetNumberOfWorkUnits(ThreadIdType nb) override;
 

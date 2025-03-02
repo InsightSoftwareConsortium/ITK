@@ -46,6 +46,7 @@ public:
 // Define how to print enumeration
 extern ITKFastMarching_EXPORT std::ostream &
 operator<<(std::ostream & out, const FastMarchingReachedTargetNodesStoppingCriterionEnums::TargetCondition value);
+
 /**
  * \class FastMarchingReachedTargetNodesStoppingCriterion
  * \brief Stopping criterion for FastMarchingFilterBase.
@@ -87,6 +88,7 @@ public:
 
   /** Set/Get TargetCondition to indicate if the user wants the front to
   reach one, some or all target nodes. */
+  /** @ITKStartGrouping */
   void
   SetTargetCondition(const TargetConditionEnum & iCondition)
   {
@@ -96,10 +98,13 @@ public:
   }
 
   itkGetConstReferenceMacro(TargetCondition, TargetConditionEnum);
+  /** @ITKEndGrouping */
 
   /** Set/Get TargetOffset */
+  /** @ITKStartGrouping */
   itkSetMacro(TargetOffset, OutputPixelType);
   itkGetMacro(TargetOffset, OutputPixelType);
+  /** @ITKEndGrouping */
 
   /** \brief Set the number of target nodes to be reached */
   void

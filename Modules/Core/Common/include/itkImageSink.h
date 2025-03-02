@@ -110,17 +110,19 @@ public:
    *  by the input images.  ITK has a requirement that multiple input
    *  images be congruent in space by default.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(CoordinateTolerance, double);
   itkGetConstMacro(CoordinateTolerance, double);
-
+  /** @ITKEndGrouping */
   /** get/set the direction tolerance
    *  This tolerance is used to make sure that all input
    *  images are oriented the same before performing the filter's
    *  transformations.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(DirectionTolerance, double);
   itkGetConstMacro(DirectionTolerance, double);
-
+  /** @ITKEndGrouping */
   /** get/set the global default direction tolerance
    *
    * This value is used to initialize the DirectionTolerance upon
@@ -183,9 +185,10 @@ protected:
 
   /** Set/Get Helper class for dividing the input into regions for
    * streaming */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(RegionSplitter, SplitterType);
   itkGetModifiableObjectMacro(RegionSplitter, SplitterType);
-
+  /** @ITKEndGrouping */
 
 private:
   unsigned int          m_NumberOfStreamDivisions{ 1 };
@@ -196,8 +199,10 @@ private:
    *  Tolerances for checking whether input images are defined to
    *  occupy the same physical space.
    */
+  /** @ITKStartGrouping */
   double m_CoordinateTolerance{ Self::GetGlobalDefaultCoordinateTolerance() };
   double m_DirectionTolerance{ Self::GetGlobalDefaultDirectionTolerance() };
+  /** @ITKEndGrouping */
 };
 
 } // namespace itk

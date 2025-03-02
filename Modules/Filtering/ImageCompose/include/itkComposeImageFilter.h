@@ -55,7 +55,6 @@ namespace itk
  Complex Image}
  * \endsphinx
  */
-
 template <typename TInputImage,
           typename TOutputImage = VectorImage<typename TInputImage::PixelType, TInputImage::ImageDimension>>
 class ITK_TEMPLATE_EXPORT ComposeImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>

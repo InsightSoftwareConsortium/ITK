@@ -117,16 +117,18 @@ public:
 
   /** Set the spacing (size of a pixel) of the image.
    * \sa GetSpacing() */
+  /** @ITKStartGrouping */
   itkSetMacro(Spacing, SpacingType);
   itkGetConstReferenceMacro(Spacing, SpacingType);
   itkSetVectorMacro(Spacing, const float, VImageDimension);
-
+  /** @ITKEndGrouping */
   /** Set the origin of the image.
    * \sa GetOrigin() */
+  /** @ITKStartGrouping */
   itkSetMacro(Origin, OriginType);
   itkGetConstReferenceMacro(Origin, OriginType);
   itkSetVectorMacro(Origin, const float, VImageDimension);
-
+  /** @ITKEndGrouping */
   using DirectionType = Matrix<SpacePrecisionType, VImageDimension, VImageDimension>;
 
   /** Set the direction of the image

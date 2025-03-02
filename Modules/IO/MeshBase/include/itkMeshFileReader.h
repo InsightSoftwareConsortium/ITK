@@ -126,8 +126,10 @@ public:
   static constexpr unsigned int OutputPointDimension = OutputMeshType::PointDimension;
 
   /** Specify the file to read. This is forwarded to the IO instance. */
+  /** @ITKStartGrouping */
   itkSetStringMacro(FileName);
   itkGetStringMacro(FileName);
+  /** @ITKEndGrouping */
 
   /** Set/Get the MeshIO helper class. Often this is created via the object
    * factory mechanism that determines whether a particular MeshIO can
@@ -135,9 +137,11 @@ public:
    * instance that is created. Or you can directly specify the MeshIO
    * to use to read a particular file in case the factory mechanism will
    * not work properly (e.g., unknown or unusual extension). */
+  /** @ITKStartGrouping */
   void
   SetMeshIO(MeshIOBase * meshIO);
   itkGetModifiableObjectMacro(MeshIO, MeshIOBase);
+  /** @ITKEndGrouping */
 
   /** Prepare the allocation of the output mesh during the first back
    * propagation of the pipeline. */
@@ -223,7 +227,6 @@ ReadMesh(const std::string & filename)
   reader->Update();
   return reader->GetOutput();
 }
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

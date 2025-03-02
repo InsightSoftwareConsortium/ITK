@@ -78,8 +78,9 @@ public:
 
   using FileNamesContainer = std::vector<std::string>;
 
-  /** Set the vector of strings that contains the file names. Files
+  /** Set/Get the vector of strings that contains the file names. Files
    * are processed in sequential order. */
+  /** @ITKStartGrouping */
   void
   SetFileNames(const FileNamesContainer & name)
   {
@@ -95,6 +96,7 @@ public:
   {
     return m_FileNames;
   }
+  /** @ITKEndGrouping */
 
   /** Set the first file name to be processed. This deletes previous
    * filenames. */
@@ -116,22 +118,28 @@ public:
 
   /** ReverseOrderOn changes the order of traversal of the file names
    * from last to first */
+  /** @ITKStartGrouping */
   itkSetMacro(ReverseOrder, bool);
   itkGetConstMacro(ReverseOrder, bool);
   itkBooleanMacro(ReverseOrder);
+  /** @ITKEndGrouping */
 
   /** Do we want to force orthogonal direction cosines? On by default.
    * Turning it off enables proper reading of DICOM series with gantry tilt. */
+  /** @ITKStartGrouping */
   itkSetMacro(ForceOrthogonalDirection, bool);
   itkGetConstMacro(ForceOrthogonalDirection, bool);
   itkBooleanMacro(ForceOrthogonalDirection);
+  /** @ITKEndGrouping */
 
   /** Set/Get the ImageIO helper class. By default, the
    * ImageSeriesReader uses the factory mechanism of the
    * ImageFileReader to determine the file type. This method can be
    * used to specify which IO to use. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(ImageIO, ImageIOBase);
   itkGetModifiableObjectMacro(ImageIO, ImageIOBase);
+  /** @ITKEndGrouping */
 
   /** \brief Set/Get MetaDataDictionaryArrayUpdate enables the updating of
    * the MetaDataDictionaryArray.
@@ -165,14 +173,17 @@ public:
   GetMetaDataDictionaryArray() const;
 
   /** Set the stream On or Off */
+  /** @ITKStartGrouping */
   itkSetMacro(UseStreaming, bool);
   itkGetConstReferenceMacro(UseStreaming, bool);
   itkBooleanMacro(UseStreaming);
+  /** @ITKEndGrouping */
 
   /** Set the relative threshold for issuing warnings about non-uniform sampling */
+  /** @ITKStartGrouping */
   itkSetMacro(SpacingWarningRelThreshold, double);
   itkGetConstMacro(SpacingWarningRelThreshold, double);
-
+  /** @ITKEndGrouping */
 protected:
   ImageSeriesReader()
     : m_ImageIO(nullptr)

@@ -114,6 +114,7 @@ public:
    *  high_value will be displayed as white. Pixels with values within the display
    *  range are displayed with a grey value that is scaled linearly between the
    *  low_value and high_value. */
+  /** @ITKStartGrouping */
   itkGetVectorMacro(DisplayRange, const float, 2);
   const float &
   GetHighDisplayValue()
@@ -125,7 +126,7 @@ public:
   {
     return m_DisplayRange[1];
   }
-
+  /** @ITKEndGrouping */
 protected:
   StimulateImageIO();
   ~StimulateImageIO() override;

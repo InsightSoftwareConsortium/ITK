@@ -138,12 +138,14 @@ public:
   /** Set/Get the opacity of the colored label image. The value must be
    * between 0 and 1
    */
+  /** @ITKStartGrouping */
   itkSetMacro(Opacity, double);
   itkGetConstReferenceMacro(Opacity, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get the overlay functor - defaults to a reasonable set of colors.
    * This can be used to apply a different colormap.
    */
+  /** @ITKStartGrouping */
   virtual void
   SetFunctor(const FunctorType & functor)
   {
@@ -163,7 +165,7 @@ public:
   {
     return m_Functor;
   }
-
+  /** @ITKEndGrouping */
 protected:
   LabelMapOverlayImageFilter();
   ~LabelMapOverlayImageFilter() override = default;

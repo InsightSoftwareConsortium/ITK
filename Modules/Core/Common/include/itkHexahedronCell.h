@@ -50,9 +50,10 @@ public:
   ITK_DISALLOW_COPY_AND_MOVE(HexahedronCell);
 
   /** Standard class type aliases. */
+  /** @ITKStartGrouping */
   itkCellCommonTypedefs(HexahedronCell);
   itkCellInheritedTypedefs(TCellInterface);
-
+  /** @ITKEndGrouping */
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(HexahedronCell);
 
@@ -82,7 +83,9 @@ public:
    */
   static constexpr unsigned int CellDimension3D = 3;
   static constexpr unsigned int PointDimension3D = 3;
+
   /** Implement the standard CellInterface. */
+  /** @ITKStartGrouping */
   CellGeometryEnum
   GetType() const override
   {
@@ -90,7 +93,7 @@ public:
   }
   void
   MakeCopy(CellAutoPointer &) const override;
-
+  /** @ITKEndGrouping */
   unsigned int
   GetDimension() const override;
 

@@ -138,8 +138,10 @@ public:
    * If this "inside" value is changed to a non-null value,
    * the output produced by this filter will be a mask with inside/outside values
    * specified by the user. */
+  /** @ITKStartGrouping */
   itkSetMacro(InsideValue, ValueType);
   itkGetConstMacro(InsideValue, ValueType);
+  /** @ITKEndGrouping */
 
   /** Set/Get the value for pixels outside the spatial object.
    * By default, this filter will return an image
@@ -147,8 +149,10 @@ public:
    * If this "outside" value is changed to a non-null value,
    * the output produced by this filter will be a mask with inside/outside values
    * specified by the user. */
+  /** @ITKStartGrouping */
   itkSetMacro(OutsideValue, ValueType);
   itkGetConstMacro(OutsideValue, ValueType);
+  /** @ITKEndGrouping */
 
   /** The origin of the output image. The origin is the geometric
    * coordinates of the index (0,0,...,0).  It is stored internally
@@ -172,25 +176,33 @@ public:
   /** The index of the output image. The index is the pixel
    * coordinates of the image region.
    * \sa GetSize() */
+  /** @ITKStartGrouping */
   itkSetMacro(Index, IndexType);
   itkGetConstMacro(Index, IndexType);
+  /** @ITKEndGrouping */
 
   /** The spatial object being transformed can be part of a hierarchy.
    * How deep in the hierarchy should we descend in generating the
    * image?  A ChildrenDepth of 0 means to only include the object
    * itself. */
+  /** @ITKStartGrouping */
   itkSetMacro(ChildrenDepth, unsigned int);
   itkGetConstMacro(ChildrenDepth, unsigned int);
+  /** @ITKEndGrouping */
 
   /** Set/Get Size */
+  /** @ITKStartGrouping */
   itkSetMacro(Size, SizeType);
   itkGetConstMacro(Size, SizeType);
+  /** @ITKEndGrouping */
 
   /** If UseObjectValue is set to true, then the filter uses
    *  the ValueAtInWorldSpace() function instead of IsInsideInWorldSpace() */
+  /** @ITKStartGrouping */
   itkSetMacro(UseObjectValue, bool);
   itkGetConstMacro(UseObjectValue, bool);
   itkBooleanMacro(UseObjectValue);
+  /** @ITKEndGrouping */
 
 protected:
   SpatialObjectToImageFilter();

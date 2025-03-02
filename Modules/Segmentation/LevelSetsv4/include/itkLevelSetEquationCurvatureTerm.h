@@ -91,10 +91,11 @@ public:
   /** Set/Get the propagation image. By default, if no PropagationImage has
   been set, it casts the input image and uses it in the term contribution
   calculation. */
+  /** @ITKStartGrouping */
   void
   SetCurvatureImage(CurvatureImageType * iImage);
   itkGetModifiableObjectMacro(CurvatureImage, CurvatureImageType);
-
+  /** @ITKEndGrouping */
   itkSetMacro(UseCurvatureImage, bool);
   itkGetMacro(UseCurvatureImage, bool);
   itkBooleanMacro(UseCurvatureImage);

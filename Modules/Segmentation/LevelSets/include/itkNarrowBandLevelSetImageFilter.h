@@ -176,6 +176,7 @@ public:
 
   /** Set/Get the feature image to be used for speed function of the level set
    *  equation.  Equivalent to calling Set/GetInput(1, ..) */
+  /** @ITKStartGrouping */
   virtual void
   SetFeatureImage(const FeatureImageType * f)
   {
@@ -188,6 +189,7 @@ public:
   {
     return (static_cast<FeatureImageType *>(this->ProcessObject::GetInput(1)));
   }
+  /** @ITKEndGrouping */
 
   /** Set/Get the initial level set model.  Equivalent to calling SetInput(..)
    */
@@ -212,6 +214,7 @@ public:
   /** THIS METHOD IS DEPRECATED AND SHOULD NOT BE USED.  This method reverses
    * the speed function direction, effectively changing inside feature values to
    * outside feature values and vice versa. */
+  /** @ITKStartGrouping */
   void
   SetUseNegativeFeaturesOn()
   {
@@ -219,7 +222,6 @@ public:
       << "SetUseNegativeFeaturesOn has been deprecated.  Please use ReverseExpansionDirectionOn() instead");
     this->ReverseExpansionDirectionOn();
   }
-
   void
   SetUseNegativeFeaturesOff()
   {
@@ -227,9 +229,11 @@ public:
       << "SetUseNegativeFeaturesOff has been deprecated.  Please use ReverseExpansionDirectionOff() instead");
     this->ReverseExpansionDirectionOff();
   }
+  /** @ITKEndGrouping */
 
   /** Set/Get the value of the UseNegativeFeatures flag.  This method is
    * deprecated.  Use Set/Get ReverseExpansionDirection instead. */
+  /** @ITKStartGrouping */
   void
   SetUseNegativeFeatures(bool u)
   {
@@ -256,6 +260,7 @@ public:
 
     return false;
   }
+  /** @ITKEndGrouping */
 
   /** Turn On/Off the flag which determines whether Positive or Negative speed
    * terms will cause surface expansion.  If set to TRUE then negative speed
@@ -265,9 +270,11 @@ public:
    * surface to contract.  This method can be safely used to reverse the
    * expansion/contraction as appropriate to a particular application or data
    * set. */
+  /** @ITKStartGrouping */
   itkSetMacro(ReverseExpansionDirection, bool);
   itkGetConstMacro(ReverseExpansionDirection, bool);
   itkBooleanMacro(ReverseExpansionDirection);
+  /** @ITKEndGrouping */
 
   /** Combined scaling of the propagation and advection speed
       terms. You should use either this -or- Get/SetPropagationScaling and
@@ -288,6 +295,7 @@ public:
 
   /** Set/Get the scaling of the propagation speed.  Setting the FeatureScaling
       parameter overrides any previous values set for PropagationScaling. */
+  /** @ITKStartGrouping */
   void
   SetPropagationScaling(ValueType v)
   {
@@ -302,9 +310,11 @@ public:
   {
     return m_SegmentationFunction->GetPropagationWeight();
   }
+  /** @ITKEndGrouping */
 
   /** Set/Get the scaling of the advection field.  Setting the FeatureScaling
       parameter will override any existing value for AdvectionScaling. */
+  /** @ITKStartGrouping */
   void
   SetAdvectionScaling(ValueType v)
   {
@@ -319,11 +329,13 @@ public:
   {
     return m_SegmentationFunction->GetAdvectionWeight();
   }
+  /** @ITKEndGrouping */
 
   /** Set/Get the scaling of the curvature. Use this parameter to increase the
    *  influence of curvature on the movement of the surface.  Higher
    *  values relative to Advection and Propagation values will give
    *  smoother surfaces. */
+  /** @ITKStartGrouping */
   void
   SetCurvatureScaling(ValueType v)
   {
@@ -338,6 +350,7 @@ public:
   {
     return m_SegmentationFunction->GetCurvatureWeight();
   }
+  /** @ITKEndGrouping */
 
   /** Set the segmentation function.  In general, this should only be called by a subclass
    *  of this object. It is made public to allow itk::Command objects access. */
@@ -352,6 +365,7 @@ public:
 
   /** Set/Get the maximum number of iterations allowed for the solver.  This
    *  prevents infinite loops if a solution "bounces". */
+  /** @ITKStartGrouping */
   void
   SetMaximumIterations(unsigned int i)
   {
@@ -365,6 +379,7 @@ public:
     itkWarningMacro("GetMaximumIterations is deprecated. Please use GetNumberOfIterations instead.");
     return this->GetNumberOfIterations();
   }
+  /** @ITKEndGrouping */
 
   void
   SetMaximumRMSError(const double) override
@@ -409,6 +424,7 @@ protected:
   bool m_ReverseExpansionDirection{};
 
   /** Reinitialization filters **/
+
   /** Internal filter types used for reinitialization */
   using IsoFilterType = IsoContourDistanceImageFilter<OutputImageType, OutputImageType>;
   using ChamferFilterType = FastChamferDistanceImageFilter<OutputImageType, OutputImageType>;

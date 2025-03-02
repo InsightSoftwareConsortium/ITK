@@ -71,26 +71,30 @@ public:
 
   /** Use this method to set the starting index of the numeric series.
    * The default value is 1. */
+  /** @ITKStartGrouping */
   itkSetMacro(StartIndex, SizeValueType);
   itkGetConstMacro(StartIndex, SizeValueType);
-
+  /** @ITKEndGrouping */
   /** Set the end index of the numeric series. The default is 1. */
+  /** @ITKStartGrouping */
   itkSetMacro(EndIndex, SizeValueType);
   itkGetConstMacro(EndIndex, SizeValueType);
-
+  /** @ITKEndGrouping */
   /** Set the increment of the index of the numeric series. The
    * default value is 1.  */
+  /** @ITKStartGrouping */
   itkSetMacro(IncrementIndex, SizeValueType);
   itkGetConstMacro(IncrementIndex, SizeValueType);
-
+  /** @ITKEndGrouping */
   /** The format string used to generate the series. Different subclasses
    * require different characteristics of this string. For example, the
    * subclass NumericSeriesFileNames requires a "%d" or some integral
    * format specified to be embedded in the string. Default is "%d".
    */
+  /** @ITKStartGrouping */
   itkSetStringMacro(SeriesFormat);
   itkGetStringMacro(SeriesFormat);
-
+  /** @ITKEndGrouping */
   /** Returns a vector containing the series' file names. The file
    * names are ordered by Index. */
   const std::vector<std::string> &

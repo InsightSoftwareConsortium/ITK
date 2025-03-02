@@ -136,9 +136,10 @@ public:
   /** Methods for setting and getting the Minimum and Maximum values of the
    * histogram bins.
    \warning To use those values you need to set the AutoMinimumMaximum flag to false.*/
+  /** @ITKStartGrouping */
   itkSetGetDecoratedInputMacro(HistogramBinMinimum, HistogramMeasurementVectorType);
   itkSetGetDecoratedInputMacro(HistogramBinMaximum, HistogramMeasurementVectorType);
-
+  /** @ITKEndGrouping */
   /** Methods for setting and getting the boolean flag that defines whether the
    * minimum and maximum of the histogram are going to be computed
    * automatically from the values of the sample.
@@ -163,11 +164,12 @@ protected:
    * called.
    * \sa ProcessObject
    */
+  /** @ITKStartGrouping */
   using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
   DataObjectPointer
   MakeOutput(DataObjectPointerArraySizeType idx) override;
-
+  /** @ITKEndGrouping */
   // Where the histogram is actually computed
   void
   GenerateData() override;

@@ -94,9 +94,10 @@ public:
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Get/Set the base for exponential decay in mirrored region. */
+  /** @ITKStartGrouping */
   itkGetMacro(DecayBase, double);
   itkSetClampMacro(DecayBase, double, NumericTraits<double>::min(), 1.0);
-
+  /** @ITKEndGrouping */
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
 
 protected:

@@ -53,9 +53,10 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** \see LightObject::GetNameOfClass() */
+  /** @ITKStartGrouping */
   itkOverrideGetNameOfClassMacro(WeightedCovarianceSampleFilter);
   itkNewMacro(Self);
-
+  /** @ITKEndGrouping */
   /** Types derived from the base class */
   using typename Superclass::SampleType;
   using typename Superclass::MeasurementVectorType;

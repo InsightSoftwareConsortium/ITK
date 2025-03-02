@@ -96,18 +96,20 @@ public:
    * FullyConnectedOff.  For objects that are 1 pixel wide, use
    * FullyConnectedOn.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(FullyConnected, bool);
   itkGetConstReferenceMacro(FullyConnected, bool);
   itkBooleanMacro(FullyConnected);
-
+  /** @ITKEndGrouping */
   /**
    * Set/Get whether the original intensities of the image retained for
    * those pixels unaffected by the opening by reconstruction. If Off,
    * the output pixel contrast will be reduced. */
+  /** @ITKStartGrouping */
   itkSetMacro(PreserveIntensities, bool);
   itkGetConstReferenceMacro(PreserveIntensities, bool);
   itkBooleanMacro(PreserveIntensities);
-
+  /** @ITKEndGrouping */
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
 
 protected:

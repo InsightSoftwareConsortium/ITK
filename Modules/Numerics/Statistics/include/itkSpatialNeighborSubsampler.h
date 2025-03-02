@@ -89,11 +89,12 @@ public:
   using ImageHelperType = ImageHelper<Self::ImageDimension, Self::ImageDimension>;
 
   /** Method to set the radius */
+  /** @ITKStartGrouping */
   void
   SetRadius(const RadiusType & radius);
   void
   SetRadius(unsigned int radius);
-
+  /** @ITKEndGrouping */
   /** Method to get the radius */
   itkGetConstReferenceMacro(Radius, RadiusType);
 

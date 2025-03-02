@@ -77,22 +77,27 @@ public:
   using SeedType = unsigned int;
 
   /** Plug in the actual sample data */
+  /** @ITKStartGrouping */
   itkSetConstObjectMacro(Sample, SampleType);
   itkGetConstObjectMacro(Sample, SampleType);
+  /** @ITKEndGrouping */
 
   /** Indicate whether the Search method can return the query point
    * as one element of the Subsample
    */
+  /** @ITKStartGrouping */
   itkSetMacro(CanSelectQuery, bool);
   itkGetConstReferenceMacro(CanSelectQuery, bool);
   itkBooleanMacro(CanSelectQuery);
+  /** @ITKEndGrouping */
 
   /** Provide an interface to set the seed.
    *  The seed value will be used by subclasses where appropriate.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(Seed, SeedType);
   itkGetConstReferenceMacro(Seed, SeedType);
-
+  /** @ITKEndGrouping */
 
   /** Specify whether the subsampler should return all possible
    * matches. */

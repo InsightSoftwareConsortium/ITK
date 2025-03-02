@@ -98,10 +98,11 @@ public:
   GetTransformPrecision();
 
   /** Set/Get if the images should be written in a different file */
+  /** @ITKStartGrouping */
   itkSetMacro(WriteImagesInSeparateFile, bool);
   itkGetConstMacro(WriteImagesInSeparateFile, bool);
   itkBooleanMacro(WriteImagesInSeparateFile);
-
+  /** @ITKEndGrouping */
   /** Add a converter for a new MetaObject/SpatialObject type */
   void
   RegisterMetaConverter(const char *            metaTypeName,

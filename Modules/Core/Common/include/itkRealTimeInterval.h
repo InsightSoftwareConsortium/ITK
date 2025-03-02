@@ -64,6 +64,7 @@ public:
   using TimeRepresentationType = double;
 
   /** Return time in multiple units. */
+  /** @ITKStartGrouping */
   TimeRepresentationType
   GetTimeInMicroSeconds() const;
   TimeRepresentationType
@@ -76,8 +77,9 @@ public:
   GetTimeInHours() const;
   TimeRepresentationType
   GetTimeInDays() const;
-
+  /** @ITKEndGrouping */
   /** Arithmetic operations between RealTimeInterval and RealTimeInterval. */
+  /** @ITKStartGrouping */
   Self
   operator-(const Self &) const;
   Self
@@ -86,8 +88,9 @@ public:
   operator-=(const Self &);
   const Self &
   operator+=(const Self &);
-
+  /** @ITKEndGrouping */
   /** Comparison operations. */
+  /** @ITKStartGrouping */
   bool
   operator>(const Self &) const;
   bool
@@ -99,7 +102,7 @@ public:
   operator<=(const Self &) const;
   bool
   operator>=(const Self &) const;
-
+  /** @ITKEndGrouping */
   /** Set with values. The units and signs of the seconds and microseconds will
    * be harmonized internally. */
   void Set(SecondsDifferenceType, MicroSecondsDifferenceType);

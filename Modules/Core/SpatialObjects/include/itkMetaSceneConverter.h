@@ -75,9 +75,10 @@ public:
    *       transforms are intermingled.
    *    Version 1 fixes the bugs in Version 0, but introduces new
    *       tag-value pairs that won't be processed by older readers/apps. */
+  /** @ITKStartGrouping */
   itkSetMacro(MetaIOVersion, unsigned int);
   itkGetConstMacro(MetaIOVersion, unsigned int);
-
+  /** @ITKEndGrouping */
   /** Read a MetaFile and create a Scene SpatialObject. */
   SpatialObjectPointer
   ReadMeta(const std::string & name);
@@ -93,19 +94,22 @@ public:
   itkSetObjectMacro(Event, MetaEvent);
 
   /** Set if the points should be saved in binary/ASCII */
+  /** @ITKStartGrouping */
   itkSetMacro(BinaryPoints, bool);
   itkGetConstMacro(BinaryPoints, bool);
   itkBooleanMacro(BinaryPoints);
-
+  /** @ITKEndGrouping */
   /** set/get the precision for writing out numbers as plain text */
+  /** @ITKStartGrouping */
   itkSetMacro(TransformPrecision, unsigned int);
   itkGetMacro(TransformPrecision, unsigned int);
-
+  /** @ITKEndGrouping */
   /** Set if the images should be written in different files */
+  /** @ITKStartGrouping */
   itkSetMacro(WriteImagesInSeparateFile, bool);
   itkGetConstMacro(WriteImagesInSeparateFile, bool);
   itkBooleanMacro(WriteImagesInSeparateFile);
-
+  /** @ITKEndGrouping */
   /** add new SpatialObject/MetaObject converters at runtime
    *
    *  Every Converter is mapped to both a metaObject type name

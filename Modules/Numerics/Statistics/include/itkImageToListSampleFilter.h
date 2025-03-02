@@ -115,9 +115,10 @@ public:
    * specified, only pixels with this value will be added to the list sample, if
    * no mask has been specified all pixels will be added as measurement vectors
    * to the list sample. */
+  /** @ITKStartGrouping */
   itkSetMacro(MaskValue, MaskPixelType);
   itkGetConstMacro(MaskValue, MaskPixelType);
-
+  /** @ITKEndGrouping */
 protected:
   ImageToListSampleFilter();
   ~ImageToListSampleFilter() override = default;

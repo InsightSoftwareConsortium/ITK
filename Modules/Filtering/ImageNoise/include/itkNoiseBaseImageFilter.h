@@ -53,9 +53,10 @@ public:
   itkOverrideGetNameOfClassMacro(NoiseBaseImageFilter);
 
   /** Set/Get the seed for random initialization  */
+  /** @ITKStartGrouping */
   itkGetConstMacro(Seed, uint32_t);
   itkSetMacro(Seed, uint32_t);
-
+  /** @ITKEndGrouping */
   /** Set the seed to a value initialized with the current time and
    * process clock. */
   virtual void

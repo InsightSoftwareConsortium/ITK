@@ -119,19 +119,21 @@ public:
    * Set the displacement field. Create special set accessor to update
    * interpolator and assign displacement field to transform parameters
    * container. */
+  /** @ITKStartGrouping */
   virtual void
   SetConstantVelocityField(ConstantVelocityFieldType *);
   itkGetModifiableObjectMacro(ConstantVelocityField, ConstantVelocityFieldType);
-
+  /** @ITKEndGrouping */
   void
   SetFixedParameters(const FixedParametersType &) override;
 
   /** Get/Set the interpolator.
    * Create out own set accessor that assigns the velocity field */
+  /** @ITKStartGrouping */
   virtual void
   SetConstantVelocityFieldInterpolator(ConstantVelocityFieldInterpolatorType *);
   itkGetModifiableObjectMacro(ConstantVelocityFieldInterpolator, ConstantVelocityFieldInterpolatorType);
-
+  /** @ITKEndGrouping */
   /** Get the modification time of velocity field */
   itkGetConstReferenceMacro(ConstantVelocityFieldSetTime, ModifiedTimeType);
 

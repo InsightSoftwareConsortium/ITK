@@ -125,9 +125,10 @@ public:
    * The scaling can be seen as the inverse of the gain used during the
    * acquisition. The noisy signal is then scaled back to its input intensity
    * range. Defaults to 1.0. */
+  /** @ITKStartGrouping */
   itkGetConstMacro(Scale, double);
   itkSetMacro(Scale, double);
-
+  /** @ITKEndGrouping */
   itkConceptMacro(InputConvertibleToOutputCheck,
                   (Concept::Convertible<typename TInputImage::PixelType, typename TOutputImage::PixelType>));
 

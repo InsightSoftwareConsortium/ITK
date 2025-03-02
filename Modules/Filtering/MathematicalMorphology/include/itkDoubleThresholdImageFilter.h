@@ -95,27 +95,30 @@ public:
    * NumericTraits<InputPixelType>::NonpositiveMin(). The two upper
    * thresholds default NumericTraits<InputPixelType>::max.
    * Threshold1 <= Threshold2 <= Threshold3 <= Threshold4. */
+  /** @ITKStartGrouping */
   itkSetMacro(Threshold1, InputPixelType);
   itkSetMacro(Threshold2, InputPixelType);
   itkSetMacro(Threshold3, InputPixelType);
   itkSetMacro(Threshold4, InputPixelType);
-
+  /** @ITKEndGrouping */
   /** Get the threshold values. */
+  /** @ITKStartGrouping */
   itkGetConstMacro(Threshold1, InputPixelType);
   itkGetConstMacro(Threshold2, InputPixelType);
   itkGetConstMacro(Threshold3, InputPixelType);
   itkGetConstMacro(Threshold4, InputPixelType);
-
+  /** @ITKEndGrouping */
   /**
    * Set/Get whether the connected components are defined strictly by
    * face connectivity or by face+edge+vertex connectivity.  Default is
    * FullyConnectedOff.  For objects that are 1 pixel wide, use
    * FullyConnectedOn.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(FullyConnected, bool);
   itkGetConstReferenceMacro(FullyConnected, bool);
   itkBooleanMacro(FullyConnected);
-
+  /** @ITKEndGrouping */
   itkConceptMacro(OutputEqualityComparableCheck, (Concept::EqualityComparable<OutputPixelType>));
   itkConceptMacro(InputComparableCheck, (Concept::Comparable<InputPixelType>));
   itkConceptMacro(InputOStreamWritableCheck, (Concept::OStreamWritable<InputPixelType>));

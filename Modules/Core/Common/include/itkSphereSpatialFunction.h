@@ -60,13 +60,15 @@ public:
   Evaluate(const InputType & position) const override;
 
   /** Get and set the center of the sphere. */
+  /** @ITKStartGrouping */
   itkGetConstMacro(Center, InputType);
   itkSetMacro(Center, InputType);
-
+  /** @ITKEndGrouping */
   /** Get and set the radius of the sphere */
+  /** @ITKStartGrouping */
   itkGetConstMacro(Radius, double);
   itkSetMacro(Radius, double);
-
+  /** @ITKEndGrouping */
 protected:
   SphereSpatialFunction() = default;
   ~SphereSpatialFunction() override = default;

@@ -62,14 +62,16 @@ public:
   itkOverrideGetNameOfClassMacro(ImageFilterToVideoFilterWrapper);
 
   /** Set the filter to use in the internal pipeline */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(ImageFilter, ImageFilterType);
   itkGetModifiableObjectMacro(ImageFilter, ImageFilterType);
-
+  /** @ITKEndGrouping */
 protected:
   /** Constructor and Destructor */
+  /** @ITKStartGrouping */
   ImageFilterToVideoFilterWrapper();
   ~ImageFilterToVideoFilterWrapper() override = default;
-
+  /** @ITKEndGrouping */
   /** PrintSelf */
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

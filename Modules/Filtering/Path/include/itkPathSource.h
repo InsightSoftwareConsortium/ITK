@@ -107,11 +107,13 @@ public:
    * Region, which can be set using ImageBase::SetRequestedRegion().
    * By default, the largest possible region is requested.
    */
+  /** @ITKStartGrouping */
   OutputPathType *
   GetOutput();
 
   OutputPathType *
   GetOutput(unsigned int idx);
+  /** @ITKEndGrouping */
 
   /** Graft the specified DataObject onto this ProcessObject's output.
    * This method grabs a handle to the specified DataObject's path
@@ -173,10 +175,12 @@ public:
    * SmartPointer to a DataObject. If a subclass of ImageSource has
    * multiple outputs of different types, then that class must provide
    * an implementation of MakeOutput(). */
+  /** @ITKStartGrouping */
   using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
   DataObjectPointer
   MakeOutput(DataObjectPointerArraySizeType idx) override;
+  /** @ITKEndGrouping */
 
 protected:
   PathSource();

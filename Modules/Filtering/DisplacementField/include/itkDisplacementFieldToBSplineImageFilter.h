@@ -113,6 +113,7 @@ public:
    * estimation of the displacement field weights the contribution of each voxel
    * according the value of the corresponding voxel in the confidence image.
    */
+  /** @ITKStartGrouping */
   void
   SetConfidenceImage(const RealImageType * image)
   {
@@ -123,6 +124,7 @@ public:
   {
     this->SetConfidenceImage(image);
   }
+  /** @ITKEndGrouping */
 
   /** Get confidence image function. */
   const RealImageType *
@@ -132,6 +134,7 @@ public:
   }
 
   /** Set the input point set */
+  /** @ITKStartGrouping */
   void
   SetPointSet(const InputPointSetType * points)
   {
@@ -142,6 +145,7 @@ public:
   {
     this->SetPointSet(points);
   }
+  /** @ITKEndGrouping */
 
   /** Get the input point set. */
   const InputPointSetType *
@@ -263,16 +267,20 @@ public:
   /**
    * Estimate the inverse field instead of the forward field.  Default = false.
    */
+  /** @ITKStartGrouping */
   itkBooleanMacro(EstimateInverse);
   itkSetMacro(EstimateInverse, bool);
   itkGetConstMacro(EstimateInverse, bool);
+  /** @ITKEndGrouping */
 
   /**
    * Enforce stationary boundary conditions.  Default = false.
    */
+  /** @ITKStartGrouping */
   itkBooleanMacro(EnforceStationaryBoundary);
   itkSetMacro(EnforceStationaryBoundary, bool);
   itkGetConstMacro(EnforceStationaryBoundary, bool);
+  /** @ITKEndGrouping */
 
 protected:
   /** Constructor */

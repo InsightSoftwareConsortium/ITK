@@ -74,13 +74,15 @@ public:
   using CellDataContainerConstPointer = typename CellDataContainer::ConstPointer;
 
   /** Set/Get the name of the CellDataName where data are written. */
+  /** @ITKStartGrouping */
   itkSetStringMacro(CellDataName);
   itkGetStringMacro(CellDataName);
-
+  /** @ITKEndGrouping */
   /** Set/Get the name of the PointDataName where data are written. */
+  /** @ITKStartGrouping */
   itkSetStringMacro(PointDataName);
   itkGetStringMacro(PointDataName);
-
+  /** @ITKEndGrouping */
 protected:
   QuadEdgeMeshScalarDataVTKPolyDataWriter();
   ~QuadEdgeMeshScalarDataVTKPolyDataWriter() override = default;

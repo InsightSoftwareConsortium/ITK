@@ -97,9 +97,10 @@ public:
 
   /**  Set/Get the lambda distance. (controls the capture radius of the metric).
    */
+  /** @ITKStartGrouping */
   itkSetMacro(Lambda, double);
   itkGetConstMacro(Lambda, double);
-
+  /** @ITKEndGrouping */
 protected:
   MeanReciprocalSquareDifferencePointSetToImageMetric();
   ~MeanReciprocalSquareDifferencePointSetToImageMetric() override = default;

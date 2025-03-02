@@ -87,9 +87,10 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
+  /** @ITKStartGrouping */
   itkNewMacro(Self);
   itkOverrideGetNameOfClassMacro(SegmentTreeGenerator);
-
+  /** @ITKEndGrouping */
   /** Convenient type definitions */
   using ScalarType = TScalar;
   using SegmentTableType = SegmentTable<ScalarType>;
@@ -152,9 +153,10 @@ public:
     segments marked  as equivalent in the EquivalencyTable.  This is only
     useful for streaming  applications and is turned off by default.  (TRUE ==
     merge, FALSE == do not merge).       */
+  /** @ITKStartGrouping */
   itkSetMacro(Merge, bool);
   itkGetConstMacro(Merge, bool);
-
+  /** @ITKEndGrouping */
   /** Get/Set FloodLevel.  FloodLevel is specified as a percentage (0.0 - 1.0)
    of the maximum possible saliency value in the initial image from which the
    segment table was derived. A value of 0.0 calculates no merges.  A value of
@@ -168,17 +170,19 @@ public:
   /** Get/Set HighestCalculatedFloodLevel.  HighestCalculatedFloodLevel keeps
    * track of the highest level this filter has computed.  It is
    * used to prevent unnecessary re-execution of the filter. */
+  /** @ITKStartGrouping */
   itkSetMacro(HighestCalculatedFloodLevel, double);
   itkGetConstMacro(HighestCalculatedFloodLevel, double);
-
+  /** @ITKEndGrouping */
   /** Get/Set a flag that prevents the filter from copying its input
    * segment table before executing.  This can be enabled to conserve
    * memory, especially in streaming applications where memory is a
    * concern. If enabled, the input to this filter must always be
    * re-executed on updates. Default is false. */
+  /** @ITKStartGrouping */
   itkSetMacro(ConsumeInput, bool);
   itkGetConstMacro(ConsumeInput, bool);
-
+  /** @ITKEndGrouping */
   /** Performs a merge of two segments in a SegmentTable according
    * to criteria specific to this algorithm.   */
   static void

@@ -70,9 +70,10 @@ public:
   ClearEnergyValues() override;
 
   /** Set/Get window size over which the convergence value is calculated */
+  /** @ITKStartGrouping */
   itkSetMacro(WindowSize, EnergyValueContainerSizeType);
   itkGetConstMacro(WindowSize, EnergyValueContainerSizeType);
-
+  /** @ITKEndGrouping */
   /** Calculate convergence value by fitting to a window of the energy profile */
   RealType
   GetConvergenceValue() const override;

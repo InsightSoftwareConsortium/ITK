@@ -88,6 +88,7 @@ public:
   Set(const T & val);
 
   /** Get the contained object */
+  /** @ITKStartGrouping */
   virtual T &
   Get()
   {
@@ -98,7 +99,7 @@ public:
   {
     return m_Component;
   }
-
+  /** @ITKEndGrouping */
 protected:
   SimpleDataObjectDecorator() = default;
   ~SimpleDataObjectDecorator() override = default;

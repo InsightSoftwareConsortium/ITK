@@ -110,6 +110,7 @@ public:
   itkOverrideGetNameOfClassMacro(VectorIndexSelectionCastImageFilter);
 
   /** Get/Set methods for the index */
+  /** @ITKStartGrouping */
   void
   SetIndex(unsigned int i)
   {
@@ -125,6 +126,7 @@ public:
   {
     return this->GetFunctor().GetIndex();
   }
+  /** @ITKEndGrouping */
 
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<typename TInputImage::PixelType::ValueType>));
 

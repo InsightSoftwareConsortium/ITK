@@ -47,6 +47,7 @@ public:
     DIRECTIONCOLLAPSETOGUESS = 3
   };
 };
+
 /** Define how to print enumerations */
 extern ITKCommon_EXPORT std::ostream &
                         operator<<(std::ostream & out, const ExtractImageFilterEnums::DirectionCollapseStrategy value);
@@ -256,10 +257,12 @@ public:
    *  we have to collapse dimension dim.  This means the output image will have
    *  'c' dimensions less than the input image, where c = number of
    *  ExtractionRegion.Size = 0. */
+  /** @ITKStartGrouping */
   void
   SetExtractionRegion(InputImageRegionType extractRegion);
   itkGetConstMacro(ExtractionRegion, InputImageRegionType);
   itkConceptMacro(InputCovertibleToOutputCheck, (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
+  /** @ITKEndGrouping */
 
 protected:
   ExtractImageFilter();

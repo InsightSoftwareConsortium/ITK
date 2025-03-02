@@ -158,7 +158,6 @@ namespace itk
  * \ingroup RegionGrowingSegmentation
  * \ingroup ITKKLMRegionGrowing
  */
-
 template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT KLMRegionGrowImageFilter : public RegionGrowImageFilter<TInputImage, TOutputImage>
 {
@@ -263,13 +262,15 @@ public:
   /** Set/Get the desired threshold parameter for lambda. See
    * itkSegmentationBorder documentation for details regarding this
    * parameter.  */
+  /** @ITKStartGrouping */
   itkSetMacro(MaximumLambda, double);
   itkGetConstReferenceMacro(MaximumLambda, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get the desired number of regions. */
+  /** @ITKStartGrouping */
   itkSetMacro(NumberOfRegions, unsigned int);
   itkGetConstReferenceMacro(NumberOfRegions, unsigned int);
-
+  /** @ITKEndGrouping */
   /** Generate labelled image. */
   LabelImagePointer
   GetLabelledImage();

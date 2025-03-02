@@ -135,6 +135,7 @@ public:
   using Pointer = SmartPointer<Self>;
   using ImageType = Image<TPixel, 3>;
   using ImageTypePointer = typename ImageType::Pointer;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
@@ -183,15 +184,17 @@ public:
   unsigned int
   GetDepth() override;
 
+#if !defined(ITK_LEGACY_REMOVE)
   /***
    * Exposes enum values for backwards compatibility
    * */
-#if !defined(ITK_LEGACY_REMOVE)
+  /** @ITKStartGrouping */
   static constexpr OctreeEnum                                              UNKNOWN_PLANE = OctreeEnum::UNKNOWN_PLANE;
   static constexpr OctreeEnum                                              SAGITTAL_PLANE = OctreeEnum::SAGITTAL_PLANE;
   [[deprecated("Use SAGITTAL_PLANE instead")]] static constexpr OctreeEnum SAGITAL_PLANE = OctreeEnum::SAGITTAL_PLANE;
   static constexpr OctreeEnum                                              CORONAL_PLANE = OctreeEnum::CORONAL_PLANE;
   static constexpr OctreeEnum TRANSVERSE_PLANE = OctreeEnum::TRANSVERSE_PLANE;
+  /** @ITKEndGrouping */
 #endif
 
   OctreeNode *

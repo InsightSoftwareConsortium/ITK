@@ -57,16 +57,18 @@ public:
   itkOverrideGetNameOfClassMacro(DecimateFramesVideoFilter);
 
   /** Get/Set the spacing of the preserved frames */
+  /** @ITKStartGrouping */
   void
   SetPreservedFrameSpacing(SizeValueType numFrames);
   SizeValueType
   GetPreservedFrameSpacing();
-
+  /** @ITKEndGrouping */
 protected:
   /** Constructor and Destructor */
+  /** @ITKStartGrouping */
   DecimateFramesVideoFilter();
   ~DecimateFramesVideoFilter() override = default;
-
+  /** @ITKEndGrouping */
   /** PrintSelf */
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

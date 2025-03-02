@@ -64,9 +64,10 @@ public:
   itkGetModifiableObjectMacro(LevelSet, LevelSetType);
 
   /** Set/Get the input image*/
+  /** @ITKStartGrouping */
   itkSetObjectMacro(InputImage, InputImageType);
   itkGetModifiableObjectMacro(InputImage, InputImageType);
-
+  /** @ITKEndGrouping */
 protected:
   /** Constructor */
   BinaryImageToLevelSetImageAdaptorBase() { this->m_LevelSet = LevelSetType::New(); }

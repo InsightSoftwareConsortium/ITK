@@ -109,13 +109,15 @@ public:
   using WeightsType = FixedArray<float, ImageDimension>;
 
   /** coefficients of the Chamfer distance for each kind of neighbor. */
+  /** @ITKStartGrouping */
   itkSetMacro(Weights, WeightsType);
   itkGetConstReferenceMacro(Weights, WeightsType);
-
+  /** @ITKEndGrouping */
   /** Maximal computed distance */
+  /** @ITKStartGrouping */
   itkSetMacro(MaximumDistance, float);
   itkGetConstMacro(MaximumDistance, float);
-
+  /** @ITKEndGrouping */
   /** */
   void
   SetRegionToProcess(const RegionType & r);

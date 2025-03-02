@@ -139,41 +139,50 @@ public:
   StopRegistration();
 
   /** Set/Get the Fixed image. */
+  /** @ITKStartGrouping */
   itkSetConstObjectMacro(FixedImage, FixedImageType);
   itkGetConstObjectMacro(FixedImage, FixedImageType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the Moving image. */
+  /** @ITKStartGrouping */
   itkSetConstObjectMacro(MovingImage, MovingImageType);
   itkGetConstObjectMacro(MovingImage, MovingImageType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the Optimizer. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(Optimizer, OptimizerType);
   itkGetModifiableObjectMacro(Optimizer, OptimizerType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the Metric. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(Metric, MetricType);
   itkGetModifiableObjectMacro(Metric, MetricType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the Metric. */
+  /** @ITKStartGrouping */
   itkSetMacro(FixedImageRegion, FixedImageRegionType);
   itkGetConstReferenceMacro(FixedImageRegion, FixedImageRegionType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the Transform. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(Transform, TransformType);
   itkGetModifiableObjectMacro(Transform, TransformType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the Interpolator. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(Interpolator, InterpolatorType);
   itkGetModifiableObjectMacro(Interpolator, InterpolatorType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the Fixed image pyramid. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(FixedImagePyramid, FixedImagePyramidType);
   itkGetModifiableObjectMacro(FixedImagePyramid, FixedImagePyramidType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the Moving image pyramid. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(MovingImagePyramid, MovingImagePyramidType);
   itkGetModifiableObjectMacro(MovingImagePyramid, MovingImagePyramidType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the schedules for the fixed and moving image pyramid. */
   void
   SetSchedules(const ScheduleType & fixedImagePyramidSchedule, const ScheduleType & movingImagePyramidSchedule);
@@ -191,15 +200,17 @@ public:
   itkGetConstMacro(CurrentLevel, SizeValueType);
 
   /** Set/Get the initial transformation parameters. */
+  /** @ITKStartGrouping */
   itkSetMacro(InitialTransformParameters, ParametersType);
   itkGetConstReferenceMacro(InitialTransformParameters, ParametersType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the initial transformation parameters of the next resolution
    level to be processed. The default is the last set of parameters of
    the last resolution level. */
+  /** @ITKStartGrouping */
   itkSetMacro(InitialTransformParametersOfNextLevel, ParametersType);
   itkGetConstReferenceMacro(InitialTransformParametersOfNextLevel, ParametersType);
-
+  /** @ITKEndGrouping */
   /** Get the last transformation parameters visited by
    * the optimizer. */
   itkGetConstReferenceMacro(LastTransformParameters, ParametersType);

@@ -104,6 +104,7 @@ public:
    *
    * /sa FFTWGlobalConfiguration
    */
+  /** @ITKStartGrouping */
   virtual void
   SetPlanRigor(const int & value)
   {
@@ -125,7 +126,7 @@ public:
     this->SetPlanRigor(FFTWGlobalConfiguration::GetPlanRigorValue(name));
 #endif
   }
-
+  /** @ITKEndGrouping */
 protected:
   FFTWComplexToComplexFFTImageFilter();
   ~FFTWComplexToComplexFFTImageFilter() override = default;

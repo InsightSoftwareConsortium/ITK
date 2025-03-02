@@ -114,9 +114,11 @@ public:
   itkOverrideGetNameOfClassMacro(OrientImageFilter);
 
   /** Set/Get the orientation codes to define the coordinate transform. */
+  /** @ITKStartGrouping */
   itkGetEnumMacro(GivenCoordinateOrientation, CoordinateOrientationCode);
   void
   SetGivenCoordinateOrientation(CoordinateOrientationCode newCode);
+  /** @ITKEndGrouping */
 
   inline void
   SetGivenCoordinateDirection(const typename TInputImage::DirectionType & GivenDirection)
@@ -142,9 +144,11 @@ public:
    *
    * For compatibility with the original API, the default value
    * is Off. */
+  /** @ITKStartGrouping */
   itkBooleanMacro(UseImageDirection);
   itkGetConstMacro(UseImageDirection, bool);
   itkSetMacro(UseImageDirection, bool);
+  /** @ITKEndGrouping */
 
   /** Get axes permute order. */
   itkGetConstReferenceMacro(PermuteOrder, PermuteOrderArrayType);
@@ -162,6 +166,7 @@ public:
    *
    *  SetDesiredCoordinateOrientationToSagittal is equivalent to AnatomicalOrientation::PositiveEnum::PIR.
    */
+  /** @ITKStartGrouping */
   void
   SetDesiredCoordinateOrientationToAxial()
   {
@@ -185,6 +190,7 @@ public:
                                             AnatomicalOrientation::CoordinateEnum::SuperiorToInferior,
                                             AnatomicalOrientation::CoordinateEnum::LeftToRight });
   }
+  /** @ITKEndGrouping */
 
   /** OrientImageFilter produces an image which is a different
    * dimensionality than its input image, in general. As such,

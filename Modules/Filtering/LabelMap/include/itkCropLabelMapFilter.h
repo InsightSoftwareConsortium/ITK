@@ -96,11 +96,12 @@ public:
   static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
   /** Set/Get the cropping sizes for the upper and lower boundaries. */
+  /** @ITKStartGrouping */
   itkSetMacro(UpperBoundaryCropSize, SizeType);
   itkGetMacro(UpperBoundaryCropSize, SizeType);
   itkSetMacro(LowerBoundaryCropSize, SizeType);
   itkGetMacro(LowerBoundaryCropSize, SizeType);
-
+  /** @ITKEndGrouping */
   void
   SetCropSize(const SizeType & size)
   {

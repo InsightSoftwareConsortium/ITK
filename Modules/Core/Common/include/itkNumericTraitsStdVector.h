@@ -96,6 +96,7 @@ public:
    * \note minimum value for floating pointer types is defined as
    * minimum positive normalize value.
    */
+  /** @ITKStartGrouping */
   static const Self
   max(const Self & a)
   {
@@ -130,6 +131,7 @@ public:
     Self b(a.Size(), NumericTraits<T>::NonpositiveMin());
     return b;
   }
+  /** @ITKEndGrouping */
 
   static constexpr bool IsSigned = std::is_signed_v<ValueType>;
   static constexpr bool IsInteger = std::is_integral_v<ValueType>;

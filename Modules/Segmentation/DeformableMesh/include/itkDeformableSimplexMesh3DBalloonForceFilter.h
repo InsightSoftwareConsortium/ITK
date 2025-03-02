@@ -88,9 +88,10 @@ public:
   using GradientIntensityImagePointer = typename GradientIntensityImageType::Pointer;
 
   /** Set/Get the scalar for balloon force. */
+  /** @ITKStartGrouping */
   itkSetMacro(Kappa, double);
   itkGetConstMacro(Kappa, double);
-
+  /** @ITKEndGrouping */
 protected:
   DeformableSimplexMesh3DBalloonForceFilter();
   ~DeformableSimplexMesh3DBalloonForceFilter() override = default;

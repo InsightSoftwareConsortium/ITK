@@ -89,9 +89,10 @@ public:
    * is suitable for vnl base fft filters.
    * A greatest prime factor of 1 or less - typically 0 - disable the extra padding.
    */
+  /** @ITKStartGrouping */
   itkGetConstMacro(SizeGreatestPrimeFactor, SizeValueType);
   itkSetMacro(SizeGreatestPrimeFactor, SizeValueType);
-
+  /** @ITKEndGrouping */
   /** Typedef to describe the boundary condition. */
   using BoundaryConditionType = ImageBoundaryCondition<TInputImage, TOutputImage>;
   using DefaultBoundaryConditionType = ZeroFluxNeumannBoundaryCondition<TInputImage, TOutputImage>;

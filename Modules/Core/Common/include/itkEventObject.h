@@ -200,6 +200,7 @@ operator<<(std::ostream & os, const EventObject & e)
 /**
  *      Declare some common ITK events
  */
+/** @ITKStartGrouping */
 itkEventMacroDeclaration(NoEvent, EventObject);
 itkEventMacroDeclaration(AnyEvent, EventObject);
 itkEventMacroDeclaration(DeleteEvent, AnyEvent);
@@ -220,7 +221,7 @@ itkEventMacroDeclaration(FunctionEvaluationIterationEvent, IterationEvent);
 itkEventMacroDeclaration(GradientEvaluationIterationEvent, IterationEvent);
 itkEventMacroDeclaration(FunctionAndGradientEvaluationIterationEvent, IterationEvent);
 itkEventMacroDeclaration(UserEvent, AnyEvent);
-
+/** @ITKEndGrouping */
 #undef ITKEvent_EXPORT
 #define ITKEvent_EXPORT ITK_ABI_EXPORT
 

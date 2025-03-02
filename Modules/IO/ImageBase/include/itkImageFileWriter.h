@@ -113,9 +113,10 @@ public:
   GetInput(unsigned int idx);
 
   /** Specify the name of the output file to write. */
+  /** @ITKStartGrouping */
   itkSetStringMacro(FileName);
   itkGetStringMacro(FileName);
-
+  /** @ITKEndGrouping */
   /** Set/Get the ImageIO helper class. Usually this is created via the object
    * factory mechanism that determines whether a particular ImageIO can
    * write a certain file. This method provides a way to get the ImageIO
@@ -126,6 +127,7 @@ public:
    * correct choice and will allow a file to be created regardless of
    * the file extension. If the factory has set the ImageIO, the
    * extension must be supported by the specified ImageIO. */
+  /** @ITKStartGrouping */
   void
   SetImageIO(ImageIOBase * io)
   {
@@ -137,7 +139,7 @@ public:
     m_FactorySpecifiedImageIO = false;
   }
   itkGetModifiableObjectMacro(ImageIO, ImageIOBase);
-
+  /** @ITKEndGrouping */
   /** A special version of the Update() method for writers.  It
    * invokes start and end events and handles releasing data. It
    * eventually calls GenerateData() which does the actual writing.
@@ -161,9 +163,10 @@ public:
 
   /** Set/Get the number of pieces to divide the input.  The upstream pipeline
    * will try to be executed this many times. */
+  /** @ITKStartGrouping */
   itkSetMacro(NumberOfStreamDivisions, unsigned int);
   itkGetConstReferenceMacro(NumberOfStreamDivisions, unsigned int);
-
+  /** @ITKEndGrouping */
   /** Aliased to the Write() method to be consistent with the rest of the
    * pipeline. */
   void
@@ -186,25 +189,28 @@ public:
   }
 
   /** Set the compression On or Off */
+  /** @ITKStartGrouping */
   itkSetMacro(UseCompression, bool);
   itkGetConstReferenceMacro(UseCompression, bool);
   itkBooleanMacro(UseCompression);
-
+  /** @ITKEndGrouping */
   /** Set the compression level. \sa ImageIOBase for details.
    * Set to a negative number to use ImageIO's default compression level. */
+  /** @ITKStartGrouping */
   itkSetMacro(CompressionLevel, int);
   itkGetConstReferenceMacro(CompressionLevel, int);
-
+  /** @ITKEndGrouping */
   /** By default the MetaDataDictionary is taken from the input image and
    *  passed to the ImageIO. In some cases, however, a user may prefer to
    *  introduce her/his own MetaDataDictionary. This is often the case of
    *  the ImageSeriesWriter. This flag defined whether the MetaDataDictionary
    *  to use will be the one from the input image or the one already set in
    *  the ImageIO object. */
+  /** @ITKStartGrouping */
   itkSetMacro(UseInputMetaDataDictionary, bool);
   itkGetConstReferenceMacro(UseInputMetaDataDictionary, bool);
   itkBooleanMacro(UseInputMetaDataDictionary);
-
+  /** @ITKEndGrouping */
 protected:
   ImageFileWriter() = default;
   ~ImageFileWriter() override = default;

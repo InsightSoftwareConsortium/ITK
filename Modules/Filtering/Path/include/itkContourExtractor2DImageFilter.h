@@ -153,22 +153,25 @@ public:
 
   /** Control the orientation of the contours with reference to the image
    * gradient. (See class documentation.) */
+  /** @ITKStartGrouping */
   itkSetMacro(ReverseContourOrientation, bool);
   itkGetConstReferenceMacro(ReverseContourOrientation, bool);
   itkBooleanMacro(ReverseContourOrientation);
-
+  /** @ITKEndGrouping */
   /** Control whether high- or low-valued pixels are vertex-connected.
    * Default is for low-valued pixels to be vertex-connected.
    * (See class documentation.) */
+  /** @ITKStartGrouping */
   itkSetMacro(VertexConnectHighPixels, bool);
   itkGetConstReferenceMacro(VertexConnectHighPixels, bool);
   itkBooleanMacro(VertexConnectHighPixels);
-
+  /** @ITKEndGrouping */
   /** Return contours for all distinct labels */
+  /** @ITKStartGrouping */
   itkSetMacro(LabelContours, bool);
   itkGetConstReferenceMacro(LabelContours, bool);
   itkBooleanMacro(LabelContours);
-
+  /** @ITKEndGrouping */
   /** Control whether the largest possible input region is used, or if a
    * custom requested region is to be used. */
   void
@@ -180,9 +183,10 @@ public:
 
   /** Set/Get the image intensity value that the contours should follow.
    *  This is the equivalent of an iso-value in Marching Squares. */
+  /** @ITKStartGrouping */
   itkSetMacro(ContourValue, InputRealType);
   itkGetConstReferenceMacro(ContourValue, InputRealType);
-
+  /** @ITKEndGrouping */
   itkConceptMacro(DimensionShouldBe2, (Concept::SameDimension<Self::InputImageDimension, 2>));
   itkConceptMacro(InputPixelTypeComparable, (Concept::Comparable<InputPixelType>));
   itkConceptMacro(InputHasPixelTraitsCheck, (Concept::HasPixelTraits<InputPixelType>));

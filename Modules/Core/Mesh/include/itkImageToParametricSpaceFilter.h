@@ -94,10 +94,11 @@ public:
    * That assumes that the type of PointData in the output
    * mesh is capable of accepting an itk::Index through
    * an operator=(). Default value = true */
+  /** @ITKStartGrouping */
   itkSetMacro(ComputeIndices, bool);
   itkGetConstMacro(ComputeIndices, bool);
   itkBooleanMacro(ComputeIndices);
-
+  /** @ITKEndGrouping */
 protected:
   ImageToParametricSpaceFilter();
   ~ImageToParametricSpaceFilter() override = default;

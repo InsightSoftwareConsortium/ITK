@@ -123,9 +123,10 @@ public:
 
   /** Set/get the variance of the zero-mean Gaussian white noise
    * assumed to be added to the input. */
+  /** @ITKStartGrouping */
   itkSetMacro(NoiseVariance, double);
   itkGetConstMacro(NoiseVariance, double);
-
+  /** @ITKEndGrouping */
 protected:
   WienerDeconvolutionImageFilter();
   ~WienerDeconvolutionImageFilter() override = default;
@@ -184,6 +185,7 @@ public:
 
   /** Set/get the constant defining the noise power spectral density
    * constant. */
+  /** @ITKStartGrouping */
   void
   SetNoisePowerSpectralDensityConstant(double constant)
   {
@@ -194,9 +196,10 @@ public:
   {
     return m_NoisePowerSpectralDensityConstant;
   }
-
+  /** @ITKEndGrouping */
   /** Set/get the threshold value below which complex magnitudes are considered
    * to be zero. */
+  /** @ITKStartGrouping */
   void
   SetKernelZeroMagnitudeThreshold(double mu)
   {
@@ -207,7 +210,7 @@ public:
   {
     return m_KernelZeroMagnitudeThreshold;
   }
-
+  /** @ITKEndGrouping */
 private:
   double m_NoisePowerSpectralDensityConstant = 0.0;
   double m_KernelZeroMagnitudeThreshold = 0.0;

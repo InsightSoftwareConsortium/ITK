@@ -75,9 +75,10 @@ public:
   using OutputImageRegionType = typename TInputImage::RegionType;
 
   /** Set/Get the member variables. */
+  /** @ITKStartGrouping */
   itkGetConstMacro(Width, unsigned int);
   itkSetMacro(Width, unsigned int);
-
+  /** @ITKEndGrouping */
   itkConceptMacro(DataTypeHasNumericTraitsCheck, (Concept::HasNumericTraits<TDataType>));
 
 protected:

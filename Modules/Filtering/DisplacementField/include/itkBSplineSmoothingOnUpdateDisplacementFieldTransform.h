@@ -168,10 +168,11 @@ public:
   /**
    * Enforce stationary boundaries.  Important for diffeomorphic transforms.
    */
+  /** @ITKStartGrouping */
   itkBooleanMacro(EnforceStationaryBoundary);
   itkSetMacro(EnforceStationaryBoundary, bool);
   itkGetConstMacro(EnforceStationaryBoundary, bool);
-
+  /** @ITKEndGrouping */
 protected:
   BSplineSmoothingOnUpdateDisplacementFieldTransform();
   ~BSplineSmoothingOnUpdateDisplacementFieldTransform() override = default;

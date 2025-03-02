@@ -85,19 +85,21 @@ public:
   /**
    * Set/Get the threshold used to keep or remove the objects.
    */
+  /** @ITKStartGrouping */
   itkGetConstMacro(Lambda, AttributeValueType);
   itkSetMacro(Lambda, AttributeValueType);
-
+  /** @ITKEndGrouping */
   /**
    * Set/Get the ordering of the objects. By default, the objects with
    * an attribute value smaller than Lamba are removed. Turning ReverseOrdering
    * to true make this filter remove the object with an attribute value greater
    * than Lambda instead.
    */
+  /** @ITKStartGrouping */
   itkGetConstMacro(ReverseOrdering, bool);
   itkSetMacro(ReverseOrdering, bool);
   itkBooleanMacro(ReverseOrdering);
-
+  /** @ITKEndGrouping */
 protected:
   AttributeOpeningLabelMapFilter();
   ~AttributeOpeningLabelMapFilter() override = default;

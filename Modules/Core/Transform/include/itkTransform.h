@@ -236,6 +236,7 @@ public:
                       "unimplemented for "
                       << this->GetNameOfClass());
   }
+
   /** Method to transform a CovariantVector, using a point. Global transforms
    * can ignore the \c point parameter. Local transforms (e.g. deformation
    * field transform) must override and provide required behavior.
@@ -557,6 +558,7 @@ public:
    *
    * The image parameter may be either a SmartPointer or a raw pointer.
    * */
+  /** @ITKStartGrouping */
   template <typename TImage>
   std::enable_if_t<TImage::ImageDimension == VInputDimension && TImage::ImageDimension == VOutputDimension, void>
   ApplyToImageMetadata(TImage * image) const;
@@ -566,7 +568,7 @@ public:
   {
     this->ApplyToImageMetadata(image.GetPointer()); // Delegate to the raw pointer signature
   }
-
+  /** @ITKEndGrouping */
 protected:
   /**
    * Clone the current transform.

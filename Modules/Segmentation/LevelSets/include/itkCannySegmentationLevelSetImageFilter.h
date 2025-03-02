@@ -159,6 +159,7 @@ public:
 
   /** Set the Threshold parameter of the CannyEdgeDetectionImageFilter
    * used by the underlying level set function. */
+  /** @ITKStartGrouping */
   void
   SetThreshold(ScalarValueType v)
   {
@@ -169,9 +170,10 @@ public:
   {
     return this->m_CannyFunction->GetThreshold();
   }
-
+  /** @ITKEndGrouping */
   /** Set the Variance parameter of the CannyEdgeDetectionImageFilter
    * used by the underlying level set function. */
+  /** @ITKStartGrouping */
   void
   SetVariance(double v)
   {
@@ -182,7 +184,7 @@ public:
   {
     return this->m_CannyFunction->GetVariance();
   }
-
+  /** @ITKEndGrouping */
   /** Get the Canny image that was used to create the speed and
       advection images */
   OutputImageType *

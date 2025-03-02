@@ -60,13 +60,14 @@ public:
   GetDescription() const override;
 
   /** Method for class instantiation. */
+  /** @ITKStartGrouping */
   itkFactorylessNewMacro(Self);
   static JPEG2000ImageIOFactory *
   FactoryNew()
   {
     return new JPEG2000ImageIOFactory;
   }
-
+  /** @ITKEndGrouping */
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(JPEG2000ImageIOFactory);
 

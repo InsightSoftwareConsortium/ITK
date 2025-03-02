@@ -82,9 +82,10 @@ public:
   using ConstTransformListType = std::list<ConstTransformPointer>;
 
   /** Set/Get the name of the file to be read. */
+  /** @ITKStartGrouping */
   itkSetStringMacro(FileName);
   itkGetStringMacro(FileName);
-
+  /** @ITKEndGrouping */
   /** Reads the data from disk into the memory buffer provided. */
   virtual void
   Read() = 0;
@@ -104,6 +105,7 @@ public:
   CanWriteFile(const char *) = 0;
 
   /** Get the list of transforms resulting from a file read */
+  /** @ITKStartGrouping */
   TransformListType &
   GetTransformList()
   {
@@ -119,21 +121,23 @@ public:
   {
     return m_WriteTransformList;
   }
-
+  /** @ITKEndGrouping */
   /** Set the list of transforms before writing */
   void
   SetTransformList(ConstTransformListType & transformList);
 
   /** Set the writer to append to the specified file */
+  /** @ITKStartGrouping */
   itkSetMacro(AppendMode, bool);
   itkGetConstMacro(AppendMode, bool);
   itkBooleanMacro(AppendMode);
-
+  /** @ITKEndGrouping */
   /** Set/Get a boolean to use the compression or not. */
+  /** @ITKStartGrouping */
   itkSetMacro(UseCompression, bool);
   itkGetConstMacro(UseCompression, bool);
   itkBooleanMacro(UseCompression);
-
+  /** @ITKEndGrouping */
   /** The transform type has a string representation used when reading
    * and writing transform files.  In the case where a double-precision
    * transform is to be written as float, or vice versa, the transform

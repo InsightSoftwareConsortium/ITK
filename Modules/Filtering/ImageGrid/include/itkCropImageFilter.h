@@ -78,11 +78,12 @@ public:
   static constexpr unsigned int OutputImageDimension = Superclass::OutputImageDimension;
 
   /** Set/Get the cropping sizes for the upper and lower boundaries. */
+  /** @ITKStartGrouping */
   itkSetMacro(UpperBoundaryCropSize, SizeType);
   itkGetConstMacro(UpperBoundaryCropSize, SizeType);
   itkSetMacro(LowerBoundaryCropSize, SizeType);
   itkGetConstMacro(LowerBoundaryCropSize, SizeType);
-
+  /** @ITKEndGrouping */
   void
   SetBoundaryCropSize(const SizeType & s)
   {

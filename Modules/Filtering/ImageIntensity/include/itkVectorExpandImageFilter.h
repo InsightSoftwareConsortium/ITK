@@ -127,16 +127,18 @@ public:
   using DefaultInterpolatorType = VectorLinearInterpolateImageFunction<InputImageType, CoordinateType>;
 
   /** Get/Set the interpolator function. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(Interpolator, InterpolatorType);
   itkGetModifiableObjectMacro(Interpolator, InterpolatorType);
-
+  /** @ITKEndGrouping */
   /** Set the expand factors. Values are clamped to
    * a minimum value of 1. Default is 1 for all dimensions. */
+  /** @ITKStartGrouping */
   itkSetMacro(ExpandFactors, ExpandFactorsArrayType);
   virtual void
   SetExpandFactors(const float factor);
   itkSetVectorMacro(ExpandFactors, const unsigned int, ImageDimension);
-
+  /** @ITKEndGrouping */
   /** Get the expand factors. */
   itkGetConstReferenceMacro(ExpandFactors, ExpandFactorsArrayType);
 

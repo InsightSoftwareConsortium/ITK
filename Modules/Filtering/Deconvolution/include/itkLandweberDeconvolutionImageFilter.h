@@ -126,9 +126,10 @@ public:
   itkOverrideGetNameOfClassMacro(LandweberDeconvolutionImageFilter);
 
   /** Set/get relaxation factor. */
+  /** @ITKStartGrouping */
   itkSetMacro(Alpha, double);
   itkGetMacro(Alpha, double);
-
+  /** @ITKEndGrouping */
 protected:
   LandweberDeconvolutionImageFilter();
   ~LandweberDeconvolutionImageFilter() override;

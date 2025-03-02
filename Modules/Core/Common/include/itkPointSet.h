@@ -157,11 +157,12 @@ public:
 
 protected:
   /** Constructor for use by New() method. */
+  /** @ITKStartGrouping */
   PointSet() = default;
   ~PointSet() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
-
+  /** @ITKEndGrouping */
   LightObject::Pointer
   InternalClone() const override;
 

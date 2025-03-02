@@ -133,11 +133,12 @@ public:
    *
    * \sa EstimateLearningRate()
    */
+  /** @ITKStartGrouping */
   virtual void
   ModifyGradientByScales();
   virtual void
   ModifyGradientByLearningRate();
-
+  /** @ITKEndGrouping */
   using IndexRangeType = ThreadedIndexedContainerPartitioner::IndexRangeType;
 
   /** Derived classes define this worker method to modify the gradient by scales.
@@ -161,9 +162,10 @@ public:
 
 protected:
   /** Default constructor */
+  /** @ITKStartGrouping */
   GradientDescentOptimizerBasev4Template();
   ~GradientDescentOptimizerBasev4Template() override = default;
-
+  /** @ITKEndGrouping */
   /** Flag to control use of the ScalesEstimator (if set) for
    * automatic learning step estimation at *each* iteration.
    */

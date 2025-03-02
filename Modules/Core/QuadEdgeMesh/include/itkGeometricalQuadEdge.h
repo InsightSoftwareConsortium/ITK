@@ -88,6 +88,7 @@ public:
   using ConstIteratorGeom = QuadEdgeMeshConstIteratorGeom<Self>;
 
   /** Basic iterators methods. */
+  /** @ITKStartGrouping */
   inline itkQEDefineIteratorGeomMethodsMacro(Onext);
   inline itkQEDefineIteratorGeomMethodsMacro(Sym);
   inline itkQEDefineIteratorGeomMethodsMacro(Lnext);
@@ -101,7 +102,7 @@ public:
   inline itkQEDefineIteratorGeomMethodsMacro(InvLnext);
   inline itkQEDefineIteratorGeomMethodsMacro(InvRnext);
   inline itkQEDefineIteratorGeomMethodsMacro(InvDnext);
-
+  /** @ITKEndGrouping */
   /** QE macros. */
   itkQEAccessorsMacro(Superclass, Self, DualType);
 
@@ -172,6 +173,7 @@ public:
   }
 
   /** Get methods. */
+  /** @ITKStartGrouping */
   // ORIENTATION_NOTE: this definition of GetLeft (or GetRight)
   // implicitly assumes that the Onext order is counter-clockwise !
   inline const OriginRefType
@@ -194,7 +196,7 @@ public:
   {
     return (GetInvRot()->GetOrigin());
   }
-
+  /** @ITKEndGrouping */
   /** Boolean accessors. */
   bool
   IsOriginSet() const;
@@ -209,6 +211,7 @@ public:
   IsLeftSet() const;
 
   /** Extra data set methods. */
+  /** @ITKStartGrouping */
   inline void
   SetPrimalData(const PrimalDataType data)
   {
@@ -220,7 +223,7 @@ public:
   {
     this->GetRot()->SetPrimalData(data);
   }
-
+  /** @ITKEndGrouping */
   inline void
   SetPrimalData()
   {
@@ -244,6 +247,7 @@ public:
   }
 
   /** Extra data get methods. */
+  /** @ITKStartGrouping */
   inline PrimalDataType
   GetPrimalData()
   {
@@ -254,8 +258,9 @@ public:
   {
     return (this->GetRot()->GetPrimalData());
   }
-
+  /** @ITKEndGrouping */
   /** Boolean accessors. */
+  /** @ITKStartGrouping */
   inline bool
   IsPrimalDataSet()
   {
@@ -266,7 +271,7 @@ public:
   {
     return (this->GetRot()->IsPrimalDataSet());
   }
-
+  /** @ITKEndGrouping */
   /**
    * @return Returns true when "this" has no faces set on both sides.
    *         Return false otherwise.
@@ -323,6 +328,7 @@ public:
   ReorderOnextRingBeforeAddFace(Self * second);
 
   /** Disconnection methods. */
+  /** @ITKStartGrouping */
   inline bool
   IsOriginDisconnected()
   {
@@ -338,7 +344,7 @@ public:
   {
     return (this->IsOriginDisconnected() && this->IsDestinationDisconnected());
   }
-
+  /** @ITKEndGrouping */
   void
   Disconnect();
 

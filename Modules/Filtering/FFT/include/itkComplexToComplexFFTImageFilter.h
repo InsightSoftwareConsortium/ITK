@@ -112,9 +112,10 @@ public:
    * By selecting FORWARD, this filter will perform a direct, i.e. forward, Fourier Transform,
    * By selecting INVERSE, this filter will perform an inverse, i.e. backward, Fourier Transform,
    */
+  /** @ITKStartGrouping */
   itkSetEnumMacro(TransformDirection, TransformDirectionEnum);
   itkGetConstMacro(TransformDirection, TransformDirectionEnum);
-
+  /** @ITKEndGrouping */
 protected:
   ComplexToComplexFFTImageFilter() = default;
 

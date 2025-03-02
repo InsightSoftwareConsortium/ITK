@@ -98,33 +98,40 @@ public:
   Evaluate(const InputType & position) const override;
 
   /** Set/Get the apex of the pyramid. */
+  /** @ITKStartGrouping */
   itkGetConstMacro(Apex, InputType);
   itkSetMacro(Apex, InputType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the angle of the pyramid axis with respect to the Z axis. */
+  /** @ITKStartGrouping */
   itkGetConstMacro(AngleZ, double);
   itkSetMacro(AngleZ, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get the aperture angle in the X axis. */
+  /** @ITKStartGrouping */
   itkGetConstMacro(ApertureAngleX, double);
   itkSetMacro(ApertureAngleX, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get the aperture angle in the Y axis. */
+  /** @ITKStartGrouping */
   itkGetConstMacro(ApertureAngleY, double);
   itkSetMacro(ApertureAngleY, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get the top plane distance to the apex. */
+  /** @ITKStartGrouping */
   itkGetConstMacro(TopPlane, double);
   itkSetMacro(TopPlane, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get the bottom plane distance to the apex. */
+  /** @ITKStartGrouping */
   itkGetConstMacro(BottomPlane, double);
   itkSetMacro(BottomPlane, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get the plane in which the frustum should rotate. */
+  /** @ITKStartGrouping */
   itkGetConstMacro(RotationPlane, FrustumRotationPlaneType);
   itkSetMacro(RotationPlane, FrustumRotationPlaneType);
-
+  /** @ITKEndGrouping */
 protected:
   FrustumSpatialFunction() = default;
   ~FrustumSpatialFunction() override = default;

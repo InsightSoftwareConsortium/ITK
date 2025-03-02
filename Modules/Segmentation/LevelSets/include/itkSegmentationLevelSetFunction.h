@@ -87,6 +87,7 @@ public:
   using ContinuousIndexType = typename InterpolatorType::ContinuousIndexType;
 
   /** Set/Get the image which will be used to calculate the speed function. */
+  /** @ITKStartGrouping */
   virtual const FeatureImageType *
   GetFeatureImage() const
   {
@@ -97,8 +98,9 @@ public:
   {
     m_FeatureImage = f;
   }
-
+  /** @ITKEndGrouping */
   /** Get/Set the image used as the speed function in the level set equation */
+  /** @ITKStartGrouping */
   virtual ImageType *
   GetSpeedImage()
   {
@@ -106,8 +108,9 @@ public:
   }
   void
   SetSpeedImage(ImageType * s);
-
+  /** @ITKEndGrouping */
   /** Get/Set the image used as the advection field in the level set equation */
+  /** @ITKStartGrouping */
   virtual VectorImageType *
   GetAdvectionImage() const
   {
@@ -115,7 +118,7 @@ public:
   }
   void
   SetAdvectionImage(VectorImageType * s);
-
+  /** @ITKEndGrouping */
   /** This method creates the appropriate member variable operators for the
    * level-set calculations.  The argument to this function is a the radius
    * necessary for performing the level-set calculations. */

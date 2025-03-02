@@ -135,7 +135,6 @@ namespace itk
  With Mask Images For Input Images}
  * \endsphinx
  */
-
 template <typename TInputImage, typename TOutputImage, typename TMaskImage = TInputImage>
 class ITK_TEMPLATE_EXPORT MaskedFFTNormalizedCorrelationImageFilter
   : public ImageToImageFilter<TInputImage, TOutputImage>
@@ -186,29 +185,35 @@ public:
   using FFTImagePointer = typename FFTImageType::Pointer;
 
   /** Set and get the fixed image */
+  /** @ITKStartGrouping */
   itkSetInputMacro(FixedImage, InputImageType);
   itkGetInputMacro(FixedImage, InputImageType);
-
+  /** @ITKEndGrouping */
   /** Set and get the moving image */
+  /** @ITKStartGrouping */
   itkSetInputMacro(MovingImage, InputImageType);
   itkGetInputMacro(MovingImage, InputImageType);
-
+  /** @ITKEndGrouping */
   /** Set and get the fixed mask */
+  /** @ITKStartGrouping */
   itkSetInputMacro(FixedImageMask, MaskImageType);
   itkGetInputMacro(FixedImageMask, MaskImageType);
-
+  /** @ITKEndGrouping */
   /** Set and get the moving mask */
+  /** @ITKStartGrouping */
   itkSetInputMacro(MovingImageMask, MaskImageType);
   itkGetInputMacro(MovingImageMask, MaskImageType);
-
+  /** @ITKEndGrouping */
   /** Set and get the required number of overlapping pixels */
+  /** @ITKStartGrouping */
   itkSetMacro(RequiredNumberOfOverlappingPixels, SizeValueType);
   itkGetMacro(RequiredNumberOfOverlappingPixels, SizeValueType);
-
+  /** @ITKEndGrouping */
   /** Set and get the required fraction of overlapping pixels */
+  /** @ITKStartGrouping */
   itkGetMacro(RequiredFractionOfOverlappingPixels, RealPixelType);
   itkSetClampMacro(RequiredFractionOfOverlappingPixels, RealPixelType, 0.0f, 1.0f);
-
+  /** @ITKEndGrouping */
   /** Get the maximum number of overlapping pixels. */
   itkGetMacro(MaximumNumberOfOverlappingPixels, SizeValueType);
 
@@ -323,14 +328,17 @@ private:
    * Thus, larger values remove less stable computations but also limit the capture range.
    * The default is set to 0. */
   SizeValueType m_RequiredNumberOfOverlappingPixels{};
+
   /** Similar to m_RequiredNumberOfOverlappingPixels except that the m_RequiredFractionOfOverlappingPixels is multiplied
    * by the m_MaximumNumberOfOverlappingPixels to determine the requiredNumberOfOverlappingPixels. The default is 0. */
   RealPixelType m_RequiredFractionOfOverlappingPixels{};
+
   /** This is computed internally */
   SizeValueType m_MaximumNumberOfOverlappingPixels{};
 
   /** This is used for the progress reporter */
   const unsigned int m_TotalForwardAndInverseFFTs{ 12 };
+
   /** The total accumulated progress */
   float m_AccumulatedProgress{};
 };

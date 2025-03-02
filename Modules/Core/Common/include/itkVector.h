@@ -114,6 +114,7 @@ public:
    * Deprecated */
   Vector(const ValueType & r);
 #else
+
   /** Constructor to initialize entire vector to one value,
    * if explicitly invoked. */
   explicit Vector(const ValueType & r);
@@ -123,6 +124,7 @@ public:
 #endif
 
   /** Pass-through constructor for the Array base class. */
+  /** @ITKStartGrouping */
   template <typename TVectorValueType>
   Vector(const Vector<TVectorValueType, VVectorDimension> & r)
     : BaseArray(r)
@@ -134,6 +136,7 @@ public:
   Vector(const TVectorValueType r[Dimension])
     : BaseArray(r)
   {}
+  /** @ITKEndGrouping */
 
   /** Explicit constructor for std::array. */
   explicit Vector(const std::array<ValueType, VVectorDimension> & stdArray)

@@ -68,6 +68,7 @@ public:
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Set/Get the threshold value. */
+  /** @ITKStartGrouping */
   void
   SetThreshold(const double thresh)
   {
@@ -78,7 +79,7 @@ public:
   {
     return m_Threshold;
   }
-
+  /** @ITKEndGrouping */
   /** Compute the solution update for each pixel that does not lie on a the data set boundary. */
   PixelType
   ComputeUpdate(const NeighborhoodType & it,

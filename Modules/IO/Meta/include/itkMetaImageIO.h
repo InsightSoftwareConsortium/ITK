@@ -164,8 +164,10 @@ public:
   /** Determining the subsampling factor in case
    *  we want a coarse version of the image/
    * \warning this is only used when streaming is on. */
+  /** @ITKStartGrouping */
   itkSetMacro(SubSamplingFactor, unsigned int);
   itkGetConstMacro(SubSamplingFactor, unsigned int);
+  /** @ITKEndGrouping */
 
   /**
    * Set the default precision when writing out the MetaImage header.
@@ -177,11 +179,12 @@ public:
    * This function is not thread safe.
    * Default value after static initialization is 17.
    */
+  /** @ITKStartGrouping */
   static void
   SetDefaultDoublePrecision(unsigned int precision);
   static unsigned int
   GetDefaultDoublePrecision();
-
+  /** @ITKEndGrouping */
 protected:
   MetaImageIO();
   ~MetaImageIO() override;

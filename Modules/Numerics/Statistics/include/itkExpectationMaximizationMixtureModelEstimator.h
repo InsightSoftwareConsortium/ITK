@@ -80,7 +80,6 @@ operator<<(std::ostream & out, const ExpectationMaximizationMixtureModelEstimato
  * \sphinxexample{Numerics/Statistics/DistributeSamplingUsingGMM,Distribute Sampling Using GMM EM}
  * \endsphinx
  */
-
 template <typename TSample>
 class ITK_TEMPLATE_EXPORT ExpectationMaximizationMixtureModelEstimator : public Object
 {
@@ -92,9 +91,10 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** \see LightObject::GetNameOfClass() */
+  /** @ITKStartGrouping */
   itkOverrideGetNameOfClassMacro(ExpectationMaximizationMixtureModelEstimator);
   itkNewMacro(Self);
-
+  /** @ITKEndGrouping */
   /** TSample template argument related type alias */
   using SampleType = TSample;
   using MeasurementType = typename TSample::MeasurementType;

@@ -176,11 +176,12 @@ public:
    * acquired; use Off to reset the derivative weights, ignore the image
    * spacing, and to compute the Jacobian determinant in the image space.
    * Default is On. */
+  /** @ITKStartGrouping */
   void
   SetUseImageSpacing(bool);
   itkGetConstMacro(UseImageSpacing, bool);
   itkBooleanMacro(UseImageSpacing);
-
+  /** @ITKEndGrouping */
 #if !defined(ITK_FUTURE_LEGACY_REMOVE)
   /** Set the derivative weights according to the spacing of the input image
       (1/spacing). Use this option if you want to calculate the Jacobian
@@ -208,10 +209,11 @@ public:
 
   /** Directly Set/Get the array of weights used in the gradient calculations.
       Note that calling UseImageSpacingOn will clobber these values. */
+  /** @ITKStartGrouping */
   void
   SetDerivativeWeights(const WeightsType &);
   itkGetConstReferenceMacro(DerivativeWeights, WeightsType);
-
+  /** @ITKEndGrouping */
 protected:
   DisplacementFieldJacobianDeterminantFilter();
   ~DisplacementFieldJacobianDeterminantFilter() override = default;
@@ -247,14 +249,16 @@ protected:
   itkGetConstObjectMacro(RealValuedInputImage, ImageBaseType);
 
   /** Get/Set the neighborhood radius used for gradient computation */
+  /** @ITKStartGrouping */
   itkGetConstReferenceMacro(NeighborhoodRadius, RadiusType);
   itkSetMacro(NeighborhoodRadius, RadiusType);
-
+  /** @ITKEndGrouping */
   virtual TRealType
   EvaluateAtNeighborhood(const ConstNeighborhoodIteratorType & it) const;
 
   /** The weights used to scale partial derivatives during processing */
   WeightsType m_DerivativeWeights{};
+
   /** Pre-compute 0.5*m_DerivativeWeights since that is the only thing used in
     the computations. */
   WeightsType m_HalfDerivativeWeights{};

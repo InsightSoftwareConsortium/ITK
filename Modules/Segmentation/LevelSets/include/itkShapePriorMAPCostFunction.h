@@ -93,21 +93,24 @@ public:
   using ArrayType = Array<double>;
 
   /** Set/Get the array of shape parameters mean. */
+  /** @ITKStartGrouping */
   itkSetMacro(ShapeParameterMeans, ArrayType);
   itkGetConstMacro(ShapeParameterMeans, ArrayType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the array of shape parameters standard deviation. */
+  /** @ITKStartGrouping */
   itkSetMacro(ShapeParameterStandardDeviations, ArrayType);
   itkGetConstMacro(ShapeParameterStandardDeviations, ArrayType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the weights for each term. Default is a vector of all ones.
    * The weights are applied to terms in the following order:
    * LogInsideTerm, LogGradientTerm, LogShapePriorTerm and
    * LogPosePriorTerm. */
+  /** @ITKStartGrouping */
   using WeightsType = FixedArray<double, 4>;
   itkSetMacro(Weights, WeightsType);
   itkGetConstReferenceMacro(Weights, WeightsType);
-
+  /** @ITKEndGrouping */
   /** Compute the inside term component of the MAP cost function.
    * In particular, the method sums the number of pixels inside
    * the current contour (defined by nodes of the active region

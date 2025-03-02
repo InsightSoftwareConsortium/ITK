@@ -81,15 +81,17 @@ public:
 #endif
 
   /** Set/Get the write mode (append/overwrite) for the filter. */
+  /** @ITKStartGrouping */
   itkSetMacro(AppendMode, bool);
   itkGetConstMacro(AppendMode, bool);
   itkBooleanMacro(AppendMode);
-
+  /** @ITKEndGrouping */
   /** Set/Get a boolean to use the compression or not. */
+  /** @ITKStartGrouping */
   itkSetMacro(UseCompression, bool);
   itkGetConstMacro(UseCompression, bool);
   itkBooleanMacro(UseCompression);
-
+  /** @ITKEndGrouping */
   /** Set/Get the input transform to write */
   void
   SetInput(const Object * transform);
@@ -106,9 +108,10 @@ public:
   Update();
 
   /** Set/Get the TransformIO class used internally to read to transform. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(TransformIO, TransformIOType);
   itkGetConstObjectMacro(TransformIO, TransformIOType);
-
+  /** @ITKEndGrouping */
 protected:
   TransformFileWriterTemplate();
   ~TransformFileWriterTemplate() override;
@@ -135,13 +138,14 @@ ITK_GCC_PRAGMA_DIAG_PUSH()
 ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
 
 /** Declare specializations */
+/** @ITKStartGrouping */
 template <>
 void ITKIOTransformBase_TEMPLATE_EXPORT
 TransformFileWriterTemplate<double>::PushBackTransformList(const Object * transObj);
 template <>
 void ITKIOTransformBase_TEMPLATE_EXPORT
 TransformFileWriterTemplate<float>::PushBackTransformList(const Object * transObj);
-
+/** @ITKEndGrouping */
 ITK_GCC_PRAGMA_DIAG_POP()
 
 } // namespace itk

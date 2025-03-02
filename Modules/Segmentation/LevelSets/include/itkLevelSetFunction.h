@@ -149,6 +149,7 @@ public:
   }
 
   /** Alpha.  Scales all advection term values. */
+  /** @ITKStartGrouping */
   virtual void
   SetAdvectionWeight(const ScalarValueType a)
   {
@@ -159,8 +160,9 @@ public:
   {
     return m_AdvectionWeight;
   }
-
+  /** @ITKEndGrouping */
   /** Beta.  Scales all propagation term values. */
+  /** @ITKStartGrouping */
   virtual void
   SetPropagationWeight(const ScalarValueType p)
   {
@@ -171,8 +173,9 @@ public:
   {
     return m_PropagationWeight;
   }
-
+  /** @ITKEndGrouping */
   /** Gamma. Scales all curvature weight values */
+  /** @ITKStartGrouping */
   virtual void
   SetCurvatureWeight(const ScalarValueType c)
   {
@@ -183,8 +186,9 @@ public:
   {
     return m_CurvatureWeight;
   }
-
+  /** @ITKEndGrouping */
   /** Weight of the laplacian smoothing term */
+  /** @ITKStartGrouping */
   void
   SetLaplacianSmoothingWeight(const ScalarValueType c)
   {
@@ -195,8 +199,9 @@ public:
   {
     return m_LaplacianSmoothingWeight;
   }
-
+  /** @ITKEndGrouping */
   /** Epsilon. */
+  /** @ITKStartGrouping */
   void
   SetEpsilonMagnitude(const ScalarValueType e)
   {
@@ -207,7 +212,7 @@ public:
   {
     return m_EpsilonMagnitude;
   }
-
+  /** @ITKEndGrouping */
   /** Compute the equation value. */
   PixelType
   ComputeUpdate(const NeighborhoodType & it,

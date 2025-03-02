@@ -737,6 +737,7 @@ NotExactlyEquals(const TInput1 & x1, const TInput2 & x2)
  *
  * \note Negative numbers cannot be prime.
  */
+/** @ITKStartGrouping */
 ITKCommon_EXPORT bool
 IsPrime(unsigned short n);
 ITKCommon_EXPORT bool
@@ -745,9 +746,10 @@ ITKCommon_EXPORT bool
 IsPrime(unsigned long n);
 ITKCommon_EXPORT bool
 IsPrime(unsigned long long n);
-
+/** @ITKEndGrouping */
 
 /** Return the greatest factor of the decomposition in prime numbers. */
+/** @ITKStartGrouping */
 ITKCommon_EXPORT unsigned short
 GreatestPrimeFactor(unsigned short n);
 ITKCommon_EXPORT unsigned int
@@ -756,7 +758,7 @@ ITKCommon_EXPORT unsigned long
 GreatestPrimeFactor(unsigned long n);
 ITKCommon_EXPORT unsigned long long
 GreatestPrimeFactor(unsigned long long n);
-
+/** @ITKEndGrouping */
 
 /**  Returns `a * b`. Numeric overflow triggers a compilation error in
  * "constexpr context" and a debug assert failure at run-time.

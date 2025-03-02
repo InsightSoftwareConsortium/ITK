@@ -125,15 +125,17 @@ public:
   using VectorSetPointer = typename VectorSetType::Pointer;
 
   /** Get/Set the source landmarks list, which we will denote \f$ p \f$. */
+  /** @ITKStartGrouping */
   itkGetModifiableObjectMacro(SourceLandmarks, PointSetType); // NOTE: This is used to circumvent the SetTargetLandmarks
   virtual void
   SetSourceLandmarks(PointSetType *);
-
+  /** @ITKEndGrouping */
   /** Get the target landmarks list, which we will denote  \f$ q \f$. */
+  /** @ITKStartGrouping */
   itkGetModifiableObjectMacro(TargetLandmarks, PointSetType); // NOTE: This is used to circumvent the SetTargetLandmarks
   virtual void
   SetTargetLandmarks(PointSetType *);
-
+  /** @ITKEndGrouping */
   /** Get the displacements list, which we will denote \f$ d \f$,
    * where \f$ d_i = q_i - p_i \f$. */
   itkGetModifiableObjectMacro(Displacements, VectorSetType);
@@ -147,13 +149,14 @@ public:
   TransformPoint(const InputPointType & thisPoint) const override;
 
   /** These vector transforms are not implemented for this transform */
+  /** @ITKStartGrouping */
   using Superclass::TransformVector;
   OutputVectorType
   TransformVector(const InputVectorType &) const override
   {
     itkExceptionMacro("TransformVector(const InputVectorType &) is not implemented for KernelTransform");
   }
-
+  /** @ITKEndGrouping */
   OutputVnlVectorType
   TransformVector(const InputVnlVectorType &) const override
   {
@@ -161,6 +164,7 @@ public:
   }
 
   /**  Method to transform a CovariantVector. */
+  /** @ITKStartGrouping */
   using Superclass::TransformCovariantVector;
   OutputCovariantVectorType
   TransformCovariantVector(const InputCovariantVectorType &) const override
@@ -168,7 +172,7 @@ public:
     itkExceptionMacro(
       << "TransformCovariantVector(const InputCovariantVectorType &) is not implemented for KernelTransform");
   }
-
+  /** @ITKEndGrouping */
   /** 'I' (identity) matrix type alias. */
   using IMatrixType = vnl_matrix_fixed<TParametersValueType, VDimension, VDimension>;
 
@@ -228,9 +232,10 @@ public:
    * of 0.001 to 0.1. The approximating spline formulation is based on
    * \cite sprengel1996.
    */
+  /** @ITKStartGrouping */
   itkSetClampMacro(Stiffness, double, 0.0, NumericTraits<double>::max());
   itkGetConstMacro(Stiffness, double);
-
+  /** @ITKEndGrouping */
 protected:
   KernelTransform();
   ~KernelTransform() override = default;

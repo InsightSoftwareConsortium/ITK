@@ -130,9 +130,10 @@ public:
 
 protected:
   /** Default constructor */
+  /** @ITKStartGrouping */
   MultiGradientOptimizerv4Template();
   ~MultiGradientOptimizerv4Template() override = default;
-
+  /** @ITKEndGrouping */
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

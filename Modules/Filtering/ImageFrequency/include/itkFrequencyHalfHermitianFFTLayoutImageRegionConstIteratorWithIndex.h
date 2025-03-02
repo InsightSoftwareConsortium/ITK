@@ -247,8 +247,10 @@ public:
    * (Odd Size) LargestPositiveFrequencyIndex = originIndex + (N + 1) / 2
    */
   itkGetConstReferenceMacro(LargestPositiveFrequencyIndex, IndexType);
+
   /** Default to first index of the largest possible Region. */
   itkGetConstReferenceMacro(MinIndex, IndexType);
+
   /** Default to UpperIndex of the largest possible Region. */
   itkGetConstReferenceMacro(MaxIndex, IndexType);
 
@@ -268,6 +270,7 @@ public:
    * To compute the right frequency spacing and the original size,
    * this information has to be provided.
    */
+  /** @ITKStartGrouping */
   void
   SetActualXDimensionIsOdd(bool value)
   {
@@ -279,7 +282,7 @@ public:
   }
   itkGetMacro(ActualXDimensionIsOdd, bool);
   itkBooleanMacro(ActualXDimensionIsOdd);
-
+  /** @ITKEndGrouping */
 private:
   /** Calculate Nyquist frequency index (m_LargestPositiveFrequencyIndex), Min/Max indices from LargestPossibleRegion.
    * Also sets FrequencySpacing and FrequencyOrigin.

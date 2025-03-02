@@ -109,9 +109,10 @@ public:
   using RadiusValueType = typename RadiusType::SizeValueType;
 
   /** Set/Get the stencil radius. */
+  /** @ITKStartGrouping */
   itkSetMacro(StencilRadius, RadiusValueType);
   itkGetConstMacro(StencilRadius, RadiusValueType);
-
+  /** @ITKEndGrouping */
   itkConceptMacro(UnsignedLongConvertibleToOutputCheck,
                   (Concept::Convertible<unsigned long, typename TOutputImage::PixelType>));
   itkConceptMacro(OutputLessThanComparableCheck, (Concept::LessThanComparable<typename TOutputImage::PixelType>));

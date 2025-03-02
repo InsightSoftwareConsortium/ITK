@@ -110,18 +110,20 @@ public:
    * Set/Get the learning rate to apply. It is overridden by
    *  automatic learning rate estimation if enabled. See main documentation.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(LearningRate, TInternalComputationValueType);
   itkGetConstReferenceMacro(LearningRate, TInternalComputationValueType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the maximum step size, in physical space units.
    *
    *  Only relevant when m_ScalesEstimator is set by user,
    *  and automatic learning rate estimation is enabled.
    *  See main documentation.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(MaximumStepSizeInPhysicalUnits, TInternalComputationValueType);
   itkGetConstReferenceMacro(MaximumStepSizeInPhysicalUnits, TInternalComputationValueType);
-
+  /** @ITKEndGrouping */
   /** Option to use ScalesEstimator for learning rate estimation at
    * *each* iteration. The estimation overrides the learning rate
    * set by SetLearningRate(). Default is false.
@@ -129,10 +131,11 @@ public:
    * \sa SetDoEstimateLearningRateOnce()
    * \sa SetScalesEstimator()
    */
+  /** @ITKStartGrouping */
   itkSetMacro(DoEstimateLearningRateAtEachIteration, bool);
   itkGetConstReferenceMacro(DoEstimateLearningRateAtEachIteration, bool);
   itkBooleanMacro(DoEstimateLearningRateAtEachIteration);
-
+  /** @ITKEndGrouping */
   /** Option to use ScalesEstimator for learning rate estimation
    * only *once*, during first iteration. The estimation overrides the
    * learning rate set by SetLearningRate(). Default is true.
@@ -140,10 +143,11 @@ public:
    * \sa SetDoEstimateLearningRateAtEachIteration()
    * \sa SetScalesEstimator()
    */
+  /** @ITKStartGrouping */
   itkSetMacro(DoEstimateLearningRateOnce, bool);
   itkGetConstReferenceMacro(DoEstimateLearningRateOnce, bool);
   itkBooleanMacro(DoEstimateLearningRateOnce);
-
+  /** @ITKEndGrouping */
   /** Minimum convergence value for convergence checking.
    *  The convergence checker calculates convergence value by fitting to
    *  a window of the energy profile. When the convergence value reaches
@@ -181,10 +185,11 @@ public:
    *  parameters, which can be large when working with high-dimensional
    *  transforms such as DisplacementFieldTransform.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(ReturnBestParametersAndValue, bool);
   itkGetConstReferenceMacro(ReturnBestParametersAndValue, bool);
   itkBooleanMacro(ReturnBestParametersAndValue);
-
+  /** @ITKEndGrouping */
   /** Start and run the optimization. */
   void
   StartOptimization(bool doOnlyInitialization = false) override;

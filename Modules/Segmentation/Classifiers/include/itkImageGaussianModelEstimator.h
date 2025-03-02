@@ -120,9 +120,10 @@ public:
   using MembershipFunctionPointer = typename TMembershipFunction::Pointer;
 
   /** Get/Set the training image. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(TrainingImage, TrainingImageType);
   itkGetModifiableObjectMacro(TrainingImage, TrainingImageType);
-
+  /** @ITKEndGrouping */
 protected:
   ImageGaussianModelEstimator() = default;
   ~ImageGaussianModelEstimator() override = default;

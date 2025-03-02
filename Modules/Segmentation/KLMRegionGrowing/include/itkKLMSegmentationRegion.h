@@ -147,8 +147,10 @@ public:
   GetRegionBorderSize() const;
 
   /** Set/Get the mean pixel intensity in the region. */
+  /** @ITKStartGrouping */
   itkSetMacro(MeanRegionIntensity, MeanRegionIntensityType);
   itkGetConstReferenceMacro(MeanRegionIntensity, MeanRegionIntensityType);
+  /** @ITKEndGrouping */
 
   /** Set the region with parameter values
    * defining the region. */

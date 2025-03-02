@@ -159,28 +159,31 @@ public:
    * calculation. Default value is 0.4 which works well for image intensities
    * normalized to a mean of 0 and standard deviation of 1.0.
    * Value is clamped to be always greater than zero. */
+  /** @ITKStartGrouping */
   itkSetClampMacro(MovingImageStandardDeviation,
                    double,
                    NumericTraits<double>::NonpositiveMin(),
                    NumericTraits<double>::max());
   itkGetConstReferenceMacro(MovingImageStandardDeviation, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get the fixed image intensity standard deviation. This defines
    * the kernel bandwidth used in the joint probability distribution
    * calculation. Default value is 0.4 which works well for image intensities
    * normalized to a mean of 0 and standard deviation of 1.0.
    * Value is clamped to be always greater than zero. */
+  /** @ITKStartGrouping */
   itkSetClampMacro(FixedImageStandardDeviation,
                    double,
                    NumericTraits<double>::NonpositiveMin(),
                    NumericTraits<double>::max());
   itkGetConstMacro(FixedImageStandardDeviation, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get the kernel function. This is used to calculate the joint
    * probability distribution. Default is the GaussianKernelFunction. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(KernelFunction, KernelFunctionType);
   itkGetModifiableObjectMacro(KernelFunction, KernelFunctionType);
-
+  /** @ITKEndGrouping */
 
 protected:
   MutualInformationImageToImageMetric();

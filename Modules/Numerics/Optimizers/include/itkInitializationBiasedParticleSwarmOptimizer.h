@@ -101,6 +101,7 @@ public:
    * \f$p_g\f$ - parameters yielding the best function value obtained by all particles
    * \f$x_{init}\f$ - initial parameter values provided by user
    */
+  /** @ITKStartGrouping */
   itkSetMacro(InertiaCoefficient, CoefficientType);
   itkGetMacro(InertiaCoefficient, CoefficientType);
   itkSetMacro(PersonalCoefficient, CoefficientType);
@@ -109,7 +110,7 @@ public:
   itkGetMacro(GlobalCoefficient, CoefficientType);
   itkSetMacro(InitializationCoefficient, CoefficientType);
   itkGetMacro(InitializationCoefficient, CoefficientType);
-
+  /** @ITKEndGrouping */
 protected:
   InitializationBiasedParticleSwarmOptimizer();
   ~InitializationBiasedParticleSwarmOptimizer() override = default;

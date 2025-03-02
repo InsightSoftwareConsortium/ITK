@@ -79,7 +79,7 @@ public:
   /** Multivisitor type. */
   using MultiVisitor = typename CellType::MultiVisitor;
 
-  //** */
+  /** */
   using PointIdIterator = typename CellTraits::PointIdIterator;
   using PointIdConstIterator = typename CellTraits::PointIdConstIterator;
   using PointIdInternalIterator = typename CellTraits::PointIdInternalIterator;
@@ -106,8 +106,10 @@ public:
 
 public:
   /** Object memory management methods. */
+  /** @ITKStartGrouping */
   QuadEdgeMeshLineCell();
   ~QuadEdgeMeshLineCell() override;
+  /** @ITKEndGrouping */
 
   /** Accessors for m_Identifier. */
   void

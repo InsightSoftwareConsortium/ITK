@@ -184,6 +184,7 @@ public:
   }
 
   /** Get index defining the corner of the region. */
+  /** @ITKStartGrouping */
   const IndexType &
   GetIndex() const
   {
@@ -194,7 +195,7 @@ public:
   {
     return m_Index;
   }
-
+  /** @ITKEndGrouping */
   /** Set the size of the region. This plus the index determines the
    * rectangular shape, or extent, of the region. */
   void
@@ -204,6 +205,7 @@ public:
   }
 
   /** Get the size of the region. */
+  /** @ITKStartGrouping */
   const SizeType &
   GetSize() const
   {
@@ -214,9 +216,10 @@ public:
   {
     return m_Size;
   }
-
+  /** @ITKEndGrouping */
   /** Convenience methods to get and set the size of the particular dimension i.
    */
+  /** @ITKStartGrouping */
   void
   SetSize(unsigned int i, SizeValueType sze)
   {
@@ -227,9 +230,10 @@ public:
   {
     return m_Size[i];
   }
-
+  /** @ITKEndGrouping */
   /** Convenience methods to get and set the index of the particular dimension
     i. */
+  /** @ITKStartGrouping */
   void
   SetIndex(unsigned int i, IndexValueType sze)
   {
@@ -240,7 +244,7 @@ public:
   {
     return m_Index[i];
   }
-
+  /** @ITKEndGrouping */
   /** Get index defining the upper corner of the region. */
   IndexType
   GetUpperIndex() const;

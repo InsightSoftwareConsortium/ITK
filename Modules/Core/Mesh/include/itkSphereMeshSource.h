@@ -76,9 +76,10 @@ public:
 
   /** All these parameter setting function are public temporarily to make the
    * test easier */
+  /** @ITKStartGrouping */
   itkSetMacro(ResolutionX, unsigned int);
   itkSetMacro(ResolutionY, unsigned int);
-
+  /** @ITKEndGrouping */
   itkSetMacro(Center, OPointType);
   itkSetMacro(Scale, OPointType);
 

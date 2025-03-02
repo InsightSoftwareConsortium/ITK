@@ -123,6 +123,7 @@ public:
    * algorithms such as blob detection. The scaling results in the
    * value of the derivatives being independent of the size of an
    * object. */
+  /** @ITKStartGrouping */
   void
   SetNormalizeAcrossScale(bool flag)
   {
@@ -134,10 +135,11 @@ public:
     return m_NormalizeAcrossScale;
   }
   itkBooleanMacro(NormalizeAcrossScale);
-
+  /** @ITKEndGrouping */
   /** Set/Get the variance of the Gaussian kernel.
    *
    */
+  /** @ITKStartGrouping */
   void
   SetVariance(const double variance)
   {
@@ -148,8 +150,9 @@ public:
   {
     return m_Variance;
   }
-
+  /** @ITKEndGrouping */
   /** Set/Get the spacing for the direction of this kernel. */
+  /** @ITKStartGrouping */
   void
   SetSpacing(const double spacing)
   {
@@ -160,7 +163,7 @@ public:
   {
     return m_Spacing;
   }
-
+  /** @ITKEndGrouping */
   /** Set/Get the desired maximum error of the gaussian approximation.  Maximum
    * error is the difference between the area under the discrete Gaussian curve
    * and the area under the continuous Gaussian. Maximum error affects the
@@ -183,14 +186,16 @@ public:
    *  large variances will yield very large kernel sizes.  This value can be
    *  used to truncate a kernel in such instances.  A warning will be given on
    *  truncation of the kernel. */
+  /** @ITKStartGrouping */
   void
   SetMaximumKernelWidth(unsigned int n)
   {
     m_MaximumKernelWidth = n;
   }
   itkGetConstMacro(MaximumKernelWidth, unsigned int);
-
+  /** @ITKEndGrouping */
   /** Sets/Get the order of the derivative. */
+  /** @ITKStartGrouping */
   void
   SetOrder(const unsigned int order)
   {
@@ -201,7 +206,7 @@ public:
   {
     return m_Order;
   }
-
+  /** @ITKEndGrouping */
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

@@ -85,9 +85,10 @@ public:
    * a value that may not be the one corresponding to the current parameters. For
    * GUI update purposes, this method is a good option.
    * \note The metric value is cached in the base class, retrieved via GetValue(). */
+  /** @ITKStartGrouping */
   itkGetConstReferenceMacro(CachedDerivative, DerivativeType);
   itkGetConstReferenceMacro(CachedCurrentPosition, ParametersType);
-
+  /** @ITKEndGrouping */
   /** Get the reason for termination */
   StopConditionReturnStringType
   GetStopConditionDescription() const override = 0;

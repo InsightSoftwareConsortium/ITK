@@ -103,9 +103,10 @@ public:
   /** Set/get the threshold value used to determine whether a
    * frequency of the Fourier transform of the blurring kernel is
    * considered to be zero. Default value is 1.0e-4. */
+  /** @ITKStartGrouping */
   itkSetMacro(KernelZeroMagnitudeThreshold, double);
   itkGetConstMacro(KernelZeroMagnitudeThreshold, double);
-
+  /** @ITKEndGrouping */
 protected:
   InverseDeconvolutionImageFilter();
   ~InverseDeconvolutionImageFilter() override = default;
@@ -152,6 +153,7 @@ public:
 
   /** Set/get the threshold value below which complex magnitudes are considered
    * to be zero. */
+  /** @ITKStartGrouping */
   void
   SetKernelZeroMagnitudeThreshold(double mu)
   {
@@ -162,7 +164,7 @@ public:
   {
     return m_KernelZeroMagnitudeThreshold;
   }
-
+  /** @ITKEndGrouping */
 private:
   double m_KernelZeroMagnitudeThreshold;
 };

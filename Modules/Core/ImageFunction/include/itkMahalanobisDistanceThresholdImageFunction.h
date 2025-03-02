@@ -137,9 +137,10 @@ public:
   EvaluateDistanceAtIndex(const IndexType & index) const;
 
   /** Get the lower threshold value. */
+  /** @ITKStartGrouping */
   itkGetConstReferenceMacro(Threshold, double);
   itkSetMacro(Threshold, double);
-
+  /** @ITKEndGrouping */
   /** Set the mean.
    * Set this mean value to the membership function. */
   void

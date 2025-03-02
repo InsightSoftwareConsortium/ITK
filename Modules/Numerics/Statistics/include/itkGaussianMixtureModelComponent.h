@@ -57,10 +57,11 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  /**Standard Macros */
+  /** Standard Macros */
+  /** @ITKStartGrouping */
   itkOverrideGetNameOfClassMacro(GaussianMixtureModelComponent);
   itkNewMacro(Self);
-
+  /** @ITKEndGrouping */
   /** Typedefs from the superclass */
   using typename Superclass::MeasurementVectorType;
   using typename Superclass::MeasurementVectorSizeType;

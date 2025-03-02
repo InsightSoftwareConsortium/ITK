@@ -67,13 +67,14 @@ public:
   using Pointer = SmartPointer<Self>;
 
   /** Methods from itk:LightObject. */
+  /** @ITKStartGrouping */
   itkFactorylessNewMacro(Self);
   LightObject::Pointer
   CreateObject() override
   {
     return T::New().GetPointer();
   }
-
+  /** @ITKEndGrouping */
 protected:
   CreateObjectFunction() = default;
   ~CreateObjectFunction() override = default;

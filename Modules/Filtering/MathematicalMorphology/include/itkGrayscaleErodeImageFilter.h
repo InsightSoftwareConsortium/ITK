@@ -124,10 +124,11 @@ public:
   itkGetConstMacro(Boundary, PixelType);
 
   /** Set/Get the backend filter class. */
+  /** @ITKStartGrouping */
   void
   SetAlgorithm(AlgorithmEnum algo);
   itkGetConstMacro(Algorithm, AlgorithmEnum);
-
+  /** @ITKEndGrouping */
   /** GrayscaleErodeImageFilter need to set its internal filters as modified */
   void
   Modified() const override;

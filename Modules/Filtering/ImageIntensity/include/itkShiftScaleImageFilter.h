@@ -82,18 +82,21 @@ public:
 
   /** Set/Get the amount to Shift each Pixel. The shift is followed by a Scale.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(Shift, RealType);
   itkGetConstMacro(Shift, RealType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the amount to Scale each Pixel. The Scale is applied after the
     Shift. */
+  /** @ITKStartGrouping */
   itkSetMacro(Scale, RealType);
   itkGetConstMacro(Scale, RealType);
-
+  /** @ITKEndGrouping */
   /** Get the number of pixels that underflowed and overflowed. */
+  /** @ITKStartGrouping */
   itkGetConstMacro(UnderflowCount, SizeValueType);
   itkGetConstMacro(OverflowCount, SizeValueType);
-
+  /** @ITKEndGrouping */
   itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<OutputImagePixelType>));
   itkConceptMacro(InputPlusRealTypeCheck, (Concept::AdditiveOperators<InputImagePixelType, RealType, RealType>));
   itkConceptMacro(RealTypeMultiplyOperatorCheck, (Concept::MultiplyOperator<RealType>));

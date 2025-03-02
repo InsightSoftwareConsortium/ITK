@@ -85,6 +85,7 @@ public:
   using OffsetTableType = typename RegionType::OffsetTableType;
   using SizeType = typename ImageType::SizeType;
   using ImageIteratorType = ImageRegionIteratorWithIndex<TImage>;
+
   /** Neighborhood Iterator type alias support */
   using NeighborhoodIteratorType = ConstNeighborhoodIterator<TImage, TBoundaryCondition>;
   using NonConstNeighborhoodIteratorType = NeighborhoodIterator<TImage, TBoundaryCondition>;
@@ -288,7 +289,6 @@ public:
     const Iterator iter(nIterator, m_Region.GetNumberOfPixels());
     return iter;
   }
-
 
   /** returns an iterator that points to the beginning of the container */
   ConstIterator

@@ -42,9 +42,10 @@ public:
   ITK_DISALLOW_COPY_AND_MOVE(QuadrilateralCell);
 
   /** Standard class type aliases. */
+  /** @ITKStartGrouping */
   itkCellCommonTypedefs(QuadrilateralCell);
   itkCellInheritedTypedefs(TCellInterface);
-
+  /** @ITKEndGrouping */
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(QuadrilateralCell);
 
@@ -64,6 +65,7 @@ public:
   static constexpr unsigned int NumberOfDerivatives = 8;
 
   /** Implement the standard CellInterface. */
+  /** @ITKStartGrouping */
   CellGeometryEnum
   GetType() const override
   {
@@ -71,7 +73,7 @@ public:
   }
   void
   MakeCopy(CellAutoPointer &) const override;
-
+  /** @ITKEndGrouping */
   unsigned int
   GetDimension() const override;
 
@@ -128,9 +130,10 @@ public:
   itkCellVisitMacro(CellGeometryEnum::QUADRILATERAL_CELL);
 
   /** Constructor and destructor */
+  /** @ITKStartGrouping */
   QuadrilateralCell() = default;
   ~QuadrilateralCell() override = default;
-
+  /** @ITKEndGrouping */
 protected:
   /** Store the number of points needed for a quadrilateral. */
   std::array<PointIdentifier, NumberOfPoints> m_PointIds{ MakeFilled<std::array<PointIdentifier, NumberOfPoints>>(

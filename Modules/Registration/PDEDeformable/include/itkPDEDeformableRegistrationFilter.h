@@ -153,19 +153,21 @@ public:
    * elastic in nature. If SmoothDisplacementField is on, then the
    * displacement field is smoothed with a Gaussian whose standard
    * deviations are specified with SetStandardDeviations() */
+  /** @ITKStartGrouping */
   itkSetMacro(SmoothDisplacementField, bool);
   itkGetConstMacro(SmoothDisplacementField, bool);
   itkBooleanMacro(SmoothDisplacementField);
-
+  /** @ITKEndGrouping */
   using StandardDeviationsType = FixedArray<double, ImageDimension>;
 
   /** Set the Gaussian smoothing standard deviations for the
    * displacement field. The values are set with respect to pixel
    * coordinates. */
+  /** @ITKStartGrouping */
   itkSetMacro(StandardDeviations, StandardDeviationsType);
   virtual void
   SetStandardDeviations(double value);
-
+  /** @ITKEndGrouping */
   /** Get the Gaussian smoothing standard deviations use for smoothing
    * the displacement field. */
   itkGetConstReferenceMacro(StandardDeviations, StandardDeviationsType);
@@ -175,16 +177,18 @@ public:
    * viscous in nature. If SmoothUpdateField is on, then the
    * update field is smoothed with a Gaussian whose standard
    * deviations are specified with SetUpdateFieldStandardDeviations() */
+  /** @ITKStartGrouping */
   itkSetMacro(SmoothUpdateField, bool);
   itkGetConstMacro(SmoothUpdateField, bool);
   itkBooleanMacro(SmoothUpdateField);
-
+  /** @ITKEndGrouping */
   /** Set the Gaussian smoothing standard deviations for the update
    * field. The values are set with respect to pixel coordinates. */
+  /** @ITKStartGrouping */
   itkSetMacro(UpdateFieldStandardDeviations, StandardDeviationsType);
   virtual void
   SetUpdateFieldStandardDeviations(double value);
-
+  /** @ITKEndGrouping */
   /** Get the Gaussian smoothing standard deviations used for
    * smoothing the update field. */
   itkGetConstReferenceMacro(UpdateFieldStandardDeviations, StandardDeviationsType);
@@ -198,14 +202,16 @@ public:
 
   /** Set/Get the desired maximum error of the Gaussian kernel approximate.
    * \sa GaussianOperator. */
+  /** @ITKStartGrouping */
   itkSetMacro(MaximumError, double);
   itkGetConstMacro(MaximumError, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get the desired limits of the Gaussian kernel width.
    * \sa GaussianOperator. */
+  /** @ITKStartGrouping */
   itkSetMacro(MaximumKernelWidth, unsigned int);
   itkGetConstMacro(MaximumKernelWidth, unsigned int);
-
+  /** @ITKEndGrouping */
 protected:
   PDEDeformableRegistrationFilter();
   ~PDEDeformableRegistrationFilter() override = default;

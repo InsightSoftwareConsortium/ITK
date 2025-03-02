@@ -144,10 +144,11 @@ public:
   using RealThresholdVector = std::vector<RealThresholdType>;
 
   /** The input and output pixel types must support comparison operators. */
+  /** @ITKStartGrouping */
   itkConceptMacro(PixelTypeComparable, (Concept::Comparable<InputPixelType>));
   itkConceptMacro(OutputPixelTypeComparable, (Concept::Comparable<OutputPixelType>));
   itkConceptMacro(OutputPixelTypeOStreamWritable, (Concept::OStreamWritable<OutputPixelType>));
-
+  /** @ITKEndGrouping */
   /** Set the vector of thresholds. */
   void
   SetThresholds(const ThresholdVector & thresholds)
@@ -193,9 +194,10 @@ public:
   }
 
   /** Set the offset which labels have to start from. */
+  /** @ITKStartGrouping */
   itkSetClampMacro(LabelOffset, OutputPixelType, OutputPixelType{}, NumericTraits<OutputPixelType>::max());
   itkGetConstMacro(LabelOffset, OutputPixelType);
-
+  /** @ITKEndGrouping */
 protected:
   ThresholdLabelerImageFilter();
   ~ThresholdLabelerImageFilter() override = default;

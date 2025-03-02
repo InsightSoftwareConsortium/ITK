@@ -113,7 +113,6 @@ operator<<(std::ostream & out, const HistogramToTextureFeaturesFilterEnums::Text
  * Author: Zachary Pincus
  * \ingroup ITKStatistics
  */
-
 template <typename THistogram>
 class ITK_TEMPLATE_EXPORT HistogramToTextureFeaturesFilter : public ProcessObject
 {

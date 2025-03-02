@@ -86,9 +86,10 @@ public:
   using IndexType = Index<Self::SetDimension>;
 
   /** Get/Set the input level set. */
+  /** @ITKStartGrouping */
   itkSetConstObjectMacro(InputLevelSet, LevelSetImageType);
   itkGetConstObjectMacro(InputLevelSet, LevelSetImageType);
-
+  /** @ITKEndGrouping */
   /** Set the value of the level set to be located. Default is 0. */
   itkSetMacro(LevelSetValue, double);
 
@@ -105,15 +106,17 @@ public:
   itkSetMacro(NarrowBanding, bool);
 
   /** Get the narrowbanding flag. */
+  /** @ITKStartGrouping */
   itkGetConstMacro(NarrowBanding, bool);
   itkBooleanMacro(NarrowBanding);
-
+  /** @ITKEndGrouping */
   /** Set/Get the input narrowband. A narrowband is represented as
    * a VectorContainer of LevelSetNodes. */
+  /** @ITKStartGrouping */
   void
   SetInputNarrowBand(NodeContainer * ptr);
   itkGetModifiableObjectMacro(InputNarrowBand, NodeContainer);
-
+  /** @ITKEndGrouping */
   /** Get the container of inside points. The inside points are
    * stored in a VectorContainer of LevelSetNodes. */
   NodeContainerPointer

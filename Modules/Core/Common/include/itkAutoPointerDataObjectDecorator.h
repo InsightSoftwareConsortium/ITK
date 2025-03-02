@@ -84,6 +84,7 @@ public:
   Set(T * val);
 
   /** Get the contained object */
+  /** @ITKStartGrouping */
   virtual T *
   Get()
   {
@@ -94,7 +95,7 @@ public:
   {
     return m_Component.get();
   }
-
+  /** @ITKEndGrouping */
 protected:
   AutoPointerDataObjectDecorator() = default;
   ~AutoPointerDataObjectDecorator() override = default;

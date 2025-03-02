@@ -123,10 +123,11 @@ public:
 
   /** In place operation can be turned on and off. This only has an
    * effect when the input and output image type match. */
+  /** @ITKStartGrouping */
   itkSetMacro(InPlace, bool);
   itkGetMacro(InPlace, bool);
   itkBooleanMacro(InPlace);
-
+  /** @ITKEndGrouping */
   /** Can the filter run in place? To do so, the filter's first input
    * and output must have the same dimension and pixel type. This
    * method can be used in conjunction with the InPlace ivar to

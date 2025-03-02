@@ -111,6 +111,7 @@ public:
   }
 
   /** Insert a new step into the chaincode at a specified position */
+  /** @ITKStartGrouping */
   inline void
   InsertStep(InputType position, int encodedStep)
   {
@@ -124,8 +125,10 @@ public:
     m_Chain2D.insert(m_Chain2D.begin() + position, EncodeOffset(step));
     this->Modified();
   }
+  /** @ITKEndGrouping */
 
   /** Change the direction of a step in the chaincode */
+  /** @ITKStartGrouping */
   inline void
   ChangeStep(InputType position, int encodedStep)
   {
@@ -139,6 +142,7 @@ public:
     m_Chain2D[position] = EncodeOffset(step);
     this->Modified();
   }
+  /** @ITKEndGrouping */
 
   /** Remove all steps from the chain code */
   void

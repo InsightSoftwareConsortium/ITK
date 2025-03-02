@@ -97,9 +97,10 @@ public:
   /** Set/Get the propagation image. By default, if no PropagationImage has
   been set, it casts the input image and uses it in the term contribution
   calculation. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(PropagationImage, PropagationImageType);
   itkGetModifiableObjectMacro(PropagationImage, PropagationImageType);
-
+  /** @ITKEndGrouping */
   /** \todo to be documented. */
   void
   Update() override
@@ -135,10 +136,12 @@ protected:
 
   /** Returns the term contribution for a given location iP, i.e.
    *  \f$ \omega_i( p ) \f$. */
+  /** @ITKStartGrouping */
   LevelSetOutputRealType
   Value(const LevelSetInputIndexType & iP) override;
   LevelSetOutputRealType
   Value(const LevelSetInputIndexType & iP, const LevelSetDataType & iData) override;
+  /** @ITKEndGrouping */
 };
 
 } // namespace itk

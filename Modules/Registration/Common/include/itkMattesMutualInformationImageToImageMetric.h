@@ -176,8 +176,10 @@ public:
    * windowing with a cubic-BSpline kernel. Note that even if the metric
    * is used on binary images, the number of bins should at least be
    * equal to five. */
+  /** @ITKStartGrouping */
   itkSetClampMacro(NumberOfHistogramBins, SizeValueType, 5, NumericTraits<SizeValueType>::max());
   itkGetConstReferenceMacro(NumberOfHistogramBins, SizeValueType);
+  /** @ITKEndGrouping */
 
   /** This variable selects the method to be used for computing the Metric
    * derivatives with respect to the Transform parameters. Two modes of
@@ -203,9 +205,11 @@ public:
    * the PDF bins. This is an array of floating point values with size equals to (number of
    * histogram bins)^2. This method is well suited for Transforms with a large
    * number of parameters, such as, BSplineTransforms. */
+  /** @ITKStartGrouping */
   itkSetMacro(UseExplicitPDFDerivatives, bool);
   itkGetConstReferenceMacro(UseExplicitPDFDerivatives, bool);
   itkBooleanMacro(UseExplicitPDFDerivatives);
+  /** @ITKEndGrouping */
 
   /** The marginal PDFs are stored as std::vector. */
   using PDFValueType = double; // NOTE:  floating point precision is not as stable.  Double precision proves faster and

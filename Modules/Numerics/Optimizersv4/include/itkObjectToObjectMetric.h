@@ -309,11 +309,12 @@ public:
    * \note Returns true if the virtual domain has not been defined. This
    * allows, for example, use in point set metrics where the virtual domain
    * is implicitly defined by the point sets and transforms. */
+  /** @ITKStartGrouping */
   bool
   IsInsideVirtualDomain(const VirtualPointType & point) const;
   bool
   IsInsideVirtualDomain(const VirtualIndexType & index) const;
-
+  /** @ITKEndGrouping */
   using MetricCategoryType = typename Superclass::MetricCategoryEnum;
 
   /** Get metric category */

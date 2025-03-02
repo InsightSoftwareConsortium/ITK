@@ -85,6 +85,7 @@ public:
   using OutputImageIndexType = typename OutputImageType::IndexType;
 
   /** ImageDimension constants */
+
   /** ImageDimension constants */
   static constexpr unsigned int MarkerImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int MaskImageDimension = TInputImage::ImageDimension;
@@ -101,34 +102,38 @@ public:
    * however this filter implicitly applies a mask to force the
    * constraint to hold. The marker image the
    * image that is dilated by this filter. */
+  /** @ITKStartGrouping */
   itkSetInputMacro(MarkerImage, MarkerImageType);
   itkGetInputMacro(MarkerImage, MarkerImageType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the mask image. The mask image is used to "mask" the
    * dilated marker image. The mask operation is a pixelwise
    * minimum. */
+  /** @ITKStartGrouping */
   itkSetInputMacro(MaskImage, MaskImageType);
   itkGetInputMacro(MaskImage, MaskImageType);
-
+  /** @ITKEndGrouping */
   /**
    * Set/Get whether the connected components are defined strictly by
    * face connectivity or by face+edge+vertex connectivity.  Default is
    * FullyConnectedOff.  For objects that are 1 pixel wide, use
    * FullyConnectedOn.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(FullyConnected, bool);
   itkGetConstReferenceMacro(FullyConnected, bool);
   itkBooleanMacro(FullyConnected);
-
+  /** @ITKEndGrouping */
   /**
    * Perform a padding of the image internally to increase the performance
    * of the filter. UseInternalCopy can be set to false to reduce the memory
    * usage.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(UseInternalCopy, bool);
   itkGetConstReferenceMacro(UseInternalCopy, bool);
   itkBooleanMacro(UseInternalCopy);
-
+  /** @ITKEndGrouping */
 protected:
   ReconstructionImageFilter();
   ~ReconstructionImageFilter() override = default;

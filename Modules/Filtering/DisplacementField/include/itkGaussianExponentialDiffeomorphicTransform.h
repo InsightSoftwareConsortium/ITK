@@ -105,15 +105,17 @@ public:
   /**
    * Set/Get Gaussian smoothing parameter for the smoothed velocity field.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(GaussianSmoothingVarianceForTheConstantVelocityField, ScalarType);
   itkGetConstMacro(GaussianSmoothingVarianceForTheConstantVelocityField, ScalarType);
-
+  /** @ITKEndGrouping */
   /**
    * Set/Get Gaussian smoothing parameter for the smoothed update field.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(GaussianSmoothingVarianceForTheUpdateField, ScalarType);
   itkGetConstMacro(GaussianSmoothingVarianceForTheUpdateField, ScalarType);
-
+  /** @ITKEndGrouping */
 protected:
   GaussianExponentialDiffeomorphicTransform();
   ~GaussianExponentialDiffeomorphicTransform() override = default;
