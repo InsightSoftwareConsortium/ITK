@@ -256,9 +256,10 @@ doOneDimensionErodeFirstPass(TInIter &          inputIterator,
   // restructure equation to reduce numerical error
   //  const RealType magnitude = (magnitudeSign * iscale * iscale)/(2.0 *
   // sigma);
-  const RealType  magnitude = (magnitudeSign * iscale * iscale) / (2.0);
-  LineBufferType  lineBuf(lineLength, 0.0);
-  LabelBufferType labBuf(lineLength);
+  const RealType                    magnitude = (magnitudeSign * iscale * iscale) / (2.0);
+  const typename TInIter::PixelType initPixelValue = 0.0;
+  LineBufferType                    lineBuf(lineLength, 0.0);
+  LabelBufferType                   labBuf(lineLength, 0.0);
 
   inputIterator.SetDirection(direction);
   outputIterator.SetDirection(direction);
@@ -393,11 +394,13 @@ doOneDimensionDilateFirstPass(TInIter &          inputIterator,
   // restructure equation to reduce numerical error
   // const RealType magnitude = (magnitudeSign * iscale * iscale)/(2.0 *
   // sigma);
-  const RealType  magnitude = (magnitudeSign * iscale * iscale) / (2.0);
-  LineBufferType  lineBuf(lineLength);
-  LabelBufferType labBuf(lineLength);
-  LineBufferType  tmpLineBuf(lineLength);
-  LabelBufferType newLabBuf(lineLength);
+  const RealType                    magnitude = (magnitudeSign * iscale * iscale) / (2.0);
+  const RealType                    initRealValue = 0.0;
+  const typename TInIter::PixelType initPixelValue = 0.0;
+  LineBufferType                    lineBuf(lineLength, initRealValue);
+  LabelBufferType                   labBuf(lineLength, initPixelValue);
+  LineBufferType                    tmpLineBuf(lineLength, initRealValue);
+  LabelBufferType                   newLabBuf(lineLength, initPixelValue);
 
   inputIterator.SetDirection(direction);
   outputIterator.SetDirection(direction);
@@ -476,8 +479,8 @@ doOneDimensionErode(TInIter &          inputIterator,
     iscale = imageScale;
   }
   const RealType  magnitude = (magnitudeSign * iscale * iscale) / (2.0 * sigma);
-  LineBufferType  lineBuf(lineLength);
-  LabelBufferType labBuf(lineLength);
+  LineBufferType  lineBuf(lineLength, 0.0);
+  LabelBufferType labBuf(lineLength, 0.0);
 
   inputIterator.SetDirection(direction);
   outputDistIterator.SetDirection(direction);
@@ -618,11 +621,13 @@ doOneDimensionDilate(TInIter &          inputIterator,
   // restructure equation to reduce numerical error
   const RealType magnitude = (magnitudeSign * iscale * iscale) / (2.0 * sigma);
   //  const RealType magnitude = (magnitudeSign * iscale * iscale)/(2.0 );
-  LineBufferType  lineBuf(lineLength);
-  LabelBufferType labBuf(lineLength);
-  LineBufferType  tmpLineBuf(lineLength);
-  LabelBufferType newLabBuf(lineLength);
-  LabelBufferType tmpLabBuf(lineLength);
+  const RealType                    initRealValue = 0.0;
+  const typename TInIter::PixelType initPixelValue = 0.0;
+  LineBufferType                    lineBuf(lineLength, initRealValue);
+  LabelBufferType                   labBuf(lineLength, initPixelValue);
+  LineBufferType                    tmpLineBuf(lineLength, initRealValue);
+  LabelBufferType                   newLabBuf(lineLength, initPixelValue);
+  LabelBufferType                   tmpLabBuf(lineLength, initPixelValue);
 
   inputIterator.SetDirection(direction);
   inputDistIterator.SetDirection(direction);
