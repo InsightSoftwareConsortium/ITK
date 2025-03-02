@@ -183,6 +183,7 @@ private:
   /// \endcond
 
   /** Unary functor just for static_cast operator */
+  /** @ITKStartGrouping */
   template <typename TInputType, typename TOutputType>
   struct StaticCast
   {
@@ -192,7 +193,7 @@ private:
       return static_cast<TOutputType>(i);
     }
   };
-
+  /**@ITKEndGrouping*/
 
   /** Function to dispatch to std::copy or std::transform. */
   template <typename TType>

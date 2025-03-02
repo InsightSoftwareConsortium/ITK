@@ -117,13 +117,14 @@ public:
   static constexpr bool IsComplex = NumericTraits<ValueType>::IsComplex;
 
   /** Set the length of the input array and fill it with zeros. */
+  /** @ITKStartGrouping */
   static void
   SetLength(Array<T> & m, const unsigned int s)
   {
     m.SetSize(s);
     m.Fill(T{});
   }
-
+  /**@ITKEndGrouping*/
   /** Get the length of the input array. */
   static size_t
   GetLength(const Array<T> & m)

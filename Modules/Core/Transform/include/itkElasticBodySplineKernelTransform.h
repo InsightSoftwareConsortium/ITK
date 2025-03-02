@@ -107,10 +107,11 @@ protected:
   /** alpha,  Alpha is related to Poisson's Ratio (\f$\nu\f$) as
    * \f$ \alpha = 12 ( 1 - \nu ) - 1\f$
    */
+  /** @ITKStartGrouping */
   TParametersValueType m_Alpha{};
+  /**@ITKEndGrouping*/
 };
 } // namespace itk
-
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkElasticBodySplineKernelTransform.hxx"
 #endif

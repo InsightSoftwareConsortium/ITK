@@ -95,6 +95,7 @@ public:
    * for the imported image. This will serve as the LargestPossibleRegion,
    * the BufferedRegion, and the RequestedRegion.
    * \sa ImageRegion */
+  /** @ITKStartGrouping */
   void
   SetRegion(const RegionType & region)
   {
@@ -104,7 +105,7 @@ public:
       this->Modified();
     }
   }
-
+  /**@ITKEndGrouping*/
   /** Get the region object that defines the size and starting index
    * for the imported image. This will serve as the LargestPossibleRegion,
    * the BufferedRegion, and the RequestedRegion.
@@ -117,16 +118,18 @@ public:
 
   /** Set the spacing (size of a pixel) of the image.
    * \sa GetSpacing() */
+  /** @ITKStartGrouping */
   itkSetMacro(Spacing, SpacingType);
   itkGetConstReferenceMacro(Spacing, SpacingType);
   itkSetVectorMacro(Spacing, const float, VImageDimension);
-
+  /**@ITKEndGrouping*/
   /** Set the origin of the image.
    * \sa GetOrigin() */
+  /** @ITKStartGrouping */
   itkSetMacro(Origin, OriginType);
   itkGetConstReferenceMacro(Origin, OriginType);
   itkSetVectorMacro(Origin, const float, VImageDimension);
-
+  /**@ITKEndGrouping*/
   using DirectionType = Matrix<SpacePrecisionType, VImageDimension, VImageDimension>;
 
   /** Set the direction of the image

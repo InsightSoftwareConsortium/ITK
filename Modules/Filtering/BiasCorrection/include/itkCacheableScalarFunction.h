@@ -117,6 +117,7 @@ public:
    * NOTE: Since the index calculation needs conversion from double
    * to int, truncation happens. As a result, the return values from
    * Evaluate(x) and GetCachedValue(x) may not be same for the same x. */
+  /** @ITKStartGrouping */
   inline MeasureType
   GetCachedValue(MeasureType x)
   {
@@ -128,7 +129,7 @@ public:
     auto index = static_cast<int>((x - m_CacheLowerBound) / m_TableInc);
     return m_CacheTable[index];
   }
-
+  /**@ITKEndGrouping*/
 protected:
   /** Create the internal cache table and fill it with
    * pre-evaluated values. */

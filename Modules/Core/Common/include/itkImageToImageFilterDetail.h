@@ -43,6 +43,7 @@ namespace itk
  */
 namespace ImageToImageFilterDetail
 {
+
 /** \struct  DispatchBase
  * \brief Base class for a class used to dispatch to dimension specific implementations.
  *

@@ -90,9 +90,10 @@ public:
 
   /** Set the signed distance image filter.  Defaults to a
    * SignedMaurerDistanceMapImageFilter. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(SignedDistanceTransformFilter, SignedDistanceTransformFilterType);
   itkGetModifiableObjectMacro(SignedDistanceTransformFilter, SignedDistanceTransformFilterType);
-
+  /**@ITKEndGrouping*/
   /**
    * Input is a binary image m_InputImage
    * Output is a WhitakerSparseLevelSetImagePointer  */
@@ -265,10 +266,11 @@ private:
   FindActiveLayer();
 
   /** Fill layers adjacent to the zero level set (i.e. layer -1 and +1 )*/
+  /** @ITKStartGrouping */
   void
   FindPlusOneMinusOneLayer();
+  /**@ITKEndGrouping*/
 };
-
 ////////////////////////////////////////////////////////////////////////////////
 /** \brief Partial template specialization for ShiSparseLevelSetImage
  */

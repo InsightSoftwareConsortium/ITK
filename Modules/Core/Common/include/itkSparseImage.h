@@ -119,6 +119,7 @@ public:
 
   /** This function should be used to allocate memory for a variable at the
       desired pixel location. */
+  /** @ITKStartGrouping */
   NodeType *
   AddNode(const IndexType & index)
   {
@@ -128,7 +129,7 @@ public:
     this->SetPixel(index, node);
     return node;
   }
-
+  /**@ITKEndGrouping*/
   /** This function returns the allocated node list which can be used to
       iterate through the valid nodes. */
   NodeListType *

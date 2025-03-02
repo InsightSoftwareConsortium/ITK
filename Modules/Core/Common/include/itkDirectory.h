@@ -48,6 +48,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
+  /** @ITKStartGrouping */
   static Pointer
   New()
   {
@@ -55,7 +56,7 @@ public:
     n->UnRegister();
     return n;
   }
-
+  /**@ITKEndGrouping*/
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(Directory);
 

@@ -110,6 +110,7 @@ public:
   itkOverrideGetNameOfClassMacro(VectorIndexSelectionCastImageFilter);
 
   /** Get/Set methods for the index */
+  /** @ITKStartGrouping */
   void
   SetIndex(unsigned int i)
   {
@@ -119,7 +120,7 @@ public:
       this->Modified();
     }
   }
-
+  /**@ITKEndGrouping*/
   unsigned int
   GetIndex() const
   {

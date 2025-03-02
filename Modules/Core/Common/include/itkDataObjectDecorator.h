@@ -90,11 +90,12 @@ public:
   Set(const ComponentType * val);
 
   /** Get the contained object */
+  /** @ITKStartGrouping */
   virtual const ComponentType *
   Get() const;
   virtual ComponentType *
   GetModifiable();
-
+  /**@ITKEndGrouping*/
   /** The most recent MTime of this object and the held component */
   ModifiedTimeType
   GetMTime() const override;
@@ -121,6 +122,7 @@ public:
    * To this method by default a raw pointer must be used or explicit
    * template parameter must be provided.
    */
+  /** @ITKStartGrouping */
   template <typename TOther>
   void
   Graft(const DataObjectDecorator<TOther> * decorator)
@@ -132,7 +134,7 @@ public:
     }
     this->Set(component);
   }
-
+  /**@ITKEndGrouping*/
 protected:
   DataObjectDecorator() = default;
   ~DataObjectDecorator() override = default;

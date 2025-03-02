@@ -208,6 +208,7 @@ public:
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
 
   /** Assignment operator */
+  /** @ITKStartGrouping */
   NthElementPixelAccessor &
   operator=(const NthElementPixelAccessor & accessor)
   {
@@ -215,7 +216,7 @@ public:
     this->SetVectorLength(accessor.GetVectorLength());
     return *this;
   }
-
+  /**@ITKEndGrouping*/
 protected:
   using Superclass = DefaultVectorPixelAccessor<TPixelType>;
 

@@ -50,6 +50,7 @@ public:
   using Superclass = InPlaceImageFilter<TInputImage, TOutputImage>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
@@ -84,6 +85,7 @@ public:
    * This method requires an operator!=() be defined on the functor
    * (or the compiler's default implementation of operator!=() being
    * appropriate). */
+  /** @ITKStartGrouping */
   void
   SetFunctor(FunctorType & functor)
   {
@@ -93,7 +95,7 @@ public:
       this->Modified();
     }
   }
-
+  /**@ITKEndGrouping*/
   /** ImageDimension constants */
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;

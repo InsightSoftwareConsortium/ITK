@@ -67,9 +67,10 @@ public:
   using ConstPointer = itk::SmartPointer<const Self>;
 
   /** Standard macros. */
+  /** @ITKStartGrouping */
   itkOverrideGetNameOfClassMacro(ExampleWeightFunction);
   itkNewMacro(Self);
-
+  /**@ITKEndGrouping*/
   /** Input type */
   using InputType = MeasurementVectorType;
 

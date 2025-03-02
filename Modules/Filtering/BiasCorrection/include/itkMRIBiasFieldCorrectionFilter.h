@@ -114,6 +114,7 @@ public:
 
   /** Sets the sampling factors of the energy function in each direction.
    *   Default is 1 in each dimension */
+  /** @ITKStartGrouping */
   void
   SetSamplingFactors(const SamplingFactorType factor)
   {
@@ -122,7 +123,7 @@ public:
       m_SamplingFactor[i] = factor[i];
     }
   }
-
+  /**@ITKEndGrouping*/
   /** Get an energy value for the intensity difference between a pixel
    * and its corresponding bias. */
   double
@@ -293,16 +294,18 @@ public:
   /** Set/Get the input mask image pointer.
    * Without this mask, this filter calculates the energy value using
    * all pixels in the input image. */
+  /** @ITKStartGrouping */
   void
   SetInputMask(ImageMaskType * inputMask);
   itkGetModifiableObjectMacro(InputMask, ImageMaskType);
-
+  /**@ITKEndGrouping*/
   /** Get/Set the out mask image pointer.
    * Without this mask, this filter corrects every pixel in the input image. */
+  /** @ITKStartGrouping */
   void
   SetOutputMask(ImageMaskType * outputMask);
   itkGetModifiableObjectMacro(OutputMask, ImageMaskType);
-
+  /**@ITKEndGrouping*/
 #if defined(ITK_LEGACY_REMOVE)
   /** If this value is true, the filter assumes the bias field is
    * multiplicative and internally uses log intensity values for
@@ -317,10 +320,11 @@ public:
   /** Set/Get the multiplicative nature of the filter's bias field: if
    * true, the filter assumes the bias field is multiplicative and
    * internally uses log intensity values for every calculation. */
+  /** @ITKStartGrouping */
   itkSetMacro(BiasFieldMultiplicative, bool);
   itkGetConstMacro(BiasFieldMultiplicative, bool);
   itkBooleanMacro(BiasFieldMultiplicative);
-
+  /**@ITKEndGrouping*/
 #if defined(ITK_LEGACY_REMOVE)
   /** If the bias field is multiplicative, it returns true. */
   bool
@@ -334,19 +338,21 @@ public:
    * intensity correction will be applied before bias field
    * correction (default value is true for 3D input images, and false for 2D
    * input images). */
+  /** @ITKStartGrouping */
   itkSetMacro(UsingInterSliceIntensityCorrection, bool);
   itkGetConstMacro(UsingInterSliceIntensityCorrection, bool);
   itkBooleanMacro(UsingInterSliceIntensityCorrection);
-
+  /**@ITKEndGrouping*/
   /** Set/Get the slab correction flag. If the flag is true, inter-slice
    * intensity correction and bias field correction will be performed slab by
    * slab which is identified by the slab identifier (default value is false).
    * NOTE: if users want to slab identification, all the input image data
    * should be buffered. */
+  /** @ITKStartGrouping */
   itkSetMacro(UsingSlabIdentification, bool);
   itkGetConstMacro(UsingSlabIdentification, bool);
   itkBooleanMacro(UsingSlabIdentification);
-
+  /**@ITKEndGrouping*/
   itkSetMacro(SlabBackgroundMinimumThreshold, InputImagePixelType);
   itkGetConstReferenceMacro(SlabBackgroundMinimumThreshold, InputImagePixelType);
 
@@ -361,34 +367,39 @@ public:
    * the inter-slice intensity correction without actual bias correction,
    * disabling bias field correction would be an useful option (default value
    * is true). */
+  /** @ITKStartGrouping */
   itkSetMacro(UsingBiasFieldCorrection, bool);
   itkGetConstMacro(UsingBiasFieldCorrection, bool);
   itkBooleanMacro(UsingBiasFieldCorrection);
-
+  /**@ITKEndGrouping*/
   /** Set/Get the flag. If the flag is true, the output image (corrected image)
    * will be created when this filter is updated (default value is true). */
+  /** @ITKStartGrouping */
   itkSetMacro(GeneratingOutput, bool);
   itkGetConstMacro(GeneratingOutput, bool);
   itkBooleanMacro(GeneratingOutput);
-
+  /**@ITKEndGrouping*/
   /** Sets the direction of slicing.
    * 0 - x axis, 1 - y axis, 2 - z axis */
+  /** @ITKStartGrouping */
   itkSetMacro(SlicingDirection, int);
   itkGetConstMacro(SlicingDirection, int);
-
+  /**@ITKEndGrouping*/
   /** Set/Get the degree of the bias field estimate. */
+  /** @ITKStartGrouping */
   itkSetMacro(BiasFieldDegree, int);
   itkGetConstMacro(BiasFieldDegree, int);
-
+  /**@ITKEndGrouping*/
   /** Sets the initial 3D bias field estimate coefficients that will be
    * used for correcting each slab. */
+  /** @ITKStartGrouping */
   void
   SetInitialBiasFieldCoefficients(const BiasFieldType::CoefficientArrayType & coefficients)
   {
     this->Modified();
     m_BiasFieldCoefficients = coefficients;
   }
-
+  /**@ITKEndGrouping*/
   /** Get the result bias field coefficients after the bias field
    * estimation (does not apply to the inter-slice intensity
    * correction). */
@@ -406,22 +417,26 @@ public:
 
   /** Set/Get the maximum iteration termination condition parameter for the
    * bias field correction. */
+  /** @ITKStartGrouping */
   itkSetMacro(VolumeCorrectionMaximumIteration, int);
   itkGetConstMacro(VolumeCorrectionMaximumIteration, int);
-
+  /**@ITKEndGrouping*/
   /** Set/Get the maximum iteration termination condition parameter for the
    * inter-slice intensity inhomogeneity correction. */
+  /** @ITKStartGrouping */
   itkSetMacro(InterSliceCorrectionMaximumIteration, int);
   itkGetConstMacro(InterSliceCorrectionMaximumIteration, int);
-
+  /**@ITKEndGrouping*/
   /** Set/Get the initial search radius. */
+  /** @ITKStartGrouping */
   itkSetMacro(OptimizerInitialRadius, double);
   itkGetConstMacro(OptimizerInitialRadius, double);
-
+  /**@ITKEndGrouping*/
   /** Set/Get the search radius grow factor. */
+  /** @ITKStartGrouping */
   itkSetMacro(OptimizerGrowthFactor, double);
   itkGetConstMacro(OptimizerGrowthFactor, double);
-
+  /**@ITKEndGrouping*/
   /** Set/Get the search radius shrink factor. */
 
   itkSetMacro(OptimizerShrinkFactor, double);

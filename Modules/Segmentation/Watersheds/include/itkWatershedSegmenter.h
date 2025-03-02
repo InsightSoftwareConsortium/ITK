@@ -107,12 +107,13 @@ public:
 
   /** Methods to implement smart pointers and work with the itk object factory
    */
+  /** @ITKStartGrouping */
   using Superclass = ProcessObject;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
   itkNewMacro(Self);
   itkOverrideGetNameOfClassMacro(Segmenter);
-
+  /**@ITKEndGrouping*/
   /** Typedefs necessary on microsoft VC++ to avoid internal compiler errors */
   using InputImageTypePointer = typename InputImageType::Pointer;
   using OutputImageTypePointer = typename OutputImageType::Pointer;
@@ -190,6 +191,7 @@ public:
    * complete volume being streamed.  The member variables controlled by
    * this method will not be modified by the Itk pipeline and are necessary
    * for analysis of boundaries.   */
+  /** @ITKStartGrouping */
   void
   SetLargestPossibleRegion(ImageRegionType reg)
   {
@@ -200,7 +202,7 @@ public:
     m_LargestPossibleRegion = reg;
     this->Modified();
   }
-
+  /**@ITKEndGrouping*/
   ImageRegionType
   GetLargestPossibleRegion() const
   {
@@ -219,9 +221,10 @@ public:
 
   /** Gets/Sets the initial label (IdentifierType integer value) used
    * by the labeling algorithm.  Only necessary for streaming applications. */
+  /** @ITKStartGrouping */
   itkSetMacro(CurrentLabel, IdentifierType);
   itkGetConstMacro(CurrentLabel, IdentifierType);
-
+  /**@ITKEndGrouping*/
   /** Gets/Sets the input threshold. Threshold is specified as a percentage
    * (0.0 - 1.0) of the maximum height of the image. This filter thresholds the
    * input image to remove all values below \f$ L = min + T * (max -  min) \f$,
@@ -232,22 +235,25 @@ public:
    * segmentation with fewer segments.  The assumption is that the "shallow"
    * regions that this thresholding eliminates are generally not of
    * interest. */
+  /** @ITKStartGrouping */
   itkSetClampMacro(Threshold, double, 0.0, 1.0);
   itkGetConstMacro(Threshold, double);
-
+  /**@ITKEndGrouping*/
   /** Turns on special labeling of the boundaries for streaming applications.
    * The default value is FALSE, meaning that boundary analysis is turned
    * off.   */
+  /** @ITKStartGrouping */
   itkSetMacro(DoBoundaryAnalysis, bool);
   itkGetConstMacro(DoBoundaryAnalysis, bool);
-
+  /**@ITKEndGrouping*/
   /** Determines whether the algorithm will sort the adjacencies in its
    * SegmentTable before returning.  Default is true.  This is an option only
    * useful for streaming applications where the sorting only needs to be done
    * after all iterations have taken place. */
+  /** @ITKStartGrouping */
   itkGetConstMacro(SortEdgeLists, bool);
   itkSetMacro(SortEdgeLists, bool);
-
+  /**@ITKEndGrouping*/
 protected:
   /** Structure storing information about image flat regions.
    * Flat regions are connected pixels of the same value.  */

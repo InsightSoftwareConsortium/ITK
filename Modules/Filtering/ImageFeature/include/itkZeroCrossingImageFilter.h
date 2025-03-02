@@ -107,13 +107,15 @@ public:
   GenerateInputRequestedRegion() override;
 
   /** Set/Get the label value for zero-crossing pixels. */
+  /** @ITKStartGrouping */
   itkSetMacro(ForegroundValue, OutputImagePixelType);
   itkGetConstMacro(ForegroundValue, OutputImagePixelType);
-
+  /**@ITKEndGrouping*/
   /** Set/Get the label value for non-zero-crossing pixels. */
+  /** @ITKStartGrouping */
   itkSetMacro(BackgroundValue, OutputImagePixelType);
   itkGetConstMacro(BackgroundValue, OutputImagePixelType);
-
+  /**@ITKEndGrouping*/
   itkConceptMacro(OutputEqualityComparableCheck, (Concept::EqualityComparable<OutputImagePixelType>));
   itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<ImageDimension, OutputImageDimension>));
   itkConceptMacro(InputComparableCheck, (Concept::Comparable<InputImagePixelType>));
@@ -143,7 +145,6 @@ protected:
   DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 };
 } // end of namespace itk
-
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkZeroCrossingImageFilter.hxx"
 #endif

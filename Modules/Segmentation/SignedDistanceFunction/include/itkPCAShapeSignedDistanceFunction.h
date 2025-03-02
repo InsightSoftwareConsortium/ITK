@@ -132,10 +132,12 @@ public:
   itkGetConstMacro(NumberOfPrincipalComponents, unsigned int);
 
   /** Set/Get the mean image. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(MeanImage, ImageType);
   itkGetModifiableObjectMacro(MeanImage, ImageType);
-
+  /**@ITKEndGrouping*/
   /** Set/Get the principal component images. */
+  /** @ITKStartGrouping */
   void
   SetPrincipalComponentImages(ImagePointerVector v)
   {
@@ -143,16 +145,19 @@ public:
   }
   //  ImagePointerVector & GetPrincipalComponentImages()
   //    { return m_PrincipalComponentImages; }
+  /**@ITKEndGrouping*/
 
   /** Set/Get the principal component standard deviations. These values corresponds
    * to the square root of the eigenvalues of the principal components. */
+  /** @ITKStartGrouping */
   itkSetMacro(PrincipalComponentStandardDeviations, ParametersType);
   itkGetConstMacro(PrincipalComponentStandardDeviations, ParametersType);
-
+  /**@ITKEndGrouping*/
   /** Set/Get transform. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(Transform, TransformType);
   itkGetModifiableObjectMacro(Transform, TransformType);
-
+  /**@ITKEndGrouping*/
   /** A PCAShape is defined by a set of shape and pose parameters. */
   void
   SetParameters(const ParametersType &) override;

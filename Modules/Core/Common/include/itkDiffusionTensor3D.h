@@ -95,10 +95,11 @@ public:
   DiffusionTensor3D() = default;
 
   /** Constructor with initialization. */
+  /** @ITKStartGrouping */
   DiffusionTensor3D(const Superclass & r);
   DiffusionTensor3D(const ComponentType & r);
   DiffusionTensor3D(const ComponentArrayType r);
-
+  /**@ITKEndGrouping*/
   /** Constructor to enable casting...  */
   template <typename TCoordinateB>
   DiffusionTensor3D(const DiffusionTensor3D<TCoordinateB> & pa)
@@ -116,6 +117,7 @@ public:
   operator=(const ComponentArrayType r);
 
   /** Templated Pass-through assignment for the Array base class. */
+  /** @ITKStartGrouping */
   template <typename TCoordinateB>
   Self &
   operator=(const DiffusionTensor3D<TCoordinateB> & pa)
@@ -127,7 +129,7 @@ public:
     SymmetricSecondRankTensor<TComponent, 3>::operator=(pa);
     return *this;
   }
-
+  /**@ITKEndGrouping*/
   /** Get the trace value.
    *
    * Note that the indices are related to the fact

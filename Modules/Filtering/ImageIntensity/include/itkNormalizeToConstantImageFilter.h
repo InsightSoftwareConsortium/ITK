@@ -93,9 +93,10 @@ public:
   itkOverrideGetNameOfClassMacro(NormalizeToConstantImageFilter);
 
   /** Set/get the normalization constant. */
+  /** @ITKStartGrouping */
   itkSetMacro(Constant, RealType);
   itkGetConstMacro(Constant, RealType);
-
+  /**@ITKEndGrouping*/
   itkConceptMacro(InputHasPixelTraitsCheck, (Concept::HasPixelTraits<InputImagePixelType>));
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputImagePixelType>));
 

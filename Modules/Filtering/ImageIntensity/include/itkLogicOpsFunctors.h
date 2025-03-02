@@ -55,6 +55,7 @@ namespace Functor
  *
  * \ingroup ITKImageIntensity
  */
+
 template <typename TInput1, typename TInput2 = TInput1, typename TOutput = TInput1>
 class ITK_TEMPLATE_EXPORT LogicOpBase
 {
@@ -65,7 +66,6 @@ public:
     m_ForegroundValue = itk::NumericTraits<TOutput>::OneValue();
     m_BackgroundValue = TOutput{};
   }
-
   ~LogicOpBase() = default;
 
   bool

@@ -186,6 +186,7 @@ public:
   using typename Superclass::VirtualPointSetPointer;
 
   /** Set fixed point set*/
+  /** @ITKStartGrouping */
   void
   SetFixedObject(const ObjectType * object) override
   {
@@ -199,8 +200,9 @@ public:
       itkExceptionMacro("Incorrect object type.  Should be a point set.");
     }
   }
-
+  /**@ITKEndGrouping*/
   /** Set moving point set*/
+  /** @ITKStartGrouping */
   void
   SetMovingObject(const ObjectType * object) override
   {
@@ -214,18 +216,20 @@ public:
       itkExceptionMacro("Incorrect object type.  Should be a point set.");
     }
   }
-
+  /**@ITKEndGrouping*/
   /** Get/Set the fixed pointset.  */
+  /** @ITKStartGrouping */
   itkSetConstObjectMacro(FixedPointSet, FixedPointSetType);
   itkGetConstObjectMacro(FixedPointSet, FixedPointSetType);
-
+  /**@ITKEndGrouping*/
   /** Get the fixed transformed point set.  */
   itkGetModifiableObjectMacro(FixedTransformedPointSet, FixedTransformedPointSetType);
 
   /** Get/Set the moving point set.  */
+  /** @ITKStartGrouping */
   itkSetConstObjectMacro(MovingPointSet, MovingPointSetType);
   itkGetConstObjectMacro(MovingPointSet, MovingPointSetType);
-
+  /**@ITKEndGrouping*/
   /** Get the moving transformed point set.  */
   itkGetModifiableObjectMacro(MovingTransformedPointSet, MovingTransformedPointSetType);
 
@@ -307,17 +311,19 @@ public:
    * If this variable is set to false, then the derivative array will be of length
    * = PointDimension * m_FixedPointSet->GetNumberOfPoints().
    */
+  /** @ITKStartGrouping */
   itkSetMacro(StoreDerivativeAsSparseFieldForLocalSupportTransforms, bool);
   itkGetConstMacro(StoreDerivativeAsSparseFieldForLocalSupportTransforms, bool);
   itkBooleanMacro(StoreDerivativeAsSparseFieldForLocalSupportTransforms);
-
+  /**@ITKEndGrouping*/
   /**
    *
    */
+  /** @ITKStartGrouping */
   itkSetMacro(CalculateValueAndDerivativeInTangentSpace, bool);
   itkGetConstMacro(CalculateValueAndDerivativeInTangentSpace, bool);
   itkBooleanMacro(CalculateValueAndDerivativeInTangentSpace);
-
+  /**@ITKEndGrouping*/
 protected:
   PointSetToPointSetMetricWithIndexv4();
   ~PointSetToPointSetMetricWithIndexv4() override = default;
@@ -437,6 +443,7 @@ protected:
    */
   virtual MeasureType
   GetLocalNeighborhoodValueWithIndex(const PointIdentifier &, const PointType &, const PixelType & pixel) const = 0;
+
   /**
    * Function to be defined in the appropriate derived classes.  Calculates
    * the local metric value for a single point.  The \c PixelType may or

@@ -241,9 +241,10 @@ public:
    * This function has been modified to compute the inverse of P(x) instead
    * of Q(x).
    */
+  /** @ITKStartGrouping */
   static double
   InverseCDF(double p);
-
+  /**@ITKEndGrouping*/
   /** Static method to evaluate the inverse cumulative distribution
    * function of a Gaussian.  The parameters of the distribution are
    * passed as a parameter vector. The ordering of the parameters is

@@ -474,6 +474,7 @@ main(int argc, char * argv[])
                                             CoordinateRepType>;
 
   /** Create an setup displacement field generator. */
+  /** @ITKStartGrouping */
   auto dispfieldGenerator = DisplacementFieldGeneratorType::New();
   dispfieldGenerator->UseReferenceImageOn();
   dispfieldGenerator->SetReferenceImage(fixedImage);
@@ -488,7 +489,7 @@ main(int argc, char * argv[])
     std::cerr << " : " << err << std::endl;
     return EXIT_FAILURE;
   }
-
+  /**@ITKEndGrouping*/
   using FieldWriterType = itk::ImageFileWriter<DisplacementFieldImageType>;
   auto fieldWriter = FieldWriterType::New();
 

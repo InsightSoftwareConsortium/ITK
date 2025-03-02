@@ -82,32 +82,37 @@ public:
 
   /** Set/Get the value of the level set to be located. The default value is
    *  0. */
+  /** @ITKStartGrouping */
   itkSetMacro(LevelSetValue, double);
   itkGetConstMacro(LevelSetValue, double);
-
+  /**@ITKEndGrouping*/
   /** Set/Get the narrowbanding flag. By default, narrowbanding is switched
    * off. */
+  /** @ITKStartGrouping */
   itkSetMacro(NarrowBanding, bool);
   itkGetConstMacro(NarrowBanding, bool);
   itkBooleanMacro(NarrowBanding);
-
+  /**@ITKEndGrouping*/
   /** Set/Get the input narrow bandwidth. The default value is 12. */
+  /** @ITKStartGrouping */
   itkSetClampMacro(InputNarrowBandwidth, double, 0.0, NumericTraits<double>::max());
   itkGetConstMacro(InputNarrowBandwidth, double);
-
+  /**@ITKEndGrouping*/
   /** Set/Get the output narrow bandwidth. The default value is 12. */
+  /** @ITKStartGrouping */
   itkSetClampMacro(OutputNarrowBandwidth, double, 0.0, NumericTraits<double>::max());
   itkGetConstMacro(OutputNarrowBandwidth, double);
-
+  /**@ITKEndGrouping*/
   /** Set the bandwidth for both the input and output narrowband,
    * By default, both the input and output are set to 12. */
+  /** @ITKStartGrouping */
   void
   SetNarrowBandwidth(double value)
   {
     this->SetInputNarrowBandwidth(value);
     this->SetOutputNarrowBandwidth(value);
   }
-
+  /**@ITKEndGrouping*/
   /** Set/Get the input narrowband container. */
   void
   SetInputNarrowBand(NodeContainer * ptr);

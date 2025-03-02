@@ -96,13 +96,14 @@ public:
    * \note minimum value for floating pointer types is defined as
    * minimum positive normalize value.
    */
+  /** @ITKStartGrouping */
   static const Self
   max(const Self & a)
   {
     Self b(a.Size(), NumericTraits<T>::max());
     return b;
   }
-
+  /**@ITKEndGrouping*/
   static const Self
   min(const Self & a)
   {
@@ -136,6 +137,7 @@ public:
   static constexpr bool IsComplex = NumericTraits<ValueType>::IsComplex;
 
   /** Resize the input vector to the specified size */
+  /** @ITKStartGrouping */
   static void
   SetLength(std::vector<T> & m, const unsigned int s)
   {
@@ -144,7 +146,7 @@ public:
     m.clear();
     m.resize(s);
   }
-
+  /**@ITKEndGrouping*/
   /** Return the size of the vector. */
   static unsigned int
   GetLength(const std::vector<T> & m)

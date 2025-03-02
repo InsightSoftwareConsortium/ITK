@@ -128,10 +128,11 @@ protected:
 
   /** Returns the term contribution for a given location iP, i.e.
    *  \f$ \omega_i( p ) \f$. */
+  /** @ITKStartGrouping */
   LevelSetOutputRealType
   Value(const LevelSetInputIndexType & iP, const LevelSetDataType & iData) override;
+  /**@ITKEndGrouping*/
 };
-
 } // namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkLevelSetEquationLaplacianTerm.hxx"

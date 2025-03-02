@@ -64,15 +64,17 @@ public:
   itkOverrideGetNameOfClassMacro(DivideOrZeroOutImageFilter);
 
   /** Print internal ivars */
+  /** @ITKStartGrouping */
   void
   PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
     os << indent << "Threshold: " << GetThreshold() << std::endl;
   }
-
+  /**@ITKEndGrouping*/
   /** Set/get the threshold below which pixels in the denominator will
    * be considered zero. */
+  /** @ITKStartGrouping */
   void
   SetThreshold(DenominatorPixelType threshold)
   {
@@ -87,9 +89,10 @@ public:
   {
     return this->GetFunctor().m_Threshold;
   }
-
+  /**@ITKEndGrouping*/
   /** Set/get the constant value returned when the denominator input
    * value is considered zero. */
+  /** @ITKStartGrouping */
   void
   SetConstant(OutputPixelType constant)
   {
@@ -104,7 +107,7 @@ public:
   {
     return this->GetFunctor().m_Constant;
   }
-
+  /**@ITKEndGrouping*/
 protected:
   DivideOrZeroOutImageFilter() = default;
   ~DivideOrZeroOutImageFilter() override = default;

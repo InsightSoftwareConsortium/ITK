@@ -116,6 +116,7 @@ public:
 
   /** operator= is provided to make sure the handle to the image is properly
    * reference counted. */
+  /** @ITKStartGrouping */
   Self &
   operator=(const Self & it)
   {
@@ -136,7 +137,7 @@ public:
     }
     return *this;
   }
-
+  /**@ITKEndGrouping*/
   /** Get the dimension (size) of the index. */
   static unsigned int
   GetIteratorDimension()

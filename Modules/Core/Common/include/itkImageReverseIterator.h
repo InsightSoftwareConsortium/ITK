@@ -115,12 +115,13 @@ public:
 protected:
   /** the construction from a const iterator is declared protected
       in order to enforce const correctness. */
+  /** @ITKStartGrouping */
   ImageReverseIterator(const ImageRegionReverseConstIterator<TImage> & it);
   Self &
   operator=(const ImageRegionReverseConstIterator<TImage> & it);
+  /**@ITKEndGrouping*/
 };
 } // end namespace itk
-
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkImageReverseIterator.hxx"
 #endif

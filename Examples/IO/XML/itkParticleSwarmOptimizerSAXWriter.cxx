@@ -37,7 +37,6 @@ ParticleSwarmOptimizerSAXWriter::CanWriteFile(const char * name)
   }
   return yes;
 }
-
 /**
  * Method for performing XML file generation from the input object.
  */
