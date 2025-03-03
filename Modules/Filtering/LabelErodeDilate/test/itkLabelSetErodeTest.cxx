@@ -20,6 +20,7 @@
 #include "itkImageFileWriter.h"
 
 #include "itkLabelSetErodeImageFilter.h"
+#include "itkTestingMacros.h"
 
 #include "read_info.cxx"
 
@@ -33,15 +34,7 @@ doErode(char * In, char * Out, int radius)
   using ReaderType = typename itk::ImageFileReader<MaskImType>;
   typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(In);
-  try
-  {
-    reader->Update();
-  }
-  catch (itk::ExceptionObject & excp)
-  {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
   // Label dilation
   using FilterType = typename itk::LabelSetErodeImageFilter<MaskImType, MaskImType>;
@@ -53,39 +46,34 @@ doErode(char * In, char * Out, int radius)
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(Out);
-  try
-  {
-    writer->Update();
-  }
-  catch (itk::ExceptionObject & excp)
-  {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
   return EXIT_SUCCESS;
 }
 
-/////////////////////////////////////////////
 
 int
 itkLabelSetErodeTest(int argc, char * argv[])
 {
+
+  if (argc != 4)
+  {
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " inputimage radius outputimage" << std::endl;
+    return EXIT_FAILURE;
+  }
+
   int dim1;
 
   itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads(1);
   itk::IOComponentEnum ComponentType;
 
-  if (argc != 4)
-  {
-    std::cerr << "Usage: " << argv[0] << "inputimage radius outputimage" << std::endl;
-    return (EXIT_FAILURE);
-  }
-
   if (!readImageInfo(argv[1], &ComponentType, &dim1))
   {
     std::cerr << "Failed to open " << argv[1] << std::endl;
-    return (EXIT_FAILURE);
+    return EXIT_FAILURE;
   }
 
   int status = EXIT_FAILURE;
@@ -99,8 +87,7 @@ itkLabelSetErodeTest(int argc, char * argv[])
       break;
     default:
       std::cerr << "Unsupported dimension" << std::endl;
-      return (EXIT_FAILURE);
-      break;
+      return EXIT_FAILURE;
   }
   return status;
 }
