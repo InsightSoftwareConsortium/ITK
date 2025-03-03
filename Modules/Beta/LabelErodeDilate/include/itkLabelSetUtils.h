@@ -257,7 +257,7 @@ doOneDimensionErodeFirstPass(TInIter &          inputIterator,
   //  const RealType magnitude = (magnitudeSign * iscale * iscale)/(2.0 *
   // sigma);
   const RealType  magnitude = (magnitudeSign * iscale * iscale) / (2.0);
-  LineBufferType  lineBuf(lineLength);
+  LineBufferType  lineBuf(lineLength, 0.0);
   LabelBufferType labBuf(lineLength);
 
   inputIterator.SetDirection(direction);
