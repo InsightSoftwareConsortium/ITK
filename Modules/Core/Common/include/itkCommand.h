@@ -89,9 +89,10 @@ public:
   ITK_DISALLOW_COPY_AND_MOVE(MemberCommand);
 
   /** pointer to a member function that takes a Object* and the event */
+  /** @ITKStartGrouping */
   using TMemberFunctionPointer = void (T::*)(Object *, const EventObject &);
   using TConstMemberFunctionPointer = void (T::*)(const Object *, const EventObject &);
-
+  /**@ITKEndGrouping*/
   /** Standard class type aliases. */
   using Self = MemberCommand;
   using Pointer = SmartPointer<Self>;
@@ -119,6 +120,7 @@ public:
   }
 
   /**  Invoke the member function. */
+  /** @ITKStartGrouping */
   void
   Execute(Object * caller, const EventObject & event) override
   {
@@ -127,8 +129,9 @@ public:
       (m_This->*(m_MemberFunction))(caller, event);
     }
   }
-
+  /**@ITKEndGrouping*/
   /**  Invoke the member function with a const object. */
+  /** @ITKStartGrouping */
   void
   Execute(const Object * caller, const EventObject & event) override
   {
@@ -137,7 +140,7 @@ public:
       (m_This->*(m_ConstMemberFunction))(caller, event);
     }
   }
-
+  /**@ITKEndGrouping*/
 protected:
   T *                         m_This{ nullptr };
   TMemberFunctionPointer      m_MemberFunction{ nullptr };
@@ -186,6 +189,7 @@ public:
   }
 
   /**  Invoke the member function. */
+  /** @ITKStartGrouping */
   void
   Execute(Object *, const EventObject & event) override
   {
@@ -194,8 +198,9 @@ public:
       (m_This->*(m_MemberFunction))(event);
     }
   }
-
+  /**@ITKEndGrouping*/
   /**  Invoke the member function with a const object */
+  /** @ITKStartGrouping */
   void
   Execute(const Object *, const EventObject & event) override
   {
@@ -204,7 +209,7 @@ public:
       (m_This->*(m_MemberFunction))(event);
     }
   }
-
+  /**@ITKEndGrouping*/
 protected:
   T *                    m_This{ nullptr };
   TMemberFunctionPointer m_MemberFunction{ nullptr };
@@ -251,6 +256,7 @@ public:
   }
 
   /** Invoke the callback function. */
+  /** @ITKStartGrouping */
   void
   Execute(Object *, const EventObject &) override
   {
@@ -259,7 +265,7 @@ public:
       (m_This->*(m_MemberFunction))();
     }
   }
-
+  /**@ITKEndGrouping*/
   void
   Execute(const Object *, const EventObject &) override
   {
@@ -315,6 +321,7 @@ public:
   }
 
   /** Invoke the const member method callback. */
+  /** @ITKStartGrouping */
   void
   Execute(Object *, const EventObject &) override
   {
@@ -323,7 +330,7 @@ public:
       (m_This->*(m_MemberFunction))();
     }
   }
-
+  /**@ITKEndGrouping*/
   void
   Execute(const Object *, const EventObject &) override
   {
@@ -358,10 +365,11 @@ class ITKCommon_EXPORT CStyleCommand : public Command
 {
 public:
   /** Typedefs for C-style callbacks. */
+  /** @ITKStartGrouping */
   using FunctionPointer = void (*)(Object *, const EventObject &, void *);
   using ConstFunctionPointer = void (*)(const Object *, const EventObject &, void *);
   using DeleteDataFunctionPointer = void (*)(void *);
-
+  /**@ITKEndGrouping*/
   /** Standard class type aliases. */
   using Self = CStyleCommand;
   using Pointer = SmartPointer<Self>;
@@ -378,11 +386,12 @@ public:
   SetClientData(void * cd);
 
   /** Set the C callback function pointer to be called at Execute time. */
+  /** @ITKStartGrouping */
   void
   SetCallback(FunctionPointer f);
   void
   SetConstCallback(ConstFunctionPointer f);
-
+  /**@ITKEndGrouping*/
   /** Set the callback to delete the client data. */
   void
   SetClientDataDeleteCallback(DeleteDataFunctionPointer f);

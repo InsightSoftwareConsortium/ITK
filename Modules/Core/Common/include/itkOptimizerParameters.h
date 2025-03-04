@@ -105,6 +105,7 @@ public:
    * size, in elements of TParametersValueType.
    * This call is passed to the assigned OptimizerParametersHelper.
    * \warning Memory must be managed by caller after this call. */
+  /** @ITKStartGrouping */
   virtual void
   MoveDataPointer(TParametersValueType * pointer)
   {
@@ -115,11 +116,12 @@ public:
     }
     this->m_Helper->MoveDataPointer(this, pointer);
   }
-
+  /**@ITKEndGrouping*/
   /** Set an object that holds the parameters. Used by the helper of
    * derived classes that use an object other than itkArray to hold parameter
    * data. The helper class must check that the object is the correct type.
    * The call is passed to the assigned OptimizerParametersHelper. */
+  /** @ITKStartGrouping */
   virtual void
   SetParametersObject(LightObject * object)
   {
@@ -130,7 +132,7 @@ public:
     }
     this->m_Helper->SetParametersObject(this, object);
   }
-
+  /**@ITKEndGrouping*/
   /** Assign a helper. OptimizerParameters manages the helper once
    *  its been assigned. The generic helper, OptimizerParametersHelper,
    *  is set in constructor.
@@ -154,6 +156,7 @@ public:
    * TODO Determine behavior when copying from obj pointing to image parameters.
    *  By default should copy image param data into Array portion of new object,
    *  i.e. into data_block. Is that what we want? */
+  /** @ITKStartGrouping */
   Self &
   operator=(const Self & rhs)
   {
@@ -162,7 +165,7 @@ public:
     this->ArrayType::operator=(rhs);
     return *this;
   }
-
+  /**@ITKEndGrouping*/
   Self &
   operator=(const ArrayType & rhs)
   {

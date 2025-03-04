@@ -83,6 +83,7 @@ public:
    * Returns the extrapolated image intensity at a
    * specified point position.
    */
+  /** @ITKStartGrouping */
   OutputType
   Evaluate(const PointType & point) const override
   {
@@ -90,7 +91,7 @@ public:
       this->GetInputImage()->template TransformPhysicalPointToContinuousIndex<TCoordinate>(point);
     return (this->EvaluateAtContinuousIndex(index));
   }
-
+  /**@ITKEndGrouping*/
   /** Extrapolate the image at a continuous index position
    *
    * Returns the extrapolated image intensity at a

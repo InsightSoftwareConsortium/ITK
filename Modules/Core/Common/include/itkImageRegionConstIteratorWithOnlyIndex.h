@@ -139,6 +139,7 @@ public:
    * Index type alias support While these were already typedef'ed in the superclass
    * they need to be redone here for this subclass to compile properly with gcc.
    */
+
   /** Types inherited from the Superclass */
   using typename Superclass::IndexType;
   using typename Superclass::SizeType;
@@ -185,11 +186,12 @@ public:
    * tries to moves past the first pixel of the region.  Here, the iterator
    * will be set to be one pixel past the beginning of the region.
    * \sa operator++ */
+  /** @ITKStartGrouping */
   Self &
   operator--();
+  /**@ITKEndGrouping*/
 };
 } // end namespace itk
-
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkImageRegionConstIteratorWithOnlyIndex.hxx"
 #endif

@@ -136,6 +136,7 @@ public:
   /** Determine if the ImageIO can stream reading from this
    *  file. Only time cannot stream read/write is if compression is used.
    *  CanRead must be called prior to this function. */
+  /** @ITKStartGrouping */
   bool
   CanStreamRead() override
   {
@@ -145,12 +146,13 @@ public:
     }
     return true;
   }
-
+  /**@ITKEndGrouping*/
   /** Determine if the ImageIO can stream writing to this
    *  file. Only time cannot stream read/write is if compression is used.
    *  Assumes file passes a CanRead call and its pixels are of the same
    *  type as the template of the writer. Can verify by first calling
    *  CanRead and then CanStreamRead prior to calling CanStreamWrite. */
+  /** @ITKStartGrouping */
   bool
   CanStreamWrite() override
   {
@@ -160,13 +162,14 @@ public:
     }
     return true;
   }
-
+  /**@ITKEndGrouping*/
   /** Determining the subsampling factor in case
    *  we want a coarse version of the image/
    * \warning this is only used when streaming is on. */
+  /** @ITKStartGrouping */
   itkSetMacro(SubSamplingFactor, unsigned int);
   itkGetConstMacro(SubSamplingFactor, unsigned int);
-
+  /**@ITKEndGrouping*/
   /**
    * Set the default precision when writing out the MetaImage header.
    * MetaImage header contains values stored in memory as double,
@@ -177,11 +180,12 @@ public:
    * This function is not thread safe.
    * Default value after static initialization is 17.
    */
+  /** @ITKStartGrouping */
   static void
   SetDefaultDoublePrecision(unsigned int precision);
   static unsigned int
   GetDefaultDoublePrecision();
-
+  /**@ITKEndGrouping*/
 protected:
   MetaImageIO();
   ~MetaImageIO() override;

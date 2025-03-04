@@ -45,7 +45,6 @@ namespace itk
  * \sphinxexample{Filtering/ImageIntensity/ComputeSigmoid,Compute Sigmoid}
  * \endsphinx
  */
-
 namespace Functor
 {
 template <typename TInput, typename TOutput>

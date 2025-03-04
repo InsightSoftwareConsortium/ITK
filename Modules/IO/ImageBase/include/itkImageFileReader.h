@@ -109,15 +109,17 @@ public:
    * instance that is created. Or you can directly specify the ImageIO
    * to use to read a particular file in case the factory mechanism will
    * not work properly (e.g., unknown or unusual extension). */
+  /** @ITKStartGrouping */
   void
   SetImageIO(ImageIOBase * imageIO);
   itkGetModifiableObjectMacro(ImageIO, ImageIOBase);
-
+  /**@ITKEndGrouping*/
   /** Set the stream On or Off */
+  /** @ITKStartGrouping */
   itkSetMacro(UseStreaming, bool);
   itkGetConstReferenceMacro(UseStreaming, bool);
   itkBooleanMacro(UseStreaming);
-
+  /**@ITKEndGrouping*/
 protected:
   ImageFileReader();
   ~ImageFileReader() override = default;
@@ -178,6 +180,7 @@ private:
  * The function reads the image from the specified file, and returns the
  * image that it has read.
  * */
+/** @ITKStartGrouping */
 template <typename TOutputImage,
           typename ConvertPixelTraits = DefaultConvertPixelTraits<typename TOutputImage::IOPixelType>>
 typename TOutputImage::Pointer
@@ -188,7 +191,7 @@ ReadImage(const std::string & filename)
   reader->Update();
   return reader->GetOutput();
 }
-
+/**@ITKEndGrouping*/
 
 } // namespace itk
 

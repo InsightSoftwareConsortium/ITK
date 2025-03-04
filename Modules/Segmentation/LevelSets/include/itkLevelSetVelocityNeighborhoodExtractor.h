@@ -85,6 +85,7 @@ public:
   using AuxImageConstPointer = typename AuxVarType::AuxImageConstPointer;
 
   /** Set the auxiliary images. */
+  /** @ITKStartGrouping */
   void
   SetAuxImage(const AuxImageType * ptr, unsigned int idx = 0)
   {
@@ -94,7 +95,7 @@ public:
     }
     this->Modified();
   }
-
+  /**@ITKEndGrouping*/
   /** Get the auxiliary images. */
   AuxImageConstPointer
   GetAuxImage(unsigned int idx = 0)

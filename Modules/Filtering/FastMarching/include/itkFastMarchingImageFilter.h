@@ -249,22 +249,24 @@ public:
   }
 
   /** Set the container of points that are not meant to be evaluated. */
+  /** @ITKStartGrouping */
   void
   SetOutsidePoints(NodeContainer * points)
   {
     m_OutsidePoints = points;
     this->Modified();
   }
-
+  /**@ITKEndGrouping*/
   /** Set the container of Alive Points representing the initial front.
    * Alive points are represented as a VectorContainer of LevelSetNodes. */
+  /** @ITKStartGrouping */
   void
   SetAlivePoints(NodeContainer * points)
   {
     m_AlivePoints = points;
     this->Modified();
   }
-
+  /**@ITKEndGrouping*/
   /** Get the container of Alive Points representing the initial front. */
   NodeContainerPointer
   GetAlivePoints()
@@ -274,13 +276,14 @@ public:
 
   /** Set the container of Trial Points representing the initial front.
    * Trial points are represented as a VectorContainer of LevelSetNodes. */
+  /** @ITKStartGrouping */
   void
   SetTrialPoints(NodeContainer * points)
   {
     m_TrialPoints = points;
     this->Modified();
   }
-
+  /**@ITKEndGrouping*/
   /** Get the container of Trial Points representing the initial front. */
   NodeContainerPointer
   GetTrialPoints()
@@ -298,6 +301,7 @@ public:
   /** Set the Speed Constant. If the Speed Image is nullptr,
    * the SpeedConstant value is used for the whole level set.
    * By default, the SpeedConstant is set to 1.0. */
+  /** @ITKStartGrouping */
   void
   SetSpeedConstant(double value)
   {
@@ -305,7 +309,7 @@ public:
     m_InverseSpeed = -1.0 * itk::Math::sqr(1.0 / m_SpeedConstant);
     this->Modified();
   }
-
+  /**@ITKEndGrouping*/
   /** Get the Speed Constant. */
   itkGetConstReferenceMacro(SpeedConstant, double);
 
@@ -313,9 +317,10 @@ public:
       The values in the Speed Image is divided by this
       factor. This allows the use of images with
       integer pixel types to represent the speed. */
+  /** @ITKStartGrouping */
   itkSetMacro(NormalizationFactor, double);
   itkGetConstMacro(NormalizationFactor, double);
-
+  /**@ITKEndGrouping*/
   /** Set the Fast Marching algorithm Stopping Value. The Fast Marching
    * algorithm is terminated when the value of the smallest trial point
    * is greater than the stopping value. */
@@ -331,9 +336,10 @@ public:
   itkSetMacro(CollectPoints, bool);
 
   /** Get the Const Collect Points flag. */
+  /** @ITKStartGrouping */
   itkGetConstReferenceMacro(CollectPoints, bool);
   itkBooleanMacro(CollectPoints);
-
+  /**@ITKEndGrouping*/
   /** Get the container of Processed Points. If the CollectPoints flag
    * is set, the algorithm collects a container of all processed nodes.
    * This is useful for defining creating Narrowbands for level
@@ -350,6 +356,7 @@ public:
    * parameters can be specified using methods SetOutputRegion(), SetOutputSpacing(), SetOutputDirection(),
    * and SetOutputOrigin(). Else if the speed image is not nullptr, the output information
    * is copied from the input speed image. */
+  /** @ITKStartGrouping */
   virtual void
   SetOutputSize(const OutputSizeType & size)
   {
@@ -371,7 +378,7 @@ public:
   itkSetMacro(OverrideOutputInformation, bool);
   itkGetConstReferenceMacro(OverrideOutputInformation, bool);
   itkBooleanMacro(OverrideOutputInformation);
-
+  /**@ITKEndGrouping*/
   itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<SetDimension, SpeedImageDimension>));
   itkConceptMacro(SpeedConvertibleToDoubleCheck, (Concept::Convertible<typename TSpeedImage::PixelType, double>));
   itkConceptMacro(DoubleConvertibleToLevelSetCheck, (Concept::Convertible<double, PixelType>));

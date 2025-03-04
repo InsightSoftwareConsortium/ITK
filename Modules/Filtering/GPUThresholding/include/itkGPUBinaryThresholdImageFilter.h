@@ -66,6 +66,7 @@ public:
 
   /** Setup GPU kernel arguments for this functor.
    * Returns current argument index to set additional arguments in the GPU kernel */
+  /** @ITKStartGrouping */
   int
   SetGPUKernelArguments(GPUKernelManager::Pointer KernelManager, int KernelHandle) override
   {
@@ -75,7 +76,7 @@ public:
     KernelManager->SetKernelArg(KernelHandle, 3, sizeof(TOutput), &(m_OutsideValue));
     return 4;
   }
-
+  /**@ITKEndGrouping*/
 private:
   TInput  m_LowerThreshold{};
   TInput  m_UpperThreshold{};
@@ -163,6 +164,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Class methods used to interface with the registered factories. */
+  /** @ITKStartGrouping */
   const char *
   GetITKSourceVersion() const override
   {
@@ -173,7 +175,7 @@ public:
   {
     return "A Factory for GPUBinaryThresholdImageFilter";
   }
-
+  /**@ITKEndGrouping*/
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
 

@@ -136,9 +136,10 @@ public:
   using typename Superclass::SizeValueType;
 
   /** Default constructor. Needed since we provide a cast constructor. */
+  /** @ITKStartGrouping */
   ImageRandomConstIteratorWithIndex() = default;
   ~ImageRandomConstIteratorWithIndex() override = default;
-
+  /**@ITKEndGrouping*/
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
   ImageRandomConstIteratorWithIndex(const ImageType * ptr, const RegionType & region);
@@ -155,21 +156,23 @@ public:
   }
 
   /** Move an iterator to the beginning of the region. */
+  /** @ITKStartGrouping */
   void
   GoToBegin()
   {
     this->RandomJump();
     m_NumberOfSamplesDone = 0L;
   }
-
+  /**@ITKEndGrouping*/
   /** Move an iterator to one position past the End of the region. */
+  /** @ITKStartGrouping */
   void
   GoToEnd()
   {
     this->RandomJump();
     m_NumberOfSamplesDone = m_NumberOfSamplesRequested;
   }
-
+  /**@ITKEndGrouping*/
   /** Is the iterator at the beginning of the region? */
   bool
   IsAtBegin() const
@@ -186,6 +189,7 @@ public:
 
   /** Increment (prefix) the selected dimension.
    * No bounds checking is performed. \sa GetIndex \sa operator-- */
+  /** @ITKStartGrouping */
   Self &
   operator++()
   {
@@ -193,9 +197,10 @@ public:
     ++m_NumberOfSamplesDone;
     return *this;
   }
-
+  /**@ITKEndGrouping*/
   /** Decrement (prefix) the selected dimension.
    * No bounds checking is performed. \sa GetIndex \sa operator++ */
+  /** @ITKStartGrouping */
   Self &
   operator--()
   {
@@ -203,7 +208,7 @@ public:
     --m_NumberOfSamplesDone;
     return *this;
   }
-
+  /**@ITKEndGrouping*/
   /** Set/Get number of random samples to extract from the image region. */
   void
   SetNumberOfSamples(SizeValueType number)

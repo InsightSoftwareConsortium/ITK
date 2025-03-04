@@ -66,14 +66,15 @@ protected:
   GenerateCoefficients() override;
 
   /** Arranges coefficients spatially in the memory buffer. */
+  /** @ITKStartGrouping */
   void
   Fill(const CoefficientVector & coeff) override
   {
     this->FillCenteredDirectional(coeff);
   }
+  /**@ITKEndGrouping*/
 };
 } // namespace itk
-
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkForwardDifferenceOperator.hxx"
 #endif

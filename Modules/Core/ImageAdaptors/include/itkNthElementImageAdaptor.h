@@ -73,13 +73,14 @@ public:
   itkNewMacro(Self);
 
   /** Select the element number to be accessed */
+  /** @ITKStartGrouping */
   void
   SelectNthElement(unsigned int nth)
   {
     this->GetPixelAccessor().SetElementNumber(nth);
     this->Modified();
   }
-
+  /**@ITKEndGrouping*/
 protected:
   NthElementImageAdaptor() = default;
   ~NthElementImageAdaptor() override = default;

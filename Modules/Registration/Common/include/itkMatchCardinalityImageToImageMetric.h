@@ -98,13 +98,14 @@ public:
   using typename Superclass::FixedImageRegionType;
 
   /** Get the derivatives of the match measure. */
+  /** @ITKStartGrouping */
   void
   GetDerivative(const TransformParametersType &, DerivativeType & derivative) const override
   {
     itkWarningMacro("This metric does not provide metric derivatives.");
     derivative.Fill(typename DerivativeType::ValueType{});
   }
-
+  /**@ITKEndGrouping*/
   /**  Get the value of the metric at a particular parameter
    *  setting. The metric value is the number of pixel matches (or
    *  mismatches, see SetMeasureMatches()) normalized by the number
@@ -120,10 +121,11 @@ public:
    * other words, the metric measures the percentage of pixel matches
    * or mismatches. The default is to measure matches
    * (MeasureMatchesOn). */
+  /** @ITKStartGrouping */
   itkSetMacro(MeasureMatches, bool);
   itkBooleanMacro(MeasureMatches);
   itkGetConstMacro(MeasureMatches, bool);
-
+  /**@ITKEndGrouping*/
   /** Return the multithreader used by this class. */
   MultiThreaderBase *
   GetMultiThreader()
@@ -184,10 +186,11 @@ private:
 
   /** Support processing data in multiple threads. Used by subclasses
    * (e.g., ImageSource). */
+  /** @ITKStartGrouping */
   MultiThreaderBase::Pointer m_Threader{ MultiThreaderBase::New() };
+  /**@ITKEndGrouping*/
 };
 } // end namespace itk
-
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkMatchCardinalityImageToImageMetric.hxx"
 #endif

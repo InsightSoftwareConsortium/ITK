@@ -236,13 +236,14 @@ public:
 
   /** Set/Get the maximum depth of image on which this segment table is based.
    * (Should set really be calling modified? jc 11/16/01) */
+  /** @ITKStartGrouping */
   void
   SetMaximumDepth(ScalarType s)
   {
     m_MaximumDepth = s;
     this->Modified();
   }
-
+  /**@ITKEndGrouping*/
   ScalarType
   GetMaximumDepth() const
   {

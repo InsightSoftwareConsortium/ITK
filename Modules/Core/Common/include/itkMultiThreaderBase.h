@@ -71,6 +71,7 @@ public:
   /**
    * \ingroup ITKCommon
    */
+  /** @ITKStartGrouping */
   enum class ThreadExitCode : uint8_t
   {
     SUCCESS,
@@ -79,13 +80,13 @@ public:
     STD_EXCEPTION,
     UNKNOWN
   };
+  /**@ITKEndGrouping*/
 };
 // Define how to print enumeration
 extern ITKCommon_EXPORT std::ostream &
                         operator<<(std::ostream & out, const MultiThreaderBaseEnums::Threader value);
 extern ITKCommon_EXPORT std::ostream &
                         operator<<(std::ostream & out, const MultiThreaderBaseEnums::ThreadExitCode value);
-
 /** \class MultiThreaderBase
  * \brief A class for performing multithreaded execution
  *
@@ -124,17 +125,19 @@ public:
   /** Get/Set the number of threads to use. It will be clamped to the range
    * [ 1, m_GlobalMaximumNumberOfThreads ], so the caller of this method should
    * check that the requested number of threads was accepted. */
+  /** @ITKStartGrouping */
   virtual void
   SetMaximumNumberOfThreads(ThreadIdType numberOfThreads);
   itkGetConstMacro(MaximumNumberOfThreads, ThreadIdType);
-
+  /**@ITKEndGrouping*/
   /** Get/Set the number of work units to create. It might be clamped to the range
    * [ 1, SomeMaximumNumber ], so the caller of this method should
    * check that the requested number of work units was accepted. */
+  /** @ITKStartGrouping */
   virtual void
   SetNumberOfWorkUnits(ThreadIdType numberOfWorkUnits);
   itkGetConstMacro(NumberOfWorkUnits, ThreadIdType);
-
+  /**@ITKEndGrouping*/
   virtual void
   SetUpdateProgress(bool updates);
   itkGetConstMacro(UpdateProgress, bool);
@@ -144,19 +147,21 @@ public:
    * are already statically allocated using the ITK_MAX_THREADS number.
    * Therefore the caller of this method should check that the requested number
    * of threads was accepted. */
+  /** @ITKStartGrouping */
   static void
   SetGlobalMaximumNumberOfThreads(ThreadIdType val);
   static ThreadIdType
   GetGlobalMaximumNumberOfThreads();
-
+  /**@ITKEndGrouping*/
   /** Set/Get whether to use the to use the thread pool
    * implementation or the spawning implementation of
    * starting threads.
    *
    * Deprecated: use Get/Set GlobalDefaultThreader. */
+  /** @ITKStartGrouping */
   itkLegacyMacro(static void SetGlobalDefaultUseThreadPool(const bool GlobalDefaultUseThreadPool);)
   itkLegacyMacro(static bool GetGlobalDefaultUseThreadPool();)
-
+  /**@ITKEndGrouping*/
   using ThreaderEnum = MultiThreaderBaseEnums::Threader;
 #if !defined(ITK_LEGACY_REMOVE)
   using ThreaderType = ThreaderEnum;
@@ -173,6 +178,7 @@ public:
   ThreaderTypeFromString(std::string threaderString);
 
   /** Convert a threader enum type into a string for displaying or logging. */
+  /** @ITKStartGrouping */
   static std::string
   ThreaderTypeToString(ThreaderEnum threader)
   {
@@ -189,7 +195,7 @@ public:
         return "Unknown";
     }
   }
-
+  /**@ITKEndGrouping*/
   /** Set/Get whether the default multi-threader implementation.
    *
    * The default multi-threader type is picked up from ITK_GLOBAL_DEFAULT_THREADER
@@ -201,23 +207,26 @@ public:
    *
    * If the SetGlobalDefaultThreaderType API is ever used by the developer,
    * the developer's choice is respected over the environment variables. */
+  /** @ITKStartGrouping */
   static void
   SetGlobalDefaultThreader(ThreaderEnum threaderType);
   static ThreaderEnum
   GetGlobalDefaultThreader();
-
+  /**@ITKEndGrouping*/
   /** Set/Get the value which is used to initialize the NumberOfThreads in the
    * constructor.  It will be clamped to the range [1, m_GlobalMaximumNumberOfThreads ].
    * Therefore the caller of this method should check that the requested number
    * of threads was accepted. */
+  /** @ITKStartGrouping */
   static void
   SetGlobalDefaultNumberOfThreads(ThreadIdType val);
   static ThreadIdType
   GetGlobalDefaultNumberOfThreads();
-
+  /**@ITKEndGrouping*/
 #if !defined(ITK_LEGACY_REMOVE)
   /** Get/Set the number of threads to use.
    * DEPRECATED! Use WorkUnits and MaximumNumberOfThreads instead. */
+  /** @ITKStartGrouping */
   itkLegacyMacro(virtual void SetNumberOfThreads(ThreadIdType numberOfThreads))
   {
     this->SetMaximumNumberOfThreads(numberOfThreads);
@@ -227,7 +236,7 @@ public:
   {
     return this->GetNumberOfWorkUnits();
   }
-
+  /**@ITKEndGrouping*/
   /** This is the structure that is passed to the thread that is
    * created from the SingleMethodExecute. It is passed in as a void *,
    * and it is up to the method to cast correctly and extract the information.
@@ -236,6 +245,7 @@ public:
    * (void *)arg passed into the SetSingleMethod.
    *
    * DEPRECATED! Use WorkUnitInfo instead. */
+  /** @ITKStartGrouping */
   // clang-format off
 ITK_GCC_PRAGMA_DIAG_PUSH()
 ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
@@ -267,14 +277,15 @@ INTEL_PRAGMA_WARN_POP
   // clang-format off
 ITK_GCC_PRAGMA_DIAG_POP()
   // clang-format on
+  /**@ITKEndGrouping*/
 #endif // ITK_LEGACY_REMOVE
-
   /** This is the structure that is passed to the thread that is
    * created from the SingleMethodExecute. It is passed in as a void *,
    * and it is up to the method to cast correctly and extract the information.
    * The WorkUnitID is a number between 0 and NumberOfWorkUnits-1 that
    * indicates the id of this work unit. The UserData is the
    * (void *)arg passed into the SetSingleMethod. */
+  /** @ITKStartGrouping */
   struct WorkUnitInfo
   {
     ThreadIdType       WorkUnitID;
@@ -293,7 +304,7 @@ ITK_GCC_PRAGMA_DIAG_POP()
     static constexpr ThreadExitCodeEnum UNKNOWN = ThreadExitCodeEnum::UNKNOWN;
 #endif
   };
-
+  /**@ITKEndGrouping*/
   /** Execute the SingleMethod (as define by SetSingleMethod) using
    * m_NumberOfWorkUnits threads. As a side effect the m_NumberOfWorkUnits will be
    * checked against the current m_GlobalMaximumNumberOfThreads and clamped if
@@ -338,6 +349,7 @@ ITK_GCC_PRAGMA_DIAG_POP()
    * Each such `funcP(region)` call must be thread-safe.
    * If filter argument is not nullptr, this function will update its progress
    * as each work unit is completed. Delegates work to non-templated version. */
+  /** @ITKStartGrouping */
   template <unsigned int VDimension, typename TFunction>
   ITK_TEMPLATE_EXPORT void
   ParallelizeImageRegion(const ImageRegion<VDimension> & requestedRegion, TFunction funcP, ProcessObject * filter)
@@ -357,7 +369,7 @@ ITK_GCC_PRAGMA_DIAG_POP()
       },
       filter);
   }
-
+  /**@ITKEndGrouping*/
   /** Similar to ParallelizeImageRegion, but do not split the region along one
    * of the directions. If VDimension is 1, restrictedDirection is ignored
    * and no parallelization occurs. */

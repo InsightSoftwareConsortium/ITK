@@ -138,15 +138,18 @@ public:
   using ArrayType = FixedArray<double, Self::ImageDimension>;
 
   /** Set/Get the variance of the Gaussian smoothing filter. */
+  /** @ITKStartGrouping */
   itkSetMacro(Variance, ArrayType);
   itkGetConstMacro(Variance, const ArrayType);
-
+  /**@ITKEndGrouping*/
   /** Set/Get the maximum error of the Gaussian smoothing kernel in each dimensional
    *  direction. */
+  /** @ITKStartGrouping */
   itkSetMacro(MaximumError, ArrayType);
   itkGetConstMacro(MaximumError, const ArrayType);
-
+  /**@ITKEndGrouping*/
   /** Set/Get the variance of the Gaussian smoothing filter. */
+  /** @ITKStartGrouping */
   void
   SetVariance(const typename ArrayType::ValueType v)
   {
@@ -160,9 +163,10 @@ public:
       }
     }
   }
-
+  /**@ITKEndGrouping*/
   /** Set/Get the MaximumError parameter used by the Gaussian smoothing filter
    *  in this algorithm */
+  /** @ITKStartGrouping */
   void
   SetMaximumError(const typename ArrayType::ValueType v)
   {
@@ -176,7 +180,7 @@ public:
       }
     }
   }
-
+  /**@ITKEndGrouping*/
   /** \brief Set the upper threshold value for detected edges.
    */
   itkSetMacro(UpperThreshold, OutputImagePixelType);

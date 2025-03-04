@@ -293,10 +293,11 @@ protected: // made protected so other iterators can access
    * when m_FullyConnected is set to true the connectivity is
    * 8 (26 in 3D).
    */
+  /** @ITKStartGrouping */
   bool m_FullyConnected{};
+  /**@ITKEndGrouping*/
 };
 } // end namespace itk
-
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkShapedFloodFilledFunctionConditionalConstIterator.hxx"
 #endif

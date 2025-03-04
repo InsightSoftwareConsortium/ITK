@@ -110,13 +110,14 @@ public:
 
   /** Get/Set the threshold values that will be used to calculate the speed
     function. */
+  /** @ITKStartGrouping */
   void
   SetUpperThreshold(ValueType v)
   {
     this->m_ThresholdFunction->SetUpperThreshold(v);
     this->Modified();
   }
-
+  /**@ITKEndGrouping*/
   void
   SetLowerThreshold(ValueType v)
   {
@@ -138,13 +139,14 @@ public:
 
   /** Set/Get the weight applied to the edge (Laplacian) attractor in the speed
    *  term function. Zero will turn this term off. */
+  /** @ITKStartGrouping */
   void
   SetEdgeWeight(ValueType v)
   {
     this->m_ThresholdFunction->SetEdgeWeight(v);
     this->Modified();
   }
-
+  /**@ITKEndGrouping*/
   ValueType
   GetEdgeWeight() const
   {
@@ -154,13 +156,14 @@ public:
   /** Anisotropic diffusion is applied to the FeatureImage before calculating
    * the Laplacian (edge) term. This method sets/gets the number of diffusion
    * iterations. */
+  /** @ITKStartGrouping */
   void
   SetSmoothingIterations(int v)
   {
     this->m_ThresholdFunction->SetSmoothingIterations(v);
     this->Modified();
   }
-
+  /**@ITKEndGrouping*/
   int
   GetSmoothingIterations() const
   {
@@ -170,13 +173,14 @@ public:
   /** Anisotropic diffusion is applied to the FeatureImage before calculating
    * the Laplacian (edge) term. This method sets/gets the diffusion time
    * step. */
+  /** @ITKStartGrouping */
   void
   SetSmoothingTimeStep(ValueType v)
   {
     this->m_ThresholdFunction->SetSmoothingTimeStep(v);
     this->Modified();
   }
-
+  /**@ITKEndGrouping*/
   ValueType
   GetSmoothingTimeStep() const
   {
@@ -186,13 +190,14 @@ public:
   /** Anisotropic diffusion is applied to the FeatureImage before calculating
    * the Laplacian (edge) term. This method sets/gets the smoothing
    * conductance. */
+  /** @ITKStartGrouping */
   void
   SetSmoothingConductance(ValueType v)
   {
     this->m_ThresholdFunction->SetSmoothingConductance(v);
     this->Modified();
   }
-
+  /**@ITKEndGrouping*/
   ValueType
   GetSmoothingConductance() const
   {

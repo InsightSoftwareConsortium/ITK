@@ -64,13 +64,14 @@ public:
   }
 
   /** Read access to the RGBToVector component */
+  /** @ITKStartGrouping */
   inline ExternalType
   Get(const InternalType & input) const
   {
     ExternalType v(input.GetDataPointer());
     return v;
   }
-
+  /**@ITKEndGrouping*/
 private:
 };
 } // end namespace Accessor

@@ -231,6 +231,7 @@ public:
   }
 
   /** Get an identity matrix. */
+  /** @ITKStartGrouping */
   static Self
   GetIdentity()
   {
@@ -238,7 +239,7 @@ public:
     internalMatrix.set_identity();
     return Self{ internalMatrix };
   }
-
+  /**@ITKEndGrouping*/
   /** Fill the matrix with a value. */
   inline void
   Fill(const T & value)
@@ -308,6 +309,7 @@ public:
   {}
 
   /** Return the inverse matrix. */
+  /** @ITKStartGrouping */
   inline vnl_matrix_fixed<T, VColumns, VRows>
   GetInverse() const
   {
@@ -318,14 +320,15 @@ public:
     const vnl_matrix_inverse<T> inverse(m_Matrix.as_ref());
     return vnl_matrix_fixed<T, VColumns, VRows>{ inverse.as_matrix() };
   }
-
+  /**@ITKEndGrouping*/
   /** Return the transposed matrix. */
+  /** @ITKStartGrouping */
   inline vnl_matrix_fixed<T, VColumns, VRows>
   GetTranspose() const
   {
     return vnl_matrix_fixed<T, VColumns, VRows>{ m_Matrix.transpose().as_matrix() };
   }
-
+  /**@ITKEndGrouping*/
   /** Defaulted default-constructor. Zero-initializes all of its elements.
    * \note The other five "special member functions" (copy-constructor,
    * copy-assignment operator, move-constructor, move-assignment operator,

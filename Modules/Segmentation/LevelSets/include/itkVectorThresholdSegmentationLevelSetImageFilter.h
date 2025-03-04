@@ -119,13 +119,14 @@ public:
 
   /** Set/Get mean and covariance that will be used to calculate the speed
     function */
+  /** @ITKStartGrouping */
   void
   SetMean(const MeanVectorType & mean)
   {
     m_ThresholdFunction->SetMean(mean);
     this->Modified();
   }
-
+  /**@ITKEndGrouping*/
   const MeanVectorType &
   GetMean() const
   {
@@ -146,13 +147,14 @@ public:
   }
 
   /** Set/Get the threshold for the Mahalanobis Distance */
+  /** @ITKStartGrouping */
   void
   SetThreshold(ScalarValueType thr)
   {
     m_ThresholdFunction->SetThreshold(thr);
     this->Modified();
   }
-
+  /**@ITKEndGrouping*/
   ScalarValueType
   GetThreshold()
   {

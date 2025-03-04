@@ -192,10 +192,11 @@ protected:
    * filter! Something must be done in the class
    * itkQuadEdgeMeshToQuadEdgeMeshFilter.
    */
+  /** @ITKStartGrouping */
   void
   GenerateData() override;
+  /**@ITKEndGrouping*/
 };
 } // namespace itk
-
 #include "itkNormalQuadEdgeMeshFilter.hxx"
 #endif

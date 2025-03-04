@@ -115,22 +115,25 @@ public:
   GetBufferPointer() const override;
 
   /** Return the Pixel Accessor object */
+  /** @ITKStartGrouping */
   AccessorType
   GetPixelAccessor()
   {
     m_DataManager->SetGPUBufferDirty();
     return Superclass::GetPixelAccessor();
   }
-
+  /**@ITKEndGrouping*/
   /** Return the Pixel Accesor object */
+  /** @ITKStartGrouping */
   const AccessorType
   GetPixelAccessor() const
   {
     m_DataManager->UpdateCPUBuffer();
     return Superclass::GetPixelAccessor();
   }
-
+  /**@ITKEndGrouping*/
   /** Return the NeighborhoodAccessor functor */
+  /** @ITKStartGrouping */
   NeighborhoodAccessorFunctorType
   GetNeighborhoodAccessor()
   {
@@ -138,8 +141,9 @@ public:
     // return Superclass::GetNeighborhoodAccessor();
     return NeighborhoodAccessorFunctorType();
   }
-
+  /**@ITKEndGrouping*/
   /** Return the NeighborhoodAccessor functor */
+  /** @ITKStartGrouping */
   const NeighborhoodAccessorFunctorType
   GetNeighborhoodAccessor() const
   {
@@ -147,18 +151,19 @@ public:
     // return Superclass::GetNeighborhoodAccessor();
     return NeighborhoodAccessorFunctorType();
   }
-
+  /**@ITKEndGrouping*/
   void
   SetPixelContainer(PixelContainer * container);
 
   /** Return a pointer to the container. */
+  /** @ITKStartGrouping */
   PixelContainer *
   GetPixelContainer()
   {
     m_DataManager->SetGPUBufferDirty();
     return Superclass::GetPixelContainer();
   }
-
+  /**@ITKEndGrouping*/
   const PixelContainer *
   GetPixelContainer() const
   {
@@ -225,6 +230,7 @@ public:
   using ConstPointer = itk::SmartPointer<const Self>;
 
   /** Class methods used to interface with the registered factories. */
+  /** @ITKStartGrouping */
   const char *
   GetITKSourceVersion() const override
   {
@@ -235,7 +241,7 @@ public:
   {
     return "A Factory for GPUImage";
   }
-
+  /**@ITKEndGrouping*/
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
 

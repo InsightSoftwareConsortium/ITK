@@ -62,6 +62,7 @@ public:
   ~IterationReporter() = default;
 
   /** Called by a filter once per iteration.  */
+  /** @ITKStartGrouping */
   void
   CompletedStep()
   {
@@ -75,7 +76,7 @@ public:
       m_Filter->InvokeEvent(IterationEvent());
     }
   }
-
+  /**@ITKEndGrouping*/
 protected:
   ProcessObject * m_Filter;
   ThreadIdType    m_ThreadId;

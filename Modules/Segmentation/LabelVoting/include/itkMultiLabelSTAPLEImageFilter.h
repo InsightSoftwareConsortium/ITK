@@ -156,6 +156,7 @@ public:
 
   /** Set maximum number of iterations.
    */
+  /** @ITKStartGrouping */
   void
   SetMaximumNumberOfIterations(const unsigned int mit)
   {
@@ -164,12 +165,13 @@ public:
     this->Modified();
   }
   itkGetConstMacro(MaximumNumberOfIterations, unsigned int);
-
+  /**@ITKEndGrouping*/
   /** True if the MaximumNumberOfIterations has been manually set. **/
   itkGetConstMacro(HasMaximumNumberOfIterations, bool);
 
   /** Unset the maximum number of iterations, and rely on the TerminationUpdateThreshold.
    */
+  /** @ITKStartGrouping */
   void
   UnsetMaximumNumberOfIterations()
   {
@@ -179,14 +181,16 @@ public:
       this->Modified();
     }
   }
-
+  /**@ITKEndGrouping*/
   /** Set termination threshold based on confusion matrix parameter updates.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(TerminationUpdateThreshold, TWeights);
   itkGetConstMacro(TerminationUpdateThreshold, TWeights);
-
+  /**@ITKEndGrouping*/
   /** Set label value for undecided pixels.
    */
+  /** @ITKStartGrouping */
   void
   SetLabelForUndecidedPixels(const OutputPixelType l)
   {
@@ -194,7 +198,7 @@ public:
     this->m_HasLabelForUndecidedPixels = true;
     this->Modified();
   }
-
+  /**@ITKEndGrouping*/
   /** Get label value used for undecided pixels.
    *
    * After updating the filter, this function returns the actual label value
@@ -209,6 +213,7 @@ public:
 
   /** Unset label value for undecided pixels and turn on automatic selection.
    */
+  /** @ITKStartGrouping */
   void
   UnsetLabelForUndecidedPixels()
   {
@@ -218,13 +223,14 @@ public:
       this->Modified();
     }
   }
-
+  /**@ITKEndGrouping*/
   /** Set manual estimates for the a priori class probabilities.
    *
    * The size of the array must be greater than the value of the
    * largest label. The index into the array corresponds to the label
    * value in the segmented image for the class.
    */
+  /** @ITKStartGrouping */
   void
   SetPriorProbabilities(const PriorProbabilitiesType & ppa)
   {
@@ -232,7 +238,7 @@ public:
     this->m_HasPriorProbabilities = true;
     this->Modified();
   }
-
+  /**@ITKEndGrouping*/
   /** Get prior class probabilities.
    *
    * After updating the filter, this function returns the actual prior class
@@ -247,6 +253,7 @@ public:
 
   /** Unset prior class probabilities and turn on automatic estimation.
    */
+  /** @ITKStartGrouping */
   void
   UnsetPriorProbabilities()
   {
@@ -256,7 +263,7 @@ public:
       this->Modified();
     }
   }
-
+  /**@ITKEndGrouping*/
   /** Get confusion matrix for the i-th input segmentation.
    */
   const ConfusionMatrixType &

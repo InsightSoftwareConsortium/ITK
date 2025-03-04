@@ -123,6 +123,7 @@ public:
    * Index type alias support While these were already typedef'ed in the superclass,
    * they need to be redone here for this subclass to compile properly with gcc.
    */
+
   /** Types inherited from the Superclass */
   using typename Superclass::IndexType;
   using typename Superclass::SizeType;
@@ -139,22 +140,24 @@ public:
   itkOverrideGetNameOfClassMacro(ImageRegionConstIterator);
 
   /** Default constructor. Needed since we provide a cast constructor. */
+  /** @ITKStartGrouping */
   ImageRegionConstIterator()
     : ImageConstIterator<TImage>()
   {
     m_SpanBeginOffset = 0;
     m_SpanEndOffset = 0;
   }
-
+  /**@ITKEndGrouping*/
   /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
    * the iterator at the begin of the region. */
+  /** @ITKStartGrouping */
   ImageRegionConstIterator(const ImageType * ptr, const RegionType & region)
     : ImageConstIterator<TImage>(ptr, region)
   {
     m_SpanBeginOffset = this->m_BeginOffset;
     m_SpanEndOffset = this->m_BeginOffset + static_cast<OffsetValueType>(this->m_Region.GetSize()[0]);
   }
-
+  /**@ITKEndGrouping*/
   /** Constructor that can be used to cast from an ImageIterator to an
    * ImageRegionConstIterator. Many routines return an ImageIterator, but for a
    * particular task, you may want an ImageRegionConstIterator.  Rather than
@@ -214,6 +217,7 @@ public:
   /** Set the index. No bounds checking is performed. This is overridden
    * from the parent because we have an extra ivar.
    * \sa GetIndex */
+  /** @ITKStartGrouping */
   void
   SetIndex(const IndexType & ind) override
   {
@@ -222,7 +226,7 @@ public:
                       (ind[0] - this->m_Region.GetIndex()[0]);
     m_SpanBeginOffset = m_SpanEndOffset - static_cast<OffsetValueType>(this->m_Region.GetSize()[0]);
   }
-
+  /**@ITKEndGrouping*/
   /** Increment (prefix) the fastest moving dimension of the iterator's index.
    * This operator will constrain the iterator within the region (i.e. the
    * iterator will automatically wrap from the end of the row of the region
@@ -230,6 +234,7 @@ public:
    * tries to moves past the last pixel of the region.  Here, the iterator
    * will be set to be one pixel past the end of the region.
    * \sa operator++(int) */
+  /** @ITKStartGrouping */
   Self &
   operator++()
   {
@@ -239,7 +244,7 @@ public:
     }
     return *this;
   }
-
+  /**@ITKEndGrouping*/
   /** Decrement (prefix) the fastest moving dimension of the iterator's index.
    * This operator will constrain the iterator within the region (i.e. the
    * iterator will automatically wrap from the beginning of the row of the region
@@ -247,6 +252,7 @@ public:
    * tries to moves past the first pixel of the region.  Here, the iterator
    * will be set to be one pixel past the beginning of the region.
    * \sa operator--(int) */
+  /** @ITKStartGrouping */
   Self &
   operator--()
   {
@@ -256,7 +262,7 @@ public:
     }
     return *this;
   }
-
+  /**@ITKEndGrouping*/
 protected:
   OffsetValueType m_SpanBeginOffset{}; // one pixel before the beginning of the span
                                        // (row)

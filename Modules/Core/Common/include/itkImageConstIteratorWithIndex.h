@@ -232,13 +232,14 @@ public:
 
   /** Set the index. No bounds checking is performed.
    * \sa GetIndex */
+  /** @ITKStartGrouping */
   void
   SetIndex(const IndexType & ind)
   {
     m_Position = m_Image->GetBufferPointer() + m_Image->ComputeOffset(ind);
     m_PositionIndex = ind;
   }
-
+  /**@ITKEndGrouping*/
   /** Get the pixel value */
   PixelType
   Get() const

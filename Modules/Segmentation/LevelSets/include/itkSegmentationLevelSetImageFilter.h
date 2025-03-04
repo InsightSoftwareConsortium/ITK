@@ -181,13 +181,14 @@ public:
 
   /** Set/Get the maximum number of iterations allowed for the solver.  This
    *  prevents infinite loops if a solution "bounces". */
+  /** @ITKStartGrouping */
   void
   SetMaximumIterations(unsigned int i)
   {
     itkWarningMacro("SetMaximumIterations is deprecated.  Please use SetNumberOfIterations instead.");
     this->SetNumberOfIterations(i);
   }
-
+  /**@ITKEndGrouping*/
   unsigned int
   GetMaximumIterations()
   {
@@ -197,6 +198,7 @@ public:
 
   /** Set/Get the feature image to be used for speed function of the level set
    *  equation.  Equivalent to calling Set/GetInput(1, ..) */
+  /** @ITKStartGrouping */
   virtual void
   SetFeatureImage(const FeatureImageType * f)
   {
@@ -209,12 +211,13 @@ public:
     }
   }
   itkGetInputMacro(FeatureImage, FeatureImageType);
-
+  /**@ITKEndGrouping*/
   /** Set/Get the initial level set model.  Equivalent to calling SetInput(..)
    */
+  /** @ITKStartGrouping */
   itkSetInputMacro(InitialImage, InputImageType);
   itkGetInputMacro(InitialImage, InputImageType);
-
+  /**@ITKEndGrouping*/
   /** Set the feature image */
   void
   SetInput2(const FeatureImageType * input)
@@ -259,6 +262,7 @@ public:
   /** THIS METHOD IS DEPRECATED AND SHOULD NOT BE USED.  This method reverses
    * the speed function direction, effectively changing inside feature values to
    * outside feature values and vice versa. */
+  /** @ITKStartGrouping */
   void
   SetUseNegativeFeaturesOn()
   {
@@ -266,7 +270,7 @@ public:
       << "SetUseNegativeFeaturesOn has been deprecated.  Please use ReverseExpansionDirectionOn() instead");
     this->ReverseExpansionDirectionOn();
   }
-
+  /**@ITKEndGrouping*/
   void
   SetUseNegativeFeaturesOff()
   {
@@ -277,6 +281,7 @@ public:
 
   /** THIS METHOD IS DEPRECATED AND SHOULD NOT BE USED. Set/Get the value of the UseNegativeFeatures flag.  This method
    * is deprecated.  Use Set/Get ReverseExpansionDirection instead. */
+  /** @ITKStartGrouping */
   void
   SetUseNegativeFeatures(bool u)
   {
@@ -290,7 +295,7 @@ public:
       this->SetReverseExpansionDirection(true);
     }
   }
-
+  /**@ITKEndGrouping*/
   bool
   GetUseNegativeFeatures() const
   {
@@ -312,23 +317,26 @@ public:
    * surface to contract.  This method can be safely used to reverse the
    * expansion/contraction as appropriate to a particular application or data
    * set. */
+  /** @ITKStartGrouping */
   itkSetMacro(ReverseExpansionDirection, bool);
   itkGetConstMacro(ReverseExpansionDirection, bool);
   itkBooleanMacro(ReverseExpansionDirection);
-
+  /**@ITKEndGrouping*/
   /** Turn On/Off automatic generation of Speed and Advection terms when Update
       is called.  If set to Off, the Speed and Advection images must be set
       explicitly using SetSpeedImage, SetAdvectionImage OR the methods
       GenerateSpeedImage() and GenerateAdvectionImage() should be called prior
       to updating the filter. */
+  /** @ITKStartGrouping */
   itkSetMacro(AutoGenerateSpeedAdvection, bool);
   itkGetConstMacro(AutoGenerateSpeedAdvection, bool);
   itkBooleanMacro(AutoGenerateSpeedAdvection);
-
+  /**@ITKEndGrouping*/
   /** Combined scaling of the propagation and advection speed
       terms. You should use either this -or- Get/SetPropagationScaling and
       Get/SetAdvectionScaling (if appropriate).  See subclasses for details
       on when and whether to set these parameters. */
+  /** @ITKStartGrouping */
   void
   SetFeatureScaling(ValueType v)
   {
@@ -341,9 +349,10 @@ public:
       this->SetAdvectionScaling(v);
     }
   }
-
+  /**@ITKEndGrouping*/
   /** Set/Get the scaling of the propagation speed.  Setting the FeatureScaling
       parameter overrides any previous values set for PropagationScaling. */
+  /** @ITKStartGrouping */
   void
   SetPropagationScaling(ValueType v)
   {
@@ -353,7 +362,7 @@ public:
       this->Modified();
     }
   }
-
+  /**@ITKEndGrouping*/
   ValueType
   GetPropagationScaling() const
   {
@@ -362,6 +371,7 @@ public:
 
   /** Set/Get the scaling of the advection field.  Setting the FeatureScaling
       parameter will override any existing value for AdvectionScaling. */
+  /** @ITKStartGrouping */
   void
   SetAdvectionScaling(ValueType v)
   {
@@ -371,7 +381,7 @@ public:
       this->Modified();
     }
   }
-
+  /**@ITKEndGrouping*/
   ValueType
   GetAdvectionScaling() const
   {
@@ -382,6 +392,7 @@ public:
    *  increase the influence of curvature on the movement of the
    *  surface.  Higher values relative to Advection and Propagation
    *  values will give smoother surfaces. */
+  /** @ITKStartGrouping */
   void
   SetCurvatureScaling(ValueType v)
   {
@@ -391,7 +402,7 @@ public:
       this->Modified();
     }
   }
-
+  /**@ITKEndGrouping*/
   ValueType
   GetCurvatureScaling() const
   {
@@ -399,6 +410,7 @@ public:
   }
 
   /** */
+  /** @ITKStartGrouping */
   void
   SetUseMinimalCurvature(bool b)
   {
@@ -408,7 +420,7 @@ public:
       this->Modified();
     }
   }
-
+  /**@ITKEndGrouping*/
   bool
   GetUseMinimalCurvature() const
   {
@@ -454,6 +466,7 @@ public:
    *  calculation.  Changing this value from the default is not recommended or
    *   necessary but could be used to speed up the surface evolution at the risk
    *   of creating an unstable solution. */
+  /** @ITKStartGrouping */
   void
   SetMaximumCurvatureTimeStep(double n)
   {
@@ -463,7 +476,7 @@ public:
       this->Modified();
     }
   }
-
+  /**@ITKEndGrouping*/
   double
   GetMaximumCurvatureTimeStep() const
   {
@@ -474,6 +487,7 @@ public:
    *  calculation.  Changing this value from the default is not recommended or
    *  necessary but could be used to speed up the surface evolution at the risk
    *  of creating an unstable solution. */
+  /** @ITKStartGrouping */
   void
   SetMaximumPropagationTimeStep(double n)
   {
@@ -483,7 +497,7 @@ public:
       this->Modified();
     }
   }
-
+  /**@ITKEndGrouping*/
   double
   GetMaximumPropagationTimeStep() const
   {
@@ -512,6 +526,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Overrides parent implementation */
+  /** @ITKStartGrouping */
   void
   InitializeIteration() override
   {
@@ -520,7 +535,7 @@ protected:
     this->UpdateProgress(static_cast<float>(this->GetElapsedIterations()) /
                          static_cast<float>(this->GetNumberOfIterations()));
   }
-
+  /**@ITKEndGrouping*/
   /** Overridden from ProcessObject to set certain values before starting the
    * finite difference solver and then create an appropriate output */
   void
