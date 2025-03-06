@@ -427,8 +427,6 @@ template <typename ValueType, typename MeanType>
 void
 ResourceProbe<ValueType, MeanType>::JSONReport(std::ostream & os)
 {
-  const std::stringstream ss;
-
   ValueType ratioOfMeanToMinimum;
   if (Math::ExactlyEquals(this->GetMinimum(), 0.0))
   {
