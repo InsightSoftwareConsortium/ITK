@@ -257,7 +257,7 @@ protected:
   void
   GenerateData() override;
   void
-  GenerateOutputInformation() override{}; // do nothing
+  GenerateOutputInformation() override {}; // do nothing
 
 private:
   /** \class VertexLookupNode A private class containing lookup details for vertices.

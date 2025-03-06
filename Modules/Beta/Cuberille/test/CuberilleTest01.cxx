@@ -160,7 +160,7 @@ CuberilleTest01Helper(int argc, char * argv[])
   cuberille->SetIsoSurfaceValue(isoSurfaceValue);
   ITK_TEST_SET_GET_VALUE(isoSurfaceValue, cuberille->GetIsoSurfaceValue());
 
-  const auto   interpolator = InterpolatorType::New();
+  const auto interpolator = InterpolatorType::New();
 #  if USE_BSPLINE_INTERPOLATOR
   unsigned int splineOrder = 3;
   interpolator->SetSplineOrder(splineOrder);
