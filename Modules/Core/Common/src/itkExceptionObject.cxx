@@ -41,11 +41,8 @@ public:
     , m_File(std::move(file))
     , m_Line(line)
   {
-    std::ostringstream loc;
-
-    loc << ':' << m_Line << ":\n";
     m_What = m_File;
-    m_What += loc.str();
+    m_What += ':' + std::to_string(m_Line) + ":\n";
     m_What += m_Description;
   }
 
