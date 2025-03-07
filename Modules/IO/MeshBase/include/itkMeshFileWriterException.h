@@ -44,13 +44,13 @@ public:
   MeshFileWriterException(const char * file,
                           unsigned int line,
                           const char * message = "Error in IO",
-                          const char * loc = "Unknown");
+                          const char * loc = nullptr);
 
   /** Constructor. */
   MeshFileWriterException(const std::string & file,
                           unsigned int        line,
                           const char *        message = "Error in IO",
-                          const char *        loc = "Unknown");
+                          const char *        loc = nullptr);
 };
 } // end namespace itk
 
