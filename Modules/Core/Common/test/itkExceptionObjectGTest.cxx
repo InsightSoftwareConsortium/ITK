@@ -84,18 +84,48 @@ TEST(ExceptionObject, TestDescriptionFromSpecializedExceptionMacro)
 
 
 // Tests that `ExceptionObject::what()` returns the expected concatenation of
-// file name, line number, and description.
+// file name, line number, location and description.
 TEST(ExceptionObject, TestWhat)
 {
-  const itk::ExceptionObject exceptionObject(__FILE__, __LINE__, "test description");
+  {
+    // Test with empty location.
+    const itk::ExceptionObject exceptionObject(__FILE__, __LINE__, "test description", "");
 
-  const char * const what = exceptionObject.what();
-  const char * const file = exceptionObject.GetFile();
-  const char * const description = exceptionObject.GetDescription();
+    const char * const what = exceptionObject.what();
+    const char * const file = exceptionObject.GetFile();
+    const char * const description = exceptionObject.GetDescription();
 
-  ASSERT_NE(what, nullptr);
-  ASSERT_NE(file, nullptr);
-  ASSERT_NE(description, nullptr);
+    ASSERT_NE(what, nullptr);
+    ASSERT_NE(file, nullptr);
+    ASSERT_NE(description, nullptr);
 
-  EXPECT_EQ(what, file + (":" + std::to_string(exceptionObject.GetLine()) + ":\n") + description);
+    EXPECT_EQ(what, file + (":" + std::to_string(exceptionObject.GetLine()) + ":\n") + description);
+  }
+  {
+    // Test with location = ITK_LOCATION (as used by ITK's exception macro's).
+    const itk::ExceptionObject exceptionObject(__FILE__, __LINE__, "test description", ITK_LOCATION);
+
+    const char * const what = exceptionObject.what();
+    const char * const file = exceptionObject.GetFile();
+    const char * const description = exceptionObject.GetDescription();
+    const char * const location = exceptionObject.GetLocation();
+
+    ASSERT_NE(what, nullptr);
+    ASSERT_NE(file, nullptr);
+    ASSERT_NE(description, nullptr);
+    ASSERT_NE(location, nullptr);
+
+
+    EXPECT_EQ(what,
+              file + (":" + std::to_string(exceptionObject.GetLine()) + ": in '" + location + "':\n") + description);
+
+    try
+    {
+      itkGenericExceptionMacro("Oops, something went exceptionally wrong!");
+    }
+    catch (const std::exception & exception)
+    {
+      std::cout << exception.what() << '\n';
+    }
+  }
 }
