@@ -42,7 +42,12 @@ public:
     , m_Line(line)
   {
     m_What = m_File;
-    m_What += ':' + std::to_string(m_Line) + ":\n";
+    m_What += ':' + std::to_string(m_Line) + ':';
+    if (!m_Location.empty())
+    {
+      m_What += " in '" + m_Location + "':";
+    }
+    m_What += '\n';
     m_What += m_Description;
   }
 
