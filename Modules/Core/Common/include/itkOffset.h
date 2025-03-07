@@ -114,6 +114,7 @@ public:
   }
 
   /** Increment index by a size.  */
+  /** @ITKStartGrouping */
   const Self &
   operator+=(const Size<VDimension> & sz)
   {
@@ -123,8 +124,9 @@ public:
     }
     return *this;
   }
-
+  /**@ITKEndGrouping*/
   /** Decrement index by a size.  */
+  /** @ITKStartGrouping */
   const Self &
   operator-=(const Size<VDimension> & sz)
   {
@@ -134,7 +136,7 @@ public:
     }
     return *this;
   }
-
+  /**@ITKEndGrouping*/
   /** Subtract two offsets. */
   const Self
   operator-(const Self & vec) const
@@ -149,6 +151,7 @@ public:
   }
 
   /** Increment offset by an offset.  */
+  /** @ITKStartGrouping */
   const Self &
   operator+=(const Self & vec)
   {
@@ -158,8 +161,9 @@ public:
     }
     return *this;
   }
-
+  /**@ITKEndGrouping*/
   /** Decrement offset by an offset.  */
+  /** @ITKStartGrouping */
   const Self &
   operator-=(const Self & vec)
   {
@@ -169,7 +173,7 @@ public:
     }
     return *this;
   }
-
+  /**@ITKEndGrouping*/
 
   /** Get the offset. This provides a read only pointer to the offset.
    * \sa SetOffset() */
@@ -225,6 +229,7 @@ public:
    * allowing for fast and convenient instantiations/assignments.
    * ( See main class documentation for an example of initialization)
    */
+  /** @ITKStartGrouping */
   /*
    *  Ask the compiler to align a type to the maximum useful alignment for the target
    *  machine you are compiling for. Whenever you leave out the alignment factor in an
@@ -237,8 +242,9 @@ public:
    */
   static_assert(VDimension > 0, "Error: Only positive value sized VDimension allowed");
   alignas(OffsetValueType) OffsetValueType m_InternalArray[VDimension];
-
+  /**@ITKEndGrouping*/
   /** Copy values from a FixedArray by rounding each one of the components */
+  /** @ITKStartGrouping */
   template <typename TCoordinate>
   inline void
   CopyWithRound(const FixedArray<TCoordinate, VDimension> & point)
@@ -248,8 +254,9 @@ public:
       m_InternalArray[i] = Math::Round<OffsetValueType>(point[i]);
     }
   }
-
+  /**@ITKEndGrouping*/
   /** Copy values from a FixedArray by casting each one of the components */
+  /** @ITKStartGrouping */
   template <typename TCoordinate>
   inline void
   CopyWithCast(const FixedArray<TCoordinate, VDimension> & point)
@@ -259,7 +266,7 @@ public:
       m_InternalArray[i] = static_cast<OffsetValueType>(point[i]);
     }
   }
-
+  /**@ITKEndGrouping*/
   /** Return a basis vector of the form [0, ..., 0, 1, 0, ... 0] where the "1"
    * is positioned in the location specified by the parameter "dim". Valid
    * values of "dim" are 0, ..., VDimension-1. */

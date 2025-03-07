@@ -107,13 +107,14 @@ public:
   itkNewMacro(Self);
 
   /** Get/Set methods for the index */
+  /** @ITKStartGrouping */
   void
   SetIndices(unsigned int i, unsigned int j)
   {
     this->GetFunctor().SetIndices(i, j);
     this->Modified();
   }
-
+  /**@ITKEndGrouping*/
   void
   GetIndices(unsigned int & i, unsigned int & j) const
   {

@@ -103,11 +103,12 @@ protected:
    * its first step.
    *
    * \sa ProcessObject::GenerateInputRequestedRegion() */
+  /** @ITKStartGrouping */
   void
   GenerateInputRequestedRegion() override;
+  /**@ITKEndGrouping*/
 };
 } // end namespace itk
-
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkPathAndImageToPathFilter.hxx"
 #endif

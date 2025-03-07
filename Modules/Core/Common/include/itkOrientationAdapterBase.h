@@ -63,11 +63,12 @@ public:
 protected:
   /** destructor, to silence "virtual class has non-virtual destructor()"
     warnings */
+  /** @ITKStartGrouping */
   virtual ~OrientationAdapterBase() = default;
+  /**@ITKEndGrouping*/
 };
 } // namespace itk
 #else // ITK_LEGACY_REMOVE
 #  error itkOrientationAdapterBase.h is a legacy file since ITK 5.3 and will be removed in the future.
 #endif // ITK_LEGACY_REMOVE
-
 #endif // itkOrientationAdapterBase_h

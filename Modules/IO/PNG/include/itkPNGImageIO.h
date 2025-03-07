@@ -61,6 +61,7 @@ public:
   itkGetConstReferenceMacro(ColorPalette, PaletteType);
 
   /** Set the palette of the image. */
+  /** @ITKStartGrouping */
   void
   SetColorPalette(const PaletteType _arg)
   {
@@ -70,7 +71,7 @@ public:
       this->Modified();
     }
   }
-
+  /**@ITKEndGrouping*/
   /*-------- This part of the interface deals with reading data. ------ */
 
   /** Determine the file type. Returns true if this ImageIO can read the

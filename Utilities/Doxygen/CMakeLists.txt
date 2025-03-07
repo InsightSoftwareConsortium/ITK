@@ -108,13 +108,6 @@ mark_as_advanced(
   ITK_DOXYGEN_XML
   ITK_DOXYGEN_SERVER_BASED_SEARCH)
 
-if(Python3_EXECUTABLE)
-  set(ITK_DOXYGEN_INPUT_FILTER "${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/itkgroup.py")
-
-else()
-  set(ITK_DOXYGEN_INPUT_FILTER)
-endif()
-
 # -------------------------------------------------------------
 if(ITK_BUILD_DOCUMENTATION)
 

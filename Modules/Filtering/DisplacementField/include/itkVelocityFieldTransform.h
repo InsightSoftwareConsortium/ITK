@@ -121,19 +121,21 @@ public:
    * Set the displacement field. Create special set accessor to update
    * interpolator and assign displacement field to transform parameters
    * container. */
+  /** @ITKStartGrouping */
   virtual void
   SetVelocityField(VelocityFieldType *);
   itkGetModifiableObjectMacro(VelocityField, VelocityFieldType);
-
+  /**@ITKEndGrouping*/
   void
   SetFixedParameters(const FixedParametersType &) override;
 
   /** Get/Set the interpolator.
    * Create out own set accessor that assigns the velocity field */
+  /** @ITKStartGrouping */
   virtual void
   SetVelocityFieldInterpolator(VelocityFieldInterpolatorType *);
   itkGetModifiableObjectMacro(VelocityFieldInterpolator, VelocityFieldInterpolatorType);
-
+  /**@ITKEndGrouping*/
   /** Get the modification time of velocity field */
   itkGetConstReferenceMacro(VelocityFieldSetTime, unsigned long);
 
@@ -142,6 +144,7 @@ public:
    * implementation since we don't want to optimize over the deformation
    * field for this class but rather the time-varying velocity field
    */
+  /** @ITKStartGrouping */
   void
   SetDisplacementField(DisplacementFieldType * displacementField) override
   {
@@ -152,7 +155,7 @@ public:
       this->Modified();
     }
   }
-
+  /**@ITKEndGrouping*/
   void
   UpdateTransformParameters(const DerivativeType & update, ScalarType factor = 1.0) override;
 

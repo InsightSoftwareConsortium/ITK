@@ -100,24 +100,28 @@ public:
   using typename Superclass::TimeStepType;
 
   /** Set/Get the time step for each iteration */
+  /** @ITKStartGrouping */
   itkSetMacro(TimeStep, TimeStepType);
   itkGetConstMacro(TimeStep, TimeStepType);
-
+  /**@ITKEndGrouping*/
   /** Set/Get the conductance parameter governing sensitivity of the
       conductance equation. */
+  /** @ITKStartGrouping */
   itkSetMacro(ConductanceParameter, double);
   itkGetConstMacro(ConductanceParameter, double);
-
+  /**@ITKEndGrouping*/
   /** Set/Get the interval at which a new scaling for the conductance term is
       calculated.  */
+  /** @ITKStartGrouping */
   itkSetMacro(ConductanceScalingUpdateInterval, unsigned int);
   itkGetConstMacro(ConductanceScalingUpdateInterval, unsigned int);
-
+  /**@ITKEndGrouping*/
   /** The following parameters are not used at this time.  Setting them will
       have no effect on the output */
+  /** @ITKStartGrouping */
   itkSetMacro(ConductanceScalingParameter, double);
   itkGetConstMacro(ConductanceScalingParameter, double);
-
+  /**@ITKEndGrouping*/
   /** Supplies a fixed value for the average gradient magnitude of the image to
       the AnisotropicDiffusionFunction at each iteration.  The average gradient
       magnitude is normally calculated over the entire image before each
@@ -125,6 +129,7 @@ public:
       at a pixel.  This method is  useful in streaming applications to avoid
       block artifacts by overriding the normal gradient magnitude calculation
       (i.e. all image chunks are scaled uniformly). */
+  /** @ITKStartGrouping */
   void
   SetFixedAverageGradientMagnitude(double a)
   {
@@ -132,7 +137,7 @@ public:
     this->Modified();
     m_GradientMagnitudeIsFixed = true;
   }
-
+  /**@ITKEndGrouping*/
   itkGetConstMacro(FixedAverageGradientMagnitude, double);
 
 protected:

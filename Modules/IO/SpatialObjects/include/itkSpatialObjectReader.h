@@ -56,19 +56,21 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
+  /** @ITKStartGrouping */
   using Superclass = Object;
   itkOverrideGetNameOfClassMacro(SpatialObjectReader);
-
+  /**@ITKEndGrouping*/
   /** Load a scene file. */
   void
   Update();
 
   /** Set the version of MetaIO to use */
+  /** @ITKStartGrouping */
   void
   SetMetaIOVersion(unsigned int ver);
   unsigned int
   GetMetaIOVersion() const;
-
+  /**@ITKEndGrouping*/
   /** Set the filename  */
   itkSetStringMacro(FileName);
 
@@ -85,6 +87,7 @@ public:
   /** Get the output, with a group spatial object added to the top.  This
    *    addition makes it easy to use GetChildren() to get the list of
    *    objects read. */
+  /** @ITKStartGrouping */
   GroupPointer
   GetGroup()
   {
@@ -102,7 +105,7 @@ public:
     }
     return m_Group;
   }
-
+  /**@ITKEndGrouping*/
   /** Set/GetEvent */
   const MetaEvent *
   GetEvent()

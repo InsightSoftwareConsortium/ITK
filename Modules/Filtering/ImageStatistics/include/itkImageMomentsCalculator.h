@@ -105,6 +105,7 @@ public:
   using AffineTransformPointer = typename AffineTransformType::Pointer;
 
   /** Set the input image. */
+  /** @ITKStartGrouping */
   virtual void
   SetImage(const ImageType * image)
   {
@@ -115,8 +116,9 @@ public:
       m_Valid = false;
     }
   }
-
+  /**@ITKEndGrouping*/
   /** Set the spatial object mask. */
+  /** @ITKStartGrouping */
   virtual void
   SetSpatialObjectMask(const SpatialObject<Self::ImageDimension> * so)
   {
@@ -127,7 +129,7 @@ public:
       m_Valid = false;
     }
   }
-
+  /**@ITKEndGrouping*/
   /** Compute moments of a new or modified image.
    * This method computes the moments of the image given as a
    * parameter and stores them in the object.  The values of these
@@ -194,9 +196,10 @@ public:
    * have foolishly made one or more of the spacing values negative;
    * in that case, _you_ get to figure out the consequences.)  The
    * moments are computed in physical coordinates. */
+  /** @ITKStartGrouping */
   MatrixType
   GetPrincipalAxes() const;
-
+  /**@ITKEndGrouping*/
   /** Get the affine transform from principal axes to physical axes
    * This method returns an affine transform which transforms from
    * the principal axes coordinate system to physical coordinates. */

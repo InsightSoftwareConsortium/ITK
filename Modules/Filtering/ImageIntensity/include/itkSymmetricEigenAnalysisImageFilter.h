@@ -63,6 +63,7 @@ public:
   }
 
   /** Method to explicitly set the dimension of the matrix */
+  /** @ITKStartGrouping */
   void
   SetDimension(unsigned int n)
   {
@@ -73,7 +74,7 @@ public:
   {
     return m_Calculator.GetDimension();
   }
-
+  /**@ITKEndGrouping*/
 #if !defined(ITK_LEGACY_REMOVE)
   /** Enables reverse compatibility for enumeration values */
   using EigenValueOrderType = EigenValueOrderEnum;
@@ -88,6 +89,7 @@ public:
 
   /** Order eigen values. Default is to OrderByValue:  lambda_1 <
    * lambda_2 < .... */
+  /** @ITKStartGrouping */
   void
   OrderEigenValuesBy(EigenValueOrderEnum order)
   {
@@ -118,7 +120,7 @@ public:
     }
     return EigenValueOrderEnum::DoNotOrder;
   }
-
+  /**@ITKEndGrouping*/
 
 private:
   CalculatorType m_Calculator;
@@ -168,6 +170,7 @@ public:
 
   /** Order eigen values. Default is to OrderByValue:  lambda_1 <
    * lambda_2 < .... */
+  /** @ITKStartGrouping */
   void
   OrderEigenValuesBy(EigenValueOrderEnum order)
   {
@@ -180,7 +183,7 @@ public:
       m_Calculator.SetOrderEigenValues(false);
     }
   }
-
+  /**@ITKEndGrouping*/
 private:
   CalculatorType m_Calculator;
 };
@@ -242,6 +245,7 @@ public:
 
   /** Order eigen values. Default is to OrderByValue:  lambda_1 <
    * lambda_2 < .... */
+  /** @ITKStartGrouping */
   void
   OrderEigenValuesBy(EigenValueOrderEnum order)
   {
@@ -257,7 +261,7 @@ public:
   {
     return this->GetFunctor().GetOrderEigenValuesBy();
   }
-
+  /**@ITKEndGrouping*/
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(SymmetricEigenAnalysisImageFilter);
 
@@ -273,6 +277,7 @@ public:
 
   /** Set the dimension of the tensor. (For example the SymmetricSecondRankTensor
    * is a pxp matrix) */
+  /** @ITKStartGrouping */
   void
   SetDimension(unsigned int p)
   {
@@ -283,7 +288,7 @@ public:
   {
     return this->GetFunctor().GetDimension();
   }
-
+  /**@ITKEndGrouping*/
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputValueType>));
 
 protected:

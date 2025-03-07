@@ -101,6 +101,7 @@ public:
 
   /** Constructor called directly by the pixel proxy of
    * ShapedImageNeighborhoodRange. */
+  /** @ITKStartGrouping */
   ZeroFluxNeumannImageNeighborhoodPixelAccessPolicy(const ImageSizeType &                   imageSize,
                                                     const OffsetType &                      offsetTable,
                                                     const NeighborhoodAccessorFunctorType & neighborhoodAccessor,
@@ -108,7 +109,7 @@ public:
     : m_PixelIndexValue{ CalculatePixelIndexValue(imageSize, offsetTable, pixelIndex) }
     , m_NeighborhoodAccessor(neighborhoodAccessor)
   {}
-
+  /**@ITKEndGrouping*/
   /** Retrieves the pixel value from the image buffer, at the current
    * index value.  */
   PixelType
@@ -119,13 +120,14 @@ public:
 
   /** Sets the value of the image buffer at the current index value to the
    * specified value.  */
+  /** @ITKStartGrouping */
   void
   SetPixelValue(InternalPixelType * const imageBufferPointer, const PixelType & pixelValue) const noexcept
   {
     m_NeighborhoodAccessor.Set(imageBufferPointer + m_PixelIndexValue, pixelValue);
   }
+  /**@ITKEndGrouping*/
 };
-
 } // namespace itk
 
 #endif

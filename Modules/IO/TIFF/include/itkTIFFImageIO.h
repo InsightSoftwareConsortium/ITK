@@ -160,6 +160,7 @@ public:
   /** Set/Get the level of quality for the output images if
    * Compression is JPEG. Settings vary from 1 to 100.
    * 100 is the highest quality. Default is 75 */
+  /** @ITKStartGrouping */
   virtual void
   SetJPEGQuality(int _JPEGQuality)
   {
@@ -170,7 +171,7 @@ public:
   {
     return this->GetCompressionLevel();
   }
-
+  /**@ITKEndGrouping*/
 
   /** Get a const ref to the palette of the image. In the case of non palette
    * image or ExpandRGBPalette set to true, a vector of size
@@ -180,6 +181,7 @@ public:
 
   /** Set the palette of the image.
    * For multipage images, the same palette is going to be used for all pages */
+  /** @ITKStartGrouping */
   void
   SetColorPalette(const PaletteType _arg)
   {
@@ -189,7 +191,7 @@ public:
       this->Modified();
     }
   }
-
+  /**@ITKEndGrouping*/
 protected:
   TIFFImageIO();
   ~TIFFImageIO() override;

@@ -51,6 +51,7 @@ public:
   ITK_DISALLOW_COPY_AND_MOVE(SegmentTree);
 
   /** Define itk Smart Pointers for this object */
+  /** @ITKStartGrouping */
   using Self = SegmentTree;
   using Superclass = DataObject;
   using Pointer = SmartPointer<Self>;
@@ -58,17 +59,18 @@ public:
   itkNewMacro(Self);
   itkOverrideGetNameOfClassMacro(SegmentTree);
   using ScalarType = TScalar;
-
+  /**@ITKEndGrouping*/
   /** Elements of the list (nodes of the tree).  A record of a merge
    * between two segments (IdentifierType labels) at a particular
    * saliency.   */
+  /** @ITKStartGrouping */
   struct merge_t
   {
     IdentifierType from;
     IdentifierType to;
     ScalarType     saliency;
   };
-
+  /**@ITKEndGrouping*/
   /** Define the container type used in this list data structure */
   using DequeType = std::deque<merge_t>;
   using Iterator = typename DequeType::iterator;
@@ -76,6 +78,7 @@ public:
   using ValueType = typename DequeType::value_type;
 
   /** Boolean comparison functor for use in sorting functions.  */
+  /** @ITKStartGrouping */
   struct merge_comp
   {
     merge_comp() = default;
@@ -85,7 +88,7 @@ public:
       return b.saliency < a.saliency;
     }
   };
-
+  /**@ITKEndGrouping*/
   /** Boolean comparison functor for use in sorting functions.   */
   struct sort_comp
   {

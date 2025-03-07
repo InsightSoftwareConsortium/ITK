@@ -111,13 +111,14 @@ public:
   }
 
   /** Insert a new step into the chaincode at a specified position */
+  /** @ITKStartGrouping */
   inline void
   InsertStep(InputType position, int encodedStep)
   {
     m_Chain2D.insert(m_Chain2D.begin() + position, encodedStep);
     this->Modified();
   }
-
+  /**@ITKEndGrouping*/
   void
   InsertStep(InputType position, OffsetType step) override
   {
@@ -126,13 +127,14 @@ public:
   }
 
   /** Change the direction of a step in the chaincode */
+  /** @ITKStartGrouping */
   inline void
   ChangeStep(InputType position, int encodedStep)
   {
     m_Chain2D[position] = encodedStep;
     this->Modified();
   }
-
+  /**@ITKEndGrouping*/
   void
   ChangeStep(InputType position, OffsetType step) override
   {
@@ -141,13 +143,14 @@ public:
   }
 
   /** Remove all steps from the chain code */
+  /** @ITKStartGrouping */
   void
   Clear() override
   {
     m_Chain2D.clear();
     this->Modified();
   }
-
+  /**@ITKEndGrouping*/
   std::string
   GetChainCodeAsString() const;
 

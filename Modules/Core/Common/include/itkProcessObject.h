@@ -164,7 +164,7 @@ public:
   /** STL array of data object names */
   using NameArray = std::vector<DataObjectIdentifierType>;
 
-  //** Type of general multi-threader interface */
+  /** Type of general multi-threader interface */
   using MultiThreaderType = MultiThreaderBase;
 
   /** \brief Return an array with the names of the inputs defined.
@@ -459,6 +459,7 @@ public:
    * used by a downstream ProcessObject. Default value is off. Another
    * options for controlling memory utilization is the
    * ReleaseDataBeforeUpdateFlag. */
+  /** @ITKStartGrouping */
   virtual void
   SetReleaseDataFlag(bool val);
   virtual bool
@@ -473,7 +474,7 @@ public:
   {
     this->SetReleaseDataFlag(false);
   }
-
+  /**@ITKEndGrouping*/
   /** Turn on/off the flags to control whether the bulk data belonging
    * to the outputs of this ProcessObject are released/reallocated
    * during an Update().  In limited memory scenarios, a user may want
@@ -486,14 +487,16 @@ public:
    * ReleaseDataBeforeUpdateFlag manages the deallocation/reallocation
    * of bulk data during a pipeline update to control peak memory
    * utilization. Default value is on. */
+  /** @ITKStartGrouping */
   itkSetMacro(ReleaseDataBeforeUpdateFlag, bool);
   itkGetConstReferenceMacro(ReleaseDataBeforeUpdateFlag, bool);
   itkBooleanMacro(ReleaseDataBeforeUpdateFlag);
-
+  /**@ITKEndGrouping*/
   /** Get/Set the number of work units to create when executing. */
+  /** @ITKStartGrouping */
   itkSetClampMacro(NumberOfWorkUnits, ThreadIdType, 1, ITK_MAX_THREADS);
   itkGetConstReferenceMacro(NumberOfWorkUnits, ThreadIdType);
-
+  /**@ITKEndGrouping*/
   /** Return the multithreader used by this class. */
   MultiThreaderType *
   GetMultiThreader() const
@@ -536,6 +539,7 @@ protected:
 
   /** Method used internally for getting an indexed input.
    */
+  /** @ITKStartGrouping */
   DataObject *
   GetInput(DataObjectPointerArraySizeType idx)
   {
@@ -546,7 +550,7 @@ protected:
   {
     return idx < m_IndexedInputs.size() ? m_IndexedInputs[idx]->second.GetPointer() : nullptr;
   }
-
+  /**@ITKEndGrouping*/
   /** \brief Protected method for setting indexed and named inputs.
    *
    * Subclasses make use of them for setting input. As this method
@@ -590,6 +594,7 @@ protected:
   virtual void RemoveInput(DataObjectPointerArraySizeType);
 
   /** Return the main input */
+  /** @ITKStartGrouping */
   DataObject *
   GetPrimaryInput()
   {
@@ -600,8 +605,9 @@ protected:
   {
     return m_IndexedInputs[0]->second;
   }
-
+  /**@ITKEndGrouping*/
   /** Set/Get the name associated with the Primary input.  Defaults to "Primary". */
+  /** @ITKStartGrouping */
   virtual void
   SetPrimaryInputName(const DataObjectIdentifierType & key);
   virtual const char *
@@ -609,7 +615,7 @@ protected:
   {
     return this->m_IndexedInputs[0]->first.c_str();
   }
-
+  /**@ITKEndGrouping*/
   /** Set the main input */
   virtual void
   SetPrimaryInput(DataObject * object);
@@ -690,12 +696,14 @@ protected:
   //
 
   /** Return an output */
+  /** @ITKStartGrouping */
   DataObject *
   GetOutput(const DataObjectIdentifierType & key);
   const DataObject *
   GetOutput(const DataObjectIdentifierType & key) const;
-
+  /**@ITKEndGrouping*/
   /** Set/Get the name associated with the Primary output.  Defaults to "Primary". */
+  /** @ITKStartGrouping */
   virtual void
   SetPrimaryOutputName(const DataObjectIdentifierType & key);
   virtual const char *
@@ -703,13 +711,14 @@ protected:
   {
     return this->m_IndexedOutputs[0]->first.c_str();
   }
-
+  /**@ITKEndGrouping*/
   /** Method used internally for getting an indexed output. */
+  /** @ITKStartGrouping */
   DataObject *
   GetOutput(DataObjectPointerArraySizeType i);
   const DataObject *
   GetOutput(DataObjectPointerArraySizeType i) const;
-
+  /**@ITKEndGrouping*/
   /** Set an output */
   virtual void
   SetOutput(const DataObjectIdentifierType & name, DataObject * output);
@@ -719,6 +728,7 @@ protected:
   RemoveOutput(const DataObjectIdentifierType & key);
 
   /** Return the main output */
+  /** @ITKStartGrouping */
   DataObject *
   GetPrimaryOutput()
   {
@@ -729,7 +739,7 @@ protected:
   {
     return m_IndexedOutputs[0]->second;
   }
-
+  /**@ITKEndGrouping*/
   /** Set the main output */
   virtual void
   SetPrimaryOutput(DataObject * object);
@@ -846,6 +856,7 @@ protected:
   {}
 
   /** Called to allocate the input array.  Copies old inputs. */
+
   /** Propagate a call to ResetPipeline() up the pipeline. Called only from
    * DataObject. */
   virtual void
@@ -886,11 +897,12 @@ protected:
    * When true, the MultiThreader will report course grain progress. If set to false, a progress must be explicitly
    * updated in derived filters.
    */
+  /** @ITKStartGrouping */
   itkGetConstMacro(ThreaderUpdateProgress, bool);
   itkBooleanMacro(ThreaderUpdateProgress);
   virtual void
   SetThreaderUpdateProgress(bool arg);
-
+  /**@ITKEndGrouping*/
 
   /**
    * Internal method to convert internal integer progress to float [0.0, 1.0]
@@ -905,6 +917,7 @@ protected:
    * Internal method convert floating point progress [0.0, 1.0] to internal integer representation. Values outside the
    * [0.0, 1.0] range are clamped.
    */
+  /** @ITKStartGrouping */
   static inline uint32_t
   progressFloatToFixed(float f)
   {
@@ -919,7 +932,7 @@ protected:
     const double temp = static_cast<double>(f) * std::numeric_limits<uint32_t>::max();
     return static_cast<uint32_t>(temp);
   }
-
+  /**@ITKEndGrouping*/
 
   /** Sets the required number of outputs, and creates each of them by MakeOutput. */
   template <typename TSourceObject>

@@ -87,13 +87,14 @@ public:
   using OutputImagePixelType = typename OutputImageType::PixelType;
 
   /** Connect the first operand for pixel-wise operation. */
+  /** @ITKStartGrouping */
   virtual void
   SetInput1(const TInputImage1 * image1);
   virtual void
   SetInput1(const DecoratedInput1ImagePixelType * input1);
   virtual void
   SetInput1(const Input1ImagePixelType & input1);
-
+  /**@ITKEndGrouping*/
   /** Set the first operand as a constant. */
   virtual void
   SetConstant1(const Input1ImagePixelType & input1);
@@ -104,14 +105,16 @@ public:
   GetConstant1() const;
 
   /** Connect the second operand for pixel-wise operation. */
+  /** @ITKStartGrouping */
   virtual void
   SetInput2(const TInputImage2 * image2);
   virtual void
   SetInput2(const DecoratedInput2ImagePixelType * input2);
   virtual void
   SetInput2(const Input2ImagePixelType & input2);
-
+  /**@ITKEndGrouping*/
   /** Set the second operand as a constant. */
+  /** @ITKStartGrouping */
   virtual void
   SetConstant2(const Input2ImagePixelType & input2);
   void
@@ -124,7 +127,7 @@ public:
   {
     return this->GetConstant2();
   }
-
+  /**@ITKEndGrouping*/
   /** Get the constant value of the second operand. An exception is sent if
    * the second operand is not a constant. */
   virtual const Input2ImagePixelType &
@@ -156,6 +159,7 @@ public:
    * This method requires an operator!=() be defined on the functor
    * (or the compiler's default implementation of operator!=() being
    * appropriate). */
+  /** @ITKStartGrouping */
   void
   SetFunctor(const FunctorType & functor)
   {
@@ -165,7 +169,7 @@ public:
       this->Modified();
     }
   }
-
+  /**@ITKEndGrouping*/
   /** ImageDimension constants */
   static constexpr unsigned int InputImage1Dimension = TInputImage1::ImageDimension;
   static constexpr unsigned int InputImage2Dimension = TInputImage2::ImageDimension;

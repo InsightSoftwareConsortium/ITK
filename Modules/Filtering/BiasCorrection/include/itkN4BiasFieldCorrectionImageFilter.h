@@ -146,13 +146,14 @@ public:
    * those input image voxels inside the mask image values are used in
    * estimating the bias field.
    */
+  /** @ITKStartGrouping */
   itkSetInputMacro(MaskImage, MaskImageType);
   void
   SetInput2(const MaskImageType * mask)
   {
     this->SetMaskImage(mask);
   }
-
+  /**@ITKEndGrouping*/
   /**
    * Get mask image function.  If a binary mask image is specified, only
    * those input image voxels inside the mask image values are used in
@@ -168,16 +169,18 @@ public:
    * input image voxels corresponding to non-zero voxels in the MaskImage
    * are used in estimating the bias field. Default = 1.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(MaskLabel, MaskPixelType);
   itkGetConstMacro(MaskLabel, MaskPixelType);
-
+  /**@ITKEndGrouping*/
   /**
    * Use a mask label for identifying mask functionality. See SetMaskLabel.
    * Defaults to false. */
+  /** @ITKStartGrouping */
   itkSetMacro(UseMaskLabel, bool);
   itkGetConstMacro(UseMaskLabel, bool);
   itkBooleanMacro(UseMaskLabel);
-
+  /**@ITKEndGrouping*/
   /**
    * Set confidence image function.  If a confidence image is specified,
    * estimation of the bias field weights the contribution of each voxel
@@ -188,13 +191,14 @@ public:
    * been done in the literature) as an alternative strategy to estimating the
    * bias field.
    */
+  /** @ITKStartGrouping */
   itkSetInputMacro(ConfidenceImage, RealImageType);
   void
   SetInput3(const RealImageType * image)
   {
     this->SetConfidenceImage(image);
   }
-
+  /**@ITKEndGrouping*/
   /**
    * Get confidence image function.  If a confidence image is specified,
    * estimation of the bias field weights the contribution of each voxel
@@ -290,13 +294,14 @@ public:
    * specify a B-spline mesh size for initial fitting followed by a doubling of
    * the mesh resolution for each subsequent fitting level.  Default = 1 level.
    */
+  /** @ITKStartGrouping */
   void
   SetNumberOfFittingLevels(unsigned int n)
   {
     auto nlevels = MakeFilled<ArrayType>(n);
     this->SetNumberOfFittingLevels(nlevels);
   }
-
+  /**@ITKEndGrouping*/
   /**
    * Get the number of fitting levels.  One of the contributions of N4 is the
    * introduction of a multi-scale approach to fitting. This allows one to

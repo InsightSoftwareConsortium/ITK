@@ -108,6 +108,7 @@ public:
 
   /** Constructor which establishes the region size, neighborhood, and image
    * over which to walk. */
+  /** @ITKStartGrouping */
   ConstNeighborhoodIterator(const SizeType & radius, const ImageType * ptr, const RegionType & region)
   {
     this->Initialize(radius, ptr, region);
@@ -119,7 +120,7 @@ public:
     m_NeighborhoodAccessorFunctor = ptr->GetNeighborhoodAccessor();
     m_NeighborhoodAccessorFunctor.SetBegin(ptr->GetBufferPointer());
   }
-
+  /**@ITKEndGrouping*/
   /** Assignment operator */
   Self &
   operator=(const Self & orig);
@@ -349,6 +350,7 @@ public:
 
   /** Method for determining whether the iterator has reached the
    * end of its iteration region. */
+  /** @ITKStartGrouping */
   bool
   IsAtEnd() const
   {
@@ -364,7 +366,7 @@ public:
     }
     return (this->GetCenterPointer() == m_End);
   }
-
+  /**@ITKEndGrouping*/
   /** Increments the pointers in the ConstNeighborhoodIterator,
    * wraps across boundaries automatically, accounting for
    * the disparity in the buffer size and the region size of the
@@ -430,13 +432,14 @@ public:
    * image. SetLocation should _NOT_ be used to update the position of the
    * iterator during iteration, only for initializing it to a position
    * prior to iteration.  This method is not optimized for speed. */
+  /** @ITKStartGrouping */
   void
   SetLocation(const IndexType & position)
   {
     this->SetLoop(position);
     this->SetPixelPointers(position);
   }
-
+  /**@ITKEndGrouping*/
   /** Addition of an itk::Offset.  Note that this method does not do any bounds
    * checking.  Adding an offset that moves the iterator out of its assigned
    * region will produce undefined results. */

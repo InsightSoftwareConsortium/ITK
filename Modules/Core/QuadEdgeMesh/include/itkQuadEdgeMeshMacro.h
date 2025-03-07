@@ -44,6 +44,7 @@ namespace itk
  *          itk::itkQEMeshForAllPointsMacro macro.
  *
  */
+/** @ITKStartGrouping */
 #define itkQEMeshForAllPointsMacro(MeshType, MeshInstance, PointVariable, PointIndex) \
   {                                                                                   \
     using PointType = typename MeshType::PointType;                                   \
@@ -64,7 +65,7 @@ namespace itk
       {                                                                               \
         PointType       PointVariable = pointIterator.Value();                        \
         PointIdentifier PointIndex = pointIterator.Index();
-
+/**@ITKEndGrouping*/
 /** \def itkQEMeshForAllPointsEndMacro
  * \brief Terminates a block of code started with the macro
  *        itk::itkQEMeshForAllPointsMacro

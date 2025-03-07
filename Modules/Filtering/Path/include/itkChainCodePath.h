@@ -108,33 +108,37 @@ public:
   itkNewMacro(Self);
 
   /** Set/Get the index associated with the initial position of the path */
+  /** @ITKStartGrouping */
   itkSetMacro(Start, IndexType);
   itkGetConstReferenceMacro(Start, IndexType);
-
+  /**@ITKEndGrouping*/
   /** Insert a new step into the chaincode at a specified position */
+  /** @ITKStartGrouping */
   virtual inline void
   InsertStep(InputType position, OffsetType step)
   {
     m_Chain.insert(m_Chain.begin() + position, step);
     this->Modified();
   }
-
+  /**@ITKEndGrouping*/
   /** Change the direction of a step in the chaincode */
+  /** @ITKStartGrouping */
   virtual inline void
   ChangeStep(InputType position, OffsetType step)
   {
     m_Chain[position] = step;
     this->Modified();
   }
-
+  /**@ITKEndGrouping*/
   /** Remove all steps from the chain code */
+  /** @ITKStartGrouping */
   virtual inline void
   Clear()
   {
     m_Chain.clear();
     this->Modified();
   }
-
+  /**@ITKEndGrouping*/
   /** How many steps in the chaincode? */
   virtual inline ChainCodeSizeType
   NumberOfSteps() const
@@ -143,13 +147,14 @@ public:
   }
 
   /** Needed for Pipelining */
+  /** @ITKStartGrouping */
   void
   Initialize() override
   {
     m_Start = this->GetZeroIndex();
     this->Clear();
   }
-
+  /**@ITKEndGrouping*/
 protected:
   ChainCodePath();
   ~ChainCodePath() override = default;

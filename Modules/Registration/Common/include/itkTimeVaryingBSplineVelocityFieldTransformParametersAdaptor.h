@@ -148,6 +148,7 @@ public:
   itkGetConstReferenceMacro(RequiredTransformDomainDirection, DirectionType);
 
   /** Get the required control point lattice origin. */
+  /** @ITKStartGrouping */
   const OriginType
   GetRequiredControlPointLatticeOrigin() const
   {
@@ -158,8 +159,9 @@ public:
     }
     return requiredLatticeOrigin;
   }
-
+  /**@ITKEndGrouping*/
   /** Get the required control point lattice spacing. */
+  /** @ITKStartGrouping */
   const SpacingType
   GetRequiredControlPointLatticeSpacing() const
   {
@@ -174,8 +176,9 @@ public:
     }
     return requiredLatticeSpacing;
   }
-
+  /**@ITKEndGrouping*/
   /** Get the required control point lattice size. */
+  /** @ITKStartGrouping */
   const SizeType
   GetRequiredControlPointLatticeSize() const
   {
@@ -186,7 +189,7 @@ public:
     }
     return requiredLatticeSize;
   }
-
+  /**@ITKEndGrouping*/
   /** Get the required control point lattice direction. */
   const DirectionType
   GetRequiredControlPointLatticeDirection() const

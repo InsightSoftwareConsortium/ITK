@@ -90,6 +90,7 @@ public:
   using PixelRealType = typename NumericTraits<TPixel>::RealType;
 
   /** Sets the dimensional direction of a directional operator. */
+  /** @ITKStartGrouping */
   void
   SetDirection(const unsigned int direction)
   {
@@ -100,7 +101,7 @@ public:
     }
     m_Direction = direction;
   }
-
+  /**@ITKEndGrouping*/
   /** Returns the direction (dimension number) of a directional operator. */
   unsigned int
   GetDirection() const
@@ -170,6 +171,7 @@ protected:
   FillCenteredDirectional(const CoefficientVector &);
 
   /** Initializes all the coefficients in the neighborhood to zero values */
+  /** @ITKStartGrouping */
   void
   InitializeToZero()
   {
@@ -178,7 +180,7 @@ protected:
       this->operator[](i) = PixelType{};
     }
   }
-
+  /**@ITKEndGrouping*/
 private:
   /** Direction (dimension number) of the derivative. */
   unsigned int m_Direction{ 0 };
