@@ -118,14 +118,5 @@ TEST(ExceptionObject, TestWhat)
 
     EXPECT_EQ(what,
               file + (":" + std::to_string(exceptionObject.GetLine()) + ": in '" + location + "':\n") + description);
-
-    try
-    {
-      itkGenericExceptionMacro("Oops, something went exceptionally wrong!");
-    }
-    catch (const std::exception & exception)
-    {
-      std::cout << exception.what() << '\n';
-    }
   }
 }
