@@ -28,6 +28,7 @@ extract_source () {
     git_archive
     pushd "${extractdir}/${name}-reduced"
     rm v3p/netlib/triangle*
+    rm -rf v3p/netlib/toms
     rm v3p/netlib/examples/showme.c
     echo "* -whitespace" > .gitattributes
     popd
