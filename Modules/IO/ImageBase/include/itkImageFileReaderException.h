@@ -40,7 +40,7 @@ public:
   ImageFileReaderException(const char * file,
                            unsigned int line,
                            const char * message = "Error in IO",
-                           const char * loc = "Unknown")
+                           const char * loc = nullptr)
     : ExceptionObject(file, line, message, loc)
   {}
 
@@ -48,7 +48,7 @@ public:
   ImageFileReaderException(const std::string & file,
                            unsigned int        line,
                            const char *        message = "Error in IO",
-                           const char *        loc = "Unknown")
+                           const char *        loc = nullptr)
     : ExceptionObject(file, line, message, loc)
   {}
 
