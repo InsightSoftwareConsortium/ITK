@@ -429,11 +429,11 @@ ItpackSparseMatrix::~ItpackSparseMatrix()
   delete[] m_IWORK;
 }
 
-FEMExceptionItpackSparseMatrixSbagn::FEMExceptionItpackSparseMatrixSbagn(const char * file,
+FEMExceptionItpackSparseMatrixSbagn::FEMExceptionItpackSparseMatrixSbagn(std::string  file,
                                                                          unsigned int lineNumber,
                                                                          std::string  location,
                                                                          integer      errorCode)
-  : FEMException(file, lineNumber)
+  : FEMException(std::move(file), lineNumber, std::move(location))
 {
   std::string solverError;
 
@@ -450,17 +450,15 @@ FEMExceptionItpackSparseMatrixSbagn::FEMExceptionItpackSparseMatrixSbagn(const c
   buf << "Error: " << solverError;
 
   SetDescription(buf.str().c_str());
-
-  SetLocation(location);
 }
 
 FEMExceptionItpackSparseMatrixSbagn::~FEMExceptionItpackSparseMatrixSbagn() noexcept = default;
 
-FEMExceptionItpackSparseMatrixSbsij::FEMExceptionItpackSparseMatrixSbsij(const char * file,
+FEMExceptionItpackSparseMatrixSbsij::FEMExceptionItpackSparseMatrixSbsij(std::string  file,
                                                                          unsigned int lineNumber,
                                                                          std::string  location,
                                                                          integer      errorCode)
-  : FEMException(file, lineNumber)
+  : FEMException(std::move(file), lineNumber, std::move(location))
 {
   std::string solverError;
 
@@ -480,8 +478,6 @@ FEMExceptionItpackSparseMatrixSbsij::FEMExceptionItpackSparseMatrixSbsij(const c
   buf << "Error: " << solverError;
 
   SetDescription(buf.str().c_str());
-
-  SetLocation(location);
 }
 
 FEMExceptionItpackSparseMatrixSbsij::~FEMExceptionItpackSparseMatrixSbsij() noexcept = default;

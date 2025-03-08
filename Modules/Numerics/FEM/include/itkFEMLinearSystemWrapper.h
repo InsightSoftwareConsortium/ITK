@@ -542,7 +542,7 @@ public:
    * must be provided: file, lineNumber, location and a detailed description
    * of the exception.
    */
-  FEMExceptionLinearSystem(const char * file,
+  FEMExceptionLinearSystem(std::string  file,
                            unsigned int lineNumber,
                            std::string  location,
                            std::string  moreDescription);
@@ -562,7 +562,7 @@ public:
    * must be provided: file, lineNumber, location and a detailed description
    * of the exception, and the invalid index
    */
-  FEMExceptionLinearSystemBounds(const char * file,
+  FEMExceptionLinearSystemBounds(std::string  file,
                                  unsigned int lineNumber,
                                  std::string  location,
                                  std::string  moreDescription,
@@ -572,7 +572,7 @@ public:
    * Constructor. In order to construct this exception object, six parameters
    * must be provided: file, lineNumber, location and a detailed description
    * of the exception, the first index, and the second index   */
-  FEMExceptionLinearSystemBounds(const char * file,
+  FEMExceptionLinearSystemBounds(std::string  file,
                                  unsigned int lineNumber,
                                  std::string  location,
                                  std::string  moreDescription,

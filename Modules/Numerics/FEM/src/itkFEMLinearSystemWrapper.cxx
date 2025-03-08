@@ -398,22 +398,21 @@ LinearSystemWrapper::FollowConnectionsCuthillMckeeOrdering(unsigned int  rowNumb
 
 FEMExceptionLinearSystem::~FEMExceptionLinearSystem() noexcept = default;
 
-FEMExceptionLinearSystem::FEMExceptionLinearSystem(const char * file,
+FEMExceptionLinearSystem::FEMExceptionLinearSystem(std::string  file,
                                                    unsigned int lineNumber,
                                                    std::string  location,
                                                    std::string  moreDescription)
-  : FEMException(file, lineNumber)
+  : FEMException(std::move(file), lineNumber, std::move(location))
 {
   SetDescription("Error in linear system: " + moreDescription);
-  SetLocation(location);
 }
 
-FEMExceptionLinearSystemBounds::FEMExceptionLinearSystemBounds(const char * file,
+FEMExceptionLinearSystemBounds::FEMExceptionLinearSystemBounds(std::string  file,
                                                                unsigned int lineNumber,
                                                                std::string,
                                                                std::string  moreDescription,
                                                                unsigned int index1)
-  : FEMException(file, lineNumber)
+  : FEMException(std::move(file), lineNumber)
 {
   std::ostringstream buf;
 
@@ -421,13 +420,13 @@ FEMExceptionLinearSystemBounds::FEMExceptionLinearSystemBounds(const char * file
   SetDescription(buf.str().c_str());
 }
 
-FEMExceptionLinearSystemBounds::FEMExceptionLinearSystemBounds(const char * file,
+FEMExceptionLinearSystemBounds::FEMExceptionLinearSystemBounds(std::string  file,
                                                                unsigned int lineNumber,
                                                                std::string,
                                                                std::string,
                                                                unsigned int index1,
                                                                unsigned int index2)
-  : FEMException(file, lineNumber)
+  : FEMException(std::move(file), lineNumber)
 {
   std::ostringstream buf;
 

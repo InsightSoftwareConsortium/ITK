@@ -59,10 +59,7 @@ public:
   ~DataObjectError() noexcept override = default;
 
   /** Constructor. Needed to ensure the exception object can be copied. */
-  DataObjectError(const char * file, unsigned int lineNumber);
-
-  /** Constructor. Needed to ensure the exception object can be copied. */
-  DataObjectError(const std::string & file, unsigned int lineNumber);
+  DataObjectError(std::string file, unsigned int lineNumber);
 
   /** Copy constructor. Needed to ensure the exception object can be copied. */
   DataObjectError(const DataObjectError & orig) noexcept;
@@ -117,10 +114,7 @@ public:
   ~InvalidRequestedRegionError() noexcept override = default;
 
   /** Constructor. Needed to ensure the exception object can be copied. */
-  InvalidRequestedRegionError(const char * file, unsigned int lineNumber);
-
-  /** Constructor. Needed to ensure the exception object can be copied. */
-  InvalidRequestedRegionError(const std::string & file, unsigned int lineNumber);
+  InvalidRequestedRegionError(std::string file, unsigned int lineNumber);
 
   /** Copy constructor.  Needed to ensure the exception object can be copied. */
   InvalidRequestedRegionError(const InvalidRequestedRegionError & orig) noexcept;

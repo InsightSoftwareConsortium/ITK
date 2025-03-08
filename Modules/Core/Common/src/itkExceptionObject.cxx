@@ -65,13 +65,6 @@ private:
 };
 
 
-ExceptionObject::ExceptionObject(const char * file, unsigned int lineNumber, const char * desc, const char * loc)
-  : m_ExceptionData(std::make_shared<const ExceptionData>(file == nullptr ? "" : file,
-                                                          lineNumber,
-                                                          desc == nullptr ? "" : desc,
-                                                          loc == nullptr ? "" : loc))
-{}
-
 ExceptionObject::ExceptionObject(std::string file, unsigned int lineNumber, std::string desc, std::string loc)
   : m_ExceptionData(std::make_shared<const ExceptionData>(std::move(file), lineNumber, std::move(desc), std::move(loc)))
 {}

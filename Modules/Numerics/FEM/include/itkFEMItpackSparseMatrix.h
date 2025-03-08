@@ -305,7 +305,7 @@ public:
    * must be provided: file, lineNumber, location and a detailed description
    * of the exception, and the invalid index
    */
-  FEMExceptionItpackSparseMatrixSbagn(const char * file,
+  FEMExceptionItpackSparseMatrixSbagn(std::string  file,
                                       unsigned int lineNumber,
                                       std::string  location,
                                       integer      errorCode);
@@ -336,7 +336,7 @@ public:
    * must be provided: file, lineNumber, location and a detailed description
    * of the exception, and the invalid index
    */
-  FEMExceptionItpackSparseMatrixSbsij(const char * file,
+  FEMExceptionItpackSparseMatrixSbsij(std::string  file,
                                       unsigned int lineNumber,
                                       std::string  location,
                                       integer      errorCode);

@@ -40,19 +40,11 @@ public:
   itkOverrideGetNameOfClassMacro(ImageFileWriterException);
 
   /** Constructor. */
-  ImageFileWriterException(const char * file,
+  ImageFileWriterException(std::string  file,
                            unsigned int line,
-                           const char * message = "Error in IO",
-                           const char * loc = "Unknown")
-    : ExceptionObject(file, line, message, loc)
-  {}
-
-  /** Constructor. */
-  ImageFileWriterException(const std::string & file,
-                           unsigned int        line,
-                           const char *        message = "Error in IO",
-                           const char *        loc = "Unknown")
-    : ExceptionObject(file, line, message, loc)
+                           std::string  message = "Error in IO",
+                           std::string  loc = "Unknown")
+    : ExceptionObject(std::move(file), line, std::move(message), std::move(loc))
   {}
 
   /** Has to have empty throw(). */
