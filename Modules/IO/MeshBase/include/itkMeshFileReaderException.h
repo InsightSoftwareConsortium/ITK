@@ -41,16 +41,10 @@ public:
   itkOverrideGetNameOfClassMacro(MeshFileReaderException);
 
   /** Constructor. */
-  MeshFileReaderException(const char * file,
+  MeshFileReaderException(std::string  file,
                           unsigned int line,
-                          const char * message = "Error in IO",
-                          const char * loc = "Unknown");
-
-  /** Constructor. */
-  MeshFileReaderException(const std::string & file,
-                          unsigned int        line,
-                          const char *        message = "Error in IO",
-                          const char *        loc = "Unknown");
+                          std::string  message = "Error in IO",
+                          std::string  loc = "Unknown");
 };
 } // end namespace itk
 
