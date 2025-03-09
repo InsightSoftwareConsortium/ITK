@@ -287,9 +287,9 @@ template <typename TInputPointSet, typename TOutputPointSet>
 void
 PointFeature<TInputPointSet, TOutputPointSet>::GenerateData()
 {
-  auto input = this->GetInput();
-  auto output = this->GetOutput();
-  auto inPts = input->GetPoints();
+  auto                  input = this->GetInput();
+  [[maybe_unused]] auto output = this->GetOutput(); // Exercise function
+  [[maybe_unused]] auto inPts = input->GetPoints(); // Exercise function
 
   itkDebugMacro(<< "Executing connectivity");
 
