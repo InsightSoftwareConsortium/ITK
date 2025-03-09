@@ -26,19 +26,19 @@
 namespace itk
 {
 
-template <typename T>
+template <typename TInputType>
 class HasCellTraits
 {
   typedef char Yes[1];
   typedef char No[2];
-  template <typename C>
+  template <typename CellType>
   static Yes &
-  test(typename C::CellTraits *); // selected if C is a class type
-  template <typename C>
+  test(typename CellType::CellTraits *); // selected if CellType is a class type
+  template <typename CellType>
   static No &
   test(...); // selected otherwise
 public:
-  static bool const value = sizeof(test<T>(0)) == sizeof(Yes);
+  static bool const value = sizeof(test<TInputType>(0)) == sizeof(Yes);
 };
 
 /** \class MeshToPolyDataFilter
