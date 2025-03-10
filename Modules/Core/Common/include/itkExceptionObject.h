@@ -162,7 +162,6 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(MemoryAllocationError);
 };
-
 /** \class RangeError
  * Exception thrown when accessing memory out of range.
  * \ingroup ITKSystemObjects
@@ -177,7 +176,6 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(RangeError);
 };
-
 /** \class InvalidArgumentError
  * Exception thrown when invalid argument is given to a method
  * or function.
@@ -193,7 +191,6 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(InvalidArgumentError);
 };
-
 /** \class IncompatibleOperandsError
  * Exception thrown when two operands are incompatible.
  * \ingroup ITKSystemObjects
@@ -208,7 +205,6 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(IncompatibleOperandsError);
 };
-
 /** \class ProcessAborted
  * Exception thrown when a filter (actually a ProcessObject) has been aborted.
  * \ingroup ITKSystemObjects
@@ -242,7 +238,6 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ProcessAborted);
 };
-
 // Forward declaration in Macro.h, implementation here to avoid circular dependency
 template <typename TTarget, typename TSource>
 TTarget

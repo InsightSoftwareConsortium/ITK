@@ -241,13 +241,14 @@ public:
   {}
 
   /** Assignment operator */
+  /** @ITKStartGrouping */
   Self &
   operator=(const Self & orig)
   {
     Superclass::operator=(orig);
     return *this;
   }
-
+  /**@ITKEndGrouping*/
   /** Constructor which establishes the region size, neighborhood, and image
    * over which to walk. */
   NeighborhoodIterator(const SizeType & radius, ImageType * ptr, const RegionType & region)
@@ -286,13 +287,14 @@ public:
   //  { *(this->operator[](i)) = v; }
 
   /** Set the pixel at offset o from the neighborhood center */
+  /** @ITKStartGrouping */
   void
   SetPixel(const OffsetType o, const PixelType & v)
   {
     this->SetPixel(this->GetNeighborhoodIndex(o), v);
   }
   //  { *(this->operator[](o)) = v; }
-
+  /**@ITKEndGrouping*/
   /** Sets the pixel value located i pixels distant from the neighborhood center in
       the positive specified "axis" direction. No bounds checking is done on
       the size of the neighborhood. */
@@ -323,14 +325,15 @@ public:
   /** Sets the pixel value located one pixel distant from the neighborhood center in
       the specified negative axis direction. No bounds checking is done on the
       size of the neighborhood. */
+  /** @ITKStartGrouping */
   void
   SetPrevious(const unsigned int axis, const PixelType & v)
   {
     this->SetPixel(this->GetCenterNeighborhoodIndex() - this->GetStride(axis), v);
   }
+  /**@ITKEndGrouping*/
 };
 } // namespace itk
-
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkNeighborhoodIterator.hxx"
 #endif

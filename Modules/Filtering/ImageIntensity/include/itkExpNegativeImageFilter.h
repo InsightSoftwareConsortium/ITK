@@ -37,7 +37,6 @@ public:
   ExpNegative() { m_Factor = 1.0; }
   ~ExpNegative() = default;
 
-
   bool
   operator==(const ExpNegative & other) const
   {

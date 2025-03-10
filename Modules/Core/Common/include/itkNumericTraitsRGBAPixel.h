@@ -177,6 +177,7 @@ public:
   /** RGBA pixels must have 4 components, so the size cannot be
    *  set to anything besides 4.  If called with size of 4, this
    *  function will fill the pixel with zeros. */
+  /** @ITKStartGrouping */
   static void
   SetLength(RGBAPixel<T> & m, const unsigned int s)
   {
@@ -187,7 +188,7 @@ public:
     }
     m.Fill(T{});
   }
-
+  /**@ITKEndGrouping*/
   /** Return the dimensionality of the pixel. Always returns 4. */
   static unsigned int
   GetLength(const RGBAPixel<T> &)

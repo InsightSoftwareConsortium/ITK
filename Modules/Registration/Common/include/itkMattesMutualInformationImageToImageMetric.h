@@ -176,9 +176,10 @@ public:
    * windowing with a cubic-BSpline kernel. Note that even if the metric
    * is used on binary images, the number of bins should at least be
    * equal to five. */
+  /** @ITKStartGrouping */
   itkSetClampMacro(NumberOfHistogramBins, SizeValueType, 5, NumericTraits<SizeValueType>::max());
   itkGetConstReferenceMacro(NumberOfHistogramBins, SizeValueType);
-
+  /**@ITKEndGrouping*/
   /** This variable selects the method to be used for computing the Metric
    * derivatives with respect to the Transform parameters. Two modes of
    * computation are available. The choice between one and the other is a
@@ -203,10 +204,11 @@ public:
    * the PDF bins. This is an array of floating point values with size equals to (number of
    * histogram bins)^2. This method is well suited for Transforms with a large
    * number of parameters, such as, BSplineTransforms. */
+  /** @ITKStartGrouping */
   itkSetMacro(UseExplicitPDFDerivatives, bool);
   itkGetConstReferenceMacro(UseExplicitPDFDerivatives, bool);
   itkBooleanMacro(UseExplicitPDFDerivatives);
-
+  /**@ITKEndGrouping*/
   /** The marginal PDFs are stored as std::vector. */
   using PDFValueType = double; // NOTE:  floating point precision is not as stable.  Double precision proves faster and
                                // more robust in real-world testing.
@@ -219,6 +221,7 @@ public:
    * Get the internal JointPDF image that was used in
    * creating the metric value.
    */
+  /** @ITKStartGrouping */
   const typename JointPDFType::Pointer
   GetJointPDF() const
   {
@@ -228,13 +231,14 @@ public:
     }
     return this->m_MMIMetricPerThreadVariables[0].JointPDF;
   }
-
+  /**@ITKEndGrouping*/
   /**
    * Get the internal JointPDFDeriviative image that was used in
    * creating the metric derivative value.
    * This is only created when UseExplicitPDFDerivatives is ON, and
    * derivatives are requested.
    */
+  /** @ITKStartGrouping */
   const typename JointPDFDerivativesType::Pointer
   GetJointPDFDerivatives() const
   {
@@ -244,7 +248,7 @@ public:
     }
     return this->m_MMIMetricPerThreadVariables[0].JointPDFDerivatives;
   }
-
+  /**@ITKEndGrouping*/
 protected:
   MattesMutualInformationImageToImageMetric();
   ~MattesMutualInformationImageToImageMetric() override = default;

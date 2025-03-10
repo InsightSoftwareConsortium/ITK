@@ -124,12 +124,13 @@ public:
 protected:
   /** This constructor is declared protected in order to enforce
     const-correctness */
+  /** @ITKStartGrouping */
   ImageIteratorWithIndex(const ImageConstIteratorWithIndex<TImage> & it);
   Self &
   operator=(const ImageConstIteratorWithIndex<TImage> & it);
+  /**@ITKEndGrouping*/
 };
 } // end namespace itk
-
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkImageIteratorWithIndex.hxx"
 #endif

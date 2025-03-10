@@ -62,6 +62,7 @@ public:
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** */
+  /** @ITKStartGrouping */
   void
   SetThreshold(ScalarValueType v)
   {
@@ -72,8 +73,9 @@ public:
   {
     return m_Threshold;
   }
-
+  /**@ITKEndGrouping*/
   /** */
+  /** @ITKStartGrouping */
   void
   SetVariance(double v)
   {
@@ -84,7 +86,7 @@ public:
   {
     return m_Variance;
   }
-
+  /**@ITKEndGrouping*/
   /** Compute the Speed Image. The Speed Image is the distance to the
       canny edges. */
   void
@@ -148,17 +150,19 @@ private:
     m_Caster->SetInput(feature);
     m_Canny->SetInput(m_Caster->GetOutput());
   }
+
   /** If FeatureImageType == ImageType,
    *  assign directly to the Canny filter
    */
+  /** @ITKStartGrouping */
   void
   AssignCannyInput(typename FeatureImageType::Pointer & feature, typename FeatureImageType::Pointer &)
   {
     m_Canny->SetInput(feature);
   }
+  /**@ITKEndGrouping*/
 };
 } // end namespace itk
-
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkCannySegmentationLevelSetFunction.hxx"
 #endif

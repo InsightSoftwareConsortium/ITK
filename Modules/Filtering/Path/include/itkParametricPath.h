@@ -67,6 +67,7 @@ public:
 
   /** Standard class type aliases. */
   using Self = ParametricPath;
+
   /** All paths must be mappable to index space */
   using ContinuousIndexType = ContinuousIndex<SpacePrecisionType, VDimension>;
   using Superclass = Path<double, ContinuousIndexType, VDimension>;
@@ -138,9 +139,10 @@ protected:
    * either 1 or 0.1 are probably good values.  This value should be set in the
    * constructor of all instantiable children.  Values set in child constructors
    * overwrite values set in parent constructors. */
+  /** @ITKStartGrouping */
   InputType m_DefaultInputStepSize{};
+  /**@ITKEndGrouping*/
 };
-
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -78,6 +78,7 @@ public:
    * otherwise. in fact, SegmentationLevelSetImageFilter tries to set
    * it when SetFeatureScaling is called.
    */
+  /** @ITKStartGrouping */
   void
   SetAdvectionWeight(const ScalarValueType value) override
   {
@@ -86,7 +87,7 @@ public:
       Superclass::SetAdvectionWeight(value);
     }
   }
-
+  /**@ITKEndGrouping*/
 protected:
   LaplacianSegmentationLevelSetFunction()
   {

@@ -88,7 +88,7 @@ public:
   OutputType
   Evaluate(const InputType & input) const override;
 
-  ///** Evaluate the first derivative of the ND output with respect to the 1D
+  /** Evaluate the first derivative of the ND output with respect to the 1D
   //  * input.  This is an exact, algebraic function. */
   // virtual VectorType EvaluateDerivative(const InputType & input) const;
 
@@ -96,13 +96,14 @@ public:
    * Adding a vertex has the additional effect of extending the domain of the
    * PolyLineParametricPath by 1.0 (each pair of consecutive vertices is
    * separated by one unit of input). */
+  /** @ITKStartGrouping */
   inline void
   AddVertex(const ContinuousIndexType & vertex)
   {
     m_VertexList->InsertElement(m_VertexList->Size(), vertex);
     this->Modified();
   }
-
+  /**@ITKEndGrouping*/
   /** Where does the path end?  This value is necessary for IncrementInput() to
    * know how to go to the end of a path.  Since each line segment covers one
    * unit of input, this is the number of vertices - 1. */

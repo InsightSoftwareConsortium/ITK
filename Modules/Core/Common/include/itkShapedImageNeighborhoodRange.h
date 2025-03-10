@@ -574,7 +574,6 @@ private:
       return *(*this + n);
     }
   };
-
   static constexpr bool IsImageTypeConst = std::is_const_v<TImage>;
 
   using QualifiedInternalPixelType = std::conditional_t<IsImageTypeConst, const InternalPixelType, InternalPixelType>;
@@ -788,7 +787,6 @@ public:
   {
     assert(n < this->size());
     assert(n <= static_cast<size_t>(std::numeric_limits<ptrdiff_t>::max()));
-
     return this->begin()[static_cast<ptrdiff_t>(n)];
   }
 
@@ -803,7 +801,6 @@ public:
     SubtractIndex(m_RelativeLocation, m_BufferedRegionData.m_Index);
   }
 };
-
 } // namespace itk
 
 #endif

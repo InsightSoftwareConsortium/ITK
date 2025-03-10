@@ -199,11 +199,12 @@ public:
   using GradientDirectionContainerType = VectorContainer<unsigned int, GradientDirectionType>;
 
   /** Set method to add a gradient direction and its corresponding image. */
+  /** @ITKStartGrouping */
   void
   AddGradientImage(const GradientDirectionType &, const GradientImageType * gradientImage);
   const GradientImageType *
   GetGradientImage(unsigned int index) const;
-
+  /**@ITKEndGrouping*/
   /** Another set method to add a gradient directions and its corresponding
    * image. The image here is a VectorImage. The user is expected to pass the
    * gradient directions in a container. The ith element of the container
@@ -238,6 +239,7 @@ public:
   }
 
   /** Return the gradient direction. idx is 0 based */
+  /** @ITKStartGrouping */
   virtual GradientDirectionType
   GetGradientDirection(unsigned int idx) const
   {
@@ -247,10 +249,11 @@ public:
     }
     return m_GradientDirectionContainer->ElementAt(idx);
   }
-
+  /**@ITKEndGrouping*/
   /** set an image mask */
   void
   SetMaskImage(MaskImageType * maskImage);
+
   /** set a spatial object mask */
   void
   SetMaskSpatialObject(MaskSpatialObjectType * maskSpatialObject);
@@ -259,21 +262,23 @@ public:
   /** Threshold on the reference image data. The output tensor will be a null
    * tensor for pixels in the reference image that have a value less than this
    * threshold. */
+  /** @ITKStartGrouping */
   itkSetMacro(Threshold, ReferencePixelType);
   itkGetConstMacro(Threshold, ReferencePixelType);
-
+  /**@ITKEndGrouping*/
   /**
    * The BValue \f$ (s/mm^2) \f$ value used in normalizing the tensors to
    * physically meaningful units.  See equation (24) of the first reference for
    * a description of how this is applied to the tensor estimation.
    * Equation (1) of the same reference describes the physical significance.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(BValue, TTensorPixelType);
 #ifdef GetBValue
 #  undef GetBValue
 #endif
   itkGetConstReferenceMacro(BValue, TTensorPixelType);
-
+  /**@ITKEndGrouping*/
   itkConceptMacro(ReferenceEqualityComparableCheck, (Concept::EqualityComparable<ReferencePixelType>));
   itkConceptMacro(TensorEqualityComparableCheck, (Concept::EqualityComparable<TensorPixelType>));
   itkConceptMacro(GradientConvertibleToDoubleCheck, (Concept::Convertible<GradientPixelType, double>));

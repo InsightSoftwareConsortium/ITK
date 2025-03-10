@@ -152,6 +152,7 @@ public:
    *  be thrown if the input size is not valid.  In this case, the
    *  only valid size is 6. If the size is valid the tensor will be
    *  filled with zeros. */
+  /** @ITKStartGrouping */
   static void
   SetLength(DiffusionTensor3D<T> & m, const unsigned int s)
   {
@@ -162,7 +163,7 @@ public:
     }
     m.Fill(T{});
   }
-
+  /**@ITKEndGrouping*/
   /** Return the size of the tensor. Always returns 6. */
   static unsigned int
   GetLength(const DiffusionTensor3D<T> &)

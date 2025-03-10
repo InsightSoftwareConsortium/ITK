@@ -412,6 +412,7 @@ protected:
             itkExceptionMacro("UnExpected end of line while trying to read LOOKUP_TABLE");
           }
         }
+
         /** For VECTORS or NORMALS or TENSORS, we could read them directly */
         const SizeValueType numberOfComponents = this->m_NumberOfCellPixels * this->m_NumberOfCellPixelComponents;
         inputFile.read(reinterpret_cast<char *>(buffer), numberOfComponents * sizeof(T));

@@ -177,6 +177,7 @@ public:
   /** RGB pixels must have 3 components, so the size cannot be
    *  set to anything besides 3.  If called with size of 3, this
    *  function will fill the pixel with zeros. */
+  /** @ITKStartGrouping */
   static void
   SetLength(RGBPixel<T> & m, const unsigned int s)
   {
@@ -187,7 +188,7 @@ public:
     }
     m.Fill(T{});
   }
-
+  /**@ITKEndGrouping*/
   /** Return the dimensionality of the pixel. Always returns 3. */
   static unsigned int
   GetLength(const RGBPixel<T> &)

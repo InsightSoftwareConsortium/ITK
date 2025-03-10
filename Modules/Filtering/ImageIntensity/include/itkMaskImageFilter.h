@@ -80,6 +80,7 @@ public:
   {
     m_MaskingValue = maskingValue;
   }
+
   /** Method to get the masking value */
   const TMask &
   GetMaskingValue() const
@@ -171,6 +172,7 @@ public:
    *  the original value of the input image while pixels not set in
    *  the mask will be set to the "OutsideValue".
    */
+  /** @ITKStartGrouping */
   void
   SetMaskImage(const MaskImageType * maskImage)
   {
@@ -182,8 +184,9 @@ public:
   {
     return static_cast<const MaskImageType *>(this->ProcessObject::GetInput(1));
   }
-
+  /**@ITKEndGrouping*/
   /** Method to explicitly set the outside value of the mask. Defaults to 0 */
+  /** @ITKStartGrouping */
   void
   SetOutsideValue(const typename TOutputImage::PixelType & outsideValue)
   {
@@ -193,7 +196,7 @@ public:
       this->GetFunctor().SetOutsideValue(outsideValue);
     }
   }
-
+  /**@ITKEndGrouping*/
   const typename TOutputImage::PixelType &
   GetOutsideValue() const
   {
@@ -201,6 +204,7 @@ public:
   }
 
   /** Method to explicitly set the masking value of the mask. Defaults to 0 */
+  /** @ITKStartGrouping */
   void
   SetMaskingValue(const typename TMaskImage::PixelType & maskingValue)
   {
@@ -210,7 +214,7 @@ public:
       this->GetFunctor().SetMaskingValue(maskingValue);
     }
   }
-
+  /**@ITKEndGrouping*/
   /** Method to get the masking value of the mask. */
   const typename TMaskImage::PixelType &
   GetMaskingValue() const

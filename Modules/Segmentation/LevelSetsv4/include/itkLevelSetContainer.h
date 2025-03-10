@@ -145,7 +145,6 @@ public:
   {
     LevelSetContainerType internalContainer = iOther->GetContainer();
     auto                  it = internalContainer.begin();
-
     LevelSetContainerType newContainer;
 
     while (it != internalContainer.end())

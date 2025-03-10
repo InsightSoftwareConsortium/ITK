@@ -86,12 +86,15 @@ public:
   using typename Superclass::FixedParametersType;
   using typename Superclass::FixedParametersValueType;
   using ScalarType = ParametersValueType;
+
   /** Derivative type */
   using typename Superclass::DerivativeType;
+
   /** Jacobian type. */
   using typename Superclass::JacobianType;
   using typename Superclass::JacobianPositionType;
   using typename Superclass::InverseJacobianPositionType;
+
   /** Transform category type. */
   using typename Superclass::TransformCategoryEnum;
 
@@ -103,21 +106,27 @@ public:
   /** Standard coordinate point type for this class. */
   using typename Superclass::InputPointType;
   using typename Superclass::OutputPointType;
+
   /** Standard vector type for this class. */
   using typename Superclass::InputVectorType;
   using typename Superclass::OutputVectorType;
+
   /** Standard covariant vector type for this class */
   using typename Superclass::InputCovariantVectorType;
   using typename Superclass::OutputCovariantVectorType;
+
   /** Standard vnl_vector type for this class. */
   using typename Superclass::InputVnlVectorType;
   using typename Superclass::OutputVnlVectorType;
+
   /** Standard Vectorpixel type for this class */
   using typename Superclass::InputVectorPixelType;
   using typename Superclass::OutputVectorPixelType;
+
   /** Standard DiffusionTensor3D type alias for this class */
   using typename Superclass::InputDiffusionTensor3DType;
   using typename Superclass::OutputDiffusionTensor3DType;
+
   /** Standard SymmetricSecondRankTensor type alias for this class */
   using typename Superclass::InputSymmetricSecondRankTensorType;
   using typename Superclass::OutputSymmetricSecondRankTensorType;
@@ -229,13 +238,14 @@ public:
   }
 
   /** Clear the transform queue. */
+  /** @ITKStartGrouping */
   virtual void
   ClearTransformQueue()
   {
     this->m_TransformQueue.clear();
     this->Modified();
   }
-
+  /**@ITKEndGrouping*/
   /** If all sub-transforms are linear, then the multi-transform is linear. */
   bool
   IsLinear() const override;

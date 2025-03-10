@@ -113,6 +113,7 @@ public:
    * estimation of the displacement field weights the contribution of each voxel
    * according the value of the corresponding voxel in the confidence image.
    */
+  /** @ITKStartGrouping */
   void
   SetConfidenceImage(const RealImageType * image)
   {
@@ -123,7 +124,7 @@ public:
   {
     this->SetConfidenceImage(image);
   }
-
+  /**@ITKEndGrouping*/
   /** Get confidence image function. */
   const RealImageType *
   GetConfidenceImage() const
@@ -132,6 +133,7 @@ public:
   }
 
   /** Set the input point set */
+  /** @ITKStartGrouping */
   void
   SetPointSet(const InputPointSetType * points)
   {
@@ -142,7 +144,7 @@ public:
   {
     this->SetPointSet(points);
   }
-
+  /**@ITKEndGrouping*/
   /** Get the input point set. */
   const InputPointSetType *
   GetPointSet() const
@@ -245,13 +247,14 @@ public:
    * specify a B-spline mesh size for initial fitting followed by a doubling of
    * the mesh resolution for each subsequent fitting level.  Default = 1 level.
    */
+  /** @ITKStartGrouping */
   void
   SetNumberOfFittingLevels(unsigned int n)
   {
     auto nlevels = MakeFilled<ArrayType>(n);
     this->SetNumberOfFittingLevels(nlevels);
   }
-
+  /**@ITKEndGrouping*/
   /**
    * Get the number of fitting levels.  One of the contributions of N4 is the
    * introduction of a multi-scale approach to fitting. This allows one to
@@ -263,17 +266,19 @@ public:
   /**
    * Estimate the inverse field instead of the forward field.  Default = false.
    */
+  /** @ITKStartGrouping */
   itkBooleanMacro(EstimateInverse);
   itkSetMacro(EstimateInverse, bool);
   itkGetConstMacro(EstimateInverse, bool);
-
+  /**@ITKEndGrouping*/
   /**
    * Enforce stationary boundary conditions.  Default = false.
    */
+  /** @ITKStartGrouping */
   itkBooleanMacro(EnforceStationaryBoundary);
   itkSetMacro(EnforceStationaryBoundary, bool);
   itkGetConstMacro(EnforceStationaryBoundary, bool);
-
+  /**@ITKEndGrouping*/
 protected:
   /** Constructor */
   DisplacementFieldToBSplineImageFilter();

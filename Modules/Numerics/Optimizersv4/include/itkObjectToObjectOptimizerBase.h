@@ -151,9 +151,10 @@ public:
   using StopConditionDescriptionType = std::ostringstream;
 
   /** Accessors for Metric */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(Metric, MetricType);
   itkGetModifiableObjectMacro(Metric, MetricType);
-
+  /**@ITKEndGrouping*/
   /** Accessor for metric value. Returns the value
    *  stored in m_CurrentMetricValue from the most recent
    *  call to evaluate the metric. */
@@ -168,13 +169,14 @@ public:
   GetValue() const;
 
   /** Set current parameters scaling. */
+  /** @ITKStartGrouping */
   // itkSetMacro( Scales, ScalesType );
   virtual void
   SetScales(const ScalesType & scales)
   {
     this->m_Scales = scales;
   }
-
+  /**@ITKEndGrouping*/
   /** Get current parameters scaling. */
   itkGetConstReferenceMacro(Scales, ScalesType);
 
@@ -212,10 +214,11 @@ public:
    * optimization, and overrides any scales set using SetScales().
    * Default is true.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(DoEstimateScales, bool);
   itkGetConstReferenceMacro(DoEstimateScales, bool);
   itkBooleanMacro(DoEstimateScales);
-
+  /**@ITKEndGrouping*/
   /** Set the number of work units to use when threading.
    * The default is the global default number of work units
    * decided in the constructor of the MultiThreader. */
@@ -223,9 +226,10 @@ public:
   SetNumberOfWorkUnits(ThreadIdType number);
 
 #if !defined(ITK_LEGACY_REMOVE)
-  /** Set the number of work units to use when threading.
+  /** Set/Get the number of work units to use when threading.
    *
    * NOTE: deprecated. Use SetNumberOfWorkUnits() */
+  /** @ITKStartGrouping */
   itkLegacyMacro(virtual void SetNumberOfThreads(ThreadIdType number))
   {
     return this->SetNumberOfWorkUnits(number);
@@ -234,8 +238,8 @@ public:
   {
     return this->m_NumberOfWorkUnits;
   }
+  /**@ITKEndGrouping*/
 #endif // !ITK_LEGACY_REMOVE
-
   /** Get the number of work units set to be used. */
   itkGetConstReferenceMacro(NumberOfWorkUnits, ThreadIdType);
 

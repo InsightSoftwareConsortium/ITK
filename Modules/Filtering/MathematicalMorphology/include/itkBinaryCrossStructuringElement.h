@@ -86,6 +86,7 @@ public:
   using SliceIteratorType = SliceIterator<TPixel, Self>;
 
   /** Default constructor. */
+  /** @ITKStartGrouping */
   BinaryCrossStructuringElement()
   {
     // Default structuring element is defined to be 3x3x3...
@@ -93,7 +94,7 @@ public:
     Self::SetRadius(radius);
     Self::CreateStructuringElement();
   }
-
+  /**@ITKEndGrouping*/
   /** Default destructor. */
   ~BinaryCrossStructuringElement() override = default;
 
@@ -103,13 +104,14 @@ public:
   {}
 
   /** Assignment operator. */
+  /** @ITKStartGrouping */
   Self &
   operator=(const Self & other)
   {
     Superclass::operator=(other);
     return *this;
   }
-
+  /**@ITKEndGrouping*/
   /** Build the structuring element */
   void
   CreateStructuringElement();

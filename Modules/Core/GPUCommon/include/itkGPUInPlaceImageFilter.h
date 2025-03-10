@@ -100,10 +100,11 @@ protected:
    * releases the input that it has overwritten.
    *
    * \sa ProcessObject::ReleaseInputs() */
+  /** @ITKStartGrouping */
   void
   ReleaseInputs() override;
+  /**@ITKEndGrouping*/
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

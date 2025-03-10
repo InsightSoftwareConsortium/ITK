@@ -194,9 +194,10 @@ public:
    * the requested region for the remaining output images.  The original
    * documentation of this method is below.  \sa
    * ProcessObject::GenerateOutputRequestedRegion(); */
+  /** @ITKStartGrouping */
   void
   GenerateOutputRequestedRegion(DataObject * refOutput) override;
-
+  /**@ITKEndGrouping*/
   /** MultiResolutionPyramidImageFilter requires a larger input requested
    * region than the output requested regions to accommodate the shrinkage and
    * smoothing operations. As such, MultiResolutionPyramidImageFilter needs

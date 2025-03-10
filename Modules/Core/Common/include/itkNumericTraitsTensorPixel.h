@@ -151,6 +151,7 @@ public:
    *  be thrown if the input size is not valid.  Here, the size refers
    *  to the dimensionality of the underlying FixedArray, not the
    *  tensor dimensionality. */
+  /** @ITKStartGrouping */
   static void
   SetLength(SymmetricSecondRankTensor<T, D> & m, const unsigned int s)
   {
@@ -162,7 +163,7 @@ public:
     }
     m.Fill(T{});
   }
-
+  /**@ITKEndGrouping*/
   /** Return the size of the underlying FixedArray. */
   static unsigned int
   GetLength(const SymmetricSecondRankTensor<T, D> &)

@@ -84,6 +84,7 @@ public:
   itkOverrideGetNameOfClassMacro(LineIterator);
 
   /** Set the pixel value */
+  /** @ITKStartGrouping */
   void
   Set(const PixelType & value)
   {
@@ -93,7 +94,7 @@ public:
     // in the Superclass.
     const_cast<ImageType *>(this->m_Image.GetPointer())->SetPixel(this->m_CurrentImageIndex, value);
   }
-
+  /**@ITKEndGrouping*/
   /** Return a reference to the pixel.
    * This method will provide the fastest access to pixel
    * data, but it will NOT support ImageAdaptors. */

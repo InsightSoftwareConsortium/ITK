@@ -234,9 +234,10 @@ public:
   using typename Superclass::SizeValueType;
 
   /** Default constructor. Needed since we provide a cast constructor. */
+  /** @ITKStartGrouping */
   ImageRandomNonRepeatingConstIteratorWithIndex() = default;
   ~ImageRandomNonRepeatingConstIteratorWithIndex() override { delete m_Permutation; }
-
+  /**@ITKEndGrouping*/
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
   ImageRandomNonRepeatingConstIteratorWithIndex(const ImageType * ptr, const RegionType & region);
@@ -259,21 +260,23 @@ public:
   operator=(const Self & it);
 
   /** Move an iterator to the beginning of the region. */
+  /** @ITKStartGrouping */
   void
   GoToBegin()
   {
     m_NumberOfSamplesDone = 0L;
     this->UpdatePosition();
   }
-
+  /**@ITKEndGrouping*/
   /** Move an iterator to one position past the End of the region. */
+  /** @ITKStartGrouping */
   void
   GoToEnd()
   {
     m_NumberOfSamplesDone = m_NumberOfSamplesRequested;
     this->UpdatePosition();
   }
-
+  /**@ITKEndGrouping*/
   /** Is the iterator at the beginning of the region? */
   bool
   IsAtBegin() const
@@ -304,6 +307,7 @@ public:
 
   /** Increment (prefix) the selected dimension.
    * No bounds checking is performed. \sa GetIndex \sa operator-- */
+  /** @ITKStartGrouping */
   Self &
   operator++()
   {
@@ -311,9 +315,10 @@ public:
     this->UpdatePosition();
     return *this;
   }
-
+  /**@ITKEndGrouping*/
   /** Decrement (prefix) the selected dimension.
    * No bounds checking is performed. \sa GetIndex \sa operator++ */
+  /** @ITKStartGrouping */
   Self &
   operator--()
   {
@@ -321,8 +326,9 @@ public:
     this->UpdatePosition();
     return *this;
   }
-
+  /**@ITKEndGrouping*/
   /** Set/Get number of random samples to extract from the image region. */
+  /** @ITKStartGrouping */
   void
   SetNumberOfSamples(SizeValueType number)
   {
@@ -332,7 +338,7 @@ public:
       m_NumberOfSamplesRequested = m_NumberOfPixelsInRegion;
     }
   }
-
+  /**@ITKEndGrouping*/
   SizeValueType
   GetNumberOfSamples() const
   {

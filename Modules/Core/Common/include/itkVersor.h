@@ -107,9 +107,10 @@ public:
    simultaneously change the signs of all the Versor components, the rotation
    that it represents remains unchanged.
    */
+  /** @ITKStartGrouping */
   void
   Set(T x, T y, T z, T w);
-
+  /**@ITKEndGrouping*/
   /** Composition operator *=.  Compose the current versor
    * with the operand and store the result in the current
    * versor. */
@@ -301,6 +302,7 @@ public:
 
 private:
   /** use different epsilon for float and double */
+  /** @ITKStartGrouping */
   static inline ValueType
   Epsilon(double *)
   {
@@ -316,7 +318,7 @@ private:
   {
     return Epsilon((ValueType *)nullptr);
   }
-
+  /**@ITKEndGrouping*/
   /** Component parallel to x axis.  */
   ValueType m_X{};
 

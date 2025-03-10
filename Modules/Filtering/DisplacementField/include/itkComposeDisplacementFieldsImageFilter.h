@@ -76,6 +76,7 @@ public:
   itkGetModifiableObjectMacro(Interpolator, InterpolatorType);
 
   /** Set the deformation field */
+  /** @ITKStartGrouping */
   void
   SetDisplacementField(const InputFieldType * field)
   {
@@ -90,7 +91,7 @@ public:
       }
     }
   }
-
+  /**@ITKEndGrouping*/
   /**
    * Get the deformation field.
    */
@@ -101,6 +102,7 @@ public:
   }
 
   /** Set the warping field */
+  /** @ITKStartGrouping */
   void
   SetWarpingField(const InputFieldType * field)
   {
@@ -110,7 +112,7 @@ public:
       this->SetInput(1, field);
     }
   }
-
+  /**@ITKEndGrouping*/
   /**
    * Get the warping field.
    */

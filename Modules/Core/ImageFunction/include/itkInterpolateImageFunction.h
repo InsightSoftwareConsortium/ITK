@@ -92,6 +92,7 @@ public:
    *
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
+  /** @ITKStartGrouping */
   OutputType
   Evaluate(const PointType & point) const override
   {
@@ -99,7 +100,7 @@ public:
       this->GetInputImage()->template TransformPhysicalPointToContinuousIndex<TCoordinate>(point);
     return (this->EvaluateAtContinuousIndex(index));
   }
-
+  /**@ITKEndGrouping*/
   /** Interpolate the image at a continuous index position
    *
    * Returns the interpolated image intensity at a

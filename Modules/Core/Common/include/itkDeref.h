@@ -39,7 +39,6 @@ public:
   itkOverrideGetNameOfClassMacro(DerefError);
 };
 
-
 /** Dereferences the specified pointer, when the pointer is not null. Throws a `DerefError` exception when the pointer
  * is null. Aims to avoid undefined behavior from accidentally dereferencing a null pointer.
  */
@@ -55,5 +54,4 @@ Deref(T * const ptr)
   return *ptr;
 }
 } // namespace itk
-
 #endif

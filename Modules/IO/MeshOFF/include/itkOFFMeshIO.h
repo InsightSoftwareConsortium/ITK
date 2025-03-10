@@ -137,6 +137,7 @@ protected:
   /** Read cells from a data buffer, used when writing cells. This function
     write all kind of cells as it is stored in cells container. It is used when
     cells container have only one kind of cells */
+  /** @ITKStartGrouping */
   template <typename TInput, typename TOutput>
   void
   ReadCellsBuffer(TInput * input, TOutput * output)
@@ -157,7 +158,7 @@ protected:
       }
     }
   }
-
+  /**@ITKEndGrouping*/
   template <typename T>
   void
   WriteCellsAsAscii(T * buffer, std::ofstream & outputFile)
