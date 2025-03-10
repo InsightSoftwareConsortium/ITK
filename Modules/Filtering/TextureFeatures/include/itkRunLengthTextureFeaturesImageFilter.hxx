@@ -30,7 +30,7 @@ namespace Statistics
 {
 template <typename TInputImage, typename TOutputImage, typename TMaskImage>
 RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::RunLengthTextureFeaturesImageFilter()
-  : m_NumberOfBinsPerAxis(itkGetStaticConstMacro(DefaultBinsPerAxis))
+  : m_NumberOfBinsPerAxis(Self::DefaultBinsPerAxis)
   , m_HistogramValueMinimum(NumericTraits<PixelType>::NonpositiveMin())
   , m_HistogramValueMaximum(NumericTraits<PixelType>::max())
   , m_HistogramDistanceMinimum(NumericTraits<RealType>::ZeroValue())

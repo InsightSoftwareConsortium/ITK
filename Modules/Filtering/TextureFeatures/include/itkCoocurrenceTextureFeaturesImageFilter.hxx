@@ -30,7 +30,7 @@ namespace Statistics
 {
 template <typename TInputImage, typename TOutputImage, typename TMaskImage>
 CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::CoocurrenceTextureFeaturesImageFilter()
-  : m_NumberOfBinsPerAxis(itkGetStaticConstMacro(DefaultBinsPerAxis))
+  : m_NumberOfBinsPerAxis(Self::DefaultBinsPerAxis)
   , m_HistogramMinimum(NumericTraits<PixelType>::NonpositiveMin())
   , m_HistogramMaximum(NumericTraits<PixelType>::max())
   , m_InsidePixelValue(NumericTraits<MaskPixelType>::OneValue())
