@@ -13,6 +13,9 @@ set(ITKImageFeatureTests
     itkBilateralImageFilterTest.cxx
     itkBilateralImageFilterTest2.cxx
     itkBilateralImageFilterTest3.cxx
+    itkFastBilateralImageFilterTest.cxx
+    itkFastBilateralImageFilterTest2.cxx
+    itkFastBilateralImageFilterTest3.cxx
     itkGradientVectorFlowImageFilterTest.cxx
     itkSimpleContourExtractorImageFilterTest.cxx
     itkZeroCrossingImageFilterTest.cxx
@@ -25,7 +28,8 @@ set(ITKImageFeatureTests
     itkUnsharpMaskImageFilterTest.cxx
     itkDiscreteGaussianDerivativeImageFilterScaleSpaceTest.cxx
     itkDiscreteGaussianDerivativeImageFilterTest.cxx
-    itkMultiScaleHessianBasedMeasureImageFilterTest.cxx)
+    itkMultiScaleHessianBasedMeasureImageFilterTest.cxx
+)
 
 createtestdriver(ITKImageFeature "${ITKImageFeature-Test_LIBRARIES}" "${ITKImageFeatureTests}")
 
@@ -237,6 +241,36 @@ itk_add_test(
   itkBilateralImageFilterTest3
   DATA{${ITK_DATA_ROOT}/Input/cake_easy.png}
   ${ITK_TEST_OUTPUT_DIR}/BilateralImageFilterTest3.png)
+
+itk_add_test(NAME itkFastBilateralImageFilterTest
+  COMMAND ITKImageFeatureTestDriver
+    --compare
+    DATA{Baseline/itkFastBilateralImageFilterTestOutput.mha}
+    ${ITK_TEST_OUTPUT_DIR}/itkFastBilateralImageFilterTestOutput.mha
+  itkFastBilateralImageFilterTest
+    ${ITK_TEST_OUTPUT_DIR}/itkFastBilateralImageFilterTestOutput.mha
+  )
+
+itk_add_test(NAME itkFastBilateralImageFilterTest2
+  COMMAND ITKImageFeatureTestDriver
+    --compare
+    DATA{Baseline/itkFastBilateralImageFilterTest2Output.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkFastBilateralImageFilterTest2Output.png
+  itkFastBilateralImageFilterTest2
+    DATA{${ITK_DATA_ROOT}/Input/cake_easy.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkFastBilateralImageFilterTest2Output.png
+  )
+
+itk_add_test(NAME itkFastBilateralImageFilterTest3
+  COMMAND ITKImageFeatureTestDriver
+    --compare
+    DATA{Baseline/itkFastBilateralImageFilterTest3Output.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkFastBilateralImageFilterTest3Output.png
+  itkFastBilateralImageFilterTest3
+    DATA{${ITK_DATA_ROOT}/Input/cake_easy.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkFastBilateralImageFilterTest3Output.png
+  )
+
 itk_add_test(
   NAME
   itkGradientVectorFlowImageFilterTest

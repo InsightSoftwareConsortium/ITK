@@ -18,6 +18,8 @@ itk_module(
   TEST_DEPENDS
   ITKTestKernel
   ITKThresholding
+  ITKIOMeta
+  ITKIOPNG
   DESCRIPTION
   "${DOCUMENTATION}")
 # Extra test dependency on ITKThresholding is introduced by itkHoughTransform2DCirclesImageTest.
