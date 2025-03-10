@@ -329,293 +329,297 @@ main(int argc, const char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension = 2;
-  using PixelType = float;
-
-  const std::string fixedImageFile = argv[1];
-  const std::string movingImageFile = argv[2];
-  const std::string outImagefile = argv[3];
-  const PixelType backgroundGrayLevel = (argc > 4) ? std::stoi(argv[4]) : 100;
-  const std::string checkerBoardBefore = (argc > 5) ? argv[5] : "";
-  const std::string checkerBoardAfter = (argc > 6) ? argv[6] : "";
-  const int         numberOfBins = (argc > 7) ? std::stoi(argv[7]) : 0;
-
-  using FixedImageType = itk::Image<PixelType, Dimension>;
-  using MovingImageType = itk::Image<PixelType, Dimension>;
-
-  //  Software Guide : BeginLatex
-  //
-  //  The fixed and moving image types are defined as in previous
-  //  examples. The downsampled images for different resolution levels
-  //  are created internally by the registration method based on the
-  //  values provided for \emph{ShrinkFactor} and \emph{SmoothingSigma}
-  //  vectors.
-  //
-  //  The types for the registration components are then derived using
-  //  the fixed and moving image type, as in previous examples.
-  //
-  //  Software Guide : EndLatex
-
-  using TransformType = itk::TranslationTransform<double, Dimension>;
-
-  using OptimizerType = itk::RegularStepGradientDescentOptimizerv4<double>;
-
-  using MetricType =
-    itk::MattesMutualInformationImageToImageMetricv4<FixedImageType,
-                                                     MovingImageType>;
-  using RegistrationType = itk::
-    ImageRegistrationMethodv4<FixedImageType, MovingImageType, TransformType>;
-
-  //  All the components are instantiated using their \code{New()} method
-  //  and connected to the registration object as in previous example.
-  //
-  auto transform = TransformType::New();
-  auto optimizer = OptimizerType::New();
-  auto metric = MetricType::New();
-  auto registration = RegistrationType::New();
-
-  registration->SetOptimizer(optimizer);
-  registration->SetMetric(metric);
-
-  const auto fixedImage = itk::ReadImage<FixedImageType>(fixedImageFile);
-  const auto movingImage = itk::ReadImage<MovingImageType>(movingImageFile);
-
-  registration->SetFixedImage(fixedImage);
-  registration->SetMovingImage(movingImage);
-
-
-  using ParametersType = OptimizerType::ParametersType;
-  ParametersType initialParameters(transform->GetNumberOfParameters());
-
-  initialParameters[0] = 0.0; // Initial offset in mm along X
-  initialParameters[1] = 0.0; // Initial offset in mm along Y
-
-  transform->SetParameters(initialParameters);
-
-  registration->SetInitialTransform(transform);
-  registration->InPlaceOn();
-
-  metric->SetNumberOfHistogramBins(24);
-
-  if (argc > 7)
-  {
-    // optionally, override the values with numbers taken from the command
-    // line arguments.
-    metric->SetNumberOfHistogramBins(numberOfBins);
-  }
-
-  //  Software Guide : BeginLatex
-  //
-  //  To set the optimizer parameters, note that \emph{LearningRate}
-  //  and \emph{MinimumStepLength} are set in the observer at the beginning
-  //  of each resolution level. The other optimizer parameters are set
-  //  as follows.
-  //
-  //  Software Guide : EndLatex
-
-  //  Software Guide : BeginCodeSnippet
-  optimizer->SetNumberOfIterations(200);
-  optimizer->SetRelaxationFactor(0.5);
-  // Software Guide : EndCodeSnippet
-
-  // Create the Command observer and register it with the optimizer.
-  //
-  auto observer = CommandIterationUpdate::New();
-  optimizer->AddObserver(itk::IterationEvent(), observer);
-
-
-  //  Software Guide : BeginLatex
-  //
-  //  We set the number of multi-resolution levels to three and set
-  //  the corresponding shrink factor and smoothing sigma values for each
-  //  resolution level. Using smoothing in the subsampled images in
-  //  low-resolution levels can avoid large fluctuations in the
-  //  metric function, which prevents the optimizer from becoming trapped in
-  //  local minima. In this simple example we have no smoothing, and we have
-  //  used small shrinkings for the first two resolution levels.
-  //
-  //  \index{itk::Image\-Registration\-Methodv4!SetNumberOfLevels()}
-  //  \index{itk::Image\-Registration\-Methodv4!SetShrinkFactorsPerLevel()}
-  //  \index{itk::Image\-Registration\-Methodv4!SetSmoothingSigmasPerLevel()}
-  //
-  //  Software Guide : EndLatex
-
-  // Software Guide : BeginCodeSnippet
-  constexpr unsigned int numberOfLevels = 3;
-
-  RegistrationType::ShrinkFactorsArrayType shrinkFactorsPerLevel;
-  shrinkFactorsPerLevel.SetSize(3);
-  shrinkFactorsPerLevel[0] = 3;
-  shrinkFactorsPerLevel[1] = 2;
-  shrinkFactorsPerLevel[2] = 1;
-
-  RegistrationType::SmoothingSigmasArrayType smoothingSigmasPerLevel;
-  smoothingSigmasPerLevel.SetSize(3);
-  smoothingSigmasPerLevel[0] = 0;
-  smoothingSigmasPerLevel[1] = 0;
-  smoothingSigmasPerLevel[2] = 0;
-
-  registration->SetNumberOfLevels(numberOfLevels);
-  registration->SetShrinkFactorsPerLevel(shrinkFactorsPerLevel);
-  registration->SetSmoothingSigmasPerLevel(smoothingSigmasPerLevel);
-  // Software Guide : EndCodeSnippet
-
-  //  Software Guide : BeginLatex
-  //
-  //  Once all the registration components are in place we can create
-  //  an instance of our interface command and connect it to the
-  //  registration object using the \code{AddObserver()} method.
-  //
-  //  Software Guide : EndLatex
-
-  // Software Guide : BeginCodeSnippet
-  using CommandType = RegistrationInterfaceCommand<RegistrationType>;
-  auto command = CommandType::New();
-
-  registration->AddObserver(itk::MultiResolutionIterationEvent(), command);
-  // Software Guide : EndCodeSnippet
-
-  //  Software Guide : BeginLatex
-  //
-  //  Then we trigger the registration process by calling \code{Update()}.
-  //
-  //  Software Guide : EndLatex
-
   try
   {
+    constexpr unsigned int Dimension = 2;
+    using PixelType = float;
+
+    const std::string fixedImageFile = argv[1];
+    const std::string movingImageFile = argv[2];
+    const std::string outImagefile = argv[3];
+    const PixelType   backgroundGrayLevel =
+      (argc > 4) ? std::stoi(argv[4]) : 100;
+    const std::string checkerBoardBefore = (argc > 5) ? argv[5] : "";
+    const std::string checkerBoardAfter = (argc > 6) ? argv[6] : "";
+    const int         numberOfBins = (argc > 7) ? std::stoi(argv[7]) : 0;
+
+    using FixedImageType = itk::Image<PixelType, Dimension>;
+    using MovingImageType = itk::Image<PixelType, Dimension>;
+
+    //  Software Guide : BeginLatex
+    //
+    //  The fixed and moving image types are defined as in previous
+    //  examples. The downsampled images for different resolution levels
+    //  are created internally by the registration method based on the
+    //  values provided for \emph{ShrinkFactor} and \emph{SmoothingSigma}
+    //  vectors.
+    //
+    //  The types for the registration components are then derived using
+    //  the fixed and moving image type, as in previous examples.
+    //
+    //  Software Guide : EndLatex
+
+    using TransformType = itk::TranslationTransform<double, Dimension>;
+
+    using OptimizerType = itk::RegularStepGradientDescentOptimizerv4<double>;
+
+    using MetricType =
+      itk::MattesMutualInformationImageToImageMetricv4<FixedImageType,
+                                                       MovingImageType>;
+    using RegistrationType = itk::ImageRegistrationMethodv4<FixedImageType,
+                                                            MovingImageType,
+                                                            TransformType>;
+
+    //  All the components are instantiated using their \code{New()} method
+    //  and connected to the registration object as in previous example.
+    //
+    auto transform = TransformType::New();
+    auto optimizer = OptimizerType::New();
+    auto metric = MetricType::New();
+    auto registration = RegistrationType::New();
+
+    registration->SetOptimizer(optimizer);
+    registration->SetMetric(metric);
+
+    const auto fixedImage = itk::ReadImage<FixedImageType>(fixedImageFile);
+    const auto movingImage = itk::ReadImage<MovingImageType>(movingImageFile);
+
+    registration->SetFixedImage(fixedImage);
+    registration->SetMovingImage(movingImage);
+
+
+    using ParametersType = OptimizerType::ParametersType;
+    ParametersType initialParameters(transform->GetNumberOfParameters());
+
+    initialParameters[0] = 0.0; // Initial offset in mm along X
+    initialParameters[1] = 0.0; // Initial offset in mm along Y
+
+    transform->SetParameters(initialParameters);
+
+    registration->SetInitialTransform(transform);
+    registration->InPlaceOn();
+
+    metric->SetNumberOfHistogramBins(24);
+
+    if (argc > 7)
+    {
+      // optionally, override the values with numbers taken from the command
+      // line arguments.
+      metric->SetNumberOfHistogramBins(numberOfBins);
+    }
+
+    //  Software Guide : BeginLatex
+    //
+    //  To set the optimizer parameters, note that \emph{LearningRate}
+    //  and \emph{MinimumStepLength} are set in the observer at the beginning
+    //  of each resolution level. The other optimizer parameters are set
+    //  as follows.
+    //
+    //  Software Guide : EndLatex
+
+    //  Software Guide : BeginCodeSnippet
+    optimizer->SetNumberOfIterations(200);
+    optimizer->SetRelaxationFactor(0.5);
+    // Software Guide : EndCodeSnippet
+
+    // Create the Command observer and register it with the optimizer.
+    //
+    auto observer = CommandIterationUpdate::New();
+    optimizer->AddObserver(itk::IterationEvent(), observer);
+
+
+    //  Software Guide : BeginLatex
+    //
+    //  We set the number of multi-resolution levels to three and set
+    //  the corresponding shrink factor and smoothing sigma values for each
+    //  resolution level. Using smoothing in the subsampled images in
+    //  low-resolution levels can avoid large fluctuations in the
+    //  metric function, which prevents the optimizer from becoming trapped in
+    //  local minima. In this simple example we have no smoothing, and we have
+    //  used small shrinkings for the first two resolution levels.
+    //
+    //  \index{itk::Image\-Registration\-Methodv4!SetNumberOfLevels()}
+    //  \index{itk::Image\-Registration\-Methodv4!SetShrinkFactorsPerLevel()}
+    //  \index{itk::Image\-Registration\-Methodv4!SetSmoothingSigmasPerLevel()}
+    //
+    //  Software Guide : EndLatex
+
+    // Software Guide : BeginCodeSnippet
+    constexpr unsigned int numberOfLevels = 3;
+
+    RegistrationType::ShrinkFactorsArrayType shrinkFactorsPerLevel;
+    shrinkFactorsPerLevel.SetSize(3);
+    shrinkFactorsPerLevel[0] = 3;
+    shrinkFactorsPerLevel[1] = 2;
+    shrinkFactorsPerLevel[2] = 1;
+
+    RegistrationType::SmoothingSigmasArrayType smoothingSigmasPerLevel;
+    smoothingSigmasPerLevel.SetSize(3);
+    smoothingSigmasPerLevel[0] = 0;
+    smoothingSigmasPerLevel[1] = 0;
+    smoothingSigmasPerLevel[2] = 0;
+
+    registration->SetNumberOfLevels(numberOfLevels);
+    registration->SetShrinkFactorsPerLevel(shrinkFactorsPerLevel);
+    registration->SetSmoothingSigmasPerLevel(smoothingSigmasPerLevel);
+    // Software Guide : EndCodeSnippet
+
+    //  Software Guide : BeginLatex
+    //
+    //  Once all the registration components are in place we can create
+    //  an instance of our interface command and connect it to the
+    //  registration object using the \code{AddObserver()} method.
+    //
+    //  Software Guide : EndLatex
+
+    // Software Guide : BeginCodeSnippet
+    using CommandType = RegistrationInterfaceCommand<RegistrationType>;
+    auto command = CommandType::New();
+
+    registration->AddObserver(itk::MultiResolutionIterationEvent(), command);
+    // Software Guide : EndCodeSnippet
+
+    //  Software Guide : BeginLatex
+    //
+    //  Then we trigger the registration process by calling \code{Update()}.
+    //
+    //  Software Guide : EndLatex
+
+
     registration->Update();
     std::cout << "Optimizer stop condition: "
               << registration->GetOptimizer()->GetStopConditionDescription()
               << std::endl;
+
+
+    ParametersType finalParameters = transform->GetParameters();
+
+    const double TranslationAlongX = finalParameters[0];
+    const double TranslationAlongY = finalParameters[1];
+
+    const unsigned int numberOfIterations = optimizer->GetCurrentIteration();
+
+    const double bestValue = optimizer->GetValue();
+
+
+    // Print out results
+    //
+    std::cout << "Result = " << std::endl;
+    std::cout << " Translation X = " << TranslationAlongX << std::endl;
+    std::cout << " Translation Y = " << TranslationAlongY << std::endl;
+    std::cout << " Iterations    = " << numberOfIterations << std::endl;
+    std::cout << " Metric value  = " << bestValue << std::endl;
+
+
+    //  Software Guide : BeginLatex
+    //
+    //  Let's execute this example using the following images
+    //
+    //  \begin{itemize}
+    //  \item BrainT1SliceBorder20.png
+    //  \item BrainProtonDensitySliceShifted13x17y.png
+    //  \end{itemize}
+    //
+    //  The output produced by the execution of the method is
+    //
+    //  \begin{verbatim}
+    //  0   -0.316956   [11.4200, 11.2063]
+    //  1   -0.562048   [18.2938, 25.6545]
+    //  2   -0.407696   [11.3643, 21.6569]
+    //  3   -0.5702     [13.7244, 18.4274]
+    //  4   -0.803252   [11.1634, 15.3547]
+    //
+    //  0   -0.697586   [12.8778, 16.3846]
+    //  1   -0.901984   [13.1794, 18.3617]
+    //  2   -0.827423   [13.0545, 17.3695]
+    //  3   -0.92754    [12.8528, 16.3901]
+    //  4   -0.902671   [12.9426, 16.8819]
+    //  5   -0.941212   [13.1402, 17.3413]
+    //
+    //  0   -0.922239   [13.0364, 17.1138]
+    //  1   -0.930203   [12.9463, 16.8806]
+    //  2   -0.930959   [13.0191, 16.9822]
+    //
+    //
+    //  Result =
+    //   Translation X = 13.0192
+    //   Translation Y = 16.9823
+    //   Iterations    = 4
+    //   Metric value  = -0.929237
+    //  \end{verbatim}
+    //
+    //  These values are a close match to the true misalignment of $(13,17)$
+    //  introduced in the moving image.
+    //
+    //  Software Guide : EndLatex
+
+    using ResampleFilterType =
+      itk::ResampleImageFilter<MovingImageType, FixedImageType>;
+
+    auto resample = ResampleFilterType::New();
+
+    resample->SetTransform(transform);
+    resample->SetInput(movingImage);
+
+    resample->SetSize(fixedImage->GetLargestPossibleRegion().GetSize());
+    resample->SetOutputOrigin(fixedImage->GetOrigin());
+    resample->SetOutputSpacing(fixedImage->GetSpacing());
+    resample->SetOutputDirection(fixedImage->GetDirection());
+    resample->SetDefaultPixelValue(backgroundGrayLevel);
+
+
+    using OutputPixelType = unsigned char;
+
+    using OutputImageType = itk::Image<OutputPixelType, Dimension>;
+
+    using CastFilterType =
+      itk::CastImageFilter<FixedImageType, OutputImageType>;
+    auto caster = CastFilterType::New();
+    caster->SetInput(resample->GetOutput());
+
+    itk::WriteImage(caster->GetOutput(), outImagefile);
+
+    //
+    // Generate checkerboards before and after registration
+    //
+    using CheckerBoardFilterType =
+      itk::CheckerBoardImageFilter<FixedImageType>;
+
+    auto checker = CheckerBoardFilterType::New();
+
+    checker->SetInput1(fixedImage);
+    checker->SetInput2(resample->GetOutput());
+
+    caster->SetInput(checker->GetOutput());
+
+    resample->SetDefaultPixelValue(0);
+
+    // Before registration
+    auto identityTransform = TransformType::New();
+    identityTransform->SetIdentity();
+    resample->SetTransform(identityTransform);
+
+    for (int q = 0; q < argc; ++q)
+    {
+      std::cout << q << " " << argv[q] << std::endl;
+    }
+    if (checkerBoardBefore != std::string(""))
+    {
+      itk::WriteImage(caster->GetOutput(), checkerBoardBefore);
+    }
+
+
+    // After registration
+    resample->SetTransform(transform);
+    if (checkerBoardAfter != std::string(""))
+    {
+      itk::WriteImage(caster->GetOutput(), checkerBoardAfter);
+    }
   }
   catch (const itk::ExceptionObject & err)
   {
-    std::cout << "ExceptionObject caught !" << std::endl;
-    std::cout << err << std::endl;
+    std::cerr << "ITK exception caught:\n" << err << std::endl;
     return EXIT_FAILURE;
-  }
-
-  ParametersType finalParameters = transform->GetParameters();
-
-  const double TranslationAlongX = finalParameters[0];
-  const double TranslationAlongY = finalParameters[1];
-
-  const unsigned int numberOfIterations = optimizer->GetCurrentIteration();
-
-  const double bestValue = optimizer->GetValue();
-
-
-  // Print out results
-  //
-  std::cout << "Result = " << std::endl;
-  std::cout << " Translation X = " << TranslationAlongX << std::endl;
-  std::cout << " Translation Y = " << TranslationAlongY << std::endl;
-  std::cout << " Iterations    = " << numberOfIterations << std::endl;
-  std::cout << " Metric value  = " << bestValue << std::endl;
-
-
-  //  Software Guide : BeginLatex
-  //
-  //  Let's execute this example using the following images
-  //
-  //  \begin{itemize}
-  //  \item BrainT1SliceBorder20.png
-  //  \item BrainProtonDensitySliceShifted13x17y.png
-  //  \end{itemize}
-  //
-  //  The output produced by the execution of the method is
-  //
-  //  \begin{verbatim}
-  //  0   -0.316956   [11.4200, 11.2063]
-  //  1   -0.562048   [18.2938, 25.6545]
-  //  2   -0.407696   [11.3643, 21.6569]
-  //  3   -0.5702     [13.7244, 18.4274]
-  //  4   -0.803252   [11.1634, 15.3547]
-  //
-  //  0   -0.697586   [12.8778, 16.3846]
-  //  1   -0.901984   [13.1794, 18.3617]
-  //  2   -0.827423   [13.0545, 17.3695]
-  //  3   -0.92754    [12.8528, 16.3901]
-  //  4   -0.902671   [12.9426, 16.8819]
-  //  5   -0.941212   [13.1402, 17.3413]
-  //
-  //  0   -0.922239   [13.0364, 17.1138]
-  //  1   -0.930203   [12.9463, 16.8806]
-  //  2   -0.930959   [13.0191, 16.9822]
-  //
-  //
-  //  Result =
-  //   Translation X = 13.0192
-  //   Translation Y = 16.9823
-  //   Iterations    = 4
-  //   Metric value  = -0.929237
-  //  \end{verbatim}
-  //
-  //  These values are a close match to the true misalignment of $(13,17)$
-  //  introduced in the moving image.
-  //
-  //  Software Guide : EndLatex
-
-  using ResampleFilterType =
-    itk::ResampleImageFilter<MovingImageType, FixedImageType>;
-
-  auto resample = ResampleFilterType::New();
-
-  resample->SetTransform(transform);
-  resample->SetInput(movingImage);
-
-  resample->SetSize(fixedImage->GetLargestPossibleRegion().GetSize());
-  resample->SetOutputOrigin(fixedImage->GetOrigin());
-  resample->SetOutputSpacing(fixedImage->GetSpacing());
-  resample->SetOutputDirection(fixedImage->GetDirection());
-  resample->SetDefaultPixelValue(backgroundGrayLevel);
-
-
-  using OutputPixelType = unsigned char;
-
-  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
-
-  using CastFilterType =
-    itk::CastImageFilter<FixedImageType, OutputImageType>;
-  auto caster = CastFilterType::New();
-  caster->SetInput(resample->GetOutput());
-
-  itk::WriteImage(caster->GetOutput(), outImagefile);
-
-  //
-  // Generate checkerboards before and after registration
-  //
-  using CheckerBoardFilterType = itk::CheckerBoardImageFilter<FixedImageType>;
-
-  auto checker = CheckerBoardFilterType::New();
-
-  checker->SetInput1(fixedImage);
-  checker->SetInput2(resample->GetOutput());
-
-  caster->SetInput(checker->GetOutput());
-
-  resample->SetDefaultPixelValue(0);
-
-  // Before registration
-  auto identityTransform = TransformType::New();
-  identityTransform->SetIdentity();
-  resample->SetTransform(identityTransform);
-
-  for (int q = 0; q < argc; ++q)
-  {
-    std::cout << q << " " << argv[q] << std::endl;
-  }
-  if (checkerBoardBefore != std::string(""))
-  {
-    itk::WriteImage(caster->GetOutput(), checkerBoardBefore);
-  }
-
-
-  // After registration
-  resample->SetTransform(transform);
-  if (checkerBoardAfter != std::string(""))
-  {
-    itk::WriteImage(caster->GetOutput(), checkerBoardAfter);
   }
 
   //  Software Guide : BeginLatex
