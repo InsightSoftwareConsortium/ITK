@@ -19,11 +19,11 @@ classifiers = [
   "Intended Audience :: Developers",
   "Intended Audience :: Science/Research",
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
 ]
 keywords = [
   "itkwasm",
@@ -32,9 +32,9 @@ keywords = [
   "emscripten",
 ]
 
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 dependencies = [
-    "itkwasm >= 1.0.b145",
+    "itkwasm >= 1.0.b189",
     "itkwasm-mesh-to-poly-data-wasi; sys_platform != \"emscripten\"",
     "itkwasm-mesh-to-poly-data-emscripten; sys_platform == \"emscripten\"",
 

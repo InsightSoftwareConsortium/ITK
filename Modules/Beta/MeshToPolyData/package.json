@@ -6,8 +6,8 @@
   "packageManager": "pnpm@10.6.2",
   "type": "module",
   "itk-wasm": {
-    "emscripten-docker-image": "itkwasm/emscripten:20240517-32a1ffd9",
-    "wasi-docker-image": "itkwasm/wasi:20240517-32a1ffd9",
+    "emscripten-docker-image": "quay.io/itkwasm/emscripten:20250309-026d26b5",
+    "wasi-docker-image": "quay.io/itkwasm/wasi:20250309-026d26b5",
     "typescript-package-name": "@itk-wasm/mesh-to-poly-data",
     "typescript-output-dir": "wasm/typescript",
     "python-package-name": "itkwasm-mesh-to-poly-data",
@@ -43,6 +43,6 @@
   "devDependencies": {
     "@itk-wasm/dam": "^1.1.1",
     "@thewtex/setup-micromamba": "^1.9.7",
-    "itk-wasm": "^1.0.0-b.175"
+    "itk-wasm": "^1.0.0-b.188"
   }
 }
