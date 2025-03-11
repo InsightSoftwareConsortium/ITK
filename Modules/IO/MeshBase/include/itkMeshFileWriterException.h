@@ -44,7 +44,7 @@ public:
   MeshFileWriterException(std::string  file,
                           unsigned int line,
                           std::string  message = "Error in IO",
-                          std::string  loc = "Unknown");
+                          std::string  loc = {});
 };
 } // end namespace itk
 

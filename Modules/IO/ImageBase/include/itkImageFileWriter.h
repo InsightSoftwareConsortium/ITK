@@ -43,7 +43,7 @@ public:
   ImageFileWriterException(std::string  file,
                            unsigned int line,
                            std::string  message = "Error in IO",
-                           std::string  loc = "Unknown")
+                           std::string  loc = {})
     : ExceptionObject(std::move(file), line, std::move(message), std::move(loc))
   {}
 
