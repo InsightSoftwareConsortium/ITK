@@ -4,7 +4,7 @@ build-backend = "scikit_build_core.build"
 
 [project]
 name = "itk-montage"
-version = "0.8.2"
+version = "0.8.3"
 description = "Montaging for microscopy imaging files."
 readme = "README.md"
 license = {file = "LICENSE"}
@@ -34,9 +34,9 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Medical Science Apps.",
     "Topic :: Software Development :: Libraries",
 ]
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 dependencies = [
-    "itk-core>=5.4rc4",
+    "itk-core>=5.4.*",
     "itk-filtering>=5.4rc4",
     "itk-io>=5.4rc4",
     "numpy",
