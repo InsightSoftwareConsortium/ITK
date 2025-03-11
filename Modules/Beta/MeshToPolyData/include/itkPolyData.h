@@ -58,6 +58,7 @@ public:
 
   /** Convenient type alias obtained from TMeshTraits template parameter. */
   using CoordinateType = typename MeshTraits::CoordinateType;
+  using CoordRepType = CoordinateType;
   using PointIdentifier = typename MeshTraits::PointIdentifier;
   using PointType = typename MeshTraits::PointType;
   using PointsContainer = typename MeshTraits::PointsContainer;

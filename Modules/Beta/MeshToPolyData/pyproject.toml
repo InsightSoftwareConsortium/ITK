@@ -4,7 +4,7 @@ build-backend = "scikit_build_core.build"
 
 [project]
 name = "itk-meshtopolydata"
-version = "0.11.0"
+version = "0.11.1"
 description = "Convert an ITK Mesh to a simple data structure compatible with vtkPolyData."
 readme = "README.rst"
 license = {file = "LICENSE"}
@@ -33,9 +33,9 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Medical Science Apps.",
     "Topic :: Software Development :: Libraries",
 ]
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 dependencies = [
-    "itk-core~=5.4.0",
+    "itk-core == 5.4.*",
     "numpy",
 ]
 
