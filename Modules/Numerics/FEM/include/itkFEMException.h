@@ -49,7 +49,7 @@ public:
    * you should use __FILE__ and __LINE__ macros to specify file name
    * and line number.
    */
-  FEMException(const char * file, unsigned int lineNumber, std::string location = "Unknown");
+  FEMException(std::string file, unsigned int lineNumber, std::string location = "Unknown");
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   ~FEMException() noexcept override;
@@ -73,7 +73,7 @@ public:
    * must be provided: file, lineNumber, location and a detailed description
    * of the exception.
    */
-  FEMExceptionIO(const char * file, unsigned int lineNumber, std::string location, std::string moreDescription);
+  FEMExceptionIO(std::string file, unsigned int lineNumber, std::string location, std::string moreDescription);
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   ~FEMExceptionIO() noexcept override;
@@ -103,7 +103,7 @@ public:
 class ITK_ABI_EXPORT FEMExceptionWrongClass : public FEMException
 {
 public:
-  FEMExceptionWrongClass(const char * file, unsigned int lineNumber, std::string location);
+  FEMExceptionWrongClass(std::string file, unsigned int lineNumber, std::string location);
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   ~FEMExceptionWrongClass() noexcept override;
@@ -123,7 +123,7 @@ public:
 class ITK_ABI_EXPORT FEMExceptionObjectNotFound : public FEMException
 {
 public:
-  FEMExceptionObjectNotFound(const char * file,
+  FEMExceptionObjectNotFound(std::string  file,
                              unsigned int lineNumber,
                              std::string  location,
                              std::string  baseClassName,
@@ -158,7 +158,7 @@ public:
    * must be provided: file, lineNumber, location and a detailed description
    * of the exception.
    */
-  FEMExceptionSolution(const char * file, unsigned int lineNumber, std::string location, std::string moreDescription);
+  FEMExceptionSolution(std::string file, unsigned int lineNumber, std::string location, std::string moreDescription);
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   ~FEMExceptionSolution() noexcept override;
