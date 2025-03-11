@@ -34,23 +34,23 @@ namespace itk
  *
  * \ingroup MeshToPolyData
  */
-template< typename TInputImage, typename TOutputMesh >
-class ITK_TEMPLATE_EXPORT ImageToPointSetFilter: public ImageToMeshFilter< TInputImage, TOutputMesh >
+template <typename TInputImage, typename TOutputMesh>
+class ITK_TEMPLATE_EXPORT ImageToPointSetFilter : public ImageToMeshFilter<TInputImage, TOutputMesh>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(ImageToPointSetFilter);
 
   /** Standard class type alias. */
   using Self = ImageToPointSetFilter;
-  using Superclass = ImageToMeshFilter< TInputImage, TOutputMesh >;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToMeshFilter<TInputImage, TOutputMesh>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageToPointSetFilter, ImageToMeshFilter);
+  itkOverrideGetNameOfClassMacro(ImageToPointSetFilter);
 
   /** Some convenient type alias. */
   using InputImageType = TInputImage;
@@ -71,16 +71,17 @@ public:
   using PointDataContainerIterator = typename PointDataContainer::Iterator;
 
   /** The dimension of the output mesh. */
-  itkStaticConstMacro(PointDimension, unsigned int, TOutputMesh::PointDimension);
+  static constexpr unsigned int PointDimension = TOutputMesh::PointDimension;
 
   /** ImageDimension constant */
-  itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
 protected:
   ImageToPointSetFilter() {}
   virtual ~ImageToPointSetFilter() {}
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 private:
 };
@@ -88,7 +89,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageToPointSetFilter.hxx"
+#  include "itkImageToPointSetFilter.hxx"
 #endif
 
 #endif

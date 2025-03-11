@@ -21,44 +21,45 @@
 
 #include "itkImageToPointSetFilter.h"
 
-int itkImageToPointSetFilterTest( int argc, char *argv[] )
+int
+itkImageToPointSetFilterTest(int argc, char * argv[])
 {
-  if ( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "Usage: " << argv[0];
     std::cerr << " inputImage outputMesh";
     std::cerr << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   const unsigned int Dimension = 2;
   using PixelType = float;
-  using InputImageType = itk::Image< PixelType, Dimension >;
-  using OutputMeshType = itk::Mesh<  PixelType, Dimension >;
+  using InputImageType = itk::Image<PixelType, Dimension>;
+  using OutputMeshType = itk::Mesh<PixelType, Dimension>;
 
-  using ReaderType = itk::ImageFileReader< InputImageType >;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
-  using FilterType = itk::ImageToPointSetFilter< InputImageType, OutputMeshType >;
+  using FilterType = itk::ImageToPointSetFilter<InputImageType, OutputMeshType>;
   FilterType::Pointer filter = FilterType::New();
-  filter->SetInput(0, reader->GetOutput() );
+  filter->SetInput(0, reader->GetOutput());
 
-  using WriterType = itk::MeshFileWriter< OutputMeshType >;
+  using WriterType = itk::MeshFileWriter<OutputMeshType>;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( filter->GetOutput() );
-  writer->SetFileName( argv[2] );
+  writer->SetInput(filter->GetOutput());
+  writer->SetFileName(argv[2]);
 
   try
-    {
+  {
     writer->Update();
-    }
-  catch( itk::ExceptionObject& ex )
-    {
+  }
+  catch (itk::ExceptionObject & ex)
+  {
     std::cerr << "Exception caught!" << std::endl;
     std::cerr << ex << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   return EXIT_SUCCESS;
 }

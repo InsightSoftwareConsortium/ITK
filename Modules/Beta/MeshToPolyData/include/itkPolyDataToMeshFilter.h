@@ -51,7 +51,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information. */
-  itkTypeMacro(PolyDataToMeshFilter, ProcessObject);
+  itkOverrideGetNameOfClassMacro(PolyDataToMeshFilter);
 
   static constexpr unsigned int PointDimension = TInputPolyData::PointDimension;
 
@@ -60,7 +60,7 @@ public:
   using OutputMeshType = Mesh<typename InputPolyDataType::PixelType, PointDimension>;
   using MeshType = OutputMeshType;
 
-  using OutputCoordRepType = typename OutputMeshType::CoordRepType;
+  using OutputCoordinateType = typename OutputMeshType::CoordinateType;
   using OutputPointPixelType = typename OutputMeshType::PixelType;
   using OutputCellPixelType = typename OutputMeshType::CellPixelType;
   using OutputPointType = typename OutputMeshType::PointType;
