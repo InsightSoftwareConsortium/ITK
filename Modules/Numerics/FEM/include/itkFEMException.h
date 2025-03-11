@@ -49,7 +49,7 @@ public:
    * you should use __FILE__ and __LINE__ macros to specify file name
    * and line number.
    */
-  FEMException(std::string file, unsigned int lineNumber, std::string location = "Unknown");
+  FEMException(std::string file, unsigned int lineNumber, std::string location = {});
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   ~FEMException() noexcept override;

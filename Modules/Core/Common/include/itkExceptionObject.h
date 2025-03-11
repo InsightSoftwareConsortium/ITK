@@ -59,7 +59,7 @@ public:
   explicit ExceptionObject(std::string  file,
                            unsigned int lineNumber = 0,
                            std::string  desc = "None",
-                           std::string  loc = "Unknown");
+                           std::string  loc = {});
 
   /** Copy-constructor. */
   ExceptionObject(const ExceptionObject &) noexcept = default;
