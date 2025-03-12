@@ -74,7 +74,7 @@ if(NETLIB_FOUND)
     vnl_brent_minimizer.cxx vnl_brent_minimizer.h
 
     # equation solvers
-    vnl_rpoly_roots.cxx vnl_rpoly_roots.h
+    # vnl_rpoly_roots.cxx vnl_rpoly_roots.h Remove for ACM Copyright
     vnl_cpoly_roots.cxx vnl_cpoly_roots.h
     vnl_rnpoly_solve.cxx vnl_rnpoly_solve.h
     vnl_fit_parabola.h
