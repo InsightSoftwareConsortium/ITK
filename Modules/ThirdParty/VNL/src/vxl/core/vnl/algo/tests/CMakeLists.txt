@@ -36,7 +36,7 @@ if(NETLIB_FOUND)
     test_rank.cxx
     test_real_eigensystem.cxx
     test_rnpoly_roots.cxx
-    test_rpoly_roots.cxx
+    # test_rpoly_roots.cxx  Remove due to ACM Copyright
     test_sparse_matrix.cxx
     test_svd.cxx
     test_svd_fixed.cxx
@@ -74,7 +74,7 @@ if(NETLIB_FOUND)
   add_test( NAME vnl_algo_test_rank COMMAND vnl_algo_test_all test_rank                    )
   add_test( NAME vnl_algo_test_real_eigensystem COMMAND vnl_algo_test_all test_real_eigensystem        )
   add_test( NAME vnl_algo_test_rnpoly_roots COMMAND vnl_algo_test_all test_rnpoly_roots            )
-  add_test( NAME vnl_algo_test_rpoly_roots COMMAND vnl_algo_test_all test_rpoly_roots             )
+  # add_test( NAME vnl_algo_test_rpoly_roots COMMAND vnl_algo_test_all test_rpoly_roots             )
   add_test( NAME vnl_algo_test_integral COMMAND vnl_algo_test_all test_integral                )
   add_test( NAME vnl_algo_test_solve_qp COMMAND vnl_algo_test_all test_solve_qp                )
   add_test( NAME vnl_algo_test_sparse_lu COMMAND vnl_algo_test_all test_sparse_lu               )
