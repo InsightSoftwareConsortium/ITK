@@ -40,8 +40,8 @@ public:
   ImageFileReaderException(std::string  file,
                            unsigned int line,
                            std::string  message = "Error in IO",
-                           std::string  loc = {})
-    : ExceptionObject(std::move(file), line, std::move(message), std::move(loc))
+                           std::string  location = {})
+    : ExceptionObject(std::move(file), line, std::move(message), std::move(location))
   {}
 
   /** Has to have empty throw(). */

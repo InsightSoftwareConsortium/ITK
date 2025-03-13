@@ -44,7 +44,7 @@ public:
   MeshFileReaderException(std::string  file,
                           unsigned int line,
                           std::string  message = "Error in IO",
-                          std::string  loc = {});
+                          std::string  location = {});
 };
 } // end namespace itk
 
