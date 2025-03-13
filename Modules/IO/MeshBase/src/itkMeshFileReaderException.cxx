@@ -24,7 +24,7 @@ MeshFileReaderException::~MeshFileReaderException() noexcept = default;
 MeshFileReaderException::MeshFileReaderException(std::string  file,
                                                  unsigned int line,
                                                  std::string  message,
-                                                 std::string  loc)
-  : ExceptionObject(std::move(file), line, std::move(message), std::move(loc))
+                                                 std::string  location)
+  : ExceptionObject(std::move(file), line, std::move(message), std::move(location))
 {}
 } // namespace itk

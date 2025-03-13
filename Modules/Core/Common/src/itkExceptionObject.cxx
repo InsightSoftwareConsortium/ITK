@@ -65,8 +65,12 @@ private:
 };
 
 
-ExceptionObject::ExceptionObject(std::string file, unsigned int lineNumber, std::string desc, std::string loc)
-  : m_ExceptionData(std::make_shared<const ExceptionData>(std::move(file), lineNumber, std::move(desc), std::move(loc)))
+ExceptionObject::ExceptionObject(std::string  file,
+                                 unsigned int lineNumber,
+                                 std::string  description,
+                                 std::string  location)
+  : m_ExceptionData(
+      std::make_shared<const ExceptionData>(std::move(file), lineNumber, std::move(description), std::move(location)))
 {}
 
 
