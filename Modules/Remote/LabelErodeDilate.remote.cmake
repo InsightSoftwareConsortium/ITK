@@ -22,9 +22,9 @@
 #--   - [ ] All requirements of Levels 3,2,1
 #--
 #-- ## Compliance Level 3 star (Quality beta code)
-#--   - [ ] API | executable interface is considered mostly stable and feature complete
-#--   - [ ] 10% C0-code coverage demonstrated for testing suite
-#--   - [ ] Some tests exist and pass on at least some platform
+#--   - [X] API | executable interface is considered mostly stable and feature complete
+#--   - [X] 10% C0-code coverage demonstrated for testing suite
+#--   - [X] Some tests exist and pass on at least some platform
 #--   - [X] All requirements of Levels 2,1
 #--
 #-- ## Compliance Level 2 star (Alpha code feature API development or niche community/execution environment dependance )
@@ -50,8 +50,8 @@ itk_fetch_module(
   structuring elements are supported.
   https://doi.org/10.54294/j8lsa66
   https://doi.org/10.54294/aq68pt"
-  MODULE_COMPLIANCE_LEVEL 2
+  MODULE_COMPLIANCE_LEVEL 3
   #UPSTREAM_GIT_REPOSITORY
   GIT_REPOSITORY https://github.com/InsightSoftwareConsortium/ITKLabelErodeDilate.git
-  GIT_TAG 08c2551096c06fe993b0d5a977a752fb21972896
+  GIT_TAG 22d8846dbe4368312aa3aa95ecfe3542ab894e15
   )
