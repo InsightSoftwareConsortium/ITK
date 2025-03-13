@@ -22,9 +22,9 @@
 #--   - [ ] All requirements of Levels 3,2,1
 #--
 #-- ## Compliance Level 3 star (Quality beta code)
-#--   - [ ] API | executable interface is considered mostly stable and feature complete
-#--   - [ ] 10% C0-code coverage demonstrated for testing suite
-#--   - [ ] Some tests exist and pass on at least some platform
+#--   - [X] API | executable interface is considered mostly stable and feature complete
+#--   - [X] 10% C0-code coverage demonstrated for testing suite
+#--   - [X] Some tests exist and pass on at least some platform
 #--   - [X] All requirements of Levels 2,1
 #--
 #-- ## Compliance Level 2 star (Alpha code feature API development or niche community/execution environment dependance )
@@ -48,10 +48,10 @@ itk_fetch_module(
   operations are efficient (approximately constant time wrt
   structuring element size). Only circular/spherical/hyperspherical
   structuring elements are supported.
-  https://www.insight-journal.org/browse/publication/886
-  https://www.insight-journal.org/browse/publication/228"
-  MODULE_COMPLIANCE_LEVEL 2
+  https://doi.org/10.54294/j8lsa66
+  https://doi.org/10.54294/aq68pt"
+  MODULE_COMPLIANCE_LEVEL 3
   #UPSTREAM_GIT_REPOSITORY
   GIT_REPOSITORY https://github.com/InsightSoftwareConsortium/ITKLabelErodeDilate.git
-  GIT_TAG 7e23b12be913ff2bd935d9ffc2d10b573a923501
+  GIT_TAG 22d8846dbe4368312aa3aa95ecfe3542ab894e15
   )
