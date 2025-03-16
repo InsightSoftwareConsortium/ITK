@@ -1,4 +1,5 @@
-cmake_minimum_required(VERSION 3.10.2)
+cmake_minimum_required(VERSION 3.22.1...3.29.0 FATAL_ERROR)
+
 
 project(MeshNoise)
 
