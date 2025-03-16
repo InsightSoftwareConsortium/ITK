@@ -86,7 +86,7 @@ RecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetUp(ScalarRealType sp
   if (spacing < 0.0)
   {
     direction = -1.0;
-    spacing = -spacing;
+    spacing *= -1;
   }
 
   if (spacing < spacingTolerance)

@@ -101,7 +101,7 @@ Rigid2DTransform<TParametersValueType>::ComputeMatrixParameters()
   m_Angle = std::acos(r[0][0]);
   if (r[1][0] < 0.0)
   {
-    m_Angle = -m_Angle;
+    m_Angle *= -1;
   }
 
   if (r[1][0] - std::sin(m_Angle) > 0.000001)

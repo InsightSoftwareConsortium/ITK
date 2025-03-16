@@ -1152,7 +1152,7 @@ MINCImageIO::WriteImageInformation()
             miget_dimension_size(m_MINCPImpl->m_MincApparentDims[j], &_sz);
 
             _start = _start + (_sz - 1) * _sep;
-            _sep = -_sep;
+            _sep *= -1;
 
             miset_dimension_separation(m_MINCPImpl->m_MincApparentDims[j], _sep);
             miset_dimension_start(m_MINCPImpl->m_MincApparentDims[j], _start);

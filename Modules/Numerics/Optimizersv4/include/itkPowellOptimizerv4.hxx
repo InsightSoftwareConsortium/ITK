@@ -299,11 +299,11 @@ PowellOptimizerv4<TInternalComputationValueType>::BracketedLineOptimize(double  
 
       if (q > 0.0) /* q was calculated with the */
       {
-        p = -p; /* opposite sign; make q positive  */
+        p *= -1; /* opposite sign; make q positive  */
       }
       else /* and assign possible minus to  */
       {
-        q = -q; /* p        */
+        q *= -1; /* p        */
       }
 
       /* Check if x+p/q falls in [a,b] and  not too close to a and b
