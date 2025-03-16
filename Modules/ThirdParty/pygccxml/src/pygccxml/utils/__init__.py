@@ -8,7 +8,6 @@ The utils package contains tools used internally by pygccxml.
 
 """
 
-from .utils import is_str
 from .utils import get_architecture
 from .utils import loggers
 from .utils import create_temp_file_name
