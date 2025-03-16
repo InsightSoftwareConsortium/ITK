@@ -294,8 +294,8 @@ HoughTransform2DLinesImageFilter<TInputPixelType, TOutputPixelType>::GetLines() 
           {
             if (teta >= Math::pi / 2)
             {
-              VyNorm = -VyNorm;
-              VxNorm = -VxNorm;
+              VyNorm *= -1;
+              VxNorm *= -1;
             }
 
             LinePointType p;

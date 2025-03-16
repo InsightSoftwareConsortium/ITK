@@ -36,10 +36,10 @@ FRPROptimizer::GetValueAndDerivative(ParametersType & p, double * val, Parameter
   this->m_CostFunction->GetValueAndDerivative(p, *val, *xi);
   if (this->GetMaximize())
   {
-    (*val) = -(*val);
+    (*val) *= -1;
     for (unsigned int i = 0; i < this->GetSpaceDimension(); ++i)
     {
-      (*xi)[i] = -(*xi)[i];
+      (*xi)[i] *= -1;
     }
   }
   if (this->GetUseUnitLengthGradient())

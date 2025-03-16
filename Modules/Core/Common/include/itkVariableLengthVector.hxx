@@ -350,7 +350,7 @@ VariableLengthVector<TValue>::operator-()
 {
   for (ElementIdentifier i = 0; i < m_NumElements; ++i)
   {
-    m_Data[i] = -m_Data[i];
+    m_Data[i] *= -1;
   }
   return *this;
 }

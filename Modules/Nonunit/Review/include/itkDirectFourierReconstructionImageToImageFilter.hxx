@@ -316,7 +316,7 @@ DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::Genera
       if (theta < 0)
       {
         theta += m_PI;
-        r = -r;
+        r *= -1;
       }
 
       // Convert into alpha-image indices
@@ -324,7 +324,7 @@ DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::Genera
       if (alpha >= alpha_size)
       {
         alpha -= alpha_size;
-        r = -r;
+        r *= -1;
       }
 
       FFTLineType::PixelType out;

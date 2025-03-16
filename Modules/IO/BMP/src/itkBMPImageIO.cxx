@@ -456,7 +456,7 @@ BMPImageIO::ReadImageInformation()
   // is corner in upper left or lower left
   if (ysize < 0)
   {
-    ysize = -ysize;
+    ysize *= -1;
     m_FileLowerLeft = false;
   }
   else

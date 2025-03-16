@@ -2302,9 +2302,9 @@ NiftiImageIO::SetNIfTIOrientationFromImageIO(unsigned short origdims, unsigned s
     }
     //  Read comments in nifti1.h about interpreting
     //  "DICOM Image Orientation (Patient)"
-    dirx[2] = -dirx[2];
-    diry[2] = -diry[2];
-    dirz[2] = -dirz[2];
+    dirx[2] *= -1;
+    diry[2] *= -1;
+    dirz[2] *= -1;
   }
   else
   {

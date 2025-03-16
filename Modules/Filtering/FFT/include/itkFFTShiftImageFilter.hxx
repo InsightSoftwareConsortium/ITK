@@ -41,7 +41,7 @@ FFTShiftImageFilter<TInputImage, TOutputImage>::GenerateData()
     shift[i] = (size[i] / 2);
     if (m_Inverse)
     {
-      shift[i] = -shift[i];
+      shift[i] *= -1;
     }
   }
 
