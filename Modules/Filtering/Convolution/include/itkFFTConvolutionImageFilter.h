@@ -41,11 +41,8 @@ namespace itk
  * of the kernel image and treats them as identical to those in the
  * input image.
  *
- * This code was adapted from the Insight Journal contribution:
- *
- * "FFT Based Convolution"
- * by Gaetan Lehmann
- * https://doi.org/10.54294/0iky0u
+ * This code was adapted from the Insight Journal contribution
+ * \cite Lehmann_2010_b.
  *
  * \ingroup ITKConvolution
  * \sa ConvolutionImageFilter
