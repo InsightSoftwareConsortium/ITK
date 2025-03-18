@@ -101,6 +101,10 @@ try_compile(
   ${CMAKE_CURRENT_SOURCE_DIR}/CMake/itkCheckHasFenvtStructMember.cxx
   COMPILE_DEFINITIONS -DITK_CHECK_FENV_T_CW)
 
+try_compile(
+        ITK_HAS_SCHED_GETAFFINITY ${ITK_BINARY_DIR}
+        ${CMAKE_CURRENT_SOURCE_DIR}/CMake/itkCheckHasSchedGetAffinity.cxx)
+
 #-----------------------------------------------------------------------------
 # Make default visibility as an option for generated export header
 
