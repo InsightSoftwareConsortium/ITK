@@ -49,7 +49,7 @@ template <typename TImageType,
 class ITK_TEMPLATE_EXPORT TileMergeImageFilter
   : public TileMontage<
       Image<typename NumericTraits<typename TImageType::PixelType>::ValueType, TImageType::ImageDimension>,
-      typename TInterpolator::CoordRepType>
+      typename TInterpolator::CoordinateType>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(TileMergeImageFilter);
@@ -57,7 +57,7 @@ public:
   /** We define superclass with scalar pixel type, to enable compiling even when RGB pixel is supplied. */
   using Superclass =
     TileMontage<Image<typename NumericTraits<typename TImageType::PixelType>::ValueType, TImageType::ImageDimension>,
-                typename TInterpolator::CoordRepType>;
+                typename TInterpolator::CoordinateType>;
 
   /** Standard class type aliases. */
   using Self = TileMergeImageFilter;
@@ -71,7 +71,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(TileMergeImageFilter, TileMontage);
+  itkOverrideGetNameOfClassMacro(TileMergeImageFilter);
 
   /** Dimensionality of input images. */
   static constexpr unsigned int ImageDimension = ImageType::ImageDimension;
@@ -241,7 +241,7 @@ private:
   std::vector<RegionType>           m_Regions;                 // regions which completely cover the output,
                                                                // grouped by the set of contributing input tiles
   std::vector<ContributingTiles> m_RegionContributors; // set of input tiles which contribute to corresponding regions
-};                                                     // class TileMergeImageFilter
+}; // class TileMergeImageFilter
 
 } // namespace itk
 

@@ -57,7 +57,7 @@ public:
 };
 
 extern Montage_EXPORT std::ostream &
-                      operator<<(std::ostream & out, const PhaseCorrelationImageRegistrationMethodEnums::PaddingMethod value);
+operator<<(std::ostream & out, const PhaseCorrelationImageRegistrationMethodEnums::PaddingMethod value);
 
 /** \class PhaseCorrelationImageRegistrationMethod
  *  \brief Base class for phase-correlation-based image registration.
@@ -146,7 +146,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PhaseCorrelationImageRegistrationMethod, ProcessObject);
+  itkOverrideGetNameOfClassMacro(PhaseCorrelationImageRegistrationMethod);
 
   /**  Type of the Fixed image. */
   using FixedImageType = TFixedImage;
