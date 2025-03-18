@@ -1,3 +1,5 @@
 itk_wrap_module(AnisotropicDiffusionLBR)
-itk_auto_load_submodules()
-itk_end_wrap_module()
+set(WRAPPING_SUBMODULE_ORDER
+  itkAnisotropicDiffusionLBRImageFilter
+  )
+itk_auto_load_and_end_wrap_submodules()
