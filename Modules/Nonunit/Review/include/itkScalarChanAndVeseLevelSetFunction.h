@@ -35,20 +35,9 @@ namespace itk
  *
  * Based on the papers \cite chan1999 and \cite dufour2005.
  *
- *  This code was taken from the Insight Journal paper:
- *
- *      "Cell Tracking using Coupled Active Surfaces for Nuclei and Membranes"
- *      https://doi.org/10.54294/wvwmf8
- *
- *  That is based on the papers:
- *
- *      "Level Set Segmentation: Active Contours without edge"
- *      https://doi.org/10.54294/8jk6oy
- *
- *      and
- *
- *      "Level set segmentation using coupled active surfaces"
- *      https://doi.org/10.54294/23ugmy
+ *  This code was taken from the Insight Journal paper \cite Mosaliganti_2009_c
+ *  that is based on the papers \cite Mosaliganti_2009_a and
+ *  \cite  Mosaliganti_2009_b.
  *
  * \ingroup ITKReview
  *

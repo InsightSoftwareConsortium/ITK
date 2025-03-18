@@ -42,8 +42,7 @@ namespace itk
  * the type of the output image.
  *
  * This class was contributed to the Insight Journal by Emiliano Beronich and
- * Gaetan Lehmann. The original paper can be found at
- * https://doi.org/10.54294/0pjyho
+ * Gaetan Lehmann \cite Lehmann_2006_a.
  *
  * \author Emiliano Beronich
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction,
