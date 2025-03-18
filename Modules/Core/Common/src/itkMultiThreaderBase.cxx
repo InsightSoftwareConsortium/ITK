@@ -217,8 +217,8 @@ MultiThreaderBase::SetGlobalMaximumNumberOfThreads(ThreadIdType val)
   m_PimplGlobals->m_GlobalMaximumNumberOfThreads = std::clamp<ThreadIdType>(val, 1, ITK_MAX_THREADS);
 
   // If necessary reset the default to be used from now on.
-  m_PimplGlobals->m_GlobalDefaultNumberOfThreads =
-    std::min(m_PimplGlobals->m_GlobalDefaultNumberOfThreads, m_PimplGlobals->m_GlobalMaximumNumberOfThreads);
+  MultiThreaderBase::SetGlobalDefaultNumberOfThreads(
+    std::min(Self::GetGlobalDefaultNumberOfThreads(), Self::GetGlobalMaximumNumberOfThreads()));
 }
 
 ThreadIdType
