@@ -26,7 +26,7 @@
 #include <cmath>
 #include <type_traits>
 
-//#ifndef NDEBUG
+// #ifndef NDEBUG
 #include "itkImageFileWriter.h"
 
 namespace
@@ -49,15 +49,15 @@ WriteDebug(const TImage * out, const char * filename)
   }
 }
 } // namespace
-//#else
-// namespace
+// #else
+//  namespace
 //{
-// template <typename TImage>
-// void
-// WriteDebug(TImage *, const char *)
+//  template <typename TImage>
+//  void
+//  WriteDebug(TImage *, const char *)
 //{}
-//} // namespace
-//#endif
+// } // namespace
+// #endif
 
 namespace itk
 {
@@ -573,7 +573,7 @@ PhaseCorrelationOptimizer<TRealPixelType, VImageDimension>::ComputeOffset()
         // TODO: remove
         // std::cout << "MAX Phase GENERATED: " << this->m_Offsets[offsetIndex] << std::endl;
       } // for ImageDimension
-    }   // for offsetIndex
+    } // for offsetIndex
     if (this->m_PeakInterpolationMethod == PeakInterpolationMethodEnum::WeightedMeanPhase)
     {
       for (unsigned int peak = 0; peak < this->m_PhaseInterpolated && peak < this->m_Offsets.size(); ++peak)
@@ -636,7 +636,7 @@ PhaseCorrelationOptimizer<TRealPixelType, VImageDimension>::ComputeOffset()
         }
       }
     } // frequency domain interpolation
-  }   // interpolate the peak
+  } // interpolate the peak
 }
 
 

@@ -39,7 +39,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(HyperSphereImageSource, Object);
+  itkOverrideGetNameOfClassMacro(HyperSphereImageSource);
 
   using ImageType = itk::Image<TPixel, VDimension>;
 
@@ -303,9 +303,9 @@ PhaseCorrelationRegistration(int argc, char * argv[])
             pass = false;
           }
         } // for peakMethod
-      }   // for padMethod
-    }     // for testCoefficients
-  }       // for size1
+      } // for padMethod
+    } // for testCoefficients
+  } // for size1
 
   std::cout << *pcm;
 

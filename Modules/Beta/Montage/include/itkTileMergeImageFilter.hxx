@@ -265,10 +265,10 @@ TileMergeImageFilter<TImageType, TPixelAccumulateType, TInterpolator>::GenerateO
   if (m_Montage.IsNull())
   {
     // initialize mosaic bounds
-    this->m_MinInner.Fill(NumericTraits<typename TInterpolator::CoordRepType>::NonpositiveMin());
-    this->m_MinOuter.Fill(NumericTraits<typename TInterpolator::CoordRepType>::max());
-    this->m_MaxOuter.Fill(NumericTraits<typename TInterpolator::CoordRepType>::NonpositiveMin());
-    this->m_MaxInner.Fill(NumericTraits<typename TInterpolator::CoordRepType>::max());
+    this->m_MinInner.Fill(NumericTraits<typename TInterpolator::CoordinateType>::NonpositiveMin());
+    this->m_MinOuter.Fill(NumericTraits<typename TInterpolator::CoordinateType>::max());
+    this->m_MaxOuter.Fill(NumericTraits<typename TInterpolator::CoordinateType>::NonpositiveMin());
+    this->m_MaxInner.Fill(NumericTraits<typename TInterpolator::CoordinateType>::max());
 
     for (SizeValueType i = 0; i < this->m_LinearMontageSize; i++)
     {
@@ -315,7 +315,7 @@ TileMergeImageFilter<TImageType, TPixelAccumulateType, TInterpolator>::GenerateO
     iOrigin = inverseT->TransformPoint(iOrigin);
 
     const ContinuousIndexType ci =
-      outputImage->template TransformPhysicalPointToContinuousIndex<typename TInterpolator::CoordRepType,
+      outputImage->template TransformPhysicalPointToContinuousIndex<typename TInterpolator::CoordinateType,
                                                                     typename PointType::ValueType>(iOrigin);
     for (unsigned d = 0; d < ImageDimension; d++)
     {
