@@ -240,7 +240,7 @@ itkConjugateGradientLineSearchOptimizerv4Test(int, char *[])
   }
 
   //
-  // test with non-idenity scales
+  // test with non-identity scales
   //
   std::cout << "Test optimization with non-identity scales:" << std::endl;
   metric->SetParameters(initialPosition);
@@ -272,12 +272,22 @@ itkConjugateGradientLineSearchOptimizerv4Test(int, char *[])
   }
 
   // Test repeat runs with the same parameters
+  initialPosition[0] = 200;
+  initialPosition[1] = -200;
 
   metric->SetParameters(initialPosition);
 
+  // local variable to store initial learning rate
+  double initialLearningRate = 0.5;
+
   itkOptimizer = OptimizerType::New(); // Reinitialize optimizer
   itkOptimizer->SetMetric(metric);     // Reattach the metric
-  itkOptimizer->SetLearningRate(0.5);
+  itkOptimizer->SetMaximumLineSearchIterations(5);
+  itkOptimizer->SetLearningRate(initialLearningRate);
+  itkOptimizer->SetLowerLimit(0.1);
+  itkOptimizer->SetUpperLimit(5);
+  itkOptimizer->SetEpsilon(1.e-4);
+
   itkOptimizer->SetNumberOfIterations(50);
 
   std::cout << "Test optimization retest 1 (initial):" << std::endl;
@@ -325,6 +335,8 @@ itkConjugateGradientLineSearchOptimizerv4Test(int, char *[])
 
   // Exercise various member functions
   std::cout << "LearningRate: " << itkOptimizer->GetLearningRate();
+  std::cout << std::endl;
+  std::cout << "InitialLearningRate: " << itkOptimizer->GetInitialLearningRate();
   std::cout << std::endl;
   std::cout << "NumberOfIterations: " << itkOptimizer->GetNumberOfIterations();
   std::cout << std::endl;
