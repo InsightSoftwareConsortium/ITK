@@ -115,3 +115,36 @@ The `CoordRepType` aliases will be removed when `ITK_FUTURE_LEGACY_REMOVE` is
 enabled. Similarly, `InputCoordinateType`, `OutputCoordinateType`, and
 `ImagePointCoordinateType` replace `InputCoordRepType`, `OutputCoordRepType`,
 and `ImagePointCoordRepType`, respectively.
+
+Remote module integration
+-------------------------
+
+Some remote modules have been integrated into ITK proper.
+Consequently, the `Module_XXX` CMake options have been removed.
+Where the old module `XXX` was required, a different `ITKYYY` module might be
+required. If it is transitively required by another module, listing it
+explicitly should not be required. It is better to be on the safe side.
+
+CMake code with ITK 5.4 and earlier:
+```cmake
+set(EXAMPLE_ITK_COMPONENTS
+  ITKImageIO
+  ITKSmoothing
+  ...
+  XXX
+  )
+find_package(ITK 5.4 COMPONENTS ${EXAMPLE_ITK_COMPONENTS} REQUIRED)
+```
+should now become:
+```cmake
+set(EXAMPLE_ITK_COMPONENTS
+  ITKImageIO
+  ITKSmoothing
+  ...
+  ITKYYY
+  )
+find_package(ITK 6.0 COMPONENTS ${EXAMPLE_ITK_COMPONENTS} REQUIRED)
+```
+The following list provides old and new module names, as well as classes moved:
+  * `FastBilateral` is now `ITKImageFeature`. Classes:
+	  * `FastBilateralImageFilter`
