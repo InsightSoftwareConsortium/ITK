@@ -334,6 +334,7 @@ itkConjugateGradientLineSearchOptimizerv4Test(int, char *[])
   }
 
   // Exercise various member functions
+  itkOptimizer->SetInitialLearningRate(0.5);
   std::cout << "LearningRate: " << itkOptimizer->GetLearningRate();
   std::cout << std::endl;
   std::cout << "InitialLearningRate: " << itkOptimizer->GetInitialLearningRate();
