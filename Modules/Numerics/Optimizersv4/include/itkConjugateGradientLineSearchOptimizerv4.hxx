@@ -38,6 +38,12 @@ void
 ConjugateGradientLineSearchOptimizerv4Template<TInternalComputationValueType>::StartOptimization(
   bool doOnlyInitialization)
 {
+  // Initialize the learning rate if it has not been set
+  if (this->m_InitialLearningRate == NumericTraits<TInternalComputationValueType>::ZeroValue())
+  {
+    this->m_InitialLearningRate = NumericTraits<TInternalComputationValueType>::OneValue();
+  }
+  this->m_LearningRate = this->m_InitialLearningRate;
   this->m_ConjugateGradient.SetSize(this->m_Metric->GetNumberOfParameters());
   this->m_ConjugateGradient.Fill(TInternalComputationValueType{});
   this->m_LastGradient.SetSize(this->m_Metric->GetNumberOfParameters());
@@ -53,7 +59,6 @@ void
 ConjugateGradientLineSearchOptimizerv4Template<TInternalComputationValueType>::AdvanceOneStep()
 {
   itkDebugMacro("AdvanceOneStep");
-
   this->ModifyGradientByScales();
   if (this->m_CurrentIteration == 0)
   {
@@ -99,6 +104,18 @@ ConjugateGradientLineSearchOptimizerv4Template<TInternalComputationValueType>::A
   }
 
   this->InvokeEvent(IterationEvent());
+}
+
+/**
+ * Set the initial learning rate for optimization.
+ */
+template <typename TInternalComputationValueType>
+void
+ConjugateGradientLineSearchOptimizerv4Template<TInternalComputationValueType>::SetLearningRate(
+  TInternalComputationValueType learningRate)
+{
+  this->m_InitialLearningRate = learningRate; // Store initial learning rate - used in the first iteration
+  Superclass::SetLearningRate(learningRate);  // Call base class method to set the base class m_LearningRate
 }
 
 } // namespace itk

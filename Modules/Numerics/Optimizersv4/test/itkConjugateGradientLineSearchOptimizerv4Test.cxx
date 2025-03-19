@@ -271,6 +271,58 @@ itkConjugateGradientLineSearchOptimizerv4Test(int, char *[])
     return EXIT_FAILURE;
   }
 
+  // Test repeat runs with the same parameters
+
+  metric->SetParameters(initialPosition);
+
+  itkOptimizer = OptimizerType::New(); // Reinitialize optimizer
+  itkOptimizer->SetMetric(metric);     // Reattach the metric
+  itkOptimizer->SetLearningRate(0.5);
+  itkOptimizer->SetNumberOfIterations(50);
+
+  std::cout << "Test optimization retest 1 (initial):" << std::endl;
+  if (ConjugateGradientLineSearchOptimizerv4RunTest(itkOptimizer) == EXIT_FAILURE)
+  {
+    return EXIT_FAILURE;
+  }
+
+  // Store the first result
+  ParametersType firstFinalPosition = itkOptimizer->GetMetric()->GetParameters();
+
+  metric->SetParameters(initialPosition);
+
+  // Run the optimizer a second time
+  std::cout << "Test optimization 2 (restart with same parameters):" << std::endl;
+  if (ConjugateGradientLineSearchOptimizerv4RunTest(itkOptimizer) == EXIT_FAILURE)
+  {
+    return EXIT_FAILURE;
+  }
+
+  // Store the second result
+  ParametersType secondFinalPosition = itkOptimizer->GetMetric()->GetParameters();
+
+  // Compare results
+  bool identical = true;
+  for (unsigned int j = 0; j < spaceDimension; ++j)
+  {
+    if (itk::Math::abs(firstFinalPosition[j] - secondFinalPosition[j]) > itk::NumericTraits<double>::epsilon())
+    {
+      identical = false;
+    }
+  }
+
+  if (!identical)
+  {
+    std::cerr << "ERROR: Optimizer does not reset properly: results differ runs with same parameters." << std::endl;
+    std::cerr << "First run result: " << firstFinalPosition << std::endl;
+    std::cerr << "Second run result: " << secondFinalPosition << std::endl;
+    return EXIT_FAILURE;
+  }
+  else
+  {
+    std::cout << "SUCCESS: Optimizer produces identical results on restart." << std::endl;
+  }
+
   // Exercise various member functions
   std::cout << "LearningRate: " << itkOptimizer->GetLearningRate();
   std::cout << std::endl;
