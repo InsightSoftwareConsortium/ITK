@@ -110,13 +110,6 @@ ConjugateGradientLineSearchOptimizerv4Template<TInternalComputationValueType>::S
   Superclass::SetLearningRate(learningRate);  // Call base class method to set the base class m_LearningRate
 }
 
-template <typename TInternalComputationValueType>
-const TInternalComputationValueType &
-ConjugateGradientLineSearchOptimizerv4Template<TInternalComputationValueType>::GetLearningRate() const
-{
-  return this->m_LearningRate;
-}
-
 } // namespace itk
 
 #endif

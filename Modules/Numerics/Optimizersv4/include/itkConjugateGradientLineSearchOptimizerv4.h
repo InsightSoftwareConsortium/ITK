@@ -79,7 +79,7 @@ public:
   StartOptimization(bool doOnlyInitialization = false) override;
 
   /**
-   * Set/Get the learning rate for optimization. It is overridden by
+   * Set the learning rate for optimization. It is overridden by
    * automatic learning rate estimation if enabled via a ScalesEstimator.
    * The learning rate is updated during optimization according to the golden
    * section line search, even if no ScalesEstimator is set.
@@ -90,19 +90,6 @@ public:
    */
   void
   SetLearningRate(TInternalComputationValueType learningRate) override;
-
-  /**
-   * Set/Get the learning rate for optimization. It is overridden by
-   * automatic learning rate estimation if enabled via a ScalesEstimator.
-   * The learning rate is updated during optimization according to the golden
-   * section line search, even if no ScalesEstimator is set.
-   *
-   * The learning rate set by this method is stored and re-used in subsequent
-   * calls to StartOptimization() unless overridden by automatic learning rate
-   * estimation.
-   */
-  const TInternalComputationValueType &
-  GetLearningRate() const override;
 
   /**
    * Set/Get the initial learning rate, which is used in the first iteration of
