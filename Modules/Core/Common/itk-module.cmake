@@ -17,12 +17,12 @@ itk_module(
   ENABLE_SHARED
   DEPENDS
   ITKEigen3
+  ITKVNL
   ${ITKCOMMON_TBB_DEPENDS}
   PRIVATE_DEPENDS
   ITKDoubleConversion
   COMPILE_DEPENDS
   ITKKWSys
-  ITKVNLInstantiation
   TEST_DEPENDS
   ITKTestKernel
   ITKMesh
