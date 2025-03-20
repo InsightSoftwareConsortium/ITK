@@ -115,3 +115,11 @@ The `CoordRepType` aliases will be removed when `ITK_FUTURE_LEGACY_REMOVE` is
 enabled. Similarly, `InputCoordinateType`, `OutputCoordinateType`, and
 `ImagePointCoordinateType` replace `InputCoordRepType`, `OutputCoordRepType`,
 and `ImagePointCoordRepType`, respectively.
+
+
+ITKVNLInstantiation library is removed
+--------------------------------------
+
+The usage of ITKVNLInstantiation library should be replaced directly with the
+ITKVNL module. The ITKVNLInstantiation library was an empty libray used for
+compatibility and provided transitive linking to ITKVNL.
