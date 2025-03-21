@@ -93,7 +93,6 @@ namespace itk
  * \sphinxexample{Filtering/Convolution/NormalizedCorrelationUsingFFT,Normalized Correlation Using FFT}
  * \endsphinx
  */
-
 template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT FFTNormalizedCorrelationImageFilter
   : public MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage>

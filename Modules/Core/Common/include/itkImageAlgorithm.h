@@ -193,7 +193,6 @@ private:
     }
   };
 
-
   /** Function to dispatch to std::copy or std::transform. */
   template <typename TType>
   static TType *

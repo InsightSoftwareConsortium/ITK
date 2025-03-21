@@ -177,7 +177,6 @@ public:
     jacobian.SetSize(VDimension, 0);
   }
 
-
   /** Get the jacobian with respect to position, which simply is an identity
    *  jacobian because the transform is position-invariant.
    *  jac will be resized as needed, but it will be more efficient if
@@ -187,6 +186,7 @@ public:
   {
     jac.set_identity();
   }
+
   using Superclass::ComputeJacobianWithRespectToPosition;
 
   /* Always returns true if not null, as an identity is its own inverse */

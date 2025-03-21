@@ -88,7 +88,7 @@ public:
   OutputType
   Evaluate(const InputType & input) const override;
 
-  ///** Evaluate the first derivative of the ND output with respect to the 1D
+  /** Evaluate the first derivative of the ND output with respect to the 1D
   //  * input.  This is an exact, algebraic function. */
   // virtual VectorType EvaluateDerivative(const InputType & input) const;
 

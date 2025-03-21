@@ -137,6 +137,7 @@ public:
 
   /** Default constructor. Needed since we provide a cast constructor. */
   ImageRandomConstIteratorWithIndex() = default;
+
   ~ImageRandomConstIteratorWithIndex() override = default;
 
   /** Constructor establishes an iterator to walk a particular image and a
