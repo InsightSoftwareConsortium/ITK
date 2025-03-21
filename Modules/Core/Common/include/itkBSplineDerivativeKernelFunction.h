@@ -191,6 +191,7 @@ private:
   }
   /**@ITKEndGrouping*/
 };
+
 } // end namespace itk
 
 #endif

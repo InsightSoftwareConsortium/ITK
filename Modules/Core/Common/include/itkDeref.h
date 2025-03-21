@@ -54,4 +54,5 @@ Deref(T * const ptr)
   return *ptr;
 }
 } // namespace itk
+
 #endif

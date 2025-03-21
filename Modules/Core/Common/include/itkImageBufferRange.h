@@ -479,6 +479,7 @@ private:
       return *(*this + n);
     }
   };
+
   static constexpr bool IsImageTypeConst = std::is_const_v<TImage>;
 
   using QualifiedInternalPixelType = std::conditional_t<IsImageTypeConst, const InternalPixelType, InternalPixelType>;
@@ -672,7 +673,6 @@ ImageBufferRange(TImage &) -> ImageBufferRange<TImage>;
  * Returns an empty range when the specified argument is a nullptr (which
  * is a valid use case).
  */
-
 template <typename TImage>
 ImageBufferRange<TImage>
 MakeImageBufferRange(TImage * const image)
@@ -681,6 +681,7 @@ MakeImageBufferRange(TImage * const image)
   {
     return {};
   }
+
   return ImageBufferRange<TImage>{ *image };
 }
 

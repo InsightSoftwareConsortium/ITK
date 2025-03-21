@@ -289,6 +289,7 @@ private:
       return !(lhs == rhs);
     }
   };
+
   // Inspired by, and originally copied from ImageBase::FastComputeOffset(ind)).
   static OffsetValueType
   ComputeOffset(const OffsetTableType & offsetTable, const IndexType & bufferedRegionIndex, const IndexType & index)

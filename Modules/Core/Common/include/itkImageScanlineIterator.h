@@ -98,6 +98,7 @@ protected:
   operator=(const ImageScanlineConstIterator<TImage> & it);
   /**@ITKEndGrouping*/
 };
+
 // Deduction guide for class template argument deduction (CTAD).
 template <typename TImage>
 ImageScanlineIterator(SmartPointer<TImage>, const typename TImage::RegionType &) -> ImageScanlineIterator<TImage>;

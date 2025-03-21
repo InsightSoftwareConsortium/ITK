@@ -101,6 +101,7 @@ public:
       {
         return;
       }
+
       this->m_MeasurementVectorSize = s;
       this->Modified();
     }

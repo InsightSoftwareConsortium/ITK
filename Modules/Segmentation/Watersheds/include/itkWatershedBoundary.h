@@ -192,6 +192,7 @@ public:
     {
       return &(m_FlatHashes[dimension].first);
     }
+
     return &(m_FlatHashes[dimension].second);
   }
 

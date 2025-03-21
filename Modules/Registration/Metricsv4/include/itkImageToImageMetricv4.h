@@ -898,6 +898,7 @@ private:
   /**@ITKEndGrouping*/
 };
 } // namespace itk
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkImageToImageMetricv4.hxx"
 #endif

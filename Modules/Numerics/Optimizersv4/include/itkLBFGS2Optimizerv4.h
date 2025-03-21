@@ -87,6 +87,7 @@ public:
 // Define how to print enumeration
 extern ITKOptimizersv4_EXPORT std::ostream &
                               operator<<(std::ostream & out, LBFGS2Optimizerv4Enums::LineSearchMethod value);
+
 /**
  * \class LBFGS2Optimizerv4Template
  * \brief Wrap of the [libLBFGS](https://www.chokkan.org/software/liblbfgs/) algorithm for use in ITKv4 registration

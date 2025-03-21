@@ -133,6 +133,7 @@ protected:
   Value(const LevelSetInputIndexType & iP, const LevelSetDataType & iData) override;
   /**@ITKEndGrouping*/
 };
+
 } // namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkLevelSetEquationLaplacianTerm.hxx"

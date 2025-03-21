@@ -198,5 +198,6 @@ protected:
   /**@ITKEndGrouping*/
 };
 } // namespace itk
+
 #include "itkNormalQuadEdgeMeshFilter.hxx"
 #endif

@@ -263,6 +263,7 @@ public:
   itkGetConstMacro(ExtractionRegion, InputImageRegionType);
   itkConceptMacro(InputCovertibleToOutputCheck, (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
   /**@ITKEndGrouping*/
+
 protected:
   ExtractImageFilter();
   ~ExtractImageFilter() override = default;

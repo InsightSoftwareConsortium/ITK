@@ -271,6 +271,7 @@ private:
   FindPlusOneMinusOneLayer();
   /**@ITKEndGrouping*/
 };
+
 ////////////////////////////////////////////////////////////////////////////////
 /** \brief Partial template specialization for ShiSparseLevelSetImage
  */

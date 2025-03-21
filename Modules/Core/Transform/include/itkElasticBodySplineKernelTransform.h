@@ -112,6 +112,7 @@ protected:
   /**@ITKEndGrouping*/
 };
 } // namespace itk
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkElasticBodySplineKernelTransform.hxx"
 #endif

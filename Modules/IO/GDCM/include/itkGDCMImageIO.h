@@ -239,6 +239,7 @@ public:
    *
    */
   itkGetEnumMacro(CompressionType, CompressionEnum);
+
   void
   InternalSetCompressor(const std::string & _compressor) override;
 

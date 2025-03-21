@@ -123,6 +123,7 @@ protected:
   }
   /**@ITKEndGrouping*/
 };
+
 /** \class ImageToImageMetricv4GetValueAndDerivativeThreader
  * \brief Specialization for ThreadedIndexedContainerPartitioner.
  * \ingroup ITKMetricsv4
@@ -199,6 +200,7 @@ protected:
   }
   /**@ITKEndGrouping*/
 };
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

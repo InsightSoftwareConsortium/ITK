@@ -87,6 +87,7 @@ extern ITKCommon_EXPORT std::ostream &
                         operator<<(std::ostream & out, const MultiThreaderBaseEnums::Threader value);
 extern ITKCommon_EXPORT std::ostream &
                         operator<<(std::ostream & out, const MultiThreaderBaseEnums::ThreadExitCode value);
+
 /** \class MultiThreaderBase
  * \brief A class for performing multithreaded execution
  *
@@ -279,6 +280,7 @@ ITK_GCC_PRAGMA_DIAG_POP()
   // clang-format on
   /**@ITKEndGrouping*/
 #endif // ITK_LEGACY_REMOVE
+
   /** This is the structure that is passed to the thread that is
    * created from the SingleMethodExecute. It is passed in as a void *,
    * and it is up to the method to cast correctly and extract the information.

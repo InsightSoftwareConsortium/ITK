@@ -1191,6 +1191,7 @@ compilers.
     itkGetObjectMacro(name, type)
 /**@ITKEndGrouping*/
 #endif // defined ( ITK_FUTURE_LEGACY_REMOVE )
+
 // For backwards compatibility define ITK_EXPORT to nothing
 #define ITK_EXPORT
 

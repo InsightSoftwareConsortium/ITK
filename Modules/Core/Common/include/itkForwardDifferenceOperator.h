@@ -75,6 +75,7 @@ protected:
   /**@ITKEndGrouping*/
 };
 } // namespace itk
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkForwardDifferenceOperator.hxx"
 #endif

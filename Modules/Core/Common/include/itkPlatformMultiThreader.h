@@ -84,6 +84,7 @@ public:
     return Superclass::GetGlobalMaximumNumberOfThreads();
   }
   /**@ITKEndGrouping*/
+
   /** Set/Get the value which is used to initialize the NumberOfThreads in the
    * constructor.  It will be clamped to the range [1, m_GlobalMaximumNumberOfThreads ].
    * Therefore the caller of this method should check that the requested number
@@ -103,6 +104,7 @@ public:
   }
   /**@ITKEndGrouping*/
 #endif
+
   /** Execute the SingleMethod (as define by SetSingleMethod) using
    * m_NumberOfWorkUnits threads. As a side effect the m_NumberOfWorkUnits will be
    * checked against the current m_GlobalMaximumNumberOfThreads and clamped if

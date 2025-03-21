@@ -240,6 +240,7 @@ public:
   }
   /**@ITKEndGrouping*/
 #endif // !ITK_LEGACY_REMOVE
+
   /** Get the number of work units set to be used. */
   itkGetConstReferenceMacro(NumberOfWorkUnits, ThreadIdType);
 

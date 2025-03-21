@@ -257,6 +257,7 @@ public:
     }
   }
 };
+
 /** Premultiply Operator for product of a vector and a scalar.
  *  CovariantVector< T, N >  =  T * CovariantVector< T,N > */
 template <typename T, unsigned int VVectorDimension>

@@ -204,6 +204,7 @@ private:
   double m_DirectionTolerance{ Self::GetGlobalDefaultDirectionTolerance() };
   /**@ITKEndGrouping*/
 };
+
 } // namespace itk
 
 #include "itkImageSink.hxx"

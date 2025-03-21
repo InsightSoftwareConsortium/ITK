@@ -254,6 +254,7 @@ public:
   {
     Superclass::InitializeIteration();
     const ValueType rmschange = this->GetRMSChange();
+
     if ((this->GetElapsedIterations() == 0) || (m_RefitIteration == m_MaxRefitIteration) ||
         (rmschange <= m_RMSChangeNormalProcessTrigger) || (this->ActiveLayerCheckBand()))
     {

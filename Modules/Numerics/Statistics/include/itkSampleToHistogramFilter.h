@@ -183,6 +183,7 @@ private:
     {
       auto fromMax = static_cast<MeasurementType>(NumericTraits<HistogramMeasurementType>::max());
       auto fromMin = static_cast<MeasurementType>(NumericTraits<HistogramMeasurementType>::min());
+
       if (from >= fromMax)
       {
         return NumericTraits<HistogramMeasurementType>::max();

@@ -124,6 +124,7 @@ public:
       assert(offsets != nullptr);
       Offset<ImageDimension> offset;
       std::fill_n(offset.begin(), ImageDimension, -1);
+
       size_t i = 0;
 
       while (i < m_NumberOfOffsets)
@@ -246,6 +247,7 @@ private:
     return (includeCenterPixel ? 1 : 0) + CalculateNumberOfConnectedNeighbors(maximumCityblockDistance);
   }
 };
+
 /** Generates the offsets for a connected image neighborhood shape. */
 template <unsigned int VImageDimension, size_t VMaximumCityblockDistance, bool VIncludeCenterPixel>
 auto

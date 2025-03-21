@@ -468,6 +468,7 @@ public:
   }
   /**@ITKEndGrouping*/
 };
+
 template <typename TValue, unsigned int VLength>
 std::ostream &
 operator<<(std::ostream & os, const FixedArray<TValue, VLength> & arr);

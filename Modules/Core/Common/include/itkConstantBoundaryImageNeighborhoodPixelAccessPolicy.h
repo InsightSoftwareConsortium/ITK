@@ -148,6 +148,7 @@ public:
   }
   /**@ITKEndGrouping*/
 };
+
 } // namespace itk
 
 #endif

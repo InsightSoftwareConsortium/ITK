@@ -44,6 +44,7 @@ public:
     : ExceptionObject(std::move(file), line, std::move(message))
   {}
 };
+
 /** \class ImageSeriesWriter
  * \brief Writes image data to a series of data files.
  *

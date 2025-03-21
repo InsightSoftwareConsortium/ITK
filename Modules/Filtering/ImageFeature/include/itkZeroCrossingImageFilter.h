@@ -145,6 +145,7 @@ protected:
   DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 };
 } // end of namespace itk
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkZeroCrossingImageFilter.hxx"
 #endif

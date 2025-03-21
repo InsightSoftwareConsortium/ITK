@@ -90,6 +90,7 @@ public:
     return static_cast<TOutput>(1.0 - A * factor * A);
   }
 };
+
 /**
  * \class LanczosWindowFunction
  * \brief Window function for sinc interpolation.
@@ -352,6 +353,7 @@ private:
   }
 };
 } // namespace itk
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkWindowedSincInterpolateImageFunction.hxx"
 #endif

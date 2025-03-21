@@ -160,4 +160,5 @@ public:
 };
 } // end namespace ImageToImageFilterDetail
 } // end namespace itk
+
 #endif
