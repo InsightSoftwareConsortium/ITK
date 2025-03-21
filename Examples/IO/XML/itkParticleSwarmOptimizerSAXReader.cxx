@@ -105,6 +105,7 @@ ParticleSwarmOptimizerSAXReader::EndElement(const char * name)
       bounds.push_back(value);
     }
     this->m_OutputObject->SetParameterBounds(bounds);
+
     this->m_OutputObject->SetParametersConvergenceTolerance(
       this->m_ParametersConvergenceTolerance);
   }
@@ -173,6 +174,7 @@ ParticleSwarmOptimizerSAXReader::ReadFile()
       e.SetDescription(message.c_str());
       throw e;
     }
+
     if (this->m_OutputObject == nullptr)
     {
       itkExceptionMacro("Object to be read is null!\n");
@@ -298,6 +300,7 @@ ParticleSwarmOptimizerSAXReader::GetAttribute(const char ** atts,
   }
   return nullptr;
 }
+
 /** Check the current tags to see whether it matches a user input. */
 bool
 ParticleSwarmOptimizerSAXReader::ContextIs(const char * test) const
@@ -313,4 +316,5 @@ ParticleSwarmOptimizerSAXReader::ContextIs(const char * test) const
   }
   return (s == std::string(test));
 }
+
 } // namespace itk
