@@ -103,6 +103,12 @@ SetAndVerify(int number)
 int
 itkMultiThreaderBaseTest(int argc, char * argv[])
 {
+  bool result = true;
+
+  itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads(1);
+  result &= itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() == 1;
+  result &= itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads() == 1;
+
   // Choose a number of threads.
   int numberOfThreads = 10;
   if (argc > 1)
@@ -114,12 +120,20 @@ itkMultiThreaderBaseTest(int argc, char * argv[])
     }
   }
 
-  bool result = true;
   TEST_SINGLE_CLASS(PlatformMultiThreader);
   TEST_SINGLE_CLASS(PoolMultiThreader);
 #ifdef ITK_USE_TBB
   TEST_SINGLE_CLASS(TBBMultiThreader);
 #endif
+
+
+  itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads(2);
+  result &= VerifyRange(
+    itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads(), 1, 2, "Range error in MaximumNumberOfThreads");
+  itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(4);
+  result &= VerifyRange(
+    itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads(), 1, 2, "Range error in DefaultNumberOfThreads");
+
 
   itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(numberOfThreads);
 
@@ -133,7 +147,6 @@ itkMultiThreaderBaseTest(int argc, char * argv[])
   result &= SetAndVerify(itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads());
   result &= SetAndVerify(itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() - 1);
   result &= SetAndVerify(itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() + 1);
-
 
   // Test streaming enumeration for MultiThreaderBaseEnums::Threader elements
   const std::set<itk::MultiThreaderBaseEnums::Threader> allThreader{

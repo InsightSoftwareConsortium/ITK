@@ -273,7 +273,7 @@
 #include "opt/lbfgs.h"
 #include "opt/lbfgsb.h"
 // #include "linalg/lsqr.h"  Removed due to ACM Copyright
-#include "toms/rpoly.h"
+// #include "toms/rpoly.h"  Removed due to ACM Copyright
 #include "datapac/camsun.h"
 #include "mathews/simpson.h"
 #include "mathews/trapezod.h"

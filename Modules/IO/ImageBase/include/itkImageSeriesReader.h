@@ -186,7 +186,7 @@ protected:
     : m_ImageIO(nullptr)
 
   {}
-  ~ImageSeriesReader() override;
+  ~ImageSeriesReader() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
@@ -213,10 +213,6 @@ protected:
    */
   unsigned int m_NumberOfDimensionsInImage{ 0 };
 
-  /** Array of MetaDataDictionaries. This allows to hold information from the
-   * ImageIO objects after reading every sub image in the series */
-  DictionaryArrayType m_MetaDataDictionaryArray{};
-
   bool m_UseStreaming{ true };
 
   bool m_SpacingDefined{ false };
@@ -228,6 +224,13 @@ private:
 
   int
   ComputeMovingDimensionIndex(ReaderType * reader);
+
+  /** Array of MetaDataDictionaries. This allows to hold information from the
+   * ImageIO objects after reading every sub image in the series */
+  DictionaryArrayType m_MetaDataDictionaryArray{};
+
+  /** The internal storage of MetaDataDictionaries. */
+  std::vector<MetaDataDictionary> m_InternalMetaDataDictionaries{};
 
   /** Modified time of the MetaDataDictionaryArray */
   TimeStamp m_MetaDataDictionaryArrayMTime{};

@@ -101,8 +101,8 @@ ViewImage<TImage>::View(const ImageType * img, const std::string & winTitle, siz
   cam->GetViewUp(vup);
   for (unsigned int i = 0; i < 3; ++i)
   {
-    pos[i] = -pos[i];
-    vup[i] = -vup[i];
+    pos[i] *= -1;
+    vup[i] *= -1;
   }
   cam->SetPosition(pos);
   cam->SetViewUp(vup);

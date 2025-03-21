@@ -1,43 +1,54 @@
 #!/usr/bin/bash
 set -ex
 
-if [ ! -f /etc/actions-runner ]; then
-    echo "Error: /etc/actions-runner env file not found"
-    exit 1
+TMPDIR="$(mktemp -d)"
+
+if [ -f actions-runner.Dockerfile ]; then
+    MODE=1
+    cp actions-runner.Dockerfile actions-runner entrypoint $TMPDIR
+    cd $TMPDIR
+else
+    MODE=2
+    cd $TMPDIR
+    wget https://raw.githubusercontent.com/zlib-ng/zlib-ng/refs/heads/develop/arch/s390/self-hosted-builder/actions-runner.Dockerfile
+    wget https://raw.githubusercontent.com/zlib-ng/zlib-ng/refs/heads/develop/arch/s390/self-hosted-builder/actions-runner
+    wget https://raw.githubusercontent.com/zlib-ng/zlib-ng/refs/heads/develop/arch/s390/self-hosted-builder/entrypoint
 fi
 
-# Use local file if run interactively, otherwise wget the current one.
-if [ -t 0 ] ; then
-    if [ ! -f actions-runner.Dockerfile ]; then
-        echo "Error: actions-runner.Dockerfile not found"
-        exit 1
-    fi
-    DOCKERFILE=actions-runner.Dockerfile
-else
-    DOCKERFILE="$(mktemp)"
-    wget https://raw.githubusercontent.com/zlib-ng/zlib-ng/refs/heads/develop/arch/s390/self-hosted-builder/actions-runner.Dockerfile -O $DOCKERFILE
-fi
+# Copy rpms needed to workaround VX compiler bug, ref #1852
+mkdir clang
+cp /clang-19/*.rpm clang/
 
 # Stop service
-systemctl stop actions-runner
+systemctl stop actions-runner || true
 
-# Delete container
-podman container rm gaplib-actions-runner
+# Delete old container
+podman container rm gaplib-actions-runner || true
 
-# Delete image
-podman image rm localhost/zlib-ng/actions-runner
+# Delete old image
+podman image rm localhost/zlib-ng/actions-runner || true
 
-# Build image
-podman build --squash -f $DOCKERFILE --tag zlib-ng/actions-runner .
+# Build new image
+podman build --squash -f actions-runner.Dockerfile --tag zlib-ng/actions-runner . 2>&1 | tee /var/log/actions-runner-build.log
 
-# Create container
-podman create --replace --name=gaplib-actions-runner --env-file=/etc/actions-runner --init --volume=actions-runner-temp:/home/actions-runner zlib-ng/actions-runner
+# Create new container
+podman create --replace --name=gaplib-actions-runner --env-file=/etc/actions-runner --init \
+       --volume=actions-runner-temp:/home/actions-runner zlib-ng/actions-runner 2>&1 | tee -a /var/log/actions-runner-build.log
 
 # Start service
-systemctl start actions-runner
+systemctl start actions-runner || true
+
+# Cleanup
+podman image prune -af || true
 
 # Clean up tempfile
-if [ ! -t 0 ] ; then
-    rm $DOCKERFILE
-    echo "Deleted dockerfile $DOCKERFILE"
+if [ "$MODE" == "2" ] ; then
+    cd $TMPDIR
+    rm actions-runner.Dockerfile
+    rm actions-runner
+    rm entrypoint
+    rm -rf clang
+    cd ..
+    rmdir $TMPDIR
+    echo "Deleted tempfiles."
 fi

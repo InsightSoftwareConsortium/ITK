@@ -153,14 +153,6 @@ function(itk_python_add_test)
   else()
     set(itk_wrap_python_binary_dir "${ITK_BINARY_DIR}/Wrapping/Generators/Python")
   endif()
-  # itk_wrap_python_binary_dir *MUST* contain the WrapITK.pth file
-  # Final installed version of ITK will leverage the WrapITK.pth paths, so
-  # the test environment should also use those same paths.
-  set(WrapITK_PTH_FILE "${itk_wrap_python_binary_dir}/WrapITK.pth")
-  if(NOT EXISTS ${WrapITK_PTH_FILE})
-    message(FATAL_ERROR "${WrapITK_PTH_FILE} must exist.")
-  endif()
-  unset(WrapITK_PTH_FILE)
 
   itk_add_test(
     NAME

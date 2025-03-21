@@ -61,7 +61,7 @@ register_tests()
   REGISTER(test_real_eigensystem);
   REGISTER(test_integral);
   REGISTER(test_rnpoly_roots);
-  REGISTER(test_rpoly_roots);
+  // REGISTER(test_rpoly_roots);
   REGISTER(test_sparse_matrix);
   REGISTER(test_svd);
   REGISTER(test_svd_fixed);

@@ -36,11 +36,8 @@ namespace itk
  * This filter automatically finds the greatest prime factor required by the
  * available implementation and pads the input appropriately.
  *
- * This code was adapted from the Insight Journal contribution:
- *
- * "FFT Based Convolution"
- * by Gaetan Lehmann
- * https://doi.org/10.54294/0iky0u
+ * This code was adapted from the Insight Journal contribution
+ * \cite Lehmann_2010_b.
  *
  * \author Gaetan Lehmann
  *

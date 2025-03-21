@@ -1007,11 +1007,11 @@ LinearSystemWrapperItpack::~LinearSystemWrapperItpack()
   }
 }
 
-FEMExceptionItpackSolver::FEMExceptionItpackSolver(const char * file,
+FEMExceptionItpackSolver::FEMExceptionItpackSolver(std::string  file,
                                                    unsigned int lineNumber,
                                                    std::string  location,
                                                    integer      errorCode)
-  : FEMException(file, lineNumber)
+  : FEMException(std::move(file), lineNumber, std::move(location))
 {
   std::string solverError;
 
@@ -1075,8 +1075,6 @@ FEMExceptionItpackSolver::FEMExceptionItpackSolver(const char * file,
   buf << "Error: " << solverError;
 
   SetDescription(buf.str().c_str());
-
-  SetLocation(location);
 }
 
 } // end namespace fem

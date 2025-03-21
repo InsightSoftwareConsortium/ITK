@@ -30,22 +30,6 @@
 
 namespace itk
 {
-// Destructor
-template <typename TOutputImage>
-ImageSeriesReader<TOutputImage>::~ImageSeriesReader()
-{
-  // Clear the eventual previous content of the MetaDictionary array
-  if (!m_MetaDataDictionaryArray.empty())
-  {
-    for (auto & i : m_MetaDataDictionaryArray)
-    {
-      // each element is a raw pointer, delete them.
-      delete i;
-    }
-  }
-  m_MetaDataDictionaryArray.clear();
-}
-
 template <typename TOutputImage>
 void
 ImageSeriesReader<TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
@@ -102,15 +86,8 @@ ImageSeriesReader<TOutputImage>::GenerateOutputInformation()
   const std::string key("ITK_ImageOrigin");
 
   // Clear the previous content of the MetaDictionary array
-  if (!m_MetaDataDictionaryArray.empty())
-  {
-    for (auto & i : m_MetaDataDictionaryArray)
-    {
-      // each element is a raw pointer, delete them.
-      delete i;
-    }
-  }
   m_MetaDataDictionaryArray.clear();
+  m_InternalMetaDataDictionaries.clear();
 
   const auto numberOfFiles = static_cast<int>(m_FileNames.size());
   if (numberOfFiles == 0)
@@ -297,6 +274,8 @@ ImageSeriesReader<TOutputImage>::GenerateData()
   double                             maxSpacingDeviation = 0.0;
   bool                               prevSliceIsValid = false;
 
+  m_InternalMetaDataDictionaries.reserve(static_cast<size_t>(numberOfFiles));
+
   for (int i = 0; i != numberOfFiles; ++i)
   {
     if (TOutputImage::ImageDimension != this->m_NumberOfDimensionsInImage)
@@ -457,17 +436,23 @@ ImageSeriesReader<TOutputImage>::GenerateData()
     // Deep copy the MetaDataDictionary into the array
     if (reader->GetImageIO() && needToUpdateMetaDataDictionaryArray)
     {
-      auto newDictionary = new DictionaryType;
-      *newDictionary = reader->GetImageIO()->GetMetaDataDictionary();
+      MetaDataDictionary newDictionary = reader->GetImageIO()->GetMetaDataDictionary();
       if (nonUniformSampling)
       {
         // slice-specific information
-        EncapsulateMetaData<double>(*newDictionary, "ITK_non_uniform_sampling_deviation", spacingDeviation);
+        EncapsulateMetaData<double>(newDictionary, "ITK_non_uniform_sampling_deviation", spacingDeviation);
       }
-      m_MetaDataDictionaryArray.push_back(newDictionary);
+      m_InternalMetaDataDictionaries.push_back(std::move(newDictionary));
     }
   } // end per slice loop
 
+  m_MetaDataDictionaryArray.clear();
+  m_MetaDataDictionaryArray.reserve(m_InternalMetaDataDictionaries.size());
+
+  for (MetaDataDictionary & dictionary : m_InternalMetaDataDictionaries)
+  {
+    m_MetaDataDictionaryArray.push_back(&dictionary);
+  }
 
   if (TOutputImage::ImageDimension != this->m_NumberOfDimensionsInImage &&
       maxSpacingDeviation > m_SpacingWarningRelThreshold * outputSpacing[this->m_NumberOfDimensionsInImage])

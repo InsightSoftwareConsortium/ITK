@@ -26,9 +26,8 @@ namespace itk
 /** \class MaximumProjectionImageFilter
  * \brief Maximum projection
  *
- * This class was contributed to the insight journal by Gaetan Lehmann.
- * The original paper can be found at
- * https://doi.org/10.54294/0pjyho
+ * This class was contributed to the insight journal by Gaetan Lehmann
+ * \cite Lehmann_2006_a.
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la reproduction,
  *  inra de jouy-en-josas, France.

@@ -770,7 +770,7 @@ public:
    * must be provided: file, lineNumber, location and a detailed description
    * of the exception.
    */
-  FEMExceptionItpackSolver(const char * file, unsigned int lineNumber, std::string location, integer errorCode);
+  FEMExceptionItpackSolver(std::string file, unsigned int lineNumber, std::string location, integer errorCode);
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   ~FEMExceptionItpackSolver() noexcept override = default;

@@ -383,10 +383,10 @@ DisplacementFieldTransform<TParametersValueType, VDimension>::VerifyFixedParamet
     const double coordinateTolerance = m_CoordinateTolerance * fieldSpacing[0];
     const double directionTolerance = m_DirectionTolerance;
 
-    std::ostringstream       sizeString;
-    std::ostringstream       originString;
-    const std::ostringstream spacingString;
-    const std::ostringstream directionString;
+    std::ostringstream sizeString;
+    std::ostringstream originString;
+    std::ostringstream spacingString;
+    std::ostringstream directionString;
 
     bool unequalSizes = false;
     bool unequalOrigins = false;
@@ -408,14 +408,14 @@ DisplacementFieldTransform<TParametersValueType, VDimension>::VerifyFixedParamet
     if (!inverseFieldSpacing.GetVnlVector().is_equal(fieldSpacing.GetVnlVector(), coordinateTolerance))
     {
       unequalSpacings = false;
-      originString << "InverseDisplacementField Spacing: " << inverseFieldSpacing
-                   << ", DisplacementField Spacing: " << fieldSpacing << std::endl;
+      spacingString << "InverseDisplacementField Spacing: " << inverseFieldSpacing
+                    << ", DisplacementField Spacing: " << fieldSpacing << std::endl;
     }
     if (!inverseFieldDirection.GetVnlMatrix().is_equal(fieldDirection.GetVnlMatrix(), directionTolerance))
     {
       unequalDirections = true;
-      originString << "InverseDisplacementField Direction: " << inverseFieldDirection
-                   << ", DisplacementField Direction: " << fieldDirection << std::endl;
+      directionString << "InverseDisplacementField Direction: " << inverseFieldDirection
+                      << ", DisplacementField Direction: " << fieldDirection << std::endl;
     }
     if (unequalSizes || unequalOrigins || unequalSpacings || unequalDirections)
     {

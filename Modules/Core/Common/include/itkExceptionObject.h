@@ -56,14 +56,10 @@ public:
   /** Explicitly-defaulted default-constructor. Creates an empty exception object. */
   ExceptionObject() noexcept = default;
 
-  explicit ExceptionObject(const char * file,
-                           unsigned int lineNumber = 0,
-                           const char * desc = "None",
-                           const char * loc = "Unknown");
   explicit ExceptionObject(std::string  file,
                            unsigned int lineNumber = 0,
-                           std::string  desc = "None",
-                           std::string  loc = "Unknown");
+                           std::string  description = "None",
+                           std::string  location = {});
 
   /** Copy-constructor. */
   ExceptionObject(const ExceptionObject &) noexcept = default;
@@ -133,7 +129,7 @@ public:
 private:
   class ExceptionData;
 
-  std::shared_ptr<const ExceptionData> m_ExceptionData{};
+  std::shared_ptr<const ExceptionData> m_ExceptionData;
 };
 
 /** Generic inserter operator for ExceptionObject and its subclasses. */
@@ -222,18 +218,9 @@ public:
   }
 
   /** Constructor. Needed to ensure the exception object can be copied. */
-  ProcessAborted(const char * file, unsigned int lineNumber)
-    : ExceptionObject(file, lineNumber)
-  {
-    this->SetDescription("Filter execution was aborted by an external request");
-  }
-
-  /** Constructor. Needed to ensure the exception object can be copied. */
-  ProcessAborted(const std::string & file, unsigned int lineNumber)
-    : ExceptionObject(file, lineNumber)
-  {
-    this->SetDescription("Filter execution was aborted by an external request");
-  }
+  ProcessAborted(std::string file, unsigned int lineNumber)
+    : ExceptionObject(std::move(file), lineNumber, "Filter execution was aborted by an external request")
+  {}
 
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(ProcessAborted);

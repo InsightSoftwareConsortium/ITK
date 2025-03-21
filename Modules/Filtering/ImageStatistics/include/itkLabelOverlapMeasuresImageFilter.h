@@ -30,10 +30,8 @@ namespace itk
  * \brief Computes overlap measures between the same set of labels of
  * pixels of two images. Background is assumed to be 0.
  *
- * This code was contributed in the Insight Journal paper:
- * "Introducing Dice, Jaccard, and Other Label Overlap Measures To ITK"
- * by Nicholas J. Tustison, James C. Gee
- * https://doi.org/10.54294/1vixgg
+ * This code was contributed in the Insight Journal paper
+ * \cite Tustison_2009_d.
  *
  * \author Nicholas J. Tustison
  * \sa LabelOverlapMeasuresImageFilter

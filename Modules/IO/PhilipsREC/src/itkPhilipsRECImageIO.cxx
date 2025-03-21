@@ -792,7 +792,7 @@ PhilipsRECImageIO::ReadImageInformation()
   center[2] = (par.slice - 1) / 2.0;
   center[3] = 1;
   PointVector origin = final * center;
-  origin = -origin;
+  origin *= -1;
 #ifdef DEBUG_ORIENTATION
   std::cout << "Origin before offset = " << origin << std::endl;
 #endif

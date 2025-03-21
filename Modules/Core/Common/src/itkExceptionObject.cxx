@@ -41,11 +41,13 @@ public:
     , m_File(std::move(file))
     , m_Line(line)
   {
-    std::ostringstream loc;
-
-    loc << ':' << m_Line << ":\n";
     m_What = m_File;
-    m_What += loc.str();
+    m_What += ':' + std::to_string(m_Line) + ':';
+    if (!m_Location.empty())
+    {
+      m_What += " in '" + m_Location + "':";
+    }
+    m_What += '\n';
     m_What += m_Description;
   }
 
@@ -63,15 +65,12 @@ private:
 };
 
 
-ExceptionObject::ExceptionObject(const char * file, unsigned int lineNumber, const char * desc, const char * loc)
-  : m_ExceptionData(std::make_shared<const ExceptionData>(file == nullptr ? "" : file,
-                                                          lineNumber,
-                                                          desc == nullptr ? "" : desc,
-                                                          loc == nullptr ? "" : loc))
-{}
-
-ExceptionObject::ExceptionObject(std::string file, unsigned int lineNumber, std::string desc, std::string loc)
-  : m_ExceptionData(std::make_shared<const ExceptionData>(std::move(file), lineNumber, std::move(desc), std::move(loc)))
+ExceptionObject::ExceptionObject(std::string  file,
+                                 unsigned int lineNumber,
+                                 std::string  description,
+                                 std::string  location)
+  : m_ExceptionData(
+      std::make_shared<const ExceptionData>(std::move(file), lineNumber, std::move(description), std::move(location)))
 {}
 
 

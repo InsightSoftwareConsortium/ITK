@@ -192,8 +192,8 @@ private:
  * before calling FFTW unsafe functions. It also handle
  * cleanly the initialization and cleanup of FFTW.
  *
- * This implementation was taken from the Insight Journal paper:
- * https://doi.org/10.54294/0iky0u
+ * This implementation was taken from the Insight Journal paper
+ * \cite Lehmann_2010_b.
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  * \author Hans Johnson, The University of Iowa

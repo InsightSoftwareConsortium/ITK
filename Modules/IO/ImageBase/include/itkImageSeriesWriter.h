@@ -40,20 +40,9 @@ public:
   itkOverrideGetNameOfClassMacro(ImageSeriesWriterException);
 
   /** Constructor. */
-  ImageSeriesWriterException(char * file, unsigned int line, const char * message = "Error in IO")
-    : ExceptionObject(file, line)
-  {
-    SetDescription(message);
-  }
-
-  /** Constructor. */
-  /** @ITKStartGrouping */
-  ImageSeriesWriterException(const std::string & file, unsigned int line, const char * message = "Error in IO")
-    : ExceptionObject(file, line)
-  {
-    SetDescription(message);
-  }
-  /**@ITKEndGrouping*/
+  ImageSeriesWriterException(std::string file, unsigned int line, std::string message = "Error in IO")
+    : ExceptionObject(std::move(file), line, std::move(message))
+  {}
 };
 /** \class ImageSeriesWriter
  * \brief Writes image data to a series of data files.

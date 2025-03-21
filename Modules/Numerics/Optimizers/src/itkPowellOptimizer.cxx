@@ -93,7 +93,7 @@ PowellOptimizer::GetLineValue(double x, ParametersType & tempCoord) const
   }
   if (m_Maximize)
   {
-    val = -val;
+    val *= -1;
   }
   itkDebugMacro("val = " << val);
   return val;
@@ -296,11 +296,11 @@ PowellOptimizer::BracketedLineOptimize(double           ax,
 
       if (q > 0.0) /* q was calculated with the op-*/
       {
-        p = -p; /* posite sign; make q positive  */
+        p *= -1; /* posite sign; make q positive  */
       }
       else /* and assign possible minus to  */
       {
-        q = -q; /* p        */
+        q *= -1; /* p        */
       }
 
       /* Check if x+p/q falls in [a,b] and  not too close to a and b

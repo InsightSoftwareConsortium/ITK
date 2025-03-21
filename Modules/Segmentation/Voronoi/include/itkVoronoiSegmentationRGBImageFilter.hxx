@@ -321,7 +321,7 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::TakeAPrior(const B
     }
     if (diffMean[i] < 0)
     {
-      diffMean[i] = -diffMean[i];
+      diffMean[i] *= -1;
     }
     if (m_STD[i] != 0.0)
     {
@@ -333,7 +333,7 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::TakeAPrior(const B
     }
     if (diffSTD[i] < 0)
     {
-      diffSTD[i] = -diffSTD[i];
+      diffSTD[i] *= -1;
     }
     if (this->GetUseBackgroundInAPrior())
     {

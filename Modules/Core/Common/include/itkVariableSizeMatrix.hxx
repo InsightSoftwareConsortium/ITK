@@ -180,7 +180,7 @@ VariableSizeMatrix<T>::operator-()
   {
     for (unsigned int c = 0; c < this->Cols(); ++c)
     {
-      m_Matrix(r, c) = -m_Matrix(r, c);
+      m_Matrix(r, c) *= -1;
     }
   }
   return *this;

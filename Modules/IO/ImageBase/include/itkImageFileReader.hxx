@@ -226,10 +226,10 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateOutputInformation()
   {
     if (spacing[i] < 0)
     {
-      spacing[i] = -spacing[i];
+      spacing[i] *= -1;
       for (unsigned int j = 0; j < TOutputImage::ImageDimension; ++j)
       {
-        direction[j][i] = -direction[j][i];
+        direction[j][i] *= -1;
       }
     }
   }

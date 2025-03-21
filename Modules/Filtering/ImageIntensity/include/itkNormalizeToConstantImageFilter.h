@@ -35,9 +35,8 @@ namespace itk
  * This transform is especially useful for normalizing a convolution
  * kernel.
  *
- * This code was contributed in the Insight Journal paper: "FFT based
- * convolution" by Lehmann G.
- * https://doi.org/10.54294/0iky0u
+ * This code was contributed in the Insight Journal paper
+ * \cite Lehmann_2010_b.
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
