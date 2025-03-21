@@ -78,7 +78,7 @@ public:
 
   using FileNamesContainer = std::vector<std::string>;
 
-  /** Set the vector of strings that contains the file names. Files
+  /** Set/Get the vector of strings that contains the file names. Files
    * are processed in sequential order. */
   /** @ITKStartGrouping */
   void
@@ -90,16 +90,16 @@ public:
       this->Modified();
     }
   }
-  /**@ITKEndGrouping*/
+
   const FileNamesContainer &
   GetFileNames() const
   {
     return m_FileNames;
   }
+  /**@ITKEndGrouping*/
 
   /** Set the first file name to be processed. This deletes previous
    * filenames. */
-  /** @ITKStartGrouping */
   void
   SetFileName(const std::string & name)
   {
@@ -107,16 +107,15 @@ public:
     m_FileNames.push_back(name);
     this->Modified();
   }
-  /**@ITKEndGrouping*/
+
   /** Add a single filename to the list of files. */
-  /** @ITKStartGrouping */
   void
   AddFileName(const std::string & name)
   {
     m_FileNames.push_back(name);
     this->Modified();
   }
-  /**@ITKEndGrouping*/
+
   /** ReverseOrderOn changes the order of traversal of the file names
    * from last to first */
   /** @ITKStartGrouping */
@@ -124,6 +123,7 @@ public:
   itkGetConstMacro(ReverseOrder, bool);
   itkBooleanMacro(ReverseOrder);
   /**@ITKEndGrouping*/
+
   /** Do we want to force orthogonal direction cosines? On by default.
    * Turning it off enables proper reading of DICOM series with gantry tilt. */
   /** @ITKStartGrouping */
@@ -131,6 +131,7 @@ public:
   itkGetConstMacro(ForceOrthogonalDirection, bool);
   itkBooleanMacro(ForceOrthogonalDirection);
   /**@ITKEndGrouping*/
+
   /** Set/Get the ImageIO helper class. By default, the
    * ImageSeriesReader uses the factory mechanism of the
    * ImageFileReader to determine the file type. This method can be
@@ -139,6 +140,7 @@ public:
   itkSetObjectMacro(ImageIO, ImageIOBase);
   itkGetModifiableObjectMacro(ImageIO, ImageIOBase);
   /**@ITKEndGrouping*/
+
   /** \brief Set/Get MetaDataDictionaryArrayUpdate enables the updating of
    * the MetaDataDictionaryArray.
    *
@@ -176,6 +178,7 @@ public:
   itkGetConstReferenceMacro(UseStreaming, bool);
   itkBooleanMacro(UseStreaming);
   /**@ITKEndGrouping*/
+
   /** Set the relative threshold for issuing warnings about non-uniform sampling */
   /** @ITKStartGrouping */
   itkSetMacro(SpacingWarningRelThreshold, double);

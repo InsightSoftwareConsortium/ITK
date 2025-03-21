@@ -158,13 +158,12 @@ protected:
   DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
   /** Standard PrintSelf method */
-  /** @ITKStartGrouping */
   void
   PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
   }
-  /**@ITKEndGrouping*/
+
 };
 } // end namespace itk
 

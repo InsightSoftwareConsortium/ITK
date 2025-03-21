@@ -50,7 +50,6 @@ public:
   using InputHistogramType = TInputHistogram;
 
   /** Stores the histogram pointer */
-  /** @ITKStartGrouping */
   void
   SetInputHistogram(const TInputHistogram * histogram)
   {
@@ -60,7 +59,7 @@ public:
       this->Modified();
     }
   }
-  /**@ITKEndGrouping*/
+
   /** Returns the histogram const pointer */
   const TInputHistogram *
   GetInputHistogram() const

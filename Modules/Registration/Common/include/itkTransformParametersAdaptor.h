@@ -94,7 +94,6 @@ public:
   itkNewMacro(Self);
 
   /** Set the fixed parameters */
-  /** @ITKStartGrouping */
   void
   SetRequiredFixedParameters(const FixedParametersType fixedParameters) override
   {
@@ -105,7 +104,7 @@ public:
       this->Modified();
     }
   }
-  /**@ITKEndGrouping*/
+
   /** Initialize the transform using the specified fixed parameters */
   void
   AdaptTransformParameters() override

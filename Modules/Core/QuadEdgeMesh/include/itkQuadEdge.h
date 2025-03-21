@@ -159,6 +159,7 @@ public:
   // itkQEDefineIteratorMethodsMacro( InvRnext );
   // itkQEDefineIteratorMethodsMacro( InvDnext );
   /**@ITKEndGrouping*/
+
   /** Object creation methods. */
   /** @ITKStartGrouping */
   QuadEdge();
@@ -170,6 +171,7 @@ public:
   operator=(QuadEdge &&) = default;
   virtual ~QuadEdge();
   /**@ITKEndGrouping*/
+
   /** Sub-algebra Set methods. */
   /** @ITKStartGrouping */
   inline void
@@ -183,6 +185,7 @@ public:
     this->m_Rot = rot;
   }
   /**@ITKEndGrouping*/
+
   /** Sub-algebra Get methods.
    *  Returns edge with same Origin (see
    *  "Accessing adjacent edges"). */
@@ -208,6 +211,7 @@ public:
     return this->m_Rot;
   }
   /**@ITKEndGrouping*/
+
   /**
    * \brief Basic quad-edge topological method.
    *

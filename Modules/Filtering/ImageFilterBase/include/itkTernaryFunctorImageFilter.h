@@ -114,7 +114,6 @@ public:
    * This method requires an operator==() be defined on the functor
    * (or the compiler's default implementation of operator==() being
    * appropriate). */
-  /** @ITKStartGrouping */
   void
   SetFunctor(const FunctorType & functor)
   {
@@ -124,7 +123,7 @@ public:
       this->Modified();
     }
   }
-  /**@ITKEndGrouping*/
+
   /** Image dimensions */
   static constexpr unsigned int Input1ImageDimension = TInputImage1::ImageDimension;
   static constexpr unsigned int Input2ImageDimension = TInputImage2::ImageDimension;

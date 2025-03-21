@@ -100,14 +100,13 @@ public:
    * This method requires an operator!=() be defined on the functor
    * (or the compiler's default implementation of operator!=() being
    * appropriate). */
-  /** @ITKStartGrouping */
   void
   SetFunctor(const FunctorType & functor)
   {
     m_Functor = functor;
     this->Modified();
   }
-  /**@ITKEndGrouping*/
+
   /** Get the functor object.  The functor is returned by reference.
    * (Functors do not have to derive from itk::LightObject, so they do
    * not necessarily have a reference count. So we cannot return a
@@ -124,6 +123,7 @@ public:
     return m_Functor;
   }
   /**@ITKEndGrouping*/
+
   void
   SetTotalFrequency(SizeValueType n);
 

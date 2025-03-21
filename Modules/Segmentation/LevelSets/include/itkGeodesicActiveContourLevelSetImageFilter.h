@@ -127,7 +127,6 @@ public:
 
   /** Set the value of sigma used to compute the edge potential map
    * derivatives  */
-  /** @ITKStartGrouping */
   void
   SetDerivativeSigma(float value)
   {
@@ -137,7 +136,7 @@ public:
       this->Modified();
     }
   }
-  /**@ITKEndGrouping*/
+
   /** Get the value of sigma used to compute the edge potential map derivatives.
    */
   float

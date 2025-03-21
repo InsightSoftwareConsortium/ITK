@@ -198,14 +198,13 @@ public:
 
 
   /** Resize the input vector to the specified size. */
-  /** @ITKStartGrouping */
   static void
   SetLength(VariableLengthVector<T> & m, const unsigned int s)
   {
     m.SetSize(s);
     m.Fill(T{});
   }
-  /**@ITKEndGrouping*/
+
   /** Return the size of the vector. */
   static unsigned int
   GetLength(const VariableLengthVector<T> & m)

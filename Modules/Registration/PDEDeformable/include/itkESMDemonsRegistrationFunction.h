@@ -155,14 +155,13 @@ public:
   using MovingImageGradientCalculatorPointer = typename MovingImageGradientCalculatorType::Pointer;
 
   /** Set the moving image interpolator. */
-  /** @ITKStartGrouping */
   void
   SetMovingImageInterpolator(InterpolatorType * ptr)
   {
     m_MovingImageInterpolator = ptr;
     m_MovingImageWarper->SetInterpolator(ptr);
   }
-  /**@ITKEndGrouping*/
+
   /** Get the moving image interpolator. */
   InterpolatorType *
   GetMovingImageInterpolator()
@@ -266,6 +265,7 @@ public:
     return m_UseGradientType;
   }
   /**@ITKEndGrouping*/
+
 protected:
   ESMDemonsRegistrationFunction();
   ~ESMDemonsRegistrationFunction() override = default;

@@ -169,6 +169,7 @@ public:
   itkNewMacro(Self);
   itkOverrideGetNameOfClassMacro(QuadEdgeMesh);
   /**@ITKEndGrouping*/
+
 #if !defined(ITK_WRAPPING_PARSER)
   /** FrontIterator definitions */
   itkQEDefineFrontIteratorMethodsMacro(Self);
@@ -291,7 +292,6 @@ public:
   }
 
   /** overloaded method for backward compatibility */
-  /** @ITKStartGrouping */
   CellIdentifier
   GetCellBoundaryFeatureNeighbors(int                        itkNotUsed(dimension),
                                   CellIdentifier             itkNotUsed(cellId),
@@ -300,7 +300,7 @@ public:
   {
     return CellIdentifier{};
   }
-  /**@ITKEndGrouping*/
+
   /** NOTE ALEX: this method do not use CellFeature and thus could be recoded */
   CellIdentifier
   GetCellNeighbors(CellIdentifier itkNotUsed(cellId), std::set<CellIdentifier> * itkNotUsed(cellSet))

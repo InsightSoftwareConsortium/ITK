@@ -120,10 +120,9 @@ public:
    * can be handled. Single byte types are not swapped;
    * others raise an exception. The method is used to
    * swap to and from Big Endian. */
-  /** @ITKStartGrouping */
   static void
   SwapWriteRangeFromSystemToBigEndian(const T * p, int num, std::ostream * fp);
-  /**@ITKEndGrouping*/
+
   /** Generic swap method handles type T. The swapping is
    * done in-place. 2, 4 and 8 byte swapping
    * can be handled. Single byte types are not swapped;
@@ -147,10 +146,9 @@ public:
    * can be handled. Single byte types are not swapped;
    * others raise an exception. The method is used to
    * swap to and from Little Endian. */
-  /** @ITKStartGrouping */
   static void
   SwapWriteRangeFromSystemToLittleEndian(const T * p, int num, std::ostream * fp);
-  /**@ITKEndGrouping*/
+
 protected:
   ByteSwapper() = default;
   ~ByteSwapper() override = default;

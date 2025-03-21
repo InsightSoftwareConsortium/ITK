@@ -117,7 +117,6 @@ private:
   }
 
   /** Copier function specific to a vector type first pixel. */
-  /** @ITKStartGrouping */
   void
   FirstCopier(CopierDispatchBase, JoinType & out, unsigned int idx, const TPixel1 & A) const
   {
@@ -126,7 +125,7 @@ private:
       out[idx] = static_cast<JoinValueType>(A[i]);
     }
   }
-  /**@ITKEndGrouping*/
+
   /** Copier function specific to a scalar first pixel. */
   void
   FirstCopier(CopierDispatch<1>, JoinType & out, unsigned int idx, const TPixel1 & A) const
@@ -146,7 +145,6 @@ private:
   }
 
   /** Copier function specific to a vector type second pixel. */
-  /** @ITKStartGrouping */
   void
   SecondCopier(CopierDispatchBase, JoinType & out, unsigned int idx, const TPixel2 & B) const
   {
@@ -155,7 +153,7 @@ private:
       out[idx] = static_cast<JoinValueType>(B[i]);
     }
   }
-  /**@ITKEndGrouping*/
+
   /** Copier function specific to a scalar second pixel. */
   void
   SecondCopier(CopierDispatch<1>, JoinType & out, unsigned int idx, const TPixel2 & B) const

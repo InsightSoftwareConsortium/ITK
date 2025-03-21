@@ -126,12 +126,13 @@ public:
     m_ThresholdFunction->SetMean(mean);
     this->Modified();
   }
-  /**@ITKEndGrouping*/
+
   const MeanVectorType &
   GetMean() const
   {
     return m_ThresholdFunction->GetMean();
   }
+  /**@ITKEndGrouping*/
 
   void
   SetCovariance(const CovarianceMatrixType & cov)
@@ -154,12 +155,13 @@ public:
     m_ThresholdFunction->SetThreshold(thr);
     this->Modified();
   }
-  /**@ITKEndGrouping*/
+
   ScalarValueType
   GetThreshold()
   {
     return m_ThresholdFunction->GetThreshold();
   }
+  /**@ITKEndGrouping*/
 
 protected:
   ~VectorThresholdSegmentationLevelSetImageFilter() override = default;

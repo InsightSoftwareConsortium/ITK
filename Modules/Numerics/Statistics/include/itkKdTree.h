@@ -601,7 +601,6 @@ public:
 
     /** Initialize the internal instance identifier and distance holders
      * with the size, k */
-    /** @ITKStartGrouping */
     void
     resize(unsigned int k)
     {
@@ -611,7 +610,7 @@ public:
       m_Distances.resize(k, NumericTraits<double>::max());
       m_FarthestNeighborIndex = 0;
     }
-    /**@ITKEndGrouping*/
+
     /** Returns the distance of the farthest neighbor from the query point */
     double
     GetLargestDistance()
@@ -621,7 +620,6 @@ public:
 
     /** Replaces the farthest neighbor's instance identifier and
      * distance value with the id and the distance */
-    /** @ITKStartGrouping */
     void
     ReplaceFarthestNeighbor(InstanceIdentifier id, double distance)
     {
@@ -638,7 +636,7 @@ public:
         }
       }
     }
-    /**@ITKEndGrouping*/
+
     /** Returns the vector of k-neighbors' instance identifiers */
     const InstanceIdentifierVectorType &
     GetNeighbors() const
@@ -702,7 +700,6 @@ public:
 
   /** Sets the root node of the KdTree that is a result of
    * KdTreeGenerator or WeightedCentroidKdTreeGenerator. */
-  /** @ITKStartGrouping */
   void
   SetRoot(KdTreeNodeType * root)
   {
@@ -712,7 +709,7 @@ public:
     }
     this->m_Root = root;
   }
-  /**@ITKEndGrouping*/
+
   /** Returns the pointer to the root node. */
   KdTreeNodeType *
   GetRoot()

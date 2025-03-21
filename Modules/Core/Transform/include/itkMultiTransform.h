@@ -238,14 +238,13 @@ public:
   }
 
   /** Clear the transform queue. */
-  /** @ITKStartGrouping */
   virtual void
   ClearTransformQueue()
   {
     this->m_TransformQueue.clear();
     this->Modified();
   }
-  /**@ITKEndGrouping*/
+
   /** If all sub-transforms are linear, then the multi-transform is linear. */
   bool
   IsLinear() const override;

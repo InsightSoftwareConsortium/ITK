@@ -77,17 +77,15 @@ public:
   /** Sets the operator that is used to filter the image. Note
    * that the operator is stored as an internal COPY (it
    * is not part of the pipeline). */
-  /** @ITKStartGrouping */
   void
   SetOperator(const NeighborhoodType & p) const
   {
     m_Operator = p;
     this->Modified();
   }
-  /**@ITKEndGrouping*/
+
   /** Evaluate the function in the given dimension at specified point
    *  Subclasses should override this method. */
-  /** @ITKStartGrouping */
   TOutput
   Evaluate(const PointType &) const override
   {
@@ -95,14 +93,13 @@ public:
     TOutput out = 0;
     return out;
   }
-  /**@ITKEndGrouping*/
+
   /** Evaluate the function at specified Index position */
   TOutput
   EvaluateAtIndex(const IndexType & index) const override;
 
   /** Evaluate the function at specified ContinuousIndex position.
    * Subclasses should override this method. */
-  /** @ITKStartGrouping */
   TOutput
   EvaluateAtContinuousIndex(const ContinuousIndexType &) const override
   {
@@ -110,7 +107,7 @@ public:
     TOutput out = 0;
     return out;
   }
-  /**@ITKEndGrouping*/
+
 protected:
   NeighborhoodOperatorImageFunction() = default;
   NeighborhoodOperatorImageFunction(const Self &) {}

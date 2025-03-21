@@ -166,17 +166,20 @@ public:
   itkGetConstReferenceObjectMacro(FeatureMeans, FeatureValueVector);
   itkGetConstReferenceObjectMacro(FeatureStandardDeviations, FeatureValueVector);
   /**@ITKEndGrouping*/
+
   /** Set the desired feature set. Optional, for default value see above. */
   /** @ITKStartGrouping */
   itkSetConstObjectMacro(RequestedFeatures, FeatureNameVector);
   itkGetConstObjectMacro(RequestedFeatures, FeatureNameVector);
   /**@ITKEndGrouping*/
+
   /** Set the  offsets over which the co-occurrence pairs will be computed.
       Optional; for default value see above. */
   /** @ITKStartGrouping */
   itkSetConstObjectMacro(Offsets, OffsetVector);
   itkGetConstObjectMacro(Offsets, OffsetVector);
   /**@ITKEndGrouping*/
+
   /** Set number of histogram bins along each axis.
       Optional; for default value see above. */
   void
@@ -184,10 +187,9 @@ public:
 
   /** Set the min and max (inclusive) pixel value that will be used for
       feature calculations. Optional; for default value see above. */
-  /** @ITKStartGrouping */
   void
   SetPixelValueMinMax(PixelType min, PixelType max);
-  /**@ITKEndGrouping*/
+
   /** Connects the mask image for which the histogram is going to be computed.
       Optional; for default value see above. */
   void

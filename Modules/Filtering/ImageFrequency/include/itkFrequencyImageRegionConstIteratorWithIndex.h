@@ -171,7 +171,6 @@ public:
 private:
   /** Set the frequency metadata.
    * Called by constructors.  */
-  /** @ITKStartGrouping */
   void
   Init()
   {
@@ -181,7 +180,7 @@ private:
       this->m_FrequencySpacing[dim] = this->m_Image->GetSpacing()[dim];
     }
   }
-  /**@ITKEndGrouping*/
+
   FrequencyType m_FrequencyOrigin;
   FrequencyType m_FrequencySpacing;
 };

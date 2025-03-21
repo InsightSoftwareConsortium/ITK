@@ -94,6 +94,7 @@ public:
   itkSetObjectMacro(SignedDistanceTransformFilter, SignedDistanceTransformFilterType);
   itkGetModifiableObjectMacro(SignedDistanceTransformFilter, SignedDistanceTransformFilterType);
   /**@ITKEndGrouping*/
+
   /**
    * Input is a binary image m_InputImage
    * Output is a WhitakerSparseLevelSetImagePointer  */
@@ -266,10 +267,8 @@ private:
   FindActiveLayer();
 
   /** Fill layers adjacent to the zero level set (i.e. layer -1 and +1 )*/
-  /** @ITKStartGrouping */
   void
   FindPlusOneMinusOneLayer();
-  /**@ITKEndGrouping*/
 };
 
 ////////////////////////////////////////////////////////////////////////////////

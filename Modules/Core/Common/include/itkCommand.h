@@ -120,7 +120,6 @@ public:
   }
 
   /**  Invoke the member function. */
-  /** @ITKStartGrouping */
   void
   Execute(Object * caller, const EventObject & event) override
   {
@@ -129,9 +128,8 @@ public:
       (m_This->*(m_MemberFunction))(caller, event);
     }
   }
-  /**@ITKEndGrouping*/
+
   /**  Invoke the member function with a const object. */
-  /** @ITKStartGrouping */
   void
   Execute(const Object * caller, const EventObject & event) override
   {
@@ -140,7 +138,7 @@ public:
       (m_This->*(m_ConstMemberFunction))(caller, event);
     }
   }
-  /**@ITKEndGrouping*/
+
 protected:
   T *                         m_This{ nullptr };
   TMemberFunctionPointer      m_MemberFunction{ nullptr };
@@ -189,7 +187,6 @@ public:
   }
 
   /**  Invoke the member function. */
-  /** @ITKStartGrouping */
   void
   Execute(Object *, const EventObject & event) override
   {
@@ -198,9 +195,8 @@ public:
       (m_This->*(m_MemberFunction))(event);
     }
   }
-  /**@ITKEndGrouping*/
+
   /**  Invoke the member function with a const object */
-  /** @ITKStartGrouping */
   void
   Execute(const Object *, const EventObject & event) override
   {
@@ -209,7 +205,7 @@ public:
       (m_This->*(m_MemberFunction))(event);
     }
   }
-  /**@ITKEndGrouping*/
+
 protected:
   T *                    m_This{ nullptr };
   TMemberFunctionPointer m_MemberFunction{ nullptr };
@@ -256,7 +252,6 @@ public:
   }
 
   /** Invoke the callback function. */
-  /** @ITKStartGrouping */
   void
   Execute(Object *, const EventObject &) override
   {
@@ -265,7 +260,7 @@ public:
       (m_This->*(m_MemberFunction))();
     }
   }
-  /**@ITKEndGrouping*/
+
   void
   Execute(const Object *, const EventObject &) override
   {
@@ -321,7 +316,6 @@ public:
   }
 
   /** Invoke the const member method callback. */
-  /** @ITKStartGrouping */
   void
   Execute(Object *, const EventObject &) override
   {
@@ -330,7 +324,7 @@ public:
       (m_This->*(m_MemberFunction))();
     }
   }
-  /**@ITKEndGrouping*/
+
   void
   Execute(const Object *, const EventObject &) override
   {

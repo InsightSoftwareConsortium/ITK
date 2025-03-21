@@ -171,26 +171,24 @@ public:
    *
    * \f]
    */
-  /** @ITKStartGrouping */
   void
   ComputeJacobianWithRespectToParameters(const InputPointType &, JacobianType & jacobian) const override
   {
     jacobian.SetSize(VDimension, 0);
   }
-  /**@ITKEndGrouping*/
 
   /** Get the jacobian with respect to position, which simply is an identity
    *  jacobian because the transform is position-invariant.
    *  jac will be resized as needed, but it will be more efficient if
    *  it is already properly sized. */
-  /** @ITKStartGrouping */
   void
   ComputeJacobianWithRespectToPosition(const InputPointType &, JacobianPositionType & jac) const override
   {
     jac.set_identity();
   }
+
   using Superclass::ComputeJacobianWithRespectToPosition;
-  /**@ITKEndGrouping*/
+
   /* Always returns true if not null, as an identity is its own inverse */
   bool
   GetInverse(Self * inverseTransform) const

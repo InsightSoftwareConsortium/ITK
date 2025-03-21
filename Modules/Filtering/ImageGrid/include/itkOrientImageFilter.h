@@ -119,6 +119,7 @@ public:
   void
   SetGivenCoordinateOrientation(CoordinateOrientationCode newCode);
   /**@ITKEndGrouping*/
+
   inline void
   SetGivenCoordinateDirection(const typename TInputImage::DirectionType & GivenDirection)
   {
@@ -148,6 +149,7 @@ public:
   itkGetConstMacro(UseImageDirection, bool);
   itkSetMacro(UseImageDirection, bool);
   /**@ITKEndGrouping*/
+
   /** Get axes permute order. */
   itkGetConstReferenceMacro(PermuteOrder, PermuteOrderArrayType);
 
@@ -172,7 +174,7 @@ public:
                                             AnatomicalOrientation::CoordinateEnum::AnteriorToPosterior,
                                             AnatomicalOrientation::CoordinateEnum::InferiorToSuperior });
   }
-  /**@ITKEndGrouping*/
+
   void
   SetDesiredCoordinateOrientationToCoronal()
   {
@@ -188,6 +190,7 @@ public:
                                             AnatomicalOrientation::CoordinateEnum::SuperiorToInferior,
                                             AnatomicalOrientation::CoordinateEnum::LeftToRight });
   }
+  /**@ITKEndGrouping*/
 
   /** OrientImageFilter produces an image which is a different
    * dimensionality than its input image, in general. As such,

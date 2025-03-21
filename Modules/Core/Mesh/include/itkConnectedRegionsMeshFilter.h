@@ -129,6 +129,7 @@ public:
   itkSetMacro(ExtractionMode, int);
   itkGetConstMacro(ExtractionMode, int);
   /**@ITKEndGrouping*/
+
   void
   SetExtractionModeToPointSeededRegions()
   {
@@ -168,25 +169,23 @@ public:
   /**
    * Initialize list of point ids/cell ids used to seed regions.
    */
-  /** @ITKStartGrouping */
   void
   InitializeSeedList()
   {
     this->Modified();
     m_SeedList.clear();
   }
-  /**@ITKEndGrouping*/
+
   /**
    * Add a seed id (point or cell id). Note: ids are 0-offset.
    */
-  /** @ITKStartGrouping */
   void
   AddSeed(IdentifierType id)
   {
     this->Modified();
     m_SeedList.push_back(id);
   }
-  /**@ITKEndGrouping*/
+
   /**
    * Delete a seed id (point or cell id). Note: ids are 0-offset.
    */
@@ -196,25 +195,23 @@ public:
   /**
    * Initialize list of region ids to extract.
    */
-  /** @ITKStartGrouping */
   void
   InitializeSpecifiedRegionList()
   {
     this->Modified();
     m_RegionList.clear();
   }
-  /**@ITKEndGrouping*/
+
   /**
    * Add a region id to extract. Note: ids are 0-offset.
    */
-  /** @ITKStartGrouping */
   void
   AddSpecifiedRegion(IdentifierType id)
   {
     this->Modified();
     m_RegionList.push_back(id);
   }
-  /**@ITKEndGrouping*/
+
   /**
    * Delete a region id to extract. Note: ids are 0-offset.
    */
@@ -225,7 +222,6 @@ public:
    * Use to specify x-y-z point coordinates when extracting the region
    * closest to a specified point.
    */
-  /** @ITKStartGrouping */
   void
   SetClosestPoint(InputMeshPointType & p)
   {
@@ -235,7 +231,7 @@ public:
       this->Modified();
     }
   }
-  /**@ITKEndGrouping*/
+
   InputMeshPointType &
   GetClosestPoint(InputMeshPointType &)
   {

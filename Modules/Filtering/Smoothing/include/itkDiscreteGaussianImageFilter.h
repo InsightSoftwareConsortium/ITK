@@ -129,6 +129,7 @@ public:
   itkSetMacro(Variance, ArrayType);
   itkGetConstMacro(Variance, const ArrayType);
   /**@ITKEndGrouping*/
+
   /** The algorithm will size the discrete kernel so that the error
    * resulting from truncation of the kernel is no greater than
    * MaximumError. The default is 0.01 in each dimension. */
@@ -136,12 +137,14 @@ public:
   itkSetMacro(MaximumError, ArrayType);
   itkGetConstMacro(MaximumError, const ArrayType);
   /**@ITKEndGrouping*/
+
   /** Set the kernel to be no wider than MaximumKernelWidth pixels,
    *  even if MaximumError demands it. The default is 32 pixels. */
   /** @ITKStartGrouping */
   itkGetConstMacro(MaximumKernelWidth, unsigned int);
   itkSetMacro(MaximumKernelWidth, unsigned int);
   /**@ITKEndGrouping*/
+
   /** Set the number of dimensions to smooth. Defaults to the image
    * dimension. Can be set to less than ImageDimension, smoothing all
    * the dimensions less than FilterDimensionality.  For instance, to
@@ -151,6 +154,7 @@ public:
   itkGetConstMacro(FilterDimensionality, unsigned int);
   itkSetMacro(FilterDimensionality, unsigned int);
   /**@ITKEndGrouping*/
+
   /** Set/get the boundary condition. */
   /** @ITKStartGrouping */
   itkSetMacro(InputBoundaryCondition, BoundaryConditionType *);
@@ -158,16 +162,16 @@ public:
   itkSetMacro(RealBoundaryCondition, RealBoundaryConditionPointerType);
   itkGetConstMacro(RealBoundaryCondition, RealBoundaryConditionPointerType);
   /**@ITKEndGrouping*/
+
   /** Convenience Set methods for setting all dimensional parameters
    *  to the same values. */
-  /** @ITKStartGrouping */
   void
   SetVariance(const typename ArrayType::ValueType v)
   {
     m_Variance.Fill(v);
     this->Modified();
   }
-  /**@ITKEndGrouping*/
+
   void
   SetMaximumError(const typename ArrayType::ValueType v)
   {
@@ -226,8 +230,8 @@ public:
     this->SetVariance(sigma * sigma);
   }
   /**@ITKEndGrouping*/
+
   /** Get the Sigma value. */
-  /** @ITKStartGrouping */
   ArrayType
   GetSigmaArray() const
   {
@@ -238,7 +242,7 @@ public:
     }
     return sigmas;
   }
-  /**@ITKEndGrouping*/
+
   /** Get the Sigma scalar. If the Sigma is anisotropic, we will just
    * return the Sigma along the first dimension. */
   double
@@ -294,6 +298,7 @@ public:
   itkGetConstMacro(UseImageSpacing, bool);
   itkBooleanMacro(UseImageSpacing);
   /**@ITKEndGrouping*/
+
 #if !defined(ITK_FUTURE_LEGACY_REMOVE)
   /** Use the image spacing information in calculations. Use this option if you
    *  want to specify Gaussian variance in real world units.  Default is

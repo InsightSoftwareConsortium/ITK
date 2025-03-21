@@ -83,14 +83,13 @@ public:
   }
 
   /** Set the length of each vector in the VectorImage */
-  /** @ITKStartGrouping */
   void
   SetVectorLength(VectorLengthType l)
   {
     m_VectorLength = l;
     m_OffsetMultiplier = (l - 1);
   }
-  /**@ITKEndGrouping*/
+
   /** Get Vector lengths */
   VectorLengthType
   GetVectorLength() const

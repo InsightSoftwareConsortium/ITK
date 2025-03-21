@@ -108,6 +108,7 @@ public:
     m_Quiet = false;
   }
   /**@ITKEndGrouping*/
+
   /** Methods to use to test the AbortEvent of the a filter. If
    * TestAbort is on, the filter being watched will be aborted when
    * the progress reaches 30%. */
@@ -123,6 +124,7 @@ public:
     m_TestAbort = false;
   }
   /**@ITKEndGrouping*/
+
   /** Methods to access member data */
 
   /** Get a pointer to the process object being watched. */
@@ -145,6 +147,7 @@ public:
     return m_Steps;
   }
   /**@ITKEndGrouping*/
+
   /** Set/Get the number of iterations completed. */
   /** @ITKStartGrouping */
   void
@@ -158,6 +161,7 @@ public:
     return m_Iterations;
   }
   /**@ITKEndGrouping*/
+
   /** Set/Get the quiet mode boolean. If true, verbose progress is
    * reported. */
   /** @ITKStartGrouping */
@@ -172,6 +176,7 @@ public:
     return m_Quiet;
   }
   /**@ITKEndGrouping*/
+
   /** Get the comment for the watcher. */
   std::string
   GetComment()
@@ -188,7 +193,6 @@ public:
 
 protected:
   /** Callback method to show the ProgressEvent */
-  /** @ITKStartGrouping */
   virtual void
   ShowProgress()
   {
@@ -213,7 +217,7 @@ protected:
       }
     }
   }
-  /**@ITKEndGrouping*/
+
   /** Create commands for different event types. */
   void
   CreateCommands();
@@ -242,7 +246,6 @@ protected:
   }
 
   /** Callback method to show the StartEvent */
-  /** @ITKStartGrouping */
   virtual void
   StartFilter()
   {
@@ -264,9 +267,8 @@ protected:
     }
     std::cout << (m_Quiet ? "Progress Quiet " : "Progress ") << std::flush;
   }
-  /**@ITKEndGrouping*/
+
   /** Callback method to show the EndEvent */
-  /** @ITKStartGrouping */
   virtual void
   EndFilter()
   {
@@ -292,7 +294,7 @@ protected:
       itkExceptionMacro("Filter does not have progress.");
     }
   }
-  /**@ITKEndGrouping*/
+
 private:
   TimeProbe                   m_TimeProbe{};
   int                         m_Steps{ 0 };

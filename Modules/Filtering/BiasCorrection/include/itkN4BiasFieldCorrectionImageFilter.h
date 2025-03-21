@@ -154,6 +154,7 @@ public:
     this->SetMaskImage(mask);
   }
   /**@ITKEndGrouping*/
+
   /**
    * Get mask image function.  If a binary mask image is specified, only
    * those input image voxels inside the mask image values are used in
@@ -173,6 +174,7 @@ public:
   itkSetMacro(MaskLabel, MaskPixelType);
   itkGetConstMacro(MaskLabel, MaskPixelType);
   /**@ITKEndGrouping*/
+
   /**
    * Use a mask label for identifying mask functionality. See SetMaskLabel.
    * Defaults to false. */
@@ -181,6 +183,7 @@ public:
   itkGetConstMacro(UseMaskLabel, bool);
   itkBooleanMacro(UseMaskLabel);
   /**@ITKEndGrouping*/
+
   /**
    * Set confidence image function.  If a confidence image is specified,
    * estimation of the bias field weights the contribution of each voxel
@@ -199,6 +202,7 @@ public:
     this->SetConfidenceImage(image);
   }
   /**@ITKEndGrouping*/
+
   /**
    * Get confidence image function.  If a confidence image is specified,
    * estimation of the bias field weights the contribution of each voxel
@@ -294,14 +298,13 @@ public:
    * specify a B-spline mesh size for initial fitting followed by a doubling of
    * the mesh resolution for each subsequent fitting level.  Default = 1 level.
    */
-  /** @ITKStartGrouping */
   void
   SetNumberOfFittingLevels(unsigned int n)
   {
     auto nlevels = MakeFilled<ArrayType>(n);
     this->SetNumberOfFittingLevels(nlevels);
   }
-  /**@ITKEndGrouping*/
+
   /**
    * Get the number of fitting levels.  One of the contributions of N4 is the
    * introduction of a multi-scale approach to fitting. This allows one to

@@ -120,12 +120,13 @@ public:
       this->Modified();
     }
   }
-  /**@ITKEndGrouping*/
+
   unsigned int
   GetIndex() const
   {
     return this->GetFunctor().GetIndex();
   }
+  /**@ITKEndGrouping*/
 
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<typename TInputImage::PixelType::ValueType>));
 

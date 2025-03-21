@@ -190,6 +190,7 @@ public:
   void SetDisplacementField(std::nullptr_t) = delete;
   itkGetModifiableObjectMacro(DisplacementField, DisplacementFieldType);
   /**@ITKEndGrouping*/
+
   /** Get/Set the inverse displacement field. This must be supplied by the user for
    * GetInverse() to work. */
   /** @ITKStartGrouping */
@@ -197,6 +198,7 @@ public:
   SetInverseDisplacementField(DisplacementFieldType * inverseField);
   itkGetModifiableObjectMacro(InverseDisplacementField, DisplacementFieldType);
   /**@ITKEndGrouping*/
+
   /** Get/Set the interpolator.
    * Create out own set accessor that assigns the displacement field. */
   /** @ITKStartGrouping */
@@ -204,6 +206,7 @@ public:
   SetInterpolator(InterpolatorType * interpolator);
   itkGetModifiableObjectMacro(Interpolator, InterpolatorType);
   /**@ITKEndGrouping*/
+
   /** Get/Set the interpolator for the inverse field.
    * Create out own set accessor that assigns the displacement field. */
   /** @ITKStartGrouping */
@@ -211,6 +214,7 @@ public:
   SetInverseInterpolator(InterpolatorType * interpolator);
   itkGetModifiableObjectMacro(InverseInterpolator, InterpolatorType);
   /**@ITKEndGrouping*/
+
   /** Get the modification time of displacement field. */
   itkGetConstReferenceMacro(DisplacementFieldSetTime, ModifiedTimeType);
 
@@ -228,7 +232,7 @@ public:
     itkExceptionMacro("TransformVector(Vector) unimplemented, use "
                       "TransformVector(Vector,Point)");
   }
-  /**@ITKEndGrouping*/
+
   OutputVectorPixelType
   TransformVector(const InputVectorPixelType &) const override
   {
@@ -242,6 +246,7 @@ public:
     itkExceptionMacro("TransformVector(Vector) unimplemented, use "
                       "TransformVector(Vector,Point)");
   }
+  /**@ITKEndGrouping*/
 
   /** Method to transform a tensor. */
   /** @ITKStartGrouping */
@@ -252,13 +257,14 @@ public:
     itkExceptionMacro("TransformDiffusionTensor(Tensor) unimplemented, use "
                       "TransformDiffusionTensor(Tensor,Point)");
   }
-  /**@ITKEndGrouping*/
+
   OutputVectorPixelType
   TransformDiffusionTensor(const InputVectorPixelType &) const
   {
     itkExceptionMacro("TransformDiffusionTensor(Tensor) unimplemented, use "
                       "TransformDiffusionTensor(Tensor,Point)");
   }
+  /**@ITKEndGrouping*/
 
   /** Method to transform a CovariantVector. */
   /** @ITKStartGrouping */
@@ -269,17 +275,17 @@ public:
     itkExceptionMacro("TransformCovariantVector(CovariantVector) "
                       "unimplemented, use TransformCovariantVector(CovariantVector,Point)");
   }
-  /**@ITKEndGrouping*/
+
   OutputVectorPixelType
   TransformCovariantVector(const InputVectorPixelType &) const override
   {
     itkExceptionMacro("TransformCovariantVector(CovariantVector) "
                       "unimplemented, use TransformCovariantVector(CovariantVector,Point)");
   }
+  /**@ITKEndGrouping*/
 
   /** Set the transformation parameters. This sets the displacement
    * field image directly. */
-  /** @ITKStartGrouping */
   void
   SetParameters(const ParametersType & params) override
   {
@@ -295,7 +301,7 @@ public:
       this->Modified();
     }
   }
-  /**@ITKEndGrouping*/
+
   /**
    * This method sets the fixed parameters of the transform.
    * For a displacement field transform, the fixed parameters are the
@@ -329,13 +335,12 @@ public:
    *
    * TODO: format the above for doxygen formula.
    */
-  /** @ITKStartGrouping */
   void
   ComputeJacobianWithRespectToParameters(const InputPointType &, JacobianType & j) const override
   {
     j = this->m_IdentityJacobian;
   }
-  /**@ITKEndGrouping*/
+
   /**
    * Compute the jacobian with respect to the parameters at an index.
    * Simply returns identity matrix, sized [VDimension, VDimension].
@@ -444,6 +449,7 @@ public:
   itkSetMacro(CoordinateTolerance, double);
   itkGetConstMacro(CoordinateTolerance, double);
   /**@ITKEndGrouping*/
+
   /** Set/Get the direction tolerance.
    *  This tolerance is used to when comparing the orientation of the
    *  deformation fields and its inverse to ensure they occupy the
@@ -455,6 +461,7 @@ public:
   itkSetMacro(DirectionTolerance, double);
   itkGetConstMacro(DirectionTolerance, double);
   /**@ITKEndGrouping*/
+
 protected:
   DisplacementFieldTransform();
   ~DisplacementFieldTransform() override = default;

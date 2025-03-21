@@ -132,10 +132,9 @@ public:
    * itkTransformReader/Writer I/O filters.
    *
    */
-  /** @ITKStartGrouping */
   void
   SetFixedParameters(const FixedParametersType & parameters) override = 0;
-  /**@ITKEndGrouping*/
+
   /** This method sets the parameters of the transform.
    * For a BSpline deformation transform, the parameters are the BSpline
    * coefficients on a sparse grid.
@@ -266,14 +265,13 @@ public:
 
   /** Method to transform a vector -
    *  not applicable for this type of transform. */
-  /** @ITKStartGrouping */
   using Superclass::TransformVector;
   OutputVectorType
   TransformVector(const InputVectorType &) const override
   {
     itkExceptionMacro("Method not applicable for deformable transform.");
   }
-  /**@ITKEndGrouping*/
+
   /** Method to transform a vnl_vector -
    *  not applicable for this type of transform */
   OutputVnlVectorType
@@ -284,14 +282,13 @@ public:
 
   /** Method to transform a CovariantVector -
    *  not applicable for this type of transform */
-  /** @ITKStartGrouping */
   using Superclass::TransformCovariantVector;
   OutputCovariantVectorType
   TransformCovariantVector(const InputCovariantVectorType &) const override
   {
     itkExceptionMacro("Method not applicable for deformable transform. ");
   }
-  /**@ITKEndGrouping*/
+
   /** Get Jacobian at a point. A very specialized function just for BSplines */
   void
   ComputeJacobianFromBSplineWeightsWithRespectToPosition(const InputPointType &,
@@ -352,6 +349,7 @@ protected:
   itkSetObjectMacro(WeightsFunction, WeightsFunctionType);
   itkGetModifiableObjectMacro(WeightsFunction, WeightsFunctionType);
   /**@ITKEndGrouping*/
+
   /** Wrap flat array into images of coefficients. */
   void
   WrapAsImages();

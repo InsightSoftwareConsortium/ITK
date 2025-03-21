@@ -100,6 +100,7 @@ public:
     : BaseArray(r)
   {}
   /**@ITKEndGrouping*/
+
 #if defined(ITK_LEGACY_REMOVE)
   /** Prevents copy-initialization from `nullptr`, as well as from `0` (NULL). */
   RGBAPixel(std::nullptr_t) = delete;
@@ -125,6 +126,7 @@ public:
   Self
   operator/(const ComponentType & r) const;
   /**@ITKEndGrouping*/
+
   /** Arithmetic-assignment operators. */
   /** @ITKStartGrouping */
   const Self &
@@ -136,6 +138,7 @@ public:
   const Self &
   operator/=(const ComponentType & r);
   /**@ITKEndGrouping*/
+
   /** Implements strict weak ordering. For use in STL, e.g. std::map. */
   bool
   operator<(const Self & r) const;
@@ -203,7 +206,6 @@ public:
   }
 
   /** Set the four components. */
-  /** @ITKStartGrouping */
   void
   Set(ComponentType red, ComponentType green, ComponentType blue, ComponentType alpha)
   {
@@ -212,7 +214,7 @@ public:
     this->operator[](2) = blue;
     this->operator[](3) = alpha;
   }
-  /**@ITKEndGrouping*/
+
   /** Get the Red component. */
   const ComponentType &
   GetRed() const

@@ -186,10 +186,9 @@ public:
    * tries to moves past the first pixel of the region.  Here, the iterator
    * will be set to be one pixel past the beginning of the region.
    * \sa operator++ */
-  /** @ITKStartGrouping */
   Self &
   operator--();
-  /**@ITKEndGrouping*/
+
 };
 } // end namespace itk
 

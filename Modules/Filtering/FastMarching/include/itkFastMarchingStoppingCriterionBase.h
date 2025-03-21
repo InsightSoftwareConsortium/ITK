@@ -75,7 +75,6 @@ public:
 
 protected:
   /** Constructor */
-  /** @ITKStartGrouping */
   FastMarchingStoppingCriterionBase()
     : Superclass()
     , m_Domain(nullptr)
@@ -83,7 +82,7 @@ protected:
     m_CurrentValue = OutputPixelType{};
     m_PreviousValue = OutputPixelType{};
   }
-  /**@ITKEndGrouping*/
+
   /** Destructor */
   ~FastMarchingStoppingCriterionBase() override = default;
 

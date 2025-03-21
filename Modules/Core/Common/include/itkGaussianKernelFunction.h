@@ -56,14 +56,13 @@ public:
   itkOverrideGetNameOfClassMacro(GaussianKernelFunction);
 
   /** Evaluate the function. */
-  /** @ITKStartGrouping */
   TRealValueType
   Evaluate(const TRealValueType & u) const override
   {
     constexpr auto negHalf = TRealValueType{ -0.5 };
     return std::exp(negHalf * itk::Math::sqr(u)) * Math::one_over_sqrt2pi;
   }
-  /**@ITKEndGrouping*/
+
 protected:
   GaussianKernelFunction() {}
   ~GaussianKernelFunction() override = default;

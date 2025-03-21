@@ -74,6 +74,7 @@ public:
     return m_Threshold;
   }
   /**@ITKEndGrouping*/
+
   /** */
   /** @ITKStartGrouping */
   void
@@ -87,6 +88,7 @@ public:
     return m_Variance;
   }
   /**@ITKEndGrouping*/
+
   /** Compute the Speed Image. The Speed Image is the distance to the
       canny edges. */
   void
@@ -154,13 +156,11 @@ private:
   /** If FeatureImageType == ImageType,
    *  assign directly to the Canny filter
    */
-  /** @ITKStartGrouping */
   void
   AssignCannyInput(typename FeatureImageType::Pointer & feature, typename FeatureImageType::Pointer &)
   {
     m_Canny->SetInput(feature);
   }
-  /**@ITKEndGrouping*/
 };
 } // end namespace itk
 

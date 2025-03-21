@@ -164,7 +164,6 @@ public:
 
 protected:
   /** Method that should do all the iteration work. */
-  /** @ITKStartGrouping */
   virtual void
   GoToNext()
   {
@@ -213,7 +212,7 @@ protected:
         break;
     }
   }
-  /**@ITKEndGrouping*/
+
 protected:
   QuadEdgeType * m_StartEdge{}; /**< Start edge */
   QuadEdgeType * m_Iterator{};  /**< Current iteration position */

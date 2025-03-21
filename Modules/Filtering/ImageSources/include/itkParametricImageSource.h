@@ -74,10 +74,9 @@ public:
    * not mark the image source as modified; subclasses should override
    * this method to forward parameters through setters that call
    * Modified(). */
-  /** @ITKStartGrouping */
   virtual void
   SetParameters(const ParametersType & parameters) = 0;
-  /**@ITKEndGrouping*/
+
   /** Get the parameters for this source. */
   virtual ParametersType
   GetParameters() const = 0;

@@ -110,6 +110,7 @@ public:
   QuadEdgeMeshLineCell();
   ~QuadEdgeMeshLineCell() override;
   /**@ITKEndGrouping*/
+
   /** Accessors for m_Identifier. */
   void
   SetIdent(CellIdentifier cid);
@@ -144,7 +145,6 @@ public:
   GetBoundaryFeature(int dimension, CellFeatureIdentifier cellId, CellAutoPointer & cell) override;
 
   /** Useless methods. */
-  /** @ITKStartGrouping */
   void
   MakeCopy(CellAutoPointer & cell) const override
   {
@@ -152,7 +152,7 @@ public:
     cell->SetPointId(0, this->GetQEGeom()->GetOrigin());
     cell->SetPointId(1, this->GetQEGeom()->GetDestination());
   }
-  /**@ITKEndGrouping*/
+
   /** ITK Cell API - Iterator-related methods.
    *  The Set methods will work, not the Get.
    *  Hopefully never used ...
@@ -202,14 +202,13 @@ public:
   }
 
   /** helper for backward compatibility */
-  /** @ITKStartGrouping */
   void
   SynchronizePointsAPI() const
   {
     m_PointIds[0] = GetQEGeom()->GetOrigin();
     m_PointIds[1] = GetQEGeom()->GetDestination();
   }
-  /**@ITKEndGrouping*/
+
   /** QuadEdge internal flavor of cell API */
   virtual void
   InternalSetPointIds(PointIdInternalConstIterator first);

@@ -190,7 +190,6 @@ public:
   }
 
   /** Set the direction of movement */
-  /** @ITKStartGrouping */
   inline void
   SetDirection(unsigned int direction)
   {
@@ -202,7 +201,7 @@ public:
     m_Direction = direction;
     m_Jump = this->m_OffsetTable[m_Direction];
   }
-  /**@ITKEndGrouping*/
+
   /** get the direction of movement */
   unsigned int
   GetDirection()
@@ -212,7 +211,6 @@ public:
 
   /** Increment (prefix) the selected dimension.
    * No bounds checking is performed. \sa GetIndex \sa operator-- */
-  /** @ITKStartGrouping */
   inline Self &
   operator++()
   {
@@ -220,10 +218,9 @@ public:
     this->m_Position += m_Jump;
     return *this;
   }
-  /**@ITKEndGrouping*/
+
   /** Decrement (prefix) the selected dimension.
    * No bounds checking is performed.  \sa GetIndex \sa operator++ */
-  /** @ITKStartGrouping */
   inline Self &
   operator--()
   {
@@ -231,7 +228,7 @@ public:
     this->m_Position -= m_Jump;
     return *this;
   }
-  /**@ITKEndGrouping*/
+
 private:
   OffsetValueType m_Jump{ 0 };
   unsigned int    m_Direction{ 0 };

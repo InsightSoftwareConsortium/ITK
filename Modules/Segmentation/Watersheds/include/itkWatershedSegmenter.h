@@ -114,6 +114,7 @@ public:
   itkNewMacro(Self);
   itkOverrideGetNameOfClassMacro(Segmenter);
   /**@ITKEndGrouping*/
+
   /** Typedefs necessary on microsoft VC++ to avoid internal compiler errors */
   using InputImageTypePointer = typename InputImageType::Pointer;
   using OutputImageTypePointer = typename OutputImageType::Pointer;
@@ -202,12 +203,13 @@ public:
     m_LargestPossibleRegion = reg;
     this->Modified();
   }
-  /**@ITKEndGrouping*/
+
   ImageRegionType
   GetLargestPossibleRegion() const
   {
     return m_LargestPossibleRegion;
   }
+  /**@ITKEndGrouping*/
 
   /** Helper function.  Other classes may have occasion to use this. Relabels
       an image according to a table of equivalencies. */
@@ -225,6 +227,7 @@ public:
   itkSetMacro(CurrentLabel, IdentifierType);
   itkGetConstMacro(CurrentLabel, IdentifierType);
   /**@ITKEndGrouping*/
+
   /** Gets/Sets the input threshold. Threshold is specified as a percentage
    * (0.0 - 1.0) of the maximum height of the image. This filter thresholds the
    * input image to remove all values below \f$ L = min + T * (max -  min) \f$,
@@ -239,6 +242,7 @@ public:
   itkSetClampMacro(Threshold, double, 0.0, 1.0);
   itkGetConstMacro(Threshold, double);
   /**@ITKEndGrouping*/
+
   /** Turns on special labeling of the boundaries for streaming applications.
    * The default value is FALSE, meaning that boundary analysis is turned
    * off.   */
@@ -246,6 +250,7 @@ public:
   itkSetMacro(DoBoundaryAnalysis, bool);
   itkGetConstMacro(DoBoundaryAnalysis, bool);
   /**@ITKEndGrouping*/
+
   /** Determines whether the algorithm will sort the adjacencies in its
    * SegmentTable before returning.  Default is true.  This is an option only
    * useful for streaming applications where the sorting only needs to be done

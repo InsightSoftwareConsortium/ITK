@@ -110,14 +110,13 @@ public:
 
   /** Set the container of Seed Points representing the first initial front.
    * Seed points are represented as a VectorContainer of LevelSetNodes. */
-  /** @ITKStartGrouping */
   void
   SetSeedPoints1(NodeContainer * points)
   {
     m_SeedPoints1 = points;
     this->Modified();
   }
-  /**@ITKEndGrouping*/
+
   /** Get the container of Seed Points representing the first initial front. */
   NodeContainerPointer
   GetSeedPoints1()
@@ -127,14 +126,13 @@ public:
 
   /** Set the container of Seed Points representing the second initial front.
    * Seed points are represented as a VectorContainer of LevelSetNodes. */
-  /** @ITKStartGrouping */
   void
   SetSeedPoints2(NodeContainer * points)
   {
     m_SeedPoints2 = points;
     this->Modified();
   }
-  /**@ITKEndGrouping*/
+
   /** Get the container of Seed Points representing the second initial front. */
   NodeContainerPointer
   GetSeedPoints2()

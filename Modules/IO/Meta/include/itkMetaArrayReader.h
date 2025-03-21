@@ -119,7 +119,6 @@ public:
    *  MetaArrayReader is destroyed. Otherwise, the buffer (and therefore
    *  the validity of the data in the Array) is destroyed when the
    *  MetaArrayReader is destroyed. */
-  /** @ITKStartGrouping */
   template <typename TValue>
   void
   GetOutput(MET_ValueEnumType _metaElementType, Array<TValue> * _array, bool _letArrayManageData = true)
@@ -134,9 +133,8 @@ public:
       m_MetaArray.AutoFreeElementData(false);
     }
   }
-  /**@ITKEndGrouping*/
+
   /** Get an itkFixedArray. */
-  /** @ITKStartGrouping */
   template <typename TValue, unsigned int VLength>
   bool
   GetOutput(MET_ValueEnumType itkNotUsed(_metaElementType), FixedArray<TValue, VLength> * _array)
@@ -151,11 +149,10 @@ public:
     }
     return false;
   }
-  /**@ITKEndGrouping*/
+
   /** Get an itkVector.
    *  Specify the MetaType of the elements of the itkVector and provide
    *  a pointer to the itkVector into which the data should be copied. */
-  /** @ITKStartGrouping */
   template <typename TValue, unsigned int VLength>
   bool
   GetOutput(MET_ValueEnumType itkNotUsed(_metaElementType), Vector<TValue, VLength> * _vector)
@@ -170,12 +167,11 @@ public:
     }
     return false;
   }
-  /**@ITKEndGrouping*/
+
   /** Get an itkCovariantVector.
    *  Specify the MetaType of the elements of the itkCovariantVector and
    *  provide a pointer to the itkCovariantVector into which the data
    *  should be copied. */
-  /** @ITKStartGrouping */
   template <typename TValue, unsigned int VLength>
   bool
   GetOutput(MET_ValueEnumType itkNotUsed(_metaElementType), CovariantVector<TValue, VLength> * _vector)
@@ -190,7 +186,7 @@ public:
     }
     return false;
   }
-  /**@ITKEndGrouping*/
+
   /** Get it VariableLengthVector.
    *  Specify the MetaType of the elements of the VariableLengthVector and
    *  provide a pointer to the VariableLengthVector. The buffer of the
@@ -200,7 +196,6 @@ public:
    *  MetaArrayReader is destroyed. Otherwise, the buffer (and therefore
    *  the validity of the data in the VariableLengthVector) is destroyed
    *  when the MetaArrayReader is destroyed. */
-  /** @ITKStartGrouping */
   template <typename TValue>
   void
   GetOutput(MET_ValueEnumType              _metaElementType,
@@ -217,13 +212,12 @@ public:
       m_MetaArray.AutoFreeElementData(false);
     }
   }
-  /**@ITKEndGrouping*/
+
   /** Get an itkArray of Arrays, itk::Array< itk::Array<short> >.
    *  Assumes all sub-arrays have the same length.
    *  Specify the MetaType of the elements of the Array< Array< * > > and
    *  provide a pointer to the Array of arrays. Elements are copied
    *  into the array of arrays. */
-  /** @ITKStartGrouping */
   template <typename TValue>
   void
   GetMultiChannelOutput(MET_ValueEnumType _metaElementType, Array<TValue> * _array)
@@ -244,7 +238,6 @@ public:
       }
     }
   }
-  /**@ITKEndGrouping*/
 protected:
   MetaArrayReader();
   ~MetaArrayReader() override;

@@ -79,7 +79,6 @@ public:
   /** Move-assignment operator.
    * \note This move-assignment operator is `noexcept`, even while the move-assignment operator of its base class
    * (`vnl_matrix`) is not `noexcept`, because unlike `vnl_matrix`, `Array2D` always manages its own memory. */
-  /** @ITKStartGrouping */
   Self &
   operator=(Self && array) noexcept
   {
@@ -87,7 +86,7 @@ public:
     this->VnlMatrixType::operator=(std::move(array));
     return *this;
   }
-  /**@ITKEndGrouping*/
+
   /** Assigns the specified matrix to an Array2D. */
   Self &
   operator=(const VnlMatrixType & matrix);

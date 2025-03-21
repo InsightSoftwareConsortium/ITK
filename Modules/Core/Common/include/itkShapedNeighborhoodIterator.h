@@ -230,14 +230,13 @@ public:
 
 
   /** Assignment operator */
-  /** @ITKStartGrouping */
   Self &
   operator=(const Self & orig)
   {
     Superclass::operator=(orig);
     return *this;
   }
-  /**@ITKEndGrouping*/
+
   /** Returns a const iterator for the neighborhood which points to the first
    * pixel in the neighborhood. */
   /** @ITKStartGrouping */
@@ -252,6 +251,7 @@ public:
     return Iterator(this, this->m_ActiveIndexList.end());
   }
   /**@ITKEndGrouping*/
+
   using Superclass::Begin;
   using Superclass::End;
 

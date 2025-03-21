@@ -98,7 +98,6 @@ public:
   AddHarmonic(const VectorType & CosCoefficients, const VectorType & SinCoefficients);
 
   /** Clear all frequency coefficients (including the "DC" coefficients). */
-  /** @ITKStartGrouping */
   void
   Clear()
   {
@@ -106,7 +105,7 @@ public:
     m_SinCoefficients->Initialize();
     this->Modified();
   }
-  /**@ITKEndGrouping*/
+
   /** New() method for dynamic construction */
   itkNewMacro(Self);
 

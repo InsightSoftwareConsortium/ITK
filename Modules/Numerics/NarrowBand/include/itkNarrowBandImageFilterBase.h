@@ -117,6 +117,7 @@ public:
   itkSetMacro(IsoSurfaceValue, ValueType);
   itkGetConstMacro(IsoSurfaceValue, ValueType);
   /**@ITKEndGrouping*/
+
   /** Root Mean Square Change between successive iterations */
   //  itkGetConstMacro( RMSChange, ValueType);
 
@@ -131,7 +132,7 @@ public:
     m_NarrowBand->PushBack(node); // add new node
     this->Modified();
   }
-  /**@ITKEndGrouping*/
+
   void
   InsertNarrowBandNode(const IndexType & index)
   {
@@ -154,11 +155,11 @@ public:
     m_NarrowBand->PushBack(tmpnode);
     this->Modified();
   }
+  /**@ITKEndGrouping*/
 
   /** Set the narrow band total radius. The narrow band width will be
    * twice this value (positive and negative distance to the zero level
    * set). The default value is 3. */
-  /** @ITKStartGrouping */
   void
   SetNarrowBandTotalRadius(const float val)
   {
@@ -168,7 +169,7 @@ public:
       this->Modified();
     }
   }
-  /**@ITKEndGrouping*/
+
   /** Get the narrow band total radius. */
   float
   GetNarrowBandTotalRadius() const
@@ -178,7 +179,6 @@ public:
 
   /** Set the narrow band inner radius. The inner radius is the safe
    * are where the level set can be computed. The default value is 1. */
-  /** @ITKStartGrouping */
   void
   SetNarrowBandInnerRadius(const float val)
   {
@@ -188,7 +188,7 @@ public:
       this->Modified();
     }
   }
-  /**@ITKEndGrouping*/
+
   /** Get the narrow band inner radius. */
   float
   GetNarrowBandInnerRadius() const

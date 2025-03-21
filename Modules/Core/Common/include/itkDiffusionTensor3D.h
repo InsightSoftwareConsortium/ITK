@@ -117,7 +117,6 @@ public:
   operator=(const ComponentArrayType r);
 
   /** Templated Pass-through assignment for the Array base class. */
-  /** @ITKStartGrouping */
   template <typename TCoordinateB>
   Self &
   operator=(const DiffusionTensor3D<TCoordinateB> & pa)
@@ -129,7 +128,7 @@ public:
     SymmetricSecondRankTensor<TComponent, 3>::operator=(pa);
     return *this;
   }
-  /**@ITKEndGrouping*/
+
   /** Get the trace value.
    *
    * Note that the indices are related to the fact

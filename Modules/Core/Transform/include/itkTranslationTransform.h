@@ -236,14 +236,13 @@ public:
   /** Get the Fixed Parameters. The TranslationTransform does not
    * require Fixed parameters, therefore this method returns an
    * parameters array of size zero. */
-  /** @ITKStartGrouping */
   const FixedParametersType &
   GetFixedParameters() const override
   {
     this->m_FixedParameters.SetSize(0);
     return this->m_FixedParameters;
   }
-  /**@ITKEndGrouping*/
+
 protected:
   TranslationTransform();
   ~TranslationTransform() override = default;

@@ -137,7 +137,6 @@ public:
   /** Fixed length vectors cannot be resized, so an exception will
    *  be thrown if the input size is not valid.  If the size is valid
    *  the vector will be filled with zeros. */
-  /** @ITKStartGrouping */
   static void
   SetLength(Point<T, D> & m, const unsigned int s)
   {
@@ -147,7 +146,7 @@ public:
     }
     m.Fill(T{});
   }
-  /**@ITKEndGrouping*/
+
   /** Return the dimensionality of the point. */
   static unsigned int
   GetLength(const Point<T, D> &)

@@ -103,7 +103,7 @@ public:
     Self b(a.Size(), NumericTraits<T>::max());
     return b;
   }
-  /**@ITKEndGrouping*/
+
   static const Self
   min(const Self & a)
   {
@@ -131,13 +131,13 @@ public:
     Self b(a.Size(), NumericTraits<T>::NonpositiveMin());
     return b;
   }
+  /**@ITKEndGrouping*/
 
   static constexpr bool IsSigned = std::is_signed_v<ValueType>;
   static constexpr bool IsInteger = std::is_integral_v<ValueType>;
   static constexpr bool IsComplex = NumericTraits<ValueType>::IsComplex;
 
   /** Resize the input vector to the specified size */
-  /** @ITKStartGrouping */
   static void
   SetLength(std::vector<T> & m, const unsigned int s)
   {
@@ -146,7 +146,7 @@ public:
     m.clear();
     m.resize(s);
   }
-  /**@ITKEndGrouping*/
+
   /** Return the size of the vector. */
   static unsigned int
   GetLength(const std::vector<T> & m)

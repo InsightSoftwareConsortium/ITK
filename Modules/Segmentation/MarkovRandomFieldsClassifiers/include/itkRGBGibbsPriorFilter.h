@@ -114,6 +114,7 @@ public:
   itkSetMacro(TrainingImage, TrainingImageType);
   itkGetConstMacro(TrainingImage, TrainingImageType);
   /**@ITKEndGrouping*/
+
   /** Set the labelled image. */
   void
   SetLabelledImage(LabelledImageType image);
@@ -130,7 +131,6 @@ public:
   SetClassifier(typename ClassifierType::Pointer ptrToClassifier);
 
   /** Set the number of classes. */
-  /** @ITKStartGrouping */
   void
   SetNumberOfClasses(const unsigned int numberOfClasses) override
   {
@@ -141,7 +141,7 @@ public:
       this->Modified();
     }
   }
-  /**@ITKEndGrouping*/
+
   /** Get the number of classes. */
   unsigned int
   GetNumberOfClasses() const override
@@ -151,7 +151,6 @@ public:
 
   /** Set/Get the number of iteration of the Iterated Conditional Mode
    * (ICM) algorithm. A default value is set at 50 iterations. */
-  /** @ITKStartGrouping */
   void
   SetMaximumNumberOfIterations(const unsigned int numberOfIterations) override
   {
@@ -162,7 +161,7 @@ public:
       this->Modified();
     }
   }
-  /**@ITKEndGrouping*/
+
   /** Get the number of iterations of the Iterated Conditional Mode
    * (ICM) algorithm. */
   unsigned int
@@ -176,11 +175,13 @@ public:
   itkSetMacro(ClusterSize, unsigned int);
   itkGetConstMacro(ClusterSize, unsigned int);
   /**@ITKEndGrouping*/
+
   /** Set/Get the label for the object region. */
   /** @ITKStartGrouping */
   itkSetMacro(ObjectLabel, LabelType);
   itkGetConstMacro(ObjectLabel, LabelType);
   /**@ITKEndGrouping*/
+
   /** Extract the input image dimension. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
@@ -208,6 +209,7 @@ public:
   itkSetMacro(CliqueWeight_6, double);
   itkGetConstMacro(CliqueWeight_6, double);
   /**@ITKEndGrouping*/
+
   /** Type of matrix to use. */
   using MatrixType = vnl_matrix<double>;
 

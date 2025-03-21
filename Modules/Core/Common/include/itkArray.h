@@ -100,7 +100,6 @@ public:
 #endif
 
   /** Constructor to initialize an array from another of any data type */
-  /** @ITKStartGrouping */
   template <typename TArrayValue>
   Array(const Array<TArrayValue> & r)
   {
@@ -110,7 +109,7 @@ public:
       this->operator[](i) = static_cast<TValue>(r[i]);
     }
   }
-  /**@ITKEndGrouping*/
+
   /** Set all the elements of the array to the specified value */
   void
   Fill(const TValue & v)

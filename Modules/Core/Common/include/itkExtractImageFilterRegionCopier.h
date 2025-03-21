@@ -150,13 +150,12 @@ public:
   }
 
   /** Duplicate the superclass method to avoid warnings. */
-  /** @ITKStartGrouping */
   void
   operator()(ImageRegion<T1> & destRegion, const ImageRegion<T2> & srcRegion) const override
   {
     ImageRegionCopier<T1, T2>::operator()(destRegion, srcRegion);
   }
-  /**@ITKEndGrouping*/
+
 };
 } // end namespace ImageToImageFilterDetail
 } // end namespace itk

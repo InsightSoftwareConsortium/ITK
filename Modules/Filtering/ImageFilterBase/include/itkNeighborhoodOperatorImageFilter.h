@@ -101,14 +101,13 @@ public:
   /** Sets the operator that is used to filter the image. Note
    * that the operator is stored as an internal COPY (it
    * is not part of the pipeline). */
-  /** @ITKStartGrouping */
   void
   SetOperator(const OutputNeighborhoodType & p)
   {
     m_Operator = p;
     this->Modified();
   }
-  /**@ITKEndGrouping*/
+
   /** Get the operator that is used to filter the image. */
   const OutputNeighborhoodType &
   GetOperator() const

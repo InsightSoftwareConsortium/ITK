@@ -82,7 +82,6 @@ public:
   }
 
   /** Set the number of regions. */
-  /** @ITKStartGrouping */
   void
   SetNumberOfRegions(SizeValueType num)
   {
@@ -91,7 +90,7 @@ public:
       m_NumberOfRegions = num;
     }
   }
-  /**@ITKEndGrouping*/
+
   /** Get the current region. */
   SizeValueType
   GetRegion() const
@@ -100,7 +99,6 @@ public:
   }
 
   /** Set the current region. */
-  /** @ITKStartGrouping */
   void
   SetRegion(SizeValueType region)
   {
@@ -109,7 +107,7 @@ public:
       m_Region = region;
     }
   }
-  /**@ITKEndGrouping*/
+
 private:
   // The maximum number of regions possible.
   SizeValueType m_NumberOfRegions{};

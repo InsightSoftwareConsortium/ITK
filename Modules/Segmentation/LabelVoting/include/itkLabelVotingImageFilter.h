@@ -109,7 +109,6 @@ public:
   using typename Superclass::OutputImageRegionType;
 
   /** Set label value for undecided pixels. */
-  /** @ITKStartGrouping */
   void
   SetLabelForUndecidedPixels(const OutputPixelType l)
   {
@@ -117,7 +116,7 @@ public:
     this->m_HasLabelForUndecidedPixels = true;
     this->Modified();
   }
-  /**@ITKEndGrouping*/
+
   /** Get label value used for undecided pixels.
    * After updating the filter, this function returns the actual label value
    * used for undecided pixels in the current output. Note that this value
@@ -132,7 +131,6 @@ public:
 
   /** Unset label value for undecided pixels and turn on automatic selection.
    */
-  /** @ITKStartGrouping */
   void
   UnsetLabelForUndecidedPixels()
   {
@@ -142,7 +140,7 @@ public:
       this->Modified();
     }
   }
-  /**@ITKEndGrouping*/
+
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputPixelType, OutputPixelType>));
   itkConceptMacro(IntConvertibleToInputCheck, (Concept::Convertible<int, InputPixelType>));
   itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, ImageDimension>));

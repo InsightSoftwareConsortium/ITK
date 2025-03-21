@@ -228,7 +228,6 @@ public:
   }
 
   /** Unlinks the first node from the list. Constant time. */
-  /** @ITKStartGrouping */
   void
   PopFront()
   {
@@ -236,9 +235,8 @@ public:
     m_HeadNode->Next->Previous = m_HeadNode.get();
     m_Size -= 1;
   }
-  /**@ITKEndGrouping*/
+
   /** Links a node into the front of the list. Constant time. */
-  /** @ITKStartGrouping */
   void
   PushFront(NodeType * n)
   {
@@ -248,7 +246,7 @@ public:
     m_HeadNode->Next = n;
     m_Size += 1;
   }
-  /**@ITKEndGrouping*/
+
   /** Unlinks a node from the list */
   void
   Unlink(NodeType * n)

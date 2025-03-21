@@ -96,14 +96,16 @@ public:
     m_Initialized = false;
     this->Modified();
   }
-  /**@ITKEndGrouping*/
+
   itkGetConstReferenceMacro(TargetCondition, TargetConditionEnum);
+  /**@ITKEndGrouping*/
 
   /** Set/Get TargetOffset */
   /** @ITKStartGrouping */
   itkSetMacro(TargetOffset, OutputPixelType);
   itkGetMacro(TargetOffset, OutputPixelType);
   /**@ITKEndGrouping*/
+
   /** \brief Set the number of target nodes to be reached */
   void
   SetNumberOfTargetsToBeReached(const size_t & iN)
@@ -178,13 +180,12 @@ public:
 
 protected:
   /** Constructor */
-  /** @ITKStartGrouping */
   FastMarchingReachedTargetNodesStoppingCriterion()
     : Superclass()
     , m_TargetOffset(OutputPixelType{})
     , m_StoppingValue(OutputPixelType{})
   {}
-  /**@ITKEndGrouping*/
+
   /** Destructor */
   ~FastMarchingReachedTargetNodesStoppingCriterion() override = default;
 

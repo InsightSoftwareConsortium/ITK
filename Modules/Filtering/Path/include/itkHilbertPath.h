@@ -120,14 +120,13 @@ public:
   }
 
   /** Remove all steps from the path*/
-  /** @ITKStartGrouping */
   virtual inline void
   Clear()
   {
     this->m_HilbertPath.clear();
     this->Modified();
   }
-  /**@ITKEndGrouping*/
+
   /** How many steps in the path? */
   virtual inline HilbertPathSizeType
   NumberOfSteps() const
@@ -136,14 +135,13 @@ public:
   }
 
   /** Needed for Pipelining */
-  /** @ITKStartGrouping */
   void
   Initialize() override
   {
     this->Clear();
     this->ConstructHilbertPath();
   }
-  /**@ITKEndGrouping*/
+
   /**
    * Set/get Hilbert order.  The multi-dimensional space is of size 2^(HilbertOrder).
    */
@@ -151,6 +149,7 @@ public:
   itkSetClampMacro(HilbertOrder, HilbertOrderType, 1, NumericTraits<HilbertOrderType>::max());
   itkGetConstMacro(HilbertOrder, HilbertOrderType);
   /**@ITKEndGrouping*/
+
   /** Convert the path index to the multidimensional index location */
   IndexType
   TransformPathIndexToMultiDimensionalIndex(const PathIndexType id);

@@ -139,7 +139,6 @@ public:
   }
 
   /** Function to print object pointed to.  */
-  /** @ITKStartGrouping */
   ObjectType *
   Print(std::ostream & os) const
   {
@@ -154,7 +153,7 @@ public:
     }
     return m_Pointer;
   }
-  /**@ITKEndGrouping*/
+
 private:
   /** The pointer to the object referred to by this smart pointer. */
   ObjectType * m_Pointer{ nullptr };

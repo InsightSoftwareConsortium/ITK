@@ -137,13 +137,13 @@ public:
     : BaseArray(r)
   {}
   /**@ITKEndGrouping*/
+
   /** Explicit constructor for std::array. */
   explicit Vector(const std::array<ValueType, VVectorDimension> & stdArray)
     : BaseArray(stdArray)
   {}
 
   /** Pass-through assignment operator for the Array base class. */
-  /** @ITKStartGrouping */
   template <typename TVectorValueType>
   Vector &
   operator=(const Vector<TVectorValueType, VVectorDimension> & r)
@@ -151,12 +151,11 @@ public:
     BaseArray::operator=(r);
     return *this;
   }
-  /**@ITKEndGrouping*/
+
   Vector &
   operator=(const ValueType r[VVectorDimension]);
 
   /** Scalar operator*=.  Scales elements by a scalar. */
-  /** @ITKStartGrouping */
   template <typename Tt>
   inline const Self &
   operator*=(const Tt & value)
@@ -167,9 +166,8 @@ public:
     }
     return *this;
   }
-  /**@ITKEndGrouping*/
+
   /** Scalar operator/=.  Scales (divides) elements by a scalar. */
-  /** @ITKStartGrouping */
   template <typename Tt>
   inline const Self &
   operator/=(const Tt & value)
@@ -180,7 +178,7 @@ public:
     }
     return *this;
   }
-  /**@ITKEndGrouping*/
+
   /** Vector operator+=.  Adds a vectors to the current vector. */
   const Self &
   operator+=(const Self & vec);
@@ -276,7 +274,6 @@ public:
 
   /** Copy from another Vector with a different representation type.
    *  Casting is done with C-Like rules  */
-  /** @ITKStartGrouping */
   template <typename TCoordinateB>
   void
   CastFrom(const Vector<TCoordinateB, VVectorDimension> & pa)
@@ -286,7 +283,7 @@ public:
       (*this)[i] = static_cast<T>(pa[i]);
     }
   }
-  /**@ITKEndGrouping*/
+
   template <typename TCoordinateB>
   operator Vector<TCoordinateB, VVectorDimension>()
   {

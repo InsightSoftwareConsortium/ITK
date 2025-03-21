@@ -102,7 +102,6 @@ private:
   }
 
   /** Evaluate the function:  first order spline */
-  /** @ITKStartGrouping */
   static inline TRealValueType
   Evaluate(const Dispatch<1> &, const TRealValueType & u)
   {
@@ -131,9 +130,8 @@ private:
       return TRealValueType{ 0.0 };
     }
   }
-  /**@ITKEndGrouping*/
+
   /** Evaluate the function:  second order spline. */
-  /** @ITKStartGrouping */
   static inline TRealValueType
   Evaluate(const Dispatch<2> &, const TRealValueType & u)
   {
@@ -154,9 +152,8 @@ private:
       return TRealValueType{ 0.0 };
     }
   }
-  /**@ITKEndGrouping*/
+
   /** Evaluate the function:  third order spline. */
-  /** @ITKStartGrouping */
   static inline TRealValueType
   Evaluate(const Dispatch<3> &, const TRealValueType & u)
   {
@@ -181,15 +178,14 @@ private:
       return TRealValueType{ 0.0 };
     }
   }
-  /**@ITKEndGrouping*/
+
   /** Evaluate the function:  unimplemented spline order */
-  /** @ITKStartGrouping */
   static inline TRealValueType
   Evaluate(const DispatchBase &, const TRealValueType &)
   {
     itkGenericExceptionMacro("Evaluate not implemented for spline order " << SplineOrder);
   }
-  /**@ITKEndGrouping*/
+
 };
 
 } // end namespace itk

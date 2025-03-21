@@ -83,7 +83,6 @@ public:
   {}
 
   /** Construct from discrete index type */
-  /** @ITKStartGrouping */
   ContinuousIndex(const IndexType & index)
   {
     for (unsigned int i = 0; i < VIndexDimension; ++i)
@@ -91,7 +90,7 @@ public:
       (*this)[i] = static_cast<TCoordinate>(index[i]);
     }
   }
-  /**@ITKEndGrouping*/
+
 };
 } // namespace itk
 

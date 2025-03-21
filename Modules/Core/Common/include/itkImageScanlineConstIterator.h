@@ -95,24 +95,22 @@ public:
   itkOverrideGetNameOfClassMacro(ImageScanlineConstIterator);
 
   /** Default constructor. Needed since we provide a cast constructor. */
-  /** @ITKStartGrouping */
   ImageScanlineConstIterator()
     : ImageConstIterator<TImage>()
   {
     m_SpanBeginOffset = 0;
     m_SpanEndOffset = 0;
   }
-  /**@ITKEndGrouping*/
+
   /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
    * the iterator at the begin of the region. */
-  /** @ITKStartGrouping */
   ImageScanlineConstIterator(const TImage * ptr, const RegionType & region)
     : ImageConstIterator<TImage>(ptr, region)
   {
     m_SpanBeginOffset = this->m_BeginOffset;
     m_SpanEndOffset = this->m_BeginOffset + static_cast<OffsetValueType>(this->m_Region.GetSize()[0]);
   }
-  /**@ITKEndGrouping*/
+
   /** Constructor that can be used to cast from an ImageIterator to an
    * ImageScanlineConstIterator. Many routines return an ImageIterator, but for a
    * particular task, you may want an ImageScanlineConstIterator.  Rather than
@@ -213,7 +211,6 @@ public:
    * This is overridden from the parent because we have an extra ivar.
    * \sa GetIndex
    */
-  /** @ITKStartGrouping */
   void
   SetIndex(const IndexType & ind) override
   {
@@ -222,7 +219,7 @@ public:
                       (ind[0] - this->m_Region.GetIndex()[0]);
     m_SpanBeginOffset = m_SpanEndOffset - static_cast<OffsetValueType>(this->m_Region.GetSize()[0]);
   }
-  /**@ITKEndGrouping*/
+
   /** Go to the next line.
    *
    * The iterator always moves to the beginning of the next line. If
@@ -241,7 +238,6 @@ public:
    * means is may assert in debug mode or result in an undefined
    * iterator which may have unknown consequences if used.
    */
-  /** @ITKStartGrouping */
   Self &
   operator++()
   {
@@ -249,11 +245,10 @@ public:
     ++this->m_Offset;
     return *this;
   }
-  /**@ITKEndGrouping*/
+
   /** decrement (prefix) along the scanline the iterator's index.
    *
    */
-  /** @ITKStartGrouping */
   Self &
   operator--()
   {
@@ -261,7 +256,6 @@ public:
     --this->m_Offset;
     return *this;
   }
-  /**@ITKEndGrouping*/
 
 protected:
   OffsetValueType m_SpanBeginOffset{}; // one pixel the beginning of the scanline

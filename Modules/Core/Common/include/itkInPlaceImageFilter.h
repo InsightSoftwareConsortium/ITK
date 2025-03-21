@@ -145,7 +145,6 @@ protected:
    * an InPlaceFilter is not threaded (i.e. it provides an
    * implementation of GenerateData()), then this method (or
    * equivalent) must be called in GenerateData(). */
-  /** @ITKStartGrouping */
   void
   AllocateOutputs() override
   {
@@ -159,7 +158,7 @@ protected:
       this->Superclass::AllocateOutputs();
     }
   }
-  /**@ITKEndGrouping*/
+
   /** InPlaceImageFilter may transfer ownership of the input bulk data
    * to the output object.  Once the output object owns the bulk data
    * (done in AllocateOutputs()), the input object must release its

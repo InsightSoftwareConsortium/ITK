@@ -125,6 +125,7 @@ public:
     this->SetConfidenceImage(image);
   }
   /**@ITKEndGrouping*/
+
   /** Get confidence image function. */
   const RealImageType *
   GetConfidenceImage() const
@@ -145,6 +146,7 @@ public:
     this->SetPointSet(points);
   }
   /**@ITKEndGrouping*/
+
   /** Get the input point set. */
   const InputPointSetType *
   GetPointSet() const
@@ -247,14 +249,13 @@ public:
    * specify a B-spline mesh size for initial fitting followed by a doubling of
    * the mesh resolution for each subsequent fitting level.  Default = 1 level.
    */
-  /** @ITKStartGrouping */
   void
   SetNumberOfFittingLevels(unsigned int n)
   {
     auto nlevels = MakeFilled<ArrayType>(n);
     this->SetNumberOfFittingLevels(nlevels);
   }
-  /**@ITKEndGrouping*/
+
   /**
    * Get the number of fitting levels.  One of the contributions of N4 is the
    * introduction of a multi-scale approach to fitting. This allows one to
@@ -271,6 +272,7 @@ public:
   itkSetMacro(EstimateInverse, bool);
   itkGetConstMacro(EstimateInverse, bool);
   /**@ITKEndGrouping*/
+
   /**
    * Enforce stationary boundary conditions.  Default = false.
    */
@@ -279,6 +281,7 @@ public:
   itkSetMacro(EnforceStationaryBoundary, bool);
   itkGetConstMacro(EnforceStationaryBoundary, bool);
   /**@ITKEndGrouping*/
+
 protected:
   /** Constructor */
   DisplacementFieldToBSplineImageFilter();

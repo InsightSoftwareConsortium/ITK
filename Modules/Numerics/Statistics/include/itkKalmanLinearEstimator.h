@@ -91,14 +91,13 @@ public:
    * \sa Estimator
    * \sa Variance
    * \sa ClearEstimation */
-  /** @ITKStartGrouping */
   void
   SetVariance(const ValueType & var = 1.0)
   {
     m_Variance.set_identity();
     m_Variance *= var;
   }
-  /**@ITKEndGrouping*/
+
   /** This method sets the covariance matrix to known matrix. It is intended to
    * initialize the estimator with a priori information about the statistical
    * distribution of the parameters.  It can also be used to resume the

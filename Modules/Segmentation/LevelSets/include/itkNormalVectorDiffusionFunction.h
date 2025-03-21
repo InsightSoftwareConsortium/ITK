@@ -111,7 +111,6 @@ public:
    *  0.1 and 0.25. Lower values preserve more shape features, higher values
    *  smooth more. As the conductance parameter large, the processing becomes
    *  isotropic. Default is 0. */
-  /** @ITKStartGrouping */
   void
   SetConductanceParameter(NodeValueType cp)
   {
@@ -120,7 +119,7 @@ public:
     // can make this a parameter.
     m_FluxStopConstant = static_cast<NodeValueType>(-1.0 / (m_ConductanceParameter * m_ConductanceParameter));
   }
-  /**@ITKEndGrouping*/
+
   /** This method returns the conductance parameter. */
   NodeValueType
   GetConductanceParameter() const

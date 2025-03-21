@@ -121,7 +121,7 @@ public:
     this->m_ThresholdFunction->SetUpperThreshold(v);
     this->Modified();
   }
-  /**@ITKEndGrouping*/
+
   void
   SetLowerThreshold(ValueType v)
   {
@@ -140,6 +140,7 @@ public:
   {
     return m_ThresholdFunction->GetLowerThreshold();
   }
+  /**@ITKEndGrouping*/
 
   /** Set/Get the weight applied to the edge (Laplacian) attractor in the speed
    *  term function. Zero will turn this term off. */
@@ -150,12 +151,13 @@ public:
     this->m_ThresholdFunction->SetEdgeWeight(v);
     this->Modified();
   }
-  /**@ITKEndGrouping*/
+
   ValueType
   GetEdgeWeight() const
   {
     return m_ThresholdFunction->GetEdgeWeight();
   }
+  /**@ITKEndGrouping*/
 
   /** Anisotropic diffusion is applied to the FeatureImage before calculating
    * the Laplacian (edge) term. This method sets/gets the number of diffusion
@@ -167,12 +169,13 @@ public:
     this->m_ThresholdFunction->SetSmoothingIterations(v);
     this->Modified();
   }
-  /**@ITKEndGrouping*/
+
   int
   GetSmoothingIterations() const
   {
     return m_ThresholdFunction->GetSmoothingIterations();
   }
+  /**@ITKEndGrouping*/
 
   /** Anisotropic diffusion is applied to the FeatureImage before calculating
    * the Laplacian (edge) term. This method sets/gets the diffusion time
@@ -184,12 +187,13 @@ public:
     this->m_ThresholdFunction->SetSmoothingTimeStep(v);
     this->Modified();
   }
-  /**@ITKEndGrouping*/
+
   ValueType
   GetSmoothingTimeStep() const
   {
     return m_ThresholdFunction->GetSmoothingTimeStep();
   }
+  /**@ITKEndGrouping*/
 
   /** Anisotropic diffusion is applied to the FeatureImage before calculating
    * the Laplacian (edge) term. This method sets/gets the smoothing
@@ -201,12 +205,13 @@ public:
     this->m_ThresholdFunction->SetSmoothingConductance(v);
     this->Modified();
   }
-  /**@ITKEndGrouping*/
+
   ValueType
   GetSmoothingConductance() const
   {
     return m_ThresholdFunction->GetSmoothingConductance();
   }
+  /**@ITKEndGrouping*/
 
   itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<TOutputPixelType>));
 

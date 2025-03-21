@@ -81,6 +81,7 @@ public:
   itkSetConstObjectMacro(Sample, SampleType);
   itkGetConstObjectMacro(Sample, SampleType);
   /**@ITKEndGrouping*/
+
   /** Indicate whether the Search method can return the query point
    * as one element of the Subsample
    */
@@ -89,6 +90,7 @@ public:
   itkGetConstReferenceMacro(CanSelectQuery, bool);
   itkBooleanMacro(CanSelectQuery);
   /**@ITKEndGrouping*/
+
   /** Provide an interface to set the seed.
    *  The seed value will be used by subclasses where appropriate.
    */
@@ -99,7 +101,6 @@ public:
 
   /** Specify whether the subsampler should return all possible
    * matches. */
-  /** @ITKStartGrouping */
   virtual void
   RequestMaximumNumberOfResults()
   {
@@ -109,7 +110,7 @@ public:
       this->Modified();
     }
   }
-  /**@ITKEndGrouping*/
+
   /** Main Search method that MUST be implemented by each subclass
    * The Search method will find all points similar to query and return
    * them as a Subsample.  The definition of similar will be subclass-

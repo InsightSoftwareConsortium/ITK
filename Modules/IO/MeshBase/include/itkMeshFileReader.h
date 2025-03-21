@@ -130,6 +130,7 @@ public:
   itkSetStringMacro(FileName);
   itkGetStringMacro(FileName);
   /**@ITKEndGrouping*/
+
   /** Set/Get the MeshIO helper class. Often this is created via the object
    * factory mechanism that determines whether a particular MeshIO can
    * read a certain file. This method provides a way to get the MeshIO
@@ -141,6 +142,7 @@ public:
   SetMeshIO(MeshIOBase * meshIO);
   itkGetModifiableObjectMacro(MeshIO, MeshIOBase);
   /**@ITKEndGrouping*/
+
   /** Prepare the allocation of the output mesh during the first back
    * propagation of the pipeline. */
   void
@@ -214,7 +216,6 @@ private:
  * The function reads the mesh from the specified file, and returns the
  * mesh that it has read.
  * */
-/** @ITKStartGrouping */
 template <typename TOutputMesh,
           typename ConvertPointPixelTraits = MeshConvertPixelTraits<typename TOutputMesh::PixelType>,
           typename ConvertCellPixelTraits = MeshConvertPixelTraits<typename TOutputMesh::CellPixelType>>
@@ -226,7 +227,6 @@ ReadMesh(const std::string & filename)
   reader->Update();
   return reader->GetOutput();
 }
-/**@ITKEndGrouping*/
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

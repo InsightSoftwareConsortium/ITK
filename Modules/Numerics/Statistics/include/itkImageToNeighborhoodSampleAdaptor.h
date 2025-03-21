@@ -271,7 +271,6 @@ public:
   };
 
   /** returns an iterator that points to the beginning of the container */
-  /** @ITKStartGrouping */
   Iterator
   Begin()
   {
@@ -280,9 +279,8 @@ public:
     const Iterator iter(nIterator, 0);
     return iter;
   }
-  /**@ITKEndGrouping*/
+
   /** returns an iterator that points to the end of the container */
-  /** @ITKStartGrouping */
   Iterator
   End()
   {
@@ -291,10 +289,8 @@ public:
     const Iterator iter(nIterator, m_Region.GetNumberOfPixels());
     return iter;
   }
-  /**@ITKEndGrouping*/
 
   /** returns an iterator that points to the beginning of the container */
-  /** @ITKStartGrouping */
   ConstIterator
   Begin() const
   {
@@ -303,9 +299,8 @@ public:
     ConstIterator iter(nIterator, 0);
     return iter;
   }
-  /**@ITKEndGrouping*/
+
   /** returns an iterator that points to the end of the container */
-  /** @ITKStartGrouping */
   ConstIterator
   End() const
   {
@@ -314,7 +309,6 @@ public:
     ConstIterator iter(nIterator, m_Region.GetNumberOfPixels());
     return iter;
   }
-  /**@ITKEndGrouping*/
 protected:
   ImageToNeighborhoodSampleAdaptor();
   ~ImageToNeighborhoodSampleAdaptor() override = default;

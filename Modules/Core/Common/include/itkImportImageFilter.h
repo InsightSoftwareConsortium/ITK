@@ -95,7 +95,6 @@ public:
    * for the imported image. This will serve as the LargestPossibleRegion,
    * the BufferedRegion, and the RequestedRegion.
    * \sa ImageRegion */
-  /** @ITKStartGrouping */
   void
   SetRegion(const RegionType & region)
   {
@@ -105,7 +104,7 @@ public:
       this->Modified();
     }
   }
-  /**@ITKEndGrouping*/
+
   /** Get the region object that defines the size and starting index
    * for the imported image. This will serve as the LargestPossibleRegion,
    * the BufferedRegion, and the RequestedRegion.

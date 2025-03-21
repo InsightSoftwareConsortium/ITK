@@ -142,6 +142,7 @@ public:
   SetId(int id);
   itkGetConstReferenceMacro(Id, int);
   /**@ITKEndGrouping*/
+
   /** Set the typename of the SpatialObject. Use cautiously - Conversion,
    *    Factory, and IO methods depend on standard naming.   Can be used
    *    to prepend a subtype to a typename. */
@@ -169,14 +170,13 @@ public:
   Clear();
 
   /** Set the property applied to the object. */
-  /** @ITKStartGrouping */
   void
   SetProperty(const PropertyType & property)
   {
     this->m_Property = property;
     this->Modified();
   }
-  /**@ITKEndGrouping*/
+
   /** Returns a pointer to the property object applied to this class. */
   const PropertyType &
   GetProperty() const
@@ -322,12 +322,14 @@ public:
   itkSetMacro(DefaultInsideValue, double);
   itkGetConstMacro(DefaultInsideValue, double);
   /**@ITKEndGrouping*/
+
   /** Set/Get the default outside value (ValueAtInWorldSpace()) of the object.
    *  Default is 0.0 */
   /** @ITKStartGrouping */
   itkSetMacro(DefaultOutsideValue, double);
   itkGetConstMacro(DefaultOutsideValue, double);
   /**@ITKEndGrouping*/
+
   /** World space equivalent to ValueAtInObjectSpace
    * \note This member function assumes that the internal `ObjectToWorldTransformInverse` transform is up-to-date. This
    * transform may be updated explicitly by calling `GetObjectToWorldTransformInverse()`, `Update()`, or

@@ -183,12 +183,13 @@ public:
     this->ProcessObject::SetNthInput(1, const_cast<FeatureImageType *>(f));
     m_SegmentationFunction->SetFeatureImage(f);
   }
-  /**@ITKEndGrouping*/
+
   virtual FeatureImageType *
   GetFeatureImage()
   {
     return (static_cast<FeatureImageType *>(this->ProcessObject::GetInput(1)));
   }
+  /**@ITKEndGrouping*/
 
   /** Set/Get the initial level set model.  Equivalent to calling SetInput(..)
    */
@@ -221,7 +222,6 @@ public:
       << "SetUseNegativeFeaturesOn has been deprecated.  Please use ReverseExpansionDirectionOn() instead");
     this->ReverseExpansionDirectionOn();
   }
-  /**@ITKEndGrouping*/
   void
   SetUseNegativeFeaturesOff()
   {
@@ -229,6 +229,7 @@ public:
       << "SetUseNegativeFeaturesOff has been deprecated.  Please use ReverseExpansionDirectionOff() instead");
     this->ReverseExpansionDirectionOff();
   }
+  /**@ITKEndGrouping*/
 
   /** Set/Get the value of the UseNegativeFeatures flag.  This method is
    * deprecated.  Use Set/Get ReverseExpansionDirection instead. */
@@ -246,7 +247,7 @@ public:
       this->SetReverseExpansionDirection(true);
     }
   }
-  /**@ITKEndGrouping*/
+
   bool
   GetUseNegativeFeatures() const
   {
@@ -259,6 +260,7 @@ public:
 
     return false;
   }
+  /**@ITKEndGrouping*/
 
   /** Turn On/Off the flag which determines whether Positive or Negative speed
    * terms will cause surface expansion.  If set to TRUE then negative speed
@@ -273,11 +275,11 @@ public:
   itkGetConstMacro(ReverseExpansionDirection, bool);
   itkBooleanMacro(ReverseExpansionDirection);
   /**@ITKEndGrouping*/
+
   /** Combined scaling of the propagation and advection speed
       terms. You should use either this -or- Get/SetPropagationScaling and
       Get/SetAdvectionScaling (if appropriate).  See subclasses for details
       on when and whether to set these parameters. */
-  /** @ITKStartGrouping */
   void
   SetFeatureScaling(ValueType v)
   {
@@ -290,7 +292,7 @@ public:
       this->SetAdvectionScaling(v);
     }
   }
-  /**@ITKEndGrouping*/
+
   /** Set/Get the scaling of the propagation speed.  Setting the FeatureScaling
       parameter overrides any previous values set for PropagationScaling. */
   /** @ITKStartGrouping */
@@ -302,12 +304,13 @@ public:
       m_SegmentationFunction->SetPropagationWeight(v);
     }
   }
-  /**@ITKEndGrouping*/
+
   ValueType
   GetPropagationScaling() const
   {
     return m_SegmentationFunction->GetPropagationWeight();
   }
+  /**@ITKEndGrouping*/
 
   /** Set/Get the scaling of the advection field.  Setting the FeatureScaling
       parameter will override any existing value for AdvectionScaling. */
@@ -320,12 +323,13 @@ public:
       m_SegmentationFunction->SetAdvectionWeight(v);
     }
   }
-  /**@ITKEndGrouping*/
+
   ValueType
   GetAdvectionScaling() const
   {
     return m_SegmentationFunction->GetAdvectionWeight();
   }
+  /**@ITKEndGrouping*/
 
   /** Set/Get the scaling of the curvature. Use this parameter to increase the
    *  influence of curvature on the movement of the surface.  Higher
@@ -340,12 +344,13 @@ public:
       m_SegmentationFunction->SetCurvatureWeight(v);
     }
   }
-  /**@ITKEndGrouping*/
+
   ValueType
   GetCurvatureScaling() const
   {
     return m_SegmentationFunction->GetCurvatureWeight();
   }
+  /**@ITKEndGrouping*/
 
   /** Set the segmentation function.  In general, this should only be called by a subclass
    *  of this object. It is made public to allow itk::Command objects access. */
@@ -367,13 +372,14 @@ public:
     itkWarningMacro("SetMaximumIterations is deprecated.  Please use SetNumberOfIterations instead.");
     this->SetNumberOfIterations(i);
   }
-  /**@ITKEndGrouping*/
+
   unsigned int
   GetMaximumIterations()
   {
     itkWarningMacro("GetMaximumIterations is deprecated. Please use GetNumberOfIterations instead.");
     return this->GetNumberOfIterations();
   }
+  /**@ITKEndGrouping*/
 
   void
   SetMaximumRMSError(const double) override
@@ -393,7 +399,6 @@ protected:
 
 
   /** Overrides parent implementation */
-  /** @ITKStartGrouping */
   void
   InitializeIteration() override
   {
@@ -402,7 +407,7 @@ protected:
     this->UpdateProgress(static_cast<float>(this->GetElapsedIterations()) /
                          static_cast<float>(this->GetNumberOfIterations()));
   }
-  /**@ITKEndGrouping*/
+
   /** Tells the solver how to reinitialize the narrowband when the reinitialization
    * criterion meets */
 

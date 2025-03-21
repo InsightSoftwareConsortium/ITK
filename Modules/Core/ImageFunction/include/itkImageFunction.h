@@ -135,7 +135,6 @@ public:
    * to the next integer coordinate.
    * \warning For efficiency, no validity checking of
    * the input image is done. */
-  /** @ITKStartGrouping */
   virtual bool
   IsInsideBuffer(const IndexType & index) const
   {
@@ -152,11 +151,10 @@ public:
     }
     return true;
   }
-  /**@ITKEndGrouping*/
+
   /** Check if a continuous index is inside the image buffer.
    * \warning For efficiency, no validity checking of
    * the input image is done. */
-  /** @ITKStartGrouping */
   virtual bool
   IsInsideBuffer(const ContinuousIndexType & index) const
   {
@@ -170,11 +168,10 @@ public:
     }
     return true;
   }
-  /**@ITKEndGrouping*/
+
   /** Check if a point is inside the image buffer.
    * \warning For efficiency, no validity checking of
    * the input image pointer is done. */
-  /** @ITKStartGrouping */
   virtual bool
   IsInsideBuffer(const PointType & point) const
   {
@@ -185,16 +182,15 @@ public:
     const bool isInside = IsInsideBuffer(index);
     return isInside;
   }
-  /**@ITKEndGrouping*/
+
   /** Convert point to nearest index. */
-  /** @ITKStartGrouping */
   void
   ConvertPointToNearestIndex(const PointType & point, IndexType & index) const
   {
     const ContinuousIndexType cindex = m_Image->template TransformPhysicalPointToContinuousIndex<TCoordinate>(point);
     this->ConvertContinuousIndexToNearestIndex(cindex, index);
   }
-  /**@ITKEndGrouping*/
+
   /** Convert point to continuous index */
   void
   ConvertPointToContinuousIndex(const PointType & point, ContinuousIndexType & cindex) const

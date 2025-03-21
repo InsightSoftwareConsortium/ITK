@@ -113,7 +113,6 @@ public:
 
 protected:
   /** Write points to output stream */
-  /** @ITKStartGrouping */
   template <typename T>
   void
   WritePoints(T * buffer, std::ofstream & outputFile, T label = T{})
@@ -129,7 +128,8 @@ protected:
       outputFile << label << '\n';
     }
   }
-  /**@ITKEndGrouping*/
+
+  /** Write cells to output stream */
   template <typename T>
   void
   WriteCells(T * buffer, std::ofstream & outputFile, T label = T{})

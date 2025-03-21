@@ -460,13 +460,12 @@ private:
 
 public:
   /** Return an FixedArray with the given value assigned to all elements. */
-  /** @ITKStartGrouping */
   static constexpr FixedArray
   Filled(const ValueType & value)
   {
     return MakeFilled<FixedArray>(value);
   }
-  /**@ITKEndGrouping*/
+
 };
 
 template <typename TValue, unsigned int VLength>

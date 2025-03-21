@@ -116,14 +116,13 @@ public:
   /**
    * Set Optimizer
    */
-  /** @ITKStartGrouping */
   void
   SetOptimizer(OptimizerType * optimizer)
   {
     m_Optimizer = optimizer;
     m_Optimizer->AddObserver(itk::IterationEvent(), this);
   }
-  /**@ITKEndGrouping*/
+
   /**
    * Print parameters at each iteration
    */

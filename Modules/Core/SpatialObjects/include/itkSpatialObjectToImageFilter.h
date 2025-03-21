@@ -94,7 +94,6 @@ public:
 
   /** Generate an output image that matches the origin,
    * size, direction, and spacing of this image. */
-  /** @ITKStartGrouping */
   template <class TReferenceImage>
   void
   SetReferenceImage(TReferenceImage * refImage)
@@ -105,7 +104,7 @@ public:
     this->SetIndex(refImage->GetLargestPossibleRegion().GetIndex());
     this->SetSize(refImage->GetLargestPossibleRegion().GetSize());
   }
-  /**@ITKEndGrouping*/
+
   /** Spacing (size of a pixel) of the output image. The
    * spacing is the geometric distance between image samples.
    * It is stored internally as double, but may be set from
@@ -143,6 +142,7 @@ public:
   itkSetMacro(InsideValue, ValueType);
   itkGetConstMacro(InsideValue, ValueType);
   /**@ITKEndGrouping*/
+
   /** Set/Get the value for pixels outside the spatial object.
    * By default, this filter will return an image
    * that contains values from the spatial object specified as input.
@@ -153,6 +153,7 @@ public:
   itkSetMacro(OutsideValue, ValueType);
   itkGetConstMacro(OutsideValue, ValueType);
   /**@ITKEndGrouping*/
+
   /** The origin of the output image. The origin is the geometric
    * coordinates of the index (0,0,...,0).  It is stored internally
    * as double but may be set from float.
@@ -179,6 +180,7 @@ public:
   itkSetMacro(Index, IndexType);
   itkGetConstMacro(Index, IndexType);
   /**@ITKEndGrouping*/
+
   /** The spatial object being transformed can be part of a hierarchy.
    * How deep in the hierarchy should we descend in generating the
    * image?  A ChildrenDepth of 0 means to only include the object
@@ -187,11 +189,13 @@ public:
   itkSetMacro(ChildrenDepth, unsigned int);
   itkGetConstMacro(ChildrenDepth, unsigned int);
   /**@ITKEndGrouping*/
+
   /** Set/Get Size */
   /** @ITKStartGrouping */
   itkSetMacro(Size, SizeType);
   itkGetConstMacro(Size, SizeType);
   /**@ITKEndGrouping*/
+
   /** If UseObjectValue is set to true, then the filter uses
    *  the ValueAtInWorldSpace() function instead of IsInsideInWorldSpace() */
   /** @ITKStartGrouping */
@@ -199,6 +203,7 @@ public:
   itkGetConstMacro(UseObjectValue, bool);
   itkBooleanMacro(UseObjectValue);
   /**@ITKEndGrouping*/
+
 protected:
   SpatialObjectToImageFilter();
   ~SpatialObjectToImageFilter() override = default;

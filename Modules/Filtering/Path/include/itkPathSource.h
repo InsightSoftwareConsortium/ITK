@@ -110,9 +110,10 @@ public:
   /** @ITKStartGrouping */
   OutputPathType *
   GetOutput();
-  /**@ITKEndGrouping*/
+
   OutputPathType *
   GetOutput(unsigned int idx);
+  /**@ITKEndGrouping*/
 
   /** Graft the specified DataObject onto this ProcessObject's output.
    * This method grabs a handle to the specified DataObject's path
@@ -180,6 +181,7 @@ public:
   DataObjectPointer
   MakeOutput(DataObjectPointerArraySizeType idx) override;
   /**@ITKEndGrouping*/
+
 protected:
   PathSource();
   ~PathSource() override = default;

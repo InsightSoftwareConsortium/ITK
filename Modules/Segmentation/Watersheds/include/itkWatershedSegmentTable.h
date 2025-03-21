@@ -243,12 +243,13 @@ public:
     m_MaximumDepth = s;
     this->Modified();
   }
-  /**@ITKEndGrouping*/
+
   ScalarType
   GetMaximumDepth() const
   {
     return m_MaximumDepth;
   }
+  /**@ITKEndGrouping*/
 
   /** Copies the contents of another segment table into this segment table.
       This is really operator= in disguise, although superclass information is

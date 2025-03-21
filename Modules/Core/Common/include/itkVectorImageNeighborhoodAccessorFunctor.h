@@ -71,13 +71,12 @@ public:
        }
      \endcode
    */
-  /** @ITKStartGrouping */
   inline void
   SetBegin(const InternalPixelType * begin)
   {
     this->m_Begin = const_cast<InternalPixelType *>(begin);
   }
-  /**@ITKEndGrouping*/
+
   /** Method to dereference a pixel pointer. This is used from the
    * ConstNeighborhoodIterator as the equivalent operation to (*it).
    * This method should be preferred over the former (*it) notation.

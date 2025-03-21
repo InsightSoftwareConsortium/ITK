@@ -127,14 +127,13 @@ public:
   itkNewMacro(Self);
 
   /** Set the value of sigma used to compute derivatives */
-  /** @ITKStartGrouping */
   void
   SetDerivativeSigma(float value)
   {
     m_CurvesFunction->SetDerivativeSigma(value);
     this->Modified();
   }
-  /**@ITKEndGrouping*/
+
   float
   GetDerivativeSigma() const
   {

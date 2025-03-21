@@ -112,17 +112,20 @@ public:
   itkSetMacro(NumberOfSeeds, int);
   itkGetConstMacro(NumberOfSeeds, int);
   /**@ITKEndGrouping*/
+
   /** Set/Get the smallest region to be divided. */
   /** @ITKStartGrouping */
   itkSetMacro(MinRegion, SizeValueType);
   itkGetConstMacro(MinRegion, SizeValueType);
   /**@ITKEndGrouping*/
+
   /** Set/Get the number of iterations to run (if set to 0: the classification
    * run process runs until no more cells can be divided). */
   /** @ITKStartGrouping */
   itkSetMacro(Steps, int);
   itkGetConstMacro(Steps, int);
   /**@ITKEndGrouping*/
+
   /** Get the number of seeds before adding new ones. */
   itkGetConstMacro(LastStepSeeds, int);
 
@@ -134,11 +137,13 @@ public:
   itkSetMacro(UseBackgroundInAPrior, bool);
   itkGetConstMacro(UseBackgroundInAPrior, bool);
   /**@ITKEndGrouping*/
+
   /** Enable the generation of the output boundary. */
   /** @ITKStartGrouping */
   itkSetMacro(OutputBoundary, bool);
   itkGetConstMacro(OutputBoundary, bool);
   /**@ITKEndGrouping*/
+
   /** Output the segmentation on every iteration.  Useful for interactive
       sessions. The setting of OutputBoundary determines the type of output. */
   /** @ITKStartGrouping */
@@ -146,16 +151,19 @@ public:
   itkGetConstMacro(InteractiveSegmentation, bool);
   itkBooleanMacro(InteractiveSegmentation);
   /**@ITKEndGrouping*/
+
   /** Set/Get the mean deviation. */
   /** @ITKStartGrouping */
   itkSetMacro(MeanDeviation, double);
   itkGetConstMacro(MeanDeviation, double);
   /**@ITKEndGrouping*/
+
   /** Set/Get the region size. */
   /** @ITKStartGrouping */
   itkSetMacro(Size, SizeType);
   itkGetConstMacro(Size, SizeType);
   /**@ITKEndGrouping*/
+
   /** Take a prior from other segmentation node. This should be a
    * binary object. */
   virtual void
@@ -189,20 +197,17 @@ public:
   /** Seeds positions are randomly set.
    * If you need to set seeds position then use the SetSeeds method
    * after the InitializeSegment method .  */
-  /** @ITKStartGrouping */
   void
   SetSeeds(int num, SeedsIterator begin)
   {
     m_NumberOfSeeds = num;
     m_WorkingVD->SetSeeds(num, begin);
   }
-  /**@ITKEndGrouping*/
 #endif
 
   /** Seeds positions are randomly set.
    * If you need to set seeds position then use the SetSeeds method
    * after the InitializeSegment method .  */
-  /** @ITKStartGrouping */
   void
   SetSeeds(SeedsType & seeds)
   {
@@ -210,7 +215,7 @@ public:
     auto it = seeds.begin();
     m_WorkingVD->SetSeeds(m_NumberOfSeeds, it);
   }
-  /**@ITKEndGrouping*/
+
   /** Get the point specified by the ID given. */
   PointType
   GetSeed(int SeedID)

@@ -103,10 +103,8 @@ public:
    * \param index The index of the desired pixel.
    * \param image The image from which pixel values should be determined.
    */
-  /** @ITKStartGrouping */
   OutputPixelType
   GetPixel(const IndexType & index, const TInputImage * image) const override;
-  /**@ITKEndGrouping*/
 };
 } // end namespace itk
 

@@ -95,6 +95,7 @@ public:
   virtual void
   SetInput1(const Input1ImagePixelType & input1);
   /**@ITKEndGrouping*/
+
   /** Set the first operand as a constant. */
   virtual void
   SetConstant1(const Input1ImagePixelType & input1);
@@ -113,6 +114,7 @@ public:
   virtual void
   SetInput2(const Input2ImagePixelType & input2);
   /**@ITKEndGrouping*/
+
   /** Set the second operand as a constant. */
   /** @ITKStartGrouping */
   virtual void
@@ -128,6 +130,7 @@ public:
     return this->GetConstant2();
   }
   /**@ITKEndGrouping*/
+
   /** Get the constant value of the second operand. An exception is sent if
    * the second operand is not a constant. */
   virtual const Input2ImagePixelType &
@@ -159,7 +162,6 @@ public:
    * This method requires an operator!=() be defined on the functor
    * (or the compiler's default implementation of operator!=() being
    * appropriate). */
-  /** @ITKStartGrouping */
   void
   SetFunctor(const FunctorType & functor)
   {
@@ -169,7 +171,7 @@ public:
       this->Modified();
     }
   }
-  /**@ITKEndGrouping*/
+
   /** ImageDimension constants */
   static constexpr unsigned int InputImage1Dimension = TInputImage1::ImageDimension;
   static constexpr unsigned int InputImage2Dimension = TInputImage2::ImageDimension;

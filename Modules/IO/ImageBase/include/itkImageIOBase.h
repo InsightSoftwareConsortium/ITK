@@ -93,6 +93,7 @@ public:
   itkSetStringMacro(FileName);
   itkGetStringMacro(FileName);
   /**@ITKEndGrouping*/
+
   /** Types for managing image size and image index components. */
   using IndexValueType = itk::IndexValueType;
   using SizeValueType = itk::SizeValueType;
@@ -173,12 +174,13 @@ public:
   /** @ITKStartGrouping */
   virtual void
   SetDimensions(unsigned int i, SizeValueType dim);
-  /**@ITKEndGrouping*/
   virtual SizeValueType
+
   GetDimensions(unsigned int i) const
   {
     return m_Dimensions[i];
   }
+  /**@ITKEndGrouping*/
 
   /** Set/Get the image origin on a axis-by-axis basis. The SetOrigin() method
    * is required when writing the image. */
@@ -231,6 +233,7 @@ public:
   itkSetMacro(IORegion, ImageIORegion);
   itkGetConstReferenceMacro(IORegion, ImageIORegion);
   /**@ITKEndGrouping*/
+
   /** Set/Get the type of the pixel. The PixelTypes provides context
    * to the IO mechanisms for data conversions.  PixelTypes can be
    * SCALAR, RGB, RGBA, VECTOR, COVARIANTVECTOR, POINT, INDEX. If
@@ -240,6 +243,7 @@ public:
   itkSetEnumMacro(PixelType, itk::CommonEnums::IOPixel);
   itkGetEnumMacro(PixelType, itk::CommonEnums::IOPixel);
   /**@ITKEndGrouping*/
+
   /** Set/Get the component type of the image. This is always a native
    * type. */
   itkSetEnumMacro(ComponentType, IOComponentEnum);
@@ -261,12 +265,14 @@ public:
   itkSetMacro(NumberOfComponents, unsigned int);
   itkGetConstReferenceMacro(NumberOfComponents, unsigned int);
   /**@ITKEndGrouping*/
+
   /** Set/Get a boolean to use the compression or not. */
   /** @ITKStartGrouping */
   itkSetMacro(UseCompression, bool);
   itkGetConstMacro(UseCompression, bool);
   itkBooleanMacro(UseCompression);
   /**@ITKEndGrouping*/
+
   /** \brief Set/Get a compression level hint
    *
    * If compression is enabled by UseCompression, then the value
@@ -296,12 +302,14 @@ public:
   itkGetConstMacro(UseStreamedReading, bool);
   itkBooleanMacro(UseStreamedReading);
   /**@ITKEndGrouping*/
+
   /** Set/Get a boolean to use streaming while writing or not. */
   /** @ITKStartGrouping */
   itkSetMacro(UseStreamedWriting, bool);
   itkGetConstMacro(UseStreamedWriting, bool);
   itkBooleanMacro(UseStreamedWriting);
   /**@ITKEndGrouping*/
+
   /** Set/Get a boolean to perform RGB palette expansion.
    * If true, palette image is read as RGB,
    * if false, palette image is read as Scalar+Palette.
@@ -311,6 +319,7 @@ public:
   itkGetConstMacro(ExpandRGBPalette, bool);
   itkBooleanMacro(ExpandRGBPalette);
   /**@ITKEndGrouping*/
+
   /** Set/Get a boolean to include a color palette while writing
    * the image file. Applies only for scalar Pixels*/
   /** @ITKStartGrouping */
@@ -318,6 +327,7 @@ public:
   itkGetConstMacro(WritePalette, bool);
   itkBooleanMacro(WritePalette);
   /**@ITKEndGrouping*/
+
   /** Determine whether a palletized image file has been read as a scalar image
    *  plus a color palette.
    *  ExpandRGBPalette must be set to true, and the file must be a
@@ -351,6 +361,7 @@ public:
     this->SetFileType(IOFileEnum::ASCII);
   }
   /**@ITKEndGrouping*/
+
   void
   SetFileTypeToBinary()
   {
@@ -377,6 +388,7 @@ public:
     this->SetByteOrder(IOByteOrderEnum::BigEndian);
   }
   /**@ITKEndGrouping*/
+
   void
   SetByteOrderToLittleEndian()
   {
@@ -710,6 +722,7 @@ protected:
   virtual bool
   HasSupportedWriteExtension(const char * fileName, bool ignoreCase = true);
   /**@ITKEndGrouping*/
+
   /** Used internally to keep track of the type of the pixel. */
   IOPixelEnum m_PixelType{ IOPixelEnum::SCALAR };
 
@@ -749,6 +762,7 @@ protected:
   SetMaximumCompressionLevel(int);
   itkGetConstMacro(MaximumCompressionLevel, int);
   /**@ITKEndGrouping*/
+
   /** Called when the compressor changes value. The compressor string
    * is converted to uppercase for case insensitive comparisons.
    **/

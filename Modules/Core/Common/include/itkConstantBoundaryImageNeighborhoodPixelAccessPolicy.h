@@ -114,7 +114,6 @@ public:
 
   /** Constructor called directly by the pixel proxy of
    * ShapedImageNeighborhoodRange. */
-  /** @ITKStartGrouping */
   ConstantBoundaryImageNeighborhoodPixelAccessPolicy(const ImageSizeType &                   imageSize,
                                                      const OffsetType &                      offsetTable,
                                                      const NeighborhoodAccessorFunctorType & neighborhoodAccessor,
@@ -124,7 +123,6 @@ public:
     , m_NeighborhoodAccessor(neighborhoodAccessor)
     , m_Constant{ constant }
   {}
-  /**@ITKEndGrouping*/
 
   /** Retrieves the pixel value from the image buffer, at the current
    * index. When the index is out of bounds, it returns the constant
@@ -137,7 +135,6 @@ public:
 
   /** Sets the value of the image buffer at the current index value to the
    * specified value.  */
-  /** @ITKStartGrouping */
   void
   SetPixelValue(InternalPixelType * const imageBufferPointer, const PixelType & pixelValue) const noexcept
   {
@@ -146,7 +143,7 @@ public:
       m_NeighborhoodAccessor.Set(imageBufferPointer + m_PixelIndexValue, pixelValue);
     }
   }
-  /**@ITKEndGrouping*/
+
 };
 
 } // namespace itk

@@ -77,13 +77,11 @@ public:
   }
 
   /** Return a single scalar value from this pixel. */
-  /** @ITKStartGrouping */
   static ComponentType
   GetScalarValue(const PixelType & pixel)
   {
     return pixel.GetScalarValue();
   }
-  /**@ITKEndGrouping*/
 };
 
 #define ITK_DEFAULTCONVERTTRAITS_NATIVE_SPECIAL(type)           \

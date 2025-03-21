@@ -56,14 +56,13 @@ public:
   {}
 
   /** Copy constructor.  */
-  /** @ITKStartGrouping */
   explicit AutoPointer(AutoPointer & p)
   {
     m_IsOwner = p.IsOwner();          // Ownership can only be taken from
                                       // another owner
     m_Pointer = p.ReleaseOwnership(); // release ownership if appropriate
   }
-  /**@ITKEndGrouping*/
+
   /** Constructor to pointer p.  */
   explicit AutoPointer(ObjectType * p, bool takeOwnership)
     : m_Pointer(p)
@@ -82,7 +81,6 @@ public:
 
   /** Clear the AutoPointer. If it had a pointer the object
       is deleted and the pointer is set to null. */
-  /** @ITKStartGrouping */
   void
   Reset()
   {
@@ -93,7 +91,7 @@ public:
     m_Pointer = nullptr;
     m_IsOwner = false;
   }
-  /**@ITKEndGrouping*/
+
   /** Explicitly set the ownership */
   void
   TakeOwnership()
@@ -102,7 +100,6 @@ public:
   }
 
   /** Explicitly set the ownership */
-  /** @ITKStartGrouping */
   void
   TakeOwnership(ObjectType * objectptr)
   {
@@ -113,9 +110,8 @@ public:
     m_Pointer = objectptr;
     m_IsOwner = true;
   }
-  /**@ITKEndGrouping*/
+
   /** Explicitly reject ownership */
-  /** @ITKStartGrouping */
   void
   TakeNoOwnership(ObjectType * objectptr)
   {
@@ -126,7 +122,7 @@ public:
     m_Pointer = objectptr;
     m_IsOwner = false;
   }
-  /**@ITKEndGrouping*/
+
   /** Query for the ownership */
   bool
   IsOwner() const
@@ -146,14 +142,13 @@ public:
    *  Note that the AutoPointer still points to the object after the
    *  ReleaseOwnership operation, but it doesn't own the object any
    *  more. */
-  /** @ITKStartGrouping */
   ObjectType *
   ReleaseOwnership()
   {
     m_IsOwner = false;
     return m_Pointer;
   }
-  /**@ITKEndGrouping*/
+
   /** Access function to pointer. */
   ObjectType *
   GetPointer() const
@@ -199,20 +194,18 @@ public:
   }
 
   /** Overload operator assignment.  */
-  /** @ITKStartGrouping */
   AutoPointer &
   operator=(AutoPointer & r)
   {
     AutoPointer(r).Swap(*this);
     return *this;
   }
-  /**@ITKEndGrouping*/
+
   /** Casting operator to boolean. This is used in conditional
       statements to check the content of the pointer against null */
   operator bool() const { return (m_Pointer != nullptr); }
 
   /** Function to print object pointed to.  */
-  /** @ITKStartGrouping */
   /*  ObjectType *Print (std::ostream& os) const
       {
       // This prints the object pointed to by the pointer
@@ -221,7 +214,7 @@ public:
       return m_Pointer;
       }
   */
-  /**@ITKEndGrouping*/
+
 private:
   /** Exchange the content of two AutoPointers */
   void
@@ -249,7 +242,6 @@ operator<<(std::ostream & os, const AutoPointer<T> p)
 
 /** This templated function is intended to facilitate the
     transfer between AutoPointers of Derived class to Base class */
-/** @ITKStartGrouping */
 template <typename TAutoPointerBase, typename TAutoPointerDerived>
 void
 TransferAutoPointer(TAutoPointerBase & pa, TAutoPointerDerived & pb)
@@ -262,7 +254,7 @@ TransferAutoPointer(TAutoPointerBase & pa, TAutoPointerDerived & pb)
     pb.ReleaseOwnership(); // pb Release Ownership and clears
   }
 }
-/**@ITKEndGrouping*/
+
 } // end namespace itk
 
 #endif

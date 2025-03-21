@@ -222,10 +222,9 @@ public:
    * the line segment   \f$ \overline{AB} \f$ on the side of \f$ \overrightarrow{B} \f$.
    *
    * \sa SetToMedian */
-  /** @ITKStartGrouping */
   void
   SetToBarycentricCombination(const Self & A, const Self & B, double alpha);
-  /**@ITKEndGrouping*/
+
   /** Set the current point to a barycentric combination of three points
    * Two values are expected to weight the contribution of the first two points,
    * the weight of for the third point is computed to ensure that the three weights
@@ -241,10 +240,9 @@ public:
    *
    * If the two weight are \f$ \in [0,1] \f$ , The resulting point will always be placed
    * inside the triangle formed by the three points given as arguments. */
-  /** @ITKStartGrouping */
   void
   SetToBarycentricCombination(const Self & A, const Self & B, const Self & C, double weightForA, double weightForB);
-  /**@ITKEndGrouping*/
+
   /** Set the current point to a barycentric combination of an array of N points
    * An array of (N-1) values is expected to weight the contribution of the
    * first (N-1) points, the weight of the Nth point is computed to ensure that
@@ -257,13 +255,11 @@ public:
           +   \left(1- \sum_{i=1}^{N-1} w_i\right) * \overrightarrow{P}_N
    * \f]
    */
-  /** @ITKStartGrouping */
   void
   SetToBarycentricCombination(const Self * P, const double * weights, unsigned int N);
-  /**@ITKEndGrouping*/
+
   /** Copy from another Point with a different representation type.
    *  Casting is done with C-Like rules  */
-  /** @ITKStartGrouping */
   template <typename TCoordinateB>
   void
   CastFrom(const Point<TCoordinateB, VPointDimension> & pa)
@@ -273,7 +269,7 @@ public:
       (*this)[i] = static_cast<TCoordinate>(pa[i]);
     }
   }
-  /**@ITKEndGrouping*/
+
   /** Compute the Squared Euclidean Distance from this point to another point
    * with a different representation type.  Casting is done with
    * C-Like rules */

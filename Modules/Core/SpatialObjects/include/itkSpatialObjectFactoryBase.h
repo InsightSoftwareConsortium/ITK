@@ -69,7 +69,6 @@ public:
   RegisterDefaultSpatialObjects();
 
   /** Register this SpatialObject */
-  /** @ITKStartGrouping */
   static SpatialObjectFactoryBase *
   GetFactory()
   {
@@ -83,7 +82,7 @@ public:
     }
     return m_Factory;
   }
-  /**@ITKEndGrouping*/
+
   void
   RegisterSpatialObject(const char *               classOverride,
                         const char *               overrideClassName,

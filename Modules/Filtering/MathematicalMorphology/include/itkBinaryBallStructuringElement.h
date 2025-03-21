@@ -103,14 +103,13 @@ public:
   {}
 
   /** Assignment operator. */
-  /** @ITKStartGrouping */
   Self &
   operator=(const Self & other)
   {
     Superclass::operator=(other);
     return *this;
   }
-  /**@ITKEndGrouping*/
+
   /** Build the structuring element */
   void
   CreateStructuringElement();

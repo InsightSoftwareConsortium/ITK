@@ -186,7 +186,6 @@ public:
   using typename Superclass::VirtualPointSetPointer;
 
   /** Set fixed point set*/
-  /** @ITKStartGrouping */
   void
   SetFixedObject(const ObjectType * object) override
   {
@@ -200,9 +199,8 @@ public:
       itkExceptionMacro("Incorrect object type.  Should be a point set.");
     }
   }
-  /**@ITKEndGrouping*/
+
   /** Set moving point set*/
-  /** @ITKStartGrouping */
   void
   SetMovingObject(const ObjectType * object) override
   {
@@ -216,12 +214,13 @@ public:
       itkExceptionMacro("Incorrect object type.  Should be a point set.");
     }
   }
-  /**@ITKEndGrouping*/
+
   /** Get/Set the fixed pointset.  */
   /** @ITKStartGrouping */
   itkSetConstObjectMacro(FixedPointSet, FixedPointSetType);
   itkGetConstObjectMacro(FixedPointSet, FixedPointSetType);
   /**@ITKEndGrouping*/
+
   /** Get the fixed transformed point set.  */
   itkGetModifiableObjectMacro(FixedTransformedPointSet, FixedTransformedPointSetType);
 
@@ -230,6 +229,7 @@ public:
   itkSetConstObjectMacro(MovingPointSet, MovingPointSetType);
   itkGetConstObjectMacro(MovingPointSet, MovingPointSetType);
   /**@ITKEndGrouping*/
+
   /** Get the moving transformed point set.  */
   itkGetModifiableObjectMacro(MovingTransformedPointSet, MovingTransformedPointSetType);
 
@@ -316,6 +316,7 @@ public:
   itkGetConstMacro(StoreDerivativeAsSparseFieldForLocalSupportTransforms, bool);
   itkBooleanMacro(StoreDerivativeAsSparseFieldForLocalSupportTransforms);
   /**@ITKEndGrouping*/
+
   /**
    *
    */
@@ -324,6 +325,7 @@ public:
   itkGetConstMacro(CalculateValueAndDerivativeInTangentSpace, bool);
   itkBooleanMacro(CalculateValueAndDerivativeInTangentSpace);
   /**@ITKEndGrouping*/
+
 protected:
   PointSetToPointSetMetricWithIndexv4();
   ~PointSetToPointSetMetricWithIndexv4() override = default;

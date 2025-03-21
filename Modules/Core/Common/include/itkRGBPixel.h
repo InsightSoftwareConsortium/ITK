@@ -112,6 +112,7 @@ public:
     : BaseArray(r)
   {}
   /**@ITKEndGrouping*/
+
   /** Pass-through assignment operator for the Array base class. */
   /** @ITKStartGrouping */
   template <typename TRGBPixelValueType>
@@ -122,6 +123,7 @@ public:
     return *this;
   }
   /**@ITKEndGrouping*/
+
   Self &
   operator=(const ComponentType r[3]);
 
@@ -136,6 +138,7 @@ public:
   Self
   operator/(const ComponentType & r) const;
   /**@ITKEndGrouping*/
+
   /** Arithmetic-assignment operators. */
   /** @ITKStartGrouping */
   const Self &
@@ -147,6 +150,7 @@ public:
   const Self &
   operator/=(const ComponentType & r);
   /**@ITKEndGrouping*/
+
   /** Implements strict weak ordering. For use in STL, e.g. std::map. */
   bool
   operator<(const Self & r) const;
@@ -207,7 +211,6 @@ public:
   }
 
   /** Set the three components. */
-  /** @ITKStartGrouping */
   void
   Set(ComponentType red, ComponentType green, ComponentType blue)
   {
@@ -215,7 +218,7 @@ public:
     this->operator[](1) = green;
     this->operator[](2) = blue;
   }
-  /**@ITKEndGrouping*/
+
   /** Get the Red component. */
   const ComponentType &
   GetRed() const

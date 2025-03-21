@@ -114,16 +114,16 @@ public:
   itkSetMacro(Sigmas, SigmaArrayType);
   itkGetConstMacro(Sigmas, SigmaArrayType);
   /**@ITKEndGrouping*/
+
   /** Convenience method for setting all dimensional parameters
    * to the same values. */
-  /** @ITKStartGrouping */
   void
   SetSigma(const typename SigmaArrayType::ValueType sigma)
   {
     auto sigmas = MakeFilled<SigmaArrayType>(sigma);
     this->SetSigmas(sigmas); // checks whether it is actually modified
   }
-  /**@ITKEndGrouping*/
+
   /** Set/Get amount of enhancement. Usual range: 0.1 to 2.0. Default: 0.5. */
   /** @ITKStartGrouping */
   itkSetMacro(Amount, TInternalPrecision);
@@ -135,6 +135,7 @@ public:
   itkSetMacro(Threshold, TInternalPrecision);
   itkGetConstMacro(Threshold, TInternalPrecision);
   /**@ITKEndGrouping*/
+
   /** Set/Get whether to clamp values to supported
    * range of output type. Default: On. */
   /** @ITKStartGrouping */

@@ -85,10 +85,8 @@ protected:
    * its first step.
    *
    * \sa ProcessObject::GenerateInputRequestedRegion() */
-  /** @ITKStartGrouping */
   void
   GenerateInputRequestedRegion() override;
-  /**@ITKEndGrouping*/
 };
 } // end namespace itk
 

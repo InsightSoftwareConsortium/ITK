@@ -228,7 +228,6 @@ public:
    *
    * To define an affine transform, you must set the matrix,
    * center, and translation OR the matrix and offset */
-  /** @ITKStartGrouping */
   virtual void
   SetMatrix(const MatrixType & matrix)
   {
@@ -239,7 +238,7 @@ public:
     this->Modified();
     return;
   }
-  /**@ITKEndGrouping*/
+
   /** Get matrix of an MatrixOffsetTransformBase
    *
    * This method returns the value of the matrix of the
@@ -261,7 +260,6 @@ public:
    * offset-versus-translation in the documentation for SetCenter.
    * To define an affine transform, you must set the matrix,
    * center, and translation OR the matrix and offset */
-  /** @ITKStartGrouping */
   void
   SetOffset(const OutputVectorType & offset)
   {
@@ -270,7 +268,7 @@ public:
     this->Modified();
     return;
   }
-  /**@ITKEndGrouping*/
+
   /** Get offset of an MatrixOffsetTransformBase
    *
    * This method returns the offset value of the MatrixOffsetTransformBase.
@@ -304,7 +302,6 @@ public:
    *
    * To define an affine transform, you must set the matrix,
    * center, and translation OR the matrix and offset */
-  /** @ITKStartGrouping */
   void
   SetCenter(const InputPointType & center)
   {
@@ -313,7 +310,7 @@ public:
     this->Modified();
     return;
   }
-  /**@ITKEndGrouping*/
+
   /** Get center of rotation of the MatrixOffsetTransformBase
    *
    * This method returns the point used as the fixed
@@ -332,7 +329,6 @@ public:
    * This updates Offset to reflect current translation.
    * To define an affine transform, you must set the matrix,
    * center, and translation OR the matrix and offset */
-  /** @ITKStartGrouping */
   void
   SetTranslation(const OutputVectorType & translation)
   {
@@ -341,7 +337,7 @@ public:
     this->Modified();
     return;
   }
-  /**@ITKEndGrouping*/
+
   /** Get translation component of the MatrixOffsetTransformBase
    *
    * This method returns the translation used after rotation
@@ -479,10 +475,9 @@ public:
    * incorrect transform.
    *
    */
-  /** @ITKStartGrouping */
   bool
   GetInverse(InverseTransformType * inverse) const;
-  /**@ITKEndGrouping*/
+
   /** Return an inverse of this transform. */
   InverseTransformBasePointer
   GetInverseTransform() const override;
@@ -519,6 +514,7 @@ protected:
 #endif
   explicit MatrixOffsetTransformBase(unsigned int paramDims = ParametersDimension);
   /**@ITKEndGrouping*/
+
   /** Destroy an MatrixOffsetTransformBase object */
   ~MatrixOffsetTransformBase() override = default;
 

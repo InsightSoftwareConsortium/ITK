@@ -99,10 +99,8 @@ protected:
    *
    * \sa BoxImageFilter::ThreadedGenerateData(),
    *     BoxImageFilter::GenerateData() */
-  /** @ITKStartGrouping */
   void
   DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
-  /**@ITKEndGrouping*/
 };
 } // end namespace itk
 

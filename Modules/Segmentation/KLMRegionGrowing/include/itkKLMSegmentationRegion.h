@@ -151,6 +151,7 @@ public:
   itkSetMacro(MeanRegionIntensity, MeanRegionIntensityType);
   itkGetConstReferenceMacro(MeanRegionIntensity, MeanRegionIntensityType);
   /**@ITKEndGrouping*/
+
   /** Set the region with parameter values
    * defining the region. */
   void
@@ -226,10 +227,9 @@ public:
    * nullified by having its pointers to region1 and region2 set
    * to nullptr and its Lambda value set to -1.0.
    */
-  /** @ITKStartGrouping */
   void
   SpliceRegionBorders(Self * region);
-  /**@ITKEndGrouping*/
+
   /** Recalculate the Lambda values using EvaluateLambda() for all
    * the borders defining the region. */
   void

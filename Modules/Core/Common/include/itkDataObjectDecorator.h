@@ -122,7 +122,6 @@ public:
    * To this method by default a raw pointer must be used or explicit
    * template parameter must be provided.
    */
-  /** @ITKStartGrouping */
   template <typename TOther>
   void
   Graft(const DataObjectDecorator<TOther> * decorator)
@@ -134,7 +133,7 @@ public:
     }
     this->Set(component);
   }
-  /**@ITKEndGrouping*/
+
 protected:
   DataObjectDecorator() = default;
   ~DataObjectDecorator() override = default;

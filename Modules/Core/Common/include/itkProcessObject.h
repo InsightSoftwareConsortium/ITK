@@ -475,6 +475,7 @@ public:
     this->SetReleaseDataFlag(false);
   }
   /**@ITKEndGrouping*/
+
   /** Turn on/off the flags to control whether the bulk data belonging
    * to the outputs of this ProcessObject are released/reallocated
    * during an Update().  In limited memory scenarios, a user may want
@@ -492,11 +493,13 @@ public:
   itkGetConstReferenceMacro(ReleaseDataBeforeUpdateFlag, bool);
   itkBooleanMacro(ReleaseDataBeforeUpdateFlag);
   /**@ITKEndGrouping*/
+
   /** Get/Set the number of work units to create when executing. */
   /** @ITKStartGrouping */
   itkSetClampMacro(NumberOfWorkUnits, ThreadIdType, 1, ITK_MAX_THREADS);
   itkGetConstReferenceMacro(NumberOfWorkUnits, ThreadIdType);
   /**@ITKEndGrouping*/
+
   /** Return the multithreader used by this class. */
   MultiThreaderType *
   GetMultiThreader() const
@@ -551,6 +554,7 @@ protected:
     return idx < m_IndexedInputs.size() ? m_IndexedInputs[idx]->second.GetPointer() : nullptr;
   }
   /**@ITKEndGrouping*/
+
   /** \brief Protected method for setting indexed and named inputs.
    *
    * Subclasses make use of them for setting input. As this method
@@ -606,6 +610,7 @@ protected:
     return m_IndexedInputs[0]->second;
   }
   /**@ITKEndGrouping*/
+
   /** Set/Get the name associated with the Primary input.  Defaults to "Primary". */
   /** @ITKStartGrouping */
   virtual void
@@ -616,6 +621,7 @@ protected:
     return this->m_IndexedInputs[0]->first.c_str();
   }
   /**@ITKEndGrouping*/
+
   /** Set the main input */
   virtual void
   SetPrimaryInput(DataObject * object);
@@ -702,6 +708,7 @@ protected:
   const DataObject *
   GetOutput(const DataObjectIdentifierType & key) const;
   /**@ITKEndGrouping*/
+
   /** Set/Get the name associated with the Primary output.  Defaults to "Primary". */
   /** @ITKStartGrouping */
   virtual void
@@ -712,6 +719,7 @@ protected:
     return this->m_IndexedOutputs[0]->first.c_str();
   }
   /**@ITKEndGrouping*/
+
   /** Method used internally for getting an indexed output. */
   /** @ITKStartGrouping */
   DataObject *
@@ -719,6 +727,7 @@ protected:
   const DataObject *
   GetOutput(DataObjectPointerArraySizeType i) const;
   /**@ITKEndGrouping*/
+
   /** Set an output */
   virtual void
   SetOutput(const DataObjectIdentifierType & name, DataObject * output);
@@ -740,6 +749,7 @@ protected:
     return m_IndexedOutputs[0]->second;
   }
   /**@ITKEndGrouping*/
+
   /** Set the main output */
   virtual void
   SetPrimaryOutput(DataObject * object);
@@ -917,7 +927,6 @@ protected:
    * Internal method convert floating point progress [0.0, 1.0] to internal integer representation. Values outside the
    * [0.0, 1.0] range are clamped.
    */
-  /** @ITKStartGrouping */
   static inline uint32_t
   progressFloatToFixed(float f)
   {
@@ -932,7 +941,6 @@ protected:
     const double temp = static_cast<double>(f) * std::numeric_limits<uint32_t>::max();
     return static_cast<uint32_t>(temp);
   }
-  /**@ITKEndGrouping*/
 
   /** Sets the required number of outputs, and creates each of them by MakeOutput. */
   template <typename TSourceObject>

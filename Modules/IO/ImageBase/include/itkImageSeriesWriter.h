@@ -124,6 +124,7 @@ public:
   itkSetObjectMacro(ImageIO, ImageIOBase);
   itkGetModifiableObjectMacro(ImageIO, ImageIOBase);
   /**@ITKEndGrouping*/
+
   /** A special version of the Update() method for writers.  It
    * invokes start and end events and handles releasing data. It
    * eventually calls GenerateData() which does the actual writing.
@@ -145,12 +146,14 @@ public:
   itkSetMacro(StartIndex, SizeValueType);
   itkGetConstMacro(StartIndex, SizeValueType);
   /**@ITKEndGrouping*/
+
   /** Set the increment of the index of the series. The
    * default value is 1.  */
   /** @ITKStartGrouping */
   itkSetMacro(IncrementIndex, SizeValueType);
   itkGetConstMacro(IncrementIndex, SizeValueType);
   /**@ITKEndGrouping*/
+
   /** The format string used to generate each filename in the
    * series. The filename is built with snprintf(filename, length, SeriesFormat,
    * number) where number starts at StartIndex and is incremented by
@@ -159,6 +162,7 @@ public:
   itkSetStringMacro(SeriesFormat);
   itkGetStringMacro(SeriesFormat);
   /**@ITKEndGrouping*/
+
   /** Set/Get the vector of strings that contains the file names. Files
    *  are processed in sequential order. */
   /** @ITKStartGrouping */
@@ -171,16 +175,16 @@ public:
       this->Modified();
     }
   }
-  /**@ITKEndGrouping*/
+
   const FileNamesContainer &
   GetFileNames() const
   {
     return m_FileNames;
   }
+  /**@ITKEndGrouping*/
 
   /** Set the first file name to be processed. This deletes previous
    * filenames. */
-  /** @ITKStartGrouping */
   void
   SetFileName(const std::string & name)
   {
@@ -188,17 +192,16 @@ public:
     m_FileNames.push_back(name);
     this->Modified();
   }
-  /**@ITKEndGrouping*/
+
   /** Add a single filename to the list of files. To add a vector of
    * filenames, use the AddFileNames method. */
-  /** @ITKStartGrouping */
   void
   AddFileName(const std::string & name)
   {
     m_FileNames.push_back(name);
     this->Modified();
   }
-  /**@ITKEndGrouping*/
+
   /** Set the array of MetaDataDictionaries this is an optional entry,
    *  mostly intended to be used when writing DICOM slices.  */
   itkSetMacro(MetaDataDictionaryArray, DictionaryArrayRawPointer);

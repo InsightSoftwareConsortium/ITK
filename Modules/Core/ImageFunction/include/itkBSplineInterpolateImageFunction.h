@@ -126,7 +126,6 @@ public:
    *
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
-  /** @ITKStartGrouping */
   OutputType
   Evaluate(const PointType & point) const override
   {
@@ -135,7 +134,7 @@ public:
     // No thread info passed in, so call method that doesn't need thread ID.
     return (this->EvaluateAtContinuousIndex(index));
   }
-  /**@ITKEndGrouping*/
+
   virtual OutputType
   Evaluate(const PointType & point, ThreadIdType threadId) const
   {
@@ -292,6 +291,7 @@ public:
   itkGetConstMacro(UseImageDirection, bool);
   itkBooleanMacro(UseImageDirection);
   /**@ITKEndGrouping*/
+
   SizeType
   GetRadius() const override
   {

@@ -106,14 +106,13 @@ public:
   GetInputFileNames();
 
   /** Set the directory where the output DICOM series should be written. */
-  /** @ITKStartGrouping */
   void
   SetOutputDirectory(const std::string & name)
   {
     m_OutputDirectory = name;
     this->Modified();
   }
-  /**@ITKEndGrouping*/
+
   /** Returns a vector containing the series' file names. The file
    * names are ordered in the same exact order as the input one.
    * This could be dangerous if the writing has changed 3rd position
@@ -146,6 +145,7 @@ public:
   itkGetConstMacro(Recursive, bool);
   itkBooleanMacro(Recursive);
   /**@ITKEndGrouping*/
+
   /** Use additional series information such as ProtocolName
    *   and SeriesName to identify when a single SeriesUID contains
    *   multiple 3D volumes - as can occur with perfusion and DTI imaging
@@ -181,6 +181,7 @@ public:
   itkGetConstMacro(LoadSequences, bool);
   itkBooleanMacro(LoadSequences);
   /**@ITKEndGrouping*/
+
   /** Parse any private tags in the DICOM file. Defaults to false
    * to skip private tags. This makes loading DICOM files faster when
    * private tags are not needed.

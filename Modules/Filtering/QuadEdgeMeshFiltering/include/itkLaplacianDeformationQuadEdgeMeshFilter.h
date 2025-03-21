@@ -152,14 +152,13 @@ public:
   using CoefficientsComputationType = MatrixCoefficients<OutputMeshType>;
 
   /** Set the coefficient method to compute the Laplacian matrix of the input mesh*/
-  /** @ITKStartGrouping */
   void
   SetCoefficientsMethod(CoefficientsComputationType * iMethod)
   {
     this->m_CoefficientsMethod = iMethod;
     this->Modified();
   }
-  /**@ITKEndGrouping*/
+
   using TriangleType = TriangleHelper<OutputPointType>;
 
   /** Constrain vertex vId to the given location iP */
@@ -185,6 +184,7 @@ public:
   itkSetMacro(Order, unsigned int);
   itkGetMacro(Order, unsigned int);
   /**@ITKEndGrouping*/
+
   using AreaEnum = LaplacianDeformationQuadEdgeMeshFilterEnums::Area;
 #if !defined(ITK_LEGACY_REMOVE)
   /**Exposes enums values for backwards compatibility*/
@@ -197,6 +197,7 @@ public:
   itkSetEnumMacro(AreaComputationType, AreaEnum);
   itkGetMacro(AreaComputationType, AreaEnum);
   /**@ITKEndGrouping*/
+
   itkConceptMacro(SameDimensionCheck1, (Concept::SameDimension<InputPointDimension, OutputPointDimension>));
   itkConceptMacro(SameDimensionCheck2, (Concept::SameDimension<InputPointDimension, 3>));
 
@@ -206,6 +207,7 @@ protected:
   LaplacianDeformationQuadEdgeMeshFilter();
   ~LaplacianDeformationQuadEdgeMeshFilter() override = default;
   /**@ITKEndGrouping*/
+
   using OutputMapPointIdentifier = std::unordered_map<OutputPointIdentifier, OutputPointIdentifier>;
   using OutputMapPointIdentifierIterator = typename OutputMapPointIdentifier::iterator;
   using OutputMapPointIdentifierConstIterator = typename OutputMapPointIdentifier::const_iterator;

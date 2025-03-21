@@ -79,7 +79,6 @@ public:
   }
 
   /** Clear all the energy values. */
-  /** @ITKStartGrouping */
   virtual void
   ClearEnergyValues()
   {
@@ -90,7 +89,7 @@ public:
       this->Modified();
     }
   }
-  /**@ITKEndGrouping*/
+
   /** Derived classes are responsible for defining the convergence value calculation */
   virtual RealType
   GetConvergenceValue() const = 0;

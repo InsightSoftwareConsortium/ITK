@@ -87,7 +87,6 @@ public:
 
   /** Operator =. Two nodes are equal if both their value and index fields
    * are the same. */
-  /** @ITKStartGrouping */
   Self &
   operator=(const Self & rhs)
   {
@@ -98,7 +97,7 @@ public:
     }
     return *this;
   }
-  /**@ITKEndGrouping*/
+
   /** Get/Set level set value. */
   /** @ITKStartGrouping */
   PixelType &
@@ -117,6 +116,7 @@ public:
     m_Value = input;
   }
   /**@ITKEndGrouping*/
+
   /** Get/Set index. */
   /** @ITKStartGrouping */
   IndexType &
@@ -135,14 +135,14 @@ public:
     m_Index = input;
   }
   /**@ITKEndGrouping*/
+
   /** Default constructor */
-  /** @ITKStartGrouping */
   LevelSetNode()
     : m_Value(PixelType{})
   {
     m_Index.Fill(0);
   }
-  /**@ITKEndGrouping*/
+
   /** Copy constructor */
   LevelSetNode(const Self & node)
     : m_Value(node.m_Value)

@@ -186,6 +186,7 @@ public:
     return m_DataBuffer.begin();
   }
   /**@ITKEndGrouping*/
+
   /** More STL-style support. */
   NeighborIndexType
   Size() const
@@ -211,6 +212,7 @@ public:
     return m_DataBuffer[i];
   }
   /**@ITKEndGrouping*/
+
   /** Returns the element at the center of the neighborhood. */
   TPixel
   GetCenterValue() const
@@ -225,7 +227,6 @@ public:
 
   /** Sets the radius for the neighborhood. Overloaded to support an unsigned
    * long array. */
-  /** @ITKStartGrouping */
   void
   SetRadius(const SizeValueType * rad)
   {
@@ -233,7 +234,7 @@ public:
     std::copy_n(rad, VDimension, s.m_InternalArray);
     this->SetRadius(s);
   }
-  /**@ITKEndGrouping*/
+
   /** Overloads SetRadius to allow a single long integer argument
    * that is used as the radius of all the dimensions of the
    * Neighborhood (resulting in a "square" neighborhood). */
@@ -260,6 +261,7 @@ public:
     return m_DataBuffer;
   }
   /**@ITKEndGrouping*/
+
   /** Get pixel value by offset */
   /** @ITKStartGrouping */
   TPixel &
@@ -273,6 +275,7 @@ public:
     return this->operator[](this->GetNeighborhoodIndex(o));
   }
   /**@ITKEndGrouping*/
+
   /** Returns the itk::Offset from the center of the Neighborhood to
       the requested neighbor index. */
   OffsetType
@@ -295,7 +298,6 @@ public:
 
 protected:
   /** Sets the length along each dimension. */
-  /** @ITKStartGrouping */
   void
   SetSize()
   {
@@ -304,7 +306,7 @@ protected:
       m_Size[i] = m_Radius[i] * 2 + 1;
     }
   }
-  /**@ITKEndGrouping*/
+
   /** Allocates the neighborhood's memory buffer. */
   virtual void
   Allocate(NeighborIndexType i)

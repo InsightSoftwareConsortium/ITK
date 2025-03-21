@@ -74,7 +74,6 @@ public:
   itkNewMacro(Self);
 
   /** Set the input image representing the BSplineCoefficients */
-  /** @ITKStartGrouping */
   void
   SetInputImage(const TImageType * inputData) override
   {
@@ -86,7 +85,7 @@ public:
       this->m_DataLength = this->m_Coefficients->GetBufferedRegion().GetSize();
     }
   }
-  /**@ITKEndGrouping*/
+
 protected:
   BSplineResampleImageFunction() = default;
   ~BSplineResampleImageFunction() override = default;

@@ -128,15 +128,15 @@ public:
   itkGetConstMacro(Variance, const VarianceArrayType);
   itkSetVectorMacro(Variance, double, VarianceArrayType::Length);
   /**@ITKEndGrouping*/
+
   /** Convenience method for setting the variance for all dimensions */
-  /** @ITKStartGrouping */
   virtual void
   SetVariance(double variance)
   {
     m_Variance.Fill(variance);
     this->Modified();
   }
-  /**@ITKEndGrouping*/
+
   /** Convenience method for setting the variance through the standard deviation
    */
   void
@@ -154,6 +154,7 @@ public:
   itkSetClampMacro(MaximumError, double, 0.00001, 0.99999);
   itkGetConstMacro(MaximumError, double);
   /**@ITKEndGrouping*/
+
   /** Set/Get the flag for calculating scale-space normalized derivatives.
    * Normalized derivatives are obtained multiplying by the scale
    * parameter t. */
@@ -162,12 +163,14 @@ public:
   itkGetConstMacro(NormalizeAcrossScale, bool);
   itkBooleanMacro(NormalizeAcrossScale);
   /**@ITKEndGrouping*/
+
   /** Set/Get the flag for using image spacing when calculating derivatives. */
   /** @ITKStartGrouping */
   itkSetMacro(UseImageSpacing, bool);
   itkGetConstMacro(UseImageSpacing, bool);
   itkBooleanMacro(UseImageSpacing);
   /**@ITKEndGrouping*/
+
   /** Set/Get a limit for growth of the kernel. Small maximum error values with
    *  large variances will yield very large kernel sizes. This value can be
    *  used to truncate a kernel in such instances. A warning will be given on
@@ -176,11 +179,13 @@ public:
   itkSetMacro(MaximumKernelWidth, unsigned int);
   itkGetConstMacro(MaximumKernelWidth, unsigned int);
   /**@ITKEndGrouping*/
+
   /** Set/Get the interpolation mode. */
   /** @ITKStartGrouping */
   itkSetEnumMacro(InterpolationMode, InterpolationModeEnum);
   itkGetEnumMacro(InterpolationMode, InterpolationModeEnum);
   /**@ITKEndGrouping*/
+
   /** Set the input image.
    * \warning this method caches BufferedRegion information.
    * If the BufferedRegion has changed, user must call

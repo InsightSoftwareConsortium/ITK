@@ -125,11 +125,13 @@ public:
   itkSetMacro(Parameters, ParametersType);
   itkGetConstMacro(Parameters, ParametersType);
   /**@ITKEndGrouping*/
+
   /** Set/Get maximum iteration limit. */
   /** @ITKStartGrouping */
   itkSetMacro(MaximumIteration, int);
   itkGetConstMacro(MaximumIteration, int);
   /**@ITKEndGrouping*/
+
   /** Set/Get the termination threshold for the squared sum
    * of changes in centroid positions after one iteration */
   itkSetMacro(CentroidPositionChangesThreshold, double);
@@ -199,7 +201,6 @@ protected:
 
     /** Initialize the centroids with the argument.
      * At each iteration, this should be called before filtering. */
-    /** @ITKStartGrouping */
     void
     SetCentroids(InternalParametersType & centroids)
     {
@@ -215,9 +216,8 @@ protected:
         m_Candidates[i] = candidate;
       }
     }
-    /**@ITKEndGrouping*/
+
     /** gets the centroids (k-means) */
-    /** @ITKStartGrouping */
     void
     GetCentroids(InternalParametersType & centroids)
     {
@@ -227,10 +227,9 @@ protected:
         centroids[i] = m_Candidates[i].Centroid;
       }
     }
-    /**@ITKEndGrouping*/
+
     /** updates the centroids using the vector sum of measurement vectors
      * that belongs to each centroid and the number of measurement vectors */
-    /** @ITKStartGrouping */
     void
     UpdateCentroids()
     {
@@ -246,7 +245,7 @@ protected:
         }
       }
     }
-    /**@ITKEndGrouping*/
+
     /** gets the index-th candidates */
     Candidate &
     operator[](int index)

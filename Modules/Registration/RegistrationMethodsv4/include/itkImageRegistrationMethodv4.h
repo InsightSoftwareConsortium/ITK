@@ -239,6 +239,7 @@ public:
                                  SetFixedImage(SizeValueType, const FixedImageType *);
   virtual const FixedImageType * GetFixedImage(SizeValueType) const;
   /**@ITKEndGrouping*/
+
   /** Set the moving images. */
   /** @ITKStartGrouping */
   virtual void
@@ -255,6 +256,7 @@ public:
                                   SetMovingImage(SizeValueType, const MovingImageType *);
   virtual const MovingImageType * GetMovingImage(SizeValueType) const;
   /**@ITKEndGrouping*/
+
   /** Set/get the fixed point sets. */
   /** @ITKStartGrouping */
   virtual void
@@ -271,6 +273,7 @@ public:
                                SetFixedPointSet(SizeValueType, const PointSetType *);
   virtual const PointSetType * GetFixedPointSet(SizeValueType) const;
   /**@ITKEndGrouping*/
+
   /** Set the moving point sets. */
   /** @ITKStartGrouping */
   virtual void
@@ -287,11 +290,13 @@ public:
                                SetMovingPointSet(SizeValueType, const PointSetType *);
   virtual const PointSetType * GetMovingPointSet(SizeValueType) const;
   /**@ITKEndGrouping*/
+
   /** Set/Get the optimizer. */
   /** @ITKStartGrouping */
   itkSetObjectMacro(Optimizer, OptimizerType);
   itkGetModifiableObjectMacro(Optimizer, OptimizerType);
   /**@ITKEndGrouping*/
+
   /**
    * Set/Get the optimizer weights.  Allows setting of a per-local-parameter
    * weighting array. If unset, the weights are treated as identity. Weights
@@ -305,16 +310,19 @@ public:
   SetOptimizerWeights(OptimizerWeightsType &);
   itkGetConstMacro(OptimizerWeights, OptimizerWeightsType);
   /**@ITKEndGrouping*/
+
   /** Set/Get the metric. */
   /** @ITKStartGrouping */
   itkSetObjectMacro(Metric, MetricType);
   itkGetModifiableObjectMacro(Metric, MetricType);
   /**@ITKEndGrouping*/
+
   /** Set/Get the metric sampling strategy. */
   /** @ITKStartGrouping */
   itkSetEnumMacro(MetricSamplingStrategy, MetricSamplingStrategyEnum);
   itkGetEnumMacro(MetricSamplingStrategy, MetricSamplingStrategyEnum);
   /**@ITKEndGrouping*/
+
   /** Reinitialize the seed for the random number generators that
    * select the samples for some metric sampling strategies.
    *
@@ -332,6 +340,7 @@ public:
   void
   MetricSamplingReinitializeSeed(int seed);
   /**@ITKEndGrouping*/
+
   /** Set the metric sampling percentage. Valid values are in (0.0, 1.0] */
   void
   SetMetricSamplingPercentage(const RealType);
@@ -342,6 +351,7 @@ public:
   SetMetricSamplingPercentagePerLevel(const MetricSamplingPercentageArrayType & samplingPercentages);
   itkGetConstMacro(MetricSamplingPercentagePerLevel, MetricSamplingPercentageArrayType);
   /**@ITKEndGrouping*/
+
   /** Set/Get the initial fixed transform. */
   itkSetGetDecoratedObjectInputMacro(FixedInitialTransform, InitialTransformType);
 
@@ -372,6 +382,7 @@ public:
   const TransformParametersAdaptorsContainerType &
   GetTransformParametersAdaptorsPerLevel() const;
   /**@ITKEndGrouping*/
+
   /**
    * Set/Get the number of multi-resolution levels.  In setting the number of
    * levels we need to set the following for each level:
@@ -384,6 +395,7 @@ public:
   SetNumberOfLevels(const SizeValueType);
   itkGetConstMacro(NumberOfLevels, SizeValueType);
   /**@ITKEndGrouping*/
+
   /**
    * Set the shrink factors for each level where each level has a constant
    * shrink factor for each dimension.  For example, input to the function
@@ -391,7 +403,6 @@ public:
    * the first level, then by 2 at the second level, then the original resolution
    * for the final level (uses the \c itkShrinkImageFilter).
    */
-  /** @ITKStartGrouping */
   void
   SetShrinkFactorsPerLevel(ShrinkFactorsArrayType factors)
   {
@@ -401,11 +412,10 @@ public:
       this->SetShrinkFactorsPerDimension(level, shrinkFactors);
     }
   }
-  /**@ITKEndGrouping*/
+
   /**
    * Get the shrink factors for a specific level.
    */
-  /** @ITKStartGrouping */
   ShrinkFactorsPerDimensionContainerType
   GetShrinkFactorsPerDimension(const unsigned int level) const
   {
@@ -415,11 +425,10 @@ public:
     }
     return this->m_ShrinkFactorsPerLevel[level];
   }
-  /**@ITKEndGrouping*/
+
   /**
    * Set the shrink factors for a specific level for each dimension.
    */
-  /** @ITKStartGrouping */
   void
   SetShrinkFactorsPerDimension(unsigned int level, ShrinkFactorsPerDimensionContainerType factors)
   {
@@ -430,7 +439,7 @@ public:
     this->m_ShrinkFactorsPerLevel[level] = factors;
     this->Modified();
   }
-  /**@ITKEndGrouping*/
+
   /**
    * Set/Get the smoothing sigmas for each level.  At each resolution level, a gaussian smoothing
    * filter (specifically, the \c itkDiscreteGaussianImageFilter) is applied.  Sigma values are
@@ -440,6 +449,7 @@ public:
   itkSetMacro(SmoothingSigmasPerLevel, SmoothingSigmasArrayType);
   itkGetConstMacro(SmoothingSigmasPerLevel, SmoothingSigmasArrayType);
   /**@ITKEndGrouping*/
+
   /**
    * Set/Get whether to specify the smoothing sigmas for each level in physical units
    * (default) or in terms of voxels.
@@ -449,6 +459,7 @@ public:
   itkGetConstMacro(SmoothingSigmasAreSpecifiedInPhysicalUnits, bool);
   itkBooleanMacro(SmoothingSigmasAreSpecifiedInPhysicalUnits);
   /**@ITKEndGrouping*/
+
   /** Make a DataObject of the correct type to be used as the specified output. */
   using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
@@ -461,6 +472,7 @@ public:
   virtual const DecoratedOutputTransformType *
   GetOutput() const;
   /**@ITKEndGrouping*/
+
   virtual DecoratedOutputTransformType *
   GetTransformOutput()
   {
@@ -500,6 +512,7 @@ public:
   itkGetConstMacro(InPlace, bool);
   itkBooleanMacro(InPlace);
   /**@ITKEndGrouping*/
+
   /**
    * Initialize the current linear transform to be optimized with the center of the
    * previous transform in the queue.  This provides a much better initialization than
@@ -510,6 +523,7 @@ public:
   itkSetMacro(InitializeCenterOfLinearOutputTransform, bool);
   itkGetConstMacro(InitializeCenterOfLinearOutputTransform, bool);
   /**@ITKEndGrouping*/
+
   /**
    * We try to initialize the center of a linear transform (specifically those
    * derived from itk::MatrixOffsetTransformBase).  There are a number of

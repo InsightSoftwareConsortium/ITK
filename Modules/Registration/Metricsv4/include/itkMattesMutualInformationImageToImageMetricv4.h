@@ -146,6 +146,7 @@ public:
   itkSetClampMacro(NumberOfHistogramBins, SizeValueType, 5, NumericTraits<SizeValueType>::max());
   itkGetConstReferenceMacro(NumberOfHistogramBins, SizeValueType);
   /**@ITKEndGrouping*/
+
   void
   Initialize() override;
 
@@ -162,7 +163,6 @@ public:
    * Get the internal JointPDF image that was used in
    * creating the metric value.
    */
-  /** @ITKStartGrouping */
   const typename JointPDFType::Pointer
   GetJointPDF() const
   {
@@ -172,7 +172,7 @@ public:
     }
     return this->m_ThreaderJointPDF[0];
   }
-  /**@ITKEndGrouping*/
+
   /**
    * Get the internal JointPDFDeriviative image that was used in
    * creating the metric derivative value.

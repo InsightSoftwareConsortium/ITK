@@ -205,6 +205,7 @@ public:
   const GradientImageType *
   GetGradientImage(unsigned int index) const;
   /**@ITKEndGrouping*/
+
   /** Another set method to add a gradient directions and its corresponding
    * image. The image here is a VectorImage. The user is expected to pass the
    * gradient directions in a container. The ith element of the container
@@ -239,7 +240,6 @@ public:
   }
 
   /** Return the gradient direction. idx is 0 based */
-  /** @ITKStartGrouping */
   virtual GradientDirectionType
   GetGradientDirection(unsigned int idx) const
   {
@@ -249,7 +249,7 @@ public:
     }
     return m_GradientDirectionContainer->ElementAt(idx);
   }
-  /**@ITKEndGrouping*/
+
   /** set an image mask */
   void
   SetMaskImage(MaskImageType * maskImage);
@@ -266,6 +266,7 @@ public:
   itkSetMacro(Threshold, ReferencePixelType);
   itkGetConstMacro(Threshold, ReferencePixelType);
   /**@ITKEndGrouping*/
+
   /**
    * The BValue \f$ (s/mm^2) \f$ value used in normalizing the tensors to
    * physically meaningful units.  See equation (24) of the first reference for
@@ -279,6 +280,7 @@ public:
 #endif
   itkGetConstReferenceMacro(BValue, TTensorPixelType);
   /**@ITKEndGrouping*/
+
   itkConceptMacro(ReferenceEqualityComparableCheck, (Concept::EqualityComparable<ReferencePixelType>));
   itkConceptMacro(TensorEqualityComparableCheck, (Concept::EqualityComparable<TensorPixelType>));
   itkConceptMacro(GradientConvertibleToDoubleCheck, (Concept::Convertible<GradientPixelType, double>));

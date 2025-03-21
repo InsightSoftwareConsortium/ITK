@@ -150,7 +150,6 @@ protected:
   GenerateOutputInformation() override;
 
   /** Request the largest possible region on all inputs. */
-  /** @ITKStartGrouping */
   void
   GenerateInputRequestedRegion() override
   {
@@ -158,7 +157,7 @@ protected:
     this->GetNonConstImageInput()->SetRequestedRegionToLargestPossibleRegion();
     this->GetNonConstPathInput()->SetRequestedRegionToLargestPossibleRegion();
   }
-  /**@ITKEndGrouping*/
+
   void
   GenerateData() override;
 

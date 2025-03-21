@@ -99,7 +99,6 @@ public:
 
   /** Copy the information from another Image.  By default,
    *  the information is copied from the input image. */
-  /** @ITKStartGrouping */
   void
   SetReferenceImage(InputImageType * image)
   {
@@ -110,7 +109,7 @@ public:
       this->Modified();
     }
   }
-  /**@ITKEndGrouping*/
+
   itkGetModifiableObjectMacro(ReferenceImage, TInputImage);
 
   itkSetMacro(UseReferenceImage, bool);
@@ -124,6 +123,7 @@ public:
   itkSetMacro(OutputSpacing, SpacingType);
   itkGetConstReferenceMacro(OutputSpacing, SpacingType);
   /**@ITKEndGrouping*/
+
   /** Specify a new data origin explicitly.  The default is to
    *  use the origin of the Input, or of the ReferenceImage
    *  if UseReferenceImage is true. */
@@ -131,6 +131,7 @@ public:
   itkSetMacro(OutputOrigin, PointType);
   itkGetConstReferenceMacro(OutputOrigin, PointType);
   /**@ITKEndGrouping*/
+
   /** Specify a new direction cosine matrix explicitly.  The default is to
    *  use the direction of the Input, or of the ReferenceImage
    *  if UseReferenceImage is true. */
@@ -138,6 +139,7 @@ public:
   itkSetMacro(OutputDirection, DirectionType);
   itkGetConstReferenceMacro(OutputDirection, DirectionType);
   /**@ITKEndGrouping*/
+
   /** Specify an offset for the buffered region. The default is to
    *  use the same buffered region as the input or an Offset computed from
    *  the ReferenceImage's buffered region (if UseReferenceImage is true.)
@@ -151,8 +153,8 @@ public:
   itkGetConstReferenceMacro(OutputOffset, OutputImageOffsetType);
   itkSetVectorMacro(OutputOffset, OutputImageOffsetValueType, ImageDimension);
   /**@ITKEndGrouping*/
+
   /** Change the origin, spacing and region of the output image. */
-  /** @ITKStartGrouping */
   void
   ChangeAll()
   {
@@ -161,10 +163,9 @@ public:
     this->ChangeDirectionOn();
     this->ChangeRegionOn();
   }
-  /**@ITKEndGrouping*/
+
   /** Do not change the origin, spacing, direction or region of the
    * output image. */
-  /** @ITKStartGrouping */
   void
   ChangeNone()
   {
@@ -173,7 +174,7 @@ public:
     this->ChangeDirectionOff();
     this->ChangeRegionOff();
   }
-  /**@ITKEndGrouping*/
+
   /** Change the Spacing of the output image. If false, the output
    *  image spacing will be set to the input image spacing. If true, the
    *  output image spacing will be set to:
@@ -218,6 +219,7 @@ public:
   itkBooleanMacro(CenterImage);
   itkGetConstMacro(CenterImage, bool);
   /**@ITKEndGrouping*/
+
   /** Apply changes to the output image information. */
   void
   GenerateOutputInformation() override;

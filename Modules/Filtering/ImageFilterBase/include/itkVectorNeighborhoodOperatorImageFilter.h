@@ -98,14 +98,13 @@ public:
   /** Sets the operator that is used to filter the image. Note
    * that the operator is stored as an internal COPY (it
    * is not part of the pipeline). */
-  /** @ITKStartGrouping */
   void
   SetOperator(const Neighborhood<ScalarValueType, Self::ImageDimension> & p)
   {
     m_Operator = p;
     this->Modified();
   }
-  /**@ITKEndGrouping*/
+
   /** Allows a user to override the internal boundary condition. Care should be
    * be taken to ensure that the overriding boundary condition is a persistent
    * object during the time it is referenced.  The overriding condition

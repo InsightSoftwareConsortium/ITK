@@ -181,7 +181,6 @@ public:
 
   /** Set the palette of the image.
    * For multipage images, the same palette is going to be used for all pages */
-  /** @ITKStartGrouping */
   void
   SetColorPalette(const PaletteType _arg)
   {
@@ -191,7 +190,6 @@ public:
       this->Modified();
     }
   }
-  /**@ITKEndGrouping*/
 protected:
   TIFFImageIO();
   ~TIFFImageIO() override;

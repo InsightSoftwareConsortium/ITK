@@ -94,14 +94,13 @@ public:
   using ArrayType = FixedArray<RealType, ImageDimension>;
 
   /** Set input image. */
-  /** @ITKStartGrouping */
   void
   SetInputImage(const TInputImage * image) override
   {
     Superclass::SetInputImage(image);
     this->ComputeBoundingBox();
   }
-  /**@ITKEndGrouping*/
+
   /** Set/Get sigma. */
   /** @ITKStartGrouping */
   virtual void
@@ -126,6 +125,7 @@ public:
   }
   itkGetConstMacro(Sigma, ArrayType);
   /**@ITKEndGrouping*/
+
   /** Set/Get alpha. */
   /** @ITKStartGrouping */
   virtual void
@@ -140,15 +140,15 @@ public:
   }
   itkGetConstMacro(Alpha, RealType);
   /**@ITKEndGrouping*/
+
   /** Set/Get sigma and alpha. */
-  /** @ITKStartGrouping */
   virtual void
   SetParameters(RealType * sigma, RealType alpha)
   {
     this->SetSigma(sigma);
     this->SetAlpha(alpha);
   }
-  /**@ITKEndGrouping*/
+
   /** Evaluate at the given index. */
   OutputType
   EvaluateAtContinuousIndex(const ContinuousIndexType & cindex) const override
@@ -187,11 +187,13 @@ protected:
   itkSetMacro(BoundingBoxStart, ArrayType);
   itkGetConstMacro(BoundingBoxStart, ArrayType);
   /**@ITKEndGrouping*/
+
   /** Set/Get the bounding box end point. */
   /** @ITKStartGrouping */
   itkSetMacro(BoundingBoxEnd, ArrayType);
   itkGetConstMacro(BoundingBoxEnd, ArrayType);
   /**@ITKEndGrouping*/
+
   /** Set/Get the cut-off distance. */
   /** @ITKStartGrouping */
   itkSetMacro(CutOffDistance, ArrayType);

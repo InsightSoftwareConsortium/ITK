@@ -126,6 +126,7 @@ public:
   SetVelocityField(VelocityFieldType *);
   itkGetModifiableObjectMacro(VelocityField, VelocityFieldType);
   /**@ITKEndGrouping*/
+
   void
   SetFixedParameters(const FixedParametersType &) override;
 
@@ -136,6 +137,7 @@ public:
   SetVelocityFieldInterpolator(VelocityFieldInterpolatorType *);
   itkGetModifiableObjectMacro(VelocityFieldInterpolator, VelocityFieldInterpolatorType);
   /**@ITKEndGrouping*/
+
   /** Get the modification time of velocity field */
   itkGetConstReferenceMacro(VelocityFieldSetTime, unsigned long);
 
@@ -144,7 +146,6 @@ public:
    * implementation since we don't want to optimize over the deformation
    * field for this class but rather the time-varying velocity field
    */
-  /** @ITKStartGrouping */
   void
   SetDisplacementField(DisplacementFieldType * displacementField) override
   {
@@ -155,7 +156,7 @@ public:
       this->Modified();
     }
   }
-  /**@ITKEndGrouping*/
+
   void
   UpdateTransformParameters(const DerivativeType & update, ScalarType factor = 1.0) override;
 

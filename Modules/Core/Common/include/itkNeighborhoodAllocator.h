@@ -61,23 +61,21 @@ public:
   ~NeighborhoodAllocator() = default;
 
   /** Allocates memory. */
-  /** @ITKStartGrouping */
   void
   Allocate(unsigned int n)
   {
     m_Data = make_unique_for_overwrite<TPixel[]>(n);
     m_ElementCount = n;
   }
-  /**@ITKEndGrouping*/
+
   /** Deallocates memory. */
-  /** @ITKStartGrouping */
   void
   Deallocate()
   {
     m_Data.reset();
     m_ElementCount = 0;
   }
-  /**@ITKEndGrouping*/
+
   /** Copy constructor. */
   NeighborhoodAllocator(const Self & other)
     : m_ElementCount(other.m_ElementCount)
@@ -88,17 +86,14 @@ public:
 
 
   /** Move-constructor. */
-  /** @ITKStartGrouping */
   NeighborhoodAllocator(Self && other) noexcept
     : m_ElementCount{ other.m_ElementCount }
     , m_Data{ std::move(other.m_Data) }
   {
     other.m_ElementCount = 0;
   }
-  /**@ITKEndGrouping*/
 
   /** Assignment operator. */
-  /** @ITKStartGrouping */
   Self &
   operator=(const Self & other)
   {
@@ -109,10 +104,8 @@ public:
     }
     return *this;
   }
-  /**@ITKEndGrouping*/
 
   /** Move-assignment. */
-  /** @ITKStartGrouping */
   Self &
   operator=(Self && other) noexcept
   {
@@ -124,7 +117,6 @@ public:
     }
     return *this;
   }
-  /**@ITKEndGrouping*/
 
   /** STL-style iterator support for the memory buffer. */
   /** @ITKStartGrouping */
@@ -154,6 +146,7 @@ public:
     return m_ElementCount;
   }
   /**@ITKEndGrouping*/
+
   /** Data access methods */
   /** @ITKStartGrouping */
   const TPixel &
@@ -167,8 +160,8 @@ public:
     return m_Data[i];
   }
   /**@ITKEndGrouping*/
+
   /** Allocates a buffer of size n */
-  /** @ITKStartGrouping */
   void
   set_size(unsigned int n)
   {
@@ -179,7 +172,7 @@ public:
       m_ElementCount = n;
     }
   }
-  /**@ITKEndGrouping*/
+
   TPixel *
   data() noexcept
   {

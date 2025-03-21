@@ -86,7 +86,6 @@ public:
   itkGetModifiableObjectMacro(Interpolator, InterpolatorType);
 
   /** Set the deformation field */
-  /** @ITKStartGrouping */
   void
   SetDisplacementField(const InputFieldType * field)
   {
@@ -101,7 +100,7 @@ public:
       }
     }
   }
-  /**@ITKEndGrouping*/
+
   /**
    * Get the deformation field.
    */
@@ -116,6 +115,7 @@ public:
   itkSetInputMacro(InverseFieldInitialEstimate, InverseDisplacementFieldType);
   itkGetInputMacro(InverseFieldInitialEstimate, InverseDisplacementFieldType);
   /**@ITKEndGrouping*/
+
   /* Set the interpolator. */
   virtual void
   SetInterpolator(InterpolatorType * interpolator);

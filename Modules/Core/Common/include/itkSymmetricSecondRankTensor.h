@@ -104,13 +104,12 @@ public:
 
   /** Default-constructor.
    * \note The other five "special member functions" are defaulted implicitly, following the C++ "Rule of Zero". */
-  /** @ITKStartGrouping */
 #ifdef ITK_FUTURE_LEGACY_REMOVE
   SymmetricSecondRankTensor() = default;
 #else
   SymmetricSecondRankTensor() { this->Fill(0); }
 #endif
-  /**@ITKEndGrouping*/
+
   SymmetricSecondRankTensor(const ComponentType & r) { this->Fill(r); }
 
   /** Constructor to enable casting...  */
@@ -235,6 +234,7 @@ public:
     return this->Rotate(static_cast<Matrix<TMatrixValueType>>(m));
   }
   /**@ITKEndGrouping*/
+
   /** Pre-Multiply by a Matrix as ResultingMatrix = Matrix * ThisTensor. */
   MatrixType
   PreMultiply(const MatrixType & m) const;

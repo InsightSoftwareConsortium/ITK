@@ -71,7 +71,6 @@ public:
   /**
    * \ingroup ITKCommon
    */
-  /** @ITKStartGrouping */
   enum class ThreadExitCode : uint8_t
   {
     SUCCESS,
@@ -80,7 +79,7 @@ public:
     STD_EXCEPTION,
     UNKNOWN
   };
-  /**@ITKEndGrouping*/
+
 };
 // Define how to print enumeration
 extern ITKCommon_EXPORT std::ostream &
@@ -179,7 +178,6 @@ public:
   ThreaderTypeFromString(std::string threaderString);
 
   /** Convert a threader enum type into a string for displaying or logging. */
-  /** @ITKStartGrouping */
   static std::string
   ThreaderTypeToString(ThreaderEnum threader)
   {
@@ -196,7 +194,7 @@ public:
         return "Unknown";
     }
   }
-  /**@ITKEndGrouping*/
+
   /** Set/Get whether the default multi-threader implementation.
    *
    * The default multi-threader type is picked up from ITK_GLOBAL_DEFAULT_THREADER
@@ -287,7 +285,6 @@ ITK_GCC_PRAGMA_DIAG_POP()
    * The WorkUnitID is a number between 0 and NumberOfWorkUnits-1 that
    * indicates the id of this work unit. The UserData is the
    * (void *)arg passed into the SetSingleMethod. */
-  /** @ITKStartGrouping */
   struct WorkUnitInfo
   {
     ThreadIdType       WorkUnitID;
@@ -306,7 +303,7 @@ ITK_GCC_PRAGMA_DIAG_POP()
     static constexpr ThreadExitCodeEnum UNKNOWN = ThreadExitCodeEnum::UNKNOWN;
 #endif
   };
-  /**@ITKEndGrouping*/
+
   /** Execute the SingleMethod (as define by SetSingleMethod) using
    * m_NumberOfWorkUnits threads. As a side effect the m_NumberOfWorkUnits will be
    * checked against the current m_GlobalMaximumNumberOfThreads and clamped if
@@ -351,7 +348,6 @@ ITK_GCC_PRAGMA_DIAG_POP()
    * Each such `funcP(region)` call must be thread-safe.
    * If filter argument is not nullptr, this function will update its progress
    * as each work unit is completed. Delegates work to non-templated version. */
-  /** @ITKStartGrouping */
   template <unsigned int VDimension, typename TFunction>
   ITK_TEMPLATE_EXPORT void
   ParallelizeImageRegion(const ImageRegion<VDimension> & requestedRegion, TFunction funcP, ProcessObject * filter)
@@ -371,7 +367,7 @@ ITK_GCC_PRAGMA_DIAG_POP()
       },
       filter);
   }
-  /**@ITKEndGrouping*/
+
   /** Similar to ParallelizeImageRegion, but do not split the region along one
    * of the directions. If VDimension is 1, restrictedDirection is ignored
    * and no parallelization occurs. */
