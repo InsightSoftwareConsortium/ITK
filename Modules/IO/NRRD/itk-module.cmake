@@ -13,6 +13,8 @@ itk_module(
   PRIVATE_DEPENDS
     ITKNrrdIO
   TEST_DEPENDS
+    ITKImageCompose
+    ITKImageGrid
     ITKTestKernel
   FACTORY_NAMES
     ImageIO::Nrrd
