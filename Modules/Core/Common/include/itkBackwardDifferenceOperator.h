@@ -72,7 +72,6 @@ protected:
   {
     this->FillCenteredDirectional(coeff);
   }
-
 };
 
 } // namespace itk

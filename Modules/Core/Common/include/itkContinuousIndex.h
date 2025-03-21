@@ -90,7 +90,6 @@ public:
       (*this)[i] = static_cast<TCoordinate>(index[i]);
     }
   }
-
 };
 } // namespace itk
 

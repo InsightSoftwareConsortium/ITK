@@ -238,6 +238,7 @@ public:
       }
     }
   }
+
 protected:
   MetaArrayReader();
   ~MetaArrayReader() override;

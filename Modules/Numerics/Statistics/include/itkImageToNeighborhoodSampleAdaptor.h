@@ -309,6 +309,7 @@ public:
     ConstIterator iter(nIterator, m_Region.GetNumberOfPixels());
     return iter;
   }
+
 protected:
   ImageToNeighborhoodSampleAdaptor();
   ~ImageToNeighborhoodSampleAdaptor() override = default;

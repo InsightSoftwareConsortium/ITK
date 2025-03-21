@@ -248,6 +248,7 @@ public:
     }
     return this->m_MMIMetricPerThreadVariables[0].JointPDFDerivatives;
   }
+
 protected:
   MattesMutualInformationImageToImageMetric();
   ~MattesMutualInformationImageToImageMetric() override = default;

@@ -192,7 +192,6 @@ public:
    * \sa operator++ */
   Self &
   operator--();
-
 };
 } // end namespace itk
 

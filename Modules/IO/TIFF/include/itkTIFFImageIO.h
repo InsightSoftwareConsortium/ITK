@@ -190,6 +190,7 @@ public:
       this->Modified();
     }
   }
+
 protected:
   TIFFImageIO();
   ~TIFFImageIO() override;

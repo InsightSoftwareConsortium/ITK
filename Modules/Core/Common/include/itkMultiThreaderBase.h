@@ -79,7 +79,6 @@ public:
     STD_EXCEPTION,
     UNKNOWN
   };
-
 };
 // Define how to print enumeration
 extern ITKCommon_EXPORT std::ostream &
