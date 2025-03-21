@@ -34,7 +34,6 @@ struct MersenneTwisterGlobals
   MersenneTwisterGlobals() = default;
   ~MersenneTwisterGlobals() = default;
 
-  MersenneTwisterRandomVariateGenerator::Pointer                  m_StaticInstance{};
   std::mutex                                                      m_StaticInstanceMutex{};
   std::atomic<MersenneTwisterRandomVariateGenerator::IntegerType> m_StaticDiffer{};
 };
@@ -74,13 +73,14 @@ MersenneTwisterRandomVariateGenerator::GetInstance()
   itkInitGlobalsMacro(PimplGlobals);
   const std::lock_guard<std::mutex> lockGuard(m_PimplGlobals->m_StaticInstanceMutex);
 
-  if (!m_PimplGlobals->m_StaticInstance)
+  thread_local MersenneTwisterRandomVariateGenerator::Pointer threadSafeInstance{};
+  if (!threadSafeInstance)
   {
-    m_PimplGlobals->m_StaticInstance = MersenneTwisterRandomVariateGenerator::CreateInstance();
-    m_PimplGlobals->m_StaticInstance->SetSeed();
+    threadSafeInstance = MersenneTwisterRandomVariateGenerator::CreateInstance();
+    threadSafeInstance->SetSeed();
   }
 
-  return m_PimplGlobals->m_StaticInstance;
+  return threadSafeInstance;
 }
 
 
