@@ -58,7 +58,7 @@ public:
   /// Method for creation through the object factory.
   itkNewMacro(Self);
   /// Run-time type information (and related methods).
-  itkTypeMacro(AnisotropicDiffusionLBRImageFilter, ImageToImageFilter);
+  itkOverrideGetNameOfClassMacro(AnisotropicDiffusionLBRImageFilter);
 
   using ImageType = TImage;
   using PixelType = typename ImageType::PixelType;

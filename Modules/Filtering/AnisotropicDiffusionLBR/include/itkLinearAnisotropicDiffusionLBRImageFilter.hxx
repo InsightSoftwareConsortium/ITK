@@ -153,8 +153,8 @@ public:
           // Neumann boundary conditions.
           *yIndex = this->OutsideBufferIndex();
         } // if y
-      }   // for eps
-    }     // for i
+      } // for eps
+    } // for i
     return stencil;
   }
 
@@ -352,8 +352,8 @@ LinearAnisotropicDiffusionLBRImageFilter<TImage, TScalar>::GenerateStencils()
         diagIt.Value() += coefficient;
         diagBuffer[yIndex] += coefficient;
       } // if y
-    }   // for i
-  }     // for stencilIt, diagIt
+    } // for i
+  } // for stencilIt, diagIt
 }
 
 

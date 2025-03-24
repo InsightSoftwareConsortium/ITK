@@ -76,7 +76,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(CoherenceEnhancingDiffusionImageFilter, AnisotropicDiffusionLBRImageFilter);
+  itkOverrideGetNameOfClassMacro(CoherenceEnhancingDiffusionImageFilter);
 
   using InputImageDimensionType = typename Superclass::InputImageType::ImageDimensionType;
   static constexpr InputImageDimensionType InputImageDimension = Superclass::InputImageType::ImageDimension;

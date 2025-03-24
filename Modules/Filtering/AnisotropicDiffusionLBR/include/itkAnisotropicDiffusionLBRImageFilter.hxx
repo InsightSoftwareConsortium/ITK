@@ -141,7 +141,7 @@ struct AnisotropicDiffusionLBRImageFilter<TImage, TScalar>::DiffusionTensorFunct
   }
   const EigenValuesArrayType & e;
   OrderingType(const EigenValuesArrayType & e_)
-    : e(e_){};
+    : e(e_) {};
 };
 
 template <typename TImage, typename TScalar>
