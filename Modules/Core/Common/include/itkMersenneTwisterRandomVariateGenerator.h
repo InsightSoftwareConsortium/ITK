@@ -268,9 +268,6 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  /** Period parameter */
-  static constexpr unsigned int M = 397;
-
   /** Reload array with N new values. */
   void
   reload();
@@ -305,6 +302,14 @@ protected:
   static IntegerType
   hash(time_t t, clock_t c);
 
+private:
+  /** Only used to synchronize the global variable across static libraries.*/
+  itkGetGlobalDeclarationMacro(MersenneTwisterGlobals, PimplGlobals);
+
+  /** Internal method to actually create a new object. */
+  static Pointer
+  CreateInstance();
+
   // Internal state
   IntegerType state[StateVectorLength];
 
@@ -316,14 +321,6 @@ protected:
 
   // Seed value
   std::atomic<IntegerType> m_Seed{};
-
-private:
-  /** Only used to synchronize the global variable across static libraries.*/
-  itkGetGlobalDeclarationMacro(MersenneTwisterGlobals, PimplGlobals);
-
-  /** Internal method to actually create a new object. */
-  static Pointer
-  CreateInstance();
 
   // Local lock to enable concurrent access to singleton
   std::mutex m_InstanceMutex{};
@@ -363,6 +360,9 @@ MersenneTwisterRandomVariateGenerator::reload()
   // Generate N new values in state
   // Made clearer and faster by Matthew Bellew
   // matthew dot bellew at home dot com
+
+  // Period parameter
+  static constexpr unsigned int M = 397;
 
   // get rid of VS warning
   constexpr auto index = int{ M } - int{ MersenneTwisterRandomVariateGenerator::StateVectorLength };
