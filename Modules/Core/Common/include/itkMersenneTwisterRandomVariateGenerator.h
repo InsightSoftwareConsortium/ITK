@@ -302,6 +302,14 @@ protected:
   static IntegerType
   hash(time_t t, clock_t c);
 
+private:
+  /** Only used to synchronize the global variable across static libraries.*/
+  itkGetGlobalDeclarationMacro(MersenneTwisterGlobals, PimplGlobals);
+
+  /** Internal method to actually create a new object. */
+  static Pointer
+  CreateInstance();
+
   // Internal state
   IntegerType state[StateVectorLength];
 
@@ -313,14 +321,6 @@ protected:
 
   // Seed value
   std::atomic<IntegerType> m_Seed{};
-
-private:
-  /** Only used to synchronize the global variable across static libraries.*/
-  itkGetGlobalDeclarationMacro(MersenneTwisterGlobals, PimplGlobals);
-
-  /** Internal method to actually create a new object. */
-  static Pointer
-  CreateInstance();
 
   // Local lock to enable concurrent access to singleton
   std::mutex m_InstanceMutex{};
