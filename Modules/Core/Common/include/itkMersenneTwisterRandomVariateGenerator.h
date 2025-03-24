@@ -268,9 +268,6 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  /** Period parameter */
-  static constexpr unsigned int M = 397;
-
   /** Reload array with N new values. */
   void
   reload();
@@ -363,6 +360,9 @@ MersenneTwisterRandomVariateGenerator::reload()
   // Generate N new values in state
   // Made clearer and faster by Matthew Bellew
   // matthew dot bellew at home dot com
+
+  // Period parameter
+  static constexpr unsigned int M = 397;
 
   // get rid of VS warning
   constexpr auto index = int{ M } - int{ MersenneTwisterRandomVariateGenerator::StateVectorLength };
