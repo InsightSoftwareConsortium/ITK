@@ -240,7 +240,7 @@ itkConjugateGradientLineSearchOptimizerv4Test(int, char *[])
   }
 
   //
-  // test with non-idenity scales
+  // test with non-identity scales
   //
   std::cout << "Test optimization with non-identity scales:" << std::endl;
   metric->SetParameters(initialPosition);
