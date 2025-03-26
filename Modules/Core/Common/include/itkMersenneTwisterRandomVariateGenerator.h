@@ -445,7 +445,7 @@ MersenneTwisterRandomVariateGenerator::GetVariateWithClosedRange(const double n)
 inline double
 MersenneTwisterRandomVariateGenerator::GetVariateWithOpenUpperRange()
 {
-  return static_cast<double>(GetIntegerVariate()) * (1.0 / 4294967296.0);
+  return static_cast<double>(GetIntegerVariate()) / double{ 1ULL << 32ULL };
 }
 
 /** Get a range variate in the range [0, n) */
@@ -459,7 +459,7 @@ MersenneTwisterRandomVariateGenerator::GetVariateWithOpenUpperRange(const double
 inline double
 MersenneTwisterRandomVariateGenerator::GetVariateWithOpenRange()
 {
-  return (static_cast<double>(GetIntegerVariate()) + 0.5) * (1.0 / 4294967296.0);
+  return (static_cast<double>(GetIntegerVariate()) + 0.5) / double{ 1ULL << 32ULL };
 }
 
 /** Get a range variate in the range (0, n) */
