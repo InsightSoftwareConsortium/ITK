@@ -1,3 +1,10 @@
+# ITKMinimal
+
+ITK repo containing fixes for the following issues:
+
+- Not being able to abort a NIFTI read or write
+- Unicode characters not allowed in filepaths
+
 ![ITK - The Insight Toolkit](https://raw.githubusercontent.com/InsightSoftwareConsortium/ITK/801370c025c7d296783481779a41c6d559c992c5/Documentation/Art/itkBannerSmall.png)
 
 ITK: The Insight Toolkit
