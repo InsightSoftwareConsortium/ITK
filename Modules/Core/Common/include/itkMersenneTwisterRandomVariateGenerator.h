@@ -345,10 +345,10 @@ MersenneTwisterRandomVariateGenerator::Initialize(const IntegerType seed)
   IntegerType * s = state;
   IntegerType * r = state;
 
-  *s++ = seed & 0xffffffffUL;
+  *s++ = seed;
   for (IntegerType i = 1; i < MersenneTwisterRandomVariateGenerator::StateVectorLength; ++i)
   {
-    *s++ = (1812433253UL * (*r ^ (*r >> 30)) + i) & 0xffffffffUL;
+    *s++ = uint32_t{ (uint32_t{ 1812433253 } * (*r ^ (*r >> 30)) + i) };
     ++r;
   }
   reload();
