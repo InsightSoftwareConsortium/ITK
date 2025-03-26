@@ -29,6 +29,7 @@
 #include <mutex>
 #include <climits>
 #include <ctime>
+#include <limits>
 
 namespace itk
 {
@@ -430,7 +431,7 @@ MersenneTwisterRandomVariateGenerator::GetIntegerVariate()
 inline double
 MersenneTwisterRandomVariateGenerator::GetVariateWithClosedRange()
 {
-  return static_cast<double>(GetIntegerVariate()) * (1.0 / 4294967295.0);
+  return static_cast<double>(GetIntegerVariate()) * (1.0 / double{ std::numeric_limits<uint32_t>::max() });
 }
 
 /** Get a random variate in the range [0, n] */
