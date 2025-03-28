@@ -90,15 +90,17 @@ public:
   /** Maximum number of iterations. This filter is executed iteratively as
    * long as at least one pixel has changed in a previous iteration, or until
    * the maximum number of iterations has been reached. */
+  /** @ITKStartGrouping */
   itkGetConstReferenceMacro(MaximumNumberOfIterations, unsigned int);
   itkSetMacro(MaximumNumberOfIterations, unsigned int);
-
+  /** @ITKEndGrouping */
   /** Number of iterations executed at any given time. This is useful at the
    * end of the execution in order to verify how many iterations were
    * performed.  */
+  /** @ITKStartGrouping */
   itkGetConstReferenceMacro(CurrentNumberOfIterations, unsigned int);
   itkSetMacro(CurrentNumberOfIterations, unsigned int);
-
+  /** @ITKEndGrouping */
   /** Set the radius of the neighborhood used to compute the median. */
   itkSetMacro(Radius, InputSizeType);
 
@@ -107,23 +109,26 @@ public:
 
   /** Set the value associated with the Foreground (or the object) on
       the binary input image and the Background . */
+  /** @ITKStartGrouping */
   itkSetMacro(BackgroundValue, InputPixelType);
   itkSetMacro(ForegroundValue, InputPixelType);
-
+  /** @ITKEndGrouping */
   /** Get the value associated with the Foreground (or the object) on the
       binary input image and the Background . */
+  /** @ITKStartGrouping */
   itkGetConstReferenceMacro(BackgroundValue, InputPixelType);
   itkGetConstReferenceMacro(ForegroundValue, InputPixelType);
-
+  /** @ITKEndGrouping */
   /** Majority threshold. It is the number of pixels over 50% that will decide
    * whether an OFF pixel will become ON or not. For example, if the
    * neighborhood of a pixel has 124 pixels (excluding itself), the 50% will be
    * 62, and if you set up a Majority threshold of 5, that means that the
    * filter will require 67 or more neighbor pixels to be ON in order to switch
    * the current OFF pixel to ON. The default value is 1. */
+  /** @ITKStartGrouping */
   itkGetConstReferenceMacro(MajorityThreshold, unsigned int);
   itkSetMacro(MajorityThreshold, unsigned int);
-
+  /** @ITKEndGrouping */
   /** Returns the number of pixels that changed when the filter was executed. */
   itkGetConstReferenceMacro(NumberOfPixelsChanged, unsigned int);
 

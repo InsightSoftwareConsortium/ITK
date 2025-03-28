@@ -118,13 +118,15 @@ public:
   SetRadius(double radius);
 
   /** Set the minimum radius value the filter should look for. */
+  /** @ITKStartGrouping */
   itkSetMacro(MinimumRadius, double);
   itkGetConstMacro(MinimumRadius, double);
-
+  /** @ITKEndGrouping */
   /** Set the maximum radius value the filter should look for. */
+  /** @ITKStartGrouping */
   itkSetMacro(MaximumRadius, double);
   itkGetConstMacro(MaximumRadius, double);
-
+  /** @ITKEndGrouping */
   /** Set the threshold above which the filter should consider
    * the point as a valid point. */
   itkSetMacro(Threshold, double);
@@ -134,9 +136,10 @@ public:
 
   /** Threshold for the norm of the gradient: Only pixels whose gradient norm is
    * above this threshold are processed by the filter. The threshold must be >= 0. */
+  /** @ITKStartGrouping */
   itkSetMacro(GradientNormThreshold, double);
   itkGetConstMacro(GradientNormThreshold, double);
-
+  /** @ITKEndGrouping */
   /** Get the radius image. */
   itkGetModifiableObjectMacro(RadiusImage, RadiusImageType);
 
@@ -154,27 +157,32 @@ public:
   GetCircles();
 
   /** Set/Get the number of circles to extract. */
+  /** @ITKStartGrouping */
   itkSetMacro(NumberOfCircles, CirclesListSizeType);
   itkGetConstMacro(NumberOfCircles, CirclesListSizeType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the radius of the disc to remove from the accumulator
    * for each circle found. */
+  /** @ITKStartGrouping */
   itkSetMacro(DiscRadiusRatio, double);
   itkGetConstMacro(DiscRadiusRatio, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get the variance of the Gaussian blurring for the accumulator. */
+  /** @ITKStartGrouping */
   itkSetMacro(Variance, double);
   itkGetConstMacro(Variance, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get the sweep angle. */
+  /** @ITKStartGrouping */
   itkSetMacro(SweepAngle, double);
   itkGetConstMacro(SweepAngle, double);
-
+  /** @ITKEndGrouping */
   /** Specifies whether to use the spacing of the input image internally, when
    * doing Gaussian Derivative calculation and Gaussian image filtering. */
+  /** @ITKStartGrouping */
   itkSetMacro(UseImageSpacing, bool);
   itkGetConstMacro(UseImageSpacing, bool);
-
+  /** @ITKEndGrouping */
   itkConceptMacro(IntConvertibleToOutputCheck, (Concept::Convertible<int, TOutputPixelType>));
   itkConceptMacro(InputGreaterThanDoubleCheck, (Concept::GreaterThanComparable<PixelType, double>));
   itkConceptMacro(OutputPlusIntCheck, (Concept::AdditiveOperators<TOutputPixelType, int>));

@@ -125,13 +125,15 @@ public:
   itkOverrideGetNameOfClassMacro(ImageToSpatialObjectMetric);
 
   /** Get/Set the FixedImage. */
+  /** @ITKStartGrouping */
   itkSetConstObjectMacro(FixedImage, FixedImageType);
   itkGetConstObjectMacro(FixedImage, FixedImageType);
-
+  /** @ITKEndGrouping */
   /** Get/Set the MovingSpatialObject */
+  /** @ITKStartGrouping */
   itkSetConstObjectMacro(MovingSpatialObject, MovingSpatialObjectType);
   itkGetConstObjectMacro(MovingSpatialObject, MovingSpatialObjectType);
-
+  /** @ITKEndGrouping */
   /** Connect the Interpolator. */
   itkSetObjectMacro(Interpolator, InterpolatorType);
 

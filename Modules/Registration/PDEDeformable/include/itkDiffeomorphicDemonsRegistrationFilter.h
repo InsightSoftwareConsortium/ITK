@@ -133,10 +133,11 @@ public:
   /** Use a first-order approximation of the exponential.
    *  This amounts to using an update rule of the type
    *  s <- s o (Id + u) instead of s <- s o exp(u) */
+  /** @ITKStartGrouping */
   itkSetMacro(UseFirstOrderExp, bool);
   itkGetConstMacro(UseFirstOrderExp, bool);
   itkBooleanMacro(UseFirstOrderExp);
-
+  /** @ITKEndGrouping */
   /** Set/Get the threshold below which the absolute difference of
    * intensity yields a match. When the intensities match between a
    * moving and fixed image pixel, the update vector (for that

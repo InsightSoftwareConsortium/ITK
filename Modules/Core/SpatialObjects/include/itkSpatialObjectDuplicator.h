@@ -65,6 +65,7 @@ public:
    * by returning a non-const pointer
    * for the generated Object.
    */
+  /** @ITKStartGrouping */
   // NOTE:  The m_GeneratedImageSource is only
   //       exposed via the Source generation interface
   //       by the GetOutput() method that mimics
@@ -79,7 +80,7 @@ public:
   {
     return this->m_DuplicateSpatialObject.GetPointer();
   }
-
+  /** @ITKEndGrouping */
 #if !defined(ITK_LEGACY_REMOVE)
   // This interface was exposed in ITKv4 when the itkGetModifiableObjectMacro was used
   virtual SpatialObjectType *

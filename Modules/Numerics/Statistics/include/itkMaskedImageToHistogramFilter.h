@@ -77,9 +77,10 @@ public:
   using MaskPixelType = typename MaskImageType::PixelType;
 
   /** Method to set/get the mask */
+  /** @ITKStartGrouping */
   itkSetInputMacro(MaskImage, MaskImageType);
   itkGetInputMacro(MaskImage, MaskImageType);
-
+  /** @ITKEndGrouping */
   /** Set the pixel value treated as on in the mask.
    * Only pixels with this value will be added to the histogram.
    */

@@ -280,6 +280,7 @@ public:
   /** Set/Get methods to order the eigen values in ascending order.
    * This is the default. ie lambda_1 < lambda_2 < ....
    */
+  /** @ITKStartGrouping */
   void
   SetOrderEigenValues(const bool b)
   {
@@ -298,10 +299,12 @@ public:
   {
     return (m_OrderEigenValues == EigenValueOrderEnum::OrderByValue);
   }
+  /** @ITKEndGrouping */
 
   /** Set/Get methods to order the eigen value magnitudes in ascending order.
    * In other words, |lambda_1| < |lambda_2| < .....
    */
+  /** @ITKStartGrouping */
   void
   SetOrderEigenMagnitudes(const bool b)
   {
@@ -320,6 +323,7 @@ public:
   {
     return (m_OrderEigenValues == EigenValueOrderEnum::OrderByMagnitude);
   }
+  /** @ITKEndGrouping */
 
   /** Set the dimension of the input matrix A. A is a square matrix of
    * size m_Dimension. */
@@ -342,6 +346,7 @@ public:
   }
 
   /** Set/Get to use Eigen library instead of vnl/netlib. */
+  /** @ITKStartGrouping */
   void
   SetUseEigenLibrary(const bool input)
   {
@@ -362,7 +367,7 @@ public:
   {
     return m_UseEigenLibrary;
   }
-
+  /** @ITKEndGrouping */
 private:
   bool                m_UseEigenLibrary{ false };
   unsigned int        m_Dimension{ 0 };

@@ -109,9 +109,10 @@ public:
   using typename Superclass::DecisionRuleType;
 
   /** Get/Set the input image. */
+  /** @ITKStartGrouping */
   itkSetConstObjectMacro(InputImage, InputImageType);
   itkGetConstObjectMacro(InputImage, InputImageType);
-
+  /** @ITKEndGrouping */
   /** Set the classified image. */
   itkSetMacro(ClassifiedImage, ClassifiedImagePointer);
 

@@ -121,17 +121,22 @@ public:
   GetOutput() const;
 
   /**  Set the position to initialize the optimization. */
+  /** @ITKStartGrouping */
   itkSetMacro(Parameters, ParametersType);
   itkGetConstMacro(Parameters, ParametersType);
+  /** @ITKEndGrouping */
 
   /** Set/Get maximum iteration limit. */
+  /** @ITKStartGrouping */
   itkSetMacro(MaximumIteration, int);
   itkGetConstMacro(MaximumIteration, int);
+  /** @ITKEndGrouping */
 
   /** Set/Get the termination threshold for the squared sum
    * of changes in centroid positions after one iteration */
   itkSetMacro(CentroidPositionChangesThreshold, double);
   itkGetConstMacro(CentroidPositionChangesThreshold, double);
+
   /** Set/Get the pointer to the KdTree */
   void
   SetKdTree(TKdTree * tree);
@@ -306,15 +311,20 @@ protected:
 private:
   /** current number of iteration */
   int m_CurrentIteration{ 0 };
+
   /** maximum number of iteration. termination criterion */
   int m_MaximumIteration{ 100 };
+
   /** sum of squared centroid position changes at the current iteration */
   double m_CentroidPositionChanges{ 0.0 };
+
   /** threshold for the sum of squared centroid position changes.
    * termination criterion */
   double m_CentroidPositionChangesThreshold{ 0.0 };
+
   /** pointer to the k-d tree */
   typename TKdTree::Pointer m_KdTree{};
+
   /** pointer to the euclidean distance function */
   typename EuclideanDistanceMetric<ParameterType>::Pointer m_DistanceMetric{};
 

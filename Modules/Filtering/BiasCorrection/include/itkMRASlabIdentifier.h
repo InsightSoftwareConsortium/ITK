@@ -98,26 +98,31 @@ public:
   using SlabRegionVectorType = std::vector<ImageRegionType>;
 
   /** Set/Get the input image. */
+  /** @ITKStartGrouping */
   itkSetConstObjectMacro(Image, ImageType);
   itkGetConstObjectMacro(Image, ImageType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the number of minimum intensity pixels per slice. */
+  /** @ITKStartGrouping */
   itkSetMacro(NumberOfSamples, unsigned int);
   itkGetConstReferenceMacro(NumberOfSamples, unsigned int);
-
+  /** @ITKEndGrouping */
   /** Set/Get the minimum threshold value for the background pixels */
+  /** @ITKStartGrouping */
   itkSetMacro(BackgroundMinimumThreshold, ImagePixelType);
   itkGetConstReferenceMacro(BackgroundMinimumThreshold, ImagePixelType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the tolerance value. */
+  /** @ITKStartGrouping */
   itkSetMacro(Tolerance, double);
   itkGetConstReferenceMacro(Tolerance, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get the direction of slicing/
    * 0 - x axis, 1 - y axis, 2 - z axis */
+  /** @ITKStartGrouping */
   itkSetMacro(SlicingDirection, int);
   itkGetConstReferenceMacro(SlicingDirection, int);
-
+  /** @ITKEndGrouping */
   /** Compute the average values of minimum intensity pixels for each slice and
    * compare the average values with overall averages. */
   void

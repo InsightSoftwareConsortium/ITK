@@ -42,9 +42,10 @@ public:
   using ConstTransformListType = typename TransformIOBaseTemplate<ParametersValueType>::ConstTransformListType;
 
   /** \see LightObject::GetNameOfClass() */
+  /** @ITKStartGrouping */
   itkOverrideGetNameOfClassMacro(MatlabTransformIOTemplate);
   itkNewMacro(Self);
-
+  /** @ITKEndGrouping */
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
   bool

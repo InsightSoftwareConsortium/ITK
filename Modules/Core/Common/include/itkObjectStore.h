@@ -141,13 +141,15 @@ public:
   Clear();
 
   /** Set/Get the linear growth size */
+  /** @ITKStartGrouping */
   itkSetMacro(LinearGrowthSize, SizeValueType);
   itkGetConstMacro(LinearGrowthSize, SizeValueType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the growth strategy. */
+  /** @ITKStartGrouping */
   itkSetEnumMacro(GrowthStrategy, GrowthStrategyEnum);
   itkGetConstMacro(GrowthStrategy, GrowthStrategyEnum);
-
+  /** @ITKEndGrouping */
   /** Set growth strategy to exponential */
   void
   SetGrowthStrategyToExponential()

@@ -73,13 +73,15 @@ public:
   using MovingSpatialObjectConstPointer = typename MovingSpatialObjectType::ConstPointer;
 
   /** Set/Get the Fixed image. */
+  /** @ITKStartGrouping */
   itkSetConstObjectMacro(FixedPointSet, FixedPointSetType);
   itkGetConstObjectMacro(FixedPointSet, FixedPointSetType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the Moving image. */
+  /** @ITKStartGrouping */
   itkSetConstObjectMacro(MovingSpatialObject, MovingSpatialObjectType);
   itkGetConstObjectMacro(MovingSpatialObject, MovingSpatialObjectType);
-
+  /** @ITKEndGrouping */
 protected:
   PointSetToSpatialObjectDemonsRegistration();
   ~PointSetToSpatialObjectDemonsRegistration() override = default;

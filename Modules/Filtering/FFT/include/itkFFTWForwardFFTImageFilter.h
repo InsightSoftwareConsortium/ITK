@@ -98,6 +98,7 @@ public:
    *
    * /sa FFTWGlobalConfiguration
    */
+  /** @ITKStartGrouping */
   virtual void
   SetPlanRigor(const int & value)
   {
@@ -112,7 +113,7 @@ public:
     }
   }
   itkGetConstReferenceMacro(PlanRigor, int);
-
+  /** @ITKEndGrouping */
   SizeValueType
   GetSizeGreatestPrimeFactor() const override;
 

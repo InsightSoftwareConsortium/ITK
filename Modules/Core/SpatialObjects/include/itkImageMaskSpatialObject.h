@@ -89,9 +89,10 @@ public:
    * You must also call SetUseMaskValue(true) to enable the use
    * of the mask value, otherwise the value is ignored and any
    * non-zero value in the mask is used to define the object. */
+  /** @ITKStartGrouping */
   itkSetMacro(MaskValue, PixelType);
   itkGetConstReferenceMacro(MaskValue, PixelType);
-
+  /** @ITKEndGrouping */
   itkBooleanMacro(UseMaskValue);
   itkSetMacro(UseMaskValue, bool);
   itkGetConstReferenceMacro(UseMaskValue, bool);

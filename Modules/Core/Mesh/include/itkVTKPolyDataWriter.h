@@ -97,9 +97,10 @@ public:
   SetInput(const InputMeshType * input);
 
   /** Set/Get the name of the file where data are written. */
+  /** @ITKStartGrouping */
   itkSetStringMacro(FileName);
   itkGetStringMacro(FileName);
-
+  /** @ITKEndGrouping */
 protected:
   VTKPolyDataWriter();
   ~VTKPolyDataWriter() override = default;

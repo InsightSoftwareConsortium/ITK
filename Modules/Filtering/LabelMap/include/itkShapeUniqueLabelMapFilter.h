@@ -84,14 +84,16 @@ public:
    * a the largest attribute value are kept. If set to true, the filter
    * to keeps the object with the smallest attribute instead.
    */
+  /** @ITKStartGrouping */
   itkGetConstMacro(ReverseOrdering, bool);
   itkSetMacro(ReverseOrdering, bool);
   itkBooleanMacro(ReverseOrdering);
-
+  /** @ITKEndGrouping */
   /**
    * Set/Get the attribute to use to select the object to remove. The default
    * is "Size".
    */
+  /** @ITKStartGrouping */
   itkGetConstMacro(Attribute, AttributeType);
   itkSetMacro(Attribute, AttributeType);
   void
@@ -99,7 +101,7 @@ public:
   {
     this->SetAttribute(LabelObjectType::GetAttributeFromName(s));
   }
-
+  /** @ITKEndGrouping */
 protected:
   ShapeUniqueLabelMapFilter();
   ~ShapeUniqueLabelMapFilter() override = default;

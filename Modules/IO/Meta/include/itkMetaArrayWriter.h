@@ -44,22 +44,25 @@ public:
   itkOverrideGetNameOfClassMacro(MetaArrayWriter);
 
   /** Set/Get the filename. */
+  /** @ITKStartGrouping */
   itkSetStringMacro(FileName);
   itkGetStringMacro(FileName);
-
+  /** @ITKEndGrouping */
   /** Set/Get the filename to which the data is written.
    *  Optional: use if header and data should be in separate files. */
+  /** @ITKStartGrouping */
   itkSetStringMacro(DataFileName);
   itkGetStringMacro(DataFileName);
-
+  /** @ITKEndGrouping */
   /** Boolean to set binary mode.
    *  If set to On, data will be stored in the file in binary format; if set
    *  to Off, data will be stored in ascii format.
    *  Default is Off. */
+  /** @ITKStartGrouping */
   itkBooleanMacro(Binary);
   itkSetMacro(Binary, bool);
   itkGetConstMacro(Binary, bool);
-
+  /** @ITKEndGrouping */
   /** Set the input itk Array to write. */
   template <typename TValue>
   void
@@ -131,9 +134,10 @@ public:
   }
 
   /** Set/Get the precision of the writing. */
+  /** @ITKStartGrouping */
   itkSetMacro(Precision, unsigned int);
   itkGetConstMacro(Precision, unsigned int);
-
+  /** @ITKEndGrouping */
   /** Set the data type written to the file. */
   void
   ConvertTo(MET_ValueEnumType _metaElementType);

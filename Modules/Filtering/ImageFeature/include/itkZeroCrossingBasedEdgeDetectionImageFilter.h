@@ -111,17 +111,19 @@ public:
   using ArrayType = FixedArray<double, Self::ImageDimension>;
 
   /** Standard get/set macros for Gaussian filter parameters.  */
+  /** @ITKStartGrouping */
   itkSetMacro(Variance, ArrayType);
   itkGetConstMacro(Variance, const ArrayType);
   itkSetMacro(MaximumError, ArrayType);
   itkGetConstMacro(MaximumError, const ArrayType);
-
+  /** @ITKEndGrouping */
   /** Get/Set the label values for the ZeroCrossingImageFilter */
+  /** @ITKStartGrouping */
   itkGetConstMacro(BackgroundValue, OutputImagePixelType);
   itkSetMacro(BackgroundValue, OutputImagePixelType);
   itkGetConstMacro(ForegroundValue, OutputImagePixelType);
   itkSetMacro(ForegroundValue, OutputImagePixelType);
-
+  /** @ITKEndGrouping */
   /** Set the variance parameter needed by the embedded gaussian filter  */
   void
   SetVariance(const typename ArrayType::ValueType v)

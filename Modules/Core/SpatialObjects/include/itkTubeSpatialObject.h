@@ -75,10 +75,11 @@ public:
   Clear() override;
 
   /** Set the type of tube end-type: false = flat, true = rounded */
+  /** @ITKStartGrouping */
   itkSetMacro(EndRounded, bool);
   itkGetConstMacro(EndRounded, bool);
   itkBooleanMacro(EndRounded);
-
+  /** @ITKEndGrouping */
   /** Compute the tangents and normals of the centerline of the tube. */
   bool
   ComputeTangentsAndNormals();

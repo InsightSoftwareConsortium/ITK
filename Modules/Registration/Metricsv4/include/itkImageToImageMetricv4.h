@@ -193,6 +193,7 @@ public:
   itkOverrideGetNameOfClassMacro(ImageToImageMetricv4);
 
   /** Type used internally for computations */
+
   /** It should be possible to derive the internal computation type from the class object. */
   using InternalComputationValueType = TInternalComputationValueType;
 
@@ -389,24 +390,31 @@ public:
   }
 
   /* Get/Set the Fixed Image.  */
+  /** @ITKStartGrouping */
   itkSetConstObjectMacro(FixedImage, FixedImageType);
   itkGetConstObjectMacro(FixedImage, FixedImageType);
+  /** @ITKEndGrouping */
 
   /** Get/Set the Moving Image.  */
+  /** @ITKStartGrouping */
   itkSetConstObjectMacro(MovingImage, MovingImageType);
   itkGetConstObjectMacro(MovingImage, MovingImageType);
+  /** @ITKEndGrouping */
 
   /** Connect the fixed interpolator. */
   itkSetObjectMacro(FixedInterpolator, FixedInterpolatorType);
+
   /** Get a pointer to the fixed interpolator.  */
   itkGetModifiableObjectMacro(FixedInterpolator, FixedInterpolatorType);
 
   /** Connect the Moving interpolator. */
   itkSetObjectMacro(MovingInterpolator, MovingInterpolatorType);
+
   /** Get a pointer to the Moving interpolator.  */
   itkGetModifiableObjectMacro(MovingInterpolator, MovingInterpolatorType);
 
   /** Set/Get the moving image mask. */
+  /** @ITKStartGrouping */
 #ifndef ITK_FUTURE_LEGACY_REMOVE
   virtual void
   SetMovingImageMask(MovingImageMaskType * const arg)
@@ -418,8 +426,9 @@ public:
 #endif
   itkSetConstObjectMacro(MovingImageMask, MovingImageMaskType);
   itkGetConstObjectMacro(MovingImageMask, MovingImageMaskType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the fixed image mask. */
+  /** @ITKStartGrouping */
 #ifndef ITK_FUTURE_LEGACY_REMOVE
   virtual void
   SetFixedImageMask(FixedImageMaskType * const arg)
@@ -431,10 +440,11 @@ public:
 #endif
   itkSetConstObjectMacro(FixedImageMask, FixedImageMaskType);
   itkGetConstObjectMacro(FixedImageMask, FixedImageMaskType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the fixed image domain sampling point set
    * See main documentation regarding using fixed vs virtual domain
    * for the point set. */
+  /** @ITKStartGrouping */
 #ifndef ITK_FUTURE_LEGACY_REMOVE
   virtual void
   SetFixedSampledPointSet(FixedSampledPointSetType * const arg)
@@ -446,25 +456,29 @@ public:
 #endif
   itkSetConstObjectMacro(FixedSampledPointSet, FixedSampledPointSetType);
   itkGetConstObjectMacro(FixedSampledPointSet, FixedSampledPointSetType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the virtual image domain sampling point set */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(VirtualSampledPointSet, VirtualPointSetType);
   itkGetConstObjectMacro(VirtualSampledPointSet, VirtualPointSetType);
-
+  /** @ITKEndGrouping */
   /** Set/Get flag to use a domain sampling point set */
+  /** @ITKStartGrouping */
   itkSetMacro(UseSampledPointSet, bool);
   itkGetConstReferenceMacro(UseSampledPointSet, bool);
   itkBooleanMacro(UseSampledPointSet);
-
+  /** @ITKEndGrouping */
   /** Set/Get flag to indicate of the VirtualSampledPointSet is set
    * over the FixedSampledPointSet*/
+  /** @ITKStartGrouping */
   itkSetMacro(UseVirtualSampledPointSet, bool);
   itkGetConstReferenceMacro(UseVirtualSampledPointSet, bool);
   itkBooleanMacro(UseVirtualSampledPointSet);
-
+  /** @ITKEndGrouping */
 #if !defined(ITK_LEGACY_REMOVE)
   /** UseFixedSampledPointSet is deprecated and has been replaced
    * with UseSampledPointsSet. */
+  /** @ITKStartGrouping */
   itkLegacyMacro(virtual void SetUseFixedSampledPointSet(bool v))
   {
     this->SetUseSampledPointSet(v);
@@ -481,32 +495,36 @@ public:
   {
     return this->UseSampledPointSetOff();
   }
+  /** @ITKEndGrouping */
 #endif
 
-
   /** Set/Get the gradient filter */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(FixedImageGradientFilter, FixedImageGradientFilterType);
   itkGetModifiableObjectMacro(FixedImageGradientFilter, FixedImageGradientFilterType);
   itkSetObjectMacro(MovingImageGradientFilter, MovingImageGradientFilterType);
   itkGetModifiableObjectMacro(MovingImageGradientFilter, MovingImageGradientFilterType);
-
+  /** @ITKEndGrouping */
   /** Set/Get gradient calculators */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(FixedImageGradientCalculator, FixedImageGradientCalculatorType);
   itkGetModifiableObjectMacro(FixedImageGradientCalculator, FixedImageGradientCalculatorType);
   itkSetObjectMacro(MovingImageGradientCalculator, MovingImageGradientCalculatorType);
   itkGetModifiableObjectMacro(MovingImageGradientCalculator, MovingImageGradientCalculatorType);
-
+  /** @ITKEndGrouping */
   /** Set/Get gradient computation via an image filter,
    * for fixed image. */
+  /** @ITKStartGrouping */
   itkSetMacro(UseFixedImageGradientFilter, bool);
   itkGetConstReferenceMacro(UseFixedImageGradientFilter, bool);
   itkBooleanMacro(UseFixedImageGradientFilter);
-
+  /** @ITKEndGrouping */
   /** Set/Get gradient computation via an image filter. */
+  /** @ITKStartGrouping */
   itkSetMacro(UseMovingImageGradientFilter, bool);
   itkGetConstReferenceMacro(UseMovingImageGradientFilter, bool);
   itkBooleanMacro(UseMovingImageGradientFilter);
-
+  /** @ITKEndGrouping */
   /** Get number of work units to used in the most recent
    * evaluation.  Only valid after GetValueAndDerivative() or
    * GetValue() has been called. */
@@ -516,11 +534,12 @@ public:
   /** Set number of work units to use. This the maximum number of work units to use
    * when multithreaded.  The actual number of work units used (may be less than
    * this value) can be obtained with \c GetNumberOfWorkUnitsUsed. */
+  /** @ITKStartGrouping */
   virtual void
   SetMaximumNumberOfWorkUnits(const ThreadIdType number);
   virtual ThreadIdType
   GetMaximumNumberOfWorkUnits() const;
-
+  /** @ITKEndGrouping */
 #if !defined(ITK_LEGACY_REMOVE)
   /** Get number of threads to used in the most recent
    * evaluation.  Only valid after GetValueAndDerivative() or
@@ -538,6 +557,7 @@ public:
    *
    * NOTE: deprecated. Use SetMaximumNumberOfWorkUnits() and
    * GetMaximumNumberOfWorkUnits() */
+  /** @ITKStartGrouping */
   itkLegacyMacro(virtual void SetMaximumNumberOfThreads(const ThreadIdType count))
   {
     this->SetMaximumNumberOfWorkUnits(count);
@@ -546,8 +566,8 @@ public:
   {
     return this->GetMaximumNumberOfWorkUnits();
   }
+  /** @ITKEndGrouping */
 #endif // !ITK_LEGACY_REMOVE
-
 
   /**
    * Finalize the per-thread components for computing
@@ -587,17 +607,19 @@ public:
    * of threads during registration.
    * \warning The metric does not perform any normalization so the results
    * of this truncation are highly dependent on the derivative magnitudes. */
+  /** @ITKStartGrouping */
   itkSetMacro(UseFloatingPointCorrection, bool);
   itkGetConstReferenceMacro(UseFloatingPointCorrection, bool);
   itkBooleanMacro(UseFloatingPointCorrection);
-
+  /** @ITKEndGrouping */
   /** Set/Get the floating point resolution used optionally by the derivatives.
    * If this is set, for example to 1e5, then the derivative will have precision up to 5
    * points beyond the decimal point. And precision beyond that will be
    * truncated. */
+  /** @ITKStartGrouping */
   itkSetMacro(FloatingPointCorrectionResolution, DerivativeValueType);
   itkGetConstMacro(FloatingPointCorrectionResolution, DerivativeValueType);
-
+  /** @ITKEndGrouping */
   /* Initialize the metric before calling GetValue or GetDerivative.
    * Derived classes must call this Superclass version if they override
    * this to perform their own initialization.
@@ -725,11 +747,12 @@ protected:
 
   /** Initialize the default image gradient filters. This must only
    * be called once the fixed and moving images have been set. */
+  /** @ITKStartGrouping */
   virtual void
   InitializeDefaultFixedImageGradientFilter();
   virtual void
   InitializeDefaultMovingImageGradientFilter();
-
+  /** @ITKEndGrouping */
   /** Get accessor for flag to calculate derivative. */
   itkGetConstMacro(ComputeDerivative, bool);
 
@@ -867,10 +890,12 @@ private:
 
   /** Only floating-point images are currently supported. To support integer images,
    * several small changes must be made */
+  /** @ITKStartGrouping */
   using FixedImagePixelValueType = typename PixelTraits<FixedImagePixelType>::ValueType;
   using MovingImagePixelValueType = typename PixelTraits<MovingImagePixelType>::ValueType;
   itkConceptMacro(OnlyDefinedForFloatingPointTypes0, (itk::Concept::IsFloatingPoint<FixedImagePixelValueType>));
   itkConceptMacro(OnlyDefinedForFloatingPointTypes1, (itk::Concept::IsFloatingPoint<MovingImagePixelValueType>));
+  /** @ITKEndGrouping */
 };
 } // namespace itk
 

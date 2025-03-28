@@ -157,10 +157,11 @@ public:
   GetIndex(InstanceIdentifier id) const;
 
   /** Set/Get whether the bins at the edges of the histogram extend to +/- infinity. */
+  /** @ITKStartGrouping */
   itkGetConstMacro(ClipBinsAtEnds, bool);
   itkSetMacro(ClipBinsAtEnds, bool);
   itkBooleanMacro(ClipBinsAtEnds);
-
+  /** @ITKEndGrouping */
   /** Returns true if the given index is out of bound meaning one of index
    * is not between [0, last index] */
   bool

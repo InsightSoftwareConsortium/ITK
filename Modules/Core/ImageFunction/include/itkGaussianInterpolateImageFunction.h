@@ -102,6 +102,7 @@ public:
   }
 
   /** Set/Get sigma. */
+  /** @ITKStartGrouping */
   virtual void
   SetSigma(const ArrayType s)
   {
@@ -123,8 +124,10 @@ public:
     this->SetSigma(sigma);
   }
   itkGetConstMacro(Sigma, ArrayType);
+  /** @ITKEndGrouping */
 
   /** Set/Get alpha. */
+  /** @ITKStartGrouping */
   virtual void
   SetAlpha(const RealType a)
   {
@@ -136,6 +139,7 @@ public:
     }
   }
   itkGetConstMacro(Alpha, RealType);
+  /** @ITKEndGrouping */
 
   /** Set/Get sigma and alpha. */
   virtual void
@@ -179,17 +183,22 @@ protected:
                             bool                   evaluateGradient = false) const;
 
   /** Set/Get the bounding box starting point. */
+  /** @ITKStartGrouping */
   itkSetMacro(BoundingBoxStart, ArrayType);
   itkGetConstMacro(BoundingBoxStart, ArrayType);
+  /** @ITKEndGrouping */
 
   /** Set/Get the bounding box end point. */
+  /** @ITKStartGrouping */
   itkSetMacro(BoundingBoxEnd, ArrayType);
   itkGetConstMacro(BoundingBoxEnd, ArrayType);
+  /** @ITKEndGrouping */
 
   /** Set/Get the cut-off distance. */
+  /** @ITKStartGrouping */
   itkSetMacro(CutOffDistance, ArrayType);
   itkGetConstMacro(CutOffDistance, ArrayType);
-
+  /** @ITKEndGrouping */
 
 private:
   /** Evaluate function value. */

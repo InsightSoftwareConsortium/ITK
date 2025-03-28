@@ -85,9 +85,10 @@ public:
   itkGetStringMacro(FileName);
 
   /** Get/Set the input DOM object to be written. */
+  /** @ITKStartGrouping */
   itkSetConstObjectMacro(Input, InputType);
   itkGetConstObjectMacro(Input, InputType);
-
+  /** @ITKEndGrouping */
   /**
    * Function called by Update() or end-users to write the input DOM object
    * to an output stream such as file, string, console, etc.
@@ -126,5 +127,4 @@ operator<<(std::ostream & os, const itk::DOMNode & object)
   writer->Update(os);
   return os;
 }
-
 #endif // itkDOMNodeXMLWriter_h

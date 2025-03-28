@@ -93,7 +93,6 @@ public:
     other.m_ElementCount = 0;
   }
 
-
   /** Assignment operator. */
   Self &
   operator=(const Self & other)
@@ -105,7 +104,6 @@ public:
     }
     return *this;
   }
-
 
   /** Move-assignment. */
   Self &
@@ -120,8 +118,8 @@ public:
     return *this;
   }
 
-
   /** STL-style iterator support for the memory buffer. */
+  /** @ITKStartGrouping */
   iterator
   begin()
   {
@@ -147,8 +145,10 @@ public:
   {
     return m_ElementCount;
   }
+  /** @ITKEndGrouping */
 
   /** Data access methods */
+  /** @ITKStartGrouping */
   const TPixel &
   operator[](unsigned int i) const
   {
@@ -159,6 +159,7 @@ public:
   {
     return m_Data[i];
   }
+  /** @ITKEndGrouping */
 
   /** Allocates a buffer of size n */
   void

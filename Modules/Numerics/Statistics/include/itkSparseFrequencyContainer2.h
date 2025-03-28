@@ -51,9 +51,10 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** \see LightObject::GetNameOfClass() */
+  /** @ITKStartGrouping */
   itkOverrideGetNameOfClassMacro(SparseFrequencyContainer2);
   itkNewMacro(Self);
-
+  /** @ITKEndGrouping */
   /** instance identifier alias */
   using InstanceIdentifier = MeasurementVectorTraits::InstanceIdentifier;
 

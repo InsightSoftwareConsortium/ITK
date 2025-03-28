@@ -76,9 +76,10 @@ public:
   SetScales(const ScalesType & scales);
 
   /** Get current parameters scaling. */
+  /** @ITKStartGrouping */
   itkGetConstReferenceMacro(Scales, ScalesType);
   itkGetConstReferenceMacro(InverseScales, ScalesType);
-
+  /** @ITKEndGrouping */
   /** Get current position of the optimization. */
   itkGetConstReferenceMacro(CurrentPosition, ParametersType);
 

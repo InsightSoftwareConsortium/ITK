@@ -79,19 +79,22 @@ public:
 
   /** Set the resolution level to be used for generating cells in the Sphere.
    *  High values of this parameter will produce sphere with more triangles. */
+  /** @ITKStartGrouping */
   itkSetMacro(Resolution, unsigned int);
   itkGetConstMacro(Resolution, unsigned int);
-
+  /** @ITKEndGrouping */
   /** Set/Get Coordinates of the Sphere center. */
+  /** @ITKStartGrouping */
   itkSetMacro(Center, PointType);
   itkGetConstMacro(Center, PointType);
-
+  /** @ITKEndGrouping */
   /** Set/Get scales of the Sphere. This is a vector of values that can
    * actually be used for generating ellipsoids aligned with the coordinate
    * axis. */
+  /** @ITKStartGrouping */
   itkSetMacro(Scale, VectorType);
   itkGetConstMacro(Scale, VectorType);
-
+  /** @ITKEndGrouping */
 protected:
   RegularSphereMeshSource();
   ~RegularSphereMeshSource() override = default;

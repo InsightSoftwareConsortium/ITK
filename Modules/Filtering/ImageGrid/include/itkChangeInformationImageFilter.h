@@ -119,20 +119,26 @@ public:
   /** Specify a new data spacing explicitly.  The default is to
    * use the spacing of the Input, or of the ReferenceImage
    * if UseReferenceImage is set. */
+  /** @ITKStartGrouping */
   itkSetMacro(OutputSpacing, SpacingType);
   itkGetConstReferenceMacro(OutputSpacing, SpacingType);
+  /** @ITKEndGrouping */
 
   /** Specify a new data origin explicitly.  The default is to
    *  use the origin of the Input, or of the ReferenceImage
    *  if UseReferenceImage is true. */
+  /** @ITKStartGrouping */
   itkSetMacro(OutputOrigin, PointType);
   itkGetConstReferenceMacro(OutputOrigin, PointType);
+  /** @ITKEndGrouping */
 
   /** Specify a new direction cosine matrix explicitly.  The default is to
    *  use the direction of the Input, or of the ReferenceImage
    *  if UseReferenceImage is true. */
+  /** @ITKStartGrouping */
   itkSetMacro(OutputDirection, DirectionType);
   itkGetConstReferenceMacro(OutputDirection, DirectionType);
+  /** @ITKEndGrouping */
 
   /** Specify an offset for the buffered region. The default is to
    *  use the same buffered region as the input or an Offset computed from
@@ -142,9 +148,11 @@ public:
    *  controls the requested region. Therefore, changing the buffered region
    *  may mean the filter cannot produce the requested region.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(OutputOffset, OutputImageOffsetType);
   itkGetConstReferenceMacro(OutputOffset, OutputImageOffsetType);
   itkSetVectorMacro(OutputOffset, OutputImageOffsetValueType, ImageDimension);
+  /** @ITKEndGrouping */
 
   /** Change the origin, spacing and region of the output image. */
   void
@@ -206,9 +214,11 @@ public:
   /** Set the Origin of the output so that image coordinate (0,0,0)
    * lies at the Center of the Image.  This will override
    * SetOutputOrigin. */
+  /** @ITKStartGrouping */
   itkSetMacro(CenterImage, bool);
   itkBooleanMacro(CenterImage);
   itkGetConstMacro(CenterImage, bool);
+  /** @ITKEndGrouping */
 
   /** Apply changes to the output image information. */
   void

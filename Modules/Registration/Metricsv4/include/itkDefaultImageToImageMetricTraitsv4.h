@@ -109,8 +109,10 @@ public:
   /** Only floating-point images are currently supported. To support integer images,
    * several small changes must be made to use an internal floating-point type for
    * computations rather than the image pixel type itself. */
+  /** @ITKStartGrouping */
   itkConceptMacro(OnlyDefinedForFloatingPointTypes0, (itk::Concept::IsFloatingPoint<FixedRealType>));
   itkConceptMacro(OnlyDefinedForFloatingPointTypes1, (itk::Concept::IsFloatingPoint<MovingRealType>));
+  /** @ITKEndGrouping */
 };
 } // end namespace itk
 

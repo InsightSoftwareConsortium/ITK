@@ -162,17 +162,23 @@ public:
   GetInput() const;
 
   /** Return the feature means and deviations.  */
+  /** @ITKStartGrouping */
   itkGetConstReferenceObjectMacro(FeatureMeans, FeatureValueVector);
   itkGetConstReferenceObjectMacro(FeatureStandardDeviations, FeatureValueVector);
+  /** @ITKEndGrouping */
 
   /** Set the desired feature set. Optional, for default value see above. */
+  /** @ITKStartGrouping */
   itkSetConstObjectMacro(RequestedFeatures, FeatureNameVector);
   itkGetConstObjectMacro(RequestedFeatures, FeatureNameVector);
+  /** @ITKEndGrouping */
 
   /** Set the  offsets over which the co-occurrence pairs will be computed.
       Optional; for default value see above. */
+  /** @ITKStartGrouping */
   itkSetConstObjectMacro(Offsets, OffsetVector);
   itkGetConstObjectMacro(Offsets, OffsetVector);
+  /** @ITKEndGrouping */
 
   /** Set number of histogram bins along each axis.
       Optional; for default value see above. */

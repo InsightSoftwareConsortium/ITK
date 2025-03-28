@@ -295,13 +295,15 @@ public:
   /** Set/Get the number of layers to use in the sparse field.  Argument is the
    *  number of layers on ONE side of the active layer, so the total layers in
    *   the sparse field is 2 * NumberOfLayers +1 */
+  /** @ITKStartGrouping */
   itkSetMacro(NumberOfLayers, unsigned int);
   itkGetConstMacro(NumberOfLayers, unsigned int);
-
+  /** @ITKEndGrouping */
   /** Set/Get the value of the isosurface to use in the input image. */
+  /** @ITKStartGrouping */
   itkSetMacro(IsoSurfaceValue, ValueType);
   itkGetConstMacro(IsoSurfaceValue, ValueType);
-
+  /** @ITKEndGrouping */
   /** Get the RMS change calculated in the PREVIOUS iteration.  This value is
    *  the square root of the average square of the change value of all pixels
    *  updated during the previous iteration. */
@@ -312,10 +314,12 @@ public:
       when calculating change at a voxel location.  Turned on by default.  Some
       applications may not use this value and can safely turn the flag
       off. */
+  /** @ITKStartGrouping */
   itkSetMacro(InterpolateSurfaceLocation, bool);
   itkGetConstMacro(InterpolateSurfaceLocation, bool);
-
+  /** @ITKEndGrouping */
   /** See Get/SetInterpolateSurfaceLocation */
+  /** @ITKStartGrouping */
   void
   InterpolateSurfaceLocationOn()
   {
@@ -326,7 +330,7 @@ public:
   {
     this->SetInterpolateSurfaceLocation(false);
   }
-
+  /** @ITKEndGrouping */
   itkConceptMacro(OutputEqualityComparableCheck, (Concept::EqualityComparable<typename TOutputImage::PixelType>));
   itkConceptMacro(DoubleConvertibleToOutputCheck, (Concept::Convertible<double, typename TOutputImage::PixelType>));
   itkConceptMacro(OutputOStreamWritableCheck, (Concept::OStreamWritable<typename TOutputImage::PixelType>));

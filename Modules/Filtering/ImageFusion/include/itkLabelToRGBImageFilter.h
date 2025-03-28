@@ -80,13 +80,15 @@ public:
   itkNewMacro(Self);
 
   /** Set/Get the background value */
+  /** @ITKStartGrouping */
   itkSetMacro(BackgroundValue, LabelPixelType);
   itkGetConstReferenceMacro(BackgroundValue, LabelPixelType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the background color in the output image */
+  /** @ITKStartGrouping */
   itkSetMacro(BackgroundColor, OutputPixelType);
   itkGetConstReferenceMacro(BackgroundColor, OutputPixelType);
-
+  /** @ITKEndGrouping */
   /** Empty the color LUT container */
   void
   ResetColors();

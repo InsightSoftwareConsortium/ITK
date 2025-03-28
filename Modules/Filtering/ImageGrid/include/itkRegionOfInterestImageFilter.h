@@ -79,9 +79,10 @@ public:
   using InputImagePixelType = typename TInputImage::PixelType;
 
   /** Set/Get the output image region. */
+  /** @ITKStartGrouping */
   itkSetMacro(RegionOfInterest, RegionType);
   itkGetConstMacro(RegionOfInterest, RegionType);
-
+  /** @ITKEndGrouping */
   /** ImageDimension enumeration */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;

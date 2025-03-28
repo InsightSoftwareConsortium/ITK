@@ -139,6 +139,7 @@ public:
   itkGetConstReferenceMacro(Gradient, DerivativeType);
 
   /** Set/Get a. */
+  /** @ITKStartGrouping */
   itkSetMacro(Sa, double);
   itkGetConstMacro(Sa, double);
   // For backward compatibility
@@ -152,8 +153,9 @@ public:
   {
     return GetSa();
   }
-
+  /** @ITKEndGrouping */
   /** Set/Get c. */
+  /** @ITKStartGrouping */
   itkSetMacro(Sc, double);
   itkGetConstMacro(Sc, double);
   // For backward compatibility
@@ -167,20 +169,24 @@ public:
   {
     return GetSc();
   }
-
+  /** @ITKEndGrouping */
   /** Set/Get A. */
+  /** @ITKStartGrouping */
   itkSetMacro(A, double);
   itkGetConstMacro(A, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get alpha. */
+  /** @ITKStartGrouping */
   itkSetMacro(Alpha, double);
   itkGetConstMacro(Alpha, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get gamma. */
+  /** @ITKStartGrouping */
   itkSetMacro(Gamma, double);
   itkGetConstMacro(Gamma, double);
-
+  /** @ITKEndGrouping */
   /** Methods to configure the cost function. */
+  /** @ITKStartGrouping */
   itkGetConstMacro(Maximize, bool);
   itkSetMacro(Maximize, bool);
   itkBooleanMacro(Maximize);
@@ -204,15 +210,16 @@ public:
   {
     this->MaximizeOn();
   }
-
+  /** @ITKEndGrouping */
   /** Set/Get the number of perturbation used to construct
    * a gradient estimate g_k.
    * q = NumberOfPerturbations
    * g_k = 1/q sum_{j=1..q} g^(j)_k
    */
+  /** @ITKStartGrouping */
   itkSetMacro(NumberOfPerturbations, SizeValueType);
   itkGetConstMacro(NumberOfPerturbations, SizeValueType);
-
+  /** @ITKEndGrouping */
   /**
    * Get the state of convergence in the last iteration. When the
    * StateOfConvergence is lower than the Tolerance, and the minimum
@@ -227,21 +234,25 @@ public:
   itkGetConstMacro(StateOfConvergence, double);
 
   /** Set/Get StateOfConvergenceDecayRate (number between 0 and 1). */
+  /** @ITKStartGrouping */
   itkSetMacro(StateOfConvergenceDecayRate, double);
   itkGetConstMacro(StateOfConvergenceDecayRate, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get the minimum number of iterations */
+  /** @ITKStartGrouping */
   itkSetMacro(MinimumNumberOfIterations, SizeValueType);
   itkGetConstMacro(MinimumNumberOfIterations, SizeValueType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the maximum number of iterations. */
+  /** @ITKStartGrouping */
   itkSetMacro(MaximumNumberOfIterations, SizeValueType);
   itkGetConstMacro(MaximumNumberOfIterations, SizeValueType);
-
+  /** @ITKEndGrouping */
   /** Set/Get Tolerance */
+  /** @ITKStartGrouping */
   itkSetMacro(Tolerance, double);
   itkGetConstMacro(Tolerance, double);
-
+  /** @ITKEndGrouping */
   /** Get the reason for termination */
   std::string
   GetStopConditionDescription() const override;

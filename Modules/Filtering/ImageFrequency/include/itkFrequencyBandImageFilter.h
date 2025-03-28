@@ -84,9 +84,11 @@ public:
   using FrequencyValueType = typename FrequencyIteratorType::FrequencyValueType;
 
   /****** Frequency Threshold Getters/Setters *****/
+
   /** Band range: Low threshold/boundary in Hertz */
   itkGetConstReferenceMacro(LowFrequencyThreshold, FrequencyValueType);
   itkSetMacro(LowFrequencyThreshold, FrequencyValueType);
+
   /**
    * Set low frequency threshold when input frequency is in radians.
    * @param freqLowInRadians low freq in radians.
@@ -95,11 +97,12 @@ public:
   SetLowFrequencyThresholdInRadians(const FrequencyValueType & freqLowInRadians);
 
   /** Band range: High threshold/boundary in Hertz */
+  /** @ITKStartGrouping */
   itkGetConstReferenceMacro(HighFrequencyThreshold, FrequencyValueType);
   itkSetMacro(HighFrequencyThreshold, FrequencyValueType);
   void
   SetHighFrequencyThresholdInRadians(const FrequencyValueType & freqHighInRadians);
-
+  /** @ITKEndGrouping */
   /**
    * Set LowFrequencyThreshold and HighFrequencyThreshold at the same time,
    * input frequencies in Hertz.
@@ -123,21 +126,24 @@ public:
 
   /** The pixel values that correspond to m_LowFrequencyThreshold are passed to the output image,
    * independent of m_PassBand */
+  /** @ITKStartGrouping */
   itkSetMacro(PassLowFrequencyThreshold, bool);
   itkGetConstReferenceMacro(PassLowFrequencyThreshold, bool);
   itkBooleanMacro(PassLowFrequencyThreshold);
-
+  /** @ITKEndGrouping */
   /** The pixel values that correspond to m_HighFrequencyThreshold are passed to the output image,
    * independent of m_PassBand */
+  /** @ITKStartGrouping */
   itkSetMacro(PassHighFrequencyThreshold, bool);
   itkGetConstReferenceMacro(PassHighFrequencyThreshold, bool);
   itkBooleanMacro(PassHighFrequencyThreshold);
-
+  /** @ITKEndGrouping */
   /** True: the band is a PassBand. False: StopBand **/
+  /** @ITKStartGrouping */
   itkSetMacro(PassBand, bool);
   itkGetConstReferenceMacro(PassBand, bool);
   itkBooleanMacro(PassBand);
-
+  /** @ITKEndGrouping */
   /**
    * Utility method equivalent to:
    * SetPassBand(true)
@@ -164,22 +170,25 @@ public:
 
   /** If true the frequency cut-off uses the radius of the frequency vector. If false, it uses the max absolute value of
    * the frequency vector. */
+  /** @ITKStartGrouping */
   itkSetMacro(RadialBand, bool);
   itkGetConstReferenceMacro(RadialBand, bool);
   itkBooleanMacro(RadialBand);
-
+  /** @ITKEndGrouping */
   /** Control if negative frequencies with absolute value equal to low frequency threshold are passing.
    * Only effective when RadialBand is false **/
+  /** @ITKStartGrouping */
   itkSetMacro(PassNegativeLowFrequencyThreshold, bool);
   itkGetConstReferenceMacro(PassNegativeLowFrequencyThreshold, bool);
   itkBooleanMacro(PassNegativeLowFrequencyThreshold);
-
+  /** @ITKEndGrouping */
   /** Control if negative frequencies with absolute value equal to high frequency threshold are passing.
    * Only effective when RadialBand is false **/
+  /** @ITKStartGrouping */
   itkSetMacro(PassNegativeHighFrequencyThreshold, bool);
   itkGetConstReferenceMacro(PassNegativeHighFrequencyThreshold, bool);
   itkBooleanMacro(PassNegativeHighFrequencyThreshold);
-
+  /** @ITKEndGrouping */
 
 protected:
   FrequencyBandImageFilter();

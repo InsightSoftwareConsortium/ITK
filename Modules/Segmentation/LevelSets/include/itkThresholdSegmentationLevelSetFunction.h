@@ -83,6 +83,7 @@ public:
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Set/Get threshold values */
+  /** @ITKStartGrouping */
   void
   SetUpperThreshold(FeatureScalarType f)
   {
@@ -103,7 +104,7 @@ public:
   {
     return m_LowerThreshold;
   }
-
+  /** @ITKEndGrouping */
   void
   CalculateSpeedImage() override;
 

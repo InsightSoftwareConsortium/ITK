@@ -82,6 +82,7 @@ public:
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
   /** Set/Get the pad value.  Default is Zero. */
+  /** @ITKStartGrouping */
   void
   SetConstant(OutputImagePixelType constant)
   {
@@ -96,7 +97,7 @@ public:
   {
     return m_InternalBoundaryCondition.GetConstant();
   }
-
+  /** @ITKEndGrouping */
   itkConceptMacro(OutputEqualityComparableCheck, (Concept::EqualityComparable<OutputImagePixelType>));
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
   itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<ImageDimension, OutputImageDimension>));

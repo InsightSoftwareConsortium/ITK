@@ -89,17 +89,20 @@ public:
   using ShapeFunctionPointer = typename ShapeFunctionType::Pointer;
 
   /** Set/Get the shape distance function. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(ShapeFunction, ShapeFunctionType);
   itkGetModifiableObjectMacro(ShapeFunction, ShapeFunctionType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the active region. */
+  /** @ITKStartGrouping */
   itkSetConstObjectMacro(ActiveRegion, NodeContainerType);
   itkGetConstObjectMacro(ActiveRegion, NodeContainerType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the feature image. */
+  /** @ITKStartGrouping */
   itkSetConstObjectMacro(FeatureImage, FeatureImageType);
   itkGetConstObjectMacro(FeatureImage, FeatureImageType);
-
+  /** @ITKEndGrouping */
   /** This method returns the value of the cost function corresponding
    * to the specified parameters.    */
   MeasureType

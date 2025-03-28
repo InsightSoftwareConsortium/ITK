@@ -95,9 +95,10 @@ public:
   }
 
   /** Set/Get the TransformIO class used internally to read to transform. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(TransformIO, TransformIOType);
   itkGetConstObjectMacro(TransformIO, TransformIOType);
-
+  /** @ITKEndGrouping */
 protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

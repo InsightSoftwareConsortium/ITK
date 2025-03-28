@@ -50,6 +50,7 @@ public:
   using Superclass = InPlaceImageFilter<TInputImage, TOutputImage>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 

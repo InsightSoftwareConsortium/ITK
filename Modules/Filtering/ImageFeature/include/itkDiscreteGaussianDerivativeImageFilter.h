@@ -96,29 +96,33 @@ public:
   /** Order of derivatives in each dimension. Sets the derivative order
    * independently for each dimension, but see also
    * SetOrder(const unsigned int v). The default is 1 in each dimension. */
+  /** @ITKStartGrouping */
   itkSetMacro(Order, OrderArrayType);
   itkGetConstMacro(Order, const OrderArrayType);
-
+  /** @ITKEndGrouping */
   /** The variance for the discrete Gaussian kernel.  Sets the variance
    * independently for each dimension, but
    * see also SetVariance(const double v). The default is 0.0 in each
    * dimension. If UseImageSpacing is true, the units are the physical units
    * of your image.  If UseImageSpacing is false then the units are
    * pixels. */
+  /** @ITKStartGrouping */
   itkSetMacro(Variance, ArrayType);
   itkGetConstMacro(Variance, const ArrayType);
-
+  /** @ITKEndGrouping */
   /** The algorithm will size the discrete kernel so that the error
    * resulting from truncation of the kernel is no greater than
    * MaximumError. The default is 0.01 in each dimension. */
+  /** @ITKStartGrouping */
   itkSetMacro(MaximumError, ArrayType);
   itkGetConstMacro(MaximumError, const ArrayType);
-
+  /** @ITKEndGrouping */
   /** Set the kernel to be no wider than MaximumKernelWidth pixels,
    *  even if MaximumError demands it. The default is 32 pixels. */
+  /** @ITKStartGrouping */
   itkGetConstMacro(MaximumKernelWidth, int);
   itkSetMacro(MaximumKernelWidth, int);
-
+  /** @ITKEndGrouping */
   /** \brief Set/Get number of pieces to divide the input for the
    * internal composite pipeline. The upstream pipeline will not be
    * effected.
@@ -134,7 +138,7 @@ public:
   /** Convenience Set methods for setting all dimensional parameters
    *  to the same values.
    */
-  /*@{*/
+  /** @ITKStartGrouping */
   void
   SetOrder(const typename OrderArrayType::ValueType v)
   {
@@ -155,22 +159,23 @@ public:
     auto a = MakeFilled<ArrayType>(v);
     this->SetMaximumError(a);
   }
-
-  /*@}*/
+  /** @ITKEndGrouping */
 
   /** Set/Get whether or not the filter will use the spacing of the input
       image in its calculations. Default is ImageSpacingOn. */
+  /** @ITKStartGrouping */
   itkSetMacro(UseImageSpacing, bool);
   itkGetConstMacro(UseImageSpacing, bool);
   itkBooleanMacro(UseImageSpacing);
-
+  /** @ITKEndGrouping */
   /** Set/Get the flag for calculating scale-space normalized derivatives.
    * Normalized derivatives are obtained multiplying by the scale
    * parameter t. */
+  /** @ITKStartGrouping */
   itkSetMacro(NormalizeAcrossScale, bool);
   itkGetConstMacro(NormalizeAcrossScale, bool);
   itkBooleanMacro(NormalizeAcrossScale);
-
+  /** @ITKEndGrouping */
   itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<OutputPixelType>));
 
 protected:

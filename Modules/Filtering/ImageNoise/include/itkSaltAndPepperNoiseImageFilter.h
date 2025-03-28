@@ -96,20 +96,23 @@ public:
 
   /** Set/Get the probability of the salt and pepper noise event.
    * Defaults to 0.01. */
+  /** @ITKStartGrouping */
   itkGetConstMacro(Probability, double);
   itkSetMacro(Probability, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get the salt/high pixel value.
    * Defaults to NumericTraits<OutputImagePixelType>::max(). */
+  /** @ITKStartGrouping */
   itkSetMacro(SaltValue, OutputImagePixelType);
   itkGetConstMacro(SaltValue, OutputImagePixelType);
-
+  /** @ITKEndGrouping */
 
   /** Set/Get the pepper/low pixel value.
    * Defaults to NumericTraits<OutputImagePixelType>::NonpositiveMin(). */
+  /** @ITKStartGrouping */
   itkSetMacro(PepperValue, OutputImagePixelType);
   itkGetConstMacro(PepperValue, OutputImagePixelType);
-
+  /** @ITKEndGrouping */
 
   itkConceptMacro(InputConvertibleToOutputCheck,
                   (Concept::Convertible<typename TInputImage::PixelType, typename TOutputImage::PixelType>));

@@ -217,6 +217,7 @@ public:
   /** Returns the tensor rotated by the provided matrix.
    *  ResultingTensor = Matrix * ThisTensor * Matrix.GetTranspose()
    */
+  /** @ITKStartGrouping */
   template <typename TMatrixValueType>
   Self
   Rotate(const Matrix<TMatrixValueType, VDimension, VDimension> & m) const;
@@ -232,6 +233,7 @@ public:
   {
     return this->Rotate(static_cast<Matrix<TMatrixValueType>>(m));
   }
+  /** @ITKEndGrouping */
 
   /** Pre-Multiply by a Matrix as ResultingMatrix = Matrix * ThisTensor. */
   MatrixType

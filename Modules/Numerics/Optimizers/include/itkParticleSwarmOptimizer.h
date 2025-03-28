@@ -84,13 +84,14 @@ public:
    * p_i - parameters yielding the best function value obtained by this particle
    * p_g - parameters yielding the best function value obtained by all particles
    */
+  /** @ITKStartGrouping */
   itkSetMacro(InertiaCoefficient, double);
   itkGetMacro(InertiaCoefficient, double);
   itkSetMacro(PersonalCoefficient, double);
   itkGetMacro(PersonalCoefficient, double);
   itkSetMacro(GlobalCoefficient, double);
   itkGetMacro(GlobalCoefficient, double);
-
+  /** @ITKEndGrouping */
 protected:
   ParticleSwarmOptimizer();
   ~ParticleSwarmOptimizer() override;

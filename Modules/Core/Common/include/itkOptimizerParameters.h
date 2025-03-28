@@ -154,6 +154,7 @@ public:
    * TODO Determine behavior when copying from obj pointing to image parameters.
    *  By default should copy image param data into Array portion of new object,
    *  i.e. into data_block. Is that what we want? */
+  /** @ITKStartGrouping */
   Self &
   operator=(const Self & rhs)
   {
@@ -178,6 +179,7 @@ public:
     this->ArrayType::operator=(rhs);
     return *this;
   }
+  /** @ITKEndGrouping */
 
   ~OptimizerParameters() override = default;
 

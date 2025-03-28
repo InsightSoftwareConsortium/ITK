@@ -91,9 +91,10 @@ public:
   /** The epsilon determines the accuracy of the line search
    *  i.e. the energy alteration that is considered convergent.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(Epsilon, TInternalComputationValueType);
   itkGetMacro(Epsilon, TInternalComputationValueType);
-
+  /** @ITKEndGrouping */
   /** The upper and lower limit below determine the range
    *  of values over which the learning rate can be adjusted
    *  by the golden section line search.  The update can then
@@ -103,13 +104,14 @@ public:
    *     NewParams = OldParams + UpperLimit * gradient
    *  Reasonable values might be 0 and 2.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(LowerLimit, TInternalComputationValueType);
   itkGetMacro(LowerLimit, TInternalComputationValueType);
   itkSetMacro(UpperLimit, TInternalComputationValueType);
   itkGetMacro(UpperLimit, TInternalComputationValueType);
   itkSetMacro(MaximumLineSearchIterations, unsigned int);
   itkGetMacro(MaximumLineSearchIterations, unsigned int);
-
+  /** @ITKEndGrouping */
 protected:
   /** Advance one Step following the gradient direction.
    * Includes transform update. */
@@ -147,6 +149,7 @@ protected:
 
   /** Controls the maximum recursion depth for the golden section search */
   unsigned int m_MaximumLineSearchIterations{};
+
   /** Counts the recursion depth for the golden section search */
   unsigned int m_LineSearchIterations{};
 };

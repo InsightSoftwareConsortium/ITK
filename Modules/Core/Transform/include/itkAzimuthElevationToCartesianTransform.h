@@ -200,32 +200,38 @@ public:
    *  The maximum azimuth and elevation can be set so that the resulting
    *  cartesian space is symmetric about the z axis.  Therefore, the line
    *  defined by azimuth/2,elevation/2 = z-axis. */
+  /** @ITKStartGrouping */
   itkSetMacro(MaxAzimuth, long);
   itkGetConstMacro(MaxAzimuth, long);
-
+  /** @ITKEndGrouping */
   /**  Set the maximum elevation
    *  The maximum azimuth and elevation can be set so that the resulting
    *  cartesian space is symmetric about the z axis.  Therefore, the line
    *  defined by azimuth/2,elevation/2 = z-axis. */
+  /** @ITKStartGrouping */
   itkSetMacro(MaxElevation, long);
   itkGetConstMacro(MaxElevation, long);
-
+  /** @ITKEndGrouping */
   /**  Set the number of cartesian units between each unit along the R . */
+  /** @ITKStartGrouping */
   itkSetMacro(RadiusSampleSize, double);
   itkGetConstMacro(RadiusSampleSize, double);
-
+  /** @ITKEndGrouping */
   /**  Set the number of degrees between each azimuth unit. */
+  /** @ITKStartGrouping */
   itkSetMacro(AzimuthAngularSeparation, double);
   itkGetConstMacro(AzimuthAngularSeparation, double);
-
+  /** @ITKEndGrouping */
   /**  Set the number of degrees between each elevation unit. */
+  /** @ITKStartGrouping */
   itkSetMacro(ElevationAngularSeparation, double);
   itkGetConstMacro(ElevationAngularSeparation, double);
-
+  /** @ITKEndGrouping */
   /**  Set the distance to add to the radius. */
+  /** @ITKStartGrouping */
   itkSetMacro(FirstSampleDistance, double);
   itkGetConstMacro(FirstSampleDistance, double);
-
+  /** @ITKEndGrouping */
 protected:
   /** Create an AzimuthElevationToCartesianTransform object. */
   AzimuthElevationToCartesianTransform();

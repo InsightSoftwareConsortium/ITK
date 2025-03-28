@@ -236,6 +236,7 @@ public:
 
   /** Set/Get the maximum depth of image on which this segment table is based.
    * (Should set really be calling modified? jc 11/16/01) */
+  /** @ITKStartGrouping */
   void
   SetMaximumDepth(ScalarType s)
   {
@@ -248,6 +249,7 @@ public:
   {
     return m_MaximumDepth;
   }
+  /** @ITKEndGrouping */
 
   /** Copies the contents of another segment table into this segment table.
       This is really operator= in disguise, although superclass information is

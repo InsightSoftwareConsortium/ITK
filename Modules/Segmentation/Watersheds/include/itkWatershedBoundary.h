@@ -74,6 +74,7 @@ public:
   /** Data type stored at each pixel in a face.   */
   struct face_pixel_t
   {
+
     /**Index of the direction of watershed flow through this pixel.
      * A negative value indicates that the flow does not move out
      * of the region.  A positive value is the index into the
@@ -97,6 +98,7 @@ public:
   /**    */
   struct flat_region_t
   {
+
     /** Indices into the associated Face containing boundary pixels.  These
      * give access to spatial information, label and flow associated with
      * this boundary pixel connection.     */
@@ -124,13 +126,14 @@ public:
 
   /** Itk type alias and macros defining smart pointer and type identification.
    */
+  /** @ITKStartGrouping */
   using Self = Boundary;
   using Superclass = DataObject;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
   itkNewMacro(Self);
   itkOverrideGetNameOfClassMacro(Boundary);
-
+  /** @ITKEndGrouping */
   /** The following averts an internal compiler error on microsoft compilers */
   using FacePointer = typename face_t::Pointer;
 
@@ -176,6 +179,7 @@ public:
   }
 
   /** Get/Set the table of flat region connections specified by the index. */
+  /** @ITKStartGrouping */
   flat_hash_t *
   GetFlatHash(const IndexType & idx)
   {
@@ -210,11 +214,13 @@ public:
     }
     this->Modified();
   }
+  /** @ITKEndGrouping */
 
   /** Marks a face in the boundary object as either valid (true) or
    * invalid (false).  A valid face is assumed to be initialized
    * and contain information.  No assumptions are made about an
    * invalid face.   */
+  /** @ITKStartGrouping */
   void
   SetValid(bool & l, const IndexType & idx)
   {
@@ -249,6 +255,7 @@ public:
 
     return m_Valid[dimension].second;
   }
+  /** @ITKEndGrouping */
 
 protected:
   Boundary();

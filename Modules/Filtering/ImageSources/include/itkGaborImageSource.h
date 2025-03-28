@@ -79,23 +79,27 @@ public:
   using ArrayType = FixedArray<double, Self::ImageDimension>;
 
   /** Set/Get the standard deviation in each direction. */
+  /** @ITKStartGrouping */
   itkSetMacro(Sigma, ArrayType);
   itkGetConstReferenceMacro(Sigma, ArrayType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the mean in each direction. */
+  /** @ITKStartGrouping */
   itkSetMacro(Mean, ArrayType);
   itkGetConstReferenceMacro(Mean, ArrayType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the modulation frequency of the sine or cosine component. */
+  /** @ITKStartGrouping */
   itkSetMacro(Frequency, double);
   itkGetConstReferenceMacro(Frequency, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get whether the evaluation is performed using the using the imaginary
    * part. Default is false. */
+  /** @ITKStartGrouping */
   itkSetMacro(CalculateImaginaryPart, bool);
   itkGetConstReferenceMacro(CalculateImaginaryPart, bool);
   itkBooleanMacro(CalculateImaginaryPart);
-
+  /** @ITKEndGrouping */
 protected:
   GaborImageSource();
   ~GaborImageSource() override = default;

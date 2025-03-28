@@ -152,6 +152,7 @@ public:
   SetPixelContainer(PixelContainer * container);
 
   /** Return a pointer to the container. */
+  /** @ITKStartGrouping */
   PixelContainer *
   GetPixelContainer()
   {
@@ -165,6 +166,7 @@ public:
     m_DataManager->UpdateCPUBuffer();
     return Superclass::GetPixelContainer();
   }
+  /** @ITKEndGrouping */
 
   void
   SetCurrentCommandQueue(int queueid)
@@ -225,6 +227,7 @@ public:
   using ConstPointer = itk::SmartPointer<const Self>;
 
   /** Class methods used to interface with the registered factories. */
+  /** @ITKStartGrouping */
   const char *
   GetITKSourceVersion() const override
   {
@@ -235,6 +238,7 @@ public:
   {
     return "A Factory for GPUImage";
   }
+  /** @ITKEndGrouping */
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);

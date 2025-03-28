@@ -142,8 +142,10 @@ public:
    * windowing with a cubic-BSpline kernel. Note that even if the metric
    * is used on binary images, the number of bins should at least be
    * equal to five. */
+  /** @ITKStartGrouping */
   itkSetClampMacro(NumberOfHistogramBins, SizeValueType, 5, NumericTraits<SizeValueType>::max());
   itkGetConstReferenceMacro(NumberOfHistogramBins, SizeValueType);
+  /** @ITKEndGrouping */
 
   void
   Initialize() override;

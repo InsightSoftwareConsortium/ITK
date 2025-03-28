@@ -135,6 +135,7 @@ public:
    * SetOutputSpacing(), SetOutputDirection(), and SetOutputOrigin().
    * Else if the speed image is not nullptr, the output information
    * is copied from the input speed image. */
+  /** @ITKStartGrouping */
   virtual void
   SetOutputSize(const OutputSizeType & size)
   {
@@ -156,7 +157,7 @@ public:
   itkSetMacro(OverrideOutputInformation, bool);
   itkGetConstReferenceMacro(OverrideOutputInformation, bool);
   itkBooleanMacro(OverrideOutputInformation);
-
+  /** @ITKEndGrouping */
 protected:
   FastMarchingImageFilterBase();
 
@@ -212,11 +213,12 @@ protected:
   UpdateValue(OutputImageType * oImage, const NodeType & iNode) override;
 
   /** Make sure the given node does not violate any topological constraint*/
+  /** @ITKStartGrouping */
   bool
   CheckTopology(OutputImageType * oImage, const NodeType & iNode) override;
   void
   InitializeOutput(OutputImageType * oImage) override;
-
+  /** @ITKEndGrouping */
   /** Find the nodes were the front will propagate given a node */
   void
   GetInternalNodesUsed(OutputImageType * oImage, const NodeType & iNode, InternalNodeStructureArray & ioNodesUsed);

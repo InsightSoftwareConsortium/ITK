@@ -77,6 +77,7 @@ public:
   using RGBHCVImage = Image<RGBHCVPixel>;
 
   /** \todo Document. */
+  /** @ITKStartGrouping */
   void
   SetMeanPercentError(const double x[6]);
   void
@@ -145,13 +146,14 @@ public:
       x[i] = m_STDTolerance[i];
     }
   }
-
+  /** @ITKEndGrouping */
   /** Maximum value of the RGB, needed for color space conversions.
    * default as 8 bit per channel, if it is different, need to be
    * set before doing anything. */
+  /** @ITKStartGrouping */
   itkSetMacro(MaxValueOfRGB, double);
   itkGetConstMacro(MaxValueOfRGB, double);
-
+  /** @ITKEndGrouping */
   /** Set the three channels to test the mean and STD respectively
    * 0:red, 1:green, 2:blue, 3:hue, 4:chroma, 5:value. */
   void

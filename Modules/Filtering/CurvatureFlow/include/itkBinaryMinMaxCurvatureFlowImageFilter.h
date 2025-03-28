@@ -104,9 +104,10 @@ public:
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Set/Get the threshold value. */
+  /** @ITKStartGrouping */
   itkSetMacro(Threshold, double);
   itkGetConstMacro(Threshold, double);
-
+  /** @ITKEndGrouping */
   itkConceptMacro(InputConvertibleToOutputCheck,
                   (Concept::Convertible<typename TInputImage::PixelType, typename TOutputImage::PixelType>));
 

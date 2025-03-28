@@ -95,10 +95,11 @@ public:
    * from the sample values in the cross-correlation formula and
    * typically results in narrower valleys in the cost function.
    * Default value is false. */
+  /** @ITKStartGrouping */
   itkSetMacro(SubtractMean, bool);
   itkGetConstReferenceMacro(SubtractMean, bool);
   itkBooleanMacro(SubtractMean);
-
+  /** @ITKEndGrouping */
 protected:
   NormalizedCorrelationImageToImageMetric();
   ~NormalizedCorrelationImageToImageMetric() override = default;

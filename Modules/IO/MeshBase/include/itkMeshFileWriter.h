@@ -86,9 +86,10 @@ public:
   GetInput(unsigned int idx);
 
   /** Specify the name of the output file to write. */
+  /** @ITKStartGrouping */
   itkSetStringMacro(FileName);
   itkGetStringMacro(FileName);
-
+  /** @ITKEndGrouping */
   /** Set/Get the MeshIO helper class. Usually this is created via the object
    * factory mechanism that determines whether a particular MeshIO can
    * write a certain file. This method provides a way to get the MeshIO
@@ -98,6 +99,7 @@ public:
    * correct choice and will allow a file to be created regardless of
    * the file extension. If the factory has set the MeshIO, the
    * extension must be supported by the specified MeshIO. */
+  /** @ITKStartGrouping */
   void
   SetMeshIO(MeshIOBase * io)
   {
@@ -110,7 +112,7 @@ public:
     m_UserSpecifiedMeshIO = true;
   }
   itkGetModifiableObjectMacro(MeshIO, MeshIOBase);
-
+  /** @ITKEndGrouping */
   void
   SetFileTypeAsASCII()
   {
@@ -137,10 +139,11 @@ public:
   }
 
   /** Set the compression On or Off */
+  /** @ITKStartGrouping */
   itkSetMacro(UseCompression, bool);
   itkGetConstReferenceMacro(UseCompression, bool);
   itkBooleanMacro(UseCompression);
-
+  /** @ITKEndGrouping */
 protected:
   MeshFileWriter() = default;
   ~MeshFileWriter() override = default;

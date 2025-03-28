@@ -94,21 +94,24 @@ public:
   itkGetModifiableObjectMacro(LevelSetContainer, LevelSetContainerType);
 
   /** Set/Get the value of alpha for computing the time-step using CFL conditions */
+  /** @ITKStartGrouping */
   itkSetMacro(Alpha, LevelSetOutputRealType);
   itkGetMacro(Alpha, LevelSetOutputRealType);
-
+  /** @ITKEndGrouping */
   /** Set a user-specified value of the time-step */
   void
   SetTimeStep(const LevelSetOutputRealType & iDt);
 
   /** Set/Get the equation container for updating all the level sets */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(EquationContainer, EquationContainerType);
   itkGetModifiableObjectMacro(EquationContainer, EquationContainerType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the Stopping Criterion */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(StoppingCriterion, StoppingCriterionType);
   itkGetModifiableObjectMacro(StoppingCriterion, StoppingCriterionType);
-
+  /** @ITKEndGrouping */
   /** Get the number of iterations that have occurred. */
   itkGetConstMacro(NumberOfIterations, IdentifierType);
 

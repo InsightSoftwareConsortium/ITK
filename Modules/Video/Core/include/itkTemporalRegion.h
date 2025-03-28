@@ -53,29 +53,33 @@ public:
   using FrameOffsetType = itk::SizeValueType;
 
   /** Get/Set RealStart */
+  /** @ITKStartGrouping */
   void
   SetRealStart(const RealTimeStamp s);
   RealTimeStamp
   GetRealStart() const;
-
+  /** @ITKEndGrouping */
   /** Get/Set RealDuration */
+  /** @ITKStartGrouping */
   void
   SetRealDuration(const RealTimeInterval d);
   RealTimeInterval
   GetRealDuration() const;
-
+  /** @ITKEndGrouping */
   /** Get/Set FrameStart */
+  /** @ITKStartGrouping */
   void
   SetFrameStart(const FrameOffsetType s);
   FrameOffsetType
   GetFrameStart() const;
-
+  /** @ITKEndGrouping */
   /** Get/Set FrameDuration */
+  /** @ITKStartGrouping */
   void
   SetFrameDuration(const FrameOffsetType d);
   FrameOffsetType
   GetFrameDuration() const;
-
+  /** @ITKEndGrouping */
   /** Return RegionType (SRUCTURED_REGION) */
   RegionEnum
   GetRegionType() const override;
@@ -105,13 +109,17 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Time boundaries */
+
   /** Timestamp corresponding to the first frame in the region. */
   RealTimeStamp m_RealStart{};
+
   /** Time interval corresponding to the entire length of time
    *  represented by the region over ALL frames */
   RealTimeInterval m_RealDuration{};
+
   /** Index of the first frame in the region */
   FrameOffsetType m_FrameStart{ 0 };
+
   /** Total number of frames represented by the region (NOT individual frame duration) */
   FrameOffsetType m_FrameDuration{ 0 };
 

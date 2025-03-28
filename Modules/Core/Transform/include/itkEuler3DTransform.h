@@ -128,10 +128,11 @@ public:
    * default is ZXY. These functions set and get the value which
    * indicates whether the rotation is ZYX or ZXY.
    */
+  /** @ITKStartGrouping */
   virtual void
   SetComputeZYX(const bool flag);
   itkGetConstMacro(ComputeZYX, bool);
-
+  /** @ITKEndGrouping */
   /** Set the state to the identity.
    *
    * Sets the angles to a 0 value.

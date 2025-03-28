@@ -64,7 +64,6 @@ namespace itk
  * \sphinxexample{Core/Common/CovariantVectorDotProduct, Covariant Vector Dot Product}
  * \endsphinx
  */
-
 template <typename T, unsigned int VVectorDimension = 3>
 class ITK_TEMPLATE_EXPORT CovariantVector : public FixedArray<T, VVectorDimension>
 {

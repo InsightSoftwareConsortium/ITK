@@ -130,14 +130,16 @@ public:
    * the filter will create ones for you. These default density functions
    * are Gaussian density functions centered around the K-means of the
    * input image.  */
+  /** @ITKStartGrouping */
   virtual void
   SetMembershipFunctions(MembershipFunctionContainerType * membershipFunction);
   itkGetModifiableObjectMacro(MembershipFunctionContainer, MembershipFunctionContainerType);
-
+  /** @ITKEndGrouping */
   /** Set/Get methods for the number of classes. The user must supply this. */
+  /** @ITKStartGrouping */
   itkSetMacro(NumberOfClasses, unsigned int);
   itkGetConstMacro(NumberOfClasses, unsigned int);
-
+  /** @ITKEndGrouping */
   void
   GenerateOutputInformation() override;
 

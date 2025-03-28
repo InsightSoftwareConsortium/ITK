@@ -126,10 +126,11 @@ public:
   /**
    * Print parameters at each iteration
    */
+  /** @ITKStartGrouping */
   itkSetMacro(PrintParameters, bool);
   itkGetMacro(PrintParameters, bool);
   itkBooleanMacro(PrintParameters);
-
+  /** @ITKEndGrouping */
 
 protected:
   /**

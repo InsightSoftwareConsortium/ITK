@@ -124,7 +124,6 @@ public:
     , m_Constant{ constant }
   {}
 
-
   /** Retrieves the pixel value from the image buffer, at the current
    * index. When the index is out of bounds, it returns the constant
    * value specified during construction. */

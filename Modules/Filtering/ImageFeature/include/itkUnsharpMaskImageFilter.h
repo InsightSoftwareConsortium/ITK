@@ -110,8 +110,10 @@ public:
   using SigmaArrayType = typename GaussianType::SigmaArrayType;
 
   /** Set/Get Sigma values measured in the units of image spacing. Default: 1.0. */
+  /** @ITKStartGrouping */
   itkSetMacro(Sigmas, SigmaArrayType);
   itkGetConstMacro(Sigmas, SigmaArrayType);
+  /** @ITKEndGrouping */
 
   /** Convenience method for setting all dimensional parameters
    * to the same values. */
@@ -123,20 +125,24 @@ public:
   }
 
   /** Set/Get amount of enhancement. Usual range: 0.1 to 2.0. Default: 0.5. */
+  /** @ITKStartGrouping */
   itkSetMacro(Amount, TInternalPrecision);
   itkGetConstMacro(Amount, TInternalPrecision);
-
+  /** @ITKEndGrouping */
 
   /** Set/Get threshold for enhancement. Default: 0. */
+  /** @ITKStartGrouping */
   itkSetMacro(Threshold, TInternalPrecision);
   itkGetConstMacro(Threshold, TInternalPrecision);
+  /** @ITKEndGrouping */
 
   /** Set/Get whether to clamp values to supported
    * range of output type. Default: On. */
+  /** @ITKStartGrouping */
   itkSetMacro(Clamp, bool);
   itkGetConstMacro(Clamp, bool);
   itkBooleanMacro(Clamp);
-
+  /** @ITKEndGrouping */
 protected:
   UnsharpMaskImageFilter();
   ~UnsharpMaskImageFilter() override = default;

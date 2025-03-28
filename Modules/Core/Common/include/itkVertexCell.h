@@ -40,9 +40,10 @@ public:
   ITK_DISALLOW_COPY_AND_MOVE(VertexCell);
 
   /** Standard class type aliases. */
+  /** @ITKStartGrouping */
   itkCellCommonTypedefs(VertexCell);
   itkCellInheritedTypedefs(TCellInterface);
-
+  /** @ITKEndGrouping */
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(VertexCell);
 
@@ -53,6 +54,7 @@ public:
   // Standard CellInterface
 
   /** Implement the standard CellInterface. */
+  /** @ITKStartGrouping */
   CellGeometryEnum
   GetType() const override
   {
@@ -60,7 +62,7 @@ public:
   }
   void
   MakeCopy(CellAutoPointer &) const override;
-
+  /** @ITKEndGrouping */
   /** Get the topological dimension of this cell. */
   unsigned int
   GetDimension() const override;

@@ -75,6 +75,7 @@ static constexpr RGBColormapFilterEnum OverUnder = RGBColormapFilterEnum::OverUn
 /** Define how to print enumerations */
 extern ITKColormap_EXPORT std::ostream &
 operator<<(std::ostream & out, const ScalarToRGBColormapImageFilterEnums::RGBColormapFilter value);
+
 /**
  * \class ScalarToRGBColormapImageFilter
  * \brief Implements pixel-wise intensity->rgb mapping operation on one image.
@@ -181,18 +182,20 @@ public:
 #endif
 
   /** Set/Get the colormap object. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(Colormap, ColormapType);
   itkGetModifiableObjectMacro(Colormap, ColormapType);
-
+  /** @ITKEndGrouping */
   void SetColormap(RGBColormapFilterEnum);
 
   /** Set/Get UseInputImageExtremaForScaling. If true, the colormap uses the
    * min and max values from the image to scale appropriately. Otherwise,
    * these values can be set in the colormap manually. */
+  /** @ITKStartGrouping */
   itkSetMacro(UseInputImageExtremaForScaling, bool);
   itkGetConstMacro(UseInputImageExtremaForScaling, bool);
   itkBooleanMacro(UseInputImageExtremaForScaling);
-
+  /** @ITKEndGrouping */
 protected:
   ScalarToRGBColormapImageFilter();
   ~ScalarToRGBColormapImageFilter() override = default;

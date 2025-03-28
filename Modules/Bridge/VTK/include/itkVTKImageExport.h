@@ -76,12 +76,13 @@ public:
   itkConceptMacro(ImageDimensionCheck, (Concept::SameDimensionOrMinusOneOrTwo<3, Self::InputImageDimension>));
 
   /** Set the input image of this image exporter. */
+  /** @ITKStartGrouping */
   using Superclass::SetInput;
   void
   SetInput(const InputImageType *);
   InputImageType *
   GetInput();
-
+  /** @ITKEndGrouping */
 protected:
   VTKImageExport();
   ~VTKImageExport() override = default;

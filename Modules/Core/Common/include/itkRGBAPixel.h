@@ -91,6 +91,7 @@ public:
 #endif
 
   /** Pass-through constructor for the Array base class. */
+  /** @ITKStartGrouping */
   template <typename TRGBAPixelValueType>
   RGBAPixel(const RGBAPixel<TRGBAPixelValueType> & r)
     : BaseArray(r)
@@ -98,6 +99,7 @@ public:
   RGBAPixel(const ComponentType r[4])
     : BaseArray(r)
   {}
+  /** @ITKEndGrouping */
 
 #if defined(ITK_LEGACY_REMOVE)
   /** Prevents copy-initialization from `nullptr`, as well as from `0` (NULL). */
@@ -114,6 +116,7 @@ public:
   operator=(const ComponentType r[4]);
 
   /** Arithmetic operations between pixels. Return a new RGBAPixel. */
+  /** @ITKStartGrouping */
   Self
   operator+(const Self & r) const;
   Self
@@ -122,8 +125,10 @@ public:
   operator*(const ComponentType & r) const;
   Self
   operator/(const ComponentType & r) const;
+  /** @ITKEndGrouping */
 
   /** Arithmetic-assignment operators. */
+  /** @ITKStartGrouping */
   const Self &
   operator+=(const Self & r);
   const Self &
@@ -132,6 +137,7 @@ public:
   operator*=(const ComponentType & r);
   const Self &
   operator/=(const ComponentType & r);
+  /** @ITKEndGrouping */
 
   /** Implements strict weak ordering. For use in STL, e.g. std::map. */
   bool

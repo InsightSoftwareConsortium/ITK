@@ -166,10 +166,11 @@ public:
 
   /** Get/Set the borders as foreground (true) or background (false).
    */
+  /** @ITKStartGrouping */
   itkSetMacro(BoundaryToForeground, bool);
   itkGetConstReferenceMacro(BoundaryToForeground, bool);
   itkBooleanMacro(BoundaryToForeground);
-
+  /** @ITKEndGrouping */
   /** Set kernel (structuring element). */
   void
   SetKernel(const KernelType & kernel) override;

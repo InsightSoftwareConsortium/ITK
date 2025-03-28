@@ -165,8 +165,10 @@ public:
 
 public:
   /** Basic Object interface. */
+  /** @ITKStartGrouping */
   itkNewMacro(Self);
   itkOverrideGetNameOfClassMacro(QuadEdgeMesh);
+  /** @ITKEndGrouping */
 
 #if !defined(ITK_WRAPPING_PARSER)
   /** FrontIterator definitions */
@@ -452,9 +454,10 @@ public:
 
 protected:
   /** Constructor and Destructor. */
+  /** @ITKStartGrouping */
   QuadEdgeMesh();
   ~QuadEdgeMesh() override;
-
+  /** @ITKEndGrouping */
   /** Release the memory of each one of the cells independently. */
   virtual void
   ClearCellsContainer();

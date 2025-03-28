@@ -17,7 +17,9 @@ set(DOXYGEN_ALIASES
     "endwiki=^^ ^^ ^^"
     "sphinx=\\par ITK Sphinx Examples: ^^ \\li <a href=\\\"https://itk.org/ITKExamples\\\">All ITK Sphinx Examples</a> ^^"
     "sphinxexample{2}=\\li <a href=\\\"https://itk.org/ITKExamples/src/\\1/Documentation.html\\\">\\2</a> ^^"
-    "endsphinx=^^ ^^ ^^")
+    "endsphinx=^^ ^^ ^^"
+    "ITKStartGrouping=@{"
+    "ITKEndGrouping=@}")
 set(DOXYGEN_TOC_INCLUDE_HEADINGS "0")
 set(DOXYGEN_BUILTIN_STL_SUPPORT "YES")
 set(DOXYGEN_DISTRIBUTE_GROUP_DOC "YES")
@@ -52,9 +54,6 @@ set(DOXYGEN_EXAMPLE_PATH "${DOXYGEN_TEST_DIRS}")
 set(DOXYGEN_EXAMPLE_PATTERNS "*.cxx")
 set(DOXYGEN_EXAMPLE_RECURSIVE "YES")
 set(DOXYGEN_IMAGE_PATH "${ITK_SOURCE_DIR}/Documentation/Art" "${ITK_BINARY_DIR}/Utilities/Doxygen/Modules")
-set(DOXYGEN_FILTER_PATTERNS
-    "*.h=${ITK_DOXYGEN_INPUT_FILTER}"
-    "*.cxx=${ITK_DOXYGEN_INPUT_FILTER}")
 set(DOXYGEN_FILTER_SOURCE_FILES "YES")
 set(DOXYGEN_SOURCE_BROWSER "YES")
 set(DOXYGEN_REFERENCED_BY_RELATION "YES")

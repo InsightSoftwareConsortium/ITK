@@ -64,7 +64,6 @@ namespace itk
  * \sphinxexample{Core/ImageFunction/ResampleSegmentedImage,Resample Segmented Image}
  * \endsphinx
  */
-
 template <typename TInputImage,
           typename TCoordinate = double,
           typename TPixelCompare = std::less<typename itk::NumericTraits<typename TInputImage::PixelType>::RealType>>

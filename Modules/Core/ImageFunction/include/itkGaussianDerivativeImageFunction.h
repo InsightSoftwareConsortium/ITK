@@ -114,6 +114,7 @@ public:
    * UseImageSpacing controls the extent of the computations.
    * Set UseImageSpacing to true to set the units to physical units of the image.
    * Set UseImageSpacing to false to set the units of pixels. */
+  /** @ITKStartGrouping */
   void
   SetUseImageSpacing(const bool val)
   {
@@ -126,7 +127,7 @@ public:
   }
   itkBooleanMacro(UseImageSpacing);
   itkGetMacro(UseImageSpacing, bool);
-
+  /** @ITKEndGrouping */
   /** The variance for the discrete Gaussian kernel. Sets the variance
    * independently for each dimension, but see also
    * SetVariance(const double v). The default is 0.0 in each dimension.

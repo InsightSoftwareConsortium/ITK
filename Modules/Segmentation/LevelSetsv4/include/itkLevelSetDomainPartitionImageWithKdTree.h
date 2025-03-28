@@ -70,9 +70,10 @@ public:
   using NeighborsIdType = unsigned int;
 
   /** Get/Set number of neighbors in the kd-tree leaf node */
+  /** @ITKStartGrouping */
   itkSetMacro(NumberOfNeighbors, NeighborsIdType);
   itkGetMacro(NumberOfNeighbors, NeighborsIdType);
-
+  /** @ITKEndGrouping */
   /** Populate a list image with each pixel being a list of overlapping
    *  level set support at that pixel */
   void

@@ -167,14 +167,16 @@ public:
   /** Get the Scale and Shift used for the linear transformation
       of gray level values.
    \warning These Values are only valid after the filter has been updated */
+  /** @ITKStartGrouping */
   itkGetConstReferenceMacro(Scale, RealType);
   itkGetConstReferenceMacro(Shift, RealType);
-
+  /** @ITKEndGrouping */
   /** Get the Minimum and Maximum values of the input image.
    \warning These Values are only valid after the filter has been updated */
+  /** @ITKStartGrouping */
   itkGetConstReferenceMacro(InputMinimum, InputPixelType);
   itkGetConstReferenceMacro(InputMaximum, InputPixelType);
-
+  /** @ITKEndGrouping */
   /** Process to execute before entering the multithreaded section */
   void
   BeforeThreadedGenerateData() override;

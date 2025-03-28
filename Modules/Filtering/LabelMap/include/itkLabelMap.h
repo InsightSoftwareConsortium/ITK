@@ -150,11 +150,12 @@ public:
    * This method throws an exception if the label doesn't exist in this image,
    * or if the label is the background one.
    */
+  /** @ITKStartGrouping */
   LabelObjectType *
   GetLabelObject(const LabelType & label);
   const LabelObjectType *
   GetLabelObject(const LabelType & label) const;
-
+  /** @ITKEndGrouping */
   /**
    * Return true is the image contains the label given in parameter and false
    * otherwise. If the label is the background one, true is also returned, so
@@ -169,11 +170,12 @@ public:
    * inefficient.
    * This method throws an exception if the index doesn't exist in this image.
    */
+  /** @ITKStartGrouping */
   LabelObjectType *
   GetNthLabelObject(const SizeValueType & pos);
   const LabelObjectType *
   GetNthLabelObject(const SizeValueType & pos) const;
-
+  /** @ITKEndGrouping */
   /**
    * Return the pixel value at a given index in the image. If the given index
    * is contained in several objects, only the smallest label of those objects
@@ -287,9 +289,10 @@ public:
   /**
    * Set/Get the background label
    */
+  /** @ITKStartGrouping */
   itkGetConstMacro(BackgroundValue, LabelType);
   itkSetMacro(BackgroundValue, LabelType);
-
+  /** @ITKEndGrouping */
   /**
    * Print all the objects stored in that collection - a convenient method
    * for prototyping.

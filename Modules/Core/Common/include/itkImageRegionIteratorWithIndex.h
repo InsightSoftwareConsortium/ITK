@@ -123,9 +123,11 @@ public:
 protected:
   /** The construction from a const iterator is declared protected
       in order to enforce const correctness. */
+  /** @ITKStartGrouping */
   ImageRegionIteratorWithIndex(const ImageRegionConstIteratorWithIndex<TImage> & it);
   Self &
   operator=(const ImageRegionConstIteratorWithIndex<TImage> & it);
+  /** @ITKEndGrouping */
 };
 } // end namespace itk
 

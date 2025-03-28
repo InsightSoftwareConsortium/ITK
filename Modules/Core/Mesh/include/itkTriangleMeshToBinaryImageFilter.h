@@ -133,10 +133,11 @@ public:
    * spacing is the geometric distance between image samples.
    * It is stored internally as double, but may be set from
    * float. \sa GetSpacing() */
+  /** @ITKStartGrouping */
   itkSetMacro(Spacing, SpacingType);
   virtual void
   SetSpacing(const double spacing[3]);
-
+  /** @ITKEndGrouping */
   virtual void
   SetSpacing(const float spacing[3]);
 
@@ -145,46 +146,52 @@ public:
   /** The Direction is a matrix of direction cosines
    *  that specify the direction between samples.
    * */
+  /** @ITKStartGrouping */
   itkSetMacro(Direction, DirectionType);
   itkGetConstMacro(Direction, DirectionType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the value for pixels inside the spatial object.
    * By default, this filter will return an image
    * If this "inside" value is changed to a non-null value,
    * the output produced by this filter will be a mask with inside/outside values
    * specified by the user. */
+  /** @ITKStartGrouping */
   itkSetMacro(InsideValue, ValueType);
   itkGetConstMacro(InsideValue, ValueType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the value for pixels outside the spatial object.
    * By default, this filter will return an image
    * If this "outside" value is changed to a non-null value,
    * the output produced by this filter will be a mask with inside/outside values
    * specified by the user. */
+  /** @ITKStartGrouping */
   itkSetMacro(OutsideValue, ValueType);
   itkGetConstMacro(OutsideValue, ValueType);
-
+  /** @ITKEndGrouping */
   /** The origin of the output image. The origin is the geometric
    * coordinates of the index (0,0,...,0).  It is stored internally
    * as double but may be set from float.
    * \sa GetOrigin() */
+  /** @ITKStartGrouping */
   itkSetMacro(Origin, PointType);
   virtual void
   SetOrigin(const double origin[3]);
-
+  /** @ITKEndGrouping */
   virtual void
   SetOrigin(const float origin[3]);
 
   itkGetConstReferenceMacro(Origin, PointType);
 
   /** Set/Get Index */
+  /** @ITKStartGrouping */
   itkSetMacro(Index, IndexType);
   itkGetConstMacro(Index, IndexType);
-
+  /** @ITKEndGrouping */
   /** Set/Get Size */
+  /** @ITKStartGrouping */
   itkSetMacro(Size, SizeType);
   itkGetConstMacro(Size, SizeType);
-
+  /** @ITKEndGrouping */
   /** Set the input mesh. */
   using Superclass::SetInput;
   void

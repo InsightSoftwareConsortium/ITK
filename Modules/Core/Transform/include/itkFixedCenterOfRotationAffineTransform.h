@@ -78,6 +78,7 @@ public:
   using typename Superclass::OffsetType;
 
   /** Set and Get the center of rotation */
+  /** @ITKStartGrouping */
   void
   SetCenterOfRotationComponent(const InputPointType & cor)
   {
@@ -88,7 +89,7 @@ public:
   {
     return this->GetCenter();
   }
-
+  /** @ITKEndGrouping */
   /** Set the matrix of the transform. The matrix should not include
    *  scale */
   void
@@ -96,6 +97,7 @@ public:
   {
     this->SetMatrix(matrix);
   }
+
   /** Get matrix of the transform  */
   const MatrixType &
   GetMatrixComponent() const
@@ -119,13 +121,14 @@ public:
 
 protected:
   /** Construct an FixedCenterOfRotationAffineTransform object */
+  /** @ITKStartGrouping */
 #if !defined(ITK_LEGACY_REMOVE)
   [[deprecated("Removed unused constructor")]] FixedCenterOfRotationAffineTransform(const MatrixType &       matrix,
                                                                                     const OutputVectorType & offset);
 #endif
   FixedCenterOfRotationAffineTransform(unsigned int outputSpaceDims, unsigned int paramsDims);
   FixedCenterOfRotationAffineTransform();
-
+  /** @ITKEndGrouping */
   /** Destroy an FixedCenterOfRotationAffineTransform object   */
   ~FixedCenterOfRotationAffineTransform() override = default;
 }; // class FixedCenterOfRotationAffineTransform

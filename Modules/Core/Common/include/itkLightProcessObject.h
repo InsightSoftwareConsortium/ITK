@@ -100,13 +100,15 @@ public:
   /** Set the execution progress of a process object. The progress is
    * a floating number between (0,1), 0 meaning no progress; 1 meaning
    * the filter has completed execution. */
+  /** @ITKStartGrouping */
   itkSetClampMacro(Progress, float, 0.0f, 1.0f);
-
+  /** @ITKEndGrouping */
   /** Get the execution progress of a process object. The progress is
    * a floating number between (0,1), 0 meaning no progress; 1 meaning
    * the filter has completed execution. */
+  /** @ITKStartGrouping */
   itkGetConstReferenceMacro(Progress, float);
-
+  /** @ITKEndGrouping */
   /** Update the progress of the process object. If a ProgressMethod exists,
    * executes it.  Then set the Progress ivar to amount. The parameter amount
    * should range between (0,1).  */

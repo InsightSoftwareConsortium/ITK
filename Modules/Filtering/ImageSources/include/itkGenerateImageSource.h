@@ -77,39 +77,44 @@ public:
   /**
    * Set/Get the size of the output image
    **/
+  /** @ITKStartGrouping */
   itkSetMacro(Size, SizeType);
   itkGetConstReferenceMacro(Size, SizeType);
   itkSetVectorMacro(Size, SizeValueType, NDimensions);
-
+  /** @ITKEndGrouping */
   /**
    * Set/Get the output image spacing. This parameter defaults to all ones.
    **/
+  /** @ITKStartGrouping */
   itkSetMacro(Spacing, SpacingType);
   itkGetConstReferenceMacro(Spacing, SpacingType);
   itkSetVectorMacro(Spacing, const float, NDimensions);
-
+  /** @ITKEndGrouping */
 
   /**
    * Set/Get the output image origin. This parameter defaults to all zeros.
    **/
+  /** @ITKStartGrouping */
   itkSetMacro(Origin, PointType);
   itkGetConstReferenceMacro(Origin, PointType);
   itkSetVectorMacro(Origin, const float, NDimensions);
-
+  /** @ITKEndGrouping */
   /**
    * Set/Get the output image direction cosine. This parameter
    * defaults to the identity matrix.
    **/
+  /** @ITKStartGrouping */
   itkSetMacro(Direction, DirectionType);
   itkGetConstReferenceMacro(Direction, DirectionType);
-
+  /** @ITKEndGrouping */
   /**
    * Set/Get the output image direction cosine. This parameter
    * defaults to the identity matrix.
    **/
+  /** @ITKStartGrouping */
   itkSetMacro(StartIndex, IndexType);
   itkGetConstReferenceMacro(StartIndex, IndexType);
-
+  /** @ITKEndGrouping */
   /** Helper method to set the output parameters based on an image. */
   void
   SetOutputParametersFromImage(const ReferenceImageBaseType * image);
@@ -121,6 +126,7 @@ public:
    *  copy the information. UseReferenceImageOn must be set to utilize the
    *  reference image. */
   itkSetInputMacro(ReferenceImage, ReferenceImageBaseType);
+
   /** Get the reference image that is defining the output information. */
   itkGetInputMacro(ReferenceImage, ReferenceImageBaseType);
 

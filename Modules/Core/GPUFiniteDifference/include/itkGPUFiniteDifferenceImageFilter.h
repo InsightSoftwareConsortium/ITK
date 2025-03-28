@@ -122,19 +122,21 @@ public:
   }
 
   /** Set/Get the state of the filter. */
+  /** @ITKStartGrouping */
 #if !defined(ITK_WRAPPING_PARSER)
   itkSetMacro(State, GPUFiniteDifferenceFilterEnum);
   itkGetConstReferenceMacro(State, GPUFiniteDifferenceFilterEnum);
 #endif
-
+  /** @ITKEndGrouping */
   itkConceptMacro(OutputPixelIsFloatingPointCheck, (Concept::IsFloatingPoint<OutputPixelValueType>));
 
   /** Methods to get timers */
+  /** @ITKStartGrouping */
   itkGetConstReferenceMacro(InitTime, TimeProbe);
   itkGetConstReferenceMacro(ComputeUpdateTime, TimeProbe);
   itkGetConstReferenceMacro(ApplyUpdateTime, TimeProbe);
   itkGetConstReferenceMacro(SmoothFieldTime, TimeProbe);
-
+  /** @ITKEndGrouping */
 protected:
   GPUFiniteDifferenceImageFilter();
   ~GPUFiniteDifferenceImageFilter() override;

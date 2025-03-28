@@ -93,9 +93,10 @@ public:
 
   /** Set/Get the direction in which to accumulate the data.  It must be set
    * before the update of the filter. Defaults to the last dimension. */
+  /** @ITKStartGrouping */
   itkSetMacro(ProjectionDimension, unsigned int);
   itkGetConstReferenceMacro(ProjectionDimension, unsigned int);
-
+  /** @ITKEndGrouping */
 protected:
   ProjectionImageFilter();
   ~ProjectionImageFilter() override = default;

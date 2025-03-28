@@ -111,9 +111,10 @@ public:
 
   /** Accessors for the image intensity difference threshold use
    *  in derivative calculation */
+  /** @ITKStartGrouping */
   itkGetConstMacro(IntensityDifferenceThreshold, TInternalComputationValueType);
   itkSetMacro(IntensityDifferenceThreshold, TInternalComputationValueType);
-
+  /** @ITKEndGrouping */
   /** Get the denominator threshold used in derivative calculation. */
   itkGetConstMacro(DenominatorThreshold, TInternalComputationValueType);
 

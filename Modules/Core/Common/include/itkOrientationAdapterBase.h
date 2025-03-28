@@ -63,7 +63,9 @@ public:
 protected:
   /** destructor, to silence "virtual class has non-virtual destructor()"
     warnings */
+  /** @ITKStartGrouping */
   virtual ~OrientationAdapterBase() = default;
+  /** @ITKEndGrouping */
 };
 } // namespace itk
 #else // ITK_LEGACY_REMOVE

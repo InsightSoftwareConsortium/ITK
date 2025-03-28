@@ -89,10 +89,12 @@ public:
   Evaluate(const InputType & position) const override;
 
   /** Set/Get the origin of the function. */
+  /** @ITKStartGrouping */
   itkGetConstMacro(Origin, InputType);
   itkSetMacro(Origin, InputType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the gradient at the origin of the function. */
+  /** @ITKStartGrouping */
   GradientType
   GetOriginGradient()
   {
@@ -100,26 +102,30 @@ public:
   }
   void
   SetOriginGradient(GradientType grad);
-
+  /** @ITKEndGrouping */
   /** Set/Get the minimum search distance. */
+  /** @ITKStartGrouping */
   itkGetConstMacro(DistanceMin, double);
   itkSetMacro(DistanceMin, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get the maximum search distance. */
+  /** @ITKStartGrouping */
   itkGetConstMacro(DistanceMax, double);
   itkSetMacro(DistanceMax, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get the tolerance of the in/out comparison. */
+  /** @ITKStartGrouping */
   itkGetConstMacro(Epsilon, double);
   itkSetMacro(Epsilon, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get direction along the gradient to search.
    * Set to true to use the direction that the gradient is pointing;
    * set to false for the opposite direction. */
+  /** @ITKStartGrouping */
   itkGetConstMacro(Polarity, bool);
   itkSetMacro(Polarity, bool);
   itkBooleanMacro(Polarity);
-
+  /** @ITKEndGrouping */
 protected:
   ConicShellInteriorExteriorSpatialFunction() = default;
   ~ConicShellInteriorExteriorSpatialFunction() override = default;

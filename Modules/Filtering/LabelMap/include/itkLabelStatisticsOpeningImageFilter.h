@@ -98,29 +98,33 @@ public:
    * Set/Get the value used as "background" in the output image.
    * Defaults to NumericTraits<PixelType>::NonpositiveMin().
    */
+  /** @ITKStartGrouping */
   itkSetMacro(BackgroundValue, OutputImagePixelType);
   itkGetConstMacro(BackgroundValue, OutputImagePixelType);
-
+  /** @ITKEndGrouping */
   /**
    * Set/Get the threshold used to keep or remove the objects.
    */
+  /** @ITKStartGrouping */
   itkGetConstMacro(Lambda, double);
   itkSetMacro(Lambda, double);
-
+  /** @ITKEndGrouping */
   /**
    * Set/Get the ordering of the objects. By default, the objects with
    * an attribute value smaller than Lamba are removed. Turning ReverseOrdering
    * to true make this filter remove the object with an attribute value greater
    * than Lambda instead.
    */
+  /** @ITKStartGrouping */
   itkGetConstMacro(ReverseOrdering, bool);
   itkSetMacro(ReverseOrdering, bool);
   itkBooleanMacro(ReverseOrdering);
-
+  /** @ITKEndGrouping */
   /**
    * Set/Get the attribute to use to select the object to remove. The default
    * is "Mean".
    */
+  /** @ITKStartGrouping */
   itkGetConstMacro(Attribute, AttributeType);
   itkSetMacro(Attribute, AttributeType);
   void
@@ -128,7 +132,7 @@ public:
   {
     this->SetAttribute(LabelObjectType::GetAttributeFromName(s));
   }
-
+  /** @ITKEndGrouping */
   /** Set the feature image */
   void
   SetFeatureImage(const TFeatureImage * input)

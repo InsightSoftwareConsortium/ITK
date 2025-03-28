@@ -135,9 +135,10 @@ public:
   /** Set/Get the original component type of the image. This differs from
    * ComponentType which may change as a function of rescale slope and
    * intercept. */
+  /** @ITKStartGrouping */
   itkGetEnumMacro(InternalComponentType, itk::CommonEnums::IOComponent);
   itkSetEnumMacro(InternalComponentType, itk::CommonEnums::IOComponent);
-
+  /** @ITKEndGrouping */
   /*-------- This part of the interfaces deals with writing data. ----- */
 
   /** Determine the file type. Returns true if this ImageIO can write the
@@ -156,37 +157,43 @@ public:
   Write(const void * buffer) override;
 
   /** Macro to access Rescale Slope and Rescale Intercept. */
+  /** @ITKStartGrouping */
   itkGetConstMacro(RescaleSlope, double);
   itkGetConstMacro(RescaleIntercept, double);
-
+  /** @ITKEndGrouping */
   /** Macro to access the DICOM UID prefix. By default this is the ITK
    * root id. This default can be overridden if the exam is for example
    * part of an existing study. */
+  /** @ITKStartGrouping */
   itkGetStringMacro(UIDPrefix);
   itkSetStringMacro(UIDPrefix);
-
+  /** @ITKEndGrouping */
   /** Access the generated DICOM UIDs. */
+  /** @ITKStartGrouping */
   itkGetStringMacro(StudyInstanceUID);
   itkGetStringMacro(SeriesInstanceUID);
   itkGetStringMacro(FrameOfReferenceInstanceUID);
-
+  /** @ITKEndGrouping */
   /** Preserve the original DICOM UIDs of the input files. */
+  /** @ITKStartGrouping */
   itkSetMacro(KeepOriginalUID, bool);
   itkGetConstMacro(KeepOriginalUID, bool);
   itkBooleanMacro(KeepOriginalUID);
-
+  /** @ITKEndGrouping */
   /** Parse and load any private tags in the DICOM file. Loading DICOM
    * files is faster when private tags are not needed. Default is false. */
+  /** @ITKStartGrouping */
   itkSetMacro(LoadPrivateTags, bool);
   itkGetConstMacro(LoadPrivateTags, bool);
   itkBooleanMacro(LoadPrivateTags);
-
+  /** @ITKEndGrouping */
   /** Convert Y'CbCr (YBR_FULL, YBR_FULL_422) to RGB. Default is true,
    * not required for YBR_RCT and YBR_ICT. */
+  /** @ITKStartGrouping */
   itkSetMacro(ReadYBRtoRGB, bool);
   itkGetConstMacro(ReadYBRtoRGB, bool);
   itkBooleanMacro(ReadYBRtoRGB);
-
+  /** @ITKEndGrouping */
   /** More general method to retrieve an arbitrary DICOM value based
    * on a DICOM Tag (eg "0123|45ef"). */
   bool
@@ -223,6 +230,14 @@ public:
    * @param _arg
    */
   itkSetEnumMacro(CompressionType, CompressionEnum);
+  /** Get the compression type to use for writing.
+   *
+   * Currently only JPEG2000 and JPEG are supported.
+   * These map to the following DICOM standards:
+   *   JPEG2000: JPEG 2000 Image Compression (Lossless Only)
+   *   JPEG:     JPEG Lossless, Non-Hierarchical, First-Order Prediction
+   *
+   */
   itkGetEnumMacro(CompressionType, CompressionEnum);
 
   void

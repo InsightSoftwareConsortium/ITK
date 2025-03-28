@@ -72,11 +72,12 @@ public:
   SetMesh(MeshType * mesh);
 
   /** Get a pointer to the Mesh currently attached to the object. */
+  /** @ITKStartGrouping */
   MeshType *
   GetMesh();
   const MeshType *
   GetMesh() const;
-
+  /** @ITKEndGrouping */
   /** Test whether a point is inside or outside the object.
    *
    * Returns true if the point is inside, false otherwise.
@@ -108,9 +109,10 @@ public:
    *  If the distance from the point to the surface is <= to
    *  m_IsInsidePrecisionInObjectSpace the point is considered inside the mesh.
    *  The default value is 1. */
+  /** @ITKStartGrouping */
   itkSetMacro(IsInsidePrecisionInObjectSpace, double);
   itkGetConstMacro(IsInsidePrecisionInObjectSpace, double);
-
+  /** @ITKEndGrouping */
 protected:
   /** Compute the boundaries of the spatial object. */
   void

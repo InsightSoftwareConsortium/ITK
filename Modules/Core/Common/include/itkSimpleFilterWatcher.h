@@ -96,6 +96,7 @@ public:
 
   /** Methods to control the verbosity of the messages. Quiet
    * reporting limits the information emitted at a ProgressEvent. */
+  /** @ITKStartGrouping */
   void
   QuietOn()
   {
@@ -106,10 +107,12 @@ public:
   {
     m_Quiet = false;
   }
+  /** @ITKEndGrouping */
 
   /** Methods to use to test the AbortEvent of the a filter. If
    * TestAbort is on, the filter being watched will be aborted when
    * the progress reaches 30%. */
+  /** @ITKStartGrouping */
   void
   TestAbortOn()
   {
@@ -120,8 +123,10 @@ public:
   {
     m_TestAbort = false;
   }
+  /** @ITKEndGrouping */
 
   /** Methods to access member data */
+
   /** Get a pointer to the process object being watched. */
   ProcessObject *
   GetProcess()
@@ -130,6 +135,7 @@ public:
   }
 
   /** Set/Get the steps completed. */
+  /** @ITKStartGrouping */
   void
   SetSteps(int val)
   {
@@ -140,8 +146,10 @@ public:
   {
     return m_Steps;
   }
+  /** @ITKEndGrouping */
 
   /** Set/Get the number of iterations completed. */
+  /** @ITKStartGrouping */
   void
   SetIterations(int val)
   {
@@ -152,9 +160,11 @@ public:
   {
     return m_Iterations;
   }
+  /** @ITKEndGrouping */
 
   /** Set/Get the quiet mode boolean. If true, verbose progress is
    * reported. */
+  /** @ITKStartGrouping */
   void
   SetQuiet(bool val)
   {
@@ -165,6 +175,7 @@ public:
   {
     return m_Quiet;
   }
+  /** @ITKEndGrouping */
 
   /** Get the comment for the watcher. */
   std::string

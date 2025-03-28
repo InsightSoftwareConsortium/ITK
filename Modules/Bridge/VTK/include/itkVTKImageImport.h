@@ -83,6 +83,7 @@ public:
 
   /** These are function pointer types for the pipeline connection
    * callbacks. */
+  /** @ITKStartGrouping */
   using UpdateInformationCallbackType = void (*)(void *);
   using PipelineModifiedCallbackType = int (*)(void *);
   using WholeExtentCallbackType = int * (*)(void *);
@@ -95,24 +96,29 @@ public:
   using UpdateDataCallbackType = void (*)(void *);
   using DataExtentCallbackType = int * (*)(void *);
   using BufferPointerCallbackType = void * (*)(void *);
-
+  /** @ITKEndGrouping */
   /** Compatibility for VTK older than 4.4.  */
+  /** @ITKStartGrouping */
   using FloatSpacingCallbackType = float * (*)(void *);
   using FloatOriginCallbackType = float * (*)(void *);
-
+  /** @ITKEndGrouping */
   /** What to do when receiving UpdateInformation(). */
+  /** @ITKStartGrouping */
   itkSetMacro(UpdateInformationCallback, UpdateInformationCallbackType);
   itkGetConstMacro(UpdateInformationCallback, UpdateInformationCallbackType);
-
+  /** @ITKEndGrouping */
   /** What to do when receiving PipelineModified(). */
+  /** @ITKStartGrouping */
   itkSetMacro(PipelineModifiedCallback, PipelineModifiedCallbackType);
   itkGetConstMacro(PipelineModifiedCallback, PipelineModifiedCallbackType);
-
+  /** @ITKEndGrouping */
   /** What to do when receiving SetWholeExtent(). */
+  /** @ITKStartGrouping */
   itkSetMacro(WholeExtentCallback, WholeExtentCallbackType);
   itkGetConstMacro(WholeExtentCallback, WholeExtentCallbackType);
-
+  /** @ITKEndGrouping */
   /** What to do when receiving SetSpacing(). */
+  /** @ITKStartGrouping */
   itkSetMacro(SpacingCallback, SpacingCallbackType);
   itkGetConstMacro(SpacingCallback, SpacingCallbackType);
   itkSetMacro(FloatSpacingCallback, FloatSpacingCallbackType);
@@ -122,8 +128,9 @@ public:
   {
     this->SetFloatSpacingCallback(f);
   }
-
+  /** @ITKEndGrouping */
   /** What to do when receiving SetOrigin(). */
+  /** @ITKStartGrouping */
   itkSetMacro(OriginCallback, OriginCallbackType);
   itkGetConstMacro(OriginCallback, OriginCallbackType);
   itkSetMacro(FloatOriginCallback, FloatOriginCallbackType);
@@ -133,39 +140,47 @@ public:
   {
     this->SetFloatOriginCallback(f);
   }
-
+  /** @ITKEndGrouping */
   /** What to do when receiving SetDirection(). */
+  /** @ITKStartGrouping */
   itkSetMacro(DirectionCallback, DirectionCallbackType);
   itkGetConstMacro(DirectionCallback, DirectionCallbackType);
-
+  /** @ITKEndGrouping */
   /** What to do when receiving UpdateInformation(). */
+  /** @ITKStartGrouping */
   itkSetMacro(ScalarTypeCallback, ScalarTypeCallbackType);
   itkGetConstMacro(ScalarTypeCallback, ScalarTypeCallbackType);
-
+  /** @ITKEndGrouping */
   /** What to do when receiving SetNumberOfComponents(). */
+  /** @ITKStartGrouping */
   itkSetMacro(NumberOfComponentsCallback, NumberOfComponentsCallbackType);
   itkGetConstMacro(NumberOfComponentsCallback, NumberOfComponentsCallbackType);
-
+  /** @ITKEndGrouping */
   /** What to do when receiving PropagateUpdateExtent(). */
+  /** @ITKStartGrouping */
   itkSetMacro(PropagateUpdateExtentCallback, PropagateUpdateExtentCallbackType);
   itkGetConstMacro(PropagateUpdateExtentCallback, PropagateUpdateExtentCallbackType);
-
+  /** @ITKEndGrouping */
   /** What to do when receiving UpdateData(). */
+  /** @ITKStartGrouping */
   itkSetMacro(UpdateDataCallback, UpdateDataCallbackType);
   itkGetConstMacro(UpdateDataCallback, UpdateDataCallbackType);
-
+  /** @ITKEndGrouping */
   /** What to do when receiving DataExtent(). */
+  /** @ITKStartGrouping */
   itkSetMacro(DataExtentCallback, DataExtentCallbackType);
   itkGetConstMacro(DataExtentCallback, DataExtentCallbackType);
-
+  /** @ITKEndGrouping */
   /** What to do when receiving BufferPointer(). */
+  /** @ITKStartGrouping */
   itkSetMacro(BufferPointerCallback, BufferPointerCallbackType);
   itkGetConstMacro(BufferPointerCallback, BufferPointerCallbackType);
-
+  /** @ITKEndGrouping */
   /** Specify callback data. */
+  /** @ITKStartGrouping */
   itkSetMacro2(CallbackUserData, void *);
   itkGetConstMacro(CallbackUserData, void *);
-
+  /** @ITKEndGrouping */
 protected:
   VTKImageImport();
   ~VTKImageImport() override = default;

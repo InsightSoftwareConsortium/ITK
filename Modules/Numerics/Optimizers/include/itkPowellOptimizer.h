@@ -81,42 +81,49 @@ public:
   using CostFunctionPointer = CostFunctionType::Pointer;
 
   /** Set if the Optimizer should Maximize the metric */
+  /** @ITKStartGrouping */
   itkSetMacro(Maximize, bool);
   itkBooleanMacro(Maximize);
   itkGetConstReferenceMacro(Maximize, bool);
-
+  /** @ITKEndGrouping */
   /** Set/Get maximum iteration limit. */
+  /** @ITKStartGrouping */
   itkSetMacro(MaximumIteration, unsigned int);
   itkGetConstReferenceMacro(MaximumIteration, unsigned int);
-
+  /** @ITKEndGrouping */
   /** Set/Get the maximum number of line search iterations */
+  /** @ITKStartGrouping */
   itkSetMacro(MaximumLineIteration, unsigned int);
   itkGetConstMacro(MaximumLineIteration, unsigned int);
-
+  /** @ITKEndGrouping */
   /** Set/Get StepLength for the (scaled) spacing of the sampling of
    * parameter space while bracketing the extremum */
+  /** @ITKStartGrouping */
   itkSetMacro(StepLength, double);
   itkGetConstReferenceMacro(StepLength, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get StepTolerance.  Once the local extreme is known to be within this
    * distance of the current parameter values, optimization terminates */
+  /** @ITKStartGrouping */
   itkSetMacro(StepTolerance, double);
   itkGetConstReferenceMacro(StepTolerance, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get ValueTolerance.  Once this current cost function value is known
    * to be within this tolerance of the cost function value at the local
    * extreme, optimization terminates */
+  /** @ITKStartGrouping */
   itkSetMacro(ValueTolerance, double);
   itkGetConstReferenceMacro(ValueTolerance, double);
-
+  /** @ITKEndGrouping */
   /** Return Current Value */
+  /** @ITKStartGrouping */
   itkGetConstReferenceMacro(CurrentCost, MeasureType);
   MeasureType
   GetValue() const
   {
     return this->GetCurrentCost();
   }
-
+  /** @ITKEndGrouping */
   /** Return Current Iteration */
   itkGetConstReferenceMacro(CurrentIteration, unsigned int);
 

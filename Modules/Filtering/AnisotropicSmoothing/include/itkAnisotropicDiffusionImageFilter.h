@@ -100,23 +100,31 @@ public:
   using typename Superclass::TimeStepType;
 
   /** Set/Get the time step for each iteration */
+  /** @ITKStartGrouping */
   itkSetMacro(TimeStep, TimeStepType);
   itkGetConstMacro(TimeStep, TimeStepType);
+  /** @ITKEndGrouping */
 
   /** Set/Get the conductance parameter governing sensitivity of the
       conductance equation. */
+  /** @ITKStartGrouping */
   itkSetMacro(ConductanceParameter, double);
   itkGetConstMacro(ConductanceParameter, double);
+  /** @ITKEndGrouping */
 
   /** Set/Get the interval at which a new scaling for the conductance term is
       calculated.  */
+  /** @ITKStartGrouping */
   itkSetMacro(ConductanceScalingUpdateInterval, unsigned int);
   itkGetConstMacro(ConductanceScalingUpdateInterval, unsigned int);
+  /** @ITKEndGrouping */
 
   /** The following parameters are not used at this time.  Setting them will
       have no effect on the output */
+  /** @ITKStartGrouping */
   itkSetMacro(ConductanceScalingParameter, double);
   itkGetConstMacro(ConductanceScalingParameter, double);
+  /** @ITKEndGrouping */
 
   /** Supplies a fixed value for the average gradient magnitude of the image to
       the AnisotropicDiffusionFunction at each iteration.  The average gradient

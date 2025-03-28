@@ -51,10 +51,11 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  /**Standard Macros */
+  /** Standard Macros */
+  /** @ITKStartGrouping */
   itkOverrideGetNameOfClassMacro(WeightedMeanSampleFilter);
   itkNewMacro(Self);
-
+  /** @ITKEndGrouping */
   /** Types derived from the base class */
   using typename Superclass::SampleType;
   using typename Superclass::MeasurementVectorType;

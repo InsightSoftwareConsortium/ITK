@@ -305,13 +305,15 @@ public:
   RemoveLevelSet(const LevelSetIdentifierType & iId);
 
   /** \todo add documentation */
+  /** @ITKStartGrouping */
   itkSetConstObjectMacro(Heaviside, HeavisideType);
   itkGetConstObjectMacro(Heaviside, HeavisideType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the domain map image filter. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(DomainMapFilter, DomainMapImageFilterType);
   itkGetModifiableObjectMacro(DomainMapFilter, DomainMapImageFilterType);
-
+  /** @ITKEndGrouping */
   /** Does the level set container have a domain map? */
   bool
   HasDomainMap() const;

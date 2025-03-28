@@ -77,15 +77,14 @@ public:
    * \param ChildID The numerical identifier of the desired child.
    * \return A pointer to the Desired child. NOTE: This is always an
    * instance of an OctreeNode.
-   * @{
+   * @ITKStartGrouping
    */
   OctreeNode &
   GetChild(const LeafIdentifierEnum ChildID) const;
 
   OctreeNode &
   GetChild(const LeafIdentifierEnum ChildID);
-  /** @}
-   */
+  /** @ITKEndGrouping */
 
   /**
    * Determines the color value of the specified Child for this OctreeNode

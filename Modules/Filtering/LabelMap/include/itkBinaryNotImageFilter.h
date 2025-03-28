@@ -105,14 +105,16 @@ public:
 
   /** Set/Get the value in the image considered as "foreground". Defaults to
    * maximum value of PixelType. */
+  /** @ITKStartGrouping */
   itkSetMacro(ForegroundValue, PixelType);
   itkGetConstMacro(ForegroundValue, PixelType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the value used as "background". Defaults to
    * NumericTraits<PixelType>::NonpositiveMin(). */
+  /** @ITKStartGrouping */
   itkSetMacro(BackgroundValue, PixelType);
   itkGetConstMacro(BackgroundValue, PixelType);
-
+  /** @ITKEndGrouping */
 protected:
   BinaryNotImageFilter()
   {

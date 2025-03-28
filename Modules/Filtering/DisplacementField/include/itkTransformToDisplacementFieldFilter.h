@@ -97,42 +97,48 @@ public:
    * Set the coordinate transform to use for resampling.  Note that this must
    * be in physical coordinates and it is the output-to-input transform, NOT
    * the input-to-output transform that you might naively expect. */
+  /** @ITKStartGrouping */
   using Superclass::SetInput;
   virtual void
   SetInput(const TransformInputType * input);
   const TransformInputType *
   GetInput() const;
   itkSetGetDecoratedObjectInputMacro(Transform, TransformType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the start index of the output largest possible region.
    * The default is an index of all zeros. */
+  /** @ITKStartGrouping */
   itkSetMacro(OutputStartIndex, IndexType);
   itkGetConstReferenceMacro(OutputStartIndex, IndexType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the size of the output image. */
+  /** @ITKStartGrouping */
   itkSetMacro(Size, SizeType);
   itkGetConstReferenceMacro(Size, SizeType);
-
+  /** @ITKEndGrouping */
   /** Set the output image spacing. */
+  /** @ITKStartGrouping */
   itkSetMacro(OutputSpacing, SpacingType);
   virtual void
   SetOutputSpacing(const SpacePrecisionType * spacing);
-
+  /** @ITKEndGrouping */
   /** Get the output image spacing. */
   itkGetConstReferenceMacro(OutputSpacing, SpacingType);
 
   /** Set the output image origin. */
+  /** @ITKStartGrouping */
   itkSetMacro(OutputOrigin, OriginType);
   virtual void
   SetOutputOrigin(const SpacePrecisionType * origin);
-
+  /** @ITKEndGrouping */
   /** Get the output image origin. */
   itkGetConstReferenceMacro(OutputOrigin, OriginType);
 
   /** Set the output direction cosine matrix. */
+  /** @ITKStartGrouping */
   itkSetMacro(OutputDirection, DirectionType);
   itkGetConstReferenceMacro(OutputDirection, DirectionType);
-
+  /** @ITKEndGrouping */
   /** Set a reference image to use to define the output information.
    *  By default, output information is specified through the
    *  SetOutputSpacing, Origin, and Direction methods.  Alternatively,
@@ -146,10 +152,11 @@ public:
 
   /** Turn on/off whether a specified reference image should be used to define
    *  the output information. */
+  /** @ITKStartGrouping */
   itkSetMacro(UseReferenceImage, bool);
   itkBooleanMacro(UseReferenceImage);
   itkGetConstMacro(UseReferenceImage, bool);
-
+  /** @ITKEndGrouping */
   static constexpr unsigned int PixelDimension = PixelType::Dimension;
   itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<ImageDimension, PixelDimension>));
 

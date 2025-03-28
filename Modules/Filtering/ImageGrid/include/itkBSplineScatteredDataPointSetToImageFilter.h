@@ -199,9 +199,10 @@ public:
    * initial fitting level. The B-spline mesh size is equal to the number
    * of control points minus the spline order. Default = 4 in each dimension.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(NumberOfControlPoints, ArrayType);
   itkGetConstReferenceMacro(NumberOfControlPoints, ArrayType);
-
+  /** @ITKEndGrouping */
   /** Get the number of current control points for each parametric dimension at
    * the current fitting level. The B-spline mesh size is equal to the number
    * of control points minus the spline order. Default = 4 in each dimension.
@@ -234,9 +235,10 @@ public:
    * the image domain to be co-extensive with the parametric domain. We use
    * the B-spline epsilon to push the edge of the image boundary inside the
    * B-spline parametric domain. */
+  /** @ITKStartGrouping */
   itkSetMacro(BSplineEpsilon, RealType);
   itkGetConstMacro(BSplineEpsilon, RealType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the array to define the periodicity of the dimensions in the
    * parametric space is to be.
    * This array of 0/1 values defines whether a particular dimension of the
@@ -253,9 +255,10 @@ public:
    * they were also located at the end of the domain. The number of points to
    * be reused will depend on the spline order. As a user, you don't need to
    * replicate the points, the filter will do this for you. */
+  /** @ITKStartGrouping */
   itkSetMacro(CloseDimension, ArrayType);
   itkGetConstReferenceMacro(CloseDimension, ArrayType);
-
+  /** @ITKEndGrouping */
   /** A weighted fitting is possible where each input point is assigned a
    * relative weighting. */
   void
@@ -264,10 +267,11 @@ public:
   /** Set/Get whether or not the sampled output B-spline object is constructed.
    * The result of the fitting process is an n-D grid of control points which
    * describe the continuous B-spline object. */
+  /** @ITKStartGrouping */
   itkSetMacro(GenerateOutputImage, bool);
   itkGetConstReferenceMacro(GenerateOutputImage, bool);
   itkBooleanMacro(GenerateOutputImage);
-
+  /** @ITKEndGrouping */
   /** Get the control point lattice produced by the fitting process. */
   PointDataImagePointer
   GetPhiLattice()

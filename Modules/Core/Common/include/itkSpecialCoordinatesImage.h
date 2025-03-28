@@ -241,6 +241,7 @@ public:
 
   /** Return a pointer to the beginning of the buffer.  This is used by
    * the image iterator class. */
+  /** @ITKStartGrouping */
   TPixel *
   GetBufferPointer()
   {
@@ -251,7 +252,7 @@ public:
   {
     return m_Buffer ? m_Buffer->GetBufferPointer() : nullptr;
   }
-
+  /** @ITKEndGrouping */
   /** Return a pointer to the container. */
   PixelContainer *
   GetPixelContainer()
@@ -289,6 +290,7 @@ public:
    * to the output of a normal filter which is being used to output a
    * special-coordinates image.  Filters designed to produce a particular kind
    * of special-coordinates image should do this automatically. */
+  /** @ITKStartGrouping */
   void
   SetSpacing(const SpacingType &) override
   {}
@@ -307,7 +309,7 @@ public:
   void
   SetOrigin(const float[VImageDimension]) override
   {}
-
+  /** @ITKEndGrouping */
   /* It is ILLEGAL in C++ to make a templated member function virtual! */
   /* Therefore, we must just let templates take care of everything.    */
   /*

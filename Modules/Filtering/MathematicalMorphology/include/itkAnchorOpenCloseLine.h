@@ -37,10 +37,11 @@ class ITK_TEMPLATE_EXPORT AnchorOpenCloseLine
 {
 public:
   /** Some convenient type alias. */
+  /** @ITKStartGrouping */
   using InputImagePixelType = TInputPix;
   AnchorOpenCloseLine();
   ~AnchorOpenCloseLine() = default;
-
+  /** @ITKEndGrouping */
   void
   PrintSelf(std::ostream & os, Indent indent) const;
 

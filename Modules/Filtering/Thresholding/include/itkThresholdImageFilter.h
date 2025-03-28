@@ -89,9 +89,10 @@ public:
   using PixelType = typename TImage::PixelType;
 
   /** The pixel type must support comparison operators. */
+  /** @ITKStartGrouping */
   itkConceptMacro(PixelTypeComparableCheck, (Concept::Comparable<PixelType>));
   itkConceptMacro(PixelTypeOStreamWritableCheck, (Concept::OStreamWritable<PixelType>));
-
+  /** @ITKEndGrouping */
   /** Set the "outside" pixel value. The default value
    * PixelType{}. */
   itkSetMacro(OutsideValue, PixelType);
@@ -112,13 +113,15 @@ public:
   ThresholdOutside(const PixelType & lower, const PixelType & upper);
 
   /** Set/Get methods to set the lower threshold. */
+  /** @ITKStartGrouping */
   itkSetMacro(Lower, PixelType);
   itkGetConstMacro(Lower, PixelType);
-
+  /** @ITKEndGrouping */
   /** Set/Get methods to set the upper threshold. */
+  /** @ITKStartGrouping */
   itkSetMacro(Upper, PixelType);
   itkGetConstMacro(Upper, PixelType);
-
+  /** @ITKEndGrouping */
   /** Additional type alias for the input image. */
   using InputImageType = TImage;
   using InputImagePointer = typename InputImageType::ConstPointer;

@@ -132,6 +132,7 @@ public:
 // Define how to print enumeration
 extern ITKDeformableMesh_EXPORT std::ostream &
 operator<<(std::ostream & out, const DeformableSimplexMesh3DGradientConstraintForceFilterEnums::SIDE value);
+
 /**
  * \class DeformableSimplexMesh3DGradientConstraintForceFilter
  * \brief
@@ -190,9 +191,10 @@ public:
   using OriginalImagePointer = typename OriginalImageType::ConstPointer;
 
   /** control the range of search for Bresenham at normal line */
+  /** @ITKStartGrouping */
   itkSetMacro(Range, int);
   itkGetConstMacro(Range, int);
-
+  /** @ITKEndGrouping */
   using SIDEEnum = DeformableSimplexMesh3DGradientConstraintForceFilterEnums::SIDE;
 #if !defined(ITK_LEGACY_REMOVE)
   /**Exposes enums values for backwards compatibility*/

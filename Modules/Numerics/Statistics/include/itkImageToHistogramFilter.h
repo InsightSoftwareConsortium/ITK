@@ -79,11 +79,12 @@ public:
 
 public:
   /** Return the output histogram. */
+  /** @ITKStartGrouping */
   const HistogramType *
   GetOutput() const;
   HistogramType *
   GetOutput();
-
+  /** @ITKEndGrouping */
   /** Type of DataObjects to use for Size inputs */
   using InputHistogramSizeObjectType = SimpleDataObjectDecorator<HistogramSizeType>;
 
@@ -112,15 +113,17 @@ public:
 
   /** Methods for setting and getting the Minimum and Maximum values of the
    * histogram bins. */
+  /** @ITKStartGrouping */
   itkSetGetDecoratedInputMacro(HistogramBinMinimum, HistogramMeasurementVectorType);
   itkSetGetDecoratedInputMacro(HistogramBinMaximum, HistogramMeasurementVectorType);
-
+  /** @ITKEndGrouping */
   /** Methods for setting and getting the boolean flag that defines whether the
    * minimum and maximum of the histogram are going to be computed
    * automatically from the values of the sample */
+  /** @ITKStartGrouping */
   itkSetGetDecoratedInputMacro(AutoMinimumMaximum, bool);
   itkBooleanMacro(AutoMinimumMaximum);
-
+  /** @ITKEndGrouping */
   /** Method that facilitates the use of this filter in the internal
    * pipeline of another filter. */
   virtual void

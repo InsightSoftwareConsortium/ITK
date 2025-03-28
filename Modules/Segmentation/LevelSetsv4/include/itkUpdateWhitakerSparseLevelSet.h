@@ -102,24 +102,28 @@ public:
   Update();
 
   /** Set/Get the sparse level set image */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(InputLevelSet, LevelSetType);
   itkGetModifiableObjectMacro(InputLevelSet, LevelSetType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the TimeStep for the update */
+  /** @ITKStartGrouping */
   itkSetMacro(TimeStep, LevelSetOutputType);
   itkGetMacro(TimeStep, LevelSetOutputType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the RMS change for the update */
   itkGetMacro(RMSChangeAccumulator, LevelSetOutputType);
 
   /** Set/Get the Equation container for computing the update */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(EquationContainer, EquationContainerType);
   itkGetModifiableObjectMacro(EquationContainer, EquationContainerType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the current level set id */
+  /** @ITKStartGrouping */
   itkSetMacro(CurrentLevelSetId, IdentifierType);
   itkGetMacro(CurrentLevelSetId, IdentifierType);
-
+  /** @ITKEndGrouping */
   /** Set the update map for all points in the zero layer */
   void
   SetUpdate(const LevelSetLayerType & update);

@@ -180,6 +180,7 @@ public:
    *  make the patch more isotropic and less rectangular.
    */
   using PatchWeightsType = Array<float>;
+
   /** This data structure type is used for efficiently accessing patch values
    *  from the image data structure.
    */
@@ -194,9 +195,10 @@ public:
    * Currently, only isotropic patches in physical space are allowed;
    * patches can be anisotropic in voxel space.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(PatchRadius, unsigned int);
   itkGetConstMacro(PatchRadius, unsigned int);
-
+  /** @ITKEndGrouping */
   PatchRadiusType
   GetPatchRadiusInVoxels() const;
 
@@ -220,49 +222,55 @@ public:
    * Defaults to NOMODEL.
    * To use the noise model during denoising, NoiseModelFidelityWeight must be positive.
    */
+  /** @ITKStartGrouping */
   itkSetEnumMacro(NoiseModel, NoiseModelEnum);
   itkGetConstMacro(NoiseModel, NoiseModelEnum);
-
+  /** @ITKEndGrouping */
   /** Set/Get the weight on the smoothing term.
    *  This option is used when a noise model is specified.
    *  This weight controls the balance between the smoothing and the closeness to the noisy data.
    *  Large step sizes may cause instabilities.
    */
+  /** @ITKStartGrouping */
   itkSetClampMacro(SmoothingWeight, double, 0.0, 1.0);
   itkGetConstMacro(SmoothingWeight, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get the weight on the fidelity term (penalizes deviations from the noisy data).
    *  This option is used when a noise model is specified.
    *  This weight controls the balance between the smoothing and the closeness to the noisy data.
    *  Use a positive weight to prevent oversmoothing.
    */
+  /** @ITKStartGrouping */
   itkSetClampMacro(NoiseModelFidelityWeight, double, 0.0, 1.0);
   itkGetConstMacro(NoiseModelFidelityWeight, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get flag indicating whether kernel-bandwidth should be estimated
    *  automatically from the image data.
    *  Defaults to false.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(KernelBandwidthEstimation, bool);
   itkBooleanMacro(KernelBandwidthEstimation);
   itkGetConstMacro(KernelBandwidthEstimation, bool);
-
+  /** @ITKEndGrouping */
   /** Set/Get the update frequency for the kernel bandwidth estimation.
    *  An optimal bandwidth will be re-estimated
    *  based on the denoised image after every 'n' iterations.
    *  Must be a positive integer.
    *  Defaults to 3, i.e. bandwidth updated after every 3 denoising iteration.
    */
+  /** @ITKStartGrouping */
   itkSetClampMacro(KernelBandwidthUpdateFrequency, unsigned int, 1, NumericTraits<unsigned int>::max());
   itkGetConstMacro(KernelBandwidthUpdateFrequency, unsigned int);
-
+  /** @ITKEndGrouping */
   /** Set/Get the number of denoising iterations to perform.
    *  Must be a positive integer.
    *  Defaults to 1.
    */
+  /** @ITKStartGrouping */
   itkSetClampMacro(NumberOfIterations, unsigned int, 1, NumericTraits<unsigned int>::max());
   itkGetConstReferenceMacro(NumberOfIterations, unsigned int);
-
+  /** @ITKEndGrouping */
   /** Get the number of elapsed iterations of the filter. */
   itkGetConstReferenceMacro(ElapsedIterations, unsigned int);
 
@@ -270,10 +278,11 @@ public:
    * as if they are in euclidean space regardless of pixel type.
    * Defaults to false.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(AlwaysTreatComponentsAsEuclidean, bool);
   itkBooleanMacro(AlwaysTreatComponentsAsEuclidean);
   itkGetConstMacro(AlwaysTreatComponentsAsEuclidean, bool);
-
+  /** @ITKEndGrouping */
   /** Set the state of the filter to INITIALIZED. */
   virtual void
   SetStateToInitialized();
@@ -283,19 +292,21 @@ public:
   SetStateToUninitialized();
 
   /** Set/Get the state of the filter. */
+  /** @ITKStartGrouping */
 #if !defined(ITK_WRAPPING_PARSER)
   itkSetEnumMacro(State, FilterStateEnum);
   itkGetConstReferenceMacro(State, FilterStateEnum);
 #endif
-
+  /** @ITKEndGrouping */
   /** Indicates whether the filter automatically resets to UNINITIALIZED state
    * after completing, or whether filter must be manually reset.
    * Require the filter to be manually reinitialized (by calling
    * SetStateToUninitialized(). */
+  /** @ITKStartGrouping */
   itkSetMacro(ManualReinitialization, bool);
   itkGetConstReferenceMacro(ManualReinitialization, bool);
   itkBooleanMacro(ManualReinitialization);
-
+  /** @ITKEndGrouping */
 protected:
   PatchBasedDenoisingBaseImageFilter();
   ~PatchBasedDenoisingBaseImageFilter() override = default;
@@ -386,9 +397,10 @@ protected:
   }
 
   /** Set/Get the component space type. */
+  /** @ITKStartGrouping */
   itkSetEnumMacro(ComponentSpace, ComponentSpaceEnum);
   itkGetConstMacro(ComponentSpace, ComponentSpaceEnum);
-
+  /** @ITKEndGrouping */
   // Cache input and output pointer to get rid of thousands of calls
   // to GetInput and GetOutput.
   const InputImageType * m_InputImage{};

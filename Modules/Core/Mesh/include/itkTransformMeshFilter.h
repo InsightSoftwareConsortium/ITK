@@ -72,9 +72,10 @@ public:
   itkOverrideGetNameOfClassMacro(TransformMeshFilter);
 
   /** Get/Set transform. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(Transform, TransformType);
   itkGetModifiableObjectMacro(Transform, TransformType);
-
+  /** @ITKEndGrouping */
 protected:
   TransformMeshFilter();
   ~TransformMeshFilter() override = default;

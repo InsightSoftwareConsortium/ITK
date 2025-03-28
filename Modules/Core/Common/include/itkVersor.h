@@ -301,6 +301,7 @@ public:
 
 private:
   /** use different epsilon for float and double */
+  /** @ITKStartGrouping */
   static inline ValueType
   Epsilon(double *)
   {
@@ -316,6 +317,7 @@ private:
   {
     return Epsilon((ValueType *)nullptr);
   }
+  /** @ITKEndGrouping */
 
   /** Component parallel to x axis.  */
   ValueType m_X{};

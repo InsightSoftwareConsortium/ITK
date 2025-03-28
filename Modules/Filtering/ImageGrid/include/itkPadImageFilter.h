@@ -86,13 +86,14 @@ public:
 
   /** Set/Get the output image padding.  Default is no padding
    *  (same as input). */
+  /** @ITKStartGrouping */
   itkSetMacro(PadLowerBound, SizeType);
   itkSetMacro(PadUpperBound, SizeType);
   itkGetConstReferenceMacro(PadLowerBound, SizeType);
   itkGetConstReferenceMacro(PadUpperBound, SizeType);
   itkSetVectorMacro(PadLowerBound, const SizeValueType, ImageDimension);
   itkSetVectorMacro(PadUpperBound, const SizeValueType, ImageDimension);
-
+  /** @ITKEndGrouping */
   void
   SetPadBound(const InputImageSizeType & bound)
   {

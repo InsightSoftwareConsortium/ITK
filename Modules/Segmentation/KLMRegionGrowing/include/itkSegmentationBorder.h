@@ -62,9 +62,10 @@ public:
   itkOverrideGetNameOfClassMacro(SegmentationBorder);
 
   /** Set/Get the length of a border object. */
+  /** @ITKStartGrouping */
   itkSetMacro(BorderLength, double);
   itkGetConstReferenceMacro(BorderLength, double);
-
+  /** @ITKEndGrouping */
   /** Define a virtual SegmentationBorder function. This function allows
    * access to specific instantiations of other border representations. This
    * is the function should be overloaded in any derived classes for the user

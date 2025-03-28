@@ -78,6 +78,7 @@ public:
   using Superclass = ImageIOBase;
   using Pointer = SmartPointer<Self>;
   using MatrixType = Matrix<float, 3, 3>;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
@@ -124,10 +125,11 @@ public:
   Write(const void * buffer) override;
 
   /** Set to automatically convert from PositiveCoordinateOrientation RAS to PositiveCoordinateOrientation LPS*/
+  /** @ITKStartGrouping */
   itkSetMacro(RAStoLPS, bool);
   itkGetConstMacro(RAStoLPS, bool);
   itkBooleanMacro(RAStoLPS);
-
+  /** @ITKEndGrouping */
 protected:
   MINCImageIO();
   ~MINCImageIO() override;

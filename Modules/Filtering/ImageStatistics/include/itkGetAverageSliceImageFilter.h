@@ -63,9 +63,10 @@ public:
   itkOverrideGetNameOfClassMacro(GetAverageSliceImageFilter);
 
   /** Set the direction in which to reflect the data. */
+  /** @ITKStartGrouping */
   itkGetConstMacro(AveragedOutDimension, unsigned int);
   itkSetMacro(AveragedOutDimension, unsigned int);
-
+  /** @ITKEndGrouping */
 protected:
   GetAverageSliceImageFilter();
   ~GetAverageSliceImageFilter() override = default;

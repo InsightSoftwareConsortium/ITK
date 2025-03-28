@@ -92,9 +92,11 @@ public:
 protected:
   /** the construction from a const iterator is declared protected
       in order to enforce const correctness. */
+  /** @ITKStartGrouping */
   ImageScanlineIterator(const ImageScanlineConstIterator<TImage> & it);
   Self &
   operator=(const ImageScanlineConstIterator<TImage> & it);
+  /** @ITKEndGrouping */
 };
 
 // Deduction guide for class template argument deduction (CTAD).

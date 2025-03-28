@@ -130,11 +130,12 @@ public:
   itkOverrideGetNameOfClassMacro(GradientRecursiveGaussianImageFilter);
 
   /** Set/Get the Sigma value. Sigma is measured in the units of image spacing. */
+  /** @ITKStartGrouping */
   void
   SetSigmaArray(const SigmaArrayType & sigma);
   void
   SetSigma(ScalarRealType sigma);
-
+  /** @ITKEndGrouping */
   SigmaArrayType
   GetSigmaArray() const;
 
@@ -145,10 +146,11 @@ public:
   /** Define which normalization factor will be used for the Gaussian
    *  \sa  RecursiveGaussianImageFilter::SetNormalizeAcrossScale
    */
+  /** @ITKStartGrouping */
   void
   SetNormalizeAcrossScale(bool normalize);
   itkGetConstMacro(NormalizeAcrossScale, bool);
-
+  /** @ITKEndGrouping */
   /** GradientRecursiveGaussianImageFilter needs all of the input to produce an
    * output. Therefore, GradientRecursiveGaussianImageFilter needs to provide
    * an implementation for GenerateInputRequestedRegion in order to inform
@@ -167,10 +169,11 @@ public:
    * flag is OFF.
    * The default value of this flag is On.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(UseImageDirection, bool);
   itkGetConstMacro(UseImageDirection, bool);
   itkBooleanMacro(UseImageDirection);
-
+  /** @ITKEndGrouping */
   // Does not seem to work with wrappings, disabled
   // itkConceptMacro( InputHasNumericTraitsCheck,
   //                 ( Concept::HasNumericTraits< PixelType > ) );

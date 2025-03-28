@@ -113,19 +113,21 @@ public:
   itkNewMacro(Self);
 
   /** Set/Get Sigma value. Sigma is measured in the units of image spacing.  */
+  /** @ITKStartGrouping */
   void
   SetSigma(RealType sigma);
   RealType
   GetSigma() const;
-
+  /** @ITKEndGrouping */
   /** Define which normalization factor will be used for the Gaussian
    *  \sa  RecursiveGaussianImageFilter::SetNormalizeAcrossScale
    */
+  /** @ITKStartGrouping */
   void
   SetNormalizeAcrossScale(bool normalize);
   itkGetConstMacro(NormalizeAcrossScale, bool);
   itkBooleanMacro(NormalizeAcrossScale);
-
+  /** @ITKEndGrouping */
   /** HessianRecursiveGaussianImageFilter needs all of the input to produce an
    * output. Therefore, HessianRecursiveGaussianImageFilter needs to provide
    * an implementation for GenerateInputRequestedRegion in order to inform

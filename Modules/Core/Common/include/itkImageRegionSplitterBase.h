@@ -75,6 +75,7 @@ public:
    * a certain dimensions, then some splits will not be possible. This
    * method returns a number less than or equal to the requested number
    * of pieces. */
+  /** @ITKStartGrouping */
   template <unsigned int VImageDimension>
   unsigned int
   GetNumberOfSplits(const ImageRegion<VImageDimension> & region, unsigned int requestedNumber) const
@@ -88,7 +89,7 @@ public:
     return this->GetNumberOfSplitsInternal(
       region.GetImageDimension(), &region.GetIndex()[0], &region.GetSize()[0], requestedNumber);
   }
-
+  /** @ITKEndGrouping */
 
   /** \brief Get a region definition that represents the ith piece a
    * specified region.

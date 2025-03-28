@@ -78,10 +78,11 @@ public:
 
   /** Select whether midpoint (intermode = true) or minimum between
   peaks is used. Default is "On". */
+  /** @ITKStartGrouping */
   itkSetMacro(UseInterMode, bool);
   itkGetConstMacro(UseInterMode, bool);
   itkBooleanMacro(UseInterMode);
-
+  /** @ITKEndGrouping */
 protected:
   IntermodesThresholdCalculator()
   {

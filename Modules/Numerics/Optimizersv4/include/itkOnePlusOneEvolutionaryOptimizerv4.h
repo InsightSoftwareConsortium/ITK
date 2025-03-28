@@ -93,26 +93,31 @@ public:
   using typename Superclass::ScalesType;
 
   /** Set/Get maximum iteration limit. */
+  /** @ITKStartGrouping */
   itkSetMacro(MaximumIteration, unsigned int);
   itkGetConstReferenceMacro(MaximumIteration, unsigned int);
-
+  /** @ITKEndGrouping */
   /** Set/Get the search radius grow factor in parameter space. */
+  /** @ITKStartGrouping */
   itkSetMacro(GrowthFactor, double);
   itkGetConstReferenceMacro(GrowthFactor, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get the search radius shrink factor. */
+  /** @ITKStartGrouping */
   itkSetMacro(ShrinkFactor, double);
   itkGetConstReferenceMacro(ShrinkFactor, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get initial search radius in parameter space */
+  /** @ITKStartGrouping */
   itkSetMacro(InitialRadius, double);
   itkGetConstReferenceMacro(InitialRadius, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get the minimal size of search radius
    * (frobenius_norm of covariance matrix). */
+  /** @ITKStartGrouping */
   itkSetMacro(Epsilon, double);
   itkGetConstReferenceMacro(Epsilon, double);
-
+  /** @ITKEndGrouping */
   /** Get the current Frobenius norm of covariance matrix */
   itkGetConstReferenceMacro(FrobeniusNorm, double);
 
@@ -129,10 +134,11 @@ public:
   Initialize(double initialRadius, double grow = -1, double shrink = -1);
 
   /** Return Current Value */
+  /** @ITKStartGrouping */
   itkGetConstReferenceMacro(CurrentCost, MeasureType);
   const MeasureType &
   GetValue() const override;
-
+  /** @ITKEndGrouping */
   /** Return if optimizer has been initialized */
   itkGetConstReferenceMacro(Initialized, bool);
 

@@ -51,6 +51,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Class methods used to interface with the registered factories. */
+  /** @ITKStartGrouping */
   const char *
   GetITKSourceVersion() const override
   {
@@ -61,7 +62,7 @@ public:
   {
     return "An FFTDiscreteGaussianImageFilterFactory factory";
   }
-
+  /** @ITKEndGrouping */
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
 
@@ -81,6 +82,7 @@ protected:
   /** Override base DiscreteGaussianImageFilter constructor at runtime to return
    *  an upcast FFTDiscreteGaussianImageFilter instance through the object factory
    */
+  /** @ITKStartGrouping */
   template <typename InputPixelType, typename OutputPixelType, unsigned int D, unsigned int... ImageDimensions>
   void
   OverrideSuperclassType(const std::integer_sequence<unsigned int, D, ImageDimensions...> &)
@@ -99,7 +101,7 @@ protected:
   void
   OverrideSuperclassType(const std::integer_sequence<unsigned int> &)
   {}
-
+  /** @ITKEndGrouping */
   FFTDiscreteGaussianImageFilterFactory()
   {
     OverrideSuperclassType<float, float>(std::integer_sequence<unsigned int, 4, 3, 2, 1>{});

@@ -60,16 +60,18 @@ public:
   itkOverrideGetNameOfClassMacro(FrameDifferenceVideoFilter);
 
   /** Get/Set the offset for computing frame differences. Defaults to 1. */
+  /** @ITKStartGrouping */
   void
   SetFrameOffset(SizeValueType numFrames);
   SizeValueType
   GetFrameOffset();
-
+  /** @ITKEndGrouping */
 protected:
   /** Constructor and Destructor */
+  /** @ITKStartGrouping */
   FrameDifferenceVideoFilter();
   ~FrameDifferenceVideoFilter() override = default;
-
+  /** @ITKEndGrouping */
   /** PrintSelf */
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

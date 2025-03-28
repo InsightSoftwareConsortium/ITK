@@ -103,18 +103,20 @@ public:
   GetMTime() const override;
 
   /** Set the slice position */
+  /** @ITKStartGrouping */
   itkSetMacro(SliceNumber, IndexType);
   void
   SetSliceNumber(unsigned int dimension, int position);
-
+  /** @ITKEndGrouping */
   /** Get the slice position */
+  /** @ITKStartGrouping */
   itkGetConstMacro(SliceNumber, IndexType);
   int
   GetSliceNumber(unsigned int dimension)
   {
     return m_SliceNumber[dimension];
   }
-
+  /** @ITKEndGrouping */
 #if !defined(ITK_LEGACY_REMOVE)
   itkLegacyMacro(const char * GetPixelTypeName())
   {
@@ -123,10 +125,11 @@ public:
 #endif
 
   /** Set/Get the interpolator. */
+  /** @ITKStartGrouping */
   void
   SetInterpolator(InterpolatorType * interpolator);
   itkGetConstMacro(Interpolator, InterpolatorType *);
-
+  /** @ITKEndGrouping */
   /** Updates the regions of this spatial object in accordance with its current image, and calls its Superclass. */
   void
   Update() override;

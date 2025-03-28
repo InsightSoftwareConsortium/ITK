@@ -119,11 +119,12 @@ auto result = pool->AddWork([](int param) { return param; }, 7);
   This function should be used carefully, probably only during static
   initialization phase to disable waiting for threads when ITK is built as a
   static library and linked into a shared library (Windows only). */
+  /** @ITKStartGrouping */
   static bool
   GetDoNotWaitForThreads();
   static void
   SetDoNotWaitForThreads(bool doNotWaitForThreads);
-
+  /** @ITKEndGrouping */
 protected:
   /** We need access to the mutex in AddWork, and the variable is only
    * visible in the .cxx file, so this method returns it. */

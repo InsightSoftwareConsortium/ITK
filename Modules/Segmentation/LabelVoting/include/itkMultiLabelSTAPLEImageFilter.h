@@ -156,6 +156,7 @@ public:
 
   /** Set maximum number of iterations.
    */
+  /** @ITKStartGrouping */
   void
   SetMaximumNumberOfIterations(const unsigned int mit)
   {
@@ -164,6 +165,7 @@ public:
     this->Modified();
   }
   itkGetConstMacro(MaximumNumberOfIterations, unsigned int);
+  /** @ITKEndGrouping */
 
   /** True if the MaximumNumberOfIterations has been manually set. **/
   itkGetConstMacro(HasMaximumNumberOfIterations, bool);
@@ -182,8 +184,10 @@ public:
 
   /** Set termination threshold based on confusion matrix parameter updates.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(TerminationUpdateThreshold, TWeights);
   itkGetConstMacro(TerminationUpdateThreshold, TWeights);
+  /** @ITKEndGrouping */
 
   /** Set label value for undecided pixels.
    */

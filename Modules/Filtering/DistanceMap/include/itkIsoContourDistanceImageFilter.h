@@ -110,20 +110,23 @@ public:
 
   /** Set/Get the value of the level set to be located. The default value is
    *  0. */
+  /** @ITKStartGrouping */
   itkSetMacro(LevelSetValue, PixelRealType);
   itkGetConstMacro(LevelSetValue, PixelRealType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the value of the level set to be located. The default value is
    *  0. */
+  /** @ITKStartGrouping */
   itkSetMacro(FarValue, PixelType);
   itkGetConstMacro(FarValue, PixelType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the narrowbanding flag. By default, narrowbanding is switched
    * off. */
+  /** @ITKStartGrouping */
   itkSetMacro(NarrowBanding, bool);
   itkGetConstMacro(NarrowBanding, bool);
   itkBooleanMacro(NarrowBanding);
-
+  /** @ITKEndGrouping */
   /** Set/Get the narrowband. */
   void
   SetNarrowBand(NarrowBandType * ptr);

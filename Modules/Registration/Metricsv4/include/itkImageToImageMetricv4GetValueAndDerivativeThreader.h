@@ -110,6 +110,7 @@ protected:
   /** Get cached values for efficiency. Only valid once threading has started.
    *  These methods should be used in tight loops (inlining helps measurably).
    *  Put these methods here so derived threaders can access them directly. */
+  /** @ITKStartGrouping */
   inline NumberOfParametersType
   GetCachedNumberOfParameters() const
   {
@@ -120,6 +121,7 @@ protected:
   {
     return this->m_CachedNumberOfLocalParameters;
   }
+  /** @ITKEndGrouping */
 };
 
 /** \class ImageToImageMetricv4GetValueAndDerivativeThreader
@@ -185,6 +187,7 @@ protected:
   /** Get cached values for efficiency. Only valid once threading has started.
    *  These methods should be used in tight loops (inlining helps measurably).
    *  Put these methods here so derived threaders can access them directly. */
+  /** @ITKStartGrouping */
   inline NumberOfParametersType
   GetCachedNumberOfParameters() const
   {
@@ -195,6 +198,7 @@ protected:
   {
     return this->m_CachedNumberOfLocalParameters;
   }
+  /** @ITKEndGrouping */
 };
 
 } // end namespace itk

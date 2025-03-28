@@ -203,44 +203,51 @@ public:
    * (useful for binary masks and other images with a small number of
    * possible pixel values), and BSplineInterpolateImageFunction
    * (which provides a higher order of interpolation).  */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(Interpolator, InterpolatorType);
   itkGetModifiableObjectMacro(Interpolator, InterpolatorType);
-
+  /** @ITKEndGrouping */
   /** Get/Set the extrapolator function.  The default behavior when sampling outside
    * of the input image is to use the DefaultPixelValue.  Some other options
    * include NearestNeighborExtrapolateImageFunction. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(Extrapolator, ExtrapolatorType);
   itkGetModifiableObjectMacro(Extrapolator, ExtrapolatorType);
-
+  /** @ITKEndGrouping */
   /** Get/Set the size of the output image. */
+  /** @ITKStartGrouping */
   itkSetMacro(Size, SizeType);
   itkGetConstReferenceMacro(Size, SizeType);
-
+  /** @ITKEndGrouping */
   /** Get/Set the pixel value when a transformed pixel is outside of the
    * image.  The default default pixel value is 0. */
+  /** @ITKStartGrouping */
   itkSetMacro(DefaultPixelValue, PixelType);
   itkGetConstReferenceMacro(DefaultPixelValue, PixelType);
-
+  /** @ITKEndGrouping */
   /** Set the output image spacing. */
+  /** @ITKStartGrouping */
   itkSetMacro(OutputSpacing, SpacingType);
   virtual void
   SetOutputSpacing(const double * spacing);
-
+  /** @ITKEndGrouping */
   /** Get the output image spacing. */
   itkGetConstReferenceMacro(OutputSpacing, SpacingType);
 
   /** Set the output image origin. */
+  /** @ITKStartGrouping */
   itkSetMacro(OutputOrigin, OriginPointType);
   virtual void
   SetOutputOrigin(const double * origin);
-
+  /** @ITKEndGrouping */
   /** Get the output image origin. */
   itkGetConstReferenceMacro(OutputOrigin, OriginPointType);
 
   /** Set the output direction cosine matrix. */
+  /** @ITKStartGrouping */
   itkSetMacro(OutputDirection, DirectionType);
   itkGetConstReferenceMacro(OutputDirection, DirectionType);
-
+  /** @ITKEndGrouping */
   /** Helper method to set the output parameters based on this image. */
   void
   SetOutputParametersFromImage(const ImageBaseType * image);
@@ -266,10 +273,11 @@ public:
 
   /** Turn on/off whether a specified reference image should be used to define
    *  the output information. */
+  /** @ITKStartGrouping */
   itkSetMacro(UseReferenceImage, bool);
   itkBooleanMacro(UseReferenceImage);
   itkGetConstMacro(UseReferenceImage, bool);
-
+  /** @ITKEndGrouping */
   itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<PixelComponentType>));
 
 protected:

@@ -112,22 +112,26 @@ public:
 
   /** Set/Get the multiplier to define the confidence interval.  Multiplier
    * can be anything greater than zero. A typical value is 2.5 */
+  /** @ITKStartGrouping */
   itkSetMacro(Multiplier, double);
   itkGetConstMacro(Multiplier, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get the number of iterations */
+  /** @ITKStartGrouping */
   itkSetMacro(NumberOfIterations, unsigned int);
   itkGetConstMacro(NumberOfIterations, unsigned int);
-
+  /** @ITKEndGrouping */
   /** Set/Get value to replace thresholded pixels */
+  /** @ITKStartGrouping */
   itkSetMacro(ReplaceValue, OutputImagePixelType);
   itkGetConstMacro(ReplaceValue, OutputImagePixelType);
-
+  /** @ITKEndGrouping */
   /** Get/Set the radius of the neighborhood over which the
       statistics are evaluated */
+  /** @ITKStartGrouping */
   itkSetMacro(InitialNeighborhoodRadius, unsigned int);
   itkGetConstReferenceMacro(InitialNeighborhoodRadius, unsigned int);
-
+  /** @ITKEndGrouping */
   /** Get the Mean Vector computed during the segmentation */
   const MeanVectorType &
   GetMean() const;

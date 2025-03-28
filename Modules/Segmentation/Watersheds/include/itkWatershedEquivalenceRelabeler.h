@@ -69,12 +69,14 @@ public:
   using DataObjectPointer = DataObject::Pointer;
 
   /**  Define smart pointers for this object.   */
+  /** @ITKStartGrouping */
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
   itkNewMacro(Self);
   itkOverrideGetNameOfClassMacro(EquivalenceRelabeler);
-
+  /** @ITKEndGrouping */
   /** Set/Get the image to relabel.   */
+  /** @ITKStartGrouping */
   void
   SetInputImage(ImageType * img)
   {
@@ -85,7 +87,7 @@ public:
   {
     return static_cast<ImageType *>(this->ProcessObject::GetInput(0));
   }
-
+  /** @ITKEndGrouping */
   /** Set/Get the output image */
   void
   SetOutputImage(ImageType * img)

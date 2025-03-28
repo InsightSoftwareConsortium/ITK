@@ -93,6 +93,7 @@ public:
   using CovarianceMatrixType = typename MahalanobisFunctionType::CovarianceMatrixType;
 
   /** Set/Get mean and covariance */
+  /** @ITKStartGrouping */
   void
   SetMean(const MeanVectorType & mean)
   {
@@ -103,7 +104,7 @@ public:
   {
     return m_Mahalanobis->GetMean();
   }
-
+  /** @ITKEndGrouping */
   void
   SetCovariance(const CovarianceMatrixType & cov)
   {

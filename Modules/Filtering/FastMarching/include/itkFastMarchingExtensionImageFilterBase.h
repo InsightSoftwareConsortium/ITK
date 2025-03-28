@@ -110,13 +110,15 @@ public:
   GetAuxiliaryImage(const unsigned int idx);
 
   /** Set the container auxiliary values at the initial alive points. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(AuxiliaryAliveValues, AuxValueContainerType);
   itkGetModifiableObjectMacro(AuxiliaryAliveValues, AuxValueContainerType);
-
+  /** @ITKEndGrouping */
   /** Set the container of auxiliary values at the initial trial points. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(AuxiliaryTrialValues, AuxValueContainerType);
   itkGetModifiableObjectMacro(AuxiliaryTrialValues, AuxValueContainerType);
-
+  /** @ITKEndGrouping */
   itkConceptMacro(AuxValueHasNumericTraitsCheck, (Concept::HasNumericTraits<TAuxValue>));
 
 protected:

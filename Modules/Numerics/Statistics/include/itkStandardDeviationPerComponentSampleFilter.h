@@ -60,9 +60,10 @@ public:
   using SampleType = TSample;
 
   /** \see LightObject::GetNameOfClass() */
+  /** @ITKStartGrouping */
   itkOverrideGetNameOfClassMacro(StandardDeviationPerComponentSampleFilter);
   itkNewMacro(Self);
-
+  /** @ITKEndGrouping */
   /** Length of a measurement vector */
   using MeasurementVectorSizeType = typename TSample::MeasurementVectorSizeType;
 

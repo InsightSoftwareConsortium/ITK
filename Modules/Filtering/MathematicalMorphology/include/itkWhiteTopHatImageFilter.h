@@ -87,14 +87,16 @@ public:
 
   /** A safe border is added to input image to avoid borders effects
    * and remove it once the closing is done */
+  /** @ITKStartGrouping */
   itkSetMacro(SafeBorder, bool);
   itkGetConstReferenceMacro(SafeBorder, bool);
   itkBooleanMacro(SafeBorder);
-
+  /** @ITKEndGrouping */
   /** Set/Get the backend filter class. */
+  /** @ITKStartGrouping */
   itkSetMacro(Algorithm, AlgorithmEnum);
   itkGetConstMacro(Algorithm, AlgorithmEnum);
-
+  /** @ITKEndGrouping */
   itkSetMacro(ForceAlgorithm, bool);
   itkGetConstReferenceMacro(ForceAlgorithm, bool);
   itkBooleanMacro(ForceAlgorithm);

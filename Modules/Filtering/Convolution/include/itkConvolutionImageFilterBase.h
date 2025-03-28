@@ -41,6 +41,7 @@ public:
     VALID
   };
 };
+
 /** Define how to print enumerations */
 extern ITKConvolution_EXPORT std::ostream &
 operator<<(std::ostream & out, const ConvolutionImageFilterBaseEnums::ConvolutionImageFilterOutputRegion value);
@@ -95,19 +96,22 @@ public:
   using DefaultBoundaryConditionType = ZeroFluxNeumannBoundaryCondition<TInputImage>;
 
   /** Set/get the boundary condition. */
+  /** @ITKStartGrouping */
   itkSetMacro(BoundaryCondition, BoundaryConditionType *);
   itkGetConstMacro(BoundaryCondition, BoundaryConditionType *);
-
+  /** @ITKEndGrouping */
   /** Set/get the image kernel. */
+  /** @ITKStartGrouping */
   itkSetInputMacro(KernelImage, KernelImageType);
   itkGetInputMacro(KernelImage, KernelImageType);
-
+  /** @ITKEndGrouping */
   /** Normalize the output image by the sum of the kernel
    * components. Defaults to off. */
+  /** @ITKStartGrouping */
   itkSetMacro(Normalize, bool);
   itkGetConstMacro(Normalize, bool);
   itkBooleanMacro(Normalize);
-
+  /** @ITKEndGrouping */
   /** Reverse compatibility for enumerations */
   using OutputRegionModeEnum = ConvolutionImageFilterBaseEnums::ConvolutionImageFilterOutputRegion;
 #if !defined(ITK_LEGACY_REMOVE)
@@ -127,13 +131,14 @@ public:
    * (no extrapolated contributions from the boundary condition are
    * needed). The output is therefore smaller than the input
    * region. Default output region mode is SAME. */
+  /** @ITKStartGrouping */
   itkSetEnumMacro(OutputRegionMode, OutputRegionModeEnum);
   itkGetEnumMacro(OutputRegionMode, OutputRegionModeEnum);
   virtual void
   SetOutputRegionModeToSame();
   virtual void
   SetOutputRegionModeToValid();
-
+  /** @ITKEndGrouping */
 protected:
   ConvolutionImageFilterBase();
   ~ConvolutionImageFilterBase() override = default;

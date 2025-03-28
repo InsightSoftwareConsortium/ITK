@@ -164,6 +164,7 @@ public:
   }
 
   /** STL-style iterator support. */
+  /** @ITKStartGrouping */
   Iterator
   End()
   {
@@ -184,6 +185,7 @@ public:
   {
     return m_DataBuffer.begin();
   }
+  /** @ITKEndGrouping */
 
   /** More STL-style support. */
   NeighborIndexType
@@ -193,6 +195,7 @@ public:
   }
 
   /** Pass-through data access methods to the buffer. */
+  /** @ITKStartGrouping */
   TPixel &
   operator[](NeighborIndexType i)
   {
@@ -208,6 +211,7 @@ public:
   {
     return m_DataBuffer[i];
   }
+  /** @ITKEndGrouping */
 
   /** Returns the element at the center of the neighborhood. */
   TPixel
@@ -245,6 +249,7 @@ public:
   }
 
   /** Returns a reference to the data buffer structure. */
+  /** @ITKStartGrouping */
   AllocatorType &
   GetBufferReference()
   {
@@ -255,8 +260,10 @@ public:
   {
     return m_DataBuffer;
   }
+  /** @ITKEndGrouping */
 
   /** Get pixel value by offset */
+  /** @ITKStartGrouping */
   TPixel &
   operator[](const OffsetType & o)
   {
@@ -267,6 +274,7 @@ public:
   {
     return this->operator[](this->GetNeighborhoodIndex(o));
   }
+  /** @ITKEndGrouping */
 
   /** Returns the itk::Offset from the center of the Neighborhood to
       the requested neighbor index. */

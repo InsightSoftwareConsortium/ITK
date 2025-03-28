@@ -42,6 +42,7 @@ public:
   {
     /** Do not use any area information*/
     NONE = 0,
+
     /** Use a mixed area*/
     MIXEDAREA
   };
@@ -179,8 +180,10 @@ public:
   ClearConstraints();
 
   /** Set/Get the Laplacian order */
+  /** @ITKStartGrouping */
   itkSetMacro(Order, unsigned int);
   itkGetMacro(Order, unsigned int);
+  /** @ITKEndGrouping */
 
   using AreaEnum = LaplacianDeformationQuadEdgeMeshFilterEnums::Area;
 #if !defined(ITK_LEGACY_REMOVE)
@@ -190,16 +193,20 @@ public:
 #endif
 
   /** Set/Get the area normalization type */
+  /** @ITKStartGrouping */
   itkSetEnumMacro(AreaComputationType, AreaEnum);
   itkGetMacro(AreaComputationType, AreaEnum);
+  /** @ITKEndGrouping */
 
   itkConceptMacro(SameDimensionCheck1, (Concept::SameDimension<InputPointDimension, OutputPointDimension>));
   itkConceptMacro(SameDimensionCheck2, (Concept::SameDimension<InputPointDimension, 3>));
 
 protected:
   /** Default constructor*/
+  /** @ITKStartGrouping */
   LaplacianDeformationQuadEdgeMeshFilter();
   ~LaplacianDeformationQuadEdgeMeshFilter() override = default;
+  /** @ITKEndGrouping */
 
   using OutputMapPointIdentifier = std::unordered_map<OutputPointIdentifier, OutputPointIdentifier>;
   using OutputMapPointIdentifierIterator = typename OutputMapPointIdentifier::iterator;

@@ -95,11 +95,12 @@ public:
    * the color. If a name is not provided, the name "UserDefined" is
    * used.
    */
+  /** @ITKStartGrouping */
   bool
   SetColor(unsigned int c, TComponent r, TComponent g, TComponent b, const char * name = "UserDefined");
   bool
   SetColor(unsigned int c, RGBPixel<TComponent> pixel, const char * name = "UserDefined");
-
+  /** @ITKEndGrouping */
   /** Given the position in the table and the color
    * returns the value.
    */

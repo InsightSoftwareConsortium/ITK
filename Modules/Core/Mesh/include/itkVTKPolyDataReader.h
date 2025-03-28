@@ -89,10 +89,12 @@ public:
   /** Set the resolution level to be used for generating cells in the
    * Sphere. High values of this parameter will produce sphere with more
    * triangles. */
+
   /** Set/Get the name of the file to be read. */
+  /** @ITKStartGrouping */
   itkSetStringMacro(FileName);
   itkGetStringMacro(FileName);
-
+  /** @ITKEndGrouping */
   /** Get the file version line */
   itkGetStringMacro(Version);
 

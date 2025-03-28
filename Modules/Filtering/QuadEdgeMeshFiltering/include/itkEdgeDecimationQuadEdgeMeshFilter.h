@@ -215,12 +215,13 @@ protected:
    * \brief
    * \todo Finish to implement this method!
    */
+  /** @ITKStartGrouping */
   bool
   CheckOrientation(OutputQEType * iEdge, const OutputPointIdentifier & iId, const OutputPointType & iPt)
   {
     OutputMeshPointer           output = this->GetOutput();
     OutputCellsContainerPointer cells = output->GetCells();
-
+    /** @ITKEndGrouping */
     OutputQEType * qe = iEdge;
     OutputQEType * qe_it = qe->GetOnext();
 

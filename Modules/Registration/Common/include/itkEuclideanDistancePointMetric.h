@@ -105,17 +105,19 @@ public:
                         DerivativeType &                derivative) const;
 
   /** Set/Get the distance map. */
+  /** @ITKStartGrouping */
   itkSetConstObjectMacro(DistanceMap, DistanceMapType);
   itkGetConstObjectMacro(DistanceMap, DistanceMapType);
-
+  /** @ITKEndGrouping */
   /** Set/Get if the distance should be squared.
    *  When set to true, the filter's computational speed is substantially improved
    *  (by avoiding numerous sqrt() calls), but it will result in minimizing the sum
    *  of distances^4 instead of the sum of distances^2. Default is false. */
+  /** @ITKStartGrouping */
   itkSetMacro(ComputeSquaredDistance, bool);
   itkGetConstMacro(ComputeSquaredDistance, bool);
   itkBooleanMacro(ComputeSquaredDistance);
-
+  /** @ITKEndGrouping */
 protected:
   EuclideanDistancePointMetric();
   ~EuclideanDistancePointMetric() override = default;

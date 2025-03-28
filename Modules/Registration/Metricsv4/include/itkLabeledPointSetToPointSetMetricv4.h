@@ -116,9 +116,10 @@ public:
    * Set/get the specific unlabeled point set metric type.  Default is
    * the \c EuclideanDistancePointSetToPointSetMetricv4.
    */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(PointSetMetric, PointSetMetricType);
   itkGetModifiableObjectMacro(PointSetMetric, PointSetMetricType);
-
+  /** @ITKEndGrouping */
   /**
    * Ensure label type is an integer type
    */

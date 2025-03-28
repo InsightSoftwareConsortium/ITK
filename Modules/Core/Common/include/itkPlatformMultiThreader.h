@@ -70,6 +70,7 @@ public:
    * are already statically allocated using the ITK_MAX_THREADS number.
    * Therefore the caller of this method should check that the requested number
    * of threads was accepted. Legacy: use MultiThreaderBase to invoke these. */
+  /** @ITKStartGrouping */
   itkLegacyMacro(static void SetGlobalMaximumNumberOfThreads(ThreadIdType val))
   {
     itkGenericOutputMacro("Warning: SetGlobalMaximumNumberOfThreads should now be called on itk::MultiThreaderBase. It "
@@ -82,11 +83,13 @@ public:
                           "can affect all MultiThreaderBase's derived classes in ITK");
     return Superclass::GetGlobalMaximumNumberOfThreads();
   }
+  /** @ITKEndGrouping */
 
   /** Set/Get the value which is used to initialize the NumberOfThreads in the
    * constructor.  It will be clamped to the range [1, m_GlobalMaximumNumberOfThreads ].
    * Therefore the caller of this method should check that the requested number
    * of threads was accepted. Legacy: use MultiThreaderBase to invoke these. */
+  /** @ITKStartGrouping */
   itkLegacyMacro(static void SetGlobalDefaultNumberOfThreads(ThreadIdType val))
   {
     itkGenericOutputMacro("Warning: SetGlobalDefaultNumberOfThreads should now be called on itk::MultiThreaderBase. It "
@@ -99,6 +102,7 @@ public:
                           "can affect all MultiThreaderBase's derived classes in ITK");
     return Superclass::GetGlobalDefaultNumberOfThreads();
   }
+  /** @ITKEndGrouping */
 #endif
 
   /** Execute the SingleMethod (as define by SetSingleMethod) using
@@ -177,6 +181,7 @@ private:
   /** spawn a new thread for the SingleMethod */
   ThreadProcessIdType
   SpawnDispatchSingleMethodThread(WorkUnitInfo *);
+
   /** wait for a thread in the threadpool to finish work */
   void SpawnWaitForSingleMethodThread(ThreadProcessIdType);
 

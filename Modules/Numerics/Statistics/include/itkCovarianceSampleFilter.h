@@ -63,9 +63,10 @@ public:
   using SampleType = TSample;
 
   /** \see LightObject::GetNameOfClass() */
+  /** @ITKStartGrouping */
   itkOverrideGetNameOfClassMacro(CovarianceSampleFilter);
   itkNewMacro(Self);
-
+  /** @ITKEndGrouping */
   /** Type of each measurement vector in sample */
   using MeasurementVectorType = typename SampleType::MeasurementVectorType;
 

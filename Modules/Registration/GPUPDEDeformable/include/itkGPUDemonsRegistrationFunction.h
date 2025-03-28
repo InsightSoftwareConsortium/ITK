@@ -50,6 +50,7 @@ namespace itk
  * \ingroup FiniteDifferenceFunctions
  * \ingroup ITKGPUPDEDeformableRegistration
  */
+
 /** Create a helper GPU Kernel class for GPUDemonsRegistrationFunction */
 itkGPUKernelClassMacro(GPUDemonsRegistrationFunctionKernel);
 
@@ -213,6 +214,7 @@ public:
   /** Select if the fixed image or moving image gradient is used for
    * computing the demon forces. The fixed image gradient is used
    * by default. */
+  /** @ITKStartGrouping */
   virtual void
   SetUseMovingImageGradient(bool flag)
   {
@@ -223,7 +225,7 @@ public:
   {
     return m_UseMovingImageGradient;
   }
-
+  /** @ITKEndGrouping */
   /** Set/Get the threshold below which the absolute difference of
    * intensity yields a match. When the intensities match between a
    * moving and fixed image pixel, the update vector (for that

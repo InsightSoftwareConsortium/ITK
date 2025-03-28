@@ -67,18 +67,20 @@ public:
   itkGetStringMacro(FileName);
 
   /** Set/Get the buffer flushing mode */
+  /** @ITKStartGrouping */
   itkSetMacro(Flush, bool);
   itkGetConstMacro(Flush, bool);
   itkBooleanMacro(Flush);
-
+  /** @ITKEndGrouping */
   /** Setting append will cause the log file to be
    * opened in append mode.  Otherwise, if the log file exists,
    * it will be overwritten each time the FileOutputWindow
    * is created. */
+  /** @ITKStartGrouping */
   itkSetMacro(Append, bool);
   itkGetConstMacro(Append, bool);
   itkBooleanMacro(Append);
-
+  /** @ITKEndGrouping */
 protected:
   FileOutputWindow();
   ~FileOutputWindow() override;

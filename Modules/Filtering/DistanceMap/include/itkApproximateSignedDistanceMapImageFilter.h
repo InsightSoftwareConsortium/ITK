@@ -105,6 +105,7 @@ public:
   /** Type of input image size and size value */
   using OutputSizeType = typename OutputImageType::SizeType;
   using OutputSizeValueType = typename OutputSizeType::SizeValueType;
+
   /** The dimension of the input image. */
   static constexpr unsigned int InputImageDimension = InputImageType::ImageDimension;
 
@@ -116,13 +117,15 @@ public:
 
   /** Set/Get intensity value representing the interior of objects in the mask.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(InsideValue, InputPixelType);
   itkGetConstMacro(InsideValue, InputPixelType);
-
+  /** @ITKEndGrouping */
   /** Set/Get intensity value representing non-objects in the mask. */
+  /** @ITKStartGrouping */
   itkSetMacro(OutsideValue, InputPixelType);
   itkGetConstMacro(OutsideValue, InputPixelType);
-
+  /** @ITKEndGrouping */
   itkConceptMacro(InputEqualityComparableCheck, (Concept::EqualityComparable<typename InputImageType::PixelType>));
 
 protected:

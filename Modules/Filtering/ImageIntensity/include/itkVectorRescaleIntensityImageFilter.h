@@ -134,9 +134,10 @@ public:
   /** Get the Scale and Shift used for the linear transformation
       of magnitude values.
    \warning These values are only valid after the filter has been updated. */
+  /** @ITKStartGrouping */
   itkGetConstReferenceMacro(Scale, InputRealType);
   itkGetConstReferenceMacro(Shift, InputRealType);
-
+  /** @ITKEndGrouping */
   /** Get the Maximum value of the input image magnitudes.
    \warning These values are only valid after the filter has been updated. */
   itkGetConstReferenceMacro(InputMaximumMagnitude, InputRealType);

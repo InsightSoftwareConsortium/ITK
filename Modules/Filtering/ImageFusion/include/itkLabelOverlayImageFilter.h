@@ -86,21 +86,24 @@ public:
   itkNewMacro(Self);
 
   /** Set/Get the label image. */
+  /** @ITKStartGrouping */
   void
   SetLabelImage(const TLabelImage * input);
   const LabelImageType *
   GetLabelImage() const;
-
+  /** @ITKEndGrouping */
   /** Set/Get the opacity of the colored label image. The value must be
    * between 0 and 1.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(Opacity, double);
   itkGetConstReferenceMacro(Opacity, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get the background value. */
+  /** @ITKStartGrouping */
   itkSetMacro(BackgroundValue, LabelPixelType);
   itkGetConstReferenceMacro(BackgroundValue, LabelPixelType);
-
+  /** @ITKEndGrouping */
   itkConceptMacro(OutputPixelShouldHaveValueType, (Concept::HasValueType<OutputPixelType>));
   itkConceptMacro(OutputPixelShouldHaveBracketOperator,
                   (Concept::BracketOperator<OutputPixelType, unsigned int, typename OutputPixelType::ValueType>));

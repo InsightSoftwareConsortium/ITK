@@ -52,9 +52,10 @@ public:
    *
    * Defaults to 0.
    */
+  /** @ITKStartGrouping */
   itkGetConstMacro(Direction, unsigned int);
   itkSetMacro(Direction, unsigned int);
-
+  /** @ITKEndGrouping */
 
 protected:
   ImageRegionSplitterDirection();

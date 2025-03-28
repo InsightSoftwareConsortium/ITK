@@ -142,9 +142,10 @@ public:
   itkSetGetDecoratedObjectInputMacro(Transform, TransformType);
 
   /** Set/Get required input image. */
+  /** @ITKStartGrouping */
   itkSetInputMacro(InputImage, InputImageType);
   itkGetInputMacro(InputImage, InputImageType);
-
+  /** @ITKEndGrouping */
 protected:
   TransformGeometryImageFilter();
   ~TransformGeometryImageFilter() override = default;

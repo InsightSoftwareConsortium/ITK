@@ -100,11 +100,12 @@ public:
    * Orthogonality testing is bypassed in this case.
    *
    * \sa MatrixOffsetTransformBase::SetMatrix() */
+  /** @ITKStartGrouping */
   void
   SetMatrix(const MatrixType & matrix) override;
   void
   SetMatrix(const MatrixType & matrix, const TParametersValueType tolerance) override;
-
+  /** @ITKEndGrouping */
   /** Set the transformation from a container of parameters
    * This is typically used by optimizers.
    * There are 9 parameters:

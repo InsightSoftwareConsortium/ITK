@@ -97,32 +97,37 @@ public:
   /** Gets and sets for Gaussian parameters */
 
   /** Set/Get the scale factor to multiply the true value of the Gaussian. */
+  /** @ITKStartGrouping */
   itkSetMacro(Scale, double);
   itkGetConstReferenceMacro(Scale, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get whether or not to normalize the Gaussian. Default is false. */
+  /** @ITKStartGrouping */
   itkSetMacro(Normalized, bool);
   itkGetConstReferenceMacro(Normalized, bool);
   itkBooleanMacro(Normalized);
-
+  /** @ITKEndGrouping */
   /** Set/Get the standard deviation in each direction. */
+  /** @ITKStartGrouping */
   itkSetMacro(Sigma, ArrayType);
   itkGetConstReferenceMacro(Sigma, ArrayType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the mean in each direction. */
+  /** @ITKStartGrouping */
   itkSetMacro(Mean, ArrayType);
   itkGetConstReferenceMacro(Mean, ArrayType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the parameters for this source. When this source is
    * templated over an N-dimensional output image type, the first N
    * values in the parameter array are the Sigma parameters in each
    * dimension, the next N values are the Mean parameters in each
    * dimension, and the last value is the Scale. */
+  /** @ITKStartGrouping */
   void
   SetParameters(const ParametersType & parameters) override;
   ParametersType
   GetParameters() const override;
-
+  /** @ITKEndGrouping */
   /** Get the number of parameters for this image source. When this
    * source is templated over an N-dimensional output image type, the
    * number of parameters is 2*N+1. */

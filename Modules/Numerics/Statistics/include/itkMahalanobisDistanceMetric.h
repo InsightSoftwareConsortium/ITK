@@ -54,9 +54,10 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** \see LightObject::GetNameOfClass() */
+  /** @ITKStartGrouping */
   itkOverrideGetNameOfClassMacro(MahalanobisDistanceMetric);
   itkNewMacro(Self);
-
+  /** @ITKEndGrouping */
   /** Typedef to represent the measurement vector type */
   using typename Superclass::MeasurementVectorType;
 
@@ -109,9 +110,10 @@ public:
   Evaluate(const MeasurementVectorType & x1, const MeasurementVectorType & x2) const override;
 
   /** Set/Get tolerance values */
+  /** @ITKStartGrouping */
   itkSetMacro(Epsilon, double);
   itkGetConstMacro(Epsilon, double);
-
+  /** @ITKEndGrouping */
   itkSetMacro(DoubleMax, double);
   itkGetConstMacro(DoubleMax, double);
 

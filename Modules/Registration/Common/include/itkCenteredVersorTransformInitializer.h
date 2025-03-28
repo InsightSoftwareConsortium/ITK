@@ -86,10 +86,11 @@ public:
 
   /** Enable the use of the principal axes of each image to compute an
    * initial rotation that will align them. */
+  /** @ITKStartGrouping */
   itkSetMacro(ComputeRotation, bool);
   itkGetMacro(ComputeRotation, bool);
   itkBooleanMacro(ComputeRotation);
-
+  /** @ITKEndGrouping */
 protected:
   CenteredVersorTransformInitializer();
   ~CenteredVersorTransformInitializer() override = default;

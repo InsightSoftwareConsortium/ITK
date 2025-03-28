@@ -84,6 +84,7 @@ public:
   itkNewMacro(Self);
 
   /** \see LightObject::GetNameOfClass() */
+  /** @ITKStartGrouping */
   itkOverrideGetNameOfClassMacro(IsolatedConnectedImageFilter);
   using InputImageType = TInputImage;
   using InputImagePointer = typename InputImageType::Pointer;
@@ -92,7 +93,7 @@ public:
   using InputImagePixelType = typename InputImageType::PixelType;
   using IndexType = typename InputImageType::IndexType;
   using SizeType = typename InputImageType::SizeType;
-
+  /** @ITKEndGrouping */
   using OutputImageType = TOutputImage;
   using OutputImagePointer = typename OutputImageType::Pointer;
   using OutputImageRegionType = typename OutputImageType::RegionType;
@@ -142,21 +143,24 @@ public:
   ClearSeeds2();
 
   /** Method to access seed container */
+  /** @ITKStartGrouping */
   virtual const SeedsContainerType &
   GetSeeds1() const;
   virtual const SeedsContainerType &
   GetSeeds2() const;
-
+  /** @ITKEndGrouping */
   /** Set/Get the limit on the lower threshold value. The default is
    * the NonpositiveMin() for the InputPixelType. */
+  /** @ITKStartGrouping */
   itkSetMacro(Lower, InputImagePixelType);
   itkGetConstReferenceMacro(Lower, InputImagePixelType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the limit on the upper threshold value. The default is
    * the max() for the InputPixelType. */
+  /** @ITKStartGrouping */
   itkSetMacro(Upper, InputImagePixelType);
   itkGetConstReferenceMacro(Upper, InputImagePixelType);
-
+  /** @ITKEndGrouping */
 #if !defined(ITK_LEGACY_REMOVE)
   /** \deprecated
    * Set/Get the limit on the upper threshold value. The default is
@@ -177,24 +181,27 @@ public:
 
   /** Set/Get the precision required for the intensity threshold
    * value. The default is 1. */
+  /** @ITKStartGrouping */
   itkSetMacro(IsolatedValueTolerance, InputImagePixelType);
   itkGetConstReferenceMacro(IsolatedValueTolerance, InputImagePixelType);
-
+  /** @ITKEndGrouping */
   /** Set/Get value to replace thresholded pixels. Pixels that lie
    *  within the thresholds will be replaced with this value. The
    *  default is 1. */
+  /** @ITKStartGrouping */
   itkSetMacro(ReplaceValue, OutputImagePixelType);
   itkGetConstReferenceMacro(ReplaceValue, OutputImagePixelType);
-
+  /** @ITKEndGrouping */
   /** Get value that isolates the two seeds. */
   itkGetConstReferenceMacro(IsolatedValue, InputImagePixelType);
 
   /** Set/Get whether to find an upper threshold (separating two dark
    * regions) or a lower threshold (separating two bright regions). */
+  /** @ITKStartGrouping */
   itkSetMacro(FindUpperThreshold, bool);
   itkBooleanMacro(FindUpperThreshold);
   itkGetConstReferenceMacro(FindUpperThreshold, bool);
-
+  /** @ITKEndGrouping */
   /** Get the flag that tells whether the algorithm failed to find a
    * threshold. */
   itkGetConstReferenceMacro(ThresholdingFailed, bool);

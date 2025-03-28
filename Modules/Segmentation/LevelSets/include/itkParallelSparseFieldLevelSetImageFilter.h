@@ -313,13 +313,15 @@ public:
   /** Set/Get the number of layers to use in the sparse field.  Argument is the
    *  number of layers on ONE side of the active layer, so the total layers in
    *   the sparse field is 2 * NumberOfLayers + 1 */
+  /** @ITKStartGrouping */
   itkSetMacro(NumberOfLayers, StatusType);
   itkGetConstMacro(NumberOfLayers, StatusType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the value of the isosurface to use in the input image. */
+  /** @ITKStartGrouping */
   itkSetMacro(IsoSurfaceValue, ValueType);
   itkGetConstMacro(IsoSurfaceValue, ValueType);
-
+  /** @ITKEndGrouping */
   LayerPointerType
   GetActiveListForIndex(const IndexType index)
   {
@@ -683,11 +685,12 @@ protected:
 
   /** Redistribute an load among the threads to obtain a more balanced load distribution.
    *  This is performed in parallel by all the threads. */
+  /** @ITKStartGrouping */
   void
   ThreadedLoadBalance1(ThreadIdType ThreadId);
   void
   ThreadedLoadBalance2(ThreadIdType ThreadId);
-
+  /** @ITKEndGrouping */
   void
   SignalNeighborsAndWait(ThreadIdType ThreadId);
 

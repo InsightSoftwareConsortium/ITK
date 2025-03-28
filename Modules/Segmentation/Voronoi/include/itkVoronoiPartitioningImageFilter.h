@@ -75,9 +75,10 @@ public:
    * homogeneous. If the standard deviation of the intensities in the
    * Voronoi region is below this threshold, then the region is
    * considered homogeneous. */
+  /** @ITKStartGrouping */
   itkSetMacro(SigmaThreshold, double);
   itkGetConstMacro(SigmaThreshold, double);
-
+  /** @ITKEndGrouping */
   /** ImageDimension enumeration   */
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;

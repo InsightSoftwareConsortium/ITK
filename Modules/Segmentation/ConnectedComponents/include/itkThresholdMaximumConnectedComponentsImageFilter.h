@@ -97,9 +97,10 @@ public:
    * optimization portion of this filter. Essentially, it eliminates
    * noise from being counted as an object. The default value is
    * zero. */
+  /** @ITKStartGrouping */
   itkSetMacro(MinimumObjectSizeInPixels, unsigned int);
   itkGetConstMacro(MinimumObjectSizeInPixels, unsigned int);
-
+  /** @ITKEndGrouping */
   /**
    * The following Set/Get methods are for the binary threshold
    * function. This class automatically calculates the lower threshold
@@ -113,13 +114,14 @@ public:
    *                            Upper threshold boundary is the
    *                              maximum pixel type intensity.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(InsideValue, OutputPixelType);
   itkSetMacro(OutsideValue, OutputPixelType);
   itkSetMacro(UpperBoundary, PixelType);
   itkGetConstMacro(InsideValue, OutputPixelType);
   itkGetConstMacro(OutsideValue, OutputPixelType);
   itkGetConstMacro(UpperBoundary, PixelType);
-
+  /** @ITKEndGrouping */
   /**
    * Returns the number of objects in the image. This information is
    * only valid after the filter has executed. Useful if your counting

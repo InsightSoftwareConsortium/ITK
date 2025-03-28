@@ -65,6 +65,7 @@ public:
   using OutputMeshPointer = typename OutputMeshType::Pointer;
 
   /** Set the input image of this process object.  */
+  /** @ITKStartGrouping */
   using Superclass::SetInput;
   void
   SetInput(unsigned int idx, const InputImageType * input);
@@ -73,8 +74,9 @@ public:
   {
     this->SetInput(0, input);
   }
-
+  /** @ITKEndGrouping */
   /** Get the input image of this process object.  */
+  /** @ITKStartGrouping */
   const InputImageType *
   GetInput(unsigned int idx);
   const InputImageType *
@@ -82,7 +84,7 @@ public:
   {
     return this->GetInput(0);
   }
-
+  /** @ITKEndGrouping */
   /** Get the output Mesh of this process object.  */
   OutputMeshType *
   GetOutput();

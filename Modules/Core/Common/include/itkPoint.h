@@ -95,7 +95,9 @@ public:
   Point(const Point<TPointValueType, VPointDimension> & r)
     : BaseArray(r)
   {}
+
   /** Pass-through constructors for plain arrays. */
+  /** @ITKStartGrouping */
   template <typename TPointValueType>
   Point(const TPointValueType r[VPointDimension])
     : BaseArray(r)
@@ -103,7 +105,7 @@ public:
   Point(const ValueType r[VPointDimension])
     : BaseArray(r)
   {}
-
+  /** @ITKEndGrouping */
 #if defined(ITK_LEGACY_REMOVE)
   /** Prevents copy-initialization from `nullptr`, as well as from `0` (NULL). */
   Point(std::nullptr_t) = delete;
@@ -117,6 +119,7 @@ public:
     : BaseArray(v)
   {}
 #else
+
   /** Pass-through constructors for single values
    * \note ITK_LEGACY_REMOVE=ON will disallow implicit conversion from a single value. */
   template <typename TPointValueType>

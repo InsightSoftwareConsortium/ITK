@@ -100,29 +100,35 @@ public:
   using typename Superclass::FixedImageRegionType;
 
   /** Get/Set the histogram to be used in the metric calculation */
+  /** @ITKStartGrouping */
   itkSetMacro(TrainingHistogram, HistogramPointerType);
   itkGetConstReferenceMacro(TrainingHistogram, HistogramPointerType);
-
+  /** @ITKEndGrouping */
   /** Get/Set the Training Fixed Image.  */
+  /** @ITKStartGrouping */
   itkSetConstObjectMacro(TrainingFixedImage, FixedImageType);
   itkGetConstObjectMacro(TrainingFixedImage, FixedImageType);
-
+  /** @ITKEndGrouping */
   /** Get/Set the Training Moving Image.  */
+  /** @ITKStartGrouping */
   itkSetConstObjectMacro(TrainingMovingImage, MovingImageType);
   itkGetConstObjectMacro(TrainingMovingImage, MovingImageType);
-
+  /** @ITKEndGrouping */
   /** Get/Set the Training Transform. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(TrainingTransform, TransformType);
   itkGetModifiableObjectMacro(TrainingTransform, TransformType);
-
+  /** @ITKEndGrouping */
   /** Get/Set the Interpolator. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(TrainingInterpolator, InterpolatorType);
   itkGetModifiableObjectMacro(TrainingInterpolator, InterpolatorType);
-
+  /** @ITKEndGrouping */
   /** Get/Set the region over which the training histogram will be computed */
+  /** @ITKStartGrouping */
   itkSetMacro(TrainingFixedImageRegion, FixedImageRegionType);
   itkGetConstReferenceMacro(TrainingFixedImageRegion, FixedImageRegionType);
-
+  /** @ITKEndGrouping */
   /** Return the number of parameters required by the Transform */
   unsigned int
   GetNumberOfParameters() const override
@@ -138,11 +144,12 @@ public:
 protected:
   /** Constructor is protected to ensure that \c New() function is used to
       create instances. */
+  /** @ITKStartGrouping */
   CompareHistogramImageToImageMetric();
   ~CompareHistogramImageToImageMetric() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
-
+  /** @ITKEndGrouping */
   /** Form the Histogram for the Training data */
   void
   FormTrainingHistogram();

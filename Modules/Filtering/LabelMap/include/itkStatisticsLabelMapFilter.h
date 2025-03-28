@@ -117,18 +117,20 @@ public:
    * compared to the other attributes, this option is useful to reduce the memory usage
    * when the histogram is not required.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(ComputeHistogram, bool);
   itkGetConstReferenceMacro(ComputeHistogram, bool);
   itkBooleanMacro(ComputeHistogram);
-
+  /** @ITKEndGrouping */
   /**
    * Set/Get the number of bins in the histogram. Note that the histogram is used
    * to compute the median value, and that this option may have an effect on the
    * value of the median.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(NumberOfBins, unsigned int);
   itkGetConstReferenceMacro(NumberOfBins, unsigned int);
-
+  /** @ITKEndGrouping */
   // Set the default number of bins to match the number of values for 8 or 16-bit integers; otherwise 128
   static constexpr unsigned int
   GetDefaultNumberOfBins()

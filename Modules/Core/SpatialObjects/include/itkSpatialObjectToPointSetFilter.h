@@ -81,18 +81,20 @@ public:
   SetInput(const DataObjectIdentifierType & key, const SpatialObjectType * object);
 
   /** Get the input Spatial Object. */
+  /** @ITKStartGrouping */
   const SpatialObjectType *
   GetInput();
   const SpatialObjectType *
   GetInput(unsigned int idx);
-
+  /** @ITKEndGrouping */
   /** The spatial object being transformed can be part of a hierarchy.
    * How deep in the hierarchy should we descend in generating the
    * PointSet?  A ChildrenDepth of 0 means to only include the object
    * itself. */
+  /** @ITKStartGrouping */
   itkSetMacro(ChildrenDepth, unsigned int);
   itkGetConstMacro(ChildrenDepth, unsigned int);
-
+  /** @ITKEndGrouping */
   /* Set the sampling factor of the object. The resulting pointset will have a
    * size inversely proportional to the sampling factor.*/
   itkSetMacro(SamplingFactor, unsigned int);

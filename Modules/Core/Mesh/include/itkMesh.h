@@ -555,6 +555,7 @@ public:
    */
   bool
   GetAssignedCellBoundaryIfOneExists(int dimension, CellIdentifier, CellFeatureIdentifier, CellAutoPointer &) const;
+
   /** Dynamically build the links from points back to their using cells.  This
    * information is stored in the cell links container, not in the points. */
   void
@@ -572,16 +573,18 @@ public:
       \warning Failure to call this method correctly will lead to memory leaks
       and/or segmentation faults because the cell memory will not be erased or
       will be erased with an improper method.  */
+  /** @ITKStartGrouping */
   itkSetMacro(CellsAllocationMethod, MeshClassCellsAllocationMethodEnum);
   itkGetConstReferenceMacro(CellsAllocationMethod, MeshClassCellsAllocationMethodEnum);
-
+  /** @ITKEndGrouping */
 protected:
   /** Constructor for use by New() method. */
+  /** @ITKStartGrouping */
   Mesh();
   ~Mesh() override;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
-
+  /** @ITKEndGrouping */
   /** Release the memory allocated for the cells pointers. This is done
    *  based on information provided by the user through the method
    *  SetCellsAllocationMethod().

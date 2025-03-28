@@ -292,6 +292,7 @@ public:
 
   /** Return a pointer to the beginning of the buffer.  This is used by
    * the image iterator class. */
+  /** @ITKStartGrouping */
   InternalPixelType *
   GetBufferPointer()
   {
@@ -302,7 +303,7 @@ public:
   {
     return m_Buffer ? m_Buffer->GetBufferPointer() : nullptr;
   }
-
+  /** @ITKEndGrouping */
   /** Return a pointer to the container. */
   PixelContainer *
   GetPixelContainer()
@@ -364,9 +365,10 @@ public:
   }
 
   /** Set/Get macros for the length of each vector in the vector image */
+  /** @ITKStartGrouping */
   itkSetMacro(VectorLength, VectorLengthType);
   itkGetConstReferenceMacro(VectorLength, VectorLengthType);
-
+  /** @ITKEndGrouping */
   /** Get/Set the number of components each pixel has, ie the VectorLength */
   unsigned int
   GetNumberOfComponentsPerPixel() const override;

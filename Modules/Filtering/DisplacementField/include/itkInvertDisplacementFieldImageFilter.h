@@ -111,8 +111,10 @@ public:
   }
 
   /** Set/get the initial estimate for the inverse field (optional). */
+  /** @ITKStartGrouping */
   itkSetInputMacro(InverseFieldInitialEstimate, InverseDisplacementFieldType);
   itkGetInputMacro(InverseFieldInitialEstimate, InverseDisplacementFieldType);
+  /** @ITKEndGrouping */
 
   /* Set the interpolator. */
   virtual void

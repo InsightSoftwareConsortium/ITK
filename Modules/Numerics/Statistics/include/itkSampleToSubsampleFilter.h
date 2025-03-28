@@ -92,11 +92,12 @@ protected:
    * called.
    * \sa ProcessObject
    */
+  /** @ITKStartGrouping */
   using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
   DataObjectPointer
   MakeOutput(DataObjectPointerArraySizeType idx) override;
-
+  /** @ITKEndGrouping */
 }; // end of class
 } // end of namespace Statistics
 } // end of namespace itk

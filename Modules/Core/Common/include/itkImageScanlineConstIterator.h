@@ -78,6 +78,7 @@ public:
    * Index type alias support While these were already typedef'ed in the superclass,
    * they need to be redone here for this subclass to compile properly with gcc.
    */
+
   /** Types inherited from the Superclass */
   using typename Superclass::IndexType;
   using typename Superclass::SizeType;
@@ -255,7 +256,6 @@ public:
     --this->m_Offset;
     return *this;
   }
-
 
 protected:
   OffsetValueType m_SpanBeginOffset{}; // one pixel the beginning of the scanline

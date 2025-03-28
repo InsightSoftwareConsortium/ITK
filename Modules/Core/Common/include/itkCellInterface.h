@@ -306,12 +306,13 @@ public:
   PointIdsEnd() const = 0;
 
   /** Get/Set the point id list used by the cell */
+  /** @ITKStartGrouping */
   using PointIdentifierContainerType = itk::Array<PointIdentifier>;
   PointIdentifierContainerType
   GetPointIdsContainer() const;
   void
   SetPointIdsContainer(const PointIdentifierContainerType &);
-
+  /** @ITKEndGrouping */
   /** Given the parametric coordinates of a point in the cell
    * (pCoords[CellDimension]), get the closest cell boundary feature of
    * topological dimension CellDimension-1.  If the "inside" pointer is not

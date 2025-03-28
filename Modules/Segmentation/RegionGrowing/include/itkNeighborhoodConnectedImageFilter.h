@@ -79,20 +79,23 @@ public:
   AddSeed(const IndexType & seed);
 
   /** Set/Get the lower threshold. The default is 0. */
+  /** @ITKStartGrouping */
   itkSetMacro(Lower, InputImagePixelType);
   itkGetConstMacro(Lower, InputImagePixelType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the upper threshold. The default is the largest possible
    *  value for the InputPixelType. */
+  /** @ITKStartGrouping */
   itkSetMacro(Upper, InputImagePixelType);
   itkGetConstMacro(Upper, InputImagePixelType);
-
+  /** @ITKEndGrouping */
   /** Set/Get value to replace thresholded pixels. Pixels that lie *
    *  within Lower and Upper (inclusive) will be replaced with this
    *  value. The default is 1. */
+  /** @ITKStartGrouping */
   itkSetMacro(ReplaceValue, OutputImagePixelType);
   itkGetConstMacro(ReplaceValue, OutputImagePixelType);
-
+  /** @ITKEndGrouping */
   /** Set the radius of the neighborhood used for a mask. */
   itkSetMacro(Radius, InputImageSizeType);
 

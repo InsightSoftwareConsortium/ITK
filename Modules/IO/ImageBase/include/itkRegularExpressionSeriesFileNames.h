@@ -86,25 +86,29 @@ public:
 
   /* -------- Define the API for RegularExpressionSeriesFileNames ---------- */
   /** The directory containing the files. */
+  /** @ITKStartGrouping */
   itkSetStringMacro(Directory);
   itkGetStringMacro(Directory);
-
+  /** @ITKEndGrouping */
   /** The RegularExpression. Refer to the description for valid expressions */
+  /** @ITKStartGrouping */
   itkSetStringMacro(RegularExpression);
   itkGetStringMacro(RegularExpression);
-
+  /** @ITKEndGrouping */
   /** The index of the submatch that will be used to sort the
    * matches. */
+  /** @ITKStartGrouping */
   itkSetMacro(SubMatch, unsigned int);
   itkGetConstMacro(SubMatch, unsigned int);
-
+  /** @ITKEndGrouping */
   /** NumericSortOn changes the sort of the submatch field to a
    * numeric sort. NumericSortOff is the default, and sorts the
    * submatch alphabetically. */
+  /** @ITKStartGrouping */
   itkSetMacro(NumericSort, bool);
   itkGetConstMacro(NumericSort, bool);
   itkBooleanMacro(NumericSort);
-
+  /** @ITKEndGrouping */
   /** Returns a vector containing the series' file names. The file
    * names are sorted by the sub expression selected by the SubMatch id. */
   const std::vector<std::string> &

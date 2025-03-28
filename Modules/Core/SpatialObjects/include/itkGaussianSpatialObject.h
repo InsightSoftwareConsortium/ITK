@@ -69,22 +69,25 @@ public:
   /** The Radius determines the bounding box, and which points are
    * considered to be inside the SpatialObject.  All points with
    * z-score less than the radius are in the object.  */
+  /** @ITKStartGrouping */
   itkSetMacro(RadiusInObjectSpace, ScalarType);
   itkGetConstReferenceMacro(RadiusInObjectSpace, ScalarType);
-
+  /** @ITKEndGrouping */
   /** The Sigma parameter determines the fallout of the Gaussian inside of the
    * region defined by the Radius parameter. */
+  /** @ITKStartGrouping */
   itkSetMacro(SigmaInObjectSpace, ScalarType);
   itkGetConstReferenceMacro(SigmaInObjectSpace, ScalarType);
-
+  /** @ITKEndGrouping */
   itkSetMacro(CenterInObjectSpace, PointType);
   itkGetConstReferenceMacro(CenterInObjectSpace, PointType);
 
   /** The maximum value of the Gaussian (its value at the origin of
    * the spatial object coordinate system). */
+  /** @ITKStartGrouping */
   itkSetMacro(Maximum, ScalarType);
   itkGetConstReferenceMacro(Maximum, ScalarType);
-
+  /** @ITKEndGrouping */
   /** Compute the z-score in object space.
    *
    * The z-score is the root mean square of the z-scores along each principal axis.

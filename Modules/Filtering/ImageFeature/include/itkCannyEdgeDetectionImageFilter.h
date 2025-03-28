@@ -138,13 +138,17 @@ public:
   using ArrayType = FixedArray<double, Self::ImageDimension>;
 
   /** Set/Get the variance of the Gaussian smoothing filter. */
+  /** @ITKStartGrouping */
   itkSetMacro(Variance, ArrayType);
   itkGetConstMacro(Variance, const ArrayType);
+  /** @ITKEndGrouping */
 
   /** Set/Get the maximum error of the Gaussian smoothing kernel in each dimensional
    *  direction. */
+  /** @ITKStartGrouping */
   itkSetMacro(MaximumError, ArrayType);
   itkGetConstMacro(MaximumError, const ArrayType);
+  /** @ITKEndGrouping */
 
   /** Set/Get the variance of the Gaussian smoothing filter. */
   void

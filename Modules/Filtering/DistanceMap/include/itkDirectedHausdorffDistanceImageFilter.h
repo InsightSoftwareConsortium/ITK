@@ -126,14 +126,16 @@ public:
   GetInput2();
 
   /** Set/Get if image spacing should be used in computing distances. */
+  /** @ITKStartGrouping */
   itkSetMacro(UseImageSpacing, bool);
   itkGetConstMacro(UseImageSpacing, bool);
   itkBooleanMacro(UseImageSpacing);
-
+  /** @ITKEndGrouping */
   /** Return the computed directed Hausdorff distance. */
+  /** @ITKStartGrouping */
   itkGetConstMacro(DirectedHausdorffDistance, RealType);
   itkGetConstMacro(AverageHausdorffDistance, RealType);
-
+  /** @ITKEndGrouping */
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputImage1PixelType>));
 
 protected:

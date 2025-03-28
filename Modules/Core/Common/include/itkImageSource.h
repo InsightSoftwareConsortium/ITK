@@ -142,11 +142,12 @@ public:
    * types. Derived classes should have names get methods for these
    * outputs.
    */
+  /** @ITKStartGrouping */
   OutputImageType *
   GetOutput();
   const OutputImageType *
   GetOutput() const;
-
+  /** @ITKEndGrouping */
   OutputImageType *
   GetOutput(unsigned int idx);
 
@@ -221,11 +222,12 @@ public:
    * SmartPointer to a DataObject. If a subclass of ImageSource has
    * multiple outputs of different types, then that class must provide
    * an implementation of MakeOutput(). */
+  /** @ITKStartGrouping */
   ProcessObject::DataObjectPointer
   MakeOutput(ProcessObject::DataObjectPointerArraySizeType idx) override;
   ProcessObject::DataObjectPointer
   MakeOutput(const ProcessObject::DataObjectIdentifierType &) override;
-
+  /** @ITKEndGrouping */
 protected:
   ImageSource();
   ~ImageSource() override = default;
@@ -295,11 +297,12 @@ protected:
    * in a single thread being reused to process multiple work units.
    *
    * \sa GenerateData(), SplitRequestedRegion() */
+  /** @ITKStartGrouping */
   virtual void
   ThreadedGenerateData(const OutputImageRegionType & region, ThreadIdType threadId);
   virtual void
   DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread);
-
+  /** @ITKEndGrouping */
   /** The GenerateData method normally allocates the buffers for all of the
    * outputs of a filter. Some filters may want to override this default
    * behavior. For example, a filter may have multiple outputs with
@@ -395,10 +398,11 @@ protected:
   /** Whether to use classic multi-threading infrastructure (OFF by default).
    * Classic multi-threading uses derived class' ImageRegionSplitter,
    * thus enabling custom region splitting methods. */
+  /** @ITKStartGrouping */
   itkGetConstMacro(DynamicMultiThreading, bool);
   itkSetMacro(DynamicMultiThreading, bool);
   itkBooleanMacro(DynamicMultiThreading);
-
+  /** @ITKEndGrouping */
   bool m_DynamicMultiThreading{ true };
 };
 } // end namespace itk

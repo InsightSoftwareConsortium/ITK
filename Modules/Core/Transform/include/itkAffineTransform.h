@@ -274,13 +274,14 @@ protected:
    * to values specified by the caller.  If the arguments are
    * omitted, then the AffineTransform is initialized to an identity
    * transformation in the appropriate number of dimensions.   */
+  /** @ITKStartGrouping */
 #if !defined(ITK_LEGACY_REMOVE)
   [[deprecated("Removed unused constructor")]] AffineTransform(const MatrixType &       matrix,
                                                                const OutputVectorType & offset);
 #endif
   AffineTransform(unsigned int parametersDimension);
   AffineTransform();
-
+  /** @ITKEndGrouping */
   /** Destroy an AffineTransform object   */
   ~AffineTransform() override = default;
 

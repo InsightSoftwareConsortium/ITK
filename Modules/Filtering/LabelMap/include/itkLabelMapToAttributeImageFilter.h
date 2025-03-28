@@ -86,9 +86,10 @@ public:
    * LabelMap use a background.
    * Defaults to NumericTraits<PixelType>::NonpositiveMin().
    */
+  /** @ITKStartGrouping */
   itkSetMacro(BackgroundValue, OutputImagePixelType);
   itkGetConstMacro(BackgroundValue, OutputImagePixelType);
-
+  /** @ITKEndGrouping */
 protected:
   LabelMapToAttributeImageFilter();
   ~LabelMapToAttributeImageFilter() override = default;

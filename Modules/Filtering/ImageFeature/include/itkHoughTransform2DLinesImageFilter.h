@@ -113,15 +113,17 @@ public:
 
   /** Set/Get the threshold above which the filter should consider
    * the point as a valid point. */
+  /** @ITKStartGrouping */
   itkSetMacro(Threshold, double);
   itkGetConstMacro(Threshold, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get the resolution angle.
    * The Hough space describes (in the angle direction) [-PI,PI[
    * with a constant step AngleResolution. */
+  /** @ITKStartGrouping */
   itkSetMacro(AngleResolution, double);
   itkGetConstMacro(AngleResolution, double);
-
+  /** @ITKEndGrouping */
   /** Simplify the accumulator.
    * Performs the same iteration process as the Update() method, but finds
    * the maximum along the curve and then removes the curve. */
@@ -136,18 +138,21 @@ public:
   GetLines();
 
   /** Set/Get the number of lines to extract */
+  /** @ITKStartGrouping */
   itkSetMacro(NumberOfLines, LinesListSizeType);
   itkGetConstMacro(NumberOfLines, LinesListSizeType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the radius of the disc to remove from the accumulator
    * for each line found. */
+  /** @ITKStartGrouping */
   itkSetMacro(DiscRadius, double);
   itkGetConstMacro(DiscRadius, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get the variance of the Gaussian blurring for the accumulator. */
+  /** @ITKStartGrouping */
   itkSetMacro(Variance, double);
   itkGetConstMacro(Variance, double);
-
+  /** @ITKEndGrouping */
   itkConceptMacro(IntConvertibleToOutputCheck, (Concept::Convertible<int, TOutputPixelType>));
   itkConceptMacro(InputGreaterThanFloatCheck, (Concept::GreaterThanComparable<PixelType, float>));
   itkConceptMacro(OutputPlusIntCheck, (Concept::AdditiveOperators<TOutputPixelType, int>));

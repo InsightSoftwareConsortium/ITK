@@ -150,6 +150,7 @@ public:
   /** Standard tensor type for this class */
   using InputTensorEigenVectorType = CovariantVector<ScalarType, InputDiffusionTensor3DType::Dimension>;
   using OutputTensorEigenVectorType = CovariantVector<ScalarType, OutputDiffusionTensor3DType::Dimension>;
+
   /** Derivative type */
   using typename Superclass::DerivativeType;
 
@@ -181,30 +182,38 @@ public:
    * Set the displacement field. Create special set accessor to update
    * interpolator and assign displacement field to transform parameters
    * container. */
+  /** @ITKStartGrouping */
   virtual void
   SetDisplacementField(DisplacementFieldType * field);
   virtual void
        SetDisplacementField(VectorImageDisplacementFieldType * field);
   void SetDisplacementField(std::nullptr_t) = delete;
   itkGetModifiableObjectMacro(DisplacementField, DisplacementFieldType);
+  /** @ITKEndGrouping */
 
   /** Get/Set the inverse displacement field. This must be supplied by the user for
    * GetInverse() to work. */
+  /** @ITKStartGrouping */
   virtual void
   SetInverseDisplacementField(DisplacementFieldType * inverseField);
   itkGetModifiableObjectMacro(InverseDisplacementField, DisplacementFieldType);
+  /** @ITKEndGrouping */
 
   /** Get/Set the interpolator.
    * Create out own set accessor that assigns the displacement field. */
+  /** @ITKStartGrouping */
   virtual void
   SetInterpolator(InterpolatorType * interpolator);
   itkGetModifiableObjectMacro(Interpolator, InterpolatorType);
+  /** @ITKEndGrouping */
 
   /** Get/Set the interpolator for the inverse field.
    * Create out own set accessor that assigns the displacement field. */
+  /** @ITKStartGrouping */
   virtual void
   SetInverseInterpolator(InterpolatorType * interpolator);
   itkGetModifiableObjectMacro(InverseInterpolator, InterpolatorType);
+  /** @ITKEndGrouping */
 
   /** Get the modification time of displacement field. */
   itkGetConstReferenceMacro(DisplacementFieldSetTime, ModifiedTimeType);
@@ -215,6 +224,7 @@ public:
   TransformPoint(const InputPointType & inputPoint) const override;
 
   /**  Method to transform a vector. */
+  /** @ITKStartGrouping */
   using Superclass::TransformVector;
   OutputVectorType
   TransformVector(const InputVectorType &) const override
@@ -236,8 +246,10 @@ public:
     itkExceptionMacro("TransformVector(Vector) unimplemented, use "
                       "TransformVector(Vector,Point)");
   }
+  /** @ITKEndGrouping */
 
   /** Method to transform a tensor. */
+  /** @ITKStartGrouping */
   using Superclass::TransformDiffusionTensor3D;
   OutputDiffusionTensor3DType
   TransformDiffusionTensor(const InputDiffusionTensor3DType &) const
@@ -252,8 +264,10 @@ public:
     itkExceptionMacro("TransformDiffusionTensor(Tensor) unimplemented, use "
                       "TransformDiffusionTensor(Tensor,Point)");
   }
+  /** @ITKEndGrouping */
 
   /** Method to transform a CovariantVector. */
+  /** @ITKStartGrouping */
   using Superclass::TransformCovariantVector;
   OutputCovariantVectorType
   TransformCovariantVector(const InputCovariantVectorType &) const override
@@ -268,6 +282,7 @@ public:
     itkExceptionMacro("TransformCovariantVector(CovariantVector) "
                       "unimplemented, use TransformCovariantVector(CovariantVector,Point)");
   }
+  /** @ITKEndGrouping */
 
   /** Set the transformation parameters. This sets the displacement
    * field image directly. */
@@ -430,8 +445,10 @@ public:
    *
    * \sa ImageToImageFilterCommon::SetGlobalDefaultCoordinateTolerance
    */
+  /** @ITKStartGrouping */
   itkSetMacro(CoordinateTolerance, double);
   itkGetConstMacro(CoordinateTolerance, double);
+  /** @ITKEndGrouping */
 
   /** Set/Get the direction tolerance.
    *  This tolerance is used to when comparing the orientation of the
@@ -440,8 +457,10 @@ public:
    *
    * \sa ImageToImageFilterCommon::SetGlobalDefaultDirectionTolerance
    */
+  /** @ITKStartGrouping */
   itkSetMacro(DirectionTolerance, double);
   itkGetConstMacro(DirectionTolerance, double);
+  /** @ITKEndGrouping */
 
 protected:
   DisplacementFieldTransform();

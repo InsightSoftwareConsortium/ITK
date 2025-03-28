@@ -141,31 +141,35 @@ public:
    *  If this flag is true, the smooth-disc patch weights will override any
    *  weights provided via the SetPatchWeights method.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(UseSmoothDiscPatchWeights, bool);
   itkBooleanMacro(UseSmoothDiscPatchWeights);
   itkGetConstMacro(UseSmoothDiscPatchWeights, bool);
-
+  /** @ITKEndGrouping */
   /** Set/Get initial kernel bandwidth estimate.
    * To prevent the class from automatically modifying this estimate,
    * set KernelBandwidthEstimation to false in the base class.
    */
+  /** @ITKStartGrouping */
   void
   SetKernelBandwidthSigma(const RealArrayType & kernelSigma);
   itkGetConstMacro(KernelBandwidthSigma, RealArrayType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the fraction of the image to use for kernel bandwidth sigma estimation.
    *  To reduce the computational burden for computing sigma,
    *  a small random fraction of the image pixels can be used.
    */
+  /** @ITKStartGrouping */
   itkSetClampMacro(KernelBandwidthFractionPixelsForEstimation, double, 0.01, 1.0);
   itkGetConstReferenceMacro(KernelBandwidthFractionPixelsForEstimation, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get flag indicating whether conditional derivatives should be used
     estimating sigma. */
+  /** @ITKStartGrouping */
   itkSetMacro(ComputeConditionalDerivatives, bool);
   itkBooleanMacro(ComputeConditionalDerivatives);
   itkGetConstMacro(ComputeConditionalDerivatives, bool);
-
+  /** @ITKEndGrouping */
   /** Set/Get flag indicating whether the fast algorithm for tensor computations should be used.
    *
    *  Specifically, when this flag is true (default) or On, a faster implementation of the 3x3
@@ -177,10 +181,11 @@ public:
    *  However, you may want to turn this option off if you have concerns about numerical
    *  performance.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(UseFastTensorComputations, bool);
   itkBooleanMacro(UseFastTensorComputations);
   itkGetConstMacro(UseFastTensorComputations, bool);
-
+  /** @ITKEndGrouping */
   /** Maximum number of Newton-Raphson iterations for sigma update. */
   static constexpr unsigned int MaxSigmaUpdateIterations = 20;
 
@@ -190,9 +195,10 @@ public:
    *  isn't very far from 1.
    *  Note: This is used only when KernelBandwidthEstimation is True/On.
    */
+  /** @ITKStartGrouping */
   itkSetClampMacro(KernelBandwidthMultiplicationFactor, double, 0.01, 100);
   itkGetConstReferenceMacro(KernelBandwidthMultiplicationFactor, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get the noise sigma.
    * Used by the noise model where appropriate, defaults to 5% of the image intensity range
    */
@@ -202,9 +208,10 @@ public:
   itkGetConstMacro(NoiseSigma, RealType);
 
   /** Set/Get the class used for creating a subsample of patches. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(Sampler, BaseSamplerType);
   itkGetModifiableObjectMacro(Sampler, BaseSamplerType);
-
+  /** @ITKEndGrouping */
   /** Get the number of independent components of the input. */
   itkGetConstMacro(NumIndependentComponents, unsigned int);
 

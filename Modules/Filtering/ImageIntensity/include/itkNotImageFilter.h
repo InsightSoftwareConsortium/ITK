@@ -80,6 +80,7 @@ public:
 
   /** Set/Get the value used to mark the false pixels of the result of
    * the operator. Defaults to 0 */
+  /** @ITKStartGrouping */
   void
   SetBackgroundValue(const typename TOutputImage::PixelType & backgroundValue)
   {
@@ -94,10 +95,11 @@ public:
   {
     return this->GetFunctor().GetBackgroundValue();
   }
-
+  /** @ITKEndGrouping */
 
   /** Set/Get the value used to mark the false pixels of the result of
    * the operator. Defaults to 1 */
+  /** @ITKStartGrouping */
   void
   SetForegroundValue(const typename TOutputImage::PixelType & foregroundValue)
   {
@@ -114,7 +116,7 @@ public:
   {
     return this->GetFunctor().GetForegroundValue();
   }
-
+  /** @ITKEndGrouping */
 
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<typename TInputImage::PixelType, bool>));
   itkConceptMacro(OutputConvertibleToOutputCheck, (Concept::Convertible<bool, typename TOutputImage::PixelType>));

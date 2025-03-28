@@ -129,36 +129,40 @@ public:
   /** Set/Get the Extent of the array holding the coefficients
    *  of the Gaussian kernel computed by the GaussianOperator.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(Extent, ExtentArrayType);
   itkGetConstReferenceMacro(Extent, ExtentArrayType);
   void
   SetExtent(const double * extent);
-
+  /** @ITKEndGrouping */
   void
   SetExtent(const double extent);
 
   /** Set/Get the maximum error acceptable for the approximation
    *  of the Gaussian kernel with the GaussianOperator.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(MaximumError, ErrorArrayType);
   itkGetConstReferenceMacro(MaximumError, ErrorArrayType);
-
+  /** @ITKEndGrouping */
   /** Set/GetMaximumKernelWidth() This value is used by the underling
    *  GaussianOperator for computing the number of coefficients to be
    *  used in the Gaussian kernel
    */
+  /** @ITKStartGrouping */
   itkSetMacro(MaximumKernelWidth, int);
   itkGetConstMacro(MaximumKernelWidth, int);
-
+  /** @ITKEndGrouping */
   /** Set/GetUseImageSpacing() This flag is used by the underling
    *  GaussianOperator to decide if the image spacing should be used
    *  to scale the value of sigma or not. The methods UseImageSpacingOn()
    *  and UseImageSpacingOff() provide a similar functionality.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(UseImageSpacing, bool);
   itkGetConstMacro(UseImageSpacing, bool);
   itkBooleanMacro(UseImageSpacing);
-
+  /** @ITKEndGrouping */
 protected:
   GaussianBlurImageFunction();
   ~GaussianBlurImageFunction() override = default;

@@ -85,20 +85,23 @@ public:
   static constexpr unsigned int SpaceDimension = TransformType::SpaceDimension;
 
   /** Set/Get the transform to be initialized. */
+  /** @ITKStartGrouping */
   itkGetConstObjectMacro(Transform, TransformType);
   itkSetObjectMacro(Transform, TransformType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the image to initialize the domain. */
+  /** @ITKStartGrouping */
   itkGetConstObjectMacro(Image, ImageType);
   itkSetConstObjectMacro(Image, ImageType);
-
+  /** @ITKEndGrouping */
   /** Allow the user to set the mesh size of the transform via the initializer,
    * even though the initializer does not do anything with that information.
    * Default size is 1^ImageDimension. */
+  /** @ITKStartGrouping */
   itkGetConstMacro(TransformDomainMeshSize, MeshSizeType);
   void
   SetTransformDomainMeshSize(const MeshSizeType);
-
+  /** @ITKEndGrouping */
   /** Initialize the transform using the specified transformation domain. */
   virtual void
   InitializeTransform() const;

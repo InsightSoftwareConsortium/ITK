@@ -89,6 +89,7 @@ public:
 
   /** Stop condition internal string type */
   using typename Superclass::StopConditionDescriptionType;
+
   /** Stop condition return string type */
 
   /** It should be possible to derive the internal computation type from the class object. */
@@ -147,9 +148,10 @@ public:
   GetBestParameters();
 
   /** Set/Get the optimizer. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(LocalOptimizer, OptimizerType);
   itkGetModifiableObjectMacro(LocalOptimizer, OptimizerType);
-
+  /** @ITKEndGrouping */
   inline ParameterListSizeType
   GetBestParametersIndex()
   {
@@ -158,9 +160,10 @@ public:
 
 protected:
   /** Default constructor */
+  /** @ITKStartGrouping */
   MultiStartOptimizerv4Template();
   ~MultiStartOptimizerv4Template() override = default;
-
+  /** @ITKEndGrouping */
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

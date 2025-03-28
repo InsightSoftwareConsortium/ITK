@@ -74,30 +74,34 @@ public:
    * Get/Set the Gaussian spatial smoothing variance for the update field.
    * Default = 3.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(GaussianSpatialSmoothingVarianceForTheUpdateField, ScalarType);
   itkGetConstReferenceMacro(GaussianSpatialSmoothingVarianceForTheUpdateField, ScalarType);
-
+  /** @ITKEndGrouping */
   /**
    * Get/Set the Gaussian temporal smoothing variance for the update field.
    * Default = 1.0.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(GaussianTemporalSmoothingVarianceForTheUpdateField, ScalarType);
   itkGetConstReferenceMacro(GaussianTemporalSmoothingVarianceForTheUpdateField, ScalarType);
-
+  /** @ITKEndGrouping */
   /**
    * Get/Set the Gaussian spatial smoothing variance for the total field.
    * Default = 0.5.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(GaussianSpatialSmoothingVarianceForTheTotalField, ScalarType);
   itkGetConstReferenceMacro(GaussianSpatialSmoothingVarianceForTheTotalField, ScalarType);
-
+  /** @ITKEndGrouping */
   /**
    * Get/Set the Gaussian temporal smoothing variance for the total field.
    * Default = 0.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(GaussianTemporalSmoothingVarianceForTheTotalField, ScalarType);
   itkGetConstReferenceMacro(GaussianTemporalSmoothingVarianceForTheTotalField, ScalarType);
-
+  /** @ITKEndGrouping */
   /** Update the transform's parameters by the values in \c update.
    * We assume \c update is of the same length as Parameters. Throw
    * exception otherwise.

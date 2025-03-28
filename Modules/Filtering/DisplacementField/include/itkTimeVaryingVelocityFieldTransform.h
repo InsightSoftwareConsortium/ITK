@@ -99,6 +99,7 @@ public:
   using TransformPointer = typename Transform<TParametersValueType, VDimension, VDimension>::Pointer;
 
   /** Get the time-varying velocity field. */
+  /** @ITKStartGrouping */
 #if !defined(ITK_LEGACY_REMOVE)
   VelocityFieldType *
   GetTimeVaryingVelocityField()
@@ -116,7 +117,7 @@ public:
   {
     return this->GetVelocityField();
   }
-
+  /** @ITKEndGrouping */
   /** Set the time-varying velocity field.  */
   virtual void
   SetTimeVaryingVelocityField(VelocityFieldType * field)

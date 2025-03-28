@@ -76,9 +76,10 @@ public:
 protected:
   /** Constructor is protected to ensure that \c New() function is used to
       create instances. */
+  /** @ITKStartGrouping */
   MutualInformationHistogramImageToImageMetric() = default;
   ~MutualInformationHistogramImageToImageMetric() override = default;
-
+  /** @ITKEndGrouping */
   /** Evaluates the mutual information from the histogram. */
   MeasureType
   EvaluateMeasure(HistogramType & histogram) const override;

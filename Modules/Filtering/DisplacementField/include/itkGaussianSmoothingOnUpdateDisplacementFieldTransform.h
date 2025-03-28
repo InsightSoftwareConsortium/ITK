@@ -75,16 +75,18 @@ public:
    * Get/Set the Gaussian smoothing standard deviation for the update field.
    * Default = 1.75.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(GaussianSmoothingVarianceForTheUpdateField, ScalarType);
   itkGetConstReferenceMacro(GaussianSmoothingVarianceForTheUpdateField, ScalarType);
-
+  /** @ITKEndGrouping */
   /**
    * Get/Set the Gaussian smoothing standard deviation for the total field.
    * Default = 0.5.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(GaussianSmoothingVarianceForTheTotalField, ScalarType);
   itkGetConstReferenceMacro(GaussianSmoothingVarianceForTheTotalField, ScalarType);
-
+  /** @ITKEndGrouping */
   /** Update the transform's parameters by the values in \c update.
    * We assume \c update is of the same length as Parameters. Throw
    * exception otherwise.

@@ -144,9 +144,10 @@ public:
 #endif
 
   /** Set/Get the method used to merge the label maps */
+  /** @ITKStartGrouping */
   itkSetMacro(Method, ChoiceMethodEnum);
   itkGetConstReferenceMacro(Method, ChoiceMethodEnum);
-
+  /** @ITKEndGrouping */
 protected:
   MergeLabelMapFilter();
   ~MergeLabelMapFilter() override = default;

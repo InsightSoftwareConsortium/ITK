@@ -110,10 +110,11 @@ public:
 
   /** Switch between using the fixed image and moving image gradient
    * for computing the displacement field updates. */
+  /** @ITKStartGrouping */
   itkSetMacro(UseMovingImageGradient, bool);
   itkGetConstMacro(UseMovingImageGradient, bool);
   itkBooleanMacro(UseMovingImageGradient);
-
+  /** @ITKEndGrouping */
   /** Set/Get the threshold below which the absolute difference of
    * intensity yields a match. When the intensities match between a
    * moving and fixed image pixel, the update vector (for that

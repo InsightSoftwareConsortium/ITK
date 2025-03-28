@@ -161,18 +161,20 @@ public:
 
   /** Set/Get the smoothing filter that may optionally be applied to the
    *  posterior image. */
+  /** @ITKStartGrouping */
   void
   SetSmoothingFilter(SmoothingFilterType *);
   itkGetConstMacro(SmoothingFilter, SmoothingFilterPointer);
-
+  /** @ITKEndGrouping */
   /** Set the priors image. */
   virtual void
   SetPriors(const PriorsImageType *);
 
   /** Number of iterations to apply the smoothing filter. */
+  /** @ITKStartGrouping */
   itkSetMacro(NumberOfSmoothingIterations, unsigned int);
   itkGetConstMacro(NumberOfSmoothingIterations, unsigned int);
-
+  /** @ITKEndGrouping */
   /** This is overloaded to create the Posteriors output image. */
   using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;

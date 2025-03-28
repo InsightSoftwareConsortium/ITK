@@ -100,9 +100,10 @@ public:
   /** Set/Get the maximum number of iterations. The optimization algorithm will
    * terminate after the maximum number of iterations has been reached.
    * The default value is defined as DEFAULT_MAXIMAL_NUMBER_OF_ITERATIONS. */
+  /** @ITKStartGrouping */
   itkSetMacro(MaximumNumberOfIterations, NumberOfIterationsType);
   itkGetConstMacro(MaximumNumberOfIterations, NumberOfIterationsType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the mode which determines how the amoeba algorithm
    * defines the initial simplex.  Default is
    * AutomaticInitialSimplexOn. If AutomaticInitialSimplex is on, the
@@ -111,40 +112,45 @@ public:
    * used to define the initial simplex, setting the ith corner of the
    * simplex as [x0[0], x0[1], ..., x0[i]+InitialSimplexDelta[i], ...,
    * x0[d-1]]. */
+  /** @ITKStartGrouping */
   itkSetMacro(AutomaticInitialSimplex, bool);
   itkBooleanMacro(AutomaticInitialSimplex);
   itkGetConstMacro(AutomaticInitialSimplex, bool);
-
+  /** @ITKEndGrouping */
   /** Set/Get the mode that determines if we want to use multiple runs of the
    * Amoeba optimizer. If true, then the optimizer is rerun after it converges.
    * The additional runs are performed using a simplex initialized with the
    * best solution obtained by the previous runs. The edge length is half of
    * that from the previous iteration.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(OptimizeWithRestarts, bool);
   itkBooleanMacro(OptimizeWithRestarts);
   itkGetConstMacro(OptimizeWithRestarts, bool);
-
+  /** @ITKEndGrouping */
   /** Set/Get the deltas that are used to define the initial simplex
    * when AutomaticInitialSimplex is off. */
+  /** @ITKStartGrouping */
   void
   SetInitialSimplexDelta(ParametersType initialSimplexDelta, bool automaticInitialSimplex = false);
   itkGetConstMacro(InitialSimplexDelta, ParametersType);
-
+  /** @ITKEndGrouping */
   /** The optimization algorithm will terminate when the simplex
    * diameter and the difference in cost function values at the corners of
    * the simplex falls below user specified thresholds. The simplex
    * diameter threshold is set via SetParametersConvergenceTolerance().*/
+  /** @ITKStartGrouping */
   itkSetMacro(ParametersConvergenceTolerance, double);
   itkGetConstMacro(ParametersConvergenceTolerance, double);
-
+  /** @ITKEndGrouping */
   /** The optimization algorithm will terminate when the simplex
    * diameter and the difference in cost function values at the corners of
    * the simplex falls below user specified thresholds. The cost function
    * convergence threshold is set via SetFunctionConvergenceTolerance().*/
+  /** @ITKStartGrouping */
   itkSetMacro(FunctionConvergenceTolerance, double);
   itkGetConstMacro(FunctionConvergenceTolerance, double);
-
+  /** @ITKEndGrouping */
   /** Report the reason for stopping. */
   std::string
   GetStopConditionDescription() const override;

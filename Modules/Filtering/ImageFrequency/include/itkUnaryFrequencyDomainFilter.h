@@ -98,10 +98,11 @@ public:
    * original image in the spatial domain was odd.
    * Only needed when using HermitianFrequencyIterator and the original
    * image was odd. **/
+  /** @ITKStartGrouping */
   itkSetMacro(ActualXDimensionIsOdd, bool);
   itkGetConstReferenceMacro(ActualXDimensionIsOdd, bool);
   itkBooleanMacro(ActualXDimensionIsOdd);
-
+  /** @ITKEndGrouping */
   /** Returns factor with which the current frequency should be multiplied. */
   using ConstRefFunctionType = double(const FrequencyIteratorType &);
 
@@ -192,12 +193,13 @@ protected:
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
+  /** @ITKStartGrouping */
   template <typename TFunctor>
   void
   DynamicThreadedGenerateDataWithFunctor(const TFunctor &, const ImageRegionType & outputRegionForThread);
   void
   DynamicThreadedGenerateData(const ImageRegionType & outputRegionForThread) override;
-
+  /** @ITKEndGrouping */
 private:
   std::function<void(const ImageRegionType &)> m_DynamicThreadedGenerateDataFunction{};
 

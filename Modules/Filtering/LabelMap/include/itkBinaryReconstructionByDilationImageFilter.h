@@ -99,10 +99,11 @@ public:
    * FullyConnectedOff.  For objects that are 1 pixel wide, use
    * FullyConnectedOn.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(FullyConnected, bool);
   itkGetConstReferenceMacro(FullyConnected, bool);
   itkBooleanMacro(FullyConnected);
-
+  /** @ITKEndGrouping */
   itkConceptMacro(InputEqualityComparableCheck, (Concept::EqualityComparable<InputImagePixelType>));
   itkConceptMacro(IntConvertibleToInputCheck, (Concept::Convertible<int, InputImagePixelType>));
   itkConceptMacro(InputOStreamWritableCheck, (Concept::OStreamWritable<InputImagePixelType>));
@@ -111,24 +112,28 @@ public:
    * Set/Get the value used as "background" in the output image.
    * Defaults to NumericTraits<PixelType>::NonpositiveMin().
    */
+  /** @ITKStartGrouping */
   itkSetMacro(BackgroundValue, OutputImagePixelType);
   itkGetConstMacro(BackgroundValue, OutputImagePixelType);
-
+  /** @ITKEndGrouping */
   /**
    * Set/Get the value used as "foreground" in the output image.
    * Defaults to NumericTraits<PixelType>::max().
    */
+  /** @ITKStartGrouping */
   itkSetMacro(ForegroundValue, OutputImagePixelType);
   itkGetConstMacro(ForegroundValue, OutputImagePixelType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the marker image */
+  /** @ITKStartGrouping */
   itkSetInputMacro(MarkerImage, InputImageType);
   itkGetInputMacro(MarkerImage, InputImageType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the mask image */
+  /** @ITKStartGrouping */
   itkSetInputMacro(MaskImage, InputImageType);
   itkGetInputMacro(MaskImage, InputImageType);
-
+  /** @ITKEndGrouping */
 protected:
   BinaryReconstructionByDilationImageFilter();
   ~BinaryReconstructionByDilationImageFilter() override = default;

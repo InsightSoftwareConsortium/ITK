@@ -88,6 +88,7 @@ public:
   using ShapeFunctionPointer = typename ShapeFunctionType::ConstPointer;
 
   /** Zeta. The ShapePriorWeight scales the shape prior term values. */
+  /** @ITKStartGrouping */
   void
   SetShapePriorWeight(const ScalarValueType p)
   {
@@ -98,9 +99,10 @@ public:
   {
     return m_ShapePriorWeight;
   }
-
+  /** @ITKEndGrouping */
   /** The ShapeFunction encapsulates the signed distance to the shape used to
    * influence the evolution of the level set. */
+  /** @ITKStartGrouping */
   void
   SetShapeFunction(const ShapeFunctionType * ptr)
   {
@@ -111,7 +113,7 @@ public:
   {
     return m_ShapeFunction;
   }
-
+  /** @ITKEndGrouping */
   /** Compute the equation value with the additional shape prior term. */
   PixelType
   ComputeUpdate(const NeighborhoodType & neighborhood,

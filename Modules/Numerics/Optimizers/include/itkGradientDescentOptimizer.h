@@ -98,6 +98,7 @@ public:
 #endif
 
   /** Methods to configure the cost function. */
+  /** @ITKStartGrouping */
   itkGetConstReferenceMacro(Maximize, bool);
   itkSetMacro(Maximize, bool);
   itkBooleanMacro(Maximize);
@@ -121,7 +122,7 @@ public:
   {
     this->MaximizeOn();
   }
-
+  /** @ITKEndGrouping */
   /** Advance one step following the gradient direction. */
   virtual void
   AdvanceOneStep();
@@ -159,10 +160,11 @@ public:
   itkGetConstReferenceMacro(Value, double);
 
   /** Get Stop condition. */
+  /** @ITKStartGrouping */
   itkGetConstReferenceMacro(StopCondition, StopConditionGradientDescentOptimizerEnum);
   std::string
   GetStopConditionDescription() const override;
-
+  /** @ITKEndGrouping */
   /** Get Gradient condition. */
   itkGetConstReferenceMacro(Gradient, DerivativeType);
 

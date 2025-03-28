@@ -63,6 +63,7 @@ public:
   using ImageSpatialObjectConstPointer = typename ImageSpatialObjectType::ConstPointer;
   using ImageMetaObjectType = MetaImage;
   using ImageType = Image<TPixel, VDimension>;
+
   /** Convert the MetaObject to Spatial Object */
   SpatialObjectPointer
   MetaObjectToSpatialObject(const MetaObjectType * mo) override;
@@ -73,11 +74,12 @@ public:
 
 protected:
   /** Create the specific MetaObject for this class */
+  /** @ITKStartGrouping */
   MetaObjectType *
   CreateMetaObject() override;
   virtual const char *
   GetMetaObjectSubType();
-
+  /** @ITKEndGrouping */
   typename ImageType::Pointer
   AllocateImage(const ImageMetaObjectType * image);
 

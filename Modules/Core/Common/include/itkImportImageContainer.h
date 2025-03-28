@@ -155,10 +155,11 @@ public:
    *  Note that the normal logic of this class set the value of the boolean
    *  flag. This may override your setting if you call this methods prematurely.
    *  \warning Improper use of these methods will result in memory leaks */
+  /** @ITKStartGrouping */
   itkSetMacro(ContainerManageMemory, bool);
   itkGetConstMacro(ContainerManageMemory, bool);
   itkBooleanMacro(ContainerManageMemory);
-
+  /** @ITKEndGrouping */
 protected:
   ImportImageContainer() = default;
   ~ImportImageContainer() override;

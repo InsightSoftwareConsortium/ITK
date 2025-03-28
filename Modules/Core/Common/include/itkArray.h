@@ -125,6 +125,7 @@ public:
   operator=(const VnlVectorType & rhs);
 
   /** Return the number of elements in the Array  */
+  /** @ITKStartGrouping */
   SizeValueType
   Size() const
   {
@@ -135,7 +136,7 @@ public:
   {
     return static_cast<SizeValueType>(this->size());
   }
-
+  /** @ITKEndGrouping */
   /** Get one element */
   const TValue &
   GetElement(SizeValueType i) const

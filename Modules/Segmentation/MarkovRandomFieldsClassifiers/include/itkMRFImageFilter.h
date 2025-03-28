@@ -248,24 +248,28 @@ public:
   SetClassifier(typename ClassifierType::Pointer ptrToClassifier);
 
   /** Set/Get the number of classes. */
+  /** @ITKStartGrouping */
   itkSetMacro(NumberOfClasses, unsigned int);
   itkGetConstMacro(NumberOfClasses, unsigned int);
-
+  /** @ITKEndGrouping */
   /** Set/Get the number of iteration of the Iterated Conditional Mode
    * (ICM) algorithm. A default value is set at 50 iterations. */
+  /** @ITKStartGrouping */
   itkSetMacro(MaximumNumberOfIterations, unsigned int);
   itkGetConstMacro(MaximumNumberOfIterations, unsigned int);
-
+  /** @ITKEndGrouping */
   /** Set/Get the error tolerance level which is used as a threshold
    * to quit the iterations */
+  /** @ITKStartGrouping */
   itkSetMacro(ErrorTolerance, double);
   itkGetConstMacro(ErrorTolerance, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get the degree of smoothing desired
    * */
+  /** @ITKStartGrouping */
   itkSetMacro(SmoothingFactor, double);
   itkGetConstMacro(SmoothingFactor, double);
-
+  /** @ITKEndGrouping */
   /** Set the neighborhood radius. */
   void
   SetNeighborhoodRadius(const NeighborhoodRadiusType &);

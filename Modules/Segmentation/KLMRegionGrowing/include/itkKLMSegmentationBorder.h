@@ -165,9 +165,10 @@ public:
 
   /** Set/Get the Lambda parameter associate with the borders
    * in the KLM algorithm */
+  /** @ITKStartGrouping */
   itkSetMacro(Lambda, double);
   itkGetConstReferenceMacro(Lambda, double);
-
+  /** @ITKEndGrouping */
   /** Evaluate the Lambda for a given border. */
   void
   EvaluateLambda();

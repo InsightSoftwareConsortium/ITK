@@ -78,9 +78,10 @@ public:
   using TermPointer = typename TermType::Pointer;
 
   /** Set/Get the input image to be segmented. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(Input, InputImageType);
   itkGetModifiableObjectMacro(Input, InputImageType);
-
+  /** @ITKEndGrouping */
   itkSetMacro(CurrentLevelSetId, LevelSetIdentifierType);
   itkGetMacro(CurrentLevelSetId, LevelSetIdentifierType);
 

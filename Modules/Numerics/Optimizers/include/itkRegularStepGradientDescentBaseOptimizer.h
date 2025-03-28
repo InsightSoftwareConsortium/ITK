@@ -84,6 +84,7 @@ public:
   static constexpr StopConditionEnum Unknown = StopConditionEnum::Unknown;
 #endif
   /** Specify whether to minimize or maximize the cost function. */
+  /** @ITKStartGrouping */
   itkSetMacro(Maximize, bool);
   itkGetConstReferenceMacro(Maximize, bool);
   itkBooleanMacro(Maximize);
@@ -107,7 +108,7 @@ public:
   {
     SetMaximize(true);
   }
-
+  /** @ITKEndGrouping */
   /** Start optimization. */
   void
   StartOptimization() override;
@@ -123,6 +124,7 @@ public:
   StopOptimization();
 
   /** Set/Get parameters to control the optimization process. */
+  /** @ITKStartGrouping */
   itkSetMacro(MaximumStepLength, double);
   itkSetMacro(MinimumStepLength, double);
   itkSetMacro(RelaxationFactor, double);
@@ -138,7 +140,7 @@ public:
   itkGetConstReferenceMacro(StopCondition, StopConditionEnum);
   itkGetConstReferenceMacro(Value, MeasureType);
   itkGetConstReferenceMacro(Gradient, DerivativeType);
-
+  /** @ITKEndGrouping */
   /** Get the reason for termination */
   std::string
   GetStopConditionDescription() const override;

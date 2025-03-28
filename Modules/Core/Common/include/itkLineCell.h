@@ -43,9 +43,10 @@ public:
   ITK_DISALLOW_COPY_AND_MOVE(LineCell);
 
   /** Standard class type aliases. */
+  /** @ITKStartGrouping */
   itkCellCommonTypedefs(LineCell);
   itkCellInheritedTypedefs(TCellInterface);
-
+  /** @ITKEndGrouping */
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(LineCell);
 
@@ -59,6 +60,7 @@ public:
   static constexpr unsigned int CellDimension = 1;
 
   /** Implement the standard CellInterface. */
+  /** @ITKStartGrouping */
   CellGeometryEnum
   GetType() const override
   {
@@ -66,7 +68,7 @@ public:
   }
   void
   MakeCopy(CellAutoPointer &) const override;
-
+  /** @ITKEndGrouping */
   unsigned int
   GetDimension() const override;
 

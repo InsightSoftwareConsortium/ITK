@@ -186,17 +186,19 @@ public:
    *  by the input images.  ITK has a requirement that multiple input
    *  images be congruent in space by default.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(CoordinateTolerance, double);
   itkGetConstMacro(CoordinateTolerance, double);
-
+  /** @ITKEndGrouping */
   /** get/set the direction tolerance
    *  This tolerance is used to make sure that all input
    *  images are oriented the same before performing the filter's
    *  transformations.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(DirectionTolerance, double);
   itkGetConstMacro(DirectionTolerance, double);
-
+  /** @ITKEndGrouping */
   /** get/set the global default direction tolerance
    *
    * This value is used to initialize the DirectionTolerance upon
@@ -362,9 +364,10 @@ protected:
    * the versions from ProcessObject to avoid warnings about hiding
    * methods from the superclass.
    */
+  /** @ITKStartGrouping */
   using Superclass::PushBackInput;
   using Superclass::PushFrontInput;
-
+  /** @ITKEndGrouping */
 private:
   /**
    *  Tolerances for checking whether input images are defined to

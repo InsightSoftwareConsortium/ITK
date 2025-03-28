@@ -112,13 +112,15 @@ public:
   using ParametersType = Superclass::ParametersType;
 
   /** Get/Set the Fixed Image.  */
+  /** @ITKStartGrouping */
   itkSetConstObjectMacro(FixedPointSet, FixedPointSetType);
   itkGetConstObjectMacro(FixedPointSet, FixedPointSetType);
-
+  /** @ITKEndGrouping */
   /** Get/Set the Moving Image.  */
+  /** @ITKStartGrouping */
   itkSetConstObjectMacro(MovingImage, MovingImageType);
   itkGetConstObjectMacro(MovingImage, MovingImageType);
-
+  /** @ITKEndGrouping */
   /** Connect the Transform. */
   itkSetObjectMacro(Transform, TransformType);
 
@@ -148,9 +150,10 @@ public:
    *  at the price of large memory footprint. Mode OFF results in small
    *  memory footprint at the price of large computation time
    */
+  /** @ITKStartGrouping */
   itkSetMacro(ComputeGradient, bool);
   itkGetConstReferenceMacro(ComputeGradient, bool);
-
+  /** @ITKEndGrouping */
   /** Get the number of parameters required by the Transform. */
   unsigned int
   GetNumberOfParameters() const override

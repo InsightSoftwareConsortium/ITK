@@ -84,10 +84,11 @@ public:
   /** Set/Get flag for writing images to separate files in metaImage
    * instances
    */
+  /** @ITKStartGrouping */
   itkSetMacro(WriteImagesInSeparateFile, bool);
   itkGetConstMacro(WriteImagesInSeparateFile, bool);
   itkBooleanMacro(WriteImagesInSeparateFile);
-
+  /** @ITKEndGrouping */
 protected:
   MetaConverterBase() = default;
   ~MetaConverterBase() override = default;

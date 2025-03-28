@@ -112,9 +112,10 @@ public:
   ComputeCFLContribution() const;
 
   /** Set/Get the input speed or feature image */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(Input, InputImageType);
   itkGetModifiableObjectMacro(Input, InputImageType);
-
+  /** @ITKEndGrouping */
   itkSetObjectMacro(LevelSetContainer, LevelSetContainerType);
   itkGetModifiableObjectMacro(LevelSetContainer, LevelSetContainerType);
 

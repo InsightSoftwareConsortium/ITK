@@ -111,16 +111,18 @@ public:
   using SubsamplePointer = typename SubsampleType::Pointer;
 
   /** Set/Get the input sample that provides the measurement vectors. */
+  /** @ITKStartGrouping */
   void
   SetSample(TSample * sample);
   itkGetConstMacro(SourceSample, TSample *);
-
+  /** @ITKEndGrouping */
   /** Sets the number of measurement vectors that can be stored in a
    * terminal node. */
+  /** @ITKStartGrouping */
   void
   SetBucketSize(unsigned int size);
   itkGetConstMacro(BucketSize, unsigned int);
-
+  /** @ITKEndGrouping */
   /** Returns the pointer to the generated k-d tree. */
   OutputPointer
   GetOutput()

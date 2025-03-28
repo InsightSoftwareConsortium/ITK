@@ -108,11 +108,12 @@ public:
    * Sigma is measured in the units of image spacing. You may use the method
    * SetSigma to set the same value across each axis or use the method
    * SetSigmaArray if you need different values along each axis. */
+  /** @ITKStartGrouping */
   void
   SetSigmaArray(const SigmaArrayType & sigma);
   void
   SetSigma(ScalarRealType sigma);
-
+  /** @ITKEndGrouping */
   /** Get the Sigma value. */
   SigmaArrayType
   GetSigmaArray() const;
@@ -126,11 +127,12 @@ public:
    * This method does not effect the output of this filter.
    *
    * \sa RecursiveGaussianImageFilter::SetNormalizeAcrossScale */
+  /** @ITKStartGrouping */
   void
   SetNormalizeAcrossScale(bool normalize);
   itkGetConstMacro(NormalizeAcrossScale, bool);
   itkBooleanMacro(NormalizeAcrossScale);
-
+  /** @ITKEndGrouping */
   /** Set the number of work units to create. */
   void
   SetNumberOfWorkUnits(ThreadIdType nb) override;

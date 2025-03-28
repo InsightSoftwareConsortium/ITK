@@ -161,6 +161,7 @@ public:
    * versions do not match, an exception will be thrown. When this is false, and
    * the versions do not match, only a warning message is printed out in the
    * console, and the factory is still registered. */
+  /** @ITKStartGrouping */
   static void
   SetStrictVersionChecking(bool);
   static void
@@ -169,7 +170,7 @@ public:
   StrictVersionCheckingOff();
   static bool
   GetStrictVersionChecking();
-
+  /** @ITKEndGrouping */
   /** Return a descriptive string describing the factory. */
   virtual const char *
   GetDescription() const = 0;
@@ -262,10 +263,11 @@ private:
 
   /** Set/Get the pointer to ObjectFactoryBasePrivate.
    * No concurrent thread safe. */
+  /** @ITKStartGrouping */
   static void
   SynchronizeObjectFactoryBase(void * objectFactoryBasePrivate);
   itkGetGlobalDeclarationMacro(ObjectFactoryBasePrivate, PimplGlobals);
-
+  /** @ITKEndGrouping */
   const std::unique_ptr<OverrideMap> m_OverrideMap;
 
   /** Load dynamic factories from the ITK_AUTOLOAD_PATH */

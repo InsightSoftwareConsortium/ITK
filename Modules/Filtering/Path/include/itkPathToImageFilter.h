@@ -93,11 +93,12 @@ public:
 
   /** Set/Get the value for pixels on and off the path.
    * By default, this filter will return a "0" image with path pixels set to 1 */
+  /** @ITKStartGrouping */
   itkSetMacro(PathValue, ValueType);
   itkGetConstMacro(PathValue, ValueType);
   itkSetMacro(BackgroundValue, ValueType);
   itkGetConstMacro(BackgroundValue, ValueType);
-
+  /** @ITKEndGrouping */
   /** The origin of the output image. The origin is the geometric
    * coordinates of the index (0,0,...,0).  It is stored internally
    * as double but may be set from float.
@@ -112,9 +113,10 @@ public:
   GetOrigin() const;
 
   /** Set/Get Size */
+  /** @ITKStartGrouping */
   itkSetMacro(Size, SizeType);
   itkGetConstMacro(Size, SizeType);
-
+  /** @ITKEndGrouping */
 protected:
   PathToImageFilter();
   ~PathToImageFilter() override = default;

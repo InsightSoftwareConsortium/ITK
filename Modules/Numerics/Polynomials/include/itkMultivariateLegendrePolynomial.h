@@ -64,7 +64,6 @@ namespace itk
  * \note For more details refer to \cite styner2000 and \cite styner1997.
  * \ingroup ITKPolynomials
  */
-
 class ITKPolynomials_EXPORT MultivariateLegendrePolynomial
 {
 public:
@@ -87,6 +86,7 @@ public:
 
   /** Constructor. */
   MultivariateLegendrePolynomial(unsigned int dimension, unsigned int degree, const DomainSizeType & domainSize);
+
   /** Destructor. */
   virtual ~MultivariateLegendrePolynomial();
 

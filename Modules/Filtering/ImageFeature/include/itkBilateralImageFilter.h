@@ -128,6 +128,7 @@ public:
   /** Standard get/set macros for filter parameters.
    * DomainSigma is specified in the same units as the Image spacing.
    * RangeSigma is specified in the units of intensity. */
+  /** @ITKStartGrouping */
   itkSetMacro(DomainSigma, ArrayType);
   itkGetConstMacro(DomainSigma, const ArrayType);
   itkSetMacro(DomainMu, double);
@@ -136,7 +137,7 @@ public:
   itkGetConstMacro(RangeSigma, double);
   itkGetConstMacro(FilterDimensionality, unsigned int);
   itkSetMacro(FilterDimensionality, unsigned int);
-
+  /** @ITKEndGrouping */
   /** Convenience get/set methods for setting all domain parameters to the
    * same values.  */
   void
@@ -150,10 +151,11 @@ public:
    * sigma. When automatic is "off", the kernel size is whatever is
    * specified by the user.
    * \sa SetRadius() */
+  /** @ITKStartGrouping */
   itkBooleanMacro(AutomaticKernelSize);
   itkGetConstMacro(AutomaticKernelSize, bool);
   itkSetMacro(AutomaticKernelSize, bool);
-
+  /** @ITKEndGrouping */
   /** Set/Get the kernel radius, specified in pixels.  This parameter
    * is used only when AutomaticNeighborhoodSize is "off". */
   void
@@ -165,9 +167,10 @@ public:
   /** Set/Get the number of samples in the approximation to the Gaussian
    * used for the range smoothing. Samples are only generated in the
    * range of [0, 4*m_RangeSigma]. Default is 100. */
+  /** @ITKStartGrouping */
   itkSetMacro(NumberOfRangeGaussianSamples, unsigned long);
   itkGetConstMacro(NumberOfRangeGaussianSamples, unsigned long);
-
+  /** @ITKEndGrouping */
   itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<OutputPixelType>));
 
 protected:

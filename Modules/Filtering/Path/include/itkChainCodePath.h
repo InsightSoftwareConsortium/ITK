@@ -108,8 +108,10 @@ public:
   itkNewMacro(Self);
 
   /** Set/Get the index associated with the initial position of the path */
+  /** @ITKStartGrouping */
   itkSetMacro(Start, IndexType);
   itkGetConstReferenceMacro(Start, IndexType);
+  /** @ITKEndGrouping */
 
   /** Insert a new step into the chaincode at a specified position */
   virtual inline void

@@ -407,6 +407,7 @@ public:
     {
       return static_cast<ElementIdentifier>(m_Pos);
     }
+
     /** Get the value at this iterator's location in the VectorContainer.   */
     const_reference
     Value() const
@@ -562,6 +563,7 @@ protected:
   /** Provide pass-through constructors corresponding to all the STL
    * vector constructors.  These are for internal use only since this is also
    * an Object which must be constructed through the "New()" routine. */
+  /** @ITKStartGrouping */
   VectorContainer() = default;
   VectorContainer(size_type n)
     : Object()
@@ -580,9 +582,9 @@ protected:
     : Object()
     , VectorType(first, last)
   {}
+  /** @ITKEndGrouping */
 };
 } // namespace detail
-
 
 /** Alias template, allowing to use `itk::VectorContainer<TElement>` without having to explicitly specify its
  * `ElementIdentifier` type.

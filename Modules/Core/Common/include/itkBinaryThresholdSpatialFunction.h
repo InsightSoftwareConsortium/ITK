@@ -71,17 +71,20 @@ public:
   using FunctionOutputType = typename TFunction::OutputType;
 
   /** Set/Get the lower threshold. */
+  /** @ITKStartGrouping */
   itkSetMacro(LowerThreshold, FunctionOutputType);
   itkGetConstReferenceMacro(LowerThreshold, FunctionOutputType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the upper threshold. */
+  /** @ITKStartGrouping */
   itkSetMacro(UpperThreshold, FunctionOutputType);
   itkGetConstReferenceMacro(UpperThreshold, FunctionOutputType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the underlying function. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(Function, FunctionType);
   itkGetModifiableObjectMacro(Function, FunctionType);
-
+  /** @ITKEndGrouping */
   /** Evaluate the function at a given position. */
   OutputType
   Evaluate(const InputType & point) const override;

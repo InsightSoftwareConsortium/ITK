@@ -58,6 +58,7 @@ public:
   using MeasurementVectorType = TVector;
 
   /** declare Measurement vector component type */
+
   /** Type used to represent the number of components oft he
     MeasurementVectorType */
   using MeasurementVectorSizeType = unsigned int;

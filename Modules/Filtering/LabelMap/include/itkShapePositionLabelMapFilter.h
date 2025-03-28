@@ -77,6 +77,7 @@ public:
    * Set/Get the attribute to use to get the object position. The default
    * is "Centroid".
    */
+  /** @ITKStartGrouping */
   itkGetConstMacro(Attribute, AttributeType);
   itkSetMacro(Attribute, AttributeType);
   void
@@ -84,7 +85,7 @@ public:
   {
     this->SetAttribute(LabelObjectType::GetAttributeFromName(s));
   }
-
+  /** @ITKEndGrouping */
 protected:
   ShapePositionLabelMapFilter();
   ~ShapePositionLabelMapFilter() override = default;

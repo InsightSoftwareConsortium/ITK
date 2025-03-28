@@ -109,6 +109,7 @@ public:
   }
 
   /** Get the scale of the transform */
+  /** @ITKStartGrouping */
   virtual const double *
   GetScale() const
   {
@@ -119,7 +120,7 @@ public:
   {
     return m_Scale;
   }
-
+  /** @ITKEndGrouping */
   /** Get an inverse of the transform. */
   bool
   GetInverse(Self * inverse) const;
@@ -136,6 +137,7 @@ protected:
    * to values specified by the caller.  If the arguments are
    * omitted, then the AffineTransform is initialized to an identity
    * transformation in the appropriate number of dimensions. */
+  /** @ITKStartGrouping */
 #if !defined(ITK_LEGACY_REMOVE)
   [[deprecated("Removed unused constructor")]] ScalableAffineTransform(const MatrixType &       matrix,
                                                                        const OutputVectorType & offset);
@@ -143,7 +145,7 @@ protected:
   ScalableAffineTransform(unsigned int outputSpaceDimension, unsigned int parametersDimension);
   ScalableAffineTransform(unsigned int parametersDimension);
   ScalableAffineTransform();
-
+  /** @ITKEndGrouping */
   /** Compute the transformation matrix. */
   void
   ComputeMatrix() override;

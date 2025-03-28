@@ -95,10 +95,11 @@ public:
   DiffusionTensor3D() = default;
 
   /** Constructor with initialization. */
+  /** @ITKStartGrouping */
   DiffusionTensor3D(const Superclass & r);
   DiffusionTensor3D(const ComponentType & r);
   DiffusionTensor3D(const ComponentArrayType r);
-
+  /** @ITKEndGrouping */
   /** Constructor to enable casting...  */
   template <typename TCoordinateB>
   DiffusionTensor3D(const DiffusionTensor3D<TCoordinateB> & pa)

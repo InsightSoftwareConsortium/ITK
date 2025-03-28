@@ -121,10 +121,11 @@ public:
   /** If PromptUser is set to true then each time a line of text
    * is displayed, the user is asked if they want to keep getting
    * messages. */
+  /** @ITKStartGrouping */
   itkSetMacro(PromptUser, bool);
   itkGetConstMacro(PromptUser, bool);
   itkBooleanMacro(PromptUser);
-
+  /** @ITKEndGrouping */
 protected:
   OutputWindow();
   ~OutputWindow() override;

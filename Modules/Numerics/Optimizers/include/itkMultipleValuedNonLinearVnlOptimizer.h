@@ -90,10 +90,11 @@ public:
    * current parameters. For GUI update purposes, this method is a
    * good option, for mathematical validation you should rather call
    * GetValue(). */
+  /** @ITKStartGrouping */
   itkGetConstReferenceMacro(CachedValue, MeasureType);
   itkGetConstReferenceMacro(CachedDerivative, DerivativeType);
   itkGetConstReferenceMacro(CachedCurrentPosition, ParametersType);
-
+  /** @ITKEndGrouping */
 protected:
   MultipleValuedNonLinearVnlOptimizer();
   ~MultipleValuedNonLinearVnlOptimizer() override;

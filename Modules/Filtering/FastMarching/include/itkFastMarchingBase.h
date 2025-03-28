@@ -181,25 +181,30 @@ public:
 
   /** Set/Get the TopologyCheckType macro indicating whether the user
   wants to check topology (and which one). */
+  /** @ITKStartGrouping */
   itkSetEnumMacro(TopologyCheck, TopologyCheckEnum);
   itkGetConstReferenceMacro(TopologyCheck, TopologyCheckEnum);
-
+  /** @ITKEndGrouping */
   /** Set/Get TrialPoints */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(TrialPoints, NodePairContainerType);
   itkGetModifiableObjectMacro(TrialPoints, NodePairContainerType);
-
+  /** @ITKEndGrouping */
   /** Set/Get AlivePoints */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(AlivePoints, NodePairContainerType);
   itkGetModifiableObjectMacro(AlivePoints, NodePairContainerType);
-
+  /** @ITKEndGrouping */
   /** Set/Get ProcessedPoints */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(ProcessedPoints, NodePairContainerType);
   itkGetModifiableObjectMacro(ProcessedPoints, NodePairContainerType);
-
+  /** @ITKEndGrouping */
   /** Set/Get ForbiddenPoints */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(ForbiddenPoints, NodePairContainerType);
   itkGetModifiableObjectMacro(ForbiddenPoints, NodePairContainerType);
-
+  /** @ITKEndGrouping */
   /** \brief Set/Get the Stopping Criterion */
   itkSetObjectMacro(StoppingCriterion, StoppingCriterionType);
   itkGetModifiableObjectMacro(StoppingCriterion, StoppingCriterionType);
@@ -222,9 +227,10 @@ public:
   itkSetMacro(CollectPoints, bool);
 
   /** Get the Collect Points flag. */
+  /** @ITKStartGrouping */
   itkGetConstReferenceMacro(CollectPoints, bool);
   itkBooleanMacro(CollectPoints);
-
+  /** @ITKEndGrouping */
 protected:
   /** \brief Constructor */
   FastMarchingBase();

@@ -76,6 +76,7 @@
  * run-time overhead.  The "vtable" approach was invented for this
  * project by Brad King at Kitware.
  */
+/** @ITKStartGrouping */
 #  define itkConceptConstraintsMacro() \
     virtual void Enforcer() { &Constraints::constraints; }
 #  define itkConceptMacro(name, concept) \
@@ -83,7 +84,7 @@
     {                                    \
       name = sizeof concept              \
     }
-
+/** @ITKEndGrouping */
 #elif defined(ITK_CONCEPT_IMPLEMENTATION_CALL)
 
 /** Not implemented.  */
@@ -112,6 +113,7 @@ namespace itk
     namespace. */
 namespace Concept
 {
+
 /**
  * Some concept implementation details are adapted from the BOOST C++
  * libraries (www.boost.org).  These are marked with "(BOOST)" in the

@@ -89,8 +89,10 @@ public:
   itkOverrideGetNameOfClassMacro(ImageIOBase);
 
   /** Set/Get the name of the file to be read. */
+  /** @ITKStartGrouping */
   itkSetStringMacro(FileName);
   itkGetStringMacro(FileName);
+  /** @ITKEndGrouping */
 
   /** Types for managing image size and image index components. */
   using IndexValueType = itk::IndexValueType;
@@ -169,14 +171,16 @@ public:
   /** Set/Get the image dimensions in the x, y, z, etc. directions.
    * GetDimensions() is typically used after reading the data; the
    * SetDimensions() is used prior to writing the data. */
+  /** @ITKStartGrouping */
   virtual void
   SetDimensions(unsigned int i, SizeValueType dim);
-
   virtual SizeValueType
+
   GetDimensions(unsigned int i) const
   {
     return m_Dimensions[i];
   }
+  /** @ITKEndGrouping */
 
   /** Set/Get the image origin on a axis-by-axis basis. The SetOrigin() method
    * is required when writing the image. */
@@ -225,21 +229,26 @@ public:
    * vectors define the start (lower-left corner) and length of the
    * region within the image. Make sure that the IORegion lies within
    * the image. */
+  /** @ITKStartGrouping */
   itkSetMacro(IORegion, ImageIORegion);
   itkGetConstReferenceMacro(IORegion, ImageIORegion);
+  /** @ITKEndGrouping */
 
   /** Set/Get the type of the pixel. The PixelTypes provides context
    * to the IO mechanisms for data conversions.  PixelTypes can be
    * SCALAR, RGB, RGBA, VECTOR, COVARIANTVECTOR, POINT, INDEX. If
    * the PIXELTYPE is SCALAR, then the NumberOfComponents should be 1.
    * Any other of PIXELTYPE will have more than one component. */
+  /** @ITKStartGrouping */
   itkSetEnumMacro(PixelType, itk::CommonEnums::IOPixel);
   itkGetEnumMacro(PixelType, itk::CommonEnums::IOPixel);
+  /** @ITKEndGrouping */
 
   /** Set/Get the component type of the image. This is always a native
    * type. */
   itkSetEnumMacro(ComponentType, IOComponentEnum);
   itkGetEnumMacro(ComponentType, IOComponentEnum);
+
   /** get the type_info for the current pixel component type.
    * This function is DEPRECATED and only provided for backwards
    * compatibility.  There is no use for this method that can't
@@ -252,13 +261,17 @@ public:
    * be set by the reading process. For SCALAR pixel types,
    * NumberOfComponents will be 1.  For other pixel types,
    * NumberOfComponents will be greater than or equal to one. */
+  /** @ITKStartGrouping */
   itkSetMacro(NumberOfComponents, unsigned int);
   itkGetConstReferenceMacro(NumberOfComponents, unsigned int);
+  /** @ITKEndGrouping */
 
   /** Set/Get a boolean to use the compression or not. */
+  /** @ITKStartGrouping */
   itkSetMacro(UseCompression, bool);
   itkGetConstMacro(UseCompression, bool);
   itkBooleanMacro(UseCompression);
+  /** @ITKEndGrouping */
 
   /** \brief Set/Get a compression level hint
    *
@@ -284,28 +297,36 @@ public:
   itkGetConstReferenceMacro(Compressor, std::string);
 
   /** Set/Get a boolean to use streaming while reading or not. */
+  /** @ITKStartGrouping */
   itkSetMacro(UseStreamedReading, bool);
   itkGetConstMacro(UseStreamedReading, bool);
   itkBooleanMacro(UseStreamedReading);
+  /** @ITKEndGrouping */
 
   /** Set/Get a boolean to use streaming while writing or not. */
+  /** @ITKStartGrouping */
   itkSetMacro(UseStreamedWriting, bool);
   itkGetConstMacro(UseStreamedWriting, bool);
   itkBooleanMacro(UseStreamedWriting);
+  /** @ITKEndGrouping */
 
   /** Set/Get a boolean to perform RGB palette expansion.
    * If true, palette image is read as RGB,
    * if false, palette image is read as Scalar+Palette.
    * A RGB image is always read as RGB.*/
+  /** @ITKStartGrouping */
   itkSetMacro(ExpandRGBPalette, bool);
   itkGetConstMacro(ExpandRGBPalette, bool);
   itkBooleanMacro(ExpandRGBPalette);
+  /** @ITKEndGrouping */
 
   /** Set/Get a boolean to include a color palette while writing
    * the image file. Applies only for scalar Pixels*/
+  /** @ITKStartGrouping */
   itkSetMacro(WritePalette, bool);
   itkGetConstMacro(WritePalette, bool);
   itkBooleanMacro(WritePalette);
+  /** @ITKEndGrouping */
 
   /** Determine whether a palletized image file has been read as a scalar image
    *  plus a color palette.
@@ -331,6 +352,7 @@ public:
 
   /** These methods control whether the file is written binary or ASCII.
    * Many file formats (i.e., subclasses) ignore this flag. */
+  /** @ITKStartGrouping */
   itkSetEnumMacro(FileType, IOFileEnum);
   itkGetEnumMacro(FileType, IOFileEnum);
   void
@@ -338,6 +360,7 @@ public:
   {
     this->SetFileType(IOFileEnum::ASCII);
   }
+  /** @ITKEndGrouping */
 
   void
   SetFileTypeToBinary()
@@ -356,6 +379,7 @@ public:
    * a VAX or PC, SetByteOrderToLittleEndian() otherwise
    * SetByteOrderToBigEndian().  Some ImageIOBase subclasses
    * ignore these methods. */
+  /** @ITKStartGrouping */
   itkSetEnumMacro(ByteOrder, IOByteOrderEnum);
   itkGetEnumMacro(ByteOrder, IOByteOrderEnum);
   void
@@ -363,6 +387,7 @@ public:
   {
     this->SetByteOrder(IOByteOrderEnum::BigEndian);
   }
+  /** @ITKEndGrouping */
 
   void
   SetByteOrderToLittleEndian()
@@ -550,6 +575,7 @@ public:
   SetTypeInfo(const TPixel *);
 
   /** Map between C++ Pixel type and ImageIOBase ComponentType */
+  /** @ITKStartGrouping */
   template <typename TPixel>
   struct MapPixelType
   {
@@ -675,7 +701,7 @@ public:
     this->SetPixelType(IOPixelEnum::VARIABLESIZEMATRIX);
     this->SetComponentType(MapPixelType<TValue>::CType);
   }
-
+  /** @ITKEndGrouping */
 
 protected:
   ImageIOBase();
@@ -690,10 +716,12 @@ protected:
    * extension list. If ignoreCase is true, the case of the characters
    * is ignored.
    */
+  /** @ITKStartGrouping */
   virtual bool
   HasSupportedReadExtension(const char * fileName, bool ignoreCase = true);
   virtual bool
   HasSupportedWriteExtension(const char * fileName, bool ignoreCase = true);
+  /** @ITKEndGrouping */
 
   /** Used internally to keep track of the type of the pixel. */
   IOPixelEnum m_PixelType{ IOPixelEnum::SCALAR };
@@ -729,9 +757,11 @@ protected:
   std::string m_Compressor{ "uninitialized" };
 
   /** Set/Get enforced maximum compression level value to limit range  */
+  /** @ITKStartGrouping */
   virtual void
   SetMaximumCompressionLevel(int);
   itkGetConstMacro(MaximumCompressionLevel, int);
+  /** @ITKEndGrouping */
 
   /** Called when the compressor changes value. The compressor string
    * is converted to uppercase for case insensitive comparisons.

@@ -89,9 +89,10 @@ public:
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Set/get the boundary condition. */
+  /** @ITKStartGrouping */
   itkSetMacro(BoundaryCondition, BoundaryConditionType *);
   itkGetConstMacro(BoundaryCondition, BoundaryConditionType *);
-
+  /** @ITKEndGrouping */
 protected:
   PadImageFilterBase();
   ~PadImageFilterBase() override = default;

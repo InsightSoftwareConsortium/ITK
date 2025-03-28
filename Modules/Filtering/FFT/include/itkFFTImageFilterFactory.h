@@ -97,6 +97,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Class methods used to interface with the registered factories. */
+  /** @ITKStartGrouping */
   const char *
   GetITKSourceVersion() const override
   {
@@ -107,7 +108,7 @@ public:
   {
     return "An FFTImageFilter factory";
   }
-
+  /** @ITKEndGrouping */
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
 
@@ -128,6 +129,7 @@ protected:
    * with distinct specialization.
    * Requires TFFTImageFilter to have the template signature <InputImageType, OutputImageType>.
    */
+  /** @ITKStartGrouping */
   template <typename InputPixelType, typename OutputPixelType, unsigned int D, unsigned int... ImageDimensions>
   void
   OverrideFFTImageFilterType(const std::integer_sequence<unsigned int, D, ImageDimensions...> &)
@@ -146,7 +148,7 @@ protected:
   void
   OverrideFFTImageFilterType(const std::integer_sequence<unsigned int> &)
   {}
-
+  /** @ITKEndGrouping */
   FFTImageFilterFactory()
   {
     OverrideFFTImageFilterType<typename FFTImageFilterTraits<TFFTImageFilter>::template InputPixelType<float>,

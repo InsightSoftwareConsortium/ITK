@@ -64,10 +64,11 @@ public:
   using OffsetType = typename InputPathType::OffsetType;
 
   /** Set/Get the direction in which to reflect the data. Default is "Off". */
+  /** @ITKStartGrouping */
   itkSetMacro(MaximallyConnected, bool);
   itkGetConstMacro(MaximallyConnected, bool);
   itkBooleanMacro(MaximallyConnected);
-
+  /** @ITKEndGrouping */
 protected:
   PathToChainCodePathFilter();
   ~PathToChainCodePathFilter() override = default;

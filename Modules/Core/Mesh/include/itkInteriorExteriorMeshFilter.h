@@ -78,9 +78,10 @@ public:
   itkOverrideGetNameOfClassMacro(InteriorExteriorMeshFilter);
 
   /** Get/Set the spatial function. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(SpatialFunction, SpatialFunctionType);
   itkGetModifiableObjectMacro(SpatialFunction, SpatialFunctionType);
-
+  /** @ITKEndGrouping */
   using SpatialFunctionDataObjectType = DataObjectDecorator<SpatialFunctionType>;
   using SpatialFunctionDataObjectPointer = typename SpatialFunctionDataObjectType::Pointer;
 

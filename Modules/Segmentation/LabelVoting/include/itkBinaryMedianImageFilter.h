@@ -89,14 +89,16 @@ public:
 
   /** Set the value associated with the Foreground (or the object) on
       the binary input image and the Background . */
+  /** @ITKStartGrouping */
   itkSetMacro(BackgroundValue, InputPixelType);
   itkSetMacro(ForegroundValue, InputPixelType);
-
+  /** @ITKEndGrouping */
   /** Get the value associated with the Foreground (or the object) on the
       binary input image and the Background . */
+  /** @ITKStartGrouping */
   itkGetConstReferenceMacro(BackgroundValue, InputPixelType);
   itkGetConstReferenceMacro(ForegroundValue, InputPixelType);
-
+  /** @ITKEndGrouping */
   /** BinaryMedianImageFilter needs a larger input requested region than
    * the output requested region.  As such, BinaryMedianImageFilter needs
    * to provide an implementation for GenerateInputRequestedRegion()

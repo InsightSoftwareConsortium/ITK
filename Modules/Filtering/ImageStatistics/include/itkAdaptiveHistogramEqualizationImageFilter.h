@@ -106,21 +106,24 @@ public:
   /** Set/Get the value of alpha. Alpha = 0 produces the adaptive
    * histogram equalization (provided beta=0). Alpha = 1 produces an
    * unsharp mask. Default is 0.3. */
+  /** @ITKStartGrouping */
   itkSetMacro(Alpha, float);
   itkGetConstMacro(Alpha, float);
-
+  /** @ITKEndGrouping */
   /** Set/Get the value of beta. If beta = 1 (and alpha = 1),
    * then the output image matches the input image. As beta
    * approaches 0, the filter behaves as an unsharp mask. Default is
    * 0.3. */
+  /** @ITKStartGrouping */
   itkSetMacro(Beta, float);
   itkGetConstMacro(Beta, float);
-
+  /** @ITKEndGrouping */
 #if !defined(ITK_FUTURE_LEGACY_REMOVE)
   /** Set/Get whether an optimized lookup table for the intensity
    * mapping function is used.  Default is off.
    * \deprecated
    */
+  /** @ITKStartGrouping */
   virtual void
   SetUseLookupTable(const bool _arg)
   {
@@ -132,7 +135,7 @@ public:
       this->Modified();
     }
   }
-
+  /** @ITKEndGrouping */
   itkGetConstMacro(UseLookupTable, bool);
   itkBooleanMacro(UseLookupTable);
 #endif

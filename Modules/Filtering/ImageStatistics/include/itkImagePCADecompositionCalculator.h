@@ -87,6 +87,7 @@ public:
 
   /** Basis image pixel type: this is also the type of the output vector */
   using BasisPixelType = typename TBasisImage::PixelType;
+
   /** Input Image dimension */
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
 
@@ -101,13 +102,15 @@ public:
   using BasisVectorType = vnl_vector<BasisPixelType>;
 
   /** Set and get the input image. */
+  /** @ITKStartGrouping */
   itkSetConstObjectMacro(Image, InputImageType);
   itkGetConstObjectMacro(Image, InputImageType);
-
+  /** @ITKEndGrouping */
   /** Set and get the mean image. */
+  /** @ITKStartGrouping */
   itkSetConstObjectMacro(MeanImage, BasisImageType);
   itkGetConstObjectMacro(MeanImage, BasisImageType);
-
+  /** @ITKEndGrouping */
   /** Set and get the basis images. */
   void
   SetBasisImages(const BasisImagePointerVector &);
@@ -120,6 +123,7 @@ public:
 
   /** Type definition of a compatible ImagePCAShapeModelEstimator */
   using ModelPointerType = typename ImagePCAShapeModelEstimator<TInputImage, TBasisImage>::Pointer;
+
   /** Set the basis images from a ImagePCAShapeModelEstimator */
   void
   SetBasisFromModel(ModelPointerType model);

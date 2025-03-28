@@ -223,11 +223,12 @@ public:
   /**
    * Set the MetaDataDictionary
    */
+  /** @ITKStartGrouping */
   void
   SetMetaDataDictionary(const MetaDataDictionary & rhs);
   void
   SetMetaDataDictionary(MetaDataDictionary && rrhs);
-
+  /** @ITKEndGrouping */
   /**
    * A facility to help application programmers set a
    * human identifiable name for a given object.
@@ -235,9 +236,10 @@ public:
    * convenience to allow developers to provide a
    * name for this object.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(ObjectName, std::string);
   itkGetConstReferenceMacro(ObjectName, std::string);
-
+  /** @ITKEndGrouping */
 protected:
   Object();
   ~Object() override;

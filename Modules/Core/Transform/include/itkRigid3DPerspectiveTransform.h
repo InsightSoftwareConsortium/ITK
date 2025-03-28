@@ -236,13 +236,15 @@ public:
   using Superclass::ComputeJacobianWithRespectToPosition;
 
   /** Set a fixed offset: this allow to center the object to be transformed */
+  /** @ITKStartGrouping */
   itkGetConstReferenceMacro(FixedOffset, OffsetType);
   itkSetMacro(FixedOffset, OffsetType);
-
+  /** @ITKEndGrouping */
   /** Set the center of Rotation */
+  /** @ITKStartGrouping */
   itkSetMacro(CenterOfRotation, InputPointType);
   itkGetConstReferenceMacro(CenterOfRotation, InputPointType);
-
+  /** @ITKEndGrouping */
 protected:
   Rigid3DPerspectiveTransform();
   ~Rigid3DPerspectiveTransform() override = default;

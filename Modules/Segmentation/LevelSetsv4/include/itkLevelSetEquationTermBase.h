@@ -85,9 +85,10 @@ public:
   using HeavisideConstPointer = typename HeavisideType::ConstPointer;
 
   /** Set/Get the image to be segmented */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(Input, InputImageType);
   itkGetModifiableObjectMacro(Input, InputImageType);
-
+  /** @ITKEndGrouping */
   itkSetMacro(Coefficient, LevelSetOutputRealType);
   itkGetMacro(Coefficient, LevelSetOutputRealType);
 
@@ -127,9 +128,10 @@ public:
   itkGetConstMacro(CFLContribution, LevelSetOutputRealType);
 
   /** Set/Get the term name */
+  /** @ITKStartGrouping */
   itkSetStringMacro(TermName);
   itkGetStringMacro(TermName);
-
+  /** @ITKEndGrouping */
   /** Update the term parameter values at end of iteration */
   virtual void
   Update() = 0;

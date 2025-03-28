@@ -125,8 +125,10 @@ public:
    * SetExtractionModeToClosestPointRegion() also requires that
    * a point be defined.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(ExtractionMode, int);
   itkGetConstMacro(ExtractionMode, int);
+  /** @ITKEndGrouping */
 
   void
   SetExtractionModeToPointSeededRegions()

@@ -81,6 +81,7 @@ public:
    * (Functors do not have to derive from itk::LightObject, so they do
    * not necessarily have a reference count. So we cannot return a
    * SmartPointer.) */
+  /** @ITKStartGrouping */
   FunctorType &
   GetFunctor()
   {
@@ -91,6 +92,7 @@ public:
   {
     return m_Functor;
   }
+  /** @ITKEndGrouping */
 
   /** Set the functor object.  This replaces the current Functor with a
    * copy of the specified Functor. This allows the user to specify a

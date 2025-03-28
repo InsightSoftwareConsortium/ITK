@@ -90,10 +90,11 @@ public:
   using CostFunctionPointer = CostFunctionType::Pointer;
 
   /** Convert gradient to a unit length vector */
+  /** @ITKStartGrouping */
   itkSetMacro(UseUnitLengthGradient, bool);
   itkGetConstMacro(UseUnitLengthGradient, bool);
   itkBooleanMacro(UseUnitLengthGradient);
-
+  /** @ITKEndGrouping */
   /** Start optimization. */
   void
   StartOptimization() override;

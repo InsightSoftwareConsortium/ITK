@@ -186,25 +186,30 @@ public:
   using TimeVaryingWeightedMaskImageType = Image<WeightsElementType, ImageDimension + 1>;
 
   /** Set/Get the learning rate. */
+  /** @ITKStartGrouping */
   itkSetMacro(LearningRate, RealType);
   itkGetConstMacro(LearningRate, RealType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the number of iterations per level. */
+  /** @ITKStartGrouping */
   itkSetMacro(NumberOfIterationsPerLevel, NumberOfIterationsArrayType);
   itkGetConstMacro(NumberOfIterationsPerLevel, NumberOfIterationsArrayType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the convergence threshold */
+  /** @ITKStartGrouping */
   itkSetMacro(ConvergenceThreshold, RealType);
   itkGetConstMacro(ConvergenceThreshold, RealType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the convergence window size */
+  /** @ITKStartGrouping */
   itkSetMacro(ConvergenceWindowSize, unsigned int);
   itkGetConstMacro(ConvergenceWindowSize, unsigned int);
-
+  /** @ITKEndGrouping */
   /** Set/Get the number of time point samples. */
+  /** @ITKStartGrouping */
   itkSetMacro(NumberOfTimePointSamples, SizeValueType);
   itkGetConstMacro(NumberOfTimePointSamples, SizeValueType);
-
+  /** @ITKEndGrouping */
 protected:
   TimeVaryingBSplineVelocityFieldImageRegistrationMethod();
   ~TimeVaryingBSplineVelocityFieldImageRegistrationMethod() override = default;

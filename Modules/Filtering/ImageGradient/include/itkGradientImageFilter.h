@@ -114,10 +114,11 @@ public:
    * into account and to compute the derivatives in physical space; use Off to
    * ignore the image spacing and to compute the derivatives in isotropic
    * voxel space. Default is On. */
+  /** @ITKStartGrouping */
   itkSetMacro(UseImageSpacing, bool);
   itkGetConstMacro(UseImageSpacing, bool);
   itkBooleanMacro(UseImageSpacing);
-
+  /** @ITKEndGrouping */
 #if !defined(ITK_FUTURE_LEGACY_REMOVE)
   /** Use the image spacing information in calculations. Use this option if you
       want derivatives in physical space. Default is UseImageSpacingOn.
@@ -155,10 +156,11 @@ public:
    * flag is OFF.
    * The default value of this flag is On.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(UseImageDirection, bool);
   itkGetConstMacro(UseImageDirection, bool);
   itkBooleanMacro(UseImageDirection);
-
+  /** @ITKEndGrouping */
 protected:
   GradientImageFilter();
   ~GradientImageFilter() override = default;

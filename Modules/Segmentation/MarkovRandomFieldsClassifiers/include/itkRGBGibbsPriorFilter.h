@@ -110,8 +110,10 @@ public:
   using IndexType = typename TInputImage::IndexType;
 
   /** Set/Get the image required for training type classifiers. */
+  /** @ITKStartGrouping */
   itkSetMacro(TrainingImage, TrainingImageType);
   itkGetConstMacro(TrainingImage, TrainingImageType);
+  /** @ITKEndGrouping */
 
   /** Set the labelled image. */
   void
@@ -169,12 +171,16 @@ public:
   }
 
   /** Set/Get the threshold for the object size. */
+  /** @ITKStartGrouping */
   itkSetMacro(ClusterSize, unsigned int);
   itkGetConstMacro(ClusterSize, unsigned int);
+  /** @ITKEndGrouping */
 
   /** Set/Get the label for the object region. */
+  /** @ITKStartGrouping */
   itkSetMacro(ObjectLabel, LabelType);
   itkGetConstMacro(ObjectLabel, LabelType);
+  /** @ITKEndGrouping */
 
   /** Extract the input image dimension. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
@@ -189,6 +195,7 @@ public:
   itkGetConstMacro(ObjectThreshold, double);
 
   /** Set/Get the value for clique weights. */
+  /** @ITKStartGrouping */
   itkSetMacro(CliqueWeight_1, double);
   itkGetConstMacro(CliqueWeight_1, double);
   itkSetMacro(CliqueWeight_2, double);
@@ -201,6 +208,7 @@ public:
   itkGetConstMacro(CliqueWeight_5, double);
   itkSetMacro(CliqueWeight_6, double);
   itkGetConstMacro(CliqueWeight_6, double);
+  /** @ITKEndGrouping */
 
   /** Type of matrix to use. */
   using MatrixType = vnl_matrix<double>;
@@ -237,12 +245,16 @@ private:
 
   /** Input. */
   InputImageConstPointer m_InputImage{};
+
   /** Image to train the filter. */
   TrainingImageType m_TrainingImage{};
+
   /** Output. */
   LabelledImageType m_LabelledImage{};
+
   /** Number of classes that need to be classified. */
   unsigned int m_NumberOfClasses{ 0 };
+
   /** Maximum number of iterations. */
   unsigned int m_MaximumNumberOfIterations{ 10 };
 
@@ -250,14 +262,19 @@ private:
 
   /** Threshold for the existence of a boundary. */
   unsigned int m_BoundaryGradient{ 7 };
+
   /** Weight for \f$H_1\f$. */
   double m_BoundaryWeight{ 1 };
+
   /** Weight for \f$H_2\f$. */
   double m_GibbsPriorWeight{ 1 };
+
   /** Start region of the object. */
   int m_StartRadius{ 10 };
+
   /** Number of SA iterations. */
   int m_RecursiveNumber{ 0 };
+
   /** Array to store the state of each pixel. */
   std::unique_ptr<LabelType[]> m_LabelStatus{ nullptr };
 
@@ -266,26 +283,34 @@ private:
 
   /** Used by the SA algorithm. */
   unsigned int m_Temp{ 0 };
+
   /** Seed. */
   IndexType m_StartPoint{};
 
   /** Image width. */
   unsigned int m_ImageWidth{ 0 };
+
   /** Image height. */
   unsigned int m_ImageHeight{ 0 };
+
   /** Image depth. */
   unsigned int m_ImageDepth{ 0 };
+
   /** Region sizes smaller than this threshold value will be erased. */
   unsigned int m_ClusterSize{ 10 };
+
   /** Label for object region. */
   LabelType m_ObjectLabel{ 1 };
+
   /** Number of channels in the image. */
   unsigned int m_VecDim{ 0 };
+
   /** Point giving lowest value of \f$H_1\f$ in neighborhood. */
   InputPixelType m_LowPoint{};
 
   /** Used for erasing regions. */
   std::unique_ptr<unsigned short[]> m_Region{ nullptr };
+
   /** Used for erasing regions. */
   std::unique_ptr<unsigned short[]> m_RegionCount{ nullptr };
 
@@ -293,14 +318,19 @@ private:
 
   /** Weight for cliques that v/h smooth boundary. */
   double m_CliqueWeight_1{ 0.0 };
+
   /** Weight for clique that has an intermediate smooth boundary. */
   double m_CliqueWeight_2{ 0.0 };
+
   /** Weight for clique that has a diagonal smooth boundary. */
   double m_CliqueWeight_3{ 0.0 };
+
   /** Weight for clique consists only object pixels. */
   double m_CliqueWeight_4{ 0.0 };
+
   /** Weight for clique consists only background pixels. */
   double m_CliqueWeight_5{ 0.0 };
+
   /** Weight for other cliques. */
   double m_CliqueWeight_6{ 0.0 };
 

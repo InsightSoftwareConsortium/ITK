@@ -90,10 +90,11 @@ public:
    * FullyConnectedOff.  For objects that are 1 pixel wide, use
    * FullyConnectedOn.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(FullyConnected, bool);
   itkGetConstReferenceMacro(FullyConnected, bool);
   itkBooleanMacro(FullyConnected);
-
+  /** @ITKEndGrouping */
 protected:
   BinaryClosingByReconstructionImageFilter();
   ~BinaryClosingByReconstructionImageFilter() override = default;

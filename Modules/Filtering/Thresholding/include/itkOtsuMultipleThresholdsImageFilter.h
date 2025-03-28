@@ -101,28 +101,33 @@ public:
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
   /** Set/Get the number of histogram bins. Default is 128. */
+  /** @ITKStartGrouping */
   itkSetClampMacro(NumberOfHistogramBins, SizeValueType, 1, NumericTraits<SizeValueType>::max());
   itkGetConstMacro(NumberOfHistogramBins, SizeValueType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the number of thresholds. Default is 1. */
+  /** @ITKStartGrouping */
   itkSetClampMacro(NumberOfThresholds, SizeValueType, 1, NumericTraits<SizeValueType>::max());
   itkGetConstMacro(NumberOfThresholds, SizeValueType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the offset which labels have to start from. Default is 0. */
+  /** @ITKStartGrouping */
   itkSetClampMacro(LabelOffset, OutputPixelType, OutputPixelType{}, NumericTraits<OutputPixelType>::max());
   itkGetConstMacro(LabelOffset, OutputPixelType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the use of valley emphasis. Default is false. */
+  /** @ITKStartGrouping */
   itkSetMacro(ValleyEmphasis, bool);
   itkGetConstReferenceMacro(ValleyEmphasis, bool);
   itkBooleanMacro(ValleyEmphasis);
-
+  /** @ITKEndGrouping */
   /** Should the threshold value be mid-point of the bin or the maximum?
    * Default is to return bin maximum. */
+  /** @ITKStartGrouping */
   itkSetMacro(ReturnBinMidpoint, bool);
   itkGetConstReferenceMacro(ReturnBinMidpoint, bool);
   itkBooleanMacro(ReturnBinMidpoint);
-
+  /** @ITKEndGrouping */
   /** Get the computed threshold. */
   const ThresholdVectorType &
   GetThresholds() const

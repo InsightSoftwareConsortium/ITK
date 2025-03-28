@@ -164,6 +164,7 @@ public:
    * structuring is decomposable, the set of lines associated with the
    * structuring may be used by an algorithm instead of the standard buffer.
    */
+  /** @ITKStartGrouping */
   bool
   GetDecomposable() const
   {
@@ -174,8 +175,9 @@ public:
   {
     m_Decomposable = v;
   }
-
+  /** @ITKEndGrouping */
   /** Return the lines associated with the structuring element */
+  /** @ITKStartGrouping */
   const DecompType &
   GetLines() const
   {
@@ -186,7 +188,7 @@ public:
   {
     m_Lines.push_back(l);
   }
-
+  /** @ITKEndGrouping */
   bool
   CheckParallel(LType NewVec) const;
 
@@ -202,6 +204,7 @@ public:
    * corresponds to the radius that was specified.
    * This defaults to "off" for backward compatibility.
    */
+  /** @ITKStartGrouping */
   bool
   GetRadiusIsParametric() const
   {
@@ -213,7 +216,7 @@ public:
     m_RadiusIsParametric = flag;
   }
   itkBooleanMacro(RadiusIsParametric);
-
+  /** @ITKEndGrouping */
   /** Create a FlatStructureElement from a bool
    *  image. Image must be odd in all dimensions.*/
   static Self

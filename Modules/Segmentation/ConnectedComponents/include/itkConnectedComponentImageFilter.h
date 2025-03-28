@@ -53,7 +53,6 @@ namespace itk
  * Binary Image} \sphinxexample{Segmentation/ConnectedComponents/ExtraLargestConnectComponentFromBinaryImage,Extra
  * Largest Connect Component From Binary Image} \endsphinx
  */
-
 template <typename TInputImage, typename TOutputImage, typename TMaskImage = TInputImage>
 class ITK_TEMPLATE_EXPORT ConnectedComponentImageFilter
   : public ImageToImageFilter<TInputImage, TOutputImage>
@@ -129,10 +128,11 @@ public:
    * FullyConnectedOff.  For objects that are 1 pixel wide, use
    * FullyConnectedOn.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(FullyConnected, bool);
   itkGetConstReferenceMacro(FullyConnected, bool);
   itkBooleanMacro(FullyConnected);
-
+  /** @ITKEndGrouping */
   /** Type used as identifier of the different component labels. */
   using LabelType = IdentifierType;
 
@@ -149,9 +149,10 @@ public:
    * regions of the image in the output. Note that this does NOT set
    * the background value to be used in the input image.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(BackgroundValue, OutputImagePixelType);
   itkGetConstMacro(BackgroundValue, OutputImagePixelType);
-
+  /** @ITKEndGrouping */
 protected:
   ConnectedComponentImageFilter();
 

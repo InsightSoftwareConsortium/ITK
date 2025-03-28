@@ -69,6 +69,7 @@ protected:
    * valarray constructors.  These are for internal use only since
    * this is also an Object which must be constructed through the
    * "New()" routine. */
+  /** @ITKStartGrouping */
   ValarrayImageContainer()
     : ValarrayType()
   {}
@@ -81,7 +82,7 @@ protected:
   ValarrayImageContainer(const Self & r)
     : ValarrayType(r)
   {}
-
+  /** @ITKEndGrouping */
 public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

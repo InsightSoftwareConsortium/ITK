@@ -76,23 +76,27 @@ public:
   }
 
   /** Set/Get the standard deviation of the Gaussian envelope. */
+  /** @ITKStartGrouping */
   itkSetMacro(Sigma, TRealValueType);
   itkGetConstMacro(Sigma, TRealValueType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the modulation frequency of the sine or cosine component. */
+  /** @ITKStartGrouping */
   itkSetMacro(Frequency, TRealValueType);
   itkGetConstMacro(Frequency, TRealValueType);
-
+  /** @ITKEndGrouping */
   /** Set/Get the phase offset of the sine or cosine component .*/
+  /** @ITKStartGrouping */
   itkSetMacro(PhaseOffset, TRealValueType);
   itkGetConstMacro(PhaseOffset, TRealValueType);
-
+  /** @ITKEndGrouping */
   /** Set/Get whether the kernel function evaluation is performed using the
    * complex part. Default is false. */
+  /** @ITKStartGrouping */
   itkSetMacro(CalculateImaginaryPart, bool);
   itkGetConstMacro(CalculateImaginaryPart, bool);
   itkBooleanMacro(CalculateImaginaryPart);
-
+  /** @ITKEndGrouping */
 protected:
   GaborKernelFunction()
   {

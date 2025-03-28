@@ -42,6 +42,7 @@ public:
   inline TOutput
   operator()(const TInput & A) const
   {
+
     /** Equal to \f$ \frac{\pi}{2 m} \f$ */
     static constexpr double factor = Math::pi / (2 * VRadius);
     return static_cast<TOutput>(std::cos(A * factor));
@@ -62,6 +63,7 @@ public:
   inline TOutput
   operator()(const TInput & A) const
   {
+
     /** Equal to \f$ \frac{\pi}{m} \f$ */
     static constexpr double factor = Math::pi / VRadius;
     return static_cast<TOutput>(0.54 + 0.46 * std::cos(A * factor));
@@ -79,10 +81,11 @@ template <unsigned int VRadius, typename TInput = double, typename TOutput = dou
 class ITK_TEMPLATE_EXPORT WelchWindowFunction
 {
 public:
+  /** Equal to \f$ \frac{1}{m^2} \f$ */
   inline TOutput
   operator()(const TInput & A) const
   {
-    /** Equal to \f$ \frac{1}{m^2} \f$ */
+
     static constexpr double factor = 1.0 / (VRadius * VRadius);
     return static_cast<TOutput>(1.0 - A * factor * A);
   }
@@ -108,6 +111,7 @@ public:
     {
       return static_cast<TOutput>(1.0);
     } // namespace Function
+
     /** Equal to \f$ \frac{\pi}{m} \f$ */
     static constexpr double factor = Math::pi / VRadius;
     const double z = factor * A;
@@ -129,6 +133,7 @@ public:
   inline TOutput
   operator()(const TInput & A) const
   {
+
     /** Equal to \f$ \frac{\pi}{m} \f$ */
     static constexpr double factor1 = Math::pi / VRadius;
 

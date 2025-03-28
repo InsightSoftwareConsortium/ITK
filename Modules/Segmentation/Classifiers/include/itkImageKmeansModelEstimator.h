@@ -185,21 +185,25 @@ public:
   }
 
   /** Set/Get the threshold parameter. */
+  /** @ITKStartGrouping */
   itkSetMacro(Threshold, double);
   itkGetConstMacro(Threshold, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get the offset add parameter. */
+  /** @ITKStartGrouping */
   itkSetMacro(OffsetAdd, double);
   itkGetConstMacro(OffsetAdd, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get the offset multiplication parameter. */
+  /** @ITKStartGrouping */
   itkSetMacro(OffsetMultiply, double);
   itkGetConstMacro(OffsetMultiply, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get the maximum number of attempts to split a codeword. */
+  /** @ITKStartGrouping */
   itkSetMacro(MaxSplitAttempts, int);
   itkGetConstMacro(MaxSplitAttempts, int);
-
+  /** @ITKEndGrouping */
   /** Return the codebook/cluster centers. */
   CodebookMatrixOfDoubleType
   GetKmeansResults()

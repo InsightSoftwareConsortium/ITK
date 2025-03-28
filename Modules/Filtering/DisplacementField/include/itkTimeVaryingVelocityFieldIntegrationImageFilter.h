@@ -92,22 +92,25 @@ public:
   using DisplacementFieldInterpolatorPointer = typename DisplacementFieldInterpolatorType::Pointer;
 
   /** Get/Set the time-varying velocity field interpolator.  Default = linear. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(VelocityFieldInterpolator, VelocityFieldInterpolatorType);
   itkGetModifiableObjectMacro(VelocityFieldInterpolator, VelocityFieldInterpolatorType);
-
+  /** @ITKEndGrouping */
   /**
    * Get/Set the deformation field interpolator for the initial diffeomorphism
    * (if set).  Default = linear.
    */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(DisplacementFieldInterpolator, DisplacementFieldInterpolatorType);
   itkGetModifiableObjectMacro(DisplacementFieldInterpolator, DisplacementFieldInterpolatorType);
-
+  /** @ITKEndGrouping */
   /**
    * Get/Set the initial diffeomorphism
    */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(InitialDiffeomorphism, DisplacementFieldType);
   itkGetModifiableObjectMacro(InitialDiffeomorphism, DisplacementFieldType);
-
+  /** @ITKEndGrouping */
   /**
    * Set the lower time bound defining the integration domain of the transform.
    * We assume that the total possible time domain is [0,1].
@@ -152,10 +155,11 @@ public:
    *
    * The default is true for backwards compatibility.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(TimeBoundsAsRates, bool);
   itkGetConstMacro(TimeBoundsAsRates, bool);
   itkBooleanMacro(TimeBoundsAsRates);
-
+  /** @ITKEndGrouping */
 protected:
   TimeVaryingVelocityFieldIntegrationImageFilter();
   ~TimeVaryingVelocityFieldIntegrationImageFilter() override = default;

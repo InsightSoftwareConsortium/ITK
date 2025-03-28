@@ -131,14 +131,16 @@ protected:
 
 private:
   /** Get/Set the intermediate DOM object. */
+  /** @ITKStartGrouping */
   itkSetObjectMacro(IntermediateDOM, DOMNodeType);
   itkGetModifiableObjectMacro(IntermediateDOM, DOMNodeType);
-
+  /** @ITKEndGrouping */
   /** Variable to hold the output XML file name. */
   std::string m_FileName{};
 
   /** Variable to hold the input object. */
   const InputType * m_Input{};
+
   /** Variable to hold the input object if it is a smart object. */
   typename LightObject::ConstPointer m_InputHolder{};
 

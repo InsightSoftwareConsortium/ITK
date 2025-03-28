@@ -98,9 +98,10 @@ public:
   static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
   /** The output region to use */
+  /** @ITKStartGrouping */
   itkSetMacro(Region, OutputImageRegionType);
   itkGetConstReferenceMacro(Region, OutputImageRegionType);
-
+  /** @ITKEndGrouping */
 protected:
   ChangeRegionLabelMapFilter() = default;
   ~ChangeRegionLabelMapFilter() override = default;

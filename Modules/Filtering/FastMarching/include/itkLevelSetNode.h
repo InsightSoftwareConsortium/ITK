@@ -99,6 +99,7 @@ public:
   }
 
   /** Get/Set level set value. */
+  /** @ITKStartGrouping */
   PixelType &
   GetValue()
   {
@@ -114,8 +115,10 @@ public:
   {
     m_Value = input;
   }
+  /** @ITKEndGrouping */
 
   /** Get/Set index. */
+  /** @ITKStartGrouping */
   IndexType &
   GetIndex()
   {
@@ -131,6 +134,7 @@ public:
   {
     m_Index = input;
   }
+  /** @ITKEndGrouping */
 
   /** Default constructor */
   LevelSetNode()

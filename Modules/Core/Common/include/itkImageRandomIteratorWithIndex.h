@@ -117,9 +117,11 @@ public:
 protected:
   /** The construction from a const iterator is declared protected
       in order to enforce const correctness. */
+  /** @ITKStartGrouping */
   ImageRandomIteratorWithIndex(const ImageRandomConstIteratorWithIndex<TImage> & it);
   Self &
   operator=(const ImageRandomConstIteratorWithIndex<TImage> & it);
+  /** @ITKEndGrouping */
 };
 } // end namespace itk
 

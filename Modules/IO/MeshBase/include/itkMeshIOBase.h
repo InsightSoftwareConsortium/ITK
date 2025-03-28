@@ -100,9 +100,10 @@ public:
   itkOverrideGetNameOfClassMacro(MeshIOBase);
 
   /** Set/Get the name of the file to be read. */
+  /** @ITKStartGrouping */
   itkSetStringMacro(FileName);
   itkGetStringMacro(FileName);
-
+  /** @ITKEndGrouping */
 #if !defined(ITK_LEGACY_REMOVE)
   /**Exposes enums values for backwards compatibility*/
   static constexpr IOPixelEnum UNKNOWNPIXELTYPE = IOPixelEnum::UNKNOWNPIXELTYPE;
@@ -181,13 +182,15 @@ public:
    * SCALAR, RGB, RGBA, VECTOR, COVARIANTVECTOR, POINT, INDEX. If
    * the PIXELTYPE is SCALAR, then the NumberOfComponents should be 1.
    * Any other of PIXELTYPE will have more than one component. */
+  /** @ITKStartGrouping */
   itkSetEnumMacro(PointPixelType, itk::CommonEnums::IOPixel);
   itkGetEnumMacro(PointPixelType, itk::CommonEnums::IOPixel);
   itkSetEnumMacro(CellPixelType, itk::CommonEnums::IOPixel);
   itkGetEnumMacro(CellPixelType, itk::CommonEnums::IOPixel);
-
+  /** @ITKEndGrouping */
   /** Set/Get the component type of the point, cell, point data and cell data.
     This is always a native type. */
+  /** @ITKStartGrouping */
   itkSetEnumMacro(PointComponentType, itk::CommonEnums::IOComponent);
   itkGetEnumMacro(PointComponentType, itk::CommonEnums::IOComponent);
   itkSetEnumMacro(CellComponentType, itk::CommonEnums::IOComponent);
@@ -196,7 +199,7 @@ public:
   itkGetEnumMacro(PointPixelComponentType, itk::CommonEnums::IOComponent);
   itkSetEnumMacro(CellPixelComponentType, itk::CommonEnums::IOComponent);
   itkGetEnumMacro(CellPixelComponentType, itk::CommonEnums::IOComponent);
-
+  /** @ITKEndGrouping */
   template <typename T>
   struct MapComponentType
   {
@@ -441,6 +444,7 @@ public:
    * be set by the reading process. For SCALAR pixel types,
    * NumberOfComponents will be 1.  For other pixel types,
    * NumberOfComponents will be greater than or equal to one. */
+  /** @ITKStartGrouping */
   itkSetMacro(NumberOfPointPixelComponents, unsigned int);
   itkGetConstMacro(NumberOfPointPixelComponents, unsigned int);
   itkSetMacro(NumberOfCellPixelComponents, unsigned int);
@@ -469,7 +473,7 @@ public:
   itkSetMacro(UpdateCellData, bool);
   itkGetConstMacro(UpdateCellData, bool);
   itkBooleanMacro(UpdateCellData);
-
+  /** @ITKEndGrouping */
   unsigned int
   GetComponentSize(IOComponentEnum componentType) const;
 
@@ -483,9 +487,10 @@ public:
 
   /** These methods control whether the file is written binary or ASCII.
    * Many file formats (i.e., subclasses) ignore this flag. */
+  /** @ITKStartGrouping */
   itkSetEnumMacro(FileType, IOFileEnum);
   itkGetEnumMacro(FileType, IOFileEnum);
-
+  /** @ITKEndGrouping */
   void
   SetFileTypeToASCII()
   {
@@ -509,9 +514,10 @@ public:
    * a VAX or PC, SetByteOrderToLittleEndian() otherwise
    * SetByteOrderToBigEndian().  Some MeshIOBase subclasses
    * ignore these methods. */
+  /** @ITKStartGrouping */
   itkSetEnumMacro(ByteOrder, IOByteOrderEnum);
   itkGetEnumMacro(ByteOrder, IOByteOrderEnum);
-
+  /** @ITKEndGrouping */
   void
   SetByteOrderToBigEndian()
   {
@@ -525,10 +531,11 @@ public:
   }
 
   /** Set/Get a boolean to use the compression or not. */
+  /** @ITKStartGrouping */
   itkSetMacro(UseCompression, bool);
   itkGetConstMacro(UseCompression, bool);
   itkBooleanMacro(UseCompression);
-
+  /** @ITKEndGrouping */
   /** Convenience method returns the IOFileEnum as a string. This can be
    * used for writing output files. */
   std::string GetFileTypeAsString(IOFileEnum) const;

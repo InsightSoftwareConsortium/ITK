@@ -110,10 +110,11 @@ public:
    * will be effective only if CanRunInPlace also returns true.
    * By default CanRunInPlace checks whether the input and output
    * image type match. */
+  /** @ITKStartGrouping */
   itkSetMacro(InPlace, bool);
   itkGetConstMacro(InPlace, bool);
   itkBooleanMacro(InPlace);
-
+  /** @ITKEndGrouping */
   /** Can the filter run in place? To do so, the filter's first input
    * and output must have the same dimension and pixel type. This
    * method can be used in conjunction with the InPlace ivar to

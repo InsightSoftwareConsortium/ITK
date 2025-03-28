@@ -53,9 +53,10 @@ public:
   using typename Superclass::NodeType;
 
   /** Get/set the threshold used by the stopping criteria. */
+  /** @ITKStartGrouping */
   itkSetMacro(Threshold, OutputPixelType);
   itkGetMacro(Threshold, OutputPixelType);
-
+  /** @ITKEndGrouping */
   bool
   IsSatisfied() const override
   {

@@ -99,13 +99,15 @@ public:
   using DecimationPointer = typename DecimationType::Pointer;
 
   /** TODO */
+  /** @ITKStartGrouping */
   itkSetMacro(AbsoluteTolerance, InputCoordinateType);
   itkGetConstMacro(AbsoluteTolerance, InputCoordinateType);
-
+  /** @ITKEndGrouping */
   /** TODO */
+  /** @ITKStartGrouping */
   itkSetClampMacro(RelativeTolerance, InputCoordinateType, 0.0, 1.0);
   itkGetConstMacro(RelativeTolerance, InputCoordinateType);
-
+  /** @ITKEndGrouping */
 protected:
   CleanQuadEdgeMeshFilter();
 

@@ -89,9 +89,10 @@ public:
   ITK_DISALLOW_COPY_AND_MOVE(MemberCommand);
 
   /** pointer to a member function that takes a Object* and the event */
+  /** @ITKStartGrouping */
   using TMemberFunctionPointer = void (T::*)(Object *, const EventObject &);
   using TConstMemberFunctionPointer = void (T::*)(const Object *, const EventObject &);
-
+  /** @ITKEndGrouping */
   /** Standard class type aliases. */
   using Self = MemberCommand;
   using Pointer = SmartPointer<Self>;
@@ -358,10 +359,11 @@ class ITKCommon_EXPORT CStyleCommand : public Command
 {
 public:
   /** Typedefs for C-style callbacks. */
+  /** @ITKStartGrouping */
   using FunctionPointer = void (*)(Object *, const EventObject &, void *);
   using ConstFunctionPointer = void (*)(const Object *, const EventObject &, void *);
   using DeleteDataFunctionPointer = void (*)(void *);
-
+  /** @ITKEndGrouping */
   /** Standard class type aliases. */
   using Self = CStyleCommand;
   using Pointer = SmartPointer<Self>;
@@ -378,11 +380,12 @@ public:
   SetClientData(void * cd);
 
   /** Set the C callback function pointer to be called at Execute time. */
+  /** @ITKStartGrouping */
   void
   SetCallback(FunctionPointer f);
   void
   SetConstCallback(ConstFunctionPointer f);
-
+  /** @ITKEndGrouping */
   /** Set the callback to delete the client data. */
   void
   SetClientDataDeleteCallback(DeleteDataFunctionPointer f);

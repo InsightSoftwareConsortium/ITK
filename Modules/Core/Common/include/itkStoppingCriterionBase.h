@@ -50,11 +50,12 @@ public:
   /** \return \c true if the stopping criterion is reached (and the algorithm
   must stop).
       \return \c false else. */
+  /** @ITKStartGrouping */
   virtual bool
   IsSatisfied() const = 0;
   virtual std::string
   GetDescription() const = 0;
-
+  /** @ITKEndGrouping */
 protected:
   /** \brief Constructor */
   StoppingCriterionBase();

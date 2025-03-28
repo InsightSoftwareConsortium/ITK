@@ -161,6 +161,7 @@ public:
    * Additionally, it relies on constructors for additional conversion
    * for pointer types.
    */
+  /** @ITKStartGrouping */
   // cppcheck-suppress operatorEqVarError
   SmartPointer &
   operator=(SmartPointer r) noexcept
@@ -179,6 +180,7 @@ public:
     this->m_Pointer = nullptr;
     return *this;
   }
+  /** @ITKEndGrouping */
 
   /** Function to print object pointed to  */
   ObjectType *
@@ -240,6 +242,7 @@ private:
 
 
 /** Comparison of pointers. Equality comparison. */
+/** @ITKStartGrouping */
 template <class T, class TU>
 bool
 operator==(const SmartPointer<T> & l, const SmartPointer<TU> & r) noexcept
@@ -258,8 +261,9 @@ operator==(std::nullptr_t, const SmartPointer<T> & r) noexcept
 {
   return (nullptr == r.GetPointer());
 }
-
+/** @ITKEndGrouping */
 /** Comparison of pointers. Not equal comparison. */
+/** @ITKStartGrouping */
 template <class T, class TU>
 bool
 operator!=(const SmartPointer<T> & l, const SmartPointer<TU> & r) noexcept
@@ -278,7 +282,7 @@ operator!=(std::nullptr_t, const SmartPointer<T> & r) noexcept
 {
   return (nullptr != r.GetPointer());
 }
-
+/** @ITKEndGrouping */
 
 /** Comparison of pointers. Less than comparison.  */
 template <class T, class TU>

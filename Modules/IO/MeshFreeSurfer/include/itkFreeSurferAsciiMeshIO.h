@@ -129,6 +129,7 @@ protected:
     }
   }
 
+  /** Write cells to output stream */
   template <typename T>
   void
   WriteCells(T * buffer, std::ofstream & outputFile, T label = T{})
@@ -161,6 +162,7 @@ protected:
       {
         for (unsigned int jj = 0; jj < 3; ++jj)
         {
+
           /** point identifiers start from the third elements, first element is cellType, the second is numberOfPoints
            */
           output[ii * 3 + jj] = static_cast<TOutput>(input[5 * ii + jj + 2]);

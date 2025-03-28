@@ -83,14 +83,16 @@ public:
 
   /** Set/Get the mean of the Gaussian distribution.
    * Defaults to 0.0. */
+  /** @ITKStartGrouping */
   itkGetConstMacro(Mean, double);
   itkSetMacro(Mean, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get the standard deviation of the Gaussian distribution.
    * Defaults to 1.0. */
+  /** @ITKStartGrouping */
   itkGetConstMacro(StandardDeviation, double);
   itkSetMacro(StandardDeviation, double);
-
+  /** @ITKEndGrouping */
   itkConceptMacro(InputConvertibleToOutputCheck,
                   (Concept::Convertible<typename TInputImage::PixelType, typename TOutputImage::PixelType>));
 

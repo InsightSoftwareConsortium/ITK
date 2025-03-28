@@ -86,6 +86,7 @@ public:
   /** Image related type alias. */
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
+
   /**
    * \class TileInfo
    * Define a tile structure
@@ -107,9 +108,10 @@ public:
   /** Set/Get the layout of the tiles. If the last Layout value is 0,
    * the filter will compute a value that will accommodate all of the
    * images. */
+  /** @ITKStartGrouping */
   itkSetMacro(Layout, LayoutArrayType);
   itkGetConstMacro(Layout, LayoutArrayType);
-
+  /** @ITKEndGrouping */
   /** Set the pixel value for locations that are not covered by an
    * input image. The default default pixel value is Zero. */
   itkSetMacro(DefaultPixelValue, OutputPixelType);

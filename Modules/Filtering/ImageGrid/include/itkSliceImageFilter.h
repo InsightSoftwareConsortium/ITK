@@ -94,26 +94,29 @@ public:
   using ArrayType = FixedArray<int, ImageDimension>;
 
   /** Set/Get the first index extracted from the input image */
+  /** @ITKStartGrouping */
   itkSetMacro(Start, IndexType);
   itkGetConstReferenceMacro(Start, IndexType);
   void
   SetStart(IndexValueType start);
-
+  /** @ITKEndGrouping */
   /** Set/Get the excluded end of the range */
+  /** @ITKStartGrouping */
   itkSetMacro(Stop, IndexType);
   itkGetConstReferenceMacro(Stop, IndexType);
   void
   SetStop(IndexValueType stop);
-
+  /** @ITKEndGrouping */
   /** Set/Get the stride of indexes extracted
    *
    * An exception will be generated if 0.
    */
+  /** @ITKStartGrouping */
   itkSetMacro(Step, ArrayType);
   itkGetConstReferenceMacro(Step, ArrayType);
   void
   SetStep(int step);
-
+  /** @ITKEndGrouping */
 
   itkConceptMacro(InputConvertibleToOutputCheck,
                   (Concept::Convertible<typename TInputImage::PixelType, typename TOutputImage::PixelType>));

@@ -82,9 +82,10 @@ public:
 
   /** Set/Get the checker pattern array, i.e. the number of checker boxes
    * per image dimension. */
+  /** @ITKStartGrouping */
   itkSetMacro(CheckerPattern, PatternArrayType);
   itkGetConstReferenceMacro(CheckerPattern, PatternArrayType);
-
+  /** @ITKEndGrouping */
 protected:
   CheckerBoardImageFilter();
   ~CheckerBoardImageFilter() override = default;

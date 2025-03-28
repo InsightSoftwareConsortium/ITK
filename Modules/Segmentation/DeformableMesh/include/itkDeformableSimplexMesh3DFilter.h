@@ -143,43 +143,51 @@ public:
 
 
   /** Set/Get the gradient image as an input. */
+  /** @ITKStartGrouping */
   void
   SetGradient(const GradientImageType * gradientImage);
   const GradientImageType *
   GetGradient() const;
-
+  /** @ITKEndGrouping */
   /** Set/Get the number of iterations for the deformation process. */
+  /** @ITKStartGrouping */
   itkSetMacro(Iterations, int);
   itkGetConstMacro(Iterations, int);
-
+  /** @ITKEndGrouping */
   /** Set/Get internal force scaling factor. */
+  /** @ITKStartGrouping */
   itkSetMacro(Alpha, double);
   itkGetConstMacro(Alpha, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get external force scaling factor. */
+  /** @ITKStartGrouping */
   itkSetMacro(Beta, double);
   itkGetConstMacro(Beta, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get reference metrics update scaling factor. */
+  /** @ITKStartGrouping */
   itkSetMacro(Gamma, double);
   itkGetConstMacro(Gamma, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get reference metrics update scaling factor. */
+  /** @ITKStartGrouping */
   itkSetMacro(Damping, double);
   itkGetConstMacro(Damping, double);
-
+  /** @ITKEndGrouping */
   /** Set/Get the mesh smoothness value. */
+  /** @ITKStartGrouping */
   itkSetMacro(Rigidity, unsigned int);
   itkGetConstMacro(Rigidity, unsigned int);
-
+  /** @ITKEndGrouping */
   itkSetObjectMacro(Data, GeometryMapType);
   itkGetModifiableObjectMacro(Data, GeometryMapType);
 
   /** Get the width, height and depth of image. */
+  /** @ITKStartGrouping */
   itkGetConstMacro(ImageWidth, int);
   itkGetConstMacro(ImageHeight, int);
   itkGetConstMacro(ImageDepth, int);
-
+  /** @ITKEndGrouping */
   /** Get the current iteration number. */
   itkGetConstMacro(Step, int);
 
@@ -281,6 +289,7 @@ protected:
    */
   double m_Gamma{};
   double m_Damping{};
+
   /**
    * This scalar determines the smoothness of the surface model. Values
    * should range from 0 to 10. It determines the radius of the neighborhood
@@ -292,10 +301,13 @@ protected:
   // definition of internal parameters
   /** Number of iterations */
   int m_Step{};
+
   /** Image size */
   int m_ImageWidth{};
+
   /** Image size */
   int m_ImageHeight{};
+
   /** Image size */
   int m_ImageDepth{};
 

@@ -93,6 +93,7 @@ public:
   /**
    * Set/Get the threshold used to keep or remove the objects.
    */
+  /** @ITKStartGrouping */
   const AttributeSetType &
   GetAttributeSet() const
   {
@@ -104,14 +105,17 @@ public:
     m_AttributeSet = set;
     this->Modified();
   }
+  /** @ITKEndGrouping */
 
   /**
    * Set/Get whether the objects with the specified attribute values should be kept
    * or excluded.
    */
+  /** @ITKStartGrouping */
   itkGetConstMacro(Exclude, bool);
   itkSetMacro(Exclude, bool);
   itkBooleanMacro(Exclude);
+  /** @ITKEndGrouping */
 
   /** Clear the attribute set, and add the attribute passed in parameter */
   void
