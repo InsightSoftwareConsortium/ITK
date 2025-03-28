@@ -112,7 +112,11 @@ public:
    * specifically, the source and target landmark lists. */
   using PointSetTraitsType =
     DefaultStaticMeshTraits<TParametersValueType, VDimension, VDimension, TParametersValueType, TParametersValueType>;
+#ifdef ITK_FUTURE_LEGACY_REMOVE
+  using PointSetType = PointSet<unsigned char, VDimension, PointSetTraitsType>;
+#else
   using PointSetType = PointSet<InputPointType, VDimension, PointSetTraitsType>;
+#endif
 
   using PointSetPointer = typename PointSetType::Pointer;
   using PointsContainer = typename PointSetType::PointsContainer;
