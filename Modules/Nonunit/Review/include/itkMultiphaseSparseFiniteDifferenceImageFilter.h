@@ -136,7 +136,7 @@ namespace itk
  *  FiniteDifferenceFunction to use for calculations.  This is set using the
  *  method SetDifferenceFunction in the parent class.
  *
- * For algorithmic details see \cite whitaker1998 and \sethian1996.
+ * For algorithmic details see \cite whitaker1998 and \cite sethian1996.
  *
  * This code was adapted from \cite chan1999.
  *
