@@ -48,7 +48,7 @@ namespace itk
  * \sa HMinimaImageFilter
  *
  * \ingroup MathematicalMorphologyImageFilters
- * \ingroup ITKITKMathematicalMorphology
+ * \ingroup ITKMathematicalMorphology
  *
  * \sphinx
  * \sphinxexample{Filtering/MathematicalMorphology/ValuedRegionalMaximaImage,Valued Regional Maxima Image}
