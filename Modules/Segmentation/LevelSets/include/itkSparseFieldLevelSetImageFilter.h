@@ -231,7 +231,7 @@ private:
  *  FiniteDifferenceFunction to use for calculations.  This is set using the
  *  method SetDifferenceFunction in the parent class.
  *
- * For algorithmic details see \cite whitaker1998 and \par sethian1996.
+ * For algorithmic details see \cite whitaker1998 and \cite sethian1996.
  *
  * \ingroup ITKLevelSets
  */
