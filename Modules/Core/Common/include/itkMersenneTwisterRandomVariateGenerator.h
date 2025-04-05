@@ -313,29 +313,29 @@ protected:
   void
   reload();
 
-  IntegerType
-  hiBit(const IntegerType u) const
+  static IntegerType
+  hiBit(const IntegerType u)
   {
     return u & 0x80000000;
   }
-  IntegerType
-  loBit(const IntegerType u) const
+  static IntegerType
+  loBit(const IntegerType u)
   {
     return u & 0x00000001;
   }
-  IntegerType
-  loBits(const IntegerType u) const
+  static IntegerType
+  loBits(const IntegerType u)
   {
     return u & 0x7fffffff;
   }
-  IntegerType
-  mixBits(const IntegerType u, const IntegerType v) const
+  static IntegerType
+  mixBits(const IntegerType u, const IntegerType v)
   {
     return hiBit(u) | loBits(v);
   }
 
-  IntegerType
-  twist(const IntegerType m, const IntegerType s0, const IntegerType s1) const
+  static IntegerType
+  twist(const IntegerType m, const IntegerType s0, const IntegerType s1)
   {
     return m ^ (mixBits(s0, s1) >> 1) ^ (-static_cast<int32_t>(loBit(s1)) & 0x9908b0df);
   }
