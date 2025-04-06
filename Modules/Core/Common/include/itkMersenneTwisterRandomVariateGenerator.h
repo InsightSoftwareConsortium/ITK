@@ -172,31 +172,52 @@ public:
 
   /* Initialize with clock time */
   void
-  Initialize();
+  Initialize()
+  {
+    SetSeed();
+  }
 
   /** Get a random variate in the range [0, 1] */
   double
-  GetVariateWithClosedRange();
+  GetVariateWithClosedRange()
+  {
+    return static_cast<double>(GetIntegerVariate()) * (1.0 / double{ std::numeric_limits<uint32_t>::max() });
+  }
 
   /** Get a random variate in the range [0, n] */
   double
-  GetVariateWithClosedRange(const double n);
+  GetVariateWithClosedRange(const double n)
+  {
+    return GetVariateWithClosedRange() * n;
+  }
 
   /** Get a range variate in the range [0, 1) */
   double
-  GetVariateWithOpenUpperRange();
+  GetVariateWithOpenUpperRange()
+  {
+    return static_cast<double>(GetIntegerVariate()) / double{ 1ULL << 32ULL };
+  }
 
   /** Get a range variate in the range [0, n) */
   double
-  GetVariateWithOpenUpperRange(const double n);
+  GetVariateWithOpenUpperRange(const double n)
+  {
+    return GetVariateWithOpenUpperRange() * n;
+  }
 
   /** Get a range variate in the range (0, 1) */
   double
-  GetVariateWithOpenRange();
+  GetVariateWithOpenRange()
+  {
+    return (static_cast<double>(GetIntegerVariate()) + 0.5) / double{ 1ULL << 32ULL };
+  }
 
   /** Get a range variate in the range (0, n) */
   double
-  GetVariateWithOpenRange(const double n);
+  GetVariateWithOpenRange(const double n)
+  {
+    return GetVariateWithOpenRange() * n;
+  }
 
   /** Get an integer variate in [0, 2^32-1] */
   IntegerType
@@ -227,28 +248,46 @@ public:
    * reading 624 consecutive values.
    */
   double
-  GetVariate() override;
+  GetVariate() override
+  {
+    return GetVariateWithClosedRange();
+  }
 
   /** Same as GetVariate() */
   double
-  operator()();
+  operator()()
+  {
+    return GetVariate();
+  }
 
   /** Re-seeding functions with same behavior as initializers
    *
    * \note This method is thread-safe.
    */
   /** @ITKStartGrouping */
-  inline void
-  SetSeed(const IntegerType oneSeed);
-  inline void
-  SetSeed();
+  void
+  SetSeed(const IntegerType oneSeed)
+  {
+    // Seed the generator with a simple IntegerType
+    Initialize(oneSeed);
+  }
+
+  void
+  SetSeed()
+  {
+    // use time() and clock() to generate a unlikely-to-repeat seed.
+    SetSeed(hash(time(nullptr), clock()));
+  }
   /** @ITKEndGrouping */
   /** Return the current seed
    *
    * \note This method is thread-safe.
    */
   IntegerType
-  GetSeed() const;
+  GetSeed() const
+  {
+    return m_Seed;
+  }
 
   /** Return the next seed, derived as a sequence from the seed of the
    * singleton instance.
@@ -385,33 +424,6 @@ MersenneTwisterRandomVariateGenerator::reload()
   m_PNext = m_State;
 }
 
-inline void
-MersenneTwisterRandomVariateGenerator::Initialize()
-{
-  SetSeed();
-}
-
-inline void
-MersenneTwisterRandomVariateGenerator::SetSeed(const IntegerType oneSeed)
-{
-  // Seed the generator with a simple IntegerType
-  Initialize(oneSeed);
-}
-
-inline void
-MersenneTwisterRandomVariateGenerator::SetSeed()
-{
-  // use time() and clock() to generate a unlikely-to-repeat seed.
-  SetSeed(hash(time(nullptr), clock()));
-}
-
-
-inline MersenneTwisterRandomVariateGenerator::IntegerType
-MersenneTwisterRandomVariateGenerator::GetSeed() const
-{
-  return m_Seed;
-}
-
 /** Get an integer variate in [0, 2^32-1] */
 inline MersenneTwisterRandomVariateGenerator::IntegerType
 MersenneTwisterRandomVariateGenerator::GetIntegerVariate()
@@ -427,47 +439,6 @@ MersenneTwisterRandomVariateGenerator::GetIntegerVariate()
   s1 ^= (s1 << 7) & 0x9d2c5680;
   s1 ^= (s1 << 15) & 0xefc60000;
   return (s1 ^ (s1 >> 18));
-}
-
-inline double
-MersenneTwisterRandomVariateGenerator::GetVariateWithClosedRange()
-{
-  return static_cast<double>(GetIntegerVariate()) * (1.0 / double{ std::numeric_limits<uint32_t>::max() });
-}
-
-/** Get a random variate in the range [0, n] */
-inline double
-MersenneTwisterRandomVariateGenerator::GetVariateWithClosedRange(const double n)
-{
-  return GetVariateWithClosedRange() * n;
-}
-
-/** Get a range variate in the range [0, 1) */
-inline double
-MersenneTwisterRandomVariateGenerator::GetVariateWithOpenUpperRange()
-{
-  return static_cast<double>(GetIntegerVariate()) / double{ 1ULL << 32ULL };
-}
-
-/** Get a range variate in the range [0, n) */
-inline double
-MersenneTwisterRandomVariateGenerator::GetVariateWithOpenUpperRange(const double n)
-{
-  return GetVariateWithOpenUpperRange() * n;
-}
-
-/** Get a range variate in the range (0, 1) */
-inline double
-MersenneTwisterRandomVariateGenerator::GetVariateWithOpenRange()
-{
-  return (static_cast<double>(GetIntegerVariate()) + 0.5) / double{ 1ULL << 32ULL };
-}
-
-/** Get a range variate in the range (0, n) */
-inline double
-MersenneTwisterRandomVariateGenerator::GetVariateWithOpenRange(const double n)
-{
-  return GetVariateWithOpenRange() * n;
 }
 
 inline MersenneTwisterRandomVariateGenerator::IntegerType
@@ -525,18 +496,6 @@ MersenneTwisterRandomVariateGenerator::GetUniformVariate(const double a, const d
   const double u = GetVariateWithOpenUpperRange();
 
   return ((1.0 - u) * a + u * b);
-}
-
-inline double
-MersenneTwisterRandomVariateGenerator::GetVariate()
-{
-  return GetVariateWithClosedRange();
-}
-
-inline double
-MersenneTwisterRandomVariateGenerator::operator()()
-{
-  return GetVariate();
 }
 
 /* Change log from MTRand.h */
