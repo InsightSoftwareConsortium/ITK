@@ -138,9 +138,9 @@ MersenneTwisterRandomVariateGenerator::PrintSelf(std::ostream & os, Indent inden
   Superclass::PrintSelf(os, indent);
 
   // Print state vector contents
-  os << indent << "State vector: " << state << std::endl;
+  os << indent << "State vector: " << m_State << std::endl;
   os << indent;
-  const IntegerType * s = state;
+  const IntegerType * s = m_State;
   int                 i = StateVectorLength;
   for (; i--; os << *s++ << '\t')
   {
