@@ -313,7 +313,7 @@ private:
   CreateInstance();
 
   // Internal state
-  IntegerType state[StateVectorLength];
+  IntegerType m_State[StateVectorLength];
 
   // Next value to get from state
   IntegerType * m_PNext{};
@@ -344,8 +344,8 @@ MersenneTwisterRandomVariateGenerator::Initialize(const IntegerType seed)
   // See Knuth TAOCP Vol 2, 3rd Ed, p.106 for multiplier.
   // In previous versions, most significant bits (MSBs) of the seed affect
   // only MSBs of the state array.  Modified 9 Jan 2002 by Makoto Matsumoto.
-  IntegerType * s = state;
-  IntegerType * r = state;
+  IntegerType * s = m_State;
+  IntegerType * r = m_State;
 
   *s++ = seed;
   for (IntegerType i = 1; i < MersenneTwisterRandomVariateGenerator::StateVectorLength; ++i)
@@ -369,7 +369,7 @@ MersenneTwisterRandomVariateGenerator::reload()
   // get rid of VS warning
   constexpr auto index = int{ M } - int{ MersenneTwisterRandomVariateGenerator::StateVectorLength };
 
-  IntegerType * p = state;
+  IntegerType * p = m_State;
 
   for (int i = MersenneTwisterRandomVariateGenerator::StateVectorLength - M; i--; ++p)
   {
@@ -379,10 +379,10 @@ MersenneTwisterRandomVariateGenerator::reload()
   {
     *p = twist(p[index], p[0], p[1]);
   }
-  *p = twist(p[index], p[0], state[0]);
+  *p = twist(p[index], p[0], m_State[0]);
 
   m_Left = MersenneTwisterRandomVariateGenerator::StateVectorLength;
-  m_PNext = state;
+  m_PNext = m_State;
 }
 
 inline void
