@@ -286,6 +286,9 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
+  void
+  VerifyPreconditions() const override;
+
   /** preprocessing function */
   void
   GenerateData() override;
