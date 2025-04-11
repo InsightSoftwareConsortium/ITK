@@ -38,6 +38,7 @@ public:
   }
 };
 
+ITK_FORMAT_PRINTF(4, 0)
 int
 itkTIFFErrorHandlerExtR([[maybe_unused]] TIFF * tif,
                         [[maybe_unused]] void * user_data,
@@ -49,10 +50,10 @@ itkTIFFErrorHandlerExtR([[maybe_unused]] TIFF * tif,
   if (::itk::Object::GetGlobalWarningDisplay() && !self->m_ErrorSilence)
   {
     char out[256];
-    ITK_GCC_PRAGMA_PUSH
-    ITK_GCC_SUPPRESS_Wformat_nonliteral;
-    vsnprintf(out, 256, fmt, ap);
-    ITK_GCC_PRAGMA_POP
+//    ITK_GCC_PRAGMA_PUSH
+//    ITK_GCC_SUPPRESS_Wformat_nonliteral;
+    vsnprintf(out, sizeof(out), fmt, ap);
+//    ITK_GCC_PRAGMA_POP
     std::ostringstream itkmsg;
     itkmsg << "ERROR: libtiff(" << (module ? module : "") << ") message: " << out << std::endl;
     ::itk::OutputWindowDisplayErrorText(itkmsg.str().c_str());
@@ -60,6 +61,7 @@ itkTIFFErrorHandlerExtR([[maybe_unused]] TIFF * tif,
   return 1;
 }
 
+ITK_FORMAT_PRINTF(4, 0)
 int
 itkTIFFWarningHandlerExtR([[maybe_unused]] TIFF * tif,
                           [[maybe_unused]] void * user_data,
@@ -72,10 +74,10 @@ itkTIFFWarningHandlerExtR([[maybe_unused]] TIFF * tif,
   if (::itk::Object::GetGlobalWarningDisplay() && !self->m_WarningSilence)
   {
     char out[256];
-    ITK_GCC_PRAGMA_PUSH
-    ITK_GCC_SUPPRESS_Wformat_nonliteral;
-    vsnprintf(out, 256, fmt, ap);
-    ITK_GCC_PRAGMA_POP
+//    ITK_GCC_PRAGMA_PUSH
+//    ITK_GCC_SUPPRESS_Wformat_nonliteral;
+    vsnprintf(out, sizeof(out), fmt, ap);
+//    ITK_GCC_PRAGMA_POP
     std::ostringstream itkmsg;
     itkmsg << "WARNING: libtiff(" << (module ? module : "") << ") message: " << out << std::endl;
     ::itk::OutputWindowDisplayWarningText(itkmsg.str().c_str());
