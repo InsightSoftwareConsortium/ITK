@@ -314,33 +314,6 @@ protected:
   reload();
 
   static IntegerType
-  hiBit(const IntegerType u)
-  {
-    return u & 0x80000000;
-  }
-  static IntegerType
-  loBit(const IntegerType u)
-  {
-    return u & 0x00000001;
-  }
-  static IntegerType
-  loBits(const IntegerType u)
-  {
-    return u & 0x7fffffff;
-  }
-  static IntegerType
-  mixBits(const IntegerType u, const IntegerType v)
-  {
-    return hiBit(u) | loBits(v);
-  }
-
-  static IntegerType
-  twist(const IntegerType m, const IntegerType s0, const IntegerType s1)
-  {
-    return m ^ (mixBits(s0, s1) >> 1) ^ (-static_cast<int32_t>(loBit(s1)) & 0x9908b0df);
-  }
-
-  static IntegerType
   hash(time_t t, clock_t c);
 
 private:

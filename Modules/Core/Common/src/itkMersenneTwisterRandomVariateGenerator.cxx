@@ -25,6 +25,40 @@ namespace itk
 {
 namespace Statistics
 {
+namespace
+{
+using IntegerType = MersenneTwisterRandomVariateGenerator::IntegerType;
+
+IntegerType
+hiBit(const IntegerType u)
+{
+  return u & 0x80000000;
+}
+IntegerType
+
+loBit(const IntegerType u)
+{
+  return u & 0x00000001;
+}
+
+IntegerType
+loBits(const IntegerType u)
+{
+  return u & 0x7fffffff;
+}
+IntegerType
+mixBits(const IntegerType u, const IntegerType v)
+{
+  return hiBit(u) | loBits(v);
+}
+
+IntegerType
+twist(const IntegerType m, const IntegerType s0, const IntegerType s1)
+{
+  return m ^ (mixBits(s0, s1) >> 1) ^ (-static_cast<int32_t>(loBit(s1)) & 0x9908b0df);
+}
+} // namespace
+
 
 /** Private nested class to easily synchronize global variables across static libraries.*/
 struct MersenneTwisterGlobals
