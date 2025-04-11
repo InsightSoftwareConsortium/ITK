@@ -34,7 +34,17 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
   DisplacementFieldToBSplineImageFilter()
 
 {
-  this->SetNumberOfRequiredInputs(0);
+
+  // Input 0 DisplacementField optional
+  Self::SetPrimaryInputName("DisplacementField");
+  Self::RemoveRequiredInputName("DisplacementField");
+  // Input 1 ConfidenceImage optional
+  Self::AddRequiredInputName("ConfidenceImage", 1);
+  Self::RemoveRequiredInputName("ConfidenceImage");
+  // Input 2 PointSet optional
+  Self::AddRequiredInputName("PointSet", 2);
+  Self::RemoveRequiredInputName("PointSet");
+
 
   this->m_NumberOfFittingLevels.Fill(1);
   this->m_NumberOfControlPoints.Fill(4);

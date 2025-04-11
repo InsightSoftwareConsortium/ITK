@@ -95,18 +95,10 @@ public:
   using ArrayType = typename BSplineFilterType::ArrayType;
 
   /** Set the displacement field */
-  void
-  SetDisplacementField(const InputFieldType * field)
-  {
-    this->SetInput(0, field);
-  }
+  itkSetInputMacro(DisplacementField, InputFieldType);
 
   /** Get the input displacement field. */
-  const InputFieldType *
-  GetDisplacementField() const
-  {
-    return this->GetInput(0);
-  }
+  itkGetInputMacro(DisplacementField, InputFieldType);
 
   /**
    * Set confidence image function.  If a confidence image is specified,
@@ -114,11 +106,9 @@ public:
    * according the value of the corresponding voxel in the confidence image.
    */
   /** @ITKStartGrouping */
-  void
-  SetConfidenceImage(const RealImageType * image)
-  {
-    this->SetNthInput(1, const_cast<RealImageType *>(image));
-  }
+  itkSetInputMacro(ConfidenceImage, RealImageType);
+  itkGetInputMacro(ConfidenceImage, RealImageType);
+
   void
   SetInput1(const RealImageType * image)
   {
@@ -127,32 +117,17 @@ public:
   /** @ITKEndGrouping */
 
   /** Get confidence image function. */
-  const RealImageType *
-  GetConfidenceImage() const
-  {
-    return static_cast<const RealImageType *>(this->ProcessObject::GetInput(1));
-  }
 
   /** Set the input point set */
   /** @ITKStartGrouping */
-  void
-  SetPointSet(const InputPointSetType * points)
-  {
-    this->SetNthInput(2, const_cast<InputPointSetType *>(points));
-  }
+  itkSetInputMacro(PointSet, InputPointSetType);
+  itkGetInputMacro(PointSet, InputPointSetType);
   void
   SetInput2(const InputPointSetType * points)
   {
     this->SetPointSet(points);
   }
   /** @ITKEndGrouping */
-
-  /** Get the input point set. */
-  const InputPointSetType *
-  GetPointSet() const
-  {
-    return static_cast<const InputPointSetType *>(this->ProcessObject::GetInput(2));
-  }
 
   /** Set the confidence weights associated with the input point set*/
   void
