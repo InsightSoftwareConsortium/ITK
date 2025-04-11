@@ -99,6 +99,30 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
 
 template <typename TInputImage, typename TInputPointSet, typename TOutputImage>
 void
+DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>::VerifyPreconditions() const
+{
+  Superclass::VerifyPreconditions();
+
+  if (this->GetInput() == nullptr && this->GetPointSet() == nullptr)
+  {
+    itkExceptionMacro("Either a DisplacementField or PointSet input must be specified as Input.");
+  }
+
+  const InputPointSetType * inputPointSet = this->GetPointSet();
+  if (inputPointSet && this->m_UsePointWeights && (this->m_PointWeights->Size() != inputPointSet->GetNumberOfPoints()))
+  {
+    itkExceptionMacro("The number of input points does not match the number of weight elements.");
+  }
+
+
+  if (!this->m_UseInputFieldToDefineTheBSplineDomain && !this->m_BSplineDomainIsDefined)
+  {
+    itkExceptionMacro("Output (B-spline) domain is undefined.");
+  }
+}
+
+template <typename TInputImage, typename TInputPointSet, typename TOutputImage>
+void
 DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>::GenerateData()
 {
   const InputFieldType * inputField = this->GetInput();
@@ -116,10 +140,6 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
   const RealImageType * confidenceImage = this->GetConfidenceImage();
 
   const InputPointSetType * inputPointSet = this->GetPointSet();
-  if (inputPointSet && this->m_UsePointWeights && (this->m_PointWeights->Size() != inputPointSet->GetNumberOfPoints()))
-  {
-    itkExceptionMacro("The number of input points does not match the number of weight elements.");
-  }
 
   auto fieldPoints = InputPointSetType::New();
 
@@ -128,11 +148,6 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
   IdentifierType numberOfPoints{};
 
   const typename WeightsContainerType::Element boundaryWeight = 1.0e10;
-
-  if (this->m_BSplineDomainIsDefined == false)
-  {
-    itkExceptionMacro("Output (B-spline) domain is undefined.");
-  }
 
   using ContinuousIndexType = ContinuousIndex<typename InputFieldPointType::CoordinateType, ImageDimension>;
 
