@@ -158,13 +158,6 @@ public:
   void
   SetPointSetConfidenceWeights(WeightsContainerType * weights);
 
-  /** Get the displacement field control point lattice. */
-  const DisplacementFieldControlPointLatticeType *
-  GetDisplacementFieldControlPointLattice() const
-  {
-    return static_cast<const DisplacementFieldControlPointLatticeType *>(this->GetOutput(1));
-  }
-
   /** Define the b-spline domain from an image */
   void
   SetBSplineDomainFromImage(RealImageType *);
