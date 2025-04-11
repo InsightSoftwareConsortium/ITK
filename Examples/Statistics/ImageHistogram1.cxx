@@ -56,9 +56,10 @@
 #include "itkHistogram.h"
 #include "itkSampleToHistogramFilter.h"
 // Software Guide : EndCodeSnippet
-
+namespace
+{
 int
-main(int argc, char * argv[])
+ExampleMain(int argc, const char * const argv[])
 {
 
   if (argc < 2)
@@ -93,16 +94,9 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   ImageType::Pointer input;
-  try
-  {
-    input = itk::ReadImage<ImageType>(argv[1]);
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Problem reading image file : " << argv[1] << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+
+  input = itk::ReadImage<ImageType>(argv[1]);
+
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -213,4 +207,27 @@ main(int argc, char * argv[])
   // Software Guide : EndCodeSnippet
 
   return EXIT_SUCCESS;
+}
+} // namespace
+
+int
+main(int argc, char * argv[])
+{
+  try
+  {
+    return ExampleMain(argc, argv);
+  }
+  catch (const itk::ExceptionObject & exceptionObject)
+  {
+    std::cerr << "ITK exception caught:\n" << exceptionObject << '\n';
+  }
+  catch (const std::exception & stdException)
+  {
+    std::cerr << "std exception caught:\n" << stdException.what() << '\n';
+  }
+  catch (...)
+  {
+    std::cerr << "Unhandled exception!\n";
+  }
+  return EXIT_FAILURE;
 }
