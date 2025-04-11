@@ -43,7 +43,9 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>::InvertDisplacemen
   , m_Epsilon(0.0)
 
 {
-  this->SetNumberOfRequiredInputs(1);
+  this->Self::SetPrimaryInputName("DisplacementField");
+  this->Self::AddOptionalInputName("InverseFieldInitialEstimate");
+
   this->DynamicMultiThreadingOn();
 }
 
