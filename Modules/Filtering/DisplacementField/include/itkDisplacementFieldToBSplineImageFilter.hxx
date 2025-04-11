@@ -375,10 +375,10 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
   bspliner->SetInput(fieldPoints);
   bspliner->SetPointWeights(weights);
   bspliner->SetGenerateOutputImage(true);
-  bspliner->Update();
 
-  this->SetNthOutput(0, bspliner->GetOutput());
-  this->SetNthOutput(1, bspliner->GetPhiLattice());
+  bspliner->GraftOutput(this->GetOutput());
+  bspliner->Update();
+  this->GraftOutput(bspliner->GetOutput());
 }
 
 template <typename TInputImage, typename TInputPointSet, typename TOutputImage>
