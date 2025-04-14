@@ -256,10 +256,9 @@ doOneDimensionErodeFirstPass(TInIter &          inputIterator,
   // restructure equation to reduce numerical error
   //  const RealType magnitude = (magnitudeSign * iscale * iscale)/(2.0 *
   // sigma);
-  const RealType                    magnitude = (magnitudeSign * iscale * iscale) / (2.0);
-  const typename TInIter::PixelType initPixelValue = 0.0;
-  LineBufferType                    lineBuf(lineLength, 0.0);
-  LabelBufferType                   labBuf(lineLength, 0.0);
+  const RealType  magnitude = (magnitudeSign * iscale * iscale) / (2.0);
+  LineBufferType  lineBuf(lineLength, 0.0);
+  LabelBufferType labBuf(lineLength, 0.0);
 
   inputIterator.SetDirection(direction);
   outputIterator.SetDirection(direction);
