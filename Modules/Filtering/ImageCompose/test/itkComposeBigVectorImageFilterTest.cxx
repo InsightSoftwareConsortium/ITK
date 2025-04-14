@@ -58,22 +58,23 @@ itkComposeBigVectorImageFilterTest(int, char *[])
   VectorImageType::Pointer img = composeFilter->GetOutput();
   std::cout << "Compose filter executed." << std::endl;
 
+
+  itk::ImageRegion<3> sliceRegion = img->GetLargestPossibleRegion();
+  sliceRegion.SetSize(2, 1); // Set the size of the z-dimension to 1
+
   for (unsigned int i = 0; i < nchannels; ++i)
   {
     itk::IndexValueType                  z = i;
     std::map<unsigned int, unsigned int> values;
 
-    for (itk::IndexValueType y = 0; y < size; ++y)
-    {
-      for (itk::IndexValueType x = 0; x < size; ++x)
-      {
-        itk::Index<3> idx = { { x, y, z } };
+    sliceRegion.SetIndex(2, z); // Set the index of the z-dimension to the current slice
 
-        auto pixel = img->GetPixel(idx);
-        if (pixel[i] != i % 250)
-        {
-          ++values[pixel[i]];
-        }
+    itk::ImageRegionConstIterator<VectorImageType> it(img, sliceRegion);
+    for (it.GoToBegin(); !it.IsAtEnd(); ++it)
+    {
+      if (it.Get()[i] != i % 250)
+      {
+        ++values[it.Get()[i]];
       }
     }
 
