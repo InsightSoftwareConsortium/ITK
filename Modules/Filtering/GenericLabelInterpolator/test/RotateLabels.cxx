@@ -53,12 +53,21 @@ RotateNTimes(typename ImageType::Pointer                                 input,
   axis[0] = 0;
   axis[1] = 1;
   axis[2] = 0;
-  TransformType::InputPointType center;
-  center[0] = 144;
-  center[1] = 86;
-  center[2] = 101;
+  // compute physical center of input image
+  itk::ContinuousIndex<double, ImageType::ImageDimension> center;
+
+  const auto inputSize = input->GetLargestPossibleRegion().GetSize();
+
+  for (unsigned int i = 0; i < ImageType::ImageDimension; ++i)
+  {
+    center[i] = inputSize[i] / 2.0;
+  }
+  // convert to physical coordinates
+  typename ImageType::PointType centerPhysical;
+  input->TransformContinuousIndexToPhysicalPoint(center, centerPhysical);
+
   TransformType::Pointer rot = TransformType::New();
-  rot->SetCenter(center);
+  rot->SetCenter(centerPhysical);
   rot->SetRotation(axis, 2. * itk::Math::pi / number_of_rotations);
 
   typename ResampleFilterType::Pointer rs = ResampleFilterType::New();
