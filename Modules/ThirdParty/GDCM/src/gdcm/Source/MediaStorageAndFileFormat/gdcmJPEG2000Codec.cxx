@@ -1484,7 +1484,8 @@ bool JPEG2000Codec::GetHeaderInfo(const char * dummy_buffer, size_t buf_size, Tr
     &image) ? true : false;
   if(!bResult)
   {
-  opj_stream_destroy(cio);
+    opj_destroy_codec(dinfo);
+    opj_stream_destroy(cio);
     return false;
   }
   //image = opj_decode(dinfo, cio);
@@ -1527,6 +1528,8 @@ bool JPEG2000Codec::GetHeaderInfo(const char * dummy_buffer, size_t buf_size, Tr
 
   if( !check_comp_valid( image ) )
     {
+    opj_destroy_codec(dinfo);
+    opj_stream_destroy(cio);
     gdcmErrorMacro( "Invalid test failed" );
     return false;
     }
@@ -1548,6 +1551,8 @@ bool JPEG2000Codec::GetHeaderInfo(const char * dummy_buffer, size_t buf_size, Tr
     }
   else
     {
+    opj_destroy_codec(dinfo);
+    opj_stream_destroy(cio);
     gdcmErrorMacro( "do not handle precision: " << comp->prec );
     return false;
     }
@@ -1600,6 +1605,8 @@ bool JPEG2000Codec::GetHeaderInfo(const char * dummy_buffer, size_t buf_size, Tr
     }
   else if( image->numcomps == 4 )
     {
+    opj_destroy_codec(dinfo);
+    opj_stream_destroy(cio);
     /* Yes this is legal */
     // http://www.crc.ricoh.com/~gormish/jpeg2000conformance/
     // jpeg2000testimages/Part4TestStreams/codestreams_profile0/p0_06.j2k
@@ -1609,6 +1616,8 @@ bool JPEG2000Codec::GetHeaderInfo(const char * dummy_buffer, size_t buf_size, Tr
     }
   else
     {
+    opj_destroy_codec(dinfo);
+    opj_stream_destroy(cio);
     // jpeg2000testimages/Part4TestStreams/codestreams_profile0/p0_13.j2k
     gdcmErrorMacro( "Image is " << image->numcomps << " components which is not supported in DICOM" );
     return false;
