@@ -38,6 +38,7 @@
 #endif
 
 #include "itkNumericTraitsArrayPixel.h"
+#include "itkNumericTraitsCovariantVectorPixel.h"
 #include "itkNumericTraitsRGBAPixel.h"
 #include "itkNumericTraitsRGBPixel.h"
 #include "itkNumericTraitsTensorPixel.h"
