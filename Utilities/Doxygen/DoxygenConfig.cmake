@@ -12,9 +12,6 @@ set(DOXYGEN_TAB_SIZE "2")
 set(DOXYGEN_NUM_PROC_THREADS "0")
 set(DOXYGEN_ALIASES
     "starteraliasnotused=@par not used"
-    "wiki=\\par Wiki Examples: ^^ \\li <a href=\\\"https://www.itk.org/Wiki/ITK/Examples\\\">All Media Wiki Examples</a> ^^"
-    "wikiexample{2}= \\li <a href=\\\"https://www.itk.org/Wiki/ITK/Examples/\\1\\\">\\2</a> ^^"
-    "endwiki=^^ ^^ ^^"
     "sphinx=\\par ITK Sphinx Examples: ^^ \\li <a href=\\\"https://itk.org/ITKExamples\\\">All ITK Sphinx Examples</a> ^^"
     "sphinxexample{2}=\\li <a href=\\\"https://itk.org/ITKExamples/src/\\1/Documentation.html\\\">\\2</a> ^^"
     "endsphinx=^^ ^^ ^^"

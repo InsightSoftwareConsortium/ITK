@@ -147,7 +147,9 @@ TransformFileWriterTemplate<TParametersValueType>::Update()
       else
       {
         msg << "  There are no registered Transform IO factories." << std::endl
-            << "  Please visit https://www.itk.org/Wiki/ITK/FAQ#NoFactoryException to diagnose the problem."
+            << "  Please visit "
+               "https://insightsoftwareconsortium.github.io/ITKWikiArchive/Wiki/ITK/FAQ#NoFactoryException to diagnose "
+               "the problem."
             << std::endl;
       }
 

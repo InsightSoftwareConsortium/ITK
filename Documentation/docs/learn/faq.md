@@ -43,7 +43,7 @@ images.
 | [ITK HDF5](https://support.hdfgroup.org/HDF5/) | | |
 | [JPEG](https://en.wikipedia.org/wiki/JPEG_File_Interchange_Format) † | [`itk::JPEGImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1JPEGImageIO.html) | |
 | [LSM](https://www.openwetware.org/wiki/Dissecting_LSM_files) | [`itk::LSMImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1LSMImageIO.html) | |
-| [MetaImage](./metaio.md) (.mha/.mhd) | [`itk::MetaImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1MetaImageIO.html) | |
+| [MetaImage](https://insightsoftwareconsortium.github.io/ITKWikiArchive/Wiki/ITK/MetaIO/Documentation) (.mha/.mhd) | [`itk::MetaImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1MetaImageIO.html) | |
 | [MINC 2.0](https://en.wikibooks.org/wiki/MINC/SoftwareDevelopment/MINC2.0_File_Format_Reference) (Medical Image NetCDF) | [`itk::MINCImagIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1MINCImageIO.html) | |
 | [MGH](https://surfer.nmr.mgh.harvard.edu/fswiki/FsTutorial/MghFormat) | [`itk:MGHImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1MGHImageIO.html) | |
 | [MRC](http://www.ccpem.ac.uk/mrc_format/mrc_format.php) | [`itk::MRCImageIO`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1MRCImageIO.html) | |
@@ -366,7 +366,7 @@ Please see the [Contribute to ITK page](https://docs.itk.org/en/latest/contribut
 
 ### Is ITK tested?
 
-Please see this page: [ITK/Testing](https://itk.org/Wiki/ITK/Testing).
+Please see this page: [ITK/Testing](https://insightsoftwareconsortium.github.io/ITKWikiArchive/Wiki/ITK/Testing).
 
 ## Working with image data
 
