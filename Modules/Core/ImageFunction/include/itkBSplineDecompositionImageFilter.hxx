@@ -40,13 +40,6 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>::BSplineDecomposition
 
 {
   this->SetSplineOrder(3);
-
-  for (unsigned int i = 0; i < m_Scratch.size(); ++i)
-  {
-    m_Scratch[i] = 0;
-  }
-
-  m_DataLength.Fill(typename TInputImage::SizeType::SizeValueType{});
 }
 
 template <typename TInputImage, typename TOutputImage>
