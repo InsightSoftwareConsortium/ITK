@@ -504,12 +504,14 @@ ${DO_NOT_WAIT_FOR_THREADS_CALLS}
 
     # The DoxygenConfig.cmake is a replacement for configuring a doxygen.config.in file
     # https://cmake.org/cmake/help/v3.16/module/FindDoxygen.html
-    include(${WRAP_ITK_CMAKE_DIR}/DoxygenConfig.cmake)
+    set(ITK_DOXYGEN_OUTPUT_DIR "${ITK_WRAP_DOC_LIBRARY_DIR}")
+    include(${ITK_SOURCE_DIR}/Utilities/Doxygen/DoxygenConfig.cmake)
     doxygen_add_docs(
       ${WRAPPER_LIBRARY_NAME}Doxygen ${ITK_WRAP_DOC_DOXYGEN_HEADERS} ALL
       WORKING_DIRECTORY ${ITK_WRAP_DOC_LIBRARY_DIR} USE_STAMP_FILE
       COMMENT "-- Wrapping library ${WRAPPER_LIBRARY_NAME}: Constructing documentation xml structure.")
     add_dependencies(${lib} ${WRAPPER_LIBRARY_NAME}Doxygen)
+    unset(ITK_DOXYGEN_OUTPUT_DIR)
     unset(ITK_WRAP_DOC_LIBRARY_DIR)
   endif()
 
