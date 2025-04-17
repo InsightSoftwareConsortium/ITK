@@ -98,7 +98,7 @@ protected:
 
 private:
   using IndexValueType = typename TInputImage::IndexValueType;
-  using SizeValueType = typename TInputImage::SizeValueType;
+  using SizeValueType = itk::SizeValueType;
 
   // implemented
 };

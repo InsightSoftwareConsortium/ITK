@@ -73,7 +73,7 @@ public:
   using OutputImageSizeType = typename TOutputImage::SizeType;
   using InputImageSizeType = typename TInputImage::SizeType;
   using SizeType = typename TInputImage::SizeType;
-  using SizeValueType = typename TInputImage::SizeValueType;
+  using SizeValueType = itk::SizeValueType;
 
   /** Typedef to describe the boundary condition. */
   using BoundaryConditionType = ImageBoundaryCondition<TInputImage, TOutputImage>;
