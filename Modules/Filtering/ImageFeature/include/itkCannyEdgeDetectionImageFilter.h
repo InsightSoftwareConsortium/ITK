@@ -104,7 +104,7 @@ public:
   using InputImagePixelType = typename TInputImage::PixelType;
   using OutputImagePixelType = typename TOutputImage::PixelType;
   using IndexType = typename TInputImage::IndexType;
-  using SizeValueType = typename TInputImage::SizeValueType;
+  using SizeValueType = itk::SizeValueType;
 
   /** The default boundary condition is used unless overridden
    *in the Evaluate() method. */

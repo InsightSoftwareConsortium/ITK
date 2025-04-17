@@ -90,7 +90,7 @@ public:
    */
   using OutputPixelType = typename TOutputImage::PixelType;
   using InputPixelType = typename TInputImage::PixelType;
-  using SizeValueType = typename TInputImage::SizeValueType;
+  using SizeValueType = itk::SizeValueType;
   using OffsetValueType = typename TInputImage::OffsetValueType;
   static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
