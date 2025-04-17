@@ -180,11 +180,11 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>::SetInitialCausalCoef
   // See Unser, 1999, Box 2 for explanation
 
   // Yhis initialization corresponds to mirror boundaries
-  typename TInputImage::SizeValueType horizon = m_DataLength[m_IteratorDirection];
-  double                              zn = z;
+  SizeValueType horizon = m_DataLength[m_IteratorDirection];
+  double        zn = z;
   if (m_Tolerance > 0.0)
   {
-    horizon = (typename TInputImage::SizeValueType)std::ceil(std::log(m_Tolerance) / std::log(itk::Math::abs(z)));
+    horizon = (SizeValueType)std::ceil(std::log(m_Tolerance) / std::log(itk::Math::abs(z)));
   }
   if (horizon < m_DataLength[m_IteratorDirection])
   {
