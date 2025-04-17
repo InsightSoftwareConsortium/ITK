@@ -497,20 +497,20 @@ ${DO_NOT_WAIT_FOR_THREADS_CALLS}
     # run doxygen
 
     # create the target doc dir
-    set(ITK_WRAP_DOC_LIBRARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/Doc"
+    set(ITK_DOXYGEN_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/Doc"
     )# Library documentation interface files building directory
     # TODO: direct name of the library dir?
     file(MAKE_DIRECTORY ${ITK_WRAP_DOC_LIBRARY_DIR})
 
     # The DoxygenConfig.cmake is a replacement for configuring a doxygen.config.in file
     # https://cmake.org/cmake/help/v3.16/module/FindDoxygen.html
-    include(${WRAP_ITK_CMAKE_DIR}/DoxygenConfig.cmake)
+    include(${ITK_SOURCE_DIR}/Utilities/Doxygen/DoxygenConfig.cmake)
     doxygen_add_docs(
       ${WRAPPER_LIBRARY_NAME}Doxygen ${ITK_WRAP_DOC_DOXYGEN_HEADERS} ALL
       WORKING_DIRECTORY ${ITK_WRAP_DOC_LIBRARY_DIR} USE_STAMP_FILE
       COMMENT "-- Wrapping library ${WRAPPER_LIBRARY_NAME}: Constructing documentation xml structure.")
     add_dependencies(${lib} ${WRAPPER_LIBRARY_NAME}Doxygen)
-    unset(ITK_WRAP_DOC_LIBRARY_DIR)
+    unset(ITK_DOXYGEN_OUTPUT_DIR)
   endif()
 
   # Add testing
