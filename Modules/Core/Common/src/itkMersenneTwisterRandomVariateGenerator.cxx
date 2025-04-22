@@ -175,8 +175,8 @@ MersenneTwisterRandomVariateGenerator::Initialize(const IntegerType seed)
   // See Knuth TAOCP Vol 2, 3rd Ed, p.106 for multiplier.
   // In previous versions, most significant bits (MSBs) of the seed affect
   // only MSBs of the state array.  Modified 9 Jan 2002 by Makoto Matsumoto.
-  IntegerType * s = m_State;
-  IntegerType * r = m_State;
+  IntegerType *       s = m_State;
+  const IntegerType * r = m_State;
 
   *s++ = seed;
   for (IntegerType i = 1; i < MersenneTwisterRandomVariateGenerator::StateVectorLength; ++i)
