@@ -57,10 +57,9 @@ InPlaceImageFilter<TInputImage, TOutputImage>::InternalAllocateOutputs()
   // additionally the buffered and requested regions of the input and
   // output must match.
   bool rMatch = true;
-  if (inputPtr != nullptr &&
-      static_cast<unsigned int>(InputImageDimension) == static_cast<unsigned int>(OutputImageDimension))
+  if (inputPtr != nullptr && InputImageDimension == OutputImageDimension)
   {
-    for (unsigned int i = 0; i < static_cast<unsigned int>(InputImageDimension); ++i)
+    for (unsigned int i = 0; i < InputImageDimension; ++i)
     {
       if (inputPtr->GetBufferedRegion().GetIndex(i) != outputPtr->GetRequestedRegion().GetIndex(i))
       {
