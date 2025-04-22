@@ -179,7 +179,7 @@ MersenneTwisterRandomVariateGenerator::Initialize(const IntegerType seed)
   const IntegerType * r = m_State;
 
   *s++ = seed;
-  for (IntegerType i = 1; i < MersenneTwisterRandomVariateGenerator::StateVectorLength; ++i)
+  for (IntegerType i = 1; i < StateVectorLength; ++i)
   {
     *s++ = uint32_t{ (uint32_t{ 1812433253 } * (*r ^ (*r >> 30)) + i) };
     ++r;
@@ -198,11 +198,11 @@ MersenneTwisterRandomVariateGenerator::reload()
   static constexpr unsigned int M = 397;
 
   // get rid of VS warning
-  constexpr auto index = int{ M } - int{ MersenneTwisterRandomVariateGenerator::StateVectorLength };
+  constexpr auto index = int{ M } - int{ StateVectorLength };
 
   IntegerType * p = m_State;
 
-  for (int i = MersenneTwisterRandomVariateGenerator::StateVectorLength - M; i--; ++p)
+  for (int i = StateVectorLength - M; i--; ++p)
   {
     *p = twist(p[M], p[0], p[1]);
   }
@@ -212,7 +212,7 @@ MersenneTwisterRandomVariateGenerator::reload()
   }
   *p = twist(p[index], p[0], m_State[0]);
 
-  m_Left = MersenneTwisterRandomVariateGenerator::StateVectorLength;
+  m_Left = StateVectorLength;
   m_PNext = m_State;
 }
 
