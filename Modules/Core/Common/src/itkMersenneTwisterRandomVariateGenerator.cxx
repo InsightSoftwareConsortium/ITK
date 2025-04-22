@@ -159,7 +159,7 @@ MersenneTwisterRandomVariateGenerator::IntegerType
 MersenneTwisterRandomVariateGenerator::GetNextSeed()
 {
   itkInitGlobalsMacro(PimplGlobals);
-  IntegerType newSeed = GetInstance()->GetSeed();
+  IntegerType newSeed = GetInstance()->m_Seed;
   {
     newSeed += m_PimplGlobals->m_StaticDiffer++;
   }
