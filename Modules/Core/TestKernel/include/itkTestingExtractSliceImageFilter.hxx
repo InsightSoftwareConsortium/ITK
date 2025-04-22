@@ -142,7 +142,7 @@ ExtractSliceImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   typename OutputImageType::DirectionType outputDirection;
   typename OutputImageType::PointType     outputOrigin{};
 
-  if (OutputImageDimension > InputImageDimension)
+  if constexpr (OutputImageDimension > InputImageDimension)
   {
     // copy the input to the output and fill the rest of the
     // output with zeros.

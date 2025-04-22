@@ -69,7 +69,7 @@ ProjectionImageFilter<TInputImage, TOutputImage, TAccumulator>::GenerateOutputIn
   // Set the LargestPossibleRegion of the output.
   // Reduce the size of the accumulated dimension.
 
-  if (InputImageDimension == OutputImageDimension)
+  if constexpr (InputImageDimension == OutputImageDimension)
   {
     for (unsigned int i = 0; i < InputImageDimension; ++i)
     {
@@ -156,7 +156,7 @@ ProjectionImageFilter<TInputImage, TOutputImage, TAccumulator>::GenerateInputReq
     inputLargSize = this->GetInput()->GetLargestPossibleRegion().GetSize();
     inputLargIndex = this->GetInput()->GetLargestPossibleRegion().GetIndex();
 
-    if (InputImageDimension == OutputImageDimension)
+    if constexpr (InputImageDimension == OutputImageDimension)
     {
       for (unsigned int i = 0; i < TInputImage::ImageDimension; ++i)
       {
@@ -235,7 +235,7 @@ ProjectionImageFilter<TInputImage, TOutputImage, TAccumulator>::DynamicThreadedG
   typename TInputImage::SizeType   inputSizeForThread = inputSize;
   typename TInputImage::IndexType  inputIndexForThread = inputIndex;
 
-  if (InputImageDimension == OutputImageDimension)
+  if constexpr (InputImageDimension == OutputImageDimension)
   {
     for (unsigned int i = 0; i < InputImageDimension; ++i)
     {
@@ -298,7 +298,7 @@ ProjectionImageFilter<TInputImage, TOutputImage, TAccumulator>::DynamicThreadedG
     typename TOutputImage::IndexType oIdx;
     typename TInputImage::IndexType  iIdx = iIt.GetIndex();
 
-    if (InputImageDimension == OutputImageDimension)
+    if constexpr (InputImageDimension == OutputImageDimension)
     {
       for (unsigned int i = 0; i < InputImageDimension; ++i)
       {

@@ -130,7 +130,7 @@ ExtractImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   typename OutputImageType::DirectionType outputDirection;
   typename OutputImageType::PointType     outputOrigin{};
 
-  if (OutputImageDimension > InputImageDimension)
+  if constexpr (OutputImageDimension > InputImageDimension)
   {
     // copy the input to the output and fill the rest of the
     // output with zeros.
@@ -183,7 +183,7 @@ ExtractImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   // if, after rebuilding the direction cosines, there's a zero
   // length cosine vector, reset the directions to identity
   // or throw an exception, depending on the collapse strategy.
-  if (InputImageDimension != OutputImageDimension)
+  if constexpr (InputImageDimension != OutputImageDimension)
   {
     switch (m_DirectionCollapseStrategy)
     {
