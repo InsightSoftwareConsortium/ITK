@@ -130,7 +130,7 @@ ExtractImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   typename OutputImageType::DirectionType outputDirection;
   typename OutputImageType::PointType     outputOrigin{};
 
-  if (static_cast<unsigned int>(OutputImageDimension) > static_cast<unsigned int>(InputImageDimension))
+  if (OutputImageDimension > InputImageDimension)
   {
     // copy the input to the output and fill the rest of the
     // output with zeros.

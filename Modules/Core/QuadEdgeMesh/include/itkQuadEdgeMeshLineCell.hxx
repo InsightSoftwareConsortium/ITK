@@ -274,7 +274,7 @@ template <typename TCellInterface>
 unsigned int
 QuadEdgeMeshLineCell<TCellInterface>::GetDimension() const
 {
-  return static_cast<unsigned int>(Self::CellDimension);
+  return CellDimension;
 }
 
 // ---------------------------------------------------------------------

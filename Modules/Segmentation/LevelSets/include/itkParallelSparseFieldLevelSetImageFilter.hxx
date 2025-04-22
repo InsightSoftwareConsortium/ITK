@@ -475,7 +475,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::InitializeAct
     shiftedIt.SetLocation(activeIt->m_Index);
 
     ValueType length = m_ValueZero;
-    for (unsigned int i = 0; i < static_cast<unsigned int>(ImageDimension); ++i)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       const auto stride = shiftedIt.GetStride(i);
 
@@ -1261,7 +1261,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedCalcu
       ValueType norm_grad_phi_squared = 0.0;
 
       typename FiniteDifferenceFunctionType::FloatOffsetType offset;
-      for (unsigned int i = 0; i < static_cast<unsigned int>(ImageDimension); ++i)
+      for (unsigned int i = 0; i < ImageDimension; ++i)
       {
         const ValueType forwardValue = outputIt.GetPixel(center + m_NeighborList.GetStride(i));
         const ValueType backwardValue = outputIt.GetPixel(center - m_NeighborList.GetStride(i));
@@ -1301,7 +1301,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedCalcu
         norm_grad_phi_squared += offset[i] * offset[i];
       }
 
-      for (unsigned int i = 0; i < static_cast<unsigned int>(ImageDimension); ++i)
+      for (unsigned int i = 0; i < ImageDimension; ++i)
       {
         offset[i] = (offset[i] * outputIt.GetCenterPixel()) / (norm_grad_phi_squared + MIN_NORM);
       }

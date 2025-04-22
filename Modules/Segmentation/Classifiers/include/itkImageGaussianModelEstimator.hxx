@@ -244,7 +244,7 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>::E
     if (m_NumberOfSamples[classIndex][0] > 0)
     {
       auto lastInX = static_cast<unsigned int>(VectorDimension - 1);
-      auto upperY = static_cast<unsigned int>(VectorDimension);
+      auto upperY = VectorDimension;
       for (unsigned int band_x = 0; band_x < lastInX; ++band_x)
       {
         for (unsigned int band_y = band_x + 1; band_y < upperY; ++band_y)
