@@ -353,6 +353,7 @@ NrrdImageIO::ReadImageInformation()
     }
     // else nrrd->spaceDim == domainAxisNum when nrrd has orientation
 
+    int rangeAxisIndex{-1};
     if (0 == rangeAxisNum)
     {
       // we don't have any non-scalar data
@@ -364,7 +365,6 @@ NrrdImageIO::ReadImageInformation()
     {
       // In case of multiple range axes, only handle range axes that are not "list" kind.
       // List axes can be read in the image normally.
-      int rangeAxisIndex{-1};
       if (1 == rangeAxisNum)
       {
         rangeAxisIndex = rangeAxisIdx[0];
@@ -642,7 +642,7 @@ NrrdImageIO::ReadImageInformation()
     // the original axis index in nrrd (axi).  This is because in the
     // Read() method, non-scalar data is permuted to the fastest axis,
     // on the on the Write() side, its always written to the fastest axis,
-    // so we might was well go with consistent and idiomatic indexing.
+    // so we might as well go with consistent and idiomatic indexing.
     NrrdAxisInfo * naxis;
     for (unsigned int axii = 0; axii < domainAxisNum; ++axii)
     {
@@ -670,7 +670,71 @@ NrrdImageIO::ReadImageInformation()
         snprintf(key, sizeof(key), "%s%s[%u]", KEY_PREFIX, airEnumStr(nrrdField, nrrdField_labels), axii);
         EncapsulateMetaData<std::string>(thisDic, std::string(key), std::string(naxis->label));
       }
+      if (airStrlen(naxis->units))
+      {
+        snprintf(key, sizeof(key), "%s%s[%u]", KEY_PREFIX, airEnumStr(nrrdField, nrrdField_units), axii);
+        EncapsulateMetaData<std::string>(thisDic, std::string(key), std::string(naxis->units));
+      }
     }
+    if (rangeAxisNum == 1 && rangeAxisIndex > 0)
+    {
+      // Store label and unit of range axis if the axes are permuted
+      naxis = nrrd->axis + rangeAxisIndex;
+      if (airStrlen(naxis->label))
+      {
+        snprintf(key, sizeof(key), "%s%s[%u]", KEY_PREFIX, airEnumStr(nrrdField, nrrdField_labels), rangeAxisIndex);
+        EncapsulateMetaData<std::string>(thisDic, "RangeAxisLabel", std::string(naxis->label));
+      }
+      if (airStrlen(naxis->units))
+      {
+        snprintf(key, sizeof(key), "%s%s[%u]", KEY_PREFIX, airEnumStr(nrrdField, nrrdField_units), rangeAxisIndex);
+        EncapsulateMetaData<std::string>(thisDic, "RangeAxisUnit", std::string(naxis->units));
+      }
+    }
+    else if (rangeAxisNum > 1)
+    {
+      // Store per-axis metadata for range axes if there are multiple (and thus no permutation)
+      for (unsigned int axii = 0; axii < rangeAxisNum; ++axii)
+      {
+        unsigned int axi = rangeAxisIdx[axii];
+        naxis = nrrd->axis + axi;
+        std::string metadataKey;
+        if (naxis->kind && axi > 0) // Skip kind for range axis that is interpreted as voxel components
+        {
+          snprintf(key, sizeof(key), "%s%s[%u]", KEY_PREFIX, airEnumStr(nrrdField, nrrdField_kinds), axi-1);
+          val = airEnumStr(nrrdKind, naxis->kind);
+          EncapsulateMetaData<std::string>(thisDic, std::string(key), std::string(val));
+        }
+        if (airStrlen(naxis->label))
+        {
+          if (axi == 0)
+          {
+            metadataKey = "RangeAxisLabel"; // The first range axis is stored as component
+          }
+          else
+          {
+            snprintf(key, sizeof(key), "%s%s[%u]", KEY_PREFIX, airEnumStr(nrrdField, nrrdField_labels), axi-1);
+            metadataKey = std::string(key);
+          }
+          EncapsulateMetaData<std::string>(thisDic, metadataKey, std::string(naxis->label));
+        }
+        if (airStrlen(naxis->units))
+        {
+          if (axi == 0)
+          {
+            metadataKey = "RangeAxisUnit"; // The first range axis is stored as component
+          }
+          else
+          {
+            snprintf(key, sizeof(key), "%s%s[%u]", KEY_PREFIX, airEnumStr(nrrdField, nrrdField_units), axi-1);
+            metadataKey = std::string(key);
+          }
+          EncapsulateMetaData<std::string>(thisDic, metadataKey, std::string(naxis->units));
+        }
+      }
+    }
+
+    // Parse generic (not per-axis) metadata
     if (airStrlen(nrrd->content))
     {
       snprintf(key, sizeof(key), "%s%s", KEY_PREFIX, airEnumStr(nrrdField, nrrdField_content));
@@ -840,7 +904,8 @@ NrrdImageIO::Read(void * buffer)
 
   if (rangeAxisNum > 0 && rangeAxisIndex < 0)
   {
-    itkExceptionMacro("Read: handling more than one non-scalar axis not currently handled");
+    itkExceptionMacro("Read: handling more than one non-scalar axis "
+      "with kind other than list is not currently supported.");
   }
   if (rangeAxisNum == 1 && rangeAxisIndex != 0)
   {
@@ -1106,6 +1171,16 @@ NrrdImageIO::Write(const void * buffer)
           std::string value;
           ExposeMetaData<std::string>(thisDic, *keyIt, value);
           nrrd->axis[axi + baseDim].label = airStrdup(value.c_str());
+        }
+      }
+      field = airEnumStr(nrrdField, nrrdField_units);
+      if (!strncmp(keyField, field, strlen(field)))
+      {
+        if (1 == sscanf(keyField + strlen(field), "[%u]", &axi) && axi + baseDim < nrrd->dim)
+        {
+          std::string value;
+          ExposeMetaData<std::string>(thisDic, *keyIt, value);
+          nrrd->axis[axi + baseDim].units = airStrdup(value.c_str());
         }
       }
       field = airEnumStr(nrrdField, nrrdField_old_min);
