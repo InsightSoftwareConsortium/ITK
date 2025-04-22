@@ -183,7 +183,7 @@ ExtractImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   // if, after rebuilding the direction cosines, there's a zero
   // length cosine vector, reset the directions to identity
   // or throw an exception, depending on the collapse strategy.
-  if (static_cast<int>(InputImageDimension) != static_cast<int>(OutputImageDimension))
+  if (InputImageDimension != OutputImageDimension)
   {
     switch (m_DirectionCollapseStrategy)
     {

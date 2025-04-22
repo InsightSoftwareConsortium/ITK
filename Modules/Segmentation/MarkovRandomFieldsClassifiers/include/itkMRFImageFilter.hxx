@@ -25,7 +25,7 @@ template <typename TInputImage, typename TClassifiedImage>
 MRFImageFilter<TInputImage, TClassifiedImage>::MRFImageFilter()
   : m_ClassifierPtr(nullptr)
 {
-  if (static_cast<int>(InputImageDimension) != static_cast<int>(ClassifiedImageDimension))
+  if (InputImageDimension != ClassifiedImageDimension)
   {
     std::ostringstream msg;
     msg << "Input image dimension: " << InputImageDimension
