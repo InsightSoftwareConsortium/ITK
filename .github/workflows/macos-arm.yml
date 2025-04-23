@@ -49,8 +49,13 @@ jobs:
             - name: Install dependencies
               run: |
                 set -x
-                python3 -m pip install ninja
                 python3 -m pip install --upgrade --pre numpy
+
+            - name: Get specific version of CMake, latest Ninja
+              uses: lukka/get-cmake@v4.0.1
+              with:
+                cmakeVersion: "~4.0.1"
+                ninjaVersion: latest
 
             - name: Download dashboard script and testing data
               run: |
