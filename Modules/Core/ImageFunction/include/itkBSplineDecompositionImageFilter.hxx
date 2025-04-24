@@ -172,7 +172,7 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>::SetInitialCausalCoef
 {
   // See Unser, 1999, Box 2 for explanation
 
-  // Yhis initialization corresponds to mirror boundaries
+  // This initialization corresponds to mirror boundaries
   SizeValueType horizon = m_DataLength[m_IteratorDirection];
   double        zn = z;
   if (m_Tolerance > 0.0)
