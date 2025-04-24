@@ -92,7 +92,7 @@ itkDirectedHausdorffDistanceImageFilterTest1(int, char *[])
     filter->Update();
 
     // Check results
-    const FilterType::RealType trueDistance = 10 * std::sqrt(static_cast<double>(ImageDimension));
+    const FilterType::RealType trueDistance = 10 * std::sqrt(double{ ImageDimension });
     const FilterType::RealType distance = filter->GetDirectedHausdorffDistance();
 
     std::cout << " True distance: " << trueDistance << std::endl;
@@ -122,7 +122,7 @@ itkDirectedHausdorffDistanceImageFilterTest1(int, char *[])
     filter->Update();
 
     // Check results
-    const FilterType::RealType trueDistance = 5 * std::sqrt(static_cast<double>(ImageDimension));
+    const FilterType::RealType trueDistance = 5 * std::sqrt(double{ ImageDimension });
     const FilterType::RealType distance = filter->GetDirectedHausdorffDistance();
 
     std::cout << " True distance: " << trueDistance << std::endl;

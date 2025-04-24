@@ -44,7 +44,7 @@ SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>::SparseFiel
   m_MaxRefitIteration = 100;
   m_MaxNormalIteration = 25;
   m_RMSChangeNormalProcessTrigger = ValueType{};
-  m_CurvatureBandWidth = static_cast<ValueType>(ImageDimension) + 0.5;
+  m_CurvatureBandWidth = ValueType{ ImageDimension } + 0.5;
   m_NormalProcessType = 0;
   m_NormalProcessConductance = ValueType{};
   m_NormalProcessUnsharpFlag = false;
@@ -203,7 +203,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>::ProcessNormals()
 {
-  auto temp = static_cast<ValueType>(ImageDimension);
+  auto temp = ValueType{ ImageDimension };
 
   const typename NormalVectorFilterType::Pointer   NormalVectorFilter = NormalVectorFilterType::New();
   const typename NormalVectorFunctionType::Pointer NormalVectorFunction = NormalVectorFunctionType::New();

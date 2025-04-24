@@ -909,7 +909,7 @@ FlatStructuringElement<VDimension>::Cross(RadiusType radius)
   {
     *kernel_it = false;
   }
-  for (int d = 0; d < static_cast<int>(VDimension); ++d)
+  for (int d = 0; d < int{ VDimension }; ++d)
   {
     OffsetType o{};
     for (int i = -static_cast<int>(radius[d]); i <= static_cast<int>(radius[d]); ++i)
@@ -938,7 +938,7 @@ FlatStructuringElement<VDimension>::Ball(RadiusType radius, bool radiusIsParamet
   //
   auto       sourceImage = ImageType::New();
   RadiusType size = radius;
-  for (i = 0; i < static_cast<int>(VDimension); ++i)
+  for (i = 0; i < int{ VDimension }; ++i)
   {
     size[i] = 2 * size[i] + 1;
   }
@@ -1205,7 +1205,7 @@ FlatStructuringElement<VDimension>::ComputeBufferFromLines()
   //
   auto       sourceImage = ImageType::New();
   RadiusType size = this->GetRadius();
-  for (int i = 0; i < static_cast<int>(VDimension); ++i)
+  for (int i = 0; i < int{ VDimension }; ++i)
   {
     size[i] = 2 * size[i] + 1;
   }
@@ -1227,7 +1227,7 @@ FlatStructuringElement<VDimension>::ComputeBufferFromLines()
 
   // set the center pixel to 1
   typename ImageType::IndexType center;
-  for (int i = 0; i < static_cast<int>(VDimension); ++i)
+  for (int i = 0; i < int{ VDimension }; ++i)
   {
     center[i] = this->GetRadius()[i];
   }

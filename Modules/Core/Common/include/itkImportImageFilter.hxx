@@ -38,14 +38,14 @@ ImportImageFilter<TPixel, VImageDimension>::PrintSelf(std::ostream & os, Indent 
   itkPrintSelfObjectMacro(ImportImageContainer);
   os << indent << "Import buffer size: " << m_Size << std::endl;
   os << indent << "Spacing: [";
-  for (i = 0; i < static_cast<int>(VImageDimension) - 1; ++i)
+  for (i = 0; i < int{ VImageDimension } - 1; ++i)
   {
     os << m_Spacing[i] << ", ";
   }
   os << m_Spacing[i] << ']' << std::endl;
 
   os << indent << "Origin: [";
-  for (i = 0; i < static_cast<int>(VImageDimension) - 1; ++i)
+  for (i = 0; i < int{ VImageDimension } - 1; ++i)
   {
     os << m_Origin[i] << ", ";
   }

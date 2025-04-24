@@ -194,10 +194,10 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::ThreadedGenerateD
   // set the progress reporter. Use a pointer to be able to destroy it before
   // the creation of progress2
   // so it won't set wrong progress at the end of ThreadedGenerateData()
-  float progressPerDimension = 0.67f / static_cast<float>(ImageDimension);
+  float progressPerDimension = 0.67f / float{ ImageDimension };
   if (!this->m_SquaredDistance)
   {
-    progressPerDimension = 0.67f / (static_cast<float>(ImageDimension) + 1);
+    progressPerDimension = 0.67f / (float{ ImageDimension } + 1);
   }
   auto progress =
     std::make_unique<ProgressReporter>(this,

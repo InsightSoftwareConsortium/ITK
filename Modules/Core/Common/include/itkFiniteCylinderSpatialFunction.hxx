@@ -29,7 +29,7 @@ FiniteCylinderSpatialFunction<VDimension, TInput>::FiniteCylinderSpatialFunction
 {
   // a normalized {1,1,...1} vector is
   // { 1.0 / sqrt( VDim ), ... }
-  const double orientationVal = 1.0 / std::sqrt(static_cast<double>(VDimension));
+  const double orientationVal = 1.0 / std::sqrt(double{ VDimension });
   m_Orientation.Fill(orientationVal);
   m_NormalizedOrientation.Fill(orientationVal);
   m_AxisLength = 1.0f; // Length of cylinder axis.

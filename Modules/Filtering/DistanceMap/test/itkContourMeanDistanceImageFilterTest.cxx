@@ -105,7 +105,7 @@ itkContourMeanDistanceImageFilterTest(int argc, char * argv[])
     // check results
 
     constexpr FilterType::RealType trueDistance = 8.07158;
-    // std::sqrt( static_cast<double>(ImageDimension) );
+    // std::sqrt( double{ ImageDimension } );
     const FilterType::RealType distance = filter->GetMeanDistance();
 
     std::cout << " True     distance: " << trueDistance << std::endl;

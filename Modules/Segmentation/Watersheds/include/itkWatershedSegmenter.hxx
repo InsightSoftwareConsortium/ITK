@@ -645,7 +645,7 @@ Segmenter<TInputImage>::GenerateConnectivity()
     m_Connectivity.direction[i][d] = -1;
     ++i;
   }
-  for (int d = 0; d < static_cast<int>(ImageDimension); ++d)
+  for (int d = 0; d < int{ ImageDimension }; ++d)
   {
     const unsigned int stride = it.GetStride(d);
     m_Connectivity.index[i] = nCenter + stride;
