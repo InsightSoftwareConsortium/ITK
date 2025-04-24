@@ -81,7 +81,7 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>::DataToCoefficients1D
   }
 
   // Apply the gain
-  for (unsigned int n = 0; n < m_DataLength[m_IteratorDirection]; ++n)
+  for (SizeValueType n = 0; n < m_DataLength[m_IteratorDirection]; ++n)
   {
     m_Scratch[n] *= c0;
   }
@@ -92,7 +92,7 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>::DataToCoefficients1D
     // Causal initialization
     this->SetInitialCausalCoefficient(m_SplinePoles[k]);
     // Causal recursion
-    for (unsigned int n = 1; n < m_DataLength[m_IteratorDirection]; ++n)
+    for (SizeValueType n = 1; n < m_DataLength[m_IteratorDirection]; ++n)
     {
       m_Scratch[n] += m_SplinePoles[k] * m_Scratch[n - 1];
     }
@@ -183,7 +183,7 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>::SetInitialCausalCoef
   {
     // Accelerated loop
     CoeffType sum = m_Scratch[0]; // verify this
-    for (unsigned int n = 1; n < horizon; ++n)
+    for (SizeValueType n = 1; n < horizon; ++n)
     {
       sum += zn * m_Scratch[n];
       zn *= z;
@@ -197,7 +197,7 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>::SetInitialCausalCoef
     double       z2n = std::pow(z, static_cast<double>(m_DataLength[m_IteratorDirection] - 1L));
     CoeffType    sum = m_Scratch[0] + z2n * m_Scratch[m_DataLength[m_IteratorDirection] - 1L];
     z2n *= z2n * iz;
-    for (unsigned int n = 1; n <= (m_DataLength[m_IteratorDirection] - 2); ++n)
+    for (SizeValueType n = 1; n <= (m_DataLength[m_IteratorDirection] - 2); ++n)
     {
       sum += (zn + z2n) * m_Scratch[n];
       zn *= z;
