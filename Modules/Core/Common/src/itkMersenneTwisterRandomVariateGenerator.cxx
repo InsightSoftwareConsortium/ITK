@@ -34,8 +34,8 @@ hiBit(const IntegerType u)
 {
   return u & 0x80000000;
 }
-IntegerType
 
+IntegerType
 loBit(const IntegerType u)
 {
   return u & 0x00000001;
