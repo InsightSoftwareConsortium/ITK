@@ -330,6 +330,10 @@ private:
     return hash(time(nullptr), clock());
   }
 
+  /** Internal method to initialize a generator object without mutex locking. */
+  void
+  InitializeWithoutMutexLocking(const IntegerType seed);
+
   // Internal state
   IntegerType m_State[StateVectorLength];
 
