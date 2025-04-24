@@ -275,8 +275,7 @@ public:
   void
   SetSeed()
   {
-    // use time() and clock() to generate a unlikely-to-repeat seed.
-    SetSeed(hash(time(nullptr), clock()));
+    SetSeed(Self::CreateRandomSeed());
   }
   /** @ITKEndGrouping */
   /** Return the current seed
@@ -323,6 +322,13 @@ private:
   /** Internal method to actually create a new object. */
   static Pointer
   CreateInstance();
+
+  /** Uses time() and clock() to generate a unlikely-to-repeat seed. */
+  static IntegerType
+  CreateRandomSeed()
+  {
+    return hash(time(nullptr), clock());
+  }
 
   // Internal state
   IntegerType m_State[StateVectorLength];
