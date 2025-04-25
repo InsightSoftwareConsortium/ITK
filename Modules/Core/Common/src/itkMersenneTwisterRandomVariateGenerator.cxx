@@ -34,8 +34,8 @@ hiBit(const IntegerType u)
 {
   return u & 0x80000000;
 }
-IntegerType
 
+IntegerType
 loBit(const IntegerType u)
 {
   return u & 0x00000001;
@@ -98,7 +98,7 @@ MersenneTwisterRandomVariateGenerator::New()
 {
   MersenneTwisterRandomVariateGenerator::Pointer obj = MersenneTwisterRandomVariateGenerator::CreateInstance();
 
-  obj->SetSeed(MersenneTwisterRandomVariateGenerator::GetNextSeed());
+  obj->InitializeWithoutMutexLocking(MersenneTwisterRandomVariateGenerator::GetNextSeed());
   return obj;
 }
 
@@ -111,7 +111,7 @@ MersenneTwisterRandomVariateGenerator::GetInstance()
   if (!m_PimplGlobals->m_StaticInstance)
   {
     m_PimplGlobals->m_StaticInstance = MersenneTwisterRandomVariateGenerator::CreateInstance();
-    m_PimplGlobals->m_StaticInstance->SetSeed();
+    m_PimplGlobals->m_StaticInstance->InitializeWithoutMutexLocking(Self::CreateRandomSeed());
   }
 
   return m_PimplGlobals->m_StaticInstance;
@@ -126,7 +126,10 @@ MersenneTwisterRandomVariateGenerator::ResetNextSeed()
 }
 
 
-MersenneTwisterRandomVariateGenerator::MersenneTwisterRandomVariateGenerator() { SetSeed(121212); }
+MersenneTwisterRandomVariateGenerator::MersenneTwisterRandomVariateGenerator()
+{
+  this->InitializeWithoutMutexLocking(121212);
+}
 
 MersenneTwisterRandomVariateGenerator::~MersenneTwisterRandomVariateGenerator() = default;
 
@@ -162,10 +165,18 @@ MersenneTwisterRandomVariateGenerator::GetNextSeed()
   return GetInstance()->m_Seed + m_PimplGlobals->m_StaticDiffer++;
 }
 
+
 void
 MersenneTwisterRandomVariateGenerator::Initialize(const IntegerType seed)
 {
+  // This is a public member function, so it must lock the mutex of the instance.
   const std::lock_guard<std::mutex> lockGuard(m_InstanceMutex);
+  this->InitializeWithoutMutexLocking(seed);
+}
+
+void
+MersenneTwisterRandomVariateGenerator::InitializeWithoutMutexLocking(const IntegerType seed)
+{
   m_Seed = seed;
   // Initialize generator state with seed
   // See Knuth TAOCP Vol 2, 3rd Ed, p.106 for multiplier.
