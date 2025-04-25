@@ -108,7 +108,7 @@ ConstNeighborhoodIteratorWithOnlyIndex<TImage>::ComputeInternalIndex(NeighborInd
 {
   OffsetType ans;
   auto       r = static_cast<unsigned long>(n);
-  for (long i = static_cast<long>(Dimension) - 1; i >= 0; --i)
+  for (long i = long{ Dimension } - 1; i >= 0; --i)
   {
     ans[i] = static_cast<OffsetValueType>(r / this->GetStride(i));
     r = r % this->GetStride(i);

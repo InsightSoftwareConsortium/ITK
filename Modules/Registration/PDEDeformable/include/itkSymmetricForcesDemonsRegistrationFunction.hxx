@@ -116,7 +116,7 @@ SymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplaceme
   {
     m_Normalizer += m_FixedImageSpacing[k] * m_FixedImageSpacing[k];
   }
-  m_Normalizer /= static_cast<double>(ImageDimension);
+  m_Normalizer /= double{ ImageDimension };
 
   // setup gradient calculator
   m_FixedImageGradientCalculator->SetInputImage(this->GetFixedImage());

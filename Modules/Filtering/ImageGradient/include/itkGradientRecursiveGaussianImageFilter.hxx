@@ -271,7 +271,7 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
   // manually release memory in last filter in the mini-pipeline
   if constexpr (ImageDimension > 1)
   {
-    const int temp_dim = static_cast<int>(ImageDimension) - 2;
+    const int temp_dim = int{ ImageDimension } - 2;
     m_SmoothingFilters[temp_dim]->GetOutput()->ReleaseData();
   }
   else

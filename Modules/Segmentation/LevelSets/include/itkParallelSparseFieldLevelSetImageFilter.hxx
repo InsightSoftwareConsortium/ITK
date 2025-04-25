@@ -58,7 +58,7 @@ ParallelSparseFieldCityBlockNeighborList<TNeighborhoodType>::ParallelSparseField
       m_ArrayIndex.push_back(nCenter - it.GetStride(d));
       m_NeighborhoodOffset[i][d] = -1;
     }
-    for (int d = 0; d < static_cast<int>(Dimension); ++d, ++i)
+    for (int d = 0; d < int{ Dimension }; ++d, ++i)
     {
       m_ArrayIndex.push_back(nCenter + it.GetStride(d));
       m_NeighborhoodOffset[i][d] = 1;

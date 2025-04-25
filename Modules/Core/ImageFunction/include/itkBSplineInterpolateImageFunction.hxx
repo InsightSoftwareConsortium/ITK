@@ -422,11 +422,11 @@ BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::Gene
     int           pp = p;
     unsigned long indexFactor[ImageDimension];
     indexFactor[0] = 1;
-    for (int j = 1; j < static_cast<int>(ImageDimension); ++j)
+    for (int j = 1; j < int{ ImageDimension }; ++j)
     {
       indexFactor[j] = indexFactor[j - 1] * (m_SplineOrder + 1);
     }
-    for (int j = (static_cast<int>(ImageDimension) - 1); j >= 0; j--)
+    for (int j = (int{ ImageDimension } - 1); j >= 0; j--)
     {
       m_PointsToIndex[p][j] = pp / indexFactor[j];
       pp = pp % indexFactor[j];

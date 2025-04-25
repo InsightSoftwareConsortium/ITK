@@ -65,8 +65,7 @@ TestImageOfVectors(const std::string & fname, const std::string & intentCode = "
   //      direction matrix.
   const typename VectorImageType::DirectionType myDirection = PreFillDirection<TDimension>();
 
-  std::cout << " === Testing VectorLength: " << TVecLength << " Image Dimension " << static_cast<int>(TDimension)
-            << std::endl;
+  std::cout << " === Testing VectorLength: " << TVecLength << " Image Dimension " << int{ TDimension } << std::endl;
   std::cout << "======================== Initialized Direction" << std::endl;
   std::cout << myDirection << std::endl;
 

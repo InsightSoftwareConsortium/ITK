@@ -269,7 +269,7 @@ TestImageOfSymMats(const std::string & fname)
   //      direction matrix.
   const typename DtiImageType::DirectionType myDirection = PreFillDirection<VDimension>();
 
-  std::cout << " === Testing DtiImageType:  Image Dimension " << static_cast<int>(VDimension) << std::endl
+  std::cout << " === Testing DtiImageType:  Image Dimension " << int{ VDimension } << std::endl
             << "======================== Initialized Direction" << std::endl
             << myDirection << std::endl;
 

@@ -132,7 +132,7 @@ ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::In
     {
       m_Normalizer += m_FixedImageSpacing[k] * m_FixedImageSpacing[k];
     }
-    m_Normalizer *= m_MaximumUpdateStepLength * m_MaximumUpdateStepLength / static_cast<double>(ImageDimension);
+    m_Normalizer *= m_MaximumUpdateStepLength * m_MaximumUpdateStepLength / double{ ImageDimension };
   }
   else
   {

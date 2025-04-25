@@ -245,7 +245,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateO
     requestedSize = requestedRegion.GetSize();
     requestedIndex = requestedRegion.GetIndex();
 
-    for (int idim = 0; idim < static_cast<int>(ImageDimension); ++idim)
+    for (int idim = 0; idim < int{ ImageDimension }; ++idim)
     {
       factors[idim] = this->GetSchedule()[ilevel - 1][idim] / this->GetSchedule()[ilevel][idim];
 
@@ -282,7 +282,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateO
     requestedSize = requestedRegion.GetSize();
     requestedIndex = requestedRegion.GetIndex();
 
-    for (int idim = 0; idim < static_cast<int>(ImageDimension); ++idim)
+    for (int idim = 0; idim < int{ ImageDimension }; ++idim)
     {
       factors[idim] = this->GetSchedule()[ilevel][idim] / this->GetSchedule()[ilevel + 1][idim];
 
