@@ -129,6 +129,15 @@ itkNiftiImageIOTest(int argc, char * argv[])
     ITK_EXERCISE_BASIC_OBJECT_METHODS(imageIO, NiftiImageIO, ImageIOBase);
 
 
+    auto convertRASVectors = false;
+    ITK_TEST_SET_GET_BOOLEAN(imageIO, ConvertRASVectors, convertRASVectors);
+
+    auto convertRASDisplacementVectors = true;
+    ITK_TEST_SET_GET_BOOLEAN(imageIO, ConvertRASDisplacementVectors, convertRASDisplacementVectors);
+
+    auto sFORM_Permissive = false;
+    ITK_TEST_SET_GET_BOOLEAN(imageIO, SFORM_Permissive, sFORM_Permissive);
+
     // Enable old behavior of NIFTI reader
     imageIO->SetLegacyAnalyze75Mode(itk::NiftiImageIOEnums::Analyze75Flavor::AnalyzeITK4);
 
