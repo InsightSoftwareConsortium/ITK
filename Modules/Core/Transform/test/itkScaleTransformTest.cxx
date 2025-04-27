@@ -19,6 +19,8 @@
 #include <iostream>
 
 #include "itkScaleTransform.h"
+#include "itkTestingMacros.h"
+
 
 int
 itkScaleTransformTest(int, char *[])
@@ -53,6 +55,17 @@ itkScaleTransformTest(int, char *[])
         break;
       }
     }
+
+    // Set a non-identity value to the transform and then set it to the identity
+    scale = 2.0;
+    identityTransform->SetScale(scale);
+    ITK_TEST_SET_GET_VALUE(scale, identityTransform->GetScale());
+
+    identityTransform->SetIdentity();
+
+    typename TransformType::ScaleType identityScale{ 1.0 };
+    ITK_TEST_SET_GET_VALUE(identityScale, identityTransform->GetScale());
+
     if (!Ok)
     {
       std::cerr << "Identity doesn't have a unit scale " << std::endl;
