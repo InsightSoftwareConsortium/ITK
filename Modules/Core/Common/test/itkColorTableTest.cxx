@@ -174,6 +174,7 @@ itkColorTableTest(int argc, char * argv[])
 {
   if (argc != 2)
   {
+    std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " numberOfColors" << std::endl;
     return EXIT_FAILURE;
   }
