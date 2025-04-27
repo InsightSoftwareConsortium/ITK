@@ -26,6 +26,8 @@ itkNiftiImageIOTest13(int argc, char * argv[])
 {
   if (argc != 2)
   {
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " inputFileName" << std::endl;
     return EXIT_FAILURE;
   }
 
