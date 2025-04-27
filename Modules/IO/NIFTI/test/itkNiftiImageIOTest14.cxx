@@ -32,6 +32,7 @@ itkNiftiImageIOTest14(int argc, char * argv[])
   // images should have the same size, spacing, and origin, but may have different units
   if (argc != 4)
   {
+    std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " output_test_fn ref_image test_image" << std::endl;
     return EXIT_FAILURE;
   }

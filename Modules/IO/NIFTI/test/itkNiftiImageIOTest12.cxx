@@ -27,7 +27,7 @@ itkNiftiImageIOTest12(int argc, char * argv[])
   // first argument is passing in the writable directory to do all testing
   if (argc != 3)
   {
-    std::cerr << "Incorrect command line usage:" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
     std::cerr << itkNameOfTestExecutableMacro(argv) << " <TempOutputDirectory> <filename>" << std::endl;
     return EXIT_FAILURE;
   }
