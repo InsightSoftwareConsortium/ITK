@@ -282,12 +282,6 @@ public:
   static IntegerType
   GetNextSeed();
 
-  /*
-  // Saving and loading generator state
-  void save( IntegerType* saveArray ) const;  // to array of size SAVE
-  void load( IntegerType *const loadArray );  // from such array
-  */
-
 protected:
   MersenneTwisterRandomVariateGenerator();
   ~MersenneTwisterRandomVariateGenerator() override;
