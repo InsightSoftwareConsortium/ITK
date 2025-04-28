@@ -166,16 +166,9 @@ public:
   /** Length of state vector */
   static constexpr IntegerType StateVectorLength = 624;
 
-  /** Initialize with a simple IntegerType */
+  /** Sets the seed and initializes the internal state of this generator. */
   void
-  Initialize(const IntegerType seed);
-
-  /* Initialize with clock time */
-  void
-  Initialize()
-  {
-    SetSeed();
-  }
+  Initialize(const IntegerType seed = Self::CreateRandomSeed());
 
   /** Get a random variate in the range [0, 1] */
   double
@@ -260,24 +253,17 @@ public:
     return GetVariate();
   }
 
-  /** Re-seeding functions with same behavior as initializers
+  /** Re-seeding function with same behavior as Initialize.
    *
    * \note This method is thread-safe.
    */
-  /** @ITKStartGrouping */
   void
-  SetSeed(const IntegerType oneSeed)
+  SetSeed(const IntegerType seed = Self::CreateRandomSeed())
   {
-    // Seed the generator with a simple IntegerType
-    Initialize(oneSeed);
+    // Seed the generator.
+    Initialize(seed);
   }
 
-  void
-  SetSeed()
-  {
-    SetSeed(Self::CreateRandomSeed());
-  }
-  /** @ITKEndGrouping */
   /** Return the current seed
    *
    * \note This method is thread-safe.
@@ -295,12 +281,6 @@ public:
    */
   static IntegerType
   GetNextSeed();
-
-  /*
-  // Saving and loading generator state
-  void save( IntegerType* saveArray ) const;  // to array of size SAVE
-  void load( IntegerType *const loadArray );  // from such array
-  */
 
 protected:
   MersenneTwisterRandomVariateGenerator();
