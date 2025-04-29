@@ -96,9 +96,9 @@ MersenneTwisterRandomVariateGenerator::CreateInstance()
 MersenneTwisterRandomVariateGenerator::Pointer
 MersenneTwisterRandomVariateGenerator::New()
 {
-  MersenneTwisterRandomVariateGenerator::Pointer obj = MersenneTwisterRandomVariateGenerator::CreateInstance();
+  MersenneTwisterRandomVariateGenerator::Pointer obj = Self::CreateInstance();
 
-  obj->InitializeWithoutMutexLocking(MersenneTwisterRandomVariateGenerator::GetNextSeed());
+  obj->InitializeWithoutMutexLocking(Self::GetNextSeed());
   return obj;
 }
 
@@ -110,7 +110,7 @@ MersenneTwisterRandomVariateGenerator::GetInstance()
 
   if (!m_PimplGlobals->m_StaticInstance)
   {
-    m_PimplGlobals->m_StaticInstance = MersenneTwisterRandomVariateGenerator::CreateInstance();
+    m_PimplGlobals->m_StaticInstance = Self::CreateInstance();
     m_PimplGlobals->m_StaticInstance->InitializeWithoutMutexLocking(Self::CreateRandomSeed());
   }
 
@@ -162,7 +162,7 @@ IntegerType
 MersenneTwisterRandomVariateGenerator::GetNextSeed()
 {
   itkInitGlobalsMacro(PimplGlobals);
-  return GetInstance()->m_Seed + m_PimplGlobals->m_StaticDiffer++;
+  return Self::GetInstance()->m_Seed + m_PimplGlobals->m_StaticDiffer++;
 }
 
 
