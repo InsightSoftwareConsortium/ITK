@@ -81,7 +81,7 @@ MersenneTwisterRandomVariateGenerator::Pointer
 MersenneTwisterRandomVariateGenerator::CreateInstance()
 {
   // Try the factory first
-  MersenneTwisterRandomVariateGenerator::Pointer obj = ObjectFactory<Self>::Create();
+  Pointer obj = ObjectFactory<Self>::Create();
   // If the factory did not provide one, then create it here
   if (!obj)
   {
@@ -96,7 +96,7 @@ MersenneTwisterRandomVariateGenerator::CreateInstance()
 MersenneTwisterRandomVariateGenerator::Pointer
 MersenneTwisterRandomVariateGenerator::New()
 {
-  MersenneTwisterRandomVariateGenerator::Pointer obj = Self::CreateInstance();
+  Pointer obj = Self::CreateInstance();
 
   obj->InitializeWithoutMutexLocking(Self::GetNextSeed());
   return obj;
