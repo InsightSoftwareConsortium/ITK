@@ -68,9 +68,9 @@ struct MersenneTwisterGlobals
   MersenneTwisterGlobals() = default;
   ~MersenneTwisterGlobals() = default;
 
-  MersenneTwisterRandomVariateGenerator::Pointer                  m_StaticInstance{};
-  std::mutex                                                      m_StaticInstanceMutex{};
-  std::atomic<MersenneTwisterRandomVariateGenerator::IntegerType> m_StaticDiffer{};
+  MersenneTwisterRandomVariateGenerator::Pointer m_StaticInstance{};
+  std::mutex                                     m_StaticInstanceMutex{};
+  std::atomic<IntegerType>                       m_StaticDiffer{};
 };
 
 itkGetGlobalSimpleMacro(MersenneTwisterRandomVariateGenerator, MersenneTwisterGlobals, PimplGlobals);
@@ -133,7 +133,7 @@ MersenneTwisterRandomVariateGenerator::MersenneTwisterRandomVariateGenerator()
 
 MersenneTwisterRandomVariateGenerator::~MersenneTwisterRandomVariateGenerator() = default;
 
-MersenneTwisterRandomVariateGenerator::IntegerType
+IntegerType
 MersenneTwisterRandomVariateGenerator::hash(const time_t t, const clock_t c)
 {
   itkInitGlobalsMacro(PimplGlobals);
@@ -158,7 +158,7 @@ MersenneTwisterRandomVariateGenerator::hash(const time_t t, const clock_t c)
   return (h1 + m_PimplGlobals->m_StaticDiffer++) ^ h2;
 }
 
-MersenneTwisterRandomVariateGenerator::IntegerType
+IntegerType
 MersenneTwisterRandomVariateGenerator::GetNextSeed()
 {
   itkInitGlobalsMacro(PimplGlobals);
@@ -225,7 +225,7 @@ MersenneTwisterRandomVariateGenerator::reload()
 
 
 /** Get an integer variate in [0, 2^32-1] */
-MersenneTwisterRandomVariateGenerator::IntegerType
+IntegerType
 MersenneTwisterRandomVariateGenerator::GetIntegerVariate()
 {
   if (m_Left == 0)
@@ -242,7 +242,7 @@ MersenneTwisterRandomVariateGenerator::GetIntegerVariate()
 }
 
 
-MersenneTwisterRandomVariateGenerator::IntegerType
+IntegerType
 MersenneTwisterRandomVariateGenerator::GetIntegerVariate(const IntegerType n)
 {
   // Find which bits are used in n
