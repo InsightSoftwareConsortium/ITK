@@ -217,7 +217,7 @@ TestMattesMetricWithAffineTransform(TInterpolator * interpolator,
   ITK_TEST_SET_GET_BOOLEAN(metric, UseExplicitPDFDerivatives, useExplicitJointPDFDerivatives);
 
   metric->SetUseCachingOfBSplineWeights(useCachingBSplineWeights);
-  metric->ReinitializeSeed(121212);
+  metric->ReinitializeSeed(itk::Statistics::MersenneTwisterRandomVariateGenerator::DefaultSeed);
 
   metric->SetFixedImageSamplesIntensityThreshold(100);
   if (metric->GetFixedImageSamplesIntensityThreshold() != 100)

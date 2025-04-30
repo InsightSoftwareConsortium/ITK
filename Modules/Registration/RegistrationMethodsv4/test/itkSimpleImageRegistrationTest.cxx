@@ -446,7 +446,8 @@ itkSimpleImageRegistrationTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  itk::Statistics::MersenneTwisterRandomVariateGenerator::GetInstance()->SetSeed(121212);
+  itk::Statistics::MersenneTwisterRandomVariateGenerator::GetInstance()->SetSeed(
+    itk::Statistics::MersenneTwisterRandomVariateGenerator::DefaultSeed);
 
   switch (std::stoi(argv[2]))
   {

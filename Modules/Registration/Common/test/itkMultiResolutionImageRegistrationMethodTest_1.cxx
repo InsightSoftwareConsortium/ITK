@@ -18,6 +18,7 @@
 
 #include "itkMutualInformationImageToImageMetric.h"
 
+#include "itkMersenneTwisterRandomVariateGenerator.h"
 #include "itkTextOutput.h"
 #include "itkSimpleMultiResolutionImageRegistrationUI.h"
 #include "itkTestingMacros.h"
@@ -267,7 +268,7 @@ itkMultiResolutionImageRegistrationMethodTest_1(int, char *[])
 
     try
     {
-      metric->ReinitializeSeed(121212);
+      metric->ReinitializeSeed(itk::Statistics::MersenneTwisterRandomVariateGenerator::DefaultSeed);
       registration->SetNumberOfLevels(numberOfLevels);
       registration->SetInitialTransformParameters(initialParameters);
 
@@ -491,7 +492,7 @@ itkMultiResolutionImageRegistrationMethodTest_1(int, char *[])
 
     try
     {
-      metric->ReinitializeSeed(121212);
+      metric->ReinitializeSeed(itk::Statistics::MersenneTwisterRandomVariateGenerator::DefaultSeed);
       registration->SetSchedules(fixedImageSchedule, movingImageSchedule);
       ITK_TEST_SET_GET_VALUE(fixedImageSchedule, registration->GetFixedImagePyramidSchedule());
       ITK_TEST_SET_GET_VALUE(movingImageSchedule, registration->GetMovingImagePyramidSchedule());
