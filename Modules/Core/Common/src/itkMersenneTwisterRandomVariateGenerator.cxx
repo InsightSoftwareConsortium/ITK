@@ -128,7 +128,7 @@ MersenneTwisterRandomVariateGenerator::ResetNextSeed()
 
 MersenneTwisterRandomVariateGenerator::MersenneTwisterRandomVariateGenerator()
 {
-  this->InitializeWithoutMutexLocking(121212);
+  this->InitializeWithoutMutexLocking(DefaultSeed);
 }
 
 MersenneTwisterRandomVariateGenerator::~MersenneTwisterRandomVariateGenerator() = default;
