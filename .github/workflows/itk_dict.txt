@@ -618,6 +618,7 @@ memcpy
 memmove
 memset
 merchantability
+mersenne
 meshpixperelt
 metacharacters
 metricb

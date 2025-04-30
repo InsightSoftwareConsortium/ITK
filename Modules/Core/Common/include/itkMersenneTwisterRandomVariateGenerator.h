@@ -163,6 +163,15 @@ public:
   static void
   ResetNextSeed();
 
+  /** The initial seed of a default-constructed generator.
+   *
+   * \note The global generator retrieved by `GetInstance()`, and local generators created by `New()` may all have a
+   * different (non-default) seeds.
+   * \note The Mersenne Twister random number engine of the Standard C++ Library `std::mersenne_twister_engine`
+   * (`std::mt19937`) has a different default seed, `default_seed == 5489`.
+   */
+  static constexpr IntegerType DefaultSeed = 121212;
+
   /** Length of state vector */
   static constexpr IntegerType StateVectorLength = 624;
 
