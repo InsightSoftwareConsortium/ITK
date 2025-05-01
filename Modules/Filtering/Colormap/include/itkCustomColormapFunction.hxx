@@ -62,7 +62,7 @@ CustomColormapFunction<TScalar, TRGBPixel>::operator()(const TScalar & v) const 
   RGBPixelType pixel;
   NumericTraits<TRGBPixel>::SetLength(pixel, 3);
 
-  for (auto color = static_cast<size_t>(RED); color <= static_cast<size_t>(BLUE); ++color)
+  for (auto color = size_t{ RED }; color <= size_t{ BLUE }; ++color)
   {
     pixel[color] = this->RescaleRGBComponentValue(RGBValue[color]);
   }
