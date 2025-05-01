@@ -320,13 +320,15 @@ their branch into logical commits (preferred), maintainers should use the
 *Squash and merge* button on the pull request to consolidate patches into
 logical commits.
 
-For bug fixes that are ready to be included in the next patch release, make a
-comment on the pull request which states the topic should be merged to the
-`release` and `release-X.X` maintenance branch, where `X.X` are the current
-maintenance version, e.g. `5.4`.
+### Merge a bug fix for a patch release
 
-Here are the recommended steps to merge a topic to both `release` and `master`
-branches, assuming the topic branch is forked off the `release` branch:
+
+For bug fixes that need to be included in a patch release, follow these steps
+to merge the topic into the `release` and `release-X.X` branches, where `X.X`
+is the current maintenance version (e.g., `5.4`):
+
+1. Ensure the topic branch is forked off the `release` branch.
+2. Merge the topic into the `release-X.X` branch:
 
 ```bash
 git checkout release-X.X
@@ -335,7 +337,7 @@ git merge --no-ff my-topic
 git push upstream release-X.X
 ```
 
-then:
+3. Merge the `release-X.X` branch into the `release` branch:
 
 ```bash
 git checkout release
@@ -344,7 +346,7 @@ git merge --no-ff release-X.X
 git push upstream release
 ```
 
-then:
+4. Finally, merge the `release` branch back into the `master` branch:
 
 ```bash
 git checkout master
@@ -353,7 +355,8 @@ git merge --no-ff release
 git push upstream master
 ```
 
-to merge the `release` branch back to `master`.
+This ensures the bug fix is included in the patch release and the master
+development branch.
 
 (delete-a-topic)=
 Delete a Topic
