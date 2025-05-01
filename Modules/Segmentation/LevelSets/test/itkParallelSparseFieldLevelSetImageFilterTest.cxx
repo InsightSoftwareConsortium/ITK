@@ -48,9 +48,9 @@ constexpr int RADIUS = (std::min(std::min(HEIGHT, WIDTH), DEPTH) / 4);
 float
 sphere(unsigned int x, unsigned int y, unsigned int z)
 {
-  float dis = (x - static_cast<float>(WIDTH) / 2.0) * (x - static_cast<float>(WIDTH) / 2.0) +
-              (y - static_cast<float>(HEIGHT) / 2.0) * (y - static_cast<float>(HEIGHT) / 2.0) +
-              (z - static_cast<float>(DEPTH) / 2.0) * (z - static_cast<float>(DEPTH) / 2.0);
+  float dis = (x - float{ WIDTH } / 2.0) * (x - float{ WIDTH } / 2.0) +
+              (y - float{ HEIGHT } / 2.0) * (y - float{ HEIGHT } / 2.0) +
+              (z - float{ DEPTH } / 2.0) * (z - float{ DEPTH } / 2.0);
   dis = RADIUS - std::sqrt(dis);
   return (-dis);
 }
@@ -59,9 +59,9 @@ sphere(unsigned int x, unsigned int y, unsigned int z)
 float
 cube(unsigned int x, unsigned int y, unsigned int z)
 {
-  const float X = itk::Math::abs(x - static_cast<float>(WIDTH) / 2.0);
-  const float Y = itk::Math::abs(y - static_cast<float>(HEIGHT) / 2.0);
-  const float Z = itk::Math::abs(z - static_cast<float>(DEPTH) / 2.0);
+  const float X = itk::Math::abs(x - float{ WIDTH } / 2.0);
+  const float Y = itk::Math::abs(y - float{ HEIGHT } / 2.0);
+  const float Z = itk::Math::abs(z - float{ DEPTH } / 2.0);
   float       dis;
   if (!((X > RADIUS) && (Y > RADIUS) && (Z > RADIUS)))
   {

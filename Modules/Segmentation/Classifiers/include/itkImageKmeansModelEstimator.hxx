@@ -545,7 +545,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::Perturb(double * ol
   for (unsigned int i = 0; i < m_VectorDimension; ++i)
   {
     srand(static_cast<unsigned int>(time(nullptr)));
-    const double rand_num = (rand()) / (static_cast<double>(RAND_MAX));
+    const double rand_num = (rand()) / (double{ RAND_MAX });
 
     if (oldCodeword[i] == 0.0)
     {

@@ -1515,8 +1515,8 @@ NiftiImageIO::WriteImageInformation()
   // external tools believe that the time units must be set, even if there
   // is only one dataset.  Having the time specified for a purely spatial
   // image has no consequence, so go ahead and set it to seconds.
-  this->m_NiftiImage->xyz_units = static_cast<int>(NIFTI_UNITS_MM);
-  this->m_NiftiImage->time_units = static_cast<int>(NIFTI_UNITS_SEC);
+  this->m_NiftiImage->xyz_units = int{ NIFTI_UNITS_MM };
+  this->m_NiftiImage->time_units = int{ NIFTI_UNITS_SEC };
   this->m_NiftiImage->dim[7] = this->m_NiftiImage->nw = 1;
   this->m_NiftiImage->dim[6] = this->m_NiftiImage->nv = 1;
   this->m_NiftiImage->dim[5] = this->m_NiftiImage->nu = 1;
