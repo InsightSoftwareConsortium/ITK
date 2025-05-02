@@ -28,7 +28,7 @@ import re
 import sys
 import os
 
-## New license as specified on: https://itk.org/Wiki/ITK_Release_4/Licensing
+## New license as specified on: https://insightsoftwareconsortium.github.io/ITKWikiArchive/Wiki/ITK_Release_4/Licensing
 NewITKCopyrightNotice = """/*=========================================================================
  *
  *  Copyright NumFOCUS

@@ -992,13 +992,13 @@ excellent packaging.
 [ITK Open Collective page]: https://opencollective.org/itk
 [ITK issue tracking]: https://issues.itk.org/
 [ITK Software Guide]: https://itk.org/ItkSoftwareGuide.pdf
-[ITK wiki]: https://itk.org/Wiki/ITK
+[ITK wiki]: https://insightsoftwareconsortium.github.io/ITKWikiArchive/Wiki/ITK
 [ITK Sphinx examples]: https://examples.itk.org/
 [ITKReleases NumFOCUS GDrive]: https://drive.google.com/drive/folders/1-uE7lKAZN4PT52vJJuDqr6KT656r6Dn_?usp=drive_link
 [kubo]: https://github.com/ipfs/kubo
 [pinata]: https://pinata.cloud
-[releases page]: https://itk.org/Wiki/ITK/Releases
-[release schedule]: https://itk.org/Wiki/ITK/Release_Schedule
+[releases page]: https://insightsoftwareconsortium.github.io/ITKWikiArchive/Wiki/ITK/Releases
+[release schedule]: https://insightsoftwareconsortium.github.io/ITKWikiArchive/Wiki/ITK/Release_Schedule
 [signed release]: https://github.com/ossf/scorecard/blob/49c0eed3a423f00c872b5c3c9f1bbca9e8aae799/docs/checks.md#signed-releases
 [Software Guide]: https://itk.org/ItkSoftwareGuide.pdf
 [@web3-storage/w3cli]: https://www.npmjs.com/package/@web3-storage/w3cli

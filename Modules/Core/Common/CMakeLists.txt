@@ -120,7 +120,7 @@ endif()
 # This is required on Mac OSX to avoid dynamic_cast failures across binaries.
 # See Change-Id: Ib4a6b8cafe8720c3a2a5b3e6ba833d11002978df for more information."
 option(ITK_TEMPLATE_VISIBILITY_DEFAULT
-       "Set symbol visibility to default for template class declarations. https://itk.org/Wiki/ITK/FAQ"
+       "Set symbol visibility to default for template class declarations. https://insightsoftwareconsortium.github.io/ITKWikiArchive/Wiki/ITK/FAQ"
        "${_template_visibility_init}")
 mark_as_advanced(ITK_TEMPLATE_VISIBILITY_DEFAULT)
 
