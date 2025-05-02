@@ -1086,8 +1086,44 @@ In addition to the above tags, `MetaImage` provides the following tags:
     -   Description: Physical size of each voxel.
 -   `ElementType`
     -   Type: `MET_STRING`
-    -   Description: One of enum type: `MET_UCHAR`, `MET_CHAR`… See
-        `metaTypes.h`.
+    -   Description: One of enum type: `MET_UCHAR`, `MET_CHAR`… as described in the following table:
+
+        | ElementType tag      | Description |
+        | -------------------- | ----------- |
+        | MET_NONE             | none |
+        | MET_ASCII_CHAR       | ASCII character |
+        | MET_CHAR             | 8-bit signed integer |
+        | MET_UCHAR            | 8-bit unsigned integer |
+        | MET_SHORT            | 16-bit signed integer |
+        | MET_USHORT           | 16-bit unsigned integer |
+        | MET_INT              | 32-bit signed integer |
+        | MET_UINT             | 32-bit unsigned integer |
+        | MET_LONG             | 32-bit signed integer |
+        | MET_ULONG            | 32-bit unsigned integer |
+        | MET_LONG_LONG        | 64-bit signed integer |
+        | MET_ULONG_LONG       | 64-bit unsigned integer |
+        | MET_FLOAT            | 32-bit single precision floating point |
+        | MET_DOUBLE           | 64-bit double precision floating point |
+        | MET_STRING           | string of 8-bit characters |
+        | MET_CHAR_ARRAY       | array of 8-bit signed integers |
+        | MET_UCHAR_ARRAY      | array of 8-bit unsigned integers |
+        | MET_SHORT_ARRAY      | array of 16-bit signed integers |
+        | MET_USHORT_ARRAY     | array of 16-bit unsigned integers |
+        | MET_INT_ARRAY        | array of 32-bit signed integers |
+        | MET_UINT_ARRAY       | array of 32-bit unsigned integers |
+        | MET_LONG_ARRAY       | array of 32-bit signed integers |
+        | MET_ULONG_ARRAY      | array of 32-bit unsigned integers |
+        | MET_LONG_LONG_ARRAY  | array of 64-bit signed integers |
+        | MET_ULONG_LONG_ARRAY | array of 64-bit unsigned integers |
+        | MET_FLOAT_ARRAY      | array of 32-bit single precision floating points |
+        | MET_DOUBLE_ARRAY     | array of 64-bit double precision floating points |
+        | MET_FLOAT_MATRIX     | matrix of 32-bit single precision floating points |
+        | MET_OTHER            | other |
+
+        Note: this description (including the specified number of bits) applies
+        to all supported platforms, independent of platform specific sizes of
+        built-in C++ types (like `sizeof(long)`).
+
 -   `ElementDataFile`
     -   Type: `MET_STRING`
     -   Description: Specifies the location of the pixel/voxel data. One of the
