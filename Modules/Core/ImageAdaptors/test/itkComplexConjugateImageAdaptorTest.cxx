@@ -44,8 +44,6 @@ itkComplexConjugateImageAdaptorTest(int, char *[])
     iter.Set(pixel);
   }
 
-  image->FillBuffer(PixelType(2.0, -3.7));
-
   // Create adaptor.
   auto adaptor = AdaptorType::New();
   adaptor->SetImage(image);
