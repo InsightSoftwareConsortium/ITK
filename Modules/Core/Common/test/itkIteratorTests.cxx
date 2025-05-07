@@ -66,7 +66,7 @@ itkIteratorTests(int, char *[])
   unsigned short * ptr = o3->GetBufferPointer();
   memset(ptr, 0, num * sizeof(unsigned short));
   clock_t end = clock();
-  double  elapsedTime = (end - start) / static_cast<double>(CLOCKS_PER_SEC);
+  double  elapsedTime = (end - start) / double{ CLOCKS_PER_SEC };
 
   std::cout << "Raw pointer using memset" << std::endl;
   std::cout << "\tTime   = " << elapsedTime << std::endl;
@@ -83,7 +83,7 @@ itkIteratorTests(int, char *[])
     }
     end = clock();
     *ptr = 0;
-    elapsedTime = (end - start) / static_cast<double>(CLOCKS_PER_SEC);
+    elapsedTime = (end - start) / double{ CLOCKS_PER_SEC };
 
     std::cout << "Raw pointer as a 1D array" << std::endl;
     std::cout << "\tTime   = " << elapsedTime << std::endl;
@@ -109,7 +109,7 @@ itkIteratorTests(int, char *[])
           ++i;
         }
     end = clock();
-    elapsedTime = (end - start) / static_cast<double>(CLOCKS_PER_SEC);
+    elapsedTime = (end - start) / double{ CLOCKS_PER_SEC };
 
     std::cout << "Raw pointer in 3 nested loops" << std::endl;
     std::cout << "\tTime   = " << elapsedTime << std::endl;
@@ -134,7 +134,7 @@ itkIteratorTests(int, char *[])
       ++i;
     }
     end = clock();
-    elapsedTime = (end - start) / static_cast<double>(CLOCKS_PER_SEC);
+    elapsedTime = (end - start) / double{ CLOCKS_PER_SEC };
 
     std::cout << "ImageRegionIterator" << std::endl;
     std::cout << "\tTime   = " << elapsedTime << std::endl;
@@ -156,7 +156,7 @@ itkIteratorTests(int, char *[])
       ++i;
     }
     end = clock();
-    elapsedTime = (end - start) / static_cast<double>(CLOCKS_PER_SEC);
+    elapsedTime = (end - start) / double{ CLOCKS_PER_SEC };
 
     std::cout << "ImageRegionIteratorWithIndex" << std::endl;
     std::cout << "\tTime   = " << elapsedTime << std::endl;
