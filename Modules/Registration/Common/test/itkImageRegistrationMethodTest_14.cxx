@@ -237,7 +237,7 @@ itkImageRegistrationMethodTest_14(int, char *[])
   metric->SetFixedImageStandardDeviation(5.0);
   metric->SetNumberOfSpatialSamples(50);
   metric->SetFixedImageRegion(fixedImage->GetBufferedRegion());
-  metric->ReinitializeSeed(121212);
+  metric->ReinitializeSeed(itk::Statistics::MersenneTwisterRandomVariateGenerator::DefaultSeed);
 
   /******************************************************************
    * Set up the registrator.

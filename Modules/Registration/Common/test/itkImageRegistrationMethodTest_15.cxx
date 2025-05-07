@@ -18,6 +18,7 @@
 
 #include "itkImageRegistrationMethod.h"
 #include "itkMattesMutualInformationImageToImageMetric.h"
+#include "itkMersenneTwisterRandomVariateGenerator.h"
 #include "itkGradientDescentOptimizer.h"
 
 #include "itkTextOutput.h"
@@ -224,7 +225,7 @@ itkImageRegistrationMethodTest_15(int, char *[])
   region.SetSize(size);
   region.SetIndex(index);
   metric->SetFixedImageRegion(region);
-  metric->ReinitializeSeed(121212);
+  metric->ReinitializeSeed(itk::Statistics::MersenneTwisterRandomVariateGenerator::DefaultSeed);
 
   /******************************************************************
    * Set up the registrator.

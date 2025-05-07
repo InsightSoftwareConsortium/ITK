@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkQuaternionRigidTransform.h"
+#include "itkMersenneTwisterRandomVariateGenerator.h"
 #include "itkMutualInformationImageToImageMetric.h"
 #include "itkQuaternionRigidTransformGradientDescentOptimizer.h"
 
@@ -210,7 +211,7 @@ itkMultiResolutionImageRegistrationMethodTest_2(int, char *[])
   metric->SetMovingImageStandardDeviation(5.0);
   metric->SetFixedImageStandardDeviation(5.0);
   metric->SetNumberOfSpatialSamples(50);
-  metric->ReinitializeSeed(121212);
+  metric->ReinitializeSeed(itk::Statistics::MersenneTwisterRandomVariateGenerator::DefaultSeed);
 
   /******************************************************************
    * Set up the registrator.
