@@ -533,7 +533,32 @@ GDCMImageIO::InternalReadImageInformation()
       outputpt = r.ComputeInterceptSlopePixelType();
     }
 
-    if (pixeltype > outputpt)
+    bool ptLarger = false;
+    switch (outputpt)
+    {
+      // Default comparison uses the > operator and the order in ScalarType enum
+      // INT types needs to be adjusted so signed input is allowed to produce unsigned output
+      case gdcm::PixelFormat::UINT8:
+        ptLarger = pixeltype > gdcm::PixelFormat::INT8;
+        break;
+      case gdcm::PixelFormat::UINT12:
+        ptLarger = pixeltype > gdcm::PixelFormat::INT12;
+        break;
+      case gdcm::PixelFormat::UINT16:
+        ptLarger = pixeltype > gdcm::PixelFormat::INT16;
+        break;
+      case gdcm::PixelFormat::UINT32:
+        ptLarger = pixeltype > gdcm::PixelFormat::INT32;
+        break;
+      case gdcm::PixelFormat::UINT64:
+        ptLarger = pixeltype > gdcm::PixelFormat::INT64;
+        break;
+      default:
+        ptLarger = pixeltype > outputpt;
+        break;
+    }
+
+    if (ptLarger)
     {
       itkAssertInDebugOrThrowInReleaseMacro("Pixel type larger than output type")
     }
