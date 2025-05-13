@@ -167,7 +167,7 @@ MersenneTwisterRandomVariateGenerator::GetNextSeed()
 
 
 void
-MersenneTwisterRandomVariateGenerator::Initialize(const IntegerType seed)
+MersenneTwisterRandomVariateGenerator::SetSeed(const IntegerType seed)
 {
   // This is a public member function, so it must lock the mutex of the instance.
   const std::lock_guard<std::mutex> lockGuard(m_InstanceMutex);

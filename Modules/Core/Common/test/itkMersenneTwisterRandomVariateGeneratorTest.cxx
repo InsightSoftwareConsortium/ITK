@@ -17,6 +17,10 @@
  *=========================================================================*/
 
 
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+#  define ITK_LEGACY_SILENT
+#endif
+
 #include "itkMersenneTwisterRandomVariateGenerator.h"
 #include "itkTestingMacros.h"
 
@@ -104,6 +108,7 @@ itkMersenneTwisterRandomVariateGeneratorTest(int, char *[])
     return EXIT_FAILURE;
   }
 
+#ifndef ITK_FUTURE_LEGACY_REMOVE
   twister->Initialize();
   twister->SetSeed(1234);
   const Twister::IntegerType withSetSeed = twister->GetIntegerVariate();
@@ -114,6 +119,7 @@ itkMersenneTwisterRandomVariateGeneratorTest(int, char *[])
     std::cerr << "Result initializing with SetSeed() did not equal result with Initialize()." << std::endl;
     return EXIT_FAILURE;
   }
+#endif
 
   return EXIT_SUCCESS;
 }
