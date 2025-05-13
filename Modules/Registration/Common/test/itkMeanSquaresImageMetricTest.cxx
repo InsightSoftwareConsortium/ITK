@@ -323,7 +323,7 @@ itkMeanSquaresImageMetricTest(int, char *[])
   // Set bSplineTransform parameters with MersenneTwister
   ParametersType bSplineParameters(bSplineTransform->GetNumberOfParameters());
   auto           generator = GeneratorType::New();
-  generator->Initialize();
+  generator->SetSeed();
   for (unsigned int d = 0; d < bSplineParameters.Size(); ++d)
   {
     bSplineParameters[d] = generator->GetNormalVariate();

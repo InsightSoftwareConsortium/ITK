@@ -38,7 +38,7 @@ itkWeightedCentroidKdTreeGeneratorTest8(int argc, char * argv[])
   using NumberGeneratorType = itk::Statistics::MersenneTwisterRandomVariateGenerator;
 
   const NumberGeneratorType::Pointer randomNumberGenerator = NumberGeneratorType::GetInstance();
-  randomNumberGenerator->Initialize();
+  randomNumberGenerator->SetSeed();
 
   constexpr unsigned int measurementVectorSize = 2;
 
