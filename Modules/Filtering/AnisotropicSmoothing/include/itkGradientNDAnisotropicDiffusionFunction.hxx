@@ -78,7 +78,7 @@ GradientNDAnisotropicDiffusionFunction<TImage>::ComputeUpdate(const Neighborhood
                                                               const FloatOffsetType &) -> PixelType
 {
   // PixelType is scalar in this context
-  auto delta = PixelRealType{};
+  PixelRealType delta{};
 
   // Calculate the centralized derivatives for each dimension.
   PixelRealType dx[ImageDimension];
