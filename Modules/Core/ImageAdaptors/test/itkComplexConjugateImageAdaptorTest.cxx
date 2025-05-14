@@ -18,6 +18,7 @@
 
 #include "itkComplexConjugateImageAdaptor.h"
 #include "itkImageRegionIterator.h"
+#include <random>
 
 
 using PixelType = std::complex<float>;
@@ -34,13 +35,13 @@ itkComplexConjugateImageAdaptorTest(int, char *[])
   image->Allocate();
   const ImageType::RegionType region = image->GetLargestPossibleRegion();
 
-  srand(50L);
+  std::mt19937                          randomNumberEngine;
+  std::uniform_real_distribution<float> randomNumberDistribution;
 
   itk::ImageRegionIterator<ImageType> iter(image, region);
   for (iter.GoToBegin(); !iter.IsAtEnd(); ++iter)
   {
-    auto            randMax = static_cast<float>(RAND_MAX);
-    const PixelType pixel(static_cast<float>(rand()) / randMax, static_cast<float>(rand()) / randMax);
+    const PixelType pixel(randomNumberDistribution(randomNumberEngine), randomNumberDistribution(randomNumberEngine));
     iter.Set(pixel);
   }
 
