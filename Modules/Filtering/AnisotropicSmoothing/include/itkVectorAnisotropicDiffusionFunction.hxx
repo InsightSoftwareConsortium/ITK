@@ -54,8 +54,8 @@ VectorAnisotropicDiffusionFunction<TImage>::CalculateAverageGradientMagnitudeSqu
   auto                            fit = faceList.begin();
 
   // Now do the actual processing
-  double accumulator = 0.0;
-  auto   counter = SizeValueType{};
+  double        accumulator = 0.0;
+  SizeValueType counter{};
 
   // First process the non-boundary region
 

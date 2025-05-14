@@ -89,7 +89,7 @@ MeanImageFilter<TInputImage, TOutputImage>::GenerateDataInSubregion(
   {
     neighborhoodRange.SetLocation(index);
 
-    auto sum = InputRealType{};
+    InputRealType sum{};
 
     for (const InputPixelType pixelValue : neighborhoodRange)
     {

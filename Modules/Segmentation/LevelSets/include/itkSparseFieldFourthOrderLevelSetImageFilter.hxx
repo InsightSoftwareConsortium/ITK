@@ -97,7 +97,7 @@ SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>::ComputeCur
     indicator[j] = one << j;
   }
 
-  auto curvature = ValueType{};
+  ValueType curvature{};
 
   for (unsigned int counter = 0; counter < m_NumVertex; ++counter)
   {
@@ -203,7 +203,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>::ProcessNormals()
 {
-  auto temp = ValueType{ ImageDimension };
+  ValueType temp{ ImageDimension };
 
   const typename NormalVectorFilterType::Pointer   NormalVectorFilter = NormalVectorFilterType::New();
   const typename NormalVectorFunctionType::Pointer NormalVectorFunction = NormalVectorFunctionType::New();

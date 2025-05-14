@@ -957,7 +957,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::PropagateLayerValues(
     statusIt.NeedToUseBoundaryConditionOff();
   }
 
-  auto             value = ValueType{};
+  ValueType        value{};
   const StatusType past_end = static_cast<StatusType>(m_Layers.size()) - 1;
 
   auto toIt = m_Layers[to]->Begin();

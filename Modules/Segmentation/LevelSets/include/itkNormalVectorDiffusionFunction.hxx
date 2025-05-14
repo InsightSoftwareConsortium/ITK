@@ -139,7 +139,7 @@ NormalVectorDiffusionFunction<TSparseImageType>::PrecomputeSparseUpdate(Neighbor
       // now compute the intrinsic derivative
       for (unsigned int j = 0; j < ImageDimension; ++j) // component axis
       {
-        auto DotProduct = NodeValueType{};
+        NodeValueType DotProduct{};
         for (unsigned int k = 0; k < ImageDimension; ++k) // derivative axis
         {
           DotProduct += (gradient[k][j] * CenterNode->m_ManifoldNormal[i][k]);
@@ -173,7 +173,7 @@ NormalVectorDiffusionFunction<TSparseImageType>::ComputeSparseUpdate(Neighborhoo
 
   const NeighborhoodScalesType neighborhoodScales = this->ComputeNeighborhoodScales();
 
-  auto change = NormalVectorType{};
+  NormalVectorType change{};
   for (unsigned int i = 0; i < ImageDimension; ++i) // flux offset axis
   {
     const auto NextNode = it.GetNext(i);

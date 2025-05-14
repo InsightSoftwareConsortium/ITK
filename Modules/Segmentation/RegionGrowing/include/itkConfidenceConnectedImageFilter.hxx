@@ -163,8 +163,8 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
       {
         neighborhoodRange.SetLocation(*si);
 
-        auto neighborhoodSum = InputRealType{ 0.0 };
-        auto neighborhoodSumOfSquares = InputRealType{ 0.0 };
+        InputRealType neighborhoodSum{ 0.0 };
+        InputRealType neighborhoodSumOfSquares{ 0.0 };
 
         for (const InputImagePixelType pixelValue : neighborhoodRange)
         {
@@ -299,8 +299,8 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
     secondFunction->SetInputImage(outputImage);
     secondFunction->ThresholdBetween(m_ReplaceValue, m_ReplaceValue);
 
-    auto                                 sum = InputRealType{};
-    auto                                 sumOfSquares = InputRealType{};
+    InputRealType                        sum{};
+    InputRealType                        sumOfSquares{};
     typename TOutputImage::SizeValueType numberOfSamples = 0;
 
     SecondIteratorType sit(inputImage, secondFunction, m_Seeds);
