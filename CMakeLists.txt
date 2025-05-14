@@ -130,7 +130,7 @@ if(MSVC) #-- Configure MSVC_STATIC_RUNTIME only if using MSVC environment
   option(ITK_MSVC_STATIC_RUNTIME_LIBRARY "Link to MSVC's static CRT (/MT and /MTd).
 OFF (default) means link to regular, dynamic CRT (/MD and /MDd)." OFF)
   mark_as_advanced(ITK_MSVC_STATIC_RUNTIME_LIBRARY)
-  set(ITK_MSVC_STATIC_RUNTIME_LIBRARY_value ${ITK_MSVC_STATIC_RUNTIME_LIBRARY})
+  set(ITK_MSVC_STATIC_CRT ${ITK_MSVC_STATIC_RUNTIME_LIBRARY})
   if(ITK_MSVC_STATIC_RUNTIME_LIBRARY)
     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
     message(STATUS "Using MSVC's static CRT (/MT and /MTd)")
