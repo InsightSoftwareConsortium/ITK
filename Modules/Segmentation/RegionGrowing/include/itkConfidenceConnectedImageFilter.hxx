@@ -163,8 +163,8 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
       {
         neighborhoodRange.SetLocation(*si);
 
-        auto neighborhoodSum = InputRealType{ 0.0 };
-        auto neighborhoodSumOfSquares = InputRealType{ 0.0 };
+        InputRealType neighborhoodSum{ 0.0 };
+        InputRealType neighborhoodSumOfSquares{ 0.0 };
 
         for (const InputImagePixelType pixelValue : neighborhoodRange)
         {

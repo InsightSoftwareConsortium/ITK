@@ -585,7 +585,7 @@ TIFFImageIO::InternalWrite(const void * buffer)
   const double resolution_y{ m_Spacing[1] != 0.0 ? 25.4 / m_Spacing[1] : 0.0 };
   // rowsperstrip is set to a default value but modified based on the tif scanlinesize before
   // passing it into the TIFFSetField (see below).
-  auto     rowsperstrip = uint32_t{ 0 };
+  uint32_t rowsperstrip{ 0 };
   uint16_t bps;
 
   switch (this->GetComponentType())
