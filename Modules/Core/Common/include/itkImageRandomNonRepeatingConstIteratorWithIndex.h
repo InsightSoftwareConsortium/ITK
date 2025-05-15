@@ -129,7 +129,7 @@ public:
   void
   ReinitializeSeed() const
   {
-    m_Generator->Initialize();
+    m_Generator->SetSeed();
   }
 
   void

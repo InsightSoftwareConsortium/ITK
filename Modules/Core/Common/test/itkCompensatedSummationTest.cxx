@@ -38,7 +38,7 @@ itkCompensatedSummationTest(int, char *[])
 
   using GeneratorType = itk::Statistics::MersenneTwisterRandomVariateGenerator;
   auto generator = GeneratorType::New();
-  generator->Initialize(seedValue);
+  generator->SetSeed(seedValue);
 
   FloatType vanillaSum = 0.0;
   using CompensatedSummationType = itk::CompensatedSummation<FloatType>;

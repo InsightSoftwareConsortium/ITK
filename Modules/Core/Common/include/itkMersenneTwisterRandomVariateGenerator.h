@@ -175,9 +175,17 @@ public:
   /** Length of state vector */
   static constexpr IntegerType StateVectorLength = 624;
 
-  /** Sets the seed and initializes the internal state of this generator. */
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  /** Sets the seed and initializes the internal state of this generator.
+   * \deprecated ITK 6 discourages using this member function. Please use `SetSeed` instead!
+   */
+  ITK_FUTURE_DEPRECATED("ITK 6 discourages using this member function. Please use `SetSeed` instead!")
   void
-  Initialize(const IntegerType seed = Self::CreateRandomSeed());
+  Initialize(const IntegerType seed = Self::CreateRandomSeed())
+  {
+    this->SetSeed(seed);
+  }
+#endif
 
   /** Get a random variate in the range [0, 1] */
   double
@@ -267,11 +275,7 @@ public:
    * \note This method is thread-safe.
    */
   void
-  SetSeed(const IntegerType seed = Self::CreateRandomSeed())
-  {
-    // Seed the generator.
-    Initialize(seed);
-  }
+  SetSeed(const IntegerType seed = Self::CreateRandomSeed());
 
   /** Return the current seed
    *

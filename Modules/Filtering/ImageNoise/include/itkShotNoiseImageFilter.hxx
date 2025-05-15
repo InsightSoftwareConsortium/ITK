@@ -52,7 +52,7 @@ ShotNoiseImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
   }
   auto           rand = Statistics::MersenneTwisterRandomVariateGenerator::New();
   const uint32_t seed = Self::Hash(this->GetSeed(), uint32_t(indSeed));
-  rand->Initialize(seed);
+  rand->SetSeed(seed);
   auto randn = Statistics::NormalVariateGenerator::New();
   randn->Initialize(bit_cast<int32_t>(seed));
 
