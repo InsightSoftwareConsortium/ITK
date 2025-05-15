@@ -289,7 +289,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::GibbsTotalEnergy(int i)
     if (changeflag)
     {
       difenergy = energy[label] - energy[1 - label];
-      const double rand_num{ rand() / 32768.0 };
+      const double rand_num{ rand() / (RAND_MAX + 1.0) };
       double       energy_num{ std::exp(static_cast<double>(difenergy * 0.5 * size / (2 * size - m_Temp))) };
       if (rand_num < energy_num)
       {
