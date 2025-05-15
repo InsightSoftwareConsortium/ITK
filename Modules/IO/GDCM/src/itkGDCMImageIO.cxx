@@ -537,7 +537,7 @@ GDCMImageIO::InternalReadImageInformation()
     switch (outputpt)
     {
       // Default comparison uses the > operator and the order in ScalarType enum
-      // INT types needs to be adjusted so signed input is allowed to produce unsigned output
+      // INT types need to be adjusted so signed input is allowed to produce unsigned output
       case gdcm::PixelFormat::UINT8:
         ptLarger = pixeltype > gdcm::PixelFormat::INT8;
         break;

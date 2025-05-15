@@ -252,6 +252,19 @@ itk_add_test(
 
 itk_add_test(
   NAME
+  itkGDCMImageIOIntToUintTest
+  COMMAND
+  ITKIOGDCMTestDriver
+  --compare
+  DATA{Baseline/itkGDCMImageIOTestIntToUint.mha}
+  ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTestIntToUint.mha
+  itkGDCMImageReadWriteTest
+  DATA{Input/030658_001.dcm}
+  ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageIOTestIntToUint.mha
+  scalar)
+
+itk_add_test(
+  NAME
   itkGDCMImageIO32bitsStoredTest
   COMMAND
   ITKIOGDCMTestDriver
