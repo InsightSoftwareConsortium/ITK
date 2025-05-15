@@ -117,6 +117,7 @@ public:
     PackBits,
     JPEG,
     Deflate,
+    AdobeDeflate,
     LZW
   };
   // ETX
@@ -148,6 +149,12 @@ public:
   {
     this->UseCompressionOn();
     this->SetCompressor("Deflate");
+  }
+  void
+  SetCompressionToAdobeDeflate()
+  {
+    this->UseCompressionOn();
+    this->SetCompressor("AdobeDeflate");
   }
   void
   SetCompressionToLZW()
