@@ -279,6 +279,10 @@ TIFFImageIO::InternalSetCompressor(const std::string & _compressor)
   {
     this->SetCompression(Deflate);
   }
+  else if (_compressor == "ADOBEDEFLATE")
+  {
+    this->SetCompression(AdobeDeflate);
+  }
   else if (_compressor == "LZW")
   {
     this->SetCompression(LZW);
@@ -706,6 +710,8 @@ TIFFImageIO::InternalWrite(const void * buffer)
           break;
         case TIFFImageIO::Deflate:
           compression = COMPRESSION_DEFLATE;
+        case TIFFImageIO::AdobeDeflate:
+          compression = COMPRESSION_ADOBE_DEFLATE;
           break;
         default:
           compression = COMPRESSION_NONE;
@@ -746,7 +752,7 @@ TIFFImageIO::InternalWrite(const void * buffer)
       TIFFSetField(tif, TIFFTAG_JPEGQUALITY, this->GetJPEGQuality());
       TIFFSetField(tif, TIFFTAG_JPEGCOLORMODE, JPEGCOLORMODE_RGB);
     }
-    else if (compression == COMPRESSION_DEFLATE)
+    else if (compression == COMPRESSION_DEFLATE || compression == COMPRESSION_ADOBE_DEFLATE)
     {
       predictor = PREDICTOR_NONE;
       TIFFSetField(tif, TIFFTAG_PREDICTOR, predictor);
