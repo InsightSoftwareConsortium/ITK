@@ -23,6 +23,9 @@
 
 #include <gtest/gtest.h>
 
+#include <limits>
+#include <random>
+
 // Test template instantiations for various template arguments:
 template class itk::IndexRange<1, true>;
 template class itk::IndexRange<1, false>;
@@ -43,13 +46,16 @@ namespace
 {
 template <unsigned int VDimension>
 itk::Index<VDimension>
-GenerateRandomIndex()
+GenerateRandomIndex(std::mt19937 & randomNumberEngine)
 {
   itk::Index<VDimension> index;
 
+  std::uniform_int_distribution<itk::IndexValueType> randomNumberDistribution(
+    std::numeric_limits<itk::IndexValueType>::min(), std::numeric_limits<itk::IndexValueType>::max());
+
   for (itk::IndexValueType & indexValue : index)
   {
-    indexValue = std::rand();
+    indexValue = randomNumberDistribution(randomNumberEngine);
   }
   return index;
 }
@@ -89,7 +95,7 @@ ExpectRangeIsEmptyWhenDefaultConstructed()
 
 template <unsigned int VDimension>
 void
-ExpectRangeIsEmptyWhenRegionSizeIsZero()
+ExpectRangeIsEmptyWhenRegionSizeIsZero(std::mt19937 & randomNumberEngine)
 {
   static constexpr itk::Size<VDimension> zeroSize{ { 0 } };
 
@@ -98,7 +104,7 @@ ExpectRangeIsEmptyWhenRegionSizeIsZero()
   static_assert(ImageRegionIndexRange<VDimension>{ zeroSize }.empty());
 
   // Now do the test for an arbitrary (random) region index:
-  const itk::Index<VDimension>       randomRegionIndex = GenerateRandomIndex<VDimension>();
+  const itk::Index<VDimension>       randomRegionIndex = GenerateRandomIndex<VDimension>(randomNumberEngine);
   const itk::ImageRegion<VDimension> zeroSizedImageRegion{ randomRegionIndex, zeroSize };
 
   EXPECT_TRUE(ImageRegionIndexRange<VDimension>{ zeroSizedImageRegion }.empty());
@@ -115,9 +121,9 @@ ExpectRangeBeginIsEnd(const TRange & range)
 
 template <unsigned int VDimension>
 void
-ExpectRangeBeginIsEndWhenSizeHasZeroValue()
+ExpectRangeBeginIsEndWhenSizeHasZeroValue(std::mt19937 & randomNumberEngine)
 {
-  const itk::Index<VDimension> randomIndex = GenerateRandomIndex<VDimension>();
+  const itk::Index<VDimension> randomIndex = GenerateRandomIndex<VDimension>(randomNumberEngine);
 
   for (unsigned int i{}; i < VDimension; ++i)
   {
@@ -319,9 +325,10 @@ TEST(IndexRange, IsEmptyWhenDefaultConstructed)
 // Tests empty() for a range that has a region size of zero.
 TEST(IndexRange, IsEmptyWhenRegionSizeIsZero)
 {
-  ExpectRangeIsEmptyWhenRegionSizeIsZero<1>();
-  ExpectRangeIsEmptyWhenRegionSizeIsZero<2>();
-  ExpectRangeIsEmptyWhenRegionSizeIsZero<3>();
+  std::mt19937 randomNumberEngine;
+  ExpectRangeIsEmptyWhenRegionSizeIsZero<1>(randomNumberEngine);
+  ExpectRangeIsEmptyWhenRegionSizeIsZero<2>(randomNumberEngine);
+  ExpectRangeIsEmptyWhenRegionSizeIsZero<3>(randomNumberEngine);
 }
 
 
@@ -329,6 +336,7 @@ TEST(IndexRange, IsEmptyWhenRegionSizeIsZero)
 // that has a size value of zero.
 TEST(IndexRange, BeginIsEndWhenSizeHasZeroValue)
 {
-  ExpectRangeBeginIsEndWhenSizeHasZeroValue<2>();
-  ExpectRangeBeginIsEndWhenSizeHasZeroValue<3>();
+  std::mt19937 randomNumberEngine;
+  ExpectRangeBeginIsEndWhenSizeHasZeroValue<2>(randomNumberEngine);
+  ExpectRangeBeginIsEndWhenSizeHasZeroValue<3>(randomNumberEngine);
 }
