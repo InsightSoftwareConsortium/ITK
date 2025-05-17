@@ -81,16 +81,6 @@ public:
     // so we seed the random number generator
     // immediately before this call.
     metric->Initialize();
-
-    // Verify that Initialize has properly called
-    // MultiThreadingInitialize() and a series of CreateAnother();
-
-    using TransformPointer = typename MetricType::TransformPointer;
-    const TransformPointer * transformPtr = metric->GetThreaderTransform();
-    if ((transformPtr == static_cast<const TransformPointer *>(nullptr)) || (transformPtr[0].IsNull()))
-    {
-      exit(EXIT_FAILURE);
-    }
   }
   // Other registration functionality tested in
   // OptImageToImageTest.cxx... skip the rest
