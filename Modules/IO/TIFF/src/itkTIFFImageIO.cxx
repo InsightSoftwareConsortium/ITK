@@ -180,12 +180,13 @@ TIFFImageIO::Read(void * buffer)
 {
 
   // re-open the file if it was closed
-  if (!m_InternalImage->m_IsOpen)
+  if (!m_InternalImage->m_IsOpen || m_FileName != TIFFFileName(m_InternalImage->m_Image))
   {
     if (!this->CanReadFile(m_FileName.c_str()))
     {
       itkExceptionMacro("Cannot open file " << this->m_FileName << '!');
     }
+    m_InternalImage->Open(m_FileName.c_str());
   }
 
   // The IO region should be of dimensions 3 otherwise we read only the first
@@ -333,14 +334,16 @@ TIFFImageIO::InitializeColors()
 void
 TIFFImageIO::ReadImageInformation()
 {
-  // If the internal image was not open we open it.
+
+  // If the internal image was not open or the filenames are the same we open it.
   // This is usually done when the user sets the ImageIO manually
-  if (!m_InternalImage->m_IsOpen)
+  if (!m_InternalImage->m_IsOpen || m_FileName != TIFFFileName(m_InternalImage->m_Image))
   {
     if (!this->CanReadFile(m_FileName.c_str()))
     {
       itkExceptionMacro("Cannot open file " << this->m_FileName << '!');
     }
+    m_InternalImage->Open(m_FileName.c_str());
   }
 
   ReadTIFFTags();
