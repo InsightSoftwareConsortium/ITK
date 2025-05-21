@@ -39,6 +39,11 @@ ImageSeriesReader<TOutputImage>::PrintSelf(std::ostream & os, Indent indent) con
   os << indent << "ReverseOrder: " << m_ReverseOrder << std::endl;
   os << indent << "ForceOrthogonalDirection: " << m_ForceOrthogonalDirection << std::endl;
   os << indent << "UseStreaming: " << m_UseStreaming << std::endl;
+  os << indent << "FileNames:" << std::endl;
+  for (const auto & fileName : m_FileNames)
+  {
+    os << indent.GetNextIndent() << fileName << std::endl;
+  }
 
   itkPrintSelfObjectMacro(ImageIO);
 
