@@ -25,13 +25,13 @@ pr:
     - Utilities/ITKv5Preparation/*
     - Utilities/Maintenance/*
 variables:
-  ExternalDataVersion: 5.4.0
+  ExternalDataVersion: 5.4.3
 jobs:
 - job: Linux
   timeoutInMinutes: 0
   cancelTimeoutInMinutes: 300
   pool:
-    vmImage: ubuntu-20.04
+    vmImage: ubuntu-22.04
   steps:
     - checkout: self
       clean: true
@@ -108,7 +108,7 @@ jobs:
   timeoutInMinutes: 0
   cancelTimeoutInMinutes: 300
   pool:
-    vmImage: ubuntu-20.04
+    vmImage: ubuntu-22.04
   steps:
     - checkout: self
       clean: true

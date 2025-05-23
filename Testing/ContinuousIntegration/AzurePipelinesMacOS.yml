@@ -25,7 +25,7 @@ pr:
     - Utilities/ITKv5Preparation/*
     - Utilities/Maintenance/*
 variables:
-  ExternalDataVersion: 5.4.0
+  ExternalDataVersion: 5.4.3
 jobs:
 - job: macOS
   timeoutInMinutes: 0

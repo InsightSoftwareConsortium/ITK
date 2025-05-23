@@ -11,7 +11,7 @@ trigger:
 pr: none
 
 variables:
-  ExternalDataVersion: 5.4.0
+  ExternalDataVersion: 5.4.3
 jobs:
   - job: Windows
     timeoutInMinutes: 0
