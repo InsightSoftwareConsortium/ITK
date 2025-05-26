@@ -357,6 +357,11 @@ private:
   static void
   PadString(char * dest, const char * source, size_t length);
 
+  /** Rescale the image data to Hounsfield Units */
+  template <typename TBufferType>
+  void
+  RescaleToHU(TBufferType * buffer, size_t size);
+
   void
   InitializeHeader();
 

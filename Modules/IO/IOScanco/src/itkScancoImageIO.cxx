@@ -586,12 +586,6 @@ ScancoImageIO::ReadISQHeader(std::ifstream * file, unsigned long bytesRead)
     }
   }
 
-  // Include conversion to linear att coeff in the rescaling
-  if (this->m_MuScaling > 1.0)
-  {
-    this->m_RescaleSlope /= this->m_MuScaling;
-  }
-
   return 1;
 }
 
@@ -960,12 +954,6 @@ ScancoImageIO::ReadAIMHeader(std::ifstream * file, unsigned long bytesRead)
     h = lineEnd;
   }
 
-  // Include conversion to linear att coeff in the rescaling
-  if (this->m_MuScaling > 1.0)
-  {
-    this->m_RescaleSlope /= this->m_MuScaling;
-  }
-
   // these items are not in the processing log
   this->m_SliceThickness = elementSize[2];
   this->m_SliceIncrement = elementSize[2];
@@ -1014,16 +1002,6 @@ ScancoImageIO::ReadImageInformation()
   }
 
   infile.close();
-
-  // This code causes rescaling to Hounsfield units
-  if (this->m_MuScaling > 1.0 && this->m_MuWater > 0)
-  {
-    // mu(voxel) = intensity(voxel) / m_MuScaling
-    // HU(voxel) = mu(voxel) * 1000/m_MuWater - 1000
-    // Or, HU(voxel) = intensity(voxel) * (1000 / m_MuWater * m_MuScaling) - 1000
-    this->m_RescaleSlope = 1000.0 / (this->m_MuWater * this->m_MuScaling);
-    this->m_RescaleIntercept = -1000.0;
-  }
 
   this->PopulateMetaDataDictionary();
 }
@@ -1135,8 +1113,21 @@ ScancoImageIO::SetHeaderFromMetaDataDictionary()
 
 template <typename TBufferType>
 void
-RescaleToHU(TBufferType * buffer, size_t size, double slope, double intercept)
+ScancoImageIO::RescaleToHU(TBufferType * buffer, size_t size)
 {
+  double slope = this->m_RescaleSlope;
+  double intercept = this->m_RescaleIntercept;
+
+  // This code causes rescaling to Hounsfield units
+  if (this->m_MuScaling > 1.0 && this->m_MuWater > 0)
+  {
+    // mu(voxel) = intensity(voxel) / m_MuScaling
+    // HU(voxel) = mu(voxel) * 1000/m_MuWater - 1000
+    // Or, HU(voxel) = intensity(voxel) * (1000 / m_MuWater * m_MuScaling) - 1000
+    slope = 1000.0 / (this->m_MuWater * this->m_MuScaling);
+    intercept = -1000.0;
+  }
+
   for (size_t i = 0; i < size; i++)
   {
     float bufferValue = static_cast<float>(buffer[i]);
@@ -1322,33 +1313,30 @@ ScancoImageIO::Read(void * buffer)
     switch (dataType)
     {
       case IOComponentEnum::CHAR:
-        RescaleToHU(reinterpret_cast<char *>(buffer), bufferSize, this->m_RescaleSlope, this->m_RescaleIntercept);
+        RescaleToHU(reinterpret_cast<char *>(buffer), bufferSize);
         break;
       case IOComponentEnum::UCHAR:
-        RescaleToHU(
-          reinterpret_cast<unsigned char *>(buffer), bufferSize, this->m_RescaleSlope, this->m_RescaleIntercept);
+        RescaleToHU(reinterpret_cast<unsigned char *>(buffer), bufferSize);
         break;
       case IOComponentEnum::SHORT:
         bufferSize /= 2;
-        RescaleToHU(reinterpret_cast<short *>(buffer), bufferSize, this->m_RescaleSlope, this->m_RescaleIntercept);
+        RescaleToHU(reinterpret_cast<short *>(buffer), bufferSize);
         break;
       case IOComponentEnum::USHORT:
         bufferSize /= 2;
-        RescaleToHU(
-          reinterpret_cast<unsigned short *>(buffer), bufferSize, this->m_RescaleSlope, this->m_RescaleIntercept);
+        RescaleToHU(reinterpret_cast<unsigned short *>(buffer), bufferSize);
         break;
       case IOComponentEnum::INT:
         bufferSize /= 4;
-        RescaleToHU(reinterpret_cast<int *>(buffer), bufferSize, this->m_RescaleSlope, this->m_RescaleIntercept);
+        RescaleToHU(reinterpret_cast<int *>(buffer), bufferSize);
         break;
       case IOComponentEnum::UINT:
         bufferSize /= 4;
-        RescaleToHU(
-          reinterpret_cast<unsigned int *>(buffer), bufferSize, this->m_RescaleSlope, this->m_RescaleIntercept);
+        RescaleToHU(reinterpret_cast<unsigned int *>(buffer), bufferSize);
         break;
       case IOComponentEnum::FLOAT:
         bufferSize /= 4;
-        RescaleToHU(reinterpret_cast<float *>(buffer), bufferSize, this->m_RescaleSlope, this->m_RescaleIntercept);
+        RescaleToHU(reinterpret_cast<float *>(buffer), bufferSize);
         break;
       default:
         itkExceptionMacro("Unrecognized data type in file: " << dataType);

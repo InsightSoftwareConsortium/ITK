@@ -110,13 +110,13 @@ itkScancoImageIOTest2(int argc, char * argv[])
   itk::ExposeMetaData<int>(metaData, "RescaleType", intMeta);
   ITK_TEST_EXPECT_EQUAL(intMeta, 2);
   std::cout << "RescaleSlope: \t\t" << scancoIO->GetRescaleSlope() << std::endl;
-  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(scancoIO->GetRescaleSlope(), 0.347136, 6, 1e-3));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(scancoIO->GetRescaleSlope(), 165.9970, 6, 1e-3));
   itk::ExposeMetaData<double>(metaData, "RescaleSlope", doubleMeta);
-  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(doubleMeta, 0.347136, 6, 1e-3));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(doubleMeta, 165.9970, 6, 1e-3));
   std::cout << "RescaleIntercept: \t\t" << scancoIO->GetRescaleIntercept() << std::endl;
-  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(scancoIO->GetRescaleIntercept(), -1000.0, 6, 1e-3));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(scancoIO->GetRescaleIntercept(), -129.6810, 6, 1e-3));
   itk::ExposeMetaData<double>(metaData, "RescaleIntercept", doubleMeta);
-  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(doubleMeta, -1000.0, 6, 1e-3));
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(doubleMeta, -129.6810, 6, 1e-3));
   std::cout << "RescaleUnits: \t\t" << scancoIO->GetRescaleUnits() << std::endl;
   ITK_TEST_EXPECT_EQUAL(scancoIO->GetRescaleUnits(), std::string("mg HA/ccm"));
   itk::ExposeMetaData<std::string>(metaData, "RescaleUnits", stringMeta);
