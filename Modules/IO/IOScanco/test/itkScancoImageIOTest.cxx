@@ -67,7 +67,7 @@ itkScancoImageIOTest(int argc, char * argv[])
   reader->SetFileName(inputFileName);
   try
   {
-    reader->Update();
+    ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
   }
   catch (itk::ExceptionObject & error)
   {

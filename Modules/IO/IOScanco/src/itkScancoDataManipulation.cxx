@@ -24,6 +24,9 @@
 #include <stdexcept> // for std::runtime_error
 #include <string>    // for std::string
 
+#include <iostream> // @ebald19 remove
+#include <ctime>
+
 /** VMS time conversion constants */
 /** This is the offset between the astronomical "Julian day", which counts
  * days since January 1, 4713BC, and the "VMS epoch", which counts from
@@ -34,6 +37,13 @@ constexpr uint64_t millisPerSecond = 1000;
 constexpr uint64_t millisPerMinute = 60 * 1000;
 constexpr uint64_t millisPerHour = 3600 * 1000;
 constexpr uint64_t millisPerDay = 3600 * 24 * 1000;
+
+const std::map<std::string, int> monthIndex{ { "XXX", 0 },  { "JAN", 1 },  { "FEB", 2 }, { "MAR", 3 }, { "APR", 4 },
+                                             { "MAY", 5 },  { "JUN", 6 },  { "JUL", 7 }, { "AUG", 8 }, { "SEP", 9 },
+                                             { "OCT", 10 }, { "NOV", 11 }, { "DEC", 12 } };
+
+static constexpr const char * monthStrings[] = { "XXX", "JAN", "FEB", "MAR", "APR", "MAY", "JUN",
+                                                 "JUL", "AUG", "SEP", "OCT", "NOV", "DEC" };
 
 int
 CheckVersion(const char header[16])
@@ -50,12 +60,8 @@ CheckVersion(const char header[16])
   }
   else
   {
-    int preHeaderSize = DecodeInt(header);
-    int imageHeaderSize = DecodeInt(header + 4);
-    if (preHeaderSize == 20 && imageHeaderSize == 140)
-    {
-      fileType = 2;
-    }
+    // todo: @ebald19 add extra v020 version checks?
+    fileType = 2;
   }
 
   return fileType;
@@ -79,6 +85,19 @@ EncodeInt(int data, void * target)
   targetAsUnsignedChar[3] = (unsigned char)(data >> 24);
 }
 
+void
+EncodeInt64(int64_t data, void * target)
+{
+  auto * targetAsUnsignedChar = static_cast<unsigned char *>(target);
+  targetAsUnsignedChar[0] = (unsigned char)(data);
+  targetAsUnsignedChar[1] = (unsigned char)(data >> 8);
+  targetAsUnsignedChar[2] = (unsigned char)(data >> 16);
+  targetAsUnsignedChar[3] = (unsigned char)(data >> 24);
+  targetAsUnsignedChar[4] = (unsigned char)(data >> 32);
+  targetAsUnsignedChar[5] = (unsigned char)(data >> 40);
+  targetAsUnsignedChar[6] = (unsigned char)(data >> 48);
+  targetAsUnsignedChar[7] = (unsigned char)(data >> 56);
+}
 
 float
 DecodeFloat(const void * data)
@@ -92,6 +111,24 @@ DecodeFloat(const void * data)
   } v;
   v.i = (cp[0] << 16) | (cp[1] << 24) | cp[2] | (cp[3] << 8);
   return 0.25 * v.f;
+}
+
+void
+EncodeFloat(float data, void * target)
+{
+  // Reverse the scaling applied in DecodeFloat
+  union
+  {
+    float        f;
+    unsigned int i;
+  } v;
+  v.f = data / 0.25;
+
+  auto * targetUnsigned = static_cast<unsigned char *>(target);
+  targetUnsigned[0] = (unsigned char)(v.i >> 16);
+  targetUnsigned[1] = (unsigned char)(v.i >> 24);
+  targetUnsigned[2] = (unsigned char)(v.i);
+  targetUnsigned[3] = (unsigned char)(v.i >> 8);
 }
 
 
@@ -110,6 +147,32 @@ DecodeDouble(const void * data)
   l2 = (cp[4] << 16) | (cp[5] << 24) | cp[6] | (cp[7] << 8);
   v.l = (static_cast<uint64_t>(l1) << 32) | l2;
   return v.d * 0.25;
+}
+
+void
+EncodeDouble(double data, void * target)
+{
+  // Reverse the scaling applied in DecodeDouble
+  union
+  {
+    double   d;
+    uint64_t l;
+  } v;
+  v.d = data / 0.25;
+
+  unsigned int l1 = static_cast<unsigned int>(v.l >> 32);
+  unsigned int l2 = static_cast<unsigned int>(v.l & 0xFFFFFFFF);
+
+  auto * cp = static_cast<unsigned char *>(target);
+  cp[0] = (unsigned char)(l1 >> 16);
+  cp[1] = (unsigned char)(l1 >> 24);
+  cp[2] = (unsigned char)(l1);
+  cp[3] = (unsigned char)(l1 >> 8);
+
+  cp[4] = (unsigned char)(l2 >> 16);
+  cp[5] = (unsigned char)(l2 >> 24);
+  cp[6] = (unsigned char)(l2);
+  cp[7] = (unsigned char)(l2 >> 8);
 }
 
 /** This algorithm is from Henry F. Fliegel and Thomas C. Van Flandern
@@ -161,19 +224,46 @@ DecodeDate(const void * data, int & year, int & month, int & day, int & hour, in
 }
 
 void
+DateToString(const void * target, int year, int month, int day, int hour, int minute, int second, int millis)
+{
+  snprintf((char *)target,
+           32,
+           "%d-%s-%d %02d:%02d:%02d.%03d",
+           (day % 100),
+           monthStrings[month],
+           (year % 10000),
+           (hour % 100),
+           (minute % 100),
+           (second % 100),
+           (millis % 1000));
+}
+
+void
+GetCurrentDateString(void * target)
+{
+  time_t      rawtime;
+  struct tm * timeinfo;
+
+  std::time(&rawtime);
+  timeinfo = localtime(&rawtime);
+  // tm_year gives years since 1900
+  DateToString(target,
+               timeinfo->tm_year + 1900,
+               timeinfo->tm_mon,
+               timeinfo->tm_mday,
+               timeinfo->tm_hour,
+               timeinfo->tm_min,
+               timeinfo->tm_sec,
+               0);
+}
+
+void
 EncodeCurrentDate(void * target)
 {
-  uint64_t unixToVMSOffset = 3506695200; // VMS epoch starts at November 17, 1858
-  time_t   currentTimeUnix;
-  std::time(&currentTimeUnix);
-  // unix epoch: January 1, 1970
-  const uint64_t currentTimeVMS =
-    (currentTimeUnix + unixToVMSOffset) + 10000000; // Convert to VMS format (1e-7 seconds)
-
-  const int d1 = (int)currentTimeVMS;
-  const int d2 = (int)(currentTimeVMS >> 32);
-  EncodeInt(d1, target);
-  EncodeInt(d2, static_cast<char *>(target) + 4);
+  char * dateString = new char[32];
+  GetCurrentDateString(dateString);
+  EncodeDateFromString(target, dateString);
+  delete[] dateString;
 }
 
 /** This algorithm is from Henry F. Fliegel and Thomas C. Van Flandern
@@ -208,14 +298,10 @@ EncodeDateFromString(void * target, const char dateString[32])
     throw std::runtime_error("Invalid date string format. Expected format: YYYY-MMM-DD HH:MM:SS.mmm");
   }
 
-  int                        month = 0;
-  std::map<std::string, int> months{ { "XXX", 0 },  { "JAN", 1 },  { "FEB", 2 }, { "MAR", 3 }, { "APR", 4 },
-                                     { "MAY", 5 },  { "JUN", 6 },  { "JUL", 7 }, { "AUG", 8 }, { "SEP", 9 },
-                                     { "OCT", 10 }, { "NOV", 11 }, { "DEC", 12 } };
+  int        month = 0;
+  const auto iter = monthIndex.find(monthStr);
 
-  const auto iter = months.find(monthStr);
-
-  if (iter != months.cend())
+  if (iter != monthIndex.cend())
   {
     month = iter->second;
   }

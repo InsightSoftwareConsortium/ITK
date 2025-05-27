@@ -17,7 +17,77 @@
  *=========================================================================*/
 #ifndef itkScancoDataManipulation_h
 #define itkScancoDataManipulation_h
+#include "itkMacro.h"
 #include <cstddef>
+#include <array>
+
+struct itkScancoPixelData
+{
+  int    m_Dimensions[3]; // Dimensions of the pixel data
+  float  m_Origin[3];     // Origin of the pixel data in physical space
+  double m_Spacing[3];    // Spacing between pixels in physical space
+  int    m_ComponentType; // Data Type (e.g., unsigned char, short, float)
+  int    m_PixelType;
+};
+
+struct itkScancoHeaderData
+{
+  char                  m_Version[18]; // Version string, e.g., "AIMDATA_V020   "
+  char                  m_PatientName[42];
+  int                   m_PatientIndex;
+  int                   m_ScannerID;
+  char                  m_CreationDate[32];
+  char                  m_ModificationDate[32];
+  int                   m_ScanDimensionsPixels[3];
+  double                m_ScanDimensionsPhysical[3];
+  double                m_SliceThickness; // Slice thickness in mm
+  double                m_SliceIncrement; // Slice increment in mm
+  double                m_StartPosition;
+  double                m_EndPosition;
+  double                m_ZPosition;
+  std::array<double, 2> m_DataRange;
+  double                m_MuScaling;
+  int                   m_NumberOfSamples;
+  int                   m_NumberOfProjections;
+  double                m_ScanDistance;
+  double                m_SampleTime;
+  int                   m_ScannerType;
+  int                   m_MeasurementIndex;
+  int                   m_Site;
+  int                   m_ReconstructionAlg;
+  double                m_ReferenceLine;
+  double                m_Energy;
+  double                m_Intensity;
+  int                   m_RescaleType;
+  char                  m_RescaleUnits[18];
+  char                  m_CalibrationData[66];
+  double                m_RescaleSlope;
+  double                m_RescaleIntercept;
+  double                m_MuWater;
+  char *                m_RawHeader;
+  itkScancoPixelData    m_PixelData; // Pixel data information
+};
+
+#define GetConstMacro(name, type)                                        \
+  virtual type Get##name() const { return this->m_HeaderData.m_##name; } \
+  ITK_MACROEND_NOOP_STATEMENT
+
+#define SetMacro(name, type)                         \
+  virtual void Set##name(type _arg)                  \
+  {                                                  \
+    itkDebugMacro("setting " #name " to " << _arg);  \
+    ITK_GCC_PRAGMA_PUSH                              \
+    ITK_GCC_SUPPRESS_Wfloat_equal                    \
+    if (this->m_HeaderData.m_##name != _arg)         \
+    {                                                \
+      this->m_HeaderData.m_##name = std::move(_arg); \
+      this->Modified();                              \
+    }                                                \
+    ITK_GCC_PRAGMA_POP                               \
+  }                                                  \
+  ITK_MACROEND_NOOP_STATEMENT
+
+constexpr int ScancoHeaderBlockSize = 512;
 
 /** Check the file header to see what type of file it is.
  *
@@ -44,6 +114,14 @@ DecodeInt(const void * data);
 void
 EncodeInt(int data, void * target);
 
+/** Convert 64-bit int (little-endian) to char data.
+ *
+ * \param data The integer to convert.
+ * \param target Pointer to a buffer of at least 8 bytes to store the result.
+ */
+void
+EncodeInt64(int64_t data, void * target);
+
 /** Convert char data to float (single precision).
  *
  * \param data Pointer to a buffer of at least 4 bytes.
@@ -52,6 +130,14 @@ EncodeInt(int data, void * target);
 float
 DecodeFloat(const void * data);
 
+/** Convert float data to char data.
+ *
+ * \param data The float to convert.
+ * \param target Pointer to a buffer of at least 4 bytes to store the result.
+ */
+void
+EncodeFloat(float data, void * target);
+
 /** Convert char data to float (double precision).
  *
  * \param data Pointer to a buffer of at least 8 bytes.
@@ -59,6 +145,9 @@ DecodeFloat(const void * data);
  */
 double
 DecodeDouble(const void * data);
+
+void
+EncodeDouble(double data, void * target);
 
 /** Convert a VMS timestamp to a calendar date.
  *
@@ -73,6 +162,14 @@ DecodeDouble(const void * data);
  */
 void
 DecodeDate(const void * data, int & year, int & month, int & day, int & hour, int & minute, int & second, int & millis);
+
+// todo: @ebald19 document
+void
+DateToString(const void * target, int year, int month, int day, int hour, int minute, int second, int millis);
+
+// todo: @ebald19 document
+void
+GetCurrentDateString(void * target);
 
 /** Convert the current calendar date to a VMS timestamp and store in target
  *
