@@ -199,13 +199,22 @@ public:
   const double *
   GetDataRange() const
   {
-    return this->m_DataRange;
+    return this->m_DataRange.data();
   }
   void
   SetDataRange(const double * dataRange)
   {
     this->m_DataRange[0] = dataRange[0];
     this->m_DataRange[1] = dataRange[1];
+  }
+  void
+  SetDataRange(const std::vector<double> & dataRange)
+  {
+    if (dataRange.size() >= 2)
+    {
+      this->m_DataRange[0] = dataRange[0];
+      this->m_DataRange[1] = dataRange[1];
+    }
   }
 
   itkGetConstMacro(MuScaling, double);
@@ -367,39 +376,39 @@ private:
   WriteISQHeader(std::ofstream * file);
 
   // Header information
-  char   m_Version[18];
-  char   m_PatientName[42];
-  int    m_PatientIndex;
-  int    m_ScannerID;
-  char   m_CreationDate[32];
-  char   m_ModificationDate[32];
-  int    ScanDimensionsPixels[3];
-  double ScanDimensionsPhysical[3];
-  double m_SliceThickness;
-  double m_SliceIncrement;
-  double m_StartPosition;
-  double m_EndPosition;
-  double m_ZPosition;
-  double m_DataRange[2];
-  double m_MuScaling;
-  int    m_NumberOfSamples;
-  int    m_NumberOfProjections;
-  double m_ScanDistance;
-  double m_SampleTime;
-  int    m_ScannerType;
-  int    m_MeasurementIndex;
-  int    m_Site;
-  int    m_ReconstructionAlg;
-  double m_ReferenceLine;
-  double m_Energy;
-  double m_Intensity;
-  int    m_RescaleType;
-  char   m_RescaleUnits[18];
-  char   m_CalibrationData[66];
-  double m_RescaleSlope;
-  double m_RescaleIntercept;
-  double m_MuWater;
-  char * m_RawHeader;
+  char                  m_Version[18];
+  char                  m_PatientName[42];
+  int                   m_PatientIndex;
+  int                   m_ScannerID;
+  char                  m_CreationDate[32];
+  char                  m_ModificationDate[32];
+  int                   ScanDimensionsPixels[3];
+  double                ScanDimensionsPhysical[3];
+  double                m_SliceThickness;
+  double                m_SliceIncrement;
+  double                m_StartPosition;
+  double                m_EndPosition;
+  double                m_ZPosition;
+  std::array<double, 2> m_DataRange;
+  double                m_MuScaling;
+  int                   m_NumberOfSamples;
+  int                   m_NumberOfProjections;
+  double                m_ScanDistance;
+  double                m_SampleTime;
+  int                   m_ScannerType;
+  int                   m_MeasurementIndex;
+  int                   m_Site;
+  int                   m_ReconstructionAlg;
+  double                m_ReferenceLine;
+  double                m_Energy;
+  double                m_Intensity;
+  int                   m_RescaleType;
+  char                  m_RescaleUnits[18];
+  char                  m_CalibrationData[66];
+  double                m_RescaleSlope;
+  double                m_RescaleIntercept;
+  double                m_MuWater;
+  char *                m_RawHeader;
 
   // The compression mode, if any.
   int m_Compression;

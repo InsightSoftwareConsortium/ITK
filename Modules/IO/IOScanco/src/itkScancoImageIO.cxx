@@ -1097,8 +1097,11 @@ ScancoImageIO::SetHeaderFromMetaDataDictionary()
   std::vector<double> dataRange(2);
   if (ExposeMetaData<std::vector<double>>(metaData, "DataRange", dataRange))
   {
-    this->m_DataRange[0] = dataRange[0];
-    this->m_DataRange[1] = dataRange[1];
+    if (dataRange.size() >= 2)
+    {
+      this->m_DataRange[0] = dataRange[0];
+      this->m_DataRange[1] = dataRange[1];
+    }
   }
 
   ExposeMetaData<double>(metaData, "MuScaling", this->m_MuScaling);
