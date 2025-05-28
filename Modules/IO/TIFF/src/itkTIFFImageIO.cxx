@@ -710,6 +710,7 @@ TIFFImageIO::InternalWrite(const void * buffer)
           break;
         case TIFFImageIO::Deflate:
           compression = COMPRESSION_DEFLATE;
+          break;
         case TIFFImageIO::AdobeDeflate:
           compression = COMPRESSION_ADOBE_DEFLATE;
           break;
