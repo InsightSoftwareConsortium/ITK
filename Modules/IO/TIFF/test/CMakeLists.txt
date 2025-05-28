@@ -395,7 +395,7 @@ set_tests_properties(itkTIFFImageIOInfoTest3 PROPERTIES PASS_REGULAR_EXPRESSION 
 ######################
 # Test Compression
 
-set(Compression "NoCompression;LZW;JPEG;PackBits;Deflate")
+set(Compression "NoCompression;LZW;JPEG;PackBits;Deflate;AdobeDeflate")
 set(CompressionFiles "cthead1;RGBTestImageJPEG")
 foreach(f ${CompressionFiles})
   foreach(c ${Compression})

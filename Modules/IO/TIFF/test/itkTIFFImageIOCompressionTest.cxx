@@ -60,6 +60,10 @@ itkTIFFImageIOCompressionTestHelper(int, char * argv[], int JPEGQuality)
   ITK_TRY_EXPECT_NO_EXCEPTION(imageIO->SetCompressor("Deflate"));
   ITK_TEST_EXPECT_EQUAL(imageIO->GetCompressor(), "Deflate");
 
+  ITK_TRY_EXPECT_NO_EXCEPTION(imageIO->SetCompressor("AdobeDeflate"));
+  ITK_TEST_EXPECT_EQUAL(imageIO->GetCompressor(), "AdobeDeflate");
+
+
   imageIO->SetCompressionLevel(2);
   ITK_TEST_EXPECT_EQUAL(imageIO->GetCompressionLevel(), 2);
 
@@ -82,6 +86,14 @@ itkTIFFImageIOCompressionTestHelper(int, char * argv[], int JPEGQuality)
   {
 
     io->SetCompressionToDeflate();
+
+    ITK_TEST_EXPECT_EQUAL(compression, io->GetCompressor());
+    ITK_TEST_EXPECT_TRUE(io->GetUseCompression());
+  }
+  else if (compression == "AdobeDeflate")
+  {
+    std::cout << "Using AdobeDeflate\n";
+    io->SetCompressionToAdobeDeflate();
 
     ITK_TEST_EXPECT_EQUAL(compression, io->GetCompressor());
     ITK_TEST_EXPECT_TRUE(io->GetUseCompression());
