@@ -74,6 +74,10 @@ if(NOT PY_SITE_PACKAGES_PATH)
   message(SEND_ERROR "Please set PY_SITE_PACKAGES_PATH to the Python bindings installation directory.")
 endif()
 
+# install DESTINATION normalization
+if (POLICY CMP0177)
+  cmake_policy(SET CMP0177 NEW)
+endif()
 macro(WRAP_ITK_PYTHON_BINDINGS_INSTALL path wrapper_library_name)
   set(_component_module "")
   if(WRAP_ITK_INSTALL_COMPONENT_PER_MODULE)
@@ -85,7 +89,7 @@ macro(WRAP_ITK_PYTHON_BINDINGS_INSTALL path wrapper_library_name)
   endif()
   install(
     FILES ${ARGN}
-    DESTINATION "${PY_SITE_PACKAGES_PATH}/${path}"
+    DESTINATION "${PY_SITE_PACKAGES_PATH}${path}"
     COMPONENT ${_component_module}${WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER}RuntimeLibraries)
   unset(_component_module)
 endmacro()
