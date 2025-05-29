@@ -632,3 +632,12 @@ itk_add_test(
   ITKIOTIFFTestDriver
   itkTIFFImageIOIntPixelTest
   DATA{Input/int.tiff})
+
+# Add GTest for TIFF module
+set(ITKIOTIFFGTests
+  itkImageSeriesReaderReverse.cxx
+)
+creategoogletestdriver(ITKIOTIFF "${ITKIOTIFF-Test_LIBRARIES}" "${ITKIOTIFFGTests}")
+
+
+target_compile_definitions(ITKIOTIFFGTestDriver PRIVATE "-DITK_TEST_OUTPUT_DIR=${ITK_TEST_OUTPUT_DIR}")
