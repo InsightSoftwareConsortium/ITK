@@ -118,8 +118,12 @@ bool RAWCodec::DecodeBytes(const char* inBytes, size_t inBufferLength,
     {
     size_t len = str.size() * 16 / 12;
     char * copy = new char[len];
-    bool b = Unpacker12Bits::Unpack(copy, str.data(), str.size() ); (void)b;
-    assert( b );
+    bool b = Unpacker12Bits::Unpack(copy, str.data(), str.size() );
+    if (!b)
+      {
+      delete[] copy;
+      return false;
+      }
     assert (len == inOutBufferLength);
     assert(inOutBufferLength == len);
     memcpy(outBytes, copy, len);
