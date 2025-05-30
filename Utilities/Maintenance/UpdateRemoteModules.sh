@@ -77,7 +77,7 @@ fi
 
 # Loop over the remote modules' CMake files
 for filename in ${remote_modules_path}/*.cmake; do
-  echo -n "."
+  echo $filename
 
   # Get the current commit hash
   curr_commit=$(grep -v "\s*#" $filename | grep -m 1 -o "GIT_TAG \(\w\|\.\|\-\|_\)*")
