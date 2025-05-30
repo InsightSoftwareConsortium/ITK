@@ -71,19 +71,12 @@ LabelImageGaussianInterpolateImageFunction<TInputImage, TCoordinate, TPixelCompa
     }
 
     const OutputType V = It.Get();
-    auto             it = weightMap.find(V);
-    RealType         wtest = 0.0;
-
-    if (it != weightMap.end())
+    auto [it, inserted] = weightMap.try_emplace(V, w);
+    if (!inserted)
     {
       it->second += w;
-      wtest = it->second;
     }
-    else
-    {
-      weightMap.insert(std::make_pair(V, w));
-      wtest = w;
-    }
+    RealType wtest = it->second;
 
     // Keep track of the max value
     if (wtest > wmax)
