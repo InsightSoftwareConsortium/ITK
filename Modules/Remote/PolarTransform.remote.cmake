@@ -55,5 +55,5 @@ For more information, see the Insight Journal article:
   "
   MODULE_COMPLIANCE_LEVEL 2
   GIT_REPOSITORY https://github.com/InsightSoftwareConsortium/ITKPolarTransform.git
-  GIT_TAG 292d5aff2aa55f1aca22638c678f335aa4be959a
+  GIT_TAG c5d34add1af45f6ac2d4c8a44313749561f8780f
   )
