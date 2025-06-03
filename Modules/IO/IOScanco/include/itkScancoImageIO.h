@@ -85,9 +85,10 @@ public:
 
   /** The different types of ImageIO's can support data of varying
    * dimensionality. For example, some file formats are strictly 2D
-   * while others can support 2D, 3D, or even n-D. This method returns
-   * true/false as to whether the ImageIO can support the dimension
-   * indicated. */
+   * while others can support 2D, 3D, or even n-D.
+   * \param dimension The dimension to check for support.
+   * \return True if the dimension is supported by ScancoIO, false otherwise.
+   */
   bool
   SupportsDimension(unsigned long dimension) override
   {
@@ -311,52 +312,6 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  /** Check the file header to see what type of file it is.
-   *
-   *  Return values are: 0 if unrecognized, 1 if ISQ/RAD,
-   *  2 if AIM 020, 3 if AIM 030.
-   */
-  int
-  CheckVersion(const char header[16]);
-
-  /** Convert char data to 32-bit int (little-endian). */
-  static int
-  DecodeInt(const void * data);
-  /** Convert 32-bit int (little-endian) to char data. */
-  static void
-  EncodeInt(int data, void * target);
-
-  /** Convert char data to float (single precision). */
-  static float
-  DecodeFloat(const void * data);
-
-  /** Convert char data to float (double precision). */
-  static double
-  DecodeDouble(const void * data);
-
-  //! Convert a VMS timestamp to a calendar date.
-  void
-  DecodeDate(const void * data,
-             int &        year,
-             int &        month,
-             int &        day,
-             int &        hour,
-             int &        minute,
-             int &        second,
-             int &        millis);
-  //! Convert the current calendar date to a VMS timestamp and store in target
-  void
-  EncodeDate(void * target);
-
-  //! Strip a string by removing trailing whitespace.
-  /*!
-   *  The dest must have a size of at least l+1.
-   */
-  static void
-  StripString(char * dest, const char * source, size_t length);
-  static void
-  PadString(char * dest, const char * source, size_t length);
-
   /** Rescale the image data to Hounsfield Units */
   template <typename TBufferType>
   void
