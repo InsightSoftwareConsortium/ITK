@@ -3,21 +3,17 @@
  */
 #include <stdbool.h>
 #include <nifti1_io.h>
-enum NIFTITEST_BOOL {
-  NIFTITEST_TRUE=1,
-  NIFTITEST_FALSE=0
-};
 
-static void PrintTest_eng(const int line,const char * message,const int FailureOccured, const enum NIFTITEST_BOOL isFatal,int *ErrorAccum,bool verbose)
+static void PrintTest_eng(const int line,const char * message,const int FailureOccured, bool isFatal,int *ErrorAccum,bool verbose)
 {
-  if(verbose || FailureOccured==NIFTITEST_TRUE)
+  if(verbose || FailureOccured==true)
     {
     char const * const PREFIX= (FailureOccured)?"==========ERROR":"..........SUCCESS";
     char const * const ISFATALPREFIX= (isFatal && FailureOccured)?" FATAL":"";
     printf("%s%s (LINE %d): %s\n",PREFIX,ISFATALPREFIX,line,message);
     fflush(stdout);
     *ErrorAccum+=FailureOccured;
-    if(isFatal==NIFTITEST_TRUE && FailureOccured==NIFTITEST_TRUE)
+    if(isFatal==true && FailureOccured==true)
       {
       printf("\n\nTOTAL ERRORS=%d\n",*ErrorAccum);
       exit( *ErrorAccum);
@@ -85,8 +81,10 @@ static nifti_image * generate_reference_image( const char * write_image_filename
   reference_header.magic[2]='1';
   reference_header.magic[3]='\0';
   /* String is purposfully too long */
-  strncpy(reference_header.intent_name,"PHANTOM_DATA to be used for regression testing the nifti reader/writer",16);
-  strncpy(reference_header.descrip,"This is a very long dialog here to use up more than 80 characters of space to test to see if the code is robust enough to deal appropriately with very long and obnoxious lines.",80);
+  strncpy(reference_header.intent_name,"PHANTOM_DATA to be used for regression testing the nifti reader/writer",sizeof(reference_header.intent_name));
+  reference_header.intent_name[sizeof(reference_header.intent_name) - 1] = 0;
+  strncpy(reference_header.descrip,"This is a very long dialog here to use up more than 80 characters of space to test to see if the code is robust enough to deal appropriately with very long and obnoxious lines.",sizeof(reference_header.descrip));
+  reference_header.descrip[sizeof(reference_header.descrip) - 1] = 0;
 
   {
   int nbyper;
@@ -99,7 +97,7 @@ static nifti_image * generate_reference_image( const char * write_image_filename
   {
   const unsigned int NumVoxels=reference_image->nx*reference_image->ny*reference_image->nz*reference_image->nt*reference_image->nu;
   reference_image->data=(signed int *)calloc(NumVoxels,sizeof(signed int)) ; /*!< pointer to data: nbyper*nvox bytes     */
-  PrintTest("Checking memory allocation",reference_image->data ==0 ,NIFTITEST_TRUE,Errors);
+  PrintTest("Checking memory allocation",reference_image->data ==0 ,true,Errors);
   {
     if(reference_image->data)
     {
@@ -111,10 +109,10 @@ static nifti_image * generate_reference_image( const char * write_image_filename
     }
   }
   }
-  PrintTest("Setting filenames",nifti_set_filenames( reference_image,write_image_filename, 0, 0 ) != 0, NIFTITEST_TRUE,Errors);
-  PrintTest("Setting type from names",nifti_set_type_from_names( reference_image ) != 0, NIFTITEST_TRUE,Errors);
-  /*   PrintTest("Checking type and names",nifti_type_and_names_match( reference_image , 1 ) != 1, NIFTITEST_TRUE,Errors); */
-  PrintTest("Check reference_image data is non null",(reference_image->data==0),NIFTITEST_TRUE,Errors);
+  PrintTest("Setting filenames",nifti_set_filenames( reference_image,write_image_filename, 0, 0 ) != 0, true,Errors);
+  PrintTest("Setting type from names",nifti_set_type_from_names( reference_image ) != 0, true,Errors);
+  /*   PrintTest("Checking type and names",nifti_type_and_names_match( reference_image , 1 ) != 1, true,Errors); */
+  PrintTest("Check reference_image data is non null",(reference_image->data==0),true,Errors);
   return reference_image;
 }
 
@@ -131,25 +129,25 @@ static void compare_reference_image_values(nifti_image const * const reference_i
     printf("ERROR: Reloaded image is NULL\n");
     exit(-1);
   }
-  PrintTest("Checking nifti_type",(reference_image->nifti_type!=reloaded_image->nifti_type),NIFTITEST_FALSE,Errors);
-  PrintTest("Checking fname",(strcmp(reference_image->fname,reloaded_image->fname)),NIFTITEST_FALSE,Errors);
-  PrintTest("Checking iname",(strcmp(reference_image->iname,reloaded_image->iname)),NIFTITEST_FALSE,Errors);
-  PrintTest("Checking ndim",(reference_image->ndim!=reloaded_image->ndim),NIFTITEST_FALSE,Errors);
-  PrintTest("Checking nx",(reference_image->nx!=reloaded_image->nx),NIFTITEST_FALSE,Errors);
-  PrintTest("Checking ny",(reference_image->ny!=reloaded_image->ny),NIFTITEST_FALSE,Errors);
-  PrintTest("Checking nz",(reference_image->nz!=reloaded_image->nz),NIFTITEST_FALSE,Errors);
-  PrintTest("Checking nt",(reference_image->nt!=reloaded_image->nt),NIFTITEST_FALSE,Errors);
-  PrintTest("Checking nu",(reference_image->nu!=reloaded_image->nu),NIFTITEST_FALSE,Errors);
-  PrintTest("Checking dx",(reference_image->dx!=reloaded_image->dx),NIFTITEST_FALSE,Errors);
-  PrintTest("Checking dy",(reference_image->dy!=reloaded_image->dy),NIFTITEST_FALSE,Errors);
-  PrintTest("Checking dz",(reference_image->dz!=reloaded_image->dz),NIFTITEST_FALSE,Errors);
-  PrintTest("Checking dt",(reference_image->dt!=reloaded_image->dt),NIFTITEST_FALSE,Errors);
-  PrintTest("Checking du",(reference_image->du!=reloaded_image->du),NIFTITEST_FALSE,Errors);
-  PrintTest("Checking datatype",(reference_image->datatype!=reloaded_image->datatype),NIFTITEST_FALSE,Errors);
+  PrintTest("Checking nifti_type",(reference_image->nifti_type!=reloaded_image->nifti_type),false,Errors);
+  PrintTest("Checking fname",(strcmp(reference_image->fname,reloaded_image->fname)),false,Errors);
+  PrintTest("Checking iname",(strcmp(reference_image->iname,reloaded_image->iname)),false,Errors);
+  PrintTest("Checking ndim",(reference_image->ndim!=reloaded_image->ndim),false,Errors);
+  PrintTest("Checking nx",(reference_image->nx!=reloaded_image->nx),false,Errors);
+  PrintTest("Checking ny",(reference_image->ny!=reloaded_image->ny),false,Errors);
+  PrintTest("Checking nz",(reference_image->nz!=reloaded_image->nz),false,Errors);
+  PrintTest("Checking nt",(reference_image->nt!=reloaded_image->nt),false,Errors);
+  PrintTest("Checking nu",(reference_image->nu!=reloaded_image->nu),false,Errors);
+  PrintTest("Checking dx",(reference_image->dx!=reloaded_image->dx),false,Errors);
+  PrintTest("Checking dy",(reference_image->dy!=reloaded_image->dy),false,Errors);
+  PrintTest("Checking dz",(reference_image->dz!=reloaded_image->dz),false,Errors);
+  PrintTest("Checking dt",(reference_image->dt!=reloaded_image->dt),false,Errors);
+  PrintTest("Checking du",(reference_image->du!=reloaded_image->du),false,Errors);
+  PrintTest("Checking datatype",(reference_image->datatype!=reloaded_image->datatype),false,Errors);
   {
   const unsigned int NumVoxels=reference_image->nx*reference_image->ny*reference_image->nz*reference_image->nt*reference_image->nu;
-  PrintTest("Check loaded data is non null",(reloaded_image->data==0),NIFTITEST_TRUE,Errors);
-  PrintTest("Check reference_image data is non null",(reference_image->data==0),NIFTITEST_TRUE,Errors);
+  PrintTest("Check loaded data is non null",(reloaded_image->data==0),true,Errors);
+  PrintTest("Check reference_image data is non null",(reference_image->data==0),true,Errors);
   {
     unsigned int CurrVoxel=0;
     for(; CurrVoxel < NumVoxels ; CurrVoxel++)
@@ -157,16 +155,16 @@ static void compare_reference_image_values(nifti_image const * const reference_i
       /*printf("%d ",CurrVoxel); fflush(stdout);*/
       if( ((int *)(reference_image->data))[CurrVoxel] !=  ((int *)(reloaded_image->data))[CurrVoxel])
         {
-        PrintTest("Incorrect Pixel Value Found",0,NIFTITEST_FALSE,Errors);
+        PrintTest("Incorrect Pixel Value Found",0,false,Errors);
         }
       }
   }
   }
-  PrintTest("Checking xyz_units",(reference_image->xyz_units!=reloaded_image->xyz_units),NIFTITEST_FALSE,Errors);
-  PrintTest("Checking time_units",(reference_image->time_units!=reloaded_image->time_units),NIFTITEST_FALSE,Errors);
-  PrintTest("Checking intent_code",(reference_image->intent_code!=reloaded_image->intent_code),NIFTITEST_FALSE,Errors);
-  PrintTest("Checking intent_name",(strncmp(reference_image->intent_name,reloaded_image->intent_name,16) )!=0,NIFTITEST_FALSE,Errors);
-  PrintTest("Checking description",(strncmp(reference_image->descrip,reloaded_image->descrip,80))!=0,NIFTITEST_FALSE,Errors);
+  PrintTest("Checking xyz_units",(reference_image->xyz_units!=reloaded_image->xyz_units),false,Errors);
+  PrintTest("Checking time_units",(reference_image->time_units!=reloaded_image->time_units),false,Errors);
+  PrintTest("Checking intent_code",(reference_image->intent_code!=reloaded_image->intent_code),false,Errors);
+  PrintTest("Checking intent_name",(strncmp(reference_image->intent_name,reloaded_image->intent_name,16) )!=0,false,Errors);
+  PrintTest("Checking description",(strncmp(reference_image->descrip,reloaded_image->descrip,80))!=0,false,Errors);
 }
 
 int main (int argc, const char *argv[])
@@ -179,8 +177,8 @@ int main (int argc, const char *argv[])
   nifti_set_debug_level(3);
   int Errors=0;
   {
-  PrintTest("NOT REALLY AN ERROR, JUST TESTING THE ERROR TEST REPORTING MECHANISM",1,NIFTITEST_FALSE,&Errors);
-  PrintTest("NOT REALLY AN ERROR, JUST TESTING THE ERROR COUNTING MECHANISM",Errors==1,NIFTITEST_FALSE,&Errors);
+  PrintTest("NOT REALLY AN ERROR, JUST TESTING THE ERROR TEST REPORTING MECHANISM",1,false,&Errors);
+  PrintTest("NOT REALLY AN ERROR, JUST TESTING THE ERROR COUNTING MECHANISM",Errors==1,false,&Errors);
   Errors=0;
   }
   {
@@ -220,13 +218,13 @@ int main (int argc, const char *argv[])
               nifti_add_extension(reference_image,
                                   ext,sizeof(ext),
                                   NIFTI_ECODE_COMMENT) == -1,
-              NIFTITEST_FALSE,&Errors);
+              false,&Errors);
     snprintf(buf,sizeof(buf),"valid_nifti_extension %s",write_image_filename[filenameindex]);
     PrintTest("valid_nifti_extensions",
               valid_nifti_extensions(reference_image) == 0,
-              NIFTITEST_FALSE,&Errors);
+              false,&Errors);
     }
-    PrintTest("Create reference image",reference_image==0,NIFTITEST_TRUE,&Errors);
+    PrintTest("Create reference image",reference_image==0,true,&Errors);
     if( nifti_image_write_status( reference_image ) )
     {
       printf("ERROR: failed to write nifti_image.");
@@ -242,16 +240,16 @@ int main (int argc, const char *argv[])
       nifti_image *nim = nifti_simple_init_nim();
       PrintTest("nifti_copy_extension",
                 nifti_copy_extensions(nim,reference_image),
-                NIFTITEST_FALSE,&Errors);
+                false,&Errors);
 
       nifti_image_free(nim);
       nim = nifti_copy_nim_info(reference_image);
       PrintTest("nifti_copy_nim_info",
                 nim == 0,
-                NIFTITEST_FALSE,&Errors);
+                false,&Errors);
       PrintTest("nifti_nim_is_valid",
                 nifti_nim_is_valid(nim,0) == 0,
-                NIFTITEST_FALSE,&Errors);
+                false,&Errors);
 
 
       nifti_image_free(nim);
@@ -259,7 +257,7 @@ int main (int argc, const char *argv[])
     }
     {
     nifti_image * reloaded_image = (reference_image->fname) ? nifti_image_read(reference_image->fname,1): NULL;
-    PrintTest("Reload of image ",reloaded_image==0,NIFTITEST_TRUE,&Errors);
+    PrintTest("Reload of image ",reloaded_image==0,true,&Errors);
 
     {
     /*
@@ -272,7 +270,7 @@ int main (int argc, const char *argv[])
     snprintf(buf,sizeof(buf),"reload valid_nifti_extensions %s",write_image_filename[filenameindex]);
       PrintTest(buf,
                 CompressedTwoFile ? result != 0 : result == 0,
-                NIFTITEST_FALSE,&Errors);
+                false,&Errors);
     }
     nifti_image_infodump(reloaded_image);
     compare_reference_image_values(reference_image,reloaded_image,&Errors);
@@ -290,15 +288,15 @@ int main (int argc, const char *argv[])
      * test some error paths in the nifti_image_read_bricks
      */
     nim_orig = nifti_image_read_bricks(reference_image->fname,0,blist, &NB_orig);
-    PrintTest("invalid arg bricked image read 1",nim_orig != 0,NIFTITEST_FALSE,&Errors);
+    PrintTest("invalid arg bricked image read 1",nim_orig != 0,false,&Errors);
 
     nim_orig   = nifti_image_read_bricks(reference_image->fname, 0, NULL,  &NB_orig);
-    PrintTest("Reload of bricked image",nim_orig == 0,NIFTITEST_FALSE,&Errors);
+    PrintTest("Reload of bricked image",nim_orig == 0,false,&Errors);
     nifti_free_NBL(&NB_orig);
     nifti_image_free(nim_orig);
 
     nim_select = nifti_image_read_bricks(reference_image->fname, 5, blist, &NB_select);
-    PrintTest("Reload of bricked image with blist",nim_orig == 0,NIFTITEST_FALSE,&Errors);
+    PrintTest("Reload of bricked image with blist",nim_orig == 0,false,&Errors);
     nifti_free_NBL(&NB_select);
     nifti_image_free(nim_select);
 
@@ -308,18 +306,18 @@ int main (int argc, const char *argv[])
      */
     PrintTest("nifti_update_dims_from_array -- valid dims",
               nifti_update_dims_from_array(reference_image) != 0,
-              NIFTITEST_FALSE,&Errors);
+              false,&Errors);
     reference_image->dim[0] = 8;
     PrintTest("nifti_update_dims_from_array -- invalid dims",
               nifti_update_dims_from_array(reference_image) == 0,
-              NIFTITEST_FALSE,&Errors);
+              false,&Errors);
     {
     nifti_1_header x = nifti_convert_nim2nhdr(reference_image);
     char local_buffer[512];
     snprintf(local_buffer,sizeof(local_buffer),"nifti_hdr_looks_good %s",reference_image->fname);
     PrintTest(local_buffer,
               !nifti_hdr_looks_good(&x),
-              NIFTITEST_FALSE,&Errors);
+              false,&Errors);
     }
 
     nifti_image_free(reference_image);
@@ -332,23 +330,23 @@ int main (int argc, const char *argv[])
   PrintTest("nifti_findimgname",
             imgname == 0 ||
             strcmp(imgname,"ATestReferenceImageForReadingAndWriting.img") != 0,
-            NIFTITEST_FALSE,&Errors);
+            false,&Errors);
   free(imgname);
   }
   {
   int IsNiftiFile;
   IsNiftiFile = is_nifti_file(write_image_filename[0]);
   PrintTest("is_nifti_file0",
-            IsNiftiFile != 1,NIFTITEST_FALSE,&Errors);
+            IsNiftiFile != 1,false,&Errors);
   IsNiftiFile = is_nifti_file(write_image_filename[1]);
   PrintTest("is_nifti_file1",
-            IsNiftiFile != 2,NIFTITEST_FALSE,&Errors);
+            IsNiftiFile != 2,false,&Errors);
   IsNiftiFile = is_nifti_file(write_image_filename[3]);
   PrintTest("is_nifti_file2",
-            IsNiftiFile != 1,NIFTITEST_FALSE,&Errors);
+            IsNiftiFile != 1,false,&Errors);
   IsNiftiFile = is_nifti_file(write_image_filename[4]);
   PrintTest("is_nifti_file2",
-            IsNiftiFile != 2,NIFTITEST_FALSE,&Errors);
+            IsNiftiFile != 2,false,&Errors);
   }
 
   }
@@ -367,7 +365,7 @@ int main (int argc, const char *argv[])
 
   nifti_image * reloaded_image = nifti_image_read("TestAsciiImage.nia",1);
   PrintTest("Read/Write Ascii image",
-            reloaded_image == 0,NIFTITEST_FALSE,&Errors);
+            reloaded_image == 0,false,&Errors);
   nifti_image_free(reference_image);
   nifti_image_free(reloaded_image);
   }
@@ -422,18 +420,18 @@ int main (int argc, const char *argv[])
     {
     int KnownValid=nifti_validfilename(FILE_NAMES[fni]);
     snprintf(TEMP_STR,256,"nifti_validfilename(\"%s\")=%d",FILE_NAMES[fni],KnownValid);
-    PrintTest(TEMP_STR,KnownValid != KNOWN_nifti_validfilename[fni],NIFTITEST_FALSE,&Errors);
+    PrintTest(TEMP_STR,KnownValid != KNOWN_nifti_validfilename[fni],false,&Errors);
     }
     {
     int KnownValid=nifti_is_complete_filename(FILE_NAMES[fni]);
     snprintf(TEMP_STR,256,"nifti_is_complete_filename(\"%s\")=%d",FILE_NAMES[fni],KnownValid);
-    PrintTest(TEMP_STR,KnownValid != KNOWN_nifti_is_complete_filename[fni],NIFTITEST_FALSE,&Errors);
+    PrintTest(TEMP_STR,KnownValid != KNOWN_nifti_is_complete_filename[fni],false,&Errors);
     }
 
     {
     char * basename=nifti_makebasename(FILE_NAMES[fni]);
     snprintf(TEMP_STR,256,"nifti_makebasename(\"%s\")=\"%s\"",FILE_NAMES[fni],basename);
-    PrintTest(TEMP_STR,strcmp(basename,KNOWN_FILE_BASENAMES[fni]) != 0,NIFTITEST_FALSE,&Errors);
+    PrintTest(TEMP_STR,strcmp(basename,KNOWN_FILE_BASENAMES[fni]) != 0,false,&Errors);
     free(basename);
 
     }
@@ -450,12 +448,12 @@ int main (int argc, const char *argv[])
   PrintTest(
             "nifti_image_read_bricks 1",
             nifti_image_read_bricks((char *)0,-1,(const int *)0,(nifti_brick_list *)0) != 0,
-            NIFTITEST_FALSE,
+            false,
             &Errors);
   PrintTest(
             "nifti_image_read_bricks 1",
             nifti_image_read_bricks("NOFILE.NOFILE",-1,(const int *)0,(nifti_brick_list *)0) != 0,
-            NIFTITEST_FALSE,
+            false,
             &Errors);
   }
   /*
@@ -468,7 +466,7 @@ int main (int argc, const char *argv[])
   PrintTest(                                                   \
             buf,                                                        \
             strcmp(nifti_datatype_string(constant),string) != 0,        \
-            NIFTITEST_FALSE,                                            \
+            false,                                            \
             &Errors);                                                   \
   }
   nifti_datatype_test(DT_UNKNOWN,"UNKNOWN");
@@ -495,7 +493,7 @@ int main (int argc, const char *argv[])
   PrintTest(                                   \
             buf,                                        \
             nifti_is_inttype(constant) != rval,         \
-            NIFTITEST_FALSE,                            \
+            false,                            \
             &Errors);                                   \
   }
   nifti_is_inttype_test(DT_UNKNOWN,0);
@@ -522,7 +520,7 @@ int main (int argc, const char *argv[])
   PrintTest(                                           \
             buf,                                                \
             strcmp(nifti_units_string(constant),string) != 0,   \
-            NIFTITEST_FALSE,                                    \
+            false,                                    \
             &Errors);                                           \
   }
   nifti_units_string_test(NIFTI_UNITS_METER,"m");
@@ -541,7 +539,7 @@ int main (int argc, const char *argv[])
   PrintTest(                                           \
             buf,                                                \
             strcmp(nifti_intent_string(constant),string) != 0,  \
-            NIFTITEST_FALSE,                                    \
+            false,                                    \
             &Errors);                                           \
   }
   nifti_intent_string_test(NIFTI_INTENT_CORREL,"Correlation statistic");
@@ -587,7 +585,7 @@ int main (int argc, const char *argv[])
   PrintTest(                                           \
             buf,                                                \
             strcmp(nifti_slice_string(constant),string) != 0,   \
-            NIFTITEST_FALSE,                                    \
+            false,                                    \
             &Errors);                                           \
   }
   nifti_slice_string_test(NIFTI_SLICE_SEQ_INC,"sequential_increasing");
@@ -603,7 +601,7 @@ int main (int argc, const char *argv[])
   PrintTest(                                                   \
             buf,                                                        \
             strcmp(nifti_orientation_string(constant),string) != 0,     \
-            NIFTITEST_FALSE,                                            \
+            false,                                            \
             &Errors);                                                   \
   }
   nifti_orientation_string_test(NIFTI_L2R,"Left-to-Right");
@@ -623,7 +621,7 @@ int main (int argc, const char *argv[])
   PrintTest(                                           \
             buf,                                                \
             nbyper != Nbyper || swapsize != Swapsize,           \
-            NIFTITEST_FALSE,                                    \
+            false,                                    \
             &Errors);                                           \
   }
 
@@ -656,10 +654,10 @@ int main (int argc, const char *argv[])
   nifti_mat44_to_quatern(R,&qb,&qc,&qd,&qx,&qy,&qz,&dx,&dy,&dz,&qfac);
   PrintTest("nifti_mat44_to_quatern",
             qb != 0.000000 || qc != 0.000000 || qd != 0.000000 ||
-            qx != 0.000000 || qy != 0.000000 || qd != 0.000000 ||
+            qx != 0.000000 || qy != 0.000000 || qz != 0.000000 ||
             dx != 1.000000 || dy != 1.000000 || dz != 1.000000 ||
             qfac != 1.000000,
-            NIFTITEST_FALSE,&Errors);
+            false,&Errors);
   }
   {
   mat44 x = nifti_make_orthog_mat44(0.14,0.0,0.0,
@@ -669,7 +667,7 @@ int main (int argc, const char *argv[])
   PrintTest("nifti_make_orthog_mat44",
             x.m[0][0] != 1.0 || x.m[1][1] != 1.0 ||
             x.m[2][2] != 1.0 || x.m[3][3] != 1.0,
-            NIFTITEST_FALSE,&Errors);
+            false,&Errors);
   }
   {
   static char x[16] = { 'a','b','c','d','e','f','g','h',
@@ -680,7 +678,7 @@ int main (int argc, const char *argv[])
             x[4] != 'E' || x[5] != 'F' || x[6] != 'G' || x[7] != 'H' ||
             x[8] != 'h' || x[9] != 'g' || x[10] != 'f' || x[11] != 'e' ||
             x[12] != 'd' || x[13] != 'c' || x[14] != 'b' || x[15] != 'a',
-            NIFTITEST_FALSE,&Errors);
+            false,&Errors);
 
   }
   {
@@ -689,7 +687,7 @@ int main (int argc, const char *argv[])
   PrintTest("nifti_swap_8bytes",
             x[0] != 'A' || x[1] != 'B' || x[2] != 'C' || x[3] != 'D' ||
             x[4] != 'd' || x[5] != 'c' || x[6] != 'b' || x[7] != 'a',
-            NIFTITEST_FALSE,&Errors);
+            false,&Errors);
 
   }
   {
@@ -698,7 +696,7 @@ int main (int argc, const char *argv[])
    */
   nifti_image *nim = nifti_simple_init_nim();
   PrintTest("nifti_simple_init_nim",
-            nim == 0,NIFTITEST_FALSE,&Errors);
+            nim == 0,false,&Errors);
   nifti_image_free(nim); nim = 0;
   /*
    * test nifti_image_open
@@ -706,14 +704,14 @@ int main (int argc, const char *argv[])
   znzFile f = nifti_image_open("ATestReferenceImageForReadingAndWriting.hdr","r",&nim);
   PrintTest("nifti_image_open",
             nim == 0 || f == 0,
-            NIFTITEST_FALSE,&Errors);
+            false,&Errors);
   PrintTest("nifti_image_load",
             nifti_image_load(nim) == -1,
-            NIFTITEST_FALSE,&Errors);
+            false,&Errors);
   nifti_image_unload(nim);
   PrintTest("nifti_image_unload",
             nim->data != 0,
-            NIFTITEST_FALSE,&Errors);
+            false,&Errors);
 
   znzclose(f);
   nifti_image_free(nim);

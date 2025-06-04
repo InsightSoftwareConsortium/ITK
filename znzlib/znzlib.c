@@ -301,11 +301,11 @@ int znzprintf(znzFile stream, const char *format, ...)
   va_start(va, format);
 #ifdef HAVE_ZLIB
   if (stream->zfptr!=NULL) {
-    int size;  /* local to HAVE_ZLIB block */
+    size_t size;  /* local to HAVE_ZLIB block */
     size = strlen(format) + 1000000;  /* overkill I hope */
     tmpstr = (char *)calloc(1, size);
     if( tmpstr == NULL ){
-       fprintf(stderr,"** ERROR: znzprintf failed to alloc %d bytes\n", size);
+       fprintf(stderr,"** ERROR: znzprintf failed to alloc %zu bytes\n", size);
        return retval;
     }
     vsprintf(tmpstr,format,va);

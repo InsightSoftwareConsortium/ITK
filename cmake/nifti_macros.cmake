@@ -113,7 +113,7 @@ function(install_nifti_target target_name)
   elseif(CMAKE_VER_AT_LEAST_3_13 AND NOT IS_PROJECT_DIR)
     # CMake >=3.13 has support for referencing targets in parent scopes of the
     # one in which the target is defined. This enables a central management of
-    # the installation process, along with installating an target export set.
+    # the installation process, along with installing an target export set.
     # No installation occurs from the directory in which the target is defined
     return()
   endif()
@@ -131,6 +131,9 @@ function(install_nifti_target target_name)
             DESTINATION ${NIFTI_INSTALL_LIBRARY_DIR}
             COMPONENT RuntimeLibraries
           PUBLIC_HEADER
+            DESTINATION ${NIFTI_INSTALL_INCLUDE_DIR}
+            COMPONENT Development
+          PRIVATE_HEADER
             DESTINATION ${NIFTI_INSTALL_INCLUDE_DIR}
             COMPONENT Development
           INCLUDES

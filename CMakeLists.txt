@@ -50,6 +50,28 @@ endif()
 # current build behavior
 option( BUILD_SHARED_LIBS "Toggle building shared libraries." OFF)
 
+# Add options to mimic FSL features,  Can manually specify -DFSLSTYLE:BOOL=ON for parity support with makefile
+if(NOT FSLSTYLE)
+  # If FSL_STYLE is not defined, then
+  option( FSLSTYLE_NAME_CONFLICTS "FSL behavior for name conflicts (generate error if both img.nii and img.nii.gz exists)" OFF)
+  option( FSLSTYLE_PIGZ_SUPPORT   "PIGZ: Use PIGZ parallel compression if environment includes AFNI_COMPRESSOR=PIGZ" OFF)
+  option( FSLSTYLE_REJECT_COMPLEX "REJECT_COMPLEX: Generate error if file is complex datatype." OFF)
+else()
+  set(FSLSTYLE_NAME_CONFLICTS ON CACHE BOOL "FSL behavior for name conflicts (ambiguous files img.nii and img.nii.gz is an error)" FORCE)
+  set(FSLSTYLE_PIGZ_SUPPORT   ON CACHE BOOL "PIGZ support" FORCE)
+  set(FSLSTYLE_REJECT_COMPLEX ON CACHE BOOL "Reject complex images." FORCE)
+endif()
+
+if(FSLSTYLE_NAME_CONFLICTS)
+  ADD_DEFINITIONS(-DFSLSTYLE)
+endif()
+if(FSLSTYLE_PIGZ_SUPPORT)
+  ADD_DEFINITIONS(-DPIGZ)
+endif()
+if(FSLSTYLE_REJECT_COMPLEX)
+  ADD_DEFINITIONS(-DREJECT_COMPLEX)
+endif()
+
 # Include executables as part of the build
 option(NIFTI_BUILD_APPLICATIONS "Build various utility tools" ON)
 mark_as_advanced(NIFTI_BUILD_APPLICATIONS)
@@ -75,6 +97,7 @@ set_if_not_defined(NIFTI_INSTALL_ARCHIVE_DIR ${NIFTI_INSTALL_LIBRARY_DIR})
 set_if_not_defined(NIFTI_INSTALL_INCLUDE_DIR include/nifti)
 set_if_not_defined(NIFTI_INSTALL_MAN_DIR share/man/man1)
 set_if_not_defined(NIFTI_INSTALL_DOC_DIR share/doc/${PROJECT_NAME})
+set_if_not_defined(NIFTI_INSTALL_MODULE_DIR share/cmake/${PACKAGE_NAME})
 set_if_not_defined(NIFTI_ZLIB_LIBRARIES "")
 set_if_not_defined(ZNZ_COMPILE_DEF "")
 if(NOT NIFTI_ZLIB_LIBRARIES) # If using a custom zlib library, skip the find package
@@ -137,9 +160,11 @@ if (NIFTI_BUILD_TESTING )
   include(FetchContent) # fetch data a configure time to simplify tests
   # If new or changed data is needed, add that data to the https://github.com/NIFTI-Imaging/nifti-test-data repo
   # make a new release, and then update the URL and hash (shasum -a 256 <downloaded tarball>).
+  cmake_policy(SET CMP0169 OLD)
   FetchContent_Declare( fetch_testing_data
           URL      https://github.com/NIFTI-Imaging/nifti-test-data/archive/v3.0.2.tar.gz
           URL_HASH SHA256=5dafec078151018da7aaf3c941bd31f246f590bc34fa3fef29ce77a773db16a6
+          DOWNLOAD_EXTRACT_TIMESTAMP TRUE
           )
   FetchContent_GetProperties(fetch_testing_data)
   if(NOT fetch_testing_data_POPULATED)
@@ -239,7 +264,7 @@ if(NIFTI_INSTALL_EXPORT_NAME STREQUAL "NIFTITargets")
   # NIFTI libraries into an external project
   include(CMakePackageConfigHelpers)
   set(CONFIG_SETUP_DIR ${CMAKE_CURRENT_BINARY_DIR}/${PACKAGE_NAME})
-  set(ConfigPackageLocation share/cmake/${PACKAGE_NAME})
+  set(ConfigPackageLocation ${NIFTI_INSTALL_MODULE_DIR})
 
   write_basic_package_version_file(
         ${CONFIG_SETUP_DIR}/${PACKAGE_NAME}ConfigVersion.cmake
