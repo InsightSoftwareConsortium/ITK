@@ -491,7 +491,11 @@ macro(itk_module_add_library _name)
   endif()
   add_library(${_name} ${_LIBRARY_BUILD_TYPE} ${ARGN})
   target_compile_features(${_name} PUBLIC cxx_std_${CMAKE_CXX_STANDARD})
-  target_link_options(${_name} PUBLIC "$<$<AND:$<C_COMPILER_ID:AppleClang>,$<VERSION_GREATER_EQUAL:$<C_COMPILER_VERSION>,15.0>>:LINKER:-no_warn_duplicate_libraries>")
+  target_link_options(
+    ${_name}
+    PUBLIC
+    "$<$<AND:$<C_COMPILER_ID:AppleClang>,$<VERSION_GREATER_EQUAL:$<C_COMPILER_VERSION>,15.0>>:LINKER:-no_warn_duplicate_libraries>"
+  )
   itk_module_link_dependencies()
   itk_module_target(${_name})
 endmacro()

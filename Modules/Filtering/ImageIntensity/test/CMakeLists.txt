@@ -808,7 +808,6 @@ itk_add_test(
   16
   1)
 
-
 set(ITKImageIntensityGTests itkBitwiseOpsFunctorsTest.cxx itkArithmeticOpsFunctorsTest.cxx)
 
 if(MSVC)

@@ -149,8 +149,7 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkGridImageSourceTest5.mha
   itkGridImageSourceTest2
   DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkGridImageSourceTest5.mha
-  )
+  ${ITK_TEST_OUTPUT_DIR}/itkGridImageSourceTest5.mha)
 itk_add_test(
   NAME
   itkPhysicalPointImageSourceTest0
