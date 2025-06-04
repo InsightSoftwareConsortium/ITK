@@ -25,6 +25,7 @@
 #include "itksys/SystemTools.hxx"
 #include "itksys/SystemInformation.hxx"
 
+#include <filesystem>
 // debug
 #include <map>
 
@@ -33,13 +34,13 @@
  */
 template <typename TImage>
 typename TImage::Pointer
-ReadImage(const std::string & fileName, bool SFORM_Permissive)
+NiftiTestReadImageOverride(const std::string & fileName, bool SFORM_Permissive)
 {
   using ReaderType = itk::ImageFileReader<TImage>;
 
-  auto                                      reader = ReaderType::New();
-  const typename itk::NiftiImageIO::Pointer imageIO = itk::NiftiImageIO::New();
+  auto reader = ReaderType::New();
   {
+    const itk::NiftiImageIO::Pointer imageIO = itk::NiftiImageIO::New();
     imageIO->SetSFORM_Permissive(SFORM_Permissive);
     reader->SetImageIO(imageIO);
     reader->SetFileName(fileName.c_str());
@@ -77,7 +78,7 @@ CheckRotation(typename TImage::Pointer img)
 int
 itkNiftiReadWriteDirectionTest(int argc, char * argv[])
 {
-  if (argc < 6)
+  if (argc < 7)
   {
     std::cerr << "Missing Parameters." << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
@@ -93,10 +94,11 @@ itkNiftiReadWriteDirectionTest(int argc, char * argv[])
 
   // Threshold for sform test - how much can the sform matrix recovered from the non-ortho image differ from the
   // original
-  double sformPermissiveAngleThreshold = 8.0;
-  if (argc > 6)
+  double            sformPermissiveAngleThreshold = 8.0;
+  const std::string currentTestName{ argv[6] }; // =  ;
+  if (argc > 7)
   {
-    sformPermissiveAngleThreshold = std::stod(argv[6]);
+    sformPermissiveAngleThreshold = std::stod(argv[7]);
   }
 
   using TestImageType = itk::Image<float, 3>;
@@ -160,15 +162,28 @@ itkNiftiReadWriteDirectionTest(int argc, char * argv[])
   }
 
   // Write image that originally had no sform direction representation into a file with both sform and qform
-  const std::string                                  testOutputDir = argv[5];
-  const std::string                                  testFilename = testOutputDir + "/test_filled_sform.nii.gz";
+  const std::string testOutputDir = argv[5];
+  const std::string testFilename = testOutputDir + currentTestName;
+  if (std::filesystem::exists(testFilename))
+  {
+    std::filesystem::remove(testFilename);
+  }
+  std::filesystem::create_directories(testOutputDir);
+  // Force NiftiIO as IO object.
+  const itk::NiftiImageIO::Pointer                   NiftiIO = itk::NiftiImageIO::New();
   const itk::ImageFileWriter<TestImageType>::Pointer writer = itk::ImageFileWriter<TestImageType>::New();
-  ITK_TRY_EXPECT_NO_EXCEPTION(itk::WriteImage(inputImageNoSform, testFilename));
-
+  writer->SetImageIO(NiftiIO);
+  writer->SetFileName(testFilename);
+  writer->SetInput(inputImageNoSform);
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
   // This time it should read from the newly written "sform" code in the image, which should
   // be the same as reading from qform of the original image
-  const TestImageType::Pointer reReadImage = itk::ReadImage<TestImageType>(testFilename);
+  const itk::ImageFileReader<TestImageType>::Pointer reader = itk::ImageFileReader<TestImageType>::New();
+  reader->SetImageIO(NiftiIO);
+  reader->SetFileName(testFilename);
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+  const TestImageType::Pointer reReadImage = reader->GetOutput();
   const auto                   reReadImageDirection = reReadImage->GetDirection();
   const auto                   mdd = reReadImage->GetMetaDataDictionary();
   std::string                  sformCodeFromNifti;
@@ -199,7 +214,7 @@ itkNiftiReadWriteDirectionTest(int argc, char * argv[])
   }
 
   // Should not read the image with non-orthogonal sform
-  ITK_TRY_EXPECT_EXCEPTION(ReadImage<TestImageType>(argv[4], false));
+  ITK_TRY_EXPECT_EXCEPTION(NiftiTestReadImageOverride<TestImageType>(argv[4], false));
 
   // Check if environment flag is used properly
   // Check without permissive option
@@ -210,7 +225,7 @@ itkNiftiReadWriteDirectionTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(itk::ReadImage<TestImageType>(argv[4]));
 
   // This should work
-  const TestImageType::Pointer inputImageNonOrthoSform = ReadImage<TestImageType>(argv[4], true);
+  const TestImageType::Pointer inputImageNonOrthoSform = NiftiTestReadImageOverride<TestImageType>(argv[4], true);
   dictionary = inputImageNonOrthoSform->GetMetaDataDictionary();
   if (!itk::ExposeMetaData<std::string>(dictionary, "ITK_sform_corrected", temp) || temp != "YES")
   {
