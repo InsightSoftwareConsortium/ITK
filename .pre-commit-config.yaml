@@ -98,8 +98,10 @@ repos:
       entry: 'Utilities/Hooks/kw-commit-msg'
       language: system
       stages: [commit-msg]
+      exclude: "\\/ThirdParty\\/"
     - id: kw-pre-commit
       name: 'kw-pre-commit'
       entry: 'Utilities/Hooks/kw-pre-commit'
       language: system
       stages: [pre-commit]
+      exclude: "\\/ThirdParty\\/"
