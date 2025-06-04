@@ -19,7 +19,7 @@ and, to contribute changes and enhancements to niftilib. Please contact us if
 you would like to contribute additional functionality to the i/o library.
 
 The main webpage for this project is [hosted on github](https://nifti-imaging.github.io/).
-This web site provde historical information.  Additional information from the [NIFTI DFWG](http://nifti.nimh.nih.gov)
+This web site provides historical information.  Additional information from the [NIFTI DFWG](http://nifti.nimh.nih.gov)
 
 The testing dashboard for monitoring the health of the libraries is at
 [my.cdash.org](https://my.cdash.org/index.php?project=nifti_clib).
