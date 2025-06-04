@@ -47,7 +47,7 @@ print_hex_vals(const char * const data, const int nbytes, FILE * const fp)
   return 0;
 }
 
-static const char * const
+static const char *
 str_intent(const unsigned int intent)
 {
   switch (intent)
