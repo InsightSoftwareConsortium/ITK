@@ -3,7 +3,6 @@ itk_module_test()
 # to know system default MINC PositiveCoordinateOrientation RAS to PositiveCoordinateOrientation LPS mode
 include_directories("${CMAKE_CURRENT_BINARY_DIR}/../src")
 
-
 if(NOT ITK_USE_SYSTEM_HDF5)
   include_directories("${ITKHDF5_SOURCE_DIR}/src/itkhdf5" "${ITKHDF5_SOURCE_DIR}/src/itkhdf5/src"
                       "${ITKHDF5_BINARY_DIR}/src/itkhdf5")
@@ -47,8 +46,7 @@ itk_add_test(
   itkMINCImageIOTest4
   DATA{Input/t1_z+_byte_cor.mnc}
   ${ITK_TEST_OUTPUT_DIR}/t1_z+_byte_cor_2.mnc
-  0
-  )
+  0)
 
 itk_add_test(
   NAME
@@ -61,8 +59,7 @@ itk_add_test(
   itkMINCImageIOTest4
   DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw}
   ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume.mnc
-  -1
-  )
+  -1)
 
 # Test to make sure that inter-slice normalization was properly dealt with
 itk_add_test(
@@ -210,57 +207,57 @@ foreach(rastoeps 0;1)
 endforeach()
 
 foreach(rastoeps 0;1)
-foreach(type double;float;long;ulong)
-  foreach(axis cor;sag;trans)
-    foreach(plusMinus -;+)
-      set(imageName t1_z${plusMinus}_${type}_${axis})
-      set(outImage ${ITK_TEST_OUTPUT_DIR}/${imageName}_${rastoeps}.mnc)
+  foreach(type double;float;long;ulong)
+    foreach(axis cor;sag;trans)
+      foreach(plusMinus -;+)
+        set(imageName t1_z${plusMinus}_${type}_${axis})
+        set(outImage ${ITK_TEST_OUTPUT_DIR}/${imageName}_${rastoeps}.mnc)
 
-      itk_add_test(
-        NAME
-        itkMINCImageIOTest-COM-${imageName}-${rastoeps}
-        COMMAND
-        ITKIOMINCTestDriver
-        --compare
-        DATA{Input/${imageName}.mnc}
-        ${outImage}
-        itkMINCImageIOTest4
-        DATA{Input/${imageName}.mnc}
-        ${outImage}
-        ${rastoeps} # RAStoLPS
-        427590.7631
-        -8.195995507
-        72.45943584
-        -3.148635493) # this line is different
+        itk_add_test(
+          NAME
+          itkMINCImageIOTest-COM-${imageName}-${rastoeps}
+          COMMAND
+          ITKIOMINCTestDriver
+          --compare
+          DATA{Input/${imageName}.mnc}
+          ${outImage}
+          itkMINCImageIOTest4
+          DATA{Input/${imageName}.mnc}
+          ${outImage}
+          ${rastoeps} # RAStoLPS
+          427590.7631
+          -8.195995507
+          72.45943584
+          -3.148635493) # this line is different
+      endforeach()
     endforeach()
   endforeach()
-endforeach()
 endforeach()
 
 foreach(rastoeps 0;1)
-foreach(type ushort)
-  foreach(axis cor;sag;trans)
-    foreach(plusMinus -;+)
-      set(imageName t1_z${plusMinus}_${type}_${axis})
-      set(outImage ${ITK_TEST_OUTPUT_DIR}/${imageName}_${rastoeps}.mnc)
+  foreach(type ushort)
+    foreach(axis cor;sag;trans)
+      foreach(plusMinus -;+)
+        set(imageName t1_z${plusMinus}_${type}_${axis})
+        set(outImage ${ITK_TEST_OUTPUT_DIR}/${imageName}_${rastoeps}.mnc)
 
-      itk_add_test(
-        NAME
-        itkMINCImageIOTest-COM-${imageName}-${rastoeps}
-        COMMAND
-        ITKIOMINCTestDriver
-        --compare
-        DATA{Input/${imageName}.mnc}
-        ${outImage}
-        itkMINCImageIOTest4
-        DATA{Input/${imageName}.mnc}
-        ${outImage}
-        ${rastoeps} # RAStoLPS
-        427590.7957
-        -8.195997123
-        72.45943721
-        -3.148635961) # this line is different
+        itk_add_test(
+          NAME
+          itkMINCImageIOTest-COM-${imageName}-${rastoeps}
+          COMMAND
+          ITKIOMINCTestDriver
+          --compare
+          DATA{Input/${imageName}.mnc}
+          ${outImage}
+          itkMINCImageIOTest4
+          DATA{Input/${imageName}.mnc}
+          ${outImage}
+          ${rastoeps} # RAStoLPS
+          427590.7957
+          -8.195997123
+          72.45943721
+          -3.148635961) # this line is different
+      endforeach()
     endforeach()
   endforeach()
-endforeach()
 endforeach()

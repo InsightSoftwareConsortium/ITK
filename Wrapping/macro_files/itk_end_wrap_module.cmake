@@ -391,7 +391,9 @@ ${DO_NOT_WAIT_FOR_THREADS_CALLS}
   if(ITK_WRAP_PYTHON_VERSION VERSION_GREATER_EQUAL 3.11)
     set(use_python_limited_api_default 1)
   endif()
-  set(ITK_USE_PYTHON_LIMITED_API ${use_python_limited_api_default} CACHE BOOL "Use Python's limited API for Python minor version compatibility." FORCE)
+  set(ITK_USE_PYTHON_LIMITED_API
+      ${use_python_limited_api_default}
+      CACHE BOOL "Use Python's limited API for Python minor version compatibility." FORCE)
   mark_as_advanced(ITK_USE_PYTHON_LIMITED_API)
   unset(use_python_limited_api_default)
 
@@ -401,7 +403,10 @@ ${DO_NOT_WAIT_FOR_THREADS_CALLS}
     if(ITK_USE_PYTHON_LIMITED_API)
       set(development_component "Development.SABIModule")
     endif()
-    find_package(Python3 ${PYTHON_VERSION_MIN}...${PYTHON_VERSION_MAX} COMPONENTS Interpreter ${development_component} REQUIRED)
+    find_package(
+      Python3 ${PYTHON_VERSION_MIN}...${PYTHON_VERSION_MAX}
+      COMPONENTS Interpreter ${development_component}
+      REQUIRED)
     add_library(${lib} MODULE ${cpp_file} ${ITK_WRAP_PYTHON_CXX_FILES} ${WRAPPER_LIBRARY_CXX_SOURCES})
     set_target_properties(${lib} PROPERTIES PREFIX "_")
 
@@ -419,14 +424,15 @@ ${DO_NOT_WAIT_FOR_THREADS_CALLS}
         set_target_properties(${lib} PROPERTIES COMPILE_FLAGS "/wd4244")
       endif()
     else()
-      if (ITK_USE_PYTHON_LIMITED_API)
+      if(ITK_USE_PYTHON_LIMITED_API)
         set_target_properties(${lib} PROPERTIES SUFFIX .abi3.so)
       else()
         if(NOT PYTHON3_FOUND)
-            find_package(Python3 ${PYTHON_VERSION_MIN}...${PYTHON_VERSION_MAX} COMPONENTS Interpreter Development.Module ${SKBUILD_SABI_COMPONENT})
+          find_package(Python3 ${PYTHON_VERSION_MIN}...${PYTHON_VERSION_MAX} COMPONENTS Interpreter Development.Module
+                                                                                        ${SKBUILD_SABI_COMPONENT})
         endif()
         if(PYTHON3_FOUND)
-# Graalpy Patch
+          # Graalpy Patch
           set_target_properties(${lib} PROPERTIES SUFFIX .${Python3_SOABI}.so)
         else()
           set_target_properties(${lib} PROPERTIES SUFFIX .so)
@@ -443,12 +449,12 @@ ${DO_NOT_WAIT_FOR_THREADS_CALLS}
     endif()
 
     # Python Limited API / Stable ABI
-    if (ITK_USE_PYTHON_LIMITED_API)
+    if(ITK_USE_PYTHON_LIMITED_API)
       target_compile_definitions(${lib} PUBLIC -DPy_LIMITED_API=0x030b0000)
     endif()
     # Link the modules together
     target_link_libraries(${lib} LINK_PUBLIC ${WRAPPER_LIBRARY_LINK_LIBRARIES})
-    if (ITK_USE_PYTHON_LIMITED_API)
+    if(ITK_USE_PYTHON_LIMITED_API)
       itk_target_link_libraries_with_dynamic_lookup(${lib} LINK_PUBLIC ${Python3_SABI_LIBRARIES})
     else()
       itk_target_link_libraries_with_dynamic_lookup(${lib} LINK_PUBLIC ${Python3_LIBRARIES})

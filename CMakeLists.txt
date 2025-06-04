@@ -326,11 +326,7 @@ cmake_dependent_option(
   "NOT ITK_LEGACY_REMOVE"
   OFF)
 
-mark_as_advanced(
-  ITK_LEGACY_SILENT
-  ITK_LEGACY_REMOVE
-  ITK_FUTURE_LEGACY_REMOVE
-  )
+mark_as_advanced(ITK_LEGACY_SILENT ITK_LEGACY_REMOVE ITK_FUTURE_LEGACY_REMOVE)
 
 if(ITKV4_COMPATIBILITY)
   message(FATAL_ERROR "ITKV4_COMPATIBILITY is removed starting in ITK version 6.0, this option is no longer valid.")
@@ -497,7 +493,8 @@ mark_as_advanced(ITK_USE_64BITS_IDS)
 if(ITK_USE_CONCEPT_CHECKING)
   message(
     WARNING
-      "Ignoring ITK_USE_CONCEPT_CHECKING, as concept checking is performed unconditionally. This variable is no longer used")
+      "Ignoring ITK_USE_CONCEPT_CHECKING, as concept checking is performed unconditionally. This variable is no longer used"
+  )
 endif()
 if(ITK_USE_STRICT_CONCEPT_CHECKING)
   message(
@@ -541,7 +538,7 @@ mark_as_advanced(ITK_COMPUTER_MEMORY_SIZE)
 # spacing/direction/origin to single precision
 option(ITK_USE_FLOAT_SPACE_PRECISION "Use single precision for origin/spacing/directions in itk::Image" OFF)
 mark_as_advanced(ITK_USE_FLOAT_SPACE_PRECISION)
-if( ITK_USE_FLOAT_SPACE_PRECISION AND ITK_WRAP_PYTHON)
+if(ITK_USE_FLOAT_SPACE_PRECISION AND ITK_WRAP_PYTHON)
   message(FATAL_ERROR "ITK_USE_FLOAT_SPACE_PRECISION=ON not supported with ITK_WRAP_PYTHON=ON")
 endif()
 

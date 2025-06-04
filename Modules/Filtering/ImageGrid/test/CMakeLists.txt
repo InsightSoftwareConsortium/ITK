@@ -54,10 +54,9 @@ set(ITKImageGridTests
     itkSliceBySliceImageFilterTest.cxx
     itkPadImageFilterTest.cxx)
 
-if( NOT ITK_FUTURE_LEGACY_REMOVE)
-    list(APPEND ITKImageGridTests itkOrientImageFilterTest2.cxx)
+if(NOT ITK_FUTURE_LEGACY_REMOVE)
+  list(APPEND ITKImageGridTests itkOrientImageFilterTest2.cxx)
 endif()
-
 
 createtestdriver(ITKImageGrid "${ITKImageGrid-Test_LIBRARIES}" "${ITKImageGridTests}")
 

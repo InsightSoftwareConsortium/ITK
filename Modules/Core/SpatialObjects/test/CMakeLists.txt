@@ -222,8 +222,5 @@ itk_add_test(
   itkNewMetaObjectTypeTest
   ${ITK_TEST_OUTPUT_DIR}/NewMetaObjectType.meta)
 
-set(ITKSpatialObjectsGTests
-  itkImageMaskSpatialObjectGTest.cxx
-  itkSpatialObjectPointGTest.cxx
-)
+set(ITKSpatialObjectsGTests itkImageMaskSpatialObjectGTest.cxx itkSpatialObjectPointGTest.cxx)
 creategoogletestdriver(ITKSpatialObjects "${ITKSpatialObjects-Test_LIBRARIES}" "${ITKSpatialObjectsGTests}")

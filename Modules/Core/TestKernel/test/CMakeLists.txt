@@ -42,9 +42,6 @@ itk_add_test(
   ITKTestKernelTestDriver
   itkTestingStretchIntensityImageFilterTest)
 
-set(ITKTestKernelGTests itkGoogleTest.cxx
-        itkGoogleTestFixture.cxx
-        itkTestingComparisonImageFilterGTest.cxx
-)
+set(ITKTestKernelGTests itkGoogleTest.cxx itkGoogleTestFixture.cxx itkTestingComparisonImageFilterGTest.cxx)
 
 creategoogletestdriver(ITKTestKernel "${ITKTestKernel-Test_LIBRARIES}" "${ITKTestKernelGTests}")

@@ -25,9 +25,10 @@ if(WIN32)
   set(swigwin_cid "bafybeibljxzip2irc3q3w5qlh2ae5ns27xpi7mo6iskxni45dcmwtk2x6a")
 
   set(swig_ep "${CMAKE_CURRENT_BINARY_DIR}/swigwin-amd64-${ITK_SWIG_VERSION}/bin/swig.exe")
-elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND (CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64" OR CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "aarch64"))
+elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND (CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64"
+                                                   OR CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "aarch64"))
   set(swig_cmake_version 4.3.0)
-  if (CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "aarch64")
+  if(CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "aarch64")
     set(swiglinux_hash
         "9a3cfa330235ac78799c7401299506db5ea7459314b781bf27f2db8ddb582508ec5b15c2fa96fc241d5b832c4f702cd9ef043a61e37a574cac7ca78e4aba8f78"
     )
@@ -44,15 +45,15 @@ elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND (CMAKE_HOST_SYSTEM_PROCESSOR S
   set(swig_ep "${CMAKE_CURRENT_BINARY_DIR}/swiglinux-${swiglinux_arch}-${ITK_SWIG_VERSION}/bin/swig")
 elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin")
   set(swig_cmake_version 4.3.0)
-  if (CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "arm64")
+  if(CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "arm64")
     set(swigmacos_hash
-      "96eec93fd9e1df35813f8cc194a8811c8c84f265284c1515ec81aa7e696aee2c952f426e5155c011c163376e76245f5d7f479525f0d1ea8396524629ed6b8aec"
+        "96eec93fd9e1df35813f8cc194a8811c8c84f265284c1515ec81aa7e696aee2c952f426e5155c011c163376e76245f5d7f479525f0d1ea8396524629ed6b8aec"
     )
     set(swigmacos_cid "bafybeialov6ur5q2yli4mtclrvqoirk2nsteum3vgnswjypquwejwomxnm")
     set(swigmacos_arch "arm64")
   else()
     set(swigmacos_hash
-      "169760d2a34c2a95a907e80d93c1dc7ebc33a7dd34eb7ed7a9841866db3e25f7d7e93bf49ea28db01843aca5c2c6712756c1f01f6531d6ee027dc6eb293d95d7"
+        "169760d2a34c2a95a907e80d93c1dc7ebc33a7dd34eb7ed7a9841866db3e25f7d7e93bf49ea28db01843aca5c2c6712756c1f01f6531d6ee027dc6eb293d95d7"
     )
     set(swigmacos_cid "bafybeifkl5wfscum7pnsjdmwhshrv5v6srilinkrftunq5g4gqzgqmyqf4")
     set(swigmacos_arch "amd64")
@@ -62,7 +63,9 @@ elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin")
 else()
   # Build from source
 
-  set(swig_hash "9292f6786abed379278b8024f91b91f293f1be9764fe3c1a19023f7891c4e40587f965680ac6a595a5610cfb6650a73fd2f3932a83d5effad83f351fa70810a9")
+  set(swig_hash
+      "9292f6786abed379278b8024f91b91f293f1be9764fe3c1a19023f7891c4e40587f965680ac6a595a5610cfb6650a73fd2f3932a83d5effad83f351fa70810a9"
+  )
   set(swig_cid "bafybeib56uexrqtccgzxjgmlammjii5ntwush4732kbkr6okbtjhzcmvia")
 
   # follow the standard EP_PREFIX locations
@@ -123,7 +126,8 @@ else()
         BUILD_COMMAND ""
         INSTALL_COMMAND "" ${download_extract_timestamp_flag})
       set(SWIG_DIR ${CMAKE_CURRENT_BINARY_DIR}/swigwin-amd64-${SWIG_VERSION}/bin)
-    elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND (CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64" OR CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "aarch64"))
+    elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND (CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64"
+                                                       OR CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "aarch64"))
       # If we are building ITK
       if(ITK_BINARY_DIR)
         itk_download_attempt_check(SWIG)
@@ -192,13 +196,10 @@ else()
             "https://w3s.link/ipfs/${pcre_cid}/pcre-10.43.tar.gz"
         URL_HASH SHA512=${pcre_hash}
         CMAKE_GENERATOR "${CMAKE_GENERATOR}"
-        CMAKE_CACHE_ARGS
-          ${compiler_information}
-          -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
-          -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
+        CMAKE_CACHE_ARGS ${compiler_information} -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
+                         -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
         INSTALL_DIR ${CMAKE_CURRENT_BINARY_DIR}/PCRE2
-        ${download_extract_timestamp_flag}
-        )
+        ${download_extract_timestamp_flag})
 
       # swig uses bison find it by cmake and pass it down
       find_package(BISON)
@@ -226,8 +227,7 @@ else()
           -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
           -DPCRE2_DIR:PATH=${CMAKE_CURRENT_BINARY_DIR}/PCRE2
         INSTALL_DIR ${CMAKE_CURRENT_BINARY_DIR}/swig
-        DEPENDS PCRE ${download_extract_timestamp_flag}
-        )
+        DEPENDS PCRE ${download_extract_timestamp_flag})
     endif()
 
     set(SWIG_DIR

@@ -535,7 +535,9 @@ if(ITK_USE_BRAINWEB_DATA)
     set_property(
       TEST ITKv3DeformableRegistration8Test3
       APPEND
-      PROPERTIES RESOURCE_LOCK MEMORY_SIZE)
+      PROPERTIES
+      RESOURCE_LOCK
+      MEMORY_SIZE)
 
     itk_add_test(
       NAME
