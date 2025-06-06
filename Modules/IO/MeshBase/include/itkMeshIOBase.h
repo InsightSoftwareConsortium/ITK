@@ -479,11 +479,11 @@ public:
 
   /** Convenience method returns the IOComponentEnum as a string. This can be
    * used for writing output files. */
-  std::string GetComponentTypeAsString(IOComponentEnum) const;
+  static std::string GetComponentTypeAsString(IOComponentEnum);
 
   /** Convenience method returns the IOPixelEnum as a string. This can be
    * used for writing output files. */
-  std::string GetPixelTypeAsString(IOPixelEnum) const;
+  static std::string GetPixelTypeAsString(IOPixelEnum);
 
   /** These methods control whether the file is written binary or ASCII.
    * Many file formats (i.e., subclasses) ignore this flag. */
