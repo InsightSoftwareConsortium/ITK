@@ -56,6 +56,38 @@ lsqrBase::GetStoppingReason() const
 }
 
 
+std::string
+lsqrBase::GetStoppingReasonMessage() const
+{
+  std::string msg;
+  switch( this->istop )
+    {
+    case 0:
+      msg = "The exact solution is  x = 0";
+      break;
+    case 1:
+      msg = "A solution to Ax = b was found, given atol, btol";
+      break;
+    case 2:
+      msg = "A least-squares solution was found, given atol";
+      break;
+    case 3:
+      msg = "A damped least-squares solution was found, given atol";
+      break;
+    case 4:
+      msg = "Cond(Abar) seems to be too large, given conlim";
+      break;
+    case 5:
+      msg = "The iteration limit was reached";
+      break;
+    default:
+      msg = "Error. Unknown stopping reason";
+      break;
+    }
+  return msg;
+}
+
+
 unsigned int
 lsqrBase::GetNumberOfIterationsPerformed() const
 {
@@ -737,27 +769,7 @@ TerminationPrintOut()
 
     (*this->nout) << exitt.c_str();
 
-    switch( this->istop )
-      {
-      case 0:
-        (*this->nout) << "The exact solution is  x = 0 " << std::endl;
-        break;
-      case 1:
-        (*this->nout) << "'A solution to Ax = b was found, given atol, btol " << std::endl;
-        break;
-      case 2:
-        (*this->nout) << "'A least-squares solution was found, given atol " << std::endl;
-        break;
-      case 3:
-        (*this->nout) << " 'A damped least-squares solution was found, given atol " << std::endl;
-        break;
-      case 4:
-        (*this->nout) << " 'Cond(Abar) seems to be too large, given conlim " << std::endl;
-        break;
-      case 5:
-        (*this->nout) << " 'The iteration limit was reached " << std::endl;
-        break;
-      }
+    (*this->nout) << this->GetStoppingReasonMessage() << std::endl;
 
     }
 

@@ -19,6 +19,7 @@
 #define LSQR_lsmr_h
 
 #include <iosfwd>
+#include <string>
 
 /** \class lsmrBase
  *
@@ -218,20 +219,25 @@
  *                    Norm(A*x - b) is sufficiently small, given the
  *                    values of atol and btol.
  *
- *            2       damp is zero.  The system A*x = b is probably
- *                    not compatible.  A least-squares solution has
- *                    been obtained that is sufficiently accurate,
- *                    given the value of atol.
+ *            2       A least-squares solution has been obtained that
+ *                    is sufficiently accurate, given the value of atol.
  *
- *            3       damp is nonzero.  A damped least-squares
- *                    solution has been obtained that is sufficiently
- *                    accurate, given the value of atol.
- *
- *            4       An estimate of cond(Abar) has exceeded conlim.
+ *            3       An estimate of cond(Abar) has exceeded conlim.
  *                    The system A*x = b appears to be ill-conditioned,
  *                    or there could be an error in Aprod1 or Aprod2.
  *
- *            5       The iteration limit itnlim was reached.
+ *            4       The equations A*x = b is probably compatible.
+ *                    Norm(A*x - b) is sufficiently small for this
+ *                    machine.
+ *
+ *            5       A least-squares solution has been obtained that
+ *                    is sufficiently accurate for this machine.
+ *
+ *            6       Cond(Abar) seems to be too large for this machine.
+ *                    The system A*x = b appears to be ill-conditioned,
+ *                    or there could be an error in Aprod1 or Aprod2.
+ *
+ *            7       The iteration limit itnlim was reached.
  *
  * itn     output     The number of iterations performed.
  *
@@ -416,23 +422,35 @@ public:
    *             Norm(A*x - b) is sufficiently small, given the
    *             values of atol and btol.
    *
-   *     2       damp is zero.  The system A*x = b is probably
-   *             not compatible.  A least-squares solution has
-   *             been obtained that is sufficiently accurate,
-   *             given the value of atol.
+   *     2       A least-squares solution has been obtained that
+   *             is sufficiently accurate, given the value of atol.
    *
-   *     3       damp is nonzero.  A damped least-squares
-   *             solution has been obtained that is sufficiently
-   *             accurate, given the value of atol.
-   *
-   *     4       An estimate of cond(Abar) has exceeded conlim.
+   *     3       An estimate of cond(Abar) has exceeded conlim.
    *             The system A*x = b appears to be ill-conditioned,
    *             or there could be an error in Aprod1 or Aprod2.
    *
-   *     5       The iteration limit itnlim was reached.
+   *     4       The equations A*x = b is probably compatible.
+   *             Norm(A*x - b) is sufficiently small for this
+   *             machine.
+   *
+   *     5       A least-squares solution has been obtained that
+   *             is sufficiently accurate for this machine.
+   *
+   *     6       Cond(Abar) seems to be too large for this machine.
+   *             The system A*x = b appears to be ill-conditioned,
+   *             or there could be an error in Aprod1 or Aprod2.
+   *
+   *     7       The iteration limit itnlim was reached.
    *
    */
   unsigned int GetStoppingReason() const;
+
+  /**
+   *   Returns an string giving the reason for termination.
+   *   Expands on GetStoppingReason
+   *
+   */
+  std::string GetStoppingReasonMessage() const;
 
 
   /** Returns the actual number of iterations performed. */
