@@ -29,13 +29,9 @@
 #define REAL double
 #endif /* not SINGLE */
 
+#include <stdlib.h>
 #include <stdio.h>
 #include "../triangle.h"
-
-#ifndef _STDLIB_H_
-extern void *malloc();
-extern void free();
-#endif /* _STDLIB_H_ */
 
 /*****************************************************************************/
 /*                                                                           */
@@ -43,15 +39,13 @@ extern void free();
 /*                                                                           */
 /*****************************************************************************/
 
-void report(io, markers, reporttriangles, reportneighbors, reportsegments,
-            reportedges, reportnorms)
-struct triangulateio *io;
-int markers;
-int reporttriangles;
-int reportneighbors;
-int reportsegments;
-int reportedges;
-int reportnorms;
+void report(struct triangulateio *io,
+            int markers,
+            int reporttriangles,
+            int reportneighbors,
+            int reportsegments,
+            int reportedges,
+            int reportnorms)
 {
   int i, j;
 
@@ -144,7 +138,7 @@ int reportnorms;
 /*                                                                           */
 /*****************************************************************************/
 
-int main()
+int main(void)
 {
   struct triangulateio in, mid, out, vorout;
 

@@ -67,6 +67,44 @@ lsmrBase::GetStoppingReason() const
 }
 
 
+std::string
+lsmrBase::GetStoppingReasonMessage() const
+{
+  std::string msg;
+  switch( this->istop )
+    {
+    case 0:
+      msg = "The exact solution is  x = 0";
+      break;
+    case 1:
+      msg = "Ax - b is small enough, given atol, btol";
+      break;
+    case 2:
+      msg = "The least-squares solution is good enough, given atol";
+      break;
+    case 3:
+      msg = "The estimate of cond(Abar) has exceeded conlim";
+      break;
+    case 4:
+      msg = "Ax - b is small enough for this machine";
+      break;
+    case 5:
+      msg = "The LS solution is good enough for this machine";
+      break;
+    case 6:
+      msg = "Cond(Abar) seems to be too large for this machine";
+      break;
+    case 7:
+      msg = "The iteration limit has been reached";
+      break;
+    default:
+      msg = "Error. Unknown stopping reason";
+      break;
+    }
+  return msg;
+}
+
+
 unsigned int
 lsmrBase::GetNumberOfIterationsPerformed() const
 {
@@ -208,24 +246,24 @@ lsmrBase::Dnrm2( unsigned int n, const double *x ) const
   for ( unsigned int i = 0; i < n; i++ )
     {
       if ( x[i] != 0.0 )
-    {
-      double dx = x[i];
-      const double absxi = std::abs(dx);
+        {
+          double dx = x[i];
+          const double absxi = std::abs(dx);
 
-      if ( magnitudeOfLargestElement < absxi )
-        {
-          // rescale the sum to the range of the new element
-          dx = magnitudeOfLargestElement / absxi;
-          sumOfSquaresScaled = sumOfSquaresScaled * (dx * dx) + 1.0;
-          magnitudeOfLargestElement = absxi;
+          if ( magnitudeOfLargestElement < absxi )
+            {
+              // rescale the sum to the range of the new element
+              dx = magnitudeOfLargestElement / absxi;
+              sumOfSquaresScaled = sumOfSquaresScaled * (dx * dx) + 1.0;
+              magnitudeOfLargestElement = absxi;
+            }
+          else
+            {
+              // rescale the new element to the range of the sum
+              dx = absxi / magnitudeOfLargestElement;
+              sumOfSquaresScaled += dx * dx;
+            }
         }
-      else
-        {
-          // rescale the new element to the range of the sum
-          dx = absxi / magnitudeOfLargestElement;
-          sumOfSquaresScaled += dx * dx;
-        }
-    }
     }
 
   const double norm = magnitudeOfLargestElement * sqrt( sumOfSquaresScaled );
@@ -281,6 +319,7 @@ Solve( unsigned int m, unsigned int n, const double * b, double * x )
   std::fill( v, v+n, zero);
   std::fill( w, v+n, zero);
   std::fill( x, x+n, zero);
+
   this->Scale( m, (-1.0), u );
   this->Aprod1( m, n, x, u );
   this->Scale( m, (-1.0), u );
@@ -358,15 +397,15 @@ Solve( unsigned int m, unsigned int n, const double * b, double * x )
   if ( this->nout )
     {
       if ( damped )
-    {
-      (*this->nout) << "   Itn       x(1)           norm rbar    Abar'rbar"
-        " Compatible    LS    norm Abar cond Abar\n";
-    }
+        {
+          (*this->nout) << "   Itn       x(1)           norm rbar    Abar'rbar"
+            " Compatible    LS    norm Abar cond Abar\n";
+        }
       else
-    {
-      (*this->nout) << "   Itn       x(1)            norm r         A'r   "
-        " Compatible    LS      norm A    cond A\n";
-    }
+        {
+          (*this->nout) << "   Itn       x(1)            norm r         A'r   "
+            " Compatible    LS      norm A    cond A\n";
+        }
 
       test1 = one;
       test2 = alpha / beta;
@@ -386,40 +425,40 @@ Solve( unsigned int m, unsigned int n, const double * b, double * x )
     //----------------------------------------------------------------
     this->Scale( m, (-alpha), u );
 
-    this->Aprod1( m, n, v, u );   //   u = A * v
+    this->Aprod1( m, n, v, u );   //   u = u + A * v
 
     beta = this->Dnrm2( m, u );
 
     if ( beta > zero )
       {
-    this->Scale( m, (one/beta), u );
-    if ( localOrtho ) {
-      if (localPointer+1 < localVecs) {
-        localPointer = localPointer + 1;
-      } else {
-        localPointer = 0;
-        localVQueueFull = true;
-      }
-      std::copy( v, v+n, localV+localPointer*n );
-    }
-    this->Scale( n, (- beta), v );
-    this->Aprod2( m, n, v, u );    // v = A'*u
-    if ( localOrtho ) {
-      unsigned int const localOrthoLimit = localVQueueFull ? localVecs : localPointer+1;
+        this->Scale( m, (one/beta), u );
+        if ( localOrtho ) {
+          if (localPointer+1 < localVecs) {
+            localPointer = localPointer + 1;
+          } else {
+            localPointer = 0;
+            localVQueueFull = true;
+          }
+          std::copy( v, v+n, localV+localPointer*n );
+        }
+        this->Scale( n, (- beta), v );
+        this->Aprod2( m, n, v, u );    // v = A'*u
+        if ( localOrtho ) {
+          unsigned int localOrthoLimit = localVQueueFull ? localVecs : localPointer+1;
 
-      for( unsigned int localOrthoCount =0; localOrthoCount<localOrthoLimit;
-           ++localOrthoCount) {
-        double const d = std::inner_product(v,v+n,localV+n*localOrthoCount,0.0);
-        daxpy( n, -d, localV+localOrthoCount*n, v );
-      }
-    }
+          for( unsigned int localOrthoCount =0; localOrthoCount<localOrthoLimit;
+               ++localOrthoCount) {
+            double const d = std::inner_product(v,v+n,localV+n*localOrthoCount,0.0);
+            daxpy( n, -d, localV+localOrthoCount*n, v );
+          }
+        }
 
-    alpha  = this->Dnrm2( n, v );
+        alpha  = this->Dnrm2( n, v );
 
-    if ( alpha > zero )
-      {
+        if ( alpha > zero )
+          {
             this->Scale( n, (one/alpha), v );
-      }
+          }
       }
 
     // At this point, beta = beta_{k+1}, alpha = alpha_{k+1}.
@@ -551,21 +590,21 @@ Solve( unsigned int m, unsigned int n, const double * b, double * x )
       if ( this->istop!=0 ) prnt = true;
 
       if ( prnt ) { // Print a line for this iteration
-    if ( pcount >= pfreq ) { // Print a heading first
-      pcount = 0;
-      if ( damped )
-        {
-          (*this->nout) << "   Itn       x(1)           norm rbar    Abar'rbar"
-        " Compatible    LS    norm Abar cond Abar\n";
-        } else {
-        (*this->nout) << "   Itn       x(1)            norm r         A'r   "
-          " Compatible    LS      norm A    cond A\n";
-      }
-    }
-    pcount = pcount + 1;
-    (*this->nout)
-      << this->itn << ", " << x[0] << ", " <<this->normr << ", " << this->normAr << ", " << test1 << ", " << test2
-      << ", " << this->normA << ", " << this->condA << std::endl;
+        if ( pcount >= pfreq ) { // Print a heading first
+          pcount = 0;
+          if ( damped )
+            {
+              (*this->nout) << "   Itn       x(1)           norm rbar    Abar'rbar"
+                " Compatible    LS    norm Abar cond Abar\n";
+            } else {
+            (*this->nout) << "   Itn       x(1)            norm r         A'r   "
+              " Compatible    LS      norm A    cond A\n";
+          }
+        }
+        pcount = pcount + 1;
+        (*this->nout)
+          << this->itn << ", " << x[0] << ", " <<this->normr << ", " << this->normAr << ", " << test1 << ", " << test2
+          << ", " << this->normA << ", " << this->condA << std::endl;
       }
     }
 
@@ -578,23 +617,11 @@ Solve( unsigned int m, unsigned int n, const double * b, double * x )
 void lsmrBase::
 TerminationPrintOut()
 {
-  const char * msg[] = {
-    "The exact solution is  x = 0                         ",
-    "Ax - b is small enough, given atol, btol             ",
-    "The least-squares solution is good enough, given atol",
-    "The estimate of cond(Abar) has exceeded conlim       ",
-    "Ax - b is small enough for this machine              ",
-    "The LS solution is good enough for this machine      ",
-    "Cond(Abar) seems to be too large for this machine    ",
-    "The iteration limit has been reached                 " };
-
-  if ( this->damped && this->istop==2 ) this->istop=3;
-
   if ( this->nout ) {
     (*this->nout) << " Exit  LSMR.       istop  = " << this->istop << "     ,itn    = " << this->itn << std::endl
-          << " Exit  LSMR.       normA  = " << this->normA << "     ,condA  = " << this->condA << std::endl
-          << " Exit  LSMR.       normb  = " << this->normb << "     ,normx  = " << this->normx << std::endl
-          << " Exit  LSMR.       normr  = " << this->normr << "     ,normAr = " << this->normAr << std::endl
-          << " Exit  LSMR.       " << msg[this->istop] << std::endl;
+                  << " Exit  LSMR.       normA  = " << this->normA << "     ,condA  = " << this->condA << std::endl
+                  << " Exit  LSMR.       normb  = " << this->normb << "     ,normx  = " << this->normx << std::endl
+                  << " Exit  LSMR.       normr  = " << this->normr << "     ,normAr = " << this->normAr << std::endl
+                  << " Exit  LSMR.       " << this->GetStoppingReasonMessage() << std::endl;
   }
 }
