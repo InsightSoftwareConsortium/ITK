@@ -62,7 +62,21 @@ repos:
   - id: clang-format
     args: ['--style=file']
     files: '\.(c|cc|h|cxx|hxx)$'
-    exclude: "\\/ThirdParty\\/|\\/Data\\/"
+    exclude: "\\/ThirdParty\\/"
+- repo: https://github.com/cheshirekow/cmake-format-precommit
+  rev: e2c2116d86a80e72e7146a06e68b7c228afc6319 # v0.6.13
+  # note JSON is not supported out of the box with the hook
+  hooks:
+   - id: cmake-format
+     types: [file]
+     files: '.(cmake|wrap)$|CMakeLists.txt'
+     args : ['--config', 'Utilities/CMakeFormat/config.json', '--in-place']
+     exclude: "\\/ThirdParty\\/|Modules\\/Remote\\/|\\/ExternalData.cmake"
+   - id: cmake-lint
+     types: [file]
+     files: '.(cmake|wrap)$|CMakeLists.txt'
+     args : ['--config', 'Utilities/CMakeFormat/config.json']
+     exclude: "\\/ThirdParty\\/|Modules\\/Remote\\/|\\/ExternalData.cmake"
 - repo: https://github.com/psf/black
   rev: 24.2.0
   hooks: # check conformance to black formatting

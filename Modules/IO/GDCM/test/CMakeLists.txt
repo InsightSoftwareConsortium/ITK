@@ -405,10 +405,9 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/no_preamble.mha
   scalar)
 
-
 function(AddComplianceTest fileName)
   set(arg_baseline_fileName "Lily.mha")
-  if (ARGV1)
+  if(ARGV1)
     set(arg_baseline_fileName ${ARGV1})
   endif()
   itk_add_test(

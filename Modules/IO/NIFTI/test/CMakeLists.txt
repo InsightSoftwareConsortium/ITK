@@ -227,8 +227,7 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}
   "test_filled_qform_itkNiftiReadWriteDirectionTest.nii.gz"
   8.0 # Tolerance in degrees for direction recovered from non-orthogonal sform
-  )
-
+)
 
 itk_add_test(
   NAME
@@ -243,7 +242,7 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}
   "test_filled_qform_itkNiftiReadWriteDirectionSmallVoxelTest.nii.gz"
   4.0 # Tolerance in degrees for direction recovered from non-orthogonal sform
-  )
+)
 
 itk_add_test(
   NAME
@@ -261,8 +260,7 @@ itk_add_test(
   itkNiftiImageIOTest14
   ${ITK_TEST_OUTPUT_DIR}/xyzt_units_output_check.nii
   DATA{Input/xyzt_units_test_scl_mm_s.nii.gz}
-  DATA{Input/xyzt_units_test_scl.nii.gz}
-  )
+  DATA{Input/xyzt_units_test_scl.nii.gz})
 
 itk_add_test(
   NAME
@@ -272,8 +270,7 @@ itk_add_test(
   itkNiftiImageIOTest14
   ${ITK_TEST_OUTPUT_DIR}/xyzt_units_output_check2.nii
   DATA{Input/xyzt_units_test_scl_mm_s.nii.gz}
-  DATA{Input/xyzt_units_test_scl_mm_s.nii.gz}
-  )
+  DATA{Input/xyzt_units_test_scl_mm_s.nii.gz})
 
 itk_add_test(
   NAME

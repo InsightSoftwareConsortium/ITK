@@ -146,8 +146,7 @@ set(ITKCommon_SRCS
     itkObjectStore.cxx
     itkGaussianDerivativeOperator.cxx
     itkSpatialOrientation.cxx
-    itkAnatomicalOrientation.cxx
-)
+    itkAnatomicalOrientation.cxx)
 
 if(ITK_WRAP_PYTHON)
   list(APPEND ITKCommon_SRCS itkPyCommand.cxx)
@@ -195,10 +194,7 @@ endif()
 ### generating libraries
 itk_module_add_library(ITKCommon ${ITKCommon_SRCS})
 
-target_link_libraries(
-  ITKCommon
-  LINK_PUBLIC
-  itksys)
+target_link_libraries(ITKCommon LINK_PUBLIC itksys)
 
 if(UNIX)
   target_link_libraries(

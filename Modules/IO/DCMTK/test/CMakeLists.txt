@@ -235,6 +235,9 @@ itk_add_test(
   DATA{Input/preamble.dcm})
 
 itk_add_test(
-  NAME itkDCMTKImageIOSpacingTest
-  COMMAND ITKIODCMTKTestDriver itkDCMTKImageIOSpacingTest
+  NAME
+  itkDCMTKImageIOSpacingTest
+  COMMAND
+  ITKIODCMTKTestDriver
+  itkDCMTKImageIOSpacingTest
   DATA{Input/MultiFrameMRIZSpacing.dcm})

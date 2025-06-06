@@ -15,7 +15,7 @@ macro(itk_module_doxygen _name)
     set(non_empty_loop "ON")
   endforeach()
 
-  if (${non_empty_loop})
+  if(${non_empty_loop})
     set(_content "${_content} \\par Dependencies:\n")
 
     # _dotcontent defines the content of the ${_name}.dot
