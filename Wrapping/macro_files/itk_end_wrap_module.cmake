@@ -421,8 +421,10 @@ ${DO_NOT_WAIT_FOR_THREADS_CALLS}
       if (ITK_USE_PYTHON_LIMITED_API)
         set_target_properties(${lib} PROPERTIES SUFFIX .abi3.so)
       else()
-        find_package(Python)
-        if(PYTHON_FOUND)
+        if(NOT PYTHON3_FOUND)
+          find_package(Python3 ${PYTHON_REQUIRED_VERSION} COMPONENTS Interpreter Development.Module ${SKBUILD_SABI_COMPONENT})
+        endif()
+        if(PYTHON3_FOUND)
 # Graalpy Patch
           set_target_properties(${lib} PROPERTIES SUFFIX .${Python_SOABI}.so)
         else()
