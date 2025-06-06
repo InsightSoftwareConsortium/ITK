@@ -195,8 +195,8 @@ VideoFileReader<TOutputVideoStream>::InitializeVideoIO()
     // the pixel types don't match so a type conversion needs to be
     // performed
     itkDebugMacro("Buffer conversion required from: "
-                  << m_VideoIO->GetComponentTypeAsString(m_VideoIO->GetComponentType())
-                  << " to: " << m_VideoIO->GetComponentTypeAsString(ioType) << " ConvertPixelTraits::NumComponents "
+                  << ImageIOBase::GetComponentTypeAsString(m_VideoIO->GetComponentType())
+                  << " to: " << ImageIOBase::GetComponentTypeAsString(ioType) << " ConvertPixelTraits::NumComponents "
                   << ConvertPixelTraits::GetNumberOfComponents() << " m_VideoIO->NumComponents "
                   << m_VideoIO->GetNumberOfComponents());
     m_PixelConversionNeeded = true;
@@ -290,12 +290,12 @@ VideoFileReader<TOutputVideoStream>::DoConvertBuffer(const void * inputData, Fra
   ITK_CONVERT_BUFFER_IF_BLOCK(IOComponentEnum::DOUBLE, double)
   else
   {
-#define TYPENAME_VideoFileReader(x) m_VideoIO->GetComponentTypeAsString(ImageIOBase::MapPixelType<x>::CType)
+#define TYPENAME_VideoFileReader(x) ImageIOBase::GetComponentTypeAsString(ImageIOBase::MapPixelType<x>::CType)
 
     ExceptionObject    e(__FILE__, __LINE__);
     std::ostringstream msg;
     msg << "Couldn't convert component type: " << std::endl
-        << "    " << m_VideoIO->GetComponentTypeAsString(m_VideoIO->GetComponentType()) << std::endl
+        << "    " << ImageIOBase::GetComponentTypeAsString(m_VideoIO->GetComponentType()) << std::endl
         << "to one of: " << std::endl
         << "    " << TYPENAME_VideoFileReader(unsigned char) << std::endl
         << "    " << TYPENAME_VideoFileReader(char) << std::endl

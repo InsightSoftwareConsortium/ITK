@@ -799,7 +799,8 @@ NiftiImageIO::Read(void * buffer)
       default:
         if (this->GetPixelType() == IOPixelEnum::SCALAR)
         {
-          itkExceptionMacro("Datatype: " << this->GetComponentTypeAsString(this->m_ComponentType) << " not supported");
+          itkExceptionMacro("Datatype: " << ImageIOBase::GetComponentTypeAsString(this->m_ComponentType)
+                                         << " not supported");
         }
     }
   }
@@ -820,7 +821,7 @@ NiftiImageIO::Read(void * buffer)
         ConvertRASToFromLPS_CXYZT(static_cast<double *>(buffer), numElts * numComponents);
         break;
       default:
-        itkExceptionMacro("RAS conversion of datatype " << this->GetComponentTypeAsString(this->m_ComponentType)
+        itkExceptionMacro("RAS conversion of datatype " << ImageIOBase::GetComponentTypeAsString(this->m_ComponentType)
                                                         << " is not supported");
     }
   }
@@ -2492,8 +2493,8 @@ NiftiImageIO::Write(const void * buffer)
           ConvertRASToFromLPS_XYZTC(reinterpret_cast<double *>(nifti_buf.get()), numComponents * seriesdist);
           break;
         default:
-          itkExceptionMacro("RAS conversion of datatype " << this->GetComponentTypeAsString(this->m_ComponentType)
-                                                          << " is not supported");
+          itkExceptionMacro("RAS conversion of datatype "
+                            << ImageIOBase::GetComponentTypeAsString(this->m_ComponentType) << " is not supported");
       }
     }
 
