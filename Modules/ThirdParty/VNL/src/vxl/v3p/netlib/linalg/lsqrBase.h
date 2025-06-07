@@ -19,6 +19,7 @@
 #define LSQR_lsqr_h
 
 #include <iosfwd>
+#include <string>
 
 /** \class lsqrBase
  *
@@ -236,6 +237,13 @@ public:
    *
    */
   unsigned int GetStoppingReason() const;
+
+  /**
+   *   Returns an string giving the reason for termination.
+   *   Expands on GetStoppingReason
+   *
+   */
+  std::string GetStoppingReasonMessage() const;
 
 
   /** Returns the actual number of iterations performed. */
