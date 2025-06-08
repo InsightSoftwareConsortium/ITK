@@ -18,6 +18,8 @@
 #ifndef itkFloatingPointExceptions_h
 #define itkFloatingPointExceptions_h
 
+#include <cstdint>
+
 #include "itkMacro.h" // for ITKCommon_EXPORT
 #include "itkSingletonMacro.h"
 
