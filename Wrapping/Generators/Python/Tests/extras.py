@@ -393,7 +393,7 @@ itk.transformwrite(transforms[0], sys.argv[7], compression=True)
 
 # BridgeNumPy
 
-arr = np.zeros([3,4,5],dtype=np.dtype('uintc'))
+arr = np.zeros([3, 4, 5], dtype=np.dtype("uintc"))
 image = itk.image_from_array(arr)
 assert itk.template(image)[1] == (itk.UI, 3)
 

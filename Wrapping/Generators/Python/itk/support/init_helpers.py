@@ -39,7 +39,7 @@ class AutoProgressTypes(IntEnum):
 
 
 def auto_progress(
-    progress_type: Union[bool, AutoProgressTypes] = AutoProgressTypes.TERMINAL
+    progress_type: Union[bool, AutoProgressTypes] = AutoProgressTypes.TERMINAL,
 ) -> None:
     """Set up auto progress report
 
