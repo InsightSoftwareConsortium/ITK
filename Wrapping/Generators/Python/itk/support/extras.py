@@ -1027,7 +1027,7 @@ def dict_from_polyline(polyline: "itkt.PolylineParametricPath") -> dict:
 
 
 def dict_from_transform(
-    transform: Union["itkt.TransformBase", list["itkt.TransformBase"]]
+    transform: Union["itkt.TransformBase", list["itkt.TransformBase"]],
 ) -> Union[list[dict], dict]:
     """Serialize a Python itk.Transform object to a pickable Python dictionary.
 
@@ -1106,7 +1106,7 @@ def dict_from_transform(
 
 
 def transform_from_dict(
-    transform_dict: Union[dict, list[dict]]
+    transform_dict: Union[dict, list[dict]],
 ) -> "itkt.TransformBase":
     """Deserialize a dictionary representing an itk.Transform object.
 
