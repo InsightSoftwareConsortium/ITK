@@ -132,14 +132,14 @@ TestDisplacementJacobianDeterminantValue()
 
   // Use this function to get the determinant at a specified physical point (it will be a different index between tests)
   auto GetDeterminantAtPoint = [](FieldType::Pointer image, const itk::Point<double, 2> & pt) -> float {
-    auto filter = FilterType::New();
-    filter->SetInput(image);
-    filter->SetUseImageSpacing(true);
-    filter->Update();
+    auto innerFilter = FilterType::New();
+    innerFilter->SetInput(image);
+    innerFilter->SetUseImageSpacing(true);
+    innerFilter->Update();
 
     itk::Index<2> mappedIdx = image->TransformPhysicalPointToIndex(pt);
 
-    return filter->GetOutput()->GetPixel(mappedIdx);
+    return innerFilter->GetOutput()->GetPixel(mappedIdx);
   };
 
   const float detOriginal = GetDeterminantAtPoint(dispacementfield, physPt);
@@ -196,13 +196,13 @@ TestDisplacementJacobianDeterminantValue()
   auto dispacementfieldFlip = flip->GetOutput();
 
   // Adjust direction to compensate flip
-  itk::Matrix<double, 2, 2> newDirFlip = dispacementfield->GetDirection();
-  newDirFlip[0][0] *= -1.0;
-  newDirFlip[0][1] *= -1.0;
+  itk::Matrix<double, 2, 2> flipMat;
+  flipMat.SetIdentity();
+  flipMat[0][0] = -1.0;
+
+  itk::Matrix<double, 2, 2> newDirFlip = flipMat * dispacementfield->GetDirection();
 
   dispacementfieldFlip->SetDirection(newDirFlip);
-  dispacementfieldFlip->SetOrigin(dispacementfield->GetOrigin());
-  dispacementfieldFlip->SetSpacing(dispacementfield->GetSpacing());
 
   const float detFlipped = GetDeterminantAtPoint(dispacementfieldFlip, physPt);
 
