@@ -151,6 +151,10 @@ public:
   using RealVectorType = Vector<TRealType, InputPixelType::Dimension>;
   using RealVectorImageType = Image<RealVectorType, TInputImage::ImageDimension>;
 
+  /** Matrix type used to store the input direction matrix and the gradient matrix from
+      which the Jacobian determinant is computed. */
+  using InternalMatrixType = vnl_matrix_fixed<TRealType, ImageDimension, ImageDimension>;
+
   /** Type of the iterator that will be used to move through the image.  Also
       the type which will be passed to the evaluate function */
   using ConstNeighborhoodIteratorType = ConstNeighborhoodIterator<RealVectorImageType>;
@@ -271,6 +275,8 @@ private:
   typename ImageBaseType::ConstPointer m_RealValuedInputImage{};
 
   RadiusType m_NeighborhoodRadius{};
+
+  InternalMatrixType m_InputDirection{};
 };
 } // end namespace itk
 
