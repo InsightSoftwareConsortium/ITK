@@ -195,13 +195,13 @@ TestDisplacementJacobianDeterminantValue()
   auto dispacementfieldFlip = flip->GetOutput();
 
   // Adjust direction to compensate flip
-  itk::Matrix<double, 2, 2> newDirFlip = dispacementfield->GetDirection();
-  newDirFlip[0][0] *= -1.0;
-  newDirFlip[0][1] *= -1.0;
+  itk::Matrix<double, 2, 2> flipMat;
+  flipMat.SetIdentity();
+  flipMat[0][0] = -1.0;
+
+  itk::Matrix<double, 2, 2> newDirFlip = flipMat * dispacementfield->GetDirection();
 
   dispacementfieldFlip->SetDirection(newDirFlip);
-  dispacementfieldFlip->SetOrigin(dispacementfield->GetOrigin());
-  dispacementfieldFlip->SetSpacing(dispacementfield->GetSpacing());
 
   const float detFlipped = GetDeterminantAtPoint(dispacementfieldFlip, physPt);
 
