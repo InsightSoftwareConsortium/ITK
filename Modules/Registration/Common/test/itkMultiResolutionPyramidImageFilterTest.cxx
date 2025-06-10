@@ -212,11 +212,10 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   pyramid->SetUseShrinkImageFilter(useShrinkFilter);
   pyramid->SetInput(imgTarget);
 
-  unsigned int                              numLevels;
   itk::Vector<unsigned int, ImageDimension> factors;
 
   // set schedule by specifying the number of levels;
-  numLevels = 3;
+  unsigned int numLevels = 3;
   factors.Fill(1 << (numLevels - 1));
   pyramid->SetNumberOfLevels(numLevels);
 

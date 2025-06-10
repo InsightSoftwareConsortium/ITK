@@ -83,7 +83,6 @@ itkImageRegistrationMethodTest_15(int, char *[])
   bool pass = true;
 
   constexpr unsigned int dimension = 3;
-  unsigned int           j;
 
   using PixelType = float;
 
@@ -139,7 +138,7 @@ itkImageRegistrationMethodTest_15(int, char *[])
   using FixedImageIterator = itk::ImageRegionIterator<FixedImageType>;
 
   itk::Point<double, dimension> center;
-  for (j = 0; j < dimension; ++j)
+  for (unsigned int j = 0; j < dimension; ++j)
   {
     center[j] = 0.5 * static_cast<double>(region.GetSize()[j]);
   }
@@ -152,7 +151,7 @@ itkImageRegistrationMethodTest_15(int, char *[])
 
   while (!mIter.IsAtEnd())
   {
-    for (j = 0; j < dimension; ++j)
+    for (unsigned int j = 0; j < dimension; ++j)
     {
       p[j] = mIter.GetIndex()[j];
     }
@@ -161,7 +160,7 @@ itkImageRegistrationMethodTest_15(int, char *[])
 
     fIter.Set((PixelType)F(d));
 
-    for (j = 0; j < dimension; ++j)
+    for (unsigned int j = 0; j < dimension; ++j)
     {
       d[j] = d[j] * scale[j] + displacement[j];
     }
@@ -174,7 +173,7 @@ itkImageRegistrationMethodTest_15(int, char *[])
 
   // set the image origin to be center of the image
   double transCenter[dimension];
-  for (j = 0; j < dimension; ++j)
+  for (unsigned int j = 0; j < dimension; ++j)
   {
     transCenter[j] = -0.5 * static_cast<double>(size[j]);
   }
@@ -193,7 +192,7 @@ itkImageRegistrationMethodTest_15(int, char *[])
 
   parametersScales.Fill(1.0);
 
-  for (j = 9; j < 12; ++j)
+  for (unsigned int j = 9; j < 12; ++j)
   {
     parametersScales[j] = 0.0001;
   }
@@ -256,7 +255,7 @@ itkImageRegistrationMethodTest_15(int, char *[])
   constexpr double       rates[numberOfLoops] = { 1e-3, 5e-4 };
 
 
-  for (j = 0; j < numberOfLoops; ++j)
+  for (unsigned int j = 0; j < numberOfLoops; ++j)
   {
 
     try
@@ -296,14 +295,14 @@ itkImageRegistrationMethodTest_15(int, char *[])
 
   std::cout << "True solution is: " << trueParameters << std::endl;
 
-  for (j = 0; j < 9; ++j)
+  for (unsigned int j = 0; j < 9; ++j)
   {
     if (itk::Math::abs(solution[j] - trueParameters[j]) > 0.025)
     {
       pass = false;
     }
   }
-  for (j = 9; j < 12; ++j)
+  for (unsigned int j = 9; j < 12; ++j)
   {
     if (itk::Math::abs(solution[j] - trueParameters[j]) > 1.0)
     {

@@ -203,14 +203,13 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
   initField->SetSpacing(spacing);
 
   double              center[ImageDimension];
-  double              radius;
   constexpr PixelType fgnd = 250;
   constexpr PixelType bgnd = 15;
 
   // fill moving with circle
   center[0] = 128;
   center[1] = 128;
-  radius = 60;
+  double radius = 60;
   FillWithCircle<ImageType>(moving, center, radius, fgnd, bgnd);
 
   // fill fixed with circle
@@ -250,8 +249,8 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
   numIterations[0] = 64;
   numIterationsArray[0] = numIterations[0];
 
-  unsigned int ilevel;
-  for (ilevel = 1; ilevel < numLevel; ++ilevel)
+
+  for (unsigned int ilevel = 1; ilevel < numLevel; ++ilevel)
   {
     numIterations[ilevel] = numIterations[ilevel - 1] / 2;
     numIterationsArray[ilevel] = numIterations[ilevel];
@@ -273,7 +272,7 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
   // Set the number of iterations to a different value and try the overloaded method with the desired value
   unsigned int numIterations2[numLevel];
   numIterations2[0] = 8;
-  for (ilevel = 1; ilevel < numLevel; ++ilevel)
+  for (unsigned int ilevel = 1; ilevel < numLevel; ++ilevel)
   {
     numIterations2[ilevel] = numIterations2[ilevel - 1] / 2;
   }
@@ -373,7 +372,7 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
   }
 
   // Exercise error handling
-  bool passed;
+  bool passed = false;
 
   using InternalRegistrationType = RegistrationType::RegistrationType;
   const InternalRegistrationType::Pointer demons = registrator->GetModifiableRegistrationFilter();

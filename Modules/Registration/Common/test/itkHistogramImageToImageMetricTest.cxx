@@ -163,7 +163,7 @@ itkHistogramImageToImageMetricTest(int, char *[])
 
     // Do some work
     DerivativeType          derivatives(numberOfParameters);
-    MetricType::MeasureType value;
+    MetricType::MeasureType value = NAN;
     for (double y = -50.0; y <= 50.0; y += 25.0)
     {
       parameters[1] = y;

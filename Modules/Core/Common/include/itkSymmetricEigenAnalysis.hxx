@@ -410,7 +410,6 @@ SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ComputeEigenValuesUsingQ
   {
     return 1;
   }
-  unsigned int m;
   for (unsigned int i = 1; i < m_Order; ++i)
   {
     e[i - 1] = e[i];
@@ -429,7 +428,8 @@ SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ComputeEigenValuesUsingQ
       tst1 = h;
     }
     // Look for small sub-diagonal element
-    for (m = l; m < m_Order - 1; ++m)
+    unsigned int m = l;
+    for (; m < m_Order - 1; ++m)
     {
       const double tst2 = tst1 + itk::Math::abs(e[m]);
       if (tst2 == tst1)
@@ -441,7 +441,7 @@ SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ComputeEigenValuesUsingQ
 
     if (m != l)
     {
-      double tst2;
+      double tst2 = NAN;
       do
       {
         if (j == 30)
@@ -574,9 +574,10 @@ SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ComputeEigenValuesAndVec
     }
 
     // Look for small sub-diagonal element
-    unsigned int m;
-    double       tst2;
-    for (m = l; m < m_Order - 1; ++m)
+
+    double       tst2 = NAN;
+    unsigned int m = l;
+    for (; m < m_Order - 1; ++m)
     {
       tst2 = tst1 + itk::Math::abs(e[m]);
       if (tst2 == tst1)

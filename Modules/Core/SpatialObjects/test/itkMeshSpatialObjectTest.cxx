@@ -115,7 +115,7 @@ itkMeshSpatialObjectTest(int, char *[])
 
   // Testing is valueAt
   std::cout << "Testing ValueAt: ";
-  double value;
+  double value = NAN;
   meshSO->ValueAtInWorldSpace(inside, value);
   if (!value)
   {

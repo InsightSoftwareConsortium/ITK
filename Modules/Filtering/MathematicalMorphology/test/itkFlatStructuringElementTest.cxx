@@ -186,16 +186,11 @@ bool
 ComputeAreaError(const SEType & k, unsigned int thickness)
 {
   float expectedOuterForegroundArea = 1;
-  float expectedInnerForegroundArea;
+  float expectedInnerForegroundArea = 1; // Annulus does have inner area to subtract.
   if (thickness == 0)
   {
     // Circle/Ellipse has no inner area to subtract.
     expectedInnerForegroundArea = 0;
-  }
-  else
-  {
-    // Annulus does have inner area to subtract.
-    expectedInnerForegroundArea = 1;
   }
   if (SEType::NeighborhoodDimension == 2)
   {

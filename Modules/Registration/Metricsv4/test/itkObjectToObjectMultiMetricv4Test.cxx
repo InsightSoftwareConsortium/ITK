@@ -462,11 +462,10 @@ itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform)
   shiftScaleEstimator->EstimateScales(scales);
   std::cout << "Estimated scales: " << scales << std::endl;
 
-  ScalesEstimatorMultiType::FloatType      stepScale;
   ScalesEstimatorMultiType::ParametersType step;
   step.SetSize(multiVariateMetric->GetNumberOfParameters());
   step.Fill(itk::NumericTraits<ScalesEstimatorMultiType::ParametersType::ValueType>::OneValue());
-  stepScale = shiftScaleEstimator->EstimateStepScale(step);
+  ScalesEstimatorMultiType::FloatType stepScale = shiftScaleEstimator->EstimateStepScale(step);
   std::cout << "Estimated stepScale: " << stepScale << std::endl;
 
   //

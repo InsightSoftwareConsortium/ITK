@@ -233,8 +233,7 @@ itkSTAPLEImageFilterTest(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(stapleImageFilter, STAPLEImageFilter, ImageToImageFilter);
 
 
-  StaplerBase * stapler;
-
+  StaplerBase * stapler = nullptr;
   if (std::stoi(argv[1]) == 2)
   {
     stapler = new Stapler<2>;

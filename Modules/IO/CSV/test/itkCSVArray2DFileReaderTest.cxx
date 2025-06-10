@@ -341,11 +341,8 @@ itkCSVArray2DFileReaderTest(int argc, char * argv[])
     std::cerr << exp << std::endl;
   }
 
-  double test_item;
-  double actual_item;
-
-  test_item = dfo->GetData(2, 2);
-  actual_item = 9;
+  double test_item = dfo->GetData(2, 2);
+  double actual_item = 9;
   if (!testValue(test_item, actual_item))
   {
     std::cerr << "Wrong value! Test Failed!";

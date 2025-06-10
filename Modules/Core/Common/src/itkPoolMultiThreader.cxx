@@ -258,7 +258,7 @@ PoolMultiThreader::ParallelizeImageRegion(unsigned int         dimension,
       ProgressReporter                reporter(filter, 0, splitCount);
       itkAssertOrThrowMacro(splitCount <= m_NumberOfWorkUnits, "Split count is greater than number of work units!");
       ImageIORegion iRegion;
-      ThreadIdType  total;
+      ThreadIdType  total = 0;
       for (ThreadIdType i = 1; i < splitCount; ++i)
       {
         iRegion = region;

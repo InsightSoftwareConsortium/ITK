@@ -492,15 +492,12 @@ itkSimilarity3DTransformTest(int, char *[])
   {
     // Testing SetMatrix()
     std::cout << "Testing SetMatrix() ... ";
-    bool         Ok;
-    unsigned int par;
-
     MatrixType matrix;
 
     auto t = TransformType::New();
 
     // attempt to set an non-orthogonal matrix
-    par = 0;
+    unsigned int par = 0;
     for (unsigned int row = 0; row < 3; ++row)
     {
       for (unsigned int col = 0; col < 3; ++col)
@@ -510,7 +507,7 @@ itkSimilarity3DTransformTest(int, char *[])
       }
     }
 
-    Ok = false;
+    bool Ok = false;
 
     std::cout << "Setting non-orthogonal matrix = " << std::endl;
     std::cout << matrix << std::endl;

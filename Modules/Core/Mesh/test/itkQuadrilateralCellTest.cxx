@@ -163,7 +163,7 @@ itkQuadrilateralCellTest(int, char *[])
   std::cout << inputPoint[2] << std::endl;
 
   QuadrilateralCellType::CoordinateType          closestPoint[3];
-  double                                         distance;
+  double                                         distance = NAN;
   QuadrilateralCellType::InterpolationWeightType weights[4];
   QuadrilateralCellType::CoordinateType          pcoords[2]; // Quadrilateral has 2 parametric coordinates
   bool isInside = testCell1->EvaluatePosition(inputPoint, points, closestPoint, pcoords, &distance, weights);

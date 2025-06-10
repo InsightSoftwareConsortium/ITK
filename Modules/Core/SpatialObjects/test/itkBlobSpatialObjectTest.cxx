@@ -178,7 +178,7 @@ itkBlobSpatialObjectTest(int, char *[])
   // Testing IsEvaluableAt()
   std::cout << "ValueAt: ";
 
-  double value;
+  double value = NAN;
   if (!blob->ValueAtInWorldSpace(in, value))
   {
     std::cout << "[FAILED]" << std::endl;

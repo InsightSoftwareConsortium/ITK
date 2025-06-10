@@ -151,13 +151,12 @@ IsolatedWatershedImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   const IdentifierType seed1Label = m_Watershed->GetOutput()->GetPixel(m_Seed1);
   const IdentifierType seed2Label = m_Watershed->GetOutput()->GetPixel(m_Seed2);
-  IdentifierType       value;
 
   it.GoToBegin();
   ot.GoToBegin();
   while (!it.IsAtEnd())
   {
-    value = it.Get();
+    IdentifierType value = it.Get();
     if (value == seed1Label)
     {
       ot.Set(m_ReplaceValue1);

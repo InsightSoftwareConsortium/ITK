@@ -337,8 +337,8 @@ HistogramMatchingImageFilter<TInputImage, TOutputImage, THistogramMeasurement>::
         break;
       }
     }
-
-    double mappedValue;
+    // Linear interpolate from point[j] and point[j+1].
+    double mappedValue = m_QuantileTable[1][j - 1] + (srcValue - m_QuantileTable[0][j - 1]) * m_Gradients[j - 1];
     if (j == 0)
     {
       // Linear interpolate from min to point[0]
@@ -349,12 +349,6 @@ HistogramMatchingImageFilter<TInputImage, TOutputImage, THistogramMeasurement>::
       // Linear interpolate from point[m_NumberOfMatchPoints+1] to max
       mappedValue = m_ReferenceMaxValue + (srcValue - m_SourceMaxValue) * m_UpperGradient;
     }
-    else
-    {
-      // Linear interpolate from point[j] and point[j+1].
-      mappedValue = m_QuantileTable[1][j - 1] + (srcValue - m_QuantileTable[0][j - 1]) * m_Gradients[j - 1];
-    }
-
     outIter.Set(static_cast<OutputPixelType>(mappedValue));
   }
 }

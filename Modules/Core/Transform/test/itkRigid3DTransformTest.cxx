@@ -598,7 +598,7 @@ itkRigid3DTransformTest(int, char *[])
     {
       // Testing SetMatrix()
       std::cout << "Testing SetMatrix() ... ";
-      unsigned int par;
+
 
       using MatrixType = TransformType::MatrixType;
       MatrixType matrix;
@@ -606,7 +606,7 @@ itkRigid3DTransformTest(int, char *[])
       auto t = TransformType::New();
 
       // attempt to set an non-orthogonal matrix
-      par = 0;
+      unsigned int par = 0;
       for (unsigned int row = 0; row < 3; ++row)
       {
         for (unsigned int col = 0; col < 3; ++col)

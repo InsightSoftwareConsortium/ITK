@@ -634,7 +634,7 @@ testEvaluateValueAndDerivative()
   const CovariantVectorType dx_1 = interpolator->EvaluateDerivativeAtContinuousIndex(x);
   CovariantVectorType       dx_2;
 
-  BSplineInterpolatorFunctionType::OutputType value;
+  BSplineInterpolatorFunctionType::OutputType value = NAN;
   interpolator->EvaluateValueAndDerivativeAtContinuousIndex(x, value, dx_2);
 
   for (unsigned int i = 0; i < ImageDimension; ++i)

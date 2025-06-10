@@ -264,9 +264,7 @@ FastMarchingImageFilter<TLevelSet, TSpeedImage>::GenerateData()
   }
 
   // process points on the heap
-  AxisNodeType node;
-  double       currentValue;
-  double       oldProgress = 0;
+  double oldProgress = 0;
 
   this->UpdateProgress(0.0); // Send first progress event
 
@@ -274,11 +272,11 @@ FastMarchingImageFilter<TLevelSet, TSpeedImage>::GenerateData()
   while (!m_TrialHeap.empty())
   {
     // get the node with the smallest value
-    node = m_TrialHeap.top();
+    AxisNodeType node = m_TrialHeap.top();
     m_TrialHeap.pop();
 
     // does this node contain the current value ?
-    currentValue = static_cast<double>(output->GetPixel(node.GetIndex()));
+    double currentValue = static_cast<double>(output->GetPixel(node.GetIndex()));
 
     if (Math::ExactlyEquals(node.GetValue(), currentValue))
     {
@@ -435,7 +433,7 @@ FastMarchingImageFilter<TLevelSet, TSpeedImage>::UpdateValue(const IndexType &  
 
   OutputSpacingType spacing = /* this->GetOutput() */ output->GetSpacing();
 
-  double discrim;
+  double discrim = NAN;
 
   for (unsigned int j = 0; j < SetDimension; ++j)
   {

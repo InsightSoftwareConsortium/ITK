@@ -114,9 +114,8 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::GenerateData()
 
   while (pointItr != points->End())
   {
-    SimplexMeshGeometry * data;
     const IdentifierType  idx = pointItr.Index();
-    data = this->m_Data->GetElement(idx);
+    SimplexMeshGeometry * data = this->m_Data->GetElement(idx);
     delete data->neighborSet;
     data->neighborSet = nullptr;
     ++pointItr;
@@ -165,10 +164,9 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::Initialize()
 
   while (pointItr != points->End())
   {
-    SimplexMeshGeometry * data;
-    const IdentifierType  idx = pointItr.Index();
+    const IdentifierType idx = pointItr.Index();
 
-    data = this->m_Data->GetElement(idx);
+    SimplexMeshGeometry * data = this->m_Data->GetElement(idx);
     data->pos = pointItr.Value();
 
     //        InputMeshType::ArrayType neighbors =

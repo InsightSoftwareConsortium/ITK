@@ -190,7 +190,7 @@ FFTConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrec
     needsKernelPadding = needsKernelPadding || lower > 0 || upper > 0;
   }
 
-  const InputImageType * kernelPaddedInput;
+  const InputImageType * kernelPaddedInput = input;
   if (needsKernelPadding)
   {
     auto inputPadder = InputPadFilterType::New();
@@ -204,10 +204,6 @@ FFTConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrec
     remainingProgress -= 0.2f;
     inputPadder->Update();
     kernelPaddedInput = inputPadder->GetOutput();
-  }
-  else
-  {
-    kernelPaddedInput = input;
   }
 
   // Crop to region of interest to minimize FFT requested region size.
@@ -225,7 +221,7 @@ FFTConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrec
   }
   const InputRegionType regionOfInterest = InputRegionType(regionOfInterestIndex, regionOfInterestSize);
 
-  const InputImageType * regionOfInterestImage;
+  const InputImageType * regionOfInterestImage = kernelPaddedInput;
   if (outputRequestedRegion != inputLargestRegion)
   {
 
@@ -256,10 +252,6 @@ FFTConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrec
     remainingProgress -= 0.001f;
     inputInfoFilter->Update();
     regionOfInterestImage = inputInfoFilter->GetOutput();
-  }
-  else
-  {
-    regionOfInterestImage = kernelPaddedInput;
   }
 
   // Pad for FFT so that each image side is factorable by at most

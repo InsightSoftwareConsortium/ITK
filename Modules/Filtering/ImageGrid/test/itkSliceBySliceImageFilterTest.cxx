@@ -102,7 +102,7 @@ itkSliceBySliceImageFilterTest(int argc, char * argv[])
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[2]);
 
-  unsigned int       slicingDimension;
+  unsigned int       slicingDimension = 0;
   std::istringstream istrm(argv[3]);
   istrm >> slicingDimension;
   filter->SetDimension(slicingDimension);
@@ -203,12 +203,11 @@ itkSliceBySliceImageFilterTest(int argc, char * argv[])
   //
   // Exercise exceptions
   //
-  bool caughtException;
   auto badFilter = FilterType::New();
 
   std::cout << "Testing with no filter set..." << std::endl;
   badFilter->SetInput(reader->GetOutput());
-  caughtException = false;
+  bool caughtException = false;
   try
   {
     badFilter->Update();

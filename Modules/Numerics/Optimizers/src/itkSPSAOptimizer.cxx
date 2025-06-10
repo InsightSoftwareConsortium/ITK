@@ -175,15 +175,7 @@ SPSAOptimizer::AdvanceOneStep()
   itkDebugMacro("AdvanceOneStep");
 
   // Maximize of Minimize the function?
-  double direction;
-  if (this->m_Maximize)
-  {
-    direction = 1.0;
-  }
-  else
-  {
-    direction = -1.0;
-  }
+  const double direction = (this->m_Maximize) ? 1.0 : -1.0;
 
   // The number of parameters
   const unsigned int spaceDimension = m_CostFunction->GetNumberOfParameters();

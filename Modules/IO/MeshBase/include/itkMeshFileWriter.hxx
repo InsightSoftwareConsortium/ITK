@@ -331,15 +331,13 @@ MeshFileWriter<TInputMesh>::CopyCellsToBuffer(Output * data)
   const typename InputMeshType::CellsContainer * cells = this->GetInput()->GetCells();
 
   // Define required variables
-  const typename TInputMesh::PointIdentifier * ptIds;
-  typename TInputMesh::CellType *              cellPtr;
 
   // For each cell
   SizeValueType                                    index{};
   typename TInputMesh::CellsContainerConstIterator cter = cells->Begin();
   while (cter != cells->End())
   {
-    cellPtr = cter.Value();
+    typename TInputMesh::CellType * cellPtr = cter.Value();
 
     // Write the cell type
     switch (cellPtr->GetType())
@@ -381,8 +379,8 @@ MeshFileWriter<TInputMesh>::CopyCellsToBuffer(Output * data)
     // The second element is number of points for each cell
     data[index++] = cellPtr->GetNumberOfPoints();
     // Others are point identifiers in the cell
-    ptIds = cellPtr->GetPointIds();
-    const unsigned int numberOfPoints = cellPtr->GetNumberOfPoints();
+    const typename TInputMesh::PointIdentifier * ptIds = cellPtr->GetPointIds();
+    const unsigned int                           numberOfPoints = cellPtr->GetNumberOfPoints();
     for (unsigned int ii = 0; ii < numberOfPoints; ++ii)
     {
       data[index++] = static_cast<Output>(ptIds[ii]);

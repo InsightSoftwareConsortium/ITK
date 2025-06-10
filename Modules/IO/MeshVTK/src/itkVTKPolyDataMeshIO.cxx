@@ -388,8 +388,8 @@ VTKPolyDataMeshIO::ReadMeshInformation()
       ss >> item; // should be "VERTICES"
 
       // Get number of Points
-      unsigned int numberOfVertices;
-      unsigned int numberOfVertexIndices;
+      unsigned int numberOfVertices = 0;
+      unsigned int numberOfVertexIndices = 0;
       ss >> numberOfVertices;
       ss >> numberOfVertexIndices;
       if (this->m_ReadMeshVersionMajor >= 5)
@@ -434,8 +434,8 @@ VTKPolyDataMeshIO::ReadMeshInformation()
       ss >> item; // should be "LINES"
 
       // Get number of Polylines
-      unsigned int numberOfLines;
-      unsigned int numberOfLineIndices;
+      unsigned int numberOfLines = 0;
+      unsigned int numberOfLineIndices = 0;
       ss >> numberOfLines;
       ss >> numberOfLineIndices;
       if (this->m_ReadMeshVersionMajor >= 5)
@@ -480,8 +480,8 @@ VTKPolyDataMeshIO::ReadMeshInformation()
       ss >> item; // should be "POLYGONS"
 
       // Get number of Polygons
-      unsigned int numberOfPolygons;
-      unsigned int numberOfPolygonIndices;
+      unsigned int numberOfPolygons = 0;
+      unsigned int numberOfPolygonIndices = 0;
       ss >> numberOfPolygons;
       ss >> numberOfPolygonIndices;
       if (this->m_ReadMeshVersionMajor >= 5)
@@ -984,7 +984,7 @@ VTKPolyDataMeshIO::ReadCellsBufferAsASCII(std::ifstream & inputFile, void * buff
 {
   std::string   line;
   SizeValueType index = 0;
-  unsigned int  numPoints; // number of point in each cell
+  unsigned int  numPoints = 0; // number of point in each cell
 
   const MetaDataDictionary & metaDic = this->GetMetaDataDictionary();
   using GeometryIntegerType = unsigned int;
@@ -1225,7 +1225,7 @@ VTKPolyDataMeshIO::ReadCellsBufferAsBINARYConnectivityType(std::ifstream & input
 
   std::string                line;
   const MetaDataDictionary & metaDic = this->GetMetaDataDictionary();
-  unsigned int               numPoints; // number of point in each cell
+  unsigned int               numPoints = 0; // number of point in each cell
 
   auto * outputBuffer = static_cast<unsigned int *>(buffer);
   while (!inputFile.eof())

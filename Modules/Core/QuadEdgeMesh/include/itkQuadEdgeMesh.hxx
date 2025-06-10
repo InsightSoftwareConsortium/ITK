@@ -338,8 +338,8 @@ void
 QuadEdgeMesh<TPixel, VDimension, TTraits>::SetCell(CellIdentifier itkNotUsed(cId), CellAutoPointer & cell)
 {
   // NOTE ALEX: should add some checking to be sure everything went fine
-  EdgeCellType *    qe;
-  PolygonCellType * pe;
+  EdgeCellType *    qe = nullptr;
+  PolygonCellType * pe = nullptr;
 
   // The QuadEdgeMeshCellTypes first
   if ((qe = dynamic_cast<EdgeCellType *>(cell.GetPointer())) != nullptr)
@@ -470,17 +470,12 @@ QuadEdgeMesh<TPixel, VDimension, TTraits>::SqueezePointsIds()
     --lastData;
   }
 
-  // Some Temp var to be used in the while loop
-  PointIdentifier FilledPointID;
-  QEType *        EdgeRingEntry;
-  QEType *        EdgeRingIter;
-
   // for all the free indexes and while there is any gap
   while ((!m_FreePointIndexes.empty()) && (last.Index() >= this->GetNumberOfPoints()))
   {
 
     // duplicate last point into the empty slot and pop the id from freeID list
-    FilledPointID = AddPoint(GetPoint(last.Index()));
+    PointIdentifier FilledPointID = AddPoint(GetPoint(last.Index()));
 
     // same thing for the data if any
     if (HasPointData)
@@ -490,10 +485,11 @@ QuadEdgeMesh<TPixel, VDimension, TTraits>::SqueezePointsIds()
 
     // make sure that all the edges/faces now refer to the new ID
     // i.e. enforce the integrity at the QE level now.
-    EdgeRingEntry = GetPoint(last.Index()).GetEdge();
+    QEType * EdgeRingEntry = GetPoint(last.Index()).GetEdge();
     if (EdgeRingEntry)
     {
-      EdgeRingIter = EdgeRingEntry;
+
+      QEType * EdgeRingIter = EdgeRingEntry;
       do
       {
         EdgeRingIter->SetOrigin(FilledPointID);
@@ -1013,7 +1009,7 @@ void
 QuadEdgeMesh<TPixel, VDimension, TTraits>::DeleteFace(FaceRefType faceToDelete)
 {
   const CellsContainerPointer cells = this->GetCells();
-  CellType *                  c;
+  CellType *                  c = nullptr;
 
   if (!cells->GetElementIfIndexExists(faceToDelete, &c))
   {
@@ -1084,7 +1080,7 @@ template <typename TPixel, unsigned int VDimension, typename TTraits>
 auto
 QuadEdgeMesh<TPixel, VDimension, TTraits>::GetEdge(const CellIdentifier & eid) const -> QEPrimal *
 {
-  CellType * c;
+  CellType * c = nullptr;
 
   if (!this->GetEdgeCells()->GetElementIfIndexExists(eid, &c))
   {
@@ -1264,7 +1260,6 @@ QuadEdgeMesh<TPixel, VDimension, TTraits>::AddFaceWithSecurePointList(const Poin
   }
 
   // Reorder all Onext rings
-  QEPrimal * e1;
   QEPrimal * e0 = FaceQEList.back();
 
   auto fIt = FaceQEList.begin();
@@ -1272,7 +1267,7 @@ QuadEdgeMesh<TPixel, VDimension, TTraits>::AddFaceWithSecurePointList(const Poin
 
   while (fIt != fEnd)
   {
-    e1 = e0->GetSym();
+    QEPrimal * e1 = e0->GetSym();
     e0 = *fIt;
 
     e0->ReorderOnextRingBeforeAddFace(e1);

@@ -59,9 +59,10 @@ auto
 AnnulusOperator<TPixel, TDimension, TAllocator>::GenerateCoefficients() -> CoefficientVector
 {
   // Determine the initial kernel values...
-  double interiorV;
-  double annulusV;
-  double exteriorV;
+  // values for a specified kernel
+  double interiorV = m_InteriorValue;
+  double annulusV = m_AnnulusValue;
+  double exteriorV = m_ExteriorValue;
 
   if (m_Normalize)
   {
@@ -71,13 +72,6 @@ AnnulusOperator<TPixel, TDimension, TAllocator>::GenerateCoefficients() -> Coeff
     interiorV = bright;
     annulusV = -1.0 * bright;
     exteriorV = 0.0;
-  }
-  else
-  {
-    // values for a specified kernel
-    interiorV = m_InteriorValue;
-    annulusV = m_AnnulusValue;
-    exteriorV = m_ExteriorValue;
   }
 
   // Compute the size of the kernel in pixels

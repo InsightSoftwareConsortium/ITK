@@ -185,15 +185,8 @@ public:
   GetValue() const override
   {
     const double x = this->m_Parameters[0];
-    double       val;
-    if (x < 0)
-    {
-      val = x * x + 4 * x;
-    }
-    else
-    {
-      val = 2 * x * x - 8 * x;
-    }
+    const double val = (x < 0) ? x * x + 4 * x : 2 * x * x - 8 * x;
+
     return val;
   }
 

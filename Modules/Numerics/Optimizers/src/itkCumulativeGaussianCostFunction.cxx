@@ -59,7 +59,7 @@ double
 CumulativeGaussianCostFunction::EvaluateCumulativeGaussian(double argument) const
 {
   // Evaluate the Cumulative Gaussian for a given argument.
-  double erfValue;
+  double erfValue = NAN;
 
   // Out of bounds of the table, but it's close to 1 or -1.
   if (argument < -3 || argument > 3)
@@ -73,9 +73,7 @@ CumulativeGaussianCostFunction::EvaluateCumulativeGaussian(double argument) cons
       erfValue = -1;
     }
   }
-
-  // Interpolation between table lookup entries.
-  else
+  else // Interpolation between table lookup entries.
   {
     // Tabulated error function evaluated for 0 to 299.
     const double y[300] = {

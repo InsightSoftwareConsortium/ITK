@@ -343,7 +343,7 @@ VoxBoCUBImageIO::CreateReader(const char * filename)
 {
   try
   {
-    bool compressed;
+    bool compressed = false;
     if (CheckExtension(filename, compressed))
     {
       if (compressed)
@@ -371,7 +371,7 @@ VoxBoCUBImageIO::CreateWriter(const char * filename)
 {
   try
   {
-    bool compressed;
+    bool compressed = false;
     if (CheckExtension(filename, compressed))
     {
       if (compressed)
@@ -442,7 +442,7 @@ VoxBoCUBImageIO::CanReadFile(const char * filename)
 bool
 VoxBoCUBImageIO::CanWriteFile(const char * name)
 {
-  bool compressed;
+  bool compressed = false;
 
   return CheckExtension(name, compressed);
 }
@@ -525,7 +525,7 @@ VoxBoCUBImageIO::ReadImageInformation()
 
       else if (key == m_VB_ORIGIN)
       {
-        double ox, oy, oz;
+        double ox = NAN, oy = NAN, oz = NAN;
         iss >> ox;
         iss >> oy;
         iss >> oz;
@@ -718,7 +718,7 @@ VoxBoCUBImageIO::WriteImageInformation()
     ExposeMetaData<std::string>(dic, key, word);
     if (!strcmp(key.c_str(), "resample_date"))
     {
-      time_t rawtime;
+      time_t rawtime = 0;
       time(&rawtime);
       word = ctime(&rawtime);
       header << key << ":\t" << word;

@@ -230,13 +230,12 @@ ObjectByObjectLabelMapFilter<TInputImage,
     // It seems to be a bug in the autocrop filter :-(
     m_Crop->Modified();
 
-    // to store the label objects
-    LabelMapType * labelMap;
-
     // to be reused later
     const typename OutputImageType::LabelObjectType * inLo = inIt.GetLabelObject();
 
     // update the pipeline
+    // to store the label objects
+    LabelMapType * labelMap = nullptr;
     if (m_BinaryInternalOutput)
     {
       m_BI2LM->UpdateLargestPossibleRegion();

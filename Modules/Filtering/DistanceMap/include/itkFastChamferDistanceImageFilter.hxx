@@ -143,7 +143,7 @@ FastChamferDistanceImageFilter<TInputImage, TOutputImage>::GenerateDataND()
         // Experiment an InlineGetPixel()
         if (val[neighbor_type[i]] < it.GetPixel(i))
         {
-          bool in_bounds;
+          bool in_bounds = false;
           it.SetPixel(i, val[neighbor_type[i]], in_bounds);
         }
       }
@@ -162,7 +162,7 @@ FastChamferDistanceImageFilter<TInputImage, TOutputImage>::GenerateDataND()
         // Experiment an InlineGetPixel()
         if (val[neighbor_type[i]] > it.GetPixel(i))
         {
-          bool in_bounds;
+          bool in_bounds = false;
           it.SetPixel(i, val[neighbor_type[i]], in_bounds);
         }
       }
@@ -237,7 +237,7 @@ FastChamferDistanceImageFilter<TInputImage, TOutputImage>::GenerateDataND()
         // Experiment an InlineGetPixel()
         if (val[neighbor_type[i]] < it.GetPixel(i))
         {
-          bool in_bounds;
+          bool in_bounds = false;
           it.SetPixel(i, val[neighbor_type[i]], in_bounds);
         }
       }
@@ -257,7 +257,7 @@ FastChamferDistanceImageFilter<TInputImage, TOutputImage>::GenerateDataND()
         // Experiment an InlineGetPixel()
         if (val[neighbor_type[i]] > it.GetPixel(i))
         {
-          bool in_bounds;
+          bool in_bounds = false;
           it.SetPixel(i, val[neighbor_type[i]], in_bounds);
         }
       }

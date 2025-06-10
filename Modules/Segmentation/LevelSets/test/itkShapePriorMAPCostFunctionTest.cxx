@@ -220,7 +220,7 @@ itkShapePriorMAPCostFunctionTest(int, char *[])
 
   // exercise error testing
 
-  bool pass;
+  bool pass = false;
 
 #define TEST_INITIALIZATION_ERROR(ComponentName, badComponent, goodComponent) \
   costFunction->Set##ComponentName(badComponent);                             \

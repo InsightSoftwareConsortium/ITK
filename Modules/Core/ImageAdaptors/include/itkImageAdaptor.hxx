@@ -83,7 +83,7 @@ ImageAdaptor<TImage, TAccessor>::Graft(const DataObject * data)
   if (data)
   {
     // Attempt to cast data to an ImageAdaptor
-    const Self * imgData;
+    const Self * imgData = nullptr;
 
     try
     {

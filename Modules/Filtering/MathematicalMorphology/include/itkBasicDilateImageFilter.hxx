@@ -34,13 +34,9 @@ BasicDilateImageFilter<TInputImage, TOutputImage, TKernel>::Evaluate(const Neigh
                                                                      const KernelIteratorType         kernelBegin,
                                                                      const KernelIteratorType kernelEnd) -> PixelType
 {
-  unsigned int i;
-  PixelType    max = NumericTraits<PixelType>::NonpositiveMin();
-  PixelType    temp;
-
-  KernelIteratorType kernel_it;
-
-  for (i = 0, kernel_it = kernelBegin; kernel_it < kernelEnd; ++kernel_it, ++i)
+  PixelType          max = NumericTraits<PixelType>::NonpositiveMin();
+  KernelIteratorType kernel_it = kernelBegin;
+  for (unsigned int i = 0; kernel_it < kernelEnd; ++kernel_it, ++i)
   {
     // if structuring element is positive, use the pixel under that element
     // in the image
@@ -48,7 +44,7 @@ BasicDilateImageFilter<TInputImage, TOutputImage, TKernel>::Evaluate(const Neigh
     {
       // note we use GetPixel() on the SmartNeighborhoodIterator to
       // respect boundary conditions
-      temp = nit.GetPixel(i);
+      const auto temp = nit.GetPixel(i);
 
       if (temp > max)
       {

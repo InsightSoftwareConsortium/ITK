@@ -495,15 +495,15 @@ JPEG2000ImageIO::Read(void * buffer)
 
   while (l_go_on)
   {
-    OPJ_INT32 l_current_tile_x0;
-    OPJ_INT32 l_current_tile_y0;
-    OPJ_INT32 l_current_tile_x1;
-    OPJ_INT32 l_current_tile_y1;
+    OPJ_INT32 l_current_tile_x0 = 0;
+    OPJ_INT32 l_current_tile_y0 = 0;
+    OPJ_INT32 l_current_tile_x1 = 0;
+    OPJ_INT32 l_current_tile_y1 = 0;
 
-    OPJ_UINT32 l_tile_index;
-    OPJ_UINT32 l_data_size;
+    OPJ_UINT32 l_tile_index = 0;
+    OPJ_UINT32 l_data_size = 0;
 
-    OPJ_UINT32     l_nb_comps;
+    OPJ_UINT32     l_nb_comps = 0;
     const OPJ_BOOL tileHeaderRead = opj_read_tile_header(this->m_Internal->m_Dinfo,
                                                          l_stream,
                                                          &l_tile_index,

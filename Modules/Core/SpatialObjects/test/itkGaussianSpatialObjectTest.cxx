@@ -61,7 +61,7 @@ itkGaussianSpatialObjectTest(int, char *[])
   // Once all values of the Gaussian have been set, it must be updated
   myGaussian->Update();
 
-  double value;
+  double value = NAN;
   myGaussian->ValueAtInWorldSpace(in, value);
   std::cout << "ValueAt(" << in << ") = " << value << std::endl;
 

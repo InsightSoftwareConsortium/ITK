@@ -76,14 +76,13 @@ BSplineDownsampleImageFilter<TInputImage, TOutputImage, ResamplerType>::Generate
   inputPtr->SetRequestedRegionToLargestPossibleRegion();
 
   // we need to compute the input requested region (size and start index)
-  unsigned int                             i;
   const typename TOutputImage::SizeType &  outputRequestedRegionSize = outputPtr->GetRequestedRegion().GetSize();
   const typename TOutputImage::IndexType & outputRequestedRegionStartIndex = outputPtr->GetRequestedRegion().GetIndex();
 
   typename TInputImage::SizeType  inputRequestedRegionSize;
   typename TInputImage::IndexType inputRequestedRegionStartIndex;
 
-  for (i = 0; i < TInputImage::ImageDimension; ++i)
+  for (unsigned int i = 0; i < TInputImage::ImageDimension; ++i)
   {
     inputRequestedRegionSize[i] = outputRequestedRegionSize[i] * 2;
     inputRequestedRegionStartIndex[i] = outputRequestedRegionStartIndex[i] * 2;
@@ -116,7 +115,6 @@ BSplineDownsampleImageFilter<TInputImage, TOutputImage, ResamplerType>::Generate
 
   // we need to compute the output spacing, the output image size, and the
   // output image start index
-  unsigned int                              i;
   const typename TInputImage::SpacingType & inputSpacing = inputPtr->GetSpacing();
   const typename TInputImage::SizeType &    inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
   const typename TInputImage::IndexType &   inputStartIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
@@ -125,7 +123,7 @@ BSplineDownsampleImageFilter<TInputImage, TOutputImage, ResamplerType>::Generate
   typename TOutputImage::SizeType    outputSize;
   typename TOutputImage::IndexType   outputStartIndex;
 
-  for (i = 0; i < TOutputImage::ImageDimension; ++i)
+  for (unsigned int i = 0; i < TOutputImage::ImageDimension; ++i)
   {
     // TODO:  Verify this is being rounded correctly.
     outputSpacing[i] = inputSpacing[i] * 2.0;

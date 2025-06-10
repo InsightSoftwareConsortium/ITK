@@ -287,8 +287,8 @@ LinuxMemoryUsageObserver::GetMemoryUsage()
 
   // the two fields we want
   //
-  unsigned long vsize;
-  long          rss;
+  unsigned long vsize = 0;
+  long          rss = 0;
 
   procstats >> pid >> comm >> state >> ppid >> pgrp >> session >> tty_nr >> tpgid >> flags >> minflt >> cminflt >>
     majflt >> cmajflt >> utime >> stime >> cutime >> cstime >> priority >> nice >> O >> itrealvalue >> starttime >>

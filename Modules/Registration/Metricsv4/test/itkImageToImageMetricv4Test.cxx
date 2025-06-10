@@ -204,7 +204,7 @@ ImageToImageMetricv4TestComputeIdentityTruthValues(const ImageToImageMetricv4Tes
   std::cout << "truth values: Initialize" << std::endl;
   metric->Initialize();
   // Call once to setup gradient images if applicable
-  ImageToImageMetricv4TestMetricType::MeasureType    tempValue;
+  ImageToImageMetricv4TestMetricType::MeasureType    tempValue = NAN;
   ImageToImageMetricv4TestMetricType::DerivativeType tempDerivative;
 
   metric->GetValueAndDerivative(tempValue, tempDerivative);
@@ -319,14 +319,14 @@ ImageToImageMetricv4TestRunSingleTest(const ImageToImageMetricv4TestMetricPointe
   ITK_TRY_EXPECT_NO_EXCEPTION(metric->Initialize());
 
   // Evaluate using GetValue
-  ImageToImageMetricv4TestMetricType::MeasureType valueReturn1;
+  ImageToImageMetricv4TestMetricType::MeasureType valueReturn1 = NAN;
   ITK_TRY_EXPECT_NO_EXCEPTION(valueReturn1 = metric->GetValue());
 
   // Re-initialize.
   ITK_TRY_EXPECT_NO_EXCEPTION(metric->Initialize());
 
   // Evaluate using GetValueAndDerivative
-  ImageToImageMetricv4TestMetricType::MeasureType    valueReturn2;
+  ImageToImageMetricv4TestMetricType::MeasureType    valueReturn2 = NAN;
   ImageToImageMetricv4TestMetricType::DerivativeType derivativeReturn;
   ITK_TRY_EXPECT_NO_EXCEPTION(metric->GetValueAndDerivative(valueReturn2, derivativeReturn));
 
@@ -458,7 +458,7 @@ itkImageToImageMetricv4Test(int, char ** const)
   // Evaluate the metric and verify results, using identity transforms.
   // Test with different numbers of threads.
   // Run through all the permutations image gradient calculation method.
-  ImageToImageMetricv4TestMetricType::MeasureType    truthValue;
+  ImageToImageMetricv4TestMetricType::MeasureType    truthValue = NAN;
   ImageToImageMetricv4TestMetricType::DerivativeType truthDerivative;
   for (itk::ThreadIdType numberOfThreads = 1; numberOfThreads < 6; ++numberOfThreads)
   {
@@ -519,7 +519,7 @@ itkImageToImageMetricv4Test(int, char ** const)
   parameters[0] = 1000;
   parameters[1] = 1000;
   movingTransform->SetParameters(parameters);
-  ImageToImageMetricv4TestMetricType::MeasureType expectedMetricMax;
+  ImageToImageMetricv4TestMetricType::MeasureType expectedMetricMax = NAN;
   expectedMetricMax = itk::NumericTraits<ImageToImageMetricv4TestMetricType::MeasureType>::max();
   std::cout << "Testing non-overlapping images. Expect a warning:" << std::endl;
   if (ImageToImageMetricv4TestRunSingleTest(metric, truthValue, truthDerivative, 0, true) != EXIT_SUCCESS ||

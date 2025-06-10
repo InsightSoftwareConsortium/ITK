@@ -178,10 +178,9 @@ TubeSpatialObject<TDimension, TTubePointType>::IsInsideInObjectSpace(const Point
 {
   if (this->GetMyBoundingBoxInObjectSpace()->IsInside(point))
   {
-    double tempDist;
-    auto   it = this->m_Points.begin();
-    auto   first = it;
-    auto   it2 = it;
+    auto it = this->m_Points.begin();
+    auto first = it;
+    auto it2 = it;
     ++it2;
     auto end = this->m_Points.end();
     auto last = end;
@@ -270,8 +269,7 @@ TubeSpatialObject<TDimension, TTubePointType>::IsInsideInObjectSpace(const Point
             p[i] = a[i] + lambda * (b[i] - a[i]);
           }
 
-          tempDist = point.EuclideanDistanceTo(p);
-
+          double tempDist = point.EuclideanDistanceTo(p);
           if (tempDist <= lambdaR)
           {
             return true;

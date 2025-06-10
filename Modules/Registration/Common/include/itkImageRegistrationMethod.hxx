@@ -55,44 +55,44 @@ ModifiedTimeType
 ImageRegistrationMethod<TFixedImage, TMovingImage>::GetMTime() const
 {
   ModifiedTimeType mtime = Superclass::GetMTime();
-  ModifiedTimeType m;
 
   // Some of the following should be removed once ivars are put in the
   // input and output lists
 
+
   if (m_Transform)
   {
-    m = m_Transform->GetMTime();
+    ModifiedTimeType m = m_Transform->GetMTime();
     mtime = (m > mtime ? m : mtime);
   }
 
   if (m_Interpolator)
   {
-    m = m_Interpolator->GetMTime();
+    ModifiedTimeType m = m_Interpolator->GetMTime();
     mtime = (m > mtime ? m : mtime);
   }
 
   if (m_Metric)
   {
-    m = m_Metric->GetMTime();
+    ModifiedTimeType m = m_Metric->GetMTime();
     mtime = (m > mtime ? m : mtime);
   }
 
   if (m_Optimizer)
   {
-    m = m_Optimizer->GetMTime();
+    ModifiedTimeType m = m_Optimizer->GetMTime();
     mtime = (m > mtime ? m : mtime);
   }
 
   if (m_FixedImage)
   {
-    m = m_FixedImage->GetMTime();
+    ModifiedTimeType m = m_FixedImage->GetMTime();
     mtime = (m > mtime ? m : mtime);
   }
 
   if (m_MovingImage)
   {
-    m = m_MovingImage->GetMTime();
+    ModifiedTimeType m = m_MovingImage->GetMTime();
     mtime = (m > mtime ? m : mtime);
   }
 

@@ -16,6 +16,8 @@
  *
  *=========================================================================*/
 
+#include <cmath>
+
 #include "itkBYUMeshIO.h"
 
 #include "itksys/SystemTools.hxx"
@@ -97,8 +99,8 @@ BYUMeshIO::ReadMeshInformation()
   }
   else
   {
-    unsigned int firstId;
-    unsigned int lastId;
+    unsigned int firstId = 0;
+    unsigned int lastId = 0;
     for (unsigned int ii = 0; ii < m_PartId; ++ii)
     {
       inputFile >> firstId >> lastId;
@@ -136,7 +138,7 @@ BYUMeshIO::ReadMeshInformation()
   this->m_PointComponentType = IOComponentEnum::DOUBLE;
 
   // Read and omit points
-  double x;
+  double x = NAN;
   for (SizeValueType ii = 0; ii < this->m_NumberOfPoints; ++ii)
   {
     for (unsigned int jj = 0; jj < this->m_PointDimension; ++jj)
@@ -146,7 +148,7 @@ BYUMeshIO::ReadMeshInformation()
   }
 
   // Determine cellbuffersize
-  int ptId;
+  int ptId = 0;
   this->m_CellBufferSize = 0;
   SizeValueType numLines = 0;
   while (numLines < this->m_NumberOfCells)
@@ -237,7 +239,7 @@ BYUMeshIO::ReadCells(void * buffer)
   SizeValueType numPoints = 0;
   SizeValueType id{};
   SizeValueType index = 2;
-  int           ptId;
+  int           ptId = 0;
   m_FirstCellId -= 1;
   m_LastCellId -= 1;
   while (id < this->m_NumberOfCells)

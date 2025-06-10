@@ -135,15 +135,12 @@ itkQuadEdgeMeshIteratorTest(int, char *[])
   for (IteratorGeom itDnext = foundEdges[0]->BeginGeomDnext(); itDnext != foundEdges[0]->EndGeomDnext();
        itDnext++, edgeNumber++)
   {
-    MeshType::QEPrimal * expectedEdge;
+    MeshType::QEPrimal * expectedEdge = foundEdges[edgeNumber];
     if (edgeNumber)
     {
       expectedEdge = foundEdges[edgeNumber]->GetSym();
     }
-    else
-    {
-      expectedEdge = foundEdges[edgeNumber];
-    }
+
     MeshType::QEPrimal * currentEdge = itDnext.Value();
     if (currentEdge != expectedEdge)
     {

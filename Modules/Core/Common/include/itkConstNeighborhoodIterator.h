@@ -219,7 +219,7 @@ public:
   PixelType
   GetPixel(const OffsetType & o) const
   {
-    bool inbounds;
+    bool inbounds = false;
 
     return (this->GetPixel(this->GetNeighborhoodIndex(o), inbounds));
   }

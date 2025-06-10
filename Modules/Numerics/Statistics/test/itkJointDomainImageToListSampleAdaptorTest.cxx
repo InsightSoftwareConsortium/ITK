@@ -141,12 +141,8 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
   adaptor->Print(std::cout);
 
   ImageType::IndexType index;
-  ImageType::PixelType pixel;
 
-  JointDomainImageToListSampleAdaptorType::InstanceIdentifier iid;
   using MeasurementVectorType = JointDomainImageToListSampleAdaptorType::MeasurementVectorType;
-  JointDomainImageToListSampleAdaptorType::PointType tempPoint;
-
 
   MeasurementVectorType measurementVector;
 
@@ -160,9 +156,10 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
         index[1] = j;
         index[2] = i;
 
+        JointDomainImageToListSampleAdaptorType::PointType tempPoint;
         adaptor->GetImage()->TransformIndexToPhysicalPoint(index, tempPoint);
 
-        pixel = adaptor->GetImage()->GetPixel(index);
+        ImageType::PixelType pixel = adaptor->GetImage()->GetPixel(index);
 
         measurementVector[0] = tempPoint[0];
         measurementVector[1] = tempPoint[1];
@@ -171,7 +168,7 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
         measurementVector[4] = pixel[1];
         measurementVector[5] = pixel[2];
 
-        iid = adaptor->GetImage()->ComputeOffset(index);
+        JointDomainImageToListSampleAdaptorType::InstanceIdentifier iid = adaptor->GetImage()->ComputeOffset(index);
 
         MeasurementVectorType measurementVectorFromAdaptor = adaptor->GetMeasurementVector(iid);
         for (unsigned int m = 0; m < 5; ++m)

@@ -294,7 +294,7 @@ BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
               if (bIsOnBorder)
               {
                 // neighbour pixel is a border pixel mark it
-                bool status;
+                bool status = false;
                 nit.SetPixel(i, borderTag, status);
 
                 // check whether we could set the pixel.  can only set
@@ -321,7 +321,7 @@ BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
               else
               {
                 // neighbour pixel is an inner pixel
-                bool status;
+                bool status = false;
                 nit.SetPixel(i, innerTag, status);
               }
 

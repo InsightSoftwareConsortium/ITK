@@ -33,11 +33,9 @@ namespace itk
 template <typename TFixedImage, typename TMovingImage>
 GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::GradientDifferenceImageToImageMetric()
 {
-  unsigned int iDimension;
-
   m_TransformMovingImageFilter = nullptr;
 
-  for (iDimension = 0; iDimension < FixedImageDimension; ++iDimension)
+  for (unsigned int iDimension = 0; iDimension < FixedImageDimension; ++iDimension)
   {
     m_MinFixedGradient[iDimension] = 0;
     m_MaxFixedGradient[iDimension] = 0;
@@ -45,7 +43,7 @@ GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::GradientDiffere
     m_Variance[iDimension] = 0;
   }
 
-  for (iDimension = 0; iDimension < MovedImageDimension; ++iDimension)
+  for (unsigned int iDimension = 0; iDimension < MovedImageDimension; ++iDimension)
   {
     m_MinMovedGradient[iDimension] = 0;
     m_MaxMovedGradient[iDimension] = 0;
@@ -58,8 +56,6 @@ template <typename TFixedImage, typename TMovingImage>
 void
 GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::Initialize()
 {
-  unsigned int iFilter; // Index of Sobel filters for each dimension
-
   if (!this->GetComputeGradient())
   {
     itkExceptionMacro("Gradients must be calculated");
@@ -92,7 +88,8 @@ GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::Initialize()
   m_CastFixedImageFilter = CastFixedImageFilterType::New();
   m_CastFixedImageFilter->SetInput(this->m_FixedImage);
 
-  for (iFilter = 0; iFilter < FixedImageDimension; ++iFilter)
+  // Index of Sobel filters for each dimension
+  for (unsigned int iFilter = 0; iFilter < FixedImageDimension; ++iFilter)
   {
     m_FixedSobelOperators[iFilter].SetDirection(iFilter);
     m_FixedSobelOperators[iFilter].CreateDirectional();
@@ -114,7 +111,7 @@ GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::Initialize()
   m_CastMovedImageFilter = CastMovedImageFilterType::New();
   m_CastMovedImageFilter->SetInput(m_TransformMovingImageFilter->GetOutput());
 
-  for (iFilter = 0; iFilter < MovedImageDimension; ++iFilter)
+  for (unsigned int iFilter = 0; iFilter < MovedImageDimension; ++iFilter)
   {
     m_MovedSobelOperators[iFilter].SetDirection(iFilter);
     m_MovedSobelOperators[iFilter].CreateDirectional();
@@ -180,7 +177,7 @@ template <typename TFixedImage, typename TMovingImage>
 void
 GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::ComputeMovedGradientRange() const
 {
-  unsigned int           iDimension;
+  unsigned int           iDimension = 0;
   MovedGradientPixelType gradient;
 
   for (iDimension = 0; iDimension < FixedImageDimension; ++iDimension)
@@ -217,8 +214,8 @@ template <typename TFixedImage, typename TMovingImage>
 void
 GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::ComputeVariance() const
 {
-  unsigned int           iDimension;
-  SizeValueType          nPixels;
+  unsigned int           iDimension = 0;
+  SizeValueType          nPixels = 0;
   FixedGradientPixelType mean[FixedImageDimension];
   FixedGradientPixelType gradient;
 
@@ -292,7 +289,7 @@ GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::ComputeMeasure(
   const TransformParametersType & parameters,
   const double *                  subtractionFactor) const -> MeasureType
 {
-  unsigned int iDimension;
+  unsigned int iDimension = 0;
 
   this->SetTransformParameters(parameters);
   m_TransformMovingImageFilter->UpdateLargestPossibleRegion();
@@ -351,9 +348,9 @@ auto
 GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::GetValue(
   const TransformParametersType & parameters) const -> MeasureType
 {
-  unsigned int iFilter; // Index of Sobel filters for
-                        // each dimension
-  unsigned int iDimension;
+  unsigned int iFilter = 0; // Index of Sobel filters for
+                            // each dimension
+  unsigned int iDimension = 0;
 
   this->SetTransformParameters(parameters);
   m_TransformMovingImageFilter->UpdateLargestPossibleRegion();

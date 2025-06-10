@@ -704,7 +704,7 @@ NiftiImageIO::Read(void * buffer)
     //
     // as per ITK bug 0007485
     // NIfTI is lower triangular, ITK is upper triangular.
-    int * vecOrder;
+    int * vecOrder = nullptr;
     if (this->GetPixelType() == IOPixelEnum::DIFFUSIONTENSOR3D ||
         this->GetPixelType() == IOPixelEnum::SYMMETRICSECONDRANKTENSOR)
     {
@@ -2437,7 +2437,7 @@ NiftiImageIO::Write(const void * buffer)
     // ITK stores it a b c d e f, but NIfTI is a b d c e f
     // so on read, step sequentially through the source vector, but
     // reverse the order of vec[2] and vec[3]
-    int * vecOrder;
+    int * vecOrder = nullptr;
     if (this->GetPixelType() == IOPixelEnum::DIFFUSIONTENSOR3D ||
         this->GetPixelType() == IOPixelEnum::SYMMETRICSECONDRANKTENSOR)
     {

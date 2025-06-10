@@ -225,14 +225,11 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>::ThreadedApplyUpdate(const 
   // constexpr int INNER_MASK = 2;
   constexpr signed char INNER_MASK = 2;
 
-  typename NarrowBandType::ConstIterator  it;
   const typename OutputImageType::Pointer image = this->GetOutput();
-  typename OutputImageType::PixelType     oldvalue;
-  typename OutputImageType::PixelType     newvalue;
-  for (it = regionToProcess.first; it != regionToProcess.last; ++it)
+  for (typename NarrowBandType::ConstIterator it = regionToProcess.first; it != regionToProcess.last; ++it)
   {
-    oldvalue = image->GetPixel(it->m_Index);
-    newvalue = oldvalue + dt * it->m_Data;
+    typename OutputImageType::PixelType oldvalue = image->GetPixel(it->m_Index);
+    typename OutputImageType::PixelType newvalue = oldvalue + dt * it->m_Data;
     // Check whether solution is out the inner band or not
     m_TouchedForThread[threadId] =
       (m_TouchedForThread[threadId] || (!(it->m_NodeState & INNER_MASK) && ((oldvalue > 0) != (newvalue > 0))));
@@ -250,8 +247,6 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>::ThreadedCalculateChange(co
   using NeighborhoodIteratorType = typename FiniteDifferenceFunctionType::NeighborhoodType;
 
   const typename OutputImageType::Pointer output = this->GetOutput();
-  TimeStepType                            timeStep;
-  void *                                  globalData;
 
   // Get the FiniteDifferenceFunction to use in calculations.
   const typename FiniteDifferenceFunctionType::Pointer df = this->GetDifferenceFunction();
@@ -261,7 +256,7 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>::ThreadedCalculateChange(co
   // manage any global values it needs.  We'll pass this back to the function
   // object at each calculation so that the function object can use it to
   // determine a time step for this iteration.
-  globalData = df->GetGlobalDataPointer();
+  void * globalData = df->GetGlobalDataPointer();
 
   typename NarrowBandType::Iterator bandIt;
   NeighborhoodIteratorType          outputIt(radius, output, output->GetRequestedRegion());
@@ -275,7 +270,7 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>::ThreadedCalculateChange(co
   // Ask the finite difference function to compute the time step for
   // this iteration.  We give it the global data pointer to use, then
   // ask it to free the global data memory.
-  timeStep = df->ComputeGlobalTimeStep(globalData);
+  TimeStepType timeStep = df->ComputeGlobalTimeStep(globalData);
   df->ReleaseGlobalDataPointer(globalData);
 
   return timeStep;

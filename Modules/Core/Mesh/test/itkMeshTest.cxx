@@ -346,7 +346,7 @@ itkMeshTest(int, char *[])
     std::cout << typeid(cellPointer0).name() << std::endl;
     std::cout << "GetCellBoundaryFeature() return AutoPointer owner = " << cellPointer0.IsOwner() << std::endl;
 
-    HexaCellType::FaceType * quad;
+    HexaCellType::FaceType * quad = nullptr;
     try
     {
       quad = dynamic_cast<HexaCellType::FaceType *>(cellPointer0.GetPointer());
@@ -530,7 +530,7 @@ itkMeshTest(int, char *[])
       std::cout << typeid(vertexPointer).name() << std::endl;
       std::cout << "GetCellBoundaryFeature() return AutoPointer owner = " << vertexPointer.IsOwner() << std::endl;
 
-      QuadraticEdgeCellType::VertexType * vertex;
+      QuadraticEdgeCellType::VertexType * vertex = nullptr;
       try
       {
         vertex = dynamic_cast<QuadraticEdgeCellType::VertexType *>(vertexPointer.GetPointer());
@@ -606,7 +606,7 @@ itkMeshTest(int, char *[])
       std::cout << typeid(vertexPointer).name() << std::endl;
       std::cout << "GetCellBoundaryFeature() return AutoPointer owner = " << vertexPointer.IsOwner() << std::endl;
 
-      QuadraticTriangleCellType::VertexType * vertex;
+      QuadraticTriangleCellType::VertexType * vertex = nullptr;
       try
       {
         vertex = dynamic_cast<QuadraticTriangleCellType::VertexType *>(vertexPointer.GetPointer());
@@ -645,7 +645,7 @@ itkMeshTest(int, char *[])
       std::cout << typeid(edgePointer).name() << std::endl;
       std::cout << "GetCellBoundaryFeature() return AutoPointer owner = " << edgePointer.IsOwner() << std::endl;
 
-      QuadraticTriangleCellType::EdgeType * edge;
+      QuadraticTriangleCellType::EdgeType * edge = nullptr;
       try
       {
         edge = dynamic_cast<QuadraticTriangleCellType::EdgeType *>(edgePointer.GetPointer());

@@ -39,11 +39,10 @@ ParseSplinePoles(char * splinePolesIn)
   typename TFilter::SplinePolesVectorType splinePolesOut;
 
   // Get the individual components
-  char *                                              endPtr;
-  typename TFilter::SplinePolesVectorType::value_type value;
   while (*splinePolesIn)
   {
-    value = strtod(splinePolesIn, &endPtr);
+    char *                                              endPtr = nullptr;
+    typename TFilter::SplinePolesVectorType::value_type value = strtod(splinePolesIn, &endPtr);
     if (splinePolesIn == endPtr)
     {
       (*splinePolesIn)++;

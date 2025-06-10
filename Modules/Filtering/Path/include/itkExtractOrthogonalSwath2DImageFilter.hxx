@@ -118,33 +118,27 @@ ExtractOrthogonalSwath2DImageFilter<TImage>::GenerateData()
   using OutputIterator = ImageRegionIteratorWithIndex<ImageType>;
   using InterpolatorType = LinearInterpolateImageFunction<ImageType, itk::SpacePrecisionType>;
 
-  ImageIndexType                      index;
-  double                              orthogonalOffset;
-  PathInputType                       pathInput;
-  ContinuousIndex<SpacePrecisionType> continousIndex;
-  PathVectorType                      pathDerivative;
-
   auto interpolator = InterpolatorType::New();
   interpolator->SetInputImage(inputImagePtr);
 
   // Iterate through the output image
   for (OutputIterator outputIt(outputPtr, outputPtr->GetRequestedRegion()); !outputIt.IsAtEnd(); ++outputIt)
   {
-    index = outputIt.GetIndex();
+    ImageIndexType index = outputIt.GetIndex();
 
     // what position along the path corresponds to this column of the swath?
-    pathInput =
+    PathInputType pathInput =
       inputPathPtr->StartOfInput() + static_cast<double>(inputPathPtr->EndOfInput() - inputPathPtr->StartOfInput()) *
                                        static_cast<double>(index[0]) / static_cast<double>(m_Size[0]);
 
     // What is the orthogonal offset from the path in the input image for this
     // particular index in the output swath image?
     // Vertically centered swath pixels lie on the path in the input image.
-    orthogonalOffset = index[1] - static_cast<int>(m_Size[1] / 2); // use signed arithmetic
+    double orthogonalOffset = index[1] - static_cast<int>(m_Size[1] / 2); // use signed arithmetic
 
     // Make continuousIndex point to the source pixel in the input image
-    continousIndex = inputPathPtr->Evaluate(pathInput);
-    pathDerivative = inputPathPtr->EvaluateDerivative(pathInput);
+    ContinuousIndex<SpacePrecisionType> continousIndex = inputPathPtr->Evaluate(pathInput);
+    PathVectorType                      pathDerivative = inputPathPtr->EvaluateDerivative(pathInput);
     pathDerivative.Normalize();
     continousIndex[0] -= orthogonalOffset * pathDerivative[1];
     continousIndex[1] += orthogonalOffset * pathDerivative[0];

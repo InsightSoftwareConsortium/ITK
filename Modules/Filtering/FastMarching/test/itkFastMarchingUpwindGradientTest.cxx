@@ -185,21 +185,16 @@ itkFastMarchingUpwindGradientTest(int, char *[])
 
   for (; !iterator.IsAtEnd(); ++iterator)
   {
-
-    FloatGradientImage::IndexType tempIndex;
-    double                        distance;
-    GradientPixelType             outputPixel;
-
-    tempIndex = iterator.GetIndex();
+    FloatGradientImage::IndexType tempIndex = iterator.GetIndex();
     tempIndex -= offset0;
-    distance = 0.0;
+    double distance = 0.0;
     for (int j = 0; j < 2; ++j)
     {
       distance += tempIndex[j] * tempIndex[j];
     }
     distance = std::sqrt(distance);
 
-    outputPixel = iterator.Get();
+    GradientPixelType outputPixel = iterator.Get();
 
     const double outputPixelNorm{ outputPixel.GetNorm() };
 

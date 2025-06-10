@@ -80,8 +80,8 @@ SpeckleNoiseImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
     {
       // First generate the gamma distributed random variable
       // ref https://en.wikipedia.org/wiki/Gamma_distribution#Generating_gamma-distributed_random_variables
-      double xi;
-      double nu;
+      double xi = NAN;
+      double nu = NAN;
       do
       {
         const double v1 = 1.0 - rand->GetVariateWithOpenUpperRange(); // open *lower* range -- (0,1]

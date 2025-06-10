@@ -251,10 +251,9 @@ ImageFileWriter<TInputImage>::Write()
 
   // Determine the actual number of divisions of the input. This is determined
   // by what the ImageIO can do
-  unsigned int numDivisions;
 
   // this may fail and throw an exception if the configuration is not supported
-  numDivisions =
+  unsigned int numDivisions =
     m_ImageIO->GetActualNumberOfSplitsForWriting(m_NumberOfStreamDivisions, pasteIORegion, largestIORegion);
 
   /**

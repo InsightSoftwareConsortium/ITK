@@ -255,7 +255,7 @@ MersenneTwisterRandomVariateGenerator::GetIntegerVariate(const IntegerType n)
   used |= used >> 16;
 
   // Draw numbers until one is found in [0,n]
-  IntegerType i;
+  IntegerType i = 0;
   do
   {
     i = GetIntegerVariate() & used; // toss unused bits to shorten search

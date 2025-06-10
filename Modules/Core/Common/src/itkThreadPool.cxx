@@ -146,7 +146,7 @@ ThreadPool::GetNumberOfCurrentlyIdleThreads() const
 void
 ThreadPool::CleanUp()
 {
-  bool shouldNotify;
+  bool shouldNotify = false;
   {
     const std::lock_guard<std::mutex> lockGuard(m_PimplGlobals->m_Mutex);
 

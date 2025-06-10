@@ -129,7 +129,7 @@ HoughTransform2DCirclesImageFilter<TInputPixelType, TOutputPixelType, TRadiusPix
         for (double angle = -m_SweepAngle; angle <= m_SweepAngle; angle += 0.05)
         {
           double i = m_MinimumRadius;
-          double distance;
+          double distance = 0.0;
 
           do
           {

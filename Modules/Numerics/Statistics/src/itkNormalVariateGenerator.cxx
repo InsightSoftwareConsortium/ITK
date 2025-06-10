@@ -107,29 +107,29 @@ NormalVariateGenerator::GetVariate()
 double
 NormalVariateGenerator::FastNorm()
 {
-  int    i;
+  int    i = 0;
   int    inc = 0;
-  int    skew;
+  int    skew = 0;
   int    stride;
   int    mask = 0;
-  int    p;
-  int    q;
-  int    r;
-  int    s;
-  int    t;
+  int    p = 0;
+  int    q = 0;
+  int    r = 0;
+  int    s = 0;
+  int    t = 0;
   int *  pa = nullptr;
   int *  pb = nullptr;
   int *  pc = nullptr;
   int *  pd = nullptr;
-  int *  pe;
+  int *  pe = nullptr;
   int *  p0 = nullptr;
-  int    mtype;
-  int    stype;
-  double ts;
-  double tr;
-  double tx;
-  double ty;
-  double tz;
+  int    mtype = 0;
+  int    stype = 0;
+  double ts = NAN;
+  double tr = NAN;
+  double tx = NAN;
+  double ty = NAN;
+  double tz = NAN;
 
   /*    See if time to make a new set of 'original' deviates  */
   /*    or at least to correct for a drift in sum-of-squares    */

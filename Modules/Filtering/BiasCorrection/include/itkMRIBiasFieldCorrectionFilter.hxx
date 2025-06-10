@@ -885,24 +885,18 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::AdjustSlabR
     const IndexValueType coordLast2 =
       coordFirst2 + static_cast<IndexValueType>(iter->GetSize()[m_SlicingDirection]) - 1;
 
-    IndexValueType tempCoordFirst;
+    IndexValueType tempCoordFirst = coordFirst2;
     if (coordFirst > coordFirst2)
     {
       tempCoordFirst = coordFirst;
     }
-    else
-    {
-      tempCoordFirst = coordFirst2;
-    }
-    IndexValueType tempCoordLast;
+
+    IndexValueType tempCoordLast = coordLast2;
     if (coordLast < coordLast2)
     {
       tempCoordLast = coordLast;
     }
-    else
-    {
-      tempCoordLast = coordLast2;
-    }
+
     if (tempCoordFirst <= tempCoordLast)
     {
       tempIndex[m_SlicingDirection] = tempCoordFirst;

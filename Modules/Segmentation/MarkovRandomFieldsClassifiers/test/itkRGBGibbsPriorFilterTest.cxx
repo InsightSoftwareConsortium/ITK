@@ -352,7 +352,6 @@ itkRGBGibbsPriorFilterTest(int, char *[])
   //  fclose(output);
   // Verify if the results were as per expectation
 
-  bool passTest;
   /*  int j = 0;
     i = 0;
     labeloutIt.GoToBegin();
@@ -365,16 +364,13 @@ itkRGBGibbsPriorFilterTest(int, char *[])
     ++labeloutIt;
     }
   */
-  passTest = ((j1 > 285) && (j1 < 315));
-  if (passTest)
-  {
-    std::cout << "Gibbs Prior Test Passed" << std::endl;
-  }
-  else
+
+  const bool passTest = ((j1 > 285) && (j1 < 315));
+  if (!passTest)
   {
     std::cout << "Gibbs Prior Test failed" << std::endl;
     return EXIT_FAILURE;
   }
-
+  std::cout << "Gibbs Prior Test Passed" << std::endl;
   return EXIT_SUCCESS;
 }

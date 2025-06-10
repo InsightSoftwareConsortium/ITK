@@ -75,9 +75,8 @@ itkGaussianMixtureModelComponentTest(int argc, char * argv[])
   pointSet->SetPoints(pointsContainer);
 
   PointSetType::PointsContainerIterator p_iter = pointsContainer->Begin();
-  PointSetType::PointType               point;
-  double                                temp;
-  std::ifstream                         dataStream(dataFileName);
+
+  std::ifstream dataStream(dataFileName);
   if (!dataStream)
   {
     std::cout << "ERROR: fail to open the data file." << std::endl;
@@ -86,8 +85,10 @@ itkGaussianMixtureModelComponentTest(int argc, char * argv[])
 
   while (p_iter != pointsContainer->End())
   {
+    PointSetType::PointType point;
     for (unsigned int i = 0; i < PointSetType::PointDimension; ++i)
     {
+      double temp = NAN;
       dataStream >> temp;
       point[i] = temp;
     }

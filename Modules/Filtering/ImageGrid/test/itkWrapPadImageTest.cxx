@@ -128,7 +128,7 @@ itkWrapPadImageTest(int, char *[])
             << wrapPad->GetOutput()->GetSpacing()[1] << std::endl;
 
   ShortImage::RegionType requestedRegion;
-  bool                   passed;
+  bool                   passed = false;
 
   // CASE 1
   lowerBound[0] = 1;

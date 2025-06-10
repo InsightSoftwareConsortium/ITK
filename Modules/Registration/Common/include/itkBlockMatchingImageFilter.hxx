@@ -198,11 +198,10 @@ void
 BlockMatchingImageFilter<TFixedImage, TMovingImage, TFeatures, TDisplacements, TSimilarities>::
   AfterThreadedGenerateData()
 {
-  const FeaturePointsConstPointer                     featurePoints = this->GetFeaturePoints();
-  const typename FeaturePointsType::PointsContainer * points;
+  const FeaturePointsConstPointer featurePoints = this->GetFeaturePoints();
   if (featurePoints)
   {
-    points = featurePoints->GetPoints();
+    const typename FeaturePointsType::PointsContainer * points = featurePoints->GetPoints();
 
     const DisplacementsPointer displacements = this->GetDisplacements();
 

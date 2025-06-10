@@ -84,7 +84,7 @@ itkStdStreamStateSaveTest(int, char *[])
   // Verify the value read from the stream matches the original value
   // written to the stream. If they do not match, then the hex state
   // is still in effect.
-  int inputInt;
+  int inputInt = 0;
   stream >> inputInt;
   ITK_TEST_EXPECT_EQUAL(originalInt, inputInt);
 

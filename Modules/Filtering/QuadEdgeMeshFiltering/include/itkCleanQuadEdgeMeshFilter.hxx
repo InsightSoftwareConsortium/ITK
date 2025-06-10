@@ -89,13 +89,11 @@ CleanQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::MergePoints(const InputCoordin
   // Copy Edge Cells
   InputCellsContainerIterator cellIt = decimatedMesh->GetEdgeCells()->Begin();
   InputCellsContainerIterator cellItEnd = decimatedMesh->GetEdgeCells()->End();
-  InputEdgeCellType *         qeCell;
-  InputQEPrimal *             qeGeometry;
 
   while (cellIt != cellItEnd)
   {
-    qeCell = dynamic_cast<InputEdgeCellType *>(cellIt.Value());
-    qeGeometry = qeCell->GetQEGeom();
+    auto qeCell = dynamic_cast<InputEdgeCellType *>(cellIt.Value());
+    auto qeGeometry = qeCell->GetQEGeom();
     output->AddEdgeWithSecurePointList(qeGeometry->GetOrigin(), qeGeometry->GetDestination());
     ++cellIt;
   }
@@ -103,11 +101,10 @@ CleanQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::MergePoints(const InputCoordin
   // Copy cells
   cellIt = decimatedMesh->GetCells()->Begin();
   cellItEnd = decimatedMesh->GetCells()->End();
-  InputPolygonCellType * polygonCell;
 
   while (cellIt != cellItEnd)
   {
-    polygonCell = dynamic_cast<InputPolygonCellType *>(cellIt.Value());
+    auto polygonCell = dynamic_cast<InputPolygonCellType *>(cellIt.Value());
     if (polygonCell)
     {
       InputPointIdList points;

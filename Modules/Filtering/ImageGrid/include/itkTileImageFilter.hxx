@@ -275,7 +275,6 @@ TileImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
     tit.GoToBegin();
     while (!tit.IsAtEnd())
     {
-      int dsize;
       int count = 0;
       while (!tit.IsAtEndOfLine())
       {
@@ -284,7 +283,7 @@ TileImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
         {
           if (i < InputImageDimension)
           {
-            dsize = this->GetInput(value)->GetLargestPossibleRegion().GetSize()[i];
+            int dsize = this->GetInput(value)->GetLargestPossibleRegion().GetSize()[i];
             if (dsize > sizes[i][count])
             {
               sizes[i][count] = dsize;

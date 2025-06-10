@@ -245,7 +245,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateO
     requestedSize = requestedRegion.GetSize();
     requestedIndex = requestedRegion.GetIndex();
 
-    for (int idim = 0; idim < int{ ImageDimension }; ++idim)
+    for (unsigned int idim = 0; idim < ImageDimension; ++idim)
     {
       factors[idim] = this->GetSchedule()[ilevel - 1][idim] / this->GetSchedule()[ilevel][idim];
 
@@ -282,7 +282,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateO
     requestedSize = requestedRegion.GetSize();
     requestedIndex = requestedRegion.GetIndex();
 
-    for (int idim = 0; idim < int{ ImageDimension }; ++idim)
+    for (unsigned int idim = 0; idim < ImageDimension; ++idim)
     {
       factors[idim] = this->GetSchedule()[ilevel][idim] / this->GetSchedule()[ilevel + 1][idim];
 
@@ -344,8 +344,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateI
   SizeType     baseSize = this->GetOutput(refLevel)->GetRequestedRegion().GetSize();
   IndexType    baseIndex = this->GetOutput(refLevel)->GetRequestedRegion().GetIndex();
 
-  unsigned int idim;
-  for (idim = 0; idim < ImageDimension; ++idim)
+  for (unsigned int idim = 0; idim < ImageDimension; ++idim)
   {
     const unsigned int factor = this->GetSchedule()[refLevel][idim];
     baseIndex[idim] *= static_cast<IndexValueType>(factor);
@@ -364,7 +363,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateI
   RegionType inputRequestedRegion = baseRegion;
   refLevel = 0;
 
-  for (idim = 0; idim < TInputImage::ImageDimension; ++idim)
+  for (unsigned int idim = 0; idim < TInputImage::ImageDimension; ++idim)
   {
     oper.SetDirection(idim);
     oper.SetVariance(itk::Math::sqr(0.5 * static_cast<float>(this->GetSchedule()[refLevel][idim])));

@@ -193,11 +193,9 @@ itkRawImageIOTest4(int argc, char * argv[])
   RawImageIOReadFileTester<ImageType> readTester;
 
 
-  int status;
-
   std::cout << "Testing read of Big Endian File" << std::endl;
   bool fileIsBigEndian = true;
-  status = readTester.Read(argv[1], fileIsBigEndian, dims);
+  int  status = readTester.Read(argv[1], fileIsBigEndian, dims);
   if (status == EXIT_FAILURE)
   {
     std::cerr << "Reading Raw BigEndian FAILED !!" << std::endl;

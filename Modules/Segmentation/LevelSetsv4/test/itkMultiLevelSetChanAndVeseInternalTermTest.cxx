@@ -140,12 +140,11 @@ itkMultiLevelSetChanAndVeseInternalTermTest(int, char *[])
   level_set[2]->SetImage(input2);
 
   // Insert the levelsets in a levelset container
-  bool levelSetNotYetAdded;
   auto lscontainer = LevelSetContainerType::New();
   lscontainer->SetHeaviside(heaviside);
   lscontainer->SetDomainMapFilter(domainMapFilter);
 
-  levelSetNotYetAdded = lscontainer->AddLevelSet(0, level_set[1], false);
+  bool levelSetNotYetAdded = lscontainer->AddLevelSet(0, level_set[1], false);
   if (!levelSetNotYetAdded)
   {
     return EXIT_FAILURE;

@@ -426,8 +426,8 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
 {
   SparseDataStruct * sparsePtr = this->m_SparseData[this->m_CurrentFunctionIndex];
 
-  bool       bounds_status;
-  StatusType neighbor_status;
+  bool       bounds_status = false;
+  StatusType neighbor_status = 0;
 
   NeighborhoodIterator<StatusImageType> statusIt(m_NeighborList.GetRadius(),
                                                  sparsePtr->m_StatusImage,
@@ -576,7 +576,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
           if (outputIt.GetPixel(idx) < LOWER_ACTIVE_THRESHOLD ||
               itk::Math::abs(temp_value) < itk::Math::abs(outputIt.GetPixel(idx)))
           {
-            bool bounds_status;
+            bool bounds_status = false;
             UpdatePixel(this->m_CurrentFunctionIndex, idx, outputIt, temp_value, bounds_status);
           }
         }
@@ -630,7 +630,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
           if (outputIt.GetPixel(idx) >= UPPER_ACTIVE_THRESHOLD ||
               itk::Math::abs(temp_value) < itk::Math::abs(outputIt.GetPixel(idx)))
           {
-            bool bounds_status;
+            bool bounds_status = false;
             UpdatePixel(this->m_CurrentFunctionIndex, idx, outputIt, temp_value, bounds_status);
           }
         }
@@ -648,7 +648,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
     }
     else
     {
-      bool bounds_status;
+      bool bounds_status = false;
       UpdatePixel(this->m_CurrentFunctionIndex, outputIt.Size() / 2, outputIt, new_value, bounds_status);
     }
 
@@ -669,8 +669,6 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
   const ValueType  MIN_NORM = 1.0e-6;
   InputSpacingType spacing = this->m_LevelSet[0]->GetSpacing();
 
-  double temp;
-
   for (IdCellType i = 0; i < this->m_FunctionCount; ++i)
   {
     SparseDataStruct * sparsePtr = this->m_SparseData[i];
@@ -684,9 +682,9 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
     sparsePtr->m_UpdateBuffer.clear();
     sparsePtr->m_UpdateBuffer.reserve(sparsePtr->m_Layers[0]->Size());
 
-    unsigned int center; // index to active layer pixel
-    center = outputIt.Size() / 2;
-    ValueType dx, gradientMagnitude, gradientMagnitudeSqr, distance, forward, current, backward;
+    // index to active layer pixel
+    unsigned int center = outputIt.Size() / 2;
+    ValueType    dx, gradientMagnitude, gradientMagnitudeSqr, distance, forward, current, backward;
 
     // For all indices in the active layer...
     activeIt = sparsePtr->m_Layers[0]->Begin();
@@ -747,7 +745,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
     while (activeIt != sparsePtr->m_Layers[0]->End())
     {
       // Update the accumulator value using the update buffer
-      temp = static_cast<double>(sparsePtr->m_UpdateBuffer.front() - levelset->GetPixel(activeIt->m_Value));
+      double temp = static_cast<double>(sparsePtr->m_UpdateBuffer.front() - levelset->GetPixel(activeIt->m_Value));
       m_RMSSum += temp * temp;
       ++m_RMSCounter;
 
@@ -904,7 +902,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
     {
       // Set the new value using the smallest distance
       // found in our "from" neighbors.
-      bool         bounds_status;
+      bool         bounds_status = false;
       unsigned int center = outputIt.Size() / 2;
 
       UpdatePixel(sparsePtr->m_Index, center, outputIt, value, bounds_status);
@@ -1236,7 +1234,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
             // in the list
             if (statusIt.GetPixel(neighborIndex) == m_StatusNull)
             {
-              bool bounds_status;
+              bool bounds_status = false;
               statusIt.SetPixel(neighborIndex, layer_number, bounds_status);
 
               if (bounds_status) // In bounds.
@@ -1279,7 +1277,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
       unsigned int neighborIndex = m_NeighborList.GetArrayIndex(i);
       if (statusIt.GetPixel(neighborIndex) == m_StatusNull)
       {
-        bool boundary_status;
+        bool boundary_status = false;
         statusIt.SetPixel(neighborIndex, to, boundary_status);
         if (boundary_status) // in bounds
         {

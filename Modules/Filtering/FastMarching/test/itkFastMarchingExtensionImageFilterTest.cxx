@@ -65,7 +65,7 @@ itkFastMarchingExtensionImageFilterTest(int, char *[])
   marcher->AddObserver(itk::ProgressEvent(), command);
 
 
-  bool passed;
+  bool passed = false;
 
   // setup trial points
   using NodePairType = MarcherType::NodePairType;
@@ -259,20 +259,16 @@ itkFastMarchingExtensionImageFilterTest(int, char *[])
 
   while (!iterator.IsAtEnd())
   {
-    FloatImageType::IndexType tempIndex;
-    double                    distance;
-    float                     outputValue;
-
-    tempIndex = iterator.GetIndex();
+    FloatImageType::IndexType tempIndex = iterator.GetIndex();
     tempIndex -= offset0;
-    distance = 0.0;
+    double distance = 0.0;
     for (int j = 0; j < 2; ++j)
     {
       distance += tempIndex[j] * tempIndex[j];
     }
     distance = std::sqrt(distance);
 
-    outputValue = static_cast<float>(iterator.Get());
+    float outputValue = static_cast<float>(iterator.Get());
 
     if (itk::Math::NotAlmostEquals(distance, 0.0))
     {

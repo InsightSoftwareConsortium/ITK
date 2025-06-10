@@ -169,7 +169,7 @@ ThreadProcessIdType
 PlatformMultiThreader::SpawnDispatchSingleMethodThread(PlatformMultiThreader::WorkUnitInfo * threadInfo)
 {
   // Using POSIX threads
-  pthread_t threadHandle;
+  pthread_t threadHandle = 0;
   const int threadError = pthread_create(&threadHandle,
                                          nullptr,
                                          reinterpret_cast<c_void_cast>(this->SingleMethodProxy),

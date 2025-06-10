@@ -36,7 +36,6 @@
 int
 itkPCAShapeSignedDistanceFunctionTest(int, char *[])
 {
-  unsigned int i;
   using CoordRep = double;
   constexpr unsigned int Dimension = 2;
   constexpr unsigned int ImageWidth = 3;
@@ -69,8 +68,6 @@ itkPCAShapeSignedDistanceFunctionTest(int, char *[])
 
   // set up the random number generator
   vnl_sample_reseed();
-  ImageType::PixelType randomPixel;
-
 
   // set up the mean image
   auto meanImage = ImageType::New();
@@ -82,7 +79,7 @@ itkPCAShapeSignedDistanceFunctionTest(int, char *[])
 
   for (meanImageIt.GoToBegin(); !meanImageIt.IsAtEnd(); ++meanImageIt)
   {
-    randomPixel = vnl_sample_normal(0, 1);
+    ImageType::PixelType randomPixel = vnl_sample_normal(0, 1);
     meanImageIt.Set(randomPixel);
   }
 
@@ -94,7 +91,7 @@ itkPCAShapeSignedDistanceFunctionTest(int, char *[])
   using ImageIteratorVector = std::vector<ImageIterator>;
   ImageIteratorVector pcImageIts(NumberOfPCs);
 
-  for (i = 0; i < NumberOfPCs; ++i)
+  for (unsigned int i = 0; i < NumberOfPCs; ++i)
   {
     pcImages[i] = ImageType::New();
     pcImages[i]->SetRegions(region);
@@ -104,7 +101,7 @@ itkPCAShapeSignedDistanceFunctionTest(int, char *[])
 
     for (pcImageIts[i].GoToBegin(); !pcImageIts[i].IsAtEnd(); ++pcImageIts[i])
     {
-      randomPixel = vnl_sample_normal(0, 1);
+      ImageType::PixelType randomPixel = vnl_sample_normal(0, 1);
       pcImageIts[i].Set(randomPixel);
     }
   }
@@ -115,7 +112,7 @@ itkPCAShapeSignedDistanceFunctionTest(int, char *[])
   // set up the standard deviation for each principal component images
   ShapeFunction::ParametersType pcStandardDeviations(NumberOfPCs);
 
-  for (i = 0; i < NumberOfPCs; ++i)
+  for (unsigned int i = 0; i < NumberOfPCs; ++i)
   {
     pcStandardDeviations[i] = vnl_sample_normal(0, 1);
   }
@@ -129,7 +126,7 @@ itkPCAShapeSignedDistanceFunctionTest(int, char *[])
   const unsigned int            numberOfParameters = numberOfShapeParameters + numberOfPoseParameters;
   ShapeFunction::ParametersType parameters(numberOfParameters);
 
-  for (i = 0; i < numberOfParameters; ++i)
+  for (unsigned int i = 0; i < numberOfParameters; ++i)
   {
     parameters[i] = vnl_sample_normal(0, 1);
   }
@@ -141,10 +138,7 @@ itkPCAShapeSignedDistanceFunctionTest(int, char *[])
   shape->Initialize();
 
   // check pca shape calculation
-  ShapeFunction::PointType  point;
-  ImageType::IndexType      index;
-  ShapeFunction::OutputType output;
-  ShapeFunction::OutputType expected;
+  ShapeFunction::PointType point;
 
   std::cout << "check results:" << std::endl;
   constexpr unsigned int numberOfRotationParameters = Dimension * (Dimension - 1) / 2;
@@ -156,7 +150,7 @@ itkPCAShapeSignedDistanceFunctionTest(int, char *[])
   for (meanImageIt.GoToBegin(); !meanImageIt.IsAtEnd(); ++meanImageIt)
   {
     // from index to physical point
-    index = meanImageIt.GetIndex();
+    ImageType::IndexType index = meanImageIt.GetIndex();
     meanImage->TransformIndexToPhysicalPoint(index, point);
 
     // inverse Euler2DTransform: first translation then rotation
@@ -168,11 +162,11 @@ itkPCAShapeSignedDistanceFunctionTest(int, char *[])
     q[1] = p[0] * std::sin(-angle) + p[1] * std::cos(-angle);
 
     // evaluate shape function
-    output = shape->Evaluate(q);
+    ShapeFunction::OutputType output = shape->Evaluate(q);
 
     // calculate expected function value
-    expected = meanImage->GetPixel(index);
-    for (i = 0; i < NumberOfPCs; ++i)
+    ShapeFunction::OutputType expected = meanImage->GetPixel(index);
+    for (unsigned int i = 0; i < NumberOfPCs; ++i)
     {
       expected += pcImages[i]->GetPixel(index) * pcStandardDeviations[i] * parameters[i];
     }
@@ -190,7 +184,7 @@ itkPCAShapeSignedDistanceFunctionTest(int, char *[])
   // Evaluate at a point outside the image domain
   std::cout << "Evaluate at point outside image domain" << std::endl;
   q.Fill(5.0);
-  output = shape->Evaluate(q);
+  ShapeFunction::OutputType output = shape->Evaluate(q);
   std::cout << "f(" << q << ") = " << output << std::endl;
 
   // Exercise other methods for test coverage
@@ -204,7 +198,7 @@ itkPCAShapeSignedDistanceFunctionTest(int, char *[])
   std::cout << "Parameters: " << shape->GetParameters() << std::endl;
 
   // Exercise error testing
-  bool pass;
+  bool pass = false;
 
 #define TEST_INITIALIZATION_ERROR(ComponentName, badComponent, goodComponent) \
   shape->Set##ComponentName(badComponent);                                    \

@@ -267,7 +267,6 @@ OBJMeshIO::ReadCells(void * buffer)
         std::vector<long> idList;
         while (ss >> item)
         {
-          long                   id;
           std::string::size_type pos = item.find('/');
           while (pos != std::string::npos)
           {
@@ -276,6 +275,7 @@ OBJMeshIO::ReadCells(void * buffer)
           }
 
           std::stringstream st(item);
+          long              id = 0;
           st >> id;
 
           idList.push_back(id);

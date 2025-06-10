@@ -40,15 +40,14 @@ template <typename T>
 std::string
 GetClampTypeName()
 {
-  std::string name;
 #ifdef GCC_USEDEMANGLE
-  const char * mangledName = typeid(T).name();
-  int          status;
-  char *       unmangled = abi::__cxa_demangle(mangledName, nullptr, nullptr, &status);
-  name = unmangled;
+  const char *      mangledName = typeid(T).name();
+  int               status = 0;
+  char *            unmangled = abi::__cxa_demangle(mangledName, nullptr, nullptr, &status);
+  const std::string name = unmangled;
   free(unmangled);
 #else
-  name = typeid(T).name();
+  const std::string name = typeid(T).name();
 #endif
 
   return name;

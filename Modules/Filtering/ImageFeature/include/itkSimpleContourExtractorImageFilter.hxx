@@ -43,13 +43,6 @@ void
 SimpleContourExtractorImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread)
 {
-  unsigned int i;
-
-  ZeroFluxNeumannBoundaryCondition<InputImageType> nbc;
-
-  ConstNeighborhoodIterator<InputImageType> bit;
-  ImageRegionIterator<OutputImageType>      it;
-
   // Allocate output
   const typename OutputImageType::Pointer     output = this->GetOutput();
   const typename InputImageType::ConstPointer input = this->GetInput();
@@ -63,16 +56,18 @@ SimpleContourExtractorImageFilter<TInputImage, TOutputImage>::DynamicThreadedGen
 
   // Process each of the boundary faces.  These are N-d regions which border
   // the edge of the buffer.
+  ZeroFluxNeumannBoundaryCondition<InputImageType> nbc;
   for (const auto & face : faceList)
   {
-    bit = ConstNeighborhoodIterator<InputImageType>(this->GetRadius(), input, face);
-    const unsigned int neighborhoodSize = bit.Size();
-    it = ImageRegionIterator<OutputImageType>(output, face);
+    ConstNeighborhoodIterator<InputImageType> bit =
+      ConstNeighborhoodIterator<InputImageType>(this->GetRadius(), input, face);
+    const unsigned int                   neighborhoodSize = bit.Size();
+    ImageRegionIterator<OutputImageType> it = ImageRegionIterator<OutputImageType>(output, face);
 
     bit.OverrideBoundaryCondition(&nbc);
     bit.GoToBegin();
 
-    bool bIsOnContour;
+    bool bIsOnContour = false;
 
     while (!bit.IsAtEnd())
     {
@@ -82,7 +77,7 @@ SimpleContourExtractorImageFilter<TInputImage, TOutputImage>::DynamicThreadedGen
       {
         bIsOnContour = false;
 
-        for (i = 0; i < neighborhoodSize; ++i)
+        for (unsigned int i = 0; i < neighborhoodSize; ++i)
         {
           // second test if at least one neighbour pixel is off
           // the center pixel belongs to contour

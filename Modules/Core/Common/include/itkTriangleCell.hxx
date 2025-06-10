@@ -364,9 +364,6 @@ TriangleCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
                                                double *                  minDist2,
                                                InterpolationWeightType * weights)
 {
-  double          dist2Point;
-  double          dist2Line1;
-  double          dist2Line2;
   PointType       closest;
   PointType       closestPoint1;
   PointType       closestPoint2;
@@ -423,7 +420,7 @@ TriangleCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
   // Test if the projected point is inside the cell.
 
   // Zero with epsilon
-  const double zwe = -NumericTraits<double>::min();
+  constexpr double zwe = -NumericTraits<double>::min();
 
   // Since the three barycentric coordinates are interdependent
   // only three tests should be necessary. That is, we only need
@@ -462,16 +459,16 @@ TriangleCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
 
   if (closestPoint)
   {
-    double lt; // parameter along the line (not used)
+    double lt = NAN; // parameter along the line (not used)
     if (b1 < 0.0 && b2 < 0.0)
     {
-      dist2Point = 0;
+      double dist2Point = 0;
       for (unsigned int i = 0; i < PointDimension; ++i)
       {
         dist2Point += (x[i] - pt3[i]) * (x[i] - pt3[i]);
       }
-      dist2Line1 = this->DistanceToLine(x, pt1, pt3, lt, closestPoint1);
-      dist2Line2 = this->DistanceToLine(x, pt3, pt2, lt, closestPoint2);
+      double dist2Line1 = this->DistanceToLine(x, pt1, pt3, lt, closestPoint1);
+      double dist2Line2 = this->DistanceToLine(x, pt3, pt2, lt, closestPoint2);
       if (dist2Point < dist2Line1)
       {
         *minDist2 = dist2Point;
@@ -499,13 +496,13 @@ TriangleCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
     }
     else if (b2 < 0.0 && b3 < 0.0)
     {
-      dist2Point = 0;
+      double dist2Point = 0;
       for (unsigned int i = 0; i < PointDimension; ++i)
       {
         dist2Point += (x[i] - pt1[i]) * (x[i] - pt1[i]);
       }
-      dist2Line1 = this->DistanceToLine(x, pt1, pt3, lt, closestPoint1);
-      dist2Line2 = this->DistanceToLine(x, pt1, pt2, lt, closestPoint2);
+      double dist2Line1 = this->DistanceToLine(x, pt1, pt3, lt, closestPoint1);
+      double dist2Line2 = this->DistanceToLine(x, pt1, pt2, lt, closestPoint2);
       if (dist2Point < dist2Line1)
       {
         *minDist2 = dist2Point;
@@ -533,13 +530,13 @@ TriangleCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
     }
     else if (b1 < 0.0 && b3 < 0.0)
     {
-      dist2Point = 0;
+      double dist2Point = 0;
       for (unsigned int i = 0; i < PointDimension; ++i)
       {
         dist2Point += (x[i] - pt2[i]) * (x[i] - pt2[i]);
       }
-      dist2Line1 = this->DistanceToLine(x, pt2, pt3, lt, closestPoint1);
-      dist2Line2 = this->DistanceToLine(x, pt1, pt2, lt, closestPoint2);
+      double dist2Line1 = this->DistanceToLine(x, pt2, pt3, lt, closestPoint1);
+      double dist2Line2 = this->DistanceToLine(x, pt1, pt2, lt, closestPoint2);
       if (dist2Point < dist2Line1)
       {
         *minDist2 = dist2Point;

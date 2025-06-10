@@ -220,7 +220,7 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
 
     if (text.find("numDim") < text.length())
     {
-      unsigned int dim;
+      unsigned int dim = 0;
       sscanf(line, "%*s %u", &dim);
       this->SetNumberOfDimensions(dim);
     }

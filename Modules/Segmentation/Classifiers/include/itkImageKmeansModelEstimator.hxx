@@ -282,7 +282,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::WithCodebookUseGLA(
   int pass = 0; // no empty cells have been found yet
   m_CurrentNumberOfCodewords = m_Codebook.rows();
 
-  double distortion;
+  double distortion = NAN;
   do
   {
     // Encode all of the input vectors using the given codebook

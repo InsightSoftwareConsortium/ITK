@@ -89,9 +89,7 @@ GE4ImageIO::ReadHeader(const char * FileNameToRead)
   // Set modality to UNKNOWN
   strcpy(hdr->modality, "UNK");
 
-  char  tmpStr[IOCommon::ITK_MAXPATHLEN + 1];
-  int   intTmp;
-  short tmpShort;
+  char tmpStr[IOCommon::ITK_MAXPATHLEN + 1];
 
   //
   // save off the name of the current file...
@@ -130,6 +128,7 @@ GE4ImageIO::ReadHeader(const char * FileNameToRead)
   /* Get the FOV from the SERIES Header */
   f.seekg(SIGNA_SEHDR_START * 2 + SIGNA_SEHDR_FOV * 2, std::ios::beg);
   IOCHECK();
+  int intTmp = 0;
   f.read((char *)&intTmp, sizeof(intTmp));
   IOCHECK();
   const float tmpFloat = MvtSunf(intTmp);
@@ -253,6 +252,7 @@ GE4ImageIO::ReadHeader(const char * FileNameToRead)
   hdr->NEX = static_cast<short>(MvtSunf(intTmp));
 
   /* Get Flip Angle from the IMAGE Header */
+  short tmpShort = 0;
   this->GetShortAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_FLIP * 2, &tmpShort);
 
   if (tmpShort > 0)

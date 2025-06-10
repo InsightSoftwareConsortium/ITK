@@ -36,10 +36,8 @@ template <typename TPixel, unsigned int VImageDimension>
 void
 SpecialCoordinatesImage<TPixel, VImageDimension>::Allocate(bool initialize)
 {
-  SizeValueType num;
-
   this->ComputeOffsetTable();
-  num = static_cast<SizeValueType>(this->GetOffsetTable()[VImageDimension]);
+  SizeValueType num = static_cast<SizeValueType>(this->GetOffsetTable()[VImageDimension]);
 
   m_Buffer->Reserve(num, initialize);
 }

@@ -171,7 +171,7 @@ template <typename T, unsigned int VDimension>
 auto
 SymmetricSecondRankTensor<T, VDimension>::operator()(unsigned int row, unsigned int col) const -> const ValueType &
 {
-  unsigned int k;
+  unsigned int k = 0;
 
   if (row < col)
   {
@@ -197,17 +197,8 @@ template <typename T, unsigned int VDimension>
 auto
 SymmetricSecondRankTensor<T, VDimension>::operator()(unsigned int row, unsigned int col) -> ValueType &
 {
-  unsigned int k;
-
-  if (row < col)
-  {
-    k = row * Dimension + col - row * (row + 1) / 2;
-  }
-  else
-  {
-    k = col * Dimension + row - col * (col + 1) / 2;
-  }
-
+  unsigned int k =
+    (row < col) ? row * Dimension + col - row * (row + 1) / 2 : col * Dimension + row - col * (col + 1) / 2;
   if (k >= InternalDimension)
   {
     k = 0;

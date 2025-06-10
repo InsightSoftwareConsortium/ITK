@@ -130,14 +130,10 @@ GradientDescentOptimizer::AdvanceOneStep()
 {
   itkDebugMacro("AdvanceOneStep");
 
-  double direction;
+  double direction = -1.0;
   if (this->m_Maximize)
   {
     direction = 1.0;
-  }
-  else
-  {
-    direction = -1.0;
   }
 
   const unsigned int spaceDimension = m_CostFunction->GetNumberOfParameters();

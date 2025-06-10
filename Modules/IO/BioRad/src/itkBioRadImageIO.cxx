@@ -160,8 +160,9 @@ BioRadImageIO::CanReadFile(const char * filename)
   }
 
   // Check to see if its a BioRad file
-  unsigned short file_id;
   file.seekg(BIORAD_FILE_ID_OFFSET, std::ios::beg);
+
+  unsigned short file_id = 0;
   file.read((char *)(&file_id), 2);
   ByteSwapper<unsigned short>::SwapFromSystemToLittleEndian(&file_id);
 
@@ -276,7 +277,7 @@ BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
     }
   }
   int          punt(0);
-  unsigned int notes;
+  unsigned int notes = 0;
   memcpy(&notes, h.notes, sizeof(notes));
   ByteSwapper<unsigned int>::SwapFromSystemToLittleEndian(&notes);
   if (notes != 0)
@@ -315,14 +316,14 @@ BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
         std::istringstream ss(note_text);
         std::string        label;
         ss >> label;
-        short type;
+        short type = 0;
         ss >> type;
         if ((type & 0x00ff) != 1)
         {
           continue;
         }
-        double origin;
-        double spacing;
+        double origin = NAN;
+        double spacing = NAN;
         if (label == "AXIS_2")
         {
           ss >> origin; // skip origin

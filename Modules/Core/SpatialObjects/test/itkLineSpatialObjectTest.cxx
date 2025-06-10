@@ -149,7 +149,7 @@ itkLineSpatialObjectTest(int, char *[])
   // Testing IsEvaluableAt()
   std::cout << "ValueAt: ";
 
-  double value;
+  double value = NAN;
   if (!line->ValueAtInWorldSpace(in, value))
   {
     std::cout << "[FAILED]" << std::endl;

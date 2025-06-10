@@ -120,14 +120,12 @@ typename MultiphaseDenseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, 
     FaceCalculatorType faceCalculator;
     FaceListType       faceList = faceCalculator(levelset, levelset->GetLargestPossibleRegion(), radius);
 
-    void * globalData;
-
     // Ask the function object for a pointer to a data structure it
     // will use to manage any global values it needs.  We'll pass this
     // back to the function object at each calculation and then
     // again so that the function object can use it to determine a
     // time step for this iteration.
-    globalData = df->GetGlobalDataPointer();
+    void * globalData = df->GetGlobalDataPointer();
 
     for (auto fIt = faceList.begin(); fIt != faceList.end(); ++fIt)
     {

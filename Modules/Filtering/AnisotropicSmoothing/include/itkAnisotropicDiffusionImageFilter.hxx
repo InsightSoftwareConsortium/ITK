@@ -18,6 +18,7 @@
 #ifndef itkAnisotropicDiffusionImageFilter_hxx
 #define itkAnisotropicDiffusionImageFilter_hxx
 
+#include <cmath>
 
 namespace itk
 {
@@ -48,7 +49,7 @@ AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>::InitializeIteration(
   f->SetTimeStep(m_TimeStep);
 
   // Check the timestep for stability
-  double minSpacing;
+  double minSpacing = 1.0;
   if (this->GetUseImageSpacing())
   {
     const auto & spacing = this->GetInput()->GetSpacing();
@@ -62,10 +63,7 @@ AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>::InitializeIteration(
       }
     }
   }
-  else
-  {
-    minSpacing = 1.0;
-  }
+
   if (m_TimeStep > (minSpacing / double{ 1ULL << (ImageDimension + 1) }))
   {
     //    f->SetTimeStep(1.0 / double{ 1ULL << ImageDimension });

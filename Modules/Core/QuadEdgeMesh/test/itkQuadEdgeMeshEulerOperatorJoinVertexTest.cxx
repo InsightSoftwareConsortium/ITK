@@ -40,7 +40,7 @@ itkQuadEdgeMeshEulerOperatorJoinVertexTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  int               InputType;
+  int               InputType = 0;
   std::stringstream ssout(argv[1]);
   ssout >> InputType;
 

@@ -228,25 +228,20 @@ itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest(int, char 
   /* Test evaluation at continuous indices and corresponding
      geometric points */
   std::cout << "Evaluate at: " << std::endl;
-  OutputType          output;
-  ContinuousIndexType cindex;
-  PointType           point;
-  bool                passed;
-
   // an integer position inside the image
-  {
-    itk::SpacePrecisionType darray[3] = { 10, 20, 40 };
-    double                  temp[3] = { 70, 140, 210 };
-    output = OutputType(temp);
-    cindex = ContinuousIndexType(darray);
-    passed = TestContinuousIndex(interp, cindex, true, output);
-  }
+
+
+  double                  temp1[3] = { 70, 140, 210 };
+  OutputType              output = OutputType(temp1);
+  itk::SpacePrecisionType darray1[3] = { 10, 20, 40 };
+  ContinuousIndexType     cindex = ContinuousIndexType(darray1);
+  bool                    passed = TestContinuousIndex(interp, cindex, true, output);
 
   if (!passed)
   {
     flag = 1;
   }
-
+  PointType point;
   image->TransformContinuousIndexToPhysicalPoint(cindex, point);
   passed = TestGeometricPoint(interp, point, true, output);
 

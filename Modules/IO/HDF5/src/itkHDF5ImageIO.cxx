@@ -761,9 +761,8 @@ HDF5ImageIO::ReadImageInformation()
           // itk::Array<bool> apparently can't
           // happen because vnl_vector<bool> isn't
           // instantiated
-          bool val;
           auto tmpVal = this->ReadScalar<int>(localMetaDataName);
-          val = tmpVal != 0;
+          bool val = tmpVal != 0;
           EncapsulateMetaData<bool>(metaDict, name, val);
         }
         else if (doesAttrExist(metaDataSet, "isLong"))
@@ -792,9 +791,8 @@ HDF5ImageIO::ReadImageInformation()
           // itk::Array<bool> apparently can't
           // happen because vnl_vector<bool> isn't
           // instantiated
-          bool val;
           auto tmpVal = this->ReadScalar<int>(localMetaDataName);
-          val = tmpVal != 0;
+          bool val = tmpVal != 0;
           EncapsulateMetaData<bool>(metaDict, name, val);
         }
         else
@@ -1201,14 +1199,10 @@ HDF5ImageIO::WriteImageInformation()
         auto * constCstringObj = dynamic_cast<MetaDataObject<const char *> *>(metaObj);
         if (cstringObj != nullptr || constCstringObj != nullptr)
         {
-          const char * val;
+          const char * val = constCstringObj->GetMetaDataObjectValue();
           if (cstringObj != nullptr)
           {
             val = cstringObj->GetMetaDataObjectValue();
-          }
-          else
-          {
-            val = constCstringObj->GetMetaDataObjectValue();
           }
           this->WriteString(objName, val);
           continue;

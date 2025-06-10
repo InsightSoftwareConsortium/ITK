@@ -42,9 +42,8 @@ VectorImage<TPixel, VImageDimension>::Allocate(const bool UseValueInitialization
     itkExceptionMacro("Cannot allocate VectorImage with VectorLength = 0");
   }
 
-  SizeValueType num;
   this->ComputeOffsetTable();
-  num = this->GetOffsetTable()[VImageDimension];
+  SizeValueType num = this->GetOffsetTable()[VImageDimension];
 
   m_Buffer->Reserve(num * m_VectorLength, UseValueInitialization);
 }

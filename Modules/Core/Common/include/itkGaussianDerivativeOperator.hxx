@@ -41,14 +41,10 @@ GaussianDerivativeOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients
 
 
   // Calculate scale-space normalization factor for derivatives
-  double norm;
+  double norm = 1.0;
   if (m_NormalizeAcrossScale)
   {
     norm = std::pow(m_Variance, m_Order / 2.0);
-  }
-  else
-  {
-    norm = 1.0;
   }
 
   // additional normalization for spacing
@@ -166,7 +162,7 @@ template <typename TPixel, unsigned int VDimension, typename TAllocator>
 double
 GaussianDerivativeOperator<TPixel, VDimension, TAllocator>::ModifiedBesselI0(double y)
 {
-  double accumulator;
+  double accumulator = NAN;
 
   const double d = itk::Math::abs(y);
   if (d < 3.75)
@@ -195,7 +191,7 @@ template <typename TPixel, unsigned int VDimension, typename TAllocator>
 double
 GaussianDerivativeOperator<TPixel, VDimension, TAllocator>::ModifiedBesselI1(double y)
 {
-  double       accumulator;
+  double       accumulator = NAN;
   const double d = itk::Math::abs(y);
   if (d < 3.75)
   {
@@ -235,7 +231,7 @@ GaussianDerivativeOperator<TPixel, VDimension, TAllocator>::ModifiedBesselI(int 
                                                                                                  // placeholder
   }
 
-  double accumulator;
+  double accumulator = NAN;
   if (y == 0.0)
   {
     return 0.0;

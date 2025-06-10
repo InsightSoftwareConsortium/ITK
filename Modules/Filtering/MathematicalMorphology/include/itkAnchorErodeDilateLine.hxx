@@ -173,7 +173,7 @@ AnchorErodeDilateLine<TInputPix, TCompare>::StartLine(std::vector<TInputPix> & b
   // This returns true to indicate return to startLine label in pseudo
   // code, and false to indicate finishLine
   int currentP = inLeftP + 1;
-  int sentinel;
+  int sentinel = 0;
 
   while ((currentP < inRightP) && Compare(inbuffer[currentP], Extreme))
   {

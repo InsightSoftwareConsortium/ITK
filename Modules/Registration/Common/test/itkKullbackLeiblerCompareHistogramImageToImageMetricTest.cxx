@@ -265,7 +265,7 @@ itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char *[])
   // for parameters[4] = {-10,10}
   //---------------------------------------------------------
 
-  MetricType::MeasureType    measure;
+  MetricType::MeasureType    measure = NAN;
   MetricType::DerivativeType derivative(numberOfParameters);
 
   itk::TimeProbesCollectorBase collector;

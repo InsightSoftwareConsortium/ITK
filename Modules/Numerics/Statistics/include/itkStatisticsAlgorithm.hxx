@@ -339,7 +339,7 @@ FindSampleBoundAndMean(const TSubsample *                           sample,
 
   for (unsigned int i = 0; i < Dimension; ++i)
   {
-    mean[i] = (MeasurementType)(sum[i] / frequencySum);
+    mean[i] = static_cast<MeasurementType>(sum[i] / frequencySum);
   }
 }
 
@@ -520,12 +520,9 @@ template <typename TSubsample>
 inline void
 InsertSort(TSubsample * sample, unsigned int activeDimension, int beginIndex, int endIndex)
 {
-  int backwardSearchBegin;
-  int backwardIndex;
-
-  for (backwardSearchBegin = beginIndex + 1; backwardSearchBegin < endIndex; ++backwardSearchBegin)
+  for (int backwardSearchBegin = beginIndex + 1; backwardSearchBegin < endIndex; ++backwardSearchBegin)
   {
-    backwardIndex = backwardSearchBegin;
+    int backwardIndex = backwardSearchBegin;
     while (backwardIndex > beginIndex)
     {
       using SampleMeasurementType = typename TSubsample::MeasurementType;

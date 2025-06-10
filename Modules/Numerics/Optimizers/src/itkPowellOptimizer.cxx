@@ -75,7 +75,7 @@ PowellOptimizer::GetLineValue(double x, ParametersType & tempCoord) const
     tempCoord[i] = this->m_LineOrigin[i] + x * this->m_LineDirection[i];
   }
   itkDebugMacro("x = " << x);
-  double val;
+  double val = NAN;
   try
   {
     val = (this->m_CostFunction->GetValue(tempCoord));
@@ -445,8 +445,8 @@ PowellOptimizer::StartOptimization()
       double ax = 0.0;
       double fa = fx;
       xx = m_StepLength;
-      double bx;
-      double fb;
+      double bx = NAN;
+      double fb = NAN;
       this->LineBracket(&ax, &xx, &bx, &fa, &fx, &fb, tempCoord);
       this->BracketedLineOptimize(ax, xx, bx, fa, fx, fb, &xx, &fx, tempCoord);
       this->SetCurrentLinePoint(xx, fx);
@@ -488,8 +488,8 @@ PowellOptimizer::StartOptimization()
         double ax = 0.0;
         double fa = fx;
         xx = 1;
-        double bx;
-        double fb;
+        double bx = NAN;
+        double fb = NAN;
         this->LineBracket(&ax, &xx, &bx, &fa, &fx, &fb, tempCoord);
         this->BracketedLineOptimize(ax, xx, bx, fa, fx, fb, &xx, &fx, tempCoord);
         this->SetCurrentLinePoint(xx, fx);

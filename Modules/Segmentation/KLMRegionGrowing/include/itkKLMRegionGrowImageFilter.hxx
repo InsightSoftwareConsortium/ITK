@@ -593,11 +593,8 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::MergeRegions()
   }
 
   // Two regions are associated with the candidate border
-  KLMSegmentationRegion * pRegion1;
-  KLMSegmentationRegion * pRegion2;
-
-  pRegion1 = m_BorderCandidate->m_Pointer->GetRegion1();
-  pRegion2 = m_BorderCandidate->m_Pointer->GetRegion2();
+  KLMSegmentationRegion * pRegion1 = m_BorderCandidate->m_Pointer->GetRegion1();
+  KLMSegmentationRegion * pRegion2 = m_BorderCandidate->m_Pointer->GetRegion2();
 
   // For consistency, always assign smaller label: this affects
   // GenerateOutputImage and GenerateLabelledImage

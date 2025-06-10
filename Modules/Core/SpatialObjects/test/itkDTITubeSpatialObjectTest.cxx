@@ -41,8 +41,6 @@ itkDTITubeSpatialObjectTest(int, char *[])
   using ChildrenListType = std::list<itk::SpatialObject<3>::Pointer>;
   using ChildrenListPointer = ChildrenListType *;
 
-  bool passed = true;
-
   //======================================
   // testing of a single SpatialObject...
   //======================================
@@ -115,16 +113,7 @@ itkDTITubeSpatialObjectTest(int, char *[])
 
   std::cout << "[PASSED]" << std::endl;
 
-
   std::cout << "itkTubeSpatialObjectTest ";
-  if (passed)
-  {
-    std::cout << "[PASSED]" << std::endl;
-  }
-  else
-  {
-    std::cout << "[FAILED]" << std::endl;
-  }
 
   //==============================================
   // testing of a single CompositeSpatialObject...
@@ -132,10 +121,6 @@ itkDTITubeSpatialObjectTest(int, char *[])
 
   std::cout << "==================================" << std::endl;
   std::cout << "Testing GroupSpatialObject:" << std::endl << std::endl;
-
-  ChildrenListType    childrenList;
-  ChildrenListPointer returnedList;
-  unsigned int        nbChildren;
 
   const TubePointer tube2 = TubeType::New();
   tube2->GetProperty().SetName("Tube 2");
@@ -159,7 +144,7 @@ itkDTITubeSpatialObjectTest(int, char *[])
   tubeNet1->Update();
 
   // testing the AddChild() function...
-  nbChildren = tubeNet1->GetNumberOfChildren();
+  unsigned int nbChildren = tubeNet1->GetNumberOfChildren();
 
   std::cout << "AddChild()...";
   if (nbChildren != 3)
@@ -195,13 +180,14 @@ itkDTITubeSpatialObjectTest(int, char *[])
   tubeNet1->AddChild(tube2);
   tubeNet1->AddChild(tube3);
 
+  ChildrenListType childrenList;
   // testing the GetChildren() function...
   childrenList.emplace_back(tube1);
   childrenList.emplace_back(tube2);
   childrenList.emplace_back(tube3);
 
-  returnedList = tubeNet1->GetChildren();
-
+  ChildrenListPointer returnedList = tubeNet1->GetChildren();
+  bool                passed = true;
   if (childrenList.size() == returnedList->size())
   {
     auto itTest = returnedList->begin();

@@ -52,16 +52,9 @@ public:
   double
   GetValue(const ParametersType & parameters) const override
   {
-    double val;
+    const double val = (parameters[0] < 0) ? parameters[0] * parameters[0] + 4 * parameters[0]
+                                           : 2 * parameters[0] * parameters[0] - 8 * parameters[0];
 
-    if (parameters[0] < 0)
-    {
-      val = parameters[0] * parameters[0] + 4 * parameters[0];
-    }
-    else
-    {
-      val = 2 * parameters[0] * parameters[0] - 8 * parameters[0];
-    }
     return val;
   }
 

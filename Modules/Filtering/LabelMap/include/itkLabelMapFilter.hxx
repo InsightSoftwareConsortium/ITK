@@ -86,7 +86,7 @@ LabelMapFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(const Out
   TotalProgressReporter progress(this, numberOfLabelObjects, numberOfLabelObjects);
   while (true)
   {
-    LabelObjectType * labelObject;
+    LabelObjectType * labelObject = nullptr;
     // begin mutex lock
     {
       const std::lock_guard<std::mutex> lockGuard(m_LabelObjectContainerLock);

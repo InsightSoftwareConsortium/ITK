@@ -115,9 +115,10 @@ PolygonGroupSpatialObjectXMLFileReader::EndElement(const char * name)
   {
     double       pval[3];
     const char * s = m_CurCharacterData.c_str();
-    char *       endptr;
+
     for (double & i : pval)
     {
+      char * endptr = nullptr;
       i = strtod(s, &endptr);
       if (s == endptr)
       {

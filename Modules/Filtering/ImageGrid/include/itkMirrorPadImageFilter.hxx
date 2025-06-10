@@ -39,8 +39,6 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::GenerateNextOutputRegion(long *
                                                                           std::vector<long> *     sizes,
                                                                           OutputImageRegionType & outputRegion)
 {
-  unsigned int         ctr;
-  int                  done = 0;
   OutputImageIndexType nextIndex = outputRegion.GetIndex();
   OutputImageSizeType  nextSize = outputRegion.GetSize();
 
@@ -49,7 +47,8 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::GenerateNextOutputRegion(long *
   // value for the region parameters.  If we wrap on a region, then we
   // also increment to the next region for the next higher dimension.
   //
-  for (ctr = 0; (ctr < ImageDimension) && !done; ++ctr)
+  int done = 0;
+  for (unsigned int ctr = 0; (ctr < ImageDimension) && !done; ++ctr)
   {
     regIndices[ctr]++;
     done = 1;
@@ -72,7 +71,7 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::GenerateNextOutputRegion(long *
   // If any dimension has zero size, then we do not need to process this
   // region.  Report this back to the calling routine.
   //
-  for (ctr = 0; ctr < ImageDimension; ++ctr)
+  for (unsigned int ctr = 0; ctr < ImageDimension; ++ctr)
   {
     if (nextSize[ctr] == 0)
     {
@@ -96,7 +95,7 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::GenerateNextInputRegion(long * 
                                                                          std::vector<long> *    sizes,
                                                                          InputImageRegionType & inputRegion)
 {
-  unsigned int        ctr;
+  unsigned int        ctr = 0;
   int                 done = 0;
   InputImageIndexType nextIndex = inputRegion.GetIndex();
   InputImageSizeType  nextSize = inputRegion.GetSize();
@@ -280,7 +279,7 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::BuildInterRegions(std::vector<l
 
   // Size of the in region is the area from index 0 to the end of the
   // input or the output, whichever comes first.
-  long sizeTemp; // Holder for current size calculation.
+  long sizeTemp = 0; // Holder for current size calculation.
   if ((inputIndex + inputSize) < (outputIndex + outputSize))
   {
     sizeTemp = inputIndex + inputSize - outputRegionStart[0];

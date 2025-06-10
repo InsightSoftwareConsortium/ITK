@@ -105,13 +105,10 @@ template <typename TInputImage, typename TOutputMesh>
 void
 BinaryMask3DMeshSource<TInputImage, TOutputMesh>::XFlip(unsigned char * x)
 {
-  unsigned char nodeindex;
-
   int i = 0;
-
   while (i < 3)
   {
-    nodeindex = x[i];
+    const auto nodeindex = x[i];
     switch (static_cast<int>(nodeindex))
     {
       case 1:
@@ -157,13 +154,10 @@ template <typename TInputImage, typename TOutputMesh>
 void
 BinaryMask3DMeshSource<TInputImage, TOutputMesh>::YFlip(unsigned char * x)
 {
-  unsigned char nodeindex;
-
   int i = 0;
-
   while (i < 3)
   {
-    nodeindex = x[i];
+    const auto nodeindex = x[i];
     switch (static_cast<int>(nodeindex))
     {
       case 1:
@@ -209,13 +203,10 @@ template <typename TInputImage, typename TOutputMesh>
 void
 BinaryMask3DMeshSource<TInputImage, TOutputMesh>::ZFlip(unsigned char * x)
 {
-  unsigned char nodeindex;
-
   int i = 0;
-
   while (i < 3)
   {
-    nodeindex = x[i];
+    const auto nodeindex = x[i];
     switch (static_cast<int>(nodeindex))
     {
       case 1:
@@ -261,13 +252,10 @@ template <typename TInputImage, typename TOutputMesh>
 void
 BinaryMask3DMeshSource<TInputImage, TOutputMesh>::XRotation(unsigned char * x)
 {
-  unsigned char nodeindex;
-
   int i = 0;
-
   while (i < 3)
   {
-    nodeindex = x[i];
+    const auto nodeindex = x[i];
     switch (static_cast<int>(nodeindex))
     {
       case 1:
@@ -317,13 +305,10 @@ template <typename TInputImage, typename TOutputMesh>
 void
 BinaryMask3DMeshSource<TInputImage, TOutputMesh>::YRotation(unsigned char * x)
 {
-  unsigned char nodeindex;
-
   int i = 0;
-
   while (i < 3)
   {
-    nodeindex = x[i];
+    const auto nodeindex = x[i];
     switch (static_cast<int>(nodeindex))
     {
       case 1:
@@ -373,13 +358,10 @@ template <typename TInputImage, typename TOutputMesh>
 void
 BinaryMask3DMeshSource<TInputImage, TOutputMesh>::ZRotation(unsigned char * x)
 {
-  unsigned char nodeindex;
-
   int i = 0;
-
   while (i < 3)
   {
-    nodeindex = x[i];
+    const auto nodeindex = x[i];
     switch (static_cast<int>(nodeindex))
     {
       case 1:
@@ -1057,7 +1039,6 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::CreateMesh()
       ++i;
     }
   }
-  unsigned char vertexindex;
 
   if (m_CurrentRow)
   {
@@ -1093,7 +1074,7 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::CreateMesh()
     int i = 0;
     while (!it4.IsAtEnd())
     {
-      vertexindex = 0;
+      unsigned char vertexindex = 0;
 
       if (Math::ExactlyEquals(it1.Value(), m_ObjectValue))
       {
@@ -1185,17 +1166,14 @@ template <typename TInputImage, typename TOutputMesh>
 void
 BinaryMask3DMeshSource<TInputImage, TOutputMesh>::AddCells(unsigned char celltype, unsigned char celltran, int index)
 {
-  IdentifierType ** currentrowtmp;
-  IdentifierType ** currentframetmp;
-
-  currentrowtmp = (IdentifierType **)malloc(4 * sizeof(IdentifierType *));
+  IdentifierType ** currentrowtmp = (IdentifierType **)malloc(4 * sizeof(IdentifierType *));
   for (int i = 0; i < 4; ++i)
   {
     currentrowtmp[i] = (IdentifierType *)malloc(2 * sizeof(IdentifierType));
     currentrowtmp[i][0] = 0;
     currentrowtmp[i][1] = 0;
   }
-  currentframetmp = (IdentifierType **)malloc(4 * sizeof(IdentifierType *));
+  IdentifierType ** currentframetmp = (IdentifierType **)malloc(4 * sizeof(IdentifierType *));
   for (int i = 0; i < 4; ++i)
   {
     currentframetmp[i] = (IdentifierType *)malloc(2 * sizeof(IdentifierType));
@@ -2583,12 +2561,10 @@ template <typename TInputImage, typename TOutputMesh>
 IdentifierType
 BinaryMask3DMeshSource<TInputImage, TOutputMesh>::SearchThroughLastRow(int index, int start, int end)
 {
-  int  mid;
   auto lindex = static_cast<IdentifierType>(index);
-
   if ((end - start) > 1)
   {
-    mid = static_cast<int>(std::floor(static_cast<float>((start + end) / 2)));
+    const auto mid = static_cast<int>(std::floor(static_cast<float>((start + end) / 2)));
     if (lindex == m_LastRow[mid][0])
     {
       m_PointFound = 1;
@@ -2624,13 +2600,12 @@ template <typename TInputImage, typename TOutputMesh>
 IdentifierType
 BinaryMask3DMeshSource<TInputImage, TOutputMesh>::SearchThroughLastFrame(int index, int start, int end)
 {
-  int            mid;
   auto           lindex = static_cast<IdentifierType>(index);
   IdentifierType result = 0;
 
   if ((end - start) > 1)
   {
-    mid = static_cast<int>(std::floor(static_cast<float>((start + end) / 2)));
+    const auto mid = static_cast<int>(std::floor(static_cast<float>((start + end) / 2)));
     if (lindex == m_LastFrame[mid][0])
     {
       m_PointFound = 1;

@@ -137,8 +137,9 @@ extern "C"
     if (sig == SIGFPE)
     {
 #if DEFINED_INTEL
-      unsigned short x87cr, x87sr;
-      unsigned int   mxcsr;
+      unsigned short x87cr = 0;
+      unsigned short x87sr = 0;
+      unsigned int   mxcsr = 0;
 
       getx87cr(x87cr);
       getx87sr(x87sr);

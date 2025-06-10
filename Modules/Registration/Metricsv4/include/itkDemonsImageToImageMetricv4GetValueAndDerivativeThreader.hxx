@@ -63,18 +63,13 @@ DemonsImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner, TIma
 
   /* Derivative */
   InternalComputationValueType   gradientSquaredMagnitude = 0;
-  const FixedImageGradientType * gradient;
-  SizeValueType                  numberOfDimensions;
+  const FixedImageGradientType * gradient = &movingImageGradient;
+  SizeValueType                  numberOfDimensions = ImageToImageMetricv4Type::MovingImageDimension;
 
   if (this->m_DemonsAssociate->GetGradientSourceIncludesFixed())
   {
     gradient = &fixedImageGradient;
     numberOfDimensions = ImageToImageMetricv4Type::FixedImageDimension;
-  }
-  else
-  {
-    gradient = &movingImageGradient;
-    numberOfDimensions = ImageToImageMetricv4Type::MovingImageDimension;
   }
 
   for (ImageDimensionType j = 0; j < numberOfDimensions; ++j)

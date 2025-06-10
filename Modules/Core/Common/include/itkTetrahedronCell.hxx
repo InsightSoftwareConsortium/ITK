@@ -184,7 +184,7 @@ TetrahedronCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
       for (int i = 0; i < 4; ++i)
       {
         this->GetFace(i, triangle);
-        double dist2;
+        double dist2 = NAN;
         triangle->EvaluatePosition(x, points, closest, pc, &dist2, nullptr);
 
         if (dist2 < *minDist2)

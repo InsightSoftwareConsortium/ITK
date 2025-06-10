@@ -49,11 +49,8 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>::IncrementThresholds(InstanceI
   const SizeValueType numberOfHistogramBins = histogram->Size();
   const auto          numberOfClasses = static_cast<const SizeValueType>(classMean.size());
 
-  unsigned int k;
-  int          j;
-
   // From the upper threshold down
-  for (j = static_cast<int>(m_NumberOfThresholds - 1); j >= 0; j--)
+  for (int j = static_cast<int>(m_NumberOfThresholds - 1); j >= 0; j--)
   {
     // If this threshold can be incremented (i.e. we're not at the end of the
     // histogram)
@@ -82,7 +79,7 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>::IncrementThresholds(InstanceI
 
       // Set higher thresholds adjacent to their previous ones, and update mean
       // and frequency of the respective classes
-      for (k = j + 1; k < m_NumberOfThresholds; ++k)
+      for (unsigned int k = j + 1; k < m_NumberOfThresholds; ++k)
       {
         thresholdIndexes[k] = thresholdIndexes[k - 1] + 1;
         classFrequency[k] = histogram->GetFrequency(thresholdIndexes[k]);
@@ -100,7 +97,7 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>::IncrementThresholds(InstanceI
       classFrequency[numberOfClasses - 1] = histogram->GetTotalFrequency();
       classMean[numberOfClasses - 1] = globalMean * histogram->GetTotalFrequency();
 
-      for (k = 0; k < numberOfClasses - 1; ++k)
+      for (unsigned int k = 0; k < numberOfClasses - 1; ++k)
       {
         classFrequency[numberOfClasses - 1] -= classFrequency[k];
         classMean[numberOfClasses - 1] -= classMean[k] * static_cast<MeanType>(classFrequency[k]);

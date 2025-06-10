@@ -157,8 +157,8 @@ public:
   {
     const SizeValueType target = (SizeValueType)(m_Rank * (m_Entries - 1)) + 1;
     SizeValueType       total = m_Below;
-    SizeValueType       ThisBin;
-    bool                eraseFlag = false;
+
+    bool eraseFlag = false;
 
     if (total < target)
     {
@@ -171,7 +171,7 @@ public:
         // the loop. Currently makes sure that the search iterator is
         // incremented before deleting
         ++searchIt;
-        ThisBin = searchIt->second;
+        SizeValueType ThisBin = searchIt->second;
         total += ThisBin;
         if (eraseFlag)
         {
@@ -202,7 +202,7 @@ public:
 
       while (searchIt != m_Map.begin())
       {
-        ThisBin = searchIt->second;
+        SizeValueType      ThisBin = searchIt->second;
         const unsigned int tbelow = total - ThisBin;
         if (tbelow < target) // we've overshot
         {

@@ -107,8 +107,6 @@ PolylineMask2DImageFilter<TInputImage, TPolyline, TOutputImage>::GenerateData()
   // reset piter
   piter = container->Begin();
 
-  /* define flag to indicate the line segment slope */
-  bool pflag;
 
   /* define background, foreground pixel values and unlabeled pixel value */
   constexpr PixelType zero_val{};
@@ -131,7 +129,8 @@ PolylineMask2DImageFilter<TInputImage, TPolyline, TOutputImage>::GenerateData()
 
   while (piter != container->End())
   {
-    pflag = false;
+    /* define flag to indicate the line segment slope */
+    bool pflag = false;
     startVertex = tmpVertex;
     endVertex = piter.Value();
 
@@ -178,7 +177,7 @@ PolylineMask2DImageFilter<TInputImage, TPolyline, TOutputImage>::GenerateData()
   }
 
   /* Close the polygon */
-  pflag = false;
+  bool pflag = false;
   startVertex = tmpVertex;
   endVertex = pstartVertex;
 

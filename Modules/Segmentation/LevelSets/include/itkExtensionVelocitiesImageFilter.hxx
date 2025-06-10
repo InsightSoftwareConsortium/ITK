@@ -190,8 +190,6 @@ ExtensionVelocitiesImageFilter<TLevelSet, TAuxValue, VAuxDimension>::GenerateDat
     auxTempIt[k] = AuxIteratorType(ptr, ptr->GetBufferedRegion());
   }
 
-  double value;
-
   inputIt.GoToBegin();
   outputIt.GoToBegin();
   tempIt.GoToBegin();
@@ -203,7 +201,7 @@ ExtensionVelocitiesImageFilter<TLevelSet, TAuxValue, VAuxDimension>::GenerateDat
 
   while (!inputIt.IsAtEnd())
   {
-    value = static_cast<double>(inputIt.Get());
+    const double value = static_cast<double>(inputIt.Get());
     if (value - levelSetValue > 0)
     {
       outputIt.Set(tempIt.Get());
@@ -242,7 +240,7 @@ ExtensionVelocitiesImageFilter<TLevelSet, TAuxValue, VAuxDimension>::GenerateDat
 
   while (!inputIt.IsAtEnd())
   {
-    value = static_cast<double>(inputIt.Get());
+    double value = static_cast<double>(inputIt.Get());
     if (value - levelSetValue <= 0)
     {
       value = static_cast<double>(tempIt.Get());
@@ -297,14 +295,12 @@ ExtensionVelocitiesImageFilter<TLevelSet, TAuxValue, VAuxDimension>::GenerateDat
 
   // set all internal pixels to minus infinity and
   // all external pixels to positive infinity
-  double value;
-
   inputIt.GoToBegin();
   outputIt.GoToBegin();
 
   while (!inputIt.IsAtEnd())
   {
-    value = static_cast<double>(inputIt.Get());
+    const double value = static_cast<double>(inputIt.Get());
     if (value - levelSetValue <= 0)
     {
       outputIt.Set(negInfinity);
@@ -401,7 +397,7 @@ ExtensionVelocitiesImageFilter<TLevelSet, TAuxValue, VAuxDimension>::GenerateDat
     node = pointsIt.Value();
     inPixel = inputPtr->GetPixel(node.GetIndex());
 
-    value = static_cast<double>(inPixel);
+    const double value = static_cast<double>(inPixel);
     if (value - levelSetValue > 0)
     {
       inPixel = tempLevelSet->GetPixel(node.GetIndex());
@@ -431,7 +427,7 @@ ExtensionVelocitiesImageFilter<TLevelSet, TAuxValue, VAuxDimension>::GenerateDat
     node = pointsIt.Value();
     inPixel = inputPtr->GetPixel(node.GetIndex());
 
-    value = static_cast<double>(inPixel);
+    double value = static_cast<double>(inPixel);
     if (value - levelSetValue <= 0)
     {
       inPixel = tempLevelSet->GetPixel(node.GetIndex());

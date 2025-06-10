@@ -72,8 +72,6 @@ ImageClassifierBase<TInputImage, TClassifiedImage>::Classify()
 
   std::vector<double> discriminantScores;
   discriminantScores.resize(numberOfClasses);
-  unsigned int classLabel;
-  unsigned int classIndex;
 
   // support progress methods/callbacks
   const SizeValueType totalPixels = inputImage->GetBufferedRegion().GetNumberOfPixels();
@@ -93,12 +91,12 @@ ImageClassifierBase<TInputImage, TClassifiedImage>::Classify()
 
     // Read the input vector
     inputImagePixel = inIt.Get();
-    for (classIndex = 0; classIndex < numberOfClasses; ++classIndex)
+    for (unsigned int classIndex = 0; classIndex < numberOfClasses; ++classIndex)
     {
       discriminantScores[classIndex] = (this->GetMembershipFunction(classIndex))->Evaluate(inputImagePixel);
     }
 
-    classLabel = static_cast<unsigned int>(this->GetDecisionRule()->Evaluate(discriminantScores));
+    unsigned int classLabel = static_cast<unsigned int>(this->GetDecisionRule()->Evaluate(discriminantScores));
 
     outputClassifiedLabel = ClassifiedImagePixelType(classLabel);
     classifiedIt.Set(outputClassifiedLabel);

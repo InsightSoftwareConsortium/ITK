@@ -107,17 +107,14 @@ itkMultiLevelSetDenseImageTest(int, char *[])
 
   it.GoToBegin();
 
-  CacheImageType::IndexType out_index;
-  CacheImageType::PixelType out_id;
-
   using DomainMapType = DomainMapImageFilterType::DomainMapType;
   const DomainMapType           domainMap = filter->GetDomainMap();
   DomainMapType::const_iterator mapIt;
   const auto                    mapEnd = domainMap.end();
   while (!it.IsAtEnd())
   {
-    out_index = it.GetIndex();
-    out_id = it.Get();
+    CacheImageType::IndexType out_index = it.GetIndex();
+    CacheImageType::PixelType out_id = it.Get();
 
     IdListType solution;
     if ((out_index[0] < 5) && (out_index[1] < 5))

@@ -96,7 +96,7 @@ itkTestingComparisonImageFilterTest(int argc, char * argv[])
 
   const unsigned long numberOfPixelsWithDifferences = filter->GetNumberOfPixelsWithDifferences();
 
-  char * end;
+  char * end = nullptr;
   ITK_TEST_EXPECT_EQUAL(numberOfPixelsWithDifferences, std::strtoul(argv[7], &end, 10));
 
   auto minimumDifference = static_cast<typename FilterType::OutputPixelType>(std::stod(argv[8]));

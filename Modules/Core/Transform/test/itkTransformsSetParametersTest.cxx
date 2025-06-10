@@ -91,22 +91,16 @@ TestKernelTransform(const char * name, KernelType *)
 int
 itkTransformsSetParametersTest(int, char *[])
 {
-
-
-  itk::ModifiedTimeType beginMTime;
-  itk::ModifiedTimeType endMTime;
-
-
   std::cout << "Begin testing of SetParameters() method for all itkTransforms" << std::endl << std::endl;
 
   std::cout << "AffineTransform->SetParameters() - " << std::flush;
   using Affine = itk::AffineTransform<double, 3>;
-  auto affine = Affine::New();
-  beginMTime = affine->GetMTime();
+  auto                   affine = Affine::New();
+  itk::ModifiedTimeType  beginMTime = affine->GetMTime();
   Affine::ParametersType affineParams = affine->GetParameters();
   affineParams[0] = 1.0;
   affine->SetParameters(affineParams);
-  endMTime = affine->GetMTime();
+  itk::ModifiedTimeType endMTime = affine->GetMTime();
   if (endMTime > beginMTime)
   {
     std::cout << "PASS" << std::endl;

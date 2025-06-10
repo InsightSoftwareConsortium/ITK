@@ -40,12 +40,11 @@ ParseKernelBandwithSigma(char * kernelBandwithSigmaIn, unsigned int numIndepende
   kernelBandwithSigmaOut.SetSize(numIndependentComponents);
 
   // Get the individual components
-  char *                                     endPtr;
-  unsigned int                               i = 0;
-  typename TFilter::RealArrayType::ValueType value;
+  unsigned int i = 0;
   while (*kernelBandwithSigmaIn && i < numIndependentComponents)
   {
-    value = strtod(kernelBandwithSigmaIn, &endPtr);
+    char *                                     endPtr;
+    typename TFilter::RealArrayType::ValueType value = strtod(kernelBandwithSigmaIn, &endPtr);
     if (kernelBandwithSigmaIn == endPtr)
     {
       (*kernelBandwithSigmaIn)++;

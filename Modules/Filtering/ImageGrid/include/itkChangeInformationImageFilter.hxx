@@ -31,8 +31,6 @@ ChangeInformationImageFilter<TInputImage>::GenerateOutputInformation()
 {
   Superclass::GenerateOutputInformation();
 
-  unsigned int i;
-
   typename TInputImage::RegionType outputRegion;
   typename TInputImage::SizeType   inputSize;
   typename TInputImage::SizeType   outputSize;
@@ -111,12 +109,12 @@ ChangeInformationImageFilter<TInputImage>::GenerateOutputInformation()
     typename TInputImage::PointType                     centerPoint;
     ContinuousIndex<SpacePrecisionType, ImageDimension> centerIndex;
 
-    for (i = 0; i < ImageDimension; ++i)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       centerIndex[i] = static_cast<double>((outputSize[i] - 1) / 2.0);
     }
     output->TransformContinuousIndexToPhysicalPoint(centerIndex, centerPoint);
-    for (i = 0; i < ImageDimension; ++i)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       origin[i] = output->GetOrigin()[i] - centerPoint[i];
     }

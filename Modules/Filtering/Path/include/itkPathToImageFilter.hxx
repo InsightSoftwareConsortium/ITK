@@ -136,8 +136,6 @@ template <typename TInputPath, typename TOutputImage>
 void
 PathToImageFilter<TInputPath, TOutputImage>::GenerateData()
 {
-  unsigned int i;
-
   itkDebugMacro("PathToImageFilter::GenerateData() called");
 
   // Get the input and output pointers
@@ -148,7 +146,7 @@ PathToImageFilter<TInputPath, TOutputImage>::GenerateData()
   double   origin[OutputImageDimension];
   SizeType size;
 
-  for (i = 0; i < OutputImageDimension; ++i)
+  for (unsigned int i = 0; i < OutputImageDimension; ++i)
   {
     // Set Image size to the size of the path's bounding box
     // size[i] = (SizeValueType)
@@ -167,7 +165,7 @@ PathToImageFilter<TInputPath, TOutputImage>::GenerateData()
   // paths's bounding box will be used as default.
 
   bool specified = false;
-  for (i = 0; i < OutputImageDimension; ++i)
+  for (unsigned int i = 0; i < OutputImageDimension; ++i)
   {
     if (m_Size[i] != 0)
     {
@@ -195,7 +193,7 @@ PathToImageFilter<TInputPath, TOutputImage>::GenerateData()
   // the spatial object is used as default.
 
   specified = false;
-  for (i = 0; i < OutputImageDimension; ++i)
+  for (unsigned int i = 0; i < OutputImageDimension; ++i)
   {
     if (m_Spacing[i] != 0.0)
     {

@@ -76,9 +76,6 @@ testDeleteObserverDuringEvent()
 {
   const itk::Object::Pointer o = itk::Object::New();
 
-
-  unsigned long idToRemove;
-
   const itk::CStyleCommand::Pointer removeCmd = itk::CStyleCommand::New();
   removeCmd->SetCallback(onUserRemove);
   removeCmd->SetObjectName("Remove Command");
@@ -89,7 +86,7 @@ testDeleteObserverDuringEvent()
 
   // Add Order 1
   o->AddObserver(itk::UserEvent(), removeCmd);
-  idToRemove = o->AddObserver(itk::AnyEvent(), cmd);
+  unsigned long idToRemove = o->AddObserver(itk::AnyEvent(), cmd);
   o->AddObserver(itk::AnyEvent(), cmd);
   removeCmd->SetClientData(&idToRemove);
 
@@ -218,8 +215,6 @@ testCommandRecursiveObject()
   const itk::Object::Pointer      o = itk::Object::New();
   const itk::Object::ConstPointer co = o;
 
-  unsigned long idToRemove;
-
   const itk::CStyleCommand::Pointer cmd = itk::CStyleCommand::New();
   cmd->SetCallback(onAny);
   cmd->SetObjectName("Any Command 1");
@@ -233,7 +228,7 @@ testCommandRecursiveObject()
   cmdInvoke->SetObjectName("Any Invoke User");
 
   // On 1 Remove 1
-  idToRemove = o->AddObserver(itk::AnyEvent(), cmdInvoke);
+  unsigned long idToRemove = o->AddObserver(itk::AnyEvent(), cmdInvoke);
   o->AddObserver(itk::UserEvent(), removeCmd);
   o->AddObserver(itk::AnyEvent(), cmd);
   removeCmd->SetClientData(&idToRemove);

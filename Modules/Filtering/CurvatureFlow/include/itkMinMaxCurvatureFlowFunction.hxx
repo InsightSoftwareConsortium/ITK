@@ -60,11 +60,11 @@ MinMaxCurvatureFlowFunction<TImage>::InitializeStencilOperator()
 
   m_StencilOperator.SetRadius(m_StencilRadius);
 
-  RadiusValueType       counter[ImageDimension];
-  unsigned int          j;
+  RadiusValueType counter[ImageDimension];
+
   const RadiusValueType span = 2 * m_StencilRadius + 1;
   const RadiusValueType sqrRadius = m_StencilRadius * m_StencilRadius;
-  for (j = 0; j < ImageDimension; ++j)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     counter[j] = 0;
   }
@@ -80,7 +80,7 @@ MinMaxCurvatureFlowFunction<TImage>::InitializeStencilOperator()
     *opIter = PixelType{};
 
     RadiusValueType length = 0;
-    for (j = 0; j < ImageDimension; ++j)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       length += static_cast<RadiusValueType>(
         itk::Math::sqr(static_cast<IndexValueType>(counter[j]) - static_cast<IndexValueType>(m_StencilRadius)));
@@ -92,7 +92,7 @@ MinMaxCurvatureFlowFunction<TImage>::InitializeStencilOperator()
     }
 
     bool carryOver = true;
-    for (j = 0; carryOver && j < ImageDimension; ++j)
+    for (unsigned int j = 0; carryOver && j < ImageDimension; ++j)
     {
       counter[j] += 1;
       carryOver = false;
@@ -123,17 +123,12 @@ MinMaxCurvatureFlowFunction<TImage>::ComputeThreshold(const DispatchBase &, cons
 
   // Compute gradient
   PixelType     gradient[ImageDimension];
-  PixelType     gradMagnitude;
-  SizeValueType stride;
-  SizeValueType center;
-  unsigned int  j;
+  SizeValueType center = it.Size() / 2;
 
-  center = it.Size() / 2;
-
-  gradMagnitude = PixelType{};
-  for (j = 0; j < ImageDimension; ++j)
+  PixelType gradMagnitude = PixelType{};
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
-    stride = it.GetStride((SizeValueType)j);
+    SizeValueType stride = it.GetStride((SizeValueType)j);
     gradient[j] = 0.5 * (it.GetPixel(center + stride) - it.GetPixel(center - stride));
     gradient[j] *= this->m_ScaleCoefficients[j];
 
@@ -152,7 +147,7 @@ MinMaxCurvatureFlowFunction<TImage>::ComputeThreshold(const DispatchBase &, cons
 
   RadiusValueType       counter[ImageDimension];
   const RadiusValueType span = 2 * m_StencilRadius + 1;
-  for (j = 0; j < ImageDimension; ++j)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     counter[j] = 0;
   }
@@ -169,7 +164,7 @@ MinMaxCurvatureFlowFunction<TImage>::ComputeThreshold(const DispatchBase &, cons
     PixelType dotProduct{};
     PixelType vectorMagnitude{};
 
-    for (j = 0; j < ImageDimension; ++j)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       const IndexValueType diff =
         static_cast<IndexValueType>(counter[j]) - static_cast<IndexValueType>(m_StencilRadius);
@@ -192,7 +187,7 @@ MinMaxCurvatureFlowFunction<TImage>::ComputeThreshold(const DispatchBase &, cons
     }
 
     bool carryOver = true;
-    for (j = 0; carryOver && j < ImageDimension; ++j)
+    for (unsigned int j = 0; carryOver && j < ImageDimension; ++j)
     {
       counter[j] += 1;
       carryOver = false;
@@ -228,20 +223,17 @@ MinMaxCurvatureFlowFunction<TImage>::ComputeThreshold(const Dispatch<2> &, const
 
   // Compute gradient
   double        gradient[imageDimension];
-  double        gradMagnitude;
-  SizeValueType stride;
-  SizeValueType center;
   SizeValueType position[imageDimension];
 
-  center = it.Size() / 2;
+  SizeValueType center = it.Size() / 2;
 
   gradient[0] = 0.5 * (it.GetPixel(center + 1) - it.GetPixel(center - 1));
   unsigned int k = 0;
   gradient[k] *= this->m_ScaleCoefficients[k];
-  gradMagnitude = Math::sqr(gradient[k]);
+  double gradMagnitude = Math::sqr(gradient[k]);
   ++k;
 
-  stride = it.GetStride(1);
+  SizeValueType stride = it.GetStride(1);
   gradient[k] = 0.5 * (it.GetPixel(center + stride) - it.GetPixel(center - stride));
   gradient[k] *= this->m_ScaleCoefficients[k];
   gradMagnitude += Math::sqr(gradient[k]);
@@ -290,20 +282,16 @@ MinMaxCurvatureFlowFunction<TImage>::ComputeThreshold(const Dispatch<3> &, const
 
   // Compute gradient
   double        gradient[imageDimension];
-  double        gradMagnitude;
-  SizeValueType strideY;
-  SizeValueType strideZ;
-  SizeValueType center;
   SizeValueType position[imageDimension];
 
-  center = it.Size() / 2;
-  strideY = it.GetStride(1);
-  strideZ = it.GetStride(2);
+  SizeValueType center = it.Size() / 2;
+  SizeValueType strideY = it.GetStride(1);
+  SizeValueType strideZ = it.GetStride(2);
 
   gradient[0] = 0.5 * (it.GetPixel(center + 1) - it.GetPixel(center - 1));
   unsigned int k = 0;
   gradient[k] *= this->m_ScaleCoefficients[k];
-  gradMagnitude = itk::Math::sqr(gradient[k]);
+  double gradMagnitude = itk::Math::sqr(gradient[k]);
   ++k;
 
   gradient[k] = 0.5 * (it.GetPixel(center + strideY) - it.GetPixel(center - strideY));
@@ -327,8 +315,6 @@ MinMaxCurvatureFlowFunction<TImage>::ComputeThreshold(const Dispatch<3> &, const
     j /= gradMagnitude;
   }
 
-  double theta;
-  double phi;
   if (gradient[2] > 1.0)
   {
     gradient[2] = 1.0;
@@ -337,15 +323,12 @@ MinMaxCurvatureFlowFunction<TImage>::ComputeThreshold(const Dispatch<3> &, const
   {
     gradient[2] = -1.0;
   }
-  theta = std::acos(gradient[2]);
+  double theta = std::acos(gradient[2]);
 
+  double phi = std::atan(gradient[1] / gradient[0]);
   if (Math::AlmostEquals(gradient[0], PixelType{}))
   {
     phi = Math::pi * 0.5;
-  }
-  else
-  {
-    phi = std::atan(gradient[1] / gradient[0]);
   }
 
   const double cosTheta = std::cos(theta);

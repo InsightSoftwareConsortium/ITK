@@ -106,21 +106,11 @@ MahalanobisDistanceThresholdImageFunction<TInputImage, TCoordinate>::EvaluateDis
   const double mahalanobisDistanceSquared =
     m_MahalanobisDistanceMembershipFunction->Evaluate(this->GetInputImage()->GetPixel(index));
 
-  double mahalanobisDistance;
-
   // Deal with cases that are barely negative.
   // In theory they should never appear, but
   // they may happen and would produce NaNs
   // in the std::sqrt
-  if (mahalanobisDistanceSquared < 0.0)
-  {
-    mahalanobisDistance = 0.0;
-  }
-  else
-  {
-    mahalanobisDistance = std::sqrt(mahalanobisDistanceSquared);
-  }
-
+  const double mahalanobisDistance = (mahalanobisDistanceSquared > 0.0) ? std::sqrt(mahalanobisDistanceSquared) : 0.0;
   return mahalanobisDistance;
 }
 

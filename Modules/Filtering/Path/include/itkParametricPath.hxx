@@ -33,11 +33,9 @@ template <unsigned int VDimension>
 auto
 ParametricPath<VDimension>::EvaluateToIndex(const InputType & input) const -> IndexType
 {
-  ContinuousIndexType continuousIndex;
-  IndexType           index;
+  IndexType index;
 
-  continuousIndex = this->Evaluate(input);
-
+  const ContinuousIndexType continuousIndex = this->Evaluate(input);
   // Round each coordinate to the nearest integer value
   for (unsigned int i = 0; i < VDimension; ++i)
   {
@@ -51,30 +49,22 @@ template <unsigned int VDimension>
 auto
 ParametricPath<VDimension>::IncrementInput(InputType & input) const -> OffsetType
 {
-  int        iterationCount;
-  bool       tooSmall;
-  bool       tooBig;
-  InputType  inputStepSize;
-  InputType  finalInputValue;
-  OffsetType offset;
-  IndexType  currentImageIndex;
-  IndexType  nextImageIndex;
-  IndexType  finalImageIndex;
-
-  iterationCount = 0;
-  inputStepSize = m_DefaultInputStepSize;
+  int       iterationCount = 0;
+  InputType inputStepSize = m_DefaultInputStepSize;
 
   // Are we already at (or past) the end of the input?
-  finalInputValue = this->EndOfInput();
-  currentImageIndex = this->EvaluateToIndex(input);
-  finalImageIndex = this->EvaluateToIndex(finalInputValue);
-  offset = finalImageIndex - currentImageIndex;
+  InputType  finalInputValue = this->EndOfInput();
+  IndexType  currentImageIndex = this->EvaluateToIndex(input);
+  IndexType  finalImageIndex = this->EvaluateToIndex(finalInputValue);
+  OffsetType offset = finalImageIndex - currentImageIndex;
   if ((offset == this->GetZeroOffset() && Math::NotExactlyEquals(input, this->StartOfInput())) ||
       (input >= finalInputValue))
   {
     return this->GetZeroOffset();
   }
 
+  bool tooSmall = false;
+  bool tooBig = false;
   do
   {
     if (iterationCount++ > 10000)
@@ -82,7 +72,7 @@ ParametricPath<VDimension>::IncrementInput(InputType & input) const -> OffsetTyp
       itkExceptionMacro("Too many iterations");
     }
 
-    nextImageIndex = this->EvaluateToIndex(input + inputStepSize);
+    IndexType nextImageIndex = this->EvaluateToIndex(input + inputStepSize);
     offset = nextImageIndex - currentImageIndex;
 
     tooBig = false;

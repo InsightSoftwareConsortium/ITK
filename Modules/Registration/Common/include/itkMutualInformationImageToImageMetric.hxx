@@ -215,13 +215,10 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValue(const P
     dSumJoint += m_MinProbability;
     for (aiter = m_SampleA.begin(); aiter != aend; ++aiter)
     {
-      double valueFixed;
-      double valueMoving;
-
-      valueFixed = (biter->FixedImageValue - aiter->FixedImageValue) / m_FixedImageStandardDeviation;
+      double valueFixed = (biter->FixedImageValue - aiter->FixedImageValue) / m_FixedImageStandardDeviation;
       valueFixed = m_KernelFunction->Evaluate(valueFixed);
 
-      valueMoving = (biter->MovingImageValue - aiter->MovingImageValue) / m_MovingImageStandardDeviation;
+      double valueMoving = (biter->MovingImageValue - aiter->MovingImageValue) / m_MovingImageStandardDeviation;
       valueMoving = m_KernelFunction->Evaluate(valueMoving);
 
       dSumFixed += valueFixed;
@@ -324,13 +321,10 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDeriv
     dSumFixed += m_MinProbability;
     for (aiter = m_SampleA.begin(); aiter != aend; ++aiter)
     {
-      double valueFixed;
-      double valueMoving;
-
-      valueFixed = (biter->FixedImageValue - aiter->FixedImageValue) / m_FixedImageStandardDeviation;
+      double valueFixed = (biter->FixedImageValue - aiter->FixedImageValue) / m_FixedImageStandardDeviation;
       valueFixed = m_KernelFunction->Evaluate(valueFixed);
 
-      valueMoving = (biter->MovingImageValue - aiter->MovingImageValue) / m_MovingImageStandardDeviation;
+      double valueMoving = (biter->MovingImageValue - aiter->MovingImageValue) / m_MovingImageStandardDeviation;
       valueMoving = m_KernelFunction->Evaluate(valueMoving);
 
       dDenominatorMoving += valueMoving;
@@ -358,22 +352,16 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDeriv
     SumType totalWeight;
     for (aiter = m_SampleA.begin(), aditer = sampleADerivatives.begin(); aiter != aend; ++aiter, ++aditer)
     {
-      double valueFixed;
-      double valueMoving;
-      double weightMoving;
-      double weightJoint;
-      double weight;
-
-      valueFixed = (biter->FixedImageValue - aiter->FixedImageValue) / m_FixedImageStandardDeviation;
+      double valueFixed = (biter->FixedImageValue - aiter->FixedImageValue) / m_FixedImageStandardDeviation;
       valueFixed = m_KernelFunction->Evaluate(valueFixed);
 
-      valueMoving = (biter->MovingImageValue - aiter->MovingImageValue) / m_MovingImageStandardDeviation;
+      double valueMoving = (biter->MovingImageValue - aiter->MovingImageValue) / m_MovingImageStandardDeviation;
       valueMoving = m_KernelFunction->Evaluate(valueMoving);
 
-      weightMoving = valueMoving / dDenominatorMoving.GetSum();
-      weightJoint = valueMoving * valueFixed / dDenominatorJoint.GetSum();
+      double weightMoving = valueMoving / dDenominatorMoving.GetSum();
+      double weightJoint = valueMoving * valueFixed / dDenominatorJoint.GetSum();
 
-      weight = (weightMoving - weightJoint);
+      double weight = (weightMoving - weightJoint);
       weight *= biter->MovingImageValue - aiter->MovingImageValue;
 
       totalWeight += weight;

@@ -66,7 +66,7 @@ SimpleVelocity(const TPoint & p)
 {
   auto center = itk::MakeFilled<TPoint>(50);
 
-  double       value;
+  double       value = 0.0;
   const double x = p[0] - center[0];
   const double y = p[1] - center[1];
 

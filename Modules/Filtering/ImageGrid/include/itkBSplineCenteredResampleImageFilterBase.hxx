@@ -302,13 +302,10 @@ BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>::Expand1DImage
   inModK = outTraverseSize;
   const IndexValueType k0 = (this->m_HSize / 2) * 2 - 1L;
 
-  double outVal;
-  double outVal2;
-
   for (inK = 0; inK < (IndexValueType)inTraverseSize; ++inK)
   {
     // outK = inK * 2L;
-    outVal = in[inK] * this->m_H[0];
+    double outVal = in[inK] * this->m_H[0];
     for (int k = 2; k < this->m_HSize; k += 2)
     {
       i1 = inK - k / 2L;
@@ -336,7 +333,7 @@ BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>::Expand1DImage
     }
     out.Set(static_cast<OutputImagePixelType>(outVal));
     ++out;
-    outVal2 = 0;
+    double outVal2 = 0;
     for (IndexValueType k = -k0; k < this->m_HSize; k += 2L)
     {
       const IndexValueType kk = itk::Math::abs(static_cast<int>(k));
@@ -368,9 +365,9 @@ BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>::Expand1DImage
   for (IndexValueType j = outTraverseSize - 1; j > 0L; --j)
   {
     // out[j] = (out[j] + out[j-1]/2.0;
-    outVal = out.Get();
+    double outVal = out.Get();
     --out;
-    outVal2 = out.Get();
+    double outVal2 = out.Get();
     outVal = (outVal + outVal2) / 2.0;
     ++out;
     out.Set(static_cast<OutputImagePixelType>(outVal));

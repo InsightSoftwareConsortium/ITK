@@ -208,18 +208,15 @@ LevelSetNeighborhoodExtractor<TLevelSet>::CalculateDistance(IndexType & index)
 
   const bool inside = (centerValue <= 0.0);
 
-  IndexType                             neighIndex = index;
-  typename LevelSetImageType::PixelType neighValue;
-  NodeType                              neighNode;
-  SpacePrecisionType                    distance;
-  SpacePrecisionType                    spacing;
+  IndexType neighIndex = index;
+  NodeType  neighNode;
 
   // In each dimension, find the distance to the zero set
   // by linear interpolating along the grid line.
   for (unsigned int j = 0; j < SetDimension; ++j)
   {
     neighNode.SetValue(m_LargeValue);
-    spacing = m_InputLevelSet->GetSpacing()[j];
+    SpacePrecisionType spacing = m_InputLevelSet->GetSpacing()[j];
 
     for (int s = -1; s < 2; s = s + 2)
     {
@@ -231,12 +228,12 @@ LevelSetNeighborhoodExtractor<TLevelSet>::CalculateDistance(IndexType & index)
       }
 
       inputPixel = m_InputLevelSet->GetPixel(neighIndex);
-      neighValue = inputPixel;
+      typename LevelSetImageType::PixelType neighValue = inputPixel;
       neighValue -= m_LevelSetValue;
 
       if ((neighValue > 0 && inside) || (neighValue < 0 && !inside))
       {
-        distance = centerValue / (centerValue - neighValue) * spacing;
+        SpacePrecisionType distance = centerValue / (centerValue - neighValue) * spacing;
 
         if (neighNode.GetValue() > distance)
         {
@@ -258,7 +255,7 @@ LevelSetNeighborhoodExtractor<TLevelSet>::CalculateDistance(IndexType & index)
 
   // The final distance is given by the minimum distance to the plane
   // crossing formed by the zero set crossing points.
-  distance = 0.0;
+  SpacePrecisionType distance = 0.0;
   for (unsigned int j = 0; j < SetDimension; ++j)
   {
     neighNode = m_NodesUsed[j];

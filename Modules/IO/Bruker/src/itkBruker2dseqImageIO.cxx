@@ -237,7 +237,7 @@ ReadJCAMPDX(const std::string & filename, MetaDataDictionary & dict)
         {
           // An array of numbers
           std::stringstream   lineStream(lines);
-          double              doubleValue;
+          double              doubleValue = NAN;
           std::vector<double> doubleArray;
           while (lineStream >> doubleValue)
           {
@@ -289,7 +289,7 @@ ReadJCAMPDX(const std::string & filename, MetaDataDictionary & dict)
           {
             std::istringstream  arrayStream(lines.substr(leftBracket, rightBracket - leftBracket));
             std::vector<double> doubleArray;
-            double              doubleValue;
+            double              doubleValue = NAN;
             while (arrayStream >> doubleValue)
             {
               doubleArray.push_back(doubleValue);
@@ -311,7 +311,7 @@ ReadJCAMPDX(const std::string & filename, MetaDataDictionary & dict)
     {
       // A single value
       std::istringstream streamPar(par);
-      double             value;
+      double             value = NAN;
       streamPar >> value;
       if (streamPar.fail())
       {

@@ -353,16 +353,12 @@ ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Co
   const double speedValue = fixedValue - movingValue;
   if (itk::Math::abs(speedValue) >= m_IntensityDifferenceThreshold)
   {
-    double denom;
+    // least square solution of the system
+    double denom = usedGradientTimes2SquaredMagnitude;
     if (m_Normalizer > 0.0)
     {
       // "ITK-Thirion" normalization
       denom = usedGradientTimes2SquaredMagnitude + (itk::Math::sqr(speedValue) / m_Normalizer);
-    }
-    else
-    {
-      // least square solution of the system
-      denom = usedGradientTimes2SquaredMagnitude;
     }
 
     if (denom >= m_DenominatorThreshold)

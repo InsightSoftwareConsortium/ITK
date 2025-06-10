@@ -99,7 +99,7 @@ itkExpectationMaximizationMixtureModelEstimatorTest(int argc, char * argv[])
 
   PointSetType::PointsContainerIterator p_iter = pointsContainer->Begin();
   PointSetType::PointType               point;
-  double                                temp;
+  double                                temp = NAN;
   std::ifstream                         dataStream(dataFileName);
   if (!dataStream)
   {
@@ -150,8 +150,8 @@ itkExpectationMaximizationMixtureModelEstimatorTest(int argc, char * argv[])
 
   std::cout << "DEBUG: current iteration = " << estimator->GetCurrentIteration() << std::endl;
 
-  bool               passed = true;
-  double             displacement;
+  bool passed = true;
+
   const unsigned int measurementVectorSize = sample->GetMeasurementVectorSize();
   for (unsigned int i = 0; i < numberOfClasses; ++i)
   {
@@ -160,7 +160,7 @@ itkExpectationMaximizationMixtureModelEstimatorTest(int argc, char * argv[])
     std::cout << "         " << (components[i])->GetFullParameters() << std::endl;
     std::cout << "    Proportion: ";
     std::cout << "         " << (estimator->GetProportions())[i] << std::endl;
-    displacement = 0.0;
+    double displacement = 0.0;
     for (unsigned int j = 0; j < measurementVectorSize; ++j)
     {
       temp = (components[i])->GetFullParameters()[j] - trueParameters[i][j];

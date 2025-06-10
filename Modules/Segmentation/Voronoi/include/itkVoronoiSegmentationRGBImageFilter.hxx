@@ -239,7 +239,7 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::TakeAPrior(const B
 
   ait.GoToBegin();
   iit.GoToBegin();
-  unsigned int k;
+
   for (unsigned int i = 0; i < miny; ++i)
   {
     for (unsigned int j = 0; j < this->GetSize()[0]; ++j)
@@ -261,7 +261,7 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::TakeAPrior(const B
       if (ait.Get())
       {
         ++objnum;
-        for (k = 0; k < 6; ++k)
+        for (unsigned int k = 0; k < 6; ++k)
         {
           objaddp[k] += currp[k];
           objaddpp[k] += currp[k] * currp[k];
@@ -270,7 +270,7 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::TakeAPrior(const B
       else
       {
         ++bkgnum;
-        for (k = 0; k < 6; ++k)
+        for (unsigned int k = 0; k < 6; ++k)
         {
           bkgaddp[k] += currp[k];
           bkgaddpp[k] += currp[k] * currp[k];
@@ -359,7 +359,7 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::TakeAPrior(const B
   unsigned char tmp[6] = { 0, 1, 2, 3, 4, 5 };
   for (unsigned int j = 0; j < 3; ++j)
   {
-    k = 0;
+    unsigned int k = 0;
     for (unsigned int i = 1; i < 6 - j; ++i)
     {
       if (diffMean[tmp[i]] > diffMean[tmp[k]])
@@ -373,7 +373,7 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::TakeAPrior(const B
   unsigned char tmp1[6] = { 0, 1, 2, 3, 4, 5 };
   for (unsigned int j = 0; j < 3; ++j)
   {
-    k = 0;
+    unsigned int k = 0;
     for (unsigned int i = 1; i < 6 - j; ++i)
     {
       if (diffSTD[tmp1[i]] > diffSTD[tmp1[k]])

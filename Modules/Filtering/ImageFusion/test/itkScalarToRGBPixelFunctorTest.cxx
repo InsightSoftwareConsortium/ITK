@@ -30,8 +30,7 @@ itkScalarToRGBPixelFunctorTest(int, char *[])
 
   std::cout << "Testing unsigned long integers in big endian mode" << std::endl;
   ulf.SetBigEndian();
-  unsigned long ul;
-  for (ul = 0; ul < 100; ++ul)
+  for (unsigned long ul = 0; ul < 100; ++ul)
   {
     pixel = ulf(ul);
     std::cout << ul << "->" << static_cast<int>(pixel[0]) << ' ' << static_cast<int>(pixel[1]) << ' '
@@ -40,7 +39,7 @@ itkScalarToRGBPixelFunctorTest(int, char *[])
   std::cout << "Testing unsigned long integers in little endian mode" << std::endl;
 
   ulf.SetLittleEndian();
-  for (ul = 0; ul < 100; ++ul)
+  for (unsigned long ul = 0; ul < 100; ++ul)
   {
     pixel = ulf(ul);
     std::cout << ul << "->" << static_cast<int>(pixel[0]) << ' ' << static_cast<int>(pixel[1]) << ' '
@@ -59,11 +58,10 @@ itkScalarToRGBPixelFunctorTest(int, char *[])
   }
 
   // Test with float
-  itk::Functor::ScalarToRGBPixelFunctor<float> ff;
-  float                                        f;
   std::cout << "Testing float in big endian mode" << std::endl;
+  itk::Functor::ScalarToRGBPixelFunctor<float> ff;
   ff.SetBigEndian();
-  for (f = 0; f < 100; ++f)
+  for (float f = 0; f < 100; ++f)
   {
     pixel = ff(f);
 
@@ -73,7 +71,7 @@ itkScalarToRGBPixelFunctorTest(int, char *[])
   std::cout << "Testing float in little endian mode" << std::endl;
 
   ff.SetLittleEndian();
-  for (f = 0; f < 100; ++f)
+  for (float f = 0; f < 100; ++f)
   {
     pixel = ff(f);
     std::cout << f << "->" << static_cast<int>(pixel[0]) << ' ' << static_cast<int>(pixel[1]) << ' '

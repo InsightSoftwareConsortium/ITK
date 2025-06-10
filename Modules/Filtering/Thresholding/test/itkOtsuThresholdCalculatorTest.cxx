@@ -37,12 +37,11 @@ itkOtsuThresholdCalculatorTest(int, char *[])
   using CalculatorType = itk::OtsuThresholdCalculator<HistogramType>;
 
   // Allocate a simple test image
-  auto                  image = ImageType::New();
-  ImageType::RegionType region;
-
+  auto image = ImageType::New();
   // Define the image size and physical coordinates
   constexpr SizeType size = { { 20, 20, 20 } };
 
+  ImageType::RegionType region;
   region.SetSize(size);
   image->SetRegions(region);
   image->Allocate();
@@ -64,16 +63,14 @@ itkOtsuThresholdCalculatorTest(int, char *[])
   constexpr ImageType::PixelType r2 = range * 2 + 1;
 
   // Fill one half of with values of value1 +- 2
-  unsigned long i;
-
-  for (i = 0; i < numPixels / 2; ++i)
+  for (unsigned long i = 0; i < numPixels / 2; ++i)
   {
     iter.Set((i % r2) + value1 - range);
     ++iter;
   }
 
   // Fill the other half with values of value2 +- 2
-  for (i = numPixels / 2; i < numPixels; ++i)
+  for (unsigned long i = numPixels / 2; i < numPixels; ++i)
   {
     iter.Set((i % r2) + value2 - range);
     ++iter;

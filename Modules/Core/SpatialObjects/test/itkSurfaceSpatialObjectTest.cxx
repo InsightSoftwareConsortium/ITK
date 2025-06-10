@@ -145,7 +145,7 @@ itkSurfaceSpatialObjectTest(int, char *[])
   // Testing IsEvaluableAt()
   std::cout << "ValueAt: ";
 
-  double value;
+  double value = NAN;
   if (!Surface->ValueAtInWorldSpace(in, value))
   {
     std::cout << "[FAILED]" << std::endl;

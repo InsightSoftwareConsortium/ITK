@@ -338,9 +338,6 @@ PolylineMaskImageFilter<TInputImage, TPolyline, TVector, TOutputImage>::Generate
   VertexType projectionIndex;
   VertexType pstartIndex;
 
-  // Define a flag to indicate the line segment slope
-  bool pflag;
-
   // Define background, foreground, and unlabeled pixel values
   auto u_val = static_cast<ProjectionImagePixelType>(0);
   auto b_val = static_cast<ProjectionImagePixelType>(2);
@@ -364,7 +361,8 @@ PolylineMaskImageFilter<TInputImage, TPolyline, TVector, TOutputImage>::Generate
 
   while (piter != container->End())
   {
-    pflag = false;
+    // Define a flag to indicate the line segment slope
+    bool pflag = false;
     startIndex = projectionIndex;
     endIndex = piter.Value();
 
@@ -413,7 +411,7 @@ PolylineMaskImageFilter<TInputImage, TPolyline, TVector, TOutputImage>::Generate
   }
 
   // Close the polygon
-  pflag = false;
+  bool pflag = false;
   startIndex = projectionIndex;
   endIndex = pstartIndex;
 

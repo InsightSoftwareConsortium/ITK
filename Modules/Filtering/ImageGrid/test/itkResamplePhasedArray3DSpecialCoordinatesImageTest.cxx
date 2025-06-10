@@ -58,13 +58,11 @@ itkResamplePhasedArray3DSpecialCoordinatesImageTest(int, char *[])
 
   // Fill image with isoshells
   std::cout << "\nOriginal 3D Phased Array Data" << std::endl;
-  itk::ImageRegionIteratorWithIndex<InputImageType> iter(image, region);
-  PixelType                                         value;
-  for (; !iter.IsAtEnd(); ++iter)
+  for (itk::ImageRegionIteratorWithIndex<InputImageType> iter(image, region); !iter.IsAtEnd(); ++iter)
   {
     index = iter.GetIndex();
     // value = index[0] + index[1] + index[2];
-    value = index[2];
+    PixelType value = index[2];
     iter.Set(value);
     // display one slice of the volume
     if (index[0] == static_cast<int>(size[0] - 1) / 2)
@@ -106,11 +104,10 @@ itkResamplePhasedArray3DSpecialCoordinatesImageTest(int, char *[])
   std::cout << "\nData resampled onto a translated Cartesian image grid." << std::endl;
   ImageType::RegionType region2;
   region2 = resample->GetOutput()->GetRequestedRegion();
-  itk::ImageRegionIteratorWithIndex<ImageType> iter2(resample->GetOutput(), region2);
-  for (; !iter2.IsAtEnd(); ++iter2)
+  for (itk::ImageRegionIteratorWithIndex<ImageType> iter2(resample->GetOutput(), region2); !iter2.IsAtEnd(); ++iter2)
   {
     index = iter2.GetIndex();
-    value = iter2.Get();
+    PixelType value = iter2.Get();
     // display one slice of the volume
     if (index[0] == static_cast<int>(cubeSize[0] - 1) / 2)
     {
@@ -159,11 +156,11 @@ itkResamplePhasedArray3DSpecialCoordinatesImageTest(int, char *[])
   backResample->Update();
   // Check how close we were to the original image
   std::cout << "\nResampled recovery of 3D Phased Array Data from Cartesian space" << std::endl;
-  itk::ImageRegionIteratorWithIndex<InputImageType> iter3(backResample->GetOutput(), region);
-  for (; !iter3.IsAtEnd(); ++iter3)
+  for (itk::ImageRegionIteratorWithIndex<InputImageType> iter3(backResample->GetOutput(), region); !iter3.IsAtEnd();
+       ++iter3)
   {
     index = iter3.GetIndex();
-    value = iter3.Get();
+    PixelType value = iter3.Get();
     // display one slice of the volume
     if (index[0] == static_cast<int>(size[0] - 1) / 2)
     {

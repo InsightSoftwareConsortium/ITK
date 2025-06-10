@@ -175,7 +175,7 @@ HDF5TransformIOTemplate<TParametersValueType>::ReadParameters(const std::string 
   {
     itkExceptionMacro("Wrong # of dims for TransformType in HDF5 File");
   }
-  hsize_t dim;
+  hsize_t dim = 0;
   Space.getSimpleExtentDims(&dim, nullptr);
   ParametersType ParameterArray;
   ParameterArray.SetSize(dim);
@@ -221,7 +221,7 @@ HDF5TransformIOTemplate<TParametersValueType>::ReadFixedParameters(const std::st
   {
     itkExceptionMacro("Wrong # of dims for TransformType in HDF5 File");
   }
-  hsize_t dim;
+  hsize_t dim = 0;
   Space.getSimpleExtentDims(&dim, nullptr);
   FixedParametersType FixedParameterArray;
 
