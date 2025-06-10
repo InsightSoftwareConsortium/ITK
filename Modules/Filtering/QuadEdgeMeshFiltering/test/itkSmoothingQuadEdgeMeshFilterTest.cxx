@@ -48,15 +48,15 @@ itkSmoothingQuadEdgeMeshFilterTest(int argc, char * argv[])
   reader->SetFileName(argv[1]);
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
-  unsigned int      nb_iter;
+  unsigned int      nb_iter = 0;
   std::stringstream ssout(argv[2]);
   ssout >> nb_iter;
 
-  double            relaxation_factor;
+  double            relaxation_factor = NAN;
   std::stringstream ssout2(argv[3]);
   ssout2 >> relaxation_factor;
 
-  bool              del_conf;
+  bool              del_conf = false;
   std::stringstream ssout3(argv[4]);
   ssout3 >> del_conf;
 

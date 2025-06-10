@@ -73,8 +73,8 @@ itkKdTreeGeneratorTest(int, char *[])
       std::cout << "Root node is not a terminal node." << std::endl;
     }
 
-    unsigned int partitionDimension;
-    float        partitionValue;
+    unsigned int partitionDimension = 0;
+    float        partitionValue = NAN;
     root->GetParameters(partitionDimension, partitionValue);
     std::cout << "Dimension chosen to split the space = " << partitionDimension << std::endl;
     std::cout << "Split point on the partition dimension = " << partitionValue << std::endl;
@@ -164,8 +164,8 @@ itkKdTreeGeneratorTest(int, char *[])
       std::cout << "Root node is not a terminal node." << std::endl;
     }
 
-    unsigned int partitionDimension;
-    float        partitionValue;
+    unsigned int partitionDimension = 0;
+    float        partitionValue = NAN;
     root->GetParameters(partitionDimension, partitionValue);
     std::cout << "Dimension chosen to split the space = " << partitionDimension << std::endl;
     std::cout << "Split point on the partition dimension = " << partitionValue << std::endl;

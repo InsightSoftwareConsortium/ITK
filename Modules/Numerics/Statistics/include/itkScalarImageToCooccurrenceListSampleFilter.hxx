@@ -99,8 +99,6 @@ ScalarImageToCooccurrenceListSampleFilter<TImage>::GenerateData()
 
   constexpr OffsetType center_offset{};
 
-  bool isInside;
-
   for (const auto & face : faceList)
   {
     ShapedNeighborhoodIteratorType it(radius, input, face);
@@ -122,6 +120,7 @@ ScalarImageToCooccurrenceListSampleFilter<TImage>::GenerateData()
 
         // Check if the point is inside and add the measurement vector
         // only if its inside
+        bool            isInside = false;
         const PixelType pixel_intensity = it.GetPixel(ci.GetNeighborhoodIndex(), isInside);
         if (isInside)
         {

@@ -66,7 +66,7 @@ itkKdTreeBasedKmeansEstimatorTest(int argc, char * argv[])
 
   PointSetType::PointsContainerIterator pIter = pointsContainer->Begin();
   PointSetType::PointType               point;
-  double                                temp;
+  double                                temp = NAN;
   std::ifstream                         dataStream(dataFileName);
   while (pIter != pointsContainer->End())
   {
@@ -128,7 +128,6 @@ itkKdTreeBasedKmeansEstimatorTest(int argc, char * argv[])
   Estimator::ParametersType estimatedMeans = estimator->GetParameters();
 
   bool               passed = true;
-  int                index;
   const unsigned int numberOfMeasurements = sample->GetMeasurementVectorSize();
   const unsigned int numberOfClasses = trueMeans.size() / numberOfMeasurements;
   for (unsigned int i = 0; i < numberOfClasses; ++i)
@@ -137,7 +136,7 @@ itkKdTreeBasedKmeansEstimatorTest(int argc, char * argv[])
     double displacement = 0.0;
     std::cout << "    true mean :" << std::endl;
     std::cout << "        ";
-    index = numberOfMeasurements * i;
+    int index = numberOfMeasurements * i;
     for (unsigned int j = 0; j < numberOfMeasurements; ++j)
     {
       std::cout << trueMeans[index] << ' ';

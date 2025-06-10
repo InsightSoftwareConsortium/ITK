@@ -254,7 +254,7 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>::CubicS
   // coefficients of the polynomial: x^3 + c[2]x^2 + c[1]x^1 + c[0].  The roots
   // s are not necessarily sorted, and int is the number of distinct roots
   // found in s.
-  int              num;
+
   const double     dpi = itk::Math::pi;
   constexpr double epsilon = 1.0e-11;
 
@@ -267,6 +267,7 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>::CubicS
   const double cb_p = p * p * p;
   const double D = q * q + cb_p;
 
+  int num = 0;
   if (D < -epsilon) // D < 0, three real solutions, by far the common case.
   {
     const double phi = 1.0 / 3.0 * std::acos(-q / std::sqrt(-cb_p));
@@ -277,7 +278,6 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>::CubicS
     s[2] = -t * std::cos(phi - dpi / 3);
     num = 3;
   }
-
   else if (D < epsilon) // D == 0
   {
     if (q > -epsilon && q < epsilon)

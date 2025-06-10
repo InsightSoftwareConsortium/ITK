@@ -58,7 +58,6 @@ MRASlabIdentifier<TInputImage>::GenerateSlabRegions()
   const IndexValueType lastSlice = firstSlice + size[m_SlicingDirection];
   const SizeValueType  totalSlices = size[m_SlicingDirection];
 
-  double              sum;
   std::vector<double> avgMin(totalSlices);
   // calculate minimum intensities for each slice
   ImagePixelType pixel;
@@ -103,7 +102,7 @@ MRASlabIdentifier<TInputImage>::GenerateSlabRegions()
       ++iter;
     }
 
-    sum = 0.0;
+    double sum = 0.0;
     while (!mins.empty())
     {
       sum += mins.top();
@@ -117,8 +116,8 @@ MRASlabIdentifier<TInputImage>::GenerateSlabRegions()
   }
 
   // calculate overall average
-  sum = 0.0;
-  auto am_iter = avgMin.begin();
+  double sum = 0.0;
+  auto   am_iter = avgMin.begin();
   while (am_iter != avgMin.end())
   {
     sum += *am_iter;
@@ -130,20 +129,16 @@ MRASlabIdentifier<TInputImage>::GenerateSlabRegions()
   // determine slabs
   am_iter = avgMin.begin();
 
-  double prevSign = *am_iter - average;
-  double avgMinValue;
-
-  ImageIndexType  slabIndex;
+  double          prevSign = *am_iter - average;
   ImageRegionType slabRegion;
-  ImageSizeType   slabSize;
 
   SizeValueType  slabLength = 0;
   IndexValueType slabBegin = firstSlice;
-  slabSize = size;
-  slabIndex = index;
+  ImageSizeType  slabSize = size;
+  ImageIndexType slabIndex = index;
   while (am_iter != avgMin.end())
   {
-    avgMinValue = *am_iter;
+    double       avgMinValue = *am_iter;
     const double sign = avgMinValue - average;
     if ((sign * prevSign < 0) && (itk::Math::abs(sign) > m_Tolerance))
     {

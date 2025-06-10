@@ -168,11 +168,10 @@ itkThresholdImageFilterTest(int, char *[])
     threshold->SetUpper(upper);
     ITK_TEST_SET_GET_VALUE(upper, threshold->GetUpper());
 
-    PixelType outputValue;
     // Above inputValue-1
     threshold->ThresholdAbove(inputValue - 1);
     threshold->Update();
-    outputValue = threshold->GetOutput()->GetPixel(index);
+    PixelType outputValue = threshold->GetOutput()->GetPixel(index);
     if (outputValue != outsideValue)
     {
       std::ostringstream os;

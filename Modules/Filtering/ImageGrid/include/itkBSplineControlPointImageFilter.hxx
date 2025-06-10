@@ -335,17 +335,13 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>::SplitRequestedRegion(
 
   const SizeType requestedRegionSize = outputPtr->GetRequestedRegion().GetSize();
 
-  int                              splitAxis;
-  typename TOutputImage::IndexType splitIndex;
-  typename TOutputImage::SizeType  splitSize;
-
   // Initialize the splitRegion to the output requested region
   splitRegion = outputPtr->GetRequestedRegion();
-  splitIndex = splitRegion.GetIndex();
-  splitSize = splitRegion.GetSize();
+  typename TOutputImage::IndexType splitIndex = splitRegion.GetIndex();
+  typename TOutputImage::SizeType  splitSize = splitRegion.GetSize();
 
   // split on the outermost dimension
-  splitAxis = outputPtr->GetImageDimension() - 1;
+  const auto splitAxis = outputPtr->GetImageDimension() - 1;
 
   // determine the actual number of pieces that will be generated
   const typename SizeType::SizeValueType range = requestedRegionSize[splitAxis];

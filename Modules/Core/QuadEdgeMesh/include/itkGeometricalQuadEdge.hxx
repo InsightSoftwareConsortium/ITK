@@ -562,19 +562,11 @@ GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::ReorderOn
     return (false);
   }
 
-  Self * bsplice; // Does not require initialisation;
-  // Disconnect the triangles containing second:
-  if (second->IsLeftSet())
-  {
-    bsplice = second->GetNextBorderEdgeWithUnsetLeft();
-    second->GetOprev()->Splice(bsplice);
-  }
-  else
-  {
-    // Orientation is locally clockwise:
-    bsplice = second;
-    second->GetOprev()->Splice(bsplice);
-  }
+  // Disconnect the triangles containing second
+  Self * bsplice = (second->IsLeftSet()) ? second->GetNextBorderEdgeWithUnsetLeft() : second;
+  // Orientation is locally counter clockwise: Orientation is locally clockwise:
+
+  second->GetOprev()->Splice(bsplice);
 
   // Reconnect second after first:
   first->Splice(bsplice);

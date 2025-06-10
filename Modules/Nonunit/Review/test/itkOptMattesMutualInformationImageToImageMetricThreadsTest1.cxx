@@ -104,10 +104,10 @@ itkOptMattesMutualInformationImageToImageMetricThreadsTest1(int argc, char * arg
   using MeasureType = MetricType::MeasureType;
   using DerivativeType = MetricType::DerivativeType;
 
-  MeasureType    value_combined;
+  MeasureType    value_combined = NAN;
   DerivativeType derivative_combined;
 
-  MeasureType    value_separate;
+  MeasureType    value_separate = NAN;
   DerivativeType derivative_separate;
 
   std::vector<MeasureType>    values;

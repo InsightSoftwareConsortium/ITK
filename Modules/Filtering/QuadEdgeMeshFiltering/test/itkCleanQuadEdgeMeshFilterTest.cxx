@@ -54,7 +54,7 @@ itkCleanQuadEdgeMeshFilterTest(int argc, char * argv[])
 
   const MeshType::Pointer mesh = reader->GetOutput();
 
-  Coord             tol;
+  Coord             tol = NAN;
   std::stringstream ssout(argv[2]);
   ssout >> tol;
 

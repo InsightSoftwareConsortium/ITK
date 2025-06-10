@@ -253,27 +253,22 @@ protected:
 
     using TriangleType = TriangleHelper<OutputPointType>;
 
-    bool                  orientation_ok(true);
-    OutputCellIdentifier  c_id(0);
-    OutputPolygonType *   poly;
-    OutputPointIdentifier p_id;
-
-    int             k(0);
+    bool            orientation_ok(true);
     int             replace_k(0);
     OutputPointType pt[3];
 
     while ((it != elements_to_be_tested.end()) && orientation_ok)
     {
-      c_id = *it;
-      poly = dynamic_cast<OutputPolygonType *>(cells->GetElement(c_id));
+      OutputCellIdentifier c_id = *it;
+      OutputPolygonType *  poly = dynamic_cast<OutputPolygonType *>(cells->GetElement(c_id));
 
       qe = poly->GetEdgeRingEntry();
       qe_it = qe;
-      k = 0;
+      int k = 0;
 
       do
       {
-        p_id = qe_it->GetOrigin();
+        OutputPointIdentifier p_id = qe_it->GetOrigin();
         if (p_id == iId)
         {
           replace_k = k;

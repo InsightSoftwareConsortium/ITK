@@ -230,7 +230,7 @@ void
 SimplexMesh<TPixelType, VDimension, TMeshTraits>::SetGeometryData(PointIdentifier       pointId,
                                                                   SimplexMeshGeometry * geometryData)
 {
-  SimplexMeshGeometry * oldGeometryData;
+  SimplexMeshGeometry * oldGeometryData = nullptr;
   if (m_GeometryData->GetElementIfIndexExists(pointId, &oldGeometryData))
   {
     delete oldGeometryData;

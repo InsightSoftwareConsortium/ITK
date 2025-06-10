@@ -205,21 +205,16 @@ itkFastMarchingTest(int argc, char * argv[])
 
   for (; !iterator.IsAtEnd(); ++iterator)
   {
-
-    FloatImage::IndexType tempIndex;
-    double                distance;
-    float                 outputValue;
-
-    tempIndex = iterator.GetIndex();
+    FloatImage::IndexType tempIndex = iterator.GetIndex();
     tempIndex -= offset0;
-    distance = 0.0;
+    double distance = 0.0;
     for (int j = 0; j < 2; ++j)
     {
       distance += tempIndex[j] * tempIndex[j];
     }
     distance = std::sqrt(distance);
 
-    outputValue = static_cast<float>(iterator.Get());
+    float outputValue = static_cast<float>(iterator.Get());
 
     if (distance < itk::NumericTraits<double>::epsilon())
     {

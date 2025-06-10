@@ -416,15 +416,12 @@ itkVersorRigid3DTransformTest(int, char *[])
   {
     // Testing SetMatrix()
     std::cout << "Testing SetMatrix() ... ";
-    unsigned int par;
-    bool         Ok;
-
     MatrixType matrix;
 
     auto t = TransformType::New();
 
     // attempt to set an non-orthogonal matrix
-    par = 0;
+    unsigned int par = 0;
     for (unsigned int row = 0; row < 3; ++row)
     {
       for (unsigned int col = 0; col < 3; ++col)
@@ -434,7 +431,7 @@ itkVersorRigid3DTransformTest(int, char *[])
       }
     }
 
-    Ok = false;
+    bool Ok = false;
     try
     {
       t->SetMatrix(matrix);

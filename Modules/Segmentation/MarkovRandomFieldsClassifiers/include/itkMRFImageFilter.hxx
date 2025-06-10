@@ -331,7 +331,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>::Allocate()
   InputImageSizeType inputImageSize = this->GetInput()->GetBufferedRegion().GetSize();
 
   // Get the number of valid pixels in the output MRF image
-  int tmp;
+  int tmp = 0;
   for (unsigned int i = 0; i < InputImageDimension; ++i)
   {
     tmp = static_cast<int>(inputImageSize[i]);
@@ -488,8 +488,6 @@ MRFImageFilter<TInputImage, TClassifiedImage>::DoNeighborhoodOperation(
   LabelledImageNeighborhoodIterator &    labelledIter,
   LabelStatusImageNeighborhoodIterator & labelStatusIter)
 {
-  unsigned int index;
-
   // Read the pixel of interest and get its corresponding membership value
   InputImagePixelType * inputPixelVec = imageIter.GetCenterValue();
 
@@ -497,6 +495,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>::DoNeighborhoodOperation(
 
   // Reinitialize the neighborhood influence at the beginning of the
   // neighborhood operation
+  unsigned int index = 0;
   for (index = 0; index < m_NeighborInfluence.size(); ++index)
   {
     m_NeighborInfluence[index] = 0;
@@ -521,7 +520,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>::DoNeighborhoodOperation(
   // Determine the maximum possible distance
   double maximumDistance = -1e+20;
   int    pixLabel = -1;
-  double tmpPixDistance;
+  double tmpPixDistance = NAN;
   for (index = 0; index < m_NumberOfClasses; ++index)
   {
     tmpPixDistance = m_MahalanobisDistance[index];

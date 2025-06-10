@@ -149,10 +149,9 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   BiasFieldType::SimpleForwardIterator b_iter(&bias);
   i_iter.GoToBegin();
   ib_iter.GoToBegin();
-  float temp;
   while (!i_iter.IsAtEnd())
   {
-    temp = i_iter.Get() * (2 + b_iter.Get()); // this is a multiplicative bias field
+    float temp = i_iter.Get() * (2 + b_iter.Get()); // this is a multiplicative bias field
     ib_iter.Set(temp);
     ++i_iter;
     ++ib_iter;

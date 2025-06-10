@@ -31,7 +31,7 @@ GaussianDerivativeSpatialFunction<TOutput, VImageDimension, TInput>::Evaluate(co
   // Normalizing the Gaussian is important for statistical applications
   // but is generally not desirable for creating images because of the
   // very small numbers involved (would need to use doubles)
-  double prefixDenom;
+  double prefixDenom = 1.0;
 
   if (m_Normalized)
   {
@@ -43,10 +43,6 @@ GaussianDerivativeSpatialFunction<TOutput, VImageDimension, TInput>::Evaluate(co
     }
 
     prefixDenom *= 2 * std::pow(2 * itk::Math::pi, VImageDimension / 2.0);
-  }
-  else
-  {
-    prefixDenom = 1.0;
   }
 
   double suffixExp = 0;

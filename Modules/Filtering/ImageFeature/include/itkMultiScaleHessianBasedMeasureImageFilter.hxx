@@ -279,13 +279,12 @@ template <typename TInputImage, typename THessianImage, typename TOutputImage>
 double
 MultiScaleHessianBasedMeasureImageFilter<TInputImage, THessianImage, TOutputImage>::ComputeSigmaValue(int scaleLevel)
 {
-  double sigmaValue;
-
   if (m_NumberOfSigmaSteps < 2)
   {
     return m_SigmaMinimum;
   }
 
+  double sigmaValue = NAN;
   switch (m_SigmaStepMethod)
   {
     case Self::SigmaStepMethodEnum::EquispacedSigmaSteps:

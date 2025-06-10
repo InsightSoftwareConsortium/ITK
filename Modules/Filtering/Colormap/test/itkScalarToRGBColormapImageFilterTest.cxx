@@ -337,12 +337,12 @@ itkScalarToRGBColormapImageFilterTest(int argc, char * argv[])
     std::ifstream str(argv[4]);
     std::string   line;
 
-    float                     value;
     ColormapType::ChannelType channel;
 
     // Get red values
     std::getline(str, line);
     std::istringstream issr(line);
+    float              value = NAN;
     while (issr >> value)
     {
       channel.push_back(value);

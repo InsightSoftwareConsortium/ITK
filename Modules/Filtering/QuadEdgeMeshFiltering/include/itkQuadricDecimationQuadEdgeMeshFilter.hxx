@@ -29,19 +29,16 @@ QuadricDecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>::Initialize()
   const OutputMeshPointer            output = this->GetOutput();
   const OutputPointsContainerPointer points = output->GetPoints();
   OutputPointsContainerIterator      it = points->Begin();
-  OutputPointIdentifier              p_id;
-  OutputQEType *                     qe;
-  OutputQEType *                     qe_it;
 
   OutputMeshType * outputMesh = this->GetOutput();
   while (it != points->End())
   {
-    p_id = it->Index();
+    OutputPointIdentifier p_id = it->Index();
 
-    qe = output->FindEdge(p_id);
+    OutputQEType * qe = output->FindEdge(p_id);
     if (qe != nullptr)
     {
-      qe_it = qe;
+      OutputQEType * qe_it = qe;
       do
       {
         QuadricAtOrigin(qe_it, m_Quadric[p_id], outputMesh);

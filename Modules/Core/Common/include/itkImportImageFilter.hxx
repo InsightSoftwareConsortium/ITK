@@ -31,14 +31,13 @@ template <typename TPixel, unsigned int VImageDimension>
 void
 ImportImageFilter<TPixel, VImageDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
-  int i;
-
   Superclass::PrintSelf(os, indent);
 
   itkPrintSelfObjectMacro(ImportImageContainer);
   os << indent << "Import buffer size: " << m_Size << std::endl;
   os << indent << "Spacing: [";
-  for (i = 0; i < int{ VImageDimension } - 1; ++i)
+  int i = 0;
+  for (; i < int{ VImageDimension } - 1; ++i)
   {
     os << m_Spacing[i] << ", ";
   }

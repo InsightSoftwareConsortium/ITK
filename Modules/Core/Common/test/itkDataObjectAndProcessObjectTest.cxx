@@ -107,16 +107,10 @@ itkDataObjectAndProcessObjectTest(int, char *[])
   // create a TestProcessObject
   itk::TestProcessObject::Pointer process = itk::TestProcessObject::New();
 
-  // some vars to test the methods
-  itk::TestProcessObject::NameArray              names;
-  itk::TestProcessObject::DataObjectPointerArray dataObjects;
-  itk::DataObject::Pointer                       dataObject;
-  itk::ModifiedTimeType                          mtime;
-
   // and exercise various methods
-  names = process->GetInputNames();
+  itk::TestProcessObject::NameArray names = process->GetInputNames();
   ITK_TEST_SET_GET_VALUE(0, names.size());
-  dataObjects = process->GetInputs();
+  itk::TestProcessObject::DataObjectPointerArray dataObjects = process->GetInputs();
   ITK_TEST_SET_GET_VALUE(0, dataObjects.size());
   //   constDataObjects = process->GetInputs();
   //   ITK_TEST_SET_GET_VALUE( 0, constDataObjects.size() );
@@ -142,7 +136,7 @@ itkDataObjectAndProcessObjectTest(int, char *[])
   ITK_TEST_SET_GET_VALUE(0, process->GetNumberOfIndexedOutputs());
   //   ITK_TEST_SET_GET_VALUE( 0, process->GetNumberOfValidRequiredOutputs() );
 
-  dataObject = process->MakeOutput(0);
+  itk::DataObject::Pointer dataObject = process->MakeOutput(0);
   ITK_TEST_SET_GET_VALUE(true, dataObject.IsNotNull());
   dataObject = process->MakeOutput(1);
   ITK_TEST_SET_GET_VALUE(true, dataObject.IsNotNull());
@@ -183,7 +177,7 @@ itkDataObjectAndProcessObjectTest(int, char *[])
   }
 
   // shouldn't do anything: there is no output at this point
-  mtime = process->GetMTime();
+  itk::ModifiedTimeType mtime = process->GetMTime();
   process->Update();
   ITK_TEST_SET_GET_VALUE(mtime, process->GetMTime());
 

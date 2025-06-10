@@ -188,17 +188,17 @@ OFFMeshIO::ReadMeshInformation()
   else if (this->m_FileType == IOFileEnum::BINARY)
   {
     // Read the number of points
-    itk::uint32_t numberOfPoints;
+    itk::uint32_t numberOfPoints = 0;
     this->ReadBufferAsBinary(&numberOfPoints, m_InputFile, 1);
     this->m_NumberOfPoints = numberOfPoints;
 
     // Read the number of cells
-    itk::uint32_t numberOfCells;
+    itk::uint32_t numberOfCells = 0;
     this->ReadBufferAsBinary(&numberOfCells, m_InputFile, 1);
     this->m_NumberOfCells = numberOfCells;
 
     // Read number of edges
-    itk::uint32_t numberOfEdges;
+    itk::uint32_t numberOfEdges = 0;
     this->ReadBufferAsBinary(&numberOfEdges, m_InputFile, 1);
 
     // Get points start position

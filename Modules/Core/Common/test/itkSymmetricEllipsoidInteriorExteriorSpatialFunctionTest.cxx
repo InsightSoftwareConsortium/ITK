@@ -65,8 +65,7 @@ itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest(int, char *[])
   double testPosition[dimension]; // position of a pixel in the function
                                   // doitkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest
 
-  bool functionValue;            // Value of pixel at a given position
-  int  interiorPixelCounter = 0; // Count pixels inside ellipsoid
+  int interiorPixelCounter = 0; // Count pixels inside ellipsoid
 
   for (int x = 0; x < xExtent; ++x)
   {
@@ -77,8 +76,9 @@ itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest(int, char *[])
         testPosition[0] = x;
         testPosition[1] = y;
         testPosition[2] = z;
-        functionValue = spatialFunc->Evaluate(testPosition);
-        if (functionValue == 1)
+        // Value of pixel at a given position
+        const bool functionValue = spatialFunc->Evaluate(testPosition);
+        if (functionValue)
         {
           interiorPixelCounter++;
         }
@@ -91,7 +91,6 @@ itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest(int, char *[])
   testPosition[0] = center[0];
   testPosition[1] = center[1];
   testPosition[2] = center[2];
-  functionValue = spatialFunc->Evaluate(testPosition);
 
   // Volume of ellipsoid using V=(4/3)*pi*(a/2)*(b/2)*(c/2)
   constexpr double volume =
@@ -102,7 +101,8 @@ itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest(int, char *[])
 
   // 5% error was randomly chosen as a successful ellipsoid fill.
   // This should actually be some function of the image/ellipsoid size.
-  if (volumeError <= 5 || functionValue == 1)
+  const bool functionValue = spatialFunc->Evaluate(testPosition);
+  if (volumeError <= 5 || functionValue)
   {
     // With testing settings, results should yield:
     // calculated ellipsoid volume = 21205.8 pixels

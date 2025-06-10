@@ -39,16 +39,7 @@ itkTDistributionTest(int, char *[])
   std::cout << "Number of parameters = " << distributionFunction->GetNumberOfParameters() << std::endl;
 
   distributionFunction->Print(std::cout);
-
-  int    i;
-  double x;
-  double value;
-  double diff;
-
   int status = EXIT_SUCCESS;
-
-  // Tolerance for the values.
-  double tol;
 
   // expected values for Student-t cdf with 1 degree of freedom at
   // values of -5:1:5
@@ -61,19 +52,21 @@ itkTDistributionTest(int, char *[])
   std::cout << "Testing distribution with 1 degree of freedom" << std::endl;
 
   std::cout << "Student-t CDF" << std::endl;
-  tol = 1e-15;
+  // Tolerance for the values.
+  double tol = 1e-15;
   std::cout << "Tolerance used for test: ";
   std::cout.width(20);
   std::cout.precision(15);
   std::cout << tol << std::endl;
   distributionFunction->SetDegreesOfFreedom(1);
-  for (i = -5; i <= 5; ++i)
+
+  for (int i = -5; i <= 5; ++i)
   {
-    x = static_cast<double>(i);
+    double x = static_cast<double>(i);
 
-    value = distributionFunction->EvaluateCDF(x);
+    double value = distributionFunction->EvaluateCDF(x);
 
-    diff = itk::Math::abs(value - expected1[i + 5]);
+    double diff = itk::Math::abs(value - expected1[i + 5]);
 
     std::cout << "Student-t cdf at ";
     std::cout.width(2);
@@ -104,12 +97,12 @@ itkTDistributionTest(int, char *[])
   std::cout.width(20);
   std::cout.precision(15);
   std::cout << tol << std::endl;
-  for (i = -5; i <= 5; ++i)
+  for (int i = -5; i <= 5; ++i)
   {
 
-    value = distributionFunction->EvaluateInverseCDF(expected1[i + 5]);
+    double value = distributionFunction->EvaluateInverseCDF(expected1[i + 5]);
 
-    diff = itk::Math::abs(value - static_cast<double>(i));
+    double diff = itk::Math::abs(value - static_cast<double>(i));
 
     std::cout << "Student-t cdf at ";
     std::cout.width(20);
@@ -152,13 +145,13 @@ itkTDistributionTest(int, char *[])
   std::cout.precision(15);
   std::cout << tol << std::endl;
   distributionFunction->SetDegreesOfFreedom(11);
-  for (i = -5; i <= 5; ++i)
+  for (int i = -5; i <= 5; ++i)
   {
-    x = static_cast<double>(i);
+    double x = static_cast<double>(i);
 
-    value = distributionFunction->EvaluateCDF(x);
+    double value = distributionFunction->EvaluateCDF(x);
 
-    diff = itk::Math::abs(value - expected11[i + 5]);
+    double diff = itk::Math::abs(value - expected11[i + 5]);
 
     std::cout << "Student-t cdf at ";
     std::cout.width(2);
@@ -189,12 +182,12 @@ itkTDistributionTest(int, char *[])
   std::cout.width(20);
   std::cout.precision(15);
   std::cout << tol << std::endl;
-  for (i = -5; i <= 5; ++i)
+  for (int i = -5; i <= 5; ++i)
   {
 
-    value = distributionFunction->EvaluateInverseCDF(expected11[i + 5]);
+    double value = distributionFunction->EvaluateInverseCDF(expected11[i + 5]);
 
-    diff = itk::Math::abs(value - static_cast<double>(i));
+    double diff = itk::Math::abs(value - static_cast<double>(i));
 
     std::cout << "Student-t cdf at ";
     std::cout.width(20);
@@ -235,13 +228,13 @@ itkTDistributionTest(int, char *[])
   DistributionType::ParametersType params(1);
   params[0] = 11;
 
-  for (i = -5; i <= 5; ++i)
+  for (int i = -5; i <= 5; ++i)
   {
-    x = static_cast<double>(i);
+    double x = static_cast<double>(i);
 
-    value = distributionFunction->EvaluateCDF(x, params);
+    double value = distributionFunction->EvaluateCDF(x, params);
 
-    diff = itk::Math::abs(value - expected11[i + 5]);
+    double diff = itk::Math::abs(value - expected11[i + 5]);
 
     std::cout << "Student-t cdf at ";
     std::cout.width(2);
@@ -273,12 +266,12 @@ itkTDistributionTest(int, char *[])
   std::cout.width(20);
   std::cout.precision(15);
   std::cout << tol << std::endl;
-  for (i = -5; i <= 5; ++i)
+  for (int i = -5; i <= 5; ++i)
   {
 
-    value = distributionFunction->EvaluateInverseCDF(expected11[i + 5], params);
+    double value = distributionFunction->EvaluateInverseCDF(expected11[i + 5], params);
 
-    diff = itk::Math::abs(value - static_cast<double>(i));
+    double diff = itk::Math::abs(value - static_cast<double>(i));
 
     std::cout << "Student-t cdf at ";
     std::cout.width(20);
@@ -315,8 +308,10 @@ itkTDistributionTest(int, char *[])
   std::cout.width(20);
   std::cout.precision(15);
   std::cout << tol << std::endl;
-
-  for (i = -5; i <= 5; ++i)
+  double x = NAN;
+  double value = NAN;
+  double diff = NAN;
+  for (int i = -5; i <= 5; ++i)
   {
     x = static_cast<double>(i);
 
@@ -354,7 +349,7 @@ itkTDistributionTest(int, char *[])
   std::cout.width(20);
   std::cout.precision(15);
   std::cout << tol << std::endl;
-  for (i = -5; i <= 5; ++i)
+  for (int i = -5; i <= 5; ++i)
   {
 
     value = distributionFunction->EvaluateInverseCDF(expected11[i + 5], static_cast<itk::SizeValueType>(params[0]));

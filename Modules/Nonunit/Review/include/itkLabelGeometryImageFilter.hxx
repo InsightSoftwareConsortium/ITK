@@ -54,7 +54,7 @@ CalculateRotationMatrix(const vnl_symmetric_eigensystem<double> & eig)
   // If it is, then the vectors do not follow the right-hand rule.  We
   // can fix this by making one of them negative.  Make the last
   // eigenvector (with smallest eigenvalue) negative.
-  float matrixDet;
+  float matrixDet = NAN;
   if constexpr (VDimension == 2)
   {
     matrixDet = vnl_det(rotationMatrix[0], rotationMatrix[1]);
@@ -521,12 +521,11 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::CalculateOrientedBoundin
   // vertices.
   unsigned int   numberOfVertices = 1 << ImageDimension;
   MatrixType     transformedBoundingBoxVertices(ImageDimension, numberOfVertices, 0);
-  int            val;
   LabelIndexType binaryIndex;
-  int            arrayIndex;
+  int            arrayIndex = 0;
   for (unsigned int i = 0; i < numberOfVertices; ++i)
   {
-    val = i;
+    int val = i;
     for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       // This is the binary index as described above.

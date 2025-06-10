@@ -92,15 +92,11 @@ ImageToListSampleFilter<TImage, TMaskImage>::GetMeasurementVectorSize() const
     itkExceptionMacro("Input image has not been set yet");
   }
 
-  unsigned int measurementVectorSize;
+  unsigned int measurementVectorSize = input->GetNumberOfComponentsPerPixel();
 
   if (!MeasurementVectorTraits::IsResizable<MeasurementVectorType>({}))
   {
     measurementVectorSize = NumericTraits<MeasurementVectorType>::GetLength({});
-  }
-  else
-  {
-    measurementVectorSize = input->GetNumberOfComponentsPerPixel();
   }
 
   return measurementVectorSize;

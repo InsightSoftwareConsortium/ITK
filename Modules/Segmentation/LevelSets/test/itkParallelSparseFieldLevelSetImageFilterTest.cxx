@@ -62,14 +62,10 @@ cube(unsigned int x, unsigned int y, unsigned int z)
   const float X = itk::Math::abs(x - float{ WIDTH } / 2.0);
   const float Y = itk::Math::abs(y - float{ HEIGHT } / 2.0);
   const float Z = itk::Math::abs(z - float{ DEPTH } / 2.0);
-  float       dis;
+  float       dis = -sqrt((X - RADIUS) * (X - RADIUS) + (Y - RADIUS) * (Y - RADIUS) + (Z - RADIUS) * (Z - RADIUS));
   if (!((X > RADIUS) && (Y > RADIUS) && (Z > RADIUS)))
   {
     dis = RADIUS - (std::max(std::max(X, Y), Z));
-  }
-  else
-  {
-    dis = -sqrt((X - RADIUS) * (X - RADIUS) + (Y - RADIUS) * (Y - RADIUS) + (Z - RADIUS) * (Z - RADIUS));
   }
   return (-dis);
 }

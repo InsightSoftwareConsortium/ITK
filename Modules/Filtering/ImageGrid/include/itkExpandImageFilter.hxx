@@ -47,14 +47,15 @@ ExpandImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Inden
 {
   Superclass::PrintSelf(os, indent);
 
-  unsigned int j;
   os << indent << "ExpandFactors: [";
-  for (j = 0; j < ImageDimension - 1; ++j)
   {
-    os << m_ExpandFactors[j] << ", ";
+    unsigned int j = 0;
+    for (; j < ImageDimension - 1; ++j)
+    {
+      os << m_ExpandFactors[j] << ", ";
+    }
+    os << m_ExpandFactors[j] << ']' << std::endl;
   }
-  os << m_ExpandFactors[j] << ']' << std::endl;
-
   os << indent << "Interpolator: ";
   os << m_Interpolator.GetPointer() << std::endl;
 }
@@ -160,7 +161,6 @@ ExpandImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
   itkAssertInDebugAndIgnoreInReleaseMacro(outputPtr);
 
   // We need to compute the input requested region (size and start index)
-  unsigned int                             i;
   const typename TOutputImage::SizeType &  outputRequestedRegionSize = outputPtr->GetRequestedRegion().GetSize();
   const typename TOutputImage::IndexType & outputRequestedRegionStartIndex = outputPtr->GetRequestedRegion().GetIndex();
 
@@ -171,7 +171,7 @@ ExpandImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
    * inputRequestedSize = (outputRequestedSize / ExpandFactor) + 1)
    * The extra 1 above is to take care of edge effects when streaming.
    */
-  for (i = 0; i < TInputImage::ImageDimension; ++i)
+  for (unsigned int i = 0; i < TInputImage::ImageDimension; ++i)
   {
     inputRequestedRegionSize[i] = (SizeValueType)std::ceil(static_cast<double>(outputRequestedRegionSize[i]) /
                                                            static_cast<double>(m_ExpandFactors[i])) +

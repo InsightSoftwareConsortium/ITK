@@ -193,13 +193,12 @@ itkSupervisedImageClassifierTest(int, char *[])
 
   ClassImageIterator classoutIt(classImage, classImage->GetBufferedRegion());
 
-  ClassImagePixelType outputPixel;
   //--------------------------------------------------------------------------
   // Manually create and store each vector
   //--------------------------------------------------------------------------
   // Slice 1
   // Pixel no. 1
-  outputPixel = 2;
+  ClassImagePixelType outputPixel = 2;
   classoutIt.Set(outputPixel);
   ++classoutIt;
 

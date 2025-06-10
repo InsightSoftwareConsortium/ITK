@@ -70,7 +70,7 @@ public:
   void
   GetDerivative(DerivativeType & derivative) const override
   {
-    MeasureType value;
+    MeasureType value = NAN;
     GetValueAndDerivative(value, derivative);
   }
 

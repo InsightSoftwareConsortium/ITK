@@ -161,7 +161,7 @@ DemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Compu
     mappedPoint[j] += it.GetCenterPixel()[j];
   }
 
-  double movingValue;
+  double movingValue = NAN;
   if (m_MovingImageInterpolator->IsInsideBuffer(mappedPoint))
   {
     movingValue = m_MovingImageInterpolator->Evaluate(mappedPoint);

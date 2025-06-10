@@ -121,7 +121,7 @@ itkMeanSquaresImageToImageMetricv4OnVectorTest(int, char ** const)
   std::cout << "Initialized" << std::endl;
 
   /* Evaluate with GetValueAndDerivative */
-  MetricType::MeasureType    valueReturn1;
+  MetricType::MeasureType    valueReturn1 = NAN;
   MetricType::DerivativeType derivativeReturn;
   try
   {
@@ -145,7 +145,7 @@ itkMeanSquaresImageToImageMetricv4OnVectorTest(int, char ** const)
     std::cerr << "Caught unexpected exception during re-initialize: " << exc << std::endl;
     return EXIT_FAILURE;
   }
-  MetricType::MeasureType valueReturn2;
+  MetricType::MeasureType valueReturn2 = NAN;
   try
   {
     std::cout << "Calling GetValue..." << std::endl;

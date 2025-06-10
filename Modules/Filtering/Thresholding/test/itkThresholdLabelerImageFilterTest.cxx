@@ -77,17 +77,19 @@ ThresholdLabelerImageFilterTestHelper(bool useRealTypeThresholds)
   labels.push_back(3 + offset);
 
   // Fill in the image
-  unsigned int                         i;
-  IndexValueVectorType::const_iterator indexIter;
-  for (indexIter = yindexes.begin(), i = 0; indexIter != yindexes.end(); ++indexIter, ++i)
   {
-    index[0] = 0;
-    index[1] = *indexIter;
-    region.SetIndex(index);
-    itk::ImageRegionIterator<InputImageType> iter(inputImage, region);
-    for (iter.GoToBegin(); !iter.IsAtEnd(); ++iter)
+    unsigned int i = 0;
+    for (IndexValueVectorType::const_iterator indexIter = yindexes.begin(); indexIter != yindexes.end();
+         ++indexIter, ++i)
     {
-      iter.Set(values[i]);
+      index[0] = 0;
+      index[1] = *indexIter;
+      region.SetIndex(index);
+      itk::ImageRegionIterator<InputImageType> iter(inputImage, region);
+      for (iter.GoToBegin(); !iter.IsAtEnd(); ++iter)
+      {
+        iter.Set(values[i]);
+      }
     }
   }
 
@@ -144,9 +146,9 @@ ThresholdLabelerImageFilterTestHelper(bool useRealTypeThresholds)
 
 
   // Check if labels coincide with expected labels
-  bool passed = true;
-
-  for (indexIter = yindexes.begin(), i = 0; indexIter != yindexes.end(); ++indexIter, ++i)
+  bool         passed = true;
+  unsigned int i = 0;
+  for (IndexValueVectorType::const_iterator indexIter = yindexes.begin(); indexIter != yindexes.end(); ++indexIter, ++i)
   {
     index[0] = 0;
     index[1] = *indexIter;

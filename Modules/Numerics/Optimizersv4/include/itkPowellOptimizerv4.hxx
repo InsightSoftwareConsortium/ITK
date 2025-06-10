@@ -68,7 +68,7 @@ PowellOptimizerv4<TInternalComputationValueType>::GetLineValue(double x, Paramet
   }
   this->m_Metric->SetParameters(tempCoord);
   itkDebugMacro("x = " << x);
-  double val;
+  double val = NAN;
   try
   {
     val = (this->m_Metric->GetValue());
@@ -233,42 +233,29 @@ PowellOptimizerv4<TInternalComputationValueType>::BracketedLineOptimize(double  
                                                                         double *         extVal,
                                                                         ParametersType & tempCoord)
 {
-  double x;
   double v = 0.0;
-  double w; /* Abscissae, descr. see above  */
-  double a;
-  double b;
 
-  a = (ax < cx ? ax : cx);
-  b = (ax > cx ? ax : cx);
+  double a = (ax < cx ? ax : cx);
+  double b = (ax > cx ? ax : cx);
 
-  x = bx;
-  w = bx;
+  double x = bx;
+  double w = bx; /* Abscissae, descr. see above  */
 
   const double goldenSectionRatio = (3.0 - std::sqrt(5.0)) / 2; /* Gold
                                                                  section
                                                                  ratio    */
   constexpr double POWELL_TINY = 1.0e-20;
 
-  double functionValueOfX; /* f(x)        */
-  double functionValueOfV; /* f(v)        */
-  double functionValueOfW; /* f(w)        */
-
-  functionValueOfV = functionValueOfb;
-  functionValueOfX = functionValueOfV;
-  functionValueOfW = functionValueOfV;
+  double functionValueOfV = functionValueOfb; /* f(x)        */
+  double functionValueOfX = functionValueOfV; /* f(v)        */
+  double functionValueOfW = functionValueOfV; /* f(w)        */
 
   for (m_CurrentLineIteration = 0; m_CurrentLineIteration < m_MaximumLineIteration; ++m_CurrentLineIteration)
   {
     const double middle_range = (a + b) / 2;
 
-    double new_step; /* Step at this iteration       */
-
-    double tolerance1;
-    double tolerance2;
-
-    tolerance1 = m_StepTolerance * itk::Math::abs(x) + POWELL_TINY;
-    tolerance2 = 2.0 * tolerance1;
+    double tolerance1 = m_StepTolerance * itk::Math::abs(x) + POWELL_TINY;
+    double tolerance2 = 2.0 * tolerance1;
 
     if (itk::Math::abs(x - middle_range) <= (tolerance2 - 0.5 * (b - a)) || 0.5 * (b - a) < m_StepTolerance)
     {
@@ -282,18 +269,15 @@ PowellOptimizerv4<TInternalComputationValueType>::BracketedLineOptimize(double  
     }
 
     /* Obtain the gold section step  */
-    new_step = goldenSectionRatio * (x < middle_range ? b - x : a - x);
+    double new_step = goldenSectionRatio * (x < middle_range ? b - x : a - x); /* Step at this iteration       */
 
     /* Decide if the interpolation can be tried  */
     if (itk::Math::abs(x - w) >= tolerance1) /* If x and w are distinct      */
     {
       const double t = (x - w) * (functionValueOfX - functionValueOfV);
 
-      double q; /* ted as p/q; division operation*/
-      q = (x - v) * (functionValueOfX - functionValueOfW);
-
-      double p; /* Interpolation step is calculated */
-      p = (x - v) * q - (x - w) * t;
+      double q = (x - v) * (functionValueOfX - functionValueOfW); /* ted as p/q; division operation*/
+      double p = (x - v) * q - (x - w) * t;                       /* Interpolation step is calculated */
 
       q = 2 * (q - t);
 
@@ -447,8 +431,8 @@ PowellOptimizerv4<TInternalComputationValueType>::StartOptimization(bool /* doOn
       double ax = 0.0;
       double fa = fx;
       xx = m_StepLength;
-      double bx;
-      double fb;
+      double bx = NAN;
+      double fb = NAN;
       this->LineBracket(&ax, &xx, &bx, &fa, &fx, &fb, tempCoord);
       this->BracketedLineOptimize(ax, xx, bx, fa, fx, fb, &xx, &fx, tempCoord);
       this->SetCurrentLinePoint(xx, fx);
@@ -499,8 +483,8 @@ PowellOptimizerv4<TInternalComputationValueType>::StartOptimization(bool /* doOn
         double ax = 0.0;
         double fa = fx;
         xx = 1;
-        double bx;
-        double fb;
+        double bx = NAN;
+        double fb = NAN;
         this->LineBracket(&ax, &xx, &bx, &fa, &fx, &fb, tempCoord);
         this->BracketedLineOptimize(ax, xx, bx, fa, fx, fb, &xx, &fx, tempCoord);
         this->SetCurrentLinePoint(xx, fx);

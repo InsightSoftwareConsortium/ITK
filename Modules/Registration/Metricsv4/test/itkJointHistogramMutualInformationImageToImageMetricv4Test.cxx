@@ -101,10 +101,10 @@ itkJointHistogramMutualInformationImageToImageMetricv4Test(int, char *[])
   ITK_TRY_EXPECT_NO_EXCEPTION(metric->Initialize());
 
   // Evaluate
-  MetricType::MeasureType valueReturn1;
+  MetricType::MeasureType valueReturn1 = NAN;
   ITK_TRY_EXPECT_NO_EXCEPTION(valueReturn1 = metric->GetValue());
 
-  MetricType::MeasureType    valueReturn2;
+  MetricType::MeasureType    valueReturn2 = NAN;
   MetricType::DerivativeType derivativeReturn;
   ITK_TRY_EXPECT_NO_EXCEPTION(metric->GetValueAndDerivative(valueReturn2, derivativeReturn));
 

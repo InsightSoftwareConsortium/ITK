@@ -300,7 +300,7 @@ BSplineBaseTransform<TParametersValueType, VDimension, VSplineOrder>::TransformP
   WeightsType             weights;
   ParameterIndexArrayType indices;
   OutputPointType         outputPoint;
-  bool                    inside;
+  bool                    inside = false;
 
   this->TransformPoint(point, outputPoint, weights, indices, inside);
 

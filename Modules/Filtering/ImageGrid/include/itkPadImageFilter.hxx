@@ -100,7 +100,6 @@ PadImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 
   // we need to compute the output image size, and the
   // output image start index
-  unsigned int                     i;
   typename TOutputImage::SizeType  outputSize;
   typename TOutputImage::IndexType outputStartIndex;
   typename TInputImage::SizeType   inputSize;
@@ -109,7 +108,7 @@ PadImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
   inputStartIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
 
-  for (i = 0; i < TOutputImage::ImageDimension; ++i)
+  for (unsigned int i = 0; i < TOutputImage::ImageDimension; ++i)
   {
     outputSize[i] = inputSize[i] + m_PadLowerBound[i] + m_PadUpperBound[i];
     outputStartIndex[i] = inputStartIndex[i] - static_cast<OffsetValueType>(m_PadLowerBound[i]);

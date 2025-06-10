@@ -235,7 +235,7 @@ itkBSplineTransformTest1()
 
   WeightsType    weights;
   IndexArrayType indices;
-  bool           inside;
+  bool           inside = false;
 
   inputPoint.Fill(8.3);
   transform->TransformPoint(inputPoint, outputPoint, weights, indices, inside);
@@ -253,16 +253,14 @@ itkBSplineTransformTest1()
   // transformation
   constexpr unsigned int numberOfCoefficientInSupportRegion = TransformType::NumberOfWeights;
   const unsigned int     numberOfParametersPerDimension = transform->GetNumberOfParametersPerDimension();
-  unsigned int           linearIndex;
-  unsigned int           baseIndex;
 
   std::cout << "Index" << '\t' << "Value" << '\t' << "Weight" << std::endl;
   for (unsigned int j = 0; j < SpaceDimension; ++j)
   {
-    baseIndex = j * numberOfParametersPerDimension;
+    const auto baseIndex = j * numberOfParametersPerDimension;
     for (unsigned int k = 0; k < numberOfCoefficientInSupportRegion; ++k)
     {
-      linearIndex = indices[k] + baseIndex;
+      const auto linearIndex = indices[k] + baseIndex;
       std::cout << linearIndex << '\t';
       std::cout << parameters[linearIndex] << '\t';
       std::cout << weights[k] << '\t';

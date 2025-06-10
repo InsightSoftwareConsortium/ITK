@@ -66,8 +66,6 @@ void
 DiscreteGaussianDerivativeImageFunction<TInputImage, TOutput>::RecomputeGaussianKernel()
 {
   // Create N operators (N=ImageDimension) with the order specified in m_Order
-  unsigned int idx;
-
   for (unsigned int direction = 0; direction < Self::ImageDimension2; ++direction)
   {
     m_OperatorArray[direction].SetDirection(direction);
@@ -112,7 +110,7 @@ DiscreteGaussianDerivativeImageFunction<TInputImage, TOutput>::RecomputeGaussian
 
   // Initially the kernel image will be an impulse at the center
   auto centerIndex = KernelImageType::IndexType::Filled(2 * m_OperatorArray[0].GetRadius()[0]); // include also
-                                                                                                // boundaries
+  // boundaries
   kernelImage->SetPixel(centerIndex, itk::NumericTraits<TOutput>::OneValue());
 
   // Create an image region to be used later that does not include boundaries
@@ -141,7 +139,7 @@ DiscreteGaussianDerivativeImageFunction<TInputImage, TOutput>::RecomputeGaussian
   // Copy kernel image to neighborhood. Do not copy boundaries.
   ImageRegionConstIterator<KernelImageType> it(kernelImage, kernelRegion);
   it.GoToBegin();
-  idx = 0;
+  unsigned int idx = 0;
 
   while (!it.IsAtEnd())
   {

@@ -103,7 +103,7 @@ itkMeanSquaresImageToImageMetricv4SpeedTest(int argc, char * argv[])
   metric->Initialize();
 
   // Evaluate with GetValueAndDerivative
-  MetricType::MeasureType    valueReturn1;
+  MetricType::MeasureType    valueReturn1 = NAN;
   MetricType::DerivativeType derivativeReturn;
 
   MetricType::MeasureType sum{};

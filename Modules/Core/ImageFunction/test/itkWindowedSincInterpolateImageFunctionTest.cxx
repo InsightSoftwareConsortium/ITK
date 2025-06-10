@@ -192,10 +192,10 @@ itkWindowedSincInterpolateImageFunctionTest(int, char *[])
   /* Test evaluation at continuous indices and corresponding
      gemetric points */
   std::cout << "Evaluate at: " << std::endl;
-  OutputType          output;
+  OutputType          output = NAN;
   ContinuousIndexType cindex;
   PointType           point;
-  bool                passed;
+  bool                passed = false;
 
   // an integer position inside the image
   {

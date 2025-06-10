@@ -94,7 +94,7 @@ itkImageSpatialObjectTest(int, char *[])
   q.Fill(15.1);
   double expectedValue = 555;
 
-  double returnedValue;
+  double returnedValue = NAN;
   ITK_TRY_EXPECT_NO_EXCEPTION(imageSO->ValueAtInWorldSpace(q, returnedValue));
 
 

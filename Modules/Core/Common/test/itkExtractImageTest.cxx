@@ -92,8 +92,6 @@ itkExtractImageTest(int, char *[])
   const itk::FileOutputWindow::Pointer fow = itk::FileOutputWindow::New();
   fow->SetInstance(fow);
 
-  int nextVal;
-
   // type alias to simplify the syntax
   using SimpleImage = itk::Image<short, 2>;
   auto simpleImage = SimpleImage::New();
@@ -192,7 +190,7 @@ itkExtractImageTest(int, char *[])
       }
       else
       {
-        nextVal = 8 * column + row;
+        int nextVal = 8 * column + row;
         if (iteratorIn1.Get() != nextVal)
         {
           std::cout << "Error: (" << row << ", " << column << "), expected " << nextVal << " got " << iteratorIn1.Get()
@@ -268,7 +266,7 @@ itkExtractImageTest(int, char *[])
         }
         else
         {
-          nextVal = 8 * column + row;
+          int nextVal = 8 * column + row;
           if (iteratorIn2.Get() != nextVal)
           {
             std::cout << "Error: (" << row << ", " << column << "), expected " << nextVal << " got "

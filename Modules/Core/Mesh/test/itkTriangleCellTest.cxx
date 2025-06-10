@@ -156,7 +156,6 @@ itkTriangleCellTest(int, char *[])
   TriangleCellType::PointsContainer *       points = mesh->GetPoints();
   TriangleCellType::CoordinateType          closestPoint[3];
   TriangleCellType::CoordinateType          pcoords[3];
-  double                                    distance;
   TriangleCellType::InterpolationWeightType weights[3];
 
   constexpr double tolerance = 1e-5;
@@ -170,8 +169,8 @@ itkTriangleCellTest(int, char *[])
   std::cout << inputPoint[0] << ", ";
   std::cout << inputPoint[1] << ", ";
   std::cout << inputPoint[2] << std::endl;
-
-  bool isInside = testCell->EvaluatePosition(inputPoint, points, closestPoint, pcoords, &distance, weights);
+  double distance = NAN;
+  bool   isInside = testCell->EvaluatePosition(inputPoint, points, closestPoint, pcoords, &distance, weights);
 
   if (!isInside)
   {

@@ -44,38 +44,25 @@ LiThresholdCalculator<THistogram, TOutput>::GenerateData()
 
   const unsigned int size = histogram->GetSize(0);
 
-  long   histthresh;
-  int    ih;
-  int    num_pixels;
-  double sum_back; // sum of the background pixels at a given threshold
-  double sum_obj;  // sum of the object pixels at a given threshold
-  int    num_back; // number of background pixels at a given threshold
-  int    num_obj;  // number of object pixels at a given threshold
-  double old_thresh;
-  double new_thresh;
-  double mean_back; // mean of the background pixels at a given threshold
-  double mean_obj;  // mean of the object pixels at a given threshold
-  double mean;      // mean gray-level in the image
-  double tolerance; // threshold tolerance
-  double temp;
 
   // If there are negative values then shift the values to zero.
   const double bin_min = std::min(static_cast<double>(histogram->GetBinMin(0, 0)), 0.0);
 
-  tolerance = 0.5;
-  num_pixels = histogram->GetTotalFrequency();
+  double tolerance = 0.5; // threshold tolerance
+  int    num_pixels = histogram->GetTotalFrequency();
 
   // Calculate the mean gray-level
-  mean = 0.0;
-  for (ih = 0; static_cast<unsigned int>(ih) < size; ++ih) // 0 + 1?
+  double mean = 0.0;                                           // mean gray-level in the image
+  for (int ih = 0; static_cast<unsigned int>(ih) < size; ++ih) // 0 + 1?
   {
     mean += histogram->GetMeasurement(ih, 0) * histogram->GetFrequency(ih, 0);
   }
   mean /= num_pixels;
 
   // Initial estimate
-  new_thresh = mean;
-
+  long   histthresh = 0;
+  double new_thresh = mean;
+  double old_thresh = NAN;
   do
   {
     old_thresh = new_thresh;
@@ -96,24 +83,30 @@ LiThresholdCalculator<THistogram, TOutput>::GenerateData()
     // Calculate the means of background and object pixels
 
     // Background
-    sum_back = 0;
-    num_back = 0;
-    for (ih = 0; ih <= histthresh; ++ih)
+    double sum_back = 0; // sum of the background pixels at a given threshold
+    int    num_back = 0; // number of background pixels at a given thresh
+    for (int ih = 0; ih <= histthresh; ++ih)
     {
       sum_back += histogram->GetMeasurement(ih, 0) * histogram->GetFrequency(ih, 0);
       num_back += histogram->GetFrequency(ih, 0);
     }
-    mean_back = (num_back == 0 ? 0.0 : (sum_back / static_cast<double>(num_back)));
+
+    // mean of the background pixels at a given threshold
+    double mean_back = (num_back == 0 ? 0.0 : (sum_back / static_cast<double>(num_back)));
 
     // Object
-    sum_obj = 0;
-    num_obj = 0;
-    for (ih = histthresh + 1; static_cast<unsigned int>(ih) < size; ++ih)
+    // sum of the object pixels at a given threshold
+    double sum_obj = 0;
+    // number of object pixels at a given threshold
+    int num_obj = 0;
+    for (int ih = histthresh + 1; static_cast<unsigned int>(ih) < size; ++ih)
     {
       sum_obj += histogram->GetMeasurement(ih, 0) * histogram->GetFrequency(ih, 0);
       num_obj += histogram->GetFrequency(ih, 0);
     }
-    mean_obj = (num_obj == 0 ? 0.0 : (sum_obj / static_cast<double>(num_obj)));
+
+    // mean of the object pixels at a given threshold
+    double mean_obj = (num_obj == 0 ? 0.0 : (sum_obj / static_cast<double>(num_obj)));
 
     // Calculate the new threshold: Equation (7) in Ref. 2
     // new_thresh = simple_round ( ( mean_back - mean_obj ) / ( Math.log ( mean_back ) - Math.log ( mean_obj ) ) );
@@ -128,7 +121,7 @@ LiThresholdCalculator<THistogram, TOutput>::GenerateData()
     // and avoid the log of a negative value.
     mean_back -= bin_min;
     mean_obj -= bin_min;
-    temp = (mean_back - mean_obj) / (std::log(mean_back) - std::log(mean_obj));
+    double temp = (mean_back - mean_obj) / (std::log(mean_back) - std::log(mean_obj));
 
     const double epsilon = itk::NumericTraits<double>::epsilon();
     if (temp < -epsilon)

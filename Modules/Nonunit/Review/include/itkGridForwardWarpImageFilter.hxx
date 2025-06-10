@@ -62,14 +62,13 @@ GridForwardWarpImageFilter<TDisplacementField, TOutputImage>::GenerateData()
   // Bresenham line iterator
   using LineIteratorType = LineIterator<OutputImageType>;
 
-  IndexType                              index, refIndex, targetIndex;
+  IndexType                              refIndex;
+  IndexType                              targetIndex;
   ContinuousIndex<float, ImageDimension> contindex;
-  DisplacementType                       displacement;
-  bool                                   inside, targetIn;
 
   for (iter.GoToBegin(), fieldIt.GoToBegin(); !iter.IsAtEnd(); ++iter, ++fieldIt)
   {
-    index = iter.GetIndex();
+    IndexType index = iter.GetIndex();
 
     unsigned int numGridIntersect = 0;
     for (unsigned int dim = 0; dim < ImageDimension; ++dim)
@@ -82,10 +81,10 @@ GridForwardWarpImageFilter<TDisplacementField, TOutputImage>::GenerateData()
       // We are on a grid point => transform it
 
       // Get the required displacement
-      displacement = fieldIt.Get();
+      DisplacementType displacement = fieldIt.Get();
 
       // Compute the mapped point
-      inside = true;
+      bool inside = true;
       for (unsigned int j = 0; j < ImageDimension; ++j)
       {
         contindex[j] = index[j] + displacement[j] / spacing[j];
@@ -112,7 +111,7 @@ GridForwardWarpImageFilter<TDisplacementField, TOutputImage>::GenerateData()
             displacement = fieldPtr->GetPixel(targetIndex);
 
             // Compute the mapped point
-            targetIn = true;
+            bool targetIn = true;
             for (unsigned int j = 0; j < ImageDimension; ++j)
             {
               contindex[j] = targetIndex[j] + displacement[j] / spacing[j];

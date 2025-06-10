@@ -116,7 +116,7 @@ itkImageMaskSpatialObjectTest2(int, char *[])
       image->TransformIndexToPhysicalPoint(constIndex, point);
       const bool isInsideTest = maskSO->IsInsideInWorldSpace(point);
 
-      double outsideIfZeroValue;
+      double outsideIfZeroValue = NAN;
       maskSO->ValueAtInWorldSpace(point, outsideIfZeroValue);
       if (isInsideTest && itk::Math::AlmostEquals(outsideIfZeroValue, 0.0))
       {

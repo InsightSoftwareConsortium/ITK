@@ -228,10 +228,6 @@ KdTree<TSample>::NearestNeighborSearchLoop(const KdTreeNodeType *        node,
                                            MeasurementVectorType &       upperBound,
                                            NearestNeighbors &            nearestNeighbors) const
 {
-  unsigned int       i;
-  InstanceIdentifier tempId;
-  double             tempDistance;
-
   if (node->IsTerminal())
   {
     // terminal node
@@ -241,10 +237,10 @@ KdTree<TSample>::NearestNeighborSearchLoop(const KdTreeNodeType *        node,
       return 0;
     }
 
-    for (i = 0; i < node->Size(); ++i)
+    for (unsigned int i = 0; i < node->Size(); ++i)
     {
-      tempId = node->GetInstanceIdentifier(i);
-      tempDistance = this->m_DistanceMetric->Evaluate(query, this->m_Sample->GetMeasurementVector(tempId));
+      InstanceIdentifier tempId = node->GetInstanceIdentifier(i);
+      double tempDistance = this->m_DistanceMetric->Evaluate(query, this->m_Sample->GetMeasurementVector(tempId));
       if (tempDistance < nearestNeighbors.GetLargestDistance())
       {
         nearestNeighbors.ReplaceFarthestNeighbor(tempId, tempDistance);
@@ -259,17 +255,16 @@ KdTree<TSample>::NearestNeighborSearchLoop(const KdTreeNodeType *        node,
     return 0;
   }
 
-  unsigned int    partitionDimension;
+  unsigned int    partitionDimension = 0;
   MeasurementType partitionValue;
-  MeasurementType tempValue;
   node->GetParameters(partitionDimension, partitionValue);
 
   //
   // Check the point associated with the nonterminal node
   // and potentially add it to the list of nearest neighbors
   //
-  tempId = node->GetInstanceIdentifier(0);
-  tempDistance = this->m_DistanceMetric->Evaluate(query, this->m_Sample->GetMeasurementVector(tempId));
+  InstanceIdentifier tempId = node->GetInstanceIdentifier(0);
+  double tempDistance = this->m_DistanceMetric->Evaluate(query, this->m_Sample->GetMeasurementVector(tempId));
   if (tempDistance < nearestNeighbors.GetLargestDistance())
   {
     nearestNeighbors.ReplaceFarthestNeighbor(tempId, tempDistance);
@@ -281,7 +276,7 @@ KdTree<TSample>::NearestNeighborSearchLoop(const KdTreeNodeType *        node,
   if (query[partitionDimension] <= partitionValue)
   {
     // search the closer child node
-    tempValue = upperBound[partitionDimension];
+    MeasurementType tempValue = upperBound[partitionDimension];
     upperBound[partitionDimension] = partitionValue;
     if (this->NearestNeighborSearchLoop(node->Left(), query, lowerBound, upperBound, nearestNeighbors))
     {
@@ -301,7 +296,7 @@ KdTree<TSample>::NearestNeighborSearchLoop(const KdTreeNodeType *        node,
   else
   {
     // search the closer child node
-    tempValue = lowerBound[partitionDimension];
+    MeasurementType tempValue = lowerBound[partitionDimension];
     lowerBound[partitionDimension] = partitionValue;
     if (this->NearestNeighborSearchLoop(node->Right(), query, lowerBound, upperBound, nearestNeighbors))
     {
@@ -360,7 +355,7 @@ KdTree<TSample>::SearchLoop(const KdTreeNodeType *         node,
                             InstanceIdentifierVectorType & neighbors) const
 {
   InstanceIdentifier tempId;
-  double             tempDistance;
+  double             tempDistance = NAN;
 
   if (node->IsTerminal())
   {
@@ -398,7 +393,7 @@ KdTree<TSample>::SearchLoop(const KdTreeNodeType *         node,
     }
   }
 
-  unsigned int    partitionDimension;
+  unsigned int    partitionDimension = 0;
   MeasurementType partitionValue;
   MeasurementType tempValue;
   node->GetParameters(partitionDimension, partitionValue);
@@ -541,7 +536,7 @@ KdTree<TSample>::PrintTree(KdTreeNodeType * node,
     return;
   }
 
-  unsigned int    partitionDimension;
+  unsigned int    partitionDimension = 0;
   MeasurementType partitionValue;
 
   node->GetParameters(partitionDimension, partitionValue);
@@ -583,7 +578,7 @@ template <typename TSample>
 void
 KdTree<TSample>::PlotTree(KdTreeNodeType * node, std::ostream & os) const
 {
-  unsigned int    partitionDimension;
+  unsigned int    partitionDimension = 0;
   MeasurementType partitionValue;
 
   node->GetParameters(partitionDimension, partitionValue);

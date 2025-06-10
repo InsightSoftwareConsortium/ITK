@@ -255,7 +255,7 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
 
 
   // Evaluate
-  MetricType::MeasureType    valueReturn1;
+  MetricType::MeasureType    valueReturn1 = NAN;
   MetricType::DerivativeType derivativeReturn;
   ITK_TRY_EXPECT_NO_EXCEPTION(metric->GetValueAndDerivative(valueReturn1, derivativeReturn));
 
@@ -264,7 +264,7 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
 
 
   // Evaluate with GetValue
-  MetricType::MeasureType valueReturn2;
+  MetricType::MeasureType valueReturn2 = NAN;
   ITK_TRY_EXPECT_NO_EXCEPTION(valueReturn2 = metric->GetValue());
 
 
@@ -322,7 +322,7 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
   ITK_TRY_EXPECT_NO_EXCEPTION(metricSparse->Initialize());
 
 
-  MetricType::MeasureType    valueReturnSparse;
+  MetricType::MeasureType    valueReturnSparse = NAN;
   MetricType::DerivativeType derivativeReturnSparse;
   ITK_TRY_EXPECT_NO_EXCEPTION(metricSparse->GetValueAndDerivative(valueReturnSparse, derivativeReturnSparse));
 
@@ -358,7 +358,7 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
   transformMdisplacement->SetParameters(parameters);
   constexpr MetricType::MeasureType expectedMetricMax = itk::NumericTraits<MetricType::MeasureType>::max();
   std::cout << "Testing non-overlapping images. Expect a warning:" << std::endl;
-  MetricType::MeasureType valueReturn;
+  MetricType::MeasureType valueReturn = NAN;
   metric->GetValueAndDerivative(valueReturn, derivativeReturn);
   if (metric->GetNumberOfValidPoints() != 0 || itk::Math::NotExactlyEquals(valueReturn, expectedMetricMax))
   {

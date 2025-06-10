@@ -185,7 +185,7 @@ BinaryMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::AnalyzeKernel()
           if (SEoNeighbIt.GetPixel(ii))
           {
             // Mark it
-            bool bIsBounds;
+            bool bIsBounds = false;
             SEoNeighbIt.SetPixel(ii, false, bIsBounds);
 
             // Push

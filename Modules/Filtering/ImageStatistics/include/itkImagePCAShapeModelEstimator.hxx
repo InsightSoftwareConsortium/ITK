@@ -83,8 +83,7 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::GenerateInputRequestedRe
 
     // Set the requested region of the remaining input to the largest possible
     // region of the first input
-    unsigned int idx;
-    for (idx = 1; idx < this->GetNumberOfIndexedInputs(); ++idx)
+    for (unsigned int idx = 1; idx < this->GetNumberOfIndexedInputs(); ++idx)
     {
       if (this->GetInput(idx))
       {
@@ -115,8 +114,7 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::GenerateData()
   auto numberOfOutputs = static_cast<unsigned int>(this->GetNumberOfIndexedOutputs());
 
   const InputImagePointer input = const_cast<TInputImage *>(this->GetInput(0));
-  unsigned int            j;
-  for (j = 0; j < numberOfOutputs; ++j)
+  for (unsigned int j = 0; j < numberOfOutputs; ++j)
   {
     const OutputImagePointer output = this->GetOutput(j);
     output->SetBufferedRegion(output->GetRequestedRegion());
@@ -143,8 +141,8 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::GenerateData()
   // Now fill the principal component outputs
   unsigned int       kthLargestPrincipalComp = m_NumberOfTrainingImages;
   const unsigned int numberOfValidOutputs = std::min(numberOfOutputs, m_NumberOfTrainingImages + 1);
-
-  for (j = 1; j < numberOfValidOutputs; ++j)
+  unsigned int       j = 1;
+  for (; j < numberOfValidOutputs; ++j)
   {
     // Extract one column vector at a time
     m_OneEigenVector = m_EigenVectors.get_column(kthLargestPrincipalComp - 1);
@@ -199,13 +197,11 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::SetNumberOfPrincipalComp
     // Modify the required number of outputs ( 1 extra for the mean image )
     this->SetNumberOfRequiredOutputs(m_NumberOfPrincipalComponentsRequired + 1);
 
-    auto         numberOfOutputs = static_cast<unsigned int>(this->GetNumberOfIndexedOutputs());
-    unsigned int idx;
-
+    auto numberOfOutputs = static_cast<unsigned int>(this->GetNumberOfIndexedOutputs());
     if (numberOfOutputs < m_NumberOfPrincipalComponentsRequired + 1)
     {
       // Make and add extra outputs
-      for (idx = numberOfOutputs; idx <= m_NumberOfPrincipalComponentsRequired; ++idx)
+      for (unsigned int idx = numberOfOutputs; idx <= m_NumberOfPrincipalComponentsRequired; ++idx)
       {
         const typename DataObject::Pointer output = this->MakeOutput(idx);
         this->SetNthOutput(idx, output.GetPointer());
@@ -214,7 +210,7 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::SetNumberOfPrincipalComp
     else if (numberOfOutputs > m_NumberOfPrincipalComponentsRequired + 1)
     {
       // Remove the extra outputs
-      for (idx = numberOfOutputs - 1; idx >= m_NumberOfPrincipalComponentsRequired + 1; idx--)
+      for (unsigned int idx = numberOfOutputs - 1; idx >= m_NumberOfPrincipalComponentsRequired + 1; idx--)
       {
         this->RemoveOutput(idx);
       }
@@ -369,15 +365,13 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::EstimatePCAShapeModelPar
   m_EigenVectors.set_size(m_NumberOfPixels, m_NumberOfTrainingImages);
   m_EigenVectors.fill(0);
 
-  double                  pix_value;
-  InputImageConstIterator tempImageItA;
 
   for (unsigned int img_number = 0; img_number < m_NumberOfTrainingImages; ++img_number)
   {
-    tempImageItA = m_InputImageIteratorArray[img_number];
+    InputImageConstIterator tempImageItA = m_InputImageIteratorArray[img_number];
     for (unsigned int pix_number = 0; pix_number < m_NumberOfPixels; ++pix_number)
     {
-      pix_value = tempImageItA.Get();
+      const double pix_value = tempImageItA.Get();
       for (unsigned int vec_number = 0; vec_number < m_NumberOfTrainingImages; ++vec_number)
       {
         m_EigenVectors[pix_number][vec_number] +=

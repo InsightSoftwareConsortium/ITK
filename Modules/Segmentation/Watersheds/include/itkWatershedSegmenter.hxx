@@ -96,13 +96,14 @@ Segmenter<TInputImage>::GenerateData()
   typename ImageRegionType::SizeType  tlsz = thresholdLargestPossibleRegion.GetSize();
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    ImageRegionType                     reg;
+
     typename ImageRegionType::IndexType idx = regionToProcess.GetIndex();
     typename ImageRegionType::SizeType  sz = regionToProcess.GetSize();
 
     // Set LOW face
     idx[i] = regionToProcess.GetIndex()[i];
     sz[i] = 1;
+    ImageRegionType reg;
     reg.SetSize(sz);
     reg.SetIndex(idx);
 
@@ -420,7 +421,7 @@ Segmenter<TInputImage>::AnalyzeBoundaryFlow(InputImageTypePointer thresholdImage
   // NOTE: For ease of initial implementation, this method does
   // not support arbitrary connectivity across boundaries (yet). 10-8-01 jc
   //
-  bool isSteepest;
+  bool isSteepest = false;
 
   typename BoundaryType::face_pixel_t fps;
 
@@ -461,17 +462,10 @@ Segmenter<TInputImage>::AnalyzeBoundaryFlow(InputImageTypePointer thresholdImage
       searchIt.GoToBegin();
       labelIt.GoToBegin();
 
-      unsigned int cPos;
-      if ((idx).second == 0)
-      {
-        // Low face
-        cPos = m_Connectivity.index[(idx).first];
-      }
-      else
-      {
-        // High face
-        cPos = m_Connectivity.index[(ImageDimension - 1) + (ImageDimension - (idx).first)];
-      }
+      const unsigned int cPos =
+        ((idx).second == 0)
+          ? /* Low face */ m_Connectivity.index[(idx).first]
+          : /* High face */ m_Connectivity.index[(ImageDimension - 1) + (ImageDimension - (idx).first)];
 
       while (!searchIt.IsAtEnd())
       {
@@ -713,13 +707,15 @@ Segmenter<TInputImage>::LabelMinima(InputImageTypePointer                img,
     if (foundFlatRegion)
     {
       if (labelIt.GetPixel(nPos) != Self::NULL_LABEL) // If the flat region is
-                                                      // already
-      {                                               // labeled, label this
-                                                      // to match.
+      // already
+      {
+        // labeled, label this
+        // to match.
         labelIt.SetPixel(nCenter, labelIt.GetPixel(nPos));
       }
       else // Add a new flat region to the table.
-      {    // Initialize its contents.
+      {
+        // Initialize its contents.
         labelIt.SetPixel(nCenter, m_CurrentLabel);
         nPos = m_Connectivity.index[0];
         flat_region_t tempFlatRegion;
@@ -763,14 +759,16 @@ Segmenter<TInputImage>::LabelMinima(InputImageTypePointer                img,
   {
     const auto flatPtr = flatRegions.find(labelIt.GetPixel(nCenter));
     if (flatPtr != flatRegions.end()) // If we are in a flat region
-    {                                 // Search the connectivity neighborhood
-                                      // for lesser boundary pixels.
+    {
+      // Search the connectivity neighborhood
+      // for lesser boundary pixels.
       for (unsigned int i = 0; i < m_Connectivity.size; ++i)
       {
         nPos = m_Connectivity.index[i];
 
         if (labelIt.GetPixel(nPos) != labelIt.GetPixel(nCenter) && searchIt.GetPixel(nPos) < flatPtr->second.bounds_min)
-        { // If this is a boundary pixel && has a lesser value than
+        {
+          // If this is a boundary pixel && has a lesser value than
           // the currently recorded value...
           flatPtr->second.bounds_min = searchIt.GetPixel(nPos);
           flatPtr->second.min_label_ptr = labelIt[nPos];
@@ -835,7 +833,8 @@ Segmenter<TInputImage>::GradientDescent(InputImageTypePointer img, ImageRegionTy
       labelIt.SetLocation(it.GetIndex());
       IdentifierType newLabel = NULL_LABEL; // Follow the path of steep-
       while (newLabel == NULL_LABEL)        // est descent until a label
-      {                                     // is found.
+      {
+        // is found.
         updateStack.push(labelIt.GetCenterPointer());
         InputPixelType                      minVal = valueIt.GetPixel(m_Connectivity.index[0]);
         typename InputImageType::OffsetType moveIndex = m_Connectivity.direction[0];
@@ -916,7 +915,8 @@ Segmenter<TInputImage>::UpdateSegmentTable(InputImageTypePointer input, ImageReg
     auto                                   edge_table_entry_ptr = edgeHash.find(segment_label);
     const edge_table_t                     tempEdgeTable;
     if (segment_ptr == nullptr) // This segment not yet identified.
-    {                           // So add it to the table.
+    {
+      // So add it to the table.
       typename SegmentTableType::segment_t temp_segment;
       temp_segment.min = searchIt.GetPixel(hoodCenter);
       segments->Add(segment_label, temp_segment);
@@ -954,7 +954,8 @@ Segmenter<TInputImage>::UpdateSegmentTable(InputImageTypePointer input, ImageReg
 
         const auto edge_ptr = edge_table_entry_ptr->second.find(labelIt.GetPixel(nPos));
         if (edge_ptr == edge_table_entry_ptr->second.end())
-        { // This edge has not been identified yet.
+        {
+          // This edge has not been identified yet.
           using ValueType = typename edge_table_t::value_type;
           edge_table_entry_ptr->second.insert(ValueType(labelIt.GetPixel(nPos), lowest_edge));
         }
@@ -1219,7 +1220,7 @@ template <typename TInputImage>
 void
 Segmenter<TInputImage>::UpdateOutputInformation()
 {
-  unsigned int i;
+  unsigned int i = 0;
 
   // call the superclass' implementation of this method
   Superclass::UpdateOutputInformation();
@@ -1284,7 +1285,7 @@ Segmenter<TInputImage>::GenerateOutputRequestedRegion(DataObject * output)
 
   if (imgData)
   {
-    std::vector<ProcessObject::DataObjectPointer>::size_type idx;
+    std::vector<ProcessObject::DataObjectPointer>::size_type idx = 0;
     for (idx = 0; idx < this->GetNumberOfIndexedOutputs(); ++idx)
     {
 

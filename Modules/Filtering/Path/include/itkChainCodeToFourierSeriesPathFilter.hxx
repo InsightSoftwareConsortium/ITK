@@ -34,13 +34,7 @@ template <typename TInputChainCodePath, typename TOutputFourierSeriesPath>
 void
 ChainCodeToFourierSeriesPathFilter<TInputChainCodePath, TOutputFourierSeriesPath>::GenerateData()
 {
-  IndexType           index;
-  VectorType          indexVector;
-  VectorType          cosCoefficient;
-  VectorType          sinCoefficient;
-  OutputPathInputType theta;
 
-  size_t       numSteps;
   unsigned int numHarmonics = m_NumberOfHarmonics; // private copy
   const int    dimension = OffsetType::GetOffsetDimension();
 
@@ -52,7 +46,7 @@ ChainCodeToFourierSeriesPathFilter<TInputChainCodePath, TOutputFourierSeriesPath
   // outputPtr->SetLargestPossibleRegion( inputPtr->GetLargestPossibleRegion() );
   // outputPtr->Allocate();  // Allocate() is an Image function
 
-  numSteps = inputPtr->NumberOfSteps();
+  const auto numSteps = inputPtr->NumberOfSteps();
   outputPtr->Clear();
 
   const double nPI = 4.0 * std::atan(1.0);
@@ -69,21 +63,23 @@ ChainCodeToFourierSeriesPathFilter<TInputChainCodePath, TOutputFourierSeriesPath
 
   for (unsigned int n = 0; n < numHarmonics; ++n)
   {
-    index = inputPtr->GetStart();
+    auto       index = inputPtr->GetStart();
+    VectorType cosCoefficient;
     cosCoefficient.Fill(0.0);
+    VectorType sinCoefficient;
     sinCoefficient.Fill(0.0);
 
     for (InputPathInputType step = 0; step < numSteps; ++step)
     {
       index += inputPtr->Evaluate(step);
-      theta = 2 * n * nPI * (static_cast<double>(step + 1)) / numSteps;
+      const auto theta = 2 * n * nPI * (static_cast<double>(step + 1)) / numSteps;
 
       // turn the current index into a vector
+      VectorType indexVector;
       for (int d = 0; d < dimension; ++d)
       {
         indexVector[d] = index[d];
       }
-
       cosCoefficient += indexVector * (std::cos(theta) / numSteps);
       sinCoefficient += indexVector * (std::sin(theta) / numSteps);
     }

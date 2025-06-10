@@ -179,7 +179,7 @@ itkMeanSquaresImageMetricTest(int, char *[])
   // for parameters[1] = {-10,10}  (arbitrary choice...)
   //---------------------------------------------------------
 
-  MetricType::MeasureType    measure;
+  MetricType::MeasureType    measure = NAN;
   MetricType::DerivativeType derivative;
 
   std::cout << "param[1]   Metric    d(Metric)/d(param[1]) " << std::endl;
@@ -416,7 +416,7 @@ itkMeanSquaresImageMetricTest(int, char *[])
     std::cout << "Test for exception throwing... PASSED ! " << std::endl;
   }
 
-  bool pass;
+  bool pass = false;
 #define TEST_INITIALIZATION_ERROR(ComponentName, badComponent, goodComponent) \
   metric->Set##ComponentName(badComponent);                                   \
   try                                                                         \

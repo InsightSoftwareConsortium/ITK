@@ -157,24 +157,17 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>::ThreadedProcessLabelObject(Labe
   const double variance = (totalFreq > 1) ? (sum2 - (Math::sqr(sum) / totalFreq)) / (totalFreq - 1) : 0;
   const double sigma = std::sqrt(variance);
   const double mean2 = mean * mean;
-  double       skewness;
+  double       skewness = 0.0;
   if (itk::Math::abs(variance * sigma) > itk::NumericTraits<double>::min())
   {
     skewness = ((sum3 - 3.0 * mean * sum2) / totalFreq + 2.0 * mean * mean2) / (variance * sigma);
   }
-  else
-  {
-    skewness = 0.0;
-  }
-  double kurtosis;
+
+  double kurtosis = 0.0;
   if (itk::Math::abs(variance) > itk::NumericTraits<double>::min())
   {
     kurtosis =
       ((sum4 - 4.0 * mean * sum3 + 6.0 * mean2 * sum2) / totalFreq - 3.0 * mean2 * mean2) / (variance * variance) - 3.0;
-  }
-  else
-  {
-    kurtosis = 0.0;
   }
 
   // the median

@@ -111,7 +111,6 @@ SingleValuedVnlCostFunctionAdaptorv4::compute(const InternalParametersType & x,
 {
   // delegate the computation to the ObjectMetric
   ParametersType parameters(x.size());
-  double         measure;
 
   if (m_ScalesInitialized)
   {
@@ -126,6 +125,7 @@ SingleValuedVnlCostFunctionAdaptorv4::compute(const InternalParametersType & x,
   }
 
   this->m_ObjectMetric->SetParameters(parameters);
+  double measure = NAN;
   this->m_ObjectMetric->GetValueAndDerivative(measure, m_CachedDerivative);
   if (g) // sometimes Vnl doesn't pass a valid pointer
   {

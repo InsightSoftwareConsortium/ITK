@@ -151,15 +151,13 @@ FFTWComplexToComplex1DFFTImageFilter<TInputImage, TOutputImage>::ThreadedGenerat
   inputIt.SetDirection(this->m_Direction);
   outputIt.SetDirection(this->m_Direction);
 
-  typename InputIteratorType::PixelType *  inputBufferIt;
-  typename OutputIteratorType::PixelType * outputBufferIt;
-
   // for every fft line
   for (inputIt.GoToBegin(), outputIt.GoToBegin(); !inputIt.IsAtEnd(); outputIt.NextLine(), inputIt.NextLine())
   {
     // copy the input line into our buffer
     inputIt.GoToBeginOfLine();
-    inputBufferIt = reinterpret_cast<typename InputIteratorType::PixelType *>(m_InputBufferArray[threadID]);
+    typename InputIteratorType::PixelType * inputBufferIt =
+      reinterpret_cast<typename InputIteratorType::PixelType *>(m_InputBufferArray[threadID]);
     while (!inputIt.IsAtEndOfLine())
     {
       *inputBufferIt = inputIt.Get();
@@ -173,7 +171,8 @@ FFTWComplexToComplex1DFFTImageFilter<TInputImage, TOutputImage>::ThreadedGenerat
     if (this->m_TransformDirection == Superclass::DIRECT)
     {
       // copy the output from the buffer into our line
-      outputBufferIt = reinterpret_cast<typename OutputIteratorType::PixelType *>(m_OutputBufferArray[threadID]);
+      typename OutputIteratorType::PixelType * outputBufferIt =
+        reinterpret_cast<typename OutputIteratorType::PixelType *>(m_OutputBufferArray[threadID]);
       outputIt.GoToBeginOfLine();
       while (!outputIt.IsAtEndOfLine())
       {

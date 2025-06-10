@@ -401,7 +401,7 @@ itkChiSquareDistributionTest(int, char *[])
   distributionFunction->SetDegreesOfFreedom(1); // clear settings
 
 
-  double last_x;
+  double last_x = NAN;
 
   for (int i = 0; i <= 5; ++i)
   {

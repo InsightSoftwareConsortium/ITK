@@ -96,8 +96,6 @@ void
 GradientMagnitudeImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread)
 {
-  unsigned int i;
-
   ZeroFluxNeumannBoundaryCondition<TInputImage> nbc;
 
   ConstNeighborhoodIterator<TInputImage> nit;
@@ -112,7 +110,7 @@ GradientMagnitudeImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerate
   // Set up operators
   DerivativeOperator<RealType, ImageDimension> op[ImageDimension];
 
-  for (i = 0; i < ImageDimension; ++i)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     // The operator has default values for its direction (0) and its order (1).
     op[i].CreateDirectional();
@@ -146,7 +144,7 @@ GradientMagnitudeImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerate
   nit = ConstNeighborhoodIterator<TInputImage>(radius, input, faceList.front());
 
   std::slice x_slice[ImageDimension];
-  for (i = 0; i < ImageDimension; ++i)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     static constexpr SizeValueType neighborhoodSize = Math::UnsignedPower(3, ImageDimension);
     static constexpr SizeValueType center = neighborhoodSize / 2;
@@ -166,7 +164,7 @@ GradientMagnitudeImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerate
     while (!bit.IsAtEnd())
     {
       RealType a{};
-      for (i = 0; i < ImageDimension; ++i)
+      for (unsigned int i = 0; i < ImageDimension; ++i)
       {
         const RealType g = SIP(x_slice[i], bit, op[i]);
         a += g * g;

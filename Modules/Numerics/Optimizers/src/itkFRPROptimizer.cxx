@@ -73,9 +73,9 @@ FRPROptimizer::LineOptimize(ParametersType * p, ParametersType & xi, double * va
   double ax = 0.0;
   double fa = (*val);
   double xx = this->GetStepLength();
-  double fx;
-  double bx;
-  double fb;
+  double fx = NAN;
+  double bx = NAN;
+  double fb = NAN;
 
   this->LineBracket(&ax, &xx, &bx, &fa, &fx, &fb, tempCoord);
   this->SetCurrentLinePoint(xx, fx);
@@ -114,7 +114,7 @@ FRPROptimizer::StartOptimization()
   p = this->GetInitialPosition();
   this->SetCurrentPosition(p);
 
-  double fp;
+  double fp = NAN;
   this->GetValueAndDerivative(p, &fp, &xi);
 
   for (unsigned int i = 0; i < this->GetSpaceDimension(); ++i)

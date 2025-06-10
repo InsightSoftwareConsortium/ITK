@@ -1093,7 +1093,7 @@ ProcessObject::MakeIndexFromName(const DataObjectIdentifierType & name) const
     itkExceptionMacro("Not an indexed data object: " << name);
   }
   const DataObjectIdentifierType idxStr = name.substr(baseSize);
-  DataObjectPointerArraySizeType idx;
+  DataObjectPointerArraySizeType idx = 0;
   if (!(std::istringstream(idxStr) >> idx))
   {
     itkDebugMacro("MakeIndexFromName(" << name << ") -> exception not an index");

@@ -218,14 +218,10 @@ RegularStepGradientDescentBaseOptimizer::AdvanceOneStep()
     return;
   }
 
-  double direction;
+  double direction = -1.0;
   if (this->m_Maximize)
   {
     direction = 1.0;
-  }
-  else
-  {
-    direction = -1.0;
   }
 
   const double factor = direction * m_CurrentStepLength / gradientMagnitude;

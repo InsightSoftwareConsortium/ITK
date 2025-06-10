@@ -93,7 +93,7 @@ SpatialObject<TDimension>::DerivativeAtInObjectSpace(const PointType &          
 
   if (order == 0)
   {
-    double r;
+    double r = NAN;
 
     ValueAtInObjectSpace(point, r, depth, name);
     value.Fill(r);

@@ -144,7 +144,7 @@ FreeSurferAsciiMeshIO::ReadPoints(void * buffer)
 
   // Read points
   m_InputFile.precision(12);
-  float value;
+  float value = NAN;
 
   SizeValueType index = 0;
   for (SizeValueType id = 0; id < this->m_NumberOfPoints; ++id)
@@ -165,7 +165,7 @@ FreeSurferAsciiMeshIO::ReadCells(void * buffer)
   SizeValueType          index = 0;
   constexpr unsigned int numberOfCellPoints = 3;
   const auto             data = make_unique_for_overwrite<unsigned int[]>(this->m_NumberOfCells * numberOfCellPoints);
-  float                  value;
+  float                  value = NAN;
 
   for (SizeValueType id = 0; id < this->m_NumberOfCells; ++id)
   {

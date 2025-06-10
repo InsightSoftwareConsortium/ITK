@@ -28,7 +28,7 @@ CheckFileNameParsing(const std::string & fileName,
 {
   // the current kwsys way...
   std::cout << "(kwsys) Extracting...file name...";
-  char * nameOnly;
+  char * nameOnly = nullptr;
   {
     const std::string fileNameString =
       itksys::SystemTools::GetFilenameWithoutLastExtension(itksys::SystemTools::GetFilenameName(fileName));
@@ -37,7 +37,7 @@ CheckFileNameParsing(const std::string & fileName,
   }
 
   std::cout << "extension...";
-  char * extension;
+  char * extension = nullptr;
   {
     const std::string extensionString = itksys::SystemTools::GetFilenameLastExtension(fileName);
     // NB: remove the period (kwsys leaves it on, ITK precedent was to
@@ -54,7 +54,7 @@ CheckFileNameParsing(const std::string & fileName,
   }
 
   std::cout << "path...";
-  char * path;
+  char * path = nullptr;
   {
     std::string pathString = itksys::SystemTools::GetFilenamePath(fileName);
 #ifdef _WIN32
@@ -83,7 +83,7 @@ CheckFileNameParsing(const std::string & fileName,
   std::cout << "DONE" << std::endl;
 
   std::cout << "Comparing...file name...";
-  bool nameMatches;
+  bool nameMatches = false;
   if (strlen(nameOnly) == 0)
   {
     nameMatches = correctNameOnly.empty();
@@ -94,7 +94,7 @@ CheckFileNameParsing(const std::string & fileName,
   }
 
   std::cout << "extension...";
-  bool extensionMatches;
+  bool extensionMatches = false;
   if (strlen(extension) == 0)
   {
     extensionMatches = correctExtension.empty();
@@ -105,7 +105,7 @@ CheckFileNameParsing(const std::string & fileName,
   }
 
   std::cout << "path...";
-  bool pathMatches;
+  bool pathMatches = false;
   if (strlen(path) == 0)
   {
     pathMatches = correctPath.empty();

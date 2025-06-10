@@ -427,7 +427,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ConstructLaye
     {
       if (statusIt.GetPixel(m_NeighborList.GetArrayIndex(i)) == m_StatusNull)
       {
-        bool boundary_status;
+        bool boundary_status = false;
         statusIt.SetPixel(m_NeighborList.GetArrayIndex(i), to, boundary_status);
 
         if (boundary_status) // in bounds
@@ -897,11 +897,10 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::DeallocateDat
     for (unsigned int i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; ++i)
     {
       // return all the nodes in layer i to the main node pool
-      LayerNodeType *        nodePtr = nullptr;
       const LayerPointerType layerPtr = m_Layers[i];
       while (!layerPtr->Empty())
       {
-        nodePtr = layerPtr->Front();
+        LayerNodeType * nodePtr = layerPtr->Front();
         layerPtr->PopFront();
         m_LayerNodeStore->Return(nodePtr);
       }
@@ -930,11 +929,10 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::DeallocateDat
       for (unsigned int i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; ++i)
       {
         // return all the nodes in layer i to thread-i's node pool
-        LayerNodeType *        nodePtr;
         const LayerPointerType layerPtr = m_Data[ThreadId].m_Layers[i];
         while (!layerPtr->Empty())
         {
-          nodePtr = layerPtr->Front();
+          LayerNodeType * nodePtr = layerPtr->Front();
           layerPtr->PopFront();
           m_Data[ThreadId].m_LayerNodeStore->Return(nodePtr);
         }
@@ -953,12 +951,11 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::DeallocateDat
             continue;
           }
 
-          LayerNodeType *        nodePtr;
           const LayerPointerType layerPtr = m_Data[ThreadId].m_LoadTransferBufferLayers[i][tid];
 
           while (!layerPtr->Empty())
           {
-            nodePtr = layerPtr->Front();
+            LayerNodeType * nodePtr = layerPtr->Front();
             layerPtr->PopFront();
             m_Data[ThreadId].m_LayerNodeStore->Return(nodePtr);
           }
@@ -971,7 +968,6 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::DeallocateDat
       // m_InterNeighborNodeTransferBufferLayers (if any)
       for (unsigned int i = 0; i < m_NumOfWorkUnits; ++i)
       {
-        LayerNodeType * nodePtr;
         for (unsigned int InOrOut = 0; InOrOut < 2; ++InOrOut)
         {
           const LayerPointerType layerPtr =
@@ -979,7 +975,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::DeallocateDat
 
           while (!layerPtr->Empty())
           {
-            nodePtr = layerPtr->Front();
+            LayerNodeType * nodePtr = layerPtr->Front();
             layerPtr->PopFront();
             m_Data[ThreadId].m_LayerNodeStore->Return(nodePtr);
           }
@@ -1927,10 +1923,9 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedProce
 
   // Push each index in the input list into its appropriate status layer
   // (ChangeToStatus) and ... ... update the status image value at that index
-  LayerNodeType * nodePtr;
   while (!OutsideList->Empty())
   {
-    nodePtr = OutsideList->Front();
+    LayerNodeType * nodePtr = OutsideList->Front();
     OutsideList->PopFront();
 
     m_StatusImage->SetPixel(nodePtr->m_Index, ChangeToStatus);
@@ -2171,10 +2166,8 @@ template <typename TInputImage, typename TOutputImage>
 void
 ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedLoadBalance1(ThreadIdType ThreadId)
 {
-  unsigned int i;
-
   // cleanup the layers first
-  for (i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; ++i)
+  for (unsigned int i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; ++i)
   {
     for (ThreadIdType tid = 0; tid < m_NumOfWorkUnits; ++tid)
     {
@@ -2188,16 +2181,15 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedLoadB
     }
   }
 
-  LayerNodeType * nodePtr;
   // for all layers
-  for (i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; ++i)
+  for (unsigned int i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; ++i)
   {
     typename LayerType::Iterator       layerIt = m_Data[ThreadId].m_Layers[i]->Begin();
     const typename LayerType::Iterator layerEnd = m_Data[ThreadId].m_Layers[i]->End();
 
     while (layerIt != layerEnd)
     {
-      nodePtr = layerIt.GetPointer();
+      LayerNodeType * nodePtr = layerIt.GetPointer();
       ++layerIt;
 
       // use the latest (just updated in CheckLoadBalance) boundaries to

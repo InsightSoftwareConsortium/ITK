@@ -207,7 +207,7 @@ MetaSceneConverter<VDimension, PixelType, TMeshTraits>::CreateMetaScene(const Sp
   auto it = childrenList->begin();
   auto itEnd = childrenList->end();
 
-  MetaObject * currentMeta;
+  MetaObject * currentMeta = nullptr;
 
   while (it != itEnd)
   {

@@ -79,11 +79,13 @@ class ShowProgressObject
 {
 public:
   ShowProgressObject(itk::ProcessObject * o) { m_Process = o; }
+
   void
   ShowProgress()
   {
     std::cout << "Progress " << m_Process->GetProgress() << std::endl;
   }
+
   itk::ProcessObject::Pointer m_Process;
 };
 
@@ -112,11 +114,9 @@ itkWarpVectorImageFilterTest(int, char *[])
   input->SetBufferedRegion(region);
   input->Allocate();
 
-
-  unsigned int                 j;
   ImagePattern<ImageDimension> pattern;
   pattern.m_Offset = 64;
-  for (j = 0; j < ImageDimension; ++j)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     pattern.m_Coeff[j] = 1.0;
   }
@@ -136,7 +136,7 @@ itkWarpVectorImageFilterTest(int, char *[])
 
   ImageType::RegionType fieldRegion;
   ImageType::SizeType   fieldSize;
-  for (j = 0; j < ImageDimension; ++j)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     fieldSize[j] = size[j] * factors[j] + 5;
   }
@@ -153,7 +153,7 @@ itkWarpVectorImageFilterTest(int, char *[])
   {
     IndexType  index = fieldIter.GetIndex();
     VectorType displacement;
-    for (j = 0; j < ImageDimension; ++j)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       displacement[j] = static_cast<float>(index[j]) * ((1.0 / factors[j]) - 1.0);
     }
@@ -215,7 +215,7 @@ itkWarpVectorImageFilterTest(int, char *[])
   ImageType::SizeType decrementForScaling;
   ImageType::SizeType clampSizeDecrement;
   ImageType::SizeType clampSize;
-  for (j = 0; j < ImageDimension; ++j)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     validSize[j] = size[j] * factors[j];
 
@@ -248,7 +248,7 @@ itkWarpVectorImageFilterTest(int, char *[])
   validRegion.SetSize(validSize);
 
   // adjust the pattern coefficients to match
-  for (j = 0; j < ImageDimension; ++j)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     pattern.m_Coeff[j] /= static_cast<double>(factors[j]);
   }

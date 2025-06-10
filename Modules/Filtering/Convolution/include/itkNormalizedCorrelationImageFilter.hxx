@@ -99,15 +99,16 @@ NormalizedCorrelationImageFilter<TInputImage, TMaskImage, TOutputImage, TOperato
   NormalizedTemplateType normalizedTemplate;
   normalizedTemplate.SetRadius(this->GetOperator().GetRadius());
 
-  typename NormalizedTemplateType::Iterator      ntIt;
-  typename OutputNeighborhoodType::ConstIterator tIt;
-
   OutputPixelRealType sum = 0.0;
   OutputPixelRealType sumOfSquares = 0.0;
-  for (tIt = this->GetOperator().Begin(); tIt < this->GetOperator().End(); ++tIt)
   {
-    sum += (*tIt);
-    sumOfSquares += ((*tIt) * (*tIt));
+    for (typename OutputNeighborhoodType::ConstIterator tIt = this->GetOperator().Begin();
+         tIt < this->GetOperator().End();
+         ++tIt)
+    {
+      sum += (*tIt);
+      sumOfSquares += ((*tIt) * (*tIt));
+    }
   }
   auto                      num = static_cast<OutputPixelRealType>(this->GetOperator().Size());
   const OutputPixelRealType mean = sum / num;
@@ -121,12 +122,15 @@ NormalizedCorrelationImageFilter<TInputImage, TMaskImage, TOutputImage, TOperato
   const double k = std * std::sqrt(num - 1.0);
 
   // normalize the template
-  for (ntIt = normalizedTemplate.Begin(), tIt = this->GetOperator().Begin(); ntIt < normalizedTemplate.End();
-       ++ntIt, ++tIt)
   {
-    *ntIt = (*tIt - mean) / k;
+    typename OutputNeighborhoodType::ConstIterator tIt = this->GetOperator().Begin();
+    for (typename NormalizedTemplateType::Iterator ntIt = normalizedTemplate.Begin(); ntIt < normalizedTemplate.End();
+         ++ntIt)
+    {
+      *ntIt = (*tIt - mean) / k;
+      ++tIt;
+    }
   }
-
   // get output/inputs
   OutputImageType *      output = this->GetOutput();
   const InputImageType * input = this->GetInput();
@@ -147,25 +151,19 @@ NormalizedCorrelationImageFilter<TInputImage, TMaskImage, TOutputImage, TOperato
 
   // Process non-boundary region and each of the boundary faces.
   // These are N-d regions which border the edge of the buffer.
-  ConstNeighborhoodIterator<InputImageType> bit;
-  ImageRegionIterator<OutputImageType>      it;
-  ImageRegionConstIterator<MaskImageType>   mit;
-  unsigned int                              i;
-  const unsigned int                        templateSize = normalizedTemplate.Size();
-  OutputPixelRealType                       realTemplateSize;
-  OutputPixelRealType                       value;
-  OutputPixelRealType                       numerator;
-  OutputPixelRealType                       denominator;
-  const OutputPixelRealType                 zero = OutputPixelType{};
 
-  realTemplateSize = static_cast<OutputPixelRealType>(templateSize);
+  const unsigned int        templateSize = normalizedTemplate.Size();
+  const OutputPixelRealType zero = OutputPixelType{};
+
+  OutputPixelRealType realTemplateSize = static_cast<OutputPixelRealType>(templateSize);
   for (const auto & face : faceList)
   {
-    bit = ConstNeighborhoodIterator<InputImageType>(normalizedTemplate.GetRadius(), input, face);
+    ConstNeighborhoodIterator<InputImageType> bit =
+      ConstNeighborhoodIterator<InputImageType>(normalizedTemplate.GetRadius(), input, face);
     bit.OverrideBoundaryCondition(this->GetBoundaryCondition());
     bit.GoToBegin();
 
-    it = ImageRegionIterator<OutputImageType>(output, face);
+    ImageRegionIterator<OutputImageType> it = ImageRegionIterator<OutputImageType>(output, face);
 
     if (!mask)
     {
@@ -179,10 +177,10 @@ NormalizedCorrelationImageFilter<TInputImage, TMaskImage, TOutputImage, TOperato
         // function of the image neighborhood.
         sum = 0.0;
         sumOfSquares = 0.0;
-        numerator = 0.0;
-        for (i = 0; i < templateSize; ++i)
+        OutputPixelRealType numerator = 0.0;
+        for (unsigned int i = 0; i < templateSize; ++i)
         {
-          value = static_cast<OutputPixelRealType>(bit.GetPixel(i));
+          OutputPixelRealType value = static_cast<OutputPixelRealType>(bit.GetPixel(i));
 
           numerator += (value * normalizedTemplate[i]);
 
@@ -190,7 +188,7 @@ NormalizedCorrelationImageFilter<TInputImage, TMaskImage, TOutputImage, TOperato
           sum += value;
           sumOfSquares += (value * value);
         }
-        denominator = std::sqrt(sumOfSquares - (sum * sum / realTemplateSize));
+        OutputPixelRealType denominator = std::sqrt(sumOfSquares - (sum * sum / realTemplateSize));
 
         it.Value() = numerator / denominator;
 
@@ -203,7 +201,7 @@ NormalizedCorrelationImageFilter<TInputImage, TMaskImage, TOutputImage, TOperato
     {
       // Mask is defined, use the same calculation as above but only
       // perform it under the mask
-      mit = ImageRegionConstIterator<MaskImageType>(mask, face);
+      ImageRegionConstIterator<MaskImageType> mit = ImageRegionConstIterator<MaskImageType>(mask, face);
       while (!bit.IsAtEnd())
       {
         if (mit.Get())
@@ -215,10 +213,10 @@ NormalizedCorrelationImageFilter<TInputImage, TMaskImage, TOutputImage, TOperato
           // function of the image neighborhood.
           sum = 0.0;
           sumOfSquares = 0.0;
-          numerator = 0.0;
-          for (i = 0; i < templateSize; ++i)
+          OutputPixelRealType numerator = 0.0;
+          for (unsigned int i = 0; i < templateSize; ++i)
           {
-            value = static_cast<OutputPixelRealType>(bit.GetPixel(i));
+            auto value = static_cast<OutputPixelRealType>(bit.GetPixel(i));
 
             numerator += (value * normalizedTemplate[i]);
 
@@ -226,7 +224,7 @@ NormalizedCorrelationImageFilter<TInputImage, TMaskImage, TOutputImage, TOperato
             sum += value;
             sumOfSquares += (value * value);
           }
-          denominator = std::sqrt(sumOfSquares - (sum * sum / realTemplateSize));
+          OutputPixelRealType denominator = std::sqrt(sumOfSquares - (sum * sum / realTemplateSize));
 
           it.Value() = numerator / denominator;
         }

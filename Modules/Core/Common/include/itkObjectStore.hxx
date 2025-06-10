@@ -57,13 +57,11 @@ template <typename TObjectType>
 auto
 ObjectStore<TObjectType>::Borrow() -> ObjectType *
 {
-  ObjectType * p;
-
   if (m_FreeList.empty()) // must allocate more memory
   {
     this->Reserve(m_Size + this->GetGrowthSize());
   }
-  p = m_FreeList.back();
+  ObjectType * p = m_FreeList.back();
   m_FreeList.pop_back();
   return p;
 

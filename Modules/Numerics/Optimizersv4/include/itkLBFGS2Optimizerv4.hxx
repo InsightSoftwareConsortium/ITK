@@ -149,7 +149,7 @@ LBFGS2Optimizerv4Template<TInternalComputationValueType>::EvaluateCost(
 
   this->m_Gradient.SetSize(n);
   this->m_Gradient.SetData(g, n, false);
-  PrecisionType value;
+  PrecisionType value = NAN;
   this->m_Metric->GetValueAndDerivative(value, this->m_Gradient);
 
   this->ModifyGradientByScales();

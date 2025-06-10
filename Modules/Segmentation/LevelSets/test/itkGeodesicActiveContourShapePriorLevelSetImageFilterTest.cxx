@@ -384,7 +384,7 @@ itkGeodesicActiveContourShapePriorLevelSetImageFilterTest(int, char *[])
   //
   // Exercise error handling testing.
   //
-  bool pass;
+  bool pass = false;
 
 #define TEST_INITIALIZATION_ERROR(ComponentName, badComponent, goodComponent) \
   filter->Set##ComponentName(badComponent);                                   \

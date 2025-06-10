@@ -127,20 +127,17 @@ testBinaryMinMaxCurvatureFlow(itk::Size<VImageDimension> & size, // ND image siz
   for (IteratorType circleIter(circleImage, circleImage->GetBufferedRegion()); !circleIter.IsAtEnd(); ++circleIter)
   {
     typename ImageType::IndexType index = circleIter.GetIndex();
-    float                         value;
 
     double lhs = 0.0;
     for (int j = 0; j < ImageDimension; ++j)
     {
       lhs += itk::Math::sqr(static_cast<double>(index[j]) - static_cast<double>(size[j]) * 0.5);
     }
+
+    float value = background;
     if (lhs < sqrRadius)
     {
       value = foreground;
-    }
-    else
-    {
-      value = background;
     }
 
     if (vnl_sample_uniform(0.0, 1.0) < fractionNoise)

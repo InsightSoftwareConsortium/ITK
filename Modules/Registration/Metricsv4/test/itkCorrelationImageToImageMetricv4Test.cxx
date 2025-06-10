@@ -207,7 +207,7 @@ itkCorrelationImageToImageMetricv4Test(int, char ** const)
 
   metric->SetMaximumNumberOfWorkUnits(1);
   std::cerr << "Setting number of metric threads to " << metric->GetMaximumNumberOfWorkUnits() << std::endl;
-  MetricType::MeasureType    value1;
+  MetricType::MeasureType    value1 = NAN;
   MetricType::DerivativeType derivative1;
 
   int ret = itkCorrelationImageToImageMetricv4Test_WithSpecifiedThreads(metric, value1, derivative1);
@@ -215,7 +215,7 @@ itkCorrelationImageToImageMetricv4Test(int, char ** const)
   {
     result = EXIT_FAILURE;
   }
-  MetricType::MeasureType    value2;
+  MetricType::MeasureType    value2 = NAN;
   MetricType::DerivativeType derivative2;
   metric->SetMaximumNumberOfWorkUnits(8);
   std::cerr << "Setting number of metric threads to " << metric->GetMaximumNumberOfWorkUnits() << std::endl;
@@ -250,7 +250,7 @@ itkCorrelationImageToImageMetricv4Test(int, char ** const)
   movingTransform->SetParameters(parameters);
   constexpr MetricType::MeasureType expectedMetricMax = itk::NumericTraits<MetricType::MeasureType>::max();
   std::cout << "Testing non-overlapping images. Expect a warning:" << std::endl;
-  MetricType::MeasureType    valueReturn;
+  MetricType::MeasureType    valueReturn = NAN;
   MetricType::DerivativeType derivativeReturn;
   metric->GetValueAndDerivative(valueReturn, derivativeReturn);
   if (metric->GetNumberOfValidPoints() != 0 || itk::Math::NotExactlyEquals(valueReturn, expectedMetricMax))

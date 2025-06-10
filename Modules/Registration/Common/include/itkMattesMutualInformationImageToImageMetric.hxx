@@ -923,14 +923,10 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::ComputePDF
     // Use a raw pointer here to avoid the overhead of smart pointers.
     // For instance, Register and UnRegister have mutex locks around
     // the reference counts.
-    TransformType * transform;
+    TransformType * transform = this->m_Transform;
     if (threadId > 0)
     {
       transform = this->m_ThreaderTransform[threadId - 1];
-    }
-    else
-    {
-      transform = this->m_Transform;
     }
 
     // Compute the transform Jacobian.
@@ -1003,8 +999,8 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::ComputePDF
          * (because for each parameter the Jacobian is non-zero in only 1 of the
          * possible dimensions) which is multiplied by the moving image
          * gradient. */
-        PDFValueType innerProduct;
-        int          parameterIndex;
+        PDFValueType innerProduct = NAN;
+        int          parameterIndex = 0;
         if (this->m_UseCachingOfBSplineWeights)
         {
           innerProduct = movingImageGradientValue[dim] * weights[mu];

@@ -86,10 +86,10 @@ HistogramToTextureFeaturesFilter<THistogram>::GenerateData()
 
   // Now get the various means and variances. This is takes two passes
   // through the histogram.
-  double pixelMean;
-  double marginalMean;
-  double marginalDevSquared;
-  double pixelVariance;
+  double pixelMean = NAN;
+  double marginalMean = NAN;
+  double marginalDevSquared = NAN;
+  double pixelVariance = NAN;
 
   this->ComputeMeansAndVariances(pixelMean, marginalMean, marginalDevSquared, pixelVariance);
 

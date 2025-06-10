@@ -91,8 +91,6 @@ SobelEdgeDetectionImageFilter<TInputImage, TOutputImage>::GenerateData()
   using AddFilter = NaryAddImageFilter<OutputImageType, OutputImageType>;
   using SqrtFilter = SqrtImageFilter<OutputImageType, OutputImageType>;
 
-  unsigned int i;
-
   const typename TOutputImage::Pointer output = this->GetOutput();
   output->SetBufferedRegion(output->GetRequestedRegion());
   output->Allocate();
@@ -106,7 +104,7 @@ SobelEdgeDetectionImageFilter<TInputImage, TOutputImage>::GenerateData()
   typename MultFilter::Pointer multFilter[ImageDimension];
   auto                         addFilter = AddFilter::New();
   auto                         sqrtFilter = SqrtFilter::New();
-  for (i = 0; i < ImageDimension; ++i)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     // Create the filters for this axis.
     opFilter[i] = OpFilter::New();

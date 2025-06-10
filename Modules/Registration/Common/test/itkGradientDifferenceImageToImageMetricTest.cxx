@@ -121,14 +121,14 @@ itkGradientDifferenceImageToImageMetricTest(int, char *[])
     metric->Initialize();
 
     // Do some work
-    DerivativeType          derivatives(numberOfParameters);
-    MetricType::MeasureType value;
+    DerivativeType derivatives(numberOfParameters);
     for (double y = -10.0; y <= 10.0; y += 5.0)
     {
       parameters[1] = y;
       for (double x = -10.0; x <= 10.0; x += 5.0)
       {
         parameters[0] = x;
+        MetricType::MeasureType value = NAN;
         metric->GetValueAndDerivative(parameters, value, derivatives);
         std::cout << "Parameters: " << parameters << ", Value: " << value << ", Derivatives: " << derivatives
                   << std::endl;

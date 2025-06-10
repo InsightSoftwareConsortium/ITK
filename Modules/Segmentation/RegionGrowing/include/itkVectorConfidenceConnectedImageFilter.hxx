@@ -119,8 +119,6 @@ VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
   using IteratorType = FloodFilledImageFunctionConditionalIterator<OutputImageType, DistanceThresholdFunctionType>;
   using SecondIteratorType = FloodFilledImageFunctionConditionalConstIterator<InputImageType, SecondFunctionType>;
 
-  unsigned int loop;
-
   const typename Superclass::InputImageConstPointer inputImage = this->GetInput();
   const typename Superclass::OutputImagePointer     outputImage = this->GetOutput();
 
@@ -249,8 +247,7 @@ VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
   }
 
   ProgressReporter progress(this, 0, region.GetNumberOfPixels() * m_NumberOfIterations);
-
-  for (loop = 0; loop < m_NumberOfIterations; ++loop)
+  for (unsigned int loop = 0; loop < m_NumberOfIterations; ++loop)
   {
     // Now that we have an initial segmentation, let's recalculate the
     // statistics.  Since we have already labelled the output, we visit

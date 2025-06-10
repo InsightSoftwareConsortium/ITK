@@ -52,14 +52,10 @@ square(unsigned int x, unsigned int y)
 {
   const float X = itk::Math::abs(x - float{ WIDTH } / 2.0);
   const float Y = itk::Math::abs(y - float{ HEIGHT } / 2.0);
-  float       dis;
+  float       dis = -std::sqrt((X - RADIUS) * (X - RADIUS) + (Y - RADIUS) * (Y - RADIUS));
   if (!((X > RADIUS) && (Y > RADIUS)))
   {
     dis = RADIUS - std::max(X, Y);
-  }
-  else
-  {
-    dis = -std::sqrt((X - RADIUS) * (X - RADIUS) + (Y - RADIUS) * (Y - RADIUS));
   }
   return (dis);
 }

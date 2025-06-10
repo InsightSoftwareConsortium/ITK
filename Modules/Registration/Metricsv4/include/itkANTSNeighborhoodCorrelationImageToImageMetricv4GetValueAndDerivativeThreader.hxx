@@ -44,7 +44,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDo
   VirtualPointType   virtualPoint;
   MeasureType        metricValueResult{};
   MeasureType        metricValueSum{};
-  bool               pointIsValid;
+  bool               pointIsValid = false;
   ScanIteratorType   scanIt;
   ScanParametersType scanParameters;
   ScanMemType        scanMem;
@@ -446,7 +446,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
   MovingImagePointType    mappedMovingPoint;
   MovingImagePixelType    movingImageValue;
   MovingImageGradientType movingImageGradient;
-  bool                    pointIsValid;
+  bool                    pointIsValid = false;
 
   this->m_ANTSAssociate->TransformVirtualIndexToPhysicalPoint(oindex, virtualPoint);
 
@@ -591,7 +591,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDo
 {
 
   MeasureType        metricValueResult{};
-  bool               pointIsValid;
+  bool               pointIsValid = false;
   ScanIteratorType   scanIt;
   ScanParametersType scanParameters;
   ScanMemType        scanMem;

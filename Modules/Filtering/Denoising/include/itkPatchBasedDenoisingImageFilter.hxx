@@ -2140,7 +2140,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ComputeGradientJointE
 
   for (unsigned int jj = 0; jj < lengthPatch; ++jj)
   {
-    bool isInBounds;
+    bool isInBounds = false;
     currentPatchVec[jj] = currentPatch.GetPixel(jj, isInBounds);
     patchWeightVec[jj].SetSize(m_NumIndependentComponents);
     patchWeightVec[jj].Fill(patchWeights[jj]);

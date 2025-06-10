@@ -264,11 +264,9 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>::ThreadedGenerateDataBa
   auto       bandIt = m_NarrowBandRegion[threadId].Begin;
   const auto bandEnd = m_NarrowBandRegion[threadId].End;
 
-  unsigned int n;
-
   InputSizeType radiusIn;
   SizeType      radiusOut;
-  for (n = 0; n < ImageDimension; ++n)
+  for (unsigned int n = 0; n < ImageDimension; ++n)
   {
     radiusIn[n] = 2;
     radiusOut[n] = 1;
@@ -281,7 +279,7 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>::ThreadedGenerateDataBa
   // Get Stride information to move across dimension
   std::vector<OffsetValueType> stride(ImageDimension, 0);
 
-  for (n = 0; n < ImageDimension; ++n)
+  for (unsigned int n = 0; n < ImageDimension; ++n)
   {
     stride[n] = inNeigIt.GetStride(n);
   }

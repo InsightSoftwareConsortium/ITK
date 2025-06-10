@@ -118,8 +118,8 @@ itkMatrixIndexSelectionImageFilterTest(int argc, char * argv[])
   constexpr unsigned int indexB = 1;
   filter->SetIndices(indexA, indexB);
 
-  unsigned int testIndexA;
-  unsigned int testIndexB;
+  unsigned int testIndexA = 0;
+  unsigned int testIndexB = 0;
   filter->GetIndices(testIndexA, testIndexB);
 
   if (indexA != testIndexA || indexB != testIndexB)

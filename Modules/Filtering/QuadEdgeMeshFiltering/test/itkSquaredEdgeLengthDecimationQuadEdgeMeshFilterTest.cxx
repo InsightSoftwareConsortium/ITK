@@ -60,7 +60,7 @@ itkSquaredEdgeLengthDecimationQuadEdgeMeshFilterTest(int argc, char * argv[])
   using CriterionType = itk::NumberOfFacesCriterion<MeshType>;
   using DecimationType = itk::SquaredEdgeLengthDecimationQuadEdgeMeshFilter<MeshType, MeshType, CriterionType>;
 
-  long              N;
+  long              N = 0;
   std::stringstream ssout(argv[2]);
   ssout >> N;
 

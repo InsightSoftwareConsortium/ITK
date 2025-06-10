@@ -36,7 +36,7 @@ template <class TInputImage, class TOutputImage>
 void
 NoiseBaseImageFilter<TInputImage, TOutputImage>::SetSeed()
 {
-  time_t t;
+  time_t t = 0;
 
   time(&t);
   this->SetSeed(Hash(t, clock()));

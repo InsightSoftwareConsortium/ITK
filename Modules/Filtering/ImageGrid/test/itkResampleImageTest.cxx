@@ -52,12 +52,10 @@ itkResampleImageTest(int, char *[])
   image->Allocate();
 
   // Fill image with a ramp
-  itk::ImageRegionIteratorWithIndex<ImageType> iter(image, region);
-  PixelType                                    value;
-  for (iter.GoToBegin(); !iter.IsAtEnd(); ++iter)
+  for (itk::ImageRegionIteratorWithIndex<ImageType> iter(image, region); !iter.IsAtEnd(); ++iter)
   {
     index = iter.GetIndex();
-    value = index[0] + index[1];
+    PixelType value = index[0] + index[1];
     iter.Set(value);
   }
 
@@ -95,14 +93,13 @@ itkResampleImageTest(int, char *[])
   resample->Update();
 
   // Check if desired results were obtained
-  bool                                         passed = true;
-  const ImageType::RegionType                  region2 = resample->GetOutput()->GetRequestedRegion();
-  itk::ImageRegionIteratorWithIndex<ImageType> iter2(resample->GetOutput(), region2);
-  constexpr double                             tolerance = 1e-30;
-  for (iter2.GoToBegin(); !iter2.IsAtEnd(); ++iter2)
+  bool                        passed = true;
+  const ImageType::RegionType region2 = resample->GetOutput()->GetRequestedRegion();
+  constexpr double            tolerance = 1e-30;
+  for (itk::ImageRegionIteratorWithIndex<ImageType> iter2(resample->GetOutput(), region2); !iter2.IsAtEnd(); ++iter2)
   {
     index = iter2.GetIndex();
-    value = iter2.Get();
+    PixelType       value = iter2.Get();
     const PixelType pixval = value;
     auto            expectedValue = static_cast<PixelType>((index[0] + index[1]) / 2.0);
     if (!itk::Math::FloatAlmostEqual(expectedValue, pixval, 10, tolerance))

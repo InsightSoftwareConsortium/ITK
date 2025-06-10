@@ -112,15 +112,10 @@ CurvatureNDAnisotropicDiffusionFunction<TImage>::ComputeUpdate(const Neighborhoo
     const double grad_mag = std::sqrt(m_MIN_NORM + grad_mag_sq);
     const double grad_mag_d = std::sqrt(m_MIN_NORM + grad_mag_sq_d);
 
-    double Cx;
-    double Cxd;
+    double Cx = 0.0;
+    double Cxd = 0.0;
     // Conductance Terms
-    if (m_K == 0.0)
-    {
-      Cx = 0.0;
-      Cxd = 0.0;
-    }
-    else
+    if (m_K != 0.0)
     {
       Cx = std::exp(grad_mag_sq / m_K);
       Cxd = std::exp(grad_mag_sq_d / m_K);

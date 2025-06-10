@@ -170,14 +170,12 @@ public:
    * the iterator at the begin of the region. */
   ImageReverseConstIterator(const ImageType * ptr, const RegionType & region)
   {
-    SizeValueType offset;
-
     m_Image = ptr;
     m_Buffer = m_Image->GetBufferPointer();
     m_Region = region;
 
     // Compute the end offset, one pixel before the first pixel
-    offset = m_Image->ComputeOffset(m_Region.GetIndex());
+    SizeValueType offset = m_Image->ComputeOffset(m_Region.GetIndex());
     m_EndOffset = offset - 1;
 
     // Compute the begin offset, the last pixel in the region

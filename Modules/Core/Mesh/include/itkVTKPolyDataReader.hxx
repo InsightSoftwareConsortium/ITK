@@ -215,7 +215,7 @@ VTKPolyDataReader<TOutputMesh>::GenerateData()
   // Load the polygons into the itk::Mesh
   //
 
-  long numberOfCellPoints;
+  long numberOfCellPoints = 0;
   long ids[3]; // need a signed type on input.
 
   for (CellIdentifier i = 0; i < itk::Math::CastWithRangeCheck<CellIdentifier>(numberOfPolygons); ++i)
@@ -233,7 +233,7 @@ VTKPolyDataReader<TOutputMesh>::GenerateData()
       itkExceptionMacro("Error reading file: " << m_FileName << "\nRead keyword DATA");
     }
 
-    int got;
+    int got = 0;
     if ((got = sscanf(line.c_str(), "%ld %ld %ld %ld", &numberOfCellPoints, &ids[0], &ids[1], &ids[2])) != 4)
     {
       itkExceptionMacro("Error reading file: "
@@ -317,7 +317,7 @@ VTKPolyDataReader<TOutputMesh>::GenerateData()
                                                << "\nUnexpected end-of-file while trying to read POINT_DATA.");
     }
 
-    double pointData;
+    double pointData = NAN;
 
     for (PointIdentifier pid = 0; pid < itk::Math::CastWithRangeCheck<PointIdentifier>(numberOfPoints); ++pid)
     {

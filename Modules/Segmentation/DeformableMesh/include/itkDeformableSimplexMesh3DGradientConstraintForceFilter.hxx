@@ -116,7 +116,7 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>::N
 {
   const double dp[3]{ pp[0], pp[1], pp[2] };
 
-  double dlx;
+  double dlx = NAN;
   if (dp[0] >= 0.0)
   {
     dlx = ((ic[0] + 1) * 1 - *x) / dp[0];
@@ -133,7 +133,7 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>::N
       dlx = ((ic[0] - 1) * 1 - *x) / dp[0];
     }
   }
-  double dly;
+  double dly = NAN;
   if (dp[1] >= 0.0)
   {
     dly = ((ic[1] + 1) * 1 - *y) / dp[1];
@@ -151,7 +151,7 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>::N
     }
   }
 
-  double dlz;
+  double dlz = NAN;
   if (dp[2] >= 0.0)
   {
     dlz = ((ic[2] + 1) * 1 - *z) / dp[2];
@@ -169,7 +169,7 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>::N
     }
   }
 
-  double d;
+  double d = NAN;
   if ((dlx < dly) && (dlx < dlz))
   {
     d = dlx;

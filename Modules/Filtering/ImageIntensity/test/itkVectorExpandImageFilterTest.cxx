@@ -100,10 +100,10 @@ itkVectorExpandImageFilterTest(int, char *[])
   input->SetBufferedRegion(region);
   input->Allocate();
 
-  int                          j, k;
+
   ImagePattern<ImageDimension> pattern;
   pattern.m_Offset = 64;
-  for (j = 0; j < ImageDimension; ++j)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     pattern.m_Coeff[j] = 1.0;
   }
@@ -118,7 +118,7 @@ itkVectorExpandImageFilterTest(int, char *[])
 
     const double value = pattern.Evaluate(inIter.GetIndex());
     PixelType    pixel;
-    for (k = 0; k < VectorDimension; ++k)
+    for (unsigned int k = 0; k < VectorDimension; ++k)
     {
       pixel[k] = vectorCoeff[k] * value;
     }
@@ -166,14 +166,13 @@ itkVectorExpandImageFilterTest(int, char *[])
 
 
   std::cout << "Checking the output against expected." << std::endl;
-  Iterator outIter(expanderOutput, expanderOutput->GetBufferedRegion());
 
   // compute non-padded output region
   ImageType::RegionType     validRegion = expanderOutput->GetLargestPossibleRegion();
   const ImageType::SizeType validSize = validRegion.GetSize();
 
   validRegion.SetSize(validSize);
-
+  Iterator outIter(expanderOutput, expanderOutput->GetBufferedRegion());
   for (; !outIter.IsAtEnd(); ++outIter)
   {
     const ImageType::IndexType index = outIter.GetIndex();
@@ -187,7 +186,8 @@ itkVectorExpandImageFilterTest(int, char *[])
       const ImageType::IndexType inputIndex = input->TransformPhysicalPointToIndex(point);
       const double               baseValue = pattern.Evaluate(inputIndex);
 
-      for (k = 0; k < VectorDimension; ++k)
+      unsigned int k = 0;
+      for (; k < VectorDimension; ++k)
       {
         if (itk::Math::abs(baseValue * vectorCoeff[k] - value[k]) > 1e-4)
         {
@@ -205,8 +205,8 @@ itkVectorExpandImageFilterTest(int, char *[])
     }
     else
     {
-
-      for (k = 0; k < VectorDimension; ++k)
+      unsigned int k = 0;
+      for (; k < VectorDimension; ++k)
       {
         if (itk::Math::NotExactlyEquals(value[k], padValue[k]))
         {
@@ -256,7 +256,7 @@ itkVectorExpandImageFilterTest(int, char *[])
   while (!outIter.IsAtEnd())
   {
 
-    for (k = 0; k < VectorDimension; ++k)
+    for (unsigned int k = 0; k < VectorDimension; ++k)
     {
       if (itk::Math::NotExactlyEquals(outIter.Get()[k], streamIter.Get()[k]))
       {

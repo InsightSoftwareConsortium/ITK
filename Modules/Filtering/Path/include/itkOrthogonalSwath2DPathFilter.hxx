@@ -208,7 +208,7 @@ OrthogonalSwath2DPathFilter<TParametricPath, TSwathMeritImage>::FindAndStoreBest
                                                                                           unsigned int F,
                                                                                           unsigned int L)
 {
-  unsigned int bestL; // L with largest merit of L and its 2 neighbors L-1 & L+1
+  unsigned int bestL = 0; // L with largest merit of L and its 2 neighbors L-1 & L+1
 
   // Handle perimeter boundaries of the vert. gradient image
   if (L == 0)

@@ -129,8 +129,7 @@ BoxAccumulateFunction(const TInputImage *               inputImage,
   // image being convolved so that the accumulation propagates
   // This should be implementable with neighborhood operators.
 
-  std::vector<int>                        weights;
-  typename NOutputIterator::ConstIterator sIt;
+  std::vector<int> weights;
   for (auto idxIt = noutIt.GetActiveIndexList().begin(); idxIt != noutIt.GetActiveIndexList().end(); ++idxIt)
   {
     OffsetType offset = noutIt.GetOffset(*idxIt);
@@ -149,10 +148,12 @@ BoxAccumulateFunction(const TInputImage *               inputImage,
   for (inIt.GoToBegin(), noutIt.GoToBegin(); !noutIt.IsAtEnd(); ++inIt, ++noutIt)
   {
     OutputPixelType sum = 0;
-    int             k;
-    for (k = 0, sIt = noutIt.Begin(); !sIt.IsAtEnd(); ++sIt, ++k)
     {
-      sum += sIt.Get() * weights[k];
+      typename NOutputIterator::ConstIterator sIt = noutIt.Begin();
+      for (int k = 0; !sIt.IsAtEnd(); ++sIt, ++k)
+      {
+        sum += sIt.Get() * weights[k];
+      }
     }
     noutIt.SetCenterPixel(sum + inIt.Get());
   }
@@ -601,7 +602,7 @@ BoxSquareAccumulateFunction(const TInputImage *               inputImage,
   {
     ValueType sum = 0;
     ValueType squareSum = 0;
-    int       k;
+    int       k = 0;
     for (k = 0, sIt = noutIt.Begin(); !sIt.IsAtEnd(); ++sIt, ++k)
     {
       const OutputPixelType & v = sIt.Get();

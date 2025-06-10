@@ -212,7 +212,7 @@ ScalarImageToCooccurrenceMatrixFilter<TImageType, THistogramFrequencyContainer, 
     typename HistogramType::IndexType    index;
     for (offsets = m_Offsets->Begin(); offsets != m_Offsets->End(); ++offsets)
     {
-      bool            pixelInBounds;
+      bool            pixelInBounds = false;
       const PixelType pixelIntensity = neighborIt.GetPixel(offsets.Value(), pixelInBounds);
 
       if (!pixelInBounds)
@@ -288,7 +288,7 @@ ScalarImageToCooccurrenceMatrixFilter<TImageType, THistogramFrequencyContainer, 
         continue; // Go to the next loop if we're not in the mask
       }
 
-      bool            pixelInBounds;
+      bool            pixelInBounds = false;
       const PixelType pixelIntensity = neighborIt.GetPixel(offsets.Value(), pixelInBounds);
 
       if (!pixelInBounds)

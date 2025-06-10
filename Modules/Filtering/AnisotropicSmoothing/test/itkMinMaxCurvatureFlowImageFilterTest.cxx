@@ -134,7 +134,7 @@ testMinMaxCurvatureFlow(itk::Size<VImageDimension> & size,         // ND image s
   using DenoiserType = itk::MinMaxCurvatureFlowImageFilter<ImageType, ImageType>;
   auto denoiser = DenoiserType::New();
 
-  int j;
+  int j = 0;
 
   /**
    * Create an image containing a circle/sphere with intensity of 0
@@ -162,21 +162,13 @@ testMinMaxCurvatureFlow(itk::Size<VImageDimension> & size,         // ND image s
   for (; !circleIter.IsAtEnd(); ++circleIter)
   {
     typename ImageType::IndexType index = circleIter.GetIndex();
-    float                         value;
 
     double lhs = 0.0;
     for (j = 0; j < ImageDimension; ++j)
     {
       lhs += itk::Math::sqr(static_cast<double>(index[j]) - static_cast<double>(size[j]) * 0.5);
     }
-    if (lhs < sqrRadius)
-    {
-      value = foreground;
-    }
-    else
-    {
-      value = background;
-    }
+    float value = (lhs < sqrRadius) ? foreground : background;
 
     if (vnl_sample_uniform(0.0, 1.0) < fractionNoise)
     {

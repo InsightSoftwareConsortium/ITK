@@ -180,10 +180,9 @@ testMetaMesh(int argc, char * argv[])
   }
 
   // Add Cells
-  MeshCell * cell;
   for (int i = 0; i < 6; ++i)
   {
-    cell = new MeshCell(4); // tetrahedra
+    MeshCell * cell = new MeshCell(4); // tetrahedra
     cell->m_Id = i;
     cell->m_PointsId[0] = i;
     cell->m_PointsId[1] = i + 1;
@@ -195,7 +194,7 @@ testMetaMesh(int argc, char * argv[])
   // Add other type of cells
   for (int i = 0; i < 4; ++i)
   {
-    cell = new MeshCell(3); // triangle
+    MeshCell * cell = new MeshCell(3); // triangle
     cell->m_Id = i;
     cell->m_PointsId[0] = i;
     cell->m_PointsId[1] = i + 1;

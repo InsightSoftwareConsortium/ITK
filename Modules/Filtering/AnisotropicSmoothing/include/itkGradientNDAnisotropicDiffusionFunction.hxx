@@ -118,14 +118,9 @@ GradientNDAnisotropicDiffusionFunction<TImage>::ComputeUpdate(const Neighborhood
       }
     }
 
-    double Cx;
-    double Cxd;
-    if (m_K == 0.0)
-    {
-      Cx = 0.0;
-      Cxd = 0.0;
-    }
-    else
+    double Cx = 0.0;
+    double Cxd = 0.0;
+    if (m_K != 0.0)
     {
       Cx = std::exp((itk::Math::sqr(dx_forward) + accum) / m_K);
       Cxd = std::exp((itk::Math::sqr(dx_backward) + accum_d) / m_K);

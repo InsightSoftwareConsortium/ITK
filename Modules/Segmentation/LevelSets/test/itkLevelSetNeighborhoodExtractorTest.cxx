@@ -89,7 +89,7 @@ itkLevelSetNeighborhoodExtractorTest(int, char *[])
   std::cout << "InputNarrowBand: " << extractor->GetInputNarrowBand() << std::endl;
 
   // exercise error handling
-  bool passed;
+  bool passed = false;
   std::cout << "Testing nullptr inputs" << std::endl;
 
   try

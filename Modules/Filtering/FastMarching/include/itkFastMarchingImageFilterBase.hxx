@@ -955,14 +955,10 @@ FastMarchingImageFilterBase<TInput, TOutput>::InitializeIndices3D()
 
   for (unsigned int i = 1; i < 4; ++i)
   {
-    int addend;
+    int addend = 1;
     if (i == 2)
     {
       addend = 2;
-    }
-    else
-    {
-      addend = 1;
     }
     for (unsigned int j = 0; j < 8; ++j)
     {

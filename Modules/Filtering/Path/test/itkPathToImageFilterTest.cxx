@@ -127,21 +127,11 @@ itkPathToImageFilterTest(int, char *[])
   {
     for (int j = 0; j <= 3; ++j)
     {
-      double targetValue;
-
       index[0] = 30 + i;
       index[1] = 30 + j;
 
-      if (0 < i && i < 3 && 0 < j && j < 3)
-      {
-        // Inside the closed path, but not on it
-        targetValue = 0;
-      }
-      else
-      {
-        // On the path
-        targetValue = 1;
-      }
+      //           ? 0-Inside the closed path, but not on it : 1-On the path
+      const double targetValue = (0 < i && i < 3 && 0 < j && j < 3) ? 0 : 1;
       if (itk::Math::NotAlmostEquals(image->GetPixel(index), targetValue))
       {
         std::cout << "[FAILURE]" << std::endl;

@@ -153,15 +153,11 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDerivativeT
   // Use a raw pointer here to avoid the overhead of smart pointers.
   // For instance, Register and UnRegister have mutex locks around
   // the reference counts.
-  TransformType * transform;
+  TransformType * transform = this->m_Transform;
 
   if (threadId > 0)
   {
     transform = this->m_ThreaderTransform[threadId - 1];
-  }
-  else
-  {
-    transform = this->m_Transform;
   }
 
   if (this->m_BSplineTransform && this->m_UseCachingOfBSplineWeights)

@@ -75,7 +75,7 @@ itkSignedDanielssonDistanceMapImageFilterTest1(int argc, char * argv[])
     ImageDimension = std::stoi(argv[3]);
   }
 
-  int result;
+  int result = EXIT_FAILURE;
   if (ImageDimension == 2)
   {
     result = itkSignedDanielssonDistanceMapImageFilterTest1<2>(argv);
@@ -87,10 +87,6 @@ itkSignedDanielssonDistanceMapImageFilterTest1(int argc, char * argv[])
   else if (ImageDimension == 4)
   {
     result = itkSignedDanielssonDistanceMapImageFilterTest1<4>(argv);
-  }
-  else
-  {
-    result = EXIT_FAILURE;
   }
 
   return result;

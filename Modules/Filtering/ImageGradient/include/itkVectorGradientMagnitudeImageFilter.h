@@ -313,17 +313,14 @@ protected:
   TRealType
   NonPCEvaluateAtNeighborhood(const ConstNeighborhoodIteratorType & it) const
   {
-    unsigned int i;
-    unsigned int j;
-    TRealType    dx;
-    TRealType    sum;
-    TRealType    accum{};
-    for (i = 0; i < ImageDimension; ++i)
+    TRealType accum{};
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
-      sum = TRealType{};
-      for (j = 0; j < VectorDimension; ++j)
+      TRealType sum = TRealType{};
+      for (unsigned int j = 0; j < VectorDimension; ++j)
       {
-        dx = m_DerivativeWeights[i] * m_SqrtComponentWeights[j] * 0.5 * (it.GetNext(i)[j] - it.GetPrevious(i)[j]);
+        TRealType dx =
+          m_DerivativeWeights[i] * m_SqrtComponentWeights[j] * 0.5 * (it.GetNext(i)[j] - it.GetPrevious(i)[j]);
         sum += dx * dx;
       }
       accum += sum;
@@ -335,20 +332,18 @@ protected:
   EvaluateAtNeighborhood3D(const ConstNeighborhoodIteratorType & it) const
   {
     // WARNING:  ONLY CALL THIS METHOD WHEN PROCESSING A 3D IMAGE
-    unsigned int i;
-    unsigned int j;
-    double       Lambda[3];
-    double       CharEqn[3];
-    double       ans;
+    double Lambda[3];
+    double CharEqn[3];
+    double ans = NAN;
 
     vnl_matrix<TRealType>                        g(ImageDimension, ImageDimension);
     vnl_vector_fixed<TRealType, VectorDimension> d_phi_du[TInputImage::ImageDimension];
 
     // Calculate the directional derivatives for each vector component using
     // central differences.
-    for (i = 0; i < ImageDimension; ++i)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
-      for (j = 0; j < VectorDimension; ++j)
+      for (unsigned int j = 0; j < VectorDimension; ++j)
       {
         d_phi_du[i][j] =
           m_DerivativeWeights[i] * m_SqrtComponentWeights[j] * 0.5 * (it.GetNext(i)[j] - it.GetPrevious(i)[j]);
@@ -356,9 +351,9 @@ protected:
     }
 
     // Calculate the symmetric metric tensor g
-    for (i = 0; i < ImageDimension; ++i)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
-      for (j = i; j < ImageDimension; ++j)
+      for (unsigned int j = i; j < ImageDimension; ++j)
       {
         g[j][i] = g[i][j] = dot_product(d_phi_du[i], d_phi_du[j]);
       }
@@ -449,17 +444,14 @@ protected:
   TRealType
   EvaluateAtNeighborhood(const ConstNeighborhoodIteratorType & it) const
   {
-    unsigned int i;
-    unsigned int j;
-
     vnl_matrix<TRealType>                        g(ImageDimension, ImageDimension);
     vnl_vector_fixed<TRealType, VectorDimension> d_phi_du[TInputImage::ImageDimension];
 
     // Calculate the directional derivatives for each vector component using
     // central differences.
-    for (i = 0; i < ImageDimension; ++i)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
-      for (j = 0; j < VectorDimension; ++j)
+      for (unsigned int j = 0; j < VectorDimension; ++j)
       {
         d_phi_du[i][j] =
           m_DerivativeWeights[i] * m_SqrtComponentWeights[j] * 0.5 * (it.GetNext(i)[j] - it.GetPrevious(i)[j]);
@@ -467,9 +459,9 @@ protected:
     }
 
     // Calculate the symmetric metric tensor g
-    for (i = 0; i < ImageDimension; ++i)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
-      for (j = i; j < ImageDimension; ++j)
+      for (unsigned int j = i; j < ImageDimension; ++j)
       {
         g[j][i] = g[i][j] = dot_product(d_phi_du[i], d_phi_du[j]);
       }

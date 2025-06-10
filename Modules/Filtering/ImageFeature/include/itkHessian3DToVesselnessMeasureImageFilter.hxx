@@ -69,14 +69,11 @@ Hessian3DToVesselnessMeasureImageFilter<TPixel>::GenerateData()
     // Similarity measure to a line structure
     if (normalizeValue > 0)
     {
-      double lineMeasure;
+      double lineMeasure = std::exp(-0.5 * itk::Math::sqr(eigenValue[2] / (m_Alpha2 * normalizeValue)));
+
       if (eigenValue[2] <= 0)
       {
         lineMeasure = std::exp(-0.5 * itk::Math::sqr(eigenValue[2] / (m_Alpha1 * normalizeValue)));
-      }
-      else
-      {
-        lineMeasure = std::exp(-0.5 * itk::Math::sqr(eigenValue[2] / (m_Alpha2 * normalizeValue)));
       }
 
       lineMeasure *= normalizeValue;

@@ -40,6 +40,6 @@ TEST(BitCast, ResultIsBitwiseEqualToArgument)
     Expect_return_value_is_bitwise_equal_to_function_argument<unsigned int>(i);
   }
 
-  [[maybe_unused]] int value;
+  [[maybe_unused]] int value = 0;
   Expect_return_value_is_bitwise_equal_to_function_argument<intptr_t>(&value);
 }

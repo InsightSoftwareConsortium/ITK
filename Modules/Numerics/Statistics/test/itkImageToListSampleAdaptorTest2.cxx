@@ -64,20 +64,19 @@ itkImageToListSampleAdaptorTest2(int, char *[])
   adaptor->SetImage(image);
 
   ImageType::IndexType index;
-  ImageType::PixelType pixel;
-
-  ImageToListSampleAdaptorType::InstanceIdentifier id;
 
   for (unsigned int i = 0; i < size[2]; ++i)
+  {
     for (unsigned int j = 0; j < size[1]; ++j)
+    {
       for (unsigned int k = 0; k < size[0]; ++k)
       {
         index[0] = k;
         index[1] = j;
         index[2] = i;
 
-        pixel = image->GetPixel(index);
-        id = image->ComputeOffset(index);
+        ImageType::PixelType                             pixel = image->GetPixel(index);
+        ImageToListSampleAdaptorType::InstanceIdentifier id = image->ComputeOffset(index);
         for (unsigned int m = 0; m < adaptor->GetMeasurementVectorSize(); ++m)
         {
           if (adaptor->GetMeasurementVector(id)[m] != pixel[m])
@@ -87,6 +86,8 @@ itkImageToListSampleAdaptorTest2(int, char *[])
           }
         }
       }
+    }
+  }
 
   //
   // Exercise the iterators
@@ -159,7 +160,7 @@ itkImageToListSampleAdaptorTest2(int, char *[])
   VariableLengthImageType::IndexType vIndex;
   VariableLengthImageType::PixelType vPixel;
 
-  VariableLengthImageToListSampleAdaptorType::InstanceIdentifier vId;
+  VariableLengthImageToListSampleAdaptorType::InstanceIdentifier vId = 0;
 
   for (unsigned int i = 0; i < size[2]; ++i)
   {
@@ -235,7 +236,7 @@ itkImageToListSampleAdaptorTest2(int, char *[])
   RGBImageType::IndexType rgbIndex;
   RGBImageType::PixelType rgbPixel;
 
-  RGBImageToListSampleAdaptorType::InstanceIdentifier rgbId;
+  RGBImageToListSampleAdaptorType::InstanceIdentifier rgbId = 0;
 
   for (unsigned int i = 0; i < size[2]; ++i)
   {

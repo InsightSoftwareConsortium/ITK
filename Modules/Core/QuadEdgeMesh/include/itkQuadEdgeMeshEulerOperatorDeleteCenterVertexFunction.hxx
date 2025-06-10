@@ -91,7 +91,6 @@ QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction<TMesh, TQEType>::Evaluate(QE
 
   // let's do the job now.
   QEType * h = g->GetLprev();
-  QEType * temp;
   this->m_OldPointID = g->GetDestination();
   this->m_Mesh->LightWeightDeleteEdge(g);
   g = h->GetLnext();
@@ -103,7 +102,7 @@ QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction<TMesh, TQEType>::Evaluate(QE
     }
     if (g != h)
     {
-      temp = g->GetLprev();
+      QEType * temp = g->GetLprev();
       this->m_Mesh->LightWeightDeleteEdge(g);
       g = temp;
     }

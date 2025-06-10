@@ -57,19 +57,19 @@ GEAdwImageIO::CanReadFile(const char * FileNameToRead)
   // the size the file should be and compares it with the actual size.
   // if it's not reading a GEAdw file, chances are overwhelmingly good
   // that this operation will fail somewhere along the line.
-  short matrixX;
+  short matrixX = 0;
   if (this->GetShortAt(f, GE_ADW_IM_IMATRIX_X, &matrixX, false) != 0)
   {
     f.close();
     return false;
   }
-  short matrixY;
+  short matrixY = 0;
   if (this->GetShortAt(f, GE_ADW_IM_IMATRIX_Y, &matrixY, false) != 0)
   {
     f.close();
     return false;
   }
-  int varHdrSize;
+  int varHdrSize = 0;
   if (this->GetIntAt(f, GE_ADW_VARIABLE_HDR_LENGTH, &varHdrSize, false) != 0)
   {
     f.close();
@@ -120,7 +120,7 @@ GEAdwImageIO::ReadHeader(const char * FileNameToRead)
   this->GetStringAt(f, GE_ADW_EX_HOSPNAME, hdr->hospital, 34);
   hdr->hospital[33] = '\0';
 
-  int timeStamp;
+  int timeStamp = 0;
   this->GetIntAt(f, GE_ADW_EX_DATETIME, &timeStamp);
   this->statTimeToAscii(&timeStamp, hdr->date, sizeof(hdr->date));
 
@@ -152,7 +152,7 @@ GEAdwImageIO::ReadHeader(const char * FileNameToRead)
 
   this->GetFloatAt(f, GE_ADW_IM_PIXSIZE_Y, &hdr->imageYres);
 
-  short tmpShort;
+  short tmpShort = 0;
   this->GetShortAt(f, GE_ADW_IM_PLANE, &tmpShort);
   switch (tmpShort)
   {
@@ -179,7 +179,7 @@ GEAdwImageIO::ReadHeader(const char * FileNameToRead)
   }
   this->GetFloatAt(f, GE_ADW_IM_LOC, &(hdr->sliceLocation));
 
-  int tmpInt;
+  int tmpInt = 0;
   this->GetIntAt(f, GE_ADW_IM_TR, &tmpInt);
   hdr->TR = static_cast<float>(tmpInt) / 1000.0f;
 
@@ -193,7 +193,7 @@ GEAdwImageIO::ReadHeader(const char * FileNameToRead)
 
   this->GetShortAt(f, GE_ADW_IM_ECHONUM, &(hdr->echoNumber));
 
-  float tmpFloat;
+  float tmpFloat = NAN;
   this->GetFloatAt(f, GE_ADW_IM_NEX, &tmpFloat);
 
   hdr->NEX = static_cast<int>(tmpFloat);

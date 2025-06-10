@@ -44,7 +44,7 @@ bool
 VoronoiSegmentationImageFilter<TInputImage, TOutputImage, TBinaryPriorImage>::TestHomogeneity(IndexList & Plist)
 {
   auto   num = static_cast<int>(Plist.size());
-  double getp;
+  double getp = NAN;
   double addp = 0;
   double addpp = 0;
 
@@ -57,17 +57,12 @@ VoronoiSegmentationImageFilter<TInputImage, TOutputImage, TBinaryPriorImage>::Te
     addpp = addpp + getp * getp;
   }
 
-  double savemean;
-  double saveSTD;
+  double savemean = 0;
+  double saveSTD = -1;
   if (num > 1)
   {
     savemean = addp / num;
     saveSTD = std::sqrt((addpp - (addp * addp) / (num)) / (num - 1));
-  }
-  else
-  {
-    savemean = 0;
-    saveSTD = -1;
   }
 
   //   // jvm - Mahalanobis distance
@@ -101,7 +96,7 @@ VoronoiSegmentationImageFilter<TInputImage, TOutputImage, TBinaryPriorImage>::Ta
   int   num = 0;
   float addp = 0;
   float addpp = 0;
-  float currp;
+  float currp = NAN;
 
   unsigned int minx = 0;
   unsigned int miny = 0;

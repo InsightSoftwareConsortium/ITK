@@ -65,14 +65,14 @@ DiscreteGradientMagnitudeGaussianImageFunction<TInputImage, TOutput>::RecomputeG
   /** Create 2*N operators (N=ImageDimension) where the
    * first N are zero-order and the second N are first-order */
 
-  unsigned int idx;
+
   unsigned int maxRadius = 0;
 
   for (unsigned int direction = 0; direction < Self::ImageDimension2; ++direction)
   {
     for (unsigned int order = 0; order <= 1; ++order)
     {
-      idx = Self::ImageDimension2 * order + direction;
+      unsigned int idx = Self::ImageDimension2 * order + direction;
       m_OperatorArray[idx].SetDirection(direction);
       m_OperatorArray[idx].SetMaximumKernelWidth(m_MaximumKernelWidth);
       m_OperatorArray[idx].SetMaximumError(m_MaximumError);
@@ -137,7 +137,7 @@ DiscreteGradientMagnitudeGaussianImageFunction<TInputImage, TOutput>::RecomputeG
   using NeighborhoodFilterType = itk::NeighborhoodOperatorImageFilter<KernelImageType, KernelImageType>;
   auto convolutionFilter = NeighborhoodFilterType::New();
 
-  unsigned int opidx; // current operator index in m_OperatorArray
+  unsigned int opidx = 0; // current operator index in m_OperatorArray
 
   for (unsigned int i = 0; i < Self::ImageDimension2; ++i)
   {
@@ -161,7 +161,7 @@ DiscreteGradientMagnitudeGaussianImageFunction<TInputImage, TOutput>::RecomputeG
     // Copy kernel image to neighborhood. Do not copy boundaries.
     ImageRegionConstIterator<KernelImageType> it(kernelImage, kernelRegion);
     it.GoToBegin();
-    idx = 0;
+    unsigned int idx = 0;
 
     while (!it.IsAtEnd())
     {

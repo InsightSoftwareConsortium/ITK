@@ -252,17 +252,14 @@ SampleToHistogramFilter<TSample, THistogram>::GenerateData()
   typename SampleType::ConstIterator       iter = inputSample->Begin();
   const typename SampleType::ConstIterator last = inputSample->End();
 
-  typename SampleType::MeasurementVectorType lvector;
 
   typename HistogramType::IndexType             index(measurementVectorSize);
   typename HistogramType::MeasurementVectorType hvector(measurementVectorSize);
 
-  unsigned int i;
-
   while (iter != last)
   {
-    lvector = iter.GetMeasurementVector();
-    for (i = 0; i < inputSample->GetMeasurementVectorSize(); ++i)
+    typename SampleType::MeasurementVectorType lvector = iter.GetMeasurementVector();
+    for (unsigned int i = 0; i < inputSample->GetMeasurementVectorSize(); ++i)
     {
       hvector[i] = SafeAssign(lvector[i]);
     }

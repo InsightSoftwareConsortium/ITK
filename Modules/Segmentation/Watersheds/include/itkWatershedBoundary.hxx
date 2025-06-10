@@ -28,8 +28,6 @@ namespace watershed
 template <typename TScalar, unsigned int TDimension>
 Boundary<TScalar, TDimension>::Boundary()
 {
-  unsigned int      i;
-  FacePointer       p;
   const flat_hash_t f;
 
   std::pair<FacePointer, FacePointer> i_pair;
@@ -37,9 +35,9 @@ Boundary<TScalar, TDimension>::Boundary()
   std::pair<bool, bool>               v_pair;
 
   // Initialize all the members of the lists, etc.
-  for (i = 0; i < Dimension; ++i)
+  for (unsigned int i = 0; i < Dimension; ++i)
   {
-    p = face_t::New();
+    FacePointer p = face_t::New();
     i_pair.first = p;
     c_pair.first = flat_hash_t();
     v_pair.first = false;

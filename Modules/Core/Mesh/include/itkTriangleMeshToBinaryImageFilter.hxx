@@ -246,7 +246,7 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::PolygonToImageRaster(
   } // end of for loop
 
   // area is not really needed, we just need the sign
-  int sign;
+  int sign = 0;
   if (area < 0.0)
   {
     sign = -1;

@@ -122,7 +122,7 @@ itkCustomColormapFunctionTest(int argc, char * argv[])
   std::getline(str, line);
   std::istringstream issr(line);
 
-  double value;
+  double value = NAN;
 
   std::vector<double> redChannel;
   while (issr >> value)

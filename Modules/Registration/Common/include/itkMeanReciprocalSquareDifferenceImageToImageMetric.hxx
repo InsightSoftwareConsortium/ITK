@@ -53,10 +53,6 @@ MeanReciprocalSquareDifferenceImageToImageMetric<TFixedImage, TMovingImage>::Get
   {
     itkExceptionMacro("Fixed image has not been assigned");
   }
-
-  double MovingValue;
-  double FixedValue;
-
   using FixedIteratorType = itk::ImageRegionConstIteratorWithIndex<FixedImageType>;
 
   FixedIteratorType ti(fixedImage, this->GetFixedImageRegion());
@@ -93,8 +89,8 @@ MeanReciprocalSquareDifferenceImageToImageMetric<TFixedImage, TMovingImage>::Get
 
     if (this->m_Interpolator->IsInsideBuffer(transformedPoint))
     {
-      MovingValue = this->m_Interpolator->Evaluate(transformedPoint);
-      FixedValue = ti.Get();
+      double MovingValue = this->m_Interpolator->Evaluate(transformedPoint);
+      double FixedValue = ti.Get();
       this->m_NumberOfPixelsCounted++;
       const double diff = MovingValue - FixedValue;
       measure += 1.0f / (1.0f + m_Lambda * (diff * diff));

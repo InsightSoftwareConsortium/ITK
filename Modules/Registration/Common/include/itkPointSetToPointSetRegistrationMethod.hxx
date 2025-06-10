@@ -163,38 +163,37 @@ ModifiedTimeType
 PointSetToPointSetRegistrationMethod<TFixedPointSet, TMovingPointSet>::GetMTime() const
 {
   ModifiedTimeType mtime = Superclass::GetMTime();
-  ModifiedTimeType m;
 
   // Some of the following should be removed once ivars are put in the
   // input and output lists
 
   if (m_Transform)
   {
-    m = m_Transform->GetMTime();
+    ModifiedTimeType m = m_Transform->GetMTime();
     mtime = (m > mtime ? m : mtime);
   }
 
   if (m_Metric)
   {
-    m = m_Metric->GetMTime();
+    ModifiedTimeType m = m_Metric->GetMTime();
     mtime = (m > mtime ? m : mtime);
   }
 
   if (m_Optimizer)
   {
-    m = m_Optimizer->GetMTime();
+    ModifiedTimeType m = m_Optimizer->GetMTime();
     mtime = (m > mtime ? m : mtime);
   }
 
   if (m_FixedPointSet)
   {
-    m = m_FixedPointSet->GetMTime();
+    ModifiedTimeType m = m_FixedPointSet->GetMTime();
     mtime = (m > mtime ? m : mtime);
   }
 
   if (m_MovingPointSet)
   {
-    m = m_MovingPointSet->GetMTime();
+    ModifiedTimeType m = m_MovingPointSet->GetMTime();
     mtime = (m > mtime ? m : mtime);
   }
 

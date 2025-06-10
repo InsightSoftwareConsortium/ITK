@@ -924,8 +924,8 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::Adjust
   }
 
   int  Istart[3];
-  bool startOK;
-  bool endOK;
+  bool startOK = false;
+  bool endOK = false;
   do
   {
     startOK = false;
@@ -1201,8 +1201,8 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::GetCur
   const auto c = static_cast<double>(*m_RayIntersectionVoxels[2] - a);
   const auto d = static_cast<double>(*m_RayIntersectionVoxels[3] - a - b - c);
 
-  double y;
-  double z;
+  double y = NAN;
+  double z = NAN;
   switch (m_TraversalDirection)
   {
     case TraversalDirectionEnum::TRANSVERSE_IN_X:

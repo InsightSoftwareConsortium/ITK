@@ -300,7 +300,7 @@ MINCImageIO::ReadImageInformation()
 
   // find out how many dimensions are there regularly sampled
   // dimensions only
-  int ndims;
+  int ndims = 0;
   if (miget_volume_dimension_count(m_MINCPImpl->m_Volume, MI_DIMCLASS_ANY, MI_DIMATTR_ALL, &ndims) < 0)
   {
     itkDebugMacro("Could not get the number of dimensions in the volume!");
@@ -322,13 +322,13 @@ MINCImageIO::ReadImageInformation()
 
   for (int i = 0; i < m_MINCPImpl->m_NDims; ++i)
   {
-    char * name;
+    char * name = nullptr;
     if (miget_dimension_name(m_MINCPImpl->m_MincFileDims[i], &name) < 0)
     {
       // Error getting dimension name
       itkExceptionMacro("Could not get dimension name!");
     }
-    double       _sep;
+    double       _sep = NAN;
     const char * _sign = "+";
     if (miget_dimension_separation(m_MINCPImpl->m_MincFileDims[i], MI_ORDER_FILE, &_sep) == MI_NOERROR && _sep < 0)
     {
@@ -406,8 +406,8 @@ MINCImageIO::ReadImageInformation()
   }
 
   // voxel valid range
-  double valid_min;
-  double valid_max;
+  double valid_min = NAN;
+  double valid_max = NAN;
   // get the voxel valid range
   if (miget_volume_valid_range(m_MINCPImpl->m_Volume, &valid_max, &valid_min) < 0)
   {
@@ -476,14 +476,14 @@ MINCImageIO::ReadImageInformation()
         m_MINCPImpl->m_MincFileDims[m_MINCPImpl->m_DimensionIndices[i]];
       // always use positive
       miset_dimension_apparent_voxel_order(m_MINCPImpl->m_MincApparentDims[usableDimensions], MI_POSITIVE);
-      misize_t _sz;
+      misize_t _sz = 0;
       miget_dimension_size(m_MINCPImpl->m_MincApparentDims[usableDimensions], &_sz);
 
-      double _sep;
+      double _sep = NAN;
       miget_dimension_separation(m_MINCPImpl->m_MincApparentDims[usableDimensions], MI_ORDER_APPARENT, &_sep);
       std::vector<double> _dir(3);
       miget_dimension_cosines(m_MINCPImpl->m_MincApparentDims[usableDimensions], &_dir[0]);
-      double _start;
+      double _start = NAN;
       miget_dimension_start(m_MINCPImpl->m_MincApparentDims[usableDimensions], MI_ORDER_APPARENT, &_start);
 
       for (int j = 0; j < 3; ++j)
@@ -526,7 +526,7 @@ MINCImageIO::ReadImageInformation()
     m_MINCPImpl->m_MincApparentDims[usableDimensions] = m_MINCPImpl->m_MincFileDims[m_MINCPImpl->m_DimensionIndices[0]];
     // always use positive, vector dimension does not supposed to have notion of positive step size, so leaving as is
     // miset_dimension_apparent_voxel_order(m_MINCPImpl->m_MincApparentDims[usable_dimensions],MI_POSITIVE);
-    misize_t _sz;
+    misize_t _sz = 0;
     miget_dimension_size(m_MINCPImpl->m_MincApparentDims[usableDimensions], &_sz);
     numberOfComponents = _sz;
     ++usableDimensions;
@@ -538,7 +538,7 @@ MINCImageIO::ReadImageInformation()
     m_MINCPImpl->m_MincApparentDims[usableDimensions] = m_MINCPImpl->m_MincFileDims[m_MINCPImpl->m_DimensionIndices[4]];
     // always use positive
     miset_dimension_apparent_voxel_order(m_MINCPImpl->m_MincApparentDims[usableDimensions], MI_POSITIVE);
-    misize_t _sz;
+    misize_t _sz = 0;
     miget_dimension_size(m_MINCPImpl->m_MincApparentDims[usableDimensions], &_sz);
     numberOfComponents = _sz;
     ++usableDimensions;
@@ -698,10 +698,10 @@ MINCImageIO::ReadImageInformation()
   if (m_MINCPImpl->m_DimensionIndices[4] != -1) // have time dimension
   {
     // store time dimension start and step in metadata for preservation
-    double _sep;
+    double _sep = NAN;
     miget_dimension_separation(
       m_MINCPImpl->m_MincFileDims[m_MINCPImpl->m_DimensionIndices[4]], MI_ORDER_APPARENT, &_sep);
-    double _start;
+    double _start = NAN;
     miget_dimension_start(m_MINCPImpl->m_MincFileDims[m_MINCPImpl->m_DimensionIndices[4]], MI_ORDER_APPARENT, &_start);
     EncapsulateMetaData<double>(thisDic, "tstart", _start);
     EncapsulateMetaData<double>(thisDic, "tstep", _sep);
@@ -756,14 +756,14 @@ MINCImageIO::ReadImageInformation()
   // iterate over all root level groups , and extract all underlying attributes
   // unfortunately more complicated attribute structure of MINC2 is not supported
   // at least it is not used anywhere
-  milisthandle_t grplist;
+  milisthandle_t grplist = nullptr;
 
   if ((milist_start(m_MINCPImpl->m_Volume, "", 0, &grplist)) == MI_NOERROR)
   {
     char group_name[256];
     while (milist_grp_next(grplist, group_name, sizeof(group_name)) == MI_NOERROR)
     {
-      milisthandle_t attlist;
+      milisthandle_t attlist = nullptr;
       if ((milist_start(m_MINCPImpl->m_Volume, group_name, 1, &attlist)) == MI_NOERROR)
       {
         char attribute[256];
@@ -773,7 +773,7 @@ MINCImageIO::ReadImageInformation()
                MI_NOERROR)
         {
           mitype_t    att_data_type;
-          size_t      att_length;
+          size_t      att_length = 0;
           std::string entry_key = group_name;
           entry_key += ":";
           entry_key += attribute;
@@ -1144,11 +1144,11 @@ MINCImageIO::WriteImageInformation()
           if (!positive && dimension_order[i * 2 + 1] != 'V' &&
               dimension_order[i * 2 + 1] != 'v') // Vector dimension is always positive
           {
-            double _sep;
+            double _sep = NAN;
             miget_dimension_separation(m_MINCPImpl->m_MincApparentDims[j], MI_ORDER_FILE, &_sep);
-            double _start;
+            double _start = NAN;
             miget_dimension_start(m_MINCPImpl->m_MincApparentDims[j], MI_ORDER_FILE, &_start);
-            misize_t _sz;
+            misize_t _sz = 0;
             miget_dimension_size(m_MINCPImpl->m_MincApparentDims[j], &_sz);
 
             _start = _start + (_sz - 1) * _sep;
@@ -1178,7 +1178,7 @@ MINCImageIO::WriteImageInformation()
     }
   }
 
-  mivolumeprops_t hprops;
+  mivolumeprops_t hprops = nullptr;
   if (minew_volume_props(&hprops) < 0)
   {
     MINCIOFreeTmpDimHandle(minc_dimensions, m_MINCPImpl->m_MincApparentDims);
@@ -1244,8 +1244,8 @@ MINCImageIO::WriteImageInformation()
     itkExceptionMacro("Could not set slice scaling flag");
   }
 
-  double valid_min;
-  double valid_max;
+  double valid_min = NAN;
+  double valid_max = NAN;
   miget_volume_valid_range(m_MINCPImpl->m_Volume, &valid_max, &valid_min);
 
   // by default valid range will be equal to range, to avoid scaling
@@ -1384,8 +1384,8 @@ MINCImageIO::Write(const void * buffer)
     buffer_length *= nComp;
   }
 
-  double   buffer_min;
-  double   buffer_max;
+  double   buffer_min = NAN;
+  double   buffer_max = NAN;
   mitype_t volume_data_type = MI_TYPE_UBYTE;
 
   switch (this->GetComponentType())

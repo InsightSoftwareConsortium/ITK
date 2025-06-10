@@ -288,7 +288,6 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::IsFaceIsolated(QETy
                                                                             const bool              iWasLeftFace,
                                                                             std::stack<TQEType *> & oToBeDeleted)
 {
-  bool     border;
   QEType * e_sym = e->GetSym();
 
   // turn around the face (left or right one) while edges are on the border
@@ -300,6 +299,7 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::IsFaceIsolated(QETy
   oToBeDeleted.push(e_it);
   e_it = e_it->GetLnext();
 
+  bool border = false;
   do
   {
     oToBeDeleted.push(e_it);
@@ -554,7 +554,7 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::IsEdgeLinkingTwoDif
 {
   QEType * t = e;
   QEType * e_it = t;
-  bool     org_border;
+  bool     org_border = false;
 
   do
   {
@@ -568,7 +568,7 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::IsEdgeLinkingTwoDif
 
   t = e->GetSym();
   e_it = t;
-  bool dest_border;
+  bool dest_border = false;
   do
   {
     dest_border = e_it->IsAtBorder();

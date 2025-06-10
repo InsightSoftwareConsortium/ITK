@@ -138,15 +138,12 @@ FFTWForward1DFFTImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(con
   inputIt.SetDirection(this->GetDirection());
   outputIt.SetDirection(this->GetDirection());
 
-  typename FFTW1DProxyType::ComplexType * inputBufferIt;
-  typename FFTW1DProxyType::ComplexType * outputBufferIt;
-
   // for every fft line
   for (inputIt.GoToBegin(), outputIt.GoToBegin(); !inputIt.IsAtEnd(); outputIt.NextLine(), inputIt.NextLine())
   {
     // copy the input line into our buffer
     inputIt.GoToBeginOfLine();
-    inputBufferIt = m_InputBufferArray[threadID];
+    typename FFTW1DProxyType::ComplexType * inputBufferIt = m_InputBufferArray[threadID];
     while (!inputIt.IsAtEndOfLine())
     {
       (*inputBufferIt)[0] = inputIt.Get();
@@ -159,7 +156,7 @@ FFTWForward1DFFTImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(con
     FFTW1DProxyType::Execute(m_PlanArray[threadID]);
 
     // copy the output from the buffer into our line
-    outputBufferIt = m_OutputBufferArray[threadID];
+    typename FFTW1DProxyType::ComplexType * outputBufferIt = m_OutputBufferArray[threadID];
     outputIt.GoToBeginOfLine();
     while (!outputIt.IsAtEndOfLine())
     {

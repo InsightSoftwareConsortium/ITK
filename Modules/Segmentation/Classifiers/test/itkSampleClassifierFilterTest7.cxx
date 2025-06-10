@@ -113,7 +113,7 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
   {
     for (unsigned int i = 0; i < PointSetType::PointDimension; ++i)
     {
-      double temp;
+      double temp = NAN;
       dataStream >> temp;
       point[i] = temp;
     }
@@ -260,7 +260,7 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
   {
     for (unsigned int i = 0; i < PointSetType::PointDimension; ++i)
     {
-      double temp;
+      double temp = NAN;
       dataTargetStream >> temp;
       point[i] = temp;
     }

@@ -73,7 +73,7 @@ itkSignedMaurerDistanceMapImageFilterTest(int argc, char * argv[])
     ImageDimension = std::stoi(argv[3]);
   }
 
-  int result;
+  int result = EXIT_FAILURE;
   if (ImageDimension == 2)
   {
     result = itkSignedMaurerDistanceMapImageFilterTest<2>(argv);
@@ -85,10 +85,6 @@ itkSignedMaurerDistanceMapImageFilterTest(int argc, char * argv[])
   else if (ImageDimension == 4)
   {
     result = itkSignedMaurerDistanceMapImageFilterTest<4>(argv);
-  }
-  else
-  {
-    result = EXIT_FAILURE;
   }
 
   return result;

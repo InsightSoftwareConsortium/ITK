@@ -76,7 +76,7 @@ double
 GaussianOperator<TPixel, VDimension, TAllocator>::ModifiedBesselI0(double y)
 {
   const double d = itk::Math::abs(y);
-  double       accumulator;
+  double       accumulator = NAN;
 
   if (d < 3.75)
   {
@@ -105,7 +105,7 @@ double
 GaussianOperator<TPixel, VDimension, TAllocator>::ModifiedBesselI1(double y)
 {
   const double d = itk::Math::abs(y);
-  double       accumulator;
+  double       accumulator = NAN;
 
   if (d < 3.75)
   {

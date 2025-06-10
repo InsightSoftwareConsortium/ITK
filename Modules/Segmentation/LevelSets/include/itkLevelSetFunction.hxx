@@ -211,7 +211,7 @@ LevelSetFunction<TImageType>::ComputeGlobalTimeStep(void * GlobalData) const -> 
 
   d->m_MaxAdvectionChange += d->m_MaxPropagationChange;
 
-  TimeStepType dt;
+  TimeStepType dt = NAN;
   if (itk::Math::abs(d->m_MaxCurvatureChange) > 0.0)
   {
     if (d->m_MaxAdvectionChange > 0.0)

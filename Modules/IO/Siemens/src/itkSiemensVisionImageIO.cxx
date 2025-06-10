@@ -51,7 +51,7 @@ SiemensVisionImageIO::CanReadFile(const char * FileNameToRead)
   {
     return false;
   }
-  int matrixX;
+  int matrixX = 0;
   //
   // another lame heuristic, check the actual file size against
   // the image size suggested in header + the header size.
@@ -75,8 +75,6 @@ SiemensVisionImageIO::ReadHeader(const char * FileNameToRead)
   {
     RAISE_EXCEPTION();
   }
-  int    tmpInt;
-  double tmpDble;
 
   // #define DEBUGHEADER
 #if defined(DEBUGHEADER)
@@ -116,17 +114,17 @@ SiemensVisionImageIO::ReadHeader(const char * FileNameToRead)
   hdr->name[HDR_PAT_NAME_LEN] = '\0';
   DB(hdr->name);
 
-  int year;
+  int year = 0;
   this->GetIntAt(f, HDR_REG_YEAR, &year);
-  int month;
+  int month = 0;
   this->GetIntAt(f, HDR_REG_MONTH, &month);
-  int day;
+  int day = 0;
   this->GetIntAt(f, HDR_REG_DAY, &day);
-  int hour;
+  int hour = 0;
   this->GetIntAt(f, HDR_REG_HOUR, &hour);
-  int minute;
+  int minute = 0;
   this->GetIntAt(f, HDR_REG_MIN, &minute);
-  int second;
+  int second = 0;
   this->GetIntAt(f, HDR_REG_SEC, &second);
 
   snprintf(hdr->date, sizeof(hdr->date), "%d/%d/%d %d:%d:%d", year, month, day, hour, minute, second);
@@ -164,7 +162,7 @@ SiemensVisionImageIO::ReadHeader(const char * FileNameToRead)
   hdr->sliceGap = 0.0f;
 
   DB(hdr->sliceThickness);
-
+  int tmpInt = 0;
   this->GetIntAt(f, HDR_DISPLAY_SIZE, &tmpInt, sizeof(int));
   hdr->imageXsize = static_cast<int>(tmpInt);
   DB(hdr->imageXsize);
@@ -191,6 +189,7 @@ SiemensVisionImageIO::ReadHeader(const char * FileNameToRead)
   hdr->yFOV = static_cast<float>(std::stod(tmpStr));
   DB(hdr->yFOV);
 
+  double tmpDble = NAN;
   this->GetDoubleAt(f, HDR_PIXELSIZE_ROW, &tmpDble, sizeof(double));
   hdr->imageXres = static_cast<float>(tmpDble);
   DB(hdr->imageXres);

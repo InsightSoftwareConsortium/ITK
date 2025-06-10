@@ -30,7 +30,7 @@ itkImportContainerTest(int, char *[])
   itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
   // First test with ContainerManagesMemory false
-  PixelType * ptr1;
+  PixelType * ptr1 = nullptr;
   {
     // Test 1: Create an empty container and print it
     auto container1 = ContainerType::New();

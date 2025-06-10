@@ -461,7 +461,7 @@ NrrdImageIO::ReadImageInformation()
     {
       const unsigned int naxi = domainAxisIdx[axii];
       this->SetDimensions(axii, static_cast<unsigned int>(nrrd->axis[naxi].size));
-      double    spacing;
+      double    spacing = NAN;
       double    spaceDir[NRRD_SPACE_DIM_MAX];
       const int spacingStatus = nrrdSpacingCalculate(nrrd, naxi, &spacing, spaceDir);
 
@@ -716,26 +716,23 @@ void
 NrrdImageIO::Read(void * buffer)
 {
   Nrrd * nrrd = nrrdNew();
-  bool   nrrdAllocated;
 
   // NOTE the main reason the logic becomes complicated here is that
   // ITK has to be the one to allocate the data segment ("buffer")
 
-  if (IOPixelEnum::SYMMETRICSECONDRANKTENSOR == this->GetPixelType())
-  {
-    // It may be that this is coming from a nrrdKind3DMaskedSymMatrix,
-    // in which case ITK's buffer has not been allocated for the
-    // actual size of the data.  The data will be allocated by nrrdLoad.
-    nrrdAllocated = true;
-  }
-  else
+  // When nrrdAllocated ==true
+  // It may be that this is coming from a nrrdKind3DMaskedSymMatrix,
+  // in which case ITK's buffer has not been allocated for the
+  // actual size of the data.  The data will be allocated by nrrdLoad.
+  bool nrrdAllocated = true;
+  if (IOPixelEnum::SYMMETRICSECONDRANKTENSOR != this->GetPixelType())
   {
     // The data buffer has already been allocated for the correct size.
     // Hand the buffer off to the nrrd, setting just enough info so that
     // the nrrd knows the allocated data size (the axes may actually be out
     // of order in the case of non-scalar data.  Internal to nrrdLoad(), the
     // given buffer will be re-used, instead of allocating new data.
-    unsigned int baseDim;
+    unsigned int baseDim = 0;
     nrrdAllocated = false;
     nrrd->data = buffer;
     nrrd->type = this->ITKToNrrdComponentType(this->m_ComponentType);
@@ -897,7 +894,7 @@ NrrdImageIO::Write(const void * buffer)
   double spaceDir[NRRD_DIM_MAX][NRRD_SPACE_DIM_MAX];
   double origin[NRRD_DIM_MAX];
 
-  unsigned int       baseDim;
+  unsigned int       baseDim = 0;
   const unsigned int spaceDim = this->GetNumberOfDimensions();
   if (this->GetNumberOfComponents() > 1)
   {
@@ -982,7 +979,7 @@ NrrdImageIO::Write(const void * buffer)
       const char * field = airEnumStr(nrrdField, nrrdField_thicknesses);
       if (!strncmp(keyField, field, strlen(field)))
       {
-        unsigned int axi;
+        unsigned int axi = 0;
         if (1 == sscanf(keyField + strlen(field), "[%u]", &axi) && axi + baseDim < nrrd->dim)
         {
           double thickness = 0.0;
@@ -993,7 +990,7 @@ NrrdImageIO::Write(const void * buffer)
       field = airEnumStr(nrrdField, nrrdField_centers);
       if (!strncmp(keyField, field, strlen(field)))
       {
-        unsigned int axi;
+        unsigned int axi = 0;
         if (1 == sscanf(keyField + strlen(field), "[%u]", &axi) && axi + baseDim < nrrd->dim)
         {
           std::string value;
@@ -1004,7 +1001,7 @@ NrrdImageIO::Write(const void * buffer)
       field = airEnumStr(nrrdField, nrrdField_kinds);
       if (!strncmp(keyField, field, strlen(field)))
       {
-        unsigned int axi;
+        unsigned int axi = 0;
         if (1 == sscanf(keyField + strlen(field), "[%u]", &axi) && axi + baseDim < nrrd->dim)
         {
           std::string value;
@@ -1015,7 +1012,7 @@ NrrdImageIO::Write(const void * buffer)
       field = airEnumStr(nrrdField, nrrdField_labels);
       if (!strncmp(keyField, field, strlen(field)))
       {
-        unsigned int axi;
+        unsigned int axi = 0;
         if (1 == sscanf(keyField + strlen(field), "[%u]", &axi) && axi + baseDim < nrrd->dim)
         {
           std::string value;
@@ -1037,7 +1034,7 @@ NrrdImageIO::Write(const void * buffer)
       field = airEnumStr(nrrdField, nrrdField_space);
       if (!strncmp(keyField, field, strlen(field)))
       {
-        int         space;
+        int         space = 0;
         std::string value;
         ExposeMetaData<std::string>(thisDic, key, value);
         space = airEnumVal(nrrdSpace, value.c_str());

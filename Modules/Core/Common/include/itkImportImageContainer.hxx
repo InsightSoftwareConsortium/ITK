@@ -155,7 +155,7 @@ TElement *
 ImportImageContainer<TElementIdentifier, TElement>::AllocateElements(ElementIdentifier size,
                                                                      bool              UseValueInitialization) const
 {
-  TElement * data;
+  TElement * data = nullptr;
 
   try
   {

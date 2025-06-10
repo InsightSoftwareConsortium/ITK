@@ -116,21 +116,6 @@ BinaryThinningImageFilter<TInputImage, TOutputImage>::ComputeThinImage()
   const OffsetType o8 = { { -1, 0 } };
   const OffsetType o9 = { { -1, -1 } };
 
-  PixelType p2;
-  PixelType p3;
-  PixelType p4;
-  PixelType p5;
-  PixelType p6;
-  PixelType p7;
-  PixelType p8;
-  PixelType p9;
-
-  // These tests correspond to the conditions listed in Gonzalez and Woods
-  bool testA;
-  bool testB;
-  bool testC;
-  bool testD;
-
   std::vector<IndexType>                    pixelsToDelete;
   typename std::vector<IndexType>::iterator pixelsToDeleteIt;
 
@@ -147,19 +132,20 @@ BinaryThinningImageFilter<TInputImage, TOutputImage>::ComputeThinImage()
       for (ot.GoToBegin(); !ot.IsAtEnd(); ++ot)
       {
         // Each iteration over the image, set all tests to false.
-        testA = false;
-        testB = false;
-        testC = false;
-        testD = false;
+        // These tests correspond to the conditions listed in Gonzalez and Woods
+        bool testA = false;
+        bool testB = false;
+        bool testC = false;
+        bool testD = false;
 
-        p2 = ot.GetPixel(o2);
-        p3 = ot.GetPixel(o3);
-        p4 = ot.GetPixel(o4);
-        p5 = ot.GetPixel(o5);
-        p6 = ot.GetPixel(o6);
-        p7 = ot.GetPixel(o7);
-        p8 = ot.GetPixel(o8);
-        p9 = ot.GetPixel(o9);
+        const PixelType p2 = ot.GetPixel(o2);
+        const PixelType p3 = ot.GetPixel(o3);
+        const PixelType p4 = ot.GetPixel(o4);
+        const PixelType p5 = ot.GetPixel(o5);
+        const PixelType p6 = ot.GetPixel(o6);
+        const PixelType p7 = ot.GetPixel(o7);
+        const PixelType p8 = ot.GetPixel(o8);
+        const PixelType p9 = ot.GetPixel(o9);
 
         // Determine whether the pixel should be deleted in the
         // following if statements.
