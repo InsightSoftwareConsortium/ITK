@@ -16,10 +16,9 @@
  *
  *=========================================================================*/
 #include "itkAIMHeaderIO.h"
-
-#include <iostream> //remove later
 #include <sstream>
 #include <cstring>
+#include <iomanip>
 
 constexpr const char * AIM020String = "AIMDATA_V020   ";
 constexpr const char * AIM030String = "AIMDATA_V030   ";
@@ -30,39 +29,58 @@ typedef char            EncodedInt8Byte[8];
 typedef EncodedInt4Byte EncodedTuple4Byte[3];
 typedef EncodedInt8Byte EncodedTuple8Byte[3];
 
+
+struct AIMV020AssociatedData
+{
+  EncodedInt4Byte m_ID;
+  EncodedInt4Byte m_Data;
+  EncodedInt4Byte m_NR;
+  EncodedInt4Byte m_Size;
+  EncodedInt4Byte m_Type;
+};
+
+struct AIMV030AssociatedData
+{
+  EncodedInt4Byte m_ID;
+  EncodedInt4Byte m_NR;
+  EncodedInt4Byte m_Size;
+  EncodedInt4Byte m_Type;
+};
+
 struct AIMV020StructHeader
 {
-  EncodedInt4Byte   m_Version;
-  EncodedInt4Byte   m_ProcLog;
-  EncodedInt4Byte   m_Data;
-  EncodedInt4Byte   m_ID;
-  EncodedInt4Byte   m_Reference;
-  EncodedInt4Byte   m_Type;
-  EncodedTuple4Byte m_Position;
-  EncodedTuple4Byte m_Dimension;
-  EncodedTuple4Byte m_Offset;
-  EncodedTuple4Byte m_SupDimension;
-  EncodedTuple4Byte m_SupPosition;
-  EncodedTuple4Byte m_SubDimension;
-  EncodedTuple4Byte m_TestOffset;
-  EncodedTuple4Byte m_ElementSize;
-  EncodedByte       m_Fill[20];
+  EncodedInt4Byte       m_Version;
+  EncodedInt4Byte       m_ProcLog;
+  EncodedInt4Byte       m_Data;
+  EncodedInt4Byte       m_ID;
+  EncodedInt4Byte       m_Reference;
+  EncodedInt4Byte       m_Type;
+  EncodedTuple4Byte     m_Position;
+  EncodedTuple4Byte     m_Dimension;
+  EncodedTuple4Byte     m_Offset;
+  EncodedTuple4Byte     m_SupDimension;
+  EncodedTuple4Byte     m_SupPosition;
+  EncodedTuple4Byte     m_SubDimension;
+  EncodedTuple4Byte     m_TestOffset;
+  EncodedTuple4Byte     m_ElementSize;
+  AIMV020AssociatedData m_AssociatedData;
 };
 
 struct AIMV030StructHeader
 {
-  EncodedInt4Byte   m_Version;
-  EncodedInt4Byte   m_ID;
-  EncodedInt4Byte   m_Reference;
-  EncodedInt4Byte   m_Type;
-  EncodedTuple8Byte m_Position;
-  EncodedTuple8Byte m_Dimension;
-  EncodedTuple8Byte m_Offset;
-  EncodedTuple8Byte m_SupDimension;
-  EncodedTuple8Byte m_SupPosition;
-  EncodedTuple8Byte m_SubDimension;
-  EncodedTuple8Byte m_TestOffset;
-  EncodedTuple8Byte m_ElementSize;
+  EncodedInt4Byte       m_Version;
+  EncodedInt4Byte       m_ID;
+  EncodedInt4Byte       m_Reference;
+  EncodedInt4Byte       m_Type;
+  EncodedTuple8Byte     m_Position;
+  EncodedTuple8Byte     m_Dimension;
+  EncodedTuple8Byte     m_Offset;
+  EncodedTuple8Byte     m_SupDimension;
+  EncodedTuple8Byte     m_SupPosition;
+  EncodedTuple8Byte     m_SubDimension;
+  EncodedTuple8Byte     m_TestOffset;
+  EncodedTuple8Byte     m_ElementSize;
+  AIMV030AssociatedData m_AssociatedData;
 };
 
 struct AIMPreHeaderV020
@@ -76,7 +94,6 @@ struct AIMPreHeaderV020
 
 struct AIMPreHeaderV030
 {
-  // todo: check this is correct for 030
   EncodedInt8Byte m_PreHeaderLength;
   EncodedInt8Byte m_ImageStructLength;
   EncodedInt8Byte m_ProcessingLogLength;
@@ -121,14 +138,13 @@ AIMHeaderIO::ReadHeader(std::ifstream & infile)
       break;
   }
 
-  // todo: @ebald19 check offset is still right for AIMV030
-
   // Read the pre-header to get remaining header and log size
-  this->m_PreHeaderSize = DecodeInt(headerBytes + bytesRead);
-  this->ReadPreHeader(infile, this->m_PreHeaderSize);
-  bytesRead += this->m_PreHeaderSize;
 
-  std::cout << "DEBUG: struct header size read" << this->m_ImgStructSize << std::endl;
+  if (this->ReadPreHeader(infile, bytesRead) != 0)
+  {
+    throw std::runtime_error("AIMHeaderIO: Failed to read pre-header.");
+  }
+  bytesRead += this->m_PreHeaderSize;
 
   unsigned long headerSize = this->m_PreHeaderSize + this->m_ImgStructSize + this->m_ProcessingLogSize;
 
@@ -137,10 +153,10 @@ AIMHeaderIO::ReadHeader(std::ifstream & infile)
     // Allocate more space for the header and read the rest into the raw header
     delete[] headerBytes;
     delete[] this->m_HeaderData->m_RawHeader;
-    headerBytes = new char[headerSize];
+    headerBytes = new char[headerSize + (versionType == static_cast<int>(ScancoFileVersions::AIM_030) ? 16 : 0)];
     // headerSize does not include the version string from v030
-    infile.seekg(versionType == static_cast<int>(ScancoFileVersions::AIM_030) ? 16 : 0, std::ios::beg);
-    infile.read(headerBytes, headerSize);
+    infile.seekg(0, std::ios::beg);
+    infile.read(headerBytes, headerSize + (versionType == static_cast<int>(ScancoFileVersions::AIM_030) ? 16 : 0));
   }
   // we have read the full header, save to our data structure
   this->m_HeaderData->m_RawHeader = headerBytes;
@@ -178,16 +194,12 @@ AIMHeaderIO::ReadHeader(std::ifstream & infile)
   this->m_HeaderData->m_SliceThickness = this->m_HeaderData->m_PixelData.m_Spacing[2];
   this->m_HeaderData->m_SliceIncrement = this->m_HeaderData->m_PixelData.m_Spacing[2];
 
-  return headerSize; // Return the size of the header
-  // todo: @ebald19 see if adding version length is necessary
+  return bytesRead; // Return the size of the header, including the version string if written
 }
 
 unsigned long
 AIMHeaderIO::WriteHeader(std::ofstream & outfile, unsigned long imageSize)
 {
-
-  // todo: take image data length and add in pre-header if different than original
-  // This just prints original header
   int bytesWritten = 0;
   if (!outfile.is_open())
   {
@@ -213,7 +225,6 @@ AIMHeaderIO::WriteHeader(std::ofstream & outfile, unsigned long imageSize)
   {
     AIMV020StructHeader structHeader = this->WriteStructHeaderV020();
     this->m_ImgStructSize = sizeof(structHeader);
-    std::cout << "DEBUG: struct header size written" << sizeof(structHeader) << std::endl;
     this->m_PreHeaderSize = this->WritePreHeader(outfile, imageSize, ScancoFileVersions::AIM_020);
     outfile.write((char *)&structHeader, this->m_ImgStructSize);
   }
@@ -229,7 +240,7 @@ AIMHeaderIO::WriteHeader(std::ofstream & outfile, unsigned long imageSize)
 }
 
 int
-AIMHeaderIO::ReadPreHeader(std::ifstream & file, unsigned long length, unsigned long offset)
+AIMHeaderIO::ReadPreHeader(std::ifstream & file, unsigned long offset)
 {
   unsigned long bytesRead = this->m_IntSize; // We assume the pre-header length (int) has already been read
 
@@ -238,27 +249,44 @@ AIMHeaderIO::ReadPreHeader(std::ifstream & file, unsigned long length, unsigned 
     return -1;
   }
 
-  if (length == 0)
-  {
-    return -1; // No pre-header to read
-  }
-
   // Seek to the offset to skip the version string if necessary
   file.seekg(offset, std::ios::beg);
 
-  char * preHeader = new char[length];
-  file.read(preHeader, length);
+  if (m_IntSize == 4)
+  {
+    // AIM v020 uses 32-bit integers
+    AIMPreHeaderV020 * headerData = new AIMPreHeaderV020;
+    file.read((char *)headerData, sizeof(AIMPreHeaderV020));
+    this->m_PreHeaderSize = DecodeInt(headerData->m_PreHeaderLength);
+    if (this->m_PreHeaderSize != sizeof(AIMPreHeaderV020))
+    {
+      return -1; // Invalid pre-header size
+    }
 
-  this->m_ImgStructSize = DecodeInt(preHeader + bytesRead);
-  bytesRead += this->m_IntSize;
-  this->m_ProcessingLogSize = DecodeInt(preHeader + bytesRead);
-  bytesRead += this->m_IntSize;
+    this->m_ImgStructSize = DecodeInt(headerData->m_ImageStructLength);
+    this->m_ProcessingLogSize = DecodeInt(headerData->m_ProcessingLogLength);
 
-  // these items are not in the processing log
-  this->m_HeaderData->m_SliceThickness = this->m_HeaderData->m_PixelData.m_Spacing[2];
-  this->m_HeaderData->m_SliceIncrement = this->m_HeaderData->m_PixelData.m_Spacing[2];
+    delete headerData;
+  }
+  else if (m_IntSize == 8)
+  {
+    // AIM v020 uses 32-bit integers
+    AIMPreHeaderV030 * headerData = new AIMPreHeaderV030;
+    file.read((char *)headerData, sizeof(AIMPreHeaderV030));
+    this->m_PreHeaderSize = DecodeInt64(headerData->m_PreHeaderLength);
+    if (this->m_PreHeaderSize != sizeof(AIMPreHeaderV030))
+    {
+      return -1; // Invalid pre-header size
+    }
+    this->m_ImgStructSize = DecodeInt64(headerData->m_ImageStructLength);
+    this->m_ProcessingLogSize = DecodeInt64(headerData->m_ProcessingLogLength);
+    delete headerData;
+  }
+  else
+  {
+    return -1; // Unsupported integer size
+  }
 
-  delete[] preHeader;
   return 0; // Success
 }
 
@@ -362,10 +390,13 @@ AIMHeaderIO::ReadProcessingLog(std::ifstream & infile, unsigned long offset, uns
 
     std::string value = readString.substr(readString.find("  ") + 2);
 
+    if (value.find_first_not_of(" ") == std::string::npos)
+    {
+      continue;
+    }
+
     value = value.substr(value.find_first_not_of(" "),
                          value.find_last_not_of(' ') - value.find_first_not_of(" ") + 1); // Trim trailing spaces
-
-    // std::cout << "key: " << key << "value: " << value << std::endl;
 
     // check for known keys
     if (key == "Time")
@@ -378,16 +409,20 @@ AIMHeaderIO::ReadProcessingLog(std::ifstream & infile, unsigned long offset, uns
     }
     else if (key == "Orig-ISQ-Dim-p")
     {
+      size_t processed = 0;
       for (int & ScanDimensionsPixel : this->m_HeaderData->m_ScanDimensionsPixels)
       {
-        ScanDimensionsPixel = std::stol(value);
+        ScanDimensionsPixel = std::stol(value, &processed);
+        value = value.substr(processed);
       }
     }
     else if (key == "Orig-ISQ-Dim-um")
     {
+      size_t processed = 0;
       for (double & i : this->m_HeaderData->m_ScanDimensionsPhysical)
       {
-        i = stod(value) * 1e-3;
+        i = stod(value, &processed) * 1e-3;
+        value = value.substr(processed);
       }
     }
     else if (key == "Patient Name")
@@ -493,43 +528,6 @@ AIMHeaderIO::ReadProcessingLog(std::ifstream & infile, unsigned long offset, uns
   return bytesRead;
 }
 
-size_t
-AIMHeaderIO::WritePreHeader(std::ofstream & outfile, size_t imageSize, ScancoFileVersions version)
-{
-  if (!outfile.is_open())
-  {
-    return 0;
-  }
-
-  if (version == ScancoFileVersions::AIM_020)
-  {
-    AIMPreHeaderV020 preHeader{ 0 };
-    EncodeInt(sizeof(AIMPreHeaderV020), preHeader.m_PreHeaderLength);
-    EncodeInt(this->m_ImgStructSize, preHeader.m_ImageStructLength);
-    EncodeInt(this->m_ProcessingLogSize, preHeader.m_ProcessingLogLength);
-    EncodeInt(imageSize, preHeader.m_ImageDataLength);
-    EncodeInt(0, preHeader.m_AssociatedDataLength); // No associated data handling
-    outfile.write((char *)&preHeader, sizeof(preHeader));
-    return sizeof(preHeader);
-  }
-  else if (version == ScancoFileVersions::AIM_030)
-  {
-    AIMPreHeaderV030 preHeader{ 0 };
-    EncodeInt64(sizeof(AIMPreHeaderV030), preHeader.m_PreHeaderLength);
-    EncodeInt64(sizeof(AIMPreHeaderV020), preHeader.m_PreHeaderLength);
-    EncodeInt64(this->m_ImgStructSize, preHeader.m_ImageStructLength);
-    EncodeInt64(this->m_ProcessingLogSize, preHeader.m_ProcessingLogLength);
-    EncodeInt64(imageSize, preHeader.m_ImageDataLength);
-    EncodeInt64(0, preHeader.m_AssociatedDataLength); // No associated data handling
-    outfile.write((char *)&preHeader, sizeof(preHeader));
-    return sizeof(preHeader);
-  }
-  else
-  {
-    throw std::runtime_error("AIMHeaderIO::WritePreHeader: Invalid AIM file version to write.");
-  }
-}
-
 AIMV020StructHeader
 AIMHeaderIO::WriteStructHeaderV020()
 {
@@ -556,7 +554,7 @@ AIMHeaderIO::WriteStructHeaderV020()
   // pixel data origin
   for (int i = 0; i < 3; ++i)
   {
-    EncodeInt(this->m_HeaderData->m_PixelData.m_Origin[i] / this->m_HeaderData->m_PixelData.m_Spacing[i],
+    EncodeInt(this->m_HeaderData->m_PixelData.m_Origin[i] / (float)this->m_HeaderData->m_PixelData.m_Spacing[i],
               structHeader.m_Position[i]);
   }
   return structHeader;
@@ -586,7 +584,7 @@ AIMHeaderIO::WriteStructHeaderV030()
   // Set the pixel data origin
   for (int i = 0; i < 3; ++i)
   {
-    EncodeInt64(this->m_HeaderData->m_PixelData.m_Origin[i] / this->m_HeaderData->m_PixelData.m_Spacing[i],
+    EncodeInt64(this->m_HeaderData->m_PixelData.m_Origin[i] / (float)this->m_HeaderData->m_PixelData.m_Spacing[i],
                 structHeader.m_Position[i]);
   }
 
@@ -598,7 +596,7 @@ AIMHeaderIO::WriteProcessingLog()
 {
   std::ostringstream outLog{ "" };
   GetCurrentDateString(this->m_HeaderData->m_ModificationDate);
-
+  outLog << std::setprecision(15);
   outLog << "! " << std::endl;
   outLog << "! Processing Log " << std::endl;
   outLog << "!" << std::endl;
@@ -647,6 +645,42 @@ AIMHeaderIO::WriteProcessingLog()
   outLog << "Maximum data value                            " << this->m_HeaderData->m_DataRange[1] << std::endl;
 
   return outLog.str();
+}
+
+size_t
+AIMHeaderIO::WritePreHeader(std::ofstream & outfile, size_t imageSize, ScancoFileVersions version)
+{
+  if (!outfile.is_open())
+  {
+    return 0;
+  }
+
+  if (version == ScancoFileVersions::AIM_020)
+  {
+    AIMPreHeaderV020 preHeader{ 0 };
+    EncodeInt(sizeof(AIMPreHeaderV020), preHeader.m_PreHeaderLength);
+    EncodeInt(this->m_ImgStructSize, preHeader.m_ImageStructLength);
+    EncodeInt(this->m_ProcessingLogSize, preHeader.m_ProcessingLogLength);
+    EncodeInt(imageSize, preHeader.m_ImageDataLength);
+    EncodeInt(0, preHeader.m_AssociatedDataLength); // No associated data handling
+    outfile.write((char *)&preHeader, sizeof(preHeader));
+    return sizeof(preHeader);
+  }
+  else if (version == ScancoFileVersions::AIM_030)
+  {
+    AIMPreHeaderV030 preHeader{ 0 };
+    EncodeInt64(sizeof(AIMPreHeaderV030), preHeader.m_PreHeaderLength);
+    EncodeInt64(this->m_ImgStructSize, preHeader.m_ImageStructLength);
+    EncodeInt64(this->m_ProcessingLogSize, preHeader.m_ProcessingLogLength);
+    EncodeInt64(imageSize, preHeader.m_ImageDataLength);
+    EncodeInt64(0, preHeader.m_AssociatedDataLength); // No associated data handling
+    outfile.write((char *)&preHeader, sizeof(preHeader));
+    return sizeof(preHeader);
+  }
+  else
+  {
+    throw std::runtime_error("AIMHeaderIO::WritePreHeader: Invalid AIM file version to write.");
+  }
 }
 
 AIMHeaderIO::~AIMHeaderIO() {}

@@ -19,7 +19,6 @@
 #include "itkISQHeaderIO.h"
 #include "itkMath.h"
 #include <cstring>
-#include <iostream> // todo @ebald19 remove
 
 typedef char        EncodedByte;
 typedef EncodedByte EncodedInt[4];
@@ -208,7 +207,6 @@ ISQHeaderIO::WriteHeader(std::ofstream & outfile, unsigned long imageSize)
   EncodeInt(this->m_HeaderData->m_ScannerID, header.m_PreHeader.m_ScannerID);
   EncodeDateFromString(header.m_PreHeader.m_CreationDate, this->m_HeaderData->m_CreationDate);
 
-  // todo: @ebald19 fix the lower calculations for writing
   for (unsigned int dimension = 0; dimension < 3; ++dimension)
   {
     // pixdim
@@ -248,8 +246,6 @@ ISQHeaderIO::WriteHeader(std::ofstream & outfile, unsigned long imageSize)
   // Write Extended Header
   unsigned long extendedHeaderLength = this->WriteExtendedHeader(outfile);
   bytesWritten += extendedHeaderLength + ScancoHeaderBlockSize;
-
-  std::cout << "DEBUG: Wrote to isq file" << std::endl;
 
   return bytesWritten;
 }
@@ -452,7 +448,6 @@ ISQHeaderIO::WriteExtendedHeader(std::ofstream & outfile)
 
   // Last block adds density scaling data:
   EncodeInt((int)this->m_HeaderData->m_RescaleType, calHeader.m_RescaleType);
-  // todo: @ebald19 add rescale units
   PadString(calHeader.m_RescaleUnits, this->m_HeaderData->m_RescaleUnits, 16);
   EncodeDouble(this->m_HeaderData->m_RescaleSlope, calHeader.m_RescaleSlope);
   EncodeDouble(this->m_HeaderData->m_RescaleIntercept, calHeader.m_RescaleIntercept);

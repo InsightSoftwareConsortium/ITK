@@ -94,3 +94,56 @@ set_property(
     DEPENDS
       itkScancoImageIOAIMHeaderCheckTest
 )
+
+itk_add_test(
+  NAME itkScancoImageIOISQReadWritten
+  COMMAND
+    IOScancoTestDriver
+    itkScancoImageIOTest2
+    ${ITK_TEST_OUTPUT_DIR}/C0004255Test2.isq
+    ${ITK_TEST_OUTPUT_DIR}/ISQWrite.ISQ
+)
+
+itk_add_test(
+  NAME itkScancoImageIOAIMWriteTest
+  COMMAND
+    IOScancoTestDriver
+    --compare
+    DATA{Baseline/AIMIOTestImage.mha}
+    ${ITK_TEST_OUTPUT_DIR}/AIMIOTestWrite.aim
+    itkScancoImageIOTest3
+    DATA{Input/AIMIOTestImage.AIM}
+    ${ITK_TEST_OUTPUT_DIR}/AIMIOTestWrite.aim
+)
+
+itk_add_test(
+  NAME itkScancoImageIOAIMReadWrittenTest
+  COMMAND
+    IOScancoTestDriver
+    itkScancoImageIOTest3
+    ${ITK_TEST_OUTPUT_DIR}/AIMIOTestWrite.aim
+    ${ITK_TEST_OUTPUT_DIR}/AIMIOTestWrite2.aim
+)
+
+set_property(
+  TEST
+    itkScancoImageIOAIMReadWrittenTest
+  APPEND
+  PROPERTY
+    DEPENDS
+      itkScancoImageIOAIMWriteTest
+)
+
+itk_add_test(
+  NAME itkScancoImageIOAIM030FloatReadHeader
+  COMMAND
+    IOScancoTestDriver
+    --compare
+    DATA{Input/AIMIOTestImageFoatv030.AIM}
+    ${ITK_TEST_OUTPUT_DIR}/AIMIOTestWritev030.aim
+    itkScancoImageIOTest3
+    DATA{Input/AIMIOTestImageFoatv030.AIM}
+    ${ITK_TEST_OUTPUT_DIR}/AIMIOTestWritev030.aim
+    0
+    "AIMDATA_V030   "
+)

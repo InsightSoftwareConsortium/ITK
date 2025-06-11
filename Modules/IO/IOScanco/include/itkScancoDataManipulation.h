@@ -106,6 +106,14 @@ CheckVersion(const char header[16]);
 int
 DecodeInt(const void * data);
 
+/** Convert char data to 64-bit int (little-endian)
+ *
+ * \param data Pointer to a buffer of at least 4 bytes.
+ * \return The decoded integer value.
+ */
+int64_t
+DecodeInt64(const void * data);
+
 /** Convert 32-bit int (little-endian) to char data.
  *
  * \param data The integer to convert.
@@ -163,11 +171,22 @@ EncodeDouble(double data, void * target);
 void
 DecodeDate(const void * data, int & year, int & month, int & day, int & hour, int & minute, int & second, int & millis);
 
-// todo: @ebald19 document
+/** Formats a date into a string of the form DD-MMM-YYYY HH:MM:SS:mmm
+ * \param target Pointer to a buffer of at least 32 bytes to store the formatted date string.
+ * \param year The year.
+ * \param month The month (1-12).
+ * \param day The day (1-31).
+ * \param hour The hour (0-23).
+ * \param minute The minute (0-59).
+ * \param second The second (0-59).
+ * \param millis The milliseconds (0-999).
+ */
 void
 DateToString(const void * target, int year, int month, int day, int hour, int minute, int second, int millis);
 
-// todo: @ebald19 document
+/** Get the current date and time as a string in the format "YYYY-MM-DD HH:MM:SS.mmm".
+ * \param target Pointer to a buffer of at least 32 bytes to store the current date string.
+ */
 void
 GetCurrentDateString(void * target);
 

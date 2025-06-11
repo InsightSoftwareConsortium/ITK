@@ -331,8 +331,11 @@ private:
   void
   RescaleToHU(TBufferType * buffer, size_t size);
 
-  /** Rescale the image data to Scanco Units */
-  // todo @ebald19 document
+  /** Rescale the image data to Scanco Units
+   * This is the inverse of RescaleToHU.
+   * \param buffer Pointer to the buffer containing the image data.
+   * \param size Size of the buffer in number of elements.
+   */
   template <typename TBufferType>
   void
   RescaleToScanco(TBufferType * buffer, size_t size);
@@ -349,9 +352,16 @@ private:
   void
   ParseAIMComponentType(int dataType);
 
-  // todo @ebald19 document (sets filetype)
+  /** Set the IO object based on the image type to read/write
+   * This method initializes the m_HeaderIO member variable
+   * This method sets the m_FileExtension member variable
+   */
   void
   SetHeaderIO();
+
+  /** Set the numeric data type field from the ITK Component Enum */
+  void
+  SetDataTypeFromComponentEnum();
 
   itkScancoHeaderData m_HeaderData;
 
