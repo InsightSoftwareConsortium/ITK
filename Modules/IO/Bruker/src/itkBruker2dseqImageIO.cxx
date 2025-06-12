@@ -582,7 +582,7 @@ Bruker2dseqImageIO::Read(void * buffer)
       Rescale(static_cast<double *>(buffer), slopes, offsets, frameSize, frameCount);
       break;
     default:
-      itkExceptionMacro("Datatype not supported: " << this->GetComponentTypeAsString(this->m_ComponentType));
+      itkExceptionMacro("Datatype not supported: " << ImageIOBase::GetComponentTypeAsString(this->m_ComponentType));
   }
 
   //
@@ -641,7 +641,7 @@ Bruker2dseqImageIO::Read(void * buffer)
           SwapSlicesAndVolumes(static_cast<double *>(buffer), x, y, z, sizeToSwap, noswap);
           break;
         default:
-          itkExceptionMacro("Datatype not supported: " << this->GetComponentTypeAsString(this->m_ComponentType));
+          itkExceptionMacro("Datatype not supported: " << ImageIOBase::GetComponentTypeAsString(this->m_ComponentType));
       }
     }
   }
@@ -686,7 +686,7 @@ Bruker2dseqImageIO::Read(void * buffer)
         ReverseSliceOrder(static_cast<double *>(buffer), x, y, z, v);
         break;
       default:
-        itkExceptionMacro("Datatype not supported: " << this->GetComponentTypeAsString(this->m_ComponentType));
+        itkExceptionMacro("Datatype not supported: " << ImageIOBase::GetComponentTypeAsString(this->m_ComponentType));
     }
   }
 }

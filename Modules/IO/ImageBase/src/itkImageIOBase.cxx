@@ -1159,8 +1159,8 @@ ImageIOBase::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "IORegion: " << std::endl;
   m_IORegion.Print(os, indent.GetNextIndent());
   os << indent << "NumberOfComponents/Pixel: " << m_NumberOfComponents << std::endl;
-  os << indent << "PixeType: " << this->GetPixelTypeAsString(m_PixelType) << std::endl;
-  os << indent << "ComponentType: " << this->GetComponentTypeAsString(m_ComponentType) << std::endl;
+  os << indent << "PixeType: " << Self::GetPixelTypeAsString(m_PixelType) << std::endl;
+  os << indent << "ComponentType: " << Self::GetComponentTypeAsString(m_ComponentType) << std::endl;
   os << indent << "Dimensions: " << m_Dimensions << std::endl;
   os << indent << "Origin: " << m_Origin << std::endl;
   os << indent << "Spacing: " << m_Spacing << std::endl;

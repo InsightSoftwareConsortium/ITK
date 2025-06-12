@@ -686,18 +686,18 @@ VTKImageIO::WriteImageInformation(const void * itkNotUsed(buffer))
   // Prefer the VECTORS representation when possible:
   else if (this->GetPixelType() == IOPixelEnum::VECTOR && this->GetNumberOfComponents() == 3)
   {
-    file << "VECTORS vectors " << this->GetComponentTypeAsString(m_ComponentType) << '\n';
+    file << "VECTORS vectors " << Self::GetComponentTypeAsString(m_ComponentType) << '\n';
   }
   else if (this->GetPixelType() == IOPixelEnum::SYMMETRICSECONDRANKTENSOR)
   {
-    file << "TENSORS tensors " << this->GetComponentTypeAsString(m_ComponentType) << '\n';
+    file << "TENSORS tensors " << Self::GetComponentTypeAsString(m_ComponentType) << '\n';
   }
   else
   {
     // According to VTK documentation number of components should in
     // range (1,4):
     // todo this should be asserted or checked earlier!
-    file << "SCALARS scalars " << this->GetComponentTypeAsString(m_ComponentType) << ' '
+    file << "SCALARS scalars " << Self::GetComponentTypeAsString(m_ComponentType) << ' '
          << this->GetNumberOfComponents() << '\n'
          << "LOOKUP_TABLE default\n";
   }
