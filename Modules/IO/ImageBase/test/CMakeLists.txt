@@ -977,6 +977,8 @@ itk_add_test(
   COMMAND
   itkUnicodeIOTest)
 
-set(ITKIOImageBaseGTests itkWriteImageFunctionGTest.cxx
+set(ITKIOImageBaseGTests
+  itkImageIOBaseGTest.cxx
+  itkWriteImageFunctionGTest.cxx
 )
 creategoogletestdriver(ITKIOImageBase "${ITKIOImageBase-Test_LIBRARIES}" "${ITKIOImageBaseGTests}")
