@@ -250,9 +250,6 @@ public:
   itkGetEnumMacro(ComponentType, IOComponentEnum);
 
   /** get the type_info for the current pixel component type.
-   * This function is DEPRECATED and only provided for backwards
-   * compatibility.  There is no use for this method that can't
-   * be satisfied by calling GetComponentType.
    */
   virtual const std::type_info &
   GetComponentTypeInfo() const;
