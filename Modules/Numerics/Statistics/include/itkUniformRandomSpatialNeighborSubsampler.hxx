@@ -26,8 +26,7 @@ namespace Statistics
 
 template <typename TSample, typename TRegion>
 UniformRandomSpatialNeighborSubsampler<TSample, TRegion>::UniformRandomSpatialNeighborSubsampler()
-  : m_NumberOfResultsRequested(0)
-  , m_UseClockForSeed(false)
+
 {
   m_RandomNumberGenerator = RandomGeneratorType::New();
   m_RandomNumberGenerator->SetSeed(this->m_Seed);

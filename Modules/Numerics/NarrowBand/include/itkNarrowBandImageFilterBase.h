@@ -222,8 +222,6 @@ protected:
   NarrowBandImageFilterBase()
     : m_NarrowBand(NarrowBandType::New())
     , m_ReinitializationFrequency(6)
-    , m_Step(0)
-    , m_Touched(false)
     , m_IsoSurfaceValue(0.0)
   {
     m_NarrowBand->SetTotalRadius(4);

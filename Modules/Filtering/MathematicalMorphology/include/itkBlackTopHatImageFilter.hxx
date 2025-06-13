@@ -29,7 +29,6 @@ template <typename TInputImage, typename TOutputImage, typename TKernel>
 BlackTopHatImageFilter<TInputImage, TOutputImage, TKernel>::BlackTopHatImageFilter()
   : m_SafeBorder(true)
   , m_Algorithm(AlgorithmEnum::HISTO)
-  , m_ForceAlgorithm(false)
 {}
 
 template <typename TInputImage, typename TOutputImage, typename TKernel>

@@ -538,18 +538,8 @@ public:
 
 protected:
   StatisticsLabelObject()
-    : m_Minimum(0)
-    , m_Maximum(0)
-    , m_Mean(0)
-    , m_Sum(0)
-    , m_StandardDeviation(0)
-    , m_Variance(0)
-    , m_Median(0)
-    , m_Skewness(0)
-    , m_Kurtosis(0)
-    , m_WeightedElongation(0)
-    , m_Histogram(nullptr)
-    , m_WeightedFlatness(0)
+    : m_Histogram(nullptr)
+
   {
     m_MaximumIndex.Fill(0);
     m_MinimumIndex.Fill(0);

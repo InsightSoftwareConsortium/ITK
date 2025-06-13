@@ -31,9 +31,7 @@ namespace itk
 template <typename TInputImage, typename TOutputImage, typename TVoronoiImage>
 SignedDanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::
   SignedDanielssonDistanceMapImageFilter()
-  : m_SquaredDistance(false) // Should we remove this ?
-                             // doesn't make sense in a SignedDaniel
-  , m_InsideIsPositive(false)
+
 {
   // Make the outputs (distance map, voronoi map, distance vectors).
   ProcessObject::MakeRequiredOutputs(*this, 3);

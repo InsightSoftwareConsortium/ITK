@@ -42,8 +42,7 @@ NarrowBandLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TOut
 template <typename TInputImage, typename TFeatureImage, typename TOutputPixelType, typename TOutputImage>
 NarrowBandLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TOutputImage>::
   NarrowBandLevelSetImageFilter()
-  : m_ReverseExpansionDirection(false)
-  , m_IsoFilter(IsoFilterType::New())
+  : m_IsoFilter(IsoFilterType::New())
   , m_ChamferFilter(ChamferFilterType::New())
   , m_SegmentationFunction(nullptr)
 {

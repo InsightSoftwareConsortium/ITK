@@ -38,7 +38,6 @@ FastMarchingBase<TInput, TOutput>::FastMarchingBase()
   , m_AlivePoints(nullptr)
   , m_ProcessedPoints(nullptr)
   , m_ForbiddenPoints(nullptr)
-  , m_CollectPoints(false)
   , m_TopologyCheck(TopologyCheckEnum::Nothing)
 {
   this->ProcessObject::SetNumberOfRequiredInputs(0);

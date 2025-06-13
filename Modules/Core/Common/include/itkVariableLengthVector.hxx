@@ -51,8 +51,7 @@ VariableLengthVector<TValue>::VariableLengthVector(const ValueType * datain, uns
 
 template <typename TValue>
 VariableLengthVector<TValue>::VariableLengthVector(const VariableLengthVector<TValue> & v)
-  : m_LetArrayManageMemory(true)
-  , m_NumElements(v.Size())
+  : m_NumElements(v.Size())
 {
   if (m_NumElements != 0)
   {
@@ -125,8 +124,7 @@ template <typename VariableLengthVectorExpression1, typename VariableLengthVecto
 VariableLengthVector<TValue>::VariableLengthVector(
   const VariableLengthVectorExpression<VariableLengthVectorExpression1, VariableLengthVectorExpression2, TBinaryOp> &
     rhs)
-  : m_LetArrayManageMemory(true)
-  , m_NumElements(rhs.Size())
+  : m_NumElements(rhs.Size())
 {
   m_Data = this->AllocateElements(m_NumElements);
   // allocate Elements post-condition

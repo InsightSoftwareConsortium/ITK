@@ -1305,8 +1305,6 @@ Segmenter<TInputImage>::GenerateOutputRequestedRegion(DataObject * output)
 template <typename TInputImage>
 Segmenter<TInputImage>::Segmenter()
   : m_SortEdgeLists(true)
-  , m_DoBoundaryAnalysis(false)
-  , m_Threshold(0.0)
   , m_MaximumFloodLevel(1.0)
   , m_CurrentLabel(1)
 {

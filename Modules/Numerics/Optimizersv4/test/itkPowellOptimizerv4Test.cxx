@@ -59,9 +59,7 @@ public:
   using MeasureType = Superclass::MeasureType;
 
 
-  PowellBoundedMetric()
-    : m_HasLocalSupport(false)
-  {}
+  PowellBoundedMetric() {}
 
   MeasureType
   GetValue() const override
@@ -141,7 +139,7 @@ public:
 
 private:
   ParametersType m_Parameters;
-  bool           m_HasLocalSupport;
+  bool           m_HasLocalSupport{ false };
 };
 
 

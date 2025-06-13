@@ -24,7 +24,6 @@ constexpr double FRPR_TINY = 1e-20;
 
 FRPROptimizer::FRPROptimizer()
   : m_OptimizationType(OptimizationEnum::PolakRibiere)
-  , m_UseUnitLengthGradient(false)
 {}
 
 FRPROptimizer::~FRPROptimizer() = default;

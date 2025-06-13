@@ -29,10 +29,8 @@ template <typename TInternalComputationValueType>
 ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>::ObjectToObjectOptimizerBaseTemplate()
   : m_Metric(nullptr)
   , m_NumberOfWorkUnits(MultiThreaderBase::GetGlobalDefaultNumberOfThreads())
-  , m_CurrentIteration(0)
   , m_NumberOfIterations(100)
   , m_CurrentMetricValue(0)
-  , m_ScalesAreIdentity(false)
   , m_WeightsAreIdentity(true)
   , m_DoEstimateScales(true)
 {

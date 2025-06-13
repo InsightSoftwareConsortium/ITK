@@ -77,7 +77,6 @@ protected:
   QuadEdgeMeshDecimationCriterion()
     : m_TopologicalChange(true)
     , m_SizeCriterion(true)
-    , m_NumberOfElements(0)
     , m_MeasureBound(MeasureType{})
   {}
 

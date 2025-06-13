@@ -29,7 +29,6 @@ AmoebaOptimizer::AmoebaOptimizer()
   , m_FunctionConvergenceTolerance(1e-4)
   , m_AutomaticInitialSimplex(true)
   , m_InitialSimplexDelta(1)
-  , m_OptimizeWithRestarts(false)
   , m_VnlOptimizer(nullptr)
 {
   this->m_InitialSimplexDelta.Fill(NumericTraits<ParametersType::ValueType>::OneValue());

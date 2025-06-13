@@ -50,14 +50,8 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   , m_MovingImageGradientCalculator(this->m_DefaultMovingImageGradientCalculator)
   /* Interpolators for image gradient filters */
   , m_DerivativeResult(nullptr)
-  , m_UseSampledPointSet(false)
-  , m_UseVirtualSampledPointSet(false)
-  , m_HaveMadeGetValueWarning(false)
-  , m_NumberOfSkippedFixedSampledPoints(0)
-  , m_UseFloatingPointCorrection(false)
-  /* Setup default options assuming dense-sampling */
   , m_FloatingPointCorrectionResolution(1e6)
-  , m_ComputeDerivative(false)
+
 {
   /* Setup default gradient filter. It gets initialized with default
    * parameters during Initialize. */

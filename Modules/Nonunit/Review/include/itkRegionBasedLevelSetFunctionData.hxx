@@ -23,9 +23,7 @@ namespace itk
 {
 template <typename TInputImage, typename TFeatureImage>
 RegionBasedLevelSetFunctionData<TInputImage, TFeatureImage>::RegionBasedLevelSetFunctionData()
-  : m_WeightedNumberOfPixelsInsideLevelSet(0.)
-  , m_WeightedNumberOfPixelsOutsideLevelSet(0.)
-  , m_HeavisideFunctionOfLevelSetImage(nullptr)
+  : m_HeavisideFunctionOfLevelSetImage(nullptr)
 {}
 
 template <typename TInputImage, typename TFeatureImage>

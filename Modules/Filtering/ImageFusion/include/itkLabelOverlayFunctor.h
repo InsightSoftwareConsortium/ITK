@@ -49,8 +49,7 @@ class LabelOverlayFunctor
 {
 public:
   LabelOverlayFunctor()
-    : m_Opacity(1.0)
-    , m_BackgroundValue(TLabel{})
+    : m_BackgroundValue(TLabel{})
   {
     // provide some default value for external use (outside
     // LabelOverlayFunctorImageFilter) Inside LabelOverlayFunctorImageFilter,
@@ -134,7 +133,7 @@ public:
 
 protected:
 private:
-  double m_Opacity;
+  double m_Opacity{ 1.0 };
   TLabel m_BackgroundValue;
 
   typename Functor::LabelToRGBFunctor<TLabel, TRGBPixel> m_RGBFunctor;

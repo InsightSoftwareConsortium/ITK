@@ -37,12 +37,11 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
                                            TTensorPixelType,
                                            TMaskImageType>::DiffusionTensor3DReconstructionImageFilter()
   : m_GradientDirectionContainer(nullptr)
-  , m_NumberOfGradientDirections(0)
   , m_NumberOfBaselineImages(1)
   , m_Threshold(NumericTraits<ReferencePixelType>::min())
   , m_BValue(1.0)
   , m_GradientImageTypeEnumeration(DiffusionTensor3DReconstructionImageFilterEnums::GradientImageFormat::Else)
-  , m_MaskImagePresent(false)
+
 {
   // At least 1 inputs is necessary for a vector image.
   // For images added one at a time we need at least six

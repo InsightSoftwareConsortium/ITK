@@ -23,15 +23,12 @@ namespace itk
 
 
 ParticleSwarmOptimizerBase::ParticleSwarmOptimizerBase()
-  : m_PrintSwarm(false)
-  , m_InitializeNormalDistribution(false)
-  , m_NumberOfParticles(35)
+  : m_NumberOfParticles(35)
   , m_MaximalNumberOfIterations(200)
   , m_NumberOfGenerationsWithMinimalImprovement(1)
   , m_PercentageParticlesConverged(0.6)
   , m_FunctionConvergenceTolerance(1e-4)
-  , m_Seed(0)
-  , m_UseSeed(false)
+
 
 {
   this->m_ParametersConvergenceTolerance.Fill(1e-8);

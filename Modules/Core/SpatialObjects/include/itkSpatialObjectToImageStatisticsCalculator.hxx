@@ -34,10 +34,7 @@ SpatialObjectToImageStatisticsCalculator<TInputImage, TInputSpatialObject, TSamp
   : m_Image(nullptr)
   , m_SpatialObject(nullptr)
   , m_Sum(0)
-  , m_NumberOfPixels(0)
   , m_SampleDirection(TSampleDimension - 1)
-  , m_InternalImageTime(0)
-  , m_InternalSpatialObjectTime(0)
   , m_Sample(SampleType::New())
 {
   m_Mean.Fill(0);

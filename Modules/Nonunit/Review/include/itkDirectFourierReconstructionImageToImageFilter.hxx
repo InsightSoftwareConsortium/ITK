@@ -33,7 +33,6 @@ DirectFourierReconstructionImageToImageFilter<TInputImage,
   , m_AlphaRange(180)
   , m_ZDirection(1)
   , m_AlphaDirection(2)
-  , m_RDirection(0)
   , m_RadialSplineOrder(3)
 {
   constexpr double RADIANS = 1.0;

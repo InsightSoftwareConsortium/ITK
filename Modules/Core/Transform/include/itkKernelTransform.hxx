@@ -24,9 +24,7 @@ namespace itk
 template <typename TParametersValueType, unsigned int VDimension>
 KernelTransform<TParametersValueType, VDimension>::KernelTransform()
   : Superclass(VDimension)
-  , m_Stiffness(0.0)
   , m_Displacements(VectorSetType::New())
-  , m_WMatrixComputed(false)
   , m_SourceLandmarks(PointSetType::New())
   , m_TargetLandmarks(PointSetType::New())
 // the second VDimension is associated is provided as

@@ -74,7 +74,7 @@ public:
 
 protected:
   SimpleTestFilter()
-    : m_NumberOfIterations(0)
+
   {
     auto function = ShapePriorFunctionType::New();
     function->SetPropagationWeight(0.0);
@@ -90,7 +90,7 @@ protected:
   }
 
 private:
-  unsigned int                             m_NumberOfIterations;
+  unsigned int                             m_NumberOfIterations{ 0 };
   typename ShapePriorFunctionType::Pointer m_ShapePriorFunction;
 
   bool

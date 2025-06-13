@@ -34,7 +34,6 @@ namespace itk
 template <typename TOutputImage, typename ConvertPixelTraits>
 ImageFileReader<TOutputImage, ConvertPixelTraits>::ImageFileReader()
   : m_ImageIO(nullptr)
-  , m_UserSpecifiedImageIO(false)
   , m_UseStreaming(true)
 {
   this->SetFileName("");

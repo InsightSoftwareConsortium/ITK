@@ -45,7 +45,6 @@ ObjectByObjectLabelMapFilter<TInputImage,
                              TInternalInputImageType,
                              TInternalOutputImageType>::ObjectByObjectLabelMapFilter()
   : m_ConstrainPaddingToImage(true)
-  , m_BinaryInternalOutput(false)
   , m_KeepLabels(true)
   , m_InternalForegroundValue(itk::NumericTraits<InternalOutputPixelType>::max())
   , m_Select(SelectType::New())

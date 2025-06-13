@@ -128,7 +128,6 @@ ImageMetricLoad<TMoving, TFixed>::ImageMetricLoad()
   : m_Metric(nullptr)
   , m_Sign(1.0)
   , m_SolutionIndex(1)
-  , m_SolutionIndex2(0)
   , m_Transform(nullptr)
 {
   for (unsigned int i = 0; i < ImageDimension; ++i)

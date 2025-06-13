@@ -26,7 +26,6 @@ template <typename TStructureType>
 CorrespondenceDataStructureIterator<TStructureType>::CorrespondenceDataStructureIterator(TStructureType * StructurePtr)
   : m_Structure(StructurePtr)
   , m_CorrespondingListPointer(&(*m_SecondaryListIterator))
-  , m_IsAtEnd(false)
   , m_NodeListPointer(StructurePtr->m_NodeList)
   , m_SecondaryListPointer(&(*m_NodeListIterator))
 {

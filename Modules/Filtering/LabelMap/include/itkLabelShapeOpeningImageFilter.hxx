@@ -25,8 +25,6 @@ namespace itk
 template <typename TInputImage>
 LabelShapeOpeningImageFilter<TInputImage>::LabelShapeOpeningImageFilter()
   : m_BackgroundValue(NumericTraits<OutputImagePixelType>::NonpositiveMin())
-  , m_Lambda(0.0)
-  , m_ReverseOrdering(false)
   , m_Attribute(LabelObjectType::NUMBER_OF_PIXELS)
 {}
 

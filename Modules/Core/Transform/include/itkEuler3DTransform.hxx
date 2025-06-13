@@ -25,7 +25,7 @@ namespace itk
 template <typename TParametersValueType>
 Euler3DTransform<TParametersValueType>::Euler3DTransform()
   : Superclass(ParametersDimension)
-  , m_ComputeZYX(false)
+
 {
   m_AngleX = m_AngleY = m_AngleZ = ScalarType{};
   this->m_FixedParameters.SetSize(SpaceDimension + 1);
@@ -34,7 +34,7 @@ Euler3DTransform<TParametersValueType>::Euler3DTransform()
 
 template <typename TParametersValueType>
 Euler3DTransform<TParametersValueType>::Euler3DTransform(const MatrixType & matrix, const OutputPointType & offset)
-  : m_ComputeZYX(false)
+
 {
   this->SetMatrix(matrix);
 
@@ -50,7 +50,7 @@ Euler3DTransform<TParametersValueType>::Euler3DTransform(const MatrixType & matr
 template <typename TParametersValueType>
 Euler3DTransform<TParametersValueType>::Euler3DTransform(unsigned int parametersDimension)
   : Superclass(parametersDimension)
-  , m_ComputeZYX(false)
+
 {
 
   m_AngleX = m_AngleY = m_AngleZ = ScalarType{};

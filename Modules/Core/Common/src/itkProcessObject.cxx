@@ -49,14 +49,10 @@ constexpr char   globalIndexNames[ITK_GLOBAL_INDEX_NAMES_NUMBER][ITK_GLOBAL_INDE
 
 
 ProcessObject::ProcessObject()
-  : m_Updating(false)
-  , m_Inputs()
+  : m_Inputs()
   , m_Outputs()
   , m_CachedInputReleaseDataFlags()
-  , m_NumberOfRequiredInputs(0)
-  , m_NumberOfRequiredOutputs(0)
   , m_RequiredInputNames()
-  , m_AbortGenerateData(false)
   , m_Progress(0u)
   , m_ReleaseDataBeforeUpdateFlag(true)
 {

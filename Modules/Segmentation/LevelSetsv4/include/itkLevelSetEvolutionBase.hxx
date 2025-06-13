@@ -28,8 +28,6 @@ LevelSetEvolutionBase<TEquationContainer, TLevelSet>::LevelSetEvolutionBase()
   : m_Alpha(0.9)
   , m_Dt(1.)
   , m_RMSChangeAccumulator(0.)
-  , m_UserGloballyDefinedTimeStep(false)
-  , m_NumberOfIterations(0)
 {}
 
 template <typename TEquationContainer, typename TLevelSet>

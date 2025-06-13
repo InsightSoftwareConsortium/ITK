@@ -70,7 +70,7 @@ public:
   amoebaTestF1()
     : m_A(SpaceDimension, SpaceDimension)
     , m_B(SpaceDimension)
-    , m_Negate(false)
+
   {
     m_A[0][0] = 3;
     m_A[0][1] = 2;
@@ -142,7 +142,7 @@ public:
 private:
   MatrixType m_A;
   VectorType m_B;
-  bool       m_Negate;
+  bool       m_Negate{ false };
 };
 
 
@@ -222,12 +222,10 @@ public:
   }
 
 protected:
-  CommandIterationUpdateAmoeba()
-    : m_IterationNumber(0)
-  {}
+  CommandIterationUpdateAmoeba() {}
 
 private:
-  unsigned long m_IterationNumber;
+  unsigned long m_IterationNumber{ 0 };
 };
 
 /**

@@ -219,10 +219,7 @@ public:
   }
 
 protected:
-  CommandIterationUpdateParticleSwarm()
-    : m_IterationNumber(0)
-    , m_PrintOptimizer(false)
-  {}
+  CommandIterationUpdateParticleSwarm() {}
 
 private:
   unsigned long m_IterationNumber{};

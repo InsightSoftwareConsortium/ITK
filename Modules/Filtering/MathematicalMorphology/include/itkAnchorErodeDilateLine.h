@@ -56,7 +56,7 @@ public:
   ~AnchorErodeDilateLine() = default;
 
 private:
-  unsigned int m_Size;
+  unsigned int m_Size{ 2 };
 
   using HistogramType = Function::MorphologyHistogram<InputImagePixelType, TCompare>;
 

@@ -25,8 +25,7 @@ namespace itk
 template <typename TTransform>
 BSplineExponentialDiffeomorphicTransformParametersAdaptor<
   TTransform>::BSplineExponentialDiffeomorphicTransformParametersAdaptor()
-  : m_NumberOfControlPointsForTheConstantVelocityFieldSetTime(0)
-  , m_NumberOfControlPointsForTheUpdateFieldSetTime(0)
+
 {
   this->m_NumberOfControlPointsForTheConstantVelocityField.Fill(4);
   this->m_NumberOfControlPointsForTheUpdateField.Fill(4);

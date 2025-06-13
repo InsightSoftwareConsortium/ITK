@@ -26,12 +26,7 @@ namespace itk
 {
 template <typename TInputImage, typename TOutputImage>
 FiniteDifferenceImageFilter<TInputImage, TOutputImage>::FiniteDifferenceImageFilter()
-  : m_IsInitialized(false)
-  , m_NumberOfIterations(NumericTraits<IdentifierType>::max())
-  , m_ElapsedIterations(0)
-  , m_ManualReinitialization(false)
-  , m_RMSChange(0.0)
-  , m_MaximumRMSError(0.0)
+  : m_NumberOfIterations(NumericTraits<IdentifierType>::max())
   , m_DifferenceFunction(nullptr)
 {
   this->InPlaceOff();

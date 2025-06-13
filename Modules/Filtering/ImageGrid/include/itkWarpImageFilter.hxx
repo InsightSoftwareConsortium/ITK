@@ -32,7 +32,7 @@ namespace itk
 {
 template <typename TInputImage, typename TOutputImage, typename TDisplacementField>
 WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::WarpImageFilter()
-  : m_DefFieldSameInformation(false)
+
 {
   // #0 implicit "Primary" input required
   // #1 "DisplacementField" required
