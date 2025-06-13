@@ -86,11 +86,7 @@ public:
 
   /** Assignment Operator */
   Self &
-  operator=(const Self & apa)
-  {
-    this->m_Value = apa.m_Value;
-    return *this;
-  }
+  operator=(const Self & apa) = default;
 
   /** Constructors */
   /** @ITKStartGrouping */

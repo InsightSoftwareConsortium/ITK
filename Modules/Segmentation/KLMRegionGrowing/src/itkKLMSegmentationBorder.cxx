@@ -19,7 +19,7 @@
 
 namespace itk
 {
-KLMSegmentationBorder::KLMSegmentationBorder() {}
+KLMSegmentationBorder::KLMSegmentationBorder() = default;
 
 KLMSegmentationBorder::~KLMSegmentationBorder() = default;
 

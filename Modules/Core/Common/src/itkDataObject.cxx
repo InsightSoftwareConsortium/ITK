@@ -43,10 +43,7 @@ DataObjectError::DataObjectError(std::string file, unsigned int lineNumber)
   : ExceptionObject(std::move(file), lineNumber)
 {}
 
-DataObjectError::DataObjectError(const DataObjectError & orig) noexcept
-  : ExceptionObject(orig)
-  , m_DataObject(orig.m_DataObject)
-{}
+DataObjectError::DataObjectError(const DataObjectError & orig) noexcept = default;
 
 DataObjectError &
 DataObjectError::operator=(const DataObjectError &) noexcept = default;

@@ -25,8 +25,7 @@ namespace itk
 {
 
 template <typename TImage, typename TAttributeAccessor>
-AttributeUniqueLabelMapFilter<TImage, TAttributeAccessor>::AttributeUniqueLabelMapFilter()
-{}
+AttributeUniqueLabelMapFilter<TImage, TAttributeAccessor>::AttributeUniqueLabelMapFilter() = default;
 
 
 template <typename TImage, typename TAttributeAccessor>

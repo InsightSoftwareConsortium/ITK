@@ -128,7 +128,7 @@ template <typename TInput1, typename TInput2, typename TOutput>
 class ITK_TEMPLATE_EXPORT InverseDeconvolutionFunctor
 {
 public:
-  InverseDeconvolutionFunctor() {}
+  InverseDeconvolutionFunctor() = default;
   ~InverseDeconvolutionFunctor() = default;
 
   bool

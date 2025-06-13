@@ -175,12 +175,7 @@ public:
     {}
 
     ConstIterator &
-    operator=(const ConstIterator & iter)
-    {
-      m_MeasurementVectorCache = iter.m_MeasurementVectorCache;
-      m_InstanceIdentifier = iter.m_InstanceIdentifier;
-      return *this;
-    }
+    operator=(const ConstIterator & iter) = default;
 
     AbsoluteFrequencyType
     GetFrequency() const

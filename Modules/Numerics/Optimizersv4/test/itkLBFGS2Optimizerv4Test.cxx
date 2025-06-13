@@ -61,7 +61,7 @@ public:
   using DerivativeType = Superclass::DerivativeType;
   using MeasureType = Superclass::MeasureType;
 
-  itkLBFGS2Optimizerv4TestMetric() {}
+  itkLBFGS2Optimizerv4TestMetric() = default;
 
   MeasureType
   GetValue() const override

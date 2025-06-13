@@ -359,12 +359,7 @@ public:
     {}
 
     ConstIterator &
-    operator=(const ConstIterator & it)
-    {
-      m_Id = it.m_Id;
-      m_Histogram = it.m_Histogram;
-      return *this;
-    }
+    operator=(const ConstIterator & it) = default;
 
     AbsoluteFrequencyType
     GetFrequency() const

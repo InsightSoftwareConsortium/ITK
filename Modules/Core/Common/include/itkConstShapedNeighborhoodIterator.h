@@ -127,12 +127,7 @@ public:
     ~ConstIterator() = default;
 
     ConstIterator &
-    operator=(const ConstIterator & o)
-    {
-      m_NeighborhoodIterator = o.m_NeighborhoodIterator;
-      m_ListIterator = o.m_ListIterator;
-      return *this;
-    }
+    operator=(const ConstIterator & o) = default;
 
     ConstIterator(const ConstIterator & o)
       : m_NeighborhoodIterator(o.m_NeighborhoodIterator)

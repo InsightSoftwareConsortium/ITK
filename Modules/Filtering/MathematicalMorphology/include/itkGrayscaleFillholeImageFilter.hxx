@@ -27,8 +27,7 @@
 namespace itk
 {
 template <typename TInputImage, typename TOutputImage>
-GrayscaleFillholeImageFilter<TInputImage, TOutputImage>::GrayscaleFillholeImageFilter()
-{}
+GrayscaleFillholeImageFilter<TInputImage, TOutputImage>::GrayscaleFillholeImageFilter() = default;
 
 template <typename TInputImage, typename TOutputImage>
 void
