@@ -59,7 +59,7 @@ public:
   using MeasureType = Superclass::MeasureType;
 
 
-  PowellBoundedMetric() {}
+  PowellBoundedMetric() = default;
 
   MeasureType
   GetValue() const override

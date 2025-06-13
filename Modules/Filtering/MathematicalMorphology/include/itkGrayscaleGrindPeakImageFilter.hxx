@@ -37,8 +37,7 @@
 namespace itk
 {
 template <typename TInputImage, typename TOutputImage>
-GrayscaleGrindPeakImageFilter<TInputImage, TOutputImage>::GrayscaleGrindPeakImageFilter()
-{}
+GrayscaleGrindPeakImageFilter<TInputImage, TOutputImage>::GrayscaleGrindPeakImageFilter() = default;
 
 template <typename TInputImage, typename TOutputImage>
 void

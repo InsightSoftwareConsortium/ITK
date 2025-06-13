@@ -34,11 +34,7 @@ public:
 
   DataObjectConstIterator() = default;
 
-  DataObjectConstIterator(const DataObjectConstIterator & iter)
-    : m_Iterator(iter.m_Iterator)
-    , m_Begin(iter.m_Begin)
-    , m_End(iter.m_End)
-  {}
+  DataObjectConstIterator(const DataObjectConstIterator & iter) = default;
 
   DataObjectConstIterator &
   operator=(const DataObjectConstIterator & iter)

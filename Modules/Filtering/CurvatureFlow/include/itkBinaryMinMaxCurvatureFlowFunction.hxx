@@ -25,8 +25,7 @@ namespace itk
 {
 
 template <typename TImage>
-BinaryMinMaxCurvatureFlowFunction<TImage>::BinaryMinMaxCurvatureFlowFunction()
-{}
+BinaryMinMaxCurvatureFlowFunction<TImage>::BinaryMinMaxCurvatureFlowFunction() = default;
 
 template <typename TImage>
 auto

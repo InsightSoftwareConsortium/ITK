@@ -24,8 +24,8 @@ namespace itk
 {
 
 template <typename TFixedPointSet, typename TMovingImage>
-NormalizedCorrelationPointSetToImageMetric<TFixedPointSet, TMovingImage>::NormalizedCorrelationPointSetToImageMetric()
-{}
+NormalizedCorrelationPointSetToImageMetric<TFixedPointSet, TMovingImage>::NormalizedCorrelationPointSetToImageMetric() =
+  default;
 
 template <typename TFixedPointSet, typename TMovingImage>
 auto

@@ -227,13 +227,7 @@ public:
     {}
 
     ConstLineIterator &
-    operator=(const ConstLineIterator & iter)
-    {
-      m_Iterator = iter.m_Iterator;
-      m_Begin = iter.m_Begin;
-      m_End = iter.m_End;
-      return *this;
-    }
+    operator=(const ConstLineIterator & iter) = default;
 
     const LineType &
     GetLine() const
@@ -315,14 +309,7 @@ public:
     {}
 
     ConstIndexIterator &
-    operator=(const ConstIndexIterator & iter)
-    {
-      m_Iterator = iter.m_Iterator;
-      m_Index = iter.m_Index;
-      m_Begin = iter.m_Begin;
-      m_End = iter.m_End;
-      return *this;
-    }
+    operator=(const ConstIndexIterator & iter) = default;
 
     const IndexType &
     GetIndex() const

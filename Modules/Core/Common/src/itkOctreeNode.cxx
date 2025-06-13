@@ -25,7 +25,7 @@ namespace itk
  * ====================================================================================
  * ====================================================================================
  */
-OctreeNode::OctreeNode() {}
+OctreeNode::OctreeNode() = default;
 
 OctreeNode::~OctreeNode() { this->RemoveChildren(); }
 

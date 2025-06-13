@@ -168,13 +168,7 @@ public:
     {}
 
     ConstIterator &
-    operator=(const ConstIterator & iter)
-    {
-      m_Sample = iter.m_Sample;
-      m_MembershipSample = iter.m_MembershipSample;
-      m_InstanceIdentifier = iter.m_InstanceIdentifier;
-      return *this;
-    }
+    operator=(const ConstIterator & iter) = default;
 
     bool
     operator==(const ConstIterator & it) const

@@ -120,12 +120,7 @@ public:
     ConstIterator() = delete;
 
     ConstIterator &
-    operator=(const ConstIterator & iter)
-    {
-      this->m_Iter = iter.m_Iter;
-      this->m_InstanceIdentifier = iter.m_InstanceIdentifier;
-      return *this;
-    }
+    operator=(const ConstIterator & iter) = default;
 
     AbsoluteFrequencyType
     GetFrequency() const

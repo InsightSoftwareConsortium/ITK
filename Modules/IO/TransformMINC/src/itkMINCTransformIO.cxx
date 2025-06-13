@@ -39,8 +39,7 @@ namespace itk
 {
 
 template <typename TParametersValueType>
-MINCTransformIOTemplate<TParametersValueType>::MINCTransformIOTemplate()
-{}
+MINCTransformIOTemplate<TParametersValueType>::MINCTransformIOTemplate() = default;
 
 template <typename TParametersValueType>
 MINCTransformIOTemplate<TParametersValueType>::~MINCTransformIOTemplate()

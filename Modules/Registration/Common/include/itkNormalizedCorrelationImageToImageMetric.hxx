@@ -24,8 +24,7 @@ namespace itk
 {
 
 template <typename TFixedImage, typename TMovingImage>
-NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::NormalizedCorrelationImageToImageMetric()
-{}
+NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::NormalizedCorrelationImageToImageMetric() = default;
 
 template <typename TFixedImage, typename TMovingImage>
 auto

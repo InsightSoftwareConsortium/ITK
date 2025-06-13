@@ -79,7 +79,7 @@ using PointType = MeshType::PointType;
 class CountClass
 {
 public:
-  CountClass() {}
+  CountClass() = default;
   int m_Tetra{ 0 };
   int m_QuadraticEdgeCell{ 0 };
   int m_QuadraticTriangleCellType{ 0 };
@@ -116,7 +116,7 @@ public:
   virtual ~VisitCells() = default;
 
   CountClass * m_CountClass{ nullptr };
-  VisitCells() {}
+  VisitCells() = default;
 };
 
 using TetraCellVisitor = itk::CellInterfaceVisitorImplementation<int, MeshType::CellTraits, TetraCellType, VisitCells>;

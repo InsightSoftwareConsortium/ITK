@@ -53,7 +53,7 @@ template <typename TImage>
 class PostProcessCorrelation
 {
 public:
-  PostProcessCorrelation() {}
+  PostProcessCorrelation() = default;
   ~PostProcessCorrelation() = default;
 
   void

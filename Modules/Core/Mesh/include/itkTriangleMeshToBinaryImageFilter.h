@@ -42,10 +42,7 @@ public:
     , m_Sign(s)
   {}
 
-  Point1D(const Point1D & point)
-    : m_X(point.m_X)
-    , m_Sign(point.m_Sign)
-  {}
+  Point1D(const Point1D & point) = default;
 
   double
   getX() const

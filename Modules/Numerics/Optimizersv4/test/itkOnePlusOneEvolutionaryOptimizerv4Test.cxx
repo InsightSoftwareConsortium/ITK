@@ -61,7 +61,7 @@ public:
   using MeasureType = Superclass::MeasureType;
 
 
-  OnePlusOneMetric() {}
+  OnePlusOneMetric() = default;
 
   MeasureType
   GetValue() const override

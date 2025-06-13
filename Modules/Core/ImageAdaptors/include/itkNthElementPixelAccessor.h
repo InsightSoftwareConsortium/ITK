@@ -103,14 +103,10 @@ public:
 
   /** Assignment operator */
   NthElementPixelAccessor &
-  operator=(const NthElementPixelAccessor & accessor)
-  {
-    m_ElementNumber = accessor.m_ElementNumber;
-    return *this;
-  }
+  operator=(const NthElementPixelAccessor & accessor) = default;
 
   /** Constructor */
-  NthElementPixelAccessor() {}
+  NthElementPixelAccessor() = default;
 
 private:
   // Identifier of the N-th element to be accessed

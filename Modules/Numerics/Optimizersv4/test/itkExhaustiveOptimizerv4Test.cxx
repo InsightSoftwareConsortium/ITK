@@ -59,7 +59,7 @@ public:
   using MeasureType = Superclass::MeasureType;
 
 
-  ExhaustiveOptv4Metric() {}
+  ExhaustiveOptv4Metric() = default;
 
   MeasureType
   GetValue() const override

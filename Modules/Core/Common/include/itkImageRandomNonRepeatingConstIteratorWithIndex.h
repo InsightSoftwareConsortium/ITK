@@ -44,7 +44,7 @@ public:
   SizeValueType m_Index{ 0 };
   double        m_Value{ 0.0 };
 
-  NodeOfPermutation() {}
+  NodeOfPermutation() = default;
 
   bool
   operator<(const NodeOfPermutation & b) const
