@@ -124,11 +124,10 @@ public:
 
 protected:
   AttributeMorphologyBaseImageFilter()
-  {
-    m_FullyConnected = false;
-    m_AttributeValuePerPixel = 1;
-    m_Lambda = 0;
-  }
+    : m_AttributeValuePerPixel(1)
+    , m_FullyConnected(false)
+    , m_Lambda(0)
+  {}
 
   ~AttributeMorphologyBaseImageFilter() override = default;
   AttributeMorphologyBaseImageFilter(const Self &) {}

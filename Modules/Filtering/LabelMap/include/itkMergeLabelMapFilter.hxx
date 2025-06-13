@@ -25,9 +25,8 @@ namespace itk
 {
 template <typename TImage>
 MergeLabelMapFilter<TImage>::MergeLabelMapFilter()
-{
-  this->m_Method = ChoiceMethodEnum::KEEP;
-}
+  : m_Method(ChoiceMethodEnum::KEEP)
+{}
 
 template <typename TImage>
 void

@@ -26,6 +26,12 @@ namespace itk
 
 template <typename TInternalComputationValueType>
 GradientDescentOptimizerBasev4Template<TInternalComputationValueType>::GradientDescentOptimizerBasev4Template()
+  : m_DoEstimateLearningRateAtEachIteration(false)
+  , m_DoEstimateLearningRateOnce(true)
+  , m_MaximumStepSizeInPhysicalUnits(TInternalComputationValueType{})
+  , m_UseConvergenceMonitoring(true)
+  , m_ConvergenceWindowSize(50)
+  , m_StopCondition(StopConditionObjectToObjectOptimizerEnum::MAXIMUM_NUMBER_OF_ITERATIONS)
 
 {
   /** Threader for apply scales to gradient */
@@ -39,17 +45,7 @@ GradientDescentOptimizerBasev4Template<TInternalComputationValueType>::GradientD
     TInternalComputationValueType>::Pointer modifyGradientByLearningRateThreader =
     GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate<TInternalComputationValueType>::New();
   this->m_ModifyGradientByLearningRateThreader = modifyGradientByLearningRateThreader;
-
-  this->m_StopCondition = StopConditionObjectToObjectOptimizerEnum::MAXIMUM_NUMBER_OF_ITERATIONS;
   this->m_StopConditionDescription << this->GetNameOfClass() << ": ";
-
-  this->m_MaximumStepSizeInPhysicalUnits = TInternalComputationValueType{};
-
-  this->m_UseConvergenceMonitoring = true;
-  this->m_ConvergenceWindowSize = 50;
-
-  this->m_DoEstimateLearningRateAtEachIteration = false;
-  this->m_DoEstimateLearningRateOnce = true;
 }
 
 template <typename TInternalComputationValueType>

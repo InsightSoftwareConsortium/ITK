@@ -42,13 +42,11 @@ namespace itk
 
 template <typename TImageType, typename TCoordinate, typename TCoefficientType>
 BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::BSplineInterpolateImageFunction()
+  : m_SplineOrder(0)
+  , m_Coefficients(CoefficientImageType::New())
+  , m_CoefficientFilter(CoefficientFilter::New())
+  , m_NumberOfWorkUnits(1)
 {
-  m_NumberOfWorkUnits = 1;
-
-  m_CoefficientFilter = CoefficientFilter::New();
-  m_Coefficients = CoefficientImageType::New();
-
-  m_SplineOrder = 0;
   constexpr unsigned int SplineOrder = 3;
   this->SetSplineOrder(SplineOrder);
 }

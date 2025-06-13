@@ -163,11 +163,10 @@ public:
   public:
     // default constructor
     LabelGeometry()
+      : m_Label(0)
+      , m_Sum(RealType{})
     {
       // initialized to the default values
-      this->m_Label = 0;
-      this->m_Sum = RealType{};
-
       const unsigned int imageDimension = Self::ImageDimension;
 
       // m_BoundingBox.resize(imageDimension*2);

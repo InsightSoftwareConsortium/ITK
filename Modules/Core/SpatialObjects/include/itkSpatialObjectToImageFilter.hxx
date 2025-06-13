@@ -27,9 +27,9 @@ namespace itk
 
 template <typename TInputSpatialObject, typename TOutputImage>
 SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SpatialObjectToImageFilter()
+  : m_ChildrenDepth(TInputSpatialObject::MaximumDepth)
 {
   this->SetNumberOfRequiredInputs(1);
-  m_ChildrenDepth = TInputSpatialObject::MaximumDepth;
   m_Size.Fill(0);
   m_Index.Fill(0);
   m_Direction.SetIdentity();

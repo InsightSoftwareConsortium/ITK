@@ -26,7 +26,18 @@ namespace itk
 {
 template <typename TLevelSet, typename TSpeedImage>
 FastMarchingImageFilter<TLevelSet, TSpeedImage>::FastMarchingImageFilter()
-  : m_TrialHeap()
+  : m_AlivePoints(nullptr)
+  , m_TrialPoints(nullptr)
+  , m_OutsidePoints(nullptr)
+  , m_LabelImage(LabelImageType::New())
+  , m_SpeedConstant(1.0)
+  , m_InverseSpeed(-1.0)
+  , m_CollectPoints(false)
+  , m_ProcessedPoints(nullptr)
+  , m_OverrideOutputInformation(false)
+  , m_LargeValue(static_cast<PixelType>(NumericTraits<PixelType>::max() / 2.0))
+  , m_TrialHeap()
+  , m_NormalizationFactor(1.0)
 {
   this->ProcessObject::SetNumberOfRequiredInputs(0);
 
@@ -36,22 +47,7 @@ FastMarchingImageFilter<TLevelSet, TSpeedImage>::FastMarchingImageFilter()
   m_OutputOrigin.Fill(0.0);
   m_OutputSpacing.Fill(1.0);
   m_OutputDirection.SetIdentity();
-  m_OverrideOutputInformation = false;
-
-  m_AlivePoints = nullptr;
-  m_OutsidePoints = nullptr;
-  m_TrialPoints = nullptr;
-  m_ProcessedPoints = nullptr;
-
-  m_SpeedConstant = 1.0;
-  m_InverseSpeed = -1.0;
-  m_LabelImage = LabelImageType::New();
-
-  m_LargeValue = static_cast<PixelType>(NumericTraits<PixelType>::max() / 2.0);
   m_StoppingValue = static_cast<double>(m_LargeValue);
-  m_CollectPoints = false;
-
-  m_NormalizationFactor = 1.0;
 }
 
 template <typename TLevelSet, typename TSpeedImage>

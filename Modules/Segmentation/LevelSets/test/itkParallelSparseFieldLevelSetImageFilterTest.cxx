@@ -186,13 +186,13 @@ public:
 protected:
   ~MorphFilter() override = default;
   MorphFilter()
+    : m_Iterations(0)
   {
     auto p = MorphFunction::New();
     p->SetPropagationWeight(-1.0);
     p->SetAdvectionWeight(0.0);
     p->SetCurvatureWeight(1.0);
     this->SetDifferenceFunction(p);
-    m_Iterations = 0;
   }
 
 private:

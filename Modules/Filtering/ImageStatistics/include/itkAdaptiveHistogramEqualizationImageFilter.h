@@ -158,16 +158,13 @@ public:
 
 protected:
   AdaptiveHistogramEqualizationImageFilter()
+    : m_Alpha(.3)
+    , m_Beta(.3)
+    , m_InputMinimum(NumericTraits<InputPixelType>::min())
+    , m_InputMaximum(NumericTraits<InputPixelType>::max())
+    , m_UseLookupTable(false)
   {
-    m_Alpha = .3;
-    m_Beta = .3;
-
     this->SetRadius(5);
-
-    m_InputMinimum = NumericTraits<InputPixelType>::min();
-    m_InputMaximum = NumericTraits<InputPixelType>::max();
-
-    m_UseLookupTable = false;
   }
 
   ~AdaptiveHistogramEqualizationImageFilter() override = default;

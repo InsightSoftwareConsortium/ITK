@@ -26,8 +26,8 @@ namespace itk
 {
 template <typename TInputImage, typename TOutputImage>
 LabelImageToLabelMapFilter<TInputImage, TOutputImage>::LabelImageToLabelMapFilter()
+  : m_BackgroundValue(NumericTraits<OutputImagePixelType>::NonpositiveMin())
 {
-  m_BackgroundValue = NumericTraits<OutputImagePixelType>::NonpositiveMin();
   this->DynamicMultiThreadingOff();
 }
 

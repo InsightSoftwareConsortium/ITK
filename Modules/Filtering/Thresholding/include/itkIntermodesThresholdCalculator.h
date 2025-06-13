@@ -85,10 +85,9 @@ public:
   /** @ITKEndGrouping */
 protected:
   IntermodesThresholdCalculator()
-  {
-    m_MaximumSmoothingIterations = 10000;
-    m_UseInterMode = true;
-  }
+    : m_MaximumSmoothingIterations(10000)
+    , m_UseInterMode(true)
+  {}
 
   ~IntermodesThresholdCalculator() override = default;
 

@@ -24,15 +24,15 @@ namespace itk
 
 
 AmoebaOptimizer::AmoebaOptimizer()
-  : m_InitialSimplexDelta(1)
+  : m_MaximumNumberOfIterations(500)
+  , m_ParametersConvergenceTolerance(1e-8)
+  , m_FunctionConvergenceTolerance(1e-4)
+  , m_AutomaticInitialSimplex(true)
+  , m_InitialSimplexDelta(1)
+  , m_OptimizeWithRestarts(false)
+  , m_VnlOptimizer(nullptr)
 {
-  this->m_MaximumNumberOfIterations = 500;
-  this->m_ParametersConvergenceTolerance = 1e-8;
-  this->m_FunctionConvergenceTolerance = 1e-4;
-  this->m_AutomaticInitialSimplex = true;
   this->m_InitialSimplexDelta.Fill(NumericTraits<ParametersType::ValueType>::OneValue());
-  this->m_OptimizeWithRestarts = false;
-  this->m_VnlOptimizer = nullptr;
 }
 
 

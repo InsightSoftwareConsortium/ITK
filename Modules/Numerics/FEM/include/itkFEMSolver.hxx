@@ -38,12 +38,12 @@ namespace fem
 
 template <unsigned int VDimension>
 Solver<VDimension>::Solver()
+  : m_NGFN(0)
+  , m_NMFC(0)
+  , m_FEMObject(nullptr)
 {
   this->SetLinearSystemWrapper(&m_LinearSystemVNL);
 
-  this->m_NGFN = 0;
-  this->m_NMFC = 0;
-  this->m_FEMObject = nullptr;
   this->m_Origin.Fill(0.0);
   this->m_Spacing.Fill(1.0);
 

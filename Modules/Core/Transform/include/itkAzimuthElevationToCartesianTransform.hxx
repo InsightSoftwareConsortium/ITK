@@ -24,17 +24,16 @@ namespace itk
 
 template <typename TParametersValueType, unsigned int VDimension>
 AzimuthElevationToCartesianTransform<TParametersValueType, VDimension>::AzimuthElevationToCartesianTransform()
+  : m_MaxAzimuth(0)
+  , m_MaxElevation(0)
+  , m_RadiusSampleSize(1)
+  , m_AzimuthAngularSeparation(1)
+  , m_ElevationAngularSeparation(1)
+  , m_FirstSampleDistance(0)
+  , m_ForwardAzimuthElevationToPhysical(true)
 // add this construction call when deriving from itk::Transform
 // :Superclass(ParametersDimension)
-{
-  m_MaxAzimuth = 0;
-  m_MaxElevation = 0;
-  m_RadiusSampleSize = 1;
-  m_AzimuthAngularSeparation = 1;
-  m_ElevationAngularSeparation = 1;
-  m_FirstSampleDistance = 0;
-  m_ForwardAzimuthElevationToPhysical = true;
-}
+{}
 
 template <typename TParametersValueType, unsigned int VDimension>
 void

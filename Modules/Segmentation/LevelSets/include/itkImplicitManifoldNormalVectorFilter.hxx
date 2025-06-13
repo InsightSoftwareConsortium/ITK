@@ -24,18 +24,16 @@ namespace itk
 {
 template <typename TInputImage, typename TSparseOutputImage>
 ImplicitManifoldNormalVectorFilter<TInputImage, TSparseOutputImage>::ImplicitManifoldNormalVectorFilter()
+  : m_NormalFunction(nullptr)
+  , m_MaxIteration(25)
+  , m_IsoLevelLow(NodeValueType{})
+  , m_IsoLevelHigh(NodeValueType{})
+  , m_MinVectorNorm(static_cast<NodeValueType>(1.0e-6))
+  , m_UnsharpMaskingFlag(false)
+  , m_UnsharpMaskingWeight(NodeValueType{})
 {
   this->SetPrecomputeFlag(true);
-  m_NormalFunction = nullptr;
-
   // set defaults for parameters
-  m_IsoLevelLow = NodeValueType{};
-  m_IsoLevelHigh = NodeValueType{};
-  m_MaxIteration = 25;
-  m_MinVectorNorm = static_cast<NodeValueType>(1.0e-6);
-  m_UnsharpMaskingFlag = false;
-  m_UnsharpMaskingWeight = NodeValueType{};
-
   // compute constants used in computations
   for (unsigned int j = 0; j < ImageDimension; ++j)
   {

@@ -23,9 +23,8 @@ namespace itk
 {
 template <typename TInputHistogram>
 HistogramAlgorithmBase<TInputHistogram>::HistogramAlgorithmBase()
-{
-  m_InputHistogram = nullptr;
-}
+  : m_InputHistogram(nullptr)
+{}
 
 template <typename TInputHistogram>
 void

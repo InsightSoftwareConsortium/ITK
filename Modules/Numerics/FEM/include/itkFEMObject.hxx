@@ -39,9 +39,9 @@ namespace fem
 
 template <unsigned int VDimension>
 FEMObject<VDimension>::FEMObject()
+  : m_NGFN(0)
+  , m_NMFC(0)
 {
-  m_NGFN = 0;
-  m_NMFC = 0;
   this->m_ElementContainer = ElementContainerType::New();
   this->m_NodeContainer = NodeContainerType::New();
   this->m_LoadContainer = LoadContainerType::New();

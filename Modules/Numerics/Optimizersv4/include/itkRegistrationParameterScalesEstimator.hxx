@@ -30,19 +30,15 @@ namespace itk
 
 template <typename TMetric>
 RegistrationParameterScalesEstimator<TMetric>::RegistrationParameterScalesEstimator()
+  : m_NumberOfRandomSamples(0)
+  , m_CentralRegionRadius(5)
+  , m_TransformForward(true)
+  , m_SamplingStrategy(SamplingStrategyEnum::FullDomainSampling)
 {
   // estimate parameter scales of the moving transform
-  this->m_TransformForward = true;
-
   // number for random sampling
-  this->m_NumberOfRandomSamples = 0;
-
   // default sampling strategy
-  this->m_SamplingStrategy = SamplingStrategyEnum::FullDomainSampling;
-
   // the default radius of the central region for sampling
-  this->m_CentralRegionRadius = 5;
-
   // the metric object must be set before EstimateScales()
 }
 

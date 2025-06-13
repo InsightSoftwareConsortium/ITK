@@ -84,10 +84,10 @@ FourierSeriesPath<VDimension>::AddHarmonic(const VectorType & CosCoefficients, c
 
 template <unsigned int VDimension>
 FourierSeriesPath<VDimension>::FourierSeriesPath()
+  : m_CosCoefficients(CoefficientsType::New())
+  , m_SinCoefficients(CoefficientsType::New())
 {
   this->SetDefaultInputStepSize(1.0 / 50.0);
-  m_CosCoefficients = CoefficientsType::New();
-  m_SinCoefficients = CoefficientsType::New();
 }
 
 template <unsigned int VDimension>

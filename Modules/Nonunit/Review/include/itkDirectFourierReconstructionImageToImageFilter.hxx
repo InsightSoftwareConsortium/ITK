@@ -27,20 +27,16 @@ template <typename TInputImage, typename TOutputImage>
 DirectFourierReconstructionImageToImageFilter<TInputImage,
                                               TOutputImage>::DirectFourierReconstructionImageToImageFilter()
   : Superclass()
+  , m_ZeroPadding(2)
+  , m_OverSampling(2)
+  , m_Cutoff(1.0)
+  , m_AlphaRange(180)
+  , m_ZDirection(1)
+  , m_AlphaDirection(2)
+  , m_RDirection(0)
+  , m_RadialSplineOrder(3)
 {
   constexpr double RADIANS = 1.0;
-
-  m_ZeroPadding = 2;
-  m_OverSampling = 2;
-  m_Cutoff = 1.0;
-  m_AlphaRange = 180;
-
-  m_ZDirection = 1;
-  m_RDirection = 0;
-  m_AlphaDirection = 2;
-
-  m_RadialSplineOrder = 3;
-
   m_PI = 4 * std::atan(RADIANS);
 }
 

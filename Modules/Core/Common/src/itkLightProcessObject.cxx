@@ -23,10 +23,9 @@ namespace itk
  * Instantiate object with no start, end, or progress methods.
  */
 LightProcessObject::LightProcessObject()
-{
-  m_AbortGenerateData = false;
-  m_Progress = 0.0f;
-}
+  : m_AbortGenerateData(false)
+  , m_Progress(0.0f)
+{}
 
 /**
  * Destructor for the LightProcessObject class. We've got to

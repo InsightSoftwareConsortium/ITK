@@ -35,6 +35,23 @@ namespace itk
 
 template <typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
 ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, TPointSet>::ImageRegistrationMethodv4()
+  : m_CurrentLevel(0)
+  , m_CurrentIteration(0)
+  , m_CurrentMetricValue(0.0)
+  , m_CurrentConvergenceValue(0.0)
+  , m_IsConverged(false)
+  , m_VirtualDomainImage(nullptr)
+  , m_NumberOfFixedObjects(0)
+  , m_NumberOfMovingObjects(0)
+  , m_OptimizerWeightsAreIdentity(true)
+  , m_MetricSamplingStrategy(MetricSamplingStrategyEnum::NONE)
+  , m_SmoothingSigmasAreSpecifiedInPhysicalUnits(true)
+  , m_ReseedIterator(false)
+  , m_RandomSeed(Statistics::MersenneTwisterRandomVariateGenerator::GetNextSeed())
+  , m_CurrentRandomSeed(this->m_RandomSeed)
+  , m_CompositeTransform(CompositeTransformType::New())
+  , m_InPlace(true)
+  , m_InitializeCenterOfLinearOutputTransform(true)
 {
   ProcessObject::SetNumberOfRequiredOutputs(1);
   Self::SetPrimaryOutputName("Transform");
@@ -48,26 +65,8 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   Self::SetInput("InitialTransform", nullptr);
   Self::SetInput("FixedInitialTransform", nullptr);
   Self::SetInput("MovingInitialTransform", nullptr);
-
-  this->m_VirtualDomainImage = nullptr;
-
   Self::ReleaseDataBeforeUpdateFlagOff();
-
-  this->m_CurrentLevel = 0;
-  this->m_CurrentIteration = 0;
-  this->m_CurrentMetricValue = 0.0;
-  this->m_CurrentConvergenceValue = 0.0;
-  this->m_IsConverged = false;
-  this->m_NumberOfFixedObjects = 0;
-  this->m_NumberOfMovingObjects = 0;
-
   Self::ReleaseDataBeforeUpdateFlagOff();
-
-  this->m_InPlace = true;
-
-  this->m_InitializeCenterOfLinearOutputTransform = true;
-
-  this->m_CompositeTransform = CompositeTransformType::New();
 
   using DefaultMetricType =
     MattesMutualInformationImageToImageMetricv4<FixedImageType, MovingImageType, VirtualImageType, RealType>;
@@ -91,8 +90,6 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   this->m_Optimizer = optimizer;
 
   this->m_OptimizerWeights.SetSize(0);
-  this->m_OptimizerWeightsAreIdentity = true;
-
   const DecoratedOutputTransformPointer transformDecorator =
     itkDynamicCastInDebugMode<DecoratedOutputTransformType *>(this->MakeOutput(0).GetPointer());
   this->ProcessObject::SetNthOutput(0, transformDecorator);
@@ -110,14 +107,6 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   this->m_SmoothingSigmasPerLevel[0] = 2;
   this->m_SmoothingSigmasPerLevel[1] = 1;
   this->m_SmoothingSigmasPerLevel[2] = 0;
-
-  this->m_SmoothingSigmasAreSpecifiedInPhysicalUnits = true;
-
-  this->m_ReseedIterator = false;
-  this->m_RandomSeed = Statistics::MersenneTwisterRandomVariateGenerator::GetNextSeed();
-  this->m_CurrentRandomSeed = this->m_RandomSeed;
-
-  this->m_MetricSamplingStrategy = MetricSamplingStrategyEnum::NONE;
   this->m_MetricSamplingPercentagePerLevel.SetSize(this->m_NumberOfLevels);
   this->m_MetricSamplingPercentagePerLevel.Fill(1.0);
 }

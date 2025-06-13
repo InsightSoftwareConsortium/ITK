@@ -26,33 +26,27 @@ namespace itk
 
 template <typename TFixedImage, typename TMovingImage>
 MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::MultiResolutionImageRegistrationMethod()
+  : m_Metric(nullptr)
+  , m_Optimizer(nullptr)
+  , m_MovingImage(nullptr)
+  , m_FixedImage(nullptr)
+  , m_Transform(nullptr)
+  , m_Interpolator(nullptr)
+  , m_MovingImagePyramid(MovingImagePyramidType::New())
+  , m_FixedImagePyramid(FixedImagePyramidType::New())
+  , m_InitialTransformParameters(ParametersType(1))
+  , m_InitialTransformParametersOfNextLevel(ParametersType(1))
+  , m_LastTransformParameters(ParametersType(1))
+  , m_NumberOfLevels(1)
+  , m_CurrentLevel(0)
+  , m_Stop(false)
+  , m_ScheduleSpecified(false)
+  , m_NumberOfLevelsSpecified(false)
 {
   this->SetNumberOfRequiredOutputs(1); // for the Transform
 
-  m_FixedImage = nullptr;   // has to be provided by the user.
-  m_MovingImage = nullptr;  // has to be provided by the user.
-  m_Transform = nullptr;    // has to be provided by the user.
-  m_Interpolator = nullptr; // has to be provided by the user.
-  m_Metric = nullptr;       // has to be provided by the user.
-  m_Optimizer = nullptr;    // has to be provided by the user.
-
   // Use MultiResolutionPyramidImageFilter as the default
   // image pyramids.
-  m_FixedImagePyramid = FixedImagePyramidType::New();
-  m_MovingImagePyramid = MovingImagePyramidType::New();
-
-  m_NumberOfLevels = 1;
-  m_CurrentLevel = 0;
-
-  m_Stop = false;
-
-  m_ScheduleSpecified = false;
-  m_NumberOfLevelsSpecified = false;
-
-  m_InitialTransformParameters = ParametersType(1);
-  m_InitialTransformParametersOfNextLevel = ParametersType(1);
-  m_LastTransformParameters = ParametersType(1);
-
   m_InitialTransformParameters.Fill(0.0f);
   m_InitialTransformParametersOfNextLevel.Fill(0.0f);
   m_LastTransformParameters.Fill(0.0f);

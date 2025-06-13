@@ -25,9 +25,8 @@ namespace itk
 
 template <unsigned int VDimension>
 ParametricPath<VDimension>::ParametricPath()
-{
-  m_DefaultInputStepSize = 0.3;
-}
+  : m_DefaultInputStepSize(0.3)
+{}
 
 template <unsigned int VDimension>
 auto

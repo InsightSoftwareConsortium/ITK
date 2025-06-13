@@ -25,11 +25,11 @@ namespace itk
 template <typename TTransform>
 BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<
   TTransform>::BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor()
+  : m_NumberOfControlPointsForTheUpdateFieldSetTime(0)
+  , m_NumberOfControlPointsForTheTotalFieldSetTime(0)
 {
   this->m_NumberOfControlPointsForTheUpdateField.Fill(4);
   this->m_NumberOfControlPointsForTheTotalField.Fill(0);
-  this->m_NumberOfControlPointsForTheUpdateFieldSetTime = 0;
-  this->m_NumberOfControlPointsForTheTotalFieldSetTime = 0;
 }
 
 /**

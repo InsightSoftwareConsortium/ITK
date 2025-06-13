@@ -25,14 +25,14 @@ namespace itk
 template <typename TInternalComputationValueType>
 GradientDescentLineSearchOptimizerv4Template<
   TInternalComputationValueType>::GradientDescentLineSearchOptimizerv4Template()
+  : m_LowerLimit(TInternalComputationValueType{})
+  , m_UpperLimit(5.0)
+  , m_Phi(1.618034)
+  , m_Resphi(2 - this->m_Phi)
+  , m_Epsilon(0.01)
+  , m_MaximumLineSearchIterations(20)
+  , m_LineSearchIterations(0U)
 {
-  this->m_MaximumLineSearchIterations = 20;
-  this->m_LineSearchIterations = 0U;
-  this->m_LowerLimit = TInternalComputationValueType{};
-  this->m_UpperLimit = 5.0;
-  this->m_Phi = 1.618034;
-  this->m_Resphi = 2 - this->m_Phi;
-  this->m_Epsilon = 0.01;
   this->m_ReturnBestParametersAndValue = true;
 }
 

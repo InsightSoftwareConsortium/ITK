@@ -31,10 +31,9 @@ namespace itk
 
 template <typename TParametersValueType, unsigned int VDimension>
 TimeVaryingBSplineVelocityFieldTransform<TParametersValueType, VDimension>::TimeVaryingBSplineVelocityFieldTransform()
+  : m_SplineOrder(3)
+  , m_TemporalPeriodicity(false)
 {
-  this->m_SplineOrder = 3;
-  this->m_TemporalPeriodicity = false;
-
   this->m_VelocityFieldOrigin.Fill(0.0);
   this->m_VelocityFieldSpacing.Fill(1.0);
   this->m_VelocityFieldSize.Fill(1);

@@ -70,6 +70,7 @@ public:
   amoebaTestF1()
     : m_A(SpaceDimension, SpaceDimension)
     , m_B(SpaceDimension)
+    , m_Negate(false)
   {
     m_A[0][0] = 3;
     m_A[0][1] = 2;
@@ -78,7 +79,6 @@ public:
 
     m_B[0] = 2;
     m_B[1] = -8;
-    m_Negate = false;
   }
 
   double
@@ -222,7 +222,9 @@ public:
   }
 
 protected:
-  CommandIterationUpdateAmoeba() { m_IterationNumber = 0; }
+  CommandIterationUpdateAmoeba()
+    : m_IterationNumber(0)
+  {}
 
 private:
   unsigned long m_IterationNumber;

@@ -27,10 +27,10 @@ ShapedFloodFilledFunctionConditionalConstIterator<TImage, TFunction>::ShapedFloo
   const ImageType * imagePtr,
   FunctionType *    fnPtr,
   IndexType         startIndex)
+  : m_Function(fnPtr)
 
 {
   this->m_Image = imagePtr;
-  m_Function = fnPtr;
   m_Seeds.push_back(startIndex);
 
   // Set up the temporary image
@@ -59,11 +59,10 @@ template <typename TImage, typename TFunction>
 ShapedFloodFilledFunctionConditionalConstIterator<TImage, TFunction>::ShapedFloodFilledFunctionConditionalConstIterator(
   const ImageType * imagePtr,
   FunctionType *    fnPtr)
+  : m_Function(fnPtr)
 
 {
   this->m_Image = imagePtr;
-  m_Function = fnPtr;
-
   // Set up the temporary image
   this->InitializeIterator();
 }

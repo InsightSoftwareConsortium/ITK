@@ -27,9 +27,8 @@ namespace itk
 template <typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision>
 InverseDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrecision>::
   InverseDeconvolutionImageFilter()
-{
-  m_KernelZeroMagnitudeThreshold = 1.0e-4;
-}
+  : m_KernelZeroMagnitudeThreshold(1.0e-4)
+{}
 
 template <typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision>
 void

@@ -304,10 +304,10 @@ protected:
   struct SparseDataStruct
   {
     SparseDataStruct(const IdCellType & index)
+      : m_LayerNodeStore(LayerNodeStorageType::New())
+      , m_Index(index)
     {
-      m_LayerNodeStore = LayerNodeStorageType::New();
       m_LayerNodeStore->SetGrowthStrategyToExponential();
-      m_Index = index;
     }
 
     /** An array which contains all of the layers needed in the sparse

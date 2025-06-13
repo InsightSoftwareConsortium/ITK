@@ -30,8 +30,8 @@ namespace itk
 
 template <typename TInputImage>
 WarpHarmonicEnergyCalculator<TInputImage>::WarpHarmonicEnergyCalculator()
+  : m_Image(TInputImage::New())
 {
-  m_Image = TInputImage::New();
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     m_NeighborhoodRadius[i] = 1; // radius of neighborhood we will use

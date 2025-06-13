@@ -29,6 +29,7 @@ namespace itk
 {
 template <typename TNeighborhoodType>
 SparseFieldCityBlockNeighborList<TNeighborhoodType>::SparseFieldCityBlockNeighborList()
+  : m_Size(2 * Dimension)
 {
   using ImageType = typename NeighborhoodType::ImageType;
   auto dummy_image = ImageType::New();
@@ -39,7 +40,6 @@ SparseFieldCityBlockNeighborList<TNeighborhoodType>::SparseFieldCityBlockNeighbo
   const NeighborhoodType it(m_Radius, dummy_image, dummy_image->GetRequestedRegion());
   const unsigned int     nCenter = it.Size() / 2;
 
-  m_Size = 2 * Dimension;
   m_ArrayIndex.reserve(m_Size);
   m_NeighborhoodOffset.reserve(m_Size);
 
@@ -116,12 +116,11 @@ typename SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::StatusType
 
 template <typename TInputImage, typename TOutputImage>
 SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::SparseFieldLevelSetImageFilter()
-  : m_IsoSurfaceValue(m_ValueZero)
+  : m_LayerNodeStore(LayerNodeStorageType::New())
+  , m_IsoSurfaceValue(m_ValueZero)
   , m_InputImage(nullptr)
   , m_OutputImage(nullptr)
-
 {
-  m_LayerNodeStore = LayerNodeStorageType::New();
   m_LayerNodeStore->SetGrowthStrategyToExponential();
   this->SetRMSChange(static_cast<double>(m_ValueZero));
 }

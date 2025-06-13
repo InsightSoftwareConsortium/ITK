@@ -110,16 +110,15 @@ public:
     double maxCurvature;
 
     SimplexCellVisitor()
-    {
-      areaMap = DoubleValueMapType::New();
-      curvatureMap = DoubleValueMapType::New();
-      totalArea = 0;
-      totalCurvature = 0;
-      minCellSize = NumericTraits<double>::max();
-      maxCellSize = 0;
-      minCurvature = NumericTraits<double>::max();
-      maxCurvature = 0;
-    }
+      : totalArea(0)
+      , totalCurvature(0)
+      , minCellSize(NumericTraits<double>::max())
+      , maxCellSize(0)
+      , areaMap(DoubleValueMapType::New())
+      , curvatureMap(DoubleValueMapType::New())
+      , minCurvature(NumericTraits<double>::max())
+      , maxCurvature(0)
+    {}
 
     /** \brief visits all polygon cells and computes the area,
      *  NOTE: works for convex polygons only!!!

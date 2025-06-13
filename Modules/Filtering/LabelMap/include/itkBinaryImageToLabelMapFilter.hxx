@@ -31,10 +31,9 @@ template <typename TInputImage, typename TOutputImage>
 BinaryImageToLabelMapFilter<TInputImage, TOutputImage>::BinaryImageToLabelMapFilter()
   : ScanlineFilterCommon<TInputImage, TOutputImage>(this)
   , m_OutputBackgroundValue(NumericTraits<OutputPixelType>::NonpositiveMin())
-{
-  this->m_NumberOfObjects = 0;
-  this->m_InputForegroundValue = NumericTraits<InputPixelType>::max();
-}
+  , m_InputForegroundValue(NumericTraits<InputPixelType>::max())
+  , m_NumberOfObjects(0)
+{}
 
 template <typename TInputImage, typename TOutputImage>
 void

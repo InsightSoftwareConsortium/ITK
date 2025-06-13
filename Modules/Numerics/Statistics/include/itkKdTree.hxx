@@ -50,18 +50,15 @@ KdTreeWeightedCentroidNonterminalNode<TSample>::KdTreeWeightedCentroidNontermina
                                                                                       Superclass *    right,
                                                                                       CentroidType &  centroid,
                                                                                       unsigned int    size)
-{
-  this->m_PartitionDimension = partitionDimension;
-  this->m_PartitionValue = partitionValue;
-  this->m_Left = left;
-  this->m_Right = right;
-  this->m_WeightedCentroid = centroid;
-  this->m_MeasurementVectorSize = NumericTraits<CentroidType>::GetLength(centroid);
-
-  this->m_Centroid = this->m_WeightedCentroid / static_cast<double>(size);
-
-  this->m_Size = size;
-}
+  : m_MeasurementVectorSize(NumericTraits<CentroidType>::GetLength(centroid))
+  , m_PartitionDimension(partitionDimension)
+  , m_PartitionValue(partitionValue)
+  , m_WeightedCentroid(centroid)
+  , m_Centroid(this->m_WeightedCentroid / static_cast<double>(size))
+  , m_Size(size)
+  , m_Left(left)
+  , m_Right(right)
+{}
 
 template <typename TSample>
 void
@@ -74,15 +71,13 @@ KdTreeWeightedCentroidNonterminalNode<TSample>::GetParameters(unsigned int &    
 
 template <typename TSample>
 KdTree<TSample>::KdTree()
-{
-  this->m_EmptyTerminalNode = new KdTreeTerminalNode<TSample>();
-
-  this->m_DistanceMetric = DistanceMetricType::New();
-  this->m_Sample = nullptr;
-  this->m_Root = nullptr;
-  this->m_BucketSize = 16;
-  this->m_MeasurementVectorSize = 0;
-}
+  : m_Sample(nullptr)
+  , m_BucketSize(16)
+  , m_Root(nullptr)
+  , m_EmptyTerminalNode(new KdTreeTerminalNode<TSample>())
+  , m_DistanceMetric(DistanceMetricType::New())
+  , m_MeasurementVectorSize(0)
+{}
 
 template <typename TSample>
 KdTree<TSample>::~KdTree()

@@ -24,11 +24,10 @@ namespace itk
 {
 template <typename TInputImage>
 ShapeRelabelImageFilter<TInputImage>::ShapeRelabelImageFilter()
-{
-  m_BackgroundValue = NumericTraits<OutputImagePixelType>::NonpositiveMin();
-  m_ReverseOrdering = false;
-  m_Attribute = LabelObjectType::NUMBER_OF_PIXELS;
-}
+  : m_BackgroundValue(NumericTraits<OutputImagePixelType>::NonpositiveMin())
+  , m_ReverseOrdering(false)
+  , m_Attribute(LabelObjectType::NUMBER_OF_PIXELS)
+{}
 
 template <typename TInputImage>
 void

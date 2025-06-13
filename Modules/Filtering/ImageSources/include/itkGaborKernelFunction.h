@@ -99,12 +99,11 @@ public:
   /** @ITKEndGrouping */
 protected:
   GaborKernelFunction()
-  {
-    this->m_CalculateImaginaryPart = false;
-    this->m_Sigma = TRealValueType{ 1.0 };
-    this->m_Frequency = TRealValueType{ 0.4 };
-    this->m_PhaseOffset = TRealValueType{ 0.0 };
-  }
+    : m_Sigma(TRealValueType{ 1.0 })
+    , m_Frequency(TRealValueType{ 0.4 })
+    , m_PhaseOffset(TRealValueType{ 0.0 })
+    , m_CalculateImaginaryPart(false)
+  {}
   ~GaborKernelFunction() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override

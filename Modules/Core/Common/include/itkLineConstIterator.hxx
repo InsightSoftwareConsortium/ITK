@@ -25,13 +25,10 @@ template <typename TImage>
 LineConstIterator<TImage>::LineConstIterator(const ImageType * imagePtr,
                                              const IndexType & firstIndex,
                                              const IndexType & lastIndex)
+  : m_Image(imagePtr)
+  , m_StartIndex(firstIndex)
+  , m_LastIndex(lastIndex)
 {
-
-  m_Image = imagePtr;
-
-  m_StartIndex = firstIndex;
-  m_LastIndex = lastIndex;
-
   IndexType difference;
   for (unsigned int i = 0; i < TImage::ImageDimension; ++i)
   {

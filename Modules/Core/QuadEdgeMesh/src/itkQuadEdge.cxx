@@ -21,10 +21,9 @@ namespace itk
 {
 // ---------------------------------------------------------------------
 QuadEdge::QuadEdge()
-{
-  this->m_Onext = this;
-  this->m_Rot = nullptr;
-}
+  : m_Onext(this)
+  , m_Rot(nullptr)
+{}
 
 // ---------------------------------------------------------------------
 QuadEdge::~QuadEdge()

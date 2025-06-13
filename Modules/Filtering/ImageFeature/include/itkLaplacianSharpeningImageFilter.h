@@ -94,7 +94,9 @@ public:
   itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, ImageDimension>));
 
 protected:
-  LaplacianSharpeningImageFilter() { m_UseImageSpacing = true; }
+  LaplacianSharpeningImageFilter()
+    : m_UseImageSpacing(true)
+  {}
 
   ~LaplacianSharpeningImageFilter() override = default;
 

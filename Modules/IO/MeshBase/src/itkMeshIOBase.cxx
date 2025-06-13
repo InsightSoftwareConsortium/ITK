@@ -26,7 +26,6 @@ MeshIOBase::MeshIOBase()
   , m_NumberOfPointPixels(SizeValueType{})
   , m_NumberOfCellPixels(SizeValueType{})
   , m_CellBufferSize(SizeValueType{})
-
 {}
 
 const MeshIOBase::ArrayOfExtensionsType &

@@ -61,7 +61,9 @@ public:
   using DerivativeType = Superclass::DerivativeType;
   using MeasureType = Superclass::MeasureType;
 
-  itkLBFGSOptimizerv4TestMetric() { m_HasLocalSupport = false; }
+  itkLBFGSOptimizerv4TestMetric()
+    : m_HasLocalSupport(false)
+  {}
 
   MeasureType
   GetValue() const override

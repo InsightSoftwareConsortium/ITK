@@ -28,14 +28,12 @@ namespace itk
 {
 template <typename TInputImage>
 MRASlabIdentifier<TInputImage>::MRASlabIdentifier()
-{
-  m_Image = nullptr;
-  m_NumberOfSamples = 10;
-  m_BackgroundMinimumThreshold = NumericTraits<ImagePixelType>::min();
-  m_Tolerance = 0.0;
-  // default slicing axis is z
-  m_SlicingDirection = 2;
-}
+  : m_Image(nullptr)
+  , m_NumberOfSamples(10)
+  , m_SlicingDirection(2)
+  , m_BackgroundMinimumThreshold(NumericTraits<ImagePixelType>::min()) // default slicing axis is z
+  , m_Tolerance(0.0)
+{}
 
 template <typename TInputImage>
 void

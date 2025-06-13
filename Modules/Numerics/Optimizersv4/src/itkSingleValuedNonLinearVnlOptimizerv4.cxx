@@ -20,8 +20,8 @@
 namespace itk
 {
 SingleValuedNonLinearVnlOptimizerv4::SingleValuedNonLinearVnlOptimizerv4()
+  : m_CostFunctionAdaptor(nullptr)
 {
-  this->m_CostFunctionAdaptor = nullptr;
   this->m_Command = CommandType::New();
   this->m_Command->SetCallbackFunction(this, &SingleValuedNonLinearVnlOptimizerv4::IterationReport);
 

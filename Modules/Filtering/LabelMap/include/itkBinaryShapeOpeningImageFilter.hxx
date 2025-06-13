@@ -24,14 +24,13 @@ namespace itk
 {
 template <typename TInputImage>
 BinaryShapeOpeningImageFilter<TInputImage>::BinaryShapeOpeningImageFilter()
-{
-  m_BackgroundValue = NumericTraits<OutputImagePixelType>::NonpositiveMin();
-  m_ForegroundValue = NumericTraits<OutputImagePixelType>::max();
-  m_FullyConnected = false;
-  m_ReverseOrdering = false;
-  m_Lambda = 0.0;
-  m_Attribute = LabelObjectType::NUMBER_OF_PIXELS;
-}
+  : m_FullyConnected(false)
+  , m_BackgroundValue(NumericTraits<OutputImagePixelType>::NonpositiveMin())
+  , m_ForegroundValue(NumericTraits<OutputImagePixelType>::max())
+  , m_Lambda(0.0)
+  , m_ReverseOrdering(false)
+  , m_Attribute(LabelObjectType::NUMBER_OF_PIXELS)
+{}
 
 template <typename TInputImage>
 void

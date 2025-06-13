@@ -26,9 +26,8 @@ namespace itk
 
 template <typename TInputImage, typename TCoordinate>
 VarianceImageFunction<TInputImage, TCoordinate>::VarianceImageFunction()
-{
-  m_NeighborhoodRadius = 1;
-}
+  : m_NeighborhoodRadius(1)
+{}
 
 template <typename TInputImage, typename TCoordinate>
 void

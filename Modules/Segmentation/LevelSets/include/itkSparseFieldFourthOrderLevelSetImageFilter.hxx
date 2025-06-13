@@ -35,20 +35,19 @@ const typename SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputIma
 
 template <typename TInputImage, typename TOutputImage>
 SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>::SparseFieldFourthOrderLevelSetImageFilter()
+  : m_RefitIteration(0)
+  , m_MaxRefitIteration(100)
+  , m_MaxNormalIteration(25)
+  , m_RMSChangeNormalProcessTrigger(ValueType{})
+  , m_ConvergenceFlag(false)
+  , m_LevelSetFunction(nullptr)
+  , m_CurvatureBandWidth(ValueType{ ImageDimension } + 0.5)
+  , m_NormalProcessType(0)
+  , m_NormalProcessConductance(ValueType{})
+  , m_NormalProcessUnsharpFlag(false)
+  , m_NormalProcessUnsharpWeight(ValueType{})
 {
-  m_RefitIteration = 0;
-  m_LevelSetFunction = nullptr;
-  m_ConvergenceFlag = false;
-
   this->SetIsoSurfaceValue(0);
-  m_MaxRefitIteration = 100;
-  m_MaxNormalIteration = 25;
-  m_RMSChangeNormalProcessTrigger = ValueType{};
-  m_CurvatureBandWidth = ValueType{ ImageDimension } + 0.5;
-  m_NormalProcessType = 0;
-  m_NormalProcessConductance = ValueType{};
-  m_NormalProcessUnsharpFlag = false;
-  m_NormalProcessUnsharpWeight = ValueType{};
 }
 
 template <typename TInputImage, typename TOutputImage>

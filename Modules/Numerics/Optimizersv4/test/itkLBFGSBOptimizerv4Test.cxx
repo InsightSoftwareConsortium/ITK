@@ -65,9 +65,8 @@ public:
 
   LBFGSBOptimizerv4TestMetric()
     : m_Parameters(0)
-  {
-    m_HasLocalSupport = false;
-  }
+    , m_HasLocalSupport(false)
+  {}
 
   void
   Initialize() override

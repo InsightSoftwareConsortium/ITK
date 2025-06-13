@@ -22,12 +22,12 @@ namespace itk
 {
 /** Constructor */
 SingleValuedNonLinearVnlOptimizer::SingleValuedNonLinearVnlOptimizer()
+  : m_CostFunctionAdaptor(nullptr)
+  , m_Maximize(false)
+  , m_CachedValue(0)
 {
-  m_CostFunctionAdaptor = nullptr;
-  m_Maximize = false;
   m_Command = CommandType::New();
   m_Command->SetCallbackFunction(this, &SingleValuedNonLinearVnlOptimizer::IterationReport);
-  m_CachedValue = 0;
   m_CachedCurrentPosition.Fill(0);
   m_CachedDerivative.Fill(0);
 }

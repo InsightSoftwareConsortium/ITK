@@ -36,8 +36,9 @@ public:
   using PixelType = float;
 
   ImagePattern()
+    : m_Offset(0.0)
   {
-    m_Offset = 0.0;
+
     for (unsigned int j = 0; j < VDimension; ++j)
     {
       m_Coeff[j] = 0.0;

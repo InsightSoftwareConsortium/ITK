@@ -117,10 +117,9 @@ public:
   /** @ITKEndGrouping */
 protected:
   BinaryNotImageFilter()
-  {
-    m_ForegroundValue = NumericTraits<PixelType>::max();
-    m_BackgroundValue = NumericTraits<PixelType>::NonpositiveMin();
-  }
+    : m_ForegroundValue(NumericTraits<PixelType>::max())
+    , m_BackgroundValue(NumericTraits<PixelType>::NonpositiveMin())
+  {}
   ~BinaryNotImageFilter() override = default;
 
   void

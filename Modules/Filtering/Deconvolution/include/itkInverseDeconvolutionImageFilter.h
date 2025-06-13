@@ -128,7 +128,9 @@ template <typename TInput1, typename TInput2, typename TOutput>
 class ITK_TEMPLATE_EXPORT InverseDeconvolutionFunctor
 {
 public:
-  InverseDeconvolutionFunctor() { m_KernelZeroMagnitudeThreshold = 0.0; }
+  InverseDeconvolutionFunctor()
+    : m_KernelZeroMagnitudeThreshold(0.0)
+  {}
   ~InverseDeconvolutionFunctor() = default;
 
   bool

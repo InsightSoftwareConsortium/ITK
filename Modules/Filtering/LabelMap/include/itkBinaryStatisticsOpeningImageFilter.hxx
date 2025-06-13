@@ -24,13 +24,13 @@ namespace itk
 {
 template <typename TInputImage, typename TFeatureImage>
 BinaryStatisticsOpeningImageFilter<TInputImage, TFeatureImage>::BinaryStatisticsOpeningImageFilter()
+  : m_FullyConnected(false)
+  , m_BackgroundValue(NumericTraits<OutputImagePixelType>::NonpositiveMin())
+  , m_ForegroundValue(NumericTraits<OutputImagePixelType>::max())
+  , m_Lambda(0.0)
+  , m_ReverseOrdering(false)
+  , m_Attribute(LabelObjectType::MEAN)
 {
-  m_BackgroundValue = NumericTraits<OutputImagePixelType>::NonpositiveMin();
-  m_ForegroundValue = NumericTraits<OutputImagePixelType>::max();
-  m_FullyConnected = false;
-  m_ReverseOrdering = false;
-  m_Lambda = 0.0;
-  m_Attribute = LabelObjectType::MEAN;
   this->SetNumberOfRequiredInputs(2);
 }
 

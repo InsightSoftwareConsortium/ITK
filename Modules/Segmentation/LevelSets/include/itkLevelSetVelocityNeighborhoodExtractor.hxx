@@ -27,9 +27,9 @@ namespace itk
  */
 template <typename TLevelSet, typename TAuxValue, unsigned int VAuxDimension>
 LevelSetVelocityNeighborhoodExtractor<TLevelSet, TAuxValue, VAuxDimension>::LevelSetVelocityNeighborhoodExtractor()
+  : m_AuxInsideValues(nullptr)
+  , m_AuxOutsideValues(nullptr)
 {
-  m_AuxInsideValues = nullptr;
-  m_AuxOutsideValues = nullptr;
   for (unsigned int i = 0; i < VAuxDimension; ++i)
   {
     m_AuxImage[i] = nullptr;

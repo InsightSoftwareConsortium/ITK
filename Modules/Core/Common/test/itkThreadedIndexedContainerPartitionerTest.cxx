@@ -84,9 +84,9 @@ public:
   }; // end TestDomainThreader class
 
   DomainThreaderAssociate()
+    : m_ClassDescriptor("enclosing class")
   {
     m_TestDomainThreader = TestDomainThreader::New();
-    m_ClassDescriptor = "enclosing class";
   }
 
   TestDomainThreader *

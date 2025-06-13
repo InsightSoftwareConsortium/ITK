@@ -45,13 +45,13 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
                                       TOutputImage,
                                       TInputConfidencePointSet,
                                       TInputTensorPointSet>::FEMScatteredDataPointSetToImageFilter()
+  : m_FEMObject(FEMObjectType::New())
+  , m_FEMSolver(FEMSolverType::New())
 {
-  this->m_FEMObject = FEMObjectType::New();
+
   this->m_Material = MaterialType::New();
   this->m_Material->SetYoungsModulus(694.0);
   this->m_Material->SetPoissonsRatio(0.45);
-  this->m_FEMSolver = FEMSolverType::New();
-
   itk::FEMFactoryBase::GetFactory()->RegisterDefaultTypes();
 }
 

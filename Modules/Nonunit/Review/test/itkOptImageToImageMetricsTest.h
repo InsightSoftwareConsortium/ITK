@@ -137,7 +137,9 @@ public:
   using MetricType = itk::MeanSquaresImageToImageMetric<FixedImageType, MovingImageType>;
 
 
-  MeanSquaresMetricInitializer(MetricType * metric) { m_Metric = metric; }
+  MeanSquaresMetricInitializer(MetricType * metric)
+    : m_Metric(metric)
+  {}
 
   void
   Initialize()
@@ -157,7 +159,9 @@ public:
   using MetricType = itk::MattesMutualInformationImageToImageMetric<FixedImageType, MovingImageType>;
 
 
-  MattesMIMetricInitializer(MetricType * metric) { m_Metric = metric; }
+  MattesMIMetricInitializer(MetricType * metric)
+    : m_Metric(metric)
+  {}
 
   void
   Initialize()
@@ -178,7 +182,9 @@ public:
   using MetricType = itk::MutualInformationImageToImageMetric<FixedImageType, MovingImageType>;
 
 
-  MIMetricInitializer(MetricType * metric) { m_Metric = metric; }
+  MIMetricInitializer(MetricType * metric)
+    : m_Metric(metric)
+  {}
 
   void
   Initialize()

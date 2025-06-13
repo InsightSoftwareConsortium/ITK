@@ -28,10 +28,9 @@ namespace itk
  */
 template <typename TLevelSet, typename TAuxValue, unsigned int VAuxDimension>
 ExtensionVelocitiesImageFilter<TLevelSet, TAuxValue, VAuxDimension>::ExtensionVelocitiesImageFilter()
+  : m_Locator(LocatorType::New())
+  , m_Marcher(FastMarchingImageFilterType::New())
 {
-  m_Locator = LocatorType::New();
-  m_Marcher = FastMarchingImageFilterType::New();
-
   this->ProcessObject::SetNumberOfRequiredInputs(VAuxDimension + 1);
   this->ProcessObject::SetNumberOfRequiredOutputs(VAuxDimension + 1);
 

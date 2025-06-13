@@ -23,10 +23,10 @@ namespace itk
 {
 template <typename TNodeType>
 SparseFieldLayer<TNodeType>::SparseFieldLayer()
+  : m_Size(0)
 {
   m_HeadNode->Next = m_HeadNode.get();
   m_HeadNode->Previous = m_HeadNode.get();
-  m_Size = 0;
 }
 
 template <typename TNodeType>

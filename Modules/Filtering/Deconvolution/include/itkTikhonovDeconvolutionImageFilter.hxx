@@ -27,9 +27,8 @@ namespace itk
 template <typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision>
 TikhonovDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrecision>::
   TikhonovDeconvolutionImageFilter()
-{
-  m_RegularizationConstant = 0.0;
-}
+  : m_RegularizationConstant(0.0)
+{}
 
 template <typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision>
 void

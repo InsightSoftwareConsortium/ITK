@@ -70,7 +70,9 @@ namespace itk
 class JPEGFileWrapper
 {
 public:
-  JPEGFileWrapper(const char * const fname, const char * const openMode) { m_FilePointer = fopen(fname, openMode); }
+  JPEGFileWrapper(const char * const fname, const char * const openMode)
+    : m_FilePointer(fopen(fname, openMode))
+  {}
 
   virtual ~JPEGFileWrapper()
   {

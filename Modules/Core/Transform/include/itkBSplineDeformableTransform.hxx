@@ -33,6 +33,7 @@ BSplineDeformableTransform<TParametersValueType, VDimension, VSplineOrder>::BSpl
   , m_GridOrigin(Superclass::m_CoefficientImages[0]->GetOrigin())
   , m_GridSpacing(Superclass::m_CoefficientImages[0]->GetSpacing())
   , m_GridDirection(Superclass::m_CoefficientImages[0]->GetDirection())
+  , m_Offset(SplineOrder / 2)
 {
 
   // Instantiate an identity transform
@@ -41,15 +42,8 @@ BSplineDeformableTransform<TParametersValueType, VDimension, VSplineOrder>::BSpl
   this->m_BulkTransform = id;
 
   // Setup variables for computing interpolation
-  this->m_Offset = SplineOrder / 2;
-  if (SplineOrder % 2)
-  {
-    this->m_SplineOrderOdd = true;
-  }
-  else
-  {
-    this->m_SplineOrderOdd = false;
-  }
+  this->m_SplineOrderOdd = (SplineOrder % 2 != 0);
+
   this->m_ValidRegion = this->m_GridRegion; // HACK:  Perhaps this->m_ValidRegion is redundant also.
   this->m_ValidRegionFirst.Fill(0);
   this->m_ValidRegionLast.Fill(1);

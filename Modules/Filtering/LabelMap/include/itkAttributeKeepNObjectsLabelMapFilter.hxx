@@ -26,9 +26,9 @@ namespace itk
 
 template <typename TImage, typename TAttributeAccessor>
 AttributeKeepNObjectsLabelMapFilter<TImage, TAttributeAccessor>::AttributeKeepNObjectsLabelMapFilter()
+  : m_ReverseOrdering(false)
+  , m_NumberOfObjects(1)
 {
-  m_ReverseOrdering = false;
-  m_NumberOfObjects = 1;
   // create the output image for the removed objects
   this->SetNumberOfRequiredOutputs(2);
   this->SetNthOutput(1, static_cast<TImage *>(this->MakeOutput(1).GetPointer()));

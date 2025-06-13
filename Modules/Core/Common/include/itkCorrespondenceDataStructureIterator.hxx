@@ -24,16 +24,15 @@ namespace itk
 
 template <typename TStructureType>
 CorrespondenceDataStructureIterator<TStructureType>::CorrespondenceDataStructureIterator(TStructureType * StructurePtr)
+  : m_Structure(StructurePtr)
+  , m_CorrespondingListPointer(&(*m_SecondaryListIterator))
+  , m_IsAtEnd(false)
+  , m_NodeListPointer(StructurePtr->m_NodeList)
+  , m_SecondaryListPointer(&(*m_NodeListIterator))
 {
-  m_Structure = StructurePtr;
-  m_NodeListPointer = StructurePtr->m_NodeList;
   m_NodeListIterator = m_NodeListPointer->begin();
-  m_SecondaryListPointer = &(*m_NodeListIterator);
   m_SecondaryListIterator = m_SecondaryListPointer->begin();
-  m_CorrespondingListPointer = &(*m_SecondaryListIterator);
   m_CorrespondingListIterator = m_CorrespondingListPointer->begin();
-
-  m_IsAtEnd = false;
 }
 
 /** Used to verify that the iterator is at the end of the data structure. */

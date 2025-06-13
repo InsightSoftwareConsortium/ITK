@@ -148,19 +148,17 @@ public:
   /** Default constructor. Needed since we provide a cast constructor. */
   ImageRegionReverseConstIterator()
     : Superclass()
-  {
-    m_SpanBeginOffset = 0;
-    m_SpanEndOffset = 0;
-  }
+    , m_SpanBeginOffset(0)
+    , m_SpanEndOffset(0)
+  {}
 
   /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
    * the iterator at the begin of the region. */
   ImageRegionReverseConstIterator(const ImageType * ptr, const RegionType & region)
     : Superclass(ptr, region)
-  {
-    m_SpanBeginOffset = this->m_BeginOffset;
-    m_SpanEndOffset = this->m_BeginOffset - static_cast<OffsetValueType>(this->m_Region.GetSize()[0]);
-  }
+    , m_SpanBeginOffset(this->m_BeginOffset)
+    , m_SpanEndOffset(this->m_BeginOffset - static_cast<OffsetValueType>(this->m_Region.GetSize()[0]))
+  {}
 
   /** Constructor that can be used to cast from an ImageIterator to an
    * ImageRegionReverseConstIterator. Many routines return an ImageIterator
@@ -171,36 +169,36 @@ public:
    * ImageIterator to a ImageRegionReverseConstIterator. */
   ImageRegionReverseConstIterator(const ImageConstIterator<TImage> & it)
     : Superclass(it)
+    , m_SpanEndOffset(m_SpanBeginOffset - static_cast<OffsetValueType>(this->m_Region.GetSize()[0]))
   {
     IndexType ind = this->GetIndex();
 
     m_SpanBeginOffset = this->m_Offset + static_cast<OffsetValueType>(this->m_Region.GetSize()[0]) -
                         (ind[0] - this->m_Region.GetIndex()[0]);
-    m_SpanEndOffset = m_SpanBeginOffset - static_cast<OffsetValueType>(this->m_Region.GetSize()[0]);
   }
 
   /** Constructor that takes in a reverse image iterator.  This can be used
    * to cast between the various types of reverse image iterators. */
   ImageRegionReverseConstIterator(const ImageReverseConstIterator<TImage> & it)
     : Superclass(it)
+    , m_SpanEndOffset(m_SpanBeginOffset - static_cast<OffsetValueType>(this->m_Region.GetSize()[0]))
   {
     IndexType ind = this->GetIndex();
 
     m_SpanBeginOffset = this->m_Offset + static_cast<OffsetValueType>(this->m_Region.GetSize()[0]) -
                         (ind[0] - this->m_Region.GetIndex()[0]);
-    m_SpanEndOffset = m_SpanBeginOffset - static_cast<OffsetValueType>(this->m_Region.GetSize()[0]);
   }
 
   /** Constructor that takes in an image region iterator.  This can be used
    * to cast between the various types of reverse image iterators. */
   ImageRegionReverseConstIterator(const ImageRegionIterator<TImage> & it)
     : Superclass(it)
+    , m_SpanEndOffset(m_SpanBeginOffset - static_cast<OffsetValueType>(this->m_Region.GetSize()[0]))
   {
     IndexType ind = this->GetIndex();
 
     m_SpanBeginOffset = this->m_Offset + static_cast<OffsetValueType>(this->m_Region.GetSize()[0]) -
                         (ind[0] - this->m_Region.GetIndex()[0]);
-    m_SpanEndOffset = m_SpanBeginOffset - static_cast<OffsetValueType>(this->m_Region.GetSize()[0]);
   }
 
   /** Move an iterator to the beginning of the region. "Begin" for a reverse

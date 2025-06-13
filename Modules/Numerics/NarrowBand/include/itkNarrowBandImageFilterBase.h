@@ -220,14 +220,14 @@ public:
 
 protected:
   NarrowBandImageFilterBase()
+    : m_NarrowBand(NarrowBandType::New())
+    , m_ReinitializationFrequency(6)
+    , m_Step(0)
+    , m_Touched(false)
+    , m_IsoSurfaceValue(0.0)
   {
-    m_NarrowBand = NarrowBandType::New();
     m_NarrowBand->SetTotalRadius(4);
     m_NarrowBand->SetInnerRadius(2);
-    m_ReinitializationFrequency = 6;
-    m_IsoSurfaceValue = 0.0;
-    m_Step = 0;
-    m_Touched = false;
   }
 
   ~NarrowBandImageFilterBase() override = default;

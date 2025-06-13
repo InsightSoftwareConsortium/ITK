@@ -25,12 +25,12 @@ namespace itk
 // Constructor with default arguments
 template <typename TCoordinate, unsigned int VSpaceDimension>
 SphereSignedDistanceFunction<TCoordinate, VSpaceDimension>::SphereSignedDistanceFunction()
+  : m_Radius(1.0)
 {
   this->GetParameters().SetSize(SpaceDimension + 1);
   this->GetParameters().Fill(0.0);
   this->GetParameters()[0] = 1.0;
   m_Translation.Fill(0.0);
-  m_Radius = 1.0;
 }
 
 // Set the parameters

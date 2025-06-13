@@ -25,19 +25,17 @@ namespace itk
 template <typename TParametersValueType>
 QuaternionRigidTransform<TParametersValueType>::QuaternionRigidTransform()
   : Superclass(ParametersDimension)
-{
-  m_Rotation = VnlQuaternionType(0, 0, 0, 1); // axis * std::sin(t/2),
-                                              // std::cos(t/2)
-}
+  // axis * std::sin(t/2), std::cos(t/2)
+  , m_Rotation(VnlQuaternionType(0, 0, 0, 1))
+{}
 
 // Constructor with default arguments
 template <typename TParametersValueType>
 QuaternionRigidTransform<TParametersValueType>::QuaternionRigidTransform(unsigned int parametersDimension)
   : Superclass(parametersDimension)
-{
-  m_Rotation = VnlQuaternionType(0, 0, 0, 1); // axis * std::sin(t/2),
-                                              // std::cos(t/2)
-}
+  // axis * std::sin(t/2),std::cos(t/2)
+  , m_Rotation(VnlQuaternionType(0, 0, 0, 1))
+{}
 
 #if !defined(ITK_LEGACY_REMOVE)
 // Constructor with explicit arguments

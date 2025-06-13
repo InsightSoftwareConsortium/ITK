@@ -162,13 +162,12 @@ public:
 
 protected:
   GeodesicActiveContourShapePriorLevelSetFunction()
+    : m_DerivativeSigma(1.0)
   {
     this->SetAdvectionWeight(NumericTraits<ScalarValueType>::OneValue());
     this->SetPropagationWeight(NumericTraits<ScalarValueType>::OneValue());
     this->SetCurvatureWeight(NumericTraits<ScalarValueType>::OneValue());
     this->SetShapePriorWeight(NumericTraits<ScalarValueType>::OneValue());
-
-    m_DerivativeSigma = 1.0;
   }
 
   ~GeodesicActiveContourShapePriorLevelSetFunction() override = default;

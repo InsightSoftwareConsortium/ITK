@@ -55,8 +55,8 @@ ImageToImageMetric<TFixedImage, TMovingImage>::ImageToImageMetric()
   , m_BSplineInterpolator(nullptr)
   , m_DerivativeCalculator(nullptr)
   , m_Threader(MultiThreaderType::New())
+  , m_ConstSelfWrapper(std::make_unique<ConstantPointerWrapper>(this))
 {
-  m_ConstSelfWrapper = std::make_unique<ConstantPointerWrapper>(this);
   this->m_NumberOfWorkUnits = this->m_Threader->GetNumberOfWorkUnits();
 
   /* if 100% backward compatible, we should include this...but...

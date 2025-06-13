@@ -26,9 +26,9 @@ namespace itk
 
 template <typename TImage, typename TAttributeAccessor>
 AttributeOpeningLabelMapFilter<TImage, TAttributeAccessor>::AttributeOpeningLabelMapFilter()
+  : m_Lambda(AttributeValueType{})
+  , m_ReverseOrdering(false)
 {
-  m_Lambda = AttributeValueType{};
-  m_ReverseOrdering = false;
   // create the output image for the removed objects
   this->SetNumberOfRequiredOutputs(2);
   this->SetNthOutput(1, static_cast<TImage *>(this->MakeOutput(1).GetPointer()));

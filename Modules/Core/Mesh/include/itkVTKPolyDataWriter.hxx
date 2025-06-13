@@ -29,10 +29,9 @@ namespace itk
 //
 template <typename TInputMesh>
 VTKPolyDataWriter<TInputMesh>::VTKPolyDataWriter()
-{
-  this->m_Input = nullptr;
-  this->m_FileName = "";
-}
+  : m_FileName("")
+  , m_Input(nullptr)
+{}
 
 //
 // Set the input mesh

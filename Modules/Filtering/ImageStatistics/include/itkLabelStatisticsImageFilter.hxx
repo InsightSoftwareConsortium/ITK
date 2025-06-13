@@ -27,14 +27,13 @@ namespace itk
 {
 template <typename TInputImage, typename TLabelImage>
 LabelStatisticsImageFilter<TInputImage, TLabelImage>::LabelStatisticsImageFilter()
+  : m_UseHistograms(false)
+  , m_LowerBound(static_cast<RealType>(NumericTraits<PixelType>::NonpositiveMin()))
+  , m_UpperBound(static_cast<RealType>(NumericTraits<PixelType>::max()))
 {
   Self::AddRequiredInputName("LabelInput");
-
-  m_UseHistograms = false;
   m_NumBins.SetSize(1);
   m_NumBins[0] = 256;
-  m_LowerBound = static_cast<RealType>(NumericTraits<PixelType>::NonpositiveMin());
-  m_UpperBound = static_cast<RealType>(NumericTraits<PixelType>::max());
   m_ValidLabelValues.clear();
 }
 

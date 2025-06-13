@@ -62,10 +62,9 @@ class ITK_TEMPLATE_EXPORT LogicOpBase
 public:
   using Self = LogicOpBase;
   LogicOpBase()
-  {
-    m_ForegroundValue = itk::NumericTraits<TOutput>::OneValue();
-    m_BackgroundValue = TOutput{};
-  }
+    : m_ForegroundValue(itk::NumericTraits<TOutput>::OneValue())
+    , m_BackgroundValue(TOutput{})
+  {}
 
   ~LogicOpBase() = default;
 

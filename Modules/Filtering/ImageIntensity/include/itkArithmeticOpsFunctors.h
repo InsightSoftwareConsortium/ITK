@@ -164,10 +164,9 @@ class ITK_TEMPLATE_EXPORT DivideOrZeroOut
 {
 public:
   DivideOrZeroOut()
-  {
-    m_Threshold = 1e-5 * NumericTraits<TDenominator>::OneValue();
-    m_Constant = TOutput{};
-  }
+    : m_Threshold(1e-5 * NumericTraits<TDenominator>::OneValue())
+    , m_Constant(TOutput{})
+  {}
 
   ~DivideOrZeroOut() = default;
 

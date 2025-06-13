@@ -98,10 +98,10 @@ public:
   }; // end TestDomainThreader class
 
   CompensatedSummationTest2Associate()
+    : m_ClassDescriptor("enclosing class")
+    , m_UncompensatedSumOfThreads(0.0)
   {
     m_TestDomainThreader = TestDomainThreader::New();
-    m_ClassDescriptor = "enclosing class";
-    m_UncompensatedSumOfThreads = 0.0;
   }
 
   double

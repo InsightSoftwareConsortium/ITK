@@ -78,38 +78,31 @@ public:
 };
 
 GDCMImageIO::GDCMImageIO()
+  : m_RescaleSlope(1.0)
+  , m_RescaleIntercept(0.0)
+  // This number is updated according the information
+  // received through the MetaDataDictionary
+  , m_UIDPrefix("1.2.826.0.1.3680043.2.1125."
+                "1")
+  , m_StudyInstanceUID("")
+  , m_SeriesInstanceUID("")
+  , m_FrameOfReferenceInstanceUID("")
+  , m_KeepOriginalUID(false)
+  , m_LoadPrivateTags(false)
+  , m_ReadYBRtoRGB(true)
+  , m_GlobalNumberOfDimensions(2)
+  , m_SingleBit(false)
+  , m_InternalComponentType(IOComponentEnum::UNKNOWNCOMPONENTTYPE)
+  // UIDPrefix is the ITK root id tacked with a ".1"
+  // allowing to designate a subspace of the id space for ITK generated DICOM
+  , m_DICOMHeader(new InternalHeader)
 {
-  this->m_DICOMHeader = new InternalHeader;
   this->SetNumberOfDimensions(3);              // needed for getting the 3 coordinates of
                                                // the origin, even if it is a 2D slice.
   m_ByteOrder = IOByteOrderEnum::LittleEndian; // default
   m_FileType = IOFileEnum::Binary;             // default...always true
-  m_RescaleSlope = 1.0;
-  m_RescaleIntercept = 0.0;
-  // UIDPrefix is the ITK root id tacked with a ".1"
-  // allowing to designate a subspace of the id space for ITK generated DICOM
-  m_UIDPrefix = "1.2.826.0.1.3680043.2.1125."
-                "1";
-
-  // Purely internal use, no user access:
-  m_StudyInstanceUID = "";
-  m_SeriesInstanceUID = "";
-  m_FrameOfReferenceInstanceUID = "";
-
-  m_KeepOriginalUID = false;
-
-  m_LoadPrivateTags = false;
-
-  m_ReadYBRtoRGB = true;
-
-  m_InternalComponentType = IOComponentEnum::UNKNOWNCOMPONENTTYPE;
-
-  // by default assume that images will be 2D.
-  // This number is updated according the information
-  // received through the MetaDataDictionary
-  m_GlobalNumberOfDimensions = 2;
-
-  m_SingleBit = false;
+                                               // Purely internal use, no user access:
+                                               // by default assume that images will be 2D.
 
   // By default use JPEG2000. For legacy system, one should prefer JPEG since
   // JPEG2000 was only recently added to the DICOM standard

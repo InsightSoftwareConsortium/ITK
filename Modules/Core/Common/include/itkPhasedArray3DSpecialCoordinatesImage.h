@@ -406,14 +406,13 @@ public:
 
 protected:
   PhasedArray3DSpecialCoordinatesImage()
-  {
-    m_RadiusSampleSize = 1;
-    m_AzimuthAngularSeparation = 1 * (2.0 * itk::Math::pi / 360.0);   // 1
-                                                                      // degree
-    m_ElevationAngularSeparation = 1 * (2.0 * itk::Math::pi / 360.0); // 1
-                                                                      // degree
-    m_FirstSampleDistance = 0;
-  }
+    : m_AzimuthAngularSeparation(1 * (2.0 * itk::Math::pi / 360.0))
+    // 1 degree
+    , m_ElevationAngularSeparation(1 * (2.0 * itk::Math::pi / 360.0))
+    // 1 degree
+    , m_RadiusSampleSize(1)
+    , m_FirstSampleDistance(0)
+  {}
 
   ~PhasedArray3DSpecialCoordinatesImage() override = default;
   void

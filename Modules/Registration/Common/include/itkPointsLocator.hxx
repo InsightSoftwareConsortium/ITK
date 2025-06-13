@@ -23,10 +23,9 @@ namespace itk
 
 template <typename TPointsContainer>
 PointsLocator<TPointsContainer>::PointsLocator()
-{
-  this->m_SampleAdaptor = SampleAdaptorType::New();
-  this->m_KdTreeGenerator = TreeGeneratorType::New();
-}
+  : m_SampleAdaptor(SampleAdaptorType::New())
+  , m_KdTreeGenerator(TreeGeneratorType::New())
+{}
 
 template <typename TPointsContainer>
 void

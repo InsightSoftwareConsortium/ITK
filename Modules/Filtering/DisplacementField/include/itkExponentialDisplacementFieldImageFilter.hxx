@@ -28,18 +28,16 @@ namespace itk
  */
 template <typename TInputImage, typename TOutputImage>
 ExponentialDisplacementFieldImageFilter<TInputImage, TOutputImage>::ExponentialDisplacementFieldImageFilter()
+  : m_AutomaticNumberOfIterations(true)
+  , m_MaximumNumberOfIterations(20)
+  , m_ComputeInverse(false)
+  , m_Divider(DivideByConstantType::New())
+  , m_Caster(CasterType::New())
+  , m_Warper(VectorWarperType::New())
+  , m_Adder(AdderType::New())
 {
-  m_AutomaticNumberOfIterations = true;
-  m_MaximumNumberOfIterations = 20;
-  m_ComputeInverse = false;
-  m_Divider = DivideByConstantType::New();
-  m_Caster = CasterType::New();
-  m_Warper = VectorWarperType::New();
-
   const FieldInterpolatorPointer VectorInterpolator = FieldInterpolatorType::New();
   m_Warper->SetInterpolator(VectorInterpolator);
-
-  m_Adder = AdderType::New();
   m_Adder->InPlaceOn();
 }
 

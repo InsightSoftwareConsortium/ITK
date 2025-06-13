@@ -24,9 +24,9 @@ namespace itk
 
 template <unsigned int TPointDimension>
 SpatialObjectPoint<TPointDimension>::SpatialObjectPoint()
+  : m_Id(-1)
+  , m_SpatialObject(nullptr)
 {
-  m_Id = -1;
-
   m_PositionInObjectSpace.Fill(0);
 
   m_Color.SetRed(1.0); // red by default
@@ -35,8 +35,6 @@ SpatialObjectPoint<TPointDimension>::SpatialObjectPoint()
   m_Color.SetAlpha(1);
 
   m_ScalarDictionary.clear();
-
-  m_SpatialObject = nullptr;
 }
 
 template <unsigned int TPointDimension>

@@ -23,18 +23,18 @@ namespace itk
 
 
 ParticleSwarmOptimizerBase::ParticleSwarmOptimizerBase()
+  : m_PrintSwarm(false)
+  , m_InitializeNormalDistribution(false)
+  , m_NumberOfParticles(35)
+  , m_MaximalNumberOfIterations(200)
+  , m_NumberOfGenerationsWithMinimalImprovement(1)
+  , m_PercentageParticlesConverged(0.6)
+  , m_FunctionConvergenceTolerance(1e-4)
+  , m_Seed(0)
+  , m_UseSeed(false)
 
 {
-  this->m_PrintSwarm = false;
-  this->m_InitializeNormalDistribution = false;
-  this->m_NumberOfParticles = 35;
-  this->m_MaximalNumberOfIterations = 200;
-  this->m_NumberOfGenerationsWithMinimalImprovement = 1;
   this->m_ParametersConvergenceTolerance.Fill(1e-8);
-  this->m_PercentageParticlesConverged = 0.6;
-  this->m_FunctionConvergenceTolerance = 1e-4;
-  this->m_Seed = 0;
-  this->m_UseSeed = false;
 }
 
 ParticleSwarmOptimizerBase::~ParticleSwarmOptimizerBase() = default;

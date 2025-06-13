@@ -25,11 +25,11 @@ namespace itk
 template <typename TParametersValueType>
 Rigid3DPerspectiveTransform<TParametersValueType>::Rigid3DPerspectiveTransform()
   : Superclass(ParametersDimension)
+  , m_FocalDistance(NumericTraits<ScalarType>::OneValue())
+  , m_RotationMatrix(m_Versor.GetMatrix())
 {
   m_Offset.Fill(0);
   m_Versor.SetIdentity();
-  m_RotationMatrix = m_Versor.GetMatrix();
-  m_FocalDistance = NumericTraits<ScalarType>::OneValue();
   m_FixedOffset.Fill(0);
   m_CenterOfRotation.Fill(0);
   this->m_Parameters.Fill(0);

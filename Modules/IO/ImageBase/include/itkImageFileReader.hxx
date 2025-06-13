@@ -33,11 +33,11 @@ namespace itk
 {
 template <typename TOutputImage, typename ConvertPixelTraits>
 ImageFileReader<TOutputImage, ConvertPixelTraits>::ImageFileReader()
+  : m_ImageIO(nullptr)
+  , m_UserSpecifiedImageIO(false)
+  , m_UseStreaming(true)
 {
-  m_ImageIO = nullptr;
   this->SetFileName("");
-  m_UserSpecifiedImageIO = false;
-  m_UseStreaming = true;
 }
 
 template <typename TOutputImage, typename ConvertPixelTraits>

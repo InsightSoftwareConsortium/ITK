@@ -34,9 +34,9 @@ public:
   using IteratorType = itk::FrequencyFFTLayoutImageRegionIteratorWithIndex<ImageType>;
 
   explicit itkFrequencyFFTLayoutImageRegionIteratorWithIndexTester(size_t inputImageSize)
+    : m_Image(ImageType::New())
+    , m_ImageIsOdd(inputImageSize % 2 == 1 ? true : false)
   {
-    m_Image = ImageType::New();
-
     auto size = ImageType::SizeType::Filled(inputImageSize);
 
     typename ImageType::IndexType start{};
@@ -51,7 +51,6 @@ public:
     m_PositiveHalfRegion.SetSize(size);
     m_PositiveHalfRegion.SetIndex(start);
 
-    m_ImageIsOdd = inputImageSize % 2 == 1 ? true : false;
     // Setup the half, negative frequencies region.
     const unsigned int isImageSizeOdd = m_ImageIsOdd ? 1 : 0;
     size.Fill(inputImageSize / 2);

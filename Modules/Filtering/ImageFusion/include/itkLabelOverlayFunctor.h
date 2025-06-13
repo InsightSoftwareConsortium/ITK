@@ -49,12 +49,12 @@ class LabelOverlayFunctor
 {
 public:
   LabelOverlayFunctor()
+    : m_Opacity(1.0)
+    , m_BackgroundValue(TLabel{})
   {
     // provide some default value for external use (outside
     // LabelOverlayFunctorImageFilter) Inside LabelOverlayFunctorImageFilter,
     // the values are always initialized
-    m_Opacity = 1.0;
-    m_BackgroundValue = TLabel{};
   }
 
   inline TRGBPixel

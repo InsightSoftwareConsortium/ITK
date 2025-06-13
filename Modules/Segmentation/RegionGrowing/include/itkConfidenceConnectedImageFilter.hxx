@@ -34,14 +34,14 @@ namespace itk
 
 template <typename TInputImage, typename TOutputImage>
 ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::ConfidenceConnectedImageFilter()
+  : m_Multiplier(2.5)
+  , m_NumberOfIterations(4)
+  , m_ReplaceValue(NumericTraits<OutputImagePixelType>::OneValue())
+  , m_InitialNeighborhoodRadius(1)
+  , m_Mean(InputRealType{})
+  , m_Variance(InputRealType{})
 {
-  m_Multiplier = 2.5;
-  m_NumberOfIterations = 4;
   m_Seeds.clear();
-  m_InitialNeighborhoodRadius = 1;
-  m_ReplaceValue = NumericTraits<OutputImagePixelType>::OneValue();
-  m_Mean = InputRealType{};
-  m_Variance = InputRealType{};
 }
 
 template <typename TInputImage, typename TOutputImage>

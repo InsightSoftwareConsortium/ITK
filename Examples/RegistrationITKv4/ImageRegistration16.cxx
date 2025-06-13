@@ -53,7 +53,9 @@ public:
   itkNewMacro(Self);
 
 protected:
-  CommandIterationUpdate() { m_IterationNumber = 0; }
+  CommandIterationUpdate()
+    : m_IterationNumber(0)
+  {}
 
 public:
   using OptimizerType = itk::AmoebaOptimizer;

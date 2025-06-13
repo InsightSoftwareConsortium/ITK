@@ -24,22 +24,20 @@ namespace itk
 {
 template <typename TInternalComputationValueType>
 OnePlusOneEvolutionaryOptimizerv4<TInternalComputationValueType>::OnePlusOneEvolutionaryOptimizerv4()
+  : m_RandomGenerator(nullptr)
+  , m_MaximumIteration(100)
+  , m_CatchGetValueException(false)
+  , m_MetricWorstPossibleValue(0)
+  , m_Epsilon(1.5e-4)
+  , m_InitialRadius(1.01)
+  , m_GrowthFactor(1.05)
+  , m_ShrinkFactor(std::pow(m_GrowthFactor, -0.25))
+  , m_Initialized(false)
+  , m_CurrentCost(0)
+  , m_Stop(false)
+  , m_FrobeniusNorm(0.0)
 {
-  m_CatchGetValueException = false;
-  m_MetricWorstPossibleValue = 0;
-
-  m_Epsilon = 1.5e-4;
-  m_RandomGenerator = nullptr;
-
-  m_Initialized = false;
-  m_GrowthFactor = 1.05;
-  m_ShrinkFactor = std::pow(m_GrowthFactor, -0.25);
-  m_InitialRadius = 1.01;
-  m_MaximumIteration = 100;
-  m_Stop = false;
   m_StopConditionDescription.str("");
-  m_CurrentCost = 0;
-  m_FrobeniusNorm = 0.0;
 }
 
 template <typename TInternalComputationValueType>

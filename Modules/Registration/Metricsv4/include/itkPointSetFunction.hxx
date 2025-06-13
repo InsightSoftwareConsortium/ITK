@@ -24,9 +24,8 @@ namespace itk
 
 template <typename TInputPointSet, typename TOutput, typename TCoordinate>
 PointSetFunction<TInputPointSet, TOutput, TCoordinate>::PointSetFunction()
-{
-  this->m_PointSet = nullptr;
-}
+  : m_PointSet(nullptr)
+{}
 
 template <typename TInputPointSet, typename TOutput, typename TCoordinate>
 void

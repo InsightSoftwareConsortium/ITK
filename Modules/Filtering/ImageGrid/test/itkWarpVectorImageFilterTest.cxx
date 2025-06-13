@@ -32,8 +32,9 @@ public:
   using SizeType = itk::Size<VDimension>;
 
   ImagePattern()
+    : m_Offset(0.0)
   {
-    m_Offset = 0.0;
+
     for (int j = 0; j < VDimension; ++j)
     {
       m_Coeff[j] = 0.0;

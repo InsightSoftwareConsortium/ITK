@@ -26,12 +26,11 @@ namespace itk
 
 template <typename TEquationContainer, typename TImage>
 LevelSetEvolution<TEquationContainer, LevelSetDenseImage<TImage>>::LevelSetEvolution()
-  : m_IdListToProcessWhenThreading(nullptr)
-{
-  this->m_SplitLevelSetComputeIterationThreader = SplitLevelSetComputeIterationThreaderType::New();
-  this->m_SplitDomainMapComputeIterationThreader = SplitDomainMapComputeIterationThreaderType::New();
-  this->m_SplitLevelSetUpdateLevelSetsThreader = SplitLevelSetUpdateLevelSetsThreaderType::New();
-}
+  : m_SplitLevelSetComputeIterationThreader(SplitLevelSetComputeIterationThreaderType::New())
+  , m_SplitDomainMapComputeIterationThreader(SplitDomainMapComputeIterationThreaderType::New())
+  , m_SplitLevelSetUpdateLevelSetsThreader(SplitLevelSetUpdateLevelSetsThreaderType::New())
+  , m_IdListToProcessWhenThreading(nullptr)
+{}
 
 template <typename TEquationContainer, typename TImage>
 void
@@ -208,9 +207,8 @@ LevelSetEvolution<TEquationContainer, LevelSetDenseImage<TImage>>::ReinitializeT
 // Whitaker --------------------------------------------------------------------
 template <typename TEquationContainer, typename TOutput, unsigned int VDimension>
 LevelSetEvolution<TEquationContainer, WhitakerSparseLevelSetImage<TOutput, VDimension>>::LevelSetEvolution()
-{
-  this->m_SplitLevelSetComputeIterationThreader = SplitLevelSetComputeIterationThreaderType::New();
-}
+  : m_SplitLevelSetComputeIterationThreader(SplitLevelSetComputeIterationThreaderType::New())
+{}
 
 template <typename TEquationContainer, typename TOutput, unsigned int VDimension>
 LevelSetEvolution<TEquationContainer, WhitakerSparseLevelSetImage<TOutput, VDimension>>::~LevelSetEvolution()

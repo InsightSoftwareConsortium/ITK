@@ -67,10 +67,9 @@ namespace itk
  * Constructor to initialize a time stamp
  */
 RealTimeStamp::RealTimeStamp()
-{
-  this->m_Seconds = SecondsCounterType{};
-  this->m_MicroSeconds = MicroSecondsCounterType{};
-}
+  : m_Seconds(SecondsCounterType{})
+  , m_MicroSeconds(MicroSecondsCounterType{})
+{}
 
 /**
  * Constructor with values to initialize a time stamp.
@@ -78,10 +77,9 @@ RealTimeStamp::RealTimeStamp()
  * or from a file reading class.
  */
 RealTimeStamp::RealTimeStamp(SecondsCounterType seconds, MicroSecondsCounterType micro_seconds)
-{
-  this->m_Seconds = seconds;
-  this->m_MicroSeconds = micro_seconds;
-}
+  : m_Seconds(seconds)
+  , m_MicroSeconds(micro_seconds)
+{}
 
 /**
  * Destructor.

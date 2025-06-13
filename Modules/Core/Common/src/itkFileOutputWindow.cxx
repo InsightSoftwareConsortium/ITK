@@ -23,12 +23,11 @@ namespace itk
  * Prompting off by default
  */
 FileOutputWindow::FileOutputWindow()
-{
-  m_Flush = false;
-  m_Append = false;
-  m_Stream = nullptr;
-  m_FileName = "";
-}
+  : m_Stream(nullptr)
+  , m_FileName("")
+  , m_Flush(false)
+  , m_Append(false)
+{}
 
 FileOutputWindow::~FileOutputWindow() { delete m_Stream; }
 

@@ -23,13 +23,12 @@ namespace itk
 {
 template <unsigned int VDimension, typename PixelType, typename TMeshTraits>
 SpatialObjectWriter<VDimension, PixelType, TMeshTraits>::SpatialObjectWriter()
-{
-  m_FileName = "";
-  m_SpatialObject = nullptr;
-  m_BinaryPoints = false;
-  m_WriteImagesInSeparateFile = false;
-  m_MetaToSpatialConverter = MetaSceneConverterType::New();
-}
+  : m_FileName("")
+  , m_BinaryPoints(false)
+  , m_WriteImagesInSeparateFile(false)
+  , m_SpatialObject(nullptr)
+  , m_MetaToSpatialConverter(MetaSceneConverterType::New())
+{}
 
 template <unsigned int VDimension, typename PixelType, typename TMeshTraits>
 void

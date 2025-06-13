@@ -24,14 +24,16 @@ namespace itk
 
 template <typename TFixedPointSet, typename TMovingImage>
 PointSetToImageMetric<TFixedPointSet, TMovingImage>::PointSetToImageMetric()
+  : m_NumberOfPixelsCounted(0)
+  , m_FixedPointSet(nullptr)
+  , m_MovingImage(nullptr)
+  , m_Transform(nullptr)
+  , m_Interpolator(nullptr)
+  , m_ComputeGradient(true)
+  , m_GradientImage(nullptr)
 {
-  m_FixedPointSet = nullptr;   // has to be provided by the user.
-  m_MovingImage = nullptr;     // has to be provided by the user.
-  m_Transform = nullptr;       // has to be provided by the user.
-  m_Interpolator = nullptr;    // has to be provided by the user.
-  m_ComputeGradient = true;    // metric computes gradient by default
-  m_NumberOfPixelsCounted = 0; // initialize to zero
-  m_GradientImage = nullptr;   // computed at initialization
+  // metric computes gradient by default
+  // computed at initialization
 }
 
 template <typename TFixedPointSet, typename TMovingImage>

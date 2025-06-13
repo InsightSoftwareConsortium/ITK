@@ -74,6 +74,7 @@ public:
 
 protected:
   SimpleTestFilter()
+    : m_NumberOfIterations(0)
   {
     auto function = ShapePriorFunctionType::New();
     function->SetPropagationWeight(0.0);
@@ -85,8 +86,6 @@ protected:
     function->Initialize(radius);
 
     this->SetDifferenceFunction(function);
-
-    m_NumberOfIterations = 0;
     m_ShapePriorFunction = function;
   }
 

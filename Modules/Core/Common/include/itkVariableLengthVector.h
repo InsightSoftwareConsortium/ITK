@@ -389,9 +389,9 @@ public:
    */
   template <typename T>
   VariableLengthVector(const VariableLengthVector<T> & v)
+    : m_LetArrayManageMemory(true)
+    , m_NumElements(v.Size())
   {
-    m_NumElements = v.Size();
-    m_LetArrayManageMemory = true;
     if (m_NumElements != 0)
     {
       m_Data = this->AllocateElements(m_NumElements);

@@ -44,41 +44,45 @@ ObjectByObjectLabelMapFilter<TInputImage,
                              TOutputFilter,
                              TInternalInputImageType,
                              TInternalOutputImageType>::ObjectByObjectLabelMapFilter()
+  : m_ConstrainPaddingToImage(true)
+  , m_BinaryInternalOutput(false)
+  , m_KeepLabels(true)
+  , m_InternalForegroundValue(itk::NumericTraits<InternalOutputPixelType>::max())
+  , m_Select(SelectType::New())
+  , m_Crop(CropType::New())
+  , m_Pad(PadType::New())
+  , m_LM2BI(LM2BIType::New())
+  , m_LI2LM(LI2LMType::New())
+  , m_BI2LM(BI2LMType::New())
+  , m_InputFilter(nullptr)
+  , m_OutputFilter(nullptr)
+  , m_Label(InputImagePixelType{})
 {
-  m_ConstrainPaddingToImage = true;
   m_PadSize.Fill(1);
-  m_BinaryInternalOutput = false;
-  m_KeepLabels = true;
-  m_InternalForegroundValue = itk::NumericTraits<InternalOutputPixelType>::max();
-
-  m_InputFilter = nullptr;
-  m_OutputFilter = nullptr;
 
 
-  m_Select = SelectType::New();
   // be sure to *not* use the label objects internally
   m_Select->SetInPlace(false);
   m_Select->SetNumberOfWorkUnits(1);
 
-  m_Crop = CropType::New();
+
   m_Crop->SetInput(m_Select->GetOutput());
   m_Crop->SetNumberOfWorkUnits(1);
 
-  m_Pad = PadType::New();
+
   m_Pad->SetInput(m_Crop->GetOutput());
 
-  m_LM2BI = LM2BIType::New();
+
   m_LM2BI->SetInput(m_Pad->GetOutput());
   m_LM2BI->SetNumberOfWorkUnits(1);
 
-  m_LI2LM = LI2LMType::New();
+
   m_LI2LM->SetNumberOfWorkUnits(1);
 
-  m_BI2LM = BI2LMType::New();
+
   m_BI2LM->SetNumberOfWorkUnits(1);
 
   // to be sure that no one will use an uninitialized value
-  m_Label = InputImagePixelType{};
 }
 
 

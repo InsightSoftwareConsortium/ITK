@@ -27,9 +27,9 @@ namespace itk
 {
 template <typename TInputImage, typename TOutputImage, typename TAccumulator>
 ProjectionImageFilter<TInputImage, TOutputImage, TAccumulator>::ProjectionImageFilter()
+  : m_ProjectionDimension(InputImageDimension - 1)
 {
   this->SetNumberOfRequiredInputs(1);
-  m_ProjectionDimension = InputImageDimension - 1;
   this->DynamicMultiThreadingOn();
 }
 

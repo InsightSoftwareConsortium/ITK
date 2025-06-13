@@ -29,11 +29,10 @@ namespace itk
 {
 template <typename TInputImage, typename TOutputImage>
 BinomialBlurImageFilter<TInputImage, TOutputImage>::BinomialBlurImageFilter()
+  // The default is to just do one repetition
+  : m_Repetitions(1)
 {
   itkDebugMacro("BinomialBlurImageFilter::BinomialBlurImageFilter() called");
-
-  // The default is to just do one repetition
-  m_Repetitions = 1;
 }
 
 template <typename TInputImage, typename TOutputImage>

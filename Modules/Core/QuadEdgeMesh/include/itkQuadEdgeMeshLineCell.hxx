@@ -25,10 +25,9 @@ namespace itk
 // ---------------------------------------------------------------------
 template <typename TCellInterface>
 QuadEdgeMeshLineCell<TCellInterface>::QuadEdgeMeshLineCell()
+  : m_Identifier(0)
+  , m_QuadEdgeGeom(new QEType)
 {
-  m_Identifier = 0;
-  m_QuadEdgeGeom = new QEType;
-
   auto * e2 = new QEType;
   auto * e1 = new QEDual;
   auto * e3 = new QEDual;

@@ -24,23 +24,19 @@ namespace itk
 
 template <typename TFixedImage, typename TMovingImage>
 ImageRegistrationMethod<TFixedImage, TMovingImage>::ImageRegistrationMethod()
+  : m_Metric(nullptr)
+  , m_Optimizer(nullptr)
+  , m_MovingImage(nullptr)
+  , m_FixedImage(nullptr)
+  , m_Transform(nullptr)
+  , m_Interpolator(nullptr)
+  , m_InitialTransformParameters(ParametersType(1))
+  , m_LastTransformParameters(ParametersType(1))
+  , m_FixedImageRegionDefined(false)
 {
   this->SetNumberOfRequiredOutputs(1); // for the Transform
-
-  m_FixedImage = nullptr;   // has to be provided by the user.
-  m_MovingImage = nullptr;  // has to be provided by the user.
-  m_Transform = nullptr;    // has to be provided by the user.
-  m_Interpolator = nullptr; // has to be provided by the user.
-  m_Metric = nullptr;       // has to be provided by the user.
-  m_Optimizer = nullptr;    // has to be provided by the user.
-
-  m_InitialTransformParameters = ParametersType(1);
-  m_LastTransformParameters = ParametersType(1);
-
   m_InitialTransformParameters.Fill(0.0f);
   m_LastTransformParameters.Fill(0.0f);
-
-  m_FixedImageRegionDefined = false;
 
   const TransformOutputPointer transformDecorator =
     itkDynamicCastInDebugMode<TransformOutputType *>(this->MakeOutput(0).GetPointer());

@@ -80,11 +80,10 @@ class CountClass
 {
 public:
   CountClass()
-  {
-    m_Tetra = 0;
-    m_QuadraticEdgeCell = 0;
-    m_QuadraticTriangleCellType = 0;
-  }
+    : m_Tetra(0)
+    , m_QuadraticEdgeCell(0)
+    , m_QuadraticTriangleCellType(0)
+  {}
   int m_Tetra;
   int m_QuadraticEdgeCell;
   int m_QuadraticTriangleCellType;
@@ -121,7 +120,9 @@ public:
   virtual ~VisitCells() = default;
 
   CountClass * m_CountClass;
-  VisitCells() { m_CountClass = nullptr; }
+  VisitCells()
+    : m_CountClass(nullptr)
+  {}
 };
 
 using TetraCellVisitor = itk::CellInterfaceVisitorImplementation<int, MeshType::CellTraits, TetraCellType, VisitCells>;

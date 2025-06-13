@@ -26,12 +26,11 @@ namespace itk
 {
 template <typename TInputImage1, typename TInputImage2>
 HausdorffDistanceImageFilter<TInputImage1, TInputImage2>::HausdorffDistanceImageFilter()
+  : m_HausdorffDistance(RealType{})
+  , m_AverageHausdorffDistance(RealType{})
 {
   // this filter requires two input images
   this->SetNumberOfRequiredInputs(2);
-
-  m_HausdorffDistance = RealType{};
-  m_AverageHausdorffDistance = RealType{};
 }
 
 template <typename TInputImage1, typename TInputImage2>

@@ -34,48 +34,39 @@ template <typename TFixedImage,
           typename TMetricTraits>
 ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>::
   ImageToImageMetricv4()
-{
   /* Interpolators. Default to linear. */
-  using FixedLinearInterpolatorType = LinearInterpolateImageFunction<FixedImageType, CoordinateRepresentationType>;
-  using MovingLinearInterpolatorType = LinearInterpolateImageFunction<MovingImageType, CoordinateRepresentationType>;
-  this->m_FixedInterpolator = FixedLinearInterpolatorType::New();
-  this->m_MovingInterpolator = MovingLinearInterpolatorType::New();
-
+  : m_FixedInterpolator(LinearInterpolateImageFunction<FixedImageType, CoordinateRepresentationType>::New())
+  , m_MovingInterpolator(LinearInterpolateImageFunction<MovingImageType, CoordinateRepresentationType>::New())
+  , m_FixedImageGradientInterpolator(FixedImageGradientInterpolatorType::New())
+  , m_MovingImageGradientInterpolator(MovingImageGradientInterpolatorType::New())
+  , m_UseFixedImageGradientFilter(true)
+  , m_UseMovingImageGradientFilter(true)
+  , m_DefaultFixedImageGradientFilter(DefaultFixedImageGradientFilter::New())
+  , m_DefaultMovingImageGradientFilter(DefaultMovingImageGradientFilter::New())
+  , m_DefaultFixedImageGradientCalculator(DefaultFixedImageGradientCalculator::New())
+  , m_DefaultMovingImageGradientCalculator(DefaultMovingImageGradientCalculator::New())
+  , m_FixedImageGradientCalculator(this->m_DefaultFixedImageGradientCalculator)
+  /* Setup default gradient image function */
+  , m_MovingImageGradientCalculator(this->m_DefaultMovingImageGradientCalculator)
+  /* Interpolators for image gradient filters */
+  , m_DerivativeResult(nullptr)
+  , m_UseSampledPointSet(false)
+  , m_UseVirtualSampledPointSet(false)
+  , m_HaveMadeGetValueWarning(false)
+  , m_NumberOfSkippedFixedSampledPoints(0)
+  , m_UseFloatingPointCorrection(false)
+  /* Setup default options assuming dense-sampling */
+  , m_FloatingPointCorrectionResolution(1e6)
+  , m_ComputeDerivative(false)
+{
   /* Setup default gradient filter. It gets initialized with default
    * parameters during Initialize. */
-  this->m_DefaultFixedImageGradientFilter = DefaultFixedImageGradientFilter::New();
-  this->m_DefaultMovingImageGradientFilter = DefaultMovingImageGradientFilter::New();
   this->m_FixedImageGradientFilter = this->m_DefaultFixedImageGradientFilter;
   this->m_MovingImageGradientFilter = this->m_DefaultMovingImageGradientFilter;
 
-  /* Interpolators for image gradient filters */
-  this->m_FixedImageGradientInterpolator = FixedImageGradientInterpolatorType::New();
-  this->m_MovingImageGradientInterpolator = MovingImageGradientInterpolatorType::New();
-
-  /* Setup default gradient image function */
-  this->m_DefaultFixedImageGradientCalculator = DefaultFixedImageGradientCalculator::New();
   this->m_DefaultFixedImageGradientCalculator->UseImageDirectionOn();
-  this->m_FixedImageGradientCalculator = this->m_DefaultFixedImageGradientCalculator;
-
-  this->m_DefaultMovingImageGradientCalculator = DefaultMovingImageGradientCalculator::New();
   this->m_DefaultMovingImageGradientCalculator->UseImageDirectionOn();
-  this->m_MovingImageGradientCalculator = this->m_DefaultMovingImageGradientCalculator;
-
-  /* Setup default options assuming dense-sampling */
-  this->m_UseFixedImageGradientFilter = true;
-  this->m_UseMovingImageGradientFilter = true;
-  this->m_UseSampledPointSet = false;
-  this->m_UseVirtualSampledPointSet = false;
-
-  this->m_FloatingPointCorrectionResolution = 1e6;
-  this->m_UseFloatingPointCorrection = false;
-
-  this->m_HaveMadeGetValueWarning = false;
-  this->m_NumberOfSkippedFixedSampledPoints = 0;
-
   this->m_Value = NumericTraits<MeasureType>::max();
-  this->m_DerivativeResult = nullptr;
-  this->m_ComputeDerivative = false;
 }
 
 template <typename TFixedImage,

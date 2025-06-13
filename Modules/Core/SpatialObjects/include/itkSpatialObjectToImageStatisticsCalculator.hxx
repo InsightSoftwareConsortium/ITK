@@ -31,17 +31,17 @@ namespace itk
 template <typename TInputImage, typename TInputSpatialObject, unsigned int TSampleDimension>
 SpatialObjectToImageStatisticsCalculator<TInputImage, TInputSpatialObject, TSampleDimension>::
   SpatialObjectToImageStatisticsCalculator()
+  : m_Image(nullptr)
+  , m_SpatialObject(nullptr)
+  , m_Sum(0)
+  , m_NumberOfPixels(0)
+  , m_SampleDirection(TSampleDimension - 1)
+  , m_InternalImageTime(0)
+  , m_InternalSpatialObjectTime(0)
+  , m_Sample(SampleType::New())
 {
-  m_Image = nullptr;
-  m_SpatialObject = nullptr;
   m_Mean.Fill(0);
   m_CovarianceMatrix.SetIdentity();
-  m_SampleDirection = TSampleDimension - 1;
-  m_InternalImageTime = 0;
-  m_InternalSpatialObjectTime = 0;
-  m_Sum = 0;
-  m_NumberOfPixels = 0;
-  m_Sample = SampleType::New();
 }
 
 template <typename TInputImage, typename TInputSpatialObject, unsigned int TSampleDimension>

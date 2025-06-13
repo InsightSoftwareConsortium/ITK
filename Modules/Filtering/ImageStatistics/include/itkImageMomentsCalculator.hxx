@@ -29,11 +29,11 @@ namespace itk
 // Construct without computing moments
 template <typename TImage>
 ImageMomentsCalculator<TImage>::ImageMomentsCalculator()
+  : m_Valid(false)
+  , m_M0(ScalarType{})
+  , m_Image(nullptr)
+  , m_SpatialObjectMask(nullptr)
 {
-  m_Valid = false;
-  m_Image = nullptr;
-  m_SpatialObjectMask = nullptr;
-  m_M0 = ScalarType{};
   m_M1.Fill(typename VectorType::ValueType{});
   m_M2.Fill(typename MatrixType::ValueType{});
   m_Cg.Fill(typename VectorType::ValueType{});

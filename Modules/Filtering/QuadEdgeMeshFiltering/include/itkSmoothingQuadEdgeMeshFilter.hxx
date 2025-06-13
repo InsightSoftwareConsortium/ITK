@@ -24,15 +24,13 @@ namespace itk
 {
 template <typename TInputMesh, typename TOutputMesh>
 SmoothingQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::SmoothingQuadEdgeMeshFilter()
-{
-  this->m_CoefficientsMethod = nullptr;
-  this->m_DelaunayConforming = false;
-  this->m_NumberOfIterations = 1;
-  this->m_RelaxationFactor = static_cast<OutputCoordType>(1.0);
-
-  this->m_InputDelaunayFilter = InputOutputDelaunayConformingType::New();
-  this->m_OutputDelaunayFilter = OutputDelaunayConformingType::New();
-}
+  : m_CoefficientsMethod(nullptr)
+  , m_InputDelaunayFilter(InputOutputDelaunayConformingType::New())
+  , m_OutputDelaunayFilter(OutputDelaunayConformingType::New())
+  , m_DelaunayConforming(false)
+  , m_NumberOfIterations(1)
+  , m_RelaxationFactor(static_cast<OutputCoordType>(1.0))
+{}
 
 template <typename TInputMesh, typename TOutputMesh>
 SmoothingQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::~SmoothingQuadEdgeMeshFilter() = default;

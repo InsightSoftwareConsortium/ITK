@@ -26,9 +26,8 @@ namespace itk
 
 template <typename TImage>
 BinaryMinMaxCurvatureFlowFunction<TImage>::BinaryMinMaxCurvatureFlowFunction()
-{
-  m_Threshold = 0.0;
-}
+  : m_Threshold(0.0)
+{}
 
 template <typename TImage>
 auto

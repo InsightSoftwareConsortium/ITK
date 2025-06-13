@@ -220,10 +220,9 @@ public:
 
 protected:
   CommandIterationUpdateParticleSwarm()
-  {
-    m_IterationNumber = 0;
-    m_PrintOptimizer = false;
-  }
+    : m_IterationNumber(0)
+    , m_PrintOptimizer(false)
+  {}
 
 private:
   unsigned long m_IterationNumber{};

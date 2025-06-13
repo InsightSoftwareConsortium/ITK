@@ -24,11 +24,11 @@ namespace itk
 {
 template <typename TInputImage, typename TFeatureImage>
 LabelStatisticsOpeningImageFilter<TInputImage, TFeatureImage>::LabelStatisticsOpeningImageFilter()
+  : m_BackgroundValue(NumericTraits<OutputImagePixelType>::NonpositiveMin())
+  , m_Lambda(0.0)
+  , m_ReverseOrdering(false)
+  , m_Attribute(LabelObjectType::MEAN)
 {
-  m_BackgroundValue = NumericTraits<OutputImagePixelType>::NonpositiveMin();
-  m_Lambda = 0.0;
-  m_ReverseOrdering = false;
-  m_Attribute = LabelObjectType::MEAN;
   this->SetNumberOfRequiredInputs(2);
 }
 

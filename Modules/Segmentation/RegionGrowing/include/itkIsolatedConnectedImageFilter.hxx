@@ -31,16 +31,16 @@ namespace itk
 
 template <typename TInputImage, typename TOutputImage>
 IsolatedConnectedImageFilter<TInputImage, TOutputImage>::IsolatedConnectedImageFilter()
+  : m_Lower(NumericTraits<InputImagePixelType>::NonpositiveMin())
+  , m_Upper(NumericTraits<InputImagePixelType>::max())
+  , m_ReplaceValue(NumericTraits<OutputImagePixelType>::OneValue())
+  , m_IsolatedValue(InputImagePixelType{})
+  , m_IsolatedValueTolerance(NumericTraits<InputImagePixelType>::OneValue())
+  , m_FindUpperThreshold(true)
+  , m_ThresholdingFailed(false)
 {
-  m_Lower = NumericTraits<InputImagePixelType>::NonpositiveMin();
-  m_Upper = NumericTraits<InputImagePixelType>::max();
   m_Seeds1.clear();
   m_Seeds2.clear();
-  m_ReplaceValue = NumericTraits<OutputImagePixelType>::OneValue();
-  m_IsolatedValue = InputImagePixelType{};
-  m_IsolatedValueTolerance = NumericTraits<InputImagePixelType>::OneValue();
-  m_FindUpperThreshold = true;
-  m_ThresholdingFailed = false;
 }
 
 template <typename TInputImage, typename TOutputImage>

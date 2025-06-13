@@ -29,6 +29,9 @@ template <typename TFixedImage,
           typename TMetricTraits>
 DemonsImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>::
   DemonsImageToImageMetricv4()
+  : m_DenominatorThreshold(static_cast<TInternalComputationValueType>(1e-9))
+  , m_IntensityDifferenceThreshold(static_cast<TInternalComputationValueType>(0.001))
+  , m_Normalizer(NumericTraits<TInternalComputationValueType>::OneValue())
 {
   // We have our own GetValueAndDerivativeThreader's that we want
   // ImageToImageMetricv4 to use.
@@ -37,10 +40,6 @@ DemonsImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalCo
 
   // Unlike most other metrics, this defaults to using fixed image gradients
   this->SetGradientSource(ObjectToObjectMetricBaseTemplateEnums::GradientSource::GRADIENT_SOURCE_FIXED);
-
-  this->m_Normalizer = NumericTraits<TInternalComputationValueType>::OneValue();
-  this->m_DenominatorThreshold = static_cast<TInternalComputationValueType>(1e-9);
-  this->m_IntensityDifferenceThreshold = static_cast<TInternalComputationValueType>(0.001);
 }
 
 template <typename TFixedImage,

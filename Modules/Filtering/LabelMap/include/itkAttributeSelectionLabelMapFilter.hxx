@@ -26,9 +26,9 @@ namespace itk
 
 template <typename TImage, typename TAttributeAccessor>
 AttributeSelectionLabelMapFilter<TImage, TAttributeAccessor>::AttributeSelectionLabelMapFilter()
+  : m_Exclude(false)
 {
   m_AttributeSet.clear();
-  m_Exclude = false;
   this->SetNumberOfRequiredOutputs(2);
   this->SetNthOutput(1, static_cast<TImage *>(this->MakeOutput(1).GetPointer()));
 }

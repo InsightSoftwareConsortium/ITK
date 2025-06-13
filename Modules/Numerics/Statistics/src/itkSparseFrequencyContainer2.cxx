@@ -21,7 +21,9 @@ namespace itk
 {
 namespace Statistics
 {
-SparseFrequencyContainer2::SparseFrequencyContainer2() { m_TotalFrequency = TotalAbsoluteFrequencyType{}; }
+SparseFrequencyContainer2::SparseFrequencyContainer2()
+  : m_TotalFrequency(TotalAbsoluteFrequencyType{})
+{}
 
 void
 SparseFrequencyContainer2::Initialize(SizeValueType)

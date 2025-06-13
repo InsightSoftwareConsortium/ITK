@@ -26,9 +26,8 @@ namespace itk
 
 template <typename TInputImage, typename TCoordinate>
 VectorMeanImageFunction<TInputImage, TCoordinate>::VectorMeanImageFunction()
-{
-  m_NeighborhoodRadius = 1;
-}
+  : m_NeighborhoodRadius(1)
+{}
 
 template <typename TInputImage, typename TCoordinate>
 void

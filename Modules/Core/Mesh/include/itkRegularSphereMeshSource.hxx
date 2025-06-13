@@ -26,6 +26,7 @@ namespace itk
  */
 template <typename TOutputMesh>
 RegularSphereMeshSource<TOutputMesh>::RegularSphereMeshSource()
+  : m_Resolution(2)
 {
   /**
    * Create the output
@@ -35,7 +36,6 @@ RegularSphereMeshSource<TOutputMesh>::RegularSphereMeshSource()
   this->ProcessObject::SetNthOutput(0, output.GetPointer());
   m_Center.Fill(0);
   m_Scale.Fill(1);
-  m_Resolution = 2;
 }
 
 /*

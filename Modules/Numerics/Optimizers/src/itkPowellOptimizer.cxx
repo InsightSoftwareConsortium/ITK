@@ -22,27 +22,20 @@
 namespace itk
 {
 PowellOptimizer::PowellOptimizer()
+  : m_SpaceDimension(0)
+  , m_CurrentIteration(0)
+  , m_CurrentLineIteration(0)
+  , m_MaximumIteration(100)
+  , m_MaximumLineIteration(100)
+  , m_CatchGetValueException(false)
+  , m_MetricWorstPossibleValue(0)
+  , m_Maximize(false)
+  , m_StepLength(1.0)
+  , m_StepTolerance(0.00001)
+  , m_ValueTolerance(0.00001)
+  , m_CurrentCost(0)
+  , m_Stop(false)
 {
-  m_CatchGetValueException = false;
-  m_MetricWorstPossibleValue = 0;
-
-  m_Maximize = false;
-
-  m_StepLength = 1.0;
-  m_StepTolerance = 0.00001;
-  m_ValueTolerance = 0.00001;
-
-  m_Stop = false;
-
-  m_CurrentCost = 0;
-  m_CurrentIteration = 0;
-  m_CurrentLineIteration = 0;
-
-  m_MaximumIteration = 100;
-
-  m_MaximumLineIteration = 100;
-  m_SpaceDimension = 0;
-
   m_StopConditionDescription << this->GetNameOfClass() << ": ";
 }
 

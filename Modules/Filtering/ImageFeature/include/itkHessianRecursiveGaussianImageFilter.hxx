@@ -26,9 +26,8 @@ namespace itk
 
 template <typename TInputImage, typename TOutputImage>
 HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::HessianRecursiveGaussianImageFilter()
+  : m_NormalizeAcrossScale(false)
 {
-  m_NormalizeAcrossScale = false;
-
   // note: this is not constant to suppress a warning
   const unsigned int numberOfSmoothingFilters = NumberOfSmoothingFilters;
 

@@ -35,10 +35,9 @@ namespace itk
 
 template <typename TInputImage, typename TOutputImage, typename TCoordinate, typename InterpolatorType>
 InterpolateImagePointsFilter<TInputImage, TOutputImage, TCoordinate, InterpolatorType>::InterpolateImagePointsFilter()
+  : m_Interpolator(InterpolatorType::New())
+  , m_DefaultPixelValue(0)
 {
-  m_Interpolator = InterpolatorType::New();
-  m_DefaultPixelValue = 0;
-
   this->SetNumberOfRequiredInputs(ImageDimension + 1);
   this->DynamicMultiThreadingOn();
   this->ThreaderUpdateProgressOff();

@@ -107,12 +107,12 @@ class VectorMorphologicalGradientHistogram
 {
 public:
   VectorMorphologicalGradientHistogram()
+    : m_Min(NumericTraits<TInputPixel>::max())
+    , m_Max(NumericTraits<TInputPixel>::NonpositiveMin())
+    , m_Count(0)
   {
     // initialize members need for the vector based algorithm
     m_Vector.resize(NumericTraits<TInputPixel>::max() - NumericTraits<TInputPixel>::NonpositiveMin() + 1, 0);
-    m_Max = NumericTraits<TInputPixel>::NonpositiveMin();
-    m_Min = NumericTraits<TInputPixel>::max();
-    m_Count = 0;
   }
 
   ~VectorMorphologicalGradientHistogram() = default;

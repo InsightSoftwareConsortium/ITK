@@ -25,9 +25,9 @@ namespace itk
 
 template <typename TInputChainCodePath, typename TOutputFourierSeriesPath>
 ChainCodeToFourierSeriesPathFilter<TInputChainCodePath, TOutputFourierSeriesPath>::ChainCodeToFourierSeriesPathFilter()
+  : m_NumberOfHarmonics(8)
 {
   this->SetNumberOfRequiredInputs(1);
-  m_NumberOfHarmonics = 8;
 }
 
 template <typename TInputChainCodePath, typename TOutputFourierSeriesPath>

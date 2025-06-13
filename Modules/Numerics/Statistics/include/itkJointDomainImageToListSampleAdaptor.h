@@ -196,10 +196,9 @@ public:
     ConstIterator(const JointDomainImageToListSampleAdaptor * adaptor) { *this = adaptor->Begin(); }
 
     ConstIterator(const ConstIterator & iter)
-    {
-      m_InstanceIdentifier = iter.m_InstanceIdentifier;
-      m_Adaptor = iter.m_Adaptor;
-    }
+      : m_InstanceIdentifier(iter.m_InstanceIdentifier)
+      , m_Adaptor(iter.m_Adaptor)
+    {}
 
     ConstIterator &
     operator=(const ConstIterator & iter)
@@ -245,10 +244,9 @@ public:
   protected:
     // This method should only be available to the ListSample class
     ConstIterator(const JointDomainImageToListSampleAdaptor * adaptor, InstanceIdentifier iid)
-    {
-      m_Adaptor = adaptor;
-      m_InstanceIdentifier = iid;
-    }
+      : m_InstanceIdentifier(iid)
+      , m_Adaptor(adaptor)
+    {}
 
   private:
     mutable MeasurementVectorType               m_MeasurementVectorCache;

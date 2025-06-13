@@ -83,7 +83,9 @@ public:
   }
 
 protected:
-  QuadEdgeMeshEulerOperatorSplitEdgeFunction() { m_SplitVertex = SplitVertex::New(); }
+  QuadEdgeMeshEulerOperatorSplitEdgeFunction()
+    : m_SplitVertex(SplitVertex::New())
+  {}
 
   ~QuadEdgeMeshEulerOperatorSplitEdgeFunction() override = default;
 

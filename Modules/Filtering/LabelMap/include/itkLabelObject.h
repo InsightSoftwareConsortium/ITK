@@ -214,18 +214,17 @@ public:
     ConstLineIterator() = default;
 
     ConstLineIterator(const Self * lo)
+      : m_Begin(lo->m_LineContainer.begin())
+      , m_End(lo->m_LineContainer.end())
     {
-      m_Begin = lo->m_LineContainer.begin();
-      m_End = lo->m_LineContainer.end();
       m_Iterator = m_Begin;
     }
 
     ConstLineIterator(const ConstLineIterator & iter)
-    {
-      m_Iterator = iter.m_Iterator;
-      m_Begin = iter.m_Begin;
-      m_End = iter.m_End;
-    }
+      : m_Iterator(iter.m_Iterator)
+      , m_Begin(iter.m_Begin)
+      , m_End(iter.m_End)
+    {}
 
     ConstLineIterator &
     operator=(const ConstLineIterator & iter)
@@ -302,19 +301,18 @@ public:
     }
 
     ConstIndexIterator(const Self * lo)
+      : m_Begin(lo->m_LineContainer.begin())
+      , m_End(lo->m_LineContainer.end())
     {
-      m_Begin = lo->m_LineContainer.begin();
-      m_End = lo->m_LineContainer.end();
       GoToBegin();
     }
 
     ConstIndexIterator(const ConstIndexIterator & iter)
-    {
-      m_Iterator = iter.m_Iterator;
-      m_Index = iter.m_Index;
-      m_Begin = iter.m_Begin;
-      m_End = iter.m_End;
-    }
+      : m_Iterator(iter.m_Iterator)
+      , m_Begin(iter.m_Begin)
+      , m_End(iter.m_End)
+      , m_Index(iter.m_Index)
+    {}
 
     ConstIndexIterator &
     operator=(const ConstIndexIterator & iter)

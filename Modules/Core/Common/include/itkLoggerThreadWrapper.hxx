@@ -154,9 +154,9 @@ LoggerThreadWrapper<SimpleLoggerType>::Flush()
 
 template <typename SimpleLoggerType>
 LoggerThreadWrapper<SimpleLoggerType>::LoggerThreadWrapper()
+  : m_TerminationRequested(false) // ms
+  , m_Delay(300)
 {
-  m_Delay = 300; // ms
-  m_TerminationRequested = false;
   m_Thread = std::thread(&Self::ThreadFunction, this);
 }
 

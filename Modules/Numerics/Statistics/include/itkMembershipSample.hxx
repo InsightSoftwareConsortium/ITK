@@ -25,9 +25,8 @@ namespace Statistics
 {
 template <typename TSample>
 MembershipSample<TSample>::MembershipSample()
-{
-  this->m_NumberOfClasses = 0;
-}
+  : m_NumberOfClasses(0)
+{}
 
 template <typename TSample>
 void

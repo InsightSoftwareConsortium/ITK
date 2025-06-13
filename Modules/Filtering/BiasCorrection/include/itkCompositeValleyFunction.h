@@ -69,10 +69,9 @@ class TargetClass
 public:
   /** Constructor. */
   TargetClass(double mean, double sigma)
-  {
-    m_Mean = mean;
-    m_Sigma = sigma;
-  }
+    : m_Mean(mean)
+    , m_Sigma(sigma)
+  {}
 
   /** Set/Get the mean of the function. */
   /** @ITKStartGrouping */

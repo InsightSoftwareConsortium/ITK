@@ -163,8 +163,8 @@ public:
 
 protected:
   MultiphaseDenseFiniteDifferenceImageFilter()
+    : m_ReinitializeCounter(1)
   {
-    this->m_ReinitializeCounter = 1;
     // FIXME: this->m_UpdateCounter really used?
     // this->m_UpdateCounter = 0;        // FIXME: Should this be a bool ?
   }

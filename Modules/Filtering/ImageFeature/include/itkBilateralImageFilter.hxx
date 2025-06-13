@@ -31,18 +31,20 @@ namespace itk
 {
 template <typename TInputImage, typename TOutputImage>
 BilateralImageFilter<TInputImage, TOutputImage>::BilateralImageFilter()
+  : m_RangeSigma(50.0)
+  , m_DomainMu(2.5)
+  , m_RangeMu(4.0)
+  , m_FilterDimensionality(ImageDimension)
+  , m_AutomaticKernelSize(true)
+  , m_NumberOfRangeGaussianSamples(100)
+  , m_DynamicRange(0.0)
+  , m_DynamicRangeUsed(0.0)
 {
   this->m_Radius.Fill(1);
-  this->m_AutomaticKernelSize = true;
   this->m_DomainSigma.Fill(4.0);
-  this->m_RangeSigma = 50.0;
-  this->m_FilterDimensionality = ImageDimension;
-  this->m_NumberOfRangeGaussianSamples = 100;
-  this->m_DynamicRange = 0.0;
-  this->m_DynamicRangeUsed = 0.0;
-  this->m_DomainMu = 2.5; // keep small to keep kernels small
-  this->m_RangeMu = 4.0;  // can be bigger then DomainMu since we only
-                          // index into a single table
+  // keep small to keep kernels small
+  // can be bigger then DomainMu since we only
+  // index into a single table
   this->DynamicMultiThreadingOn();
   this->ThreaderUpdateProgressOff();
 }

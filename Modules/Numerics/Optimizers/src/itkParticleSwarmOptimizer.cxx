@@ -22,14 +22,13 @@ namespace itk
 
 
 ParticleSwarmOptimizer::ParticleSwarmOptimizer()
-{
   // magic numbers based on the analysis described in M. Clerc, J. Kennedy,
   //"The particle swarm - explosion, stability, and convergence in a
   // multidimensional complex space"
-  this->m_InertiaCoefficient = 0.7298;
-  this->m_PersonalCoefficient = 1.49609;
-  this->m_GlobalCoefficient = 1.49609;
-}
+  : m_InertiaCoefficient(0.7298)
+  , m_PersonalCoefficient(1.49609)
+  , m_GlobalCoefficient(1.49609)
+{}
 
 
 ParticleSwarmOptimizer::~ParticleSwarmOptimizer() = default;

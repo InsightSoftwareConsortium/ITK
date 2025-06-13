@@ -25,19 +25,18 @@ namespace itk
 {
 template <typename TInputImage, typename TMembershipFunction>
 ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::ImageKmeansModelEstimator()
-{
-  m_ValidInCodebook = false;
-  m_DoubleMaximum = NumericTraits<double>::max();
-  m_Threshold = 0.01;
-  m_OffsetAdd = 0.01;
-  m_OffsetMultiply = 0.01;
-  m_MaxSplitAttempts = 10;
-  m_OutputDistortion = 0.0;
-  m_OutputNumberOfEmptyCells = 0;
-  m_VectorDimension = 1;
-  m_NumberOfCodewords = 1;
-  m_CurrentNumberOfCodewords = 1;
-}
+  : m_Threshold(0.01)
+  , m_OffsetAdd(0.01)
+  , m_OffsetMultiply(0.01)
+  , m_MaxSplitAttempts(10)
+  , m_ValidInCodebook(false)
+  , m_DoubleMaximum(NumericTraits<double>::max())
+  , m_OutputDistortion(0.0)
+  , m_OutputNumberOfEmptyCells(0)
+  , m_VectorDimension(1)
+  , m_NumberOfCodewords(1)
+  , m_CurrentNumberOfCodewords(1)
+{}
 
 template <typename TInputImage, typename TMembershipFunction>
 void

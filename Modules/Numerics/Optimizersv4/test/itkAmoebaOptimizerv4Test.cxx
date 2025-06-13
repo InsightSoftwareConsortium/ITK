@@ -67,7 +67,9 @@ public:
   using VectorType = vnl_vector<double>;
   using MatrixType = vnl_matrix<double>;
 
-  itkAmoebaOptimizerv4TestMetric1() { m_HasLocalSupport = false; }
+  itkAmoebaOptimizerv4TestMetric1()
+    : m_HasLocalSupport(false)
+  {}
 
   MeasureType
   GetValue() const override
@@ -179,7 +181,9 @@ public:
   using VectorType = vnl_vector<double>;
   using MatrixType = vnl_matrix<double>;
 
-  itkAmoebaOptimizerv4TestMetric2() { m_HasLocalSupport = false; }
+  itkAmoebaOptimizerv4TestMetric2()
+    : m_HasLocalSupport(false)
+  {}
 
   double
   GetValue() const override
@@ -287,7 +291,9 @@ public:
   }
 
 protected:
-  CommandIterationUpdateAmoeba() { m_IterationNumber = 0; }
+  CommandIterationUpdateAmoeba()
+    : m_IterationNumber(0)
+  {}
 
 private:
   unsigned long m_IterationNumber;

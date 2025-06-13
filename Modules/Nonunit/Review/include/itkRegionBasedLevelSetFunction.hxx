@@ -30,23 +30,20 @@ double RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::m_DT = 1.0 / 
 
 template <typename TInput, typename TFeature, typename TSharedData>
 RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::RegionBasedLevelSetFunction()
+  : m_InitialImage(nullptr)
+  , m_FeatureImage(nullptr)
+  , m_SharedData(nullptr)
+  , m_AreaWeight(ScalarValueType{})
+  , m_Lambda1(NumericTraits<ScalarValueType>::OneValue())
+  , m_Lambda2(NumericTraits<ScalarValueType>::OneValue())
+  , m_OverlapPenaltyWeight(ScalarValueType{})
+  , m_VolumeMatchingWeight(ScalarValueType{})
+  , m_Volume(ScalarValueType{})
+  , m_ReinitializationSmoothingWeight(ScalarValueType{})
+  , m_FunctionId(0)
+  , m_UpdateC(false)
 {
-  m_Lambda1 = NumericTraits<ScalarValueType>::OneValue();
-  m_Lambda2 = NumericTraits<ScalarValueType>::OneValue();
-
-  m_OverlapPenaltyWeight = ScalarValueType{};
-  m_AreaWeight = ScalarValueType{};
-  m_VolumeMatchingWeight = ScalarValueType{};
-  m_ReinitializationSmoothingWeight = ScalarValueType{};
   m_CurvatureWeight = m_AdvectionWeight = ScalarValueType{};
-  m_Volume = ScalarValueType{};
-
-  m_FunctionId = 0;
-
-  m_SharedData = nullptr;
-  m_InitialImage = nullptr;
-  m_FeatureImage = nullptr;
-  m_UpdateC = false;
 
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {

@@ -165,9 +165,9 @@ PolyLineParametricPath<VDimension>::IncrementInput(InputType & input) const -> O
 
 template <unsigned int VDimension>
 PolyLineParametricPath<VDimension>::PolyLineParametricPath()
+  : m_VertexList(VertexListType::New())
 {
   this->SetDefaultInputStepSize(0.3);
-  this->m_VertexList = VertexListType::New();
 }
 
 template <unsigned int VDimension>

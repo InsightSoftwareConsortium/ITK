@@ -22,11 +22,11 @@ namespace itk
 /**  Constructor.  */
 SingleValuedVnlCostFunctionAdaptor::SingleValuedVnlCostFunctionAdaptor(unsigned int spaceDimension)
   : vnl_cost_function(spaceDimension)
+  , m_ScalesInitialized(false)
+  , m_NegateCostFunction(false)
+  , m_CachedValue(MeasureType{})
 {
-  m_ScalesInitialized = false;
-  m_NegateCostFunction = false;
   m_Reporter = Object::New();
-  m_CachedValue = MeasureType{};
   m_CachedDerivative.Fill(0);
 }
 

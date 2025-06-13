@@ -41,26 +41,23 @@ namespace itk
 
 template <typename TInputMesh, typename TOutputMesh>
 DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::DeformableSimplexMesh3DFilter()
+  : m_Alpha(0.2)
+  , m_Beta(0.01)
+  , m_Gamma(0.05)
+  , m_Damping(0.65)
+  , m_Rigidity(1)
+  , m_Step(0)
+  , m_ImageWidth(0)
+  , m_ImageHeight(0)
+  , m_ImageDepth(0)
+  , m_Iterations(20)
+  , m_Data(nullptr)
 {
-  m_Step = 0;
-  m_Iterations = 20;
-  m_Alpha = 0.2;
-  m_Beta = 0.01;
-  m_Gamma = 0.05;
-  m_Damping = 0.65;
-  m_Rigidity = 1;
-
-  m_ImageDepth = 0;
-  m_ImageHeight = 0;
-  m_ImageWidth = 0;
-
   this->ProcessObject::SetNumberOfRequiredInputs(1);
 
   const OutputMeshPointer output = OutputMeshType::New();
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
   this->ProcessObject::SetNthOutput(0, output.GetPointer());
-
-  this->m_Data = nullptr;
 }
 
 template <typename TInputMesh, typename TOutputMesh>

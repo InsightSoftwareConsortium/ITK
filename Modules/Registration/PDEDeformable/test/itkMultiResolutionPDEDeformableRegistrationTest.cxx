@@ -57,7 +57,9 @@ template <typename TRegistration>
 class PDERegistrationController
 {
 public:
-  PDERegistrationController(TRegistration * o) { m_Process = o; }
+  PDERegistrationController(TRegistration * o)
+    : m_Process(o)
+  {}
   void
   ShowProgress()
   {

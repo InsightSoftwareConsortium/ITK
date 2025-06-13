@@ -53,7 +53,9 @@ template <typename TImage>
 class PostProcessCorrelation
 {
 public:
-  PostProcessCorrelation() { m_RequiredNumberOfOverlappingPixels = 0; }
+  PostProcessCorrelation()
+    : m_RequiredNumberOfOverlappingPixels(0)
+  {}
   ~PostProcessCorrelation() = default;
 
   void

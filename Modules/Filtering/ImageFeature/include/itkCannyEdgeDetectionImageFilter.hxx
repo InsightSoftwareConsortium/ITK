@@ -33,13 +33,12 @@ template <typename TInputImage, typename TOutputImage>
 CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>::CannyEdgeDetectionImageFilter()
   : m_UpperThreshold(OutputImagePixelType{})
   , m_LowerThreshold(OutputImagePixelType{})
+  , m_UpdateBuffer1(OutputImageType::New())
+  , m_GaussianFilter(GaussianImageFilterType::New())
+  , m_MultiplyImageFilter(MultiplyImageFilterType::New())
 {
   m_Variance.Fill(0.0);
   m_MaximumError.Fill(0.01);
-
-  m_GaussianFilter = GaussianImageFilterType::New();
-  m_MultiplyImageFilter = MultiplyImageFilterType::New();
-  m_UpdateBuffer1 = OutputImageType::New();
 
   // Set up neighborhood slices for all the dimensions.
   constexpr auto r = MakeFilled<typename Neighborhood<OutputImagePixelType, ImageDimension>::RadiusType>(1);

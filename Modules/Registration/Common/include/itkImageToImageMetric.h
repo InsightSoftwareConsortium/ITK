@@ -375,10 +375,10 @@ protected:
   {
   public:
     FixedImageSamplePoint()
+      : value(0)
+      , valueIndex(0)
     {
       point.Fill(0.0);
-      value = 0;
-      valueIndex = 0;
     }
 
     ~FixedImageSamplePoint() = default;

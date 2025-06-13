@@ -29,7 +29,6 @@ namespace itk
 template <typename TInputImage, typename TOutputImage>
 HMaximaImageFilter<TInputImage, TOutputImage>::HMaximaImageFilter()
   : m_Height(2)
-
 {}
 
 template <typename TInputImage, typename TOutputImage>

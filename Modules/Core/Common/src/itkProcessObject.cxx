@@ -49,29 +49,25 @@ constexpr char   globalIndexNames[ITK_GLOBAL_INDEX_NAMES_NUMBER][ITK_GLOBAL_INDE
 
 
 ProcessObject::ProcessObject()
-  : m_Inputs()
+  : m_Updating(false)
+  , m_Inputs()
   , m_Outputs()
   , m_CachedInputReleaseDataFlags()
+  , m_NumberOfRequiredInputs(0)
+  , m_NumberOfRequiredOutputs(0)
   , m_RequiredInputNames()
+  , m_AbortGenerateData(false)
+  , m_Progress(0u)
+  , m_ReleaseDataBeforeUpdateFlag(true)
 {
   /*
    * Instantiate object with no start, end, or progress methods.
    */
-
-  m_NumberOfRequiredInputs = 0;
-  m_NumberOfRequiredOutputs = 0;
-
-  m_AbortGenerateData = false;
-  m_Progress = 0u;
-  m_Updating = false;
-
   DataObjectPointerMap::value_type p("Primary", DataObjectPointer());
   m_IndexedInputs.push_back(m_Inputs.insert(p).first);
   m_IndexedOutputs.push_back(m_Outputs.insert(std::move(p)).first);
 
   this->Self::SetMultiThreader(MultiThreaderType::New());
-
-  m_ReleaseDataBeforeUpdateFlag = true;
 }
 
 

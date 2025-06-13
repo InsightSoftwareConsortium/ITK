@@ -28,10 +28,9 @@ namespace itk
 template <typename TInputImage, typename TOutputImage>
 GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,
                                               TOutputImage>::GradientMagnitudeRecursiveGaussianImageFilter()
+  : m_DerivativeFilter(DerivativeFilterType::New())
+  , m_NormalizeAcrossScale(false)
 {
-  m_NormalizeAcrossScale = false;
-
-  m_DerivativeFilter = DerivativeFilterType::New();
   m_DerivativeFilter->SetOrder(GaussianOrderEnum::FirstOrder);
   m_DerivativeFilter->SetNormalizeAcrossScale(m_NormalizeAcrossScale);
   m_DerivativeFilter->InPlaceOff();

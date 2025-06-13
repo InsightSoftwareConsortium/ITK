@@ -40,8 +40,8 @@ public:
     , m_Description(std::move(description))
     , m_File(std::move(file))
     , m_Line(line)
+    , m_What(m_File)
   {
-    m_What = m_File;
     m_What += ':' + std::to_string(m_Line) + ':';
     if (!m_Location.empty())
     {

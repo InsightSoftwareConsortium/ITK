@@ -120,10 +120,9 @@ public:
     ConstIterator(const PointSetToListSampleAdaptor * adaptor) { *this = adaptor->Begin(); }
 
     ConstIterator(const ConstIterator & iter)
-    {
-      m_Iter = iter.m_Iter;
-      m_InstanceIdentifier = iter.m_InstanceIdentifier;
-    }
+      : m_Iter(iter.m_Iter)
+      , m_InstanceIdentifier(iter.m_InstanceIdentifier)
+    {}
 
     ConstIterator &
     operator=(const ConstIterator & iter)
@@ -170,10 +169,9 @@ public:
   protected:
     // This method should only be available to the ListSample class
     ConstIterator(PointsContainerConstIteratorType iter, InstanceIdentifier iid)
-    {
-      m_Iter = iter;
-      m_InstanceIdentifier = iid;
-    }
+      : m_Iter(iter)
+      , m_InstanceIdentifier(iid)
+    {}
 
   private:
     ConstIterator() = delete;

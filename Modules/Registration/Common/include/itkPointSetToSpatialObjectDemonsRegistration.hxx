@@ -25,10 +25,9 @@ namespace itk
 template <typename TFixedPointSet, typename TMovingSpatialObject>
 PointSetToSpatialObjectDemonsRegistration<TFixedPointSet,
                                           TMovingSpatialObject>::PointSetToSpatialObjectDemonsRegistration()
-{
-  m_FixedPointSet = nullptr;       // has to be provided by the user.
-  m_MovingSpatialObject = nullptr; // has to be provided by the user.
-}
+  : m_MovingSpatialObject(nullptr)
+  , m_FixedPointSet(nullptr)
+{}
 
 template <typename TFixedPointSet, typename TMovingSpatialObject>
 void

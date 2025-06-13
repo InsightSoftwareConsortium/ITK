@@ -29,13 +29,12 @@ namespace itk
  */
 template <typename TInputImage, typename TOutputImage>
 BinaryPruningImageFilter<TInputImage, TOutputImage>::BinaryPruningImageFilter()
+  : m_Iteration(3)
 {
   this->SetNumberOfRequiredOutputs(1);
 
   const OutputImagePointer pruneImage = OutputImageType::New();
   this->SetNthOutput(0, pruneImage.GetPointer());
-
-  m_Iteration = 3;
 }
 
 /**
