@@ -25,9 +25,9 @@ namespace itk
 /** Set the Input Image */
 template <typename TInputImage, typename TOutput>
 DiscreteHessianGaussianImageFunction<TInputImage, TOutput>::DiscreteHessianGaussianImageFunction()
+  : m_OperatorImageFunction(OperatorImageFunctionType::New())
 {
   m_Variance.Fill(1.0);
-  m_OperatorImageFunction = OperatorImageFunctionType::New();
 }
 
 /** Print self method */

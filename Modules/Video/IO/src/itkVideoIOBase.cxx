@@ -29,7 +29,6 @@ VideoIOBase::VideoIOBase()
   , m_CurrentFrame(SizeValueType{})
   , m_IFrameInterval(SizeValueType{})
   , m_LastIFrame(SizeValueType{})
-
 {}
 
 VideoIOBase::~VideoIOBase() = default;

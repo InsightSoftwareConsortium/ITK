@@ -23,9 +23,9 @@ namespace itk
 {
 
 ThreadLogger::ThreadLogger()
+  : m_TerminationRequested(false) // ms
+  , m_Delay(300)
 {
-  m_Delay = 300; // ms
-  m_TerminationRequested = false;
   m_Thread = std::thread(&ThreadLogger::ThreadFunction, this);
 }
 

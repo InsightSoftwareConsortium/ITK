@@ -24,12 +24,10 @@ namespace itk
 
 template <typename TFixedPointSet, typename TMovingImage>
 PointSetToImageRegistrationMethod<TFixedPointSet, TMovingImage>::PointSetToImageRegistrationMethod()
+  : m_InitialTransformParameters(ParametersType(FixedPointSetType::PointDimension))
+  , m_LastTransformParameters(ParametersType(FixedPointSetType::PointDimension))
 {
   this->SetNumberOfRequiredOutputs(1);
-
-  m_InitialTransformParameters = ParametersType(FixedPointSetType::PointDimension);
-  m_LastTransformParameters = ParametersType(FixedPointSetType::PointDimension);
-
   m_InitialTransformParameters.Fill(0);
   m_LastTransformParameters.Fill(0);
 

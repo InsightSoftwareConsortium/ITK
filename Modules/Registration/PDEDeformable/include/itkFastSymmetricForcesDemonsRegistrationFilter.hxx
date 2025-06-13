@@ -25,15 +25,12 @@ namespace itk
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 FastSymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::
   FastSymmetricForcesDemonsRegistrationFilter()
+  : m_Multiplier(MultiplyByConstantType::New())
+  , m_Adder(AdderType::New())
 {
   auto drfp = DemonsRegistrationFunctionType::New();
-
   this->SetDifferenceFunction(drfp);
-
-  m_Multiplier = MultiplyByConstantType::New();
   m_Multiplier->InPlaceOn();
-
-  m_Adder = AdderType::New();
   m_Adder->InPlaceOn();
 }
 

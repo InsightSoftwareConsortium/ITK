@@ -104,8 +104,8 @@ class CompressedCUBFileAdaptor : public GenericCUBFileAdaptor
 {
 public:
   CompressedCUBFileAdaptor(const char * file, const char * mode)
+    : m_GzFile(gzopen(file, mode))
   {
-    m_GzFile = gzopen(file, mode);
     if (m_GzFile == nullptr)
     {
       ExceptionObject exception;
@@ -196,8 +196,8 @@ class DirectCUBFileAdaptor : public GenericCUBFileAdaptor
 {
 public:
   DirectCUBFileAdaptor(const char * file, const char * mode)
+    : m_File(fopen(file, mode))
   {
-    m_File = fopen(file, mode);
     if (!m_File)
     {
       ExceptionObject exception;
@@ -324,11 +324,11 @@ const char * VoxBoCUBImageIO::m_VB_DATATYPE_DOUBLE = "Double";
 
 /** Constructor */
 VoxBoCUBImageIO::VoxBoCUBImageIO()
+  : m_Reader(nullptr)
+  , m_Writer(nullptr)
 {
   InitializeOrientationMap();
   m_ByteOrder = IOByteOrderEnum::BigEndian;
-  m_Reader = nullptr;
-  m_Writer = nullptr;
 }
 
 /** Destructor */

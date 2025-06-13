@@ -32,6 +32,7 @@ namespace itk
 {
 template <typename TInputImage, typename TOutputImage, typename TDisplacementField>
 WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::WarpImageFilter()
+  : m_DefFieldSameInformation(false)
 {
   // #0 implicit "Primary" input required
   // #1 "DisplacementField" required
@@ -48,7 +49,6 @@ WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::WarpImageFilter(
   auto interp = DefaultInterpolatorType::New();
   m_Interpolator = static_cast<InterpolatorType *>(interp.GetPointer());
 
-  m_DefFieldSameInformation = false;
   this->DynamicMultiThreadingOn();
   this->ThreaderUpdateProgressOff();
 }

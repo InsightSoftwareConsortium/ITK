@@ -188,8 +188,8 @@ TIFFReaderInternal::Clean()
 
 
 TIFFReaderInternal::TIFFReaderInternal()
+  : m_Image(nullptr)
 {
-  this->m_Image = nullptr;
   this->Clean();
 }
 

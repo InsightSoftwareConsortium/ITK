@@ -23,16 +23,15 @@ namespace itk
 {
 
 CSVFileReaderBase::CSVFileReaderBase()
-{
-  this->m_FileName = "";
-  this->m_FieldDelimiterCharacter = ',';
-  this->m_StringDelimiterCharacter = '"';
-  this->m_HasColumnHeaders = true;
-  this->m_HasRowHeaders = true;
-  this->m_UseStringDelimiterCharacter = false;
-  this->m_Line = "";
-  this->m_EndOfColumnHeadersLine = 0;
-}
+  : m_FileName("")
+  , m_FieldDelimiterCharacter(',')
+  , m_StringDelimiterCharacter('"')
+  , m_UseStringDelimiterCharacter(false)
+  , m_HasRowHeaders(true)
+  , m_HasColumnHeaders(true)
+  , m_EndOfColumnHeadersLine(0)
+  , m_Line("")
+{}
 
 void
 CSVFileReaderBase::PrintSelf(std::ostream & os, Indent indent) const

@@ -24,10 +24,9 @@ namespace itk
 // ---------------------------------------------------------------------
 template <typename TInputMesh, typename TOutputMesh, typename TSolverTraits>
 ParameterizationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>::ParameterizationQuadEdgeMeshFilter()
-{
-  this->m_CoefficientsMethod = nullptr;
-  this->m_BorderTransform = nullptr;
-}
+  : m_CoefficientsMethod(nullptr)
+  , m_BorderTransform(nullptr)
+{}
 
 // ---------------------------------------------------------------------
 template <typename TInputMesh, typename TOutputMesh, typename TSolverTraits>

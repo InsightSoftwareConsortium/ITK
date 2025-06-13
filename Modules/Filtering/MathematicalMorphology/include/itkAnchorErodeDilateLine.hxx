@@ -23,9 +23,8 @@ namespace itk
 {
 template <typename TInputPix, typename TCompare>
 AnchorErodeDilateLine<TInputPix, TCompare>::AnchorErodeDilateLine()
-{
-  m_Size = 2;
-}
+  : m_Size(2)
+{}
 
 template <typename TInputPix, typename TCompare>
 void

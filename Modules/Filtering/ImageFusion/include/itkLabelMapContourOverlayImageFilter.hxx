@@ -37,16 +37,16 @@ namespace itk
 
 template <typename TLabelMap, typename TFeatureImage, typename TOutputImage>
 LabelMapContourOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>::LabelMapContourOverlayImageFilter()
+  : m_Opacity(0.5)
+  , m_Type(CONTOUR)
+  , m_Priority(HIGH_LABEL_ON_TOP)
+  , m_SliceDimension(ImageDimension - 1)
 {
   this->SetNumberOfRequiredInputs(2);
-  m_Opacity = 0.5;
-  m_Type = CONTOUR;
-  m_Priority = HIGH_LABEL_ON_TOP;
   auto s = SizeType::Filled(1);
   m_ContourThickness = SizeType(s);
   s.Fill(0);
   m_DilationRadius = SizeType(s);
-  m_SliceDimension = ImageDimension - 1;
   this->DynamicMultiThreadingOn();
 }
 

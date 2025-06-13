@@ -28,23 +28,21 @@ namespace itk
 // -----------------------------------------------------------------------------
 template <typename TInput, typename TOutput>
 FastMarchingBase<TInput, TOutput>::FastMarchingBase()
+  : m_SpeedConstant(1.)
+  , m_InverseSpeed(-1.)
+  , m_NormalizationFactor(1.)
+  , m_TargetReachedValue(OutputPixelType{})
+  , m_LargeValue(NumericTraits<OutputPixelType>::max())
+  , m_TopologyValue(m_LargeValue)
+  , m_TrialPoints(nullptr)
+  , m_AlivePoints(nullptr)
+  , m_ProcessedPoints(nullptr)
+  , m_ForbiddenPoints(nullptr)
+  , m_CollectPoints(false)
+  , m_TopologyCheck(TopologyCheckEnum::Nothing)
 {
   this->ProcessObject::SetNumberOfRequiredInputs(0);
-
-  m_TrialPoints = nullptr;
-  m_AlivePoints = nullptr;
-  m_ProcessedPoints = nullptr;
-  m_ForbiddenPoints = nullptr;
-
   // m_Heap = PriorityQueueType::New();
-  m_SpeedConstant = 1.;
-  m_InverseSpeed = -1.;
-  m_NormalizationFactor = 1.;
-  m_TargetReachedValue = OutputPixelType{};
-  m_TopologyCheck = TopologyCheckEnum::Nothing;
-  m_LargeValue = NumericTraits<OutputPixelType>::max();
-  m_TopologyValue = m_LargeValue;
-  m_CollectPoints = false;
 }
 // -----------------------------------------------------------------------------
 

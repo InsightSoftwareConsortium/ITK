@@ -27,17 +27,17 @@ ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
 
 template <typename TInternalComputationValueType>
 ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>::ObjectToObjectOptimizerBaseTemplate()
+  : m_Metric(nullptr)
+  , m_NumberOfWorkUnits(MultiThreaderBase::GetGlobalDefaultNumberOfThreads())
+  , m_CurrentIteration(0)
+  , m_NumberOfIterations(100)
+  , m_CurrentMetricValue(0)
+  , m_ScalesAreIdentity(false)
+  , m_WeightsAreIdentity(true)
+  , m_DoEstimateScales(true)
 {
-  this->m_Metric = nullptr;
-  this->m_CurrentIteration = 0;
-  this->m_NumberOfIterations = 100;
-  this->m_CurrentMetricValue = 0;
   // Initialize, but w/out calling SetNumberOfWorkUnits, to avoid
   // valgrind warning.
-  this->m_NumberOfWorkUnits = MultiThreaderBase::GetGlobalDefaultNumberOfThreads();
-  this->m_ScalesAreIdentity = false;
-  this->m_WeightsAreIdentity = true;
-  this->m_DoEstimateScales = true;
 }
 
 template <typename TInternalComputationValueType>

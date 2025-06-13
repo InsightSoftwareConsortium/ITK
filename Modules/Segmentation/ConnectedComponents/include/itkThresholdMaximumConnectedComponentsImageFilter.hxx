@@ -29,15 +29,15 @@ namespace itk
 template <typename TInputImage, typename TOutputImage>
 ThresholdMaximumConnectedComponentsImageFilter<TInputImage,
                                                TOutputImage>::ThresholdMaximumConnectedComponentsImageFilter()
+  : m_ThresholdFilter(ThresholdFilterType::New())
+  , m_ConnectedComponent(ConnectedFilterType::New())
+  , m_LabeledComponent(RelabelFilterType::New())
+  , m_MinMaxCalculator(MinMaxCalculatorType::New())
+  , m_MinimumObjectSizeInPixels(0)
+  , m_OutsideValue(OutputPixelType{})
+  , m_InsideValue(NumericTraits<OutputPixelType>::max())
+  , m_NumberOfObjects(0)
 {
-  m_ThresholdFilter = ThresholdFilterType::New();
-
-  m_ConnectedComponent = ConnectedFilterType::New();
-
-  m_LabeledComponent = RelabelFilterType::New();
-
-  m_MinMaxCalculator = MinMaxCalculatorType::New();
-
   //
   // Connecting the internal pipeline.
   //
@@ -48,17 +48,12 @@ ThresholdMaximumConnectedComponentsImageFilter<TInputImage,
   const typename NumericTraits<PixelType>::AccumulateType minLabel = NumericTraits<PixelType>::NonpositiveMin();
 
   // Default. Use ITK set macro "SetMinimumObjectSizeInPixels" to change
-  m_MinimumObjectSizeInPixels = 0;
 
   m_ThresholdValue = static_cast<PixelType>((maxLabel + minLabel) / 2);
 
   // Initialize values for the threshold filters
   // Default. Use ITK set macro "SetOutsideValue" to change
-  m_OutsideValue = OutputPixelType{};
-
   // Default. Use ITK set macro "SetInsideValue" to change
-  m_InsideValue = NumericTraits<OutputPixelType>::max();
-
   m_LowerBoundary = m_ThresholdValue;
 
   // Default. Use ITK set macro "SetUpperBoundary" to change
@@ -66,7 +61,6 @@ ThresholdMaximumConnectedComponentsImageFilter<TInputImage,
 
   // Initialize the counter for the number of connected components
   // (objects) in the image.
-  m_NumberOfObjects = 0;
 } // end of the constructor
 
 template <typename TInputImage, typename TOutputImage>

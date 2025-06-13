@@ -25,8 +25,8 @@ namespace Statistics
 {
 template <typename TPointSet>
 PointSetToListSampleAdaptor<TPointSet>::PointSetToListSampleAdaptor()
+  : m_PointSet(nullptr)
 {
-  this->m_PointSet = nullptr;
   this->SetMeasurementVectorSize(TPointSet::PointDimension);
 }
 

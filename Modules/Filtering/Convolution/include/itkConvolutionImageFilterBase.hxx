@@ -23,10 +23,9 @@ namespace itk
 {
 template <typename TInputImage, typename TKernelImage, typename TOutputImage>
 ConvolutionImageFilterBase<TInputImage, TKernelImage, TOutputImage>::ConvolutionImageFilterBase()
+  : m_BoundaryCondition(&m_DefaultBoundaryCondition)
 {
   this->AddRequiredInputName("KernelImage");
-
-  m_BoundaryCondition = &m_DefaultBoundaryCondition;
 }
 
 template <typename TInputImage, typename TKernelImage, typename TOutputImage>

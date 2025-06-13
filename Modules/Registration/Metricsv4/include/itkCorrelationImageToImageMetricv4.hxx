@@ -32,14 +32,13 @@ CorrelationImageToImageMetricv4<TFixedImage,
                                 TVirtualImage,
                                 TInternalComputationValueType,
                                 TMetricTraits>::CorrelationImageToImageMetricv4()
-  : m_AverageFix(0.0)
+  : m_HelperDenseThreader(CorrelationHelperDenseThreaderType::New())
+  , m_HelperSparseThreader(CorrelationHelperSparseThreaderType::New())
+  , m_AverageFix(0.0)
   , m_AverageMov(0.0)
 {
   this->m_DenseGetValueAndDerivativeThreader = CorrelationDenseGetValueAndDerivativeThreaderType::New();
   this->m_SparseGetValueAndDerivativeThreader = CorrelationSparseGetValueAndDerivativeThreaderType::New();
-
-  m_HelperDenseThreader = CorrelationHelperDenseThreaderType::New();
-  m_HelperSparseThreader = CorrelationHelperSparseThreaderType::New();
 
   if (this->m_MovingTransform->GetTransformCategory() == MovingTransformType::TransformCategoryEnum::DisplacementField)
   {

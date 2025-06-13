@@ -25,13 +25,11 @@ namespace itk
 template <typename TImageType, typename TCoordinate, typename TCoefficientType>
 ComplexBSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::
   ComplexBSplineInterpolateImageFunction()
+  : m_RealInterpolator(InterpolatorType::New())
+  , m_ImaginaryInterpolator(InterpolatorType::New())
+  , m_RealFilter(RealFilterType::New())
+  , m_ImaginaryFilter(ImaginaryFilterType::New())
 {
-  m_RealInterpolator = InterpolatorType::New();
-  m_ImaginaryInterpolator = InterpolatorType::New();
-
-  m_RealFilter = RealFilterType::New();
-  m_ImaginaryFilter = ImaginaryFilterType::New();
-
   this->SetSplineOrder(3);
 }
 

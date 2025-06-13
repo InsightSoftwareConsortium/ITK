@@ -24,9 +24,8 @@ namespace itk
 {
 template <typename TSparseImageType>
 NormalVectorFunctionBase<TSparseImageType>::NormalVectorFunctionBase()
-{
-  m_TimeStep = NumericTraits<TimeStepType>::OneValue();
-}
+  : m_TimeStep(NumericTraits<TimeStepType>::OneValue())
+{}
 
 template <typename TSparseImageType>
 void

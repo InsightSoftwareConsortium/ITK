@@ -25,16 +25,13 @@ namespace itk
 
 template <typename TInputMesh, typename TOutputMesh>
 CleanQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::CleanQuadEdgeMeshFilter()
+  : m_AbsoluteTolerance(InputCoordinateType{})
+  , m_RelativeTolerance(InputCoordinateType{})
+  , m_BoundingBox(BoundingBoxType::New())
+  , m_Criterion(CriterionType::New())
+  , m_Decimation(DecimationType::New())
 {
-  this->m_AbsoluteTolerance = InputCoordinateType{};
-  this->m_RelativeTolerance = InputCoordinateType{};
-
-  this->m_BoundingBox = BoundingBoxType::New();
-
-  this->m_Criterion = CriterionType::New();
   this->m_Criterion->SetTopologicalChange(false);
-
-  this->m_Decimation = DecimationType::New();
   this->m_Decimation->SetCriterion(this->m_Criterion);
 }
 

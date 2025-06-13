@@ -367,16 +367,16 @@ public:
 
 protected:
   MultiphaseFiniteDifferenceImageFilter()
+    : m_FunctionCount(0)
+    , m_KdTree(nullptr)
+    , m_ElapsedIterations(0)
+    , m_MaximumRMSError(itk::Math::eps)
+    , m_RMSChange(NumericTraits<double>::max())
+    , m_NumberOfIterations(NumericTraits<unsigned int>::max())
+    , m_UseImageSpacing(true)
+    , m_ManualReinitialization(false)
+    , m_InitializedState(false)
   {
-    this->m_KdTree = nullptr;
-    this->m_ElapsedIterations = 0;
-    this->m_MaximumRMSError = itk::Math::eps;
-    this->m_RMSChange = NumericTraits<double>::max();
-    this->m_UseImageSpacing = true;
-    this->m_ManualReinitialization = false;
-    this->m_InitializedState = false;
-    this->m_NumberOfIterations = NumericTraits<unsigned int>::max();
-    this->m_FunctionCount = 0;
     this->InPlaceOff();
   }
 

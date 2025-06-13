@@ -97,19 +97,17 @@ public:
   /** Default constructor. Needed since we provide a cast constructor. */
   ImageScanlineConstIterator()
     : ImageConstIterator<TImage>()
-  {
-    m_SpanBeginOffset = 0;
-    m_SpanEndOffset = 0;
-  }
+    , m_SpanBeginOffset(0)
+    , m_SpanEndOffset(0)
+  {}
 
   /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes
    * the iterator at the begin of the region. */
   ImageScanlineConstIterator(const TImage * ptr, const RegionType & region)
     : ImageConstIterator<TImage>(ptr, region)
-  {
-    m_SpanBeginOffset = this->m_BeginOffset;
-    m_SpanEndOffset = this->m_BeginOffset + static_cast<OffsetValueType>(this->m_Region.GetSize()[0]);
-  }
+    , m_SpanBeginOffset(this->m_BeginOffset)
+    , m_SpanEndOffset(this->m_BeginOffset + static_cast<OffsetValueType>(this->m_Region.GetSize()[0]))
+  {}
 
   /** Constructor that can be used to cast from an ImageIterator to an
    * ImageScanlineConstIterator. Many routines return an ImageIterator, but for a

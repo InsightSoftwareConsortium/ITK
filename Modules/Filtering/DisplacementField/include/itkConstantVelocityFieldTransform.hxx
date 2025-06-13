@@ -30,15 +30,13 @@ namespace itk
 template <typename TParametersValueType, unsigned int VDimension>
 ConstantVelocityFieldTransform<TParametersValueType, VDimension>::ConstantVelocityFieldTransform()
   : m_ConstantVelocityField(nullptr)
+  , m_LowerTimeBound(0.0)
+  , m_UpperTimeBound(1.0)
+  , m_NumberOfIntegrationSteps(10)
 
 {
   this->m_FixedParameters.SetSize(ConstantVelocityFieldDimension * (ConstantVelocityFieldDimension + 3));
   this->m_FixedParameters.Fill(0.0);
-
-  this->m_LowerTimeBound = 0.0;
-  this->m_UpperTimeBound = 1.0;
-
-  this->m_NumberOfIntegrationSteps = 10;
 
   // Setup and assign default interpolator
   using DefaultInterpolatorType = VectorLinearInterpolateImageFunction<ConstantVelocityFieldType, ScalarType>;

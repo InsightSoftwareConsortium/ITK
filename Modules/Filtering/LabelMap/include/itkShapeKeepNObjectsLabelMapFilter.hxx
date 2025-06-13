@@ -25,11 +25,10 @@ namespace itk
 {
 template <typename TImage>
 ShapeKeepNObjectsLabelMapFilter<TImage>::ShapeKeepNObjectsLabelMapFilter()
+  : m_ReverseOrdering(false)
+  , m_NumberOfObjects(1)
+  , m_Attribute(LabelObjectType::NUMBER_OF_PIXELS)
 {
-  m_ReverseOrdering = false;
-  m_NumberOfObjects = 1;
-  m_Attribute = LabelObjectType::NUMBER_OF_PIXELS;
-
   // create the output image for the removed objects
   this->SetNumberOfRequiredOutputs(2);
   this->SetNthOutput(1, static_cast<TImage *>(this->MakeOutput(1).GetPointer()));

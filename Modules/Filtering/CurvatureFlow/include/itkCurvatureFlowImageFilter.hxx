@@ -25,9 +25,9 @@ namespace itk
 
 template <typename TInputImage, typename TOutputImage>
 CurvatureFlowImageFilter<TInputImage, TOutputImage>::CurvatureFlowImageFilter()
+  : m_TimeStep(0.05f)
 {
   this->SetNumberOfIterations(0);
-  m_TimeStep = 0.05f;
 
   auto cffp = CurvatureFlowFunctionType::New();
 

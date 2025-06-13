@@ -53,6 +53,7 @@ public:
   using Self = LabelToRGBFunctor;
 
   LabelToRGBFunctor()
+    : m_BackgroundValue(TLabel{})
   {
     using ValueType = typename TRGBPixel::ValueType;
 
@@ -86,7 +87,6 @@ public:
     // Inside LabelToRGBImageFilter, the values are always initialized
     NumericTraits<TRGBPixel>::SetLength(m_BackgroundColor, 3);
     m_BackgroundColor.Fill(ValueType{});
-    m_BackgroundValue = TLabel{};
   }
 
   inline TRGBPixel

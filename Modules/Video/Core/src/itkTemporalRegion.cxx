@@ -26,7 +26,6 @@ namespace itk
 TemporalRegion::TemporalRegion()
   : m_RealStart()
   , m_RealDuration(0, 0)
-
 {}
 
 //

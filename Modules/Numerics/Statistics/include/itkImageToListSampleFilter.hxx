@@ -26,8 +26,8 @@ namespace Statistics
 {
 template <typename TImage, typename TMaskImage>
 ImageToListSampleFilter<TImage, TMaskImage>::ImageToListSampleFilter()
+  : m_MaskValue(itk::NumericTraits<MaskPixelType>::max())
 {
-  this->m_MaskValue = itk::NumericTraits<MaskPixelType>::max();
   this->SetNumberOfRequiredInputs(1);
   this->SetNumberOfRequiredOutputs(1);
 

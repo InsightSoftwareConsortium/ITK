@@ -26,13 +26,12 @@ namespace itk
 {
 template <typename TInputImage, typename TOutputImage, typename TKernel>
 GrayscaleDilateImageFilter<TInputImage, TOutputImage, TKernel>::GrayscaleDilateImageFilter()
+  : m_HistogramFilter(HistogramFilterType::New())
+  , m_BasicFilter(BasicFilterType::New())
+  , m_AnchorFilter(AnchorFilterType::New())
+  , m_VHGWFilter(VHGWFilterType::New())
+  , m_Algorithm(AlgorithmEnum::HISTO)
 {
-  m_BasicFilter = BasicFilterType::New();
-  m_HistogramFilter = HistogramFilterType::New();
-  m_AnchorFilter = AnchorFilterType::New();
-  m_VHGWFilter = VHGWFilterType::New();
-  m_Algorithm = AlgorithmEnum::HISTO;
-
   this->SetBoundary(NumericTraits<PixelType>::NonpositiveMin());
 }
 

@@ -45,11 +45,10 @@ public:
   double        m_Value;
 
   NodeOfPermutation()
-  {
-    m_Priority = 0;
-    m_Index = 0;
-    m_Value = 0.0;
-  }
+    : m_Priority(0)
+    , m_Index(0)
+    , m_Value(0.0)
+  {}
 
   bool
   operator<(const NodeOfPermutation & b) const
@@ -76,8 +75,8 @@ public:
   SizeValueType       m_Size;
 
   RandomPermutation(SizeValueType sz)
+    : m_Size(sz)
   {
-    m_Size = sz;
     m_Permutation = new NodeOfPermutation[m_Size];
     m_Generator = Statistics::MersenneTwisterRandomVariateGenerator::New();
     this->Shuffle();
@@ -249,10 +248,9 @@ public:
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageRandomNonRepeatingConstIteratorWithIndex. */
   ImageRandomNonRepeatingConstIteratorWithIndex(const ImageConstIteratorWithIndex<TImage> & it)
+    : m_Permutation(nullptr)
   {
     this->ImageConstIteratorWithIndex<TImage>::operator=(it);
-
-    m_Permutation = nullptr;
   }
 
   /** operator= is provided to deep copy m_Permutation. */

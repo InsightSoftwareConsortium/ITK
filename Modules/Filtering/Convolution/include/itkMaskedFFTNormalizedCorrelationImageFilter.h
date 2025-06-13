@@ -221,6 +221,10 @@ public:
 
 protected:
   MaskedFFTNormalizedCorrelationImageFilter()
+    : m_RequiredNumberOfOverlappingPixels(0)
+    , m_RequiredFractionOfOverlappingPixels(0)
+    , m_MaximumNumberOfOverlappingPixels(0)
+    , m_AccumulatedProgress(0.0)
   {
     // #0 "FixedImage" required
     Self::SetPrimaryInputName("FixedImage");
@@ -233,11 +237,6 @@ protected:
 
     // #3 "MaskImageMask" optional
     Self::AddOptionalInputName("MovingImageMask", 3);
-
-    m_RequiredNumberOfOverlappingPixels = 0;
-    m_RequiredFractionOfOverlappingPixels = 0;
-    m_MaximumNumberOfOverlappingPixels = 0;
-    m_AccumulatedProgress = 0.0;
   }
   ~MaskedFFTNormalizedCorrelationImageFilter() override = default;
   void

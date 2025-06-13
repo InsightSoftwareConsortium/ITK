@@ -26,22 +26,17 @@ namespace itk
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 DiffeomorphicDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::
   DiffeomorphicDemonsRegistrationFilter()
+  : m_Multiplier(MultiplyByConstantType::New())
+  , m_Exponentiator(FieldExponentiatorType::New())
+  , m_Warper(VectorWarperType::New())
+  , m_Adder(AdderType::New())
 
 {
   auto drfp = DemonsRegistrationFunctionType::New();
-
   this->SetDifferenceFunction(drfp);
-
-  m_Multiplier = MultiplyByConstantType::New();
   m_Multiplier->InPlaceOn();
-
-  m_Exponentiator = FieldExponentiatorType::New();
-
-  m_Warper = VectorWarperType::New();
   const FieldInterpolatorPointer VectorInterpolator = FieldInterpolatorType::New();
   m_Warper->SetInterpolator(VectorInterpolator);
-
-  m_Adder = AdderType::New();
   m_Adder->InPlaceOn();
 }
 

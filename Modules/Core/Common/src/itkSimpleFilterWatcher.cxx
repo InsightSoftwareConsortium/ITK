@@ -30,26 +30,18 @@
 namespace itk
 {
 SimpleFilterWatcher::SimpleFilterWatcher(ProcessObject * o, const char * comment)
-{
-  // Initialize state
-  m_Process = o;
-  m_Steps = 0;
-  m_Comment = comment;
-  m_TestAbort = false;
-  m_Iterations = 0;
+  : m_Steps(0)
+  , m_Iterations(0)
 #if defined(_COMPILER_VERSION) && (_COMPILER_VERSION == 730)
-  m_Quiet = true;
+  , m_Quiet(true);
 #else
-  m_Quiet = false;
+, m_Quiet(false)
 #endif
-
-  this->CreateCommands();
-}
+, m_TestAbort(false), m_Comment(comment), m_Process{ o } { this->CreateCommands(); }
 
 SimpleFilterWatcher::SimpleFilterWatcher()
   : m_Comment("Not watching an object")
   , m_Process(nullptr)
-
 {}
 
 SimpleFilterWatcher::SimpleFilterWatcher(const SimpleFilterWatcher & watch) { this->DeepCopy(watch); }

@@ -27,9 +27,8 @@ namespace itk
 template <typename TFixedPointSet, typename TMovingImage>
 MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet,
                                                     TMovingImage>::MeanReciprocalSquareDifferencePointSetToImageMetric()
-{
-  m_Lambda = 1.0;
-}
+  : m_Lambda(1.0)
+{}
 
 template <typename TFixedPointSet, typename TMovingImage>
 auto

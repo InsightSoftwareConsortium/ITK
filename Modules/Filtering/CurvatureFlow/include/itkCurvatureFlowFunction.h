@@ -136,7 +136,9 @@ protected:
    * values that are needed in calculating the time step. */
   struct GlobalDataStruct
   {
-    GlobalDataStruct() { m_MaxChange = ScalarValueType{}; }
+    GlobalDataStruct()
+      : m_MaxChange(ScalarValueType{})
+    {}
 
     ~GlobalDataStruct() = default;
 

@@ -147,10 +147,9 @@ public:
 
 protected:
   BinaryProjectionImageFilter()
-  {
-    m_ForegroundValue = NumericTraits<InputPixelType>::max();
-    m_BackgroundValue = NumericTraits<OutputPixelType>::NonpositiveMin();
-  }
+    : m_ForegroundValue(NumericTraits<InputPixelType>::max())
+    , m_BackgroundValue(NumericTraits<OutputPixelType>::NonpositiveMin())
+  {}
 
   ~BinaryProjectionImageFilter() override = default;
 

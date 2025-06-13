@@ -1347,11 +1347,10 @@ QuadEdgeMesh<TPixel, VDimension, TTraits>::AddFaceTriangle(const PointIdentifier
  */
 template <typename TPixel, unsigned int VDimension, typename TTraits>
 QuadEdgeMesh<TPixel, VDimension, TTraits>::QuadEdgeMesh()
-  : m_NumberOfFaces(0)
+  : m_EdgeCellsContainer(CellsContainer::New())
+  , m_NumberOfFaces(0)
   , m_NumberOfEdges(0)
-{
-  m_EdgeCellsContainer = CellsContainer::New();
-}
+{}
 
 template <typename TPixel, unsigned int VDimension, typename TTraits>
 QuadEdgeMesh<TPixel, VDimension, TTraits>::~QuadEdgeMesh()

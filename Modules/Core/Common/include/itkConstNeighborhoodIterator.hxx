@@ -206,19 +206,20 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>::GetBoundingBoxAsImageRegi
 template <typename TImage, typename TBoundaryCondition>
 ConstNeighborhoodIterator<TImage, TBoundaryCondition>::ConstNeighborhoodIterator(const Self & orig)
   : Neighborhood<InternalPixelType *, Dimension>(orig)
+  , m_BeginIndex(orig.m_BeginIndex)
+  , m_Bound(orig.m_Bound)
+  , m_Begin(orig.m_Begin)
+  , m_ConstImage(orig.m_ConstImage)
+  , m_End(orig.m_End)
+  , m_EndIndex(orig.m_EndIndex)
+  , m_Loop(orig.m_Loop)
+  , m_Region(orig.m_Region)
+  , m_WrapOffset(orig.m_WrapOffset)
+  , m_InternalBoundaryCondition(orig.m_InternalBoundaryCondition)
+  , m_NeedToUseBoundaryCondition(orig.m_NeedToUseBoundaryCondition)
 {
-  m_Bound = orig.m_Bound;
-  m_Begin = orig.m_Begin;
-  m_BeginIndex = orig.m_BeginIndex;
-  m_ConstImage = orig.m_ConstImage;
-  m_End = orig.m_End;
-  m_EndIndex = orig.m_EndIndex;
-  m_Loop = orig.m_Loop;
-  m_Region = orig.m_Region;
-  m_WrapOffset = orig.m_WrapOffset;
 
-  m_InternalBoundaryCondition = orig.m_InternalBoundaryCondition;
-  m_NeedToUseBoundaryCondition = orig.m_NeedToUseBoundaryCondition;
+
   for (DimensionValueType i = 0; i < Dimension; ++i)
   {
     m_InBounds[i] = orig.m_InBounds[i];

@@ -87,7 +87,9 @@ public:
   //  }
 
 protected:
-  QuadEdgeMeshFunctionBase() { m_Mesh = (MeshType *)nullptr; }
+  QuadEdgeMeshFunctionBase()
+    : m_Mesh((MeshType *)nullptr)
+  {}
 
   ~QuadEdgeMeshFunctionBase() override = default;
 

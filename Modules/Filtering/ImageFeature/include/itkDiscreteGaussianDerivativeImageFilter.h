@@ -180,14 +180,14 @@ public:
 
 protected:
   DiscreteGaussianDerivativeImageFilter()
+    : m_MaximumKernelWidth(32)
+    , m_UseImageSpacing(true)
+    , m_NormalizeAcrossScale(false)
+    , m_InternalNumberOfStreamDivisions(ImageDimension * ImageDimension)
   {
     m_Order.Fill(1);
     m_Variance.Fill(0.0);
     m_MaximumError.Fill(0.01);
-    m_MaximumKernelWidth = 32;
-    m_UseImageSpacing = true;
-    m_NormalizeAcrossScale = false;
-    m_InternalNumberOfStreamDivisions = ImageDimension * ImageDimension;
   }
 
   ~DiscreteGaussianDerivativeImageFilter() override = default;

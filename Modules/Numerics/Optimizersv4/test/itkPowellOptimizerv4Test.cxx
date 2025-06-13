@@ -59,7 +59,9 @@ public:
   using MeasureType = Superclass::MeasureType;
 
 
-  PowellBoundedMetric() { m_HasLocalSupport = false; }
+  PowellBoundedMetric()
+    : m_HasLocalSupport(false)
+  {}
 
   MeasureType
   GetValue() const override

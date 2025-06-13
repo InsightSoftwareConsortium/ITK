@@ -24,12 +24,11 @@ namespace itk
 namespace Statistics
 {
 NormalVariateGenerator::NormalVariateGenerator()
+  : m_Scale(30000000.0)
+  , m_Rscale(1.0 / m_Scale)
+  , m_Rcons(1.0 / (2.0 * 1024.0 * 1024.0 * 1024.0))
+  , m_Gausssave(nullptr)
 {
-  m_Scale = 30000000.0;
-  m_Rscale = 1.0 / m_Scale;
-  m_Rcons = 1.0 / (2.0 * 1024.0 * 1024.0 * 1024.0);
-
-  m_Gausssave = nullptr;
   this->Initialize(0);
 }
 

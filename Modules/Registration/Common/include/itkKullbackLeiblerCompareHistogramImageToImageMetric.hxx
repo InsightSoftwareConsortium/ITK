@@ -29,9 +29,8 @@ namespace itk
 template <typename TFixedImage, typename TMovingImage>
 KullbackLeiblerCompareHistogramImageToImageMetric<TFixedImage,
                                                   TMovingImage>::KullbackLeiblerCompareHistogramImageToImageMetric()
-{
-  m_Epsilon = 1e-12; // should be smaller than 1/numBins^2
-}
+  : m_Epsilon(1e-12) // should be smaller than 1/numBins^2
+{}
 
 template <typename TFixedImage, typename TMovingImage>
 void

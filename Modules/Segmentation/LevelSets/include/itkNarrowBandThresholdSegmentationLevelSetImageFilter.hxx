@@ -24,8 +24,8 @@ namespace itk
 template <typename TInputImage, typename TFeatureImage, typename TOutputType>
 NarrowBandThresholdSegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>::
   NarrowBandThresholdSegmentationLevelSetImageFilter()
+  : m_ThresholdFunction(ThresholdFunctionType::New())
 {
-  m_ThresholdFunction = ThresholdFunctionType::New();
   m_ThresholdFunction->SetUpperThreshold(0);
   m_ThresholdFunction->SetLowerThreshold(0);
 

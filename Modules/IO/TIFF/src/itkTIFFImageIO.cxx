@@ -204,7 +204,11 @@ TIFFImageIO::Read(void * buffer)
 }
 
 TIFFImageIO::TIFFImageIO()
-  : m_ColorPalette(0)
+  : m_InternalImage(new TIFFReaderInternal)
+  , m_ColorPalette(0)
+  , m_ColorRed(nullptr)
+  , m_ColorGreen(nullptr)
+  , m_ColorBlue(nullptr)
 
 {
   this->SetNumberOfDimensions(2);
@@ -213,12 +217,6 @@ TIFFImageIO::TIFFImageIO()
 
   m_ComponentType = IOComponentEnum::UCHAR;
   m_PixelType = IOPixelEnum::SCALAR;
-
-  m_ColorRed = nullptr;
-  m_ColorGreen = nullptr;
-  m_ColorBlue = nullptr;
-
-  m_InternalImage = new TIFFReaderInternal;
 
   m_Spacing[0] = 1.0;
   m_Spacing[1] = 1.0;

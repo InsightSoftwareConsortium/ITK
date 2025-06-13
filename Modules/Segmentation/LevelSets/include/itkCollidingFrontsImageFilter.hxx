@@ -26,13 +26,12 @@ namespace itk
 {
 template <typename TInputImage, typename TOutputImage>
 CollidingFrontsImageFilter<TInputImage, TOutputImage>::CollidingFrontsImageFilter()
-{
-  m_SeedPoints1 = nullptr;
-  m_SeedPoints2 = nullptr;
-  m_StopOnTargets = false;
-  m_ApplyConnectivity = true;
-  m_NegativeEpsilon = -1E-6;
-}
+  : m_SeedPoints1(nullptr)
+  , m_SeedPoints2(nullptr)
+  , m_StopOnTargets(false)
+  , m_ApplyConnectivity(true)
+  , m_NegativeEpsilon(-1E-6)
+{}
 
 template <typename TInputImage, typename TOutputImage>
 void

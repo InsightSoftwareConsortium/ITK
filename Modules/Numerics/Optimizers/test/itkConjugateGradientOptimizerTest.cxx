@@ -119,7 +119,9 @@ public:
   itkNewMacro(Self);
 
 protected:
-  CommandIterationUpdateConjugateGradient() { m_IterationNumber = 0; }
+  CommandIterationUpdateConjugateGradient()
+    : m_IterationNumber(0)
+  {}
 
 public:
   using OptimizerType = itk::ConjugateGradientOptimizer;

@@ -24,18 +24,16 @@ namespace itk
 
 template <typename TFixedImage, typename TMovingSpatialObject>
 ImageToSpatialObjectRegistrationMethod<TFixedImage, TMovingSpatialObject>::ImageToSpatialObjectRegistrationMethod()
+  : m_InitialTransformParameters(ParametersType(1))
+  , m_LastTransformParameters(ParametersType(1))
+  , m_Metric(nullptr)
+  , m_Optimizer(nullptr)
+  , m_MovingSpatialObject(nullptr)
+  , m_FixedImage(nullptr)
+  , m_Transform(nullptr)
+  , m_Interpolator(nullptr)
 {
   this->SetNumberOfRequiredOutputs(1); // for the Transform
-
-  m_FixedImage = nullptr;          // has to be provided by the user
-  m_MovingSpatialObject = nullptr; // has to be provided by the user
-  m_Transform = nullptr;           // has to be provided by the user
-  m_Interpolator = nullptr;        // has to be provided by the user
-  m_Metric = nullptr;              // has to be provided by the user
-  m_Optimizer = nullptr;           // has to be provided by the user
-
-  m_InitialTransformParameters = ParametersType(1);
-  m_LastTransformParameters = ParametersType(1);
 
   m_InitialTransformParameters.Fill(0.0f);
   m_LastTransformParameters.Fill(0.0f);

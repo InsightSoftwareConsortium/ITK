@@ -30,16 +30,15 @@ namespace itk
 {
 template <typename TInputImage, typename TOutputImage, typename TKernel>
 ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::ObjectMorphologyImageFilter()
-  : m_Kernel()
+  : m_UseBoundaryCondition(false)
+  , m_Kernel()
+  , m_ObjectValue(NumericTraits<PixelType>::OneValue())
 {
   m_DefaultBoundaryCondition.SetConstant(PixelType{});
   m_BoundaryCondition = &m_DefaultBoundaryCondition;
 
-  m_UseBoundaryCondition = false;
   this->DynamicMultiThreadingOn();
   this->ThreaderUpdateProgressOff();
-
-  m_ObjectValue = NumericTraits<PixelType>::OneValue();
 }
 
 template <typename TInputImage, typename TOutputImage, typename TKernel>

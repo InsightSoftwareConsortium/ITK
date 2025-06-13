@@ -78,10 +78,9 @@ protected:
   FastMarchingStoppingCriterionBase()
     : Superclass()
     , m_Domain(nullptr)
-  {
-    m_CurrentValue = OutputPixelType{};
-    m_PreviousValue = OutputPixelType{};
-  }
+    , m_PreviousValue(OutputPixelType{})
+    , m_CurrentValue(OutputPixelType{})
+  {}
 
   /** Destructor */
   ~FastMarchingStoppingCriterionBase() override = default;

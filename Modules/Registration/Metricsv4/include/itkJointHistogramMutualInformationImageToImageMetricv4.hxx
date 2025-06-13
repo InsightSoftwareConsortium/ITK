@@ -36,33 +36,30 @@ JointHistogramMutualInformationImageToImageMetricv4<
   TVirtualImage,
   TInternalComputationValueType,
   TMetricTraits>::JointHistogramMutualInformationImageToImageMetricv4()
-
+  : m_JointHistogramMutualInformationDenseComputeJointPDFThreader(
+      JointHistogramMutualInformationDenseComputeJointPDFThreaderType::New())
+  , m_JointHistogramMutualInformationSparseComputeJointPDFThreader(
+      JointHistogramMutualInformationSparseComputeJointPDFThreaderType::New())
+  , m_JointPDF(JointPDFType::New())
+  , m_VarianceForJointPDFSmoothing(1.5)
+  , m_NumberOfHistogramBins(20)
+  , m_FixedImageTrueMin(TInternalComputationValueType{})
+  , m_FixedImageTrueMax(TInternalComputationValueType{})
+  , m_MovingImageTrueMin(TInternalComputationValueType{})
+  , m_MovingImageTrueMax(TInternalComputationValueType{})
+  , m_FixedImageBinSize(TInternalComputationValueType{})
+  , m_MovingImageBinSize(TInternalComputationValueType{})
+  , m_JointPDFSum(TInternalComputationValueType{})
+  , m_Log2(std::log(2.0))
+  , m_Padding(2)
 {
   // Initialize histogram properties
-  this->m_NumberOfHistogramBins = 20;
-  this->m_FixedImageTrueMin = TInternalComputationValueType{};
-  this->m_FixedImageTrueMax = TInternalComputationValueType{};
-  this->m_MovingImageTrueMin = TInternalComputationValueType{};
-  this->m_MovingImageTrueMax = TInternalComputationValueType{};
-  this->m_FixedImageBinSize = TInternalComputationValueType{};
-  this->m_MovingImageBinSize = TInternalComputationValueType{};
-  this->m_Padding = 2;
-  this->m_JointPDFSum = TInternalComputationValueType{};
-  this->m_Log2 = std::log(2.0);
-  this->m_VarianceForJointPDFSmoothing = 1.5;
-
   // We have our own GetValueAndDerivativeThreader's that we want
   // ImageToImageMetricv4 to use.
   this->m_DenseGetValueAndDerivativeThreader =
     JointHistogramMutualInformationDenseGetValueAndDerivativeThreaderType::New();
   this->m_SparseGetValueAndDerivativeThreader =
     JointHistogramMutualInformationSparseGetValueAndDerivativeThreaderType::New();
-
-  this->m_JointHistogramMutualInformationDenseComputeJointPDFThreader =
-    JointHistogramMutualInformationDenseComputeJointPDFThreaderType::New();
-  this->m_JointHistogramMutualInformationSparseComputeJointPDFThreader =
-    JointHistogramMutualInformationSparseComputeJointPDFThreaderType::New();
-  this->m_JointPDF = JointPDFType::New();
 }
 
 template <typename TFixedImage,

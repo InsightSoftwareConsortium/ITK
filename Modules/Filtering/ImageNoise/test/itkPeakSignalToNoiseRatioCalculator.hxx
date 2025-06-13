@@ -27,12 +27,11 @@ namespace itk
 
 template <class TInputImage>
 PeakSignalToNoiseRatioCalculator<TInputImage>::PeakSignalToNoiseRatioCalculator()
-{
-  m_Valid = false;
-  m_Image = nullptr;
-  m_NoisyImage = nullptr;
-  m_Output = InputPixelType{};
-}
+  : m_Valid(false)
+  , m_Output(InputPixelType{})
+  , m_Image(nullptr)
+  , m_NoisyImage(nullptr)
+{}
 
 template <class TInputImage>
 void

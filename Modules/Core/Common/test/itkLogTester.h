@@ -29,7 +29,9 @@ namespace Testing
 class LogTester
 {
 public:
-  LogTester() { this->m_Logger = nullptr; }
+  LogTester()
+    : m_Logger(nullptr)
+  {}
   itk::LoggerBase *
   GetLogger()
   {

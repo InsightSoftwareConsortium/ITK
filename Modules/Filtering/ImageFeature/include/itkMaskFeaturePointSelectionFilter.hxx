@@ -32,12 +32,12 @@ namespace itk
 {
 template <typename TImage, typename TMask, typename TFeatures>
 MaskFeaturePointSelectionFilter<TImage, TMask, TFeatures>::MaskFeaturePointSelectionFilter()
+  : m_NonConnectivity(Self::VERTEX_CONNECTIVITY)
+  , m_SelectFraction(0.1)
+  , m_ComputeStructureTensors(true)
 {
   // default parameters
-  m_NonConnectivity = Self::VERTEX_CONNECTIVITY;
-  m_SelectFraction = 0.1;
   m_BlockRadius.Fill(2);
-  m_ComputeStructureTensors = true;
 }
 
 template <typename TImage, typename TMask, typename TFeatures>

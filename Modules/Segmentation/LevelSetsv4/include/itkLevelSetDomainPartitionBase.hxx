@@ -25,9 +25,8 @@ namespace itk
 
 template <typename TDomain>
 LevelSetDomainPartitionBase<TDomain>::LevelSetDomainPartitionBase()
-{
-  this->m_NumberOfLevelSetFunctions = NumericTraits<IdentifierType>::OneValue();
-}
+  : m_NumberOfLevelSetFunctions(NumericTraits<IdentifierType>::OneValue())
+{}
 } // end namespace itk
 
 #endif

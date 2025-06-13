@@ -24,8 +24,8 @@ namespace itk
 {
 template <unsigned int VSplineOrder, typename TRealValueType>
 CoxDeBoorBSplineKernelFunction<VSplineOrder, TRealValueType>::CoxDeBoorBSplineKernelFunction()
+  : m_SplineOrder(VSplineOrder)
 {
-  this->m_SplineOrder = VSplineOrder;
   this->GenerateBSplineShapeFunctions(this->m_SplineOrder + 1);
 }
 

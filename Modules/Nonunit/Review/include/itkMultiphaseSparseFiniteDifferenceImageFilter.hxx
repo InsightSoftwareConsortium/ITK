@@ -111,14 +111,13 @@ const typename MultiphaseSparseFiniteDifferenceImageFilter<TInputImage,
 template <typename TInputImage, typename TFeatureImage, typename TOutputImage, typename TFunction, typename TIdCell>
 MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputImage, TFunction, TIdCell>::
   MultiphaseSparseFiniteDifferenceImageFilter()
-{
-  this->m_CurrentFunctionIndex = 0;
-  this->m_IsoSurfaceValue = m_ValueZero;
-  this->m_BackgroundValue = NumericTraits<ValueType>::max();
-  this->m_NumberOfLayers = ImageDimension;
-  this->m_InterpolateSurfaceLocation = true;
-  this->m_BoundsCheckingActive = false;
-}
+  : m_NumberOfLayers(ImageDimension)
+  , m_IsoSurfaceValue(m_ValueZero)
+  , m_BackgroundValue(NumericTraits<ValueType>::max())
+  , m_InterpolateSurfaceLocation(true)
+  , m_CurrentFunctionIndex(0)
+  , m_BoundsCheckingActive(false)
+{}
 
 template <typename TInputImage, typename TFeatureImage, typename TOutputImage, typename TFunction, typename TIdCell>
 void

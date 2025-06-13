@@ -87,9 +87,8 @@ protected:
    */
   FEMLightObject(const FEMLightObject & o)
     : itk::LightObject()
-  {
-    m_GlobalNumber = o.m_GlobalNumber;
-  }
+    , m_GlobalNumber(o.m_GlobalNumber)
+  {}
 
   /**
    * Global number of an object (ID of an object)

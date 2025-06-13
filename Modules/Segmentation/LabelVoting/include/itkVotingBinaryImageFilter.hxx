@@ -31,12 +31,12 @@ namespace itk
 {
 template <typename TInputImage, typename TOutputImage>
 VotingBinaryImageFilter<TInputImage, TOutputImage>::VotingBinaryImageFilter()
+  : m_ForegroundValue(NumericTraits<InputPixelType>::max())
+  , m_BackgroundValue(InputPixelType{})
+  , m_BirthThreshold(1)
+  , m_SurvivalThreshold(1)
 {
   m_Radius.Fill(1);
-  m_ForegroundValue = NumericTraits<InputPixelType>::max();
-  m_BackgroundValue = InputPixelType{};
-  m_BirthThreshold = 1;
-  m_SurvivalThreshold = 1;
   this->ThreaderUpdateProgressOff();
 }
 

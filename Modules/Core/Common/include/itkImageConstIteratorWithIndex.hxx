@@ -26,23 +26,20 @@ namespace itk
 //----------------------------------------------------------------------
 template <typename TImage>
 ImageConstIteratorWithIndex<TImage>::ImageConstIteratorWithIndex(const Self & it)
+  : m_Image(it.m_Image) // copy the smart pointer
+  , m_PositionIndex(it.m_PositionIndex)
+  , m_BeginIndex(it.m_BeginIndex)
+  , m_EndIndex(it.m_EndIndex)
+  , m_Region(it.m_Region)
+  , m_Position(it.m_Position)
+  , m_Begin(it.m_Begin)
+  , m_End(it.m_End)
+  , m_Remaining(it.m_Remaining)
+  , m_PixelAccessor(it.m_PixelAccessor)
+  , m_PixelAccessorFunctor(it.m_PixelAccessorFunctor)
 {
-  m_Image = it.m_Image; // copy the smart pointer
-
-  m_PositionIndex = it.m_PositionIndex;
-  m_BeginIndex = it.m_BeginIndex;
-  m_EndIndex = it.m_EndIndex;
-  m_Region = it.m_Region;
-
   std::copy_n(it.m_OffsetTable, ImageDimension + 1, m_OffsetTable);
 
-  m_Position = it.m_Position;
-  m_Begin = it.m_Begin;
-  m_End = it.m_End;
-  m_Remaining = it.m_Remaining;
-
-  m_PixelAccessor = it.m_PixelAccessor;
-  m_PixelAccessorFunctor = it.m_PixelAccessorFunctor;
   m_PixelAccessorFunctor.SetBegin(m_Image->GetBufferPointer());
 }
 
@@ -51,15 +48,12 @@ ImageConstIteratorWithIndex<TImage>::ImageConstIteratorWithIndex(const Self & it
 //----------------------------------------------------------------------
 template <typename TImage>
 ImageConstIteratorWithIndex<TImage>::ImageConstIteratorWithIndex(const TImage * ptr, const RegionType & region)
+  : m_Image(ptr)
+  , m_BeginIndex(region.GetIndex())
+  , m_Region(region)
 {
-  m_Image = ptr;
-
   const InternalPixelType * buffer = m_Image->GetBufferPointer();
-
-  m_BeginIndex = region.GetIndex();
   m_PositionIndex = m_BeginIndex;
-  m_Region = region;
-
   if (region.GetNumberOfPixels() > 0) // If region is non-empty
   {
     const RegionType & bufferedRegion = m_Image->GetBufferedRegion();

@@ -25,9 +25,8 @@ namespace itk
 
 template <typename TCoordinate>
 VoronoiDiagram2D<TCoordinate>::VoronoiDiagram2D()
-{
-  m_NumberOfSeeds = 0;
-}
+  : m_NumberOfSeeds(0)
+{}
 
 template <typename TCoordinate>
 void

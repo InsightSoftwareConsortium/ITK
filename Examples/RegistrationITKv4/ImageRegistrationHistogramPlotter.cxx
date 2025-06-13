@@ -389,7 +389,9 @@ public:
   itkSimpleNewMacro(Self);
 
 protected:
-  CommandIterationUpdate() { m_WriteHistogramsAfterEveryIteration = false; }
+  CommandIterationUpdate()
+    : m_WriteHistogramsAfterEveryIteration(false)
+  {}
 
 public:
   using OptimizerType = itk::RegularStepGradientDescentOptimizer;

@@ -26,17 +26,17 @@ namespace itk
 
 template <typename TInputImage, typename TOutputImage>
 IsolatedWatershedImageFilter<TInputImage, TOutputImage>::IsolatedWatershedImageFilter()
+  : m_ReplaceValue1(NumericTraits<OutputImagePixelType>::OneValue())
+  , m_ReplaceValue2(OutputImagePixelType{})
+  , m_GradientMagnitude(GradientMagnitudeType::New())
+  , m_Watershed(WatershedType::New())
+  , m_Threshold(InputImagePixelType{})
+  , m_IsolatedValue(0.0)
+  , m_IsolatedValueTolerance(0.001)
+  , m_UpperValueLimit(1.0)
 {
-  m_Threshold = InputImagePixelType{};
   m_Seed1.Fill(0);
   m_Seed2.Fill(0);
-  m_ReplaceValue1 = NumericTraits<OutputImagePixelType>::OneValue();
-  m_ReplaceValue2 = OutputImagePixelType{};
-  m_IsolatedValue = 0.0;
-  m_IsolatedValueTolerance = 0.001;
-  m_UpperValueLimit = 1.0;
-  m_GradientMagnitude = GradientMagnitudeType::New();
-  m_Watershed = WatershedType::New();
 }
 
 template <typename TInputImage, typename TOutputImage>

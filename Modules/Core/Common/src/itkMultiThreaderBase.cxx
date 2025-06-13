@@ -414,8 +414,8 @@ MultiThreaderBase::New()
 
 
 MultiThreaderBase::MultiThreaderBase()
+  : m_MaximumNumberOfThreads(MultiThreaderBase::GetGlobalDefaultNumberOfThreads())
 {
-  m_MaximumNumberOfThreads = MultiThreaderBase::GetGlobalDefaultNumberOfThreads();
   m_NumberOfWorkUnits = m_MaximumNumberOfThreads;
 }
 

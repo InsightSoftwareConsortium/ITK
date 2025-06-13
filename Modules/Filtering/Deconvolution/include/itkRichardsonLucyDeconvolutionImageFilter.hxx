@@ -25,9 +25,8 @@ namespace itk
 template <typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision>
 RichardsonLucyDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrecision>::
   RichardsonLucyDeconvolutionImageFilter()
-{
-  m_PaddedInput = nullptr;
-}
+  : m_PaddedInput(nullptr)
+{}
 
 template <typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision>
 RichardsonLucyDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrecision>::

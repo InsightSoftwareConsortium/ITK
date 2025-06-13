@@ -52,8 +52,8 @@ public:
   using RealType = typename NumericTraits<TInputPixel>::RealType;
 
   StandardDeviationAccumulator(SizeValueType size)
+    : m_Size(size)
   {
-    m_Size = size;
     m_Values.reserve(size);
   }
 

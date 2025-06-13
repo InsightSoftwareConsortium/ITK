@@ -26,6 +26,8 @@ namespace itk
 {
 template <typename TInputImage, typename TOutputImage>
 InterpolateImageFilter<TInputImage, TOutputImage>::InterpolateImageFilter()
+  : m_IntermediateImage(nullptr)
+  , m_Distance(0.5)
 {
   // The filter requires two inputs
   this->SetNumberOfRequiredInputs(2);
@@ -37,9 +39,6 @@ InterpolateImageFilter<TInputImage, TOutputImage>::InterpolateImageFilter()
   m_Interpolator = static_cast<InterpolatorType *>(interpolator.GetPointer());
 
   // Set default distance to 0,5
-  m_Distance = 0.5;
-
-  m_IntermediateImage = nullptr;
   this->DynamicMultiThreadingOn();
   this->ThreaderUpdateProgressOff();
 }

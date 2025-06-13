@@ -24,11 +24,11 @@
 namespace itk
 {
 OFFMeshIO::OFFMeshIO()
+  : m_PointsStartPosition(StreamOffsetType{})
+  , m_TriangleCellType(true)
 {
   this->AddSupportedWriteExtension(".off");
   this->SetByteOrderToBigEndian();
-  m_PointsStartPosition = StreamOffsetType{};
-  m_TriangleCellType = true;
 }
 
 OFFMeshIO::~OFFMeshIO() = default;

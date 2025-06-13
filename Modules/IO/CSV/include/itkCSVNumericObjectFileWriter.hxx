@@ -28,10 +28,9 @@ namespace itk
 {
 template <typename TValue, unsigned int VRows, unsigned int VColumns>
 CSVNumericObjectFileWriter<TValue, VRows, VColumns>::CSVNumericObjectFileWriter()
-{
-  this->m_FieldDelimiterCharacter = ',';
-  this->m_InputObject = nullptr;
-}
+  : m_InputObject(nullptr)
+  , m_FieldDelimiterCharacter(',')
+{}
 
 template <typename TValue, unsigned int VRows, unsigned int VColumns>
 void

@@ -161,12 +161,15 @@ namespace itk
 //  Software Guide : BeginCodeSnippet
 template <typename TImage>
 CompositeExampleImageFilter<TImage>::CompositeExampleImageFilter()
+  : m_GradientFilter(GradientType::New())
+  , m_ThresholdFilter(ThresholdType::New())
+  , m_RescaleFilter(RescalerType::New())
+  , m_Threshold(1)
 {
-  m_Threshold = 1;
-  m_GradientFilter = GradientType::New();
-  m_ThresholdFilter = ThresholdType::New();
+
+
   m_ThresholdFilter->SetInput(m_GradientFilter->GetOutput());
-  m_RescaleFilter = RescalerType::New();
+
   m_RescaleFilter->SetInput(m_ThresholdFilter->GetOutput());
   m_RescaleFilter->SetOutputMinimum(
     NumericTraits<PixelType>::NonpositiveMin());

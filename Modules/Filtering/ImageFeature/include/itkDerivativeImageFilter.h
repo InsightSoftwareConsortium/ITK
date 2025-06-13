@@ -128,11 +128,10 @@ public:
 
 protected:
   DerivativeImageFilter()
-  {
-    m_Order = 1;
-    m_Direction = 0;
-    m_UseImageSpacing = true;
-  }
+    : m_Order(1)
+    , m_Direction(0)
+    , m_UseImageSpacing(true)
+  {}
 
   ~DerivativeImageFilter() override = default;
   void

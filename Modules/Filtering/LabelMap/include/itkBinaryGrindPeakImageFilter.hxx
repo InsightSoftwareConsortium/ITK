@@ -30,7 +30,6 @@ template <typename TInputImage>
 BinaryGrindPeakImageFilter<TInputImage>::BinaryGrindPeakImageFilter()
   : m_ForegroundValue(NumericTraits<InputImagePixelType>::max())
   , m_BackgroundValue(InputImagePixelType{})
-
 {}
 
 template <typename TInputImage>

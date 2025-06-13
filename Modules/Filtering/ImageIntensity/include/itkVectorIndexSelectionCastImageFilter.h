@@ -28,7 +28,9 @@ template <typename TInput, typename TOutput>
 class VectorIndexSelectionCast
 {
 public:
-  VectorIndexSelectionCast() { m_Index = 0; }
+  VectorIndexSelectionCast()
+    : m_Index(0)
+  {}
   ~VectorIndexSelectionCast() = default;
 
   unsigned int

@@ -31,9 +31,8 @@ public:
   using ConstIteratorType = itk::ImageRegionConstIteratorWithOnlyIndex<ImageType>;
 
   itkImageRegionConstIteratorWithOnlyIndexTestIteratorTester()
+    : m_Image(ImageType::New())
   {
-    m_Image = ImageType::New();
-
     auto size = ImageType::SizeType::Filled(100);
 
     typename ImageType::IndexType start{};

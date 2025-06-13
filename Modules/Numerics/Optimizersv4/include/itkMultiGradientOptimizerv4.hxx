@@ -26,13 +26,11 @@ namespace itk
 
 template <typename TInternalComputationValueType>
 MultiGradientOptimizerv4Template<TInternalComputationValueType>::MultiGradientOptimizerv4Template()
-
+  : m_StopCondition(StopConditionObjectToObjectOptimizerEnum::MAXIMUM_NUMBER_OF_ITERATIONS)
+  , m_MaximumMetricValue(NumericTraits<MeasureType>::max())
 {
   this->m_NumberOfIterations = static_cast<SizeValueType>(0);
-  this->m_StopCondition = StopConditionObjectToObjectOptimizerEnum::MAXIMUM_NUMBER_OF_ITERATIONS;
   this->m_StopConditionDescription << this->GetNameOfClass() << ": ";
-
-  this->m_MaximumMetricValue = NumericTraits<MeasureType>::max();
   this->m_MinimumMetricValue = this->m_MaximumMetricValue;
 }
 

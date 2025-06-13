@@ -28,12 +28,11 @@ namespace itk
 
 template <unsigned int VDimension, typename TEquationContainer>
 UpdateMalcolmSparseLevelSet<VDimension, TEquationContainer>::UpdateMalcolmSparseLevelSet()
-  : m_CurrentLevelSetId(IdentifierType{})
+  : m_OutputLevelSet(LevelSetType::New())
+  , m_CurrentLevelSetId(IdentifierType{})
   , m_RMSChangeAccumulator(LevelSetOutputRealType{})
-
 {
   this->m_Offset.Fill(0);
-  this->m_OutputLevelSet = LevelSetType::New();
 }
 
 template <unsigned int VDimension, typename TEquationContainer>

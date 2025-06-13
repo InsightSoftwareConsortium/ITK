@@ -40,6 +40,11 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,
                                          TFloatImageType,
                                          TRegistrationType,
                                          TDefaultRegistrationType>::MultiResolutionPDEDeformableRegistration()
+  : m_FixedImagePyramid(FixedImagePyramidType::New())
+  , m_MovingImagePyramid(MovingImagePyramidType::New())
+  , m_FieldExpander(FieldExpanderType::New())
+  , m_InitialDisplacementField(nullptr)
+  , m_NumberOfLevels(3)
 {
   this->SetNumberOfRequiredInputs(2);
   // Primary input is optional in this filter
@@ -48,12 +53,6 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,
   auto registrator = DefaultRegistrationType::New();
   m_RegistrationFilter = registrator.GetPointer();
 
-  m_MovingImagePyramid = MovingImagePyramidType::New();
-  m_FixedImagePyramid = FixedImagePyramidType::New();
-  m_FieldExpander = FieldExpanderType::New();
-  m_InitialDisplacementField = nullptr;
-
-  m_NumberOfLevels = 3;
   m_NumberOfIterations.SetSize(m_NumberOfLevels);
   m_FixedImagePyramid->SetNumberOfLevels(m_NumberOfLevels);
   m_MovingImagePyramid->SetNumberOfLevels(m_NumberOfLevels);

@@ -162,11 +162,10 @@ public:
     ConstIterator(const Self * sample) { *this = sample->Begin(); }
 
     ConstIterator(const ConstIterator & iter)
-    {
-      m_Sample = iter.m_Sample;
-      m_MembershipSample = iter.m_MembershipSample;
-      m_InstanceIdentifier = iter.m_InstanceIdentifier;
-    }
+      : m_Sample(iter.m_Sample)
+      , m_MembershipSample(iter.m_MembershipSample)
+      , m_InstanceIdentifier(iter.m_InstanceIdentifier)
+    {}
 
     ConstIterator &
     operator=(const ConstIterator & iter)

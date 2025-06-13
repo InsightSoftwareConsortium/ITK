@@ -30,8 +30,8 @@ namespace itk
 
 template <typename TInputImage, typename TOutputImage>
 PadImageFilterBase<TInputImage, TOutputImage>::PadImageFilterBase()
+  : m_BoundaryCondition(nullptr)
 {
-  m_BoundaryCondition = nullptr;
   this->DynamicMultiThreadingOn();
   this->ThreaderUpdateProgressOff();
 }

@@ -28,10 +28,10 @@ namespace itk
 
 template <typename TInputImage, typename TOutputImage>
 NeighborhoodConnectedImageFilter<TInputImage, TOutputImage>::NeighborhoodConnectedImageFilter()
+  : m_Lower(NumericTraits<InputImagePixelType>::NonpositiveMin())
+  , m_Upper(NumericTraits<InputImagePixelType>::max())
+  , m_ReplaceValue(NumericTraits<OutputImagePixelType>::OneValue())
 {
-  m_Lower = NumericTraits<InputImagePixelType>::NonpositiveMin();
-  m_Upper = NumericTraits<InputImagePixelType>::max();
-  m_ReplaceValue = NumericTraits<OutputImagePixelType>::OneValue();
   m_Radius.Fill(1);
 }
 

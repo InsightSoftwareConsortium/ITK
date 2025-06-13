@@ -108,7 +108,9 @@ public:
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<typename TInputImage::PixelType, PixelType>));
 
 protected:
-  DenseFiniteDifferenceImageFilter() { m_UpdateBuffer = UpdateBufferType::New(); }
+  DenseFiniteDifferenceImageFilter()
+    : m_UpdateBuffer(UpdateBufferType::New())
+  {}
   ~DenseFiniteDifferenceImageFilter() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

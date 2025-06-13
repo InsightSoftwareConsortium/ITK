@@ -717,23 +717,23 @@ public:
 
 protected:
   ShapeLabelObject()
+    : m_NumberOfPixels(0)
+    , m_PhysicalSize(0)
+    , m_NumberOfPixelsOnBorder(0)
+    , m_PerimeterOnBorder(0)
+    , m_FeretDiameter(0)
+    , m_Elongation(0)
+    , m_Perimeter(0)
+    , m_Roundness(0)
+    , m_EquivalentSphericalRadius(0)
+    , m_EquivalentSphericalPerimeter(0)
+    , m_Flatness(0)
+    , m_PerimeterOnBorderRatio(0)
   {
-    m_NumberOfPixels = 0;
-    m_PhysicalSize = 0;
     m_Centroid.Fill(0);
-    m_NumberOfPixelsOnBorder = 0;
-    m_PerimeterOnBorder = 0;
-    m_FeretDiameter = 0;
     m_PrincipalMoments.Fill(0);
     m_PrincipalAxes.Fill(0);
-    m_Elongation = 0;
-    m_Perimeter = 0;
-    m_Roundness = 0;
-    m_EquivalentSphericalRadius = 0;
-    m_EquivalentSphericalPerimeter = 0;
     m_EquivalentEllipsoidDiameter.Fill(0);
-    m_Flatness = 0;
-    m_PerimeterOnBorderRatio = 0;
     m_OrientedBoundingBoxSize.Fill(0);
     m_OrientedBoundingBoxOrigin.Fill(0);
   }

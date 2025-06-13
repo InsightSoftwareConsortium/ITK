@@ -25,9 +25,8 @@ namespace Statistics
 {
 template <typename TVectorContainer>
 VectorContainerToListSampleAdaptor<TVectorContainer>::VectorContainerToListSampleAdaptor()
-{
-  this->m_VectorContainer = nullptr;
-}
+  : m_VectorContainer(nullptr)
+{}
 
 template <typename TVectorContainer>
 void

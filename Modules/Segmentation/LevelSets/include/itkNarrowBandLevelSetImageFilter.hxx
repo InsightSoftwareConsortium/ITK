@@ -42,20 +42,19 @@ NarrowBandLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TOut
 template <typename TInputImage, typename TFeatureImage, typename TOutputPixelType, typename TOutputImage>
 NarrowBandLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TOutputImage>::
   NarrowBandLevelSetImageFilter()
+  : m_ReverseExpansionDirection(false)
+  , m_IsoFilter(IsoFilterType::New())
+  , m_ChamferFilter(ChamferFilterType::New())
+  , m_SegmentationFunction(nullptr)
 {
   this->SetNumberOfRequiredInputs(2);
   // this->SetNarrowBandInnerRadius();
   // this->SetNarrowBandTotalRadius();
-  m_SegmentationFunction = nullptr;
-
-  m_IsoFilter = IsoFilterType::New();
-  m_ChamferFilter = ChamferFilterType::New();
 
   // Provide some reasonable defaults which will at least prevent infinite
   // looping.
   this->SetMaximumRMSError(0.02);
   this->SetNumberOfIterations(1000);
-  m_ReverseExpansionDirection = false;
 }
 
 template <typename TInputImage, typename TFeatureImage, typename TOutputPixelType, typename TOutputImage>

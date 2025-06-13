@@ -27,17 +27,17 @@ namespace itk
 {
 template <typename TFixedImage, typename TMovingImage>
 HistogramImageToImageMetric<TFixedImage, TMovingImage>::HistogramImageToImageMetric()
+  : m_UpperBoundIncreaseFactor(0.001)
+  , m_LowerBoundSetByUser(false)
+  , m_UpperBoundSetByUser(false)
+  , m_PaddingValue(FixedImagePixelType{})
+  , m_UsePaddingValue(false)
+  , m_DerivativeStepLength(0.1)
 {
   m_HistogramSize.Fill(256);
-  m_UsePaddingValue = false;
-  m_DerivativeStepLength = 0.1;
   m_DerivativeStepLengthScales.Fill(1);
-  m_UpperBoundIncreaseFactor = 0.001;
-  m_PaddingValue = FixedImagePixelType{};
   m_Histogram = HistogramType::New();
   m_Histogram->SetMeasurementVectorSize(2);
-  m_LowerBoundSetByUser = false;
-  m_UpperBoundSetByUser = false;
 }
 
 template <typename TFixedImage, typename TMovingImage>

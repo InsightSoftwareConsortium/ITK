@@ -27,28 +27,25 @@ namespace itk
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 SymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::
   SymmetricForcesDemonsRegistrationFunction()
+  : m_Normalizer(0.0)
+  , m_FixedImageGradientCalculator(GradientCalculatorType::New())
+  , m_TimeStep(1.0)
+  , m_DenominatorThreshold(1e-9)
+  , m_IntensityDifferenceThreshold(0.001)
+  , m_Metric(NumericTraits<double>::max())
+  , m_SumOfSquaredDifference(0.0)
+  , m_NumberOfPixelsProcessed(0L)
+  , m_RMSChange(NumericTraits<double>::max())
+  , m_SumOfSquaredChange(0.0)
 {
   constexpr RadiusType r{};
   this->SetRadius(r);
-
-  m_TimeStep = 1.0;
-  m_DenominatorThreshold = 1e-9;
-  m_IntensityDifferenceThreshold = 0.001;
   this->SetMovingImage(nullptr);
   this->SetFixedImage(nullptr);
   m_FixedImageSpacing.Fill(1.0);
-  m_Normalizer = 0.0;
-  m_FixedImageGradientCalculator = GradientCalculatorType::New();
 
   auto interp = DefaultInterpolatorType::New();
-
   m_MovingImageInterpolator = static_cast<InterpolatorType *>(interp.GetPointer());
-
-  m_Metric = NumericTraits<double>::max();
-  m_SumOfSquaredDifference = 0.0;
-  m_NumberOfPixelsProcessed = 0L;
-  m_RMSChange = NumericTraits<double>::max();
-  m_SumOfSquaredChange = 0.0;
 }
 
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>

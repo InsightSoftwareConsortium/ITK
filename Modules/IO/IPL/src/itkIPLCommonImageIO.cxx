@@ -38,11 +38,11 @@ namespace itk
 {
 // Default constructor
 IPLCommonImageIO::IPLCommonImageIO()
+  : m_ImageHeader(nullptr)
+  , m_SystemByteOrder(ByteSwapper<int>::SystemIsBigEndian() ? IOByteOrderEnum::BigEndian
+                                                            : IOByteOrderEnum::LittleEndian)
+  , m_FilenameList(new IPLFileNameList)
 {
-  m_SystemByteOrder =
-    ByteSwapper<int>::SystemIsBigEndian() ? IOByteOrderEnum::BigEndian : IOByteOrderEnum::LittleEndian;
-  m_ImageHeader = nullptr;
-  m_FilenameList = new IPLFileNameList;
   this->SetComponentType(IOComponentEnum::SHORT);
 }
 

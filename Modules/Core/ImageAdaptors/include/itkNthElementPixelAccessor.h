@@ -110,7 +110,9 @@ public:
   }
 
   /** Constructor */
-  NthElementPixelAccessor() { m_ElementNumber = 0; }
+  NthElementPixelAccessor()
+    : m_ElementNumber(0)
+  {}
 
 private:
   // Identifier of the N-th element to be accessed

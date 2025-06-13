@@ -35,9 +35,8 @@ template <typename TInputImage, typename TOutputImage>
 ImageSeriesWriter<TInputImage, TOutputImage>::ImageSeriesWriter()
   : m_ImageIO(nullptr)
   , m_SeriesFormat("%d")
-{
-  m_UseCompression = false;
-}
+  , m_UseCompression(false)
+{}
 
 //---------------------------------------------------------
 template <typename TInputImage, typename TOutputImage>

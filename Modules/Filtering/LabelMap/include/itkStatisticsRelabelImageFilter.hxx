@@ -24,10 +24,10 @@ namespace itk
 {
 template <typename TInputImage, typename TFeatureImage>
 StatisticsRelabelImageFilter<TInputImage, TFeatureImage>::StatisticsRelabelImageFilter()
+  : m_BackgroundValue(NumericTraits<OutputImagePixelType>::NonpositiveMin())
+  , m_ReverseOrdering(false)
+  , m_Attribute(LabelObjectType::MEAN)
 {
-  m_BackgroundValue = NumericTraits<OutputImagePixelType>::NonpositiveMin();
-  m_ReverseOrdering = false;
-  m_Attribute = LabelObjectType::MEAN;
   this->SetNumberOfRequiredInputs(2);
 }
 

@@ -60,8 +60,8 @@ public:
 
 protected:
   itkTestObject()
+    : m_ReferenceCount(0)
   {
-    m_ReferenceCount = 0;
     std::cout << "construct itkTestObject " << *this << std::endl;
   }
   virtual ~itkTestObject() { std::cout << "destruct itkTestObject " << *this << std::endl; }

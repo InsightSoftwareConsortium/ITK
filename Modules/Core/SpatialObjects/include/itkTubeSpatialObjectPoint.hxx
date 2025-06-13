@@ -25,21 +25,21 @@ namespace itk
 
 template <unsigned int TPointDimension>
 TubeSpatialObjectPoint<TPointDimension>::TubeSpatialObjectPoint()
+  : m_Branchness(0)
+  , m_Medialness(0)
+  , m_Ridgeness(0)
+  , m_Curvature(0)
+  , m_Levelness(0)
+  , m_Roundness(0)
+  , m_Intensity(0)
+  , m_Alpha1(0)
+  , m_Alpha2(0)
+  , m_Alpha3(0)
+  , m_RadiusInObjectSpace(0)
 {
   m_TangentInObjectSpace.Fill(0);
   m_Normal1InObjectSpace.Fill(0);
   m_Normal2InObjectSpace.Fill(0);
-  m_RadiusInObjectSpace = 0;
-  m_Medialness = 0;
-  m_Ridgeness = 0;
-  m_Branchness = 0;
-  m_Curvature = 0;
-  m_Levelness = 0;
-  m_Roundness = 0;
-  m_Intensity = 0;
-  m_Alpha1 = 0;
-  m_Alpha2 = 0;
-  m_Alpha3 = 0;
 }
 
 template <unsigned int TPointDimension>

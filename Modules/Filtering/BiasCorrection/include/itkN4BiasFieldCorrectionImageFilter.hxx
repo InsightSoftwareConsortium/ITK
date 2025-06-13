@@ -46,6 +46,7 @@ template <typename TInputImage, typename TMaskImage, typename TOutputImage>
 N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::N4BiasFieldCorrectionImageFilter()
   : m_MaskLabel(NumericTraits<MaskPixelType>::OneValue())
   , m_CurrentConvergenceMeasurement(RealType{})
+  , m_LogBiasFieldControlPointLattice(nullptr)
 
 {
   // implicit:
@@ -58,9 +59,6 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::N4BiasF
   Self::AddOptionalInputName("ConfidenceImage", 2);
 
   this->SetNumberOfRequiredInputs(1);
-
-  this->m_LogBiasFieldControlPointLattice = nullptr;
-
   this->m_NumberOfFittingLevels.Fill(1);
   this->m_NumberOfControlPoints.Fill(4);
 

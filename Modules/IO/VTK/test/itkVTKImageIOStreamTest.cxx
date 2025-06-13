@@ -54,7 +54,9 @@ public:
   itkSetMacro(Value, typename TOutputImage::PixelType);
 
 protected:
-  ConstantImageSource() { m_Value = typename TOutputImage::PixelType{}; }
+  ConstantImageSource()
+    : m_Value(typename TOutputImage::PixelType{})
+  {}
   ~ConstantImageSource() override = default;
 
   /** Does the real work. */

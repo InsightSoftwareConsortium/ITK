@@ -45,9 +45,8 @@ DataObjectError::DataObjectError(std::string file, unsigned int lineNumber)
 
 DataObjectError::DataObjectError(const DataObjectError & orig) noexcept
   : ExceptionObject(orig)
-{
-  m_DataObject = orig.m_DataObject;
-}
+  , m_DataObject(orig.m_DataObject)
+{}
 
 DataObjectError &
 DataObjectError::operator=(const DataObjectError &) noexcept = default;
@@ -111,17 +110,15 @@ InvalidRequestedRegionError::PrintSelf(std::ostream & os, Indent indent) const
 
 //----------------------------------------------------------------------------
 DataObject::DataObject()
-  : m_UpdateMTime()
-{
-  m_Source = nullptr;
-  m_SourceOutputName = "";
-  m_ReleaseDataFlag = false;
-
+  : m_SourceOutputName("")
+  , m_UpdateMTime()
   // We have to assume that if a user is creating the data on their own,
   // then they will fill it with valid data.
-  m_DataReleased = false;
-
-  m_PipelineMTime = 0;
+  , m_ReleaseDataFlag(false)
+  , m_DataReleased(false)
+  , m_PipelineMTime(0)
+{
+  m_Source = nullptr;
 }
 
 //----------------------------------------------------------------------------

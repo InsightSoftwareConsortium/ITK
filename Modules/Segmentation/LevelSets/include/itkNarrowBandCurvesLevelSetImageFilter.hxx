@@ -24,11 +24,10 @@ namespace itk
 {
 template <typename TInputImage, typename TFeatureImage, typename TOutputType>
 NarrowBandCurvesLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>::NarrowBandCurvesLevelSetImageFilter()
+  : m_CurvesFunction(CurvesFunctionType::New())
 {
   /* Instantiate a geodesic active contour function and set it as the
     segmentation function. */
-  m_CurvesFunction = CurvesFunctionType::New();
-
   this->SetSegmentationFunction(m_CurvesFunction);
 
   /* Use negative features by default. */

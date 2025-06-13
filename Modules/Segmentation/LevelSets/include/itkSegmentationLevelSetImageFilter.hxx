@@ -25,6 +25,9 @@ namespace itk
 
 template <typename TInputImage, typename TFeatureImage, typename TOutputPixelType>
 SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>::SegmentationLevelSetImageFilter()
+  : m_ReverseExpansionDirection(false)
+  , m_AutoGenerateSpeedAdvection(true)
+  , m_SegmentationFunction(nullptr)
 {
   // #0 "InitialImage" required
   Self::SetPrimaryInputName("InitialImage");
@@ -34,15 +37,12 @@ SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>::S
 
   this->SetNumberOfRequiredInputs(2);
   this->SetNumberOfLayers(TInputImage::ImageDimension);
-  m_SegmentationFunction = nullptr;
-  m_AutoGenerateSpeedAdvection = true;
   this->SetIsoSurfaceValue(ValueType{});
 
   // Provide some reasonable defaults which will at least prevent infinite
   // looping.
   this->SetMaximumRMSError(0.02);
   this->SetNumberOfIterations(1000);
-  m_ReverseExpansionDirection = false;
 }
 
 template <typename TInputImage, typename TFeatureImage, typename TOutputPixelType>

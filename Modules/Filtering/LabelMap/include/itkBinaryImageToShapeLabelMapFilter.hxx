@@ -24,14 +24,13 @@ namespace itk
 {
 template <typename TInputImage, typename TOutputImage>
 BinaryImageToShapeLabelMapFilter<TInputImage, TOutputImage>::BinaryImageToShapeLabelMapFilter()
-{
-  m_OutputBackgroundValue = NumericTraits<OutputImagePixelType>::NonpositiveMin();
-  m_InputForegroundValue = NumericTraits<InputImagePixelType>::max();
-  m_FullyConnected = false;
-  m_ComputeFeretDiameter = false;
-  m_ComputePerimeter = true;
-  m_ComputeOrientedBoundingBox = false;
-}
+  : m_FullyConnected(false)
+  , m_OutputBackgroundValue(NumericTraits<OutputImagePixelType>::NonpositiveMin())
+  , m_InputForegroundValue(NumericTraits<InputImagePixelType>::max())
+  , m_ComputeFeretDiameter(false)
+  , m_ComputePerimeter(true)
+  , m_ComputeOrientedBoundingBox(false)
+{}
 
 template <typename TInputImage, typename TOutputImage>
 void

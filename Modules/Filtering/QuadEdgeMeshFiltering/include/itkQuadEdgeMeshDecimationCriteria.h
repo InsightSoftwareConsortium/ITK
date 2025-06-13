@@ -75,12 +75,11 @@ public:
 
 protected:
   QuadEdgeMeshDecimationCriterion()
-  {
-    this->m_TopologicalChange = true;
-    this->m_SizeCriterion = true;
-    this->m_NumberOfElements = 0;
-    this->m_MeasureBound = MeasureType{};
-  }
+    : m_TopologicalChange(true)
+    , m_SizeCriterion(true)
+    , m_NumberOfElements(0)
+    , m_MeasureBound(MeasureType{})
+  {}
 
   ~QuadEdgeMeshDecimationCriterion() override = default;
   void

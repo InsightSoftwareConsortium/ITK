@@ -29,10 +29,9 @@ namespace itk
 template <typename TInputImage, typename TOutputImage, typename TKernel>
 OpeningByReconstructionImageFilter<TInputImage, TOutputImage, TKernel>::OpeningByReconstructionImageFilter()
   : m_Kernel()
-{
-  m_FullyConnected = false;
-  m_PreserveIntensities = false;
-}
+  , m_FullyConnected(false)
+  , m_PreserveIntensities(false)
+{}
 
 template <typename TInputImage, typename TOutputImage, typename TKernel>
 void

@@ -113,10 +113,9 @@ public:
     ConstIterator(const VectorContainerToListSampleAdaptor * adaptor) { *this = adaptor->Begin(); }
 
     ConstIterator(const ConstIterator & iter)
-    {
-      this->m_Iter = iter.m_Iter;
-      this->m_InstanceIdentifier = iter.m_InstanceIdentifier;
-    }
+      : m_Iter(iter.m_Iter)
+      , m_InstanceIdentifier(iter.m_InstanceIdentifier)
+    {}
 
     ConstIterator() = delete;
 
@@ -165,10 +164,9 @@ public:
   protected:
     // This method should only be available to the ListSample class
     ConstIterator(VectorContainerConstIterator iter, InstanceIdentifier iid)
-    {
-      this->m_Iter = iter;
-      this->m_InstanceIdentifier = iid;
-    }
+      : m_Iter(iter)
+      , m_InstanceIdentifier(iid)
+    {}
 
   private:
     VectorContainerConstIterator m_Iter;

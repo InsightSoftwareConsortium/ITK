@@ -30,7 +30,6 @@ namespace itk
 template <typename TInputPixelType, typename TOutputPixelType>
 HoughTransform2DLinesImageFilter<TInputPixelType, TOutputPixelType>::HoughTransform2DLinesImageFilter()
   : m_LinesList()
-
 {}
 
 

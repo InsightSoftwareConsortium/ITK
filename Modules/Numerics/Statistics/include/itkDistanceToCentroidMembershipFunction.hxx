@@ -26,10 +26,10 @@ namespace Statistics
 {
 template <typename TVector>
 DistanceToCentroidMembershipFunction<TVector>::DistanceToCentroidMembershipFunction()
+  : m_DistanceMetric(EuclideanDistanceMetric<TVector>::New())
 {
   // Initialize by default to an Euclidean distance. This default can be
   // changed by calling SetDistanceMetric().
-  m_DistanceMetric = EuclideanDistanceMetric<TVector>::New();
 }
 
 template <typename TVector>

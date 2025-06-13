@@ -54,7 +54,9 @@ template <typename TInput>
 class SimilarPixelsFunctor
 {
 public:
-  SimilarPixelsFunctor() { m_Threshold = TInput{}; }
+  SimilarPixelsFunctor()
+    : m_Threshold(TInput{})
+  {}
 
   ~SimilarPixelsFunctor() = default;
 

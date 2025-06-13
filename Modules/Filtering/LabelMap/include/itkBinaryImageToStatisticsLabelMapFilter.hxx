@@ -24,14 +24,14 @@ namespace itk
 {
 template <typename TInputImage, typename TFeatureImage, typename TOutputImage>
 BinaryImageToStatisticsLabelMapFilter<TInputImage, TFeatureImage, TOutputImage>::BinaryImageToStatisticsLabelMapFilter()
+  : m_FullyConnected(false)
+  , m_OutputBackgroundValue(NumericTraits<OutputImagePixelType>::NonpositiveMin())
+  , m_InputForegroundValue(NumericTraits<InputImagePixelType>::max())
+  , m_ComputeFeretDiameter(false)
+  , m_ComputePerimeter(true)
+  , m_NumberOfBins(LabelObjectValuatorType::GetDefaultNumberOfBins())
+  , m_ComputeHistogram(true)
 {
-  m_OutputBackgroundValue = NumericTraits<OutputImagePixelType>::NonpositiveMin();
-  m_InputForegroundValue = NumericTraits<InputImagePixelType>::max();
-  m_FullyConnected = false;
-  m_ComputeFeretDiameter = false;
-  m_ComputePerimeter = true;
-  m_NumberOfBins = LabelObjectValuatorType::GetDefaultNumberOfBins();
-  m_ComputeHistogram = true;
   this->SetNumberOfRequiredInputs(2);
 }
 

@@ -143,11 +143,10 @@ public:
     ConstIterator(const Self * sample) { *this = sample->Begin(); }
 
     ConstIterator(const ConstIterator & iter)
-    {
-      m_Iter = iter.m_Iter;
-      m_Subsample = iter.m_Subsample;
-      m_Sample = iter.m_Sample;
-    }
+      : m_Iter(iter.m_Iter)
+      , m_Subsample(iter.m_Subsample)
+      , m_Sample(iter.m_Sample)
+    {}
 
     ConstIterator &
     operator=(const ConstIterator & iter)

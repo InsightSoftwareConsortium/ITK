@@ -144,14 +144,13 @@ public:
 
 protected:
   VectorThresholdSegmentationLevelSetFunction()
+    : m_Mahalanobis(MahalanobisFunctionType::New())
   {
     MeanVectorType       mean(NumberOfComponents);
     CovarianceMatrixType covariance(NumberOfComponents, NumberOfComponents);
 
     mean.Fill(typename FeatureScalarType::ValueType{});
     covariance.Fill(typename FeatureScalarType::ValueType{});
-
-    m_Mahalanobis = MahalanobisFunctionType::New();
     m_Mahalanobis->SetMean(mean);
     m_Mahalanobis->SetCovariance(covariance);
 

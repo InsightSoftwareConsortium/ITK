@@ -25,10 +25,10 @@ namespace itk
 //-------------------------------------------------------------------
 template <typename TInternalComputationValueType>
 ObjectToObjectMetricBaseTemplate<TInternalComputationValueType>::ObjectToObjectMetricBaseTemplate()
+  : m_GradientSource(GradientSourceEnum::GRADIENT_SOURCE_MOVING)
+  , m_Value(MeasureType{})
 {
   // Don't call SetGradientSource, to avoid valgrind warning.
-  this->m_GradientSource = GradientSourceEnum::GRADIENT_SOURCE_MOVING;
-  this->m_Value = MeasureType{};
 }
 
 //-------------------------------------------------------------------

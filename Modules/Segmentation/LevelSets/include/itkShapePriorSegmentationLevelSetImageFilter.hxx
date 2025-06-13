@@ -38,12 +38,11 @@ ShapePriorSegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPix
 template <typename TInputImage, typename TFeatureImage, typename TOutputPixelType>
 ShapePriorSegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>::
   ShapePriorSegmentationLevelSetImageFilter()
-{
-  m_ShapeFunction = nullptr;
-  m_Optimizer = nullptr;
-  m_CostFunction = nullptr;
-  m_ShapePriorSegmentationFunction = nullptr;
-}
+  : m_ShapeFunction(nullptr)
+  , m_CostFunction(nullptr)
+  , m_Optimizer(nullptr)
+  , m_ShapePriorSegmentationFunction(nullptr)
+{}
 
 template <typename TInputImage, typename TFeatureImage, typename TOutputPixelType>
 void

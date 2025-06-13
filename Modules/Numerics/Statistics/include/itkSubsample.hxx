@@ -27,11 +27,10 @@ namespace Statistics
 {
 template <typename TSample>
 Subsample<TSample>::Subsample()
-{
-  m_Sample = nullptr;
-  m_TotalFrequency = AbsoluteFrequencyType{};
-  m_ActiveDimension = 0;
-}
+  : m_Sample(nullptr)
+  , m_ActiveDimension(0)
+  , m_TotalFrequency(AbsoluteFrequencyType{})
+{}
 
 template <typename TSample>
 void

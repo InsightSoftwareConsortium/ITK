@@ -27,9 +27,8 @@ namespace itk
 template <typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision>
 WienerDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrecision>::
   WienerDeconvolutionImageFilter()
-{
-  m_NoiseVariance = 0.0;
-}
+  : m_NoiseVariance(0.0)
+{}
 
 template <typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision>
 void

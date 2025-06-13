@@ -146,11 +146,10 @@ public:
 
 protected:
   BinaryThresholdProjectionImageFilter()
-  {
-    m_ForegroundValue = NumericTraits<OutputPixelType>::max();
-    m_BackgroundValue = NumericTraits<OutputPixelType>::NonpositiveMin();
-    m_ThresholdValue = InputPixelType{};
-  }
+    : m_ForegroundValue(NumericTraits<OutputPixelType>::max())
+    , m_BackgroundValue(NumericTraits<OutputPixelType>::NonpositiveMin())
+    , m_ThresholdValue(InputPixelType{})
+  {}
 
   ~BinaryThresholdProjectionImageFilter() override = default;
 

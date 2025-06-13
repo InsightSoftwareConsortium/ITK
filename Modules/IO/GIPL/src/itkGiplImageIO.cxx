@@ -73,10 +73,10 @@ public:
 #define GIPL_MAGIC_NUMBER2 0x2ae389b8
 
 GiplImageIO::GiplImageIO()
-  : m_Internal(std::make_unique<GiplImageIOInternals>())
+  : m_IsCompressed(false)
+  , m_Internal(std::make_unique<GiplImageIOInternals>())
 {
   m_ByteOrder = IOByteOrderEnum::BigEndian;
-  m_IsCompressed = false;
 }
 
 GiplImageIO::~GiplImageIO()

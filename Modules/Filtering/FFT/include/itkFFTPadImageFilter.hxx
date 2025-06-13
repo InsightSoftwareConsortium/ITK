@@ -31,10 +31,9 @@ namespace itk
 
 template <class TInputImage, class TOutputImage>
 FFTPadImageFilter<TInputImage, TOutputImage>::FFTPadImageFilter()
+  : m_SizeGreatestPrimeFactor(
+      ForwardFFTImageFilter<Image<float, TInputImage::ImageDimension>>::New()->GetSizeGreatestPrimeFactor())
 {
-  using RealImageType = Image<float, TInputImage::ImageDimension>;
-  using FFTFilterType = ForwardFFTImageFilter<RealImageType>;
-  m_SizeGreatestPrimeFactor = FFTFilterType::New()->GetSizeGreatestPrimeFactor();
   Self::InternalSetBoundaryCondition(&m_DefaultBoundaryCondition);
 }
 

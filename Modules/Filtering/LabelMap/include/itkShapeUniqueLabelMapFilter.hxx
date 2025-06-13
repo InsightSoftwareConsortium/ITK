@@ -24,10 +24,9 @@ namespace itk
 {
 template <typename TImage>
 ShapeUniqueLabelMapFilter<TImage>::ShapeUniqueLabelMapFilter()
-{
-  m_ReverseOrdering = false;
-  m_Attribute = LabelObjectType::NUMBER_OF_PIXELS;
-}
+  : m_Attribute(LabelObjectType::NUMBER_OF_PIXELS)
+  , m_ReverseOrdering(false)
+{}
 
 template <typename TImage>
 void

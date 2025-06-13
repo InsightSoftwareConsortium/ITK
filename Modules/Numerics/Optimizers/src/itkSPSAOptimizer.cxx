@@ -23,24 +23,23 @@ namespace itk
 {
 
 SPSAOptimizer::SPSAOptimizer()
-
+  : m_LearningRate(0.0)
+  , m_StopCondition(StopConditionSPSAOptimizerEnum::Unknown)
+  , m_StateOfConvergence(0)
+  , m_CurrentIteration(0)
+  , m_MinimumNumberOfIterations(10)
+  , m_MaximumNumberOfIterations(100)
+  , m_StateOfConvergenceDecayRate(0.9)
+  , m_Tolerance(1e-06)
+  , m_Maximize(false)
+  , m_GradientMagnitude(0.0)
+  , m_NumberOfPerturbations(1)
+  , m_Sa(1.0)
+  , m_Sc(1.0)
+  , m_A(m_MaximumNumberOfIterations / 10)
+  , m_Alpha(0.602)
+  , m_Gamma(0.101)
 {
-  m_CurrentIteration = 0;
-  m_Maximize = false;
-  m_StopCondition = StopConditionSPSAOptimizerEnum::Unknown;
-  m_StateOfConvergenceDecayRate = 0.9;
-  m_Tolerance = 1e-06;
-  m_StateOfConvergence = 0;
-  m_MaximumNumberOfIterations = 100;
-  m_MinimumNumberOfIterations = 10;
-  m_GradientMagnitude = 0.0;
-  m_NumberOfPerturbations = 1;
-  m_LearningRate = 0.0;
-  m_Sa = 1.0;
-  m_Sc = 1.0;
-  m_A = m_MaximumNumberOfIterations / 10;
-  m_Alpha = 0.602;
-  m_Gamma = 0.101;
   m_Generator = Statistics::MersenneTwisterRandomVariateGenerator::GetInstance();
 }
 

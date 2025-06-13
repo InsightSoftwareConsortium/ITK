@@ -77,12 +77,11 @@ public:
 
 protected:
   ColormapFunction()
-  {
-    this->m_MinimumInputValue = NumericTraits<TScalar>::min();
-    this->m_MaximumInputValue = NumericTraits<TScalar>::max();
-    this->m_MinimumRGBComponentValue = NumericTraits<RGBComponentType>::min();
-    this->m_MaximumRGBComponentValue = NumericTraits<RGBComponentType>::max();
-  }
+    : m_MinimumInputValue(NumericTraits<TScalar>::min())
+    , m_MaximumInputValue(NumericTraits<TScalar>::max())
+    , m_MinimumRGBComponentValue(NumericTraits<RGBComponentType>::min())
+    , m_MaximumRGBComponentValue(NumericTraits<RGBComponentType>::max())
+  {}
 
   ~ColormapFunction() override = default;
 

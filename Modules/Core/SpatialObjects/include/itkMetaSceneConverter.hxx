@@ -41,13 +41,13 @@ namespace itk
 
 template <unsigned int VDimension, typename PixelType, typename TMeshTraits>
 MetaSceneConverter<VDimension, PixelType, TMeshTraits>::MetaSceneConverter()
+  : m_Event(nullptr)
+  , m_BinaryPoints(false)
+  , m_WriteImagesInSeparateFile(false)
+  , m_TransformPrecision(6)
 {
   // default behaviour of scene converter is not to save transform
   // with each spatial object.
-  m_Event = nullptr;
-  m_BinaryPoints = false;
-  m_TransformPrecision = 6;
-  m_WriteImagesInSeparateFile = false;
 }
 
 template <unsigned int VDimension, typename PixelType, typename TMeshTraits>

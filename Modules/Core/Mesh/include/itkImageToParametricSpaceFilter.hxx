@@ -31,10 +31,10 @@ namespace itk
  */
 template <typename TInputImage, typename TOutputMesh>
 ImageToParametricSpaceFilter<TInputImage, TOutputMesh>::ImageToParametricSpaceFilter()
+  : m_ComputeIndices(true)
 {
   // Modify superclass default values, can be overridden by subclasses
   this->SetNumberOfRequiredInputs(PointDimension);
-  m_ComputeIndices = true;
 }
 
 /**

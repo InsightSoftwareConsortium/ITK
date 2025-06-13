@@ -51,10 +51,9 @@ namespace itk
 
 template <typename TInputImage, typename TOutputImage>
 ScalarToRGBColormapImageFilter<TInputImage, TOutputImage>::ScalarToRGBColormapImageFilter()
+  : m_UseInputImageExtremaForScaling(true)
 {
   this->SetNumberOfRequiredInputs(1);
-
-  this->m_UseInputImageExtremaForScaling = true;
   this->DynamicMultiThreadingOn();
   this->ThreaderUpdateProgressOff();
 

@@ -24,6 +24,14 @@
 namespace itk
 {
 SimplexMeshGeometry::SimplexMeshGeometry()
+  : closestAttractorIndex(0)
+  , circleRadius(0)
+  , sphereRadius(0)
+  , distance(0)
+  , phi(0)
+  , neighborSet(nullptr)
+  , multiplier(0.0)
+  , forceIndex(0)
 {
   constexpr double    c = 1.0 / 3.0;
   constexpr PointType p{};
@@ -36,20 +44,11 @@ SimplexMeshGeometry::SimplexMeshGeometry()
   externalForce.Fill(0);
   internalForce.Fill(0);
   closestAttractor.Fill(0);
-  circleRadius = 0;
   circleCenter.Fill(0);
-  sphereRadius = 0;
-  distance = 0;
-  phi = 0;
-  multiplier = 0.0;
-  forceIndex = 0;
 
   neighborIndices.Fill(NumericTraits<IdentifierType>::max());
   neighbors.Fill(p);
   meanCurvature = c;
-
-  neighborSet = nullptr;
-  closestAttractorIndex = 0;
 }
 
 SimplexMeshGeometry::~SimplexMeshGeometry()

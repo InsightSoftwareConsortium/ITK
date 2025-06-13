@@ -24,9 +24,9 @@ namespace itk
 
 template <typename TImageType>
 PipelineMonitorImageFilter<TImageType>::PipelineMonitorImageFilter()
+  : m_ClearPipelineOnGenerateOutputInformation(true)
+  , m_NumberOfClearPipeline(0)
 {
-  m_NumberOfClearPipeline = 0;
-  m_ClearPipelineOnGenerateOutputInformation = true;
   this->ClearPipelineSavedInformation();
 }
 

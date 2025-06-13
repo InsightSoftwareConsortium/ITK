@@ -53,12 +53,11 @@ class Sigmoid
 {
 public:
   Sigmoid()
-  {
-    m_Alpha = 1.0;
-    m_Beta = 0.0;
-    m_OutputMinimum = NumericTraits<TOutput>::min();
-    m_OutputMaximum = NumericTraits<TOutput>::max();
-  }
+    : m_Alpha(1.0)
+    , m_Beta(0.0)
+    , m_OutputMinimum(NumericTraits<TOutput>::min())
+    , m_OutputMaximum(NumericTraits<TOutput>::max())
+  {}
 
   ~Sigmoid() = default;
 

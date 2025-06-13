@@ -170,10 +170,9 @@ public:
     ConstIterator(const ImageToNeighborhoodSampleAdaptor * adaptor) { *this = adaptor->Begin(); }
 
     ConstIterator(const ConstIterator & iter)
-    {
-      m_MeasurementVectorCache = iter.m_MeasurementVectorCache;
-      m_InstanceIdentifier = iter.m_InstanceIdentifier;
-    }
+      : m_MeasurementVectorCache(iter.m_MeasurementVectorCache)
+      , m_InstanceIdentifier(iter.m_InstanceIdentifier)
+    {}
 
     ConstIterator &
     operator=(const ConstIterator & iter)
@@ -220,10 +219,10 @@ public:
   protected:
     // This method should only be available to the ListSample class
     ConstIterator(NeighborhoodIteratorType iter, InstanceIdentifier iid)
+      : m_InstanceIdentifier(iid)
     {
       this->m_MeasurementVectorCache.clear();
       this->m_MeasurementVectorCache.push_back(iter);
-      m_InstanceIdentifier = iid;
     }
 
   private:

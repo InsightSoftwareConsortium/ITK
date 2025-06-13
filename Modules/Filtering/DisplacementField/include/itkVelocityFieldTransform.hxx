@@ -28,14 +28,13 @@ namespace itk
 
 template <typename TParametersValueType, unsigned int VDimension>
 VelocityFieldTransform<TParametersValueType, VDimension>::VelocityFieldTransform()
+  : m_LowerTimeBound(0.0)
+  , m_UpperTimeBound(1.0)
+  , m_NumberOfIntegrationSteps(10)
+  , m_VelocityFieldSetTime(0)
 {
   this->m_FixedParameters.SetSize(VelocityFieldDimension * (VelocityFieldDimension + 3));
   this->m_FixedParameters.Fill(0.0);
-
-  this->m_LowerTimeBound = 0.0;
-  this->m_UpperTimeBound = 1.0;
-
-  this->m_NumberOfIntegrationSteps = 10;
 
   // Setup and assign default interpolator
   using DefaultInterpolatorType = VectorLinearInterpolateImageFunction<VelocityFieldType, ScalarType>;
@@ -48,8 +47,6 @@ VelocityFieldTransform<TParametersValueType, VDimension>::VelocityFieldTransform
   // After assigning this, this->m_Parameter will manage this,
   // deleting when appropriate.
   this->m_Parameters.SetHelper(helper);
-
-  this->m_VelocityFieldSetTime = 0;
 }
 
 template <typename TParametersValueType, unsigned int VDimension>

@@ -24,21 +24,21 @@ namespace itk
  * Constructor
  */
 RegularStepGradientDescentBaseOptimizer::RegularStepGradientDescentBaseOptimizer()
+  : m_Maximize(false)
+  , m_Value(0)
+  , m_GradientMagnitudeTolerance(1e-4)
+  , m_MaximumStepLength(1.0)
+  , m_MinimumStepLength(1e-3)
+  , m_CurrentStepLength(0)
+  , m_RelaxationFactor(0.5)
+  , m_StopCondition(StopConditionEnum::Unknown)
+  , m_NumberOfIterations(100)
+  , m_CurrentIteration(0)
 
 {
-  m_MaximumStepLength = 1.0;
-  m_MinimumStepLength = 1e-3;
-  m_GradientMagnitudeTolerance = 1e-4;
-  m_NumberOfIterations = 100;
-  m_CurrentIteration = 0;
-  m_Value = 0;
-  m_Maximize = false;
   m_CostFunction = nullptr;
-  m_CurrentStepLength = 0;
-  m_StopCondition = StopConditionEnum::Unknown;
   m_Gradient.Fill(0.0f);
   m_PreviousGradient.Fill(0.0f);
-  m_RelaxationFactor = 0.5;
   m_StopConditionDescription.str("");
 }
 

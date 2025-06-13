@@ -114,9 +114,9 @@ public:
 
 protected:
   ScalarChanAndVeseSparseLevelSetImageFilter()
+    : m_SharedData(SharedDataType::New())
   {
     this->SetNumberOfLayers(2); // Narrow-band usage
-    this->m_SharedData = SharedDataType::New();
   }
 
   ~ScalarChanAndVeseSparseLevelSetImageFilter() override = default;

@@ -38,10 +38,8 @@ namespace itk
 {
 template <typename TInputImage, typename TOutputImage>
 GrayscaleGrindPeakImageFilter<TInputImage, TOutputImage>::GrayscaleGrindPeakImageFilter()
-
-{
-  m_FullyConnected = false;
-}
+  : m_FullyConnected(false)
+{}
 
 template <typename TInputImage, typename TOutputImage>
 void

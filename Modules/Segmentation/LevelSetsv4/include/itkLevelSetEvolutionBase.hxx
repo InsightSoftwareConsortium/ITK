@@ -25,13 +25,12 @@ namespace itk
 {
 template <typename TEquationContainer, typename TLevelSet>
 LevelSetEvolutionBase<TEquationContainer, TLevelSet>::LevelSetEvolutionBase()
-{
-  this->m_Alpha = 0.9;
-  this->m_Dt = 1.;
-  this->m_RMSChangeAccumulator = 0.;
-  this->m_UserGloballyDefinedTimeStep = false;
-  this->m_NumberOfIterations = 0;
-}
+  : m_Alpha(0.9)
+  , m_Dt(1.)
+  , m_RMSChangeAccumulator(0.)
+  , m_UserGloballyDefinedTimeStep(false)
+  , m_NumberOfIterations(0)
+{}
 
 template <typename TEquationContainer, typename TLevelSet>
 void

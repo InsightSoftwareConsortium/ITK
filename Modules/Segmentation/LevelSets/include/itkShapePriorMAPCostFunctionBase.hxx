@@ -24,11 +24,10 @@ namespace itk
 
 template <typename TFeatureImage, typename TOutputPixel>
 ShapePriorMAPCostFunctionBase<TFeatureImage, TOutputPixel>::ShapePriorMAPCostFunctionBase()
-{
-  m_ShapeFunction = nullptr;
-  m_ActiveRegion = nullptr;
-  m_FeatureImage = nullptr;
-}
+  : m_ShapeFunction(nullptr)
+  , m_ActiveRegion(nullptr)
+  , m_FeatureImage(nullptr)
+{}
 
 template <typename TFeatureImage, typename TOutputPixel>
 void

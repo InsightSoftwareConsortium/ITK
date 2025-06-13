@@ -46,7 +46,9 @@ template <typename TInput, typename TOutput>
 class ITK_TEMPLATE_EXPORT ThresholdLabeler
 {
 public:
-  ThresholdLabeler() { m_LabelOffset = NumericTraits<TOutput>::OneValue(); }
+  ThresholdLabeler()
+    : m_LabelOffset(NumericTraits<TOutput>::OneValue())
+  {}
   ~ThresholdLabeler() = default;
 
   using RealThresholdType = typename NumericTraits<TInput>::RealType;

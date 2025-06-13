@@ -28,22 +28,20 @@ namespace itk
 
 template <typename TFixedImage, typename TMovingImage>
 MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::MutualInformationImageToImageMetric()
+  : m_NumberOfSpatialSamples(0)
+  , m_MovingImageStandardDeviation(0.4)
+  , m_FixedImageStandardDeviation(0.4)
+  , m_MinProbability(0.0001)
+  , m_DerivativeCalculator(DerivativeFunctionType::New())
 {
-  m_NumberOfSpatialSamples = 0;
   this->SetNumberOfSpatialSamples(50);
 
   m_KernelFunction = dynamic_cast<KernelFunctionType *>(GaussianKernelFunction<double>::New().GetPointer());
-
-  m_FixedImageStandardDeviation = 0.4;
-  m_MovingImageStandardDeviation = 0.4;
-
-  m_MinProbability = 0.0001;
 
   //
   // Following initialization is related to
   // calculating image derivatives
   this->SetComputeGradient(false); // don't use the default gradient for now
-  m_DerivativeCalculator = DerivativeFunctionType::New();
   m_DerivativeCalculator->UseImageDirectionOn();
 }
 

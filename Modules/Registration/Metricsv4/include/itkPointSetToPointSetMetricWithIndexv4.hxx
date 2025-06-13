@@ -27,33 +27,23 @@ namespace itk
 template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::
   PointSetToPointSetMetricWithIndexv4()
-{
-  this->m_FixedPointSet = nullptr;  // has to be provided by the user.
-  this->m_MovingPointSet = nullptr; // has to be provided by the user.
-
-  this->m_FixedTransformedPointSet = nullptr;
-  this->m_MovingTransformedPointSet = nullptr;
-  this->m_VirtualTransformedPointSet = nullptr;
-
-  this->m_FixedTransformedPointsLocator = nullptr;
-  this->m_MovingTransformedPointsLocator = nullptr;
-
-  this->m_MovingTransformPointLocatorsNeedInitialization = false;
-  this->m_FixedTransformPointLocatorsNeedInitialization = false;
-
-  this->m_MovingTransformedPointSetTime = this->GetMTime();
-  this->m_FixedTransformedPointSetTime = this->GetMTime();
-
-  // We iterate over the fixed points to calculate the value and derivative.
+  : m_FixedPointSet(nullptr)
+  , m_FixedTransformedPointSet(nullptr)
+  , m_FixedTransformedPointsLocator(nullptr)
+  , m_MovingPointSet(nullptr)
+  , m_MovingTransformedPointSet(nullptr)
+  , m_MovingTransformedPointsLocator(nullptr)
+  , m_VirtualTransformedPointSet(nullptr)
+  , m_UsePointSetData(false)
+  , m_CalculateValueAndDerivativeInTangentSpace(false)
+  , m_MovingTransformPointLocatorsNeedInitialization(false)
+  , m_FixedTransformPointLocatorsNeedInitialization(false)
+  , m_HaveWarnedAboutNumberOfValidPoints(false)
+  , m_StoreDerivativeAsSparseFieldForLocalSupportTransforms(true)
+  , m_MovingTransformedPointSetTime(this->GetMTime())
+  , m_FixedTransformedPointSetTime(this->GetMTime())
+{ // We iterate over the fixed points to calculate the value and derivative.
   this->SetGradientSource(ObjectToObjectMetricBaseTemplateEnums::GradientSource::GRADIENT_SOURCE_FIXED);
-
-  this->m_HaveWarnedAboutNumberOfValidPoints = false;
-
-  this->m_UsePointSetData = false;
-
-  this->m_StoreDerivativeAsSparseFieldForLocalSupportTransforms = true;
-
-  this->m_CalculateValueAndDerivativeInTangentSpace = false;
 }
 
 template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>

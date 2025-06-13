@@ -26,8 +26,8 @@ namespace itk
 
 template <typename TImage>
 MinMaxCurvatureFlowFunction<TImage>::MinMaxCurvatureFlowFunction()
+  : m_StencilRadius(0)
 {
-  m_StencilRadius = 0;
   this->SetStencilRadius(2);
 }
 

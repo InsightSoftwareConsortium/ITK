@@ -97,7 +97,9 @@ public:
     /**
      * default constructor
      */
-    SimplexCellVisitor() { m_CenterMap = PointMapType::New(); }
+    SimplexCellVisitor()
+      : m_CenterMap(PointMapType::New())
+    {}
 
     /**
      * default destructor

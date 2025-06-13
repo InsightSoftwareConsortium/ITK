@@ -32,9 +32,9 @@ namespace itk
 template <typename TInputImage, typename TInputPointSet, typename TOutputImage>
 DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>::
   DisplacementFieldToBSplineImageFilter()
+  : m_PointWeights(nullptr)
 
 {
-
   // Input 0 DisplacementField optional
   Self::SetPrimaryInputName("DisplacementField");
   Self::RemoveRequiredInputName("DisplacementField");
@@ -42,13 +42,8 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
   Self::AddOptionalInputName("ConfidenceImage", 1);
   // Input 2 PointSet optional
   Self::AddOptionalInputName("PointSet", 2);
-
-
   this->m_NumberOfFittingLevels.Fill(1);
   this->m_NumberOfControlPoints.Fill(4);
-
-  this->m_PointWeights = nullptr;
-
   this->m_BSplineDomainOrigin.Fill(0.0);
   this->m_BSplineDomainSpacing.Fill(1.0);
   this->m_BSplineDomainSize.Fill(0);

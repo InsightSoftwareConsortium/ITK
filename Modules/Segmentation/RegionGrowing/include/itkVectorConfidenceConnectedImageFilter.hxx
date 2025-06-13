@@ -33,13 +33,13 @@ namespace itk
 
 template <typename TInputImage, typename TOutputImage>
 VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::VectorConfidenceConnectedImageFilter()
+  : m_Multiplier(2.5)
+  , m_NumberOfIterations(4)
+  , m_ReplaceValue(NumericTraits<OutputImagePixelType>::OneValue())
+  , m_InitialNeighborhoodRadius(1)
+  , m_ThresholdFunction(DistanceThresholdFunctionType::New())
 {
-  m_Multiplier = 2.5;
-  m_NumberOfIterations = 4;
   m_Seeds.clear();
-  m_InitialNeighborhoodRadius = 1;
-  m_ReplaceValue = NumericTraits<OutputImagePixelType>::OneValue();
-  m_ThresholdFunction = DistanceThresholdFunctionType::New();
 }
 
 template <typename TInputImage, typename TOutputImage>

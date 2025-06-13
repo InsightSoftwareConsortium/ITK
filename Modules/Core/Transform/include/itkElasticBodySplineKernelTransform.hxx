@@ -22,10 +22,9 @@ namespace itk
 {
 template <typename TParametersValueType, unsigned int VDimension>
 ElasticBodySplineKernelTransform<TParametersValueType, VDimension>::ElasticBodySplineKernelTransform()
-{
   // Alpha = 12 ( 1 - \nu ) - 1
-  m_Alpha = 12.0 * (1.0 - .25) - 1;
-}
+  : m_Alpha(12.0 * (1.0 - .25) - 1)
+{}
 
 template <typename TParametersValueType, unsigned int VDimension>
 void

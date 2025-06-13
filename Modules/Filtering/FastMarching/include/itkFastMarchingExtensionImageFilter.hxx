@@ -23,10 +23,9 @@ namespace itk
 {
 template <typename TLevelSet, typename TAuxValue, unsigned int VAuxDimension, typename TSpeedImage>
 FastMarchingExtensionImageFilter<TLevelSet, TAuxValue, VAuxDimension, TSpeedImage>::FastMarchingExtensionImageFilter()
+  : m_AuxAliveValues(nullptr)
+  , m_AuxTrialValues(nullptr)
 {
-  m_AuxAliveValues = nullptr;
-  m_AuxTrialValues = nullptr;
-
   this->ProcessObject::SetNumberOfRequiredOutputs(1 + AuxDimension);
 
   AuxImagePointer ptr;

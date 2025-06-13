@@ -26,9 +26,8 @@ namespace itk
 
 template <typename TImage, typename TAttributeAccessor>
 AttributeUniqueLabelMapFilter<TImage, TAttributeAccessor>::AttributeUniqueLabelMapFilter()
-{
-  m_ReverseOrdering = false;
-}
+  : m_ReverseOrdering(false)
+{}
 
 
 template <typename TImage, typename TAttributeAccessor>

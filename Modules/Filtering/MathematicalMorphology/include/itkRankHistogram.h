@@ -54,11 +54,11 @@ public:
   using Compare = std::less<TInputPixel>;
 
   RankHistogram()
+    : m_Rank(0.5)
+    , m_Initialized(false)
   {
-    m_Rank = 0.5;
     m_Below = m_Entries = 0;
     // can't set m_RankIt until something has been put in the histogram
-    m_Initialized = false;
     if (m_Compare(NumericTraits<TInputPixel>::max(), NumericTraits<TInputPixel>::NonpositiveMin()))
     {
       m_InitVal = NumericTraits<TInputPixel>::max();
@@ -277,9 +277,9 @@ public:
   using Compare = std::less<TInputPixel>;
 
   VectorRankHistogram()
+    : m_Size((OffsetValueType)NumericTraits<TInputPixel>::max() -
+             (OffsetValueType)NumericTraits<TInputPixel>::NonpositiveMin() + 1)
   {
-    m_Size = (OffsetValueType)NumericTraits<TInputPixel>::max() -
-             (OffsetValueType)NumericTraits<TInputPixel>::NonpositiveMin() + 1;
     m_Vec.resize(m_Size, 0);
     if (m_Compare(NumericTraits<TInputPixel>::max(), NumericTraits<TInputPixel>::NonpositiveMin()))
     {

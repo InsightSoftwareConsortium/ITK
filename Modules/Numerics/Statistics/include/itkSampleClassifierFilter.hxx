@@ -25,16 +25,13 @@ namespace Statistics
 {
 template <typename TSample>
 SampleClassifierFilter<TSample>::SampleClassifierFilter()
+  : m_NumberOfClasses(0)
+  , m_DecisionRule(nullptr) /** Initialize decision rule */
 {
-  this->m_NumberOfClasses = 0;
-
   this->SetNumberOfRequiredInputs(3);
   this->SetNumberOfRequiredOutputs(1);
 
   this->ProcessObject::SetNthOutput(0, this->MakeOutput(0));
-
-  /** Initialize decision rule */
-  m_DecisionRule = nullptr;
 }
 
 template <typename TSample>

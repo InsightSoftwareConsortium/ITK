@@ -125,10 +125,9 @@ public:
 
   /** Default constructor. */
   FlatStructuringElement()
-  {
-    m_Decomposable = false;
-    m_RadiusIsParametric = false;
-  }
+    : m_Decomposable(false)
+    , m_RadiusIsParametric(false)
+  {}
 
   /** Various constructors */
 

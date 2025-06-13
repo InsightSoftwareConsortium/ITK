@@ -25,14 +25,14 @@ namespace itk
 
 template <typename TInputImage, typename TOutputImage>
 AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>::AnisotropicDiffusionImageFilter()
+  : m_GradientMagnitudeIsFixed(false)
+  , m_ConductanceParameter(1.0)
+  , m_ConductanceScalingParameter(1.0)
+  , m_ConductanceScalingUpdateInterval(1)
+  , m_FixedAverageGradientMagnitude(1.0)
+  , m_TimeStep(0.5 / double{ 1ULL << ImageDimension })
 {
   this->SetNumberOfIterations(1);
-  m_ConductanceParameter = 1.0;
-  m_ConductanceScalingParameter = 1.0;
-  m_ConductanceScalingUpdateInterval = 1;
-  m_TimeStep = 0.5 / double{ 1ULL << ImageDimension };
-  m_FixedAverageGradientMagnitude = 1.0;
-  m_GradientMagnitudeIsFixed = false;
 }
 
 template <typename TInputImage, typename TOutputImage>
