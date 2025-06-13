@@ -55,7 +55,7 @@ CurvatureFlowFunction<TImage>::ComputeUpdate(const NeighborhoodType & it,
   IdentifierType stride[ImageDimension];
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    stride[i] = it.GetStride((IdentifierType)i);
+    stride[i] = it.GetStride(static_cast<IdentifierType>(i));
   }
 
   // get the center pixel position

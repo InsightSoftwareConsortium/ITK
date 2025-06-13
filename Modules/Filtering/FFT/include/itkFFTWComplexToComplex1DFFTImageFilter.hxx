@@ -184,13 +184,13 @@ FFTWComplexToComplex1DFFTImageFilter<TInputImage, TOutputImage>::ThreadedGenerat
     else // m_TransformDirection == INVERSE
     {
       // copy the output from the buffer into our line
-      outputBufferIt = reinterpret_cast<typename OutputIteratorType::PixelType *>(m_OutputBufferArray[threadID]);
+      inputBufferIt = reinterpret_cast<typename OutputIteratorType::PixelType *>(m_OutputBufferArray[threadID]);
       outputIt.GoToBeginOfLine();
       while (!outputIt.IsAtEndOfLine())
       {
-        outputIt.Set(*outputBufferIt / static_cast<typename OutputIteratorType::PixelType>(lineSize));
+        outputIt.Set(*inputBufferIt / static_cast<typename OutputIteratorType::PixelType>(lineSize));
         ++outputIt;
-        ++outputBufferIt;
+        ++inputBufferIt;
       }
     }
   }

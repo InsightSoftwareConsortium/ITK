@@ -174,14 +174,14 @@ itkImageRegistrationMethodTest_13(int, char *[])
 
     d = p - center;
 
-    fIter.Set((PixelType)F(d));
+    fIter.Set(static_cast<PixelType>(F(d)));
 
     for (unsigned int j = 0; j < dimension; ++j)
     {
       d[j] = d[j] * scale[j] + displacement[j];
     }
 
-    mIter.Set((PixelType)F(d));
+    mIter.Set(static_cast<PixelType>(F(d)));
 
     ++fIter;
     ++mIter;

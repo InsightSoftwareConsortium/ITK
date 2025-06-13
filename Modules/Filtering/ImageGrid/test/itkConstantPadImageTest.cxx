@@ -89,7 +89,8 @@ itkConstantPadImageTest(int, char *[])
   bool passed = true;
   size = requestedRegion.GetSize();
   index = requestedRegion.GetIndex();
-  if ((index[0] != (0 - (IndexValueType)lowerFactors[0])) || (index[1] != (0 - (IndexValueType)lowerFactors[1])) ||
+  if ((index[0] != (0 - static_cast<IndexValueType>(lowerFactors[0]))) ||
+      (index[1] != (0 - static_cast<IndexValueType>(lowerFactors[1]))) ||
       (size[0] != (8 + lowerFactors[0] + upperFactors[0])) || (size[1] != (12 + lowerFactors[1] + upperFactors[1])))
   {
     passed = false;
@@ -161,7 +162,8 @@ itkConstantPadImageTest(int, char *[])
     passed = true;
     size = requestedRegion.GetSize();
     index = requestedRegion.GetIndex();
-    if ((index[0] != (0 - (IndexValueType)lowerFactors[0])) || (index[1] != (0 - (IndexValueType)lowerFactors[1])) ||
+    if ((index[0] != (0 - static_cast<IndexValueType>(lowerFactors[0]))) ||
+        (index[1] != (0 - static_cast<IndexValueType>(lowerFactors[1]))) ||
         (size[0] != (8 + lowerFactors[0] + upperFactors[0])) || (size[1] != (12 + lowerFactors[1] + upperFactors[1])))
     {
       passed = false;

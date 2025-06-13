@@ -423,7 +423,9 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::ThreadedConnectivity
   const unsigned int     numberOfClusterComponents = numberOfComponents + ImageDimension;
 
   const size_t minSuperSize =
-    std::accumulate(m_SuperGridSize.cbegin(), m_SuperGridSize.cend(), size_t(1), std::multiplies<size_t>()) / 4;
+    std::accumulate(
+      m_SuperGridSize.cbegin(), m_SuperGridSize.cend(), static_cast<size_t>(1), std::multiplies<size_t>()) /
+    4;
 
   ConstantBoundaryCondition<TOutputImage> lbc;
   lbc.SetConstant(NumericTraits<typename OutputImageType::PixelType>::max());
@@ -509,7 +511,9 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::SingleThreadedConnec
   OutputPixelType prevLabel = m_Clusters.size() / numberOfClusterComponents;
 
   const size_t minSuperSize =
-    std::accumulate(m_SuperGridSize.cbegin(), m_SuperGridSize.cend(), size_t(1), std::multiplies<size_t>()) / 4;
+    std::accumulate(
+      m_SuperGridSize.cbegin(), m_SuperGridSize.cend(), static_cast<size_t>(1), std::multiplies<size_t>()) /
+    4;
 
   std::vector<IndexType> indexStack;
 

@@ -146,7 +146,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::Allocate()
 
     // Set the initial and final codebook size
 
-    const auto initCodebookSize = (SizeValueType)1;
+    const auto initCodebookSize = static_cast<SizeValueType>(1);
     m_Codebook.set_size(initCodebookSize, m_VectorDimension);
 
     // Initialize m_Codebook to 0 (it now has only one row)

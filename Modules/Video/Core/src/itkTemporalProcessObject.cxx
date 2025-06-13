@@ -456,8 +456,8 @@ TemporalProcessObject::GenerateData()
       bufferedStart = outputStartFrame;
     }
 
-    const OffsetValueType spareFrames = output->GetNumberOfBuffers() - (OffsetValueType)bufferedDuration;
-    if (spareFrames >= (OffsetValueType)m_UnitOutputNumberOfFrames)
+    const OffsetValueType spareFrames = output->GetNumberOfBuffers() - static_cast<OffsetValueType>(bufferedDuration);
+    if (spareFrames >= static_cast<OffsetValueType>(m_UnitOutputNumberOfFrames))
     {
       bufferedDuration += m_UnitOutputNumberOfFrames;
     }

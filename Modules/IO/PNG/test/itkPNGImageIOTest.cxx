@@ -146,7 +146,8 @@ itkPNGImageIOTest(int argc, char * argv[])
 
   // Exercise other methods
   const itk::ImageIOBase::SizeType pixelStride = io->GetPixelStride();
-  std::cout << "PixelStride: " << itk::NumericTraits<itk::ImageIOBase::SizeType>::PrintType(pixelStride) << std::endl;
+  std::cout << "PixelStride: " << static_cast<itk::NumericTraits<itk::ImageIOBase::SizeType>::PrintType>(pixelStride)
+            << std::endl;
 
   //
   // Try writing out several kinds of images using png.

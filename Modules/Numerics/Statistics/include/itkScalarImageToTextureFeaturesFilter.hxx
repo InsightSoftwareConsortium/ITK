@@ -134,7 +134,8 @@ ScalarImageToTextureFeaturesFilter<TImageType, THistogramFrequencyContainer, TMa
          fnameIt != m_RequestedFeatures->End();
          ++fnameIt, featureNum++)
     {
-      features[offsetNum][featureNum] = this->m_GLCMCalculator->GetFeature((InternalTextureFeatureName)fnameIt.Value());
+      features[offsetNum][featureNum] =
+        this->m_GLCMCalculator->GetFeature(static_cast<InternalTextureFeatureName>(fnameIt.Value()));
     }
   }
 
@@ -217,7 +218,8 @@ ScalarImageToTextureFeaturesFilter<TImageType, THistogramFrequencyContainer, TMa
   typename FeatureNameVector::ConstIterator fnameIt;
   for (fnameIt = m_RequestedFeatures->Begin(); fnameIt != m_RequestedFeatures->End(); ++fnameIt)
   {
-    m_FeatureMeans->push_back(this->m_GLCMCalculator->GetFeature((InternalTextureFeatureName)fnameIt.Value()));
+    m_FeatureMeans->push_back(
+      this->m_GLCMCalculator->GetFeature(static_cast<InternalTextureFeatureName>(fnameIt.Value())));
     m_FeatureStandardDeviations->push_back(0.0);
   }
 

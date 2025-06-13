@@ -68,7 +68,7 @@ itkUnsharpMaskImageFilterTestSimple(int, char *[])
   // Initialize the contents of the input image
   while (!it.IsAtEnd())
   {
-    if (it.GetIndex()[0] > itk::IndexValueType(size[0] / 2))
+    if (it.GetIndex()[0] > static_cast<itk::IndexValueType>(size[0] / 2))
     {
       it.Set(1.0);
     }

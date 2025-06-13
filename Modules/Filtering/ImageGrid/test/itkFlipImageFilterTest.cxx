@@ -137,9 +137,10 @@ itkFlipImageFilterTest(int argc, char * argv[])
       passed = false;
       std::cout << "Mismatch at index: in: " << inputIndex;
       std::cout << "; out: " << outputIndex << std::endl;
-      std::cout << "Expected pixel value: " << itk::NumericTraits<IteratorType::PixelType>::PrintType(inputIter.Get())
-                << ", but got: "
-                << itk::NumericTraits<IteratorType::PixelType>::PrintType(outputImage->GetPixel(outputIndex))
+      std::cout << "Expected pixel value: "
+                << static_cast<itk::NumericTraits<IteratorType::PixelType>::PrintType>(inputIter.Get()) << ", but got: "
+                << static_cast<itk::NumericTraits<IteratorType::PixelType>::PrintType>(
+                     outputImage->GetPixel(outputIndex))
                 << std::endl;
     }
 

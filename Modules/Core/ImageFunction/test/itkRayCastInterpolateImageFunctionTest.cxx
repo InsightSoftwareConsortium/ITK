@@ -64,7 +64,7 @@ itkRayCastInterpolateImageFunctionTest(int itkNotUsed(argc), char * itkNotUsed(a
       for (unsigned int col = 0; col < size[0]; ++col)
       {
         index[0] = col;
-        auto value = (PixelType)(slice + row + col);
+        auto value = static_cast<PixelType>(slice + row + col);
         image->SetPixel(index, value);
       }
     }

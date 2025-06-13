@@ -236,7 +236,8 @@ itkTIFFImageIOTestPalette(int argc, char * argv[])
 
   // Exercise other methods
   const itk::ImageIOBase::SizeType pixelStride = io->GetPixelStride();
-  std::cout << "PixelStride: " << itk::NumericTraits<itk::ImageIOBase::SizeType>::PrintType(pixelStride) << std::endl;
+  std::cout << "PixelStride: " << static_cast<itk::NumericTraits<itk::ImageIOBase::SizeType>::PrintType>(pixelStride)
+            << std::endl;
 
   // ToDo
   // When the palette has made into the Metadata Dictionary (as opposed to the ImageIO):

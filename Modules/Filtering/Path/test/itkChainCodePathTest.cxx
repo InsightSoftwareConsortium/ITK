@@ -90,7 +90,8 @@ itkChainCodePathTest(int, char *[])
   index = path->GetStart();
   std::cout << "Starting at index: " << index << std::endl;
   const PathType::InputType endOfInput = path->EndOfInput();
-  std::cout << "End of input: " << itk::NumericTraits<PathType::InputType>::PrintType(endOfInput) << std::endl;
+  std::cout << "End of input: " << static_cast<itk::NumericTraits<PathType::InputType>::PrintType>(endOfInput)
+            << std::endl;
 
   for (unsigned int input = 0;;)
   {

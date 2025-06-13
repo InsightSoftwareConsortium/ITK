@@ -140,7 +140,7 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>::Full
              ++fnameIt, featureNum++)
         {
           features[offsetNum][featureNum] =
-            runLengthMatrixCalculator->GetFeature((InternalRunLengthFeatureName)fnameIt.Value());
+            runLengthMatrixCalculator->GetFeature(static_cast<InternalRunLengthFeatureName>(fnameIt.Value()));
         }
       }
     }
@@ -228,7 +228,7 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>::Fast
        ++fnameIt)
   {
     this->m_FeatureMeans->push_back(
-      runLengthMatrixCalculator->GetFeature((InternalRunLengthFeatureName)fnameIt.Value()));
+      runLengthMatrixCalculator->GetFeature(static_cast<InternalRunLengthFeatureName>(fnameIt.Value())));
     this->m_FeatureStandardDeviations->push_back(0.0);
   }
 

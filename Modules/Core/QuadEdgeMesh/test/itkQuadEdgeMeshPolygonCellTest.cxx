@@ -119,7 +119,7 @@ itkQuadEdgeMeshPolygonCellTest(int, char *[])
    * Assign the points to the tetrahedron through their identifiers.
    */
   testCell->SetPointIds(polygon1Points);
-  if (newcell->GetPointId(18) != PointIdentifier(-1))
+  if (newcell->GetPointId(18) != static_cast<PointIdentifier>(-1))
   {
     std::cerr << "Get Point should have failed !" << std::endl;
     return EXIT_FAILURE;

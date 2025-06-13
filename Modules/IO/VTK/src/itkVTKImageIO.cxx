@@ -549,13 +549,16 @@ VTKImageIO::Read(void * buffer)
       case 1:
         break;
       case 2:
-        ByteSwapper<uint16_t>::SwapRangeFromSystemToBigEndian((uint16_t *)buffer, this->GetIORegionSizeInComponents());
+        ByteSwapper<uint16_t>::SwapRangeFromSystemToBigEndian(static_cast<uint16_t *>(buffer),
+                                                              this->GetIORegionSizeInComponents());
         break;
       case 4:
-        ByteSwapper<uint32_t>::SwapRangeFromSystemToBigEndian((uint32_t *)buffer, this->GetIORegionSizeInComponents());
+        ByteSwapper<uint32_t>::SwapRangeFromSystemToBigEndian(static_cast<uint32_t *>(buffer),
+                                                              this->GetIORegionSizeInComponents());
         break;
       case 8:
-        ByteSwapper<uint64_t>::SwapRangeFromSystemToBigEndian((uint64_t *)buffer, this->GetIORegionSizeInComponents());
+        ByteSwapper<uint64_t>::SwapRangeFromSystemToBigEndian(static_cast<uint64_t *>(buffer),
+                                                              this->GetIORegionSizeInComponents());
         break;
       default:
         itkExceptionMacro("Unknown component size" << this->GetComponentSize());
@@ -600,13 +603,16 @@ VTKImageIO::Read(void * buffer)
         case 1:
           break;
         case 2:
-          ByteSwapper<uint16_t>::SwapRangeFromSystemToBigEndian((uint16_t *)buffer, this->GetImageSizeInComponents());
+          ByteSwapper<uint16_t>::SwapRangeFromSystemToBigEndian(static_cast<uint16_t *>(buffer),
+                                                                this->GetImageSizeInComponents());
           break;
         case 4:
-          ByteSwapper<uint32_t>::SwapRangeFromSystemToBigEndian((uint32_t *)buffer, this->GetImageSizeInComponents());
+          ByteSwapper<uint32_t>::SwapRangeFromSystemToBigEndian(static_cast<uint32_t *>(buffer),
+                                                                this->GetImageSizeInComponents());
           break;
         case 8:
-          ByteSwapper<uint64_t>::SwapRangeFromSystemToBigEndian((uint64_t *)buffer, this->GetImageSizeInComponents());
+          ByteSwapper<uint64_t>::SwapRangeFromSystemToBigEndian(static_cast<uint64_t *>(buffer),
+                                                                this->GetImageSizeInComponents());
           break;
         default:
           itkExceptionMacro("Unknown component size" << this->GetComponentSize());

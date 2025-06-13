@@ -59,7 +59,7 @@ itkVariableLengthVectorTest(int, char *[])
 
   std::cout << h << std::endl; // should be [-1.1 -1.1 -1.1]
 
-  h = (FloatVariableLengthVectorType)g;
+  h = FloatVariableLengthVectorType(g);
   if (h != static_cast<FloatVariableLengthVectorType>(g))
   {
     std::cerr << "Casts: [FAILED]" << std::endl;

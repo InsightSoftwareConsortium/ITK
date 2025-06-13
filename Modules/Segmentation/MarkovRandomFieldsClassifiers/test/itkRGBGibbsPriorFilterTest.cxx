@@ -241,7 +241,7 @@ itkRGBGibbsPriorFilterTest(int, char *[])
   myClassifier->SetNumberOfClasses(NumClasses);
 
   // Set the decision rule
-  myClassifier->SetDecisionRule((DecisionRuleBasePointer)myDecisionRule);
+  myClassifier->SetDecisionRule(DecisionRuleBasePointer(myDecisionRule));
 
   // Add the membership functions
   for (unsigned int ii = 0; ii < NumClasses; ++ii)

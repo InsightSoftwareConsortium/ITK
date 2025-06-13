@@ -123,7 +123,7 @@ ChiSquareDistribution::CDF(double x, const ParametersType & p)
     itkGenericExceptionMacro("Invalid number of parameters to describe distribution. Expected 1 parameter, but got "
                              << p.size() << " parameters.");
   }
-  return ChiSquareDistribution::CDF(x, (SizeValueType)p[0]);
+  return ChiSquareDistribution::CDF(x, static_cast<SizeValueType>(p[0]));
 }
 
 double

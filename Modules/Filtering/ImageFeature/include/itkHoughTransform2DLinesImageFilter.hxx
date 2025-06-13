@@ -326,8 +326,8 @@ HoughTransform2DLinesImageFilter<TInputPixelType, TOutputPixelType>::GetLines() 
           {
             for (double length = 0; length < m_DiscRadius; length += 1)
             {
-              index[0] = (IndexValueType)(it_input.GetIndex()[0] + length * std::cos(angle));
-              index[1] = (IndexValueType)(it_input.GetIndex()[1] + length * std::sin(angle));
+              index[0] = static_cast<IndexValueType>(it_input.GetIndex()[0] + length * std::cos(angle));
+              index[1] = static_cast<IndexValueType>(it_input.GetIndex()[1] + length * std::sin(angle));
               if (postProcessImage->GetBufferedRegion().IsInside(index))
               {
                 postProcessImage->SetPixel(index, 0);

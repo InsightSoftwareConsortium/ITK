@@ -498,7 +498,7 @@ public:
   NegativeEnum
   GetAsNegativeOrientation() const
   {
-    return NegativeEnum(uint32_t(this->m_Value));
+    return NegativeEnum(static_cast<uint32_t>(this->m_Value));
   }
 
   CoordinateEnum

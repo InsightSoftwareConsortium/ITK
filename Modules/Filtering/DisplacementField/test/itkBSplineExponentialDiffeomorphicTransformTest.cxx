@@ -126,7 +126,7 @@ itkBSplineExponentialDiffeomorphicTransformTest(int, char *[])
   {
     for (int j = -2; j < 3; ++j)
     {
-      const unsigned int index = outlier + static_cast<unsigned int>(i * (int)(dimLength * dimensions) + j);
+      const unsigned int index = outlier + static_cast<unsigned int>(i * static_cast<int>(dimLength * dimensions) + j);
       std::cout << params(index) << ' ';
       if (itk::Math::AlmostEquals(params(index), paramsFillValue))
       {
@@ -199,7 +199,7 @@ itkBSplineExponentialDiffeomorphicTransformTest(int, char *[])
   {
     for (int j = -2; j < 3; ++j)
     {
-      const unsigned int index = outlier + static_cast<unsigned int>(i * (int)(dimLength * dimensions) + j);
+      const unsigned int index = outlier + static_cast<unsigned int>(i * static_cast<int>(dimLength * dimensions) + j);
       std::cout << params(index) << ' ';
       if (itk::Math::AlmostEquals(params(index), paramsFillValue))
       {

@@ -252,8 +252,8 @@ ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 BlockMatchingImageFilter<TFixedImage, TMovingImage, TFeatures, TDisplacements, TSimilarities>::ThreaderCallback(
   void * arg)
 {
-  auto *             str = (ThreadStruct *)(((MultiThreaderBase::WorkUnitInfo *)(arg))->UserData);
-  const ThreadIdType workUnitID = ((MultiThreaderBase::WorkUnitInfo *)(arg))->WorkUnitID;
+  auto *             str = (ThreadStruct *)((static_cast<MultiThreaderBase::WorkUnitInfo *>(arg))->UserData);
+  const ThreadIdType workUnitID = (static_cast<MultiThreaderBase::WorkUnitInfo *>(arg))->WorkUnitID;
 
   str->Filter->ThreadedGenerateData(workUnitID);
 

@@ -43,7 +43,7 @@ DynamicLoader::CloseLibrary(LibHandle lib)
 void *
 DynamicLoader::GetSymbolAddress(LibHandle lib, const char * sym)
 {
-  return (void *)itksys::DynamicLoader::GetSymbolAddress(lib, sym);
+  return reinterpret_cast<void *>(itksys::DynamicLoader::GetSymbolAddress(lib, sym));
 }
 
 //----------------------------------------------------------------------------

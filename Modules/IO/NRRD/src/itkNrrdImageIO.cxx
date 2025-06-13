@@ -592,8 +592,8 @@ NrrdImageIO::ReadImageInformation()
     {
       nrrdKeyValueIndex(nrrd, &keyPtr, &valPtr, kvpi);
       EncapsulateMetaData<std::string>(thisDic, std::string(keyPtr), std::string(valPtr));
-      keyPtr = (char *)airFree(keyPtr);
-      valPtr = (char *)airFree(valPtr);
+      keyPtr = static_cast<char *>(airFree(keyPtr));
+      valPtr = static_cast<char *>(airFree(valPtr));
     }
 
     // save in MetaDataDictionary those important nrrd fields that

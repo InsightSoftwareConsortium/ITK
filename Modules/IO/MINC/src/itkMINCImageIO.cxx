@@ -1325,7 +1325,7 @@ MINCImageIO::WriteImageInformation()
 
   // preserve information of MINC PositiveCoordinateOrientation RAS to ITK PositiveCoordinateOrientation LPS conversion
   {
-    int tmp = (int)this->m_RAStoLPS;
+    int tmp = static_cast<int>(this->m_RAStoLPS);
     miset_attr_values(m_MINCPImpl->m_Volume, MI_TYPE_INT, "itk", "RAStoLPS", 1, &tmp);
   }
 

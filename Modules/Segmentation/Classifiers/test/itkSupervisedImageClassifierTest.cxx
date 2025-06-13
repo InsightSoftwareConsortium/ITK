@@ -339,7 +339,7 @@ itkSupervisedImageClassifierTest(int, char *[])
   applyClassifier->SetInputImage(vecImage);
 
   // Set the decision rule
-  applyClassifier->SetDecisionRule((DecisionRuleBasePointer)myDecisionRule);
+  applyClassifier->SetDecisionRule(DecisionRuleBasePointer(myDecisionRule));
 
   // Add the membership functions
   for (unsigned int i = 0; i < NUM_CLASSES; ++i)

@@ -231,12 +231,12 @@ TEST(AntomicalOrientation, ToFromEnumInteroperability)
   using FromOE = itk::AnatomicalOrientation::NegativeEnum;
   using CE = itk::AnatomicalOrientation::CoordinateEnum;
 
-  static_assert(int(OE::RAI) == int(FromOE::LPS));
-  static_assert(int(OE::LPS) == int(FromOE::RAI));
-  static_assert(int(OE::RAS) == int(FromOE::LPI));
-  static_assert(int(OE::LPI) == int(FromOE::RAS));
-  static_assert(int(OE::PIR) == int(FromOE::ASL));
-  static_assert(int(OE::ASL) == int(FromOE::PIR));
+  static_assert(static_cast<int>(OE::RAI) == static_cast<int>(FromOE::LPS));
+  static_assert(static_cast<int>(OE::LPS) == static_cast<int>(FromOE::RAI));
+  static_assert(static_cast<int>(OE::RAS) == static_cast<int>(FromOE::LPI));
+  static_assert(static_cast<int>(OE::LPI) == static_cast<int>(FromOE::RAS));
+  static_assert(static_cast<int>(OE::PIR) == static_cast<int>(FromOE::ASL));
+  static_assert(static_cast<int>(OE::ASL) == static_cast<int>(FromOE::PIR));
 
   constexpr itk::AnatomicalOrientation itk_rai(FromOE::RAI);
 
@@ -256,10 +256,10 @@ TEST(AnatomicalOrientation, LegacyInteroperability)
   using SOE = itk::SpatialOrientationEnums::ValidCoordinateOrientations;
 
   // byte for byte compatibility, may assist with migration of bindings when types are not strictly enforced.
-  static_assert(int(SOE::ITK_COORDINATE_ORIENTATION_RAI) == int(OE::LPS));
-  static_assert(int(SOE::ITK_COORDINATE_ORIENTATION_LPS) == int(OE::RAI));
-  static_assert(int(SOE::ITK_COORDINATE_ORIENTATION_RSA) == int(OE::LIP));
-  static_assert(int(SOE::ITK_COORDINATE_ORIENTATION_ASL) == int(OE::PIR));
+  static_assert(static_cast<int>(SOE::ITK_COORDINATE_ORIENTATION_RAI) == static_cast<int>(OE::LPS));
+  static_assert(static_cast<int>(SOE::ITK_COORDINATE_ORIENTATION_LPS) == static_cast<int>(OE::RAI));
+  static_assert(static_cast<int>(SOE::ITK_COORDINATE_ORIENTATION_RSA) == static_cast<int>(OE::LIP));
+  static_assert(static_cast<int>(SOE::ITK_COORDINATE_ORIENTATION_ASL) == static_cast<int>(OE::PIR));
 
   const itk::AnatomicalOrientation itk_rai(SOE::ITK_COORDINATE_ORIENTATION_RAI);
   EXPECT_EQ(itk_rai, OE::LPS);

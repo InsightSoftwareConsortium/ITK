@@ -98,9 +98,10 @@ itkLiMaskedThresholdImageFilterTest(int argc, char * argv[])
   {
     std::cerr << "Test failed!" << std::endl;
     std::cerr << "Error in GetThreshold()" << std::endl;
-    std::cerr << "Expected: " << itk::NumericTraits<FilterType::InputPixelType>::PrintType(expectedThreshold)
-              << ", but got: " << itk::NumericTraits<FilterType::InputPixelType>::PrintType(resultThreshold)
-              << std::endl;
+    std::cerr << "Expected: "
+              << static_cast<itk::NumericTraits<FilterType::InputPixelType>::PrintType>(expectedThreshold)
+              << ", but got: "
+              << static_cast<itk::NumericTraits<FilterType::InputPixelType>::PrintType>(resultThreshold) << std::endl;
     return EXIT_FAILURE;
   }
 

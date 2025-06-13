@@ -231,7 +231,7 @@ LSMImageIO::FillZeissStruct(char * cz)
 void
 LSMImageIO::Write(const void * buffer)
 {
-  const auto * outPtr = (const unsigned char *)buffer;
+  const auto * outPtr = static_cast<const unsigned char *>(buffer);
 
   unsigned int pages = 1;
   if (this->GetNumberOfDimensions() < 2)

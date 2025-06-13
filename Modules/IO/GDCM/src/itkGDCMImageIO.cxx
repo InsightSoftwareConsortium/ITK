@@ -363,7 +363,7 @@ GDCMImageIO::Read(void * pointer)
     image = icpi.GetOutput();
   }
 
-  if (!image.GetBuffer((char *)pointer))
+  if (!image.GetBuffer(static_cast<char *>(pointer)))
   {
     itkExceptionMacro("Failed to get the buffer!");
   }
@@ -386,7 +386,7 @@ GDCMImageIO::Read(void * pointer)
       copy[j + 7] = (c & 0x80) ? 255 : 0;
       j += 8;
     }
-    memcpy((char *)pointer, copy.get(), len);
+    memcpy(static_cast<char *>(pointer), copy.get(), len);
   }
   else
   {
@@ -408,8 +408,8 @@ GDCMImageIO::Read(void * pointer)
       r.SetPixelFormat(pixeltype);
       const gdcm::PixelFormat outputpt = r.ComputeInterceptSlopePixelType();
       const auto              copy = make_unique_for_overwrite<char[]>(len);
-      memcpy(copy.get(), (char *)pointer, len);
-      r.Rescale((char *)pointer, copy.get(), len);
+      memcpy(copy.get(), static_cast<char *>(pointer), len);
+      r.Rescale(static_cast<char *>(pointer), copy.get(), len);
       // WARNING: sizeof(Real World Value) != sizeof(Stored Pixel)
       len = len * outputpt.GetPixelSize() / pixeltype.GetPixelSize();
     }
@@ -797,9 +797,9 @@ GDCMImageIO::InternalReadImageInformation()
 
           const auto bin = make_unique_for_overwrite<char[]>(encodedLengthEstimate);
           auto       encodedLengthActual =
-            static_cast<unsigned int>(itksysBase64_Encode((const unsigned char *)bv->GetPointer(),
+            static_cast<unsigned int>(itksysBase64_Encode(reinterpret_cast<const unsigned char *>(bv->GetPointer()),
                                                           static_cast<SizeValueType>(bv->GetLength()),
-                                                          (unsigned char *)bin.get(),
+                                                          reinterpret_cast<unsigned char *>(bin.get()),
                                                           0));
           const std::string encodedValue(bin.get(), encodedLengthActual);
           EncapsulateMetaData<std::string>(dico, tag.PrintAsPipeSeparatedString(), encodedValue);
@@ -905,14 +905,14 @@ GDCMImageIO::Write(const void * buffer)
         // convert value from Base64
         const auto bin = make_unique_for_overwrite<uint8_t[]>(value.size());
         auto       decodedLengthActual =
-          static_cast<unsigned int>(itksysBase64_Decode((const unsigned char *)value.c_str(),
+          static_cast<unsigned int>(itksysBase64_Decode(reinterpret_cast<const unsigned char *>(value.c_str()),
                                                         static_cast<SizeValueType>(0),
-                                                        (unsigned char *)bin.get(),
+                                                        static_cast<unsigned char *>(bin.get()),
                                                         static_cast<SizeValueType>(value.size())));
         if (/*tag.GetGroup() != 0 ||*/ tag.GetElement() != 0) // ?
         {
           gdcm::DataElement de(tag);
-          de.SetByteValue((char *)bin.get(), decodedLengthActual);
+          de.SetByteValue(reinterpret_cast<char *>(bin.get()), decodedLengthActual);
           de.SetVR(dictEntry.GetVR());
           if (tag.GetGroup() == 0x2)
           {
