@@ -125,7 +125,6 @@ public:
 protected:
   AttributeMorphologyBaseImageFilter()
     : m_AttributeValuePerPixel(1)
-    , m_FullyConnected(false)
     , m_Lambda(0)
   {}
 

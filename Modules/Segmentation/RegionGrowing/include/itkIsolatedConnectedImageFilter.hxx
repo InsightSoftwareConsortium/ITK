@@ -37,7 +37,7 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>::IsolatedConnectedImageF
   , m_IsolatedValue(InputImagePixelType{})
   , m_IsolatedValueTolerance(NumericTraits<InputImagePixelType>::OneValue())
   , m_FindUpperThreshold(true)
-  , m_ThresholdingFailed(false)
+
 {
   m_Seeds1.clear();
   m_Seeds2.clear();

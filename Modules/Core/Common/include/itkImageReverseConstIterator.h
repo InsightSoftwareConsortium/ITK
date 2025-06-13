@@ -136,10 +136,7 @@ public:
   /** Default Constructor. Need to provide a default constructor since we
    * provide a copy constructor. */
   ImageReverseConstIterator()
-    : m_BeginOffset(0)
-    , m_Buffer(0)
-    , m_EndOffset(0)
-    , m_Offset(0)
+    : m_Buffer(0)
     , m_PixelAccessor()
     , m_PixelAccessorFunctor()
   {

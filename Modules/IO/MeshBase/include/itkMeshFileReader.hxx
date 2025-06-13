@@ -36,7 +36,6 @@ namespace itk
 template <typename TOutputMesh, typename ConvertPointPixelTraits, typename ConvertCellPixelTraits>
 MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::MeshFileReader()
   : m_MeshIO(nullptr)
-  , m_UserSpecifiedMeshIO(false)
   , m_FileName("")
 {}
 

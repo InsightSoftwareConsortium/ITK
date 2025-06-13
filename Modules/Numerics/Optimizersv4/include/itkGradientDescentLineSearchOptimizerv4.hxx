@@ -31,7 +31,7 @@ GradientDescentLineSearchOptimizerv4Template<
   , m_Resphi(2 - this->m_Phi)
   , m_Epsilon(0.01)
   , m_MaximumLineSearchIterations(20)
-  , m_LineSearchIterations(0U)
+
 {
   this->m_ReturnBestParametersAndValue = true;
 }

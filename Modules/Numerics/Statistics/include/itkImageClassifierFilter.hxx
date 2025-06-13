@@ -27,8 +27,7 @@ namespace Statistics
 template <typename TSample, typename TInputImage, typename TOutputImage>
 ImageClassifierFilter<TSample, TInputImage, TOutputImage>::ImageClassifierFilter()
   /** Initialize decision rule */
-  : m_NumberOfClasses(0)
-  , m_DecisionRule(nullptr)
+  : m_DecisionRule(nullptr)
 {
   this->SetNumberOfRequiredInputs(3);
   this->SetNumberOfRequiredOutputs(1);

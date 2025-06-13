@@ -31,7 +31,6 @@ IsolatedWatershedImageFilter<TInputImage, TOutputImage>::IsolatedWatershedImageF
   , m_GradientMagnitude(GradientMagnitudeType::New())
   , m_Watershed(WatershedType::New())
   , m_Threshold(InputImagePixelType{})
-  , m_IsolatedValue(0.0)
   , m_IsolatedValueTolerance(0.001)
   , m_UpperValueLimit(1.0)
 {

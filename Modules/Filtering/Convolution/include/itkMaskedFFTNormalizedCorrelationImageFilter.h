@@ -221,10 +221,8 @@ public:
 
 protected:
   MaskedFFTNormalizedCorrelationImageFilter()
-    : m_RequiredNumberOfOverlappingPixels(0)
-    , m_RequiredFractionOfOverlappingPixels(0)
-    , m_MaximumNumberOfOverlappingPixels(0)
-    , m_AccumulatedProgress(0.0)
+    : m_RequiredFractionOfOverlappingPixels(0)
+
   {
     // #0 "FixedImage" required
     Self::SetPrimaryInputName("FixedImage");

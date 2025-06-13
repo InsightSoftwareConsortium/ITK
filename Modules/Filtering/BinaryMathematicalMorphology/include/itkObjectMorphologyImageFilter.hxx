@@ -30,8 +30,7 @@ namespace itk
 {
 template <typename TInputImage, typename TOutputImage, typename TKernel>
 ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::ObjectMorphologyImageFilter()
-  : m_UseBoundaryCondition(false)
-  , m_Kernel()
+  : m_Kernel()
   , m_ObjectValue(NumericTraits<PixelType>::OneValue())
 {
   m_DefaultBoundaryCondition.SetConstant(PixelType{});

@@ -58,7 +58,7 @@ public:
   using MeasureType = Superclass::MeasureType;
 
   GradientDescentLineSearchOptimizerv4TestMetric()
-    : m_Iterations(0)
+
   {
     m_Parameters.SetSize(SpaceDimension);
     m_Parameters.Fill(0);
@@ -155,7 +155,7 @@ public:
 
 private:
   ParametersType       m_Parameters;
-  mutable unsigned int m_Iterations;
+  mutable unsigned int m_Iterations{ 0 };
 };
 
 ///////////////////////////////////////////////////////////

@@ -23,7 +23,6 @@ namespace itk
 {
 template <typename TInputPix, typename TCompare>
 AnchorOpenCloseLine<TInputPix, TCompare>::AnchorOpenCloseLine()
-  : m_Size(2)
 {}
 
 template <typename TInputPix, typename TCompare>

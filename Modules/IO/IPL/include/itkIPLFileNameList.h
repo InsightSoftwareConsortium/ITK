@@ -68,13 +68,7 @@ namespace itk
 class IPLFileSortInfo
 {
 public:
-  IPLFileSortInfo()
-    : m_SliceLocation(0)
-    , m_SliceOffset(0)
-    , m_EchoNumber(0)
-    , m_ImageNumber(0)
-    , m_Data(nullptr)
-  {}
+  IPLFileSortInfo() {}
 
   IPLFileSortInfo(const char * const filename,
                   float              sliceLocation,
@@ -135,13 +129,7 @@ public:
   };
 
   IPLFileNameList()
-    : m_XDim(0)
-    , m_YDim(0)
-    , m_XRes(0.0)
-    , m_YRes(0.0)
-    , m_Key1(0)
-    , m_Key2(0)
-    , m_SortOrder(SortGlobalAscend)
+    : m_SortOrder(SortGlobalAscend)
   {
     /** Key1 that must be matched for image to be used,
                   i.e. seriesNumber, extensionkey */

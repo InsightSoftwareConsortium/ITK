@@ -417,7 +417,7 @@ NiftiImageIO::NiftiImageIO()
   , m_NiftiImage(*m_NiftiImageHolder.get())
   // initialization of m_LegacyAnalyze75Mode & m_SFORM_Permissive in cxx so itkNiftiImageIOConfigurePrivate.h is private
   , m_LegacyAnalyze75Mode{ ITK_NIFTI_IO_ANALYZE_FLAVOR_DEFAULT }
-  , m_SFORM_Permissive{ ITK_NIFTI_IO_SFORM_PERMISSIVE_DEFAULT }
+
 {
   this->SetNumberOfDimensions(3);
   nifti_set_debug_level(0); // suppress error messages
@@ -434,6 +434,10 @@ NiftiImageIO::NiftiImageIO()
   {
     envVar = itksys::SystemTools::UpperCase(envVar);
     this->SetSFORM_Permissive(envVar != "NO" && envVar != "OFF" && envVar != "FALSE");
+  }
+  if constexpr (ITK_NIFTI_IO_SFORM_PERMISSIVE_DEFAULT)
+  {
+    m_SFORM_Permissive = ITK_NIFTI_IO_SFORM_PERMISSIVE_DEFAULT;
   }
 }
 

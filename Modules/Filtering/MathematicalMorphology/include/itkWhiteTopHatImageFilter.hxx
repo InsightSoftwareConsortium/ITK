@@ -29,7 +29,6 @@ template <typename TInputImage, typename TOutputImage, typename TKernel>
 WhiteTopHatImageFilter<TInputImage, TOutputImage, TKernel>::WhiteTopHatImageFilter()
   : m_SafeBorder(true)
   , m_Algorithm(AlgorithmEnum::HISTO)
-  , m_ForceAlgorithm(false)
 {}
 
 template <typename TInputImage, typename TOutputImage, typename TKernel>

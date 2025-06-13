@@ -38,7 +38,6 @@ SliceBySliceImageFilter<TInputImage,
   : m_Dimension(ImageDimension - 1)
   , m_InputFilter(nullptr)
   , m_OutputFilter(nullptr)
-  , m_SliceIndex(0)
 {}
 
 template <typename TInputImage,

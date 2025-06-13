@@ -24,14 +24,7 @@
 namespace itk
 {
 SimplexMeshGeometry::SimplexMeshGeometry()
-  : closestAttractorIndex(0)
-  , circleRadius(0)
-  , sphereRadius(0)
-  , distance(0)
-  , phi(0)
-  , neighborSet(nullptr)
-  , multiplier(0.0)
-  , forceIndex(0)
+
 {
   constexpr double    c = 1.0 / 3.0;
   constexpr PointType p{};

@@ -28,7 +28,7 @@ namespace itk
 
 template <typename TInputImage, typename TOutputImage>
 GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GradientRecursiveGaussianImageFilter()
-  : m_NormalizeAcrossScale(false)
+
 {
   static_assert(ImageDimension > 0, "Images shall have one dimension at least");
   const unsigned int imageDimensionMinus1 = ImageDimension - 1;

@@ -139,7 +139,7 @@ private:
   double m_PreFactor{};
 
   /** Boolean to cache whether the covariance is singular or nearly singular */
-  bool m_CovarianceNonsingular{};
+  bool m_CovarianceNonsingular{ true };
 };
 } // end of namespace Statistics
 } // end namespace itk

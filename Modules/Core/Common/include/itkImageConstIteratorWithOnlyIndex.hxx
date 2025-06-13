@@ -29,7 +29,6 @@ ImageConstIteratorWithOnlyIndex<TImage>::ImageConstIteratorWithOnlyIndex(const T
   : m_Image(ptr)
   , m_BeginIndex(region.GetIndex())
   , m_Region(region)
-  , m_Remaining(false)
 {
   m_PositionIndex = m_BeginIndex;
   std::copy_n(m_Image->GetOffsetTable(), ImageDimension + 1, m_OffsetTable);

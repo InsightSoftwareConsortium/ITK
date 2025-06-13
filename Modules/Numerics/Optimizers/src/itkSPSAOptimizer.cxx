@@ -23,16 +23,11 @@ namespace itk
 {
 
 SPSAOptimizer::SPSAOptimizer()
-  : m_LearningRate(0.0)
-  , m_StopCondition(StopConditionSPSAOptimizerEnum::Unknown)
-  , m_StateOfConvergence(0)
-  , m_CurrentIteration(0)
+  : m_StopCondition(StopConditionSPSAOptimizerEnum::Unknown)
   , m_MinimumNumberOfIterations(10)
   , m_MaximumNumberOfIterations(100)
   , m_StateOfConvergenceDecayRate(0.9)
   , m_Tolerance(1e-06)
-  , m_Maximize(false)
-  , m_GradientMagnitude(0.0)
   , m_NumberOfPerturbations(1)
   , m_Sa(1.0)
   , m_Sc(1.0)

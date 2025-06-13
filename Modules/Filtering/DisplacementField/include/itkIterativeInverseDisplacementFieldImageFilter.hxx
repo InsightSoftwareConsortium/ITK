@@ -28,8 +28,6 @@ namespace itk
 template <typename TInputImage, typename TOutputImage>
 IterativeInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::IterativeInverseDisplacementFieldImageFilter()
   : m_NumberOfIterations(5)
-  , m_StopValue(0)
-  , m_Time(0)
 {}
 
 //----------------------------------------------------------------------------

@@ -26,8 +26,7 @@ namespace itk
 
 template <typename TInternalComputationValueType>
 GradientDescentOptimizerBasev4Template<TInternalComputationValueType>::GradientDescentOptimizerBasev4Template()
-  : m_DoEstimateLearningRateAtEachIteration(false)
-  , m_DoEstimateLearningRateOnce(true)
+  : m_DoEstimateLearningRateOnce(true)
   , m_MaximumStepSizeInPhysicalUnits(TInternalComputationValueType{})
   , m_UseConvergenceMonitoring(true)
   , m_ConvergenceWindowSize(50)

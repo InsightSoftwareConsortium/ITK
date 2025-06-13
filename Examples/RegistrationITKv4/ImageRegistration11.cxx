@@ -63,9 +63,7 @@ public:
   itkNewMacro(Self);
 
 protected:
-  CommandIterationUpdate()
-    : m_LastMetricValue(0.0)
-  {}
+  CommandIterationUpdate() {}
 
 public:
   using OptimizerType = itk::OnePlusOneEvolutionaryOptimizerv4<double>;
@@ -97,7 +95,7 @@ public:
   }
 
 private:
-  double m_LastMetricValue;
+  double m_LastMetricValue{ 0.0 };
 };
 
 

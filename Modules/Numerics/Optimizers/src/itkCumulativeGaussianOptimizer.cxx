@@ -23,17 +23,7 @@ namespace itk
 {
 CumulativeGaussianOptimizer::CumulativeGaussianOptimizer()
   : m_DifferenceTolerance(1e-10)
-  , m_ComputedMean(0)
-  , m_ComputedStandardDeviation(0)
-  , m_ComputedAmplitude(0)
-  , m_ComputedTransitionHeight(0)
-  , m_UpperAsymptote(0)
-  , m_LowerAsymptote(0)
-  , m_OffsetForMean(0)
-  , m_Verbose(false)
-  , m_FitError(0)
-  , m_FinalSampledArray(nullptr)
-  , m_CumulativeGaussianArray(nullptr)
+
 {
   // Set some initial values for the variables.
   m_StopConditionDescription << this->GetNameOfClass() << ": Constructed";

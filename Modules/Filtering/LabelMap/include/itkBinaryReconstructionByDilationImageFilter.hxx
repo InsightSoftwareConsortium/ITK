@@ -26,8 +26,7 @@ namespace itk
 
 template <typename TInputImage>
 BinaryReconstructionByDilationImageFilter<TInputImage>::BinaryReconstructionByDilationImageFilter()
-  : m_FullyConnected(false)
-  , m_BackgroundValue(NumericTraits<OutputImagePixelType>::NonpositiveMin())
+  : m_BackgroundValue(NumericTraits<OutputImagePixelType>::NonpositiveMin())
   , m_ForegroundValue(NumericTraits<OutputImagePixelType>::max())
 {
   this->SetPrimaryInputName("MarkerImage");

@@ -29,7 +29,6 @@ template <typename TInputImage, typename TOutputImage>
 IsoContourDistanceImageFilter<TInputImage, TOutputImage>::IsoContourDistanceImageFilter()
   : m_LevelSetValue(InputPixelType{})
   , m_FarValue(10 * NumericTraits<PixelType>::OneValue())
-  , m_NarrowBanding(false)
   , m_NarrowBand(nullptr)
 {}
 

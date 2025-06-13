@@ -46,10 +46,6 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::DeformableSimplexMesh3DF
   , m_Gamma(0.05)
   , m_Damping(0.65)
   , m_Rigidity(1)
-  , m_Step(0)
-  , m_ImageWidth(0)
-  , m_ImageHeight(0)
-  , m_ImageDepth(0)
   , m_Iterations(20)
   , m_Data(nullptr)
 {

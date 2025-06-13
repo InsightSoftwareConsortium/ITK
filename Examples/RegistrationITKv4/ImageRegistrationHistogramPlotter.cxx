@@ -389,9 +389,7 @@ public:
   itkSimpleNewMacro(Self);
 
 protected:
-  CommandIterationUpdate()
-    : m_WriteHistogramsAfterEveryIteration(false)
-  {}
+  CommandIterationUpdate() {}
 
 public:
   using OptimizerType = itk::RegularStepGradientDescentOptimizer;
@@ -455,7 +453,7 @@ public:
   HistogramWriter m_JointHistogramWriter;
 
 private:
-  bool        m_WriteHistogramsAfterEveryIteration;
+  bool        m_WriteHistogramsAfterEveryIteration{ false };
   std::string m_InitialHistogramFile;
 };
 

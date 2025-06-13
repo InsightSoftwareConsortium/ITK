@@ -40,8 +40,7 @@ RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::RegionBasedLevelSetF
   , m_VolumeMatchingWeight(ScalarValueType{})
   , m_Volume(ScalarValueType{})
   , m_ReinitializationSmoothingWeight(ScalarValueType{})
-  , m_FunctionId(0)
-  , m_UpdateC(false)
+
 {
   m_CurvatureWeight = m_AdvectionWeight = ScalarValueType{};
 

@@ -42,7 +42,7 @@ public:
   int
   Open(const char * filename, bool silent = false);
 
-  TIFF *   m_Image;
+  TIFF *   m_Image{ nullptr };
   bool     m_IsOpen;
   uint32_t m_Width;
   uint32_t m_Height;

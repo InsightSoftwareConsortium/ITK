@@ -40,15 +40,11 @@ namespace itk
 class NodeOfPermutation
 {
 public:
-  SizeValueType m_Priority;
-  SizeValueType m_Index;
-  double        m_Value;
+  SizeValueType m_Priority{ 0 };
+  SizeValueType m_Index{ 0 };
+  double        m_Value{ 0.0 };
 
-  NodeOfPermutation()
-    : m_Priority(0)
-    , m_Index(0)
-    , m_Value(0.0)
-  {}
+  NodeOfPermutation() {}
 
   bool
   operator<(const NodeOfPermutation & b) const
@@ -248,7 +244,7 @@ public:
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageRandomNonRepeatingConstIteratorWithIndex. */
   ImageRandomNonRepeatingConstIteratorWithIndex(const ImageConstIteratorWithIndex<TImage> & it)
-    : m_Permutation(nullptr)
+
   {
     this->ImageConstIteratorWithIndex<TImage>::operator=(it);
   }

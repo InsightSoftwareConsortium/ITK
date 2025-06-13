@@ -106,7 +106,7 @@ private:
 
   void
        ReadOneTransform(VIO_General_transform * xfm);
-  bool m_RAStoLPS;
+  bool m_RAStoLPS{ false };
 };
 
 /** This helps to meet backward compatibility */

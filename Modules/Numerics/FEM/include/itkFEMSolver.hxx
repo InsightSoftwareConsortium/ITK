@@ -38,9 +38,7 @@ namespace fem
 
 template <unsigned int VDimension>
 Solver<VDimension>::Solver()
-  : m_NGFN(0)
-  , m_NMFC(0)
-  , m_FEMObject(nullptr)
+  : m_FEMObject(nullptr)
 {
   this->SetLinearSystemWrapper(&m_LinearSystemVNL);
 

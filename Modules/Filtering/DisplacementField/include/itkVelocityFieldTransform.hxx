@@ -31,7 +31,7 @@ VelocityFieldTransform<TParametersValueType, VDimension>::VelocityFieldTransform
   : m_LowerTimeBound(0.0)
   , m_UpperTimeBound(1.0)
   , m_NumberOfIntegrationSteps(10)
-  , m_VelocityFieldSetTime(0)
+
 {
   this->m_FixedParameters.SetSize(VelocityFieldDimension * (VelocityFieldDimension + 3));
   this->m_FixedParameters.Fill(0.0);

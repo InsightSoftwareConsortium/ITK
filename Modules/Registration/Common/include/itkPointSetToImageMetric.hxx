@@ -24,8 +24,7 @@ namespace itk
 
 template <typename TFixedPointSet, typename TMovingImage>
 PointSetToImageMetric<TFixedPointSet, TMovingImage>::PointSetToImageMetric()
-  : m_NumberOfPixelsCounted(0)
-  , m_FixedPointSet(nullptr)
+  : m_FixedPointSet(nullptr)
   , m_MovingImage(nullptr)
   , m_Transform(nullptr)
   , m_Interpolator(nullptr)
