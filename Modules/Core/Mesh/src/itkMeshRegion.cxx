@@ -22,7 +22,7 @@ namespace itk
 /**
  * Instantiate object.
  */
-MeshRegion::MeshRegion() {}
+MeshRegion::MeshRegion() = default;
 
 /**
  * Destructor for the MeshRegion class.

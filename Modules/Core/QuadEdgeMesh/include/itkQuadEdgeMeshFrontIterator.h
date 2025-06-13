@@ -110,12 +110,7 @@ protected:
     {}
     virtual ~FrontAtom() = default;
     FrontAtom &
-    operator=(const FrontAtom & r)
-    {
-      m_Edge = r.m_Edge;
-      m_Cost = r.m_Cost;
-      return *this;
-    }
+    operator=(const FrontAtom & r) = default;
     bool
     operator==(const FrontAtom & r) const
     {

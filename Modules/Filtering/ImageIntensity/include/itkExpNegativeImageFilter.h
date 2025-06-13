@@ -34,7 +34,7 @@ template <typename TInput, typename TOutput>
 class ExpNegative
 {
 public:
-  ExpNegative() {}
+  ExpNegative() = default;
   ~ExpNegative() = default;
 
   bool

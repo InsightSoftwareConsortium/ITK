@@ -59,7 +59,7 @@ public:
 class ITKCommon_HIDDEN Object::SubjectImplementation
 {
 public:
-  SubjectImplementation() {}
+  SubjectImplementation() = default;
   ~SubjectImplementation() = default;
 
   unsigned long

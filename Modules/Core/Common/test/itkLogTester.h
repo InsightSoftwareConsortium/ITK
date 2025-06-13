@@ -29,7 +29,7 @@ namespace Testing
 class LogTester
 {
 public:
-  LogTester() {}
+  LogTester() = default;
   itk::LoggerBase *
   GetLogger()
   {

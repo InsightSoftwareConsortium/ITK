@@ -124,7 +124,7 @@ public:
   ~FlatStructuringElement() override = default;
 
   /** Default constructor. */
-  FlatStructuringElement() {}
+  FlatStructuringElement() = default;
 
   /** Various constructors */
 

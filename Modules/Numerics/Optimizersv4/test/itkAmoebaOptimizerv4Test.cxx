@@ -67,7 +67,7 @@ public:
   using VectorType = vnl_vector<double>;
   using MatrixType = vnl_matrix<double>;
 
-  itkAmoebaOptimizerv4TestMetric1() {}
+  itkAmoebaOptimizerv4TestMetric1() = default;
 
   MeasureType
   GetValue() const override
@@ -179,7 +179,7 @@ public:
   using VectorType = vnl_vector<double>;
   using MatrixType = vnl_matrix<double>;
 
-  itkAmoebaOptimizerv4TestMetric2() {}
+  itkAmoebaOptimizerv4TestMetric2() = default;
 
   double
   GetValue() const override

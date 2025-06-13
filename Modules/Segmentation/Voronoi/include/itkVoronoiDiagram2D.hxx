@@ -24,8 +24,7 @@ namespace itk
 {
 
 template <typename TCoordinate>
-VoronoiDiagram2D<TCoordinate>::VoronoiDiagram2D()
-{}
+VoronoiDiagram2D<TCoordinate>::VoronoiDiagram2D() = default;
 
 template <typename TCoordinate>
 void

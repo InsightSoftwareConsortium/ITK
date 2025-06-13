@@ -22,7 +22,7 @@
 namespace itk
 {
 
-ImageRegionSplitterDirection::ImageRegionSplitterDirection() {}
+ImageRegionSplitterDirection::ImageRegionSplitterDirection() = default;
 
 void
 ImageRegionSplitterDirection::PrintSelf(std::ostream & os, Indent indent) const

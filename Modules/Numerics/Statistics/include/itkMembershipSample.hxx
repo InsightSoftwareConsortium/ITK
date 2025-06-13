@@ -24,8 +24,7 @@ namespace itk
 namespace Statistics
 {
 template <typename TSample>
-MembershipSample<TSample>::MembershipSample()
-{}
+MembershipSample<TSample>::MembershipSample() = default;
 
 template <typename TSample>
 void

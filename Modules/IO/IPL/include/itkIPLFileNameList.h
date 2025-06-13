@@ -68,7 +68,7 @@ namespace itk
 class IPLFileSortInfo
 {
 public:
-  IPLFileSortInfo() {}
+  IPLFileSortInfo() = default;
 
   IPLFileSortInfo(const char * const filename,
                   float              sliceLocation,
