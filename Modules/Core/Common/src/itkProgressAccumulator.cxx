@@ -21,9 +21,7 @@ namespace itk
 {
 ProgressAccumulator::ProgressAccumulator()
   : m_MiniPipelineFilter(nullptr)
-  // Initialize the progress values
-  , m_AccumulatedProgress(0.0f)
-  , m_BaseAccumulatedProgress(0.0f)
+// Initialize the progress values
 {
   // Create a member command
   m_CallbackCommand = CommandType::New();

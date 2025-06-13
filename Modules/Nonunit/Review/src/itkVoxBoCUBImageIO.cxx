@@ -324,8 +324,7 @@ const char * VoxBoCUBImageIO::m_VB_DATATYPE_DOUBLE = "Double";
 
 /** Constructor */
 VoxBoCUBImageIO::VoxBoCUBImageIO()
-  : m_Reader(nullptr)
-  , m_Writer(nullptr)
+
 {
   InitializeOrientationMap();
   m_ByteOrder = IOByteOrderEnum::BigEndian;

@@ -28,8 +28,6 @@ template <typename TInputImage, typename TBasisImage>
 ImagePCADecompositionCalculator<TInputImage, TBasisImage>::ImagePCADecompositionCalculator()
   : m_MeanImage(nullptr)
   , m_Image(nullptr)
-  , m_BasisMatrixCalculated(false)
-  , m_NumPixels(0)
 {}
 
 template <typename TInputImage, typename TBasisImage>

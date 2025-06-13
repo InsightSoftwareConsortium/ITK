@@ -30,8 +30,7 @@ namespace itk
 
 template <typename TMetric>
 RegistrationParameterScalesEstimator<TMetric>::RegistrationParameterScalesEstimator()
-  : m_NumberOfRandomSamples(0)
-  , m_CentralRegionRadius(5)
+  : m_CentralRegionRadius(5)
   , m_TransformForward(true)
   , m_SamplingStrategy(SamplingStrategyEnum::FullDomainSampling)
 {

@@ -40,8 +40,6 @@ namespace itk
 
 template <typename TParametersValueType>
 MINCTransformIOTemplate<TParametersValueType>::MINCTransformIOTemplate()
-  : m_XFM_initialized(false)
-  , m_RAStoLPS(false)
 {}
 
 template <typename TParametersValueType>

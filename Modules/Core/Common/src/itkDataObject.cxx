@@ -112,11 +112,8 @@ InvalidRequestedRegionError::PrintSelf(std::ostream & os, Indent indent) const
 DataObject::DataObject()
   : m_SourceOutputName("")
   , m_UpdateMTime()
-  // We have to assume that if a user is creating the data on their own,
-  // then they will fill it with valid data.
-  , m_ReleaseDataFlag(false)
-  , m_DataReleased(false)
-  , m_PipelineMTime(0)
+// We have to assume that if a user is creating the data on their own,
+// then they will fill it with valid data.
 {
   m_Source = nullptr;
 }

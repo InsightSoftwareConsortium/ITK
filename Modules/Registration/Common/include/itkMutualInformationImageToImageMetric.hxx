@@ -28,8 +28,7 @@ namespace itk
 
 template <typename TFixedImage, typename TMovingImage>
 MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::MutualInformationImageToImageMetric()
-  : m_NumberOfSpatialSamples(0)
-  , m_MovingImageStandardDeviation(0.4)
+  : m_MovingImageStandardDeviation(0.4)
   , m_FixedImageStandardDeviation(0.4)
   , m_MinProbability(0.0001)
   , m_DerivativeCalculator(DerivativeFunctionType::New())

@@ -23,8 +23,7 @@ namespace itk
 {
 template <typename TInputImageType, typename TSparseOutputImageType>
 FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>::FiniteDifferenceSparseImageFilter()
-  : m_PrecomputeFlag(false)
-  , m_SparseFunction(nullptr)
+  : m_SparseFunction(nullptr)
 {}
 
 template <typename TInputImageType, typename TSparseOutputImageType>

@@ -143,7 +143,6 @@ protected:
     : m_MovingImage(nullptr)
     , m_FixedImage(nullptr)
     , m_DisplacementField(nullptr)
-    , m_Energy(0.0)
     , m_NormalizeGradient(true)
     , m_GradientStep(1.0)
   {}

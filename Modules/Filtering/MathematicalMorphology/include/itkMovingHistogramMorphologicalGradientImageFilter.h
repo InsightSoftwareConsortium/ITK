@@ -109,7 +109,7 @@ public:
   VectorMorphologicalGradientHistogram()
     : m_Min(NumericTraits<TInputPixel>::max())
     , m_Max(NumericTraits<TInputPixel>::NonpositiveMin())
-    , m_Count(0)
+
   {
     // initialize members need for the vector based algorithm
     m_Vector.resize(NumericTraits<TInputPixel>::max() - NumericTraits<TInputPixel>::NonpositiveMin() + 1, 0);
@@ -190,7 +190,7 @@ public:
   std::vector<SizeValueType> m_Vector;
   TInputPixel                m_Min;
   TInputPixel                m_Max;
-  SizeValueType              m_Count;
+  SizeValueType              m_Count{ 0 };
 };
 
 /// \cond HIDE_SPECIALIZATION_DOCUMENTATION

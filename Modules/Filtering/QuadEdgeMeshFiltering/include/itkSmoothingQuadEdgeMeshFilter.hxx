@@ -27,7 +27,6 @@ SmoothingQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::SmoothingQuadEdgeMeshFilte
   : m_CoefficientsMethod(nullptr)
   , m_InputDelaunayFilter(InputOutputDelaunayConformingType::New())
   , m_OutputDelaunayFilter(OutputDelaunayConformingType::New())
-  , m_DelaunayConforming(false)
   , m_NumberOfIterations(1)
   , m_RelaxationFactor(static_cast<OutputCoordType>(1.0))
 {}

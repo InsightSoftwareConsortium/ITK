@@ -99,7 +99,6 @@ public:
 
   CompensatedSummationTest2Associate()
     : m_ClassDescriptor("enclosing class")
-    , m_UncompensatedSumOfThreads(0.0)
   {
     m_TestDomainThreader = TestDomainThreader::New();
   }
@@ -133,7 +132,7 @@ private:
 
   std::string                       m_ClassDescriptor;
   itk::CompensatedSummation<double> m_CompensatedSumOfThreads;
-  double                            m_UncompensatedSumOfThreads;
+  double                            m_UncompensatedSumOfThreads{ 0.0 };
 };
 
 int

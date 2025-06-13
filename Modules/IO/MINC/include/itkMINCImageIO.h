@@ -160,7 +160,7 @@ private:
 
   // complex type images, composed of complex numbers
   // int m_Complex;
-  bool m_RAStoLPS;
+  bool m_RAStoLPS{ false };
 };
 } // end namespace itk
 

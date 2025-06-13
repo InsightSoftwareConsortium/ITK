@@ -185,9 +185,7 @@ public:
   itkNewMacro(Self);
 
 protected:
-  CommandIterationUpdateLevenbergMarquardt()
-    : m_IterationNumber(0)
-  {}
+  CommandIterationUpdateLevenbergMarquardt() {}
 
 public:
   using OptimizerType = itk::LevenbergMarquardtOptimizer;
@@ -217,7 +215,7 @@ public:
   }
 
 private:
-  unsigned long m_IterationNumber;
+  unsigned long m_IterationNumber{ 0 };
 
   itk::FunctionEvaluationIterationEvent m_FunctionEvent;
   itk::GradientEvaluationIterationEvent m_GradientEvent;

@@ -32,7 +32,7 @@ MRASlabIdentifier<TInputImage>::MRASlabIdentifier()
   , m_NumberOfSamples(10)
   , m_SlicingDirection(2)
   , m_BackgroundMinimumThreshold(NumericTraits<ImagePixelType>::min()) // default slicing axis is z
-  , m_Tolerance(0.0)
+
 {}
 
 template <typename TInputImage>

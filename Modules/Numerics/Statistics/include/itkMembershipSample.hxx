@@ -25,7 +25,6 @@ namespace Statistics
 {
 template <typename TSample>
 MembershipSample<TSample>::MembershipSample()
-  : m_NumberOfClasses(0)
 {}
 
 template <typename TSample>

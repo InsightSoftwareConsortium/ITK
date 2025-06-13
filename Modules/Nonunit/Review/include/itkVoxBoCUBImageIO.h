@@ -109,7 +109,7 @@ private:
   GenericCUBFileAdaptor *
   CreateWriter(const char * filename);
 
-  GenericCUBFileAdaptor *m_Reader, *m_Writer;
+  GenericCUBFileAdaptor *m_Reader{ nullptr }, *m_Writer{ nullptr };
 
   // Initialize the orientation map (from strings to ITK)
   void

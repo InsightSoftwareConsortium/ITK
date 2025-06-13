@@ -34,7 +34,6 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
   : m_FixedTransform(IdentityTransform<TParametersValueType, Self::MovingDimension>::New())
   , m_MovingTransform(IdentityTransform<TParametersValueType, Self::FixedDimension>::New())
   , m_VirtualImage(nullptr)
-  , m_UserHasSetVirtualDomain(false)
 {}
 
 template <unsigned int TFixedDimension,

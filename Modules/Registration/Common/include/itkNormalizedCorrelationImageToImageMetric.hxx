@@ -25,7 +25,6 @@ namespace itk
 
 template <typename TFixedImage, typename TMovingImage>
 NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::NormalizedCorrelationImageToImageMetric()
-  : m_SubtractMean(false)
 {}
 
 template <typename TFixedImage, typename TMovingImage>

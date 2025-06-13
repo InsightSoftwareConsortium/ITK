@@ -25,9 +25,7 @@ namespace itk
 template <typename TInputImage, typename TOutputImage>
 LabelImageToShapeLabelMapFilter<TInputImage, TOutputImage>::LabelImageToShapeLabelMapFilter()
   : m_BackgroundValue(NumericTraits<OutputImagePixelType>::NonpositiveMin())
-  , m_ComputeFeretDiameter(false)
   , m_ComputePerimeter(true)
-  , m_ComputeOrientedBoundingBox(false)
 {}
 
 template <typename TInputImage, typename TOutputImage>

@@ -34,8 +34,7 @@ namespace itk
 template <typename TInputImage, typename TOutputImage>
 MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::MultiResolutionPyramidImageFilter()
   : m_MaximumError(0.1)
-  , m_NumberOfLevels(0)
-  , m_UseShrinkImageFilter(false)
+
 {
   this->SetNumberOfLevels(2);
 }

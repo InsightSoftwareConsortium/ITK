@@ -32,7 +32,6 @@ DoubleThresholdImageFilter<TInputImage, TOutputImage>::DoubleThresholdImageFilte
   , m_Threshold4(NumericTraits<InputPixelType>::max())
   , m_InsideValue(NumericTraits<OutputPixelType>::max())
   , m_OutsideValue(OutputPixelType{})
-  , m_FullyConnected(false)
 {}
 
 template <typename TInputImage, typename TOutputImage>

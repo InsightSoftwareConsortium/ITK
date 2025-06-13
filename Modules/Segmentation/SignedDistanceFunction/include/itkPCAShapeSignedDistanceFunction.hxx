@@ -27,9 +27,7 @@ namespace itk
 // Constructor with default arguments
 template <typename TCoordinate, unsigned int VSpaceDimension, typename TImage>
 PCAShapeSignedDistanceFunction<TCoordinate, VSpaceDimension, TImage>::PCAShapeSignedDistanceFunction()
-  : m_NumberOfPrincipalComponents(0)
-  , m_NumberOfTransformParameters(0)
-  , m_MeanImage(nullptr)
+  : m_MeanImage(nullptr)
   , m_Transform(TranslationTransform<TCoordinate, SpaceDimension>::New())
 {
   m_PrincipalComponentImages.resize(0);

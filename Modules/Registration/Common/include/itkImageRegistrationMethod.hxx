@@ -32,7 +32,7 @@ ImageRegistrationMethod<TFixedImage, TMovingImage>::ImageRegistrationMethod()
   , m_Interpolator(nullptr)
   , m_InitialTransformParameters(ParametersType(1))
   , m_LastTransformParameters(ParametersType(1))
-  , m_FixedImageRegionDefined(false)
+
 {
   this->SetNumberOfRequiredOutputs(1); // for the Transform
   m_InitialTransformParameters.Fill(0.0f);

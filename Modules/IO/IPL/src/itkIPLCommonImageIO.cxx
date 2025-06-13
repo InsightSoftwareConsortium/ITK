@@ -38,8 +38,7 @@ namespace itk
 {
 // Default constructor
 IPLCommonImageIO::IPLCommonImageIO()
-  : m_ImageHeader(nullptr)
-  , m_SystemByteOrder(ByteSwapper<int>::SystemIsBigEndian() ? IOByteOrderEnum::BigEndian
+  : m_SystemByteOrder(ByteSwapper<int>::SystemIsBigEndian() ? IOByteOrderEnum::BigEndian
                                                             : IOByteOrderEnum::LittleEndian)
   , m_FilenameList(new IPLFileNameList)
 {

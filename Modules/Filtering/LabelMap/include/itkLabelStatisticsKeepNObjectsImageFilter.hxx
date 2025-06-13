@@ -26,7 +26,6 @@ template <typename TInputImage, typename TFeatureImage>
 LabelStatisticsKeepNObjectsImageFilter<TInputImage, TFeatureImage>::LabelStatisticsKeepNObjectsImageFilter()
   : m_BackgroundValue(NumericTraits<OutputImagePixelType>::NonpositiveMin())
   , m_NumberOfObjects(1)
-  , m_ReverseOrdering(false)
   , m_Attribute(LabelObjectType::MEAN)
 {
   this->SetNumberOfRequiredInputs(2);

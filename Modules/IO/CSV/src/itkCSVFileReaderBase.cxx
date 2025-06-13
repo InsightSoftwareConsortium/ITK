@@ -26,10 +26,8 @@ CSVFileReaderBase::CSVFileReaderBase()
   : m_FileName("")
   , m_FieldDelimiterCharacter(',')
   , m_StringDelimiterCharacter('"')
-  , m_UseStringDelimiterCharacter(false)
   , m_HasRowHeaders(true)
   , m_HasColumnHeaders(true)
-  , m_EndOfColumnHeadersLine(0)
   , m_Line("")
 {}
 

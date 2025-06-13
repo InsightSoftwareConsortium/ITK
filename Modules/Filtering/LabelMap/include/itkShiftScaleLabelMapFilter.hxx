@@ -24,9 +24,7 @@ namespace itk
 {
 template <typename TImage>
 ShiftScaleLabelMapFilter<TImage>::ShiftScaleLabelMapFilter()
-  : m_Shift(0.0)
-  , m_Scale(1.0)
-  , m_ChangeBackgroundValue(false)
+  : m_Scale(1.0)
 {}
 
 template <typename TImage>

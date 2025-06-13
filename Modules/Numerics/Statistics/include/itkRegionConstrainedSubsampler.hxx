@@ -25,8 +25,7 @@ namespace Statistics
 
 template <typename TSample, typename TRegion>
 RegionConstrainedSubsampler<TSample, TRegion>::RegionConstrainedSubsampler()
-  : m_RegionConstraintInitialized(false)
-  , m_SampleRegionInitialized(false)
+
 {
   this->m_RequestMaximumNumberOfResults = true;
 }

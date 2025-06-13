@@ -31,7 +31,6 @@ template <typename TInputMesh, typename TOutputMesh>
 DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>::
   DeformableSimplexMesh3DGradientConstraintForceFilter()
   : m_Range(1)
-  , m_StartVoxel(nullptr)
 {}
 
 template <typename TInputMesh, typename TOutputMesh>

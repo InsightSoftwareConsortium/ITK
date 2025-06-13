@@ -206,9 +206,7 @@ TIFFImageIO::Read(void * buffer)
 TIFFImageIO::TIFFImageIO()
   : m_InternalImage(new TIFFReaderInternal)
   , m_ColorPalette(0)
-  , m_ColorRed(nullptr)
-  , m_ColorGreen(nullptr)
-  , m_ColorBlue(nullptr)
+
 
 {
   this->SetNumberOfDimensions(2);

@@ -89,10 +89,7 @@ public:
 protected:
   ScalarChanAndVeseLevelSetFunctionData()
     : Superclass()
-    , m_BackgroundConstantValues(0.)
-    , m_ForegroundConstantValues(0.)
-    , m_WeightedSumOfPixelValuesInsideLevelSet(0.)
-    , m_WeightedSumOfPixelValuesOutsideLevelSet(0.)
+
   {}
 
   ~ScalarChanAndVeseLevelSetFunctionData() override = default;

@@ -29,9 +29,7 @@ namespace itk
 
 template <typename TInputMesh, typename TOutputMesh>
 ConformalFlatteningMeshFilter<TInputMesh, TOutputMesh>::ConformalFlatteningMeshFilter()
-  : m_PolarCellIdentifier(0)
-  , m_MapToSphere(false)
-  , m_MapScale(-1.0)
+  : m_MapScale(-1.0)
 {
   // If during the stage when this parameter is used and it is still
   // -1.0, then it indicates that the user doesn't assign a scale

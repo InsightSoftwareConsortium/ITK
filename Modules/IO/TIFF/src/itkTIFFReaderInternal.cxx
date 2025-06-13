@@ -187,11 +187,7 @@ TIFFReaderInternal::Clean()
 }
 
 
-TIFFReaderInternal::TIFFReaderInternal()
-  : m_Image(nullptr)
-{
-  this->Clean();
-}
+TIFFReaderInternal::TIFFReaderInternal() { this->Clean(); }
 
 int
 TIFFReaderInternal::Initialize()

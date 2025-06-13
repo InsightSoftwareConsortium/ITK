@@ -25,7 +25,6 @@ namespace itk
 template <typename TInputMesh, typename TOutputMesh>
 DelaunayConformingQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::DelaunayConformingQuadEdgeMeshFilter()
   : m_PriorityQueue(PriorityQueueType::New())
-  , m_NumberOfEdgeFlips(0)
   , m_FlipEdge(FlipEdgeFunctionType::New())
 {}
 

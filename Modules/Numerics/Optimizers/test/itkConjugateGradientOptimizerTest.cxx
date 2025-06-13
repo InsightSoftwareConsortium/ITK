@@ -119,9 +119,7 @@ public:
   itkNewMacro(Self);
 
 protected:
-  CommandIterationUpdateConjugateGradient()
-    : m_IterationNumber(0)
-  {}
+  CommandIterationUpdateConjugateGradient() {}
 
 public:
   using OptimizerType = itk::ConjugateGradientOptimizer;
@@ -150,7 +148,7 @@ public:
   }
 
 private:
-  unsigned long m_IterationNumber;
+  unsigned long m_IterationNumber{ 0 };
 
   itk::FunctionEvaluationIterationEvent m_FunctionEvent;
   itk::GradientEvaluationIterationEvent m_GradientEvent;

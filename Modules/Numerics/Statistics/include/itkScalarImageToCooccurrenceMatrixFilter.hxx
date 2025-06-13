@@ -32,7 +32,6 @@ ScalarImageToCooccurrenceMatrixFilter<TImageType, THistogramFrequencyContainer, 
   : m_Min(NumericTraits<PixelType>::NonpositiveMin())
   , m_Max(NumericTraits<PixelType>::max())
   , m_NumberOfBinsPerAxis(DefaultBinsPerAxis)
-  , m_Normalize(false) // mask inside pixel value
   , m_InsidePixelValue(NumericTraits<PixelType>::OneValue())
 {
   this->SetNumberOfRequiredInputs(1);

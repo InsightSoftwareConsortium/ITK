@@ -26,10 +26,8 @@ namespace itk
 
 template <typename TLevelSet>
 ReinitializeLevelSetImageFilter<TLevelSet>::ReinitializeLevelSetImageFilter()
-  : m_LevelSetValue(0.0)
-  , m_Locator(LocatorType::New())
+  : m_Locator(LocatorType::New())
   , m_Marcher(FastMarchingImageFilterType::New())
-  , m_NarrowBanding(false)
   , m_InputNarrowBandwidth(12.0)
   , m_OutputNarrowBandwidth(12.0)
   , m_InputNarrowBand(nullptr)

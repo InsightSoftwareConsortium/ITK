@@ -233,8 +233,7 @@ public:
 
 protected:
   AnisotropicDiffusionFunction()
-    : m_AverageGradientMagnitudeSquared(0.0)
-    , m_ConductanceParameter(1.0) // default value
+    : m_ConductanceParameter(1.0) // default value
     , m_TimeStep(0.125f)          // default value
   {}
 

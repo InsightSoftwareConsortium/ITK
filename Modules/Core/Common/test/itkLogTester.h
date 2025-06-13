@@ -29,9 +29,7 @@ namespace Testing
 class LogTester
 {
 public:
-  LogTester()
-    : m_Logger(nullptr)
-  {}
+  LogTester() {}
   itk::LoggerBase *
   GetLogger()
   {
@@ -64,7 +62,7 @@ public:
   }
 
 private:
-  itk::LoggerBase * m_Logger;
+  itk::LoggerBase * m_Logger{ nullptr };
 };
 } // namespace Testing
 } // namespace itk

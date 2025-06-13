@@ -182,7 +182,7 @@ public:
 protected:
   ~MorphFilter() override = default;
   MorphFilter()
-    : m_Iterations(0)
+
   {
     auto p = MorphFunction::New();
     p->SetPropagationWeight(-1.0);
@@ -192,7 +192,7 @@ protected:
   }
 
 private:
-  unsigned int m_Iterations;
+  unsigned int m_Iterations{ 0 };
 
   bool
   Halt() override

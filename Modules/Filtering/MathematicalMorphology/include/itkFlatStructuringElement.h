@@ -124,10 +124,7 @@ public:
   ~FlatStructuringElement() override = default;
 
   /** Default constructor. */
-  FlatStructuringElement()
-    : m_Decomposable(false)
-    , m_RadiusIsParametric(false)
-  {}
+  FlatStructuringElement() {}
 
   /** Various constructors */
 

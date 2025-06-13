@@ -115,8 +115,6 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
   , m_IsoSurfaceValue(m_ValueZero)
   , m_BackgroundValue(NumericTraits<ValueType>::max())
   , m_InterpolateSurfaceLocation(true)
-  , m_CurrentFunctionIndex(0)
-  , m_BoundsCheckingActive(false)
 {}
 
 template <typename TInputImage, typename TFeatureImage, typename TOutputImage, typename TFunction, typename TIdCell>

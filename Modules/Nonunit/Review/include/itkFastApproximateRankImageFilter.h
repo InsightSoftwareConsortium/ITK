@@ -98,7 +98,7 @@ public:
 
 protected:
   FastApproximateRankImageFilter()
-    : m_Rank(0.0)
+
   {
     // to avoid valgrind warning
     this->SetRank(0.5);

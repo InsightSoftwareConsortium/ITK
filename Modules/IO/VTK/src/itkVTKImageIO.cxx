@@ -25,7 +25,7 @@
 namespace itk
 {
 VTKImageIO::VTKImageIO()
-  : m_HeaderSize(0)
+
 {
   this->SetNumberOfDimensions(2);
   m_ByteOrder = IOByteOrderEnum::LittleEndian;

@@ -59,9 +59,7 @@ public:
   using MeasureType = Superclass::MeasureType;
 
 
-  ExhaustiveOptv4Metric()
-    : m_HasLocalSupport(false)
-  {}
+  ExhaustiveOptv4Metric() {}
 
   MeasureType
   GetValue() const override
@@ -148,7 +146,7 @@ public:
 
 private:
   ParametersType m_Parameters;
-  bool           m_HasLocalSupport;
+  bool           m_HasLocalSupport{ false };
 };
 
 

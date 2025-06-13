@@ -28,7 +28,7 @@ namespace itk
 
 template <typename TInputImage, typename TOutputImage>
 LaplacianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::LaplacianRecursiveGaussianImageFilter()
-  : m_NormalizeAcrossScale(false)
+
 {
   for (unsigned int i = 0; i < NumberOfSmoothingFilters; ++i)
   {

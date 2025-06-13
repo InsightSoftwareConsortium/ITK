@@ -162,7 +162,7 @@ protected:
     , m_Beta(.3)
     , m_InputMinimum(NumericTraits<InputPixelType>::min())
     , m_InputMaximum(NumericTraits<InputPixelType>::max())
-    , m_UseLookupTable(false)
+
   {
     this->SetRadius(5);
   }

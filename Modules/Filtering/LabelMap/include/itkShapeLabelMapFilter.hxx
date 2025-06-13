@@ -36,9 +36,7 @@ namespace itk
 {
 template <typename TImage, typename TLabelImage>
 ShapeLabelMapFilter<TImage, TLabelImage>::ShapeLabelMapFilter()
-  : m_ComputeFeretDiameter(false)
-  , m_ComputePerimeter(true)
-  , m_ComputeOrientedBoundingBox(false)
+  : m_ComputePerimeter(true)
 {}
 
 template <typename TImage, typename TLabelImage>

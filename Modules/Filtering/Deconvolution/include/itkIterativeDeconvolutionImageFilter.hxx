@@ -29,10 +29,6 @@ IterativeDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInte
   : m_TransferFunction(nullptr)
   , m_CurrentEstimate(nullptr)
   , m_NumberOfIterations(1)
-  , m_Iteration(0)
-  , m_StopIteration(false)
-  , m_InputMTime(0L)
-  , m_KernelMTime(0L)
 {}
 
 template <typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision>

@@ -30,7 +30,7 @@ namespace itk
 template <typename TInputImage>
 BinaryFillholeImageFilter<TInputImage>::BinaryFillholeImageFilter()
   : m_ForegroundValue(NumericTraits<InputImagePixelType>::max())
-  , m_FullyConnected(false)
+
 {}
 
 template <typename TInputImage>

@@ -79,19 +79,13 @@ public:
 
 GDCMImageIO::GDCMImageIO()
   : m_RescaleSlope(1.0)
-  , m_RescaleIntercept(0.0)
-  // This number is updated according the information
-  // received through the MetaDataDictionary
   , m_UIDPrefix("1.2.826.0.1.3680043.2.1125."
                 "1")
   , m_StudyInstanceUID("")
   , m_SeriesInstanceUID("")
   , m_FrameOfReferenceInstanceUID("")
-  , m_KeepOriginalUID(false)
-  , m_LoadPrivateTags(false)
   , m_ReadYBRtoRGB(true)
   , m_GlobalNumberOfDimensions(2)
-  , m_SingleBit(false)
   , m_InternalComponentType(IOComponentEnum::UNKNOWNCOMPONENTTYPE)
   // UIDPrefix is the ITK root id tacked with a ".1"
   // allowing to designate a subspace of the id space for ITK generated DICOM

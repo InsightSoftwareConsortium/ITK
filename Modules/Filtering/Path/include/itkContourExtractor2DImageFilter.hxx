@@ -32,10 +32,6 @@ namespace itk
 template <typename TInputImage>
 ContourExtractor2DImageFilter<TInputImage>::ContourExtractor2DImageFilter()
   : m_ContourValue(InputRealType{})
-  , m_ReverseContourOrientation(false)
-  , m_VertexConnectHighPixels(false)
-  , m_LabelContours(false)
-  , m_UseCustomRegion(false)
   , m_UnusedLabel(NumericTraits<InputPixelType>::min())
 {
   // We do not need to initialize this->m_RequestedRegion because m_UseCustomRegion == false.

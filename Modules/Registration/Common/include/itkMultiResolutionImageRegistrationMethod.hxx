@@ -38,10 +38,7 @@ MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::MultiResoluti
   , m_InitialTransformParametersOfNextLevel(ParametersType(1))
   , m_LastTransformParameters(ParametersType(1))
   , m_NumberOfLevels(1)
-  , m_CurrentLevel(0)
-  , m_Stop(false)
-  , m_ScheduleSpecified(false)
-  , m_NumberOfLevelsSpecified(false)
+
 {
   this->SetNumberOfRequiredOutputs(1); // for the Transform
 

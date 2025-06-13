@@ -29,7 +29,6 @@ ImplicitManifoldNormalVectorFilter<TInputImage, TSparseOutputImage>::ImplicitMan
   , m_IsoLevelLow(NodeValueType{})
   , m_IsoLevelHigh(NodeValueType{})
   , m_MinVectorNorm(static_cast<NodeValueType>(1.0e-6))
-  , m_UnsharpMaskingFlag(false)
   , m_UnsharpMaskingWeight(NodeValueType{})
 {
   this->SetPrecomputeFlag(true);

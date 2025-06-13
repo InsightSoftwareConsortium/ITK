@@ -59,9 +59,7 @@ public:
 class ITKCommon_HIDDEN Object::SubjectImplementation
 {
 public:
-  SubjectImplementation()
-    : m_Count(0)
-  {}
+  SubjectImplementation() {}
   ~SubjectImplementation() = default;
 
   unsigned long
@@ -114,7 +112,7 @@ private:
   InvokeEventRecursion(const EventObject & event, TObject * self, std::list<Observer>::const_reverse_iterator & i);
 
   std::list<Observer> m_Observers;
-  unsigned long       m_Count;
+  unsigned long       m_Count{ 0 };
 };
 
 unsigned long

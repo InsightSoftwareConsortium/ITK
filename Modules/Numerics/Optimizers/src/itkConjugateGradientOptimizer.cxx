@@ -24,8 +24,7 @@ namespace itk
  * Constructor
  */
 ConjugateGradientOptimizer::ConjugateGradientOptimizer()
-  : m_OptimizerInitialized(false)
-  , m_VnlOptimizer(nullptr)
+  : m_VnlOptimizer(nullptr)
 {}
 
 /**

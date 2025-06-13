@@ -31,11 +31,8 @@ FastMarchingUpwindGradientImageFilter<TLevelSet, TSpeedImage>::FastMarchingUpwin
   : m_TargetPoints(nullptr)
   , m_ReachedTargetPoints(nullptr)
   , m_GradientImage(GradientImageType::New())
-  , m_GenerateGradientImage(false)
   , m_TargetOffset(1.0)
   , m_TargetReachedMode(TargetConditionEnum::NoTargets)
-  , m_TargetValue(0.0)
-  , m_NumberOfTargets(0)
 {}
 
 template <typename TLevelSet, typename TSpeedImage>

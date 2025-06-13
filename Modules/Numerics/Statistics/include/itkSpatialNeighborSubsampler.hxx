@@ -26,7 +26,7 @@ namespace Statistics
 
 template <typename TSample, typename TRegion>
 SpatialNeighborSubsampler<TSample, TRegion>::SpatialNeighborSubsampler()
-  : m_RadiusInitialized(false)
+
 {
   this->m_Radius.Fill(1);
 }

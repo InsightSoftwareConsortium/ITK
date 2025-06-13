@@ -182,7 +182,6 @@ protected:
   DiscreteGaussianDerivativeImageFilter()
     : m_MaximumKernelWidth(32)
     , m_UseImageSpacing(true)
-    , m_NormalizeAcrossScale(false)
     , m_InternalNumberOfStreamDivisions(ImageDimension * ImageDimension)
   {
     m_Order.Fill(1);

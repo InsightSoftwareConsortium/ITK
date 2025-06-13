@@ -53,9 +53,7 @@ template <typename TImage>
 class PostProcessCorrelation
 {
 public:
-  PostProcessCorrelation()
-    : m_RequiredNumberOfOverlappingPixels(0)
-  {}
+  PostProcessCorrelation() {}
   ~PostProcessCorrelation() = default;
 
   void
@@ -103,7 +101,7 @@ public:
   }
 
 private:
-  SizeValueType m_RequiredNumberOfOverlappingPixels;
+  SizeValueType m_RequiredNumberOfOverlappingPixels{ 0 };
   double        m_PrecisionTolerance;
 };
 } // namespace Functor

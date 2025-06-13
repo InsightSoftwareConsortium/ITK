@@ -142,8 +142,6 @@ public:
   /** Default constructor. Needed since we provide a cast constructor. */
   ImageRegionConstIterator()
     : ImageConstIterator<TImage>()
-    , m_SpanBeginOffset(0)
-    , m_SpanEndOffset(0)
   {}
 
   /** Constructor establishes an iterator to walk a particular image and a particular region of that image. Initializes

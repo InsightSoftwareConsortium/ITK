@@ -27,11 +27,7 @@ namespace fem
  * constructor
  */
 LinearSystemWrapperItpack::LinearSystemWrapperItpack()
-  : m_Matrices(nullptr)
-  , m_Vectors(nullptr)
-  , m_Solutions(nullptr)
-  , m_MaximumNonZeroValues(0)
-  , m_Method(0)
+
 {
   /* fill m_Methods with pointers to solver functions */
   m_Methods[0] = jcg_;
