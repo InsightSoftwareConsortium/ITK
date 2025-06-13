@@ -227,10 +227,10 @@ template <typename TFixedImage, typename TMovingImage>
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::ThreaderCallback(void * arg)
 {
-  const ThreadIdType workUnitID = ((MultiThreaderBase::WorkUnitInfo *)(arg))->WorkUnitID;
-  const ThreadIdType workUnitCount = ((MultiThreaderBase::WorkUnitInfo *)(arg))->NumberOfWorkUnits;
+  const ThreadIdType workUnitID = (static_cast<MultiThreaderBase::WorkUnitInfo *>(arg))->WorkUnitID;
+  const ThreadIdType workUnitCount = (static_cast<MultiThreaderBase::WorkUnitInfo *>(arg))->NumberOfWorkUnits;
 
-  auto * str = (ThreadStruct *)(((MultiThreaderBase::WorkUnitInfo *)(arg))->UserData);
+  auto * str = (ThreadStruct *)((static_cast<MultiThreaderBase::WorkUnitInfo *>(arg))->UserData);
 
   // execute the actual method with appropriate computation region
   // first find out how many pieces extent can be split into.

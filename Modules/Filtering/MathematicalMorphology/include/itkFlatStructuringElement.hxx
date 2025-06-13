@@ -1078,12 +1078,14 @@ FlatStructuringElement<VDimension>::Annulus(RadiusType   radius,
     if (result.GetRadiusIsParametric())
     {
       axesOuter[i] = 2 * result.GetRadius(i);
-      axesInner[i] = std::max(2 * (OffsetValueType)radius[i] - 2 * (OffsetValueType)thickness, (OffsetValueType)1);
+      axesInner[i] = std::max(2 * (OffsetValueType)radius[i] - 2 * static_cast<OffsetValueType>(thickness),
+                              static_cast<OffsetValueType>(1));
     }
     else
     {
       axesOuter[i] = result.GetSize(i);
-      axesInner[i] = std::max(2 * (OffsetValueType)radius[i] + 1 - 2 * (OffsetValueType)thickness, (OffsetValueType)1);
+      axesInner[i] = std::max(2 * (OffsetValueType)radius[i] + 1 - 2 * static_cast<OffsetValueType>(thickness),
+                              static_cast<OffsetValueType>(1));
     }
   }
   ellipsoidOuter->SetAxes(axesOuter);

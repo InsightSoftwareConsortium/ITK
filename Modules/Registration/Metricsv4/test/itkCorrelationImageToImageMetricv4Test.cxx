@@ -234,7 +234,7 @@ itkCorrelationImageToImageMetricv4Test(int, char ** const)
     result = EXIT_FAILURE;
   }
 
-  const vnl_vector<double> ddiff = (vnl_vector<double>)derivative1 - (vnl_vector<double>)derivative2;
+  const vnl_vector<double> ddiff = vnl_vector<double>(derivative1) - vnl_vector<double>(derivative2);
   if (ddiff.two_norm() > myeps)
   {
     std::cerr << "derivative1: " << derivative1 << std::endl;

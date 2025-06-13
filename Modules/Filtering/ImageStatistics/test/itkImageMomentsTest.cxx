@@ -84,7 +84,7 @@ itkImageMomentsTest(int argc, char * argv[])
   tpm[2] = 2.0; // Principal moments
 
   MatrixType tpa;
-  tpa.GetVnlMatrix().set((double *)pad);
+  tpa.GetVnlMatrix().set(reinterpret_cast<double *>(pad));
 
   /* Allocate a simple test image */
   auto image = ImageType::New();

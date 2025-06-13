@@ -131,7 +131,7 @@ itkCovarianceSampleFilterTest3(int, char *[])
 
     const double MahalanobisDistance2 = MahalanobisDistance * MahalanobisDistance;
 
-    auto frequency = (AbsoluteFrequencyType)std::floor(1e5 * std::exp(-0.5 * MahalanobisDistance2));
+    auto frequency = static_cast<AbsoluteFrequencyType>(std::floor(1e5 * std::exp(-0.5 * MahalanobisDistance2)));
 
     itr.SetFrequency(frequency);
     ++itr;

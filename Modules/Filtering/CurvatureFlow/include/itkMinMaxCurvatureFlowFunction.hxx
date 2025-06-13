@@ -128,7 +128,7 @@ MinMaxCurvatureFlowFunction<TImage>::ComputeThreshold(const DispatchBase &, cons
   PixelType gradMagnitude = PixelType{};
   for (unsigned int j = 0; j < ImageDimension; ++j)
   {
-    SizeValueType stride = it.GetStride((SizeValueType)j);
+    SizeValueType stride = it.GetStride(static_cast<SizeValueType>(j));
     gradient[j] = 0.5 * (it.GetPixel(center + stride) - it.GetPixel(center - stride));
     gradient[j] *= this->m_ScaleCoefficients[j];
 

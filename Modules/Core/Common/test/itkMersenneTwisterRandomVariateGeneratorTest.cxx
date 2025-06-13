@@ -63,11 +63,11 @@ itkMersenneTwisterRandomVariateGeneratorTest(int, char *[])
   }
 
   // Ensure we get the same series of numbers
-  constexpr Twister::IntegerType expected[5] = { Twister::IntegerType(3294740812u),
-                                                 Twister::IntegerType(4175194053u),
-                                                 Twister::IntegerType(3041332341u),
-                                                 Twister::IntegerType(199851601u),
-                                                 Twister::IntegerType(3422518480u) };
+  constexpr Twister::IntegerType expected[5] = { static_cast<Twister::IntegerType>(3294740812u),
+                                                 static_cast<Twister::IntegerType>(4175194053u),
+                                                 static_cast<Twister::IntegerType>(3041332341u),
+                                                 static_cast<Twister::IntegerType>(199851601u),
+                                                 static_cast<Twister::IntegerType>(3422518480u) };
 
   bool sameSequence = true;
   for (const auto i : expected)

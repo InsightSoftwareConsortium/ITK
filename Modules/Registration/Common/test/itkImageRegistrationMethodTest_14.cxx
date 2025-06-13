@@ -178,14 +178,14 @@ itkImageRegistrationMethodTest_14(int, char *[])
 
     itk::Vector<double, dimension> d = p - center;
 
-    fIter.Set((PixelType)F(d));
+    fIter.Set(static_cast<PixelType>(F(d)));
 
     itk::Vector<double, dimension> d2;
     d2[0] = d[0] * std::cos(angle) + d[1] * std::sin(angle) + displacement[0];
     d2[1] = -d[0] * std::sin(angle) + d[1] * std::cos(angle) + displacement[1];
     d2[2] = d[2] + displacement[2];
 
-    mIter.Set((PixelType)F(d2));
+    mIter.Set(static_cast<PixelType>(F(d2)));
 
     ++fIter;
     ++mIter;

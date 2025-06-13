@@ -181,7 +181,7 @@ GE5ImageIO::ReadHeader(const char * FileNameToRead)
   this->OpenFileForReading(f, FileNameToRead);
 
   Ge5xPixelHeader imageHdr; // GE 5x Header
-  f.read((char *)&imageHdr, sizeof(imageHdr));
+  f.read(reinterpret_cast<char *>(&imageHdr), sizeof(imageHdr));
   if (f.fail())
   {
     itkExceptionMacro("GE5ImageIO IO error while reading  " << FileNameToRead << " ." << std::endl

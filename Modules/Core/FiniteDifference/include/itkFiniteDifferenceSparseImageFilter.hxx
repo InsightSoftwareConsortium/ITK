@@ -89,9 +89,9 @@ template <typename TInputImageType, typename TSparseOutputImageType>
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>::ApplyUpdateThreaderCallback(void * arg)
 {
-  const ThreadIdType workUnitID = ((MultiThreaderBase::WorkUnitInfo *)(arg))->WorkUnitID;
-  const ThreadIdType workUnitCount = ((MultiThreaderBase::WorkUnitInfo *)(arg))->NumberOfWorkUnits;
-  auto *             str = (FDThreadStruct *)(((MultiThreaderBase::WorkUnitInfo *)(arg))->UserData);
+  const ThreadIdType workUnitID = (static_cast<MultiThreaderBase::WorkUnitInfo *>(arg))->WorkUnitID;
+  const ThreadIdType workUnitCount = (static_cast<MultiThreaderBase::WorkUnitInfo *>(arg))->NumberOfWorkUnits;
+  auto *             str = (FDThreadStruct *)((static_cast<MultiThreaderBase::WorkUnitInfo *>(arg))->UserData);
 
   // Execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.
@@ -176,10 +176,10 @@ template <typename TInputImageType, typename TSparseOutputImageType>
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>::CalculateChangeThreaderCallback(void * arg)
 {
-  const ThreadIdType workUnitID = ((MultiThreaderBase::WorkUnitInfo *)(arg))->WorkUnitID;
-  const ThreadIdType workUnitCount = ((MultiThreaderBase::WorkUnitInfo *)(arg))->NumberOfWorkUnits;
+  const ThreadIdType workUnitID = (static_cast<MultiThreaderBase::WorkUnitInfo *>(arg))->WorkUnitID;
+  const ThreadIdType workUnitCount = (static_cast<MultiThreaderBase::WorkUnitInfo *>(arg))->NumberOfWorkUnits;
 
-  auto * str = (FDThreadStruct *)(((MultiThreaderBase::WorkUnitInfo *)(arg))->UserData);
+  auto * str = (FDThreadStruct *)((static_cast<MultiThreaderBase::WorkUnitInfo *>(arg))->UserData);
 
   // Execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.
@@ -202,10 +202,10 @@ ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>::PrecalculateChangeThreaderCallback(
   void * arg)
 {
-  const ThreadIdType workUnitID = ((MultiThreaderBase::WorkUnitInfo *)(arg))->WorkUnitID;
-  const ThreadIdType workUnitCount = ((MultiThreaderBase::WorkUnitInfo *)(arg))->NumberOfWorkUnits;
+  const ThreadIdType workUnitID = (static_cast<MultiThreaderBase::WorkUnitInfo *>(arg))->WorkUnitID;
+  const ThreadIdType workUnitCount = (static_cast<MultiThreaderBase::WorkUnitInfo *>(arg))->NumberOfWorkUnits;
 
-  auto * str = (FDThreadStruct *)(((MultiThreaderBase::WorkUnitInfo *)(arg))->UserData);
+  auto * str = (FDThreadStruct *)((static_cast<MultiThreaderBase::WorkUnitInfo *>(arg))->UserData);
 
   // Execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.

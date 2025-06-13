@@ -35,7 +35,7 @@ itkImageFillBufferTest(int argc, char * argv[])
   auto image = ImageType::New();
 
   ImageType::SizeType size;
-  size[0] = (ImageType::SizeValueType)(std::stod(argv[1]) * 1024);
+  size[0] = static_cast<ImageType::SizeValueType>(std::stod(argv[1]) * 1024);
   size[1] = 1024;
   size[2] = 1024;
 

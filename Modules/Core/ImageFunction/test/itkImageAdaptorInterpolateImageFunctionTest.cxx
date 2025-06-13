@@ -216,7 +216,7 @@ itkImageAdaptorInterpolateImageFunctionTest(int, char *[])
   {
     itk::SpacePrecisionType darray[3] = { 10, 20, 40 };
     constexpr double        temp = 70.0;
-    output = OutputType(temp);
+    output = static_cast<OutputType>(temp);
     cindex = ContinuousIndexType(darray);
     passed = ImageAdaptorInterpolate::TestContinuousIndex(interp, cindex, true, output);
   }
@@ -238,7 +238,7 @@ itkImageAdaptorInterpolateImageFunctionTest(int, char *[])
   {
     itk::SpacePrecisionType darray[3] = { 0, 20, 40 };
     constexpr double        temp = 60.0;
-    output = OutputType(temp);
+    output = static_cast<OutputType>(temp);
     cindex = ContinuousIndexType(darray);
     passed = ImageAdaptorInterpolate::TestContinuousIndex(interp, cindex, true, output);
   }
@@ -261,7 +261,7 @@ itkImageAdaptorInterpolateImageFunctionTest(int, char *[])
     constexpr itk::SpacePrecisionType epsilon = 1.0e-10;
     itk::SpacePrecisionType           darray[3] = { 19 - epsilon, 20, 40 };
     constexpr double                  temp = 79.0;
-    output = OutputType(temp);
+    output = static_cast<OutputType>(temp);
     cindex = ContinuousIndexType(darray);
     passed = ImageAdaptorInterpolate::TestContinuousIndex(interp, cindex, true, output);
   }
@@ -283,7 +283,7 @@ itkImageAdaptorInterpolateImageFunctionTest(int, char *[])
   {
     itk::SpacePrecisionType darray[3] = { 20, 20, 40 };
     constexpr double        temp = 1.0;
-    output = OutputType(temp);
+    output = static_cast<OutputType>(temp);
     cindex = ContinuousIndexType(darray);
     passed = ImageAdaptorInterpolate::TestContinuousIndex(interp, cindex, false, output);
   }
@@ -305,7 +305,7 @@ itkImageAdaptorInterpolateImageFunctionTest(int, char *[])
   {
     itk::SpacePrecisionType darray[3] = { 5.25, 12.5, 42.0 };
     constexpr double        temp = 59.75;
-    output = OutputType(temp);
+    output = static_cast<OutputType>(temp);
     cindex = ContinuousIndexType(darray);
     passed = ImageAdaptorInterpolate::TestContinuousIndex(interp, cindex, true, output);
   }

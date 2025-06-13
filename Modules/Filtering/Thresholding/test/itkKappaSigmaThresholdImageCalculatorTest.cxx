@@ -80,8 +80,10 @@ itkKappaSigmaThresholdImageCalculatorTest(int argc, char * argv[])
   {
     std::cerr << "Test failed!" << std::endl;
     std::cerr << "Error in GetOutput()" << std::endl;
-    std::cerr << "Expected: " << itk::NumericTraits<CalculatorType::InputPixelType>::PrintType(expectedThreshold)
-              << ", but got: " << itk::NumericTraits<CalculatorType::InputPixelType>::PrintType(resultThreshold)
+    std::cerr << "Expected: "
+              << static_cast<itk::NumericTraits<CalculatorType::InputPixelType>::PrintType>(expectedThreshold)
+              << ", but got: "
+              << static_cast<itk::NumericTraits<CalculatorType::InputPixelType>::PrintType>(resultThreshold)
               << std::endl;
     return EXIT_FAILURE;
   }

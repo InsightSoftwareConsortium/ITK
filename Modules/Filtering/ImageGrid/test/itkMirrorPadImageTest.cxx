@@ -148,7 +148,8 @@ itkMirrorPadImageTest(int, char *[])
   bool passed = true;
   size = requestedRegion.GetSize();
   index = requestedRegion.GetIndex();
-  if ((index[0] != (0 - (IndexValueType)lowerfactors[0])) || (index[1] != (0 - (IndexValueType)lowerfactors[1])) ||
+  if ((index[0] != (0 - static_cast<IndexValueType>(lowerfactors[0]))) ||
+      (index[1] != (0 - static_cast<IndexValueType>(lowerfactors[1]))) ||
       (size[0] != (8 + lowerfactors[0] + upperfactors[0])) || (size[1] != (12 + lowerfactors[1] + upperfactors[1])))
   {
     passed = false;
@@ -200,7 +201,8 @@ itkMirrorPadImageTest(int, char *[])
     passed = true;
     size = requestedRegion.GetSize();
     index = requestedRegion.GetIndex();
-    if ((index[0] != (0 - (IndexValueType)lowerfactors[0])) || (index[1] != (0 - (IndexValueType)lowerfactors[1])) ||
+    if ((index[0] != (0 - static_cast<IndexValueType>(lowerfactors[0]))) ||
+        (index[1] != (0 - static_cast<IndexValueType>(lowerfactors[1]))) ||
         (size[0] != (8 + lowerfactors[0] + upperfactors[0])) || (size[1] != (12 + lowerfactors[1] + upperfactors[1])))
     {
       passed = false;
@@ -259,7 +261,8 @@ itkMirrorPadImageTest(int, char *[])
     passed = true;
     size = requestedRegion.GetSize();
     index = requestedRegion.GetIndex();
-    if ((index[0] != (0 - (IndexValueType)lowerfactors[0])) || (index[1] != (0 - (IndexValueType)lowerfactors[1])) ||
+    if ((index[0] != (0 - static_cast<IndexValueType>(lowerfactors[0]))) ||
+        (index[1] != (0 - static_cast<IndexValueType>(lowerfactors[1]))) ||
         (size[0] != (8 + lowerfactors[0] + upperfactors[0])) || (size[1] != (12 + lowerfactors[1] + upperfactors[1])))
     {
       passed = false;

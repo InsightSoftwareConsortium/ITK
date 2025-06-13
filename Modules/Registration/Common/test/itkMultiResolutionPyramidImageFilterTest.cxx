@@ -177,7 +177,7 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
     const double x = d[0];
     const double y = d[1];
     const double z = d[2];
-    ti.Set((PixelType)F(x, y, z));
+    ti.Set(static_cast<PixelType>(F(x, y, z)));
     ++ti;
   }
 

@@ -148,12 +148,12 @@ FreeSurferBinaryMeshIO::ReadMeshInformation()
 
     // Read the number of points and number of cells
     itk::uint32_t numberOfPoints = 0;
-    m_InputFile.read((char *)(&numberOfPoints), sizeof(numberOfPoints));
+    m_InputFile.read(reinterpret_cast<char *>(&numberOfPoints), sizeof(numberOfPoints));
     itk::ByteSwapper<itk::uint32_t>::SwapFromSystemToBigEndian(&numberOfPoints);
     this->m_NumberOfPoints = static_cast<SizeValueType>(numberOfPoints);
 
     itk::uint32_t numberOfCells = 0;
-    m_InputFile.read((char *)(&numberOfCells), sizeof(numberOfCells));
+    m_InputFile.read(reinterpret_cast<char *>(&numberOfCells), sizeof(numberOfCells));
     itk::ByteSwapper<itk::uint32_t>::SwapFromSystemToBigEndian(&numberOfCells);
     this->m_NumberOfCells = static_cast<SizeValueType>(numberOfCells);
 
@@ -191,18 +191,18 @@ FreeSurferBinaryMeshIO::ReadMeshInformation()
 
     // Read numberOfValuesPerPoint and numberOfPoints and numberOfCells
     itk::uint32_t numberOfPoints = 0;
-    m_InputFile.read((char *)(&numberOfPoints), sizeof(numberOfPoints));
+    m_InputFile.read(reinterpret_cast<char *>(&numberOfPoints), sizeof(numberOfPoints));
     itk::ByteSwapper<itk::uint32_t>::SwapFromSystemToBigEndian(&numberOfPoints);
     this->m_NumberOfPoints = static_cast<SizeValueType>(numberOfPoints);
     this->m_NumberOfPointPixels = this->m_NumberOfPoints;
 
     itk::uint32_t numberOfCells = 0;
-    m_InputFile.read((char *)(&numberOfCells), sizeof(numberOfCells));
+    m_InputFile.read(reinterpret_cast<char *>(&numberOfCells), sizeof(numberOfCells));
     itk::ByteSwapper<itk::uint32_t>::SwapFromSystemToBigEndian(&numberOfCells);
     this->m_NumberOfCells = static_cast<SizeValueType>(numberOfCells);
 
     itk::uint32_t numberOfValuesPerPoint = 0;
-    m_InputFile.read((char *)(&numberOfValuesPerPoint), sizeof(numberOfValuesPerPoint));
+    m_InputFile.read(reinterpret_cast<char *>(&numberOfValuesPerPoint), sizeof(numberOfValuesPerPoint));
     itk::ByteSwapper<itk::uint32_t>::SwapFromSystemToBigEndian(&numberOfValuesPerPoint);
 
     m_FilePosition = m_InputFile.tellg();

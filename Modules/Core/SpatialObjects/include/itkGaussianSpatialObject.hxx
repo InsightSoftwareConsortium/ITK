@@ -127,7 +127,7 @@ GaussianSpatialObject<TDimension>::ValueAtInObjectSpace(const PointType &   poin
     if (IsInsideInObjectSpace(point))
     {
       const double zsq = this->SquaredZScoreInObjectSpace(point);
-      value = m_Maximum * (ScalarType)std::exp(-zsq / 2.0);
+      value = m_Maximum * static_cast<ScalarType>(std::exp(-zsq / 2.0));
       return true;
     }
   }

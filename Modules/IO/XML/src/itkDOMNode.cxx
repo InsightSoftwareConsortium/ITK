@@ -499,7 +499,7 @@ DOMNode::Find(const std::string & path)
     iss >> i;
     if (!iss.fail())
     {
-      node = this->GetChild(IdentifierType(i));
+      node = this->GetChild(static_cast<IdentifierType>(i));
     }
   }
 
@@ -514,7 +514,7 @@ DOMNode::Find(const std::string & path)
       iss >> i;
       if (!iss.fail())
       {
-        node = this->GetSibling(OffsetType(i));
+        node = this->GetSibling(static_cast<OffsetType>(i));
       }
     }
     else
@@ -534,7 +534,7 @@ DOMNode::Find(const std::string & path)
       iss >> i;
       if (!iss.fail())
       {
-        node = this->GetSibling(-OffsetType(i));
+        node = this->GetSibling(-static_cast<OffsetType>(i));
       }
     }
     else

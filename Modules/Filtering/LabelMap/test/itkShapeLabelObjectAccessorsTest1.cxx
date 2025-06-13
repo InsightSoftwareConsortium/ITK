@@ -97,7 +97,8 @@ itkShapeLabelObjectAccessorsTest1(int argc, char * argv[])
   for (unsigned int n = 0; n < labelMap->GetNumberOfLabelObjects(); ++n)
   {
     ShapeLabelObjectType * labelObject = labelMap->GetNthLabelObject(n);
-    std::cout << "Label: " << itk::NumericTraits<LabelMapType::LabelType>::PrintType(labelObject->GetLabel())
+    std::cout << "Label: "
+              << static_cast<itk::NumericTraits<LabelMapType::LabelType>::PrintType>(labelObject->GetLabel())
               << std::endl;
     std::cout << "    BoundingBox: " << labelObject->GetBoundingBox() << std::endl;
     std::cout << "    NumberOfPixels: " << labelObject->GetNumberOfPixels() << std::endl;

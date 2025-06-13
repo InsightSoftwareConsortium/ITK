@@ -207,7 +207,7 @@ ColorTable<TComponent>::UseHeatColors(unsigned int n)
     }
     auto g = static_cast<TComponent>(((i + 1) / (n / 2.0 + 1)) * scale + shift);
     auto b = static_cast<TComponent>(((i + 1) / (n / 2.0 + 1)) * scale + shift);
-    m_Color[(size_t)(i + n / 2.0)].Set(r, g, b);
+    m_Color[static_cast<size_t>(i + n / 2.0)].Set(r, g, b);
     std::ostringstream name;
     name << "Heat" << std::fixed << std::setprecision(2) << (i + n / 2.0) / static_cast<float>(n);
     m_ColorName[static_cast<size_t>((i + n / 2.0))] = name.str();

@@ -717,8 +717,8 @@ GiftiMeshIO::WriteMeshInformation()
       gifti_clear_LabelTable(&m_GiftiImage->labeltable);
       m_GiftiImage->labeltable.length = labelMap->Size();
 
-      m_GiftiImage->labeltable.key = (int *)malloc(labelMap->Size() * sizeof(int));
-      m_GiftiImage->labeltable.label = (char **)malloc(labelMap->Size() * sizeof(char *));
+      m_GiftiImage->labeltable.key = static_cast<int *>(malloc(labelMap->Size() * sizeof(int)));
+      m_GiftiImage->labeltable.label = static_cast<char **>(malloc(labelMap->Size() * sizeof(char *)));
 
       unsigned int mm = 0;
       for (LabelNameContainer::ConstIterator lt = labelMap->Begin(); lt != labelMap->End(); ++lt)
@@ -734,7 +734,7 @@ GiftiMeshIO::WriteMeshInformation()
     {
       if (colorMap)
       {
-        m_GiftiImage->labeltable.rgba = (float *)malloc(colorMap->Size() * 4 * sizeof(float));
+        m_GiftiImage->labeltable.rgba = static_cast<float *>(malloc(colorMap->Size() * 4 * sizeof(float)));
         unsigned int kk = 0;
         for (LabelColorContainer::ConstIterator lt = colorMap->Begin(); lt != colorMap->End(); ++lt)
         {

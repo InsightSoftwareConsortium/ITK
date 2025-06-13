@@ -168,7 +168,7 @@ itkAbsImageFilterAndAdaptorTest(int, char *[])
     std::cout.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
     std::cout << dt.Get() << std::endl;
     const OutputImageType::PixelType diff = dt.Get();
-    if (!itk::Math::FloatAlmostEqual(diff, (OutputImageType::PixelType)0, 10, epsilon))
+    if (!itk::Math::FloatAlmostEqual(diff, OutputImageType::PixelType{ 0 }, 10, epsilon))
     {
       std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
       std::cerr << "Error in itkAbsImageFilterTest " << std::endl;

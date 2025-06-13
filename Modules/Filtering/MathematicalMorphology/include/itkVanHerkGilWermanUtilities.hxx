@@ -82,7 +82,7 @@ FillReverseExt(std::vector<PixelType> & pixbuffer,
                const unsigned int       KernLen,
                unsigned int             len)
 {
-  auto                 size = (IndexValueType)(len);
+  auto                 size = static_cast<IndexValueType>(len);
   const IndexValueType blocks = size / static_cast<int>(KernLen);
   IndexValueType       i = size - 1;
   TFunction            m_TF;

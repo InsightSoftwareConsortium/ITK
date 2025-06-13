@@ -163,7 +163,7 @@ BioRadImageIO::CanReadFile(const char * filename)
   file.seekg(BIORAD_FILE_ID_OFFSET, std::ios::beg);
 
   unsigned short file_id = 0;
-  file.read((char *)(&file_id), 2);
+  file.read(reinterpret_cast<char *>(&file_id), 2);
   ByteSwapper<unsigned short>::SwapFromSystemToLittleEndian(&file_id);
 
   itkDebugMacro("Magic number: " << file_id);
@@ -212,7 +212,7 @@ BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
   }
   file.seekg(0, std::ios::beg);
   bioradheader * p = &h;
-  file.read((char *)p, BIORAD_HEADER_LENGTH);
+  file.read(reinterpret_cast<char *>(p), BIORAD_HEADER_LENGTH);
 
   // byteswap header fields
   ByteSwapper<unsigned short>::SwapFromSystemToLittleEndian(&h.nx);
@@ -297,7 +297,7 @@ BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
     }
     while (!file.eof())
     {
-      file.read((char *)&note, sizeof(note));
+      file.read(reinterpret_cast<char *>(&note), sizeof(note));
       ByteSwapper<short>::SwapFromSystemToLittleEndian(&note.level);
       Aligned4ByteUnion localNext;
       memcpy(localNext.localChar4Array, note.next, 4);
@@ -475,7 +475,7 @@ BioRadImageIO::Write(const void * buffer)
   // Here we copy at most 31 bytes and terminate it explicitly
   strncpy(header.filename, filename.c_str(), sizeof(header.filename) - 1);
   header.filename[sizeof(header.filename) - 1] = '\0';
-  file.write((char *)p, BIORAD_HEADER_LENGTH);
+  file.write(reinterpret_cast<char *>(p), BIORAD_HEADER_LENGTH);
 
   // preparation for writing buffer:
   const auto numberOfBytes = static_cast<SizeValueType>(this->GetImageSizeInBytes());

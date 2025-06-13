@@ -632,10 +632,11 @@ template <typename TInputImage, typename TOutputImage>
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::RiemannianMinMaxThreaderCallback(void * arg)
 {
-  const unsigned int workUnitID = ((MultiThreaderBase::WorkUnitInfo *)(arg))->WorkUnitID;
-  const unsigned int workUnitCount = ((MultiThreaderBase::WorkUnitInfo *)(arg))->NumberOfWorkUnits;
+  const unsigned int workUnitID = (static_cast<MultiThreaderBase::WorkUnitInfo *>(arg))->WorkUnitID;
+  const unsigned int workUnitCount = (static_cast<MultiThreaderBase::WorkUnitInfo *>(arg))->NumberOfWorkUnits;
 
-  const ThreadFilterStruct * str = (ThreadFilterStruct *)(((MultiThreaderBase::WorkUnitInfo *)(arg))->UserData);
+  const ThreadFilterStruct * str =
+    (ThreadFilterStruct *)((static_cast<MultiThreaderBase::WorkUnitInfo *>(arg))->UserData);
 
   // Execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.
@@ -1340,10 +1341,11 @@ template <typename TInputImage, typename TOutputImage>
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ApplyUpdateThreaderCallback(void * arg)
 {
-  const unsigned int workUnitID = ((MultiThreaderBase::WorkUnitInfo *)(arg))->WorkUnitID;
-  const unsigned int workUnitCount = ((MultiThreaderBase::WorkUnitInfo *)(arg))->NumberOfWorkUnits;
+  const unsigned int workUnitID = (static_cast<MultiThreaderBase::WorkUnitInfo *>(arg))->WorkUnitID;
+  const unsigned int workUnitCount = (static_cast<MultiThreaderBase::WorkUnitInfo *>(arg))->NumberOfWorkUnits;
 
-  const ThreadFilterStruct * str = (ThreadFilterStruct *)(((MultiThreaderBase::WorkUnitInfo *)(arg))->UserData);
+  const ThreadFilterStruct * str =
+    (ThreadFilterStruct *)((static_cast<MultiThreaderBase::WorkUnitInfo *>(arg))->UserData);
 
   // Execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.
@@ -1452,10 +1454,11 @@ template <typename TInputImage, typename TOutputImage>
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ComputeSigmaUpdateThreaderCallback(void * arg)
 {
-  const unsigned int workUnitID = ((MultiThreaderBase::WorkUnitInfo *)(arg))->WorkUnitID;
-  const unsigned int workUnitCount = ((MultiThreaderBase::WorkUnitInfo *)(arg))->NumberOfWorkUnits;
+  const unsigned int workUnitID = (static_cast<MultiThreaderBase::WorkUnitInfo *>(arg))->WorkUnitID;
+  const unsigned int workUnitCount = (static_cast<MultiThreaderBase::WorkUnitInfo *>(arg))->NumberOfWorkUnits;
 
-  const ThreadFilterStruct * str = (ThreadFilterStruct *)(((MultiThreaderBase::WorkUnitInfo *)(arg))->UserData);
+  const ThreadFilterStruct * str =
+    (ThreadFilterStruct *)((static_cast<MultiThreaderBase::WorkUnitInfo *>(arg))->UserData);
 
   // Execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.
@@ -1882,10 +1885,11 @@ template <typename TInputImage, typename TOutputImage>
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ComputeImageUpdateThreaderCallback(void * arg)
 {
-  const unsigned int workUnitID = ((MultiThreaderBase::WorkUnitInfo *)(arg))->WorkUnitID;
-  const unsigned int workUnitCount = ((MultiThreaderBase::WorkUnitInfo *)(arg))->NumberOfWorkUnits;
+  const unsigned int workUnitID = (static_cast<MultiThreaderBase::WorkUnitInfo *>(arg))->WorkUnitID;
+  const unsigned int workUnitCount = (static_cast<MultiThreaderBase::WorkUnitInfo *>(arg))->NumberOfWorkUnits;
 
-  const ThreadFilterStruct * str = (ThreadFilterStruct *)(((MultiThreaderBase::WorkUnitInfo *)(arg))->UserData);
+  const ThreadFilterStruct * str =
+    (ThreadFilterStruct *)((static_cast<MultiThreaderBase::WorkUnitInfo *>(arg))->UserData);
 
   // Execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.

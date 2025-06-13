@@ -334,10 +334,10 @@ template <typename TOutputVideoStream>
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 VideoSource<TOutputVideoStream>::ThreaderCallback(void * arg)
 {
-  const int workUnitID = ((MultiThreaderBase::WorkUnitInfo *)(arg))->WorkUnitID;
-  const int threadCount = ((MultiThreaderBase::WorkUnitInfo *)(arg))->NumberOfWorkUnits;
+  const int workUnitID = (static_cast<MultiThreaderBase::WorkUnitInfo *>(arg))->WorkUnitID;
+  const int threadCount = (static_cast<MultiThreaderBase::WorkUnitInfo *>(arg))->NumberOfWorkUnits;
 
-  auto * str = (ThreadStruct *)(((MultiThreaderBase::WorkUnitInfo *)(arg))->UserData);
+  auto * str = (ThreadStruct *)((static_cast<MultiThreaderBase::WorkUnitInfo *>(arg))->UserData);
 
   // execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.

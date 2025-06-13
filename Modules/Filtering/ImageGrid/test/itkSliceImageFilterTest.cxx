@@ -150,8 +150,8 @@ TEST(SliceImageFilterTests, PhysicalPoint2)
 
   for (start[0] = 0; start[0] < 10; ++start[0])
     for (start[1] = 0; start[1] < 10; ++start[1])
-      for (stop[0] = size[0]; stop[0] > (ImageType::IndexValueType)(size[0] - 10); --stop[0])
-        for (stop[1] = size[1]; stop[1] > (ImageType::IndexValueType)(size[1] - 10); --stop[1])
+      for (stop[0] = size[0]; stop[0] > static_cast<ImageType::IndexValueType>(size[0] - 10); --stop[0])
+        for (stop[1] = size[1]; stop[1] > static_cast<ImageType::IndexValueType>(size[1] - 10); --stop[1])
         {
 
           ImageType::Pointer img;

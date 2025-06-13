@@ -491,7 +491,7 @@ JPEG2000ImageIO::Read(void * buffer)
 
   OPJ_BOOL l_go_on = true;
 
-  auto * l_data = (OPJ_BYTE *)opj_malloc(1000);
+  auto * l_data = static_cast<OPJ_BYTE *>(opj_malloc(1000));
 
   while (l_go_on)
   {
@@ -538,7 +538,7 @@ JPEG2000ImageIO::Read(void * buffer)
     {
       if (l_data_size > l_max_data_size)
       {
-        l_data = (OPJ_BYTE *)opj_realloc(l_data, l_data_size);
+        l_data = static_cast<OPJ_BYTE *>(opj_realloc(l_data, l_data_size));
 
         if (!l_data)
         {
@@ -598,7 +598,7 @@ JPEG2000ImageIO::Read(void * buffer)
       // tile ROI iteration
       for (unsigned int k = 0; k < numberOfComponents; ++k)
       {
-        auto * charBuffer = (unsigned char *)buffer;
+        auto * charBuffer = static_cast<unsigned char *>(buffer);
         charBuffer += k * sizePerComponentInBytes;
 
         charBuffer += initialStrideInBytes;
@@ -764,7 +764,7 @@ JPEG2000ImageIO::Write(const void * buffer)
     snprintf(parameters.cp_comment, commentLength, "%s%s with JPWL", comment, version);
 #else
     const size_t commentLength = clen + strlen(version) + 11;
-    parameters.cp_comment = (char *)opj_malloc(commentLength);
+    parameters.cp_comment = static_cast<char *>(opj_malloc(commentLength));
     snprintf(parameters.cp_comment, commentLength, "%s%s", comment, version);
 #endif
     /* <<UniPG */
@@ -873,11 +873,11 @@ JPEG2000ImageIO::Write(const void * buffer)
 
   // HERE, copy the buffer
   SizeValueType       index = 0;
-  const SizeValueType numberOfPixels = SizeValueType(w) * SizeValueType(h);
+  const SizeValueType numberOfPixels = static_cast<SizeValueType>(w) * static_cast<SizeValueType>(h);
   itkDebugMacro(" START COPY BUFFER");
   if (this->GetComponentType() == IOComponentEnum::UCHAR)
   {
-    const auto * charBuffer = (const unsigned char *)buffer;
+    const auto * charBuffer = static_cast<const unsigned char *>(buffer);
     for (SizeValueType j = 0; j < numberOfPixels; ++j)
     {
       for (unsigned int k = 0; k < this->GetNumberOfComponents(); ++k)
@@ -890,7 +890,7 @@ JPEG2000ImageIO::Write(const void * buffer)
 
   if (this->GetComponentType() == IOComponentEnum::USHORT)
   {
-    const auto * shortBuffer = (const unsigned short *)buffer;
+    const auto * shortBuffer = static_cast<const unsigned short *>(buffer);
     for (SizeValueType j = 0; j < numberOfPixels; ++j)
     {
       for (unsigned int k = 0; k < this->GetNumberOfComponents(); ++k)

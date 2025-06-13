@@ -264,7 +264,7 @@ Histogram<TMeasurement, TFrequencyContainer>::GetIndex(const MeasurementVectorTy
       // its ok if we extend the bins to infinity.. not ok if we don't
       if (!m_ClipBinsAtEnds)
       {
-        index[dim] = (IndexValueType)0;
+        index[dim] = static_cast<IndexValueType>(0);
         continue;
       }
 

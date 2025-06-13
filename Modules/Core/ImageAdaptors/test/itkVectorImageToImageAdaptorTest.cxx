@@ -46,7 +46,7 @@ itkVectorImageToImageAdaptorTest(int, char *[])
   VectorImageType::SizeType            size;
   for (unsigned int i = 0; i < VectorLength; ++i)
   {
-    f[i] = PixelType(i);
+    f[i] = static_cast<PixelType>(i);
   }
   start.Fill(0);
   size.Fill(50);
@@ -75,7 +75,7 @@ itkVectorImageToImageAdaptorTest(int, char *[])
   while (!adaptIt.IsAtEnd())
   {
     const PixelType pixelV = adaptIt.Get();
-    if (itk::Math::NotAlmostEquals(pixelV, PixelType(componentToExtract)))
+    if (itk::Math::NotAlmostEquals(pixelV, static_cast<PixelType>(componentToExtract)))
     {
       std::cout << "Wrong Pixel Value: adaptIt(" << adaptIt.GetIndex() << ") = " << adaptIt.Get() << std::endl;
 

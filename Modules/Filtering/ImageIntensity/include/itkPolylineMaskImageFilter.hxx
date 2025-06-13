@@ -296,8 +296,8 @@ PolylineMaskImageFilter<TInputImage, TPolyline, TVector, TOutputImage>::Generate
   ProjectionImageSizeType projectionSize;
   const IndexValueType    pad = 5;
 
-  projectionSize[0] = (IndexValueType)(bounds[1] - bounds[0]) + pad;
-  projectionSize[1] = (IndexValueType)(bounds[3] - bounds[2]) + pad;
+  projectionSize[0] = static_cast<IndexValueType>(bounds[1] - bounds[0]) + pad;
+  projectionSize[1] = static_cast<IndexValueType>(bounds[3] - bounds[2]) + pad;
 
   const ProjectionImageRegionType projectionRegion(projectionStart, projectionSize);
 

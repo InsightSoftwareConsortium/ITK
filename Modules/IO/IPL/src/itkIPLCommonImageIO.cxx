@@ -73,7 +73,7 @@ IPLCommonImageIO::GetComponentSize() const
 void
 IPLCommonImageIO::Read(void * buffer)
 {
-  auto * img_buffer = (short *)buffer;
+  auto * img_buffer = static_cast<short *>(buffer);
   auto   it = m_FilenameList->begin();
   auto   itend = m_FilenameList->end();
 
@@ -339,9 +339,9 @@ IPLCommonImageIO::GetIntAt(std::ifstream & f, std::streamoff Offset, int * ip, b
 {
   int tmp = 0;
 
-  if (this->GetStringAt(f, Offset, (char *)&tmp, sizeof(int), throw_exception) == 0)
+  if (this->GetStringAt(f, Offset, reinterpret_cast<char *>(&tmp), sizeof(int), throw_exception) == 0)
   {
-    *ip = this->hdr2Int((char *)&tmp);
+    *ip = this->hdr2Int(reinterpret_cast<char *>(&tmp));
   }
   else
   {
@@ -355,9 +355,9 @@ IPLCommonImageIO::GetShortAt(std::ifstream & f, std::streamoff Offset, short * i
 {
   short tmp = 0;
 
-  if (this->GetStringAt(f, Offset, (char *)&tmp, sizeof(short), throw_exception) == 0)
+  if (this->GetStringAt(f, Offset, reinterpret_cast<char *>(&tmp), sizeof(short), throw_exception) == 0)
   {
-    *ip = this->hdr2Short((char *)&tmp);
+    *ip = this->hdr2Short(reinterpret_cast<char *>(&tmp));
   }
   else
   {
@@ -371,9 +371,9 @@ IPLCommonImageIO::GetFloatAt(std::ifstream & f, std::streamoff Offset, float * i
 {
   float tmp = NAN;
 
-  if (this->GetStringAt(f, Offset, (char *)&tmp, sizeof(float), throw_exception) == 0)
+  if (this->GetStringAt(f, Offset, reinterpret_cast<char *>(&tmp), sizeof(float), throw_exception) == 0)
   {
-    *ip = this->hdr2Float((char *)&tmp);
+    *ip = this->hdr2Float(reinterpret_cast<char *>(&tmp));
   }
   else
   {
@@ -387,9 +387,9 @@ IPLCommonImageIO::GetDoubleAt(std::ifstream & f, std::streamoff Offset, double *
 {
   double tmp = NAN;
 
-  if (this->GetStringAt(f, Offset, (char *)&tmp, sizeof(double), throw_exception) == 0)
+  if (this->GetStringAt(f, Offset, reinterpret_cast<char *>(&tmp), sizeof(double), throw_exception) == 0)
   {
-    *ip = this->hdr2Double((char *)&tmp);
+    *ip = this->hdr2Double(reinterpret_cast<char *>(&tmp));
   }
   else
   {
@@ -493,7 +493,7 @@ int
 IPLCommonImageIO::statTimeToAscii(void * clock, char * timeString, int len)
 {
 
-  auto               tclock = (time_t)*((int *)clock);
+  auto               tclock = static_cast<time_t>(*(static_cast<int *>(clock)));
   const char * const asciiTime = ctime(&tclock);
 
   strncpy(timeString, asciiTime, len);

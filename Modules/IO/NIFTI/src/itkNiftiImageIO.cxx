@@ -695,8 +695,8 @@ NiftiImageIO::Read(void * buffer)
   {
     // otherwise nifti is x y z t vec l m 0, itk is
     // vec x y z t l m o
-    const auto * niftibuf = (const char *)data;
-    auto *       itkbuf = (char *)buffer;
+    const auto * niftibuf = static_cast<const char *>(data);
+    auto *       itkbuf = static_cast<char *>(buffer);
     const size_t rowdist = this->m_NiftiImage->dim[1];
     const size_t slicedist = rowdist * this->m_NiftiImage->dim[2];
     const size_t volumedist = slicedist * this->m_NiftiImage->dim[3];
@@ -2414,13 +2414,14 @@ NiftiImageIO::Write(const void * buffer)
         this->m_NiftiImage->dim[i] = 1;
       }
     }
-    const size_t numVoxels = size_t(this->m_NiftiImage->dim[1]) * size_t(this->m_NiftiImage->dim[2]) *
-                             size_t(this->m_NiftiImage->dim[3]) * size_t(this->m_NiftiImage->dim[4]);
+    const size_t numVoxels =
+      static_cast<size_t>(this->m_NiftiImage->dim[1]) * static_cast<size_t>(this->m_NiftiImage->dim[2]) *
+      static_cast<size_t>(this->m_NiftiImage->dim[3]) * static_cast<size_t>(this->m_NiftiImage->dim[4]);
     const size_t buffer_size = numVoxels * numComponents // Number of components
                                * this->m_NiftiImage->nbyper;
 
     const auto         nifti_buf = make_unique_for_overwrite<char[]>(buffer_size);
-    const auto * const itkbuf = (const char *)buffer;
+    const auto * const itkbuf = static_cast<const char *>(buffer);
     // Data must be rearranged to meet nifti organzation.
     // nifti_layout[vec][t][z][y][x] = itk_layout[t][z][y][z][vec]
     const size_t rowdist = m_NiftiImage->dim[1];

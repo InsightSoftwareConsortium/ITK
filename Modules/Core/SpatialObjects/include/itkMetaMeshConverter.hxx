@@ -83,7 +83,7 @@ MetaMeshConverter<VDimension, PixelType, TMeshTraits>::MetaObjectToSpatialObject
   for (unsigned int celltype = 0; celltype < MET_NUM_CELL_TYPES; ++celltype)
   {
     using CellListType = typename MetaMesh::CellListType;
-    const CellListType cells = _mesh->GetCells((MET_CellGeometry)celltype);
+    const CellListType cells = _mesh->GetCells(static_cast<MET_CellGeometry>(celltype));
     auto               it_cells = cells.begin();
 
     using CellInterfaceType = typename MeshType::CellType;
@@ -101,7 +101,7 @@ MetaMeshConverter<VDimension, PixelType, TMeshTraits>::MetaObjectToSpatialObject
     {
       CellAutoPointer cell;
 
-      switch ((MET_CellGeometry)celltype)
+      switch (static_cast<MET_CellGeometry>(celltype))
       {
         case MET_VERTEX_CELL:
           cell.TakeOwnership(new VertexCellType);
