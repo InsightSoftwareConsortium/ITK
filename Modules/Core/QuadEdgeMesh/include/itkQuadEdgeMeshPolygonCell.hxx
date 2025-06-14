@@ -26,9 +26,8 @@ namespace itk
 // ---------------------------------------------------------------------
 template <typename TCellInterface>
 QuadEdgeMeshPolygonCell<TCellInterface>::QuadEdgeMeshPolygonCell(PointIdentifier nPoints)
+  : m_Ident(0)
 {
-  this->m_Ident = 0;
-
   // Create entry point
   auto * edge = new EdgeCellType;
   m_EdgeCellList.push_back(edge);
@@ -55,10 +54,9 @@ QuadEdgeMeshPolygonCell<TCellInterface>::QuadEdgeMeshPolygonCell(PointIdentifier
 // ---------------------------------------------------------------------
 template <typename TCellInterface>
 QuadEdgeMeshPolygonCell<TCellInterface>::QuadEdgeMeshPolygonCell(QuadEdgeType * e)
+  : m_Ident(0)
+  , m_EdgeRingEntry(e)
 {
-  this->m_Ident = 0;
-  this->m_EdgeRingEntry = e;
-
   // MakePointIds( );
 }
 

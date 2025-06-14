@@ -24,11 +24,11 @@ namespace itk
 {
 template <typename TInputImage, typename TOutputImage>
 LevelSetDomainMapImageFilter<TInputImage, TOutputImage>::LevelSetDomainMapImageFilter()
+  : m_InputImage(nullptr)
+  , m_OutputImage(nullptr)
 {
   this->Superclass::SetNumberOfRequiredInputs(1);
   this->Superclass::SetNumberOfRequiredOutputs(1);
-  this->m_InputImage = nullptr;
-  this->m_OutputImage = nullptr;
 }
 
 template <typename TInputImage, typename TOutputImage>

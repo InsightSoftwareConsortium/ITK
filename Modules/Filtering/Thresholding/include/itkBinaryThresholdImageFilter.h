@@ -68,12 +68,11 @@ class ITK_TEMPLATE_EXPORT BinaryThreshold
 {
 public:
   BinaryThreshold()
-  {
-    m_LowerThreshold = NumericTraits<TInput>::NonpositiveMin();
-    m_UpperThreshold = NumericTraits<TInput>::max();
-    m_OutsideValue = TOutput{};
-    m_InsideValue = NumericTraits<TOutput>::max();
-  }
+    : m_LowerThreshold(NumericTraits<TInput>::NonpositiveMin())
+    , m_UpperThreshold(NumericTraits<TInput>::max())
+    , m_InsideValue(NumericTraits<TOutput>::max())
+    , m_OutsideValue(TOutput{})
+  {}
 
   ~BinaryThreshold() = default;
 

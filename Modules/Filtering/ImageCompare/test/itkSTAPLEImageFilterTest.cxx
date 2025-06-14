@@ -106,8 +106,8 @@ public:
   using StapleFilterType = itk::STAPLEImageFilter<InputImageType, OutputImageType>;
 
   Stapler()
+    : m_Stapler(StapleFilterType::New())
   {
-    m_Stapler = StapleFilterType::New();
     this->SetForeground(1);
   }
   ~Stapler() override = default;

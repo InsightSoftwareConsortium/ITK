@@ -44,7 +44,9 @@ template <typename TRegistration>
 class ShowProgressObject
 {
 public:
-  ShowProgressObject(TRegistration * o) { m_Process = o; }
+  ShowProgressObject(TRegistration * o)
+    : m_Process(o)
+  {}
   void
   ShowProgress()
   {

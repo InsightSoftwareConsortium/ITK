@@ -26,9 +26,8 @@ namespace itk
 
 template <typename TImage, typename TMarkerImage, typename TAttributeAccessor>
 BinaryReconstructionLabelMapFilter<TImage, TMarkerImage, TAttributeAccessor>::BinaryReconstructionLabelMapFilter()
+  : m_ForegroundValue(NumericTraits<MarkerImagePixelType>::max())
 {
-  m_ForegroundValue = NumericTraits<MarkerImagePixelType>::max();
-
   this->AddRequiredInputName("MarkerImage", 1);
 }
 

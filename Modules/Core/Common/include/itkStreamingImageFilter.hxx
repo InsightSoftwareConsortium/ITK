@@ -28,10 +28,8 @@ namespace itk
  */
 template <typename TInputImage, typename TOutputImage>
 StreamingImageFilter<TInputImage, TOutputImage>::StreamingImageFilter()
+  : m_NumberOfStreamDivisions(10) // default to 10 divisions
 {
-  // default to 10 divisions
-  m_NumberOfStreamDivisions = 10;
-
   // create default region splitter
   m_RegionSplitter = ImageRegionSplitterSlowDimension::New();
 }

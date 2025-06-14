@@ -71,7 +71,7 @@ public:
   /**
    * Default constructor
    */
-  LoadTest() {}
+  LoadTest() = default;
 
   /**
    * Some data that this load defines.

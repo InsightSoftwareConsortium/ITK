@@ -23,12 +23,11 @@ namespace itk
 {
 template <unsigned int VDimension, typename PixelType, typename TMeshTraits>
 SpatialObjectReader<VDimension, PixelType, TMeshTraits>::SpatialObjectReader()
-{
-  m_FileName = "";
-  m_SpatialObject = nullptr;
-  m_Group = nullptr;
-  m_MetaToSpatialConverter = MetaSceneConverterType::New();
-}
+  : m_FileName("")
+  , m_Group(nullptr)
+  , m_SpatialObject(nullptr)
+  , m_MetaToSpatialConverter(MetaSceneConverterType::New())
+{}
 
 template <unsigned int VDimension, typename PixelType, typename TMeshTraits>
 void

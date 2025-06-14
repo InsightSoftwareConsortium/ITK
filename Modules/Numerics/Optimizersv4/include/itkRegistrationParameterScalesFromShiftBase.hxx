@@ -25,9 +25,8 @@ namespace itk
 
 template <typename TMetric>
 RegistrationParameterScalesFromShiftBase<TMetric>::RegistrationParameterScalesFromShiftBase()
-{
-  this->m_SmallParameterVariation = 0.01;
-}
+  : m_SmallParameterVariation(0.01)
+{}
 
 /** Compute parameter scales */
 template <typename TMetric>

@@ -32,9 +32,8 @@ namespace itk
 
 template <typename TFixedImage, typename TMovingImage>
 GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::GradientDifferenceImageToImageMetric()
+  : m_TransformMovingImageFilter(nullptr)
 {
-  m_TransformMovingImageFilter = nullptr;
-
   for (unsigned int iDimension = 0; iDimension < FixedImageDimension; ++iDimension)
   {
     m_MinFixedGradient[iDimension] = 0;

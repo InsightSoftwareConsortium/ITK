@@ -28,14 +28,12 @@ namespace itk
  */
 template <typename TInputImage, typename TOutputMesh>
 BinaryMaskToNarrowBandPointSetFilter<TInputImage, TOutputMesh>::BinaryMaskToNarrowBandPointSetFilter()
+  : m_DistanceFilter(DistanceFilterType::New())
+  , m_RescaleFilter(RescaleFilterType::New())
+  , m_BandWidth(5)
 {
   // Modify superclass default values, can be overridden by subclasses
   this->SetNumberOfRequiredInputs(1);
-
-  m_BandWidth = 5;
-
-  m_DistanceFilter = DistanceFilterType::New();
-  m_RescaleFilter = RescaleFilterType::New();
 
   m_RescaleFilter->SetOutputMinimum(-0.5);
   m_RescaleFilter->SetOutputMaximum(0.5);

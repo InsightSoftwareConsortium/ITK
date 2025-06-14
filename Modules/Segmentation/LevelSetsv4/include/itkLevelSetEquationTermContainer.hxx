@@ -27,9 +27,8 @@ namespace itk
 // ----------------------------------------------------------------------------
 template <typename TInputImage, typename TLevelSetContainer>
 LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::LevelSetEquationTermContainer()
-{
-  this->m_CurrentLevelSetId = LevelSetIdentifierType();
-}
+  : m_CurrentLevelSetId(LevelSetIdentifierType())
+{}
 
 // ----------------------------------------------------------------------------
 template <typename TInputImage, typename TLevelSetContainer>

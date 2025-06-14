@@ -25,9 +25,9 @@ namespace Statistics
 {
 template <typename TImage>
 ScalarImageToHistogramGenerator<TImage>::ScalarImageToHistogramGenerator()
+  : m_ImageToListSampleAdaptor(AdaptorType::New())
+  , m_HistogramGenerator(GeneratorType::New())
 {
-  m_ImageToListSampleAdaptor = AdaptorType::New();
-  m_HistogramGenerator = GeneratorType::New();
   m_HistogramGenerator->SetInput(m_ImageToListSampleAdaptor);
 }
 

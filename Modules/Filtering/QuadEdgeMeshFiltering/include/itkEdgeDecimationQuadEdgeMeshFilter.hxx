@@ -24,12 +24,10 @@ namespace itk
 template <typename TInput, typename TOutput, typename TCriterion>
 EdgeDecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>::EdgeDecimationQuadEdgeMeshFilter()
   : Superclass()
+  , m_PriorityQueue(PriorityQueueType::New())
   , m_Element(nullptr)
-
-{
-  m_JoinVertexFunction = OperatorType::New();
-  m_PriorityQueue = PriorityQueueType::New();
-}
+  , m_JoinVertexFunction(OperatorType::New())
+{}
 
 template <typename TInput, typename TOutput, typename TCriterion>
 EdgeDecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>::~EdgeDecimationQuadEdgeMeshFilter()

@@ -95,7 +95,9 @@ public:
   itkBooleanMacro(UseImageSpacing);
 
 protected:
-  AreaOpeningImageFilter() { m_UseImageSpacing = true; }
+  AreaOpeningImageFilter()
+    : m_UseImageSpacing(true)
+  {}
 
   ~AreaOpeningImageFilter() override = default;
 

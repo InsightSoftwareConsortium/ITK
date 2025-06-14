@@ -33,8 +33,8 @@ namespace itk
 template <typename TInputImage, typename TRealType, typename TOutputImage>
 DisplacementFieldJacobianDeterminantFilter<TInputImage, TRealType, TOutputImage>::
   DisplacementFieldJacobianDeterminantFilter()
+  : m_RequestedNumberOfWorkUnits(this->GetNumberOfWorkUnits())
 {
-  m_RequestedNumberOfWorkUnits = this->GetNumberOfWorkUnits();
   m_NeighborhoodRadius.Fill(1);
   m_DerivativeWeights.Fill(1.0);
   m_HalfDerivativeWeights.Fill(0.5);

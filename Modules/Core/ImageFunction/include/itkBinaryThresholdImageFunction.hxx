@@ -24,10 +24,9 @@ namespace itk
 {
 template <typename TInputImage, typename TCoordinate>
 BinaryThresholdImageFunction<TInputImage, TCoordinate>::BinaryThresholdImageFunction()
-{
-  m_Lower = NumericTraits<PixelType>::NonpositiveMin();
-  m_Upper = NumericTraits<PixelType>::max();
-}
+  : m_Lower(NumericTraits<PixelType>::NonpositiveMin())
+  , m_Upper(NumericTraits<PixelType>::max())
+{}
 
 /**
  * Values greater than or equal to the value are inside

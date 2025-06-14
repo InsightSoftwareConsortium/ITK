@@ -466,10 +466,7 @@ ObjectFactoryBase::ReHash()
  */
 ObjectFactoryBase::ObjectFactoryBase()
   : m_OverrideMap{ std::make_unique<OverrideMap>() }
-{
-  m_LibraryHandle = nullptr;
-  m_LibraryDate = 0;
-}
+{}
 
 /**
  * Unload the library and free the path string

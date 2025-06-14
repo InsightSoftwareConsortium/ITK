@@ -24,11 +24,9 @@ namespace itk
 {
 template <typename TSpatialFunction, typename TInputImage, typename TOutputImage>
 SpatialFunctionImageEvaluatorFilter<TSpatialFunction, TInputImage, TOutputImage>::SpatialFunctionImageEvaluatorFilter()
+  : m_PixelFunction(nullptr) // Set the internal function to null
 {
   itkDebugMacro("SpatialFunctionImageEvaluatorFilter::SpatialFunctionImageEvaluatorFilter() called");
-
-  // Set the internal function to null
-  this->m_PixelFunction = nullptr;
 }
 
 template <typename TSpatialFunction, typename TInputImage, typename TOutputImage>

@@ -23,11 +23,9 @@ namespace itk
 {
 template <typename TInputSpatialObject>
 SpatialObjectDuplicator<TInputSpatialObject>::SpatialObjectDuplicator()
-{
-  m_Input = nullptr;
-  m_DuplicateSpatialObject = nullptr;
-  m_InternalSpatialObjectTime = 0;
-}
+  : m_Input(nullptr)
+  , m_DuplicateSpatialObject(nullptr)
+{}
 
 template <typename TInputSpatialObject>
 void

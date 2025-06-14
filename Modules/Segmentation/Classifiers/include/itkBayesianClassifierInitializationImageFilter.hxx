@@ -37,10 +37,8 @@ namespace itk
 template <typename TInputImage, typename TProbabilityPrecisionType>
 BayesianClassifierInitializationImageFilter<TInputImage,
                                             TProbabilityPrecisionType>::BayesianClassifierInitializationImageFilter()
-
-{
-  m_MembershipFunctionContainer = nullptr;
-}
+  : m_MembershipFunctionContainer(nullptr)
+{}
 
 // GenerateOutputInformation method. Here we force update on the entire input
 // image. It does not make sense having K-Means etc otherwise.

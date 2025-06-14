@@ -28,9 +28,9 @@ template <typename TInputImage, typename TOutputImage>
 AntiAliasBinaryImageFilter<TInputImage, TOutputImage>::AntiAliasBinaryImageFilter()
   : m_UpperBinaryValue(NumericTraits<BinaryValueType>::OneValue())
   , m_LowerBinaryValue(BinaryValueType{})
+  , m_CurvatureFunction(CurvatureFunctionType::New())
   , m_InputImage(nullptr)
 {
-  m_CurvatureFunction = CurvatureFunctionType::New();
   this->SetDifferenceFunction(m_CurvatureFunction);
 
   if (TInputImage::ImageDimension == 2)

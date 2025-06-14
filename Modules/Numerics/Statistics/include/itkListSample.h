@@ -141,20 +141,14 @@ public:
     ConstIterator(const ListSample * sample) { *this = sample->Begin(); }
 
     ConstIterator(const ConstIterator & iter)
-    {
-      m_Iter = iter.m_Iter;
-      m_InstanceIdentifier = iter.m_InstanceIdentifier;
-    }
+      : m_Iter(iter.m_Iter)
+      , m_InstanceIdentifier(iter.m_InstanceIdentifier)
+    {}
 
     ConstIterator() = delete;
 
     ConstIterator &
-    operator=(const ConstIterator & iter)
-    {
-      m_Iter = iter.m_Iter;
-      m_InstanceIdentifier = iter.m_InstanceIdentifier;
-      return *this;
-    }
+    operator=(const ConstIterator & iter) = default;
 
     AbsoluteFrequencyType
     GetFrequency() const
@@ -193,10 +187,9 @@ public:
   protected:
     // This method should only be available to the ListSample class
     ConstIterator(typename InternalDataContainerType::const_iterator iter, InstanceIdentifier iid)
-    {
-      m_Iter = iter;
-      m_InstanceIdentifier = iid;
-    }
+      : m_Iter(iter)
+      , m_InstanceIdentifier(iid)
+    {}
 
   private:
     using InternalIterator = typename InternalDataContainerType::const_iterator;

@@ -122,10 +122,8 @@ public:
 protected:
   JointPDFStatus()
     : m_MIMetric(nullptr)
-
-  {
-    this->m_Writer = WriterType::New();
-  }
+    , m_Writer(WriterType::New())
+  {}
 
 private:
   const MIMetricType * m_MIMetric;

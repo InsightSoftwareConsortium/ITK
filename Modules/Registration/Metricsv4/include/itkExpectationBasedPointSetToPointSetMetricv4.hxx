@@ -30,7 +30,6 @@ ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInt
   : m_PointSetSigma(1.0)
   , m_PreFactor(0.0)
   , m_Denominator(0.0)
-
 {}
 
 template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>

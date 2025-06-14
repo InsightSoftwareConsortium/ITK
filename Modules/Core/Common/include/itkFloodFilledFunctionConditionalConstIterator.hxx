@@ -27,9 +27,9 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>::FloodFilledFunct
   const ImageType * imagePtr,
   FunctionType *    fnPtr,
   IndexType         startIndex)
+  : m_Function(fnPtr)
 {
   this->m_Image = imagePtr;
-  m_Function = fnPtr;
   m_Seeds.push_back(startIndex);
 
   // Set up the temporary image
@@ -41,9 +41,9 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>::FloodFilledFunct
   const ImageType *        imagePtr,
   FunctionType *           fnPtr,
   std::vector<IndexType> & startIndex)
+  : m_Function(fnPtr)
 {
   this->m_Image = imagePtr;
-  m_Function = fnPtr;
   for (unsigned int i = 0; i < startIndex.size(); ++i)
   {
     m_Seeds.push_back(startIndex[i]);
@@ -57,9 +57,9 @@ template <typename TImage, typename TFunction>
 FloodFilledFunctionConditionalConstIterator<TImage, TFunction>::FloodFilledFunctionConditionalConstIterator(
   const ImageType * imagePtr,
   FunctionType *    fnPtr)
+  : m_Function(fnPtr)
 {
   this->m_Image = imagePtr;
-  m_Function = fnPtr;
 
   // Set up the temporary image
   this->InitializeIterator();

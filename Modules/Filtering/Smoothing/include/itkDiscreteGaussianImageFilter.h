@@ -336,12 +336,13 @@ public:
 
 protected:
   DiscreteGaussianImageFilter()
+    : m_MaximumKernelWidth(32)
+    , m_FilterDimensionality(ImageDimension)
+    , m_UseImageSpacing(true)
   {
     m_Variance.Fill(0.0);
     m_MaximumError.Fill(0.01);
-    m_MaximumKernelWidth = 32;
-    m_UseImageSpacing = true;
-    m_FilterDimensionality = ImageDimension;
+
     m_InputBoundaryCondition = &m_InputDefaultBoundaryCondition;
     m_RealBoundaryCondition = &m_RealDefaultBoundaryCondition;
   }

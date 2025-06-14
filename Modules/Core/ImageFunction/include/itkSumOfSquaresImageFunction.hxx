@@ -26,10 +26,9 @@ namespace itk
 
 template <typename TInputImage, typename TCoordinate>
 SumOfSquaresImageFunction<TInputImage, TCoordinate>::SumOfSquaresImageFunction()
-{
-  this->m_NeighborhoodRadius = 1;
-  this->m_NeighborhoodSize = 1;
-}
+  : m_NeighborhoodRadius(1)
+  , m_NeighborhoodSize(1)
+{}
 
 template <typename TInputImage, typename TCoordinate>
 auto

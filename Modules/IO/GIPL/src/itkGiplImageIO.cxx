@@ -76,7 +76,6 @@ GiplImageIO::GiplImageIO()
   : m_Internal(std::make_unique<GiplImageIOInternals>())
 {
   m_ByteOrder = IOByteOrderEnum::BigEndian;
-  m_IsCompressed = false;
 }
 
 GiplImageIO::~GiplImageIO()

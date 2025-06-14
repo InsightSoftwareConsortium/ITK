@@ -72,7 +72,9 @@ public:
   }
 
 protected:
-  QuadEdgeMeshEulerOperatorSplitVertexFunction() { m_NewPoint = (PointIdentifier)0; }
+  QuadEdgeMeshEulerOperatorSplitVertexFunction()
+    : m_NewPoint((PointIdentifier)0)
+  {}
 
   ~QuadEdgeMeshEulerOperatorSplitVertexFunction() override = default;
 

@@ -954,14 +954,13 @@ Mesh<TPixelType, VDimension, TMeshTraits>::BuildCellLinks() const
 
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 Mesh<TPixelType, VDimension, TMeshTraits>::Mesh()
-{
-  m_CellsContainer = CellsContainer::New();
-  m_CellDataContainer = CellDataContainer::New();
-  m_CellLinksContainer = CellLinksContainer::New();
-  m_BoundingBox = BoundingBoxType::New();
-  m_BoundaryAssignmentsContainers = BoundaryAssignmentsContainerVector(MaxTopologicalDimension);
-  m_CellsAllocationMethod = MeshEnums::MeshClassCellsAllocationMethod::CellsAllocatedDynamicallyCellByCell;
-}
+  : m_CellsContainer(CellsContainer::New())
+  , m_CellDataContainer(CellDataContainer::New())
+  , m_CellLinksContainer(CellLinksContainer::New())
+  , m_BoundaryAssignmentsContainers(BoundaryAssignmentsContainerVector(MaxTopologicalDimension))
+  , m_BoundingBox(BoundingBoxType::New())
+  , m_CellsAllocationMethod(MeshEnums::MeshClassCellsAllocationMethod::CellsAllocatedDynamicallyCellByCell)
+{}
 
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 Mesh<TPixelType, VDimension, TMeshTraits>::~Mesh()

@@ -26,6 +26,7 @@ namespace itk
 
 template <typename TInputImage, typename TOutputImage>
 SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SmoothingRecursiveGaussianImageFilter()
+  : m_FirstSmoothingFilter(FirstGaussianFilterType::New())
 
 {
   // NB: The first filter is the last dimension because it does not
@@ -34,7 +35,6 @@ SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SmoothingRecur
   // gains from running in-place. In fact, some performance tests
   // indicate that the running in-place in the 3rd dimension the
   // performance actually declines compared to not in-place methods.
-  m_FirstSmoothingFilter = FirstGaussianFilterType::New();
   m_FirstSmoothingFilter->SetOrder(GaussianOrderEnum::ZeroOrder);
   m_FirstSmoothingFilter->SetDirection(ImageDimension - 1);
   m_FirstSmoothingFilter->SetNormalizeAcrossScale(m_NormalizeAcrossScale);

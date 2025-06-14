@@ -26,8 +26,8 @@ namespace itk
 {
 template <typename TLabel, unsigned int VImageDimension>
 LabelObject<TLabel, VImageDimension>::LabelObject()
+  : m_Label(LabelType{})
 {
-  m_Label = LabelType{};
   m_LineContainer.clear();
 }
 

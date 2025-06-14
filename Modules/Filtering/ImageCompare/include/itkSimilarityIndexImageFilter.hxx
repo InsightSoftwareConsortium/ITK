@@ -26,14 +26,13 @@ namespace itk
 {
 template <typename TInputImage1, typename TInputImage2>
 SimilarityIndexImageFilter<TInputImage1, TInputImage2>::SimilarityIndexImageFilter()
-  : m_CountOfImage1(1)
+  : m_SimilarityIndex(RealType{})
+  , m_CountOfImage1(1)
   , m_CountOfImage2(1)
   , m_CountOfIntersection(1)
 {
   // this filter requires two input images
   this->SetNumberOfRequiredInputs(2);
-
-  m_SimilarityIndex = RealType{};
   this->DynamicMultiThreadingOff();
 }
 

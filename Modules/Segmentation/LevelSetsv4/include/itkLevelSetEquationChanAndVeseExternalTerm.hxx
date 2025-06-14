@@ -24,11 +24,11 @@ namespace itk
 {
 template <typename TInput, typename TLevelSetContainer>
 LevelSetEquationChanAndVeseExternalTerm<TInput, TLevelSetContainer>::LevelSetEquationChanAndVeseExternalTerm()
+  : m_DomainMapImageFilter(nullptr)
+  , m_CacheImage(nullptr)
 {
   this->m_TermName = "External Chan And Vese term";
   this->m_RequiredData.insert("Value");
-  this->m_DomainMapImageFilter = nullptr;
-  this->m_CacheImage = nullptr;
 }
 
 template <typename TInput, typename TLevelSetContainer>

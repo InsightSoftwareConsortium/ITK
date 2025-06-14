@@ -184,12 +184,11 @@ protected:
 
   ~SegmentationLevelSetFunction() override = default;
   SegmentationLevelSetFunction()
-  {
-    m_SpeedImage = ImageType::New();
-    m_AdvectionImage = VectorImageType::New();
-    m_Interpolator = InterpolatorType::New();
-    m_VectorInterpolator = VectorInterpolatorType::New();
-  }
+    : m_SpeedImage(ImageType::New())
+    , m_AdvectionImage(VectorImageType::New())
+    , m_Interpolator(InterpolatorType::New())
+    , m_VectorInterpolator(VectorInterpolatorType::New())
+  {}
 
   typename InterpolatorType::Pointer m_Interpolator{};
 

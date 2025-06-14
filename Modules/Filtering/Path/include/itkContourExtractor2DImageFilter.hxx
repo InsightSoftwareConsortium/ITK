@@ -31,14 +31,10 @@ namespace itk
 
 template <typename TInputImage>
 ContourExtractor2DImageFilter<TInputImage>::ContourExtractor2DImageFilter()
+  : m_ContourValue(InputRealType{})
+  , m_UnusedLabel(NumericTraits<InputPixelType>::min())
 {
-  this->m_ContourValue = InputRealType{};
-  this->m_ReverseContourOrientation = false;
-  this->m_VertexConnectHighPixels = false;
-  this->m_LabelContours = false;
-  this->m_UseCustomRegion = false;
   // We do not need to initialize this->m_RequestedRegion because m_UseCustomRegion == false.
-  this->m_UnusedLabel = NumericTraits<InputPixelType>::min();
 }
 
 

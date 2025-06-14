@@ -50,7 +50,9 @@ class MeanAccumulator
 public:
   using RealType = typename NumericTraits<TInputPixel>::RealType;
 
-  MeanAccumulator(SizeValueType size) { m_Size = size; }
+  MeanAccumulator(SizeValueType size)
+    : m_Size(size)
+  {}
 
   ~MeanAccumulator() { m_Size = SizeValueType{}; }
 

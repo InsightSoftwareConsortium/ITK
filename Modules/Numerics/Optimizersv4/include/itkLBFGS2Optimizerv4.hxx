@@ -28,12 +28,11 @@ namespace itk
 
 template <typename TInternalComputationValueType>
 LBFGS2Optimizerv4Template<TInternalComputationValueType>::LBFGS2Optimizerv4Template()
+  : m_EstimateScalesAtEachIteration(true)
+  , m_StatusCode(100)
 {
   // Initialize to default parameters
   lbfgs_parameter_init(&m_Parameters);
-  m_StatusCode = 100;
-
-  this->m_EstimateScalesAtEachIteration = true;
 }
 
 

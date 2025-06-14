@@ -42,9 +42,8 @@ namespace itk
 {
 template <typename TInputImage, typename TMaskImage, typename TOutputImage, typename TKernel>
 MaskedRankImageFilter<TInputImage, TMaskImage, TOutputImage, TKernel>::MaskedRankImageFilter()
-{
-  m_Rank = 0.5;
-}
+  : m_Rank(0.5)
+{}
 
 template <typename TInputImage, typename TMaskImage, typename TOutputImage, typename TKernel>
 void

@@ -168,10 +168,9 @@ private:
   {
   public:
     DirectionCost(int dimension, int count)
-    {
-      m_Dimension = dimension;
-      m_Count = count;
-    }
+      : m_Dimension(dimension)
+      , m_Count(count)
+    {}
 
     /**
      * return true if the object is a worth choice for the best axis

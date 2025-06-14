@@ -34,7 +34,7 @@ template <typename TInput, typename TOutput>
 class ExpNegative
 {
 public:
-  ExpNegative() { m_Factor = 1.0; }
+  ExpNegative() = default;
   ~ExpNegative() = default;
 
   bool
@@ -65,7 +65,7 @@ public:
   }
 
 private:
-  double m_Factor;
+  double m_Factor{ 1.0 };
 };
 } // namespace Functor
 

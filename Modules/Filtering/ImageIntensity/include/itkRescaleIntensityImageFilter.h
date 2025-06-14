@@ -33,12 +33,11 @@ class ITK_TEMPLATE_EXPORT IntensityLinearTransform
 public:
   using RealType = typename NumericTraits<TInput>::RealType;
   IntensityLinearTransform()
-  {
-    m_Factor = 1.0;
-    m_Offset = 0.0;
-    m_Minimum = NumericTraits<TOutput>::NonpositiveMin();
-    m_Maximum = NumericTraits<TOutput>::max();
-  }
+    : m_Factor(1.0)
+    , m_Offset(0.0)
+    , m_Maximum(NumericTraits<TOutput>::max())
+    , m_Minimum(NumericTraits<TOutput>::NonpositiveMin())
+  {}
 
   ~IntensityLinearTransform() = default;
   void

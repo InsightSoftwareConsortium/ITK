@@ -296,7 +296,7 @@ private:
 
   NiftiImageIOEnums::Analyze75Flavor m_LegacyAnalyze75Mode{};
 
-  bool m_SFORM_Permissive;
+  bool m_SFORM_Permissive{ false };
   bool m_SFORM_Corrected{ false };
 };
 

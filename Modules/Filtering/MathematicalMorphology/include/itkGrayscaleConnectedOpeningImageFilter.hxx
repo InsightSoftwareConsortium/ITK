@@ -30,7 +30,6 @@ GrayscaleConnectedOpeningImageFilter<TInputImage, TOutputImage>::GrayscaleConnec
 
 {
   m_Seed.Fill(typename InputImageIndexType::OffsetValueType{});
-  m_FullyConnected = false;
 }
 
 template <typename TInputImage, typename TOutputImage>

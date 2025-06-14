@@ -82,9 +82,13 @@ public:
     return *this;
   }
 
-  ConstSparseFieldLayerIterator() { m_Pointer = nullptr; }
+  ConstSparseFieldLayerIterator()
+    : m_Pointer(nullptr)
+  {}
 
-  ConstSparseFieldLayerIterator(TNodeType * p) { m_Pointer = p; }
+  ConstSparseFieldLayerIterator(TNodeType * p)
+    : m_Pointer(p)
+  {}
 
   ~ConstSparseFieldLayerIterator() = default;
 

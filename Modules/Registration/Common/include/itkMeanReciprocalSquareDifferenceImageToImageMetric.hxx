@@ -26,10 +26,9 @@ namespace itk
 template <typename TFixedImage, typename TMovingImage>
 MeanReciprocalSquareDifferenceImageToImageMetric<TFixedImage,
                                                  TMovingImage>::MeanReciprocalSquareDifferenceImageToImageMetric()
-{
-  m_Lambda = 1.0;
-  m_Delta = 0.00011;
-}
+  : m_Lambda(1.0)
+  , m_Delta(0.00011)
+{}
 
 template <typename TFixedImage, typename TMovingImage>
 void

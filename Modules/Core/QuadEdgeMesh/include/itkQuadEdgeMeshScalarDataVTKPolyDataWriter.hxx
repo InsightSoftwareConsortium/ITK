@@ -26,10 +26,9 @@ namespace itk
 //
 template <typename TMesh>
 QuadEdgeMeshScalarDataVTKPolyDataWriter<TMesh>::QuadEdgeMeshScalarDataVTKPolyDataWriter()
-{
-  m_CellDataName = "";
-  m_PointDataName = "";
-}
+  : m_CellDataName("")
+  , m_PointDataName("")
+{}
 
 template <typename TMesh>
 void

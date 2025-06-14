@@ -203,11 +203,7 @@ public:
 
   /** Assignment operator. */
   inline Self &
-  operator=(const Self & matrix)
-  {
-    m_Matrix = matrix.m_Matrix;
-    return *this;
-  }
+  operator=(const Self & matrix) = default;
 
   /** Return the inverse matrix. */
   inline vnl_matrix<T>

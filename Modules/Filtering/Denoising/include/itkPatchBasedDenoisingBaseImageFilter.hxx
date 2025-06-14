@@ -25,10 +25,9 @@ namespace itk
 
 template <typename TInputImage, typename TOutputImage>
 PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>::PatchBasedDenoisingBaseImageFilter()
-{
-  m_InputImage = nullptr;
-  m_OutputImage = nullptr;
-}
+  : m_InputImage(nullptr)
+  , m_OutputImage(nullptr)
+{}
 
 template <typename TInputImage, typename TOutputImage>
 void

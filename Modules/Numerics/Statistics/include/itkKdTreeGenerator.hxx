@@ -25,12 +25,10 @@ namespace Statistics
 {
 template <typename TSample>
 KdTreeGenerator<TSample>::KdTreeGenerator()
-{
-  m_SourceSample = nullptr;
-  m_BucketSize = 16;
-  m_Subsample = SubsampleType::New();
-  m_MeasurementVectorSize = 0;
-}
+  : m_SourceSample(nullptr)
+  , m_Subsample(SubsampleType::New())
+  , m_BucketSize(16)
+{}
 
 template <typename TSample>
 void

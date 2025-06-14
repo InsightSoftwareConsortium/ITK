@@ -23,10 +23,8 @@ namespace itk
 constexpr double FRPR_TINY = 1e-20;
 
 FRPROptimizer::FRPROptimizer()
-{
-  m_UseUnitLengthGradient = false;
-  m_OptimizationType = OptimizationEnum::PolakRibiere;
-}
+  : m_OptimizationType(OptimizationEnum::PolakRibiere)
+{}
 
 FRPROptimizer::~FRPROptimizer() = default;
 

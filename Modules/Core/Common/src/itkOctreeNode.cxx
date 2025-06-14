@@ -25,11 +25,7 @@ namespace itk
  * ====================================================================================
  * ====================================================================================
  */
-OctreeNode::OctreeNode()
-{
-  m_Parent = nullptr;
-  m_Branch = nullptr;
-}
+OctreeNode::OctreeNode() = default;
 
 OctreeNode::~OctreeNode() { this->RemoveChildren(); }
 

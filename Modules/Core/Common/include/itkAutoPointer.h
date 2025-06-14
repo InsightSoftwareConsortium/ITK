@@ -57,11 +57,11 @@ public:
 
   /** Copy constructor.  */
   explicit AutoPointer(AutoPointer & p)
-  {
-    m_IsOwner = p.IsOwner();          // Ownership can only be taken from
-                                      // another owner
-    m_Pointer = p.ReleaseOwnership(); // release ownership if appropriate
-  }
+    // Ownership can only be taken from another owner
+    : m_Pointer(p.ReleaseOwnership())
+    // release ownership if appropriate
+    , m_IsOwner(p.IsOwner())
+  {}
 
   /** Constructor to pointer p.  */
   explicit AutoPointer(ObjectType * p, bool takeOwnership)

@@ -25,12 +25,11 @@ namespace Statistics
 {
 template <typename TSample>
 MixtureModelComponentBase<TSample>::MixtureModelComponentBase()
-{
-  m_Sample = nullptr;
-  m_MembershipFunction = nullptr;
-  m_MinimalParametersChange = 1.0e-06;
-  m_ParametersModified = true;
-}
+  : m_Sample(nullptr)
+  , m_MinimalParametersChange(1.0e-06)
+  , m_MembershipFunction(nullptr)
+  , m_ParametersModified(true)
+{}
 
 template <typename TSample>
 void

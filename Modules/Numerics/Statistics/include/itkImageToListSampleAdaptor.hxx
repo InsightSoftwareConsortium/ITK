@@ -25,9 +25,8 @@ namespace Statistics
 {
 template <typename TImage>
 ImageToListSampleAdaptor<TImage>::ImageToListSampleAdaptor()
-{
-  m_Image = nullptr;
-}
+  : m_Image(nullptr)
+{}
 
 template <typename TImage>
 auto

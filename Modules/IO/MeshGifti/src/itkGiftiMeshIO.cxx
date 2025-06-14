@@ -48,9 +48,9 @@ public:
 GiftiMeshIO::GiftiMeshIO()
   : m_GiftiImageHolder(new GiftiImageProxy(nullptr))
   , m_GiftiImage(*m_GiftiImageHolder.get())
+  , m_ReadPointData(true)
 {
   this->AddSupportedWriteExtension(".gii");
-  m_ReadPointData = true;
   m_Direction.SetIdentity();
   this->m_FileType = IOFileEnum::BINARY;
   this->m_ByteOrder = IOByteOrderEnum::BigEndian;

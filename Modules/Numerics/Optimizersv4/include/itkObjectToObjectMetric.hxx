@@ -30,18 +30,11 @@ template <unsigned int TFixedDimension,
           typename TVirtualImage,
           typename TParametersValueType>
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParametersValueType>::ObjectToObjectMetric()
-
-{
   // Both transforms default to an identity transform.
-  using MovingIdentityTransformType = IdentityTransform<TParametersValueType, Self::MovingDimension>;
-  using FixedIdentityTransformType = IdentityTransform<TParametersValueType, Self::FixedDimension>;
-  this->m_FixedTransform = FixedIdentityTransformType::New();
-  this->m_MovingTransform = MovingIdentityTransformType::New();
-
-  this->m_VirtualImage = nullptr;
-
-  this->m_UserHasSetVirtualDomain = false;
-}
+  : m_FixedTransform(IdentityTransform<TParametersValueType, Self::MovingDimension>::New())
+  , m_MovingTransform(IdentityTransform<TParametersValueType, Self::FixedDimension>::New())
+  , m_VirtualImage(nullptr)
+{}
 
 template <unsigned int TFixedDimension,
           unsigned int TMovingDimension,

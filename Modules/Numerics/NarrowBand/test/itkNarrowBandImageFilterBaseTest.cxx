@@ -51,8 +51,8 @@ protected:
   typename FiniteFunctionType::Pointer m_Function;
 
   NbTestClass()
+    : m_Function(FiniteFunctionType::New())
   {
-    m_Function = FiniteFunctionType::New();
     this->SetDifferenceFunction(m_Function);
   }
 

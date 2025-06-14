@@ -24,9 +24,8 @@ namespace itk
 {
 template <typename TDataContainer>
 ClassifierBase<TDataContainer>::ClassifierBase()
+  : m_DecisionRule(nullptr)
 {
-  m_NumberOfClasses = 0;
-  m_DecisionRule = nullptr;
   m_MembershipFunctions.resize(0);
 }
 

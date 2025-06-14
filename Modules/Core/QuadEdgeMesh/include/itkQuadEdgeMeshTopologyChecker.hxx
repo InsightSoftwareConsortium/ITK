@@ -23,14 +23,13 @@ namespace itk
 {
 template <typename TMesh>
 QuadEdgeMeshTopologyChecker<TMesh>::QuadEdgeMeshTopologyChecker()
-{
-  m_ExpectedNumberOfPoints = PointIdentifier{};
-  m_ExpectedNumberOfEdges = CellIdentifier{};
-  m_ExpectedNumberOfFaces = CellIdentifier{};
-  m_ExpectedNumberOfBoundaries = CellIdentifier{};
-  m_ExpectedGenus = OffsetValueType{};
-  m_Mesh = nullptr;
-}
+  : m_Mesh(nullptr)
+  , m_ExpectedNumberOfPoints(PointIdentifier{})
+  , m_ExpectedNumberOfEdges(CellIdentifier{})
+  , m_ExpectedNumberOfFaces(CellIdentifier{})
+  , m_ExpectedNumberOfBoundaries(CellIdentifier{})
+  , m_ExpectedGenus(OffsetValueType{})
+{}
 
 template <typename TMesh>
 bool

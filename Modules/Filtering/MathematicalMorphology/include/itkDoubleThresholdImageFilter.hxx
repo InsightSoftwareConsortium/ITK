@@ -26,18 +26,13 @@ namespace itk
 {
 template <typename TInputImage, typename TOutputImage>
 DoubleThresholdImageFilter<TInputImage, TOutputImage>::DoubleThresholdImageFilter()
-
-{
-  m_Threshold1 = NumericTraits<InputPixelType>::NonpositiveMin();
-  m_Threshold2 = NumericTraits<InputPixelType>::NonpositiveMin();
-  m_Threshold3 = NumericTraits<InputPixelType>::max();
-  m_Threshold4 = NumericTraits<InputPixelType>::max();
-
-  m_OutsideValue = OutputPixelType{};
-  m_InsideValue = NumericTraits<OutputPixelType>::max();
-
-  m_FullyConnected = false;
-}
+  : m_Threshold1(NumericTraits<InputPixelType>::NonpositiveMin())
+  , m_Threshold2(NumericTraits<InputPixelType>::NonpositiveMin())
+  , m_Threshold3(NumericTraits<InputPixelType>::max())
+  , m_Threshold4(NumericTraits<InputPixelType>::max())
+  , m_InsideValue(NumericTraits<OutputPixelType>::max())
+  , m_OutsideValue(OutputPixelType{})
+{}
 
 template <typename TInputImage, typename TOutputImage>
 void

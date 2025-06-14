@@ -27,11 +27,9 @@ namespace itk
 
 template <typename TInputImage, typename TKernel>
 BinaryOpeningByReconstructionImageFilter<TInputImage, TKernel>::BinaryOpeningByReconstructionImageFilter()
-{
-  m_ForegroundValue = NumericTraits<PixelType>::max();
-  m_BackgroundValue = PixelType{};
-  m_FullyConnected = false;
-}
+  : m_ForegroundValue(NumericTraits<PixelType>::max())
+  , m_BackgroundValue(PixelType{})
+{}
 
 template <typename TInputImage, typename TKernel>
 void

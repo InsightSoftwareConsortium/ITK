@@ -27,9 +27,8 @@ namespace itk
  */
 template <typename TInputMesh, typename TOutputMesh, typename TTransform>
 TransformMeshFilter<TInputMesh, TOutputMesh, TTransform>::TransformMeshFilter()
-{
-  m_Transform = nullptr; // has to be provided by the user.
-}
+  : m_Transform(nullptr) // has to be provided by the user.
+{}
 
 /**
  *

@@ -26,12 +26,11 @@ namespace itk
 
 template <typename TPixel>
 Hessian3DToVesselnessMeasureImageFilter<TPixel>::Hessian3DToVesselnessMeasureImageFilter()
-{
-  m_Alpha1 = 0.5;
-  m_Alpha2 = 2.0;
-
+  : m_SymmetricEigenValueFilter(EigenAnalysisFilterType::New())
+  , m_Alpha1(0.5)
   // Hessian( Image ) = Jacobian( Gradient ( Image ) )  is symmetric
-  m_SymmetricEigenValueFilter = EigenAnalysisFilterType::New();
+  , m_Alpha2(2.0)
+{
   m_SymmetricEigenValueFilter->OrderEigenValuesBy(EigenValueOrderEnum::OrderByValue);
 }
 

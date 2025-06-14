@@ -24,9 +24,8 @@ namespace itk
 template <typename TInputImage, typename TFeatureImage, typename TOutputPixelType>
 LaplacianSegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>::
   LaplacianSegmentationLevelSetImageFilter()
+  : m_LaplacianFunction(LaplacianFunctionType::New())
 {
-  m_LaplacianFunction = LaplacianFunctionType::New();
-
   this->SetSegmentationFunction(m_LaplacianFunction);
 }
 

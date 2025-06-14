@@ -168,7 +168,9 @@ public:
   }
 
 protected:
-  Sample() { m_MeasurementVectorSize = NumericTraits<MeasurementVectorType>::GetLength(MeasurementVectorType()); }
+  Sample()
+    : m_MeasurementVectorSize(NumericTraits<MeasurementVectorType>::GetLength(MeasurementVectorType()))
+  {}
 
   ~Sample() override = default;
 

@@ -101,10 +101,9 @@ public:
 
   /** Constructor to initialize VectorLength at construction time */
   DefaultVectorPixelAccessor(VectorLengthType l)
-  {
-    m_VectorLength = l;
-    m_OffsetMultiplier = l - 1;
-  }
+    : m_VectorLength(l)
+    , m_OffsetMultiplier(l - 1)
+  {}
 
   ~DefaultVectorPixelAccessor() = default;
 

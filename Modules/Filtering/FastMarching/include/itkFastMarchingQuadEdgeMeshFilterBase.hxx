@@ -29,9 +29,8 @@ namespace itk
 template <typename TInput, typename TOutput>
 FastMarchingQuadEdgeMeshFilterBase<TInput, TOutput>::FastMarchingQuadEdgeMeshFilterBase()
   : Superclass()
-{
-  this->m_InputMesh = nullptr;
-}
+  , m_InputMesh(nullptr)
+{}
 
 template <typename TInput, typename TOutput>
 IdentifierType

@@ -28,6 +28,7 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>::QuasiNewtonOptimi
   : m_PreviousValue(0.0)
   , m_BestValue(0.0)
   , m_BestPosition(0)
+  , m_MaximumNewtonStepSizeInPhysicalUnits(TInternalComputationValueType{})
 
 {
   this->m_LearningRate = NumericTraits<TInternalComputationValueType>::OneValue();
@@ -36,8 +37,6 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>::QuasiNewtonOptimi
   // rate estimation. it may be initialized either by calling
   // SetMaximumNewtonStepSizeInPhysicalUnits manually or by using m_ScalesEstimator
   // automatically. and the former has higher priority than the latter.
-  this->m_MaximumNewtonStepSizeInPhysicalUnits = TInternalComputationValueType{};
-
   /** Threader for Quasi-Newton method */
   using OptimizerType = QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate<TInternalComputationValueType>;
   using OptimizerPointer = typename OptimizerType::Pointer;

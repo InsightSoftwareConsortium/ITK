@@ -123,9 +123,8 @@ public:
 
 protected:
   MembershipFunctionBase()
-  {
-    m_MeasurementVectorSize = NumericTraits<MeasurementVectorType>::GetLength(MeasurementVectorType());
-  }
+    : m_MeasurementVectorSize(NumericTraits<MeasurementVectorType>::GetLength(MeasurementVectorType()))
+  {}
 
   ~MembershipFunctionBase() override = default;
 

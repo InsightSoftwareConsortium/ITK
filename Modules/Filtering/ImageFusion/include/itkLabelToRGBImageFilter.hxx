@@ -35,8 +35,8 @@ namespace itk
  */
 template <typename TLabelImage, typename TOutputImage>
 LabelToRGBImageFilter<TLabelImage, TOutputImage>::LabelToRGBImageFilter()
+  : m_BackgroundValue(LabelPixelType{})
 {
-  m_BackgroundValue = LabelPixelType{};
   NumericTraits<OutputPixelType>::SetLength(m_BackgroundColor, 3);
   m_BackgroundColor.Fill(OutputPixelValueType{});
 }

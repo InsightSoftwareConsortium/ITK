@@ -28,12 +28,12 @@ UpdateWhitakerSparseLevelSet<VDimension, TLevelSetValueType, TEquationContainer>
   : m_TimeStep(NumericTraits<LevelSetOutputType>::OneValue())
   , m_RMSChangeAccumulator(LevelSetOutputType{})
   , m_CurrentLevelSetId(IdentifierType{})
+  , m_OutputLevelSet(LevelSetType::New())
+  , m_TempLevelSet(LevelSetType::New())
   , m_MinStatus(LevelSetType::MinusThreeLayer())
   , m_MaxStatus(LevelSetType::PlusThreeLayer())
 {
   this->m_Offset.Fill(0);
-  this->m_TempLevelSet = LevelSetType::New();
-  this->m_OutputLevelSet = LevelSetType::New();
 }
 
 template <unsigned int VDimension, typename TLevelSetValueType, typename TEquationContainer>

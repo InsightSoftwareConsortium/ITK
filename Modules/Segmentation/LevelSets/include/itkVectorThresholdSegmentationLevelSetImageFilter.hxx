@@ -24,10 +24,9 @@ namespace itk
 template <typename TInputImage, typename TFeatureImage, typename TOutputType>
 VectorThresholdSegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>::
   VectorThresholdSegmentationLevelSetImageFilter()
+  : m_ThresholdFunction(ThresholdFunctionType::New())
 {
-  m_ThresholdFunction = ThresholdFunctionType::New();
   m_ThresholdFunction->SetThreshold(0);
-
   this->SetSegmentationFunction(m_ThresholdFunction);
 }
 

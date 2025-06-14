@@ -323,9 +323,9 @@ public:
     ConstIterator() = default;
 
     ConstIterator(const Self * lm)
+      : m_Begin(lm->m_LabelObjectContainer.begin())
+      , m_End(lm->m_LabelObjectContainer.end())
     {
-      m_Begin = lm->m_LabelObjectContainer.begin();
-      m_End = lm->m_LabelObjectContainer.end();
       m_Iterator = m_Begin;
     }
 
@@ -394,9 +394,9 @@ public:
     Iterator() = default;
 
     Iterator(Self * lm)
+      : m_Begin(lm->m_LabelObjectContainer.begin())
+      , m_End(lm->m_LabelObjectContainer.end())
     {
-      m_Begin = lm->m_LabelObjectContainer.begin();
-      m_End = lm->m_LabelObjectContainer.end();
       m_Iterator = m_Begin;
     }
 

@@ -25,11 +25,11 @@
 namespace itk
 {
 VTKImageIO::VTKImageIO()
+
 {
   this->SetNumberOfDimensions(2);
   m_ByteOrder = IOByteOrderEnum::LittleEndian;
   m_FileType = IOFileEnum::Binary;
-  m_HeaderSize = 0;
 
   this->AddSupportedReadExtension(".vtk");
   this->AddSupportedWriteExtension(".vtk");

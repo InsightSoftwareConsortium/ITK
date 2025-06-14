@@ -25,15 +25,12 @@ namespace itk
  * Constructor
  */
 LBFGSOptimizer::LBFGSOptimizer()
-{
-  m_OptimizerInitialized = false;
-  m_VnlOptimizer = nullptr;
-  m_Trace = false;
-  m_MaximumNumberOfFunctionEvaluations = 2000;
-  m_GradientConvergenceTolerance = 1e-5;
-  m_LineSearchAccuracy = 0.9;
-  m_DefaultStepLength = 1.0;
-}
+  : m_VnlOptimizer(nullptr)
+  , m_MaximumNumberOfFunctionEvaluations(2000)
+  , m_GradientConvergenceTolerance(1e-5)
+  , m_LineSearchAccuracy(0.9)
+  , m_DefaultStepLength(1.0)
+{}
 
 /**
  * Destructor

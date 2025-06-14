@@ -34,10 +34,9 @@ namespace itk
 template <typename TParametersValueType, unsigned int VDimension>
 GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType,
                                                     VDimension>::GaussianSmoothingOnUpdateDisplacementFieldTransform()
-{
-  this->m_GaussianSmoothingVarianceForTheUpdateField = 3.0;
-  this->m_GaussianSmoothingVarianceForTheTotalField = 0.5;
-}
+  : m_GaussianSmoothingVarianceForTheUpdateField(3.0)
+  , m_GaussianSmoothingVarianceForTheTotalField(0.5)
+{}
 
 template <typename TParametersValueType, unsigned int VDimension>
 void

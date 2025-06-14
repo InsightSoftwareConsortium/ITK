@@ -67,11 +67,10 @@ public:
 
 protected:
   RenyiEntropyThresholdCalculator()
-  {
-    m_FirstBin = 0;
-    m_LastBin = 0;
-    m_Size = 0;
-  }
+    : m_FirstBin(0)
+    , m_LastBin(0)
+    , m_Size(0)
+  {}
   ~RenyiEntropyThresholdCalculator() override = default;
 
   void

@@ -72,7 +72,9 @@ public:
   }
 
 protected:
-  QuadEdgeMeshEulerOperatorCreateCenterVertexFunction() { this->m_NewPointID = (PointIdentifier)0; }
+  QuadEdgeMeshEulerOperatorCreateCenterVertexFunction()
+    : m_NewPointID((PointIdentifier)0)
+  {}
 
   ~QuadEdgeMeshEulerOperatorCreateCenterVertexFunction() override = default;
 

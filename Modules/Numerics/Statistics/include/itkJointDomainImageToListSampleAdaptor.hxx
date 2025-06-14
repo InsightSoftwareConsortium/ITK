@@ -25,10 +25,10 @@ namespace Statistics
 {
 template <typename TImage>
 JointDomainImageToListSampleAdaptor<TImage>::JointDomainImageToListSampleAdaptor()
+  : m_Image(nullptr)
+  , m_UsePixelContainer(true)
 {
   m_NormalizationFactors.Fill(1.0f);
-  m_Image = nullptr;
-  m_UsePixelContainer = true;
 }
 
 /** returns the number of measurement vectors in this container*/

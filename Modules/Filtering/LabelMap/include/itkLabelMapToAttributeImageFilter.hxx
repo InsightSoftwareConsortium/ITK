@@ -27,9 +27,8 @@ namespace itk
 
 template <typename TInputImage, typename TOutputImage, typename TAttributeAccessor>
 LabelMapToAttributeImageFilter<TInputImage, TOutputImage, TAttributeAccessor>::LabelMapToAttributeImageFilter()
-{
-  m_BackgroundValue = NumericTraits<OutputImagePixelType>::NonpositiveMin();
-}
+  : m_BackgroundValue(NumericTraits<OutputImagePixelType>::NonpositiveMin())
+{}
 
 template <typename TInputImage, typename TOutputImage, typename TAttributeAccessor>
 void

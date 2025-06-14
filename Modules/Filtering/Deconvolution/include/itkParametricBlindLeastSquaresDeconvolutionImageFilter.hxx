@@ -29,10 +29,9 @@ namespace itk
 template <typename TInputImage, typename TKernelImage, typename TOutputImage>
 ParametricBlindLeastSquaresDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage>::
   ParametricBlindLeastSquaresDeconvolutionImageFilter()
-{
-  m_Alpha = 0.01;
-  m_Beta = 0.01;
-}
+  : m_Alpha(0.01)
+  , m_Beta(0.01)
+{}
 
 template <typename TInputImage, typename TKernelImage, typename TOutputImage>
 void

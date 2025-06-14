@@ -33,8 +33,9 @@ public:
   using IndexType = itk::Index<VDimension>;
 
   ImagePattern()
+
   {
-    m_Offset = 0.0;
+
     for (int j = 0; j < VDimension; ++j)
     {
       m_Coeff[j] = 0.0;
@@ -53,7 +54,7 @@ public:
   }
 
   double m_Coeff[VDimension];
-  double m_Offset;
+  double m_Offset{ 0.0 };
 };
 
 // The following three classes are used to support callbacks

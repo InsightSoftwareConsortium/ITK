@@ -35,12 +35,10 @@ SliceBySliceImageFilter<TInputImage,
                         TOutputFilter,
                         TInternalInputImageType,
                         TInternalOutputImageType>::SliceBySliceImageFilter()
-{
-  m_InputFilter = nullptr;
-  m_OutputFilter = nullptr;
-  this->m_Dimension = ImageDimension - 1;
-  m_SliceIndex = 0;
-}
+  : m_Dimension(ImageDimension - 1)
+  , m_InputFilter(nullptr)
+  , m_OutputFilter(nullptr)
+{}
 
 template <typename TInputImage,
           typename TOutputImage,

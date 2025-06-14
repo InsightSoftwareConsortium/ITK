@@ -24,8 +24,8 @@ namespace itk
 
 template <typename TInputImage, typename TOutput, typename TCoordinate>
 ImageFunction<TInputImage, TOutput, TCoordinate>::ImageFunction()
+  : m_Image(nullptr)
 {
-  m_Image = nullptr;
   m_StartIndex.Fill(0);
   m_EndIndex.Fill(0);
   m_StartContinuousIndex.Fill(0.0f);

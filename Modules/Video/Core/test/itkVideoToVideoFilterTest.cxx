@@ -234,7 +234,7 @@ itkVideoToVideoFilterTest(int, char *[])
     const OutputFrameType *                        frame = filter->GetOutput()->GetFrame(i);
     itk::ImageRegionConstIterator<OutputFrameType> iter(frame, frame->GetRequestedRegion());
 
-    const OutputPixelType expectedVal = (static_cast<OutputPixelType>(i) - 1.0 + static_cast<OutputPixelType>(i)) / 2.0;
+    const OutputPixelType     expectedVal = ((OutputPixelType)(i)-1.0 + (OutputPixelType)(i)) / 2.0;
     constexpr OutputPixelType epsilon = .00001;
     while (!iter.IsAtEnd())
     {

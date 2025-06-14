@@ -33,10 +33,10 @@ namespace itk
 {
 template <typename TInputImage, typename TOutputImage>
 BinaryMedianImageFilter<TInputImage, TOutputImage>::BinaryMedianImageFilter()
+  : m_ForegroundValue(NumericTraits<InputPixelType>::max())
+  , m_BackgroundValue(InputPixelType{})
 {
   m_Radius.Fill(1);
-  m_ForegroundValue = NumericTraits<InputPixelType>::max();
-  m_BackgroundValue = InputPixelType{};
   this->ThreaderUpdateProgressOff();
 }
 
