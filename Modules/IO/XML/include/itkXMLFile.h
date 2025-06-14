@@ -151,7 +151,9 @@ public:
   /** Constructor
    * Sets object pointer to zero.
    */
-  XMLWriterBase() { m_InputObject = nullptr; }
+  XMLWriterBase()
+    : m_InputObject(nullptr)
+  {}
 
   /** Set the filename to write */
   itkSetStringMacro(Filename);

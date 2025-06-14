@@ -21,7 +21,7 @@
 namespace itk
 {
 /** Constructor */
-StdStreamLogOutput::StdStreamLogOutput() { this->m_Stream = nullptr; }
+StdStreamLogOutput::StdStreamLogOutput() = default;
 
 /** Destructor */
 StdStreamLogOutput::~StdStreamLogOutput()

@@ -28,8 +28,8 @@ namespace itk
  */
 template <typename TInputMesh, typename TOutputMesh, typename TSpatialFunction>
 InteriorExteriorMeshFilter<TInputMesh, TOutputMesh, TSpatialFunction>::InteriorExteriorMeshFilter()
+  : m_SpatialFunction(SpatialFunctionType::New())
 {
-  m_SpatialFunction = SpatialFunctionType::New();
   const SpatialFunctionDataObjectPointer spatialFunctionObject = SpatialFunctionDataObjectType::New();
   spatialFunctionObject->Set(m_SpatialFunction);
   this->ProcessObject::SetNthInput(1, spatialFunctionObject);

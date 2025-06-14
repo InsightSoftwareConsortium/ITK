@@ -44,6 +44,7 @@ Element2DC1Beam::Element2DC1Beam()
 {}
 
 Element2DC1Beam::Element2DC1Beam(NodeIDType n1_, NodeIDType n2_, Material::ConstPointer m_)
+  : m_mat(dynamic_cast<const MaterialLinearElasticity *>(m_.GetPointer()))
 {
   // Set the geometrical points
   this->SetNode(0, n1_);
@@ -54,7 +55,6 @@ Element2DC1Beam::Element2DC1Beam(NodeIDType n1_, NodeIDType n2_, Material::Const
    * we were given the pointer to the right class.
    * If the material class was incorrect an exception is thrown.
    */
-  m_mat = dynamic_cast<const MaterialLinearElasticity *>(m_.GetPointer());
   if (!m_mat)
   {
     throw FEMExceptionWrongClass(__FILE__, __LINE__, "Element2DC0LinearLineStress::Element2DC0LinearLineStress()");

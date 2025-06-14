@@ -75,12 +75,14 @@ WatershedImageFilter<TInputImage>::SetLevel(double val)
 
 template <typename TInputImage>
 WatershedImageFilter<TInputImage>::WatershedImageFilter()
+  : m_Segmenter(watershed::Segmenter<InputImageType>::New())
+  , m_TreeGenerator(watershed::SegmentTreeGenerator<ScalarType>::New())
+  , m_Relabeler(watershed::Relabeler<ScalarType, ImageDimension>::New())
+  , m_LevelChanged(true)
+  , m_ThresholdChanged(true)
+  , m_InputChanged(true)
 {
   // Set up the mini-pipeline for the first execution.
-  m_Segmenter = watershed::Segmenter<InputImageType>::New();
-  m_TreeGenerator = watershed::SegmentTreeGenerator<ScalarType>::New();
-  m_Relabeler = watershed::Relabeler<ScalarType, ImageDimension>::New();
-
   m_Segmenter->SetDoBoundaryAnalysis(false);
   m_Segmenter->SetSortEdgeLists(true);
   m_Segmenter->SetThreshold(this->GetThreshold());
@@ -92,7 +94,6 @@ WatershedImageFilter<TInputImage>::WatershedImageFilter()
   m_Relabeler->SetInputSegmentTree(m_TreeGenerator->GetOutputSegmentTree());
   m_Relabeler->SetInputImage(m_Segmenter->GetOutputImage());
   m_Relabeler->SetFloodLevel(this->GetLevel());
-
   auto c = WatershedMiniPipelineProgressCommand::New();
   c->SetFilter(this);
   c->SetNumberOfFilters(3);
@@ -100,10 +101,6 @@ WatershedImageFilter<TInputImage>::WatershedImageFilter()
   m_Segmenter->AddObserver(ProgressEvent(), c);
   m_ObserverTag = m_TreeGenerator->AddObserver(ProgressEvent(), c);
   m_Relabeler->AddObserver(ProgressEvent(), c);
-
-  m_InputChanged = true;
-  m_LevelChanged = true;
-  m_ThresholdChanged = true;
 }
 
 template <typename TInputImage>

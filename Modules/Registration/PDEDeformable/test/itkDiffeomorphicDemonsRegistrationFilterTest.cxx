@@ -30,7 +30,9 @@ template <typename TRegistration>
 class DiffeomorphicDemonsShowProgressObject
 {
 public:
-  DiffeomorphicDemonsShowProgressObject(TRegistration * o) { m_Process = o; }
+  DiffeomorphicDemonsShowProgressObject(TRegistration * o)
+    : m_Process(o)
+  {}
   void
   ShowProgress()
   {

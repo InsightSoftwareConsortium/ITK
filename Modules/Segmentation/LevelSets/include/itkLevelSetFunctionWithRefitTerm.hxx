@@ -33,13 +33,12 @@ const typename LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>::Scal
 
 template <typename TImageType, typename TSparseImageType>
 LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>::LevelSetFunctionWithRefitTerm()
+  : m_RefitWeight(NumericTraits<ScalarValueType>::OneValue())
+  , m_OtherPropagationWeight(ScalarValueType{})
+  , m_SparseTargetImage(SparseImageType::New())
+  , m_MinVectorNorm(static_cast<ScalarValueType>(1.0e-6))
 {
-  m_SparseTargetImage = SparseImageType::New();
-
   this->SetPropagationWeight(NumericTraits<ScalarValueType>::OneValue());
-  m_RefitWeight = NumericTraits<ScalarValueType>::OneValue();
-  m_OtherPropagationWeight = ScalarValueType{};
-  m_MinVectorNorm = static_cast<ScalarValueType>(1.0e-6);
 }
 
 template <typename TImageType, typename TSparseImageType>

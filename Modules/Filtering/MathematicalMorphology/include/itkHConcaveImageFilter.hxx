@@ -27,7 +27,6 @@ namespace itk
 template <typename TInputImage, typename TOutputImage>
 HConcaveImageFilter<TInputImage, TOutputImage>::HConcaveImageFilter()
   : m_Height(2)
-
 {}
 
 template <typename TInputImage, typename TOutputImage>

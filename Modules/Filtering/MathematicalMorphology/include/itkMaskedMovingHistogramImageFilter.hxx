@@ -41,12 +41,12 @@ namespace itk
 template <typename TInputImage, typename TMaskImage, typename TOutputImage, typename TKernel, typename THistogram>
 MaskedMovingHistogramImageFilter<TInputImage, TMaskImage, TOutputImage, TKernel, THistogram>::
   MaskedMovingHistogramImageFilter()
+  : m_GenerateOutputMask(true)
+  , m_FillValue(OutputPixelType{})
+  , m_MaskValue(NumericTraits<MaskPixelType>::max())
+  , m_BackgroundMaskValue(MaskPixelType{})
 {
   this->SetNumberOfRequiredInputs(2);
-  this->m_FillValue = OutputPixelType{};
-  this->m_MaskValue = NumericTraits<MaskPixelType>::max();
-  this->m_BackgroundMaskValue = MaskPixelType{};
-  this->m_GenerateOutputMask = true;
   this->SetGenerateOutputMask(false);
   this->DynamicMultiThreadingOn();
   this->ThreaderUpdateProgressOff();

@@ -26,9 +26,8 @@ namespace itk
 
 template <typename TImage>
 ShapePositionLabelMapFilter<TImage>::ShapePositionLabelMapFilter()
-{
-  m_Attribute = LabelObjectType::CENTROID;
-}
+  : m_Attribute(LabelObjectType::CENTROID)
+{}
 
 
 template <typename TImage>

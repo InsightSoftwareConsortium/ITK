@@ -45,6 +45,9 @@ public:
 
   ImageVoxel() = default;
   ImageVoxel(const int * pos, const double * subpos, double val, double dist, unsigned int ind)
+    : m_Value(val)
+    , m_Distance(dist)
+    , m_Index(ind)
   {
     this->m_Vpos[0] = pos[0];
     this->m_Vpos[1] = pos[1];
@@ -52,9 +55,6 @@ public:
     this->m_Spos[0] = subpos[0];
     this->m_Spos[1] = subpos[1];
     this->m_Spos[2] = subpos[2];
-    this->m_Value = val;
-    this->m_Distance = dist;
-    this->m_Index = ind;
   }
 
   /// returns voxel X coordinate (voxel column)

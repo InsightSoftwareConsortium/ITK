@@ -27,13 +27,11 @@ namespace itk
 // ----------------------------------------------------------------------------
 template <typename TInputImage, typename TLevelSetContainer>
 LevelSetEquationTermBase<TInputImage, TLevelSetContainer>::LevelSetEquationTermBase()
-{
-  this->m_CurrentLevelSetId = LevelSetIdentifierType();
-
-  this->m_Coefficient = NumericTraits<LevelSetOutputRealType>::OneValue();
-  this->m_CFLContribution = LevelSetOutputRealType{};
-  this->m_TermName = "";
-}
+  : m_CurrentLevelSetId(LevelSetIdentifierType())
+  , m_Coefficient(NumericTraits<LevelSetOutputRealType>::OneValue())
+  , m_CFLContribution(LevelSetOutputRealType{})
+  , m_TermName("")
+{}
 
 // ----------------------------------------------------------------------------
 template <typename TInputImage, typename TLevelSetContainer>

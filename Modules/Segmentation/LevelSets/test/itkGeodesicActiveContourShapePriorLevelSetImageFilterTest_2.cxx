@@ -41,7 +41,9 @@ template <typename TFilter>
 class ShowIterationObject
 {
 public:
-  ShowIterationObject(TFilter * filter) { m_Filter = filter; }
+  ShowIterationObject(TFilter * filter)
+    : m_Filter(filter)
+  {}
   void
   ShowIteration()
   {

@@ -24,10 +24,8 @@ namespace itk
 {
 template <typename TImage>
 ShapeRelabelLabelMapFilter<TImage>::ShapeRelabelLabelMapFilter()
-{
-  m_ReverseOrdering = false;
-  m_Attribute = LabelObjectType::NUMBER_OF_PIXELS;
-}
+  : m_Attribute(LabelObjectType::NUMBER_OF_PIXELS)
+{}
 
 template <typename TImage>
 void

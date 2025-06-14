@@ -43,7 +43,9 @@ namespace itk
 class PNGFileWrapper
 {
 public:
-  PNGFileWrapper(const char * const fname, const char * const openMode) { m_FilePointer = fopen(fname, openMode); }
+  PNGFileWrapper(const char * const fname, const char * const openMode)
+    : m_FilePointer(fopen(fname, openMode))
+  {}
 
   virtual ~PNGFileWrapper()
   {

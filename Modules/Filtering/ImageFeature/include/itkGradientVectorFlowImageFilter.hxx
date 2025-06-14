@@ -23,11 +23,11 @@ namespace itk
 {
 template <typename TInputImage, typename TOutputImage, typename TInternalPixel>
 GradientVectorFlowImageFilter<TInputImage, TOutputImage, TInternalPixel>::GradientVectorFlowImageFilter()
+  : m_TimeStep(0.001)
+  , m_NoiseLevel(200)
+  , m_IterationNum(2)
+  , m_LaplacianFilter(LaplacianFilterType::New())
 {
-  m_TimeStep = 0.001;
-  m_NoiseLevel = 200;
-  m_IterationNum = 2;
-  m_LaplacianFilter = LaplacianFilterType::New();
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     m_Steps[i] = 1.0;

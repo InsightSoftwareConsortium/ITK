@@ -164,12 +164,9 @@ CalculateOrientedImage(const vnl_symmetric_eigensystem<double> &                
 
 template <typename TLabelImage, typename TIntensityImage>
 LabelGeometryImageFilter<TLabelImage, TIntensityImage>::LabelGeometryImageFilter()
+
 {
   this->SetNumberOfRequiredInputs(1);
-  m_CalculatePixelIndices = false;
-  m_CalculateOrientedBoundingBox = false;
-  m_CalculateOrientedLabelRegions = false;
-  m_CalculateOrientedIntensityRegions = false;
 }
 
 template <typename TLabelImage, typename TIntensityImage>

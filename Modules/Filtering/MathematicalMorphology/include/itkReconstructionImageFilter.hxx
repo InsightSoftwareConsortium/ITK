@@ -29,10 +29,8 @@ namespace itk
 {
 template <typename TInputImage, typename TOutputImage, typename TCompare>
 ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>::ReconstructionImageFilter()
+  : m_UseInternalCopy(true)
 {
-  m_FullyConnected = false;
-  m_UseInternalCopy = true;
-
   this->SetPrimaryInputName("MarkerImage");
   this->AddRequiredInputName("MaskImage", 1);
 }

@@ -39,12 +39,11 @@ template <typename TInputImage,
           typename TTransformPrecisionType>
 ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTransformPrecisionType>::
   ResampleImageFilter()
-  : m_Extrapolator(nullptr)
+  : m_Interpolator(dynamic_cast<InterpolatorType *>(LinearInterpolatorType::New().GetPointer()))
+  , m_Extrapolator(nullptr)
   , m_OutputSpacing(MakeFilled<SpacingType>(1.0))
   , m_OutputOrigin()
-
 {
-
   m_Size.Fill(0);
   m_OutputStartIndex.Fill(0);
 
@@ -58,12 +57,9 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
   // #1 "ReferenceImage" optional
   Self::AddRequiredInputName("ReferenceImage", 1);
   Self::RemoveRequiredInputName("ReferenceImage");
-
   // "Transform" required ( not numbered )
   Self::AddRequiredInputName("Transform");
   this->InitializeTransform();
-
-  m_Interpolator = dynamic_cast<InterpolatorType *>(LinearInterpolatorType::New().GetPointer());
 
   m_DefaultPixelValue = NumericTraits<PixelType>::ZeroValue(m_DefaultPixelValue);
   this->DynamicMultiThreadingOn();

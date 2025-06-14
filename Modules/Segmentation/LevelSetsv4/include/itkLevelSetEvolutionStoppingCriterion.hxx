@@ -24,10 +24,9 @@ namespace itk
 {
 template <typename TLevelSetContainer>
 LevelSetEvolutionStoppingCriterion<TLevelSetContainer>::LevelSetEvolutionStoppingCriterion()
-{
-  this->m_RMSChangeAccumulator = OutputRealType{};
-  this->m_NumberOfIterations = IterationIdType{};
-  this->m_CurrentIteration = IterationIdType{};
-}
+  : m_RMSChangeAccumulator(OutputRealType{})
+  , m_NumberOfIterations(IterationIdType{})
+  , m_CurrentIteration(IterationIdType{})
+{}
 } // namespace itk
 #endif

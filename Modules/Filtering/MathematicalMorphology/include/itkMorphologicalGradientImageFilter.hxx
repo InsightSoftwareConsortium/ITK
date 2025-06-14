@@ -26,16 +26,15 @@ namespace itk
 {
 template <typename TInputImage, typename TOutputImage, typename TKernel>
 MorphologicalGradientImageFilter<TInputImage, TOutputImage, TKernel>::MorphologicalGradientImageFilter()
-{
-  m_BasicDilateFilter = BasicDilateFilterType::New();
-  m_BasicErodeFilter = BasicErodeFilterType::New();
-  m_HistogramFilter = HistogramFilterType::New();
-  m_AnchorDilateFilter = AnchorDilateFilterType::New();
-  m_AnchorErodeFilter = AnchorErodeFilterType::New();
-  m_VanHerkGilWermanDilateFilter = VHGWDilateFilterType::New();
-  m_VanHerkGilWermanErodeFilter = VHGWErodeFilterType::New();
-  m_Algorithm = AlgorithmEnum::HISTO;
-}
+  : m_HistogramFilter(HistogramFilterType::New())
+  , m_BasicDilateFilter(BasicDilateFilterType::New())
+  , m_BasicErodeFilter(BasicErodeFilterType::New())
+  , m_AnchorDilateFilter(AnchorDilateFilterType::New())
+  , m_AnchorErodeFilter(AnchorErodeFilterType::New())
+  , m_VanHerkGilWermanDilateFilter(VHGWDilateFilterType::New())
+  , m_VanHerkGilWermanErodeFilter(VHGWErodeFilterType::New())
+  , m_Algorithm(AlgorithmEnum::HISTO)
+{}
 
 template <typename TInputImage, typename TOutputImage, typename TKernel>
 void

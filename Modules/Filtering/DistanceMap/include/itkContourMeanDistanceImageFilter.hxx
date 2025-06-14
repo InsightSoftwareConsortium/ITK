@@ -27,11 +27,10 @@ namespace itk
 {
 template <typename TInputImage1, typename TInputImage2>
 ContourMeanDistanceImageFilter<TInputImage1, TInputImage2>::ContourMeanDistanceImageFilter()
+  : m_MeanDistance(RealType{})
 {
   // this filter requires two input images
   this->SetNumberOfRequiredInputs(2);
-
-  m_MeanDistance = RealType{};
 }
 
 template <typename TInputImage1, typename TInputImage2>

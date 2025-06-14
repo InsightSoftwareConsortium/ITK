@@ -23,16 +23,13 @@ namespace itk
 {
 template <typename TInput, typename TOutput, typename TAuxValue, unsigned int VAuxDimension>
 FastMarchingExtensionImageFilterBase<TInput, TOutput, TAuxValue, VAuxDimension>::FastMarchingExtensionImageFilterBase()
+  : m_AuxiliaryAliveValues(nullptr)
+  , m_AuxiliaryTrialValues(nullptr)
 {
-  m_AuxiliaryAliveValues = nullptr;
-  m_AuxiliaryTrialValues = nullptr;
-
   this->ProcessObject::SetNumberOfRequiredOutputs(1 + AuxDimension);
-
-  AuxImagePointer ptr;
   for (unsigned int k = 0; k < AuxDimension; ++k)
   {
-    ptr = AuxImageType::New();
+    AuxImagePointer ptr = AuxImageType::New();
     this->ProcessObject::SetNthOutput(k + 1, ptr.GetPointer());
     this->m_AuxImages[k] = nullptr;
   }

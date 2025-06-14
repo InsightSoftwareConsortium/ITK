@@ -27,9 +27,9 @@ namespace itk
 {
 template <typename TInputImage, typename TOutputImage>
 LabelMapToBinaryImageFilter<TInputImage, TOutputImage>::LabelMapToBinaryImageFilter()
+  : m_BackgroundValue(NumericTraits<OutputImagePixelType>::NonpositiveMin())
+  , m_ForegroundValue(NumericTraits<OutputImagePixelType>::max())
 {
-  this->m_BackgroundValue = NumericTraits<OutputImagePixelType>::NonpositiveMin();
-  this->m_ForegroundValue = NumericTraits<OutputImagePixelType>::max();
   this->DynamicMultiThreadingOn();
 }
 

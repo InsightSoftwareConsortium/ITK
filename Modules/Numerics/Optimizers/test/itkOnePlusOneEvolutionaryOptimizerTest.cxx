@@ -104,7 +104,7 @@ public:
   itkNewMacro(Self);
 
 protected:
-  OnePlusOneCommandIterationUpdate() { m_LastMetricValue = 0.0; }
+  OnePlusOneCommandIterationUpdate() {}
 
 public:
   using OptimizerType = itk::OnePlusOneEvolutionaryOptimizer;
@@ -136,7 +136,7 @@ public:
   }
 
 private:
-  double m_LastMetricValue;
+  double m_LastMetricValue{ 0.0 };
 };
 
 } // namespace itk

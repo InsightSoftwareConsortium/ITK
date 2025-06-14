@@ -120,20 +120,17 @@ public:
   public:
     // default constructor
     LabelStatistics()
-    {
       // initialized to the default values
-      m_Count = IdentifierType{};
-      m_Sum = RealType{};
-      m_SumOfSquares = RealType{};
-
+      : m_Count(IdentifierType{})
+      , m_Minimum(NumericTraits<RealType>::max())
+      , m_Maximum(NumericTraits<RealType>::NonpositiveMin())
+      , m_Mean(RealType{})
+      , m_Sum(RealType{})
+      , m_SumOfSquares(RealType{})
+      , m_Sigma(RealType{})
+      , m_Variance(RealType{})
+    {
       // Set such that the first pixel encountered can be compared
-      m_Minimum = NumericTraits<RealType>::max();
-      m_Maximum = NumericTraits<RealType>::NonpositiveMin();
-
-      // Default these to zero
-      m_Mean = RealType{};
-      m_Sigma = RealType{};
-      m_Variance = RealType{};
 
       const unsigned int imageDimension = Self::ImageDimension;
       m_BoundingBox.resize(imageDimension * 2);
@@ -147,21 +144,16 @@ public:
 
     // constructor with histogram enabled
     LabelStatistics(int size, RealType lowerBound, RealType upperBound)
+      : m_Count(IdentifierType{})
+      , m_Minimum(NumericTraits<RealType>::max())
+      , m_Maximum(NumericTraits<RealType>::NonpositiveMin())
+      , m_Mean(RealType{})
+      , m_Sum(RealType{})
+      , m_SumOfSquares(RealType{})
+      , m_Sigma(RealType{})
+      , m_Variance(RealType{})
     {
-      // initialized to the default values
-      m_Count = IdentifierType{};
-      m_Sum = RealType{};
-      m_SumOfSquares = RealType{};
-
       // Set such that the first pixel encountered can be compared
-      m_Minimum = NumericTraits<RealType>::max();
-      m_Maximum = NumericTraits<RealType>::NonpositiveMin();
-
-      // Default these to zero
-      m_Mean = RealType{};
-      m_Sigma = RealType{};
-      m_Variance = RealType{};
-
       const unsigned int imageDimension = Self::ImageDimension;
       m_BoundingBox.resize(imageDimension * 2);
       for (unsigned int i = 0; i < imageDimension * 2; i += 2)
@@ -187,18 +179,17 @@ public:
 
     // need copy constructor because of smart pointer to histogram
     LabelStatistics(const LabelStatistics & l)
-    {
-      m_Count = l.m_Count;
-      m_Minimum = l.m_Minimum;
-      m_Maximum = l.m_Maximum;
-      m_Mean = l.m_Mean;
-      m_Sum = l.m_Sum;
-      m_SumOfSquares = l.m_SumOfSquares;
-      m_Sigma = l.m_Sigma;
-      m_Variance = l.m_Variance;
-      m_BoundingBox = l.m_BoundingBox;
-      m_Histogram = l.m_Histogram;
-    }
+      : m_Count(l.m_Count)
+      , m_BoundingBox(l.m_BoundingBox)
+      , m_Histogram(l.m_Histogram)
+      , m_Maximum(l.m_Maximum)
+      , m_Mean(l.m_Mean)
+      , m_Minimum(l.m_Minimum)
+      , m_Sigma(l.m_Sigma)
+      , m_Sum(l.m_Sum)
+      , m_SumOfSquares(l.m_SumOfSquares)
+      , m_Variance(l.m_Variance)
+    {}
 
     LabelStatistics(LabelStatistics &&) = default;
 

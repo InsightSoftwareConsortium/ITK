@@ -28,9 +28,9 @@ namespace itk
 
 template <typename TLabelMap, typename TFeatureImage, typename TOutputImage>
 LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>::LabelMapOverlayImageFilter()
+  : m_Opacity(0.5)
 {
   this->SetNumberOfRequiredInputs(2);
-  m_Opacity = 0.5;
   this->DynamicMultiThreadingOn();
 }
 

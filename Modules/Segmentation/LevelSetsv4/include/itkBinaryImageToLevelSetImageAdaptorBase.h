@@ -70,7 +70,9 @@ public:
   /** @ITKEndGrouping */
 protected:
   /** Constructor */
-  BinaryImageToLevelSetImageAdaptorBase() { this->m_LevelSet = LevelSetType::New(); }
+  BinaryImageToLevelSetImageAdaptorBase()
+    : m_LevelSet(LevelSetType::New())
+  {}
 
   /** Destructor */
   ~BinaryImageToLevelSetImageAdaptorBase() override = default;

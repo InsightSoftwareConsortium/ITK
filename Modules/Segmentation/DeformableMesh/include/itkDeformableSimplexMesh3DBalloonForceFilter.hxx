@@ -37,10 +37,8 @@ namespace itk
 
 template <typename TInputMesh, typename TOutputMesh>
 DeformableSimplexMesh3DBalloonForceFilter<TInputMesh, TOutputMesh>::DeformableSimplexMesh3DBalloonForceFilter()
-
-{
-  m_Kappa = 0.1;
-}
+  : m_Kappa(0.1)
+{}
 
 template <typename TInputMesh, typename TOutputMesh>
 void

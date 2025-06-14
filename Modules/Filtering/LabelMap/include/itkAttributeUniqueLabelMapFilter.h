@@ -114,10 +114,9 @@ private:
     using LineType = typename LabelObjectType::LineType;
 
     LineOfLabelObject(const LineType l, LabelObjectType * lo)
-    {
-      this->line = l;
-      this->labelObject = lo;
-    }
+      : line(l)
+      , labelObject(lo)
+    {}
     LineType          line;
     LabelObjectType * labelObject;
   };

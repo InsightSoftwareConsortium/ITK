@@ -28,13 +28,13 @@ namespace fem
 
 template <typename TInputImage>
 ImageToRectilinearFEMObjectFilter<TInputImage>::ImageToRectilinearFEMObjectFilter()
+  : m_Material(nullptr)
+  , m_Element(nullptr)
 {
   this->m_NumberOfElements.set_size(NDimensions);
   this->m_NumberOfElements.fill(0);
   this->m_PixelsPerElement.set_size(NDimensions);
   this->m_PixelsPerElement.fill(1);
-  this->m_Material = nullptr;
-  this->m_Element = nullptr;
   this->ProcessObject::SetNthOutput(0, this->MakeOutput(0));
 }
 

@@ -61,7 +61,7 @@ public:
   using MeasureType = Superclass::MeasureType;
 
 
-  OnePlusOneMetric() { m_HasLocalSupport = false; }
+  OnePlusOneMetric() = default;
 
   MeasureType
   GetValue() const override
@@ -141,7 +141,7 @@ public:
 
 private:
   ParametersType m_Parameters;
-  bool           m_HasLocalSupport;
+  bool           m_HasLocalSupport{ false };
 };
 
 
@@ -154,7 +154,7 @@ public:
   itkNewMacro(Self);
 
 protected:
-  OnePlusOneCommandIterationUpdate() { m_LastMetricValue = 0.0; }
+  OnePlusOneCommandIterationUpdate() {}
 
 public:
   using OptimizerType = itk::OnePlusOneEvolutionaryOptimizerv4<double>;
@@ -186,7 +186,7 @@ public:
   }
 
 private:
-  double m_LastMetricValue;
+  double m_LastMetricValue{ 0.0 };
 };
 } // namespace itk
 

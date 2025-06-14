@@ -75,9 +75,8 @@ protected:
  */
 template <typename TInputMesh, typename TOutputMesh, typename TTransform>
 MeshSourceGraftOutputFilter<TInputMesh, TOutputMesh, TTransform>::MeshSourceGraftOutputFilter()
-{
-  m_Transform = TransformType::New();
-}
+  : m_Transform(TransformType::New())
+{}
 
 /**
  *

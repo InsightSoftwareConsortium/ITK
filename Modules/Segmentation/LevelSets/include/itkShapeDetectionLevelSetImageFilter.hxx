@@ -24,11 +24,10 @@ namespace itk
 {
 template <typename TInputImage, typename TFeatureImage, typename TOutputType>
 ShapeDetectionLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>::ShapeDetectionLevelSetImageFilter()
+  : m_ShapeDetectionFunction(ShapeDetectionFunctionType::New())
 {
   /* Instantiate a shape detection function and set it as the segmentation
     function. */
-  m_ShapeDetectionFunction = ShapeDetectionFunctionType::New();
-
   this->SetSegmentationFunction(m_ShapeDetectionFunction);
 
   /* Turn off interpolation. */

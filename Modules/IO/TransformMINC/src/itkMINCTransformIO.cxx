@@ -39,10 +39,7 @@ namespace itk
 {
 
 template <typename TParametersValueType>
-MINCTransformIOTemplate<TParametersValueType>::MINCTransformIOTemplate()
-  : m_XFM_initialized(false)
-  , m_RAStoLPS(false)
-{}
+MINCTransformIOTemplate<TParametersValueType>::MINCTransformIOTemplate() = default;
 
 template <typename TParametersValueType>
 MINCTransformIOTemplate<TParametersValueType>::~MINCTransformIOTemplate()

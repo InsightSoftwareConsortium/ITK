@@ -30,9 +30,9 @@ namespace itk
 {
 template <typename TInputImage, typename TOutputImage, typename TKernel>
 BinaryMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::BinaryMorphologyImageFilter()
+  : m_ForegroundValue(NumericTraits<InputPixelType>::max())
+  , m_BackgroundValue(NumericTraits<OutputPixelType>::NonpositiveMin())
 {
-  m_ForegroundValue = NumericTraits<InputPixelType>::max();
-  m_BackgroundValue = NumericTraits<OutputPixelType>::NonpositiveMin();
   // this->SetNumberOfWorkUnits(1);
   this->AnalyzeKernel();
 }

@@ -31,10 +31,10 @@ namespace itk
 {
 template <typename TInputImage, typename TOutputImage>
 VotingBinaryHoleFillingImageFilter<TInputImage, TOutputImage>::VotingBinaryHoleFillingImageFilter()
+  : m_MajorityThreshold(1)
+  , m_NumberOfPixelsChanged(0)
 {
   this->SetSurvivalThreshold(0);
-  this->m_MajorityThreshold = 1;
-  this->m_NumberOfPixelsChanged = 0;
   this->DynamicMultiThreadingOff();
 }
 

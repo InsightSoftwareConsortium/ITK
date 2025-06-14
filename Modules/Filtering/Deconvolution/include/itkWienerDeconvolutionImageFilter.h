@@ -150,10 +150,7 @@ class ITK_TEMPLATE_EXPORT WienerDeconvolutionFunctor
 public:
   WienerDeconvolutionFunctor() = default;
   ~WienerDeconvolutionFunctor() = default;
-  WienerDeconvolutionFunctor(const WienerDeconvolutionFunctor & f)
-    : m_NoisePowerSpectralDensityConstant(f.m_NoisePowerSpectralDensityConstant)
-    , m_KernelZeroMagnitudeThreshold(f.m_KernelZeroMagnitudeThreshold)
-  {}
+  WienerDeconvolutionFunctor(const WienerDeconvolutionFunctor & f) = default;
 
   bool
   operator==(const WienerDeconvolutionFunctor &) const

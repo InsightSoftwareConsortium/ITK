@@ -93,7 +93,9 @@ public:
   using MetricType = itk::MeanSquaresImageToImageMetric<FixedImageType, MovingImageType>;
 
 
-  MeanSquaresMetricInitializer(MetricType * metric) { m_Metric = metric; }
+  MeanSquaresMetricInitializer(MetricType * metric)
+    : m_Metric(metric)
+  {}
 
   void
   Initialize()

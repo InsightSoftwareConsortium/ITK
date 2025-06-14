@@ -28,10 +28,9 @@ namespace itk
 {
 template <typename TInputImage, typename TMaskImage, typename TOutputImage>
 StochasticFractalDimensionImageFilter<TInputImage, TMaskImage, TOutputImage>::StochasticFractalDimensionImageFilter()
+  : m_MaskImage(nullptr)
 {
   this->m_NeighborhoodRadius.Fill(2);
-
-  this->m_MaskImage = nullptr;
 }
 
 template <typename TInputImage, typename TMaskImage, typename TOutputImage>

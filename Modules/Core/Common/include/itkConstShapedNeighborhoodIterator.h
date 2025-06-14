@@ -115,28 +115,24 @@ public:
   /** Const Iterator */
   struct ConstIterator
   {
-    ConstIterator() { m_NeighborhoodIterator = nullptr; }
+    ConstIterator()
+      : m_NeighborhoodIterator(nullptr)
+    {}
     ConstIterator(Self * s)
+      : m_NeighborhoodIterator(s)
     {
-      m_NeighborhoodIterator = s;
       this->GoToBegin();
     }
 
     ~ConstIterator() = default;
 
     ConstIterator &
-    operator=(const ConstIterator & o)
-    {
-      m_NeighborhoodIterator = o.m_NeighborhoodIterator;
-      m_ListIterator = o.m_ListIterator;
-      return *this;
-    }
+    operator=(const ConstIterator & o) = default;
 
     ConstIterator(const ConstIterator & o)
-    {
-      m_NeighborhoodIterator = o.m_NeighborhoodIterator;
-      m_ListIterator = o.m_ListIterator;
-    }
+      : m_NeighborhoodIterator(o.m_NeighborhoodIterator)
+      , m_ListIterator(o.m_ListIterator)
+    {}
 
     void
     operator++(int)

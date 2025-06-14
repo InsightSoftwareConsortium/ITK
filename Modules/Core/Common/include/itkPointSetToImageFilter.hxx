@@ -29,14 +29,14 @@ namespace itk
 
 template <typename TInputPointSet, typename TOutputImage>
 PointSetToImageFilter<TInputPointSet, TOutputImage>::PointSetToImageFilter()
+  : m_InsideValue(NumericTraits<ValueType>::OneValue())
+  , m_OutsideValue(ValueType{})
 {
   this->SetNumberOfRequiredInputs(1);
   this->m_Size.Fill(0);
   this->m_Origin.Fill(0.0);
   this->m_Spacing.Fill(1.0);
   this->m_Direction.SetIdentity();
-  this->m_InsideValue = NumericTraits<ValueType>::OneValue();
-  this->m_OutsideValue = ValueType{};
 }
 
 template <typename TInputPointSet, typename TOutputImage>

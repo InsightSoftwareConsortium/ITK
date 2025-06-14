@@ -25,12 +25,10 @@ namespace Statistics
 
 template <typename TSample>
 SubsamplerBase<TSample>::SubsamplerBase()
-{
-  m_Sample = nullptr;
-  m_RequestMaximumNumberOfResults = true;
-  m_CanSelectQuery = true;
-  m_Seed = 0;
-}
+  : m_Sample(nullptr)
+  , m_RequestMaximumNumberOfResults(true)
+  , m_CanSelectQuery(true)
+{}
 
 template <typename TSample>
 typename LightObject::Pointer

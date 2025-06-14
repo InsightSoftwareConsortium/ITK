@@ -24,10 +24,9 @@ namespace itk
 
 FancyString::FancyString() = default; // : std::string()
 
-FancyString::FancyString(const std::string & str) // : std::string( str )
-{
-  this->m_Value = str;
-}
+FancyString::FancyString(const std::string & str)
+  : m_Value(str) // : std::string( str )
+{}
 
 FancyString::FancyString(const char * s) // : std::string( s )
 {

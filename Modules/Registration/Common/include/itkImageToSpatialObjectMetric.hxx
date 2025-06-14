@@ -24,13 +24,11 @@ namespace itk
 
 template <typename TFixedImage, typename TMovingSpatialObject>
 ImageToSpatialObjectMetric<TFixedImage, TMovingSpatialObject>::ImageToSpatialObjectMetric()
-
-{
-  m_FixedImage = nullptr;          // has to be provided by the user.
-  m_MovingSpatialObject = nullptr; // has to be provided by the user.
-  m_Transform = nullptr;           // has to be provided by the user.
-  m_Interpolator = nullptr;        // has to be provided by the user.
-}
+  : m_Transform(nullptr)
+  , m_Interpolator(nullptr)
+  , m_MovingSpatialObject(nullptr)
+  , m_FixedImage(nullptr)
+{}
 
 template <typename TFixedImage, typename TMovingSpatialObject>
 unsigned int

@@ -21,13 +21,13 @@ namespace itk
 {
 
 InitializationBiasedParticleSwarmOptimizer::InitializationBiasedParticleSwarmOptimizer()
+  : m_InertiaCoefficient(0.7298)
+  , m_PersonalCoefficient(1.49609)
+  , m_GlobalCoefficient(1.49609)
+  , m_InitializationCoefficient(1.49609)
 {
   // magic numbers from Wachowiak et al. "An approach to multimodal biomedical
   // image registration utilizing particle swarm optimization"
-  this->m_InertiaCoefficient = 0.7298;
-  this->m_PersonalCoefficient = 1.49609;
-  this->m_GlobalCoefficient = 1.49609;
-  this->m_InitializationCoefficient = 1.49609;
 }
 
 

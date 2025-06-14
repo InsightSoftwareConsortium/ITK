@@ -349,24 +349,17 @@ public:
     friend class Histogram;
 
     ConstIterator(const Self * histogram)
-    {
-      m_Id = 0;
-      m_Histogram = histogram;
-    }
+      : m_Id(0)
+      , m_Histogram(histogram)
+    {}
 
     ConstIterator(const ConstIterator & it)
-    {
-      m_Id = it.m_Id;
-      m_Histogram = it.m_Histogram;
-    }
+      : m_Id(it.m_Id)
+      , m_Histogram(it.m_Histogram)
+    {}
 
     ConstIterator &
-    operator=(const ConstIterator & it)
-    {
-      m_Id = it.m_Id;
-      m_Histogram = it.m_Histogram;
-      return *this;
-    }
+    operator=(const ConstIterator & it) = default;
 
     AbsoluteFrequencyType
     GetFrequency() const

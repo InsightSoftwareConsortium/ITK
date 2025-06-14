@@ -24,9 +24,8 @@ namespace itk
 {
 template <typename TInputMesh, typename TOutputMesh>
 NormalQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::NormalQuadEdgeMeshFilter()
-{
-  this->m_Weight = WeightEnum::THURMER;
-}
+  : m_Weight(WeightEnum::THURMER)
+{}
 
 template <typename TInputMesh, typename TOutputMesh>
 auto

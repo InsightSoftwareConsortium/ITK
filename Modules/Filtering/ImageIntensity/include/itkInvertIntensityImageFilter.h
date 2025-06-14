@@ -34,7 +34,9 @@ class ITK_TEMPLATE_EXPORT InvertIntensityTransform
 {
 public:
   using RealType = typename NumericTraits<TInput>::RealType;
-  InvertIntensityTransform() { m_Maximum = NumericTraits<TInput>::max(); }
+  InvertIntensityTransform()
+    : m_Maximum(NumericTraits<TInput>::max())
+  {}
   ~InvertIntensityTransform() = default;
 
   void

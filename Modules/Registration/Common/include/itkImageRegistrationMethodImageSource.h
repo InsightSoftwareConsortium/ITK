@@ -139,9 +139,9 @@ public:
 
 protected:
   ImageRegistrationMethodImageSource()
+    : m_FixedImage(FixedImageType::New())
+    , m_MovingImage(MovingImageType::New())
   {
-    m_MovingImage = MovingImageType::New();
-    m_FixedImage = FixedImageType::New();
     m_Parameters = ParametersType(2);
     m_Parameters[0] = 7.0;
     m_Parameters[1] = 3.0;

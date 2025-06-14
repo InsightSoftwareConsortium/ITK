@@ -61,7 +61,7 @@ public:
   using DerivativeType = Superclass::DerivativeType;
   using MeasureType = Superclass::MeasureType;
 
-  itkLBFGS2Optimizerv4TestMetric() { m_HasLocalSupport = false; }
+  itkLBFGS2Optimizerv4TestMetric() = default;
 
   MeasureType
   GetValue() const override
@@ -148,7 +148,7 @@ public:
 
 private:
   ParametersType m_Parameters;
-  bool           m_HasLocalSupport;
+  bool           m_HasLocalSupport{ false };
 };
 
 

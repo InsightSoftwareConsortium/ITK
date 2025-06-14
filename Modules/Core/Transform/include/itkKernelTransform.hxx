@@ -24,6 +24,9 @@ namespace itk
 template <typename TParametersValueType, unsigned int VDimension>
 KernelTransform<TParametersValueType, VDimension>::KernelTransform()
   : Superclass(VDimension)
+  , m_Displacements(VectorSetType::New())
+  , m_SourceLandmarks(PointSetType::New())
+  , m_TargetLandmarks(PointSetType::New())
 // the second VDimension is associated is provided as
 // a tentative number for initializing the Jacobian.
 // The matrix can be resized at run time so this number
@@ -31,12 +34,6 @@ KernelTransform<TParametersValueType, VDimension>::KernelTransform()
 // will be VDimension X VDimension.NumberOfLandMarks.
 {
   this->m_I.set_identity();
-  this->m_SourceLandmarks = PointSetType::New();
-  this->m_TargetLandmarks = PointSetType::New();
-  this->m_Displacements = VectorSetType::New();
-  this->m_WMatrixComputed = false;
-
-  this->m_Stiffness = 0.0;
 }
 
 template <typename TParametersValueType, unsigned int VDimension>

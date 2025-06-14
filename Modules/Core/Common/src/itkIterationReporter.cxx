@@ -24,8 +24,7 @@ IterationReporter::IterationReporter(ProcessObject * filter, ThreadIdType thread
   : m_Filter(filter)
   , m_ThreadId(threadId)
   , m_StepsPerUpdate(stepsPerUpdate)
-{
   // Only thread 0 should update progress.
-  m_StepsBeforeUpdate = m_StepsPerUpdate;
-}
+  , m_StepsBeforeUpdate(m_StepsPerUpdate)
+{}
 } // end namespace itk

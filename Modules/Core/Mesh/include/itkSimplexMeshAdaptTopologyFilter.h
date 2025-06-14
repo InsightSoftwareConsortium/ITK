@@ -99,27 +99,23 @@ public:
   {
   public:
     InputMeshPointer                     mesh;
-    double                               totalArea;
-    double                               totalCurvature;
+    double                               totalArea{ 0 };
+    double                               totalCurvature{ 0 };
     double                               minCellSize;
-    double                               maxCellSize;
+    double                               maxCellSize{ 0 };
     typename DoubleValueMapType::Pointer areaMap;
     typename DoubleValueMapType::Pointer curvatureMap;
 
     double minCurvature;
-    double maxCurvature;
+    double maxCurvature{ 0 };
 
     SimplexCellVisitor()
-    {
-      areaMap = DoubleValueMapType::New();
-      curvatureMap = DoubleValueMapType::New();
-      totalArea = 0;
-      totalCurvature = 0;
-      minCellSize = NumericTraits<double>::max();
-      maxCellSize = 0;
-      minCurvature = NumericTraits<double>::max();
-      maxCurvature = 0;
-    }
+      : minCellSize(NumericTraits<double>::max())
+      , areaMap(DoubleValueMapType::New())
+      , curvatureMap(DoubleValueMapType::New())
+      , minCurvature(NumericTraits<double>::max())
+
+    {}
 
     /** \brief visits all polygon cells and computes the area,
      *  NOTE: works for convex polygons only!!!

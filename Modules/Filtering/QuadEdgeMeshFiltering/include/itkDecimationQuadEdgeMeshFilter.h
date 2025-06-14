@@ -58,10 +58,8 @@ public:
 
 protected:
   DecimationQuadEdgeMeshFilter()
-  {
-    this->m_Iteration = 0;
-    this->m_OutputMesh = nullptr;
-  }
+    : m_OutputMesh(nullptr)
+  {}
 
   ~DecimationQuadEdgeMeshFilter() override = default;
 

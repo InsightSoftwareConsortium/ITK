@@ -22,7 +22,6 @@ namespace itk
 
 MetaArrayReader::MetaArrayReader()
   : m_FileName("")
-
 {}
 
 MetaArrayReader::~MetaArrayReader() = default;

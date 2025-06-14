@@ -25,18 +25,14 @@ namespace Statistics
 {
 template <typename TMeasurementVector>
 GaussianMembershipFunction<TMeasurementVector>::GaussianMembershipFunction()
+  : m_PreFactor(1.0 / std::sqrt(2.0 * itk::Math::pi))
 {
   NumericTraits<MeanVectorType>::SetLength(m_Mean, this->GetMeasurementVectorSize());
   m_Mean.Fill(0.0);
 
-  m_PreFactor = 1.0 / std::sqrt(2.0 * itk::Math::pi); // default univariate
-
   m_Covariance.SetSize(this->GetMeasurementVectorSize(), this->GetMeasurementVectorSize());
   m_Covariance.SetIdentity();
-
   m_InverseCovariance = m_Covariance;
-
-  m_CovarianceNonsingular = true;
 }
 
 template <typename TMeasurementVector>

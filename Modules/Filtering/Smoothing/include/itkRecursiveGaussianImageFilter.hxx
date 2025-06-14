@@ -26,11 +26,9 @@ namespace itk
 {
 template <typename TInputImage, typename TOutputImage>
 RecursiveGaussianImageFilter<TInputImage, TOutputImage>::RecursiveGaussianImageFilter()
-{
-  m_Sigma = 1.0;
-  m_NormalizeAcrossScale = false;
-  m_Order = GaussianOrderEnum::ZeroOrder;
-}
+  : m_Sigma(1.0)
+  , m_Order(GaussianOrderEnum::ZeroOrder)
+{}
 
 /**
  *   Explicitly set a zeroth order derivative.

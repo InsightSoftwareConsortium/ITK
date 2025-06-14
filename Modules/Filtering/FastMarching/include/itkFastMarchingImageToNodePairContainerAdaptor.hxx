@@ -35,7 +35,6 @@ FastMarchingImageToNodePairContainerAdaptor<TInput, TOutput, TImage>::FastMarchi
   , m_ForbiddenPoints(nullptr)
   , m_AliveValue(OutputPixelType{})
   , m_TrialValue(OutputPixelType{})
-
 {}
 
 template <typename TInput, typename TOutput, typename TImage>

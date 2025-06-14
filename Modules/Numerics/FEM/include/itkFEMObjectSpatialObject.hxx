@@ -24,9 +24,9 @@ namespace itk
 
 template <unsigned int TDimension>
 FEMObjectSpatialObject<TDimension>::FEMObjectSpatialObject()
+  : m_FEMObject(FEMObjectType::New())
 {
   this->SetTypeName("FEMObjectSpatialObject");
-  m_FEMObject = FEMObjectType::New();
 }
 
 template <unsigned int TDimension>

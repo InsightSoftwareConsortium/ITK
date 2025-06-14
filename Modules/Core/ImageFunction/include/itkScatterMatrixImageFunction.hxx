@@ -25,9 +25,8 @@ namespace itk
 
 template <typename TInputImage, typename TCoordinate>
 ScatterMatrixImageFunction<TInputImage, TCoordinate>::ScatterMatrixImageFunction()
-{
-  m_NeighborhoodRadius = 1;
-}
+  : m_NeighborhoodRadius(1)
+{}
 
 template <typename TInputImage, typename TCoordinate>
 void

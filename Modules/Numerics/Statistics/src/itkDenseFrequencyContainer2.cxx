@@ -22,9 +22,9 @@ namespace itk
 namespace Statistics
 {
 DenseFrequencyContainer2::DenseFrequencyContainer2()
+  : m_TotalFrequency(TotalAbsoluteFrequencyType{})
 {
   m_FrequencyContainer = FrequencyContainerType::New();
-  m_TotalFrequency = TotalAbsoluteFrequencyType{};
 }
 
 void

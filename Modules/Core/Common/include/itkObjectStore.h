@@ -179,10 +179,9 @@ protected:
     MemoryBlock() = default;
 
     MemoryBlock(SizeValueType n)
-      : Size(n)
-    {
-      Begin = new ObjectType[n];
-    }
+      : Begin(new ObjectType[n])
+      , Size(n)
+    {}
 
     ~MemoryBlock() = default; // Purposely does *not* free memory
 

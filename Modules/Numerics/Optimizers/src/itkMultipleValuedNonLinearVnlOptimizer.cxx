@@ -24,9 +24,9 @@ namespace itk
  * Constructor
  */
 MultipleValuedNonLinearVnlOptimizer::MultipleValuedNonLinearVnlOptimizer()
+  : m_CostFunctionAdaptor(nullptr)
+  , m_UseGradient(true)
 {
-  m_CostFunctionAdaptor = nullptr;
-  m_UseGradient = true;
   m_Command = CommandType::New();
   m_Command->SetCallbackFunction(this, &MultipleValuedNonLinearVnlOptimizer::IterationReport);
   m_CachedValue.Fill(0);

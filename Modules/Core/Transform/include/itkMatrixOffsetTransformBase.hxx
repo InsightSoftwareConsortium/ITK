@@ -30,9 +30,9 @@ template <typename TParametersValueType, unsigned int VInputDimension, unsigned 
 MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimension>::MatrixOffsetTransformBase(
   unsigned int paramDims)
   : Superclass(paramDims)
+  , m_InverseMatrixMTime(m_MatrixMTime)
 {
   m_MatrixMTime.Modified();
-  m_InverseMatrixMTime = m_MatrixMTime;
   this->m_FixedParameters.SetSize(VInputDimension);
   this->m_FixedParameters.Fill(0.0);
 }

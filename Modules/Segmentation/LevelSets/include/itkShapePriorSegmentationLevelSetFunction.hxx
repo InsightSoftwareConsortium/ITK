@@ -25,10 +25,9 @@ namespace itk
 
 template <typename TImageType, typename TFeatureImageType>
 ShapePriorSegmentationLevelSetFunction<TImageType, TFeatureImageType>::ShapePriorSegmentationLevelSetFunction()
-{
-  m_ShapeFunction = nullptr;
-  m_ShapePriorWeight = ScalarValueType{};
-}
+  : m_ShapeFunction(nullptr)
+  , m_ShapePriorWeight(ScalarValueType{})
+{}
 
 template <typename TImageType, typename TFeatureImageType>
 void

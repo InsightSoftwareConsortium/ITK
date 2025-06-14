@@ -137,7 +137,9 @@ public:
     explicit ConstReverseIterator(ConstIterator i)
       : m_Iterator(i)
     {}
-    ConstReverseIterator(const ReverseIterator & rit) { m_Iterator = rit.m_Iterator; }
+    ConstReverseIterator(const ReverseIterator & rit)
+      : m_Iterator(rit.m_Iterator)
+    {}
     ConstReverseIterator
     operator++()
     {

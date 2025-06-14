@@ -24,10 +24,7 @@ namespace itk
 namespace Statistics
 {
 template <typename TSample>
-MembershipSample<TSample>::MembershipSample()
-{
-  this->m_NumberOfClasses = 0;
-}
+MembershipSample<TSample>::MembershipSample() = default;
 
 template <typename TSample>
 void

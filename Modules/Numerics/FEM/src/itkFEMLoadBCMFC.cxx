@@ -44,12 +44,12 @@ LoadBCMFC::CreateAnother() const
  * Fix a DOF to a prescribed value
  */
 LoadBCMFC::LoadBCMFC(Element::ConstPointer element, int dof, vnl_vector<Element::Float> val)
+  : m_RightHandSide(val)
 {
   m_LeftHandSide.clear();
 
   /** Set the correct weight */
   m_LeftHandSide.push_back(MFCTerm(element, dof, 1.0));
-  m_RightHandSide = val;
 }
 
 void

@@ -55,9 +55,9 @@ FEMExceptionObjectNotFound::FEMExceptionObjectNotFound(std::string  file,
                                                        std::string  baseClassName,
                                                        int          GN)
   : FEMException(std::move(file), lineNumber, std::move(location))
+  , m_baseClassName(baseClassName)
+  , m_GlobalNumber(GN)
 {
-  m_baseClassName = baseClassName;
-  m_GlobalNumber = GN;
   std::ostringstream buf;
   buf << "Object not found (" << m_baseClassName << ", GlobalNumber=" << m_GlobalNumber << ")!";
   SetDescription(buf.str().c_str());

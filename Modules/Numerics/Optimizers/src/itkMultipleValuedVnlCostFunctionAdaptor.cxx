@@ -23,8 +23,8 @@ namespace itk
 MultipleValuedVnlCostFunctionAdaptor::MultipleValuedVnlCostFunctionAdaptor(unsigned int spaceDimension,
                                                                            unsigned int numberOfValues)
   : vnl_least_squares_function(spaceDimension, numberOfValues)
+
 {
-  this->m_ScalesInitialized = false;
   this->m_Reporter = Object::New();
 }
 

@@ -28,9 +28,8 @@ namespace itk
 {
 template <typename TOutputMesh>
 AutomaticTopologyMeshSource<TOutputMesh>::AutomaticTopologyMeshSource()
+  : m_OutputMesh(TOutputMesh::New())
 {
-  m_OutputMesh = TOutputMesh::New();
-
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
   this->ProcessObject::SetNthOutput(0, m_OutputMesh.GetPointer());
 

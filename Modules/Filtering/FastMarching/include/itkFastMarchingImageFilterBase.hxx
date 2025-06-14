@@ -49,22 +49,19 @@ public:
 template <typename TInput, typename TOutput>
 FastMarchingImageFilterBase<TInput, TOutput>::FastMarchingImageFilterBase()
   : m_LabelImage(LabelImageType::New())
+  , m_InputCache(nullptr)
 {
   m_StartIndex.Fill(0);
   m_LastIndex.Fill(0);
 
-  constexpr auto outputSize = OutputSizeType::Filled(16);
-
+  constexpr auto     outputSize = OutputSizeType::Filled(16);
   constexpr NodeType outputIndex{};
 
   m_OutputRegion.SetSize(outputSize);
   m_OutputRegion.SetIndex(outputIndex);
-
   m_OutputOrigin.Fill(0.0);
   m_OutputSpacing.Fill(1.0);
   m_OutputDirection.SetIdentity();
-
-  m_InputCache = nullptr;
 }
 
 template <typename TInput, typename TOutput>

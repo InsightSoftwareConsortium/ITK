@@ -24,8 +24,8 @@ namespace itk
 
 template <typename TInputImage, typename TOutputImage>
 GetAverageSliceImageFilter<TInputImage, TOutputImage>::GetAverageSliceImageFilter()
+  : m_AveragedOutDimension(this->GetAccumulateDimension())
 {
-  m_AveragedOutDimension = this->GetAccumulateDimension();
   this->AverageOn();
 }
 

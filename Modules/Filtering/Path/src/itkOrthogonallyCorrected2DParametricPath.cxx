@@ -78,8 +78,8 @@ OrthogonallyCorrected2DParametricPath::SetOriginalPath(const OriginalPathType * 
  * Constructor
  */
 OrthogonallyCorrected2DParametricPath::OrthogonallyCorrected2DParametricPath()
+  : m_OriginalPath(nullptr)
 {
-  m_OriginalPath = nullptr;
   m_OrthogonalCorrectionTable = OrthogonalCorrectionTableType::New();
 }
 

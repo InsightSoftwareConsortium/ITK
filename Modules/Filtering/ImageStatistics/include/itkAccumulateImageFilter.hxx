@@ -25,10 +25,8 @@ namespace itk
 
 template <typename TInputImage, typename TOutputImage>
 AccumulateImageFilter<TInputImage, TOutputImage>::AccumulateImageFilter()
-{
-  m_AccumulateDimension = InputImageDimension - 1;
-  m_Average = false;
-}
+  : m_AccumulateDimension(InputImageDimension - 1)
+{}
 
 template <typename TInputImage, typename TOutputImage>
 void

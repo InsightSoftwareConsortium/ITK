@@ -26,25 +26,22 @@ namespace itk
 template <typename TParametersValueType>
 Similarity2DTransform<TParametersValueType>::Similarity2DTransform()
   : Superclass(ParametersDimension)
-{
-  m_Scale = 1.0f;
-}
+  , m_Scale(1.0f)
+{}
 
 
 template <typename TParametersValueType>
 Similarity2DTransform<TParametersValueType>::Similarity2DTransform(unsigned int parametersDimension)
   : Superclass(parametersDimension)
-{
-  m_Scale = 1.0f;
-}
+  , m_Scale(1.0f)
+{}
 
 
 template <typename TParametersValueType>
 Similarity2DTransform<TParametersValueType>::Similarity2DTransform(unsigned int, unsigned int parametersDimension)
   : Superclass(parametersDimension)
-{
-  m_Scale = 1.0f;
-}
+  , m_Scale(1.0f)
+{}
 
 
 template <typename TParametersValueType>

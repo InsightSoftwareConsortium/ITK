@@ -27,14 +27,11 @@ namespace itk
 
 template <typename TOutputImage>
 LandmarkDisplacementFieldSource<TOutputImage>::LandmarkDisplacementFieldSource()
+  : m_KernelTransform(ThinPlateSplineKernelTransform<double, Self::ImageDimension>::New())
 {
   m_OutputSpacing.Fill(1.0);
   m_OutputOrigin.Fill(0.0);
   m_OutputDirection.SetIdentity();
-
-  using DefaultTransformType = ThinPlateSplineKernelTransform<double, Self::ImageDimension>;
-
-  m_KernelTransform = DefaultTransformType::New();
 }
 
 template <typename TOutputImage>

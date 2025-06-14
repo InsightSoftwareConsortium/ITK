@@ -26,10 +26,9 @@ namespace itk
 {
 template <typename TInputImage, typename TDataType>
 DifferenceOfGaussiansGradientImageFilter<TInputImage, TDataType>::DifferenceOfGaussiansGradientImageFilter()
+  : m_Width(2)
 {
   itkDebugMacro("DifferenceOfGaussiansGradientImageFilter::DifferenceOfGaussiansGradientImageFilter() called");
-
-  m_Width = 2;
 }
 
 template <typename TInputImage, typename TDataType>

@@ -25,11 +25,11 @@ namespace itk
 /** Set the Input Image */
 template <typename TInputImage, typename TOutput>
 DiscreteGaussianDerivativeImageFunction<TInputImage, TOutput>::DiscreteGaussianDerivativeImageFunction()
+  : m_OperatorImageFunction(OperatorImageFunctionType::New())
 {
   m_Variance.Fill(1.0);
   m_Order.Fill(0);
   m_Order[0] = 1; // by default calculate derivative in x
-  m_OperatorImageFunction = OperatorImageFunctionType::New();
 }
 
 /** Print self method */

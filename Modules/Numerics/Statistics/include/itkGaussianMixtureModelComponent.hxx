@@ -28,10 +28,10 @@ namespace Statistics
 {
 template <typename TSample>
 GaussianMixtureModelComponent<TSample>::GaussianMixtureModelComponent()
+  : m_GaussianMembershipFunction(NativeMembershipFunctionType::New())
+  , m_MeanEstimator(MeanEstimatorType::New())
+  , m_CovarianceEstimator(CovarianceEstimatorType::New())
 {
-  m_MeanEstimator = MeanEstimatorType::New();
-  m_CovarianceEstimator = CovarianceEstimatorType::New();
-  m_GaussianMembershipFunction = NativeMembershipFunctionType::New();
   this->SetMembershipFunction((MembershipFunctionType *)m_GaussianMembershipFunction.GetPointer());
   m_Mean.Fill(0.0);
   m_Covariance.SetIdentity();

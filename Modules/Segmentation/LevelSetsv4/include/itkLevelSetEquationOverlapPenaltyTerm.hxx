@@ -25,11 +25,11 @@ namespace itk
 
 template <typename TInput, typename TLevelSetContainer>
 LevelSetEquationOverlapPenaltyTerm<TInput, TLevelSetContainer>::LevelSetEquationOverlapPenaltyTerm()
+  : m_DomainMapImageFilter(nullptr)
+  , m_CacheImage(nullptr)
 {
   this->m_TermName = "Overlap term";
   this->m_RequiredData.insert("");
-  this->m_DomainMapImageFilter = nullptr;
-  this->m_CacheImage = nullptr;
 }
 
 template <typename TInput, typename TLevelSetContainer>

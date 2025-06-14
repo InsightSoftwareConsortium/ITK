@@ -391,8 +391,8 @@ GetImageInformationDefinitionV42(std::string file, int lineNum, PhilipsPAR * phi
 }
 
 PhilipsPAR::PhilipsPAR()
+  : m_FileName("")
 {
-  this->m_FileName = "";
   this->m_PARFileLines.resize(0);
 }
 

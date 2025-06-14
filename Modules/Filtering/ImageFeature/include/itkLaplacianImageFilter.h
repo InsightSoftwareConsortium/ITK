@@ -119,7 +119,9 @@ public:
   itkConceptMacro(OutputPixelTypeIsFloatingPointCheck, (Concept::IsFloatingPoint<OutputPixelType>));
 
 protected:
-  LaplacianImageFilter() { m_UseImageSpacing = true; }
+  LaplacianImageFilter()
+    : m_UseImageSpacing(true)
+  {}
 
   ~LaplacianImageFilter() override = default;
 

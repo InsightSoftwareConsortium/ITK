@@ -30,9 +30,8 @@ namespace itk
  */
 template <unsigned int ObjectDimension>
 CastSpatialObjectFilter<ObjectDimension>::CastSpatialObjectFilter()
-{
-  m_Input = nullptr;
-}
+  : m_Input(nullptr)
+{}
 
 /**
  *  Print Self

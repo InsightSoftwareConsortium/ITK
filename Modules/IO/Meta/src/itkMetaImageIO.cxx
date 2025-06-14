@@ -49,10 +49,10 @@ itkGetGlobalValueMacro(MetaImageIO, unsigned int, DefaultDoublePrecision, 17);
 unsigned int * MetaImageIO::m_DefaultDoublePrecision;
 
 MetaImageIO::MetaImageIO()
+  : m_SubSamplingFactor(1)
 {
   itkInitGlobalsMacro(DefaultDoublePrecision);
   m_FileType = IOFileEnum::Binary;
-  m_SubSamplingFactor = 1;
   if (MET_SystemByteOrderMSB())
   {
     m_ByteOrder = IOByteOrderEnum::BigEndian;

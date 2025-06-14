@@ -27,9 +27,8 @@ namespace itk
 
 template <typename TData>
 CSVArray2DFileReader<TData>::CSVArray2DFileReader()
-{
-  this->m_Array2DDataObject = Array2DDataObjectType::New();
-}
+  : m_Array2DDataObject(Array2DDataObjectType::New())
+{}
 
 template <typename TData>
 void

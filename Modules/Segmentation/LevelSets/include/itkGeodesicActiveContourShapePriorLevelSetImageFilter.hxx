@@ -25,10 +25,10 @@ namespace itk
 template <typename TInputImage, typename TFeatureImage, typename TOutputType>
 GeodesicActiveContourShapePriorLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>::
   GeodesicActiveContourShapePriorLevelSetImageFilter()
+  : m_GeodesicActiveContourFunction(GeodesicActiveContourFunctionType::New())
 {
   // Instantiate a geodesic active contour function and set it as the
   // segmentation function.
-  m_GeodesicActiveContourFunction = GeodesicActiveContourFunctionType::New();
   this->SetShapePriorSegmentationFunction(m_GeodesicActiveContourFunction);
 
   // Turn off interpolation

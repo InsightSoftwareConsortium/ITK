@@ -22,10 +22,7 @@
 namespace itk
 {
 template <typename TInputImage, typename TOutputImage>
-FFTShiftImageFilter<TInputImage, TOutputImage>::FFTShiftImageFilter()
-{
-  m_Inverse = false;
-}
+FFTShiftImageFilter<TInputImage, TOutputImage>::FFTShiftImageFilter() = default;
 
 template <typename TInputImage, typename TOutputImage>
 void
