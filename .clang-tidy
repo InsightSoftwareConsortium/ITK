@@ -25,7 +25,7 @@ ImplementationFileExtensions:
 # The HeaderFilterRegex option in clang-tidy controls which headers to include
 # for diagnostic analysis—specifically, which headers are eligible for checks
 # and fix-its.
-HeaderFilterRegex: '.*(Bridge|Compatibility|Core|External|Filtering|IO|Nonunit|Numerics|Registration|Remote|Segmentation|Video).*'
+HeaderFilterRegex: '.*(Bridge|Compatibility|Core|External|Filtering|IO|Nonunit|Numerics|Registration|Remote|Segmentation|Video|Examples).*'
 # ExcludeHeaderFilterRegex is the inverse of HeaderFilterRegex in clang-tidy:
 # it tells clang-tidy which headers to skip during analysis and diagnostics.
 ExcludeHeaderFilterRegex: '.*(ThirdParty|cmake-build-|.pixi|.venv|.git|-bld|-BLD).*'
