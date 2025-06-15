@@ -19,12 +19,6 @@
 
 namespace itk
 {
-/**
- * Constructor sets up information for the image-type indepenedent
- * callbacks implemented in this superclass.
- */
-VTKImageExportBase::VTKImageExportBase() = default;
-
 void
 VTKImageExportBase::PrintSelf(std::ostream & os, Indent indent) const
 {

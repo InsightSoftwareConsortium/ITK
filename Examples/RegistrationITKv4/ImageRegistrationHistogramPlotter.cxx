@@ -389,7 +389,7 @@ public:
   itkSimpleNewMacro(Self);
 
 protected:
-  CommandIterationUpdate() {}
+  CommandIterationUpdate() = default;
 
 public:
   using OptimizerType = itk::RegularStepGradientDescentOptimizer;
