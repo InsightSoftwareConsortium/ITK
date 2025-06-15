@@ -134,7 +134,11 @@ public:
   GetBufferPointerCallback() const;
 
 protected:
-  VTKImageExportBase();
+  /**
+   * Constructor sets up information for the image-type independent
+   * callbacks implemented in this superclass.
+   */
+  VTKImageExportBase() = default;
   ~VTKImageExportBase() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
