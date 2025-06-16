@@ -31,10 +31,6 @@ Octree<TPixel, ColorTableSize, MappingFunctionType>::Octree()
   m_Tree.SetParentOctree(this);
 }
 
-template <typename TPixel, unsigned int ColorTableSize, typename MappingFunctionType>
-Octree<TPixel, ColorTableSize, MappingFunctionType>::~Octree()
-{ /*Nothing to be done here*/
-}
 
 template <typename TPixel, unsigned int ColorTableSize, typename MappingFunctionType>
 void

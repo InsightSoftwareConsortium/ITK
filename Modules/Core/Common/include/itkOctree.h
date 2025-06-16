@@ -155,7 +155,7 @@ public:
   BuildFromImage(Image<TPixel, 3> * fromImage);
 
   Octree();
-  ~Octree() override;
+  ~Octree() override = default;
   void
   SetColor(unsigned int color)
   {

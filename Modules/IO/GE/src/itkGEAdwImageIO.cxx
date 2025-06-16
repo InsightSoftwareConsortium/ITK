@@ -26,15 +26,8 @@
 namespace itk
 {
 // Default constructor
-GEAdwImageIO::GEAdwImageIO()
-{
-  // Purposefully left blank
-}
-
-GEAdwImageIO::~GEAdwImageIO()
-{
-  // Purposefully left blank
-}
+GEAdwImageIO::GEAdwImageIO() = default;
+GEAdwImageIO::~GEAdwImageIO() = default;
 
 bool
 GEAdwImageIO::CanReadFile(const char * FileNameToRead)

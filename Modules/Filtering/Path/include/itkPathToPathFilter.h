@@ -72,9 +72,8 @@ public:
   GetInput(unsigned int idx);
 
 protected:
-  PathToPathFilter();
+  PathToPathFilter() = default;
   ~PathToPathFilter() override = default;
-
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
