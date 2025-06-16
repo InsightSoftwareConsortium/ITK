@@ -60,7 +60,7 @@ public:
   void
   SetIndex(const IndexType & idx);
 
-  const IndexType &
+  [[nodiscard]] const IndexType &
   GetIndex() const;
 
   /**
@@ -69,16 +69,16 @@ public:
   void
   SetLength(const LengthType length);
 
-  const LengthType &
+  [[nodiscard]] const LengthType &
   GetLength() const;
 
   /**
    *  Check for index
    */
-  bool
+  [[nodiscard]] bool
   HasIndex(const IndexType idx) const;
 
-  bool
+  [[nodiscard]] bool
   IsNextIndex(const IndexType & idx) const;
 
   /** Cause the object to print itself out. */

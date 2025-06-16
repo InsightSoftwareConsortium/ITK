@@ -57,11 +57,11 @@ public:
   virtual ~ResourceProbe() = default;
 
   /** Returns the type probed value */
-  std::string
+  [[nodiscard]] std::string
   GetType() const;
 
   /** Returns the unit probed value */
-  std::string
+  [[nodiscard]] std::string
   GetUnit() const;
 
   /** Start counting the change of value */
@@ -77,31 +77,31 @@ public:
   Stop();
 
   /** Returns the number of times that the probe has been started */
-  CountType
+  [[nodiscard]] CountType
   GetNumberOfStarts() const;
 
   /** Returns the number of times that the probe has been stopped */
-  CountType
+  [[nodiscard]] CountType
   GetNumberOfStops() const;
 
   /** Returns the number of iteration of the probe */
-  CountType
+  [[nodiscard]] CountType
   GetNumberOfIteration() const;
 
   /** Returns the instant value of the probed system.
    */
-  virtual ValueType
+  [[nodiscard]] virtual ValueType
   GetInstantValue() const = 0;
 
   /** Returns the accumulated value changes between the starts and stops
    *  of the probe */
-  virtual ValueType
+  [[nodiscard]] virtual ValueType
   GetTotal() const;
 
   /** Returns the average value changes between the starts and stops
    *  of the probe. Stop() has to be called at least once, returns 0 otherwise.
    */
-  virtual MeanType
+  [[nodiscard]] virtual MeanType
   GetMean() const;
 
   /** Reset the probe */
@@ -110,12 +110,12 @@ public:
 
   /** Returns the min value changes between the starts and stops
    *  of the probe */
-  virtual ValueType
+  [[nodiscard]] virtual ValueType
   GetMinimum() const;
 
   /** Returns the max value changes between the starts and stops
    *  of the probe */
-  virtual ValueType
+  [[nodiscard]] virtual ValueType
   GetMaximum() const;
 
   /** Returns the standard deviation value changes between the starts and stops
@@ -133,7 +133,7 @@ public:
   SetNameOfProbe(const char * nameOfProbe);
 
   /** Set name of probe */
-  virtual std::string
+  [[nodiscard]] virtual std::string
   GetNameOfProbe() const;
 
   /** Print System information */

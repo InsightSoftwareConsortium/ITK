@@ -106,10 +106,10 @@ public:
    * in intensity between the fixed image and transforming moving image
    * computed over the overlapping region between the two images.
    * This value is calculated for the current iteration */
-  virtual double
+  [[nodiscard]] virtual double
   GetMetric() const;
 
-  const double &
+  [[nodiscard]] const double &
   GetRMSChange() const override;
 
   /** DemonsRegistrationFilterFunction type.
@@ -134,14 +134,14 @@ public:
   virtual void
   SetIntensityDifferenceThreshold(double);
 
-  virtual double
+  [[nodiscard]] virtual double
   GetIntensityDifferenceThreshold() const;
 
   /** Set/Get the maximum update step length. */
   virtual void
   SetMaximumUpdateStepLength(double);
 
-  virtual double
+  [[nodiscard]] virtual double
   GetMaximumUpdateStepLength() const;
 
 protected:

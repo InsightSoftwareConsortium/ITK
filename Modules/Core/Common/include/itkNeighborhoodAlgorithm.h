@@ -79,14 +79,14 @@ struct ImageBoundaryFacesCalculator
   {
   public:
     /** Returns the center (non-boundary) region. */
-    RegionType
+    [[nodiscard]] RegionType
     GetNonBoundaryRegion() const
     {
       return m_NonBoundaryRegion;
     }
 
     /** Returns the boundary faces (the regions at the boundary of the image). */
-    const FaceListType &
+    [[nodiscard]] const FaceListType &
     GetBoundaryFaces() const
     {
       return m_BoundaryFaces;

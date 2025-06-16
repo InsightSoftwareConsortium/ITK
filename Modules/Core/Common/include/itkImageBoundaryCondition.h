@@ -128,7 +128,7 @@ public:
    * \return The necessary input region required to determine the
    * pixel values in the outputRequestedRegion.
    */
-  virtual RegionType
+  [[nodiscard]] virtual RegionType
   GetInputRequestedRegion(const RegionType &                  inputLargestPossibleRegion,
                           [[maybe_unused]] const RegionType & itkNotUsed(outputRequestedRegion)) const
   {

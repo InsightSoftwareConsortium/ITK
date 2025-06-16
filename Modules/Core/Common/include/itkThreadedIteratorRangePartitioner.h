@@ -65,12 +65,12 @@ public:
     this->m_End = rhs.m_End;
   }
 
-  const IteratorType &
+  [[nodiscard]] const IteratorType &
   Begin() const
   {
     return this->m_Begin;
   }
-  const IteratorType &
+  [[nodiscard]] const IteratorType &
   End() const
   {
     return this->m_End;

@@ -96,11 +96,11 @@ public:
   Reset();
 
   /// Return the interpolated intensity of the current ray point.
-  double
+  [[nodiscard]] double
   GetCurrentIntensity() const;
 
   /// Return the ray point spacing in mm
-  double
+  [[nodiscard]] double
   GetRayPointSpacing() const
   {
     typename InputImageType::SpacingType spacing = this->m_Image->GetSpacing();

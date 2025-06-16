@@ -111,7 +111,7 @@ public:
 
   /** This method returns the vector of estimated parameters
    * \sa Estimator */
-  const VectorType &
+  [[nodiscard]] const VectorType &
   GetEstimator() const
   {
     return m_Estimator;
@@ -119,7 +119,7 @@ public:
 
   /** This method returns the covariance matrix of the estimated parameters
    * \sa Variance */
-  const MatrixType &
+  [[nodiscard]] const MatrixType &
   GetVariance() const
   {
     return m_Variance;

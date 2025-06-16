@@ -587,7 +587,7 @@ protected:
     ConstantPointerWrapper(ImageToImageMetric * i2i_metricPointer)
       : m_ConstMetricPointer{ i2i_metricPointer }
     {}
-    const ImageToImageMetric *
+    [[nodiscard]] const ImageToImageMetric *
     GetConstMetricPointer() const
     {
       return m_ConstMetricPointer;
@@ -610,12 +610,12 @@ protected:
     MultiThreaderWorkUnitInfoImageToImageMetricWrapper(const void * workunitInfoAsVoid)
       : m_WorkUnitInfo(static_cast<const typename MultiThreaderType::WorkUnitInfo *>(workunitInfoAsVoid))
     {}
-    ThreadIdType
+    [[nodiscard]] ThreadIdType
     GetThreadId() const
     {
       return m_WorkUnitInfo->WorkUnitID;
     }
-    const ImageToImageMetric *
+    [[nodiscard]] const ImageToImageMetric *
     GetConstImageToImageMetricPointer() const
     {
       return (static_cast<ConstantPointerWrapper *>(m_WorkUnitInfo->UserData))->GetConstMetricPointer();

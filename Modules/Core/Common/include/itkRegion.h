@@ -82,7 +82,7 @@ public:
 
   /** Subclasses must return a region type describing whether the region
    * is structured or unstructured. */
-  virtual RegionEnum
+  [[nodiscard]] virtual RegionEnum
   GetRegionType() const = 0;
 
   /** Print the region. */

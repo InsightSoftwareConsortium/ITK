@@ -199,7 +199,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Clone the current transform */
-  typename LightObject::Pointer
+  [[nodiscard]] typename LightObject::Pointer
   InternalClone() const override;
 
   typename DisplacementFieldType::Pointer

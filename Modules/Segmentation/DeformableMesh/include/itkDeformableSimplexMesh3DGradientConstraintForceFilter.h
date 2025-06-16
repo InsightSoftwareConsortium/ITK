@@ -58,31 +58,31 @@ public:
   }
 
   /// returns voxel X coordinate (voxel column)
-  unsigned int
+  [[nodiscard]] unsigned int
   GetX() const
   {
     return m_Vpos[0];
   }
   /// returns voxel Y coordinate (voxel row)
-  unsigned int
+  [[nodiscard]] unsigned int
   GetY() const
   {
     return m_Vpos[1];
   }
   /// returns voxel Z coordinate (voxel plane)
-  unsigned int
+  [[nodiscard]] unsigned int
   GetZ() const
   {
     return m_Vpos[2];
   }
   /// returns voxel distance to origin
-  double
+  [[nodiscard]] double
   GetDistance() const
   {
     return m_Distance;
   }
   /// returns voxel value
-  double
+  [[nodiscard]] double
   GetValue() const
   {
     return m_Value;

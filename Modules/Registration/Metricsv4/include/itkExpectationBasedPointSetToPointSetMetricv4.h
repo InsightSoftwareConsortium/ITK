@@ -109,14 +109,14 @@ public:
 
   /** Clone method will clone the existing instance of this type,
    *  including its internal member variables. */
-  typename LightObject::Pointer
+  [[nodiscard]] typename LightObject::Pointer
   InternalClone() const override;
 
 protected:
   ExpectationBasedPointSetToPointSetMetricv4();
   ~ExpectationBasedPointSetToPointSetMetricv4() override = default;
 
-  bool
+  [[nodiscard]] bool
   RequiresFixedPointsLocator() const override
   {
     return false;

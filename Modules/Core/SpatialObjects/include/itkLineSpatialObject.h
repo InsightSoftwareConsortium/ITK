@@ -81,7 +81,7 @@ protected:
   LineSpatialObject();
   ~LineSpatialObject() override = default;
 
-  typename LightObject::Pointer
+  [[nodiscard]] typename LightObject::Pointer
   InternalClone() const override;
 };
 } // end namespace itk

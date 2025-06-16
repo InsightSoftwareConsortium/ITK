@@ -139,7 +139,7 @@ public:
   void
   SetSigma(const double sigma);
 
-  const double *
+  [[nodiscard]] const double *
   GetSigma() const
   {
     return m_Sigma;
@@ -152,7 +152,7 @@ public:
   void
   SetExtent(const double extent);
 
-  const double *
+  [[nodiscard]] const double *
   GetExtent() const
   {
     return m_Extent;

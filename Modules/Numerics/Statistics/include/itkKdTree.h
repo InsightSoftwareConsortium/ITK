@@ -79,7 +79,7 @@ struct ITK_TEMPLATE_EXPORT KdTreeNode
 
   /** Returns true if the node is a terminal node, that is a node that
    * doesn't have any child. */
-  virtual bool
+  [[nodiscard]] virtual bool
   IsTerminal() const = 0;
 
   /** Fills the partitionDimension (the dimension that was chosen to
@@ -95,7 +95,7 @@ struct ITK_TEMPLATE_EXPORT KdTreeNode
   Left() = 0;
 
   /** Returns the const pointer to the left child of this node */
-  virtual const Self *
+  [[nodiscard]] virtual const Self *
   Left() const = 0;
 
   /** Returns the pointer to the right child of this node */
@@ -103,14 +103,14 @@ struct ITK_TEMPLATE_EXPORT KdTreeNode
   Right() = 0;
 
   /** Returns the const pointer to the right child of this node */
-  virtual const Self *
+  [[nodiscard]] virtual const Self *
   Right() const = 0;
 
   /**
    * Returns the number of measurement vectors under this node including
    * its children
    */
-  virtual unsigned int
+  [[nodiscard]] virtual unsigned int
   Size() const = 0;
 
   /** Returns the vector sum of the all measurement vectors under this node */
@@ -122,7 +122,7 @@ struct ITK_TEMPLATE_EXPORT KdTreeNode
   GetCentroid(CentroidType &) = 0;
 
   /** Returns the instance identifier of the index-th measurement vector */
-  virtual InstanceIdentifier GetInstanceIdentifier(InstanceIdentifier) const = 0;
+  [[nodiscard]] virtual InstanceIdentifier GetInstanceIdentifier(InstanceIdentifier) const = 0;
 
   /** Add an instance to this node */
   virtual void AddInstanceIdentifier(InstanceIdentifier) = 0;
@@ -157,7 +157,7 @@ struct ITK_TEMPLATE_EXPORT KdTreeNonterminalNode : public KdTreeNode<TSample>
 
   ~KdTreeNonterminalNode() override = default;
 
-  bool
+  [[nodiscard]] bool
   IsTerminal() const override
   {
     return false;
@@ -181,14 +181,14 @@ struct ITK_TEMPLATE_EXPORT KdTreeNonterminalNode : public KdTreeNode<TSample>
   }
 
   /** Returns the const pointer to the left child of this node */
-  const Superclass *
+  [[nodiscard]] const Superclass *
   Left() const override
   {
     return m_Left;
   }
 
   /** Returns the const pointer to the right child of this node */
-  const Superclass *
+  [[nodiscard]] const Superclass *
   Right() const override
   {
     return m_Right;
@@ -198,7 +198,7 @@ struct ITK_TEMPLATE_EXPORT KdTreeNonterminalNode : public KdTreeNode<TSample>
    * Returns the number of measurement vectors under this node including
    * its children
    */
-  unsigned int
+  [[nodiscard]] unsigned int
   Size() const override
   {
     return 0;
@@ -225,7 +225,7 @@ struct ITK_TEMPLATE_EXPORT KdTreeNonterminalNode : public KdTreeNode<TSample>
    * this node in the tree. This MeasurementVector will be used later during
    * the distance computation when querying the tree.
    */
-  InstanceIdentifier
+  [[nodiscard]] InstanceIdentifier
   GetInstanceIdentifier(InstanceIdentifier) const override
   {
     return this->m_InstanceIdentifier;
@@ -283,7 +283,7 @@ struct ITK_TEMPLATE_EXPORT KdTreeWeightedCentroidNonterminalNode : public KdTree
   ~KdTreeWeightedCentroidNonterminalNode() override = default;
 
   /** Not a terminal node. */
-  bool
+  [[nodiscard]] bool
   IsTerminal() const override
   {
     return false;
@@ -294,7 +294,7 @@ struct ITK_TEMPLATE_EXPORT KdTreeWeightedCentroidNonterminalNode : public KdTree
   GetParameters(unsigned int &, MeasurementType &) const override;
 
   /** Return the length of a measurement vector */
-  MeasurementVectorSizeType
+  [[nodiscard]] MeasurementVectorSizeType
   GetMeasurementVectorSize() const
   {
     return m_MeasurementVectorSize;
@@ -315,21 +315,21 @@ struct ITK_TEMPLATE_EXPORT KdTreeWeightedCentroidNonterminalNode : public KdTree
   }
 
   /** Return the left tree const pointer. */
-  const Superclass *
+  [[nodiscard]] const Superclass *
   Left() const override
   {
     return m_Left;
   }
 
   /** Return the right tree const pointer. */
-  const Superclass *
+  [[nodiscard]] const Superclass *
   Right() const override
   {
     return m_Right;
   }
 
   /** Return the size of the node. */
-  unsigned int
+  [[nodiscard]] unsigned int
   Size() const override
   {
     return m_Size;
@@ -358,7 +358,7 @@ struct ITK_TEMPLATE_EXPORT KdTreeWeightedCentroidNonterminalNode : public KdTree
    * this node in the tree. This MeasurementVector will be used later during
    * the distance computation when querying the tree.
    */
-  InstanceIdentifier
+  [[nodiscard]] InstanceIdentifier
   GetInstanceIdentifier(InstanceIdentifier) const override
   {
     return this->m_InstanceIdentifier;
@@ -411,7 +411,7 @@ struct ITK_TEMPLATE_EXPORT KdTreeTerminalNode : public KdTreeNode<TSample>
   ~KdTreeTerminalNode() override { this->m_InstanceIdentifiers.clear(); }
 
   /** A terminal node. */
-  bool
+  [[nodiscard]] bool
   IsTerminal() const override
   {
     return true;
@@ -437,21 +437,21 @@ struct ITK_TEMPLATE_EXPORT KdTreeTerminalNode : public KdTreeNode<TSample>
   }
 
   /** Return the left tree const pointer. Null for terminal nodes. */
-  const Superclass *
+  [[nodiscard]] const Superclass *
   Left() const override
   {
     return nullptr;
   }
 
   /** Return the right tree const pointer. Null for terminal nodes. */
-  const Superclass *
+  [[nodiscard]] const Superclass *
   Right() const override
   {
     return nullptr;
   }
 
   /** Return the size of the node. */
-  unsigned int
+  [[nodiscard]] unsigned int
   Size() const override
   {
     return static_cast<unsigned int>(m_InstanceIdentifiers.size());
@@ -478,7 +478,7 @@ struct ITK_TEMPLATE_EXPORT KdTreeTerminalNode : public KdTreeNode<TSample>
    * this node in the tree. This MeasurementVector will be used later during
    * the distance computation when querying the tree.
    */
-  InstanceIdentifier
+  [[nodiscard]] InstanceIdentifier
   GetInstanceIdentifier(InstanceIdentifier index) const override
   {
     return m_InstanceIdentifiers[index];
@@ -638,7 +638,7 @@ public:
     }
 
     /** Returns the vector of k-neighbors' instance identifiers */
-    const InstanceIdentifierVectorType &
+    [[nodiscard]] const InstanceIdentifierVectorType &
     GetNeighbors() const
     {
       return m_Identifiers;
@@ -646,7 +646,7 @@ public:
 
     /** Returns the instance identifier of the index-th neighbor among
      * k-neighbors */
-    InstanceIdentifier
+    [[nodiscard]] InstanceIdentifier
     GetNeighbor(unsigned int index) const
     {
       return m_Identifiers[index];

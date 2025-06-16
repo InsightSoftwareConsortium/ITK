@@ -176,7 +176,7 @@ public:
   }
 
   /** Return the value for the Nth component. */
-  ComponentType
+  [[nodiscard]] ComponentType
   GetNthComponent(int c) const
   {
     return this->operator[](c);
@@ -202,7 +202,7 @@ public:
   SetIdentity();
 
   /** Get Trace value */
-  AccumulateValueType
+  [[nodiscard]] AccumulateValueType
   GetTrace() const;
 
   /** Return an array containing EigenValues. */
@@ -236,11 +236,11 @@ public:
   /** @ITKEndGrouping */
 
   /** Pre-Multiply by a Matrix as ResultingMatrix = Matrix * ThisTensor. */
-  MatrixType
+  [[nodiscard]] MatrixType
   PreMultiply(const MatrixType & m) const;
 
   /** Post-Multiply by a Matrix as ResultingMatrix = ThisTensor * Matrix. */
-  MatrixType
+  [[nodiscard]] MatrixType
   PostMultiply(const MatrixType & m) const;
 
 private:

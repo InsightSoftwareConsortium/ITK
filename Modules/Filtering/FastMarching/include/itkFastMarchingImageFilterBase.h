@@ -186,7 +186,7 @@ protected:
   LabelImagePointer              m_LabelImage{};
   ConnectedComponentImagePointer m_ConnectedComponentImage{};
 
-  IdentifierType
+  [[nodiscard]] IdentifierType
   GetTotalNumberOfNodes() const override;
 
   void
@@ -236,13 +236,13 @@ protected:
   InitializeIndices2D();
   bool
   IsChangeWellComposed2D(const NodeType &) const;
-  bool
+  [[nodiscard]] bool
   IsCriticalC1Configuration2D(const std::bitset<9> &) const;
-  bool
+  [[nodiscard]] bool
   IsCriticalC2Configuration2D(const std::bitset<9> &) const;
-  bool
+  [[nodiscard]] bool
   IsCriticalC3Configuration2D(const std::bitset<9> &) const;
-  bool
+  [[nodiscard]] bool
   IsCriticalC4Configuration2D(const std::bitset<9> &) const;
 
   Array<unsigned char> m_RotationIndices[4]{};
@@ -251,9 +251,9 @@ protected:
   // Functions/data for the 3-D case
   void
   InitializeIndices3D();
-  bool
+  [[nodiscard]] bool
   IsCriticalC1Configuration3D(const std::bitset<8> &) const;
-  unsigned int
+  [[nodiscard]] unsigned int
   IsCriticalC2Configuration3D(const std::bitset<8> &) const;
   bool
   IsChangeWellComposed3D(const NodeType &) const;

@@ -99,7 +99,7 @@ public:
                        const std::string & name = "") const override;
 
   /** Returns the latest modified time of the object and its component. */
-  ModifiedTimeType
+  [[nodiscard]] ModifiedTimeType
   GetMTime() const override;
 
   /** Set the slice position */
@@ -145,7 +145,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  typename LightObject::Pointer
+  [[nodiscard]] typename LightObject::Pointer
   InternalClone() const override;
 
 private:

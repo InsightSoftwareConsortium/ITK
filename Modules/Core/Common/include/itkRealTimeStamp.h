@@ -62,17 +62,17 @@ public:
 
   /** Return time in multiple units. */
   /** @ITKStartGrouping */
-  TimeRepresentationType
+  [[nodiscard]] TimeRepresentationType
   GetTimeInMicroSeconds() const;
-  TimeRepresentationType
+  [[nodiscard]] TimeRepresentationType
   GetTimeInMilliSeconds() const;
-  TimeRepresentationType
+  [[nodiscard]] TimeRepresentationType
   GetTimeInSeconds() const;
-  TimeRepresentationType
+  [[nodiscard]] TimeRepresentationType
   GetTimeInMinutes() const;
-  TimeRepresentationType
+  [[nodiscard]] TimeRepresentationType
   GetTimeInHours() const;
-  TimeRepresentationType
+  [[nodiscard]] TimeRepresentationType
   GetTimeInDays() const;
   /** @ITKEndGrouping */
   /** Arithmetic operations between RealTimeInterval and RealTimeStamp. */

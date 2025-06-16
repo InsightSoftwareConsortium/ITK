@@ -293,13 +293,13 @@ public:
   }
 
   /** Get the number of labels used */
-  MapSizeType
+  [[nodiscard]] MapSizeType
   GetNumberOfObjects() const
   {
     return static_cast<MapSizeType>(m_LabelStatistics.size());
   }
 
-  MapSizeType
+  [[nodiscard]] MapSizeType
   GetNumberOfLabels() const
   {
     return static_cast<MapSizeType>(this->GetNumberOfObjects());
@@ -363,7 +363,7 @@ public:
   {
     Superclass::SetNumberOfStreamDivisions(n);
   }
-  unsigned int
+  [[nodiscard]] unsigned int
   GetNumberOfStreamDivisions() const override
   {
     return Superclass::GetNumberOfStreamDivisions();

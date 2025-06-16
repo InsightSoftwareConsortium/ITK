@@ -182,7 +182,7 @@ public:
     return (this->operator++());
   }
 
-  MeshType *
+  [[nodiscard]] MeshType *
   GetMesh() const
   {
     return this->m_Mesh;
@@ -288,7 +288,7 @@ public:
     return (*this);
   }
 
-  const QEType *
+  [[nodiscard]] const QEType *
   Value() const
   {
     return (this->m_CurrentEdge);

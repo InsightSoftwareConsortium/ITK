@@ -82,7 +82,7 @@ public:
   {
     m_Variance = v;
   }
-  double
+  [[nodiscard]] double
   GetVariance() const
   {
     return m_Variance;

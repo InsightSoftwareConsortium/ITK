@@ -137,7 +137,7 @@ public:
   {
     Superclass::SetNumberOfStreamDivisions(n);
   }
-  unsigned int
+  [[nodiscard]] unsigned int
   GetNumberOfStreamDivisions() const override
   {
     return Superclass::GetNumberOfStreamDivisions();

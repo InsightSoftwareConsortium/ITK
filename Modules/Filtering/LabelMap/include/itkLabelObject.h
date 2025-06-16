@@ -229,7 +229,7 @@ public:
     ConstLineIterator &
     operator=(const ConstLineIterator & iter) = default;
 
-    const LineType &
+    [[nodiscard]] const LineType &
     GetLine() const
     {
       return *m_Iterator;
@@ -264,7 +264,7 @@ public:
       m_Iterator = m_Begin;
     }
 
-    bool
+    [[nodiscard]] bool
     IsAtEnd() const
     {
       return m_Iterator == m_End;
@@ -311,7 +311,7 @@ public:
     ConstIndexIterator &
     operator=(const ConstIndexIterator & iter) = default;
 
-    const IndexType &
+    [[nodiscard]] const IndexType &
     GetIndex() const
     {
       return m_Index;
@@ -354,7 +354,7 @@ public:
       NextValidLine();
     }
 
-    bool
+    [[nodiscard]] bool
     IsAtEnd() const
     {
       return m_Iterator == m_End;

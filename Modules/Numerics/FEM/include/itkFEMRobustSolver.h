@@ -251,7 +251,7 @@ protected:
   ComputeLandmarkTensor();
 
   /** Get scaling factor. */
-  float
+  [[nodiscard]] float
   GetLandmarkTensorPonderation() const;
 
   /**

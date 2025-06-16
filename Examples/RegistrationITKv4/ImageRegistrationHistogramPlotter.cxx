@@ -237,7 +237,7 @@ public:
     this->m_Metric = metric;
   }
 
-  MetricPointer
+  [[nodiscard]] MetricPointer
   GetMetric() const
   {
     return this->m_Metric;

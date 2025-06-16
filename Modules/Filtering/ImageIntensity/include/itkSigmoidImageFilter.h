@@ -92,13 +92,13 @@ public:
     m_Beta = beta;
   }
 
-  double
+  [[nodiscard]] double
   GetAlpha() const
   {
     return m_Alpha;
   }
 
-  double
+  [[nodiscard]] double
   GetBeta() const
   {
     return m_Beta;
@@ -116,13 +116,13 @@ public:
     m_OutputMaximum = max;
   }
 
-  TOutput
+  [[nodiscard]] TOutput
   GetOutputMinimum() const
   {
     return m_OutputMinimum;
   }
 
-  TOutput
+  [[nodiscard]] TOutput
   GetOutputMaximum() const
   {
     return m_OutputMaximum;
@@ -174,7 +174,7 @@ public:
     this->Modified();
   }
 
-  double
+  [[nodiscard]] double
   GetAlpha() const
   {
     return this->GetFunctor().GetAlpha();
@@ -191,7 +191,7 @@ public:
     this->Modified();
   }
 
-  double
+  [[nodiscard]] double
   GetBeta() const
   {
     return this->GetFunctor().GetBeta();

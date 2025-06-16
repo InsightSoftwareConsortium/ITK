@@ -172,14 +172,14 @@ public:
   }
 
   /** Is the iterator at the beginning of the region? */
-  bool
+  [[nodiscard]] bool
   IsAtBegin() const
   {
     return (m_NumberOfSamplesDone == 0L);
   }
 
   /** Is the iterator at the end of the region? */
-  bool
+  [[nodiscard]] bool
   IsAtEnd() const
   {
     return (m_NumberOfSamplesDone >= m_NumberOfSamplesRequested);
@@ -212,7 +212,7 @@ public:
     m_NumberOfSamplesRequested = number;
   }
 
-  SizeValueType
+  [[nodiscard]] SizeValueType
   GetNumberOfSamples() const
   {
     return m_NumberOfSamplesRequested;

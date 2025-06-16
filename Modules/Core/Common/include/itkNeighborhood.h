@@ -125,7 +125,7 @@ public:
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
 
   /** Returns the radius of the neighborhood. */
-  const SizeType
+  [[nodiscard]] const SizeType
   GetRadius() const
   {
     return m_Radius;
@@ -133,7 +133,7 @@ public:
 
   /** Returns the radius of the neighborhood along a specified
    * dimension. */
-  SizeValueType
+  [[nodiscard]] SizeValueType
   GetRadius(DimensionValueType n) const
   {
     return m_Radius.at(n);
@@ -141,14 +141,14 @@ public:
 
   /** Returns the size (total length) of the neighborhood along
    * a specified dimension. */
-  SizeValueType
+  [[nodiscard]] SizeValueType
   GetSize(DimensionValueType n) const
   {
     return m_Size.at(n);
   }
 
   /** Returns the size (total length of sides) of the neighborhood. */
-  SizeType
+  [[nodiscard]] SizeType
   GetSize() const
   {
     return m_Size;
@@ -157,7 +157,7 @@ public:
   /** Returns the stride length for the specified dimension. Stride
    * length is the number of pixels between adjacent pixels along the
    * given dimension. */
-  OffsetValueType
+  [[nodiscard]] OffsetValueType
   GetStride(DimensionValueType axis) const
   {
     return (axis < VDimension) ? m_StrideTable[axis] : 0;
@@ -175,12 +175,12 @@ public:
   {
     return m_DataBuffer.begin();
   }
-  ConstIterator
+  [[nodiscard]] ConstIterator
   End() const
   {
     return m_DataBuffer.end();
   }
-  ConstIterator
+  [[nodiscard]] ConstIterator
   Begin() const
   {
     return m_DataBuffer.begin();
@@ -188,7 +188,7 @@ public:
   /** @ITKEndGrouping */
 
   /** More STL-style support. */
-  NeighborIndexType
+  [[nodiscard]] NeighborIndexType
   Size() const
   {
     return m_DataBuffer.size();
@@ -214,7 +214,7 @@ public:
   /** @ITKEndGrouping */
 
   /** Returns the element at the center of the neighborhood. */
-  TPixel
+  [[nodiscard]] TPixel
   GetCenterValue() const
   {
     return (this->operator[]((this->Size()) >> 1));
@@ -255,7 +255,7 @@ public:
   {
     return m_DataBuffer;
   }
-  const AllocatorType &
+  [[nodiscard]] const AllocatorType &
   GetBufferReference() const
   {
     return m_DataBuffer;
@@ -278,22 +278,22 @@ public:
 
   /** Returns the itk::Offset from the center of the Neighborhood to
       the requested neighbor index. */
-  OffsetType
+  [[nodiscard]] OffsetType
   GetOffset(NeighborIndexType i) const
   {
     return m_OffsetTable[i];
   }
 
-  virtual NeighborIndexType
+  [[nodiscard]] virtual NeighborIndexType
   GetNeighborhoodIndex(const OffsetType &) const;
 
-  NeighborIndexType
+  [[nodiscard]] NeighborIndexType
   GetCenterNeighborhoodIndex() const
   {
     return static_cast<NeighborIndexType>(this->Size() / 2);
   }
 
-  std::slice
+  [[nodiscard]] std::slice
   GetSlice(unsigned int) const;
 
 protected:

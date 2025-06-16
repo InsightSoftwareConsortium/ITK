@@ -108,22 +108,22 @@ public:
     return (*this);
   }
 
-  QuadEdgeType *
+  [[nodiscard]] [[nodiscard]] QuadEdgeType *
   GetStartEdge() const
   {
     return (m_StartEdge);
   }
-  QuadEdgeType *
+  [[nodiscard]] [[nodiscard]] QuadEdgeType *
   GetIterator() const
   {
     return (m_Iterator);
   }
-  int
+  [[nodiscard]] [[nodiscard]] int
   GetOpType() const
   {
     return (m_OpType);
   }
-  bool
+  [[nodiscard]] [[nodiscard]] bool
   GetStart() const
   {
     return (m_Start);
@@ -250,7 +250,7 @@ public:
   {
     return (this->m_Iterator);
   }
-  const QuadEdgeType *
+  [[nodiscard]] [[nodiscard]] const QuadEdgeType *
   Value() const
   {
     return (this->m_Iterator);
@@ -326,7 +326,7 @@ public:
     return (*this);
   }
 
-  const QuadEdgeType *
+  [[nodiscard]] [[nodiscard]] const QuadEdgeType *
   Value() const
   {
     return (this->m_Iterator);

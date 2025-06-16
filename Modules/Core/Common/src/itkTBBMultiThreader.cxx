@@ -205,7 +205,7 @@ struct TBBImageRegionSplitter : public itk::ImageIORegion
     itkGenericExceptionMacro("An ImageIORegion could not be split. Region: " << region);
   }
 
-  bool
+  [[nodiscard]] bool
   empty() const
   {
     for (unsigned int d = 0; d < this->GetImageDimension(); ++d)
@@ -218,7 +218,7 @@ struct TBBImageRegionSplitter : public itk::ImageIORegion
     return false;
   }
 
-  bool
+  [[nodiscard]] bool
   is_divisible() const
   {
     for (unsigned int d = 0; d < this->GetImageDimension(); ++d)

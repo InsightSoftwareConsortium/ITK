@@ -146,7 +146,7 @@ public:
   GenerateOutputInformation() override;
 
   /** Method Compute the Modified Time based on changed to the components. */
-  ModifiedTimeType
+  [[nodiscard]] ModifiedTimeType
   GetMTime() const override;
 
 protected:

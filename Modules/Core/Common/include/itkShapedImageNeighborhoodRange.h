@@ -347,7 +347,7 @@ private:
     {}
 
 
-    TImageNeighborhoodPixelAccessPolicy
+    [[nodiscard]] TImageNeighborhoodPixelAccessPolicy
     CreatePixelAccessPolicy(EmptyPixelAccessParameter) const
     {
       return TImageNeighborhoodPixelAccessPolicy{
@@ -356,7 +356,7 @@ private:
     }
 
     template <typename TPixelAccessParameter>
-    TImageNeighborhoodPixelAccessPolicy
+    [[nodiscard]] TImageNeighborhoodPixelAccessPolicy
     CreatePixelAccessPolicy(const TPixelAccessParameter pixelAccessParameter) const
     {
       static_assert(std::is_same_v<TPixelAccessParameter, OptionalPixelAccessParameterType>,
@@ -698,7 +698,7 @@ public:
   {}
 
   /** Returns an iterator to the first neighborhood pixel. */
-  iterator
+  [[nodiscard]] iterator
   begin() const noexcept
   {
     return iterator{ m_ImageBufferPointer,           m_BufferedRegionData.m_Size, m_OffsetTable, m_NeighborhoodAccessor,
@@ -706,7 +706,7 @@ public:
   }
 
   /** Returns an 'end iterator' for this range. */
-  iterator
+  [[nodiscard]] iterator
   end() const noexcept
   {
     return iterator{ m_ImageBufferPointer,
@@ -720,42 +720,42 @@ public:
 
   /** Returns a const iterator to the first neighborhood pixel.
    * Provides only read-only access to the pixel data. */
-  const_iterator
+  [[nodiscard]] const_iterator
   cbegin() const noexcept
   {
     return this->begin();
   }
 
   /** Returns a const 'end iterator' for this range. */
-  const_iterator
+  [[nodiscard]] const_iterator
   cend() const noexcept
   {
     return this->end();
   }
 
   /** Returns a reverse 'begin iterator' for this range. */
-  reverse_iterator
+  [[nodiscard]] reverse_iterator
   rbegin() const noexcept
   {
     return reverse_iterator(this->end());
   }
 
   /** Returns a reverse 'end iterator' for this range. */
-  reverse_iterator
+  [[nodiscard]] reverse_iterator
   rend() const noexcept
   {
     return reverse_iterator(this->begin());
   }
 
   /** Returns a const reverse 'begin iterator' for this range. */
-  const_reverse_iterator
+  [[nodiscard]] const_reverse_iterator
   crbegin() const noexcept
   {
     return this->rbegin();
   }
 
   /** Returns a const reverse 'end iterator' for this range. */
-  const_reverse_iterator
+  [[nodiscard]] const_reverse_iterator
   crend() const noexcept
   {
     return this->rend();
@@ -763,7 +763,7 @@ public:
 
 
   /** Returns the size of the range, that is the number of neighborhood pixels. */
-  size_t
+  [[nodiscard]] size_t
   size() const noexcept
   {
     return m_NumberOfNeighborhoodPixels;
@@ -771,7 +771,7 @@ public:
 
 
   /** Tells whether the range is empty. */
-  bool
+  [[nodiscard]] bool
   empty() const noexcept
   {
     return m_NumberOfNeighborhoodPixels == 0;

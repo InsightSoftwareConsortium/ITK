@@ -88,7 +88,7 @@ public:
   using HashObjectType = SimpleDataObjectDecorator<std::string>;
 
   /** Get the computed Hash values */
-  std::string
+  [[nodiscard]] std::string
   GetHash() const
   {
     return this->GetHashOutput()->Get();
@@ -98,7 +98,7 @@ public:
   {
     return static_cast<HashObjectType *>(this->ProcessObject::GetOutput(1));
   }
-  const HashObjectType *
+  [[nodiscard]] const HashObjectType *
   GetHashOutput() const
   {
     return static_cast<const HashObjectType *>(this->ProcessObject::GetOutput(1));

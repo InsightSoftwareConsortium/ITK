@@ -213,7 +213,7 @@ public:
   /** @ITKStartGrouping */
   void
   SetHessianApproximationAccuracy(int m);
-  int
+  [[nodiscard]] int
   GetHessianApproximationAccuracy() const;
   /** @ITKEndGrouping */
   /**
@@ -227,7 +227,7 @@ public:
   /** @ITKStartGrouping */
   void
   SetSolutionAccuracy(PrecisionType epsilon);
-  PrecisionType
+  [[nodiscard]] PrecisionType
   GetSolutionAccuracy() const;
   /** @ITKEndGrouping */
   /**
@@ -240,7 +240,7 @@ public:
   /** @ITKStartGrouping */
   void
   SetDeltaConvergenceDistance(int nPast);
-  int
+  [[nodiscard]] int
   GetDeltaConvergenceDistance() const;
   /** @ITKEndGrouping */
   /**
@@ -256,7 +256,7 @@ public:
   /** @ITKStartGrouping */
   void
   SetDeltaConvergenceTolerance(PrecisionType tol);
-  PrecisionType
+  [[nodiscard]] PrecisionType
   GetDeltaConvergenceTolerance() const;
   /** @ITKEndGrouping */
   /**
@@ -270,13 +270,13 @@ public:
   /** @ITKStartGrouping */
   void
   SetMaximumIterations(int maxIterations);
-  int
+  [[nodiscard]] int
   GetMaximumIterations() const;
   /** @ITKEndGrouping */
   /** Aliased to Set/Get MaximumIterations to match base class interface.
    */
   /** @ITKStartGrouping */
-  SizeValueType
+  [[nodiscard]] SizeValueType
   GetNumberOfIterations() const override
   {
     return GetMaximumIterations();
@@ -296,7 +296,7 @@ public:
   /** @ITKStartGrouping */
   void
   SetLineSearch(const LineSearchMethodEnum & linesearch);
-  LineSearchMethodEnum
+  [[nodiscard]] LineSearchMethodEnum
   GetLineSearch() const;
   /** @ITKEndGrouping */
   /**
@@ -307,7 +307,7 @@ public:
   /** @ITKStartGrouping */
   void
   SetMaximumLineSearchEvaluations(int n);
-  int
+  [[nodiscard]] int
   GetMaximumLineSearchEvaluations() const;
   /** @ITKEndGrouping */
   /**
@@ -320,7 +320,7 @@ public:
   /** @ITKStartGrouping */
   void
   SetMinimumLineSearchStep(PrecisionType step);
-  PrecisionType
+  [[nodiscard]] PrecisionType
   GetMinimumLineSearchStep() const;
   /** @ITKEndGrouping */
   /**
@@ -333,7 +333,7 @@ public:
   /** @ITKStartGrouping */
   void
   SetMaximumLineSearchStep(PrecisionType step);
-  PrecisionType
+  [[nodiscard]] PrecisionType
   GetMaximumLineSearchStep() const;
   /** @ITKEndGrouping */
   /**
@@ -344,7 +344,7 @@ public:
   /** @ITKStartGrouping */
   void
   SetLineSearchAccuracy(PrecisionType ftol);
-  PrecisionType
+  [[nodiscard]] PrecisionType
   GetLineSearchAccuracy() const;
   /** @ITKEndGrouping */
   /**
@@ -359,7 +359,7 @@ public:
   /** @ITKStartGrouping */
   void
   SetWolfeCoefficient(PrecisionType wc);
-  PrecisionType
+  [[nodiscard]] PrecisionType
   GetWolfeCoefficient() const;
   /** @ITKEndGrouping */
   /**
@@ -376,7 +376,7 @@ public:
   /** @ITKStartGrouping */
   void
   SetLineSearchGradientAccuracy(PrecisionType gtol);
-  PrecisionType
+  [[nodiscard]] PrecisionType
   GetLineSearchGradientAccuracy() const;
   /** @ITKEndGrouping */
   /**
@@ -389,7 +389,7 @@ public:
   /** @ITKStartGrouping */
   void
   SetMachinePrecisionTolerance(PrecisionType xtol);
-  PrecisionType
+  [[nodiscard]] PrecisionType
   GetMachinePrecisionTolerance() const;
   /** @ITKEndGrouping */
   /**
@@ -408,7 +408,7 @@ public:
   /** @ITKStartGrouping */
   void
   SetOrthantwiseCoefficient(PrecisionType orthant_c);
-  PrecisionType
+  [[nodiscard]] PrecisionType
   GetOrthantwiseCoefficient() const;
   /** @ITKEndGrouping */
   /**
@@ -428,7 +428,7 @@ public:
   /** @ITKStartGrouping */
   void
   SetOrthantwiseStart(int start);
-  int
+  [[nodiscard]] int
   GetOrthantwiseStart() const;
   /** @ITKEndGrouping */
   /**
@@ -441,7 +441,7 @@ public:
   /** @ITKStartGrouping */
   void
   SetOrthantwiseEnd(int end);
-  int
+  [[nodiscard]] int
   GetOrthantwiseEnd() const;
   /** @ITKEndGrouping */
   /** Get parameter norm of current iteration */
@@ -534,7 +534,7 @@ private:
   {
     itkWarningMacro("Not supported. Please use LBFGS specific convergence methods.");
   }
-  const PrecisionType &
+  [[nodiscard]] const PrecisionType &
   GetConvergenceValue() const override
   {
     itkWarningMacro("Not supported. Please use LBFGS specific convergence methods.");

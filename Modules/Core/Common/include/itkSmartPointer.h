@@ -125,14 +125,14 @@ public:
   operator ObjectType *() const noexcept { return m_Pointer; }
 
   /** Test if the pointer is not NULL. */
-  bool
+  [[nodiscard]] bool
   IsNotNull() const noexcept
   {
     return m_Pointer != nullptr;
   }
 
   /** Test if the pointer is NULL. */
-  bool
+  [[nodiscard]] bool
   IsNull() const noexcept
   {
     return m_Pointer == nullptr;
@@ -140,7 +140,7 @@ public:
 
 
   /** Access function to pointer. */
-  ObjectType *
+  [[nodiscard]] ObjectType *
   GetPointer() const noexcept
   {
     return m_Pointer;
@@ -148,7 +148,7 @@ public:
 
   /** Returns the stored (raw) pointer. Equivalent to `GetPointer()`, but then following the Standard C++ Library naming
    * conversion (like `std::shared_ptr::get()`). */
-  ObjectType *
+  [[nodiscard]] ObjectType *
   get() const noexcept
   {
     return m_Pointer;

@@ -86,7 +86,7 @@ public:
   }
 
   /** Returns the order of the derivative. */
-  unsigned int
+  [[nodiscard]] unsigned int
   GetOrder() const
   {
     return m_Order;

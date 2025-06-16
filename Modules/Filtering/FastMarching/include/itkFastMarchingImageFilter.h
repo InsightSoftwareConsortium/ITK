@@ -166,7 +166,7 @@ public:
   {
   public:
     AxisNodeType() = default;
-    int
+    [[nodiscard]] int
     GetAxis() const
     {
       return m_Axis;

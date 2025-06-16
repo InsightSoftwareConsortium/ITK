@@ -55,7 +55,7 @@ public:
 
   /** Implement the standard CellInterface. */
   /** @ITKStartGrouping */
-  CellGeometryEnum
+  [[nodiscard]] CellGeometryEnum
   GetType() const override
   {
     return CellGeometryEnum::POLYLINE_CELL;
@@ -63,10 +63,10 @@ public:
   void
   MakeCopy(CellAutoPointer &) const override;
   /** @ITKEndGrouping */
-  unsigned int
+  [[nodiscard]] unsigned int
   GetDimension() const override;
 
-  unsigned int
+  [[nodiscard]] unsigned int
   GetNumberOfPoints() const override;
 
   CellFeatureCount

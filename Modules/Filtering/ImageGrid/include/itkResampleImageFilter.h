@@ -322,7 +322,7 @@ protected:
   AfterThreadedGenerateData() override;
 
   /** Compute the Modified Time based on the changed components. */
-  ModifiedTimeType
+  [[nodiscard]] ModifiedTimeType
   GetMTime() const override;
 
   /** ResampleImageFilter can be implemented as a multithreaded filter.

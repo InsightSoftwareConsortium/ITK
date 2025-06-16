@@ -134,7 +134,7 @@ public:
     this->Modified();
   }
 
-  float
+  [[nodiscard]] float
   GetDerivativeSigma() const
   {
     return m_CurvesFunction->GetDerivativeSigma();

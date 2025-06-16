@@ -108,7 +108,7 @@ public:
   {}
 
   /** Returns the number of offsets needed for this shape. */
-  constexpr size_t
+  [[nodiscard]] constexpr size_t
   GetNumberOfOffsets() const noexcept
   {
     return m_NumberOfOffsets;

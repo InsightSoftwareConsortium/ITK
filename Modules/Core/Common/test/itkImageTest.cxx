@@ -28,7 +28,7 @@ class TestTransform
 public:
   using InputPointType = itk::Point<double, InputDimension>;
   using OutputPointType = itk::Point<double, 2>;
-  OutputPointType
+  [[nodiscard]] OutputPointType
   TransformPoint(const InputPointType & inputPoint) const
   {
     OutputPointType outputPoint{};

@@ -574,17 +574,17 @@ public:
 
   /** Return the number of elements in the Array  */
   /** @ITKStartGrouping */
-  unsigned int
+  [[nodiscard]] unsigned int
   Size() const
   {
     return m_NumElements;
   }
-  unsigned int
+  [[nodiscard]] unsigned int
   GetSize() const
   {
     return m_NumElements;
   }
-  unsigned int
+  [[nodiscard]] unsigned int
   GetNumberOfElements() const
   {
     return m_NumElements;
@@ -605,7 +605,7 @@ public:
   }
 
   /** Get one element */
-  const TValue &
+  [[nodiscard]] const TValue &
   GetElement(unsigned int i) const
   {
     return m_Data[i];
@@ -751,10 +751,10 @@ public:
    * \return a non-null pointer to an array of \c size elements (0 is a valid
    * parameter).
    */
-  TValue *
+  [[nodiscard]] TValue *
   AllocateElements(ElementIdentifier size) const;
 
-  const TValue *
+  [[nodiscard]] const TValue *
   GetDataPointer() const
   {
     return m_Data;
@@ -969,15 +969,15 @@ public:
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
 
   /** Returns vector's Euclidean norm. */
-  RealValueType
+  [[nodiscard]] RealValueType
   GetNorm() const;
 
   /** Returns vector's squared Euclidean norm. */
-  RealValueType
+  [[nodiscard]] RealValueType
   GetSquaredNorm() const;
 
   /** letArrayManageMemory getter. */
-  bool
+  [[nodiscard]] bool
   IsAProxy() const
   {
     return !m_LetArrayManageMemory;
@@ -1216,7 +1216,7 @@ struct VariableLengthVectorExpression
   }
 
   /// Returns the size of the vector expression.
-  unsigned int
+  [[nodiscard]] unsigned int
   Size() const
   {
     return Details::GetSize(m_lhs, m_rhs);
@@ -1246,11 +1246,11 @@ struct VariableLengthVectorExpression
   }
 
   /** Returns vector's Euclidean Norm  */
-  RealValueType
+  [[nodiscard]] RealValueType
   GetNorm() const;
 
   /** Returns vector's squared Euclidean Norm  */
-  RealValueType
+  [[nodiscard]] RealValueType
   GetSquaredNorm() const;
 
 private:

@@ -173,7 +173,7 @@ public:
   }
 
   /** Return the Focal Distance */
-  double
+  [[nodiscard]] double
   GetFocalDistance() const
   {
     return m_FocalDistance;

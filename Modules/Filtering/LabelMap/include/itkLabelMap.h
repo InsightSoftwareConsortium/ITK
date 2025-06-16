@@ -329,13 +329,13 @@ public:
       m_Iterator = m_Begin;
     }
 
-    const LabelObjectType *
+    [[nodiscard]] const LabelObjectType *
     GetLabelObject() const
     {
       return m_Iterator->second;
     }
 
-    const LabelType &
+    [[nodiscard]] const LabelType &
     GetLabel() const
     {
       return m_Iterator->first;
@@ -370,7 +370,7 @@ public:
       m_Iterator = m_Begin;
     }
 
-    bool
+    [[nodiscard]] bool
     IsAtEnd() const
     {
       return m_Iterator == m_End;
@@ -406,7 +406,7 @@ public:
       return m_Iterator->second;
     }
 
-    const LabelType &
+    [[nodiscard]] const LabelType &
     GetLabel() const
     {
       return m_Iterator->first;
@@ -441,7 +441,7 @@ public:
       m_Iterator = m_Begin;
     }
 
-    bool
+    [[nodiscard]] bool
     IsAtEnd() const
     {
       return m_Iterator == m_End;

@@ -97,7 +97,7 @@ public:
   {
     m_InnerRadius = r;
   }
-  double
+  [[nodiscard]] double
   GetInnerRadius() const
   {
     return m_InnerRadius;
@@ -112,7 +112,7 @@ public:
   {
     m_Thickness = t;
   }
-  double
+  [[nodiscard]] double
   GetThickness() const
   {
     return m_Thickness;
@@ -126,7 +126,7 @@ public:
   {
     m_Spacing = s;
   }
-  const SpacingType &
+  [[nodiscard]] const SpacingType &
   GetSpacing() const
   {
     return m_Spacing;
@@ -140,7 +140,7 @@ public:
   {
     m_Normalize = b;
   }
-  bool
+  [[nodiscard]] bool
   GetNormalize() const
   {
     return m_Normalize;
@@ -164,7 +164,7 @@ public:
   {
     m_BrightCenter = b;
   }
-  bool
+  [[nodiscard]] bool
   GetBrightCenter() const
   {
     return m_BrightCenter;
@@ -190,7 +190,7 @@ public:
   {
     m_InteriorValue = v;
   }
-  TPixel
+  [[nodiscard]] TPixel
   GetInteriorValue() const
   {
     return m_InteriorValue;
@@ -200,7 +200,7 @@ public:
   {
     m_AnnulusValue = v;
   }
-  TPixel
+  [[nodiscard]] TPixel
   GetAnnulusValue() const
   {
     return m_AnnulusValue;
@@ -210,7 +210,7 @@ public:
   {
     m_ExteriorValue = v;
   }
-  TPixel
+  [[nodiscard]] TPixel
   GetExteriorValue() const
   {
     return m_ExteriorValue;

@@ -165,14 +165,14 @@ public:
   }
 
   /** \brief returns if the stopping condition is satisfied or not. */
-  bool
+  [[nodiscard]] bool
   IsSatisfied() const override
   {
     return m_Satisfied && (this->m_CurrentValue >= m_StoppingValue);
   }
 
   /** \brief Get a short description of the stopping criterion. */
-  std::string
+  [[nodiscard]] std::string
   GetDescription() const override
   {
     return "Target Nodes Reached with possible overshoot";

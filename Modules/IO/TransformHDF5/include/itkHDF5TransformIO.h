@@ -160,7 +160,7 @@ private:
    * from class template.
    * @return H5 code PredType
    */
-  H5::PredType
+  [[nodiscard]] H5::PredType
   GetH5TypeFromString() const;
 };
 

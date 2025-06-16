@@ -170,7 +170,7 @@ public:
     this->Modified();
   }
 
-  int
+  [[nodiscard]] int
   GetSmoothingIterations() const
   {
     return m_ThresholdFunction->GetSmoothingIterations();

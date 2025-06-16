@@ -105,7 +105,7 @@ public:
   }
 
   /** Get the value from input */
-  inline ExternalPixelType
+  [[nodiscard]] inline ExternalPixelType
   Get(const InternalPixelType & input) const
   {
     return m_PixelAccessor.Get(input, &input - m_Begin);

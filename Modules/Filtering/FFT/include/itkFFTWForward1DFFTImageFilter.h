@@ -82,7 +82,7 @@ protected:
 
   /** Override to return a splitter that does not split along the direction we
    *  are performing the transform. */
-  const ImageRegionSplitterBase *
+  [[nodiscard]] const ImageRegionSplitterBase *
   GetImageRegionSplitter() const override;
 
 

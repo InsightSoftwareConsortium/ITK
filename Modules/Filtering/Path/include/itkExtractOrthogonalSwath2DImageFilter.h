@@ -91,7 +91,7 @@ public:
   virtual void
   SetSpacing(const float * spacing);
 
-  virtual const double *
+  [[nodiscard]] virtual const double *
   GetSpacing() const;
 
   /** The origin of the output image. The origin is the geometric
@@ -104,7 +104,7 @@ public:
   virtual void
   SetOrigin(const float * origin);
 
-  virtual const double *
+  [[nodiscard]] virtual const double *
   GetOrigin() const;
 
   /** Set the size of the swath image.

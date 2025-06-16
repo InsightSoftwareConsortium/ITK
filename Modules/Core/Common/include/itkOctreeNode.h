@@ -79,7 +79,7 @@ public:
    * instance of an OctreeNode.
    * @ITKStartGrouping
    */
-  OctreeNode &
+  [[nodiscard]] OctreeNode &
   GetChild(const LeafIdentifierEnum ChildID) const;
 
   OctreeNode &
@@ -92,7 +92,7 @@ public:
    * member function.  Behavior is undefined when the child is another Octree.
    * \return A value between 0 and 255 to indicate the color of the Desired child.
    */
-  long
+  [[nodiscard]] long
   GetColor() const;
 
   /**
@@ -116,7 +116,7 @@ public:
    * Determines if the child is a leaf node (colored), or a branch node (uncolored)
    * \return true if it is colored, false if it is not
    */
-  bool
+  [[nodiscard]] bool
   IsNodeColored() const;
 
   inline void

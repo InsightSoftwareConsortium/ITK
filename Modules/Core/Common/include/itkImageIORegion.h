@@ -75,17 +75,17 @@ public:
   itkOverrideGetNameOfClassMacro(ImageIORegion);
 
   /** Dimension of the image available at run time. */
-  unsigned int
+  [[nodiscard]] unsigned int
   GetImageDimension() const;
 
   /** Dimension of the region to be written. This differs from the
    * the image dimension and is calculated at run-time by examining
    * the size of the image in each coordinate direction. */
-  unsigned int
+  [[nodiscard]] unsigned int
   GetRegionDimension() const;
 
   /** Return the region type. Images are described with structured regions. */
-  RegionType
+  [[nodiscard]] RegionType
   GetRegionType() const override;
 
   /** Constructor. ImageIORegion is a lightweight object that is not reference
@@ -122,7 +122,7 @@ public:
 
   /** Get index defining the corner of the region. */
   /** @ITKStartGrouping */
-  const IndexType &
+  [[nodiscard]] const IndexType &
   GetIndex() const;
   IndexType &
   GetModifiableIndex();
@@ -134,7 +134,7 @@ public:
 
   /** Get the size of the region. */
   /** @ITKStartGrouping */
-  const SizeType &
+  [[nodiscard]] const SizeType &
   GetSize() const;
   SizeType &
   GetModifiableSize();
@@ -142,10 +142,10 @@ public:
   /** Convenience methods to get the size of the image in a particular
    * coordinate direction i. Do not try to access image sizes beyond the
    * the ImageDimension. */
-  SizeValueType
+  [[nodiscard]] SizeValueType
   GetSize(unsigned int i) const;
 
-  IndexValueType
+  [[nodiscard]] IndexValueType
   GetIndex(unsigned int i) const;
 
   void
@@ -161,16 +161,16 @@ public:
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
 
   /** Test if an index is inside */
-  bool
+  [[nodiscard]] bool
   IsInside(const IndexType & index) const;
 
   /** Test if a region (the argument) is completely inside of this region */
-  bool
+  [[nodiscard]] bool
   IsInside(const Self & otherRegion) const;
 
   /** Get the number of pixels contained in this region. This just
    * multiplies the size components. */
-  SizeValueType
+  [[nodiscard]] SizeValueType
   GetNumberOfPixels() const;
 
 protected:

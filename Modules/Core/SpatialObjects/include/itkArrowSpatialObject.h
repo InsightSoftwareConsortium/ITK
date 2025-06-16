@@ -89,7 +89,7 @@ public:
   GetPositionInWorldSpace() const;
   VectorType
   GetDirectionInWorldSpace() const;
-  double
+  [[nodiscard]] double
   GetLengthInWorldSpace() const;
 
 protected:
@@ -103,7 +103,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  typename LightObject::Pointer
+  [[nodiscard]] typename LightObject::Pointer
   InternalClone() const override;
 
 private:

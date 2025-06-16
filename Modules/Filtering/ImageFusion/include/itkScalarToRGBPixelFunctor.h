@@ -72,7 +72,7 @@ public:
     m_UseMSBForHashing = value;
   }
 
-  bool
+  [[nodiscard]] bool
   GetUseMSBForHashing() const
   {
     return m_UseMSBForHashing;

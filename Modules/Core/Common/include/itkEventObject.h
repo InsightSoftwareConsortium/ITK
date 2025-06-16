@@ -72,7 +72,7 @@ public:
 
   /**  Create an Event of this type This method work as a Factory for
    *  creating events of each particular type. */
-  virtual EventObject *
+  [[nodiscard]] virtual EventObject *
   MakeObject() const = 0;
 
   /** Print Event information.  This method can be overridden by
@@ -82,7 +82,7 @@ public:
   Print(std::ostream & os) const;
 
   /** Return the StringName associated with the event. */
-  virtual const char *
+  [[nodiscard]] virtual const char *
   GetEventName() const = 0;
 
   /** Check if given event matches or derives from this event. */

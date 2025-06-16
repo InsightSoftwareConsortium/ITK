@@ -370,7 +370,7 @@ public:
   itkGetConstReferenceMacro(VectorLength, VectorLengthType);
   /** @ITKEndGrouping */
   /** Get/Set the number of components each pixel has, ie the VectorLength */
-  unsigned int
+  [[nodiscard]] unsigned int
   GetNumberOfComponentsPerPixel() const override;
 
   void

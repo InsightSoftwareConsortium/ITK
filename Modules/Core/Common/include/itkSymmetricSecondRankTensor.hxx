@@ -293,7 +293,7 @@ SymmetricSecondRankTensor<T, VDimension>::ComputeEigenAnalysis(EigenValuesArrayT
  */
 template <typename T, unsigned int VDimension>
 template <typename TMatrixValueType>
-SymmetricSecondRankTensor<T, VDimension>
+[[nodiscard]] SymmetricSecondRankTensor<T, VDimension>
 SymmetricSecondRankTensor<T, VDimension>::Rotate(const Matrix<TMatrixValueType, VDimension, VDimension> & m) const
 {
   Self result;

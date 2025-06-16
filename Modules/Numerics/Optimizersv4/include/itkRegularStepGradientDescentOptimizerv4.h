@@ -115,7 +115,7 @@ public:
   EstimateLearningRate() override;
 
   /** Get current gradient step value. */
-  double
+  [[nodiscard]] double
   GetCurrentStepLength() const;
 
 protected:

@@ -65,7 +65,7 @@ public:
   }
 
   /** Method to get the outside value of the mask */
-  const TOutput &
+  [[nodiscard]] const TOutput &
   GetOutsideValue() const
   {
     return m_OutsideValue;
@@ -79,7 +79,7 @@ public:
   }
 
   /** Method to get the outside value of the mask */
-  const TMask &
+  [[nodiscard]] const TMask &
   GetMaskingValue() const
   {
     return m_MaskingValue;

@@ -176,38 +176,38 @@ public:
   /** @ITKStartGrouping */
   // ORIENTATION_NOTE: this definition of GetLeft (or GetRight)
   // implicitly assumes that the Onext order is counter-clockwise !
-  inline const OriginRefType
+  [[nodiscard]] [[nodiscard]] inline const OriginRefType
   GetOrigin() const
   {
     return (m_Origin);
   }
-  inline const OriginRefType
+  [[nodiscard]] [[nodiscard]] inline const OriginRefType
   GetDestination() const
   {
     return (GetSym()->GetOrigin());
   }
-  inline const DualOriginRefType
+  [[nodiscard]] [[nodiscard]] inline const DualOriginRefType
   GetRight() const
   {
     return (GetRot()->GetOrigin());
   }
-  inline const DualOriginRefType
+  [[nodiscard]] [[nodiscard]] inline const DualOriginRefType
   GetLeft() const
   {
     return (GetInvRot()->GetOrigin());
   }
   /** @ITKEndGrouping */
   /** Boolean accessors. */
-  bool
+  [[nodiscard]] [[nodiscard]] bool
   IsOriginSet() const;
 
-  bool
+  [[nodiscard]] [[nodiscard]] bool
   IsDestinationSet() const;
 
-  bool
+  [[nodiscard]] [[nodiscard]] bool
   IsRightSet() const;
 
-  bool
+  [[nodiscard]] [[nodiscard]] bool
   IsLeftSet() const;
 
   /** Extra data set methods. */
@@ -297,13 +297,13 @@ public:
    * @return Returns true when "this" has faces set on both sides.
    *         Return false otherwise.
    */
-  inline bool
+  [[nodiscard]] [[nodiscard]] inline bool
   IsInternal() const
   {
     return (this->IsLeftSet() && this->IsRightSet());
   }
 
-  bool
+  [[nodiscard]] [[nodiscard]] bool
   IsOriginInternal() const;
 
   bool

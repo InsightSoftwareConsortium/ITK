@@ -217,7 +217,7 @@ public:
   }
 
   /** Return the matrix. */
-  inline const InternalMatrixType &
+  [[nodiscard]] inline const InternalMatrixType &
   GetVnlMatrix() const
   {
     return m_Matrix;
@@ -308,7 +308,7 @@ public:
   {}
 
   /** Return the inverse matrix. */
-  inline vnl_matrix_fixed<T, VColumns, VRows>
+  [[nodiscard]] inline vnl_matrix_fixed<T, VColumns, VRows>
   GetInverse() const
   {
     if (vnl_determinant(m_Matrix) == T{})
@@ -320,7 +320,7 @@ public:
   }
 
   /** Return the transposed matrix. */
-  inline vnl_matrix_fixed<T, VColumns, VRows>
+  [[nodiscard]] inline vnl_matrix_fixed<T, VColumns, VRows>
   GetTranspose() const
   {
     return vnl_matrix_fixed<T, VColumns, VRows>{ m_Matrix.transpose().as_matrix() };
@@ -334,7 +334,7 @@ public:
   Matrix() = default;
 
   /** Returns the number of elements. */
-  constexpr unsigned int
+  [[nodiscard]] constexpr unsigned int
   size() const
   {
     return m_Matrix.size();
@@ -355,28 +355,28 @@ public:
   }
 
   /** Returns a const iterator to the first element. */
-  const_iterator
+  [[nodiscard]] const_iterator
   begin() const
   {
     return m_Matrix.begin();
   }
 
   /** Returns a const iterator just beyond the last element. */
-  const_iterator
+  [[nodiscard]] const_iterator
   end() const
   {
     return m_Matrix.end();
   }
 
   /** Returns a const iterator to the first element. */
-  const_iterator
+  [[nodiscard]] const_iterator
   cbegin() const
   {
     return m_Matrix.begin();
   }
 
   /** Returns a const iterator just beyond the last element. */
-  const_iterator
+  [[nodiscard]] const_iterator
   cend() const
   {
     return m_Matrix.end();

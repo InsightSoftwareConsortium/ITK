@@ -360,13 +360,13 @@ public:
   }
 
   /** Get the number of labels used */
-  SizeValueType
+  [[nodiscard]] SizeValueType
   GetNumberOfObjects() const
   {
     return m_LabelGeometryMapper.size();
   }
 
-  SizeValueType
+  [[nodiscard]] SizeValueType
   GetNumberOfLabels() const
   {
     return this->GetNumberOfObjects();

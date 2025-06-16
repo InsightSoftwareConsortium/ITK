@@ -158,7 +158,7 @@ public:
   {
     m_RegularizationConstant = constant;
   }
-  double
+  [[nodiscard]] double
   GetRegularizationConstant() const
   {
     return m_RegularizationConstant;
@@ -172,7 +172,7 @@ public:
   {
     m_KernelZeroMagnitudeThreshold = mu;
   }
-  double
+  [[nodiscard]] double
   GetKernelZeroMagnitudeThreshold() const
   {
     return m_KernelZeroMagnitudeThreshold;

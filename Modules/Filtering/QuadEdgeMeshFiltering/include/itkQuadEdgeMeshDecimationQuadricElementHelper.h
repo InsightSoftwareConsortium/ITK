@@ -68,7 +68,7 @@ public:
 
   ~QuadEdgeMeshDecimationQuadricElementHelper() = default;
 
-  CoefficientVectorType
+  [[nodiscard]] CoefficientVectorType
   GetCoefficients() const
   {
     return this->m_Coefficients;
@@ -88,14 +88,14 @@ public:
     return m_B;
   }
 
-  unsigned int
+  [[nodiscard]] unsigned int
   GetRank() const
   {
     return m_Rank;
   }
 
   /// TODO this method should be really optimized!!!
-  inline CoordType
+  [[nodiscard]] inline CoordType
   ComputeError(const PointType & iP) const
   {
     //     ComputeAMatrixAndBVector();

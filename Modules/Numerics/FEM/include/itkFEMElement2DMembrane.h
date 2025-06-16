@@ -98,7 +98,7 @@ public:
   /**
    * 2D stress elements have 2 DOFs per node.
    */
-  unsigned int
+  [[nodiscard]] unsigned int
   GetNumberOfDegreesOfFreedomPerNode() const override
   {
     return 2;
@@ -107,7 +107,7 @@ public:
   /**
    * Get/Set the material properties for the element
    */
-  Material::ConstPointer
+  [[nodiscard]] Material::ConstPointer
   GetMaterial() const override
   {
     return m_mat;

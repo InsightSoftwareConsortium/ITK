@@ -266,7 +266,7 @@ protected:
   TopologyCheckEnum m_TopologyCheck{};
 
   /** \brief Get the total number of nodes in the domain */
-  virtual IdentifierType
+  [[nodiscard]] virtual IdentifierType
   GetTotalNumberOfNodes() const = 0;
 
   /** \brief Get the output value (front value) for a given node */

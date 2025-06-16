@@ -116,7 +116,7 @@ public:
     m_RGBFunctor.ResetColors();
   }
 
-  unsigned int
+  [[nodiscard]] unsigned int
   GetNumberOfColors() const
   {
     return m_RGBFunctor.GetNumberOfColors();

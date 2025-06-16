@@ -44,13 +44,13 @@ public:
 
   Point1D(const Point1D & point) = default;
 
-  double
+  [[nodiscard]] double
   getX() const
   {
     return m_X;
   }
 
-  int
+  [[nodiscard]] int
   getSign() const
   {
     return m_Sign;

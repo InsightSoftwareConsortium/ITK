@@ -98,7 +98,7 @@ public:
   /**
    * Get the maximum number iterations that may be performed
    */
-  int
+  [[nodiscard]] int
   GetMaximumNumberIterations() const
   {
     return m_IPARM[0];
@@ -109,7 +109,7 @@ public:
   /**
    * Get a flag indicating the type of error reporting
    */
-  int
+  [[nodiscard]] int
   GetErrorReportingLevel() const
   {
     return m_IPARM[1];
@@ -128,7 +128,7 @@ public:
   /**
    * Get the communication flag - meaningless in this implementation
    */
-  int
+  [[nodiscard]] int
   GetCommunicationSwitch() const
   {
     return m_IPARM[2];
@@ -139,7 +139,7 @@ public:
   /**
    * Get the output number - meaningless in this implementation
    */
-  int
+  [[nodiscard]] int
   GetOutputNumber() const
   {
     return m_IPARM[3];
@@ -177,7 +177,7 @@ public:
   /**
    * Get flag indicating ??
    */
-  int
+  [[nodiscard]] int
   GetAdaptiveSwitch() const
   {
     return m_IPARM[5];
@@ -196,7 +196,7 @@ public:
   /**
    * Get flag indicating ??
    */
-  int
+  [[nodiscard]] int
   GetAdaptiveCaseSwitch() const
   {
     return m_IPARM[6];
@@ -293,7 +293,7 @@ public:
   /**
    * Get the flag for level of error reporting - meaningless in this implementation
    */
-  int
+  [[nodiscard]] int
   GetErrorAnalysisSwitch() const
   {
     return m_IPARM[11];
@@ -312,7 +312,7 @@ public:
   /**
    * Get the level of accuracy
    */
-  double
+  [[nodiscard]] double
   GetAccuracy() const
   {
     return m_RPARM[0];
@@ -331,7 +331,7 @@ public:
   /**
    * Get ??
    */
-  double
+  [[nodiscard]] double
   GetLargestJacobiEigenvalueEstimate() const
   {
     return m_RPARM[1];
@@ -369,7 +369,7 @@ public:
   /**
    * Get the damping factor used by ??
    */
-  double
+  [[nodiscard]] double
   GetDampingFactor() const
   {
     return m_RPARM[3];
@@ -407,7 +407,7 @@ public:
   /**
    * Get the ??
    */
-  double
+  [[nodiscard]] double
   GetEstimatedSpectralRadiusSSOR() const
   {
     return m_RPARM[5];
@@ -426,7 +426,7 @@ public:
   /**
    * Get the ??
    */
-  double
+  [[nodiscard]] double
   GetEstimatedSpectralRadiusLU() const
   {
     return m_RPARM[6];
@@ -502,7 +502,7 @@ public:
   /**
    * Get the number of digits in the error
    */
-  double
+  [[nodiscard]] double
   GetDigitsInError() const
   {
     return m_RPARM[10];
@@ -521,7 +521,7 @@ public:
   /**
    * Get the number of digits in the residual
    */
-  double
+  [[nodiscard]] double
   GetDigitsInResidual() const
   {
     return m_RPARM[11];
@@ -658,7 +658,7 @@ public:
   DestroySolution(unsigned int solutionIndex) override;
 
   /* assembly & solving routines */
-  Float
+  [[nodiscard]] Float
   GetMatrixValue(unsigned int i, unsigned int j, unsigned int matrixIndex) const override;
 
   void
@@ -670,7 +670,7 @@ public:
   void
   GetColumnsOfNonZeroMatrixElementsInRow(unsigned int row, ColumnArray & cols, unsigned int matrixIndex) override;
 
-  Float
+  [[nodiscard]] Float
   GetVectorValue(unsigned int i, unsigned int vectorIndex) const override;
 
   void
@@ -679,7 +679,7 @@ public:
   void
   AddVectorValue(unsigned int i, Float value, unsigned int vectorIndex) override;
 
-  Float
+  [[nodiscard]] Float
   GetSolutionValue(unsigned int i, unsigned int solutionIndex) const override;
 
   void

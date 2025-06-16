@@ -157,7 +157,7 @@ public:
   using typename Superclass::OutputPointType;
 
 
-  std::string
+  [[nodiscard]] std::string
   GetTransformTypeAsString() const override;
 
   /** This method sets the fixed parameters of the transform.

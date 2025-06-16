@@ -143,7 +143,7 @@ public:
   }
 
   /** Get the number of classes. */
-  unsigned int
+  [[nodiscard]] unsigned int
   GetNumberOfClasses() const override
   {
     return this->m_NumberOfClasses;
@@ -164,7 +164,7 @@ public:
 
   /** Get the number of iterations of the Iterated Conditional Mode
    * (ICM) algorithm. */
-  unsigned int
+  [[nodiscard]] unsigned int
   GetMaximumNumberOfIterations() const override
   {
     return this->m_MaximumNumberOfIterations;

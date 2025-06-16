@@ -111,7 +111,7 @@ public:
   ~FloodFilledFunctionConditionalConstIterator() override = default;
 
   /** Compute whether the index of interest should be included in the flood */
-  bool
+  [[nodiscard]] bool
   IsPixelIncluded(const IndexType & index) const override = 0;
 
   /** operator= is provided to make sure the handle to the image is properly
@@ -155,14 +155,14 @@ public:
   }
 
   /** Get the pixel value */
-  const PixelType
+  [[nodiscard]] const PixelType
   Get() const override
   {
     return this->m_Image->GetPixel(m_IndexStack.front());
   }
 
   /** Is the iterator at the end of the region? */
-  bool
+  [[nodiscard]] bool
   IsAtEnd() const override
   {
     return this->m_IsAtEnd;
@@ -176,7 +176,7 @@ public:
   }
 
   /** get the seed container */
-  virtual const SeedsContainerType &
+  [[nodiscard]] virtual const SeedsContainerType &
   GetSeeds() const
   {
     return m_Seeds;
@@ -231,7 +231,7 @@ public:
   void
   DoFloodStep();
 
-  virtual SmartPointer<FunctionType>
+  [[nodiscard]] virtual SmartPointer<FunctionType>
   GetFunction() const
   {
     return m_Function;

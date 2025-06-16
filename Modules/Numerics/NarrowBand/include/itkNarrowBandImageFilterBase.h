@@ -171,7 +171,7 @@ public:
   }
 
   /** Get the narrow band total radius. */
-  float
+  [[nodiscard]] float
   GetNarrowBandTotalRadius() const
   {
     return m_NarrowBand->GetTotalRadius();
@@ -190,7 +190,7 @@ public:
   }
 
   /** Get the narrow band inner radius. */
-  float
+  [[nodiscard]] float
   GetNarrowBandInnerRadius() const
   {
     return m_NarrowBand->GetInnerRadius();

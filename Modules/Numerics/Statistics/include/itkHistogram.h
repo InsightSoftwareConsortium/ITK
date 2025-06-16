@@ -361,25 +361,25 @@ public:
     ConstIterator &
     operator=(const ConstIterator & it) = default;
 
-    AbsoluteFrequencyType
+    [[nodiscard]] AbsoluteFrequencyType
     GetFrequency() const
     {
       return m_Histogram->GetFrequency(m_Id);
     }
 
-    InstanceIdentifier
+    [[nodiscard]] InstanceIdentifier
     GetInstanceIdentifier() const
     {
       return m_Id;
     }
 
-    const MeasurementVectorType &
+    [[nodiscard]] const MeasurementVectorType &
     GetMeasurementVector() const
     {
       return m_Histogram->GetMeasurementVector(m_Id);
     }
 
-    const IndexType &
+    [[nodiscard]] const IndexType &
     GetIndex() const
     {
       return m_Histogram->GetIndex(m_Id);

@@ -88,7 +88,7 @@ public:
   virtual void
   SetSpacing(const float * spacing);
 
-  virtual const double *
+  [[nodiscard]] virtual const double *
   GetSpacing() const;
 
   /** Set/Get the value for pixels on and off the path.
@@ -109,7 +109,7 @@ public:
   virtual void
   SetOrigin(const float * origin);
 
-  virtual const double *
+  [[nodiscard]] virtual const double *
   GetOrigin() const;
 
   /** Set/Get Size */

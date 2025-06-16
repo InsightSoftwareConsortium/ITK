@@ -82,25 +82,25 @@ public:
 
   static constexpr unsigned int Dimension = NeighborhoodType::Dimension;
 
-  const RadiusType &
+  [[nodiscard]] const RadiusType &
   GetRadius() const
   {
     return m_Radius;
   }
 
-  const unsigned int &
+  [[nodiscard]] const unsigned int &
   GetArrayIndex(unsigned int i) const
   {
     return m_ArrayIndex[i];
   }
 
-  const OffsetType &
+  [[nodiscard]] const OffsetType &
   GetNeighborhoodOffset(unsigned int i) const
   {
     return m_NeighborhoodOffset[i];
   }
 
-  const unsigned int &
+  [[nodiscard]] const unsigned int &
   GetSize() const
   {
     return m_Size;

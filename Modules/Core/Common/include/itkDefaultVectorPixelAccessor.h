@@ -74,7 +74,7 @@ public:
   }
 
   /** Get the value from input */
-  inline ExternalType
+  [[nodiscard]] inline ExternalType
   Get(const InternalType & input, const SizeValueType offset) const
   {
     // Do not create a local for this method, to use return value
@@ -91,7 +91,7 @@ public:
   }
 
   /** Get Vector lengths */
-  VectorLengthType
+  [[nodiscard]] VectorLengthType
   GetVectorLength() const
   {
     return m_VectorLength;

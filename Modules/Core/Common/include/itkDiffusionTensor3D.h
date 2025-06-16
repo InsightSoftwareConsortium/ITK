@@ -143,19 +143,19 @@ public:
    * M[0], M[3] and M[5].
    *
    */
-  AccumulateValueType
+  [[nodiscard]] AccumulateValueType
   GetTrace() const;
 
   /** Get the value of Fractional Anisotropy from the Tensor. */
-  RealValueType
+  [[nodiscard]] RealValueType
   GetFractionalAnisotropy() const;
 
   /** Get the value of Relative Anisotropy from the Tensor. */
-  RealValueType
+  [[nodiscard]] RealValueType
   GetRelativeAnisotropy() const;
 
   /** Get the inner scalar product from the Tensor. */
-  RealValueType
+  [[nodiscard]] RealValueType
   GetInnerScalarProduct() const;
 };
 

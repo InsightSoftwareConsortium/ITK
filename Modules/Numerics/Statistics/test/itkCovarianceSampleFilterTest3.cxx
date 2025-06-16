@@ -46,7 +46,7 @@ public:
     constexpr unsigned int index = 3;
     Superclass::MakeOutput(index);
   }
-  unsigned int
+  [[nodiscard]] unsigned int
   GetMeasurementVectorSize() const
   {
     return this->Superclass::GetMeasurementVectorSize();

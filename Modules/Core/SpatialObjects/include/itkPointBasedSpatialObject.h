@@ -107,7 +107,7 @@ public:
   }
 
   /** Return the number of points in the list */
-  virtual SizeValueType
+  [[nodiscard]] virtual SizeValueType
   GetNumberOfPoints() const
   {
     return static_cast<SizeValueType>(m_Points.size());
@@ -145,7 +145,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  typename LightObject::Pointer
+  [[nodiscard]] typename LightObject::Pointer
   InternalClone() const override;
 };
 } // end namespace itk

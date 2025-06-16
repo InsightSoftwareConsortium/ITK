@@ -123,7 +123,7 @@ public:
   }
 
   /** Get the image that this iterator walks. */
-  ImageType *
+  [[nodiscard]] ImageType *
   GetImage() const
   {
     // const_cast is needed here because m_Image is declared as a const pointer

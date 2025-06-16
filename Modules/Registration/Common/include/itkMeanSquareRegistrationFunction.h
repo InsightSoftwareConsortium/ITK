@@ -135,7 +135,7 @@ public:
 
   /** Return a pointer to a global data structure that is passed to
    * this object from the solver at each calculation.  */
-  void *
+  [[nodiscard]] void *
   GetGlobalDataPointer() const override
   {
     auto * global = new GlobalDataStruct();

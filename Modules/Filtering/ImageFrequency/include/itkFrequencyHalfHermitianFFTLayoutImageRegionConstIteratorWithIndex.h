@@ -174,7 +174,7 @@ public:
    * f = [0, 1, ...,   N/2-1,     -N/2, ..., -1]  if N is even
    * f = [0, 1, ..., (N-1)/2, -(N-1)/2, ..., -1]  if N is odd
    */
-  IndexType
+  [[nodiscard]] IndexType
   GetFrequencyBin() const
   {
     IndexType freqInd{};
@@ -211,7 +211,7 @@ public:
    * Where FrequencySpacing = samplingFrequency / N;
    *   and samplingFrequency = 1.0 / inputImageSpatialDomainSpacing;
    */
-  FrequencyType
+  [[nodiscard]] FrequencyType
   GetFrequency() const
   {
     FrequencyType freq;
@@ -224,7 +224,7 @@ public:
     return freq;
   }
 
-  FrequencyValueType
+  [[nodiscard]] FrequencyValueType
   GetFrequencyModuloSquare() const
   {
     FrequencyValueType w2(0);

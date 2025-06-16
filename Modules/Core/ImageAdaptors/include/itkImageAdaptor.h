@@ -339,7 +339,7 @@ public:
   Modified() const override;
 
   /** Delegate GetMTime to the Internal Image */
-  ModifiedTimeType
+  [[nodiscard]] ModifiedTimeType
   GetMTime() const override;
 
   /** Return the Data Accesor object */

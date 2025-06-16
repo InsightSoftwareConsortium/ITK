@@ -263,7 +263,7 @@ public:
     this->template CopyAttributesFrom<TSourceLabelObject>(src);
   }
 
-  const double &
+  [[nodiscard]] const double &
   GetMinimum() const
   {
     return m_Minimum;
@@ -275,7 +275,7 @@ public:
     m_Minimum = v;
   }
 
-  const double &
+  [[nodiscard]] const double &
   GetMaximum() const
   {
     return m_Maximum;
@@ -287,7 +287,7 @@ public:
     m_Maximum = v;
   }
 
-  const double &
+  [[nodiscard]] const double &
   GetMean() const
   {
     return m_Mean;
@@ -299,7 +299,7 @@ public:
     m_Mean = v;
   }
 
-  const double &
+  [[nodiscard]] const double &
   GetSum() const
   {
     return m_Sum;
@@ -311,7 +311,7 @@ public:
     m_Sum = v;
   }
 
-  const double &
+  [[nodiscard]] const double &
   GetStandardDeviation() const
   {
     return m_StandardDeviation;
@@ -323,7 +323,7 @@ public:
     m_StandardDeviation = v;
   }
 
-  const double &
+  [[nodiscard]] const double &
   GetVariance() const
   {
     return m_Variance;
@@ -335,7 +335,7 @@ public:
     m_Variance = v;
   }
 
-  const double &
+  [[nodiscard]] const double &
   GetMedian() const
   {
     return m_Median;
@@ -418,7 +418,7 @@ public:
     m_WeightedPrincipalAxes = v;
   }
 
-  const double &
+  [[nodiscard]] const double &
   GetSkewness() const
   {
     return m_Skewness;
@@ -430,7 +430,7 @@ public:
     m_Skewness = v;
   }
 
-  const double &
+  [[nodiscard]] const double &
   GetKurtosis() const
   {
     return m_Kurtosis;
@@ -442,7 +442,7 @@ public:
     m_Kurtosis = v;
   }
 
-  const double &
+  [[nodiscard]] const double &
   GetWeightedElongation() const
   {
     return m_WeightedElongation;
@@ -454,7 +454,7 @@ public:
     m_WeightedElongation = v;
   }
 
-  const HistogramType *
+  [[nodiscard]] const HistogramType *
   GetHistogram() const
   {
     return m_Histogram;
@@ -466,7 +466,7 @@ public:
     m_Histogram = v;
   }
 
-  const double &
+  [[nodiscard]] const double &
   GetWeightedFlatness() const
   {
     return m_WeightedFlatness;

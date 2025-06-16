@@ -105,7 +105,7 @@ protected:
 
   NodeLabelMapType m_Label{};
 
-  IdentifierType
+  [[nodiscard]] IdentifierType
   GetTotalNumberOfNodes() const override;
 
   void

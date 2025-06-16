@@ -58,7 +58,7 @@ public:
   ~LineSpatialObjectPoint() override = default;
 
   /** Get the normal. */
-  const CovariantVectorType &
+  [[nodiscard]] const CovariantVectorType &
   GetNormalInObjectSpace(unsigned int index) const;
 
   /** Set the normal. */

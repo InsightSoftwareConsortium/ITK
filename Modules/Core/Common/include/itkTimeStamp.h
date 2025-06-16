@@ -95,7 +95,7 @@ public:
   Modified();
 
   /** Return this object's Modified time.  */
-  ModifiedTimeType
+  [[nodiscard]] ModifiedTimeType
   GetMTime() const
   {
     return m_ModifiedTime;

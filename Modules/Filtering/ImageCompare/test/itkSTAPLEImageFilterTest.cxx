@@ -34,7 +34,7 @@ public:
     m_OutputFile = s;
   }
 
-  const std::string &
+  [[nodiscard]] const std::string &
   GetOutputFileName() const
   {
     return m_OutputFile;
@@ -47,7 +47,7 @@ public:
     m_Files.push_back(tmp);
   }
 
-  const std::string &
+  [[nodiscard]] const std::string &
   GetFileName(unsigned int i) const
   {
     return m_Files[i];
@@ -59,7 +59,7 @@ public:
     m_Files.clear();
   }
 
-  unsigned int
+  [[nodiscard]] unsigned int
   GetNumberOfFiles() const
   {
     return static_cast<unsigned int>(m_Files.size());
@@ -73,17 +73,17 @@ public:
   GetSensitivity(unsigned int) = 0;
   virtual double
   GetSpecificity(unsigned int) = 0;
-  virtual unsigned short
+  [[nodiscard]] virtual unsigned short
   GetForeground() const = 0;
   virtual void
   SetForeground(unsigned short) = 0;
-  virtual unsigned int
+  [[nodiscard]] virtual unsigned int
   GetMaximumIterations() const = 0;
   virtual void
   SetMaximumIterations(unsigned int) = 0;
   virtual void
   SetConfidenceWeight(double) = 0;
-  virtual double
+  [[nodiscard]] virtual double
   GetConfidenceWeight() const = 0;
 
 
@@ -112,7 +112,7 @@ public:
   }
   ~Stapler() override = default;
 
-  unsigned int
+  [[nodiscard]] unsigned int
   GetMaximumIterations() const override
   {
     return m_Stapler->GetMaximumIterations();
@@ -122,7 +122,7 @@ public:
   {
     m_Stapler->SetMaximumIterations(maximumIterations);
   }
-  double
+  [[nodiscard]] double
   GetConfidenceWeight() const override
   {
     return m_Stapler->GetConfidenceWeight();
@@ -155,7 +155,7 @@ public:
     return m_Stapler->GetSpecificity(i);
   }
 
-  unsigned short
+  [[nodiscard]] unsigned short
   GetForeground() const override
   {
     return m_Stapler->GetForegroundValue();

@@ -321,7 +321,7 @@ public:
     return Self::TransformCategoryEnum::BSpline;
   }
 
-  unsigned int
+  [[nodiscard]] unsigned int
   GetNumberOfAffectedWeights() const;
 
   using PhysicalDimensionsType = typename ImageType::SpacingType;

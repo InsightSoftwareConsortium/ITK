@@ -166,19 +166,19 @@ public:
       return *this;
     }
 
-    AbsoluteFrequencyType
+    [[nodiscard]] AbsoluteFrequencyType
     GetFrequency() const
     {
       return m_Sample->GetFrequency(*m_Iter);
     }
 
-    const MeasurementVectorType &
+    [[nodiscard]] const MeasurementVectorType &
     GetMeasurementVector() const
     {
       return m_Sample->GetMeasurementVector(*m_Iter);
     }
 
-    InstanceIdentifier
+    [[nodiscard]] InstanceIdentifier
     GetInstanceIdentifier() const
     {
       return (m_Iter - m_Subsample->GetIdHolder().begin());

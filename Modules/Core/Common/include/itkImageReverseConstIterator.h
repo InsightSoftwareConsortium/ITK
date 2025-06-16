@@ -319,14 +319,14 @@ public:
 
   /** Get the region that this iterator walks. ImageReverseConstIterators know the
    * beginning and the end of the region of the image to iterate over. */
-  const RegionType &
+  [[nodiscard]] const RegionType &
   GetRegion() const
   {
     return m_Region;
   }
 
   /** Get the pixel value */
-  const PixelType
+  [[nodiscard]] const PixelType
   Get() const
   {
     return m_PixelAccessorFunctor.Get(*(m_Buffer + m_Offset));
@@ -342,7 +342,7 @@ public:
   /** Return a const reference to the pixel
    * This method will provide the fastest access to pixel
    * data, but it will NOT support ImageAdaptors. */
-  const PixelType &
+  [[nodiscard]] const PixelType &
   Value() const
   {
     return *(m_Buffer + m_Offset);
@@ -375,7 +375,7 @@ public:
 
   /** Is the iterator at the beginning of the (reverse) region? "Begin" for
    * a reverse iterator is the last pixel in the region. */
-  bool
+  [[nodiscard]] bool
   IsAtBegin() const
   {
     return (m_Offset == m_BeginOffset);
@@ -383,7 +383,7 @@ public:
 
   /** Is the iterator at the end of the (reverse) region? "End" for a reverse
    * iterator is one pixel before the first pixel in the region. */
-  bool
+  [[nodiscard]] bool
   IsAtEnd() const
   {
     return (m_Offset == m_EndOffset);

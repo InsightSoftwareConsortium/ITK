@@ -85,7 +85,7 @@ protected:
   SurfaceSpatialObject();
   ~SurfaceSpatialObject() override = default;
 
-  typename LightObject::Pointer
+  [[nodiscard]] typename LightObject::Pointer
   InternalClone() const override;
 };
 

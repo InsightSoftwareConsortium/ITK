@@ -190,7 +190,7 @@ public:
    * MultiResolutionPDEDeformableRegistration can take a third input
    * as an initial deformation field, this input is not a required input.
    */
-  std::vector<SmartPointer<DataObject>>::size_type
+  [[nodiscard]] std::vector<SmartPointer<DataObject>>::size_type
   GetNumberOfValidRequiredInputs() const override;
 
   /** Get/Set the internal registrator. */

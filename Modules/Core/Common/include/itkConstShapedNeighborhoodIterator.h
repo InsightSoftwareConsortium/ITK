@@ -168,7 +168,7 @@ public:
 
     ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(ConstIterator);
 
-    bool
+    [[nodiscard]] bool
     IsAtEnd() const
     {
       if (m_ListIterator == m_NeighborhoodIterator->GetActiveIndexList().end())
@@ -191,19 +191,19 @@ public:
       m_ListIterator = m_NeighborhoodIterator->GetActiveIndexList().end();
     }
 
-    PixelType
+    [[nodiscard]] PixelType
     Get() const
     {
       return m_NeighborhoodIterator->GetPixel(*m_ListIterator);
     }
 
-    OffsetType
+    [[nodiscard]] OffsetType
     GetNeighborhoodOffset() const
     {
       return m_NeighborhoodIterator->GetOffset(*m_ListIterator);
     }
 
-    typename IndexListType::value_type
+    [[nodiscard]] typename IndexListType::value_type
     GetNeighborhoodIndex() const
     {
       return *m_ListIterator;

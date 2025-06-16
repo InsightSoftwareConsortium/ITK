@@ -55,7 +55,7 @@ public:
 
   /** Implement the standard CellInterface. */
   /** @ITKStartGrouping */
-  CellGeometryEnum
+  [[nodiscard]] CellGeometryEnum
   GetType() const override
   {
     return CellGeometryEnum::VERTEX_CELL;
@@ -64,15 +64,15 @@ public:
   MakeCopy(CellAutoPointer &) const override;
   /** @ITKEndGrouping */
   /** Get the topological dimension of this cell. */
-  unsigned int
+  [[nodiscard]] unsigned int
   GetDimension() const override;
 
   /** Get the number of points required to define the cell. */
-  unsigned int
+  [[nodiscard]] unsigned int
   GetNumberOfPoints() const override;
 
   /** A vertex has no boundary entities of any dimension. */
-  CellFeatureCount
+  [[nodiscard]] CellFeatureCount
   GetNumberOfBoundaryFeatures(int dimension) const override;
 
   /** A vertex has no boundary entities.  Just return null. */
@@ -103,7 +103,7 @@ public:
   PointIdsBegin() override;
 
   /** Get a const begin iterator to the list of point identifiers used by the cell. */
-  PointIdConstIterator
+  [[nodiscard]] PointIdConstIterator
   PointIdsBegin() const override;
 
   /** Get an end iterator to the list of point identifiers used by the cell. */
@@ -111,7 +111,7 @@ public:
   PointIdsEnd() override;
 
   /** Get a const end iterator to the list of point identifiers used by the cell. */
-  PointIdConstIterator
+  [[nodiscard]] PointIdConstIterator
   PointIdsEnd() const override;
 
   /** Set the identifier of the point defining the vertex. */

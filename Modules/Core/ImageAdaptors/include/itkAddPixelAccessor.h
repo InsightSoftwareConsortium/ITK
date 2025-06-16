@@ -64,7 +64,7 @@ public:
   }
 
   /** Read access to the pixel */
-  inline ExternalType
+  [[nodiscard]] inline ExternalType
   Get(const InternalType & input) const
   {
     return static_cast<ExternalType>(input + m_Value);
@@ -78,7 +78,7 @@ public:
   }
 
   /** Get the value to be added to pixels */
-  TPixel
+  [[nodiscard]] TPixel
   GetValue() const
   {
     return m_Value;

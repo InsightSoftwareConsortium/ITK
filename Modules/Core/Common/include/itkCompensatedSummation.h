@@ -117,7 +117,7 @@ public:
   operator=(const FloatType & rhs);
 
   /** Get the sum. */
-  const AccumulateType &
+  [[nodiscard]] const AccumulateType &
   GetSum() const;
 
   /** explicit conversion */

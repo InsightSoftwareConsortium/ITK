@@ -211,7 +211,7 @@ public:
    *
    * \f[ T( a*P + b*Q ) = a * T(P) + b * T(Q) \f]
    */
-  bool
+  [[nodiscard]] bool
   IsLinear() const override
   {
     return true;

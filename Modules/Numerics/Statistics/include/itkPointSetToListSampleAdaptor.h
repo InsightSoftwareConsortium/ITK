@@ -127,19 +127,19 @@ public:
     ConstIterator &
     operator=(const ConstIterator & iter) = default;
 
-    AbsoluteFrequencyType
+    [[nodiscard]] AbsoluteFrequencyType
     GetFrequency() const
     {
       return 1;
     }
 
-    const MeasurementVectorType &
+    [[nodiscard]] const MeasurementVectorType &
     GetMeasurementVector() const
     {
       return (const MeasurementVectorType &)m_Iter.Value();
     }
 
-    InstanceIdentifier
+    [[nodiscard]] InstanceIdentifier
     GetInstanceIdentifier() const
     {
       return m_InstanceIdentifier;

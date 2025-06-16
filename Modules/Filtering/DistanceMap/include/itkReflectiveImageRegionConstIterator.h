@@ -119,7 +119,7 @@ public:
   Self &
   operator=(const Self & it);
 
-  bool
+  [[nodiscard]] bool
   IsReflected(unsigned int) const;
 
   /** Increment (prefix) the fastest moving dimension of the iterator's index.
@@ -137,7 +137,7 @@ public:
   GoToBegin();
 
   /** Is the iterator at the beginning of the region? */
-  bool
+  [[nodiscard]] bool
   IsAtBegin() const
   {
     return !this->m_Remaining;

@@ -100,7 +100,7 @@ public:
   GetVnlVector();
 
   /** Get a vnl_vector with a copy of the internal memory block. */
-  vnl_vector<T>
+  [[nodiscard]] vnl_vector<T>
   GetVnlVector() const;
 
   /** Default-constructor.
@@ -247,11 +247,11 @@ public:
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
 
   /** Returns the Euclidean Norm of the vector (also referred to as its "magnitude"). */
-  RealValueType
+  [[nodiscard]] RealValueType
   GetNorm() const;
 
   /** Returns vector's Squared Euclidean Norm  */
-  RealValueType
+  [[nodiscard]] RealValueType
   GetSquaredNorm() const;
 
   /** Returns the number of components in this vector type */

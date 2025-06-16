@@ -85,7 +85,7 @@ public:
   using DistanceMapPointer = typename DistanceMapType::ConstPointer;
 
   /** Get the number of values, i.e. the number of points in the moving set. */
-  unsigned int
+  [[nodiscard]] unsigned int
   GetNumberOfValues() const override;
 
   /** Get the derivatives of the match measure. */

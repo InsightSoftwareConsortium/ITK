@@ -120,14 +120,14 @@ public:
   }
 
   /** Get the pixel value */
-  const PixelType
+  [[nodiscard]] const PixelType
   Get() const
   {
     return m_Image->GetPixel(m_CurrentImageIndex);
   }
 
   /** Is the iterator at the end of the line? */
-  bool
+  [[nodiscard]] bool
   IsAtEnd() const
   {
     return m_IsAtEnd;

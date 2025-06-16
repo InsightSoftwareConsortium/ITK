@@ -129,7 +129,7 @@ public:
    * computed over the overlapping region between the two images.
    * This is value is only available for the previous iteration and
    * NOT the current iteration. */
-  virtual double
+  [[nodiscard]] virtual double
   GetMetric() const;
 
   /** Set/Get the parameter alpha.  Alpha is added to the calculated
@@ -141,7 +141,7 @@ public:
   virtual void
   SetAlpha(double);
 
-  virtual double
+  [[nodiscard]] virtual double
   GetAlpha() const;
 
   /** Set/Get the threshold below which the absolute difference of
@@ -151,7 +151,7 @@ public:
   virtual void
   SetIntensityDifferenceThreshold(double);
 
-  virtual double
+  [[nodiscard]] virtual double
   GetIntensityDifferenceThreshold() const;
 
   /** Set/Get the threshold below which the gradient magnitude is
@@ -159,7 +159,7 @@ public:
   virtual void
   SetGradientMagnitudeThreshold(double);
 
-  virtual double
+  [[nodiscard]] virtual double
   GetGradientMagnitudeThreshold() const;
 
   /** Set/Get the standard deviation used for smoothing the moving
@@ -177,7 +177,7 @@ public:
   virtual void
   SetGradientSmoothingStandardDeviations(double sigma);
 
-  virtual double
+  [[nodiscard]] virtual double
   GetGradientSmoothingStandardDeviations() const;
 
 protected:

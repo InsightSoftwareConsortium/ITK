@@ -69,7 +69,7 @@ public:
   ClassTypePointer
   Find(int gn);
 
-  ClassTypeConstPointer
+  [[nodiscard]] ClassTypeConstPointer
   Find(int gn) const;
 
   /**

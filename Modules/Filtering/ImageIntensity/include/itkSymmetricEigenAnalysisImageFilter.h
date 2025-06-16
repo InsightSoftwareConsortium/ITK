@@ -69,7 +69,7 @@ public:
   {
     m_Calculator.SetDimension(n);
   }
-  unsigned int
+  [[nodiscard]] unsigned int
   GetDimension() const
   {
     return m_Calculator.GetDimension();
@@ -108,7 +108,7 @@ public:
   {
     this->OrderEigenValuesBy(order);
   }
-  EigenValueOrderEnum
+  [[nodiscard]] EigenValueOrderEnum
   GetOrderEigenValuesBy() const
   {
     if (m_Calculator.GetOrderEigenMagnitudes())
@@ -151,7 +151,7 @@ public:
   }
 
   /** Method to get the dimension of the matrix. Dimension is fixed, no SetDimension is provided */
-  unsigned int
+  [[nodiscard]] unsigned int
   GetDimension() const
   {
     return m_Calculator.GetDimension();
@@ -256,7 +256,7 @@ public:
   {
     this->OrderEigenValuesBy(order);
   }
-  EigenValueOrderEnum
+  [[nodiscard]] EigenValueOrderEnum
   GetOrderEigenValuesBy() const
   {
     return this->GetFunctor().GetOrderEigenValuesBy();
@@ -284,7 +284,7 @@ public:
   {
     this->GetFunctor().SetDimension(p);
   }
-  unsigned int
+  [[nodiscard]] unsigned int
   GetDimension() const
   {
     return this->GetFunctor().GetDimension();
@@ -371,7 +371,7 @@ public:
   }
 
   /** GetDimension of the matrix. Dimension is fixed by template parameter, no SetDimension. */
-  unsigned int
+  [[nodiscard]] unsigned int
   GetDimension() const
   {
     return this->GetFunctor().GetDimension();

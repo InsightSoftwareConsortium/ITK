@@ -110,7 +110,7 @@ public:
     }
   }
 
-  const float *
+  [[nodiscard]] const float *
   GetTensorMatrix() const
   {
     return m_TensorMatrix;
@@ -132,7 +132,7 @@ public:
   SetField(const char * name, float value);
 
   /** Get the list of fields. */
-  const FieldListType &
+  [[nodiscard]] const FieldListType &
   GetFields() const
   {
     return m_Fields;
@@ -142,7 +142,7 @@ public:
   float
   GetField(const char * name) const;
 
-  float
+  [[nodiscard]] float
   GetField(DTITubeSpatialObjectPointFieldEnum name) const;
 
 protected:
@@ -154,7 +154,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Translate the enum to a string. */
-  std::string
+  [[nodiscard]] std::string
   TranslateEnumToChar(DTITubeSpatialObjectPointFieldEnum name) const;
 };
 } // end of namespace itk

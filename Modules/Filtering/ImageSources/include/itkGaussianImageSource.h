@@ -131,7 +131,7 @@ public:
   /** Get the number of parameters for this image source. When this
    * source is templated over an N-dimensional output image type, the
    * number of parameters is 2*N+1. */
-  unsigned int
+  [[nodiscard]] unsigned int
   GetNumberOfParameters() const override;
 
 protected:

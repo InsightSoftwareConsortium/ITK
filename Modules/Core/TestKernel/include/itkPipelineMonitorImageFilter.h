@@ -158,7 +158,7 @@ public:
   VerifyInputFilterRequestedLargestRegion();
 
 
-  unsigned int
+  [[nodiscard]] unsigned int
   GetNumberOfUpdates() const
   {
     return m_NumberOfUpdates;

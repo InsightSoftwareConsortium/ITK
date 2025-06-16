@@ -271,7 +271,7 @@ public:
   /** Get the Matrix order. Will be 0 unless explicitly set, or unless a
    * call to SetDimension has been made in which case it will be the
    * matrix dimension. */
-  unsigned int
+  [[nodiscard]] unsigned int
   GetOrder() const
   {
     return m_Order;
@@ -294,7 +294,7 @@ public:
     }
   }
 
-  bool
+  [[nodiscard]] bool
   GetOrderEigenValues() const
   {
     return (m_OrderEigenValues == EigenValueOrderEnum::OrderByValue);
@@ -318,7 +318,7 @@ public:
     }
   }
 
-  bool
+  [[nodiscard]] bool
   GetOrderEigenMagnitudes() const
   {
     return (m_OrderEigenValues == EigenValueOrderEnum::OrderByMagnitude);
@@ -339,7 +339,7 @@ public:
 
   /** Get Matrix dimension, Will be 0 unless explicitly set by a
    * call to SetDimension. */
-  unsigned int
+  [[nodiscard]] unsigned int
   GetDimension() const
   {
     return m_Dimension;
@@ -362,7 +362,7 @@ public:
   {
     m_UseEigenLibrary = false;
   }
-  bool
+  [[nodiscard]] bool
   GetUseEigenLibrary() const
   {
     return m_UseEigenLibrary;
@@ -510,7 +510,7 @@ private:
    * `TMatrix` (which is the case when `TMatrix` = `itk::Array2D`).
    */
   template <typename QMatrix = TMatrix>
-  auto
+  [[nodiscard]] [[nodiscard]] auto
   GetMatrixValueType(bool) const -> typename QMatrix::element_type
   {
     return QMatrix::element_type();
@@ -824,7 +824,7 @@ public:
       m_OrderEigenValues = EigenValueOrderEnum::DoNotOrder;
     }
   }
-  bool
+  [[nodiscard]] bool
   GetOrderEigenValues() const
   {
     return (m_OrderEigenValues == EigenValueOrderEnum::OrderByValue);
@@ -841,22 +841,22 @@ public:
       m_OrderEigenValues = EigenValueOrderEnum::DoNotOrder;
     }
   }
-  bool
+  [[nodiscard]] bool
   GetOrderEigenMagnitudes() const
   {
     return (m_OrderEigenValues == EigenValueOrderEnum::OrderByMagnitude);
   }
-  constexpr unsigned int
+  [[nodiscard]] constexpr unsigned int
   GetOrder() const
   {
     return VDimension;
   }
-  constexpr unsigned int
+  [[nodiscard]] constexpr unsigned int
   GetDimension() const
   {
     return VDimension;
   }
-  constexpr bool
+  [[nodiscard]] constexpr bool
   GetUseEigenLibrary() const
   {
     return true;
@@ -880,7 +880,7 @@ private:
     return QMatrix::element_type();
   }
   template <typename QMatrix = TMatrix>
-  auto
+  [[nodiscard]] auto
   GetMatrixValueType(bool) const -> typename QMatrix::ValueType
   {
     return QMatrix::ValueType();

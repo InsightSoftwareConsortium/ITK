@@ -90,13 +90,13 @@ public:
       , m_IdList(std::move(iList))
     {}
 
-    const InputImageRegionType *
+    [[nodiscard]] const InputImageRegionType *
     GetRegion() const
     {
       return &(this->m_Region);
     }
 
-    const InputImagePixelType *
+    [[nodiscard]] const InputImagePixelType *
     GetIdList() const
     {
       return &(this->m_IdList);

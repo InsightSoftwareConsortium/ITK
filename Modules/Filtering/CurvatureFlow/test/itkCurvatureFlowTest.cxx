@@ -76,7 +76,7 @@ public:
     return 0;
   }
 
-  void *
+  [[nodiscard]] void *
   GetGlobalDataPointer() const override
   {
     return nullptr;

@@ -54,11 +54,11 @@ public:
   ~SurfaceSpatialObjectPoint() override = default;
 
   /** Get the normal in object space. */
-  const CovariantVectorType &
+  [[nodiscard]] const CovariantVectorType &
   GetNormalInObjectSpace() const;
 
   /** Get the normal in world space. */
-  const CovariantVectorType
+  [[nodiscard]] const CovariantVectorType
   GetNormalInWorldSpace() const;
 
   /** Set the normal in object space. */

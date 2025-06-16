@@ -98,7 +98,7 @@ public:
   }
 
   /** Get one element */
-  const TValue &
+  [[nodiscard]] const TValue &
   GetElement(SizeValueType row, SizeValueType col) const
   {
     return this->operator()(static_cast<unsigned int>(row), static_cast<unsigned int>(col));

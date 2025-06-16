@@ -35,7 +35,7 @@ public:
     : m_Tolerance(1e-8)
   {}
 
-  bool
+  [[nodiscard]] bool
   IsOutsideTolerance(const RealType & value, const RealType & theoreticalValue) const
   {
     // ignore if they are both effectively zero
@@ -50,7 +50,7 @@ public:
     return false;
   }
 
-  RealType
+  [[nodiscard]] RealType
   GetFractionalError(const RealType & value, const RealType & theoreticalValue) const
   {
     RealType fractionalError =

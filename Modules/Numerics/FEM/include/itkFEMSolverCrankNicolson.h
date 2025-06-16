@@ -139,7 +139,7 @@ public:
   itkGetMacro(Rho, Float);
 
   /** Returns the time step used for dynamic problems. */
-  Float
+  [[nodiscard]] Float
   GetTimeStep() const override
   {
     return m_TimeStep;

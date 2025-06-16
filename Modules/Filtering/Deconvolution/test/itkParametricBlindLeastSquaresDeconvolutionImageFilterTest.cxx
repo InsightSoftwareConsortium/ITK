@@ -94,7 +94,7 @@ public:
   }
 
   /** Get the number of parameters. */
-  unsigned int
+  [[nodiscard]] unsigned int
   GetNumberOfParameters() const override
   {
     return OutputImageDimension;

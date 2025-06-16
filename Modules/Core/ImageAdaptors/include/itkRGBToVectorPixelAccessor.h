@@ -64,7 +64,7 @@ public:
   }
 
   /** Read access to the RGBToVector component */
-  inline ExternalType
+  [[nodiscard]] inline ExternalType
   Get(const InternalType & input) const
   {
     ExternalType v(input.GetDataPointer());

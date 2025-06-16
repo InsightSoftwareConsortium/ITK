@@ -110,12 +110,12 @@ public:
 
   /** Get the scale of the transform */
   /** @ITKStartGrouping */
-  virtual const double *
+  [[nodiscard]] virtual const double *
   GetScale() const
   {
     return m_Scale;
   }
-  virtual const double *
+  [[nodiscard]] virtual const double *
   GetScaleComponent() const
   {
     return m_Scale;

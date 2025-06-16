@@ -67,7 +67,7 @@ public:
     m_Beta = NumericTraits<RealType>::OneValue() - m_Alpha;
   }
 
-  RealType
+  [[nodiscard]] RealType
   GetAlpha() const
   {
     return m_Alpha;

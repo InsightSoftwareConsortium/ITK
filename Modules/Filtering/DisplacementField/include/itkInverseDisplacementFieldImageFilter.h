@@ -170,7 +170,7 @@ public:
   GenerateInputRequestedRegion() override;
 
   /** Method Compute the Modified Time based on changed to the components. */
-  ModifiedTimeType
+  [[nodiscard]] ModifiedTimeType
   GetMTime() const override;
 
   itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<OutputPixelComponentType>));

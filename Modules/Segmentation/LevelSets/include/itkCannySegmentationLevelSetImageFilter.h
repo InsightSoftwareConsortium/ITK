@@ -179,7 +179,7 @@ public:
   {
     this->m_CannyFunction->SetVariance(v);
   }
-  double
+  [[nodiscard]] double
   GetVariance() const
   {
     return this->m_CannyFunction->GetVariance();
