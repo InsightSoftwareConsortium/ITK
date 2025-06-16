@@ -206,8 +206,11 @@ public:
   /**
    * Get the currently set strategy for collapsing directions of physical space.
    */
-  DIRECTIONCOLLAPSESTRATEGY
-  GetDirectionCollapseToStrategy() const { return this->m_DirectionCollaspeStrategy; }
+  [[nodiscard]] DIRECTIONCOLLAPSESTRATEGY
+  GetDirectionCollapseToStrategy() const
+  {
+    return this->m_DirectionCollaspeStrategy;
+  }
 
   /** \sa SetDirectionCollapseToStrategy */
   void

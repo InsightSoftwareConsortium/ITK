@@ -172,7 +172,7 @@ public:
   SetStartingShrinkFactors(const unsigned int * factors);
 
   /** Get the starting shrink factors */
-  const unsigned int *
+  [[nodiscard]] const unsigned int *
   GetStartingShrinkFactors() const;
 
   /** Test if the schedule is downward divisible. This method returns true if

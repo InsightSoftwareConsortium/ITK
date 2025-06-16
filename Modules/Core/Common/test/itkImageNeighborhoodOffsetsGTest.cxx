@@ -39,7 +39,7 @@ public:
   static constexpr unsigned int ImageDimension = VImageDimension;
 
   // Returns the number of offsets needed to represent this shape.
-  constexpr size_t
+  [[nodiscard]] constexpr size_t
   GetNumberOfOffsets() const noexcept
   {
     return 0;

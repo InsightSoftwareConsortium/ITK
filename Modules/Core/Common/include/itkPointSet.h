@@ -163,7 +163,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
   /** @ITKEndGrouping */
-  LightObject::Pointer
+  [[nodiscard]] LightObject::Pointer
   InternalClone() const override;
 
 }; // End Class: PointSet

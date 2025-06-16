@@ -44,16 +44,16 @@ public:
   ElementWrapperInterface() = default;
   virtual ~ElementWrapperInterface() = default;
 
-  virtual ElementIdentifierType
+  [[nodiscard]] virtual ElementIdentifierType
   GetLocation(const ElementType & element) const = 0;
 
   virtual void
   SetLocation(ElementType & element, const ElementIdentifierType & identifier) = 0;
 
-  virtual bool
+  [[nodiscard]] virtual bool
   is_less(const ElementType & element1, const ElementType & element2) const = 0;
 
-  virtual bool
+  [[nodiscard]] virtual bool
   is_greater(const ElementType & element1, const ElementType & element2) const = 0;
 };
 // ------------------------------------------------------------------------
@@ -229,7 +229,7 @@ public:
   // void Squeeze( ) { this->Superclass->Squeeze( ); }
   void
   Clear();
-  bool
+  [[nodiscard]] bool
   Empty() const;
   void
   Push(ElementWrapperType element);

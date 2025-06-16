@@ -61,7 +61,7 @@ public:
 
   /** Implement the standard CellInterface. */
   /** @ITKStartGrouping */
-  CellGeometryEnum
+  [[nodiscard]] CellGeometryEnum
   GetType() const override
   {
     return CellGeometryEnum::LINE_CELL;
@@ -69,13 +69,13 @@ public:
   void
   MakeCopy(CellAutoPointer &) const override;
   /** @ITKEndGrouping */
-  unsigned int
+  [[nodiscard]] unsigned int
   GetDimension() const override;
 
-  unsigned int
+  [[nodiscard]] unsigned int
   GetNumberOfPoints() const override;
 
-  CellFeatureCount
+  [[nodiscard]] CellFeatureCount
   GetNumberOfBoundaryFeatures(int dimension) const override;
 
   bool
@@ -91,17 +91,17 @@ public:
   PointIdIterator
   PointIdsBegin() override;
 
-  PointIdConstIterator
+  [[nodiscard]] PointIdConstIterator
   PointIdsBegin() const override;
 
   PointIdIterator
   PointIdsEnd() override;
 
-  PointIdConstIterator
+  [[nodiscard]] PointIdConstIterator
   PointIdsEnd() const override;
 
   /** Line-specific interface. */
-  virtual CellFeatureCount
+  [[nodiscard]] virtual CellFeatureCount
   GetNumberOfVertices() const;
 
   virtual bool

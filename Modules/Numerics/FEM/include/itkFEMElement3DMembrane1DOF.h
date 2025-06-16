@@ -90,7 +90,7 @@ public:
   /**
    * 3D membrane elements have 3 DOFs per node.
    */
-  unsigned int
+  [[nodiscard]] unsigned int
   GetNumberOfDegreesOfFreedomPerNode() const override
   {
     return 3;
@@ -103,7 +103,7 @@ public:
   /**
    * Get/Set the material properties for the element
    */
-  Material::ConstPointer
+  [[nodiscard]] Material::ConstPointer
   GetMaterial() const override
   {
     return dynamic_cast<const Material *>(m_Mat.GetPointer());

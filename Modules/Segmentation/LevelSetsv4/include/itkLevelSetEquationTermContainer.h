@@ -208,13 +208,13 @@ public:
 
     ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(ConstIterator);
 
-    TermIdType
+    [[nodiscard]] TermIdType
     GetIdentifier() const
     {
       return m_Iterator->first;
     }
 
-    TermType *
+    [[nodiscard]] TermType *
     GetTerm() const
     {
       return m_Iterator->second;
@@ -291,13 +291,13 @@ public:
 
     ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(ConstIterator);
 
-    TermIdType
+    [[nodiscard]] TermIdType
     GetIdentifier() const
     {
       return m_Iterator->first;
     }
 
-    TermType *
+    [[nodiscard]] TermType *
     GetTerm() const
     {
       return m_Iterator->second;

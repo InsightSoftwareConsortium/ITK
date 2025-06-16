@@ -90,13 +90,13 @@ public:
   TQuadEdge *
   GetEdge();
 
-  TQuadEdge *
+  [[nodiscard]] [[nodiscard]] TQuadEdge *
   GetEdge() const;
 
   /** Return IsOriginalInternal of the edge.
    * @sa GeometricalQuadEdge::isOriginInternal
    */
-  bool
+  [[nodiscard]] [[nodiscard]] bool
   IsInternal() const;
 
   /** Return the valence of this QuadEdgeMeshPoint i.e. the number of edges constituting
@@ -104,7 +104,7 @@ public:
    *  @return the valence when an entry in the Onext ring is present,
    *          and -1 otherwise.
    */
-  int
+  [[nodiscard]] [[nodiscard]] int
   GetValence() const;
 
 protected:

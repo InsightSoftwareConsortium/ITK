@@ -300,7 +300,7 @@ public:
     }
   }
 
-  bool
+  [[nodiscard]] bool
   GetUseNegativeFeatures() const
   {
     itkWarningMacro(
@@ -430,7 +430,7 @@ public:
     }
   }
 
-  bool
+  [[nodiscard]] bool
   GetUseMinimalCurvature() const
   {
     return m_SegmentationFunction->GetUseMinimalCurvature();
@@ -487,7 +487,7 @@ public:
     }
   }
 
-  double
+  [[nodiscard]] double
   GetMaximumCurvatureTimeStep() const
   {
     return m_SegmentationFunction->GetMaximumCurvatureTimeStep();
@@ -508,7 +508,7 @@ public:
       this->Modified();
     }
   }
-  double
+  [[nodiscard]] double
 
   GetMaximumPropagationTimeStep() const
   {

@@ -56,32 +56,32 @@ public:
   /** @ITKStartGrouping */
   void
   SetRealStart(const RealTimeStamp s);
-  RealTimeStamp
+  [[nodiscard]] RealTimeStamp
   GetRealStart() const;
   /** @ITKEndGrouping */
   /** Get/Set RealDuration */
   /** @ITKStartGrouping */
   void
   SetRealDuration(const RealTimeInterval d);
-  RealTimeInterval
+  [[nodiscard]] RealTimeInterval
   GetRealDuration() const;
   /** @ITKEndGrouping */
   /** Get/Set FrameStart */
   /** @ITKStartGrouping */
   void
   SetFrameStart(const FrameOffsetType s);
-  FrameOffsetType
+  [[nodiscard]] FrameOffsetType
   GetFrameStart() const;
   /** @ITKEndGrouping */
   /** Get/Set FrameDuration */
   /** @ITKStartGrouping */
   void
   SetFrameDuration(const FrameOffsetType d);
-  FrameOffsetType
+  [[nodiscard]] FrameOffsetType
   GetFrameDuration() const;
   /** @ITKEndGrouping */
   /** Return RegionType (SRUCTURED_REGION) */
-  RegionEnum
+  [[nodiscard]] RegionEnum
   GetRegionType() const override;
 
   /** Constructor */
@@ -91,11 +91,11 @@ public:
   ~TemporalRegion() override;
 
   /** Compare two temporal regions in Frame space */
-  virtual bool
+  [[nodiscard]] virtual bool
   IsEqualInFrames(const Self & region) const;
 
   /** Compare two temporal regions in Frame space */
-  bool
+  [[nodiscard]] bool
   IsEqualInRealTime(const Self & region) const;
 
   /** Compare two temporal regions. (Both Frame and RealTime) */

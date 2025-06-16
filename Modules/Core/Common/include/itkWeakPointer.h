@@ -90,21 +90,21 @@ public:
 #endif
 
   /** Access function to pointer. */
-  ObjectType *
+  [[nodiscard]] ObjectType *
   GetPointer() const
   {
     return m_Pointer;
   }
 
   /** Test if the pointer is not NULL. */
-  bool
+  [[nodiscard]] bool
   IsNotNull() const
   {
     return m_Pointer != nullptr;
   }
 
   /** Test if the pointer is NULL. */
-  bool
+  [[nodiscard]] bool
   IsNull() const
   {
     return m_Pointer == nullptr;

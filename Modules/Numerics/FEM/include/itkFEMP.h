@@ -120,7 +120,7 @@ public:
    * Return true if special pointer actually points
    * to a valid object and false otherwise.
    */
-  bool
+  [[nodiscard]] bool
   IsNULL() const
   {
     return m_Data == 0;

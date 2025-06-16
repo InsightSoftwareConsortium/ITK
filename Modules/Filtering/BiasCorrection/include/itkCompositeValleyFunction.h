@@ -80,7 +80,7 @@ public:
   {
     m_Mean = mean;
   }
-  double
+  [[nodiscard]] double
   GetMean() const
   {
     return m_Mean;
@@ -93,7 +93,7 @@ public:
   {
     m_Sigma = sigma;
   }
-  double
+  [[nodiscard]] double
   GetSigma() const
   {
     return m_Sigma;
@@ -121,14 +121,14 @@ public:
   ~CompositeValleyFunction() override;
 
   /** Get energy table's higher bound. */
-  double
+  [[nodiscard]] double
   GetUpperBound() const
   {
     return m_UpperBound;
   }
 
   /** Get energy table's lower bound. */
-  double
+  [[nodiscard]] double
   GetLowerBound() const
   {
     return m_LowerBound;

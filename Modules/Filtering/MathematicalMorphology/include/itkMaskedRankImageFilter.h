@@ -120,7 +120,7 @@ public:
   itkSetClampMacro(Rank, float, 0.0, 1.0);
   itkGetConstMacro(Rank, float);
 
-  bool
+  [[nodiscard]] bool
   GetUseVectorBasedAlgorithm() const
   {
     return HistogramType::UseVectorBasedAlgorithm();

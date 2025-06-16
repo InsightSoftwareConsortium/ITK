@@ -159,7 +159,7 @@ public:
   /** After the filter is updated, this method returns a std::vector<double> of
    *  all Specificity (true negative fraction, q) values for the expert
    *  input volumes. */
-  const std::vector<double> &
+  [[nodiscard]] const std::vector<double> &
   GetSpecificity() const
   {
     return m_Specificity;
@@ -168,7 +168,7 @@ public:
   /** After the filter is updated, this method returns a std::vector<double> of
    * all Sensitivity (true positive fraction, p) values for the expert input
    * volumes. */
-  const std::vector<double> &
+  [[nodiscard]] const std::vector<double> &
   GetSensitivity() const
   {
     return m_Sensitivity;

@@ -71,14 +71,14 @@ public:
     return Set(Superclass::Get(output, offset), input);
   }
 
-  inline ExternalType
+  [[nodiscard]] inline ExternalType
   Get(const ActualPixelType & input) const
   {
     const ExternalType output = input[m_ComponentIdx];
     return output;
   }
 
-  inline ExternalType
+  [[nodiscard]] inline ExternalType
   Get(const InternalType & input, const SizeValueType offset) const
   {
     return Get(Superclass::Get(input, offset));
@@ -90,7 +90,7 @@ public:
     m_ComponentIdx = idx;
   }
 
-  VectorLengthType
+  [[nodiscard]] VectorLengthType
   GetExtractComponentIdx() const
   {
     return m_ComponentIdx;
@@ -104,7 +104,7 @@ public:
   }
 
   /** Get Vector lengths */
-  VectorLengthType
+  [[nodiscard]] VectorLengthType
   GetVectorLength() const
   {
     return Superclass::GetVectorLength();

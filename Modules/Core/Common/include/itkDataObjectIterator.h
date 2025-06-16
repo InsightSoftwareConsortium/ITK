@@ -54,7 +54,7 @@ public:
     return m_Iterator->second;
   }
 
-  const DataObjectIdentifierType &
+  [[nodiscard]] const DataObjectIdentifierType &
   GetName() const
   {
     return m_Iterator->first;
@@ -89,7 +89,7 @@ public:
     m_Iterator = m_Begin;
   }
 
-  bool
+  [[nodiscard]] bool
   IsAtEnd() const
   {
     return m_Iterator == m_End;

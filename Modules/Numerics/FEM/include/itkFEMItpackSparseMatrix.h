@@ -179,7 +179,7 @@ public:
   /**
    * Get the order of the matrix
    */
-  integer
+  [[nodiscard]] integer
   GetOrder() const
   {
     return m_N;
@@ -188,7 +188,7 @@ public:
   /**
    * Get the maximum number of non-zero values allowed in the matrix
    */
-  integer
+  [[nodiscard]] integer
   GetMaxNonZeroValues() const
   {
     return m_NZ;

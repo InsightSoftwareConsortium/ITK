@@ -57,13 +57,13 @@ public:
   itkSetMacro(Threshold, OutputPixelType);
   itkGetMacro(Threshold, OutputPixelType);
   /** @ITKEndGrouping */
-  bool
+  [[nodiscard]] bool
   IsSatisfied() const override
   {
     return (this->m_CurrentValue >= this->m_Threshold);
   }
 
-  std::string
+  [[nodiscard]] std::string
   GetDescription() const override
   {
     return "Current Value >= Threshold";

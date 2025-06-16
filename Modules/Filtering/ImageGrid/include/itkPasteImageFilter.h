@@ -179,7 +179,7 @@ public:
   void
   VerifyPreconditions() const override;
 
-  bool
+  [[nodiscard]] bool
   CanRunInPlace() const override;
 
 protected:

@@ -130,7 +130,7 @@ public:
 
 private:
   /** Returns the value located at position n of the slice. */
-  TPixel &
+  [[nodiscard]] TPixel &
   Loc(OffsetValueType n) const
   {
     const auto start = static_cast<OffsetValueType>(m_Slice.start());

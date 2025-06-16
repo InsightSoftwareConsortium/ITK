@@ -88,7 +88,7 @@ protected:
     (static_cast<uint32_t>(VSecondary) << static_cast<uint8_t>(CoordinateMajornessTermsEnum::SecondaryMinor)) +
     (static_cast<uint32_t>(VTertiary) << static_cast<uint8_t>(CoordinateMajornessTermsEnum::TertiaryMinor));
 
-  CoordinateEnum
+  [[nodiscard]] CoordinateEnum
   GetCoordinateTerm(CoordinateMajornessTermsEnum cmt) const;
 
 public:
@@ -464,11 +464,11 @@ public:
   operator PositiveEnum() const { return m_Value; }
 
   /** Returns the PositiveEnum encoding as a string. The string is always upper case. */
-  std::string
+  [[nodiscard]] std::string
   GetAsPositiveStringEncoding() const;
 
   /** Returns the NegativeEnum encoding as a string. The string is always upper case. */
-  std::string
+  [[nodiscard]] std::string
   GetAsNegativeStringEncoding() const;
 
   /** An involution to convert between "positive" and "negative" single character encoding strings.
@@ -483,43 +483,43 @@ public:
   ConvertStringEncoding(std::string str);
 
   /** \brief Return the direction cosine matrix for the orientation. */
-  DirectionType
+  [[nodiscard]] DirectionType
   GetAsDirection() const
   {
     return ConvertPositiveEnumToDirection(m_Value);
   }
 
-  PositiveEnum
+  [[nodiscard]] PositiveEnum
   GetAsPositiveOrientation() const
   {
     return m_Value;
   }
 
-  NegativeEnum
+  [[nodiscard]] NegativeEnum
   GetAsNegativeOrientation() const
   {
     return NegativeEnum(static_cast<uint32_t>(this->m_Value));
   }
 
-  CoordinateEnum
+  [[nodiscard]] CoordinateEnum
   GetPrimaryTerm() const
   {
     return GetCoordinateTerm(CoordinateMajornessTermsEnum::PrimaryMinor);
   }
 
-  CoordinateEnum
+  [[nodiscard]] CoordinateEnum
   GetSecondaryTerm() const
   {
     return GetCoordinateTerm(CoordinateMajornessTermsEnum::SecondaryMinor);
   }
 
-  CoordinateEnum
+  [[nodiscard]] CoordinateEnum
   GetTertiaryTerm() const
   {
     return GetCoordinateTerm(CoordinateMajornessTermsEnum::TertiaryMinor);
   }
 
-  std::array<CoordinateEnum, 3>
+  [[nodiscard]] std::array<CoordinateEnum, 3>
   GetTerms() const
   {
     return { GetPrimaryTerm(), GetSecondaryTerm(), GetTertiaryTerm() };

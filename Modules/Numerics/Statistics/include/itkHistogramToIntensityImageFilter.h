@@ -61,7 +61,7 @@ public:
     m_TotalFrequency = n;
   }
 
-  SizeValueType
+  [[nodiscard]] SizeValueType
   GetTotalFrequency() const
   {
     return m_TotalFrequency;

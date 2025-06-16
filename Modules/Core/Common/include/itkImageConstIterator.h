@@ -299,7 +299,7 @@ public:
    * This causes the index to be calculated from pointer arithmetic and is
    * therefore an expensive operation.
    * \sa SetIndex */
-  const IndexType
+  [[nodiscard]] const IndexType
   GetIndex() const
   {
     return m_Image->ComputeIndex(static_cast<OffsetValueType>(m_Offset));
@@ -315,21 +315,21 @@ public:
 
   /** Get the region that this iterator walks. ImageConstIterators know the
    * beginning and the end of the region of the image to iterate over. */
-  const RegionType &
+  [[nodiscard]] const RegionType &
   GetRegion() const
   {
     return m_Region;
   }
 
   /** Get the image that this iterator walks. */
-  const ImageType *
+  [[nodiscard]] const ImageType *
   GetImage() const
   {
     return m_Image.GetPointer();
   }
 
   /** Get the pixel value */
-  PixelType
+  [[nodiscard]] PixelType
   Get() const
   {
     return m_PixelAccessorFunctor.Get(*(m_Buffer + m_Offset));
@@ -338,7 +338,7 @@ public:
   /** Return a const reference to the pixel
    * This method will provide the fastest access to pixel
    * data, but it will NOT support ImageAdaptors. */
-  const PixelType &
+  [[nodiscard]] const PixelType &
   Value() const
   {
     return *(m_Buffer + m_Offset);
@@ -362,7 +362,7 @@ public:
 
   /** Is the iterator at the beginning of the region? "Begin" is defined
    * as the first pixel in the region. */
-  bool
+  [[nodiscard]] bool
   IsAtBegin() const
   {
     return (m_Offset == m_BeginOffset);
@@ -370,7 +370,7 @@ public:
 
   /** Is the iterator at the end of the region? "End" is defined as one
    * pixel past the last pixel of the region. */
-  bool
+  [[nodiscard]] bool
   IsAtEnd() const
   {
     return (m_Offset == m_EndOffset);

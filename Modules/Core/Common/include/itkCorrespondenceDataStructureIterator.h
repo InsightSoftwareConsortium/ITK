@@ -43,7 +43,7 @@ public:
   }
 
   /** Is the iterator at the end of the region? */
-  bool
+  [[nodiscard]] bool
   IsAtEnd() const;
 
   /** Walk forward one index. (prefix) */

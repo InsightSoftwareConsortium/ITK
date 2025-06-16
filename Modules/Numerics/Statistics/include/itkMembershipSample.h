@@ -185,25 +185,25 @@ public:
       return *this;
     }
 
-    AbsoluteFrequencyType
+    [[nodiscard]] AbsoluteFrequencyType
     GetFrequency() const
     {
       return m_Sample->GetFrequency(m_InstanceIdentifier);
     }
 
-    const MeasurementVectorType &
+    [[nodiscard]] const MeasurementVectorType &
     GetMeasurementVector() const
     {
       return m_Sample->GetMeasurementVector(m_InstanceIdentifier);
     }
 
-    InstanceIdentifier
+    [[nodiscard]] InstanceIdentifier
     GetInstanceIdentifier() const
     {
       return m_InstanceIdentifier;
     }
 
-    unsigned int
+    [[nodiscard]] unsigned int
     GetClassLabel() const
     {
       return m_MembershipSample->GetClassLabel(m_InstanceIdentifier);

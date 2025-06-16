@@ -109,7 +109,7 @@ public:
     return this->m_CompensatedSumOfThreads.GetSum();
   }
 
-  double
+  [[nodiscard]] double
   GetUncompensatedSumOfThreads() const
   {
     return this->m_UncompensatedSumOfThreads;

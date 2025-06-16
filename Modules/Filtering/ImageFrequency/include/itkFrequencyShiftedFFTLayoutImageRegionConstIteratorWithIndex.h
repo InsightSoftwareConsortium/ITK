@@ -166,7 +166,7 @@ public:
    * bin 0. It is a shift by -N/2 + 1, from [0, N-1] to [-N/2 + 1, N/2] If first index of the image is not zero, it
    * stills returns values in the same range.
    */
-  IndexType
+  [[nodiscard]] IndexType
   GetFrequencyBin() const
   {
     IndexType freqInd{};
@@ -187,7 +187,7 @@ public:
    * the range of frequencies (always around zero). If the spacing is = {{0.5}} we get a frequency range of [-1/4, 1/4]
    * or [-pi/2, pi/2].
    */
-  FrequencyType
+  [[nodiscard]] FrequencyType
   GetFrequency() const
   {
     FrequencyType freq;
@@ -200,7 +200,7 @@ public:
     return freq;
   }
 
-  FrequencyValueType
+  [[nodiscard]] FrequencyValueType
   GetFrequencyModuloSquare() const
   {
     FrequencyValueType w2(0);

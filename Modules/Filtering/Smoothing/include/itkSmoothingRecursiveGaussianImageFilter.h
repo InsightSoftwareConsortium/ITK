@@ -137,7 +137,7 @@ public:
   void
   SetNumberOfWorkUnits(ThreadIdType nb) override;
 
-  bool
+  [[nodiscard]] bool
   CanRunInPlace() const override;
 
   // This concept does not work with variable length vector images

@@ -165,7 +165,7 @@ public:
   void
   UpdateSharedData(bool forceUpdate);
 
-  void *
+  [[nodiscard]] void *
   GetGlobalDataPointer() const override
   {
     return new GlobalDataStruct;

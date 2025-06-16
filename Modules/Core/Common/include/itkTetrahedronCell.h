@@ -71,7 +71,7 @@ public:
 
   /** Implement the standard CellInterface. */
   /** @ITKStartGrouping */
-  CellGeometryEnum
+  [[nodiscard]] CellGeometryEnum
   GetType() const override
   {
     return CellGeometryEnum::TETRAHEDRON_CELL;
@@ -80,11 +80,11 @@ public:
   MakeCopy(CellAutoPointer &) const override;
   /** @ITKEndGrouping */
   /** Get the topological dimension of this cell. */
-  unsigned int
+  [[nodiscard]] unsigned int
   GetDimension() const override;
 
   /** Get the number of points required to define the cell. */
-  unsigned int
+  [[nodiscard]] unsigned int
   GetNumberOfPoints() const override;
 
   /** Get the number of boundary features of the given dimension. */

@@ -119,7 +119,7 @@ public:
   /**
    * Function to convert this value to a "std::string".
    */
-  const std::string &
+  [[nodiscard]] const std::string &
   ToString() const;
 
   /**

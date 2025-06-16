@@ -61,7 +61,7 @@ public:
   {
     this->second = iValue;
   }
-  const TOutputPixel &
+  [[nodiscard]] const TOutputPixel &
   GetValue() const
   {
     return this->second;
@@ -76,7 +76,7 @@ public:
   {
     this->first = iNode;
   }
-  const TNode &
+  [[nodiscard]] const TNode &
   GetNode() const
   {
     return this->first;

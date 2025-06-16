@@ -74,7 +74,7 @@ public:
   {
     m_Threshold = thresh;
   }
-  const double &
+  [[nodiscard]] const double &
   GetThreshold() const
   {
     return m_Threshold;

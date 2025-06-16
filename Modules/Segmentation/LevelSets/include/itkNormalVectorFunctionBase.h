@@ -85,7 +85,7 @@ public:
 
   /** GlobalData methods are not needed in this class. */
   /** @ITKStartGrouping */
-  void *
+  [[nodiscard]] void *
   GetGlobalDataPointer() const override
   {
     return nullptr;

@@ -31,7 +31,7 @@ public:
   VectorIndexSelectionCast() = default;
   ~VectorIndexSelectionCast() = default;
 
-  unsigned int
+  [[nodiscard]] unsigned int
   GetIndex() const
   {
     return m_Index;
@@ -121,7 +121,7 @@ public:
     }
   }
 
-  unsigned int
+  [[nodiscard]] unsigned int
   GetIndex() const
   {
     return this->GetFunctor().GetIndex();

@@ -49,7 +49,7 @@ public:
     return m_Pointer;
   }
 
-  const TNodeType *
+  [[nodiscard]] const TNodeType *
   GetPointer() const
   {
     return m_Pointer;

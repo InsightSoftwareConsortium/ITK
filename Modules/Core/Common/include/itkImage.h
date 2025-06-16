@@ -326,7 +326,7 @@ public:
     return NeighborhoodAccessorFunctorType();
   }
 
-  unsigned int
+  [[nodiscard]] unsigned int
   GetNumberOfComponentsPerPixel() const override;
 
   /** Returns (image1 == image2).

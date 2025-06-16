@@ -503,12 +503,12 @@ union FloatIEEE
   FloatIEEE(IntType i)
     : asInt(i)
   {}
-  bool
+  [[nodiscard]] bool
   Sign() const
   {
     return (asUInt >> (sizeof(asUInt) * 8 - 1)) != 0;
   }
-  IntType
+  [[nodiscard]] IntType
   AsULP() const
   {
     return this->Sign() ? IntType(~(~UIntType(0) >> 1) - asUInt) : asInt;

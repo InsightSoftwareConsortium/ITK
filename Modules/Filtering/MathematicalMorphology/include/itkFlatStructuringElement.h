@@ -161,7 +161,7 @@ public:
    * structuring may be used by an algorithm instead of the standard buffer.
    */
   /** @ITKStartGrouping */
-  bool
+  [[nodiscard]] bool
   GetDecomposable() const
   {
     return m_Decomposable;
@@ -174,7 +174,7 @@ public:
   /** @ITKEndGrouping */
   /** Return the lines associated with the structuring element */
   /** @ITKStartGrouping */
-  const DecompType &
+  [[nodiscard]] const DecompType &
   GetLines() const
   {
     return (m_Lines);
@@ -185,7 +185,7 @@ public:
     m_Lines.push_back(l);
   }
   /** @ITKEndGrouping */
-  bool
+  [[nodiscard]] bool
   CheckParallel(LType NewVec) const;
 
   /**
@@ -201,7 +201,7 @@ public:
    * This defaults to "off" for backward compatibility.
    */
   /** @ITKStartGrouping */
-  bool
+  [[nodiscard]] bool
   GetRadiusIsParametric() const
   {
     return m_RadiusIsParametric;

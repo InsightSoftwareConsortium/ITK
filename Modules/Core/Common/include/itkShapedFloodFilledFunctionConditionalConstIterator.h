@@ -161,7 +161,7 @@ public:
   }
 
   /** Is the iterator at the end of the region? */
-  bool
+  [[nodiscard]] bool
   IsAtEnd() const override
   {
     return this->m_IsAtEnd;
@@ -236,7 +236,7 @@ public:
   void
   SetFullyConnected(const bool _arg);
 
-  bool
+  [[nodiscard]] bool
   GetFullyConnected() const;
 
   itkBooleanMacro(FullyConnected);

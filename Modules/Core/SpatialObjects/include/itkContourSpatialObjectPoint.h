@@ -53,7 +53,7 @@ public:
   ~ContourSpatialObjectPoint() override = default;
 
   /** Get the picked point. */
-  const PointType &
+  [[nodiscard]] const PointType &
   GetPickedPointInObjectSpace() const;
 
   /** Set the picked point : N-D case. */
@@ -61,7 +61,7 @@ public:
   SetPickedPointInObjectSpace(const PointType & point);
 
   /** Get the normal. */
-  const CovariantVectorType &
+  [[nodiscard]] const CovariantVectorType &
   GetNormalInObjectSpace() const;
 
   /** Set the normal : N-D case. */

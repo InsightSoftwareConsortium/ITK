@@ -62,10 +62,10 @@ public:
   using HeavisideType = typename LevelSetContainerType::HeavisideType;
   using HeavisidePointer = typename LevelSetContainerType::HeavisideType;
 
-  bool
+  [[nodiscard]] bool
   IsSatisfied() const override;
 
-  std::string
+  [[nodiscard]] std::string
   GetDescription() const override;
 
 protected:

@@ -107,7 +107,7 @@ public:
   }
 
   /** Get a const reference to the pixel. */
-  inline const ExternalPixelType
+  [[nodiscard]] inline const ExternalPixelType
   Get(const InternalPixelType & input) const
   {
     return m_PixelAccessor.Get(input);

@@ -123,7 +123,7 @@ public:
    * operation if the InPlace is true and CanRunInPlace is true.
    * CanRunInPlace may also be overridden by InPlaceImageFilter
    * subclasses to fine tune its behavior. */
-  virtual bool
+  [[nodiscard]] virtual bool
   CanRunInPlace() const;
 
 protected:

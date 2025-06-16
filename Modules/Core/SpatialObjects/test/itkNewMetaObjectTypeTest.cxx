@@ -105,7 +105,7 @@ public:
   {
     this->m_Value = val;
   }
-  float
+  [[nodiscard]] float
   GetValue() const
   {
     return this->m_Value;

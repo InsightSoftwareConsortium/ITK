@@ -130,7 +130,7 @@ public:
   itkGetConstReferenceMacro(TrainingFixedImageRegion, FixedImageRegionType);
   /** @ITKEndGrouping */
   /** Return the number of parameters required by the Transform */
-  unsigned int
+  [[nodiscard]] unsigned int
   GetNumberOfParameters() const override
   {
     return this->GetTransform()->GetNumberOfParameters();

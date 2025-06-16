@@ -235,7 +235,7 @@ public:
    * data should also be initialized in this method.  Global data can be used
    * for caching any values used or reused by the FunctionObject.  Each thread
    * should receive its own global data struct. */
-  void *
+  [[nodiscard]] void *
   GetGlobalDataPointer() const override
   {
     auto * ans = new GlobalDataStruct();
@@ -282,7 +282,7 @@ public:
     m_UseMinimalCurvature = b;
   }
 
-  bool
+  [[nodiscard]] bool
   GetUseMinimalCurvature() const
   {
     return m_UseMinimalCurvature;

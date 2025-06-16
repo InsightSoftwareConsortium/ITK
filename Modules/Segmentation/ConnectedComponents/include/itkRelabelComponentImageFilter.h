@@ -184,7 +184,7 @@ public:
    * not calculated.  Size of object #1 is
    * GetSizeOfObjectsInPixels()[0]. Size of object #2 is
    * GetSizeOfObjectsInPixels()[1]. Etc. */
-  const ObjectSizeInPixelsContainerType &
+  [[nodiscard]] const ObjectSizeInPixelsContainerType &
   GetSizeOfObjectsInPixels() const
   {
     // The GetConstReferenceMacro can't be used here because this container
@@ -197,7 +197,7 @@ public:
    * executed. Size of the background is not calculated.  Size of
    * object #1 is GetSizeOfObjectsInPhysicalUnits()[0]. Size of object
    * #2 is GetSizeOfObjectsInPhysicalUnits()[1]. Etc. */
-  const ObjectSizeInPhysicalUnitsContainerType &
+  [[nodiscard]] const ObjectSizeInPhysicalUnitsContainerType &
   GetSizeOfObjectsInPhysicalUnits() const
   {
     // The GetConstReferenceMacro can't be used here because this container

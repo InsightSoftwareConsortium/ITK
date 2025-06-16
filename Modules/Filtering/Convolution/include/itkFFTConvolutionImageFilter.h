@@ -196,7 +196,7 @@ protected:
   GetFFTPadSize() const;
 
   /** Get whether the X dimension has an odd size. */
-  bool
+  [[nodiscard]] bool
   GetXDimensionIsOdd() const;
 
   void

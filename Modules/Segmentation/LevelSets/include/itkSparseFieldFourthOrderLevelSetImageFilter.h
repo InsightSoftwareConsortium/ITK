@@ -227,7 +227,7 @@ public:
   /** Compute the number of layers that must be used in
       SparseFieldLevelSetImageFilter to accommodate the desired normal
       processing band. */
-  unsigned int
+  [[nodiscard]] unsigned int
   GetMinimumNumberOfLayers() const
   {
     return static_cast<int>(std::ceil(m_CurvatureBandWidth + Self::ImageDimension));
@@ -298,7 +298,7 @@ protected:
    * the band where curvature from the processed normal vectors has been
    * computed. This is one of the conditions for triggering the ProcessNormals
    * method. */
-  bool
+  [[nodiscard]] bool
   ActiveLayerCheckBand() const;
 
 private:

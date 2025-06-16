@@ -39,12 +39,12 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(FastMarchingStoppingCriterionBaseHelperTest);
 
-  bool
+  [[nodiscard]] bool
   IsSatisfied() const override
   {
     return true;
   }
-  std::string
+  [[nodiscard]] std::string
   GetDescription() const override
   {
     return "Description";

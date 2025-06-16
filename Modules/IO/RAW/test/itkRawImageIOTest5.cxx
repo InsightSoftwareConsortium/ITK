@@ -146,7 +146,7 @@ public:
     m_FileName = filename;
   }
 
-  bool
+  [[nodiscard]] bool
   GetError() const
   {
     return m_Error;

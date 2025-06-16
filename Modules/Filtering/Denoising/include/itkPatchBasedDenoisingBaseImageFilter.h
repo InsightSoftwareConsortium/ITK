@@ -215,7 +215,7 @@ public:
   void
   SetPatchWeights(const PatchWeightsType & weights);
 
-  PatchWeightsType
+  [[nodiscard]] PatchWeightsType
   GetPatchWeights() const;
 
   /** Set/Get the noise model type.

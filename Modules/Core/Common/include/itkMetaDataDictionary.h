@@ -114,7 +114,7 @@ public:
   /** Returns a vector of keys to the key/value entries in the
    * dictionary.  Iterate through the dictionary using these keys.
    */
-  std::vector<std::string>
+  [[nodiscard]] std::vector<std::string>
   GetKeys() const;
 
   // Implement map's api. On some Microsoft compilers, stl containers
@@ -130,11 +130,11 @@ public:
   const MetaDataObjectBase *
   operator[](const std::string &) const;
 
-  const MetaDataObjectBase *
+  [[nodiscard]] const MetaDataObjectBase *
   Get(const std::string &) const;
   void
   Set(const std::string &, MetaDataObjectBase *);
-  bool
+  [[nodiscard]] bool
   HasKey(const std::string &) const;
 
   bool
@@ -150,7 +150,7 @@ public:
   Iterator
   Begin();
   // Blacklisted by igenerator.py
-  ConstIterator
+  [[nodiscard]] ConstIterator
   Begin() const;
   /** @ITKEndGrouping */
   /** Returns an iterator to the end of the map */
@@ -159,14 +159,14 @@ public:
   Iterator
   End();
   // Blacklisted by igenerator.py
-  ConstIterator
+  [[nodiscard]] ConstIterator
   End() const;
   /** @ITKEndGrouping */
   /** Returns an iterator matching the string key */
   Iterator
   Find(const std::string & key);
 
-  ConstIterator
+  [[nodiscard]] ConstIterator
   Find(const std::string & key) const;
 
   /** remove all MetaObjects from dictionary */

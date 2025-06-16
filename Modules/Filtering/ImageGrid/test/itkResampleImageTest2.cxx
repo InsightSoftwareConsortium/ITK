@@ -50,7 +50,7 @@ public:
   itkOverrideGetNameOfClassMacro(NonlinearAffineTransform);
 
   /** Override this. See test below. */
-  bool
+  [[nodiscard]] bool
   IsLinear() const override
   {
     return false;

@@ -91,7 +91,7 @@ public:
   {}
 
   /* assembly & solving routines */
-  Float
+  [[nodiscard]] Float
   GetMatrixValue(unsigned int i, unsigned int j, unsigned int matrixIndex) const override
   {
     return (*((*m_Matrices)[matrixIndex]))(i, j);
@@ -106,7 +106,7 @@ public:
   {
     (*((*m_Matrices)[matrixIndex]))(i, j) += value;
   }
-  Float
+  [[nodiscard]] Float
   GetVectorValue(unsigned int i, unsigned int vectorIndex) const override
   {
     return (*((*m_Vectors)[vectorIndex]))[i];
@@ -121,7 +121,7 @@ public:
   {
     (*((*m_Vectors)[vectorIndex]))(i) += value;
   }
-  Float
+  [[nodiscard]] Float
   GetSolutionValue(unsigned int i, unsigned int solutionIndex) const override;
 
   void

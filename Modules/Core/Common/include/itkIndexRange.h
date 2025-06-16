@@ -344,14 +344,14 @@ public:
 
 
   /** Returns an iterator to the first index. */
-  constexpr iterator
+  [[nodiscard]] constexpr iterator
   begin() const noexcept
   {
     return iterator(m_MinIndex, m_MinIndex, m_MaxIndex);
   }
 
   /** Returns an 'end iterator' for this range. */
-  constexpr iterator
+  [[nodiscard]] constexpr iterator
   end() const noexcept
   {
     IndexType index = m_MinIndex;
@@ -361,42 +361,42 @@ public:
 
   /** Returns a const iterator to the first index.
    * Provides only read-only access to the index data. */
-  constexpr const_iterator
+  [[nodiscard]] constexpr const_iterator
   cbegin() const noexcept
   {
     return this->begin();
   }
 
   /** Returns a const 'end iterator' for this range. */
-  constexpr const_iterator
+  [[nodiscard]] constexpr const_iterator
   cend() const noexcept
   {
     return this->end();
   }
 
   /** Returns a reverse 'begin iterator' for this range. */
-  reverse_iterator
+  [[nodiscard]] reverse_iterator
   rbegin() const noexcept
   {
     return reverse_iterator(this->end());
   }
 
   /** Returns a reverse 'end iterator' for this range. */
-  reverse_iterator
+  [[nodiscard]] reverse_iterator
   rend() const noexcept
   {
     return reverse_iterator(this->begin());
   }
 
   /** Returns a const reverse 'begin iterator' for this range. */
-  const_reverse_iterator
+  [[nodiscard]] const_reverse_iterator
   crbegin() const noexcept
   {
     return this->rbegin();
   }
 
   /** Returns a const reverse 'end iterator' for this range. */
-  const_reverse_iterator
+  [[nodiscard]] const_reverse_iterator
   crend() const noexcept
   {
     return this->rend();
@@ -404,7 +404,7 @@ public:
 
 
   /** Returns the size of the range, that is the number of indices. */
-  constexpr size_t
+  [[nodiscard]] constexpr size_t
   size() const noexcept
   {
     size_t result = 1;
@@ -418,7 +418,7 @@ public:
 
 
   /** Tells whether the range is empty. */
-  constexpr bool
+  [[nodiscard]] constexpr bool
   empty() const noexcept
   {
     // When an IndexRange is empty, each index value of m_MaxIndex is less than the corresponding

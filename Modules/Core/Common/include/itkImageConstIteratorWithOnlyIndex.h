@@ -195,7 +195,7 @@ public:
 
   /** Get the index. This provides a read only reference to the index.
    * \sa SetIndex */
-  const IndexType &
+  [[nodiscard]] const IndexType &
   GetIndex() const
   {
     return m_PositionIndex;
@@ -203,7 +203,7 @@ public:
 
   /** Get the region that this iterator walks. ImageIterators know the
    * beginning and the end of the region of the image to iterate over. */
-  const RegionType &
+  [[nodiscard]] const RegionType &
   GetRegion() const
   {
     return m_Region;
@@ -226,14 +226,14 @@ public:
   GoToReverseBegin();
 
   /** Is the iterator at the beginning of the region? */
-  bool
+  [[nodiscard]] bool
   IsAtReverseEnd() const
   {
     return !m_Remaining;
   }
 
   /** Is the iterator at the end of the region? */
-  bool
+  [[nodiscard]] bool
   IsAtEnd() const
   {
     return !m_Remaining;

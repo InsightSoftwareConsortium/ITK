@@ -193,7 +193,7 @@ protected:
     virtual ~CandidateVector() = default;
 
     /** returns the number of candidate = k */
-    int
+    [[nodiscard]] int
     Size() const
     {
       return static_cast<int>(m_Candidates.size());

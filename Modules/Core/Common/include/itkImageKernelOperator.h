@@ -65,7 +65,7 @@ public:
   SetImageKernel(const ImageType * kernel);
 
   /** Get the image kernel. */
-  const ImageType *
+  [[nodiscard]] const ImageType *
   GetImageKernel() const;
 
   void

@@ -63,7 +63,7 @@ public:
 
 
   /** Returns the number of offsets needed to represent this shape. */
-  constexpr size_t
+  [[nodiscard]] constexpr size_t
   GetNumberOfOffsets() const noexcept
   {
     return m_NumberOfOffsets;
@@ -113,7 +113,7 @@ private:
 
   // Private helper function to calculate the number of Offsets by a recursive
   // function call. Recursion is necessary for C++11 constexpr.
-  constexpr size_t
+  [[nodiscard]] constexpr size_t
   CalculateNumberOfOffsets(const unsigned int dimension) const noexcept
   {
     return (dimension == 0)

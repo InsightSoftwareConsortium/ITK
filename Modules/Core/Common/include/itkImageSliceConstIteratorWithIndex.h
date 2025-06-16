@@ -180,19 +180,19 @@ public:
   PreviousSlice();
 
   /** Test if the index is at the end of line */
-  bool
+  [[nodiscard]] bool
   IsAtEndOfLine() const;
 
   /** Test if the index is at the end of the slice */
-  bool
+  [[nodiscard]] bool
   IsAtEndOfSlice() const;
 
   /** Test if the index is at the begin of line */
-  bool
+  [[nodiscard]] bool
   IsAtReverseEndOfLine() const;
 
   /** Test if the index is at the begin of the slice */
-  bool
+  [[nodiscard]] bool
   IsAtReverseEndOfSlice() const;
 
   /** Set the fastest direction of movement */

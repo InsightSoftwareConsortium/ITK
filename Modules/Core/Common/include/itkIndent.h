@@ -77,7 +77,7 @@ public:
 
   /** Determine the next indentation level. Keep indenting by two until the
    * a maximum of forty spaces is reached.  */
-  Indent
+  [[nodiscard]] Indent
   GetNextIndent() const;
 
   /** Print out the indentation. Basically output a bunch of spaces.  */

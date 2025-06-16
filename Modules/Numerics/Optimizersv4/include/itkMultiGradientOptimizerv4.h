@@ -92,7 +92,7 @@ public:
   using MetricValuesListType = std::vector<MeasureType>;
 
   /** Get stop condition enum */
-  const StopConditionObjectToObjectOptimizerEnum &
+  [[nodiscard]] const StopConditionObjectToObjectOptimizerEnum &
   GetStopCondition() const override
   {
     return this->m_StopCondition;

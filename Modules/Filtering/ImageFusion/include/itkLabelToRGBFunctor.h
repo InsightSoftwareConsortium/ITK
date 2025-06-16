@@ -127,7 +127,7 @@ public:
   }
 
   // Get number of colors in the LUT
-  unsigned int
+  [[nodiscard]] unsigned int
   GetNumberOfColors() const
   {
     return static_cast<unsigned int>(m_Colors.size());

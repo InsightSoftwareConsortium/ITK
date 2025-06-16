@@ -80,7 +80,7 @@ public:
   Command *
   GetCommand(unsigned long tag);
 
-  bool
+  [[nodiscard]] bool
   HasObserver(const EventObject & event) const;
 
   bool

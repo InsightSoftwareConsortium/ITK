@@ -181,7 +181,7 @@ protected:
   /**
    * \brief
    */
-  SizeValueType
+  [[nodiscard]] SizeValueType
   NumberOfCommonVerticesIn0Ring() const;
 
   /**

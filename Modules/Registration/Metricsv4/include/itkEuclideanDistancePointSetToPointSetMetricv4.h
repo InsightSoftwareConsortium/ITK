@@ -98,7 +98,7 @@ protected:
   EuclideanDistancePointSetToPointSetMetricv4() = default;
   ~EuclideanDistancePointSetToPointSetMetricv4() override = default;
 
-  bool
+  [[nodiscard]] bool
   RequiresFixedPointsLocator() const override
   {
     return false;

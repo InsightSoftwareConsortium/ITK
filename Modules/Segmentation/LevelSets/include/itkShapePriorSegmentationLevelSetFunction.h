@@ -132,7 +132,7 @@ public:
   };
 
   /** Returns a pointer to a global data structure for computing time step. */
-  void *
+  [[nodiscard]] void *
   GetGlobalDataPointer() const override
   {
     auto * ans = new ShapePriorGlobalDataStruct();

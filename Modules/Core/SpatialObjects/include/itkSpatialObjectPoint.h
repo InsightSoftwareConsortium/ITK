@@ -75,7 +75,7 @@ public:
   }
 
   /** Get the SpatialObjectPoint Id. */
-  int
+  [[nodiscard]] int
   GetId() const
   {
     return m_Id;
@@ -99,7 +99,7 @@ public:
   }
 
   /** Return a pointer to the point object. */
-  const PointType &
+  [[nodiscard]] const PointType &
   GetPositionInObjectSpace() const
   {
     return m_PositionInObjectSpace;
@@ -111,7 +111,7 @@ public:
     m_SpatialObject = so;
   }
 
-  SpatialObjectType *
+  [[nodiscard]] SpatialObjectType *
   GetSpatialObject() const
   {
     return m_SpatialObject;
@@ -124,7 +124,7 @@ public:
 
   /** Returns the position in world coordinates, using the
    *    spatialObject's objectToWorld transform */
-  PointType
+  [[nodiscard]] PointType
   GetPositionInWorldSpace() const;
 
   /** Set/Get color of the point */
@@ -134,7 +134,7 @@ public:
     m_Color = color;
   }
 
-  ColorType
+  [[nodiscard]] ColorType
   GetColor() const
   {
     return m_Color;
@@ -151,7 +151,7 @@ public:
     m_Color.SetRed(r);
   }
 
-  double
+  [[nodiscard]] double
   GetRed() const
   {
     return m_Color.GetRed();
@@ -164,7 +164,7 @@ public:
     m_Color.SetGreen(g);
   }
 
-  double
+  [[nodiscard]] double
   GetGreen() const
   {
     return m_Color.GetGreen();
@@ -177,7 +177,7 @@ public:
     m_Color.SetBlue(b);
   }
 
-  double
+  [[nodiscard]] double
   GetBlue() const
   {
     return m_Color.GetBlue();
@@ -190,7 +190,7 @@ public:
     m_Color.SetAlpha(a);
   }
 
-  double
+  [[nodiscard]] double
   GetAlpha() const
   {
     return m_Color.GetAlpha();
@@ -202,13 +202,13 @@ public:
   bool
   GetTagScalarValue(const std::string & tag, double & value) const;
 
-  double
+  [[nodiscard]] double
   GetTagScalarValue(const std::string & tag) const;
 
   std::map<std::string, double> &
   GetTagScalarDictionary();
 
-  const std::map<std::string, double> &
+  [[nodiscard]] const std::map<std::string, double> &
   GetTagScalarDictionary() const;
 
   void

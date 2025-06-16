@@ -163,12 +163,12 @@ public:
   void
   SetParameters(const ParametersType &) override;
 
-  unsigned int
+  [[nodiscard]] unsigned int
   GetNumberOfShapeParameters() const override
   {
     return m_NumberOfPrincipalComponents;
   }
-  unsigned int
+  [[nodiscard]] unsigned int
   GetNumberOfPoseParameters() const override
   {
     return m_Transform ? m_Transform->GetNumberOfParameters() : 0;

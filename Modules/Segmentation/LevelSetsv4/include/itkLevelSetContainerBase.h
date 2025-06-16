@@ -162,13 +162,13 @@ public:
 
     ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(ConstIterator);
 
-    LevelSetIdentifierType
+    [[nodiscard]] LevelSetIdentifierType
     GetIdentifier() const
     {
       return m_Iterator->first;
     }
 
-    LevelSetType *
+    [[nodiscard]] LevelSetType *
     GetLevelSet() const
     {
       return m_Iterator->second;
@@ -246,13 +246,13 @@ public:
 
     ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(ConstIterator);
 
-    LevelSetIdentifierType
+    [[nodiscard]] LevelSetIdentifierType
     GetIdentifier() const
     {
       return m_Iterator->first;
     }
 
-    LevelSetType *
+    [[nodiscard]] LevelSetType *
     GetLevelSet() const
     {
       return m_Iterator->second;

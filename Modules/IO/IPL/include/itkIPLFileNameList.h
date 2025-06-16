@@ -167,7 +167,7 @@ public:
     return *it;
   }
 
-  ListSizeType
+  [[nodiscard]] ListSizeType
   NumFiles() const
   {
     return m_List.size();
@@ -253,7 +253,7 @@ public:
   void
   sortImageListDescend();
 
-  ListSizeType
+  [[nodiscard]] ListSizeType
   GetnumImageInfoStructs() const
   {
     return m_List.size();

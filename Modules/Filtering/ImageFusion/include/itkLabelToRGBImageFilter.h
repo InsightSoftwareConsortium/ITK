@@ -94,7 +94,7 @@ public:
   ResetColors();
 
   /** Get number of colors in the LUT container */
-  unsigned int
+  [[nodiscard]] unsigned int
   GetNumberOfColors() const;
 
   /** Type of the color component */

@@ -245,7 +245,7 @@ public:
 
   /** Get the Sigma scalar. If the Sigma is anisotropic, we will just
    * return the Sigma along the first dimension. */
-  double
+  [[nodiscard]] double
   GetSigma() const
   {
     return std::sqrt(m_Variance[0]);
@@ -276,7 +276,7 @@ public:
   }
 
   /** Get the radius of the generated directional kernel */
-  unsigned int
+  [[nodiscard]] unsigned int
   GetKernelRadius(const unsigned int dimension) const;
 
   /** Get the radius of the separable kernel in each direction */

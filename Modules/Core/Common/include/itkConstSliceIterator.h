@@ -134,7 +134,7 @@ public:
 
 private:
   /** Returns the value located at position n of the slice. */
-  const TPixel &
+  [[nodiscard]] const TPixel &
   Loc(SizeValueType n) const
   {
     return (*m_ContainerPointer)[static_cast<SizeValueType>(m_Slice.start() + n * m_Slice.stride())];

@@ -105,7 +105,7 @@ public:
   GetVnlVector();
 
   /** Get a vnl_vector with a copy of the internal memory block. */
-  vnl_vector<T>
+  [[nodiscard]] vnl_vector<T>
   GetVnlVector() const;
 
   /** Default-constructor.
@@ -227,7 +227,7 @@ public:
   }
 
   /** Returns the Euclidean Norm of the vector  */
-  RealValueType
+  [[nodiscard]] RealValueType
   GetNorm() const;
 
   /** Returns the number of components in this vector type */
@@ -242,7 +242,7 @@ public:
   Normalize();
 
   /** Returns vector's Squared Euclidean Norm  */
-  RealValueType
+  [[nodiscard]] RealValueType
   GetSquaredNorm() const;
 
   /** Copy from another CovariantVector with a different representation type.

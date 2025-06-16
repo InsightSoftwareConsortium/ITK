@@ -265,7 +265,7 @@ protected:
   /** Check that target points are set.
    *  Returns true if at least a target point exists; returns false otherwise.
    */
-  bool
+  [[nodiscard]] bool
   IsTargetPointsExistenceConditionSatisfied() const
   {
     if (!m_TargetPoints || m_TargetPoints->Size() == 0)

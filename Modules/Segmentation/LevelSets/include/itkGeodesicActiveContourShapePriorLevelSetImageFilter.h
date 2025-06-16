@@ -148,7 +148,7 @@ public:
 
   /** Get the value of sigma used to compute the edge potential map derivatives.
    */
-  float
+  [[nodiscard]] float
   GetDerivativeSigma() const
   {
     return m_GeodesicActiveContourFunction->GetDerivativeSigma();

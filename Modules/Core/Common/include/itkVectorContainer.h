@@ -259,14 +259,14 @@ public:
 
     /** Get the index into the VectorContainer associated with this iterator.
      */
-    ElementIdentifier
+    [[nodiscard]] ElementIdentifier
     Index() const
     {
       return static_cast<ElementIdentifier>(m_Pos);
     }
 
     /** Get the value at this iterator's location in the VectorContainer.   */
-    reference
+    [[nodiscard]] reference
     Value() const
     {
       return *m_Iter;
@@ -402,14 +402,14 @@ public:
 
     /** Get the index into the VectorContainer associated with this iterator.
      */
-    ElementIdentifier
+    [[nodiscard]] ElementIdentifier
     Index() const
     {
       return static_cast<ElementIdentifier>(m_Pos);
     }
 
     /** Get the value at this iterator's location in the VectorContainer.   */
-    const_reference
+    [[nodiscard]] const_reference
     Value() const
     {
       return *m_Iter;

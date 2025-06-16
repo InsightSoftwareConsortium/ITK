@@ -236,7 +236,7 @@ public:
     ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(ConstIterator);
 
     /** Get the index into the MapContainer associated with this iterator.   */
-    ElementIdentifier
+    [[nodiscard]] ElementIdentifier
     Index() const
     {
       return m_Iter->first;
@@ -329,14 +329,14 @@ public:
     ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(ConstIterator);
 
     /** Get the index into the MapContainer associated with this iterator.   */
-    ElementIdentifier
+    [[nodiscard]] ElementIdentifier
     Index() const
     {
       return m_Iter->first;
     }
 
     /** Get the value at this iterator's location in the MapContainer.   */
-    const Element &
+    [[nodiscard]] const Element &
     Value() const
     {
       return m_Iter->second;

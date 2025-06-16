@@ -78,7 +78,7 @@ public:
 
   /** Get the data object that is throwing this exception. */
   /** @ITKStartGrouping */
-  const DataObject *
+  [[nodiscard]] const DataObject *
   GetDataObject() const noexcept;
 #if !defined(ITK_LEGACY_REMOVE)
   DataObject *

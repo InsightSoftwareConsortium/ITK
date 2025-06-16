@@ -54,7 +54,7 @@ protected:
   TearDown() override
   {}
 
-  std::string
+  [[nodiscard]] std::string
   GetTestName() const
   {
     return ::testing::UnitTest::GetInstance()->current_test_info()->name();

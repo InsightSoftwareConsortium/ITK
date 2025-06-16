@@ -67,7 +67,7 @@ public:
 
   ThresholdingPixelAccessor() = default;
 
-  ExternalType
+  [[nodiscard]] ExternalType
   Get(const InternalType & input) const
   {
     return (input > m_Threshold) ? 1 : 0;

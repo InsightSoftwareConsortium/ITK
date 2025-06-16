@@ -73,7 +73,7 @@ public:
 
   VectorPixelAccessor &
   operator=(const VectorPixelAccessor & vpa) = default;
-  ExternalType
+  [[nodiscard]] ExternalType
   Get(const InternalType & input) const
   {
     return static_cast<ExternalType>(input[m_Index]);

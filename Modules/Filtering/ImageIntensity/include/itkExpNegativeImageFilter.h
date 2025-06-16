@@ -58,7 +58,7 @@ public:
     m_Factor = factor;
   }
 
-  double
+  [[nodiscard]] double
   GetFactor() const
   {
     return m_Factor;
@@ -118,7 +118,7 @@ public:
     this->GetFunctor().SetFactor(factor);
     this->Modified();
   }
-  double
+  [[nodiscard]] double
   GetFactor() const
   {
     return this->GetFunctor().GetFactor();

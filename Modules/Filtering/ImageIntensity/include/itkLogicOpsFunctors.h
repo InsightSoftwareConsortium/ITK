@@ -87,12 +87,12 @@ public:
     m_BackgroundValue = BG;
   }
 
-  TOutput
+  [[nodiscard]] TOutput
   GetForegroundValue() const
   {
     return (m_ForegroundValue);
   }
-  TOutput
+  [[nodiscard]] TOutput
   GetBackgroundValue() const
   {
     return (m_BackgroundValue);

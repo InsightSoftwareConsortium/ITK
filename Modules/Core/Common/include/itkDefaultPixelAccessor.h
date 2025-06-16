@@ -77,7 +77,7 @@ public:
   }
 
   /** Get a const reference to the pixel. */
-  inline const TType &
+  [[nodiscard]] inline const TType &
   Get(const TType & input) const
   {
     return input;

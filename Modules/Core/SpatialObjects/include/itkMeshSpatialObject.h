@@ -92,7 +92,7 @@ public:
   using Superclass::IsInsideInObjectSpace;
 
   /** Returns the latest modified time of the object and its component. */
-  ModifiedTimeType
+  [[nodiscard]] ModifiedTimeType
   GetMTime() const override;
 
 #if !defined(ITK_LEGACY_REMOVE)
@@ -124,7 +124,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  typename LightObject::Pointer
+  [[nodiscard]] typename LightObject::Pointer
   InternalClone() const override;
 
 private:

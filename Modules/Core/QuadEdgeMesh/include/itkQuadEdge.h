@@ -200,12 +200,12 @@ public:
   {
     return this->m_Rot;
   }
-  inline const Self *
+  [[nodiscard]] [[nodiscard]] inline const Self *
   GetOnext() const
   {
     return this->m_Onext;
   }
-  inline const Self *
+  [[nodiscard]] [[nodiscard]] inline const Self *
   GetRot() const
   {
     return this->m_Rot;
@@ -261,7 +261,7 @@ public:
     return nullptr;
   }
 
-  inline const Self *
+  [[nodiscard]] [[nodiscard]] inline const Self *
   GetSym() const
   {
     if (this->m_Rot)
@@ -277,7 +277,7 @@ public:
   Self *
   GetLnext();
 
-  const Self *
+  [[nodiscard]] [[nodiscard]] const Self *
   GetLnext() const;
 
   /** Returns next edge with same Right face. The first edge
@@ -286,7 +286,7 @@ public:
   Self *
   GetRnext();
 
-  const Self *
+  [[nodiscard]] [[nodiscard]] const Self *
   GetRnext() const;
 
   /** Returns next edge with same right face and same Destination. The
@@ -295,7 +295,7 @@ public:
   Self *
   GetDnext();
 
-  const Self *
+  [[nodiscard]] [[nodiscard]] const Self *
   GetDnext() const;
 
   /** Returns previous edge with same Origin
@@ -303,7 +303,7 @@ public:
   Self *
   GetOprev();
 
-  const Self *
+  [[nodiscard]] [[nodiscard]] const Self *
   GetOprev() const;
 
   /** Returns previous edge with same Left face. The first edge
@@ -312,7 +312,7 @@ public:
   Self *
   GetLprev();
 
-  const Self *
+  [[nodiscard]] [[nodiscard]] const Self *
   GetLprev() const;
 
   /** Returns the previous edge with same Right face. The first edge
@@ -321,7 +321,7 @@ public:
   Self *
   GetRprev();
 
-  const Self *
+  [[nodiscard]] [[nodiscard]] const Self *
   GetRprev() const;
 
   /** Returns the previous edge with same Right face and same Destination.
@@ -330,7 +330,7 @@ public:
   Self *
   GetDprev();
 
-  const Self *
+  [[nodiscard]] [[nodiscard]] const Self *
   GetDprev() const;
 
   /** Inverse operators */
@@ -380,7 +380,7 @@ public:
   {
     return this->GetDprev();
   }
-  inline const Self *
+  [[nodiscard]] [[nodiscard]] inline const Self *
   GetInvRot() const
   {
 #ifdef NDEBUG
@@ -405,22 +405,22 @@ public:
 #endif
   }
 
-  inline const Self *
+  [[nodiscard]] [[nodiscard]] inline const Self *
   GetInvOnext() const
   {
     return this->GetOprev();
   }
-  inline const Self *
+  [[nodiscard]] [[nodiscard]] inline const Self *
   GetInvLnext() const
   {
     return this->GetLprev();
   }
-  inline const Self *
+  [[nodiscard]] [[nodiscard]] inline const Self *
   GetInvRnext() const
   {
     return this->GetRprev();
   }
-  inline const Self *
+  [[nodiscard]] [[nodiscard]] inline const Self *
   GetInvDnext() const
   {
     return this->GetDprev();
@@ -429,23 +429,23 @@ public:
 
   /** Queries. */
   /** @ITKStartGrouping */
-  inline bool
+  [[nodiscard]] [[nodiscard]] inline bool
   IsHalfEdge() const
   {
     return ((m_Onext == this) || (m_Rot == nullptr));
   }
-  inline bool
+  [[nodiscard]] [[nodiscard]] inline bool
   IsIsolated() const
   {
     return (this == this->GetOnext());
   }
   bool
   IsEdgeInOnextRing(Self * testEdge) const;
-  bool
+  [[nodiscard]] [[nodiscard]] bool
   IsLnextGivenSizeCyclic(const int size) const;
   /** @ITKEndGrouping */
 
-  unsigned int
+  [[nodiscard]] [[nodiscard]] unsigned int
   GetOrder() const;
 
 private:

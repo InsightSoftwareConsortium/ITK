@@ -118,7 +118,7 @@ protected:
 
   /** The kernel needs padding if any of the sizes of its dimensions is
    * even. This method checks for this condition. */
-  bool
+  [[nodiscard]] bool
   GetKernelNeedsPadding() const;
 
   /** Calculates the padding width needed to make each dimension odd. */

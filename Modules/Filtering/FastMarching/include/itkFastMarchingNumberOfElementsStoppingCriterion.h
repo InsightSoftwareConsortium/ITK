@@ -63,13 +63,13 @@ public:
   itkSetMacro(TargetNumberOfElements, IdentifierType);
   itkGetMacro(TargetNumberOfElements, IdentifierType);
   /** @ITKEndGrouping */
-  bool
+  [[nodiscard]] bool
   IsSatisfied() const override
   {
     return (this->m_CurrentNumberOfElements >= this->m_TargetNumberOfElements);
   }
 
-  std::string
+  [[nodiscard]] std::string
   GetDescription() const override
   {
     return "Current Number of Elements >= Target Number of Elements";

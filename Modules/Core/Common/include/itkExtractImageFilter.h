@@ -217,7 +217,7 @@ public:
   /**
    * Get the currently set strategy for collapsing directions of physical space.
    */
-  DirectionCollapseStrategyEnum
+  [[nodiscard]] DirectionCollapseStrategyEnum
   GetDirectionCollapseToStrategy() const
   {
     return this->m_DirectionCollapseStrategy;

@@ -78,11 +78,11 @@ public:
   SetParameters(const ParametersType & parameters) = 0;
 
   /** Get the parameters for this source. */
-  virtual ParametersType
+  [[nodiscard]] virtual ParametersType
   GetParameters() const = 0;
 
   /** Get the number of parameters. */
-  virtual unsigned int
+  [[nodiscard]] virtual unsigned int
   GetNumberOfParameters() const = 0;
 
 protected:

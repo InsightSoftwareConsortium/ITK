@@ -167,7 +167,7 @@ public:
   }
 
   /** Return the matrix. */
-  inline const InternalMatrixType &
+  [[nodiscard]] inline const InternalMatrixType &
   GetVnlMatrix() const
   {
     return m_Matrix;
@@ -206,14 +206,14 @@ public:
   operator=(const Self & matrix) = default;
 
   /** Return the inverse matrix. */
-  inline vnl_matrix<T>
+  [[nodiscard]] inline vnl_matrix<T>
   GetInverse() const
   {
     return vnl_matrix_inverse<T>(m_Matrix).as_matrix();
   }
 
   /** Return the transposed matrix. */
-  inline vnl_matrix<T>
+  [[nodiscard]] inline vnl_matrix<T>
   GetTranspose() const
   {
     return m_Matrix.transpose();
@@ -232,14 +232,14 @@ public:
   {}
 
   /** Return number of rows in the matrix */
-  inline unsigned int
+  [[nodiscard]] inline unsigned int
   Rows() const
   {
     return m_Matrix.rows();
   }
 
   /** Return number of columns in the matrix */
-  inline unsigned int
+  [[nodiscard]] inline unsigned int
   Cols() const
   {
     return m_Matrix.cols();

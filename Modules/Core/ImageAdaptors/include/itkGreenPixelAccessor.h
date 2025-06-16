@@ -60,7 +60,7 @@ public:
   }
 
   /** Read access to the Green component */
-  inline const ExternalType &
+  [[nodiscard]] inline const ExternalType &
   Get(const InternalType & input) const
   {
     return input.GetGreen();

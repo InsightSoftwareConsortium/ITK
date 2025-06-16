@@ -63,7 +63,7 @@ public:
    * \note If the solution vector doesn't exist (problem was not yet solved),
    *       or the index i is out of range, the function returns 0.0.
    */
-  virtual Float
+  [[nodiscard]] virtual Float
   GetSolutionValue(unsigned int i, unsigned int solutionIndex = 0) const = 0;
 
   /**

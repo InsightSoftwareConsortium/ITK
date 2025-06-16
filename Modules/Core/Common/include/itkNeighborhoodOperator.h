@@ -102,7 +102,7 @@ public:
   }
 
   /** Returns the direction (dimension number) of a directional operator. */
-  unsigned int
+  [[nodiscard]] unsigned int
   GetDirection() const
   {
     return m_Direction;

@@ -69,7 +69,7 @@ public:
   itkSetClampMacro(Direction, unsigned int, 0, InputImageType::ImageDimension - 1);
 
   /** Get the greatest supported prime factor. */
-  virtual SizeValueType
+  [[nodiscard]] virtual SizeValueType
   GetSizeGreatestPrimeFactor() const
   {
     return 2;

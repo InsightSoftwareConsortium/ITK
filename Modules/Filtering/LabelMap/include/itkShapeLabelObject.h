@@ -345,7 +345,7 @@ public:
     m_BoundingBox = v;
   }
 
-  const double &
+  [[nodiscard]] const double &
   GetPhysicalSize() const
   {
     return m_PhysicalSize;
@@ -357,7 +357,7 @@ public:
     m_PhysicalSize = v;
   }
 
-  const SizeValueType &
+  [[nodiscard]] const SizeValueType &
   GetNumberOfPixels() const
   {
     return m_NumberOfPixels;
@@ -381,7 +381,7 @@ public:
     m_Centroid = centroid;
   }
 
-  const SizeValueType &
+  [[nodiscard]] const SizeValueType &
   GetNumberOfPixelsOnBorder() const
   {
     return m_NumberOfPixelsOnBorder;
@@ -393,7 +393,7 @@ public:
     m_NumberOfPixelsOnBorder = v;
   }
 
-  const double &
+  [[nodiscard]] const double &
   GetPerimeterOnBorder() const
   {
     return m_PerimeterOnBorder;
@@ -405,7 +405,7 @@ public:
     m_PerimeterOnBorder = v;
   }
 
-  const double &
+  [[nodiscard]] const double &
   GetFeretDiameter() const
   {
     return m_FeretDiameter;
@@ -441,7 +441,7 @@ public:
     m_PrincipalAxes = v;
   }
 
-  const double &
+  [[nodiscard]] const double &
   GetElongation() const
   {
     return m_Elongation;
@@ -453,7 +453,7 @@ public:
     m_Elongation = v;
   }
 
-  const double &
+  [[nodiscard]] const double &
   GetPerimeter() const
   {
     return m_Perimeter;
@@ -465,7 +465,7 @@ public:
     m_Perimeter = v;
   }
 
-  const double &
+  [[nodiscard]] const double &
   GetRoundness() const
   {
     return m_Roundness;
@@ -477,7 +477,7 @@ public:
     m_Roundness = v;
   }
 
-  const double &
+  [[nodiscard]] const double &
   GetEquivalentSphericalRadius() const
   {
     return m_EquivalentSphericalRadius;
@@ -489,7 +489,7 @@ public:
     m_EquivalentSphericalRadius = v;
   }
 
-  const double &
+  [[nodiscard]] const double &
   GetEquivalentSphericalPerimeter() const
   {
     return m_EquivalentSphericalPerimeter;
@@ -513,7 +513,7 @@ public:
     m_EquivalentEllipsoidDiameter = v;
   }
 
-  const double &
+  [[nodiscard]] const double &
   GetFlatness() const
   {
     return m_Flatness;
@@ -525,7 +525,7 @@ public:
     m_Flatness = v;
   }
 
-  const double &
+  [[nodiscard]] const double &
   GetPerimeterOnBorderRatio() const
   {
     return m_PerimeterOnBorderRatio;

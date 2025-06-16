@@ -248,7 +248,7 @@ public:
     }
   }
 
-  bool
+  [[nodiscard]] bool
   GetUseNegativeFeatures() const
   {
     itkWarningMacro(

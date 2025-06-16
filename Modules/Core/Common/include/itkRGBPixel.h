@@ -166,14 +166,14 @@ public:
   }
 
   /** Return the value for the Nth component. */
-  ComponentType
+  [[nodiscard]] ComponentType
   GetNthComponent(int c) const
   {
     return this->operator[](c);
   }
 
   /** Return the Euclidean norm of the vector defined by the RGB components. */
-  ComponentType
+  [[nodiscard]] ComponentType
   GetScalarValue() const
   {
     return static_cast<ComponentType>(
@@ -220,28 +220,28 @@ public:
   }
 
   /** Get the Red component. */
-  const ComponentType &
+  [[nodiscard]] const ComponentType &
   GetRed() const
   {
     return this->operator[](0);
   }
 
   /** Get the Green component. */
-  const ComponentType &
+  [[nodiscard]] const ComponentType &
   GetGreen() const
   {
     return this->operator[](1);
   }
 
   /** Get the Blue component. */
-  const ComponentType &
+  [[nodiscard]] const ComponentType &
   GetBlue() const
   {
     return this->operator[](2);
   }
 
   /** Get Luminance out of RGB */
-  LuminanceType
+  [[nodiscard]] LuminanceType
   GetLuminance() const;
 };
 

@@ -98,7 +98,7 @@ public:
   ElementStd();
 
   /** Methods that define the geometry of an element. */
-  unsigned int
+  [[nodiscard]] unsigned int
   GetNumberOfNodes() const override
   {
     return NumberOfNodes;
@@ -134,7 +134,7 @@ public:
   }
 
   /** Get the number of spatial dimensions. */
-  unsigned int
+  [[nodiscard]] unsigned int
   GetNumberOfSpatialDimensions() const override
   {
     return NumberOfSpatialDimensions;

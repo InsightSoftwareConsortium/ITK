@@ -109,7 +109,7 @@ public:
    * \return The necessary input region required to determine the
    * pixel values in the outputRequestedRegion.
    */
-  RegionType
+  [[nodiscard]] RegionType
   GetInputRequestedRegion(const RegionType & inputLargestPossibleRegion,
                           const RegionType & outputRequestedRegion) const override;
 

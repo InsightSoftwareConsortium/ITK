@@ -88,7 +88,7 @@ public:
    * size. Defaults to 2 as many implementations work only for sizes that are
    * power of 2.
    */
-  virtual SizeValueType
+  [[nodiscard]] virtual SizeValueType
   GetSizeGreatestPrimeFactor() const;
 
   /** Get whether the actual X dimension of the image is odd or not in the full

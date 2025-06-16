@@ -131,7 +131,7 @@ protected:
   ImageMaskSpatialObject();
   ~ImageMaskSpatialObject() override = default;
 
-  typename LightObject::Pointer
+  [[nodiscard]] typename LightObject::Pointer
   InternalClone() const override;
 
 private:

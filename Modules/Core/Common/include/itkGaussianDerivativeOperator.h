@@ -129,7 +129,7 @@ public:
   {
     m_NormalizeAcrossScale = flag;
   }
-  bool
+  [[nodiscard]] bool
   GetNormalizeAcrossScale() const
   {
     return m_NormalizeAcrossScale;
@@ -145,7 +145,7 @@ public:
   {
     m_Variance = variance;
   }
-  double
+  [[nodiscard]] double
   GetVariance() const
   {
     return m_Variance;
@@ -158,7 +158,7 @@ public:
   {
     m_Spacing = spacing;
   }
-  double
+  [[nodiscard]] double
   GetSpacing() const
   {
     return m_Spacing;
@@ -201,7 +201,7 @@ public:
   {
     m_Order = order;
   }
-  unsigned int
+  [[nodiscard]] unsigned int
   GetOrder() const
   {
     return m_Order;
@@ -243,7 +243,7 @@ protected:
 private:
   /* Methods for generations of the coefficients for a Gaussian
    * operator of 0-order respecting the remaining parameters. */
-  CoefficientVector
+  [[nodiscard]] CoefficientVector
   GenerateGaussianCoefficients() const;
 
   /** Normalize derivatives across scale space */

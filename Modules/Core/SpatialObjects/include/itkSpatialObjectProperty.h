@@ -61,7 +61,7 @@ public:
     return m_Color;
   }
 
-  const ColorType &
+  [[nodiscard]] const ColorType &
   GetColor() const
   {
     return m_Color;
@@ -72,22 +72,22 @@ public:
 
   void
   SetRed(double r);
-  double
+  [[nodiscard]] double
   GetRed() const;
 
   void
   SetGreen(double g);
-  double
+  [[nodiscard]] double
   GetGreen() const;
 
   void
   SetBlue(double b);
-  double
+  [[nodiscard]] double
   GetBlue() const;
 
   void
   SetAlpha(double a);
-  double
+  [[nodiscard]] double
   GetAlpha() const;
 
   void
@@ -104,7 +104,7 @@ public:
   }
 #endif
 
-  const std::string &
+  [[nodiscard]] const std::string &
   GetName() const
   {
     return m_Name;
@@ -117,7 +117,7 @@ public:
 
   bool
   GetTagScalarValue(const std::string & tag, double & value) const;
-  double
+  [[nodiscard]] double
   GetTagScalarValue(const std::string & tag) const
   {
     double value = 0;
@@ -130,17 +130,17 @@ public:
   bool
   GetTagStringValue(const std::string & tag, std::string & value) const;
 #endif
-  std::string
+  [[nodiscard]] std::string
   GetTagStringValue(const std::string & tag) const;
 
 
   std::map<std::string, double> &
   GetTagScalarDictionary();
-  const std::map<std::string, double> &
+  [[nodiscard]] const std::map<std::string, double> &
   GetTagScalarDictionary() const;
   std::map<std::string, std::string> &
   GetTagStringDictionary();
-  const std::map<std::string, std::string> &
+  [[nodiscard]] const std::map<std::string, std::string> &
   GetTagStringDictionary() const;
 
   void

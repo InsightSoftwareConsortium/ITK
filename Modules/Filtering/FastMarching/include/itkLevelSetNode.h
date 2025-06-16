@@ -105,7 +105,7 @@ public:
   {
     return m_Value;
   }
-  const PixelType &
+  [[nodiscard]] const PixelType &
   GetValue() const
   {
     return m_Value;
@@ -124,7 +124,7 @@ public:
   {
     return m_Index;
   }
-  const IndexType &
+  [[nodiscard]] const IndexType &
   GetIndex() const
   {
     return m_Index;

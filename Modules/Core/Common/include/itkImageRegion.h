@@ -92,7 +92,7 @@ public:
 #endif
 
   /** Standard part of all itk objects. */
-  const char *
+  [[nodiscard]] const char *
   GetNameOfClass() const itkRegionOverrideMacro
   {
     return "ImageRegion";
@@ -128,7 +128,7 @@ public:
   using SliceRegion = ImageRegion<Self::SliceDimension>;
 
   /** Return the region type. Images are described with structured regions. */
-  Region::RegionEnum
+  [[nodiscard]] Region::RegionEnum
   GetRegionType() const itkRegionOverrideMacro
   {
     return Region::RegionEnum::ITK_STRUCTURED_REGION;
@@ -185,7 +185,7 @@ public:
 
   /** Get index defining the corner of the region. */
   /** @ITKStartGrouping */
-  const IndexType &
+  [[nodiscard]] const IndexType &
   GetIndex() const
   {
     return m_Index;
@@ -206,7 +206,7 @@ public:
 
   /** Get the size of the region. */
   /** @ITKStartGrouping */
-  const SizeType &
+  [[nodiscard]] const SizeType &
   GetSize() const
   {
     return m_Size;
@@ -225,7 +225,7 @@ public:
   {
     m_Size[i] = sze;
   }
-  SizeValueType
+  [[nodiscard]] SizeValueType
   GetSize(unsigned int i) const
   {
     return m_Size[i];
@@ -239,14 +239,14 @@ public:
   {
     m_Index[i] = sze;
   }
-  IndexValueType
+  [[nodiscard]] IndexValueType
   GetIndex(unsigned int i) const
   {
     return m_Index[i];
   }
   /** @ITKEndGrouping */
   /** Get index defining the upper corner of the region. */
-  IndexType
+  [[nodiscard]] IndexType
   GetUpperIndex() const;
 
   /** Modify the Size of the ImageRegion so that the provided index will be the upper corner index. */
@@ -267,7 +267,7 @@ public:
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
 
   /** Test if an index is inside */
-  bool
+  [[nodiscard]] bool
   IsInside(const IndexType & index) const
   {
     for (unsigned int i = 0; i < ImageDimension; ++i)
@@ -285,7 +285,7 @@ public:
    * center at the integer coordinate and extends half way
    * to the next integer coordinate, inclusive on all sides. */
   template <typename TCoordinate>
-  bool
+  [[nodiscard]] bool
   IsInside(const ContinuousIndex<TCoordinate, VImageDimension> & index) const
   {
     constexpr TCoordinate half = 0.5;
@@ -304,7 +304,7 @@ public:
    * the region that is passed as argument to this method, has a size of value
    * zero, then it will not be considered to be inside of the current region,
    * even its starting index is inside. */
-  bool
+  [[nodiscard]] bool
   IsInside(const Self & otherRegion) const
   {
     const auto & otherIndex = otherRegion.m_Index;
@@ -324,7 +324,7 @@ public:
 
   /** Get the number of pixels contained in this region. This just
    * multiplies the size components. */
-  SizeValueType
+  [[nodiscard]] SizeValueType
   GetNumberOfPixels() const;
 
   /** Pad an image region by the specified radius. Region can be padded
@@ -362,7 +362,7 @@ public:
   /** Slice a region, producing a region that is one dimension lower
    * than the current region. Parameter "dim" specifies which dimension
    * to remove. */
-  SliceRegion
+  [[nodiscard]] SliceRegion
   Slice(const unsigned int dim) const;
 
   /** Supports tuple-like access: `get<0>()` returns a reference to the index and `get<1>()` returns a reference to the

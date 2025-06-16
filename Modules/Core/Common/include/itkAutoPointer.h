@@ -124,7 +124,7 @@ public:
   }
 
   /** Query for the ownership */
-  bool
+  [[nodiscard]] bool
   IsOwner() const
   {
     return m_IsOwner;
@@ -150,7 +150,7 @@ public:
   }
 
   /** Access function to pointer. */
-  ObjectType *
+  [[nodiscard]] ObjectType *
   GetPointer() const
   {
     return m_Pointer;

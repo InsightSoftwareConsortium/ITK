@@ -71,14 +71,14 @@ public:
   }
 
   /** Read access to the NthElement component */
-  inline ExternalType
+  [[nodiscard]] inline ExternalType
   Get(const InternalType & input) const
   {
     return static_cast<ExternalType>(DefaultConvertPixelTraits<InternalType>::GetNthComponent(m_ElementNumber, input));
   }
 
   /** Get the element number to access in the container */
-  unsigned int
+  [[nodiscard]] unsigned int
   GetElementNumber() const
   {
     return m_ElementNumber;
@@ -149,14 +149,14 @@ public:
     return Set(v, input);
   }
 
-  inline ExternalType
+  [[nodiscard]] inline ExternalType
   Get(const ActualPixelType & input) const
   {
     const auto output = static_cast<ExternalType>(input[m_ElementNumber]);
     return output;
   }
 
-  inline ExternalType
+  [[nodiscard]] inline ExternalType
   Get(const InternalType & input, const SizeValueType offset) const
   {
     return Get(Superclass::Get(input, offset));
@@ -164,7 +164,7 @@ public:
 
 
   /** Get the element number to access in the container */
-  unsigned int
+  [[nodiscard]] unsigned int
   GetElementNumber() const
   {
     return m_ElementNumber;
@@ -185,7 +185,7 @@ public:
   }
 
   /** Get Vector lengths */
-  VectorLengthType
+  [[nodiscard]] VectorLengthType
   GetVectorLength() const
   {
     return Superclass::GetVectorLength();

@@ -37,7 +37,7 @@ public:
     m_Iterator = m_Begin;
   }
 
-  const DataObject *
+  [[nodiscard]] const DataObject *
   GetInput() const
   {
     return m_Iterator->second;

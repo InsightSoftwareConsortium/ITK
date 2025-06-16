@@ -91,7 +91,7 @@ public:
     }
   }
 
-  const FileNamesContainer &
+  [[nodiscard]] const FileNamesContainer &
   GetFileNames() const
   {
     return m_FileNames;
@@ -169,7 +169,7 @@ public:
 
   /** Get access to the Array of MetaDataDictionaries which are
    * updated in the GenerateData methods */
-  DictionaryArrayRawPointer
+  [[nodiscard]] DictionaryArrayRawPointer
   GetMetaDataDictionaryArray() const;
 
   /** Set the stream On or Off */

@@ -156,7 +156,7 @@ public:
     m_SmoothingIterations = p;
   }
 
-  int
+  [[nodiscard]] int
   GetSmoothingIterations() const
   {
     return m_SmoothingIterations;

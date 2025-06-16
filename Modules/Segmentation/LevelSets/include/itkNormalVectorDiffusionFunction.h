@@ -100,7 +100,7 @@ public:
   }
 
   /** This method returns the isotropic/anisotropic filtering parameter. */
-  int
+  [[nodiscard]] int
   GetNormalProcessType() const
   {
     return m_NormalProcessType;

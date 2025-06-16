@@ -240,7 +240,7 @@ public:
   }
 
   /** Return the gradient direction. idx is 0 based */
-  virtual GradientDirectionType
+  [[nodiscard]] virtual GradientDirectionType
   GetGradientDirection(unsigned int idx) const
   {
     if (idx >= m_NumberOfGradientDirections)

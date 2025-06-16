@@ -171,7 +171,7 @@ public:
   operator-(const VectorType & vec) const;
 
   /** Access an element of a point. */
-  VectorType
+  [[nodiscard]] VectorType
   GetVectorFromOrigin() const;
 
   /** Get a vnl_vector_ref referencing the same memory block */
@@ -179,7 +179,7 @@ public:
   GetVnlVector();
 
   /** Get a vnl_vector with a copy of the internal memory block. */
-  vnl_vector<TCoordinate>
+  [[nodiscard]] vnl_vector<TCoordinate>
   GetVnlVector() const;
 
   /** Set to median point between the two points
@@ -275,7 +275,7 @@ public:
    * C-Like rules */
 
   template <typename TCoordinateB>
-  RealType
+  [[nodiscard]] RealType
   SquaredEuclideanDistanceTo(const Point<TCoordinateB, VPointDimension> & pa) const
   {
     RealType sum{};
@@ -293,7 +293,7 @@ public:
    * with a different representation type.  Casting is done with
    * C-Like rules */
   template <typename TCoordinateB>
-  RealType
+  [[nodiscard]] RealType
   EuclideanDistanceTo(const Point<TCoordinateB, VPointDimension> & pa) const
   {
     const double distance = std::sqrt(static_cast<double>(this->SquaredEuclideanDistanceTo(pa)));

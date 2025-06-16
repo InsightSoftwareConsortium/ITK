@@ -126,19 +126,19 @@ public:
 
   /** Return the number of elements in the Array  */
   /** @ITKStartGrouping */
-  SizeValueType
+  [[nodiscard]] SizeValueType
   Size() const
   {
     return static_cast<SizeValueType>(this->size());
   }
-  unsigned int
+  [[nodiscard]] unsigned int
   GetNumberOfElements() const
   {
     return static_cast<SizeValueType>(this->size());
   }
   /** @ITKEndGrouping */
   /** Get one element */
-  const TValue &
+  [[nodiscard]] const TValue &
   GetElement(SizeValueType i) const
   {
     return this->operator[](i);
@@ -155,7 +155,7 @@ public:
   void
   SetSize(SizeValueType sz);
 
-  SizeValueType
+  [[nodiscard]] SizeValueType
   GetSize() const
   {
     return static_cast<SizeValueType>(this->size());

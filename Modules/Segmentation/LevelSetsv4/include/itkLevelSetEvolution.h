@@ -119,7 +119,7 @@ public:
   void
   SetNumberOfWorkUnits(const ThreadIdType numberOfThreads);
   /** Set the maximum number of threads to be used. */
-  ThreadIdType
+  [[nodiscard]] ThreadIdType
   GetNumberOfWorkUnits() const;
 
   ~LevelSetEvolution() override = default;
@@ -253,7 +253,7 @@ public:
   void
   SetNumberOfWorkUnits(const ThreadIdType numberOfWorkUnits);
   /** Set the maximum number of threads to be used. */
-  ThreadIdType
+  [[nodiscard]] ThreadIdType
   GetNumberOfWorkUnits() const;
 
 protected:

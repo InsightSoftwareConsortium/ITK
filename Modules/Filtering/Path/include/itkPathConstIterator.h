@@ -155,7 +155,7 @@ public:
   }
 
   /** Get the pixel value */
-  const PixelType &
+  [[nodiscard]] const PixelType &
   Get() const
   {
     return m_Image->GetPixel(m_CurrentImageIndex);
@@ -164,7 +164,7 @@ public:
   /** Is the iterator at the end of the path?
    * Note that for a closed path, it may be possible to increment back to the
    * start of the path. */
-  bool
+  [[nodiscard]] bool
   IsAtEnd() const
   {
     return m_IsAtEnd;

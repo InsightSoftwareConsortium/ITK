@@ -134,7 +134,7 @@ public:
    * determine whether a particular use of the filter is really
    * running in place. Some filters may be able to optimize their
    * operation if the InPlace is true and CanRunInPlace is true. */
-  bool
+  [[nodiscard]] bool
   CanRunInPlace() const
   {
     return true; // used to test if TInputImage == TOutputImage. But

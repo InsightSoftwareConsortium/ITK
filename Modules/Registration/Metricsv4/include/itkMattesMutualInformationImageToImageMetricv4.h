@@ -296,7 +296,7 @@ protected:
 
     ~DerivativeBufferManager() = default;
 
-    size_t
+    [[nodiscard]] size_t
     GetCachedNumberOfLocalParameters() const
     {
       return this->m_CachedNumberOfLocalParameters;

@@ -91,14 +91,14 @@ public:
   virtual ~MultivariateLegendrePolynomial();
 
   /** Gets the dimension. */
-  unsigned int
+  [[nodiscard]] unsigned int
   GetDimension() const
   {
     return m_Dimension;
   }
 
   /** Gets the degree (the degree of Legendre polynomials). */
-  unsigned int
+  [[nodiscard]] unsigned int
   GetDegree() const
   {
     return m_Degree;
@@ -110,14 +110,14 @@ public:
    *  size, an exception is thrown otherwise
    *  \sa SetCoefficients
    */
-  unsigned int
+  [[nodiscard]] unsigned int
   GetNumberOfCoefficients() const
   {
     return m_NumberOfCoefficients;
   }
 
   /** Gets each dimension's size. */
-  const DomainSizeType &
+  [[nodiscard]] const DomainSizeType &
   GetDomainSize() const
   {
     return m_DomainSize;
@@ -151,7 +151,7 @@ public:
   SetCoefficients(const ParametersType & coefficients);
 
   /** \brief Gets Legendre polynomials' coefficients. */
-  const CoefficientArrayType &
+  [[nodiscard]] const CoefficientArrayType &
   GetCoefficients() const;
 
   /** In the case which the bias field is 2D, it returns bias value at
@@ -233,7 +233,7 @@ public:
       }
     }
 
-    bool
+    [[nodiscard]] bool
     IsAtEnd() const
     {
       return m_IsAtEnd;

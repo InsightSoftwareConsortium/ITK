@@ -97,13 +97,13 @@ public:
   {
     return m_Parameters;
   }
-  virtual unsigned int
+  [[nodiscard]] virtual unsigned int
   GetNumberOfShapeParameters() const = 0;
 
-  virtual unsigned int
+  [[nodiscard]] virtual unsigned int
   GetNumberOfPoseParameters() const = 0;
 
-  virtual unsigned int
+  [[nodiscard]] virtual unsigned int
   GetNumberOfParameters() const
   {
     return this->GetNumberOfShapeParameters() + this->GetNumberOfPoseParameters();

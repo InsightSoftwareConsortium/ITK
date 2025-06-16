@@ -235,7 +235,7 @@ public:
 
   /**  Return the type of the cell (one of the CellGeometryEnum enums
    *   listed above). */
-  virtual itk::CommonEnums::CellGeometry
+  [[nodiscard]] virtual itk::CommonEnums::CellGeometry
   GetType() const = 0;
 
   /** Create a new copy of this cell.  This is provided so that a copy can
@@ -244,19 +244,19 @@ public:
   MakeCopy(CellAutoPointer &) const = 0;
 
   /** Get the topological dimension of this cell. */
-  virtual unsigned int
+  [[nodiscard]] virtual unsigned int
   GetDimension() const = 0;
 
   /** Get the interpolation order of the cell.  Usually linear. */
-  virtual unsigned int
+  [[nodiscard]] virtual unsigned int
   GetInterpolationOrder() const;
 
   /** Get the number of points required to define the cell. */
-  virtual unsigned int
+  [[nodiscard]] virtual unsigned int
   GetNumberOfPoints() const = 0;
 
   /** Get the number of boundary features of a given dimension on this cell. */
-  virtual CellFeatureCount
+  [[nodiscard]] virtual CellFeatureCount
   GetNumberOfBoundaryFeatures(int dimension) const = 0;
 
   /** Get the boundary feature corresponding to the given dimension and Id. */
@@ -266,7 +266,7 @@ public:
   /** Get the point id list used by the cell in a form suitable to pass to
    * SetPointIds(first) on another cell.  This is equivalent to
    * PointIdsBegin() const. */
-  virtual PointIdConstIterator
+  [[nodiscard]] virtual PointIdConstIterator
   GetPointIds() const;
 
   /** Set the point id list used by the cell.  It is assumed that the given
@@ -293,7 +293,7 @@ public:
 
   /** Get a const begin iterator to the list of point identifiers used
    * by the cell. */
-  virtual PointIdConstIterator
+  [[nodiscard]] virtual PointIdConstIterator
   PointIdsBegin() const = 0;
 
   /** Get an end iterator to the list of point identifiers used by the cell. */
@@ -302,13 +302,13 @@ public:
 
   /** Get a const end iterator to the list of point identifiers used
    * by the cell. */
-  virtual PointIdConstIterator
+  [[nodiscard]] virtual PointIdConstIterator
   PointIdsEnd() const = 0;
 
   /** Get/Set the point id list used by the cell */
   /** @ITKStartGrouping */
   using PointIdentifierContainerType = itk::Array<PointIdentifier>;
-  PointIdentifierContainerType
+  [[nodiscard]] PointIdentifierContainerType
   GetPointIdsContainer() const;
   void
   SetPointIdsContainer(const PointIdentifierContainerType &);

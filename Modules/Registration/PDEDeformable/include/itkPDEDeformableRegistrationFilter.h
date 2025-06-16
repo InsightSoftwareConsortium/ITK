@@ -145,7 +145,7 @@ public:
    * set. While PDEDeformableRegistration can take a third input as an
    * initial displacement field, this input is not a required input.
    */
-  std::vector<SmartPointer<DataObject>>::size_type
+  [[nodiscard]] std::vector<SmartPointer<DataObject>>::size_type
   GetNumberOfValidRequiredInputs() const override;
 
   /** Set/Get whether the displacement field is smoothed

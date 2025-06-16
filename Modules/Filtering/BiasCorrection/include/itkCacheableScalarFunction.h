@@ -72,28 +72,28 @@ public:
 
   /** Get the number of samples between the lower-bound and upper-bound
    * of the cache table. */
-  SizeValueType
+  [[nodiscard]] SizeValueType
   GetNumberOfSamples() const
   {
     return m_NumberOfSamples;
   }
 
   /** Check if the internal cache table and its values are valid. */
-  bool
+  [[nodiscard]] bool
   IsCacheAvailable() const
   {
     return m_CacheAvailable;
   }
 
   /** Get the upper-bound of domain that is used for filling the cache table. */
-  double
+  [[nodiscard]] double
   GetCacheUpperBound() const
   {
     return m_CacheUpperBound;
   }
 
   /** Get the lower-bound of domain that is used for filling the cache table. */
-  double
+  [[nodiscard]] double
   GetCacheLowerBound() const
   {
     return m_CacheLowerBound;
@@ -106,7 +106,7 @@ public:
   Evaluate(MeasureType x);
 
   /** Gets the interval of each cell between the upper and lower bound */
-  double
+  [[nodiscard]] double
   GetInterval() const
   {
     return m_TableInc;

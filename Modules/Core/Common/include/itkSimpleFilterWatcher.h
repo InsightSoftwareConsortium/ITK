@@ -141,7 +141,7 @@ public:
   {
     m_Steps = val;
   }
-  int
+  [[nodiscard]] int
   GetSteps() const
   {
     return m_Steps;
@@ -155,7 +155,7 @@ public:
   {
     m_Iterations = val;
   }
-  int
+  [[nodiscard]] int
   GetIterations() const
   {
     return m_Iterations;
@@ -170,7 +170,7 @@ public:
   {
     m_Quiet = val;
   }
-  bool
+  [[nodiscard]] bool
   GetQuiet() const
   {
     return m_Quiet;

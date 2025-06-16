@@ -52,7 +52,7 @@ protected:
   FastMarchingBaseTestHelper() = default;
   ~FastMarchingBaseTestHelper() override = default;
 
-  IdentifierType
+  [[nodiscard]] IdentifierType
   GetTotalNumberOfNodes() const override
   {
     return 1;

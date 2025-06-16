@@ -83,12 +83,12 @@ public:
   void
   SetParameters(const ParametersType &) override;
 
-  unsigned int
+  [[nodiscard]] unsigned int
   GetNumberOfShapeParameters() const override
   {
     return 1;
   }
-  unsigned int
+  [[nodiscard]] unsigned int
   GetNumberOfPoseParameters() const override
   {
     return SpaceDimension;
