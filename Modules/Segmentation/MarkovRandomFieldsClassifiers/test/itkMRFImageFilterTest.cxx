@@ -25,14 +25,14 @@
 
 
 // Data definitions
-#define IMGWIDTH 6
-#define IMGHEIGHT 6
-#define NFRAMES 3
-#define NUMBANDS 2
-#define NDIMENSION 3
-#define NUM_CLASSES 3
-#define MAX_NUM_ITER 5
-#define NEIGHBORHOOD_RAD 1
+constexpr uint8_t IMGWIDTH = 6;
+constexpr uint8_t IMGHEIGHT = 6;
+constexpr uint8_t NFRAMES = 3;
+constexpr uint8_t NUMBANDS = 2;
+constexpr uint8_t NDIMENSION = 3;
+constexpr uint8_t NUM_CLASSES = 3;
+constexpr uint8_t MAX_NUM_ITER = 5;
+constexpr uint8_t NEIGHBORHOOD_RAD = 1;
 
 
 int
