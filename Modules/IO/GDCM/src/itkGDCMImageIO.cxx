@@ -1072,7 +1072,7 @@ GDCMImageIO::Write(const void * buffer)
     // save and reset old locale
     const std::locale currentLocale = std::locale::global(std::locale::classic());
     sscanf(tempString.c_str(),
-           "%lf\\%lf\\%lf\\%lf\\%lf\\%lf",
+           R"(%lf\%lf\%lf\%lf\%lf\%lf)",
            &(directions[0]),
            &(directions[1]),
            &(directions[2]),

@@ -534,7 +534,7 @@ RegressionTestHelper(const char *       testImageFilename,
     // to facilitate setting tight tolerances of tests.
     const std::string shortFilename = itksys::SystemTools::GetFilenameName(baselineImageFilename);
 
-    std::cout << "<DartMeasurement name=\"ImageError " << shortFilename << "\" type=\"numeric/double\">";
+    std::cout << R"(<DartMeasurement name="ImageError )" << shortFilename << R"(" type="numeric/double">)";
     std::cout << status;
     std::cout << "</DartMeasurement>" << std::endl;
   }
@@ -544,19 +544,19 @@ RegressionTestHelper(const char *       testImageFilename,
   {
 
     // Report actual image error to best baseline
-    std::cout << "<DartMeasurement name=\"ImageError\" type=\"numeric/double\">";
+    std::cout << R"(<DartMeasurement name="ImageError" type="numeric/double">)";
     std::cout << status;
     std::cout << "</DartMeasurement>" << std::endl;
 
 
     // Report statistics for pixels which exceed tolerances
-    std::cout << "<DartMeasurement name=\"ImageError Minimum\" type=\"numeric/double\">";
+    std::cout << R"(<DartMeasurement name="ImageError Minimum" type="numeric/double">)";
     std::cout << diff->GetMinimumDifference() << "</DartMeasurement>" << std::endl;
 
-    std::cout << "<DartMeasurement name=\"ImageError Maximum\" type=\"numeric/double\">";
+    std::cout << R"(<DartMeasurement name="ImageError Maximum" type="numeric/double">)";
     std::cout << diff->GetMaximumDifference() << "</DartMeasurement>" << std::endl;
 
-    std::cout << "<DartMeasurement name=\"ImageError Mean\" type=\"numeric/double\">";
+    std::cout << R"(<DartMeasurement name="ImageError Mean" type="numeric/double">)";
     std::cout << diff->GetMeanDifference() << "</DartMeasurement>" << std::endl;
 
 
@@ -627,7 +627,7 @@ RegressionTestHelper(const char *       testImageFilename,
       std::cerr << "Error during write of " << diffName.str() << std::endl;
     }
 
-    std::cout << "<DartMeasurementFile name=\"DifferenceImage\" type=\"image/png\">";
+    std::cout << R"(<DartMeasurementFile name="DifferenceImage" type="image/png">)";
     std::cout << diffName.str();
     std::cout << "</DartMeasurementFile>" << std::endl;
 
@@ -662,7 +662,7 @@ RegressionTestHelper(const char *       testImageFilename,
       std::cerr << "Error during write of " << baseName.str() << std::endl;
     }
 
-    std::cout << "<DartMeasurementFile name=\"BaselineImage\" type=\"image/png\">";
+    std::cout << R"(<DartMeasurementFile name="BaselineImage" type="image/png">)";
     std::cout << baseName.str();
     std::cout << "</DartMeasurementFile>" << std::endl;
 
@@ -697,7 +697,7 @@ RegressionTestHelper(const char *       testImageFilename,
       std::cerr << "Error during write of " << testName.str() << std::endl;
     }
 
-    std::cout << "<DartMeasurementFile name=\"TestImage\" type=\"image/png\">";
+    std::cout << R"(<DartMeasurementFile name="TestImage" type="image/png">)";
     std::cout << testName.str();
     std::cout << "</DartMeasurementFile>" << std::endl;
   }
@@ -880,7 +880,7 @@ HashTestImage(const char * testImageFilename, const std::vector<std::string> & b
     } while (++iter != baselineMD5Vector.end());
   }
   // failed to match print the different md5s
-  std::cout << "<DartMeasurement name=\"TestMD5\" type=\"text/string\">";
+  std::cout << R"(<DartMeasurement name="TestMD5" type="text/string">)";
   std::cout << testMD5;
   std::cout << "</DartMeasurement>" << std::endl;
 
@@ -888,7 +888,7 @@ HashTestImage(const char * testImageFilename, const std::vector<std::string> & b
   // print out all md5 baselines
   for (const auto & baselienMD5 : baselineMD5Vector)
   {
-    std::cout << "<DartMeasurement name=\"BaselineMD5\" type=\"text/string\">";
+    std::cout << R"(<DartMeasurement name="BaselineMD5" type="text/string">)";
     std::cout << baselienMD5;
     std::cout << "</DartMeasurement>" << std::endl;
   }
@@ -951,7 +951,7 @@ HashTestImage(const char * testImageFilename, const std::vector<std::string> & b
     std::cerr << "Unknown error during rescale and writing of " << testName.str() << std::endl;
   }
 
-  std::cout << "<DartMeasurementFile name=\"TestImage\" type=\"image/png\">";
+  std::cout << R"(<DartMeasurementFile name="TestImage" type="image/png">)";
   std::cout << testName.str();
   std::cout << "</DartMeasurementFile>" << std::endl;
 
