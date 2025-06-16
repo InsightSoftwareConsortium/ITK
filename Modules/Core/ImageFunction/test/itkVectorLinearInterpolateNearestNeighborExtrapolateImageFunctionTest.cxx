@@ -232,9 +232,9 @@ itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest(int, char 
 
 
   double                  temp1[3] = { 70, 140, 210 };
-  OutputType              output = OutputType(temp1);
+  auto                    output = OutputType(temp1);
   itk::SpacePrecisionType darray1[3] = { 10, 20, 40 };
-  ContinuousIndexType     cindex = ContinuousIndexType(darray1);
+  auto                    cindex = ContinuousIndexType(darray1);
   bool                    passed = TestContinuousIndex(interp, cindex, true, output);
 
   if (!passed)

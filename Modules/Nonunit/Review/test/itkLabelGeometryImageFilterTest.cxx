@@ -218,7 +218,7 @@ LabelGeometryImageFilterTest(std::string labelImageName,
   writer->SetFileName(outputFileName);
   writer->SetInput(&matrix);
   writer->SetColumnHeaders(columnName);
-  MatrixType * matrixPointer = new MatrixType(matrix.data_block(), numberOfLabels, numberOfColumns);
+  auto * matrixPointer = new MatrixType(matrix.data_block(), numberOfLabels, numberOfColumns);
   writer->SetInput(matrixPointer);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Write());

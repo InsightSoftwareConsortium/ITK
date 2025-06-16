@@ -48,8 +48,6 @@ main(int, char *[])
   //
   // Software Guide : EndLatex
 
-  unsigned int i;
-
   // Software Guide : BeginCodeSnippet
   using DTITubeType = itk::DTITubeSpatialObject<3>;
   using DTITubePointType = DTITubeType::DTITubePointType;
@@ -77,7 +75,7 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   DTITubeType::DTITubePointListType list;
-  for (i = 0; i < 5; ++i)
+  for (unsigned int i = 0; i < 5; ++i)
   {
     DTITubePointType p;
     PointType        pnt;
@@ -148,40 +146,42 @@ main(int, char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  DTITubeType::DTITubePointListType::const_iterator it =
-    dtiTube->GetPoints().begin();
-  i = 0;
-  while (it != dtiTube->GetPoints().end())
   {
-    std::cout << std::endl;
-    std::cout << "Point #" << i << std::endl;
-    std::cout << "Position: " << (*it).GetPositionInObjectSpace()
-              << std::endl;
-    std::cout << "Radius: " << (*it).GetRadiusInObjectSpace() << std::endl;
-    std::cout << "FA: "
-              << (*it).GetField(itk::DTITubeSpatialObjectPointEnums::
-                                  DTITubeSpatialObjectPointField::FA)
-              << std::endl;
-    std::cout << "ADC: "
-              << (*it).GetField(itk::DTITubeSpatialObjectPointEnums::
-                                  DTITubeSpatialObjectPointField::ADC)
-              << std::endl;
-    std::cout << "GA: "
-              << (*it).GetField(itk::DTITubeSpatialObjectPointEnums::
-                                  DTITubeSpatialObjectPointField::GA)
-              << std::endl;
-    std::cout << "Lambda1: " << (*it).GetField("Lambda1") << std::endl;
-    std::cout << "Lambda2: " << (*it).GetField("Lambda2") << std::endl;
-    std::cout << "Lambda3: " << (*it).GetField("Lambda3") << std::endl;
-    std::cout << "TensorMatrix: " << (*it).GetTensorMatrix()[0] << " : ";
-    std::cout << (*it).GetTensorMatrix()[1] << " : ";
-    std::cout << (*it).GetTensorMatrix()[2] << " : ";
-    std::cout << (*it).GetTensorMatrix()[3] << " : ";
-    std::cout << (*it).GetTensorMatrix()[4] << " : ";
-    std::cout << (*it).GetTensorMatrix()[5] << std::endl;
-    std::cout << "Color = " << (*it).GetColor() << std::endl;
-    ++it;
-    ++i;
+    unsigned int i = 0;
+    for (auto it = dtiTube->GetPoints().begin();
+         it != dtiTube->GetPoints().end();
+         ++it)
+    {
+      std::cout << std::endl;
+      std::cout << "Point #" << i << std::endl;
+      std::cout << "Position: " << (*it).GetPositionInObjectSpace()
+                << std::endl;
+      std::cout << "Radius: " << (*it).GetRadiusInObjectSpace() << std::endl;
+      std::cout << "FA: "
+                << (*it).GetField(itk::DTITubeSpatialObjectPointEnums::
+                                    DTITubeSpatialObjectPointField::FA)
+                << std::endl;
+      std::cout << "ADC: "
+                << (*it).GetField(itk::DTITubeSpatialObjectPointEnums::
+                                    DTITubeSpatialObjectPointField::ADC)
+                << std::endl;
+      std::cout << "GA: "
+                << (*it).GetField(itk::DTITubeSpatialObjectPointEnums::
+                                    DTITubeSpatialObjectPointField::GA)
+                << std::endl;
+      std::cout << "Lambda1: " << (*it).GetField("Lambda1") << std::endl;
+      std::cout << "Lambda2: " << (*it).GetField("Lambda2") << std::endl;
+      std::cout << "Lambda3: " << (*it).GetField("Lambda3") << std::endl;
+      std::cout << "TensorMatrix: " << (*it).GetTensorMatrix()[0] << " : ";
+      std::cout << (*it).GetTensorMatrix()[1] << " : ";
+      std::cout << (*it).GetTensorMatrix()[2] << " : ";
+      std::cout << (*it).GetTensorMatrix()[3] << " : ";
+      std::cout << (*it).GetTensorMatrix()[4] << " : ";
+      std::cout << (*it).GetTensorMatrix()[5] << std::endl;
+      std::cout << "Color = " << (*it).GetColor() << std::endl;
+
+      ++i;
+    }
   }
   // Software Guide : EndCodeSnippet
 

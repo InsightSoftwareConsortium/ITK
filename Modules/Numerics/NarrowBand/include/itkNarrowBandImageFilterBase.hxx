@@ -226,7 +226,7 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>::ThreadedApplyUpdate(const 
   constexpr signed char INNER_MASK = 2;
 
   const typename OutputImageType::Pointer image = this->GetOutput();
-  for (typename NarrowBandType::ConstIterator it = regionToProcess.first; it != regionToProcess.last; ++it)
+  for (auto it = regionToProcess.first; it != regionToProcess.last; ++it)
   {
     typename OutputImageType::PixelType oldvalue = image->GetPixel(it->m_Index);
     typename OutputImageType::PixelType newvalue = oldvalue + dt * it->m_Data;

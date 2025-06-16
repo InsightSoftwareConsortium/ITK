@@ -150,7 +150,7 @@ HardConnectedComponentImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   const auto flags = make_unique_for_overwrite<unsigned char[]>(NumericTraits<LabelType>::max());
   memset(flags.get(), 0, maxLabel + 1);
-  for (typename ListType::iterator iter = m_Seeds.begin(); iter != m_Seeds.end(); ++iter)
+  for (auto iter = m_Seeds.begin(); iter != m_Seeds.end(); ++iter)
   {
     const IndexType currentIndex = *iter;
     int             m = equivalenceTable[static_cast<LabelType>(output->GetPixel(currentIndex))];

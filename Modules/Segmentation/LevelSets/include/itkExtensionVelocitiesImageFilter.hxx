@@ -200,7 +200,7 @@ ExtensionVelocitiesImageFilter<TLevelSet, TAuxValue, VAuxDimension>::GenerateDat
 
   while (!inputIt.IsAtEnd())
   {
-    const double value = static_cast<double>(inputIt.Get());
+    const auto value = static_cast<double>(inputIt.Get());
     if (value - levelSetValue > 0)
     {
       outputIt.Set(tempIt.Get());
@@ -239,7 +239,7 @@ ExtensionVelocitiesImageFilter<TLevelSet, TAuxValue, VAuxDimension>::GenerateDat
 
   while (!inputIt.IsAtEnd())
   {
-    double value = static_cast<double>(inputIt.Get());
+    auto value = static_cast<double>(inputIt.Get());
     if (value - levelSetValue <= 0)
     {
       value = static_cast<double>(tempIt.Get());
@@ -299,7 +299,7 @@ ExtensionVelocitiesImageFilter<TLevelSet, TAuxValue, VAuxDimension>::GenerateDat
 
   while (!inputIt.IsAtEnd())
   {
-    const double value = static_cast<double>(inputIt.Get());
+    const auto value = static_cast<double>(inputIt.Get());
     if (value - levelSetValue <= 0)
     {
       outputIt.Set(negInfinity);
@@ -396,7 +396,7 @@ ExtensionVelocitiesImageFilter<TLevelSet, TAuxValue, VAuxDimension>::GenerateDat
     node = pointsIt.Value();
     inPixel = inputPtr->GetPixel(node.GetIndex());
 
-    const double value = static_cast<double>(inPixel);
+    const auto value = static_cast<double>(inPixel);
     if (value - levelSetValue > 0)
     {
       inPixel = tempLevelSet->GetPixel(node.GetIndex());
@@ -426,7 +426,7 @@ ExtensionVelocitiesImageFilter<TLevelSet, TAuxValue, VAuxDimension>::GenerateDat
     node = pointsIt.Value();
     inPixel = inputPtr->GetPixel(node.GetIndex());
 
-    double value = static_cast<double>(inPixel);
+    auto value = static_cast<double>(inPixel);
     if (value - levelSetValue <= 0)
     {
       inPixel = tempLevelSet->GetPixel(node.GetIndex());

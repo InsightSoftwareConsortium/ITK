@@ -260,7 +260,7 @@ protected:
     while ((it != elements_to_be_tested.end()) && orientation_ok)
     {
       OutputCellIdentifier c_id = *it;
-      OutputPolygonType *  poly = dynamic_cast<OutputPolygonType *>(cells->GetElement(c_id));
+      auto *               poly = dynamic_cast<OutputPolygonType *>(cells->GetElement(c_id));
 
       qe = poly->GetEdgeRingEntry();
       qe_it = qe;

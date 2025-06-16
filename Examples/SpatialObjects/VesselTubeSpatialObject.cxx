@@ -45,9 +45,6 @@ main(int, char *[])
   // First we define some type definitions and we create the tube.
   //
   // Software Guide : EndLatex
-
-  unsigned int i;
-
   // Software Guide : BeginCodeSnippet
   using VesselTubeType = itk::TubeSpatialObject<3>;
   using VesselTubePointType = VesselTubeType::TubePointType;
@@ -80,7 +77,7 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   VesselTubeType::TubePointListType list;
-  for (i = 0; i < 5; ++i)
+  for (unsigned int i = 0; i < 5; ++i)
   {
     VesselTubePointType p;
     PointType           pnt;
@@ -138,25 +135,26 @@ main(int, char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  VesselTubeType::TubePointListType::const_iterator it =
-    vesselTube->GetPoints().begin();
-  i = 0;
-  while (it != vesselTube->GetPoints().end())
   {
-    std::cout << std::endl;
-    std::cout << "Point #" << i << std::endl;
-    std::cout << "Position: " << (*it).GetPositionInObjectSpace()
-              << std::endl;
-    std::cout << "Radius: " << (*it).GetRadiusInObjectSpace() << std::endl;
-    std::cout << "Medialness: " << (*it).GetMedialness() << std::endl;
-    std::cout << "Ridgeness: " << (*it).GetRidgeness() << std::endl;
-    std::cout << "Branchness: " << (*it).GetBranchness() << std::endl;
-    std::cout << "Alpha1: " << (*it).GetAlpha1() << std::endl;
-    std::cout << "Alpha2: " << (*it).GetAlpha2() << std::endl;
-    std::cout << "Alpha3: " << (*it).GetAlpha3() << std::endl;
-    std::cout << "Color = " << (*it).GetColor() << std::endl;
-    ++it;
-    ++i;
+    unsigned int i = 0;
+    for (auto it = vesselTube->GetPoints().begin();
+         it != vesselTube->GetPoints().end();
+         ++it)
+    {
+      std::cout << std::endl;
+      std::cout << "Point #" << i << std::endl;
+      std::cout << "Position: " << (*it).GetPositionInObjectSpace()
+                << std::endl;
+      std::cout << "Radius: " << (*it).GetRadiusInObjectSpace() << std::endl;
+      std::cout << "Medialness: " << (*it).GetMedialness() << std::endl;
+      std::cout << "Ridgeness: " << (*it).GetRidgeness() << std::endl;
+      std::cout << "Branchness: " << (*it).GetBranchness() << std::endl;
+      std::cout << "Alpha1: " << (*it).GetAlpha1() << std::endl;
+      std::cout << "Alpha2: " << (*it).GetAlpha2() << std::endl;
+      std::cout << "Alpha3: " << (*it).GetAlpha3() << std::endl;
+      std::cout << "Color = " << (*it).GetColor() << std::endl;
+      ++i;
+    }
   }
   // Software Guide : EndCodeSnippet
 

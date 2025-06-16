@@ -107,14 +107,14 @@ main(int, char *[])
   const size_t nPoints = landmark->GetPoints().size();
   std::cout << "Number of Points in the landmark: " << nPoints << std::endl;
 
-  LandmarkType::LandmarkPointListType::const_iterator it =
-    landmark->GetPoints().begin();
-  while (it != landmark->GetPoints().end())
+
+  for (auto it = landmark->GetPoints().begin();
+       it != landmark->GetPoints().end();
+       ++it)
   {
     std::cout << "Position: " << (*it).GetPositionInObjectSpace()
               << std::endl;
     std::cout << "Color: " << (*it).GetColor() << std::endl;
-    ++it;
   }
   // Software Guide : EndCodeSnippet
 

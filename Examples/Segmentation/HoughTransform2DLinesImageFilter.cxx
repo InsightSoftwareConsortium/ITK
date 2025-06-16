@@ -230,10 +230,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using LineIterator =
-    HoughTransformFilterType::LinesListType::const_iterator;
-  LineIterator itLines = lines.begin();
-  while (itLines != lines.end())
+  for (auto itLines = lines.begin(); itLines != lines.end(); ++itLines)
   {
     // Software Guide : EndCodeSnippet
 
@@ -249,8 +246,8 @@ main(int argc, char * argv[])
     using LinePointListType =
       HoughTransformFilterType::LineType::LinePointListType;
 
-    LinePointListType                 pointsList = (*itLines)->GetPoints();
-    LinePointListType::const_iterator itPoints = pointsList.begin();
+    LinePointListType pointsList = (*itLines)->GetPoints();
+    auto              itPoints = pointsList.begin();
 
     double u[2];
     u[0] = (*itPoints).GetPositionInObjectSpace()[0];
@@ -291,7 +288,6 @@ main(int argc, char * argv[])
         localOutputImage->SetPixel(localIndex, 255);
       }
     }
-    ++itLines;
   }
   // Software Guide : EndCodeSnippet
 

@@ -85,7 +85,7 @@ EquivalenceRelabeler<TScalar, TImageDimension>::GenerateOutputRequestedRegion(Da
   // No choice but to use RTTI here.
   // All Image outputs set to the same RequestedRegion  other
   // outputs ignored.
-  ImageBase<ImageDimension> * imgData = dynamic_cast<ImageBase<ImageDimension> *>(output);
+  auto * imgData = dynamic_cast<ImageBase<ImageDimension> *>(output);
 
   if (imgData)
   {
@@ -94,7 +94,7 @@ EquivalenceRelabeler<TScalar, TImageDimension>::GenerateOutputRequestedRegion(Da
     {
       if (this->GetOutput(idx) && this->GetOutput(idx) != output)
       {
-        ImageBase<ImageDimension> * op = dynamic_cast<ImageBase<ImageDimension> *>(this->GetOutput(idx));
+        auto * op = dynamic_cast<ImageBase<ImageDimension> *>(this->GetOutput(idx));
         if (op)
         {
           this->GetOutput(idx)->SetRequestedRegion(output);

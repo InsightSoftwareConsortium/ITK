@@ -268,7 +268,7 @@ itkFastMarchingExtensionImageFilterTest(int, char *[])
     }
     distance = std::sqrt(distance);
 
-    float outputValue = static_cast<float>(iterator.Get());
+    auto outputValue = static_cast<float>(iterator.Get());
 
     if (itk::Math::NotAlmostEquals(distance, 0.0))
     {

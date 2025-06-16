@@ -61,7 +61,7 @@ itkGaussianDistributionTest(int, char *[])
   std::cout << "Gaussian CDF" << std::endl;
   for (int i = -5; i <= 5; ++i)
   {
-    double x = static_cast<double>(i);
+    auto x = static_cast<double>(i);
 
     double value = distributionFunction->EvaluateCDF(x);
 
@@ -132,7 +132,7 @@ itkGaussianDistributionTest(int, char *[])
   std::cout << "Gaussian CDF" << std::endl;
   for (int i = -5; i <= 5; ++i)
   {
-    double x = static_cast<double>(i);
+    auto x = static_cast<double>(i);
 
     double value = distributionFunction->EvaluateCDF(x);
 
@@ -177,7 +177,7 @@ itkGaussianDistributionTest(int, char *[])
   std::cout << "Gaussian CDF (parameter vector API)" << std::endl;
   for (int i = -5; i <= 5; ++i)
   {
-    double x = static_cast<double>(i);
+    auto x = static_cast<double>(i);
 
     double value = distributionFunction->EvaluateCDF(x, params);
 
@@ -215,7 +215,7 @@ itkGaussianDistributionTest(int, char *[])
   std::cout << "Gaussian CDF (separate parameter API)" << std::endl;
   for (int i = -5; i <= 5; ++i)
   {
-    double x = static_cast<double>(i);
+    auto x = static_cast<double>(i);
 
     double value = distributionFunction->EvaluateCDF(x, params[0], params[1]);
 

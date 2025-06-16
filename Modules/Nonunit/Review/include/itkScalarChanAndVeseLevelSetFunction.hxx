@@ -120,7 +120,7 @@ ScalarChanAndVeseLevelSetFunction<TInputImage, TFeatureImage, TSharedData>::Comp
 
     L = this->m_SharedData->m_NearestNeighborListImage->GetPixel(globalIndex);
 
-    for (ListPixelConstIterator it = L.begin(); it != L.end(); ++it)
+    for (auto it = L.begin(); it != L.end(); ++it)
     {
       itInputIndex = this->m_SharedData->m_LevelSetDataPointerVector[*it]->GetIndex(globalIndex);
       hVal = this->m_SharedData->m_LevelSetDataPointerVector[*it]->m_HeavisideFunctionOfLevelSetImage->GetPixel(

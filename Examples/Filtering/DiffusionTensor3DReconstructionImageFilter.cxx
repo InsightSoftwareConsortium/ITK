@@ -89,8 +89,6 @@ main(int argc, char * argv[])
 
   auto reader = itk::ImageFileReader<ImageType>::New();
 
-  ImageType::Pointer img;
-
   // Set the properties for NrrdReader
   reader->SetFileName(argv[1]);
 
@@ -99,7 +97,6 @@ main(int argc, char * argv[])
   try
   {
     reader->Update();
-    img = reader->GetOutput();
   }
   catch (const itk::ExceptionObject & ex)
   {
@@ -107,6 +104,7 @@ main(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
+  ImageType::Pointer img = reader->GetOutput();
   // Here we instantiate the DiffusionTensor3DReconstructionImageFilter class.
   // The class is templated over the pixel types of the reference, gradient
   // and the to be created tensor pixel's precision. (We use double here). It
@@ -137,8 +135,6 @@ main(int argc, char * argv[])
   const itk::MetaDataDictionary imgMetaDictionary =
     img->GetMetaDataDictionary();
   std::vector<std::string> imgMetaKeys = imgMetaDictionary.GetKeys();
-  std::vector<std::string>::const_iterator itKey = imgMetaKeys.begin();
-  std::string                              metaString;
 
   TensorReconstructionImageFilterType::GradientDirectionType vect3d;
   const TensorReconstructionImageFilterType::GradientDirectionContainerType::
@@ -146,9 +142,9 @@ main(int argc, char * argv[])
       GradientDirectionContainerType::New();
 
 
-  for (; itKey != imgMetaKeys.end(); ++itKey)
+  for (auto itKey = imgMetaKeys.begin(); itKey != imgMetaKeys.end(); ++itKey)
   {
-
+    std::string metaString;
     itk::ExposeMetaData<std::string>(imgMetaDictionary, *itKey, metaString);
     if (itKey->find("DWMRI_gradient") != std::string::npos)
     {

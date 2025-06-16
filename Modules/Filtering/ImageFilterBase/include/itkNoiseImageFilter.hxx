@@ -59,7 +59,7 @@ NoiseImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
     ConstNeighborhoodIterator<InputImageType> bit =
       ConstNeighborhoodIterator<InputImageType>(this->GetRadius(), input, face);
     const unsigned int neighborhoodSize = bit.Size();
-    InputRealType      num = static_cast<InputRealType>(bit.Size());
+    auto               num = static_cast<InputRealType>(bit.Size());
 
     ImageRegionIterator<OutputImageType> it = ImageRegionIterator<OutputImageType>(output, face);
     bit.OverrideBoundaryCondition(&nbc);
@@ -67,11 +67,11 @@ NoiseImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 
     while (!bit.IsAtEnd())
     {
-      InputRealType sum = InputRealType{};
-      InputRealType sumOfSquares = InputRealType{};
+      auto sum = InputRealType{};
+      auto sumOfSquares = InputRealType{};
       for (unsigned int i = 0; i < neighborhoodSize; ++i)
       {
-        InputRealType value = static_cast<InputRealType>(bit.GetPixel(i));
+        auto value = static_cast<InputRealType>(bit.GetPixel(i));
         sum += value;
         sumOfSquares += (value * value);
       }

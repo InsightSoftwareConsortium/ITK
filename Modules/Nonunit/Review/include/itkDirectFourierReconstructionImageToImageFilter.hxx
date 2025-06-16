@@ -317,7 +317,7 @@ DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::Genera
       FFTLineType::PixelType out;
 
       // radial BSpline / linear angle interpolation
-      unsigned int a_lo = Math::Floor<unsigned int>(alpha);
+      auto a_lo = Math::Floor<unsigned int>(alpha);
 
       if (a_lo < alpha_size - 1) // no date-line crossing
       {

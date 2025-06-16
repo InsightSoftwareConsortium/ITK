@@ -430,13 +430,17 @@ MINCTransformIOTemplate<TParametersValueType>::Write()
     transformList = helper.GetTransformList(transformList.front().GetPointer());
   }
 
-  typename ConstTransformListType::const_iterator end = transformList.end();
+  auto end = transformList.end();
 
-  int count = 0;
-  int serial = 0;
-  for (typename ConstTransformListType::const_iterator it = transformList.begin(); it != end; ++it, ++count)
+
   {
-    this->WriteOneTransform(count, it->GetPointer(), xfm, xfm_file_base.c_str(), serial);
+    int serial = 0;
+    int count = 0;
+    for (auto it = transformList.begin(); it != end; ++it)
+    {
+      this->WriteOneTransform(count, it->GetPointer(), xfm, xfm_file_base.c_str(), serial);
+      ++count;
+    }
   }
 
   VIO_General_transform transform = xfm.back();

@@ -57,7 +57,7 @@ NormalQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::ComputeAllFaceNormals()
   for (OutputCellsContainerConstIterator cell_it = output->GetCells()->Begin(); cell_it != output->GetCells()->End();
        ++cell_it)
   {
-    OutputPolygonType * poly = dynamic_cast<OutputPolygonType *>(cell_it.Value());
+    auto * poly = dynamic_cast<OutputPolygonType *>(cell_it.Value());
 
     if (poly != nullptr)
     {

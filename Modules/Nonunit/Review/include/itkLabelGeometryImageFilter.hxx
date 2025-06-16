@@ -583,7 +583,7 @@ template <typename TLabelImage, typename TIntensityImage>
 SizeValueType
 LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetVolume(LabelPixelType label) const
 {
-  MapConstIterator mapIt = m_LabelGeometryMapper.find(label);
+  auto mapIt = m_LabelGeometryMapper.find(label);
   if (mapIt == m_LabelGeometryMapper.end())
   {
     // label does not exist, return a default value
@@ -599,7 +599,7 @@ template <typename TLabelImage, typename TIntensityImage>
 auto
 LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetIntegratedIntensity(LabelPixelType label) const -> RealType
 {
-  MapConstIterator mapIt = m_LabelGeometryMapper.find(label);
+  auto mapIt = m_LabelGeometryMapper.find(label);
   if (mapIt == m_LabelGeometryMapper.end())
   {
     // label does not exist, return a default value
@@ -615,7 +615,7 @@ template <typename TLabelImage, typename TIntensityImage>
 auto
 LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetCentroid(LabelPixelType label) const -> LabelPointType
 {
-  MapConstIterator mapIt = m_LabelGeometryMapper.find(label);
+  auto mapIt = m_LabelGeometryMapper.find(label);
   if (mapIt == m_LabelGeometryMapper.end())
   {
     // label does not exist, return a default value
@@ -633,7 +633,7 @@ auto
 LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetWeightedCentroid(LabelPixelType label) const
   -> LabelPointType
 {
-  MapConstIterator mapIt = m_LabelGeometryMapper.find(label);
+  auto mapIt = m_LabelGeometryMapper.find(label);
   if (mapIt == m_LabelGeometryMapper.end())
   {
     // label does not exist, return a default value
@@ -684,7 +684,7 @@ template <typename TLabelImage, typename TIntensityImage>
 auto
 LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetAxesLength(LabelPixelType label) const -> AxesLengthType
 {
-  MapConstIterator mapIt = m_LabelGeometryMapper.find(label);
+  auto mapIt = m_LabelGeometryMapper.find(label);
   if (mapIt == m_LabelGeometryMapper.end())
   {
     // label does not exist, return a default value
@@ -719,7 +719,7 @@ template <typename TLabelImage, typename TIntensityImage>
 auto
 LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetEccentricity(LabelPixelType label) const -> RealType
 {
-  MapConstIterator mapIt = m_LabelGeometryMapper.find(label);
+  auto mapIt = m_LabelGeometryMapper.find(label);
   if (mapIt == m_LabelGeometryMapper.end())
   {
     // label does not exist, return a default value
@@ -735,7 +735,7 @@ template <typename TLabelImage, typename TIntensityImage>
 auto
 LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetElongation(LabelPixelType label) const -> RealType
 {
-  MapConstIterator mapIt = m_LabelGeometryMapper.find(label);
+  auto mapIt = m_LabelGeometryMapper.find(label);
   if (mapIt == m_LabelGeometryMapper.end())
   {
     // label does not exist, return a default value
@@ -751,7 +751,7 @@ template <typename TLabelImage, typename TIntensityImage>
 auto
 LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetOrientation(LabelPixelType label) const -> RealType
 {
-  MapConstIterator mapIt = m_LabelGeometryMapper.find(label);
+  auto mapIt = m_LabelGeometryMapper.find(label);
   if (mapIt == m_LabelGeometryMapper.end())
   {
     // label does not exist, return a default value
@@ -960,7 +960,7 @@ template <typename TLabelImage, typename TIntensityImage>
 TIntensityImage *
 LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetOrientedIntensityImage(LabelPixelType label) const
 {
-  MapConstIterator mapIt = m_LabelGeometryMapper.find(label);
+  auto mapIt = m_LabelGeometryMapper.find(label);
   if (mapIt == m_LabelGeometryMapper.end())
   {
     // label does not exist, return a default value

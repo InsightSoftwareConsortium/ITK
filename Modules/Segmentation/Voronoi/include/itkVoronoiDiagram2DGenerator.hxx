@@ -407,7 +407,7 @@ VoronoiDiagram2DGenerator<TCoordinate>::ConstructDiagram()
 
     m_OutputVD->ClearRegion(i);
 
-    for (typename std::list<EdgeInfo>::iterator BEiter = buildEdges.begin(); BEiter != buildEdges.end(); ++BEiter)
+    for (auto BEiter = buildEdges.begin(); BEiter != buildEdges.end(); ++BEiter)
     {
       EdgeInfo pp = *BEiter;
       m_OutputVD->VoronoiRegionAddPointId(i, pp[0]);

@@ -43,7 +43,7 @@ PeriodicBoundaryCondition<TInputImage, TOutputImage>::operator()(const OffsetTyp
   // (data->operator[](linear_index)) is guaranteed to be a pointer to
   // TInputImage::PixelType except for VectorImage, in which case, it will be a
   // pointer to TInputImage::InternalPixelType.
-  typename TInputImage::PixelType * ptr = reinterpret_cast<PixelType *>((data->operator[](linear_index)));
+  auto * ptr = reinterpret_cast<PixelType *>((data->operator[](linear_index)));
 
   // Wrap the pointer around the image in the necessary dimensions.  If we have
   // reached this point, we can assume that we are on the edge of the BUFFERED

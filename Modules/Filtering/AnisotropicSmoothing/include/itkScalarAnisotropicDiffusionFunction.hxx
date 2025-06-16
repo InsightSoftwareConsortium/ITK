@@ -53,17 +53,17 @@ ScalarAnisotropicDiffusionFunction<TImage>::CalculateAverageGradientMagnitudeSqu
   typename BFC_type::FaceListType faceList = bfc(ip, ip->GetRequestedRegion(), radius);
 
   // Now do the actual processing
-  AccumulateType accumulator = AccumulateType{};
-  SizeValueType  counter = SizeValueType{};
+  auto accumulator = AccumulateType{};
+  auto counter = SizeValueType{};
 
   // First process the non-boundary region
 
   // Instead of maintaining a single N-d neighborhood of pointers,
   // we maintain a list of 1-d neighborhoods along each axial direction.
   // This is more efficient for higher dimensions.
-  typename BFC_type::FaceListType::iterator fit = faceList.begin();
-  SizeValueType                             Stride[ImageDimension];
-  SizeValueType                             Center[ImageDimension];
+  auto          fit = faceList.begin();
+  SizeValueType Stride[ImageDimension];
+  SizeValueType Center[ImageDimension];
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     iterator_list[i] = RNI_type(operator_list[i].GetRadius(), ip, *fit);

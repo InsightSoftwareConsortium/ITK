@@ -43,8 +43,6 @@ main(int, char *[])
   //
   // Software Guide : EndLatex
 
-  unsigned int i;
-
   // Software Guide : BeginCodeSnippet
   using TubeType = itk::TubeSpatialObject<3>;
   using TubePointer = TubeType::Pointer;
@@ -75,7 +73,7 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   TubeType::TubePointListType list;
-  for (i = 0; i < 5; ++i)
+  for (unsigned int i = 0; i < 5; ++i)
   {
     TubePointType p;
     PointType     pnt;
@@ -152,23 +150,25 @@ main(int, char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  TubeType::TubePointListType::const_iterator it = tube->GetPoints().begin();
-  i = 0;
-  while (it != tube->GetPoints().end())
   {
-    std::cout << std::endl;
-    std::cout << "Point #" << i << std::endl;
-    std::cout << "Position: " << (*it).GetPositionInObjectSpace()
-              << std::endl;
-    std::cout << "Radius: " << (*it).GetRadiusInObjectSpace() << std::endl;
-    std::cout << "Tangent: " << (*it).GetTangentInObjectSpace() << std::endl;
-    std::cout << "First Normal: " << (*it).GetNormal1InObjectSpace()
-              << std::endl;
-    std::cout << "Second Normal: " << (*it).GetNormal2InObjectSpace()
-              << std::endl;
-    std::cout << "Color = " << (*it).GetColor() << std::endl;
-    ++it;
-    ++i;
+    unsigned int i = 0;
+    for (auto it = tube->GetPoints().begin(); it != tube->GetPoints().end();
+         ++it)
+    {
+      std::cout << std::endl;
+      std::cout << "Point #" << i << std::endl;
+      std::cout << "Position: " << (*it).GetPositionInObjectSpace()
+                << std::endl;
+      std::cout << "Radius: " << (*it).GetRadiusInObjectSpace() << std::endl;
+      std::cout << "Tangent: " << (*it).GetTangentInObjectSpace()
+                << std::endl;
+      std::cout << "First Normal: " << (*it).GetNormal1InObjectSpace()
+                << std::endl;
+      std::cout << "Second Normal: " << (*it).GetNormal2InObjectSpace()
+                << std::endl;
+      std::cout << "Color = " << (*it).GetColor() << std::endl;
+      ++i;
+    }
   }
   // Software Guide : EndCodeSnippet
 

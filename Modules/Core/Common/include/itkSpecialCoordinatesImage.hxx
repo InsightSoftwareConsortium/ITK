@@ -37,7 +37,7 @@ void
 SpecialCoordinatesImage<TPixel, VImageDimension>::Allocate(bool initialize)
 {
   this->ComputeOffsetTable();
-  SizeValueType num = static_cast<SizeValueType>(this->GetOffsetTable()[VImageDimension]);
+  auto num = static_cast<SizeValueType>(this->GetOffsetTable()[VImageDimension]);
 
   m_Buffer->Reserve(num, initialize);
 }

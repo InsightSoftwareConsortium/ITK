@@ -213,10 +213,9 @@ main(int argc, char * argv[])
   //
   //  Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  using CirclesListType = HoughTransformFilterType::CirclesListType;
-  CirclesListType::const_iterator itCircles = circles.begin();
 
-  while (itCircles != circles.end())
+  for (auto itCircles = circles.begin(); itCircles != circles.end();
+       ++itCircles)
   {
     std::cout << "Center: ";
     std::cout << (*itCircles)->GetCenterInObjectSpace() << std::endl;
@@ -251,7 +250,6 @@ main(int argc, char * argv[])
         localOutputImage->SetPixel(localIndex, 255);
       }
     }
-    ++itCircles;
   }
   // Software Guide : EndCodeSnippet
 

@@ -143,13 +143,12 @@ main(int, char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  BlobType::BlobPointListType::const_iterator it = blob->GetPoints().begin();
-  while (it != blob->GetPoints().end())
+  for (auto it = blob->GetPoints().begin(); it != blob->GetPoints().end();
+       ++it)
   {
     std::cout << "Position = " << (*it).GetPositionInWorldSpace()
               << std::endl;
     std::cout << "Color = " << (*it).GetColor() << std::endl;
-    ++it;
   }
   // Software Guide : EndCodeSnippet
 

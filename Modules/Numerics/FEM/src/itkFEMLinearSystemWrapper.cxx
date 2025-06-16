@@ -306,7 +306,7 @@ LinearSystemWrapper::FollowConnectionsCuthillMckeeOrdering(unsigned int  rowNumb
   ColumnArray nextRows;
   this->GetColumnsOfNonZeroMatrixElementsInRow(rowNumber, nextRows, matrixIndex);
   /* remove diagonal element */
-  for (ColumnArray::iterator nextRowsIt = nextRows.begin(); nextRowsIt != nextRows.end(); ++nextRowsIt)
+  for (auto nextRowsIt = nextRows.begin(); nextRowsIt != nextRows.end(); ++nextRowsIt)
   {
     if (*nextRowsIt == rowNumber)
     {
@@ -347,7 +347,7 @@ LinearSystemWrapper::FollowConnectionsCuthillMckeeOrdering(unsigned int  rowNumb
       ColumnArray rowBuffer;
       this->GetColumnsOfNonZeroMatrixElementsInRow(nextRows[i], rowBuffer, matrixIndex);
       /* remove previously renumbered rows */
-      for (ColumnArray::iterator rowBufferIt = rowBuffer.begin(); rowBufferIt != rowBuffer.end(); ++rowBufferIt)
+      for (auto rowBufferIt = rowBuffer.begin(); rowBufferIt != rowBuffer.end(); ++rowBufferIt)
       {
         if (reverseMapping[*rowBufferIt] < this->m_Order)
         {

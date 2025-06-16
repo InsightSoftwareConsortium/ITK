@@ -355,7 +355,7 @@ MultiThreaderBase::GetGlobalDefaultNumberOfThreadsByPlatform()
 // Default the number of threads to be the number of available
 // processors if we are using pthreads()
 #  ifdef _SC_NPROCESSORS_ONLN
-  ThreadIdType num = static_cast<ThreadIdType>(sysconf(_SC_NPROCESSORS_ONLN));
+  auto num = static_cast<ThreadIdType>(sysconf(_SC_NPROCESSORS_ONLN));
 #  elif defined(_SC_NPROC_ONLN)
   ThreadIdType num = static_cast<ThreadIdType>(sysconf(_SC_NPROC_ONLN));
 #  else

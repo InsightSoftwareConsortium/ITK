@@ -1166,14 +1166,14 @@ template <typename TInputImage, typename TOutputMesh>
 void
 BinaryMask3DMeshSource<TInputImage, TOutputMesh>::AddCells(unsigned char celltype, unsigned char celltran, int index)
 {
-  IdentifierType ** currentrowtmp = static_cast<IdentifierType **>(malloc(4 * sizeof(IdentifierType *)));
+  auto ** currentrowtmp = static_cast<IdentifierType **>(malloc(4 * sizeof(IdentifierType *)));
   for (int i = 0; i < 4; ++i)
   {
     currentrowtmp[i] = static_cast<IdentifierType *>(malloc(2 * sizeof(IdentifierType)));
     currentrowtmp[i][0] = 0;
     currentrowtmp[i][1] = 0;
   }
-  IdentifierType ** currentframetmp = static_cast<IdentifierType **>(malloc(4 * sizeof(IdentifierType *)));
+  auto ** currentframetmp = static_cast<IdentifierType **>(malloc(4 * sizeof(IdentifierType *)));
   for (int i = 0; i < 4; ++i)
   {
     currentframetmp[i] = static_cast<IdentifierType *>(malloc(2 * sizeof(IdentifierType)));

@@ -137,8 +137,9 @@ main(int, char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  LineType::LinePointListType::const_iterator it = Line->GetPoints().begin();
-  while (it != Line->GetPoints().end())
+
+  for (auto it = Line->GetPoints().begin(); it != Line->GetPoints().end();
+       ++it)
   {
     std::cout << "Position = " << (*it).GetPositionInObjectSpace()
               << std::endl;
@@ -148,7 +149,6 @@ main(int, char *[])
     std::cout << "Second normal = " << (*it).GetNormalInObjectSpace(1)
               << std::endl;
     std::cout << std::endl;
-    ++it;
   }
   // Software Guide : EndCodeSnippet
 
