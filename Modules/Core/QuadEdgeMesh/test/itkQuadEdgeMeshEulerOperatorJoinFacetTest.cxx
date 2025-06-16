@@ -91,7 +91,7 @@ itkQuadEdgeMeshEulerOperatorJoinFacetTest(int, char *[])
 #ifndef NDEBUG
   std::cout << "     "
             << "Test QE Input not internal";
-  QEType * dummy = new QEType;
+  auto * dummy = new QEType;
   if (joinFacet->Evaluate(dummy))
   {
     std::cout << "FAILED." << std::endl;
