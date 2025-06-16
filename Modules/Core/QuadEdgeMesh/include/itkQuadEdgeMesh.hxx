@@ -1162,17 +1162,14 @@ QuadEdgeMesh<TPixel, VDimension, TTraits>::AddFace(const PointIdList & points) -
   // Check that there are no duplicate points
   for (size_t i = 0; i < N; ++i)
   {
-    typename PointIdList::const_iterator itr = points.begin();
-    typename PointIdList::const_iterator end = points.end();
-    PointIdentifier                      count{};
-    const PointIdentifier                pointId = points[i];
-    while (itr != end)
+    PointIdentifier       count{};
+    const PointIdentifier pointId = points[i];
+    for (const auto & point : points)
     {
-      if (*itr == pointId)
+      if (point == pointId)
       {
         ++count;
       }
-      ++itr;
     }
     if (count != 1)
     {
