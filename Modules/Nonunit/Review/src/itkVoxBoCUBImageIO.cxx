@@ -582,7 +582,7 @@ VoxBoCUBImageIO::ReadImageInformation()
         iss >> code;
 
         // Set the orientation code in the data dictionary
-        OrientationMap::const_iterator it = m_OrientationMap.find(code);
+        auto it = m_OrientationMap.find(code);
         if (it != m_OrientationMap.end())
         {
           // NOTE:  The itk::ImageIOBase direction is a std::vector<std::vector > >, and threeDDirection is a 3x3 matrix
@@ -702,7 +702,7 @@ VoxBoCUBImageIO::WriteImageInformation()
   threeDDirection[2][2] = this->m_Direction[2][2];
   OrientationFlags oflag = soAdaptor.FromDirectionCosines(threeDDirection);
   {
-    InverseOrientationMap::const_iterator it = m_InverseOrientationMap.find(oflag);
+    auto it = m_InverseOrientationMap.find(oflag);
     if (it != m_InverseOrientationMap.end())
     {
       header << m_VB_ORIENTATION << ":\t" << it->second << std::endl;

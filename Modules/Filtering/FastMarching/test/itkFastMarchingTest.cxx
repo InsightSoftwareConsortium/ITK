@@ -214,7 +214,7 @@ itkFastMarchingTest(int argc, char * argv[])
     }
     distance = std::sqrt(distance);
 
-    float outputValue = static_cast<float>(iterator.Get());
+    auto outputValue = static_cast<float>(iterator.Get());
 
     if (distance < itk::NumericTraits<double>::epsilon())
     {

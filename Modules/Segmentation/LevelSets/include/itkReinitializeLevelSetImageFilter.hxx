@@ -155,7 +155,7 @@ ReinitializeLevelSetImageFilter<TLevelSet>::GenerateDataFull()
   IteratorType tempIt = IteratorType(tempLevelSet, tempLevelSet->GetBufferedRegion());
   while (!inputIt.IsAtEnd())
   {
-    double value = static_cast<double>(inputIt.Get());
+    auto value = static_cast<double>(inputIt.Get());
     if (value - m_LevelSetValue > 0)
     {
       outputIt.Set(tempIt.Get());
@@ -178,7 +178,7 @@ ReinitializeLevelSetImageFilter<TLevelSet>::GenerateDataFull()
 
   while (!inputIt.IsAtEnd())
   {
-    double value = static_cast<double>(inputIt.Get());
+    auto value = static_cast<double>(inputIt.Get());
     if (value - m_LevelSetValue <= 0)
     {
       value = static_cast<double>(tempIt.Get());
@@ -214,7 +214,7 @@ ReinitializeLevelSetImageFilter<TLevelSet>::GenerateDataNarrowBand()
   // all external pixels to positive infinity
   while (!inputIt.IsAtEnd())
   {
-    double value = static_cast<double>(inputIt.Get());
+    auto value = static_cast<double>(inputIt.Get());
     if (value - m_LevelSetValue <= 0)
     {
       outputIt.Set(negInfinity);
@@ -267,7 +267,7 @@ ReinitializeLevelSetImageFilter<TLevelSet>::GenerateDataNarrowBand()
     NodeType  node = pointsIt.Value();
     PixelType inPixel = inputPtr->GetPixel(node.GetIndex());
 
-    double value = static_cast<double>(inPixel);
+    auto value = static_cast<double>(inPixel);
     if (value - m_LevelSetValue > 0)
     {
       inPixel = tempLevelSet->GetPixel(node.GetIndex());
@@ -289,7 +289,7 @@ ReinitializeLevelSetImageFilter<TLevelSet>::GenerateDataNarrowBand()
     NodeType  node = pointsIt.Value();
     PixelType inPixel = inputPtr->GetPixel(node.GetIndex());
 
-    double value = static_cast<double>(inPixel);
+    auto value = static_cast<double>(inPixel);
     if (value - m_LevelSetValue <= 0)
     {
       inPixel = tempLevelSet->GetPixel(node.GetIndex());

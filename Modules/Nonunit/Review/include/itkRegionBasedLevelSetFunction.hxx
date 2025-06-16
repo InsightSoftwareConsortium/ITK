@@ -245,7 +245,7 @@ RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::ComputeUpdate(const 
   ScalarValueType curvature_term{};
   ScalarValueType curvature{};
   ScalarValueType globalTerm{};
-  ScalarValueType advection_term = ScalarValueType{};
+  auto            advection_term = ScalarValueType{};
 
   // Access the global data structure
   auto * gd = (GlobalDataStruct *)globalData;

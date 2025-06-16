@@ -79,8 +79,7 @@ ThresholdLabelerImageFilterTestHelper(bool useRealTypeThresholds)
   // Fill in the image
   {
     unsigned int i = 0;
-    for (IndexValueVectorType::const_iterator indexIter = yindexes.begin(); indexIter != yindexes.end();
-         ++indexIter, ++i)
+    for (auto indexIter = yindexes.begin(); indexIter != yindexes.end(); ++indexIter, ++i)
     {
       index[0] = 0;
       index[1] = *indexIter;
@@ -148,7 +147,7 @@ ThresholdLabelerImageFilterTestHelper(bool useRealTypeThresholds)
   // Check if labels coincide with expected labels
   bool         passed = true;
   unsigned int i = 0;
-  for (IndexValueVectorType::const_iterator indexIter = yindexes.begin(); indexIter != yindexes.end(); ++indexIter, ++i)
+  for (auto indexIter = yindexes.begin(); indexIter != yindexes.end(); ++indexIter, ++i)
   {
     index[0] = 0;
     index[1] = *indexIter;

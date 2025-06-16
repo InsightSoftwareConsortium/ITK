@@ -88,7 +88,7 @@ ScalarRegionBasedLevelSetFunction<TInputImage, TFeatureImage, TSharedData>::Upda
   ScalarValueType hVal;
 
   InputPixelType product = 1;
-  for (ListPixelType::const_iterator it = L.begin(); it != L.end(); ++it)
+  for (auto it = L.begin(); it != L.end(); ++it)
   {
     if (*it != fId)
     {
@@ -102,7 +102,7 @@ ScalarRegionBasedLevelSetFunction<TInputImage, TFeatureImage, TSharedData>::Upda
   ScalarValueType productChange = -(product * change);
 
   // update the background constant of all level-set functions
-  for (ListPixelType::const_iterator it = L.begin(); it != L.end(); ++it)
+  for (auto it = L.begin(); it != L.end(); ++it)
   {
     UpdateSharedDataOutsideParameters(*it, featureVal, productChange);
   }

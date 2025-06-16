@@ -62,7 +62,7 @@ itkTDistributionTest(int, char *[])
 
   for (int i = -5; i <= 5; ++i)
   {
-    double x = static_cast<double>(i);
+    auto x = static_cast<double>(i);
 
     double value = distributionFunction->EvaluateCDF(x);
 
@@ -147,7 +147,7 @@ itkTDistributionTest(int, char *[])
   distributionFunction->SetDegreesOfFreedom(11);
   for (int i = -5; i <= 5; ++i)
   {
-    double x = static_cast<double>(i);
+    auto x = static_cast<double>(i);
 
     double value = distributionFunction->EvaluateCDF(x);
 
@@ -230,7 +230,7 @@ itkTDistributionTest(int, char *[])
 
   for (int i = -5; i <= 5; ++i)
   {
-    double x = static_cast<double>(i);
+    auto x = static_cast<double>(i);
 
     double value = distributionFunction->EvaluateCDF(x, params);
 

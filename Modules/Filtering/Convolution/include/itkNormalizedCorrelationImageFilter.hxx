@@ -155,7 +155,7 @@ NormalizedCorrelationImageFilter<TInputImage, TMaskImage, TOutputImage, TOperato
   const unsigned int        templateSize = normalizedTemplate.Size();
   const OutputPixelRealType zero = OutputPixelType{};
 
-  OutputPixelRealType realTemplateSize = static_cast<OutputPixelRealType>(templateSize);
+  auto realTemplateSize = static_cast<OutputPixelRealType>(templateSize);
   for (const auto & face : faceList)
   {
     ConstNeighborhoodIterator<InputImageType> bit =
@@ -180,7 +180,7 @@ NormalizedCorrelationImageFilter<TInputImage, TMaskImage, TOutputImage, TOperato
         OutputPixelRealType numerator = 0.0;
         for (unsigned int i = 0; i < templateSize; ++i)
         {
-          OutputPixelRealType value = static_cast<OutputPixelRealType>(bit.GetPixel(i));
+          auto value = static_cast<OutputPixelRealType>(bit.GetPixel(i));
 
           numerator += (value * normalizedTemplate[i]);
 

@@ -196,9 +196,7 @@ MetaDTITubeConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectT
   bool writeID = false;
 
 
-  for (typename DTITubeSpatialObjectType::DTITubePointListType::const_iterator it = DTITubeSO->GetPoints().begin();
-       it != DTITubeSO->GetPoints().end();
-       ++it)
+  for (auto it = DTITubeSO->GetPoints().begin(); it != DTITubeSO->GetPoints().end(); ++it)
   {
     // Optional fields (written only if not default values)
     if (it->GetId() != -1)
@@ -240,9 +238,7 @@ MetaDTITubeConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectT
   }
 
   // fill in the tube information
-  for (typename DTITubeSpatialObjectType::DTITubePointListType::const_iterator it = DTITubeSO->GetPoints().begin();
-       it != DTITubeSO->GetPoints().end();
-       ++it)
+  for (auto it = DTITubeSO->GetPoints().begin(); it != DTITubeSO->GetPoints().end(); ++it)
   {
     auto * pnt = new DTITubePnt(VDimension);
 

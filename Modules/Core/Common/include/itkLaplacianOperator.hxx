@@ -49,14 +49,14 @@ LaplacianOperator<TPixel, VDimension, TAllocator>::Fill(const CoefficientVector 
 
   const std::slice temp_slice(0, coeff.size(), 1);
 
-  typename Self::SliceIteratorType data(this, temp_slice);
-
-  typename Superclass::CoefficientVector::const_iterator it = coeff.begin();
-
   // Copy the coefficients into the neighborhood
-  for (data = data.Begin(); data < data.End(); ++data, ++it)
   {
-    *data = *it;
+    auto it = coeff.begin();
+    for (typename Self::SliceIteratorType data(this, temp_slice); data < data.End(); ++data)
+    {
+      *data = *it;
+      ++it;
+    }
   }
 }
 

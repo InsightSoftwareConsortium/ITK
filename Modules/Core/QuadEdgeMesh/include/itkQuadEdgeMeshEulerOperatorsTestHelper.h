@@ -101,7 +101,7 @@ CreateSquareQuadMesh(typename TMesh::Pointer mesh)
   typename CellType::CellAutoPointer cellpointer;
   for (int i = 0; i < expectedNumCells; ++i)
   {
-    QEPolygonCellType * poly = new QEPolygonCellType(4);
+    auto * poly = new QEPolygonCellType(4);
     cellpointer.TakeOwnership(poly);
     cellpointer->SetPointId(0, simpleSquareCells[4 * i]);
     cellpointer->SetPointId(1, simpleSquareCells[4 * i + 1]);
@@ -147,7 +147,7 @@ CreateSquareTriangularMesh(typename TMesh::Pointer mesh)
   typename CellType::CellAutoPointer cellpointer;
   for (int i = 0; i < expectedNumCells; ++i)
   {
-    QEPolygonCellType * poly = new QEPolygonCellType(3);
+    auto * poly = new QEPolygonCellType(3);
     cellpointer.TakeOwnership(poly);
     cellpointer->SetPointId(0, simpleSquareCells[3 * i]);
     cellpointer->SetPointId(1, simpleSquareCells[3 * i + 1]);
@@ -203,7 +203,7 @@ CreateTetraedronMesh(typename TMesh::Pointer mesh)
 
   for (int i = 0; i < expectedNumCells; ++i)
   {
-    QEPolygonCellType * poly = new QEPolygonCellType(3);
+    auto * poly = new QEPolygonCellType(3);
     cellpointer.TakeOwnership(poly);
     cellpointer->SetPointId(0, simpleSquareCells[3 * i]);
     cellpointer->SetPointId(1, simpleSquareCells[3 * i + 1]);
@@ -256,7 +256,7 @@ CreateSamosa(typename TMesh::Pointer mesh)
   typename CellType::CellAutoPointer cellpointer;
   for (int i = 0; i < expectedNumCells; ++i)
   {
-    QEPolygonCellType * poly = new QEPolygonCellType(3);
+    auto * poly = new QEPolygonCellType(3);
     cellpointer.TakeOwnership(poly);
     cellpointer->SetPointId(0, simpleSquareCells[3 * i]);
     cellpointer->SetPointId(1, simpleSquareCells[3 * i + 1]);

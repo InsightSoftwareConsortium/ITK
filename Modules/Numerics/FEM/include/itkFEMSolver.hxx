@@ -401,9 +401,7 @@ Solver<VDimension>::AssembleF(int dim)
       {
         // If the array of element pointers is not empty,
         // we apply the load to all elements in that array.
-        for (LoadElement::ElementPointersVectorType::const_iterator i = l1->GetElementArray().begin();
-             i != l1->GetElementArray().end();
-             i++)
+        for (auto i = l1->GetElementArray().begin(); i != l1->GetElementArray().end(); i++)
         {
           const Element * el0 = (*i);
           // Call the Fe() function of the element that we are applying the load

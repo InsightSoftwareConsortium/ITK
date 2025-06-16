@@ -270,7 +270,7 @@ FastMarchingImageFilter<TLevelSet, TSpeedImage>::GenerateData()
     m_TrialHeap.pop();
 
     // does this node contain the current value ?
-    double currentValue = static_cast<double>(output->GetPixel(node.GetIndex()));
+    auto currentValue = static_cast<double>(output->GetPixel(node.GetIndex()));
 
     if (Math::ExactlyEquals(node.GetValue(), currentValue))
     {

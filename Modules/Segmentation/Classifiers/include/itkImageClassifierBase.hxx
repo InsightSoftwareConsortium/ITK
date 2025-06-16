@@ -96,7 +96,7 @@ ImageClassifierBase<TInputImage, TClassifiedImage>::Classify()
       discriminantScores[classIndex] = (this->GetMembershipFunction(classIndex))->Evaluate(inputImagePixel);
     }
 
-    unsigned int classLabel = static_cast<unsigned int>(this->GetDecisionRule()->Evaluate(discriminantScores));
+    auto classLabel = static_cast<unsigned int>(this->GetDecisionRule()->Evaluate(discriminantScores));
 
     outputClassifiedLabel = ClassifiedImagePixelType(classLabel);
     classifiedIt.Set(outputClassifiedLabel);

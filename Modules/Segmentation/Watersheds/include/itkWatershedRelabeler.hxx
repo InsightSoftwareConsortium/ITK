@@ -123,7 +123,7 @@ Relabeler<TScalar, TImageDimension>::GenerateOutputRequestedRegion(DataObject * 
   // All Image outputs set to the same RequestedRegion  other
   // outputs ignored.
 
-  ImageBase<ImageDimension> * imgData = dynamic_cast<ImageBase<ImageDimension> *>(output);
+  auto * imgData = dynamic_cast<ImageBase<ImageDimension> *>(output);
   if (imgData)
   {
     std::vector<ProcessObject::DataObjectPointer>::size_type idx = 0;
@@ -131,7 +131,7 @@ Relabeler<TScalar, TImageDimension>::GenerateOutputRequestedRegion(DataObject * 
     {
       if (this->GetOutput(idx) && this->GetOutput(idx) != output)
       {
-        ImageBase<ImageDimension> * op = dynamic_cast<ImageBase<ImageDimension> *>(this->GetOutput(idx));
+        auto * op = dynamic_cast<ImageBase<ImageDimension> *>(this->GetOutput(idx));
         if (op)
         {
           this->GetOutput(idx)->SetRequestedRegion(output);

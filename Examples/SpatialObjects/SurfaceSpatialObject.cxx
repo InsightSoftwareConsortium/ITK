@@ -127,16 +127,15 @@ main(int, char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  SurfaceType::SurfacePointListType::const_iterator it =
-    surface->GetPoints().begin();
-  while (it != surface->GetPoints().end())
+  for (auto it = surface->GetPoints().begin();
+       it != surface->GetPoints().end();
+       ++it)
   {
     std::cout << "Position = " << (*it).GetPositionInObjectSpace()
               << std::endl;
     std::cout << "Normal = " << (*it).GetNormalInObjectSpace() << std::endl;
     std::cout << "Color = " << (*it).GetColor() << std::endl;
     std::cout << std::endl;
-    ++it;
   }
   // Software Guide : EndCodeSnippet
 

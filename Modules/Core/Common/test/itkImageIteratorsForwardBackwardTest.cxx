@@ -48,7 +48,7 @@ itkImageIteratorsForwardBackwardTest(int, char *[])
 
   IteratorType it(myImage, region);
 
-  ImageType::PixelType value = ImageType::PixelType{};
+  auto value = ImageType::PixelType{};
 
   // Store information on the Image
   std::cout << "Storing data on the image ... " << std::endl;

@@ -78,16 +78,17 @@ main(int argc, char * argv[])
       std::list<std::string> descriptions =
         factory->GetClassOverrideDescriptions();
       std::list<bool> enableflags = factory->GetEnableFlags();
-      std::list<std::string>::const_iterator n = names.begin();
-      std::list<std::string>::const_iterator d = descriptions.begin();
-      std::list<bool>::const_iterator        e = enableflags.begin();
-      for (std::list<std::string>::const_iterator o = overrides.begin();
-           o != overrides.end();
-           ++o, ++n, ++d, ++e)
       {
-        std::cout << "    Override " << *o << " with " << *n << std::endl
-                  << "      described as \"" << *d << "\"" << std::endl
-                  << "      enabled " << *e << std::endl;
+        auto n = names.begin();
+        auto d = descriptions.begin();
+        auto e = enableflags.begin();
+        for (auto o = overrides.begin(); o != overrides.end(); ++o)
+        {
+          std::cout << "    Override " << *o << " with " << *n << std::endl
+                    << "      described as \"" << *d << "\"" << std::endl
+                    << "      enabled " << *e << std::endl;
+          ++n, ++d, ++e;
+        }
       }
     }
     std::cout << "----- -----" << std::endl;
@@ -169,16 +170,17 @@ main(int argc, char * argv[])
                 << std::endl;
       std::list<bool> enableflags = factory->GetEnableFlags();
       std::cout << "EnableFlags size: " << enableflags.size() << std::endl;
-      std::list<std::string>::const_iterator n = names.begin();
-      std::list<std::string>::const_iterator d = descriptions.begin();
-      std::list<bool>::const_iterator        e = enableflags.begin();
-      for (std::list<std::string>::const_iterator o = overrides.begin();
-           o != overrides.end();
-           ++o, ++n, ++d, ++e)
       {
-        std::cout << "    Override " << *o << " with " << *n << std::endl
-                  << "      described as \"" << *d << "\"" << std::endl
-                  << "      enabled " << *e << std::endl;
+        auto n = names.begin();
+        auto d = descriptions.begin();
+        auto e = enableflags.begin();
+        for (auto o = overrides.begin(); o != overrides.end(); ++o)
+        {
+          std::cout << "    Override " << *o << " with " << *n << std::endl
+                    << "      described as \"" << *d << "\"" << std::endl
+                    << "      enabled " << *e << std::endl;
+          ++n, ++d, ++e;
+        }
       }
     }
     std::cout << "----- -----" << std::endl;

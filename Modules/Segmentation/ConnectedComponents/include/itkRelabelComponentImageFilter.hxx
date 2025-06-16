@@ -280,12 +280,13 @@ RelabelComponentImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream &
   // limit the number of objects to print
   {
     const SizeValueType numPrint = std::min<SizeValueType>(m_NumberOfObjectsToPrint, m_SizeOfObjectsInPixels.size());
-
-    ObjectSizeInPixelsContainerType::const_iterator        it = m_SizeOfObjectsInPixels.begin();
-    ObjectSizeInPhysicalUnitsContainerType::const_iterator fit = m_SizeOfObjectsInPhysicalUnits.begin();
-    for (SizeValueType i = 0; i < numPrint; ++it, ++fit, ++i)
     {
-      os << indent << "Object #" << i + 1 << ": " << *it << " pixels, " << *fit << " physical units" << std::endl;
+      auto it = m_SizeOfObjectsInPixels.begin();
+      auto fit = m_SizeOfObjectsInPhysicalUnits.begin();
+      for (SizeValueType i = 0; i < numPrint; ++it, ++fit, ++i)
+      {
+        os << indent << "Object #" << i + 1 << ": " << *it << " pixels, " << *fit << " physical units" << std::endl;
+      }
     }
     if (numPrint < m_SizeOfObjectsInPixels.size())
     {

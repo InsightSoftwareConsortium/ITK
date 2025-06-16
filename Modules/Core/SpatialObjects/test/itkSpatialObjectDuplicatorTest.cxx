@@ -135,9 +135,7 @@ itkSpatialObjectDuplicatorTest(int, char *[])
       return EXIT_FAILURE;
     }
 
-    for (DTITubeType::DTITubePointListType::const_iterator jdti = dtiTube_copy->GetPoints().begin();
-         jdti != dtiTube_copy->GetPoints().end();
-         ++jdti)
+    for (auto jdti = dtiTube_copy->GetPoints().begin(); jdti != dtiTube_copy->GetPoints().end(); ++jdti)
     {
       for (unsigned int d = 0; d < 3; ++d)
       {
