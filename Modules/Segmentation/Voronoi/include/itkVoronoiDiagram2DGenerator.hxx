@@ -273,8 +273,10 @@ VoronoiDiagram2DGenerator<TCoordinate>::ConstructDiagram()
     buildEdges.push_back(curr);
     EdgeInfo front = curr;
     EdgeInfo back = curr;
-    while (!(rawEdges[i].empty()))
+    auto     maxStop = rawEdges[i].size();
+    while (!(rawEdges[i].empty()) && (maxStop != 0))
     {
+      --maxStop;
       curr = rawEdges[i].front();
       rawEdges[i].pop_front();
       unsigned char frontbnd = Pointonbnd(front[0]);
