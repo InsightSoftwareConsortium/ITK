@@ -22,9 +22,6 @@
 #include "itkVersion.h"
 #include "itkTransformFactoryBase.h"
 
-#define itkPushIfTransformDim(str, D) \
-  (D <= (ITK_TRANSFORM_FACTORY_MAX_DIM)) ? defaultTransforms.push_back(str) : ((void)0)
-
 int
 itkTransformFactoryBaseTest(int, char *[])
 {
@@ -34,8 +31,15 @@ itkTransformFactoryBaseTest(int, char *[])
   // create the list of default transforms
   std::list<std::string> defaultTransforms;
 
-  // Test doubles first (in alphabetical order)
+  auto itkPushIfTransformDim = [&defaultTransforms](const char * str, int D) -> void {
+    if (D <= ITK_TRANSFORM_FACTORY_MAX_DIM)
+    {
+      defaultTransforms.emplace_back(str);
+    }
+    // else do nothing
+  };
 
+  // Test doubles first (in alphabetical order)
   itkPushIfTransformDim("AffineTransform_double_2_2", 2);
   itkPushIfTransformDim("AffineTransform_double_3_3", 3);
   itkPushIfTransformDim("AffineTransform_double_4_4", 4);
