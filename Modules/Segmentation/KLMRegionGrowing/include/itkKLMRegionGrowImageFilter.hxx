@@ -518,9 +518,9 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::InitializeKLM()
   // For DEBUG purposes
   if (this->GetDebug())
   {
-    for (unsigned int k = 0; k < m_BordersDynamicPointer.size(); ++k)
+    for (auto & k : m_BordersDynamicPointer)
     {
-      itkDebugMacro(<< m_BordersDynamicPointer[k].m_Pointer);
+      itkDebugMacro(<< k.m_Pointer);
     }
   }
 
