@@ -57,16 +57,14 @@ public:
 
   /** Copy constructor.  */
   explicit AutoPointer(AutoPointer & p)
-    // Ownership can only be taken from another owner
-    : m_Pointer(p.ReleaseOwnership())
-    // release ownership if appropriate
-    , m_IsOwner(p.IsOwner())
+    : m_IsOwner(p.IsOwner())
+    , m_Pointer(p.ReleaseOwnership())
   {}
 
   /** Constructor to pointer p.  */
   explicit AutoPointer(ObjectType * p, bool takeOwnership)
-    : m_Pointer(p)
-    , m_IsOwner(takeOwnership)
+    : m_IsOwner(takeOwnership)
+    , m_Pointer(p)
   {}
 
   /** Destructor.  */
@@ -227,8 +225,8 @@ private:
   }
 
   /** The pointer to the object referred to by this smart pointer. */
-  ObjectType * m_Pointer;
   bool         m_IsOwner{ false };
+  ObjectType * m_Pointer;
 };
 
 template <typename T>
