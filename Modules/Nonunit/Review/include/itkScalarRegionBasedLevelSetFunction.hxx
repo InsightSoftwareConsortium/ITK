@@ -83,17 +83,17 @@ ScalarRegionBasedLevelSetFunction<TInputImage, TFeatureImage, TSharedData>::Upda
   UpdateSharedDataInsideParameters(fId, featureVal, change);
 
   // Compute the product factor
-  ListPixelType   L = this->m_SharedData->m_NearestNeighborListImage->GetPixel(globalIndex);
+  ListPixelType   pixelList = this->m_SharedData->m_NearestNeighborListImage->GetPixel(globalIndex);
   InputIndexType  itInputIndex;
   ScalarValueType hVal;
 
   InputPixelType product = 1;
-  for (auto it = L.begin(); it != L.end(); ++it)
+  for (unsigned int & pixel : pixelList)
   {
-    if (*it != fId)
+    if (pixel != fId)
     {
-      itInputIndex = this->m_SharedData->m_LevelSetDataPointerVector[*it]->GetIndex(globalIndex);
-      hVal = this->m_SharedData->m_LevelSetDataPointerVector[*it]->m_HeavisideFunctionOfLevelSetImage->GetPixel(
+      itInputIndex = this->m_SharedData->m_LevelSetDataPointerVector[pixel]->GetIndex(globalIndex);
+      hVal = this->m_SharedData->m_LevelSetDataPointerVector[pixel]->m_HeavisideFunctionOfLevelSetImage->GetPixel(
         itInputIndex);
       product *= (1 - hVal);
     }
@@ -102,9 +102,9 @@ ScalarRegionBasedLevelSetFunction<TInputImage, TFeatureImage, TSharedData>::Upda
   ScalarValueType productChange = -(product * change);
 
   // update the background constant of all level-set functions
-  for (auto it = L.begin(); it != L.end(); ++it)
+  for (unsigned int & pixel : pixelList)
   {
-    UpdateSharedDataOutsideParameters(*it, featureVal, productChange);
+    UpdateSharedDataOutsideParameters(pixel, featureVal, productChange);
   }
 
   this->m_SharedData->m_LevelSetDataPointerVector[fId]->m_HeavisideFunctionOfLevelSetImage->SetPixel(inputIndex, newH);

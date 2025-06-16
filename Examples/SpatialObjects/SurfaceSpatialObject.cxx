@@ -127,14 +127,13 @@ main(int, char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  for (auto it = surface->GetPoints().begin();
-       it != surface->GetPoints().end();
-       ++it)
+  for (auto & currentPoint : surface->GetPoints())
   {
-    std::cout << "Position = " << (*it).GetPositionInObjectSpace()
+    std::cout << "Position = " << currentPoint.GetPositionInObjectSpace()
               << std::endl;
-    std::cout << "Normal = " << (*it).GetNormalInObjectSpace() << std::endl;
-    std::cout << "Color = " << (*it).GetColor() << std::endl;
+    std::cout << "Normal = " << currentPoint.GetNormalInObjectSpace()
+              << std::endl;
+    std::cout << "Color = " << currentPoint.GetColor() << std::endl;
     std::cout << std::endl;
   }
   // Software Guide : EndCodeSnippet

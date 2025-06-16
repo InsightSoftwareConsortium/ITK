@@ -152,21 +152,21 @@ main(int, char *[])
   // Software Guide : BeginCodeSnippet
   {
     unsigned int i = 0;
-    for (auto it = tube->GetPoints().begin(); it != tube->GetPoints().end();
-         ++it)
+    for (auto & currentPoint : tube->GetPoints())
     {
       std::cout << std::endl;
       std::cout << "Point #" << i << std::endl;
-      std::cout << "Position: " << (*it).GetPositionInObjectSpace()
+      std::cout << "Position: " << currentPoint.GetPositionInObjectSpace()
                 << std::endl;
-      std::cout << "Radius: " << (*it).GetRadiusInObjectSpace() << std::endl;
-      std::cout << "Tangent: " << (*it).GetTangentInObjectSpace()
+      std::cout << "Radius: " << currentPoint.GetRadiusInObjectSpace()
                 << std::endl;
-      std::cout << "First Normal: " << (*it).GetNormal1InObjectSpace()
+      std::cout << "Tangent: " << currentPoint.GetTangentInObjectSpace()
                 << std::endl;
-      std::cout << "Second Normal: " << (*it).GetNormal2InObjectSpace()
+      std::cout << "First Normal: " << currentPoint.GetNormal1InObjectSpace()
                 << std::endl;
-      std::cout << "Color = " << (*it).GetColor() << std::endl;
+      std::cout << "Second Normal: " << currentPoint.GetNormal2InObjectSpace()
+                << std::endl;
+      std::cout << "Color = " << currentPoint.GetColor() << std::endl;
       ++i;
     }
   }

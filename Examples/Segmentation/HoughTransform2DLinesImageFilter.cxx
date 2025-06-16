@@ -230,7 +230,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  for (auto itLines = lines.begin(); itLines != lines.end(); ++itLines)
+  for (auto & line : lines)
   {
     // Software Guide : EndCodeSnippet
 
@@ -246,7 +246,7 @@ main(int argc, char * argv[])
     using LinePointListType =
       HoughTransformFilterType::LineType::LinePointListType;
 
-    LinePointListType pointsList = (*itLines)->GetPoints();
+    LinePointListType pointsList = line->GetPoints();
     auto              itPoints = pointsList.begin();
 
     double u[2];

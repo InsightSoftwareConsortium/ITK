@@ -138,15 +138,14 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
 
-  for (auto it = Line->GetPoints().begin(); it != Line->GetPoints().end();
-       ++it)
+  for (auto & currentPoint : Line->GetPoints())
   {
-    std::cout << "Position = " << (*it).GetPositionInObjectSpace()
+    std::cout << "Position = " << currentPoint.GetPositionInObjectSpace()
               << std::endl;
-    std::cout << "Color = " << (*it).GetColor() << std::endl;
-    std::cout << "First normal = " << (*it).GetNormalInObjectSpace(0)
+    std::cout << "Color = " << currentPoint.GetColor() << std::endl;
+    std::cout << "First normal = " << currentPoint.GetNormalInObjectSpace(0)
               << std::endl;
-    std::cout << "Second normal = " << (*it).GetNormalInObjectSpace(1)
+    std::cout << "Second normal = " << currentPoint.GetNormalInObjectSpace(1)
               << std::endl;
     std::cout << std::endl;
   }

@@ -105,10 +105,10 @@ main(int, char *[])
             << std::endl;
 
 
-  for (auto it = childrenList->begin(); it != childrenList->end(); ++it)
+  for (auto & currentChild : *childrenList)
   {
     std::cout << "Name of the child of the object 1: ";
-    std::cout << (*it)->GetProperty().GetName() << std::endl;
+    std::cout << currentChild->GetProperty().GetName() << std::endl;
   }
   // Software Guide : EndCodeSnippet
 

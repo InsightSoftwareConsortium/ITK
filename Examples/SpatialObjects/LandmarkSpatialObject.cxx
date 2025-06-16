@@ -108,13 +108,11 @@ main(int, char *[])
   std::cout << "Number of Points in the landmark: " << nPoints << std::endl;
 
 
-  for (auto it = landmark->GetPoints().begin();
-       it != landmark->GetPoints().end();
-       ++it)
+  for (auto & currentPoint : landmark->GetPoints())
   {
-    std::cout << "Position: " << (*it).GetPositionInObjectSpace()
+    std::cout << "Position: " << currentPoint.GetPositionInObjectSpace()
               << std::endl;
-    std::cout << "Color: " << (*it).GetColor() << std::endl;
+    std::cout << "Color: " << currentPoint.GetColor() << std::endl;
   }
   // Software Guide : EndCodeSnippet
 

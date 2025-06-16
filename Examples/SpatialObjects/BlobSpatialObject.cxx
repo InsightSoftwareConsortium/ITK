@@ -143,12 +143,11 @@ main(int, char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  for (auto it = blob->GetPoints().begin(); it != blob->GetPoints().end();
-       ++it)
+  for (auto & currentPoint : blob->GetPoints())
   {
-    std::cout << "Position = " << (*it).GetPositionInWorldSpace()
+    std::cout << "Position = " << currentPoint.GetPositionInWorldSpace()
               << std::endl;
-    std::cout << "Color = " << (*it).GetColor() << std::endl;
+    std::cout << "Color = " << currentPoint.GetColor() << std::endl;
   }
   // Software Guide : EndCodeSnippet
 

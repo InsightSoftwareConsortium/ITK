@@ -142,13 +142,14 @@ main(int argc, char * argv[])
       GradientDirectionContainerType::New();
 
 
-  for (auto itKey = imgMetaKeys.begin(); itKey != imgMetaKeys.end(); ++itKey)
+  for (auto & imgMetaKey : imgMetaKeys)
   {
     std::string metaString;
-    itk::ExposeMetaData<std::string>(imgMetaDictionary, *itKey, metaString);
-    if (itKey->find("DWMRI_gradient") != std::string::npos)
+    itk::ExposeMetaData<std::string>(
+      imgMetaDictionary, imgMetaKey, metaString);
+    if (imgMetaKey.find("DWMRI_gradient") != std::string::npos)
     {
-      std::cout << *itKey << " ---> " << metaString << std::endl;
+      std::cout << imgMetaKey << " ---> " << metaString << std::endl;
       sscanf(metaString.c_str(),
              "%lf %lf %lf\n",
              &(vect3d[0]),
@@ -163,9 +164,9 @@ main(int argc, char * argv[])
       }
       ++numberOfGradientImages;
     }
-    else if (itKey->find("DWMRI_b-value") != std::string::npos)
+    else if (imgMetaKey.find("DWMRI_b-value") != std::string::npos)
     {
-      std::cout << *itKey << " ---> " << metaString << std::endl;
+      std::cout << imgMetaKey << " ---> " << metaString << std::endl;
       readb0 = true;
       b0 = std::stod(metaString.c_str());
     }
