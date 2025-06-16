@@ -47,7 +47,7 @@ LoadBCMFC::LoadBCMFC(Element::ConstPointer element, int dof, vnl_vector<Element:
   m_LeftHandSide.clear();
 
   /** Set the correct weight */
-  m_LeftHandSide.push_back(MFCTerm(element, dof, 1.0));
+  m_LeftHandSide.emplace_back(element, dof, 1.0);
 }
 
 void

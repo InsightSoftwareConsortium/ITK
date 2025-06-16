@@ -198,20 +198,20 @@ LabelGeometryImageFilterTest(std::string labelImageName,
 
   // Set up the headers.
   WriterType::StringVectorType columnName;
-  columnName.push_back("Label number");
-  columnName.push_back("Volume (voxels)");
-  columnName.push_back("Integrated intensity");
-  columnName.push_back("Centroid X (voxel)");
-  columnName.push_back("Centroid Y (voxel)");
-  columnName.push_back("Centroid Z (voxel)");
-  columnName.push_back("Weighted centroid X (voxel)");
-  columnName.push_back("Weighted centroid Y (voxel)");
-  columnName.push_back("Weighted centroid Z (voxel)");
-  columnName.push_back("Major axis length");
-  columnName.push_back("Minor axis length");
-  columnName.push_back("Eccentricity");
-  columnName.push_back("Elongation");
-  columnName.push_back("Orientation");
+  columnName.emplace_back("Label number");
+  columnName.emplace_back("Volume (voxels)");
+  columnName.emplace_back("Integrated intensity");
+  columnName.emplace_back("Centroid X (voxel)");
+  columnName.emplace_back("Centroid Y (voxel)");
+  columnName.emplace_back("Centroid Z (voxel)");
+  columnName.emplace_back("Weighted centroid X (voxel)");
+  columnName.emplace_back("Weighted centroid Y (voxel)");
+  columnName.emplace_back("Weighted centroid Z (voxel)");
+  columnName.emplace_back("Major axis length");
+  columnName.emplace_back("Minor axis length");
+  columnName.emplace_back("Eccentricity");
+  columnName.emplace_back("Elongation");
+  columnName.emplace_back("Orientation");
 
   // write out the array2D object
   auto writer = WriterType::New();
