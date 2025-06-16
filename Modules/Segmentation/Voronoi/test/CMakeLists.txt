@@ -29,6 +29,12 @@ itk_add_test(
   itkVoronoiSegmentationRGBImageFilterTest)
 itk_add_test(
   NAME
+  itkVoronoiDiagram2DInfiniteLoopTest
+  COMMAND
+  ITKVoronoiTestDriver
+  itkVoronoiDiagram2DInfiniteLoopTest)
+itk_add_test(
+  NAME
   itkVoronoiDiagram2DTest
   COMMAND
   ITKVoronoiTestDriver
