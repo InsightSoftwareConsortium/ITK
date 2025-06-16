@@ -137,22 +137,23 @@ main(int, char *[])
   // Software Guide : BeginCodeSnippet
   {
     unsigned int i = 0;
-    for (auto it = vesselTube->GetPoints().begin();
-         it != vesselTube->GetPoints().end();
-         ++it)
+    for (auto & currentPoint : vesselTube->GetPoints())
     {
       std::cout << std::endl;
       std::cout << "Point #" << i << std::endl;
-      std::cout << "Position: " << (*it).GetPositionInObjectSpace()
+      std::cout << "Position: " << currentPoint.GetPositionInObjectSpace()
                 << std::endl;
-      std::cout << "Radius: " << (*it).GetRadiusInObjectSpace() << std::endl;
-      std::cout << "Medialness: " << (*it).GetMedialness() << std::endl;
-      std::cout << "Ridgeness: " << (*it).GetRidgeness() << std::endl;
-      std::cout << "Branchness: " << (*it).GetBranchness() << std::endl;
-      std::cout << "Alpha1: " << (*it).GetAlpha1() << std::endl;
-      std::cout << "Alpha2: " << (*it).GetAlpha2() << std::endl;
-      std::cout << "Alpha3: " << (*it).GetAlpha3() << std::endl;
-      std::cout << "Color = " << (*it).GetColor() << std::endl;
+      std::cout << "Radius: " << currentPoint.GetRadiusInObjectSpace()
+                << std::endl;
+      std::cout << "Medialness: " << currentPoint.GetMedialness()
+                << std::endl;
+      std::cout << "Ridgeness: " << currentPoint.GetRidgeness() << std::endl;
+      std::cout << "Branchness: " << currentPoint.GetBranchness()
+                << std::endl;
+      std::cout << "Alpha1: " << currentPoint.GetAlpha1() << std::endl;
+      std::cout << "Alpha2: " << currentPoint.GetAlpha2() << std::endl;
+      std::cout << "Alpha3: " << currentPoint.GetAlpha3() << std::endl;
+      std::cout << "Color = " << currentPoint.GetColor() << std::endl;
       ++i;
     }
   }

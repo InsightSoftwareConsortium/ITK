@@ -190,7 +190,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::GibbsTotalEnergy(int i)
   int rowsize = m_ImageWidth;
 
   double       energy[2];
-  LabelType    f[8];
+  LabelType    eightNeighbors[8];
   unsigned int neighborcount = 0;
 
   offsetIndex3D[2] = i / frame;
@@ -201,34 +201,34 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::GibbsTotalEnergy(int i)
   {
     offsetIndex3D[0]--;
     offsetIndex3D[1]--;
-    f[neighborcount++] = static_cast<int>(m_LabelledImage->GetPixel(offsetIndex3D));
+    eightNeighbors[neighborcount++] = static_cast<int>(m_LabelledImage->GetPixel(offsetIndex3D));
 
     offsetIndex3D[0]++;
-    f[neighborcount++] = static_cast<int>(m_LabelledImage->GetPixel(offsetIndex3D));
+    eightNeighbors[neighborcount++] = static_cast<int>(m_LabelledImage->GetPixel(offsetIndex3D));
 
     offsetIndex3D[0]++;
-    f[neighborcount++] = static_cast<int>(m_LabelledImage->GetPixel(offsetIndex3D));
+    eightNeighbors[neighborcount++] = static_cast<int>(m_LabelledImage->GetPixel(offsetIndex3D));
 
     offsetIndex3D[1]++;
-    f[neighborcount++] = static_cast<int>(m_LabelledImage->GetPixel(offsetIndex3D));
+    eightNeighbors[neighborcount++] = static_cast<int>(m_LabelledImage->GetPixel(offsetIndex3D));
 
     offsetIndex3D[1]++;
-    f[neighborcount++] = static_cast<int>(m_LabelledImage->GetPixel(offsetIndex3D));
+    eightNeighbors[neighborcount++] = static_cast<int>(m_LabelledImage->GetPixel(offsetIndex3D));
 
     offsetIndex3D[0]--;
-    f[neighborcount++] = static_cast<int>(m_LabelledImage->GetPixel(offsetIndex3D));
+    eightNeighbors[neighborcount++] = static_cast<int>(m_LabelledImage->GetPixel(offsetIndex3D));
 
     offsetIndex3D[0]--;
-    f[neighborcount++] = static_cast<int>(m_LabelledImage->GetPixel(offsetIndex3D));
+    eightNeighbors[neighborcount++] = static_cast<int>(m_LabelledImage->GetPixel(offsetIndex3D));
 
     offsetIndex3D[1]--;
-    f[neighborcount] = static_cast<int>(m_LabelledImage->GetPixel(offsetIndex3D));
+    eightNeighbors[neighborcount] = static_cast<int>(m_LabelledImage->GetPixel(offsetIndex3D));
   }
 
   unsigned int k = 0;
-  for (unsigned int j = 0; j < 8; ++j)
+  for (unsigned int currentELement : eightNeighbors)
   {
-    if (f[j] == m_ObjectLabel)
+    if (currentELement == m_ObjectLabel)
     {
       ++k;
     }

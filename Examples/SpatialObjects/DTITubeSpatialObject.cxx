@@ -148,37 +148,41 @@ main(int, char *[])
   // Software Guide : BeginCodeSnippet
   {
     unsigned int i = 0;
-    for (auto it = dtiTube->GetPoints().begin();
-         it != dtiTube->GetPoints().end();
-         ++it)
+    for (auto & currentPoint : dtiTube->GetPoints())
     {
       std::cout << std::endl;
       std::cout << "Point #" << i << std::endl;
-      std::cout << "Position: " << (*it).GetPositionInObjectSpace()
+      std::cout << "Position: " << currentPoint.GetPositionInObjectSpace()
                 << std::endl;
-      std::cout << "Radius: " << (*it).GetRadiusInObjectSpace() << std::endl;
+      std::cout << "Radius: " << currentPoint.GetRadiusInObjectSpace()
+                << std::endl;
       std::cout << "FA: "
-                << (*it).GetField(itk::DTITubeSpatialObjectPointEnums::
-                                    DTITubeSpatialObjectPointField::FA)
+                << currentPoint.GetField(itk::DTITubeSpatialObjectPointEnums::
+                                           DTITubeSpatialObjectPointField::FA)
                 << std::endl;
       std::cout << "ADC: "
-                << (*it).GetField(itk::DTITubeSpatialObjectPointEnums::
-                                    DTITubeSpatialObjectPointField::ADC)
+                << currentPoint.GetField(
+                     itk::DTITubeSpatialObjectPointEnums::
+                       DTITubeSpatialObjectPointField::ADC)
                 << std::endl;
       std::cout << "GA: "
-                << (*it).GetField(itk::DTITubeSpatialObjectPointEnums::
-                                    DTITubeSpatialObjectPointField::GA)
+                << currentPoint.GetField(itk::DTITubeSpatialObjectPointEnums::
+                                           DTITubeSpatialObjectPointField::GA)
                 << std::endl;
-      std::cout << "Lambda1: " << (*it).GetField("Lambda1") << std::endl;
-      std::cout << "Lambda2: " << (*it).GetField("Lambda2") << std::endl;
-      std::cout << "Lambda3: " << (*it).GetField("Lambda3") << std::endl;
-      std::cout << "TensorMatrix: " << (*it).GetTensorMatrix()[0] << " : ";
-      std::cout << (*it).GetTensorMatrix()[1] << " : ";
-      std::cout << (*it).GetTensorMatrix()[2] << " : ";
-      std::cout << (*it).GetTensorMatrix()[3] << " : ";
-      std::cout << (*it).GetTensorMatrix()[4] << " : ";
-      std::cout << (*it).GetTensorMatrix()[5] << std::endl;
-      std::cout << "Color = " << (*it).GetColor() << std::endl;
+      std::cout << "Lambda1: " << currentPoint.GetField("Lambda1")
+                << std::endl;
+      std::cout << "Lambda2: " << currentPoint.GetField("Lambda2")
+                << std::endl;
+      std::cout << "Lambda3: " << currentPoint.GetField("Lambda3")
+                << std::endl;
+      std::cout << "TensorMatrix: " << currentPoint.GetTensorMatrix()[0]
+                << " : ";
+      std::cout << currentPoint.GetTensorMatrix()[1] << " : ";
+      std::cout << currentPoint.GetTensorMatrix()[2] << " : ";
+      std::cout << currentPoint.GetTensorMatrix()[3] << " : ";
+      std::cout << currentPoint.GetTensorMatrix()[4] << " : ";
+      std::cout << currentPoint.GetTensorMatrix()[5] << std::endl;
+      std::cout << "Color = " << currentPoint.GetColor() << std::endl;
 
       ++i;
     }

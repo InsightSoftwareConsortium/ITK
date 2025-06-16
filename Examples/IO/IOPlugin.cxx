@@ -82,9 +82,10 @@ main(int argc, char * argv[])
         auto n = names.begin();
         auto d = descriptions.begin();
         auto e = enableflags.begin();
-        for (auto o = overrides.begin(); o != overrides.end(); ++o)
+        for (auto & override : overrides)
         {
-          std::cout << "    Override " << *o << " with " << *n << std::endl
+          std::cout << "    Override " << override << " with " << *n
+                    << std::endl
                     << "      described as \"" << *d << "\"" << std::endl
                     << "      enabled " << *e << std::endl;
           ++n, ++d, ++e;
@@ -174,9 +175,10 @@ main(int argc, char * argv[])
         auto n = names.begin();
         auto d = descriptions.begin();
         auto e = enableflags.begin();
-        for (auto o = overrides.begin(); o != overrides.end(); ++o)
+        for (auto & override : overrides)
         {
-          std::cout << "    Override " << *o << " with " << *n << std::endl
+          std::cout << "    Override " << override << " with " << *n
+                    << std::endl
                     << "      described as \"" << *d << "\"" << std::endl
                     << "      enabled " << *e << std::endl;
           ++n, ++d, ++e;
