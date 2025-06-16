@@ -38,23 +38,23 @@ TestDisplacementJacobianDeterminantValue()
   using VectorImageType = FieldType;
 
 
-  std::cout << "Create the dispacementfield image pattern." << std::endl;
+  std::cout << "Create the displacementField image pattern." << std::endl;
   VectorImageType::RegionType region;
   // NOTE:  Making the image size much larger than necessary in order to get
   //       some meaningful time measurements.  Simulate a 256x256x256 image.
   constexpr VectorImageType::SizeType size{ 4096, 4096 };
   region.SetSize(size);
 
-  auto dispacementfield = VectorImageType::New();
-  dispacementfield->SetLargestPossibleRegion(region);
-  dispacementfield->SetBufferedRegion(region);
-  dispacementfield->Allocate();
+  auto displacementField = VectorImageType::New();
+  displacementField->SetLargestPossibleRegion(region);
+  displacementField->SetBufferedRegion(region);
+  displacementField->Allocate();
 
   VectorType values;
   values[0] = 0;
   values[1] = 0;
   using Iterator = itk::ImageRegionIteratorWithIndex<VectorImageType>;
-  for (Iterator inIter(dispacementfield, region); !inIter.IsAtEnd(); ++inIter)
+  for (Iterator inIter(displacementField, region); !inIter.IsAtEnd(); ++inIter)
   {
     const unsigned int i = inIter.GetIndex()[0];
     const unsigned int j = inIter.GetIndex()[1];
@@ -96,7 +96,7 @@ TestDisplacementJacobianDeterminantValue()
 #endif
   ITK_TEST_SET_GET_BOOLEAN(filter, UseImageSpacing, useImageSpacing);
 
-  filter->SetInput(dispacementfield);
+  filter->SetInput(displacementField);
   filter->Update();
 
 
@@ -127,7 +127,7 @@ TestDisplacementJacobianDeterminantValue()
 
   // Define physical point to test
   itk::Point<double, 2> physPt;
-  dispacementfield->TransformIndexToPhysicalPoint(index, physPt);
+  displacementField->TransformIndexToPhysicalPoint(index, physPt);
 
   // Use this function to get the determinant at a specified physical point (it will be a different index between tests)
   auto GetDeterminantAtPoint = [](FieldType::Pointer image, const itk::Point<double, 2> & pt) -> float {
@@ -141,7 +141,7 @@ TestDisplacementJacobianDeterminantValue()
     return filter->GetOutput()->GetPixel(mappedIdx);
   };
 
-  const float detOriginal = GetDeterminantAtPoint(dispacementfield, physPt);
+  const float detOriginal = GetDeterminantAtPoint(displacementField, physPt);
 
   // Check that this is the same as above, just to be sure the function above works
   if (itk::Math::abs(detOriginal - expectedJacobianDeterminant) > epsilon)
@@ -162,24 +162,24 @@ TestDisplacementJacobianDeterminantValue()
   order[0] = 1;
   order[1] = 0; // swap X <-> Y
   permute->SetOrder(order);
-  permute->SetInput(dispacementfield);
+  permute->SetInput(displacementField);
   permute->Update();
 
-  auto dispacementfieldPermuted = permute->GetOutput();
+  auto displacementFieldPermuted = permute->GetOutput();
 
   // Adjust direction to match permutation
-  itk::Matrix<double, 2, 2> origDir = dispacementfield->GetDirection();
+  itk::Matrix<double, 2, 2> origDir = displacementField->GetDirection();
   itk::Matrix<double, 2, 2> newDirPermute;
   newDirPermute[0][0] = origDir[1][0];
   newDirPermute[0][1] = origDir[1][1];
   newDirPermute[1][0] = origDir[0][0];
   newDirPermute[1][1] = origDir[0][1];
 
-  dispacementfieldPermuted->SetDirection(newDirPermute);
-  dispacementfieldPermuted->SetOrigin(dispacementfield->GetOrigin());
-  dispacementfieldPermuted->SetSpacing(dispacementfield->GetSpacing());
+  displacementFieldPermuted->SetDirection(newDirPermute);
+  displacementFieldPermuted->SetOrigin(displacementField->GetOrigin());
+  displacementFieldPermuted->SetSpacing(displacementField->GetSpacing());
 
-  const float detPermuted = GetDeterminantAtPoint(dispacementfieldPermuted, physPt);
+  const float detPermuted = GetDeterminantAtPoint(displacementFieldPermuted, physPt);
 
   using FlipFilterType = itk::FlipImageFilter<FieldType>;
   auto flip = FlipFilterType::New();
@@ -188,22 +188,22 @@ TestDisplacementJacobianDeterminantValue()
   flipAxes[0] = true;  // Flip X
   flipAxes[1] = false; // Keep Y
   flip->SetFlipAxes(flipAxes);
-  flip->SetInput(dispacementfield);
+  flip->SetInput(displacementField);
   flip->FlipAboutOriginOff();
   flip->Update();
 
-  auto dispacementfieldFlip = flip->GetOutput();
+  auto displacementFieldFlip = flip->GetOutput();
 
   // Adjust direction to compensate flip
   itk::Matrix<double, 2, 2> flipMat;
   flipMat.SetIdentity();
   flipMat[0][0] = -1.0;
 
-  itk::Matrix<double, 2, 2> newDirFlip = flipMat * dispacementfield->GetDirection();
+  itk::Matrix<double, 2, 2> newDirFlip = flipMat * displacementField->GetDirection();
 
-  dispacementfieldFlip->SetDirection(newDirFlip);
+  displacementFieldFlip->SetDirection(newDirFlip);
 
-  const float detFlipped = GetDeterminantAtPoint(dispacementfieldFlip, physPt);
+  const float detFlipped = GetDeterminantAtPoint(displacementFieldFlip, physPt);
 
   std::cout << "Determinant at point " << physPt << ":" << std::endl;
   std::cout << "  Original: " << detOriginal << std::endl;
