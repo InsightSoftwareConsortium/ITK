@@ -61,4 +61,4 @@
 1.0.md
 ```
 
-The release asset archive is [available here](https://drive.google.com/drive/u/2/folders/0AKRok0KBkv02Uk9PVA).
+The release asset archive is [available here](https://drive.google.com/drive/folders/1NFEZGTs_axoJUXox3JsRKCqw2QQCY_Ri).
