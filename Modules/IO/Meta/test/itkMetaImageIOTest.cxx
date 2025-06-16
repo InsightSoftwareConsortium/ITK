@@ -91,7 +91,7 @@ itkMetaImageIOTest(int argc, char * argv[])
   image->Print(std::cout);
 
   // MetaImage is expected to have a modality tag
-  image->GetMetaDataDictionary().Get("Modality");
+  [[maybe_unused]] auto val = image->GetMetaDataDictionary().Get("Modality");
 
   const myImage::RegionType region = image->GetLargestPossibleRegion();
   std::cout << "region " << region;

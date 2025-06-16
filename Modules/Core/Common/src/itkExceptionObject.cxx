@@ -182,8 +182,6 @@ ExceptionObject::Print(std::ostream & os) const
   os << indent << "itk::" << this->GetNameOfClass() << " (" << this << ")\n";
 
   // Print self
-  indent.GetNextIndent();
-
   if (m_ExceptionData != nullptr)
   {
     const ExceptionData & data = *(m_ExceptionData);

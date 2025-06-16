@@ -317,12 +317,9 @@ itkVectorImageTest(int, char * argv[])
       {
         clock.Start();
         using IteratorType = itk::ImageRegionConstIterator<VariableLengthVectorImageType>;
-        IteratorType it(image, image->GetBufferedRegion());
-        it.GoToBegin();
-        while (!it.IsAtEnd())
+        for (IteratorType it(image, image->GetBufferedRegion()); !it.IsAtEnd(); ++it)
         {
-          it.Get();
-          ++it;
+          [[maybe_unused]] auto val = it.Get();
         }
         clock.Stop();
         std::cout << "ConstIterator Get() over the entire image took : " << clock.GetMean() << " s." << std::endl;
@@ -377,12 +374,9 @@ itkVectorImageTest(int, char * argv[])
       {
         clock.Start();
         using IteratorType = itk::ImageRegionConstIterator<FixedArrayImageType>;
-        IteratorType it(image, image->GetBufferedRegion());
-        it.GoToBegin();
-        while (!it.IsAtEnd())
+        for (IteratorType it(image, image->GetBufferedRegion()); !it.IsAtEnd(); ++it)
         {
-          it.Get();
-          ++it;
+          [[maybe_unused]] auto val = it.Get();
         }
         clock.Stop();
         std::cout << "ConstIterator Get() over the entire image took : " << clock.GetMean() << " s." << std::endl;
@@ -422,12 +416,9 @@ itkVectorImageTest(int, char * argv[])
       {
         clock.Start();
         using IteratorType = itk::ImageRegionConstIterator<VectorImageType>;
-        IteratorType it(vectorImage, vectorImage->GetBufferedRegion());
-        it.GoToBegin();
-        while (!it.IsAtEnd())
+        for (IteratorType it(vectorImage, vectorImage->GetBufferedRegion()); !it.IsAtEnd(); ++it)
         {
-          it.Get();
-          ++it;
+          [[maybe_unused]] auto value = it.Get();
         }
         clock.Stop();
         std::cout << "ConstIterator Get() over the entire vectorImage took : " << clock.GetMean() << " s." << std::endl;

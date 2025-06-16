@@ -49,7 +49,7 @@ Indent::GetNextIndent() const
   {
     indent = ITK_NUMBER_OF_BLANKS;
   }
-  return indent;
+  return Indent{ indent };
 }
 
 std::ostream &
