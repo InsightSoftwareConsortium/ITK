@@ -59,3 +59,5 @@
 1.8.md
 1.0.md
 ```
+
+The release asset archive is [available here](https://drive.google.com/drive/u/2/folders/0AKRok0KBkv02Uk9PVA).
