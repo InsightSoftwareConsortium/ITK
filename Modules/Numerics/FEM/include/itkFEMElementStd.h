@@ -21,9 +21,7 @@
 
 #include "itkFEMElementBase.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /**
  * \class ElementStd
@@ -159,8 +157,7 @@ protected:
   const Node * m_node[NumberOfNodes]{};
 };
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkFEMElementStd.hxx"

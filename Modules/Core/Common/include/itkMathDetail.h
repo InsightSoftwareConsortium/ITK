@@ -74,9 +74,8 @@
 
 namespace itk
 {
-namespace Math
-{
-namespace Detail
+
+namespace Math::Detail
 {
 // The functions defined in this namespace are not meant to be used directly
 // and thus do not adhere to the standard backward-compatibility
@@ -515,8 +514,8 @@ union FloatIEEE
   }
 };
 
-} // end namespace Detail
-} // end namespace Math
+} // namespace Math::Detail
+// end namespace Math
 
 // move to itkConceptChecking?
 namespace Concept

@@ -22,9 +22,7 @@
 #include "itkFEMElementBase.h"
 #include "itkFEMMaterialLinearElasticity.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /**
  * \class Element3DMembrane1DOF
@@ -125,8 +123,7 @@ protected:
   MaterialLinearElasticity::ConstPointer m_Mat{};
 };
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkFEMElement3DMembrane1DOF.hxx"

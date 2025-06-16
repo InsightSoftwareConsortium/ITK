@@ -22,9 +22,7 @@
 
 #include "itkMath.h"
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 template <typename TSample>
 GaussianMixtureModelComponent<TSample>::GaussianMixtureModelComponent()
@@ -282,7 +280,6 @@ GaussianMixtureModelComponent<TSample>::GenerateData()
 
   Superclass::SetParameters(parameters);
 }
-} // end of namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics
 
 #endif

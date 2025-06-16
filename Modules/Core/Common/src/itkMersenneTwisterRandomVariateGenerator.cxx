@@ -21,9 +21,7 @@
 
 #include <atomic>
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 namespace
 {
@@ -286,5 +284,4 @@ MersenneTwisterRandomVariateGenerator::PrintSelf(std::ostream & os, Indent inden
   os << indent << "Values left before next reload: " << m_Left << std::endl;
 }
 
-} // end namespace Statistics
-} // end namespace itk
+} // namespace itk::Statistics

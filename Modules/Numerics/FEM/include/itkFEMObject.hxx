@@ -32,9 +32,7 @@
 
 #include <algorithm>
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 
 template <unsigned int VDimension>
@@ -645,7 +643,6 @@ FEMObject<VDimension>::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "MaterialContainer: " << this->m_MaterialContainer << std::endl;
 }
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif // itkFEMObject_hxx

@@ -18,9 +18,7 @@
 #include "itkMaximumRatioDecisionRule.h"
 #include "itkMath.h"
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 MaximumRatioDecisionRule::MaximumRatioDecisionRule() = default;
 
@@ -120,5 +118,4 @@ MaximumRatioDecisionRule::Evaluate(const MembershipVectorType & discriminantScor
   }
   return besti;
 }
-} // namespace Statistics
-} // namespace itk
+} // namespace itk::Statistics

@@ -26,9 +26,7 @@
 #include "ITKFEMExport.h"
 #include <vector>
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /**
  * \class LinearSystemWrapperDenseVNL
@@ -181,7 +179,6 @@ private:
   /** vector of pointers to VNL vectors */
   std::vector<vnl_vector<Float> *> * m_Solutions{ nullptr };
 };
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif // itkFEMLinearSystemWrapperDenseVNL_h

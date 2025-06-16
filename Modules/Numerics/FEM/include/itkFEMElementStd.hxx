@@ -19,10 +19,7 @@
 #ifndef itkFEMElementStd_hxx
 #define itkFEMElementStd_hxx
 
-
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 template <unsigned int VNumberOfNodes, unsigned int VNumberOfSpatialDimensions, typename TBaseClass>
 ElementStd<VNumberOfNodes, VNumberOfSpatialDimensions, TBaseClass>::ElementStd()
@@ -46,7 +43,6 @@ ElementStd<VNumberOfNodes, VNumberOfSpatialDimensions, TBaseClass>::PrintSelf(st
   }
 }
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif

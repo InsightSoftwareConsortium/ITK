@@ -31,8 +31,7 @@
 #include "itkImageRegion.h"
 #include "itkSmartPointer.h"
 
-namespace itk
-{
+
 /** ImageToImageFilterDetail namespace to house implementations of
  * functions that are dependent on dimension. These functions are
  * overloaded based on type unique for each different dimension.
@@ -41,7 +40,7 @@ namespace itk
  * ImageToImageFilter would force the instantiation of all versions of
  * these overloaded functions.
  */
-namespace ImageToImageFilterDetail
+namespace itk::ImageToImageFilterDetail
 {
 
 /** \struct  DispatchBase
@@ -448,7 +447,6 @@ public:
 };
 
 
-} // end of namespace ImageToImageFilterDetail
-} // end namespace itk
+} // namespace itk::ImageToImageFilterDetail
 
 #endif

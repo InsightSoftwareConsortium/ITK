@@ -28,9 +28,7 @@
 #include <typeinfo>
 #include <string>
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /**
  * \class LinearSystemWrapper
@@ -585,7 +583,6 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(FEMExceptionLinearSystemBounds);
 };
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif // itkFEMLinearSystemWrapper_h

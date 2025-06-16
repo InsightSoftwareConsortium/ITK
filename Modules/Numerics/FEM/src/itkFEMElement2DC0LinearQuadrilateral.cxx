@@ -18,9 +18,7 @@
 
 #include "itkFEMElement2DC0LinearQuadrilateral.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 void
 Element2DC0LinearQuadrilateral::GetIntegrationPointAndWeight(unsigned int i,
@@ -240,5 +238,4 @@ Element2DC0LinearQuadrilateral::PrintSelf(std::ostream & os, Indent indent) cons
   Superclass::PrintSelf(os, indent);
 }
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem

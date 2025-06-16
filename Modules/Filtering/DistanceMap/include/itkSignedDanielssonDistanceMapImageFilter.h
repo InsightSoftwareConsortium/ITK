@@ -22,9 +22,8 @@
 #include "itkSubtractImageFilter.h"
 
 // Simple functor to invert an image for Outside Danielsson distance map
-namespace itk
-{
-namespace Functor
+
+namespace itk::Functor
 {
 template <typename InputPixelType>
 class ITK_TEMPLATE_EXPORT InvertIntensityFunctor{ public: InputPixelType operator()(InputPixelType input)
@@ -35,8 +34,7 @@ return NumericTraits<InputPixelType>::OneValue();
 } // namespace itk
 }
 ;
-} // namespace Functor
-} // namespace itk
+} // namespace itk::Functor
 
 namespace itk
 {

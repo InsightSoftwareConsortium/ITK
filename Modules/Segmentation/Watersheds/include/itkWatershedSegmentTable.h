@@ -23,9 +23,7 @@
 #include <list>
 #include "itkOneWayEquivalencyTable.h"
 
-namespace itk
-{
-namespace watershed
+namespace itk::watershed
 {
 /**
  * \class SegmentTable
@@ -276,8 +274,7 @@ private:
   operator=(const Self &)
   {}
 };
-} // end namespace watershed
-} // end namespace itk
+} // namespace itk::watershed
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkWatershedSegmentTable.hxx"

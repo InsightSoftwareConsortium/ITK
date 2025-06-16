@@ -23,9 +23,7 @@
 
 #include "itkMembershipFunctionBase.h"
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 /** \class MahalanobisDistanceMembershipFunction
  * \brief MahalanobisDistanceMembershipFunction models class
@@ -141,8 +139,7 @@ private:
   /** Boolean to cache whether the covariance is singular or nearly singular */
   bool m_CovarianceNonsingular{};
 };
-} // end of namespace Statistics
-} // end namespace itk
+} // namespace itk::Statistics
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkMahalanobisDistanceMembershipFunction.hxx"

@@ -22,9 +22,7 @@
 #include "itkSample.h"
 #include "itkSubsample.h"
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 /**
  * \class SubsamplerBase
@@ -140,8 +138,7 @@ protected:
   SeedType           m_Seed{};
 }; // end of class SubsamplerBase
 
-} // end of namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkSubsamplerBase.hxx"

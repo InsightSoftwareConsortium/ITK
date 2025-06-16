@@ -17,9 +17,7 @@
  *=========================================================================*/
 #include "itkMath.h"
 
-namespace itk
-{
-namespace Math
+namespace itk::Math
 {
 
 namespace
@@ -115,5 +113,4 @@ GreatestPrimeFactor(unsigned long long n)
   return GreatestPrimeFactor<unsigned long long>(n);
 }
 
-} // end namespace Math
-} // end namespace itk
+} // namespace itk::Math

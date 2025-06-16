@@ -27,9 +27,7 @@
 
 #include "itkImage.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /**
  * \class Solver
@@ -440,8 +438,7 @@ private:
   InterpolationGridSpacingType   m_Spacing{};
   InterpolationGridDirectionType m_Direction{};
 };
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkFEMSolver.hxx"

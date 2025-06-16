@@ -18,9 +18,7 @@
 
 #include "itkProbabilityDistribution.h"
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 
 class ProbabilityDistributionTestingHelper : public ProbabilityDistribution
@@ -99,8 +97,8 @@ public:
   }
 };
 
-} // namespace Statistics
-} // namespace itk
+} // namespace itk::Statistics
+
 
 int
 itkProbabilityDistributionTest(int, char *[])

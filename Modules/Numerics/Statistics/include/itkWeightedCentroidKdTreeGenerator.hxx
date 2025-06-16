@@ -18,10 +18,7 @@
 #ifndef itkWeightedCentroidKdTreeGenerator_hxx
 #define itkWeightedCentroidKdTreeGenerator_hxx
 
-
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 
 template <typename TSample>
@@ -116,7 +113,6 @@ WeightedCentroidKdTreeGenerator<TSample>::GenerateNonterminalNode(unsigned int  
 
   return nonTerminalNode;
 }
-} // end of namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics
 
 #endif

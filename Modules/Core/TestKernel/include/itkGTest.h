@@ -23,8 +23,6 @@
 #include "itkGTestPredicate.h"
 #include "itkGTestTypedefsAndConstructors.h"
 
-namespace itk
-{
 
 /** \namespace itk::GTest
  * \brief The GTest namespace contains GTest extensions for ITK, and
@@ -32,9 +30,8 @@ namespace itk
  * results and values.
  *
  */
-namespace GTest
-{} // end namespace GTest
 
-} // end namespace itk
+
+// end namespace itk
 
 #endif // itkGTest_h

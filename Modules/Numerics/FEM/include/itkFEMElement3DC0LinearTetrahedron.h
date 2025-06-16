@@ -24,9 +24,7 @@
 #include <vnl/vnl_matrix.h>
 #include <vnl/algo/vnl_matrix_inverse.h>
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /**
  * \class Element3DC0LinearTetrahedron
@@ -114,7 +112,6 @@ protected:
   void
   PopulateEdgeIds() override;
 };
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif // itkFEMElement3DC0LinearTetrahedron_h

@@ -22,9 +22,7 @@
 #include "itkFEMElementStd.h"
 #include "ITKFEMExport.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /**
  * \class Element2DC0QuadraticTriangular
@@ -119,7 +117,6 @@ protected:
   void
   PopulateEdgeIds() override;
 };
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif // itkFEMElement2DC0QuadraticTriangular_h

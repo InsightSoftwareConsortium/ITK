@@ -18,9 +18,7 @@
 
 #include "itkFEMElement2DC0LinearTriangular.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 const double Element2DC0LinearTriangular::trigGaussRuleInfo[6][7][4] = {
   { // order=0, never used
@@ -237,5 +235,4 @@ Element2DC0LinearTriangular::PrintSelf(std::ostream & os, Indent indent) const
   Superclass::PrintSelf(os, indent);
 }
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem

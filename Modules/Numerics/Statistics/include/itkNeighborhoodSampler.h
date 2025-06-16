@@ -21,9 +21,7 @@
 #include "itkSampleToSubsampleFilter.h"
 #include "itkSimpleDataObjectDecorator.h"
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 /** \class NeighborhoodSampler
  * \brief Generates a Subsample out of a Sample, based on a user-provided
@@ -84,8 +82,7 @@ protected:
   void
   GenerateData() override;
 }; // end of class
-} // end of namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkNeighborhoodSampler.hxx"

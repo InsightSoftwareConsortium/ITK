@@ -33,9 +33,7 @@
 
 #include "vnl/algo/vnl_determinant.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 
 template <typename TMovingImage, typename TFixedImage, typename TFemObject>
@@ -1522,7 +1520,6 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::PrintSelf(std::ost
      << static_cast<typename NumericTraits<StandardDeviationsType>::PrintType>(m_StandardDeviations) << std::endl;
 }
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif

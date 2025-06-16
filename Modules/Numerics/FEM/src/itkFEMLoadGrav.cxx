@@ -18,9 +18,7 @@
 
 #include "itkFEMLoadGrav.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 
 void
@@ -133,5 +131,4 @@ LoadGravConst::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Gravity Force: " << this->m_GravityForce << std::endl;
 }
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem

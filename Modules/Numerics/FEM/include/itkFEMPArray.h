@@ -23,9 +23,7 @@
 #include "itkFEMException.h"
 #include <vector>
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /**
  * \class FEMPArray
@@ -180,7 +178,6 @@ FEMPArray<T>::Renumber()
   return j;
 }
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif // itkFEMPArray_h

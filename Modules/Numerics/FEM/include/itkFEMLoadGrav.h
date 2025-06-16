@@ -23,9 +23,7 @@
 #include "ITKFEMExport.h"
 #include "vnl/vnl_vector.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /**
  * \class LoadGrav
@@ -110,7 +108,6 @@ protected:
 
   vnl_vector<Float> m_GravityForce{};
 };
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif // itkFEMLoadGrav_h

@@ -19,9 +19,7 @@
 #include "vnl/vnl_erf.h"
 #include "itkMath.h"
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 GaussianDistribution::GaussianDistribution()
 {
@@ -442,5 +440,4 @@ GaussianDistribution::PrintSelf(std::ostream & os, Indent indent) const
     os << indent << "Variance: (unknown)" << std::endl;
   }
 }
-} // end of namespace Statistics
-} // end namespace itk
+} // namespace itk::Statistics

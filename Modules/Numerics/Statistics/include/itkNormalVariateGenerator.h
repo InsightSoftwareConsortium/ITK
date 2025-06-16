@@ -22,9 +22,7 @@
 #include "itkRandomVariateGeneratorBase.h"
 #include "ITKStatisticsExport.h"
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 /** \class NormalVariateGenerator
  * \brief Normal random variate generator
@@ -160,6 +158,5 @@ private:
   double m_Chic2{};
   double m_ActualRSD{};
 }; // end of class
-} // end of namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics
 #endif

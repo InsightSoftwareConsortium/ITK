@@ -22,9 +22,7 @@
 #include "itkFEMMaterialBase.h"
 #include "ITKFEMExport.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /**
  * \class MaterialLinearElasticity
@@ -172,7 +170,6 @@ protected:
    */
   double m_DensityHeatCapacity{ 1.0 };
 };
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif // itkFEMMaterialLinearElasticity_h

@@ -35,9 +35,7 @@
 #include "itkVectorContainer.h"
 #include "ITKFEMExport.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /** \class FEMObject
  * \brief Implements N-dimensional Finite element (FE) models including
@@ -390,8 +388,8 @@ private:
   AddNextLoadInternal(Load * l);
 };
 
-} // namespace fem
-} // namespace itk
+} // namespace itk::fem
+
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkFEMObject.hxx"

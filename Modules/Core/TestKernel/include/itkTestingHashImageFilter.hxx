@@ -22,9 +22,7 @@
 
 #include "itksys/MD5.h"
 
-namespace itk
-{
-namespace Testing
+namespace itk::Testing
 {
 
 template <typename TImageType>
@@ -140,7 +138,6 @@ HashImageFilter<TImageType>::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "HashFunction: " << m_HashFunction << std::endl;
 }
 
-} // end namespace Testing
-} // end namespace itk
+} // namespace itk::Testing
 
 #endif // itkTestingHashImageFilter_hxx

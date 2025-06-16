@@ -24,14 +24,7 @@
 
 #include "itkImageBase.h"
 
-
-namespace itk
-{
-
-namespace GTest
-{
-
-namespace TypedefsAndConstructors
+namespace itk::GTest::TypedefsAndConstructors
 {
 
 /** \namespace itk::GTest::TypedefsAndConstructors::Dimension2
@@ -77,9 +70,8 @@ using RegionType = ImageBaseType::RegionType;
 
 } // end namespace Dimension3
 
-} // end namespace TypedefsAndConstructors
-} // end namespace GTest
-} // end namespace itk
+} // namespace itk::GTest::TypedefsAndConstructors
+// end namespace GTest
 
 
 #endif // itkGTestTypedefsAndConstructors_h

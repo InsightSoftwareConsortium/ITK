@@ -18,10 +18,7 @@
 #ifndef itkSampleToSubsampleFilter_hxx
 #define itkSampleToSubsampleFilter_hxx
 
-
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 template <typename TSample>
 SampleToSubsampleFilter<TSample>::SampleToSubsampleFilter()
@@ -71,7 +68,6 @@ SampleToSubsampleFilter<TSample>::PrintSelf(std::ostream & os, Indent indent) co
 {
   this->Superclass::PrintSelf(os, indent);
 }
-} // end of namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics
 
 #endif

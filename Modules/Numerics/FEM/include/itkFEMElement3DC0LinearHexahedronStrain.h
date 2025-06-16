@@ -23,9 +23,7 @@
 #include "itkFEMElement3DStrain.h"
 #include "ITKFEMExport.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /**
  * \class Element3DC0LinearHexahedronStrain
@@ -80,7 +78,6 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 }; // class Element3DC0LinearHexahedronStrain
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif // itkFEMElement3DC0LinearHexahedronStrain_h

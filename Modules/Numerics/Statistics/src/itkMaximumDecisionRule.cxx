@@ -17,9 +17,7 @@
  *=========================================================================*/
 #include "itkMaximumDecisionRule.h"
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 MaximumDecisionRule::ClassIdentifierType
 MaximumDecisionRule::Evaluate(const MembershipVectorType & discriminantScores) const
@@ -41,5 +39,4 @@ MaximumDecisionRule::Evaluate(const MembershipVectorType & discriminantScores) c
   }
   return maxIndex;
 }
-} // end of namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics

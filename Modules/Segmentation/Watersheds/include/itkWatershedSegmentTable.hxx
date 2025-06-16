@@ -18,10 +18,7 @@
 #ifndef itkWatershedSegmentTable_hxx
 #define itkWatershedSegmentTable_hxx
 
-
-namespace itk
-{
-namespace watershed
+namespace itk::watershed
 {
 template <typename TScalar>
 void
@@ -68,7 +65,6 @@ SegmentTable<TScalar>::Add(IdentifierType a, const segment_t & t)
 
   return true;
 }
-} // end namespace watershed
-} // end namespace itk
+} // namespace itk::watershed
 
 #endif

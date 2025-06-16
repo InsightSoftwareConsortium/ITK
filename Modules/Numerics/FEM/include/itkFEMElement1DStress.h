@@ -22,9 +22,7 @@
 #include "itkFEMElementBase.h"
 #include "itkFEMMaterialLinearElasticity.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /**
  * \class Element1DStress
@@ -127,8 +125,7 @@ protected:
   const MaterialLinearElasticity * m_mat{ nullptr };
 
 }; // class Element1DStress
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkFEMElement1DStress.hxx"

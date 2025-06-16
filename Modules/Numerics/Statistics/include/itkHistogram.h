@@ -25,9 +25,7 @@
 #include "itkDenseFrequencyContainer2.h"
 #include "itkSparseFrequencyContainer2.h"
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 
 /**
@@ -517,8 +515,7 @@ private:
 
   bool m_ClipBinsAtEnds{ true };
 };
-} // end of namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkHistogram.hxx"

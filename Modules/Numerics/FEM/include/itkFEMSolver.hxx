@@ -31,9 +31,7 @@
 #include <algorithm>
 #include "itkMath.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 
 template <unsigned int VDimension>
@@ -919,7 +917,6 @@ Solver<VDimension>::GetElementAtPoint(const VectorType & pt) const
   }
 }
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif

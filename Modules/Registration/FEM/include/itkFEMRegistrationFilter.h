@@ -51,9 +51,7 @@
 #include <iostream>
 #include <string>
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /** \class FEMRegistrationFilterEnums
  * \brief Contains all enum classes used by FEMRegistrationFilter class.
@@ -746,8 +744,7 @@ private:
 
   StandardDeviationsType m_StandardDeviations{};
 };
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkFEMRegistrationFilter.hxx"

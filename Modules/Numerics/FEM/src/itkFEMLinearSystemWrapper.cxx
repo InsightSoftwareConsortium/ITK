@@ -18,9 +18,7 @@
 
 #include "itkFEMLinearSystemWrapper.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 
 LinearSystemWrapper::~LinearSystemWrapper() = default;
@@ -436,5 +434,4 @@ FEMExceptionLinearSystemBounds::FEMExceptionLinearSystemBounds(std::string  file
 
 FEMExceptionLinearSystemBounds::~FEMExceptionLinearSystemBounds() noexcept = default;
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem

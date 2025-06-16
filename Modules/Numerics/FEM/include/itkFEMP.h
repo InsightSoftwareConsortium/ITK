@@ -22,9 +22,7 @@
 #include <utility>
 #include "itkMacro.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /**
  * \class FEMP
@@ -165,7 +163,6 @@ FEMP<T>::operator=(const FEMP<T> & rhs)
   return *this;
 }
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif // itkFEMP_h

@@ -22,9 +22,7 @@
 #include "itkFEMLoadBase.h"
 #include "ITKFEMExport.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /**
  * \class LoadElement
@@ -119,7 +117,6 @@ protected:
   ElementPointersVectorType m_Element{}; /** pointers to element objects on which the
                                   load acts */
 };
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif // itkFEMLoadElementBase_h

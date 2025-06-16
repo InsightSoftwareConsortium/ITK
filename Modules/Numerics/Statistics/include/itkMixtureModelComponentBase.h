@@ -25,9 +25,7 @@
 #include "itkObject.h"
 #include "itkMembershipFunctionBase.h"
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 /**
  * \class MixtureModelComponentBase
@@ -172,8 +170,7 @@ private:
   /** indicative flag of membership function's parameter changes */
   bool m_ParametersModified{};
 }; // end of class
-} // end of namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkMixtureModelComponentBase.hxx"

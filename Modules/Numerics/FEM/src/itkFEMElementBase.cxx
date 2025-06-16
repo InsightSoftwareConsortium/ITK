@@ -19,9 +19,7 @@
 #include "itkFEMElementBase.h"
 #include "vnl/algo/vnl_qr.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 
 // ////////////////////////////////////////////////////////////////////////
@@ -540,5 +538,4 @@ Element::GetEdgeIds() const
   return this->m_EdgeIds;
 }
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem

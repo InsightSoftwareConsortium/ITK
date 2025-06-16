@@ -21,9 +21,7 @@
 #include "itkLabelToRGBFunctor.h"
 #include "itkMath.h"
 
-namespace itk
-{
-namespace Functor
+namespace itk::Functor
 {
 /**
  * \class LabelOverlayFunctor
@@ -138,7 +136,6 @@ private:
 
   typename Functor::LabelToRGBFunctor<TLabel, TRGBPixel> m_RGBFunctor;
 };
-} // end namespace Functor
-} // end namespace itk
+} // namespace itk::Functor
 
 #endif

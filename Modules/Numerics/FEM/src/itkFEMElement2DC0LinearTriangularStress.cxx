@@ -18,9 +18,7 @@
 
 #include "itkFEMElement2DC0LinearTriangularStress.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 // Overload the CreateAnother() method.
 itk::LightObject::Pointer
@@ -75,5 +73,4 @@ Element2DC0LinearTriangularStress::PrintSelf(std::ostream & os, Indent indent) c
   Superclass::PrintSelf(os, indent);
 }
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem

@@ -35,9 +35,7 @@ using FilterType = itk::DecimateFramesVideoFilter<VideoType>;
 using ReaderType = itk::VideoFileReader<VideoType>;
 using WriterType = itk::VideoFileWriter<VideoType>;
 
-namespace itk
-{
-namespace DecimateFramesVideoFilterTest
+namespace itk::DecimateFramesVideoFilterTest
 {
 
 /**
@@ -63,8 +61,7 @@ FramesAreEqual(const FrameType * f1, const FrameType * f2)
   return true;
 }
 
-} // namespace DecimateFramesVideoFilterTest
-} // namespace itk
+} // namespace itk::DecimateFramesVideoFilterTest
 
 
 /**

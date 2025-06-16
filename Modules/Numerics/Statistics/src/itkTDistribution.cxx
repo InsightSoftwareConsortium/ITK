@@ -26,9 +26,7 @@ dbetai_(double * x, double * pin, double * qin);
 extern "C" double
 dgamma_(double * x);
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 TDistribution::TDistribution()
 {
@@ -364,5 +362,4 @@ TDistribution::PrintSelf(std::ostream & os, Indent indent) const
     os << indent << "Degrees of freedom: (unknown)" << std::endl;
   }
 }
-} // end of namespace Statistics
-} // end namespace itk
+} // namespace itk::Statistics

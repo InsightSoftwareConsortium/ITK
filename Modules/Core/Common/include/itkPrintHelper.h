@@ -33,10 +33,7 @@
 #  undef ITK_CASTXML_GCC_VECTOR_WORKAROUND
 #endif
 
-namespace itk
-{
-
-namespace print_helper
+namespace itk::print_helper
 {
 
 template <typename T>
@@ -53,7 +50,6 @@ operator<<(std::ostream & os, const std::vector<T> & v)
   return os << v.back() << ')';
 }
 
-} // end namespace print_helper
-} // end namespace itk
+} // namespace itk::print_helper
 
 #endif // itkPrintHelper_h

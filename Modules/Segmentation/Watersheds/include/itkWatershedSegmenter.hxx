@@ -24,9 +24,7 @@
 #include <stack>
 #include <list>
 
-namespace itk
-{
-namespace watershed
+namespace itk::watershed
 {
 
 /*
@@ -1331,7 +1329,6 @@ Segmenter<TInputImage>::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "MaximumFloodLevel: " << m_MaximumFloodLevel << std::endl;
   os << indent << "CurrentLabel: " << m_CurrentLabel << std::endl;
 }
-} // end namespace watershed
-} // end namespace itk
+} // namespace itk::watershed
 
 #endif

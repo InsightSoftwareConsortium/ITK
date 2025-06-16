@@ -18,9 +18,7 @@
 
 #include "itkFEMMaterialBase.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 
 void
@@ -29,5 +27,4 @@ Material::PrintSelf(std::ostream & os, Indent indent) const
   Superclass::PrintSelf(os, indent);
 }
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem

@@ -18,10 +18,7 @@
 #ifndef itkWatershedSegmentTree_hxx
 #define itkWatershedSegmentTree_hxx
 
-
-namespace itk
-{
-namespace watershed
+namespace itk::watershed
 {
 
 
@@ -47,7 +44,6 @@ SegmentTree<TScalar>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
-} // end namespace watershed
-} // end namespace itk
+} // namespace itk::watershed
 
 #endif

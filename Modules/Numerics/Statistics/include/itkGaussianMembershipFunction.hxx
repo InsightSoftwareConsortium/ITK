@@ -18,10 +18,7 @@
 #ifndef itkGaussianMembershipFunction_hxx
 #define itkGaussianMembershipFunction_hxx
 
-
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 template <typename TMeasurementVector>
 GaussianMembershipFunction<TMeasurementVector>::GaussianMembershipFunction()
@@ -185,7 +182,6 @@ GaussianMembershipFunction<TVector>::InternalClone() const
 
   return loPtr;
 }
-} // end namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics
 
 #endif

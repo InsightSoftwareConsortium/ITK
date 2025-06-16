@@ -20,9 +20,7 @@
 #include "itkHistogram.h"
 #include "itkMahalanobisDistanceMetric.h"
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 template <typename TSample>
 class MyCovarianceSampleFilter : public CovarianceSampleFilter<TSample>
@@ -56,8 +54,8 @@ private:
   MyCovarianceSampleFilter() = default;
   ~MyCovarianceSampleFilter() override = default;
 };
-} // namespace Statistics
-} // namespace itk
+} // namespace itk::Statistics
+
 
 int
 itkCovarianceSampleFilterTest3(int, char *[])

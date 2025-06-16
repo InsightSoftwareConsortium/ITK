@@ -20,9 +20,7 @@
 
 #include "itkUniformRandomSpatialNeighborSubsampler.h"
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 /**
  * \class GaussianRandomSpatialNeighborSubsampler
@@ -120,8 +118,7 @@ protected:
   RealType m_Variance{};
 }; // end of class GaussianRandomSpatialNeighborSubsampler
 
-} // end of namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkGaussianRandomSpatialNeighborSubsampler.hxx"

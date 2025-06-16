@@ -18,9 +18,7 @@
 
 #include "itkFEMElement2DC0LinearLineStress.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 // Overload the CreateAnother() method.
 itk::LightObject::Pointer
@@ -89,5 +87,4 @@ Element2DC0LinearLineStress::PrintSelf(std::ostream & os, Indent indent) const
   Superclass::PrintSelf(os, indent);
 }
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem

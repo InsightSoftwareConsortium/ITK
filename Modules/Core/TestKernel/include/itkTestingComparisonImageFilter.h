@@ -23,9 +23,7 @@
 #include "itkImageToImageFilter.h"
 #include <mutex>
 
-namespace itk
-{
-namespace Testing
+namespace itk::Testing
 {
 /**
  * \class ComparisonImageFilter
@@ -144,8 +142,7 @@ private:
 
   std::mutex m_Mutex;
 };
-} // end namespace Testing
-} // end namespace itk
+} // namespace itk::Testing
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkTestingComparisonImageFilter.hxx"

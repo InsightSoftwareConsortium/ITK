@@ -22,9 +22,7 @@
 #include "itkFEMException.h"
 #include "ITKFEMExport.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /**
  * \class ItpackSparseMatrix
@@ -347,7 +345,6 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(FEMExceptionItpackSparseMatrixSbsij);
 };
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif // itkFEMItpackSparseMatrix_h

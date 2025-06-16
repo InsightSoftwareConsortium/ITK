@@ -21,11 +21,7 @@
 #include <iostream>
 #include "itkTimeProbe.h"
 
-
-namespace itk
-{
-
-namespace fem
+namespace itk::fem
 {
 
 template <typename TFixedImage, typename TMovingImage, typename TMaskImage, typename TMesh, typename TDeformationField>
@@ -117,7 +113,6 @@ PhysicsBasedNonRigidRegistrationMethod<TFixedImage, TMovingImage, TMaskImage, TM
   itkPrintSelfObjectMacro(BlockMatchingFilter);
   itkPrintSelfObjectMacro(FEMFilter);
 }
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif

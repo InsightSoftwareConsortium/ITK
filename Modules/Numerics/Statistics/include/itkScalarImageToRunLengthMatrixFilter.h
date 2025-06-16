@@ -24,9 +24,7 @@
 #include "itkVectorContainer.h"
 #include "itkProcessObject.h"
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 
 /**
@@ -267,8 +265,7 @@ private:
   MeasurementVectorType m_UpperBound{};
   OffsetVectorPointer   m_Offsets{};
 };
-} // end of namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkScalarImageToRunLengthMatrixFilter.hxx"

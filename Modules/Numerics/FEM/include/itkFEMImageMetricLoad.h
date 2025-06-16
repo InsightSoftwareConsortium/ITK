@@ -36,9 +36,7 @@
 #include <itkMeanSquaresImageToImageMetric.h>
 #include <itkNormalizedCorrelationImageToImageMetric.h>
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /**
  * \class ImageMetricLoad
@@ -378,8 +376,7 @@ private:
 
 private:
 };
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkFEMImageMetricLoad.hxx"

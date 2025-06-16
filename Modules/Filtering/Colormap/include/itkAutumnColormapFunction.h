@@ -20,9 +20,7 @@
 
 #include "itkColormapFunction.h"
 
-namespace itk
-{
-namespace Function
+namespace itk::Function
 {
 /**
  * \class AutumnColormapFunction
@@ -64,8 +62,7 @@ protected:
   AutumnColormapFunction() = default;
   ~AutumnColormapFunction() override = default;
 };
-} // end namespace Function
-} // end namespace itk
+} // namespace itk::Function
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkAutumnColormapFunction.hxx"

@@ -23,11 +23,9 @@
 #include <utility>
 #include <iosfwd>
 
-namespace itk
-{
 
 // Implementation details for MetaDataObject meta programming
-namespace MetaDataObjectDetail
+namespace itk::MetaDataObjectDetail
 {
 template <class T, class = void>
 struct has_Print : std::false_type
@@ -45,7 +43,7 @@ template <class T>
 struct has_output_operator<T, std::void_t<decltype(std::declval<std::ostream &>() << std::declval<T>())>>
   : std::true_type
 {};
-} // namespace MetaDataObjectDetail
-} // namespace itk
+} // namespace itk::MetaDataObjectDetail
+
 
 #endif

@@ -19,10 +19,7 @@
 #ifndef itkFEMElement3DStrain_hxx
 #define itkFEMElement3DStrain_hxx
 
-
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 template <typename TBaseClass>
 Element3DStrain<TBaseClass>::Element3DStrain()
@@ -134,7 +131,6 @@ Element3DStrain<TBaseClass>::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Materials: " << this->m_mat << std::endl;
 }
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif

@@ -24,9 +24,7 @@
 #include "itkMacro.h"
 #include "itkMath.h"
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 
 template <typename TImageType, typename THistogramFrequencyContainer>
@@ -342,8 +340,7 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>::No
   itkDebugMacro("new  offset = " << offset << std::endl);
 }
 
-} // end of namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics
 
 
 #endif

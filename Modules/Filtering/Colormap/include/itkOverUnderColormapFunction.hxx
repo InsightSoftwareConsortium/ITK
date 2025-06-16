@@ -18,10 +18,7 @@
 #ifndef itkOverUnderColormapFunction_hxx
 #define itkOverUnderColormapFunction_hxx
 
-
-namespace itk
-{
-namespace Function
+namespace itk::Function
 {
 template <typename TScalar, typename TRGBPixel>
 auto
@@ -60,7 +57,6 @@ OverUnderColormapFunction<TScalar, TRGBPixel>::operator()(const TScalar & v) con
 
   return pixel;
 }
-} // end namespace Function
-} // end namespace itk
+} // namespace itk::Function
 
 #endif

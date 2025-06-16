@@ -23,9 +23,7 @@
 #include "itkFEMPArray.h"
 #include "ITKFEMExport.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /**
  * \class Material
@@ -64,7 +62,6 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 };
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif // itkFEMMaterialBase_h

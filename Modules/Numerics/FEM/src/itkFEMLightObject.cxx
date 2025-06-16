@@ -18,9 +18,7 @@
 
 #include "itkFEMLightObject.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /**
  * Here we just read the global number from the stream.
@@ -46,5 +44,4 @@ FEMLightObject::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Global Number: " << this->m_GlobalNumber << std::endl;
 }
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem

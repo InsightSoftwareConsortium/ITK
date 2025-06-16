@@ -20,9 +20,7 @@
 #include "itkListSample.h"
 #include "itkTestingMacros.h"
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 
 template <typename TSample>
@@ -59,8 +57,8 @@ protected:
   }
 };
 
-} // namespace Statistics
-} // namespace itk
+} // namespace itk::Statistics
+
 
 int
 itkMixtureModelComponentBaseTest(int, char *[])

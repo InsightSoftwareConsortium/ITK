@@ -17,9 +17,7 @@
  *=========================================================================*/
 #include "itkFEMRegistrationFilter.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /** Print enum values */
 std::ostream &
@@ -37,5 +35,4 @@ operator<<(std::ostream & out, const FEMRegistrationFilterEnums::Sign value)
     }
   }();
 }
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem

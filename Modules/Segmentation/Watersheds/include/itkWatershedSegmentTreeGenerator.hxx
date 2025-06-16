@@ -21,9 +21,7 @@
 #include <stack>
 #include "itkOneWayEquivalencyTable.h"
 
-namespace itk
-{
-namespace watershed
+namespace itk::watershed
 {
 template <typename TScalar>
 SegmentTreeGenerator<TScalar>::SegmentTreeGenerator()
@@ -580,7 +578,6 @@ SegmentTreeGenerator<TScalar>::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "ConsumeInput: " << m_ConsumeInput << std::endl;
   os << indent << "HighestCalculatedFloodLevel: " << m_HighestCalculatedFloodLevel << std::endl;
 }
-} // end namespace watershed
-} // end namespace itk
+} // namespace itk::watershed
 
 #endif

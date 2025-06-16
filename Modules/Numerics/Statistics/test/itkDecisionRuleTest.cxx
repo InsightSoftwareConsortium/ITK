@@ -18,13 +18,8 @@
 
 #include "itkDecisionRule.h"
 
-namespace itk
+namespace itk::Statistics::DecisionRuleTest
 {
-namespace Statistics
-{
-namespace DecisionRuleTest
-{
-
 class MyDecisionRule : public DecisionRule
 {
 public:
@@ -65,10 +60,8 @@ public:
     return maxIndex;
   }
 };
+} // namespace itk::Statistics::DecisionRuleTest
 
-} // namespace DecisionRuleTest
-} // namespace Statistics
-} // namespace itk
 int
 itkDecisionRuleTest(int, char *[])
 {

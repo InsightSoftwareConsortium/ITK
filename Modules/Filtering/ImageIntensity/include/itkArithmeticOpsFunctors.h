@@ -20,9 +20,7 @@
 
 #include "itkMath.h"
 
-namespace itk
-{
-namespace Functor
+namespace itk::Functor
 {
 
 /**
@@ -361,7 +359,7 @@ public:
     return (TOutput)(-A);
   }
 };
-} // namespace Functor
-} // namespace itk
+} // namespace itk::Functor
+
 
 #endif

@@ -62,9 +62,7 @@
 #  include "itkfdstream/fdstream.hxx"
 #endif
 
-namespace itk
-{
-namespace i18n
+namespace itk::i18n
 {
 // Check if the string is correctly encoded
 #if LOCAL_USE_WIN32_WOPEN
@@ -291,8 +289,8 @@ public:
 using I18nOfstream = std::ofstream;
 using I18nIfstream = std::ifstream;
 #endif
-} // namespace i18n
-} // namespace itk
+} // namespace itk::i18n
+
 
 #undef LOCAL_USE_WIN32_WOPEN
 #undef LOCAL_USE_FDSTREAM

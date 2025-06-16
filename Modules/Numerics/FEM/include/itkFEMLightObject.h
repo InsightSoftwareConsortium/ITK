@@ -28,9 +28,7 @@
 #include "itkFEMException.h"
 #include <iostream>
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /**
  * \class FEMLightObject
@@ -99,7 +97,6 @@ protected:
    */
   int m_GlobalNumber{ -1 };
 };
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif // itkFEMLightObject_h

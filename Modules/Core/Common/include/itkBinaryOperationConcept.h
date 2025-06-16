@@ -22,11 +22,8 @@
 #include "itkPromoteType.h"
 
 /// \cond HIDE_META_PROGRAMMING
-namespace itk
-{
-namespace Details
-{
-namespace op
+
+namespace itk::Details::op
 {
 /** Root Binary Operation Concept.
  * All binary operations are expected to inherit from this type.
@@ -99,9 +96,7 @@ struct Div : BinaryOperationConcept
   }
 };
 
-} // namespace op
-} // namespace Details
-} // namespace itk
+} // namespace itk::Details::op
 /// \endcond
 
 #endif // itkBinaryOperationConcept_h

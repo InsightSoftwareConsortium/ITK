@@ -31,10 +31,8 @@
  *
  *  Therefore the solution of the registration is |-7 -3|
  */
-namespace itk
-{
 
-namespace testhelper
+namespace itk::testhelper
 {
 
 template <typename TFixedPixelType, typename TMovingPixelType, unsigned int VDimension>
@@ -154,7 +152,7 @@ private:
   ParametersType m_Parameters{};
 };
 
-} // end namespace testhelper
+} // namespace itk::testhelper
 
-} // end namespace itk
+// end namespace itk
 #endif

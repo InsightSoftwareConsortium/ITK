@@ -23,9 +23,7 @@
 #include "itkFEMElement2DStrain.h"
 #include "ITKFEMExport.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /**
  * \class Element2DC0LinearQuadrilateralStrain
@@ -94,7 +92,6 @@ protected:
 
 private:
 }; // class Element2DC0LinearQuadrilateralStrain
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif // itkFEMElement2DC0LinearQuadrilateralStrain_h

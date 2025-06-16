@@ -18,9 +18,7 @@
 
 #include "itkFEMLoadBC.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 
 // Overload the CreateAnother() method.
@@ -74,5 +72,4 @@ LoadBC::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Degree Of Freedom: " << this->m_DegreeOfFreedom << std::endl;
 }
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem

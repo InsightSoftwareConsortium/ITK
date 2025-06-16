@@ -18,10 +18,7 @@
 #ifndef itkScalarImageToCooccurrenceListSampleFilter_hxx
 #define itkScalarImageToCooccurrenceListSampleFilter_hxx
 
-
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 template <typename TImage>
 ScalarImageToCooccurrenceListSampleFilter<TImage>::ScalarImageToCooccurrenceListSampleFilter()
@@ -163,7 +160,6 @@ ScalarImageToCooccurrenceListSampleFilter<TImage>::UseNeighbor(const OffsetType 
     m_OffsetTable.push_back(offset);
   }
 }
-} // end of namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics
 
 #endif

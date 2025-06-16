@@ -21,9 +21,7 @@
 
 #include "itkFEMSolver.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 
 /**
@@ -155,8 +153,7 @@ protected:
   unsigned int m_NumberOfIterations{};
 };
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkFEMSolverHyperbolic.hxx"

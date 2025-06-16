@@ -22,9 +22,7 @@
 
 #include <vector>
 
-namespace itk
-{
-namespace Function
+namespace itk::Function
 {
 /**
  * \class CustomColormapFunction
@@ -113,8 +111,7 @@ private:
   ChannelType m_GreenChannel{};
   ChannelType m_BlueChannel{};
 };
-} // end namespace Function
-} // end namespace itk
+} // namespace itk::Function
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkCustomColormapFunction.hxx"

@@ -21,9 +21,7 @@
 
 #include "itkFEMMaterialLinearElasticity.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 template <typename TBaseClass>
 Element1DStress<TBaseClass>::Element1DStress()
@@ -97,7 +95,6 @@ Element1DStress<TBaseClass>::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Young Modulus: " << this->m_mat << std::endl;
 }
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif

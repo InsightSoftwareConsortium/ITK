@@ -22,9 +22,7 @@
 #include "itkFEMElementBase.h"
 #include "itkFEMMaterialLinearElasticity.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /**
  * \class Element2DStrain
@@ -126,8 +124,7 @@ protected:
    */
   const MaterialLinearElasticity * m_mat{ nullptr };
 }; // class Element2DStrain
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkFEMElement2DStrain.hxx"

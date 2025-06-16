@@ -18,9 +18,7 @@
 
 #include "itkFEMElement3DC0LinearTriangularLaplaceBeltrami.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 // Overload the CreateAnother() method
 itk::LightObject::Pointer
@@ -300,5 +298,4 @@ Element3DC0LinearTriangularLaplaceBeltrami::PrintSelf(std::ostream & os, Indent 
   Superclass::PrintSelf(os, indent);
 }
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem

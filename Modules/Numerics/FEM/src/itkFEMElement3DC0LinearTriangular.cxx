@@ -22,9 +22,7 @@
 
 #include "vnl/algo/vnl_qr.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 const Element3DC0LinearTriangular::Float Element3DC0LinearTriangular::trigGaussRuleInfo[6][7][4] = {
   { // order=0, never used
@@ -379,5 +377,4 @@ Element3DC0LinearTriangular::PrintSelf(std::ostream & os, Indent indent) const
   Superclass::PrintSelf(os, indent);
 }
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem

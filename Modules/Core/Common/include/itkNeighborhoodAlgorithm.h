@@ -23,9 +23,7 @@
 #include "itkNeighborhoodOperator.h"
 #include "itkNeighborhoodIterator.h"
 
-namespace itk
-{
-namespace NeighborhoodAlgorithm
+namespace itk::NeighborhoodAlgorithm
 {
 /** \class ImageBoundaryFacesCalculator
  *   \brief Splits an image into a main region and several "face" regions
@@ -138,8 +136,7 @@ struct CalculateOutputWrapOffsetModifiers
   OffsetType
   operator()(TImage *, TImage *) const;
 };
-} // end namespace NeighborhoodAlgorithm
-} // end namespace itk
+} // namespace itk::NeighborhoodAlgorithm
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkNeighborhoodAlgorithm.hxx"

@@ -18,9 +18,7 @@
 
 #include "itkFEMUtility.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 
 /**
@@ -74,5 +72,4 @@ GaussIntegrate::Integrate(double (*f)(double), double a, double b, int n)
   return scale * sum;
 }
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem

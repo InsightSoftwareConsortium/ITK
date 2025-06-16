@@ -20,9 +20,7 @@
 
 #include "itkColormapFunction.h"
 
-namespace itk
-{
-namespace Function
+namespace itk::Function
 {
 /**
  * \class HSVColormapFunction
@@ -65,8 +63,7 @@ protected:
   HSVColormapFunction() = default;
   ~HSVColormapFunction() override = default;
 };
-} // end namespace Function
-} // end namespace itk
+} // namespace itk::Function
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkHSVColormapFunction.hxx"

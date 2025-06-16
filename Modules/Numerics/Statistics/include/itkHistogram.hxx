@@ -22,9 +22,7 @@
 #include "itkMath.h"
 #include "itkPrintHelper.h"
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 template <typename TMeasurement, typename TFrequencyContainer>
 Histogram<TMeasurement, TFrequencyContainer>::Histogram()
@@ -718,7 +716,6 @@ Histogram<TMeasurement, TFrequencyContainer>::Graft(const DataObject * thatObjec
   }
 }
 
-} // end of namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics
 
 #endif

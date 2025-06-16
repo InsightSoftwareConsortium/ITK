@@ -22,9 +22,7 @@
 #include "itkImageSource.h"
 #include "itkExtractImageFilterRegionCopier.h"
 
-namespace itk
-{
-namespace Testing
+namespace itk::Testing
 {
 /** \class ExtractSliceImageFilterEnums
  * \brief Contains all enum classes used by the ExtractSliceImageFilterEnums class.
@@ -308,8 +306,7 @@ private:
     TestExtractSliceImageFilterCollapseStrategyEnum::DIRECTIONCOLLAPSETOUNKOWN
   };
 };
-} // end namespace Testing
-} // end namespace itk
+} // namespace itk::Testing
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkTestingExtractSliceImageFilter.hxx"

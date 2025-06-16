@@ -21,9 +21,7 @@
 
 #include "itkFEMLoadElementBase.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /**
  * \class LoadTest
@@ -80,7 +78,6 @@ public:
 
 private:
 };
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif // itkFEMLoadTest_h

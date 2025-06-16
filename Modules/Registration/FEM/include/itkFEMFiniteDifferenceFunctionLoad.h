@@ -37,9 +37,7 @@
 #include "itkNCCRegistrationFunction.h"
 #include "itkMIRegistrationFunction.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 
 /**
@@ -340,8 +338,7 @@ private:
 
   typename DisplacementFieldType::Pointer m_DisplacementField{};
 };
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkFEMFiniteDifferenceFunctionLoad.hxx"

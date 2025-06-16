@@ -18,10 +18,7 @@
 #ifndef itkMembershipSample_hxx
 #define itkMembershipSample_hxx
 
-
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 template <typename TSample>
 MembershipSample<TSample>::MembershipSample() = default;
@@ -154,7 +151,6 @@ MembershipSample<TSample>::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Sample: " << m_Sample.GetPointer() << std::endl;
   os << indent << "NumberOfClasses: " << this->GetNumberOfClasses() << std::endl;
 }
-} // end of namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics
 
 #endif

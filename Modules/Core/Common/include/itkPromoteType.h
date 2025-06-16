@@ -21,11 +21,10 @@
 #include "itkMacro.h"
 
 // Simplification of boost::common_type
-namespace itk
-{
+
 
 /// \cond HIDE_META_PROGRAMMING
-namespace mpl
+namespace itk::mpl
 {
 
 namespace Details
@@ -154,9 +153,8 @@ public:
    */
   using Type = typename Details::SizeToType<sizeof Check(a + b, 0), TA, TB>::Type;
 };
-} // end namespace mpl
+} // namespace itk::mpl
 
 /// \endcond
-} // end namespace itk
 
 #endif // itkPromoteType_h

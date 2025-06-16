@@ -18,9 +18,7 @@
 
 #include "itkFEMElement3DC0LinearTetrahedronMembrane.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 // Overload the CreateAnother() method
 itk::LightObject::Pointer
@@ -73,5 +71,4 @@ Element3DC0LinearTetrahedronMembrane::PrintSelf(std::ostream & os, Indent indent
   Superclass::PrintSelf(os, indent);
 }
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem

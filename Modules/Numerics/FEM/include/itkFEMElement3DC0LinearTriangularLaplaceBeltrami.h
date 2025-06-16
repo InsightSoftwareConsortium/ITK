@@ -24,9 +24,7 @@
 #include "itkFEMElement3DMembrane1DOF.h"
 #include "ITKFEMExport.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /**
  * \class Element3DC0LinearTriangularLaplaceBeltrami
@@ -87,7 +85,6 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 }; // class Element3DC0LinearTriangularLaplaceBeltrami
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif // itkFEMElement3DC0LinearTriangularLaplaceBeltrami_h

@@ -20,9 +20,7 @@
 
 #include "itkImageRegionIterator.h"
 
-namespace itk
-{
-namespace watershed
+namespace itk::watershed
 {
 template <typename TScalar, unsigned int TImageDimension>
 Relabeler<TScalar, TImageDimension>::Relabeler()
@@ -181,7 +179,6 @@ Relabeler<TScalar, TImageDimension>::PrintSelf(std::ostream & os, Indent indent)
   Superclass::PrintSelf(os, indent);
   os << indent << "FloodLevel: " << m_FloodLevel << std::endl;
 }
-} // end namespace watershed
-} // end namespace itk
+} // namespace itk::watershed
 
 #endif

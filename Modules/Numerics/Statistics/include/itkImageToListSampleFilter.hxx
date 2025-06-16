@@ -20,9 +20,7 @@
 
 #include "itkImageRegionConstIterator.h"
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 template <typename TImage, typename TMaskImage>
 ImageToListSampleFilter<TImage, TMaskImage>::ImageToListSampleFilter()
@@ -186,7 +184,6 @@ ImageToListSampleFilter<TImage, TMaskImage>::GetOutput() const -> const ListSamp
 
   return output;
 }
-} // end of namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics
 
 #endif

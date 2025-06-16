@@ -23,9 +23,7 @@
 #include "itkWatershedSegmentTable.h"
 #include "itkEquivalencyTable.h"
 
-namespace itk
-{
-namespace watershed
+namespace itk::watershed
 {
 /**
  * \class Segmenter
@@ -407,8 +405,7 @@ private:
   double         m_MaximumFloodLevel{};
   IdentifierType m_CurrentLabel{};
 };
-} // end namespace watershed
-} // end namespace itk
+} // namespace itk::watershed
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkWatershedSegmenter.hxx"

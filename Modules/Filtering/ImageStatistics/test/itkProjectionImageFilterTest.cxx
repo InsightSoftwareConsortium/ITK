@@ -24,11 +24,7 @@
 #include "itkProjectionImageFilter.h"
 #include "itkTestingMacros.h"
 
-namespace itk
-{
-namespace ProjectionImageFilterNamespace
-{
-namespace Function
+namespace itk::ProjectionImageFilterNamespace::Function
 {
 
 template <typename TInputPixel, typename TOutputPixel>
@@ -66,10 +62,9 @@ public:
 
   bool m_IsForeground{ false };
 };
-} // end namespace Function
+} // namespace itk::ProjectionImageFilterNamespace::Function
 
-} // end namespace ProjectionImageFilterNamespace
-} // end namespace itk
+// end namespace ProjectionImageFilterNamespace
 
 int
 itkProjectionImageFilterTest(int argc, char * argv[])

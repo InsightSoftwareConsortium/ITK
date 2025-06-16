@@ -20,9 +20,7 @@
 
 #include <iostream>
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 FEMException::FEMException(std::string file, unsigned int lineNumber, std::string location)
   : ExceptionObject(std::move(file), lineNumber, "Unhandled exception in FEM class!", std::move(location))
@@ -76,5 +74,4 @@ FEMExceptionSolution::FEMExceptionSolution(std::string  file,
 
 FEMExceptionSolution::~FEMExceptionSolution() noexcept = default;
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
