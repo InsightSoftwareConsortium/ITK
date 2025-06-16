@@ -175,7 +175,7 @@ public:
   /** Length of state vector */
   static constexpr IntegerType StateVectorLength = 624;
 
-#ifndef ITK_FUTURE_LEGACY_REMOVE
+#if !defined(ITK_FUTURE_LEGACY_REMOVE) && !defined(ITK_WRAPPING_PARSER)
   /** Sets the seed and initializes the internal state of this generator.
    * \deprecated ITK 6 discourages using this member function. Please use `SetSeed` instead!
    */
