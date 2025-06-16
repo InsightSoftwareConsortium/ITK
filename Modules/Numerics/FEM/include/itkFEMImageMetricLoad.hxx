@@ -18,10 +18,7 @@
 #ifndef itkFEMImageMetricLoad_hxx
 #define itkFEMImageMetricLoad_hxx
 
-
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 // Overload the CreateAnother() method.
 template <typename TMoving, typename TFixed>
@@ -837,7 +834,6 @@ ImageMetricLoad<TMoving, TFixed>::PrintSelf(std::ostream & os, Indent indent) co
   os << indent << "Energy: " << this->m_Energy << std::endl;
 }
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif

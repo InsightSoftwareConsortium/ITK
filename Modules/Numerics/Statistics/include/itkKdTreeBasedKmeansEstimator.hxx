@@ -20,9 +20,7 @@
 
 #include "itkStatisticsAlgorithm.h"
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 template <typename TKdTree>
 KdTreeBasedKmeansEstimator<TKdTree>::KdTreeBasedKmeansEstimator()
@@ -431,7 +429,6 @@ KdTreeBasedKmeansEstimator<TKdTree>::PrintPoint(ParameterType & point)
   }
   std::cout << ']';
 }
-} // end of namespace Statistics
-} // end namespace itk
+} // namespace itk::Statistics
 
 #endif

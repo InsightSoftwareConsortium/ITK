@@ -18,9 +18,7 @@
 
 #include "itkFEMMaterialLinearElasticity.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 // Overload the CreateAnother() method
 itk::LightObject::Pointer
@@ -131,5 +129,4 @@ MaterialLinearElasticity::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Density Heat Capacity: " << this->m_DensityHeatCapacity << std::endl;
 }
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem

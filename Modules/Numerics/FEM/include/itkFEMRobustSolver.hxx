@@ -26,9 +26,7 @@
 #include "itkFEMLoadLandmark.h"
 #include "itkMath.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 
 template <unsigned int VDimension>
@@ -1052,7 +1050,6 @@ RobustSolver<VDimension>::InitializeInterpolationGrid()
   } // next element
 }
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif

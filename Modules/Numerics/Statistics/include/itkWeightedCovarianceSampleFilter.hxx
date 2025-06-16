@@ -20,9 +20,7 @@
 
 #include "itkWeightedMeanSampleFilter.h"
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 template <typename TSample>
 WeightedCovarianceSampleFilter<TSample>::WeightedCovarianceSampleFilter()
@@ -250,7 +248,6 @@ WeightedCovarianceSampleFilter<TSample>::ComputeCovarianceMatrixWithWeights()
 
   decoratedOutput->Set(output);
 }
-} // end of namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics
 
 #endif

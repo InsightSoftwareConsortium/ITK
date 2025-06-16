@@ -20,11 +20,7 @@
 
 #include "itkSubsample.h"
 
-namespace itk
-{
-namespace Statistics
-{
-namespace Algorithm
+namespace itk::Statistics::Algorithm
 {
 template <typename TSize>
 TSize
@@ -177,9 +173,8 @@ template <typename TSubsample>
 void
 IntrospectiveSort(TSubsample * sample, unsigned int activeDimension, int beginIndex, int endIndex, int sizeThreshold);
 
-} // end of namespace Algorithm
-} // end of namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics::Algorithm
+// end of namespace Statistics
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkStatisticsAlgorithm.hxx"

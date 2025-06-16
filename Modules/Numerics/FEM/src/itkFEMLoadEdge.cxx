@@ -18,9 +18,7 @@
 
 #include "itkFEMLoadEdge.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 
 // Overload the CreateAnother() method.
@@ -117,5 +115,4 @@ LoadEdge::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Force: " << this->m_Force << std::endl;
 }
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem

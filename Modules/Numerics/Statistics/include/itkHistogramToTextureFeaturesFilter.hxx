@@ -23,9 +23,7 @@
 #include "itkMath.h"
 #include <memory> // For make_unique.
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 // constructor
 template <typename THistogram>
@@ -385,7 +383,6 @@ HistogramToTextureFeaturesFilter<THistogram>::PrintSelf(std::ostream & os, Inden
 {
   Superclass::PrintSelf(os, indent);
 }
-} // end of namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics
 
 #endif

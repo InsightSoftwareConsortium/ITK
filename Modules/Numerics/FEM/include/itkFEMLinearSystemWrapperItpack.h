@@ -46,9 +46,7 @@ extern "C"
                                           integer *);
 }
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /**
  * \class LinearSystemWrapperItpack
@@ -778,7 +776,6 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(FEMExceptionItpackSolver);
 };
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif // itkFEMLinearSystemWrapperItpack_h

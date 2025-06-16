@@ -23,9 +23,7 @@
 #include "itkProcessObject.h"
 #include "itkSimpleDataObjectDecorator.h"
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 /** \class HistogramToRunLengthFeaturesFilterEnums
  * \brief Contains all enum classes used by HistogramToRunLengthFeaturesFilter class.
@@ -237,8 +235,7 @@ private:
   unsigned long m_TotalNumberOfRuns{};
 };
 
-} // end of namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkHistogramToRunLengthFeaturesFilter.hxx"

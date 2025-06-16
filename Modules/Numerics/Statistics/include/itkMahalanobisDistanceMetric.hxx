@@ -18,10 +18,7 @@
 #ifndef itkMahalanobisDistanceMetric_hxx
 #define itkMahalanobisDistanceMetric_hxx
 
-
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 template <typename TVector>
 MahalanobisDistanceMetric<TVector>::MahalanobisDistanceMetric()
@@ -210,7 +207,6 @@ MahalanobisDistanceMetric<TVector>::PrintSelf(std::ostream & os, Indent indent) 
   os << indent << "Double max:        " << std::endl;
   os << this->GetDoubleMax() << std::endl;
 }
-} // end namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics
 
 #endif

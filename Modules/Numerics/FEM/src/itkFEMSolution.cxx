@@ -17,12 +17,9 @@
  *=========================================================================*/
 #include "itkFEMSolution.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 
 Solution::~Solution() = default;
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem

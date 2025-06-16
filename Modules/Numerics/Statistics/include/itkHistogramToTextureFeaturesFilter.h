@@ -23,9 +23,7 @@
 #include "itkProcessObject.h"
 #include "itkSimpleDataObjectDecorator.h"
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 /** \class HistogramToTextureFeaturesFilterEnums
  *\brief This class contains all enum classes used by HistogramToTextureFeaturesFilter class.
@@ -258,8 +256,7 @@ private:
 
   RelativeFrequencyContainerType m_RelativeFrequencyContainer{};
 };
-} // end of namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkHistogramToTextureFeaturesFilter.hxx"

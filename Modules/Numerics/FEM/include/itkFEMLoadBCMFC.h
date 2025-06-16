@@ -23,9 +23,7 @@
 #include "itkFEMLoadBase.h"
 #include "ITKFEMExport.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /**
  * \class LoadBCMFC
@@ -198,7 +196,6 @@ protected:
    */
   vnl_vector<Element::Float> m_RightHandSide{};
 };
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif // itkFEMLoadBCMFC_h

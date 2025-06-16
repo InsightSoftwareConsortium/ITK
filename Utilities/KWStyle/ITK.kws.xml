@@ -10,7 +10,7 @@
 <Tabs>1</Tabs>
 <Spaces>3</Spaces>
 <Comments>/**, *, */,true</Comments>
-<Namespace>itk</Namespace>
+<!-- Disable checking namespace, it conflicts with C++17 nested namespaces <Namespace>itk*</Namespace> -->
 <NameOfClass>[NameOfClass],itk</NameOfClass>
 <IfNDefDefine>[NameOfClass]_[Extension]</IfNDefDefine>
 <EmptyLines>2</EmptyLines>

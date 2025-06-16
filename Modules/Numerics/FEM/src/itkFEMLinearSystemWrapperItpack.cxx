@@ -19,9 +19,7 @@
 #include "itpack.h"
 #include "itkFEMLinearSystemWrapperItpack.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /**
  * constructor
@@ -1073,5 +1071,4 @@ FEMExceptionItpackSolver::FEMExceptionItpackSolver(std::string  file,
   SetDescription(buf.str().c_str());
 }
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem

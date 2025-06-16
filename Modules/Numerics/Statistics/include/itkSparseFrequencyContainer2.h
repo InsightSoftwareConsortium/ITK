@@ -25,9 +25,7 @@
 #include "itkMeasurementVectorTraits.h"
 #include "ITKStatisticsExport.h"
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 /**
  * \class SparseFrequencyContainer2
@@ -115,7 +113,6 @@ private:
   FrequencyContainerType     m_FrequencyContainer{};
   TotalAbsoluteFrequencyType m_TotalFrequency{};
 }; // end of class
-} // end of namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics
 
 #endif

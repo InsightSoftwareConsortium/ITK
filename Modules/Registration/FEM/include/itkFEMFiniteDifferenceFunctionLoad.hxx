@@ -18,10 +18,7 @@
 #ifndef itkFEMFiniteDifferenceFunctionLoad_hxx
 #define itkFEMFiniteDifferenceFunctionLoad_hxx
 
-
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 
 template <typename TMoving, typename TFixed>
@@ -372,7 +369,6 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::PrintSelf(std::ostream & os, Inde
   itkPrintSelfObjectMacro(DifferenceFunction);
   itkPrintSelfObjectMacro(DisplacementField);
 }
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif

@@ -18,10 +18,7 @@
 #ifndef itkCopperColormapFunction_hxx
 #define itkCopperColormapFunction_hxx
 
-
-namespace itk
-{
-namespace Function
+namespace itk::Function
 {
 template <typename TScalar, typename TRGBPixel>
 auto
@@ -49,7 +46,6 @@ CopperColormapFunction<TScalar, TRGBPixel>::operator()(const TScalar & v) const 
 
   return pixel;
 }
-} // end namespace Function
-} // end namespace itk
+} // namespace itk::Function
 
 #endif

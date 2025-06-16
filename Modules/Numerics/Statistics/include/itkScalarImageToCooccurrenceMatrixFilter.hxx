@@ -22,9 +22,7 @@
 #include "itkConstNeighborhoodIterator.h"
 #include "itkMath.h"
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 template <typename TImageType, typename THistogramFrequencyContainer, typename TMaskImageType>
 ScalarImageToCooccurrenceMatrixFilter<TImageType, THistogramFrequencyContainer, TMaskImageType>::
@@ -355,7 +353,6 @@ ScalarImageToCooccurrenceMatrixFilter<TImageType, THistogramFrequencyContainer, 
   os << indent << "Normalize: " << this->GetNormalize() << std::endl;
   os << indent << "InsidePixelValue: " << this->GetInsidePixelValue() << std::endl;
 }
-} // end of namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics
 
 #endif

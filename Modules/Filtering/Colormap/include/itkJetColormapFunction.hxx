@@ -18,10 +18,7 @@
 #ifndef itkJetColormapFunction_hxx
 #define itkJetColormapFunction_hxx
 
-
-namespace itk
-{
-namespace Function
+namespace itk::Function
 {
 template <typename TScalar, typename TRGBPixel>
 auto
@@ -50,7 +47,6 @@ JetColormapFunction<TScalar, TRGBPixel>::operator()(const TScalar & v) const -> 
 
   return pixel;
 }
-} // end namespace Function
-} // end namespace itk
+} // namespace itk::Function
 
 #endif

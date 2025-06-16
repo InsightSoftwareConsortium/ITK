@@ -22,9 +22,7 @@
 #include "itkNumericTraits.h"
 #include "itkMath.h"
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 
 // constructor
@@ -352,8 +350,7 @@ HistogramToRunLengthFeaturesFilter<THistogram>::PrintSelf(std::ostream & os, Ind
   Superclass::PrintSelf(os, indent);
 }
 
-} // end of namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics
 
 
 #endif

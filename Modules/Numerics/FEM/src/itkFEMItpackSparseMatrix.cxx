@@ -18,9 +18,7 @@
 #include "itkFEMItpackSparseMatrix.h"
 #include "itpack.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 ItpackSparseMatrix::ItpackSparseMatrix()
   : m_MatrixFinalized(0)
@@ -488,5 +486,4 @@ FEMExceptionItpackSparseMatrixSbsij::FEMExceptionItpackSparseMatrixSbsij(std::st
 
 FEMExceptionItpackSparseMatrixSbsij::~FEMExceptionItpackSparseMatrixSbsij() noexcept = default;
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem

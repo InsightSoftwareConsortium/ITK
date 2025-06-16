@@ -28,9 +28,7 @@
 #include "itkSize.h"
 #include <vector>
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 /** \class MeasurementVectorTraits
  * \ingroup Statistics
@@ -530,7 +528,7 @@ public:
 
 /// \endcond
 
-} // namespace Statistics
-} // namespace itk
+} // namespace itk::Statistics
+
 
 #endif // itkMeasurementVectorTraits_h

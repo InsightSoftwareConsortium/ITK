@@ -18,9 +18,7 @@
 
 #include "itkFEMLinearSystemWrapperDenseVNL.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 void
 LinearSystemWrapperDenseVNL::InitializeMatrix(unsigned int matrixIndex)
@@ -288,5 +286,4 @@ LinearSystemWrapperDenseVNL::~LinearSystemWrapperDenseVNL()
   delete m_Solutions;
 }
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem

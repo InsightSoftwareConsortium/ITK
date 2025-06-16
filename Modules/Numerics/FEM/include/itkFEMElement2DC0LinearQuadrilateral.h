@@ -22,9 +22,7 @@
 #include "itkFEMElementStd.h"
 #include "ITKFEMExport.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /**
  * \class Element2DC0LinearQuadrilateral
@@ -123,7 +121,6 @@ protected:
 
 private:
 };
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif // itkFEMElement2DC0LinearQuadrilateral_h

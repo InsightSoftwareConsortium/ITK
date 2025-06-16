@@ -18,9 +18,7 @@
 #ifndef itkSubsamplerBase_hxx
 #define itkSubsamplerBase_hxx
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 
 template <typename TSample>
@@ -70,7 +68,6 @@ SubsamplerBase<TSample>::PrintSelf(std::ostream & os, Indent indent) const
   os << std::endl;
 }
 
-} // end namespace Statistics
-} // end namespace itk
+} // namespace itk::Statistics
 
 #endif

@@ -25,10 +25,7 @@
 #include "itkFEMScatteredDataPointSetToImageFilter.h"
 #include "itkConceptChecking.h"
 
-
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 
 /** \class PhysicsBasedNonRigidRegistrationMethod
@@ -170,8 +167,7 @@ private:
   typename BlockMatchingFilterType::Pointer    m_BlockMatchingFilter{};
   typename FEMFilterType::Pointer              m_FEMFilter{};
 };
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkPhysicsBasedNonRigidRegistrationMethod.hxx"

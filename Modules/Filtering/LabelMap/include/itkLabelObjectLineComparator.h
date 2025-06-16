@@ -18,9 +18,7 @@
 #ifndef itkLabelObjectLineComparator_h
 #define itkLabelObjectLineComparator_h
 
-namespace itk
-{
-namespace Functor
+namespace itk::Functor
 {
 
 /**
@@ -62,7 +60,6 @@ public:
   }
 };
 
-} // end namespace Functor
-} // end namespace itk
+} // namespace itk::Functor
 
 #endif

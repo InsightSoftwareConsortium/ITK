@@ -17,9 +17,7 @@
  *=========================================================================*/
 #include "itkHistogramToTextureFeaturesFilter.h"
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 /** Print enum values */
 std::ostream &
@@ -51,5 +49,4 @@ operator<<(std::ostream & out, const HistogramToTextureFeaturesFilterEnums::Text
     }
   }();
 }
-} // end of namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics

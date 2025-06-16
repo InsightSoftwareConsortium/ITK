@@ -23,15 +23,13 @@
 #include <iterator> // For std::begin, std::end, and reverse_iterator.
 #include "itkMacro.h"
 
-namespace itk
-{
 
 /*
 The  Functor was only used in one spot in the
 LevelSet class,  It does not exist in Slicer, BRAINSTools, Remote modules,
 ANTs, or any other project that I could find.
 */
-namespace Functor
+namespace itk::Functor
 {
 /** \class LexicographicCompare
  * \brief Order Index instances lexicographically.
@@ -84,7 +82,6 @@ public:
 };
 
 
-} // end namespace Functor
-} // end namespace itk
+} // namespace itk::Functor
 
 #endif

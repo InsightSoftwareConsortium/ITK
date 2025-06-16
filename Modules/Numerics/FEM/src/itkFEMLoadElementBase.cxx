@@ -18,9 +18,7 @@
 
 #include "itkFEMLoadElementBase.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 
 // Overload the CreateAnother() method
@@ -70,5 +68,4 @@ LoadElement::PrintSelf(std::ostream & os, Indent indent) const
   }
 }
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem

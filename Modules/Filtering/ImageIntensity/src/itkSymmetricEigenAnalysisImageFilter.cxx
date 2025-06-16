@@ -17,9 +17,7 @@
  *=========================================================================*/
 #include "itkSymmetricEigenAnalysisImageFilter.h"
 
-namespace itk
-{
-namespace Functor
+namespace itk::Functor
 {
 /** Define how to print enumerations */
 std::ostream &
@@ -39,5 +37,4 @@ operator<<(std::ostream & out, const EigenValueOrderEnum value)
     }
   }();
 }
-} // namespace Functor
-} // end namespace itk
+} // namespace itk::Functor

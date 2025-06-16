@@ -21,9 +21,7 @@
 
 #include "itkMath.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 
 template <unsigned int VDimension>
@@ -238,7 +236,6 @@ SolverHyperbolic<VDimension>::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Gamma: " << this->m_Gamma << std::endl;
 }
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif

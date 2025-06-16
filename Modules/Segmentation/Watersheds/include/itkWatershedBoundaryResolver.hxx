@@ -20,9 +20,7 @@
 
 #include "itkImageRegionIterator.h"
 
-namespace itk
-{
-namespace watershed
+namespace itk::watershed
 {
 template <typename TPixelType, unsigned int TDimension>
 void
@@ -104,7 +102,6 @@ BoundaryResolver<TPixelType, TDimension>::PrintSelf(std::ostream & os, Indent in
 
   os << indent << "Face: " << m_Face << std::endl;
 }
-} // end namespace watershed
-} // end namespace itk
+} // namespace itk::watershed
 
 #endif

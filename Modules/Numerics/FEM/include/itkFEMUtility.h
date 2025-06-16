@@ -25,9 +25,7 @@
 
 class MetaObject;
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /**
  * \file itkFEMUtility.h
@@ -275,7 +273,6 @@ public:
   Integrate(double (*f)(double), double a, double b, int n = 3);
 };
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif // itkFEMUtility_h

@@ -28,9 +28,7 @@
  *
  */
 
-namespace itk
-{
-namespace Functor
+namespace itk::Functor
 {
 template <typename TLabelObject>
 class MinimumLabelObjectAccessor
@@ -285,7 +283,6 @@ public:
     return labelObject->GetWeightedFlatness();
   }
 };
-} // namespace Functor
-} // end namespace itk
+} // namespace itk::Functor
 
 #endif

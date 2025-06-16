@@ -24,9 +24,7 @@
 #include "itkSimpleDataObjectDecorator.h"
 #include "itkNumericTraitsFixedArrayPixel.h"
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 /**
  * \class StandardDeviationPerComponentSampleFilter
@@ -121,8 +119,7 @@ protected:
 
 private:
 }; // end of class
-} // end of namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkStandardDeviationPerComponentSampleFilter.hxx"

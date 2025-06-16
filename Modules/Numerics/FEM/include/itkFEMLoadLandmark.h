@@ -24,9 +24,7 @@
 
 #include "vnl/vnl_vector.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /**
  * \class LoadLandmark
@@ -281,7 +279,7 @@ protected:
   Solution::ConstPointer m_Solution{ nullptr };
 };
 
-} // namespace fem
-} // namespace itk
+} // namespace itk::fem
+
 
 #endif // itkFEMLoadLandmark_h

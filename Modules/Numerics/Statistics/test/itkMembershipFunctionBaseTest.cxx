@@ -19,11 +19,7 @@
 #include <iostream>
 #include "itkMembershipFunctionBase.h"
 
-namespace itk
-{
-namespace Statistics
-{
-namespace MembershipFunctionBaseTest
+namespace itk::Statistics::MembershipFunctionBaseTest
 {
 
 template <typename TMeasurementVector>
@@ -54,9 +50,9 @@ public:
   }
 };
 
-} // namespace MembershipFunctionBaseTest
-} // namespace Statistics
-} // namespace itk
+} // namespace itk::Statistics::MembershipFunctionBaseTest
+
+
 int
 itkMembershipFunctionBaseTest(int, char *[])
 {

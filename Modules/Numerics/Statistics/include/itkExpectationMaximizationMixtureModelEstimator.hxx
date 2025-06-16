@@ -21,9 +21,7 @@
 #include "itkNumericTraits.h"
 #include "itkMath.h"
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 template <typename TSample>
 ExpectationMaximizationMixtureModelEstimator<TSample>::ExpectationMaximizationMixtureModelEstimator()
@@ -394,7 +392,6 @@ ExpectationMaximizationMixtureModelEstimator<TSample>::Update()
 {
   this->GenerateData();
 }
-} // end of namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics
 
 #endif

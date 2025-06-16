@@ -18,11 +18,7 @@
 
 #include "itkDistanceMetric.h"
 
-namespace itk
-{
-namespace Statistics
-{
-namespace DistanceMetricTest
+namespace itk::Statistics::DistanceMetricTest
 {
 
 template <typename TMeasurementVector>
@@ -57,9 +53,8 @@ public:
   }
 };
 
-} // namespace DistanceMetricTest
-} // namespace Statistics
-} // namespace itk
+} // namespace itk::Statistics::DistanceMetricTest
+
 int
 itkDistanceMetricTest(int, char *[])
 {

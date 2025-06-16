@@ -21,9 +21,7 @@
 #include "itkNeighborhood.h"
 #include "itkMath.h"
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 template <typename TImageType, typename THistogramFrequencyContainer, typename TMaskImageType>
 ScalarImageToTextureFeaturesFilter<TImageType, THistogramFrequencyContainer, TMaskImageType>::
@@ -330,7 +328,6 @@ ScalarImageToTextureFeaturesFilter<TImageType, THistogramFrequencyContainer, TMa
   os << indent << "Offsets: " << this->GetOffsets() << std::endl;
   os << indent << "FeatureMeans: " << this->GetFeatureMeans() << std::endl;
 }
-} // end of namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics
 
 #endif

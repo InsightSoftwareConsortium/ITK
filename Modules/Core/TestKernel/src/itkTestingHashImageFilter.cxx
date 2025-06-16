@@ -28,9 +28,7 @@
 
 #include "itkTestingHashImageFilter.h"
 
-namespace itk
-{
-namespace Testing
+namespace itk::Testing
 {
 /** Print enum values */
 std::ostream &
@@ -46,5 +44,4 @@ operator<<(std::ostream & out, const HashImageFilterEnums::HashFunction value)
     }
   }();
 }
-} // namespace Testing
-} // namespace itk
+} // namespace itk::Testing

@@ -23,9 +23,7 @@
 #include "itkFEMElement3DMembrane.h"
 #include "ITKFEMExport.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /**
  * \class Element3DC0LinearTetrahedronMembrane
@@ -79,7 +77,6 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 }; // class Element3DC0LinearTetrahedronMembrane
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif // itkFEMElement3DC0LinearTetrahedronMembrane_h

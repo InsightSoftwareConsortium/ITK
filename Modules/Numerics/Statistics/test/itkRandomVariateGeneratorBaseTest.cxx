@@ -19,9 +19,7 @@
 #include "itkRandomVariateGeneratorBase.h"
 #include "itkObjectFactory.h"
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 
 class VariateGeneratorTestHelper : public RandomVariateGeneratorBase
@@ -52,8 +50,8 @@ public:
   }
 };
 
-} // namespace Statistics
-} // namespace itk
+} // namespace itk::Statistics
+
 
 int
 itkRandomVariateGeneratorBaseTest(int, char *[])

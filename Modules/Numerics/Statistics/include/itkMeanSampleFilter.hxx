@@ -23,9 +23,7 @@
 #include "itkCompensatedSummation.h"
 #include "itkMeasurementVectorTraits.h"
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 template <typename TSample>
 MeanSampleFilter<TSample>::MeanSampleFilter()
@@ -158,7 +156,6 @@ MeanSampleFilter<TSample>::GenerateData()
 
   decoratedOutput->Set(output);
 }
-} // end of namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics
 
 #endif

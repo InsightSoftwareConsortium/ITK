@@ -21,9 +21,7 @@
 #include "itkFEMLoadBase.h"
 #include "ITKFEMExport.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /**
  * \class LoadBC
@@ -92,7 +90,6 @@ protected:
    */
   vnl_vector<Element::Float> m_Value{};
 };
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif // itkFEMLoadBC_h

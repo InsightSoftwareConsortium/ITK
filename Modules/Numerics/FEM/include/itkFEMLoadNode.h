@@ -25,9 +25,7 @@
 #include "ITKFEMExport.h"
 #include "vnl/vnl_vector.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /**
  * \class LoadNode
@@ -110,7 +108,6 @@ protected:
    */
   vnl_vector<Float> m_Force{};
 };
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif // itkFEMLoadNode_h

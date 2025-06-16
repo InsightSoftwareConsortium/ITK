@@ -367,9 +367,7 @@ TestBaseClassMethodsMeshIO(typename TMeshIO::Pointer meshIO)
   return EXIT_SUCCESS;
 }
 
-namespace itk
-{
-namespace MeshIOTestHelper
+namespace itk::MeshIOTestHelper
 {
 
 template <typename T>
@@ -419,7 +417,7 @@ AllocateBuffer(itk::IOComponentEnum componentType, itk::SizeValueType bufferSize
   return nullptr;
 }
 
-} // namespace MeshIOTestHelper
-} // namespace itk
+} // namespace itk::MeshIOTestHelper
+
 
 #endif

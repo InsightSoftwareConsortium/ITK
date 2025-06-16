@@ -27,9 +27,7 @@ using FrameType = itk::Image<PixelType, Dimension>;
 using VideoType = itk::VideoStream<FrameType>;
 using SizeValueType = itk::SizeValueType;
 
-namespace itk
-{
-namespace VideoSourceTest
+namespace itk::VideoSourceTest
 {
 /**
  * \class DummyVideoSource
@@ -136,8 +134,7 @@ CreateEmptyFrame()
   return out;
 }
 
-} // end namespace VideoSourceTest
-} // end namespace itk
+} // namespace itk::VideoSourceTest
 
 /**
  * Test the basic functionality of temporal data objects

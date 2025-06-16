@@ -23,9 +23,7 @@
 #include "itkFEMObject.h"
 #include "itkProcessObject.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /**
  * \class ImageToRectilinearFEMObjectFilter
@@ -171,8 +169,7 @@ private:
   MaterialPointerType      m_Material{};
   ElementBasePointerType   m_Element{};
 };
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkImageToRectilinearFEMObjectFilter.hxx"

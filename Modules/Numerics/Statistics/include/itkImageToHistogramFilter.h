@@ -25,9 +25,7 @@
 #include "itkSimpleDataObjectDecorator.h"
 #include "itkProgressReporter.h"
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 /**
  * \class ImageToHistogramFilter
@@ -189,8 +187,7 @@ private:
                      HistogramMeasurementVectorType & max,
                      HistogramSizeType &              size);
 };
-} // end of namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkImageToHistogramFilter.hxx"

@@ -24,9 +24,7 @@
 #include "itkFEMMaterialLinearElasticity.h"
 #include "ITKFEMExport.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /**
  * \class Element2DC1Beam
@@ -170,7 +168,6 @@ private:
    */
   const MaterialLinearElasticity * m_mat{ nullptr };
 };
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif // itkFEMElement2DC1Beam_h

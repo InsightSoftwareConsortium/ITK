@@ -21,9 +21,7 @@
 
 #include "ITKFEMExport.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /**
  * \class Solution
@@ -72,7 +70,6 @@ public:
    */
   virtual ~Solution();
 };
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif // itkFEMSolution_h

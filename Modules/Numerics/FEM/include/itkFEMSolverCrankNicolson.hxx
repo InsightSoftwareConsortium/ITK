@@ -26,9 +26,7 @@
 #include "itkFEMLoadLandmark.h"
 #include "itkMath.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 #define TOTE
 
@@ -882,7 +880,6 @@ SolverCrankNicolson<VDimension>::PrintForce()
   }
 }
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif

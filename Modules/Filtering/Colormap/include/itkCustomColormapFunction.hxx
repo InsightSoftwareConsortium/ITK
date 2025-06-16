@@ -18,10 +18,7 @@
 #ifndef itkCustomColormapFunction_hxx
 #define itkCustomColormapFunction_hxx
 
-
-namespace itk
-{
-namespace Function
+namespace itk::Function
 {
 template <typename TScalar, typename TRGBPixel>
 auto
@@ -69,7 +66,6 @@ CustomColormapFunction<TScalar, TRGBPixel>::operator()(const TScalar & v) const 
 
   return pixel;
 }
-} // end namespace Function
-} // end namespace itk
+} // namespace itk::Function
 
 #endif

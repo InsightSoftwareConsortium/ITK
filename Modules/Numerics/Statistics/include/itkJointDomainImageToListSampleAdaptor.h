@@ -24,9 +24,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkListSample.h"
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 /** \class ImageJointDomainTraits
  *  \brief This class provides the type definition for the measurement
@@ -343,8 +341,7 @@ private:
 
   PixelContainerConstPointer m_PixelContainer{};
 }; // end of class JointDomainImageToListSampleAdaptor
-} // end of namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkJointDomainImageToListSampleAdaptor.hxx"

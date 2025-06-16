@@ -18,10 +18,7 @@
 #ifndef itkManhattanDistanceMetric_hxx
 #define itkManhattanDistanceMetric_hxx
 
-
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 template <typename TVector>
 inline double
@@ -65,7 +62,6 @@ ManhattanDistanceMetric<TVector>::Evaluate(const MeasurementVectorType & x1, con
   }
   return distance;
 }
-} // end of namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics
 
 #endif

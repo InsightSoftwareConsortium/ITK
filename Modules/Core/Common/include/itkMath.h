@@ -41,10 +41,7 @@
  */
 #include <vxl_version.h>
 
-
-namespace itk
-{
-namespace Math
+namespace itk::Math
 {
 // These constants originate from VXL's vnl_math.h. They have been
 // moved here to improve visibility, and to ensure that the constants
@@ -881,7 +878,6 @@ abs(unsigned long long x)
 
 using std::abs;
 
-} // end namespace Math
-} // end namespace itk
+} // namespace itk::Math
 
 #endif // end of itkMath.h

@@ -18,9 +18,7 @@
 
 #include "itkFEMElement2DC0LinearQuadrilateralMembrane.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 // Overload the CreateAnother() method.
 itk::LightObject::Pointer
@@ -78,5 +76,4 @@ Element2DC0LinearQuadrilateralMembrane::PrintSelf(std::ostream & os, Indent inde
   Superclass::PrintSelf(os, indent);
 }
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem

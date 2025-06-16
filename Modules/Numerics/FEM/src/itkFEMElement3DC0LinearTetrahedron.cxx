@@ -18,9 +18,7 @@
 
 #include "itkFEMElement3DC0LinearTetrahedron.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 
 void
@@ -202,5 +200,4 @@ Element3DC0LinearTetrahedron::PrintSelf(std::ostream & os, Indent indent) const
   Superclass::PrintSelf(os, indent);
 }
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem

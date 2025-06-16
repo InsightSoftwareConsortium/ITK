@@ -21,9 +21,7 @@
 #include "itkDecisionRule.h"
 #include "ITKStatisticsExport.h"
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 /**
  * \class MaximumDecisionRule
@@ -72,7 +70,6 @@ protected:
   ~MaximumDecisionRule() override = default;
 
 }; // end of class
-} // end of namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics
 
 #endif

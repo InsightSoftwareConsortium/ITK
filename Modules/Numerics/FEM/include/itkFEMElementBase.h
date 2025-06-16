@@ -31,9 +31,7 @@
 #include <set>
 #include <vector>
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /**
  * \class Element
@@ -723,7 +721,6 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 };
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif // itkFEMElementBase_h

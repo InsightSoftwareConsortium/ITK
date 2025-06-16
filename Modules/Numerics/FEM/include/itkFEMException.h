@@ -23,9 +23,7 @@
 
 #include "itkMacro.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /**
  * \file itkFEMException.h
@@ -166,7 +164,6 @@ public:
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(FEMExceptionSolution);
 };
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif // itkFEMException_h

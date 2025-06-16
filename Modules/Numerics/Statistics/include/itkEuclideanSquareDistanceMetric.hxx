@@ -18,10 +18,7 @@
 #ifndef itkEuclideanSquareDistanceMetric_hxx
 #define itkEuclideanSquareDistanceMetric_hxx
 
-
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 template <typename TVector>
 inline double
@@ -70,7 +67,6 @@ EuclideanSquareDistanceMetric<TVector>::Evaluate(const MeasurementVectorType & x
   }
   return distance;
 }
-} // end of namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics
 
 #endif

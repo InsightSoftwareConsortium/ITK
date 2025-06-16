@@ -18,9 +18,7 @@
 #ifndef itkRegionConstrainedSubsampler_hxx
 #define itkRegionConstrainedSubsampler_hxx
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 
 template <typename TSample, typename TRegion>
@@ -114,7 +112,6 @@ RegionConstrainedSubsampler<TSample, TRegion>::PrintSelf(std::ostream & os, Inde
   os << std::endl;
 }
 
-} // end namespace Statistics
-} // end namespace itk
+} // namespace itk::Statistics
 
 #endif

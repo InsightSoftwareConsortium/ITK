@@ -19,10 +19,7 @@
 #ifndef itkFEMElement2DMembrane_hxx
 #define itkFEMElement2DMembrane_hxx
 
-
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 template <typename TBaseClass>
 Element2DMembrane<TBaseClass>::Element2DMembrane()
@@ -102,7 +99,6 @@ Element2DMembrane<TBaseClass>::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Materials: " << this->m_mat << std::endl;
 }
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif

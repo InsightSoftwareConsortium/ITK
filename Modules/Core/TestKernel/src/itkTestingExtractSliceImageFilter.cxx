@@ -17,9 +17,7 @@
  *=========================================================================*/
 #include "itkTestingExtractSliceImageFilter.h"
 
-namespace itk
-{
-namespace Testing
+namespace itk::Testing
 {
 /** Print enum values */
 std::ostream &
@@ -45,5 +43,4 @@ operator<<(std::ostream & out, const ExtractSliceImageFilterEnums::TestExtractSl
     }
   }();
 }
-} // end namespace Testing
-} // end namespace itk
+} // namespace itk::Testing

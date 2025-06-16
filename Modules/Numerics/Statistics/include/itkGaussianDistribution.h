@@ -21,9 +21,7 @@
 #include "itkProbabilityDistribution.h"
 #include "ITKStatisticsExport.h"
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 /** \class GaussianDistribution
  * \brief GaussianDistribution class defines the interface for a
@@ -268,7 +266,6 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 }; // end of class
-} // end of namespace Statistics
-} // end namespace itk
+} // namespace itk::Statistics
 
 #endif

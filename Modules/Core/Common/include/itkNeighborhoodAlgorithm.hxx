@@ -22,9 +22,7 @@
 #include "itkConstSliceIterator.h"
 #include <algorithm> // For min.
 
-namespace itk
-{
-namespace NeighborhoodAlgorithm
+namespace itk::NeighborhoodAlgorithm
 {
 template <typename TImage>
 auto
@@ -188,7 +186,6 @@ CalculateOutputWrapOffsetModifiers<TImage>::operator()(TImage * input, TImage * 
   }
   return ans;
 }
-} // end namespace NeighborhoodAlgorithm
-} // end namespace itk
+} // namespace itk::NeighborhoodAlgorithm
 
 #endif

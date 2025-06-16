@@ -18,9 +18,7 @@
 
 #include "itkFEMElement2DC1Beam.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 // Overload the CreateAnother() method.
 itk::LightObject::Pointer
@@ -348,5 +346,4 @@ Element2DC1Beam::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Materials: " << this->m_mat << std::endl;
 }
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem

@@ -23,9 +23,7 @@
 #include "itkProcessObject.h"
 #include "itkDataObjectDecorator.h"
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 /**
  * \class ImageToListSampleFilter
@@ -147,8 +145,7 @@ protected:
 private:
   MaskPixelType m_MaskValue{};
 }; // end of class ImageToListSampleFilter
-} // end of namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkImageToListSampleFilter.hxx"

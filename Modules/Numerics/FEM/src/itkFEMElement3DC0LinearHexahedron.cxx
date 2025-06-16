@@ -19,9 +19,7 @@
 #include "itkFEMElement3DC0LinearHexahedron.h"
 #include "itkMath.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 void
 Element3DC0LinearHexahedron::GetIntegrationPointAndWeight(unsigned int i,
@@ -430,5 +428,4 @@ Element3DC0LinearHexahedron::PrintSelf(std::ostream & os, Indent indent) const
   Superclass::PrintSelf(os, indent);
 }
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem

@@ -25,9 +25,7 @@
 #include <map>
 #include <vector>
 
-namespace itk
-{
-namespace Function
+namespace itk::Function
 {
 
 /* \class RankHistogram
@@ -409,6 +407,5 @@ class ITK_TEMPLATE_EXPORT RankHistogram<bool> : public VectorRankHistogram<bool>
 
 /// \endcond
 
-} // end namespace Function
-} // end namespace itk
+} // namespace itk::Function
 #endif

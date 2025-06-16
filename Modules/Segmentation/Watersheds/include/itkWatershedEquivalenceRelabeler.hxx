@@ -19,9 +19,7 @@
 #define itkWatershedEquivalenceRelabeler_hxx
 #include "itkImageRegionIterator.h"
 
-namespace itk
-{
-namespace watershed
+namespace itk::watershed
 {
 template <typename TScalar, unsigned int TImageDimension>
 void
@@ -117,7 +115,6 @@ EquivalenceRelabeler<TScalar, TImageDimension>::MakeOutput(DataObjectPointerArra
 {
   return ImageType::New().GetPointer();
 }
-} // end namespace watershed
-} // end namespace itk
+} // namespace itk::watershed
 
 #endif

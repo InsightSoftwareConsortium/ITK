@@ -25,9 +25,7 @@
 
 #include <deque>
 
-namespace itk
-{
-namespace Function
+namespace itk::Function
 {
 /**
  * \class ConvergenceMonitoringFunction
@@ -117,7 +115,6 @@ protected:
 
   EnergyValueContainerType m_EnergyValues{};
 };
-} // end namespace Function
-} // end namespace itk
+} // namespace itk::Function
 
 #endif

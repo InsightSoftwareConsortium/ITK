@@ -23,9 +23,7 @@
 #include "vnl/vnl_matrix.h"
 #include "vnl/algo/vnl_matrix_inverse.h"
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 template <typename TVector>
 MahalanobisDistanceMembershipFunction<TVector>::MahalanobisDistanceMembershipFunction()
@@ -188,7 +186,6 @@ MahalanobisDistanceMembershipFunction<TVector>::InternalClone() const
   return loPtr;
 }
 
-} // end namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics
 
 #endif

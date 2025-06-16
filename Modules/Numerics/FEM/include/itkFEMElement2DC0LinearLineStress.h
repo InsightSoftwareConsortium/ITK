@@ -23,9 +23,7 @@
 #include "itkFEMElement1DStress.h"
 #include "ITKFEMExport.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /**
  * \class Element2DC0LinearLineStress
@@ -75,7 +73,6 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 }; // class Element2DC0LinearLineStress
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif // itkFEMElement2DC0LinearLineStress_h

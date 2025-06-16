@@ -21,9 +21,7 @@
 #include "itkWatershedSegmentTree.h"
 #include "itkWatershedSegmenter.h"
 
-namespace itk
-{
-namespace watershed
+namespace itk::watershed
 {
 /**
  * \class Relabeler
@@ -165,8 +163,7 @@ protected:
   void
   GenerateInputRequestedRegion() override;
 };
-} // end namespace watershed
-} // end namespace itk
+} // namespace itk::watershed
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkWatershedRelabeler.hxx"

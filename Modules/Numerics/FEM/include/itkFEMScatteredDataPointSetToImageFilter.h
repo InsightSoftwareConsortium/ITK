@@ -38,9 +38,7 @@
 #include "itkQuadrilateralCell.h"
 #include "itkHexahedronCell.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /** \class FEMScatteredDataPointSetToImageFilter
  * \brief Scattered data approximation to interpolation
@@ -303,8 +301,7 @@ private:
   MaterialPointerType m_Material{};
 };
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkFEMScatteredDataPointSetToImageFilter.hxx"

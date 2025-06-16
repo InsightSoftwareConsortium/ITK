@@ -17,13 +17,10 @@
  *=========================================================================*/
 #include "itkDecisionRule.h"
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 DecisionRule::DecisionRule() = default;
 
 DecisionRule::~DecisionRule() = default;
 
-} // end of namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics

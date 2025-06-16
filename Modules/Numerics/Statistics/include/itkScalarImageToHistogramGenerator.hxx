@@ -18,10 +18,7 @@
 #ifndef itkScalarImageToHistogramGenerator_hxx
 #define itkScalarImageToHistogramGenerator_hxx
 
-
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 template <typename TImage>
 ScalarImageToHistogramGenerator<TImage>::ScalarImageToHistogramGenerator()
@@ -107,7 +104,6 @@ ScalarImageToHistogramGenerator<TImage>::PrintSelf(std::ostream & os, Indent ind
   itkPrintSelfObjectMacro(ImageToListSampleAdaptor);
   itkPrintSelfObjectMacro(HistogramGenerator);
 }
-} // end of namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics
 
 #endif

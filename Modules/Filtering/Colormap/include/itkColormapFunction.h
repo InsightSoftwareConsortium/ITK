@@ -23,9 +23,7 @@
 #include "itkNumericTraits.h"
 #include "itkRGBPixel.h"
 
-namespace itk
-{
-namespace Function
+namespace itk::Function
 {
 /**
  * \class ColormapFunction
@@ -136,7 +134,6 @@ private:
   RGBComponentType m_MinimumRGBComponentValue{};
   RGBComponentType m_MaximumRGBComponentValue{};
 };
-} // end namespace Function
-} // end namespace itk
+} // namespace itk::Function
 
 #endif

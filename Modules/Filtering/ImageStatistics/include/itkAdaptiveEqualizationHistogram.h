@@ -22,9 +22,8 @@
 #include "itkStructHashFunction.h"
 #include "itkMath.h"
 #include <cmath>
-namespace itk
-{
-namespace Function
+
+namespace itk::Function
 {
 
 /* \class AdaptiveEqualizationHistogram
@@ -156,7 +155,6 @@ private:
   size_t  m_BoundaryCount{ 0 };
 };
 
-} // end namespace Function
-} // end namespace itk
+} // namespace itk::Function
 
 #endif // itkAdaptiveHistogramHistogram_h

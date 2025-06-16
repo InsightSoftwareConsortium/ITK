@@ -21,9 +21,7 @@
 #include "itkMatrix.h"
 #include "itkMembershipFunctionBase.h"
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 /**
  * \class GaussianMembershipFunction
@@ -141,8 +139,7 @@ private:
   /** Boolean to cache whether the covariance is singular or nearly singular */
   bool m_CovarianceNonsingular{ true };
 };
-} // end of namespace Statistics
-} // end namespace itk
+} // namespace itk::Statistics
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkGaussianMembershipFunction.hxx"

@@ -18,10 +18,7 @@
 #ifndef itkVectorContainerToListSampleAdaptor_hxx
 #define itkVectorContainerToListSampleAdaptor_hxx
 
-
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 template <typename TVectorContainer>
 VectorContainerToListSampleAdaptor<TVectorContainer>::VectorContainerToListSampleAdaptor()
@@ -83,7 +80,6 @@ VectorContainerToListSampleAdaptor<TVectorContainer>::GetTotalFrequency() const 
   }
   return this->Size();
 }
-} // end of namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics
 
 #endif

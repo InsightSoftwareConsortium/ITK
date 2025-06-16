@@ -19,10 +19,7 @@
 #ifndef itkFEMElement3DMembrane_hxx
 #define itkFEMElement3DMembrane_hxx
 
-
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 template <typename TBaseClass>
 Element3DMembrane<TBaseClass>::Element3DMembrane()
@@ -129,7 +126,6 @@ Element3DMembrane<TBaseClass>::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Materials: " << this->m_mat << std::endl;
 }
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif

@@ -17,9 +17,7 @@
  *=========================================================================*/
 #include "itkDenseFrequencyContainer2.h"
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 DenseFrequencyContainer2::DenseFrequencyContainer2()
   : m_TotalFrequency(TotalAbsoluteFrequencyType{})
@@ -82,5 +80,4 @@ DenseFrequencyContainer2::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
-} // end of namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics

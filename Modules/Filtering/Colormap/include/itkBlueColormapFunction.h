@@ -20,9 +20,7 @@
 
 #include "itkColormapFunction.h"
 
-namespace itk
-{
-namespace Function
+namespace itk::Function
 {
 /**
  * \class BlueColormapFunction
@@ -64,8 +62,7 @@ protected:
   BlueColormapFunction() = default;
   ~BlueColormapFunction() override = default;
 };
-} // end namespace Function
-} // end namespace itk
+} // namespace itk::Function
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkBlueColormapFunction.hxx"

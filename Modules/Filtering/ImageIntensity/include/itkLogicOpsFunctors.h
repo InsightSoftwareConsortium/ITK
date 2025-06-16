@@ -21,10 +21,7 @@
 #include "itkNumericTraits.h"
 #include "itkMath.h"
 
-
-namespace itk
-{
-namespace Functor
+namespace itk::Functor
 {
 
 /**
@@ -370,7 +367,7 @@ public:
   }
 };
 
-} // namespace Functor
-} // namespace itk
+} // namespace itk::Functor
+
 
 #endif

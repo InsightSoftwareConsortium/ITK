@@ -22,9 +22,7 @@
 #include "itkObjectFactory.h"
 #include "itkTotalProgressReporter.h"
 
-namespace itk
-{
-namespace Testing
+namespace itk::Testing
 {
 
 template <typename TInputImage, typename TOutputImage>
@@ -287,7 +285,6 @@ ExtractSliceImageFilter<TInputImage, TOutputImage>::GetInput() const
   return itkDynamicCastInDebugMode<const TInputImage *>(this->GetPrimaryInput());
 }
 
-} // end namespace Testing
-} // end namespace itk
+} // namespace itk::Testing
 
 #endif

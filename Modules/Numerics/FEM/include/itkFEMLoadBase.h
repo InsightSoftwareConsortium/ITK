@@ -23,9 +23,7 @@
 #include "itkFEMPArray.h"
 #include "ITKFEMExport.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /**
  * \class Load
@@ -101,7 +99,6 @@ protected:
    */
   Element::ConstPointer m_Element{};
 };
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif // itkFEMLoadBase_h

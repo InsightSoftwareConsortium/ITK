@@ -22,9 +22,7 @@
 #include "itkFEMElementStd.h"
 #include "ITKFEMExport.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /**
  * \class Element3DC0LinearHexahedron
@@ -121,7 +119,6 @@ protected:
   void
   PopulateEdgeIds() override;
 };
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif // itkFEMElement3DC0LinearHexahedron_h

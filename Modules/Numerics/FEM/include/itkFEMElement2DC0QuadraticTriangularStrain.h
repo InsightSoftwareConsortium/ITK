@@ -23,9 +23,7 @@
 #include "itkFEMElement2DStrain.h"
 #include "ITKFEMExport.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /**
  * \class Element2DC0QuadraticTriangularStrain
@@ -101,7 +99,6 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 }; // class Element2DC0QuadraticTriangularStrain
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif // itkFEMElement2DC0QuadraticTriangularStrain_h

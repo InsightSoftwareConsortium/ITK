@@ -20,9 +20,7 @@
 
 #include "itkConvergenceMonitoringFunction.h"
 
-namespace itk
-{
-namespace Function
+namespace itk::Function
 {
 /**
  * \class WindowConvergenceMonitoringFunction
@@ -91,8 +89,7 @@ private:
 
   RealType m_TotalEnergy{};
 };
-} // end namespace Function
-} // end namespace itk
+} // namespace itk::Function
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkWindowConvergenceMonitoringFunction.hxx"

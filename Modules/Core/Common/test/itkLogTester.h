@@ -21,9 +21,7 @@
 #include "itkLoggerBase.h"
 #include "itkTestingMacros.h"
 
-namespace itk
-{
-namespace Testing
+namespace itk::Testing
 {
 
 class LogTester
@@ -64,7 +62,7 @@ public:
 private:
   itk::LoggerBase * m_Logger{ nullptr };
 };
-} // namespace Testing
-} // namespace itk
+} // namespace itk::Testing
+
 
 #endif // itkLogTester_h

@@ -18,9 +18,7 @@
 
 #include "itkFEMLoadLandmark.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 
 // Overload the CreateAnother() method.
@@ -194,5 +192,4 @@ LoadLandmark::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Solution: " << this->m_Solution << std::endl;
 }
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem

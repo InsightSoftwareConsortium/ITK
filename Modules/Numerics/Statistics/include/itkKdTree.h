@@ -30,9 +30,7 @@
 
 #include "itkEuclideanDistanceMetric.h"
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 /**
  * \class KdTreeNode
@@ -838,8 +836,7 @@ private:
   /** Measurement vector size */
   MeasurementVectorSizeType m_MeasurementVectorSize{};
 }; // end of class
-} // end of namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkKdTree.hxx"

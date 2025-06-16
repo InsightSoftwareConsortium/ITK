@@ -30,9 +30,7 @@ using OutputFrameType = itk::Image<OutputPixelType, Dimension>;
 using OutputVideoType = itk::VideoStream<OutputFrameType>;
 using SizeValueType = itk::SizeValueType;
 
-namespace itk
-{
-namespace VideoToVideoFilterTest
+namespace itk::VideoToVideoFilterTest
 {
 
 /**
@@ -155,8 +153,7 @@ protected:
   }
 };
 
-} // end namespace VideoToVideoFilterTest
-} // end namespace itk
+} // namespace itk::VideoToVideoFilterTest
 
 /**
  * Test the basic functionality of temporal data objects

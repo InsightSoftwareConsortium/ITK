@@ -25,9 +25,7 @@ dgami_(double * a, double * x);
 extern "C" double
 dgamma_(double * x);
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 ChiSquareDistribution::ChiSquareDistribution()
 {
@@ -315,5 +313,4 @@ ChiSquareDistribution::PrintSelf(std::ostream & os, Indent indent) const
     os << indent << "Degrees of freedom: (unknown)" << std::endl;
   }
 }
-} // end of namespace Statistics
-} // end namespace itk
+} // namespace itk::Statistics

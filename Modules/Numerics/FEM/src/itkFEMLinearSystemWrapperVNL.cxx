@@ -20,9 +20,7 @@
 #include <vnl/vnl_sparse_matrix_linear_system.h>
 #include <vnl/algo/vnl_lsqr.h>
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 void
 LinearSystemWrapperVNL::InitializeMatrix(unsigned int matrixIndex)
@@ -312,5 +310,4 @@ LinearSystemWrapperVNL::~LinearSystemWrapperVNL()
   delete m_Solutions;
 }
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem

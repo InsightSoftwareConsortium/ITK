@@ -28,9 +28,7 @@
 
 #include "itkDistanceMetric.h"
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 /**
  * \class MahalanobisDistanceMetric
@@ -137,8 +135,7 @@ private:
   void
   CalculateInverseCovariance();
 };
-} // end of namespace Statistics
-} // end namespace itk
+} // namespace itk::Statistics
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkMahalanobisDistanceMetric.hxx"

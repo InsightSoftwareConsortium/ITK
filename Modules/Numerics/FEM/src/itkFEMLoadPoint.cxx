@@ -18,9 +18,7 @@
 
 #include "itkFEMLoadPoint.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 
 itk::LightObject::Pointer
@@ -99,5 +97,4 @@ LoadPoint::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Force Point: " << this->m_ForcePoint << std::endl;
 }
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem

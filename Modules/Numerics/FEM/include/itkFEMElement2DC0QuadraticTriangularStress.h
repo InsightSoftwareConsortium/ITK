@@ -23,9 +23,7 @@
 #include "itkFEMElement2DStress.h"
 #include "ITKFEMExport.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /**
  * \class Element2DC0QuadraticTriangularStress
@@ -98,7 +96,6 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 }; // class Element2DC0QuadraticTriangularStress
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif // itkFEMElement2DC0QuadraticTriangularStress_h

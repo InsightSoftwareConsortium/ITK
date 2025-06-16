@@ -22,9 +22,7 @@
 #include "itkFEMLoadLandmark.h"
 #include "ITKFEMExport.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /**
  * \class FEMLoadNoisyLandmark
@@ -239,7 +237,6 @@ private:
    */
   MatrixType m_LandmarkTensor{};
 };
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif // itkFEMLoadNoisyLandmark_h

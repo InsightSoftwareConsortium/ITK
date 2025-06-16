@@ -29,10 +29,7 @@
 
 #include <mutex>
 
-namespace itk
-{
-
-namespace fftw
+namespace itk::fftw
 {
 /**
  * \class Interface
@@ -361,6 +358,6 @@ public:
 };
 
 #endif
-} // namespace fftw
-} // namespace itk
+} // namespace itk::fftw
+
 #endif

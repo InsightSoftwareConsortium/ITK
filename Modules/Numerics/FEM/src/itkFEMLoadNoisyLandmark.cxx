@@ -18,9 +18,7 @@
 
 #include "itkFEMLoadNoisyLandmark.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 
 void
@@ -40,5 +38,4 @@ LoadNoisyLandmark::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Landmark Tensor: " << this->m_LandmarkTensor << std::endl;
 }
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem

@@ -18,10 +18,7 @@
 #ifndef itkKdTree_hxx
 #define itkKdTree_hxx
 
-
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 template <typename TSample>
 KdTreeNonterminalNode<TSample>::KdTreeNonterminalNode(unsigned int    partitionDimension,
@@ -617,7 +614,6 @@ KdTree<TSample>::PlotTree(KdTreeNodeType * node, std::ostream & os) const
     this->PlotTree(right, os);
   }
 }
-} // end of namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics
 
 #endif

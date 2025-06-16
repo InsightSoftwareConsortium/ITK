@@ -20,9 +20,7 @@
 #include <complex>
 #include <type_traits>
 
-namespace itk
-{
-namespace mpl
+namespace itk::mpl
 {
 
 template <typename TA, typename TB>
@@ -30,8 +28,8 @@ struct PromoteType<std::complex<TA>, std::complex<TB>>
 {
   using Type = std::complex<typename PromoteType<TA, TB>::Type>;
 };
-} // namespace mpl
-} // namespace itk
+} // namespace itk::mpl
+
 
 int
 itkPromoteType(int, char *[])

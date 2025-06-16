@@ -18,9 +18,7 @@
 
 #include "itkFEMLoadBCMFC.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 // Overload the CreateAnother() method.
 itk::LightObject::Pointer
@@ -147,5 +145,4 @@ LoadBCMFC::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Right HandSide: " << this->m_RightHandSide << std::endl;
 }
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem

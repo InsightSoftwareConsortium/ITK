@@ -20,9 +20,7 @@
 
 #include "itkMacro.h"
 
-namespace itk
-{
-namespace Functor
+namespace itk::Functor
 {
 
 /**
@@ -123,7 +121,6 @@ public:
     return static_cast<TOutput>(~A);
   }
 };
-} // namespace Functor
-} // namespace itk
+} // namespace itk::Functor
 
 #endif

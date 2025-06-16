@@ -30,9 +30,7 @@
 #include "vnl/vnl_vector.h"
 #include <limits>
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 
 template <typename TInputPointSet,
@@ -783,7 +781,6 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
   os << indent << "  Direction: " << this->m_Direction << std::endl;
 }
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif

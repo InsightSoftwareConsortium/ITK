@@ -23,9 +23,7 @@
 #include "itkIntTypes.h"
 #include "itkNumericTraits.h"
 
-namespace itk
-{
-namespace Function
+namespace itk::Function
 {
 template <typename TInputPixel, typename TCompare>
 class MorphologyHistogram
@@ -222,7 +220,6 @@ class MorphologyHistogram<bool, TCompare> : public VectorMorphologyHistogram<boo
 
 /// \endcond
 
-} // end namespace Function
-} // end namespace itk
+} // namespace itk::Function
 
 #endif

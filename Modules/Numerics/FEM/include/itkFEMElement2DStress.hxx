@@ -19,10 +19,7 @@
 #ifndef itkFEMElement2DStress_hxx
 #define itkFEMElement2DStress_hxx
 
-
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 template <typename TBaseClass>
 Element2DStress<TBaseClass>::Element2DStress()
@@ -101,7 +98,6 @@ Element2DStress<TBaseClass>::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Materials: " << this->m_mat << std::endl;
 }
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif

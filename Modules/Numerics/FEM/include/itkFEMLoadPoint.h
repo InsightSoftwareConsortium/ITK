@@ -23,9 +23,7 @@
 #include "ITKFEMExport.h"
 #include "vnl/vnl_vector.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 /**
  * \class LoadPoint
@@ -92,7 +90,6 @@ protected:
   /** The actual load vector. */
   vnl_vector<Float> m_ForcePoint{};
 };
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem
 
 #endif // itkFEMLoadPoint_h

@@ -34,17 +34,11 @@
   EXPECT_PRED_FORMAT3(itk::GTest::Predicate::VectorDoubleRMSPredFormat, val1, val2, rmsError)
 
 
-namespace itk
-{
-
-namespace GTest
-{
-
 /** \namespace itk::GTest::Predicate
  *  \brief The Predicate namespace contains functions used to
  *  implement custom GTest Predicate-Formatters.
  */
-namespace Predicate
+namespace itk::GTest::Predicate
 {
 
 /** Implements GTest Predicate Formatter for ITK_EXPECT_VECTOR_NEAR
@@ -89,8 +83,7 @@ VectorDoubleRMSPredFormat(const char * expr1,
                                        << rmsErrorExpr << " evaluates to " << rmsError << '.';
 }
 
-} // end namespace Predicate
-} // end namespace GTest
-} // end namespace itk
+} // namespace itk::GTest::Predicate
+// end namespace GTest
 
 #endif // itkGTestPredicate_h

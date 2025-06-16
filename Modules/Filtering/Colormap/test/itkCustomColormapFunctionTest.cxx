@@ -21,10 +21,7 @@
 #include "itkImageFileReader.h"
 #include "itkTestingMacros.h"
 
-
-namespace itk
-{
-namespace Function
+namespace itk::Function
 {
 
 /**
@@ -99,8 +96,7 @@ public:
 protected:
 };
 
-} // end namespace Function
-} // end namespace itk
+} // namespace itk::Function
 
 
 int

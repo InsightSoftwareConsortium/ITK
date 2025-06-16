@@ -18,9 +18,7 @@
 
 #include "itkFEMElement2DC0LinearQuadrilateralStrain.h"
 
-namespace itk
-{
-namespace fem
+namespace itk::fem
 {
 // Overload the CreateAnother() method.
 itk::LightObject::Pointer
@@ -80,5 +78,4 @@ Element2DC0LinearQuadrilateralStrain::PrintSelf(std::ostream & os, Indent indent
   Superclass::PrintSelf(os, indent);
 }
 
-} // end namespace fem
-} // end namespace itk
+} // namespace itk::fem

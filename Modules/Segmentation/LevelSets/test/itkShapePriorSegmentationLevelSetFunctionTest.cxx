@@ -41,9 +41,8 @@
  * The test fails if the overlap is below a certain threshold.
  *
  */
-namespace itk
-{
-namespace SPSLSF
+
+namespace itk::SPSLSF
 {
 
 template <typename TImage>
@@ -105,8 +104,8 @@ private:
   }
 };
 
-} // namespace SPSLSF
-} // namespace itk
+} // namespace itk::SPSLSF
+
 
 int
 itkShapePriorSegmentationLevelSetFunctionTest(int, char *[])

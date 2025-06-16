@@ -28,9 +28,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkMeasurementVectorTraits.h"
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 /** \class ImageToListSampleAdaptor
  *  \brief This class provides ListSample interface to ITK Image
@@ -308,8 +306,7 @@ private:
   mutable MeasurementVectorType m_MeasurementVectorInternal{};
 
 }; // end of class ImageToListSampleAdaptor
-} // end of namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkImageToListSampleAdaptor.hxx"

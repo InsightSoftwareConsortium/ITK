@@ -17,9 +17,7 @@
  *=========================================================================*/
 #include "itkMinimumDecisionRule.h"
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 MinimumDecisionRule::ClassIdentifierType
 MinimumDecisionRule::Evaluate(const MembershipVectorType & discriminantScores) const
@@ -41,5 +39,4 @@ MinimumDecisionRule::Evaluate(const MembershipVectorType & discriminantScores) c
   }
   return minIndex;
 }
-} // end of namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics

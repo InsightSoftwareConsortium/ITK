@@ -43,9 +43,7 @@ itkDeclareExceptionMacro(HistogramWrongNumberOfComponents,
                          SampleToHistogramFilterException,
                          "Histogram has wrong number of components");
 
-namespace itk
-{
-namespace Statistics
+namespace itk::Statistics
 {
 
 /**
@@ -197,8 +195,7 @@ private:
   }
 
 }; // end of class
-} // end of namespace Statistics
-} // end of namespace itk
+} // namespace itk::Statistics
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkSampleToHistogramFilter.hxx"
