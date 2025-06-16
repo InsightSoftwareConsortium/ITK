@@ -24,14 +24,20 @@
 #include "itkMath.h"
 #include "itkTestingMacros.h"
 
-#define NUMBANDS1 1
-#define NUMBANDS2 2
-#define NUMBANDS3 3
-#define NUMDIM1D 1
-#define NUMDIM2D 2
-#define NUMDIM3D 3
-#define NUMDIM4D 4
-#define NUMDIM5D 5
+enum : int8_t
+{
+  NUMBANDS1 = 1,
+  NUMBANDS2 = 2,
+  NUMBANDS3 = 3,
+};
+enum : int8_t
+{
+  NUMDIM1D = 1,
+  NUMDIM2D = 2,
+  NUMDIM3D = 3,
+  NUMDIM4D = 4,
+  NUMDIM5D = 5,
+};
 
 static unsigned int
 test_RegionGrowKLMExceptionHandling();

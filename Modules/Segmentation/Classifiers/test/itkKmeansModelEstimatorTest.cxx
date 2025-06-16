@@ -22,22 +22,20 @@
 #include "itkDistanceToCentroidMembershipFunction.h"
 
 // Data definitions
-#define IMGWIDTH 16
-#define IMGHEIGHT 1
-// #define NFRAMES 1
-// #define NUMBANDS 2
-// #define NDIMENSION 3
+constexpr uint8_t IMGWIDTH = 16;
+constexpr uint8_t IMGHEIGHT = 1;
+// constexpr uint8_t NFRAMES =1;
+// constexpr uint8_t NUMBANDS =2;
+// constexpr uint8_t NDIMENSION =3;
 
-#define CDBKWIDTH 4
-#define CDBKHEIGHT 1
-#define NFRAMES 1
-#define NCODEWORDS CDBKWIDTH * CDBKHEIGHT * NFRAMES
-#define NUMBANDS 2
-#define NDIMENSION 3
-#define STARTFRAME 0
-#define NUM_BYTES_PER_PIXEL 1
-#define ONEBAND 1
-
+constexpr uint8_t CDBKWIDTH = 4;
+constexpr uint8_t CDBKHEIGHT = 1;
+constexpr uint8_t NFRAMES = 1;
+constexpr uint8_t NCODEWORDS = CDBKWIDTH * CDBKHEIGHT * NFRAMES;
+constexpr uint8_t NUMBANDS = 2;
+constexpr uint8_t NDIMENSION = 3;
+// constexpr uint8_t STARTFRAME = 0;
+// constexpr uint8_t NUM_BYTES_PER_PIXEL = 1;
 
 // class to support progress feedback
 class ShowProgressObject

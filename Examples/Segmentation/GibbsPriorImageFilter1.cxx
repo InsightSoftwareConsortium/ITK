@@ -47,8 +47,8 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
-#define NUM_CLASSES 3
-#define MAX_NUM_ITER 1
+constexpr int NUM_CLASSES = 3;
+constexpr int MAX_NUM_ITER = 1;
 
 int
 main(int argc, char * argv[])
