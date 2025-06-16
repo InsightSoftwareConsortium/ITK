@@ -240,7 +240,7 @@ itkDynamicCastInDebugMode(TSource x)
   {
     return nullptr;
   }
-  TTarget rval = dynamic_cast<TTarget>(x);
+  auto rval = dynamic_cast<TTarget>(x);
   if (rval == nullptr)
   {
     itkGenericExceptionMacro("Failed dynamic cast to " << typeid(TTarget).name()

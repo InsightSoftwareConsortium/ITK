@@ -421,7 +421,7 @@ GDCMImageIO::Read(void * pointer)
   // \postcondition
   // Now that len was updated (after unpacker 12bits -> 16bits, rescale...) ,
   // can now check compat:
-  const SizeValueType numberOfBytesToBeRead = static_cast<SizeValueType>(this->GetImageSizeInBytes());
+  const auto numberOfBytesToBeRead = static_cast<SizeValueType>(this->GetImageSizeInBytes());
   itkAssertInDebugAndIgnoreInReleaseMacro(numberOfBytesToBeRead == len); // programmer error
 #endif
 }

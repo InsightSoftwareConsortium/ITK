@@ -81,7 +81,7 @@ itkQuadEdgeMeshEulerOperatorCreateCenterVertexTest(int, char *[])
 #ifndef NDEBUG
   std::cout << "     "
             << "Test QE Input with no left face";
-  QEType * dummy = new QEType;
+  auto * dummy = new QEType;
   if (createCenterVertex->Evaluate(dummy))
   {
     std::cout << "FAILED." << std::endl;
