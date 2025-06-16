@@ -997,7 +997,7 @@ excellent packaging.
 [ITK Software Guide]: https://itk.org/ItkSoftwareGuide.pdf
 [ITK wiki]: https://insightsoftwareconsortium.github.io/ITKWikiArchive/Wiki/ITK
 [ITK Sphinx examples]: https://examples.itk.org/
-[ITKReleases NumFOCUS GDrive]: https://drive.google.com/drive/u/2/folders/0AKRok0KBkv02Uk9PVA
+[ITKReleases NumFOCUS GDrive]: https://drive.google.com/drive/folders/1NFEZGTs_axoJUXox3JsRKCqw2QQCY_Ri
 [kubo]: https://github.com/ipfs/kubo
 [pinata]: https://pinata.cloud
 [releases page]: https://insightsoftwareconsortium.github.io/ITKWikiArchive/Wiki/ITK/Releases
