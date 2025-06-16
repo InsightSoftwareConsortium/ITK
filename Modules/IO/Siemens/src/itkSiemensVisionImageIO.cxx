@@ -26,15 +26,9 @@
 namespace itk
 {
 // Default constructor
-SiemensVisionImageIO::SiemensVisionImageIO()
-{
-  // Purposefully left blank
-}
+SiemensVisionImageIO::SiemensVisionImageIO() = default;
 
-SiemensVisionImageIO::~SiemensVisionImageIO()
-{
-  // Purposefully left blank
-}
+SiemensVisionImageIO::~SiemensVisionImageIO() = default;
 
 bool
 SiemensVisionImageIO::CanReadFile(const char * FileNameToRead)

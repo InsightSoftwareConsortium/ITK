@@ -346,6 +346,7 @@ public:
   public:
     friend class Histogram;
 
+    ConstIterator() = delete;
     ConstIterator(const Self * histogram)
       : m_Id(0)
       , m_Histogram(histogram)
@@ -409,9 +410,6 @@ public:
 
     // Pointer of DenseFrequencyContainer
     const Self * m_Histogram;
-
-  private:
-    ConstIterator() = delete;
   }; // end of iterator class
 
   /**

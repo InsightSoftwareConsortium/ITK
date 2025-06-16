@@ -30,10 +30,7 @@ LoggerBase::LoggerBase()
   this->m_Output = MultipleLogOutput::New();
 }
 
-LoggerBase::~LoggerBase()
-{
-  //  this->m_Output->Flush();
-}
+LoggerBase::~LoggerBase() = default;
 
 /** Adds an output stream to the MultipleLogOutput for writing. */
 void

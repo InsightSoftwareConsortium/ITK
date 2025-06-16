@@ -25,15 +25,6 @@ namespace itk
  *
  */
 template <typename TInputPath, typename TOutputPath>
-PathToPathFilter<TInputPath, TOutputPath>::PathToPathFilter()
-{
-  // Let the superclass do everything
-}
-
-/**
- *
- */
-template <typename TInputPath, typename TOutputPath>
 void
 PathToPathFilter<TInputPath, TOutputPath>::SetInput(const InputPathType * path)
 {
