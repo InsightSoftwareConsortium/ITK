@@ -1325,7 +1325,7 @@ itkQuadEdgeTest1(int, char *[])
     const QuadEdgeType * quadEdgeA4c = quadEdgeA4;
 
 #ifndef NDEBUG
-    quadEdgeA1c->IsLnextGivenSizeCyclic(3); // testing null case
+    [[maybe_unused]] auto val = quadEdgeA1c->IsLnextGivenSizeCyclic(3); // testing null case
 
     if (quadEdgeA1c->IsLnextGivenSizeCyclic(3))
     {

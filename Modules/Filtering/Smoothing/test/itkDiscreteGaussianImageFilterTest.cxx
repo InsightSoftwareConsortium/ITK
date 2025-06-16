@@ -117,7 +117,7 @@ itkDiscreteGaussianImageFilterTest(int argc, char * argv[])
   // if UseImageSpacing is ON and an input image is not set
   filter->UseImageSpacingOn();
   ITK_TRY_EXPECT_EXCEPTION(filter->GetKernelRadius());
-  ITK_TRY_EXPECT_EXCEPTION(filter->GetKernelRadius(0));
+  ITK_TRY_EXPECT_EXCEPTION([[maybe_unused]] auto val = filter->GetKernelRadius(0));
   ITK_TRY_EXPECT_EXCEPTION(filter->GetKernelSize());
 
   auto useImageSpacing = static_cast<bool>(std::stoi(argv[1]));

@@ -138,7 +138,7 @@ itkDiffusionTensor3DReconstructionImageFilterTest(int argc, char * argv[])
 
     // Test gradient direction index exception
     constexpr unsigned int idx = numberOfGradientImages + 1;
-    ITK_TRY_EXPECT_EXCEPTION(tensorReconstructionFilter->GetGradientDirection(idx));
+    ITK_TRY_EXPECT_EXCEPTION([[maybe_unused]] auto val = tensorReconstructionFilter->GetGradientDirection(idx));
 
     //
     // second time through test, use the mask image

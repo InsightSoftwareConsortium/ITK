@@ -332,10 +332,10 @@ itkMatrixTest(int, char *[])
 
   using LargeMatrixType = itk::Matrix<NumericType, 7, 7>;
   auto matrixBad = itk::MakeFilled<LargeMatrixType>(2.0);
-  ITK_TRY_EXPECT_EXCEPTION(matrixBad.GetInverse());
+  ITK_TRY_EXPECT_EXCEPTION([[maybe_unused]] auto inverse = matrixBad.GetInverse());
 
   matrixBad.SetIdentity();
-  ITK_TRY_EXPECT_NO_EXCEPTION(matrixBad.GetInverse());
+  ITK_TRY_EXPECT_NO_EXCEPTION([[maybe_unused]] auto inverse2 = matrixBad.GetInverse());
 
   {
     /*

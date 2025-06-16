@@ -79,11 +79,11 @@ itkTubeSpatialObjectTest(int, char *[])
   p.Print(std::cout);
 
   // Test TubeSpatialObjectPoint exceptions: no spatial object exists so far
-  ITK_TRY_EXPECT_EXCEPTION(p.GetTangentInWorldSpace());
+  ITK_TRY_EXPECT_EXCEPTION([[maybe_unused]] auto val = p.GetTangentInWorldSpace());
 
-  ITK_TRY_EXPECT_EXCEPTION(p.GetNormal1InWorldSpace());
+  ITK_TRY_EXPECT_EXCEPTION([[maybe_unused]] auto val = p.GetNormal1InWorldSpace());
 
-  ITK_TRY_EXPECT_EXCEPTION(p.GetNormal2InWorldSpace());
+  ITK_TRY_EXPECT_EXCEPTION([[maybe_unused]] auto val = p.GetNormal2InWorldSpace());
 
 
   tube1->SetPoints(list);
