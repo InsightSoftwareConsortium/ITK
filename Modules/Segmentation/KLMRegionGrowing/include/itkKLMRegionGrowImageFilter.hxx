@@ -515,6 +515,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::InitializeKLM()
     m_BordersDynamicPointer[k].m_Pointer = m_BordersPointer[k];
   }
 
+#ifndef NDEBUG
   // For DEBUG purposes
   if (this->GetDebug())
   {
@@ -523,6 +524,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::InitializeKLM()
       itkDebugMacro(<< k.m_Pointer);
     }
   }
+#endif
 
   std::stable_sort(m_BordersDynamicPointer.begin(),
                    (m_BordersDynamicPointer.end()),
