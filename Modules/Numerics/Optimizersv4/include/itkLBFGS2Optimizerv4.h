@@ -167,7 +167,7 @@ public:
    * define so lbfgs.h uses the correct version
    **/
   using PrecisionType = double;
-  static_assert(std::is_same<TInternalComputationValueType, double>::value,
+  static_assert(std::is_same_v<TInternalComputationValueType, double>,
                 "LBFGS2Optimizerv4Template only supports double precision");
 
   /** Standard "Self" type alias. */
