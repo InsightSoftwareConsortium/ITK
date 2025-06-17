@@ -19,9 +19,49 @@
 #include "itkMetaImageIO.h"
 #include "itkTestingMacros.h"
 #include "itkImage.h"
+#include "itkIntTypes.h"
 #include "itkVectorImage.h"
 
 #include "itkImageIOFactory.h" // required to instantiate an instance of ImageIOBase
+
+namespace
+{
+// Tests `MapPixelType<TPixel>::CType`
+class TestMapPixelType : private itk::ImageIOBase
+{
+  struct UnknownComponentType
+  {};
+  static_assert(MapPixelType<UnknownComponentType>::CType == IOComponentEnum::UNKNOWNCOMPONENTTYPE);
+
+  // Test built-in types:
+  static_assert(MapPixelType<unsigned char>::CType == IOComponentEnum::UCHAR);
+  static_assert(MapPixelType<signed char>::CType == IOComponentEnum::CHAR);
+  static_assert(MapPixelType<char>::CType == (std::is_signed_v<char> ? IOComponentEnum::CHAR : IOComponentEnum::UCHAR));
+  static_assert(MapPixelType<unsigned short>::CType == IOComponentEnum::USHORT);
+  static_assert(MapPixelType<short>::CType == IOComponentEnum::SHORT);
+  static_assert(MapPixelType<unsigned int>::CType == IOComponentEnum::UINT);
+  static_assert(MapPixelType<int>::CType == IOComponentEnum::INT);
+  static_assert(MapPixelType<unsigned long>::CType == IOComponentEnum::ULONG);
+  static_assert(MapPixelType<long>::CType == IOComponentEnum::LONG);
+  static_assert(MapPixelType<unsigned long long>::CType == IOComponentEnum::ULONGLONG);
+  static_assert(MapPixelType<long long>::CType == IOComponentEnum::LONGLONG);
+  static_assert(MapPixelType<float>::CType == IOComponentEnum::FLOAT);
+  static_assert(MapPixelType<double>::CType == IOComponentEnum::DOUBLE);
+
+  // Test fixed width types:
+  static_assert(MapPixelType<uint8_t>::CType == IOComponentEnum::UINT8);
+  static_assert(MapPixelType<int8_t>::CType == IOComponentEnum::INT8);
+  static_assert(MapPixelType<uint16_t>::CType == IOComponentEnum::UINT16);
+  static_assert(MapPixelType<int16_t>::CType == IOComponentEnum::INT16);
+  static_assert(MapPixelType<uint32_t>::CType == IOComponentEnum::UINT32);
+  static_assert(MapPixelType<int32_t>::CType == IOComponentEnum::INT32);
+  static_assert(MapPixelType<uint64_t>::CType == IOComponentEnum::UINT64);
+  static_assert(MapPixelType<int64_t>::CType == IOComponentEnum::INT64);
+  static_assert(MapPixelType<float>::CType == IOComponentEnum::FLOAT32);
+  static_assert(MapPixelType<double>::CType == IOComponentEnum::FLOAT64);
+};
+} // namespace
+
 
 // Specific ImageIO test
 
