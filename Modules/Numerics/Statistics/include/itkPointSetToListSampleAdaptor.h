@@ -115,6 +115,7 @@ public:
     friend class PointSetToListSampleAdaptor;
 
   public:
+    ConstIterator() = delete;
     ConstIterator(const PointSetToListSampleAdaptor * adaptor) { *this = adaptor->Begin(); }
 
     ConstIterator(const ConstIterator & iter)
@@ -165,8 +166,6 @@ public:
       : m_Iter(iter)
       , m_InstanceIdentifier(iid)
     {}
-
-    ConstIterator() = delete;
 
   private:
     PointsContainerConstIteratorType m_Iter;
