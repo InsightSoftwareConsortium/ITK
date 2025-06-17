@@ -63,6 +63,7 @@ itk_add_test(
     DATA{Input/C0004255.ISQ}
     ${ITK_TEST_OUTPUT_DIR}/C0004255Test2.mha
 )
+
 itk_add_test(
   NAME itkScancoImageIOISQHeaderWriteTest2
   COMMAND

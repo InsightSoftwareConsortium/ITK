@@ -38,6 +38,7 @@ itkScancoImageIOTest3(int argc, char * argv[])
   }
   const std::string inputFileName = argv[1];
   const std::string outputFileName = argv[2];
+  const std::string versionString = (argc > 4) ? argv[4] : "AIMDATA_V020   ";
 
   // ATTENTION THIS IS THE PIXEL TYPE FOR
   // THE RESULTING IMAGE
@@ -65,7 +66,7 @@ itkScancoImageIOTest3(int argc, char * argv[])
   ImageType::Pointer image = reader->GetOutput();
 
   std::cout << "Version: \t\t" << scancoIO->GetVersion() << std::endl;
-  ITK_TEST_EXPECT_EQUAL(scancoIO->GetVersion(), std::string("AIMDATA_V020   "));
+  ITK_TEST_EXPECT_EQUAL(scancoIO->GetVersion(), versionString);
   std::cout << "PatientIndex: \t" << scancoIO->GetPatientIndex() << std::endl;
   ITK_TEST_EXPECT_EQUAL(scancoIO->GetPatientIndex(), 2573);
   std::cout << "ScannerID: \t\t" << scancoIO->GetScannerID() << std::endl;
@@ -77,9 +78,19 @@ itkScancoImageIOTest3(int argc, char * argv[])
   std::cout << "StartPosition: \t" << scancoIO->GetStartPosition() << std::endl;
   ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(scancoIO->GetStartPosition(), 114.845, 6, 1e-3));
   std::cout << "DataRange[0]: \t" << scancoIO->GetDataRange()[0] << std::endl;
-  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(scancoIO->GetDataRange()[0], -2478.0, 6, 1e-3));
   std::cout << "DataRange[1]: \t" << scancoIO->GetDataRange()[1] << std::endl;
-  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(scancoIO->GetDataRange()[1], 11662.0, 6, 1e-3));
+
+  if (scancoIO->GetComponentType() == itk::ImageIOBase::FLOAT)
+  {
+    ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(scancoIO->GetDataRange()[0], -1380.0, 6, 1e-3));
+    ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(scancoIO->GetDataRange()[1], 8823.0, 6, 1e-3));
+  }
+  else
+  {
+    ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(scancoIO->GetDataRange()[0], -2478.0, 6, 1e-3));
+    ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(scancoIO->GetDataRange()[1], 11662.0, 6, 1e-3));
+  }
+
   std::cout << "MuScaling: \t\t" << scancoIO->GetMuScaling() << std::endl;
   ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(scancoIO->GetMuScaling(), 8192.0, 6, 1e-3));
   std::cout << "MuWater: \t\t" << scancoIO->GetMuWater() << std::endl;
@@ -122,9 +133,8 @@ itkScancoImageIOTest3(int argc, char * argv[])
   // Generate test image
   using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
-  if (argc > 3)
+  if (argc > 3 && std::stoi(argv[3]) == 1) // Explicitly use scancoIO
   {
-    // AIM writing is not currently supported
     ITK_TEST_EXPECT_TRUE(scancoIO->CanWriteFile(outputFileName.c_str()));
 
     ITK_TEST_EXPECT_TRUE(!scancoIO->CanWriteFile((outputFileName + ".exe").c_str()));
