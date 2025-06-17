@@ -97,6 +97,10 @@ public:
     {
       return;
     }
+    if (object == nullptr)
+    {
+      itkExceptionMacro(<< "nullptr passed for 'object' ");
+    }
 
     std::cout << "\nObserving from class " << object->GetNameOfClass();
     if (!object->GetObjectName().empty())
@@ -104,7 +108,8 @@ public:
       std::cout << " \"" << object->GetObjectName() << "\"" << std::endl;
     }
 
-    const auto * registration = static_cast<const RegistrationType *>(object);
+    const auto * registration =
+      reinterpret_cast<const RegistrationType *>(object);
     if (registration == nullptr)
     {
       itkExceptionMacro(<< "Dynamic cast failed, object of type "
