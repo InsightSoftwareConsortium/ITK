@@ -30,12 +30,11 @@
 namespace itk
 {
 SimpleFilterWatcher::SimpleFilterWatcher(ProcessObject * o, const char * comment)
-#if defined(_COMPILER_VERSION) && (_COMPILER_VERSION == 730)
-  : m_Quiet(true);
-#else
-  : m_Quiet(false)
-#endif
-, m_Comment(comment), m_Process{ o } { this->CreateCommands(); }
+  : m_Comment(comment)
+  , m_Process{ o }
+{
+  this->CreateCommands();
+}
 
 SimpleFilterWatcher::SimpleFilterWatcher()
   : m_Comment("Not watching an object")
