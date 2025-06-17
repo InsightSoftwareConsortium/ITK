@@ -56,7 +56,7 @@ public:
   {
 
     // check if scalar or fixed length array type
-    if constexpr (std::is_same<TInputPixel, typename NumericTraits<TInputPixel>::ValueType>::value)
+    if constexpr (std::is_same_v<TInputPixel, typename NumericTraits<TInputPixel>::ValueType>)
     {
       m_Maximum = NumericTraits<TInputPixel>::NonpositiveMin();
     }
@@ -70,7 +70,7 @@ public:
   inline void
   operator()(const TInputPixel & input)
   {
-    if constexpr (std::is_same<TInputPixel, typename NumericTraits<TInputPixel>::ValueType>::value)
+    if constexpr (std::is_same_v<TInputPixel, typename NumericTraits<TInputPixel>::ValueType>)
     {
       m_Maximum = std::max(m_Maximum, input);
     }
