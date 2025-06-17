@@ -22,53 +22,48 @@
 #include "itkMath.h"
 #include "itkTestingMacros.h"
 
-int
-itkReadWriteSpatialObjectTest(int argc, char * argv[])
+using TubeType = itk::TubeSpatialObject<3>;
+using TubePointer = TubeType::Pointer;
+using EllipseType = itk::EllipseSpatialObject<3>;
+using EllipsePointer = EllipseType::Pointer;
+using BlobType = itk::BlobSpatialObject<3>;
+using BlobPointer = BlobType::Pointer;
+using SurfaceType = itk::SurfaceSpatialObject<3>;
+using SurfacePointer = SurfaceType::Pointer;
+using LineType = itk::LineSpatialObject<3>;
+using LinePointer = LineType::Pointer;
+using GroupType = itk::GroupSpatialObject<3>;
+using GroupPointer = GroupType::Pointer;
+using LandmarkType = itk::LandmarkSpatialObject<3>;
+using LandmarkPointer = LandmarkType::Pointer;
+using VesselTubeType = itk::TubeSpatialObject<3>;
+using DTITubeType = itk::DTITubeSpatialObject<3>;
+using ContourType = itk::ContourSpatialObject<3>;
+
+
+using ImageType = itk::ImageSpatialObject<3, unsigned short>;
+using ImageMaskType = itk::ImageMaskSpatialObject<3>;
+
+using WriterType = itk::SpatialObjectWriter<3, unsigned short>;
+using ReaderType = itk::SpatialObjectReader<3, unsigned short>;
+
+using TubePointType = itk::TubeSpatialObjectPoint<3>;
+using VesselTubePointType = itk::TubeSpatialObjectPoint<3>;
+using DTITubePointType = itk::DTITubeSpatialObjectPoint<3>;
+using BlobPointType = itk::SpatialObjectPoint<3>;
+using SurfacePointType = itk::SurfaceSpatialObjectPoint<3>;
+using LinePointType = itk::LineSpatialObjectPoint<3>;
+
+void
+setup_obj(GroupPointer &    tubeN1,
+          GroupPointer &    tubeN2,
+          EllipsePointer &  ellipse,
+          BlobPointer &     blob,
+          SurfacePointer &  surface,
+          LinePointer &     line,
+          LandmarkPointer & landmark)
 {
-
-  using TubeType = itk::TubeSpatialObject<3>;
-  using TubePointer = TubeType::Pointer;
-  using EllipseType = itk::EllipseSpatialObject<3>;
-  using EllipsePointer = EllipseType::Pointer;
-  using BlobType = itk::BlobSpatialObject<3>;
-  using BlobPointer = BlobType::Pointer;
-  using SurfaceType = itk::SurfaceSpatialObject<3>;
-  using SurfacePointer = SurfaceType::Pointer;
-  using LineType = itk::LineSpatialObject<3>;
-  using LinePointer = LineType::Pointer;
-  using GroupType = itk::GroupSpatialObject<3>;
-  using GroupPointer = GroupType::Pointer;
-  using LandmarkType = itk::LandmarkSpatialObject<3>;
-  using LandmarkPointer = LandmarkType::Pointer;
-  using VesselTubeType = itk::TubeSpatialObject<3>;
-  using DTITubeType = itk::DTITubeSpatialObject<3>;
-  using ContourType = itk::ContourSpatialObject<3>;
-
-
-  using ImageType = itk::ImageSpatialObject<3, unsigned short>;
-  using ImageMaskType = itk::ImageMaskSpatialObject<3>;
-
-  using WriterType = itk::SpatialObjectWriter<3, unsigned short>;
-  using ReaderType = itk::SpatialObjectReader<3, unsigned short>;
-
-  using TubePointType = itk::TubeSpatialObjectPoint<3>;
-  using VesselTubePointType = itk::TubeSpatialObjectPoint<3>;
-  using DTITubePointType = itk::DTITubeSpatialObjectPoint<3>;
-  using BlobPointType = itk::SpatialObjectPoint<3>;
-  using SurfacePointType = itk::SurfaceSpatialObjectPoint<3>;
-  using LinePointType = itk::LineSpatialObjectPoint<3>;
-
-  // Tubes
-  std::cout << " --- Testing Read-Write SpatialObject ---" << std::endl;
-
-  TubeType::TubePointListType         list;
-  VesselTubeType::TubePointListType   list2;
-  DTITubeType::DTITubePointListType   list3;
-  BlobType::BlobPointListType         list4;
-  SurfaceType::SurfacePointListType   list5;
-  LineType::LinePointListType         list6;
-  LandmarkType::LandmarkPointListType list7;
-
+  TubeType::TubePointListType list;
   for (unsigned int i = 0; i < 10; ++i)
   {
     TubePointType p;
@@ -82,7 +77,15 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
     p.SetTagScalarValue("var2", i);
     list.push_back(p);
   }
+  /** Create a Tube  composed of 3 tubes */
+  const TubePointer tube1 = TubeType::New();
+  tube1->GetProperty().SetName("Tube 1");
+  tube1->SetId(1);
+  tube1->SetPoints(list);
+  tube1->Update();
 
+
+  VesselTubeType::TubePointListType list2;
   for (unsigned int i = 0; i < 5; ++i)
   {
     VesselTubePointType p;
@@ -102,7 +105,14 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
     p.SetTagScalarValue("var2", i * 2);
     list2.push_back(p);
   }
+  auto tube2 = VesselTubeType::New();
+  tube2->SetTypeName("VesselTubeSpatialObject");
+  tube2->GetProperty().SetName("Tube 2");
+  tube2->SetId(2);
+  tube2->SetPoints(list2);
+  tube2->Update();
 
+  DTITubeType::DTITubePointListType list3;
   for (unsigned int i = 0; i < 7; ++i)
   {
     DTITubePointType p;
@@ -130,8 +140,31 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
     p.SetTensorMatrix(v);
     list3.push_back(p);
   }
+  auto tube3 = DTITubeType::New();
+  tube3->GetProperty().SetName("Tube 3");
+  tube3->SetId(3);
+  tube3->SetPoints(list3);
+  tube3->Update();
+
+  tubeN1->GetProperty().SetName("tube network 1");
+  tubeN1->SetId(0);
+  tubeN1->AddChild(tube1);
+  tubeN1->AddChild(tube2);
+  tubeN1->Update();
+
+  tubeN2->SetId(5);
+  tubeN2->GetProperty().SetName("tube network 2");
+  tubeN2->AddChild(tube3);
+  tubeN2->Update();
+
+
+  ellipse->SetRadiusInObjectSpace(9);
+  ellipse->GetProperty().SetName("ellipse 1");
+  ellipse->Update();
+
 
   // Blob point list
+  BlobType::BlobPointListType list4;
   for (unsigned int i = 0; i < 3; ++i)
   {
     BlobPointType p;
@@ -143,7 +176,11 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
     list4.push_back(p);
   }
 
+  blob->SetPoints(list4);
+  blob->GetProperty().SetName("Blob 1");
+  blob->Update();
 
+  SurfaceType::SurfacePointListType list5;
   // Surface point list
   for (unsigned int i = 0; i < 3; ++i)
   {
@@ -162,7 +199,12 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
     list5.push_back(p);
   }
 
+  surface->SetPoints(list5);
+  surface->GetProperty().SetName("Surface 1");
+  surface->Update();
+
   // Line point list
+  LineType::LinePointListType list6;
   for (unsigned int i = 0; i < 3; ++i)
   {
     LinePointType p;
@@ -183,7 +225,13 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
     list6.push_back(p);
   }
 
+  line->SetPoints(list6);
+  line->GetProperty().SetName("Line 1");
+  line->Update();
+
+
   // Landmark point list
+  LandmarkType::LandmarkPointListType list7;
   for (unsigned int i = 0; i < 3; ++i)
   {
     LinePointType p;
@@ -192,65 +240,26 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
     list7.push_back(p);
   }
 
-  /** Create a Tube  composed of 3 tubes */
-  const TubePointer tube1 = TubeType::New();
-  tube1->GetProperty().SetName("Tube 1");
-  tube1->SetId(1);
-  tube1->SetPoints(list);
-  tube1->Update();
-
-  auto tube2 = VesselTubeType::New();
-  tube2->SetTypeName("VesselTubeSpatialObject");
-  tube2->GetProperty().SetName("Tube 2");
-  tube2->SetId(2);
-  tube2->SetPoints(list2);
-  tube2->Update();
-
-  auto tube3 = DTITubeType::New();
-  tube3->GetProperty().SetName("Tube 3");
-  tube3->SetId(3);
-  tube3->SetPoints(list3);
-  tube3->Update();
-
-  const GroupPointer tubeN1 = GroupType::New();
-  tubeN1->GetProperty().SetName("tube network 1");
-  tubeN1->SetId(0);
-  tubeN1->AddChild(tube1);
-  tubeN1->AddChild(tube2);
-  tubeN1->Update();
-
-
-  const GroupPointer tubeN2 = GroupType::New();
-  tubeN2->SetId(5);
-  tubeN2->GetProperty().SetName("tube network 2");
-  tubeN2->AddChild(tube3);
-  tubeN2->Update();
-
-  const EllipsePointer ellipse = EllipseType::New();
-  ellipse->SetRadiusInObjectSpace(9);
-  ellipse->GetProperty().SetName("ellipse 1");
-  ellipse->Update();
-
-
-  const BlobPointer blob = BlobType::New();
-  blob->SetPoints(list4);
-  blob->GetProperty().SetName("Blob 1");
-  blob->Update();
-
-  const SurfacePointer surface = SurfaceType::New();
-  surface->SetPoints(list5);
-  surface->GetProperty().SetName("Surface 1");
-  surface->Update();
-
-  const LinePointer line = LineType::New();
-  line->SetPoints(list6);
-  line->GetProperty().SetName("Line 1");
-  line->Update();
-
-  const LandmarkPointer landmark = LandmarkType::New();
   landmark->SetPoints(list7);
   landmark->GetProperty().SetName("Landmark 1");
   landmark->Update();
+}
+int
+itkReadWriteSpatialObjectTest(int argc, char * argv[])
+{
+
+  // Tubes
+  std::cout << " --- Testing Read-Write SpatialObject ---" << std::endl;
+
+  GroupPointer    tubeN1 = GroupType::New();
+  GroupPointer    tubeN2 = GroupType::New();
+  EllipsePointer  ellipse = EllipseType::New();
+  BlobPointer     blob = BlobType::New();
+  SurfacePointer  surface = SurfaceType::New();
+  LinePointer     line = LineType::New();
+  LandmarkPointer landmark = LandmarkType::New();
+  setup_obj(tubeN1, tubeN2, ellipse, blob, surface, line, landmark);
+
 
   using itkImageType = ImageType::ImageType;
   using ImagePointer = itkImageType::Pointer;
