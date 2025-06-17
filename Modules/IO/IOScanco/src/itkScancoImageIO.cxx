@@ -286,6 +286,7 @@ ScancoImageIO::ReadImageInformation()
   }
   else
   {
+    this->SetPixelType(IOPixelEnum::SCALAR);
     this->SetComponentType(IOComponentEnum::SHORT);
     this->m_Compression = 0;
   }

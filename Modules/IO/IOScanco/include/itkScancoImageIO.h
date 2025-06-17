@@ -195,20 +195,20 @@ public:
     this->Modified();
   }
 
-  GetConstMacro(PatientIndex, int);
-  SetMacro(PatientIndex, int);
+  ScancoGetConstMacro(PatientIndex, int);
+  ScancoSetMacro(PatientIndex, int);
 
-  GetConstMacro(ScannerID, int);
-  SetMacro(ScannerID, int);
+  ScancoGetConstMacro(ScannerID, int);
+  ScancoSetMacro(ScannerID, int);
 
-  GetConstMacro(SliceThickness, double);
-  SetMacro(SliceThickness, double);
+  ScancoGetConstMacro(SliceThickness, double);
+  ScancoSetMacro(SliceThickness, double);
 
-  GetConstMacro(SliceIncrement, double);
-  SetMacro(SliceIncrement, double);
+  ScancoGetConstMacro(SliceIncrement, double);
+  ScancoSetMacro(SliceIncrement, double);
 
-  GetConstMacro(StartPosition, double);
-  SetMacro(StartPosition, double);
+  ScancoGetConstMacro(StartPosition, double);
+  ScancoSetMacro(StartPosition, double);
 
   /** Set / Get the minimum and maximum values */
   const double *
@@ -232,47 +232,47 @@ public:
     }
   }
 
-  GetConstMacro(MuScaling, double);
-  SetMacro(MuScaling, double);
+  ScancoGetConstMacro(MuScaling, double);
+  ScancoSetMacro(MuScaling, double);
 
-  GetConstMacro(MuWater, double);
-  SetMacro(MuWater, double);
+  ScancoGetConstMacro(MuWater, double);
+  ScancoSetMacro(MuWater, double);
 
-  GetConstMacro(RescaleType, int);
-  SetMacro(RescaleType, int);
+  ScancoGetConstMacro(RescaleType, int);
+  ScancoSetMacro(RescaleType, int);
 
-  GetConstMacro(RescaleSlope, double);
-  SetMacro(RescaleSlope, double);
+  ScancoGetConstMacro(RescaleSlope, double);
+  ScancoSetMacro(RescaleSlope, double);
 
-  GetConstMacro(RescaleIntercept, double);
-  SetMacro(RescaleIntercept, double);
+  ScancoGetConstMacro(RescaleIntercept, double);
+  ScancoSetMacro(RescaleIntercept, double);
 
-  GetConstMacro(NumberOfSamples, int);
-  SetMacro(NumberOfSamples, int);
+  ScancoGetConstMacro(NumberOfSamples, int);
+  ScancoSetMacro(NumberOfSamples, int);
 
-  GetConstMacro(NumberOfProjections, int);
-  SetMacro(NumberOfProjections, int);
+  ScancoGetConstMacro(NumberOfProjections, int);
+  ScancoSetMacro(NumberOfProjections, int);
 
-  GetConstMacro(ScanDistance, double);
-  SetMacro(ScanDistance, double);
+  ScancoGetConstMacro(ScanDistance, double);
+  ScancoSetMacro(ScanDistance, double);
 
-  GetConstMacro(ScannerType, int);
-  SetMacro(ScannerType, int);
+  ScancoGetConstMacro(ScannerType, int);
+  ScancoSetMacro(ScannerType, int);
 
-  GetConstMacro(SampleTime, double);
-  SetMacro(SampleTime, double);
+  ScancoGetConstMacro(SampleTime, double);
+  ScancoSetMacro(SampleTime, double);
 
-  GetConstMacro(MeasurementIndex, int);
-  SetMacro(MeasurementIndex, int);
+  ScancoGetConstMacro(MeasurementIndex, int);
+  ScancoSetMacro(MeasurementIndex, int);
 
-  GetConstMacro(Site, int);
-  SetMacro(Site, int);
+  ScancoGetConstMacro(Site, int);
+  ScancoSetMacro(Site, int);
 
-  GetConstMacro(ReferenceLine, int);
-  SetMacro(ReferenceLine, int);
+  ScancoGetConstMacro(ReferenceLine, int);
+  ScancoSetMacro(ReferenceLine, int);
 
-  GetConstMacro(ReconstructionAlg, int);
-  SetMacro(ReconstructionAlg, int);
+  ScancoGetConstMacro(ReconstructionAlg, int);
+  ScancoSetMacro(ReconstructionAlg, int);
 
   /** Get a string that states patient name.
    * Max size: 40 characters. */
@@ -312,11 +312,11 @@ public:
     this->Modified();
   }
 
-  GetConstMacro(Energy, double);
-  SetMacro(Energy, double);
+  ScancoGetConstMacro(Energy, double);
+  ScancoSetMacro(Energy, double);
 
-  GetConstMacro(Intensity, double);
-  SetMacro(Intensity, double);
+  ScancoGetConstMacro(Intensity, double);
+  ScancoSetMacro(Intensity, double);
 
 protected:
   ScancoImageIO();

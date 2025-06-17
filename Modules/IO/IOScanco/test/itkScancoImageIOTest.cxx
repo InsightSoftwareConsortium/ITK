@@ -37,6 +37,12 @@ itkScancoImageIOTest(int argc, char * argv[])
   }
   const char * inputFileName = argv[1];
   const char * outputFileName = argv[2];
+  bool         expectFailure = false;
+  if (argc > 3)
+  {
+    expectFailure = true;
+    std::cout << "Expecting failure for this test." << std::endl;
+  }
 
   // ATTENTION THIS IS THE PIXEL TYPE FOR
   // THE RESULTING IMAGE
@@ -73,7 +79,7 @@ itkScancoImageIOTest(int argc, char * argv[])
   {
     std::cerr << "Exception in the file reader " << std::endl;
     std::cerr << error << std::endl;
-    if (argc == 3) // should fail
+    if (expectFailure)
     {
       return EXIT_SUCCESS;
     }

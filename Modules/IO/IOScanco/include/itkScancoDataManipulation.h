@@ -68,11 +68,11 @@ struct itkScancoHeaderData
   itkScancoPixelData    m_PixelData; // Pixel data information
 };
 
-#define GetConstMacro(name, type)                                        \
+#define ScancoGetConstMacro(name, type)                                  \
   virtual type Get##name() const { return this->m_HeaderData.m_##name; } \
   ITK_MACROEND_NOOP_STATEMENT
 
-#define SetMacro(name, type)                         \
+#define ScancoSetMacro(name, type)                   \
   virtual void Set##name(type _arg)                  \
   {                                                  \
     itkDebugMacro("setting " #name " to " << _arg);  \
