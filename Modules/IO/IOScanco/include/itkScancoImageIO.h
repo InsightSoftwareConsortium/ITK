@@ -34,10 +34,13 @@
  *
  * This class reads ISQ and AIM files, which are used for high-resolution
  * computed tomography.  The information that it provides uses different
- * units as compared to the original files: all distances are given in
- * millimeters (instead of micrometers), times are given in milliseconds
- * (instead of microseconds), voltage and current given in kV and mA
- * (instead of volts and microamps).  If the scanner was calibrated, then
+ * units as compared to the original files:
+ *
+ * distances are given in millimeters (instead of micrometers)
+ * times are given in milliseconds (instead of microseconds)
+ * voltage and current given in kV and mA (instead of volts and microamps).
+ *
+ * If the scanner was calibrated, then
  * the data values can be converted to calibrated units.  To convert
  * to linear attenuation coefficients [cm^-1], simply divide the data
  * values by the MuScaling.  To convert to density values, multiply
@@ -54,6 +57,8 @@
 
 #include <fstream>
 #include "itkImageIOBase.h"
+#include "itkScancoDataManipulation.h"
+#include "itkScancoHeaderIO.h"
 
 namespace itk
 {
@@ -69,6 +74,15 @@ namespace itk
 class IOScanco_EXPORT ScancoImageIO : public ImageIOBase
 {
 public:
+  enum ScancoFileExtensions
+  {
+    UNRECOGNIZED = -1,
+    AIM,
+    ISQ,
+    RAD,
+    RSQ
+  };
+
   ITK_DISALLOW_COPY_AND_MOVE(ScancoImageIO);
 
   /** Standard class typedefs. */
@@ -148,161 +162,161 @@ public:
   const char *
   GetVersion() const
   {
-    return this->m_Version;
+    return this->m_HeaderData.m_Version;
   }
   void
   SetVersion(const char * version)
   {
-    strncpy(this->m_Version, version, 18);
+    strncpy(this->m_HeaderData.m_Version, version, 18);
     this->Modified();
   }
 
   const char *
   GetCalibrationData() const
   {
-    return this->m_CalibrationData;
+    return this->m_HeaderData.m_CalibrationData;
   }
   void
   SetCalibrationData(const char * calibrationData)
   {
-    strncpy(this->m_CalibrationData, calibrationData, 66);
+    strncpy(this->m_HeaderData.m_CalibrationData, calibrationData, 66);
     this->Modified();
   }
 
   const char *
   GetRescaleUnits() const
   {
-    return this->m_RescaleUnits;
+    return this->m_HeaderData.m_RescaleUnits;
   }
   void
   SetRescaleUnits(const char * rescaleUnits)
   {
-    strncpy(this->m_RescaleUnits, rescaleUnits, 18);
+    strncpy(this->m_HeaderData.m_RescaleUnits, rescaleUnits, 18);
     this->Modified();
   }
 
-  itkGetConstMacro(PatientIndex, int);
-  itkSetMacro(PatientIndex, int);
+  ScancoGetConstMacro(PatientIndex, int);
+  ScancoSetMacro(PatientIndex, int);
 
-  itkGetConstMacro(ScannerID, int);
-  itkSetMacro(ScannerID, int);
+  ScancoGetConstMacro(ScannerID, int);
+  ScancoSetMacro(ScannerID, int);
 
-  itkGetConstMacro(SliceThickness, double);
-  itkSetMacro(SliceThickness, double);
+  ScancoGetConstMacro(SliceThickness, double);
+  ScancoSetMacro(SliceThickness, double);
 
-  itkGetConstMacro(SliceIncrement, double);
-  itkSetMacro(SliceIncrement, double);
+  ScancoGetConstMacro(SliceIncrement, double);
+  ScancoSetMacro(SliceIncrement, double);
 
-  itkGetConstMacro(StartPosition, double);
-  itkSetMacro(StartPosition, double);
+  ScancoGetConstMacro(StartPosition, double);
+  ScancoSetMacro(StartPosition, double);
 
   /** Set / Get the minimum and maximum values */
   const double *
   GetDataRange() const
   {
-    return this->m_DataRange.data();
+    return this->m_HeaderData.m_DataRange.data();
   }
   void
   SetDataRange(const double * dataRange)
   {
-    this->m_DataRange[0] = dataRange[0];
-    this->m_DataRange[1] = dataRange[1];
+    this->m_HeaderData.m_DataRange[0] = dataRange[0];
+    this->m_HeaderData.m_DataRange[1] = dataRange[1];
   }
   void
   SetDataRange(const std::vector<double> & dataRange)
   {
     if (dataRange.size() >= 2)
     {
-      this->m_DataRange[0] = dataRange[0];
-      this->m_DataRange[1] = dataRange[1];
+      this->m_HeaderData.m_DataRange[0] = dataRange[0];
+      this->m_HeaderData.m_DataRange[1] = dataRange[1];
     }
   }
 
-  itkGetConstMacro(MuScaling, double);
-  itkSetMacro(MuScaling, double);
+  ScancoGetConstMacro(MuScaling, double);
+  ScancoSetMacro(MuScaling, double);
 
-  itkGetConstMacro(MuWater, double);
-  itkSetMacro(MuWater, double);
+  ScancoGetConstMacro(MuWater, double);
+  ScancoSetMacro(MuWater, double);
 
-  itkGetConstMacro(RescaleType, int);
-  itkSetMacro(RescaleType, int);
+  ScancoGetConstMacro(RescaleType, int);
+  ScancoSetMacro(RescaleType, int);
 
-  itkGetConstMacro(RescaleSlope, double);
-  itkSetMacro(RescaleSlope, double);
+  ScancoGetConstMacro(RescaleSlope, double);
+  ScancoSetMacro(RescaleSlope, double);
 
-  itkGetConstMacro(RescaleIntercept, double);
-  itkSetMacro(RescaleIntercept, double);
+  ScancoGetConstMacro(RescaleIntercept, double);
+  ScancoSetMacro(RescaleIntercept, double);
 
-  itkGetConstMacro(NumberOfSamples, int);
-  itkSetMacro(NumberOfSamples, int);
+  ScancoGetConstMacro(NumberOfSamples, int);
+  ScancoSetMacro(NumberOfSamples, int);
 
-  itkGetConstMacro(NumberOfProjections, int);
-  itkSetMacro(NumberOfProjections, int);
+  ScancoGetConstMacro(NumberOfProjections, int);
+  ScancoSetMacro(NumberOfProjections, int);
 
-  itkGetConstMacro(ScanDistance, double);
-  itkSetMacro(ScanDistance, double);
+  ScancoGetConstMacro(ScanDistance, double);
+  ScancoSetMacro(ScanDistance, double);
 
-  itkGetConstMacro(ScannerType, int);
-  itkSetMacro(ScannerType, int);
+  ScancoGetConstMacro(ScannerType, int);
+  ScancoSetMacro(ScannerType, int);
 
-  itkGetConstMacro(SampleTime, double);
-  itkSetMacro(SampleTime, double);
+  ScancoGetConstMacro(SampleTime, double);
+  ScancoSetMacro(SampleTime, double);
 
-  itkGetConstMacro(MeasurementIndex, int);
-  itkSetMacro(MeasurementIndex, int);
+  ScancoGetConstMacro(MeasurementIndex, int);
+  ScancoSetMacro(MeasurementIndex, int);
 
-  itkGetConstMacro(Site, int);
-  itkSetMacro(Site, int);
+  ScancoGetConstMacro(Site, int);
+  ScancoSetMacro(Site, int);
 
-  itkGetConstMacro(ReferenceLine, int);
-  itkSetMacro(ReferenceLine, int);
+  ScancoGetConstMacro(ReferenceLine, int);
+  ScancoSetMacro(ReferenceLine, int);
 
-  itkGetConstMacro(ReconstructionAlg, int);
-  itkSetMacro(ReconstructionAlg, int);
+  ScancoGetConstMacro(ReconstructionAlg, int);
+  ScancoSetMacro(ReconstructionAlg, int);
 
   /** Get a string that states patient name.
    * Max size: 40 characters. */
   const char *
   GetPatientName() const
   {
-    return this->m_PatientName;
+    return this->m_HeaderData.m_PatientName;
   }
   void
   SetPatientName(const char * patientName)
   {
-    strncpy(this->m_PatientName, patientName, 42);
+    strncpy(this->m_HeaderData.m_PatientName, patientName, 42);
     this->Modified();
   }
 
   const char *
   GetCreationDate() const
   {
-    return this->m_CreationDate;
+    return this->m_HeaderData.m_CreationDate;
   }
   void
   SetCreationDate(const char * creationDate)
   {
-    strncpy(this->m_CreationDate, creationDate, 32);
+    strncpy(this->m_HeaderData.m_CreationDate, creationDate, 32);
     this->Modified();
   }
 
   const char *
   GetModificationDate() const
   {
-    return this->m_ModificationDate;
+    return this->m_HeaderData.m_ModificationDate;
   }
   void
   SetModificationDate(const char * modificationDate)
   {
-    strncpy(this->m_ModificationDate, modificationDate, 32);
+    strncpy(this->m_HeaderData.m_ModificationDate, modificationDate, 32);
     this->Modified();
   }
 
-  itkGetConstMacro(Energy, double);
-  itkSetMacro(Energy, double);
+  ScancoGetConstMacro(Energy, double);
+  ScancoSetMacro(Energy, double);
 
-  itkGetConstMacro(Intensity, double);
-  itkSetMacro(Intensity, double);
+  ScancoGetConstMacro(Intensity, double);
+  ScancoSetMacro(Intensity, double);
 
 protected:
   ScancoImageIO();
@@ -317,14 +331,17 @@ private:
   void
   RescaleToHU(TBufferType * buffer, size_t size);
 
+  /** Rescale the image data to Scanco Units
+   * This is the inverse of RescaleToHU.
+   * \param buffer Pointer to the buffer containing the image data.
+   * \param size Size of the buffer in number of elements.
+   */
+  template <typename TBufferType>
+  void
+  RescaleToScanco(TBufferType * buffer, size_t size);
+
   void
   InitializeHeader();
-
-  int
-  ReadISQHeader(std::ifstream * file, unsigned long bytesRead);
-
-  int
-  ReadAIMHeader(std::ifstream * file, unsigned long bytesRead);
 
   void
   PopulateMetaDataDictionary();
@@ -333,42 +350,20 @@ private:
   SetHeaderFromMetaDataDictionary();
 
   void
-  WriteISQHeader(std::ofstream * file);
+  ParseAIMComponentType(int dataType);
 
-  // Header information
-  char                  m_Version[18];
-  char                  m_PatientName[42];
-  int                   m_PatientIndex;
-  int                   m_ScannerID;
-  char                  m_CreationDate[32];
-  char                  m_ModificationDate[32];
-  int                   ScanDimensionsPixels[3];
-  double                ScanDimensionsPhysical[3];
-  double                m_SliceThickness;
-  double                m_SliceIncrement;
-  double                m_StartPosition;
-  double                m_EndPosition;
-  double                m_ZPosition;
-  std::array<double, 2> m_DataRange;
-  double                m_MuScaling;
-  int                   m_NumberOfSamples;
-  int                   m_NumberOfProjections;
-  double                m_ScanDistance;
-  double                m_SampleTime;
-  int                   m_ScannerType;
-  int                   m_MeasurementIndex;
-  int                   m_Site;
-  int                   m_ReconstructionAlg;
-  double                m_ReferenceLine;
-  double                m_Energy;
-  double                m_Intensity;
-  int                   m_RescaleType;
-  char                  m_RescaleUnits[18];
-  char                  m_CalibrationData[66];
-  double                m_RescaleSlope;
-  double                m_RescaleIntercept;
-  double                m_MuWater;
-  char *                m_RawHeader;
+  /** Set the IO object based on the image type to read/write
+   * This method initializes the m_HeaderIO member variable
+   * This method sets the m_FileExtension member variable
+   */
+  void
+  SetHeaderIO();
+
+  itkScancoHeaderData m_HeaderData;
+
+  ScancoHeaderIO * m_HeaderIO{ nullptr };
+
+  ScancoFileExtensions m_FileExtension = ScancoFileExtensions::UNRECOGNIZED;
 
   // The compression mode, if any.
   int m_Compression;

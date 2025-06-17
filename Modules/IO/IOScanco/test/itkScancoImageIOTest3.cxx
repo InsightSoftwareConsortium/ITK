@@ -20,6 +20,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkScancoImageIO.h"
+#include "itkScancoImageIOFactory.h"
 #include "itkTestingMacros.h"
 
 
@@ -50,6 +51,8 @@ itkScancoImageIOTest3(int argc, char * argv[])
   // force use of ScancoIO
   using IOType = itk::ScancoImageIO;
   IOType::Pointer scancoIO = IOType::New();
+
+  itk::ScancoImageIOFactory::RegisterOneFactory();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(scancoIO, ScancoImageIO, ImageIOBase);
 
