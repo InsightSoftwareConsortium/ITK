@@ -161,6 +161,8 @@ ImageIOBase::SetDirection(unsigned int i, const vnl_vector<double> & direction)
   m_Direction[i] = v;
 }
 
+
+#ifndef ITK_LEGACY_REMOVE
 const std::type_info &
 ImageIOBase::GetComponentTypeInfo() const
 {
@@ -195,6 +197,8 @@ ImageIOBase::GetComponentTypeInfo() const
       itkExceptionMacro("Unknown component type: " << m_ComponentType);
   }
 }
+#endif
+
 
 void
 ImageIOBase::ComputeStrides()
