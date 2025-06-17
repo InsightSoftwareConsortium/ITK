@@ -46,7 +46,7 @@ class ITKIOXML_EXPORT FancyString
 {
 public:
   FancyString();
-  FancyString(const std::string & str);
+  FancyString(std::string str);
   FancyString(const char * s);
 
   FancyString &
