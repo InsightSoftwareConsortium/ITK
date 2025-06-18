@@ -1,10 +1,12 @@
-set(DOCUMENTATION
-    "This module contains filters that implement variations of
+set(
+  DOCUMENTATION
+  "This module contains filters that implement variations of
 anisotropic smoothing. This is an image denoising technique that strives for
 preserving edges on the images while smoothing regions of uniform intensity.
 This type of filtering is convenient as a preprocessing stage of segmentation
 algorithms. You may find useful as well the filters in
-\\\\ref ITKCurvatureFlow and \\\\ref ITKSmoothing.")
+\\\\ref ITKCurvatureFlow and \\\\ref ITKSmoothing."
+)
 
 itk_module(
   ITKAnisotropicSmoothing
@@ -14,4 +16,5 @@ itk_module(
   TEST_DEPENDS
   ITKTestKernel
   DESCRIPTION
-  "${DOCUMENTATION}")
+  "${DOCUMENTATION}"
+)

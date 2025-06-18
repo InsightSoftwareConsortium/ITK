@@ -1,14 +1,16 @@
 itk_wrap_module(ITKLabelMap)
 
-set(WRAPPER_SUBMODULE_ORDER
-    itkLabelObjectLine
-    itkLabelObject
-    itkShapeLabelObject
-    itkStatisticsLabelObject
-    ITKLabelMapBase
-    itkLabelMapFilter
-    itkInPlaceLabelMapFilter
-    itkChangeRegionLabelMapFilter)
+set(
+  WRAPPER_SUBMODULE_ORDER
+  itkLabelObjectLine
+  itkLabelObject
+  itkShapeLabelObject
+  itkStatisticsLabelObject
+  ITKLabelMapBase
+  itkLabelMapFilter
+  itkInPlaceLabelMapFilter
+  itkChangeRegionLabelMapFilter
+)
 
 # Save default includes so they can be reset afterwards
 set(tmp_default_includes ${WRAPPER_DEFAULT_INCLUDE})

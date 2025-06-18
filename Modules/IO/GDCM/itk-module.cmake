@@ -1,7 +1,9 @@
-set(DOCUMENTATION
-    "This module contains ITK ImageIO classes for the <a
+set(
+  DOCUMENTATION
+  "This module contains ITK ImageIO classes for the <a
 href=\"https://sourceforge.net/projects/gdcm/\">Grassroots DICOM (GDCM)</a> based
-readers and writers of the medical imaging DICOM standard.")
+readers and writers of the medical imaging DICOM standard."
+)
 
 itk_module(
   ITKIOGDCM
@@ -18,4 +20,5 @@ itk_module(
   FACTORY_NAMES
   ImageIO::GDCM
   DESCRIPTION
-  "${DOCUMENTATION}")
+  "${DOCUMENTATION}"
+)

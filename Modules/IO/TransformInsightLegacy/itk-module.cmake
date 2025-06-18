@@ -1,5 +1,8 @@
-set(DOCUMENTATION "This module contains the classes for the input and output
-of itkTransform object in txt format.")
+set(
+  DOCUMENTATION
+  "This module contains the classes for the input and output
+of itkTransform object in txt format."
+)
 
 itk_module(
   ITKIOTransformInsightLegacy
@@ -13,4 +16,5 @@ itk_module(
   FACTORY_NAMES
   TransformIO::Txt
   DESCRIPTION
-  "${DOCUMENTATION}")
+  "${DOCUMENTATION}"
+)

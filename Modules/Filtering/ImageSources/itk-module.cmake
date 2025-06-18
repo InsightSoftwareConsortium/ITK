@@ -8,7 +8,8 @@ itk_module(
   ITKTestKernel
   ITKImageIntensity
   DESCRIPTION
-  "${DOCUMENTATION}")
+  "${DOCUMENTATION}"
+)
 
 # the ITKIntensity is only needed for the
 # VectorIndexSelectionCastImageFilter for the PhysicalPointImageSourceTest

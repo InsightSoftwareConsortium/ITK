@@ -1,10 +1,12 @@
-set(DOCUMENTATION
-    "SpatialObjects are intended to represent regions in space.
+set(
+  DOCUMENTATION
+  "SpatialObjects are intended to represent regions in space.
 The basic functionality of an itk::SpatialObject is to answer the question of
 whether a physical point is inside or outside of the itk::SpatialObject. They are
 commonly used for representing masks in an analytical form, as well as
 approximations of shape by combining them into hierarchical structures similar
-to scene graphs.")
+to scene graphs."
+)
 
 itk_module(
   ITKSpatialObjects
@@ -22,4 +24,5 @@ itk_module(
   ITKMesh
   DESCRIPTION
   "${DOCUMENTATION}"
-  ENABLE_SHARED)
+  ENABLE_SHARED
+)

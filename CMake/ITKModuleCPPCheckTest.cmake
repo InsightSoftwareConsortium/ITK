@@ -10,12 +10,13 @@ macro(itk_module_cppcheck_test _name)
     # let's make sure there are actually cxx files in the src dir
     if(${_num_cxx_files} GREATER 0)
       add_cppcheck_dir(
-        ${_name}Sources # _name
+              ${_name}Sources # _name
         "${${_name}_SOURCE_DIR}/src" #_dir
         ${${_name}_SOURCE_DIR}/include #_include_dirs
         VERBOSE
         FORCE
-        ALL)
+        ALL
+      )
     endif()
   endif()
 
@@ -25,12 +26,13 @@ macro(itk_module_cppcheck_test _name)
     # let's make sure there are actually cxx files in the src dir
     if(${_num_cxx_files} GREATER 0)
       add_cppcheck_dir(
-        ${_name}Tests # _name
+              ${_name}Tests # _name
         "${${_name}_SOURCE_DIR}/test" #_dir
         ${${_name}_SOURCE_DIR}/include #_include_dirs
         VERBOSE
         FORCE
-        ALL)
+        ALL
+      )
     endif()
   endif()
 endmacro()

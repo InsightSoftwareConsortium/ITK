@@ -11,4 +11,5 @@ itk_module(
   FACTORY_NAMES
   ImageIO::Bruker2dseq
   DESCRIPTION
-  "${DOCUMENTATION}")
+  "${DOCUMENTATION}"
+)

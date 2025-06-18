@@ -38,16 +38,13 @@ macro(_itk_module_config_recurse ns mod)
         # Split <factory_name>::<format>
         string(
           REGEX
-          REPLACE "^(.*)::(.*)$"
-                  "\\1"
-                  _factory_name
-                  "${_factory_format}")
-        string(
-          REGEX
-          REPLACE "^(.*)::(.*)$"
-                  "\\2"
-                  _format
-                  "${_factory_format}")
+          REPLACE
+          "^(.*)::(.*)$"
+          "\\1"
+          _factory_name
+          "${_factory_format}"
+        )
+        string(REGEX REPLACE "^(.*)::(.*)$" "\\2" _format "${_factory_format}")
         list(APPEND ${ns}_${_factory_name} ${_format})
         list(APPEND ${ns}_FACTORY_NAMES ${mod}::${_factory_format})
         list(APPEND ${ns}_FACTORY_LIST ${_factory_name})
@@ -91,11 +88,7 @@ macro(itk_module_load mod)
     # than ITKTargets.cmake are created when modules are built externally. Do not
     # include the targets file inside the module itself -- which occurs in a module's
     # test configuration.
-    if(EXISTS "${${mod}_TARGETS_FILE}"
-       AND NOT
-           itk-module
-           STREQUAL
-           mod)
+    if(EXISTS "${${mod}_TARGETS_FILE}" AND NOT itk-module STREQUAL mod)
       include("${${mod}_TARGETS_FILE}")
     endif()
   endif()
@@ -154,7 +147,8 @@ macro(itk_module_config ns)
     ${ns}_LIBRARY_DIRS
     ${ns}_RUNTIME_LIBRARY_DIRS
     ${ns}_FACTORY_NAMES
-    ${ns}_FACTORY_LIST)
+    ${ns}_FACTORY_LIST
+  )
     if(${v})
       list(REMOVE_DUPLICATES ${v})
     endif()

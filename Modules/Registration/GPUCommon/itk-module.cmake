@@ -1,5 +1,8 @@
-set(DOCUMENTATION "This module contains some common components to support GPU-based
-registrations")
+set(
+  DOCUMENTATION
+  "This module contains some common components to support GPU-based
+registrations"
+)
 
 itk_module(
   ITKGPURegistrationCommon
@@ -10,4 +13,5 @@ itk_module(
   TEST_DEPENDS
   ITKTestKernel
   DESCRIPTION
-  "${DOCUMENTATION}")
+  "${DOCUMENTATION}"
+)

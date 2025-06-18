@@ -1,11 +1,13 @@
 itk_module_test()
-set(ITKImageSourcesTests
-    itkGaborKernelFunctionTest.cxx
-    itkGaborImageSourceTest.cxx
-    itkGaussianImageSourceTest.cxx
-    itkGridImageSourceTest.cxx
-    itkGridImageSourceTest2.cxx
-    itkPhysicalPointImageSourceTest.cxx)
+set(
+  ITKImageSourcesTests
+  itkGaborKernelFunctionTest.cxx
+  itkGaborImageSourceTest.cxx
+  itkGaussianImageSourceTest.cxx
+  itkGridImageSourceTest.cxx
+  itkGridImageSourceTest2.cxx
+  itkPhysicalPointImageSourceTest.cxx
+)
 
 createtestdriver(ITKImageSources "${ITKImageSources-Test_LIBRARIES}" "${ITKImageSourcesTests}")
 
@@ -14,7 +16,8 @@ itk_add_test(
   itkGaborKernelFunctionTest
   COMMAND
   ITKImageSourcesTestDriver
-  itkGaborKernelFunctionTest)
+  itkGaborKernelFunctionTest
+)
 itk_add_test(
   NAME
   itkGaborImageSourceTest0
@@ -25,7 +28,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/GaborImageSourceTest0.mha
   itkGaborImageSourceTest
   ${ITK_TEST_OUTPUT_DIR}/GaborImageSourceTest0.mha
-  0)
+  0
+)
 itk_add_test(
   NAME
   itkGaborImageSourceTest1
@@ -36,7 +40,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/GaborImageSourceTest1.mha
   itkGaborImageSourceTest
   ${ITK_TEST_OUTPUT_DIR}/GaborImageSourceTest1.mha
-  1)
+  1
+)
 itk_add_test(
   NAME
   itkGaussianImageSourceTest1
@@ -47,7 +52,8 @@ itk_add_test(
   551a41aa2478ba271e3e1820ddffa03d
   itkGaussianImageSourceTest
   ${ITK_TEST_OUTPUT_DIR}/itkGaussianImageSourceTest1.nrrd
-  0)
+  0
+)
 itk_add_test(
   NAME
   itkGaussianImageSourceTest2
@@ -58,7 +64,8 @@ itk_add_test(
   5bf79f0539922f9c654dafd2601330b1
   itkGaussianImageSourceTest
   ${ITK_TEST_OUTPUT_DIR}/itkGaussianImageSourceTest2.nrrd
-  1)
+  1
+)
 itk_add_test(
   NAME
   itkGridImageSourceTest1
@@ -78,7 +85,8 @@ itk_add_test(
   1
   0
   1
-  0)
+  0
+)
 itk_add_test(
   NAME
   itkGridImageSourceTest2
@@ -98,7 +106,8 @@ itk_add_test(
   1
   0
   1
-  3)
+  3
+)
 itk_add_test(
   NAME
   itkGridImageSourceTest3
@@ -118,7 +127,8 @@ itk_add_test(
   1
   1
   0
-  0)
+  0
+)
 itk_add_test(
   NAME
   itkGridImageSourceTest4
@@ -138,7 +148,8 @@ itk_add_test(
   1
   0
   0
-  0)
+  0
+)
 itk_add_test(
   NAME
   itkGridImageSourceTest5
@@ -150,7 +161,7 @@ itk_add_test(
   itkGridImageSourceTest2
   DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
   ${ITK_TEST_OUTPUT_DIR}/itkGridImageSourceTest5.mha
-  )
+)
 itk_add_test(
   NAME
   itkPhysicalPointImageSourceTest0
@@ -161,7 +172,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkPhysicalPointImageSourceTest0.mha
   itkPhysicalPointImageSourceTest
   ${ITK_TEST_OUTPUT_DIR}/itkPhysicalPointImageSourceTest0.mha
-  0)
+  0
+)
 itk_add_test(
   NAME
   itkPhysicalPointImageSourceTest1
@@ -173,7 +185,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkPhysicalPointImageSourceTest1.mha
   itkPhysicalPointImageSourceTest
   ${ITK_TEST_OUTPUT_DIR}/itkPhysicalPointImageSourceTest1.mha
-  1)
+  1
+)
 itk_add_test(
   NAME
   itkPhysicalPointImageSourceTest2
@@ -184,7 +197,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkPhysicalPointImageSourceTest2.mha
   itkPhysicalPointImageSourceTest
   ${ITK_TEST_OUTPUT_DIR}/itkPhysicalPointImageSourceTest2.mha
-  2)
+  2
+)
 itk_add_test(
   NAME
   itkPhysicalPointImageSourceTest3
@@ -196,7 +210,8 @@ itk_add_test(
   itkPhysicalPointImageSourceTest
   ${ITK_TEST_OUTPUT_DIR}/itkPhysicalPointImageSourceTest3.mha
   3
-  0.0)
+  0.0
+)
 itk_add_test(
   NAME
   itkPhysicalPointImageSourceTest4
@@ -210,4 +225,5 @@ itk_add_test(
   itkPhysicalPointImageSourceTest
   ${ITK_TEST_OUTPUT_DIR}/itkPhysicalPointImageSourceTest4.nrrd
   3
-  0.785398163)
+  0.785398163
+)

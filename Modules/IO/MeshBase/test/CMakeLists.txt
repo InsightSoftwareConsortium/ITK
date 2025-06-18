@@ -12,4 +12,5 @@ itk_add_test(
   itkMeshFileReaderWriterTest
   DATA{${ITK_DATA_ROOT}/Input/mushroom.vtk}
   ${ITK_TEST_OUTPUT_DIR}/itkMeshFileReaderWriterTest.vtk
-  DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha})
+  DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha}
+)

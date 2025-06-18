@@ -1,7 +1,9 @@
-set(DOCUMENTATION
-    "This module contains the GPU implementations of base classes
+set(
+  DOCUMENTATION
+  "This module contains the GPU implementations of base classes
 needed for finite difference image filters.  Most of the classes in this module
-are abstract and therefore are not intended to be instantiated by themselves.")
+are abstract and therefore are not intended to be instantiated by themselves."
+)
 
 itk_module(
   ITKGPUFiniteDifference
@@ -14,4 +16,5 @@ itk_module(
   TEST_DEPENDS
   ITKTestKernel
   DESCRIPTION
-  "${DOCUMENTATION}")
+  "${DOCUMENTATION}"
+)

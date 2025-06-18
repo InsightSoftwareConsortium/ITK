@@ -1,21 +1,23 @@
 itk_module_test()
-set(ITKSmoothingTests
-    itkBoxMeanImageFilterTest.cxx
-    itkBoxSigmaImageFilterTest.cxx
-    itkDiscreteGaussianImageFilterTest2.cxx
-    itkFFTDiscreteGaussianImageFilterTest.cxx
-    itkFFTDiscreteGaussianImageFilterFactoryTest.cxx
-    itkSmoothingRecursiveGaussianImageFilterTest.cxx
-    itkSmoothingRecursiveGaussianImageFilterOnVectorImageTest.cxx
-    itkSmoothingRecursiveGaussianImageFilterOnImageOfVectorTest.cxx
-    itkSmoothingRecursiveGaussianImageFilterOnImageAdaptorTest.cxx
-    itkMeanImageFilterTest.cxx
-    itkDiscreteGaussianImageFilterTest.cxx
-    itkMedianImageFilterTest.cxx
-    itkRecursiveGaussianImageFilterOnTensorsTest.cxx
-    itkRecursiveGaussianImageFilterOnVectorImageTest.cxx
-    itkRecursiveGaussianImageFilterTest.cxx
-    itkRecursiveGaussianScaleSpaceTest1.cxx)
+set(
+  ITKSmoothingTests
+  itkBoxMeanImageFilterTest.cxx
+  itkBoxSigmaImageFilterTest.cxx
+  itkDiscreteGaussianImageFilterTest2.cxx
+  itkFFTDiscreteGaussianImageFilterTest.cxx
+  itkFFTDiscreteGaussianImageFilterFactoryTest.cxx
+  itkSmoothingRecursiveGaussianImageFilterTest.cxx
+  itkSmoothingRecursiveGaussianImageFilterOnVectorImageTest.cxx
+  itkSmoothingRecursiveGaussianImageFilterOnImageOfVectorTest.cxx
+  itkSmoothingRecursiveGaussianImageFilterOnImageAdaptorTest.cxx
+  itkMeanImageFilterTest.cxx
+  itkDiscreteGaussianImageFilterTest.cxx
+  itkMedianImageFilterTest.cxx
+  itkRecursiveGaussianImageFilterOnTensorsTest.cxx
+  itkRecursiveGaussianImageFilterOnVectorImageTest.cxx
+  itkRecursiveGaussianImageFilterTest.cxx
+  itkRecursiveGaussianScaleSpaceTest1.cxx
+)
 
 createtestdriver(ITKSmoothing "${ITKSmoothing-Test_LIBRARIES}" "${ITKSmoothingTests}")
 itk_add_test(
@@ -29,7 +31,8 @@ itk_add_test(
   itkBoxMeanImageFilterTest
   DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
   ${ITK_TEST_OUTPUT_DIR}/itkBoxMeanImageFilter3.png
-  3)
+  3
+)
 itk_add_test(
   NAME
   itkBoxMeanImageFilterTest10
@@ -41,7 +44,8 @@ itk_add_test(
   itkBoxMeanImageFilterTest
   DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
   ${ITK_TEST_OUTPUT_DIR}/itkBoxMeanImageFilter10.png
-  10)
+  10
+)
 itk_add_test(
   NAME
   itkBoxSigmaImageFilterTest3
@@ -53,7 +57,8 @@ itk_add_test(
   itkBoxSigmaImageFilterTest
   DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
   ${ITK_TEST_OUTPUT_DIR}/itkBoxSigmaImageFilter3.png
-  3)
+  3
+)
 itk_add_test(
   NAME
   itkBoxSigmaImageFilterTest10
@@ -65,7 +70,8 @@ itk_add_test(
   itkBoxSigmaImageFilterTest
   DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
   ${ITK_TEST_OUTPUT_DIR}/itkBoxSigmaImageFilter10.png
-  10)
+  10
+)
 itk_add_test(
   NAME
   itkDiscreteGaussianImageFilterTest2
@@ -79,7 +85,8 @@ itk_add_test(
   3
   DATA{${ITK_DATA_ROOT}/Input/RGBTestImage.tif}
   ${ITK_TEST_OUTPUT_DIR}/DiscreteGaussianImageFilterTest2_OutputA.mha
-  1.870829)
+  1.870829
+)
 itk_add_test(
   NAME
   itkSmoothingRecursiveGaussianImageFilterTestNormalizeScalesOn
@@ -92,45 +99,52 @@ itk_add_test(
   DATA{${ITK_DATA_ROOT}/Input/sf4.png}
   ${ITK_TEST_OUTPUT_DIR}/itkSmoothingRecursiveGaussianImageFilterTestNormalizeScalesOn.png
   1
-  2.5)
+  2.5
+)
 itk_add_test(
   NAME
   itkSmoothingRecursiveGaussianImageFilterOnVectorImageTest
   COMMAND
   ITKSmoothingTestDriver
-  itkSmoothingRecursiveGaussianImageFilterOnVectorImageTest)
+  itkSmoothingRecursiveGaussianImageFilterOnVectorImageTest
+)
 itk_add_test(
   NAME
   itkSmoothingRecursiveGaussianImageFilterOnImageOfVectorTest
   COMMAND
   ITKSmoothingTestDriver
-  itkSmoothingRecursiveGaussianImageFilterOnImageOfVectorTest)
+  itkSmoothingRecursiveGaussianImageFilterOnImageOfVectorTest
+)
 itk_add_test(
   NAME
   itkSmoothingRecursiveGaussianImageFilterOnImageAdaptorTest
   COMMAND
   ITKSmoothingTestDriver
-  itkSmoothingRecursiveGaussianImageFilterOnImageOfVectorTest)
+  itkSmoothingRecursiveGaussianImageFilterOnImageOfVectorTest
+)
 itk_add_test(
   NAME
   itkMeanImageFilterTest
   COMMAND
   ITKSmoothingTestDriver
-  itkMeanImageFilterTest)
+  itkMeanImageFilterTest
+)
 itk_add_test(
   NAME
   itkDiscreteGaussianImageFilterTest1a
   COMMAND
   ITKSmoothingTestDriver
   itkDiscreteGaussianImageFilterTest
-  1)
+  1
+)
 itk_add_test(
   NAME
   itkDiscreteGaussianImageFilterTest1b
   COMMAND
   ITKSmoothingTestDriver
   itkDiscreteGaussianImageFilterTest
-  0)
+  0
+)
 # Use equivalent input parameters to compare standard and FFT
 # procedures to a common baseline for equivalent output
 itk_add_test(
@@ -148,7 +162,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/DiscreteGaussianImageFilterComparisonTestOutput.mha
   3.5
   0.05
-  35)
+  35
+)
 itk_add_test(
   NAME
   itkFFTDiscreteGaussianImageFilter2DComparisonTest
@@ -165,7 +180,8 @@ itk_add_test(
   0.05
   35
   2
-  0)
+  0
+)
 itk_add_test(
   NAME
   itkDiscreteGaussianImageFilter3DComparisonTest
@@ -181,7 +197,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/DiscreteGaussianImageFilter3DComparisonTestOutput.mha
   5.0
   0.03
-  25)
+  25
+)
 itk_add_test(
   NAME
   itkFFTDiscreteGaussianImageFilter3DComparisonTest
@@ -198,7 +215,8 @@ itk_add_test(
   0.03
   25
   3
-  0)
+  0
+)
 # Compare results on images with adjusted origin and spacing
 itk_add_test(
   NAME
@@ -216,7 +234,8 @@ itk_add_test(
   10.0
   0.03
   31
-  2)
+  2
+)
 itk_add_test(
   NAME
   itkFFTDiscreteGaussianImageFilterNonunitImageComparisonTest
@@ -233,7 +252,8 @@ itk_add_test(
   0.03
   31
   2
-  0)
+  0
+)
 # Comparing results of lower-dimensionality smoothing
 itk_add_test(
   NAME
@@ -251,7 +271,8 @@ itk_add_test(
   4.0
   0.02
   31
-  2)
+  2
+)
 itk_add_test(
   NAME
   itkFFTDiscreteGaussianImageFilter3DComparisonTest2
@@ -268,7 +289,8 @@ itk_add_test(
   0.03
   31
   2
-  0)
+  0
+)
 # Test smoothing with GaussianImageSource
 itk_add_test(
   NAME
@@ -286,7 +308,8 @@ itk_add_test(
   0.05
   35
   2
-  1)
+  1
+)
 itk_add_test(
   NAME
   itkFFTDiscreteGaussianImageFilterKernelDimensionalityTest
@@ -303,7 +326,8 @@ itk_add_test(
   0.25
   11
   1
-  1)
+  1
+)
 itk_add_test(
   NAME
   itkFFTDiscreteGaussianImageFilter3DImageSourceTest
@@ -320,43 +344,54 @@ itk_add_test(
   0.10
   25
   3
-  1)
+  1
+)
 itk_add_test(
   NAME
   itkFFTDiscreteGaussianImageFilterFactoryTest
   COMMAND
   ITKSmoothingTestDriver
-  itkFFTDiscreteGaussianImageFilterFactoryTest)
+  itkFFTDiscreteGaussianImageFilterFactoryTest
+)
 itk_add_test(
   NAME
   itkMedianImageFilterTest
   COMMAND
   ITKSmoothingTestDriver
-  itkMedianImageFilterTest)
+  itkMedianImageFilterTest
+)
 itk_add_test(
   NAME
   itkRecursiveGaussianImageFilterOnTensorsTest
   COMMAND
   ITKSmoothingTestDriver
-  itkRecursiveGaussianImageFilterOnTensorsTest)
+  itkRecursiveGaussianImageFilterOnTensorsTest
+)
 itk_add_test(
   NAME
   itkRecursiveGaussianImageFilterOnVectorImageTest
   COMMAND
   ITKSmoothingTestDriver
-  itkRecursiveGaussianImageFilterOnVectorImageTest)
+  itkRecursiveGaussianImageFilterOnVectorImageTest
+)
 itk_add_test(
   NAME
   itkRecursiveGaussianImageFilterTest
   COMMAND
   ITKSmoothingTestDriver
-  itkRecursiveGaussianImageFilterTest)
+  itkRecursiveGaussianImageFilterTest
+)
 itk_add_test(
   NAME
   itkRecursiveGaussianScaleSpaceTest1
   COMMAND
   ITKSmoothingTestDriver
-  itkRecursiveGaussianScaleSpaceTest1)
+  itkRecursiveGaussianScaleSpaceTest1
+)
 
-set(ITKSmoothingGTests itkMeanImageFilterGTest.cxx itkMedianImageFilterGTest.cxx)
+set(
+  ITKSmoothingGTests
+  itkMeanImageFilterGTest.cxx
+  itkMedianImageFilterGTest.cxx
+)
 creategoogletestdriver(ITKSmoothing "${ITKSmoothing-Test_LIBRARIES}" "${ITKSmoothingGTests}")

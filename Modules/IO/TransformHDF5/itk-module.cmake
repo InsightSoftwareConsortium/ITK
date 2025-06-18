@@ -1,5 +1,8 @@
-set(DOCUMENTATION "This module contains the classes for the input and output
-of itkTransform object in HDF5 format.")
+set(
+  DOCUMENTATION
+  "This module contains the classes for the input and output
+of itkTransform object in HDF5 format."
+)
 
 itk_module(
   ITKIOTransformHDF5
@@ -13,4 +16,5 @@ itk_module(
   FACTORY_NAMES
   TransformIO::HDF5
   DESCRIPTION
-  "${DOCUMENTATION}")
+  "${DOCUMENTATION}"
+)

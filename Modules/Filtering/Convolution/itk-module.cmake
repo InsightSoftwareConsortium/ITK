@@ -1,7 +1,9 @@
-set(DOCUMENTATION
-    "This module contains filters that convolve an image
+set(
+  DOCUMENTATION
+  "This module contains filters that convolve an image
 with a kernel. Convolution is a fundamental operation in many image
-analysis algorithms.")
+analysis algorithms."
+)
 
 itk_module(
   ITKConvolution
@@ -15,4 +17,5 @@ itk_module(
   ITKTestKernel
   ITKImageSources
   DESCRIPTION
-  "${DOCUMENTATION}")
+  "${DOCUMENTATION}"
+)

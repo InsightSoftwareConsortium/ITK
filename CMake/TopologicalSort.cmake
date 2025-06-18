@@ -62,11 +62,7 @@
 # DEALINGS IN THE SOFTWARE.
 ##############################################################################
 
-function(
-  topological_sort
-  LIST
-  PREFIX
-  SUFFIX)
+function(topological_sort LIST PREFIX SUFFIX)
   # Clear the stack and output variable
   set(VERTICES "${${LIST}}")
   set(STACK)
@@ -75,16 +71,17 @@ function(
   # Loop over all of the vertices, starting the topological sort from
   # each one.
   foreach(VERTEX ${VERTICES})
-
     # If we haven't already processed this vertex, start a depth-first
     # search from where.
     if(NOT FOUND_${VERTEX})
       # Push this vertex onto the stack with all of its outgoing edges
       string(
-        REPLACE ";"
-                " "
-                NEW_ELEMENT
-                "${VERTEX};${${PREFIX}${VERTEX}${SUFFIX}}")
+        REPLACE
+        ";"
+        " "
+        NEW_ELEMENT
+        "${VERTEX};${${PREFIX}${VERTEX}${SUFFIX}}"
+      )
       list(APPEND STACK ${NEW_ELEMENT})
 
       # We've now seen this vertex
@@ -95,31 +92,19 @@ function(
       while(STACK_LENGTH GREATER 0)
         # Remove the vertex and its remaining out-edges from the top
         # of the stack
-        list(
-          GET
-          STACK
-          -1
-          OUT_EDGES)
+        list(GET STACK -1 OUT_EDGES)
         list(REMOVE_AT STACK -1)
 
         # Get the source vertex and the list of out-edges
         separate_arguments(OUT_EDGES)
-        list(
-          GET
-          OUT_EDGES
-          0
-          SOURCE)
+        list(GET OUT_EDGES 0 SOURCE)
         list(REMOVE_AT OUT_EDGES 0)
 
         # While there are still out-edges remaining
         list(LENGTH OUT_EDGES OUT_DEGREE)
         while(OUT_DEGREE GREATER 0)
           # Pull off the first outgoing edge
-          list(
-            GET
-            OUT_EDGES
-            0
-            TARGET)
+          list(GET OUT_EDGES 0 TARGET)
           list(REMOVE_AT OUT_EDGES 0)
 
           if(NOT FOUND_${TARGET})
@@ -132,11 +117,7 @@ function(
 
             # Push the remaining edges for the current vertex onto the
             # stack
-            string(
-              REPLACE ";"
-                      " "
-                      NEW_ELEMENT
-                      "${SOURCE};${OUT_EDGES}")
+            string(REPLACE ";" " " NEW_ELEMENT "${SOURCE};${OUT_EDGES}")
             list(APPEND STACK ${NEW_ELEMENT})
 
             # Setup the new source and outgoing edges
@@ -157,7 +138,5 @@ function(
     endif()
   endforeach()
 
-  set(${LIST}
-      ${${LIST}}
-      PARENT_SCOPE)
+  set(${LIST} ${${LIST}} PARENT_SCOPE)
 endfunction()

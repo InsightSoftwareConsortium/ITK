@@ -32,7 +32,10 @@ include(${ITK_TOP_DIR}/CMake/ITKModuleTest.cmake)
 # Tell modules how to add their tests.
 function(itk_add_test)
   # Add tests with data in the ITKData group.
-  ExternalData_add_test(ITKData ${ARGN})
+  ExternalData_Add_Test(
+    ITKData
+    ${ARGN}
+  )
 endfunction()
 
 # Find the ITK build or install tree.  Assume the version matches exactly.
@@ -42,16 +45,29 @@ find_package(ITK REQUIRED NO_MODULE)
 # Use ITK's flags.
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${ITK_REQUIRED_C_FLAGS}")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${ITK_REQUIRED_CXX_FLAGS}")
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${ITK_REQUIRED_LINK_FLAGS}")
-set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} ${ITK_REQUIRED_LINK_FLAGS}")
-set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} ${ITK_REQUIRED_LINK_FLAGS}")
+set(
+  CMAKE_EXE_LINKER_FLAGS
+  "${CMAKE_EXE_LINKER_FLAGS} ${ITK_REQUIRED_LINK_FLAGS}"
+)
+set(
+  CMAKE_SHARED_LINKER_FLAGS
+  "${CMAKE_SHARED_LINKER_FLAGS} ${ITK_REQUIRED_LINK_FLAGS}"
+)
+set(
+  CMAKE_MODULE_LINKER_FLAGS
+  "${CMAKE_MODULE_LINKER_FLAGS} ${ITK_REQUIRED_LINK_FLAGS}"
+)
 
 # This is a cross-platform project so we cannot use the MS _s API.
 if(WIN32 AND "${CMAKE_C_COMPILER_ID}" MATCHES "^(Intel)$")
   set(_INTEL_WINDOWS 1)
 endif()
 if(MSVC OR _INTEL_WINDOWS)
-  add_definitions(-D_CRT_NONSTDC_NO_DEPRECATE -D_CRT_SECURE_NO_DEPRECATE -D_SCL_SECURE_NO_DEPRECATE)
+  add_definitions(
+    -D_CRT_NONSTDC_NO_DEPRECATE
+    -D_CRT_SECURE_NO_DEPRECATE
+    -D_SCL_SECURE_NO_DEPRECATE
+  )
 endif()
 
 # Glob the set modules in the source tree.
@@ -78,10 +94,13 @@ set(ITK_TEST_OUTPUT_DIR "${ITKTestExternal_BINARY_DIR}/Testing/Temporary")
 # Add the test directory for each enabled module that has tests.
 foreach(itk-module ${ITK_MODULES_ENABLED})
   if(${itk-module}_TEST_DIR)
-    add_subdirectory(${ITK_TOP_DIR}/${${itk-module}_TEST_DIR} ${ITKTestExternal_BINARY_DIR}/${${itk-module}_TEST_DIR})
+    add_subdirectory(
+      ${ITK_TOP_DIR}/${${itk-module}_TEST_DIR}
+      ${ITKTestExternal_BINARY_DIR}/${${itk-module}_TEST_DIR}
+    )
   endif()
 endforeach()
 
 # Create target to download data from the ITKData group.  This must come after
 # all tests have been added that reference the group, so we put it last.
-ExternalData_add_target(ITKData)
+ExternalData_Add_Target(ITKData)

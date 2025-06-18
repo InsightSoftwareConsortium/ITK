@@ -1,7 +1,11 @@
 itk_module_test()
 
-set(ITKIOSpatialObjectsTests itkPolygonGroupSpatialObjectXMLFileTest.cxx itkReadWriteSpatialObjectTest.cxx
-                             itkReadVesselTubeSpatialObjectTest.cxx)
+set(
+  ITKIOSpatialObjectsTests
+  itkPolygonGroupSpatialObjectXMLFileTest.cxx
+  itkReadWriteSpatialObjectTest.cxx
+  itkReadVesselTubeSpatialObjectTest.cxx
+)
 
 createtestdriver(ITKIOSpatialObjects "${ITKIOSpatialObjects-Test_LIBRARIES}" "${ITKIOSpatialObjectsTests}")
 
@@ -11,7 +15,8 @@ itk_add_test(
   COMMAND
   ITKIOSpatialObjectsTestDriver
   itkReadWriteSpatialObjectTest
-  ${ITK_TEST_OUTPUT_DIR}/Objects.meta)
+  ${ITK_TEST_OUTPUT_DIR}/Objects.meta
+)
 itk_add_test(
   NAME
   itkReadWriteSpatialObjectTest1
@@ -19,7 +24,8 @@ itk_add_test(
   ITKIOSpatialObjectsTestDriver
   itkReadWriteSpatialObjectTest
   ${ITK_TEST_OUTPUT_DIR}/Objects1.meta
-  binary)
+  binary
+)
 itk_add_test(
   NAME
   itkReadWriteSpatialObjectTest2
@@ -27,18 +33,21 @@ itk_add_test(
   ITKIOSpatialObjectsTestDriver
   itkReadWriteSpatialObjectTest
   ${ITK_TEST_OUTPUT_DIR}/Objects2.meta
-  DATA{${ITK_DATA_ROOT}/Input/SpatialObjects.meta})
+  DATA{${ITK_DATA_ROOT}/Input/SpatialObjects.meta}
+)
 itk_add_test(
   NAME
   itkPolygonGroupSpatialObjectXMLFileTest
   COMMAND
   ITKIOSpatialObjectsTestDriver
   itkPolygonGroupSpatialObjectXMLFileTest
-  ${ITK_TEST_OUTPUT_DIR})
+  ${ITK_TEST_OUTPUT_DIR}
+)
 itk_add_test(
   NAME
   itkReadVesselTubeSpatialObjectTest
   COMMAND
   ITKIOSpatialObjectsTestDriver
   itkReadVesselTubeSpatialObjectTest
-  DATA{Input/Branch-truth.tre})
+  DATA{Input/Branch-truth.tre}
+)

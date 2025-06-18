@@ -1,5 +1,8 @@
-set(DOCUMENTATION "This module contains both I/O and bridging methods needed
-for interacting with and utilizing VXL within ITK.")
+set(
+  DOCUMENTATION
+  "This module contains both I/O and bridging methods needed
+for interacting with and utilizing VXL within ITK."
+)
 
 itk_module(
   ITKVideoBridgeVXL
@@ -10,4 +13,5 @@ itk_module(
   ITKTestKernel
   EXCLUDE_FROM_DEFAULT
   DESCRIPTION
-  "${DOCUMENTATION}")
+  "${DOCUMENTATION}"
+)

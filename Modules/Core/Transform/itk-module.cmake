@@ -1,11 +1,13 @@
-set(DOCUMENTATION
-    "Transforms are essential components of image registration
+set(
+  DOCUMENTATION
+  "Transforms are essential components of image registration
 framework in ITK. They are typically used for representing the mapping between
 the physical coordinate system of one image and the physical coordinate system
 of another image. They are also commonly used in the process of resampling
 images, particularly when mapping them between coordinate systems. Transforms
 are a large family in ITK and form a prolific group of classes in the
-toolkit.")
+toolkit."
+)
 
 itk_module(
   ITKTransform
@@ -20,7 +22,8 @@ itk_module(
   ITKGoogleTest
   ITKDisplacementField
   DESCRIPTION
-  "${DOCUMENTATION}")
+  "${DOCUMENTATION}"
+)
 
 # Extra dependencies on ImageFilterBase introduced by itkGaussianSmoothingOnUpdateDisplacementFieldTransform.
 # Extra test dependencies on ImageFunction and ImageGrid are introduced by itkBSplineDeformableTransformTest.

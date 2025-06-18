@@ -1,10 +1,12 @@
 itk_module_test()
-set(ITKRegionGrowingTests
-    itkNeighborhoodConnectedImageFilterTest.cxx
-    itkIsolatedConnectedImageFilterTest.cxx
-    itkConfidenceConnectedImageFilterTest.cxx
-    itkVectorConfidenceConnectedImageFilterTest.cxx
-    itkConnectedThresholdImageFilterTest.cxx)
+set(
+  ITKRegionGrowingTests
+  itkNeighborhoodConnectedImageFilterTest.cxx
+  itkIsolatedConnectedImageFilterTest.cxx
+  itkConfidenceConnectedImageFilterTest.cxx
+  itkVectorConfidenceConnectedImageFilterTest.cxx
+  itkConnectedThresholdImageFilterTest.cxx
+)
 
 createtestdriver(ITKRegionGrowing "${ITKRegionGrowing-Test_LIBRARIES}" "${ITKRegionGrowingTests}")
 
@@ -20,7 +22,8 @@ itk_add_test(
   DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
   ${ITK_TEST_OUTPUT_DIR}/NeighborhoodConnectedImageFilterTest.png
   146
-  167)
+  167
+)
 itk_add_test(
   NAME
   itkIsolatedConnectedImageFilterTest
@@ -36,7 +39,8 @@ itk_add_test(
   115
   85
   107
-  110)
+  110
+)
 itk_add_test(
   NAME
   itkIsolatedConnectedImageFilterTest2
@@ -56,7 +60,8 @@ itk_add_test(
   176
   125
   101
-  170)
+  170
+)
 itk_add_test(
   NAME
   itkConfidenceConnectedImageFilterTest
@@ -69,7 +74,8 @@ itk_add_test(
   DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
   ${ITK_TEST_OUTPUT_DIR}/ConfidenceConnectedImageFilterTest.png
   165
-  165)
+  165
+)
 itk_add_test(
   NAME
   itkConfidenceConnectedImageFilterTest2
@@ -82,7 +88,8 @@ itk_add_test(
   DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
   ${ITK_TEST_OUTPUT_DIR}/ConfidenceConnectedImageFilterTest2.png
   9999
-  9999)
+  9999
+)
 itk_add_test(
   NAME
   itkVectorConfidenceConnectedImageFilterTest
@@ -99,7 +106,8 @@ itk_add_test(
   23
   67
   5.0
-  6)
+  6
+)
 itk_add_test(
   NAME
   itkVectorConfidenceConnectedImageFilterTest2
@@ -116,7 +124,8 @@ itk_add_test(
   9999
   9999
   5.0
-  6)
+  6
+)
 itk_add_test(
   NAME
   itkConnectedThresholdImageFilterTest
@@ -131,7 +140,8 @@ itk_add_test(
   165
   165
   0
-  150)
+  150
+)
 itk_add_test(
   NAME
   itkConnectedThresholdImageFilterTest2
@@ -147,4 +157,5 @@ itk_add_test(
   47
   200
   255
-  1)
+  1
+)

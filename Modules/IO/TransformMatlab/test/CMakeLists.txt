@@ -8,4 +8,5 @@ itk_add_test(
   itkIOTransformMatlabTest
   COMMAND
   ITKIOTransformMatlabTestDriver
-  itkIOTransformMatlabTest)
+  itkIOTransformMatlabTest
+)

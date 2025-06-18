@@ -1,5 +1,8 @@
-set(DOCUMENTATION "This modules contains tests targeting the behavior of
-multiple modules of the toolkit when they act together.")
+set(
+  DOCUMENTATION
+  "This modules contains tests targeting the behavior of
+multiple modules of the toolkit when they act together."
+)
 
 itk_module(
   ITKIntegratedTest
@@ -81,4 +84,5 @@ itk_module(
   ITKWatersheds
   ITKTestKernel
   DESCRIPTION
-  "${DOCUMENTATION}")
+  "${DOCUMENTATION}"
+)

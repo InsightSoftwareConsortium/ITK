@@ -8,4 +8,5 @@ itk_add_test(
   itkEigenAnalysis2DImageFilterTest
   COMMAND
   ITKEigenTestDriver
-  itkEigenAnalysis2DImageFilterTest)
+  itkEigenAnalysis2DImageFilterTest
+)

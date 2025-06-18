@@ -1,10 +1,12 @@
 itk_module_test()
-set(ITKAnisotropicSmoothingTests
-    itkGradientAnisotropicDiffusionImageFilterTest.cxx
-    itkCurvatureAnisotropicDiffusionImageFilterTest.cxx
-    itkMinMaxCurvatureFlowImageFilterTest.cxx
-    itkVectorAnisotropicDiffusionImageFilterTest.cxx
-    itkGradientAnisotropicDiffusionImageFilterTest2.cxx)
+set(
+  ITKAnisotropicSmoothingTests
+  itkGradientAnisotropicDiffusionImageFilterTest.cxx
+  itkCurvatureAnisotropicDiffusionImageFilterTest.cxx
+  itkMinMaxCurvatureFlowImageFilterTest.cxx
+  itkVectorAnisotropicDiffusionImageFilterTest.cxx
+  itkGradientAnisotropicDiffusionImageFilterTest2.cxx
+)
 
 createtestdriver(ITKAnisotropicSmoothing "${ITKAnisotropicSmoothing-Test_LIBRARIES}" "${ITKAnisotropicSmoothingTests}")
 
@@ -13,25 +15,29 @@ itk_add_test(
   itkGradientAnisotropicDiffusionImageFilterTest
   COMMAND
   ITKAnisotropicSmoothingTestDriver
-  itkGradientAnisotropicDiffusionImageFilterTest)
+  itkGradientAnisotropicDiffusionImageFilterTest
+)
 itk_add_test(
   NAME
   itkCurvatureAnisotropicDiffusionImageFilterTest
   COMMAND
   ITKAnisotropicSmoothingTestDriver
-  itkCurvatureAnisotropicDiffusionImageFilterTest)
+  itkCurvatureAnisotropicDiffusionImageFilterTest
+)
 itk_add_test(
   NAME
   itkMinMaxCurvatureFlowImageFilterTest
   COMMAND
   ITKAnisotropicSmoothingTestDriver
-  itkMinMaxCurvatureFlowImageFilterTest)
+  itkMinMaxCurvatureFlowImageFilterTest
+)
 itk_add_test(
   NAME
   itkVectorAnisotropicDiffusionImageFilterTest
   COMMAND
   ITKAnisotropicSmoothingTestDriver
-  itkVectorAnisotropicDiffusionImageFilterTest)
+  itkVectorAnisotropicDiffusionImageFilterTest
+)
 itk_add_test(
   NAME
   itkGradientAnisotropicDiffusionImageFilterTest2
@@ -42,4 +48,5 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/GradientAnisotropicDiffusionImageFilterTest2.png
   itkGradientAnisotropicDiffusionImageFilterTest2
   DATA{${ITK_DATA_ROOT}/Input/cake_easy.png}
-  ${ITK_TEST_OUTPUT_DIR}/GradientAnisotropicDiffusionImageFilterTest2.png)
+  ${ITK_TEST_OUTPUT_DIR}/GradientAnisotropicDiffusionImageFilterTest2.png
+)

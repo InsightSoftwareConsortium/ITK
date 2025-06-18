@@ -74,12 +74,7 @@ if(CMAKE_SYSTEM MATCHES "IRIX.*")
 endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX)
-  string(
-    REGEX
-    REPLACE "-Wcast-qual"
-            ""
-            CMAKE_CXX_FLAGS
-            "${CMAKE_CXX_FLAGS}")
+  string(REGEX REPLACE "-Wcast-qual" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 endif()
 
 if(UNIX)
@@ -103,9 +98,12 @@ macro(WRAP_ITK_INSTALL path)
     set(_component_module "ITKCommon")
   endif()
   install(
-    FILES ${ARGN}
+    FILES
+      ${ARGN}
     DESTINATION "${WRAP_ITK_INSTALL_PREFIX}${path}"
-    COMPONENT ${_component_module}${WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER}RuntimeLibraries)
+    COMPONENT
+      ${_component_module}${WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER}RuntimeLibraries
+  )
 endmacro()
 
 ###############################################################################
@@ -113,12 +111,18 @@ endmacro()
 ###############################################################################
 macro(WRAP_ITK_BINDINGS_INSTALL path)
   if(WRAP_ITK_INSTALL_COMPONENT_PER_MODULE)
-    message(WARNING "Option WRAP_ITK_INSTALL_COMPONENT_PER_MODULE is only supported for Python wrapping language")
+    message(
+      WARNING
+      "Option WRAP_ITK_INSTALL_COMPONENT_PER_MODULE is only supported for Python wrapping language"
+    )
   endif()
   install(
-    FILES ${ARGN}
-    DESTINATION "${ITK_INSTALL_LIBRARY_DIR}/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}${path}"
-    COMPONENT ${WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER}RuntimeLibraries)
+    FILES
+      ${ARGN}
+    DESTINATION
+      "${ITK_INSTALL_LIBRARY_DIR}/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}${path}"
+    COMPONENT ${WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER}RuntimeLibraries
+  )
 endmacro()
 
 ###############################################################################
@@ -135,7 +139,14 @@ include("${WRAP_ITK_CMAKE_DIR}/WrapITKTypes.cmake")
 ###############################################################################
 # Lets the target generators do their job
 ###############################################################################
-add_subdirectory("${WRAP_ITK_CMAKE_DIR}/Generators" "${CMAKE_CURRENT_BINARY_DIR}/Generators")
+add_subdirectory(
+  "${WRAP_ITK_CMAKE_DIR}/Generators"
+  "${CMAKE_CURRENT_BINARY_DIR}/Generators"
+)
 # get the properties from the generators dirs - there should be others than this one
-get_directory_property(inc DIRECTORY "${WRAP_ITK_CMAKE_DIR}/Generators" INCLUDE_DIRECTORIES)
+get_directory_property(
+  inc
+  DIRECTORY "${WRAP_ITK_CMAKE_DIR}/Generators"
+  INCLUDE_DIRECTORIES
+)
 include_directories(${inc})

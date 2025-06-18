@@ -13,7 +13,8 @@ itk_add_test(
   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
   ${TEMP}/ConfidenceConnectedWhiteTest.png
   60
-  116)
+  116
+)
 
 itk_add_test(
   NAME
@@ -27,7 +28,8 @@ itk_add_test(
   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
   ${TEMP}/ConfidenceConnectedVentricleTest.png
   81
-  112)
+  112
+)
 
 itk_add_test(
   NAME
@@ -41,7 +43,8 @@ itk_add_test(
   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
   ${TEMP}/ConfidenceConnectedGrayTest.png
   107
-  69)
+  69
+)
 
 itk_add_test(
   NAME
@@ -57,7 +60,8 @@ itk_add_test(
   60
   116
   150
-  180)
+  180
+)
 
 itk_add_test(
   NAME
@@ -73,7 +77,8 @@ itk_add_test(
   81
   112
   210
-  250)
+  250
+)
 
 itk_add_test(
   NAME
@@ -89,7 +94,8 @@ itk_add_test(
   107
   69
   180
-  210)
+  210
+)
 
 itk_add_test(
   NAME
@@ -111,7 +117,8 @@ itk_add_test(
   100
   debug1.png
   debug2.png
-  debug3.png)
+  debug3.png
+)
 
 itk_add_test(
   NAME
@@ -133,7 +140,8 @@ itk_add_test(
   100
   debug1.png
   debug2.png
-  debug3.png)
+  debug3.png
+)
 
 itk_add_test(
   NAME
@@ -155,7 +163,8 @@ itk_add_test(
   100
   debug1.png
   debug2.png
-  debug3.png)
+  debug3.png
+)
 
 itk_add_test(
   NAME
@@ -177,7 +186,8 @@ itk_add_test(
   100
   debug1.png
   debug2.png
-  debug3.png)
+  debug3.png
+)
 
 itk_add_test(
   NAME
@@ -196,7 +206,8 @@ itk_add_test(
   1.0
   -0.5
   3.0
-  2.0)
+  2.0
+)
 
 itk_add_test(
   NAME
@@ -215,7 +226,8 @@ itk_add_test(
   1.0
   -0.5
   3.0
-  2.0)
+  2.0
+)
 
 itk_add_test(
   NAME
@@ -234,7 +246,8 @@ itk_add_test(
   1.0
   -0.3
   2.0
-  10.0)
+  10.0
+)
 
 itk_add_test(
   NAME
@@ -253,7 +266,8 @@ itk_add_test(
   .5
   -0.3
   2.0
-  10.0)
+  10.0
+)
 
 itk_add_test(
   NAME
@@ -273,7 +287,8 @@ itk_add_test(
   -0.5
   3.0
   0.05
-  1.0)
+  1.0
+)
 
 itk_add_test(
   NAME
@@ -293,7 +308,8 @@ itk_add_test(
   -0.5
   3.0
   0.05
-  1.0)
+  1.0
+)
 
 itk_add_test(
   NAME
@@ -313,7 +329,8 @@ itk_add_test(
   -0.3
   2.0
   0.05
-  1.0)
+  1.0
+)
 
 itk_add_test(
   NAME
@@ -333,7 +350,8 @@ itk_add_test(
   -0.3
   2.0
   0.05
-  1.0)
+  1.0
+)
 
 itk_add_test(
   NAME
@@ -350,7 +368,8 @@ itk_add_test(
   112
   5
   210
-  250)
+  250
+)
 
 itk_add_test(
   NAME
@@ -369,7 +388,8 @@ itk_add_test(
   116
   5
   150
-  180)
+  180
+)
 
 itk_add_test(
   NAME
@@ -386,7 +406,8 @@ itk_add_test(
   69
   5
   180
-  210)
+  210
+)
 
 itk_add_test(
   NAME
@@ -402,7 +423,8 @@ itk_add_test(
   70
   120
   7
-  1)
+  1
+)
 
 itk_add_test(
   NAME
@@ -418,7 +440,8 @@ itk_add_test(
   23
   93
   7
-  1)
+  1
+)
 
 itk_add_test(
   NAME
@@ -434,7 +457,8 @@ itk_add_test(
   66
   66
   3
-  1)
+  1
+)
 
 itk_add_test(
   NAME
@@ -452,7 +476,8 @@ itk_add_test(
   0.1
   -10.0
   127.5
-  10000)
+  10000
+)
 
 itk_add_test(
   NAME
@@ -479,7 +504,8 @@ itk_add_test(
   3
   ${ITK_SOURCE_DIR}/Examples/Data/CorpusCallosumMode%d.mha
   10
-  0)
+  0
+)
 
 itk_add_test(
   NAME
@@ -495,7 +521,8 @@ itk_add_test(
   60
   116
   150
-  180)
+  180
+)
 
 itk_add_test(
   NAME
@@ -511,7 +538,8 @@ itk_add_test(
   81
   112
   210
-  250)
+  250
+)
 
 itk_add_test(
   NAME
@@ -527,7 +555,8 @@ itk_add_test(
   107
   69
   180
-  210)
+  210
+)
 
 itk_add_test(
   NAME
@@ -544,7 +573,8 @@ itk_add_test(
   140
   150
   63
-  43)
+  43
+)
 
 itk_add_test(
   NAME
@@ -556,7 +586,8 @@ itk_add_test(
   ${TEMP}/RelabelComponentImageFilter.png
   $<TARGET_FILE:RelabelComponentImageFilter>
   ${ITK_SOURCE_DIR}/Examples/Data/WatershedSegmentation.png
-  ${TEMP}/RelabelComponentImageFilter.png)
+  ${TEMP}/RelabelComponentImageFilter.png
+)
 
 itk_add_test(
   NAME
@@ -573,7 +604,8 @@ itk_add_test(
   10
   0.0
   0.05
-  1)
+  1
+)
 
 itk_add_test(
   NAME
@@ -590,7 +622,8 @@ itk_add_test(
   10
   0.001
   0.15
-  0)
+  0
+)
 
 itk_add_test(
   NAME
@@ -609,7 +642,8 @@ itk_add_test(
   1.0
   -0.5
   3.0
-  2.0)
+  2.0
+)
 
 itk_add_test(
   NAME
@@ -624,7 +658,8 @@ itk_add_test(
   ${TEMP}/HoughTransformTwoLinesTest.png
   2
   5
-  10)
+  10
+)
 
 itk_add_test(
   NAME
@@ -643,7 +678,8 @@ itk_add_test(
   3.14
   10
   5
-  1.5)
+  1.5
+)
 
 itk_add_test(
   NAME
@@ -661,4 +697,5 @@ itk_add_test(
   2.0
   1
   127.5
-  15)
+  15
+)

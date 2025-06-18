@@ -1,6 +1,10 @@
 itk_module_test()
 
-set(ITKIOMeshGiftiTests itkGiftiMeshIOTest.cxx itkMeshFileReadWriteTest.cxx)
+set(
+  ITKIOMeshGiftiTests
+  itkGiftiMeshIOTest.cxx
+  itkMeshFileReadWriteTest.cxx
+)
 
 createtestdriver(ITKIOMeshGifti "${ITKIOMeshGifti-Test_LIBRARIES}" "${ITKIOMeshGiftiTests}")
 
@@ -26,7 +30,8 @@ itk_add_test(
   131122
   0
   0
-  1)
+  1
+)
 itk_add_test(
   NAME
   itkGiftiMeshIOTest2
@@ -49,7 +54,8 @@ itk_add_test(
   0
   44264
   0
-  0)
+  0
+)
 itk_add_test(
   NAME
   itkMeshFileReadWriteTestGifti1
@@ -57,7 +63,8 @@ itk_add_test(
   ITKIOMeshGiftiTestDriver
   itkMeshFileReadWriteTest
   DATA{Baseline/white.gii}
-  ${ITK_TEST_OUTPUT_DIR}/white.gii)
+  ${ITK_TEST_OUTPUT_DIR}/white.gii
+)
 itk_add_test(
   NAME
   itkMeshFileReadWriteTestGifti2
@@ -65,4 +72,5 @@ itk_add_test(
   ITKIOMeshGiftiTestDriver
   itkMeshFileReadWriteTest
   DATA{Baseline/aparc.gii}
-  ${ITK_TEST_OUTPUT_DIR}/aparc.gii)
+  ${ITK_TEST_OUTPUT_DIR}/aparc.gii
+)

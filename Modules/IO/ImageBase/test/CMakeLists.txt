@@ -1,87 +1,97 @@
 itk_module_test()
-set(ITKIOImageBaseTests
-    itkConvertBufferTest.cxx
-    itkConvertBufferTest2.cxx
-    itkImageFileReaderTest1.cxx
-    itkImageFileWriterTest.cxx
-    itkIOCommonTest.cxx
-    itkIOCommonTest2.cxx
-    itkNumericSeriesFileNamesTest.cxx
-    itkRegularExpressionSeriesFileNamesTest.cxx
-    itkArchetypeSeriesFileNamesTest.cxx
-    itkLargeImageWriteConvertReadTest.cxx
-    itkLargeImageWriteReadTest.cxx
-    itkImageFileReaderDimensionsTest.cxx
-    itkImageFileReaderPositiveSpacingTest.cxx
-    itkImageFileReaderStreamingTest.cxx
-    itkImageFileReaderStreamingTest2.cxx
-    itkImageFileWriterPastingTest1.cxx
-    itkImageFileWriterPastingTest2.cxx
-    itkImageFileWriterPastingTest3.cxx
-    itkImageFileWriterStreamingPastingCompressingTest1.cxx
-    itkImageFileWriterStreamingTest1.cxx
-    itkImageFileWriterStreamingTest2.cxx
-    itkImageFileWriterTest2.cxx
-    itkImageFileWriterUpdateLargestPossibleRegionTest.cxx
-    itkImageIOBaseTest.cxx
-    itkImageIODirection2DTest.cxx
-    itkImageIODirection3DTest.cxx
-    itkImageIOFileNameExtensionsTests.cxx
-    itkImageSeriesReaderDimensionsTest.cxx
-    itkImageSeriesReaderSamplingTest.cxx
-    itkImageSeriesReaderVectorTest.cxx
-    itkImageSeriesWriterTest.cxx
-    itkIOPluginTest.cxx
-    itkNoiseImageFilterTest.cxx
-    itkMatrixImageWriteReadTest.cxx
-    itkReadWriteImageWithDictionaryTest.cxx
-    itkVectorImageReadWriteTest.cxx
-    itk64bitTest.cxx
-    itkImageFileReaderManyComponentVectorTest.cxx)
+set(
+  ITKIOImageBaseTests
+  itkConvertBufferTest.cxx
+  itkConvertBufferTest2.cxx
+  itkImageFileReaderTest1.cxx
+  itkImageFileWriterTest.cxx
+  itkIOCommonTest.cxx
+  itkIOCommonTest2.cxx
+  itkNumericSeriesFileNamesTest.cxx
+  itkRegularExpressionSeriesFileNamesTest.cxx
+  itkArchetypeSeriesFileNamesTest.cxx
+  itkLargeImageWriteConvertReadTest.cxx
+  itkLargeImageWriteReadTest.cxx
+  itkImageFileReaderDimensionsTest.cxx
+  itkImageFileReaderPositiveSpacingTest.cxx
+  itkImageFileReaderStreamingTest.cxx
+  itkImageFileReaderStreamingTest2.cxx
+  itkImageFileWriterPastingTest1.cxx
+  itkImageFileWriterPastingTest2.cxx
+  itkImageFileWriterPastingTest3.cxx
+  itkImageFileWriterStreamingPastingCompressingTest1.cxx
+  itkImageFileWriterStreamingTest1.cxx
+  itkImageFileWriterStreamingTest2.cxx
+  itkImageFileWriterTest2.cxx
+  itkImageFileWriterUpdateLargestPossibleRegionTest.cxx
+  itkImageIOBaseTest.cxx
+  itkImageIODirection2DTest.cxx
+  itkImageIODirection3DTest.cxx
+  itkImageIOFileNameExtensionsTests.cxx
+  itkImageSeriesReaderDimensionsTest.cxx
+  itkImageSeriesReaderSamplingTest.cxx
+  itkImageSeriesReaderVectorTest.cxx
+  itkImageSeriesWriterTest.cxx
+  itkIOPluginTest.cxx
+  itkNoiseImageFilterTest.cxx
+  itkMatrixImageWriteReadTest.cxx
+  itkReadWriteImageWithDictionaryTest.cxx
+  itkVectorImageReadWriteTest.cxx
+  itk64bitTest.cxx
+  itkImageFileReaderManyComponentVectorTest.cxx
+)
 
 createtestdriver(ITKIOImageBase "${ITKIOImageBase-Test_LIBRARIES}" "${ITKIOImageBaseTests}")
 
 if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 16)
   itk_add_test(
-    NAME
+      NAME
+      itkLargeImageWriteConvertReadTest
+      COMMAND
+      ITKIOImageBaseTestDriver
+      itkLargeImageWriteConvertReadTest
+      ${ITK_TEST_OUTPUT_DIR}/itkLargeImageWriteConvertReadTest.mha
+      30000L
+  )
+  set_tests_properties(
     itkLargeImageWriteConvertReadTest
-    COMMAND
-    ITKIOImageBaseTestDriver
-    itkLargeImageWriteConvertReadTest
-    ${ITK_TEST_OUTPUT_DIR}/itkLargeImageWriteConvertReadTest.mha
-    30000L)
-  set_tests_properties(itkLargeImageWriteConvertReadTest
     PROPERTIES
-    RESOURCE_LOCK
-    MEMORY_SIZE)
+      RESOURCE_LOCK
+        MEMORY_SIZE
+  )
 
   itk_add_test(
-    NAME
+      NAME
+      itkLargeImageWriteReadTest_2D
+      COMMAND
+      ITKIOImageBaseTestDriver
+      itkLargeImageWriteReadTest
+      ${ITK_TEST_OUTPUT_DIR}/itkLargeImageWriteReadTest_2D.mha
+      30000L
+  )
+  set_tests_properties(
     itkLargeImageWriteReadTest_2D
-    COMMAND
-    ITKIOImageBaseTestDriver
-    itkLargeImageWriteReadTest
-    ${ITK_TEST_OUTPUT_DIR}/itkLargeImageWriteReadTest_2D.mha
-    30000L)
-  set_tests_properties(itkLargeImageWriteReadTest_2D
     PROPERTIES
-    RESOURCE_LOCK
-    MEMORY_SIZE)
+      RESOURCE_LOCK
+        MEMORY_SIZE
+  )
 
   itk_add_test(
-    NAME
+      NAME
+      itkLargeImageWriteReadTest_3D
+      COMMAND
+      ITKIOImageBaseTestDriver
+      itkLargeImageWriteReadTest
+      ${ITK_TEST_OUTPUT_DIR}/itkLargeImageWriteReadTest_3D.mha
+      30000L
+      4L
+  )
+  set_tests_properties(
     itkLargeImageWriteReadTest_3D
-    COMMAND
-    ITKIOImageBaseTestDriver
-    itkLargeImageWriteReadTest
-    ${ITK_TEST_OUTPUT_DIR}/itkLargeImageWriteReadTest_3D.mha
-    30000L
-    4L)
-  set_tests_properties(itkLargeImageWriteReadTest_3D
     PROPERTIES
-    RESOURCE_LOCK
-    MEMORY_SIZE)
-
+      RESOURCE_LOCK
+        MEMORY_SIZE
+  )
 endif()
 
 itk_add_test(
@@ -91,7 +101,8 @@ itk_add_test(
   ITKIOImageBaseTestDriver
   itkArchetypeSeriesFileNamesTest
   DATA{${ITK_DATA_ROOT}/Input/Archetype/a5b7.PNG,REGEX:a[0-9]b[0-9]\\.PNG}
-  DATA{${ITK_DATA_ROOT}/Input/Archetype/a7b1.PNG})
+  DATA{${ITK_DATA_ROOT}/Input/Archetype/a7b1.PNG}
+)
 itk_add_test(
   NAME
   itkArchetypeSeriesFileNamesTest2
@@ -99,50 +110,58 @@ itk_add_test(
   ITKIOImageBaseTestDriver
   itkArchetypeSeriesFileNamesTest
   DATA{${ITK_DATA_ROOT}/Input/Archetype/image.001,REGEX:image\\.[0-9]+}
-  DATA{${ITK_DATA_ROOT}/Input/Archetype/image.010})
+  DATA{${ITK_DATA_ROOT}/Input/Archetype/image.010}
+)
 itk_add_test(
   NAME
   itkConvertBufferTest
   COMMAND
   ITKIOImageBaseTestDriver
-  itkConvertBufferTest)
+  itkConvertBufferTest
+)
 itk_add_test(
   NAME
   itkConvertBufferTest2
   COMMAND
   ITKIOImageBaseTestDriver
-  itkConvertBufferTest2)
+  itkConvertBufferTest2
+)
 itk_add_test(
   NAME
   itkImageFileReaderTest1
   COMMAND
   ITKIOImageBaseTestDriver
-  itkImageFileReaderTest1)
+  itkImageFileReaderTest1
+)
 itk_add_test(
   NAME
   itkImageFileWriterTest
   COMMAND
   ITKIOImageBaseTestDriver
   itkImageFileWriterTest
-  ${ITK_TEST_OUTPUT_DIR}/test.png)
+  ${ITK_TEST_OUTPUT_DIR}/test.png
+)
 itk_add_test(
   NAME
   itkIOCommonTest
   COMMAND
   ITKIOImageBaseTestDriver
-  itkIOCommonTest)
+  itkIOCommonTest
+)
 itk_add_test(
   NAME
   itkIOCommonTest2
   COMMAND
   ITKIOImageBaseTestDriver
-  itkIOCommonTest2)
+  itkIOCommonTest2
+)
 itk_add_test(
   NAME
   itkNumericSeriesFileNamesTest
   COMMAND
   ITKIOImageBaseTestDriver
-  itkNumericSeriesFileNamesTest)
+  itkNumericSeriesFileNamesTest
+)
 itk_add_test(
   NAME
   itk64bitTestNRRDtoMHA
@@ -153,7 +172,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/Test64bit.mha
   itk64bitTest
   DATA{Input/Test64bit.nrrd}
-  ${ITK_TEST_OUTPUT_DIR}/Test64bit.mha)
+  ${ITK_TEST_OUTPUT_DIR}/Test64bit.mha
+)
 itk_add_test(
   NAME
   itk64bitTestMHAtoNRRD
@@ -164,7 +184,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/Test64bit.nrrd
   itk64bitTest
   DATA{Input/Test64bit.mha}
-  ${ITK_TEST_OUTPUT_DIR}/Test64bit.nrrd)
+  ${ITK_TEST_OUTPUT_DIR}/Test64bit.nrrd
+)
 itk_add_test(
   NAME
   itk64bitTestNRRDtoMHA2
@@ -175,7 +196,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/Test64bit2.mha
   itk64bitTest
   DATA{Input/Test64bit.mha}
-  ${ITK_TEST_OUTPUT_DIR}/Test64bit2.mha)
+  ${ITK_TEST_OUTPUT_DIR}/Test64bit2.mha
+)
 itk_add_test(
   NAME
   itk64bitTestNRRDtoNIFTI
@@ -186,7 +208,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/Test64bit.nii
   itk64bitTest
   DATA{Input/Test64bit.nrrd}
-  ${ITK_TEST_OUTPUT_DIR}/Test64bit.nii)
+  ${ITK_TEST_OUTPUT_DIR}/Test64bit.nii
+)
 itk_add_test(
   NAME
   itk64bitTestNRRDtoVTK
@@ -198,7 +221,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/Test64bit.vtk
   itk64bitTest
   DATA{Input/Test64bit.nrrd}
-  ${ITK_TEST_OUTPUT_DIR}/Test64bit.vtk)
+  ${ITK_TEST_OUTPUT_DIR}/Test64bit.vtk
+)
 
 itk_add_test(
   NAME
@@ -208,10 +232,14 @@ itk_add_test(
   --redirectOutput
   ${ITK_TEST_OUTPUT_DIR}/itkRegularExpressionSeriesFileNamesTest.txt
   itkRegularExpressionSeriesFileNamesTest
-  ${ITK_DATA_ROOT}/Input)
+  ${ITK_DATA_ROOT}/Input
+)
 set_tests_properties(
-  itkRegularExpressionSeriesFileNamesTest PROPERTIES ATTACHED_FILES_ON_FAIL
-                                                     ${ITK_TEST_OUTPUT_DIR}/itkRegularExpressionSeriesFileNamesTest.txt)
+  itkRegularExpressionSeriesFileNamesTest
+  PROPERTIES
+    ATTACHED_FILES_ON_FAIL
+      ${ITK_TEST_OUTPUT_DIR}/itkRegularExpressionSeriesFileNamesTest.txt
+)
 
 itk_add_test(
   NAME
@@ -221,7 +249,8 @@ itk_add_test(
   itkImageFileReaderDimensionsTest
   DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha}
   ${ITK_TEST_OUTPUT_DIR}
-  mha)
+  mha
+)
 itk_add_test(
   NAME
   itkImageFileReaderDimensionsTest_NRRD
@@ -230,7 +259,8 @@ itk_add_test(
   itkImageFileReaderDimensionsTest
   DATA{${ITK_DATA_ROOT}/Input/vol-ascii.nrrd}
   ${ITK_TEST_OUTPUT_DIR}
-  nrrd)
+  nrrd
+)
 itk_add_test(
   NAME
   itkImageFileReaderStreamingTest_1
@@ -239,7 +269,8 @@ itk_add_test(
   itkImageFileReaderStreamingTest
   DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw}
   1
-  0)
+  0
+)
 itk_add_test(
   NAME
   itkImageFileReaderStreamingTest_2
@@ -248,7 +279,8 @@ itk_add_test(
   itkImageFileReaderStreamingTest
   DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw}
   0
-  1)
+  1
+)
 itk_add_test(
   NAME
   itkImageFileReaderStreamingTest_3
@@ -257,14 +289,16 @@ itk_add_test(
   itkImageFileReaderStreamingTest
   DATA{${ITK_DATA_ROOT}/Input/vol-ascii.nrrd}
   0
-  0)
+  0
+)
 itk_add_test(
   NAME
   itkImageFileReaderStreamingTest2_MHD
   COMMAND
   ITKIOImageBaseTestDriver
   itkImageFileReaderStreamingTest2
-  DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw})
+  DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw}
+)
 itk_add_test(
   NAME
   itkImageFileWriterPastingTest1
@@ -275,7 +309,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterPastingTest1_01.mha
   itkImageFileWriterPastingTest1
   DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw}
-  ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterPastingTest1_01.mha)
+  ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterPastingTest1_01.mha
+)
 itk_add_test(
   NAME
   itkImageFileWriterPastingTest2_5
@@ -283,7 +318,8 @@ itk_add_test(
   ITKIOImageBaseTestDriver
   itkImageFileWriterPastingTest2
   DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha}
-  ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterPastingTest2_5.mha)
+  ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterPastingTest2_5.mha
+)
 itk_add_test(
   NAME
   itkImageFileWriterPastingTest2_6
@@ -295,7 +331,8 @@ itk_add_test(
   itkImageFileWriterPastingTest2
   DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha}
   ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterPastingTest2_6.mha
-  DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha})
+  DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha}
+)
 itk_add_test(
   NAME
   itkImageFileWriterPastingTest2_7
@@ -304,7 +341,8 @@ itk_add_test(
   itkImageFileWriterPastingTest2
   DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha}
   ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterPastingTest2_7.mha
-  DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeCompressed.mha})
+  DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeCompressed.mha}
+)
 itk_add_test(
   NAME
   itkImageFileWriterPastingTest3
@@ -312,7 +350,8 @@ itk_add_test(
   ITKIOImageBaseTestDriver
   itkImageFileWriterPastingTest3
   DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw}
-  ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterPastingTest3_01.mha)
+  ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterPastingTest3_01.mha
+)
 itk_add_test(
   NAME
   itkImageFileWriterStreamingPastingCompressingTest_MHA
@@ -329,7 +368,8 @@ itk_add_test(
   0
   0
   0
-  1)
+  1
+)
 itk_add_test(
   NAME
   itkImageFileWriterStreamingPastingCompressingTest_NRRD
@@ -346,7 +386,8 @@ itk_add_test(
   0
   0
   1
-  1)
+  1
+)
 itk_add_test(
   NAME
   itkImageFileWriterStreamingPastingCompressingTest_NHDR
@@ -363,7 +404,8 @@ itk_add_test(
   0
   0
   1
-  1)
+  1
+)
 itk_add_test(
   NAME
   itkImageFileWriterStreamingPastingCompressingTest_VTK
@@ -383,7 +425,8 @@ itk_add_test(
   0
   0
   0
-  0)
+  0
+)
 
 # JIRA ITK182
 # This test has been disabled due to the above bug. It should be
@@ -403,7 +446,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreaming1_1.mha
   itkImageFileWriterStreamingTest1
   DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha}
-  ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreaming1_1.mha)
+  ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreaming1_1.mha
+)
 itk_add_test(
   NAME
   itkImageFileWriterStreamingTest1_2
@@ -416,7 +460,8 @@ itk_add_test(
   DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha}
   ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreaming1_2.mha
   DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeCompressed.mha}
-  0)
+  0
+)
 itk_add_test(
   NAME
   itkImageFileWriterStreamingTest1_3
@@ -429,7 +474,8 @@ itk_add_test(
   DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha}
   ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreaming1_3.mha
   DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha}
-  1)
+  1
+)
 itk_add_test(
   NAME
   itkImageFileWriterStreamingTest2_4
@@ -440,28 +486,32 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreaming2_4.mha
   itkImageFileWriterStreamingTest2
   DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha}
-  ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreaming2_4.mha)
+  ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterStreaming2_4.mha
+)
 itk_add_test(
   NAME
   itkImageFileWriterTest2_1
   COMMAND
   ITKIOImageBaseTestDriver
   itkImageFileWriterTest2
-  ${ITK_TEST_OUTPUT_DIR}/test.nrrd)
+  ${ITK_TEST_OUTPUT_DIR}/test.nrrd
+)
 itk_add_test(
   NAME
   itkImageFileWriterTest2_2
   COMMAND
   ITKIOImageBaseTestDriver
   itkImageFileWriterTest2
-  ${ITK_TEST_OUTPUT_DIR}/test.mha)
+  ${ITK_TEST_OUTPUT_DIR}/test.mha
+)
 itk_add_test(
   NAME
   itkImageFileWriterTest2_3
   COMMAND
   ITKIOImageBaseTestDriver
   itkImageFileWriterTest2
-  ${ITK_TEST_OUTPUT_DIR}/test.vtk)
+  ${ITK_TEST_OUTPUT_DIR}/test.vtk
+)
 itk_add_test(
   NAME
   itkImageFileWriterUpdateLargestPossibleRegionTest
@@ -472,13 +522,15 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterUpdateLargestPossibleRegionTest.png
   itkImageFileWriterUpdateLargestPossibleRegionTest
   DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterUpdateLargestPossibleRegionTest.png)
+  ${ITK_TEST_OUTPUT_DIR}/itkImageFileWriterUpdateLargestPossibleRegionTest.png
+)
 itk_add_test(
   NAME
   itkImageIOBaseTest
   COMMAND
   ITKIOImageBaseTestDriver
-  itkImageIOBaseTest)
+  itkImageIOBaseTest
+)
 itk_add_test(
   NAME
   itkImageIODirection2DTest01
@@ -490,7 +542,8 @@ itk_add_test(
   0.0
   0.0
   1.0
-  ${ITK_TEST_OUTPUT_DIR}/BrainProtonDensitySliceBorder20.mhd)
+  ${ITK_TEST_OUTPUT_DIR}/BrainProtonDensitySliceBorder20.mhd
+)
 itk_add_test(
   NAME
   itkImageIODirection2DTest02
@@ -502,7 +555,8 @@ itk_add_test(
   0.0
   0.0
   1.0
-  ${ITK_TEST_OUTPUT_DIR}/BrainProtonDensitySliceShifted13x17y.mhd)
+  ${ITK_TEST_OUTPUT_DIR}/BrainProtonDensitySliceShifted13x17y.mhd
+)
 itk_add_test(
   NAME
   itkImageIODirection2DTest03
@@ -514,7 +568,8 @@ itk_add_test(
   -0.5
   0.5
   0.8660254
-  ${ITK_TEST_OUTPUT_DIR}/BrainProtonDensitySliceBorder20DirectionPlus30.mhd)
+  ${ITK_TEST_OUTPUT_DIR}/BrainProtonDensitySliceBorder20DirectionPlus30.mhd
+)
 itk_add_test(
   NAME
   itkImageIODirection2DTest04
@@ -526,7 +581,8 @@ itk_add_test(
   -0.5
   0.5
   0.8660254
-  ${ITK_TEST_OUTPUT_DIR}/BrainProtonDensitySliceShifted13x17yDirectionPlus30.mhd)
+  ${ITK_TEST_OUTPUT_DIR}/BrainProtonDensitySliceShifted13x17yDirectionPlus30.mhd
+)
 itk_add_test(
   NAME
   itkImageIODirection2DTest05
@@ -538,7 +594,8 @@ itk_add_test(
   -0.5
   0.5
   0.8660254
-  ${ITK_TEST_OUTPUT_DIR}/BrainT1SliceBorder20DirectionPlus30.mhd)
+  ${ITK_TEST_OUTPUT_DIR}/BrainT1SliceBorder20DirectionPlus30.mhd
+)
 itk_add_test(
   NAME
   itkImageIODirection2DTest06
@@ -550,7 +607,8 @@ itk_add_test(
   0.0
   0.0
   1.0
-  ${ITK_TEST_OUTPUT_DIR}/BrainProtonDensitySliceBorder20.nhdr)
+  ${ITK_TEST_OUTPUT_DIR}/BrainProtonDensitySliceBorder20.nhdr
+)
 itk_add_test(
   NAME
   itkImageIODirection2DTest07
@@ -562,7 +620,8 @@ itk_add_test(
   0.0
   0.0
   1.0
-  ${ITK_TEST_OUTPUT_DIR}/BrainProtonDensitySliceShifted13x17y.nhdr)
+  ${ITK_TEST_OUTPUT_DIR}/BrainProtonDensitySliceShifted13x17y.nhdr
+)
 itk_add_test(
   NAME
   itkImageIODirection2DTest08
@@ -574,7 +633,8 @@ itk_add_test(
   -0.5
   0.5
   0.8660254
-  ${ITK_TEST_OUTPUT_DIR}/BrainProtonDensitySliceBorder20DirectionPlus30.nhdr)
+  ${ITK_TEST_OUTPUT_DIR}/BrainProtonDensitySliceBorder20DirectionPlus30.nhdr
+)
 itk_add_test(
   NAME
   itkImageIODirection2DTest09
@@ -586,7 +646,8 @@ itk_add_test(
   -0.5
   0.5
   0.8660254
-  ${ITK_TEST_OUTPUT_DIR}/BrainProtonDensitySliceShifted13x17yDirectionPlus30.nhdr)
+  ${ITK_TEST_OUTPUT_DIR}/BrainProtonDensitySliceShifted13x17yDirectionPlus30.nhdr
+)
 itk_add_test(
   NAME
   itkImageIODirection2DTest10
@@ -598,7 +659,8 @@ itk_add_test(
   -0.5
   0.5
   0.8660254
-  ${ITK_TEST_OUTPUT_DIR}/BrainT1SliceBorder20DirectionPlus30.nhdr)
+  ${ITK_TEST_OUTPUT_DIR}/BrainT1SliceBorder20DirectionPlus30.nhdr
+)
 itk_add_test(
   NAME
   itkImageIODirection2DTest11
@@ -609,7 +671,8 @@ itk_add_test(
   1.0
   0.0
   0.0
-  1.0)
+  1.0
+)
 itk_add_test(
   NAME
   itkImageIODirection2DTest12
@@ -620,7 +683,8 @@ itk_add_test(
   1.0
   0.0
   0.0
-  1.0)
+  1.0
+)
 itk_add_test(
   NAME
   itkImageIODirection2DTest13
@@ -631,7 +695,8 @@ itk_add_test(
   0.8660254
   -0.5
   0.5
-  0.8660254)
+  0.8660254
+)
 itk_add_test(
   NAME
   itkImageIODirection2DTest14
@@ -642,7 +707,8 @@ itk_add_test(
   0.8660254
   -0.5
   0.5
-  0.8660254)
+  0.8660254
+)
 itk_add_test(
   NAME
   itkImageIODirection2DTest15
@@ -653,7 +719,8 @@ itk_add_test(
   0.8660254
   -0.5
   0.5
-  0.8660254)
+  0.8660254
+)
 itk_add_test(
   NAME
   itkImageIODirection3DTest01
@@ -670,7 +737,8 @@ itk_add_test(
   0.0
   0.0
   1.0
-  ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirectionIdentity.mhd)
+  ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirectionIdentity.mhd
+)
 itk_add_test(
   NAME
   itkImageIODirection3DTest02
@@ -687,7 +755,8 @@ itk_add_test(
   0.0
   0.0
   1.0
-  ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirection.mhd)
+  ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirection.mhd
+)
 itk_add_test(
   NAME
   itkImageIODirection3DTest03
@@ -704,7 +773,8 @@ itk_add_test(
   0.0
   0.0
   1.0
-  ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirectionIdentity.nhdr)
+  ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirectionIdentity.nhdr
+)
 itk_add_test(
   NAME
   itkImageIODirection3DTest04
@@ -721,7 +791,8 @@ itk_add_test(
   0.0
   0.0
   1.0
-  ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirection.nhdr)
+  ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirection.nhdr
+)
 itk_add_test(
   NAME
   itkImageIODirection3DTest05
@@ -737,7 +808,8 @@ itk_add_test(
   0.0
   0.0
   0.0
-  1.0)
+  1.0
+)
 itk_add_test(
   NAME
   itkImageIODirection3DTest06
@@ -753,7 +825,8 @@ itk_add_test(
   0.0
   0.0
   0.0
-  1.0)
+  1.0
+)
 itk_add_test(
   NAME
   itkImageIODirection3DTest07
@@ -770,7 +843,8 @@ itk_add_test(
   0.0
   0.0
   1.0
-  ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirection001.nhdr)
+  ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirection001.nhdr
+)
 itk_add_test(
   NAME
   itkImageIODirection3DTest08
@@ -787,7 +861,8 @@ itk_add_test(
   0.0
   -1.0
   0.0
-  ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirection002.nhdr)
+  ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirection002.nhdr
+)
 itk_add_test(
   NAME
   itkImageIODirection3DTest09
@@ -804,13 +879,15 @@ itk_add_test(
   1.0
   0.0
   0.0
-  ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirection003.nhdr)
+  ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeWithDirection003.nhdr
+)
 itk_add_test(
   NAME
   itkImageIOFileNameExtensionsTests
   COMMAND
   ITKIOImageBaseTestDriver
-  itkImageIOFileNameExtensionsTests)
+  itkImageIOFileNameExtensionsTests
+)
 
 itk_add_test(
   NAME
@@ -820,12 +897,17 @@ itk_add_test(
   itkImageSeriesReaderDimensionsTest
   DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0075.dcm}
   DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0076.dcm}
-  DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0077.dcm})
+  DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0077.dcm}
+)
 
 set_property(
-  TEST itkImageSeriesReaderDimensionsTest1
+  TEST
+    itkImageSeriesReaderDimensionsTest1
   APPEND
-  PROPERTY DEPENDS ITK_Data)
+  PROPERTY
+    DEPENDS
+      ITK_Data
+)
 
 itk_add_test(
   NAME
@@ -836,12 +918,17 @@ itk_add_test(
   DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0075.dcm}
   DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0076.dcm}
   DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0076.dcm} # duplicated slice test to emulate non-uniform sampling
-  DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0077.dcm})
+  DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0077.dcm}
+)
 
 set_property(
-  TEST itkImageSeriesReaderDimensionsTest1
+  TEST
+    itkImageSeriesReaderDimensionsTest1
   APPEND
-  PROPERTY DEPENDS ITK_Data)
+  PROPERTY
+    DEPENDS
+      ITK_Data
+)
 # TODO: add a test with a missing slice, for that we need to have example with one more slice
 
 itk_add_test(
@@ -850,7 +937,8 @@ itk_add_test(
   COMMAND
   ITKIOImageBaseTestDriver
   itkImageFileReaderPositiveSpacingTest
-  DATA{${ITK_DATA_ROOT}/Input/itkImageNegativeSpacing.mha})
+  DATA{${ITK_DATA_ROOT}/Input/itkImageNegativeSpacing.mha}
+)
 
 itk_add_test(
   NAME
@@ -860,7 +948,8 @@ itk_add_test(
   itkImageSeriesReaderDimensionsTest
   DATA{${ITK_DATA_ROOT}/Input/cthead1.tif}
   DATA{${ITK_DATA_ROOT}/Input/cthead1.tif}
-  DATA{${ITK_DATA_ROOT}/Input/cthead1.tif})
+  DATA{${ITK_DATA_ROOT}/Input/cthead1.tif}
+)
 
 itk_add_test(
   NAME
@@ -870,7 +959,8 @@ itk_add_test(
   itkImageSeriesReaderVectorTest
   DATA{${ITK_DATA_ROOT}/Input/RGBTestImage.tif}
   DATA{${ITK_DATA_ROOT}/Input/RGBTestImage.tif}
-  DATA{${ITK_DATA_ROOT}/Input/RGBTestImage.tif})
+  DATA{${ITK_DATA_ROOT}/Input/RGBTestImage.tif}
+)
 
 itk_add_test(
   NAME
@@ -880,7 +970,8 @@ itk_add_test(
   itkImageSeriesReaderVectorTest
   DATA{${ITK_DATA_ROOT}/Input/48BitTestImage.tif}
   DATA{${ITK_DATA_ROOT}/Input/48BitTestImage.tif}
-  DATA{${ITK_DATA_ROOT}/Input/48BitTestImage.tif})
+  DATA{${ITK_DATA_ROOT}/Input/48BitTestImage.tif}
+)
 itk_add_test(
   NAME
   itkImageSeriesWriterTest
@@ -889,30 +980,42 @@ itk_add_test(
   itkImageSeriesWriterTest
   DATA{${ITK_DATA_ROOT}/Input/DicomSeries/,REGEX:Image[0-9]+.dcm}
   ${ITK_TEST_OUTPUT_DIR}
-  png)
+  png
+)
 
 if(ITK_BUILD_SHARED_LIBS)
   ## Create a library to test ITK IO plugins
-  set(FileFreeTest_Source itkFileFreeImageIO.cxx itkFileFreeImageIOFactory.cxx)
+  set(
+    FileFreeTest_Source
+    itkFileFreeImageIO.cxx
+    itkFileFreeImageIOFactory.cxx
+  )
   add_library(FileFreeTestLib MODULE ${FileFreeTest_Source})
   itk_module_target_label(FileFreeTestLib)
   target_link_libraries(FileFreeTestLib LINK_PUBLIC ${ITKIOImageBase_LIBRARIES})
-  set_property(TARGET FileFreeTestLib PROPERTY LIBRARY_OUTPUT_DIRECTORY ${ITK_TEST_OUTPUT_DIR})
+  set_property(
+    TARGET
+      FileFreeTestLib
+    PROPERTY
+      LIBRARY_OUTPUT_DIRECTORY
+        ${ITK_TEST_OUTPUT_DIR}
+  )
   add_dependencies(ITKIOImageBaseTestDriver FileFreeTestLib)
 
   itk_add_test(
-    NAME
-    itkIOPluginTest
-    COMMAND
-    itkTestDriver
-    --add-before-env
-    ITK_AUTOLOAD_PATH
-    "$<TARGET_FILE_DIR:FileFreeTestLib>"
-    "$<TARGET_FILE:ITKIOImageBaseTestDriver>"
-    itkIOPluginTest
-    ${ITK_TEST_OUTPUT_DIR}
-    "FileFreeIO::Size=128,256:Spacing=.5,.8:Origin=5,6:Direction=-1,0,0,-1"
-    ${ITK_TEST_OUTPUT_DIR}/itkIOPluginTest.png)
+      NAME
+      itkIOPluginTest
+      COMMAND
+      itkTestDriver
+      --add-before-env
+      ITK_AUTOLOAD_PATH
+      "$<TARGET_FILE_DIR:FileFreeTestLib>"
+      "$<TARGET_FILE:ITKIOImageBaseTestDriver>"
+      itkIOPluginTest
+      ${ITK_TEST_OUTPUT_DIR}
+      "FileFreeIO::Size=128,256:Spacing=.5,.8:Origin=5,6:Direction=-1,0,0,-1"
+      ${ITK_TEST_OUTPUT_DIR}/itkIOPluginTest.png
+  )
 endif()
 itk_add_test(
   NAME
@@ -924,42 +1027,48 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkNoiseImageFilterTest.png
   itkNoiseImageFilterTest
   DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkNoiseImageFilterTest.png)
+  ${ITK_TEST_OUTPUT_DIR}/itkNoiseImageFilterTest.png
+)
 itk_add_test(
   NAME
   itkMatrixImageWriteReadTest
   COMMAND
   ITKIOImageBaseTestDriver
   itkMatrixImageWriteReadTest
-  ${ITK_TEST_OUTPUT_DIR}/testMatrix1.mha)
+  ${ITK_TEST_OUTPUT_DIR}/testMatrix1.mha
+)
 itk_add_test(
   NAME
   itkReadWriteImageWithDictionaryTest
   COMMAND
   ITKIOImageBaseTestDriver
   itkReadWriteImageWithDictionaryTest
-  ${ITK_TEST_OUTPUT_DIR}/test.hdr)
+  ${ITK_TEST_OUTPUT_DIR}/test.hdr
+)
 itk_add_test(
   NAME
   itkReadWriteImageWithDictionaryTest1
   COMMAND
   ITKIOImageBaseTestDriver
   itkReadWriteImageWithDictionaryTest
-  ${ITK_TEST_OUTPUT_DIR}/test.mha)
+  ${ITK_TEST_OUTPUT_DIR}/test.mha
+)
 itk_add_test(
   NAME
   itkVectorImageReadWriteTest
   COMMAND
   ITKIOImageBaseTestDriver
   itkVectorImageReadWriteTest
-  ${ITK_TEST_OUTPUT_DIR}/VectorImageReadWriteTest.mhd)
+  ${ITK_TEST_OUTPUT_DIR}/VectorImageReadWriteTest.mhd
+)
 itk_add_test(
   NAME
   itkVectorImageReadWriteTest2
   COMMAND
   ITKIOImageBaseTestDriver
   itkVectorImageReadWriteTest
-  ${ITK_TEST_OUTPUT_DIR}/VectorImageReadWriteTest.nrrd)
+  ${ITK_TEST_OUTPUT_DIR}/VectorImageReadWriteTest.nrrd
+)
 
 itk_add_test(
   NAME
@@ -967,7 +1076,8 @@ itk_add_test(
   COMMAND
   ITKIOImageBaseTestDriver
   itkImageFileReaderManyComponentVectorTest
-  DATA{Input/rf_voltage_15_freq_0005000000_2017-5-31_12-36-44_ReferenceSpectrum_side_lines_03_fft1d_size_128.mha})
+  DATA{Input/rf_voltage_15_freq_0005000000_2017-5-31_12-36-44_ReferenceSpectrum_side_lines_03_fft1d_size_128.mha}
+)
 
 add_executable(itkUnicodeIOTest itkUnicodeIOTest.cxx)
 itk_module_target_label(itkUnicodeIOTest)
@@ -975,8 +1085,8 @@ itk_add_test(
   NAME
   itkUnicodeIOTest
   COMMAND
-  itkUnicodeIOTest)
-
-set(ITKIOImageBaseGTests itkWriteImageFunctionGTest.cxx
+  itkUnicodeIOTest
 )
+
+set(ITKIOImageBaseGTests itkWriteImageFunctionGTest.cxx)
 creategoogletestdriver(ITKIOImageBase "${ITKIOImageBase-Test_LIBRARIES}" "${ITKIOImageBaseGTests}")

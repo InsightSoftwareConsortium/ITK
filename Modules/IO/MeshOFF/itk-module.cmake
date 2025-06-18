@@ -1,5 +1,8 @@
-set(DOCUMENTATION "This module contains classes for reading and writing
-Meshes in the OFF file format.")
+set(
+  DOCUMENTATION
+  "This module contains classes for reading and writing
+Meshes in the OFF file format."
+)
 itk_module(
   ITKIOMeshOFF
   ENABLE_SHARED
@@ -14,4 +17,5 @@ itk_module(
   FACTORY_NAMES
   MeshIO::OFF
   DESCRIPTION
-  "${DOCUMENTATION}")
+  "${DOCUMENTATION}"
+)

@@ -1,16 +1,18 @@
 itk_module_test()
-set(ITKConvolutionTests
-    itkConvolutionImageFilterTest.cxx
-    itkConvolutionImageFilterTestInt.cxx
-    itkConvolutionImageFilterDeltaFunctionTest.cxx
-    itkConvolutionImageFilterStreamingTest.cxx
-    itkConvolutionImageFilterSubregionTest.cxx
-    itkFFTConvolutionImageFilterTest.cxx
-    itkFFTConvolutionImageFilterTestInt.cxx
-    itkFFTConvolutionImageFilterDeltaFunctionTest.cxx
-    itkNormalizedCorrelationImageFilterTest.cxx
-    itkMaskedFFTNormalizedCorrelationImageFilterTest.cxx
-    itkFFTNormalizedCorrelationImageFilterTest.cxx)
+set(
+  ITKConvolutionTests
+  itkConvolutionImageFilterTest.cxx
+  itkConvolutionImageFilterTestInt.cxx
+  itkConvolutionImageFilterDeltaFunctionTest.cxx
+  itkConvolutionImageFilterStreamingTest.cxx
+  itkConvolutionImageFilterSubregionTest.cxx
+  itkFFTConvolutionImageFilterTest.cxx
+  itkFFTConvolutionImageFilterTestInt.cxx
+  itkFFTConvolutionImageFilterDeltaFunctionTest.cxx
+  itkNormalizedCorrelationImageFilterTest.cxx
+  itkMaskedFFTNormalizedCorrelationImageFilterTest.cxx
+  itkFFTNormalizedCorrelationImageFilterTest.cxx
+)
 
 createtestdriver(ITKConvolution "${ITKConvolution-Test_LIBRARIES}" "${ITKConvolutionTests}")
 
@@ -25,7 +27,8 @@ itk_add_test(
   itkConvolutionImageFilterTest
   DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
   DATA{${ITK_DATA_ROOT}/Input/sobel_x.nii.gz}
-  ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTestSobelX.nrrd)
+  ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTestSobelX.nrrd
+)
 itk_add_test(
   NAME
   itkConvolutionImageFilterTestSobelY
@@ -37,7 +40,8 @@ itk_add_test(
   itkConvolutionImageFilterTest
   DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
   DATA{${ITK_DATA_ROOT}/Input/sobel_y.nii.gz}
-  ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTestSobelY.nrrd)
+  ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTestSobelY.nrrd
+)
 itk_add_test(
   NAME
   itkConvolutionImageFilterTest4x4Mean
@@ -51,7 +55,8 @@ itk_add_test(
   DATA{Input/4x4-constant.png}
   ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTest4x4Mean.png
   1
-  SAME)
+  SAME
+)
 itk_add_test(
   NAME
   itkConvolutionImageFilterTest4x5Mean
@@ -65,7 +70,8 @@ itk_add_test(
   DATA{Input/4x5-constant.png}
   ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTest4x5Mean.png
   1
-  SAME)
+  SAME
+)
 itk_add_test(
   NAME
   itkConvolutionImageFilterTest5x5Mean
@@ -79,7 +85,8 @@ itk_add_test(
   DATA{${ITK_DATA_ROOT}/Input/5x5-constant.png}
   ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTest5x5Mean.png
   1
-  SAME)
+  SAME
+)
 itk_add_test(
   NAME
   itkConvolutionImageFilterTest4x4MeanValidRegion
@@ -93,7 +100,8 @@ itk_add_test(
   DATA{Input/4x4-constant.png}
   ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTest4x4MeanValidRegion.png
   1
-  VALID)
+  VALID
+)
 itk_add_test(
   NAME
   itkConvolutionImageFilterTest4x5MeanValidRegion
@@ -107,7 +115,8 @@ itk_add_test(
   DATA{Input/4x5-constant.png}
   ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTest4x5MeanValidRegion.png
   1
-  VALID)
+  VALID
+)
 itk_add_test(
   NAME
   itkConvolutionImageFilterTest5x5MeanValidRegion
@@ -121,7 +130,8 @@ itk_add_test(
   DATA{${ITK_DATA_ROOT}/Input/5x5-constant.png}
   ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterTest5x5MeanValidRegion.png
   1
-  VALID)
+  VALID
+)
 itk_add_test(
   NAME
   itkConvolutionImageFilterDeltaFunctionTest
@@ -132,7 +142,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterDeltaFunctionTest.png
   itkConvolutionImageFilterDeltaFunctionTest
   DATA{${ITK_DATA_ROOT}/Input/level.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterDeltaFunctionTest.png)
+  ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterDeltaFunctionTest.png
+)
 
 # FFT convolution tests
 itk_add_test(
@@ -146,7 +157,8 @@ itk_add_test(
   itkFFTConvolutionImageFilterTest
   DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
   DATA{${ITK_DATA_ROOT}/Input/sobel_x.nii.gz}
-  ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterTestSobelX.nrrd)
+  ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterTestSobelX.nrrd
+)
 itk_add_test(
   NAME
   itkFFTConvolutionImageFilterTestSobelY
@@ -158,7 +170,8 @@ itk_add_test(
   itkFFTConvolutionImageFilterTest
   DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
   DATA{${ITK_DATA_ROOT}/Input/sobel_y.nii.gz}
-  ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterTestSobelY.nrrd)
+  ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterTestSobelY.nrrd
+)
 itk_add_test(
   NAME
   itkFFTConvolutionImageFilterTestSobelYPeriodic
@@ -174,7 +187,8 @@ itk_add_test(
   2
   0
   SAME
-  PERIODIC)
+  PERIODIC
+)
 itk_add_test(
   NAME
   itkFFTConvolutionImageFilterTestSobelXConstant
@@ -190,7 +204,8 @@ itk_add_test(
   2
   0
   SAME
-  CONSTANT)
+  CONSTANT
+)
 itk_add_test(
   NAME
   itkFFTConvolutionImageFilterTestSobelXZeroFluxNeumann
@@ -206,7 +221,8 @@ itk_add_test(
   2
   0
   VALID
-  ZEROFLUXNEUMANN)
+  ZEROFLUXNEUMANN
+)
 itk_add_test(
   NAME
   itkFFTConvolutionImageFilterTest4x4Mean
@@ -220,7 +236,8 @@ itk_add_test(
   DATA{Input/4x4-constant.png}
   ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterTest4x4Mean.png
   1
-  SAME)
+  SAME
+)
 itk_add_test(
   NAME
   itkFFTConvolutionImageFilterTest4x5Mean
@@ -234,7 +251,8 @@ itk_add_test(
   DATA{Input/4x5-constant.png}
   ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterTest4x5Mean.png
   1
-  SAME)
+  SAME
+)
 itk_add_test(
   NAME
   itkFFTConvolutionImageFilterTest5x5Mean
@@ -248,7 +266,8 @@ itk_add_test(
   DATA{${ITK_DATA_ROOT}/Input/5x5-constant.png}
   ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterTest5x5Mean.png
   1
-  SAME)
+  SAME
+)
 itk_add_test(
   NAME
   itkFFTConvolutionImageFilterTest4x4MeanValidRegion
@@ -262,7 +281,8 @@ itk_add_test(
   DATA{Input/4x4-constant.png}
   ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterTest4x4MeanValidRegion.png
   1
-  VALID)
+  VALID
+)
 itk_add_test(
   NAME
   itkFFTConvolutionImageFilterTest4x5MeanValidRegion
@@ -276,7 +296,8 @@ itk_add_test(
   DATA{Input/4x5-constant.png}
   ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterTest4x5MeanValidRegion.png
   1
-  VALID)
+  VALID
+)
 itk_add_test(
   NAME
   itkFFTConvolutionImageFilterTest5x5MeanValidRegion
@@ -290,7 +311,8 @@ itk_add_test(
   DATA{${ITK_DATA_ROOT}/Input/5x5-constant.png}
   ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterTest5x5MeanValidRegion.png
   1
-  VALID)
+  VALID
+)
 itk_add_test(
   NAME
   itkFFTConvolutionImageFilterDeltaFunctionTest
@@ -302,7 +324,8 @@ itk_add_test(
   itkFFTConvolutionImageFilterDeltaFunctionTest
   DATA{${ITK_DATA_ROOT}/Input/level.png}
   ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterDeltaFunctionTest.png
-  5)
+  5
+)
 
 # NCC tests
 itk_add_test(
@@ -316,7 +339,8 @@ itk_add_test(
   itkNormalizedCorrelationImageFilterTest
   DATA{${ITK_DATA_ROOT}/Input/sf4.png}
   DATA{${ITK_DATA_ROOT}/Input/circle.png}
-  ${ITK_TEST_OUTPUT_DIR}/NormalizedCorrelationImageFilterTest.png)
+  ${ITK_TEST_OUTPUT_DIR}/NormalizedCorrelationImageFilterTest.png
+)
 
 # Masked FFT NCC tests
 # Test with three different shapes
@@ -334,7 +358,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkMaskedFFTNormalizedCorrelationImageFilterTest1.png
   0.1
   DATA{Input/FixedRectangleMask1.png}
-  DATA{Input/MovingRectanglesMask.png})
+  DATA{Input/MovingRectanglesMask.png}
+)
 itk_add_test(
   NAME
   itkMaskedFFTNormalizedCorrelationImageFilterTest2
@@ -349,7 +374,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkMaskedFFTNormalizedCorrelationImageFilterTest2.png
   0.1
   DATA{Input/FixedRectangleMask2.png}
-  DATA{Input/MovingRectanglesMask.png})
+  DATA{Input/MovingRectanglesMask.png}
+)
 itk_add_test(
   NAME
   itkMaskedFFTNormalizedCorrelationImageFilterTest3
@@ -364,7 +390,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkMaskedFFTNormalizedCorrelationImageFilterTest3.png
   0.1
   DATA{Input/FixedRectangleMask3.png}
-  DATA{Input/MovingRectanglesMask.png})
+  DATA{Input/MovingRectanglesMask.png}
+)
 # Test with different size images
 itk_add_test(
   NAME
@@ -379,7 +406,8 @@ itk_add_test(
   DATA{Input/MovingRectanglesCropped.png}
   ${ITK_TEST_OUTPUT_DIR}/itkMaskedFFTNormalizedCorrelationImageFilterTest4.png
   0.1
-  DATA{Input/FixedRectangleMask3.png})
+  DATA{Input/FixedRectangleMask3.png}
+)
 # Test with not passing the fixed mask or moving mask.
 # Also test with requiring no minimum overlapping pixels. This leads to more noise on the borders.
 itk_add_test(
@@ -394,7 +422,8 @@ itk_add_test(
   DATA{Input/FixedRectangles.png}
   DATA{Input/MovingRectangles.png}
   ${ITK_TEST_OUTPUT_DIR}/itkMaskedFFTNormalizedCorrelationImageFilterTest5.png
-  0)
+  0
+)
 # Test with not passing the moving mask. This should be the same as Test3 since the moving mask was set to all ones.
 itk_add_test(
   NAME
@@ -409,7 +438,8 @@ itk_add_test(
   DATA{Input/MovingRectangles.png}
   ${ITK_TEST_OUTPUT_DIR}/itkMaskedFFTNormalizedCorrelationImageFilterTest6.png
   0.1
-  DATA{Input/FixedRectangleMask3.png})
+  DATA{Input/FixedRectangleMask3.png}
+)
 
 # Standard FFT NCC tests
 # Test with three different shapes.
@@ -430,7 +460,8 @@ itk_add_test(
   DATA{Input/FixedRectangle1.png}
   DATA{Input/MovingRectangles.png}
   ${ITK_TEST_OUTPUT_DIR}/itkFFTNormalizedCorrelationImageFilterTest1.png
-  0.1)
+  0.1
+)
 itk_add_test(
   NAME
   itkFFTNormalizedCorrelationImageFilterTest2
@@ -443,7 +474,8 @@ itk_add_test(
   DATA{Input/FixedRectangle2.png}
   DATA{Input/MovingRectangles.png}
   ${ITK_TEST_OUTPUT_DIR}/itkFFTNormalizedCorrelationImageFilterTest2.png
-  0.1)
+  0.1
+)
 itk_add_test(
   NAME
   itkFFTNormalizedCorrelationImageFilterTest3
@@ -456,7 +488,8 @@ itk_add_test(
   DATA{Input/FixedRectangle3.png}
   DATA{Input/MovingRectangles.png}
   ${ITK_TEST_OUTPUT_DIR}/itkFFTNormalizedCorrelationImageFilterTest3.png
-  0.1)
+  0.1
+)
 # Test with different size images
 itk_add_test(
   NAME
@@ -470,7 +503,8 @@ itk_add_test(
   DATA{Input/FixedRectangle3.png}
   DATA{Input/MovingRectanglesCropped.png}
   ${ITK_TEST_OUTPUT_DIR}/itkFFTNormalizedCorrelationImageFilterTest4.png
-  0.1)
+  0.1
+)
 # Test NCC of the original fixed and moving images, without masking the fixed image first.
 # The result should be the same as Test5 of MaskedFFTNormalizedCorrelation
 itk_add_test(
@@ -485,7 +519,8 @@ itk_add_test(
   DATA{Input/FixedRectangles.png}
   DATA{Input/MovingRectangles.png}
   ${ITK_TEST_OUTPUT_DIR}/itkFFTNormalizedCorrelationImageFilterTest5.png
-  0)
+  0
+)
 # Test with subregion
 itk_add_test(
   NAME
@@ -505,7 +540,8 @@ itk_add_test(
   150
   0
   same
-  DATA{${ITK_DATA_ROOT}/Input/sobel_y.nii.gz})
+  DATA{${ITK_DATA_ROOT}/Input/sobel_y.nii.gz}
+)
 itk_add_test(
   NAME
   itkFFTConvolutionImageFilterSubregionTest
@@ -524,7 +560,8 @@ itk_add_test(
   150
   0
   same
-  DATA{${ITK_DATA_ROOT}/Input/sobel_y.nii.gz})
+  DATA{${ITK_DATA_ROOT}/Input/sobel_y.nii.gz}
+)
 itk_add_test(
   NAME
   itkConvolutionImageFilterSubregionTest2
@@ -620,7 +657,8 @@ itk_add_test(
   50
   75
   150
-  150)
+  150
+)
 itk_add_test(
   NAME
   itkFFTConvolutionImageFilterStreamingTest
@@ -636,7 +674,8 @@ itk_add_test(
   50
   75
   150
-  150)
+  150
+)
 itk_add_test(
   NAME
   itkConvolutionImageFilterStreamingValidTest

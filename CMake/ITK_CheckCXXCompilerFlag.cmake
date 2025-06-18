@@ -24,7 +24,13 @@ include(CheckCXXSourceCompiles)
 
 macro(ITK_CHECK_CXX_COMPILER_FLAG _FLAG _RESULT)
   if(ITK_LEGACY_REMOVE)
-    message(FATAL_ERROR "REPLACE ITK_CHECK_CXX_COMPILER_FLAG with check_cxx_compiler_flag")
+    message(
+      FATAL_ERROR
+      "REPLACE ITK_CHECK_CXX_COMPILER_FLAG with check_cxx_compiler_flag"
+    )
   endif()
-  check_cxx_compiler_flag(${_FLAG} ${_RESULT})
+  check_cxx_compiler_flag(
+    ${_FLAG}
+    ${_RESULT}
+  )
 endmacro()

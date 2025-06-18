@@ -15,10 +15,7 @@ macro(WRAP_TYPE class prefix)
   set(itk_Wrap_Class "${class}")
 
   # Add any include's specified in ARGN to WRAPPER_DEFAULT_INCLUDE
-  if(NOT
-     "${ARGN}"
-     STREQUAL
-     "")
+  if(NOT "${ARGN}" STREQUAL "")
     list(APPEND WRAPPER_DEFAULT_INCLUDE ${ARGN})
   endif()
 endmacro()
@@ -30,38 +27,20 @@ macro(END_WRAP_TYPE)
   # files. This method ensure all the type names are constructed
   # with the same method.
   foreach(wrap ${WRAPPER_TEMPLATES})
-    string(
-      REGEX
-      REPLACE "([0-9A-Za-z]*)[ ]*#[ ]*(.*)"
-              "\\1"
-              wrapTpl
-              "${wrap}")
-    string(
-      REGEX
-      REPLACE "([0-9A-Za-z]*)[ ]*#[ ]*(.*)"
-              "\\2"
-              wrapType
-              "${wrap}")
+    string(REGEX REPLACE "([0-9A-Za-z]*)[ ]*#[ ]*(.*)" "\\1" wrapTpl "${wrap}")
+    string(REGEX REPLACE "([0-9A-Za-z]*)[ ]*#[ ]*(.*)" "\\2" wrapType "${wrap}")
     if("${itk_Wrap_Class}" MATCHES "::")
       # there's at least one namespace in the name
+      string(REGEX REPLACE ".*::" "" base_name "${itk_Wrap_Class}")
       string(
         REGEX
-        REPLACE ".*::"
-                ""
-                base_name
-                "${itk_Wrap_Class}")
-      string(
-        REGEX
-        REPLACE "^([^:]*::)?.+"
-                "\\1"
-                top_namespace
-                "${itk_Wrap_Class}")
-      string(
-        REGEX
-        REPLACE "::"
-                ""
-                top_namespace
-                "${top_namespace}") # drop the :: from the namespace
+        REPLACE
+        "^([^:]*::)?.+"
+        "\\1"
+        top_namespace
+        "${itk_Wrap_Class}"
+      )
+      string(REGEX REPLACE "::" "" top_namespace "${top_namespace}") # drop the :: from the namespace
       set(swig_name "${top_namespace}${base_name}")
     else()
       # no namespaces
@@ -141,7 +120,8 @@ foreach(d ${ITK_WRAP_IMAGE_DIMS})
     APPEND
     dims
     ${d2}
-    ${d3})
+    ${d3}
+  )
 endforeach()
 
 # FixedArray can be used with dimensions describing
@@ -245,11 +225,8 @@ unique(wrap_image_types "${WRAP_ITK_ALL_TYPES};RGBUC;RGBAUC;VD;${WRAP_ITK_SCALAR
 
 set(defined_vector_list)
 foreach(d ${ITK_WRAP_IMAGE_DIMS})
-
   foreach(type ${wrap_image_types})
-
     if("VF;VD;CVF;CVD" MATCHES "(^|;)${type}(;|$)")
-
       # Vectorial types
       set(orig_type ${type})
       foreach(vec_dim ${ITK_WRAP_VECTOR_COMPONENTS})
@@ -258,7 +235,6 @@ foreach(d ${ITK_WRAP_IMAGE_DIMS})
         # Make a list of all defined vector/covariantvector image types.
         list(APPEND defined_vector_list ${ITKM_${type}}${d})
       endforeach()
-
     else()
       # Scalar types
       add_template("${ITKM_${type}}${d}" "${ITKT_${type}},${d}")
@@ -281,7 +257,6 @@ foreach(d ${ITK_WRAP_IMAGE_DIMS})
   if(ITK_WRAP_float)
     add_template("${ITKM_SSRT${ITKM_F}${d}}${d}" "${ITKT_SSRT${ITKM_F}${d}}, ${d}")
   endif()
-
 endforeach()
 
 # The next templates need to be always present, but should not be
@@ -292,18 +267,12 @@ endforeach()
 foreach(d ${ITK_WRAP_IMAGE_DIMS})
   increment(d_inc ${d})
   foreach(vector_dim ${ITK_WRAP_VECTOR_COMPONENTS})
-    if(NOT
-       "${ITKM_VD${vector_dim}}${d_inc}"
-       IN_LIST
-       defined_vector_list)
+    if(NOT "${ITKM_VD${vector_dim}}${d_inc}" IN_LIST defined_vector_list)
       add_template("${ITKM_VD${vector_dim}}${d_inc}" "${ITKT_VD${vector_dim}},${d_inc}")
     endif()
   endforeach()
   # For N4BiasFieldCorrectionImageFilter
-  if(NOT
-     "${ITKM_VF1}${d}"
-     IN_LIST
-     defined_vector_list)
+  if(NOT "${ITKM_VF1}${d}" IN_LIST defined_vector_list)
     add_template("${ITKM_VF1}${d}" "${ITKT_VF1},${d}")
   endif()
 endforeach()
@@ -312,10 +281,7 @@ endforeach()
 # for the ITKRegistration module.
 foreach(d ${ITK_WRAP_IMAGE_DIMS})
   foreach(vector_dim ${ITK_WRAP_VECTOR_COMPONENTS})
-    if(NOT
-       "${ITKM_CVD${vector_dim}}${d}"
-       IN_LIST
-       defined_vector_list)
+    if(NOT "${ITKM_CVD${vector_dim}}${d}" IN_LIST defined_vector_list)
       add_template("${ITKM_CVD${vector_dim}}${d}" "${ITKT_CVD${vector_dim}},${d}")
     endif()
   endforeach()

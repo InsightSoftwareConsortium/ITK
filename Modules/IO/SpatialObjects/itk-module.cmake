@@ -1,9 +1,11 @@
-set(DOCUMENTATION
-    "This module contains classes for reading and writing
+set(
+  DOCUMENTATION
+  "This module contains classes for reading and writing
 SpatialObjects as opposed to general images.  The SpatialObjects are written in
 <a
 href=\"https://www.vtk.org/Wiki/MetaIO/Documentation#Spatial_Objects\">MetaIO</a>
-format.")
+format."
+)
 
 itk_module(
   ITKIOSpatialObjects
@@ -19,4 +21,5 @@ itk_module(
   ITKMetaIO
   ITKMesh
   DESCRIPTION
-  "${DOCUMENTATION}")
+  "${DOCUMENTATION}"
+)

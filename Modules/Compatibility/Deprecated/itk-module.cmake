@@ -1,5 +1,8 @@
-set(DOCUMENTATION "This is a collection of classes that are intended to be
-removed from the toolkit.")
+set(
+  DOCUMENTATION
+  "This is a collection of classes that are intended to be
+removed from the toolkit."
+)
 
 set(ITKDeprecatedOnByDefault EXCLUDE_FROM_DEFAULT)
 
@@ -14,4 +17,5 @@ itk_module(
   ${ITKDeprecatedOnByDefault}
   ENABLE_SHARED
   DESCRIPTION
-  "${DOCUMENTATION}")
+  "${DOCUMENTATION}"
+)

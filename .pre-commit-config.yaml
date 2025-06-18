@@ -56,6 +56,13 @@ repos:
      args: ['--branch','dashboard','--branch','python-builds','--branch','release','--branch','hooks','--branch', 'main','--branch','master','--pattern','release-*']
    - id: trailing-whitespace
      exclude: "\\.(sha|sha512|svg|vtk|vtp)$|\\/ThirdParty\\/|\\/Data\\/"
+- repo: https://github.com/BlankSpruce/gersemi
+  rev: 0.19.3
+  hooks:
+  - id: gersemi
+    args: [ '--config', '.gersemi.config', '-i' ]
+    files: '.(cmake|wrap)$|CMakeLists.txt'
+    exclude: "\\/ThirdParty\\/|Modules\\/Remote\\/|\\/ExternalData.cmake|\\/.pixi\\/|\\/cmake-build.*\\/"
 - repo: https://github.com/pre-commit/mirrors-clang-format
   rev: v19.1.7
   hooks:

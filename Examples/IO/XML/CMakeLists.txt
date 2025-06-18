@@ -7,5 +7,6 @@ add_executable(
   itkParticleSwarmOptimizerDOMReader.cxx
   itkParticleSwarmOptimizerDOMWriter.cxx
   itkParticleSwarmOptimizerSAXReader.cxx
-  itkParticleSwarmOptimizerSAXWriter.cxx)
+  itkParticleSwarmOptimizerSAXWriter.cxx
+)
 target_link_libraries(ParticleSwarmOptimizerReadWrite ${ITK_LIBRARIES})

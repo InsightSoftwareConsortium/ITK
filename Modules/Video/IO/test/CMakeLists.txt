@@ -1,5 +1,10 @@
 itk_module_test()
-set(ITKVideoIOTests itkVideoFileReaderWriterTest.cxx itkFileListVideoIOTest.cxx itkFileListVideoIOFactoryTest.cxx)
+set(
+  ITKVideoIOTests
+  itkVideoFileReaderWriterTest.cxx
+  itkFileListVideoIOTest.cxx
+  itkFileListVideoIOFactoryTest.cxx
+)
 
 createtestdriver(ITKVideoIO "${ITKVideoIO-Test_LIBRARIES}" "${ITKVideoIOTests}")
 
@@ -18,7 +23,8 @@ itk_add_test(
   "${ITK_TEST_OUTPUT_DIR}/frame0.png,${ITK_TEST_OUTPUT_DIR}/frame1.png,${ITK_TEST_OUTPUT_DIR}/frame2.png,${ITK_TEST_OUTPUT_DIR}/frame3.png,${ITK_TEST_OUTPUT_DIR}/frame4.png"
   1
   24
-  MP42)
+  MP42
+)
 
 # FileListVideoIO:
 itk_add_test(
@@ -38,7 +44,8 @@ itk_add_test(
   320
   240
   5
-  1)
+  1
+)
 
 # FileListVideoIOFactory:
 itk_add_test(
@@ -53,4 +60,5 @@ itk_add_test(
   DATA{Input/frame3.jpg}
   DATA{Input/frame4.jpg}
   "${ITK_TEST_OUTPUT_DIR}/filelistfactory_frame0.png,${ITK_TEST_OUTPUT_DIR}/filelistfactory_frame1.png,${ITK_TEST_OUTPUT_DIR}/filelistfactory_frame2.png,${ITK_TEST_OUTPUT_DIR}/filelistfactory_frame3.png,${ITK_TEST_OUTPUT_DIR}/filelistfactory_frame4.png"
-  0)
+  0
+)

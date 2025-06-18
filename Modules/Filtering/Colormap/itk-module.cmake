@@ -1,5 +1,8 @@
-set(DOCUMENTATION "This module contains filter/functions for converting
-grayscale images to colormapped RGB images.")
+set(
+  DOCUMENTATION
+  "This module contains filter/functions for converting
+grayscale images to colormapped RGB images."
+)
 
 itk_module(
   ITKColormap
@@ -9,4 +12,5 @@ itk_module(
   TEST_DEPENDS
   ITKTestKernel
   DESCRIPTION
-  "${DOCUMENTATION}")
+  "${DOCUMENTATION}"
+)

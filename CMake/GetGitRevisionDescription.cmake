@@ -43,12 +43,8 @@ find_package(Git QUIET)
 
 function(get_git_head_revision _refvar _hashvar)
   if(NOT GIT_EXECUTABLE)
-    set(${_refvar}
-        "GIT-NOTFOUND"
-        PARENT_SCOPE)
-    set(${_hashvar}
-        "GIT-NOTFOUND"
-        PARENT_SCOPE)
+    set(${_refvar} "GIT-NOTFOUND" PARENT_SCOPE)
+    set(${_hashvar} "GIT-NOTFOUND" PARENT_SCOPE)
     return()
   endif()
 
@@ -56,24 +52,22 @@ function(get_git_head_revision _refvar _hashvar)
   set(bin_dir ${PROJECT_BINARY_DIR})
 
   execute_process(
-    COMMAND ${GIT_EXECUTABLE} rev-parse --git-dir
+    COMMAND
+      ${GIT_EXECUTABLE} rev-parse --git-dir
     WORKING_DIRECTORY ${src_dir}
     OUTPUT_VARIABLE GIT_DIR
     ERROR_VARIABLE error
     RESULT_VARIABLE failed
-    OUTPUT_STRIP_TRAILING_WHITESPACE)
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+  )
 
   if(NOT IS_ABSOLUTE "${GIT_DIR}")
     set(GIT_DIR "${src_dir}/${GIT_DIR}")
   endif()
   if(failed OR NOT EXISTS "${GIT_DIR}/HEAD")
     # not in git
-    set(${_refvar}
-        "GITDIR-NOTFOUND"
-        PARENT_SCOPE)
-    set(${_hashvar}
-        "GITDIR-NOTFOUND"
-        PARENT_SCOPE)
+    set(${_refvar} "GITDIR-NOTFOUND" PARENT_SCOPE)
+    set(${_hashvar} "GITDIR-NOTFOUND" PARENT_SCOPE)
     return()
   endif()
   set(GIT_DATA "${bin_dir}/CMakeFiles/git-data")
@@ -82,10 +76,7 @@ function(get_git_head_revision _refvar _hashvar)
   endif()
   configure_file("${GIT_DIR}/HEAD" "${GIT_DATA}/HEAD" COPYONLY)
 
-  file(
-    STRINGS "${GIT_DIR}/HEAD" head
-    LIMIT_COUNT 1
-    LIMIT_INPUT 1024)
+  file(STRINGS "${GIT_DIR}/HEAD" head LIMIT_COUNT 1 LIMIT_INPUT 1024)
   if("${head}" MATCHES "^ref: (.*)$")
     set(HEAD_REF "${CMAKE_MATCH_1}")
     if(EXISTS "${GIT_DIR}/${HEAD_REF}")
@@ -95,21 +86,19 @@ function(get_git_head_revision _refvar _hashvar)
     set(HEAD_REF "")
   endif()
   execute_process(
-    COMMAND ${GIT_EXECUTABLE} rev-parse HEAD
+    COMMAND
+      ${GIT_EXECUTABLE} rev-parse HEAD
     WORKING_DIRECTORY ${src_dir}
     OUTPUT_VARIABLE HEAD_HASH
     OUTPUT_STRIP_TRAILING_WHITESPACE
     ERROR_VARIABLE error
-    RESULT_VARIABLE failed)
+    RESULT_VARIABLE failed
+  )
   if(failed)
     set(HEAD_HASH "HEAD-HASH-NOTFOUND")
   endif()
-  set(${_refvar}
-      "${HEAD_REF}"
-      PARENT_SCOPE)
-  set(${_hashvar}
-      "${HEAD_HASH}"
-      PARENT_SCOPE)
+  set(${_refvar} "${HEAD_REF}" PARENT_SCOPE)
+  set(${_hashvar} "${HEAD_HASH}" PARENT_SCOPE)
 endfunction()
 
 # get the number of commits since the file has last been modified
@@ -119,52 +108,46 @@ function(git_commits_since file _commits)
   set(src_dir ${PROJECT_SOURCE_DIR})
 
   execute_process(
-    COMMAND ${GIT_EXECUTABLE} rev-list ${head} -n 1 -- ${file}
+    COMMAND
+      ${GIT_EXECUTABLE} rev-list ${head} -n 1 -- ${file}
     WORKING_DIRECTORY ${src_dir}
     OUTPUT_VARIABLE tag
     OUTPUT_STRIP_TRAILING_WHITESPACE
     ERROR_VARIABLE error
-    RESULT_VARIABLE failed)
+    RESULT_VARIABLE failed
+  )
   if(failed)
     set(tag "")
   endif()
 
   execute_process(
-    COMMAND ${GIT_EXECUTABLE} rev-list ${tag}..${head}
+    COMMAND
+      ${GIT_EXECUTABLE} rev-list ${tag}..${head}
     WORKING_DIRECTORY ${src_dir}
     OUTPUT_VARIABLE rev_list
     OUTPUT_STRIP_TRAILING_WHITESPACE
     ERROR_VARIABLE error
-    RESULT_VARIABLE failed)
+    RESULT_VARIABLE failed
+  )
 
   if(failed)
     set(rev_list "")
   endif()
 
-  string(
-    REGEX MATCHALL
-          "[a-fA-F0-9]+"
-          rev_list
-          "${rev_list}")
+  string(REGEX MATCHALL "[a-fA-F0-9]+" rev_list "${rev_list}")
   list(LENGTH rev_list COUNT)
 
-  set(${_commits}
-      "${COUNT}"
-      PARENT_SCOPE)
+  set(${_commits} "${COUNT}" PARENT_SCOPE)
 endfunction()
 
 function(git_describe _var)
   get_git_head_revision(refspec hash)
   if(NOT GIT_FOUND)
-    set(${_var}
-        "GIT-NOTFOUND"
-        PARENT_SCOPE)
+    set(${_var} "GIT-NOTFOUND" PARENT_SCOPE)
     return()
   endif()
   if(NOT hash)
-    set(${_var}
-        "HEAD-HASH-NOTFOUND"
-        PARENT_SCOPE)
+    set(${_var} "HEAD-HASH-NOTFOUND" PARENT_SCOPE)
     return()
   endif()
 
@@ -181,129 +164,105 @@ function(git_describe _var)
   #message(STATUS "Arguments to execute_process: ${ARGN}")
 
   execute_process(
-    COMMAND "${GIT_EXECUTABLE}" describe ${hash} ${ARGN}
+    COMMAND
+      "${GIT_EXECUTABLE}" describe ${hash} ${ARGN}
     WORKING_DIRECTORY "${src_dir}"
     RESULT_VARIABLE res
     OUTPUT_VARIABLE out
-    ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE)
-  if(NOT
-     res
-     EQUAL
-     0)
+    ERROR_QUIET
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+  )
+  if(NOT res EQUAL 0)
     set(out "${out}-${res}-NOTFOUND")
   endif()
 
-  set(${_var}
-      "${out}"
-      PARENT_SCOPE)
+  set(${_var} "${out}" PARENT_SCOPE)
 endfunction()
 
 function(git_get_exact_tag _var)
   git_describe(out --exact-match ${ARGN})
-  set(${_var}
-      "${out}"
-      PARENT_SCOPE)
+  set(${_var} "${out}" PARENT_SCOPE)
 endfunction()
 
 function(git_head_date _var)
   get_git_head_revision(refspec hash)
   if(NOT GIT_FOUND)
-    set(${_var}
-        "GIT-NOTFOUND"
-        PARENT_SCOPE)
+    set(${_var} "GIT-NOTFOUND" PARENT_SCOPE)
     return()
   endif()
   if(NOT hash)
-    set(${_var}
-        "HEAD-HASH-NOTFOUND"
-        PARENT_SCOPE)
+    set(${_var} "HEAD-HASH-NOTFOUND" PARENT_SCOPE)
     return()
   endif()
 
   set(src_dir ${PROJECT_SOURCE_DIR})
   execute_process(
-    COMMAND "${GIT_EXECUTABLE}" show -s --format=%ci ${hash} ${ARGN}
+    COMMAND
+      "${GIT_EXECUTABLE}" show -s --format=%ci ${hash} ${ARGN}
     WORKING_DIRECTORY "${src_dir}"
     RESULT_VARIABLE res
     OUTPUT_VARIABLE out
-    ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE)
-  if(NOT
-     res
-     EQUAL
-     0)
+    ERROR_QUIET
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+  )
+  if(NOT res EQUAL 0)
     set(out "${out}-${res}-NOTFOUND")
   endif()
 
-  set(${_var}
-      "${out}"
-      PARENT_SCOPE)
-
+  set(${_var} "${out}" PARENT_SCOPE)
 endfunction()
 
 function(git_head_date _var)
   get_git_head_revision(refspec hash)
   if(NOT GIT_FOUND)
-    set(${_var}
-        "GIT-NOTFOUND"
-        PARENT_SCOPE)
+    set(${_var} "GIT-NOTFOUND" PARENT_SCOPE)
     return()
   endif()
   if(NOT hash)
-    set(${_var}
-        "HEAD-HASH-NOTFOUND"
-        PARENT_SCOPE)
+    set(${_var} "HEAD-HASH-NOTFOUND" PARENT_SCOPE)
     return()
   endif()
 
   set(src_dir ${PROJECT_SOURCE_DIR})
   execute_process(
-    COMMAND "${GIT_EXECUTABLE}" show -s --format=%ci ${hash} ${ARGN}
+    COMMAND
+      "${GIT_EXECUTABLE}" show -s --format=%ci ${hash} ${ARGN}
     WORKING_DIRECTORY "${src_dir}"
     RESULT_VARIABLE res
     OUTPUT_VARIABLE out
-    ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE)
-  if(NOT
-     res
-     EQUAL
-     0)
+    ERROR_QUIET
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+  )
+  if(NOT res EQUAL 0)
     set(out "${out}-${res}-NOTFOUND")
   endif()
-  set(${_var}
-      "${out}"
-      PARENT_SCOPE)
+  set(${_var} "${out}" PARENT_SCOPE)
 endfunction()
 
 function(git_head_localmods _var)
   get_git_head_revision(refspec hash)
   if(NOT GIT_FOUND)
-    set(${_var}
-        "GIT-NOTFOUND"
-        PARENT_SCOPE)
+    set(${_var} "GIT-NOTFOUND" PARENT_SCOPE)
     return()
   endif()
   if(NOT hash)
-    set(${_var}
-        "HEAD-HASH-NOTFOUND"
-        PARENT_SCOPE)
+    set(${_var} "HEAD-HASH-NOTFOUND" PARENT_SCOPE)
     return()
   endif()
 
   set(src_dir ${PROJECT_SOURCE_DIR})
   ## Determine if there are local modifications to the HEAD
   execute_process(
-    COMMAND ${GIT_EXECUTABLE} diff --shortstat HEAD
+    COMMAND
+      ${GIT_EXECUTABLE} diff --shortstat HEAD
     WORKING_DIRECTORY ${src_dir}
     RESULT_VARIABLE res
     OUTPUT_VARIABLE out
     ERROR_VARIABLE error
-    OUTPUT_STRIP_TRAILING_WHITESPACE)
-  if(NOT
-     res
-     EQUAL
-     0)
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+  )
+  if(NOT res EQUAL 0)
     set(out "${out}-${res}-NOTFOUND")
   endif()
-  set(${_var}
-      "${out}"
-      PARENT_SCOPE)
+  set(${_var} "${out}" PARENT_SCOPE)
 endfunction()

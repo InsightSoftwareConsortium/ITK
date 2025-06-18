@@ -1,5 +1,8 @@
-set(DOCUMENTATION "This module contains classes related to calculation of
-eigenvectors and eigenvalues.")
+set(
+  DOCUMENTATION
+  "This module contains classes related to calculation of
+eigenvectors and eigenvalues."
+)
 
 itk_module(
   ITKEigen
@@ -8,4 +11,5 @@ itk_module(
   TEST_DEPENDS
   ITKTestKernel
   DESCRIPTION
-  "${DOCUMENTATION}")
+  "${DOCUMENTATION}"
+)

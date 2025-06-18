@@ -8,23 +8,37 @@ if(CMAKE_BUILD_TYPE)
   set(_build_configuration_arg -DCMAKE_BUILD_TYPE=Release)
 endif()
 
-configure_file("${ITK_CMAKE_DIR}/ITKKWStyleConfig.cmake.in" "${CMAKE_CURRENT_BINARY_DIR}/ITKKWStyleConfig.cmake" @ONLY)
+configure_file(
+  "${ITK_CMAKE_DIR}/ITKKWStyleConfig.cmake.in"
+  "${CMAKE_CURRENT_BINARY_DIR}/ITKKWStyleConfig.cmake"
+  @ONLY
+)
 
 # XXX Implementation of the itk_download_attempt_check macro copied from the
 #     ITK main CMakeLists.txt. This allows external modules to use the logic
 #     which is not defined when building against an ITK build tree.
 #     Equivalent to "itk_download_attempt_check(KWStyle)".
 if(ITK_FORBID_DOWNLOADS)
-  message(SEND_ERROR "Attempted to download KWStyle when ITK_FORBID_DOWNLOADS is ON")
+  message(
+    SEND_ERROR
+    "Attempted to download KWStyle when ITK_FORBID_DOWNLOADS is ON"
+  )
 endif()
-set(CMAKE_CXX_COMPILER_LAUNCHER_FLAG -DCMAKE_CXX_COMPILER_LAUNCHER:FILEPATH=${CMAKE_CXX_COMPILER_LAUNCHER})
-set(CMAKE_C_COMPILER_LAUNCHER_FLAG -DCMAKE_C_COMPILER_LAUNCHER:FILEPATH=${CMAKE_C_COMPILER_LAUNCHER})
+set(
+  CMAKE_CXX_COMPILER_LAUNCHER_FLAG
+  -DCMAKE_CXX_COMPILER_LAUNCHER:FILEPATH=${CMAKE_CXX_COMPILER_LAUNCHER}
+)
+set(
+  CMAKE_C_COMPILER_LAUNCHER_FLAG
+  -DCMAKE_C_COMPILER_LAUNCHER:FILEPATH=${CMAKE_C_COMPILER_LAUNCHER}
+)
 if(NOT TARGET KWStyle)
   ExternalProject_Add(
     KWStyle
     GIT_REPOSITORY "https://github.com/Kitware/KWStyle.git"
     GIT_TAG eb1e46d57db04a2f94a1a4709a67d8fb8f986400
-    UPDATE_COMMAND ""
+    UPDATE_COMMAND
+      ""
     DOWNLOAD_DIR ${KWStyle_SOURCE_DIR}
     SOURCE_DIR ${KWStyle_SOURCE_DIR}
     BINARY_DIR ${KWStyle_DIR}
@@ -36,15 +50,17 @@ if(NOT TARGET KWStyle)
     LOG_TEST 0
     LOG_INSTALL 0
     CMAKE_GENERATOR ${gen}
-    CMAKE_ARGS -DCMAKE_MAKE_PROGRAM:FILEPATH=${CMAKE_MAKE_PROGRAM}
-               -DCMAKE_CXX_COMPILER:STRING=${CMAKE_CXX_COMPILER}
-               ${CMAKE_CXX_COMPILER_LAUNCHER_FLAG}
-               -DCMAKE_C_COMPILER:STRING=${CMAKE_C_COMPILER}
-               ${CMAKE_C_COMPILER_LAUNCHER_FLAG}
-               -DCMAKE_CXX_FLAGS:STRING=${CMAKE_CXX_FLAGS}
-               -DCMAKE_C_FLAGS:STRING=${CMAKE_C_FLAGS}
-               ${_build_configuration_arg}
-               -DCMAKE_INSTALL_PREFIX:PATH=${CMAKE_INSTALL_PREFIX}
-               -DBUILD_TESTING:BOOL=OFF
-    INSTALL_COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/ITKKWStyleConfig.cmake)
+    CMAKE_ARGS
+      -DCMAKE_MAKE_PROGRAM:FILEPATH=${CMAKE_MAKE_PROGRAM}
+      -DCMAKE_CXX_COMPILER:STRING=${CMAKE_CXX_COMPILER}
+      ${CMAKE_CXX_COMPILER_LAUNCHER_FLAG}
+      -DCMAKE_C_COMPILER:STRING=${CMAKE_C_COMPILER}
+      ${CMAKE_C_COMPILER_LAUNCHER_FLAG}
+      -DCMAKE_CXX_FLAGS:STRING=${CMAKE_CXX_FLAGS}
+      -DCMAKE_C_FLAGS:STRING=${CMAKE_C_FLAGS} ${_build_configuration_arg}
+      -DCMAKE_INSTALL_PREFIX:PATH=${CMAKE_INSTALL_PREFIX}
+      -DBUILD_TESTING:BOOL=OFF
+    INSTALL_COMMAND
+      ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/ITKKWStyleConfig.cmake
+  )
 endif()

@@ -4,4 +4,5 @@ itk_module(
   PRIVATE_DEPENDS
   ITKIOImageBase
   TEST_DEPENDS
-  ITKTestKernel)
+  ITKTestKernel
+)

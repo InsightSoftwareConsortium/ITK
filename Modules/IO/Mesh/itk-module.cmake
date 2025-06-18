@@ -1,10 +1,12 @@
-set(DOCUMENTATION
-    "This module contains classes for reading and writing
+set(
+  DOCUMENTATION
+  "This module contains classes for reading and writing
 Meshes as opposed to general images.
 
 This module is present for backwards compatibility and should not be used -
 for support for a specific mesh file format, depend on the specific
-module, instead.")
+module, instead."
+)
 
 itk_module(
   ITKIOMesh
@@ -33,4 +35,5 @@ itk_module(
   MeshIO::OBJ
   MeshIO::OFF
   DESCRIPTION
-  "${DOCUMENTATION}")
+  "${DOCUMENTATION}"
+)

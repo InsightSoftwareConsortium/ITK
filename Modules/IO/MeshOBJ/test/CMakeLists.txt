@@ -1,6 +1,10 @@
 itk_module_test()
 
-set(ITKIOMeshOBJTests itkMeshFileReadWriteTest.cxx itkOBJMeshIOTest.cxx)
+set(
+  ITKIOMeshOBJTests
+  itkMeshFileReadWriteTest.cxx
+  itkOBJMeshIOTest.cxx
+)
 
 createtestdriver(ITKIOMeshOBJ "${ITKIOMeshOBJ-Test_LIBRARIES}" "${ITKIOMeshOBJTests}")
 
@@ -11,7 +15,8 @@ itk_add_test(
   ITKIOMeshOBJTestDriver
   itkMeshFileReadWriteTest
   DATA{Baseline/box.obj}
-  ${ITK_TEST_OUTPUT_DIR}/box.obj)
+  ${ITK_TEST_OUTPUT_DIR}/box.obj
+)
 
 itk_add_test(
   NAME
@@ -20,7 +25,8 @@ itk_add_test(
   ITKIOMeshOBJTestDriver
   itkMeshFileReadWriteTest
   DATA{Baseline/bunny.obj}
-  ${ITK_TEST_OUTPUT_DIR}/bunny.vtk)
+  ${ITK_TEST_OUTPUT_DIR}/bunny.vtk
+)
 
 itk_add_test(
   NAME
@@ -40,7 +46,8 @@ itk_add_test(
   8
   0
   6
-  0)
+  0
+)
 
 itk_add_test(
   NAME
@@ -60,4 +67,5 @@ itk_add_test(
   2503
   4968
   4968
-  0)
+  0
+)

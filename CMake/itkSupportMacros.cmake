@@ -19,19 +19,12 @@ endmacro()
 #   itk_deprecated_setting(default_setting NEW_SETTING OLD_SETTING "default value")
 #   set(NEW_SETTING "${default_setting}"
 #     CACHE STRING "Documentation for the setting.")
-function(
-  itk_deprecated_setting
-  output_default
-  new
-  old
-  intended_default)
+function(itk_deprecated_setting output_default new old intended_default)
   set(default "${intended_default}")
   if(DEFINED "${old}")
     message(WARNING "The '${old}' variable is deprecated for '${new}'.")
     set(default "${${old}}")
   endif()
 
-  set("${output_default}"
-      "${default}"
-      PARENT_SCOPE)
+  set("${output_default}" "${default}" PARENT_SCOPE)
 endfunction()

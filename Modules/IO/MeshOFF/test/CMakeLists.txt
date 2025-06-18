@@ -1,6 +1,10 @@
 itk_module_test()
 
-set(ITKIOMeshOFFTests itkMeshFileReadWriteTest.cxx itkOFFMeshIOTest.cxx)
+set(
+  ITKIOMeshOFFTests
+  itkMeshFileReadWriteTest.cxx
+  itkOFFMeshIOTest.cxx
+)
 
 createtestdriver(ITKIOMeshOFF "${ITKIOMeshOFF-Test_LIBRARIES}" "${ITKIOMeshOFFTests}")
 
@@ -11,7 +15,8 @@ itk_add_test(
   ITKIOMeshOFFTestDriver
   itkMeshFileReadWriteTest
   DATA{Baseline/octa.off}
-  ${ITK_TEST_OUTPUT_DIR}/octa.off)
+  ${ITK_TEST_OUTPUT_DIR}/octa.off
+)
 itk_add_test(
   NAME
   itkOFFMeshIOTest
@@ -30,4 +35,5 @@ itk_add_test(
   6
   0
   8
-  0)
+  0
+)

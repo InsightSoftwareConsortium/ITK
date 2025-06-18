@@ -1,11 +1,13 @@
 itk_module_test()
-set(ITKVideoBridgeOpenCVTests
-    itkOpenCVVideoCaptureTest.cxx
-    itkOpenCVImageBridgeGrayScaleTest.cxx
-    itkOpenCVImageBridgeRGBTest.cxx
-    itkOpenCVVideoIOTest.cxx
-    itkOpenCVVideoIOFactoryTest.cxx
-    itkOpenCVBasicTypeBridgeTest.cxx)
+set(
+  ITKVideoBridgeOpenCVTests
+  itkOpenCVVideoCaptureTest.cxx
+  itkOpenCVImageBridgeGrayScaleTest.cxx
+  itkOpenCVImageBridgeRGBTest.cxx
+  itkOpenCVVideoIOTest.cxx
+  itkOpenCVVideoIOFactoryTest.cxx
+  itkOpenCVBasicTypeBridgeTest.cxx
+)
 
 include_directories(${ITKVideoBridgeOpenCV_INCLUDE_DIRS})
 
@@ -13,7 +15,8 @@ createtestdriver(
   ITKVideoBridgeOpenCV
   "${ITKVideoBridgeOpenCV-Test_LIBRARIES};${OpenCV_LIBS}"
   "${ITKVideoBridgeOpenCVTests}"
-  itkOpenCVTestHelper.cxx)
+  itkOpenCVTestHelper.cxx
+)
 
 # OpenCVVideoCapture:
 itk_add_test(
@@ -30,7 +33,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/OpenCVVideoCaptureTest_RGBOut.avi
   # Width Height
   320
-  240)
+  240
+)
 
 # OpenCVImageBridge:
 #   NOTE: For some reason, ITK reads jpg files slightly differently than
@@ -46,7 +50,8 @@ itk_add_test(
   # Input Grayscale Image jpg 2, with odd pixel dimension
   DATA{Input/peppers_513x512.jpg}
   # Input Grayscale Image png, with two-byte pixels
-  DATA{Input/IM11.png})
+  DATA{Input/IM11.png}
+)
 
 itk_add_test(
   NAME
@@ -59,7 +64,8 @@ itk_add_test(
   # Input RGB Image mha:
   DATA{Input/frame0.mha}
   # Input RGB Image 513x512
-  DATA{Input/peppers_513x512_rgb.png})
+  DATA{Input/peppers_513x512_rgb.png}
+)
 # OpenCVVideoIO:
 itk_add_test(
   NAME
@@ -79,7 +85,8 @@ itk_add_test(
   320
   240
   30
-  14.985)
+  14.985
+)
 
 # OpenCVVideoIOFactory:
 itk_add_test(
@@ -93,7 +100,8 @@ itk_add_test(
   # Output:
   ${ITK_TEST_OUTPUT_DIR}/OpenCVVideoIOTest_Out.avi
   # Webcam Number:
-  0)
+  0
+)
 
 # OpenCVBasicTypeBridgeTest
 itk_add_test(
@@ -101,4 +109,5 @@ itk_add_test(
   OpenCVBasicTypeBridgeTest
   COMMAND
   ITKVideoBridgeOpenCVTestDriver
-  itkOpenCVBasicTypeBridgeTest)
+  itkOpenCVBasicTypeBridgeTest
+)

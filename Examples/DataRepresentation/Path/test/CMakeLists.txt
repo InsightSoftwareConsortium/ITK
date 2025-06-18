@@ -3,4 +3,5 @@ itk_add_test(
   PolyLineParametricPath1
   COMMAND
   PolyLineParametricPath1
-  ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png)
+  ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
+)

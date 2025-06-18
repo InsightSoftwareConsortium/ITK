@@ -1,15 +1,17 @@
 itk_module_test()
 
-set(ITKIOXMLTests
-    itkDOMTest1.cxx
-    itkDOMTest2.cxx
-    itkDOMTest3.cxx
-    itkDOMTest4.cxx
-    itkDOMTest5.cxx
-    itkDOMTest6.cxx
-    itkDOMTest8.cxx
-    itkFancyStringTest.cxx
-    itkFileToolsTest.cxx)
+set(
+  ITKIOXMLTests
+  itkDOMTest1.cxx
+  itkDOMTest2.cxx
+  itkDOMTest3.cxx
+  itkDOMTest4.cxx
+  itkDOMTest5.cxx
+  itkDOMTest6.cxx
+  itkDOMTest8.cxx
+  itkFancyStringTest.cxx
+  itkFileToolsTest.cxx
+)
 
 createtestdriver(ITKIOXML "${ITKIOXML-Test_LIBRARIES}" "${ITKIOXMLTests}")
 
@@ -18,7 +20,8 @@ itk_add_test(
   itkDOMTest1
   COMMAND
   ITKIOXMLTestDriver
-  itkDOMTest1)
+  itkDOMTest1
+)
 
 itk_add_test(
   NAME
@@ -27,7 +30,8 @@ itk_add_test(
   ITKIOXMLTestDriver
   itkDOMTest2
   DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
-  ${ITK_TEST_OUTPUT_DIR}/xmldom-test21-output.xml)
+  ${ITK_TEST_OUTPUT_DIR}/xmldom-test21-output.xml
+)
 
 itk_add_test(
   NAME
@@ -36,7 +40,8 @@ itk_add_test(
   ITKIOXMLTestDriver
   itkDOMTest2
   DATA{${ITK_DATA_ROOT}/Input/XML/test.pso.xml}
-  ${ITK_TEST_OUTPUT_DIR}/xmldom-test22-output.xml)
+  ${ITK_TEST_OUTPUT_DIR}/xmldom-test22-output.xml
+)
 
 itk_add_test(
   NAME
@@ -44,7 +49,8 @@ itk_add_test(
   COMMAND
   ITKIOXMLTestDriver
   itkDOMTest3
-  DATA{${ITK_DATA_ROOT}/Input/XML/test.xml})
+  DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
+)
 
 itk_add_test(
   NAME
@@ -54,7 +60,8 @@ itk_add_test(
   itkDOMTest4
   DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
   "/1"
-  "/1")
+  "/1"
+)
 
 itk_add_test(
   NAME
@@ -64,7 +71,8 @@ itk_add_test(
   itkDOMTest4
   DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
   "/user"
-  "/1")
+  "/1"
+)
 
 itk_add_test(
   NAME
@@ -74,7 +82,8 @@ itk_add_test(
   itkDOMTest4
   DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
   "/user:0"
-  "/1")
+  "/1"
+)
 
 itk_add_test(
   NAME
@@ -84,7 +93,8 @@ itk_add_test(
   itkDOMTest4
   DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
   "/1/who:2"
-  "/1/10")
+  "/1/10"
+)
 
 itk_add_test(
   NAME
@@ -94,7 +104,8 @@ itk_add_test(
   itkDOMTest4
   DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
   "/user/!"
-  "/1/1")
+  "/1/1"
+)
 
 itk_add_test(
   NAME
@@ -104,7 +115,8 @@ itk_add_test(
   itkDOMTest4
   DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
   "/user/!:0"
-  "/1/1")
+  "/1/1"
+)
 
 itk_add_test(
   NAME
@@ -114,7 +126,8 @@ itk_add_test(
   itkDOMTest4
   DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
   "/user/!:5"
-  "/1/8")
+  "/1/8"
+)
 
 itk_add_test(
   NAME
@@ -124,7 +137,8 @@ itk_add_test(
   itkDOMTest4
   DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
   "/user/-"
-  "/0")
+  "/0"
+)
 
 itk_add_test(
   NAME
@@ -134,7 +148,8 @@ itk_add_test(
   itkDOMTest4
   DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
   "/user/-0"
-  "/1")
+  "/1"
+)
 
 itk_add_test(
   NAME
@@ -144,7 +159,8 @@ itk_add_test(
   itkDOMTest4
   DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
   "/user/-1"
-  "/0")
+  "/0"
+)
 
 itk_add_test(
   NAME
@@ -154,7 +170,8 @@ itk_add_test(
   itkDOMTest4
   DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
   "/body/-2"
-  "/0")
+  "/0"
+)
 
 itk_add_test(
   NAME
@@ -164,7 +181,8 @@ itk_add_test(
   itkDOMTest4
   DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
   "/to/+"
-  "/1")
+  "/1"
+)
 
 itk_add_test(
   NAME
@@ -174,7 +192,8 @@ itk_add_test(
   itkDOMTest4
   DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
   "/to/+1"
-  "/1")
+  "/1"
+)
 
 itk_add_test(
   NAME
@@ -184,7 +203,8 @@ itk_add_test(
   itkDOMTest4
   DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
   "/to/+0"
-  "/0")
+  "/0"
+)
 
 itk_add_test(
   NAME
@@ -194,7 +214,8 @@ itk_add_test(
   itkDOMTest4
   DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
   "/to/+1"
-  "/1")
+  "/1"
+)
 
 itk_add_test(
   NAME
@@ -204,7 +225,8 @@ itk_add_test(
   itkDOMTest4
   DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
   "/to/+2"
-  "/2")
+  "/2"
+)
 
 itk_add_test(
   NAME
@@ -214,7 +236,8 @@ itk_add_test(
   itkDOMTest4
   DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
   "/user/:hi"
-  "/1/9")
+  "/1/9"
+)
 
 itk_add_test(
   NAME
@@ -224,7 +247,8 @@ itk_add_test(
   itkDOMTest4
   DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
   "/user/."
-  "/1")
+  "/1"
+)
 
 itk_add_test(
   NAME
@@ -234,7 +258,8 @@ itk_add_test(
   itkDOMTest4
   DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
   "/user/who:2/.."
-  "/1")
+  "/1"
+)
 
 itk_add_test(
   NAME
@@ -244,7 +269,8 @@ itk_add_test(
   itkDOMTest4
   DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
   "/user//"
-  "[]")
+  "[]"
+)
 
 itk_add_test(
   NAME
@@ -254,7 +280,8 @@ itk_add_test(
   itkDOMTest4
   DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
   "/"
-  "[]")
+  "[]"
+)
 
 itk_add_test(
   NAME
@@ -264,7 +291,8 @@ itk_add_test(
   itkDOMTest4
   DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
   "/user/"
-  "/1")
+  "/1"
+)
 
 itk_add_test(
   NAME
@@ -274,7 +302,8 @@ itk_add_test(
   itkDOMTest4
   DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
   "/user/!/+5/-2/.././who:2/../:hi"
-  "/1/9")
+  "/1/9"
+)
 
 itk_add_test(
   NAME
@@ -284,7 +313,8 @@ itk_add_test(
   itkDOMTest4
   DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
   "[]"
-  "[]")
+  "[]"
+)
 
 itk_add_test(
   NAME
@@ -292,14 +322,16 @@ itk_add_test(
   COMMAND
   ITKIOXMLTestDriver
   itkDOMTest5
-  ${ITK_TEST_OUTPUT_DIR}/xmldom-test5/output.xml)
+  ${ITK_TEST_OUTPUT_DIR}/xmldom-test5/output.xml
+)
 
 itk_add_test(
   NAME
   itkDOMTest6
   COMMAND
   ITKIOXMLTestDriver
-  itkDOMTest6)
+  itkDOMTest6
+)
 
 itk_add_test(
   NAME
@@ -308,14 +340,16 @@ itk_add_test(
   ITKIOXMLTestDriver
   itkDOMTest8
   ${ITK_TEST_OUTPUT_DIR}/xmldom-test8/
-  output/test_file)
+  output/test_file
+)
 
 itk_add_test(
   NAME
   itkFancyStringTest
   COMMAND
   ITKIOXMLTestDriver
-  itkFancyStringTest)
+  itkFancyStringTest
+)
 
 itk_add_test(
   NAME
@@ -324,4 +358,5 @@ itk_add_test(
   ITKIOXMLTestDriver
   itkFileToolsTest
   ${ITK_TEST_OUTPUT_DIR}/mytestdir
-  ${ITK_TEST_OUTPUT_DIR}/mytestfile.txt)
+  ${ITK_TEST_OUTPUT_DIR}/mytestfile.txt
+)

@@ -24,7 +24,13 @@ include(CheckCSourceCompiles)
 
 macro(ITK_CHECK_C_COMPILER_FLAG _FLAG _RESULT)
   if(ITK_LEGACY_REMOVE)
-    message(FATAL_ERROR "REPLACE ITK_CHECK_C_COMPILER_FLAG with check_c_compiler_flag")
+    message(
+      FATAL_ERROR
+      "REPLACE ITK_CHECK_C_COMPILER_FLAG with check_c_compiler_flag"
+    )
   endif()
-  check_c_compiler_flag(${_FLAG} ${_RESULT})
+  check_c_compiler_flag(
+    ${_FLAG}
+    ${_RESULT}
+  )
 endmacro()

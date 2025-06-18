@@ -1,26 +1,30 @@
 itk_module_test()
-set(ITKBinaryMathematicalMorphologyTests
-    itkBinaryClosingByReconstructionImageFilterTest.cxx
-    itkBinaryDilateImageFilterTest.cxx
-    itkFastIncrementalBinaryDilateImageFilterTest.cxx
-    itkBinaryDilateImageFilterTest3.cxx
-    itkBinaryErodeImageFilterTest.cxx
-    itkBinaryErodeImageFilterTest3.cxx
-    itkBinaryMorphologicalClosingImageFilterTest.cxx
-    itkBinaryMorphologicalOpeningImageFilterTest.cxx
-    itkBinaryOpeningByReconstructionImageFilterTest.cxx
-    itkBinaryThinningImageFilterTest.cxx
-    itkErodeObjectMorphologyImageFilterTest.cxx)
+set(
+  ITKBinaryMathematicalMorphologyTests
+  itkBinaryClosingByReconstructionImageFilterTest.cxx
+  itkBinaryDilateImageFilterTest.cxx
+  itkFastIncrementalBinaryDilateImageFilterTest.cxx
+  itkBinaryDilateImageFilterTest3.cxx
+  itkBinaryErodeImageFilterTest.cxx
+  itkBinaryErodeImageFilterTest3.cxx
+  itkBinaryMorphologicalClosingImageFilterTest.cxx
+  itkBinaryMorphologicalOpeningImageFilterTest.cxx
+  itkBinaryOpeningByReconstructionImageFilterTest.cxx
+  itkBinaryThinningImageFilterTest.cxx
+  itkErodeObjectMorphologyImageFilterTest.cxx
+)
 
 createtestdriver(ITKBinaryMathematicalMorphology "${ITKBinaryMathematicalMorphology-Test_LIBRARIES}"
-                 "${ITKBinaryMathematicalMorphologyTests}")
+                 "${ITKBinaryMathematicalMorphologyTests}"
+)
 
 itk_add_test(
   NAME
   itkErodeObjectMorphologyImageFilterTest
   COMMAND
   ITKBinaryMathematicalMorphologyTestDriver
-  itkErodeObjectMorphologyImageFilterTest)
+  itkErodeObjectMorphologyImageFilterTest
+)
 itk_add_test(
   NAME
   itkBinaryClosingByReconstructionImageFilterTest
@@ -34,19 +38,22 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkBinaryClosingByReconstructionImageFilterTest.png
   0
   255
-  10)
+  10
+)
 itk_add_test(
   NAME
   itkBinaryDilateImageFilterTest
   COMMAND
   ITKBinaryMathematicalMorphologyTestDriver
-  itkBinaryDilateImageFilterTest)
+  itkBinaryDilateImageFilterTest
+)
 itk_add_test(
   NAME
   itkFastIncrementalBinaryDilateImageFilterTest
   COMMAND
   ITKBinaryMathematicalMorphologyTestDriver
-  itkFastIncrementalBinaryDilateImageFilterTest)
+  itkFastIncrementalBinaryDilateImageFilterTest
+)
 itk_add_test(
   NAME
   itkBinaryDilateImageFilterTest-100-0-0
@@ -61,7 +68,8 @@ itk_add_test(
   100
   0
   0
-  10)
+  10
+)
 itk_add_test(
   NAME
   itkBinaryDilateImageFilterTest-100-0-1
@@ -76,7 +84,8 @@ itk_add_test(
   100
   0
   1
-  10)
+  10
+)
 itk_add_test(
   NAME
   itkBinaryDilateImageFilterTest-100-150-0
@@ -91,7 +100,8 @@ itk_add_test(
   100
   150
   0
-  10)
+  10
+)
 itk_add_test(
   NAME
   itkBinaryDilateImageFilterTest-100-150-1
@@ -106,7 +116,8 @@ itk_add_test(
   100
   150
   1
-  10)
+  10
+)
 itk_add_test(
   NAME
   itkBinaryDilateImageFilterTest-200-0-0
@@ -121,7 +132,8 @@ itk_add_test(
   200
   0
   0
-  10)
+  10
+)
 itk_add_test(
   NAME
   itkBinaryDilateImageFilterTest-200-0-1
@@ -136,7 +148,8 @@ itk_add_test(
   200
   0
   1
-  10)
+  10
+)
 itk_add_test(
   NAME
   itkBinaryDilateImageFilterTest-200-150-0
@@ -151,7 +164,8 @@ itk_add_test(
   200
   150
   0
-  10)
+  10
+)
 itk_add_test(
   NAME
   itkBinaryDilateImageFilterTest-200-150-1
@@ -166,13 +180,15 @@ itk_add_test(
   200
   150
   1
-  10)
+  10
+)
 itk_add_test(
   NAME
   itkBinaryErodeImageFilterTest
   COMMAND
   ITKBinaryMathematicalMorphologyTestDriver
-  itkBinaryErodeImageFilterTest)
+  itkBinaryErodeImageFilterTest
+)
 itk_add_test(
   NAME
   itkBinaryErodeImageFilterTest-100-0-0
@@ -187,7 +203,8 @@ itk_add_test(
   100
   0
   0
-  10)
+  10
+)
 itk_add_test(
   NAME
   itkBinaryErodeImageFilterTest-100-0-1
@@ -202,7 +219,8 @@ itk_add_test(
   100
   0
   1
-  10)
+  10
+)
 itk_add_test(
   NAME
   itkBinaryErodeImageFilterTest-100-150-0
@@ -217,7 +235,8 @@ itk_add_test(
   100
   150
   0
-  10)
+  10
+)
 itk_add_test(
   NAME
   itkBinaryErodeImageFilterTest-100-150-1
@@ -232,7 +251,8 @@ itk_add_test(
   100
   150
   1
-  10)
+  10
+)
 itk_add_test(
   NAME
   itkBinaryErodeImageFilterTest-200-0-0
@@ -247,7 +267,8 @@ itk_add_test(
   200
   0
   0
-  10)
+  10
+)
 itk_add_test(
   NAME
   itkBinaryErodeImageFilterTest-200-0-1
@@ -262,7 +283,8 @@ itk_add_test(
   200
   0
   1
-  10)
+  10
+)
 itk_add_test(
   NAME
   itkBinaryErodeImageFilterTest-200-150-0
@@ -277,7 +299,8 @@ itk_add_test(
   200
   150
   0
-  10)
+  10
+)
 itk_add_test(
   NAME
   itkBinaryErodeImageFilterTest-200-150-1
@@ -292,7 +315,8 @@ itk_add_test(
   200
   150
   1
-  10)
+  10
+)
 itk_add_test(
   NAME
   itkBinaryMorphologicalClosingImageFilterTest
@@ -306,7 +330,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkBinaryMorphologicalClosingImageFilterTest.png
   40
   1
-  200)
+  200
+)
 itk_add_test(
   NAME
   itkBinaryMorphologicalClosingImageFilterTestUnsafe
@@ -320,7 +345,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkBinaryMorphologicalClosingImageFilterTestUnsafe.png
   40
   0
-  200)
+  200
+)
 itk_add_test(
   NAME
   itkBinaryMorphologicalOpeningImageFilterTest
@@ -334,7 +360,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkBinaryMorphologicalOpeningImageFilterTest.png
   8
   150
-  200)
+  200
+)
 itk_add_test(
   NAME
   itkBinaryOpeningByReconstructionImageFilterTest
@@ -349,7 +376,8 @@ itk_add_test(
   10
   0
   255
-  0)
+  0
+)
 itk_add_test(
   NAME
   itkBinaryThinningImageFilterTest
@@ -360,4 +388,5 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/BinaryThinningImageFilterTest.png
   itkBinaryThinningImageFilterTest
   DATA{${ITK_DATA_ROOT}/Input/Shapes.png}
-  ${ITK_TEST_OUTPUT_DIR}/BinaryThinningImageFilterTest.png)
+  ${ITK_TEST_OUTPUT_DIR}/BinaryThinningImageFilterTest.png
+)

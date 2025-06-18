@@ -1,8 +1,13 @@
 itk_module_test()
-set(ITKIOTransformInsightLegacyTests itkIOTransformTxtTest.cxx itkIOEuler3DTransformTxtTest.cxx)
+set(
+  ITKIOTransformInsightLegacyTests
+  itkIOTransformTxtTest.cxx
+  itkIOEuler3DTransformTxtTest.cxx
+)
 
 createtestdriver(ITKIOTransformInsightLegacy "${ITKIOTransformInsightLegacy-Test_LIBRARIES}"
-                 "${ITKIOTransformInsightLegacyTests}")
+                 "${ITKIOTransformInsightLegacyTests}"
+)
 
 itk_add_test(
   NAME
@@ -10,7 +15,8 @@ itk_add_test(
   COMMAND
   ITKIOTransformInsightLegacyTestDriver
   itkIOTransformTxtTest
-  ${ITK_TEST_OUTPUT_DIR})
+  ${ITK_TEST_OUTPUT_DIR}
+)
 
 itk_add_test(
   NAME
@@ -19,4 +25,5 @@ itk_add_test(
   ITKIOTransformInsightLegacyTestDriver
   itkIOEuler3DTransformTxtTest
   DATA{Input/euler3DOldFormat.tfm}
-  ${ITK_TEST_OUTPUT_DIR}/euler3DNewFormat.tfm)
+  ${ITK_TEST_OUTPUT_DIR}/euler3DNewFormat.tfm
+)

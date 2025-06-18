@@ -1,5 +1,9 @@
 itk_module_test()
-set(ITKDenoisingTests itkPatchBasedDenoisingImageFilterTest.cxx itkPatchBasedDenoisingImageFilterDefaultTest.cxx)
+set(
+  ITKDenoisingTests
+  itkPatchBasedDenoisingImageFilterTest.cxx
+  itkPatchBasedDenoisingImageFilterDefaultTest.cxx
+)
 
 createtestdriver(ITKDenoising "${ITKDenoising-Test_LIBRARIES}" "${ITKDenoisingTests}")
 
@@ -14,7 +18,8 @@ itk_add_test(
   itkPatchBasedDenoisingImageFilterDefaultTest
   DATA{Input/noisy_checkerboard.mha}
   ${ITK_TEST_OUTPUT_DIR}/PatchBasedDenoisingImageFilterDefaultTest.mha
-  2)
+  2
+)
 itk_add_test(
   NAME
   itkPatchBasedDenoisingImageFilterTest0
@@ -37,7 +42,8 @@ itk_add_test(
   0
   2
   2
-  200)
+  200
+)
 itk_add_test(
   NAME
   itkPatchBasedDenoisingImageFilterTestGaussian
@@ -64,7 +70,8 @@ itk_add_test(
   0
   1
   GAUSSIAN
-  0.1)
+  0.1
+)
 itk_add_test(
   NAME
   itkPatchBasedDenoisingImageFilterTestRician
@@ -91,7 +98,8 @@ itk_add_test(
   0
   1
   RICIAN
-  0.1)
+  0.1
+)
 itk_add_test(
   NAME
   itkPatchBasedDenoisingImageFilterTestPoisson
@@ -118,7 +126,8 @@ itk_add_test(
   0
   1
   POISSON
-  0.1)
+  0.1
+)
 # Extra tolerance for Tensors. The alternative EigenValues-computation of this class is faster,
 # but numerically unstable. The extra tolerance covers the difference between 64 and 32 bits machines.
 itk_add_test(
@@ -143,4 +152,5 @@ itk_add_test(
   2
   100
   0
-  2)
+  2
+)

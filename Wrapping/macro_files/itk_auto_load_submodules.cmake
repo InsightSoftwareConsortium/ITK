@@ -20,20 +20,24 @@ function(generate_castxml_commandline_flags)
   # Avoid missing omp.h include
   set(_castxml_cc_flags ${CMAKE_CXX_FLAGS})
   if(CMAKE_CXX_EXTENSIONS)
-    set(_castxml_cc_flags "${_castxml_cc_flags} ${CMAKE_CXX${CMAKE_CXX_STANDARD}_EXTENSION_COMPILE_OPTION}")
+    set(
+      _castxml_cc_flags
+      "${_castxml_cc_flags} ${CMAKE_CXX${CMAKE_CXX_STANDARD}_EXTENSION_COMPILE_OPTION}"
+    )
   else()
-    set(_castxml_cc_flags "${_castxml_cc_flags} ${CMAKE_CXX${CMAKE_CXX_STANDARD}_STANDARD_COMPILE_OPTION}")
+    set(
+      _castxml_cc_flags
+      "${_castxml_cc_flags} ${CMAKE_CXX${CMAKE_CXX_STANDARD}_STANDARD_COMPILE_OPTION}"
+    )
   endif()
 
   # Aggressive optimization flags cause cast_xml to give invalid error conditions
-  set(INVALID_OPTIMIZATION_FLAGS "-fopenmp;-march=[a-zA-Z0-9\-]*;-mtune=[a-zA-Z0-9\-]*;-mfma")
+  set(
+    INVALID_OPTIMIZATION_FLAGS
+    "-fopenmp;-march=[a-zA-Z0-9\-]*;-mtune=[a-zA-Z0-9\-]*;-mfma"
+  )
   foreach(rmmatch ${INVALID_OPTIMIZATION_FLAGS})
-    string(
-      REGEX
-      REPLACE ${rmmatch}
-              ""
-              _castxml_cc_flags
-              "${_castxml_cc_flags}")
+    string(REGEX REPLACE ${rmmatch} "" _castxml_cc_flags "${_castxml_cc_flags}")
   endforeach()
   unset(INVALID_OPTIMIZATION_FLAGS)
 
@@ -41,21 +45,43 @@ function(generate_castxml_commandline_flags)
   separate_arguments(_castxml_cc_flags)
   unset(_castxml_cc)
   if(MSVC)
-    set(_castxml_cc --castxml-cc-msvc ("${CMAKE_CXX_COMPILER}" ${_castxml_cc_flags}) -fexceptions)
+    set(
+      _castxml_cc
+      --castxml-cc-msvc
+      (
+        "${CMAKE_CXX_COMPILER}"
+        ${_castxml_cc_flags}
+      )
+      -fexceptions
+    )
     if(MSVC90)
       # needed for VS2008 64 bit
-      set(_castxml_cc ${_castxml_cc} "-D_HAS_TR1=0")
+      set(
+        _castxml_cc
+        ${_castxml_cc}
+        "-D_HAS_TR1=0"
+      )
     endif()
   else()
-    set(_castxml_cc --castxml-cc-gnu ("${CMAKE_CXX_COMPILER}" ${_castxml_cc_flags}))
+    set(
+      _castxml_cc
+      --castxml-cc-gnu
+      (
+        "${CMAKE_CXX_COMPILER}"
+        ${_castxml_cc_flags}
+      )
+    )
   endif()
 
   # Override castxml target platform when cross compiling
   unset(_target)
   if(CMAKE_CROSSCOMPILING)
     if(NOT CMAKE_CXX_COMPILER_TARGET)
-      message(FATAL_ERROR "Set the target triple in CMAKE_CXX_COMPILER_TARGET "
-                          " as described in https://clang.llvm.org/docs/CrossCompilation.html")
+      message(
+        FATAL_ERROR
+        "Set the target triple in CMAKE_CXX_COMPILER_TARGET "
+        " as described in https://clang.llvm.org/docs/CrossCompilation.html"
+      )
     endif()
     set(_target "--target=${CMAKE_CXX_COMPILER_TARGET}")
   endif()
@@ -70,7 +96,8 @@ function(generate_castxml_commandline_flags)
       _build_env
       env
       "SDKROOT=${CMAKE_OSX_SYSROOT}"
-      "MACOSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}")
+      "MACOSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}"
+    )
   endif()
   ## ============================
 
@@ -81,20 +108,36 @@ function(generate_castxml_commandline_flags)
   # CONFIG_CASTXML_INC_CONTENTS - variable used for building contents to write with configure_file()
   unset(CONFIG_CASTXML_INC_CONTENTS)
   foreach(dir ${include_dir_list})
-    set(CONFIG_CASTXML_INC_CONTENTS "${CONFIG_CASTXML_INC_CONTENTS}\"-I${dir}\"\n")
+    set(
+      CONFIG_CASTXML_INC_CONTENTS
+      "${CONFIG_CASTXML_INC_CONTENTS}\"-I${dir}\"\n"
+    )
   endforeach()
   unset(include_dir_list)
 
-  set(CONFIG_CASTXML_INC_CONTENTS "${CONFIG_CASTXML_INC_CONTENTS}-Qunused-arguments\n")
-  set(CONFIG_CASTXML_INC_CONTENTS "${CONFIG_CASTXML_INC_CONTENTS}-DITK_WRAPPING_PARSER\n")
-  set(CONFIG_CASTXML_INC_CONTENTS "${CONFIG_CASTXML_INC_CONTENTS}-DITK_MANUAL_INSTANTIATION\n")
+  set(
+    CONFIG_CASTXML_INC_CONTENTS
+    "${CONFIG_CASTXML_INC_CONTENTS}-Qunused-arguments\n"
+  )
+  set(
+    CONFIG_CASTXML_INC_CONTENTS
+    "${CONFIG_CASTXML_INC_CONTENTS}-DITK_WRAPPING_PARSER\n"
+  )
+  set(
+    CONFIG_CASTXML_INC_CONTENTS
+    "${CONFIG_CASTXML_INC_CONTENTS}-DITK_MANUAL_INSTANTIATION\n"
+  )
 
   # Get the compile_definitions of the module added with add_compile_definitions
   # From the wrapping folder (current)
   get_directory_property(compile_definition_list COMPILE_DEFINITIONS)
   # And from the top module folder
   set(module_folder "${WRAPPER_LIBRARY_SOURCE_DIR}/..")
-  get_directory_property(compile_definition_list_at_module DIRECTORY "${module_folder}" COMPILE_DEFINITIONS)
+  get_directory_property(
+    compile_definition_list_at_module
+    DIRECTORY "${module_folder}"
+    COMPILE_DEFINITIONS
+  )
   unset(module_folder)
   # Merge and remove duplicates
   list(APPEND compile_definition_list ${compile_definition_list_at_module})
@@ -102,7 +145,10 @@ function(generate_castxml_commandline_flags)
   list(REMOVE_DUPLICATES compile_definition_list)
 
   foreach(def ${compile_definition_list})
-    set(CONFIG_CASTXML_INC_CONTENTS "${CONFIG_CASTXML_INC_CONTENTS}\"-D${def}\"\n")
+    set(
+      CONFIG_CASTXML_INC_CONTENTS
+      "${CONFIG_CASTXML_INC_CONTENTS}\"-D${def}\"\n"
+    )
   endforeach()
   unset(compile_definition_list)
   foreach(include_file ${WRAPPER_INCLUDE_FILES})
@@ -114,17 +160,31 @@ function(generate_castxml_commandline_flags)
   endforeach()
 
   #Write compile definitions and include paths to file.  @CONFIG_CASTXML_INC_CONTENTS@ expanded in configure_file
-  set(castxml_inc_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/castxml_inputs/${library_name}.castxml.inc")
-  configure_file("${ITK_WRAP_CASTXML_SOURCE_DIR}/cast_xml.inc.in" "${castxml_inc_file}" @ONLY)
+  set(
+    castxml_inc_file
+    "${WRAPPER_LIBRARY_OUTPUT_DIR}/castxml_inputs/${library_name}.castxml.inc"
+  )
+  configure_file(
+    "${ITK_WRAP_CASTXML_SOURCE_DIR}/cast_xml.inc.in"
+    "${castxml_inc_file}"
+    @ONLY
+  )
   unset(CONFIG_CASTXML_INC_CONTENTS)
 
   # write the wrap_*.cxx file
   # Create the cxx file which will be given to castxml.
-  set(cxx_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/castxml_inputs/${_each_submodule_this_module}.cxx")
+  set(
+    cxx_file
+    "${WRAPPER_LIBRARY_OUTPUT_DIR}/castxml_inputs/${_each_submodule_this_module}.cxx"
+  )
 
   # The wrap_.cxx.in file expands the following variables:
   # @CASTXML_INCLUDES@, @WRAPPER_MODULE_NAME@, @CASTXML_TYPEDEFS@, @CASTXML_FORCE_INSTANTIATE@
-  configure_file("${ITK_WRAP_CASTXML_SOURCE_DIR}/wrap_.cxx.in" "${cxx_file}" @ONLY)
+  configure_file(
+    "${ITK_WRAP_CASTXML_SOURCE_DIR}/wrap_.cxx.in"
+    "${cxx_file}"
+    @ONLY
+  )
   unset(CASTXML_INCLUDES)
 
   # ====== Get list of include files that may trigger needing a re-write of castxml files
@@ -141,16 +201,20 @@ function(generate_castxml_commandline_flags)
 
   # ===== Run the castxml command
   add_custom_command(
-    OUTPUT ${xml_file}
+    OUTPUT
+      ${xml_file}
     COMMAND
-      ${_build_env} ${_ccache_cmd} ${CASTXML_EXECUTABLE} -o ${xml_file} --castxml-gccxml ${_target} --castxml-start
-      _wrapping_ ${_castxml_cc} -w -c # needed for ccache to think we are not calling for link
+      ${_build_env} ${_ccache_cmd} ${CASTXML_EXECUTABLE} -o ${xml_file}
+      --castxml-gccxml ${_target} --castxml-start _wrapping_ ${_castxml_cc} -w
+      -c # needed for ccache to think we are not calling for link
       @${castxml_inc_file} ${cxx_file}
     VERBATIM
-    DEPENDS ${_castxml_depends}
-            ${cxx_file}
-            ${castxml_inc_file}
-            ${_hdrs})
+    DEPENDS
+      ${_castxml_depends}
+      ${cxx_file}
+      ${castxml_inc_file}
+      ${_hdrs}
+  )
   unset(cxx_file)
   unset(castxml_inc_file)
   unset(_build_env)
@@ -169,15 +233,13 @@ function(test_lib_module_names_different)
   if("${upper_module}" STREQUAL "${upper_lib}")
     message(
       FATAL_ERROR
-        "The module ${_each_submodule_this_module} can't have the same name as its library. Note that the names are not case sensitive."
+      "The module ${_each_submodule_this_module} can't have the same name as its library. Note that the names are not case sensitive."
     )
   endif()
   unset(upper_lib)
   unset(upper_module)
   ## RETURN VALUES TO PARENT SCOPE
-  set(WRAPPER_INCLUDE_FILES
-      "${WRAPPER_INCLUDE_FILES}"
-      PARENT_SCOPE)
+  set(WRAPPER_INCLUDE_FILES "${WRAPPER_INCLUDE_FILES}" PARENT_SCOPE)
 endfunction()
 
 function(generate_swig_interface_in_file)
@@ -191,29 +253,57 @@ function(generate_swig_interface_in_file)
     list(REMOVE_DUPLICATES _SWIG_INTERFACE_INCLUDES)
     foreach(include_file ${_SWIG_INTERFACE_INCLUDES})
       if("${include_file}" MATCHES "<.*>")
-        string(APPEND SWIG_INTERFACE_INCLUDES_CONTENT "#include ${include_file}\n")
+        string(
+          APPEND
+          SWIG_INTERFACE_INCLUDES_CONTENT
+          "#include ${include_file}\n"
+        )
       else()
-        string(APPEND SWIG_INTERFACE_INCLUDES_CONTENT "#include \"${include_file}\"\n")
+        string(
+          APPEND
+          SWIG_INTERFACE_INCLUDES_CONTENT
+          "#include \"${include_file}\"\n"
+        )
       endif()
     endforeach()
   endif()
 
   # create the file which stores all of the includes
-  set(_includes_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/castxml_inputs/${_each_submodule_this_module}SwigInterface.h.in")
+  set(
+    _includes_file
+    "${WRAPPER_LIBRARY_OUTPUT_DIR}/castxml_inputs/${_each_submodule_this_module}SwigInterface.h.in"
+  )
   # module.includes.in expands cmake variables: @SWIG_INTERFACE_INCLUDES_CONTENT@  #@SWIG_INTERFACE_TYPEDEFS@
-  configure_file("${ITK_WRAP_SWIGINTERFACE_SOURCE_DIR}/module.includes.in" ${_includes_file} @ONLY)
+  configure_file(
+    "${ITK_WRAP_SWIGINTERFACE_SOURCE_DIR}/module.includes.in"
+    ${_includes_file}
+    @ONLY
+  )
 endfunction()
 
 function(generate_wrap_doc)
-  set(_doxy2swig_config_file ${CMAKE_CURRENT_BINARY_DIR}/Doc/${_each_submodule_this_module}.conf)
-  configure_file("${ITK_WRAP_DOC_SOURCE_DIR}/itk_doxy2swig.conf.in" "${_doxy2swig_config_file}" @ONLY)
+  set(
+    _doxy2swig_config_file
+    ${CMAKE_CURRENT_BINARY_DIR}/Doc/${_each_submodule_this_module}.conf
+  )
+  configure_file(
+    "${ITK_WRAP_DOC_SOURCE_DIR}/itk_doxy2swig.conf.in"
+    "${_doxy2swig_config_file}"
+    @ONLY
+  )
   # run itk_doxy2swig
   set(_itk_doxy2swig_py "${ITK_WRAP_DOC_SOURCE_DIR}/itk_doxy2swig.py")
   add_custom_command(
-    OUTPUT ${swig_doc_interface_file}
-    COMMAND ${Python3_EXECUTABLE} ${_itk_doxy2swig_py} ${_doxy2swig_config_file} ${swig_doc_interface_file}
+    OUTPUT
+      ${swig_doc_interface_file}
+    COMMAND
+      ${Python3_EXECUTABLE} ${_itk_doxy2swig_py} ${_doxy2swig_config_file}
+      ${swig_doc_interface_file}
     #DEPENDS ${ITK_WRAP_DOC_DOXYGEN_XML_FILES} ${_doxy2swig_config_file} ${_itk_doxy2swig_py}
-    DEPENDS ${WRAPPER_LIBRARY_NAME}Doxygen ${_doxy2swig_config_file} ${_itk_doxy2swig_py}
+    DEPENDS
+      ${WRAPPER_LIBRARY_NAME}Doxygen
+      ${_doxy2swig_config_file}
+      ${_itk_doxy2swig_py}
     #    COMMENT "-- Wrapping library ${_each_submodule_this_module}: Generating swig interface for inline documentation."
   )
 endfunction()
@@ -258,7 +348,10 @@ macro(itk_auto_load_submodules)
     # include a cmake module file and generate the associated wrap_*.cxx file.
     # This basically sets the global vars that will be added to or modified
     # by the commands in the included *.wrap module.
-    message(STATUS "${WRAPPER_LIBRARY_NAME}: Creating ${_each_submodule_this_module} submodule.")
+    message(
+      STATUS
+      "${WRAPPER_LIBRARY_NAME}: Creating ${_each_submodule_this_module} submodule."
+    )
 
     test_lib_module_names_different()
 
@@ -292,47 +385,72 @@ macro(itk_auto_load_submodules)
 
     # Now include the .wrap file, and read manually requested types needed
     # to build lists of items to be wrapped for both CASTXML and SWIG
-    if(EXISTS "${WRAPPER_LIBRARY_SOURCE_DIR}/${_each_submodule_this_module}.wrap")
-      include("${WRAPPER_LIBRARY_SOURCE_DIR}/${_each_submodule_this_module}.wrap")
+    if(
+      EXISTS
+        "${WRAPPER_LIBRARY_SOURCE_DIR}/${_each_submodule_this_module}.wrap"
+    )
+      include(
+        "${WRAPPER_LIBRARY_SOURCE_DIR}/${_each_submodule_this_module}.wrap"
+      )
     else()
       # for backward compatibility, to be removed in ITKv6
-      if(EXISTS "${WRAPPER_LIBRARY_SOURCE_DIR}/wrap_${_each_submodule_this_module}.cmake")
+      if(
+        EXISTS
+          "${WRAPPER_LIBRARY_SOURCE_DIR}/wrap_${_each_submodule_this_module}.cmake"
+      )
         message(
           FATAL_ERROR
-            "INCORRECT FILE NAME PATTERN: ${WRAPPER_LIBRARY_SOURCE_DIR}/wrap_${_each_submodule_this_module}.cmake should be named ${WRAPPER_LIBRARY_SOURCE_DIR}/${_each_submodule_this_module}.cmake"
+          "INCORRECT FILE NAME PATTERN: ${WRAPPER_LIBRARY_SOURCE_DIR}/wrap_${_each_submodule_this_module}.cmake should be named ${WRAPPER_LIBRARY_SOURCE_DIR}/${_each_submodule_this_module}.cmake"
         )
       endif()
-      message(SEND_ERROR "Module ${WRAPPER_LIBRARY_SOURCE_DIR}/${_each_submodule_this_module}.wrap not found.")
+      message(
+        SEND_ERROR
+        "Module ${WRAPPER_LIBRARY_SOURCE_DIR}/${_each_submodule_this_module}.wrap not found."
+      )
     endif()
 
     dump_cmake_variables("postlogger_${_each_submodule_this_module}" "${_each_submodule_this_module}")
     write_changed_cmake_variables_to_file(
-      "${WRAPPER_LIBRARY_OUTPUT_DIR}/diff_${_each_submodule_this_module}.diff"
-      "${prelogger_${_each_submodule_this_module}}"
-      "${postlogger_${_each_submodule_this_module}}"
-      "${_each_submodule_this_module}")
+          "${WRAPPER_LIBRARY_OUTPUT_DIR}/diff_${_each_submodule_this_module}.diff"
+          "${prelogger_${_each_submodule_this_module}}"
+          "${postlogger_${_each_submodule_this_module}}"
+          "${_each_submodule_this_module}"
+    )
 
     # ======== RUN COMMANDS FOR GENERATING XML AST information
     # write the module.xml file using castxml the xml file to be generated
-    set(xml_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/castxml_inputs/${_each_submodule_this_module}.xml")
+    set(
+      xml_file
+      "${WRAPPER_LIBRARY_OUTPUT_DIR}/castxml_inputs/${_each_submodule_this_module}.xml"
+    )
     ## @CASTXML_INCLUDES@, @WRAPPER_MODULE_NAME@, @CASTXML_TYPEDEFS@, @CASTXML_FORCE_INSTANTIATE@
     generate_castxml_commandline_flags()
     list(APPEND CastXML_OUTPUT_FILES ${xml_file})
     unset(xml_file)
 
     # store the path of the idx file to store it in the mdx file
-    string(APPEND SWIG_INTERFACE_MDX_CONTENT "${_each_submodule_this_module}.idx\n")
-    string(APPEND SWIG_INTERFACE_MODULE_CONTENT "%import ${_each_submodule_this_module}.i\n")
+    string(
+      APPEND
+      SWIG_INTERFACE_MDX_CONTENT
+      "${_each_submodule_this_module}.idx\n"
+    )
+    string(
+      APPEND
+      SWIG_INTERFACE_MODULE_CONTENT
+      "%import ${_each_submodule_this_module}.i\n"
+    )
     generate_swig_interface_in_file()
 
     itk_end_wrap_submodule_python("${_each_submodule_this_module}")
     if(${module_prefix}_WRAP_DOC)
-      set(swig_doc_interface_file ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${_each_submodule_this_module}_doc.i)
+      set(
+        swig_doc_interface_file
+        ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${_each_submodule_this_module}_doc.i
+      )
       generate_wrap_doc()
       list(APPEND ITK_WRAP_DOC_DOCSTRING_FILES ${swig_doc_interface_file})
       unset(swig_doc_interface_file)
     endif()
-
   endforeach()
   unset(_each_submodule_this_module)
 endmacro()

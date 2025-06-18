@@ -8,4 +8,5 @@ itk_add_test(
   itkSpatialFunctionImageEvaluatorFilterTest
   COMMAND
   ITKSpatialFunctionTestDriver
-  itkSpatialFunctionImageEvaluatorFilterTest)
+  itkSpatialFunctionImageEvaluatorFilterTest
+)

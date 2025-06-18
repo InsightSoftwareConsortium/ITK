@@ -1,6 +1,10 @@
 itk_module_test()
-set(ITKBiasCorrectionTests itkCompositeValleyFunctionTest.cxx itkMRIBiasFieldCorrectionFilterTest.cxx
-                           itkN4BiasFieldCorrectionImageFilterTest.cxx)
+set(
+  ITKBiasCorrectionTests
+  itkCompositeValleyFunctionTest.cxx
+  itkMRIBiasFieldCorrectionFilterTest.cxx
+  itkN4BiasFieldCorrectionImageFilterTest.cxx
+)
 
 createtestdriver(ITKBiasCorrection "${ITKBiasCorrection-Test_LIBRARIES}" "${ITKBiasCorrectionTests}")
 
@@ -9,13 +13,15 @@ itk_add_test(
   itkCompositeValleyFunctionTest
   COMMAND
   ITKBiasCorrectionTestDriver
-  itkCompositeValleyFunctionTest)
+  itkCompositeValleyFunctionTest
+)
 itk_add_test(
   NAME
   itkMRIBiasFieldCorrectionFilterTest
   COMMAND
   ITKBiasCorrectionTestDriver
-  itkMRIBiasFieldCorrectionFilterTest)
+  itkMRIBiasFieldCorrectionFilterTest
+)
 itk_add_test(
   NAME
   itkN4BiasFieldCorrectionImageFilterTest1

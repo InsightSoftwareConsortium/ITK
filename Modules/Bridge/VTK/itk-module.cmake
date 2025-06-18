@@ -1,5 +1,6 @@
-set(DOCUMENTATION
-    "This module contains classes intended to
+set(
+  DOCUMENTATION
+  "This module contains classes intended to
 interconnect ITK and <a href=\"https://www.vtk.org\">VTK</a> (The
 Visualization Toolkit). It is common to combine these two toolkits for
 the purpose of integrating in a single application the image analysis
@@ -9,7 +10,8 @@ convert an itkImage into an
 <a href=\"https://www.vtk.org/doc/nightly/html/classvtkImageData.html\">vtkImageData</a>,
 and to convert a
 <a href=\"https://www.vtk.org/doc/nightly/html/classvtkImageData.html\">vtkImageData</a>
-into an itk::Image, all without having to duplicate their buffers.")
+into an itk::Image, all without having to duplicate their buffers."
+)
 
 itk_module(
   ITKVTK
@@ -17,4 +19,5 @@ itk_module(
   PRIVATE_DEPENDS
   ITKCommon
   DESCRIPTION
-  "${DOCUMENTATION}")
+  "${DOCUMENTATION}"
+)

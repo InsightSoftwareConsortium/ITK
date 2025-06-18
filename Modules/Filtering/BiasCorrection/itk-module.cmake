@@ -1,9 +1,11 @@
-set(DOCUMENTATION
-    "This module contains classes implementing bias correction
+set(
+  DOCUMENTATION
+  "This module contains classes implementing bias correction
 methods. This is commonly needed for MRI imaging when the intensities in the
 middle of the image are higher than the intensities in the borders of the
 image. The same need is common in microscopy images when the illumination is not
-uniform across the field of view.")
+uniform across the field of view."
+)
 
 itk_module(
   ITKBiasCorrection
@@ -22,4 +24,5 @@ itk_module(
   ITKPolynomials
   ITKThresholding
   DESCRIPTION
-  "${DOCUMENTATION}")
+  "${DOCUMENTATION}"
+)

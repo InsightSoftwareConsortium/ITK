@@ -1,7 +1,9 @@
 itk_module_test()
 set(ITKTransformFactoryTests itkTransformFactoryBaseTest.cxx)
 
-add_definitions("-DITK_TRANSFORM_FACTORY_MAX_DIM=${ITK_TRANSFORM_FACTORY_MAX_DIM}")
+add_definitions(
+  "-DITK_TRANSFORM_FACTORY_MAX_DIM=${ITK_TRANSFORM_FACTORY_MAX_DIM}"
+)
 createtestdriver(ITKTransformFactory "${ITKTransformFactory-Test_LIBRARIES}" "${ITKTransformFactoryTests}")
 
 itk_add_test(
@@ -9,4 +11,5 @@ itk_add_test(
   itkTransformFactoryBaseTest
   COMMAND
   ITKTransformFactoryTestDriver
-  itkTransformFactoryBaseTest)
+  itkTransformFactoryBaseTest
+)
