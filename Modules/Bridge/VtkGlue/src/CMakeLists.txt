@@ -1,7 +1,4 @@
-if(NOT
-   VTK_RENDERING_BACKEND
-   STREQUAL
-   "None")
+if(NOT VTK_RENDERING_BACKEND STREQUAL "None")
   set(ITKVtkGlue_SRCS QuickView.cxx)
 
   add_library(ITKVtkGlue ${ITKVtkGlue_SRCS})

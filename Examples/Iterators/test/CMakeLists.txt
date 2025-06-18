@@ -11,7 +11,8 @@ itk_add_test(
   ${TEMP}/ImageLinearIteratorWithIndexTest.png
   $<TARGET_FILE:ImageLinearIteratorWithIndex>
   ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
-  ${TEMP}/ImageLinearIteratorWithIndexTest.png)
+  ${TEMP}/ImageLinearIteratorWithIndexTest.png
+)
 
 itk_add_test(
   NAME
@@ -23,7 +24,8 @@ itk_add_test(
   ${TEMP}/ImageRegionIteratorWithIndexTest.png
   $<TARGET_FILE:ImageRegionIteratorWithIndex>
   ${ITK_SOURCE_DIR}/Examples/Data/VisibleWomanEyeSlice.png
-  ${TEMP}/ImageRegionIteratorWithIndexTest.png)
+  ${TEMP}/ImageRegionIteratorWithIndexTest.png
+)
 
 itk_add_test(
   NAME
@@ -39,7 +41,8 @@ itk_add_test(
   20
   70
   210
-  140)
+  140
+)
 
 itk_add_test(
   NAME
@@ -52,4 +55,5 @@ itk_add_test(
   $<TARGET_FILE:ImageSliceIteratorWithIndex>
   ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensity3Slices.mha
   ${TEMP}/ImageSliceIteratorWithIndexTest.mha
-  2)
+  2
+)

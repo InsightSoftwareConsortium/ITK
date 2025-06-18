@@ -1,4 +1,7 @@
-set(DOCUMENTATION "This module contains a group of basic video filtering classes.")
+set(
+  DOCUMENTATION
+  "This module contains a group of basic video filtering classes."
+)
 
 itk_module(
   ITKVideoFiltering
@@ -9,4 +12,5 @@ itk_module(
   ITKVideoIO
   ITKSmoothing
   DESCRIPTION
-  "${DOCUMENTATION}")
+  "${DOCUMENTATION}"
+)

@@ -1,6 +1,10 @@
 itk_module_test()
 
-set(ITKIOMeshFreeSurferTests itkFreeSurferMeshIOTest.cxx itkMeshFileReadWriteTest.cxx)
+set(
+  ITKIOMeshFreeSurferTests
+  itkFreeSurferMeshIOTest.cxx
+  itkMeshFileReadWriteTest.cxx
+)
 
 createtestdriver(ITKIOMeshFreeSurfer "${ITKIOMeshFreeSurfer-Test_LIBRARIES}" "${ITKIOMeshFreeSurferTests}")
 
@@ -23,7 +27,8 @@ itk_add_test(
   0
   320
   0
-  0)
+  0
+)
 itk_add_test(
   NAME
   itkFreeSurferMeshIOTestBinary
@@ -43,7 +48,8 @@ itk_add_test(
   0
   320
   0
-  1)
+  1
+)
 itk_add_test(
   NAME
   itkMeshFileReadWriteTestFreeSurfer1
@@ -51,7 +57,8 @@ itk_add_test(
   ITKIOMeshFreeSurferTestDriver
   itkMeshFileReadWriteTest
   DATA{Baseline/sphere.fsb}
-  ${ITK_TEST_OUTPUT_DIR}/sphere.fsb)
+  ${ITK_TEST_OUTPUT_DIR}/sphere.fsb
+)
 itk_add_test(
   NAME
   itkMeshFileReadWriteTestFreeSurfer2
@@ -59,4 +66,5 @@ itk_add_test(
   ITKIOMeshFreeSurferTestDriver
   itkMeshFileReadWriteTest
   DATA{Baseline/sphere.fsa}
-  ${ITK_TEST_OUTPUT_DIR}/sphere.fsa)
+  ${ITK_TEST_OUTPUT_DIR}/sphere.fsa
+)

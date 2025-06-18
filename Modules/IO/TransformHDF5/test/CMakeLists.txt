@@ -1,5 +1,9 @@
 itk_module_test()
-set(ITKIOTransformHDF5Tests itkIOTransformHDF5Test.cxx itkThinPlateTransformWriteReadTest.cxx)
+set(
+  ITKIOTransformHDF5Tests
+  itkIOTransformHDF5Test.cxx
+  itkThinPlateTransformWriteReadTest.cxx
+)
 
 createtestdriver(ITKIOTransformHDF5 "${ITKIOTransformHDF5-Test_LIBRARIES}" "${ITKIOTransformHDF5Tests}")
 
@@ -9,7 +13,8 @@ itk_add_test(
   COMMAND
   ITKIOTransformHDF5TestDriver
   itkIOTransformHDF5Test
-  uncompressed)
+  uncompressed
+)
 
 itk_add_test(
   NAME
@@ -17,7 +22,8 @@ itk_add_test(
   COMMAND
   ITKIOTransformHDF5TestDriver
   itkIOTransformHDF5Test
-  compressed)
+  compressed
+)
 
 itk_add_test(
   NAME
@@ -25,7 +31,8 @@ itk_add_test(
   COMMAND
   ITKIOTransformHDF5TestDriver
   itkThinPlateTransformWriteReadTest
-  ${ITK_TEST_OUTPUT_DIR})
+  ${ITK_TEST_OUTPUT_DIR}
+)
 
 # A test to read transform file that was written before v5.0a02 when the internal paths were incorrect
 itk_add_test(
@@ -34,4 +41,5 @@ itk_add_test(
   COMMAND
   ITKIOTransformHDF5TestDriver
   itkIOTransformHDF5Test
-  DATA{${ITK_DATA_ROOT}/Input/historical_misspelled_TranformParameters.h5})
+  DATA{${ITK_DATA_ROOT}/Input/historical_misspelled_TranformParameters.h5}
+)

@@ -1,5 +1,8 @@
-set(DOCUMENTATION "This module contains classes made to visually
-enhance the images, mostly by adding them artificial colors")
+set(
+  DOCUMENTATION
+  "This module contains classes made to visually
+enhance the images, mostly by adding them artificial colors"
+)
 
 itk_module(
   ITKImageFusion
@@ -9,4 +12,5 @@ itk_module(
   TEST_DEPENDS
   ITKTestKernel
   DESCRIPTION
-  "${DOCUMENTATION}")
+  "${DOCUMENTATION}"
+)

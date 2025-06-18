@@ -16,7 +16,8 @@ itk_add_test(
   3
   14.8
   91.6
-  134.9)
+  134.9
+)
 
 itk_add_test(
   NAME
@@ -35,14 +36,16 @@ itk_add_test(
   3
   14.8
   91.6
-  134.9)
+  134.9
+)
 
 itk_add_test(
   NAME
   BayesianPluginClassifierTest
   COMMAND
   ${ITK_TEST_DRIVER}
-  $<TARGET_FILE:BayesianPluginClassifier>)
+  $<TARGET_FILE:BayesianPluginClassifier>
+)
 
 itk_add_test(
   NAME
@@ -57,7 +60,8 @@ itk_add_test(
   ${TEMP}/BayesianClassifierInitializerMemberships.mhd
   4
   2
-  ${TEMP}/BayesianClassifierInitializerClass2Output.png)
+  ${TEMP}/BayesianClassifierInitializerClass2Output.png
+)
 
 # This test uses inputs from BayesianClassifierInitializer.
 # If that output changes, a new file should be placed in Examples/Data.
@@ -72,46 +76,53 @@ itk_add_test(
   $<TARGET_FILE:BayesianClassifier>
   ${ITK_SOURCE_DIR}/Examples/Data/BayesianClassifierInitializerMemberships.mhd
   ${TEMP}/BayesianClassifierLabelMap.png
-  2)
+  2
+)
 
 itk_add_test(
   NAME
   EuclideanDistanceTest
   COMMAND
   ${ITK_TEST_DRIVER}
-  $<TARGET_FILE:EuclideanDistanceMetric>)
+  $<TARGET_FILE:EuclideanDistanceMetric>
+)
 
 itk_add_test(
   NAME
   GaussianDensityFunctionTest
   COMMAND
   ${ITK_TEST_DRIVER}
-  $<TARGET_FILE:GaussianMembershipFunction>)
+  $<TARGET_FILE:GaussianMembershipFunction>
+)
 
 itk_add_test(
   NAME
   MinimumDecisionRuleTest
   COMMAND
   ${ITK_TEST_DRIVER}
-  $<TARGET_FILE:MinimumDecisionRule>)
+  $<TARGET_FILE:MinimumDecisionRule>
+)
 
 itk_add_test(
   NAME
   MaximumDecisionRuleTest
   COMMAND
   ${ITK_TEST_DRIVER}
-  $<TARGET_FILE:MaximumDecisionRule>)
+  $<TARGET_FILE:MaximumDecisionRule>
+)
 
 itk_add_test(
   NAME
   MaximumRatioDecisionRuleTest
   COMMAND
   ${ITK_TEST_DRIVER}
-  $<TARGET_FILE:MaximumRatioDecisionRule>)
+  $<TARGET_FILE:MaximumRatioDecisionRule>
+)
 
 itk_add_test(
   NAME
   KdTreeTest
   COMMAND
   ${ITK_TEST_DRIVER}
-  $<TARGET_FILE:KdTree>)
+  $<TARGET_FILE:KdTree>
+)

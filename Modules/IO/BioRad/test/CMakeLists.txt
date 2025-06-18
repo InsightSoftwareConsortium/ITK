@@ -13,4 +13,5 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/biorad_new.pic
   itkBioRadImageIOTest
   DATA{Input/biorad.pic}
-  ${ITK_TEST_OUTPUT_DIR}/biorad_new.pic)
+  ${ITK_TEST_OUTPUT_DIR}/biorad_new.pic
+)

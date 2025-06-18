@@ -1,15 +1,17 @@
 itk_module_test()
-set(ITKConnectedComponentsTests
-    itkRelabelComponentImageFilterTest.cxx
-    itkHardConnectedComponentImageFilterTest.cxx
-    itkConnectedComponentImageFilterTestRGB.cxx
-    itkConnectedComponentImageFilterTest.cxx
-    itkConnectedComponentImageFilterBackgroundTest.cxx
-    itkThresholdMaximumConnectedComponentsImageFilterTest.cxx
-    itkScalarConnectedComponentImageFilterTest.cxx
-    itkVectorConnectedComponentImageFilterTest.cxx
-    itkConnectedComponentImageFilterTooManyObjectsTest.cxx
-    itkMaskConnectedComponentImageFilterTest.cxx)
+set(
+  ITKConnectedComponentsTests
+  itkRelabelComponentImageFilterTest.cxx
+  itkHardConnectedComponentImageFilterTest.cxx
+  itkConnectedComponentImageFilterTestRGB.cxx
+  itkConnectedComponentImageFilterTest.cxx
+  itkConnectedComponentImageFilterBackgroundTest.cxx
+  itkThresholdMaximumConnectedComponentsImageFilterTest.cxx
+  itkScalarConnectedComponentImageFilterTest.cxx
+  itkVectorConnectedComponentImageFilterTest.cxx
+  itkConnectedComponentImageFilterTooManyObjectsTest.cxx
+  itkMaskConnectedComponentImageFilterTest.cxx
+)
 
 createtestdriver(ITKConnectedComponents "${ITKConnectedComponents-Test_LIBRARIES}" "${ITKConnectedComponentsTests}")
 
@@ -25,7 +27,8 @@ itk_add_test(
   DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
   ${ITK_TEST_OUTPUT_DIR}/RelabelComponentImageFilterTest.png
   130
-  145)
+  145
+)
 itk_add_test(
   NAME
   itkHardConnectedComponentImageFilterTest
@@ -38,7 +41,8 @@ itk_add_test(
   DATA{Baseline/HardConnectedComponentImageFilterTest.png}
   ${ITK_TEST_OUTPUT_DIR}/HardConnectedComponentImageFilterTestUnsignedShort.png
   itkHardConnectedComponentImageFilterTest
-  ${ITK_TEST_OUTPUT_DIR}/HardConnectedComponentImageFilterTest)
+  ${ITK_TEST_OUTPUT_DIR}/HardConnectedComponentImageFilterTest
+)
 itk_add_test(
   NAME
   itkConnectedComponentImageFilterTestRGB
@@ -51,7 +55,8 @@ itk_add_test(
   DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
   ${ITK_TEST_OUTPUT_DIR}/ConnectedComponentImageFilterTestRGB.png
   130
-  145)
+  145
+)
 itk_add_test(
   NAME
   itkConnectedComponentImageFilterTest
@@ -64,7 +69,8 @@ itk_add_test(
   DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
   ${ITK_TEST_OUTPUT_DIR}/ConnectedComponentImageFilterTest.png
   130
-  145)
+  145
+)
 itk_add_test(
   NAME
   itkConnectedComponentImageFilterTest2
@@ -78,7 +84,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/ConnectedComponentImageFilterTest2.png
   128
   255
-  0)
+  0
+)
 itk_add_test(
   NAME
   itkConnectedComponentImageFilterTest3
@@ -92,21 +99,24 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/ConnectedComponentImageFilterTest3.png
   128
   255
-  1)
+  1
+)
 itk_add_test(
   NAME
   itkConnectedComponentImageFilterBackgroundTest1
   COMMAND
   ITKConnectedComponentsTestDriver
   itkConnectedComponentImageFilterBackgroundTest
-  1)
+  1
+)
 itk_add_test(
   NAME
   itkConnectedComponentImageFilterBackgroundTest2
   COMMAND
   ITKConnectedComponentsTestDriver
   itkConnectedComponentImageFilterBackgroundTest
-  -1)
+  -1
+)
 itk_add_test(
   NAME
   itkThresholdMaximumConnectedComponentsImageFilterTest1
@@ -118,7 +128,8 @@ itk_add_test(
   itkThresholdMaximumConnectedComponentsImageFilterTest
   DATA{${ITK_DATA_ROOT}/Input/CellsFluorescence1.png}
   ${ITK_TEST_OUTPUT_DIR}/itkThresholdMaximumConnectedComponentsImageFilterTest1.png
-  10)
+  10
+)
 itk_add_test(
   NAME
   itkThresholdMaximumConnectedComponentsImageFilterTest2
@@ -130,7 +141,8 @@ itk_add_test(
   itkThresholdMaximumConnectedComponentsImageFilterTest
   DATA{${ITK_DATA_ROOT}/Input/CellsFluorescence2.png}
   ${ITK_TEST_OUTPUT_DIR}/itkThresholdMaximumConnectedComponentsImageFilterTest2.png
-  10)
+  10
+)
 itk_add_test(
   NAME
   itkScalarConnectedComponentImageFilterTest
@@ -143,7 +155,8 @@ itk_add_test(
   DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
   ${ITK_TEST_OUTPUT_DIR}/ScalarConnectedComponentImageFilterTest.png
   20
-  1)
+  1
+)
 itk_add_test(
   NAME
   itkVectorConnectedComponentImageFilterTest
@@ -153,13 +166,15 @@ itk_add_test(
   DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/VectorConnectedComponentImageFilterTest.png,:}
   ${ITK_TEST_OUTPUT_DIR}/VectorConnectedComponentImageFilterTest.png
   itkVectorConnectedComponentImageFilterTest
-  ${ITK_TEST_OUTPUT_DIR}/VectorConnectedComponentImageFilterTest.png)
+  ${ITK_TEST_OUTPUT_DIR}/VectorConnectedComponentImageFilterTest.png
+)
 itk_add_test(
   NAME
   itkConnectedComponentImageFilterTooManyObjectsTest
   COMMAND
   ITKConnectedComponentsTestDriver
-  itkConnectedComponentImageFilterTooManyObjectsTest)
+  itkConnectedComponentImageFilterTooManyObjectsTest
+)
 itk_add_test(
   NAME
   itkMaskConnectedComponentImageFilterTest
@@ -172,8 +187,14 @@ itk_add_test(
   DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
   ${ITK_TEST_OUTPUT_DIR}/MaskConnectedComponentImageFilterTest.png
   130
-  145)
+  145
+)
 
-set(ITKConnectedComponentsGTests itkRelabelComponentImageFilterGTest.cxx itkConnectedComponentImageFilterGTest.cxx)
+set(
+  ITKConnectedComponentsGTests
+  itkRelabelComponentImageFilterGTest.cxx
+  itkConnectedComponentImageFilterGTest.cxx
+)
 creategoogletestdriver(ITKConnectedComponents "${ITKConnectedComponents-Test_LIBRARIES}"
-                       "${ITKConnectedComponentsGTests}")
+                       "${ITKConnectedComponentsGTests}"
+)

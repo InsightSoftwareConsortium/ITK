@@ -1,5 +1,8 @@
-set(DOCUMENTATION "This module contains classes for reading and writing image
-files in the MRC file format. https://en.wikipedia.org/wiki/MRC_(file_format) ")
+set(
+  DOCUMENTATION
+  "This module contains classes for reading and writing image
+files in the MRC file format. https://en.wikipedia.org/wiki/MRC_(file_format) "
+)
 
 itk_module(
   ITKIOMRC
@@ -12,4 +15,5 @@ itk_module(
   FACTORY_NAMES
   ImageIO::MRC
   DESCRIPTION
-  "${DOCUMENTATION}")
+  "${DOCUMENTATION}"
+)

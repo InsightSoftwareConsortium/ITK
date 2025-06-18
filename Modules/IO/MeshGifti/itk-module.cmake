@@ -1,5 +1,8 @@
-set(DOCUMENTATION "This module contains classes for reading and writing
-Meshes in the Gifti file format.")
+set(
+  DOCUMENTATION
+  "This module contains classes for reading and writing
+Meshes in the Gifti file format."
+)
 itk_module(
   ITKIOMeshGifti
   ENABLE_SHARED
@@ -16,4 +19,5 @@ itk_module(
   FACTORY_NAMES
   MeshIO::Gifti
   DESCRIPTION
-  "${DOCUMENTATION}")
+  "${DOCUMENTATION}"
+)

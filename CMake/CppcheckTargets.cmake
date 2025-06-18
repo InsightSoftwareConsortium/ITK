@@ -38,13 +38,17 @@ endif()
 if(CPPCHECK_FOUND)
   if(NOT TARGET all_cppcheck)
     add_custom_target(all_cppcheck)
-    set_target_properties(all_cppcheck PROPERTIES EXCLUDE_FROM_ALL TRUE)
+    set_target_properties(
+      all_cppcheck
+      PROPERTIES
+        EXCLUDE_FROM_ALL
+          TRUE
+    )
   endif()
 endif()
 
 # ------------------------------------------------------------------------------
 macro(get_cppcheck_arg)
-
   if(FORCE IN_LIST _input)
     list(APPEND _cppcheck_args ${CPPCHECK_FORCE_ARG})
     list(REMOVE_ITEM _input FORCE)
@@ -90,19 +94,15 @@ macro(get_cppcheck_arg)
       APPEND
       _cppcheck_args
       CPPCHECK_FAIL_REGULAR_EXPRESSION
-      ${CPPCHECK_WARN_REGULAR_EXPRESSION})
+      ${CPPCHECK_WARN_REGULAR_EXPRESSION}
+    )
     list(REMOVE_ITEM _input FAIL_ON_WARNINGS)
   endif()
-
 endmacro()
 
 # ------------------------------------------------------------------------------
 # add_cppcheck_dir
-function(
-  add_cppcheck_dir
-  _name
-  _dir
-  _include_dirs)
+function(add_cppcheck_dir _name _dir _include_dirs)
   if(CPPCHECK_FOUND)
     set(_cppcheck_args)
     set(_input ${ARGN})
@@ -111,31 +111,43 @@ function(
 
     # --------------------------------------------------------------
     foreach(_includeDirs ${_include_dirs})
-      set(_cppcheck_include ${_cppcheck_include} -I${_includeDirs})
+      set(
+        _cppcheck_include
+        ${_cppcheck_include}
+        -I${_includeDirs}
+      )
     endforeach()
 
     set(_cppcheck_compile_args ${_cppcheck_include})
 
     itk_add_test(
-      NAME
-      ${_name}CPPCheckTest
-      COMMAND
-      "${CPPCHECK_EXECUTABLE}"
-      ${CPPCHECK_TEMPLATE_ARG}
-      ${_cppcheck_args}
-      ${_cppcheck_compile_args}
-      ${_dir})
+          NAME
+          ${_name}CPPCheckTest
+          COMMAND
+          "${CPPCHECK_EXECUTABLE}"
+          ${CPPCHECK_TEMPLATE_ARG}
+          ${_cppcheck_args}
+          ${_cppcheck_compile_args}
+          ${_dir}
+    )
 
-    set_tests_properties(${_name}CPPCheckTest PROPERTIES FAIL_REGULAR_EXPRESSION "${CPPCHECK_FAIL_REGULAR_EXPRESSION}")
+    set_tests_properties(
+      ${_name}CPPCheckTest
+      PROPERTIES
+        FAIL_REGULAR_EXPRESSION
+          "${CPPCHECK_FAIL_REGULAR_EXPRESSION}"
+    )
 
     add_custom_command(
       TARGET all_cppcheck
       PRE_BUILD
-      COMMAND ${CPPCHECK_EXECUTABLE} ${CPPCHECK_QUIET_ARG} ${CPPCHECK_TEMPLATE_ARG} ${_cppcheck_args}
-              ${_cppcheck_compile_args} ${_dir}
+      COMMAND
+        ${CPPCHECK_EXECUTABLE} ${CPPCHECK_QUIET_ARG} ${CPPCHECK_TEMPLATE_ARG}
+        ${_cppcheck_args} ${_cppcheck_compile_args} ${_dir}
       WORKING_DIRECTORY "${_dir}"
       COMMENT "${_name}_cppcheck: Running cppcheck on ${_dir}..."
-      VERBATIM)
+      VERBATIM
+    )
   endif()
 endfunction()
 
@@ -167,9 +179,10 @@ function(add_cppcheck_sources _targetname)
         else()
           message(
             FATAL_ERROR
-              "Adding CPPCHECK for file target ${_targetname}: "
-              "File ${_source} does not exist or needs a corrected path location "
-              "since we think its absolute path is ${_cppcheck_loc}")
+            "Adding CPPCHECK for file target ${_targetname}: "
+            "File ${_source} does not exist or needs a corrected path location "
+            "since we think its absolute path is ${_cppcheck_loc}"
+          )
         endif()
       endif()
     endforeach()
@@ -177,12 +190,18 @@ function(add_cppcheck_sources _targetname)
     # let's take of include dirs here
     get_property(
       mytargINCLUDES
-      DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-      PROPERTY INCLUDE_DIRECTORIES)
+      DIRECTORY
+        "${CMAKE_CURRENT_SOURCE_DIR}"
+      PROPERTY INCLUDE_DIRECTORIES
+    )
 
     set(_cppcheck_include)
     foreach(_includeDirs ${mytargINCLUDES})
-      set(_cppcheck_include ${_cppcheck_include} -I${_includeDirs})
+      set(
+        _cppcheck_include
+        ${_cppcheck_include}
+        -I${_includeDirs}
+      )
     endforeach()
 
     # --------------------------------------------------------------
@@ -191,38 +210,56 @@ function(add_cppcheck_sources _targetname)
     # another way
     get_property(
       mytargDEFINITIONS
-      DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-      PROPERTY COMPILE_DEFINITIONS)
+      DIRECTORY
+        "${CMAKE_CURRENT_SOURCE_DIR}"
+      PROPERTY COMPILE_DEFINITIONS
+    )
 
     set(_cppcheck_def)
     foreach(_compiledef ${mytargDEFINITIONS})
-      set(_cppcheck_def ${_cppcheck_def} -D${_compiledef})
+      set(
+        _cppcheck_def
+        ${_cppcheck_def}
+        -D${_compiledef}
+      )
     endforeach()
 
     # --------------------------------------------------------------
-    set(_cppcheck_compile_args ${_cppcheck_include} ${_cppcheck_def})
+    set(
+      _cppcheck_compile_args
+      ${_cppcheck_include}
+      ${_cppcheck_def}
+    )
 
     itk_add_test(
-      NAME
-      ${_targetname}CPPCheckTest
-      COMMAND
-      "${CPPCHECK_EXECUTABLE}"
-      ${CPPCHECK_TEMPLATE_ARG}
-      ${_cppcheck_args}
-      ${_cppcheck_compile_args}
-      ${_files})
+          NAME
+          ${_targetname}CPPCheckTest
+          COMMAND
+          "${CPPCHECK_EXECUTABLE}"
+          ${CPPCHECK_TEMPLATE_ARG}
+          ${_cppcheck_args}
+          ${_cppcheck_compile_args}
+          ${_files}
+    )
 
-    set_tests_properties(${_targetname}CPPCheckTest PROPERTIES FAIL_REGULAR_EXPRESSION
-                                                               "${CPPCHECK_FAIL_REGULAR_EXPRESSION}")
+    set_tests_properties(
+      ${_targetname}CPPCheckTest
+      PROPERTIES
+        FAIL_REGULAR_EXPRESSION
+          "${CPPCHECK_FAIL_REGULAR_EXPRESSION}"
+    )
 
     add_custom_command(
       TARGET all_cppcheck
       PRE_BUILD
-      COMMAND ${CPPCHECK_EXECUTABLE} ${CPPCHECK_QUIET_ARG} ${CPPCHECK_TEMPLATE_ARG} ${_cppcheck_args}
-              ${_cppcheck_compile_args} ${_files}
+      COMMAND
+        ${CPPCHECK_EXECUTABLE} ${CPPCHECK_QUIET_ARG} ${CPPCHECK_TEMPLATE_ARG}
+        ${_cppcheck_args} ${_cppcheck_compile_args} ${_files}
       WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-      COMMENT "${_targetname}_cppcheck: Running cppcheck on target ${_targetname}..."
-      VERBATIM)
+      COMMENT
+        "${_targetname}_cppcheck: Running cppcheck on target ${_targetname}..."
+      VERBATIM
+    )
   endif()
 endfunction()
 
@@ -230,7 +267,10 @@ endfunction()
 # add_cppcheck
 function(add_cppcheck _name)
   if(NOT TARGET ${_name})
-    message(FATAL_ERROR "add_cppcheck given a target name that does not exist: '${_name}' !")
+    message(
+      FATAL_ERROR
+      "add_cppcheck given a target name that does not exist: '${_name}' !"
+    )
   endif()
   if(CPPCHECK_FOUND)
     set(_cppcheck_args)
@@ -251,8 +291,10 @@ function(add_cppcheck _name)
     # let's take of include dirs here
     get_property(
       mytargINCLUDES
-      DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-      PROPERTY INCLUDE_DIRECTORIES)
+      DIRECTORY
+        "${CMAKE_CURRENT_SOURCE_DIR}"
+      PROPERTY INCLUDE_DIRECTORIES
+    )
 
     set(_cppcheck_include)
     foreach(_includeDirs ${mytargINCLUDES})
@@ -263,36 +305,55 @@ function(add_cppcheck _name)
     # let's take of compile definitions here
     get_property(
       mytargDEFINITIONS
-      DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-      PROPERTY COMPILE_DEFINITIONS)
+      DIRECTORY
+        "${CMAKE_CURRENT_SOURCE_DIR}"
+      PROPERTY COMPILE_DEFINITIONS
+    )
 
     set(_cppcheck_def)
     foreach(_compiledef ${mytargDEFINITIONS})
-      set(_cppcheck_def ${_cppcheck_def} -D${_compiledef})
+      set(
+        _cppcheck_def
+        ${_cppcheck_def}
+        -D${_compiledef}
+      )
     endforeach()
 
     # --------------------------------------------------------------
-    set(_cppcheck_compile_args --check-config ${_cppcheck_include} ${_cppcheck_def})
+    set(
+      _cppcheck_compile_args
+      --check-config
+      ${_cppcheck_include}
+      ${_cppcheck_def}
+    )
 
     itk_add_test(
-      NAME
-      ${_name}CPPCheckTest
-      COMMAND
-      "${CPPCHECK_EXECUTABLE}"
-      ${CPPCHECK_TEMPLATE_ARG}
-      ${_cppcheck_args}
-      ${_cppcheck_compile_args}
-      ${_files})
+          NAME
+          ${_name}CPPCheckTest
+          COMMAND
+          "${CPPCHECK_EXECUTABLE}"
+          ${CPPCHECK_TEMPLATE_ARG}
+          ${_cppcheck_args}
+          ${_cppcheck_compile_args}
+          ${_files}
+    )
 
-    set_tests_properties(${_name}CPPCheckTest PROPERTIES FAIL_REGULAR_EXPRESSION "${CPPCHECK_FAIL_REGULAR_EXPRESSION}")
+    set_tests_properties(
+      ${_name}CPPCheckTest
+      PROPERTIES
+        FAIL_REGULAR_EXPRESSION
+          "${CPPCHECK_FAIL_REGULAR_EXPRESSION}"
+    )
 
     add_custom_command(
       TARGET all_cppcheck
       PRE_BUILD
-      COMMAND ${CPPCHECK_EXECUTABLE} ${CPPCHECK_QUIET_ARG} ${CPPCHECK_TEMPLATE_ARG} ${_cppcheck_args} ${_files}
+      COMMAND
+        ${CPPCHECK_EXECUTABLE} ${CPPCHECK_QUIET_ARG} ${CPPCHECK_TEMPLATE_ARG}
+        ${_cppcheck_args} ${_files}
       WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
       COMMENT "${_name}_cppcheck: Running cppcheck on target ${_name}..."
-      VERBATIM)
+      VERBATIM
+    )
   endif()
-
 endfunction()

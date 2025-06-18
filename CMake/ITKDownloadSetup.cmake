@@ -6,12 +6,19 @@
 # when building on systems without network connectivity to determine which
 # resources must be obtained manually and made available to the build.
 #
-option(ITK_FORBID_DOWNLOADS "Do not download source code or data from the network" OFF)
+option(
+  ITK_FORBID_DOWNLOADS
+  "Do not download source code or data from the network"
+  OFF
+)
 mark_as_advanced(ITK_FORBID_DOWNLOADS)
 
 macro(itk_download_attempt_check _name)
   if(ITK_FORBID_DOWNLOADS)
-    message(WARNING "Attempted to download ${_name} when ITK_FORBID_DOWNLOADS is ON")
+    message(
+      WARNING
+      "Attempted to download ${_name} when ITK_FORBID_DOWNLOADS is ON"
+    )
   endif()
 endmacro()
 
@@ -25,8 +32,11 @@ if(NOT ITK_FORBID_DOWNLOADS)
     # minimum version for https support
     set(ITK_USE_GIT_PROTOCOL_default "ON")
   endif()
-  option(ITK_USE_GIT_PROTOCOL "If behind a firewall turn this off to use https instead."
-         ${ITK_USE_GIT_PROTOCOL_default})
+  option(
+    ITK_USE_GIT_PROTOCOL
+    "If behind a firewall turn this off to use https instead."
+    ${ITK_USE_GIT_PROTOCOL_default}
+  )
   mark_as_advanced(ITK_USE_GIT_PROTOCOL)
   set(git_protocol "https")
   if(ITK_USE_GIT_PROTOCOL)

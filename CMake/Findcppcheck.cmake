@@ -28,9 +28,12 @@
 # https://www.boost.org/LICENSE_1_0.txt)
 
 file(TO_CMAKE_PATH "${CPPCHECK_ROOT_DIR}" CPPCHECK_ROOT_DIR)
-set(CPPCHECK_ROOT_DIR
-    "${CPPCHECK_ROOT_DIR}"
-    CACHE PATH "Path to search for cppcheck")
+set(
+  CPPCHECK_ROOT_DIR
+  "${CPPCHECK_ROOT_DIR}"
+  CACHE PATH
+  "Path to search for cppcheck"
+)
 mark_as_advanced(CPPCHECK_ROOT_DIR)
 
 # cppcheck app bundles on Mac OS X are GUI, we want command line only
@@ -41,10 +44,15 @@ set(CMAKE_FIND_APPBUNDLE NEVER)
 if(CPPCHECK_ROOT_DIR)
   find_program(
     CPPCHECK_EXECUTABLE
-    NAMES cppcheck cli
-    PATHS "${CPPCHECK_ROOT_DIR}"
-    PATH_SUFFIXES cli
-    NO_DEFAULT_PATH)
+    NAMES
+      cppcheck
+      cli
+    PATHS
+      "${CPPCHECK_ROOT_DIR}"
+    PATH_SUFFIXES
+      cli
+    NO_DEFAULT_PATH
+  )
 endif()
 
 find_program(CPPCHECK_EXECUTABLE NAMES cppcheck)
@@ -67,57 +75,77 @@ if(CPPCHECK_EXECUTABLE)
 
   # Check for the two types of command line arguments by just trying them
   execute_process(
-    COMMAND ${CPPCHECK_EXECUTABLE} --enable=style ${CPPCHECK_QUIET_ARG} ${_cppcheckdummyfile}
+    COMMAND
+      ${CPPCHECK_EXECUTABLE} --enable=style ${CPPCHECK_QUIET_ARG}
+      ${_cppcheckdummyfile}
     RESULT_VARIABLE _cppcheck_enable_style_result
-    OUTPUT_QUIET ERROR_QUIET)
+    OUTPUT_QUIET
+    ERROR_QUIET
+  )
 
   if("${_cppcheck_enable_style_result}" EQUAL 0)
-
     set(CPPCHECK_STYLE_ARG --enable=style)
 
     # How to display errors and warnings:
     if(MSVC)
-      set(CPPCHECK_TEMPLATE_ARG --template vs)
+      set(
+        CPPCHECK_TEMPLATE_ARG
+        --template
+        vs
+      )
       set(CPPCHECK_FAIL_REGULAR_EXPRESSION "[(]error[)]")
       set(CPPCHECK_WARN_REGULAR_EXPRESSION "[(]style[)]")
     else()
       ## This is about the IDE, not the compiler for formatting support.  Many IDE's
       ## support the gcc style error messages.
-      set(CPPCHECK_TEMPLATE_ARG --template gcc)
+      set(
+        CPPCHECK_TEMPLATE_ARG
+        --template
+        gcc
+      )
       set(CPPCHECK_FAIL_REGULAR_EXPRESSION " error: ")
       set(CPPCHECK_WARN_REGULAR_EXPRESSION " style: ")
     endif()
-
   else()
     message("This file supports only version of cppcheck is newer than 1.43!")
-
   endif()
 
   execute_process(
-    COMMAND ${CPPCHECK_EXECUTABLE} --enable=unusedFunctions ${CPPCHECK_QUIET_ARG} ${_cppcheckdummyfile}
+    COMMAND
+      ${CPPCHECK_EXECUTABLE} --enable=unusedFunctions ${CPPCHECK_QUIET_ARG}
+      ${_cppcheckdummyfile}
     RESULT_VARIABLE _cppcheck_enable_unused_functions_results
-    OUTPUT_QUIET ERROR_QUIET)
+    OUTPUT_QUIET
+    ERROR_QUIET
+  )
 
   if("${_cppcheck_enable_unused_functions_results}" EQUAL 0)
     set(CPPCHECK_UNUSEDFUNC_ARG --enable=unusedFunctions)
   else()
     execute_process(
-      COMMAND ${CPPCHECK_EXECUTABLE} --enable=unusedFunction ${CPPCHECK_QUIET_ARG} ${_cppcheckdummyfile}
+      COMMAND
+        ${CPPCHECK_EXECUTABLE} --enable=unusedFunction ${CPPCHECK_QUIET_ARG}
+        ${_cppcheckdummyfile}
       RESULT_VARIABLE _cppcheck_enable_unused_function_results
-      OUTPUT_QUIET ERROR_QUIET)
+      OUTPUT_QUIET
+      ERROR_QUIET
+    )
 
     if("${_cppcheck_enable_unused_function_results}" EQUAL 0)
       set(CPPCHECK_UNUSEDFUNC_ARG --enable=unusedFunction)
     else()
       set(CPPCHECK_UNUSEDFUNC_ARG)
     endif()
-
   endif()
 
   execute_process(
-    COMMAND ${CPPCHECK_EXECUTABLE} --enable=information ${CPPCHECK_QUIET_ARG} ${_cppcheckdummyfile}
+    COMMAND
+      ${CPPCHECK_EXECUTABLE} --enable=information ${CPPCHECK_QUIET_ARG}
+      ${_cppcheckdummyfile}
     RESULT_VARIABLE _cppcheck_enable_information_results
-    OUTPUT_QUIET ERROR_QUIET)
+    OUTPUT_QUIET
+    ERROR_QUIET
+  )
 
   if("${_cppcheck_enable_information_results}" EQUAL 0)
     # supported since
@@ -127,9 +155,13 @@ if(CPPCHECK_EXECUTABLE)
   endif()
 
   execute_process(
-    COMMAND ${CPPCHECK_EXECUTABLE} --enable=missingInclude ${CPPCHECK_QUIET_ARG} ${_cppcheckdummyfile}
+    COMMAND
+      ${CPPCHECK_EXECUTABLE} --enable=missingInclude ${CPPCHECK_QUIET_ARG}
+      ${_cppcheckdummyfile}
     RESULT_VARIABLE _cppcheck_missingInclude_results
-    OUTPUT_QUIET ERROR_QUIET)
+    OUTPUT_QUIET
+    ERROR_QUIET
+  )
 
   if("${_cppcheck_missingInclude_results}" EQUAL 0)
     # supported since
@@ -137,11 +169,11 @@ if(CPPCHECK_EXECUTABLE)
   else()
     set(CPPCHECK_MISSING_INCLUDE_ARG)
   endif()
-
 endif()
 
-set(CPPCHECK_ALL
-    "${CPPCHECK_EXECUTABLE} ${CPPCHECK_POSSIBLEERROR_ARG} ${CPPCHECK_UNUSEDFUNC_ARG} ${CPPCHECK_STYLE_ARG} ${CPPCHECK_QUIET_ARG} ${CPPCHECK_INCLUDEPATH_ARG} some/include/path"
+set(
+  CPPCHECK_ALL
+  "${CPPCHECK_EXECUTABLE} ${CPPCHECK_POSSIBLEERROR_ARG} ${CPPCHECK_UNUSEDFUNC_ARG} ${CPPCHECK_STYLE_ARG} ${CPPCHECK_QUIET_ARG} ${CPPCHECK_INCLUDEPATH_ARG} some/include/path"
 )
 
 include(FindPackageHandleStandardArgs)
@@ -159,7 +191,8 @@ find_package_handle_standard_args(
   CPPCHECK_DEFINITION_ARG
   CPPCHECK_QUIET_ARG
   CPPCHECK_FORCE_ARG
-  CPPCHECK_VERBOSE_ARG)
+  CPPCHECK_VERBOSE_ARG
+)
 
 if(CPPCHECK_FOUND OR CPPCHECK_MARK_AS_ADVANCED)
   mark_as_advanced(CPPCHECK_ROOT_DIR)

@@ -1,12 +1,18 @@
 if(ITK_WRAPPING)
   # WRAPPER_LIBRARY_OUTPUT_DIR. Directory in which generated cxx, xml, and idx files will be placed.
-  set(WRAPPER_LIBRARY_OUTPUT_DIR
-      "${ITK_BINARY_DIR}/Wrapping"
-      CACHE INTERNAL "Need to specify the output library directory globally")
+  set(
+    WRAPPER_LIBRARY_OUTPUT_DIR
+    "${ITK_BINARY_DIR}/Wrapping"
+    CACHE INTERNAL
+    "Need to specify the output library directory globally"
+  )
   if(ITK_WRAP_PYTHON)
-    set(ITK_WRAP_PYTHON_ROOT_BINARY_DIR
-        "${WRAPPER_LIBRARY_OUTPUT_DIR}/Generators/Python"
-        CACHE INTERNAL "python binary dir")
+    set(
+      ITK_WRAP_PYTHON_ROOT_BINARY_DIR
+      "${WRAPPER_LIBRARY_OUTPUT_DIR}/Generators/Python"
+      CACHE INTERNAL
+      "python binary dir"
+    )
     # create the directory to avoid losing case on windows
     file(MAKE_DIRECTORY ${ITK_WRAP_PYTHON_ROOT_BINARY_DIR})
 
@@ -14,9 +20,12 @@ if(ITK_WRAPPING)
     # create the directory to avoid losing case on windows
     file(MAKE_DIRECTORY ${ITK_PYTHON_PACKAGE_DIR})
 
-    set(ITK_WRAP_PYTHON_SWIG_CONFIGURATION_DIR
-        "${ITK_PYTHON_PACKAGE_DIR}/Configuration"
-        CACHE INTERNAL "python binary dir")
+    set(
+      ITK_WRAP_PYTHON_SWIG_CONFIGURATION_DIR
+      "${ITK_PYTHON_PACKAGE_DIR}/Configuration"
+      CACHE INTERNAL
+      "python binary dir"
+    )
     # create the directory to avoid losing case on windows
     file(MAKE_DIRECTORY ${ITK_WRAP_PYTHON_SWIG_CONFIGURATION_DIR})
 
@@ -32,20 +41,34 @@ if(ITK_WRAPPING)
     # When wrapping, the multi-config generators can only be used in degraded state
     # of allowing only a single element int the CMAKE_CONFIGURATION_TYPES and enforcing
     # that CMAKE_BUILD_TYPE match that type (see Wrapping/CMakeLists.txt enforcement)
-    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY
-        "$<1:${ITK_PYTHON_PACKAGE_DIR}>"
-        CACHE PATH "Shared library directory with generator override" FORCE)
-    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY
-        "$<1:${ITK_PYTHON_PACKAGE_DIR}>"
-        CACHE PATH "Shared library directory with generator override" FORCE)
+    set(
+      CMAKE_LIBRARY_OUTPUT_DIRECTORY
+      "$<1:${ITK_PYTHON_PACKAGE_DIR}>"
+      CACHE PATH
+      "Shared library directory with generator override"
+      FORCE
+    )
+    set(
+      CMAKE_RUNTIME_OUTPUT_DIRECTORY
+      "$<1:${ITK_PYTHON_PACKAGE_DIR}>"
+      CACHE PATH
+      "Shared library directory with generator override"
+      FORCE
+    )
   endif()
 else()
-  set(CMAKE_LIBRARY_OUTPUT_DIRECTORY
-      ${NO_WRAP_CMAKE_LIBRARY_OUTPUT_DIRECTORY}
-      CACHE PATH "Shared library directory")
-  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY
-      ${NO_WRAP_CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-      CACHE PATH "Runtime library directory")
+  set(
+    CMAKE_LIBRARY_OUTPUT_DIRECTORY
+    ${NO_WRAP_CMAKE_LIBRARY_OUTPUT_DIRECTORY}
+    CACHE PATH
+    "Shared library directory"
+  )
+  set(
+    CMAKE_RUNTIME_OUTPUT_DIRECTORY
+    ${NO_WRAP_CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+    CACHE PATH
+    "Runtime library directory"
+  )
 endif()
 mark_as_advanced(
   FORCE
@@ -53,4 +76,5 @@ mark_as_advanced(
   CMAKE_LIBRARY_OUTPUT_DIRECTORY
   NO_WRAP_CMAKE_LIBRARY_OUTPUT_DIRECTORY
   NO_WRAP_CMAKE_RUNTIME_OUTPUT_DIRECTORY
-  Python3_ROOT_DIR)
+  Python3_ROOT_DIR
+)

@@ -1,5 +1,6 @@
-set(DOCUMENTATION
-    "The QuadEdgeMesh module contain a specialized set of Mesh
+set(
+  DOCUMENTATION
+  "The QuadEdgeMesh module contain a specialized set of Mesh
 classes intended to represent 2-manifolds embedded in a N-Dimensional space.
 This family of classes provides a consistent representation of oriented
 surfaces and therefore they are used as a base for implementing common mesh
@@ -68,7 +69,8 @@ With those criteria in mind the following choices were made:
   modifications are really limited and concern a couple edges.
   - More specialized methods, with a wider scope and that require a
   copy of the mesh should follow the classical ITK filter pattern and inherit
-  from itk::MeshToMeshFilter.")
+  from itk::MeshToMeshFilter."
+)
 
 itk_module(
   ITKQuadEdgeMesh
@@ -81,4 +83,5 @@ itk_module(
   ITKTestKernel
   ITKMesh
   DESCRIPTION
-  "${DOCUMENTATION}")
+  "${DOCUMENTATION}"
+)

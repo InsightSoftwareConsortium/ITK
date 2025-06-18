@@ -1,49 +1,51 @@
 itk_module_test()
 
-set(ITKFEMTests
-    itkFEMExceptionTest.cxx
-    itkFEMElement2DMembraneTest.cxx
-    itkFEMElement3DMembraneTest.cxx
-    itkFEMElement2DStrainTest.cxx
-    itkFEMElement2DQuadraticTriangularTest.cxx
-    itkFEMLinearSystemWrapperItpackTest.cxx
-    itkFEMLinearSystemWrapperItpackTest2.cxx
-    itkFEMLinearSystemWrapperVNLTest.cxx
-    itkFEMLinearSystemWrapperDenseVNLTest.cxx
-    itkFEMPArrayTest.cxx
-    itkFEMElement2DC0LinearTriangleStressTest.cxx
-    itkFEMElement2DC0LinearQuadrilateralStrainItpackTest.cxx
-    itkFEMElement2DC0LinearTriangleStrainTest.cxx
-    itkFEMElement2DC0LinearTriangleMembraneTest.cxx
-    itkFEMElement2DC0LinearQuadrilateralStressTest.cxx
-    itkFEMElement2DC0LinearQuadrilateralStrainTest.cxx
-    itkFEMElement2DC0LinearQuadrilateralMembraneTest.cxx
-    itkFEMElement2DC0QuadraticTriangleStrainTest.cxx
-    itkFEMElement2DC0QuadraticTriangleStressTest.cxx
-    itkFEMElement2DC0LinearLineStressTest.cxx
-    itkFEMElement2DC1BeamTest.cxx
-    itkFEMElement3DC0LinearHexahedronStrainTest.cxx
-    itkFEMElement3DC0LinearHexahedronMembraneTest.cxx
-    itkFEMElement3DC0LinearTetrahedronStrainTest.cxx
-    itkFEMElement3DC0LinearTetrahedronMembraneTest.cxx
-    itkFEMLoadBCMFCTest.cxx
-    itkFEMLoadBCMFCTestUser.cxx
-    itkFEMLoadEdgeTest.cxx
-    itkFEMLoadGravConstTest.cxx
-    itkFEMLoadPointTestUser.cxx
-    itkFEMLandmarkLoadImplementationTest.cxx
-    # itkFEMSolverTest2D.cxx
-    itkFEMSolverTest3D.cxx
-    itkImageToRectilinearFEMObjectFilter2DTest.cxx
-    itkImageToRectilinearFEMObjectFilter3DTest.cxx
-    itkFEMElement2DTest.cxx
-    itkFEMElement3DTest.cxx
-    itkFEMObjectTest.cxx
-    itkFEMObjectTest2.cxx
-    itkFEMSpatialObjectTest.cxx
-    itkFEMSolverHyperbolicTest.cxx
-    itkFEMRobustSolverTest.cxx
-    itkFEMScatteredDataPointSetToImageFilterTest.cxx)
+set(
+  ITKFEMTests
+  itkFEMExceptionTest.cxx
+  itkFEMElement2DMembraneTest.cxx
+  itkFEMElement3DMembraneTest.cxx
+  itkFEMElement2DStrainTest.cxx
+  itkFEMElement2DQuadraticTriangularTest.cxx
+  itkFEMLinearSystemWrapperItpackTest.cxx
+  itkFEMLinearSystemWrapperItpackTest2.cxx
+  itkFEMLinearSystemWrapperVNLTest.cxx
+  itkFEMLinearSystemWrapperDenseVNLTest.cxx
+  itkFEMPArrayTest.cxx
+  itkFEMElement2DC0LinearTriangleStressTest.cxx
+  itkFEMElement2DC0LinearQuadrilateralStrainItpackTest.cxx
+  itkFEMElement2DC0LinearTriangleStrainTest.cxx
+  itkFEMElement2DC0LinearTriangleMembraneTest.cxx
+  itkFEMElement2DC0LinearQuadrilateralStressTest.cxx
+  itkFEMElement2DC0LinearQuadrilateralStrainTest.cxx
+  itkFEMElement2DC0LinearQuadrilateralMembraneTest.cxx
+  itkFEMElement2DC0QuadraticTriangleStrainTest.cxx
+  itkFEMElement2DC0QuadraticTriangleStressTest.cxx
+  itkFEMElement2DC0LinearLineStressTest.cxx
+  itkFEMElement2DC1BeamTest.cxx
+  itkFEMElement3DC0LinearHexahedronStrainTest.cxx
+  itkFEMElement3DC0LinearHexahedronMembraneTest.cxx
+  itkFEMElement3DC0LinearTetrahedronStrainTest.cxx
+  itkFEMElement3DC0LinearTetrahedronMembraneTest.cxx
+  itkFEMLoadBCMFCTest.cxx
+  itkFEMLoadBCMFCTestUser.cxx
+  itkFEMLoadEdgeTest.cxx
+  itkFEMLoadGravConstTest.cxx
+  itkFEMLoadPointTestUser.cxx
+  itkFEMLandmarkLoadImplementationTest.cxx
+  # itkFEMSolverTest2D.cxx
+  itkFEMSolverTest3D.cxx
+  itkImageToRectilinearFEMObjectFilter2DTest.cxx
+  itkImageToRectilinearFEMObjectFilter3DTest.cxx
+  itkFEMElement2DTest.cxx
+  itkFEMElement3DTest.cxx
+  itkFEMObjectTest.cxx
+  itkFEMObjectTest2.cxx
+  itkFEMSpatialObjectTest.cxx
+  itkFEMSolverHyperbolicTest.cxx
+  itkFEMRobustSolverTest.cxx
+  itkFEMScatteredDataPointSetToImageFilterTest.cxx
+)
 
 createtestdriver(ITKFEM "${ITKFEM-Test_LIBRARIES}" "${ITKFEMTests}")
 
@@ -52,159 +54,183 @@ itk_add_test(
   itkFEMElement2DMembraneTest
   COMMAND
   ITKFEMTestDriver
-  itkFEMElement2DMembraneTest)
+  itkFEMElement2DMembraneTest
+)
 itk_add_test(
   NAME
   itkFEMElement2DQuadraticTriangularTest
   COMMAND
   ITKFEMTestDriver
-  itkFEMElement2DQuadraticTriangularTest)
+  itkFEMElement2DQuadraticTriangularTest
+)
 itk_add_test(
   NAME
   itkFEMElement2DStrainTest
   COMMAND
   ITKFEMTestDriver
-  itkFEMElement2DStrainTest)
+  itkFEMElement2DStrainTest
+)
 itk_add_test(
   NAME
   itkFEMElement3DMembraneTest
   COMMAND
   ITKFEMTestDriver
-  itkFEMElement3DMembraneTest)
+  itkFEMElement3DMembraneTest
+)
 itk_add_test(
   NAME
   itkFEMExceptionTest
   COMMAND
   ITKFEMTestDriver
-  itkFEMExceptionTest)
+  itkFEMExceptionTest
+)
 itk_add_test(
   NAME
   itkFEMLinearSystemWrapperDenseVNLTest
   COMMAND
   ITKFEMTestDriver
-  itkFEMLinearSystemWrapperDenseVNLTest)
+  itkFEMLinearSystemWrapperDenseVNLTest
+)
 itk_add_test(
   NAME
   itkFEMLinearSystemWrapperItpackTest
   COMMAND
   ITKFEMTestDriver
-  itkFEMLinearSystemWrapperItpackTest)
+  itkFEMLinearSystemWrapperItpackTest
+)
 itk_add_test(
   NAME
   itkFEMLinearSystemWrapperItpackTest1
   COMMAND
   ITKFEMTestDriver
   itkFEMLinearSystemWrapperItpackTest
-  0)
+  0
+)
 itk_add_test(
   NAME
   itkFEMLinearSystemWrapperItpackTest2
   COMMAND
   ITKFEMTestDriver
   itkFEMLinearSystemWrapperItpackTest
-  1)
+  1
+)
 itk_add_test(
   NAME
   itkFEMLinearSystemWrapperItpackTest3
   COMMAND
   ITKFEMTestDriver
   itkFEMLinearSystemWrapperItpackTest
-  2)
+  2
+)
 itk_add_test(
   NAME
   itkFEMLinearSystemWrapperItpackTest4
   COMMAND
   ITKFEMTestDriver
   itkFEMLinearSystemWrapperItpackTest
-  3)
+  3
+)
 itk_add_test(
   NAME
   itkFEMLinearSystemWrapperItpackTest5
   COMMAND
   ITKFEMTestDriver
   itkFEMLinearSystemWrapperItpackTest
-  4)
+  4
+)
 itk_add_test(
   NAME
   itkFEMLinearSystemWrapperItpackTest6
   COMMAND
   ITKFEMTestDriver
   itkFEMLinearSystemWrapperItpackTest
-  5)
+  5
+)
 itk_add_test(
   NAME
   itkFEMLinearSystemWrapperItpackTest7
   COMMAND
   ITKFEMTestDriver
   itkFEMLinearSystemWrapperItpackTest
-  6)
+  6
+)
 itk_add_test(
   NAME
   itkFEMLinearSystemWrapperItpackTest8
   COMMAND
   ITKFEMTestDriver
   itkFEMLinearSystemWrapperItpackTest2
-  0)
+  0
+)
 itk_add_test(
   NAME
   itkFEMLinearSystemWrapperItpackTest9
   COMMAND
   ITKFEMTestDriver
   itkFEMLinearSystemWrapperItpackTest2
-  1)
+  1
+)
 itk_add_test(
   NAME
   itkFEMLinearSystemWrapperItpackTest10
   COMMAND
   ITKFEMTestDriver
   itkFEMLinearSystemWrapperItpackTest2
-  2)
+  2
+)
 itk_add_test(
   NAME
   itkFEMLinearSystemWrapperItpackTest11
   COMMAND
   ITKFEMTestDriver
   itkFEMLinearSystemWrapperItpackTest2
-  3)
+  3
+)
 itk_add_test(
   NAME
   itkFEMLinearSystemWrapperItpackTest12
   COMMAND
   ITKFEMTestDriver
   itkFEMLinearSystemWrapperItpackTest2
-  4)
+  4
+)
 itk_add_test(
   NAME
   itkFEMLinearSystemWrapperItpackTest13
   COMMAND
   ITKFEMTestDriver
   itkFEMLinearSystemWrapperItpackTest2
-  5)
+  5
+)
 itk_add_test(
   NAME
   itkFEMLinearSystemWrapperItpackTest14
   COMMAND
   ITKFEMTestDriver
   itkFEMLinearSystemWrapperItpackTest2
-  6)
+  6
+)
 itk_add_test(
   NAME
   itkFEMLinearSystemWrapperVNLTest
   COMMAND
   ITKFEMTestDriver
-  itkFEMLinearSystemWrapperVNLTest)
+  itkFEMLinearSystemWrapperVNLTest
+)
 itk_add_test(
   NAME
   itkFEMPArrayTest
   COMMAND
   ITKFEMTestDriver
-  itkFEMPArrayTest)
+  itkFEMPArrayTest
+)
 itk_add_test(
   NAME
   itkFEMScatteredDataPointSetToImageFilterTest
   COMMAND
   ITKFEMTestDriver
-  itkFEMScatteredDataPointSetToImageFilterTest)
+  itkFEMScatteredDataPointSetToImageFilterTest
+)
 
 # 3D Element Tests
 itk_add_test(
@@ -213,42 +239,48 @@ itk_add_test(
   COMMAND
   ITKFEMTestDriver
   itkFEMElement3DTest
-  DATA{Input/hexa2.meta})
+  DATA{Input/hexa2.meta}
+)
 itk_add_test(
   NAME
   itkFEMC0HexahedralElement-NoLoads
   COMMAND
   ITKFEMTestDriver
   itkFEMElement3DTest
-  DATA{Input/hexa3.meta})
+  DATA{Input/hexa3.meta}
+)
 itk_add_test(
   NAME
   itkFEMC0HexahedralElement-GravityLoad-BCs
   COMMAND
   ITKFEMTestDriver
   itkFEMElement3DTest
-  DATA{Input/hexa4-grav.meta})
+  DATA{Input/hexa4-grav.meta}
+)
 itk_add_test(
   NAME
   itkFEMC0TetrahedralElement-NodalLoads-BCs
   COMMAND
   ITKFEMTestDriver
   itkFEMElement3DTest
-  DATA{Input/tetra2.meta})
+  DATA{Input/tetra2.meta}
+)
 itk_add_test(
   NAME
   itkFEMC0TetrahedralElement-NoLoads
   COMMAND
   ITKFEMTestDriver
   itkFEMElement3DTest
-  DATA{Input/tetra3.meta})
+  DATA{Input/tetra3.meta}
+)
 itk_add_test(
   NAME
   itkFEMC0TetrahedralElement-GravityLoad-BCs
   COMMAND
   ITKFEMTestDriver
   itkFEMElement3DTest
-  DATA{Input/tetra4-grav.meta})
+  DATA{Input/tetra4-grav.meta}
+)
 
 # 2D Element Tests
 itk_add_test(
@@ -257,77 +289,88 @@ itk_add_test(
   COMMAND
   ITKFEMTestDriver
   itkFEMElement2DTest
-  DATA{Input/quad2-small.meta})
+  DATA{Input/quad2-small.meta}
+)
 itk_add_test(
   NAME
   itkFEMC0QuadElement-Strain
   COMMAND
   ITKFEMTestDriver
   itkFEMElement2DTest
-  DATA{Input/quad2-strain.meta})
+  DATA{Input/quad2-strain.meta}
+)
 itk_add_test(
   NAME
   itkFEMC0QuadElement-NoLoads
   COMMAND
   ITKFEMTestDriver
   itkFEMElement2DTest
-  DATA{Input/quad4.meta})
+  DATA{Input/quad4.meta}
+)
 itk_add_test(
   NAME
   itkFEMC0QuadElement-GravityLoad-BCs
   COMMAND
   ITKFEMTestDriver
   itkFEMElement2DTest
-  DATA{Input/quad6-grav.meta})
+  DATA{Input/quad6-grav.meta}
+)
 itk_add_test(
   NAME
   itkFEMLoadLandmarkImplementation
   COMMAND
   ITKFEMTestDriver
   itkFEMElement2DTest
-  DATA{Input/quad-lm.meta})
+  DATA{Input/quad-lm.meta}
+)
 itk_add_test(
   NAME
   itkFEMC0QuadElementTrapezoidalGeometry-NoLoads
   COMMAND
   ITKFEMTestDriver
   itkFEMElement2DTest
-  DATA{Input/trapezoid.meta})
+  DATA{Input/trapezoid.meta}
+)
 itk_add_test(
   NAME
   itkFEMC0TriangularElement-NodalLoads-BCs
   COMMAND
   ITKFEMTestDriver
   itkFEMElement2DTest
-  DATA{Input/tri2.meta})
+  DATA{Input/tri2.meta}
+)
 itk_add_test(
   NAME
   itkFEMC0TriangularElement-NoLoads
   COMMAND
   ITKFEMTestDriver
   itkFEMElement2DTest
-  DATA{Input/tri3.meta})
+  DATA{Input/tri3.meta}
+)
 itk_add_test(
   NAME
   itkFEMC0TriangularElement-Strain
   COMMAND
   ITKFEMTestDriver
   itkFEMElement2DTest
-  DATA{Input/tri3-e.meta})
+  DATA{Input/tri3-e.meta}
+)
 itk_add_test(
   NAME
   itkFEMC0TriangularElement-Quadratic
   COMMAND
   ITKFEMTestDriver
   itkFEMElement2DTest
-  DATA{Input/tri3-q.meta})
+  DATA{Input/tri3-q.meta}
+)
 itk_add_test(
   NAME
   itkFEMTruss
   COMMAND
   ITKFEMTestDriver
   itkFEMElement2DTest
-  DATA{Input/truss.meta})
+  DATA{Input/truss.meta}
+)
 itk_add_test(
   NAME
   itkFEMSolverHyperbolicTest
@@ -344,7 +387,8 @@ itk_add_test(
   3.88745e-06
   -2.64591e-06
   0.0
-  0.0)
+  0.0
+)
 
 itk_add_test(
   NAME
@@ -354,7 +398,8 @@ itk_add_test(
   ITKFEMTestDriver
   itkFEMElement2DC0LinearQuadrilateralStrainTest
   DATA{Input/2DC0LinearQuadrilateralStrainTest.meta}
-  ${ITK_TEST_OUTPUT_DIR}/2DC0LinearQuadrilateralStrainTestWrite.meta)
+  ${ITK_TEST_OUTPUT_DIR}/2DC0LinearQuadrilateralStrainTestWrite.meta
+)
 
 itk_add_test(
   NAME
@@ -363,7 +408,8 @@ itk_add_test(
   COMMAND
   ITKFEMTestDriver
   itkFEMElement2DC0LinearQuadrilateralStressTest
-  ${ITK_TEST_OUTPUT_DIR}/2DC0LinearQuadrilateralStressTestWrite.meta)
+  ${ITK_TEST_OUTPUT_DIR}/2DC0LinearQuadrilateralStressTestWrite.meta
+)
 
 itk_add_test(
   NAME
@@ -373,7 +419,8 @@ itk_add_test(
   ITKFEMTestDriver
   itkFEMElement2DC0LinearQuadrilateralMembraneTest
   DATA{Input/2DC0LinearQuadrilateralMembraneTest.meta}
-  ${ITK_TEST_OUTPUT_DIR}/2DC0LinearQuadrilateralMembraneTestWrite.meta)
+  ${ITK_TEST_OUTPUT_DIR}/2DC0LinearQuadrilateralMembraneTestWrite.meta
+)
 
 itk_add_test(
   NAME
@@ -383,7 +430,8 @@ itk_add_test(
   ITKFEMTestDriver
   itkFEMElement2DC0LinearTriangleMembraneTest
   DATA{Input/2DC0LinearTriangleMembraneTest.meta}
-  ${ITK_TEST_OUTPUT_DIR}/2DC0LinearTriangleMembraneTestWrite.meta)
+  ${ITK_TEST_OUTPUT_DIR}/2DC0LinearTriangleMembraneTestWrite.meta
+)
 
 itk_add_test(
   NAME
@@ -393,7 +441,8 @@ itk_add_test(
   ITKFEMTestDriver
   itkFEMElement2DC0LinearTriangleStressTest
   DATA{Input/2DC0LinearTriangleStressTest.meta}
-  ${ITK_TEST_OUTPUT_DIR}/2DC0LinearTriangleStressTestWrite.meta)
+  ${ITK_TEST_OUTPUT_DIR}/2DC0LinearTriangleStressTestWrite.meta
+)
 
 itk_add_test(
   NAME
@@ -403,7 +452,8 @@ itk_add_test(
   ITKFEMTestDriver
   itkFEMElement2DC0LinearTriangleStrainTest
   DATA{Input/2DC0LinearTriangleStrainTest.meta}
-  ${ITK_TEST_OUTPUT_DIR}/2DC0LinearTriangleStrainTestWrite.meta)
+  ${ITK_TEST_OUTPUT_DIR}/2DC0LinearTriangleStrainTestWrite.meta
+)
 
 itk_add_test(
   NAME
@@ -413,7 +463,8 @@ itk_add_test(
   ITKFEMTestDriver
   itkFEMElement2DC0QuadraticTriangleStrainTest
   DATA{Input/2DC0QuadraticTriangleStrainTest.meta}
-  ${ITK_TEST_OUTPUT_DIR}/2DC0QuadraticTriangleStrainTestWrite.meta)
+  ${ITK_TEST_OUTPUT_DIR}/2DC0QuadraticTriangleStrainTestWrite.meta
+)
 
 itk_add_test(
   NAME
@@ -423,7 +474,8 @@ itk_add_test(
   ITKFEMTestDriver
   itkFEMElement2DC0QuadraticTriangleStressTest
   DATA{Input/2DC0QuadraticTriangleStressTest.meta}
-  ${ITK_TEST_OUTPUT_DIR}/2DC0QuadraticTriangleStressTestWrite.meta)
+  ${ITK_TEST_OUTPUT_DIR}/2DC0QuadraticTriangleStressTestWrite.meta
+)
 
 itk_add_test(
   NAME
@@ -433,7 +485,8 @@ itk_add_test(
   ITKFEMTestDriver
   itkFEMElement2DC0LinearLineStressTest
   DATA{Input/2DC0LinearLineStressTest.meta}
-  ${ITK_TEST_OUTPUT_DIR}/2DC0LinearLineStressTestWrite.meta)
+  ${ITK_TEST_OUTPUT_DIR}/2DC0LinearLineStressTestWrite.meta
+)
 
 itk_add_test(
   NAME
@@ -443,7 +496,8 @@ itk_add_test(
   ITKFEMTestDriver
   itkFEMElement2DC0LinearQuadrilateralStrainItpackTest
   DATA{Input/2DC0LinearQuadrilateralStrainTest.meta}
-  ${ITK_TEST_OUTPUT_DIR}/2DC0LinearQuadrilateralStrainTestWrite.meta)
+  ${ITK_TEST_OUTPUT_DIR}/2DC0LinearQuadrilateralStrainTestWrite.meta
+)
 
 itk_add_test(
   NAME
@@ -453,7 +507,8 @@ itk_add_test(
   ITKFEMTestDriver
   itkFEMElement2DC1BeamTest
   DATA{Input/2DC1BeamTest.meta}
-  ${ITK_TEST_OUTPUT_DIR}/2DC1BeamTestWrite.meta)
+  ${ITK_TEST_OUTPUT_DIR}/2DC1BeamTestWrite.meta
+)
 
 itk_add_test(
   NAME
@@ -463,7 +518,8 @@ itk_add_test(
   ITKFEMTestDriver
   itkFEMElement3DC0LinearHexahedronStrainTest
   DATA{Input/3DC0LinearHexahedronStrainTest.meta}
-  ${ITK_TEST_OUTPUT_DIR}/3DC0LinearHexahedronStrainTestWrite.meta)
+  ${ITK_TEST_OUTPUT_DIR}/3DC0LinearHexahedronStrainTestWrite.meta
+)
 
 itk_add_test(
   NAME
@@ -473,7 +529,8 @@ itk_add_test(
   ITKFEMTestDriver
   itkFEMElement3DC0LinearHexahedronMembraneTest
   DATA{Input/3DC0LinearHexahedronMembraneTest.meta}
-  ${ITK_TEST_OUTPUT_DIR}/3DC0LinearHexahedronMembraneTestWrite.meta)
+  ${ITK_TEST_OUTPUT_DIR}/3DC0LinearHexahedronMembraneTestWrite.meta
+)
 
 itk_add_test(
   NAME
@@ -483,7 +540,8 @@ itk_add_test(
   ITKFEMTestDriver
   itkFEMElement3DC0LinearTetrahedronStrainTest
   DATA{Input/3DC0LinearTetrahedronStrainTest.meta}
-  ${ITK_TEST_OUTPUT_DIR}/3DC0LinearTetrahedronStrainTestWrite.meta)
+  ${ITK_TEST_OUTPUT_DIR}/3DC0LinearTetrahedronStrainTestWrite.meta
+)
 
 itk_add_test(
   NAME
@@ -493,7 +551,8 @@ itk_add_test(
   ITKFEMTestDriver
   itkFEMElement3DC0LinearTetrahedronMembraneTest
   DATA{Input/3DC0LinearTetrahedronMembraneTest.meta}
-  ${ITK_TEST_OUTPUT_DIR}/3DC0LinearTetrahedronMembraneTestWrite.meta)
+  ${ITK_TEST_OUTPUT_DIR}/3DC0LinearTetrahedronMembraneTestWrite.meta
+)
 
 itk_add_test(
   NAME
@@ -503,7 +562,8 @@ itk_add_test(
   ITKFEMTestDriver
   itkFEMLoadBCMFCTest
   DATA{Input/LoadBCMFCTest.meta}
-  ${ITK_TEST_OUTPUT_DIR}/LoadBCMFCTestWrite.meta)
+  ${ITK_TEST_OUTPUT_DIR}/LoadBCMFCTestWrite.meta
+)
 
 itk_add_test(
   NAME
@@ -511,7 +571,8 @@ itk_add_test(
   ${FEM_TESTS3}
   COMMAND
   ITKFEMTestDriver
-  itkFEMLoadBCMFCTestUser)
+  itkFEMLoadBCMFCTestUser
+)
 
 itk_add_test(
   NAME
@@ -521,7 +582,8 @@ itk_add_test(
   ITKFEMTestDriver
   itkFEMLoadEdgeTest
   DATA{Input/LoadEdgeTest.meta}
-  ${ITK_TEST_OUTPUT_DIR}/LoadEdgeTestWrite.meta)
+  ${ITK_TEST_OUTPUT_DIR}/LoadEdgeTestWrite.meta
+)
 
 itk_add_test(
   NAME
@@ -531,7 +593,8 @@ itk_add_test(
   ITKFEMTestDriver
   itkFEMLoadGravConstTest
   DATA{Input/LoadGravConstTest.meta}
-  ${ITK_TEST_OUTPUT_DIR}/LoadGravConstWrite.meta)
+  ${ITK_TEST_OUTPUT_DIR}/LoadGravConstWrite.meta
+)
 
 itk_add_test(
   NAME
@@ -539,7 +602,8 @@ itk_add_test(
   ${FEM_TESTS3}
   COMMAND
   ITKFEMTestDriver
-  itkFEMLoadPointTestUser)
+  itkFEMLoadPointTestUser
+)
 
 itk_add_test(
   NAME
@@ -549,7 +613,8 @@ itk_add_test(
   ITKFEMTestDriver
   itkFEMLandmarkLoadImplementationTest
   DATA{Input/quad-lm.meta}
-  ${ITK_TEST_OUTPUT_DIR}/QuadLandmardkWrite.meta)
+  ${ITK_TEST_OUTPUT_DIR}/QuadLandmardkWrite.meta
+)
 
 itk_add_test(
   NAME
@@ -557,7 +622,8 @@ itk_add_test(
   ${FEM_TESTS3}
   COMMAND
   ITKFEMTestDriver
-  itkFEMObjectTest)
+  itkFEMObjectTest
+)
 
 itk_add_test(
   NAME
@@ -565,7 +631,8 @@ itk_add_test(
   ${FEM_TESTS3}
   COMMAND
   ITKFEMTestDriver
-  itkFEMObjectTest2)
+  itkFEMObjectTest2
+)
 
 itk_add_test(
   NAME
@@ -574,7 +641,8 @@ itk_add_test(
   COMMAND
   ITKFEMTestDriver
   itkFEMSpatialObjectTest
-  DATA{Input/tri3-e.meta})
+  DATA{Input/tri3-e.meta}
+)
 
 #add_test(NAME itkFEMSolverTest2D ${FEM_TESTS3}
 #        COMMAND ITKFEMTestDriver itkFEMSolverTest2D
@@ -589,7 +657,8 @@ itk_add_test(
   ITKFEMTestDriver
   itkFEMSolverTest3D
   DATA{Input/3DC0LinearHexahedronMembraneTest.meta}
-  ${ITK_TEST_OUTPUT_DIR}/3DC0LinearHexahedronMembraneTestWrite_NewSolver.meta)
+  ${ITK_TEST_OUTPUT_DIR}/3DC0LinearHexahedronMembraneTestWrite_NewSolver.meta
+)
 
 itk_add_test(
   NAME
@@ -597,7 +666,8 @@ itk_add_test(
   ${FEM_TESTS3}
   COMMAND
   ITKFEMTestDriver
-  itkFEMRobustSolverTest)
+  itkFEMRobustSolverTest
+)
 
 itk_add_test(
   NAME
@@ -638,7 +708,8 @@ itk_add_test(
   37
   38
   46
-  45)
+  45
+)
 
 itk_add_test(
   NAME
@@ -696,4 +767,5 @@ itk_add_test(
   81
   82
   87
-  86)
+  86
+)

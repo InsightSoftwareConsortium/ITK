@@ -1,14 +1,16 @@
 itk_module_test()
-set(ITKVideoCoreTests
-    itkImageToVideoFilterTest.cxx
-    itkRingBufferTest.cxx
-    itkTemporalRegionTest.cxx
-    itkTemporalDataObjectTest.cxx
-    itkTemporalProcessObjectTest.cxx
-    itkVectorImageToVideoTest.cxx
-    itkVideoStreamTest.cxx
-    itkVideoSourceTest.cxx
-    itkVideoToVideoFilterTest.cxx)
+set(
+  ITKVideoCoreTests
+  itkImageToVideoFilterTest.cxx
+  itkRingBufferTest.cxx
+  itkTemporalRegionTest.cxx
+  itkTemporalDataObjectTest.cxx
+  itkTemporalProcessObjectTest.cxx
+  itkVectorImageToVideoTest.cxx
+  itkVideoStreamTest.cxx
+  itkVideoSourceTest.cxx
+  itkVideoToVideoFilterTest.cxx
+)
 
 createtestdriver(ITKVideoCore "${ITKVideoCore-Test_LIBRARIES}" "${ITKVideoCoreTests}")
 
@@ -18,7 +20,8 @@ itk_add_test(
   VideoToVideoFilterTest
   COMMAND
   ITKVideoCoreTestDriver
-  itkVideoToVideoFilterTest)
+  itkVideoToVideoFilterTest
+)
 
 # VideoSourceTest
 itk_add_test(
@@ -26,18 +29,20 @@ itk_add_test(
   VideoSourceTest
   COMMAND
   ITKVideoCoreTestDriver
-  itkVideoSourceTest)
+  itkVideoSourceTest
+)
 
 # VideoStreamTest
 # This is failing for unknown reasons on some platforms.  Disabling for now
 # for the dashboards sake until we have time to debug further.
 if(0)
   itk_add_test(
-    NAME
-    VideoStreamTest
-    COMMAND
-    ITKVideoCoreTestDriver
-    itkVideoStreamTest)
+      NAME
+      VideoStreamTest
+      COMMAND
+      ITKVideoCoreTestDriver
+      itkVideoStreamTest
+  )
 endif()
 
 # TemporalProcessObjectTest
@@ -46,7 +51,8 @@ itk_add_test(
   TemporalProcessObjectTest
   COMMAND
   ITKVideoCoreTestDriver
-  itkTemporalProcessObjectTest)
+  itkTemporalProcessObjectTest
+)
 
 # RingBufferTest
 itk_add_test(
@@ -54,7 +60,8 @@ itk_add_test(
   RingBufferTest
   COMMAND
   ITKVideoCoreTestDriver
-  itkRingBufferTest)
+  itkRingBufferTest
+)
 
 # Testing Temporal Regions
 itk_add_test(
@@ -62,7 +69,8 @@ itk_add_test(
   TemporalRegionTest
   COMMAND
   ITKVideoCoreTestDriver
-  itkTemporalRegionTest)
+  itkTemporalRegionTest
+)
 
 # Testing Temporal Data Object
 itk_add_test(
@@ -70,7 +78,8 @@ itk_add_test(
   TemporalDataObjectTest
   COMMAND
   ITKVideoCoreTestDriver
-  itkTemporalDataObjectTest)
+  itkTemporalDataObjectTest
+)
 
 itk_add_test(
   NAME
@@ -82,7 +91,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume_Frame0.mha
   itkImageToVideoFilterTest
   DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeCompressed.mha}
-  ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume_Frame0.mha)
+  ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume_Frame0.mha
+)
 
 itk_add_test(
   NAME
@@ -94,4 +104,5 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/RGBTestImage_Slice0.png
   itkVectorImageToVideoTest
   DATA{${ITK_DATA_ROOT}/Input/RGBTestImage.tif}
-  ${ITK_TEST_OUTPUT_DIR}/RGBTestImage_Slice0.png)
+  ${ITK_TEST_OUTPUT_DIR}/RGBTestImage_Slice0.png
+)

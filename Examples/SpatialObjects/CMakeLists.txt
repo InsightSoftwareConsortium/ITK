@@ -42,7 +42,10 @@ target_link_libraries(SpatialObjectHierarchy ${ITK_LIBRARIES})
 add_executable(SpatialObjectTransforms SpatialObjectTransforms.cxx)
 target_link_libraries(SpatialObjectTransforms ${ITK_LIBRARIES})
 
-add_executable(SpatialObjectToImageStatisticsCalculator SpatialObjectToImageStatisticsCalculator.cxx)
+add_executable(
+  SpatialObjectToImageStatisticsCalculator
+  SpatialObjectToImageStatisticsCalculator.cxx
+)
 target_link_libraries(SpatialObjectToImageStatisticsCalculator ${ITK_LIBRARIES})
 
 add_executable(SurfaceSpatialObject SurfaceSpatialObject.cxx)
@@ -57,5 +60,8 @@ target_link_libraries(VesselTubeSpatialObject ${ITK_LIBRARIES})
 add_executable(DTITubeSpatialObject DTITubeSpatialObject.cxx)
 target_link_libraries(DTITubeSpatialObject ${ITK_LIBRARIES})
 
-add_executable(BoundingBoxFromImageMaskSpatialObject BoundingBoxFromImageMaskSpatialObject.cxx)
+add_executable(
+  BoundingBoxFromImageMaskSpatialObject
+  BoundingBoxFromImageMaskSpatialObject.cxx
+)
 target_link_libraries(BoundingBoxFromImageMaskSpatialObject ${ITK_LIBRARIES})

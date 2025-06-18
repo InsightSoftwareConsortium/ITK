@@ -1,4 +1,7 @@
-set(DOCUMENTATION "This module contains denoising algorithms such as patch-based denoising.")
+set(
+  DOCUMENTATION
+  "This module contains denoising algorithms such as patch-based denoising."
+)
 
 itk_module(
   ITKDenoising
@@ -13,4 +16,5 @@ itk_module(
   ITKTestKernel
   ITKImageGrid
   DESCRIPTION
-  "${DOCUMENTATION}")
+  "${DOCUMENTATION}"
+)

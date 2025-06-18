@@ -18,7 +18,8 @@ itk_add_test(
   true
   GE4
   DATA{${ITK_DATA_ROOT}/Input/test_ge4/19771.002.001,REGEX:19771\\.002\\.00[1-6]}
-  ${ITK_TEST_OUTPUT_DIR}/19771.002.001.mha)
+  ${ITK_TEST_OUTPUT_DIR}/19771.002.001.mha
+)
 itk_add_test(
   NAME
   itkGE5
@@ -34,7 +35,8 @@ itk_add_test(
   true
   GE5
   DATA{${ITK_DATA_ROOT}/Input/test_ge5/113766.003.001,REGEX:113766\\.003\\.00[1-6]}
-  ${ITK_TEST_OUTPUT_DIR}/113766.003.001.mha)
+  ${ITK_TEST_OUTPUT_DIR}/113766.003.001.mha
+)
 itk_add_test(
   NAME
   itkGE5Test2
@@ -48,7 +50,8 @@ itk_add_test(
   true
   GE5
   DATA{Input/c_vf1122.fre}
-  ${ITK_TEST_OUTPUT_DIR}/c_vf1122.fre.mha)
+  ${ITK_TEST_OUTPUT_DIR}/c_vf1122.fre.mha
+)
 itk_add_test(
   NAME
   itkGE5Test3
@@ -62,7 +65,8 @@ itk_add_test(
   true
   GE5
   DATA{Input/c_vf1123.fre}
-  ${ITK_TEST_OUTPUT_DIR}/c_vf1123.fre.mha)
+  ${ITK_TEST_OUTPUT_DIR}/c_vf1123.fre.mha
+)
 itk_add_test(
   NAME
   itkGE5Test4
@@ -76,7 +80,8 @@ itk_add_test(
   true
   GE5
   DATA{Input/c_vf1210.fre}
-  ${ITK_TEST_OUTPUT_DIR}/c_vf1210.fre.mha)
+  ${ITK_TEST_OUTPUT_DIR}/c_vf1210.fre.mha
+)
 itk_add_test(
   NAME
   itkGE5Test5
@@ -90,7 +95,8 @@ itk_add_test(
   true
   GE5
   DATA{Input/c_vf1211.fre}
-  ${ITK_TEST_OUTPUT_DIR}/c_vf1211.fre.mha)
+  ${ITK_TEST_OUTPUT_DIR}/c_vf1211.fre.mha
+)
 itk_add_test(
   NAME
   itkGEAdw
@@ -104,7 +110,8 @@ itk_add_test(
   true
   GEAdw
   DATA{${ITK_DATA_ROOT}/Input/test_geadw/I.001,REGEX:I\\.00[1-6]}
-  ${ITK_TEST_OUTPUT_DIR}/I.001.mha)
+  ${ITK_TEST_OUTPUT_DIR}/I.001.mha
+)
 itk_add_test(
   NAME
   itkSiemens
@@ -118,7 +125,8 @@ itk_add_test(
   true
   Siemens
   DATA{${ITK_DATA_ROOT}/Input/test_siemens/3868-2-100.ima,REGEX:3868-2-10[0-5]\\.ima}
-  ${ITK_TEST_OUTPUT_DIR}/3868-2-100.mha)
+  ${ITK_TEST_OUTPUT_DIR}/3868-2-100.mha
+)
 itk_add_test(
   NAME
   itkGE4Fail
@@ -128,7 +136,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}
   false
   GE4
-  DATA{${ITK_DATA_ROOT}/Input/test_ge5/113766.003.001,REGEX:113766\\.003\\.00[1-6]})
+  DATA{${ITK_DATA_ROOT}/Input/test_ge5/113766.003.001,REGEX:113766\\.003\\.00[1-6]}
+)
 itk_add_test(
   NAME
   itkGE5Fail
@@ -138,7 +147,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}
   false
   GE5
-  DATA{${ITK_DATA_ROOT}/Input/test_ge4/19771.002.001,REGEX:19771\\.002\\.00[1-6]})
+  DATA{${ITK_DATA_ROOT}/Input/test_ge4/19771.002.001,REGEX:19771\\.002\\.00[1-6]}
+)
 itk_add_test(
   NAME
   itkGEAdwFail
@@ -148,7 +158,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}
   false
   GEAdw
-  DATA{${ITK_DATA_ROOT}/Input/test_siemens/3868-2-100.ima,REGEX:3868-2-10[0-5]\\.ima})
+  DATA{${ITK_DATA_ROOT}/Input/test_siemens/3868-2-100.ima,REGEX:3868-2-10[0-5]\\.ima}
+)
 itk_add_test(
   NAME
   itkSiemensFail
@@ -158,4 +169,5 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}
   false
   Siemens
-  DATA{${ITK_DATA_ROOT}/Input/test_geadw/I.001,,REGEX:I\\.00[1-6]})
+  DATA{${ITK_DATA_ROOT}/Input/test_geadw/I.001,,REGEX:I\\.00[1-6]}
+)

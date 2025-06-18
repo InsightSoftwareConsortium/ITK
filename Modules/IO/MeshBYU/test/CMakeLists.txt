@@ -1,6 +1,10 @@
 itk_module_test()
 
-set(ITKIOMeshBYUTests itkBYUMeshIOTest.cxx itkMeshFileReadWriteTest.cxx)
+set(
+  ITKIOMeshBYUTests
+  itkBYUMeshIOTest.cxx
+  itkMeshFileReadWriteTest.cxx
+)
 
 createtestdriver(ITKIOMeshBYU "${ITKIOMeshBYU-Test_LIBRARIES}" "${ITKIOMeshBYUTests}")
 
@@ -22,7 +26,8 @@ itk_add_test(
   8
   0
   6
-  0)
+  0
+)
 itk_add_test(
   NAME
   itkMeshFileReadWriteTest06
@@ -30,4 +35,5 @@ itk_add_test(
   ITKIOMeshBYUTestDriver
   itkMeshFileReadWriteTest
   DATA{Baseline/cube.byu}
-  ${ITK_TEST_OUTPUT_DIR}/cube.byu)
+  ${ITK_TEST_OUTPUT_DIR}/cube.byu
+)

@@ -1,6 +1,10 @@
 itk_module_test()
-set(ITKImageLabelTests itkChangeLabelImageFilterTest.cxx itkLabelContourImageFilterTest.cxx
-                       itkBinaryContourImageFilterTest.cxx)
+set(
+  ITKImageLabelTests
+  itkChangeLabelImageFilterTest.cxx
+  itkLabelContourImageFilterTest.cxx
+  itkBinaryContourImageFilterTest.cxx
+)
 
 createtestdriver(ITKImageLabel "${ITKImageLabel-Test_LIBRARIES}" "${ITKImageLabelTests}")
 
@@ -9,7 +13,8 @@ itk_add_test(
   itkChangeLabelImageFilterTest
   COMMAND
   ITKImageLabelTestDriver
-  itkChangeLabelImageFilterTest)
+  itkChangeLabelImageFilterTest
+)
 itk_add_test(
   NAME
   itkLabelContourImageFilterTest0
@@ -22,7 +27,8 @@ itk_add_test(
   DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
   ${ITK_TEST_OUTPUT_DIR}/itkLabelContourImageFilterTest0.png
   0
-  0)
+  0
+)
 itk_add_test(
   NAME
   itkLabelContourImageFilterTest1
@@ -35,7 +41,8 @@ itk_add_test(
   DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
   ${ITK_TEST_OUTPUT_DIR}/itkLabelContourImageFilterTest1.png
   1
-  0)
+  0
+)
 itk_add_test(
   NAME
   itkBinaryContourImageFilterTest0
@@ -49,7 +56,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkBinaryContourImageFilterTest0.png
   0
   200
-  0)
+  0
+)
 itk_add_test(
   NAME
   itkBinaryContourImageFilterTest1
@@ -63,4 +71,5 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkBinaryContourImageFilterTest1.png
   1
   200
-  0)
+  0
+)

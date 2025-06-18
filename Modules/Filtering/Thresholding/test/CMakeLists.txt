@@ -1,42 +1,44 @@
 itk_module_test()
-set(ITKThresholdingTests
-    itkBinaryThresholdImageFilterTest2.cxx
-    itkBinaryThresholdImageFilterTest.cxx
-    itkBinaryThresholdProjectionImageFilterTest.cxx
-    itkBinaryThresholdSpatialFunctionTest.cxx
-    itkHuangThresholdImageFilterTest.cxx
-    itkIntermodesThresholdImageFilterTest.cxx
-    itkIsoDataThresholdImageFilterTest.cxx
-    itkKittlerIllingworthThresholdImageFilterTest.cxx
-    itkLiThresholdImageFilterTest.cxx
-    itkMaximumEntropyThresholdImageFilterTest.cxx
-    itkMomentsThresholdImageFilterTest.cxx
-    itkOtsuMultipleThresholdsCalculatorTest.cxx
-    itkOtsuMultipleThresholdsCalculatorTest2.cxx
-    itkOtsuMultipleThresholdsImageFilterTest.cxx
-    #itkOtsuThresholdCalculatorVersusOtsuMultipleThresholdsCalculatorTest.cxx
-    itkOtsuThresholdCalculatorTest.cxx
-    itkOtsuThresholdImageFilterTest.cxx
-    itkRenyiEntropyThresholdImageFilterTest.cxx
-    itkShanbhagThresholdImageFilterTest.cxx
-    itkThresholdImageFilterTest.cxx
-    itkThresholdLabelerImageFilterTest.cxx
-    itkTriangleThresholdImageFilterTest.cxx
-    itkYenThresholdImageFilterTest.cxx
-    itkHuangMaskedThresholdImageFilterTest.cxx
-    itkIntermodesMaskedThresholdImageFilterTest.cxx
-    itkIsoDataMaskedThresholdImageFilterTest.cxx
-    itkKittlerIllingworthMaskedThresholdImageFilterTest.cxx
-    itkLiMaskedThresholdImageFilterTest.cxx
-    itkMaximumEntropyMaskedThresholdImageFilterTest.cxx
-    itkMomentsMaskedThresholdImageFilterTest.cxx
-    itkOtsuMaskedThresholdImageFilterTest.cxx
-    itkRenyiEntropyMaskedThresholdImageFilterTest.cxx
-    itkShanbhagMaskedThresholdImageFilterTest.cxx
-    itkTriangleMaskedThresholdImageFilterTest.cxx
-    itkYenMaskedThresholdImageFilterTest.cxx
-    itkKappaSigmaThresholdImageCalculatorTest.cxx
-    itkKappaSigmaThresholdImageFilterTest.cxx)
+set(
+  ITKThresholdingTests
+  itkBinaryThresholdImageFilterTest2.cxx
+  itkBinaryThresholdImageFilterTest.cxx
+  itkBinaryThresholdProjectionImageFilterTest.cxx
+  itkBinaryThresholdSpatialFunctionTest.cxx
+  itkHuangThresholdImageFilterTest.cxx
+  itkIntermodesThresholdImageFilterTest.cxx
+  itkIsoDataThresholdImageFilterTest.cxx
+  itkKittlerIllingworthThresholdImageFilterTest.cxx
+  itkLiThresholdImageFilterTest.cxx
+  itkMaximumEntropyThresholdImageFilterTest.cxx
+  itkMomentsThresholdImageFilterTest.cxx
+  itkOtsuMultipleThresholdsCalculatorTest.cxx
+  itkOtsuMultipleThresholdsCalculatorTest2.cxx
+  itkOtsuMultipleThresholdsImageFilterTest.cxx
+  #itkOtsuThresholdCalculatorVersusOtsuMultipleThresholdsCalculatorTest.cxx
+  itkOtsuThresholdCalculatorTest.cxx
+  itkOtsuThresholdImageFilterTest.cxx
+  itkRenyiEntropyThresholdImageFilterTest.cxx
+  itkShanbhagThresholdImageFilterTest.cxx
+  itkThresholdImageFilterTest.cxx
+  itkThresholdLabelerImageFilterTest.cxx
+  itkTriangleThresholdImageFilterTest.cxx
+  itkYenThresholdImageFilterTest.cxx
+  itkHuangMaskedThresholdImageFilterTest.cxx
+  itkIntermodesMaskedThresholdImageFilterTest.cxx
+  itkIsoDataMaskedThresholdImageFilterTest.cxx
+  itkKittlerIllingworthMaskedThresholdImageFilterTest.cxx
+  itkLiMaskedThresholdImageFilterTest.cxx
+  itkMaximumEntropyMaskedThresholdImageFilterTest.cxx
+  itkMomentsMaskedThresholdImageFilterTest.cxx
+  itkOtsuMaskedThresholdImageFilterTest.cxx
+  itkRenyiEntropyMaskedThresholdImageFilterTest.cxx
+  itkShanbhagMaskedThresholdImageFilterTest.cxx
+  itkTriangleMaskedThresholdImageFilterTest.cxx
+  itkYenMaskedThresholdImageFilterTest.cxx
+  itkKappaSigmaThresholdImageCalculatorTest.cxx
+  itkKappaSigmaThresholdImageFilterTest.cxx
+)
 
 createtestdriver(ITKThresholding "${ITKThresholding-Test_LIBRARIES}" "${ITKThresholdingTests}")
 
@@ -45,7 +47,8 @@ itk_add_test(
   itkOtsuThresholdCalculatorTest
   COMMAND
   ITKThresholdingTestDriver
-  itkOtsuThresholdCalculatorTest)
+  itkOtsuThresholdCalculatorTest
+)
 
 itk_add_test(
   NAME
@@ -62,26 +65,30 @@ itk_add_test(
   3
   2
   0
-  1)
+  1
+)
 
 itk_add_test(
   NAME
   itkThresholdLabelerImageFilterTest
   COMMAND
   ITKThresholdingTestDriver
-  itkThresholdLabelerImageFilterTest)
+  itkThresholdLabelerImageFilterTest
+)
 itk_add_test(
   NAME
   itkBinaryThresholdImageFilterTest
   COMMAND
   ITKThresholdingTestDriver
-  itkBinaryThresholdImageFilterTest)
+  itkBinaryThresholdImageFilterTest
+)
 itk_add_test(
   NAME
   itkThresholdImageFilterTest
   COMMAND
   ITKThresholdingTestDriver
-  itkThresholdImageFilterTest)
+  itkThresholdImageFilterTest
+)
 itk_add_test(
   NAME
   itkOtsuMultipleThresholdsCalculatorTest1
@@ -89,7 +96,8 @@ itk_add_test(
   ITKThresholdingTestDriver
   itkOtsuMultipleThresholdsCalculatorTest
   0
-  0)
+  0
+)
 itk_add_test(
   NAME
   itkOtsuMultipleThresholdsCalculatorTest2
@@ -97,7 +105,8 @@ itk_add_test(
   ITKThresholdingTestDriver
   itkOtsuMultipleThresholdsCalculatorTest
   1
-  0)
+  0
+)
 itk_add_test(
   NAME
   itkBinaryThresholdImageFilterTest2
@@ -109,7 +118,8 @@ itk_add_test(
   itkBinaryThresholdImageFilterTest2
   DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
   DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0076.dcm}
-  ${ITK_TEST_OUTPUT_DIR}/BinaryThresholdImageFilterTest2.png)
+  ${ITK_TEST_OUTPUT_DIR}/BinaryThresholdImageFilterTest2.png
+)
 itk_add_test(
   NAME
   itkBinaryThresholdProjectionImageFilterTest
@@ -123,13 +133,15 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeBinaryThresholdProjection.png
   100
   255
-  0)
+  0
+)
 itk_add_test(
   NAME
   itkBinaryThresholdSpatialFunctionTest
   COMMAND
   ITKThresholdingTestDriver
-  itkBinaryThresholdSpatialFunctionTest)
+  itkBinaryThresholdSpatialFunctionTest
+)
 
 itk_add_test(
   NAME
@@ -144,7 +156,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkHuangThresholdImageFilterTest.png
   256
   1
-  19)
+  19
+)
 itk_add_test(
   NAME
   itkHuangThresholdImageFilterTestNoAutoMinMax
@@ -158,7 +171,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkHuangThresholdImageFilterTestNoAutoMinMax.png
   32
   0
-  -31744)
+  -31744
+)
 
 itk_add_test(
   NAME
@@ -174,7 +188,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkHuangMaskedThresholdImageFilterTest.png
   1
   255
-  239)
+  239
+)
 
 itk_add_test(
   NAME
@@ -191,7 +206,8 @@ itk_add_test(
   1
   1000
   1
-  76)
+  76
+)
 itk_add_test(
   NAME
   itkIntermodesThresholdImageFilterTestNoInterMode
@@ -207,7 +223,8 @@ itk_add_test(
   1
   2000
   0
-  75)
+  75
+)
 #itk_add_test(NAME itkIntermodesThresholdImageFilterTestNoAutoMinMax
 #      COMMAND ITKThresholdingTestDriver
 #    --compare-MD5 DATA{Baseline/itkIntermodesThresholdImageFilterTestNoAutoMinMax.png}
@@ -230,7 +247,8 @@ itk_add_test(
   255
   1000
   1
-  97)
+  97
+)
 
 itk_add_test(
   NAME
@@ -245,7 +263,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkIsoDataThresholdImageFilterTest.png
   256
   1
-  85)
+  85
+)
 itk_add_test(
   NAME
   itkIsoDataThresholdImageFilterTestNoAutoMinMax
@@ -259,7 +278,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkIsoDataThresholdImageFilterTestNoAutoMinMax.png
   32
   0
-  1023)
+  1023
+)
 
 itk_add_test(
   NAME
@@ -275,7 +295,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkIsoDataMaskedThresholdImageFilterTest.png
   1
   255
-  114)
+  114
+)
 
 itk_add_test(
   NAME
@@ -290,7 +311,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkKittlerIllingworthThresholdImageFilterTest.png
   256
   1
-  32)
+  32
+)
 itk_add_test(
   NAME
   itkKittlerIllingworthThresholdImageFilterTestNoAutoMinMax
@@ -304,7 +326,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkKittlerIllingworthThresholdImageFilterTestNoAutoMinMax.png
   32
   0
-  1023)
+  1023
+)
 
 itk_add_test(
   NAME
@@ -320,7 +343,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkKittlerIllingworthMaskedThresholdImageFilterTest.png
   1
   255
-  254)
+  254
+)
 
 itk_add_test(
   NAME
@@ -335,7 +359,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkLiThresholdImageFilterTest.png
   256
   1
-  54)
+  54
+)
 itk_add_test(
   NAME
   itkLiThresholdImageFilterTestNoAutoMinMax
@@ -349,7 +374,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkLiThresholdImageFilterTestNoAutoMinMax.png
   32
   0
-  1023)
+  1023
+)
 
 itk_add_test(
   NAME
@@ -365,7 +391,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkLiMaskedThresholdImageFilterTest.png
   1
   255
-  177)
+  177
+)
 
 itk_add_test(
   NAME
@@ -380,7 +407,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkMaximumEntropyThresholdImageFilterTest.png
   256
   1
-  140)
+  140
+)
 itk_add_test(
   NAME
   itkMaximumEntropyThresholdImageFilterTestNoAutoMinMax
@@ -394,7 +422,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkMaximumEntropyThresholdImageFilterTestNoAutoMinMax.png
   32
   0
-  -31744)
+  -31744
+)
 
 itk_add_test(
   NAME
@@ -410,7 +439,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkMaximumEntropyMaskedThresholdImageFilterTest.png
   1
   255
-  118)
+  118
+)
 
 itk_add_test(
   NAME
@@ -425,7 +455,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkMomentsThresholdImageFilterTest.png
   256
   1
-  133)
+  133
+)
 itk_add_test(
   NAME
   itkMomentsThresholdImageFilterTestNoAutoMinMax
@@ -439,7 +470,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkMomentsThresholdImageFilterTestNoAutoMinMax.png
   32
   0
-  -31744)
+  -31744
+)
 
 itk_add_test(
   NAME
@@ -455,7 +487,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkMomentsMaskedThresholdImageFilterTest.png
   1
   255
-  139)
+  139
+)
 
 itk_add_test(
   NAME
@@ -471,7 +504,8 @@ itk_add_test(
   256
   1
   84
-  0)
+  0
+)
 itk_add_test(
   NAME
   itkOtsuThresholdImageFilterTestFlipInsideOut
@@ -486,7 +520,8 @@ itk_add_test(
   256
   1
   84
-  1)
+  1
+)
 itk_add_test(
   NAME
   itkOtsuThresholdImageFilterTestNoAutoMinMax
@@ -501,7 +536,8 @@ itk_add_test(
   32
   0
   -30720
-  0)
+  0
+)
 
 # With one threshold, the OtsuMultipleThresholdsImageFilter should give the same result as the OtsuThresholdImageFilter.
 # Therefore, in this test, we compare the output to the output of the OtsuThresholdImageFilter.
@@ -519,7 +555,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkOtsuMultipleThresholdsImageFilterTest2.png
   256
   1
-  0)
+  0
+)
 
 # Test the algorithm on an image with a small dark region.
 itk_add_test(
@@ -537,7 +574,8 @@ itk_add_test(
   1
   2
   0
-  1)
+  1
+)
 
 # Test the valley emphasis algorithm on an image with a small dark region.
 itk_add_test(
@@ -554,7 +592,8 @@ itk_add_test(
   64
   1
   2
-  1)
+  1
+)
 
 itk_add_test(
   NAME
@@ -569,7 +608,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkOtsuMultipleThresholdsImageFilterTest5.png
   128
   2
-  0)
+  0
+)
 
 itk_add_test(
   NAME
@@ -586,8 +626,14 @@ itk_add_test(
   2
   0
   0
-  1)
-set_tests_properties(itkOtsuMultipleThresholdsImageFilterTest6 PROPERTIES WILL_FAIL TRUE)
+  1
+)
+set_tests_properties(
+  itkOtsuMultipleThresholdsImageFilterTest6
+  PROPERTIES
+    WILL_FAIL
+      TRUE
+)
 
 #itk_add_test(NAME itkOtsuThresholdCalculatorVersusOtsuMultipleThresholdsCalculatorTest
 #      COMMAND ITKThresholdingTestDriver
@@ -607,7 +653,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkOtsuMaskedThresholdImageFilterTest.png
   1
   255
-  184)
+  184
+)
 
 itk_add_test(
   NAME
@@ -622,7 +669,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkRenyiEntropyThresholdImageFilterTest.png
   256
   1
-  51)
+  51
+)
 itk_add_test(
   NAME
   itkRenyiEntropyThresholdImageFilterTestNoAutoMinMax
@@ -636,7 +684,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkRenyiEntropyThresholdImageFilterTestNoAutoMinMax.png
   32
   0
-  -31744)
+  -31744
+)
 
 itk_add_test(
   NAME
@@ -652,7 +701,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkRenyiEntropyMaskedThresholdImageFilterTest.png
   1
   255
-  118)
+  118
+)
 
 itk_add_test(
   NAME
@@ -667,7 +717,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkShanbhagThresholdImageFilterTest.png
   256
   1
-  133)
+  133
+)
 itk_add_test(
   NAME
   itkShanbhagThresholdImageFilterTestNoAutoMinMax
@@ -681,7 +732,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkShanbhagThresholdImageFilterTestNoAutoMinMax.png
   32
   0
-  -31744)
+  -31744
+)
 
 itk_add_test(
   NAME
@@ -697,7 +749,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkShanbhagMaskedThresholdImageFilterTest.png
   1
   255
-  55)
+  55
+)
 
 itk_add_test(
   NAME
@@ -712,7 +765,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkTriangleThresholdImageFilterTest.png
   256
   1
-  2)
+  2
+)
 itk_add_test(
   NAME
   itkTriangleThresholdImageFilterTestNoAutoMinMax
@@ -726,7 +780,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkTriangleThresholdImageFilterTestNoAutoMinMax.png
   32
   0
-  3071)
+  3071
+)
 
 itk_add_test(
   NAME
@@ -742,7 +797,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkTriangleMaskedThresholdImageFilterTest.png
   1
   255
-  254)
+  254
+)
 
 itk_add_test(
   NAME
@@ -757,7 +813,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkYenThresholdImageFilterTest.png
   256
   1
-  26)
+  26
+)
 itk_add_test(
   NAME
   itkYenThresholdImageFilterTestNoAutoMinMax
@@ -771,7 +828,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkYenThresholdImageFilterTestNoAutoMinMax.png
   32
   0
-  -31744)
+  -31744
+)
 
 itk_add_test(
   NAME
@@ -787,7 +845,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkYenMaskedThresholdImageFilterTest.png
   1
   255
-  118)
+  118
+)
 
 itk_add_test(
   NAME
@@ -802,7 +861,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkHuangThresholdImageFilterTestShort.png
   256
   1
-  30771)
+  30771
+)
 
 itk_add_test(
   NAME
@@ -819,7 +879,8 @@ itk_add_test(
   1
   1000
   1
-  14251)
+  14251
+)
 
 itk_add_test(
   NAME
@@ -834,7 +895,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkIsoDataThresholdImageFilterTestShort.png
   256
   1
-  15044)
+  15044
+)
 
 itk_add_test(
   NAME
@@ -849,7 +911,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkKittlerIllingworthThresholdImageFilterTestShort.png
   256
   1
-  31168)
+  31168
+)
 
 itk_add_test(
   NAME
@@ -864,7 +927,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkLiThresholdImageFilterTestShort.png
   256
   1
-  26939)
+  26939
+)
 
 itk_add_test(
   NAME
@@ -879,7 +943,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkMaximumEntropyThresholdImageFilterTestShort.png
   256
   1
-  22181)
+  22181
+)
 
 itk_add_test(
   NAME
@@ -894,7 +959,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkMomentsThresholdImageFilterTestShort.png
   256
   1
-  23238)
+  23238
+)
 
 itk_add_test(
   NAME
@@ -910,7 +976,8 @@ itk_add_test(
   256
   1
   14516
-  1)
+  1
+)
 
 itk_add_test(
   NAME
@@ -925,7 +992,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkRenyiEntropyThresholdImageFilterTestShort.png
   256
   1
-  22181)
+  22181
+)
 
 itk_add_test(
   NAME
@@ -940,7 +1008,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkShanbhagThresholdImageFilterTestShort.png
   256
   1
-  28921)
+  28921
+)
 
 itk_add_test(
   NAME
@@ -955,7 +1024,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkTriangleThresholdImageFilterTestShort.png
   256
   1
-  22313)
+  22313
+)
 
 itk_add_test(
   NAME
@@ -970,7 +1040,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkYenThresholdImageFilterTestShort.png
   256
   1
-  22181)
+  22181
+)
 
 itk_add_test(
   NAME
@@ -982,7 +1053,8 @@ itk_add_test(
   255
   3.5
   10
-  229)
+  229
+)
 
 itk_add_test(
   NAME
@@ -994,7 +1066,8 @@ itk_add_test(
   255
   3.0
   10
-  361)
+  361
+)
 
 itk_add_test(
   NAME
@@ -1010,7 +1083,8 @@ itk_add_test(
   255
   3.5
   2
-  69)
+  69
+)
 
 itk_add_test(
   NAME
@@ -1026,4 +1100,5 @@ itk_add_test(
   255
   3.0
   2
-  92)
+  92
+)

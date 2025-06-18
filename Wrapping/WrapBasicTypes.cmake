@@ -57,7 +57,8 @@ foreach(d ${ITK_WRAP_IMAGE_DIMS})
     APPEND
     ITK_WRAP_IMAGE_DIMS_INCREMENTED
     ${d}
-    ${d_inc})
+    ${d_inc}
+  )
 endforeach()
 list(REMOVE_DUPLICATES ITK_WRAP_IMAGE_DIMS_INCREMENTED)
 
@@ -69,18 +70,19 @@ foreach(d ${ITK_WRAP_VECTOR_COMPONENTS})
     APPEND
     ITK_WRAP_VECTOR_COMPONENTS_INCREMENTED
     ${d}
-    ${d_inc})
+    ${d_inc}
+  )
 endforeach()
 list(REMOVE_DUPLICATES ITK_WRAP_VECTOR_COMPONENTS_INCREMENTED)
 
 intersection(_vector_dims_intersection "${ITK_WRAP_VECTOR_COMPONENTS}" "${ITK_WRAP_IMAGE_DIMS}")
 list(LENGTH ITK_WRAP_IMAGE_DIMS _num_dims)
 list(LENGTH _vector_dims_intersection _num_vector_dims_intersection)
-if(NOT
-   _num_dims
-   EQUAL
-   _num_vector_dims_intersection)
-  message(FATAL_ERROR "ITK_WRAP_VECTOR_COMPONENTS must include ITK_WRAP_IMAGE_DIMS")
+if(NOT _num_dims EQUAL _num_vector_dims_intersection)
+  message(
+    FATAL_ERROR
+    "ITK_WRAP_VECTOR_COMPONENTS must include ITK_WRAP_IMAGE_DIMS"
+  )
 endif()
 
 ###############################################################################
@@ -162,16 +164,34 @@ if(ITK_WRAP_complex_float)
   list(APPEND WRAP_ITK_COMPLEX_REAL "CF")
 endif()
 
-set(WRAP_ITK_INT ${WRAP_ITK_SIGN_INT} ${WRAP_ITK_USIGN_INT})
-set(WRAP_ITK_SCALAR ${WRAP_ITK_INT} ${WRAP_ITK_REAL})
-set(WRAP_ITK_VECTOR ${WRAP_ITK_VECTOR_REAL} ${WRAP_ITK_COV_VECTOR_REAL})
-set(WRAP_ITK_COLOR ${WRAP_ITK_RGB} ${WRAP_ITK_RGBA})
-set(WRAP_ITK_ALL_TYPES
-    ${WRAP_ITK_RGB}
-    ${WRAP_ITK_RGBA}
-    ${WRAP_ITK_VECTOR}
-    ${WRAP_ITK_SCALAR}
-    ${WRAP_ITK_COMPLEX_REAL})
+set(
+  WRAP_ITK_INT
+  ${WRAP_ITK_SIGN_INT}
+  ${WRAP_ITK_USIGN_INT}
+)
+set(
+  WRAP_ITK_SCALAR
+  ${WRAP_ITK_INT}
+  ${WRAP_ITK_REAL}
+)
+set(
+  WRAP_ITK_VECTOR
+  ${WRAP_ITK_VECTOR_REAL}
+  ${WRAP_ITK_COV_VECTOR_REAL}
+)
+set(
+  WRAP_ITK_COLOR
+  ${WRAP_ITK_RGB}
+  ${WRAP_ITK_RGBA}
+)
+set(
+  WRAP_ITK_ALL_TYPES
+  ${WRAP_ITK_RGB}
+  ${WRAP_ITK_RGBA}
+  ${WRAP_ITK_VECTOR}
+  ${WRAP_ITK_SCALAR}
+  ${WRAP_ITK_COMPLEX_REAL}
+)
 
 # Make a list of all the RGB Pixel types which are wrapped.
 set(WRAP_ITK_RGB_PIXEL_TYPES "D;F")

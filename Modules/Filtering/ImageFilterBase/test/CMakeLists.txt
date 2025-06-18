@@ -1,10 +1,12 @@
 itk_module_test()
-set(ITKImageFilterBaseTests
-    itkNeighborhoodOperatorImageFilterTest.cxx
-    itkImageToImageFilterTest.cxx
-    itkVectorNeighborhoodOperatorImageFilterTest.cxx
-    itkMaskNeighborhoodOperatorImageFilterTest.cxx
-    itkCastImageFilterTest.cxx)
+set(
+  ITKImageFilterBaseTests
+  itkNeighborhoodOperatorImageFilterTest.cxx
+  itkImageToImageFilterTest.cxx
+  itkVectorNeighborhoodOperatorImageFilterTest.cxx
+  itkMaskNeighborhoodOperatorImageFilterTest.cxx
+  itkCastImageFilterTest.cxx
+)
 
 # Disable optimization on the tests below to avoid possible
 # optimization bugs in some compilers. This option will appear on the
@@ -12,7 +14,12 @@ set(ITKImageFilterBaseTests
 # CMAKE_CXX_FLAGS) which means that on gcc, MSVC, and the Intel
 # compiler, it will override any other optimization flag.
 if(DEFINED ITK_CXX_DISABLE_OPTIMIZATION_FLAG)
-  set_source_files_properties(itkCastImageFilterTest.cxx PROPERTIES COMPILE_FLAGS ${ITK_CXX_DISABLE_OPTIMIZATION_FLAG})
+  set_source_files_properties(
+    itkCastImageFilterTest.cxx
+    PROPERTIES
+      COMPILE_FLAGS
+        ${ITK_CXX_DISABLE_OPTIMIZATION_FLAG}
+  )
 endif()
 
 createtestdriver(ITKImageFilterBase "${ITKImageFilterBase-Test_LIBRARIES}" "${ITKImageFilterBaseTests}")
@@ -22,19 +29,22 @@ itk_add_test(
   itkNeighborhoodOperatorImageFilterTest
   COMMAND
   ITKImageFilterBaseTestDriver
-  itkNeighborhoodOperatorImageFilterTest)
+  itkNeighborhoodOperatorImageFilterTest
+)
 itk_add_test(
   NAME
   itkImageToImageFilterTest
   COMMAND
   ITKImageFilterBaseTestDriver
-  itkImageToImageFilterTest)
+  itkImageToImageFilterTest
+)
 itk_add_test(
   NAME
   itkVectorNeighborhoodOperatorImageFilterTest
   COMMAND
   ITKImageFilterBaseTestDriver
-  itkVectorNeighborhoodOperatorImageFilterTest)
+  itkVectorNeighborhoodOperatorImageFilterTest
+)
 itk_add_test(
   NAME
   itkMaskNeighborhoodOperatorImageFilterTest
@@ -45,13 +55,15 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/MaskNeighborhoodOperatorImageFilterTest.png
   itkMaskNeighborhoodOperatorImageFilterTest
   DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
-  ${ITK_TEST_OUTPUT_DIR}/MaskNeighborhoodOperatorImageFilterTest.png)
+  ${ITK_TEST_OUTPUT_DIR}/MaskNeighborhoodOperatorImageFilterTest.png
+)
 itk_add_test(
   NAME
   itkCastImageFilterTest
   COMMAND
   ITKImageFilterBaseTestDriver
-  itkCastImageFilterTest)
+  itkCastImageFilterTest
+)
 
 set(ITKImageFilterBaseGTests itkGeneratorImageFilterGTest.cxx)
 creategoogletestdriver(ITKImageFilterBase "${ITKImageFilterBase-Test_LIBRARIES}" "${ITKImageFilterBaseGTests}")

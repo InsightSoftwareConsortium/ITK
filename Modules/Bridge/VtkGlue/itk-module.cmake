@@ -1,5 +1,8 @@
-set(DOCUMENTATION "This module contains classes that provide an
-interface between ITK and VTK.")
+set(
+  DOCUMENTATION
+  "This module contains classes that provide an
+interface between ITK and VTK."
+)
 
 itk_module(
   ITKVtkGlue
@@ -17,7 +20,8 @@ itk_module(
   ITKImageFusion
   EXCLUDE_FROM_DEFAULT
   DESCRIPTION
-  "${DOCUMENTATION}")
+  "${DOCUMENTATION}"
+)
 
 # extra test dependency on Smoothing is introduced by itkVtkMedianImagefilterTest.
 # extra test dependency on ImageCompose is introduced by QuickViewTest.

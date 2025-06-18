@@ -5,57 +5,66 @@ if(NOT ExternalData_OBJECT_STORES)
   # Use ExternalData_OBJECT_STORES from environment as default.
   set(ExternalData_OBJECT_STORES_DEFAULT "")
   if(DEFINED "ENV{ExternalData_OBJECT_STORES}")
-    file(TO_CMAKE_PATH "$ENV{ExternalData_OBJECT_STORES}" ExternalData_OBJECT_STORES_DEFAULT)
+    file(
+      TO_CMAKE_PATH
+      "$ENV{ExternalData_OBJECT_STORES}"
+      ExternalData_OBJECT_STORES_DEFAULT
+    )
   endif()
 endif()
 
-set(ExternalData_OBJECT_STORES "${ExternalData_OBJECT_STORES_DEFAULT}" CACHE STRING
-  "Semicolon-separated list of local directories holding data objects in the layout %(algo)/%(hash).")
+set(
+  ExternalData_OBJECT_STORES
+  "${ExternalData_OBJECT_STORES_DEFAULT}"
+  CACHE STRING
+  "Semicolon-separated list of local directories holding data objects in the layout %(algo)/%(hash)."
+)
 mark_as_advanced(ExternalData_OBJECT_STORES)
 if(NOT ExternalData_OBJECT_STORES)
   set(ExternalData_OBJECT_STORES "${CMAKE_BINARY_DIR}/ExternalData/Objects")
   file(MAKE_DIRECTORY "${ExternalData_OBJECT_STORES}")
 endif()
-list(APPEND ExternalData_OBJECT_STORES
+list(
+  APPEND
+  ExternalData_OBJECT_STORES
   # Local data store populated by the ITK pre-commit hook
   "${CMAKE_SOURCE_DIR}/.ExternalData"
-  )
+)
 
 set(ExternalData_BINARY_ROOT ${CMAKE_BINARY_DIR}/ExternalData)
 
 # Expands %(algo:lower)
 set(ExternalData_URL_ALGO_CID_lower cid)
 set(ExternalData_URL_ALGO_MD5_lower md5)
-set(ExternalData_URL_TEMPLATES "" CACHE STRING
+set(
+  ExternalData_URL_TEMPLATES
+  ""
+  CACHE STRING
   "Additional URL templates for the ExternalData CMake script to look for testing data. E.g.
-file:///var/bigharddrive/%(algo)/%(hash)")
+file:///var/bigharddrive/%(algo)/%(hash)"
+)
 mark_as_advanced(ExternalData_URL_TEMPLATES)
 if(NOT ITK_FORBID_DOWNLOADS)
-  list(APPEND ExternalData_URL_TEMPLATES
+  list(
+    APPEND
+    ExternalData_URL_TEMPLATES
     # Data published on GitHub Pages
     "https://insightsoftwareconsortium.github.io/ITKTestingData/%(algo)/%(hash)"
-
     # Data published on Girder
     "https://data.kitware.com:443/api/v1/file/hashsum/%(algo)/%(hash)/download"
-
     # Data published by developers using git-gerrit-push.
     "https://itk.org/files/ExternalData/%(algo)/%(hash)"
-
     # Local IPFS gateway
     "http://127.0.0.1:8080/ipfs/%(hash)"
-
     # Protocol Labs gateway
     "https://ipfs.io/ipfs/%(hash)"
-
     # Gateway for data pinned on pinata
     "https://gateway.pinata.cloud/ipfs/%(hash)"
-
     # Cloudflare gateway
     "https://cloudflare-ipfs.com/ipfs/%(hash)"
-
     # Additional gateway (modern but has redirect)
     "https://dweb.link/ipfs/%(hash)"
-    )
+  )
 endif()
 
 # Emscripten currently has difficulty reading symlinks.

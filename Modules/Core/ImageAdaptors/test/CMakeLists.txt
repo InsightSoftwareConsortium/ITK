@@ -1,11 +1,13 @@
 itk_module_test()
-set(ITKImageAdaptorsTests
-    itkComplexConjugateImageAdaptorTest.cxx
-    itkImageAdaptorTest.cxx
-    itkNthElementPixelAccessorTest.cxx
-    itkRGBToVectorImageAdaptorTest.cxx
-    itkVectorImageTest.cxx
-    itkVectorImageToImageAdaptorTest.cxx)
+set(
+  ITKImageAdaptorsTests
+  itkComplexConjugateImageAdaptorTest.cxx
+  itkImageAdaptorTest.cxx
+  itkNthElementPixelAccessorTest.cxx
+  itkRGBToVectorImageAdaptorTest.cxx
+  itkVectorImageTest.cxx
+  itkVectorImageToImageAdaptorTest.cxx
+)
 
 createtestdriver(ITKImageAdaptors "${ITKImageAdaptors-Test_LIBRARIES}" "${ITKImageAdaptorsTests}")
 
@@ -14,19 +16,22 @@ itk_add_test(
   itkNthElementPixelAccessorTest
   COMMAND
   ITKImageAdaptorsTestDriver
-  itkNthElementPixelAccessorTest)
+  itkNthElementPixelAccessorTest
+)
 itk_add_test(
   NAME
   itkImageAdaptorTest
   COMMAND
   ITKImageAdaptorsTestDriver
-  itkImageAdaptorTest)
+  itkImageAdaptorTest
+)
 itk_add_test(
   NAME
   itkRGBToVectorImageAdaptorTest
   COMMAND
   ITKImageAdaptorsTestDriver
-  itkRGBToVectorImageAdaptorTest)
+  itkRGBToVectorImageAdaptorTest
+)
 itk_add_test(
   NAME
   itkVectorImageTest
@@ -34,19 +39,22 @@ itk_add_test(
   ITKImageAdaptorsTestDriver
   itkVectorImageTest
   ${ITK_TEST_OUTPUT_DIR}/VectorImage.nrrd
-  ${ITK_TEST_OUTPUT_DIR}/VectorImage.mhd)
+  ${ITK_TEST_OUTPUT_DIR}/VectorImage.mhd
+)
 itk_add_test(
   NAME
   itkComplexConjugateImageAdaptorTest
   COMMAND
   ITKImageAdaptorsTestDriver
-  itkComplexConjugateImageAdaptorTest)
+  itkComplexConjugateImageAdaptorTest
+)
 itk_add_test(
   NAME
   itkVectorImageToImageAdaptorTest
   COMMAND
   ITKImageAdaptorsTestDriver
-  itkVectorImageToImageAdaptorTest)
+  itkVectorImageToImageAdaptorTest
+)
 
 set(ITKImageAdaptorsGTests itkImageAdaptorGTest.cxx)
 

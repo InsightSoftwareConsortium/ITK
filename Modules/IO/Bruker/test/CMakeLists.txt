@@ -3,8 +3,11 @@ set(ITKIOBrukerTests itkBrukerImageTest.cxx)
 
 createtestdriver(ITKIOBruker "${ITKIOBruker-Test_LIBRARIES}" "${ITKIOBrukerTests}")
 
-ExternalData_expand_arguments(ITKData ExpandedData # Ignore output variable
-                              DATA{Input/,RECURSE:,REGEX:.*})
+ExternalData_Expand_Arguments(
+  ITKData
+  ExpandedData # Ignore output variable
+  DATA{Input/,RECURSE:,REGEX:.*}
+)
 
 itk_add_test(
   NAME
@@ -16,7 +19,8 @@ itk_add_test(
   DATA{Baseline/PV6.0_FLASH_INT16.mha}
   itkBrukerImageTest
   DATA{Input/PV6.0_FLASH/pdata/1/2dseq}
-  ${ITK_TEST_OUTPUT_DIR}/PV6.0_FLASH_INT16.mha)
+  ${ITK_TEST_OUTPUT_DIR}/PV6.0_FLASH_INT16.mha
+)
 
 itk_add_test(
   NAME
@@ -28,7 +32,8 @@ itk_add_test(
   DATA{Baseline/PV6.0_FLASH_UINT8.mha}
   itkBrukerImageTest
   DATA{Input/PV6.0_FLASH/pdata/2/2dseq}
-  ${ITK_TEST_OUTPUT_DIR}/PV6.0_FLASH_UINT8.mha)
+  ${ITK_TEST_OUTPUT_DIR}/PV6.0_FLASH_UINT8.mha
+)
 
 itk_add_test(
   NAME
@@ -40,7 +45,8 @@ itk_add_test(
   DATA{Baseline/PV6.0_FLASH_FLOAT32.mha}
   itkBrukerImageTest
   DATA{Input/PV6.0_FLASH/pdata/2/2dseq}
-  ${ITK_TEST_OUTPUT_DIR}/PV6.0_FLASH_FLOAT32.mha)
+  ${ITK_TEST_OUTPUT_DIR}/PV6.0_FLASH_FLOAT32.mha
+)
 
 itk_add_test(
   NAME
@@ -52,4 +58,5 @@ itk_add_test(
   DATA{Baseline/PV5.1_FSE_INT16.mha}
   itkBrukerImageTest
   DATA{Input/PV5.1_FSE/pdata/1/2dseq}
-  ${ITK_TEST_OUTPUT_DIR}/PV5.1_FSE_INT16.mha)
+  ${ITK_TEST_OUTPUT_DIR}/PV5.1_FSE_INT16.mha
+)

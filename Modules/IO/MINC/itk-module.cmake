@@ -1,5 +1,8 @@
-set(DOCUMENTATION "This module contains classes for reading and writing image
-files in the MINC 2 file Format (mnc) and transformations (xfm).")
+set(
+  DOCUMENTATION
+  "This module contains classes for reading and writing image
+files in the MINC 2 file Format (mnc) and transformations (xfm)."
+)
 
 itk_module(
   ITKIOMINC
@@ -14,4 +17,5 @@ itk_module(
   FACTORY_NAMES
   ImageIO::MINC
   DESCRIPTION
-  "${DOCUMENTATION}")
+  "${DOCUMENTATION}"
+)

@@ -1,5 +1,8 @@
-set(DOCUMENTATION "This modules provides methods to convert wrapped
-itk::Image's to NumPy arrays and vice versa.")
+set(
+  DOCUMENTATION
+  "This modules provides methods to convert wrapped
+itk::Image's to NumPy arrays and vice versa."
+)
 
 if(ITK_WRAP_PYTHON)
   set(_exclude_from_default)
@@ -15,4 +18,5 @@ itk_module(
   ITKTestKernel
   ${_exclude_from_default}
   DESCRIPTION
-  "${DOCUMENTATION}")
+  "${DOCUMENTATION}"
+)

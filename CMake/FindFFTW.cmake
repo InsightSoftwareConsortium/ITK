@@ -31,7 +31,6 @@
 ## https://software.intel.com/en-us/mkl-linux-developer-guide-scripts-to-set-environment-variables).
 
 if(ITK_USE_FFTWD OR ITK_USE_FFTWF)
-
   if(ITK_USE_MKL)
     # If the user has provided the MKL include path then search nearby for library files
     if(FFTW_INCLUDE_PATH)
@@ -49,19 +48,19 @@ if(ITK_USE_FFTWD OR ITK_USE_FFTWF)
     else()
       message(FATAL_ERROR "System not supported for MKL.")
     endif()
-    set(MKLROOT
-        ${MKLROOT_default}
-        CACHE PATH "Intel path containing MKL")
+    set(MKLROOT ${MKLROOT_default} CACHE PATH "Intel path containing MKL")
     set(FFTW_INC_SEARCHPATH ${MKLROOT}/include/fftw)
   else()
-    set(FFTW_INC_SEARCHPATH
-        ${FFTW3f_INCLUDE_DIRS} # Defined in fftwf local build
-        ${FFTW3_INCLUDE_DIRS} # Defined in fftwd local build
-        /sw/include
-        /usr/include
-        /usr/local/include
-        /usr/include/fftw
-        /usr/local/include/fftw)
+    set(
+      FFTW_INC_SEARCHPATH
+      ${FFTW3f_INCLUDE_DIRS} # Defined in fftwf local build
+      ${FFTW3_INCLUDE_DIRS} # Defined in fftwd local build
+      /sw/include
+      /usr/include
+      /usr/local/include
+      /usr/include/fftw
+      /usr/local/include/fftw
+    )
   endif()
 
   if(ITK_USE_CUFFTW)
@@ -87,8 +86,16 @@ if(ITK_USE_FFTWD OR ITK_USE_FFTWF)
     unset(FFTWF_LIBRARIES CACHE)
     unset(FFTWD_THREADS_LIB CACHE)
     unset(FFTWF_THREADS_LIB CACHE)
-    set(FFTWF_LIBRARIES ${CUFFT_LIB} ${CUFFTW_LIB})
-    set(FFTWD_LIBRARIES ${CUFFT_LIB} ${CUFFTW_LIB})
+    set(
+      FFTWF_LIBRARIES
+      ${CUFFT_LIB}
+      ${CUFFTW_LIB}
+    )
+    set(
+      FFTWD_LIBRARIES
+      ${CUFFT_LIB}
+      ${CUFFTW_LIB}
+    )
   elseif(ITK_USE_MKL)
     # '''Disabled''': `ITK_USE_TBB_WITH_MKL`. To configure MKL with TBB, the TBB library
     # has to be found. This is not currently taken care of as part of this file and may
@@ -113,7 +120,11 @@ if(ITK_USE_FFTWD OR ITK_USE_FFTWF)
       if(WIN32)
         set(MKL_OPTIONS /DMKL_ILP64)
       else()
-        set(MKL_OPTIONS -DMKL_ILP64 -m64)
+        set(
+          MKL_OPTIONS
+          -DMKL_ILP64
+          -m64
+        )
       endif()
     else()
       set(FFTW_LIB_SEARCHPATH ${MKLROOT}/lib/ia32)
@@ -131,7 +142,11 @@ if(ITK_USE_FFTWD OR ITK_USE_FFTWF)
     #    else()
     #        list(APPEND MKL_EXTRA_LIBRARIES mkl_sequential)
     #    endif()
-    set(FFTW_LIBRARY_NAMES ${MKL_LIBRARY} ${MKL_EXTRA_LIBRARIES})
+    set(
+      FFTW_LIBRARY_NAMES
+      ${MKL_LIBRARY}
+      ${MKL_EXTRA_LIBRARIES}
+    )
 
     macro(FFTWD_LIBRARIES_START)
       unset(FFTWD_LIBRARIES CACHE)
@@ -151,7 +166,8 @@ if(ITK_USE_FFTWD OR ITK_USE_FFTWF)
           -Wl,--end-group
           -lpthread
           -lm
-          -ldl)
+          -ldl
+        )
         # Force to sequential for now.
         #        if(ITK_USE_TBB_WITH_MKL)
         #          list(APPEND FFTWD_LIBRARIES -ltbb -lstdc++)
@@ -165,7 +181,10 @@ if(ITK_USE_FFTWD OR ITK_USE_FFTWF)
     foreach(LIB ${FFTW_LIBRARY_NAMES})
       string(TOUPPER ${LIB} LIB_UPPER)
       mark_as_advanced(${LIB_UPPER}_LIB)
-      set(LIB_NAME ${CMAKE_STATIC_LIBRARY_PREFIX}${LIB}${CMAKE_STATIC_LIBRARY_SUFFIX})
+      set(
+        LIB_NAME
+        ${CMAKE_STATIC_LIBRARY_PREFIX}${LIB}${CMAKE_STATIC_LIBRARY_SUFFIX}
+      )
       find_library(${LIB_UPPER}_LIB ${LIB_NAME} ${FFTW_LIB_SEARCHPATH})
       if(${LIB_UPPER}_LIB)
         set(${LIB}_FOUND 1)
@@ -178,29 +197,37 @@ if(ITK_USE_FFTWD OR ITK_USE_FFTWF)
     add_compile_options(${MKL_OPTIONS})
   else()
     get_filename_component(FFTW_INSTALL_BASE_PATH ${FFTW_INCLUDE_PATH} PATH)
-    set(FFTW_LIB_SEARCHPATH
-        ${FFTW3f_LIBRARY_DIRS} # Defined in fftwf local build
-        ${FFTW3_LIBRARY_DIRS} # Defined in fftwd local build
-        ${FFTW_INSTALL_BASE_PATH}/lib
-        ${FFTW_INSTALL_BASE_PATH}/lib64
-        /usr/lib/fftw
-        /usr/local/lib/fftw)
+    set(
+      FFTW_LIB_SEARCHPATH
+      ${FFTW3f_LIBRARY_DIRS} # Defined in fftwf local build
+      ${FFTW3_LIBRARY_DIRS} # Defined in fftwd local build
+      ${FFTW_INSTALL_BASE_PATH}/lib
+      ${FFTW_INSTALL_BASE_PATH}/lib64
+      /usr/lib/fftw
+      /usr/local/lib/fftw
+    )
     unset(FFTWD_FOUND)
     if(ITK_USE_FFTWD)
-      mark_as_advanced(FFTWD_BASE_LIB FFTWD_THREADS_LIB FFTWD_LIBRARIES)
+      mark_as_advanced(
+        FFTWD_BASE_LIB
+        FFTWD_THREADS_LIB
+        FFTWD_LIBRARIES
+      )
       find_library(FFTWD_BASE_LIB fftw3 ${FFTW_LIB_SEARCHPATH}) #Double Precision Lib
-      find_library(FFTWD_THREADS_LIB fftw3_threads ${FFTW_LIB_SEARCHPATH}
-      )#Double Precision Lib only if compiled with threads support
+      find_library(FFTWD_THREADS_LIB fftw3_threads ${FFTW_LIB_SEARCHPATH}) #Double Precision Lib only if compiled with threads support
 
       if(FFTWD_BASE_LIB)
         set(FFTWD_FOUND 1)
-        get_filename_component(FFTW_LIBDIR ${FFTWD_BASE_LIB} PATH
-        )#NOTE FFTWD_BASE_LIB and FFTWF_BASE_LIB must be installed in the same location
+        get_filename_component(FFTW_LIBDIR ${FFTWD_BASE_LIB} PATH) #NOTE FFTWD_BASE_LIB and FFTWF_BASE_LIB must be installed in the same location
         get_filename_component(FFTWD_BASE_LIB ${FFTWD_BASE_LIB} NAME)
         get_filename_component(FFTWD_THREADS_LIB ${FFTWD_THREADS_LIB} NAME)
         set(FFTWD_LIBRARIES ${FFTWD_BASE_LIB})
         if(FFTWD_THREADS_LIB)
-          set(FFTWD_LIBRARIES ${FFTWD_THREADS_LIB} ${FFTWD_BASE_LIB})
+          set(
+            FFTWD_LIBRARIES
+            ${FFTWD_THREADS_LIB}
+            ${FFTWD_BASE_LIB}
+          )
         endif()
       else()
         message(FATAL_ERROR "fftw3 not found.")
@@ -209,20 +236,26 @@ if(ITK_USE_FFTWD OR ITK_USE_FFTWF)
 
     unset(FFTWF_FOUND)
     if(ITK_USE_FFTWF)
-      mark_as_advanced(FFTWF_BASE_LIB FFTWF_THREADS_LIB FFTWF_LIBRARIES)
+      mark_as_advanced(
+        FFTWF_BASE_LIB
+        FFTWF_THREADS_LIB
+        FFTWF_LIBRARIES
+      )
       find_library(FFTWF_BASE_LIB fftw3f ${FFTW_LIB_SEARCHPATH}) #Single Precision Lib
-      find_library(FFTWF_THREADS_LIB fftw3f_threads ${FFTW_LIB_SEARCHPATH}
-      )#Single Precision Lib only if compiled with threads support
+      find_library(FFTWF_THREADS_LIB fftw3f_threads ${FFTW_LIB_SEARCHPATH}) #Single Precision Lib only if compiled with threads support
 
       if(FFTWF_BASE_LIB)
         set(FFTWF_FOUND 1)
-        get_filename_component(FFTW_LIBDIR ${FFTWF_BASE_LIB} PATH
-        )#NOTE FFTWD_BASE_LIB and FFTWF_BASE_LIB must be installed in the same location
+        get_filename_component(FFTW_LIBDIR ${FFTWF_BASE_LIB} PATH) #NOTE FFTWD_BASE_LIB and FFTWF_BASE_LIB must be installed in the same location
         get_filename_component(FFTWF_BASE_LIB ${FFTWF_BASE_LIB} NAME)
         get_filename_component(FFTWF_THREADS_LIB ${FFTWF_THREADS_LIB} NAME)
         set(FFTWF_LIBRARIES ${FFTWF_BASE_LIB})
         if(FFTWF_THREADS_LIB)
-          set(FFTWF_LIBRARIES ${FFTWF_THREADS_LIB} ${FFTWF_BASE_LIB})
+          set(
+            FFTWF_LIBRARIES
+            ${FFTWF_THREADS_LIB}
+            ${FFTWF_BASE_LIB}
+          )
         endif()
       else()
         message(FATAL_ERROR "fftw3f not found.")

@@ -11,7 +11,8 @@ itk_add_test(
   ITKIOMeshTestDriver
   itkMeshFileReadWriteTest
   DATA{Baseline/sphere.fsb}
-  ${ITK_TEST_OUTPUT_DIR}/sphere01.vtk)
+  ${ITK_TEST_OUTPUT_DIR}/sphere01.vtk
+)
 itk_add_test(
   NAME
   itkMeshFileReadWriteTest03
@@ -19,7 +20,8 @@ itk_add_test(
   ITKIOMeshTestDriver
   itkMeshFileReadWriteTest
   DATA{Baseline/sphere_curv.vtk}
-  ${ITK_TEST_OUTPUT_DIR}/sphere_curv_03.vtk)
+  ${ITK_TEST_OUTPUT_DIR}/sphere_curv_03.vtk
+)
 itk_add_test(
   NAME
   itkMeshFileReadWriteTest04
@@ -27,7 +29,8 @@ itk_add_test(
   ITKIOMeshTestDriver
   itkMeshFileReadWriteTest
   DATA{Baseline/thickness.fcv}
-  ${ITK_TEST_OUTPUT_DIR}/thickness.fcv)
+  ${ITK_TEST_OUTPUT_DIR}/thickness.fcv
+)
 itk_add_test(
   NAME
   itkMeshFileReadWriteTest07
@@ -36,4 +39,5 @@ itk_add_test(
   itkMeshFileReadWriteTest
   DATA{Baseline/sphere_curv_b.vtk}
   ${ITK_TEST_OUTPUT_DIR}/sphere_curv_07.vtk
-  1)
+  1
+)

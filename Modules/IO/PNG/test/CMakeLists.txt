@@ -1,9 +1,11 @@
 itk_module_test()
-set(ITKIOPNGTests
-    itkPNGImageIOTest.cxx
-    itkPNGImageIOTest2.cxx
-    itkPNGImageIOTest3.cxx
-    itkPNGImageIOTestPalette.cxx)
+set(
+  ITKIOPNGTests
+  itkPNGImageIOTest.cxx
+  itkPNGImageIOTest2.cxx
+  itkPNGImageIOTest3.cxx
+  itkPNGImageIOTestPalette.cxx
+)
 
 createtestdriver(ITKIOPNG "${ITKIOPNG-Test_LIBRARIES}" "${ITKIOPNGTests}")
 
@@ -17,7 +19,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkPNGImageIOTest1Grey.png
   0
   4
-  1)
+  1
+)
 itk_add_test(
   NAME
   itkPNGImageIOTest1Color
@@ -28,7 +31,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkPNGImageIOTest1Color.png
   0
   4
-  1)
+  1
+)
 itk_add_test(
   NAME
   itkPNGImageIOTest1Palette
@@ -39,7 +43,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkPNGImageIOTest1Palette.png
   0
   4
-  1)
+  1
+)
 itk_add_test(
   NAME
   itkPNGImageIOTest1Palette2Scalar
@@ -50,7 +55,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkPNGImageIOTest1Palette2Scalar.png
   1
   9
-  0)
+  0
+)
 itk_add_test(
   NAME
   itkPNGImageIOTest1PaletteExpanded
@@ -61,7 +67,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkPNGImageIOTest1PaletteExpanded.png
   1
   9
-  1)
+  1
+)
 itk_add_test(
   NAME
   itkPNGImageIOTest2GreyAlpha
@@ -75,7 +82,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkPNGImageIOTest2GreyAlpha.png
   0
   4
-  1)
+  1
+)
 itk_add_test(
   NAME
   itkPNGImageIOTest2Palette
@@ -89,7 +97,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkPNGImageIOTest2Palette.png
   1
   9
-  0)
+  0
+)
 
 # expand + RGB image
 itk_add_test(
@@ -104,7 +113,8 @@ itk_add_test(
   DATA{Input/HeliconiusNumataPaletteRGB.png}
   ${ITK_TEST_OUTPUT_DIR}/itkPNGImageIOTest3RGBExpanded.png
   1
-  0)
+  0
+)
 
 # not expand + RGB image
 itk_add_test(
@@ -119,7 +129,8 @@ itk_add_test(
   DATA{Input/HeliconiusNumataPaletteRGB.png}
   ${ITK_TEST_OUTPUT_DIR}/itkPNGImageIOTest3RGBNotExpanded.png
   0
-  0)
+  0
+)
 
 # not expand + palette
 itk_add_test(
@@ -134,7 +145,8 @@ itk_add_test(
   DATA{Input/HeliconiusNumataPalette.png}
   ${ITK_TEST_OUTPUT_DIR}/itkPNGImageIOTest3PaletteNotExpanded.png
   0
-  1)
+  1
+)
 
 # expand + palette image
 itk_add_test(
@@ -149,7 +161,8 @@ itk_add_test(
   DATA{Input/HeliconiusNumataPalette.png}
   ${ITK_TEST_OUTPUT_DIR}/itkPNGImageIOTest3PaletteExpanded.png
   1
-  1)
+  1
+)
 
 # not expand + grey palette image
 itk_add_test(
@@ -164,7 +177,8 @@ itk_add_test(
   DATA{Input/HeliconiusNumataPaletteGrey.png}
   ${ITK_TEST_OUTPUT_DIR}/itkPNGImageIOTest3GreyPaletteNotExpandedGrey.png
   0
-  1)
+  1
+)
 
 # expand + grey palette image
 itk_add_test(
@@ -179,7 +193,8 @@ itk_add_test(
   DATA{Input/HeliconiusNumataPaletteGrey.png}
   ${ITK_TEST_OUTPUT_DIR}/itkPNGImageIOTest3GreyPaletteExpandedGrey.png
   1
-  1)
+  1
+)
 
 itk_add_test(
   NAME
@@ -187,7 +202,8 @@ itk_add_test(
   COMMAND
   ITKIOPNGTestDriver
   itkPNGImageIOTest3
-  DATA{Input/cthead1-257-corrupt.png})
+  DATA{Input/cthead1-257-corrupt.png}
+)
 
 itk_add_test(
   NAME
@@ -195,4 +211,5 @@ itk_add_test(
   COMMAND
   ITKIOPNGTestDriver
   itkPNGImageIOTest3
-  DATA{Input/corrupted.png})
+  DATA{Input/corrupted.png}
+)

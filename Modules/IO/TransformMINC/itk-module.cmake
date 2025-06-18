@@ -1,5 +1,8 @@
-set(DOCUMENTATION "This module contains the classes for the input and output
-of itkTransform object in MINC format (.xfm).")
+set(
+  DOCUMENTATION
+  "This module contains the classes for the input and output
+of itkTransform object in MINC format (.xfm)."
+)
 
 itk_module(
   ITKIOTransformMINC
@@ -20,4 +23,5 @@ itk_module(
   TransformIO::MINC
   DESCRIPTION
   "${DOCUMENTATION}"
-  EXCLUDE_FROM_DEFAULT)
+  EXCLUDE_FROM_DEFAULT
+)

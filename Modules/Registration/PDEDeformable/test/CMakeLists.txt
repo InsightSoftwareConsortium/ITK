@@ -1,27 +1,31 @@
 itk_module_test()
-set(ITKPDEDeformableRegistrationTests
-    itkMultiResolutionPDEDeformableRegistrationTest.cxx
-    itkDemonsRegistrationFilterTest.cxx
-    itkDiffeomorphicDemonsRegistrationFilterTest.cxx
-    itkDiffeomorphicDemonsRegistrationFilterTest2.cxx
-    itkFastSymmetricForcesDemonsRegistrationFilterTest.cxx
-    itkLevelSetMotionRegistrationFilterTest.cxx
-    itkSymmetricForcesDemonsRegistrationFilterTest.cxx
-    itkESMDemonsRegistrationFunctionTest.cxx)
+set(
+  ITKPDEDeformableRegistrationTests
+  itkMultiResolutionPDEDeformableRegistrationTest.cxx
+  itkDemonsRegistrationFilterTest.cxx
+  itkDiffeomorphicDemonsRegistrationFilterTest.cxx
+  itkDiffeomorphicDemonsRegistrationFilterTest2.cxx
+  itkFastSymmetricForcesDemonsRegistrationFilterTest.cxx
+  itkLevelSetMotionRegistrationFilterTest.cxx
+  itkSymmetricForcesDemonsRegistrationFilterTest.cxx
+  itkESMDemonsRegistrationFunctionTest.cxx
+)
 # Define some convenient locations
 set(BASELINE ${ITK_DATA_ROOT}/Baseline/Algorithms)
 set(INPUTDATA ${ITK_DATA_ROOT}/Input)
 set(TEMP ${ITK_TEST_OUTPUT_DIR})
 
 createtestdriver(ITKPDEDeformableRegistration "${ITKPDEDeformableRegistration-Test_LIBRARIES}"
-                 "${ITKPDEDeformableRegistrationTests}")
+                 "${ITKPDEDeformableRegistrationTests}"
+)
 
 itk_add_test(
   NAME
   itkDemonsRegistrationFilterTest
   COMMAND
   ITKPDEDeformableRegistrationTestDriver
-  itkDemonsRegistrationFilterTest)
+  itkDemonsRegistrationFilterTest
+)
 itk_add_test(
   NAME
   itkLevelSetMotionRegistrationFilterTest
@@ -30,13 +34,15 @@ itk_add_test(
   itkLevelSetMotionRegistrationFilterTest
   ${ITK_TEST_OUTPUT_DIR}/itkLevelSetMotionRegistrationFilterTestFixedImage.mha
   ${ITK_TEST_OUTPUT_DIR}/itkLevelSetMotionRegistrationFilterTestMovingImage.mha
-  ${ITK_TEST_OUTPUT_DIR}/itkLevelSetMotionRegistrationFilterTestResampledImage.mha)
+  ${ITK_TEST_OUTPUT_DIR}/itkLevelSetMotionRegistrationFilterTestResampledImage.mha
+)
 itk_add_test(
   NAME
   itkSymmetricForcesDemonsRegistrationFilterTest
   COMMAND
   ITKPDEDeformableRegistrationTestDriver
-  itkSymmetricForcesDemonsRegistrationFilterTest)
+  itkSymmetricForcesDemonsRegistrationFilterTest
+)
 itk_add_test(
   NAME
   itkMultiResolutionPDEDeformableRegistrationTestD
@@ -49,7 +55,8 @@ itk_add_test(
   --compareNumberOfPixelsTolerance
   20
   itkMultiResolutionPDEDeformableRegistrationTest
-  ${TEMP}/itkMultiResolutionPDEDeformableRegistrationTestPixelCentered.png)
+  ${TEMP}/itkMultiResolutionPDEDeformableRegistrationTestPixelCentered.png
+)
 itk_add_test(
   NAME
   itkDiffeomorphicDemonsRegistrationFilterTest01
@@ -64,7 +71,8 @@ itk_add_test(
   0.01
   0.08
   5
-  10)
+  10
+)
 itk_add_test(
   NAME
   itkDiffeomorphicDemonsRegistrationFilterTest02
@@ -83,9 +91,14 @@ itk_add_test(
   0.2
   0.9
   10
-  70)
-set_tests_properties(itkDiffeomorphicDemonsRegistrationFilterTest02
-                     PROPERTIES ATTACHED_FILES_ON_FAIL ${TEMP}/itkDiffeomorphicDemonsRegistrationFilterTest02.txt)
+  70
+)
+set_tests_properties(
+  itkDiffeomorphicDemonsRegistrationFilterTest02
+  PROPERTIES
+    ATTACHED_FILES_ON_FAIL
+      ${TEMP}/itkDiffeomorphicDemonsRegistrationFilterTest02.txt
+)
 
 itk_add_test(
   NAME
@@ -101,7 +114,8 @@ itk_add_test(
   0.01
   0.08
   5
-  10)
+  10
+)
 itk_add_test(
   NAME
   itkDiffeomorphicDemonsRegistrationFilterTest04
@@ -116,7 +130,8 @@ itk_add_test(
   0.2
   0.8
   5
-  70)
+  70
+)
 
 itk_add_test(
   NAME
@@ -134,9 +149,14 @@ itk_add_test(
   0.2
   0.08
   5
-  70)
-set_tests_properties(itkDiffeomorphicDemonsRegistrationFilterTest05
-                     PROPERTIES ATTACHED_FILES_ON_FAIL ${TEMP}/itkDiffeomorphicDemonsRegistrationFilterTest05.txt)
+  70
+)
+set_tests_properties(
+  itkDiffeomorphicDemonsRegistrationFilterTest05
+  PROPERTIES
+    ATTACHED_FILES_ON_FAIL
+      ${TEMP}/itkDiffeomorphicDemonsRegistrationFilterTest05.txt
+)
 
 itk_add_test(
   NAME
@@ -152,7 +172,8 @@ itk_add_test(
   0.01
   0.08
   5
-  10)
+  10
+)
 itk_add_test(
   NAME
   itkDiffeomorphicDemonsRegistrationFilterTest07
@@ -165,7 +186,8 @@ itk_add_test(
   0
   0
   0.001
-  0.1)
+  0.1
+)
 itk_add_test(
   NAME
   itkDiffeomorphicDemonsRegistrationFilterTest08
@@ -178,7 +200,8 @@ itk_add_test(
   1
   0
   0.001
-  0.1)
+  0.1
+)
 itk_add_test(
   NAME
   itkDiffeomorphicDemonsRegistrationFilterTest09
@@ -191,7 +214,8 @@ itk_add_test(
   2
   0
   0.001
-  0.1)
+  0.1
+)
 itk_add_test(
   NAME
   itkDiffeomorphicDemonsRegistrationFilterTest10
@@ -204,7 +228,8 @@ itk_add_test(
   3
   0
   0.001
-  0.1)
+  0.1
+)
 itk_add_test(
   NAME
   itkDiffeomorphicDemonsRegistrationFilterTest11
@@ -217,16 +242,19 @@ itk_add_test(
   0
   1
   0.001
-  0.1)
+  0.1
+)
 itk_add_test(
   NAME
   itkFastSymmetricForcesDemonsRegistrationFilterTest
   COMMAND
   ITKPDEDeformableRegistrationTestDriver
-  itkFastSymmetricForcesDemonsRegistrationFilterTest)
+  itkFastSymmetricForcesDemonsRegistrationFilterTest
+)
 itk_add_test(
   NAME
   itkESMDemonsRegistrationFunctionTest
   COMMAND
   ITKPDEDeformableRegistrationTestDriver
-  itkESMDemonsRegistrationFunctionTest)
+  itkESMDemonsRegistrationFunctionTest
+)

@@ -1,34 +1,36 @@
 itk_module_test()
-set(ITKImageStatisticsTests
-    itkStatisticsImageFilterTest.cxx
-    itkLabelStatisticsImageFilterTest.cxx
-    itkSumProjectionImageFilterTest.cxx
-    itkStandardDeviationProjectionImageFilterTest.cxx
-    itkImageMomentsTest.cxx
-    itkMinimumMaximumImageFilterTest.cxx
-    itkImagePCAShapeModelEstimatorTest.cxx
-    itkMinimumProjectionImageFilterTest.cxx
-    itkMeanProjectionImageFilterTest.cxx
-    itkImagePCADecompositionCalculatorTest.cxx
-    itkMaximumProjectionImageFilterTest.cxx
-    itkMaximumProjectionImageFilterTest2.cxx
-    itkMaximumProjectionImageFilterTest3.cxx
-    itkMaximumProjectionImageFilterTest4.cxx
-    itkMedianProjectionImageFilterTest.cxx
-    itkHistogramToEntropyImageFilterTest1.cxx
-    itkHistogramToEntropyImageFilterTest2.cxx
-    itkHistogramToIntensityImageFilterTest1.cxx
-    itkHistogramToIntensityImageFilterTest2.cxx
-    itkHistogramToLogProbabilityImageFilterTest1.cxx
-    itkHistogramToLogProbabilityImageFilterTest2.cxx
-    itkHistogramToProbabilityImageFilterTest1.cxx
-    itkHistogramToProbabilityImageFilterTest2.cxx
-    itkAccumulateImageFilterTest.cxx
-    itkAdaptiveHistogramEqualizationImageFilterTest.cxx
-    itkGetAverageSliceImageFilterTest.cxx
-    itkBinaryProjectionImageFilterTest.cxx
-    itkProjectionImageFilterTest.cxx
-    itkLabelOverlapMeasuresImageFilterTest.cxx)
+set(
+  ITKImageStatisticsTests
+  itkStatisticsImageFilterTest.cxx
+  itkLabelStatisticsImageFilterTest.cxx
+  itkSumProjectionImageFilterTest.cxx
+  itkStandardDeviationProjectionImageFilterTest.cxx
+  itkImageMomentsTest.cxx
+  itkMinimumMaximumImageFilterTest.cxx
+  itkImagePCAShapeModelEstimatorTest.cxx
+  itkMinimumProjectionImageFilterTest.cxx
+  itkMeanProjectionImageFilterTest.cxx
+  itkImagePCADecompositionCalculatorTest.cxx
+  itkMaximumProjectionImageFilterTest.cxx
+  itkMaximumProjectionImageFilterTest2.cxx
+  itkMaximumProjectionImageFilterTest3.cxx
+  itkMaximumProjectionImageFilterTest4.cxx
+  itkMedianProjectionImageFilterTest.cxx
+  itkHistogramToEntropyImageFilterTest1.cxx
+  itkHistogramToEntropyImageFilterTest2.cxx
+  itkHistogramToIntensityImageFilterTest1.cxx
+  itkHistogramToIntensityImageFilterTest2.cxx
+  itkHistogramToLogProbabilityImageFilterTest1.cxx
+  itkHistogramToLogProbabilityImageFilterTest2.cxx
+  itkHistogramToProbabilityImageFilterTest1.cxx
+  itkHistogramToProbabilityImageFilterTest2.cxx
+  itkAccumulateImageFilterTest.cxx
+  itkAdaptiveHistogramEqualizationImageFilterTest.cxx
+  itkGetAverageSliceImageFilterTest.cxx
+  itkBinaryProjectionImageFilterTest.cxx
+  itkProjectionImageFilterTest.cxx
+  itkLabelOverlapMeasuresImageFilterTest.cxx
+)
 
 createtestdriver(ITKImageStatistics "${ITKImageStatistics-Test_LIBRARIES}" "${ITKImageStatisticsTests}")
 
@@ -37,21 +39,24 @@ itk_add_test(
   itkStatisticsImageFilterTest_1
   COMMAND
   ITKImageStatisticsTestDriver
-  itkStatisticsImageFilterTest)
+  itkStatisticsImageFilterTest
+)
 itk_add_test(
   NAME
   itkStatisticsImageFilterTest_2
   COMMAND
   ITKImageStatisticsTestDriver
   itkStatisticsImageFilterTest
-  1)
+  1
+)
 itk_add_test(
   NAME
   itkStatisticsImageFilterTest_3
   COMMAND
   ITKImageStatisticsTestDriver
   itkStatisticsImageFilterTest
-  63)
+  63
+)
 itk_add_test(
   NAME
   itkLabelStatisticsImageFilterTest_1
@@ -60,7 +65,8 @@ itk_add_test(
   itkLabelStatisticsImageFilterTest
   DATA{${ITK_DATA_ROOT}/Input/peppers.png}
   DATA{${ITK_DATA_ROOT}/Baseline/Algorithms/OtsuMultipleThresholdsImageFilterTest.png}
-  1)
+  1
+)
 itk_add_test(
   NAME
   itkLabelStatisticsImageFilterTest_2
@@ -70,7 +76,8 @@ itk_add_test(
   DATA{${ITK_DATA_ROOT}/Input/peppers.png}
   DATA{${ITK_DATA_ROOT}/Baseline/Algorithms/OtsuMultipleThresholdsImageFilterTest.png}
   1
-  10)
+  10
+)
 itk_add_test(
   NAME
   itkLabelStatisticsImageFilterTest_3
@@ -80,7 +87,8 @@ itk_add_test(
   DATA{${ITK_DATA_ROOT}/Input/peppers.png}
   DATA{${ITK_DATA_ROOT}/Baseline/Algorithms/OtsuMultipleThresholdsImageFilterTest.png}
   1
-  20)
+  20
+)
 itk_add_test(
   NAME
   itkSumProjectionImageFilterTest
@@ -91,7 +99,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeSumProjection.tif
   itkSumProjectionImageFilterTest
   DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw}
-  ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeSumProjection.tif)
+  ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeSumProjection.tif
+)
 itk_add_test(
   NAME
   itkStandardDeviationProjectionImageFilterTest
@@ -102,34 +111,39 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeStandardDeviationProjection.tif
   itkStandardDeviationProjectionImageFilterTest
   DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw}
-  ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeStandardDeviationProjection.tif)
+  ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeStandardDeviationProjection.tif
+)
 itk_add_test(
   NAME
   itkImageMomentsNoMaskTest
   COMMAND
   ITKImageStatisticsTestDriver
   itkImageMomentsTest
-  nomask)
+  nomask
+)
 itk_add_test(
   NAME
   itkImageMomentsWithMaskTest
   COMMAND
   ITKImageStatisticsTestDriver
   itkImageMomentsTest
-  mask)
+  mask
+)
 itk_add_test(
   NAME
   itkMinimumMaximumImageFilterTest
   COMMAND
   ITKImageStatisticsTestDriver
   itkMinimumMaximumImageFilterTest
-  1)
+  1
+)
 itk_add_test(
   NAME
   itkImagePCAShapeModelEstimatorTest
   COMMAND
   ITKImageStatisticsTestDriver
-  itkImagePCAShapeModelEstimatorTest)
+  itkImagePCAShapeModelEstimatorTest
+)
 itk_add_test(
   NAME
   itkMaximumProjectionImageFilterTest2_1
@@ -141,7 +155,8 @@ itk_add_test(
   itkMaximumProjectionImageFilterTest2
   0
   DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection.mhd,HeadMRVolume.raw}
-  ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeMaximumProjection0.mha)
+  ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeMaximumProjection0.mha
+)
 itk_add_test(
   NAME
   itkMaximumProjectionImageFilterTest2_2
@@ -153,7 +168,8 @@ itk_add_test(
   itkMaximumProjectionImageFilterTest2
   1
   DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection.mhd,HeadMRVolume.raw}
-  ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeMaximumProjection1.mha)
+  ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeMaximumProjection1.mha
+)
 itk_add_test(
   NAME
   itkMaximumProjectionImageFilterTest3_1
@@ -165,7 +181,8 @@ itk_add_test(
   itkMaximumProjectionImageFilterTest3
   0
   DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection.mhd,HeadMRVolume.raw}
-  ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeMaximumProjection2D0.mha)
+  ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeMaximumProjection2D0.mha
+)
 itk_add_test(
   NAME
   itkMaximumProjectionImageFilterTest3_2
@@ -177,7 +194,8 @@ itk_add_test(
   itkMaximumProjectionImageFilterTest3
   1
   DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection.mhd,HeadMRVolume.raw}
-  ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeMaximumProjection2D1.tif)
+  ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeMaximumProjection2D1.tif
+)
 itk_add_test(
         NAME
         itkMaximumProjectionImageFilterTest4_1
@@ -202,7 +220,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeMinimumProjection.tif
   itkMinimumProjectionImageFilterTest
   DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw}
-  ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeMinimumProjection.tif)
+  ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeMinimumProjection.tif
+)
 itk_add_test(
   NAME
   itkMeanProjectionImageFilterTest
@@ -213,13 +232,15 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeMeanProjection.tif
   itkMeanProjectionImageFilterTest
   DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw}
-  ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeMeanProjection.tif)
+  ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeMeanProjection.tif
+)
 itk_add_test(
   NAME
   itkImagePCADecompositionCalculatorTest
   COMMAND
   ITKImageStatisticsTestDriver
-  itkImagePCADecompositionCalculatorTest)
+  itkImagePCADecompositionCalculatorTest
+)
 itk_add_test(
   NAME
   itkMaximumProjectionImageFilterTest
@@ -230,7 +251,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeMaximumProjection.tif
   itkMaximumProjectionImageFilterTest
   DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw}
-  ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeMaximumProjection.tif)
+  ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeMaximumProjection.tif
+)
 itk_add_test(
   NAME
   itkMedianProjectionImageFilterTest
@@ -241,7 +263,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeMedianProjection.tif
   itkMedianProjectionImageFilterTest
   DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw}
-  ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeMedianProjection.tif)
+  ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeMedianProjection.tif
+)
 itk_add_test(
   NAME
   itkHistogramToEntropyImageFilterTest1
@@ -249,7 +272,8 @@ itk_add_test(
   ITKImageStatisticsTestDriver
   itkHistogramToEntropyImageFilterTest1
   DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkHistogramToEntropyImageFilterTest1.mhd)
+  ${ITK_TEST_OUTPUT_DIR}/itkHistogramToEntropyImageFilterTest1.mhd
+)
 itk_add_test(
   NAME
   itkHistogramToEntropyImageFilterTest2
@@ -258,7 +282,8 @@ itk_add_test(
   itkHistogramToEntropyImageFilterTest2
   ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySlice.png
   ${ITK_EXAMPLE_DATA_ROOT}/BrainT1Slice.png
-  ${ITK_TEST_OUTPUT_DIR}/itkHistogramToEntropyImageFilterTest2.mhd)
+  ${ITK_TEST_OUTPUT_DIR}/itkHistogramToEntropyImageFilterTest2.mhd
+)
 itk_add_test(
   NAME
   itkHistogramToIntensityImageFilterTest1
@@ -266,7 +291,8 @@ itk_add_test(
   ITKImageStatisticsTestDriver
   itkHistogramToIntensityImageFilterTest1
   DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkHistogramToIntensityImageFilterTest1.mhd)
+  ${ITK_TEST_OUTPUT_DIR}/itkHistogramToIntensityImageFilterTest1.mhd
+)
 itk_add_test(
   NAME
   itkHistogramToIntensityImageFilterTest2
@@ -275,7 +301,8 @@ itk_add_test(
   itkHistogramToIntensityImageFilterTest2
   ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySlice.png
   ${ITK_EXAMPLE_DATA_ROOT}/BrainT1Slice.png
-  ${ITK_TEST_OUTPUT_DIR}/itkHistogramToIntensityImageFilterTest2.mhd)
+  ${ITK_TEST_OUTPUT_DIR}/itkHistogramToIntensityImageFilterTest2.mhd
+)
 itk_add_test(
   NAME
   itkHistogramToLogProbabilityImageFilterTest1
@@ -283,7 +310,8 @@ itk_add_test(
   ITKImageStatisticsTestDriver
   itkHistogramToLogProbabilityImageFilterTest1
   DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkHistogramToLogProbabilityImageFilterTest1.mhd)
+  ${ITK_TEST_OUTPUT_DIR}/itkHistogramToLogProbabilityImageFilterTest1.mhd
+)
 itk_add_test(
   NAME
   itkHistogramToLogProbabilityImageFilterTest2
@@ -292,7 +320,8 @@ itk_add_test(
   itkHistogramToLogProbabilityImageFilterTest2
   ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySlice.png
   ${ITK_EXAMPLE_DATA_ROOT}/BrainT1Slice.png
-  ${ITK_TEST_OUTPUT_DIR}/itkHistogramToLogProbabilityImageFilterTest2.mhd)
+  ${ITK_TEST_OUTPUT_DIR}/itkHistogramToLogProbabilityImageFilterTest2.mhd
+)
 itk_add_test(
   NAME
   itkHistogramToProbabilityImageFilterTest1
@@ -300,7 +329,8 @@ itk_add_test(
   ITKImageStatisticsTestDriver
   itkHistogramToProbabilityImageFilterTest1
   DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkHistogramToProbabilityImageFilterTest1.mhd)
+  ${ITK_TEST_OUTPUT_DIR}/itkHistogramToProbabilityImageFilterTest1.mhd
+)
 itk_add_test(
   NAME
   itkHistogramToProbabilityImageFilterTest2
@@ -309,7 +339,8 @@ itk_add_test(
   itkHistogramToProbabilityImageFilterTest2
   ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySlice.png
   ${ITK_EXAMPLE_DATA_ROOT}/BrainT1Slice.png
-  ${ITK_TEST_OUTPUT_DIR}/itkHistogramToProbabilityImageFilterTest2.mhd)
+  ${ITK_TEST_OUTPUT_DIR}/itkHistogramToProbabilityImageFilterTest2.mhd
+)
 
 itk_add_test(
   NAME
@@ -321,7 +352,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/AccumulateImageFilterTest.png
   itkAccumulateImageFilterTest
   DATA{${ITK_DATA_ROOT}/Input/DicomSeries/,REGEX:Image[0-9]+.dcm}
-  ${ITK_TEST_OUTPUT_DIR}/AccumulateImageFilterTest.png)
+  ${ITK_TEST_OUTPUT_DIR}/AccumulateImageFilterTest.png
+)
 itk_add_test(
   NAME
   itkAdaptiveHistogramEqualizationImageFilterTest
@@ -335,7 +367,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/AdaptiveHistogramEqualizationImageFilterTest.png
   10
   0.5
-  0.5)
+  0.5
+)
 itk_add_test(
   NAME
   itkAdaptiveHistogramEqualizationImageFilterTest2
@@ -349,7 +382,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/AdaptiveHistogramEqualizationImageFilterTest2.png
   10
   1.0
-  0.25)
+  0.25
+)
 itk_add_test(
   NAME
   itkGetAverageSliceImageFilterTest
@@ -361,7 +395,8 @@ itk_add_test(
   itkGetAverageSliceImageFilterTest
   DATA{${ITK_DATA_ROOT}/Input/DicomSeries/,REGEX:Image[0-9]+.dcm}
   ${ITK_TEST_OUTPUT_DIR}/GetAverageSliceImageFilterTest.png
-  2)
+  2
+)
 itk_add_test(
   NAME
   itkBinaryProjectionImageFilterTest1
@@ -374,7 +409,8 @@ itk_add_test(
   DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw}
   ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeBinaryProjection100.tif
   100
-  0)
+  0
+)
 itk_add_test(
   NAME
   itkBinaryProjectionImageFilterTest2
@@ -387,7 +423,8 @@ itk_add_test(
   DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw}
   ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeBinaryProjection200.tif
   200
-  0)
+  0
+)
 itk_add_test(
   NAME
   itkProjectionImageFilterTest1
@@ -400,7 +437,8 @@ itk_add_test(
   DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw}
   ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeProjection100.tif
   100
-  0)
+  0
+)
 
 itk_add_test(
   NAME
@@ -410,8 +448,13 @@ itk_add_test(
   itkLabelOverlapMeasuresImageFilterTest
   2
   DATA{Input/sourceImage.nii.gz}
-  DATA{Input/targetImage.nii.gz})
+  DATA{Input/targetImage.nii.gz}
+)
 
-set(ITKImageStatisticsGTests itkLabelOverlapMeasuresImageFilterGTest.cxx itkMinimumMaximumImageFilterGTest.cxx)
+set(
+  ITKImageStatisticsGTests
+  itkLabelOverlapMeasuresImageFilterGTest.cxx
+  itkMinimumMaximumImageFilterGTest.cxx
+)
 
 creategoogletestdriver(ITKImageStatistics "${ITKImageStatistics-Test_LIBRARIES}" "${ITKImageStatisticsGTests}")

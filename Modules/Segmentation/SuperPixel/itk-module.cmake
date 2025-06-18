@@ -1,5 +1,8 @@
-set(DOCUMENTATTION "This modules contains classes related to
-superpixel segmentation and clustering algorithms.")
+set(
+  DOCUMENTATTION
+  "This modules contains classes related to
+superpixel segmentation and clustering algorithms."
+)
 
 # define the dependencies of the include module and the tests
 itk_module(
@@ -15,4 +18,5 @@ itk_module(
   ITKGoogleTest
   ITKMetaIO
   DESCRIPTION
-  "${DOCUMENTATION}")
+  "${DOCUMENTATION}"
+)

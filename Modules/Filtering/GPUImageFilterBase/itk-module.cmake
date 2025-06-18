@@ -1,9 +1,11 @@
-set(DOCUMENTATION
-    "This module contains GPU implementations of the base
+set(
+  DOCUMENTATION
+  "This module contains GPU implementations of the base
 classes that support image filters. For the most part, these are classes
 that developers will use to create new image filters (and that are the
 base classes of existing image filters). You will find here: box filters,
-recursive separable filters and the base classes for neighborhood filters.")
+recursive separable filters and the base classes for neighborhood filters."
+)
 
 itk_module(
   ITKGPUImageFilterBase
@@ -15,4 +17,5 @@ itk_module(
   TEST_DEPENDS
   ITKTestKernel
   DESCRIPTION
-  "${DOCUMENTATION}")
+  "${DOCUMENTATION}"
+)

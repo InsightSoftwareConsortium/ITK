@@ -1,12 +1,14 @@
 itk_module_test()
-set(ITKIOTIFFTests
-    itkTIFFImageIOTest.cxx
-    itkTIFFImageIOTest2.cxx
-    itkTIFFImageIOCompressionTest.cxx
-    itkLargeTIFFImageWriteReadTest.cxx
-    itkTIFFImageIOInfoTest.cxx
-    itkTIFFImageIOTestPalette.cxx
-    itkTIFFImageIOIntPixelTest.cxx)
+set(
+  ITKIOTIFFTests
+  itkTIFFImageIOTest.cxx
+  itkTIFFImageIOTest2.cxx
+  itkTIFFImageIOCompressionTest.cxx
+  itkLargeTIFFImageWriteReadTest.cxx
+  itkTIFFImageIOInfoTest.cxx
+  itkTIFFImageIOTestPalette.cxx
+  itkTIFFImageIOIntPixelTest.cxx
+)
 
 createtestdriver(ITKIOTIFF "${ITKIOTIFF-Test_LIBRARIES}" "${ITKIOTIFFTests}")
 
@@ -20,7 +22,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTest_cthead1.tif
   itkTIFFImageIOTest
   DATA{${ITK_DATA_ROOT}/Input/cthead1.tif}
-  ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTest_cthead1.tif)
+  ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTest_cthead1.tif
+)
 itk_add_test(
   NAME
   itkTIFFImageIOTest1
@@ -31,7 +34,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/RGBTestImage.tif
   itkTIFFImageIOTest
   DATA{${ITK_DATA_ROOT}/Input/RGBTestImage.tif}
-  ${ITK_TEST_OUTPUT_DIR}/RGBTestImage.tif)
+  ${ITK_TEST_OUTPUT_DIR}/RGBTestImage.tif
+)
 itk_add_test(
   NAME
   itkTIFFImageIOTest2
@@ -42,7 +46,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/RGBTestImageCCITTFax3.tif
   itkTIFFImageIOTest
   DATA{${ITK_DATA_ROOT}/Input/RGBTestImageCCITTFax3.tif}
-  ${ITK_TEST_OUTPUT_DIR}/RGBTestImageCCITTFax3.tif)
+  ${ITK_TEST_OUTPUT_DIR}/RGBTestImageCCITTFax3.tif
+)
 itk_add_test(
   NAME
   itkTIFFImageIOTest3
@@ -53,7 +58,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/RGBTestImageCCITTFax4.tif
   itkTIFFImageIOTest
   DATA{${ITK_DATA_ROOT}/Input/RGBTestImageCCITTFax4.tif}
-  ${ITK_TEST_OUTPUT_DIR}/RGBTestImageCCITTFax4.tif)
+  ${ITK_TEST_OUTPUT_DIR}/RGBTestImageCCITTFax4.tif
+)
 itk_add_test(
   NAME
   itkTIFFImageIOTest4
@@ -64,7 +70,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/RGBTestImageGray.tif
   itkTIFFImageIOTest
   DATA{${ITK_DATA_ROOT}/Input/RGBTestImageGray.tif}
-  ${ITK_TEST_OUTPUT_DIR}/RGBTestImageGray.tif)
+  ${ITK_TEST_OUTPUT_DIR}/RGBTestImageGray.tif
+)
 itk_add_test(
   NAME
   itkTIFFImageIOTest5
@@ -75,7 +82,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/RGBTestImageHuffmanRLE.tif
   itkTIFFImageIOTest
   DATA{${ITK_DATA_ROOT}/Input/RGBTestImageHuffmanRLE.tif}
-  ${ITK_TEST_OUTPUT_DIR}/RGBTestImageHuffmanRLE.tif)
+  ${ITK_TEST_OUTPUT_DIR}/RGBTestImageHuffmanRLE.tif
+)
 itk_add_test(
   NAME
   itkTIFFImageIOTest6
@@ -86,7 +94,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/RGBTestImageJPEG.tif
   itkTIFFImageIOTest
   DATA{${ITK_DATA_ROOT}/Input/RGBTestImageJPEG.tif}
-  ${ITK_TEST_OUTPUT_DIR}/RGBTestImageJPEG.tif)
+  ${ITK_TEST_OUTPUT_DIR}/RGBTestImageJPEG.tif
+)
 itk_add_test(
   NAME
   itkTIFFImageIOTest7
@@ -97,7 +106,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/RGBTestImageLZW.tif
   itkTIFFImageIOTest
   DATA{${ITK_DATA_ROOT}/Input/RGBTestImageLZW.tif}
-  ${ITK_TEST_OUTPUT_DIR}/RGBTestImageLZW.tif)
+  ${ITK_TEST_OUTPUT_DIR}/RGBTestImageLZW.tif
+)
 itk_add_test(
   NAME
   itkTIFFImageIOTest8
@@ -108,7 +118,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/RGBTestImageNone.tif
   itkTIFFImageIOTest
   DATA{${ITK_DATA_ROOT}/Input/RGBTestImageNone.tif}
-  ${ITK_TEST_OUTPUT_DIR}/RGBTestImageNone.tif)
+  ${ITK_TEST_OUTPUT_DIR}/RGBTestImageNone.tif
+)
 itk_add_test(
   NAME
   itkTIFFImageIOTest9
@@ -119,7 +130,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/RGBTestImagePackBits.tif
   itkTIFFImageIOTest
   DATA{${ITK_DATA_ROOT}/Input/RGBTestImagePackBits.tif}
-  ${ITK_TEST_OUTPUT_DIR}/RGBTestImagePackBits.tif)
+  ${ITK_TEST_OUTPUT_DIR}/RGBTestImagePackBits.tif
+)
 itk_add_test(
   NAME
   itkTIFFImageIOTest10
@@ -130,7 +142,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/RGBTestImageZIP.tif
   itkTIFFImageIOTest
   DATA{${ITK_DATA_ROOT}/Input/RGBTestImageZIP.tif}
-  ${ITK_TEST_OUTPUT_DIR}/RGBTestImageZIP.tif)
+  ${ITK_TEST_OUTPUT_DIR}/RGBTestImageZIP.tif
+)
 itk_add_test(
   NAME
   itkTIFFImageIOTest11
@@ -143,7 +156,8 @@ itk_add_test(
   DATA{${ITK_DATA_ROOT}/Input/ShortTestImage.tiff}
   ${ITK_TEST_OUTPUT_DIR}/ShortTestImage.tiff
   2
-  2)
+  2
+)
 itk_add_test(
   NAME
   itkTIFFImageIOTest12
@@ -156,7 +170,8 @@ itk_add_test(
   DATA{${ITK_DATA_ROOT}/Input/48BitTestImage.tif}
   ${ITK_TEST_OUTPUT_DIR}/48BitTestImage.tif
   2
-  2)
+  2
+)
 itk_add_test(
   NAME
   itkTIFFImageIOTest13
@@ -167,7 +182,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/RGBTestImageCCITTFax3.mha
   itkTIFFImageIOTest
   DATA{${ITK_DATA_ROOT}/Input/RGBTestImageCCITTFax3.tif}
-  ${ITK_TEST_OUTPUT_DIR}/RGBTestImageCCITTFax3.mha)
+  ${ITK_TEST_OUTPUT_DIR}/RGBTestImageCCITTFax3.mha
+)
 itk_add_test(
   NAME
   itkTIFFImageIOTest14
@@ -178,7 +194,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/RGBTestImageCCITTFax4.mha
   itkTIFFImageIOTest
   DATA{${ITK_DATA_ROOT}/Input/RGBTestImageCCITTFax4.tif}
-  ${ITK_TEST_OUTPUT_DIR}/RGBTestImageCCITTFax4.mha)
+  ${ITK_TEST_OUTPUT_DIR}/RGBTestImageCCITTFax4.mha
+)
 itk_add_test(
   NAME
   itkTIFFImageIOTest15
@@ -191,7 +208,8 @@ itk_add_test(
   DATA{Input/jello.tif}
   ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTest15.png
   2
-  2)
+  2
+)
 
 itk_add_test(
   NAME
@@ -204,7 +222,8 @@ itk_add_test(
   itkTIFFImageIOTest
   DATA{${ITK_DATA_ROOT}/Input/ramp.tif}
   ${ITK_TEST_OUTPUT_DIR}/ramp.tif
-  3)
+  3
+)
 itk_add_test(
   NAME
   itkTIFFImageIOMultiPagesTest2
@@ -217,7 +236,8 @@ itk_add_test(
   DATA{${ITK_DATA_ROOT}/Input/rampShort.tif}
   ${ITK_TEST_OUTPUT_DIR}/rampShort.tif
   3
-  3)
+  3
+)
 itk_add_test(
   NAME
   itkTIFFImageIOMultResTest1
@@ -228,7 +248,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOMultResTest1.tif
   itkTIFFImageIOTest
   DATA{${ITK_DATA_ROOT}/Input/cthead1-multires.tif}
-  ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOMultResTest1.tif)
+  ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOMultResTest1.tif
+)
 itk_add_test(
   NAME
   itkTIFFImageIOMultResTest2
@@ -240,14 +261,16 @@ itk_add_test(
   itkTIFFImageIOTest
   DATA{${ITK_DATA_ROOT}/Input/cthead1-multires.tif}
   ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOMultResTest2.tif
-  3)
+  3
+)
 itk_add_test(
   NAME
   itkTIFFImageIOSpacing
   COMMAND
   ITKIOTIFFTestDriver
   itkTIFFImageIOTest2
-  ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOSpacing.tif)
+  ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOSpacing.tif
+)
 itk_add_test(
   NAME
   itkTIFFImageIOFloatTest
@@ -260,7 +283,8 @@ itk_add_test(
   DATA{Baseline/rampFloat.tif}
   ${ITK_TEST_OUTPUT_DIR}/rampFloat.tif
   3
-  4)
+  4
+)
 itk_add_test(
   NAME
   itkTIFFImageIORGBATest
@@ -273,7 +297,8 @@ itk_add_test(
   DATA{Input/RGBAHead.tif}
   ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIORGBATest.tif
   3
-  5)
+  5
+)
 
 itk_add_test(
   NAME
@@ -287,7 +312,8 @@ itk_add_test(
   DATA{Input/cthead_oriet_tl.tif}
   ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOOrientation1.tif
   2
-  1)
+  1
+)
 itk_add_test(
   NAME
   itkTIFFImageIOOrientation2
@@ -300,7 +326,8 @@ itk_add_test(
   DATA{Input/cthead_oriet_bl.tif}
   ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOOrientation2.tif
   2
-  1)
+  1
+)
 itk_add_test(
   NAME
   itkTIFFImageIOOrientation3
@@ -313,7 +340,8 @@ itk_add_test(
   DATA{Input/cthead_oriet_br.tif}
   ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOOrientation3.tif
   2
-  1)
+  1
+)
 itk_add_test(
   NAME
   itkTIFFImageIOOrientation4
@@ -326,7 +354,8 @@ itk_add_test(
   DATA{Input/cthead_oriet_tr.tif}
   ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOOrientation4.tif
   2
-  1)
+  1
+)
 itk_add_test(
   NAME
   itkTIFFImageIOPlannarConfig1
@@ -339,7 +368,8 @@ itk_add_test(
   DATA{Input/oxford.tif}
   ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOPlannarConfig1.tif
   2
-  1)
+  1
+)
 itk_add_test(
   NAME
   itkTIFFImageIOPlannarConfig2
@@ -352,7 +382,8 @@ itk_add_test(
   DATA{Input/ps-separated.tif}
   ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOPlannarConfig2.tif
   2
-  1)
+  1
+)
 itk_add_test(
   NAME
   itkTIFFImageIOTestUShortPlanarConfig2
@@ -365,7 +396,8 @@ itk_add_test(
   DATA{${ITK_DATA_ROOT}/Input/ShortPlanarTestImage.tiff}
   ${ITK_TEST_OUTPUT_DIR}/ShortPlanarTestImage.tiff
   2
-  5)
+  5
+)
 
 itk_add_test(
   NAME
@@ -373,24 +405,42 @@ itk_add_test(
   COMMAND
   ITKIOTIFFTestDriver
   itkTIFFImageIOInfoTest
-  DATA{Input/single-channel.ome.tif})
-set_tests_properties(itkTIFFImageIOInfoTest1 PROPERTIES PASS_REGULAR_EXPRESSION "OME-XML metadata block")
+  DATA{Input/single-channel.ome.tif}
+)
+set_tests_properties(
+  itkTIFFImageIOInfoTest1
+  PROPERTIES
+    PASS_REGULAR_EXPRESSION
+      "OME-XML metadata block"
+)
 itk_add_test(
   NAME
   itkTIFFImageIOInfoTest2
   COMMAND
   ITKIOTIFFTestDriver
   itkTIFFImageIOInfoTest
-  DATA{Input/ps-separated.tif})
-set_tests_properties(itkTIFFImageIOInfoTest2 PROPERTIES PASS_REGULAR_EXPRESSION "2014:09:24 14:16:01")
+  DATA{Input/ps-separated.tif}
+)
+set_tests_properties(
+  itkTIFFImageIOInfoTest2
+  PROPERTIES
+    PASS_REGULAR_EXPRESSION
+      "2014:09:24 14:16:01"
+)
 itk_add_test(
   NAME
   itkTIFFImageIOInfoTest3
   COMMAND
   ITKIOTIFFTestDriver
   itkTIFFImageIOInfoTest
-  DATA{Input/3d_spacing.tif})
-set_tests_properties(itkTIFFImageIOInfoTest3 PROPERTIES PASS_REGULAR_EXPRESSION "17 19 1")
+  DATA{Input/3d_spacing.tif}
+)
+set_tests_properties(
+  itkTIFFImageIOInfoTest3
+  PROPERTIES
+    PASS_REGULAR_EXPRESSION
+      "17 19 1"
+)
 
 ######################
 # Test Compression
@@ -401,17 +451,18 @@ foreach(f ${CompressionFiles})
   foreach(c ${Compression})
     set(file TestTIFFCompression_${f}_${c}.tif})
     itk_add_test(
-      NAME
-      itkTIFFImageIOCompression_${f}_${c}
-      COMMAND
-      ITKIOTIFFTestDriver
-      --compare
-      DATA{Baseline/TestTIFFCompression_${f}_${c}.tif}
-      ${ITK_TEST_OUTPUT_DIR}/TestTIFFCompression_${f}_${c}.tif
-      itkTIFFImageIOCompressionTest
-      DATA{${ITK_DATA_ROOT}/Input/${f}.tif}
-      ${ITK_TEST_OUTPUT_DIR}/TestTIFFCompression_${f}_${c}.tif
-      ${c})
+          NAME
+          itkTIFFImageIOCompression_${f}_${c}
+          COMMAND
+          ITKIOTIFFTestDriver
+          --compare
+          DATA{Baseline/TestTIFFCompression_${f}_${c}.tif}
+          ${ITK_TEST_OUTPUT_DIR}/TestTIFFCompression_${f}_${c}.tif
+          itkTIFFImageIOCompressionTest
+          DATA{${ITK_DATA_ROOT}/Input/${f}.tif}
+          ${ITK_TEST_OUTPUT_DIR}/TestTIFFCompression_${f}_${c}.tif
+          ${c}
+    )
   endforeach()
 endforeach()
 
@@ -422,117 +473,157 @@ foreach(f ${CompressionFiles})
   foreach(q ${Quality})
     set(file TestTIFFCompression_${f}_JPEG_${q}.tif})
     itk_add_test(
-      NAME
-      itkTIFFImageIOCompression_${f}_JPEG_${q}
-      COMMAND
-      ITKIOTIFFTestDriver
-      --compare
-      DATA{Baseline/TestTIFFCompression_${f}_JPEG_${q}.tif}
-      ${ITK_TEST_OUTPUT_DIR}/TestTIFFCompression_${f}_JPEG_${q}.tif
-      itkTIFFImageIOCompressionTest
-      DATA{${ITK_DATA_ROOT}/Input/${f}.tif}
-      ${ITK_TEST_OUTPUT_DIR}/TestTIFFCompression_${f}_JPEG_${q}.tif
-      JPEG
-      ${q})
+          NAME
+          itkTIFFImageIOCompression_${f}_JPEG_${q}
+          COMMAND
+          ITKIOTIFFTestDriver
+          --compare
+          DATA{Baseline/TestTIFFCompression_${f}_JPEG_${q}.tif}
+          ${ITK_TEST_OUTPUT_DIR}/TestTIFFCompression_${f}_JPEG_${q}.tif
+          itkTIFFImageIOCompressionTest
+          DATA{${ITK_DATA_ROOT}/Input/${f}.tif}
+          ${ITK_TEST_OUTPUT_DIR}/TestTIFFCompression_${f}_JPEG_${q}.tif
+          JPEG
+          ${q}
+    )
   endforeach()
 endforeach()
 
 ######################
 if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 5)
-
   # Image of 1.67 Gigabytes (pixels size is 16bits)
   itk_add_test(
-    NAME
-    itkLargeTIFFImageWriteReadTest1
-    COMMAND
-    ITKIOTIFFTestDriver
-    itkLargeTIFFImageWriteReadTest
-    ${ITK_TEST_OUTPUT_DIR}/LargeImage01.tif
-    30000L)
+      NAME
+      itkLargeTIFFImageWriteReadTest1
+      COMMAND
+      ITKIOTIFFTestDriver
+      itkLargeTIFFImageWriteReadTest
+      ${ITK_TEST_OUTPUT_DIR}/LargeImage01.tif
+      30000L
+  )
 
   # Image of 2.98 Gigabytes (pixels size is 16bits)
   itk_add_test(
-    NAME
-    itkLargeTIFFImageWriteReadTest2
-    COMMAND
-    ITKIOTIFFTestDriver
-    itkLargeTIFFImageWriteReadTest
-    ${ITK_TEST_OUTPUT_DIR}/LargeImage02.tif
-    40000L)
+      NAME
+      itkLargeTIFFImageWriteReadTest2
+      COMMAND
+      ITKIOTIFFTestDriver
+      itkLargeTIFFImageWriteReadTest
+      ${ITK_TEST_OUTPUT_DIR}/LargeImage02.tif
+      40000L
+  )
 
   # Image of 4.9 Gigabytes (pixels size is 8-bits out and 16-bit in)
   itk_add_test(
-    NAME
-    itkLargeTIFFImageWriteReadTest3
-    COMMAND
-    ITKIOTIFFTestDriver
-    itkLargeTIFFImageWriteReadTest
-    ${ITK_TEST_OUTPUT_DIR}/LargeImage03.tif
-    50000L)
+      NAME
+      itkLargeTIFFImageWriteReadTest3
+      COMMAND
+      ITKIOTIFFTestDriver
+      itkLargeTIFFImageWriteReadTest
+      ${ITK_TEST_OUTPUT_DIR}/LargeImage03.tif
+      50000L
+  )
 
   # Due to the large memory requirements this tests must be run one by one
   set_tests_properties(
-    itkLargeTIFFImageWriteReadTest1 itkLargeTIFFImageWriteReadTest2 itkLargeTIFFImageWriteReadTest3
-    PROPERTIES LABELS
-               BigIO
-               RESOURCE_LOCK
-               MEMORY_SIZE)
+    itkLargeTIFFImageWriteReadTest1
+    itkLargeTIFFImageWriteReadTest2
+    itkLargeTIFFImageWriteReadTest3
+    PROPERTIES
+      LABELS
+        BigIO
+      RESOURCE_LOCK
+        MEMORY_SIZE
+  )
   set_property(
-    TEST itkLargeTIFFImageWriteReadTest1
+    TEST
+      itkLargeTIFFImageWriteReadTest1
     APPEND
-    PROPERTY LABELS RUNS_LONG)
+    PROPERTY
+      LABELS
+        RUNS_LONG
+  )
   set_property(
-    TEST itkLargeTIFFImageWriteReadTest1
+    TEST
+      itkLargeTIFFImageWriteReadTest1
     APPEND
-    PROPERTY RUN_SERIAL True)
+    PROPERTY
+      RUN_SERIAL
+        True
+  )
   set_property(
-    TEST itkLargeTIFFImageWriteReadTest2
+    TEST
+      itkLargeTIFFImageWriteReadTest2
     APPEND
-    PROPERTY LABELS RUNS_LONG)
+    PROPERTY
+      LABELS
+        RUNS_LONG
+  )
   set_property(
-    TEST itkLargeTIFFImageWriteReadTest2
+    TEST
+      itkLargeTIFFImageWriteReadTest2
     APPEND
-    PROPERTY RUN_SERIAL True)
+    PROPERTY
+      RUN_SERIAL
+        True
+  )
   set_property(
-    TEST itkLargeTIFFImageWriteReadTest3
+    TEST
+      itkLargeTIFFImageWriteReadTest3
     APPEND
-    PROPERTY LABELS RUNS_LONG)
+    PROPERTY
+      LABELS
+        RUNS_LONG
+  )
   set_property(
-    TEST itkLargeTIFFImageWriteReadTest3
+    TEST
+      itkLargeTIFFImageWriteReadTest3
     APPEND
-    PROPERTY RUN_SERIAL True)
+    PROPERTY
+      RUN_SERIAL
+        True
+  )
 endif()
 
 if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 12)
-
   # Image of 9.12 Gigabytes (pixels size is 16bits)
   itk_add_test(
-    NAME
-    itkLargeTIFFImageWriteReadTest4
-    COMMAND
-    ITKIOTIFFTestDriver
-    itkLargeTIFFImageWriteReadTest
-    ${ITK_TEST_OUTPUT_DIR}/LargeImage04.tif
-    70000L)
+      NAME
+      itkLargeTIFFImageWriteReadTest4
+      COMMAND
+      ITKIOTIFFTestDriver
+      itkLargeTIFFImageWriteReadTest
+      ${ITK_TEST_OUTPUT_DIR}/LargeImage04.tif
+      70000L
+  )
 
   # Due to the large memory requirements this tests must lock the memory size resource
   set_tests_properties(
     itkLargeTIFFImageWriteReadTest4
-    PROPERTIES LABELS
-               BigIO
-               RESOURCE_LOCK
-               MEMORY_SIZE
-               COST
-               30)
+    PROPERTIES
+      LABELS
+        BigIO
+      RESOURCE_LOCK
+        MEMORY_SIZE
+      COST
+        30
+  )
   set_property(
-    TEST itkLargeTIFFImageWriteReadTest4
+    TEST
+      itkLargeTIFFImageWriteReadTest4
     APPEND
-    PROPERTY LABELS RUNS_LONG)
+    PROPERTY
+      LABELS
+        RUNS_LONG
+  )
   set_property(
-    TEST itkLargeTIFFImageWriteReadTest4
+    TEST
+      itkLargeTIFFImageWriteReadTest4
     APPEND
-    PROPERTY RUN_SERIAL True)
-
+    PROPERTY
+      RUN_SERIAL
+        True
+  )
 endif()
 
 # expand + RGB image
@@ -548,7 +639,8 @@ itk_add_test(
   DATA{Baseline/TestTIFFCompression_RGBTestImageJPEG_PackBits.tif}
   ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTestRGBExpanded.tif
   1
-  0)
+  0
+)
 
 # not expand + RGB image
 itk_add_test(
@@ -563,7 +655,8 @@ itk_add_test(
   DATA{Baseline/TestTIFFCompression_RGBTestImageJPEG_PackBits.tif}
   ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTestRGBNotExpanded.tif
   0
-  0)
+  0
+)
 
 # not expand + palette image
 itk_add_test(
@@ -578,7 +671,8 @@ itk_add_test(
   DATA{Input/HeliconiusNumataPalette.tif}
   ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTestPaletteNotExpanded.tif
   0
-  1)
+  1
+)
 
 # expand + palette image
 itk_add_test(
@@ -593,7 +687,8 @@ itk_add_test(
   DATA{Input/HeliconiusNumataPalette.tif}
   ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTestPaletteExpanded.tif
   1
-  1)
+  1
+)
 
 # not expand + grey palette image
 itk_add_test(
@@ -608,7 +703,8 @@ itk_add_test(
   DATA{Input/HeliconiusNumataPalette.tif}
   ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTestGreyPaletteNotExpanded.tif
   0
-  1)
+  1
+)
 
 # expand + grey palette image
 itk_add_test(
@@ -623,7 +719,8 @@ itk_add_test(
   DATA{Input/HeliconiusNumataPalette.tif}
   ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTestGreyPaletteExpanded.tif
   1
-  1)
+  1
+)
 
 itk_add_test(
   NAME
@@ -631,13 +728,15 @@ itk_add_test(
   COMMAND
   ITKIOTIFFTestDriver
   itkTIFFImageIOIntPixelTest
-  DATA{Input/int.tiff})
+  DATA{Input/int.tiff}
+)
 
 # Add GTest for TIFF module
-set(ITKIOTIFFGTests
-  itkImageSeriesReaderReverse.cxx
-)
+set(ITKIOTIFFGTests itkImageSeriesReaderReverse.cxx)
 creategoogletestdriver(ITKIOTIFF "${ITKIOTIFF-Test_LIBRARIES}" "${ITKIOTIFFGTests}")
 
-
-target_compile_definitions(ITKIOTIFFGTestDriver PRIVATE "-DITK_TEST_OUTPUT_DIR=${ITK_TEST_OUTPUT_DIR}")
+target_compile_definitions(
+  ITKIOTIFFGTestDriver
+  PRIVATE
+    "-DITK_TEST_OUTPUT_DIR=${ITK_TEST_OUTPUT_DIR}"
+)

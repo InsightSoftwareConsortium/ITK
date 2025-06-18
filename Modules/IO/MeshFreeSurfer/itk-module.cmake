@@ -1,5 +1,8 @@
-set(DOCUMENTATION "This module contains classes for reading and writing
-Meshes in the FreeSurfer file format.")
+set(
+  DOCUMENTATION
+  "This module contains classes for reading and writing
+Meshes in the FreeSurfer file format."
+)
 itk_module(
   ITKIOMeshFreeSurfer
   ENABLE_SHARED
@@ -15,4 +18,5 @@ itk_module(
   MeshIO::FreeSurferAscii
   MeshIO::FreeSurferBinary
   DESCRIPTION
-  "${DOCUMENTATION}")
+  "${DOCUMENTATION}"
+)

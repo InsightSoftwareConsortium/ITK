@@ -1,11 +1,13 @@
 itk_module_test()
-set(ITKFEMRegistrationTests
-    itkFEMFiniteDifferenceFunctionLoadTest.cxx
-    itkFEMRegistrationFilterTest.cxx
-    itkFEMRegistrationFilter2DTest.cxx
-    itkMIRegistrationFunctionTest.cxx
-    itkFEMRegistrationFilterTest2.cxx
-    itkPhysicsBasedNonRigidRegistrationMethodTest.cxx)
+set(
+  ITKFEMRegistrationTests
+  itkFEMFiniteDifferenceFunctionLoadTest.cxx
+  itkFEMRegistrationFilterTest.cxx
+  itkFEMRegistrationFilter2DTest.cxx
+  itkMIRegistrationFunctionTest.cxx
+  itkFEMRegistrationFilterTest2.cxx
+  itkPhysicsBasedNonRigidRegistrationMethodTest.cxx
+)
 
 # For itkPhysicsBasedNonRigidRegistrationMethodTest.cxx
 include_directories(${ITKFEMRegistration_SOURCE_DIR}/test)
@@ -18,7 +20,8 @@ itk_add_test(
   COMMAND
   ITKFEMRegistrationTestDriver
   itkFEMFiniteDifferenceFunctionLoadTest
-  ${ITK_TEST_OUTPUT_DIR}/FiniteDifferenceFunctionLoadTest)
+  ${ITK_TEST_OUTPUT_DIR}/FiniteDifferenceFunctionLoadTest
+)
 itk_add_test(
   NAME
   itkFEMRegistrationFilterTest
@@ -26,7 +29,8 @@ itk_add_test(
   ITKFEMRegistrationTestDriver
   itkFEMRegistrationFilterTest
   ${ITK_TEST_OUTPUT_DIR}/FEMDeformationField3D
-  ${ITK_TEST_OUTPUT_DIR}/FEMDeformedMovingImage3D)
+  ${ITK_TEST_OUTPUT_DIR}/FEMDeformedMovingImage3D
+)
 itk_add_test(
   NAME
   itkFEMRegistrationFilter2DTest
@@ -34,13 +38,15 @@ itk_add_test(
   ITKFEMRegistrationTestDriver
   itkFEMRegistrationFilter2DTest
   ${ITK_TEST_OUTPUT_DIR}/FEMDeformationField2D
-  ${ITK_TEST_OUTPUT_DIR}/FEMDeformedMovingImage2D)
+  ${ITK_TEST_OUTPUT_DIR}/FEMDeformedMovingImage2D
+)
 itk_add_test(
   NAME
   itkMIRegistrationFunctionTest
   COMMAND
   ITKFEMRegistrationTestDriver
-  itkMIRegistrationFunctionTest)
+  itkMIRegistrationFunctionTest
+)
 itk_add_test(
   NAME
   itkFEMRegistrationFilterTest2
@@ -48,7 +54,8 @@ itk_add_test(
   ITKFEMRegistrationTestDriver
   itkFEMRegistrationFilterTest2
   ${ITK_TEST_OUTPUT_DIR}/FEMDeformationField3DMultiRes
-  ${ITK_TEST_OUTPUT_DIR}/FEMDeformedMovingImage3DMultiRes)
+  ${ITK_TEST_OUTPUT_DIR}/FEMDeformedMovingImage3DMultiRes
+)
 itk_add_test(
   NAME
   itkPhysicsBasedNonRigidRegistrationMethodTest
@@ -74,4 +81,5 @@ itk_add_test(
   2
   5
   10
-  10)
+  10
+)

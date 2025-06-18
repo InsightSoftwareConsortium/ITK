@@ -1,5 +1,10 @@
 itk_module_test()
-set(ITKVideoBridgeVXLTests itkVXLVideoIOFactoryTest.cxx itkVXLVideoIOTest.cxx vidl_itk_istreamTest.cxx)
+set(
+  ITKVideoBridgeVXLTests
+  itkVXLVideoIOFactoryTest.cxx
+  itkVXLVideoIOTest.cxx
+  vidl_itk_istreamTest.cxx
+)
 
 if(ITK_USE_SYSTEM_VXL)
   include(${VXL_CMAKE_DIR}/UseVXL.cmake)
@@ -35,7 +40,8 @@ itk_add_test(
   # Output:
   ${ITK_TEST_OUTPUT_DIR}/VXLVideoIOTest_Out.avi
   # Webcam Number:
-  0)
+  0
+)
 itk_add_test(
   NAME
   vidl_itk_istreamTest
@@ -48,4 +54,5 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/vidl_itk_istreamTest_Out.avi
   # Width Height
   320
-  240)
+  240
+)

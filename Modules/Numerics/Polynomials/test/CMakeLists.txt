@@ -8,4 +8,5 @@ itk_add_test(
   itkMultivariateLegendrePolynomialTest
   COMMAND
   ITKPolynomialsTestDriver
-  itkMultivariateLegendrePolynomialTest)
+  itkMultivariateLegendrePolynomialTest
+)

@@ -3,58 +3,69 @@
 # itk_add_test(NAME itkVectorMultiplyTest COMMAND ITKCommon2TestDriver itkVectorMultiplyTest)
 if(ITK_WRAP_PYTHON)
   itk_python_add_test(
-    NAME
-    itkMetaDataDictionaryPythonTest
-    COMMAND
-    ${CMAKE_CURRENT_SOURCE_DIR}/itkMetaDataDictionaryTest.py)
+      NAME
+      itkMetaDataDictionaryPythonTest
+      COMMAND
+      ${CMAKE_CURRENT_SOURCE_DIR}/itkMetaDataDictionaryTest.py
+  )
   itk_python_add_test(
-    NAME
-    itkDirectoryPythonTest
-    COMMAND
-    ${CMAKE_CURRENT_SOURCE_DIR}/itkDirectoryTest.py)
+      NAME
+      itkDirectoryPythonTest
+      COMMAND
+      ${CMAKE_CURRENT_SOURCE_DIR}/itkDirectoryTest.py
+  )
   itk_python_expression_add_test(
-    NAME
-    itkObjectPythonTest
-    EXPRESSION
-    "itkObject = itk.Object.New()")
+      NAME
+      itkObjectPythonTest
+      EXPRESSION
+      "itkObject = itk.Object.New()"
+  )
   itk_python_add_test(
-    NAME
-    itkIndexOffsetPythonTest
-    COMMAND
-    ${CMAKE_CURRENT_SOURCE_DIR}/itkIndexOffsetTest.py)
+      NAME
+      itkIndexOffsetPythonTest
+      COMMAND
+      ${CMAKE_CURRENT_SOURCE_DIR}/itkIndexOffsetTest.py
+  )
   itk_python_add_test(
-    NAME
-    itkImageDuplicatorPythonTest
-    COMMAND
-    ${CMAKE_CURRENT_SOURCE_DIR}/itkImageDuplicatorTest.py)
+      NAME
+      itkImageDuplicatorPythonTest
+      COMMAND
+      ${CMAKE_CURRENT_SOURCE_DIR}/itkImageDuplicatorTest.py
+  )
   itk_python_add_test(
-    NAME
-    itkImagePythonTest
-    COMMAND
-    ${CMAKE_CURRENT_SOURCE_DIR}/itkImageTest.py)
+      NAME
+      itkImagePythonTest
+      COMMAND
+      ${CMAKE_CURRENT_SOURCE_DIR}/itkImageTest.py
+  )
   itk_python_add_test(
-    NAME
-    itkMatrixPythonTest
-    COMMAND
-    ${CMAKE_CURRENT_SOURCE_DIR}/itkMatrixTest.py)
+      NAME
+      itkMatrixPythonTest
+      COMMAND
+      ${CMAKE_CURRENT_SOURCE_DIR}/itkMatrixTest.py
+  )
   itk_python_add_test(
-    NAME
-    itkVariableLengthVectorPythonTest
-    COMMAND
-    ${CMAKE_CURRENT_SOURCE_DIR}/itkVariableLengthVectorTest.py)
+      NAME
+      itkVariableLengthVectorPythonTest
+      COMMAND
+      ${CMAKE_CURRENT_SOURCE_DIR}/itkVariableLengthVectorTest.py
+  )
   itk_python_add_test(
-    NAME
-    itkPointSetSerializationPythonTest
-    COMMAND
-    ${CMAKE_CURRENT_SOURCE_DIR}/itkPointSetSerializationTest.py)
+      NAME
+      itkPointSetSerializationPythonTest
+      COMMAND
+      ${CMAKE_CURRENT_SOURCE_DIR}/itkPointSetSerializationTest.py
+  )
   itk_python_add_test(
-    NAME
-    itkPointSetPythonTest
-    COMMAND
-    ${CMAKE_CURRENT_SOURCE_DIR}/itkPointSetTest.py)
+      NAME
+      itkPointSetPythonTest
+      COMMAND
+      ${CMAKE_CURRENT_SOURCE_DIR}/itkPointSetTest.py
+  )
   itk_python_add_test(
-    NAME
-    itkSpatialOrientationAdapterPythonTest
-    COMMAND
-    ${CMAKE_CURRENT_SOURCE_DIR}/itkSpatialOrientationAdapterTest.py)
+      NAME
+      itkSpatialOrientationAdapterPythonTest
+      COMMAND
+      ${CMAKE_CURRENT_SOURCE_DIR}/itkSpatialOrientationAdapterTest.py
+  )
 endif()

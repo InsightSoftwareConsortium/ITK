@@ -12,10 +12,17 @@ macro(itk_end_wrap_module)
   #  ${THIS_MODULE_SUBMODULE_ORDER}
 
   if(NOT TARGET ${WRAPPER_LIBRARY_NAME}CastXML)
-    add_custom_target(${WRAPPER_LIBRARY_NAME}CastXML DEPENDS ${CastXML_OUTPUT_FILES})
-    set(${WRAPPER_LIBRARY_NAME}XmlFiles
+    add_custom_target(
+      ${WRAPPER_LIBRARY_NAME}CastXML
+      DEPENDS
         ${CastXML_OUTPUT_FILES}
-        CACHE INTERNAL "Internal ${WRAPPER_LIBRARY_NAME}Xml file list.")
+    )
+    set(
+      ${WRAPPER_LIBRARY_NAME}XmlFiles
+      ${CastXML_OUTPUT_FILES}
+      CACHE INTERNAL
+      "Internal ${WRAPPER_LIBRARY_NAME}Xml file list."
+    )
   endif()
 
   # Loop over the extra swig input files and copy them to the Typedefs directory
@@ -37,7 +44,8 @@ macro(itk_end_wrap_module)
       APPEND
       swig_libs
       --swig-include
-      ${basename})
+      ${basename}
+    )
     file(COPY "${swig_lib}" DESTINATION "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}")
   endforeach()
   unset(basename)
@@ -50,7 +58,10 @@ macro(itk_end_wrap_module)
   unset(typedef_in_files)
   unset(typedef_files)
   set(mdx_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.mdx")
-  set(module_interface_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.i")
+  set(
+    module_interface_file
+    "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.i"
+  )
 
   # ITK_PYI_INDEX_FILES: A list of the index files generated for a specific submodule
   #   Used to generate a complete list of index files generated which should be used as a
@@ -60,10 +71,18 @@ macro(itk_end_wrap_module)
 
   foreach(_module ${THIS_MODULE_SUBMODULE_ORDER})
     # create the swig interface
-    list(APPEND typedef_in_files "${WRAPPER_LIBRARY_OUTPUT_DIR}/castxml_inputs/${_module}SwigInterface.h.in")
+    list(
+      APPEND
+      typedef_in_files
+      "${WRAPPER_LIBRARY_OUTPUT_DIR}/castxml_inputs/${_module}SwigInterface.h.in"
+    )
     list(APPEND i_files "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${_module}.i")
     list(APPEND idx_files "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${_module}.idx")
-    list(APPEND typedef_files "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${_module}SwigInterface.h")
+    list(
+      APPEND
+      typedef_files
+      "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${_module}SwigInterface.h"
+    )
 
     # ITK_PYI_INDEX_FILES: A list of the index files generated for a specific submodule
     #   Used to generate a complete list of index files generated which should be used as a
@@ -83,7 +102,11 @@ macro(itk_end_wrap_module)
   unset(mdx_opts)
   unset(deps_imports)
 
-  list(APPEND mdx_files "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.mdx")
+  list(
+    APPEND
+    mdx_files
+    "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.mdx"
+  )
   foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
     list(APPEND mdx_files "${WRAP_ITK_TYPEDEFS_DIRECTORY}/${dep}.mdx")
     list(APPEND deps_imports "%import ${dep}.i\n")
@@ -94,31 +117,45 @@ macro(itk_end_wrap_module)
       APPEND
       mdx_opts
       --mdx
-      ${mdx_file})
+      ${mdx_file}
+    )
   endforeach()
 
   set(CONFIG_INDEX_FILE_CONTENT "${SWIG_INTERFACE_MDX_CONTENT}")
   # ONLY 1 variable @CONFIG_INDEX_FILE_CONTENT@"
-  configure_file("${ITK_WRAP_SWIGINTERFACE_SOURCE_DIR}/Master.mdx.in" "${mdx_file}" @ONLY)
+  configure_file(
+    "${ITK_WRAP_SWIGINTERFACE_SOURCE_DIR}/Master.mdx.in"
+    "${mdx_file}"
+    @ONLY
+  )
   unset(CONFIG_INDEX_FILE_CONTENT)
 
   unset(CONFIG_MODULE_INTERFACE_CONTENT) #"${deps_imports}${SWIG_INTERFACE_MODULE_CONTENT}")
   #@WRAPPER_LIBRARY_NAME@ @CONFIG_MODULE_INTERFACE_INCLUDES@ CONFIG_MODULE_INTERFACE_INCLUDES@
-  configure_file("${ITK_WRAP_SWIGINTERFACE_SOURCE_DIR}/module.i.in" "${module_interface_file}" @ONLY)
+  configure_file(
+    "${ITK_WRAP_SWIGINTERFACE_SOURCE_DIR}/module.i.in"
+    "${module_interface_file}"
+    @ONLY
+  )
   unset(deps_imports)
   unset(module_interface_file)
 
   set(WRAPPING_CONFIG_WORKING_DIR "${ITK_DIR}/Wrapping/WorkingDirectory")
   list(LENGTH i_files number_interface_files)
   if(number_interface_files GREATER 0)
-
     file(MAKE_DIRECTORY "${WRAPPING_CONFIG_WORKING_DIR}")
 
     # NOTE:  snake_case_config_file is both an input and an output to this command.
     #        the ${IGENERATOR} script appends to this file.
     # NOTE: The Configuration files should be placed in the itk package directory.
-    set(ITK_WRAP_PYTHON_SNAKE_CONFIG_DIR "${WRAPPER_LIBRARY_OUTPUT_DIR}/Generators/Python/itk/Configuration")
-    set(snake_case_config_file "${ITK_WRAP_PYTHON_SNAKE_CONFIG_DIR}/${WRAPPER_LIBRARY_NAME}_snake_case.py")
+    set(
+      ITK_WRAP_PYTHON_SNAKE_CONFIG_DIR
+      "${WRAPPER_LIBRARY_OUTPUT_DIR}/Generators/Python/itk/Configuration"
+    )
+    set(
+      snake_case_config_file
+      "${ITK_WRAP_PYTHON_SNAKE_CONFIG_DIR}/${WRAPPER_LIBRARY_NAME}_snake_case.py"
+    )
     unset(ITK_WRAP_PYTHON_SNAKE_CONFIG_DIR)
 
     # Set up outputs and byproducts for custom command
@@ -128,8 +165,7 @@ macro(itk_end_wrap_module)
     list(APPEND igenerator_outputs "${i_files}") # Typedefs/<class>.i
     list(APPEND igenerator_outputs "${typedef_files}") # Typedefs/<class>SwigInterface.h
     list(APPEND igenerator_outputs "${idx_files}") # Typedefs/<class>.idx
-    list(APPEND igenerator_outputs "${snake_case_config_file}"
-    )# Generators/Python/itk/Configuration/<module>_snake_case.py
+    list(APPEND igenerator_outputs "${snake_case_config_file}") # Generators/Python/itk/Configuration/<module>_snake_case.py
     if(CMAKE_GENERATOR STREQUAL "Ninja")
       # Ninja generator requires byproduct for correct dependency handling
       # See https://cmake.org/cmake/help/latest/policy/CMP0058.html
@@ -140,23 +176,31 @@ macro(itk_end_wrap_module)
 
     # Generate custom wrapping files via igenerator.py
     add_custom_command(
-      OUTPUT ${igenerator_outputs}
-      BYPRODUCTS ${igenerator_byproducts}
+      OUTPUT
+        ${igenerator_outputs}
+      BYPRODUCTS
+        ${igenerator_byproducts}
       COMMAND
-        ${Python3_EXECUTABLE} ${IGENERATOR} ${mdx_opts} ${swig_libs} -w1 -w3 -w51 -w52 -w53 -w54 -A protected -A private
-        -p ${PYGCCXML_DIR} -g ${CASTXML_EXECUTABLE} --snake-case-file "${snake_case_config_file}" --interface-output-dir
-        "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}" --library-output-dir "${WRAPPER_LIBRARY_OUTPUT_DIR}" --submodule-order
-        "${THIS_MODULE_SUBMODULE_ORDER}" --pyi_index_list "${ITK_PYI_INDEX_FILES}" --pyi_dir "${ITK_STUB_DIR}" --pkl_dir
+        ${Python3_EXECUTABLE} ${IGENERATOR} ${mdx_opts} ${swig_libs} -w1 -w3
+        -w51 -w52 -w53 -w54 -A protected -A private -p ${PYGCCXML_DIR} -g
+        ${CASTXML_EXECUTABLE} --snake-case-file "${snake_case_config_file}"
+        --interface-output-dir "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}"
+        --library-output-dir "${WRAPPER_LIBRARY_OUTPUT_DIR}" --submodule-order
+        "${THIS_MODULE_SUBMODULE_ORDER}" --pyi_index_list
+        "${ITK_PYI_INDEX_FILES}" --pyi_dir "${ITK_STUB_DIR}" --pkl_dir
         "${ITK_PKL_DIR}"
-      DEPENDS ${IGENERATOR}
-              ${ITK_WRAP_DOC_DOCSTRING_FILES}
-              ${CastXML_OUTPUT_FILES}
-              ${typedef_in_files}
-              ${mdx_files}
-              ${WRAPPER_SWIG_LIBRARY_FILES}
-      WORKING_DIRECTORY "${WRAPPING_CONFIG_WORKING_DIR}" # Arguments to WORKING_DIRECTORY may use generator expressions
+      DEPENDS
+        ${IGENERATOR}
+        ${ITK_WRAP_DOC_DOCSTRING_FILES}
+        ${CastXML_OUTPUT_FILES}
+        ${typedef_in_files}
+        ${mdx_files}
+        ${WRAPPER_SWIG_LIBRARY_FILES}
+      WORKING_DIRECTORY
+        "${WRAPPING_CONFIG_WORKING_DIR}" # Arguments to WORKING_DIRECTORY may use generator expressions
       COMMENT "Run igenerator.py for ${WRAPPER_LIBRARY_NAME}"
-      VERBATIM)
+      VERBATIM
+    )
 
     unset(snake_case_config_file)
   else()
@@ -175,10 +219,12 @@ macro(itk_end_wrap_module)
   if(NOT TARGET ${WRAPPER_LIBRARY_NAME}Swig)
     add_custom_target(
       ${WRAPPER_LIBRARY_NAME}Swig
-      DEPENDS ${mdx_file}
-              ${i_files}
-              ${typedef_files}
-              ${idx_files})
+      DEPENDS
+        ${mdx_file}
+        ${i_files}
+        ${typedef_files}
+        ${idx_files}
+    )
     add_dependencies(${WRAPPER_LIBRARY_NAME}Swig ${WRAPPER_LIBRARY_NAME}CastXML)
   endif()
   unset(typedef_files)
@@ -196,18 +242,30 @@ macro(itk_end_wrap_module)
   list(APPEND GLOBAL_IdxFilesList ${ITK_PYI_INDEX_FILES})
   list(REMOVE_DUPLICATES GLOBAL_IdxFilesList)
 
-  set(GLOBAL_IdxFilesList
-      ${GLOBAL_IdxFilesList}
-      CACHE INTERNAL "Master list of all idx files")
-  set(${WRAPPER_LIBRARY_NAME}PyiIdxFiles
-      ${ITK_PYI_INDEX_FILES}
-      CACHE INTERNAL "Internal ${WRAPPER_LIBRARY_NAME} .index.txt file list")
-  set(${WRAPPER_LIBRARY_NAME}IdxFiles
-      ${idx_files}
-      CACHE INTERNAL "Internal ${WRAPPER_LIBRARY_NAME}Idx file list.")
-  set(${WRAPPER_LIBRARY_NAME}SwigFiles
-      ${i_files}
-      CACHE INTERNAL "Internal ${WRAPPER_LIBRARY_NAME}Swig file list.")
+  set(
+    GLOBAL_IdxFilesList
+    ${GLOBAL_IdxFilesList}
+    CACHE INTERNAL
+    "Master list of all idx files"
+  )
+  set(
+    ${WRAPPER_LIBRARY_NAME}PyiIdxFiles
+    ${ITK_PYI_INDEX_FILES}
+    CACHE INTERNAL
+    "Internal ${WRAPPER_LIBRARY_NAME} .index.txt file list"
+  )
+  set(
+    ${WRAPPER_LIBRARY_NAME}IdxFiles
+    ${idx_files}
+    CACHE INTERNAL
+    "Internal ${WRAPPER_LIBRARY_NAME}Idx file list."
+  )
+  set(
+    ${WRAPPER_LIBRARY_NAME}SwigFiles
+    ${i_files}
+    CACHE INTERNAL
+    "Internal ${WRAPPER_LIBRARY_NAME}Swig file list."
+  )
 
   unset(idx_files)
   unset(ITK_PYI_INDEX_FILES)
@@ -235,43 +293,52 @@ macro(itk_end_wrap_module)
   endforeach()
 
   # ITKPyBase is always included, excepted ITKPyBase itself
-  if(NOT
-     "${WRAPPER_LIBRARY_NAME}"
-     STREQUAL
-     "ITKPyBase")
+  if(NOT "${WRAPPER_LIBRARY_NAME}" STREQUAL "ITKPyBase")
     string(PREPEND ITK_WRAP_PYTHON_CONFIGURATION_DEPENDS "'ITKPyBase', ")
-    string(PREPEND ITK_WRAP_PYTHON_LIBRARY_IMPORTS "import itk.ITKPyBasePython\n")
-    set(ITK_WRAP_PYTHON_SNAKE_CASE
-        "${ITK_WRAP_PYTHON_ROOT_BINARY_DIR}/itk/Configuration/${WRAPPER_LIBRARY_NAME}_snake_case.py")
+    string(
+      PREPEND
+      ITK_WRAP_PYTHON_LIBRARY_IMPORTS
+      "import itk.ITKPyBasePython\n"
+    )
+    set(
+      ITK_WRAP_PYTHON_SNAKE_CASE
+      "${ITK_WRAP_PYTHON_ROOT_BINARY_DIR}/itk/Configuration/${WRAPPER_LIBRARY_NAME}_snake_case.py"
+    )
   else()
     unset(ITK_WRAP_PYTHON_SNAKE_CASE)
   endif()
-  set(ITK_WRAP_PYTHON_LIBRARY_CONFIG_FILE
-      "${ITK_WRAP_PYTHON_ROOT_BINARY_DIR}/itk/Configuration/${WRAPPER_LIBRARY_NAME}Config.py")
+  set(
+    ITK_WRAP_PYTHON_LIBRARY_CONFIG_FILE
+    "${ITK_WRAP_PYTHON_ROOT_BINARY_DIR}/itk/Configuration/${WRAPPER_LIBRARY_NAME}Config.py"
+  )
 
   # Pass module factory names into module configuration
   set(ITK_WRAP_PYTHON_CONFIGURATION_FACTORIES)
   foreach(factory IN LISTS ITK_MODULE_${WRAPPER_LIBRARY_NAME}_FACTORY_NAMES)
+    string(REPLACE "::" "\",\"" factory_list ${factory})
     string(
-      REPLACE "::"
-              "\",\""
-              factory_list
-              ${factory})
-    string(APPEND ITK_WRAP_PYTHON_CONFIGURATION_FACTORIES "(\"${factory_list}\"),")
+      APPEND
+      ITK_WRAP_PYTHON_CONFIGURATION_FACTORIES
+      "(\"${factory_list}\"),"
+    )
   endforeach()
 
   # and create the file, with the var ITK_WRAP_PYTHON_CONFIGURATION_TEMPLATES and
   # ITK_WRAP_PYTHON_CONFIGURATION_DEPENDS created earlier
-  configure_file("${ITK_WRAP_PYTHON_SOURCE_DIR}/itk/support/ModuleConfig.py.in"
-                 "${ITK_WRAP_PYTHON_LIBRARY_CONFIG_FILE}" @ONLY)
+  configure_file(
+    "${ITK_WRAP_PYTHON_SOURCE_DIR}/itk/support/ModuleConfig.py.in"
+    "${ITK_WRAP_PYTHON_LIBRARY_CONFIG_FILE}"
+    @ONLY
+  )
   unset(ITK_WRAP_PYTHON_CONFIGURATION_DEPENDS)
   unset(ITK_WRAP_PYTHON_CONFIGURATION_TEMPLATES)
 
   wrap_itk_python_bindings_install(
-    /itk/Configuration
-    "${WRAPPER_LIBRARY_NAME}"
-    "${ITK_WRAP_PYTHON_LIBRARY_CONFIG_FILE}"
-    "${ITK_WRAP_PYTHON_SNAKE_CASE}")
+      /itk/Configuration
+      "${WRAPPER_LIBRARY_NAME}"
+      "${ITK_WRAP_PYTHON_LIBRARY_CONFIG_FILE}"
+      "${ITK_WRAP_PYTHON_SNAKE_CASE}"
+  )
   unset(ITK_WRAP_PYTHON_LIBRARY_CONFIG_FILE)
   unset(ITK_WRAP_PYTHON_SNAKE_CASE)
 
@@ -279,14 +346,17 @@ macro(itk_end_wrap_module)
   unset(ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_CALLS)
   if(NOT BUILD_SHARED_LIBS)
     if(WRAPPER_LIBRARY_NAME STREQUAL "ITKCommon")
-
       if(WIN32)
         set(DO_NOT_WAIT_FOR_THREADS_DECLS "#include \"itkThreadPool.h\"")
-        set(DO_NOT_WAIT_FOR_THREADS_CALLS "itk::ThreadPool::SetDoNotWaitForThreads(true);")
+        set(
+          DO_NOT_WAIT_FOR_THREADS_CALLS
+          "itk::ThreadPool::SetDoNotWaitForThreads(true);"
+        )
       endif()
 
-      set(ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_DECLS
-          "
+      set(
+        ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_DECLS
+        "
 #define _ITKCommonPython_MODULE
 #include \"itkPyITKCommonCAPI.h\"
 ${DO_NOT_WAIT_FOR_THREADS_DECLS}
@@ -300,10 +370,12 @@ itk::ObjectFactoryBase::Initialize();
 return itk::SingletonIndex::GetInstance();
 }
 
-")
+"
+      )
 
-      set(ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_CALLS
-          "
+      set(
+        ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_CALLS
+        "
 static void * _ITKCommonPython_API[_ITKCommonPython_API_pointers];
 
 /* Initialize the C API pointer array */
@@ -318,15 +390,19 @@ if(cAPIObject != NULL)
 PyModule_AddObject(m, \"_C_API\", cAPIObject);
 }
 ${DO_NOT_WAIT_FOR_THREADS_CALLS}
-")
+"
+      )
     elseif("ITKCommon" IN_LIST WRAPPER_LIBRARY_LINK_LIBRARIES)
-      set(ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_DECLS
-          "
+      set(
+        ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_DECLS
+        "
 #include \"itkPyITKCommonCAPI.h\"
 ${DO_NOT_WAIT_FOR_THREADS_DECLS}
-")
-      set(ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_CALLS
-          "
+"
+      )
+      set(
+        ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_CALLS
+        "
 if(import__ITKCommonPython() < 0)
 {
 #if PY_VERSION_HEX >= 0x03000000
@@ -338,7 +414,8 @@ return;
 itk::SingletonIndex::SetInstance(_ITKCommonPython_GetGlobalSingletonIndex());
 itk::ObjectFactoryBase::Initialize();
 ${DO_NOT_WAIT_FOR_THREADS_CALLS}
-")
+"
+      )
     endif()
   endif()
 
@@ -351,8 +428,11 @@ ${DO_NOT_WAIT_FOR_THREADS_CALLS}
   # ITK_WRAP_PYTHON_LIBRARY_DECLS, ITK_WRAP_PYTHON_LIBRARY_CALLS,
   # ITK_WRAP_PYTHON_LIBRARY_IMPORTS,
   # ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_CALLS, ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_DECLS
-  configure_file("${ITK_WRAP_PYTHON_SOURCE_DIR}/main_module_ext.i.in"
-                 "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python/${WRAPPER_LIBRARY_NAME}_ext.i" @ONLY)
+  configure_file(
+    "${ITK_WRAP_PYTHON_SOURCE_DIR}/main_module_ext.i.in"
+    "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python/${WRAPPER_LIBRARY_NAME}_ext.i"
+    @ONLY
+  )
 
   unset(ITK_WRAP_PYTHON_LIBRARY_DECLS)
   unset(ITK_WRAP_PYTHON_LIBRARY_CALLS)
@@ -363,35 +443,54 @@ ${DO_NOT_WAIT_FOR_THREADS_CALLS}
   unset(DO_NOT_WAIT_FOR_THREADS_DECLS)
 
   # set some var reused later
-  set(interface_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.i")
+  set(
+    interface_file
+    "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.i"
+  )
   set(_swig_python_suffix "Python")
   set(lib ${WRAPPER_LIBRARY_NAME}${_swig_python_suffix})
-  set(python_file "${ITK_PYTHON_PACKAGE_DIR}/${WRAPPER_LIBRARY_NAME}${_swig_python_suffix}.py")
-  set(cpp_file "${CMAKE_CURRENT_BINARY_DIR}/${WRAPPER_LIBRARY_NAME}${_swig_python_suffix}.cpp")
+  set(
+    python_file
+    "${ITK_PYTHON_PACKAGE_DIR}/${WRAPPER_LIBRARY_NAME}${_swig_python_suffix}.py"
+  )
+  set(
+    cpp_file
+    "${CMAKE_CURRENT_BINARY_DIR}/${WRAPPER_LIBRARY_NAME}${_swig_python_suffix}.cpp"
+  )
   unset(_swig_python_suffix)
 
   # if this is for an external library, let the user add extra swig args
   if(EXTERNAL_WRAP_ITK_PROJECT)
-    set(WRAP_ITK_SWIG_ARGS_PYTHON
-        ""
-        CACHE STRING "Extra user-defined swig arguments to be to the swig executable.")
+    set(
+      WRAP_ITK_SWIG_ARGS_PYTHON
+      ""
+      CACHE STRING
+      "Extra user-defined swig arguments to be to the swig executable."
+    )
     mark_as_advanced(WRAP_ITK_SWIG_ARGS_PYTHON)
   endif()
 
   # Run swig to produce the *Python.cpp and the *Python.py file
   itk_setup_swig_python(
-    "Module"
-    ${base_name}
-    ${interface_file}
-    ${python_file}
-    ${cpp_file}
-    "")
+      "Module"
+      ${base_name}
+      ${interface_file}
+      ${python_file}
+      ${cpp_file}
+      ""
+  )
 
   set(use_python_limited_api_default 0)
   if(ITK_WRAP_PYTHON_VERSION VERSION_GREATER_EQUAL 3.11)
     set(use_python_limited_api_default 1)
   endif()
-  set(ITK_USE_PYTHON_LIMITED_API ${use_python_limited_api_default} CACHE BOOL "Use Python's limited API for Python minor version compatibility." FORCE)
+  set(
+    ITK_USE_PYTHON_LIMITED_API
+    ${use_python_limited_api_default}
+    CACHE BOOL
+    "Use Python's limited API for Python minor version compatibility."
+    FORCE
+  )
   mark_as_advanced(ITK_USE_PYTHON_LIMITED_API)
   unset(use_python_limited_api_default)
 
@@ -401,35 +500,95 @@ ${DO_NOT_WAIT_FOR_THREADS_CALLS}
     if(ITK_USE_PYTHON_LIMITED_API)
       set(development_component "Development.SABIModule")
     endif()
-    find_package(Python3 ${PYTHON_VERSION_MIN}...${PYTHON_VERSION_MAX} COMPONENTS Interpreter ${development_component} REQUIRED)
-    add_library(${lib} MODULE ${cpp_file} ${ITK_WRAP_PYTHON_CXX_FILES} ${WRAPPER_LIBRARY_CXX_SOURCES})
-    set_target_properties(${lib} PROPERTIES PREFIX "_")
+    find_package(
+      Python3
+      ${PYTHON_VERSION_MIN}...${PYTHON_VERSION_MAX}
+      COMPONENTS
+        Interpreter
+        ${development_component}
+      REQUIRED
+    )
+    add_library(
+      ${lib}
+      MODULE
+      ${cpp_file}
+      ${ITK_WRAP_PYTHON_CXX_FILES}
+      ${WRAPPER_LIBRARY_CXX_SOURCES}
+    )
+    set_target_properties(
+      ${lib}
+      PROPERTIES
+        PREFIX
+          "_"
+    )
 
     # gcc 4.4 complains a lot without this flag when building in release mode
     if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-      set_target_properties(${lib} PROPERTIES COMPILE_FLAGS "-fno-strict-aliasing -w")
+      set_target_properties(
+        ${lib}
+        PROPERTIES
+          COMPILE_FLAGS
+            "-fno-strict-aliasing -w"
+      )
     endif()
     # extension is not the same on windows
     if(WIN32)
-      set_target_properties(${lib} PROPERTIES SUFFIX .pyd)
-      set_target_properties(${lib} PROPERTIES DEBUG_POSTFIX "_d")
+      set_target_properties(
+        ${lib}
+        PROPERTIES
+          SUFFIX
+            .pyd
+      )
+      set_target_properties(
+        ${lib}
+        PROPERTIES
+          DEBUG_POSTFIX
+            "_d"
+      )
 
       if(MSVC)
         # Disables 'conversion from 'type1' to 'type2', possible loss of data warnings
-        set_target_properties(${lib} PROPERTIES COMPILE_FLAGS "/wd4244")
+        set_target_properties(
+          ${lib}
+          PROPERTIES
+            COMPILE_FLAGS
+              "/wd4244"
+        )
       endif()
     else()
-      if (ITK_USE_PYTHON_LIMITED_API)
-        set_target_properties(${lib} PROPERTIES SUFFIX .abi3.so)
+      if(ITK_USE_PYTHON_LIMITED_API)
+        set_target_properties(
+          ${lib}
+          PROPERTIES
+            SUFFIX
+              .abi3.so
+        )
       else()
         if(NOT PYTHON3_FOUND)
-            find_package(Python3 ${PYTHON_VERSION_MIN}...${PYTHON_VERSION_MAX} COMPONENTS Interpreter Development.Module ${SKBUILD_SABI_COMPONENT})
+          find_package(
+            Python3
+            ${PYTHON_VERSION_MIN}...${PYTHON_VERSION_MAX}
+            COMPONENTS
+              Interpreter
+              Development.Module
+              ${SKBUILD_SABI_COMPONENT}
+          )
         endif()
         if(PYTHON3_FOUND)
-# Graalpy Patch
-          set_target_properties(${lib} PROPERTIES SUFFIX .${Python3_SOABI}.so)
+          # Graalpy Patch
+          set_target_properties(
+            ${lib}
+            PROPERTIES
+              SUFFIX
+                .${Python3_SOABI}.so
+          )
         else()
-          set_target_properties(${lib} PROPERTIES SUFFIX .so)
+          set_target_properties(
+            ${lib}
+            PROPERTIES
+              SUFFIX
+                .so
+          )
         endif()
       endif()
     endif()
@@ -437,18 +596,24 @@ ${DO_NOT_WAIT_FOR_THREADS_CALLS}
       include(CheckIPOSupported)
       check_ipo_supported(RESULT ipo_is_supported)
       if(ipo_is_supported)
-        set_property(TARGET ${lib} PROPERTY INTERPROCEDURAL_OPTIMIZATION_RELEASE TRUE)
+        set_property(
+          TARGET
+            ${lib}
+          PROPERTY
+            INTERPROCEDURAL_OPTIMIZATION_RELEASE
+              TRUE
+        )
       endif()
       unset(ipo_is_supported)
     endif()
 
     # Python Limited API / Stable ABI
-    if (ITK_USE_PYTHON_LIMITED_API)
+    if(ITK_USE_PYTHON_LIMITED_API)
       target_compile_definitions(${lib} PUBLIC -DPy_LIMITED_API=0x030b0000)
     endif()
     # Link the modules together
     target_link_libraries(${lib} LINK_PUBLIC ${WRAPPER_LIBRARY_LINK_LIBRARIES})
-    if (ITK_USE_PYTHON_LIMITED_API)
+    if(ITK_USE_PYTHON_LIMITED_API)
       itk_target_link_libraries_with_dynamic_lookup(${lib} LINK_PUBLIC ${Python3_SABI_LIBRARIES})
     else()
       itk_target_link_libraries_with_dynamic_lookup(${lib} LINK_PUBLIC ${Python3_LIBRARIES})
@@ -456,9 +621,24 @@ ${DO_NOT_WAIT_FOR_THREADS_CALLS}
 
     if(USE_COMPILER_HIDDEN_VISIBILITY)
       # Prefer to use target properties supported by newer cmake
-      set_target_properties(${lib} PROPERTIES CXX_VISIBILITY_PRESET hidden)
-      set_target_properties(${lib} PROPERTIES C_VISIBILITY_PRESET hidden)
-      set_target_properties(${lib} PROPERTIES VISIBILITY_INLINES_HIDDEN 1)
+      set_target_properties(
+        ${lib}
+        PROPERTIES
+          CXX_VISIBILITY_PRESET
+            hidden
+      )
+      set_target_properties(
+        ${lib}
+        PROPERTIES
+          C_VISIBILITY_PRESET
+            hidden
+      )
+      set_target_properties(
+        ${lib}
+        PROPERTIES
+          VISIBILITY_INLINES_HIDDEN
+            1
+      )
     endif()
 
     add_dependencies(${lib} ${WRAPPER_LIBRARY_NAME}Swig)
@@ -474,9 +654,12 @@ ${DO_NOT_WAIT_FOR_THREADS_CALLS}
       endif()
     endif()
     install(
-      TARGETS "${lib}"
+      TARGETS
+        "${lib}"
       DESTINATION "${PY_SITE_PACKAGES_PATH}/itk"
-      COMPONENT ${_component_module}${WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER}RuntimeLibraries)
+      COMPONENT
+        ${_component_module}${WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER}RuntimeLibraries
+    )
     unset(_component_module)
 
     if(NOT EXTERNAL_WRAP_ITK_PROJECT)
@@ -492,10 +675,7 @@ ${DO_NOT_WAIT_FOR_THREADS_CALLS}
 
   if(${module_prefix}_WRAP_DOC)
     # be sure to not include a header several times
-    if(NOT
-       "${ITK_WRAP_DOC_DOXYGEN_HEADERS}"
-       STREQUAL
-       "")
+    if(NOT "${ITK_WRAP_DOC_DOXYGEN_HEADERS}" STREQUAL "")
       list(REMOVE_DUPLICATES ITK_WRAP_DOC_DOXYGEN_HEADERS)
     endif()
 
@@ -505,8 +685,7 @@ ${DO_NOT_WAIT_FOR_THREADS_CALLS}
     # run doxygen
 
     # create the target doc dir
-    set(ITK_WRAP_DOC_LIBRARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/Doc"
-    )# Library documentation interface files building directory
+    set(ITK_WRAP_DOC_LIBRARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/Doc") # Library documentation interface files building directory
     # TODO: direct name of the library dir?
     file(MAKE_DIRECTORY ${ITK_WRAP_DOC_LIBRARY_DIR})
 
@@ -515,9 +694,14 @@ ${DO_NOT_WAIT_FOR_THREADS_CALLS}
     set(ITK_DOXYGEN_OUTPUT_DIR "${ITK_WRAP_DOC_LIBRARY_DIR}")
     include(${ITK_SOURCE_DIR}/Utilities/Doxygen/DoxygenConfig.cmake)
     doxygen_add_docs(
-      ${WRAPPER_LIBRARY_NAME}Doxygen ${ITK_WRAP_DOC_DOXYGEN_HEADERS} ALL
-      WORKING_DIRECTORY ${ITK_WRAP_DOC_LIBRARY_DIR} USE_STAMP_FILE
-      COMMENT "-- Wrapping library ${WRAPPER_LIBRARY_NAME}: Constructing documentation xml structure.")
+      ${WRAPPER_LIBRARY_NAME}Doxygen
+      ${ITK_WRAP_DOC_DOXYGEN_HEADERS}
+      ALL
+      WORKING_DIRECTORY ${ITK_WRAP_DOC_LIBRARY_DIR}
+      USE_STAMP_FILE
+      COMMENT
+        "-- Wrapping library ${WRAPPER_LIBRARY_NAME}: Constructing documentation xml structure."
+    )
     add_dependencies(${lib} ${WRAPPER_LIBRARY_NAME}Doxygen)
     unset(ITK_DOXYGEN_OUTPUT_DIR)
     unset(ITK_WRAP_DOC_LIBRARY_DIR)

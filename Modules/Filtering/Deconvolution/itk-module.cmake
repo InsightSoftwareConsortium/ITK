@@ -1,5 +1,8 @@
-set(DOCUMENTATION "This module contains filters that deconvolve images
-that have been blurred with a shift-invariant kernel.")
+set(
+  DOCUMENTATION
+  "This module contains filters that deconvolve images
+that have been blurred with a shift-invariant kernel."
+)
 
 itk_module(
   ITKDeconvolution
@@ -9,4 +12,5 @@ itk_module(
   TEST_DEPENDS
   ITKTestKernel
   DESCRIPTION
-  "${DOCUMENTATION}")
+  "${DOCUMENTATION}"
+)

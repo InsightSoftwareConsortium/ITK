@@ -6,10 +6,16 @@ target_link_libraries(ImageReadWrite ${ITK_LIBRARIES})
 add_executable(ImageReadCastWrite ImageReadCastWrite.cxx)
 target_link_libraries(ImageReadCastWrite ${ITK_LIBRARIES})
 
-add_executable(ImageReadExtractFilterInsertWrite ImageReadExtractFilterInsertWrite.cxx)
+add_executable(
+  ImageReadExtractFilterInsertWrite
+  ImageReadExtractFilterInsertWrite.cxx
+)
 target_link_libraries(ImageReadExtractFilterInsertWrite ${ITK_LIBRARIES})
 
-add_executable(ImageReadRegionOfInterestWrite ImageReadRegionOfInterestWrite.cxx)
+add_executable(
+  ImageReadRegionOfInterestWrite
+  ImageReadRegionOfInterestWrite.cxx
+)
 target_link_libraries(ImageReadRegionOfInterestWrite ${ITK_LIBRARIES})
 
 add_executable(RGBImageReadWrite RGBImageReadWrite.cxx)
@@ -18,7 +24,10 @@ target_link_libraries(RGBImageReadWrite ${ITK_LIBRARIES})
 add_executable(CovariantVectorImageRead CovariantVectorImageRead.cxx)
 target_link_libraries(CovariantVectorImageRead ${ITK_LIBRARIES})
 
-add_executable(CovariantVectorImageExtractComponent CovariantVectorImageExtractComponent.cxx)
+add_executable(
+  CovariantVectorImageExtractComponent
+  CovariantVectorImageExtractComponent.cxx
+)
 target_link_libraries(CovariantVectorImageExtractComponent ${ITK_LIBRARIES})
 
 add_executable(VectorImageReadWrite VectorImageReadWrite.cxx)
@@ -45,7 +54,10 @@ target_link_libraries(ImageReadImageSeriesWrite ${ITK_LIBRARIES})
 add_executable(DicomSeriesReadImageWrite2 DicomSeriesReadImageWrite2.cxx)
 target_link_libraries(DicomSeriesReadImageWrite2 ${ITK_LIBRARIES})
 
-add_executable(DicomSeriesReadGaussianImageWrite DicomSeriesReadGaussianImageWrite.cxx)
+add_executable(
+  DicomSeriesReadGaussianImageWrite
+  DicomSeriesReadGaussianImageWrite.cxx
+)
 target_link_libraries(DicomSeriesReadGaussianImageWrite ${ITK_LIBRARIES})
 
 add_executable(DicomSeriesReadPrintTags DicomSeriesReadPrintTags.cxx)
@@ -60,7 +72,10 @@ target_link_libraries(DicomImageReadWrite ${ITK_LIBRARIES})
 add_executable(ImageReadDicomSeriesWrite ImageReadDicomSeriesWrite.cxx)
 target_link_libraries(ImageReadDicomSeriesWrite ${ITK_LIBRARIES})
 
-add_executable(DicomImageReadChangeHeaderWrite DicomImageReadChangeHeaderWrite.cxx)
+add_executable(
+  DicomImageReadChangeHeaderWrite
+  DicomImageReadChangeHeaderWrite.cxx
+)
 target_link_libraries(DicomImageReadChangeHeaderWrite ${ITK_LIBRARIES})
 
 add_executable(DicomSeriesReadSeriesWrite DicomSeriesReadSeriesWrite.cxx)

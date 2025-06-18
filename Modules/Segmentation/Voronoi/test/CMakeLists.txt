@@ -1,9 +1,11 @@
 itk_module_test()
-set(ITKVoronoiTests
-    itkVoronoiSegmentationImageFilterTest.cxx
-    itkVoronoiSegmentationRGBImageFilterTest.cxx
-    itkVoronoiDiagram2DTest.cxx
-    itkVoronoiPartitioningImageFilterTest.cxx)
+set(
+  ITKVoronoiTests
+  itkVoronoiSegmentationImageFilterTest.cxx
+  itkVoronoiSegmentationRGBImageFilterTest.cxx
+  itkVoronoiDiagram2DTest.cxx
+  itkVoronoiPartitioningImageFilterTest.cxx
+)
 
 createtestdriver(ITKVoronoi "${ITKVoronoi-Test_LIBRARIES}" "${ITKVoronoiTests}")
 
@@ -20,20 +22,23 @@ itk_add_test(
   400
   5
   0.1
-  1.5)
+  1.5
+)
 itk_add_test(
   NAME
   itkVoronoiSegmentationRGBImageFilterTest
   COMMAND
   ITKVoronoiTestDriver
-  itkVoronoiSegmentationRGBImageFilterTest)
+  itkVoronoiSegmentationRGBImageFilterTest
+)
 itk_add_test(
   NAME
   itkVoronoiDiagram2DTest
   COMMAND
   ITKVoronoiTestDriver
   itkVoronoiDiagram2DTest
-  ${ITK_TEST_OUTPUT_DIR}/VoronoiDiagram2DTest.vtk)
+  ${ITK_TEST_OUTPUT_DIR}/VoronoiDiagram2DTest.vtk
+)
 itk_add_test(
   NAME
   itkVoronoiPartitioningImageFilterTest1
@@ -47,7 +52,8 @@ itk_add_test(
   itkVoronoiPartitioningImageFilterTest
   DATA{${ITK_DATA_ROOT}/Input/sf4.png}
   ${ITK_TEST_OUTPUT_DIR}/VoronoiPartioningImageFilterTest1.png
-  1)
+  1
+)
 itk_add_test(
   NAME
   itkVoronoiPartitioningImageFilterTest2
@@ -59,4 +65,5 @@ itk_add_test(
   itkVoronoiPartitioningImageFilterTest
   DATA{${ITK_DATA_ROOT}/Input/sf4.png}
   ${ITK_TEST_OUTPUT_DIR}/VoronoiPartioningImageFilterTest2.png
-  0)
+  0
+)

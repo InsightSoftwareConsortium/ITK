@@ -1,5 +1,8 @@
-set(DOCUMENTATION "This module contains a factory to create transforms
-from a string identifier.")
+set(
+  DOCUMENTATION
+  "This module contains a factory to create transforms
+from a string identifier."
+)
 
 itk_module(
   ITKTransformFactory
@@ -11,4 +14,5 @@ itk_module(
   TEST_DEPENDS
   ITKTestKernel
   DESCRIPTION
-  "${DOCUMENTATION}")
+  "${DOCUMENTATION}"
+)

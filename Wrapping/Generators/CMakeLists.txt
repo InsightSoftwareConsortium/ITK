@@ -8,17 +8,24 @@ cmake_dependent_option(
   "Use ccache to cache swig/castxml/... output and speedup the rebuild."
   OFF
   ITK_WRAP_PYTHON
-  OFF)
+  OFF
+)
 mark_as_advanced(ITK_USE_CCACHE)
 if(ITK_USE_CCACHE)
   find_program(
     CCACHE_EXECUTABLE
-    NAMES ccache-swig ccache
-    DOC "ccache executable.")
+    NAMES
+      ccache-swig
+      ccache
+    DOC "ccache executable."
+  )
 endif()
 
 if(DEFINED ITK_WRAP_GCCXML)
-  message(FATAL_ERROR "ITK_WRAP_GCCXML is deprecated.  Use ${module_prefix}_WRAP_CASTXML instead.")
+  message(
+    FATAL_ERROR
+    "ITK_WRAP_GCCXML is deprecated.  Use ${module_prefix}_WRAP_CASTXML instead."
+  )
 endif()
 ###############################################################################
 # build the generators list
@@ -30,31 +37,48 @@ else()
     "Build xml files."
     ON
     ITK_WRAP_PYTHON
-    OFF)
+    OFF
+  )
   cmake_dependent_option(
     ${module_prefix}_WRAP_SWIGINTERFACE
     "Build swig interfaces."
     ON
     ITK_WRAP_PYTHON
-    OFF)
-  mark_as_advanced(${module_prefix}_WRAP_CASTXML ${module_prefix}_WRAP_SWIGINTERFACE)
+    OFF
+  )
+  mark_as_advanced(
+    ${module_prefix}_WRAP_CASTXML
+    ${module_prefix}_WRAP_SWIGINTERFACE
+  )
 endif()
 if(NOT ${module_prefix}_WRAP_CASTXML)
-  message(FATAL_ERROR "${module_prefix}_WRAP_CASTXML is required to be on for wrapping python")
+  message(
+    FATAL_ERROR
+    "${module_prefix}_WRAP_CASTXML is required to be on for wrapping python"
+  )
 endif()
 if(NOT ${module_prefix}_WRAP_SWIGINTERFACE)
-  message(FATAL_ERROR "${module_prefix}_WRAP_SWIGINTERFACE is required to be on for wrapping python")
+  message(
+    FATAL_ERROR
+    "${module_prefix}_WRAP_SWIGINTERFACE is required to be on for wrapping python"
+  )
 endif()
 
 set(WRAP_ITK_GENERATORS CACHE INTERNAL "Internal generators list.")
-set(WRAP_ITK_UNUSED_GENERATORS CACHE INTERNAL "Internal unused generators list.")
+set(
+  WRAP_ITK_UNUSED_GENERATORS
+  CACHE INTERNAL
+  "Internal unused generators list."
+)
 
 # The following list of directories int the "ITK/Wrapping/Generators
-set(_candidate_generators
-    "SwigInterface"
-    "Doc"
-    "CastXML"
-    "Python")
+set(
+  _candidate_generators
+  "SwigInterface"
+  "Doc"
+  "CastXML"
+  "Python"
+)
 
 foreach(lang ${_candidate_generators})
   string(TOUPPER "${lang}" lang_upper)
@@ -66,7 +90,8 @@ foreach(lang ${_candidate_generators})
       "Build swig ${lang} wrapper support."
       OFF
       ITK_WRAP_PYTHON
-      OFF)
+      OFF
+    )
   endif()
   # add the language to the list, if the user have turn it on, and include
   # the subdirectory
@@ -78,12 +103,18 @@ foreach(lang ${_candidate_generators})
   endif()
 endforeach()
 mark_as_advanced(${module_prefix}_WRAP_DOC)
-set(WRAP_ITK_GENERATORS
-    ${WRAP_ITK_GENERATORS}
-    CACHE INTERNAL "Internal generators list.")
-set(WRAP_ITK_UNUSED_GENERATORS
-    ${WRAP_ITK_UNUSED_GENERATORS}
-    CACHE INTERNAL "Internal unused generators list.")
+set(
+  WRAP_ITK_GENERATORS
+  ${WRAP_ITK_GENERATORS}
+  CACHE INTERNAL
+  "Internal generators list."
+)
+set(
+  WRAP_ITK_UNUSED_GENERATORS
+  ${WRAP_ITK_UNUSED_GENERATORS}
+  CACHE INTERNAL
+  "Internal unused generators list."
+)
 
 # The include_directories are added here to be used by Wrapping/ConfigureWrapping.cmake
 foreach(lang ${_candidate_generators})

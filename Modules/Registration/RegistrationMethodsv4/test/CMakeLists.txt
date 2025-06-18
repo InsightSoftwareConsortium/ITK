@@ -1,37 +1,41 @@
 itk_module_test()
-set(ITKRegistrationMethodsv4Tests
-    itkImageRegistrationSamplingTest.cxx
-    itkSimpleImageRegistrationTest.cxx
-    itkSimpleImageRegistrationTest2.cxx
-    itkSimpleImageRegistrationTest3.cxx
-    itkSimpleImageRegistrationTest4.cxx
-    itkSimpleImageRegistrationTestWithMaskAndSampling.cxx
-    itkSimplePointSetRegistrationTest.cxx
-    itkExponentialImageRegistrationTest.cxx
-    itkBSplineExponentialImageRegistrationTest.cxx
-    itkTimeVaryingBSplineVelocityFieldImageRegistrationTest.cxx
-    itkTimeVaryingVelocityFieldImageRegistrationTest.cxx
-    itkSyNImageRegistrationTest.cxx
-    itkSyNPointSetRegistrationTest.cxx
-    itkBSplineSyNImageRegistrationTest.cxx
-    itkBSplineSyNPointSetRegistrationTest.cxx
-    itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest.cxx
-    itkQuasiNewtonOptimizerv4RegistrationTest.cxx
-    itkBSplineImageRegistrationTest.cxx)
+set(
+  ITKRegistrationMethodsv4Tests
+  itkImageRegistrationSamplingTest.cxx
+  itkSimpleImageRegistrationTest.cxx
+  itkSimpleImageRegistrationTest2.cxx
+  itkSimpleImageRegistrationTest3.cxx
+  itkSimpleImageRegistrationTest4.cxx
+  itkSimpleImageRegistrationTestWithMaskAndSampling.cxx
+  itkSimplePointSetRegistrationTest.cxx
+  itkExponentialImageRegistrationTest.cxx
+  itkBSplineExponentialImageRegistrationTest.cxx
+  itkTimeVaryingBSplineVelocityFieldImageRegistrationTest.cxx
+  itkTimeVaryingVelocityFieldImageRegistrationTest.cxx
+  itkSyNImageRegistrationTest.cxx
+  itkSyNPointSetRegistrationTest.cxx
+  itkBSplineSyNImageRegistrationTest.cxx
+  itkBSplineSyNPointSetRegistrationTest.cxx
+  itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest.cxx
+  itkQuasiNewtonOptimizerv4RegistrationTest.cxx
+  itkBSplineImageRegistrationTest.cxx
+)
 
 set(INPUTDATA ${ITK_DATA_ROOT}/Input)
 set(BASELINE_ROOT ${ITK_DATA_ROOT}/Baseline)
 set(TEMP ${ITK_TEST_OUTPUT_DIR})
 
 createtestdriver(ITKRegistrationMethodsv4 "${ITKRegistrationMethodsv4-Test_LIBRARIES}"
-                 "${ITKRegistrationMethodsv4Tests}")
+                 "${ITKRegistrationMethodsv4Tests}"
+)
 
 itk_add_test(
   NAME
   itkImageRegistrationSamplingTest
   COMMAND
   ITKRegistrationMethodsv4TestDriver
-  itkImageRegistrationSamplingTest)
+  itkImageRegistrationSamplingTest
+)
 
 itk_add_test(
   NAME
@@ -57,10 +61,19 @@ itk_add_test(
   10 # number of deformable iterations
 )
 set_property(
-  TEST itkSimpleImageRegistrationTestDouble
+  TEST
+    itkSimpleImageRegistrationTestDouble
   APPEND
-  PROPERTY LABELS RUNS_LONG)
-set_tests_properties(itkSimpleImageRegistrationTestDouble PROPERTIES COST 30)
+  PROPERTY
+    LABELS
+      RUNS_LONG
+)
+set_tests_properties(
+  itkSimpleImageRegistrationTestDouble
+  PROPERTIES
+    COST
+      30
+)
 
 itk_add_test(
   NAME
@@ -86,10 +99,19 @@ itk_add_test(
   10 # number of deformable iterations
 )
 set_property(
-  TEST itkSimpleImageRegistrationTestFloat
+  TEST
+    itkSimpleImageRegistrationTestFloat
   APPEND
-  PROPERTY LABELS RUNS_LONG)
-set_tests_properties(itkSimpleImageRegistrationTestFloat PROPERTIES COST 30)
+  PROPERTY
+    LABELS
+      RUNS_LONG
+)
+set_tests_properties(
+  itkSimpleImageRegistrationTestFloat
+  PROPERTIES
+    COST
+      30
+)
 
 itk_add_test(
   NAME
@@ -108,9 +130,13 @@ itk_add_test(
   10 # number of deformable iterations
 )
 set_property(
-  TEST itkSimpleImageRegistrationTestWithMaskAndSamplingDouble
+  TEST
+    itkSimpleImageRegistrationTestWithMaskAndSamplingDouble
   APPEND
-  PROPERTY LABELS RUNS_LONG)
+  PROPERTY
+    LABELS
+      RUNS_LONG
+)
 
 itk_add_test(
   NAME
@@ -129,9 +155,13 @@ itk_add_test(
   10 # number of deformable iterations
 )
 set_property(
-  TEST itkSimpleImageRegistrationTestWithMaskAndSamplingFloat
+  TEST
+    itkSimpleImageRegistrationTestWithMaskAndSamplingFloat
   APPEND
-  PROPERTY LABELS RUNS_LONG)
+  PROPERTY
+    LABELS
+      RUNS_LONG
+)
 
 itk_add_test(
   NAME
@@ -148,9 +178,13 @@ itk_add_test(
   100 # number of affine iterations
 )
 set_property(
-  TEST itkSimpleImageRegistrationTest2
+  TEST
+    itkSimpleImageRegistrationTest2
   APPEND
-  PROPERTY LABELS RUNS_LONG)
+  PROPERTY
+    LABELS
+      RUNS_LONG
+)
 
 itk_add_test(
   NAME
@@ -163,11 +197,16 @@ itk_add_test(
   2 # number of dimensions
   DATA{Input/r16slice_rigid.nii.gz}
   DATA{Input/r64slice.nii.gz}
-  ${TEMP}/itkSimpleImageRegistrationTest3New.nii.gz)
+  ${TEMP}/itkSimpleImageRegistrationTest3New.nii.gz
+)
 set_property(
-  TEST itkSimpleImageRegistrationTest3
+  TEST
+    itkSimpleImageRegistrationTest3
   APPEND
-  PROPERTY LABELS RUNS_LONG)
+  PROPERTY
+    LABELS
+      RUNS_LONG
+)
 
 itk_add_test(
   NAME
@@ -179,7 +218,8 @@ itk_add_test(
   itkSimpleImageRegistrationTest4
   2 # number of dimensions
   DATA{Input/Blob1.mha}
-  DATA{Input/Blob2.mha})
+  DATA{Input/Blob2.mha}
+)
 
 itk_add_test(
   NAME
@@ -188,11 +228,16 @@ itk_add_test(
   ITKRegistrationMethodsv4TestDriver
   --with-threads
   1
-  itkSimplePointSetRegistrationTest)
+  itkSimplePointSetRegistrationTest
+)
 set_property(
-  TEST itkSimplePointSetRegistrationTest
+  TEST
+    itkSimplePointSetRegistrationTest
   APPEND
-  PROPERTY LABELS RUNS_LONG)
+  PROPERTY
+    LABELS
+      RUNS_LONG
+)
 
 itk_add_test(
   NAME
@@ -201,11 +246,16 @@ itk_add_test(
   ITKRegistrationMethodsv4TestDriver
   --with-threads
   1
-  itkSyNPointSetRegistrationTest)
+  itkSyNPointSetRegistrationTest
+)
 set_property(
-  TEST itkSyNPointSetRegistrationTest
+  TEST
+    itkSyNPointSetRegistrationTest
   APPEND
-  PROPERTY LABELS RUNS_LONG)
+  PROPERTY
+    LABELS
+      RUNS_LONG
+)
 
 itk_add_test(
   NAME
@@ -214,22 +264,32 @@ itk_add_test(
   ITKRegistrationMethodsv4TestDriver
   --with-threads
   1
-  itkBSplineSyNPointSetRegistrationTest)
+  itkBSplineSyNPointSetRegistrationTest
+)
 set_property(
-  TEST itkBSplineSyNPointSetRegistrationTest
+  TEST
+    itkBSplineSyNPointSetRegistrationTest
   APPEND
-  PROPERTY LABELS RUNS_LONG)
+  PROPERTY
+    LABELS
+      RUNS_LONG
+)
 
 itk_add_test(
   NAME
   itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest
   COMMAND
   ITKRegistrationMethodsv4TestDriver
-  itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest)
+  itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest
+)
 set_property(
-  TEST itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest
+  TEST
+    itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest
   APPEND
-  PROPERTY LABELS RUNS_LONG)
+  PROPERTY
+    LABELS
+      RUNS_LONG
+)
 
 itk_add_test(
   NAME
@@ -254,11 +314,16 @@ itk_add_test(
   1
   0.0
   1.0
-  10)
+  10
+)
 set_property(
-  TEST itkExponentialImageRegistrationTest
+  TEST
+    itkExponentialImageRegistrationTest
   APPEND
-  PROPERTY LABELS RUNS_LONG)
+  PROPERTY
+    LABELS
+      RUNS_LONG
+)
 
 itk_add_test(
   NAME
@@ -282,9 +347,13 @@ itk_add_test(
   10 # number of deformable iterations
 )
 set_property(
-  TEST itkBSplineExponentialImageRegistrationTest
+  TEST
+    itkBSplineExponentialImageRegistrationTest
   APPEND
-  PROPERTY LABELS RUNS_LONG)
+  PROPERTY
+    LABELS
+      RUNS_LONG
+)
 
 itk_add_test(
   NAME
@@ -303,9 +372,13 @@ itk_add_test(
   0.5 # learning rate
 )
 set_property(
-  TEST itkTimeVaryingVelocityFieldImageRegistrationTest
+  TEST
+    itkTimeVaryingVelocityFieldImageRegistrationTest
   APPEND
-  PROPERTY LABELS RUNS_LONG)
+  PROPERTY
+    LABELS
+      RUNS_LONG
+)
 
 itk_add_test(
   NAME
@@ -323,12 +396,17 @@ itk_add_test(
   1 # number of iterations for third level of the displacement field
   0.5 # learning rate
   1.0e-7
-  10)
+  10
+)
 
 set_property(
-  TEST itkTimeVaryingBSplineVelocityFieldImageRegistrationTest
+  TEST
+    itkTimeVaryingBSplineVelocityFieldImageRegistrationTest
   APPEND
-  PROPERTY LABELS RUNS_LONG)
+  PROPERTY
+    LABELS
+      RUNS_LONG
+)
 
 itk_add_test(
   NAME
@@ -370,7 +448,8 @@ itk_add_test(
   DATA{Input/r64slice.nii.gz}
   ${TEMP}/itkQuasiNewtonOptimizerv4RegistrationTest1.nii.gz
   5
-  2)
+  2
+)
 
 itk_add_test(
   NAME
@@ -384,7 +463,8 @@ itk_add_test(
   DATA{Input/r64slice.nii.gz}
   ${TEMP}/itkQuasiNewtonOptimizerv4RegistrationTest2.nii.gz
   5
-  2)
+  2
+)
 
 itk_add_test(
   NAME
@@ -398,7 +478,8 @@ itk_add_test(
   DATA{Input/r64slice.nii.gz}
   ${TEMP}/itkQuasiNewtonOptimizerv4RegistrationTest3.nii.gz
   5
-  2)
+  2
+)
 
 itk_add_test(
   NAME
@@ -422,11 +503,24 @@ itk_add_test(
   10 # number of deformable iterations
 )
 set_property(
-  TEST itkBSplineImageRegistrationTest
+  TEST
+    itkBSplineImageRegistrationTest
   APPEND
-  PROPERTY LABELS RUNS_LONG)
+  PROPERTY
+    LABELS
+      RUNS_LONG
+)
 set_property(
-  TEST itkBSplineImageRegistrationTest
+  TEST
+    itkBSplineImageRegistrationTest
   APPEND
-  PROPERTY RUN_SERIAL True)
-set_tests_properties(itkBSplineImageRegistrationTest PROPERTIES COST 30)
+  PROPERTY
+    RUN_SERIAL
+      True
+)
+set_tests_properties(
+  itkBSplineImageRegistrationTest
+  PROPERTIES
+    COST
+      30
+)

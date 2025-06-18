@@ -1,5 +1,6 @@
-set(DOCUMENTATION
-    "This module contains the third party <a
+set(
+  DOCUMENTATION
+  "This module contains the third party <a
 href=\"https://dicom.offis.de/dcmtk/\">DCMTK</a> DCMTK is a collection of libraries and applications implementing large parts the DICOM standard."
 )
 
@@ -16,4 +17,5 @@ itk_module(
   ImageIO::DCMTK
   DESCRIPTION
   "${DOCUMENTATION}"
-  EXCLUDE_FROM_DEFAULT)
+  EXCLUDE_FROM_DEFAULT
+)

@@ -6,7 +6,10 @@ target_link_libraries(NeighborhoodIterators4 ${ITK_LIBRARIES})
 add_executable(NeighborhoodIterators5 NeighborhoodIterators5.cxx)
 target_link_libraries(NeighborhoodIterators5 ${ITK_LIBRARIES})
 
-add_executable(ImageRandomConstIteratorWithIndex ImageRandomConstIteratorWithIndex.cxx)
+add_executable(
+  ImageRandomConstIteratorWithIndex
+  ImageRandomConstIteratorWithIndex.cxx
+)
 target_link_libraries(ImageRandomConstIteratorWithIndex ${ITK_LIBRARIES})
 
 add_executable(NeighborhoodIterators1 NeighborhoodIterators1.cxx)

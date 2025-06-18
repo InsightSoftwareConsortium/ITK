@@ -12,8 +12,14 @@ target_link_libraries(BayesianClassifier ${ITK_LIBRARIES})
 add_executable(EuclideanDistanceMetric EuclideanDistanceMetric.cxx)
 target_link_libraries(EuclideanDistanceMetric ${ITK_LIBRARIES})
 
-add_executable(ExpectationMaximizationMixtureModelEstimator ExpectationMaximizationMixtureModelEstimator.cxx)
-target_link_libraries(ExpectationMaximizationMixtureModelEstimator ${ITK_LIBRARIES})
+add_executable(
+  ExpectationMaximizationMixtureModelEstimator
+  ExpectationMaximizationMixtureModelEstimator.cxx
+)
+target_link_libraries(
+  ExpectationMaximizationMixtureModelEstimator
+  ${ITK_LIBRARIES}
+)
 
 add_executable(GaussianMembershipFunction GaussianMembershipFunction.cxx)
 target_link_libraries(GaussianMembershipFunction ${ITK_LIBRARIES})
@@ -93,7 +99,10 @@ target_link_libraries(ImageEntropy1 ${ITK_LIBRARIES})
 add_executable(ImageMutualInformation1 ImageMutualInformation1.cxx)
 target_link_libraries(ImageMutualInformation1 ${ITK_LIBRARIES})
 
-add_executable(ScalarImageKmeansModelEstimator ScalarImageKmeansModelEstimator.cxx)
+add_executable(
+  ScalarImageKmeansModelEstimator
+  ScalarImageKmeansModelEstimator.cxx
+)
 target_link_libraries(ScalarImageKmeansModelEstimator ${ITK_LIBRARIES})
 
 if(BUILD_TESTING)

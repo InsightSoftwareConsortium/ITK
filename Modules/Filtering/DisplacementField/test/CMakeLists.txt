@@ -1,24 +1,26 @@
 itk_module_test()
-set(ITKDisplacementFieldTests
-    itkComposeDisplacementFieldsImageFilterTest.cxx
-    itkDisplacementFieldJacobianDeterminantFilterTest.cxx
-    itkIterativeInverseDisplacementFieldImageFilterTest.cxx
-    itkLandmarkDisplacementFieldSourceTest.cxx
-    itkInverseDisplacementFieldImageFilterTest.cxx
-    itkInvertDisplacementFieldImageFilterTest.cxx
-    itkDisplacementFieldToBSplineImageFilterTest.cxx
-    itkDisplacementFieldTransformTest.cxx
-    itkGaussianSmoothingOnUpdateDisplacementFieldTransformTest.cxx
-    itkBSplineSmoothingOnUpdateDisplacementFieldTransformTest.cxx
-    itkGaussianExponentialDiffeomorphicTransformTest.cxx
-    itkBSplineExponentialDiffeomorphicTransformTest.cxx
-    itkTimeVaryingVelocityFieldTransformTest.cxx
-    itkTimeVaryingVelocityFieldIntegrationImageFilterTest.cxx
-    itkTimeVaryingBSplineVelocityFieldTransformTest.cxx
-    itkTransformToDisplacementFieldFilterTest.cxx
-    itkTransformToDisplacementFieldFilterTest1.cxx
-    itkDisplacementFieldTransformCloneTest.cxx
-    itkExponentialDisplacementFieldImageFilterTest.cxx)
+set(
+  ITKDisplacementFieldTests
+  itkComposeDisplacementFieldsImageFilterTest.cxx
+  itkDisplacementFieldJacobianDeterminantFilterTest.cxx
+  itkIterativeInverseDisplacementFieldImageFilterTest.cxx
+  itkLandmarkDisplacementFieldSourceTest.cxx
+  itkInverseDisplacementFieldImageFilterTest.cxx
+  itkInvertDisplacementFieldImageFilterTest.cxx
+  itkDisplacementFieldToBSplineImageFilterTest.cxx
+  itkDisplacementFieldTransformTest.cxx
+  itkGaussianSmoothingOnUpdateDisplacementFieldTransformTest.cxx
+  itkBSplineSmoothingOnUpdateDisplacementFieldTransformTest.cxx
+  itkGaussianExponentialDiffeomorphicTransformTest.cxx
+  itkBSplineExponentialDiffeomorphicTransformTest.cxx
+  itkTimeVaryingVelocityFieldTransformTest.cxx
+  itkTimeVaryingVelocityFieldIntegrationImageFilterTest.cxx
+  itkTimeVaryingBSplineVelocityFieldTransformTest.cxx
+  itkTransformToDisplacementFieldFilterTest.cxx
+  itkTransformToDisplacementFieldFilterTest1.cxx
+  itkDisplacementFieldTransformCloneTest.cxx
+  itkExponentialDisplacementFieldImageFilterTest.cxx
+)
 
 createtestdriver(ITKDisplacementField "${ITKDisplacementField-Test_LIBRARIES}" "${ITKDisplacementFieldTests}")
 
@@ -27,13 +29,15 @@ itk_add_test(
   itkComposeDisplacementFieldsImageFilterTest
   COMMAND
   ITKDisplacementFieldTestDriver
-  itkComposeDisplacementFieldsImageFilterTest)
+  itkComposeDisplacementFieldsImageFilterTest
+)
 itk_add_test(
   NAME
   itkDisplacementFieldJacobianDeterminantFilterTest
   COMMAND
   ITKDisplacementFieldTestDriver
-  itkDisplacementFieldJacobianDeterminantFilterTest)
+  itkDisplacementFieldJacobianDeterminantFilterTest
+)
 itk_add_test(
   NAME
   itkIterativeInverseDisplacementFieldImageFilterTest
@@ -42,7 +46,8 @@ itk_add_test(
   itkIterativeInverseDisplacementFieldImageFilterTest
   ${ITK_TEST_OUTPUT_DIR}/itkIterativeInverseDisplacementFieldImageFilterTest.mha
   5
-  0)
+  0
+)
 itk_add_test(
   NAME
   itkLandmarkDisplacementFieldSourceTest
@@ -50,14 +55,16 @@ itk_add_test(
   ITKDisplacementFieldTestDriver
   itkLandmarkDisplacementFieldSourceTest
   ${ITK_TEST_OUTPUT_DIR}/itkLandmarkDisplacementFieldSourceTestLandmarks.txt
-  ${ITK_TEST_OUTPUT_DIR}/itkLandmarkDisplacementFieldSourceTest.mha)
+  ${ITK_TEST_OUTPUT_DIR}/itkLandmarkDisplacementFieldSourceTest.mha
+)
 itk_add_test(
   NAME
   itkInverseDisplacementFieldImageFilterTest
   COMMAND
   ITKDisplacementFieldTestDriver
   itkInverseDisplacementFieldImageFilterTest
-  ${ITK_TEST_OUTPUT_DIR}/itkInverseDisplacementFieldImageFilterTest.mha)
+  ${ITK_TEST_OUTPUT_DIR}/itkInverseDisplacementFieldImageFilterTest.mha
+)
 itk_add_test(
   NAME
   itkDisplacementFieldTransformTest
@@ -65,37 +72,43 @@ itk_add_test(
   ITKDisplacementFieldTestDriver
   itkDisplacementFieldTransformTest
   1e-6
-  1e-6)
+  1e-6
+)
 itk_add_test(
   NAME
   itkGaussianSmoothingOnUpdateDisplacementFieldTransformTest
   COMMAND
   ITKDisplacementFieldTestDriver
-  itkGaussianSmoothingOnUpdateDisplacementFieldTransformTest)
+  itkGaussianSmoothingOnUpdateDisplacementFieldTransformTest
+)
 itk_add_test(
   NAME
   itkBSplineSmoothingOnUpdateDisplacementFieldTransformTest
   COMMAND
   ITKDisplacementFieldTestDriver
-  itkBSplineSmoothingOnUpdateDisplacementFieldTransformTest)
+  itkBSplineSmoothingOnUpdateDisplacementFieldTransformTest
+)
 itk_add_test(
   NAME
   itkGaussianExponentialDiffeomorphicTransformTest
   COMMAND
   ITKDisplacementFieldTestDriver
-  itkGaussianExponentialDiffeomorphicTransformTest)
+  itkGaussianExponentialDiffeomorphicTransformTest
+)
 itk_add_test(
   NAME
   itkBSplineExponentialDiffeomorphicTransformTest
   COMMAND
   ITKDisplacementFieldTestDriver
-  itkBSplineExponentialDiffeomorphicTransformTest)
+  itkBSplineExponentialDiffeomorphicTransformTest
+)
 itk_add_test(
   NAME
   itkTimeVaryingVelocityFieldTransformTest
   COMMAND
   ITKDisplacementFieldTestDriver
-  itkTimeVaryingVelocityFieldTransformTest)
+  itkTimeVaryingVelocityFieldTransformTest
+)
 itk_add_test(
   NAME
   itkTimeVaryingVelocityFieldIntegrationImageFilterTest
@@ -110,13 +123,15 @@ itk_add_test(
   50
   1.0
   0.0
-  100)
+  100
+)
 itk_add_test(
   NAME
   itkTimeVaryingBSplineVelocityFieldTransformTest
   COMMAND
   ITKDisplacementFieldTestDriver
-  itkTimeVaryingBSplineVelocityFieldTransformTest)
+  itkTimeVaryingBSplineVelocityFieldTransformTest
+)
 itk_add_test(
   NAME
   itkInvertDisplacementFieldImageFilterTest
@@ -126,13 +141,15 @@ itk_add_test(
   50
   0.1
   0.001
-  0)
+  0
+)
 itk_add_test(
   NAME
   itkDisplacementFieldToBSplineImageFilterTest
   COMMAND
   ITKDisplacementFieldTestDriver
-  itkDisplacementFieldToBSplineImageFilterTest)
+  itkDisplacementFieldToBSplineImageFilterTest
+)
 itk_add_test(
   NAME
   itkTransformToDisplacementFieldFilterTest01
@@ -143,7 +160,8 @@ itk_add_test(
   DATA{Baseline/itkTransformToDisplacementFieldFilterTestField01.mha}
   itkTransformToDisplacementFieldFilterTest
   Affine
-  ${ITK_TEST_OUTPUT_DIR}/itkTransformToDisplacementFieldFilterTestField01.mha)
+  ${ITK_TEST_OUTPUT_DIR}/itkTransformToDisplacementFieldFilterTestField01.mha
+)
 itk_add_test(
   NAME
   itkTransformToDisplacementFieldFilterTest02
@@ -155,7 +173,8 @@ itk_add_test(
   itkTransformToDisplacementFieldFilterTest
   BSpline
   ${ITK_TEST_OUTPUT_DIR}/itkTransformToDisplacementFieldFilterTestField02.mha
-  DATA{${ITK_DATA_ROOT}/Input/parametersBSpline.txt})
+  DATA{${ITK_DATA_ROOT}/Input/parametersBSpline.txt}
+)
 itk_add_test(
   NAME
   itkTransformToDisplacementFieldFilterTest03
@@ -169,16 +188,19 @@ itk_add_test(
   itkTransformToDisplacementFieldFilterTest1
   ${ITK_TEST_OUTPUT_DIR}/transformedImage.nii
   ${ITK_TEST_OUTPUT_DIR}/warpedImage.nii
-  1)
+  1
+)
 itk_add_test(
   NAME
   itkDisplacementFieldTransformCloneTest
   COMMAND
   ITKDisplacementFieldTestDriver
-  itkDisplacementFieldTransformCloneTest)
+  itkDisplacementFieldTransformCloneTest
+)
 itk_add_test(
   NAME
   itkExponentialDisplacementFieldImageFilterTest
   COMMAND
   ITKDisplacementFieldTestDriver
-  itkExponentialDisplacementFieldImageFilterTest)
+  itkExponentialDisplacementFieldImageFilterTest
+)

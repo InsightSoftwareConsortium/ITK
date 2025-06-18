@@ -1,5 +1,8 @@
 if(NOT ITK_BUILD_DEFAULT_MODULES)
-  message(FATAL_ERROR "BUILD_EXAMPLES requires ITK_BUILD_DEFAULT_MODULES to be ON")
+  message(
+    FATAL_ERROR
+    "BUILD_EXAMPLES requires ITK_BUILD_DEFAULT_MODULES to be ON"
+  )
 endif()
 
 find_package(ITK REQUIRED)

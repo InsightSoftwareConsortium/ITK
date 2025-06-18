@@ -11,37 +11,29 @@
 
 # glob the examples for each language
 file(
-  GLOB_RECURSE
-  examples_list_fullpath
+  GLOB_RECURSE examples_list_fullpath
   FOLLOW_SYMLINKS
   "${PROJECT_SOURCE_DIR}/Examples/*.cxx"
   "${PROJECT_SOURCE_DIR}/Examples/*.py"
-  "${PROJECT_SOURCE_DIR}/Examples/*.java")
+  "${PROJECT_SOURCE_DIR}/Examples/*.java"
+)
 
 file(
-  GLOB_RECURSE
-  sphinx_examples_list_fullpath
+  GLOB_RECURSE sphinx_examples_list_fullpath
   "${PROJECT_SOURCE_DIR}/Modules/Remote/SphinxExamples/src/*.cxx"
-  "${PROJECT_SOURCE_DIR}/Modules/Remote/SphinxExamples/src/*.py")
+  "${PROJECT_SOURCE_DIR}/Modules/Remote/SphinxExamples/src/*.py"
+)
 
 # Use relative paths
 set(examples_list)
 string(LENGTH "${PROJECT_SOURCE_DIR}/" root_length)
 foreach(_example ${examples_list_fullpath})
-  string(
-    SUBSTRING ${_example}
-              ${root_length}
-              -1
-              example_relative)
+  string(SUBSTRING ${_example} ${root_length} -1 example_relative)
   list(APPEND examples_list ${example_relative})
 endforeach()
 string(LENGTH "${PROJECT_SOURCE_DIR}/Modules/Remote/" root_length)
 foreach(_example ${sphinx_examples_list_fullpath})
-  string(
-    SUBSTRING ${_example}
-              ${root_length}
-              -1
-              example_relative)
+  string(SUBSTRING ${_example} ${root_length} -1 example_relative)
   list(APPEND examples_list ${example_relative})
 endforeach()
 

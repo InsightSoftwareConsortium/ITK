@@ -64,14 +64,21 @@ macro(itk_module _name)
   set(ITK_MODULE_${itk-module}_ENABLE_SHARED 0)
   foreach(arg ${ARGN})
     ### Parse itk_module named options
-    if("${arg}" MATCHES "^((|COMPILE_|PRIVATE_|TEST_|)DEPENDS|DESCRIPTION|DEFAULT|FACTORY_NAMES)$")
+    if(
+      "${arg}"
+        MATCHES
+        "^((|COMPILE_|PRIVATE_|TEST_|)DEPENDS|DESCRIPTION|DEFAULT|FACTORY_NAMES)$"
+    )
       set(_doing "${arg}")
     elseif("${arg}" MATCHES "^EXCLUDE_FROM_DEFAULT$")
       set(_doing "")
       set(ITK_MODULE_${itk-module}_EXCLUDE_FROM_DEFAULT 1)
     elseif("${arg}" MATCHES "^EXCLUDE_FROM_ALL$") # To maintain backward compatibility
       set(_doing "")
-      message(AUTHOR_WARNING "EXCLUDE_FROM_ALL is deprecated, please use EXCLUDE_FROM_DEFAULT.")
+      message(
+        AUTHOR_WARNING
+        "EXCLUDE_FROM_ALL is deprecated, please use EXCLUDE_FROM_DEFAULT."
+      )
       set(ITK_MODULE_${itk-module}_EXCLUDE_FROM_DEFAULT 1)
     elseif("${arg}" MATCHES "^ENABLE_SHARED$")
       set(_doing "")
@@ -98,14 +105,21 @@ macro(itk_module _name)
     endif()
   endforeach()
   list(SORT ITK_MODULE_${itk-module}_DEPENDS) # Deterministic order.
-  set(ITK_MODULE_${itk-module}_PUBLIC_DEPENDS ${ITK_MODULE_${itk-module}_DEPENDS})
+  set(
+    ITK_MODULE_${itk-module}_PUBLIC_DEPENDS
+    ${ITK_MODULE_${itk-module}_DEPENDS}
+  )
   list(
     APPEND
     ITK_MODULE_${itk-module}_DEPENDS
     ${ITK_MODULE_${itk-module}_COMPILE_DEPENDS}
-    ${ITK_MODULE_${itk-module}_PRIVATE_DEPENDS})
-  set(ITK_MODULE_${itk-module}_TRANSITIVE_DEPENDS ${ITK_MODULE_${itk-module}_PUBLIC_DEPENDS}
-                                                  ${ITK_MODULE_${itk-module}_COMPILE_DEPENDS})
+    ${ITK_MODULE_${itk-module}_PRIVATE_DEPENDS}
+  )
+  set(
+    ITK_MODULE_${itk-module}_TRANSITIVE_DEPENDS
+    ${ITK_MODULE_${itk-module}_PUBLIC_DEPENDS}
+    ${ITK_MODULE_${itk-module}_COMPILE_DEPENDS}
+  )
   unset(ITK_MODULE_${itk-module}_COMPILE_DEPENDS)
   list(SORT ITK_MODULE_${itk-module}_DEPENDS) # Deterministic order.
   if(ITK_MODULE_${itk-module}_TRANSITIVE_DEPENDS) # Don't sort an empty list
@@ -119,10 +133,7 @@ macro(itk_module _name)
 endmacro()
 
 macro(itk_module_check_name _name)
-  if(NOT
-     "${_name}"
-     MATCHES
-     "^[a-zA-Z][a-zA-Z0-9]*$")
+  if(NOT "${_name}" MATCHES "^[a-zA-Z][a-zA-Z0-9]*$")
     message(FATAL_ERROR "Invalid module name: ${_name}")
   endif()
 endmacro()
@@ -136,17 +147,23 @@ macro(itk_module_impl)
 
   # Collect all sources and headers for IDE projects.
   set(_srcs "")
-  if("${CMAKE_GENERATOR}" MATCHES "Xcode|Visual Studio|KDevelop" OR CMAKE_EXTRA_GENERATOR)
+  if(
+    "${CMAKE_GENERATOR}"
+      MATCHES
+      "Xcode|Visual Studio|KDevelop"
+    OR
+      CMAKE_EXTRA_GENERATOR
+  )
     # Add sources to the module target for easy editing in the IDE.
     set(_include ${${itk-module}_SOURCE_DIR}/include)
     if(EXISTS ${_include})
       set(_src ${${itk-module}_SOURCE_DIR}/src)
       file(GLOB_RECURSE _srcs ${_src}/*.cxx)
       file(
-        GLOB_RECURSE
-        _hdrs
+        GLOB_RECURSE _hdrs
         ${_include}/*.h
-        ${_include}/*.hxx)
+        ${_include}/*.hxx
+      )
       list(APPEND _srcs ${_hdrs})
     endif()
   endif()
@@ -169,9 +186,11 @@ macro(itk_module_impl)
   if(EXISTS ${${itk-module}_SOURCE_DIR}/include)
     list(APPEND ${itk-module}_INCLUDE_DIRS ${${itk-module}_SOURCE_DIR}/include)
     install(
-      DIRECTORY include/
+      DIRECTORY
+        include/
       DESTINATION ${${itk-module}_INSTALL_INCLUDE_DIR}
-      COMPONENT Development)
+      COMPONENT Development
+    )
   endif()
   if(NOT ITK_SOURCE_DIR AND ${itk-module}_ENABLE_SHARED)
     # When building a module outside the ITK source tree, if ENABLE_SHARED is enabled,
@@ -211,8 +230,20 @@ macro(itk_module_impl)
     endif()
   endif()
 
-  if(EXISTS ${${itk-module}_SOURCE_DIR}/src/CMakeLists.txt AND NOT ${itk-module}_NO_SRC)
-    set_property(GLOBAL APPEND PROPERTY ITKTargets_MODULES ${itk-module})
+  if(
+    EXISTS
+      ${${itk-module}_SOURCE_DIR}/src/CMakeLists.txt
+    AND
+      NOT
+        ${itk-module}_NO_SRC
+  )
+    set_property(
+      GLOBAL
+      APPEND
+      PROPERTY
+        ITKTargets_MODULES
+          ${itk-module}
+    )
     add_subdirectory(src)
   endif()
 
@@ -222,31 +253,61 @@ macro(itk_module_impl)
       if(ITK_SOURCE_DIR)
         set(_export_header_file "${ITKCommon_BINARY_DIR}/${itk-module}Export.h")
       else()
-        set(_export_header_file "${${itk-module}_BINARY_DIR}/include/${itk-module}Export.h")
+        set(
+          _export_header_file
+          "${${itk-module}_BINARY_DIR}/include/${itk-module}Export.h"
+        )
       endif()
 
       # Generate the export macro header for symbol visibility/Windows DLL declspec
       generate_export_header(
         ${itk-module}
-        EXPORT_FILE_NAME
-        ${_export_header_file}
-        EXPORT_MACRO_NAME
-        ${itk-module}_EXPORT
-        NO_EXPORT_MACRO_NAME
-        ${itk-module}_HIDDEN
-        STATIC_DEFINE
-        ITK_STATIC)
+        EXPORT_FILE_NAME ${_export_header_file}
+        EXPORT_MACRO_NAME ${itk-module}_EXPORT
+        NO_EXPORT_MACRO_NAME ${itk-module}_HIDDEN
+        STATIC_DEFINE ITK_STATIC
+      )
       install(
-        FILES ${_export_header_file}
+        FILES
+          ${_export_header_file}
         DESTINATION ${${itk-module}_INSTALL_INCLUDE_DIR}
-        COMPONENT Development)
+        COMPONENT Development
+      )
     endif()
-    if((ITK_MODULE_${itk-module}_ENABLE_SHARED AND BUILD_SHARED_LIBS) OR (APPLE AND NOT BUILD_SHARED_LIBS))
+    if(
+      (
+        ITK_MODULE_${itk-module}_ENABLE_SHARED
+        AND
+          BUILD_SHARED_LIBS
+      )
+      OR
+        (
+          APPLE
+          AND
+            NOT
+              BUILD_SHARED_LIBS
+        )
+    )
       if(USE_COMPILER_HIDDEN_VISIBILITY)
         # Prefer to use target properties supported by newer cmake
-        set_target_properties(${itk-module} PROPERTIES CXX_VISIBILITY_PRESET hidden)
-        set_target_properties(${itk-module} PROPERTIES C_VISIBILITY_PRESET hidden)
-        set_target_properties(${itk-module} PROPERTIES VISIBILITY_INLINES_HIDDEN 1)
+        set_target_properties(
+          ${itk-module}
+          PROPERTIES
+            CXX_VISIBILITY_PRESET
+              hidden
+        )
+        set_target_properties(
+          ${itk-module}
+          PROPERTIES
+            C_VISIBILITY_PRESET
+              hidden
+        )
+        set_target_properties(
+          ${itk-module}
+          PROPERTIES
+            VISIBILITY_INLINES_HIDDEN
+              1
+        )
       endif()
     endif()
   endif()
@@ -265,38 +326,80 @@ macro(itk_module_impl)
   set(itk-module-ENABLE_SHARED "${ITK_MODULE_${itk-module}_ENABLE_SHARED}")
   set(itk-module-DEPENDS "${ITK_MODULE_${itk-module}_DEPENDS}")
   set(itk-module-PUBLIC_DEPENDS "${ITK_MODULE_${itk-module}_PUBLIC_DEPENDS}")
-  set(itk-module-TRANSITIVE_DEPENDS "${ITK_MODULE_${itk-module}_TRANSITIVE_DEPENDS}")
+  set(
+    itk-module-TRANSITIVE_DEPENDS
+    "${ITK_MODULE_${itk-module}_TRANSITIVE_DEPENDS}"
+  )
   set(itk-module-PRIVATE_DEPENDS "${ITK_MODULE_${itk-module}_PRIVATE_DEPENDS}")
   set(itk-module-FACTORY_NAMES "${ITK_MODULE_${itk-module}_FACTORY_NAMES}")
   set(itk-module-LIBRARIES "${${itk-module}_LIBRARIES}")
   set(itk-module-INCLUDE_DIRS-build "${${itk-module}_INCLUDE_DIRS}")
-  set(itk-module-INCLUDE_DIRS-install "\${ITK_INSTALL_PREFIX}/${${itk-module}_INSTALL_INCLUDE_DIR}")
+  set(
+    itk-module-INCLUDE_DIRS-install
+    "\${ITK_INSTALL_PREFIX}/${${itk-module}_INSTALL_INCLUDE_DIR}"
+  )
   if(${itk-module}_SYSTEM_INCLUDE_DIRS)
-    list(APPEND itk-module-INCLUDE_DIRS-build "${${itk-module}_SYSTEM_INCLUDE_DIRS}")
-    list(APPEND itk-module-INCLUDE_DIRS-install "${${itk-module}_SYSTEM_INCLUDE_DIRS}")
+    list(
+      APPEND
+      itk-module-INCLUDE_DIRS-build
+      "${${itk-module}_SYSTEM_INCLUDE_DIRS}"
+    )
+    list(
+      APPEND
+      itk-module-INCLUDE_DIRS-install
+      "${${itk-module}_SYSTEM_INCLUDE_DIRS}"
+    )
   endif()
   if(WIN32)
-    set(itk-module-RUNTIME_LIBRARY_DIRS-build "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
-    set(itk-module-RUNTIME_LIBRARY_DIRS-install "\${ITK_INSTALL_PREFIX}/${ITK_INSTALL_RUNTIME_DIR}")
+    set(
+      itk-module-RUNTIME_LIBRARY_DIRS-build
+      "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}"
+    )
+    set(
+      itk-module-RUNTIME_LIBRARY_DIRS-install
+      "\${ITK_INSTALL_PREFIX}/${ITK_INSTALL_RUNTIME_DIR}"
+    )
   else()
-    set(itk-module-RUNTIME_LIBRARY_DIRS-build "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
-    set(itk-module-RUNTIME_LIBRARY_DIRS-install "\${ITK_INSTALL_PREFIX}/${ITK_INSTALL_LIBRARY_DIR}")
+    set(
+      itk-module-RUNTIME_LIBRARY_DIRS-build
+      "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}"
+    )
+    set(
+      itk-module-RUNTIME_LIBRARY_DIRS-install
+      "\${ITK_INSTALL_PREFIX}/${ITK_INSTALL_LIBRARY_DIR}"
+    )
   endif()
   set(itk-module-LIBRARY_DIRS "${${itk-module}_SYSTEM_LIBRARY_DIRS}")
-  set(itk-module-RUNTIME_LIBRARY_DIRS "${itk-module-RUNTIME_LIBRARY_DIRS-build}")
+  set(
+    itk-module-RUNTIME_LIBRARY_DIRS
+    "${itk-module-RUNTIME_LIBRARY_DIRS-build}"
+  )
   set(itk-module-INCLUDE_DIRS "${itk-module-INCLUDE_DIRS-build}")
   set(itk-module-EXPORT_CODE "${itk-module-EXPORT_CODE-build}")
   set(itk-module-TARGETS_FILE "${itk-module-TARGETS_FILE-build}")
-  configure_file(${_ITKModuleMacros_DIR}/ITKModuleInfo.cmake.in ${ITK_MODULES_DIR}/${itk-module}.cmake @ONLY)
+  configure_file(
+    ${_ITKModuleMacros_DIR}/ITKModuleInfo.cmake.in
+    ${ITK_MODULES_DIR}/${itk-module}.cmake
+    @ONLY
+  )
   set(itk-module-INCLUDE_DIRS "${itk-module-INCLUDE_DIRS-install}")
   set(itk-module-EXPORT_CODE "${itk-module-EXPORT_CODE-install}")
   set(itk-module-TARGETS_FILE "${itk-module-TARGETS_FILE-install}")
-  set(itk-module-RUNTIME_LIBRARY_DIRS "${itk-module-RUNTIME_LIBRARY_DIRS-install}")
-  configure_file(${_ITKModuleMacros_DIR}/ITKModuleInfo.cmake.in CMakeFiles/${itk-module}.cmake @ONLY)
+  set(
+    itk-module-RUNTIME_LIBRARY_DIRS
+    "${itk-module-RUNTIME_LIBRARY_DIRS-install}"
+  )
+  configure_file(
+    ${_ITKModuleMacros_DIR}/ITKModuleInfo.cmake.in
+    CMakeFiles/${itk-module}.cmake
+    @ONLY
+  )
   install(
-    FILES ${${itk-module}_BINARY_DIR}/CMakeFiles/${itk-module}.cmake
+    FILES
+      ${${itk-module}_BINARY_DIR}/CMakeFiles/${itk-module}.cmake
     DESTINATION ${ITK_INSTALL_PACKAGE_DIR}/Modules
-    COMPONENT Development)
+    COMPONENT Development
+  )
   itk_module_doxygen(${itk-module}) # module name
 endmacro()
 
@@ -312,7 +415,10 @@ macro(itk_module_link_dependencies)
     elseif(DEFINED ${dep})
       target_link_libraries(${itk-module} LINK_PUBLIC ${${dep}})
     else()
-      message(FATAL_ERROR "Dependency \"${dep}\" not found: could not find [${dep}] or [${dep}_LIBRARIES]")
+      message(
+        FATAL_ERROR
+        "Dependency \"${dep}\" not found: could not find [${dep}] or [${dep}_LIBRARIES]"
+      )
     endif()
   endforeach()
 
@@ -323,7 +429,10 @@ macro(itk_module_link_dependencies)
     elseif(DEFINED ${dep})
       target_link_libraries(${itk-module} LINK_PRIVATE ${${dep}})
     else()
-      message(FATAL_ERROR "Dependency \"${dep}\" not found: could not find [${dep}] or [${dep}_LIBRARIES]")
+      message(
+        FATAL_ERROR
+        "Dependency \"${dep}\" not found: could not find [${dep}] or [${dep}_LIBRARIES]"
+      )
     endif()
   endforeach()
 endmacro()
@@ -346,7 +455,8 @@ macro(itk_module_examples)
     "Build the examples for Module_${itk-module}"
     ON
     "BUILD_EXAMPLES OR ITK_BUILD_EXAMPLES;Module_${itk-module};NOT ITK_BUILD_DOCUMENTATION"
-    OFF)
+    OFF
+  )
   if(Module_${itk-module}_BUILD_EXAMPLES)
     if(ITK_SOURCE_DIR)
       # If configuration is done from within ITK,
@@ -376,10 +486,12 @@ macro(itk_module_warnings_disable)
     if(MSVC)
       string(
         REGEX
-        REPLACE "(^|)[/-]W[0-4]( |$)"
-                " "
-                CMAKE_${lang}_FLAGS
-                "${CMAKE_${lang}_FLAGS}")
+        REPLACE
+        "(^|)[/-]W[0-4]( |$)"
+        " "
+        CMAKE_${lang}_FLAGS
+        "${CMAKE_${lang}_FLAGS}"
+      )
       set(CMAKE_${lang}_FLAGS "${CMAKE_${lang}_FLAGS} /W0")
     elseif(BORLAND)
       set(CMAKE_${lang}_FLAGS "${CMAKE_${lang}_FLAGS} -w-")
@@ -398,16 +510,31 @@ macro(itk_module_target_label _target_name)
   else()
     set(_label ${_ITKModuleMacros_DEFAULT_LABEL})
   endif()
-  set_property(TARGET ${_target_name} PROPERTY LABELS ${_label})
+  set_property(
+    TARGET
+      ${_target_name}
+    PROPERTY
+      LABELS
+        ${_label}
+  )
 endmacro()
 
 macro(itk_module_target_name _name)
-  if(NOT
-     ${CMAKE_SYSTEM_NAME}
-     MATCHES
-     "OpenBSD")
-    set_property(TARGET ${_name} PROPERTY VERSION 1)
-    set_property(TARGET ${_name} PROPERTY SOVERSION 1)
+  if(NOT ${CMAKE_SYSTEM_NAME} MATCHES "OpenBSD")
+    set_property(
+      TARGET
+        ${_name}
+      PROPERTY
+        VERSION
+          1
+    )
+    set_property(
+      TARGET
+        ${_name}
+      PROPERTY
+        SOVERSION
+          1
+    )
   endif()
   if("${_name}" MATCHES "^[Ii][Tt][Kk]")
     set(_itk "")
@@ -421,34 +548,42 @@ macro(itk_module_target_name _name)
   else()
     set(_lib_suffix "-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}")
   endif()
-  set_property(TARGET ${_name} PROPERTY OUTPUT_NAME ${_itk}${_name}${_lib_suffix})
+  set_property(
+    TARGET
+      ${_name}
+    PROPERTY
+      OUTPUT_NAME
+        ${_itk}${_name}${_lib_suffix}
+  )
 endmacro()
 
 macro(itk_module_target_export _name)
-  export(
-    TARGETS ${_name}
-    APPEND
-    FILE ${${itk-module}-targets-build})
+  export(TARGETS ${_name} APPEND FILE ${${itk-module}-targets-build})
 endmacro()
 
 macro(itk_module_target_install _name)
   #Use specific runtime components for executables and libraries separately when installing a module,
   #considering that the target of a module could be either an executable or a library.
-  get_property(
-    _ttype
-    TARGET ${_name}
-    PROPERTY TYPE)
+  get_property(_ttype TARGET ${_name} PROPERTY TYPE)
   if("${_ttype}" STREQUAL EXECUTABLE)
     set(runtime_component Runtime)
   else()
     set(runtime_component RuntimeLibraries)
   endif()
   install(
-    TARGETS ${_name}
+    TARGETS
+      ${_name}
     EXPORT ${${itk-module}-targets}
-    RUNTIME DESTINATION ${${itk-module}_INSTALL_RUNTIME_DIR} COMPONENT ${runtime_component}
-    LIBRARY DESTINATION ${${itk-module}_INSTALL_LIBRARY_DIR} COMPONENT RuntimeLibraries
-    ARCHIVE DESTINATION ${${itk-module}_INSTALL_ARCHIVE_DIR} COMPONENT Development)
+    RUNTIME
+      DESTINATION ${${itk-module}_INSTALL_RUNTIME_DIR}
+      COMPONENT ${runtime_component}
+    LIBRARY
+      DESTINATION ${${itk-module}_INSTALL_LIBRARY_DIR}
+      COMPONENT RuntimeLibraries
+    ARCHIVE
+      DESTINATION ${${itk-module}_INSTALL_ARCHIVE_DIR}
+      COMPONENT Development
+  )
 endmacro()
 
 macro(itk_module_target _name)
@@ -489,9 +624,17 @@ macro(itk_module_add_library _name)
   if(NOT ITK_MODULE_${itk-module}_ENABLE_SHARED)
     set(_LIBRARY_BUILD_TYPE)
   endif()
-  add_library(${_name} ${_LIBRARY_BUILD_TYPE} ${ARGN})
+  add_library(
+    ${_name}
+    ${_LIBRARY_BUILD_TYPE}
+    ${ARGN}
+  )
   target_compile_features(${_name} PUBLIC cxx_std_${CMAKE_CXX_STANDARD})
-  target_link_options(${_name} PUBLIC "$<$<AND:$<C_COMPILER_ID:AppleClang>,$<VERSION_GREATER_EQUAL:$<C_COMPILER_VERSION>,15.0>>:LINKER:-no_warn_duplicate_libraries>")
+  target_link_options(
+    ${_name}
+    PUBLIC
+      "$<$<AND:$<C_COMPILER_ID:AppleClang>,$<VERSION_GREATER_EQUAL:$<C_COMPILER_VERSION>,15.0>>:LINKER:-no_warn_duplicate_libraries>"
+  )
   itk_module_link_dependencies()
   itk_module_target(${_name})
 endmacro()

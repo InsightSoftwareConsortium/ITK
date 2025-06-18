@@ -1,12 +1,14 @@
 itk_module_test()
-set(ITKIOBMPTests
-    itkBMPImageIOTest2.cxx
-    itkBMPImageIOTest.cxx
-    itkBMPImageIOTest3.cxx
-    itkBMPImageIOTest4.cxx
-    itkBMPImageIOTest5.cxx
-    itkBMPImageIOTestExtension.cxx
-    itkBMPImageIOTestPalette.cxx)
+set(
+  ITKIOBMPTests
+  itkBMPImageIOTest2.cxx
+  itkBMPImageIOTest.cxx
+  itkBMPImageIOTest3.cxx
+  itkBMPImageIOTest4.cxx
+  itkBMPImageIOTest5.cxx
+  itkBMPImageIOTestExtension.cxx
+  itkBMPImageIOTestPalette.cxx
+)
 
 set(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 
@@ -22,7 +24,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/smallRGBA.mha
   itkBMPImageIOTest2
   DATA{${ITK_DATA_ROOT}/Input/smallRGBA.bmp}
-  ${ITK_TEST_OUTPUT_DIR}/smallRGBA.mha)
+  ${ITK_TEST_OUTPUT_DIR}/smallRGBA.mha
+)
 itk_add_test(
   NAME
   itkBMPImageIOTest6
@@ -33,7 +36,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/smallRGBA.bmp
   itkBMPImageIOTest2
   DATA{${ITK_DATA_ROOT}/Input/smallRGBA.bmp}
-  ${ITK_TEST_OUTPUT_DIR}/smallRGBA.bmp)
+  ${ITK_TEST_OUTPUT_DIR}/smallRGBA.bmp
+)
 itk_add_test(
   NAME
   itkBMPImageIOTest
@@ -44,7 +48,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/cthead1.bmp
   itkBMPImageIOTest
   DATA{${ITK_DATA_ROOT}/Input/cthead1.bmp}
-  ${ITK_TEST_OUTPUT_DIR}/cthead1.bmp)
+  ${ITK_TEST_OUTPUT_DIR}/cthead1.bmp
+)
 itk_add_test(
   NAME
   itkBMPImageIOTest2
@@ -55,7 +60,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/cthead254x254.bmp
   itkBMPImageIOTest
   DATA{${ITK_DATA_ROOT}/Input/cthead254x254.bmp}
-  ${ITK_TEST_OUTPUT_DIR}/cthead254x254.bmp)
+  ${ITK_TEST_OUTPUT_DIR}/cthead254x254.bmp
+)
 itk_add_test(
   NAME
   itkBMPImageIOTest3
@@ -66,7 +72,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/image_grayscale.bmp
   itkBMPImageIOTest
   DATA{${ITK_DATA_ROOT}/Input/image_grayscale.bmp}
-  ${ITK_TEST_OUTPUT_DIR}/image_grayscale.bmp)
+  ${ITK_TEST_OUTPUT_DIR}/image_grayscale.bmp
+)
 itk_add_test(
   NAME
   itkBMPImageIOTest4
@@ -77,7 +84,8 @@ itk_add_test(
   ${ITK_TEST_OUTPUT_DIR}/image_color.bmp
   itkBMPImageIOTest
   DATA{${ITK_DATA_ROOT}/Input/image_color.bmp}
-  ${ITK_TEST_OUTPUT_DIR}/image_color.bmp)
+  ${ITK_TEST_OUTPUT_DIR}/image_color.bmp
+)
 itk_add_test(
   NAME
   itkBMPImageIOTest7
@@ -85,7 +93,8 @@ itk_add_test(
   ITKIOBMPTestDriver
   itkBMPImageIOTest3
   DATA{${ITK_DATA_ROOT}/Input/grayscale_lowerleft.bmp}
-  DATA{${ITK_DATA_ROOT}/Input/grayscale_upperleft.bmp})
+  DATA{${ITK_DATA_ROOT}/Input/grayscale_upperleft.bmp}
+)
 itk_add_test(
   NAME
   itkBMPImageIOTest8
@@ -93,7 +102,8 @@ itk_add_test(
   ITKIOBMPTestDriver
   itkBMPImageIOTest4
   DATA{${ITK_DATA_ROOT}/Input/color_lowerleft.bmp}
-  DATA{${ITK_DATA_ROOT}/Input/color_upperleft.bmp})
+  DATA{${ITK_DATA_ROOT}/Input/color_upperleft.bmp}
+)
 itk_add_test(
   NAME
   itkBMPImageIOTest9
@@ -101,7 +111,8 @@ itk_add_test(
   ITKIOBMPTestDriver
   itkBMPImageIOTest5
   DATA{${ITK_DATA_ROOT}/Input/grayscale_lowerleft_rle.bmp}
-  DATA{${ITK_DATA_ROOT}/Input/grayscale_lowerleft.bmp})
+  DATA{${ITK_DATA_ROOT}/Input/grayscale_lowerleft.bmp}
+)
 
 itk_add_test(
   NAME
@@ -115,7 +126,8 @@ itk_add_test(
   DATA{Input/HeliconiusNumataPalette.bmp}
   ${ITK_TEST_OUTPUT_DIR}/itkBMPImageIOTestPaletteExpanded.bmp
   1
-  0)
+  0
+)
 itk_add_test(
   NAME
   itkBMPImageIOTestPaletteNotExpanded
@@ -128,7 +140,8 @@ itk_add_test(
   DATA{Input/HeliconiusNumataPalette.bmp}
   ${ITK_TEST_OUTPUT_DIR}/itkBMPImageIOTestPaletteNotExpanded.bmp
   0
-  1)
+  1
+)
 itk_add_test(
   NAME
   itkBMPImageIOTestPaletteNotExpandedGrey
@@ -141,7 +154,8 @@ itk_add_test(
   DATA{Input/HeliconiusNumataPalette.bmp}
   ${ITK_TEST_OUTPUT_DIR}/itkBMPImageIOTestPaletteNotExpandedGrey.bmp
   0
-  0)
+  0
+)
 
 itk_add_test(
   NAME
@@ -149,4 +163,5 @@ itk_add_test(
   COMMAND
   ITKIOBMPTestDriver
   itkBMPImageIOTestExtension
-  ${TEMP})
+  ${TEMP}
+)

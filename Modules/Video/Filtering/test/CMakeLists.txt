@@ -1,9 +1,11 @@
 itk_module_test()
-set(ITKVideoFilteringTests
-    itkFrameAverageVideoFilterTest.cxx
-    itkDecimateFramesVideoFilterTest.cxx
-    itkImageFilterToVideoFilterWrapperTest.cxx
-    itkFrameDifferenceVideoFilterTest.cxx)
+set(
+  ITKVideoFilteringTests
+  itkFrameAverageVideoFilterTest.cxx
+  itkDecimateFramesVideoFilterTest.cxx
+  itkImageFilterToVideoFilterWrapperTest.cxx
+  itkFrameDifferenceVideoFilterTest.cxx
+)
 
 createtestdriver(ITKVideoFiltering "${ITKVideoFiltering-Test_LIBRARIES}" "${ITKVideoFilteringTests}")
 
@@ -18,7 +20,8 @@ itk_add_test(
   "DATA{Input/frame0.jpg},DATA{Input/frame1.jpg},DATA{Input/frame2.jpg},DATA{Input/frame3.jpg},DATA{Input/frame4.jpg}"
   #,DATA{Input/frame2.jpg},DATA{Input/frame3.jpg},DATA{Input/frame4.jpg}"
   # Output
-  "${ITK_TEST_OUTPUT_DIR}/avg_frame0.png,${ITK_TEST_OUTPUT_DIR}/avg_frame1.png,${ITK_TEST_OUTPUT_DIR}/avg_frame2.png")
+  "${ITK_TEST_OUTPUT_DIR}/avg_frame0.png,${ITK_TEST_OUTPUT_DIR}/avg_frame1.png,${ITK_TEST_OUTPUT_DIR}/avg_frame2.png"
+)
 
 # DecimateFramesVideoFilter
 itk_add_test(
@@ -30,7 +33,8 @@ itk_add_test(
   # Input
   "DATA{Input/frame0.jpg},DATA{Input/frame1.jpg},DATA{Input/frame2.jpg},DATA{Input/frame3.jpg},DATA{Input/frame4.jpg}"
   # Output
-  "${ITK_TEST_OUTPUT_DIR}/dec_frame0.png,${ITK_TEST_OUTPUT_DIR}/dec_frame1.png")
+  "${ITK_TEST_OUTPUT_DIR}/dec_frame0.png,${ITK_TEST_OUTPUT_DIR}/dec_frame1.png"
+)
 
 # ImageFilterToVideoFilterWrapperTest
 itk_add_test(
@@ -51,4 +55,5 @@ itk_add_test(
   FrameDifferenceVideoFilterTest
   COMMAND
   ITKVideoFilteringTestDriver
-  itkFrameDifferenceVideoFilterTest)
+  itkFrameDifferenceVideoFilterTest
+)

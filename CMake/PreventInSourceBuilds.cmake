@@ -8,11 +8,15 @@ function(AssureOutOfSourceBuilds)
   # disallow in-source builds
   if("${srcdir}" STREQUAL "${bindir}")
     message("######################################################")
-    message("# ITK should not be configured & built in the ITK source directory")
+    message(
+      "# ITK should not be configured & built in the ITK source directory"
+    )
     message("# You must run cmake in a build directory.")
     message("# For example:")
     message("# mkdir ITK-Sandbox ; cd ITK-sandbox")
-    message("# git clone https://itk.org/ITK.git # or download & unpack the source tarball")
+    message(
+      "# git clone https://itk.org/ITK.git # or download & unpack the source tarball"
+    )
     message("# mkdir ITK-build")
     message("# this will create the following directory structure")
     message("#")
