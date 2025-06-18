@@ -342,6 +342,27 @@ public:
    * used for writing output files. */
   static std::string GetComponentTypeAsString(IOComponentEnum);
 
+  /** Tells whether or not the specified component type is a floating point type. */
+  static constexpr bool
+  IsComponentTypeFloatingPoint(const IOComponentEnum componentEnum)
+  {
+    return GetComponentTypeTraits(componentEnum).isFloatingPoint;
+  }
+
+  /** Tells whether or not the specified component type is an unsigned integer type. */
+  static constexpr bool
+  IsComponentTypeUnsigned(const IOComponentEnum componentEnum)
+  {
+    return GetComponentTypeTraits(componentEnum).isUnsigned;
+  }
+
+  /** Returns the number of bits of the specified component type. */
+  static constexpr size_t
+  GetNumberOfBitsOfComponentType(const IOComponentEnum componentEnum)
+  {
+    return GetComponentTypeTraits(componentEnum).sizeOfComponent * CHAR_BIT;
+  }
+
   /** Convenience method returns the IOComponentEnum corresponding to a string. */
   static IOComponentEnum
   GetComponentTypeFromString(const std::string & typeString);
@@ -937,6 +958,42 @@ protected:
                                          const ImageIORegion & pasteRegion) const;
 
 private:
+  struct ComponentTypeTraits
+  {
+    bool   isFloatingPoint;
+    bool   isUnsigned;
+    size_t sizeOfComponent;
+
+    template <typename... TComponent>
+    static constexpr ComponentTypeTraits
+    Get(const IOComponentEnum componentEnum)
+    {
+      ComponentTypeTraits result{};
+      return ((MapPixelType<TComponent>::CType == componentEnum
+                 ? result = { std::is_floating_point_v<TComponent>, std::is_unsigned_v<TComponent>, sizeof(TComponent) }
+                 : result),
+              ...);
+    }
+  };
+
+
+  static constexpr ComponentTypeTraits
+  GetComponentTypeTraits(const IOComponentEnum componentEnum)
+  {
+    return ComponentTypeTraits::Get<char,
+                                    unsigned char,
+                                    short,
+                                    unsigned short,
+                                    int,
+                                    unsigned int,
+                                    long,
+                                    unsigned long,
+                                    long long,
+                                    unsigned long long,
+                                    float,
+                                    double>(componentEnum);
+  }
+
   bool
   HasSupportedExtension(const char *, const ArrayOfExtensionsType &, bool ignoreCase = true);
 
