@@ -42,7 +42,7 @@ using FastMutexType = pthread_mutex_t;
 using ThreadFunctionType = void * (*)(void *);
 using ThreadProcessIdType = pthread_t;
 #  if !defined(ITK_FUTURE_LEGACY_REMOVE)
-constexpr ThreadProcessIdType ITK_DEFAULT_THREAD_ID = 0;
+constexpr ThreadProcessIdType ITK_DEFAULT_THREAD_ID = {};
 #  endif
 using ITK_THREAD_RETURN_TYPE = void *;
 /** @ITKEndGrouping */
