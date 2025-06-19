@@ -494,6 +494,9 @@ of tools for image display, manipulation and conversion.
 correctly loading and displaying all file types supported by ITK
 (including anisotropic images).
 
+[ImageJ2](https://imagej.net/software/imagej2/) or [Fiji](https://imagej.net/software/fiji/) is a biology-oriented
+image viewer with a large range of processing and analysis functionalities, especially through its community-led plugins.
+
 ## Registration
 
 ### Can ITK be used for multi-modal registration? For example, CT-MRI, or MRI-fMRI?
