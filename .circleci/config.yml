@@ -37,7 +37,7 @@ jobs:
       - restore_cache:
           keys:
             - ccache-{{ arch }}-{{ .Branch }}
-            - ccache-{{ arch }}-master
+            - ccache-{{ arch }}-main
             - ccache-{{ arch }}
       - run:
           name: Cloning dashboard branch
@@ -57,7 +57,7 @@ jobs:
             ccache --show-stats
             ccache --zero-stats
             ccache --max-size=2.0G
-      - run: echo 'export DASHBOARD_MODEL=$( [[ "$CIRCLE_BRANCH" = "master" ]] && echo Continuous || echo Experimental )' >> $BASH_ENV
+      - run: echo 'export DASHBOARD_MODEL=$( [[ "$CIRCLE_BRANCH" = "main" ]] && echo Continuous || echo Experimental )' >> $BASH_ENV
       - run:
           name: Build and Testing with CTest
           environment:

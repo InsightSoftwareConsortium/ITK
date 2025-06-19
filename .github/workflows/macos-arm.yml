@@ -3,7 +3,7 @@ name: ITK.macOS.Arm64
 on:
     push:
         branches:
-            - master
+            - main
             - 'release*'
         paths-ignore:
             - '*.md'

@@ -28,11 +28,11 @@ close a related issues using keywords (https://help.github.com/articles/closing-
 of the person or team responsible for reviewing proposed changes. -->
 
 ## PR Checklist
-- [ ] No [API changes](https://github.com/InsightSoftwareConsortium/ITK/blob/master/CONTRIBUTING.md#breaking-changes) were made (or the changes have been approved)
-- [ ] No [major design changes](https://github.com/InsightSoftwareConsortium/ITK/blob/master/CONTRIBUTING.md#design-changes) were made (or the changes have been approved)
+- [ ] No [API changes](https://github.com/InsightSoftwareConsortium/ITK/blob/main/CONTRIBUTING.md#breaking-changes) were made (or the changes have been approved)
+- [ ] No [major design changes](https://github.com/InsightSoftwareConsortium/ITK/blob/main/CONTRIBUTING.md#design-changes) were made (or the changes have been approved)
 - [ ] Added test (or behavior not changed)
 - [ ] Updated API documentation (or API not changed)
-- [ ] Added [license](https://github.com/InsightSoftwareConsortium/ITK/blob/master/Utilities/KWStyle/ITKHeader.h) to new files (if any)
+- [ ] Added [license](https://github.com/InsightSoftwareConsortium/ITK/blob/main/Utilities/KWStyle/ITKHeader.h) to new files (if any)
 - [ ] Added Python wrapping to new files (if any) as described in [ITK Software Guide](https://itk.org/ItkSoftwareGuide.pdf) Section 9.5
 - [ ] Added [ITK examples](https://github.com/InsightSoftwareConsortium/ITKSphinxExamples) for all new major features (if any)
 
