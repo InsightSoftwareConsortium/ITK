@@ -1,5 +1,8 @@
 set(IOScanco_SRCS
   itkScancoDataManipulation.cxx
+  itkScancoHeaderIO.cxx
+  itkAIMHeaderIO.cxx
+  itkISQHeaderIO.cxx
   itkScancoImageIO.cxx
   itkScancoImageIOFactory.cxx
   )
