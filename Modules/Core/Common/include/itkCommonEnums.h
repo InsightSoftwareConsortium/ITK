@@ -72,6 +72,8 @@ public:
    * refers to the actual storage class associated with either a
    * SCALAR pixel type or elements of a compound pixel.
    */
+  ITK_CLANG_PRAGMA_PUSH
+  ITK_CLANG_SUPPRESS_Wduplicate_enum
   enum class IOComponent : uint8_t
   {
     UNKNOWNCOMPONENTTYPE,
@@ -99,6 +101,7 @@ public:
     FLOAT32 = FLOAT,
     FLOAT64 = DOUBLE
   };
+  ITK_CLANG_PRAGMA_POP
 
   /**
    * \ingroup ITKCommon
