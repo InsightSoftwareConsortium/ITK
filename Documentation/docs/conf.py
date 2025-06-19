@@ -1,10 +1,10 @@
 # Configuration file for the Sphinx documentation builder.
 #
 # For the full list of built-in configuration values, see the documentation:
-# https://www.sphinx-doc.org/en/master/usage/configuration.html
+# https://www.sphinx-doc.org/en/main/usage/configuration.html
 
 # -- Project information -----------------------------------------------------
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
+# https://www.sphinx-doc.org/en/main/usage/configuration.html#project-information
 
 import os
 from datetime import date
@@ -58,6 +58,6 @@ html_title = f"{project}'s documentation"
 html_theme_options = {
     "top_of_page_button": "edit",
     "source_repository": "https://github.com/InsightSoftwareConsortium/ITK/",
-    "source_branch": "master",
+    "source_branch": "main",
     "source_directory": "Documentation/docs",
 }

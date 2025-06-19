@@ -627,6 +627,6 @@ To resolve these errors, update the remote module's dependency specification in
 Update scripts
 --------------
 
-[Utilities/ITKv5Preparation](https://github.com/InsightSoftwareConsortium/ITK/tree/master/Utilities/ITKv5Preparation) directory contains
+[Utilities/ITKv5Preparation](https://github.com/InsightSoftwareConsortium/ITK/tree/main/Utilities/ITKv5Preparation) directory contains
 bash scripts which have been used to update ITK to version 5. These scripts
 can assist with updating external code bases to ITK 5 content and style.
