@@ -88,7 +88,9 @@ main(int argc, char * argv[])
                     << std::endl
                     << "      described as \"" << *d << "\"" << std::endl
                     << "      enabled " << *e << std::endl;
-          ++n, ++d, ++e;
+          ++n;
+          ++d;
+          ++e;
         }
       }
     }
@@ -181,7 +183,9 @@ main(int argc, char * argv[])
                     << std::endl
                     << "      described as \"" << *d << "\"" << std::endl
                     << "      enabled " << *e << std::endl;
-          ++n, ++d, ++e;
+          ++n;
+          ++d;
+          ++e;
         }
       }
     }
