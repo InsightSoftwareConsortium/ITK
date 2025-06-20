@@ -29,9 +29,9 @@ Utilities/GitSetup/setup-git-aliases && echo &&
 Utilities/GitSetup/tips &&
 Utilities/GitSetup/github-tips
 
-# Rebase master by default
+# Rebase main by default
 git config rebase.stat true
-git config branch.master.rebase true
+git config branch.main.rebase true
 
 # Disable old Gerrit hooks
 hook=$(git config --get hooks.GerritId) &&

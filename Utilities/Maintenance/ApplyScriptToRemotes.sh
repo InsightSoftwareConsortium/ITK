@@ -30,7 +30,7 @@
 # remote module repository.
 #
 # Please, review the commit message directives at:
-# https://github.com/InsightSoftwareConsortium/ITK/blob/master/CONTRIBUTING.md
+# https://github.com/InsightSoftwareConsortium/ITK/blob/main/CONTRIBUTING.md
 
 
 # Utility functions
@@ -49,7 +49,7 @@ commits them using the provided commit message, and pushes the commit to the
 remote module repository.
 
 Please, review the commit message directives at:
-https://github.com/InsightSoftwareConsortium/ITK/blob/master/CONTRIBUTING.md
+https://github.com/InsightSoftwareConsortium/ITK/blob/main/CONTRIBUTING.md
 EOF
 }
 
@@ -121,8 +121,8 @@ function list_candidate_remotes() {
 
     # Get the latest git commit hash of the remote module.
     # Remotes will usually not be tagged.
-    latest_commit=$(git ls-remote https://github.com/$repository refs/heads/master)
-    latest_commit=${latest_commit/[[:space:]]refs\/heads\/master/}
+    latest_commit=$(git ls-remote https://github.com/$repository refs/heads/main)
+    latest_commit=${latest_commit/[[:space:]]refs\/heads\/main/}
 
     # Skip remotes whose current commit in ITK differs from the latest
     if [ $curr_commit != $latest_commit ]; then
@@ -170,8 +170,8 @@ function apply_script_and_push_remotes() {
 
     repository_basename=$(basename -s .git `git config --get remote.origin.url`)
 
-    git checkout main || git checkout master
-    git checkout -b $feature_branch origin/main || git checkout -b $feature_branch origin/master || git checkout $feature_branch
+    git checkout main || git checkout main
+    git checkout -b $feature_branch origin/main || git checkout -b $feature_branch origin/main || git checkout $feature_branch
     $script
 
     # Add the files, adding filters if necessary, and redirecting stdout and
