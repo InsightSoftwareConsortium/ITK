@@ -358,7 +358,7 @@ AIMHeaderIO::ReadImgStructHeader(AIMV030StructHeader * headerData)
 int
 AIMHeaderIO::ReadProcessingLog(std::ifstream & infile, unsigned long offset, unsigned long length)
 {
-  int         bytesRead = 0;
+  size_t      bytesRead = 0;
   std::string readString = "";
 
   if (length == 0)

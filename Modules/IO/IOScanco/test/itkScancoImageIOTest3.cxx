@@ -80,7 +80,7 @@ itkScancoImageIOTest3(int argc, char * argv[])
   std::cout << "DataRange[0]: \t" << scancoIO->GetDataRange()[0] << std::endl;
   std::cout << "DataRange[1]: \t" << scancoIO->GetDataRange()[1] << std::endl;
 
-  if (scancoIO->GetComponentType() == itk::ImageIOBase::FLOAT)
+  if (scancoIO->GetComponentType() == itk::IOComponentEnum::FLOAT)
   {
     ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(scancoIO->GetDataRange()[0], -1380.0, 6, 1e-3));
     ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(scancoIO->GetDataRange()[1], 8823.0, 6, 1e-3));

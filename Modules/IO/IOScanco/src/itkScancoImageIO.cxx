@@ -334,7 +334,7 @@ ScancoImageIO::PopulateMetaDataDictionary()
   EncapsulateMetaData<double>(thisDic, "MuWater", this->m_HeaderData.m_MuWater);
   EncapsulateMetaData<double>(thisDic, "StartPosition", this->m_HeaderData.m_StartPosition);
 
-  for (int i = 0; i < this->GetNumberOfDimensions(); i++)
+  for (unsigned int i = 0; i < this->GetNumberOfDimensions(); i++)
   {
     pixelDimensions[i] = this->m_HeaderData.m_ScanDimensionsPixels[i];
     physicalDimensions[i] = this->m_HeaderData.m_ScanDimensionsPhysical[i];
@@ -423,7 +423,7 @@ ScancoImageIO::SetHeaderFromMetaDataDictionary()
     return;
   }
 
-  for (int i = 0; i < this->GetNumberOfDimensions(); i++)
+  for (unsigned int i = 0; i < this->GetNumberOfDimensions(); i++)
   {
     this->m_HeaderData.m_ScanDimensionsPixels[i] = pixelDimensions[i];
     this->m_HeaderData.m_ScanDimensionsPhysical[i] = physicalDimensions[i];

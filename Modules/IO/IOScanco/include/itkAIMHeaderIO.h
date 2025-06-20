@@ -119,9 +119,9 @@ private:
   unsigned int m_IntSize{ 4 }; // Size of integers in the header (4 for AIM v020, 8 for AIM v030)
 
   /** Header Size = m_PreHeaderSize + m_ImgStructSize + m_ProcessingLogSize */
-  unsigned long m_PreHeaderSize{ 0 };
-  unsigned long m_ImgStructSize{ 0 };
-  unsigned long m_ProcessingLogSize{ 0 };
+  size_t m_PreHeaderSize{ 0 };
+  size_t m_ImgStructSize{ 0 };
+  size_t m_ProcessingLogSize{ 0 };
 };
 } // namespace itk
 #endif // itkAIMHeaderIO_h
