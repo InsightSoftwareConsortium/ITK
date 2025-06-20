@@ -143,12 +143,12 @@ ITKCommon_EXPORT std::istream &
 
     std::string bracket;
 
-    while ((in >> bracket).good() && bracket.find("[", 0) == std::string::npos)
+    while ((in >> bracket).good() && bracket.find('[', 0) == std::string::npos)
     {
       record.m_RecordName += std::string(" ") + bracket;
     }
 
-    if (!in.good() || bracket.find("[", 0) == std::string::npos)
+    if (!in.good() || bracket.find('[', 0) == std::string::npos)
     {
       itkGenericExceptionMacro("For record: " << record.m_RecordName << ", bad left bracket: " << bracket);
     }
@@ -242,7 +242,7 @@ ITKCommon_EXPORT std::istream &
         // If address is "[" then recordName was the address and there is name
         // for
         // the record, skip it.
-        if (address.find("[", 0) != std::string::npos)
+        if (address.find('[', 0) != std::string::npos)
         {
           in.getline(line, 256);
           recordHasNoName = true;
@@ -257,7 +257,7 @@ ITKCommon_EXPORT std::istream &
 
     std::string bracket;
 
-    while ((in >> bracket).good() && bracket.find("[", 0) == std::string::npos)
+    while ((in >> bracket).good() && bracket.find('[', 0) == std::string::npos)
     {
       // the string is not a bracket yet, but probably the address. So the
       // previous
@@ -265,7 +265,7 @@ ITKCommon_EXPORT std::istream &
       record.m_RecordName += std::string(" ") + address;
       address = bracket;
     }
-    if (!in.good() || bracket.find("[", 0) == std::string::npos)
+    if (!in.good() || bracket.find('[', 0) == std::string::npos)
     {
       itkGenericExceptionMacro("For record: " << record.m_RecordName << ", bad left bracket: " << bracket);
     }
