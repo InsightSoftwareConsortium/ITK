@@ -297,6 +297,7 @@ StatementMacros:
   - ITK_CLANG_PRAGMA_PUSH
   - ITK_CLANG_PRAGMA_POP
   - ITK_CLANG_SUPPRESS_Wzero_as_null_pointer_constant
+  - ITK_CLANG_SUPPRESS_Wduplicate_enum
   - CLANG_PRAGMA_PUSH
   - CLANG_PRAGMA_POP
   - CLANG_SUPPRESS_Wfloat_equal
