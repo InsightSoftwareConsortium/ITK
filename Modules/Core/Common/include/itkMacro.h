@@ -216,10 +216,8 @@ namespace itk
 // define a minimum __sgi version that will work.
 #  error "The SGI compiler is not supported"
 #endif
-#if defined(__APPLE__)
-#  if defined(__clang__) && (__cplusplus < 201703L)
-#    error "Apple LLVM compiling with a standard less than C++17 is not supported"
-#  endif
+#if defined(__apple_build_version__) && (__apple_build_version__ < 12000032)
+#  error "AppleClang < Xcode 12.4 is not supported"
 #elif defined(__clang__) && (__clang_major__ < 5)
 #  error "Clang < 5 is not supported"
 #endif

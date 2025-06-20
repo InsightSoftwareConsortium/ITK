@@ -303,12 +303,7 @@ ImageIOBase::ReadBufferAsBinary(std::istream & is, void * buffer, ImageIOBase::S
 
   const std::streamsize numberOfBytesRead = is.gcount();
 
-#ifdef __APPLE_CC__
-  // fail() is broken in the Mac. It returns true when reaches eof().
-  if (numberOfBytesRead != numberOfBytesToBeRead)
-#else
   if ((numberOfBytesRead != numberOfBytesToBeRead) || is.fail())
-#endif
   {
     return false; // read failed
   }
