@@ -463,8 +463,8 @@ FileListVideoIO::VerifyExtensions(const std::vector<std::string> & fileList) con
 {
   for (size_t i = 1; i < fileList.size(); ++i)
   {
-    const size_t prevExtPos = fileList[i - 1].rfind(".");
-    const size_t extPos = fileList[i].rfind(".");
+    const size_t prevExtPos = fileList[i - 1].rfind('.');
+    const size_t extPos = fileList[i].rfind('.');
     if (prevExtPos == std::string::npos || extPos == std::string::npos)
     {
       return false;
