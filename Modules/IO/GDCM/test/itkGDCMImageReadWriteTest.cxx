@@ -68,20 +68,21 @@ internalMain(const std::string &       inputImage,
   {
     case IOPixelType::SCALAR:
       ITK_TEST_EXPECT_EQUAL(numberOfComponents, 1);
-      ITK_TEST_EXPECT_EQUAL(gdcmImageIO->GetPixelTypeAsString(pixelType), expectedPixelType);
+      ITK_TEST_EXPECT_EQUAL(itk::ImageIOBase::GetPixelTypeAsString(pixelType), expectedPixelType);
       return ReadWrite<itk::Image<float, Dimension>>(inputImage, outputImage);
 
     case IOPixelType::RGB:
       ITK_TEST_EXPECT_EQUAL(numberOfComponents, 3);
-      ITK_TEST_EXPECT_EQUAL(gdcmImageIO->GetPixelTypeAsString(pixelType), expectedPixelType);
+      ITK_TEST_EXPECT_EQUAL(itk::ImageIOBase::GetPixelTypeAsString(pixelType), expectedPixelType);
       return ReadWrite<itk::Image<itk::RGBPixel<unsigned char>, Dimension>>(inputImage, outputImage);
 
     case IOPixelType::VECTOR:
-      ITK_TEST_EXPECT_EQUAL(gdcmImageIO->GetPixelTypeAsString(pixelType), expectedPixelType);
+      ITK_TEST_EXPECT_EQUAL(itk::ImageIOBase::GetPixelTypeAsString(pixelType), expectedPixelType);
       return ReadWrite<itk::VectorImage<float, Dimension>>(inputImage, outputImage);
 
     default:
-      std::cerr << "Test does not support pixel type of " << gdcmImageIO->GetPixelTypeAsString(pixelType) << std::endl;
+      std::cerr << "Test does not support pixel type of " << itk::ImageIOBase::GetPixelTypeAsString(pixelType)
+                << std::endl;
       return EXIT_FAILURE;
   }
 }

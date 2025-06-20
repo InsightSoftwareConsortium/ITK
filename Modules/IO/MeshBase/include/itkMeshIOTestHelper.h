@@ -300,10 +300,10 @@ TestBaseClassMethodsMeshIO(typename TMeshIO::Pointer meshIO)
   const itk::IOComponentEnum floatComponent = itk::IOComponentEnum::FLOAT;
   std::cout << "ComponentSize: " << meshIO->GetComponentSize(floatComponent) << std::endl;
 
-  std::cout << "ComponentTypeAsString: " << meshIO->GetComponentTypeAsString(floatComponent) << std::endl;
+  std::cout << "ComponentTypeAsString: " << itk::MeshIOBase::GetComponentTypeAsString(floatComponent) << std::endl;
 
   const itk::CommonEnums::IOPixel pixelType = itk::CommonEnums::IOPixel::SCALAR;
-  std::cout << "PixelTypeAsString: " << meshIO->GetPixelTypeAsString(pixelType) << std::endl;
+  std::cout << "PixelTypeAsString: " << itk::MeshIOBase::GetPixelTypeAsString(pixelType) << std::endl;
 
   const itk::CommonEnums::IOComponent pointComponentType = itk::CommonEnums::IOComponent::FLOAT;
   meshIO->SetPointComponentType(pointComponentType);
