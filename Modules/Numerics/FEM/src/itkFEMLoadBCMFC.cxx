@@ -16,6 +16,8 @@
  *
  *=========================================================================*/
 
+#include <utility>
+
 #include "itkFEMLoadBCMFC.h"
 
 namespace itk::fem
@@ -42,7 +44,7 @@ LoadBCMFC::CreateAnother() const
  * Fix a DOF to a prescribed value
  */
 LoadBCMFC::LoadBCMFC(Element::ConstPointer element, int dof, vnl_vector<Element::Float> val)
-  : m_RightHandSide(val)
+  : m_RightHandSide(std::move(val))
 {
   m_LeftHandSide.clear();
 
