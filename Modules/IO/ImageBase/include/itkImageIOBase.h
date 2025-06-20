@@ -39,6 +39,7 @@
 
 #include <fstream>
 #include <string>
+#include <type_traits> // For is_same_v and is_signed_v.
 
 namespace itk
 {
@@ -582,8 +583,23 @@ public:
   template <typename TPixel>
   struct MapPixelType
   {
-    static constexpr IOComponentEnum CType = IOComponentEnum::UNKNOWNCOMPONENTTYPE;
+    static constexpr IOComponentEnum CType =
+      std::is_same_v<TPixel, char>          ? (std::is_signed_v<char> ? IOComponentEnum::CHAR : IOComponentEnum::UCHAR)
+      : std::is_same_v<TPixel, signed char> ? IOComponentEnum::CHAR
+      : std::is_same_v<TPixel, unsigned char>      ? IOComponentEnum::UCHAR
+      : std::is_same_v<TPixel, short>              ? IOComponentEnum::SHORT
+      : std::is_same_v<TPixel, unsigned short>     ? IOComponentEnum::USHORT
+      : std::is_same_v<TPixel, int>                ? IOComponentEnum::INT
+      : std::is_same_v<TPixel, unsigned int>       ? IOComponentEnum::UINT
+      : std::is_same_v<TPixel, long>               ? IOComponentEnum::LONG
+      : std::is_same_v<TPixel, unsigned long>      ? IOComponentEnum::ULONG
+      : std::is_same_v<TPixel, long long>          ? IOComponentEnum::LONGLONG
+      : std::is_same_v<TPixel, unsigned long long> ? IOComponentEnum::ULONGLONG
+      : std::is_same_v<TPixel, float>              ? IOComponentEnum::FLOAT
+      : std::is_same_v<TPixel, double>             ? IOComponentEnum::DOUBLE
+                                                   : IOComponentEnum::UNKNOWNCOMPONENTTYPE;
   };
+
   template <typename TPixel>
   void
   SetPixelTypeInfo(const TPixel *)
@@ -943,29 +959,6 @@ ReadRawBytesAfterSwapping(IOComponentEnum componentType,
                           void *          buffer,
                           IOByteOrderEnum byteOrder,
                           SizeValueType   numberOfComponents);
-
-#define IMAGEIOBASE_TYPEMAP(type, ctype)            \
-  template <>                                       \
-  struct ImageIOBase::MapPixelType<type>            \
-  {                                                 \
-    static constexpr IOComponentEnum CType = ctype; \
-  }
-
-// the following typemaps are not platform independent
-IMAGEIOBASE_TYPEMAP(signed char, IOComponentEnum::CHAR);
-IMAGEIOBASE_TYPEMAP(char, std::numeric_limits<char>::is_signed ? IOComponentEnum::CHAR : IOComponentEnum::UCHAR);
-IMAGEIOBASE_TYPEMAP(unsigned char, IOComponentEnum::UCHAR);
-IMAGEIOBASE_TYPEMAP(short, IOComponentEnum::SHORT);
-IMAGEIOBASE_TYPEMAP(unsigned short, IOComponentEnum::USHORT);
-IMAGEIOBASE_TYPEMAP(int, IOComponentEnum::INT);
-IMAGEIOBASE_TYPEMAP(unsigned int, IOComponentEnum::UINT);
-IMAGEIOBASE_TYPEMAP(long, IOComponentEnum::LONG);
-IMAGEIOBASE_TYPEMAP(unsigned long, IOComponentEnum::ULONG);
-IMAGEIOBASE_TYPEMAP(long long, IOComponentEnum::LONGLONG);
-IMAGEIOBASE_TYPEMAP(unsigned long long, IOComponentEnum::ULONGLONG);
-IMAGEIOBASE_TYPEMAP(float, IOComponentEnum::FLOAT);
-IMAGEIOBASE_TYPEMAP(double, IOComponentEnum::DOUBLE);
-#undef IMAGIOBASE_TYPEMAP
 
 } // end namespace itk
 
