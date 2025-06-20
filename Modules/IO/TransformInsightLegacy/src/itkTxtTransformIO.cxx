@@ -152,7 +152,7 @@ TxtTransformIOTemplate<TParametersValueType>::Read()
     }
 
     // Get the name
-    const std::string::size_type end = line.find(":");
+    const std::string::size_type end = line.find(':');
     if (end == std::string::npos)
     {
       // Throw an error

@@ -137,7 +137,7 @@ OFFMeshIO::ReadMeshInformation()
 
   // Ignore comment lines
   std::getline(m_InputFile, line, '\n');
-  while (line.find("#") != std::string::npos)
+  while (line.find('#') != std::string::npos)
   {
     std::getline(m_InputFile, line, '\n');
   }
