@@ -25,7 +25,7 @@ All contents of the Deprecated module were removed. This includes TreeContainer
 and related classes; atomic primitives, mutexes and related classes which are
 now part of C++ standard; specialized Vector filters - specialized versions are
 no longer needed, as regular filters can work with vector images. For details, see
-[ITKv5 Migration Guide](https://github.com/InsightSoftwareConsortium/ITK/blob/master/Documentation/docs/migration_guides/itk_5_migration_guide.md).
+[ITKv5 Migration Guide](https://github.com/InsightSoftwareConsortium/ITK/blob/main/Documentation/docs/migration_guides/itk_5_migration_guide.md).
 
 Prefer standard CXX language features rather than ITK macros
 -------------------------------------------------------------

@@ -142,7 +142,7 @@ It is used as, e.g.
 ```
 
 where the first argument to `\sphinxexample` points to the relative
-path of the example at the [ITK Examples source code](https://github.com/InsightSoftwareConsortium/ITKSphinxExamples/tree/master/src),
+path of the example at the [ITK Examples source code](https://github.com/InsightSoftwareConsortium/ITKSphinxExamples/tree/main/src),
 and the second one being the title of the example in the
 `Documentation.rst` file of the example at issue.
 

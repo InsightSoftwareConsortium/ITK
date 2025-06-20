@@ -44,10 +44,10 @@ fi
 
 pushd ${remoteCache}
 git fetch origin
-git rebase origin/master
+git rebase origin/main
 HEAD_HASH=$(git rev-parse --verify HEAD)
 sed -i"" "s/GIT_TAG .*/GIT_TAG ${HEAD_HASH}/g" ../${remoteFile}
-MASTER_HASH=$(git rev-parse --verify origin/master)
+MASTER_HASH=$(git rev-parse --verify origin/main)
 if [[ "${HEAD_HASH}" != "${MASTER_HASH}" ]]; then
     CURR_BRANCH=$(git rev-parse --abbrev-ref HEAD)
     if [[ "${CURR_BRANCH}" != "${branchName}" ]]; then
@@ -65,8 +65,8 @@ ${COMMIT_MSG}
 ";
 else
   ## HEAD_HASH == MASTER_HASH
-  git checkout master
-  git rebase origin/master
+  git checkout main
+  git rebase origin/main
 fi
 if [[ $? -ne 0 ]]; then
    echo "*** ERROR---------------- -------- $(pwd)";

@@ -29,9 +29,9 @@ Utilities/GitSetup/setup-git-aliases && echo &&
 Utilities/GitSetup/tips &&
 Utilities/GitSetup/github-tips
 
-# Rebase master by default
+# Rebase main by default
 git config rebase.stat true
-git config branch.master.rebase true
+git config branch.main.rebase true
 
 # Disable old Gerrit hooks
 hook=$(git config --get hooks.GerritId) &&
@@ -105,9 +105,60 @@ elif test ${git_version_arr[0]} -eq $git_required_major_version; then
 fi
 echo -e "Git version $git_version is OK.\n"
 
+# Check if master branch exists and prompt to rename to main
+if git show-ref --verify --quiet refs/heads/master; then
+  current_branch=$(git branch --show-current 2>/dev/null || git symbolic-ref --short HEAD 2>/dev/null)
+  echo "A 'master' branch exists in this repository."
+  echo "ITK has transitioned to using 'main' as the default branch name."
+  echo ""
+
+  if test "$current_branch" = "master"; then
+    echo "You are currently on the 'master' branch."
+  else
+    echo "You are currently on the '$current_branch' branch."
+  fi
+
+  read -p "Would you like to rename 'master' to 'main'? [y/N]: " -n 1 -r
+  echo
+  if [[ $REPLY =~ ^[Yy]$ ]]; then
+    echo "Renaming master branch to main..."
+
+    # Switch to master branch if not already there
+    if test "$current_branch" != "master"; then
+      echo "Switching to master branch..."
+      git checkout master
+    fi
+
+    git branch -m master main
+
+    # Update the upstream tracking if it exists
+    if git config --get branch.master.remote > /dev/null 2>&1; then
+      remote_name=$(git config --get branch.master.remote)
+      git config branch.main.remote "$remote_name"
+      git config branch.main.merge refs/heads/main
+      git config --unset branch.master.remote 2>/dev/null || true
+      git config --unset branch.master.merge 2>/dev/null || true
+
+      echo "Updated upstream tracking to $remote_name/main"
+      echo "Note: You may need to update the default branch on your remote repository."
+    fi
+
+    # Switch back to the original branch if it wasn't master
+    if test "$current_branch" != "master" && test "$current_branch" != ""; then
+      echo "Switching back to '$current_branch' branch..."
+      git checkout "$current_branch"
+    fi
+
+    echo "Successfully renamed master to main."
+  else
+    echo "Keeping master branch name. Consider renaming to main in the future."
+  fi
+  echo
+fi
+
 (Utilities/GitSetup/setup-precommit  ||
  echo 'Failed to setup pre-commit.') && echo &&
 
 # Record the version of this setup so Hooks/pre-commit can check it.
-SetupForDevelopment_VERSION=11
+SetupForDevelopment_VERSION=12
 git config hooks.SetupForDevelopment ${SetupForDevelopment_VERSION}

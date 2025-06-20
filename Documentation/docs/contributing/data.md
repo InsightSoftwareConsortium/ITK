@@ -131,7 +131,7 @@ Discussion
 An ITK test data file is not stored in the main source tree under version
 control. Instead the source tree contains a "content link" that refers to a
 data object by a hash of its content. At build time the the
-[`ExternalData.cmake`](https://github.com/InsightSoftwareConsortium/ITK/blob/master/CMake/ExternalData.cmake)
+[`ExternalData.cmake`](https://github.com/InsightSoftwareConsortium/ITK/blob/main/CMake/ExternalData.cmake)
 module fetches data needed by enabled tests. This allows arbitrarily large data
 to be added and removed without bloating the version control history.
 

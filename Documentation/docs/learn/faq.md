@@ -128,7 +128,7 @@ in case of desperation.
    It has the broadest support and is the easiest to use.
 1. Use the [`itk::ImageSeriesReader`](https://docs.itk.org/projects/doxygen/en/stable/classitk_1_1ImageSeriesReader.html) in combination with the
    `DicomSeriesFileNames`. For a full example on how to do this,
-   please look at the [`DicomSeriesReadImageWrite2.cxx`](https://github.com/InsightSoftwareConsortium/ITK/blob/master/Examples/IO/DicomSeriesReadImageWrite2.cxx)
+   please look at the [`DicomSeriesReadImageWrite2.cxx`](https://github.com/InsightSoftwareConsortium/ITK/blob/main/Examples/IO/DicomSeriesReadImageWrite2.cxx)
    code.
 1. Write a MetaImage header. This is a small text file holding
    information about the image: spacing, dimensions, pixel type, etc.
@@ -162,7 +162,7 @@ can reconfigure ITK by running CMake in your ITK build, going into the
 advanced options and enabling `USE_GDCM`.
 
 For a code example on how to use GDCM for reading and writing DICOM
-series, please refer to the source code in [`DicomSeriesReadImageWrite2.cxx`](https://github.com/InsightSoftwareConsortium/ITK/blob/master/Examples/IO/DicomSeriesReadImageWrite2.cxx).
+series, please refer to the source code in [`DicomSeriesReadImageWrite2.cxx`](https://github.com/InsightSoftwareConsortium/ITK/blob/main/Examples/IO/DicomSeriesReadImageWrite2.cxx).
 
 You can always use the latest and greatest of GDCM, simply use an
 installed version of GDCM and link ITK to it using `ITK_USE_SYSTEM_GDCM`.
@@ -308,7 +308,7 @@ url = {}
 See [https://zenodo.org/record/3592082](https://zenodo.org/record/3592082).
 
 If you have a publication that used ITK, please create a pull request to
-add it to [`ITKBibliography.bib`](https://github.com/InsightSoftwareConsortium/insightsoftwareconsortium.org/blob/master/static/citations-visualization/ITKBibliography.bib).
+add it to [`ITKBibliography.bib`](https://github.com/InsightSoftwareConsortium/insightsoftwareconsortium.org/blob/main/static/citations-visualization/ITKBibliography.bib).
 
 If you want to include ITK in an acknowledgment section, a phrase
 similar to the following may be used:
@@ -351,7 +351,7 @@ For mode details see the page [FDA guidelines for software development](fda_sw_d
 
 ### How do I configure Vim for ITK coding style?
 
-ITK provides a [`clang-format` configuration file](https://github.com/InsightSoftwareConsortium/ITK/blob/master/.clang-format)
+ITK provides a [`clang-format` configuration file](https://github.com/InsightSoftwareConsortium/ITK/blob/main/.clang-format)
 that ensures that the code being typed follows the ITK coding style.
 
 It suffices to tell Vim to use such configuration file.
@@ -372,7 +372,7 @@ Please see this page: [ITK/Testing](https://insightsoftwareconsortium.github.io/
 
 ### How do I iterate through all the pixels in an image?
 
-Please see the [`ImageRegionIterator.cxx`](https://github.com/InsightSoftwareConsortium/ITK/blob/master/Examples/Iterators/ImageRegionIterator.cxx)
+Please see the [`ImageRegionIterator.cxx`](https://github.com/InsightSoftwareConsortium/ITK/blob/main/Examples/Iterators/ImageRegionIterator.cxx)
 example.
 
 ### What are Hounsfield Units?
@@ -508,7 +508,7 @@ particular, you will find interesting the section where the mutual
 information metric is described.
 
 Examples on multimodality registration are available in
-[Examples/RegistrationITKv4](https://github.com/InsightSoftwareConsortium/ITK/tree/master/Examples/RegistrationITKv4).
+[Examples/RegistrationITKv4](https://github.com/InsightSoftwareConsortium/ITK/tree/main/Examples/RegistrationITKv4).
 
 It is strongly recommended that you read the chapter on "Geometric
 Transformations" section, where resampling is explained, before you get

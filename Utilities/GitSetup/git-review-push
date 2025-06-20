@@ -55,7 +55,7 @@ test -n "$remote" || remote="origin"
 if test -z "$no_topic"; then
   # Identify and validate the topic branch name.
   topic="$(git symbolic-ref HEAD | sed -e 's|^refs/heads/||')"
-  if test "$topic" = "master"; then
+  if test "$topic" = "main"; then
     die 'Please name your topic:
     git checkout -b descriptive-name'
   fi
@@ -68,11 +68,11 @@ if test -z "$refspecs"; then
   exit 0
 fi
 
-# Fetch the current upstream master branch head.
+# Fetch the current upstream main branch head.
 # This helps the computation of a minimal pack to push.
 if test -z "$upstream_remote"; then
-  echo "Fetching $upstream_remote master"
-  fetch_out=$(git fetch "$upstream_remote" master 2>&1) || die "$fetch_out"
+  echo "Fetching $upstream_remote main"
+  fetch_out=$(git fetch "$upstream_remote" main 2>&1) || die "$fetch_out"
 fi
 
 # Push.  Save output and exit code.

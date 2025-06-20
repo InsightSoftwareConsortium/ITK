@@ -53,7 +53,7 @@ repos:
      exclude: "\\/ThirdParty\\/"
      args: ['--pytest-test-first']
    - id: no-commit-to-branch
-     args: ['--branch','dashboard','--branch','python-builds','--branch','release','--branch','hooks','--branch', 'main','--branch','master','--pattern','release-*']
+     args: ['--branch','dashboard','--branch','python-builds','--branch','release','--branch','hooks','--branch', 'main','--branch','main','--pattern','release-*']
    - id: trailing-whitespace
      exclude: "\\.(sha|sha512|svg|vtk|vtp)$|\\/ThirdParty\\/|\\/Data\\/"
 - repo: https://github.com/BlankSpruce/gersemi

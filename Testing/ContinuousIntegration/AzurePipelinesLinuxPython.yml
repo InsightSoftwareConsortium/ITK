@@ -3,7 +3,7 @@ name: ITK.Linux.Python
 trigger:
   branches:
     include:
-    - master
+    - main
     - release*
   paths:
     exclude:

@@ -3,7 +3,7 @@ name: ITK.Linux
 trigger:
   branches:
     include:
-    - master
+    - main
     - release*
   paths:
     exclude:

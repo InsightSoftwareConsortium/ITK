@@ -50,7 +50,7 @@ Example to format the current topic:
 
     git filter-branch \
       --tree-filter "Utilities/Maintenance/clang-format.bash --tracked" \
-      master..
+      main..
 '
 
 die() {

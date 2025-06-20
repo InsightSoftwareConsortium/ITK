@@ -1,4 +1,4 @@
-# Build triggered on a rolling or batch basis on the master and release branches. They may take longer than the standard CI configurations.
+# Build triggered on a rolling or batch basis on the main and release branches. They may take longer than the standard CI configurations.
 
 name: ITK.Batch
 
@@ -6,7 +6,7 @@ trigger:
   batch: true
   branches:
     include:
-    - master
+    - main
     - release*
 pr: none
 

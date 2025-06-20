@@ -18,7 +18,7 @@ repository specified in its `UpdateFromUpstream.sh` script. Once the upstream
 changes are merged, pulling the changes involves running the
 `UpdateFromUpstream.sh` script. This will update the local copy of the project
 to the version specified in `UpdateFromUpstream.sh` (usually a `for/foo`
-branch, like `for/itk` for example, but may be `master` or any other Git
+branch, like `for/itk` for example, but may be `main` or any other Git
 reference) and merge it into the main tree.
 
 This requires a Git 2.5 or higher due the `worktree` tool being used to
@@ -50,7 +50,7 @@ Porting a Project
 
 When converting a project, if there are any local patches, a project should be
 created on
-[GitHub](https://github.com/InsightSoftwareConsortium/ITK/tree/master/Modules/ThirdParty)
+[GitHub](https://github.com/InsightSoftwareConsortium/ITK/tree/main/Modules/ThirdParty)
 to track it. If the upstream project does not use Git, it should be imported
 into Git (there may be existing conversions available on GitHub already). The
 project's description should indicate where the source repository lives.
@@ -116,4 +116,4 @@ if necessary.
 
 
 
-[update-third-party.bash]: https://github.com/InsightSoftwareConsortium/ITK/blob/master/Utilities/Maintenance/update-third-party.bash
+[update-third-party.bash]: https://github.com/InsightSoftwareConsortium/ITK/blob/main/Utilities/Maintenance/update-third-party.bash
