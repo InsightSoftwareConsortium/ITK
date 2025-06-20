@@ -52,7 +52,7 @@ if(NOT CTEST_BUILD_NAME)
   if(DEFINED ENV{GITHUB_HEAD_REF})
     set(branch "-$ENV{GITHUB_HEAD_REF}")
     set(dashboard_model "Experimental")
-  elseif("$ENV{GITHUB_REF}" STREQUAL "refs/heads/master" OR
+  elseif("$ENV{GITHUB_REF}" STREQUAL "refs/heads/main" OR "$ENV{GITHUB_REF}" STREQUAL "refs/heads/master" OR
          "$ENV{GITHUB_REF}" MATCHES "refs/heads/release.*" )
     set(branch "-$ENV{GITHUB_REF}")
     set(dashboard_model "Continuous")
