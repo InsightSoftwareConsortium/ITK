@@ -210,97 +210,48 @@ itkImageIOBaseTest(int, char *[])
 
     constexpr size_t listComponentSize = std::size(listComponentType);
     constexpr size_t listPixelSize = std::size(listIOPixelType);
-    { // Test the static version of the string <-> type conversions
-      for (size_t i = 0; i < listComponentSize; ++i)
-      {
-        const std::string componentTypeString = itk::ImageIOBase::GetComponentTypeAsString(listComponentType[i]);
-        if (componentTypeString.compare(listComponentTypeString[i]) != 0)
-        {
-          std::cerr << "GetComponentTypeAsString(" << listComponentType[i] << ") should return '"
-                    << listComponentTypeString[i] << '\'' << std::endl;
-          return EXIT_FAILURE;
-        }
-      }
-      for (size_t i = 0; i < listPixelSize; ++i)
-      {
-        const std::string pixelTypeString = itk::ImageIOBase::GetPixelTypeAsString(listIOPixelType[i]);
-        if (pixelTypeString.compare(listIOPixelTypeString[i]) != 0)
-        {
-          std::cerr << "GetPixelTypeAsString(" << listIOPixelType[i] << ") should return '" << listIOPixelTypeString[i]
-                    << '\'' << std::endl;
-          return EXIT_FAILURE;
-        }
-      }
-      for (size_t i = 0; i < listComponentSize; ++i)
-      {
-        const itk::IOComponentEnum componentType =
-          itk::ImageIOBase::GetComponentTypeFromString(listComponentTypeString[i]);
-        if (componentType != listComponentType[i])
-        {
-          std::cerr << "GetComponentTypeFromString('" << listComponentTypeString[i] << "') should return "
-                    << listComponentType[i] << std::endl;
-          return EXIT_FAILURE;
-        }
-      }
-      for (size_t i = 0; i < listPixelSize; ++i)
-      {
-        const itk::IOPixelEnum pixelType = itk::ImageIOBase::GetPixelTypeFromString(listIOPixelTypeString[i]);
-        if (pixelType != listIOPixelType[i])
-        {
-          std::cerr << "GetPixelTypeFromString('" << listIOPixelTypeString[i] << "') should return "
-                    << listIOPixelType[i] << std::endl;
-          return EXIT_FAILURE;
-        }
-      }
-    } // end Test the static version of the string <-> type conversions
 
-    // Test the non-static version of the string <-> type conversions
+    for (size_t i = 0; i < listComponentSize; ++i)
     {
-      // Create an instance of ImageIOBase. It does not matter that 'test' is not a valid image to read,
-      // we just want the ImageIOBase object.
-      const itk::ImageIOBase::Pointer imageIOBase =
-        itk::ImageIOFactory::CreateImageIO("test", itk::ImageIOFactory::IOFileModeEnum::ReadMode);
-      for (size_t i = 0; i < listComponentSize; ++i)
+      const std::string componentTypeString = itk::ImageIOBase::GetComponentTypeAsString(listComponentType[i]);
+      if (componentTypeString.compare(listComponentTypeString[i]) != 0)
       {
-        const std::string componentTypeString = imageIOBase->GetComponentTypeAsString(listComponentType[i]);
-        if (componentTypeString.compare(listComponentTypeString[i]) != 0)
-        {
-          std::cerr << "GetComponentTypeAsString(" << listComponentType[i] << ") should return '"
-                    << listComponentTypeString[i] << '\'' << std::endl;
-          return EXIT_FAILURE;
-        }
+        std::cerr << "GetComponentTypeAsString(" << listComponentType[i] << ") should return '"
+                  << listComponentTypeString[i] << '\'' << std::endl;
+        return EXIT_FAILURE;
       }
-      for (size_t i = 0; i < listPixelSize; ++i)
+    }
+    for (size_t i = 0; i < listPixelSize; ++i)
+    {
+      const std::string pixelTypeString = itk::ImageIOBase::GetPixelTypeAsString(listIOPixelType[i]);
+      if (pixelTypeString.compare(listIOPixelTypeString[i]) != 0)
       {
-        const std::string pixelTypeString = imageIOBase->GetPixelTypeAsString(listIOPixelType[i]);
-        if (pixelTypeString.compare(listIOPixelTypeString[i]) != 0)
-        {
-          std::cerr << "GetPixelTypeAsString(" << listIOPixelType[i] << ") should return " << listIOPixelTypeString[i]
-                    << std::endl;
-          return EXIT_FAILURE;
-        }
+        std::cerr << "GetPixelTypeAsString(" << listIOPixelType[i] << ") should return '" << listIOPixelTypeString[i]
+                  << '\'' << std::endl;
+        return EXIT_FAILURE;
       }
-      for (size_t i = 0; i < listComponentSize; ++i)
+    }
+    for (size_t i = 0; i < listComponentSize; ++i)
+    {
+      const itk::IOComponentEnum componentType =
+        itk::ImageIOBase::GetComponentTypeFromString(listComponentTypeString[i]);
+      if (componentType != listComponentType[i])
       {
-        const itk::IOComponentEnum componentType = imageIOBase->GetComponentTypeFromString(listComponentTypeString[i]);
-        if (componentType != listComponentType[i])
-        {
-          std::cerr << "GetComponentTypeFromString('" << listComponentTypeString[i] << "') should return "
-                    << listComponentType[i] << std::endl;
-          return EXIT_FAILURE;
-        }
+        std::cerr << "GetComponentTypeFromString('" << listComponentTypeString[i] << "') should return "
+                  << listComponentType[i] << std::endl;
+        return EXIT_FAILURE;
       }
-      for (size_t i = 0; i < listPixelSize; ++i)
+    }
+    for (size_t i = 0; i < listPixelSize; ++i)
+    {
+      const itk::IOPixelEnum pixelType = itk::ImageIOBase::GetPixelTypeFromString(listIOPixelTypeString[i]);
+      if (pixelType != listIOPixelType[i])
       {
-        const itk::IOPixelEnum pixelType = imageIOBase->GetPixelTypeFromString(listIOPixelTypeString[i]);
-        if (pixelType != listIOPixelType[i])
-        {
-          std::cerr << "GetPixelTypeFromString('" << listIOPixelTypeString[i] << "') should return "
-                    << listIOPixelType[i] << std::endl;
-          return EXIT_FAILURE;
-        }
+        std::cerr << "GetPixelTypeFromString('" << listIOPixelTypeString[i] << "') should return " << listIOPixelType[i]
+                  << std::endl;
+        return EXIT_FAILURE;
       }
-    } // end Test the non-static version of the string <-> type conversions
+    }
   }
 
   { // Test SetPixelTypeInfo

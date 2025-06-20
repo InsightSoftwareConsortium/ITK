@@ -178,10 +178,10 @@ itkTIFFImageIOCompressionTest(int argc, char * argv[])
   std::cout << "Compression: " << argv[3] << std::endl;
   std::cout << "JPEGQuality: " << JPEGQuality << std::endl;
 
-  std::cout << " Pixel type (string): " << imageIO->GetPixelTypeAsString(imageIO->GetPixelType()) << std::endl;
+  std::cout << " Pixel type (string): " << itk::ImageIOBase::GetPixelTypeAsString(imageIO->GetPixelType()) << std::endl;
 
   const ScalarPixelType componentType = imageIO->GetComponentType();
-  std::cout << " Component Type is " << imageIO->GetComponentTypeAsString(componentType) << std::endl;
+  std::cout << " Component Type is " << itk::ImageIOBase::GetComponentTypeAsString(componentType) << std::endl;
 
   std::cout << " Component size: " << imageIO->GetComponentSize() << std::endl;
 

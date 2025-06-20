@@ -108,8 +108,9 @@ itkVectorImageReadWriteTest(int argc, char * argv[])
   const itk::ImageIOBase::Pointer io = reader->GetModifiableImageIO();
 
 
-  std::cout << "ImageIO Pixel Information: " << io->GetPixelTypeAsString(io->GetPixelType()) << ' '
-            << io->GetComponentTypeAsString(io->GetComponentType()) << ' ' << io->GetNumberOfComponents() << std::endl;
+  std::cout << "ImageIO Pixel Information: " << itk::ImageIOBase::GetPixelTypeAsString(io->GetPixelType()) << ' '
+            << itk::ImageIOBase::GetComponentTypeAsString(io->GetComponentType()) << ' ' << io->GetNumberOfComponents()
+            << std::endl;
   if (io->GetNumberOfComponents() != 4 || io->GetComponentType() != itk::IOComponentEnum::DOUBLE ||
       io->GetPixelType() != itk::IOPixelEnum::VECTOR)
   {
