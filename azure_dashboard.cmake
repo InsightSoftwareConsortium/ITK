@@ -48,7 +48,7 @@ if(NOT CTEST_BUILD_NAME)
   if(DEFINED ENV{SYSTEM_PULLREQUEST_SOURCEBRANCH})
     set(branch "-$ENV{SYSTEM_PULLREQUEST_SOURCEBRANCH}")
     set(dashboard_model "Experimental")
-  elseif("$ENV{BUILD_SOURCEBRANCHNAME}" STREQUAL "master" OR
+  elseif("$ENV{BUILD_SOURCEBRANCHNAME}" STREQUAL "main" OR "$ENV{BUILD_SOURCEBRANCHNAME}" STREQUAL "master" OR
          "$ENV{BUILD_SOURCEBRANCHNAME}" MATCHES "release.*" )
     set(branch "-$ENV{BUILD_SOURCEBRANCHNAME}")
     set(dashboard_model "Continuous")
