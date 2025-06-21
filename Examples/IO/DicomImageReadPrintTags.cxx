@@ -369,10 +369,9 @@ main(int argc, char * argv[])
   const itk::IOComponentEnum componentType =
     reader->GetImageIO()->GetComponentType();
   std::cout << "PixelType: "
-            << reader->GetImageIO()->GetPixelTypeAsString(pixelType)
-            << std::endl;
+            << itk::ImageIOBase::GetPixelTypeAsString(pixelType) << std::endl;
   std::cout << "Component Type: "
-            << reader->GetImageIO()->GetComponentTypeAsString(componentType)
+            << itk::ImageIOBase::GetComponentTypeAsString(componentType)
             << std::endl;
   // Software Guide : EndCodeSnippet
 
