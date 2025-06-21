@@ -26,8 +26,8 @@
 
 namespace
 {
-// Tests `MapPixelType<TPixel>::CType`
-class TestMapPixelType : private itk::ImageIOBase
+// Tests `MapPixelType<TPixel>::CType` and the estimation of component type traits.
+class TestMapPixelTypeAndComponentTypeTraits : private itk::ImageIOBase
 {
   struct UnknownComponentType
   {};
@@ -59,6 +59,81 @@ class TestMapPixelType : private itk::ImageIOBase
   static_assert(MapPixelType<int64_t>::CType == IOComponentEnum::INT64);
   static_assert(MapPixelType<float>::CType == IOComponentEnum::FLOAT32);
   static_assert(MapPixelType<double>::CType == IOComponentEnum::FLOAT64);
+
+  // Tests IsComponentTypeFloatingPoint:
+  static_assert(!IsComponentTypeFloatingPoint(IOComponentEnum::UNKNOWNCOMPONENTTYPE));
+  static_assert(!IsComponentTypeFloatingPoint(IOComponentEnum::UCHAR));
+  static_assert(!IsComponentTypeFloatingPoint(IOComponentEnum::CHAR));
+  static_assert(!IsComponentTypeFloatingPoint(IOComponentEnum::USHORT));
+  static_assert(!IsComponentTypeFloatingPoint(IOComponentEnum::SHORT));
+  static_assert(!IsComponentTypeFloatingPoint(IOComponentEnum::UINT));
+  static_assert(!IsComponentTypeFloatingPoint(IOComponentEnum::INT));
+  static_assert(!IsComponentTypeFloatingPoint(IOComponentEnum::ULONG));
+  static_assert(!IsComponentTypeFloatingPoint(IOComponentEnum::LONG));
+  static_assert(!IsComponentTypeFloatingPoint(IOComponentEnum::LONGLONG));
+  static_assert(!IsComponentTypeFloatingPoint(IOComponentEnum::ULONGLONG));
+  static_assert(IsComponentTypeFloatingPoint(IOComponentEnum::FLOAT));
+  static_assert(IsComponentTypeFloatingPoint(IOComponentEnum::DOUBLE));
+  static_assert(!IsComponentTypeFloatingPoint(IOComponentEnum::UINT8));
+  static_assert(!IsComponentTypeFloatingPoint(IOComponentEnum::INT8));
+  static_assert(!IsComponentTypeFloatingPoint(IOComponentEnum::UINT16));
+  static_assert(!IsComponentTypeFloatingPoint(IOComponentEnum::INT16));
+  static_assert(!IsComponentTypeFloatingPoint(IOComponentEnum::UINT32));
+  static_assert(!IsComponentTypeFloatingPoint(IOComponentEnum::INT32));
+  static_assert(!IsComponentTypeFloatingPoint(IOComponentEnum::UINT64));
+  static_assert(!IsComponentTypeFloatingPoint(IOComponentEnum::INT64));
+  static_assert(IsComponentTypeFloatingPoint(IOComponentEnum::FLOAT32));
+  static_assert(IsComponentTypeFloatingPoint(IOComponentEnum::FLOAT64));
+
+  // Tests IsComponentTypeUnsigned:
+  static_assert(!IsComponentTypeUnsigned(IOComponentEnum::UNKNOWNCOMPONENTTYPE));
+  static_assert(IsComponentTypeUnsigned(IOComponentEnum::UCHAR));
+  static_assert(!IsComponentTypeUnsigned(IOComponentEnum::CHAR));
+  static_assert(IsComponentTypeUnsigned(IOComponentEnum::USHORT));
+  static_assert(!IsComponentTypeUnsigned(IOComponentEnum::SHORT));
+  static_assert(IsComponentTypeUnsigned(IOComponentEnum::UINT));
+  static_assert(!IsComponentTypeUnsigned(IOComponentEnum::INT));
+  static_assert(IsComponentTypeUnsigned(IOComponentEnum::ULONG));
+  static_assert(!IsComponentTypeUnsigned(IOComponentEnum::LONG));
+  static_assert(!IsComponentTypeUnsigned(IOComponentEnum::LONGLONG));
+  static_assert(IsComponentTypeUnsigned(IOComponentEnum::ULONGLONG));
+  static_assert(!IsComponentTypeUnsigned(IOComponentEnum::FLOAT));
+  static_assert(!IsComponentTypeUnsigned(IOComponentEnum::DOUBLE));
+  static_assert(IsComponentTypeUnsigned(IOComponentEnum::UINT8));
+  static_assert(!IsComponentTypeUnsigned(IOComponentEnum::INT8));
+  static_assert(IsComponentTypeUnsigned(IOComponentEnum::UINT16));
+  static_assert(!IsComponentTypeUnsigned(IOComponentEnum::INT16));
+  static_assert(IsComponentTypeUnsigned(IOComponentEnum::UINT32));
+  static_assert(!IsComponentTypeUnsigned(IOComponentEnum::INT32));
+  static_assert(IsComponentTypeUnsigned(IOComponentEnum::UINT64));
+  static_assert(!IsComponentTypeUnsigned(IOComponentEnum::INT64));
+  static_assert(!IsComponentTypeUnsigned(IOComponentEnum::FLOAT32));
+  static_assert(!IsComponentTypeUnsigned(IOComponentEnum::FLOAT64));
+
+  // Tests GetNumberOfBitsOfComponentType:
+  static_assert(GetNumberOfBitsOfComponentType(IOComponentEnum::UINT8) == 8);
+  static_assert(GetNumberOfBitsOfComponentType(IOComponentEnum::INT8) == 8);
+  static_assert(GetNumberOfBitsOfComponentType(IOComponentEnum::UINT16) == 16);
+  static_assert(GetNumberOfBitsOfComponentType(IOComponentEnum::INT16) == 16);
+  static_assert(GetNumberOfBitsOfComponentType(IOComponentEnum::UINT32) == 32);
+  static_assert(GetNumberOfBitsOfComponentType(IOComponentEnum::INT32) == 32);
+  static_assert(GetNumberOfBitsOfComponentType(IOComponentEnum::UINT64) == 64);
+  static_assert(GetNumberOfBitsOfComponentType(IOComponentEnum::INT64) == 64);
+  static_assert(GetNumberOfBitsOfComponentType(IOComponentEnum::FLOAT32) == 32);
+  static_assert(GetNumberOfBitsOfComponentType(IOComponentEnum::FLOAT64) == 64);
+  static_assert(GetNumberOfBitsOfComponentType(IOComponentEnum::UNKNOWNCOMPONENTTYPE) == 0);
+  static_assert(GetNumberOfBitsOfComponentType(IOComponentEnum::UCHAR) == sizeof(char) * CHAR_BIT);
+  static_assert(GetNumberOfBitsOfComponentType(IOComponentEnum::CHAR) == sizeof(char) * CHAR_BIT);
+  static_assert(GetNumberOfBitsOfComponentType(IOComponentEnum::USHORT) == sizeof(short) * CHAR_BIT);
+  static_assert(GetNumberOfBitsOfComponentType(IOComponentEnum::SHORT) == sizeof(short) * CHAR_BIT);
+  static_assert(GetNumberOfBitsOfComponentType(IOComponentEnum::UINT) == sizeof(int) * CHAR_BIT);
+  static_assert(GetNumberOfBitsOfComponentType(IOComponentEnum::INT) == sizeof(int) * CHAR_BIT);
+  static_assert(GetNumberOfBitsOfComponentType(IOComponentEnum::ULONG) == sizeof(long) * CHAR_BIT);
+  static_assert(GetNumberOfBitsOfComponentType(IOComponentEnum::LONG) == sizeof(long) * CHAR_BIT);
+  static_assert(GetNumberOfBitsOfComponentType(IOComponentEnum::LONGLONG) == sizeof(long long) * CHAR_BIT);
+  static_assert(GetNumberOfBitsOfComponentType(IOComponentEnum::ULONGLONG) == sizeof(long long) * CHAR_BIT);
+  static_assert(GetNumberOfBitsOfComponentType(IOComponentEnum::FLOAT) == sizeof(float) * CHAR_BIT);
+  static_assert(GetNumberOfBitsOfComponentType(IOComponentEnum::DOUBLE) == sizeof(double) * CHAR_BIT);
 };
 } // namespace
 
