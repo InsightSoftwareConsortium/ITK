@@ -121,8 +121,8 @@ Users that have made no local changes and simply want to update a clone with
 the latest changes may run
 
 ```bash
-git checkout master
-git pull --rebase upstream master
+git checkout main
+git pull --rebase upstream main
 ```
 
 Avoid making local changes unless you have read our [developer
@@ -131,7 +131,7 @@ instructions](contributing/index.md).
 ### Checkout
 
 After cloning, your local repository will be configured to follow the upstream
-`master` branch by default. This means you will have access to cutting edge
+`main` branch by default. This means you will have access to cutting edge
 features, but along with these may come cutting edge bugs :grimacing:. One may
 create a local branch to track the upstream `release` branch instead, which
 should guarantee only bug fixes to the functionality available in the latest
