@@ -134,14 +134,22 @@ if git show-ref --verify --quiet refs/heads/master; then
     # Update the upstream tracking if it exists
     if git config --get branch.master.remote > /dev/null 2>&1; then
       remote_name=$(git config --get branch.master.remote)
+      merge_ref=$(git config --get branch.master.merge 2>/dev/null || true)
+
+      # Set up the main branch configuration
       git config branch.main.remote "$remote_name"
       git config branch.main.merge refs/heads/main
+
+      # Clean up old master branch configuration
       git config --unset branch.master.remote 2>/dev/null || true
       git config --unset branch.master.merge 2>/dev/null || true
 
       echo "Updated upstream tracking to $remote_name/main"
       echo "Note: You may need to update the default branch on your remote repository."
     fi
+
+    # Ensure main branch merge configuration is set to main
+    git config branch.main.merge refs/heads/main 2>/dev/null || true
 
     # Update remote fetch configurations to use main instead of master
     for remote in $(git remote); do
