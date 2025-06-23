@@ -22,13 +22,13 @@
 
 constexpr const char * AIM020String = "AIMDATA_V020   ";
 constexpr const char * AIM030String = "AIMDATA_V030   ";
+constexpr float        AIM020WriteVersion = 1.6;
 
 typedef char            EncodedByte;
 typedef char            EncodedInt4Byte[4];
 typedef char            EncodedInt8Byte[8];
 typedef EncodedInt4Byte EncodedTuple4Byte[3];
 typedef EncodedInt8Byte EncodedTuple8Byte[3];
-
 
 struct AIMV020AssociatedData
 {
@@ -106,7 +106,7 @@ namespace itk
 unsigned long
 AIMHeaderIO::ReadHeader(std::ifstream & infile)
 {
-  unsigned long bytesRead = 0; // Use as offset for reading the header
+  size_t bytesRead = 0; // Use as offset for reading the header
 
   if (!infile.is_open())
   {
@@ -146,9 +146,9 @@ AIMHeaderIO::ReadHeader(std::ifstream & infile)
   }
   bytesRead += this->m_PreHeaderSize;
 
-  unsigned long headerSize = this->m_PreHeaderSize + this->m_ImgStructSize + this->m_ProcessingLogSize;
+  size_t headerSize = this->m_PreHeaderSize + this->m_ImgStructSize + this->m_ProcessingLogSize;
 
-  if (headerSize > ScancoHeaderBlockSize)
+  if (headerSize > static_cast<size_t>(ScancoHeaderBlockSize))
   {
     // Allocate more space for the header and read the rest into the raw header
     delete[] headerBytes;
@@ -194,7 +194,8 @@ AIMHeaderIO::ReadHeader(std::ifstream & infile)
   this->m_HeaderData->m_SliceThickness = this->m_HeaderData->m_PixelData.m_Spacing[2];
   this->m_HeaderData->m_SliceIncrement = this->m_HeaderData->m_PixelData.m_Spacing[2];
 
-  return bytesRead; // Return the size of the header, including the version string if written
+  return static_cast<unsigned long>(
+    bytesRead); // Return the size of the header, including the version string if written
 }
 
 unsigned long
@@ -236,11 +237,12 @@ AIMHeaderIO::WriteHeader(std::ofstream & outfile, unsigned long imageSize)
     throw std::runtime_error("Error: write size mismatch");
   }
 
-  return bytesWritten + this->m_PreHeaderSize + this->m_ImgStructSize + this->m_ProcessingLogSize;
+  return static_cast<unsigned long>(bytesWritten + this->m_PreHeaderSize + this->m_ImgStructSize +
+                                    this->m_ProcessingLogSize);
 }
 
 int
-AIMHeaderIO::ReadPreHeader(std::ifstream & file, unsigned long offset)
+AIMHeaderIO::ReadPreHeader(std::ifstream & file, size_t offset)
 {
   unsigned long bytesRead = this->m_IntSize; // We assume the pre-header length (int) has already been read
 
@@ -355,8 +357,8 @@ AIMHeaderIO::ReadImgStructHeader(AIMV030StructHeader * headerData)
   }
 }
 
-int
-AIMHeaderIO::ReadProcessingLog(std::ifstream & infile, unsigned long offset, unsigned long length)
+size_t
+AIMHeaderIO::ReadProcessingLog(std::ifstream & infile, size_t offset, size_t length)
 {
   size_t      bytesRead = 0;
   std::string readString = "";
@@ -534,7 +536,7 @@ AIMHeaderIO::WriteStructHeaderV020()
   AIMV020StructHeader structHeader{ 0 };
   EncodeInt(this->m_HeaderData->m_PixelData.m_ComponentType, structHeader.m_Type);
 
-  EncodeFloat(1.6, structHeader.m_Version);
+  EncodeFloat(AIM020WriteVersion, structHeader.m_Version);
 
   int i = 0;
   for (int & imageDimension : this->m_HeaderData->m_PixelData.m_Dimensions)
@@ -658,10 +660,10 @@ AIMHeaderIO::WritePreHeader(std::ofstream & outfile, size_t imageSize, ScancoFil
   if (version == ScancoFileVersions::AIM_020)
   {
     AIMPreHeaderV020 preHeader{ 0 };
-    EncodeInt(sizeof(AIMPreHeaderV020), preHeader.m_PreHeaderLength);
-    EncodeInt(this->m_ImgStructSize, preHeader.m_ImageStructLength);
-    EncodeInt(this->m_ProcessingLogSize, preHeader.m_ProcessingLogLength);
-    EncodeInt(imageSize, preHeader.m_ImageDataLength);
+    EncodeInt((int)sizeof(AIMPreHeaderV020), preHeader.m_PreHeaderLength);
+    EncodeInt((int)this->m_ImgStructSize, preHeader.m_ImageStructLength);
+    EncodeInt((int)this->m_ProcessingLogSize, preHeader.m_ProcessingLogLength);
+    EncodeInt((int)imageSize, preHeader.m_ImageDataLength);
     EncodeInt(0, preHeader.m_AssociatedDataLength); // No associated data handling
     outfile.write((char *)&preHeader, sizeof(preHeader));
     return sizeof(preHeader);

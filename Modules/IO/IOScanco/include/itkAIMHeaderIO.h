@@ -61,7 +61,7 @@ protected:
    * \returns -1 on failure, 0 on success.
    */
   int
-  ReadPreHeader(std::ifstream & file, unsigned long offset = 0);
+  ReadPreHeader(std::ifstream & file, size_t offset = 0);
 
   /** Read the AIM v020 image structure header from a data structure.
    * \param headerData pointer to structure containing image structure header
@@ -80,10 +80,10 @@ protected:
    * \param file The input file stream to read the header from.
    * \param length The length of the processing log to read.
    * \param offset The offset in the file to start reading from.
-   * \returns -1 on failure, 0 on success.
+   * \returns size of the processing log read
    */
-  int
-  ReadProcessingLog(std::ifstream & infile, unsigned long offset, unsigned long length);
+  size_t
+  ReadProcessingLog(std::ifstream & infile, size_t offset, size_t length);
 
   /** Write the image structure header to an AIM v020 data structure
    * \returns AIMV020StructHeader structure filled with encoded header data

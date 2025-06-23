@@ -148,10 +148,10 @@ itk_add_test(
   COMMAND
     IOScancoTestDriver
     --compare
-    DATA{Input/AIMIOTestImageFoatv030.AIM}
+    DATA{Input/AIMIOTestImageFloatv030.AIM}
     ${ITK_TEST_OUTPUT_DIR}/AIMIOTestWritev030.aim
     itkScancoImageIOTest3
-    DATA{Input/AIMIOTestImageFoatv030.AIM}
+    DATA{Input/AIMIOTestImageFloatv030.AIM}
     ${ITK_TEST_OUTPUT_DIR}/AIMIOTestWritev030.aim
     0
     "AIMDATA_V030   "

@@ -801,8 +801,8 @@ ScancoImageIO::Write(const void * buffer)
     itkExceptionMacro("ScancoImageIO only supports writing short or float files.");
   }
 
-  char * tempmemory = new char[numberOfBytes];
-  memcpy(tempmemory, buffer, numberOfBytes);
+  std::vector<char> tempmemory(numberOfBytes);
+  memcpy(tempmemory.data(), buffer, numberOfBytes);
 
   bool bigEndian = ByteSwapper<short>::SystemIsBigEndian();
 
@@ -811,64 +811,66 @@ ScancoImageIO::Write(const void * buffer)
     switch (this->GetComponentType())
     {
       case IOComponentEnum::CHAR:
-        RescaleToScanco(reinterpret_cast<char *>(tempmemory), numberOfComponents);
+        RescaleToScanco(reinterpret_cast<char *>(tempmemory.data()), numberOfComponents);
         if (bigEndian)
         {
-          ByteSwapper<char>::SwapRangeFromSystemToBigEndian(reinterpret_cast<char *>(tempmemory), numberOfComponents);
+          ByteSwapper<char>::SwapRangeFromSystemToBigEndian(reinterpret_cast<char *>(tempmemory.data()),
+                                                            numberOfComponents);
         }
         break;
       case IOComponentEnum::UCHAR:
-        RescaleToScanco(reinterpret_cast<unsigned char *>(tempmemory), numberOfComponents);
+        RescaleToScanco(reinterpret_cast<unsigned char *>(tempmemory.data()), numberOfComponents);
         if (bigEndian)
         {
-          ByteSwapper<unsigned char>::SwapRangeFromSystemToBigEndian(reinterpret_cast<unsigned char *>(tempmemory),
-                                                                     numberOfComponents);
+          ByteSwapper<unsigned char>::SwapRangeFromSystemToBigEndian(
+            reinterpret_cast<unsigned char *>(tempmemory.data()), numberOfComponents);
         }
         break;
       case IOComponentEnum::SHORT:
-        RescaleToScanco(reinterpret_cast<short *>(tempmemory), numberOfComponents);
+        RescaleToScanco(reinterpret_cast<short *>(tempmemory.data()), numberOfComponents);
         if (bigEndian)
         {
-          ByteSwapper<short>::SwapRangeFromSystemToBigEndian(reinterpret_cast<short *>(tempmemory), numberOfComponents);
+          ByteSwapper<short>::SwapRangeFromSystemToBigEndian(reinterpret_cast<short *>(tempmemory.data()),
+                                                             numberOfComponents);
         }
         break;
       case IOComponentEnum::USHORT:
-        RescaleToScanco(reinterpret_cast<unsigned short *>(tempmemory), numberOfComponents);
+        RescaleToScanco(reinterpret_cast<unsigned short *>(tempmemory.data()), numberOfComponents);
         if (bigEndian)
         {
-          ByteSwapper<unsigned short>::SwapRangeFromSystemToBigEndian(reinterpret_cast<unsigned short *>(tempmemory),
-                                                                      numberOfComponents);
+          ByteSwapper<unsigned short>::SwapRangeFromSystemToBigEndian(
+            reinterpret_cast<unsigned short *>(tempmemory.data()), numberOfComponents);
         }
         break;
       case IOComponentEnum::INT:
-        RescaleToScanco(reinterpret_cast<int *>(tempmemory), numberOfComponents);
+        RescaleToScanco(reinterpret_cast<int *>(tempmemory.data()), numberOfComponents);
         if (bigEndian)
         {
-          ByteSwapper<int>::SwapRangeFromSystemToBigEndian(reinterpret_cast<int *>(tempmemory), numberOfComponents);
+          ByteSwapper<int>::SwapRangeFromSystemToBigEndian(reinterpret_cast<int *>(tempmemory.data()),
+                                                           numberOfComponents);
         }
         break;
       case IOComponentEnum::UINT:
-        RescaleToScanco(reinterpret_cast<unsigned int *>(tempmemory), numberOfComponents);
+        RescaleToScanco(reinterpret_cast<unsigned int *>(tempmemory.data()), numberOfComponents);
         if (bigEndian)
         {
-          ByteSwapper<unsigned int>::SwapRangeFromSystemToBigEndian(reinterpret_cast<unsigned int *>(tempmemory),
+          ByteSwapper<unsigned int>::SwapRangeFromSystemToBigEndian(reinterpret_cast<unsigned int *>(tempmemory.data()),
                                                                     numberOfComponents);
         }
         break;
       case IOComponentEnum::FLOAT:
-        RescaleToScanco(reinterpret_cast<float *>(tempmemory), numberOfComponents);
+        RescaleToScanco(reinterpret_cast<float *>(tempmemory.data()), numberOfComponents);
         if (bigEndian)
         {
-          ByteSwapper<float>::SwapRangeFromSystemToBigEndian(reinterpret_cast<float *>(tempmemory), numberOfComponents);
+          ByteSwapper<float>::SwapRangeFromSystemToBigEndian(reinterpret_cast<float *>(tempmemory.data()),
+                                                             numberOfComponents);
         }
         break;
       default:
         itkExceptionMacro("Unrecognized data type in file: " << this->m_ComponentType);
     }
   }
-  outFile.write(static_cast<const char *>(tempmemory), numberOfBytes);
-
-  delete[] tempmemory;
+  outFile.write(static_cast<const char *>(tempmemory.data()), numberOfBytes);
   outFile.close();
 }
 
