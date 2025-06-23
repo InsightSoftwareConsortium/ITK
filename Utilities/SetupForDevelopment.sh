@@ -143,6 +143,15 @@ if git show-ref --verify --quiet refs/heads/master; then
       echo "Note: You may need to update the default branch on your remote repository."
     fi
 
+    # Update remote fetch configurations to use main instead of master
+    for remote in $(git remote); do
+      fetch_config=$(git config --get remote.$remote.fetch 2>/dev/null || true)
+      if [[ "$fetch_config" == *"refs/heads/master:refs/remotes/$remote/master"* ]]; then
+        echo "Updating $remote remote fetch configuration from master to main..."
+        git config remote.$remote.fetch "+refs/heads/main:refs/remotes/$remote/main"
+      fi
+    done
+
     # Switch back to the original branch if it wasn't master
     if test "$current_branch" != "master" && test "$current_branch" != ""; then
       echo "Switching back to '$current_branch' branch..."
