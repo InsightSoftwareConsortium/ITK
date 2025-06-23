@@ -31,7 +31,7 @@ Utilities/GitSetup/github-tips
 
 # Rebase main by default
 git config rebase.stat true
-git config branch.main.rebase true
+git config --replace-all branch.main.rebase true
 
 # Disable old Gerrit hooks
 hook=$(git config --get hooks.GerritId) &&
