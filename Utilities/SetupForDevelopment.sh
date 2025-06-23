@@ -31,7 +31,7 @@ Utilities/GitSetup/github-tips
 
 # Rebase main by default
 git config rebase.stat true
-git config branch.main.rebase true
+git config --replace-all branch.main.rebase true
 
 # Disable old Gerrit hooks
 hook=$(git config --get hooks.GerritId) &&
@@ -134,14 +134,31 @@ if git show-ref --verify --quiet refs/heads/master; then
     # Update the upstream tracking if it exists
     if git config --get branch.master.remote > /dev/null 2>&1; then
       remote_name=$(git config --get branch.master.remote)
+      merge_ref=$(git config --get branch.master.merge 2>/dev/null || true)
+
+      # Set up the main branch configuration
       git config branch.main.remote "$remote_name"
       git config branch.main.merge refs/heads/main
+
+      # Clean up old master branch configuration
       git config --unset branch.master.remote 2>/dev/null || true
       git config --unset branch.master.merge 2>/dev/null || true
 
       echo "Updated upstream tracking to $remote_name/main"
       echo "Note: You may need to update the default branch on your remote repository."
     fi
+
+    # Ensure main branch merge configuration is set to main
+    git config branch.main.merge refs/heads/main 2>/dev/null || true
+
+    # Update remote fetch configurations to use main instead of master
+    for remote in $(git remote); do
+      fetch_config=$(git config --get remote.$remote.fetch 2>/dev/null || true)
+      if [[ "$fetch_config" == *"refs/heads/master:refs/remotes/$remote/master"* ]]; then
+        echo "Updating $remote remote fetch configuration from master to main..."
+        git config remote.$remote.fetch "+refs/heads/main:refs/remotes/$remote/main"
+      fi
+    done
 
     # Switch back to the original branch if it wasn't master
     if test "$current_branch" != "master" && test "$current_branch" != ""; then
