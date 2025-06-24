@@ -595,9 +595,11 @@ public:
   const ArrayOfExtensionsType &
   GetSupportedWriteExtensions() const;
 
+#ifndef ITK_LEGACY_REMOVE
+  // This member function (template) is not implemented and not specialized.
   template <typename TPixel>
-  void
-  SetTypeInfo(const TPixel *);
+  itkLegacyMacro(void SetTypeInfo(const TPixel *));
+#endif
 
   /** Map between C++ Pixel type and ImageIOBase ComponentType */
   /** @ITKStartGrouping */
