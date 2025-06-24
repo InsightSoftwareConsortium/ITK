@@ -150,9 +150,9 @@ if(NOT DEFINED dashboard_git_url)
 endif()
 if(NOT DEFINED dashboard_git_branch)
    if("${dashboard_model}" STREQUAL "Nightly")
-     set(dashboard_git_branch follow/master/nightly)
+     set(dashboard_git_branch follow/main/nightly)
    else()
-     set(dashboard_git_branch master)
+     set(dashboard_git_branch main)
    endif()
  else()
    # map values from outdated client scripts
@@ -231,7 +231,7 @@ endif()
 # Upstream non-head refs to treat like branches.
 # These are updated by kwrobot.
 set(dashboard_git_extra_branches
-  follow/master/nightly          # updated nightly to master
+  follow/main/nightly          # updated nightly to main
   )
 
 # Support initial checkout if necessary.
