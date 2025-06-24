@@ -181,5 +181,32 @@ TEST(ITKIOTransformMatlab, ReadInvalidMatFile)
   EXPECT_THROW(reader->Update(), itk::ExceptionObject);
 }
 
+TYPED_TEST(ITKIOTransformMatlabTest, WriteAndReadEmptyCompositeTransform)
+{
+  using CompositeTransformType = itk::CompositeTransform<TypeParam, 3>;
+  auto compositeTransform = CompositeTransformType::New();
+
+  auto writer = TestFixture::TransformWriterType::New();
+  auto reader = TestFixture::TransformReaderType::New();
+
+  const std::string filename =
+    std::string("EmptyCompositeTransform_") + (std::is_same_v<TypeParam, float> ? "float" : "double") + ".mat";
+
+  writer->SetInput(compositeTransform);
+  writer->SetFileName(filename);
+  EXPECT_NO_THROW(writer->Update());
+
+  reader->SetFileName(filename);
+  EXPECT_NO_THROW(reader->Update());
+
+  const auto * list = reader->GetTransformList();
+  ASSERT_NE(list, nullptr);
+  // Check the first item is a composite transform
+  ASSERT_FALSE(list->empty());
+  EXPECT_EQ(list->size(), 1);
+  EXPECT_EQ(list->front()->GetNumberOfParameters(), 0);
+  EXPECT_STREQ(list->front()->GetNameOfClass(), "CompositeTransform");
+}
+
 
 } // namespace
