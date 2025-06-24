@@ -230,7 +230,7 @@ public:
    * is no Set accessor. */
   itkGetConstReferenceMacro(InverseDirection, DirectionType);
 
-  /** Get the spacing (size of a pixel) `of the image. The
+  /** Get the spacing (size of a pixel) of the image. The
    * spacing is the geometric distance between image samples along
    * each dimension. The value returned is a Vector<double, VImageDimension>.
    * For ImageBase and Image, the default data spacing is unity. */
