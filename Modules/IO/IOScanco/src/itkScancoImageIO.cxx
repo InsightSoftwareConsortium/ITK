@@ -47,7 +47,6 @@
 
 namespace itk
 {
-
 ScancoImageIO::ScancoImageIO()
 
 {
@@ -55,6 +54,7 @@ ScancoImageIO::ScancoImageIO()
   this->m_ByteOrder = IOByteOrderEnum::LittleEndian;
 
   this->AddSupportedWriteExtension(".isq");
+  this->AddSupportedWriteExtension(".aim");
 
   this->AddSupportedReadExtension(".isq");
   this->AddSupportedReadExtension(".rsq");
@@ -290,6 +290,7 @@ ScancoImageIO::ReadImageInformation()
     this->SetComponentType(IOComponentEnum::SHORT);
     this->m_Compression = 0;
   }
+  this->SetPixelType(IOPixelEnum::SCALAR);
 
   infile.close();
   this->PopulateMetaDataDictionary();
@@ -333,7 +334,7 @@ ScancoImageIO::PopulateMetaDataDictionary()
   EncapsulateMetaData<double>(thisDic, "MuWater", this->m_HeaderData.m_MuWater);
   EncapsulateMetaData<double>(thisDic, "StartPosition", this->m_HeaderData.m_StartPosition);
 
-  for (int i = 0; i < this->GetNumberOfDimensions(); i++)
+  for (unsigned int i = 0; i < this->GetNumberOfDimensions(); i++)
   {
     pixelDimensions[i] = this->m_HeaderData.m_ScanDimensionsPixels[i];
     physicalDimensions[i] = this->m_HeaderData.m_ScanDimensionsPhysical[i];
@@ -422,7 +423,7 @@ ScancoImageIO::SetHeaderFromMetaDataDictionary()
     return;
   }
 
-  for (int i = 0; i < this->GetNumberOfDimensions(); i++)
+  for (unsigned int i = 0; i < this->GetNumberOfDimensions(); i++)
   {
     this->m_HeaderData.m_ScanDimensionsPixels[i] = pixelDimensions[i];
     this->m_HeaderData.m_ScanDimensionsPhysical[i] = physicalDimensions[i];
@@ -501,10 +502,7 @@ ScancoImageIO::Read(void * buffer)
   const int xsize = this->GetDimensions(0);
   const int ysize = this->GetDimensions(1);
   const int zsize = this->GetDimensions(2);
-  size_t    outSize = xsize;
-  outSize *= ysize;
-  outSize *= zsize;
-  outSize *= this->GetComponentSize();
+  size_t    outSize = this->GetImageSizeInBytes();
 
   // For the input (compressed) data
   char * input = nullptr;
@@ -702,6 +700,30 @@ ScancoImageIO::CanWriteFile(const char * name)
   return this->HasSupportedWriteExtension(name, true);
 }
 
+void
+ScancoImageIO::SetDataTypeFromComponentEnum()
+{
+  if (this->m_ComponentType == IOComponentEnum::SHORT)
+  {
+    this->m_HeaderData.m_PixelData.m_ComponentType = 0x00020002; // short
+  }
+  else if (this->m_ComponentType == IOComponentEnum::FLOAT)
+  {
+    this->m_HeaderData.m_PixelData.m_ComponentType = 0x001a0004; // float
+  }
+  else if (this->m_ComponentType == IOComponentEnum::UCHAR)
+  {
+    this->m_HeaderData.m_PixelData.m_ComponentType = 0x00160001; // unsigned char
+  }
+  else if (this->m_ComponentType == IOComponentEnum::CHAR)
+  {
+    this->m_HeaderData.m_PixelData.m_ComponentType = 0x00010001; // char
+  }
+  else
+  {
+    itkExceptionMacro("ScancoImageIO only supports writing short, float, or unsigned char files.");
+  }
+}
 
 void
 ScancoImageIO::WriteImageInformation()
@@ -726,10 +748,24 @@ ScancoImageIO::WriteImageInformation()
   {
     itkExceptionMacro("ScancoImageIO: Cannot write file, incompatible extension type.");
   }
+  else if (this->m_FileExtension == ScancoFileExtensions::AIM)
+  {
+    if (strcmp(this->m_HeaderData.m_Version, "AIMDATA_V020   ") == 0)
+    {
+      // writing to version 020 can be specified, but default is v030
+      this->SetVersion("AIMDATA_V020   ");
+    }
+    else
+    {
+      this->SetVersion("AIMDATA_V030   ");
+    }
+  }
   else
   {
     this->SetVersion("CTDATA-HEADER_V1");
   }
+
+  this->SetDataTypeFromComponentEnum();
 
   for (unsigned int i = 0; i < m_NumberOfDimensions; ++i)
   {
@@ -738,9 +774,6 @@ ScancoImageIO::WriteImageInformation()
     // the origin will reflect the cropping of the data
     this->m_HeaderData.m_PixelData.m_Origin[i] = this->GetOrigin(i);
   }
-
-  // currently only short images are supported
-  this->m_HeaderData.m_PixelData.m_ComponentType = 0x00020002;
 
   this->m_HeaderSize =
     static_cast<SizeValueType>(this->m_HeaderIO->WriteHeader(outFile, (unsigned long)this->GetImageSizeInBytes()));
@@ -763,35 +796,81 @@ ScancoImageIO::Write(const void * buffer)
   const auto numberOfBytes = static_cast<SizeValueType>(this->GetImageSizeInBytes());
   const auto numberOfComponents = static_cast<SizeValueType>(this->GetImageSizeInComponents());
 
-  if (this->GetComponentType() != IOComponentEnum::SHORT)
+  if (this->GetComponentType() != IOComponentEnum::SHORT && this->GetComponentType() != IOComponentEnum::FLOAT)
   {
-    itkExceptionMacro("ScancoImageIO only supports writing short files.");
+    itkExceptionMacro("ScancoImageIO only supports writing short or float files.");
   }
 
-  char * tempmemory = new char[numberOfBytes];
-  memcpy(tempmemory, buffer, numberOfBytes);
+  std::vector<char> tempmemory(numberOfBytes);
+  memcpy(tempmemory.data(), buffer, numberOfBytes);
+
+  bool bigEndian = ByteSwapper<short>::SystemIsBigEndian();
 
   if (this->m_HeaderData.m_RescaleSlope != 1.0 || this->m_HeaderData.m_RescaleIntercept != 0.0)
   {
-    // todo: @ebald19 expand for othe component types
-    // notably float type for AIMV030
-    RescaleToScanco(reinterpret_cast<short *>(tempmemory), numberOfComponents);
-  }
-
-  if (ByteSwapper<short>::SystemIsBigEndian())
-  {
+    switch (this->GetComponentType())
     {
-      ByteSwapper<short>::SwapRangeFromSystemToBigEndian(reinterpret_cast<short *>(tempmemory), numberOfComponents);
+      case IOComponentEnum::CHAR:
+        RescaleToScanco(reinterpret_cast<char *>(tempmemory.data()), numberOfComponents);
+        if (bigEndian)
+        {
+          ByteSwapper<char>::SwapRangeFromSystemToBigEndian(reinterpret_cast<char *>(tempmemory.data()),
+                                                            numberOfComponents);
+        }
+        break;
+      case IOComponentEnum::UCHAR:
+        RescaleToScanco(reinterpret_cast<unsigned char *>(tempmemory.data()), numberOfComponents);
+        if (bigEndian)
+        {
+          ByteSwapper<unsigned char>::SwapRangeFromSystemToBigEndian(
+            reinterpret_cast<unsigned char *>(tempmemory.data()), numberOfComponents);
+        }
+        break;
+      case IOComponentEnum::SHORT:
+        RescaleToScanco(reinterpret_cast<short *>(tempmemory.data()), numberOfComponents);
+        if (bigEndian)
+        {
+          ByteSwapper<short>::SwapRangeFromSystemToBigEndian(reinterpret_cast<short *>(tempmemory.data()),
+                                                             numberOfComponents);
+        }
+        break;
+      case IOComponentEnum::USHORT:
+        RescaleToScanco(reinterpret_cast<unsigned short *>(tempmemory.data()), numberOfComponents);
+        if (bigEndian)
+        {
+          ByteSwapper<unsigned short>::SwapRangeFromSystemToBigEndian(
+            reinterpret_cast<unsigned short *>(tempmemory.data()), numberOfComponents);
+        }
+        break;
+      case IOComponentEnum::INT:
+        RescaleToScanco(reinterpret_cast<int *>(tempmemory.data()), numberOfComponents);
+        if (bigEndian)
+        {
+          ByteSwapper<int>::SwapRangeFromSystemToBigEndian(reinterpret_cast<int *>(tempmemory.data()),
+                                                           numberOfComponents);
+        }
+        break;
+      case IOComponentEnum::UINT:
+        RescaleToScanco(reinterpret_cast<unsigned int *>(tempmemory.data()), numberOfComponents);
+        if (bigEndian)
+        {
+          ByteSwapper<unsigned int>::SwapRangeFromSystemToBigEndian(reinterpret_cast<unsigned int *>(tempmemory.data()),
+                                                                    numberOfComponents);
+        }
+        break;
+      case IOComponentEnum::FLOAT:
+        RescaleToScanco(reinterpret_cast<float *>(tempmemory.data()), numberOfComponents);
+        if (bigEndian)
+        {
+          ByteSwapper<float>::SwapRangeFromSystemToBigEndian(reinterpret_cast<float *>(tempmemory.data()),
+                                                             numberOfComponents);
+        }
+        break;
+      default:
+        itkExceptionMacro("Unrecognized data type in file: " << this->m_ComponentType);
     }
-
-    // Write the actual pixel data
-    outFile.write(static_cast<const char *>(tempmemory), numberOfBytes);
   }
-  else
-  {
-    outFile.write(static_cast<const char *>(tempmemory), numberOfBytes);
-  }
-  delete[] tempmemory;
+  outFile.write(static_cast<const char *>(tempmemory.data()), numberOfBytes);
   outFile.close();
 }
 

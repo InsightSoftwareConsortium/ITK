@@ -359,6 +359,10 @@ private:
   void
   SetHeaderIO();
 
+  /** Set the numeric data type field from the ITK Component Enum */
+  void
+  SetDataTypeFromComponentEnum();
+
   itkScancoHeaderData m_HeaderData;
 
   ScancoHeaderIO * m_HeaderIO{ nullptr };

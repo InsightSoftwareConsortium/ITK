@@ -106,6 +106,14 @@ CheckVersion(const char header[16]);
 int
 DecodeInt(const void * data);
 
+/** Convert char data to 64-bit int (little-endian)
+ *
+ * \param data Pointer to a buffer of at least 4 bytes.
+ * \return The decoded integer value.
+ */
+int64_t
+DecodeInt64(const void * data);
+
 /** Convert 32-bit int (little-endian) to char data.
  *
  * \param data The integer to convert.

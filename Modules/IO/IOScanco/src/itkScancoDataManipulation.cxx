@@ -71,6 +71,15 @@ DecodeInt(const void * data)
   return (cp[0] | (cp[1] << 8) | (cp[2] << 16) | (cp[3] << 24));
 }
 
+int64_t
+DecodeInt64(const void * data)
+{
+  const auto * cp = static_cast<const unsigned char *>(data);
+  return (static_cast<uint64_t>(cp[0]) | (static_cast<uint64_t>(cp[1]) << 8) | (static_cast<uint64_t>(cp[2]) << 16) |
+          (static_cast<uint64_t>(cp[3]) << 24) | (static_cast<uint64_t>(cp[4]) << 32) |
+          (static_cast<uint64_t>(cp[5]) << 40) | (static_cast<uint64_t>(cp[6]) << 48) |
+          (static_cast<uint64_t>(cp[7]) << 56));
+}
 
 void
 EncodeInt(int data, void * target)
