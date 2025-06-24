@@ -360,7 +360,7 @@ public:
   static constexpr size_t
   GetNumberOfBitsOfComponentType(const IOComponentEnum componentEnum)
   {
-    return GetComponentTypeTraits(componentEnum).sizeOfComponent * CHAR_BIT;
+    return GetComponentTypeTraits(componentEnum).sizeOfComponent * size_t{ CHAR_BIT };
   }
 
   /** Convenience method returns the IOComponentEnum corresponding to a string. */
@@ -960,9 +960,9 @@ protected:
 private:
   struct ComponentTypeTraits
   {
-    bool   isFloatingPoint;
-    bool   isUnsigned;
-    size_t sizeOfComponent;
+    bool         isFloatingPoint;
+    bool         isUnsigned;
+    unsigned int sizeOfComponent;
 
     template <typename... TComponent>
     static constexpr ComponentTypeTraits

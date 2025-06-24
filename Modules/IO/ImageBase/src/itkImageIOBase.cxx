@@ -356,36 +356,12 @@ ImageIOBase::InternalSetCompressor(const std::string & _compressor)
 unsigned int
 ImageIOBase::GetComponentSize() const
 {
-  switch (m_ComponentType)
+  if (const unsigned int sizeOfComponent = GetComponentTypeTraits(m_ComponentType).sizeOfComponent; sizeOfComponent > 0)
   {
-    case IOComponentEnum::UCHAR:
-      return sizeof(unsigned char);
-    case IOComponentEnum::CHAR:
-      return sizeof(char);
-    case IOComponentEnum::USHORT:
-      return sizeof(unsigned short);
-    case IOComponentEnum::SHORT:
-      return sizeof(short);
-    case IOComponentEnum::UINT:
-      return sizeof(unsigned int);
-    case IOComponentEnum::INT:
-      return sizeof(int);
-    case IOComponentEnum::ULONG:
-      return sizeof(unsigned long);
-    case IOComponentEnum::LONG:
-      return sizeof(long);
-    case IOComponentEnum::ULONGLONG:
-      return sizeof(unsigned long long);
-    case IOComponentEnum::LONGLONG:
-      return sizeof(long long);
-    case IOComponentEnum::FLOAT:
-      return sizeof(float);
-    case IOComponentEnum::DOUBLE:
-      return sizeof(double);
-    case IOComponentEnum::UNKNOWNCOMPONENTTYPE:
-    default:
-      itkExceptionMacro("Unknown component type: " << m_ComponentType);
+    return sizeOfComponent;
   }
+
+  itkExceptionMacro("Unknown component type: " << m_ComponentType);
 }
 
 std::string
