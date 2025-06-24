@@ -20,28 +20,28 @@ Additionally, wheels for external modules are available through the Python Packa
 
 **Guide and Textbook**
 
-- [InsightSoftwareGuide-Book1-5.4.4.pdf](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.3/InsightSoftwareGuide-Book1-5.4.3.pdf)
-- [InsightSoftwareGuide-Book2-5.4.4.pdf](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.3/InsightSoftwareGuide-Book2-5.4.3.pdf)
+- [InsightSoftwareGuide-Book1-5.4.4.pdf](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.4/InsightSoftwareGuide-Book1-5.4.4.pdf)
+- [InsightSoftwareGuide-Book2-5.4.4.pdf](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.4/InsightSoftwareGuide-Book2-5.4.4.pdf)
 
 **Library Sources**
 
-- [InsightToolkit-5.4.4.tar.gz](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.3/InsightToolkit-5.4.3.tar.gz)
-- [InsightToolkit-5.4.4.zip](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.3/InsightToolkit-5.4.3.zip)
+- [InsightToolkit-5.4.4.tar.gz](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.4/InsightToolkit-5.4.4.tar.gz)
+- [InsightToolkit-5.4.4.zip](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.4/InsightToolkit-5.4.4.zip)
 
 **Testing Data**
 
 Unpack optional testing data in the same directory where the Library Source is unpacked.
 
-- [InsightData-5.4.4.tar.gz](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.3/InsightData-5.4.3.tar.gz)
-- [InsightData-5.4.4.zip](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.3/InsightData-5.4.3.zip)
+- [InsightData-5.4.4.tar.gz](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.4/InsightData-5.4.4.tar.gz)
+- [InsightData-5.4.4.zip](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.4/InsightData-5.4.4.zip)
 
 **Checksums and Signatures**
 
-- [InsightToolkit-5.4.4.tar.gz.asc](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.3/InsightToolkit-5.4.3.tar.gz.asc)
-- [InsightToolkit-5.4.4.zip.asc](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.3/InsightToolkit-5.4.3.zip.asc)
+- [InsightToolkit-5.4.4.tar.gz.asc](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.4/InsightToolkit-5.4.4.tar.gz.asc)
+- [InsightToolkit-5.4.4.zip.asc](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.4/InsightToolkit-5.4.4.zip.asc)
 
-- [InsightData-5.4.4.tar.gz.asc](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.3/InsightData-5.4.3.tar.gz.asc)
-- [InsightData-5.4.4.zip.asc](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.3/InsightData-5.4.3.zip.asc)
+- [InsightData-5.4.4.tar.gz.asc](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.4/InsightData-5.4.4.tar.gz.asc)
+- [InsightData-5.4.4.zip.asc](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.4/InsightData-5.4.4.zip.asc)
 
 - [MD5SUMS](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.4/MD5SUMS)
 - [SHA512SUMS](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v5.4.4/SHA512SUMS)
@@ -110,9 +110,9 @@ where `ITKLatestRelease` is the name of the local repository created.
 Additionally, specific releases can be cloned using the tags, for example:
 
 ```bash
-git clone -b v5.4.3 https://github.com/InsightSoftwareConsortium/ITK ITK-5.4.3
+git clone -b v5.4.4 https://github.com/InsightSoftwareConsortium/ITK ITK-5.4.4
 ```
-where `v5.4.3` corresponds to ITK 5.4.3, and the `ITK-5.4.3` is the name
+where `v5.4.4` corresponds to ITK 5.4.4, and the `ITK-5.4.4` is the name
 of the local repository created.
 
 ### Update
@@ -147,7 +147,7 @@ instructions to update it.
 Alternatively, one may checkout a specific release tag using
 
 ```bash
-git checkout v5.4.3
+git checkout v5.4.4
 ```
 
 Release tags never move. Repeat the command with a different tag to get a
