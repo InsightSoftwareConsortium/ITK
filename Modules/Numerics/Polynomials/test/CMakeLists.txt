@@ -4,9 +4,8 @@ set(ITKPolynomialsTests itkMultivariateLegendrePolynomialTest.cxx)
 createtestdriver(ITKPolynomials "${ITKPolynomials-Test_LIBRARIES}" "${ITKPolynomialsTests}")
 
 itk_add_test(
-  NAME
-  itkMultivariateLegendrePolynomialTest
+  NAME itkMultivariateLegendrePolynomialTest
   COMMAND
-  ITKPolynomialsTestDriver
-  itkMultivariateLegendrePolynomialTest
+    ITKPolynomialsTestDriver
+    itkMultivariateLegendrePolynomialTest
 )

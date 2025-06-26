@@ -46,14 +46,13 @@ macro(itk_module_doxygen _name)
   if(NOT ${_name}_THIRD_PARTY AND EXISTS ${${_name}_SOURCE_DIR}/include)
     if(Python3_EXECUTABLE AND BUILD_TESTING AND NOT DISABLE_MODULE_TESTS)
       itk_add_test(
-              NAME
-              ${_name}InDoxygenGroup
-              COMMAND
-              ${Python3_EXECUTABLE}
-              "${ITK_CMAKE_DIR}/../Utilities/Doxygen/mcdoc.py"
-              check
-              ${_name}
-              ${${_name}_SOURCE_DIR}/include
+        NAME ${_name}InDoxygenGroup
+        COMMAND
+          ${Python3_EXECUTABLE}
+          "${ITK_CMAKE_DIR}/../Utilities/Doxygen/mcdoc.py"
+          check
+          ${_name}
+          ${${_name}_SOURCE_DIR}/include
       )
       itk_memcheck_ignore(${_name}InDoxygenGroup)
     endif()

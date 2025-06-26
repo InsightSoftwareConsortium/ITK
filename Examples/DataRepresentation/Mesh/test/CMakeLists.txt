@@ -1,136 +1,119 @@
 itk_add_test(
-  NAME
-  AutomaticMeshTest
+  NAME AutomaticMeshTest
   COMMAND
-  ${ITK_TEST_DRIVER}
-  $<TARGET_FILE:AutomaticMesh>
+    ${ITK_TEST_DRIVER}
+    $<TARGET_FILE:AutomaticMesh>
 )
 
 itk_add_test(
-  NAME
-  ImageToPointSetTest
+  NAME ImageToPointSetTest
   COMMAND
-  ${ITK_TEST_DRIVER}
-  $<TARGET_FILE:ImageToPointSet>
-  ${ITK_SOURCE_DIR}/Examples/Data/BrainMidSagittalSlice.png
+    ${ITK_TEST_DRIVER}
+    $<TARGET_FILE:ImageToPointSet>
+    ${ITK_SOURCE_DIR}/Examples/Data/BrainMidSagittalSlice.png
 )
 
 itk_add_test(
-  NAME
-  Mesh1Test
+  NAME Mesh1Test
   COMMAND
-  ${ITK_TEST_DRIVER}
-  $<TARGET_FILE:Mesh1>
+    ${ITK_TEST_DRIVER}
+    $<TARGET_FILE:Mesh1>
 )
 
 itk_add_test(
-  NAME
-  Mesh2Test
+  NAME Mesh2Test
   COMMAND
-  ${ITK_TEST_DRIVER}
-  $<TARGET_FILE:Mesh2>
+    ${ITK_TEST_DRIVER}
+    $<TARGET_FILE:Mesh2>
 )
 
 itk_add_test(
-  NAME
-  Mesh3Test
+  NAME Mesh3Test
   COMMAND
-  ${ITK_TEST_DRIVER}
-  $<TARGET_FILE:Mesh3>
+    ${ITK_TEST_DRIVER}
+    $<TARGET_FILE:Mesh3>
 )
 
 itk_add_test(
-  NAME
-  MeshCellsIterationTest
+  NAME MeshCellsIterationTest
   COMMAND
-  ${ITK_TEST_DRIVER}
-  $<TARGET_FILE:MeshCellsIteration>
+    ${ITK_TEST_DRIVER}
+    $<TARGET_FILE:MeshCellsIteration>
 )
 
 itk_add_test(
-  NAME
-  MeshCellVisitorTest
+  NAME MeshCellVisitorTest
   COMMAND
-  ${ITK_TEST_DRIVER}
-  $<TARGET_FILE:MeshCellVisitor>
+    ${ITK_TEST_DRIVER}
+    $<TARGET_FILE:MeshCellVisitor>
 )
 
 itk_add_test(
-  NAME
-  MeshCellVisitor2Test
+  NAME MeshCellVisitor2Test
   COMMAND
-  ${ITK_TEST_DRIVER}
-  $<TARGET_FILE:MeshCellVisitor2>
+    ${ITK_TEST_DRIVER}
+    $<TARGET_FILE:MeshCellVisitor2>
 )
 
 itk_add_test(
-  NAME
-  MeshKComplexTest
+  NAME MeshKComplexTest
   COMMAND
-  ${ITK_TEST_DRIVER}
-  $<TARGET_FILE:MeshKComplex>
+    ${ITK_TEST_DRIVER}
+    $<TARGET_FILE:MeshKComplex>
 )
 
 itk_add_test(
-  NAME
-  MeshPolyLineTest
+  NAME MeshPolyLineTest
   COMMAND
-  ${ITK_TEST_DRIVER}
-  $<TARGET_FILE:MeshPolyLine>
+    ${ITK_TEST_DRIVER}
+    $<TARGET_FILE:MeshPolyLine>
 )
 
 itk_add_test(
-  NAME
-  MeshTraitsTest
+  NAME MeshTraitsTest
   COMMAND
-  ${ITK_TEST_DRIVER}
-  $<TARGET_FILE:MeshTraits>
+    ${ITK_TEST_DRIVER}
+    $<TARGET_FILE:MeshTraits>
 )
 
 itk_add_test(
-  NAME
-  PointSet1Test
+  NAME PointSet1Test
   COMMAND
-  ${ITK_TEST_DRIVER}
-  $<TARGET_FILE:PointSet1>
+    ${ITK_TEST_DRIVER}
+    $<TARGET_FILE:PointSet1>
 )
 
 itk_add_test(
-  NAME
-  PointSet2Test
+  NAME PointSet2Test
   COMMAND
-  ${ITK_TEST_DRIVER}
-  $<TARGET_FILE:PointSet2>
+    ${ITK_TEST_DRIVER}
+    $<TARGET_FILE:PointSet2>
 )
 
 itk_add_test(
-  NAME
-  PointSet3Test
+  NAME PointSet3Test
   COMMAND
-  ${ITK_TEST_DRIVER}
-  $<TARGET_FILE:PointSet3>
+    ${ITK_TEST_DRIVER}
+    $<TARGET_FILE:PointSet3>
 )
 
 itk_add_test(
-  NAME
-  PointSetWithCovariantVectorsTest
+  NAME PointSetWithCovariantVectorsTest
   COMMAND
-  ${ITK_TEST_DRIVER}
-  $<TARGET_FILE:PointSetWithCovariantVectors>
+    ${ITK_TEST_DRIVER}
+    $<TARGET_FILE:PointSetWithCovariantVectors>
 )
 
 itk_add_test(
-  NAME
-  PointSetWithVectorsTest
+  NAME PointSetWithVectorsTest
   COMMAND
-  ${ITK_TEST_DRIVER}
-  $<TARGET_FILE:PointSetWithVectors>
+    ${ITK_TEST_DRIVER}
+    $<TARGET_FILE:PointSetWithVectors>
 )
 
 itk_add_test(
-  NAME
-  RGBPointSetTest
+  NAME RGBPointSetTest
   COMMAND
-  ${ITK_TEST_DRIVER}
-  $<TARGET_FILE:RGBPointSet>
+    ${ITK_TEST_DRIVER}
+    $<TARGET_FILE:RGBPointSet>
 )

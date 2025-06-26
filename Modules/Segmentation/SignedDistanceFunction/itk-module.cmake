@@ -9,9 +9,8 @@ contour)."
 itk_module(
   ITKSignedDistanceFunction
   DEPENDS
-  ITKImageFunction
+    ITKImageFunction
   TEST_DEPENDS
-  ITKTestKernel
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+  DESCRIPTION "${DOCUMENTATION}"
 )

@@ -7,10 +7,9 @@ itk_module(
   ITKRegistrationMethodsv4
   ENABLE_SHARED
   DEPENDS
-  ITKOptimizersv4
-  ITKMetricsv4
+    ITKOptimizersv4
+    ITKMetricsv4
   TEST_DEPENDS
-  ITKTestKernel
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+  DESCRIPTION "${DOCUMENTATION}"
 )

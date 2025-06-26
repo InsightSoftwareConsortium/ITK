@@ -8,13 +8,12 @@ itk_module(
   ITKIOGIPL
   ENABLE_SHARED
   DEPENDS
-  ITKIOImageBase
+    ITKIOImageBase
   PRIVATE_DEPENDS
-  ITKZLIB
+    ITKZLIB
   TEST_DEPENDS
-  ITKTestKernel
+    ITKTestKernel
   FACTORY_NAMES
-  ImageIO::Gipl
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ImageIO::Gipl
+  DESCRIPTION "${DOCUMENTATION}"
 )

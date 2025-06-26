@@ -11,11 +11,10 @@ are similar to filtering on scalar images. See also
 itk_module(
   ITKLabelVoting
   DEPENDS
-  ITKThresholding
+    ITKThresholding
   TEST_DEPENDS
-  ITKTestKernel
-  ITKMetaIO
-  ITKDoubleConversion
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+    ITKMetaIO
+    ITKDoubleConversion
+  DESCRIPTION "${DOCUMENTATION}"
 )

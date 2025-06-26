@@ -9,13 +9,12 @@ itk_module(
   ITKSmoothing
   ENABLE_SHARED
   COMPILE_DEPENDS
-  ITKConvolution
-  ITKFFT
-  ITKImageFunction
-  ITKImageSources
+    ITKConvolution
+    ITKFFT
+    ITKImageFunction
+    ITKImageSources
   TEST_DEPENDS
-  ITKConvolution
-  ITKTestKernel
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKConvolution
+    ITKTestKernel
+  DESCRIPTION "${DOCUMENTATION}"
 )

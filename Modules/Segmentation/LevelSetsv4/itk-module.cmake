@@ -11,31 +11,29 @@ the segmenting contour."
 
 if(LevelSetsv4_VIZ)
   itk_module(
-      ITKLevelSetsv4
-      DEPENDS
+    ITKLevelSetsv4
+    DEPENDS
       ITKCommon
       ITKLabelMap
       ITKDistanceMap
       ITKImageGradient
       ITKVtkGlue
-      TEST_DEPENDS
+    TEST_DEPENDS
       ITKTestKernel
       ITKFastMarching
-      DESCRIPTION
-      "${DOCUMENTATION}"
+    DESCRIPTION "${DOCUMENTATION}"
   )
 else()
   itk_module(
-      ITKLevelSetsv4
-      DEPENDS
+    ITKLevelSetsv4
+    DEPENDS
       ITKCommon
       ITKLabelMap
       ITKDistanceMap
       ITKImageGradient
-      TEST_DEPENDS
+    TEST_DEPENDS
       ITKTestKernel
       ITKFastMarching
-      DESCRIPTION
-      "${DOCUMENTATION}"
+    DESCRIPTION "${DOCUMENTATION}"
   )
 endif()

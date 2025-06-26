@@ -4,12 +4,11 @@ itk_module(
   ITKIOBruker
   ENABLE_SHARED
   DEPENDS
-  ITKIOImageBase
+    ITKIOImageBase
   TEST_DEPENDS
-  ITKTestKernel
-  ITKIOMeta
+    ITKTestKernel
+    ITKIOMeta
   FACTORY_NAMES
-  ImageIO::Bruker2dseq
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ImageIO::Bruker2dseq
+  DESCRIPTION "${DOCUMENTATION}"
 )

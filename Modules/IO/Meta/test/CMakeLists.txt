@@ -19,44 +19,40 @@ set(
 createtestdriver(ITKIOMeta "${ITKIOMeta-Test_LIBRARIES}" "${ITKIOMetaTests}")
 
 itk_add_test(
-  NAME
-  itkMetaImageIOMetaDataTest
+  NAME itkMetaImageIOMetaDataTest
   COMMAND
-  ITKIOMetaTestDriver
-  itkMetaImageIOMetaDataTest
-  ${ITK_TEST_OUTPUT_DIR}/MetaImageIOMetaDataTest.mhd
+    ITKIOMetaTestDriver
+    itkMetaImageIOMetaDataTest
+    ${ITK_TEST_OUTPUT_DIR}/MetaImageIOMetaDataTest.mhd
 )
 itk_add_test(
-  NAME
-  itkMetaImageIOGzTest
+  NAME itkMetaImageIOGzTest
   COMMAND
-  ITKIOMetaTestDriver
-  itkMetaImageIOGzTest
-  ${ITK_TEST_OUTPUT_DIR}
+    ITKIOMetaTestDriver
+    itkMetaImageIOGzTest
+    ${ITK_TEST_OUTPUT_DIR}
 )
 itk_add_test(
-  NAME
-  itkMetaImageIOTest
+  NAME itkMetaImageIOTest
   COMMAND
-  ITKIOMetaTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd,HeadMRVolume.raw}
-  ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume.mhd
-  itkMetaImageIOTest
-  DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw}
-  ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume.mhd
+    ITKIOMetaTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd,HeadMRVolume.raw}
+    ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume.mhd
+    itkMetaImageIOTest
+    DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw}
+    ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume.mhd
 )
 itk_add_test(
-  NAME
-  itkMetaImageIOTestList
+  NAME itkMetaImageIOTestList
   COMMAND
-  ITKIOMetaTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/IO/SmallRampVolume.mhd,SmallRampVolume.raw}
-  ${ITK_TEST_OUTPUT_DIR}/itkMetaImageIOTestList.mhd
-  itkMetaImageIOTest
-  DATA{${ITK_DATA_ROOT}/Input/MetaIO/SmallRampVolumeList.mhd,SmallRampVolume01.tif,SmallRampVolume02.tif,SmallRampVolume03.tif,SmallRampVolume04.tif,SmallRampVolume05.tif,SmallRampVolume06.tif}
-  ${ITK_TEST_OUTPUT_DIR}/itkMetaImageIOTestList.mhd
+    ITKIOMetaTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/IO/SmallRampVolume.mhd,SmallRampVolume.raw}
+    ${ITK_TEST_OUTPUT_DIR}/itkMetaImageIOTestList.mhd
+    itkMetaImageIOTest
+    DATA{${ITK_DATA_ROOT}/Input/MetaIO/SmallRampVolumeList.mhd,SmallRampVolume01.tif,SmallRampVolume02.tif,SmallRampVolume03.tif,SmallRampVolume04.tif,SmallRampVolume05.tif,SmallRampVolume06.tif}
+    ${ITK_TEST_OUTPUT_DIR}/itkMetaImageIOTestList.mhd
 )
 
 # Suppress on FreeBSD, `man make` says "There is no way of escaping a space character in a filename" and indeed make will fail here because of the spaces in the filenames.
@@ -73,9 +69,8 @@ if(
     )
 )
   itk_add_test(
-      NAME
-      itkMetaImageIOTestListWithFilenameSpaces
-      COMMAND
+    NAME itkMetaImageIOTestListWithFilenameSpaces
+    COMMAND
       ITKIOMetaTestDriver
       --compare
       DATA{${ITK_DATA_ROOT}/Baseline/IO/SmallRampVolume.mhd,SmallRampVolume.raw}
@@ -87,16 +82,15 @@ if(
 endif()
 
 itk_add_test(
-  NAME
-  itkMetaImageIOTestRegEx
+  NAME itkMetaImageIOTestRegEx
   COMMAND
-  ITKIOMetaTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/IO/SmallRampVolume.mhd,SmallRampVolume.raw}
-  ${ITK_TEST_OUTPUT_DIR}/itkMetaImageIOTestRegEx.mhd
-  itkMetaImageIOTest
-  DATA{${ITK_DATA_ROOT}/Input/MetaIO/SmallRampVolumeRegEx.mhd,SmallRampVolume01.tif,SmallRampVolume02.tif,SmallRampVolume03.tif,SmallRampVolume04.tif,SmallRampVolume05.tif,SmallRampVolume06.tif}
-  ${ITK_TEST_OUTPUT_DIR}/itkMetaImageIOTestRegEx.mhd
+    ITKIOMetaTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/IO/SmallRampVolume.mhd,SmallRampVolume.raw}
+    ${ITK_TEST_OUTPUT_DIR}/itkMetaImageIOTestRegEx.mhd
+    itkMetaImageIOTest
+    DATA{${ITK_DATA_ROOT}/Input/MetaIO/SmallRampVolumeRegEx.mhd,SmallRampVolume01.tif,SmallRampVolume02.tif,SmallRampVolume03.tif,SmallRampVolume04.tif,SmallRampVolume05.tif,SmallRampVolume06.tif}
+    ${ITK_TEST_OUTPUT_DIR}/itkMetaImageIOTestRegEx.mhd
 )
 
 # Suppress on FreeBSD, `man make` says "There is no way of escaping a space character in a filename" and indeed make will fail here because of the spaces in the filenames.
@@ -113,9 +107,8 @@ if(
     )
 )
   itk_add_test(
-      NAME
-      itkMetaImageIOTestRegExWithFilenameSpaces
-      COMMAND
+    NAME itkMetaImageIOTestRegExWithFilenameSpaces
+    COMMAND
       ITKIOMetaTestDriver
       --compare
       DATA{${ITK_DATA_ROOT}/Baseline/IO/SmallRampVolume.mhd,SmallRampVolume.raw}
@@ -127,322 +120,301 @@ if(
 endif()
 
 itk_add_test(
-  NAME
-  itkMetaImageIOTest2
+  NAME itkMetaImageIOTest2
   COMMAND
-  ITKIOMetaTestDriver
-  itkMetaImageIOTest2
-  ${ITK_TEST_OUTPUT_DIR}/itkMetaImageIOTest2.mha
+    ITKIOMetaTestDriver
+    itkMetaImageIOTest2
+    ${ITK_TEST_OUTPUT_DIR}/itkMetaImageIOTest2.mha
 )
 itk_add_test(
-  NAME
-  itkMetaImageIOShouldFailTest
+  NAME itkMetaImageIOShouldFailTest
   COMMAND
-  ITKIOMetaTestDriver
-  itkMetaImageIOTest
-  DATA{${ITK_DATA_ROOT}/Input/MetaImageError.mhd}
-  "OutputNotUsed"
-  1
+    ITKIOMetaTestDriver
+    itkMetaImageIOTest
+    DATA{${ITK_DATA_ROOT}/Input/MetaImageError.mhd}
+    "OutputNotUsed"
+    1
 )
 itk_add_test(
-  NAME
-  testMetaGroup
+  NAME testMetaGroup
   COMMAND
-  ITKIOMetaTestDriver
-  testMetaGroup
-  ${ITK_TEST_OUTPUT_DIR}
+    ITKIOMetaTestDriver
+    testMetaGroup
+    ${ITK_TEST_OUTPUT_DIR}
 )
 itk_add_test(
-  NAME
-  testMetaImage
+  NAME testMetaImage
   COMMAND
-  ITKIOMetaTestDriver
-  testMetaImage
+    ITKIOMetaTestDriver
+    testMetaImage
 )
 itk_add_test(
-  NAME
-  testMetaMesh
+  NAME testMetaMesh
   COMMAND
-  ITKIOMetaTestDriver
-  testMetaMesh
-  ${ITK_TEST_OUTPUT_DIR}
+    ITKIOMetaTestDriver
+    testMetaMesh
+    ${ITK_TEST_OUTPUT_DIR}
 )
 itk_add_test(
-  NAME
-  MetaCommandRequiredOptionsWithMultipleStrings
+  NAME MetaCommandRequiredOptionsWithMultipleStrings
   COMMAND
-  ITKIOMetaTestDriver
-  testMetaCommand
-  -ExpectedFailStatus
-  0
-  -sum
-  7
-  -r1c_rs
-  StringValue1
-  StringValue2
-  StringValue3
-  -r2_ri
-  7
+    ITKIOMetaTestDriver
+    testMetaCommand
+    -ExpectedFailStatus
+    0
+    -sum
+    7
+    -r1c_rs
+    StringValue1
+    StringValue2
+    StringValue3
+    -r2_ri
+    7
 )
 itk_add_test(
-  NAME
-  MetaCommandRequiredOptionsWithMultipleStringsAtEnd
+  NAME MetaCommandRequiredOptionsWithMultipleStringsAtEnd
   COMMAND
-  ITKIOMetaTestDriver
-  testMetaCommand
-  -ExpectedFailStatus
-  0
-  -sum
-  7
-  -r2_ri
-  7
-  -r1c_rs
-  StringValue1
-  StringValue2
-  StringValue3
+    ITKIOMetaTestDriver
+    testMetaCommand
+    -ExpectedFailStatus
+    0
+    -sum
+    7
+    -r2_ri
+    7
+    -r1c_rs
+    StringValue1
+    StringValue2
+    StringValue3
 )
 itk_add_test(
-  NAME
-  MetaCommandOptionalWithRequired
+  NAME MetaCommandOptionalWithRequired
   COMMAND
-  ITKIOMetaTestDriver
-  testMetaCommand
-  -ExpectedFailStatus
-  0
-  -sum
-  107
-  -r1c_rs
-  StringValue1
-  StringValue2
-  StringValue3
-  -r2_ri
-  7
-  -o1_ri
-  1
-  -o2_ri
-  99
+    ITKIOMetaTestDriver
+    testMetaCommand
+    -ExpectedFailStatus
+    0
+    -sum
+    107
+    -r1c_rs
+    StringValue1
+    StringValue2
+    StringValue3
+    -r2_ri
+    7
+    -o1_ri
+    1
+    -o2_ri
+    99
 )
 itk_add_test(
-  NAME
-  MetaCommandOptionalOptoinsWithOutArguments
+  NAME MetaCommandOptionalOptoinsWithOutArguments
   COMMAND
-  ITKIOMetaTestDriver
-  testMetaCommand
-  -ExpectedFailStatus
-  0
-  -sum
-  207
-  -r1c_rs
-  StringValue1
-  StringValue2
-  StringValue3
-  -r2_ri
-  7
-  -o1_oi
-  -o2_oi
+    ITKIOMetaTestDriver
+    testMetaCommand
+    -ExpectedFailStatus
+    0
+    -sum
+    207
+    -r1c_rs
+    StringValue1
+    StringValue2
+    StringValue3
+    -r2_ri
+    7
+    -o1_oi
+    -o2_oi
 )
 itk_add_test(
-  NAME
-  MetaCommandOptionalOptoinsWithOutArguments1
+  NAME MetaCommandOptionalOptoinsWithOutArguments1
   COMMAND
-  ITKIOMetaTestDriver
-  testMetaCommand
-  -ExpectedFailStatus
-  0
-  -sum
-  107
-  -r1c_rs
-  StringValue1
-  StringValue2
-  StringValue3
-  -r2_ri
-  7
-  -o1_oi
-  1
-  -o2_oi
-  99
+    ITKIOMetaTestDriver
+    testMetaCommand
+    -ExpectedFailStatus
+    0
+    -sum
+    107
+    -r1c_rs
+    StringValue1
+    StringValue2
+    StringValue3
+    -r2_ri
+    7
+    -o1_oi
+    1
+    -o2_oi
+    99
 )
 itk_add_test(
-  NAME
-  MetaCommandRequiredAndOptionalOptoinsWithArguments
+  NAME MetaCommandRequiredAndOptionalOptoinsWithArguments
   COMMAND
-  ITKIOMetaTestDriver
-  testMetaCommand
-  -ExpectedFailStatus
-  0
-  -sum
-  207
-  -r1c_rs
-  StringValue1
-  StringValue2
-  StringValue3
-  -r2_ri
-  7
-  -o1_ri
-  1
-  -o2_ri
-  99
-  -o3_ri_oi
-  50
-  50
+    ITKIOMetaTestDriver
+    testMetaCommand
+    -ExpectedFailStatus
+    0
+    -sum
+    207
+    -r1c_rs
+    StringValue1
+    StringValue2
+    StringValue3
+    -r2_ri
+    7
+    -o1_ri
+    1
+    -o2_ri
+    99
+    -o3_ri_oi
+    50
+    50
 )
 itk_add_test(
-  NAME
-  MetaCommandRequiredAndOptionalOptoinsWithOutArguments
+  NAME MetaCommandRequiredAndOptionalOptoinsWithOutArguments
   COMMAND
-  ITKIOMetaTestDriver
-  testMetaCommand
-  -ExpectedFailStatus
-  0
-  -sum
-  257
-  -r1c_rs
-  StringValue1
-  StringValue2
-  StringValue3
-  -r2_ri
-  7
-  -o1_ri
-  1
-  -o2_ri
-  99
-  -o3_ri_oi
-  50
+    ITKIOMetaTestDriver
+    testMetaCommand
+    -ExpectedFailStatus
+    0
+    -sum
+    257
+    -r1c_rs
+    StringValue1
+    StringValue2
+    StringValue3
+    -r2_ri
+    7
+    -o1_ri
+    1
+    -o2_ri
+    99
+    -o3_ri_oi
+    50
 )
 itk_add_test(
-  NAME
-  MetaCommandRequiredAndOptionalOptoinsWithOutArguments-1
+  NAME MetaCommandRequiredAndOptionalOptoinsWithOutArguments-1
   COMMAND
-  ITKIOMetaTestDriver
-  testMetaCommand
-  -ExpectedFailStatus
-  0
-  -sum
-  457
-  -r1c_rs
-  StringValue1
-  StringValue2
-  StringValue3
-  -r2_ri
-  7
-  -o1_ri
-  1
-  -o2_ri
-  99
-  -o3_ri_oi
-  50
-  -o1_oi
-  -o2_oi
+    ITKIOMetaTestDriver
+    testMetaCommand
+    -ExpectedFailStatus
+    0
+    -sum
+    457
+    -r1c_rs
+    StringValue1
+    StringValue2
+    StringValue3
+    -r2_ri
+    7
+    -o1_ri
+    1
+    -o2_ri
+    99
+    -o3_ri_oi
+    50
+    -o1_oi
+    -o2_oi
 )
 itk_add_test(
-  NAME
-  MetaCommandRequiredOptionsWithMissingMultipleStrings
+  NAME MetaCommandRequiredOptionsWithMissingMultipleStrings
   COMMAND
-  ITKIOMetaTestDriver
-  testMetaCommand
-  -ExpectedFailStatus
-  1
-  -sum
-  7
-  -r1c_rs
-  -r2_ri
-  7
+    ITKIOMetaTestDriver
+    testMetaCommand
+    -ExpectedFailStatus
+    1
+    -sum
+    7
+    -r1c_rs
+    -r2_ri
+    7
 )
 itk_add_test(
-  NAME
-  MetaCommandRequiredOptionsWithMissingMultipleStringsAtEnd
+  NAME MetaCommandRequiredOptionsWithMissingMultipleStringsAtEnd
   COMMAND
-  ITKIOMetaTestDriver
-  testMetaCommand
-  -ExpectedFailStatus
-  1
-  -sum
-  7
-  -r2_ri
-  7
-  -r1c_rs
+    ITKIOMetaTestDriver
+    testMetaCommand
+    -ExpectedFailStatus
+    1
+    -sum
+    7
+    -r2_ri
+    7
+    -r1c_rs
 )
 itk_add_test(
-  NAME
-  MetaCommandOptionalWithRequiredMissing
+  NAME MetaCommandOptionalWithRequiredMissing
   COMMAND
-  ITKIOMetaTestDriver
-  testMetaCommand
-  -ExpectedFailStatus
-  1
-  -sum
-  107
-  -r1c_rs
-  StringValue1
-  StringValue2
-  StringValue3
-  -r2_ri
-  -o1_ri
-  1
-  -o2_ri
-  99
+    ITKIOMetaTestDriver
+    testMetaCommand
+    -ExpectedFailStatus
+    1
+    -sum
+    107
+    -r1c_rs
+    StringValue1
+    StringValue2
+    StringValue3
+    -r2_ri
+    -o1_ri
+    1
+    -o2_ri
+    99
 )
 itk_add_test(
-  NAME
-  MetaCommandRequiredAndOptionalOptoinsWithArgumentsMissing
+  NAME MetaCommandRequiredAndOptionalOptoinsWithArgumentsMissing
   COMMAND
-  ITKIOMetaTestDriver
-  testMetaCommand
-  -ExpectedFailStatus
-  1
-  -sum
-  207
-  -r1c_rs
-  StringValue1
-  StringValue2
-  StringValue3
-  -r2_ri
-  7
-  -o3_ri_oi
+    ITKIOMetaTestDriver
+    testMetaCommand
+    -ExpectedFailStatus
+    1
+    -sum
+    207
+    -r1c_rs
+    StringValue1
+    StringValue2
+    StringValue3
+    -r2_ri
+    7
+    -o3_ri_oi
 )
 itk_add_test(
-  NAME
-  testMetaArray
+  NAME testMetaArray
   COMMAND
-  ITKIOMetaTestDriver
-  testMetaArray
-  ${ITK_TEST_OUTPUT_DIR}
+    ITKIOMetaTestDriver
+    testMetaArray
+    ${ITK_TEST_OUTPUT_DIR}
 )
 itk_add_test(
-  NAME
-  itkMetaImageStreamingIOTest
+  NAME itkMetaImageStreamingIOTest
   COMMAND
-  ITKIOMetaTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd,HeadMRVolume.raw}
-  ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeStreamed.mhd
-  itkMetaImageStreamingIOTest
-  DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw}
-  ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeStreamed.mhd
+    ITKIOMetaTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd,HeadMRVolume.raw}
+    ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeStreamed.mhd
+    itkMetaImageStreamingIOTest
+    DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw}
+    ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeStreamed.mhd
 )
 itk_add_test(
-  NAME
-  itkMetaImageCompressedStreamingIOTest
+  NAME itkMetaImageCompressedStreamingIOTest
   COMMAND
-  ITKIOMetaTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd,HeadMRVolume.raw}
-  ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeCompressedStreamed.mha
-  itkMetaImageStreamingIOTest
-  DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeCompressed.mha}
-  ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeCompressedStreamed.mha
+    ITKIOMetaTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd,HeadMRVolume.raw}
+    ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeCompressedStreamed.mha
+    itkMetaImageStreamingIOTest
+    DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeCompressed.mha}
+    ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeCompressedStreamed.mha
 )
 itk_add_test(
-  NAME
-  itkMetaImageStreamingWriterIOTest
+  NAME itkMetaImageStreamingWriterIOTest
   COMMAND
-  ITKIOMetaTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd,HeadMRVolume.raw}
-  ${ITK_TEST_OUTPUT_DIR}/MetaImageStreamingWriterIOTest.mha
-  itkMetaImageStreamingWriterIOTest
-  DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw}
-  ${ITK_TEST_OUTPUT_DIR}/MetaImageStreamingWriterIOTest.mha
+    ITKIOMetaTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd,HeadMRVolume.raw}
+    ${ITK_TEST_OUTPUT_DIR}/MetaImageStreamingWriterIOTest.mha
+    itkMetaImageStreamingWriterIOTest
+    DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw}
+    ${ITK_TEST_OUTPUT_DIR}/MetaImageStreamingWriterIOTest.mha
 )
 
 # The data contained in ${ITK_DATA_ROOT}/Input/DicomSeries/
@@ -461,32 +433,29 @@ ExternalData_Expand_Arguments(
 )
 
 itk_add_test(
-  NAME
-  itkMetaImageStreamingWriterIOTest2
+  NAME itkMetaImageStreamingWriterIOTest2
   COMMAND
-  ITKIOMetaTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Input/mri3D.mhd}
-  ${ITK_TEST_OUTPUT_DIR}/mri3DWriteStreamed.mha
-  itkMetaImageStreamingWriterIOTest
-  DATA{${ITK_DATA_ROOT}/Input/mri3D.mhd}
-  ${ITK_TEST_OUTPUT_DIR}/mri3DWriteStreamed.mha
+    ITKIOMetaTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Input/mri3D.mhd}
+    ${ITK_TEST_OUTPUT_DIR}/mri3DWriteStreamed.mha
+    itkMetaImageStreamingWriterIOTest
+    DATA{${ITK_DATA_ROOT}/Input/mri3D.mhd}
+    ${ITK_TEST_OUTPUT_DIR}/mri3DWriteStreamed.mha
 )
 
 itk_add_test(
-  NAME
-  itkMetaTestLongFilename
+  NAME itkMetaTestLongFilename
   COMMAND
-  ITKIOMetaTestDriver
-  itkMetaTestLongFilename
+    ITKIOMetaTestDriver
+    itkMetaTestLongFilename
 )
 
 if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 5)
   # Image of 1.67 Gigabytes (pixels size is 16bits)
   itk_add_test(
-      NAME
-      itkLargeMetaImageWriteReadTest1
-      COMMAND
+    NAME itkLargeMetaImageWriteReadTest1
+    COMMAND
       ITKIOMetaTestDriver
       itkLargeMetaImageWriteReadTest
       ${ITK_TEST_OUTPUT_DIR}/LargeImage01.mhd
@@ -495,9 +464,8 @@ if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 5)
 
   # Image of 2.98 Gigabytes (pixels size is 16bits)
   itk_add_test(
-      NAME
-      itkLargeMetaImageWriteReadTest2
-      COMMAND
+    NAME itkLargeMetaImageWriteReadTest2
+    COMMAND
       ITKIOMetaTestDriver
       itkLargeMetaImageWriteReadTest
       ${ITK_TEST_OUTPUT_DIR}/LargeImage02.mhd
@@ -506,9 +474,8 @@ if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 5)
 
   # Image of 4.9 Gigabytes (pixels size is 8-bits out and 16-bit in)
   itk_add_test(
-      NAME
-      itkLargeMetaImageWriteReadTest3
-      COMMAND
+    NAME itkLargeMetaImageWriteReadTest3
+    COMMAND
       ITKIOMetaTestDriver
       itkLargeMetaImageWriteReadTest
       ${ITK_TEST_OUTPUT_DIR}/LargeImage03.mhd
@@ -557,9 +524,8 @@ endif()
 if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 12)
   # Image of 9.12 Gigabytes (pixels size is 16bits)
   itk_add_test(
-      NAME
-      itkLargeMetaImageWriteReadTest4
-      COMMAND
+    NAME itkLargeMetaImageWriteReadTest4
+    COMMAND
       ITKIOMetaTestDriver
       itkLargeMetaImageWriteReadTest
       ${ITK_TEST_OUTPUT_DIR}/LargeImage04.mhd

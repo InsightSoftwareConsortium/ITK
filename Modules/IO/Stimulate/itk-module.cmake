@@ -9,11 +9,10 @@ itk_module(
   ITKIOStimulate
   ENABLE_SHARED
   DEPENDS
-  ITKIOImageBase
+    ITKIOImageBase
   TEST_DEPENDS
-  ITKTestKernel
+    ITKTestKernel
   FACTORY_NAMES
-  ImageIO::Stimulate
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ImageIO::Stimulate
+  DESCRIPTION "${DOCUMENTATION}"
 )

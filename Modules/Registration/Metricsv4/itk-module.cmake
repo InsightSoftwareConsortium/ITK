@@ -6,12 +6,11 @@ set(
 itk_module(
   ITKMetricsv4
   DEPENDS
-  ITKCommon
-  ITKRegistrationCommon
-  ITKOptimizersv4
+    ITKCommon
+    ITKRegistrationCommon
+    ITKOptimizersv4
   TEST_DEPENDS
-  ITKTestKernel
-  ITKOptimizersv4
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+    ITKOptimizersv4
+  DESCRIPTION "${DOCUMENTATION}"
 )

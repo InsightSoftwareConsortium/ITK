@@ -11,12 +11,11 @@ a deformation field."
 itk_module(
   ITKDisplacementField
   DEPENDS
-  ITKSmoothing
-  ITKImageIntensity
+    ITKSmoothing
+    ITKImageIntensity
   COMPILE_DEPENDS
-  ITKImageGrid
+    ITKImageGrid
   TEST_DEPENDS
-  ITKTestKernel
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+  DESCRIPTION "${DOCUMENTATION}"
 )

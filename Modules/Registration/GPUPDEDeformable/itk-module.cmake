@@ -9,17 +9,16 @@ algorithm."
 itk_module(
   ITKGPUPDEDeformableRegistration
   DEPENDS
-  ITKCommon
-  ITKGPUCommon
-  ITKGPUFiniteDifference
+    ITKCommon
+    ITKGPUCommon
+    ITKGPUFiniteDifference
   COMPILE_DEPENDS
-  ITKPDEDeformableRegistration
-  ITKGPURegistrationCommon
+    ITKPDEDeformableRegistration
+    ITKGPURegistrationCommon
   TEST_DEPENDS
-  ITKTestKernel
-  ITKImageGrid
-  ITKImageIntensity
-  ITKImageFunction
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+    ITKImageGrid
+    ITKImageIntensity
+    ITKImageFunction
+  DESCRIPTION "${DOCUMENTATION}"
 )

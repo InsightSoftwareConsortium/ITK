@@ -8,13 +8,12 @@ itk_module(
   ITKDeformableMesh
   ENABLE_SHARED
   DEPENDS
-  ITKMesh
-  ITKImageIntensity
-  ITKThresholding
-  ITKImageFeature
-  ITKAnisotropicSmoothing
+    ITKMesh
+    ITKImageIntensity
+    ITKThresholding
+    ITKImageFeature
+    ITKAnisotropicSmoothing
   TEST_DEPENDS
-  ITKTestKernel
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+  DESCRIPTION "${DOCUMENTATION}"
 )

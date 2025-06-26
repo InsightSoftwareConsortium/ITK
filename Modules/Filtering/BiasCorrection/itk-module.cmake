@@ -11,18 +11,17 @@ itk_module(
   ITKBiasCorrection
   ENABLE_SHARED
   DEPENDS
-  ITKImageIntensity
+    ITKImageIntensity
   PRIVATE_DEPENDS
-  ITKCommon
+    ITKCommon
   COMPILE_DEPENDS
-  ITKOptimizers
-  ITKImageGrid
-  ITKPolynomials
+    ITKOptimizers
+    ITKImageGrid
+    ITKPolynomials
   TEST_DEPENDS
-  ITKTestKernel
-  ITKOptimizers
-  ITKPolynomials
-  ITKThresholding
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+    ITKOptimizers
+    ITKPolynomials
+    ITKThresholding
+  DESCRIPTION "${DOCUMENTATION}"
 )

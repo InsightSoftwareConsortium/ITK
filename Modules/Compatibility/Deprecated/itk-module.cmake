@@ -9,13 +9,12 @@ set(ITKDeprecatedOnByDefault EXCLUDE_FROM_DEFAULT)
 itk_module(
   ITKDeprecated
   DEPENDS
-  ITKCommon
-  ITKTransform
-  ITKImageFunction
+    ITKCommon
+    ITKTransform
+    ITKImageFunction
   TEST_DEPENDS
-  ITKTestKernel
-  ${ITKDeprecatedOnByDefault}
+    ITKTestKernel
+    ${ITKDeprecatedOnByDefault}
   ENABLE_SHARED
-  DESCRIPTION
-  "${DOCUMENTATION}"
+  DESCRIPTION "${DOCUMENTATION}"
 )

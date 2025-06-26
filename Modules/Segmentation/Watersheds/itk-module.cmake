@@ -23,14 +23,13 @@ itk_module(
   ITKWatersheds
   ENABLE_SHARED
   DEPENDS
-  ITKImageIntensity
-  ITKThresholding
-  ITKImageGradient
-  ITKSmoothing
-  ITKMathematicalMorphology
+    ITKImageIntensity
+    ITKThresholding
+    ITKImageGradient
+    ITKSmoothing
+    ITKMathematicalMorphology
   TEST_DEPENDS
-  ITKTestKernel
-  ITKImageFusion
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+    ITKImageFusion
+  DESCRIPTION "${DOCUMENTATION}"
 )

@@ -11,18 +11,17 @@ to scene graphs."
 itk_module(
   ITKSpatialObjects
   DEPENDS
-  ITKTransform
+    ITKTransform
   PRIVATE_DEPENDS
-  ITKMesh
-  ITKCommon
+    ITKMesh
+    ITKCommon
   COMPILE_DEPENDS
-  ITKImageFunction
-  ITKMetaIO
+    ITKImageFunction
+    ITKMetaIO
   TEST_DEPENDS
-  ITKTestKernel
-  ITKMetaIO
-  ITKMesh
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+    ITKMetaIO
+    ITKMesh
+  DESCRIPTION "${DOCUMENTATION}"
   ENABLE_SHARED
 )

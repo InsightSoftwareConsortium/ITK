@@ -11,20 +11,19 @@ evolves from an initial value for the segmenting contour."
 itk_module(
   ITKLevelSets
   DEPENDS
-  ITKImageFeature
-  ITKFiniteDifference
-  ITKDistanceMap
-  ITKSignedDistanceFunction
-  ITKAnisotropicSmoothing
-  ITKThresholding
-  ITKOptimizers
-  ITKImageCompare
-  ITKFastMarching
-  ITKNarrowBand
+    ITKImageFeature
+    ITKFiniteDifference
+    ITKDistanceMap
+    ITKSignedDistanceFunction
+    ITKAnisotropicSmoothing
+    ITKThresholding
+    ITKOptimizers
+    ITKImageCompare
+    ITKFastMarching
+    ITKNarrowBand
   COMPILE_DEPENDS
-  ITKIOImageBase
+    ITKIOImageBase
   TEST_DEPENDS
-  ITKTestKernel
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+  DESCRIPTION "${DOCUMENTATION}"
 )

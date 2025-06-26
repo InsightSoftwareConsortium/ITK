@@ -8,9 +8,8 @@ package them into an output image of multiple components."
 itk_module(
   ITKImageCompose
   COMPILE_DEPENDS
-  ITKImageFilterBase
+    ITKImageFilterBase
   TEST_DEPENDS
-  ITKTestKernel
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+  DESCRIPTION "${DOCUMENTATION}"
 )

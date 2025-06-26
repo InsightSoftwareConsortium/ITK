@@ -12,18 +12,17 @@ itk_module(
   ITKMesh
   ENABLE_SHARED
   DEPENDS
-  ITKTransform
+    ITKTransform
   TEST_DEPENDS
-  ITKTestKernel
-  ITKSpatialObjects
-  ITKIOSpatialObjects
-  ITKImageGrid
-  ITKIOMesh
-  ITKMetaIO
-  ITKTransform
-  ITKThresholding
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+    ITKSpatialObjects
+    ITKIOSpatialObjects
+    ITKImageGrid
+    ITKIOMesh
+    ITKMetaIO
+    ITKTransform
+    ITKThresholding
+  DESCRIPTION "${DOCUMENTATION}"
 )
 
 # Extra test dependency on IO-SpatialObjects is caused by itkMeshSpatialObjectIOTest.

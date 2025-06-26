@@ -12,15 +12,14 @@ refined by adding seed points to the boundary regions."
 itk_module(
   ITKVoronoi
   DEPENDS
-  ITKImageFilterBase
-  ITKMesh
+    ITKImageFilterBase
+    ITKMesh
   TEST_DEPENDS
-  ITKTestKernel
-  ITKSmoothing
-  ITKImageFusion
-  ITKIOMesh
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+    ITKSmoothing
+    ITKImageFusion
+    ITKIOMesh
+  DESCRIPTION "${DOCUMENTATION}"
 )
 
 # Extra dependency on Smoothing is introduced by itkVoronoiPartitioningImageFilterTest.

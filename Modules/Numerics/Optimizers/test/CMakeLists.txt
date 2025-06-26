@@ -24,140 +24,122 @@ set(
 createtestdriver(ITKOptimizers "${ITKOptimizers-Test_LIBRARIES}" "${ITKOptimizersTests}")
 
 itk_add_test(
-  NAME
-  itkOptimizersHierarchyTest
+  NAME itkOptimizersHierarchyTest
   COMMAND
-  ITKOptimizersTestDriver
-  itkOptimizersHierarchyTest
+    ITKOptimizersTestDriver
+    itkOptimizersHierarchyTest
 )
 itk_add_test(
-  NAME
-  itkFRPROptimizerTest
+  NAME itkFRPROptimizerTest
   COMMAND
-  ITKOptimizersTestDriver
-  itkFRPROptimizerTest
+    ITKOptimizersTestDriver
+    itkFRPROptimizerTest
 )
 itk_add_test(
-  NAME
-  itkPowellOptimizerTest
+  NAME itkPowellOptimizerTest
   COMMAND
-  ITKOptimizersTestDriver
-  itkPowellOptimizerTest
-  0
-  10
-  0.01
-  0.1
-  100
-  100
-  0
-  0.0
+    ITKOptimizersTestDriver
+    itkPowellOptimizerTest
+    0
+    10
+    0.01
+    0.1
+    100
+    100
+    0
+    0.0
 )
 itk_add_test(
-  NAME
-  itkGradientDescentOptimizerTest
+  NAME itkGradientDescentOptimizerTest
   COMMAND
-  ITKOptimizersTestDriver
-  itkGradientDescentOptimizerTest
+    ITKOptimizersTestDriver
+    itkGradientDescentOptimizerTest
 )
 itk_add_test(
-  NAME
-  itkVersorTransformOptimizerTest
+  NAME itkVersorTransformOptimizerTest
   COMMAND
-  ITKOptimizersTestDriver
-  itkVersorTransformOptimizerTest
+    ITKOptimizersTestDriver
+    itkVersorTransformOptimizerTest
 )
 itk_add_test(
-  NAME
-  itkSPSAOptimizerTest
+  NAME itkSPSAOptimizerTest
   COMMAND
-  ITKOptimizersTestDriver
-  itkSPSAOptimizerTest
+    ITKOptimizersTestDriver
+    itkSPSAOptimizerTest
 )
 itk_add_test(
-  NAME
-  itkExhaustiveOptimizerTest
+  NAME itkExhaustiveOptimizerTest
   COMMAND
-  ITKOptimizersTestDriver
-  itkExhaustiveOptimizerTest
+    ITKOptimizersTestDriver
+    itkExhaustiveOptimizerTest
 )
 itk_add_test(
-  NAME
-  itkLBFGSBOptimizerTest
+  NAME itkLBFGSBOptimizerTest
   COMMAND
-  ITKOptimizersTestDriver
-  itkLBFGSBOptimizerTest
+    ITKOptimizersTestDriver
+    itkLBFGSBOptimizerTest
 )
 itk_add_test(
-  NAME
-  itkConjugateGradientOptimizerTest
+  NAME itkConjugateGradientOptimizerTest
   COMMAND
-  ITKOptimizersTestDriver
-  itkConjugateGradientOptimizerTest
+    ITKOptimizersTestDriver
+    itkConjugateGradientOptimizerTest
 )
 itk_add_test(
-  NAME
-  itkLBFGSOptimizerTest
+  NAME itkLBFGSOptimizerTest
   COMMAND
-  ITKOptimizersTestDriver
-  itkLBFGSOptimizerTest
+    ITKOptimizersTestDriver
+    itkLBFGSOptimizerTest
 )
 itk_add_test(
-  NAME
-  itkCumulativeGaussianOptimizerTest
+  NAME itkCumulativeGaussianOptimizerTest
   COMMAND
-  ITKOptimizersTestDriver
-  itkCumulativeGaussianOptimizerTest
+    ITKOptimizersTestDriver
+    itkCumulativeGaussianOptimizerTest
 )
 itk_add_test(
-  NAME
-  itkRegularStepGradientDescentOptimizerTest
+  NAME itkRegularStepGradientDescentOptimizerTest
   COMMAND
-  ITKOptimizersTestDriver
-  itkRegularStepGradientDescentOptimizerTest
+    ITKOptimizersTestDriver
+    itkRegularStepGradientDescentOptimizerTest
 )
 itk_add_test(
-  NAME
-  itkLevenbergMarquardtOptimizerTest
+  NAME itkLevenbergMarquardtOptimizerTest
   COMMAND
-  ITKOptimizersTestDriver
-  itkLevenbergMarquardtOptimizerTest
+    ITKOptimizersTestDriver
+    itkLevenbergMarquardtOptimizerTest
 )
 itk_add_test(
-  NAME
-  itkVersorRigid3DTransformOptimizerTest
+  NAME itkVersorRigid3DTransformOptimizerTest
   COMMAND
-  ITKOptimizersTestDriver
-  itkVersorRigid3DTransformOptimizerTest
+    ITKOptimizersTestDriver
+    itkVersorRigid3DTransformOptimizerTest
 )
 itk_add_test(
-  NAME
-  itkAmoebaOptimizerTest
+  NAME itkAmoebaOptimizerTest
   COMMAND
-  ITKOptimizersTestDriver
-  itkAmoebaOptimizerTest
+    ITKOptimizersTestDriver
+    itkAmoebaOptimizerTest
 )
 itk_add_test(
-  NAME
-  itkParticleSwarmOptimizerTest
+  NAME itkParticleSwarmOptimizerTest
   COMMAND
-  ITKOptimizersTestDriver
-  itkParticleSwarmOptimizerTest
+    ITKOptimizersTestDriver
+    itkParticleSwarmOptimizerTest
 )
 itk_add_test(
-  NAME
-  itkInitializationBiasedParticleSwarmOptimizerTest
+  NAME itkInitializationBiasedParticleSwarmOptimizerTest
   COMMAND
-  ITKOptimizersTestDriver
-  itkInitializationBiasedParticleSwarmOptimizerTest
-  0.7298
-  1.49609
-  1.49609
-  1.49609
+    ITKOptimizersTestDriver
+    itkInitializationBiasedParticleSwarmOptimizerTest
+    0.7298
+    1.49609
+    1.49609
+    1.49609
 )
 itk_add_test(
-  NAME
-  itkOnePlusOneEvolutionaryOptimizerTest
+  NAME itkOnePlusOneEvolutionaryOptimizerTest
   COMMAND
-  ITKOptimizersTestDriver
-  itkOnePlusOneEvolutionaryOptimizerTest
+    ITKOptimizersTestDriver
+    itkOnePlusOneEvolutionaryOptimizerTest
 )

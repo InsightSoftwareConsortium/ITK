@@ -10,16 +10,15 @@ itk_module(
   ITKFEMRegistration
   ENABLE_SHARED
   DEPENDS
-  ITKFEM
-  ITKImageStatistics
-  ITKPDEDeformableRegistration
-  ITKImageFeature
-  ITKSpatialObjects
+    ITKFEM
+    ITKImageStatistics
+    ITKPDEDeformableRegistration
+    ITKImageFeature
+    ITKSpatialObjects
   TEST_DEPENDS
-  ITKTestKernel
-  ITKImageSources
-  ITKIOMeta
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+    ITKImageSources
+    ITKIOMeta
+  DESCRIPTION "${DOCUMENTATION}"
   EXCLUDE_FROM_DEFAULT
 )

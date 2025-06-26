@@ -8,12 +8,11 @@ difference of Gaussians."
 itk_module(
   ITKImageGradient
   DEPENDS
-  ITKSmoothing
-  ITKImageIntensity
+    ITKSmoothing
+    ITKImageIntensity
   COMPILE_DEPENDS
-  ITKImageAdaptors
+    ITKImageAdaptors
   TEST_DEPENDS
-  ITKTestKernel
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+  DESCRIPTION "${DOCUMENTATION}"
 )

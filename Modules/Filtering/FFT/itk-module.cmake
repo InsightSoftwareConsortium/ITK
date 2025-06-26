@@ -18,15 +18,14 @@ itk_module(
   ITKFFT
   ENABLE_SHARED
   DEPENDS
-  ITKCommon
+    ITKCommon
   COMPILE_DEPENDS
-  ITKImageGrid
+    ITKImageGrid
   TEST_DEPENDS
-  ITKTestKernel
-  ITKImageCompare
-  ITKImageIntensity
+    ITKTestKernel
+    ITKImageCompare
+    ITKImageIntensity
   FACTORY_NAMES
-  ${_fft_backends}
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ${_fft_backends}
+  DESCRIPTION "${DOCUMENTATION}"
 )

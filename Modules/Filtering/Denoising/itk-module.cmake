@@ -7,14 +7,13 @@ itk_module(
   ITKDenoising
   ENABLE_SHARED
   COMPILE_DEPENDS
-  ITKImageAdaptors
-  ITKImageGrid
-  ITKImageStatistics
-  ITKIOImageBase
-  ITKStatistics
+    ITKImageAdaptors
+    ITKImageGrid
+    ITKImageStatistics
+    ITKIOImageBase
+    ITKStatistics
   TEST_DEPENDS
-  ITKTestKernel
-  ITKImageGrid
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+    ITKImageGrid
+  DESCRIPTION "${DOCUMENTATION}"
 )

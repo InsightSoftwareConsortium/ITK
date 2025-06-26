@@ -9,16 +9,15 @@ itk_module(
   ITKIOGDCM
   ENABLE_SHARED
   DEPENDS
-  ITKCommon
-  ITKIOImageBase
+    ITKCommon
+    ITKIOImageBase
   PRIVATE_DEPENDS
-  ITKGDCM
+    ITKGDCM
   TEST_DEPENDS
-  ITKTestKernel
-  ITKGDCM
-  ITKImageIntensity
+    ITKTestKernel
+    ITKGDCM
+    ITKImageIntensity
   FACTORY_NAMES
-  ImageIO::GDCM
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ImageIO::GDCM
+  DESCRIPTION "${DOCUMENTATION}"
 )

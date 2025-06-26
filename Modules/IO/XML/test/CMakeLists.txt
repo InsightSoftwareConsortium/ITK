@@ -16,347 +16,314 @@ set(
 createtestdriver(ITKIOXML "${ITKIOXML-Test_LIBRARIES}" "${ITKIOXMLTests}")
 
 itk_add_test(
-  NAME
-  itkDOMTest1
+  NAME itkDOMTest1
   COMMAND
-  ITKIOXMLTestDriver
-  itkDOMTest1
+    ITKIOXMLTestDriver
+    itkDOMTest1
 )
 
 itk_add_test(
-  NAME
-  itkDOMTest21
+  NAME itkDOMTest21
   COMMAND
-  ITKIOXMLTestDriver
-  itkDOMTest2
-  DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
-  ${ITK_TEST_OUTPUT_DIR}/xmldom-test21-output.xml
+    ITKIOXMLTestDriver
+    itkDOMTest2
+    DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
+    ${ITK_TEST_OUTPUT_DIR}/xmldom-test21-output.xml
 )
 
 itk_add_test(
-  NAME
-  itkDOMTest22
+  NAME itkDOMTest22
   COMMAND
-  ITKIOXMLTestDriver
-  itkDOMTest2
-  DATA{${ITK_DATA_ROOT}/Input/XML/test.pso.xml}
-  ${ITK_TEST_OUTPUT_DIR}/xmldom-test22-output.xml
+    ITKIOXMLTestDriver
+    itkDOMTest2
+    DATA{${ITK_DATA_ROOT}/Input/XML/test.pso.xml}
+    ${ITK_TEST_OUTPUT_DIR}/xmldom-test22-output.xml
 )
 
 itk_add_test(
-  NAME
-  itkDOMTest3
+  NAME itkDOMTest3
   COMMAND
-  ITKIOXMLTestDriver
-  itkDOMTest3
-  DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
+    ITKIOXMLTestDriver
+    itkDOMTest3
+    DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
 )
 
 itk_add_test(
-  NAME
-  itkDOMTest4_01
+  NAME itkDOMTest4_01
   COMMAND
-  ITKIOXMLTestDriver
-  itkDOMTest4
-  DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
-  "/1"
-  "/1"
+    ITKIOXMLTestDriver
+    itkDOMTest4
+    DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
+    "/1"
+    "/1"
 )
 
 itk_add_test(
-  NAME
-  itkDOMTest4_02
+  NAME itkDOMTest4_02
   COMMAND
-  ITKIOXMLTestDriver
-  itkDOMTest4
-  DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
-  "/user"
-  "/1"
+    ITKIOXMLTestDriver
+    itkDOMTest4
+    DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
+    "/user"
+    "/1"
 )
 
 itk_add_test(
-  NAME
-  itkDOMTest4_03
+  NAME itkDOMTest4_03
   COMMAND
-  ITKIOXMLTestDriver
-  itkDOMTest4
-  DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
-  "/user:0"
-  "/1"
+    ITKIOXMLTestDriver
+    itkDOMTest4
+    DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
+    "/user:0"
+    "/1"
 )
 
 itk_add_test(
-  NAME
-  itkDOMTest4_04
+  NAME itkDOMTest4_04
   COMMAND
-  ITKIOXMLTestDriver
-  itkDOMTest4
-  DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
-  "/1/who:2"
-  "/1/10"
+    ITKIOXMLTestDriver
+    itkDOMTest4
+    DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
+    "/1/who:2"
+    "/1/10"
 )
 
 itk_add_test(
-  NAME
-  itkDOMTest4_05
+  NAME itkDOMTest4_05
   COMMAND
-  ITKIOXMLTestDriver
-  itkDOMTest4
-  DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
-  "/user/!"
-  "/1/1"
+    ITKIOXMLTestDriver
+    itkDOMTest4
+    DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
+    "/user/!"
+    "/1/1"
 )
 
 itk_add_test(
-  NAME
-  itkDOMTest4_06
+  NAME itkDOMTest4_06
   COMMAND
-  ITKIOXMLTestDriver
-  itkDOMTest4
-  DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
-  "/user/!:0"
-  "/1/1"
+    ITKIOXMLTestDriver
+    itkDOMTest4
+    DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
+    "/user/!:0"
+    "/1/1"
 )
 
 itk_add_test(
-  NAME
-  itkDOMTest4_07
+  NAME itkDOMTest4_07
   COMMAND
-  ITKIOXMLTestDriver
-  itkDOMTest4
-  DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
-  "/user/!:5"
-  "/1/8"
+    ITKIOXMLTestDriver
+    itkDOMTest4
+    DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
+    "/user/!:5"
+    "/1/8"
 )
 
 itk_add_test(
-  NAME
-  itkDOMTest4_08
+  NAME itkDOMTest4_08
   COMMAND
-  ITKIOXMLTestDriver
-  itkDOMTest4
-  DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
-  "/user/-"
-  "/0"
+    ITKIOXMLTestDriver
+    itkDOMTest4
+    DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
+    "/user/-"
+    "/0"
 )
 
 itk_add_test(
-  NAME
-  itkDOMTest4_09
+  NAME itkDOMTest4_09
   COMMAND
-  ITKIOXMLTestDriver
-  itkDOMTest4
-  DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
-  "/user/-0"
-  "/1"
+    ITKIOXMLTestDriver
+    itkDOMTest4
+    DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
+    "/user/-0"
+    "/1"
 )
 
 itk_add_test(
-  NAME
-  itkDOMTest4_10
+  NAME itkDOMTest4_10
   COMMAND
-  ITKIOXMLTestDriver
-  itkDOMTest4
-  DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
-  "/user/-1"
-  "/0"
+    ITKIOXMLTestDriver
+    itkDOMTest4
+    DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
+    "/user/-1"
+    "/0"
 )
 
 itk_add_test(
-  NAME
-  itkDOMTest4_11
+  NAME itkDOMTest4_11
   COMMAND
-  ITKIOXMLTestDriver
-  itkDOMTest4
-  DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
-  "/body/-2"
-  "/0"
+    ITKIOXMLTestDriver
+    itkDOMTest4
+    DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
+    "/body/-2"
+    "/0"
 )
 
 itk_add_test(
-  NAME
-  itkDOMTest4_12
+  NAME itkDOMTest4_12
   COMMAND
-  ITKIOXMLTestDriver
-  itkDOMTest4
-  DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
-  "/to/+"
-  "/1"
+    ITKIOXMLTestDriver
+    itkDOMTest4
+    DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
+    "/to/+"
+    "/1"
 )
 
 itk_add_test(
-  NAME
-  itkDOMTest4_13
+  NAME itkDOMTest4_13
   COMMAND
-  ITKIOXMLTestDriver
-  itkDOMTest4
-  DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
-  "/to/+1"
-  "/1"
+    ITKIOXMLTestDriver
+    itkDOMTest4
+    DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
+    "/to/+1"
+    "/1"
 )
 
 itk_add_test(
-  NAME
-  itkDOMTest4_14
+  NAME itkDOMTest4_14
   COMMAND
-  ITKIOXMLTestDriver
-  itkDOMTest4
-  DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
-  "/to/+0"
-  "/0"
+    ITKIOXMLTestDriver
+    itkDOMTest4
+    DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
+    "/to/+0"
+    "/0"
 )
 
 itk_add_test(
-  NAME
-  itkDOMTest4_15
+  NAME itkDOMTest4_15
   COMMAND
-  ITKIOXMLTestDriver
-  itkDOMTest4
-  DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
-  "/to/+1"
-  "/1"
+    ITKIOXMLTestDriver
+    itkDOMTest4
+    DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
+    "/to/+1"
+    "/1"
 )
 
 itk_add_test(
-  NAME
-  itkDOMTest4_16
+  NAME itkDOMTest4_16
   COMMAND
-  ITKIOXMLTestDriver
-  itkDOMTest4
-  DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
-  "/to/+2"
-  "/2"
+    ITKIOXMLTestDriver
+    itkDOMTest4
+    DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
+    "/to/+2"
+    "/2"
 )
 
 itk_add_test(
-  NAME
-  itkDOMTest4_17
+  NAME itkDOMTest4_17
   COMMAND
-  ITKIOXMLTestDriver
-  itkDOMTest4
-  DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
-  "/user/:hi"
-  "/1/9"
+    ITKIOXMLTestDriver
+    itkDOMTest4
+    DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
+    "/user/:hi"
+    "/1/9"
 )
 
 itk_add_test(
-  NAME
-  itkDOMTest4_18
+  NAME itkDOMTest4_18
   COMMAND
-  ITKIOXMLTestDriver
-  itkDOMTest4
-  DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
-  "/user/."
-  "/1"
+    ITKIOXMLTestDriver
+    itkDOMTest4
+    DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
+    "/user/."
+    "/1"
 )
 
 itk_add_test(
-  NAME
-  itkDOMTest4_19
+  NAME itkDOMTest4_19
   COMMAND
-  ITKIOXMLTestDriver
-  itkDOMTest4
-  DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
-  "/user/who:2/.."
-  "/1"
+    ITKIOXMLTestDriver
+    itkDOMTest4
+    DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
+    "/user/who:2/.."
+    "/1"
 )
 
 itk_add_test(
-  NAME
-  itkDOMTest4_20
+  NAME itkDOMTest4_20
   COMMAND
-  ITKIOXMLTestDriver
-  itkDOMTest4
-  DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
-  "/user//"
-  "[]"
+    ITKIOXMLTestDriver
+    itkDOMTest4
+    DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
+    "/user//"
+    "[]"
 )
 
 itk_add_test(
-  NAME
-  itkDOMTest4_21
+  NAME itkDOMTest4_21
   COMMAND
-  ITKIOXMLTestDriver
-  itkDOMTest4
-  DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
-  "/"
-  "[]"
+    ITKIOXMLTestDriver
+    itkDOMTest4
+    DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
+    "/"
+    "[]"
 )
 
 itk_add_test(
-  NAME
-  itkDOMTest4_22
+  NAME itkDOMTest4_22
   COMMAND
-  ITKIOXMLTestDriver
-  itkDOMTest4
-  DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
-  "/user/"
-  "/1"
+    ITKIOXMLTestDriver
+    itkDOMTest4
+    DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
+    "/user/"
+    "/1"
 )
 
 itk_add_test(
-  NAME
-  itkDOMTest4_23
+  NAME itkDOMTest4_23
   COMMAND
-  ITKIOXMLTestDriver
-  itkDOMTest4
-  DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
-  "/user/!/+5/-2/.././who:2/../:hi"
-  "/1/9"
+    ITKIOXMLTestDriver
+    itkDOMTest4
+    DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
+    "/user/!/+5/-2/.././who:2/../:hi"
+    "/1/9"
 )
 
 itk_add_test(
-  NAME
-  itkDOMTest4_24
+  NAME itkDOMTest4_24
   COMMAND
-  ITKIOXMLTestDriver
-  itkDOMTest4
-  DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
-  "[]"
-  "[]"
+    ITKIOXMLTestDriver
+    itkDOMTest4
+    DATA{${ITK_DATA_ROOT}/Input/XML/test.xml}
+    "[]"
+    "[]"
 )
 
 itk_add_test(
-  NAME
-  itkDOMTest5
+  NAME itkDOMTest5
   COMMAND
-  ITKIOXMLTestDriver
-  itkDOMTest5
-  ${ITK_TEST_OUTPUT_DIR}/xmldom-test5/output.xml
+    ITKIOXMLTestDriver
+    itkDOMTest5
+    ${ITK_TEST_OUTPUT_DIR}/xmldom-test5/output.xml
 )
 
 itk_add_test(
-  NAME
-  itkDOMTest6
+  NAME itkDOMTest6
   COMMAND
-  ITKIOXMLTestDriver
-  itkDOMTest6
+    ITKIOXMLTestDriver
+    itkDOMTest6
 )
 
 itk_add_test(
-  NAME
-  itkDOMTest8
+  NAME itkDOMTest8
   COMMAND
-  ITKIOXMLTestDriver
-  itkDOMTest8
-  ${ITK_TEST_OUTPUT_DIR}/xmldom-test8/
-  output/test_file
+    ITKIOXMLTestDriver
+    itkDOMTest8
+    ${ITK_TEST_OUTPUT_DIR}/xmldom-test8/
+    output/test_file
 )
 
 itk_add_test(
-  NAME
-  itkFancyStringTest
+  NAME itkFancyStringTest
   COMMAND
-  ITKIOXMLTestDriver
-  itkFancyStringTest
+    ITKIOXMLTestDriver
+    itkFancyStringTest
 )
 
 itk_add_test(
-  NAME
-  itkFileToolsTest
+  NAME itkFileToolsTest
   COMMAND
-  ITKIOXMLTestDriver
-  itkFileToolsTest
-  ${ITK_TEST_OUTPUT_DIR}/mytestdir
-  ${ITK_TEST_OUTPUT_DIR}/mytestfile.txt
+    ITKIOXMLTestDriver
+    itkFileToolsTest
+    ${ITK_TEST_OUTPUT_DIR}/mytestdir
+    ${ITK_TEST_OUTPUT_DIR}/mytestfile.txt
 )

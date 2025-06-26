@@ -11,12 +11,11 @@ filters."
 itk_module(
   ITKImageFilterBase
   COMPILE_DEPENDS
-  ITKCommon
+    ITKCommon
   TEST_DEPENDS
-  ITKTestKernel
-  ITKImageIntensity
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+    ITKImageIntensity
+  DESCRIPTION "${DOCUMENTATION}"
 )
 
 # Extra test dependency is introduced by itkMaskNeighborhoodOperatorImageFilterTest.

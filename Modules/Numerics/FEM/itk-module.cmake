@@ -9,16 +9,15 @@ itk_module(
   ITKFEM
   ENABLE_SHARED
   DEPENDS
-  ITKImageFunction
-  ITKRegistrationCommon
+    ITKImageFunction
+    ITKRegistrationCommon
   COMPILE_DEPENDS
-  ITKSpatialObjects
-  ITKIOSpatialObjects
+    ITKSpatialObjects
+    ITKIOSpatialObjects
   TEST_DEPENDS
-  ITKTestKernel
-  ITKIOSpatialObjects
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+    ITKIOSpatialObjects
+  DESCRIPTION "${DOCUMENTATION}"
   EXCLUDE_FROM_DEFAULT
 )
 

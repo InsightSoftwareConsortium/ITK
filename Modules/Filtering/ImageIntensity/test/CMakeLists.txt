@@ -108,301 +108,268 @@ createtestdriver(ITKImageIntensity "${ITKImageIntensity-Test_LIBRARIES}" "${ITKI
 set(TEMP ${ITK_TEST_OUTPUT_DIR})
 
 itk_add_test(
-  NAME
-  itkBoundedReciprocalImageFilterTest
+  NAME itkBoundedReciprocalImageFilterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkBoundedReciprocalImageFilterTest
-  DATA{${ITK_DATA_ROOT}/Input/Gourds.png}
+    ITKImageIntensityTestDriver
+    itkBoundedReciprocalImageFilterTest
+    DATA{${ITK_DATA_ROOT}/Input/Gourds.png}
 )
 itk_add_test(
-  NAME
-  itkCosImageFilterAndAdaptorTest
+  NAME itkCosImageFilterAndAdaptorTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkCosImageFilterAndAdaptorTest
+    ITKImageIntensityTestDriver
+    itkCosImageFilterAndAdaptorTest
 )
 itk_add_test(
-  NAME
-  itkVectorRescaleIntensityImageFilterTest
+  NAME itkVectorRescaleIntensityImageFilterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkVectorRescaleIntensityImageFilterTest
+    ITKImageIntensityTestDriver
+    itkVectorRescaleIntensityImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkTernaryMagnitudeSquaredImageFilterTest
+  NAME itkTernaryMagnitudeSquaredImageFilterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkTernaryMagnitudeSquaredImageFilterTest
+    ITKImageIntensityTestDriver
+    itkTernaryMagnitudeSquaredImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkTernaryOperatorImageFilterTest
+  NAME itkTernaryOperatorImageFilterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkTernaryOperatorImageFilterTest
+    ITKImageIntensityTestDriver
+    itkTernaryOperatorImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkMinimumImageFilterTest
+  NAME itkMinimumImageFilterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkMinimumImageFilterTest
+    ITKImageIntensityTestDriver
+    itkMinimumImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkLog10ImageFilterAndAdaptorTest
+  NAME itkLog10ImageFilterAndAdaptorTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkLog10ImageFilterAndAdaptorTest
+    ITKImageIntensityTestDriver
+    itkLog10ImageFilterAndAdaptorTest
 )
 itk_add_test(
-  NAME
-  itkVectorIndexSelectionCastImageFilterTest1
+  NAME itkVectorIndexSelectionCastImageFilterTest1
   COMMAND
-  ITKImageIntensityTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkVectorIndexSelectionCastImageFilterTest1.mha}
-  ${ITK_TEST_OUTPUT_DIR}/itkVectorIndexSelectionCastImageFilterTest1.mha
-  itkVectorIndexSelectionCastImageFilterTest
-  DATA{${ITK_DATA_ROOT}/Input/RGBTestImage.tif}
-  ${ITK_TEST_OUTPUT_DIR}/itkVectorIndexSelectionCastImageFilterTest1.mha
-  0
+    ITKImageIntensityTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkVectorIndexSelectionCastImageFilterTest1.mha}
+    ${ITK_TEST_OUTPUT_DIR}/itkVectorIndexSelectionCastImageFilterTest1.mha
+    itkVectorIndexSelectionCastImageFilterTest
+    DATA{${ITK_DATA_ROOT}/Input/RGBTestImage.tif}
+    ${ITK_TEST_OUTPUT_DIR}/itkVectorIndexSelectionCastImageFilterTest1.mha
+    0
 )
 itk_add_test(
-  NAME
-  itkVectorIndexSelectionCastImageFilterTest2
+  NAME itkVectorIndexSelectionCastImageFilterTest2
   COMMAND
-  ITKImageIntensityTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkVectorIndexSelectionCastImageFilterTest2.mha}
-  ${ITK_TEST_OUTPUT_DIR}/itkVectorIndexSelectionCastImageFilterTest2.mha
-  itkVectorIndexSelectionCastImageFilterTest
-  DATA{${ITK_DATA_ROOT}/Input/RGBTestImage.tif}
-  ${ITK_TEST_OUTPUT_DIR}/itkVectorIndexSelectionCastImageFilterTest2.mha
-  1
+    ITKImageIntensityTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkVectorIndexSelectionCastImageFilterTest2.mha}
+    ${ITK_TEST_OUTPUT_DIR}/itkVectorIndexSelectionCastImageFilterTest2.mha
+    itkVectorIndexSelectionCastImageFilterTest
+    DATA{${ITK_DATA_ROOT}/Input/RGBTestImage.tif}
+    ${ITK_TEST_OUTPUT_DIR}/itkVectorIndexSelectionCastImageFilterTest2.mha
+    1
 )
 itk_add_test(
-  NAME
-  itkVectorIndexSelectionCastImageFilterTest3
+  NAME itkVectorIndexSelectionCastImageFilterTest3
   COMMAND
-  ITKImageIntensityTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkVectorIndexSelectionCastImageFilterTest3.mha}
-  ${ITK_TEST_OUTPUT_DIR}/itkVectorIndexSelectionCastImageFilterTest3.mha
-  itkVectorIndexSelectionCastImageFilterTest
-  DATA{${ITK_DATA_ROOT}/Input/RGBTestImage.tif}
-  ${ITK_TEST_OUTPUT_DIR}/itkVectorIndexSelectionCastImageFilterTest3.mha
-  2
+    ITKImageIntensityTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkVectorIndexSelectionCastImageFilterTest3.mha}
+    ${ITK_TEST_OUTPUT_DIR}/itkVectorIndexSelectionCastImageFilterTest3.mha
+    itkVectorIndexSelectionCastImageFilterTest
+    DATA{${ITK_DATA_ROOT}/Input/RGBTestImage.tif}
+    ${ITK_TEST_OUTPUT_DIR}/itkVectorIndexSelectionCastImageFilterTest3.mha
+    2
 )
 itk_add_test(
-  NAME
-  itkInvertIntensityImageFilterTest
+  NAME itkInvertIntensityImageFilterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/InvertIntensityImageFilterTest.png}
-  ${ITK_TEST_OUTPUT_DIR}/InvertIntensityImageFilterTest.png
-  itkInvertIntensityImageFilterTest
-  DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
-  ${ITK_TEST_OUTPUT_DIR}/InvertIntensityImageFilterTest.png
+    ITKImageIntensityTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/InvertIntensityImageFilterTest.png}
+    ${ITK_TEST_OUTPUT_DIR}/InvertIntensityImageFilterTest.png
+    itkInvertIntensityImageFilterTest
+    DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/InvertIntensityImageFilterTest.png
 )
 itk_add_test(
-  NAME
-  itkSymmetricEigenAnalysisImageFilterTestOrderByValue
+  NAME itkSymmetricEigenAnalysisImageFilterTestOrderByValue
   COMMAND
-  ITKImageIntensityTestDriver
-  --compare-MD5
-  ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestOrderByValue.png
-  8e3e4221d36144133d2f6692b2ad980b
-  --compare-MD5
-  ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisFixedDimensionImageFilterTestOrderByValue.png
-  8e3e4221d36144133d2f6692b2ad980b
-  itkSymmetricEigenAnalysisImageFilterTest
-  ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestOrderByValue.png
-  1
-  ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisFixedDimensionImageFilterTestOrderByValue.png
+    ITKImageIntensityTestDriver
+    --compare-MD5
+    ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestOrderByValue.png
+    8e3e4221d36144133d2f6692b2ad980b
+    --compare-MD5
+    ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisFixedDimensionImageFilterTestOrderByValue.png
+    8e3e4221d36144133d2f6692b2ad980b
+    itkSymmetricEigenAnalysisImageFilterTest
+    ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestOrderByValue.png
+    1
+    ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisFixedDimensionImageFilterTestOrderByValue.png
 )
 itk_add_test(
-  NAME
-  itkSymmetricEigenAnalysisImageFilterTestOrderByMagnitude
+  NAME itkSymmetricEigenAnalysisImageFilterTestOrderByMagnitude
   COMMAND
-  ITKImageIntensityTestDriver
-  --compare-MD5
-  ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestOrderByMagnitude.png
-  8e3e4221d36144133d2f6692b2ad980b
-  --compare-MD5
-  ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisFixedDimensionImageFilterTestOrderByMagnitude.png
-  8e3e4221d36144133d2f6692b2ad980b
-  itkSymmetricEigenAnalysisImageFilterTest
-  ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestOrderByMagnitude.png
-  2
-  ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisFixedDimensionImageFilterTestOrderByMagnitude.png
+    ITKImageIntensityTestDriver
+    --compare-MD5
+    ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestOrderByMagnitude.png
+    8e3e4221d36144133d2f6692b2ad980b
+    --compare-MD5
+    ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisFixedDimensionImageFilterTestOrderByMagnitude.png
+    8e3e4221d36144133d2f6692b2ad980b
+    itkSymmetricEigenAnalysisImageFilterTest
+    ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestOrderByMagnitude.png
+    2
+    ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisFixedDimensionImageFilterTestOrderByMagnitude.png
 )
 # FixedDimension (with Eigen3) orders by value by default.
 itk_add_test(
-  NAME
-  itkSymmetricEigenAnalysisImageFilterTestDoNotOrder
+  NAME itkSymmetricEigenAnalysisImageFilterTestDoNotOrder
   COMMAND
-  ITKImageIntensityTestDriver
-  --compare-MD5
-  ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestDoNotOrder.png
-  8e3e4221d36144133d2f6692b2ad980b
-  --compare-MD5
-  ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisFixedDimensionImageFilterTestDoNotOrder.png
-  8e3e4221d36144133d2f6692b2ad980b
-  itkSymmetricEigenAnalysisImageFilterTest
-  ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestDoNotOrder.png
-  3
-  ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisFixedDimensionImageFilterTestDoNotOrder.png
+    ITKImageIntensityTestDriver
+    --compare-MD5
+    ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestDoNotOrder.png
+    8e3e4221d36144133d2f6692b2ad980b
+    --compare-MD5
+    ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisFixedDimensionImageFilterTestDoNotOrder.png
+    8e3e4221d36144133d2f6692b2ad980b
+    itkSymmetricEigenAnalysisImageFilterTest
+    ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestDoNotOrder.png
+    3
+    ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisFixedDimensionImageFilterTestDoNotOrder.png
 )
 itk_add_test(
-  NAME
-  itkEdgePotentialImageFilterTest
+  NAME itkEdgePotentialImageFilterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkEdgePotentialImageFilterTest
+    ITKImageIntensityTestDriver
+    itkEdgePotentialImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkComplexToModulusFilterAndAdaptorTest
+  NAME itkComplexToModulusFilterAndAdaptorTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkComplexToModulusFilterAndAdaptorTest
+    ITKImageIntensityTestDriver
+    itkComplexToModulusFilterAndAdaptorTest
 )
 itk_add_test(
-  NAME
-  itkAddImageAdaptorTest
+  NAME itkAddImageAdaptorTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkAddImageAdaptorTest
+    ITKImageIntensityTestDriver
+    itkAddImageAdaptorTest
 )
 itk_add_test(
-  NAME
-  itkAndImageFilterTest
+  NAME itkAndImageFilterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  --compare-MD5
-  ${ITK_TEST_OUTPUT_DIR}/itkAndImageFilterTest.png
-  93d46ee3d5e0c157e2b2d27977ae4d0f
-  itkAndImageFilterTest
-  ${ITK_TEST_OUTPUT_DIR}/itkAndImageFilterTest.png
+    ITKImageIntensityTestDriver
+    --compare-MD5
+    ${ITK_TEST_OUTPUT_DIR}/itkAndImageFilterTest.png
+    93d46ee3d5e0c157e2b2d27977ae4d0f
+    itkAndImageFilterTest
+    ${ITK_TEST_OUTPUT_DIR}/itkAndImageFilterTest.png
 )
 itk_add_test(
-  NAME
-  itkAdaptImageFilterTest2
+  NAME itkAdaptImageFilterTest2
   COMMAND
-  ITKImageIntensityTestDriver
-  itkAdaptImageFilterTest2
+    ITKImageIntensityTestDriver
+    itkAdaptImageFilterTest2
 )
 itk_add_test(
-  NAME
-  itkLogImageFilterAndAdaptorTest
+  NAME itkLogImageFilterAndAdaptorTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkLogImageFilterAndAdaptorTest
+    ITKImageIntensityTestDriver
+    itkLogImageFilterAndAdaptorTest
 )
 itk_add_test(
-  NAME
-  itkNotImageFilterTest
+  NAME itkNotImageFilterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkNotImageFilterTest
+    ITKImageIntensityTestDriver
+    itkNotImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkImageAdaptorNthElementTest
+  NAME itkImageAdaptorNthElementTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkImageAdaptorNthElementTest
+    ITKImageIntensityTestDriver
+    itkImageAdaptorNthElementTest
 )
 itk_add_test(
-  NAME
-  itkConstrainedValueAdditionImageFilterTest
+  NAME itkConstrainedValueAdditionImageFilterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  --compare-MD5
-  ${ITK_TEST_OUTPUT_DIR}/itkConstrainedValueAdditionImageFilterTest.png
-  6ef609d089e93e2eed8f089f75bc67fb
-  itkConstrainedValueAdditionImageFilterTest
-  ${ITK_TEST_OUTPUT_DIR}/itkConstrainedValueAdditionImageFilterTest.png
+    ITKImageIntensityTestDriver
+    --compare-MD5
+    ${ITK_TEST_OUTPUT_DIR}/itkConstrainedValueAdditionImageFilterTest.png
+    6ef609d089e93e2eed8f089f75bc67fb
+    itkConstrainedValueAdditionImageFilterTest
+    ${ITK_TEST_OUTPUT_DIR}/itkConstrainedValueAdditionImageFilterTest.png
 )
 itk_add_test(
-  NAME
-  itkAtanImageFilterAndAdaptorTest
+  NAME itkAtanImageFilterAndAdaptorTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkAtanImageFilterAndAdaptorTest
+    ITKImageIntensityTestDriver
+    itkAtanImageFilterAndAdaptorTest
 )
 itk_add_test(
-  NAME
-  itkMaskNegatedImageFilterTest
+  NAME itkMaskNegatedImageFilterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkMaskNegatedImageFilterTest
+    ITKImageIntensityTestDriver
+    itkMaskNegatedImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkAddImageFilterTest
+  NAME itkAddImageFilterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkAddImageFilterTest
+    ITKImageIntensityTestDriver
+    itkAddImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkAddImageFilterTest2
+  NAME itkAddImageFilterTest2
   COMMAND
-  ITKImageIntensityTestDriver
-  itkAddImageFilterTest2
-  DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha}
-  ${TEMP}/itkAddImageFilterTest2.mha
+    ITKImageIntensityTestDriver
+    itkAddImageFilterTest2
+    DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha}
+    ${TEMP}/itkAddImageFilterTest2.mha
 )
 itk_add_test(
-  NAME
-  itkAddImageFilterFrameTest
+  NAME itkAddImageFilterFrameTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkAddImageFilterFrameTest
+    ITKImageIntensityTestDriver
+    itkAddImageFilterFrameTest
 )
 itk_add_test(
-  NAME
-  itkPowImageFilterTest
+  NAME itkPowImageFilterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkPowImageFilterTest
+    ITKImageIntensityTestDriver
+    itkPowImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkMultiplyImageFilterTest
+  NAME itkMultiplyImageFilterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkMultiplyImageFilterTest
+    ITKImageIntensityTestDriver
+    itkMultiplyImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkWeightedAddImageFilterTest
+  NAME itkWeightedAddImageFilterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkWeightedAddImageFilterTest
-  0.4
+    ITKImageIntensityTestDriver
+    itkWeightedAddImageFilterTest
+    0.4
 )
 itk_add_test(
-  NAME
-  itkRescaleIntensityImageFilterTest
+  NAME itkRescaleIntensityImageFilterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkRescaleIntensityImageFilterTest
+    ITKImageIntensityTestDriver
+    itkRescaleIntensityImageFilterTest
 )
 
 itk_add_test(
-  NAME
-  itkNormalizeImageFilterTest
+  NAME itkNormalizeImageFilterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  --redirectOutput
-  ${TEMP}/itkNormalizeImageFilterTest.txt
-  itkNormalizeImageFilterTest
+    ITKImageIntensityTestDriver
+    --redirectOutput
+    ${TEMP}/itkNormalizeImageFilterTest.txt
+    itkNormalizeImageFilterTest
 )
 set_tests_properties(
   itkNormalizeImageFilterTest
@@ -412,501 +379,444 @@ set_tests_properties(
 )
 
 itk_add_test(
-  NAME
-  itkNaryAddImageFilterTest
+  NAME itkNaryAddImageFilterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkNaryAddImageFilterTest
+    ITKImageIntensityTestDriver
+    itkNaryAddImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkShiftScaleImageFilterTest
+  NAME itkShiftScaleImageFilterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkShiftScaleImageFilterTest
+    ITKImageIntensityTestDriver
+    itkShiftScaleImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkComplexToPhaseFilterAndAdaptorTest
+  NAME itkComplexToPhaseFilterAndAdaptorTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkComplexToPhaseFilterAndAdaptorTest
+    ITKImageIntensityTestDriver
+    itkComplexToPhaseFilterAndAdaptorTest
 )
 itk_add_test(
-  NAME
-  itkIntensityWindowingImageFilterTest
+  NAME itkIntensityWindowingImageFilterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkIntensityWindowingImageFilterTest
+    ITKImageIntensityTestDriver
+    itkIntensityWindowingImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkTernaryMagnitudeImageFilterTest
+  NAME itkTernaryMagnitudeImageFilterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  --compare-MD5
-  ${ITK_TEST_OUTPUT_DIR}/itkTernaryMagnitudeImageFilterTest.png
-  7f199e1363c4b754eb03cf4d0ba8d343
-  itkTernaryMagnitudeImageFilterTest
-  ${ITK_TEST_OUTPUT_DIR}/itkTernaryMagnitudeImageFilterTest.png
+    ITKImageIntensityTestDriver
+    --compare-MD5
+    ${ITK_TEST_OUTPUT_DIR}/itkTernaryMagnitudeImageFilterTest.png
+    7f199e1363c4b754eb03cf4d0ba8d343
+    itkTernaryMagnitudeImageFilterTest
+    ${ITK_TEST_OUTPUT_DIR}/itkTernaryMagnitudeImageFilterTest.png
 )
 itk_add_test(
-  NAME
-  itkAbsImageFilterAndAdaptorTest
+  NAME itkAbsImageFilterAndAdaptorTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkAbsImageFilterAndAdaptorTest
+    ITKImageIntensityTestDriver
+    itkAbsImageFilterAndAdaptorTest
 )
 itk_add_test(
-  NAME
-  itkMaximumImageFilterTest
+  NAME itkMaximumImageFilterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkMaximumImageFilterTest
+    ITKImageIntensityTestDriver
+    itkMaximumImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkBinaryMagnitudeImageFilterTest
+  NAME itkBinaryMagnitudeImageFilterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkBinaryMagnitudeImageFilterTest
+    ITKImageIntensityTestDriver
+    itkBinaryMagnitudeImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkMatrixIndexSelectionImageFilterTest
+  NAME itkMatrixIndexSelectionImageFilterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/MatrixIndexSelectionImageFilterTest.png}
-  ${ITK_TEST_OUTPUT_DIR}/MatrixIndexSelectionImageFilterTest.png
-  itkMatrixIndexSelectionImageFilterTest
-  ${ITK_TEST_OUTPUT_DIR}/MatrixIndexSelectionImageFilterTest.png
+    ITKImageIntensityTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/MatrixIndexSelectionImageFilterTest.png}
+    ${ITK_TEST_OUTPUT_DIR}/MatrixIndexSelectionImageFilterTest.png
+    itkMatrixIndexSelectionImageFilterTest
+    ${ITK_TEST_OUTPUT_DIR}/MatrixIndexSelectionImageFilterTest.png
 )
 itk_add_test(
-  NAME
-  itkSquareImageFilterTest
+  NAME itkSquareImageFilterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkSquareImageFilterTest
+    ITKImageIntensityTestDriver
+    itkSquareImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkRGBToVectorAdaptImageFilterTest.cxx
+  NAME itkRGBToVectorAdaptImageFilterTest.cxx
   COMMAND
-  ITKImageIntensityTestDriver
-  itkRGBToVectorAdaptImageFilterTest
+    ITKImageIntensityTestDriver
+    itkRGBToVectorAdaptImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkComplexToRealFilterAndAdaptorTest
+  NAME itkComplexToRealFilterAndAdaptorTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkComplexToRealFilterAndAdaptorTest
+    ITKImageIntensityTestDriver
+    itkComplexToRealFilterAndAdaptorTest
 )
 itk_add_test(
-  NAME
-  itkNaryMaximumImageFilterTest
+  NAME itkNaryMaximumImageFilterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkNaryMaximumImageFilterTest
+    ITKImageIntensityTestDriver
+    itkNaryMaximumImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkAtan2ImageFilterTest
+  NAME itkAtan2ImageFilterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkAtan2ImageFilterTest
+    ITKImageIntensityTestDriver
+    itkAtan2ImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkSqrtImageFilterAndAdaptorTest
+  NAME itkSqrtImageFilterAndAdaptorTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkSqrtImageFilterAndAdaptorTest
+    ITKImageIntensityTestDriver
+    itkSqrtImageFilterAndAdaptorTest
 )
 itk_add_test(
-  NAME
-  itkAsinImageFilterAndAdaptorTest
+  NAME itkAsinImageFilterAndAdaptorTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkAsinImageFilterAndAdaptorTest
+    ITKImageIntensityTestDriver
+    itkAsinImageFilterAndAdaptorTest
 )
 itk_add_test(
-  NAME
-  itkMaskImageFilterTest
+  NAME itkMaskImageFilterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkMaskImageFilterTest
+    ITKImageIntensityTestDriver
+    itkMaskImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkHistogramMatchingImageFilterTest
+  NAME itkHistogramMatchingImageFilterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkHistogramMatchingImageFilterTest
+    ITKImageIntensityTestDriver
+    itkHistogramMatchingImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkAcosImageFilterAndAdaptorTest
+  NAME itkAcosImageFilterAndAdaptorTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkAcosImageFilterAndAdaptorTest
+    ITKImageIntensityTestDriver
+    itkAcosImageFilterAndAdaptorTest
 )
 itk_add_test(
-  NAME
-  itkExpNegativeImageFilterAndAdaptorTest
+  NAME itkExpNegativeImageFilterAndAdaptorTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkExpNegativeImageFilterAndAdaptorTest
+    ITKImageIntensityTestDriver
+    itkExpNegativeImageFilterAndAdaptorTest
 )
 itk_add_test(
-  NAME
-  itkExpImageFilterAndAdaptorTest
+  NAME itkExpImageFilterAndAdaptorTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkExpImageFilterAndAdaptorTest
+    ITKImageIntensityTestDriver
+    itkExpImageFilterAndAdaptorTest
 )
 itk_add_test(
-  NAME
-  itkTanImageFilterAndAdaptorTest
+  NAME itkTanImageFilterAndAdaptorTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkTanImageFilterAndAdaptorTest
+    ITKImageIntensityTestDriver
+    itkTanImageFilterAndAdaptorTest
 )
 itk_add_test(
-  NAME
-  itkSigmoidImageFilterTest
+  NAME itkSigmoidImageFilterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkSigmoidImageFilterTest
+    ITKImageIntensityTestDriver
+    itkSigmoidImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkDivideImageFilterTest
+  NAME itkDivideImageFilterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkDivideImageFilterTest
+    ITKImageIntensityTestDriver
+    itkDivideImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkDivideImageFilterTest2
+  NAME itkDivideImageFilterTest2
   COMMAND
-  ITKImageIntensityTestDriver
-  itkDivideImageFilterTest2
+    ITKImageIntensityTestDriver
+    itkDivideImageFilterTest2
 )
 itk_add_test(
-  NAME
-  itkDivideOrZeroOutImageFilterTest
+  NAME itkDivideOrZeroOutImageFilterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkDivideOrZeroOutImageFilterTest
+    ITKImageIntensityTestDriver
+    itkDivideOrZeroOutImageFilterTest
 )
 if(NOT ITK_LEGACY_REMOVE)
   itk_add_test(
-      NAME
-      itkVectorExpandImageFilterTest
-      COMMAND
+    NAME itkVectorExpandImageFilterTest
+    COMMAND
       ITKImageIntensityTestDriver
       itkVectorExpandImageFilterTest
   )
 endif()
 itk_add_test(
-  NAME
-  itkAdaptImageFilterTest
+  NAME itkAdaptImageFilterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkAdaptImageFilterTest
+    ITKImageIntensityTestDriver
+    itkAdaptImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkOrImageFilterTest
+  NAME itkOrImageFilterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  --compare-MD5
-  ${ITK_TEST_OUTPUT_DIR}/itkOrImageFilterTest.png
-  817d6d96c1c07cb12bfc200134aa57ba
-  itkOrImageFilterTest
-  ${ITK_TEST_OUTPUT_DIR}/itkOrImageFilterTest.png
+    ITKImageIntensityTestDriver
+    --compare-MD5
+    ${ITK_TEST_OUTPUT_DIR}/itkOrImageFilterTest.png
+    817d6d96c1c07cb12bfc200134aa57ba
+    itkOrImageFilterTest
+    ${ITK_TEST_OUTPUT_DIR}/itkOrImageFilterTest.png
 )
 itk_add_test(
-  NAME
-  itkRGBToLuminanceImageFilterAndAdaptorTest.cxx
+  NAME itkRGBToLuminanceImageFilterAndAdaptorTest.cxx
   COMMAND
-  ITKImageIntensityTestDriver
-  itkRGBToLuminanceImageFilterAndAdaptorTest
+    ITKImageIntensityTestDriver
+    itkRGBToLuminanceImageFilterAndAdaptorTest
 )
 itk_add_test(
-  NAME
-  itkXorImageFilterTest
+  NAME itkXorImageFilterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  --compare-MD5
-  ${ITK_TEST_OUTPUT_DIR}/itkXorImageFilterTest.png
-  3b5b9852567ef7618aac7f5f2d74ef74
-  itkXorImageFilterTest
-  ${ITK_TEST_OUTPUT_DIR}/itkXorImageFilterTest.png
+    ITKImageIntensityTestDriver
+    --compare-MD5
+    ${ITK_TEST_OUTPUT_DIR}/itkXorImageFilterTest.png
+    3b5b9852567ef7618aac7f5f2d74ef74
+    itkXorImageFilterTest
+    ${ITK_TEST_OUTPUT_DIR}/itkXorImageFilterTest.png
 )
 itk_add_test(
-  NAME
-  itkSubtractImageFilterTest
+  NAME itkSubtractImageFilterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkSubtractImageFilterTest
+    ITKImageIntensityTestDriver
+    itkSubtractImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkComplexToImaginaryFilterAndAdaptorTest
+  NAME itkComplexToImaginaryFilterAndAdaptorTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkComplexToImaginaryFilterAndAdaptorTest
+    ITKImageIntensityTestDriver
+    itkComplexToImaginaryFilterAndAdaptorTest
 )
 itk_add_test(
-  NAME
-  itkVectorToRGBImageAdaptorTest
+  NAME itkVectorToRGBImageAdaptorTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkVectorToRGBImageAdaptorTest
+    ITKImageIntensityTestDriver
+    itkVectorToRGBImageAdaptorTest
 )
 itk_add_test(
-  NAME
-  itkSinImageFilterAndAdaptorTest
+  NAME itkSinImageFilterAndAdaptorTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkSinImageFilterAndAdaptorTest
+    ITKImageIntensityTestDriver
+    itkSinImageFilterAndAdaptorTest
 )
 itk_add_test(
-  NAME
-  itkPolylineMask2DImageFilterTest
+  NAME itkPolylineMask2DImageFilterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkPolylineMask2DImageFilterTest
-  DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkPolylineMask2DImageFilterTest.png
+    ITKImageIntensityTestDriver
+    itkPolylineMask2DImageFilterTest
+    DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkPolylineMask2DImageFilterTest.png
 )
 itk_add_test(
-  NAME
-  itkPolylineMaskImageFilterTest
+  NAME itkPolylineMaskImageFilterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  --compare
-  DATA{Baseline/PolylineMaskImageFilterTest.mha}
-  ${ITK_TEST_OUTPUT_DIR}/PolylineMaskImageFilterTest.mha
-  itkPolylineMaskImageFilterTest
-  ${ITK_TEST_OUTPUT_DIR}/PolylineMaskImageFilterTest.mha
+    ITKImageIntensityTestDriver
+    --compare
+    DATA{Baseline/PolylineMaskImageFilterTest.mha}
+    ${ITK_TEST_OUTPUT_DIR}/PolylineMaskImageFilterTest.mha
+    itkPolylineMaskImageFilterTest
+    ${ITK_TEST_OUTPUT_DIR}/PolylineMaskImageFilterTest.mha
 )
 itk_add_test(
-  NAME
-  itkPromoteDimensionImageTest
+  NAME itkPromoteDimensionImageTest
   COMMAND
-  ITKImageIntensityTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/PromoteDimensionImageTest.mhd,PromoteDimensionImageTest.raw}
-  ${ITK_TEST_OUTPUT_DIR}/PromoteDimensionImageTest.mhd
-  itkPromoteDimensionImageTest
-  DATA{${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png}
-  ${ITK_TEST_OUTPUT_DIR}/PromoteDimensionImageTest.mhd
+    ITKImageIntensityTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/PromoteDimensionImageTest.mhd,PromoteDimensionImageTest.raw}
+    ${ITK_TEST_OUTPUT_DIR}/PromoteDimensionImageTest.mhd
+    itkPromoteDimensionImageTest
+    DATA{${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png}
+    ${ITK_TEST_OUTPUT_DIR}/PromoteDimensionImageTest.mhd
 )
 itk_add_test(
-  NAME
-  itkModulusImageFilterTest
+  NAME itkModulusImageFilterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/ModulusImageFilterTest.png}
-  ${ITK_TEST_OUTPUT_DIR}/ModulusImageFilterTest.png
-  itkModulusImageFilterTest
-  DATA{${ITK_DATA_ROOT}/Input/Spots.png}
-  ${ITK_TEST_OUTPUT_DIR}/ModulusImageFilterTest.png
+    ITKImageIntensityTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/ModulusImageFilterTest.png}
+    ${ITK_TEST_OUTPUT_DIR}/ModulusImageFilterTest.png
+    itkModulusImageFilterTest
+    DATA{${ITK_DATA_ROOT}/Input/Spots.png}
+    ${ITK_TEST_OUTPUT_DIR}/ModulusImageFilterTest.png
 )
 itk_add_test(
-  NAME
-  itkVectorMagnitudeImageFilterTest
+  NAME itkVectorMagnitudeImageFilterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkVectorMagnitudeImageFilterTest
+    ITKImageIntensityTestDriver
+    itkVectorMagnitudeImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkNormalizeToConstantImageFilterTest
+  NAME itkNormalizeToConstantImageFilterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkNormalizeToConstantImageFilterTest
+    ITKImageIntensityTestDriver
+    itkNormalizeToConstantImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkEqualTest
+  NAME itkEqualTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkEqualTest
+    ITKImageIntensityTestDriver
+    itkEqualTest
 )
 itk_add_test(
-  NAME
-  itkNotEqualTest
+  NAME itkNotEqualTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkNotEqualTest
+    ITKImageIntensityTestDriver
+    itkNotEqualTest
 )
 itk_add_test(
-  NAME
-  itkGreaterEqualTest
+  NAME itkGreaterEqualTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkGreaterEqualTest
+    ITKImageIntensityTestDriver
+    itkGreaterEqualTest
 )
 itk_add_test(
-  NAME
-  itkGreaterTest
+  NAME itkGreaterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkGreaterTest
+    ITKImageIntensityTestDriver
+    itkGreaterTest
 )
 itk_add_test(
-  NAME
-  itkLessEqualTest
+  NAME itkLessEqualTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkLessEqualTest
+    ITKImageIntensityTestDriver
+    itkLessEqualTest
 )
 itk_add_test(
-  NAME
-  itkLessTest
+  NAME itkLessTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkLessTest
+    ITKImageIntensityTestDriver
+    itkLessTest
 )
 itk_add_test(
-  NAME
-  itkClampImageFilterTest
+  NAME itkClampImageFilterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkClampImageFilterTest
+    ITKImageIntensityTestDriver
+    itkClampImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkNthElementPixelAccessorTest2
+  NAME itkNthElementPixelAccessorTest2
   COMMAND
-  ITKImageIntensityTestDriver
-  itkNthElementPixelAccessorTest2
+    ITKImageIntensityTestDriver
+    itkNthElementPixelAccessorTest2
 )
 itk_add_test(
-  NAME
-  itkMagnitudeAndPhaseToComplexImageFilterTest
+  NAME itkMagnitudeAndPhaseToComplexImageFilterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  --compare
-  DATA{Baseline/itkMagnitudeAndPhaseToComplexImageFilterTestBaseline.mha}
-  ${ITK_TEST_OUTPUT_DIR}/itkMagnitudeAndPhaseToComplexImageFilterTest.mha
-  itkMagnitudeAndPhaseToComplexImageFilterTest
-  DATA{Input/itkBrainSliceComplexMagnitude.mha}
-  DATA{Input/itkBrainSliceComplexPhase.mha}
-  ${ITK_TEST_OUTPUT_DIR}/itkMagnitudeAndPhaseToComplexImageFilterTest.mha
+    ITKImageIntensityTestDriver
+    --compare
+    DATA{Baseline/itkMagnitudeAndPhaseToComplexImageFilterTestBaseline.mha}
+    ${ITK_TEST_OUTPUT_DIR}/itkMagnitudeAndPhaseToComplexImageFilterTest.mha
+    itkMagnitudeAndPhaseToComplexImageFilterTest
+    DATA{Input/itkBrainSliceComplexMagnitude.mha}
+    DATA{Input/itkBrainSliceComplexPhase.mha}
+    ${ITK_TEST_OUTPUT_DIR}/itkMagnitudeAndPhaseToComplexImageFilterTest.mha
 )
 itk_add_test(
-  NAME
-  itkRoundImageFilterTest
+  NAME itkRoundImageFilterTest
   COMMAND
-  ITKImageIntensityTestDriver
-  itkRoundImageFilterTest
+    ITKImageIntensityTestDriver
+    itkRoundImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkDiscreteHessianGaussianImageFunctionTest
+  NAME itkDiscreteHessianGaussianImageFunctionTest
   COMMAND
-  ITKImageIntensityTestDriver
-  --compare
-  DATA{Baseline/itkDiscreteHessianGaussianImageFunctionTest.mha}
-  ${ITK_TEST_OUTPUT_DIR}/itkDiscreteHessianGaussianImageFunctionTest.mha
-  itkDiscreteHessianGaussianImageFunctionTest
-  DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkDiscreteHessianGaussianImageFunctionTest.mha
-  2.0
-  0.01
-  32
+    ITKImageIntensityTestDriver
+    --compare
+    DATA{Baseline/itkDiscreteHessianGaussianImageFunctionTest.mha}
+    ${ITK_TEST_OUTPUT_DIR}/itkDiscreteHessianGaussianImageFunctionTest.mha
+    itkDiscreteHessianGaussianImageFunctionTest
+    DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkDiscreteHessianGaussianImageFunctionTest.mha
+    2.0
+    0.01
+    32
 )
 itk_add_test(
-  NAME
-  itkDiscreteGradientMagnitudeGaussianImageFunctionTest01
+  NAME itkDiscreteGradientMagnitudeGaussianImageFunctionTest01
   COMMAND
-  ITKImageIntensityTestDriver
-  --compare
-  DATA{Baseline/itkDiscreteGradientMagnitudeGaussianImageFunctionTest01.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGradientMagnitudeGaussianImageFunctionTest01.png
-  itkDiscreteGradientMagnitudeGaussianImageFunctionTest
-  DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGradientMagnitudeGaussianImageFunctionTest01.png
-  2.0
-  0.01
-  32
-  0
-  1
+    ITKImageIntensityTestDriver
+    --compare
+    DATA{Baseline/itkDiscreteGradientMagnitudeGaussianImageFunctionTest01.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGradientMagnitudeGaussianImageFunctionTest01.png
+    itkDiscreteGradientMagnitudeGaussianImageFunctionTest
+    DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGradientMagnitudeGaussianImageFunctionTest01.png
+    2.0
+    0.01
+    32
+    0
+    1
 )
 itk_add_test(
-  NAME
-  itkDiscreteGradientMagnitudeGaussianImageFunctionTest02
+  NAME itkDiscreteGradientMagnitudeGaussianImageFunctionTest02
   COMMAND
-  ITKImageIntensityTestDriver
-  --compare-MD5
-  ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGradientMagnitudeGaussianImageFunctionTest02.png
-  de1904605e667018baaa3f73c5e5c220
-  itkDiscreteGradientMagnitudeGaussianImageFunctionTest
-  DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGradientMagnitudeGaussianImageFunctionTest02.png
-  1.5
-  0.03
-  64
-  1
-  1
+    ITKImageIntensityTestDriver
+    --compare-MD5
+    ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGradientMagnitudeGaussianImageFunctionTest02.png
+    de1904605e667018baaa3f73c5e5c220
+    itkDiscreteGradientMagnitudeGaussianImageFunctionTest
+    DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGradientMagnitudeGaussianImageFunctionTest02.png
+    1.5
+    0.03
+    64
+    1
+    1
 )
 itk_add_test(
-  NAME
-  itkDiscreteGradientMagnitudeGaussianImageFunctionTestUseImageSpacingOff
+  NAME itkDiscreteGradientMagnitudeGaussianImageFunctionTestUseImageSpacingOff
   COMMAND
-  ITKImageIntensityTestDriver
-  --compare-MD5
-  ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGradientMagnitudeGaussianImageFunctionTestUseImageSpacingOff.png
-  de1904605e667018baaa3f73c5e5c220
-  itkDiscreteGradientMagnitudeGaussianImageFunctionTest
-  DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGradientMagnitudeGaussianImageFunctionTestUseImageSpacingOff.png
-  1.5
-  0.03
-  64
-  1
-  0
+    ITKImageIntensityTestDriver
+    --compare-MD5
+    ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGradientMagnitudeGaussianImageFunctionTestUseImageSpacingOff.png
+    de1904605e667018baaa3f73c5e5c220
+    itkDiscreteGradientMagnitudeGaussianImageFunctionTest
+    DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGradientMagnitudeGaussianImageFunctionTestUseImageSpacingOff.png
+    1.5
+    0.03
+    64
+    1
+    0
 )
 itk_add_test(
-  NAME
-  itkDiscreteGaussianDerivativeImageFunctionTest01
+  NAME itkDiscreteGaussianDerivativeImageFunctionTest01
   COMMAND
-  ITKImageIntensityTestDriver
-  --compare
-  DATA{Baseline/itkDiscreteGaussianDerivativeImageFunctionTest01.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGaussianDerivativeImageFunctionTest01.png
-  itkDiscreteGaussianDerivativeImageFunctionTest
-  DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGaussianDerivativeImageFunctionTest01.png
-  1
-  2.0
-  0.01
-  32
-  0
+    ITKImageIntensityTestDriver
+    --compare
+    DATA{Baseline/itkDiscreteGaussianDerivativeImageFunctionTest01.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGaussianDerivativeImageFunctionTest01.png
+    itkDiscreteGaussianDerivativeImageFunctionTest
+    DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGaussianDerivativeImageFunctionTest01.png
+    1
+    2.0
+    0.01
+    32
+    0
 )
 itk_add_test(
-  NAME
-  itkDiscreteGaussianDerivativeImageFunctionTest02
+  NAME itkDiscreteGaussianDerivativeImageFunctionTest02
   COMMAND
-  ITKImageIntensityTestDriver
-  --compare-MD5
-  ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGaussianDerivativeImageFunctionTest02.png
-  488a4bf5daa08cadb3e8b1018a3fe5c0
-  itkDiscreteGaussianDerivativeImageFunctionTest
-  DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGaussianDerivativeImageFunctionTest02.png
-  2
-  1.5
-  0.03
-  16
-  1
+    ITKImageIntensityTestDriver
+    --compare-MD5
+    ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGaussianDerivativeImageFunctionTest02.png
+    488a4bf5daa08cadb3e8b1018a3fe5c0
+    itkDiscreteGaussianDerivativeImageFunctionTest
+    DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkDiscreteGaussianDerivativeImageFunctionTest02.png
+    2
+    1.5
+    0.03
+    16
+    1
 )
 
 set(
