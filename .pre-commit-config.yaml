@@ -103,7 +103,7 @@ repos:
     - id: kw-commit-msg
       name: 'kw commit-msg'
       entry: 'Utilities/Hooks/kw-commit-msg.py'
-      language: system
+      language: python
       stages: [commit-msg]
       exclude: "\\/ThirdParty\\/"
     - id: kw-pre-commit
