@@ -10,9 +10,8 @@ if(ITK_USE_GPU)
   createtestdriver(ITKGPUSmoothing "${ITKGPUSmoothing-Test_LIBRARIES}" "${ITKGPUSmoothing-tests}")
 
   itk_add_test(
-      NAME
-      itkGPUMeanImageFilterTest2D
-      COMMAND
+    NAME itkGPUMeanImageFilterTest2D
+    COMMAND
       ITKGPUSmoothingTestDriver
       --compare
       DATA{Baseline/cpuMeanImageFilterTest2D.png}
@@ -24,9 +23,8 @@ if(ITK_USE_GPU)
   )
 
   itk_add_test(
-      NAME
-      itkGPUMeanImageFilterTest3D
-      COMMAND
+    NAME itkGPUMeanImageFilterTest3D
+    COMMAND
       ITKGPUSmoothingTestDriver
       --compare
       DATA{Baseline/gpuMeanImageFilterTest3D.mha}
@@ -38,9 +36,8 @@ if(ITK_USE_GPU)
   )
 
   itk_add_test(
-      NAME
-      itkGPUDiscreteGaussianImageFilterTest2D
-      COMMAND
+    NAME itkGPUDiscreteGaussianImageFilterTest2D
+    COMMAND
       ITKGPUSmoothingTestDriver
       itkGPUDiscreteGaussianImageFilterTest
       DATA{Input/BrainProtonDensitySlice.png}
@@ -49,9 +46,8 @@ if(ITK_USE_GPU)
   )
 
   itk_add_test(
-      NAME
-      itkGPUDiscreteGaussianImageFilterTest3D
-      COMMAND
+    NAME itkGPUDiscreteGaussianImageFilterTest3D
+    COMMAND
       ITKGPUSmoothingTestDriver
       itkGPUDiscreteGaussianImageFilterTest
       DATA{Input/HeadMRVolume.mha}

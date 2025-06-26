@@ -12,11 +12,10 @@ filters."
 itk_module(
   ITKImageFunction
   COMPILE_DEPENDS
-  ITKImageAdaptors
-  ITKTransform
-  ITKStatistics
+    ITKImageAdaptors
+    ITKTransform
+    ITKStatistics
   TEST_DEPENDS
-  ITKTestKernel
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+  DESCRIPTION "${DOCUMENTATION}"
 )

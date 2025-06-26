@@ -4,9 +4,8 @@ set(ITKIOTransformMatlabTests itkIOTransformMatlabTest.cxx)
 createtestdriver(ITKIOTransformMatlab "${ITKIOTransformMatlab-Test_LIBRARIES}" "${ITKIOTransformMatlabTests}")
 
 itk_add_test(
-  NAME
-  itkIOTransformMatlabTest
+  NAME itkIOTransformMatlabTest
   COMMAND
-  ITKIOTransformMatlabTestDriver
-  itkIOTransformMatlabTest
+    ITKIOTransformMatlabTestDriver
+    itkIOTransformMatlabTest
 )

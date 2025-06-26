@@ -8,11 +8,10 @@ well as other distance concepts such as Hausdorff and Chamfer distances."
 itk_module(
   ITKDistanceMap
   COMPILE_DEPENDS
-  ITKBinaryMathematicalMorphology
-  ITKImageLabel
-  ITKNarrowBand
+    ITKBinaryMathematicalMorphology
+    ITKImageLabel
+    ITKNarrowBand
   TEST_DEPENDS
-  ITKTestKernel
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+  DESCRIPTION "${DOCUMENTATION}"
 )

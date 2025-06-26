@@ -13,13 +13,12 @@ itk_module(
   ITKQuadEdgeMeshFiltering
   ENABLE_SHARED
   DEPENDS
-  ITKMesh
+    ITKMesh
   COMPILE_DEPENDS
-  ITKQuadEdgeMesh
+    ITKQuadEdgeMesh
   TEST_DEPENDS
-  ITKTestKernel
-  ITKIOMesh
-  ITKStatistics
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+    ITKIOMesh
+    ITKStatistics
+  DESCRIPTION "${DOCUMENTATION}"
 )

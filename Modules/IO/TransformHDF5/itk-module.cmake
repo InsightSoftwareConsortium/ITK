@@ -8,13 +8,12 @@ itk_module(
   ITKIOTransformHDF5
   ENABLE_SHARED
   DEPENDS
-  ITKIOTransformBase
+    ITKIOTransformBase
   PRIVATE_DEPENDS
-  ITKHDF5
+    ITKHDF5
   TEST_DEPENDS
-  ITKTestKernel
+    ITKTestKernel
   FACTORY_NAMES
-  TransformIO::HDF5
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    TransformIO::HDF5
+  DESCRIPTION "${DOCUMENTATION}"
 )

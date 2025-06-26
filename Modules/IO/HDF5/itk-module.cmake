@@ -9,14 +9,13 @@ itk_module(
   ITKIOHDF5
   ENABLE_SHARED
   DEPENDS
-  ITKIOImageBase
+    ITKIOImageBase
   PRIVATE_DEPENDS
-  ITKHDF5
+    ITKHDF5
   TEST_DEPENDS
-  ITKTestKernel
-  ITKImageSources
+    ITKTestKernel
+    ITKImageSources
   FACTORY_NAMES
-  ImageIO::HDF5
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ImageIO::HDF5
+  DESCRIPTION "${DOCUMENTATION}"
 )

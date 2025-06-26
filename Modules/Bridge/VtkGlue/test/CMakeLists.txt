@@ -32,35 +32,31 @@ if(VTK_VERSION VERSION_GREATER_EQUAL "8.90.0")
 endif()
 
 itk_add_test(
-  NAME
-  itkImageToVTKImageFilterTest
+  NAME itkImageToVTKImageFilterTest
   COMMAND
-  ITKVtkGlueTestDriver
-  itkImageToVTKImageFilterTest
+    ITKVtkGlueTestDriver
+    itkImageToVTKImageFilterTest
 )
 
 itk_add_test(
-  NAME
-  itkImageToVTKImageFilterRGBTest
+  NAME itkImageToVTKImageFilterRGBTest
   COMMAND
-  ITKVtkGlueTestDriver
-  itkImageToVTKImageFilterRGBTest
-  DATA{${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png}
+    ITKVtkGlueTestDriver
+    itkImageToVTKImageFilterRGBTest
+    DATA{${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png}
 )
 
 itk_add_test(
-  NAME
-  itkVTKImageToImageFilterTest
+  NAME itkVTKImageToImageFilterTest
   COMMAND
-  ITKVtkGlueTestDriver
-  itkVTKImageToImageFilterTest
+    ITKVtkGlueTestDriver
+    itkVTKImageToImageFilterTest
 )
 
 if(NOT VTK_RENDERING_BACKEND STREQUAL "None")
   itk_add_test(
-      NAME
-      itkVtkMedianImageFilterTest
-      COMMAND
+    NAME itkVtkMedianImageFilterTest
+    COMMAND
       ITKVtkGlueTestDriver
       itkVtkMedianFilterTest
       DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
@@ -76,9 +72,8 @@ if(NOT VTK_RENDERING_BACKEND STREQUAL "None")
   )
 
   itk_add_test(
-      NAME
-      QuickViewTest
-      COMMAND
+    NAME QuickViewTest
+    COMMAND
       ITKVtkGlueTestDriver
       --compare
       DATA{Baseline/QuickViewTest.png,:}
@@ -99,9 +94,8 @@ if(NOT VTK_RENDERING_BACKEND STREQUAL "None")
   )
 
   itk_add_test(
-      NAME
-      itkVtkConnectedComponentImageFilterTest
-      COMMAND
+    NAME itkVtkConnectedComponentImageFilterTest
+    COMMAND
       ITKVtkGlueTestDriver
       itkVtkConnectedComponentImageFilterTest
       DATA{${ITK_DATA_ROOT}/Input/cthead1.png}

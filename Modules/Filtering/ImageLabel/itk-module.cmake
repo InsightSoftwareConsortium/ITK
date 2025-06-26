@@ -10,9 +10,8 @@ labels."
 itk_module(
   ITKImageLabel
   DEPENDS
-  ITKImageIntensity
+    ITKImageIntensity
   TEST_DEPENDS
-  ITKTestKernel
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+  DESCRIPTION "${DOCUMENTATION}"
 )

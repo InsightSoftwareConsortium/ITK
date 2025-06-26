@@ -27,26 +27,25 @@ endif()
 itk_module(
   ITKRegistrationCommon
   DEPENDS
-  ITKOptimizers
-  ITKImageIntensity
-  ITKImageFunction
-  ITKImageGrid
-  ITKSpatialObjects
-  ITKSmoothing
-  ITKImageGradient
-  ITKImageFeature
-  ITKFiniteDifference
-  ITKDisplacementField
-  ITKStatistics
+    ITKOptimizers
+    ITKImageIntensity
+    ITKImageFunction
+    ITKImageGrid
+    ITKSpatialObjects
+    ITKSmoothing
+    ITKImageGradient
+    ITKImageFeature
+    ITKFiniteDifference
+    ITKDisplacementField
+    ITKStatistics
   TEST_DEPENDS
-  ITKTestKernel
-  ITKDistanceMap
-  ITKImageSources
-  ITKColormap
-  ITKQuadEdgeMesh
-  ${EXAMPLE_TEST_CASE_DEPENDANCIES}
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+    ITKDistanceMap
+    ITKImageSources
+    ITKColormap
+    ITKQuadEdgeMesh
+    ${EXAMPLE_TEST_CASE_DEPENDANCIES}
+  DESCRIPTION "${DOCUMENTATION}"
 )
 
 # Extra test dependency on ITKDistanceMap is introduced by itkPointSetToPointSetRegistrationTest.

@@ -14,94 +14,86 @@ set(
 createtestdriver(ITKImageCompare "${ITKImageCompare-Test_LIBRARIES}" "${ITKImageCompareTests}")
 
 itk_add_test(
-  NAME
-  itkAbsoluteValueDifferenceImageFilterTest
+  NAME itkAbsoluteValueDifferenceImageFilterTest
   COMMAND
-  ITKImageCompareTestDriver
-  itkAbsoluteValueDifferenceImageFilterTest
+    ITKImageCompareTestDriver
+    itkAbsoluteValueDifferenceImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkSquaredDifferenceImageFilterTest
+  NAME itkSquaredDifferenceImageFilterTest
   COMMAND
-  ITKImageCompareTestDriver
-  itkSquaredDifferenceImageFilterTest
+    ITKImageCompareTestDriver
+    itkSquaredDifferenceImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkCheckerBoardImageFilterTest
+  NAME itkCheckerBoardImageFilterTest
   COMMAND
-  ITKImageCompareTestDriver
-  --compare-MD5
-  ${ITK_TEST_OUTPUT_DIR}/itkCheckerBoardImageFilterTest.png
-  277faa96444775070dcc8f6be2d71eb2
-  itkCheckerBoardImageFilterTest
-  ${ITK_TEST_OUTPUT_DIR}/itkCheckerBoardImageFilterTest.png
+    ITKImageCompareTestDriver
+    --compare-MD5
+    ${ITK_TEST_OUTPUT_DIR}/itkCheckerBoardImageFilterTest.png
+    277faa96444775070dcc8f6be2d71eb2
+    itkCheckerBoardImageFilterTest
+    ${ITK_TEST_OUTPUT_DIR}/itkCheckerBoardImageFilterTest.png
 )
 itk_add_test(
-  NAME
-  itkConstrainedValueDifferenceImageFilterTest
+  NAME itkConstrainedValueDifferenceImageFilterTest
   COMMAND
-  ITKImageCompareTestDriver
-  --compare-MD5
-  ${ITK_TEST_OUTPUT_DIR}/itkConstrainedValueDifferenceImageFilterTest.png
-  87028680dd2bbc12f57b141f7272d295
-  itkConstrainedValueDifferenceImageFilterTest
-  ${ITK_TEST_OUTPUT_DIR}/itkConstrainedValueDifferenceImageFilterTest.png
+    ITKImageCompareTestDriver
+    --compare-MD5
+    ${ITK_TEST_OUTPUT_DIR}/itkConstrainedValueDifferenceImageFilterTest.png
+    87028680dd2bbc12f57b141f7272d295
+    itkConstrainedValueDifferenceImageFilterTest
+    ${ITK_TEST_OUTPUT_DIR}/itkConstrainedValueDifferenceImageFilterTest.png
 )
 itk_add_test(
-  NAME
-  itkSimilarityIndexImageFilterTest
+  NAME itkSimilarityIndexImageFilterTest
   COMMAND
-  ITKImageCompareTestDriver
-  itkSimilarityIndexImageFilterTest
+    ITKImageCompareTestDriver
+    itkSimilarityIndexImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkSTAPLEImageFilterTest
+  NAME itkSTAPLEImageFilterTest
   COMMAND
-  ITKImageCompareTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/Algorithms/STAPLEImageFilterTest.mha}
-  ${ITK_TEST_OUTPUT_DIR}/STAPLEImageFilterTest.mha
-  itkSTAPLEImageFilterTest
-  2
-  ${ITK_TEST_OUTPUT_DIR}/STAPLEImageFilterTest.mha
-  255
-  100
-  0.5
-  DATA{${ITK_DATA_ROOT}/Input/STAPLE1.png}
-  DATA{${ITK_DATA_ROOT}/Input/STAPLE2.png}
-  DATA{${ITK_DATA_ROOT}/Input/STAPLE3.png}
-  DATA{${ITK_DATA_ROOT}/Input/STAPLE4.png}
+    ITKImageCompareTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/Algorithms/STAPLEImageFilterTest.mha}
+    ${ITK_TEST_OUTPUT_DIR}/STAPLEImageFilterTest.mha
+    itkSTAPLEImageFilterTest
+    2
+    ${ITK_TEST_OUTPUT_DIR}/STAPLEImageFilterTest.mha
+    255
+    100
+    0.5
+    DATA{${ITK_DATA_ROOT}/Input/STAPLE1.png}
+    DATA{${ITK_DATA_ROOT}/Input/STAPLE2.png}
+    DATA{${ITK_DATA_ROOT}/Input/STAPLE3.png}
+    DATA{${ITK_DATA_ROOT}/Input/STAPLE4.png}
 )
 itk_add_test(
-  NAME
-  itkTestingComparisonImageFilterTest
+  NAME itkTestingComparisonImageFilterTest
   COMMAND
-  ITKImageCompareTestDriver
-  --compare
-  DATA{Input/itkTestingComparisonImageFilterTest.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkTestingComparisonImageFilterTest.png
-  itkTestingComparisonImageFilterTest
-  DATA{${ITK_DATA_ROOT}/Input/cake_easy.png}
-  DATA{${ITK_DATA_ROOT}/Input/cake_hard.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkTestingComparisonImageFilterTest.png
-  0
-  10
-  1
-  1647
-  11
-  66
-  16.2999
-  26846
+    ITKImageCompareTestDriver
+    --compare
+    DATA{Input/itkTestingComparisonImageFilterTest.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkTestingComparisonImageFilterTest.png
+    itkTestingComparisonImageFilterTest
+    DATA{${ITK_DATA_ROOT}/Input/cake_easy.png}
+    DATA{${ITK_DATA_ROOT}/Input/cake_hard.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkTestingComparisonImageFilterTest.png
+    0
+    10
+    1
+    1647
+    11
+    66
+    16.2999
+    26846
 )
 itk_add_test(
-  NAME
-  itkImageFileReaderIOToRequestedRegionMismatchTest
+  NAME itkImageFileReaderIOToRequestedRegionMismatchTest
   COMMAND
-  ITKImageCompareTestDriver
-  itkImageFileReaderIOToRequestedRegionMismatchTest
-  DATA{${ITK_DATA_ROOT}/Input/STAPLE1.png}
-  DATA{${ITK_DATA_ROOT}/Input/BinaryImageWithVariousShapes01.png}
+    ITKImageCompareTestDriver
+    itkImageFileReaderIOToRequestedRegionMismatchTest
+    DATA{${ITK_DATA_ROOT}/Input/STAPLE1.png}
+    DATA{${ITK_DATA_ROOT}/Input/BinaryImageWithVariousShapes01.png}
 )

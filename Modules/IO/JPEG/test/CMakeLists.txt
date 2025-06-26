@@ -11,58 +11,52 @@ set(
 createtestdriver(ITKIOJPEG "${ITKIOJPEG-Test_LIBRARIES}" "${ITKIOJPEGTests}")
 
 itk_add_test(
-  NAME
-  itkJPEGImageIOTest
+  NAME itkJPEGImageIOTest
   COMMAND
-  ITKIOJPEGTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/IO/cthead1.png}
-  ${ITK_TEST_OUTPUT_DIR}/cthead1.png
-  itkJPEGImageIOTest
-  DATA{${ITK_DATA_ROOT}/Input/cthead1.jpg}
-  ${ITK_TEST_OUTPUT_DIR}/cthead1.png
+    ITKIOJPEGTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/IO/cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/cthead1.png
+    itkJPEGImageIOTest
+    DATA{${ITK_DATA_ROOT}/Input/cthead1.jpg}
+    ${ITK_TEST_OUTPUT_DIR}/cthead1.png
 )
 itk_add_test(
-  NAME
-  itkJPEGImageIOTest2
+  NAME itkJPEGImageIOTest2
   COMMAND
-  ITKIOJPEGTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/IO/cthead1.jpg}
-  ${ITK_TEST_OUTPUT_DIR}/cthead1.jpg
-  itkJPEGImageIOTest
-  DATA{${ITK_DATA_ROOT}/Input/cthead1.jpg}
-  ${ITK_TEST_OUTPUT_DIR}/cthead1.jpg
+    ITKIOJPEGTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/IO/cthead1.jpg}
+    ${ITK_TEST_OUTPUT_DIR}/cthead1.jpg
+    itkJPEGImageIOTest
+    DATA{${ITK_DATA_ROOT}/Input/cthead1.jpg}
+    ${ITK_TEST_OUTPUT_DIR}/cthead1.jpg
 )
 itk_add_test(
-  NAME
-  itkJPEGImageIOSpacing
+  NAME itkJPEGImageIOSpacing
   COMMAND
-  ITKIOJPEGTestDriver
-  itkJPEGImageIOTest2
-  ${ITK_TEST_OUTPUT_DIR}/itkJPEGImageIOSpacing.jpg
+    ITKIOJPEGTestDriver
+    itkJPEGImageIOTest2
+    ${ITK_TEST_OUTPUT_DIR}/itkJPEGImageIOSpacing.jpg
 )
 itk_add_test(
-  NAME
-  itkJPEGImageIOTestCorruptedImage
+  NAME itkJPEGImageIOTestCorruptedImage
   COMMAND
-  ITKIOJPEGTestDriver
-  itkJPEGImageIODegenerateCasesTest
-  DATA{Input/corrupted_image.jpg}
+    ITKIOJPEGTestDriver
+    itkJPEGImageIODegenerateCasesTest
+    DATA{Input/corrupted_image.jpg}
 )
 itk_add_test(
-  NAME
-  itkJPEGImageIOTestCorruptedImage2
+  NAME itkJPEGImageIOTestCorruptedImage2
   COMMAND
-  ITKIOJPEGTestDriver
-  itkJPEGImageIOBrokenCasesTest
-  DATA{Input/corrupted2.jpg}
+    ITKIOJPEGTestDriver
+    itkJPEGImageIOBrokenCasesTest
+    DATA{Input/corrupted2.jpg}
 )
 itk_add_test(
-  NAME
-  itkJPEGImageIOTestCMYKImage
+  NAME itkJPEGImageIOTestCMYKImage
   COMMAND
-  ITKIOJPEGTestDriver
-  itkJPEGImageIOCMYKTest
-  DATA{Input/cmyk.jpg}
+    ITKIOJPEGTestDriver
+    itkJPEGImageIOCMYKTest
+    DATA{Input/cmyk.jpg}
 )

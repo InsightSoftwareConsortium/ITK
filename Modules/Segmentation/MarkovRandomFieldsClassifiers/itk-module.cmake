@@ -10,10 +10,9 @@ itk_module(
   ITKMarkovRandomFieldsClassifiers
   ENABLE_SHARED
   DEPENDS
-  ITKStatistics
-  ITKClassifiers
+    ITKStatistics
+    ITKClassifiers
   TEST_DEPENDS
-  ITKTestKernel
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+  DESCRIPTION "${DOCUMENTATION}"
 )

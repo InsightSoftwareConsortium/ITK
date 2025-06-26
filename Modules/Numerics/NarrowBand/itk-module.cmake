@@ -7,11 +7,10 @@ narrow band of space."
 itk_module(
   ITKNarrowBand
   DEPENDS
-  ITKImageIntensity
-  ITKFiniteDifference
-  ITKCurvatureFlow
+    ITKImageIntensity
+    ITKFiniteDifference
+    ITKCurvatureFlow
   TEST_DEPENDS
-  ITKTestKernel
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+  DESCRIPTION "${DOCUMENTATION}"
 )

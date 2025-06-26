@@ -14,12 +14,11 @@ itk_module(
   ITKIOImageBase
   ENABLE_SHARED
   DEPENDS
-  ITKCommon
+    ITKCommon
   TEST_DEPENDS
-  ITKTestKernel
-  ITKIOGDCM
-  ITKIOMeta
-  ITKImageIntensity
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+    ITKIOGDCM
+    ITKIOMeta
+    ITKImageIntensity
+  DESCRIPTION "${DOCUMENTATION}"
 )

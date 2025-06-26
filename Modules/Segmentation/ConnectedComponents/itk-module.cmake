@@ -9,12 +9,11 @@ images. See also \\\\ref ITKClassifiers, \\\\ref ITKLabelMap, and
 itk_module(
   ITKConnectedComponents
   DEPENDS
-  ITKImageIntensity
-  ITKThresholding
-  ITKImageGrid
-  ITKImageLabel
+    ITKImageIntensity
+    ITKThresholding
+    ITKImageGrid
+    ITKImageLabel
   TEST_DEPENDS
-  ITKTestKernel
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+  DESCRIPTION "${DOCUMENTATION}"
 )

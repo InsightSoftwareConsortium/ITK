@@ -11,14 +11,13 @@ have been assigned, they can be modified and applied with the
 itk_module(
   ITKClassifiers
   DEPENDS
-  ITKImageGrid
-  ITKStatistics
-  ITKConnectedComponents
+    ITKImageGrid
+    ITKStatistics
+    ITKConnectedComponents
   TEST_DEPENDS
-  ITKTestKernel
-  ITKAnisotropicSmoothing
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+    ITKAnisotropicSmoothing
+  DESCRIPTION "${DOCUMENTATION}"
 )
 
 # Extra test dependency on ITKAnisotropicSmoothing is introduced by itkBayesianClassifierImageFilterTest.

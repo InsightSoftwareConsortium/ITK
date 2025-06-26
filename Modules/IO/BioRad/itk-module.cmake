@@ -9,11 +9,10 @@ itk_module(
   ITKIOBioRad
   ENABLE_SHARED
   DEPENDS
-  ITKIOImageBase
+    ITKIOImageBase
   TEST_DEPENDS
-  ITKTestKernel
+    ITKTestKernel
   FACTORY_NAMES
-  ImageIO::BioRad
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ImageIO::BioRad
+  DESCRIPTION "${DOCUMENTATION}"
 )

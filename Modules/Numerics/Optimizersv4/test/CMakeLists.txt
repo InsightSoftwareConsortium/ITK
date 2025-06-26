@@ -37,270 +37,240 @@ set(TEMP ${ITK_TEST_OUTPUT_DIR})
 createtestdriver(ITKOptimizersv4 "${ITKOptimizersv4-Test_LIBRARIES}" "${ITKOptimizersv4Tests}")
 
 itk_add_test(
-  NAME
-  itkWindowConvergenceMonitoringFunctionTest
+  NAME itkWindowConvergenceMonitoringFunctionTest
   COMMAND
-  ITKOptimizersv4TestDriver
-  itkWindowConvergenceMonitoringFunctionTest
+    ITKOptimizersv4TestDriver
+    itkWindowConvergenceMonitoringFunctionTest
 )
 
 itk_add_test(
-  NAME
-  itkObjectToObjectOptimizerBaseTest
+  NAME itkObjectToObjectOptimizerBaseTest
   COMMAND
-  ITKOptimizersv4TestDriver
-  itkObjectToObjectOptimizerBaseTest
+    ITKOptimizersv4TestDriver
+    itkObjectToObjectOptimizerBaseTest
 )
 
 itk_add_test(
-  NAME
-  itkGradientDescentOptimizerBasev4Test
+  NAME itkGradientDescentOptimizerBasev4Test
   COMMAND
-  ITKOptimizersv4TestDriver
-  itkGradientDescentOptimizerBasev4Test
+    ITKOptimizersv4TestDriver
+    itkGradientDescentOptimizerBasev4Test
 )
 
 itk_add_test(
-  NAME
-  itkGradientDescentOptimizerv4Test
+  NAME itkGradientDescentOptimizerv4Test
   COMMAND
-  ITKOptimizersv4TestDriver
-  itkGradientDescentOptimizerv4Test
+    ITKOptimizersv4TestDriver
+    itkGradientDescentOptimizerv4Test
 )
 
 itk_add_test(
-  NAME
-  itkGradientDescentLineSearchOptimizerv4Test
+  NAME itkGradientDescentLineSearchOptimizerv4Test
   COMMAND
-  ITKOptimizersv4TestDriver
-  itkGradientDescentLineSearchOptimizerv4Test
+    ITKOptimizersv4TestDriver
+    itkGradientDescentLineSearchOptimizerv4Test
 )
 
 itk_add_test(
-  NAME
-  itkConjugateGradientLineSearchOptimizerv4Test
+  NAME itkConjugateGradientLineSearchOptimizerv4Test
   COMMAND
-  ITKOptimizersv4TestDriver
-  itkConjugateGradientLineSearchOptimizerv4Test
+    ITKOptimizersv4TestDriver
+    itkConjugateGradientLineSearchOptimizerv4Test
 )
 
 itk_add_test(
-  NAME
-  itkMultiStartOptimizerv4Test
+  NAME itkMultiStartOptimizerv4Test
   COMMAND
-  ITKOptimizersv4TestDriver
-  itkMultiStartOptimizerv4Test
+    ITKOptimizersv4TestDriver
+    itkMultiStartOptimizerv4Test
 )
 
 itk_add_test(
-  NAME
-  itkMultiGradientOptimizerv4Test
+  NAME itkMultiGradientOptimizerv4Test
   COMMAND
-  ITKOptimizersv4TestDriver
-  itkMultiGradientOptimizerv4Test
+    ITKOptimizersv4TestDriver
+    itkMultiGradientOptimizerv4Test
 )
 
 itk_add_test(
-  NAME
-  itkOptimizerParameterScalesEstimatorTest
+  NAME itkOptimizerParameterScalesEstimatorTest
   COMMAND
-  ITKOptimizersv4TestDriver
-  itkOptimizerParameterScalesEstimatorTest
+    ITKOptimizersv4TestDriver
+    itkOptimizerParameterScalesEstimatorTest
 )
 
 itk_add_test(
-  NAME
-  itkRegistrationParameterScalesEstimatorTest
+  NAME itkRegistrationParameterScalesEstimatorTest
   COMMAND
-  ITKOptimizersv4TestDriver
-  itkRegistrationParameterScalesEstimatorTest
+    ITKOptimizersv4TestDriver
+    itkRegistrationParameterScalesEstimatorTest
 )
 
 itk_add_test(
-  NAME
-  itkRegistrationParameterScalesFromPhysicalShiftTest
+  NAME itkRegistrationParameterScalesFromPhysicalShiftTest
   COMMAND
-  ITKOptimizersv4TestDriver
-  itkRegistrationParameterScalesFromPhysicalShiftTest
+    ITKOptimizersv4TestDriver
+    itkRegistrationParameterScalesFromPhysicalShiftTest
 )
 
 itk_add_test(
-  NAME
-  itkRegistrationParameterScalesFromJacobianTest
+  NAME itkRegistrationParameterScalesFromJacobianTest
   COMMAND
-  ITKOptimizersv4TestDriver
-  itkRegistrationParameterScalesFromJacobianTest
+    ITKOptimizersv4TestDriver
+    itkRegistrationParameterScalesFromJacobianTest
 )
 
 itk_add_test(
-  NAME
-  itkGradientDescentOptimizerv4Test2
+  NAME itkGradientDescentOptimizerv4Test2
   COMMAND
-  ITKOptimizersv4TestDriver
-  itkGradientDescentOptimizerv4Test2
+    ITKOptimizersv4TestDriver
+    itkGradientDescentOptimizerv4Test2
 )
 
 itk_add_test(
-  NAME
-  itkAutoScaledGradientDescentRegistrationTest
+  NAME itkAutoScaledGradientDescentRegistrationTest
   COMMAND
-  ITKOptimizersv4TestDriver
-  itkAutoScaledGradientDescentRegistrationTest
-  30
-  1.0
-  1
-  0
-  1
+    ITKOptimizersv4TestDriver
+    itkAutoScaledGradientDescentRegistrationTest
+    30
+    1.0
+    1
+    0
+    1
 )
 
 itk_add_test(
-  NAME
-  itkAutoScaledGradientDescentRegistrationTest2
+  NAME itkAutoScaledGradientDescentRegistrationTest2
   COMMAND
-  ITKOptimizersv4TestDriver
-  itkAutoScaledGradientDescentRegistrationTest
-  30
-  1.0
-  0
-  1
-  1
+    ITKOptimizersv4TestDriver
+    itkAutoScaledGradientDescentRegistrationTest
+    30
+    1.0
+    0
+    1
+    1
 )
 
 itk_add_test(
-  NAME
-  itkAutoScaledGradientDescentRegistrationTest3
+  NAME itkAutoScaledGradientDescentRegistrationTest3
   COMMAND
-  ITKOptimizersv4TestDriver
-  itkAutoScaledGradientDescentRegistrationTest
-  30
-  1.0
-  0
-  0
-  1
+    ITKOptimizersv4TestDriver
+    itkAutoScaledGradientDescentRegistrationTest
+    30
+    1.0
+    0
+    0
+    1
 )
 
 itk_add_test(
-  NAME
-  itkAutoScaledGradientDescentRegistrationTest4
+  NAME itkAutoScaledGradientDescentRegistrationTest4
   COMMAND
-  ITKOptimizersv4TestDriver
-  itkAutoScaledGradientDescentRegistrationTest
-  30
-  1.0
-  0
-  1
-  0
+    ITKOptimizersv4TestDriver
+    itkAutoScaledGradientDescentRegistrationTest
+    30
+    1.0
+    0
+    1
+    0
 )
 
 itk_add_test(
-  NAME
-  itkAutoScaledGradientDescentRegistrationOnVectorTest
+  NAME itkAutoScaledGradientDescentRegistrationOnVectorTest
   COMMAND
-  ITKOptimizersv4TestDriver
-  itkAutoScaledGradientDescentRegistrationOnVectorTest
-  30
-  1.0
+    ITKOptimizersv4TestDriver
+    itkAutoScaledGradientDescentRegistrationOnVectorTest
+    30
+    1.0
 )
 
 itk_add_test(
-  NAME
-  itkQuasiNewtonOptimizerv4Test
+  NAME itkQuasiNewtonOptimizerv4Test
   COMMAND
-  ITKOptimizersv4TestDriver
-  itkQuasiNewtonOptimizerv4Test
+    ITKOptimizersv4TestDriver
+    itkQuasiNewtonOptimizerv4Test
 )
 
 itk_add_test(
-  NAME
-  itkRegistrationParameterScalesFromIndexShiftTest
+  NAME itkRegistrationParameterScalesFromIndexShiftTest
   COMMAND
-  ITKOptimizersv4TestDriver
-  itkRegistrationParameterScalesFromIndexShiftTest
+    ITKOptimizersv4TestDriver
+    itkRegistrationParameterScalesFromIndexShiftTest
 )
 
 itk_add_test(
-  NAME
-  itkRegistrationParameterScalesFromPhysicalShiftPointSetTest
+  NAME itkRegistrationParameterScalesFromPhysicalShiftPointSetTest
   COMMAND
-  ITKOptimizersv4TestDriver
-  itkRegistrationParameterScalesFromPhysicalShiftPointSetTest
+    ITKOptimizersv4TestDriver
+    itkRegistrationParameterScalesFromPhysicalShiftPointSetTest
 )
 
 itk_add_test(
-  NAME
-  itkObjectToObjectMetricBaseTest
+  NAME itkObjectToObjectMetricBaseTest
   COMMAND
-  ITKOptimizersv4TestDriver
-  itkObjectToObjectMetricBaseTest
+    ITKOptimizersv4TestDriver
+    itkObjectToObjectMetricBaseTest
 )
 
 itk_add_test(
-  NAME
-  itkLBFGSOptimizerv4Test
+  NAME itkLBFGSOptimizerv4Test
   COMMAND
-  ITKOptimizersv4TestDriver
-  itkLBFGSOptimizerv4Test
+    ITKOptimizersv4TestDriver
+    itkLBFGSOptimizerv4Test
 )
 
 itk_add_test(
-  NAME
-  itkLBFGS2Optimizerv4Test
+  NAME itkLBFGS2Optimizerv4Test
   COMMAND
-  ITKOptimizersv4TestDriver
-  itkLBFGS2Optimizerv4Test
+    ITKOptimizersv4TestDriver
+    itkLBFGS2Optimizerv4Test
 )
 
 itk_add_test(
-  NAME
-  itkLBFGSBOptimizerv4Test
+  NAME itkLBFGSBOptimizerv4Test
   COMMAND
-  ITKOptimizersv4TestDriver
-  itkLBFGSBOptimizerv4Test
+    ITKOptimizersv4TestDriver
+    itkLBFGSBOptimizerv4Test
 )
 
 itk_add_test(
-  NAME
-  itkAmoebaOptimizerv4Test
+  NAME itkAmoebaOptimizerv4Test
   COMMAND
-  ITKOptimizersv4TestDriver
-  itkAmoebaOptimizerv4Test
+    ITKOptimizersv4TestDriver
+    itkAmoebaOptimizerv4Test
 )
 
 itk_add_test(
-  NAME
-  itkExhaustiveOptimizerv4Test
+  NAME itkExhaustiveOptimizerv4Test
   COMMAND
-  ITKOptimizersv4TestDriver
-  itkExhaustiveOptimizerv4Test
+    ITKOptimizersv4TestDriver
+    itkExhaustiveOptimizerv4Test
 )
 
 itk_add_test(
-  NAME
-  itkPowellOptimizerv4Test
+  NAME itkPowellOptimizerv4Test
   COMMAND
-  ITKOptimizersv4TestDriver
-  itkPowellOptimizerv4Test
-  10
-  0.01
-  0.1
-  100
-  100
-  0
-  0.0
+    ITKOptimizersv4TestDriver
+    itkPowellOptimizerv4Test
+    10
+    0.01
+    0.1
+    100
+    100
+    0
+    0.0
 )
 
 itk_add_test(
-  NAME
-  itkOnePlusOneEvolutionaryOptimizerv4Test
+  NAME itkOnePlusOneEvolutionaryOptimizerv4Test
   COMMAND
-  ITKOptimizersv4TestDriver
-  itkOnePlusOneEvolutionaryOptimizerv4Test
+    ITKOptimizersv4TestDriver
+    itkOnePlusOneEvolutionaryOptimizerv4Test
 )
 
 itk_add_test(
-  NAME
-  itkRegularStepGradientDescentOptimizerv4Test
+  NAME itkRegularStepGradientDescentOptimizerv4Test
   COMMAND
-  ITKOptimizersv4TestDriver
-  itkRegularStepGradientDescentOptimizerv4Test
+    ITKOptimizersv4TestDriver
+    itkRegularStepGradientDescentOptimizerv4Test
 )

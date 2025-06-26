@@ -10,19 +10,18 @@ computation of label statistics and image accumulation."
 itk_module(
   ITKImageStatistics
   COMPILE_DEPENDS
-  ITKImageFilterBase
-  ITKTransform
-  ITKSpatialObjects
-  ITKImageCompose
+    ITKImageFilterBase
+    ITKTransform
+    ITKSpatialObjects
+    ITKImageCompose
   TEST_DEPENDS
-  ITKTestKernel
-  ITKIOGDCM
-  ITKIOMeta
-  ITKImageIntensity
-  ITKThresholding
-  ITKImageLabel
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+    ITKIOGDCM
+    ITKIOMeta
+    ITKImageIntensity
+    ITKThresholding
+    ITKImageLabel
+  DESCRIPTION "${DOCUMENTATION}"
 )
 
 # Extra test dependency on ImageLabel is introduced by itkBinaryProjectionImageFilterTest.

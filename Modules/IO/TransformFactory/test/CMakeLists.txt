@@ -7,9 +7,8 @@ add_definitions(
 createtestdriver(ITKTransformFactory "${ITKTransformFactory-Test_LIBRARIES}" "${ITKTransformFactoryTests}")
 
 itk_add_test(
-  NAME
-  itkTransformFactoryBaseTest
+  NAME itkTransformFactoryBaseTest
   COMMAND
-  ITKTransformFactoryTestDriver
-  itkTransformFactoryBaseTest
+    ITKTransformFactoryTestDriver
+    itkTransformFactoryBaseTest
 )

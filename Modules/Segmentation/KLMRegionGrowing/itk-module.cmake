@@ -10,12 +10,11 @@ itk_module(
   ITKKLMRegionGrowing
   ENABLE_SHARED
   DEPENDS
-  ITKCommon
+    ITKCommon
   TEST_DEPENDS
-  ITKTestKernel
-  ITKStatistics
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+    ITKStatistics
+  DESCRIPTION "${DOCUMENTATION}"
 )
 
 # Extra test dependency on ITKStatistics in introduced by itkRegionGrow2DTest.

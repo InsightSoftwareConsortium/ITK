@@ -12,13 +12,12 @@ itk_module(
   ITKIOMeshBase
   ENABLE_SHARED
   DEPENDS
-  ITKCommon
-  ITKIOImageBase
-  ITKQuadEdgeMesh
-  ITKMesh
-  ITKVoronoi
+    ITKCommon
+    ITKIOImageBase
+    ITKQuadEdgeMesh
+    ITKMesh
+    ITKVoronoi
   TEST_DEPENDS
-  ITKTestKernel
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+  DESCRIPTION "${DOCUMENTATION}"
 )

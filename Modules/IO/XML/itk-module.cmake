@@ -8,11 +8,10 @@ itk_module(
   ITKIOXML
   ENABLE_SHARED
   DEPENDS
-  ITKIOImageBase
+    ITKIOImageBase
   PRIVATE_DEPENDS
-  ITKExpat
+    ITKExpat
   TEST_DEPENDS
-  ITKTestKernel
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+  DESCRIPTION "${DOCUMENTATION}"
 )

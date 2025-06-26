@@ -6,9 +6,8 @@ if(ITK_USE_GPU)
   createtestdriver(ITKGPUImageFilterBase "${ITKGPUImageFilterBase-Test_LIBRARIES}" "${ITKGPUImageFilterBase-tests}")
 
   itk_add_test(
-      NAME
-      itkGPUNeighborhoodOperatorImageFilterTest2D
-      COMMAND
+    NAME itkGPUNeighborhoodOperatorImageFilterTest2D
+    COMMAND
       ITKGPUImageFilterBaseTestDriver
       itkGPUNeighborhoodOperatorImageFilterTest
       DATA{Input/BrainProtonDensitySlice.png}
@@ -17,9 +16,8 @@ if(ITK_USE_GPU)
   )
 
   itk_add_test(
-      NAME
-      itkGPUNeighborhoodOperatorImageFilterTest3D
-      COMMAND
+    NAME itkGPUNeighborhoodOperatorImageFilterTest3D
+    COMMAND
       ITKGPUImageFilterBaseTestDriver
       itkGPUNeighborhoodOperatorImageFilterTest
       DATA{Input/HeadMRVolume.mha}

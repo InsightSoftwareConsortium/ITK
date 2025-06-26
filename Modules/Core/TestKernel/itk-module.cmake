@@ -9,32 +9,31 @@ system supporting ITK."
 itk_module(
   ITKTestKernel
   DEPENDS
-  ITKCommon
-  ITKIOImageBase
+    ITKCommon
+    ITKIOImageBase
   PRIVATE_DEPENDS
-  ITKIOBMP
-  ITKIOGDCM
-  ITKIOGIPL
-  ITKIOJPEG
-  ITKIOMeta
-  ITKIONIFTI
-  ITKIONRRD
-  ITKIOPNG
-  ITKIOTIFF
-  ITKIOVTK
-  ITKIOMeshVTK
-  ITKIOMeshBYU
-  ITKIOMeshFreeSurfer
-  ITKIOMeshGifti
-  ITKIOMeshOBJ
-  ITKIOMeshOFF
-  ITKFFT
+    ITKIOBMP
+    ITKIOGDCM
+    ITKIOGIPL
+    ITKIOJPEG
+    ITKIOMeta
+    ITKIONIFTI
+    ITKIONRRD
+    ITKIOPNG
+    ITKIOTIFF
+    ITKIOVTK
+    ITKIOMeshVTK
+    ITKIOMeshBYU
+    ITKIOMeshFreeSurfer
+    ITKIOMeshGifti
+    ITKIOMeshOBJ
+    ITKIOMeshOFF
+    ITKFFT
   COMPILE_DEPENDS
-  ITKKWSys
-  ITKDoubleConversion
+    ITKKWSys
+    ITKDoubleConversion
   TEST_DEPENDS
-  ITKImageStatistics
-  ITKGoogleTest
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKImageStatistics
+    ITKGoogleTest
+  DESCRIPTION "${DOCUMENTATION}"
 )

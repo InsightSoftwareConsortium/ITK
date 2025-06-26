@@ -1,31 +1,28 @@
 # TODO: drop -E option once all filters/spatial objects/cost functions are actually wrapped
 itk_python_add_test(
-  NAME
-  NonBlockingPythonFilterCoverage
+  NAME NonBlockingPythonFilterCoverage
   COMMAND
-  ${CMAKE_CURRENT_SOURCE_DIR}/wrappingCoverage.py
-  -E
-  -b
-  Filter
-  -e
-  ${CMAKE_CURRENT_SOURCE_DIR}/exclude-filters.txt
-  ${ITK_INCLUDE_DIRS}
+    ${CMAKE_CURRENT_SOURCE_DIR}/wrappingCoverage.py
+    -E
+    -b
+    Filter
+    -e
+    ${CMAKE_CURRENT_SOURCE_DIR}/exclude-filters.txt
+    ${ITK_INCLUDE_DIRS}
 )
 itk_python_add_test(
-  NAME
-  NonBlockingPythonSpatialObjectCoverage
+  NAME NonBlockingPythonSpatialObjectCoverage
   COMMAND
-  ${CMAKE_CURRENT_SOURCE_DIR}/wrappingCoverage.py
-  -E
-  -b
-  SpatialObject
-  ${ITK_INCLUDE_DIRS}
+    ${CMAKE_CURRENT_SOURCE_DIR}/wrappingCoverage.py
+    -E
+    -b
+    SpatialObject
+    ${ITK_INCLUDE_DIRS}
 )
 if(ITK_BUILD_DEFAULT_MODULES)
   itk_python_add_test(
-      NAME
-      NonBlockingPythonCostFunctionCoverage
-      COMMAND
+    NAME NonBlockingPythonCostFunctionCoverage
+    COMMAND
       ${CMAKE_CURRENT_SOURCE_DIR}/wrappingCoverage.py
       -E
       -b
@@ -33,9 +30,8 @@ if(ITK_BUILD_DEFAULT_MODULES)
       ${ITK_INCLUDE_DIRS}
   )
   itk_python_add_test(
-      NAME
-      PythonOptimizerCoverage
-      COMMAND
+    NAME PythonOptimizerCoverage
+    COMMAND
       ${CMAKE_CURRENT_SOURCE_DIR}/wrappingCoverage.py
       -b
       Optimizer
@@ -44,124 +40,107 @@ if(ITK_BUILD_DEFAULT_MODULES)
 endif()
 
 itk_python_add_test(
-  NAME
-  PythonImageIOCoverage
+  NAME PythonImageIOCoverage
   COMMAND
-  ${CMAKE_CURRENT_SOURCE_DIR}/wrappingCoverage.py
-  -b
-  ImageIO
-  -e
-  ${CMAKE_CURRENT_SOURCE_DIR}/exclude-imageio.txt
-  ${ITK_INCLUDE_DIRS}
+    ${CMAKE_CURRENT_SOURCE_DIR}/wrappingCoverage.py
+    -b
+    ImageIO
+    -e
+    ${CMAKE_CURRENT_SOURCE_DIR}/exclude-imageio.txt
+    ${ITK_INCLUDE_DIRS}
 )
 itk_python_add_test(
-  NAME
-  PythonTransformCoverage
+  NAME PythonTransformCoverage
   COMMAND
-  ${CMAKE_CURRENT_SOURCE_DIR}/wrappingCoverage.py
-  -b
-  Transform
-  -e
-  ${CMAKE_CURRENT_SOURCE_DIR}/exclude-transform.txt
-  ${ITK_INCLUDE_DIRS}
+    ${CMAKE_CURRENT_SOURCE_DIR}/wrappingCoverage.py
+    -b
+    Transform
+    -e
+    ${CMAKE_CURRENT_SOURCE_DIR}/exclude-transform.txt
+    ${ITK_INCLUDE_DIRS}
 )
 
 itk_python_add_test(
-  NAME
-  PythonFindEmptyClasses
+  NAME PythonFindEmptyClasses
   COMMAND
-  ${CMAKE_CURRENT_SOURCE_DIR}/findEmptyClasses.py
+    ${CMAKE_CURRENT_SOURCE_DIR}/findEmptyClasses.py
 )
 itk_python_add_test(
-  NAME
-  PythonGetNameOfClass
+  NAME PythonGetNameOfClass
   COMMAND
-  ${CMAKE_CURRENT_SOURCE_DIR}/getNameOfClass.py
+    ${CMAKE_CURRENT_SOURCE_DIR}/getNameOfClass.py
 )
 itk_python_add_test(
-  NAME
-  PythonTiming
+  NAME PythonTiming
   COMMAND
-  ${CMAKE_CURRENT_SOURCE_DIR}/timing.py
+    ${CMAKE_CURRENT_SOURCE_DIR}/timing.py
 )
 itk_python_add_test(
-  NAME
-  PythonBuildOptions
+  NAME PythonBuildOptions
   COMMAND
-  ${CMAKE_CURRENT_SOURCE_DIR}/build_options.py
+    ${CMAKE_CURRENT_SOURCE_DIR}/build_options.py
 )
 itk_python_add_test(
-  NAME
-  PythonVerifyGetOutputAPIConsistency
+  NAME PythonVerifyGetOutputAPIConsistency
   COMMAND
-  ${CMAKE_CURRENT_SOURCE_DIR}/verifyGetOutputAPIConsistency.py
+    ${CMAKE_CURRENT_SOURCE_DIR}/verifyGetOutputAPIConsistency.py
 )
 itk_python_add_test(
-  NAME
-  PythonVerifyTTypeAPIConsistency
+  NAME PythonVerifyTTypeAPIConsistency
   COMMAND
-  ${CMAKE_CURRENT_SOURCE_DIR}/verifyTTypeAPIConsistency.py
+    ${CMAKE_CURRENT_SOURCE_DIR}/verifyTTypeAPIConsistency.py
 )
 itk_python_add_test(
-  NAME
-  PythonTypeTest
+  NAME PythonTypeTest
   COMMAND
-  ${CMAKE_CURRENT_SOURCE_DIR}/PythonTypeTest.py
+    ${CMAKE_CURRENT_SOURCE_DIR}/PythonTypeTest.py
 )
 itk_python_add_test(
-  NAME
-  PythonComplex
+  NAME PythonComplex
   COMMAND
-  ${CMAKE_CURRENT_SOURCE_DIR}/complex.py
+    ${CMAKE_CURRENT_SOURCE_DIR}/complex.py
 )
 itk_python_add_test(
-  NAME
-  PythonHelperFunctions
+  NAME PythonHelperFunctions
   COMMAND
-  ${CMAKE_CURRENT_SOURCE_DIR}/helpers.py
+    ${CMAKE_CURRENT_SOURCE_DIR}/helpers.py
 )
 itk_python_add_test(
-  NAME
-  PythonLazyModule
+  NAME PythonLazyModule
   COMMAND
-  ${CMAKE_CURRENT_SOURCE_DIR}/lazy.py
+    ${CMAKE_CURRENT_SOURCE_DIR}/lazy.py
 )
 itk_python_add_test(
-  NAME
-  PythonNoLazyModule
+  NAME PythonNoLazyModule
   COMMAND
-  ${CMAKE_CURRENT_SOURCE_DIR}/nolazy.py
+    ${CMAKE_CURRENT_SOURCE_DIR}/nolazy.py
 )
 itk_python_add_test(
-  NAME
-  PythonNoDefaultFactories
+  NAME PythonNoDefaultFactories
   COMMAND
-  ${CMAKE_CURRENT_SOURCE_DIR}/nodefaultfactories.py
+    ${CMAKE_CURRENT_SOURCE_DIR}/nodefaultfactories.py
 )
 itk_python_add_test(
-  NAME
-  PythonDICOMSeries
+  NAME PythonDICOMSeries
   COMMAND
-  ${CMAKE_CURRENT_SOURCE_DIR}/dicomSeries.py
-  DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0075.dcm}
-  DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0076.dcm}
-  DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0077.dcm}
+    ${CMAKE_CURRENT_SOURCE_DIR}/dicomSeries.py
+    DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0075.dcm}
+    DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0076.dcm}
+    DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0077.dcm}
 )
 itk_python_add_test(
-  NAME
-  PyImageFilterTest
+  NAME PyImageFilterTest
   COMMAND
-  ${CMAKE_CURRENT_SOURCE_DIR}/PyImageFilterTest.py
+    ${CMAKE_CURRENT_SOURCE_DIR}/PyImageFilterTest.py
 )
 itk_python_add_test(
-  NAME
-  PythonConvertMetaData
+  NAME PythonConvertMetaData
   COMMAND
-  ${CMAKE_CURRENT_SOURCE_DIR}/test_metadata.py
-  DATA{${WrapITK_SOURCE_DIR}/images/r16slice.nii.gz}
-  DATA{${WrapITK_SOURCE_DIR}/images/sourceImage.nii.gz}
-  DATA{${WrapITK_SOURCE_DIR}/images/warp2D.nii.gz}
-  DATA{${WrapITK_SOURCE_DIR}/images/warp3D.nii.gz}
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_metadata.py
+    DATA{${WrapITK_SOURCE_DIR}/images/r16slice.nii.gz}
+    DATA{${WrapITK_SOURCE_DIR}/images/sourceImage.nii.gz}
+    DATA{${WrapITK_SOURCE_DIR}/images/warp2D.nii.gz}
+    DATA{${WrapITK_SOURCE_DIR}/images/warp3D.nii.gz}
 )
 
 # some tests will fail if dim=2 and unsigned short are not wrapped
@@ -169,57 +148,51 @@ intersection(WRAP_2 2 "${ITK_WRAP_IMAGE_DIMS}")
 if(ITK_WRAP_unsigned_char AND WRAP_2)
   if(ITK_BUILD_DEFAULT_MODULES)
     itk_python_add_test(
-          NAME
-          PythonTypemapsTest
-          COMMAND
-          ${CMAKE_CURRENT_SOURCE_DIR}/PythonTypemapsTest.py
+      NAME PythonTypemapsTest
+      COMMAND
+        ${CMAKE_CURRENT_SOURCE_DIR}/PythonTypemapsTest.py
     )
     itk_python_add_test(
-          NAME
-          PythonTemplateTest
-          COMMAND
-          ${CMAKE_CURRENT_SOURCE_DIR}/PythonTemplateTest.py
+      NAME PythonTemplateTest
+      COMMAND
+        ${CMAKE_CURRENT_SOURCE_DIR}/PythonTemplateTest.py
     )
     itk_python_add_test(
-          NAME
-          PythonModifiedTimeTest
-          COMMAND
-          ${CMAKE_CURRENT_SOURCE_DIR}/ModifiedTime.py
+      NAME PythonModifiedTimeTest
+      COMMAND
+        ${CMAKE_CURRENT_SOURCE_DIR}/ModifiedTime.py
     )
     itk_python_add_test(
-          NAME
-          PythonTemplatedPipelineTest
-          TEST_DRIVER_ARGS
-          --compare
-          ${ITK_TEST_OUTPUT_DIR}/templated_pipeline.png
-          DATA{${WrapITK_SOURCE_DIR}/images/templated_pipeline.png}
-          COMMAND
-          ${CMAKE_CURRENT_SOURCE_DIR}/templated_pipeline.py
-          DATA{${WrapITK_SOURCE_DIR}/images/2th_cthead1.png}
-          ${ITK_TEST_OUTPUT_DIR}/templated_pipeline.png
-          10
+      NAME PythonTemplatedPipelineTest
+      TEST_DRIVER_ARGS
+        --compare
+        ${ITK_TEST_OUTPUT_DIR}/templated_pipeline.png
+        DATA{${WrapITK_SOURCE_DIR}/images/templated_pipeline.png}
+      COMMAND
+        ${CMAKE_CURRENT_SOURCE_DIR}/templated_pipeline.py
+        DATA{${WrapITK_SOURCE_DIR}/images/2th_cthead1.png}
+        ${ITK_TEST_OUTPUT_DIR}/templated_pipeline.png
+        10
     )
     itk_python_add_test(
-          NAME
-          PythonModuleToModuleTest
-          COMMAND
-          ${CMAKE_CURRENT_SOURCE_DIR}/module2module.py
-          DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
-          5
+      NAME PythonModuleToModuleTest
+      COMMAND
+        ${CMAKE_CURRENT_SOURCE_DIR}/module2module.py
+        DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
+        5
     )
     itk_python_add_test(
-          NAME
-          PythonExtrasTest
-          COMMAND
-          ${CMAKE_CURRENT_SOURCE_DIR}/extras.py
-          DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
-          DATA{../../../../Testing/Data/Input/mushroom.vtk}
-          DATA{../../../../Testing/Data/Input/LinearTransform.h5}
-          ${ITK_TEST_OUTPUT_DIR}/out.png
-          ${ITK_TEST_OUTPUT_DIR}/extras-mushroom.vtk
-          ${ITK_TEST_OUTPUT_DIR}
-          ${ITK_TEST_OUTPUT_DIR}/LinearTransformWritten.h5
-          ${ExternalData_BINARY_ROOT}/Testing/Data/Input/DicomSeries
+      NAME PythonExtrasTest
+      COMMAND
+        ${CMAKE_CURRENT_SOURCE_DIR}/extras.py
+        DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
+        DATA{../../../../Testing/Data/Input/mushroom.vtk}
+        DATA{../../../../Testing/Data/Input/LinearTransform.h5}
+        ${ITK_TEST_OUTPUT_DIR}/out.png
+        ${ITK_TEST_OUTPUT_DIR}/extras-mushroom.vtk
+        ${ITK_TEST_OUTPUT_DIR}
+        ${ITK_TEST_OUTPUT_DIR}/LinearTransformWritten.h5
+        ${ExternalData_BINARY_ROOT}/Testing/Data/Input/DicomSeries
     )
     set_tests_properties(
       PythonExtrasTest
@@ -228,11 +201,10 @@ if(ITK_WRAP_unsigned_char AND WRAP_2)
           PythonDICOMSeries
     )
     itk_python_add_test(
-          NAME
-          PythonXarrayTest
-          COMMAND
-          ${CMAKE_CURRENT_SOURCE_DIR}/test_xarray.py
-          DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
+      NAME PythonXarrayTest
+      COMMAND
+        ${CMAKE_CURRENT_SOURCE_DIR}/test_xarray.py
+        DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
     )
   endif()
 endif()
@@ -243,47 +215,44 @@ list(REMOVE_ITEM types SC)
 foreach(d ${ITK_WRAP_IMAGE_DIMS})
   foreach(t ${types})
     itk_python_add_test(
-          NAME
-          PythonSimplePipeline${t}${d}
-          TEST_DRIVER_ARGS
-          --compare
-          ${ITK_TEST_OUTPUT_DIR}/simple_pipeline${t}${d}.nrrd
-          DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
-          COMMAND
-          ${CMAKE_CURRENT_SOURCE_DIR}/simple_pipeline.py
-          ${t}
-          ${d}
-          DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
-          ${ITK_TEST_OUTPUT_DIR}/simple_pipeline${t}${d}.nrrd
+      NAME PythonSimplePipeline${t}${d}
+      TEST_DRIVER_ARGS
+        --compare
+        ${ITK_TEST_OUTPUT_DIR}/simple_pipeline${t}${d}.nrrd
+        DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
+      COMMAND
+        ${CMAKE_CURRENT_SOURCE_DIR}/simple_pipeline.py
+        ${t}
+        ${d}
+        DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
+        ${ITK_TEST_OUTPUT_DIR}/simple_pipeline${t}${d}.nrrd
     )
   endforeach()
 endforeach()
 
 # Test the lazyloading in a multiprocessing environment
 itk_python_add_test(
-  NAME
-  PythonMultiprocessLazyLoad
+  NAME PythonMultiprocessLazyLoad
   COMMAND
-  ${CMAKE_CURRENT_SOURCE_DIR}/multiprocess_lazy_loading.py
-  DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
-  DATA{${WrapITK_SOURCE_DIR}/images/templated_pipeline.png}
-  DATA{${WrapITK_SOURCE_DIR}/images/2th_cthead1.png}
+    ${CMAKE_CURRENT_SOURCE_DIR}/multiprocess_lazy_loading.py
+    DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
+    DATA{${WrapITK_SOURCE_DIR}/images/templated_pipeline.png}
+    DATA{${WrapITK_SOURCE_DIR}/images/2th_cthead1.png}
 )
 
 # Test proper reading and writing of VariableLengthVector
 itk_python_add_test(
-  NAME
-  PythonVLVReadWriteTest
+  NAME PythonVLVReadWriteTest
   TEST_DRIVER_ARGS
-  --compare
-  ${ITK_TEST_OUTPUT_DIR}/TestVLV.seg.nrrd
-  DATA{${WrapITK_SOURCE_DIR}/images/TestVLV.seg.nrrd}
+    --compare
+    ${ITK_TEST_OUTPUT_DIR}/TestVLV.seg.nrrd
+    DATA{${WrapITK_SOURCE_DIR}/images/TestVLV.seg.nrrd}
   COMMAND
-  ${CMAKE_CURRENT_SOURCE_DIR}/readWriteVLV.py
-  DATA{${WrapITK_SOURCE_DIR}/images/TestVLV.seg.nrrd}
-  ${ITK_TEST_OUTPUT_DIR}/TestVLV.seg.nrrd
-  59
-  85
-  58
-  5
+    ${CMAKE_CURRENT_SOURCE_DIR}/readWriteVLV.py
+    DATA{${WrapITK_SOURCE_DIR}/images/TestVLV.seg.nrrd}
+    ${ITK_TEST_OUTPUT_DIR}/TestVLV.seg.nrrd
+    59
+    85
+    58
+    5
 )

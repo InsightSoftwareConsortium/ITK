@@ -8,11 +8,10 @@ itk_module(
   ITKIOBMP
   ENABLE_SHARED
   DEPENDS
-  ITKIOImageBase
+    ITKIOImageBase
   TEST_DEPENDS
-  ITKTestKernel
+    ITKTestKernel
   FACTORY_NAMES
-  ImageIO::BMP
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ImageIO::BMP
+  DESCRIPTION "${DOCUMENTATION}"
 )

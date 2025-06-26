@@ -18,21 +18,20 @@ itk_module(
   ITKCommon
   ENABLE_SHARED
   DEPENDS
-  ITKEigen3
-  ITKVNL
-  ${ITKCOMMON_TBB_DEPENDS}
+    ITKEigen3
+    ITKVNL
+    ${ITKCOMMON_TBB_DEPENDS}
   PRIVATE_DEPENDS
-  ITKDoubleConversion
+    ITKDoubleConversion
   COMPILE_DEPENDS
-  ITKKWSys
+    ITKKWSys
   TEST_DEPENDS
-  ITKTestKernel
-  ITKMesh
-  ITKImageIntensity
-  ITKMathematicalMorphology
-  ITKIOImageBase
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+    ITKMesh
+    ITKImageIntensity
+    ITKMathematicalMorphology
+    ITKIOImageBase
+  DESCRIPTION "${DOCUMENTATION}"
 )
 
 # Extra test dependency on ITKMesh is introduced by itkCellInterfaceTest.

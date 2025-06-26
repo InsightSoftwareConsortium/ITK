@@ -10,11 +10,10 @@ similarity index and STAPLE."
 itk_module(
   ITKImageCompare
   DEPENDS
-  ITKImageIntensity
+    ITKImageIntensity
   COMPILE_DEPENDS
-  ITKImageFilterBase
+    ITKImageFilterBase
   TEST_DEPENDS
-  ITKTestKernel
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+  DESCRIPTION "${DOCUMENTATION}"
 )
