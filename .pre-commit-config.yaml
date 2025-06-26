@@ -104,7 +104,7 @@ repos:
       stages: [pre-commit]
     - id: kw-commit-msg
       name: 'kw commit-msg'
-      entry: 'Utilities/Hooks/kw-commit-msg.py'
+      entry: 'Utilities/Hooks/run-pixi-python.sh Utilities/Hooks/kw-commit-msg.py'
       language: system
       stages: [commit-msg]
       exclude: "\\/ThirdParty\\/"
