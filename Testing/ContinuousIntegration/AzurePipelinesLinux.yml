@@ -75,6 +75,7 @@ jobs:
           BUILD_EXAMPLES:BOOL=OFF
           ITK_WRAP_PYTHON:BOOL=OFF
         ")
+        set(CTEST_TEST_ARGS EXCLUDE_LABEL BigIO) # Disabled to conserve disk space
         include(\$ENV{AGENT_BUILDDIRECTORY}/ITK-dashboard/azure_dashboard.cmake)
         EOF
         cat dashboard.cmake
@@ -149,6 +150,7 @@ jobs:
           BUILD_EXAMPLES:BOOL=OFF
           ITK_WRAP_PYTHON:BOOL=OFF
         ")
+        set(CTEST_TEST_ARGS EXCLUDE_LABEL BigIO) # Disabled to conserve disk space
         include(\$ENV{AGENT_BUILDDIRECTORY}/ITK-dashboard/azure_dashboard.cmake)
         EOF
         cat dashboard.cmake
@@ -224,6 +226,7 @@ jobs:
           BUILD_EXAMPLES:BOOL=OFF
           ITK_WRAP_PYTHON:BOOL=OFF
         ")
+        set(CTEST_TEST_ARGS EXCLUDE_LABEL BigIO) # Disabled to conserve disk space
         include(\$ENV{AGENT_BUILDDIRECTORY}/ITK-dashboard/azure_dashboard.cmake)
         EOF
         cat dashboard.cmake
