@@ -94,11 +94,13 @@ repos:
       name: 'Check version of SetupForDevelopment'
       entry: 'Utilities/Hooks/check-setup-for-development'
       language: system
+      pass_filenames: false
       stages: [pre-commit]
     - id: local-pre-commit
       name: 'local pre-commit'
       entry: 'Utilities/Hooks/pre-commit'
       language: system
+      pass_filenames: false
       stages: [pre-commit]
     - id: kw-commit-msg
       name: 'kw commit-msg'
@@ -110,5 +112,5 @@ repos:
       name: 'kw-pre-commit'
       entry: 'Utilities/Hooks/kw-pre-commit'
       language: system
+      pass_filenames: false
       stages: [pre-commit]
-      exclude: "\\/ThirdParty\\/"
