@@ -24,8 +24,8 @@ already filed. -->
 3. [and so on...]
 
 Provide a minimal, complete, compilable, and verifiable example (commonly
-abbreviated as MWE, Minimal Working Example, or sometimes referred to as SSEE,
-Short, Self Contained, Correct (Compilable) Example, SSCCE) or code snippet,
+abbreviated as MWE, Minimal Working Example, or sometimes referred to as SSCCE,
+Short, Self Contained, Correct (Compilable) Example) or code snippet,
 either through a GitHub gist (https://gist.github.com/) or providing your own
 files (including your source code, `CMakeLists.txt` file if applicable, and your
 data) reproducing the incorrect regression result. -->
