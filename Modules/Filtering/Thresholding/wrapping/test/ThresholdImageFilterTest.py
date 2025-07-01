@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-# ==========================================================================*/
+# ==========================================================================
 
 #
 #  Example on the use of the ThresholdImageFilter

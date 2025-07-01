@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-# ==========================================================================*/
+# ==========================================================================
 
 # a short program to check the value returned by the GetNameOfClass() methods
 

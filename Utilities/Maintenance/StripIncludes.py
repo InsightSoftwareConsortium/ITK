@@ -15,7 +15,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-# ==========================================================================*/
+# ==========================================================================
 
 ## This script is designed to asssit stripping out the unnecessary header includes
 ## for all modules.
