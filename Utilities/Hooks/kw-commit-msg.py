@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 import os
-import sys
-import subprocess
 import re
+import subprocess
+import sys
 
 from pathlib import Path
-import textwrap
+
 
 DEFAULT_LINE_LENGTH: int = 78
 
