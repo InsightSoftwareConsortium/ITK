@@ -134,6 +134,19 @@ class TestMapPixelTypeAndComponentTypeTraits : private itk::ImageIOBase
   static_assert(GetNumberOfBitsOfComponentType(IOComponentEnum::ULONGLONG) == sizeof(long long) * CHAR_BIT);
   static_assert(GetNumberOfBitsOfComponentType(IOComponentEnum::FLOAT) == sizeof(float) * CHAR_BIT);
   static_assert(GetNumberOfBitsOfComponentType(IOComponentEnum::DOUBLE) == sizeof(double) * CHAR_BIT);
+
+  // Tests GetComponentTypeFromTypeTraits:
+  static_assert(GetComponentTypeFromTypeTraits(false, false, 0) == IOComponentEnum::UNKNOWNCOMPONENTTYPE);
+  static_assert(GetComponentTypeFromTypeTraits(false, true, 8) == IOComponentEnum::UINT8);
+  static_assert(GetComponentTypeFromTypeTraits(false, false, 8) == IOComponentEnum::INT8);
+  static_assert(GetComponentTypeFromTypeTraits(false, true, 16) == IOComponentEnum::UINT16);
+  static_assert(GetComponentTypeFromTypeTraits(false, false, 16) == IOComponentEnum::INT16);
+  static_assert(GetComponentTypeFromTypeTraits(false, true, 32) == IOComponentEnum::UINT32);
+  static_assert(GetComponentTypeFromTypeTraits(false, false, 32) == IOComponentEnum::INT32);
+  static_assert(GetComponentTypeFromTypeTraits(false, true, 64) == IOComponentEnum::UINT64);
+  static_assert(GetComponentTypeFromTypeTraits(false, false, 64) == IOComponentEnum::INT64);
+  static_assert(GetComponentTypeFromTypeTraits(true, false, 32) == IOComponentEnum::FLOAT32);
+  static_assert(GetComponentTypeFromTypeTraits(true, false, 64) == IOComponentEnum::FLOAT64);
 };
 } // namespace
 
