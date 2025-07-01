@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-# ==========================================================================*/
+# ==========================================================================
 
 # GeodesicActiveContourImageFilter.py
 # Translated by Charl P. Botha <https://cpbotha.net/> from the cxx original.
