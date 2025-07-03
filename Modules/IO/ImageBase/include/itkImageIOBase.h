@@ -363,6 +363,32 @@ public:
     return GetComponentTypeTraits(componentEnum).sizeOfComponent * size_t{ CHAR_BIT };
   }
 
+  /** Returns an enum value that specifies a component type that has the type traits specified by the function arguments
+   * (`std::is_floating_point`, `std::is_unsigned`, and its number of bits). */
+  static constexpr IOComponentEnum
+  GetComponentTypeFromTypeTraits(const bool isFloatingPoint, const bool isUnsigned, const size_t numberOfBits)
+  {
+    for (const auto componentEnum : { IOComponentEnum::UINT8,
+                                      IOComponentEnum::INT8,
+                                      IOComponentEnum::UINT16,
+                                      IOComponentEnum::INT16,
+                                      IOComponentEnum::UINT32,
+                                      IOComponentEnum::INT32,
+                                      IOComponentEnum::UINT64,
+                                      IOComponentEnum::INT64,
+                                      IOComponentEnum::FLOAT32,
+                                      IOComponentEnum::FLOAT64 })
+    {
+      if (const ComponentTypeTraits typeTraits = GetComponentTypeTraits(componentEnum);
+          typeTraits.isFloatingPoint == isFloatingPoint && typeTraits.isUnsigned == isUnsigned &&
+          typeTraits.sizeOfComponent * size_t{ CHAR_BIT } == numberOfBits)
+      {
+        return componentEnum;
+      }
+    }
+    return IOComponentEnum::UNKNOWNCOMPONENTTYPE;
+  }
+
   /** Convenience method returns the IOComponentEnum corresponding to a string. */
   static IOComponentEnum
   GetComponentTypeFromString(const std::string & typeString);
