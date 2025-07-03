@@ -89,13 +89,15 @@ public:
 
   using SizeValueType = IdentifierType;
 
+#ifndef ITK_LEGACY_REMOVE
   /**
    * \class UnknownType
-   * Used to return information when types are unknown.
+   * \deprecated This class is intended to be removed from ITK 6.
    * \ingroup ITKIOMeshBase
    */
-  class UnknownType
+  class [[deprecated("This class is intended to be removed from ITK 6.")]] UnknownType
   {};
+#endif
 
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(MeshIOBase);
