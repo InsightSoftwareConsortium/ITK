@@ -71,6 +71,8 @@ public:
    * Enums used to manipulate the component type. The component type
    * refers to the actual storage class associated with either a
    * SCALAR pixel type or elements of a compound pixel.
+   *
+   * \note The enum `CHAR` represents `signed char` (not just plain `char`).
    */
   ITK_CLANG_PRAGMA_PUSH
   ITK_CLANG_SUPPRESS_Wduplicate_enum
