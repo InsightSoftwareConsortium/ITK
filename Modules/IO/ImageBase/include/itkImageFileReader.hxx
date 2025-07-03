@@ -482,7 +482,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::DoConvertBuffer(const void * 
   {
   }
   ITK_CONVERT_BUFFER_IF_BLOCK(IOComponentEnum::UCHAR, unsigned char)
-  ITK_CONVERT_BUFFER_IF_BLOCK(IOComponentEnum::CHAR, char)
+  ITK_CONVERT_BUFFER_IF_BLOCK(IOComponentEnum::CHAR, signed char)
   ITK_CONVERT_BUFFER_IF_BLOCK(IOComponentEnum::USHORT, unsigned short)
   ITK_CONVERT_BUFFER_IF_BLOCK(IOComponentEnum::SHORT, short)
   ITK_CONVERT_BUFFER_IF_BLOCK(IOComponentEnum::UINT, unsigned int)
