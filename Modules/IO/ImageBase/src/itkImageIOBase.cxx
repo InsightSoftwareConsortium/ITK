@@ -824,7 +824,7 @@ ImageIOBase::ReadBufferAsASCII(std::istream & is, void * buffer, IOComponentEnum
     break;
     case IOComponentEnum::CHAR:
     {
-      auto * buf = static_cast<char *>(buffer);
+      auto * buf = static_cast<signed char *>(buffer);
       ReadBuffer(is, buf, numComp);
     }
     break;

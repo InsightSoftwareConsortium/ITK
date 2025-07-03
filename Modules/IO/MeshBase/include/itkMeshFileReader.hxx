@@ -703,7 +703,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Co
   {
   }
   ITK_CONVERT_POINT_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::UCHAR, unsigned char)
-  ITK_CONVERT_POINT_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::CHAR, char)
+  ITK_CONVERT_POINT_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::CHAR, signed char)
   ITK_CONVERT_POINT_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::USHORT, unsigned short)
   ITK_CONVERT_POINT_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::SHORT, short)
   ITK_CONVERT_POINT_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::UINT, unsigned int)
@@ -778,7 +778,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Co
   {
   }
   ITK_CONVERT_CELL_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::UCHAR, unsigned char)
-  ITK_CONVERT_CELL_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::CHAR, char)
+  ITK_CONVERT_CELL_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::CHAR, signed char)
   ITK_CONVERT_CELL_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::USHORT, unsigned short)
   ITK_CONVERT_CELL_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::SHORT, short)
   ITK_CONVERT_CELL_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::UINT, unsigned int)
