@@ -200,7 +200,7 @@ itkTIFFImageIOCompressionTest(int argc, char * argv[])
         }
         case itk::IOComponentEnum::CHAR:
         {
-          using PixelType = char;
+          using PixelType = signed char;
           return itkTIFFImageIOCompressionTestHelper<itk::Image<PixelType, 2>>(argc, argv, JPEGQuality);
         }
         case itk::IOComponentEnum::USHORT:

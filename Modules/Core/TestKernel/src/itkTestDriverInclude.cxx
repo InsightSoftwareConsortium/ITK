@@ -828,7 +828,7 @@ HashTestImage(const char * testImageFilename, const std::vector<std::string> & b
   switch (componentType)
   {
     case itk::IOComponentEnum::CHAR:
-      testMD5 = ComputeHash<itk::VectorImage<char, ITK_TEST_DIMENSION_MAX>>(testImageFilename);
+      testMD5 = ComputeHash<itk::VectorImage<signed char, ITK_TEST_DIMENSION_MAX>>(testImageFilename);
       break;
     case itk::IOComponentEnum::UCHAR:
       testMD5 = ComputeHash<itk::VectorImage<unsigned char, ITK_TEST_DIMENSION_MAX>>(testImageFilename);
