@@ -25,26 +25,28 @@ struct scalar_boolean_select_op {
   EIGEN_STATIC_ASSERT(ThenElseAreSame, THEN AND ELSE MUST BE SAME TYPE)
   using Scalar = ThenScalar;
   using result_type = Scalar;
-  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Scalar operator()(const ThenScalar& a, const ElseScalar& b, const ConditionScalar& cond) const {
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Scalar operator()(const ThenScalar& a, const ElseScalar& b,
+                                                          const ConditionScalar& cond) const {
     return cond == ConditionScalar(0) ? b : a;
   }
   template <typename Packet>
-      EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Packet packetOp(const Packet& a, const Packet& b, const Packet& cond) const {
+  EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE Packet packetOp(const Packet& a, const Packet& b, const Packet& cond) const {
     return pselect(pcmp_eq(cond, pzero(cond)), b, a);
   }
 };
 
 template <typename ThenScalar, typename ElseScalar, typename ConditionScalar>
-    struct functor_traits<scalar_boolean_select_op<ThenScalar, ElseScalar, ConditionScalar>> {
+struct functor_traits<scalar_boolean_select_op<ThenScalar, ElseScalar, ConditionScalar>> {
   using Scalar = ThenScalar;
   enum {
     Cost = 1,
-    PacketAccess = is_same<ThenScalar, ElseScalar>::value && is_same<ConditionScalar, Scalar>::value && packet_traits<Scalar>::HasCmp
+    PacketAccess = is_same<ThenScalar, ElseScalar>::value && is_same<ConditionScalar, Scalar>::value &&
+                   packet_traits<Scalar>::HasCmp
   };
 };
 
-} // end namespace internal
+}  // end namespace internal
 
-} // end namespace Eigen
+}  // end namespace Eigen
 
-#endif // EIGEN_TERNARY_FUNCTORS_H
+#endif  // EIGEN_TERNARY_FUNCTORS_H

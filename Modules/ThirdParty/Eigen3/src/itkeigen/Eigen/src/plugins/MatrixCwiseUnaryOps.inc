@@ -11,13 +11,13 @@
 // This file is included into the body of the base classes supporting matrix specific coefficient-wise functions.
 // This include MatrixBase and SparseMatrixBase.
 
-
 typedef CwiseUnaryOp<internal::scalar_abs_op<Scalar>, const Derived> CwiseAbsReturnType;
 typedef CwiseUnaryOp<internal::scalar_abs2_op<Scalar>, const Derived> CwiseAbs2ReturnType;
 typedef CwiseUnaryOp<internal::scalar_arg_op<Scalar>, const Derived> CwiseArgReturnType;
 typedef CwiseUnaryOp<internal::scalar_carg_op<Scalar>, const Derived> CwiseCArgReturnType;
 typedef CwiseUnaryOp<internal::scalar_sqrt_op<Scalar>, const Derived> CwiseSqrtReturnType;
 typedef CwiseUnaryOp<internal::scalar_cbrt_op<Scalar>, const Derived> CwiseCbrtReturnType;
+typedef CwiseUnaryOp<internal::scalar_square_op<Scalar>, const Derived> CwiseSquareReturnType;
 typedef CwiseUnaryOp<internal::scalar_sign_op<Scalar>, const Derived> CwiseSignReturnType;
 typedef CwiseUnaryOp<internal::scalar_inverse_op<Scalar>, const Derived> CwiseInverseReturnType;
 
@@ -26,92 +26,86 @@ typedef CwiseUnaryOp<internal::scalar_inverse_op<Scalar>, const Derived> CwiseIn
 /// Example: \include MatrixBase_cwiseAbs.cpp
 /// Output: \verbinclude MatrixBase_cwiseAbs.out
 ///
-EIGEN_DOC_UNARY_ADDONS(cwiseAbs,absolute value)
+EIGEN_DOC_UNARY_ADDONS(cwiseAbs, absolute value)
 ///
 /// \sa cwiseAbs2()
 ///
-EIGEN_DEVICE_FUNC
-EIGEN_STRONG_INLINE const CwiseAbsReturnType
-cwiseAbs() const { return CwiseAbsReturnType(derived()); }
+EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const CwiseAbsReturnType cwiseAbs() const {
+  return CwiseAbsReturnType(derived());
+}
 
 /// \returns an expression of the coefficient-wise squared absolute value of \c *this
 ///
 /// Example: \include MatrixBase_cwiseAbs2.cpp
 /// Output: \verbinclude MatrixBase_cwiseAbs2.out
 ///
-EIGEN_DOC_UNARY_ADDONS(cwiseAbs2,squared absolute value)
+EIGEN_DOC_UNARY_ADDONS(cwiseAbs2, squared absolute value)
 ///
 /// \sa cwiseAbs()
 ///
-EIGEN_DEVICE_FUNC
-EIGEN_STRONG_INLINE const CwiseAbs2ReturnType
-cwiseAbs2() const { return CwiseAbs2ReturnType(derived()); }
+EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const CwiseAbs2ReturnType cwiseAbs2() const {
+  return CwiseAbs2ReturnType(derived());
+}
 
 /// \returns an expression of the coefficient-wise square root of *this.
 ///
 /// Example: \include MatrixBase_cwiseSqrt.cpp
 /// Output: \verbinclude MatrixBase_cwiseSqrt.out
 ///
-EIGEN_DOC_UNARY_ADDONS(cwiseSqrt,square-root)
+EIGEN_DOC_UNARY_ADDONS(cwiseSqrt, square - root)
 ///
 /// \sa cwisePow(), cwiseSquare(), cwiseCbrt()
 ///
-EIGEN_DEVICE_FUNC
-inline const CwiseSqrtReturnType
-cwiseSqrt() const { return CwiseSqrtReturnType(derived()); }
+EIGEN_DEVICE_FUNC inline const CwiseSqrtReturnType cwiseSqrt() const { return CwiseSqrtReturnType(derived()); }
 
 /// \returns an expression of the coefficient-wise cube root of *this.
 ///
-/// Example: \include MatrixBase_cwiseCbrt.cpp
-/// Output: \verbinclude MatrixBase_cwiseCbrt.out
-///
-EIGEN_DOC_UNARY_ADDONS(cwiseCbrt,cube-root)
+EIGEN_DOC_UNARY_ADDONS(cwiseCbrt, cube - root)
 ///
 /// \sa cwiseSqrt(), cwiseSquare(), cwisePow()
 ///
-EIGEN_DEVICE_FUNC
-inline const CwiseCbrtReturnType
-cwiseCbrt() const { return CwiseSCbrtReturnType(derived()); }
+EIGEN_DEVICE_FUNC inline const CwiseCbrtReturnType cwiseCbrt() const { return CwiseCbrtReturnType(derived()); }
+
+/// \returns an expression of the coefficient-wise square of *this.
+///
+EIGEN_DOC_UNARY_ADDONS(cwiseSquare, square)
+///
+/// \sa cwisePow(), cwiseSqrt(), cwiseCbrt()
+///
+EIGEN_DEVICE_FUNC inline const CwiseSquareReturnType cwiseSquare() const { return CwiseSquareReturnType(derived()); }
 
 /// \returns an expression of the coefficient-wise signum of *this.
 ///
 /// Example: \include MatrixBase_cwiseSign.cpp
 /// Output: \verbinclude MatrixBase_cwiseSign.out
 ///
-EIGEN_DOC_UNARY_ADDONS(cwiseSign,sign function)
+EIGEN_DOC_UNARY_ADDONS(cwiseSign, sign function)
 ///
-EIGEN_DEVICE_FUNC
-inline const CwiseSignReturnType
-cwiseSign() const { return CwiseSignReturnType(derived()); }
-
+EIGEN_DEVICE_FUNC inline const CwiseSignReturnType cwiseSign() const { return CwiseSignReturnType(derived()); }
 
 /// \returns an expression of the coefficient-wise inverse of *this.
 ///
 /// Example: \include MatrixBase_cwiseInverse.cpp
 /// Output: \verbinclude MatrixBase_cwiseInverse.out
 ///
-EIGEN_DOC_UNARY_ADDONS(cwiseInverse,inverse)
+EIGEN_DOC_UNARY_ADDONS(cwiseInverse, inverse)
 ///
 /// \sa cwiseProduct()
 ///
-EIGEN_DEVICE_FUNC
-inline const CwiseInverseReturnType
-cwiseInverse() const { return CwiseInverseReturnType(derived()); }
+EIGEN_DEVICE_FUNC inline const CwiseInverseReturnType cwiseInverse() const { return CwiseInverseReturnType(derived()); }
 
 /// \returns an expression of the coefficient-wise phase angle of \c *this
 ///
 /// Example: \include MatrixBase_cwiseArg.cpp
 /// Output: \verbinclude MatrixBase_cwiseArg.out
 ///
-EIGEN_DOC_UNARY_ADDONS(cwiseArg,arg)
+EIGEN_DOC_UNARY_ADDONS(cwiseArg, arg)
 
-EIGEN_DEVICE_FUNC
-inline const CwiseArgReturnType
-cwiseArg() const { return CwiseArgReturnType(derived()); }
+EIGEN_DEVICE_FUNC inline const CwiseArgReturnType cwiseArg() const { return CwiseArgReturnType(derived()); }
 
-EIGEN_DEVICE_FUNC
-EIGEN_STRONG_INLINE const CwiseCArgReturnType
-cwiseCArg() const { return CwiseCArgReturnType(derived()); }
+EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE const CwiseCArgReturnType cwiseCArg() const {
+  return CwiseCArgReturnType(derived());
+}
 
 template <typename ScalarExponent>
 using CwisePowReturnType =

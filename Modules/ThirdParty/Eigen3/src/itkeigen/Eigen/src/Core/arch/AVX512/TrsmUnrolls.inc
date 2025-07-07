@@ -28,7 +28,7 @@ EIGEN_ALWAYS_INLINE int64_t idA(int64_t i, int64_t j, int64_t LDA) {
  *     func(startI,startJ)                                startJ = (startC)%(endJ)
  *                                                        func(...)
  *
- * The 1-D loop can be unrolled recursively by using enable_if and defining an auxillary function
+ * The 1-D loop can be unrolled recursively by using enable_if and defining an auxiliary function
  * with a template parameter used as a counter.
  *
  * template <endI, endJ, counter>
@@ -124,7 +124,7 @@ EIGEN_ALWAYS_INLINE void trans8x8blocks(PacketBlock<Packet8d, 8> &kernel) {
 }
 
 /***
- * Unrolls for tranposed C stores
+ * Unrolls for transposed C stores
  */
 template <typename Scalar>
 class trans {
@@ -134,7 +134,7 @@ class trans {
   static constexpr int64_t PacketSize = packet_traits<Scalar>::size;
 
   /***********************************
-   * Auxillary Functions for:
+   * Auxiliary Functions for:
    *  - storeC
    ***********************************
    */
@@ -213,11 +213,12 @@ class trans {
   }
 
   /**
-   * Transposes LxunrollN row major block of matrices stored EIGEN_AVX_MAX_NUM_ACC zmm registers to
+   * Transposes LxunrollN row major block of matrices stored `EIGEN_AVX_MAX_NUM_ACC` zmm registers to
    * "unrollN"xL ymm registers to be stored col-major into C.
    *
    *  For 8x48, the 8x48 block (row-major) is stored in zmm as follows:
    *
+   *  ```
    *  row0: zmm0 zmm1 zmm2
    *  row1: zmm3 zmm4 zmm5
    *    .
@@ -231,10 +232,10 @@ class trans {
    *    .
    *    .
    *  row7: zmm14 zmm15
-   *
+   * ```
    *
    * In general we will have {1,2,3} groups of avx registers each of size
-   * EIGEN_AVX_MAX_NUM_ROW. packetIndexOffset is used to select which "block" of
+   * `EIGEN_AVX_MAX_NUM_ROW`. packetIndexOffset is used to select which "block" of
    * avx registers are being transposed.
    */
   template <int64_t unrollN, int64_t packetIndexOffset>
@@ -285,7 +286,7 @@ class transB {
   static constexpr int64_t PacketSize = packet_traits<Scalar>::size;
 
   /***********************************
-   * Auxillary Functions for:
+   * Auxiliary Functions for:
    *  - loadB
    *  - storeB
    *  - loadBBlock
@@ -588,7 +589,7 @@ class trsm {
   static constexpr int64_t PacketSize = packet_traits<Scalar>::size;
 
   /***********************************
-   * Auxillary Functions for:
+   * Auxiliary Functions for:
    *  - loadRHS
    *  - storeRHS
    *  - divRHSByDiag
@@ -867,7 +868,7 @@ class gemm {
   static constexpr int64_t PacketSize = packet_traits<Scalar>::size;
 
   /***********************************
-   * Auxillary Functions for:
+   * Auxiliary Functions for:
    *  - setzero
    *  - updateC
    *  - storeC
@@ -1101,7 +1102,7 @@ class gemm {
       }
     }
 
-    // We have updated all accumlators, time to load next set of B's
+    // We have updated all accumulators, time to load next set of B's
     EIGEN_IF_CONSTEXPR((startN == endN - 1) && (startM == endM - 1)) {
       gemm::template loadB<endM, endN, startK, endK, numLoad, numBCast, rem>(B_t, LDB, zmm, rem_);
     }

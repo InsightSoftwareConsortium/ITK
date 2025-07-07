@@ -11,98 +11,99 @@ template <typename MatrixType_, int UpLo_, SparseFactorization_t Solver_, bool E
 class AccelerateImpl;
 
 /** \ingroup AccelerateSupport_Module
-  * \class AccelerateLLT
-  * \brief A direct Cholesky (LLT) factorization and solver based on Accelerate
-  *
-  * \warning Only single and double precision real scalar types are supported by Accelerate
-  * 
-  * \tparam MatrixType_ the type of the sparse matrix A, it must be a SparseMatrix<>
-  * \tparam UpLo_ additional information about the matrix structure. Default is Lower.
-  *
-  * \sa \ref TutorialSparseSolverConcept, class AccelerateLLT
-  */
+ * \typedef AccelerateLLT
+ * \brief A direct Cholesky (LLT) factorization and solver based on Accelerate
+ *
+ * \warning Only single and double precision real scalar types are supported by Accelerate
+ *
+ * \tparam MatrixType_ the type of the sparse matrix A, it must be a SparseMatrix<>
+ * \tparam UpLo_ additional information about the matrix structure. Default is Lower.
+ *
+ * \sa \ref TutorialSparseSolverConcept, class AccelerateLLT
+ */
 template <typename MatrixType, int UpLo = Lower>
 using AccelerateLLT = AccelerateImpl<MatrixType, UpLo | Symmetric, SparseFactorizationCholesky, true>;
 
 /** \ingroup AccelerateSupport_Module
-  * \class AccelerateLDLT
-  * \brief The default Cholesky (LDLT) factorization and solver based on Accelerate
-  *
-  * \warning Only single and double precision real scalar types are supported by Accelerate
-  * 
-  * \tparam MatrixType_ the type of the sparse matrix A, it must be a SparseMatrix<>
-  * \tparam UpLo_ additional information about the matrix structure. Default is Lower.
-  *
-  * \sa \ref TutorialSparseSolverConcept, class AccelerateLDLT
-  */
+ * \typedef AccelerateLDLT
+ * \brief The default Cholesky (LDLT) factorization and solver based on Accelerate
+ *
+ * \warning Only single and double precision real scalar types are supported by Accelerate
+ *
+ * \tparam MatrixType_ the type of the sparse matrix A, it must be a SparseMatrix<>
+ * \tparam UpLo_ additional information about the matrix structure. Default is Lower.
+ *
+ * \sa \ref TutorialSparseSolverConcept, class AccelerateLDLT
+ */
 template <typename MatrixType, int UpLo = Lower>
 using AccelerateLDLT = AccelerateImpl<MatrixType, UpLo | Symmetric, SparseFactorizationLDLT, true>;
 
 /** \ingroup AccelerateSupport_Module
-  * \class AccelerateLDLTUnpivoted
-  * \brief A direct Cholesky-like LDL^T factorization and solver based on Accelerate with only 1x1 pivots and no pivoting
-  *
-  * \warning Only single and double precision real scalar types are supported by Accelerate
-  * 
-  * \tparam MatrixType_ the type of the sparse matrix A, it must be a SparseMatrix<>
-  * \tparam UpLo_ additional information about the matrix structure. Default is Lower.
-  *
-  * \sa \ref TutorialSparseSolverConcept, class AccelerateLDLTUnpivoted
-  */
+ * \typedef AccelerateLDLTUnpivoted
+ * \brief A direct Cholesky-like LDL^T factorization and solver based on Accelerate with only 1x1 pivots and no pivoting
+ *
+ * \warning Only single and double precision real scalar types are supported by Accelerate
+ *
+ * \tparam MatrixType_ the type of the sparse matrix A, it must be a SparseMatrix<>
+ * \tparam UpLo_ additional information about the matrix structure. Default is Lower.
+ *
+ * \sa \ref TutorialSparseSolverConcept, class AccelerateLDLTUnpivoted
+ */
 template <typename MatrixType, int UpLo = Lower>
 using AccelerateLDLTUnpivoted = AccelerateImpl<MatrixType, UpLo | Symmetric, SparseFactorizationLDLTUnpivoted, true>;
 
 /** \ingroup AccelerateSupport_Module
-  * \class AccelerateLDLTSBK
-  * \brief A direct Cholesky (LDLT) factorization and solver based on Accelerate with Supernode Bunch-Kaufman and static pivoting
-  *
-  * \warning Only single and double precision real scalar types are supported by Accelerate
-  * 
-  * \tparam MatrixType_ the type of the sparse matrix A, it must be a SparseMatrix<>
-  * \tparam UpLo_ additional information about the matrix structure. Default is Lower.
-  *
-  * \sa \ref TutorialSparseSolverConcept, class AccelerateLDLTSBK
-  */
+ * \typedef AccelerateLDLTSBK
+ * \brief A direct Cholesky (LDLT) factorization and solver based on Accelerate with Supernode Bunch-Kaufman and static
+ * pivoting
+ *
+ * \warning Only single and double precision real scalar types are supported by Accelerate
+ *
+ * \tparam MatrixType_ the type of the sparse matrix A, it must be a SparseMatrix<>
+ * \tparam UpLo_ additional information about the matrix structure. Default is Lower.
+ *
+ * \sa \ref TutorialSparseSolverConcept, class AccelerateLDLTSBK
+ */
 template <typename MatrixType, int UpLo = Lower>
 using AccelerateLDLTSBK = AccelerateImpl<MatrixType, UpLo | Symmetric, SparseFactorizationLDLTSBK, true>;
 
 /** \ingroup AccelerateSupport_Module
-  * \class AccelerateLDLTTPP
-  * \brief A direct Cholesky (LDLT) factorization and solver based on Accelerate with full threshold partial pivoting
-  *
-  * \warning Only single and double precision real scalar types are supported by Accelerate
-  * 
-  * \tparam MatrixType_ the type of the sparse matrix A, it must be a SparseMatrix<>
-  * \tparam UpLo_ additional information about the matrix structure. Default is Lower.
-  *
-  * \sa \ref TutorialSparseSolverConcept, class AccelerateLDLTTPP
-  */
+ * \typedef AccelerateLDLTTPP
+ * \brief A direct Cholesky (LDLT) factorization and solver based on Accelerate with full threshold partial pivoting
+ *
+ * \warning Only single and double precision real scalar types are supported by Accelerate
+ *
+ * \tparam MatrixType_ the type of the sparse matrix A, it must be a SparseMatrix<>
+ * \tparam UpLo_ additional information about the matrix structure. Default is Lower.
+ *
+ * \sa \ref TutorialSparseSolverConcept, class AccelerateLDLTTPP
+ */
 template <typename MatrixType, int UpLo = Lower>
 using AccelerateLDLTTPP = AccelerateImpl<MatrixType, UpLo | Symmetric, SparseFactorizationLDLTTPP, true>;
 
 /** \ingroup AccelerateSupport_Module
-  * \class AccelerateQR
-  * \brief A QR factorization and solver based on Accelerate
-  *
-  * \warning Only single and double precision real scalar types are supported by Accelerate
-  * 
-  * \tparam MatrixType_ the type of the sparse matrix A, it must be a SparseMatrix<>
-  *
-  * \sa \ref TutorialSparseSolverConcept, class AccelerateQR
-  */
+ * \typedef AccelerateQR
+ * \brief A QR factorization and solver based on Accelerate
+ *
+ * \warning Only single and double precision real scalar types are supported by Accelerate
+ *
+ * \tparam MatrixType_ the type of the sparse matrix A, it must be a SparseMatrix<>
+ *
+ * \sa \ref TutorialSparseSolverConcept, class AccelerateQR
+ */
 template <typename MatrixType>
 using AccelerateQR = AccelerateImpl<MatrixType, 0, SparseFactorizationQR, false>;
 
 /** \ingroup AccelerateSupport_Module
-  * \class AccelerateCholeskyAtA
-  * \brief A QR factorization and solver based on Accelerate without storing Q (equivalent to A^TA = R^T R)
-  *
-  * \warning Only single and double precision real scalar types are supported by Accelerate
-  * 
-  * \tparam MatrixType_ the type of the sparse matrix A, it must be a SparseMatrix<>
-  *
-  * \sa \ref TutorialSparseSolverConcept, class AccelerateCholeskyAtA
-  */
+ * \typedef AccelerateCholeskyAtA
+ * \brief A QR factorization and solver based on Accelerate without storing Q (equivalent to A^TA = R^T R)
+ *
+ * \warning Only single and double precision real scalar types are supported by Accelerate
+ *
+ * \tparam MatrixType_ the type of the sparse matrix A, it must be a SparseMatrix<>
+ *
+ * \sa \ref TutorialSparseSolverConcept, class AccelerateCholeskyAtA
+ */
 template <typename MatrixType>
 using AccelerateCholeskyAtA = AccelerateImpl<MatrixType, 0, SparseFactorizationCholeskyAtA, false>;
 
@@ -361,7 +362,8 @@ void AccelerateImpl<MatrixType_, UpLo_, Solver_, EnforceSquare_>::analyzePattern
 
 /** Performs a numeric decomposition of matrix \a a.
  *
- * The given matrix must have the same sparsity pattern as the matrix on which the symbolic decomposition has been performed.
+ * The given matrix must have the same sparsity pattern as the matrix on which the symbolic decomposition has been
+ * performed.
  *
  * \sa analyzePattern()
  */

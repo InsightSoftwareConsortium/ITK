@@ -24,7 +24,7 @@ namespace Eigen {
 namespace internal {
 
 #if !defined(__ARCH__) || (defined(__ARCH__) && __ARCH__ >= 12)
-static EIGEN_DECLARE_CONST_Packet4f(1 , 1.0f);
+static EIGEN_DECLARE_CONST_Packet4f(1, 1.0f);
 static EIGEN_DECLARE_CONST_Packet4f(half, 0.5f);
 static EIGEN_DECLARE_CONST_Packet4i(0x7f, 0x7f);
 static EIGEN_DECLARE_CONST_Packet4i(23, 23);
@@ -32,27 +32,27 @@ static EIGEN_DECLARE_CONST_Packet4i(23, 23);
 static EIGEN_DECLARE_CONST_Packet4f_FROM_INT(inv_mant_mask, ~0x7f800000);
 
 /* the smallest non denormalized float number */
-static EIGEN_DECLARE_CONST_Packet4f_FROM_INT(min_norm_pos,  0x00800000);
-static EIGEN_DECLARE_CONST_Packet4f_FROM_INT(minus_inf,     0xff800000); // -1.f/0.f
-static EIGEN_DECLARE_CONST_Packet4f_FROM_INT(minus_nan,     0xffffffff);
-  
+static EIGEN_DECLARE_CONST_Packet4f_FROM_INT(min_norm_pos, 0x00800000);
+static EIGEN_DECLARE_CONST_Packet4f_FROM_INT(minus_inf, 0xff800000);  // -1.f/0.f
+static EIGEN_DECLARE_CONST_Packet4f_FROM_INT(minus_nan, 0xffffffff);
+
 /* natural logarithm computed for 4 simultaneous float
   return NaN for x <= 0
 */
 static EIGEN_DECLARE_CONST_Packet4f(cephes_SQRTHF, 0.707106781186547524f);
 static EIGEN_DECLARE_CONST_Packet4f(cephes_log_p0, 7.0376836292E-2f);
-static EIGEN_DECLARE_CONST_Packet4f(cephes_log_p1, - 1.1514610310E-1f);
+static EIGEN_DECLARE_CONST_Packet4f(cephes_log_p1, -1.1514610310E-1f);
 static EIGEN_DECLARE_CONST_Packet4f(cephes_log_p2, 1.1676998740E-1f);
-static EIGEN_DECLARE_CONST_Packet4f(cephes_log_p3, - 1.2420140846E-1f);
-static EIGEN_DECLARE_CONST_Packet4f(cephes_log_p4, + 1.4249322787E-1f);
-static EIGEN_DECLARE_CONST_Packet4f(cephes_log_p5, - 1.6668057665E-1f);
-static EIGEN_DECLARE_CONST_Packet4f(cephes_log_p6, + 2.0000714765E-1f);
-static EIGEN_DECLARE_CONST_Packet4f(cephes_log_p7, - 2.4999993993E-1f);
-static EIGEN_DECLARE_CONST_Packet4f(cephes_log_p8, + 3.3333331174E-1f);
+static EIGEN_DECLARE_CONST_Packet4f(cephes_log_p3, -1.2420140846E-1f);
+static EIGEN_DECLARE_CONST_Packet4f(cephes_log_p4, +1.4249322787E-1f);
+static EIGEN_DECLARE_CONST_Packet4f(cephes_log_p5, -1.6668057665E-1f);
+static EIGEN_DECLARE_CONST_Packet4f(cephes_log_p6, +2.0000714765E-1f);
+static EIGEN_DECLARE_CONST_Packet4f(cephes_log_p7, -2.4999993993E-1f);
+static EIGEN_DECLARE_CONST_Packet4f(cephes_log_p8, +3.3333331174E-1f);
 static EIGEN_DECLARE_CONST_Packet4f(cephes_log_q1, -2.12194440e-4f);
 static EIGEN_DECLARE_CONST_Packet4f(cephes_log_q2, 0.693359375f);
 
-static EIGEN_DECLARE_CONST_Packet4f(exp_hi,  88.3762626647950f);
+static EIGEN_DECLARE_CONST_Packet4f(exp_hi, 88.3762626647950f);
 static EIGEN_DECLARE_CONST_Packet4f(exp_lo, -88.3762626647949f);
 
 static EIGEN_DECLARE_CONST_Packet4f(cephes_LOG2EF, 1.44269504088896341f);
@@ -67,11 +67,11 @@ static EIGEN_DECLARE_CONST_Packet4f(cephes_exp_p4, 1.6666665459E-1f);
 static EIGEN_DECLARE_CONST_Packet4f(cephes_exp_p5, 5.0000001201E-1f);
 #endif
 
-static EIGEN_DECLARE_CONST_Packet2d(1 , 1.0);
-static EIGEN_DECLARE_CONST_Packet2d(2 , 2.0);
+static EIGEN_DECLARE_CONST_Packet2d(1, 1.0);
+static EIGEN_DECLARE_CONST_Packet2d(2, 2.0);
 static EIGEN_DECLARE_CONST_Packet2d(half, 0.5);
 
-static EIGEN_DECLARE_CONST_Packet2d(exp_hi,  709.437);
+static EIGEN_DECLARE_CONST_Packet2d(exp_hi, 709.437);
 static EIGEN_DECLARE_CONST_Packet2d(exp_lo, -709.436139303);
 
 static EIGEN_DECLARE_CONST_Packet2d(cephes_LOG2EF, 1.4426950408889634073599);
@@ -88,9 +88,8 @@ static EIGEN_DECLARE_CONST_Packet2d(cephes_exp_q3, 2.00000000000000000009e0);
 static EIGEN_DECLARE_CONST_Packet2d(cephes_exp_C1, 0.693145751953125);
 static EIGEN_DECLARE_CONST_Packet2d(cephes_exp_C2, 1.42860682030941723212e-6);
 
-template<> EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
-Packet2d pexp<Packet2d>(const Packet2d& _x)
-{
+template <>
+EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS Packet2d pexp<Packet2d>(const Packet2d& _x) {
   Packet2d x = _x;
 
   Packet2d tmp, fx;
@@ -108,40 +107,38 @@ Packet2d pexp<Packet2d>(const Packet2d& _x)
   x = psub(x, tmp);
   x = psub(x, z);
 
-  Packet2d x2 = pmul(x,x);
+  Packet2d x2 = pmul(x, x);
 
   Packet2d px = p2d_cephes_exp_p0;
   px = pmadd(px, x2, p2d_cephes_exp_p1);
   px = pmadd(px, x2, p2d_cephes_exp_p2);
-  px = pmul (px, x);
+  px = pmul(px, x);
 
   Packet2d qx = p2d_cephes_exp_q0;
   qx = pmadd(qx, x2, p2d_cephes_exp_q1);
   qx = pmadd(qx, x2, p2d_cephes_exp_q2);
   qx = pmadd(qx, x2, p2d_cephes_exp_q3);
 
-  x = pdiv(px,psub(qx,px));
-  x = pmadd(p2d_2,x,p2d_1);
+  x = pdiv(px, psub(qx, px));
+  x = pmadd(p2d_2, x, p2d_1);
 
   // build 2^n
   emm0 = vec_ctsl(fx, 0);
 
-  static const Packet2l p2l_1023 = { 1023, 1023 };
-  static const Packet2ul p2ul_52 = { 52, 52 };
+  static const Packet2l p2l_1023 = {1023, 1023};
+  static const Packet2ul p2ul_52 = {52, 52};
 
   emm0 = emm0 + p2l_1023;
   emm0 = emm0 << reinterpret_cast<Packet2l>(p2ul_52);
 
-  // Altivec's max & min operators just drop silent NaNs. Check NaNs in 
+  // Altivec's max & min operators just drop silent NaNs. Check NaNs in
   // inputs and return them unmodified.
   Packet2ul isnumber_mask = reinterpret_cast<Packet2ul>(vec_cmpeq(_x, _x));
-  return vec_sel(_x, pmax(pmul(x, reinterpret_cast<Packet2d>(emm0)), _x),
-                 isnumber_mask);
+  return vec_sel(_x, pmax(pmul(x, reinterpret_cast<Packet2d>(emm0)), _x), isnumber_mask);
 }
 
-template<> EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
-Packet4f pexp<Packet4f>(const Packet4f& _x)
-{
+template <>
+EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS Packet4f pexp<Packet4f>(const Packet4f& _x) {
 #if !defined(__ARCH__) || (defined(__ARCH__) && __ARCH__ >= 12)
   Packet4f x = _x;
 
@@ -161,7 +158,7 @@ Packet4f pexp<Packet4f>(const Packet4f& _x)
   x = psub(x, tmp);
   x = psub(x, z);
 
-  z = pmul(x,x);
+  z = pmul(x, x);
 
   Packet4f y = p4f_cephes_exp_p0;
   y = pmadd(y, x, p4f_cephes_exp_p1);
@@ -173,7 +170,7 @@ Packet4f pexp<Packet4f>(const Packet4f& _x)
   y = padd(y, p4f_1);
 
   // build 2^n
-  emm0 = (Packet4i){ (int)fx[0], (int)fx[1], (int)fx[2], (int)fx[3] };
+  emm0 = (Packet4i){(int)fx[0], (int)fx[1], (int)fx[2], (int)fx[3]};
   emm0 = emm0 + p4i_0x7f;
   emm0 = emm0 << reinterpret_cast<Packet4i>(p4i_23);
 
@@ -186,15 +183,13 @@ Packet4f pexp<Packet4f>(const Packet4f& _x)
 #endif
 }
 
-template<> EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
-Packet2d psqrt<Packet2d>(const Packet2d& x)
-{
+template <>
+EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS Packet2d psqrt<Packet2d>(const Packet2d& x) {
   return vec_sqrt(x);
 }
 
-template<> EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
-Packet4f psqrt<Packet4f>(const Packet4f& x)
-{
+template <>
+EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS Packet4f psqrt<Packet4f>(const Packet4f& x) {
   Packet4f res;
 #if !defined(__ARCH__) || (defined(__ARCH__) && __ARCH__ >= 12)
   res = vec_sqrt(x);
@@ -205,13 +200,13 @@ Packet4f psqrt<Packet4f>(const Packet4f& x)
   return res;
 }
 
-template<> EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
-Packet2d prsqrt<Packet2d>(const Packet2d& x) {
+template <>
+EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS Packet2d prsqrt<Packet2d>(const Packet2d& x) {
   return pset1<Packet2d>(1.0) / psqrt<Packet2d>(x);
 }
 
-template<> EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
-Packet4f prsqrt<Packet4f>(const Packet4f& x) {
+template <>
+EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS Packet4f prsqrt<Packet4f>(const Packet4f& x) {
   Packet4f res;
 #if !defined(__ARCH__) || (defined(__ARCH__) && __ARCH__ >= 12)
   res = pset1<Packet4f>(1.0) / psqrt<Packet4f>(x);
@@ -224,9 +219,8 @@ Packet4f prsqrt<Packet4f>(const Packet4f& x) {
 
 // Hyperbolic Tangent function.
 template <>
-EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS Packet4f
-ptanh<Packet4f>(const Packet4f& x) {
-  return internal::generic_fast_tanh_float(x);
+EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS Packet4f ptanh<Packet4f>(const Packet4f& x) {
+  return ptanh_float(x);
 }
 
 }  // end namespace internal
