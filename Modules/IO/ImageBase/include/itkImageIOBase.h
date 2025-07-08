@@ -1010,7 +1010,7 @@ private:
   static constexpr ComponentTypeTraits
   GetComponentTypeTraits(const IOComponentEnum componentEnum)
   {
-    return ComponentTypeTraits::Get<char,
+    return ComponentTypeTraits::Get<signed char,
                                     unsigned char,
                                     short,
                                     unsigned short,
