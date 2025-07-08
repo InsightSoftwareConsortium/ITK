@@ -113,6 +113,7 @@ foreach(lib
     hdf5
     hdf5_cpp
     hdf5_hl
+    hdf5_hl_cpp
     )
   itk_module_target(${lib}${target_extension} NO_INSTALL)
 endforeach()
