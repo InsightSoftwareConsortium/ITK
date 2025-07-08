@@ -99,13 +99,15 @@ public:
   using IndexValueType = itk::IndexValueType;
   using SizeValueType = itk::SizeValueType;
 
+#ifndef ITK_LEGACY_REMOVE
   /**
    * \class UnknownType
-   * Used to return information when types are unknown.
+   * \deprecated This class is intended to be removed from ITK 6.
    * \ingroup ITKIOImageBase
    */
-  class UnknownType
+  class [[deprecated("This class is intended to be removed from ITK 6.")]] UnknownType
   {};
+#endif
 
 #if !defined(ITK_LEGACY_REMOVE)
   /**Exposes enums values for backwards compatibility*/
