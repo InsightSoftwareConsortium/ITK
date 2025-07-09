@@ -18,6 +18,7 @@
 #ifndef itkVTKImageImport_h
 #define itkVTKImageImport_h
 
+#include "itkMacro.h"
 #include "itkImageSource.h"
 #include "itkImportImageContainer.h"
 
@@ -30,7 +31,8 @@
       this->m_##name = _arg;                        \
       this->Modified();                             \
     }                                               \
-  }
+  }                                                 \
+  ITK_MACROEND_NOOP_STATEMENT
 
 namespace itk
 {
