@@ -144,7 +144,8 @@ operator<<(std::ostream & os, const EventObject & e)
 
 #define itkEventMacroDefinition(classname, super)                            \
   classname::classname(const classname & s)                                  \
-    : super(s) {};                                                           \
+    : super(s)                                                               \
+  {}                                                                         \
   classname::~classname() {}                                                 \
   const char * classname::GetEventName() const { return #classname; }        \
   bool         classname::CheckEvent(const itk::EventObject * e) const       \
