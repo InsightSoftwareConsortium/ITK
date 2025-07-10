@@ -629,4 +629,46 @@ Update scripts
 
 [Utilities/ITKv5Preparation](https://github.com/InsightSoftwareConsortium/ITK/tree/master/Utilities/ITKv5Preparation) directory contains
 bash scripts which have been used to update ITK to version 5. These scripts
-can assist with updating external code bases to ITK 5 content and style.
+
+
+
+Backported ITKv6 features
+-------------------------
+
+ITKv6 will prefer itk::AnatomicalOrientation over itk::SpatialOrientation
+-------------------------------------------------------------------------
+
+As of v5.4.5 and later, the `itk::AnatomicalOrientation` API is added and supported to facilitate
+conversion to the ITKv6 recommended paradigm.  The `itk::AnatomicalOrientation` is not available
+in v5.4.4 and earlier releases.
+
+The enumeration defined in `itk::SpatialOrientation`, including `itk::SpatialOrientation::CoordinateTerms`,
+`itk::SpatialOrientation::CoordinateMajornessTerms`, and `itk::SpatialOrientation::ValidCoordinateOrientations` may be
+deprecated in the future. These terms described an orientation of an axis in a coordinate system, by the "from" or
+"negative" direction. For example `CoordinateTerms::ITK_COORDINATE_Right` describes an axis moving from the "Right" to
+the "Left" side of the body.
+
+This is the opposite of the DICOM `Patient Orientation (0020,0020)` tag.
+
+The `itk::AnatomicalOrientation` class now represents the anatomical orientation. The class can provide a representation
+of itself as an unambiguous enumeration, string and a matrix. It provides both a `PositiveEnum` and a `NegativeEnum` for
+three letter descriptions of the anatomical orientation, which is ambiguous.
+
+The recommended unambiguous way to define an anatomical orientation is the following:
+
+```cpp
+itk::AnatomicalOrientation(itk::AnatomicalOrientation::CoordinateEnum::RightToLeft,
+                           itk::AnatomicalOrientation::CoordinateEnum::AnteriorToPosterior,
+                           itk::AnatomicalOrientation::CoordinateEnum::InferiorToSuperior);
+```
+
+The `itk::SpatialOrientation::ValidCoordinateOrientations` enumerations can be explicitly or implicitly converted to the
+new `AnatomicalOrientation` object:
+
+```cpp
+itk::AnatomicalOrientation orientation = itk::SpatialOrientation::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RAI;
+orientation = itk::AnatomicalOrientation(itk::SpatialOrientation::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RIP;)
+```
+
+The Python wrapping of `itk::AnatomicalOrientation` is not supported in ITKv5 due to conflicts with `itk::SpatialOrientation`
+wrapping.
