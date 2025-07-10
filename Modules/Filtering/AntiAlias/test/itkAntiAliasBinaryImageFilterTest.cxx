@@ -48,9 +48,9 @@ sphere(float x, float y, float z)
 }
 
 void
-evaluate_function(itk::Image<char, 3> * im, float (*f)(float, float, float))
+evaluate_function(itk::Image<signed char, 3> * im, float (*f)(float, float, float))
 {
-  itk::Image<char, 3>::IndexType idx;
+  itk::Image<signed char, 3>::IndexType idx;
 
   for (int z = 0; z < V_DEPTH; ++z)
   {
@@ -88,8 +88,7 @@ itkAntiAliasBinaryImageFilterTest(int argc, char * argv[])
   }
   const char * outputImage = argv[1];
 
-  using InputDataType = char;
-  using BinaryImageType = itk::Image<InputDataType, 3>;
+  using BinaryImageType = itk::Image<signed char, 3>;
   using RealImageType = itk::Image<float, 3>;
 
   const itk::AntiAliasBinaryImageFilter<BinaryImageType, RealImageType>::Pointer antialiaser =

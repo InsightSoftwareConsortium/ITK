@@ -42,7 +42,7 @@ itkImageRegistrationMethodTest(int, char *[])
   using FixedImageType = itk::Image<float, dimension>;
 
   // Moving Image Type
-  using MovingImageType = itk::Image<char, dimension>;
+  using MovingImageType = itk::Image<signed char, dimension>;
 
   // Transform Type
   using TransformType = itk::TranslationTransform<double, dimension>;

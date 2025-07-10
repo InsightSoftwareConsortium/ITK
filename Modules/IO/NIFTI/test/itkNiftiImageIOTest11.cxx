@@ -42,7 +42,7 @@ itkNiftiImageIOTest11(int argc, char * argv[])
   {
     return EXIT_FAILURE;
   }
-  using ImageType = itk::Image<char, 3>;
+  using ImageType = itk::Image<signed char, 3>;
 
   ImageType::SizeType size;
   size[0] = static_cast<long>(itk::NumericTraits<short>::max()) * 2;

@@ -118,7 +118,7 @@ AverageTestCopy(typename TImage::SizeType & size)
 int
 itkImageAlgorithmCopyTest(int, char *[])
 {
-  using ImageType3D = itk::Image<char, 3>;
+  using ImageType3D = itk::Image<signed char, 3>;
   auto size3d = ImageType3D::SizeType::Filled(16);
   AverageTestCopy<ImageType3D>(size3d);
 
@@ -131,7 +131,7 @@ itkImageAlgorithmCopyTest(int, char *[])
   size3d.Fill(128);
   AverageTestCopy<ImageType3D>(size3d);
 
-  using ImageType2D = itk::Image<char, 2>;
+  using ImageType2D = itk::Image<signed char, 2>;
   auto size2d = ImageType2D::SizeType::Filled(16);
   AverageTestCopy<ImageType2D>(size2d);
 

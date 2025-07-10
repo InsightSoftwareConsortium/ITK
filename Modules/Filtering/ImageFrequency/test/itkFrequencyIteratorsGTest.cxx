@@ -105,7 +105,7 @@ template <typename TOutputImageType>
 static typename TOutputImageType::Pointer
 CreateImage(unsigned int size)
 {
-  using ImageType = itk::Image<char, TOutputImageType::ImageDimension>;
+  using ImageType = itk::Image<signed char, TOutputImageType::ImageDimension>;
   auto imageSize = ImageType::SizeType::Filled(size);
   using RandomImageSourceType = itk::RandomImageSource<ImageType>;
   auto randomImageSource = RandomImageSourceType::New();

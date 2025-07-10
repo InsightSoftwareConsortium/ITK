@@ -29,7 +29,7 @@ itkShiftScaleImageFilterTest(int, char *[])
 {
   std::cout << "itkShiftScaleImageFilterTest Start" << std::endl;
 
-  using TestInputImage = itk::Image<char, 3>;
+  using TestInputImage = itk::Image<signed char, 3>;
   using TestOutputImage = itk::Image<unsigned char, 3>;
   using RealType = itk::NumericTraits<char>::RealType;
 

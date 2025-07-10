@@ -66,7 +66,7 @@ itkBinaryImageToShiSparseLevelSetAdaptorTest(int argc, char * argv[])
 
   const LevelSetType::Pointer sparseLevelSet = adaptor->GetModifiableLevelSet();
 
-  using StatusImageType = itk::Image<char, Dimension>;
+  using StatusImageType = itk::Image<signed char, Dimension>;
   auto statusImage = StatusImageType::New();
   statusImage->SetRegions(input->GetLargestPossibleRegion());
   statusImage->CopyInformation(input);
