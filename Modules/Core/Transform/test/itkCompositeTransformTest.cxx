@@ -130,6 +130,11 @@ itkCompositeTransformTest(int, char *[])
   ITK_TEST_EXPECT_EQUAL(compositeTransform->GetParameters().Size(), 0u);
   ITK_TEST_EXPECT_EQUAL(compositeTransform->GetFixedParameters().Size(), 0u);
 
+  /* Test that we can set with a zero length array */
+  CompositeType::ParametersType parameters(0);
+  compositeTransform->SetParameters(parameters);
+  compositeTransform->SetFixedParameters(parameters);
+
   {
     CompositeType::InputPointType inputPoint;
     inputPoint[0] = 1.1;

@@ -647,6 +647,11 @@ CompositeTransform<TParametersValueType, VDimension>::SetParameters(const Parame
                                                                          << this->GetNumberOfParameters() << '.');
   }
 
+  if (transforms.size() == 0)
+  {
+    return; // Nothing to do, no transforms.
+  }
+
   if (transforms.size() == 1)
   {
     /* Avoid unnecessary copying. See comments below */
