@@ -452,7 +452,7 @@ int
 itkConstNeighborhoodIteratorWithOnlyIndexTest(int, char *[])
 {
   std::cout << "*** Testing with itk::Image" << std::endl << std::endl;
-  if (itkConstNeighborhoodIteratorWithOnlyIndexTestRun<itk::Image<char, 4>>() == EXIT_FAILURE)
+  if (itkConstNeighborhoodIteratorWithOnlyIndexTestRun<itk::Image<signed char, 4>>() == EXIT_FAILURE)
   {
     std::cerr << "XXX Failed with itk::Image XXX" << std::endl;
     return EXIT_FAILURE;

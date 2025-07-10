@@ -23,7 +23,7 @@ namespace CSIFTN
 {
 
 using ImageType = itk::Image<float, 3>;
-using SeedImageType = itk::Image<char, 3>;
+using SeedImageType = itk::Image<signed char, 3>;
 
 constexpr int V_WIDTH = 64;
 constexpr int V_HEIGHT = 64;
@@ -79,9 +79,9 @@ evaluate_float_function(itk::Image<float, 3> * im, float (*f)(float, float, floa
 }
 
 void
-evaluate_function(itk::Image<char, 3> * im, float (*f)(float, float, float))
+evaluate_function(itk::Image<signed char, 3> * im, float (*f)(float, float, float))
 {
-  itk::Image<char, 3>::IndexType idx;
+  itk::Image<signed char, 3>::IndexType idx;
 
   for (int z = 0; z < V_DEPTH; ++z)
   {

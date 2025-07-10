@@ -142,7 +142,7 @@ itkImageVectorOptimizerParametersHelperTest(int, char *[])
   ITK_TRY_EXPECT_EXCEPTION(params.MoveDataPointer(array.data_block()));
 
   // Test setting an image of wrong type
-  using BadImageType = itk::Image<char, 2>;
+  using BadImageType = itk::Image<signed char, 2>;
   auto badImage = BadImageType::New();
   ITK_TRY_EXPECT_EXCEPTION(params.SetParametersObject(badImage));
 

@@ -29,7 +29,7 @@ itkJoinImageFilterTest(int, char *[])
   constexpr unsigned int myDimension = 2;
 
   // Declare the types of the images
-  using myImageType1 = itk::Image<char, myDimension>;
+  using myImageType1 = itk::Image<signed char, myDimension>;
   using myImageType2 = itk::Image<itk::Vector<unsigned short, 2>, myDimension>;
   using myImageType3 = itk::Image<itk::RGBAPixel<short>, myDimension>;
 

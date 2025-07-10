@@ -44,7 +44,7 @@ itkMultiResolutionImageRegistrationMethodTest(int, char *[])
   using FixedImageType = itk::Image<float, dimension>;
 
   // Moving Image Type
-  //  using MovingImageType = itk::Image<char,dimension>;
+  //  using MovingImageType = itk::Image<signed char,dimension>;
   using MovingImageType = itk::Image<float, dimension>;
 
   // Transform Type
