@@ -145,7 +145,9 @@ set(ITKCommon_SRCS
     itkFrustumSpatialFunction.cxx
     itkObjectStore.cxx
     itkGaussianDerivativeOperator.cxx
-    itkSpatialOrientation.cxx)
+    itkSpatialOrientation.cxx
+  itkAnatomicalOrientation.cxx
+)
 
 if(WIN32)
   list(APPEND ITKCommon_SRCS itkWin32OutputWindow.cxx)
