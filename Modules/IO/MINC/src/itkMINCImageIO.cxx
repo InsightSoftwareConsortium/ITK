@@ -1396,7 +1396,7 @@ MINCImageIO::Write(const void * buffer)
       break;
     case IOComponentEnum::CHAR:
       volume_data_type = MI_TYPE_BYTE;
-      get_buffer_min_max<char>(buffer, buffer_length, buffer_min, buffer_max);
+      get_buffer_min_max<signed char>(buffer, buffer_length, buffer_min, buffer_max);
       break;
     case IOComponentEnum::USHORT:
       volume_data_type = MI_TYPE_USHORT;
