@@ -17,32 +17,33 @@
 namespace Eigen {
 
 /** \geometry_module \ingroup Geometry_Module
-  *
-  *
-  * \returns the canonical Euler-angles of the rotation matrix \c *this using the convention defined by the triplet (\a a0,\a a1,\a a2)
-  *
-  * Each of the three parameters \a a0,\a a1,\a a2 represents the respective rotation axis as an integer in {0,1,2}.
-  * For instance, in:
-  * \code Vector3f ea = mat.eulerAngles(2, 0, 2); \endcode
-  * "2" represents the z axis and "0" the x axis, etc. The returned angles are such that
-  * we have the following equality:
-  * \code
-  * mat == AngleAxisf(ea[0], Vector3f::UnitZ())
-  *      * AngleAxisf(ea[1], Vector3f::UnitX())
-  *      * AngleAxisf(ea[2], Vector3f::UnitZ()); \endcode
-  * This corresponds to the right-multiply conventions (with right hand side frames).
-  *
-  * For Tait-Bryan angle configurations (a0 != a2), the returned angles are in the ranges [-pi:pi]x[-pi/2:pi/2]x[-pi:pi].
-  * For proper Euler angle configurations (a0 == a2), the returned angles are in the ranges [-pi:pi]x[0:pi]x[-pi:pi].
-  *
-  * The approach used is also described here: https://d3cw3dd2w32x2b.cloudfront.net/wp-content/uploads/2012/07/euler-angles.pdf
-  *
-  * \sa class AngleAxis
-  */
-template<typename Derived>
-EIGEN_DEVICE_FUNC inline Matrix<typename MatrixBase<Derived>::Scalar,3,1>
-MatrixBase<Derived>::canonicalEulerAngles(Index a0, Index a1, Index a2) const
-{
+ *
+ *
+ * \returns the canonical Euler-angles of the rotation matrix \c *this using the convention defined by the triplet (\a
+ * a0,\a a1,\a a2)
+ *
+ * Each of the three parameters \a a0,\a a1,\a a2 represents the respective rotation axis as an integer in {0,1,2}.
+ * For instance, in:
+ * \code Vector3f ea = mat.eulerAngles(2, 0, 2); \endcode
+ * "2" represents the z axis and "0" the x axis, etc. The returned angles are such that
+ * we have the following equality:
+ * \code
+ * mat == AngleAxisf(ea[0], Vector3f::UnitZ())
+ *      * AngleAxisf(ea[1], Vector3f::UnitX())
+ *      * AngleAxisf(ea[2], Vector3f::UnitZ()); \endcode
+ * This corresponds to the right-multiply conventions (with right hand side frames).
+ *
+ * For Tait-Bryan angle configurations (a0 != a2), the returned angles are in the ranges [-pi:pi]x[-pi/2:pi/2]x[-pi:pi].
+ * For proper Euler angle configurations (a0 == a2), the returned angles are in the ranges [-pi:pi]x[0:pi]x[-pi:pi].
+ *
+ * The approach used is also described here:
+ * https://d3cw3dd2w32x2b.cloudfront.net/wp-content/uploads/2012/07/euler-angles.pdf
+ *
+ * \sa class AngleAxis
+ */
+template <typename Derived>
+EIGEN_DEVICE_FUNC inline Matrix<typename MatrixBase<Derived>::Scalar, 3, 1> MatrixBase<Derived>::canonicalEulerAngles(
+    Index a0, Index a1, Index a2) const {
   /* Implemented from Graphics Gems IV */
   EIGEN_STATIC_ASSERT_MATRIX_SPECIFIC_SIZE(Derived, 3, 3)
 
@@ -53,8 +54,7 @@ MatrixBase<Derived>::canonicalEulerAngles(Index a0, Index a1, Index a2) const
   const Index j = (a0 + 1 + odd) % 3;
   const Index k = (a0 + 2 - odd) % 3;
 
-  if (a0 == a2)
-  {
+  if (a0 == a2) {
     // Proper Euler angles (same first and last axis).
     // The i, j, k indices enable addressing the input matrix as the XYX archetype matrix (see Graphics Gems IV),
     // where e.g. coeff(k, i) means third column, first row in the XYX archetype matrix:
@@ -64,22 +64,19 @@ MatrixBase<Derived>::canonicalEulerAngles(Index a0, Index a1, Index a2) const
 
     // Note: s2 is always positive.
     Scalar s2 = numext::hypot(coeff(j, i), coeff(k, i));
-    if (odd)
-    {
+    if (odd) {
       res[0] = numext::atan2(coeff(j, i), coeff(k, i));
       // s2 is always positive, so res[1] will be within the canonical [0, pi] range
       res[1] = numext::atan2(s2, coeff(i, i));
-    }
-    else
-    {
-      // In the !odd case, signs of all three angles are flipped at the very end. To keep the solution within the canonical range,
-      // we flip the solution and make res[1] always negative here (since s2 is always positive, -atan2(s2, c2) will always be negative).
-      // The final flip at the end due to !odd will thus make res[1] positive and canonical.
-      // NB: in the general case, there are two correct solutions, but only one is canonical. For proper Euler angles,
-      // flipping from one solution to the other involves flipping the sign of the second angle res[1] and adding/subtracting pi
-      // to the first and third angles. The addition/subtraction of pi to the first angle res[0] is handled here by flipping
-      // the signs of arguments to atan2, while the calculation of the third angle does not need special adjustment since
-      // it uses the adjusted res[0] as the input and produces a correct result.
+    } else {
+      // In the !odd case, signs of all three angles are flipped at the very end. To keep the solution within the
+      // canonical range, we flip the solution and make res[1] always negative here (since s2 is always positive,
+      // -atan2(s2, c2) will always be negative). The final flip at the end due to !odd will thus make res[1] positive
+      // and canonical. NB: in the general case, there are two correct solutions, but only one is canonical. For proper
+      // Euler angles, flipping from one solution to the other involves flipping the sign of the second angle res[1] and
+      // adding/subtracting pi to the first and third angles. The addition/subtraction of pi to the first angle res[0]
+      // is handled here by flipping the signs of arguments to atan2, while the calculation of the third angle does not
+      // need special adjustment since it uses the adjusted res[0] as the input and produces a correct result.
       res[0] = numext::atan2(-coeff(j, i), -coeff(k, i));
       res[1] = -numext::atan2(s2, coeff(i, i));
     }
@@ -97,9 +94,7 @@ MatrixBase<Derived>::canonicalEulerAngles(Index a0, Index a1, Index a2) const
     Scalar s1 = numext::sin(res[0]);
     Scalar c1 = numext::cos(res[0]);
     res[2] = numext::atan2(c1 * coeff(j, k) - s1 * coeff(k, k), c1 * coeff(j, j) - s1 * coeff(k, j));
-  }
-  else
-  {
+  } else {
     // Tait-Bryan angles (all three axes are different; typically used for yaw-pitch-roll calculations).
     // The i, j, k indices enable addressing the input matrix as the XYZ archetype matrix (see Graphics Gems IV),
     // where e.g. coeff(k, i) means third column, first row in the XYZ archetype matrix:
@@ -110,15 +105,15 @@ MatrixBase<Derived>::canonicalEulerAngles(Index a0, Index a1, Index a2) const
     res[0] = numext::atan2(coeff(j, k), coeff(k, k));
 
     Scalar c2 = numext::hypot(coeff(i, i), coeff(i, j));
-    // c2 is always positive, so the following atan2 will always return a result in the correct canonical middle angle range [-pi/2, pi/2]
+    // c2 is always positive, so the following atan2 will always return a result in the correct canonical middle angle
+    // range [-pi/2, pi/2]
     res[1] = numext::atan2(-coeff(i, k), c2);
 
     Scalar s1 = numext::sin(res[0]);
     Scalar c1 = numext::cos(res[0]);
     res[2] = numext::atan2(s1 * coeff(k, i) - c1 * coeff(j, i), c1 * coeff(j, j) - s1 * coeff(k, j));
   }
-  if (!odd)
-  {
+  if (!odd) {
     res = -res;
   }
 
@@ -126,19 +121,20 @@ MatrixBase<Derived>::canonicalEulerAngles(Index a0, Index a1, Index a2) const
 }
 
 /** \geometry_module \ingroup Geometry_Module
-  *
-  *
-  * \returns the Euler-angles of the rotation matrix \c *this using the convention defined by the triplet (\a a0,\a a1,\a a2)
-  *
-  * NB: The returned angles are in non-canonical ranges [0:pi]x[-pi:pi]x[-pi:pi]. For canonical Tait-Bryan/proper Euler ranges, use canonicalEulerAngles.
-  *
-  * \sa MatrixBase::canonicalEulerAngles
-  * \sa class AngleAxis
-  */
-template<typename Derived>
-EIGEN_DEPRECATED EIGEN_DEVICE_FUNC inline Matrix<typename MatrixBase<Derived>::Scalar,3,1>
-MatrixBase<Derived>::eulerAngles(Index a0, Index a1, Index a2) const
-{
+ *
+ *
+ * \returns the Euler-angles of the rotation matrix \c *this using the convention defined by the triplet (\a a0,\a a1,\a
+ * a2)
+ *
+ * NB: The returned angles are in non-canonical ranges [0:pi]x[-pi:pi]x[-pi:pi]. For canonical Tait-Bryan/proper Euler
+ * ranges, use canonicalEulerAngles.
+ *
+ * \sa MatrixBase::canonicalEulerAngles
+ * \sa class AngleAxis
+ */
+template <typename Derived>
+EIGEN_DEPRECATED EIGEN_DEVICE_FUNC inline Matrix<typename MatrixBase<Derived>::Scalar, 3, 1>
+MatrixBase<Derived>::eulerAngles(Index a0, Index a1, Index a2) const {
   /* Implemented from Graphics Gems IV */
   EIGEN_STATIC_ASSERT_MATRIX_SPECIFIC_SIZE(Derived, 3, 3)
 
@@ -149,25 +145,18 @@ MatrixBase<Derived>::eulerAngles(Index a0, Index a1, Index a2) const
   const Index j = (a0 + 1 + odd) % 3;
   const Index k = (a0 + 2 - odd) % 3;
 
-  if (a0 == a2)
-  {
+  if (a0 == a2) {
     res[0] = numext::atan2(coeff(j, i), coeff(k, i));
-    if ((odd && res[0] < Scalar(0)) || ((!odd) && res[0] > Scalar(0)))
-    {
-      if (res[0] > Scalar(0))
-      {
+    if ((odd && res[0] < Scalar(0)) || ((!odd) && res[0] > Scalar(0))) {
+      if (res[0] > Scalar(0)) {
         res[0] -= Scalar(EIGEN_PI);
-      }
-      else
-      {
+      } else {
         res[0] += Scalar(EIGEN_PI);
       }
 
       Scalar s2 = numext::hypot(coeff(j, i), coeff(k, i));
       res[1] = -numext::atan2(s2, coeff(i, i));
-    }
-    else
-    {
+    } else {
       Scalar s2 = numext::hypot(coeff(j, i), coeff(k, i));
       res[1] = numext::atan2(s2, coeff(i, i));
     }
@@ -185,39 +174,30 @@ MatrixBase<Derived>::eulerAngles(Index a0, Index a1, Index a2) const
     Scalar s1 = numext::sin(res[0]);
     Scalar c1 = numext::cos(res[0]);
     res[2] = numext::atan2(c1 * coeff(j, k) - s1 * coeff(k, k), c1 * coeff(j, j) - s1 * coeff(k, j));
-  }
-  else
-  {
+  } else {
     res[0] = numext::atan2(coeff(j, k), coeff(k, k));
     Scalar c2 = numext::hypot(coeff(i, i), coeff(i, j));
-    if ((odd && res[0] < Scalar(0)) || ((!odd) && res[0] > Scalar(0)))
-    {
-      if (res[0] > Scalar(0))
-      {
+    if ((odd && res[0] < Scalar(0)) || ((!odd) && res[0] > Scalar(0))) {
+      if (res[0] > Scalar(0)) {
         res[0] -= Scalar(EIGEN_PI);
-      }
-      else
-      {
+      } else {
         res[0] += Scalar(EIGEN_PI);
       }
       res[1] = numext::atan2(-coeff(i, k), -c2);
-    }
-    else
-    {
+    } else {
       res[1] = numext::atan2(-coeff(i, k), c2);
     }
     Scalar s1 = numext::sin(res[0]);
     Scalar c1 = numext::cos(res[0]);
     res[2] = numext::atan2(s1 * coeff(k, i) - c1 * coeff(j, i), c1 * coeff(j, j) - s1 * coeff(k, j));
   }
-  if (!odd)
-  {
+  if (!odd) {
     res = -res;
   }
 
   return res;
 }
 
-} // end namespace Eigen
+}  // end namespace Eigen
 
-#endif // EIGEN_EULERANGLES_H
+#endif  // EIGEN_EULERANGLES_H

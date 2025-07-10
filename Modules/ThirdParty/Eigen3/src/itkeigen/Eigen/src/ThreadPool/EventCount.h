@@ -53,10 +53,12 @@ class EventCount {
  public:
   class Waiter;
 
-  EventCount(MaxSizeVector<Waiter>& waiters)
-      : state_(kStackMask), waiters_(waiters) {
+  EventCount(MaxSizeVector<Waiter>& waiters) : state_(kStackMask), waiters_(waiters) {
     eigen_plain_assert(waiters.size() < (1 << kWaiterBits) - 1);
   }
+
+  EventCount(const EventCount&) = delete;
+  void operator=(const EventCount&) = delete;
 
   ~EventCount() {
     // Ensure there are no waiters.
@@ -72,9 +74,7 @@ class EventCount {
       CheckState(state);
       uint64_t newstate = state + kWaiterInc;
       CheckState(newstate);
-      if (state_.compare_exchange_weak(state, newstate,
-                                       std::memory_order_seq_cst))
-        return;
+      if (state_.compare_exchange_weak(state, newstate, std::memory_order_seq_cst)) return;
     }
   }
 
@@ -93,12 +93,10 @@ class EventCount {
       } else {
         // Remove this thread from pre-wait counter and add to the waiter stack.
         newstate = ((state & kWaiterMask) - kWaiterInc) | me;
-        w->next.store(state & (kStackMask | kEpochMask),
-                      std::memory_order_relaxed);
+        w->next.store(state & (kStackMask | kEpochMask), std::memory_order_relaxed);
       }
       CheckState(newstate);
-      if (state_.compare_exchange_weak(state, newstate,
-                                       std::memory_order_acq_rel)) {
+      if (state_.compare_exchange_weak(state, newstate, std::memory_order_acq_rel)) {
         if ((state & kSignalMask) == 0) {
           w->epoch += kEpochInc;
           Park(w);
@@ -118,13 +116,9 @@ class EventCount {
       // so we should not consume a signal unconditionally.
       // Only if number of waiters is equal to number of signals,
       // we know that the thread was notified and we must take away the signal.
-      if (((state & kWaiterMask) >> kWaiterShift) ==
-          ((state & kSignalMask) >> kSignalShift))
-        newstate -= kSignalInc;
+      if (((state & kWaiterMask) >> kWaiterShift) == ((state & kSignalMask) >> kSignalShift)) newstate -= kSignalInc;
       CheckState(newstate);
-      if (state_.compare_exchange_weak(state, newstate,
-                                       std::memory_order_acq_rel))
-        return;
+      if (state_.compare_exchange_weak(state, newstate, std::memory_order_acq_rel)) return;
     }
   }
 
@@ -142,8 +136,7 @@ class EventCount {
       uint64_t newstate;
       if (notifyAll) {
         // Empty wait stack and set signal to number of pre-wait threads.
-        newstate =
-            (state & kWaiterMask) | (waiters << kSignalShift) | kStackMask;
+        newstate = (state & kWaiterMask) | (waiters << kSignalShift) | kStackMask;
       } else if (signals < waiters) {
         // There is a thread in pre-wait state, unblock it.
         newstate = state + kSignalInc;
@@ -154,10 +147,8 @@ class EventCount {
         newstate = (state & (kWaiterMask | kSignalMask)) | next;
       }
       CheckState(newstate);
-      if (state_.compare_exchange_weak(state, newstate,
-                                       std::memory_order_acq_rel)) {
-        if (!notifyAll && (signals < waiters))
-          return;  // unblocked pre-wait thread
+      if (state_.compare_exchange_weak(state, newstate, std::memory_order_acq_rel)) {
+        if (!notifyAll && (signals < waiters)) return;  // unblocked pre-wait thread
         if ((state & kStackMask) == kStackMask) return;
         Waiter* w = &waiters_[state & kStackMask];
         if (!notifyAll) w->next.store(kStackMask, std::memory_order_relaxed);
@@ -166,22 +157,6 @@ class EventCount {
       }
     }
   }
-
-  class Waiter {
-    friend class EventCount;
-    // Align to 128 byte boundary to prevent false sharing with other Waiter
-    // objects in the same vector.
-    EIGEN_ALIGN_TO_BOUNDARY(128) std::atomic<uint64_t> next;
-    EIGEN_MUTEX mu;
-    EIGEN_CONDVAR cv;
-    uint64_t epoch = 0;
-    unsigned state = kNotSignaled;
-    enum {
-      kNotSignaled,
-      kWaiting,
-      kSignaled,
-    };
-  };
 
  private:
   // State_ layout:
@@ -195,20 +170,34 @@ class EventCount {
   static const uint64_t kWaiterBits = 14;
   static const uint64_t kStackMask = (1ull << kWaiterBits) - 1;
   static const uint64_t kWaiterShift = kWaiterBits;
-  static const uint64_t kWaiterMask = ((1ull << kWaiterBits) - 1)
-                                      << kWaiterShift;
+  static const uint64_t kWaiterMask = ((1ull << kWaiterBits) - 1) << kWaiterShift;
   static const uint64_t kWaiterInc = 1ull << kWaiterShift;
   static const uint64_t kSignalShift = 2 * kWaiterBits;
-  static const uint64_t kSignalMask = ((1ull << kWaiterBits) - 1)
-                                      << kSignalShift;
+  static const uint64_t kSignalMask = ((1ull << kWaiterBits) - 1) << kSignalShift;
   static const uint64_t kSignalInc = 1ull << kSignalShift;
   static const uint64_t kEpochShift = 3 * kWaiterBits;
   static const uint64_t kEpochBits = 64 - kEpochShift;
   static const uint64_t kEpochMask = ((1ull << kEpochBits) - 1) << kEpochShift;
   static const uint64_t kEpochInc = 1ull << kEpochShift;
-  std::atomic<uint64_t> state_;
-  MaxSizeVector<Waiter>& waiters_;
 
+ public:
+  class Waiter {
+    friend class EventCount;
+
+    enum State {
+      kNotSignaled,
+      kWaiting,
+      kSignaled,
+    };
+
+    EIGEN_ALIGN_TO_AVOID_FALSE_SHARING std::atomic<uint64_t> next{kStackMask};
+    EIGEN_MUTEX mu;
+    EIGEN_CONDVAR cv;
+    uint64_t epoch{0};
+    unsigned state{kNotSignaled};
+  };
+
+ private:
   static void CheckState(uint64_t state, bool waiter = false) {
     static_assert(kEpochBits >= 20, "not enough bits to prevent ABA problem");
     const uint64_t waiters = (state & kWaiterMask) >> kWaiterShift;
@@ -243,8 +232,8 @@ class EventCount {
     }
   }
 
-  EventCount(const EventCount&) = delete;
-  void operator=(const EventCount&) = delete;
+  std::atomic<uint64_t> state_;
+  MaxSizeVector<Waiter>& waiters_;
 };
 
 }  // namespace Eigen

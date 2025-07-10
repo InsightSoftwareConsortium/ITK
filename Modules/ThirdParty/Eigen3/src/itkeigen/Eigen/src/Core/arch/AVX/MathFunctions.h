@@ -22,26 +22,37 @@ namespace Eigen {
 namespace internal {
 
 EIGEN_INSTANTIATE_GENERIC_MATH_FUNCS_FLOAT(Packet8f)
-EIGEN_INSTANTIATE_GENERIC_MATH_FUNCS_DOUBLE(Packet4d)
+
+EIGEN_DOUBLE_PACKET_FUNCTION(atanh, Packet4d)
+EIGEN_DOUBLE_PACKET_FUNCTION(log, Packet4d)
+EIGEN_DOUBLE_PACKET_FUNCTION(log2, Packet4d)
+EIGEN_DOUBLE_PACKET_FUNCTION(exp, Packet4d)
+EIGEN_DOUBLE_PACKET_FUNCTION(tanh, Packet4d)
+EIGEN_DOUBLE_PACKET_FUNCTION(cbrt, Packet4d)
+#ifdef EIGEN_VECTORIZE_AVX2
+EIGEN_DOUBLE_PACKET_FUNCTION(sin, Packet4d)
+EIGEN_DOUBLE_PACKET_FUNCTION(cos, Packet4d)
+#endif
+EIGEN_GENERIC_PACKET_FUNCTION(atan, Packet4d)
+EIGEN_GENERIC_PACKET_FUNCTION(exp2, Packet4d)
 
 // Notice that for newer processors, it is counterproductive to use Newton
 // iteration for square root. In particular, Skylake and Zen2 processors
 // have approximately doubled throughput of the _mm_sqrt_ps instruction
 // compared to their predecessors.
-template <> EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
-Packet8f psqrt<Packet8f>(const Packet8f& _x) {
+template <>
+EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS Packet8f psqrt<Packet8f>(const Packet8f& _x) {
   return _mm256_sqrt_ps(_x);
 }
-template <> EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
-Packet4d psqrt<Packet4d>(const Packet4d& _x) {
+template <>
+EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS Packet4d psqrt<Packet4d>(const Packet4d& _x) {
   return _mm256_sqrt_pd(_x);
 }
 
-
 // Even on Skylake, using Newton iteration is a win for reciprocal square root.
 #if EIGEN_FAST_MATH
-template<> EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS
-Packet8f prsqrt<Packet8f>(const Packet8f& a) {
+template <>
+EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS Packet8f prsqrt<Packet8f>(const Packet8f& a) {
   // _mm256_rsqrt_ps returns -inf for negative denormals.
   // _mm512_rsqrt**_ps returns -NaN for negative denormals.  We may want
   // consistency here.
@@ -51,7 +62,8 @@ Packet8f prsqrt<Packet8f>(const Packet8f& a) {
   return generic_rsqrt_newton_step<Packet8f, /*Steps=*/1>::run(a, _mm256_rsqrt_ps(a));
 }
 
-template<> EIGEN_STRONG_INLINE Packet8f preciprocal<Packet8f>(const Packet8f& a) {
+template <>
+EIGEN_STRONG_INLINE Packet8f preciprocal<Packet8f>(const Packet8f& a) {
   return generic_reciprocal_newton_step<Packet8f, /*Steps=*/1>::run(a, _mm256_rcp_ps(a));
 }
 
@@ -85,6 +97,7 @@ EIGEN_STRONG_INLINE Packet8bf pldexp(const Packet8bf& a, const Packet8bf& expone
 
 BF16_PACKET_FUNCTION(Packet8f, Packet8bf, pcos)
 BF16_PACKET_FUNCTION(Packet8f, Packet8bf, pexp)
+BF16_PACKET_FUNCTION(Packet8f, Packet8bf, pexp2)
 BF16_PACKET_FUNCTION(Packet8f, Packet8bf, pexpm1)
 BF16_PACKET_FUNCTION(Packet8f, Packet8bf, plog)
 BF16_PACKET_FUNCTION(Packet8f, Packet8bf, plog1p)
@@ -94,8 +107,11 @@ BF16_PACKET_FUNCTION(Packet8f, Packet8bf, prsqrt)
 BF16_PACKET_FUNCTION(Packet8f, Packet8bf, psin)
 BF16_PACKET_FUNCTION(Packet8f, Packet8bf, psqrt)
 BF16_PACKET_FUNCTION(Packet8f, Packet8bf, ptanh)
+
+#ifndef EIGEN_VECTORIZE_AVX512FP16
 F16_PACKET_FUNCTION(Packet8f, Packet8h, pcos)
 F16_PACKET_FUNCTION(Packet8f, Packet8h, pexp)
+F16_PACKET_FUNCTION(Packet8f, Packet8h, pexp2)
 F16_PACKET_FUNCTION(Packet8f, Packet8h, pexpm1)
 F16_PACKET_FUNCTION(Packet8f, Packet8h, plog)
 F16_PACKET_FUNCTION(Packet8f, Packet8h, plog1p)
@@ -105,7 +121,7 @@ F16_PACKET_FUNCTION(Packet8f, Packet8h, prsqrt)
 F16_PACKET_FUNCTION(Packet8f, Packet8h, psin)
 F16_PACKET_FUNCTION(Packet8f, Packet8h, psqrt)
 F16_PACKET_FUNCTION(Packet8f, Packet8h, ptanh)
-
+#endif
 
 }  // end namespace internal
 

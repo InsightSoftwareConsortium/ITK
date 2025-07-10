@@ -19,18 +19,18 @@
 #include "src/Core/util/DisableStupidWarnings.h"
 
 /** \defgroup Eigenvalues_Module Eigenvalues module
-  *
-  *
-  *
-  * This module mainly provides various eigenvalue solvers.
-  * This module also provides some MatrixBase methods, including:
-  *  - MatrixBase::eigenvalues(),
-  *  - MatrixBase::operatorNorm()
-  *
-  * \code
-  * #include <Eigen/Eigenvalues>
-  * \endcode
-  */
+ *
+ *
+ *
+ * This module mainly provides various eigenvalue solvers.
+ * This module also provides some MatrixBase methods, including:
+ *  - MatrixBase::eigenvalues(),
+ *  - MatrixBase::operatorNorm()
+ *
+ * \code
+ * #include <Eigen/Eigenvalues>
+ * \endcode
+ */
 
 #include "src/misc/RealSvd2x2.h"
 
@@ -60,4 +60,4 @@
 
 #include "src/Core/util/ReenableStupidWarnings.h"
 
-#endif // EIGEN_EIGENVALUES_MODULE_H
+#endif  // EIGEN_EIGENVALUES_MODULE_H
