@@ -16,21 +16,17 @@
  *
  *=========================================================================*/
 #include "itkAnatomicalOrientation.h"
-#ifndef ITK_FUTURE_LEGACY_REMOVE
-#  include "itkSpatialOrientationAdapter.h"
-#endif
+#include "itkSpatialOrientationAdapter.h"
 
 namespace itk
 {
 
 
-#ifndef ITK_FUTURE_LEGACY_REMOVE
 AnatomicalOrientation::AnatomicalOrientation(LegacyOrientationType legacyOrientation)
   : AnatomicalOrientation(SpatialOrientationAdapter().ToDirectionCosines(legacyOrientation))
 {
   assert(uint32_t(legacyOrientation) == uint32_t(m_Value));
 }
-#endif
 
 
 std::string

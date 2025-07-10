@@ -20,9 +20,7 @@
 
 #include "ITKCommonExport.h"
 #include "itkImageBase.h"
-#ifndef ITK_FUTURE_LEGACY_REMOVE
-#  include "itkSpatialOrientation.h"
-#endif
+#include "itkSpatialOrientation.h"
 #include <map>
 #include <string>
 
@@ -57,9 +55,7 @@ public:
   using DirectionType = typename ImageBase<Dimension>::DirectionType;
   static constexpr unsigned int ImageDimension = Dimension;
 
-#ifndef ITK_FUTURE_LEGACY_REMOVE
   using LegacyOrientationType = SpatialOrientationEnums::ValidCoordinateOrientations;
-#endif
 
   // Anatomical names for an axis.
   //
@@ -433,16 +429,11 @@ public:
     : m_Value(PositiveEnum(static_cast<uint32_t>(fromOrientation)))
   {}
 
-#ifndef ITK_FUTURE_LEGACY_REMOVE
   /** \brief Conversion from Legacy SpatialOrientation
    *
    * @param legacyOrientation
    */
-#  if defined(ITK_LEGACY_REMOVE) && !defined(ITK_LEGACY_SILENT) && !defined(ITK_WRAPPING)
-  [[deprecated("Use the AnatomicalOrientation::FromEnum type instead.")]]
-#  endif
   AnatomicalOrientation(LegacyOrientationType legacyOrientation);
-#endif
 
   /** Conversion for a Direction Cosine Matrix to the closest anatomical orientation. Any partial axis rotations are
    *  rounded to the nearest axis, and lost in this conversion.

@@ -19,9 +19,7 @@
 #include <gtest/gtest.h>
 
 #include "itkGTest.h"
-#ifndef ITK_FUTURE_LEGACY_REMOVE
-#  define ITK_LEGACY_SILENT
-#endif
+#define ITK_LEGACY_SILENT
 #include "itkAnatomicalOrientation.h"
 #include "itkImage.h"
 #include <sstream>
@@ -247,8 +245,7 @@ TEST(AntomicalOrientation, ToFromEnumInteroperability)
   EXPECT_EQ(itk_rai.GetTerms(), expected_terms);
 }
 
-#ifndef ITK_FUTURE_LEGACY_REMOVE
-#  include "itkSpatialOrientation.h"
+#include "itkSpatialOrientation.h"
 TEST(AnatomicalOrientation, LegacyInteroperability)
 {
 
@@ -266,4 +263,3 @@ TEST(AnatomicalOrientation, LegacyInteroperability)
   EXPECT_EQ(itk_rai.GetAsPositiveOrientation(), OE::LPS);
   EXPECT_EQ(itk_rai.GetAsPositiveStringEncoding(), "LPS");
 }
-#endif
