@@ -610,29 +610,9 @@ BMPImageIO::SwapBytesIfNecessary(void * buffer, SizeValueType numberOfPixels)
   switch (m_ComponentType)
   {
     case IOComponentEnum::CHAR:
-    {
-      if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
-      {
-        ByteSwapper<char>::SwapRangeFromSystemToLittleEndian(static_cast<char *>(buffer), numberOfPixels);
-      }
-      else if (m_ByteOrder == IOByteOrderEnum::BigEndian)
-      {
-        ByteSwapper<char>::SwapRangeFromSystemToBigEndian(static_cast<char *>(buffer), numberOfPixels);
-      }
-      break;
-    }
     case IOComponentEnum::UCHAR:
     {
-      if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
-      {
-        ByteSwapper<unsigned char>::SwapRangeFromSystemToLittleEndian(static_cast<unsigned char *>(buffer),
-                                                                      numberOfPixels);
-      }
-      else if (m_ByteOrder == IOByteOrderEnum::BigEndian)
-      {
-        ByteSwapper<unsigned char>::SwapRangeFromSystemToBigEndian(static_cast<unsigned char *>(buffer),
-                                                                   numberOfPixels);
-      }
+      // For CHAR and UCHAR, it is not necessary to swap bytes.
       break;
     }
     case IOComponentEnum::SHORT:

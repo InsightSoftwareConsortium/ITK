@@ -299,10 +299,8 @@ PhilipsRECImageIO::SwapBytesIfNecessary(void * buffer, SizeValueType numberOfPix
     switch (this->m_ComponentType)
     {
       case IOComponentEnum::CHAR:
-        ByteSwapper<char>::SwapRangeFromSystemToLittleEndian((char *)buffer, numberOfPixels);
-        break;
       case IOComponentEnum::UCHAR:
-        ByteSwapper<unsigned char>::SwapRangeFromSystemToLittleEndian((unsigned char *)buffer, numberOfPixels);
+        // For CHAR and UCHAR, it is not necessary to swap bytes.
         break;
       case IOComponentEnum::SHORT:
         ByteSwapper<short>::SwapRangeFromSystemToLittleEndian((short *)buffer, numberOfPixels);
@@ -338,10 +336,8 @@ PhilipsRECImageIO::SwapBytesIfNecessary(void * buffer, SizeValueType numberOfPix
     switch (this->m_ComponentType)
     {
       case IOComponentEnum::CHAR:
-        ByteSwapper<char>::SwapRangeFromSystemToBigEndian((char *)buffer, numberOfPixels);
-        break;
       case IOComponentEnum::UCHAR:
-        ByteSwapper<unsigned char>::SwapRangeFromSystemToBigEndian((unsigned char *)buffer, numberOfPixels);
+        // For CHAR and UCHAR, it is not necessary to swap bytes.
         break;
       case IOComponentEnum::SHORT:
         ByteSwapper<short>::SwapRangeFromSystemToBigEndian((short *)buffer, numberOfPixels);
