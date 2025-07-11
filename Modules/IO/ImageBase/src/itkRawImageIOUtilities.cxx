@@ -135,6 +135,7 @@ ReadRawBytesAfterSwapping(IOComponentEnum componentType,
                           SizeValueType   numberOfComponents)
 {
   // Swap bytes if necessary
+  // Note that for CHAR and UCHAR, byte swapping is not necessary.
   if (componentType == IOComponentEnum::USHORT)
   {
     _ReadRawBytesAfterSwappingUtility<unsigned short>(buffer, byteOrder, numberOfComponents);
@@ -142,14 +143,6 @@ ReadRawBytesAfterSwapping(IOComponentEnum componentType,
   else if (componentType == IOComponentEnum::SHORT)
   {
     _ReadRawBytesAfterSwappingUtility<short>(buffer, byteOrder, numberOfComponents);
-  }
-  else if (componentType == IOComponentEnum::CHAR)
-  {
-    _ReadRawBytesAfterSwappingUtility<char>(buffer, byteOrder, numberOfComponents);
-  }
-  else if (componentType == IOComponentEnum::UCHAR)
-  {
-    _ReadRawBytesAfterSwappingUtility<unsigned char>(buffer, byteOrder, numberOfComponents);
   }
   else if (componentType == IOComponentEnum::UINT)
   {
