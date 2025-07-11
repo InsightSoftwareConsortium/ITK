@@ -180,7 +180,7 @@ public:
   /** @ITKEndGrouping */
   /** Specify callback data. */
   /** @ITKStartGrouping */
-  itkSetMacro2(CallbackUserData, void *);
+  itkSetMacro(CallbackUserData, void *);
   itkGetConstMacro(CallbackUserData, void *);
   /** @ITKEndGrouping */
 protected:
