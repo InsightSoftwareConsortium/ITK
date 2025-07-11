@@ -22,17 +22,20 @@
 #include "itkImageSource.h"
 #include "itkImportImageContainer.h"
 
-#define itkSetMacro2(name, type)                    \
-  virtual void Set##name(type _arg)                 \
-  {                                                 \
-    itkDebugMacro("setting " #name " to " << _arg); \
-    if (this->m_##name != _arg)                     \
-    {                                               \
-      this->m_##name = _arg;                        \
-      this->Modified();                             \
-    }                                               \
-  }                                                 \
-  ITK_MACROEND_NOOP_STATEMENT
+#ifndef ITK_LEGACY_REMOVE
+// This macro is intended to be removed from ITK 6. Please use `itkSetMacro` instead!
+#  define itkSetMacro2(name, type)                    \
+    virtual void Set##name(type _arg)                 \
+    {                                                 \
+      itkDebugMacro("setting " #name " to " << _arg); \
+      if (this->m_##name != _arg)                     \
+      {                                               \
+        this->m_##name = _arg;                        \
+        this->Modified();                             \
+      }                                               \
+    }                                                 \
+    ITK_MACROEND_NOOP_STATEMENT
+#endif
 
 namespace itk
 {
