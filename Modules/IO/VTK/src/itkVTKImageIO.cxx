@@ -970,7 +970,9 @@ VTKImageIO::Write(const void * buffer)
       switch (this->GetComponentSize())
       {
         case 1:
-          StreamWriteVTKImageBinaryBlockMACRO(char) break;
+          // When the component size is 1, byte swapping is not needed.
+          this->StreamWriteBufferAsBinary(file, buffer);
+          break;
         case 2:
           StreamWriteVTKImageBinaryBlockMACRO(uint16_t) break;
         case 4:
@@ -1013,26 +1015,7 @@ VTKImageIO::Write(const void * buffer)
     }
     else // binary
     {
-      // the binary data must be written in big endian format
-      if constexpr (!ByteSwapper<uint16_t>::SystemIsBigEndian())
-      {
-        // only swap  when needed
-        switch (this->GetComponentSize())
-        {
-          case 1:
-            WriteVTKImageBinaryBlockMACRO(char) break;
-          case 2:
-            WriteVTKImageBinaryBlockMACRO(uint16_t) break;
-          case 4:
-            WriteVTKImageBinaryBlockMACRO(uint32_t) break;
-          case 8:
-            WriteVTKImageBinaryBlockMACRO(uint64_t) break;
-          default:
-            itkExceptionMacro("Unknown component size" << this->GetComponentSize());
-        }
-      }
-      else
-      {
+      const auto writeBufferAsBinary = [this, &file, buffer] {
         // write the image
         if (this->GetPixelType() == IOPixelEnum::SYMMETRICSECONDRANKTENSOR)
         {
@@ -1045,6 +1028,31 @@ VTKImageIO::Write(const void * buffer)
             itkExceptionMacro("Could not write file: " << m_FileName);
           }
         }
+      };
+
+      // the binary data must be written in big endian format
+      if constexpr (!ByteSwapper<uint16_t>::SystemIsBigEndian())
+      {
+        // only swap  when needed
+        switch (this->GetComponentSize())
+        {
+          case 1:
+            // When the component size is 1, byte swapping is not needed.
+            writeBufferAsBinary();
+            break;
+          case 2:
+            WriteVTKImageBinaryBlockMACRO(uint16_t) break;
+          case 4:
+            WriteVTKImageBinaryBlockMACRO(uint32_t) break;
+          case 8:
+            WriteVTKImageBinaryBlockMACRO(uint64_t) break;
+          default:
+            itkExceptionMacro("Unknown component size" << this->GetComponentSize());
+        }
+      }
+      else
+      {
+        writeBufferAsBinary();
       }
     }
   }
