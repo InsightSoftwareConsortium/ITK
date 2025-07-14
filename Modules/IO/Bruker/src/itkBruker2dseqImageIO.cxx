@@ -361,10 +361,8 @@ Bruker2dseqImageIO::SwapBytesIfNecessary(void * buff, SizeValueType components)
     switch (this->m_OnDiskComponentType)
     {
       case IOComponentEnum::CHAR:
-        BYTE_SWAP(char);
-        break;
       case IOComponentEnum::UCHAR:
-        BYTE_SWAP(unsigned char);
+        // For CHAR and UCHAR, it is not necessary to swap bytes.
         break;
       case IOComponentEnum::SHORT:
         BYTE_SWAP(short);
@@ -401,10 +399,8 @@ Bruker2dseqImageIO::SwapBytesIfNecessary(void * buff, SizeValueType components)
     switch (this->m_OnDiskComponentType)
     {
       case IOComponentEnum::CHAR:
-        BYTE_SWAP(char);
-        break;
       case IOComponentEnum::UCHAR:
-        BYTE_SWAP(unsigned char);
+        // For CHAR and UCHAR, it is not necessary to swap bytes.
         break;
       case IOComponentEnum::SHORT:
         BYTE_SWAP(short);
