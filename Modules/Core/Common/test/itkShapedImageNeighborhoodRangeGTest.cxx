@@ -33,7 +33,7 @@
 #include <array>
 #include <numeric> // For std::inner_product
 
-// Test template instantiations for various ImageDimenion values, and const Image:
+// Test template instantiations for various ImageDimension values, and const Image:
 template class itk::ShapedImageNeighborhoodRange<itk::Image<short, 1>>;
 template class itk::ShapedImageNeighborhoodRange<itk::Image<short, 2>>;
 template class itk::ShapedImageNeighborhoodRange<itk::Image<short, 3>>;
@@ -317,7 +317,7 @@ TEST(ShapedImageNeighborhoodRange, IteratorConvertsToConstIterator)
 }
 
 
-// Tests that the iterators of a NeigborhoodRange can be used as first and
+// Tests that the iterators of a NeighborhoodRange can be used as first and
 // second argument of an std::vector constructor.
 TEST(ShapedImageNeighborhoodRange, IteratorsCanBePassedToStdVectorConstructor)
 {
@@ -343,7 +343,7 @@ TEST(ShapedImageNeighborhoodRange, IteratorsCanBePassedToStdVectorConstructor)
 }
 
 
-// Tests that the iterators of a NeigborhoodRange can be used as first and
+// Tests that the iterators of a NeighborhoodRange can be used as first and
 // second argument of std::reverse (which requires bidirectional iterators).
 TEST(ShapedImageNeighborhoodRange, IteratorsCanBePassedToStdReverseCopy)
 {
@@ -388,7 +388,7 @@ TEST(ShapedImageNeighborhoodRange, IteratorsCanBePassedToStdReverseCopy)
 }
 
 
-// Tests that the iterators of a NeigborhoodRange can be used as first and
+// Tests that the iterators of a NeighborhoodRange can be used as first and
 // second argument of std::inner_product.
 TEST(ShapedImageNeighborhoodRange, IteratorsCanBePassedToStdInnerProduct)
 {
@@ -413,7 +413,7 @@ TEST(ShapedImageNeighborhoodRange, IteratorsCanBePassedToStdInnerProduct)
 }
 
 
-// Tests that the iterators of a NeigborhoodRange can be used as first and
+// Tests that the iterators of a NeighborhoodRange can be used as first and
 // second argument of std::for_each.
 TEST(ShapedImageNeighborhoodRange, IteratorsCanBePassedToStdForEach)
 {
@@ -436,7 +436,7 @@ TEST(ShapedImageNeighborhoodRange, IteratorsCanBePassedToStdForEach)
 }
 
 
-// Tests that a NeigborhoodRange can be used as the "range expression" of a
+// Tests that a NeighborhoodRange can be used as the "range expression" of a
 // C++11 range-based for loop.
 TEST(ShapedImageNeighborhoodRange, CanBeUsedAsExpressionOfRangeBasedForLoop)
 {

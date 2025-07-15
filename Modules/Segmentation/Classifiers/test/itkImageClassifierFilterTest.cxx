@@ -26,7 +26,7 @@
 #include "itkTestingMacros.h"
 
 // This program tests the ImageClassifierFilter. The test uses the
-// ExpectationMaximizationMixtureModelEstimator to estimaete membership
+// ExpectationMaximizationMixtureModelEstimator to estimate membership
 // function parameters.
 int
 itkImageClassifierFilterTest(int argc, char * argv[])

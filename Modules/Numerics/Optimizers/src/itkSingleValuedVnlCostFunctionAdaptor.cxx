@@ -33,7 +33,7 @@ void
 SingleValuedVnlCostFunctionAdaptor::SetScales(const ScalesType & scales)
 {
   // Only the inverse is used computes the inverse at each iteration.
-  // provides 1 commone place where the inverse can be computes
+  // provides 1 common place where the inverse can be computes
   // and validated.
   m_InverseScales.SetSize(scales.GetSize());
 

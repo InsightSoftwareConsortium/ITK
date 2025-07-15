@@ -127,7 +127,7 @@ itkChangeLabelImageFilterTest(int, char *[])
   // Test to see if clearing the changemap works
   filter->ClearChangeMap();
 
-  // reexecute the filter
+  // re-execute the filter
   try
   {
     filter->Update();

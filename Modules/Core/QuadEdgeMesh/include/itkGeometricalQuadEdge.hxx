@@ -44,7 +44,7 @@ GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::Geometric
 template <typename TVRef, typename TFRef, typename TPrimalData, typename TDualData, bool PrimalDual>
 bool
 GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::SetLnextRingWithSameLeftFace(
-  const DualOriginRefType faceGeom,
+  const DualOriginRefType faceGeometry,
   int                     maxSize)
 {
 #ifndef NDEBUG
@@ -59,7 +59,7 @@ GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::SetLnextR
 
   while (maxSize && (it != this->EndGeomLnext()))
   {
-    it.Value()->SetLeft(faceGeom);
+    it.Value()->SetLeft(faceGeometry);
     ++it;
     --maxSize;
   }

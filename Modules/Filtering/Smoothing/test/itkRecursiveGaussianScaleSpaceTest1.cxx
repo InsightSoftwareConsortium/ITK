@@ -39,7 +39,7 @@ NormalizeSineWave(double frequencyPerImage, unsigned int order, double pixelSpac
   // The theoretical maximal value should occur at this sigma
   const double sigma_max = std::sqrt(static_cast<double>(order)) / frequency;
 
-  // the theoreical maximal value of the derivative, obtained at sigma_max
+  // the theoretical maximal value of the derivative, obtained at sigma_max
   const double expected_max = std::pow(static_cast<double>(order), order * 0.5) * std::exp(-0.5 * order);
 
   using ImageType = itk::Image<double, ImageDimension>;

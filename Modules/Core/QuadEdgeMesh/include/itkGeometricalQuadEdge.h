@@ -144,12 +144,12 @@ public:
   /**
    * Set the Left() of all the edges in the Lnext() ring of "this"
    * with the same given geometrical information.
-   * @param  faceGeom Looks at most maxSize edges in the Lnext() ring.
+   * @param  faceGeometry Looks at most maxSize edges in the Lnext() ring.
    * @param  maxSize Sets at most maxSize edges in the Lnext() ring.
    * @return Returns true on success. False otherwise.
    */
   bool
-  SetLnextRingWithSameLeftFace(const DualOriginRefType faceGeom, int maxSize = 100);
+  SetLnextRingWithSameLeftFace(const DualOriginRefType faceGeometry, int maxSize = 100);
 
   inline void
   UnsetOrigin()

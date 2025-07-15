@@ -218,7 +218,7 @@ public:
         std::cerr << "Index is not inside region!: " << index << std::endl;
         return false;
       }
-      // Check repeatibility
+      // Check repeatability
       if (index != it.GetIndex())
       {
         std::cerr << "Test failed! " << std::endl;

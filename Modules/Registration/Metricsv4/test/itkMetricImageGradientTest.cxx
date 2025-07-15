@@ -60,25 +60,25 @@ itkMetricImageGradientTestRunTest(unsigned int                 imageSize,
 namespace itk
 {
 /*
- * \class VanilaImageToImageMetricv4GetValueAndDerivativeThreader
+ * \class VanillaImageToImageMetricv4GetValueAndDerivativeThreader
  * \brief A vanilla class of metric thread, required to implement the virtual base class
  */
 
 template <typename TDomainPartitioner, typename TImageToImageMetric>
-class VanilaImageToImageMetricv4GetValueAndDerivativeThreader
+class VanillaImageToImageMetricv4GetValueAndDerivativeThreader
   : public ImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner, TImageToImageMetric>
 {
 public:
-  ITK_DISALLOW_COPY_AND_MOVE(VanilaImageToImageMetricv4GetValueAndDerivativeThreader);
+  ITK_DISALLOW_COPY_AND_MOVE(VanillaImageToImageMetricv4GetValueAndDerivativeThreader);
 
   /** Standard class type aliases. */
-  using Self = VanilaImageToImageMetricv4GetValueAndDerivativeThreader;
+  using Self = VanillaImageToImageMetricv4GetValueAndDerivativeThreader;
   using Superclass = ImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner, TImageToImageMetric>;
 
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  itkOverrideGetNameOfClassMacro(VanilaImageToImageMetricv4GetValueAndDerivativeThreader);
+  itkOverrideGetNameOfClassMacro(VanillaImageToImageMetricv4GetValueAndDerivativeThreader);
 
   itkNewMacro(Self);
 
@@ -99,7 +99,7 @@ public:
   using typename Superclass::DerivativeValueType;
 
 protected:
-  VanilaImageToImageMetricv4GetValueAndDerivativeThreader() = default;
+  VanillaImageToImageMetricv4GetValueAndDerivativeThreader() = default;
 
   /** This function computes the local voxel-wise contribution of
    *  the metric to the global integral of the metric/derivative.
@@ -187,12 +187,12 @@ protected:
     bool                                  verbose,
     std::string &                         outputPath);
 
-  using VanillaDenseGetValueAndDerivativeThreaderType = VanilaImageToImageMetricv4GetValueAndDerivativeThreader<
+  using VanillaDenseGetValueAndDerivativeThreaderType = VanillaImageToImageMetricv4GetValueAndDerivativeThreader<
     ThreadedImageRegionPartitioner<Superclass::VirtualImageDimension>,
     Superclass>;
 
   using VanillaSparseGetValueAndDerivativeThreaderType =
-    VanilaImageToImageMetricv4GetValueAndDerivativeThreader<ThreadedIndexedContainerPartitioner, Superclass>;
+    VanillaImageToImageMetricv4GetValueAndDerivativeThreader<ThreadedIndexedContainerPartitioner, Superclass>;
 };
 
 } // namespace itk
@@ -293,7 +293,7 @@ itkMetricImageGradientTestRunTest(unsigned int                 imageSize,
   // Dm: will be computed from metric class
   typename MetricType::MovingImageGradientType mappedMovingImageGradient;
 
-  // compute Dm directly from graient image
+  // compute Dm directly from gradient image
   using CentralDifferenceCalculatorType = itk::CentralDifferenceImageFunction<ImageType, double>;
   auto movingCalculator = CentralDifferenceCalculatorType::New();
   movingCalculator->UseImageDirectionOn();

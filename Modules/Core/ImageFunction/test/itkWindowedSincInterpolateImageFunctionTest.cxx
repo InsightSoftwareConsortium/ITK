@@ -190,7 +190,7 @@ itkWindowedSincInterpolateImageFunctionTest(int, char *[])
   }
 
   /* Test evaluation at continuous indices and corresponding
-     gemetric points */
+     geometric points */
   std::cout << "Evaluate at: " << std::endl;
   OutputType          output = NAN;
   ContinuousIndexType cindex;

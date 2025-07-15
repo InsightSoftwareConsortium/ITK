@@ -117,7 +117,7 @@ itkVariableSizeMatrixTest(int, char *[])
   d13(0, 1) = 1;
   d13(0, 2) = -2;
 
-  // Verify the 4 conditions of the pseudoinverse
+  // Verify the 4 conditions of the pseudo-inverse
   std::cout << "***** d13" << std::endl << d13 << std::endl;
   std::cout << "***** d13 inverse (d31+)" << std::endl << d13.GetInverse() << std::endl;
 

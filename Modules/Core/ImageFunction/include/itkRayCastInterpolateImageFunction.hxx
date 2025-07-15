@@ -422,7 +422,7 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::CalcPl
     // find constant
     const double D = -(A * m_BoundingCorner[c1][0] + B * m_BoundingCorner[c1][1] + C * m_BoundingCorner[c1][2]);
 
-    // initialise plane value and normalise
+    // initialize plane value and normalise
     m_BoundingPlane[j][0] = A / std::sqrt(A * A + B * B + C * C);
     m_BoundingPlane[j][1] = B / std::sqrt(A * A + B * B + C * C);
     m_BoundingPlane[j][2] = C / std::sqrt(A * A + B * B + C * C);

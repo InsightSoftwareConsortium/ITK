@@ -493,7 +493,7 @@ MRCImageIO::UpdateHeaderWithMinMaxMean(const void * bufferBegin)
       // complex short
 
       // What is the best way to map complex to float?
-      // just set resonable values
+      // just set reasonable values
       m_MRCHeader->m_Header.amin = -1.0f;
       m_MRCHeader->m_Header.amax = 1.0f;
       m_MRCHeader->m_Header.amean = 0.0f;
@@ -504,7 +504,7 @@ MRCImageIO::UpdateHeaderWithMinMaxMean(const void * bufferBegin)
       // complex float
 
       // What is the best way to map complex to float?
-      // just set resonable values
+      // just set reasonable values
       m_MRCHeader->m_Header.amin = -1.0f;
       m_MRCHeader->m_Header.amax = 1.0f;
       m_MRCHeader->m_Header.amean = 0.0f;
@@ -520,7 +520,7 @@ MRCImageIO::UpdateHeaderWithMinMaxMean(const void * bufferBegin)
     {
       // RGB of unsigned char
 
-      // just set resonable values
+      // just set reasonable values
       m_MRCHeader->m_Header.amin = 0.0f;
       m_MRCHeader->m_Header.amax = 255.0f;
       m_MRCHeader->m_Header.amean = 127.5f;

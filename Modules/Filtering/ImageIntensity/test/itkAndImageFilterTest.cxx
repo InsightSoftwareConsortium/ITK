@@ -77,7 +77,7 @@ itkAndImageFilterTest(int argc, char * argv[])
   inputImageB->SetRegions(region);
   inputImageB->Allocate();
 
-  // Declare Iterator types apropriated for each image
+  // Declare Iterator types appropriate for each image
   using InputImage1IteratorType = itk::ImageRegionIteratorWithIndex<InputImage1Type>;
   using InputImage2IteratorType = itk::ImageRegionIteratorWithIndex<InputImage2Type>;
 

@@ -146,7 +146,7 @@ itkDifferenceOfGaussiansGradientTest(int, char *[])
 
   //------------Finally we can test the DOG filter------------
 
-  // Create a differennce of gaussians gradient filter
+  // Create a difference of gaussians gradient filter
   using TDOGFilterType = itk::DifferenceOfGaussiansGradientImageFilter<TOutputType, double>;
   auto                           DOGFilter = TDOGFilterType::New();
   const itk::SimpleFilterWatcher watcher(DOGFilter);

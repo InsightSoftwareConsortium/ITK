@@ -414,7 +414,7 @@ MINCImageIO::ReadImageInformation()
     itkExceptionMacro(" Can not get volume valid range!!\n");
   }
 
-  // real volume range, only awailable when slice scaling is off
+  // real volume range, only available when slice scaling is off
   double volume_min = 0.0;
   double volume_max = 1.0;
   if (!slice_scaling_flag)
@@ -1159,7 +1159,7 @@ MINCImageIO::WriteImageInformation()
 
             miset_dimension_apparent_voxel_order(m_MINCPImpl->m_MincApparentDims[j], MI_POSITIVE);
           }
-          // Hmmm.... what are we going to get in the end?
+          // DEVELOPER NOTE:  This is odd ... what are we going to get in the end?
           m_MINCPImpl->m_MincFileDims[i] = m_MINCPImpl->m_MincApparentDims[j];
         }
       }

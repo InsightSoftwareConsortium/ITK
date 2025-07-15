@@ -75,7 +75,7 @@ itkGradientVectorFlowImageFilterTest(int, char *[])
   inter1Image->SetRegions(region);
   inter1Image->Allocate();
 
-  // Declare Iterator types apropriated for each image
+  // Declare Iterator types appropriate for each image
   using myIteratorType = itk::ImageRegionIteratorWithIndex<myImageType>;
 
   using myOutputIteratorType = itk::ImageRegionIteratorWithIndex<myGradientImageType>;

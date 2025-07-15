@@ -33,7 +33,7 @@ itkWarpJacobianDeterminantFilterTest(int, char *[])
   using DisplacementFieldType = itk::Image<DeformationPixelType, ImageDimension>;
   using OutputImageType = itk::Image<OutputPixelType, ImageDimension>;
 
-  // Declare Iterator types apropriated for each image
+  // Declare Iterator types appropriate for each image
   using DeformationIteratorType = itk::ImageRegionIteratorWithIndex<DisplacementFieldType>;
   using OutputIteratorType = itk::ImageRegionIteratorWithIndex<OutputImageType>;
 

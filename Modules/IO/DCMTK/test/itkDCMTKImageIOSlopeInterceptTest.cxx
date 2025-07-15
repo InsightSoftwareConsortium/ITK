@@ -60,7 +60,7 @@ itkDCMTKImageIOSlopeInterceptTest(int argc, char * argv[])
 
   //
   // the two inputs are a DICOM image without slope/intercept tags,
-  // and the same image with slpe/intercept tags.  I read the first
+  // and the same image with slope/intercept tags.  I read the first
   // image and apply the slope/intercept, and then subtract the first
   // from the second, then look for non-zero min/max/mean.  They
   // should be identical.

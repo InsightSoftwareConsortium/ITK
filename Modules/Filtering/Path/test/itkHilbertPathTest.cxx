@@ -85,7 +85,7 @@ itkHilbertPathTest(int, char *[])
 
   int testStatus = EXIT_SUCCESS;
 
-  // Set a maximumg Hilbert path order
+  // Set a maximum Hilbert path order
   constexpr unsigned int maxHilbertPathOder = 5;
 
   // Test dimension = 2
