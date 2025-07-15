@@ -36,7 +36,7 @@ itkAbsImageFilterAndAdaptorTest(int, char *[])
   using InputImageType = itk::Image<float, ImageDimension>;
   using OutputImageType = itk::Image<float, ImageDimension>;
 
-  // Declare Iterator types apropriated for each image
+  // Declare Iterator types appropriate for each image
   using InputIteratorType = itk::ImageRegionIteratorWithIndex<InputImageType>;
   using OutputIteratorType = itk::ImageRegionIteratorWithIndex<OutputImageType>;
 

@@ -80,7 +80,7 @@ Equal(SpacingType spacing1, SpacingType spacing2)
 }
 } // namespace
 //
-// This tests a Philips Multiframe image orieintation/spacing
+// This tests a Philips Multiframe image orientation/spacing
 // known to exist in the test file in order to ensure that
 // they're properly read out of the functional group.
 int

@@ -724,7 +724,7 @@ JPEG2000ImageIO::Write(const void * buffer)
   /* if no rate entered, lossless by default */
   if (parameters.tcp_numlayers == 0)
   {
-    parameters.tcp_rates[0] = 0; /* MOD antonin : losslessbug */
+    parameters.tcp_rates[0] = 0; /* MOD antonin : lossless bug */
     parameters.tcp_numlayers++;
     parameters.cp_disto_alloc = 1;
   }

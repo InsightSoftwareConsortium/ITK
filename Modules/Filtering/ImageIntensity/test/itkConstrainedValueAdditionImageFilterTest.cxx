@@ -79,7 +79,7 @@ itkConstrainedValueAdditionImageFilterTest(int argc, char * argv[])
   inputImageB->SetRegions(region);
   inputImageB->Allocate();
 
-  // Declare Iterator types apropriated for each image
+  // Declare Iterator types appropriate for each image
   using InputIteratorType1 = itk::ImageRegionIteratorWithIndex<InputImageType1>;
   using InputIteratorType2 = itk::ImageRegionIteratorWithIndex<InputImageType2>;
 

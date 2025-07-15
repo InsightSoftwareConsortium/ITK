@@ -38,12 +38,12 @@
  *
  *   the solution is the vector | 2 -2 |
  *
- * \class ExhaustiveOptv4Metric
+ * \class ExhaustiveOptimizedMetricV4
  */
-class ExhaustiveOptv4Metric : public itk::ObjectToObjectMetricBase
+class ExhaustiveOptimizedMetricV4 : public itk::ObjectToObjectMetricBase
 {
 public:
-  using Self = ExhaustiveOptv4Metric;
+  using Self = ExhaustiveOptimizedMetricV4;
   using Superclass = itk::ObjectToObjectMetricBase;
   using Pointer = itk::SmartPointer<Self>;
   using ConstPointer = itk::SmartPointer<const Self>;
@@ -59,7 +59,7 @@ public:
   using MeasureType = Superclass::MeasureType;
 
 
-  ExhaustiveOptv4Metric() = default;
+  ExhaustiveOptimizedMetricV4() = default;
 
   MeasureType
   GetValue() const override
@@ -207,16 +207,16 @@ itkExhaustiveOptimizerv4Test(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(itkOptimizer, ExhaustiveOptimizerv4, ObjectToObjectOptimizerBaseTemplate);
 
 
-  // Index observer (enables us to check if all positions were indeed visisted):
+  // Index observer (enables us to check if all positions were indeed visited):
   auto idxObserver = IndexObserver::New();
   itkOptimizer->AddObserver(itk::IterationEvent(), idxObserver);
 
   // Declaration of the CostFunction
-  auto metric = ExhaustiveOptv4Metric::New();
+  auto metric = ExhaustiveOptimizedMetricV4::New();
   itkOptimizer->SetMetric(metric);
 
 
-  using ParametersType = ExhaustiveOptv4Metric::ParametersType;
+  using ParametersType = ExhaustiveOptimizedMetricV4::ParametersType;
 
 
   const unsigned int spaceDimension = metric->GetNumberOfParameters();

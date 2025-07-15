@@ -531,7 +531,7 @@ OpenCVVideoIO::Write(const void * buffer)
 void
 OpenCVVideoIO::UpdateReaderProperties()
 {
-  // 0-based index of the frame tobe decoded/captured next
+  // 0-based index of the frame to be decoded/captured next
   this->m_CurrentFrame = cvGetCaptureProperty(this->m_Capture, CV_CAP_PROP_POS_FRAMES);
   this->m_PositionInMSec = cvGetCaptureProperty(this->m_Capture, CV_CAP_PROP_POS_MSEC);
   this->m_FramesPerSecond = static_cast<double>(cvGetCaptureProperty(this->m_Capture, CV_CAP_PROP_FPS));

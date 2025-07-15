@@ -28,7 +28,7 @@
  * In this test, we create a FEMObject manually based on a simple 2D mesh and feature points.
  *
  * In most cases, users have a mesh and feature points rather than the FEMObject as inputs.
- * Users do not need to manually convert the mesh and the feature points into a FEMOjbect.
+ * Users do not need to manually convert the mesh and the feature points into a FEMObject.
  * We develop a FEMScatteredDataPointSetToImageFilter to facilitate this conversion.
  *
  *Example:
@@ -214,7 +214,7 @@ itkFEMRobustSolverTest(int, char *[])
   featurePoint3[0] = 4.0;
   featurePoint3[1] = 3.0;
 
-  // displacement associated with the feature point on the bottorm boundary
+  // displacement associated with the feature point on the bottom boundary
   displacement0[0] = 1.0;
   displacement0[1] = 1.0;
   // displacement associated with the feature point inside the element

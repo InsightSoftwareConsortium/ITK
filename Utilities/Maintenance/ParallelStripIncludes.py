@@ -19,7 +19,7 @@
 # Author: Pat Marion
 # Modified by Xiaoxiao Liu.
 
-## This script is designed to run StriIncludes.py in parallel to significantly reduce
+## This script is designed to run StripIncludes.py in parallel to significantly reduce
 ## the processing time for removing unnecessary header includes.
 
 ## To run the script you need to edit StripIncludes.py.

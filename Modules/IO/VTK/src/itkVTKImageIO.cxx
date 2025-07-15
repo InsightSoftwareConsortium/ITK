@@ -55,7 +55,7 @@ VTKImageIO::GetNextLine(std::ifstream & ifs, std::string & line, bool lowerCase,
     itkExceptionMacro("Premature EOF in reading a line");
   }
 
-  // Convert characters of the line to lowercas
+  // Convert characters of the line to lowercase
   if (lowerCase)
   {
     std::transform(line.begin(), line.end(), line.begin(), ::tolower);
