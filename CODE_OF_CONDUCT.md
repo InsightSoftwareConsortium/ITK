@@ -1,2 +1,4 @@
-Please see the [ITK Code of
-Conduct](https://docs.itk.org/en/latest/contributing/code_of_conduct.html).
+# Code of Conduct
+
+We follow the [NumFOCUS Code of
+Conduct](https://numfocus.org/code-of-conduct).
