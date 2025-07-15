@@ -38,6 +38,23 @@ namespace itk
  * "bzip2".  Only the "gzip" compressor support the compression level
  * in the range 0-9.
  *
+ * The NRRD file format supports two types of metadata,
+ * fields, "<field>:<desc>" and key/value pairs, "<key>:=<value>"
+ * (https://teem.sourceforge.net/nrrd/format.html#general.2).
+ * General, non NRRD specific, metadata entries added to an
+ * image's metadata dictionary will be written to file using key/value
+ * notation.
+ * NRRD specific metadata entries must be added to the image's
+ * metadata dictionary using "NRRD_<field>" as the key. For example,
+ * the information for the NRRD "content" field is added using the key
+ * "NRRD_content". When a field consists of multiple values, per axis
+ * fields (https://teem.sourceforge.net/nrrd/format.html#per-axis),
+ * a per axis key is used. For example, to set the information in the
+ * image's metadata dictionary so that when written to file the
+ * result is, "thicknesses: 0.7 0.8 0.9", we need to add three entries
+ * to the dictionary with keys: "NRRD_thicknesses[0]",
+ * "NRRD_thicknesses[1]" and "NRRD_thicknesses[2]".
+ *
  *  \ingroup IOFilters
  * \ingroup ITKIONRRD
  */
