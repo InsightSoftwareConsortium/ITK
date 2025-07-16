@@ -828,7 +828,7 @@ VTKPolyDataMeshIO::ReadMeshInformation()
   }                                                             \
   case IOComponentEnum::SCHAR:                                  \
   {                                                             \
-    function(param, static_cast<char *>(buffer));               \
+    function(param, static_cast<signed char *>(buffer));        \
     break;                                                      \
   }                                                             \
   case IOComponentEnum::USHORT:                                 \
@@ -1696,7 +1696,7 @@ VTKPolyDataMeshIO::WriteMeshInformation()
   }                                                                                    \
   case IOComponentEnum::SCHAR:                                                         \
   {                                                                                    \
-    function(outputFile, static_cast<char *>(buffer), " char");                        \
+    function(outputFile, static_cast<signed char *>(buffer), " char");                 \
     break;                                                                             \
   }                                                                                    \
   case IOComponentEnum::USHORT:                                                        \
@@ -1819,8 +1819,8 @@ VTKPolyDataMeshIO::WritePoints(void * buffer)
   }                                                                   \
   case IOComponentEnum::SCHAR:                                        \
   {                                                                   \
-    UpdateCellInformation(static_cast<char *>(buffer));               \
-    function(outputFile, static_cast<char *>(buffer));                \
+    UpdateCellInformation(static_cast<signed char *>(buffer));        \
+    function(outputFile, static_cast<signed char *>(buffer));         \
     break;                                                            \
   }                                                                   \
   case IOComponentEnum::USHORT:                                       \
