@@ -154,7 +154,7 @@ StimulateImageIO::Read(void * buffer)
   // byte swapping depending on pixel type:
   switch (this->GetComponentType())
   {
-    case IOComponentEnum::CHAR:
+    case IOComponentEnum::SCHAR:
       // For CHAR, it is not necessary to swap bytes. (It would not have any effect anyway.)
       break;
     case IOComponentEnum::SHORT:
@@ -533,7 +533,7 @@ StimulateImageIO::Write(const void * buffer)
     memcpy(tempmemory.get(), buffer, numberOfBytes);
     switch (this->GetComponentType())
     {
-      case IOComponentEnum::CHAR:
+      case IOComponentEnum::SCHAR:
         file << "BYTE";
         // For CHAR, it is not necessary to swap bytes. (It would not have any effect anyway.)
         break;

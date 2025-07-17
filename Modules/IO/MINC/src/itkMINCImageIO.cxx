@@ -129,7 +129,7 @@ MINCImageIO::Read(void * buffer)
     case IOComponentEnum::UCHAR:
       volume_data_type = MI_TYPE_UBYTE;
       break;
-    case IOComponentEnum::CHAR:
+    case IOComponentEnum::SCHAR:
       volume_data_type = MI_TYPE_BYTE;
       break;
     case IOComponentEnum::USHORT:
@@ -1022,7 +1022,7 @@ MINCImageIO::WriteImageInformation()
     case IOComponentEnum::UCHAR:
       m_MINCPImpl->m_Volume_type = MI_TYPE_UBYTE;
       break;
-    case IOComponentEnum::CHAR:
+    case IOComponentEnum::SCHAR:
       m_MINCPImpl->m_Volume_type = MI_TYPE_BYTE;
       break;
     case IOComponentEnum::USHORT:
@@ -1394,7 +1394,7 @@ MINCImageIO::Write(const void * buffer)
       volume_data_type = MI_TYPE_UBYTE;
       get_buffer_min_max<unsigned char>(buffer, buffer_length, buffer_min, buffer_max);
       break;
-    case IOComponentEnum::CHAR:
+    case IOComponentEnum::SCHAR:
       volume_data_type = MI_TYPE_BYTE;
       get_buffer_min_max<signed char>(buffer, buffer_length, buffer_min, buffer_max);
       break;

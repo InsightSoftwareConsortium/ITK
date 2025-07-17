@@ -155,7 +155,7 @@ NrrdImageIO::ITKToNrrdComponentType(const IOComponentEnum itkComponentType) cons
     case IOComponentEnum::UNKNOWNCOMPONENTTYPE:
       return nrrdTypeUnknown;
 
-    case IOComponentEnum::CHAR:
+    case IOComponentEnum::SCHAR:
       return nrrdTypeChar;
 
     case IOComponentEnum::UCHAR:

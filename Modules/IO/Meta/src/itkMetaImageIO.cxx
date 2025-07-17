@@ -563,7 +563,7 @@ MetaImageIO::Write(const void * buffer)
     case IOComponentEnum::UNKNOWNCOMPONENTTYPE:
       eType = MET_OTHER;
       break;
-    case IOComponentEnum::CHAR:
+    case IOComponentEnum::SCHAR:
       eType = MET_CHAR;
       break;
     case IOComponentEnum::UCHAR:
