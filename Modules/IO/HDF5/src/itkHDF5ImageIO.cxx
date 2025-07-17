@@ -165,7 +165,7 @@ ComponentToPredType(IOComponentEnum cType)
   {
     case IOComponentEnum::UCHAR:
       return H5::PredType::NATIVE_UCHAR;
-    case IOComponentEnum::CHAR:
+    case IOComponentEnum::SCHAR:
       return H5::PredType::NATIVE_CHAR;
     case IOComponentEnum::USHORT:
       return H5::PredType::NATIVE_USHORT;
@@ -204,7 +204,7 @@ ComponentToString(IOComponentEnum cType)
     case IOComponentEnum::UCHAR:
       rval = "UCHAR";
       break;
-    case IOComponentEnum::CHAR:
+    case IOComponentEnum::SCHAR:
       rval = "CHAR";
       break;
     case IOComponentEnum::USHORT:

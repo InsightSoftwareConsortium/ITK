@@ -609,7 +609,7 @@ BMPImageIO::SwapBytesIfNecessary(void * buffer, SizeValueType numberOfPixels)
 {
   switch (m_ComponentType)
   {
-    case IOComponentEnum::CHAR:
+    case IOComponentEnum::SCHAR:
     case IOComponentEnum::UCHAR:
     {
       // For CHAR and UCHAR, it is not necessary to swap bytes.

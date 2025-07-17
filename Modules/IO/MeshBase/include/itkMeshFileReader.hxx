@@ -509,7 +509,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
   {
     switch (m_MeshIO->GetPointComponentType())
     {
-      case IOComponentEnum::CHAR:
+      case IOComponentEnum::SCHAR:
       {
         Self::ReadPointsUsingMeshIO<char>();
         break;
@@ -587,7 +587,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
   {
     switch (m_MeshIO->GetCellComponentType())
     {
-      case IOComponentEnum::CHAR:
+      case IOComponentEnum::SCHAR:
       {
         Self::ReadCellsUsingMeshIO<char>();
         break;

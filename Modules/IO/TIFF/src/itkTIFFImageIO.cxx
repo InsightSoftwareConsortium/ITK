@@ -596,7 +596,7 @@ TIFFImageIO::InternalWrite(const void * buffer)
     case IOComponentEnum::UCHAR:
       bps = 8;
       break;
-    case IOComponentEnum::CHAR:
+    case IOComponentEnum::SCHAR:
       bps = 8;
       break;
     case IOComponentEnum::USHORT:
@@ -813,7 +813,7 @@ TIFFImageIO::InternalWrite(const void * buffer)
       case IOComponentEnum::USHORT:
         rowLength = sizeof(unsigned short);
         break;
-      case IOComponentEnum::CHAR:
+      case IOComponentEnum::SCHAR:
         rowLength = sizeof(char);
         break;
       case IOComponentEnum::SHORT:

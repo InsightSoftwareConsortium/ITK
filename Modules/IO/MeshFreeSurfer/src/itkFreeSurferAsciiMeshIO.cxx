@@ -245,7 +245,7 @@ FreeSurferAsciiMeshIO::WritePoints(void * buffer)
       WritePoints(static_cast<unsigned char *>(buffer), outputFile);
       break;
     }
-    case IOComponentEnum::CHAR:
+    case IOComponentEnum::SCHAR:
     {
       WritePoints(static_cast<char *>(buffer), outputFile);
 
@@ -353,7 +353,7 @@ FreeSurferAsciiMeshIO::WriteCells(void * buffer)
       WriteCells(static_cast<unsigned char *>(buffer), outputFile);
       break;
     }
-    case IOComponentEnum::CHAR:
+    case IOComponentEnum::SCHAR:
     {
       WriteCells(static_cast<unsigned char *>(buffer), outputFile);
       break;

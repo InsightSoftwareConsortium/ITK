@@ -737,7 +737,7 @@ RegressionTestImage(const char *       testImageFilename,
                                                         verifyInputInformation,
                                                         coordinateTolerance,
                                                         directionTolerance);
-      case itk::IOComponentEnum::CHAR:
+      case itk::IOComponentEnum::SCHAR:
       case itk::IOComponentEnum::SHORT:
       case itk::IOComponentEnum::INT:
       case itk::IOComponentEnum::LONG:
@@ -827,7 +827,7 @@ HashTestImage(const char * testImageFilename, const std::vector<std::string> & b
   std::string testMD5 = "";
   switch (componentType)
   {
-    case itk::IOComponentEnum::CHAR:
+    case itk::IOComponentEnum::SCHAR:
       testMD5 = ComputeHash<itk::VectorImage<signed char, ITK_TEST_DIMENSION_MAX>>(testImageFilename);
       break;
     case itk::IOComponentEnum::UCHAR:
