@@ -29,6 +29,7 @@ third_party_contrib_urls=( "DCMTK:https://github.com/InsightSoftwareConsortium/D
   "GDCM:http://gdcm.sourceforge.net/wiki/index.php/Git"
   "GoogleTest:https://github.com/google/googletest/blob/master/CONTRIBUTING.md"
   "HDF5:https://github.com/HDFGroup/hdf5"
+  "JPEG:https://github.com/libjpeg-turbo/libjpeg-turbo"
   "KWSys:https://gitlab.kitware.com/utils/kwsys/-/blob/master/CONTRIBUTING.rst"
   "libLBFGS:https://github.com/chokkan/liblbfgs"
   "MetaIO:https://github.com/Kitware/MetaIO/blob/master/CONTRIBUTING.rst"
@@ -38,6 +39,7 @@ third_party_contrib_urls=( "DCMTK:https://github.com/InsightSoftwareConsortium/D
   "PNG:https://github.com/glennrp/libpng"
   "pygccxml:https://github.com/CastXML/pygccxml"
   "TBB:https://github.com/oneapi-src/oneTBB"
+  "TIFF:https://gitlab.com/libtiff/libtiff"
   "VNL:https://github.com/vxl/vxl"
   "ZLIB:https://github.com/zlib-ng/zlib-ng" )
 
