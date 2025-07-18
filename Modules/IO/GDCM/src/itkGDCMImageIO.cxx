@@ -1161,7 +1161,7 @@ GDCMImageIO::Write(const void * buffer)
   gdcm::PixelFormat pixeltype = gdcm::PixelFormat::UNKNOWN;
   switch (this->GetComponentType())
   {
-    case IOComponentEnum::CHAR:
+    case IOComponentEnum::SCHAR:
       pixeltype = gdcm::PixelFormat::INT8;
       break;
     case IOComponentEnum::UCHAR:
@@ -1240,7 +1240,7 @@ GDCMImageIO::Write(const void * buffer)
       //  already been taken care of. The float case use an Integer internal
       //  storage, and specifies the precision desired for it.
       //
-      case IOComponentEnum::CHAR:
+      case IOComponentEnum::SCHAR:
         outpixeltype = gdcm::PixelFormat::INT8;
         break;
       case IOComponentEnum::UCHAR:

@@ -120,7 +120,7 @@ itkVotingBinaryImageFilterTest(int argc, char * argv[])
 
   switch (componentType)
   {
-    case itk::IOComponentEnum::CHAR:
+    case itk::IOComponentEnum::SCHAR:
     case itk::IOComponentEnum::UCHAR:
     case itk::IOComponentEnum::SHORT:
       if (dimension == 2)

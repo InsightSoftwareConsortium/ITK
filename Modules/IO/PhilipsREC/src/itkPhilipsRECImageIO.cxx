@@ -298,7 +298,7 @@ PhilipsRECImageIO::SwapBytesIfNecessary(void * buffer, SizeValueType numberOfPix
   {
     switch (this->m_ComponentType)
     {
-      case IOComponentEnum::CHAR:
+      case IOComponentEnum::SCHAR:
       case IOComponentEnum::UCHAR:
         // For CHAR and UCHAR, it is not necessary to swap bytes.
         break;
@@ -335,7 +335,7 @@ PhilipsRECImageIO::SwapBytesIfNecessary(void * buffer, SizeValueType numberOfPix
   {
     switch (this->m_ComponentType)
     {
-      case IOComponentEnum::CHAR:
+      case IOComponentEnum::SCHAR:
       case IOComponentEnum::UCHAR:
         // For CHAR and UCHAR, it is not necessary to swap bytes.
         break;

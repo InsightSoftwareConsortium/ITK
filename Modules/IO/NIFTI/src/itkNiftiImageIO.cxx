@@ -637,7 +637,7 @@ NiftiImageIO::Read(void * buffer)
     auto * _data = static_cast<float *>(malloc(numElts * sizeof(float)));
     switch (this->m_OnDiskComponentType)
     {
-      case IOComponentEnum::CHAR:
+      case IOComponentEnum::SCHAR:
         CastCopy<char>(_data, data, numElts);
         break;
       case IOComponentEnum::UCHAR:
@@ -768,7 +768,7 @@ NiftiImageIO::Read(void * buffer)
   {
     switch (this->m_ComponentType)
     {
-      case IOComponentEnum::CHAR:
+      case IOComponentEnum::SCHAR:
         RescaleFunction(static_cast<char *>(buffer), this->m_RescaleSlope, this->m_RescaleIntercept, numElts);
         break;
       case IOComponentEnum::UCHAR:
@@ -1650,7 +1650,7 @@ NiftiImageIO::WriteImageInformation()
       m_Holder->ptr->datatype = NIFTI_TYPE_UINT8;
       m_Holder->ptr->nbyper = 1;
       break;
-    case IOComponentEnum::CHAR:
+    case IOComponentEnum::SCHAR:
       m_Holder->ptr->datatype = NIFTI_TYPE_INT8;
       m_Holder->ptr->nbyper = 1;
       break;

@@ -483,7 +483,7 @@ GiftiMeshIO::ReadCells(void * buffer)
     {
       switch (this->m_CellComponentType)
       {
-        case IOComponentEnum::CHAR:
+        case IOComponentEnum::SCHAR:
         {
           this->WriteCellsBuffer(static_cast<char *>(m_GiftiImage->darray[ii]->data),
                                  static_cast<char *>(buffer),
@@ -1072,7 +1072,7 @@ GiftiMeshIO::WritePoints(void * buffer)
                         pointsBufferSize);
           break;
         }
-        case IOComponentEnum::CHAR:
+        case IOComponentEnum::SCHAR:
         {
           ConvertBuffer(
             static_cast<char *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), pointsBufferSize);
@@ -1174,7 +1174,7 @@ GiftiMeshIO::WriteCells(void * buffer)
                                 static_cast<int32_t *>(m_GiftiImage->darray[ii]->data));
           break;
         }
-        case IOComponentEnum::CHAR:
+        case IOComponentEnum::SCHAR:
         {
           this->ReadCellsBuffer(static_cast<char *>(buffer), static_cast<int32_t *>(m_GiftiImage->darray[ii]->data));
           break;
@@ -1271,7 +1271,7 @@ GiftiMeshIO::WritePointData(void * buffer)
                           pointDataBufferSize);
             break;
           }
-          case IOComponentEnum::CHAR:
+          case IOComponentEnum::SCHAR:
           {
             ConvertBuffer(
               static_cast<char *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), pointDataBufferSize);
@@ -1372,7 +1372,7 @@ GiftiMeshIO::WritePointData(void * buffer)
                           pointDataBufferSize);
             break;
           }
-          case IOComponentEnum::CHAR:
+          case IOComponentEnum::SCHAR:
           {
             ConvertBuffer(
               static_cast<char *>(buffer), static_cast<int *>(m_GiftiImage->darray[ii]->data), pointDataBufferSize);
@@ -1482,7 +1482,7 @@ GiftiMeshIO::WriteCellData(void * buffer)
                           cellDataBufferSize);
             break;
           }
-          case IOComponentEnum::CHAR:
+          case IOComponentEnum::SCHAR:
           {
             ConvertBuffer(
               static_cast<char *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), cellDataBufferSize);
@@ -1583,7 +1583,7 @@ GiftiMeshIO::WriteCellData(void * buffer)
                           cellDataBufferSize);
             break;
           }
-          case IOComponentEnum::CHAR:
+          case IOComponentEnum::SCHAR:
           {
             ConvertBuffer(
               static_cast<char *>(buffer), static_cast<int *>(m_GiftiImage->darray[ii]->data), cellDataBufferSize);

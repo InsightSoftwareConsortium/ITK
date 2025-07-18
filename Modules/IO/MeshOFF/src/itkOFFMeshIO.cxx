@@ -419,7 +419,7 @@ OFFMeshIO::WritePoints(void * buffer)
         WriteBufferAsAscii(static_cast<unsigned char *>(buffer), outputFile, m_NumberOfPoints, m_PointDimension);
         break;
       }
-      case IOComponentEnum::CHAR:
+      case IOComponentEnum::SCHAR:
       {
         WriteBufferAsAscii(static_cast<char *>(buffer), outputFile, m_NumberOfPoints, m_PointDimension);
 
@@ -507,7 +507,7 @@ OFFMeshIO::WritePoints(void * buffer)
           static_cast<unsigned char *>(buffer), outputFile, m_NumberOfPoints * m_PointDimension);
         break;
       }
-      case IOComponentEnum::CHAR:
+      case IOComponentEnum::SCHAR:
       {
         WriteBufferAsBinary<float>(static_cast<char *>(buffer), outputFile, m_NumberOfPoints * m_PointDimension);
 
@@ -631,7 +631,7 @@ OFFMeshIO::WriteCells(void * buffer)
 
         break;
       }
-      case IOComponentEnum::CHAR:
+      case IOComponentEnum::SCHAR:
       {
         WriteCellsAsAscii(static_cast<unsigned char *>(buffer), outputFile);
 
@@ -719,7 +719,7 @@ OFFMeshIO::WriteCells(void * buffer)
 
         break;
       }
-      case IOComponentEnum::CHAR:
+      case IOComponentEnum::SCHAR:
       {
         WriteCellsAsBinary<itk::uint32_t>(static_cast<char *>(buffer), outputFile);
 

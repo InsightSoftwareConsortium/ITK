@@ -382,7 +382,7 @@ AllocateBuffer(itk::IOComponentEnum componentType, itk::SizeValueType bufferSize
 {
   switch (componentType)
   {
-    case itk::IOComponentEnum::CHAR:
+    case itk::IOComponentEnum::SCHAR:
       return MakeSharedArray<char>(bufferSize);
     case itk::IOComponentEnum::UCHAR:
       return MakeSharedArray<unsigned char>(bufferSize);

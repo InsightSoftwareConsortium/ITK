@@ -59,7 +59,7 @@ MeshIOBase::GetComponentSize(IOComponentEnum componentType) const
   {
     case IOComponentEnum::UCHAR:
       return sizeof(unsigned char);
-    case IOComponentEnum::CHAR:
+    case IOComponentEnum::SCHAR:
       return sizeof(char);
     case IOComponentEnum::USHORT:
       return sizeof(unsigned short);
@@ -130,7 +130,7 @@ MeshIOBase::GetComponentTypeAsString(IOComponentEnum t)
   {
     case IOComponentEnum::UCHAR:
       return { "unsigned_char" };
-    case IOComponentEnum::CHAR:
+    case IOComponentEnum::SCHAR:
       return { "char" };
     case IOComponentEnum::USHORT:
       return { "unsigned_short" };

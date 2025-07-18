@@ -80,7 +80,8 @@ public:
   {
     UNKNOWNCOMPONENTTYPE,
     UCHAR,
-    CHAR,
+    SCHAR,
+    CHAR = SCHAR,
     USHORT,
     SHORT,
     UINT,

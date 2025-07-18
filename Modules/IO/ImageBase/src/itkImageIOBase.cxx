@@ -170,7 +170,7 @@ ImageIOBase::GetComponentTypeInfo() const
   {
     case IOComponentEnum::UCHAR:
       return typeid(unsigned char);
-    case IOComponentEnum::CHAR:
+    case IOComponentEnum::SCHAR:
       return typeid(char);
     case IOComponentEnum::USHORT:
       return typeid(unsigned short);
@@ -402,7 +402,7 @@ ImageIOBase::GetComponentTypeAsString(IOComponentEnum t)
   {
     case IOComponentEnum::UCHAR:
       return { "unsigned_char" };
-    case IOComponentEnum::CHAR:
+    case IOComponentEnum::SCHAR:
       return { "char" };
     case IOComponentEnum::USHORT:
       return { "unsigned_short" };
@@ -702,7 +702,7 @@ ImageIOBase::WriteBufferAsASCII(std::ostream &        os,
       WriteBuffer(os, buf, numComp);
     }
     break;
-    case IOComponentEnum::CHAR:
+    case IOComponentEnum::SCHAR:
     {
       using Type = const char *;
       auto buf = static_cast<Type>(buffer);
@@ -822,7 +822,7 @@ ImageIOBase::ReadBufferAsASCII(std::istream & is, void * buffer, IOComponentEnum
       ReadBuffer(is, buf, numComp);
     }
     break;
-    case IOComponentEnum::CHAR:
+    case IOComponentEnum::SCHAR:
     {
       auto * buf = static_cast<signed char *>(buffer);
       ReadBuffer(is, buf, numComp);

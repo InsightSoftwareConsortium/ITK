@@ -596,7 +596,7 @@ GiplImageIO::SwapBytesIfNecessary(void * buffer, SizeValueType numberOfPixels)
 {
   switch (m_ComponentType)
   {
-    case IOComponentEnum::CHAR:
+    case IOComponentEnum::SCHAR:
     case IOComponentEnum::UCHAR:
     {
       // For CHAR and UCHAR, it is not necessary to swap bytes.
@@ -739,7 +739,7 @@ GiplImageIO::Write(const void * buffer)
   unsigned short image_type = 0;
   switch (m_ComponentType)
   {
-    case IOComponentEnum::CHAR:
+    case IOComponentEnum::SCHAR:
       image_type = GIPL_CHAR;
       break;
     case IOComponentEnum::UCHAR:

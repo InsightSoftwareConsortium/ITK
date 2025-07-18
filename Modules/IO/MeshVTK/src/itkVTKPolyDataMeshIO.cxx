@@ -826,7 +826,7 @@ VTKPolyDataMeshIO::ReadMeshInformation()
     function(param, static_cast<unsigned char *>(buffer));      \
     break;                                                      \
   }                                                             \
-  case IOComponentEnum::CHAR:                                   \
+  case IOComponentEnum::SCHAR:                                  \
   {                                                             \
     function(param, static_cast<char *>(buffer));               \
     break;                                                      \
@@ -1694,7 +1694,7 @@ VTKPolyDataMeshIO::WriteMeshInformation()
     function(outputFile, static_cast<unsigned char *>(buffer), " unsigned_char");      \
     break;                                                                             \
   }                                                                                    \
-  case IOComponentEnum::CHAR:                                                          \
+  case IOComponentEnum::SCHAR:                                                         \
   {                                                                                    \
     function(outputFile, static_cast<char *>(buffer), " char");                        \
     break;                                                                             \
@@ -1817,7 +1817,7 @@ VTKPolyDataMeshIO::WritePoints(void * buffer)
     function(outputFile, static_cast<unsigned char *>(buffer));       \
     break;                                                            \
   }                                                                   \
-  case IOComponentEnum::CHAR:                                         \
+  case IOComponentEnum::SCHAR:                                        \
   {                                                                   \
     UpdateCellInformation(static_cast<char *>(buffer));               \
     function(outputFile, static_cast<char *>(buffer));                \

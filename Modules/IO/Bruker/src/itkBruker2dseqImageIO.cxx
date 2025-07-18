@@ -360,7 +360,7 @@ Bruker2dseqImageIO::SwapBytesIfNecessary(void * buff, SizeValueType components)
 #define BYTE_SWAP(T) ByteSwapper<T>::SwapRangeFromSystemToLittleEndian((T *)buff, components)
     switch (this->m_OnDiskComponentType)
     {
-      case IOComponentEnum::CHAR:
+      case IOComponentEnum::SCHAR:
       case IOComponentEnum::UCHAR:
         // For CHAR and UCHAR, it is not necessary to swap bytes.
         break;
@@ -398,7 +398,7 @@ Bruker2dseqImageIO::SwapBytesIfNecessary(void * buff, SizeValueType components)
 #define BYTE_SWAP(T) ByteSwapper<T>::SwapRangeFromSystemToBigEndian((T *)buff, components)
     switch (this->m_OnDiskComponentType)
     {
-      case IOComponentEnum::CHAR:
+      case IOComponentEnum::SCHAR:
       case IOComponentEnum::UCHAR:
         // For CHAR and UCHAR, it is not necessary to swap bytes.
         break;
@@ -451,7 +451,7 @@ Bruker2dseqImageIO::Read(void * buffer)
       case IOComponentEnum::UCHAR:
         numberOfBytesOnDisk *= sizeof(unsigned char);
         break;
-      case IOComponentEnum::CHAR:
+      case IOComponentEnum::SCHAR:
         numberOfBytesOnDisk *= sizeof(char);
         break;
       case IOComponentEnum::USHORT:
@@ -496,7 +496,7 @@ Bruker2dseqImageIO::Read(void * buffer)
     auto * floatBuffer = static_cast<float *>(buffer);
     switch (m_OnDiskComponentType)
     {
-      case IOComponentEnum::CHAR:
+      case IOComponentEnum::SCHAR:
         CastCopy<char>(floatBuffer, dataFromDiskBuffer, numberOfComponents);
         break;
       case IOComponentEnum::UCHAR:
@@ -555,7 +555,7 @@ Bruker2dseqImageIO::Read(void * buffer)
 
   switch (this->m_ComponentType)
   {
-    case IOComponentEnum::CHAR:
+    case IOComponentEnum::SCHAR:
       [[fallthrough]];
     case IOComponentEnum::UCHAR:
       [[fallthrough]];
@@ -606,7 +606,7 @@ Bruker2dseqImageIO::Read(void * buffer)
       const SizeValueType noswap = this->GetDimensions(3) / sizeToSwap;
       switch (this->m_ComponentType)
       {
-        case IOComponentEnum::CHAR:
+        case IOComponentEnum::SCHAR:
           SwapSlicesAndVolumes(static_cast<char *>(buffer), x, y, z, sizeToSwap, noswap);
           break;
         case IOComponentEnum::UCHAR:
@@ -651,7 +651,7 @@ Bruker2dseqImageIO::Read(void * buffer)
     const SizeValueType v = (this->GetNumberOfDimensions() > 3) ? this->GetDimensions(3) : 1;
     switch (this->m_ComponentType)
     {
-      case IOComponentEnum::CHAR:
+      case IOComponentEnum::SCHAR:
         ReverseSliceOrder(static_cast<char *>(buffer), x, y, z, v);
         break;
       case IOComponentEnum::UCHAR:
