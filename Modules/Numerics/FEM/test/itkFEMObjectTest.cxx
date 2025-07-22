@@ -89,7 +89,7 @@ itkFEMObjectTest(int, char *[])
   m->SetGlobalNumber(0);               /* Global number of the material */
   m->SetYoungsModulus(200000000000.0); /* Young modulus */
   m->SetPoissonsRatio(0.3);
-  m->SetCrossSectionalArea(2000.0); /* Crossection area */
+  m->SetCrossSectionalArea(2000.0); /* Cross section area */
   m->SetMomentOfInertia(1.0);       /* Moment of inertia */
   femObject->AddNextMaterial(m);
 
@@ -97,7 +97,7 @@ itkFEMObjectTest(int, char *[])
   m->SetGlobalNumber(1);         /* Global number of the material */
   m->SetYoungsModulus(200000.0); /* Young modulus */
   m->SetPoissonsRatio(0.3);
-  m->SetCrossSectionalArea(1200.0); /* Crossection area */
+  m->SetCrossSectionalArea(1200.0); /* Cross section area */
   m->SetMomentOfInertia(1.0);       /* Moment of inertia */
   femObject->AddNextMaterial(m);
 
@@ -105,7 +105,7 @@ itkFEMObjectTest(int, char *[])
   m->SetGlobalNumber(2);        /* Global number of the material */
   m->SetYoungsModulus(70000.0); /* Young modulus */
   m->SetPoissonsRatio(0.3);
-  m->SetCrossSectionalArea(900.0); /* Crossection area */
+  m->SetCrossSectionalArea(900.0); /* Cross section area */
   m->SetMomentOfInertia(1.0);      /* Moment of inertia */
   femObject->AddNextMaterial(m);
 

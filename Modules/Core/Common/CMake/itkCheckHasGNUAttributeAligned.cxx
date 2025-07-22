@@ -22,7 +22,7 @@ namespace itk
 }
 
 //
-// Check if the compoler support the GNU attribute extension for
+// Check if the compiler support the GNU attribute extension for
 // alignment, and does not contain a bug which causes internal
 // compiler segfault.
 //

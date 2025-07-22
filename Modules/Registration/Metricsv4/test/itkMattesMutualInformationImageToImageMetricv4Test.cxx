@@ -36,7 +36,7 @@
  * TODO: check this text:
  *
  *  This templated function tests the MattesMutualInformationImageToMetricv4
- *  class using an AfffineTransform and various interpolators.
+ *  class using an AffineTransform and various interpolators.
  *
  *  This test uses two 2D-Gaussians (standard deviation RegionSize/2)
  *  One is shifted by 5 pixels from the other.
@@ -225,7 +225,7 @@ TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bo
   ITK_TEST_SET_GET_VALUE(numberOfHistogramBins, metric->GetNumberOfHistogramBins());
 
   // this test doesn't pass when using gradient image filters,
-  // presumably because of different deriviative scaling created
+  // presumably because of different derivative scaling created
   // by the filter output. The derivative results match those
   // from when using the central difference calculator, but are
   // scaled by a factor of 3.
@@ -246,7 +246,7 @@ TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bo
   std::cout << "GetNumberOfWorkUnitsUsed: " << metric->GetNumberOfWorkUnitsUsed() << std::endl;
   metric->Print(std::cout);
 
-  // Now start the algorithmc testing
+  // Now start the algorithmic testing
 
   std::cout << "useSampling: " << useSampling << std::endl;
   if (useSampling)

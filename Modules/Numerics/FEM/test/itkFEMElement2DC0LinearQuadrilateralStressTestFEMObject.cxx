@@ -71,7 +71,7 @@ itkFEMElement2DC0LinearQuadrilateralStressTestFEMObject(int, char *[])
   m->SetGlobalNumber(0);           /* Global number of the material */
   m->SetYoungsModulus(30000000.0); /* Young modulus */
   m->SetPoissonsRatio(0.3);
-  m->SetCrossSectionalArea(.0); /* Crossection area */
+  m->SetCrossSectionalArea(.0); /* Cross section area */
   m->SetMomentOfInterita(1.0);  /* Moment of inertia */
   femObject->AddNextMaterial(m);
 

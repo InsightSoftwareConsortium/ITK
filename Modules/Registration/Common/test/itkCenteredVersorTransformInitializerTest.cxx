@@ -166,7 +166,7 @@ itkCenteredVersorTransformInitializerTest(int, char *[])
   TransformType::OutputVectorType translation2 = transform->GetTranslation();
   TransformType::OffsetType       offset2 = transform->GetOffset();
 
-  { // Verfications
+  { // Verifications
     TransformType::InputPointType fixedCenter;
     TransformType::InputPointType movingCenter;
 

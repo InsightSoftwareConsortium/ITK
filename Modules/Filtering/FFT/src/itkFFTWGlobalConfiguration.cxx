@@ -169,7 +169,7 @@ HardwareWisdomFilenameGenerator::HardwareWisdomFilenameGenerator() = default;
 std::string
 HardwareWisdomFilenameGenerator::GenerateWisdomFilename(const std::string & baseCacheDirectory) const
 {
-  // Now build the hardware string by system interogation
+  // Now build the hardware string by system interrogation
   itksys::SystemInformation hardwareInfo;
   hardwareInfo.RunCPUCheck();
   hardwareInfo.RunOSCheck();

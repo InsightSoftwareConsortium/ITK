@@ -519,7 +519,7 @@ DCMTKImageIO::ReadImageInformation()
       this->m_PixelType = IOPixelEnum::SCALAR;
       break;
     case 2:
-      // hack, supposedly Luminence/Alpha
+      // hack, supposedly Luminance/Alpha
       this->SetNumberOfComponents(2);
       this->m_PixelType = IOPixelEnum::VECTOR;
       break;

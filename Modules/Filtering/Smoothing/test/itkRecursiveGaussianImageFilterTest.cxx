@@ -268,7 +268,7 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
       filter->Update();
 
       // the input is an impulse with a value of 1000
-      // the resulting convolution should aproximatly sum to the same
+      // the resulting convolution should approximately sum to the same
 
       using IteratorType = itk::ImageRegionConstIterator<ImageType>;
       IteratorType it(filter->GetOutput(), filter->GetOutput()->GetBufferedRegion());

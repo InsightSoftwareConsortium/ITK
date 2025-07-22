@@ -521,7 +521,7 @@ check_composite(const char * transform_file, bool ras_to_lps)
 
   TransformFileReader::TransformListType list = *reader->GetTransformList();
 
-  // MINC XFM internally collapeses two concatenated linear transforms into one
+  // MINC XFM internally collapses two concatenated linear transforms into one
   ITK_TEST_EXPECT_EQUAL("AffineTransform_double_3_3", list.front()->GetTransformTypeAsString());
 
   AffineTransformType::Pointer affine_xfm = static_cast<AffineTransformType *>(list.front().GetPointer());

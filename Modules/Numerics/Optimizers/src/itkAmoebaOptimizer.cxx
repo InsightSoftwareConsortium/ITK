@@ -111,7 +111,7 @@ AmoebaOptimizer::SetCostFunction(SingleValuedCostFunction * costFunction)
   // correctly. Unfortunately, there is a side effect to
   // this function call, it also sets the scales to one if they haven't been
   // initialized yet. This causes the optimization to use the scales which
-  // only increases the computationaly complexity without any benefit.
+  // only increases the computational complexity without any benefit.
   // Right now the result of GetCostFunction() will be a null pointer.
   // SingleValuedNonLinearOptimizer::SetCostFunction( costFunction );
 

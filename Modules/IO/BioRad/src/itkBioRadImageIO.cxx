@@ -328,7 +328,7 @@ BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
         {
           ss >> origin; // skip origin
           ss >> spacing;
-          spacing *= 1000; // move to millemeters
+          spacing *= 1000; // move to millimeters
           m_Spacing[0] = spacing;
           ++punt;
         }
@@ -336,7 +336,7 @@ BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
         {
           ss >> origin; // skip origin
           ss >> spacing;
-          spacing *= 1000; // move to millemeters
+          spacing *= 1000; // move to millimeters
           m_Spacing[1] = spacing;
           ++punt;
         }
@@ -344,7 +344,7 @@ BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
         {
           ss >> origin; // skip origin
           ss >> spacing;
-          spacing *= 1000; // move to millemeters
+          spacing *= 1000; // move to millimeters
           m_Spacing[2] = spacing;
           ++punt;
         }

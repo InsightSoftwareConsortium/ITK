@@ -119,7 +119,7 @@ VTKPolyDataMeshIO::GetNextLine(std::ifstream & ifs, std::string & line, bool low
     itkExceptionMacro("Premature EOF in reading a line");
   }
 
-  // Convert characters of the line to lowercas
+  // Convert characters of the line to lowercase
   if (lowerCase)
   {
     std::transform(line.begin(), line.end(), line.begin(), ::tolower);
@@ -249,7 +249,7 @@ VTKPolyDataMeshIO::ReadMeshInformation()
 {
   std::ifstream inputFile;
 
-  // Use default filetype
+  // Use default file type
   if (this->m_FileType == IOFileEnum::ASCII)
   {
     inputFile.open(this->m_FileName.c_str(), std::ios::in);
