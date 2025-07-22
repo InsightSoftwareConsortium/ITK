@@ -414,7 +414,7 @@ MINCImageIO::ReadImageInformation()
     itkExceptionMacro(" Can not get volume valid range!!\n");
   }
 
-  // real volume range, only awailable when slice scaling is off
+  // real volume range, only available when slice scaling is off
   double volume_min = 0.0;
   double volume_max = 1.0;
   if (!slice_scaling_flag)

@@ -36,7 +36,7 @@ Optimizer::SetScales(const ScalesType & scales)
   itkDebugMacro("setting scales to " << scales);
   m_Scales = scales;
   // Nearly every optimizer computes the inverse at each iteration.
-  // provides 1 commone place where the inverse can be computes
+  // provides 1 common place where the inverse can be computes
   // and validated.
   m_InverseScales.SetSize(m_Scales.GetSize());
 

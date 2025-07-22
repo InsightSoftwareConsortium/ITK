@@ -47,7 +47,7 @@ itkStatisticsAlgorithmTest(int, char *[])
   sample->SetMeasurementVectorSize(measurementVectorSize);
 
   // Testing the equivalent of an empty sample by passing
-  // the Begin() iterator inlieu of the End() iterator.
+  // the Begin() iterator in lieu of the End() iterator.
 
   ITK_TRY_EXPECT_EXCEPTION(
     itk::Statistics::Algorithm::FindSampleBound(constSample, constSample->Begin(), constSample->Begin(), lower, upper));

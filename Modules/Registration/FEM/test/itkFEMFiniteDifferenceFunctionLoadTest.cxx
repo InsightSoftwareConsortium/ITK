@@ -456,7 +456,7 @@ itkFEMFiniteDifferenceFunctionLoadTest(int argc, char * argv[])
   auto                   solver = SolverType::New();
   solver->SetInput(femObject);
 
-  // Test FinitDifferenceFunctionLoad with four metric types
+  // Test FiniteDifferenceFunctionLoad with four metric types
   for (unsigned int i = 0; i < 4; ++i)
   {
     if (RunTest(fixedImage, movingImage, initField, outField, solver, i, filename) != EXIT_SUCCESS)

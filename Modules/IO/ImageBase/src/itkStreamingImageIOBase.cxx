@@ -253,7 +253,7 @@ StreamingImageIOBase::GetActualNumberOfSplitsForWriting(unsigned int          nu
   if (!const_cast<StreamingImageIOBase *>(this)->CanStreamWrite())
   {
     // ImageIOs may not always be able to stream,
-    // fall back to super classses non-streaming implementation
+    // fall back to super classes non-streaming implementation
     return ImageIOBase::GetActualNumberOfSplitsForWriting(numberOfRequestedSplits, pasteRegion, largestPossibleRegion);
   }
   if (!itksys::SystemTools::FileExists(m_FileName.c_str()))

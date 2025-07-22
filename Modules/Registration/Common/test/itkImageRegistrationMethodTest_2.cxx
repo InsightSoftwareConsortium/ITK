@@ -87,7 +87,7 @@ itkImageRegistrationMethodTest_2(int argc, char * argv[])
   const MovingImageType::ConstPointer movingImage = imageSource->GetMovingImage();
 
   //
-  // Connect all the components required for Registratio
+  // Connect all the components required for Registration
   //
   registration->SetMetric(metric);
   registration->SetOptimizer(optimizer);

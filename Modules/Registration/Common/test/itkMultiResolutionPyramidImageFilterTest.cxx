@@ -388,7 +388,7 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
     }
   }
 
-  // check that the buffered region is equivalent the largestpossible
+  // check that the buffered region is equivalent to the largest possible region.
   if (pyramid->GetOutput(numLevels - 1)->GetBufferedRegion() !=
       pyramid->GetOutput(numLevels - 1)->GetLargestPossibleRegion())
   {
