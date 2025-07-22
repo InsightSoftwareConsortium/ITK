@@ -62,7 +62,7 @@ itkBinaryErodeImageFilterTest(int, char *[])
   inputImage->SetRegions(region);
   inputImage->Allocate();
 
-  // Declare Iterator types apropriated for each image
+  // Declare Iterator types appropriate for each image
   using myIteratorType = itk::ImageRegionIterator<myImageType>;
 
   // Create one iterator for image (this is a light object)

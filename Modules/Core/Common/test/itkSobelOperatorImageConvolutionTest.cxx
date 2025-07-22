@@ -115,7 +115,7 @@ itkSobelOperatorImageConvolutionTest(int argc, char * argv[])
   //{
   /*
    * Demonstrate that signed types do **NOT** work with SobelOperator
-   * The unsigned checks require disableing Signed ConceptChecking in SobelOperator
+   * The unsigned checks require disabling Signed ConceptChecking in SobelOperator
    * added in March 2023.
    */
   /*

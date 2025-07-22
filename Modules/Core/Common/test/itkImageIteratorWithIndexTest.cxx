@@ -87,7 +87,7 @@ public:
     while (!it.IsAtEnd())
     {
       const PixelType value = it.Get();
-      if (itk::Math::NotExactlyEquals(value, it.Get())) // check repeatibility
+      if (itk::Math::NotExactlyEquals(value, it.Get())) // check repeatability
       {
         std::cerr << "TestConstIterator failed!" << std::endl;
         return false;
@@ -112,7 +112,7 @@ public:
     while (!it.IsAtReverseEnd())
     {
       const PixelType value = it.Get();
-      if (itk::Math::NotExactlyEquals(value, it.Get())) // check repeatibility
+      if (itk::Math::NotExactlyEquals(value, it.Get())) // check repeatability
       {
         std::cerr << "TestReverseIteration failed!" << std::endl;
         return false;

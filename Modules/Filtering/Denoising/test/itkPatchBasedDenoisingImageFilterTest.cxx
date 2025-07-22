@@ -34,35 +34,35 @@
 
 template <typename TFilter>
 typename TFilter::RealArrayType
-ParseKernelBandwithSigma(char * kernelBandwithSigmaIn, unsigned int numIndependentComponents)
+ParseKernelBandwidthSigma(char * kernelBandwidthSigmaIn, unsigned int numIndependentComponents)
 {
-  typename TFilter::RealArrayType kernelBandwithSigmaOut;
-  kernelBandwithSigmaOut.SetSize(numIndependentComponents);
+  typename TFilter::RealArrayType kernelBandwidthSigmaOut;
+  kernelBandwidthSigmaOut.SetSize(numIndependentComponents);
 
   // Get the individual components
   unsigned int i = 0;
-  while (*kernelBandwithSigmaIn && i < numIndependentComponents)
+  while (*kernelBandwidthSigmaIn && i < numIndependentComponents)
   {
     char *                                     endPtr;
-    typename TFilter::RealArrayType::ValueType value = strtod(kernelBandwithSigmaIn, &endPtr);
-    if (kernelBandwithSigmaIn == endPtr)
+    typename TFilter::RealArrayType::ValueType value = strtod(kernelBandwidthSigmaIn, &endPtr);
+    if (kernelBandwidthSigmaIn == endPtr)
     {
-      (*kernelBandwithSigmaIn)++;
+      (*kernelBandwidthSigmaIn)++;
     }
     else if (endPtr == nullptr || *endPtr == 0)
     {
-      kernelBandwithSigmaOut[i] = value;
+      kernelBandwidthSigmaOut[i] = value;
       break;
     }
     else
     {
-      kernelBandwithSigmaOut[i] = value;
-      kernelBandwithSigmaIn = endPtr + 1;
+      kernelBandwidthSigmaOut[i] = value;
+      kernelBandwidthSigmaIn = endPtr + 1;
     }
     ++i;
   }
 
-  return kernelBandwithSigmaOut;
+  return kernelBandwidthSigmaOut;
 }
 
 template <typename ImageT>
@@ -71,7 +71,7 @@ doDenoising(const std::string & inputFileName,
             const std::string & outputFileName,
             const unsigned int  numIterations,
             const int           numThreads,
-            char *              kernelBandwithSigma,
+            char *              kernelBandwidthSigma,
             bool                alwaysTreatComponentsAsEuclidean,
             bool                manualReinitialization,
             const int           numToSample,
@@ -234,7 +234,7 @@ doDenoising(const std::string & inputFileName,
 
   // Regression test
   typename FilterType::RealArrayType expectedKernelBandwidthSigma =
-    ParseKernelBandwithSigma<FilterType>(kernelBandwithSigma, filter->GetNumIndependentComponents());
+    ParseKernelBandwidthSigma<FilterType>(kernelBandwidthSigma, filter->GetNumIndependentComponents());
   typename FilterType::RealArrayType resultKernelBandwidthSigma = filter->GetKernelBandwidthSigma();
   if (expectedKernelBandwidthSigma.Size() != resultKernelBandwidthSigma.Size())
   {
@@ -299,7 +299,7 @@ itkPatchBasedDenoisingImageFilterTest(int argc, char * argv[])
     std::cerr << "Missing command line arguments" << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputImageFileName outputImageFileName"
               << " numDimensions numComponents"
-              << " kernelBandwithSigma"
+              << " kernelBandwidthSigma"
               << " alwaysTreatComponentsAsEuclidean"
               << " manualReinitialization"
               << " [numIterations] [numThreads]"
@@ -329,7 +329,7 @@ itkPatchBasedDenoisingImageFilterTest(int argc, char * argv[])
 
   const unsigned int numComponents = std::stoi(argv[4]);
 
-  char * kernelBandwithSigma = argv[5];
+  char * kernelBandwidthSigma = argv[5];
 
   const bool alwaysTreatComponentsAsEuclidean = std::stoi(argv[6]);
   const bool manualReinitialization = std::stoi(argv[7]);
@@ -461,7 +461,7 @@ itkPatchBasedDenoisingImageFilterTest(int argc, char * argv[])
                                             outFileName,
                                             numIterations,
                                             numThreads,
-                                            kernelBandwithSigma,
+                                            kernelBandwidthSigma,
                                             alwaysTreatComponentsAsEuclidean,
                                             manualReinitialization,
                                             numToSample,
@@ -474,7 +474,7 @@ itkPatchBasedDenoisingImageFilterTest(int argc, char * argv[])
     {
      return doDenoising< TwoComponent2DImage >( inFileName, outFileName,
                                               numIterations, numThreads,
-                                              kernelBandwithSigma,
+                                              kernelBandwidthSigma,
                                               alwaysTreatComponentsAsEuclidean,
                                               manualReinitialization,
                                               numToSample,
@@ -488,7 +488,7 @@ itkPatchBasedDenoisingImageFilterTest(int argc, char * argv[])
                                               outFileName,
                                               numIterations,
                                               numThreads,
-                                              kernelBandwithSigma,
+                                              kernelBandwidthSigma,
                                               alwaysTreatComponentsAsEuclidean,
                                               manualReinitialization,
                                               numToSample,
@@ -503,7 +503,7 @@ itkPatchBasedDenoisingImageFilterTest(int argc, char * argv[])
                                              outFileName,
                                              numIterations,
                                              numThreads,
-                                             kernelBandwithSigma,
+                                             kernelBandwidthSigma,
                                              alwaysTreatComponentsAsEuclidean,
                                              manualReinitialization,
                                              numToSample,
@@ -518,7 +518,7 @@ itkPatchBasedDenoisingImageFilterTest(int argc, char * argv[])
                                             outFileName,
                                             numIterations,
                                             numThreads,
-                                            kernelBandwithSigma,
+                                            kernelBandwidthSigma,
                                             alwaysTreatComponentsAsEuclidean,
                                             manualReinitialization,
                                             numToSample,
@@ -533,7 +533,7 @@ itkPatchBasedDenoisingImageFilterTest(int argc, char * argv[])
                                             outFileName,
                                             numIterations,
                                             numThreads,
-                                            kernelBandwithSigma,
+                                            kernelBandwidthSigma,
                                             alwaysTreatComponentsAsEuclidean,
                                             manualReinitialization,
                                             numToSample,
@@ -546,7 +546,7 @@ itkPatchBasedDenoisingImageFilterTest(int argc, char * argv[])
     {
     return doDenoising< TwoComponent3DImage >( inFileName, outFileName,
                                              numIterations, numThreads,
-                                             kernelBandwithSigma,
+                                             kernelBandwidthSigma,
                                              alwaysTreatComponentsAsEuclidean,
                                              manualReinitialization,
                                              numToSample,
@@ -560,7 +560,7 @@ itkPatchBasedDenoisingImageFilterTest(int argc, char * argv[])
                                               outFileName,
                                               numIterations,
                                               numThreads,
-                                              kernelBandwithSigma,
+                                              kernelBandwidthSigma,
                                               alwaysTreatComponentsAsEuclidean,
                                               manualReinitialization,
                                               numToSample,
@@ -575,7 +575,7 @@ itkPatchBasedDenoisingImageFilterTest(int argc, char * argv[])
                                              outFileName,
                                              numIterations,
                                              numThreads,
-                                             kernelBandwithSigma,
+                                             kernelBandwidthSigma,
                                              alwaysTreatComponentsAsEuclidean,
                                              manualReinitialization,
                                              numToSample,
@@ -590,7 +590,7 @@ itkPatchBasedDenoisingImageFilterTest(int argc, char * argv[])
                                             outFileName,
                                             numIterations,
                                             numThreads,
-                                            kernelBandwithSigma,
+                                            kernelBandwidthSigma,
                                             alwaysTreatComponentsAsEuclidean,
                                             manualReinitialization,
                                             numToSample,

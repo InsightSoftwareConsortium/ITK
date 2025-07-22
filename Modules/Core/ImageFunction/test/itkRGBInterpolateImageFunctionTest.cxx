@@ -222,7 +222,7 @@ itkRGBInterpolateImageFunctionTest(int, char *[])
   interp->Print(std::cout);
 
   /* Test evaluation at continuous indices and corresponding
-     gemetric points */
+     geometric points */
   std::cout << "Evaluate at: " << std::endl;
   int flag = 0;
   // an integer position inside the image

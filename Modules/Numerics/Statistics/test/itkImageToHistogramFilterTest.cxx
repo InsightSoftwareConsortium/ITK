@@ -312,7 +312,7 @@ itkImageToHistogramFilterTest(int, char *[])
   hsize[1] = 1;   // number of bins for the Green channel
   hsize[2] = 1;   // number of bins for the Blue  channel
 
-  // Compute the tails of the histrogram automatically
+  // Compute the tails of the histogram automatically
   auto autoMinMaxInputObject = InputBooleanObjectType::New();
   autoMinMaxInputObject->Set(true);
   filter->SetAutoMinimumMaximumInput(autoMinMaxInputObject);

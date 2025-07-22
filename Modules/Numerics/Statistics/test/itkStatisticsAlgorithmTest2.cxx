@@ -151,7 +151,7 @@ itkStatisticsAlgorithmTest2(int, char *[])
     whereFail = "HeapSort";
   }
 
-  // IntospectiveSort algorithm test
+  // IntrospectiveSort algorithm test
   resetData(image, refVector);
   itk::Statistics::Algorithm::IntrospectiveSort<SubsampleType>(subsample, testDimension, 0, subsample->Size(), 16);
   if (!isSortedOrderCorrect(refVector, subsample))

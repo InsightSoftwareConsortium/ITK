@@ -182,7 +182,7 @@ itkImageFileWriterStreamingTest2(int argc, char * argv[])
 
   reader->Modified();
   ////////////////////////////////////////////////
-  // test long skiny
+  // test long skinny
   ioregion.SetIndex(0, largestRegion.GetIndex()[0]);
   ioregion.SetIndex(1, largestRegion.GetIndex()[1]);
   ioregion.SetIndex(2, largestRegion.GetIndex()[2]);
@@ -210,7 +210,7 @@ itkImageFileWriterStreamingTest2(int argc, char * argv[])
 
   reader->Modified();
   ////////////////////////////////////////////////
-  // test long skiny
+  // test long skinny
   ioregion.SetIndex(0, largestRegion.GetIndex()[0]);
   ioregion.SetIndex(1, largestRegion.GetIndex()[1]);
   ioregion.SetIndex(2, largestRegion.GetIndex()[2]);

@@ -77,7 +77,7 @@ itkAbsoluteValueDifferenceImageFilterTest(int, char *[])
   inputImageB->SetRegions(region);
   inputImageB->Allocate();
 
-  // Declare Iterator types apropriated for each image
+  // Declare Iterator types appropriate for each image
   using myIteratorType1 = itk::ImageRegionIteratorWithIndex<myImageType1>;
   using myIteratorType2 = itk::ImageRegionIteratorWithIndex<myImageType2>;
   using myIteratorType4 = itk::ImageRegionIteratorWithIndex<myImageType4>;

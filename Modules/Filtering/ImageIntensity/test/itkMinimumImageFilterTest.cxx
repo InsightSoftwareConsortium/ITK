@@ -76,7 +76,7 @@ itkMinimumImageFilterTest(int, char *[])
   constexpr PixelType largePixelValue = 3;
   constexpr PixelType smallPixelValue = 2;
 
-  // Declare Iterator types apropriated for each image
+  // Declare Iterator types appropriate for each image
   using IteratorType = itk::ImageRegionIteratorWithIndex<ImageType>;
 
   // Create one iterator for Image A (this is a light object)

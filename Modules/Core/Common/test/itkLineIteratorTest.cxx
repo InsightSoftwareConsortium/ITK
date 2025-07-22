@@ -86,7 +86,7 @@ itkLineIteratorTest(int argc, char * argv[])
   }
 
   // Third test: draw some lines and read the baseline txt file to compare
-  // the point indexies
+  // the point indices.
 
   std::ifstream baselineFile(argv[1]);
   if (baselineFile.fail())
