@@ -39,7 +39,7 @@ elements. They are:
 \li \b Optimizer: the method used to find the \e Transform parameters that optimize the \e Metric.
 
 A particular registration method is defined by selecting specific implementations of each one of these basic elements.
-In order to determine the registration method appropriated for a particular problem, is will be useful to answer the following questions:
+In order to determine the registration method appropriate for a particular problem, is will be useful to answer the following questions:
 
 
 

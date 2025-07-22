@@ -128,7 +128,7 @@ public:
   T
   determinant() const;
 
-  //: return the pseudoinverse.
+  //: return the pseudo-inverse.
   vnl_matrix<T>
   pinverse() const;
 

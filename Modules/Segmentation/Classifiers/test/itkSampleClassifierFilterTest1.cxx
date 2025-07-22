@@ -23,7 +23,7 @@
 
 
 // ADD DistanceToCentroidMembershipFunction (with the added SetDistanceMetric() method
-// ADD EuclideanDistanceMetri
+// ADD EuclideanDistanceMetric
 // Create two classes with their respective DistanceToCentroidMembershipFunction and two separate centroids
 // ADD MinimumDecisionRule
 // Run that classification.

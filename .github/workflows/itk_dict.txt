@@ -252,6 +252,8 @@ ap
 apath
 archetypical
 argidx
+arithmetics
+arr
 ascii
 asymptote
 asymptotes
@@ -355,6 +357,7 @@ demark
 denoiser
 denormal
 deriv
+desc
 descr
 detections
 dgr

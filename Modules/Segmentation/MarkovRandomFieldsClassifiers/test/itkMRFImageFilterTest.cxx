@@ -336,7 +336,7 @@ itkMRFImageFilterTest(int, char *[])
   auto myDecisionRule = DecisionRuleType::New();
 
   //----------------------------------------------------------------------
-  // Set the classifier to be used and assigne the parameters for the
+  // Set the classifier to be used and assign the parameters for the
   // supervised classifier algorithm except the input image which is
   // grabbed from the MRF application pipeline.
   //----------------------------------------------------------------------

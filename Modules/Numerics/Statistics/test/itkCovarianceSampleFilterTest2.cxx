@@ -123,7 +123,7 @@ itkCovarianceSampleFilterTest2(int, char *[])
   }
 
 
-  // use orthogonal meausrment vectors
+  // use orthogonal measurement vectors
   auto sample2 = SampleType::New();
 
   sample2->SetMeasurementVectorSize(MeasurementVectorSize);

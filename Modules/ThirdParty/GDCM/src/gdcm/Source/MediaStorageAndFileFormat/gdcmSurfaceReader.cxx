@@ -434,7 +434,7 @@ bool SurfaceReader::ReadSurface(const Item & surfaceItem, const unsigned long id
     return false;
   }
 
-  // Get the appropriated segment
+  // Get the appropriate segment
   SmartPointer< Segment > segment = Segments[surfaceNumber];
 
   //*****   Segment Sequence    *****//
@@ -532,7 +532,7 @@ bool SurfaceReader::ReadSurface(const Item & surfaceItem, const unsigned long id
   // Add a MeshPrimitive to the surface
   surface->SetMeshPrimitive( *meshPrimitive );
 
-  // Add surface to the appropriated segment
+  // Add surface to the appropriate segment
   segment->AddSurface(surface);
 
   return true;
