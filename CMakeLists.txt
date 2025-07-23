@@ -138,6 +138,13 @@ OFF (default) means link to regular, dynamic CRT (/MD and /MDd)." OFF)
     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
     message(STATUS "Using MSVC's dynamic CRT (/MD and /MDd)")
   endif()
+
+  # Enable multi-processing compilation for visual studio.
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /MP")
+
+	# Set optimization settings for RelWithDebInfo
+	set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} /O2 /Ob2 /Oy-")
 endif()
 
 include(ITKDownloadSetup)
