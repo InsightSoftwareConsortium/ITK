@@ -14,6 +14,7 @@ else()
       ITKZLIB
       ITKExpat
       ITKOpenJPEG
+      ITKJPEG
     DESCRIPTION
       "${DOCUMENTATION}"
   )
