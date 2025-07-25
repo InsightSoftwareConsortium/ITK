@@ -24,6 +24,7 @@
 #include "itkMakeUniqueForOverwrite.h"
 
 #include <algorithm>
+#include <type_traits> // For is_signed_v.
 
 namespace itk
 {
@@ -83,19 +84,20 @@ GetType()
   }
 
 GetH5TypeSpecialize(float, H5::PredType::NATIVE_FLOAT) GetH5TypeSpecialize(double, H5::PredType::NATIVE_DOUBLE)
+  GetH5TypeSpecialize(signed char, H5::PredType::NATIVE_SCHAR) GetH5TypeSpecialize(char, H5::PredType::NATIVE_CHAR)
+    GetH5TypeSpecialize(unsigned char, H5::PredType::NATIVE_UCHAR)
 
-  GetH5TypeSpecialize(char, H5::PredType::NATIVE_CHAR) GetH5TypeSpecialize(unsigned char, H5::PredType::NATIVE_UCHAR)
+      GetH5TypeSpecialize(short, H5::PredType::NATIVE_SHORT)
+        GetH5TypeSpecialize(short unsigned int, H5::PredType::NATIVE_USHORT)
 
-    GetH5TypeSpecialize(short, H5::PredType::NATIVE_SHORT)
-      GetH5TypeSpecialize(short unsigned int, H5::PredType::NATIVE_USHORT)
+          GetH5TypeSpecialize(int, H5::PredType::NATIVE_INT)
+            GetH5TypeSpecialize(unsigned int, H5::PredType::NATIVE_UINT)
 
-        GetH5TypeSpecialize(int, H5::PredType::NATIVE_INT) GetH5TypeSpecialize(unsigned int, H5::PredType::NATIVE_UINT)
+              GetH5TypeSpecialize(long, H5::PredType::NATIVE_LONG)
+                GetH5TypeSpecialize(long unsigned int, H5::PredType::NATIVE_ULONG)
 
-          GetH5TypeSpecialize(long, H5::PredType::NATIVE_LONG)
-            GetH5TypeSpecialize(long unsigned int, H5::PredType::NATIVE_ULONG)
-
-              GetH5TypeSpecialize(long long, H5::PredType::NATIVE_LLONG)
-                GetH5TypeSpecialize(unsigned long long, H5::PredType::NATIVE_ULLONG)
+                  GetH5TypeSpecialize(long long, H5::PredType::NATIVE_LLONG)
+                    GetH5TypeSpecialize(unsigned long long, H5::PredType::NATIVE_ULLONG)
 
 /* The following types are not implemented.  This comment serves
  * to indicate that the full complement of possible H5::PredType
@@ -105,7 +107,7 @@ GetH5TypeSpecialize(float, H5::PredType::NATIVE_FLOAT) GetH5TypeSpecialize(doubl
 
 #undef GetH5TypeSpecialize
 
-                  inline IOComponentEnum PredTypeToComponentType(H5::DataType & type)
+                      inline IOComponentEnum PredTypeToComponentType(H5::DataType & type)
 {
   if (type == H5::PredType::NATIVE_UCHAR)
   {
@@ -113,7 +115,11 @@ GetH5TypeSpecialize(float, H5::PredType::NATIVE_FLOAT) GetH5TypeSpecialize(doubl
   }
   if (type == H5::PredType::NATIVE_CHAR)
   {
-    return IOComponentEnum::CHAR;
+    return std::is_signed_v<char> ? IOComponentEnum::SCHAR : IOComponentEnum::UCHAR;
+  }
+  else if (type == H5::PredType::NATIVE_SCHAR)
+  {
+    return IOComponentEnum::SCHAR;
   }
   else if (type == H5::PredType::NATIVE_USHORT)
   {
@@ -166,7 +172,7 @@ ComponentToPredType(IOComponentEnum cType)
     case IOComponentEnum::UCHAR:
       return H5::PredType::NATIVE_UCHAR;
     case IOComponentEnum::SCHAR:
-      return H5::PredType::NATIVE_CHAR;
+      return H5::PredType::NATIVE_SCHAR;
     case IOComponentEnum::USHORT:
       return H5::PredType::NATIVE_USHORT;
     case IOComponentEnum::SHORT:
@@ -783,6 +789,10 @@ HDF5ImageIO::ReadImageInformation()
       else if (metaDataType == H5::PredType::NATIVE_CHAR)
       {
         this->StoreMetaData<char>(&metaDict, localMetaDataName, name, metaDataDims[0]);
+      }
+      else if (metaDataType == H5::PredType::NATIVE_SCHAR)
+      {
+        this->StoreMetaData<signed char>(&metaDict, localMetaDataName, name, metaDataDims[0]);
       }
       else if (metaDataType == H5::PredType::NATIVE_UCHAR)
       {
