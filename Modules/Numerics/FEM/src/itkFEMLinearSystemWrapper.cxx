@@ -159,7 +159,7 @@ LinearSystemWrapper::OptimizeMatrixStorage(unsigned int matrixIndex, unsigned in
   /* put original matrix in temp space */
   this->SwapMatrices(matrixIndex, tempMatrixIndex);
 
-  /* re-initialze storage */
+  /* re-initialize storage */
   this->InitializeMatrix(matrixIndex);
 
   /* loop through old matrix and pull out non-zero values */

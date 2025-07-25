@@ -70,7 +70,7 @@ itkMaskNegatedImageFilterTest(int, char *[])
   inputMask->Allocate();
 
 
-  // Declare Iterator types apropriated for each image
+  // Declare Iterator types appropriate for each image
   using InputIteratorType = itk::ImageRegionIteratorWithIndex<InputImageType>;
   using MaskIteratorType = itk::ImageRegionIteratorWithIndex<MaskImageType>;
   using OutputIteratorType = itk::ImageRegionIteratorWithIndex<OutputImageType>;

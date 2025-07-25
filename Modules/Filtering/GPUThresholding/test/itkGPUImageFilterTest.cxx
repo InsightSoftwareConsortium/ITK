@@ -90,10 +90,10 @@ runGPUImageFilterTest(const std::string & inFile, const std::string & outFile)
   filter3->SetLowerThreshold(lowerThreshold);
 
   // build pipeline
-  filter1->SetInput(reader->GetOutput()); // copy CPU->GPU implicilty
+  filter1->SetInput(reader->GetOutput()); // copy CPU->GPU implicitly
   filter2->SetInput(filter1->GetOutput());
   filter3->SetInput(filter2->GetOutput());
-  writer->SetInput(filter3->GetOutput()); // copy GPU->CPU implicilty
+  writer->SetInput(filter3->GetOutput()); // copy GPU->CPU implicitly
 
   // execute pipeline filter and write output
   writer->Update();

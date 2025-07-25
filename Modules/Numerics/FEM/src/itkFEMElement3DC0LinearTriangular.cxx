@@ -78,10 +78,10 @@ Element3DC0LinearTriangular::GetIntegrationPointAndWeight(unsigned int i,
 
   /*
    * We provide implementation for 5 different integration rules
-   * as defined in chapter 24 - Implementation of Iso-P Truangular
+   * as defined in chapter 24 - Implementation of Iso-P Triangular
    * Elements, of http://titan.colorado.edu/courses.d/IFEM.d/.
    *
-   * One more reference - "Structural analysis with the finite element method - Linear statics" by Eugene onate
+   * One more reference - "Structural analysis with the finite element method - Linear statics" by Eugene Onate
    * Section 6.4.2 - Numerical integration over triangles.
    * Note that the order parameter here does not correspond to the
    * actual order of integration, but rather the degree of polynomials

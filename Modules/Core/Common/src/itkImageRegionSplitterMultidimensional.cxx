@@ -114,7 +114,7 @@ ImageRegionSplitterMultidimensional::ComputeSplits(unsigned int         dim,
                                                    const SizeValueType  regionSize[],
                                                    unsigned int         splits[])
 {
-  // size of each splited region
+  // size of each split region
   std::vector<double> splitRegionSize(dim); // Note: stack allocation preferred
   unsigned int        numberOfPieces = 1;
 

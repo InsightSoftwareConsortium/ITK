@@ -30,7 +30,7 @@
 // code in Modules/ThirdParty/GDCM, I noticed that in
 // gdcmImageHelper.cxx there was a bunch of elaborate code that in the
 // case of Andriy's dataset, used the wrong tag to find the spacing,
-// ignored the error when the tag wasn't found, and silenetly returned
+// ignored the error when the tag wasn't found, and silently returned
 // 1,1,1 for the spacing.
 // The patch that this test is part of has a fallback for the case of
 // the MediaStorageTypes for which gdcm has trouble with the spacing tag.

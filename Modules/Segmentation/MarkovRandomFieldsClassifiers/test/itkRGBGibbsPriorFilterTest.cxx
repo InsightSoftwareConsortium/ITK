@@ -228,7 +228,7 @@ itkRGBGibbsPriorFilterTest(int, char *[])
   auto myDecisionRule = DecisionRuleType::New();
 
   //----------------------------------------------------------------------
-  // Set the classifier to be used and assigne the parameters for the
+  // Set the classifier to be used and assign the parameters for the
   // supervised classifier algorithm except the input image which is
   // grabbed from the MRF application pipeline.
   //----------------------------------------------------------------------
@@ -317,7 +317,7 @@ itkRGBGibbsPriorFilterTest(int, char *[])
   applyGibbsImageFilter->SetObjectThreshold(objectThreshold);
   ITK_TEST_SET_GET_VALUE(objectThreshold, applyGibbsImageFilter->GetObjectThreshold());
 
-  // Since a suvervised classifier is used, it requires a training image
+  // Since a supervised classifier is used, it requires a training image
   applyGibbsImageFilter->SetTrainingImage(classImage);
   ITK_TEST_SET_GET_VALUE(classImage, applyGibbsImageFilter->GetTrainingImage());
 

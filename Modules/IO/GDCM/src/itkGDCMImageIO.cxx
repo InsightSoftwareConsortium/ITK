@@ -641,7 +641,7 @@ GDCMImageIO::InternalReadImageInformation()
   // FIXME
   //
   // This is a WORKAROUND for a bug in GDCM -- in
-  // ImageHeplper::GetSpacingTagFromMediaStorage it was not
+  // ImageHelper::GetSpacingTagFromMediaStorage it was not
   // handling some MediaStorage types
   // so we have to punt here.
   gdcm::MediaStorage ms;

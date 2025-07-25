@@ -159,14 +159,14 @@ itkKdTreeBasedKmeansEstimatorTest(int argc, char * argv[])
     std::cout << "    Mean displacement: " << std::endl;
     std::cout << "        " << displacement << std::endl << std::endl;
 
-    const double tolearancePercent = std::stod(argv[4]);
+    const double tolerancePercent = std::stod(argv[4]);
 
-    // if the displacement of the estimates are within tolearancePercent% of
+    // if the displacement of the estimates are within tolerancePercent of
     // standardDeviation then we assume it is successful
-    if (displacement > (minStandardDeviation * tolearancePercent))
+    if (displacement > (minStandardDeviation * tolerancePercent))
     {
       std::cerr << "displacement is larger than tolerance ";
-      std::cerr << minStandardDeviation * tolearancePercent << std::endl;
+      std::cerr << minStandardDeviation * tolerancePercent << std::endl;
       passed = false;
     }
   }

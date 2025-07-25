@@ -127,7 +127,7 @@ DCMTKSeriesFileNames::GetDicomData(const std::string & series, bool saveFileName
       std::string uid;
       reader->GetElementUI(0x0020, 0x000e, uid);
       //
-      // if you've restricked it to a particular series instance ID
+      // if you've restricted it to a particular series instance ID
       if (series.empty() || series == uid)
       {
         allHeaders.push_back(reader);

@@ -42,7 +42,7 @@ SameImage(ImagePointer testImage, ImagePointer baselineImage)
   constexpr int           radiusTolerance = 0;
   constexpr unsigned long numberOfPixelTolerance = 0;
 
-  // NOTE ALEX: it look slike this filter does not take the spacing
+  // NOTE ALEX: it looks like this filter does not take the spacing
   // into account, to check later.
   using DiffType = itk::Testing::ComparisonImageFilter<ImageType, ImageType>;
   auto diff = DiffType::New();
@@ -82,7 +82,7 @@ SameImage(std::string testImageFileName, ImagePointer baselineImage)
   readerTestImage->SetFileName(testImageFileName);
 
   // NOTE ALEX: here we suppose the reading went well
-  // we should surround the GetOUtput() with a try/catch
+  // we should surround the GetOutput() with a try/catch
   return SameImage(readerTestImage->GetOutput(), baselineImage);
 }
 

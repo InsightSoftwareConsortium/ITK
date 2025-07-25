@@ -101,7 +101,7 @@ itkBinaryThresholdSpatialFunctionTest(int, char *[])
   }
 
   //
-  // In the following, we demsonstrate how BinaryThresholdSpatialFunction
+  // In the following, we demonstrate how BinaryThresholdSpatialFunction
   // can be used to iterate over pixels whose signed distance is
   // within [lowerThreshold, upperThreshold] of the zero level set defining
   // the sphere.

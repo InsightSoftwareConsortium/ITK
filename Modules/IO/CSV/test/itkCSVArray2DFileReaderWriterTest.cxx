@@ -176,7 +176,7 @@ itkCSVFileReaderWriterTest_Func(int argc, char * argv[], bool headers)
 
 /** This test illustrates basic use for writing an Array2D object to a csv file
  * and reading from that file into an Array2D data frame object. There are two
- * examples: one that writes and reades a file without row and column headers,
+ * examples: one that writes and reads a file without row and column headers,
  * and one that does. */
 
 int

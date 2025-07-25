@@ -38,7 +38,7 @@ Element2DC0QuadraticTriangular::GetIntegrationPointAndWeight(unsigned int i,
 
   /**
    * We provide implementation for 5 different integration rules
-   * as defined in chapter 24 - Implementation of Iso-P Truangular
+   * as defined in chapter 24 - Implementation of Iso-P Triangular
    * Elements, of http://titan.colorado.edu/courses.d/IFEM.d/.
    *
    * Note that the order parameter here does not correspond to the

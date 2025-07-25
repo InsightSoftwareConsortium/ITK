@@ -117,7 +117,7 @@ itkBasicArchitectureTest(int, char *[])
 
   // Begin by creating a simple pipeline. Use a scalar ss a pixel.
   //
-  // Create a type alias to make the code more digestable
+  // Create a type alias to make the code more digestible
   using FloatImage2DType = itk::Image<float, 2>;
 
   // Create a source object (in this case a random image generator).

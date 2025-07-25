@@ -204,8 +204,8 @@ NrrdImageIO::ITKToNrrdComponentType(const IOComponentEnum itkComponentType) cons
 bool
 NrrdImageIO::CanReadFile(const char * filename)
 {
-  // Check the extension first to avoid opening files that do not
-  // look like nrrds.  The file must have an appropriate extension to be
+  // Check the extension first to avoid opening a file that does not
+  // look like NRRD.  The file must have an appropriate extension to be
   // recognized.
   const std::string fname = filename;
 

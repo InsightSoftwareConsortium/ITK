@@ -144,7 +144,7 @@ itkCustomColormapFunctionTest(int argc, char * argv[])
     blueChannel.push_back(value);
   }
 
-  // The scalar valur to be mapped into an RGB colormap value
+  // The scalar value to be mapped into an RGB colormap value
   const int scalarValue = std::stoi(argv[2]);
 
   // Test for all possible scalar pixel types

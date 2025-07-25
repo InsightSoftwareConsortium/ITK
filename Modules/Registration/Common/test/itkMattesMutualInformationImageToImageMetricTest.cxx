@@ -27,7 +27,7 @@
 
 /**
  *  This templated function test the MattesMutualInformationImageToMetric
- *  class using an AfffineTransform and various interpolators.
+ *  class using an AffineTransform and various interpolators.
  *
  *  This test uses two 2D-Gaussians (standard deviation RegionSize/2)
  *  One is shifted by 5 pixels from the other.

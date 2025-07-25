@@ -52,7 +52,7 @@ runGPUGradientAnisotropicDiffusionImageFilterTest(const std::string & inFile, co
   reader->SetFileName(inFile);
   writer->SetFileName(outFile);
 
-  // Create CPU/GPU anistorpic diffusion filter
+  // Create CPU/GPU anisotropic diffusion filter
   using CPUAnisoDiffFilterType = itk::GradientAnisotropicDiffusionImageFilter<InputImageType, OutputImageType>;
   using GPUAnisoDiffFilterType = itk::GPUGradientAnisotropicDiffusionImageFilter<InputImageType, OutputImageType>;
 
@@ -148,7 +148,7 @@ runGPUGradientAnisotropicDiffusionImageFilterTest(const std::string & inFile, co
         diff += err * err;
         nPix++;
       }
-      writer->SetInput(GPUFilter->GetOutput()); // copy GPU->CPU implicilty
+      writer->SetInput(GPUFilter->GetOutput()); // copy GPU->CPU implicitly
 
       // execute pipeline filter and write output
       writer->Update();
