@@ -137,7 +137,7 @@ If the issue addresses an open issue, add "Closes #XXXX" to the message.""",
     if len(input_file_lines) > 1:
         second_line: str = input_file_lines[
             1
-        ].strip()  # Remove whitespace at begining and end
+        ].strip()  # Remove whitespace at beginning and end
         if len(second_line) == 0:
             input_file_lines[1] = "\n"  # Replace line with only newline
         else:

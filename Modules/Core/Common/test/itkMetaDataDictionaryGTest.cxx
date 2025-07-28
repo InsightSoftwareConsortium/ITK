@@ -347,7 +347,7 @@ TEST(MetaDataDictionary, SupportsCStyleArrays)
   constexpr size_t numberOfColumns{ 4 };
   int              twoDimensionalArray[numberOfRows][numberOfColumns];
 
-  // Just ensure that each element of the two-dimentional array has a different value.
+  // Just ensure that each element of the two-dimensional array has a different value.
   int * const beginOfData = &(twoDimensionalArray[0][0]);
   std::iota(beginOfData, beginOfData + numberOfRows * numberOfColumns, 1);
 

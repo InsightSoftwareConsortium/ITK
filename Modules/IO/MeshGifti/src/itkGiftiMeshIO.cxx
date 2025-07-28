@@ -470,7 +470,7 @@ GiftiMeshIO::ReadCells(void * buffer)
   // Get gifti image pointer
   m_GiftiImage = gifti_read_image(this->GetFileName(), true);
 
-  // Whter reading is successful
+  // Whether reading is successful
   if (m_GiftiImage == nullptr)
   {
     itkExceptionMacro(<< this->GetFileName() << " is not recognized as a GIfTI file");
@@ -701,7 +701,7 @@ GiftiMeshIO::WriteMeshInformation()
   int dims[6] = { 0 };
   m_GiftiImage = gifti_create_image(nda, NIFTI_INTENT_POINTSET, NIFTI_TYPE_UINT32, 0, dims, 0);
 
-  // Whter reading is successful
+  // Whether reading is successful
   if (m_GiftiImage == nullptr)
   {
     itkExceptionMacro("Could not create a new GIfTI image");

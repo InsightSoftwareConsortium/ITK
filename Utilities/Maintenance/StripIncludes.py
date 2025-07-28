@@ -17,7 +17,7 @@
 #
 # ==========================================================================
 
-## This script is designed to asssit stripping out the unnecessary header includes
+## This script is designed to assist stripping out the unnecessary header includes
 ## for all modules.
 
 ## To run the script you need to prepare a filelist.txt that list all the  .cxx

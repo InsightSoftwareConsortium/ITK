@@ -64,7 +64,7 @@ itkAddImageAdaptorTest(int, char *[])
   inputImage->SetRegions(region);
   inputImage->Allocate();
 
-  // Declare Iterator type apropriated for this image
+  // Declare Iterator type appropriate for this image
   using IteratorType = itk::ImageRegionIteratorWithIndex<ImageType>;
 
   // Create one iterator for Image A.

@@ -120,7 +120,7 @@ itkEqualTest(int, char *[])
   inputImageB->Allocate();
 
 
-  // Declare Iterator types apropriated for each image
+  // Declare Iterator types appropriate for each image
   using myIteratorType1 = itk::ImageRegionIteratorWithIndex<myImageType1>;
   using myIteratorType2 = itk::ImageRegionIteratorWithIndex<myImageType2>;
 

@@ -121,7 +121,7 @@ class FileToPathMapping:
                     self.comment_out(starting_child, dupcandidate)
                     return True
                 else:
-                    # print("Processsng proc_childeren({0},{1},{2})".format(currEdge,dupcandidate,starting_child))
+                    # print("Processing proc_children({0},{1},{2})".format(currEdge,dupcandidate,starting_child))
                     self.proc_children(currEdge, dupcandidate, starting_child)
         return False
 

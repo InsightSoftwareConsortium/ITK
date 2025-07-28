@@ -69,11 +69,11 @@ itkAtan2ImageFilterTest(int, char *[])
   region.SetIndex(start);
   region.SetSize(size);
 
-  // Initialize Sinus Image
+  // Initialize Sine Image
   sinImage->SetRegions(region);
   sinImage->Allocate();
 
-  // Initialize Cosinus Image
+  // Initialize Cosine Image
   cosImage->SetRegions(region);
   cosImage->Allocate();
 

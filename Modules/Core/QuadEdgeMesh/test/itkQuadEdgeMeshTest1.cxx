@@ -115,7 +115,7 @@ itkQuadEdgeMeshTest1(int, char *[])
       return EXIT_FAILURE;
     }
 
-    // create a tetahedra and one isolated point: id = 4
+    // create a tetrahedra and one isolated point: id = 4
     const int specialCells[12] = { 0, 1, 2, 0, 2, 3, 3, 1, 0, 1, 3, 2 };
 
     CellType::CellAutoPointer cellpointer;

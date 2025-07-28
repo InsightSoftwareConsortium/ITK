@@ -32,7 +32,7 @@ itkExponentialDisplacementFieldImageFilterTest(int, char *[])
   // Declare the types of the images
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
-  // Declare Iterator types apropriated for each image
+  // Declare Iterator types appropriate for each image
   using IteratorType = itk::ImageRegionIteratorWithIndex<ImageType>;
 
 

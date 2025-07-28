@@ -445,7 +445,7 @@ TemporalProcessObject::GenerateData()
     // Call TemporalStreamingGenerateData to process the chunk of data
     this->TemporalStreamingGenerateData();
 
-    // Update the bufferd region information
+    // Update the buffered region information
     TemporalRegion outputBufferedRegion = output->GetBufferedTemporalRegion();
     SizeValueType  bufferedStart = outputBufferedRegion.GetFrameStart();
     SizeValueType  bufferedDuration = outputBufferedRegion.GetFrameDuration();

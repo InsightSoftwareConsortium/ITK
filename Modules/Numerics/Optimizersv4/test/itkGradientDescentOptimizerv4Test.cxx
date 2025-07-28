@@ -262,7 +262,7 @@ itkGradientDescentOptimizerv4Test(int, char *[])
     result = EXIT_FAILURE;
   }
 
-  // test with non-idenity scales
+  // test with non-identity scales
   std::cout << "Test optimization with non-identity scales:" << std::endl;
   ScalesType scales(metric->GetNumberOfLocalParameters());
   scales.Fill(0.5);

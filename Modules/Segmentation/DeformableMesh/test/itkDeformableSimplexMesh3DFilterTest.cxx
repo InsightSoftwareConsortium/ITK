@@ -44,7 +44,7 @@ itkDeformableSimplexMesh3DFilterTest(int, char *[])
   using IndexType = OriginalImageType::IndexType;
   using ImageSizeType = OriginalImageType::SizeType;
 
-  // decale the deformation class
+  // declare the deformation class
   using DeformFilterType = itk::DeformableSimplexMesh3DFilter<SimplexMeshType, SimplexMeshType>;
   using GradientImageType = DeformFilterType::GradientImageType;
 

@@ -56,7 +56,7 @@ FloatingPointExceptions::HasFloatingPointExceptionsSupport()
 
 #else // defined(_MSC_VER)
 
-// MinGW has troubles include'ing float.h.
+// MinGW has troubles include-ing float.h.
 
 void
 FloatingPointExceptions::Enable()

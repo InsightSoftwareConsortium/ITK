@@ -66,7 +66,7 @@ struct MultiThreaderBaseGlobals
 
   // GlobalDefaultThreaderTypeIsInitialized is used only in this
   // file to ensure that the ITK_GLOBAL_DEFAULT_THREADER or
-  // ITK_USE_THREADPOOL environmenal variables are
+  // ITK_USE_THREADPOOL environmental variables are
   // only used as a fall back option.  If the SetGlobalDefaultThreader
   // API is ever used by the developer, the developers choice is
   // respected over the environmental variable.

@@ -39,7 +39,7 @@ NormalizeSineWave(double frequencyPerImage, unsigned int order, double pixelSpac
   // The theoretical maximal value should occur at this sigma
   const double sigmaMax = std::sqrt(static_cast<double>(order)) / frequency;
 
-  // The theoreical maximal value of the derivative, obtained at sigmaMax
+  // The theoretical maximal value of the derivative, obtained at sigmaMax
   const double expectedMax = std::pow(static_cast<double>(order), order * 0.5) * std::exp(-0.5 * order);
 
   using ImageType = itk::Image<double, ImageDimension>;
@@ -111,7 +111,7 @@ NormalizeSineWave(double frequencyPerImage, unsigned int order, double pixelSpac
     ++oiter;
   }
 
-  // Check if the maximumal value is obtained with a little bit bigger Gaussian
+  // Check if the maximal value is obtained with a little bit bigger Gaussian
   filter->SetVariance(itk::Math::sqr(sigmaMax * 1.05));
   outputImage->Update();
   oiter.GoToBegin();

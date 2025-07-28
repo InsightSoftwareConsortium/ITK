@@ -83,6 +83,18 @@ repos:
     -   id: pyupgrade
         exclude: ".*build.*|\\/ThirdParty\\/|\\/Data\\/"
         args: [--py39-plus]
+- repo: https://github.com/SimpleITK/CommentSpellCheck.git
+  rev: v0.4.3
+  hooks:
+    - id: comment-spell-check
+      args: ['--miss', '--dict','https://raw.githubusercontent.com/SimpleITK/SimpleITK/master/.github/workflows/additional_dictionary.txt', '--dict', '.github/workflows/itk_dict.txt', '--bibtex', 'Documentation/Doxygen/doxygen.bib', '--prefix', '\"gdcm\"', ]
+      exclude: |
+          (?x)
+          | /ThirdParty/        # Exclude files in subdirectories named ThirdParty/
+          | ^Wrapping/          # Exclude files directly under Wrapping/
+          | ^Utilities/         # Exclude files directly under Utilities/
+          | \.md$               # Exclude .md files
+          | \.c$                # Exclude .c files
 - repo: local
   hooks:
     - id: local-prepare-commit-msg

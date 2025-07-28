@@ -787,7 +787,7 @@ itkMINCImageIOTest(int argc, char * argv[])
                                           itk::ObjectFactoryBase::InsertionPositionEnum::INSERT_AT_FRONT);
 
   int result(0);
-  // stright forward test
+  // straightforward test
   result += MINCReadWriteTest<unsigned char, 3>("3DUCharImage.mnc", typeid(unsigned char).name());
   result += MINCReadWriteTest<char, 3>("3DCharImage.mnc", typeid(unsigned char).name());
   result += MINCReadWriteTest<unsigned short, 3>("3DUShortImage.mnc", typeid(short).name());
@@ -822,7 +822,7 @@ itkMINCImageIOTest(int argc, char * argv[])
     "3DVectorImage_float_short.mnc", typeid(short).name(), 0.05 * sqrt(3.0));
 
   // testing variable vector case
-  // stright forward test
+  // straightforward test
   result += MINCReadWriteTestVector<unsigned char, 3>("4DUCharImage.mnc", 10, typeid(unsigned char).name(), 0.0001);
   result += MINCReadWriteTestVector<float, 3>("4DFloatImage.mnc", 10, typeid(float).name(), 0.0001);
   result += MINCReadWriteTestVector<double, 3>("4DDoubleImage.mnc", 10, typeid(double).name(), 0.0001);

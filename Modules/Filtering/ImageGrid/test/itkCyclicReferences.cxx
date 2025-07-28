@@ -50,7 +50,7 @@ itkCyclicReferences(int, char *[])
 
   // Begin by creating a simple pipeline. Use a scalar as a pixel.
   //
-  // Create a type alias to make the code more digestable
+  // Create a type alias to make the code more digestible
   using FloatImage2DType = itk::Image<float, 2>;
 
   // Test the deletion of an image with native type.

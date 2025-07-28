@@ -19,7 +19,7 @@
 #include "itkSphereSignedDistanceFunction.h"
 
 /**
- * This module tests the functionaliyt of the SphereSignedDistanceFunction
+ * This module tests the functionality of the SphereSignedDistanceFunction
  * class and its superclass ShapeSignedDistanceFunction.
  *
  * In particular, it creates a SphereSignedDistanceFunction object

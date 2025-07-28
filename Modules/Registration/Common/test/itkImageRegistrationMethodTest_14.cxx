@@ -63,7 +63,7 @@ F(itk::Vector<double, 3> & v);
  *
  * The registration uses a simple stochastic gradient ascent scheme. Steps
  * are repeatedly taken that are proportional to the approximate
- * deriviative of the mutual information with respect to the rotation
+ * derivative of the mutual information with respect to the rotation
  * transform parameters. The stepsize is governed by the LearningRate
  * parameter.
  *
@@ -325,7 +325,7 @@ itkImageRegistrationMethodTest_14(int, char *[])
     return EXIT_FAILURE;
   }
 
-  // exerise other methods
+  // exercise other methods
   transform->SetParameters(trueParameters);
   trueParameters = transform->GetParameters();
 

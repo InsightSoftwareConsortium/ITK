@@ -64,11 +64,11 @@ test_FileListVideoIO(const char *  input,
     ret = EXIT_FAILURE;
   }
 
-  // Test CanReadFile on non-existant file
-  const std::string nonExistantFile = "Bad/Path/To/Nothing";
-  if (fileListIO->CanReadFile(nonExistantFile.c_str()))
+  // Test CanReadFile on non-existent file
+  const std::string nonExistentFile = "Bad/Path/To/Nothing";
+  if (fileListIO->CanReadFile(nonExistentFile.c_str()))
   {
-    std::cerr << "Should have failed to open \"" << nonExistantFile << '"' << std::endl;
+    std::cerr << "Should have failed to open \"" << nonExistentFile << '"' << std::endl;
     ret = EXIT_FAILURE;
   }
 

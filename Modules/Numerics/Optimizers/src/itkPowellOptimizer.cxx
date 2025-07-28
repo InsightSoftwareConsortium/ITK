@@ -275,14 +275,14 @@ PowellOptimizer::BracketedLineOptimize(double           ax,
       /* ted as p/q; division operation*/
       double q = (x - v) * (functionValueOfX - functionValueOfW);
 
-      /* Interpolation step is calcula-*/
+      /* Interpolation step is calculated */
       double p = (x - v) * q - (x - w) * t;
 
       q = 2 * (q - t);
 
-      if (q > 0.0) /* q was calculated with the op-*/
+      if (q > 0.0) /* q was calculated with the opposite sign */
       {
-        p *= -1; /* posite sign; make q positive  */
+        p *= -1; /* make q positive  */
       }
       else /* and assign possible minus to  */
       {
