@@ -54,9 +54,8 @@ itkTIFFErrorHandlerExtR([[maybe_unused]] TIFF * tif,
     ITK_GCC_SUPPRESS_Wformat_nonliteral;
     vsnprintf(out, sizeof(out), fmt, ap);
     ITK_GCC_PRAGMA_POP
-    std::ostringstream itkmsg;
-    itkmsg << "ERROR: libtiff(" << (module ? module : "") << ") message: " << out << std::endl;
-    ::itk::OutputWindowDisplayErrorText(itkmsg.str().c_str());
+    const std::string nameOfClass = std::string("libtiff(").append(module != nullptr ? module : "").append(")");
+    ::itk::OutputWindowDisplayErrorText(__FILE__, __LINE__, nameOfClass.c_str(), nullptr, out);
   }
   return 1;
 }
@@ -78,9 +77,8 @@ itkTIFFWarningHandlerExtR([[maybe_unused]] TIFF * tif,
     ITK_GCC_SUPPRESS_Wformat_nonliteral;
     vsnprintf(out, sizeof(out), fmt, ap);
     ITK_GCC_PRAGMA_POP
-    std::ostringstream itkmsg;
-    itkmsg << "WARNING: libtiff(" << (module ? module : "") << ") message: " << out << std::endl;
-    ::itk::OutputWindowDisplayWarningText(itkmsg.str().c_str());
+    const std::string nameOfClass = std::string("libtiff(") + (module != nullptr ? module : "") + "))";
+    ::itk::OutputWindowDisplayErrorText(__FILE__, __LINE__, nameOfClass.c_str(), nullptr, out);
   }
   return 1;
 }

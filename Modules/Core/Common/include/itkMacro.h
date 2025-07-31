@@ -479,6 +479,7 @@ namespace itk
  * This is to avoid Object \#include of OutputWindow
  * while OutputWindow \#includes Object. */
 /** @ITKStartGrouping */
+#ifndef ITK_FUTURE_LEGACY_REMOVE
 extern ITKCommon_EXPORT void
 OutputWindowDisplayText(const char *);
 
@@ -493,6 +494,32 @@ OutputWindowDisplayGenericOutputText(const char *);
 
 extern ITKCommon_EXPORT void
 OutputWindowDisplayDebugText(const char *);
+#endif
+
+// New context-aware versions of output display functions
+extern ITKCommon_EXPORT void
+OutputWindowDisplayDebugText(const char * file,
+                             unsigned int line,
+                             const char * className,
+                             const void * objectAddress,
+                             const char * message);
+
+extern ITKCommon_EXPORT void
+OutputWindowDisplayWarningText(const char * file,
+                               unsigned int line,
+                               const char * className,
+                               const void * objectAddress,
+                               const char * message);
+
+extern ITKCommon_EXPORT void
+OutputWindowDisplayErrorText(const char * file,
+                             unsigned int line,
+                             const char * className,
+                             const void * objectAddress,
+                             const char * message);
+
+extern ITKCommon_EXPORT void
+OutputWindowDisplayGenericOutputText(const char * file, unsigned int line, const char * message);
 /** @ITKEndGrouping */
 
 } // end namespace itk
@@ -507,17 +534,16 @@ OutputWindowDisplayDebugText(const char *);
 #  define itkDebugMacro(x) ITK_NOOP_STATEMENT
 #  define itkDebugStatement(x) ITK_NOOP_STATEMENT
 #else
-#  define itkDebugMacro(x)                                                     \
-    {                                                                          \
-      using namespace ::itk::print_helper; /* for ostream << std::vector<T> */ \
-      if (this->GetDebug() && ::itk::Object::GetGlobalWarningDisplay())        \
-      {                                                                        \
-        std::ostringstream itkmsg;                                             \
-        itkmsg << "Debug: In " __FILE__ ", line " << __LINE__ << '\n'          \
-               << this->GetNameOfClass() << " (" << this << "): " x << "\n\n"; \
-        ::itk::OutputWindowDisplayDebugText(itkmsg.str().c_str());             \
-      }                                                                        \
-    }                                                                          \
+#  define itkDebugMacro(x)                                                                                           \
+    {                                                                                                                \
+      using namespace ::itk::print_helper; /* for ostream << std::vector<T> */                                       \
+      if (this->GetDebug() && ::itk::Object::GetGlobalWarningDisplay())                                              \
+      {                                                                                                              \
+        std::ostringstream itkmsg;                                                                                   \
+        itkmsg << "" x;                                                                                              \
+        ::itk::OutputWindowDisplayDebugText(__FILE__, __LINE__, this->GetNameOfClass(), this, itkmsg.str().c_str()); \
+      }                                                                                                              \
+    }                                                                                                                \
     ITK_MACROEND_NOOP_STATEMENT
 // The itkDebugStatement is to be used to protect code that is only
 // used in the itkDebugMacro
@@ -527,16 +553,15 @@ OutputWindowDisplayDebugText(const char *);
 /** This macro is used to print warning information (i.e., unusual circumstance
  * but not necessarily fatal.) Example usage looks like:
  * itkWarningMacro("this is warning info" << this->SomeVariable); */
-#define itkWarningMacro(x)                                                   \
-  {                                                                          \
-    if (::itk::Object::GetGlobalWarningDisplay())                            \
-    {                                                                        \
-      std::ostringstream itkmsg;                                             \
-      itkmsg << "WARNING: In " __FILE__ ", line " << __LINE__ << '\n'        \
-             << this->GetNameOfClass() << " (" << this << "): " x << "\n\n"; \
-      ::itk::OutputWindowDisplayWarningText(itkmsg.str().c_str());           \
-    }                                                                        \
-  }                                                                          \
+#define itkWarningMacro(x)                                                                                           \
+  {                                                                                                                  \
+    if (::itk::Object::GetGlobalWarningDisplay())                                                                    \
+    {                                                                                                                \
+      std::ostringstream itkmsg;                                                                                     \
+      itkmsg << "" x;                                                                                                \
+      ::itk::OutputWindowDisplayWarningText(__FILE__, __LINE__, this->GetNameOfClass(), this, itkmsg.str().c_str()); \
+    }                                                                                                                \
+  }                                                                                                                  \
   ITK_MACROEND_NOOP_STATEMENT
 
 
@@ -590,15 +615,15 @@ OutputWindowDisplayDebugText(const char *);
 
 #define itkGenericExceptionMacro(x) itkSpecializedMessageExceptionMacro(ExceptionObject, x)
 
-#define itkGenericOutputMacro(x)                                                   \
-  {                                                                                \
-    if (::itk::Object::GetGlobalWarningDisplay())                                  \
-    {                                                                              \
-      std::ostringstream itkmsg;                                                   \
-      itkmsg << "WARNING: In " __FILE__ ", line " << __LINE__ << "\n" x << "\n\n"; \
-      ::itk::OutputWindowDisplayGenericOutputText(itkmsg.str().c_str());           \
-    }                                                                              \
-  }                                                                                \
+#define itkGenericOutputMacro(x)                                                             \
+  {                                                                                          \
+    if (::itk::Object::GetGlobalWarningDisplay())                                            \
+    {                                                                                        \
+      std::ostringstream itkmsg;                                                             \
+      itkmsg << "" x;                                                                        \
+      ::itk::OutputWindowDisplayGenericOutputText(__FILE__, __LINE__, itkmsg.str().c_str()); \
+    }                                                                                        \
+  }                                                                                          \
   ITK_MACROEND_NOOP_STATEMENT
 
 //----------------------------------------------------------------------------
