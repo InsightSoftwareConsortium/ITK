@@ -182,13 +182,13 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateOutputInformation()
       axis = directionIO[i];
       for (unsigned int j = 0; j < TOutputImage::ImageDimension; ++j)
       {
-        if (j < numberOfDimensionsIO)
+        if (j < numberOfDimensionsIO && j < axis.size())
         {
           direction[j][i] = axis[j];
         }
         else
         {
-          direction[j][i] = 0.0;
+          direction[j][i] = (i == j ? 1.0 : 0.0);
         }
       }
     }

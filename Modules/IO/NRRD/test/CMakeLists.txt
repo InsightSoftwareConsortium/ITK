@@ -14,6 +14,8 @@ set(
   itkNrrdRGBImageReadWriteTest.cxx
   itkNrrdVectorImageReadTest.cxx
   itkNrrdVectorImageReadWriteTest.cxx
+  itkNrrdVectorImageUnitLabelReadTest.cxx
+  itkNrrd5dVectorImageReadWriteTest.cxx
   itkNrrdMetaDataTest.cxx
 )
 
@@ -326,6 +328,25 @@ itk_add_test(
     itkNrrdVectorImageReadWriteTest
     DATA{${ITK_DATA_ROOT}/Input/mini-vector-slow.nrrd}
     ${ITK_TEST_OUTPUT_DIR}/mini-vector.nrrd
+)
+itk_add_test(
+  NAME itkNrrdVectorImageUnitLabelReadTest
+  COMMAND
+    ITKIONRRDTestDriver
+    itkNrrdVectorImageUnitLabelReadTest
+    DATA{${ITK_DATA_ROOT}/Input/CTCardioCropped.seq.nrrd}
+)
+itk_add_test(
+  NAME itkNrrd5dVectorImageReadWriteTest
+  COMMAND
+    ITKIONRRDTestDriver
+    itkNrrd5dVectorImageReadWriteTest
+    ${ITK_TEST_OUTPUT_DIR}/2d-double.seq.nrrd
+    ${ITK_TEST_OUTPUT_DIR}/3d-double.seq.nrrd
+    ${ITK_TEST_OUTPUT_DIR}/2d-displacement-field-vector.seq.nrrd
+    ${ITK_TEST_OUTPUT_DIR}/3d-displacement-field-vector.seq.nrrd
+    ${ITK_TEST_OUTPUT_DIR}/2d-rgb-color-image-vector.seq.nrrd
+    ${ITK_TEST_OUTPUT_DIR}/3d-rgba-color-image-vector.seq.nrrd
 )
 
 itk_add_test(
