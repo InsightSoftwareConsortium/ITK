@@ -27,19 +27,19 @@
 // FIXME: Maybe variations of these macros should be moved into
 // itkMacro.h
 //
-#define itkQEDebugMacro(x)                                                                              \
-  {                                                                                                     \
-    std::ostringstream itkmsg;                                                                          \
-    itkmsg << "Debug: In " __FILE__ ", line " << __LINE__ << '\n' << " (" << this << "): " x << "\n\n"; \
-    OutputWindowDisplayDebugText(itkmsg.str().c_str());                                                 \
-  }                                                                                                     \
+#define itkQEDebugMacro(x)                                                                    \
+  {                                                                                           \
+    std::ostringstream itkmsg;                                                                \
+    itkmsg << "" x;                                                                           \
+    OutputWindowDisplayDebugText(__FILE__, __LINE__, "QuadEdge", this, itkmsg.str().c_str()); \
+  }                                                                                           \
   ITK_MACROEND_NOOP_STATEMENT
-#define itkQEWarningMacro(x)                                                                              \
-  {                                                                                                       \
-    std::ostringstream itkmsg;                                                                            \
-    itkmsg << "WARNING: In " __FILE__ ", line " << __LINE__ << '\n' << " (" << this << "): " x << "\n\n"; \
-    OutputWindowDisplayWarningText(itkmsg.str().c_str());                                                 \
-  }                                                                                                       \
+#define itkQEWarningMacro(x)                                                                    \
+  {                                                                                             \
+    std::ostringstream itkmsg;                                                                  \
+    itkmsg << "" x;                                                                             \
+    OutputWindowDisplayWarningText(__FILE__, __LINE__, "QuadEdge", this, itkmsg.str().c_str()); \
+  }                                                                                             \
   ITK_MACROEND_NOOP_STATEMENT
 
 // -------------------------------------------------------------------------

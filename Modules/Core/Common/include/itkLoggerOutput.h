@@ -91,6 +91,12 @@ public:
   void
   DisplayDebugText(const char * t) override;
 
+  // Bring base class overloads into scope to avoid hiding
+  using Superclass::DisplayErrorText;
+  using Superclass::DisplayWarningText;
+  using Superclass::DisplayGenericOutputText;
+  using Superclass::DisplayDebugText;
+
   itkSetMacro(Logger, LoggerType);
 
   itkGetConstMacro(Logger, LoggerType);

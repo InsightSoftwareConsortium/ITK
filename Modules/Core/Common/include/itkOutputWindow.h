@@ -35,7 +35,6 @@
 namespace itk
 {
 
-
 struct OutputWindowGlobals;
 
 /** \class OutputWindow
@@ -117,6 +116,36 @@ public:
   {
     this->DisplayText(t);
   }
+
+  /** Format and send debug message with context information.
+   * This allows customization of how file/line/class context is formatted. */
+  virtual void
+  DisplayDebugText(const char * file,
+                   unsigned int line,
+                   const char * className,
+                   const void * objectAddress,
+                   const char * message);
+
+  /** Format and send warning message with context information. */
+  virtual void
+  DisplayWarningText(const char * file,
+                     unsigned int line,
+                     const char * className,
+                     const void * objectAddress,
+                     const char * message);
+
+  /** Format and send warning message with context information. */
+  virtual void
+  DisplayErrorText(const char * file,
+                   unsigned int line,
+                   const char * className,
+                   const void * objectAddress,
+                   const char * message);
+
+
+  /** Format and send generic output message with context information. */
+  virtual void
+  DisplayGenericOutputText(const char * file, unsigned int line, const char * message);
 
   /** If PromptUser is set to true then each time a line of text
    * is displayed, the user is asked if they want to keep getting

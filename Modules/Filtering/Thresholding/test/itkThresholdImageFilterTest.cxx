@@ -48,7 +48,7 @@ itkThresholdImageFilterTest(int, char *[])
   random->SetOrigin(origin);
 
   // Test #1, filter goes out of scope
-  itk::OutputWindowDisplayText("Test #1: Filter goes out of scope -----------------");
+  itk::OutputWindowDisplayGenericOutputText(__FILE__, __LINE__, "Test #1: Filter goes out of scope -----------------");
   {
     itk::ThresholdImageFilter<FloatImage2DType>::Pointer threshold;
     threshold = itk::ThresholdImageFilter<FloatImage2DType>::New();
@@ -75,17 +75,18 @@ itkThresholdImageFilterTest(int, char *[])
 
     std::ostringstream os;
     os << "Filter: " << threshold.GetPointer();
-    itk::OutputWindowDisplayText(os.str().c_str());
+    itk::OutputWindowDisplayGenericOutputText(__FILE__, __LINE__, os.str().c_str());
     os.str("");
     os << "Output #0: " << threshold->GetOutput(0);
-    itk::OutputWindowDisplayText(os.str().c_str());
+    itk::OutputWindowDisplayGenericOutputText(__FILE__, __LINE__, os.str().c_str());
 
-    itk::OutputWindowDisplayText("Ending Test #1: filter goes out of scope");
-    itk::OutputWindowDisplayText("End of Test #1 -----------------------------------");
+    itk::OutputWindowDisplayGenericOutputText(__FILE__, __LINE__, "Ending Test #1: filter goes out of scope");
+    itk::OutputWindowDisplayGenericOutputText(__FILE__, __LINE__, "End of Test #1 -----------------------------------");
   }
 
   // Test #2, user keeps an extra handle to an output
-  itk::OutputWindowDisplayText("Test #2: User keeps an extra hold on an output  -----------------");
+  itk::OutputWindowDisplayGenericOutputText(
+    __FILE__, __LINE__, "Test #2: User keeps an extra hold on an output  -----------------");
   {
     FloatImage2DType::Pointer keep;
 
@@ -96,19 +97,21 @@ itkThresholdImageFilterTest(int, char *[])
 
     std::ostringstream os;
     os << "Filter: " << threshold.GetPointer();
-    itk::OutputWindowDisplayText(os.str().c_str());
+    itk::OutputWindowDisplayGenericOutputText(__FILE__, __LINE__, os.str().c_str());
     os.str("");
     os << "Output #0: " << threshold->GetOutput(0);
-    itk::OutputWindowDisplayText(os.str().c_str());
+    itk::OutputWindowDisplayGenericOutputText(__FILE__, __LINE__, os.str().c_str());
 
     keep = threshold->GetOutput(0);
 
-    itk::OutputWindowDisplayText("End of Test #2: last handle on output 0 should go out of scope");
+    itk::OutputWindowDisplayGenericOutputText(
+      __FILE__, __LINE__, "End of Test #2: last handle on output 0 should go out of scope");
   }
-  itk::OutputWindowDisplayText("End of Test #2 -----------------------------------");
+  itk::OutputWindowDisplayGenericOutputText(__FILE__, __LINE__, "End of Test #2 -----------------------------------");
 
   // Test #3, user disconnects a data object from the pipeline
-  itk::OutputWindowDisplayText("Test #3: user disconnects a data object from the pipeline  -----------------");
+  itk::OutputWindowDisplayGenericOutputText(
+    __FILE__, __LINE__, "Test #3: user disconnects a data object from the pipeline  -----------------");
   {
     FloatImage2DType::Pointer keep;
 
@@ -119,20 +122,21 @@ itkThresholdImageFilterTest(int, char *[])
 
     std::ostringstream os;
     os << "Filter: " << threshold.GetPointer();
-    itk::OutputWindowDisplayText(os.str().c_str());
+    itk::OutputWindowDisplayGenericOutputText(__FILE__, __LINE__, os.str().c_str());
     os.str("");
     os << "Output #0: " << threshold->GetOutput(0);
-    itk::OutputWindowDisplayText(os.str().c_str());
+    itk::OutputWindowDisplayGenericOutputText(__FILE__, __LINE__, os.str().c_str());
 
     keep = threshold->GetOutput(0);
     keep->DisconnectPipeline();
 
-    itk::OutputWindowDisplayText("End of Test #3: last handle on output 0 should go out of scope");
+    itk::OutputWindowDisplayGenericOutputText(
+      __FILE__, __LINE__, "End of Test #3: last handle on output 0 should go out of scope");
   }
-  itk::OutputWindowDisplayText("End of Test #3 -----------------------------------");
+  itk::OutputWindowDisplayGenericOutputText(__FILE__, __LINE__, "End of Test #3 -----------------------------------");
 
   // Test #4, threshold values
-  itk::OutputWindowDisplayText("Test #4: threshold values  -----------------");
+  itk::OutputWindowDisplayGenericOutputText(__FILE__, __LINE__, "Test #4: threshold values  -----------------");
   {
     using PixelType = int;
 
@@ -177,7 +181,7 @@ itkThresholdImageFilterTest(int, char *[])
       std::ostringstream os;
       os << "Filter above failed:"
          << " lower: " << threshold->GetLower() << " upper: " << threshold->GetUpper() << " output: " << outputValue;
-      itk::OutputWindowDisplayText(os.str().c_str());
+      itk::OutputWindowDisplayGenericOutputText(__FILE__, __LINE__, os.str().c_str());
       return EXIT_FAILURE;
     }
 
@@ -190,7 +194,7 @@ itkThresholdImageFilterTest(int, char *[])
       std::ostringstream os;
       os << "Filter above failed:"
          << " lower: " << threshold->GetLower() << " upper: " << threshold->GetUpper() << " output: " << outputValue;
-      itk::OutputWindowDisplayText(os.str().c_str());
+      itk::OutputWindowDisplayGenericOutputText(__FILE__, __LINE__, os.str().c_str());
       return EXIT_FAILURE;
     }
 
@@ -205,7 +209,7 @@ itkThresholdImageFilterTest(int, char *[])
       std::ostringstream os;
       os << "Filter above failed:"
          << " lower: " << threshold->GetLower() << " upper: " << threshold->GetUpper() << " output: " << outputValue;
-      itk::OutputWindowDisplayText(os.str().c_str());
+      itk::OutputWindowDisplayGenericOutputText(__FILE__, __LINE__, os.str().c_str());
       return EXIT_FAILURE;
     }
 
@@ -218,7 +222,7 @@ itkThresholdImageFilterTest(int, char *[])
       std::ostringstream os;
       os << "Filter below failed:"
          << " lower: " << threshold->GetLower() << " upper: " << threshold->GetUpper() << " output: " << outputValue;
-      itk::OutputWindowDisplayText(os.str().c_str());
+      itk::OutputWindowDisplayGenericOutputText(__FILE__, __LINE__, os.str().c_str());
       return EXIT_FAILURE;
     }
 
@@ -231,7 +235,7 @@ itkThresholdImageFilterTest(int, char *[])
       std::ostringstream os;
       os << "Filter below failed:"
          << " lower: " << threshold->GetLower() << " upper: " << threshold->GetUpper() << " output: " << outputValue;
-      itk::OutputWindowDisplayText(os.str().c_str());
+      itk::OutputWindowDisplayGenericOutputText(__FILE__, __LINE__, os.str().c_str());
       return EXIT_FAILURE;
     }
 
@@ -246,7 +250,7 @@ itkThresholdImageFilterTest(int, char *[])
       std::ostringstream os;
       os << "Filter below failed:"
          << " lower: " << threshold->GetLower() << " upper: " << threshold->GetUpper() << " output: " << outputValue;
-      itk::OutputWindowDisplayText(os.str().c_str());
+      itk::OutputWindowDisplayGenericOutputText(__FILE__, __LINE__, os.str().c_str());
       return EXIT_FAILURE;
     }
 
@@ -259,7 +263,7 @@ itkThresholdImageFilterTest(int, char *[])
       std::ostringstream os;
       os << "Filter outside failed:"
          << " lower: " << threshold->GetLower() << " upper: " << threshold->GetUpper() << " output: " << outputValue;
-      itk::OutputWindowDisplayText(os.str().c_str());
+      itk::OutputWindowDisplayGenericOutputText(__FILE__, __LINE__, os.str().c_str());
       return EXIT_FAILURE;
     }
 
@@ -274,7 +278,7 @@ itkThresholdImageFilterTest(int, char *[])
       std::ostringstream os;
       os << "Filter outside failed:"
          << " lower: " << threshold->GetLower() << " upper: " << threshold->GetUpper() << " output: " << outputValue;
-      itk::OutputWindowDisplayText(os.str().c_str());
+      itk::OutputWindowDisplayGenericOutputText(__FILE__, __LINE__, os.str().c_str());
       return EXIT_FAILURE;
     }
 
@@ -287,11 +291,11 @@ itkThresholdImageFilterTest(int, char *[])
       std::ostringstream os;
       os << "Filter above failed:"
          << " lower: " << threshold->GetLower() << " upper: " << threshold->GetUpper() << " output: " << outputValue;
-      itk::OutputWindowDisplayText(os.str().c_str());
+      itk::OutputWindowDisplayGenericOutputText(__FILE__, __LINE__, os.str().c_str());
       return EXIT_FAILURE;
     }
   }
-  itk::OutputWindowDisplayText("End of Test #4 -----------------------------------");
+  itk::OutputWindowDisplayGenericOutputText(__FILE__, __LINE__, "End of Test #4 -----------------------------------");
 
   return EXIT_SUCCESS;
 }
