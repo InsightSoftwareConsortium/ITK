@@ -91,6 +91,7 @@ repos:
       exclude: |
           (?x)
           | /ThirdParty/        # Exclude files in subdirectories named ThirdParty/
+          | /test/              # Exclude files in subdirectories named test/
           | ^Wrapping/          # Exclude files directly under Wrapping/
           | ^Utilities/         # Exclude files directly under Utilities/
           | \.md$               # Exclude .md files
