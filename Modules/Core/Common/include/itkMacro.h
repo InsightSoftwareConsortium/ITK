@@ -610,8 +610,18 @@ OutputWindowDisplayGenericOutputText(const char * file, unsigned int line, const
 /** The itkExceptionMacro macro is used to print error information (i.e., usually
  * a condition that results in program failure). Example usage looks like:
  * itkExceptionMacro("this is error info" << this->SomeVariable); */
-#define itkExceptionMacro(x) \
-  itkSpecializedMessageExceptionMacro(ExceptionObject, << this->GetNameOfClass() << '(' << this << "): " x)
+#define itkExceptionMacro(x)                                                   \
+  {                                                                            \
+    std::ostringstream exceptionDescriptionOutputStringStream;                 \
+    exceptionDescriptionOutputStringStream << "" x;                            \
+    throw ::itk::ExceptionObject(std::string{ __FILE__ },                      \
+                                 __LINE__,                                     \
+                                 exceptionDescriptionOutputStringStream.str(), \
+                                 std::string{ ITK_LOCATION },                  \
+                                 this);                                        \
+  }                                                                            \
+  ITK_MACROEND_NOOP_STATEMENT
+
 
 #define itkGenericExceptionMacro(x) itkSpecializedMessageExceptionMacro(ExceptionObject, x)
 

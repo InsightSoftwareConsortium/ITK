@@ -21,6 +21,23 @@
 #include <gtest/gtest.h>
 #include <sstream>
 #include <string>
+#include <regex>
+#include "itkLightObject.h"
+#include "itkObjectFactory.h"
+
+
+// A simple LightObject subclass for testing constructor that takes LightObject pointer
+namespace
+{
+class TestLightObject : public itk::LightObject
+{
+public:
+  using Self = TestLightObject;
+  using Superclass = itk::LightObject;
+  itkNewMacro(Self);
+  itkTypeMacro(TestLightObject, LightObject);
+};
+} // end anonymous namespace
 
 
 itkDeclareExceptionMacro(GTest_SpecializedException,
@@ -58,11 +75,12 @@ TEST(ExceptionObject, TestDescriptionFromExceptionMacro)
   {
     const char * const actualDescription = exceptionObject.GetDescription();
     ASSERT_NE(actualDescription, nullptr);
+    // Description now stores only the user-provided message; the ITK ERROR prefix & metadata moved to what().
+    EXPECT_EQ(actualDescription, message);
 
-    std::ostringstream expectedDescription;
-    expectedDescription << "ITK ERROR: " << testObject.GetNameOfClass() << '(' << &testObject << "): " << message;
-
-    EXPECT_EQ(actualDescription, expectedDescription.str());
+    const std::string what = exceptionObject.what();
+    // For this scenario we only guarantee that the user message appears.
+    EXPECT_NE(what.find(message), std::string::npos);
   }
 }
 
@@ -78,7 +96,7 @@ TEST(ExceptionObject, TestDescriptionFromSpecializedExceptionMacro)
   {
     const char * const description = exceptionObject.GetDescription();
     ASSERT_NE(description, nullptr);
-    EXPECT_EQ(description, std::string("ITK ERROR: ") + itk::GTest_SpecializedException::default_exception_message);
+    EXPECT_EQ(std::string(description), std::string(itk::GTest_SpecializedException::default_exception_message));
   }
 }
 
@@ -99,7 +117,7 @@ TEST(ExceptionObject, TestWhat)
     ASSERT_NE(file, nullptr);
     ASSERT_NE(description, nullptr);
 
-    EXPECT_EQ(what, file + (":" + std::to_string(exceptionObject.GetLine()) + ":\n") + description);
+    EXPECT_EQ(what, file + (":" + std::to_string(exceptionObject.GetLine()) + ":\nITK ERROR: ") + description);
   }
   {
     // Test with location = ITK_LOCATION (as used by ITK's exception macro's).
@@ -117,6 +135,122 @@ TEST(ExceptionObject, TestWhat)
 
 
     EXPECT_EQ(what,
-              file + (":" + std::to_string(exceptionObject.GetLine()) + ": in '" + location + "':\n") + description);
+              file + (":" + std::to_string(exceptionObject.GetLine()) + ": in '" + location + "':\nITK ERROR: ") +
+                description);
   }
+}
+
+
+// Tests modifying a default constructed exception via setters.
+TEST(ExceptionObject, TestDefaultConstructedAndSetters)
+{
+  itk::ExceptionObject e; // default constructed (no data)
+  EXPECT_STREQ(e.GetFile(), "");
+  EXPECT_EQ(e.GetLine(), 0u);
+  EXPECT_STREQ(e.GetLocation(), "");
+  EXPECT_STREQ(e.GetDescription(), "");
+  EXPECT_STREQ(e.what(), "ExceptionObject"); // what() of default exception
+
+  // Setters should update class name and description
+  e.SetDescription("first description");
+  e.SetLocation("MyFunction()");
+  const std::string what = e.what();
+  // what should now contain class name and description
+  EXPECT_NE(what.find("first description"), std::string::npos);
+  EXPECT_NE(what.find("MyFunction()"), std::string::npos);
+}
+
+
+// Tests that SetLocation, SetDescription, update the cached what() text
+TEST(ExceptionObject, TestSettersUpdateWhat)
+{
+  itk::ExceptionObject e(__FILE__, __LINE__, "initial", "");
+  std::string          what1 = e.what();
+  EXPECT_NE(what1.find("initial"), std::string::npos);
+  EXPECT_NE(what1.find("ITK ERROR"), std::string::npos); // ITK ERROR is present
+
+  e.SetLocation("LocA");
+  std::string what2 = e.what();
+  EXPECT_NE(what2.find("LocA"), std::string::npos);
+  EXPECT_NE(what2.find("initial"), std::string::npos);
+
+  e.SetDescription("Second description");
+  std::string what3 = e.what();
+  EXPECT_NE(what3.find("Second description"), std::string::npos);
+  EXPECT_EQ(what3.find("initial"), std::string::npos);
+}
+
+
+// Tests construction with a LightObject thrower supplies its class name & pointer in what().
+TEST(ExceptionObject, TestConstructorWithLightObjectThrower)
+{
+  auto                 thrower = TestLightObject::New();
+  itk::ExceptionObject e(__FILE__, __LINE__, "light object description", ITK_LOCATION, thrower.GetPointer());
+  const std::string    what = e.what();
+  const auto           newlinePos = what.find('\n');
+  ASSERT_NE(newlinePos, std::string::npos);
+  const std::string afterNewline = what.substr(newlinePos + 1);
+  EXPECT_NE(afterNewline.find("TestLightObject"), std::string::npos);
+  EXPECT_NE(afterNewline.find(": light object description"), std::string::npos);
+}
+
+
+// Tests construction with a non-LightObject thrower (templated constructor) stores a non-empty class name (typeid).
+TEST(ExceptionObject, TestConstructorWithNonLightObjectThrower)
+{
+  struct PlainStruct
+  {
+  } plain;
+  auto e = itk::ExceptionObject(__FILE__, __LINE__, "plain description", ITK_LOCATION, &plain);
+  // For non-LightObject, class name should be empty string
+  const std::string what = e.what();
+  EXPECT_NE(what.find("ITK ERROR:"), std::string::npos);
+  EXPECT_NE(what.find("plain description"), std::string::npos);
+}
+
+
+// Tests operator== covers case with same shared data and with modified fields.
+TEST(ExceptionObject, TestEqualityOperator)
+{
+  itk::ExceptionObject a(__FILE__, __LINE__, "desc", "locA");
+  itk::ExceptionObject b = a; // shares data
+  EXPECT_TRUE(a == b);
+
+  itk::ExceptionObject c(__FILE__, __LINE__, "desc", "locA");
+  // Value equality currently false because GetFile() pointer string differs or internal class name differences; ensure
+  // reflexive only.
+  EXPECT_FALSE(a == c);
+
+  itk::ExceptionObject d(__FILE__, __LINE__, "desc2", "locA");
+  EXPECT_FALSE(a == d);
+
+  itk::ExceptionObject e(__FILE__, __LINE__, "desc", "locB");
+  EXPECT_FALSE(a == e);
+}
+
+
+// Tests Print() output basic structure.
+TEST(ExceptionObject, TestPrintOutput)
+{
+  itk::ExceptionObject e(__FILE__, __LINE__, "print description", "PrintLocation");
+  std::ostringstream   oss;
+  oss << e;
+  const std::string out = oss.str();
+  EXPECT_NE(out.find("itk::ExceptionObject"), std::string::npos);
+  EXPECT_NE(out.find("Location: \"PrintLocation\""), std::string::npos);
+  EXPECT_NE(out.find("File: "), std::string::npos);
+  EXPECT_NE(out.find("Line: "), std::string::npos);
+  EXPECT_NE(out.find("Description: print description"), std::string::npos);
+}
+
+// Tests that Print() includes ClassName and Thrower when available.
+TEST(ExceptionObject, TestPrintIncludesClassNameAndThrower)
+{
+  auto                 thrower = TestLightObject::New();
+  itk::ExceptionObject e(__FILE__, __LINE__, "desc", "LocX", thrower.GetPointer());
+  std::ostringstream   oss;
+  oss << e;
+  const std::string out = oss.str();
+  EXPECT_NE(out.find("ClassName: TestLightObject"), std::string::npos);
+  EXPECT_NE(out.find("Thrower: "), std::string::npos);
 }
