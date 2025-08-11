@@ -108,19 +108,19 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
 
   if (this->GetInput() == nullptr && this->GetPointSet() == nullptr)
   {
-    itkExceptionMacro("Either a DisplacementField or PointSet input must be specified as Input.");
+    itkExceptionStringMacro("Either a DisplacementField or PointSet input must be specified as Input.");
   }
 
   const InputPointSetType * inputPointSet = this->GetPointSet();
   if (inputPointSet && this->m_UsePointWeights && (this->m_PointWeights->Size() != inputPointSet->GetNumberOfPoints()))
   {
-    itkExceptionMacro("The number of input points does not match the number of weight elements.");
+    itkExceptionStringMacro("The number of input points does not match the number of weight elements.");
   }
 
 
   if (!this->m_UseInputFieldToDefineTheBSplineDomain && !this->m_BSplineDomainIsDefined)
   {
-    itkExceptionMacro("Output (B-spline) domain is undefined.");
+    itkExceptionStringMacro("Output (B-spline) domain is undefined.");
   }
 }
 
@@ -374,7 +374,8 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
 
   if (numberOfPoints == 0)
   {
-    itkExceptionMacro("No points were found.  Check that one or both inputs (displacement field/point set) are set.");
+    itkExceptionStringMacro(
+      "No points were found.  Check that one or both inputs (displacement field/point set) are set.");
   }
 
   itkDebugMacro("Calculating the B-spline displacement field. ");

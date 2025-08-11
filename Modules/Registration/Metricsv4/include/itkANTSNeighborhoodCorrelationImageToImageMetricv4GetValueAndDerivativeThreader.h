@@ -226,7 +226,7 @@ protected:
                DerivativeType &                itkNotUsed(localDerivativeReturn),
                const ThreadIdType              itkNotUsed(threadId)) const override
   {
-    itkExceptionMacro("ProcessPoint should never be reached in ANTS CC metric threader class.");
+    itkExceptionStringMacro("ProcessPoint should never be reached in ANTS CC metric threader class.");
   }
 
   void

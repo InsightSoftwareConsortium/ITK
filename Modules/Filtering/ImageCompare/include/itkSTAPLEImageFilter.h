@@ -181,7 +181,7 @@ public:
   {
     if (i > this->GetNumberOfIndexedInputs())
     {
-      itkExceptionMacro("Array reference out of bounds.");
+      itkExceptionStringMacro("Array reference out of bounds.");
     }
     return m_Sensitivity[i];
   }
@@ -193,7 +193,7 @@ public:
   {
     if (i > this->GetNumberOfIndexedInputs())
     {
-      itkExceptionMacro("Array reference out of bounds.");
+      itkExceptionStringMacro("Array reference out of bounds.");
     }
     return m_Specificity[i];
   }

@@ -71,7 +71,7 @@ PlatformMultiThreader::MultipleMethodExecute()
 
     if (processId[threadCount] == nullptr)
     {
-      itkExceptionMacro("Error in thread creation!");
+      itkExceptionStringMacro("Error in thread creation!");
     }
   }
 
@@ -116,7 +116,7 @@ PlatformMultiThreader::SpawnThread(ThreadFunctionType f, void * UserData)
 
   if (id >= ITK_MAX_THREADS)
   {
-    itkExceptionMacro("You have too many active threads!");
+    itkExceptionStringMacro("You have too many active threads!");
   }
 
   m_SpawnedThreadInfoArray[id].UserData = UserData;
@@ -130,7 +130,7 @@ PlatformMultiThreader::SpawnThread(ThreadFunctionType f, void * UserData)
     reinterpret_cast<HANDLE>(_beginthreadex(nullptr, 0, f, &m_SpawnedThreadInfoArray[id], 0, nullptr));
   if (m_SpawnedThreadProcessID[id] == nullptr)
   {
-    itkExceptionMacro("Error in thread creation !!!");
+    itkExceptionStringMacro("Error in thread creation !!!");
   }
   return id;
 }
@@ -170,7 +170,7 @@ PlatformMultiThreader::SpawnDispatchSingleMethodThread(PlatformMultiThreader::Wo
     reinterpret_cast<HANDLE>(_beginthreadex(nullptr, 0, this->SingleMethodProxy, threadInfo, 0, nullptr));
   if (threadHandle == nullptr)
   {
-    itkExceptionMacro("Error in thread creation !!!");
+    itkExceptionStringMacro("Error in thread creation !!!");
   }
   return threadHandle;
 }

@@ -52,17 +52,17 @@ ClassifierBase<TDataContainer>::Update()
 {
   if (m_NumberOfClasses == 0)
   {
-    itkExceptionMacro("Zero class");
+    itkExceptionStringMacro("Zero class");
   }
 
   if (m_MembershipFunctions.empty())
   {
-    itkExceptionMacro("No membership function");
+    itkExceptionStringMacro("No membership function");
   }
 
   if (m_NumberOfClasses != m_MembershipFunctions.size())
   {
-    itkExceptionMacro("The number of classes and the number of membership mismatch.");
+    itkExceptionStringMacro("The number of classes and the number of membership mismatch.");
   }
 
   this->GenerateData();

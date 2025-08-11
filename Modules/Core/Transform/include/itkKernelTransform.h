@@ -154,13 +154,13 @@ public:
   OutputVectorType
   TransformVector(const InputVectorType &) const override
   {
-    itkExceptionMacro("TransformVector(const InputVectorType &) is not implemented for KernelTransform");
+    itkExceptionStringMacro("TransformVector(const InputVectorType &) is not implemented for KernelTransform");
   }
   /** @ITKEndGrouping */
   OutputVnlVectorType
   TransformVector(const InputVnlVectorType &) const override
   {
-    itkExceptionMacro("TransformVector(const InputVnlVectorType &) is not implemented for KernelTransform");
+    itkExceptionStringMacro("TransformVector(const InputVnlVectorType &) is not implemented for KernelTransform");
   }
 
   /**  Method to transform a CovariantVector. */

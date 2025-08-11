@@ -141,7 +141,7 @@ ConstantVelocityFieldTransform<TParametersValueType, VDimension>::SetFixedParame
 {
   if (fixedParameters.Size() != ConstantVelocityFieldDimension * (ConstantVelocityFieldDimension + 3))
   {
-    itkExceptionMacro("The fixed parameters are not the right size.");
+    itkExceptionStringMacro("The fixed parameters are not the right size.");
   }
 
   SizeType size;

@@ -41,7 +41,7 @@ SurfaceSpatialObjectPoint<TPointDimension>::SetNormalInWorldSpace(const Covarian
 {
   if (this->m_SpatialObject == nullptr)
   {
-    itkExceptionMacro("The SpatialObject must be set prior to calling.");
+    itkExceptionStringMacro("The SpatialObject must be set prior to calling.");
   }
 
   m_NormalInObjectSpace =
@@ -61,7 +61,7 @@ SurfaceSpatialObjectPoint<TPointDimension>::GetNormalInWorldSpace() const -> con
 {
   if (this->m_SpatialObject == nullptr)
   {
-    itkExceptionMacro("The SpatialObject must be set prior to calling.");
+    itkExceptionStringMacro("The SpatialObject must be set prior to calling.");
   }
 
   return Superclass::m_SpatialObject->GetObjectToWorldTransform()->TransformCovariantVector(m_NormalInObjectSpace);

@@ -258,7 +258,7 @@ ProcessObject::SetInput(const DataObjectIdentifierType & key, DataObject * input
 {
   if (key.empty())
   {
-    itkExceptionMacro("An empty string can't be used as an input identifier");
+    itkExceptionStringMacro("An empty string can't be used as an input identifier");
   }
   auto it = m_Inputs.find(key);
   if (it == m_Inputs.end())
@@ -422,7 +422,7 @@ ProcessObject::SetOutput(const DataObjectIdentifierType & name, DataObject * out
 
   if (key.empty())
   {
-    itkExceptionMacro("An empty string can't be used as an output identifier");
+    itkExceptionStringMacro("An empty string can't be used as an output identifier");
   }
 
   // does this change anything?
@@ -796,7 +796,7 @@ ProcessObject::AddRequiredInputName(const DataObjectIdentifierType & name)
 {
   if (name.empty())
   {
-    itkExceptionMacro("An empty string can't be used as an input identifier");
+    itkExceptionStringMacro("An empty string can't be used as an input identifier");
   }
 
   if (!m_RequiredInputNames.insert(name).second)
@@ -821,7 +821,7 @@ ProcessObject::AddOptionalInputName(const DataObjectIdentifierType & name)
 
   if (name.empty())
   {
-    itkExceptionMacro("An empty string can't be used as an input identifier");
+    itkExceptionStringMacro("An empty string can't be used as an input identifier");
   }
 
   // note: insert will not change value if it's already there.
@@ -837,7 +837,7 @@ ProcessObject::AddRequiredInputName(const DataObjectIdentifierType & name, DataO
 
   if (name.empty())
   {
-    itkExceptionMacro("An empty string can't be used as an input identifier");
+    itkExceptionStringMacro("An empty string can't be used as an input identifier");
   }
 
   if (!m_RequiredInputNames.insert(name).second)
@@ -863,7 +863,7 @@ ProcessObject::AddOptionalInputName(const DataObjectIdentifierType & name, DataO
 
   if (name.empty())
   {
-    itkExceptionMacro("An empty string can't be used as an input identifier");
+    itkExceptionStringMacro("An empty string can't be used as an input identifier");
   }
 
   // note: insert will not change value if it's already in named inputs.

@@ -157,14 +157,14 @@ public:
   void
   SetFixedObject(const ObjectType * itkNotUsed(object)) override
   {
-    itkExceptionMacro("A single object should not be specified for the multi metric.");
+    itkExceptionStringMacro("A single object should not be specified for the multi metric.");
   }
 
   /** Set moving object (image, point set, etc.)*/
   void
   SetMovingObject(const ObjectType * itkNotUsed(object)) override
   {
-    itkExceptionMacro("A single object should not be specified for the multi metric.");
+    itkExceptionStringMacro("A single object should not be specified for the multi metric.");
   }
 
   /** Set each of the component metrics to use this moving transform. */

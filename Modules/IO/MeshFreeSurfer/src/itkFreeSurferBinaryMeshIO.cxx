@@ -66,7 +66,7 @@ FreeSurferBinaryMeshIO::OpenFile()
 {
   if (this->m_FileName.empty())
   {
-    itkExceptionMacro("No input FileName");
+    itkExceptionStringMacro("No input FileName");
   }
 
   if (!itksys::SystemTools::FileExists(m_FileName.c_str()))
@@ -131,7 +131,7 @@ FreeSurferBinaryMeshIO::ReadMeshInformation()
       byte = m_InputFile.get();
       if (byte == EOF)
       {
-        itkExceptionMacro("Unexpected EOF");
+        itkExceptionStringMacro("Unexpected EOF");
       }
     }
     // Try to get the second '\n', but if the '\n' is not there, we put the byte
@@ -141,7 +141,7 @@ FreeSurferBinaryMeshIO::ReadMeshInformation()
     {
       if (byte == EOF)
       {
-        itkExceptionMacro("Unexpected EOF");
+        itkExceptionStringMacro("Unexpected EOF");
       }
       m_InputFile.unget();
     }
@@ -279,7 +279,7 @@ FreeSurferBinaryMeshIO::WriteMeshInformation()
   // Check file name
   if (this->m_FileName.empty())
   {
-    itkExceptionMacro("No Input FileName");
+    itkExceptionStringMacro("No Input FileName");
   }
 
   // Write to output file
@@ -330,7 +330,7 @@ FreeSurferBinaryMeshIO::WritePoints(void * buffer)
   // check file name
   if (this->m_FileName.empty())
   {
-    itkExceptionMacro("No Input FileName");
+    itkExceptionStringMacro("No Input FileName");
   }
 
   // Write to output file
@@ -438,7 +438,7 @@ FreeSurferBinaryMeshIO::WriteCells(void * buffer)
   // Check file name
   if (this->m_FileName.empty())
   {
-    itkExceptionMacro("No Input FileName");
+    itkExceptionStringMacro("No Input FileName");
   }
 
   // Write to output file
@@ -534,7 +534,7 @@ FreeSurferBinaryMeshIO::WritePointData(void * buffer)
   // check file name
   if (this->m_FileName.empty())
   {
-    itkExceptionMacro("No Input FileName");
+    itkExceptionStringMacro("No Input FileName");
   }
 
   // Write to output file

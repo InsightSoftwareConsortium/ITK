@@ -41,7 +41,7 @@ PointSetToImageMetric<TFixedPointSet, TMovingImage>::SetTransformParameters(cons
 {
   if (!m_Transform)
   {
-    itkExceptionMacro("Transform has not been assigned");
+    itkExceptionStringMacro("Transform has not been assigned");
   }
   m_Transform->SetParameters(parameters);
 }
@@ -52,22 +52,22 @@ PointSetToImageMetric<TFixedPointSet, TMovingImage>::Initialize()
 {
   if (!m_Transform)
   {
-    itkExceptionMacro("Transform is not present");
+    itkExceptionStringMacro("Transform is not present");
   }
 
   if (!m_Interpolator)
   {
-    itkExceptionMacro("Interpolator is not present");
+    itkExceptionStringMacro("Interpolator is not present");
   }
 
   if (!m_MovingImage)
   {
-    itkExceptionMacro("MovingImage is not present");
+    itkExceptionStringMacro("MovingImage is not present");
   }
 
   if (!m_FixedPointSet)
   {
-    itkExceptionMacro("FixedPointSet is not present");
+    itkExceptionStringMacro("FixedPointSet is not present");
   }
 
   // If the image is provided by a source, update the source.

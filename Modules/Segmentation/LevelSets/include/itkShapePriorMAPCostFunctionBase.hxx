@@ -55,17 +55,17 @@ ShapePriorMAPCostFunctionBase<TFeatureImage, TOutputPixel>::Initialize()
 {
   if (!m_ShapeFunction)
   {
-    itkExceptionMacro("ShapeFunction is not present.");
+    itkExceptionStringMacro("ShapeFunction is not present.");
   }
 
   if (!m_ActiveRegion)
   {
-    itkExceptionMacro("ActiveRegion is not present.");
+    itkExceptionStringMacro("ActiveRegion is not present.");
   }
 
   if (!m_FeatureImage)
   {
-    itkExceptionMacro("FeatureImage is not present.");
+    itkExceptionStringMacro("FeatureImage is not present.");
   }
 }
 } // end namespace itk

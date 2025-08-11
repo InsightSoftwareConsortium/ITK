@@ -131,7 +131,7 @@ VTKImageExportBase::PipelineModifiedCallback()
 
   if (!input)
   {
-    itkExceptionMacro("Need to set an input");
+    itkExceptionStringMacro("Need to set an input");
   }
 
   ModifiedTimeType pipelineMTime = input->GetPipelineMTime();
@@ -169,7 +169,7 @@ VTKImageExportBase::UpdateDataCallback()
 
   if (!input)
   {
-    itkExceptionMacro("Need to set an input");
+    itkExceptionStringMacro("Need to set an input");
   }
 
   // Notify start event observers

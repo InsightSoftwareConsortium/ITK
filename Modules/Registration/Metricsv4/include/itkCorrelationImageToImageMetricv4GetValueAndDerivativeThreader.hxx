@@ -46,7 +46,7 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
   this->m_CorrelationAssociate = dynamic_cast<TCorrelationMetric *>(this->m_Associate);
   if (this->m_CorrelationAssociate == nullptr)
   {
-    itkExceptionMacro("Dynamic casting of associate pointer failed.");
+    itkExceptionStringMacro("Dynamic casting of associate pointer failed.");
   }
 
   /* This size always comes from the moving image */

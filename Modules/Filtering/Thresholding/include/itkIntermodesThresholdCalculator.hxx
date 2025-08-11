@@ -53,7 +53,7 @@ IntermodesThresholdCalculator<THistogram, TOutput>::GenerateData()
 
   if (histogram->GetTotalFrequency() == 0)
   {
-    itkExceptionMacro("Histogram is empty");
+    itkExceptionStringMacro("Histogram is empty");
   }
   const SizeValueType size = histogram->GetSize(0);
 

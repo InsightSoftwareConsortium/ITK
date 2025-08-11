@@ -52,7 +52,7 @@ CurvatureFlowImageFilter<TInputImage, TOutputImage>::InitializeIteration()
 
   if (!f)
   {
-    itkExceptionMacro("DifferenceFunction not of type CurvatureFlowFunction");
+    itkExceptionStringMacro("DifferenceFunction not of type CurvatureFlowFunction");
   }
 
   f->SetTimeStep(m_TimeStep);

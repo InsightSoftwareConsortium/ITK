@@ -587,7 +587,7 @@ ImageIOBase::OpenFileForReading(std::ifstream & inputStream, const std::string &
   // Make sure that we have a file to
   if (filename.empty())
   {
-    itkExceptionMacro("A FileName must be specified.");
+    itkExceptionStringMacro("A FileName must be specified.");
   }
 
   // Close file from any previous image
@@ -625,7 +625,7 @@ ImageIOBase::OpenFileForWriting(std::ofstream & outputStream, const std::string 
   // Make sure that we have a file to
   if (filename.empty())
   {
-    itkExceptionMacro("A FileName must be specified.");
+    itkExceptionStringMacro("A FileName must be specified.");
   }
 
   // Close file from any previous image

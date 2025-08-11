@@ -421,7 +421,7 @@ public:
   {
     if (level >= this->m_ShrinkFactorsPerLevel.size())
     {
-      itkExceptionMacro("Requesting level greater than the number of levels.");
+      itkExceptionStringMacro("Requesting level greater than the number of levels.");
     }
     return this->m_ShrinkFactorsPerLevel[level];
   }

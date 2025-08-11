@@ -64,7 +64,7 @@ DemonsImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalCo
   // parameters equals the dimensionality of the image gradient source.
   if (this->m_MovingTransform->GetTransformCategory() != MovingTransformType::TransformCategoryEnum::DisplacementField)
   {
-    itkExceptionMacro("The moving transform must be a displacement field transform");
+    itkExceptionStringMacro("The moving transform must be a displacement field transform");
   }
 
   // compute the normalizer

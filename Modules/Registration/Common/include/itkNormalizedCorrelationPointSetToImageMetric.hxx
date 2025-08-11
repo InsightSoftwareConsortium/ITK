@@ -36,7 +36,7 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet, TMovingImage>::GetVal
 
   if (!fixedPointSet)
   {
-    itkExceptionMacro("Fixed point set has not been assigned");
+    itkExceptionStringMacro("Fixed point set has not been assigned");
   }
 
   PointIterator       pointItr = fixedPointSet->GetPoints()->Begin();
@@ -113,14 +113,14 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet, TMovingImage>::GetDer
 {
   if (!this->GetGradientImage())
   {
-    itkExceptionMacro("The gradient image is null, maybe you forgot to call Initialize()");
+    itkExceptionStringMacro("The gradient image is null, maybe you forgot to call Initialize()");
   }
 
   const FixedPointSetConstPointer fixedPointSet = this->GetFixedPointSet();
 
   if (!fixedPointSet)
   {
-    itkExceptionMacro("Fixed image has not been assigned");
+    itkExceptionStringMacro("Fixed image has not been assigned");
   }
 
   const unsigned int dimension = Superclass::FixedPointSetDimension;
@@ -256,14 +256,14 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet, TMovingImage>::GetVal
 {
   if (!this->GetGradientImage())
   {
-    itkExceptionMacro("The gradient image is null, maybe you forgot to call Initialize()");
+    itkExceptionStringMacro("The gradient image is null, maybe you forgot to call Initialize()");
   }
 
   const FixedPointSetConstPointer fixedPointSet = this->GetFixedPointSet();
 
   if (!fixedPointSet)
   {
-    itkExceptionMacro("Fixed image has not been assigned");
+    itkExceptionStringMacro("Fixed image has not been assigned");
   }
 
   const unsigned int dimension = Superclass::FixedPointSetDimension;

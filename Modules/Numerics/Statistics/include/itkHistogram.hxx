@@ -156,7 +156,8 @@ Histogram<TMeasurement, TFrequencyContainer>::Initialize(const SizeType & size)
 {
   if (this->GetMeasurementVectorSize() == 0)
   {
-    itkExceptionMacro("MeasurementVectorSize is Zero. It should be set to a non-zero value before calling Initialize");
+    itkExceptionStringMacro(
+      "MeasurementVectorSize is Zero. It should be set to a non-zero value before calling Initialize");
   }
 
   this->m_Size = size;

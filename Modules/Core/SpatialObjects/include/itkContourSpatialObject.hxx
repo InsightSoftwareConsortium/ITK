@@ -178,7 +178,7 @@ ContourSpatialObject<TDimension>::Update()
     case InterpolationMethodEnum::BEZIER_INTERPOLATION:
       // TODO: Implement bezier interpolation
       {
-        itkExceptionMacro("Bezier interpolation type not yet defined.");
+        itkExceptionStringMacro("Bezier interpolation type not yet defined.");
       }
       break;
     case InterpolationMethodEnum::LINEAR_INTERPOLATION:

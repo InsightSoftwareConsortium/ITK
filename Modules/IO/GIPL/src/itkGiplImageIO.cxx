@@ -244,7 +244,7 @@ GiplImageIO::Read(void * buffer)
   }
   if (!success)
   {
-    itkExceptionMacro("Error reading image data.");
+    itkExceptionStringMacro("Error reading image data.");
   }
 
   SwapBytesIfNecessary(buffer, numberOfPixels);

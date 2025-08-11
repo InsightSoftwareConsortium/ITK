@@ -457,12 +457,12 @@ JPEGImageIO::Write(const void * buffer)
   // the IORegion is not required to be set so we must use GetNumberOfDimensions
   if (this->GetNumberOfDimensions() != 2)
   {
-    itkExceptionMacro("JPEG Writer can only write 2-dimensional images");
+    itkExceptionStringMacro("JPEG Writer can only write 2-dimensional images");
   }
 
   if (this->GetComponentType() != IOComponentEnum::UCHAR)
   {
-    itkExceptionMacro("JPEG supports unsigned char only");
+    itkExceptionStringMacro("JPEG supports unsigned char only");
   }
 
   this->WriteSlice(m_FileName, buffer);
@@ -485,12 +485,12 @@ JPEGImageIO::WriteSlice(const std::string & fileName, const void * const buffer)
   const SizeValueType height = m_Dimensions[1];
   if (width > JPEG_MAX_DIMENSION || height > JPEG_MAX_DIMENSION)
   {
-    itkExceptionMacro("JPEG: image is too large");
+    itkExceptionStringMacro("JPEG: image is too large");
   }
   const volatile int num_comp = this->GetNumberOfComponents();
   if (num_comp > MAX_COMPONENTS)
   {
-    itkExceptionMacro("JPEG: too many components");
+    itkExceptionStringMacro("JPEG: too many components");
   }
 
   auto * volatile row_pointers = new JSAMPROW[height];

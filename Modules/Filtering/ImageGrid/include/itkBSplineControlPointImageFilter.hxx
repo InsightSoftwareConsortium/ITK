@@ -64,7 +64,7 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>::SetNumberOfLevels(Arr
   {
     if (this->m_NumberOfLevels[i] == 0)
     {
-      itkExceptionMacro("The number of levels in each dimension must be greater than 0");
+      itkExceptionStringMacro("The number of levels in each dimension must be greater than 0");
     }
     if (this->m_NumberOfLevels[i] > this->m_MaximumNumberOfLevels)
     {
@@ -106,7 +106,7 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>::SetSplineOrder(ArrayT
   {
     if (this->m_SplineOrder[i] == 0)
     {
-      itkExceptionMacro("The spline order in each dimension must be greater than 0");
+      itkExceptionStringMacro("The spline order in each dimension must be greater than 0");
     }
 
     this->m_Kernel[i] = KernelType::New();
@@ -157,7 +157,7 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerat
   {
     if (this->m_Size[i] == 0)
     {
-      itkExceptionMacro("Size must be specified.");
+      itkExceptionStringMacro("Size must be specified.");
     }
   }
   outputPtr->SetOrigin(this->m_Origin);

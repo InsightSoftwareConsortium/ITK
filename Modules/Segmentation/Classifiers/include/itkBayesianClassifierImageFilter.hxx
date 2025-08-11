@@ -63,7 +63,7 @@ BayesianClassifierImageFilter<TInputVectorImage, TLabelsType, TPosteriorsPrecisi
 
   if (numberOfClasses == 0)
   {
-    itkExceptionMacro("The number of components in the input Membership image is Zero !");
+    itkExceptionStringMacro("The number of components in the input Membership image is Zero !");
   }
 
   this->AllocateOutputs();
@@ -147,14 +147,14 @@ BayesianClassifierImageFilter<TInputVectorImage, TLabelsType, TPosteriorsPrecisi
 
     if (priorsImage == nullptr)
     {
-      itkExceptionMacro("Second input type does not correspond to expected Priors Image Type");
+      itkExceptionStringMacro("Second input type does not correspond to expected Priors Image Type");
     }
 
     PosteriorsImageType * posteriorsImage = this->GetPosteriorImage();
 
     if (posteriorsImage == nullptr)
     {
-      itkExceptionMacro("Second output type does not correspond to expected Posteriors Image Type");
+      itkExceptionStringMacro("Second output type does not correspond to expected Posteriors Image Type");
     }
 
     InputImageIteratorType      itrMembershipImage(membershipImage, imageRegion);
@@ -189,7 +189,7 @@ BayesianClassifierImageFilter<TInputVectorImage, TLabelsType, TPosteriorsPrecisi
 
     if (posteriorsImage == nullptr)
     {
-      itkExceptionMacro("Second output type does not correspond to expected Posteriors Image Type");
+      itkExceptionStringMacro("Second output type does not correspond to expected Posteriors Image Type");
     }
 
     InputImageIteratorType      itrMembershipImage(membershipImage, imageRegion);
@@ -331,7 +331,7 @@ BayesianClassifierImageFilter<TInputVectorImage, TLabelsType, TPosteriorsPrecisi
 
   if (posteriorsImage == nullptr)
   {
-    itkExceptionMacro("Second output type does not correspond to expected Posteriors Image Type");
+    itkExceptionStringMacro("Second output type does not correspond to expected Posteriors Image Type");
   }
 
   OutputImageIteratorType     itrLabelsImage(labels, imageRegion);

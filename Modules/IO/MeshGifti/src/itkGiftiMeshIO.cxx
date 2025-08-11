@@ -208,7 +208,7 @@ GiftiMeshIO::ReadMeshInformation()
         if (m_GiftiImage->darray[ii]->dims[1] != 3)
         {
           gifti_free_image(m_GiftiImage);
-          itkExceptionMacro("Input mesh is not triangle mesh");
+          itkExceptionStringMacro("Input mesh is not triangle mesh");
         }
       }
       this->m_CellBufferSize = static_cast<SizeValueType>(m_GiftiImage->darray[ii]->nvals + 2 * this->m_NumberOfCells);
@@ -704,7 +704,7 @@ GiftiMeshIO::WriteMeshInformation()
   // Whether reading is successful
   if (m_GiftiImage == nullptr)
   {
-    itkExceptionMacro("Could not create a new GIfTI image");
+    itkExceptionStringMacro("Could not create a new GIfTI image");
   }
 
   // write labelTable using labelMap and colorMap
@@ -1742,7 +1742,7 @@ GiftiMeshIO::GetComponentTypeFromGifti(int datatype)
       break;
     default:
       compType = IOComponentEnum::UNKNOWNCOMPONENTTYPE;
-      itkExceptionMacro("Unknown component type");
+      itkExceptionStringMacro("Unknown component type");
   }
   return compType;
 }
@@ -1778,7 +1778,7 @@ GiftiMeshIO::GetPixelTypeFromGifti(int datatype)
       break;
     default:
       pixelType = IOPixelEnum::UNKNOWNPIXELTYPE;
-      itkExceptionMacro("Unknown pixel type");
+      itkExceptionStringMacro("Unknown pixel type");
   }
   return pixelType;
 }

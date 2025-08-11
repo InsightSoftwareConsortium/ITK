@@ -97,7 +97,7 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::GetValue(const Paramet
 
   if (!this->m_FixedImage)
   {
-    itkExceptionMacro("Fixed image has not been assigned");
+    itkExceptionStringMacro("Fixed image has not been assigned");
   }
 
   for (unsigned int i = 0; i < this->m_NumberOfWorkUnits; ++i)
@@ -200,7 +200,7 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDerivative(
 {
   if (!this->m_FixedImage)
   {
-    itkExceptionMacro("Fixed image has not been assigned");
+    itkExceptionStringMacro("Fixed image has not been assigned");
   }
 
   // Set up the parameters in the transform
@@ -260,7 +260,7 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::GetDerivative(const Pa
 {
   if (!this->m_FixedImage)
   {
-    itkExceptionMacro("Fixed image has not been assigned");
+    itkExceptionStringMacro("Fixed image has not been assigned");
   }
 
   MeasureType value;

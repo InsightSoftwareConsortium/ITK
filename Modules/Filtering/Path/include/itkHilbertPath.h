@@ -116,7 +116,7 @@ public:
   OffsetType
   IncrementInput(InputType & itkNotUsed(input)) const override
   {
-    itkExceptionMacro("Not implemented.");
+    itkExceptionStringMacro("Not implemented.");
   }
 
   /** Remove all steps from the path*/

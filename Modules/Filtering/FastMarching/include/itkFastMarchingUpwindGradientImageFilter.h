@@ -290,7 +290,7 @@ protected:
 
     if (!targetPointsExist)
     {
-      itkExceptionMacro("No target point set. Cannot set the target reached mode.");
+      itkExceptionStringMacro("No target point set. Cannot set the target reached mode.");
     }
     else
     {

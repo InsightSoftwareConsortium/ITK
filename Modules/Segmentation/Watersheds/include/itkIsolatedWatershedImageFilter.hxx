@@ -72,11 +72,11 @@ IsolatedWatershedImageFilter<TInputImage, TOutputImage>::VerifyInputInformation(
   // information updated
   if (!region.IsInside(m_Seed1))
   {
-    itkExceptionMacro("Seed1 is not within the input image!");
+    itkExceptionStringMacro("Seed1 is not within the input image!");
   }
   if (!region.IsInside(m_Seed2))
   {
-    itkExceptionMacro("Seed2 is not within the input image!");
+    itkExceptionStringMacro("Seed2 is not within the input image!");
   }
 }
 

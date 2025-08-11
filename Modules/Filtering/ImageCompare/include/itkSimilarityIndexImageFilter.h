@@ -147,7 +147,7 @@ protected:
   void
   DynamicThreadedGenerateData(const RegionType &) override
   {
-    itkExceptionMacro("This class requires threadId so it must use classic multi-threading model");
+    itkExceptionStringMacro("This class requires threadId so it must use classic multi-threading model");
   }
 
   // Override since the filter needs all the data for the algorithm

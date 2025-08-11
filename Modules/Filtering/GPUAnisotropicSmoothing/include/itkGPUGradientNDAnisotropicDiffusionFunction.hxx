@@ -80,7 +80,7 @@ GPUGradientNDAnisotropicDiffusionFunction<TImage>::GPUGradientNDAnisotropicDiffu
 
   if (TImage::ImageDimension > 3)
   {
-    itkExceptionMacro("GPUGradientNDAnisotropicDiffusionFunction supports 1/2/3D image.");
+    itkExceptionStringMacro("GPUGradientNDAnisotropicDiffusionFunction supports 1/2/3D image.");
   }
 
   defines << "#define DIM_" << TImage::ImageDimension << '\n'

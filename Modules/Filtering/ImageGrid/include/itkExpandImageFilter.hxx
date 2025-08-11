@@ -87,7 +87,7 @@ ExpandImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
   if (!m_Interpolator || !this->GetInput())
   {
-    itkExceptionMacro("Interpolator and/or Input not set");
+    itkExceptionStringMacro("Interpolator and/or Input not set");
   }
 
   // Connect input image to interpolator

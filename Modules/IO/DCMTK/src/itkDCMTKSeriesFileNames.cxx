@@ -43,7 +43,7 @@ DCMTKSeriesFileNames::SetInputDirectory(const char * name)
 {
   if (!name)
   {
-    itkExceptionMacro("SetInputDirectory() received a nullptr string");
+    itkExceptionStringMacro("SetInputDirectory() received a nullptr string");
   }
   std::string fname = name;
   this->SetInputDirectory(fname);

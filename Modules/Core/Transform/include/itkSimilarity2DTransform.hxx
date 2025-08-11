@@ -161,7 +161,7 @@ Similarity2DTransform<TParametersValueType>::ComputeMatrixParameters()
 
   if ((this->GetMatrix()[1][0] / m_Scale) - std::sin(this->GetAngle()) > 0.000001)
   {
-    itkExceptionMacro("Bad Rotation Matrix");
+    itkExceptionStringMacro("Bad Rotation Matrix");
   }
 }
 

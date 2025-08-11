@@ -122,7 +122,7 @@ PoolMultiThreader::SingleMethodExecute()
 
   if (!m_SingleMethod)
   {
-    itkExceptionMacro("No single method set!");
+    itkExceptionStringMacro("No single method set!");
   }
 
   // obey the global maximum number of threads limit

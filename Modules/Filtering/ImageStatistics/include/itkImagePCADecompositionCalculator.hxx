@@ -76,7 +76,7 @@ ImagePCADecompositionCalculator<TInputImage, TBasisImage>::CalculateBasisMatrix(
   {
     if ((*basis_it)->GetRequestedRegion().GetSize() != m_Size)
     {
-      itkExceptionMacro("All basis images must be the same size!");
+      itkExceptionStringMacro("All basis images must be the same size!");
     }
 
     ImageRegionConstIterator<BasisImageType> image_it(*basis_it, (*basis_it)->GetRequestedRegion());
@@ -97,7 +97,7 @@ ImagePCADecompositionCalculator<TInputImage, TBasisImage>::CalculateRecenteredIm
 {
   if (m_Image->GetRequestedRegion().GetSize() != m_Size)
   {
-    itkExceptionMacro("Input image must be the same size as the basis images!");
+    itkExceptionStringMacro("Input image must be the same size as the basis images!");
   }
 
   ImageRegionConstIterator<InputImageType> image_it(m_Image, m_Image->GetRequestedRegion());

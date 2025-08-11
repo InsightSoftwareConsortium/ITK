@@ -78,13 +78,13 @@ GaussianMembershipFunction<TMeasurementVector>::SetCovariance(const CovarianceMa
   // Sanity check
   if (cov.GetVnlMatrix().rows() != cov.GetVnlMatrix().cols())
   {
-    itkExceptionMacro("Covariance matrix must be square");
+    itkExceptionStringMacro("Covariance matrix must be square");
   }
   if (this->GetMeasurementVectorSize())
   {
     if (cov.GetVnlMatrix().rows() != this->GetMeasurementVectorSize())
     {
-      itkExceptionMacro("Length of measurement vectors must be the same as the size of the covariance.");
+      itkExceptionStringMacro("Length of measurement vectors must be the same as the size of the covariance.");
     }
   }
   else
@@ -109,7 +109,7 @@ GaussianMembershipFunction<TMeasurementVector>::SetCovariance(const CovarianceMa
 
   if (det < 0.)
   {
-    itkExceptionMacro("det( m_Covariance ) < 0");
+    itkExceptionStringMacro("det( m_Covariance ) < 0");
   }
 
   // 1e-6 is an arbitrary value!!!

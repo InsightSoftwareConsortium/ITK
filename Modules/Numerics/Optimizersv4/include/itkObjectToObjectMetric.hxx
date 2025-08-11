@@ -45,12 +45,12 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
 {
   if (!this->m_FixedTransform)
   {
-    itkExceptionMacro("Fixed transform is not present");
+    itkExceptionStringMacro("Fixed transform is not present");
   }
 
   if (!this->m_MovingTransform)
   {
-    itkExceptionMacro("Moving transform is not present");
+    itkExceptionStringMacro("Moving transform is not present");
   }
 
   /* Special checks for when the moving transform is dense/high-dimensional */
@@ -183,7 +183,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
     return this->m_VirtualImage->TransformPhysicalPointToIndex(point, index);
   }
 
-  itkExceptionMacro("m_VirtualImage is undefined. Cannot transform.");
+  itkExceptionStringMacro("m_VirtualImage is undefined. Cannot transform.");
 }
 
 template <unsigned int TFixedDimension,
@@ -200,7 +200,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
   }
   else
   {
-    itkExceptionMacro("m_VirtualImage is undefined. Cannot transform.");
+    itkExceptionStringMacro("m_VirtualImage is undefined. Cannot transform.");
   }
 }
 
@@ -316,12 +316,12 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
     VirtualIndexType index;
     if (!this->m_VirtualImage->TransformPhysicalPointToIndex(point, index))
     {
-      itkExceptionMacro(" point is not inside virtual domain. Cannot compute offset. ");
+      itkExceptionStringMacro(" point is not inside virtual domain. Cannot compute offset. ");
     }
     return this->ComputeParameterOffsetFromVirtualIndex(index, numberOfLocalParameters);
   }
 
-  itkExceptionMacro("m_VirtualImage is undefined. Cannot calculate offset.");
+  itkExceptionStringMacro("m_VirtualImage is undefined. Cannot calculate offset.");
 }
 
 template <unsigned int TFixedDimension,
@@ -339,7 +339,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
     return offset;
   }
 
-  itkExceptionMacro("m_VirtualImage is undefined. Cannot calculate offset.");
+  itkExceptionStringMacro("m_VirtualImage is undefined. Cannot calculate offset.");
 }
 
 template <unsigned int TFixedDimension,
@@ -409,7 +409,7 @@ const typename ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualI
     return this->m_VirtualImage->GetBufferedRegion();
   }
 
-  itkExceptionMacro("m_VirtualImage is undefined. Cannot return region. ");
+  itkExceptionStringMacro("m_VirtualImage is undefined. Cannot return region. ");
 }
 
 template <unsigned int TFixedDimension,

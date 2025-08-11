@@ -75,12 +75,12 @@ DOMWriter<TInput>::Update(DOMNodeType * outputdom, const void * userdata)
 {
   if (outputdom == nullptr)
   {
-    itkExceptionMacro("write to an invalid DOM object");
+    itkExceptionStringMacro("write to an invalid DOM object");
   }
 
   if (this->GetInput() == nullptr)
   {
-    itkExceptionMacro("input object is null");
+    itkExceptionStringMacro("input object is null");
   }
 
   // remove previous data

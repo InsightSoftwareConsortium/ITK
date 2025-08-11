@@ -168,7 +168,7 @@ public:
   void
   SetScales(const ScalesType &)
   {
-    itkExceptionMacro("This optimizer does not support scales.");
+    itkExceptionStringMacro("This optimizer does not support scales.");
   }
 
   /** Get the current iteration number. */

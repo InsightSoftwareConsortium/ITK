@@ -488,7 +488,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::IterativeSolve(Sol
 {
   if (!m_Load)
   {
-    itkExceptionMacro("No Load set");
+    itkExceptionStringMacro("No Load set");
   }
 
   bool         Done = false;
@@ -507,7 +507,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::IterativeSolve(Sol
 
     if (!m_Field)
     {
-      itkExceptionMacro("No Field set");
+      itkExceptionStringMacro("No Field set");
     }
     solver->SetUseMassMatrix(m_UseMassMatrix);
 

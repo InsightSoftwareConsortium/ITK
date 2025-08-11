@@ -332,7 +332,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
       }
       default:
       {
-        itkExceptionMacro("Unknown cell type");
+        itkExceptionStringMacro("Unknown cell type");
       }
     }
   }
@@ -577,7 +577,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
       case IOComponentEnum::UNKNOWNCOMPONENTTYPE:
       default:
       {
-        itkExceptionMacro("Unknown point component type");
+        itkExceptionStringMacro("Unknown point component type");
       }
     }
   }
@@ -655,7 +655,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
       case IOComponentEnum::UNKNOWNCOMPONENTTYPE:
       default:
       {
-        itkExceptionMacro("Unknown cell component type");
+        itkExceptionStringMacro("Unknown cell component type");
       }
     }
   }

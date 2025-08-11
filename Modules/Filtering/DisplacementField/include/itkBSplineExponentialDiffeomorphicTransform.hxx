@@ -84,7 +84,7 @@ BSplineExponentialDiffeomorphicTransform<TParametersValueType, VDimension>::Upda
   const ConstantVelocityFieldPointer velocityField = this->GetModifiableConstantVelocityField();
   if (!velocityField)
   {
-    itkExceptionMacro("The velocity field has not been set.");
+    itkExceptionStringMacro("The velocity field has not been set.");
   }
 
   const typename ConstantVelocityFieldType::RegionType & bufferedRegion = velocityField->GetBufferedRegion();

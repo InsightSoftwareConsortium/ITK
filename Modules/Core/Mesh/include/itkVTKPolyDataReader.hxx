@@ -49,7 +49,7 @@ VTKPolyDataReader<TOutputMesh>::GenerateData()
 
   if (m_FileName.empty())
   {
-    itkExceptionMacro("No input FileName");
+    itkExceptionStringMacro("No input FileName");
   }
 
   //

@@ -28,15 +28,15 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage>::InitializeT
   // Sanity check
   if (!m_FixedImage)
   {
-    itkExceptionMacro("Fixed Image has not been set");
+    itkExceptionStringMacro("Fixed Image has not been set");
   }
   if (!m_MovingImage)
   {
-    itkExceptionMacro("Moving Image has not been set");
+    itkExceptionStringMacro("Moving Image has not been set");
   }
   if (!m_Transform)
   {
-    itkExceptionMacro("Transform has not been set");
+    itkExceptionStringMacro("Transform has not been set");
   }
 
   // If images come from filters, then update those filters.

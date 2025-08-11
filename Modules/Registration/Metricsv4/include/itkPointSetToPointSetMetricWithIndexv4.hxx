@@ -47,18 +47,18 @@ PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalCo
 {
   if (!this->m_FixedPointSet)
   {
-    itkExceptionMacro("Fixed point set is not present");
+    itkExceptionStringMacro("Fixed point set is not present");
   }
 
   if (!this->m_MovingPointSet)
   {
-    itkExceptionMacro("Moving point set is not present");
+    itkExceptionStringMacro("Moving point set is not present");
   }
 
   // We don't know how to support gradient source of type moving
   if (this->GetGradientSourceIncludesMoving())
   {
-    itkExceptionMacro("GradientSource includes GRADIENT_SOURCE_MOVING. Not supported.");
+    itkExceptionStringMacro("GradientSource includes GRADIENT_SOURCE_MOVING. Not supported.");
   }
 
   // If the PointSet is provided by a source, update the source.
@@ -144,7 +144,7 @@ typename PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TI
   // generated from the fixed point set.
   if (this->m_VirtualTransformedPointSet->GetNumberOfPoints() != this->m_FixedTransformedPointSet->GetNumberOfPoints())
   {
-    itkExceptionMacro("Expected FixedTransformedPointSet to be the same size as VirtualTransformedPointSet.");
+    itkExceptionStringMacro("Expected FixedTransformedPointSet to be the same size as VirtualTransformedPointSet.");
   }
   /*
    * Split pointset in nWorkUnit ranges and sum individually
@@ -236,7 +236,7 @@ PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalCo
   // generated from the fixed point set.
   if (this->m_VirtualTransformedPointSet->GetNumberOfPoints() != this->m_FixedTransformedPointSet->GetNumberOfPoints())
   {
-    itkExceptionMacro("Expected FixedTransformedPointSet to be the same size as VirtualTransformedPointSet.");
+    itkExceptionStringMacro("Expected FixedTransformedPointSet to be the same size as VirtualTransformedPointSet.");
   }
 
   derivative.SetSize(this->GetNumberOfParameters());
@@ -582,7 +582,7 @@ PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalCo
   {
     if (!this->m_FixedTransformedPointSet)
     {
-      itkExceptionMacro("The fixed transformed point set does not exist.");
+      itkExceptionStringMacro("The fixed transformed point set does not exist.");
     }
     if (!this->m_FixedTransformedPointsLocator)
     {
@@ -597,7 +597,7 @@ PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalCo
   {
     if (!this->m_MovingTransformedPointSet)
     {
-      itkExceptionMacro("The moving transformed point set does not exist.");
+      itkExceptionStringMacro("The moving transformed point set does not exist.");
     }
     if (!this->m_MovingTransformedPointsLocator)
     {

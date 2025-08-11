@@ -60,17 +60,17 @@ SliceBySliceImageFilter<TInputImage,
   // verify sane parameter
   if (this->m_Dimension >= RegionType::ImageDimension)
   {
-    itkExceptionMacro("Dimension selected for slicing is greater than ImageDimension");
+    itkExceptionStringMacro("Dimension selected for slicing is greater than ImageDimension");
   }
 
   if (!m_InputFilter)
   {
-    itkExceptionMacro("InputFilter must be set.");
+    itkExceptionStringMacro("InputFilter must be set.");
   }
 
   if (!m_OutputFilter)
   {
-    itkExceptionMacro("OutputFilter must be set.");
+    itkExceptionStringMacro("OutputFilter must be set.");
   }
 }
 
@@ -163,7 +163,7 @@ SliceBySliceImageFilter<TInputImage,
 {
   if (!filter)
   {
-    itkExceptionMacro("InputFilter cannot be nullptr.");
+    itkExceptionStringMacro("InputFilter cannot be nullptr.");
   }
 
   if (m_InputFilter != filter)
@@ -191,7 +191,7 @@ SliceBySliceImageFilter<TInputImage,
 {
   if (!filter)
   {
-    itkExceptionMacro("OutputFilter cannot be nullptr.");
+    itkExceptionStringMacro("OutputFilter cannot be nullptr.");
   }
 
   if (m_OutputFilter != filter)

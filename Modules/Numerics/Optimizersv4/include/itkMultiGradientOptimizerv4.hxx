@@ -110,7 +110,7 @@ MultiGradientOptimizerv4Template<TInternalComputationValueType>::StartOptimizati
   auto maxOpt = static_cast<SizeValueType>(this->m_OptimizersList.size());
   if (maxOpt == SizeValueType{})
   {
-    itkExceptionMacro(" No optimizers are set.");
+    itkExceptionStringMacro(" No optimizers are set.");
   }
   if (!this->m_Metric)
   {
@@ -129,7 +129,7 @@ MultiGradientOptimizerv4Template<TInternalComputationValueType>::StartOptimizati
     const ParametersType & compareParams = this->m_OptimizersList[whichOptimizer]->GetCurrentPosition();
     if (&compareParams != &testParamsAreTheSameObject)
     {
-      itkExceptionMacro(" Parameter objects are not identical across all optimizers/metrics.");
+      itkExceptionStringMacro(" Parameter objects are not identical across all optimizers/metrics.");
     }
     // Initialize the optimizer, but don't run it.
     this->m_OptimizersList[whichOptimizer]->StartOptimization(true /* doOnlyInitialization */);

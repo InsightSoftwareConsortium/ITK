@@ -191,7 +191,8 @@ public:
   OutputVectorType
   TransformVector(const InputVectorType &) const override
   {
-    itkExceptionMacro("TransformVector(const InputVectorType &) is not implemented for Rigid3DPerspectiveTransform");
+    itkExceptionStringMacro(
+      "TransformVector(const InputVectorType &) is not implemented for Rigid3DPerspectiveTransform");
   }
 
   OutputVnlVectorType

@@ -77,11 +77,11 @@ HistogramImageToImageMetric<TFixedImage, TMovingImage>::Initialize()
 
   if (!this->m_FixedImage)
   {
-    itkExceptionMacro("Fixed image has not been set.");
+    itkExceptionStringMacro("Fixed image has not been set.");
   }
   else if (!this->m_MovingImage)
   {
-    itkExceptionMacro("Moving image has not been set.");
+    itkExceptionStringMacro("Moving image has not been set.");
   }
 
   if (!m_LowerBoundSetByUser || !m_UpperBoundSetByUser)
@@ -243,7 +243,7 @@ HistogramImageToImageMetric<TFixedImage, TMovingImage>::ComputeHistogram(const T
 
   if (!fixedImage)
   {
-    itkExceptionMacro("Fixed image has not been assigned");
+    itkExceptionStringMacro("Fixed image has not been assigned");
   }
 
   using FixedIteratorType = itk::ImageRegionConstIteratorWithIndex<FixedImageType>;
@@ -306,7 +306,7 @@ HistogramImageToImageMetric<TFixedImage, TMovingImage>::ComputeHistogram(const T
   itkDebugMacro("NumberOfPixelsCounted = " << this->m_NumberOfPixelsCounted);
   if (this->m_NumberOfPixelsCounted == 0)
   {
-    itkExceptionMacro("All the points mapped to outside of the moving image");
+    itkExceptionStringMacro("All the points mapped to outside of the moving image");
   }
 }
 

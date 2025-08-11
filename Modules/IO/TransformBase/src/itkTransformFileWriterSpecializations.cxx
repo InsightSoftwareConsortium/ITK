@@ -117,7 +117,7 @@ TransformFileWriterTemplate<TParametersValueType>::Update()
 {
   if (m_FileName.empty())
   {
-    itkExceptionMacro("No file name given");
+    itkExceptionStringMacro("No file name given");
   }
 
   if (m_TransformIO.IsNull())

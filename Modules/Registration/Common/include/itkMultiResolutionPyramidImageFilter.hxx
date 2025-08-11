@@ -309,7 +309,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateOutputInfo
 
   if (!inputPtr)
   {
-    itkExceptionMacro("Input has not been set");
+    itkExceptionStringMacro("Input has not been set");
   }
 
   const typename InputImageType::PointType &     inputOrigin = inputPtr->GetOrigin();
@@ -385,7 +385,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateOutputRequ
   auto * ptr = itkDynamicCastInDebugMode<TOutputImage *>(refOutput);
   if (!ptr)
   {
-    itkExceptionMacro("Could not cast refOutput to TOutputImage*.");
+    itkExceptionStringMacro("Could not cast refOutput to TOutputImage*.");
   }
 
 
@@ -470,7 +470,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateInputReque
   const InputImagePointer inputPtr = const_cast<InputImageType *>(this->GetInput());
   if (!inputPtr)
   {
-    itkExceptionMacro("Input has not been set.");
+    itkExceptionStringMacro("Input has not been set.");
   }
 
   // compute baseIndex and baseSize

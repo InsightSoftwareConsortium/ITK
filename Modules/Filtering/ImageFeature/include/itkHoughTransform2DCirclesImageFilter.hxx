@@ -71,7 +71,7 @@ HoughTransform2DCirclesImageFilter<TInputPixelType, TOutputPixelType, TRadiusPix
 
   if (!(m_GradientNormThreshold >= 0.0))
   {
-    itkExceptionMacro("Failed precondition: GradientNormThreshold >= 0.");
+    itkExceptionStringMacro("Failed precondition: GradientNormThreshold >= 0.");
   }
 }
 
@@ -189,7 +189,7 @@ HoughTransform2DCirclesImageFilter<TInputPixelType, TOutputPixelType, TRadiusPix
 
   if (m_RadiusImage.IsNull())
   {
-    itkExceptionMacro("Update() must be called before GetCircles().");
+    itkExceptionStringMacro("Update() must be called before GetCircles().");
   }
 
   m_CirclesList.clear();

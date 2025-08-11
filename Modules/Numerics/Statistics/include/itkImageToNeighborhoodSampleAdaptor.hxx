@@ -45,7 +45,7 @@ ImageToNeighborhoodSampleAdaptor<TImage, TBoundaryCondition>::GetMeasurementVect
 {
   if (m_Image.IsNull())
   {
-    itkExceptionMacro("Image has not been set yet");
+    itkExceptionStringMacro("Image has not been set yet");
   }
 
   if (id == m_InstanceIdentifierInternal)
@@ -86,7 +86,7 @@ ImageToNeighborhoodSampleAdaptor<TImage, TBoundaryCondition>::GetFrequency(Insta
 {
   if (m_Image.IsNull())
   {
-    itkExceptionMacro("Image has not been set yet");
+    itkExceptionStringMacro("Image has not been set yet");
   }
 
   return NumericTraits<AbsoluteFrequencyType>::OneValue();
@@ -142,7 +142,7 @@ ImageToNeighborhoodSampleAdaptor<TImage, TBoundaryCondition>::GetImage() const
 {
   if (m_Image.IsNull())
   {
-    itkExceptionMacro("Image has not been set yet");
+    itkExceptionStringMacro("Image has not been set yet");
   }
 
   return m_Image.GetPointer();
@@ -224,7 +224,7 @@ ImageToNeighborhoodSampleAdaptor<TImage, TBoundaryCondition>::GetTotalFrequency(
 {
   if (m_Image.IsNull())
   {
-    itkExceptionMacro("Image has not been set yet");
+    itkExceptionStringMacro("Image has not been set yet");
   }
 
   return this->Size();

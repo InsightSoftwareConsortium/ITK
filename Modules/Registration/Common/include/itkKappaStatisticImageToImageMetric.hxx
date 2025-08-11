@@ -46,7 +46,7 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>::GetValue(const Tran
   const FixedImageConstPointer fixedImage = this->m_FixedImage;
   if (!fixedImage)
   {
-    itkExceptionMacro("Fixed image has not been assigned");
+    itkExceptionStringMacro("Fixed image has not been assigned");
   }
 
   // Get an iterator over the fixed image
@@ -60,7 +60,7 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>::GetValue(const Tran
   const MovingImageConstPointer movingImage = this->m_MovingImage;
   if (!movingImage)
   {
-    itkExceptionMacro("Moving image has not been assigned");
+    itkExceptionStringMacro("Moving image has not been assigned");
   }
 
   // The metric computation requires using the following:
@@ -157,13 +157,13 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>::GetDerivative(const
 
   if (!this->GetGradientImage())
   {
-    itkExceptionMacro("The gradient image is null, maybe you forgot to call Initialize()");
+    itkExceptionStringMacro("The gradient image is null, maybe you forgot to call Initialize()");
   }
 
   const FixedImageConstPointer fixedImage = this->m_FixedImage;
   if (!fixedImage)
   {
-    itkExceptionMacro("Fixed image has not been assigned");
+    itkExceptionStringMacro("Fixed image has not been assigned");
   }
 
   const unsigned int ImageDimension = FixedImageType::ImageDimension;
@@ -272,7 +272,7 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>::GetDerivative(const
 
   if (!this->m_NumberOfPixelsCounted)
   {
-    itkExceptionMacro("All the points mapped to outside of the moving image");
+    itkExceptionStringMacro("All the points mapped to outside of the moving image");
   }
   else
   {

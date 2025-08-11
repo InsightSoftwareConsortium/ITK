@@ -268,7 +268,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::InitializeKLM()
   // Maximum number of regions requested must be greater than 0
   if (this->GetMaximumNumberOfRegions() <= 1)
   {
-    itkExceptionMacro("Number of requested regions must be 2 or more");
+    itkExceptionStringMacro("Number of requested regions must be 2 or more");
   }
 
   // This implementation requires the image dimensions to be
@@ -283,7 +283,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::InitializeKLM()
   {
     if (gridSize[idim] == 0 || inputImageSize[idim] % gridSize[idim] != 0)
     {
-      itkExceptionMacro("Invalid grid size");
+      itkExceptionStringMacro("Invalid grid size");
     }
   }
 
@@ -368,7 +368,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::InitializeKLM()
   // exception otherwise.
   if (numberOfBorders == 0)
   {
-    itkExceptionMacro("Number of initial regions must be 2 or more: reduce granularity of the grid");
+    itkExceptionStringMacro("Number of initial regions must be 2 or more: reduce granularity of the grid");
   }
 
   m_BordersPointer.resize(numberOfBorders);
@@ -417,7 +417,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::InitializeKLM()
     {
       if (borderCounter >= numberOfBorders)
       {
-        itkExceptionMacro("KLM initialization is incorrect");
+        itkExceptionStringMacro("KLM initialization is incorrect");
       }
 
       // Load the border of interest
@@ -499,7 +499,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::InitializeKLM()
 
   if (Math::NotAlmostEquals(m_TotalBorderLength, actualBorderLength))
   {
-    itkExceptionMacro("KLM initialization is incorrect");
+    itkExceptionStringMacro("KLM initialization is incorrect");
   }
   else
   {
@@ -535,7 +535,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::InitializeKLM()
 
   if (m_InternalLambda < 0.0)
   {
-    itkExceptionMacro("KLM initialization is incorrect");
+    itkExceptionStringMacro("KLM initialization is incorrect");
   }
 }
 
@@ -591,7 +591,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::MergeRegions()
   m_TotalBorderLength -= m_BorderCandidate->m_Pointer->GetBorderLength();
   if (m_TotalBorderLength <= 0)
   {
-    itkExceptionMacro("KLM algorithm error");
+    itkExceptionStringMacro("KLM algorithm error");
   }
 
   // Two regions are associated with the candidate border
@@ -602,7 +602,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::MergeRegions()
   // GenerateOutputImage and GenerateLabelledImage
   if (pRegion1->GetRegionLabel() >= pRegion2->GetRegionLabel())
   {
-    itkExceptionMacro("Invalid region labelling");
+    itkExceptionStringMacro("Invalid region labelling");
   }
 
   // Add the new region's parameter data to the old.
@@ -634,7 +634,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::MergeRegions()
   --m_NumberOfRegions;
   if (m_BordersDynamicPointer.empty())
   {
-    itkExceptionMacro("KLM algorithm error");
+    itkExceptionStringMacro("KLM algorithm error");
   }
 
   // For DEBUG purposes
@@ -670,7 +670,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::MergeRegions()
     // Decrement for the one deleted border
     if (m_BordersDynamicPointer.empty())
     {
-      itkExceptionMacro("KLM algorithm error");
+      itkExceptionStringMacro("KLM algorithm error");
     }
 
     m_BorderCandidate = &(m_BordersDynamicPointer.back());

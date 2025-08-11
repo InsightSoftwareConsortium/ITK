@@ -77,7 +77,7 @@ BinaryFunctorImageFilter<TInputImage1, TInputImage2, TOutputImage, TFunction>::G
   const auto * input = dynamic_cast<const DecoratedInput1ImagePixelType *>(this->ProcessObject::GetInput(0));
   if (input == nullptr)
   {
-    itkExceptionMacro("Constant 1 is not set");
+    itkExceptionStringMacro("Constant 1 is not set");
   }
   return input->Get();
 }
@@ -125,7 +125,7 @@ BinaryFunctorImageFilter<TInputImage1, TInputImage2, TOutputImage, TFunction>::G
   const auto * input = dynamic_cast<const DecoratedInput2ImagePixelType *>(this->ProcessObject::GetInput(1));
   if (input == nullptr)
   {
-    itkExceptionMacro("Constant 2 is not set");
+    itkExceptionStringMacro("Constant 2 is not set");
   }
   return input->Get();
 }

@@ -137,7 +137,7 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>::Before
   {
     if (m_ComponentWeights[i] < 0)
     {
-      itkExceptionMacro("Component weights must be positive numbers");
+      itkExceptionStringMacro("Component weights must be positive numbers");
     }
     m_SqrtComponentWeights[i] = std::sqrt(m_ComponentWeights[i]);
   }

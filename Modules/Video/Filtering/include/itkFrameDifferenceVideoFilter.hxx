@@ -109,7 +109,7 @@ FrameDifferenceVideoFilter<TInputVideoStream, TOutputVideoStream>::ThreadedGener
   // Make sure we've got the right duration
   if (inputDuration != numFrames)
   {
-    itkExceptionMacro("Incorrect number of input frames");
+    itkExceptionStringMacro("Incorrect number of input frames");
   }
 
   // Get iterators for the input frames

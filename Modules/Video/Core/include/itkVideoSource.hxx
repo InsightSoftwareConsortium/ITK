@@ -109,7 +109,7 @@ VideoSource<TOutputVideoStream>::GraftNthOutput(unsigned int idx, TOutputVideoSt
   }
   if (!graft)
   {
-    itkExceptionMacro("Cannot graft from a nullptr pointer");
+    itkExceptionStringMacro("Cannot graft from a nullptr pointer");
   }
 
   // we use the process object method since all our outputs may not be of the

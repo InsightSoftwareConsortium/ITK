@@ -868,7 +868,7 @@ Solver<VDimension>::InitializeInterpolationGrid(const InterpolationGridRegionTyp
   {
     if (size[i] == 0)
     {
-      itkExceptionMacro("Size must be specified.");
+      itkExceptionStringMacro("Size must be specified.");
     }
   }
 

@@ -312,7 +312,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
   }
   if (this->m_JointPDFSum < itk::NumericTraits<PDFValueType>::epsilon())
   {
-    itkExceptionMacro("Joint PDF summed to zero");
+    itkExceptionStringMacro("Joint PDF summed to zero");
   }
   const PDFValueType normalizationFactor = 1.0 / this->m_JointPDFSum;
 

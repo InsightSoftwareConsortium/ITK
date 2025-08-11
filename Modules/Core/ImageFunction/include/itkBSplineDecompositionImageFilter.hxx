@@ -161,7 +161,8 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>::SetPoles()
       break;
     default:
       // SplineOrder not implemented yet.
-      itkExceptionMacro("SplineOrder must be between 0 and 5. Requested spline order has not been implemented yet.");
+      itkExceptionStringMacro(
+        "SplineOrder must be between 0 and 5. Requested spline order has not been implemented yet.");
       break;
   }
 }

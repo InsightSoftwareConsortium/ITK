@@ -107,7 +107,7 @@ ImageSource<TOutputImage>::GraftOutput(const DataObjectIdentifierType & key, Dat
 {
   if (!graft)
   {
-    itkExceptionMacro("Requested to graft output that is a nullptr pointer");
+    itkExceptionStringMacro("Requested to graft output that is a nullptr pointer");
   }
 
   // we use the process object method since all out output may not be

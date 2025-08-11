@@ -51,7 +51,7 @@ BinaryMinMaxCurvatureFlowImageFilter<TInputImage, TOutputImage>::InitializeItera
 
   if (!f)
   {
-    itkExceptionMacro("DifferenceFunction not of type BinaryMinMaxCurvatureFlowFunction");
+    itkExceptionStringMacro("DifferenceFunction not of type BinaryMinMaxCurvatureFlowFunction");
   }
 
   f->SetThreshold(m_Threshold);

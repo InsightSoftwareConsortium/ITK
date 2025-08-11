@@ -120,7 +120,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::CopyInputToOutput()
 {
   if (!this->m_InputImage || !this->m_OutputImage)
   {
-    itkExceptionMacro("Input or Output image is nullptr.");
+    itkExceptionStringMacro("Input or Output image is nullptr.");
   }
 
   InputImageRegionConstIteratorType inputIt(this->m_InputImage, this->m_InputImage->GetRequestedRegion());

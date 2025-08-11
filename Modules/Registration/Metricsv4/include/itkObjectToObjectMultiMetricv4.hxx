@@ -79,7 +79,7 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
 {
   if (this->GetNumberOfMetrics() == 0)
   {
-    itkExceptionMacro("No metrics are assigned. Cannot assign transform.");
+    itkExceptionStringMacro("No metrics are assigned. Cannot assign transform.");
   }
   Superclass::SetMovingTransform(transform);
   for (SizeValueType j = 0; j < this->GetNumberOfMetrics(); ++j)
@@ -98,7 +98,7 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
 {
   if (this->GetNumberOfMetrics() == 0)
   {
-    itkExceptionMacro("No metrics are assigned. Cannot assign transform.");
+    itkExceptionStringMacro("No metrics are assigned. Cannot assign transform.");
   }
   Superclass::SetFixedTransform(transform);
   for (SizeValueType j = 0; j < this->GetNumberOfMetrics(); ++j)
@@ -117,7 +117,7 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
 {
   if (this->GetNumberOfMetrics() == 0)
   {
-    itkExceptionMacro("No metrics are assigned. Cannot evaluate.");
+    itkExceptionStringMacro("No metrics are assigned. Cannot evaluate.");
   }
 
   /* Verify derivative weights and initialize if appropriate */

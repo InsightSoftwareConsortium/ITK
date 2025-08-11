@@ -227,7 +227,7 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,
     const SizeValueType numberOfPoints = this->GetNumberOfDomainPoints();
     if (numberOfPoints < 1)
     {
-      itkExceptionMacro("VirtualSampledPointSet must have 1 or more points.");
+      itkExceptionStringMacro("VirtualSampledPointSet must have 1 or more points.");
     }
     typename JointHistogramMutualInformationSparseComputeJointPDFThreaderType::DomainType sampledRange;
     sampledRange[0] = 0;

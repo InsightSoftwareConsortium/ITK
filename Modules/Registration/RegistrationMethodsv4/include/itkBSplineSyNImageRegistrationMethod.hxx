@@ -85,7 +85,7 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, T
 
   if (virtualDomainImage.IsNull())
   {
-    itkExceptionMacro("The virtual domain image is not found.");
+    itkExceptionStringMacro("The virtual domain image is not found.");
   }
 
   auto * fixedInitialTransform = const_cast<InitialTransformType *>(this->GetFixedInitialTransform());

@@ -70,7 +70,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordinate>::SetSplineOrder(const
   {
     if (this->m_SplineOrder[i] == 0)
     {
-      itkExceptionMacro("The spline order in each dimension must be greater than 0");
+      itkExceptionStringMacro("The spline order in each dimension must be greater than 0");
     }
 
     this->m_Kernel[i] = KernelType::New();
@@ -89,7 +89,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordinate>::SetInputImage(const 
   {
     if (this->m_Size[i] == 0)
     {
-      itkExceptionMacro("Size must be specified.");
+      itkExceptionStringMacro("Size must be specified.");
     }
   }
 

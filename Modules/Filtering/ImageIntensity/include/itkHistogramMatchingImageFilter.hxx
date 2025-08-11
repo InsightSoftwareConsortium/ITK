@@ -118,14 +118,14 @@ HistogramMatchingImageFilter<TInputImage, TOutputImage, THistogramMeasurement>::
   {
     if (this->GetReferenceImage() == nullptr)
     {
-      itkExceptionMacro("ReferenceImage required when GenerateReferenceHistogramFromImage is true.");
+      itkExceptionStringMacro("ReferenceImage required when GenerateReferenceHistogramFromImage is true.");
     }
   }
   else
   {
     if (this->GetReferenceHistogram() == nullptr)
     {
-      itkExceptionMacro("ReferenceHistogram required when GenerateReferenceHistogramFromImage is false.");
+      itkExceptionStringMacro("ReferenceHistogram required when GenerateReferenceHistogramFromImage is false.");
     }
   }
 }
@@ -146,7 +146,7 @@ HistogramMatchingImageFilter<TInputImage, TOutputImage, THistogramMeasurement>::
     const InputImageConstPointer reference = this->GetReferenceImage();
     if (reference.IsNull())
     {
-      itkExceptionMacro("ERROR: ReferenceImage required when GenerateReferenceHistogramFromImage is true.\n");
+      itkExceptionStringMacro("ERROR: ReferenceImage required when GenerateReferenceHistogramFromImage is true.\n");
     }
     this->ComputeMinMaxMean(reference, m_ReferenceMinValue, m_ReferenceMaxValue, referenceMeanValue);
     if (m_ThresholdAtMeanIntensity)
@@ -173,7 +173,8 @@ HistogramMatchingImageFilter<TInputImage, TOutputImage, THistogramMeasurement>::
     const HistogramType * const referenceHistogram = this->GetReferenceHistogram();
     if (referenceHistogram == nullptr)
     {
-      itkExceptionMacro("ERROR: ReferenceHistogram required when GenerateReferenceHistogramFromImage is false.\n");
+      itkExceptionStringMacro(
+        "ERROR: ReferenceHistogram required when GenerateReferenceHistogramFromImage is false.\n");
     }
 
     // If the reference histogram is provided, then extract summary statistics

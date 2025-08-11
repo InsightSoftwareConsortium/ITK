@@ -80,7 +80,7 @@ SurfaceSpatialObject<TDimension, TSurfacePointType>::ComputeNormals()
 {
   if (this->m_Points.size() < 3)
   {
-    itkExceptionMacro("ComputeNormals requires at least 3 points");
+    itkExceptionStringMacro("ComputeNormals requires at least 3 points");
   }
 
   typename SurfacePointListType::iterator       it = this->m_Points.begin();

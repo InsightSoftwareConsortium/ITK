@@ -50,7 +50,7 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
 
   if (TFixedImage::ImageDimension > 3 || TFixedImage::ImageDimension < 1)
   {
-    itkExceptionMacro("GPUDenseFiniteDifferenceImageFilter supports 1/2/3D image.");
+    itkExceptionStringMacro("GPUDenseFiniteDifferenceImageFilter supports 1/2/3D image.");
   }
 
   defines << "#define DIM_" << TDisplacementField::ImageDimension << '\n';
@@ -144,7 +144,7 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
 
   if (!movingPtr || !fixedPtr)
   {
-    itkExceptionMacro("Fixed and/or moving image not set");
+    itkExceptionStringMacro("Fixed and/or moving image not set");
   }
 
   // update variables in the equation object
@@ -152,7 +152,7 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
 
   if (!f)
   {
-    itkExceptionMacro("FiniteDifferenceFunction not of type PDEDeformableRegistrationFilterFunction");
+    itkExceptionStringMacro("FiniteDifferenceFunction not of type PDEDeformableRegistrationFilterFunction");
   }
 
   f->SetFixedImage(fixedPtr);
@@ -329,7 +329,7 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
   int ImageDim = static_cast<int>(TDisplacementField::ImageDimension);
   if (ImageDim > 3)
   {
-    itkExceptionMacro("GPUSmoothDisplacementField supports 1/2/3D images.");
+    itkExceptionStringMacro("GPUSmoothDisplacementField supports 1/2/3D images.");
   }
   for (int i = 0; i < ImageDim; ++i)
   {
@@ -543,7 +543,7 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
   int ImageDim = static_cast<int>(TDisplacementField::ImageDimension);
   if (ImageDim > 3)
   {
-    itkExceptionMacro("GPUSmoothDisplacementField supports 1/2/3D images.");
+    itkExceptionStringMacro("GPUSmoothDisplacementField supports 1/2/3D images.");
   }
   for (int i = 0; i < ImageDim; ++i)
   {

@@ -116,7 +116,7 @@ PlatformMultiThreader::SpawnThread(ThreadFunctionType f, void * UserData)
 
   if (id >= ITK_MAX_THREADS)
   {
-    itkExceptionMacro("You have too many active threads!");
+    itkExceptionStringMacro("You have too many active threads!");
   }
 
   m_SpawnedThreadInfoArray[id].UserData = UserData;
@@ -161,7 +161,7 @@ PlatformMultiThreader::SpawnWaitForSingleMethodThread(ThreadProcessIdType thread
   // Using POSIX threads
   if (pthread_join(threadHandle, nullptr))
   {
-    itkExceptionMacro("Unable to join thread.");
+    itkExceptionStringMacro("Unable to join thread.");
   }
 }
 

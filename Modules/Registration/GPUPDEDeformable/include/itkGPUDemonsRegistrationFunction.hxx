@@ -67,7 +67,7 @@ GPUDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::GP
 
   if (TDisplacementField::ImageDimension > 3 || TDisplacementField::ImageDimension < 1)
   {
-    itkExceptionMacro("GPUDenseFiniteDifferenceImageFilter supports 1/2/3D image.");
+    itkExceptionStringMacro("GPUDenseFiniteDifferenceImageFilter supports 1/2/3D image.");
   }
 
   defines << "#define DIM_" << TDisplacementField::ImageDimension << '\n';
@@ -146,7 +146,7 @@ GPUDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::In
 {
   if (!this->GetMovingImage() || !this->GetFixedImage() || !m_MovingImageInterpolator)
   {
-    itkExceptionMacro("MovingImage, FixedImage and/or Interpolator not set");
+    itkExceptionStringMacro("MovingImage, FixedImage and/or Interpolator not set");
   }
 
   // cache fixed image information

@@ -389,7 +389,7 @@ Bruker2dseqImageIO::SwapBytesIfNecessary(void * buff, SizeValueType components)
         BYTE_SWAP(double);
         break;
       default:
-        itkExceptionMacro("Component Type Unknown");
+        itkExceptionStringMacro("Component Type Unknown");
     }
 #undef BYTE_SWAP
   }
@@ -427,7 +427,7 @@ Bruker2dseqImageIO::SwapBytesIfNecessary(void * buff, SizeValueType components)
         BYTE_SWAP(double);
         break;
       default:
-        itkExceptionMacro("Component Type Unknown");
+        itkExceptionStringMacro("Component Type Unknown");
     }
 #undef BYTE_SWAP
   }
@@ -521,12 +521,12 @@ Bruker2dseqImageIO::Read(void * buffer)
         CastCopy<unsigned long>(floatBuffer, dataFromDiskBuffer, numberOfComponents);
         break;
       case IOComponentEnum::FLOAT:
-        itkExceptionMacro("FLOAT pixels do not need Casting to float");
+        itkExceptionStringMacro("FLOAT pixels do not need Casting to float");
       case IOComponentEnum::DOUBLE:
-        itkExceptionMacro("DOUBLE pixels do not need Casting to float");
+        itkExceptionStringMacro("DOUBLE pixels do not need Casting to float");
       case IOComponentEnum::UNKNOWNCOMPONENTTYPE:
       default:
-        itkExceptionMacro("Bad OnDiskComponentType UNKNOWNCOMPONENTTYPE");
+        itkExceptionStringMacro("Bad OnDiskComponentType UNKNOWNCOMPONENTTYPE");
     }
   }
   else
@@ -570,7 +570,7 @@ Bruker2dseqImageIO::Read(void * buffer)
     case IOComponentEnum::LONG:
       [[fallthrough]];
     case IOComponentEnum::ULONG:
-      itkExceptionMacro("Must have float pixels to rescale");
+      itkExceptionStringMacro("Must have float pixels to rescale");
     case IOComponentEnum::FLOAT:
       Rescale(static_cast<float *>(buffer), slopes, offsets, frameSize, frameCount);
       break;
