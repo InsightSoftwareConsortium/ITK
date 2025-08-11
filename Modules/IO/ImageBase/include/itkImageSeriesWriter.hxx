@@ -74,7 +74,7 @@ ImageSeriesWriter<TInputImage, TOutputImage>::Write()
   // Make sure input is available
   if (inputImage == nullptr)
   {
-    itkExceptionMacro("No input to writer!");
+    itkExceptionStringMacro("No input to writer!");
   }
 
   // Make sure the data is up-to-date.
@@ -118,7 +118,7 @@ ImageSeriesWriter<TInputImage, TOutputImage>::GenerateNumericFileNames()
 
   if (!inputImage)
   {
-    itkExceptionMacro("Input image is nullptr");
+    itkExceptionStringMacro("Input image is nullptr");
   }
 
   m_FileNames.clear();
@@ -172,7 +172,7 @@ ImageSeriesWriter<TInputImage, TOutputImage>::WriteFiles()
 
   if (!inputImage)
   {
-    itkExceptionMacro("Input image is nullptr");
+    itkExceptionStringMacro("Input image is nullptr");
   }
 
   // We need two regions. One for the input, one for the output.
@@ -286,7 +286,7 @@ ImageSeriesWriter<TInputImage, TOutputImage>::WriteFiles()
       }
       else
       {
-        itkExceptionMacro("Attempted to use a MetaDataDictionaryArray without specifying an ImageIO!");
+        itkExceptionStringMacro("Attempted to use a MetaDataDictionaryArray without specifying an ImageIO!");
       }
     }
     else

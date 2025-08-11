@@ -85,12 +85,12 @@ ConformalFlatteningMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
 
   if (!inputMesh)
   {
-    itkExceptionMacro("Missing Input Mesh");
+    itkExceptionStringMacro("Missing Input Mesh");
   }
 
   if (!outputMesh)
   {
-    itkExceptionMacro("Missing Output Mesh");
+    itkExceptionStringMacro("Missing Output Mesh");
   }
 
   outputMesh->SetBufferedRegion(outputMesh->GetRequestedRegion());

@@ -288,7 +288,7 @@ FastMarchingImageFilterBase<TInput, TOutput>::Solve(OutputImageType *           
       if (discrim < itk::Math::eps)
       {
         // Discriminant of quadratic eqn. is negative
-        itkExceptionMacro("Discriminant of quadratic equation is negative");
+        itkExceptionStringMacro("Discriminant of quadratic equation is negative");
       }
 
       oSolution = (std::sqrt(discrim) + bb) / aa;

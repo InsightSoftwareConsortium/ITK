@@ -125,7 +125,7 @@ protected:
     Superclass::VerifyPreconditions();
     if (dynamic_cast<const CalculatorType *>(Superclass::GetCalculator()) == nullptr)
     {
-      itkExceptionMacro("Invalid OtsuThresholdCalculator.");
+      itkExceptionStringMacro("Invalid OtsuThresholdCalculator.");
     }
   }
 

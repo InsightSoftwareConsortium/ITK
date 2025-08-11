@@ -92,7 +92,7 @@ VTKImageImport<TOutputImage>::VTKImageImport()
   }
   else
   {
-    itkExceptionMacro("Type currently not supported");
+    itkExceptionStringMacro("Type currently not supported");
   }
 }
 
@@ -107,7 +107,7 @@ VTKImageImport<TOutputImage>::PropagateRequestedRegion(DataObject * outputPtr)
 
   if (!output)
   {
-    itkExceptionMacro("Downcast from DataObject to my Image type failed.");
+    itkExceptionStringMacro("Downcast from DataObject to my Image type failed.");
   }
   Superclass::PropagateRequestedRegion(output);
   if (m_PropagateUpdateExtentCallback)

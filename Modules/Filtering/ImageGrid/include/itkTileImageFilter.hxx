@@ -367,7 +367,7 @@ TileImageFilter<TInputImage, TOutputImage>::VerifyInputInformation() const
 
   if (image.IsNull())
   {
-    itkExceptionMacro("Input not set as expected!");
+    itkExceptionStringMacro("Input not set as expected!");
   }
 
   const unsigned int numComponents = image->GetNumberOfComponentsPerPixel();

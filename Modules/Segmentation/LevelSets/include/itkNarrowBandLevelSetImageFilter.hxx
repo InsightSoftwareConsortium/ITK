@@ -80,7 +80,7 @@ NarrowBandLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TOut
 {
   if (m_SegmentationFunction == nullptr)
   {
-    itkExceptionMacro("No finite difference function was specified.");
+    itkExceptionStringMacro("No finite difference function was specified.");
   }
 
   // A positive speed value causes surface expansion, the opposite of the

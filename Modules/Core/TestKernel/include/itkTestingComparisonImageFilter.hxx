@@ -94,7 +94,7 @@ ComparisonImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 
   if (validImage->GetBufferedRegion() != testImage->GetBufferedRegion())
   {
-    itkExceptionMacro("Input images have different Buffered Regions.");
+    itkExceptionStringMacro("Input images have different Buffered Regions.");
   }
 
   // Create a radius of pixels.

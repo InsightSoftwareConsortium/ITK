@@ -62,7 +62,7 @@ OBJMeshIO::OpenFile()
 {
   if (this->m_FileName.empty())
   {
-    itkExceptionMacro("No input FileName");
+    itkExceptionStringMacro("No input FileName");
   }
 
   if (!itksys::SystemTools::FileExists(m_FileName.c_str()))
@@ -341,7 +341,7 @@ OBJMeshIO::WriteMeshInformation()
   // Check file name
   if (this->m_FileName.empty())
   {
-    itkExceptionMacro("No Input FileName");
+    itkExceptionStringMacro("No Input FileName");
   }
 
   // Define output stream and open it
@@ -371,7 +371,7 @@ OBJMeshIO::WritePoints(void * buffer)
   // Check file name
   if (this->m_FileName.empty())
   {
-    itkExceptionMacro("No Input FileName");
+    itkExceptionStringMacro("No Input FileName");
   }
 
   // Define output stream and open it
@@ -481,7 +481,7 @@ OBJMeshIO::WriteCells(void * buffer)
   // check file name
   if (this->m_FileName.empty())
   {
-    itkExceptionMacro("No Input FileName");
+    itkExceptionStringMacro("No Input FileName");
   }
 
   // Define output stream and open it
@@ -578,13 +578,13 @@ OBJMeshIO::WritePointData(void * buffer)
   // Point data must be vector
   if (!m_UpdatePointData || m_NumberOfPointPixelComponents != m_PointDimension)
   {
-    itkExceptionMacro("OBJ Mesh writer does not support normals");
+    itkExceptionStringMacro("OBJ Mesh writer does not support normals");
   }
 
   // Check file name
   if (this->m_FileName.empty())
   {
-    itkExceptionMacro("No Input FileName");
+    itkExceptionStringMacro("No Input FileName");
   }
 
   // Define output stream and open it

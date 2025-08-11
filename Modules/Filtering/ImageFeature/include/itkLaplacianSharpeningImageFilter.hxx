@@ -75,7 +75,7 @@ LaplacianSharpeningImageFilter<TInputImage, TOutputImage>::GenerateData()
   {
     if (localInput->GetSpacing()[i] == 0.0)
     {
-      itkExceptionMacro("Image spacing cannot be zero");
+      itkExceptionStringMacro("Image spacing cannot be zero");
     }
     else if (this->m_UseImageSpacing)
     {

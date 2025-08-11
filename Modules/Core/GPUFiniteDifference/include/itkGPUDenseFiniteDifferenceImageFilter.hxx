@@ -44,7 +44,7 @@ GPUDenseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilte
 
   if (TInputImage::ImageDimension > 3 || ImageDimension < 1)
   {
-    itkExceptionMacro("GPUDenseFiniteDifferenceImageFilter supports 1/2/3D image.");
+    itkExceptionStringMacro("GPUDenseFiniteDifferenceImageFilter supports 1/2/3D image.");
   }
 
   defines << "#define DIM_" << TInputImage::ImageDimension << '\n';

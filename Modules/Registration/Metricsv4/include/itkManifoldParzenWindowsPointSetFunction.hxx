@@ -148,7 +148,7 @@ ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordinate>::Evaluate
 {
   if (this->GetInputPointSet() == nullptr)
   {
-    itkExceptionMacro("The input point set has not been specified.");
+    itkExceptionStringMacro("The input point set has not been specified.");
   }
 
   const unsigned int numberOfNeighbors =

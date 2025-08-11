@@ -84,7 +84,7 @@ MeshSource<TOutputMesh>::GraftOutput(const DataObjectIdentifierType & key, DataO
 {
   if (!graft)
   {
-    itkExceptionMacro("Requested to graft output that is a nullptr pointer");
+    itkExceptionStringMacro("Requested to graft output that is a nullptr pointer");
   }
 
   // we use the process object method since all out output may not be

@@ -60,7 +60,7 @@ PointSetToListSampleAdaptor<TPointSet>::GetPointSet()
 {
   if (m_PointSet.IsNull())
   {
-    itkExceptionMacro("Point set has not been set yet");
+    itkExceptionStringMacro("Point set has not been set yet");
   }
 
   return m_PointSet.GetPointer();
@@ -73,7 +73,7 @@ PointSetToListSampleAdaptor<TPointSet>::Size() const -> InstanceIdentifier
 {
   if (m_PointSet.IsNull())
   {
-    itkExceptionMacro("Point set has not been set yet");
+    itkExceptionStringMacro("Point set has not been set yet");
   }
 
   return m_PointsContainer->Size();
@@ -85,7 +85,7 @@ PointSetToListSampleAdaptor<TPointSet>::GetMeasurementVector(InstanceIdentifier 
 {
   if (m_PointSet.IsNull())
   {
-    itkExceptionMacro("Point set has not been set yet");
+    itkExceptionStringMacro("Point set has not been set yet");
   }
 
   m_PointSet->GetPoint(identifier, &m_TempPoint);
@@ -98,7 +98,7 @@ PointSetToListSampleAdaptor<TPointSet>::GetFrequency(InstanceIdentifier) const -
 {
   if (m_PointSet.IsNull())
   {
-    itkExceptionMacro("Point set has not been set yet");
+    itkExceptionStringMacro("Point set has not been set yet");
   }
 
   return 1;
@@ -110,7 +110,7 @@ PointSetToListSampleAdaptor<TPointSet>::GetTotalFrequency() const -> TotalAbsolu
 {
   if (m_PointSet.IsNull())
   {
-    itkExceptionMacro("Point set has not been set yet");
+    itkExceptionStringMacro("Point set has not been set yet");
   }
 
   return this->Size();

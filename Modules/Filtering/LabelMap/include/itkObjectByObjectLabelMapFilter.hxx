@@ -171,12 +171,12 @@ ObjectByObjectLabelMapFilter<TInputImage,
 {
   if (!m_InputFilter)
   {
-    itkExceptionMacro("InputFilter must be set.");
+    itkExceptionStringMacro("InputFilter must be set.");
   }
 
   if (!m_OutputFilter)
   {
-    itkExceptionMacro("OutputFilter must be set.");
+    itkExceptionStringMacro("OutputFilter must be set.");
   }
 
   this->AllocateOutputs();

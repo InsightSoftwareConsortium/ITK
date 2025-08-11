@@ -81,7 +81,7 @@ SpatialObjectToImageStatisticsCalculator<TInputImage, TInputSpatialObject, TSamp
 {
   if (!m_Image || !m_SpatialObject)
   {
-    itkExceptionMacro("SpatialObjectToImageStatisticsCalculator: set image AND spatialObject.");
+    itkExceptionStringMacro("SpatialObjectToImageStatisticsCalculator: set image AND spatialObject.");
   }
 
   // Update only if the image or the spatial object has been modified
@@ -109,7 +109,7 @@ SpatialObjectToImageStatisticsCalculator<TInputImage, TInputSpatialObject, TSamp
     const typename MaskSOType::Pointer maskSpatialObject = dynamic_cast<MaskSOType *>(m_SpatialObject.GetPointer());
     if (maskSpatialObject.IsNull())
     {
-      itkExceptionMacro("Invalid dynamic cast.");
+      itkExceptionStringMacro("Invalid dynamic cast.");
     }
 
     const typename MaskImageType::ConstPointer maskImage = maskSpatialObject->GetImage();

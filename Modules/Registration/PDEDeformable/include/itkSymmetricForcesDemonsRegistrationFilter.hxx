@@ -39,7 +39,7 @@ SymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacement
 
   if (!f)
   {
-    itkExceptionMacro("FiniteDifferenceFunction not of type DemonsRegistrationFunctionType");
+    itkExceptionStringMacro("FiniteDifferenceFunction not of type DemonsRegistrationFunctionType");
   }
 
   f->SetDisplacementField(this->GetDisplacementField());
@@ -62,7 +62,7 @@ SymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacement
 
   if (!drfp)
   {
-    itkExceptionMacro("Could not cast difference function to SymmetricForcesDemonsRegistrationFunction");
+    itkExceptionStringMacro("Could not cast difference function to SymmetricForcesDemonsRegistrationFunction");
   }
 
   return drfp->GetMetric();
@@ -77,7 +77,7 @@ SymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacement
 
   if (!drfp)
   {
-    itkExceptionMacro("Could not cast difference function to DemonsRegistrationFunction");
+    itkExceptionStringMacro("Could not cast difference function to DemonsRegistrationFunction");
   }
 
   return drfp->GetIntensityDifferenceThreshold();
@@ -92,7 +92,7 @@ SymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacement
 
   if (!drfp)
   {
-    itkExceptionMacro("Could not cast difference function to SymmetricDemonsRegistrationFunction");
+    itkExceptionStringMacro("Could not cast difference function to SymmetricDemonsRegistrationFunction");
   }
 
   drfp->SetIntensityDifferenceThreshold(threshold);
@@ -106,7 +106,7 @@ SymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacement
 
   if (!drfp)
   {
-    itkExceptionMacro("Could not cast difference function to SymmetricForcesDemonsRegistrationFunction");
+    itkExceptionStringMacro("Could not cast difference function to SymmetricForcesDemonsRegistrationFunction");
   }
 
   return drfp->GetRMSChange();
@@ -130,7 +130,7 @@ SymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacement
 
   if (!drfp)
   {
-    itkExceptionMacro("Could not cast difference function to DemonsRegistrationFunction");
+    itkExceptionStringMacro("Could not cast difference function to DemonsRegistrationFunction");
   }
 
   this->SetRMSChange(drfp->GetRMSChange());

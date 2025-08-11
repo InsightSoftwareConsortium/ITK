@@ -291,7 +291,7 @@ protected:
     }
     if (m_Steps < 1)
     {
-      itkExceptionMacro("Filter does not have progress.");
+      itkExceptionStringMacro("Filter does not have progress.");
     }
   }
 

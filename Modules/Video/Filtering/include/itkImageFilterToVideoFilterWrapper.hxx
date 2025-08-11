@@ -51,7 +51,7 @@ ImageFilterToVideoFilterWrapper<TImageToImageFilter>::TemporalStreamingGenerateD
   // Make sure ImageFilter is not null
   if (m_ImageFilter.IsNull())
   {
-    itkExceptionMacro("ImageFilter has not been set");
+    itkExceptionStringMacro("ImageFilter has not been set");
   }
 
   // Get the input and output video streams

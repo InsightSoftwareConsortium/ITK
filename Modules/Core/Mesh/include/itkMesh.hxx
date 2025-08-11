@@ -171,7 +171,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>::CreateCell(int cellType, CellAutoPoin
       cellPointer.TakeOwnership(new OutputQuadraticTriangleCellType);
       break;
     default:
-      itkExceptionMacro("Unknown mesh cell");
+      itkExceptionStringMacro("Unknown mesh cell");
   }
 
   return;

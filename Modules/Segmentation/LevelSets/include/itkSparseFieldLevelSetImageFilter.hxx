@@ -552,7 +552,8 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::Initialize()
   // Throw an exception if we don't have enough layers.
   if (m_Layers.size() < 3)
   {
-    itkExceptionMacro("Not enough layers have been allocated for the sparse field.  Requires at least one layer.");
+    itkExceptionStringMacro(
+      "Not enough layers have been allocated for the sparse field.  Requires at least one layer.");
   }
 
   // Construct the active layer and initialize the first layers inside and

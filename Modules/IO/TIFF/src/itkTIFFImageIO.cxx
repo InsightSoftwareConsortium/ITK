@@ -565,7 +565,7 @@ TIFFImageIO::Write(const void * buffer)
   }
   else
   {
-    itkExceptionMacro("TIFF Writer can only write 2-d or 3-d images");
+    itkExceptionStringMacro("TIFF Writer can only write 2-d or 3-d images");
   }
 }
 
@@ -609,7 +609,7 @@ TIFFImageIO::InternalWrite(const void * buffer)
       bps = 32;
       break;
     default:
-      itkExceptionMacro("TIFF supports unsigned/signed char, unsigned/signed short, and float");
+      itkExceptionStringMacro("TIFF supports unsigned/signed char, unsigned/signed short, and float");
   }
 
   uint16_t predictor = 0;
@@ -628,7 +628,7 @@ TIFFImageIO::InternalWrite(const void * buffer)
     // Adding the "8" option enables the use of big tiff
     mode = "w8";
 #else
-    itkExceptionMacro("Size of image exceeds the limit of libtiff.");
+    itkExceptionStringMacro("Size of image exceeds the limit of libtiff.");
 #endif
   }
 
@@ -779,7 +779,7 @@ TIFFImageIO::InternalWrite(const void * buffer)
 #endif
     if (scanlinesize == 0)
     {
-      itkExceptionMacro("TIFFScanlineSize returned 0");
+      itkExceptionStringMacro("TIFFScanlineSize returned 0");
     }
     rowsperstrip = static_cast<uint32_t>(1024 * 1024 / scanlinesize);
     if (rowsperstrip < 1)
@@ -823,7 +823,7 @@ TIFFImageIO::InternalWrite(const void * buffer)
         rowLength = sizeof(float);
         break;
       default:
-        itkExceptionMacro("TIFF supports unsigned/signed char, unsigned/signed short, and float");
+        itkExceptionStringMacro("TIFF supports unsigned/signed char, unsigned/signed short, and float");
     }
 
     rowLength *= this->GetNumberOfComponents();
@@ -834,7 +834,7 @@ TIFFImageIO::InternalWrite(const void * buffer)
     {
       if (TIFFWriteScanline(tif, const_cast<char *>(outPtr), row, 0) < 0)
       {
-        itkExceptionMacro("TIFFImageIO: error out of disk space");
+        itkExceptionStringMacro("TIFFImageIO: error out of disk space");
       }
       outPtr += rowLength;
       ++row;
@@ -903,7 +903,7 @@ TIFFImageIO::CanFindTIFFTag(unsigned int t)
   // m_InternalImage needs to be valid
   if (!m_InternalImage)
   {
-    itkExceptionMacro("Need to call CanReadFile before");
+    itkExceptionStringMacro("Need to call CanReadFile before");
   }
 
   const ttag_t tag = t; // 32bits integer
@@ -923,7 +923,7 @@ TIFFImageIO::ReadRawByteFromTag(unsigned int t, unsigned int & value_count)
   // m_InternalImage needs to be valid
   if (!m_InternalImage)
   {
-    itkExceptionMacro("Need to call CanReadFile before");
+    itkExceptionStringMacro("Need to call CanReadFile before");
   }
   const ttag_t tag = t;
   void *       raw_data = nullptr;
@@ -932,7 +932,7 @@ TIFFImageIO::ReadRawByteFromTag(unsigned int t, unsigned int & value_count)
 
   if (fld == nullptr)
   {
-    itkExceptionMacro("fld is nullptr");
+    itkExceptionStringMacro("fld is nullptr");
   }
 
   if (!TIFFFieldPassCount(fld))
@@ -956,13 +956,13 @@ TIFFImageIO::ReadRawByteFromTag(unsigned int t, unsigned int & value_count)
 
   if (ret != 1)
   {
-    itkExceptionMacro("Tag cannot be found");
+    itkExceptionStringMacro("Tag cannot be found");
   }
   else
   {
     if (TIFFFieldDataType(fld) != TIFF_BYTE)
     {
-      itkExceptionMacro("Tag is not of type TIFF_BYTE");
+      itkExceptionStringMacro("Tag is not of type TIFF_BYTE");
     }
   }
 
@@ -1010,14 +1010,14 @@ TIFFImageIO::AllocateTiffPalette(uint16_t bps)
   if (!m_ColorRed)
   {
     _TIFFfree(m_ColorRed);
-    itkExceptionMacro("Can't allocate space for Red channel of component tables.");
+    itkExceptionStringMacro("Can't allocate space for Red channel of component tables.");
   }
   m_ColorGreen = static_cast<uint16_t *>(_TIFFmalloc(array_size));
   if (!m_ColorGreen)
   {
     _TIFFfree(m_ColorRed);
     _TIFFfree(m_ColorGreen);
-    itkExceptionMacro("Can't allocate space for Green channel of component tables.");
+    itkExceptionStringMacro("Can't allocate space for Green channel of component tables.");
   }
   m_ColorBlue = static_cast<uint16_t *>(_TIFFmalloc(array_size));
   if (!m_ColorBlue)
@@ -1025,7 +1025,7 @@ TIFFImageIO::AllocateTiffPalette(uint16_t bps)
     _TIFFfree(m_ColorRed);
     _TIFFfree(m_ColorGreen);
     _TIFFfree(m_ColorBlue);
-    itkExceptionMacro("Can't allocate space for Blue channel of component tables.");
+    itkExceptionStringMacro("Can't allocate space for Blue channel of component tables.");
   }
   // TIFF palette length is fixed for a given bpp
   const uint64_t TIFFPaletteLength = uint64_t{ 1 } << bps;
@@ -1269,12 +1269,12 @@ TIFFImageIO::ReadCurrentPage(void * buffer, size_t pixelOffset)
     }
     else
     {
-      itkExceptionMacro("Logic Error: Unexpected buffer type!");
+      itkExceptionStringMacro("Logic Error: Unexpected buffer type!");
     }
 
     if (!TIFFReadRGBAImageOriented(m_InternalImage->m_Image, width, height, tempImage, ORIENTATION_TOPLEFT, 1))
     {
-      itkExceptionMacro("Cannot read TIFF image as a TIFF RGBA image");
+      itkExceptionStringMacro("Cannot read TIFF image as a TIFF RGBA image");
     }
 
     auto * out = static_cast<unsigned char *>(buffer) + pixelOffset;
@@ -1339,12 +1339,12 @@ TIFFImageIO::ReadGenericImage(void * _out, unsigned int width, unsigned int heig
 
   if (m_InternalImage->m_PlanarConfig != PLANARCONFIG_CONTIG && m_InternalImage->m_SamplesPerPixel != 1)
   {
-    itkExceptionMacro("This reader can only do PLANARCONFIG_CONTIG or single-component PLANARCONFIG_SEPARATE");
+    itkExceptionStringMacro("This reader can only do PLANARCONFIG_CONTIG or single-component PLANARCONFIG_SEPARATE");
   }
 
   if (m_InternalImage->m_Orientation != ORIENTATION_TOPLEFT && m_InternalImage->m_Orientation != ORIENTATION_BOTLEFT)
   {
-    itkExceptionMacro("This reader can only do ORIENTATION_TOPLEFT and  ORIENTATION_BOTLEFT.");
+    itkExceptionStringMacro("This reader can only do ORIENTATION_TOPLEFT and  ORIENTATION_BOTLEFT.");
   }
 
 
@@ -1450,7 +1450,7 @@ TIFFImageIO::ReadGenericImage(void * _out, unsigned int width, unsigned int heig
         break;
 
       default:
-        itkExceptionMacro("Logic Error: Unexpected format!");
+        itkExceptionStringMacro("Logic Error: Unexpected format!");
     }
   }
 

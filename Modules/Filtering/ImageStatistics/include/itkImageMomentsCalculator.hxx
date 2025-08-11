@@ -182,7 +182,7 @@ ImageMomentsCalculator<TImage>::GetTotalMass() const -> ScalarType
 {
   if (!m_Valid)
   {
-    itkExceptionMacro("GetTotalMass() invoked, but the moments have not been computed. Call Compute() first.");
+    itkExceptionStringMacro("GetTotalMass() invoked, but the moments have not been computed. Call Compute() first.");
   }
   return m_M0;
 }
@@ -195,7 +195,7 @@ ImageMomentsCalculator<TImage>::GetFirstMoments() const -> VectorType
 {
   if (!m_Valid)
   {
-    itkExceptionMacro("GetFirstMoments() invoked, but the moments have not been computed. Call Compute() first.");
+    itkExceptionStringMacro("GetFirstMoments() invoked, but the moments have not been computed. Call Compute() first.");
   }
   return m_M1;
 }
@@ -208,7 +208,8 @@ ImageMomentsCalculator<TImage>::GetSecondMoments() const -> MatrixType
 {
   if (!m_Valid)
   {
-    itkExceptionMacro("GetSecondMoments() invoked, but the moments have not been computed. Call Compute() first.");
+    itkExceptionStringMacro(
+      "GetSecondMoments() invoked, but the moments have not been computed. Call Compute() first.");
   }
   return m_M2;
 }
@@ -221,7 +222,8 @@ ImageMomentsCalculator<TImage>::GetCenterOfGravity() const -> VectorType
 {
   if (!m_Valid)
   {
-    itkExceptionMacro("GetCenterOfGravity() invoked, but the moments have not been computed. Call Compute() first.");
+    itkExceptionStringMacro(
+      "GetCenterOfGravity() invoked, but the moments have not been computed. Call Compute() first.");
   }
   return m_Cg;
 }
@@ -234,7 +236,8 @@ ImageMomentsCalculator<TImage>::GetCentralMoments() const -> MatrixType
 {
   if (!m_Valid)
   {
-    itkExceptionMacro("GetCentralMoments() invoked, but the moments have not been computed. Call Compute() first.");
+    itkExceptionStringMacro(
+      "GetCentralMoments() invoked, but the moments have not been computed. Call Compute() first.");
   }
   return m_Cm;
 }
@@ -261,7 +264,8 @@ ImageMomentsCalculator<TImage>::GetPrincipalAxes() const -> MatrixType
 {
   if (!m_Valid)
   {
-    itkExceptionMacro("GetPrincipalAxes() invoked, but the moments have not been computed. Call Compute() first.");
+    itkExceptionStringMacro(
+      "GetPrincipalAxes() invoked, but the moments have not been computed. Call Compute() first.");
   }
   return m_Pa;
 }

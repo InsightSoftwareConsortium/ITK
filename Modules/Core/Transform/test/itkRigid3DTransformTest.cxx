@@ -43,7 +43,7 @@ public:
   InverseTransformBasePointer
   GetInverseTransform() const override
   {
-    itkExceptionMacro("This is never called.");
+    itkExceptionStringMacro("This is never called.");
   }
 
 private:

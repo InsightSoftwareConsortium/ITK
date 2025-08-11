@@ -37,7 +37,7 @@ MetaEllipseConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectType
   const auto * ellipseMO = dynamic_cast<const EllipseMetaObjectType *>(mo);
   if (ellipseMO == nullptr)
   {
-    itkExceptionMacro("Can't downcast MetaObject to EllipseMetaObject");
+    itkExceptionStringMacro("Can't downcast MetaObject to EllipseMetaObject");
   }
 
   const EllipseSpatialObjectPointer ellipseSO = EllipseSpatialObjectType::New();
@@ -68,7 +68,7 @@ MetaEllipseConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectT
   const EllipseSpatialObjectConstPointer ellipseSO = dynamic_cast<const EllipseSpatialObjectType *>(so);
   if (ellipseSO.IsNull())
   {
-    itkExceptionMacro("Can't downcast SpatialObject to EllipseSpatialObject");
+    itkExceptionStringMacro("Can't downcast SpatialObject to EllipseSpatialObject");
   }
 
   auto * ellipseMO = new EllipseMetaObjectType(VDimension);

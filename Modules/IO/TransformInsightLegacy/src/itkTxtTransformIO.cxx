@@ -156,7 +156,7 @@ TxtTransformIOTemplate<TParametersValueType>::Read()
     if (end == std::string::npos)
     {
       // Throw an error
-      itkExceptionMacro("Tags must be delimited by :");
+      itkExceptionStringMacro("Tags must be delimited by :");
     }
     const std::string Name = trim(line.substr(0, end));
     std::string       Value = trim(line.substr(end + 1, line.length()));
@@ -288,7 +288,7 @@ TxtTransformIOTemplate<TParametersValueType>::Write()
     {
       if (count > 0)
       {
-        itkExceptionMacro("Composite Transform can only be 1st transform in a file");
+        itkExceptionStringMacro("Composite Transform can only be 1st transform in a file");
       }
     }
     else

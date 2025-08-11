@@ -211,7 +211,7 @@ RecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetUp(ScalarRealType sp
     }
     default:
     {
-      itkExceptionMacro("Unknown Order");
+      itkExceptionStringMacro("Unknown Order");
     }
   }
 }
@@ -340,7 +340,7 @@ RecursiveGaussianImageFilter<TInputImage, TOutputImage>::VerifyPreconditions() c
 
   if (this->m_Sigma <= 0.0)
   {
-    itkExceptionMacro("Sigma must be greater than zero.");
+    itkExceptionStringMacro("Sigma must be greater than zero.");
   }
 }
 

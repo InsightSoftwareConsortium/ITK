@@ -45,7 +45,7 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader<TDomainPartitioner,
   this->m_JointAssociate = dynamic_cast<TJointHistogramMetric *>(this->m_Associate);
   if (this->m_JointAssociate == nullptr)
   {
-    itkExceptionMacro("Dynamic casting of associate pointer failed.");
+    itkExceptionStringMacro("Dynamic casting of associate pointer failed.");
   }
 
   const ThreadIdType numWorkUnitsUsed = this->GetNumberOfWorkUnitsUsed();

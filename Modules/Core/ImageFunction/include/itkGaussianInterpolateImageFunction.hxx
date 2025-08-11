@@ -220,7 +220,7 @@ GaussianInterpolateImageFunction<TImageType, TCoordinate>::GetRadius() const -> 
 
   if (!this->GetInputImage())
   {
-    itkExceptionMacro("Input image required!");
+    itkExceptionStringMacro("Input image required!");
   }
 
   const InputImageType *                     input = this->GetInputImage();

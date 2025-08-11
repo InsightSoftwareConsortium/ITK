@@ -61,22 +61,22 @@ MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::Initialize()
   // Sanity checks
   if (!m_Metric)
   {
-    itkExceptionMacro("Metric is not present");
+    itkExceptionStringMacro("Metric is not present");
   }
 
   if (!m_Optimizer)
   {
-    itkExceptionMacro("Optimizer is not present");
+    itkExceptionStringMacro("Optimizer is not present");
   }
 
   if (!m_Transform)
   {
-    itkExceptionMacro("Transform is not present");
+    itkExceptionStringMacro("Transform is not present");
   }
 
   if (!m_Interpolator)
   {
-    itkExceptionMacro("Interpolator is not present");
+    itkExceptionStringMacro("Interpolator is not present");
   }
 
   // Setup the metric
@@ -124,7 +124,7 @@ MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::SetSchedules(
   // Set the number of levels based on the pyramid schedule specified
   if (m_FixedImagePyramidSchedule.rows() != m_MovingImagePyramidSchedule.rows())
   {
-    itkExceptionMacro("The specified schedules contain unequal number of levels");
+    itkExceptionStringMacro("The specified schedules contain unequal number of levels");
   }
   else
   {
@@ -155,35 +155,35 @@ MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::PreparePyrami
 {
   if (!m_Transform)
   {
-    itkExceptionMacro("Transform is not present");
+    itkExceptionStringMacro("Transform is not present");
   }
 
   m_InitialTransformParametersOfNextLevel = m_InitialTransformParameters;
 
   if (m_InitialTransformParametersOfNextLevel.Size() != m_Transform->GetNumberOfParameters())
   {
-    itkExceptionMacro("Size mismatch between initial parameter and transform");
+    itkExceptionStringMacro("Size mismatch between initial parameter and transform");
   }
 
   // Sanity checks
   if (!m_FixedImage)
   {
-    itkExceptionMacro("FixedImage is not present");
+    itkExceptionStringMacro("FixedImage is not present");
   }
 
   if (!m_MovingImage)
   {
-    itkExceptionMacro("MovingImage is not present");
+    itkExceptionStringMacro("MovingImage is not present");
   }
 
   if (!m_FixedImagePyramid)
   {
-    itkExceptionMacro("Fixed image pyramid is not present");
+    itkExceptionStringMacro("Fixed image pyramid is not present");
   }
 
   if (!m_MovingImagePyramid)
   {
-    itkExceptionMacro("Moving image pyramid is not present");
+    itkExceptionStringMacro("Moving image pyramid is not present");
   }
 
   // Setup the fixed and moving image pyramid
@@ -422,7 +422,7 @@ MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::MakeOutput(Da
 {
   if (output > 0)
   {
-    itkExceptionMacro("MakeOutput request for an output number larger than the expected number of outputs.");
+    itkExceptionStringMacro("MakeOutput request for an output number larger than the expected number of outputs.");
   }
   return TransformOutputType::New().GetPointer();
 }

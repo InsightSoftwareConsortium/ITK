@@ -97,7 +97,7 @@ ImageSeriesReader<TOutputImage>::GenerateOutputInformation()
   const auto numberOfFiles = static_cast<int>(m_FileNames.size());
   if (numberOfFiles == 0)
   {
-    itkExceptionMacro("At least one filename is required.");
+    itkExceptionStringMacro("At least one filename is required.");
   }
 
   const int firstFileName = (m_ReverseOrder ? numberOfFiles - 1 : 0);

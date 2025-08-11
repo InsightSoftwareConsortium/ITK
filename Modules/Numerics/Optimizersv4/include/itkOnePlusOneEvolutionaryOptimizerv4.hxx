@@ -155,7 +155,7 @@ OnePlusOneEvolutionaryOptimizerv4<TInternalComputationValueType>::StartOptimizat
     {
       if (!m_RandomGenerator)
       {
-        itkExceptionMacro("Random Generator is not set!");
+        itkExceptionStringMacro("Random Generator is not set!");
       }
       f_norm[i] = m_RandomGenerator->GetVariate();
     }

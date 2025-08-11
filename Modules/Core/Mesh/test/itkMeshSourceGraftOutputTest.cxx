@@ -105,12 +105,12 @@ MeshSourceGraftOutputFilter<TInputMesh, TOutputMesh, TTransform>::GenerateData()
 
   if (!inputMesh)
   {
-    itkExceptionMacro("Missing Input Mesh");
+    itkExceptionStringMacro("Missing Input Mesh");
   }
 
   if (!outputMesh)
   {
-    itkExceptionMacro("Missing Output Mesh");
+    itkExceptionStringMacro("Missing Output Mesh");
   }
 
   // Declare the type for the filter

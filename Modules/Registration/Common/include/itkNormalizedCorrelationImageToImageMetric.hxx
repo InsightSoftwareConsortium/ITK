@@ -35,7 +35,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetValue(
 
   if (!fixedImage)
   {
-    itkExceptionMacro("Fixed image has not been assigned");
+    itkExceptionStringMacro("Fixed image has not been assigned");
   }
 
   using FixedIteratorType = itk::ImageRegionConstIteratorWithIndex<FixedImageType>;
@@ -126,14 +126,14 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetDerivativ
 {
   if (!this->GetGradientImage())
   {
-    itkExceptionMacro("The gradient image is null, maybe you forgot to call Initialize()");
+    itkExceptionStringMacro("The gradient image is null, maybe you forgot to call Initialize()");
   }
 
   const FixedImageConstPointer fixedImage = this->m_FixedImage;
 
   if (!fixedImage)
   {
-    itkExceptionMacro("Fixed image has not been assigned");
+    itkExceptionStringMacro("Fixed image has not been assigned");
   }
 
   const unsigned int dimension = FixedImageType::ImageDimension;
@@ -309,14 +309,14 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndD
 {
   if (!this->GetGradientImage())
   {
-    itkExceptionMacro("The gradient image is null, maybe you forgot to call Initialize()");
+    itkExceptionStringMacro("The gradient image is null, maybe you forgot to call Initialize()");
   }
 
   const FixedImageConstPointer fixedImage = this->m_FixedImage;
 
   if (!fixedImage)
   {
-    itkExceptionMacro("Fixed image has not been assigned");
+    itkExceptionStringMacro("Fixed image has not been assigned");
   }
 
   const unsigned int dimension = FixedImageType::ImageDimension;

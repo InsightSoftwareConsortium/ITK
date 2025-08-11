@@ -106,7 +106,7 @@ MRCImageIO::GetHeaderSize() const
 {
   if (m_MRCHeader.IsNull())
   {
-    itkExceptionMacro("Must read info first");
+    itkExceptionStringMacro("Must read info first");
   }
 
   return m_MRCHeader->GetExtendedHeaderSize() + m_MRCHeader->GetHeaderSize();
@@ -196,7 +196,7 @@ MRCImageIO::ReadImageInformation()
     }
     default:
     {
-      itkExceptionMacro("Unrecognized mode");
+      itkExceptionStringMacro("Unrecognized mode");
     }
   }
 
@@ -247,13 +247,13 @@ MRCImageIO::InternalReadImageInformation(std::ifstream & file)
   // convert the raw buffer into the header
   if (!m_MRCHeader->SetHeader(reinterpret_cast<const MRCHeaderObject::Header *>(buffer.get())))
   {
-    itkExceptionMacro("Unrecognized header");
+    itkExceptionStringMacro("Unrecognized header");
   }
 
   buffer = make_unique_for_overwrite<char[]>(m_MRCHeader->GetExtendedHeaderSize());
   if (!this->ReadBufferAsBinary(file, static_cast<void *>(buffer.get()), m_MRCHeader->GetExtendedHeaderSize()))
   {
-    itkExceptionMacro("Extended Header Read failed.");
+    itkExceptionStringMacro("Extended Header Read failed.");
   }
 
   m_MRCHeader->SetExtendedHeader(buffer.get());
@@ -283,7 +283,7 @@ MRCImageIO::Read(void * buffer)
 
     if (file.fail())
     {
-      itkExceptionMacro("Failed seeking to data position");
+      itkExceptionStringMacro("Failed seeking to data position");
     }
 
     // read the image
@@ -310,7 +310,7 @@ MRCImageIO::Read(void * buffer)
                                                                    this->GetImageSizeInComponents());
       break;
     default:
-      itkExceptionMacro("Unknown component size");
+      itkExceptionStringMacro("Unknown component size");
   }
 }
 
@@ -349,7 +349,7 @@ MRCImageIO::UpdateHeaderFromImageIO()
   itkAssertOrThrowMacro(this->GetNumberOfDimensions() != 0, "Invalid Dimension for Writing");
   if (this->GetNumberOfDimensions() > 3)
   {
-    itkExceptionMacro("MRC Writer can not write more than 3-dimensional images");
+    itkExceptionStringMacro("MRC Writer can not write more than 3-dimensional images");
   }
 
   // magic number
@@ -442,7 +442,7 @@ MRCImageIO::UpdateHeaderFromImageIO()
   m_MRCHeader = MRCHeaderObject::New();
   if (!m_MRCHeader->SetHeader(&header))
   {
-    itkExceptionMacro("Unexpected error setting header");
+    itkExceptionStringMacro("Unexpected error setting header");
   }
 }
 
@@ -528,7 +528,7 @@ MRCImageIO::UpdateHeaderWithMinMaxMean(const void * bufferBegin)
     }
     default:
     {
-      itkExceptionMacro("Unrecognized mode");
+      itkExceptionStringMacro("Unrecognized mode");
     }
   }
 }
@@ -601,7 +601,7 @@ MRCImageIO::Write(const void * buffer)
 
     if (file.fail())
     {
-      itkExceptionMacro("Failed seeking to data position");
+      itkExceptionStringMacro("Failed seeking to data position");
     }
 
     // read the image

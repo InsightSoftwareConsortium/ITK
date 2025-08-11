@@ -94,7 +94,7 @@ PointBasedSpatialObject<TDimension, TSpatialObjectPointType>::ClosestPointInObje
 
   if (it == itend)
   {
-    itkExceptionMacro("SpatialObject: ClosestPoint called using an empty point list");
+    itkExceptionStringMacro("SpatialObject: ClosestPoint called using an empty point list");
   }
 
   SpatialObjectPointType closestPoint;
@@ -123,7 +123,7 @@ PointBasedSpatialObject<TDimension, TSpatialObjectPointType>::ClosestPointInWorl
 
   if (it == itend)
   {
-    itkExceptionMacro("SpatialObject: ClosestPoint called using an empty point list");
+    itkExceptionStringMacro("SpatialObject: ClosestPoint called using an empty point list");
   }
 
   SpatialObjectPointType closestPoint;

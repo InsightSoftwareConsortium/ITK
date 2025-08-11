@@ -378,7 +378,7 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>::SwapNeighbors(PointIdentifier 
   }
   if (firstFound == -1 || secondFound == -1)
   {
-    itkExceptionMacro("first and second not found");
+    itkExceptionStringMacro("first and second not found");
   }
   data->neighborIndices[firstFound] = secondIdx;
   data->neighborIndices[secondFound] = firstIdx;

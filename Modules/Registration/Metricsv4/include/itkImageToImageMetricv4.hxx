@@ -77,19 +77,19 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   /* Verify things are connected */
   if (this->m_FixedImage.IsNull())
   {
-    itkExceptionMacro("FixedImage is not present");
+    itkExceptionStringMacro("FixedImage is not present");
   }
   if (this->m_MovingImage.IsNull())
   {
-    itkExceptionMacro("MovingImage is not present");
+    itkExceptionStringMacro("MovingImage is not present");
   }
   if (this->m_FixedTransform.IsNull())
   {
-    itkExceptionMacro("FixedTransform is not present");
+    itkExceptionStringMacro("FixedTransform is not present");
   }
   if (this->m_MovingTransform.IsNull())
   {
-    itkExceptionMacro("MovingTransform is not present");
+    itkExceptionStringMacro("MovingTransform is not present");
   }
 
   // If the image is provided by a source, update the source.
@@ -245,7 +245,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
     const SizeValueType numberOfPoints = this->GetNumberOfDomainPoints();
     if (numberOfPoints < 1)
     {
-      itkExceptionMacro("VirtualSampledPointSet must have 1 or more points.");
+      itkExceptionStringMacro("VirtualSampledPointSet must have 1 or more points.");
     }
     typename ImageToImageMetricv4GetValueAndDerivativeThreader<ThreadedIndexedContainerPartitioner, Self>::DomainType
       range;
@@ -575,7 +575,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   const typename PointsContainer::ConstPointer points = this->m_FixedSampledPointSet->GetPoints();
   if (points.IsNull())
   {
-    itkExceptionMacro("Fixed Sample point set is empty.");
+    itkExceptionStringMacro("Fixed Sample point set is empty.");
   }
   typename PointsContainer::ConstIterator fixedIt = points->Begin();
 

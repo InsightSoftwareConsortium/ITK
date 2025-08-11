@@ -40,7 +40,7 @@ ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInt
 
   if (this->m_PointSetSigma <= NumericTraits<CoordinateType>::epsilon())
   {
-    itkExceptionMacro("m_PointSetSigma is too small. <= epsilon");
+    itkExceptionStringMacro("m_PointSetSigma is too small. <= epsilon");
   }
   this->m_PreFactor = 1.0 / (std::sqrt(2 * itk::Math::pi) * this->m_PointSetSigma);
   this->m_Denominator = 2.0 * itk::Math::sqr(this->m_PointSetSigma);

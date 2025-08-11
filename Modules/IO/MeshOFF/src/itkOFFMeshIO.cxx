@@ -65,7 +65,7 @@ OFFMeshIO::OpenFile()
 {
   if (this->m_FileName.empty())
   {
-    itkExceptionMacro("No input FileName");
+    itkExceptionStringMacro("No input FileName");
   }
 
   if (!itksys::SystemTools::FileExists(m_FileName.c_str()))
@@ -277,7 +277,7 @@ OFFMeshIO::ReadPoints(void * buffer)
   }
   else
   {
-    itkExceptionMacro("Invalid file type (not ASCII or BINARY)");
+    itkExceptionStringMacro("Invalid file type (not ASCII or BINARY)");
   }
 }
 
@@ -296,7 +296,7 @@ OFFMeshIO::ReadCells(void * buffer)
   }
   else
   {
-    itkExceptionMacro("Invalid file type (not ASCII or BINARY)");
+    itkExceptionStringMacro("Invalid file type (not ASCII or BINARY)");
   }
 
   CloseFile();
@@ -327,7 +327,7 @@ OFFMeshIO::WriteMeshInformation()
   // Check file name
   if (this->m_FileName.empty())
   {
-    itkExceptionMacro("No Input FileName");
+    itkExceptionStringMacro("No Input FileName");
   }
 
   // Write to output file
@@ -388,7 +388,7 @@ OFFMeshIO::WritePoints(void * buffer)
   // check file name
   if (this->m_FileName.empty())
   {
-    itkExceptionMacro("No Input FileName");
+    itkExceptionStringMacro("No Input FileName");
   }
 
   // Write to output file
@@ -599,7 +599,7 @@ OFFMeshIO::WriteCells(void * buffer)
   // Check file name
   if (this->m_FileName.empty())
   {
-    itkExceptionMacro("No Input FileName");
+    itkExceptionStringMacro("No Input FileName");
   }
 
   // Write to output file

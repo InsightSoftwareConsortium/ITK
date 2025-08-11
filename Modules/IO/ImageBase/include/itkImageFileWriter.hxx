@@ -86,14 +86,14 @@ ImageFileWriter<TInputImage>::Write()
   // Make sure input is available
   if (input == nullptr)
   {
-    itkExceptionMacro("No input to writer!");
+    itkExceptionStringMacro("No input to writer!");
   }
 
   // Make sure that we can write the file given the name
   //
   if (m_FileName.empty())
   {
-    itkExceptionMacro("No filename was specified");
+    itkExceptionStringMacro("No filename was specified");
   }
 
   if (m_ImageIO.IsNull() || (m_FactorySpecifiedImageIO && !m_ImageIO->CanWriteFile(m_FileName.c_str())))

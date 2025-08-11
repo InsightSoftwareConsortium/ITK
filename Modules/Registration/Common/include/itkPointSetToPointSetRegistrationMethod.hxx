@@ -53,27 +53,27 @@ PointSetToPointSetRegistrationMethod<TFixedPointSet, TMovingPointSet>::Initializ
 {
   if (!m_FixedPointSet)
   {
-    itkExceptionMacro("FixedPointSet is not present");
+    itkExceptionStringMacro("FixedPointSet is not present");
   }
 
   if (!m_MovingPointSet)
   {
-    itkExceptionMacro("MovingPointSet is not present");
+    itkExceptionStringMacro("MovingPointSet is not present");
   }
 
   if (!m_Metric)
   {
-    itkExceptionMacro("Metric is not present");
+    itkExceptionStringMacro("Metric is not present");
   }
 
   if (!m_Optimizer)
   {
-    itkExceptionMacro("Optimizer is not present");
+    itkExceptionStringMacro("Optimizer is not present");
   }
 
   if (!m_Transform)
   {
-    itkExceptionMacro("Transform is not present");
+    itkExceptionStringMacro("Transform is not present");
   }
 
   // Set up the metric
@@ -89,7 +89,7 @@ PointSetToPointSetRegistrationMethod<TFixedPointSet, TMovingPointSet>::Initializ
   // Validate initial transform parameters
   if (m_InitialTransformParameters.Size() != m_Transform->GetNumberOfParameters())
   {
-    itkExceptionMacro("Size mismatch between initial parameter and transform");
+    itkExceptionStringMacro("Size mismatch between initial parameter and transform");
   }
 
   m_Optimizer->SetInitialPosition(m_InitialTransformParameters);
@@ -152,7 +152,7 @@ PointSetToPointSetRegistrationMethod<TFixedPointSet, TMovingPointSet>::MakeOutpu
 {
   if (output > 0)
   {
-    itkExceptionMacro("MakeOutput request for an output number larger than the expected number of outputs.");
+    itkExceptionStringMacro("MakeOutput request for an output number larger than the expected number of outputs.");
   }
   return TransformOutputType::New().GetPointer();
 }

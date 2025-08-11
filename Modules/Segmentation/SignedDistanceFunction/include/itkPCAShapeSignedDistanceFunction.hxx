@@ -105,7 +105,7 @@ PCAShapeSignedDistanceFunction<TCoordinate, VSpaceDimension, TImage>::Initialize
   // verify mean image
   if (!m_MeanImage)
   {
-    itkExceptionMacro("MeanImage is not present.");
+    itkExceptionStringMacro("MeanImage is not present.");
   }
 
   // verify principal component images

@@ -352,7 +352,7 @@ public:
     const SizeValueType numFramesOut = this->GetOutput()->GetRequestedTemporalRegion().GetFrameDuration();
     if (numFramesOut != m_UnitOutputNumberOfFrames)
     {
-      itkExceptionMacro("Requested non-unit number of output frames");
+      itkExceptionStringMacro("Requested non-unit number of output frames");
     }
 
     // Just pass frames from the input through to the output and add debug info

@@ -46,7 +46,7 @@ TimeVaryingBSplineVelocityFieldTransform<TParametersValueType, VDimension>::Inte
 {
   if (!this->GetVelocityField())
   {
-    itkExceptionMacro("The B-spline velocity field does not exist.");
+    itkExceptionStringMacro("The B-spline velocity field does not exist.");
   }
 
   using BSplineFilterType = BSplineControlPointImageFilter<VelocityFieldType, VelocityFieldType>;

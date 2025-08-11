@@ -861,7 +861,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::CommonGetV
   // Normalize the fixed image marginal PDF
   if (totalMassOfPDF == 0.0)
   {
-    itkExceptionMacro("Fixed image marginal PDF summed to zero");
+    itkExceptionStringMacro("Fixed image marginal PDF summed to zero");
   }
   for (unsigned int bin = 0; bin < this->m_NumberOfHistogramBins; ++bin)
   {

@@ -45,7 +45,7 @@ HessianToObjectnessMeasureImageFilter<TInputImage, TOutputImage>::VerifyPrecondi
   Superclass::VerifyPreconditions();
   if (m_ObjectDimension >= ImageDimension)
   {
-    itkExceptionMacro("ObjectDimension must be lower than ImageDimension.");
+    itkExceptionStringMacro("ObjectDimension must be lower than ImageDimension.");
   }
 }
 

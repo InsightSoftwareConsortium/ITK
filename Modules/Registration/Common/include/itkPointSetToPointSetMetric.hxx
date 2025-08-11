@@ -36,7 +36,7 @@ PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>::SetTransformParameter
 {
   if (!m_Transform)
   {
-    itkExceptionMacro("Transform has not been assigned");
+    itkExceptionStringMacro("Transform has not been assigned");
   }
   m_Transform->SetParameters(parameters);
 }
@@ -47,17 +47,17 @@ PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>::Initialize()
 {
   if (!m_Transform)
   {
-    itkExceptionMacro("Transform is not present");
+    itkExceptionStringMacro("Transform is not present");
   }
 
   if (!m_MovingPointSet)
   {
-    itkExceptionMacro("MovingPointSet is not present");
+    itkExceptionStringMacro("MovingPointSet is not present");
   }
 
   if (!m_FixedPointSet)
   {
-    itkExceptionMacro("FixedPointSet is not present");
+    itkExceptionStringMacro("FixedPointSet is not present");
   }
 
   // If the PointSet is provided by a source, update the source.

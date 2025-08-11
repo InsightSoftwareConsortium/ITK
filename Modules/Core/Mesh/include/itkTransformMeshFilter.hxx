@@ -62,17 +62,17 @@ TransformMeshFilter<TInputMesh, TOutputMesh, TTransform>::GenerateData()
 
   if (!inputMesh)
   {
-    itkExceptionMacro("Missing Input Mesh");
+    itkExceptionStringMacro("Missing Input Mesh");
   }
 
   if (!outputMesh)
   {
-    itkExceptionMacro("Missing Output Mesh");
+    itkExceptionStringMacro("Missing Output Mesh");
   }
 
   if (!m_Transform)
   {
-    itkExceptionMacro("Missing Input Transform");
+    itkExceptionStringMacro("Missing Input Transform");
   }
 
   outputMesh->SetBufferedRegion(outputMesh->GetRequestedRegion());

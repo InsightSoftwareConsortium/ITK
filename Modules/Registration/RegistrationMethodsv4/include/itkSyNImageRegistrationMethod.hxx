@@ -111,7 +111,7 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
       }
       else
       {
-        itkExceptionMacro("Invalid state restoration.");
+        itkExceptionStringMacro("Invalid state restoration.");
       }
     }
   }
@@ -136,7 +136,7 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
 
   if (virtualDomainImage.IsNull())
   {
-    itkExceptionMacro("The virtual domain image is not found.");
+    itkExceptionStringMacro("The virtual domain image is not found.");
   }
 
   auto * fixedInitialTransform = const_cast<InitialTransformType *>(this->GetFixedInitialTransform());
@@ -427,7 +427,7 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
       }
       else
       {
-        itkExceptionMacro("Invalid metric.");
+        itkExceptionStringMacro("Invalid metric.");
       }
     }
   }
@@ -556,7 +556,7 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
     }
     else
     {
-      itkExceptionMacro("Invalid metric.");
+      itkExceptionStringMacro("Invalid metric.");
     }
   }
 

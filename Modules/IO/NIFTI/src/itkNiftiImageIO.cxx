@@ -668,13 +668,13 @@ NiftiImageIO::Read(void * buffer)
         CastCopy<unsigned long long>(_data, data, numElts);
         break;
       case IOComponentEnum::FLOAT:
-        itkExceptionMacro("FLOAT pixels do not need Casting to float");
+        itkExceptionStringMacro("FLOAT pixels do not need Casting to float");
       case IOComponentEnum::DOUBLE:
-        itkExceptionMacro("DOUBLE pixels do not need Casting to float");
+        itkExceptionStringMacro("DOUBLE pixels do not need Casting to float");
       case IOComponentEnum::LDOUBLE:
-        itkExceptionMacro("LDOUBLE pixels do not need Casting to float");
+        itkExceptionStringMacro("LDOUBLE pixels do not need Casting to float");
       case IOComponentEnum::UNKNOWNCOMPONENTTYPE:
-        itkExceptionMacro("Bad OnDiskComponentType UNKNOWNCOMPONENTTYPE");
+        itkExceptionStringMacro("Bad OnDiskComponentType UNKNOWNCOMPONENTTYPE");
     }
     //
     // we're replacing the data pointer, so if it was allocated
@@ -1682,7 +1682,7 @@ NiftiImageIO::WriteImageInformation()
           m_Holder->ptr->nbyper = 8;
           break;
         default:
-          itkExceptionMacro("'unsigned long' type is neither 32 or 64 bits.");
+          itkExceptionStringMacro("'unsigned long' type is neither 32 or 64 bits.");
       }
       break;
     case IOComponentEnum::LONG:
@@ -1697,7 +1697,7 @@ NiftiImageIO::WriteImageInformation()
           m_Holder->ptr->nbyper = 8;
           break;
         default:
-          itkExceptionMacro("'long' type is neither 32 or 64 bits.");
+          itkExceptionStringMacro("'long' type is neither 32 or 64 bits.");
       }
       break;
     case IOComponentEnum::ULONGLONG:
@@ -1719,7 +1719,7 @@ NiftiImageIO::WriteImageInformation()
     case IOComponentEnum::UNKNOWNCOMPONENTTYPE:
     default:
     {
-      itkExceptionMacro("More than one component per pixel not supported");
+      itkExceptionStringMacro("More than one component per pixel not supported");
     }
   }
   switch (this->GetPixelType())
@@ -1749,7 +1749,7 @@ NiftiImageIO::WriteImageInformation()
           break;
         default:
         {
-          itkExceptionMacro("Only float or double precision complex type supported");
+          itkExceptionStringMacro("Only float or double precision complex type supported");
         }
       }
       break;
@@ -1763,7 +1763,7 @@ NiftiImageIO::WriteImageInformation()
     case IOPixelEnum::MATRIX:
     case IOPixelEnum::UNKNOWNPIXELTYPE:
     default:
-      itkExceptionMacro("Can not process this pixel type for writing into nifti");
+      itkExceptionStringMacro("Can not process this pixel type for writing into nifti");
   }
   //     -----------------------------------------------------
   //     vox_offset    required for an "n+1" header
@@ -1780,7 +1780,7 @@ NiftiImageIO::WriteImageInformation()
   {
     if (temp.length() > 23)
     {
-      itkExceptionMacro("aux_file too long, Nifti limit is 23 characters");
+      itkExceptionStringMacro("aux_file too long, Nifti limit is 23 characters");
     }
     else
     {
@@ -1791,7 +1791,7 @@ NiftiImageIO::WriteImageInformation()
   {
     if (temp.length() > 79)
     {
-      itkExceptionMacro("ITK_FileNotes (Nifti descrip field) too long, Nifti limit is 79 characters");
+      itkExceptionStringMacro("ITK_FileNotes (Nifti descrip field) too long, Nifti limit is 79 characters");
     }
     else
     {

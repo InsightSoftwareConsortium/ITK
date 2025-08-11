@@ -30,7 +30,7 @@ GPUCastImageFilter<TInputImage, TOutputImage>::GPUCastImageFilter()
 
   if (TInputImage::ImageDimension > 3 || TInputImage::ImageDimension < 1)
   {
-    itkExceptionMacro("GPUCastImageFilter supports 1/2/3D image.");
+    itkExceptionStringMacro("GPUCastImageFilter supports 1/2/3D image.");
   }
 
   defines << "#define DIM_" << TInputImage::ImageDimension << '\n' << "#define INPIXELTYPE ";

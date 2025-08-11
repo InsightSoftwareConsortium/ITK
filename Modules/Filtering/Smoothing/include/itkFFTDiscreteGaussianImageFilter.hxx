@@ -151,7 +151,7 @@ FFTDiscreteGaussianImageFilter<TInputImage, TOutputImage>::GenerateKernelImage()
   }
   else
   {
-    itkExceptionMacro("Unknown kernel source enum");
+    itkExceptionStringMacro("Unknown kernel source enum");
   }
 
   return m_KernelImage.GetPointer();

@@ -80,7 +80,7 @@ Rigid3DTransform<TParametersValueType>::SetMatrix(const MatrixType & matrix, con
 {
   if (!this->MatrixIsOrthogonal(matrix, tolerance))
   {
-    itkExceptionMacro("Attempting to set a non-orthogonal rotation matrix");
+    itkExceptionStringMacro("Attempting to set a non-orthogonal rotation matrix");
   }
 
   this->Superclass::SetMatrix(matrix);
@@ -119,7 +119,7 @@ Rigid3DTransform<TParametersValueType>::SetParameters(const ParametersType & par
   const TParametersValueType tolerance = MatrixOrthogonalityTolerance<TParametersValueType>::GetTolerance();
   if (!this->MatrixIsOrthogonal(matrix, tolerance))
   {
-    itkExceptionMacro("Attempting to set a non-orthogonal rotation matrix");
+    itkExceptionStringMacro("Attempting to set a non-orthogonal rotation matrix");
   }
 
   this->SetVarMatrix(matrix);

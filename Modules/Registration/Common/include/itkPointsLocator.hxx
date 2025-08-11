@@ -33,11 +33,11 @@ PointsLocator<TPointsContainer>::Initialize()
 {
   if (!this->m_Points)
   {
-    itkExceptionMacro("The points have not been set (m_Points == nullptr)");
+    itkExceptionStringMacro("The points have not been set (m_Points == nullptr)");
   }
   if (this->m_Points->Size() == 0)
   {
-    itkExceptionMacro("The number of points is 0.");
+    itkExceptionStringMacro("The number of points is 0.");
   }
 
   this->m_SampleAdaptor = SampleAdaptorType::New();

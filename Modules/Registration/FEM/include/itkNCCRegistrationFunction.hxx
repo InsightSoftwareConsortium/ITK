@@ -56,7 +56,7 @@ NCCRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Initiali
 {
   if (!this->m_MovingImage || !this->m_FixedImage || !m_MovingImageInterpolator)
   {
-    itkExceptionMacro("MovingImage, FixedImage and/or Interpolator not set");
+    itkExceptionStringMacro("MovingImage, FixedImage and/or Interpolator not set");
   }
 
   // Cache fixed image information

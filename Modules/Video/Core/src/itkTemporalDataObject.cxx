@@ -252,7 +252,7 @@ TemporalDataObject::VerifyRequestedRegion()
       return frameFlag && realTimeFlag;
     }
     default:
-      itkExceptionMacro("itk::TemporalDataObject::VerifyRequestedRegion() Invalid Temporal Unit");
+      itkExceptionStringMacro("itk::TemporalDataObject::VerifyRequestedRegion() Invalid Temporal Unit");
   }
 }
 

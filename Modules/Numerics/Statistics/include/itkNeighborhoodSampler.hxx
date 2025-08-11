@@ -36,7 +36,7 @@ NeighborhoodSampler<TSample>::GenerateData()
 
   if (radiusObject == nullptr)
   {
-    itkExceptionMacro("Radius input is missing");
+    itkExceptionStringMacro("Radius input is missing");
   }
 
   // FIXME : What should follow here ?

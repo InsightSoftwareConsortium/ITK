@@ -141,7 +141,7 @@ ImageToHistogramFilter<TImage>::InitializeOutputHistogram()
   {
     if (this->GetInput()->GetBufferedRegion() != this->GetInput()->GetLargestPossibleRegion())
     {
-      itkExceptionMacro("AutoMinimumMaximumInput is not supported with streaming.");
+      itkExceptionStringMacro("AutoMinimumMaximumInput is not supported with streaming.");
     }
 
     // we have to compute the minimum and maximum values
