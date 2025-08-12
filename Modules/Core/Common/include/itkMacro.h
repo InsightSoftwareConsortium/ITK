@@ -598,14 +598,16 @@ OutputWindowDisplayGenericOutputText(const char * file, unsigned int line, const
 #define itkSpecializedMessageExceptionMacro(ExceptionType, x)                                                        \
   {                                                                                                                  \
     std::ostringstream exceptionDescriptionOutputStringStream;                                                       \
-    exceptionDescriptionOutputStringStream << "ITK ERROR: " x;                                                       \
+    exceptionDescriptionOutputStringStream << "" x;                                                                  \
     throw ::itk::ExceptionType(                                                                                      \
       std::string{ __FILE__ }, __LINE__, exceptionDescriptionOutputStringStream.str(), std::string{ ITK_LOCATION }); \
   }                                                                                                                  \
   ITK_MACROEND_NOOP_STATEMENT
 
 #define itkSpecializedExceptionMacro(ExceptionType) \
-  itkSpecializedMessageExceptionMacro(ExceptionType, << ::itk::ExceptionType::default_exception_message)
+  throw ::itk::ExceptionType(                       \
+    std::string{ __FILE__ }, __LINE__, ::itk::ExceptionType::default_exception_message, std::string{ ITK_LOCATION });
+
 
 /** The itkExceptionMacro macro is used to print error information (i.e., usually
  * a condition that results in program failure). Example usage looks like:
@@ -622,6 +624,12 @@ OutputWindowDisplayGenericOutputText(const char * file, unsigned int line, const
   }                                                                            \
   ITK_MACROEND_NOOP_STATEMENT
 
+#define itkExceptionStringMacro(x)                                                             \
+  {                                                                                            \
+    throw ::itk::ExceptionObject(                                                              \
+      std::string{ __FILE__ }, __LINE__, std::string{ x }, std::string{ ITK_LOCATION }, this); \
+  }                                                                                            \
+  ITK_MACROEND_NOOP_STATEMENT
 
 #define itkGenericExceptionMacro(x) itkSpecializedMessageExceptionMacro(ExceptionObject, x)
 
