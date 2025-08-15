@@ -421,8 +421,8 @@ NrrdImageIO::ReadImageInformation()
 
     if (nrrdTypeBlock == nrrd->type)
     {
-      itkExceptionMacro("ReadImageInformation: Cannot currently "
-                        "handle nrrdTypeBlock");
+      itkExceptionStringMacro("ReadImageInformation: Cannot currently "
+                              "handle nrrdTypeBlock");
     }
     if (nio->endian == airEndianLittle)
     {
@@ -624,14 +624,14 @@ NrrdImageIO::ReadImageInformation()
           break;
         default:
         case nrrdSpacingStatusUnknown:
-          itkExceptionMacro("ReadImageInformation: Error interpreting "
-                            "nrrd spacing (nrrdSpacingStatusUnknown)");
+          itkExceptionStringMacro("ReadImageInformation: Error interpreting "
+                                  "nrrd spacing (nrrdSpacingStatusUnknown)");
         case nrrdSpacingStatusScalarWithSpace:
           // Both "spacings" and "space origin" fields are specified. This is an unusual combination, no need to support
           // it. Either use space fields ("space directions" and "space origin") or use older convention of just
           // "spacings".
-          itkExceptionMacro("ReadImageInformation: Error interpreting "
-                            "nrrd spacing (nrrdSpacingStatusScalarWithSpace)");
+          itkExceptionStringMacro("ReadImageInformation: Error interpreting "
+                                  "nrrd spacing (nrrdSpacingStatusScalarWithSpace)");
       }
     }
 
@@ -701,7 +701,7 @@ NrrdImageIO::ReadImageInformation()
       {
         // this should never happen, as numberOfDomainAxes is obtained by calling a same method earlier
         // but it is safer to check than just assume they match
-        itkExceptionMacro("ReadImageInformation: internal error, mismatch in number of domain axes.");
+        itkExceptionStringMacro("ReadImageInformation: internal error, mismatch in number of domain axes.");
       }
 
       int originStatus =
@@ -721,8 +721,8 @@ NrrdImageIO::ReadImageInformation()
           default:
           case nrrdOriginStatusUnknown:
           case nrrdOriginStatusDirection:
-            itkExceptionMacro("ReadImageInformation: Error interpreting "
-                              "nrrd origin status");
+            itkExceptionStringMacro("ReadImageInformation: Error interpreting "
+                                    "nrrd origin status");
         }
       }
     }

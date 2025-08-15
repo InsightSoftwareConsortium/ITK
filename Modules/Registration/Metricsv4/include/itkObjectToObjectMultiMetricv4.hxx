@@ -194,10 +194,10 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
     {
       if (transform != firstTransform)
       {
-        itkExceptionMacro("One or more component metrics have different active transforms. "
-                          "Each metric must be using the same transform object. For CompositeTransform, "
-                          "there must be only one transform set to optimize, and it must be the same "
-                          "as other metric transforms.");
+        itkExceptionStringMacro("One or more component metrics have different active transforms. "
+                                "Each metric must be using the same transform object. For CompositeTransform, "
+                                "there must be only one transform set to optimize, and it must be the same "
+                                "as other metric transforms.");
       }
     }
   }

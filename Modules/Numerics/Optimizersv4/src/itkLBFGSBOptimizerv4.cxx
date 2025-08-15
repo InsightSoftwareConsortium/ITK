@@ -212,8 +212,8 @@ LBFGSBOptimizerv4::StartOptimization(bool /*doOnlyInitialization*/)
 
   if (this->m_CostFunctionConvergenceFactor == 0.0 && this->m_GradientConvergenceTolerance == 0.0)
   {
-    itkExceptionMacro("LBFGSB Optimizer cannot function if both CostFunctionConvergenceFactor"
-                      " and ProjectedGradienctTolerance are zero.");
+    itkExceptionStringMacro("LBFGSB Optimizer cannot function if both CostFunctionConvergenceFactor"
+                            " and ProjectedGradienctTolerance are zero.");
   }
 
   ParametersType parameters(this->GetInitialPosition());
