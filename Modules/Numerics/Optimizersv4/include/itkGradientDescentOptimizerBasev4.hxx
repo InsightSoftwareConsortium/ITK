@@ -129,9 +129,9 @@ GradientDescentOptimizerBasev4Template<TInternalComputationValueType>::StartOpti
   if (this->m_ScalesEstimator.IsNotNull() && this->m_DoEstimateLearningRateOnce &&
       this->m_DoEstimateLearningRateAtEachIteration)
   {
-    itkExceptionMacro("Both m_DoEstimateLearningRateOnce and "
-                      "m_DoEstimateLearningRateAtEachIteration "
-                      "are enabled. Not allowed. ");
+    itkExceptionStringMacro("Both m_DoEstimateLearningRateOnce and "
+                            "m_DoEstimateLearningRateAtEachIteration "
+                            "are enabled. Not allowed. ");
   }
 
   // Estimate the parameter scales if requested.

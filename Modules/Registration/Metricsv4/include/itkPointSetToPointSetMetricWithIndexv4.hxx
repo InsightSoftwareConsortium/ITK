@@ -81,8 +81,9 @@ PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalCo
         this->GetMovingDisplacementFieldTransform();
       if (displacementTransform.IsNull())
       {
-        itkExceptionMacro("Expected the moving transform to be of type DisplacementFieldTransform or derived, "
-                          "or a CompositeTransform with DisplacementFieldTransform as the last to have been added.");
+        itkExceptionStringMacro(
+          "Expected the moving transform to be of type DisplacementFieldTransform or derived, "
+          "or a CompositeTransform with DisplacementFieldTransform as the last to have been added.");
       }
       using DisplacementFieldType = typename DisplacementFieldTransformType::DisplacementFieldType;
       const typename DisplacementFieldType::ConstPointer field = displacementTransform->GetDisplacementField();

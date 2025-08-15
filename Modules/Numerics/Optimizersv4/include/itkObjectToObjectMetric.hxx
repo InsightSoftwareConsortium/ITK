@@ -458,8 +458,8 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
   const MovingDisplacementFieldTransformType * displacementTransform = this->GetMovingDisplacementFieldTransform();
   if (displacementTransform == nullptr)
   {
-    itkExceptionMacro("Expected the moving transform to be of type DisplacementFieldTransform or derived, "
-                      "or a CompositeTransform with DisplacementFieldTransform as the last to have been added.");
+    itkExceptionStringMacro("Expected the moving transform to be of type DisplacementFieldTransform or derived, "
+                            "or a CompositeTransform with DisplacementFieldTransform as the last to have been added.");
   }
   using FieldType = typename MovingDisplacementFieldTransformType::DisplacementFieldType;
   const typename FieldType::ConstPointer field = displacementTransform->GetDisplacementField();

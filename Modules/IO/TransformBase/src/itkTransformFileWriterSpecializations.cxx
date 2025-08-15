@@ -103,8 +103,8 @@ TransformFileWriterTemplate<TParametersValueType>::AddTransform(const Object * t
   {
     if (!this->m_TransformList.empty())
     {
-      itkExceptionMacro("Can only write a transform of type CompositeTransform "
-                        "as the first transform in the file.");
+      itkExceptionStringMacro("Can only write a transform of type CompositeTransform "
+                              "as the first transform in the file.");
     }
   }
 

@@ -1046,8 +1046,8 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
     // Throw an exception if we don't have enough layers.
     if (sparsePtr->m_Layers.size() < 3)
     {
-      itkExceptionMacro("Not enough layers have been allocated for the"
-                        "sparse field.  Requires at least one layer.");
+      itkExceptionStringMacro("Not enough layers have been allocated for the"
+                              "sparse field.  Requires at least one layer.");
     }
   }
 

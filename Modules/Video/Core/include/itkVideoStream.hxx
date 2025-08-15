@@ -598,9 +598,9 @@ VideoStream<TFrameType>::Allocate()
   const SizeValueType numFrames = m_BufferedTemporalRegion.GetFrameDuration();
   if (m_DataObjectBuffer->GetNumberOfBuffers() < numFrames)
   {
-    itkExceptionMacro("itk::VideoStream::SetAllLargestPossibleSpatialRegions "
-                      "not enough frame buffers available. Call InitializeEmptyFrames "
-                      "to prepare the frame buffer correctly.");
+    itkExceptionStringMacro("itk::VideoStream::SetAllLargestPossibleSpatialRegions "
+                            "not enough frame buffers available. Call InitializeEmptyFrames "
+                            "to prepare the frame buffer correctly.");
   }
 
   // Go through the number of required frames, making sure none are empty and

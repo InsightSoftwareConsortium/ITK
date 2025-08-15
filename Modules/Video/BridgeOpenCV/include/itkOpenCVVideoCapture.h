@@ -75,17 +75,17 @@ public:
   virtual bool
   open(const std::string &)
   {
-    itkExceptionMacro("itk::OpenCVVideoCapture::open(filename) -> If you just want "
-                      "to read from a file, use cv::VideoCapture since there is nothing to be "
-                      "gained using itk's version.");
+    itkExceptionStringMacro("itk::OpenCVVideoCapture::open(filename) -> If you just want "
+                            "to read from a file, use cv::VideoCapture since there is nothing to be "
+                            "gained using itk's version.");
   }
 
   virtual bool
   open(int)
   {
-    itkExceptionMacro("itk::OpenCVVideoCapture::open(device) -> If you just want "
-                      "to read from a device, use cv::VideoCapture since there is nothing to be "
-                      "gained using itk's version.");
+    itkExceptionStringMacro("itk::OpenCVVideoCapture::open(device) -> If you just want "
+                            "to read from a device, use cv::VideoCapture since there is nothing to be "
+                            "gained using itk's version.");
   }
 
   /** Add an open method that takes a TemporalDataObject. This checks to make

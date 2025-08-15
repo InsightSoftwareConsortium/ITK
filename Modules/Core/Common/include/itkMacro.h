@@ -976,7 +976,7 @@ compilers.
       itkDynamicCastInDebugMode<const DecoratorType *>(this->ProcessObject::GetInput(#name));                        \
     if (input == nullptr)                                                                                            \
     {                                                                                                                \
-      itkExceptionMacro("input" #name " is not set");                                                                \
+      itkExceptionStringMacro("input" #name " is not set");                                                          \
     }                                                                                                                \
     return input->Get();                                                                                             \
   }                                                                                                                  \
@@ -1462,7 +1462,7 @@ ContainerCopyWithCheck(MemberContainerType & m, const CopyFromContainerType & c,
       itkDynamicCastInDebugMode<const DecoratorType *>(this->ProcessObject::GetOutput(#name));                        \
     if (output == nullptr)                                                                                            \
     {                                                                                                                 \
-      itkExceptionMacro("output" #name " is not set");                                                                \
+      itkExceptionStringMacro("output" #name " is not set");                                                          \
     }                                                                                                                 \
     return output->Get();                                                                                             \
   }                                                                                                                   \

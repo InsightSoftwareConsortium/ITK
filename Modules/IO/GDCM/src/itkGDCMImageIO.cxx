@@ -1224,8 +1224,8 @@ GDCMImageIO::Write(const void * buffer)
     }
     else
     {
-      itkExceptionMacro("A Floating point buffer was passed but the stored pixel type was not specified."
-                        "This is currently not supported");
+      itkExceptionStringMacro("A Floating point buffer was passed but the stored pixel type was not specified."
+                              "This is currently not supported");
     }
   }
   else if (this->GetInternalComponentType() != IOComponentEnum::UNKNOWNCOMPONENTTYPE)

@@ -115,7 +115,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
 
         if (this->m_FixedTransform.IsNull())
         {
-          itkExceptionMacro(
+          itkExceptionStringMacro(
             "Unable to get transform for mapping sampled point set from virtual space to fixed image space.");
         }
 

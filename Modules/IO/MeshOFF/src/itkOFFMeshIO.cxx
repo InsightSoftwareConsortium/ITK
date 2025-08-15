@@ -107,7 +107,7 @@ OFFMeshIO::ReadMeshInformation()
   std::getline(m_InputFile, line, '\n'); // delimiter is '\n'
   if (line.find("OFF") == std::string::npos)
   {
-    itkExceptionMacro("Error, the file doesn't begin with keyword \"OFF\" ");
+    itkExceptionStringMacro("Error, the file doesn't begin with keyword \"OFF\" ");
   }
 
   // If the file is binary file, it contains "BINARY"
