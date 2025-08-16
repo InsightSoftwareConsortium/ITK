@@ -519,9 +519,9 @@ itkVXLVideoIOTest(int argc, char * argv[])
 {
   if (argc != 9)
   {
-    std::cerr << "Usage: [Video Input] [Non-Video Input] [Video Output] [Webcam Output] "
-                 "[Width] [Height] [Num Frames] [FpS]"
-              << std::endl;
+    std::cerr
+      << "Usage: [Video Input] [Non-Video Input] [Video Output] [Webcam Output] [Width] [Height] [Num Frames] [FpS]"
+      << std::endl;
     return EXIT_FAILURE;
   }
 

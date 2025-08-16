@@ -183,9 +183,7 @@ public:
   void
   ComputeJacobianWithRespectToPosition(const InputPointType &, JacobianPositionType &) const override
   {
-    itkExceptionMacro("ComputeJacobianWithRespectToPosition not yet implemented "
-                      "for "
-                      << this->GetNameOfClass());
+    itkExceptionMacro("ComputeJacobianWithRespectToPosition not yet implemented for " << this->GetNameOfClass());
   }
   using Superclass::ComputeJacobianWithRespectToPosition;
 

@@ -57,8 +57,7 @@ RegularStepGradientDescentBaseOptimizer::StartOptimization()
   // validity check for the value of GradientMagnitudeTolerance
   if (m_GradientMagnitudeTolerance < 0.0)
   {
-    itkExceptionMacro("Gradient magnitude tolerance must be"
-                      "greater or equal 0.0. Current value is "
+    itkExceptionMacro("Gradient magnitude tolerance must begreater or equal 0.0. Current value is "
                       << m_GradientMagnitudeTolerance);
   }
 
@@ -261,27 +260,19 @@ operator<<(std::ostream & out, const RegularStepGradientDescentBaseOptimizerEnum
     switch (value)
     {
       case RegularStepGradientDescentBaseOptimizerEnums::StopCondition::GradientMagnitudeTolerance:
-        return "itk::RegularStepGradientDescentBaseOptimizerEnums::"
-               "StopCondition::GradientMagnitudeTolerance";
+        return "itk::RegularStepGradientDescentBaseOptimizerEnums::StopCondition::GradientMagnitudeTolerance";
       case RegularStepGradientDescentBaseOptimizerEnums::StopCondition::StepTooSmall:
-        return "itk::RegularStepGradientDescentBaseOptimizerEnums::"
-               "StopCondition::StepTooSmall";
+        return "itk::RegularStepGradientDescentBaseOptimizerEnums::StopCondition::StepTooSmall";
       case RegularStepGradientDescentBaseOptimizerEnums::StopCondition::ImageNotAvailable:
-        return "itk::RegularStepGradientDescentBaseOptimizerEnums::"
-               "StopCondition::ImageNotAvailable";
+        return "itk::RegularStepGradientDescentBaseOptimizerEnums::StopCondition::ImageNotAvailable";
       case RegularStepGradientDescentBaseOptimizerEnums::StopCondition::CostFunctionError:
-        return "itk::RegularStepGradientDescentBaseOptimizerEnums::"
-               "StopCondition::CostFunctionError";
+        return "itk::RegularStepGradientDescentBaseOptimizerEnums::StopCondition::CostFunctionError";
       case RegularStepGradientDescentBaseOptimizerEnums::StopCondition::MaximumNumberOfIterations:
-        return "itk::RegularStepGradientDescentBaseOptimizerEnums::"
-               "StopCondition::MaximumNumberOfIterations";
+        return "itk::RegularStepGradientDescentBaseOptimizerEnums::StopCondition::MaximumNumberOfIterations";
       case RegularStepGradientDescentBaseOptimizerEnums::StopCondition::Unknown:
-        return "itk::RegularStepGradientDescentBaseOptimizerEnums::"
-               "StopCondition::Unknown";
+        return "itk::RegularStepGradientDescentBaseOptimizerEnums::StopCondition::Unknown";
       default:
-        return "INVALID VALUE FOR "
-               "itk::RegularStepGradientDescentBaseOptimizerEnums::"
-               "StopCondition";
+        return "INVALID VALUE FOR itk::RegularStepGradientDescentBaseOptimizerEnums::StopCondition";
     }
   }();
 }

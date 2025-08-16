@@ -80,8 +80,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
   /* Expects moving image gradient source */
   if (this->GetGradientSourceIncludesFixed() || !this->GetGradientSourceIncludesMoving())
   {
-    itkExceptionMacro("Expected gradient source to be only Moving. Instead gradient source is: "
-                      " Fixed: "
+    itkExceptionMacro("Expected gradient source to be only Moving. Instead gradient source is:  Fixed: "
                       << this->GetGradientSourceIncludesFixed()
                       << " Moving: " << this->GetGradientSourceIncludesMoving());
   }
@@ -304,10 +303,9 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
 {
   if (this->GetNumberOfValidPoints() == 0)
   {
-    itkExceptionMacro("All samples map outside moving image buffer. "
-                      "The images do not sufficiently "
-                      "overlap. They need to be initialized to have more overlap before this "
-                      "metric will work. For instance, you can align the image centers by translation."
+    itkExceptionMacro("All samples map outside moving image buffer. The images do not sufficiently overlap. They need "
+                      "to be initialized to have more overlap before this metric will work. For instance, you can "
+                      "align the image centers by translation."
                       << std::endl);
   }
   if (this->m_JointPDFSum < itk::NumericTraits<PDFValueType>::epsilon())

@@ -479,9 +479,8 @@ ShowExtractorAsVariables(itkContourExtractor2DImageFilterTestNamespace::Extracto
     std::cout << name << i << ", ";
   }
   std::cout << std::endl << "};" << std::endl;
-  std::cout << "itkContourExtractor2DImageFilterTestNamespace::MyVertexListList "
-               "expected_values_as_"
-            << name << "_outputs(" << name << ", " << name << " + " << extractor->GetNumberOfIndexedOutputs() << ");"
+  std::cout << "itkContourExtractor2DImageFilterTestNamespace::MyVertexListList expected_values_as_" << name
+            << "_outputs(" << name << ", " << name << " + " << extractor->GetNumberOfIndexedOutputs() << ");"
             << std::endl;
 }
 

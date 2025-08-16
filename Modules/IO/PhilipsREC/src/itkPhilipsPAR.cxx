@@ -221,10 +221,8 @@ GetImageInformationDefinitionV3(std::string file, int lineNum, PhilipsPAR * phil
   }
   currentLine = philipsPARClass->GetLineNumber(file, lineNum);
   if ((currentLine.empty()) || (currentLine == "\n") || (currentLine == "\r\n") || (currentLine == "\r") ||
-      (currentLine == "#=== END OF DATA DESCRIPTION FILE ======================"
-                      "=========================") ||
-      (currentLine == "#=== END OF DATA DESCRIPTION FILE ======================"
-                      "=========================\r"))
+      (currentLine == "#=== END OF DATA DESCRIPTION FILE ===============================================") ||
+      (currentLine == "#=== END OF DATA DESCRIPTION FILE ===============================================\r"))
   {
     tempInfo.problemreading = 1;
     return tempInfo;
@@ -261,10 +259,8 @@ GetImageInformationDefinitionV4(std::string file, int lineNum, PhilipsPAR * phil
   }
   currentLine = philipsPARClass->GetLineNumber(file, lineNum);
   if ((currentLine.empty()) || (currentLine == "\n") || (currentLine == "\r\n") || (currentLine == "\r") ||
-      (currentLine == "#=== END OF DATA DESCRIPTION FILE ======================"
-                      "=========================") ||
-      (currentLine == "#=== END OF DATA DESCRIPTION FILE ======================"
-                      "=========================\r"))
+      (currentLine == "#=== END OF DATA DESCRIPTION FILE ===============================================") ||
+      (currentLine == "#=== END OF DATA DESCRIPTION FILE ===============================================\r"))
   {
     tempInfo.problemreading = 1;
     return tempInfo;
@@ -306,10 +302,8 @@ GetImageInformationDefinitionV41(std::string file, int lineNum, PhilipsPAR * phi
   }
   currentLine = philipsPARClass->GetLineNumber(file, lineNum);
   if ((currentLine.empty()) || (currentLine == "\n") || (currentLine == "\r\n") || (currentLine == "\r") ||
-      (currentLine == "#=== END OF DATA DESCRIPTION FILE ======================"
-                      "=========================") ||
-      (currentLine == "#=== END OF DATA DESCRIPTION FILE ======================"
-                      "=========================\r"))
+      (currentLine == "#=== END OF DATA DESCRIPTION FILE ===============================================") ||
+      (currentLine == "#=== END OF DATA DESCRIPTION FILE ===============================================\r"))
   {
     tempInfo.problemreading = 1;
     return tempInfo;
@@ -354,10 +348,8 @@ GetImageInformationDefinitionV42(std::string file, int lineNum, PhilipsPAR * phi
   }
   currentLine = philipsPARClass->GetLineNumber(file, lineNum);
   if ((currentLine.empty()) || (currentLine == "\n") || (currentLine == "\r\n") || (currentLine == "\r") ||
-      (currentLine == "#=== END OF DATA DESCRIPTION FILE ======================"
-                      "=========================") ||
-      (currentLine == "#=== END OF DATA DESCRIPTION FILE ======================"
-                      "=========================\r"))
+      (currentLine == "#=== END OF DATA DESCRIPTION FILE ===============================================") ||
+      (currentLine == "#=== END OF DATA DESCRIPTION FILE ===============================================\r"))
   {
     tempInfo.problemreading = 1;
     return tempInfo;

@@ -394,8 +394,7 @@ FileListVideoIO::OpenReader()
   }
   else
   {
-    itkExceptionStringMacro("FileListVideoIO doesn't support reading from unknown "
-                            "ReadType");
+    itkExceptionStringMacro("FileListVideoIO doesn't support reading from unknown ReadType");
   }
 }
 

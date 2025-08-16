@@ -118,9 +118,8 @@ ConformalFlatteningMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
   if (cellNumberOfPoints != 3)
   {
     itkExceptionMacro("Polar cell has " << cellNumberOfPoints
-                                        << " points"
-                                           "\nThis filter can only process triangle meshes. "
-                                           "Use vtkTriangleFilter to convert your mesh to a triangle mesh.");
+                                        << " points\nThis filter can only process triangle meshes. Use "
+                                           "vtkTriangleFilter to convert your mesh to a triangle mesh.");
     return;
   }
 

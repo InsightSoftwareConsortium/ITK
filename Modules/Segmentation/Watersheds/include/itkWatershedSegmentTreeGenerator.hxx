@@ -429,8 +429,8 @@ SegmentTreeGenerator<TScalar>::MergeSegments(SegmentTableTypePointer           s
 
   if (from_seg == nullptr || to_seg == nullptr)
   {
-    itkGenericExceptionMacro("itk::watershed::SegmentTreeGenerator::MergeSegments:: An unexpected and fatal error "
-                             "has occurred. This is probably the result of overthresholding of the input image.");
+    itkGenericExceptionMacro("itk::watershed::SegmentTreeGenerator::MergeSegments:: An unexpected and fatal error has "
+                             "occurred. This is probably the result of overthresholding of the input image.");
   }
 
   // Compare the minimum values.

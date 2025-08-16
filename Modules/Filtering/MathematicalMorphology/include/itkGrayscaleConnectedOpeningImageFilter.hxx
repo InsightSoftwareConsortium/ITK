@@ -83,8 +83,8 @@ GrayscaleConnectedOpeningImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   if (minValue == seedValue)
   {
-    itkWarningMacro("GrayscaleConnectedClosingImageFilter: pixel value at seed point matches minimum value in "
-                    "image.  Resulting image will have a constant value.");
+    itkWarningMacro("GrayscaleConnectedClosingImageFilter: pixel value at seed point matches minimum value in image.  "
+                    "Resulting image will have a constant value.");
     outputImage->FillBuffer(minValue);
     return;
   }

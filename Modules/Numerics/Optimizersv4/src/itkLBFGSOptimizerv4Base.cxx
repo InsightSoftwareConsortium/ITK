@@ -135,9 +135,8 @@ LBFGSOptimizerBasev4<TInternalVnlOptimizerType>::StartOptimization(bool /* doOnl
   // These aren't currently supported, see main class documentation.
   if (this->GetMetric()->HasLocalSupport())
   {
-    itkExceptionStringMacro(
-      "The assigned transform has local-support. This is not supported for this optimizer. See the "
-      "optimizer documentation.");
+    itkExceptionStringMacro("The assigned transform has local-support. This is not supported for this optimizer. See "
+                            "the optimizer documentation.");
   }
 
   // Perform some verification, check scales,
