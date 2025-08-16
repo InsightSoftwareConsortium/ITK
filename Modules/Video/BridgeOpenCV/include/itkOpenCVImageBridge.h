@@ -104,8 +104,8 @@ private:
     if ((inChannels != outChannels || (inChannels == 3 && outChannels == 3)) &&
         (iDepth == IPL_DEPTH_8S || iDepth == IPL_DEPTH_16S || iDepth == IPL_DEPTH_32S || iDepth == IPL_DEPTH_64F))
     {
-      itkGenericExceptionMacro("OpenCV IplImage to ITK Image conversion - the necessary color"
-                               " conversion is not supported for the input OpenCV pixel type");
+      itkGenericExceptionMacro("OpenCV IplImage to ITK Image conversion - the necessary color conversion is not "
+                               "supported for the input OpenCV pixel type");
     }
 
     // Manage input/output types mismatch
@@ -166,8 +166,8 @@ private:
     if ((inChannels != outChannels || (inChannels == 3 && outChannels == 3)) &&
         (iDepth == CV_8S || iDepth == CV_16S || iDepth == CV_32S || iDepth == CV_64F))
     {
-      itkGenericExceptionMacro("OpenCV Mat to ITK Image conversion - the necessary color"
-                               " conversion is not supported for the input OpenCV pixel type");
+      itkGenericExceptionMacro("OpenCV Mat to ITK Image conversion - the necessary color conversion is not supported "
+                               "for the input OpenCV pixel type");
     }
 
     // Manage input/output types mismatch

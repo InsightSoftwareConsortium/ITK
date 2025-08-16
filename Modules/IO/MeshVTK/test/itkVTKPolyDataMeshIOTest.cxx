@@ -28,9 +28,9 @@ itkVTKPolyDataMeshIOTest(int argc, char * argv[])
   {
     std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
-              << " inputFileName outputFileName notAVTKInputFileName notAVTKOutputFileName useCompression "
-                 "updatePoints updatePointData updateCells updateCellData numberOfPoints numberOfPointPixels "
-                 "numberOfCells numberOfCellPixels inputIsBinary outputIsBinary"
+              << " inputFileName outputFileName notAVTKInputFileName notAVTKOutputFileName useCompression updatePoints "
+                 "updatePointData updateCells updateCellData numberOfPoints numberOfPointPixels numberOfCells "
+                 "numberOfCellPixels inputIsBinary outputIsBinary"
               << std::endl;
     return EXIT_FAILURE;
   }

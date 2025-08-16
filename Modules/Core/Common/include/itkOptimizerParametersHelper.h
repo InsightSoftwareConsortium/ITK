@@ -71,8 +71,7 @@ public:
   virtual void
   SetParametersObject(CommonContainerType *, LightObject *)
   {
-    itkGenericExceptionMacro("OptimizerParametersHelper::SetParametersObject: "
-                             "Not implemented for base class.");
+    itkGenericExceptionMacro("OptimizerParametersHelper::SetParametersObject: Not implemented for base class.");
   }
 
   virtual ~OptimizerParametersHelper() = default;

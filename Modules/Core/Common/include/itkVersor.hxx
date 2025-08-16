@@ -387,8 +387,7 @@ Versor<T>::Set(const VectorType & axis)
   if (sinangle2 > NumericTraits<ValueType>::OneValue())
   {
     ExceptionObject exception;
-    exception.SetDescription("Trying to initialize a Versor with "
-                             "a vector whose magnitude is greater than 1");
+    exception.SetDescription("Trying to initialize a Versor with a vector whose magnitude is greater than 1");
     exception.SetLocation("itk::Versor::Set( const VectorType )");
     throw exception;
   }

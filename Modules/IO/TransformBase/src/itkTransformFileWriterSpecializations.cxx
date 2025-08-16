@@ -103,8 +103,8 @@ TransformFileWriterTemplate<TParametersValueType>::AddTransform(const Object * t
   {
     if (!this->m_TransformList.empty())
     {
-      itkExceptionStringMacro("Can only write a transform of type CompositeTransform "
-                              "as the first transform in the file.");
+      itkExceptionStringMacro(
+        "Can only write a transform of type CompositeTransform as the first transform in the file.");
     }
   }
 
@@ -364,9 +364,8 @@ TransformFileWriterTemplate<double>::PushBackTransformList(const Object * transO
     }
     else
     {
-      itkExceptionMacro("The input of writer should be either a double precision "
-                        "or a single precision transform type. Called from "
-                        "TransformFileWriterTemplate<double,double>::PushBackTransformList(...) ");
+      itkExceptionMacro("The input of writer should be either a double precision or a single precision transform type. "
+                        "Called from TransformFileWriterTemplate<double,double>::PushBackTransformList(...) ");
     }
   }
 }
@@ -389,9 +388,8 @@ TransformFileWriterTemplate<float>::PushBackTransformList(const Object * transOb
     }
     else
     {
-      itkExceptionMacro("The input of writer should be whether a double precision "
-                        "or a single precision transform type. Called from "
-                        "TransformFileWriterTemplate<float,double>::PushBackTransformList(...) ");
+      itkExceptionMacro("The input of writer should be whether a double precision or a single precision transform "
+                        "type. Called from TransformFileWriterTemplate<float,double>::PushBackTransformList(...) ");
     }
   }
 }

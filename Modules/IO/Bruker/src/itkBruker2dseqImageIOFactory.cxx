@@ -50,8 +50,7 @@ Bruker2dseqImageIOFactory::GetITKSourceVersion() const
 const char *
 Bruker2dseqImageIOFactory::GetDescription() const
 {
-  return "Bruker2dseq ImageIO Factory, allows the loading of Bruker2dseq"
-         " images into Insight";
+  return "Bruker2dseq ImageIO Factory, allows the loading of Bruker2dseq images into Insight";
 }
 
 // Undocumented API used to register during static initialization.

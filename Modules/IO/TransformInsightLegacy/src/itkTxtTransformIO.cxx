@@ -211,8 +211,7 @@ TxtTransformIOTemplate<TParametersValueType>::Read()
         itkDebugMacro("Setting Fixed Parameters: " << TmpFixedParameterArray);
         if (!transform)
         {
-          itkExceptionStringMacro("Please set the transform before parameters"
-                                  "or fixed parameters");
+          itkExceptionStringMacro("Please set the transform before parametersor fixed parameters");
         }
         if (haveParameters)
         {

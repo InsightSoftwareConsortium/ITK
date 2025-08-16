@@ -50,8 +50,8 @@ BSplineBaseTransform<TParametersValueType, VDimension, VSplineOrder>::SetParamet
     itkExceptionMacro("Mismatch between parameters size "
                       << parameters.Size() << " and expected number of parameters " << this->GetNumberOfParameters()
                       << (this->m_CoefficientImages[0]->GetLargestPossibleRegion().GetNumberOfPixels() == 0
-                            ? ". \nSince the size of the grid region is 0, perhaps you forgot to "
-                              "SetGridRegion or SetFixedParameters before setting the Parameters."
+                            ? ". \nSince the size of the grid region is 0, perhaps you forgot to SetGridRegion or "
+                              "SetFixedParameters before setting the Parameters."
                             : ""));
   }
 
@@ -125,9 +125,7 @@ BSplineBaseTransform<TParametersValueType, VDimension, VSplineOrder>::UpdateTran
 
   if (update.Size() != numberOfParameters)
   {
-    itkExceptionMacro("Parameter update size, " << update.Size()
-                                                << ", must "
-                                                   " be same as transform parameter size, "
+    itkExceptionMacro("Parameter update size, " << update.Size() << ", must  be same as transform parameter size, "
                                                 << numberOfParameters << std::endl);
   }
 

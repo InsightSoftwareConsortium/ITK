@@ -28,9 +28,9 @@ itkBYUMeshIOTest(int argc, char * argv[])
   {
     std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
-              << " inputFileName outputFileName notABYUInputFileName notABYUOutputFileName useCompression "
-                 "updatePoints updatePointData updateCells updateCellData numberOfPoints numberOfPointPixels "
-                 "numberOfCells numberOfCellPixels"
+              << " inputFileName outputFileName notABYUInputFileName notABYUOutputFileName useCompression updatePoints "
+                 "updatePointData updateCells updateCellData numberOfPoints numberOfPointPixels numberOfCells "
+                 "numberOfCellPixels"
               << std::endl;
     return EXIT_FAILURE;
   }

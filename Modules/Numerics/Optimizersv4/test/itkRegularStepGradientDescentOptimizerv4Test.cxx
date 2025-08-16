@@ -295,9 +295,8 @@ itkRegularStepGradientDescentOptimizerv4Test(int, char *[])
 
 
   // Run now with different learning rate estimation frequencies
-  std::cout << "\nRun test with a different learning rate estimation frequencies:"
-               " estimate learning rate at each iteration: true; "
-               " estimate learning rate once: false."
+  std::cout << "\nRun test with a different learning rate estimation frequencies: estimate learning rate at each "
+               "iteration: true;  estimate learning rate once: false."
             << std::endl;
   {
     constexpr bool doEstimateLearningRateAtEachIteration2 = true;
@@ -312,9 +311,8 @@ itkRegularStepGradientDescentOptimizerv4Test(int, char *[])
   }
 
   // Run now with different learning rate estimation frequencies
-  std::cout << "\nRun test with a different learning rate estimation frequencies:"
-               " estimate learning rate at each iteration: false; "
-               " estimate learning rate once: true."
+  std::cout << "\nRun test with a different learning rate estimation frequencies: estimate learning rate at each "
+               "iteration: false;  estimate learning rate once: true."
             << std::endl;
   {
     constexpr bool doEstimateLearningRateAtEachIteration3 = false;
@@ -330,9 +328,8 @@ itkRegularStepGradientDescentOptimizerv4Test(int, char *[])
   }
 
   // Run now with different learning rate estimation frequencies
-  std::cout << "\nRun test with a different learning rate estimation frequencies:"
-               " estimate learning rate at each iteration: true; "
-               " estimate learning rate once: true."
+  std::cout << "\nRun test with a different learning rate estimation frequencies: estimate learning rate at each "
+               "iteration: true;  estimate learning rate once: true."
             << std::endl;
   {
     constexpr bool doEstimateLearningRateAtEachIteration4 = true;

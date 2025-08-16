@@ -421,8 +421,7 @@ NrrdImageIO::ReadImageInformation()
 
     if (nrrdTypeBlock == nrrd->type)
     {
-      itkExceptionStringMacro("ReadImageInformation: Cannot currently "
-                              "handle nrrdTypeBlock");
+      itkExceptionStringMacro("ReadImageInformation: Cannot currently handle nrrdTypeBlock");
     }
     if (nio->endian == airEndianLittle)
     {
@@ -494,9 +493,8 @@ NrrdImageIO::ReadImageInformation()
         case nrrdKindDomain:
         case nrrdKindSpace:
         case nrrdKindTime:
-          itkExceptionMacro("ReadImageInformation: range axis kind (" << airEnumStr(nrrdKind, kind)
-                                                                      << ") seems more "
-                                                                         "like a domain axis than a range axis");
+          itkExceptionMacro("ReadImageInformation: range axis kind ("
+                            << airEnumStr(nrrdKind, kind) << ") seems more like a domain axis than a range axis");
 
         case nrrdKindStub:
         case nrrdKindScalar:
@@ -624,14 +622,13 @@ NrrdImageIO::ReadImageInformation()
           break;
         default:
         case nrrdSpacingStatusUnknown:
-          itkExceptionStringMacro("ReadImageInformation: Error interpreting "
-                                  "nrrd spacing (nrrdSpacingStatusUnknown)");
+          itkExceptionStringMacro("ReadImageInformation: Error interpreting nrrd spacing (nrrdSpacingStatusUnknown)");
         case nrrdSpacingStatusScalarWithSpace:
           // Both "spacings" and "space origin" fields are specified. This is an unusual combination, no need to support
           // it. Either use space fields ("space directions" and "space origin") or use older convention of just
           // "spacings".
-          itkExceptionStringMacro("ReadImageInformation: Error interpreting "
-                                  "nrrd spacing (nrrdSpacingStatusScalarWithSpace)");
+          itkExceptionStringMacro(
+            "ReadImageInformation: Error interpreting nrrd spacing (nrrdSpacingStatusScalarWithSpace)");
       }
     }
 
@@ -721,8 +718,7 @@ NrrdImageIO::ReadImageInformation()
           default:
           case nrrdOriginStatusUnknown:
           case nrrdOriginStatusDirection:
-            itkExceptionStringMacro("ReadImageInformation: Error interpreting "
-                                    "nrrd origin status");
+            itkExceptionStringMacro("ReadImageInformation: Error interpreting nrrd origin status");
         }
       }
     }

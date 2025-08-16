@@ -51,8 +51,7 @@ MatlabTransformIOFactory::GetITKSourceVersion() const
 const char *
 MatlabTransformIOFactory::GetDescription() const
 {
-  return "Matlab TransformIO Factory, allows the "
-         "loading of Nifti images into insight";
+  return "Matlab TransformIO Factory, allows the loading of Nifti images into insight";
 }
 
 // Undocumented API used to register during static initialization.

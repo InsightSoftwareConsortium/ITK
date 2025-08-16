@@ -125,12 +125,8 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
   {
     if (this->m_MetricWeights.Size() != this->GetNumberOfMetrics())
     {
-      itkExceptionMacro("The derivative weights are not of the proper size. "
-                        "Number of metrics: "
-                        << this->GetNumberOfMetrics()
-                        << ", "
-                           "Number of weights: "
-                        << this->m_MetricWeights.Size());
+      itkExceptionMacro("The derivative weights are not of the proper size. Number of metrics: "
+                        << this->GetNumberOfMetrics() << ", Number of weights: " << this->m_MetricWeights.Size());
     }
     /* normalize the weights */
     WeightValueType sum{};
@@ -194,10 +190,9 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
     {
       if (transform != firstTransform)
       {
-        itkExceptionStringMacro("One or more component metrics have different active transforms. "
-                                "Each metric must be using the same transform object. For CompositeTransform, "
-                                "there must be only one transform set to optimize, and it must be the same "
-                                "as other metric transforms.");
+        itkExceptionStringMacro("One or more component metrics have different active transforms. Each metric must be "
+                                "using the same transform object. For CompositeTransform, there must be only one "
+                                "transform set to optimize, and it must be the same as other metric transforms.");
       }
     }
   }

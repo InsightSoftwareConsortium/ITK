@@ -155,9 +155,7 @@ itkLargeMetaImageWriteReadTest(int argc, char * argv[])
   if (argc < 3)
   {
     std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv)
-              << " outputFileName numberOfPixelsInOneDimension "
-                 "[numberOfZslices]"
-              << std::endl;
+              << " outputFileName numberOfPixelsInOneDimension [numberOfZslices]" << std::endl;
     return EXIT_FAILURE;
   }
 

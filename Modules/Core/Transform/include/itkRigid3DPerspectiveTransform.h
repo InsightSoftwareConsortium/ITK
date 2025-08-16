@@ -207,8 +207,8 @@ public:
   OutputCovariantVectorType
   TransformCovariantVector(const InputCovariantVectorType &) const override
   {
-    itkExceptionStringMacro("TransformCovariantVector(const InputCovariantVectorType &) is not implemented for "
-                            "Rigid3DPerspectiveTransform");
+    itkExceptionStringMacro(
+      "TransformCovariantVector(const InputCovariantVectorType &) is not implemented for Rigid3DPerspectiveTransform");
   }
 
   /** Return the rotation matrix */
@@ -230,9 +230,7 @@ public:
   void
   ComputeJacobianWithRespectToPosition(const InputPointType &, JacobianPositionType &) const override
   {
-    itkExceptionMacro("ComputeJacobianWithRespectToPosition not yet implemented "
-                      "for "
-                      << this->GetNameOfClass());
+    itkExceptionMacro("ComputeJacobianWithRespectToPosition not yet implemented for " << this->GetNameOfClass());
   }
   using Superclass::ComputeJacobianWithRespectToPosition;
 

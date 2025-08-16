@@ -182,8 +182,7 @@ public:
   {
     if (s != 3)
     {
-      itkGenericExceptionMacro("Cannot set the size of a RGBPixel to anything other "
-                               "than 3.");
+      itkGenericExceptionMacro("Cannot set the size of a RGBPixel to anything other than 3.");
     }
     m.Fill(T{});
   }

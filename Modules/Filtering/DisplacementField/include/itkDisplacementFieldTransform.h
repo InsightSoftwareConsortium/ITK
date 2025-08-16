@@ -229,22 +229,19 @@ public:
   OutputVectorType
   TransformVector(const InputVectorType &) const override
   {
-    itkExceptionStringMacro("TransformVector(Vector) unimplemented, use "
-                            "TransformVector(Vector,Point)");
+    itkExceptionStringMacro("TransformVector(Vector) unimplemented, use TransformVector(Vector,Point)");
   }
 
   OutputVectorPixelType
   TransformVector(const InputVectorPixelType &) const override
   {
-    itkExceptionStringMacro("TransformVector(Vector) unimplemented, use "
-                            "TransformVector(Vector,Point)");
+    itkExceptionStringMacro("TransformVector(Vector) unimplemented, use TransformVector(Vector,Point)");
   }
 
   OutputVnlVectorType
   TransformVector(const InputVnlVectorType &) const override
   {
-    itkExceptionStringMacro("TransformVector(Vector) unimplemented, use "
-                            "TransformVector(Vector,Point)");
+    itkExceptionStringMacro("TransformVector(Vector) unimplemented, use TransformVector(Vector,Point)");
   }
   /** @ITKEndGrouping */
 
@@ -254,15 +251,15 @@ public:
   OutputDiffusionTensor3DType
   TransformDiffusionTensor(const InputDiffusionTensor3DType &) const
   {
-    itkExceptionStringMacro("TransformDiffusionTensor(Tensor) unimplemented, use "
-                            "TransformDiffusionTensor(Tensor,Point)");
+    itkExceptionStringMacro(
+      "TransformDiffusionTensor(Tensor) unimplemented, use TransformDiffusionTensor(Tensor,Point)");
   }
 
   OutputVectorPixelType
   TransformDiffusionTensor(const InputVectorPixelType &) const
   {
-    itkExceptionStringMacro("TransformDiffusionTensor(Tensor) unimplemented, use "
-                            "TransformDiffusionTensor(Tensor,Point)");
+    itkExceptionStringMacro(
+      "TransformDiffusionTensor(Tensor) unimplemented, use TransformDiffusionTensor(Tensor,Point)");
   }
   /** @ITKEndGrouping */
 
@@ -272,15 +269,15 @@ public:
   OutputCovariantVectorType
   TransformCovariantVector(const InputCovariantVectorType &) const override
   {
-    itkExceptionStringMacro("TransformCovariantVector(CovariantVector) "
-                            "unimplemented, use TransformCovariantVector(CovariantVector,Point)");
+    itkExceptionStringMacro(
+      "TransformCovariantVector(CovariantVector) unimplemented, use TransformCovariantVector(CovariantVector,Point)");
   }
 
   OutputVectorPixelType
   TransformCovariantVector(const InputVectorPixelType &) const override
   {
-    itkExceptionStringMacro("TransformCovariantVector(CovariantVector) "
-                            "unimplemented, use TransformCovariantVector(CovariantVector,Point)");
+    itkExceptionStringMacro(
+      "TransformCovariantVector(CovariantVector) unimplemented, use TransformCovariantVector(CovariantVector,Point)");
   }
   /** @ITKEndGrouping */
 

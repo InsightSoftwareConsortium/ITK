@@ -63,8 +63,7 @@ RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>::StartOptim
   // validity check for the value of GradientMagnitudeTolerance
   if (m_GradientMagnitudeTolerance < 0.0)
   {
-    itkExceptionMacro("Gradient magnitude tolerance must be "
-                      "greater or equal 0.0. Current value is "
+    itkExceptionMacro("Gradient magnitude tolerance must be greater or equal 0.0. Current value is "
                       << m_GradientMagnitudeTolerance);
   }
 

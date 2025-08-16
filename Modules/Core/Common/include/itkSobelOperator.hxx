@@ -73,9 +73,8 @@ SobelOperator<TPixel, VDimension, TAllocator>::Fill(const CoefficientVector & co
   }
   else
   {
-    itkExceptionStringMacro(
-      "The ND version of the Sobel operator is not yet implemented.  Currently only the 2D and 3D "
-      "versions are available.");
+    itkExceptionStringMacro("The ND version of the Sobel operator is not yet implemented.  Currently only the 2D and "
+                            "3D versions are available.");
   }
 }
 

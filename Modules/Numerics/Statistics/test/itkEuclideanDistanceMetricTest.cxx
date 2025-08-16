@@ -45,8 +45,7 @@ itkEuclideanDistanceMetricTest(int, char *[])
   try
   {
     distance->Evaluate(measurementNew);
-    std::cerr << "Attempting to compute distance w/o setting measurement vector"
-                 "size, Exception should have been thrown"
+    std::cerr << "Attempting to compute distance w/o setting measurement vectorsize, Exception should have been thrown"
               << std::endl;
   }
   catch (const itk::ExceptionObject & excp)

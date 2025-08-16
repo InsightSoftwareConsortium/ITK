@@ -104,8 +104,8 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
   const ReferenceImageBaseType * const referenceImage = this->GetReferenceImage();
   if (this->m_Size[0] == 0 && referenceImage && !m_UseReferenceImage)
   {
-    itkExceptionStringMacro("Output image size is zero in all dimensions.  Consider using UseReferenceImageOn()."
-                            "or SetUseReferenceImage(true) to define the resample output from the ReferenceImage.");
+    itkExceptionStringMacro("Output image size is zero in all dimensions.  Consider using UseReferenceImageOn().or "
+                            "SetUseReferenceImage(true) to define the resample output from the ReferenceImage.");
   }
 }
 
