@@ -88,7 +88,7 @@ namespace itk
  * This filter is a core component of the Symmetric Normalization (SyN) registration
  * algorithm: at each iteration SyN updates forward and inverse velocity/displacement
  * estimates symmetrically and uses this routine to maintain an explicit inverse field,
- * preserving inverse-consistency during optimization \cite{Christensen2001MMBIA,Christensen2001TMI}.
+ * preserving inverse-consistency during optimization \cite{Christensen2001MMBIA,christensen2001}.
  *
  * \author Nick Tustison
  * \author Brian Avants
