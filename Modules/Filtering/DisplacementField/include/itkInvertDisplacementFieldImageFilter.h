@@ -28,11 +28,75 @@ namespace itk
 
 /**
  * \class InvertDisplacementFieldImageFilter
+ * \brief Iteratively estimates the inverse of a displacement field by fixed-point composition.
  *
- * \brief Iteratively estimate the inverse field of a displacement field.
+ * \par Overview (implementation)
+ * Given a forward displacement field \f$ \mathbf{u}(\mathbf{x}) \f$ (mapping points
+ * \f$ \mathbf{x} \mapsto \mathbf{x} + \mathbf{u}(\mathbf{x}) \f$), the inverse field
+ * \f$ \mathbf{v}(\mathbf{y}) \f$ satisfies
+ * \f[
+ *    \mathbf{x} + \mathbf{u}(\mathbf{x}) = \mathbf{y}, \quad
+ *    \mathbf{y} + \mathbf{v}(\mathbf{y}) = \mathbf{x}.
+ * \f]
+ * Eliminating \f$\mathbf{x}\f$ yields the fixed-point condition
+ * \f[
+ *    \mathbf{v}(\mathbf{y}) \approx -\,\mathbf{u}\!\left(\mathbf{y} + \mathbf{v}(\mathbf{y})\right).
+ * \f]
+ * This filter solves that condition by iterative composition starting from an initial
+ * inverse estimate (optionally supplied by the user). At each iteration, the forward
+ * field is interpolated at warped locations \f$ \mathbf{y} + \mathbf{v}^{(k)}(\mathbf{y}) \f$
+ * and the inverse is updated to reduce both the mean and max residual norms until
+ * user-specified tolerances or an iteration cap is reached. The implementation supports
+ * multithreading and vector-image interpolation; linear vector interpolation is used by
+ * default.
+ *
+ * \par Algorithmic sketch
+ * For output lattice point \f$\mathbf{y}\f$:
+ *  - Initialize \f$\mathbf{v}^{(0)}(\mathbf{y})\f$ to the provided \c InverseFieldInitialEstimate
+ *    (or zero if none).
+ *  - Iterate \f$k = 0,1,\dots\f$ up to \c MaximumNumberOfIterations (default 20):
+ *    \f[
+ *      \mathbf{r}^{(k)}(\mathbf{y}) = \mathbf{u}\!\left(\mathbf{y} + \mathbf{v}^{(k)}(\mathbf{y})\right)
+ *      + \mathbf{v}^{(k)}(\mathbf{y}),
+ *    \f]
+ *    \f[
+ *      \mathbf{v}^{(k+1)}(\mathbf{y}) = \mathbf{v}^{(k)}(\mathbf{y}) - \mathbf{r}^{(k)}(\mathbf{y}).
+ *    \f]
+ *  - Stop when \f$\max_{\mathbf{y}}\|\mathbf{r}^{(k)}(\mathbf{y})\|\f$ and
+ *    \f$\mathrm{mean}_{\mathbf{y}}\|\mathbf{r}^{(k)}(\mathbf{y})\|\f$ fall below
+ *    \c MaxErrorToleranceThreshold and \c MeanErrorToleranceThreshold.
+ *
+ * \par Designed usage and assumptions
+ *  - Best used inside iterative registration where forward updates are small and
+ *    diffeomorphic at each step; supplying the previous iteration’s inverse as the
+ *    initial estimate greatly accelerates convergence and improves robustness.
+ *  - Not intended to recover a full inverse from identity in one step for large
+ *    deformations; prefer multi-resolution schemes, incremental composition, or
+ *    scaling-and-squaring to stay within the contraction regime of the fixed-point map.
+ *  - The forward field should be (approximately) invertible in the region of interest
+ *    (positive Jacobian determinant). Non-invertible folds will stall or diverge.
+ *  - Boundary handling: when \c EnforceBoundaryCondition=true (default), the inverse is
+ *    clamped to zero at the image boundary to avoid extrapolation artifacts.
+ *
+ * \par Complexity and performance
+ * Each iteration performs one interpolation and vector update per voxel:
+ * \f$O(N \times I)\f$ work for \f$N\f$ voxels and \f$I\f$ iterations. The filter
+ * parallelizes across the output region and reuses an internal composed field to
+ * minimize memory traffic.
+ *
+ * \par Relationship to Symmetric Normalization (SyN)
+ * This filter is a core component of the Symmetric Normalization (SyN) registration
+ * algorithm: at each iteration SyN updates forward and inverse velocity/displacement
+ * estimates symmetrically and uses this routine to maintain an explicit inverse field,
+ * preserving inverse-consistency during optimization \cite{Christensen2001MMBIA,Christensen2001TMI}.
  *
  * \author Nick Tustison
  * \author Brian Avants
+ *
+ * \par References
+ * - \cite{christensen2001} Christensen, G. E., & Johnson, H. J. (2001).
+ *   Consistent image registration.
+ *   *IEEE Transactions on Medical Imaging*, 20(7), 568–582.
  *
  * \ingroup ITKDisplacementField
  */
