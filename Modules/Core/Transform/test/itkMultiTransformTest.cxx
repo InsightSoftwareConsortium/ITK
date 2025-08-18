@@ -106,8 +106,7 @@ public:
   ComputeJacobianWithRespectToParameters(const InputPointType & itkNotUsed(p),
                                          JacobianType &         itkNotUsed(jacobian)) const override
   {
-    itkExceptionMacro("ComputeJacobianWithRespectToParamters( InputPointType, JacobianType"
-                      " is unimplemented for "
+    itkExceptionMacro("ComputeJacobianWithRespectToParamters( InputPointType, JacobianType is unimplemented for "
                       << this->GetNameOfClass());
   }
 

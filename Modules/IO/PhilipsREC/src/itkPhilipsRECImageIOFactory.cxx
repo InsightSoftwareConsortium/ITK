@@ -52,8 +52,7 @@ PhilipsRECImageIOFactory::GetITKSourceVersion() const
 const char *
 PhilipsRECImageIOFactory::GetDescription() const
 {
-  return "Philips REC ImageIO Factory, allows the loading of Philips REC images"
-         " into Insight";
+  return "Philips REC ImageIO Factory, allows the loading of Philips REC images into Insight";
 }
 
 // Undocumented API used to register during static initialization.

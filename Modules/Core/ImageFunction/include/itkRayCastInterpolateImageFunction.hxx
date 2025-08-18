@@ -432,8 +432,7 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::CalcPl
     {
       itk::ExceptionObject err(__FILE__, __LINE__);
       err.SetLocation(ITK_LOCATION);
-      err.SetDescription("Division by zero (planes) "
-                         "- CalcPlanesAndCorners().");
+      err.SetDescription("Division by zero (planes) - CalcPlanesAndCorners().");
       throw err;
     }
   }
@@ -918,8 +917,7 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::Adjust
   {
     itk::ExceptionObject err(__FILE__, __LINE__);
     err.SetLocation(ITK_LOCATION);
-    err.SetDescription("The ray traversal direction is unset "
-                       "- AdjustRayLength().");
+    err.SetDescription("The ray traversal direction is unset - AdjustRayLength().");
     throw err;
   }
 
@@ -1145,8 +1143,7 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::Initia
     {
       itk::ExceptionObject err(__FILE__, __LINE__);
       err.SetLocation(ITK_LOCATION);
-      err.SetDescription("The ray traversal direction is unset "
-                         "- InitialiseVoxelPointers().");
+      err.SetDescription("The ray traversal direction is unset - InitialiseVoxelPointers().");
       throw err;
     }
   }
@@ -1227,8 +1224,7 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::GetCur
     {
       itk::ExceptionObject err(__FILE__, __LINE__);
       err.SetLocation(ITK_LOCATION);
-      err.SetDescription("The ray traversal direction is unset "
-                         "- GetCurrentIntensity().");
+      err.SetDescription("The ray traversal direction is unset - GetCurrentIntensity().");
       throw err;
     }
   }

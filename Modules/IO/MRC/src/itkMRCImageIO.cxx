@@ -418,11 +418,11 @@ MRCImageIO::UpdateHeaderFromImageIO()
 
   if (header.mode == -1)
   {
-    itkExceptionMacro("Unsupported pixel type: "
-                      << ImageIOBase::GetPixelTypeAsString(this->GetPixelType()) << ' '
-                      << ImageIOBase::GetComponentTypeAsString(this->GetComponentType()) << std::endl
-                      << "Supported pixel types include unsigned byte, unsigned short, short, float, rgb "
-                         "unsigned char, float complex");
+    itkExceptionMacro(
+      "Unsupported pixel type: "
+      << ImageIOBase::GetPixelTypeAsString(this->GetPixelType()) << ' '
+      << ImageIOBase::GetComponentTypeAsString(this->GetComponentType()) << std::endl
+      << "Supported pixel types include unsigned byte, unsigned short, short, float, rgb unsigned char, float complex");
   }
 
   header.nxstart = 0;

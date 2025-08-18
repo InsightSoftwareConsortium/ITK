@@ -79,8 +79,7 @@ public:
 
 GDCMImageIO::GDCMImageIO()
   : m_RescaleSlope(1.0)
-  , m_UIDPrefix("1.2.826.0.1.3680043.2.1125."
-                "1")
+  , m_UIDPrefix("1.2.826.0.1.3680043.2.1125.1")
   , m_StudyInstanceUID("")
   , m_SeriesInstanceUID("")
   , m_FrameOfReferenceInstanceUID("")
@@ -1224,8 +1223,8 @@ GDCMImageIO::Write(const void * buffer)
     }
     else
     {
-      itkExceptionStringMacro("A Floating point buffer was passed but the stored pixel type was not specified."
-                              "This is currently not supported");
+      itkExceptionStringMacro("A Floating point buffer was passed but the stored pixel type was not specified.This is "
+                              "currently not supported");
     }
   }
   else if (this->GetInternalComponentType() != IOComponentEnum::UNKNOWNCOMPONENTTYPE)

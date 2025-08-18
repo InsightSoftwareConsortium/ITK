@@ -69,9 +69,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
      */
     if (PixelTraits<VirtualPixelType>::Dimension != 1)
     {
-      itkExceptionMacro("VirtualPixelType must be scalar for use "
-                        "with high-dimensional transform. "
-                        "Dimensionality is "
+      itkExceptionMacro("VirtualPixelType must be scalar for use with high-dimensional transform. Dimensionality is "
                         << PixelTraits<VirtualPixelType>::Dimension);
     }
   }
@@ -458,8 +456,8 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
   const MovingDisplacementFieldTransformType * displacementTransform = this->GetMovingDisplacementFieldTransform();
   if (displacementTransform == nullptr)
   {
-    itkExceptionStringMacro("Expected the moving transform to be of type DisplacementFieldTransform or derived, "
-                            "or a CompositeTransform with DisplacementFieldTransform as the last to have been added.");
+    itkExceptionStringMacro("Expected the moving transform to be of type DisplacementFieldTransform or derived, or a "
+                            "CompositeTransform with DisplacementFieldTransform as the last to have been added.");
   }
   using FieldType = typename MovingDisplacementFieldTransformType::DisplacementFieldType;
   const typename FieldType::ConstPointer field = displacementTransform->GetDisplacementField();
@@ -468,8 +466,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
   if (virtualRegion.GetSize() != fieldRegion.GetSize() || virtualRegion.GetIndex() != fieldRegion.GetIndex())
   {
     itkExceptionMacro(
-      "Virtual domain and moving transform displacement field"
-      " must have the same size and index for BufferedRegion."
+      "Virtual domain and moving transform displacement field must have the same size and index for BufferedRegion."
       << std::endl
       << "Virtual size/index: " << virtualRegion.GetSize() << " / " << virtualRegion.GetIndex() << std::endl
       << "Displacement field size/index: " << fieldRegion.GetSize() << " / " << fieldRegion.GetIndex() << std::endl);
@@ -519,11 +516,10 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
   {
     value = NumericTraits<MeasureType>::max();
     derivative.Fill(DerivativeValueType{});
-    itkWarningMacro("No valid points were found during metric evaluation. "
-                    "For image metrics, verify that the images overlap appropriately. "
-                    "For instance, you can align the image centers by translation. "
-                    "For point-set metrics, verify that the fixed points, once transformed "
-                    "into the virtual domain space, actually lie within the virtual domain.");
+    itkWarningMacro(
+      "No valid points were found during metric evaluation. For image metrics, verify that the images overlap "
+      "appropriately. For instance, you can align the image centers by translation. For point-set metrics, verify that "
+      "the fixed points, once transformed into the virtual domain space, actually lie within the virtual domain.");
     return false;
   }
   return true;

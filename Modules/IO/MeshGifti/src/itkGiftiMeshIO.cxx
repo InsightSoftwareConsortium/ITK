@@ -239,8 +239,8 @@ GiftiMeshIO::ReadMeshInformation()
           else
           {
             gifti_free_image(m_GiftiImage);
-            itkExceptionMacro("Could not read input GIfTI image because the number of point data or "
-                              "number of cell data in the image are not consistent with the current values in "
+            itkExceptionMacro("Could not read input GIfTI image because the number of point data or number of cell "
+                              "data in the image are not consistent with the current values in "
                               << this->m_FileName);
           }
         }
@@ -288,8 +288,8 @@ GiftiMeshIO::ReadMeshInformation()
           else
           {
             gifti_free_image(m_GiftiImage);
-            itkExceptionMacro("Could not read input GIfTI image because the number of point data or "
-                              "number of cell data in the image are not consistent with the current values in "
+            itkExceptionMacro("Could not read input GIfTI image because the number of point data or number of cell "
+                              "data in the image are not consistent with the current values in "
                               << this->m_FileName);
           }
         }
@@ -403,8 +403,8 @@ GiftiMeshIO::ReadMeshInformation()
           else
           {
             gifti_free_image(m_GiftiImage);
-            itkExceptionMacro("Could not read input GIfTI image because the number of point data or "
-                              "number of cell data in the image are not consistent with the current values in "
+            itkExceptionMacro("Could not read input GIfTI image because the number of point data or number of cell "
+                              "data in the image are not consistent with the current values in "
                               << this->m_FileName);
           }
         }

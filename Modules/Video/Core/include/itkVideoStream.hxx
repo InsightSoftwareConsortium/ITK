@@ -598,9 +598,8 @@ VideoStream<TFrameType>::Allocate()
   const SizeValueType numFrames = m_BufferedTemporalRegion.GetFrameDuration();
   if (m_DataObjectBuffer->GetNumberOfBuffers() < numFrames)
   {
-    itkExceptionStringMacro("itk::VideoStream::SetAllLargestPossibleSpatialRegions "
-                            "not enough frame buffers available. Call InitializeEmptyFrames "
-                            "to prepare the frame buffer correctly.");
+    itkExceptionStringMacro("itk::VideoStream::SetAllLargestPossibleSpatialRegions not enough frame buffers available. "
+                            "Call InitializeEmptyFrames to prepare the frame buffer correctly.");
   }
 
   // Go through the number of required frames, making sure none are empty and
@@ -611,17 +610,13 @@ VideoStream<TFrameType>::Allocate()
   {
     if (!m_DataObjectBuffer->BufferIsFull(i))
     {
-      itkExceptionMacro("itk::VideoStream::SetAllLargestPossibleSpatialRegions "
-                        "empty frame buffer found at offset "
-                        << i
-                        << ". Call "
-                           "InitializeEmptyFrames to prepare the frame buffer correctly.");
+      itkExceptionMacro("itk::VideoStream::SetAllLargestPossibleSpatialRegions empty frame buffer found at offset "
+                        << i << ". Call InitializeEmptyFrames to prepare the frame buffer correctly.");
     }
     auto * frame = dynamic_cast<FrameType *>(m_DataObjectBuffer->GetBufferContents(i).GetPointer());
     if (!frame)
     {
-      itkExceptionMacro("itk::VideoStream::SetAllLargestPossibleSpatialRegions "
-                        "could not cast frame "
+      itkExceptionMacro("itk::VideoStream::SetAllLargestPossibleSpatialRegions could not cast frame "
                         << i << " to the correct type.");
     }
     frame->Allocate();
