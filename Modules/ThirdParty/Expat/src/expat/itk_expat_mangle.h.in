@@ -32,6 +32,7 @@ nm libITKEXPAT-5.3.a | grep " [TRD] " |  awk '{ print $3 }' | sort -df | awk '{ 
 */
 
 #define _INTERNAL_trim_to_complete_utf8_characters @MANGLE_PREFIX@__INTERNAL_trim_to_complete_utf8_characters
+#define _XML_SetReparseDeferralEnabled @MANGLE_PREFIX@__XML_SetReparseDeferralEnabled // Added in 2.7.1
 #define testingAccountingGetCountBytesDirect @MANGLE_PREFIX@_testingAccountingGetCountBytesDirect
 #define testingAccountingGetCountBytesIndirect @MANGLE_PREFIX@_testingAccountingGetCountBytesIndirect
 #define unsignedCharToPrintable @MANGLE_PREFIX@_unsignedCharToPrintable
