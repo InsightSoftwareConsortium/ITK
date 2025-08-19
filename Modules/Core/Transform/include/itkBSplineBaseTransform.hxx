@@ -126,7 +126,7 @@ BSplineBaseTransform<TParametersValueType, VDimension, VSplineOrder>::UpdateTran
   if (update.Size() != numberOfParameters)
   {
     itkExceptionMacro("Parameter update size, " << update.Size() << ", must  be same as transform parameter size, "
-                                                << numberOfParameters << std::endl);
+                                                << numberOfParameters);
   }
 
   /* Make sure m_Parameters is updated to reflect the current values in

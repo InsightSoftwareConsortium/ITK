@@ -270,7 +270,7 @@ MultiTransform<TParametersValueType, VDimension, VSubDimensions>::UpdateTransfor
   if (update.Size() != numberOfParameters)
   {
     itkExceptionMacro("Parameter update size, " << update.Size() << ", must  be same as transform parameter size, "
-                                                << numberOfParameters << std::endl);
+                                                << numberOfParameters);
   }
 
   NumberOfParametersType offset{};

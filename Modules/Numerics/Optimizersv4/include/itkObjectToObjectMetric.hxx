@@ -469,7 +469,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
       "Virtual domain and moving transform displacement field must have the same size and index for BufferedRegion."
       << std::endl
       << "Virtual size/index: " << virtualRegion.GetSize() << " / " << virtualRegion.GetIndex() << std::endl
-      << "Displacement field size/index: " << fieldRegion.GetSize() << " / " << fieldRegion.GetIndex() << std::endl);
+      << "Displacement field size/index: " << fieldRegion.GetSize() << " / " << fieldRegion.GetIndex());
   }
 
   /* check that the image occupy the same physical space, and that

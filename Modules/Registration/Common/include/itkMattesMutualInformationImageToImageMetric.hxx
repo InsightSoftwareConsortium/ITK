@@ -853,8 +853,8 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::CommonGetV
 
   if (this->m_NumberOfPixelsCounted < this->m_NumberOfFixedImageSamples / 16)
   {
-    itkExceptionMacro("Too many samples map outside moving image buffer: "
-                      << this->m_NumberOfPixelsCounted << " / " << this->m_NumberOfFixedImageSamples << std::endl);
+    itkExceptionMacro("Too many samples map outside moving image buffer: " << this->m_NumberOfPixelsCounted << " / "
+                                                                           << this->m_NumberOfFixedImageSamples);
   }
 
   // Normalize the fixed image marginal PDF
