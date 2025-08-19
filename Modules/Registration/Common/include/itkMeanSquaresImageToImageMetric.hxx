@@ -112,7 +112,7 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::GetValue(const Paramet
   this->GetValueMultiThreadedInitiate();
 
   itkDebugMacro("Ratio of voxels mapping into moving image buffer: " << this->m_NumberOfPixelsCounted << " / "
-                                                                     << this->m_NumberOfFixedImageSamples << std::endl);
+                                                                     << this->m_NumberOfFixedImageSamples);
 
   if (this->m_NumberOfPixelsCounted < this->m_NumberOfFixedImageSamples / 4)
   {
@@ -228,7 +228,7 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDerivative(
   this->GetValueAndDerivativeMultiThreadedInitiate();
 
   itkDebugMacro("Ratio of voxels mapping into moving image buffer: " << this->m_NumberOfPixelsCounted << " / "
-                                                                     << this->m_NumberOfFixedImageSamples << std::endl);
+                                                                     << this->m_NumberOfFixedImageSamples);
 
   if (this->m_NumberOfPixelsCounted < this->m_NumberOfFixedImageSamples / 4)
   {
