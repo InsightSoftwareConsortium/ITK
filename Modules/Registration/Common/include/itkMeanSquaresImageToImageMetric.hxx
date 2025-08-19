@@ -116,8 +116,8 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::GetValue(const Paramet
 
   if (this->m_NumberOfPixelsCounted < this->m_NumberOfFixedImageSamples / 4)
   {
-    itkExceptionMacro("Too many samples map outside moving image buffer: "
-                      << this->m_NumberOfPixelsCounted << " / " << this->m_NumberOfFixedImageSamples << std::endl);
+    itkExceptionMacro("Too many samples map outside moving image buffer: " << this->m_NumberOfPixelsCounted << " / "
+                                                                           << this->m_NumberOfFixedImageSamples);
   }
 
   double mse = m_PerThread[0].m_MSE;
@@ -232,8 +232,8 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDerivative(
 
   if (this->m_NumberOfPixelsCounted < this->m_NumberOfFixedImageSamples / 4)
   {
-    itkExceptionMacro("Too many samples map outside moving image buffer: "
-                      << this->m_NumberOfPixelsCounted << " / " << this->m_NumberOfFixedImageSamples << std::endl);
+    itkExceptionMacro("Too many samples map outside moving image buffer: " << this->m_NumberOfPixelsCounted << " / "
+                                                                           << this->m_NumberOfFixedImageSamples);
   }
 
   value = 0;

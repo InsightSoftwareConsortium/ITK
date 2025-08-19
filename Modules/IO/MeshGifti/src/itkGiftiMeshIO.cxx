@@ -603,7 +603,7 @@ GiftiMeshIO::ReadCells(void * buffer)
         default:
         {
           gifti_free_image(m_GiftiImage);
-          itkExceptionMacro("Unknown cell data pixel component type" << std::endl);
+          itkExceptionMacro("Unknown cell data pixel component type");
         }
       }
     }
@@ -1151,7 +1151,7 @@ GiftiMeshIO::WritePoints(void * buffer)
         default:
         {
           gifti_free_image(m_GiftiImage);
-          itkExceptionMacro("Unknown point component type" << std::endl);
+          itkExceptionMacro("Unknown point component type");
         }
       }
     }
@@ -1243,7 +1243,7 @@ GiftiMeshIO::WriteCells(void * buffer)
         default:
         {
           gifti_free_image(m_GiftiImage);
-          itkExceptionMacro("Unknown cell component type" << std::endl);
+          itkExceptionMacro("Unknown cell component type");
         }
       }
     }
@@ -1352,7 +1352,7 @@ GiftiMeshIO::WritePointData(void * buffer)
           default:
           {
             gifti_free_image(m_GiftiImage);
-            itkExceptionMacro("Unknown point data pixel component type" << std::endl);
+            itkExceptionMacro("Unknown point data pixel component type");
           }
         }
       }
@@ -1453,7 +1453,7 @@ GiftiMeshIO::WritePointData(void * buffer)
           default:
           {
             gifti_free_image(m_GiftiImage);
-            itkExceptionMacro("Unknown point data pixel component type" << std::endl);
+            itkExceptionMacro("Unknown point data pixel component type");
           }
         }
       }
@@ -1563,7 +1563,7 @@ GiftiMeshIO::WriteCellData(void * buffer)
           default:
           {
             gifti_free_image(m_GiftiImage);
-            itkExceptionMacro("Unknown cell data pixel component type" << std::endl);
+            itkExceptionMacro("Unknown cell data pixel component type");
           }
         }
       }
@@ -1663,7 +1663,7 @@ GiftiMeshIO::WriteCellData(void * buffer)
           default:
           {
             gifti_free_image(m_GiftiImage);
-            itkExceptionMacro("Unknown cell data pixel component type" << std::endl);
+            itkExceptionMacro("Unknown cell data pixel component type");
           }
         }
       }

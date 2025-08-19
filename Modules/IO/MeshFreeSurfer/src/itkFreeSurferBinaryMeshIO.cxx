@@ -425,7 +425,7 @@ FreeSurferBinaryMeshIO::WritePoints(void * buffer)
     }
     default:
     {
-      itkExceptionMacro("Unknown point pixel component type" << std::endl);
+      itkExceptionMacro("Unknown point pixel component type");
     }
   }
 
@@ -521,7 +521,7 @@ FreeSurferBinaryMeshIO::WriteCells(void * buffer)
     }
     default:
     {
-      itkExceptionMacro("Unknown cell component type" << std::endl);
+      itkExceptionMacro("Unknown cell component type");
     }
   }
 
@@ -629,7 +629,7 @@ FreeSurferBinaryMeshIO::WritePointData(void * buffer)
     }
     default:
     {
-      itkExceptionMacro("Unknown point data pixel component type" << std::endl);
+      itkExceptionMacro("Unknown point data pixel component type");
     }
   }
 

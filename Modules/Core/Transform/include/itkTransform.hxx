@@ -74,7 +74,7 @@ Transform<TParametersValueType, VInputDimension, VOutputDimension>::UpdateTransf
   if (update.Size() != numberOfParameters)
   {
     itkExceptionMacro("Parameter update size, " << update.Size() << ", must  be same as transform parameter size, "
-                                                << numberOfParameters << std::endl);
+                                                << numberOfParameters);
   }
 
   /* Make sure m_Parameters is updated to reflect the current values in
@@ -170,7 +170,7 @@ Transform<TParametersValueType, VInputDimension, VOutputDimension>::TransformVec
 
   if (vector.GetSize() != VInputDimension)
   {
-    itkExceptionMacro("Input Vector is not of size VInputDimension = " << VInputDimension << std::endl);
+    itkExceptionMacro("Input Vector is not of size VInputDimension = " << VInputDimension);
   }
 
   JacobianPositionType jacobian;
@@ -223,7 +223,7 @@ Transform<TParametersValueType, VInputDimension, VOutputDimension>::TransformCov
 
   if (vector.GetSize() != VInputDimension)
   {
-    itkExceptionMacro("Input Vector is not of size VInputDimension = " << VInputDimension << std::endl);
+    itkExceptionMacro("Input Vector is not of size VInputDimension = " << VInputDimension);
   }
 
   InverseJacobianPositionType jacobian;
@@ -269,7 +269,7 @@ Transform<TParametersValueType, VInputDimension, VOutputDimension>::TransformDif
 {
   if (inputTensor.GetSize() != 6)
   {
-    itkExceptionMacro("Input DiffusionTensor3D does not have 6 elements" << std::endl);
+    itkExceptionMacro("Input DiffusionTensor3D does not have 6 elements");
   }
 
   InputDiffusionTensor3DType inTensor;
@@ -418,8 +418,7 @@ Transform<TParametersValueType, VInputDimension, VOutputDimension>::TransformSym
 
   if (inputTensor.GetSize() != (VInputDimension * VInputDimension))
   {
-    itkExceptionMacro("Input DiffusionTensor3D does not have " << VInputDimension * VInputDimension << " elements"
-                                                               << std::endl);
+    itkExceptionMacro("Input DiffusionTensor3D does not have " << VInputDimension * VInputDimension << " elements");
   }
 
   JacobianPositionType jacobian;

@@ -468,7 +468,7 @@ OBJMeshIO::WritePoints(void * buffer)
     }
     default:
     {
-      itkExceptionMacro("Unknown point component type" << std::endl);
+      itkExceptionMacro("Unknown point component type");
     }
   }
 
@@ -565,7 +565,7 @@ OBJMeshIO::WriteCells(void * buffer)
     }
     default:
     {
-      itkExceptionMacro("Unknown cell component type" << std::endl);
+      itkExceptionMacro("Unknown cell component type");
     }
   }
 
@@ -681,7 +681,7 @@ OBJMeshIO::WritePointData(void * buffer)
     }
     default:
     {
-      itkExceptionMacro("Unknown point data pixel component type" << std::endl);
+      itkExceptionMacro("Unknown point data pixel component type");
     }
   }
   outputFile.close();

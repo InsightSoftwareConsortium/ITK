@@ -246,7 +246,7 @@ VTKImageImport<TOutputImage>::GenerateOutputInformation()
                             << "This means that the " << ijk[j] << " data axis has a " << xyz[i]
                             << " component in physical space, but the ITK image can only represent values"
                             << " along " << ijk.substr(0, OutputImageDimension) << " projected on "
-                            << xyz.substr(0, OutputImageDimension) << '.' << std::endl);
+                            << xyz.substr(0, OutputImageDimension) << '.');
         }
       }
     }
