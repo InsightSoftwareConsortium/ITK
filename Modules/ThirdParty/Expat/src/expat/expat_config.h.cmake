@@ -3,7 +3,7 @@
 #ifndef EXPAT_CONFIG_H
 #define EXPAT_CONFIG_H 1
 
-#include "expatDllConfig.h"   /* ITK SPECIALIZATION to include itk_expat_mangle.h */
+#include "itk_expat_mangle.h"   /* ITK SPECIALIZATION to include itk_expat_mangle.h */
 
 /* 1234 = LIL_ENDIAN, 4321 = BIGENDIAN */
 #cmakedefine BYTEORDER @BYTEORDER@

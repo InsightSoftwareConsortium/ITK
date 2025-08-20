@@ -44,10 +44,11 @@
 #ifndef Expat_INCLUDED
 #define Expat_INCLUDED 1
 
+#include "itk_expat_mangle.h"   /* ITK SPECIALIZATION to include itk_expat_mangle.h */
+
 #include <stdlib.h>
 #include "expat_external.h"
 
-#include "expatDllConfig.h"   /* ITK SPECIALIZATION to include itk_expat_mangle.h */
 #ifdef __cplusplus
 extern "C" {
 #endif
