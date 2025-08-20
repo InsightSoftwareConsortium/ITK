@@ -45,7 +45,11 @@
 #endif
 
 #include <expat_config.h>
-
+// ITK TESTING START
+#ifndef itk_expat_mangle_h
+#  error "MISSING ITK NAME MANGLING, wrong expat_config.h file included"
+#endif
+// ITK TESTING STOP
 #include "expat_external.h"
 #include "internal.h"
 #include "xmlrole.h"

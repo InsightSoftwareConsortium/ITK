@@ -47,7 +47,11 @@
 */
 
 #include "expat_config.h"
-
+// ITK TESTING START
+#ifndef itk_expat_mangle_h
+#  error "MISSING ITK NAME MANGLING, wrong expat_config.h file included"
+#endif
+// ITK TESTING STOP
 #include <stddef.h>
 #include <string.h> /* memcpy */
 #include <stdbool.h>

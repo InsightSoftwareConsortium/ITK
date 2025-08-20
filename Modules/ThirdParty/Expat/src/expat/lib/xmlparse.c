@@ -66,7 +66,11 @@
 #define XML_BUILDING_EXPAT 1
 
 #include "expat_config.h"
-
+// ITK TESTING START
+#ifndef itk_expat_mangle_h
+#  error "MISSING ITK NAME MANGLING, wrong expat_config.h file included"
+#endif
+// ITK TESTING STOP
 #if ! defined(XML_GE) || (1 - XML_GE - 1 == 2) || (XML_GE < 0) || (XML_GE > 1)
 #  error XML_GE (for general entities) must be defined, non-empty, either 1 or 0 (0 to disable, 1 to enable; 1 is a common default)
 #endif
