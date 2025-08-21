@@ -333,7 +333,7 @@ Versor<T>::Set(const MatrixType & mat)
                              << m << std::endl
                              << "det(m * m transpose) is: " << vnl_det(I) << std::endl
                              << "m * m transpose is:" << std::endl
-                             << I << std::endl);
+                             << I);
   }
 
   const double trace = m(0, 0) + m(1, 1) + m(2, 2) + 1.0;
