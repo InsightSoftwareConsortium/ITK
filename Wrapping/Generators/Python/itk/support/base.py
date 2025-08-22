@@ -360,7 +360,7 @@ def load_factories(factory_name: str) -> None:
     import itk
 
     for module_name, data in itk_base_global_module_data.items():
-        for name, factory_class_prefix in data.get_module_factories()[:2]:
+        for name, factory_class_prefix in data.get_module_factories():
             if name == factory_name:
                 # Get the factory, loading new modules with itk_load_swig_module as necessary
                 namespace = dict()
