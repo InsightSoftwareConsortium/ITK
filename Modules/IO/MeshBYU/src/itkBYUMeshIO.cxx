@@ -408,7 +408,7 @@ BYUMeshIO::WritePoints(void * buffer)
     }
     default:
     {
-      itkExceptionMacro("Unknown point pixel component type");
+      itkExceptionStringMacro("Unknown point pixel component type");
     }
   }
 
@@ -504,7 +504,7 @@ BYUMeshIO::WriteCells(void * buffer)
     }
     default:
     {
-      itkExceptionMacro("Unknown cell pixel component type");
+      itkExceptionStringMacro("Unknown cell pixel component type");
     }
   }
 

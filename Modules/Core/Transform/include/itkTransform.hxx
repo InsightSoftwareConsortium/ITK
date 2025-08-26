@@ -269,7 +269,7 @@ Transform<TParametersValueType, VInputDimension, VOutputDimension>::TransformDif
 {
   if (inputTensor.GetSize() != 6)
   {
-    itkExceptionMacro("Input DiffusionTensor3D does not have 6 elements");
+    itkExceptionStringMacro("Input DiffusionTensor3D does not have 6 elements");
   }
 
   InputDiffusionTensor3DType inTensor;

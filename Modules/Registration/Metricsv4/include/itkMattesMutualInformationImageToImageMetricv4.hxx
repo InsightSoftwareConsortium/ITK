@@ -302,9 +302,10 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
 {
   if (this->GetNumberOfValidPoints() == 0)
   {
-    itkExceptionMacro("All samples map outside moving image buffer. The images do not sufficiently overlap. They need "
-                      "to be initialized to have more overlap before this metric will work. For instance, you can "
-                      "align the image centers by translation.");
+    itkExceptionStringMacro(
+      "All samples map outside moving image buffer. The images do not sufficiently overlap. They need "
+      "to be initialized to have more overlap before this metric will work. For instance, you can "
+      "align the image centers by translation.");
   }
   if (this->m_JointPDFSum < itk::NumericTraits<PDFValueType>::epsilon())
   {
