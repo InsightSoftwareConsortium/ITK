@@ -493,7 +493,7 @@ OFFMeshIO::WritePoints(void * buffer)
       }
       default:
       {
-        itkExceptionMacro("Unknown point pixel component type");
+        itkExceptionStringMacro("Unknown point pixel component type");
       }
     }
   }
@@ -585,7 +585,7 @@ OFFMeshIO::WritePoints(void * buffer)
       }
       default:
       {
-        itkExceptionMacro("Unknown point pixel component type");
+        itkExceptionStringMacro("Unknown point pixel component type");
       }
     }
   }
@@ -705,7 +705,7 @@ OFFMeshIO::WriteCells(void * buffer)
       }
       default:
       {
-        itkExceptionMacro("Unknown cell pixel component type");
+        itkExceptionStringMacro("Unknown cell pixel component type");
       }
     }
   }
@@ -793,7 +793,7 @@ OFFMeshIO::WriteCells(void * buffer)
       }
       default:
       {
-        itkExceptionMacro("Unknown cell pixel component type");
+        itkExceptionStringMacro("Unknown cell pixel component type");
       }
     }
   }
