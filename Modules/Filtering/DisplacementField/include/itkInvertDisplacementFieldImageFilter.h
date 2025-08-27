@@ -88,15 +88,15 @@ namespace itk
  * This filter is a core component of the Symmetric Normalization (SyN) registration
  * algorithm: at each iteration SyN updates forward and inverse velocity/displacement
  * estimates symmetrically and uses this routine to maintain an explicit inverse field,
- * preserving inverse-consistency during optimization \cite{christensen2001}.
+ * preserving inverse-consistency during optimization \cite christensen2001.
  *
  * \author Nick Tustison
  * \author Brian Avants
  *
  * \par References
- * - \cite{christensen2001} Christensen, G. E., & Johnson, H. J. (2001).
+ * - Christensen, G. E., & Johnson, H. J. (2001).
  *   Consistent image registration.
- *   *IEEE Transactions on Medical Imaging*, 20(7), 568–582.
+ *   *IEEE Transactions on Medical Imaging*, 20(7), 568–582.\cite christensen2001
  *
  * \ingroup ITKDisplacementField
  */
