@@ -89,8 +89,7 @@ ExceptionObject::ExceptionObject(std::string  file,
                                  unsigned int lineNumber,
                                  std::string  description,
                                  std::string  location,
-                                 const void *,
-                                 ...)
+                                 const void *)
   : m_ExceptionData(
       std::make_shared<const ExceptionData>(std::move(file), lineNumber, std::move(description), std::move(location)))
 {}
