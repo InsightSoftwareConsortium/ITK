@@ -100,11 +100,15 @@ set(DOXYGEN_DOCSET_PUBLISHER_NAME "InsightConsortium")
 set(DOXYGEN_ECLIPSE_DOC_ID "org.itk.ITK")
 set(DOXYGEN_ENUM_VALUES_PER_LINE "1")
 set(DOXYGEN_USE_MATHJAX "YES")
-set(DOXYGEN_MATHJAX_VERSION "MathJax_2")
-set(
-  DOXYGEN_MATHJAX_RELPATH
-  "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/"
-)
+if(DOXYGEN_VERSION VERSION_GREATER_EQUAL 1.15.0)
+  set(DOXYGEN_MATHJAX_VERSION "MathJax_4")
+else()
+  set(DOXYGEN_MATHJAX_VERSION "MathJax_2")
+  set(
+    DOXYGEN_MATHJAX_RELPATH
+    "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/"
+  )
+endif()
 if(ITK_DOXYGEN_SERVER_BASED_SEARCH)
   set(DOXYGEN_SERVER_BASED_SEARCH "YES")
 else()
@@ -212,6 +216,11 @@ set(
   DOXYGEN_CITE_BIB_FILES
   "${ITK_SOURCE_DIR}/Documentation/Doxygen/doxygen.bib"
 )
+
+if(DOXYGEN_VERSION VERSION_GREATER_EQUAL 1.15.0)
+  set(DOXYGEN_MARKDOWN_STRICT "NO")
+  set(DOXYGEN_PAGE_OUTLINE_PANEL "NO")
+endif()
 
 foreach(
   _FORMAT
