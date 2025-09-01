@@ -425,7 +425,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::UpdateActiveLayerValu
     else
     {
       rms_change_accumulator += itk::Math::sqr(new_value - outputIt.GetCenterPixel());
-      // rms_change_accumulator += (*updateIt) * (*updateIt);
+      // rms_change_accumulator += *updateIt * *updateIt;
       outputIt.SetCenterPixel(new_value);
       ++layerIt;
     }

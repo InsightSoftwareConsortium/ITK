@@ -474,7 +474,7 @@ protected:
         auto it = this->m_LineOffsets.begin();
         while (it != this->m_LineOffsets.end())
         {
-          const OffsetValueType neighIdx = thisIdx + (*it);
+          const OffsetValueType neighIdx = thisIdx + *it;
           // check if the neighbor is in the map
           if (neighIdx >= 0 && neighIdx < linecount && !m_LineMap[neighIdx].empty())
           {

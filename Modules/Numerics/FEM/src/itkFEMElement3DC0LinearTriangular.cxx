@@ -284,7 +284,7 @@ invJ2[1][1]=idet*((*pJ)[0][0]-(*pJ)[2][0]);
 invJ2[1][2]=idet*((*pJ)[1][0]-(*pJ)[0][0]);
 
 std::cout << " pJ " << std::endl;
-std::cout << (*pJ) << std::endl;
+std::cout << *pJ << std::endl;
 
 std::cout << " invJ " << std::endl;
 std::cout << (invJ) << std::endl;

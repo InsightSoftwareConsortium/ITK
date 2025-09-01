@@ -146,7 +146,7 @@ MaskedMovingHistogramImageFilter<TInputImage, TMaskImage, TOutputImage, TKernel,
   // initialize the histogram
   for (auto listIt = this->m_KernelOffsets.begin(); listIt != this->m_KernelOffsets.end(); ++listIt)
   {
-    const IndexType idx = outputRegionForThread.GetIndex() + (*listIt);
+    const IndexType idx = outputRegionForThread.GetIndex() + *listIt;
     if (inputRegion.IsInside(idx) && maskImage->GetPixel(idx) == m_MaskValue)
     {
       histogram.AddPixel(inputImage->GetPixel(idx));
@@ -294,7 +294,7 @@ MaskedMovingHistogramImageFilter<TInputImage, TMaskImage, TOutputImage, TKernel,
     // update the histogram
     for (auto addedIt = addedList->begin(); addedIt != addedList->end(); ++addedIt)
     {
-      const typename InputImageType::IndexType idx = currentIdx + (*addedIt);
+      const typename InputImageType::IndexType idx = currentIdx + *addedIt;
       if (maskImage->GetPixel(idx) == m_MaskValue)
       {
         histogram.AddPixel(inputImage->GetPixel(idx));
@@ -306,7 +306,7 @@ MaskedMovingHistogramImageFilter<TInputImage, TMaskImage, TOutputImage, TKernel,
     }
     for (auto removedIt = removedList->begin(); removedIt != removedList->end(); ++removedIt)
     {
-      const typename InputImageType::IndexType idx = currentIdx + (*removedIt);
+      const typename InputImageType::IndexType idx = currentIdx + *removedIt;
       if (maskImage->GetPixel(idx) == m_MaskValue)
       {
         histogram.RemovePixel(inputImage->GetPixel(idx));
@@ -322,7 +322,7 @@ MaskedMovingHistogramImageFilter<TInputImage, TMaskImage, TOutputImage, TKernel,
     // update the histogram
     for (auto addedIt = addedList->begin(); addedIt != addedList->end(); ++addedIt)
     {
-      const IndexType idx = currentIdx + (*addedIt);
+      const IndexType idx = currentIdx + *addedIt;
       if (inputRegion.IsInside(idx) && maskImage->GetPixel(idx) == m_MaskValue)
       {
         histogram.AddPixel(inputImage->GetPixel(idx));
@@ -334,7 +334,7 @@ MaskedMovingHistogramImageFilter<TInputImage, TMaskImage, TOutputImage, TKernel,
     }
     for (auto removedIt = removedList->begin(); removedIt != removedList->end(); ++removedIt)
     {
-      const IndexType idx = currentIdx + (*removedIt);
+      const IndexType idx = currentIdx + *removedIt;
       if (inputRegion.IsInside(idx) && maskImage->GetPixel(idx) == m_MaskValue)
       {
         histogram.RemovePixel(inputImage->GetPixel(idx));

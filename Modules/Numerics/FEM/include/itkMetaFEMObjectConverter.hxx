@@ -64,7 +64,7 @@ MetaFEMObjectConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectTy
 
   while (it_nodes != nodelist.end())
   {
-    FEMObjectNode * node = (*it_nodes);
+    FEMObjectNode * node = *it_nodes;
 
     // create a new object of the correct class
     // a = FEMOF::Create(clID);
@@ -91,7 +91,7 @@ MetaFEMObjectConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectTy
 
   while (it_material != materiallist.end())
   {
-    FEMObjectMaterial * material = (*it_material);
+    FEMObjectMaterial * material = *it_material;
 
     auto o1 = fem::MaterialLinearElasticity::New();
     o1->SetGlobalNumber(material->m_GN);
@@ -113,7 +113,7 @@ MetaFEMObjectConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectTy
 
   while (it_elements != elementlist.end())
   {
-    FEMObjectElement *        element = (*it_elements);
+    FEMObjectElement *        element = *it_elements;
     itk::LightObject::Pointer a = ObjectFactoryBase::CreateInstance(element->m_ElementName);
     a->UnRegister();
     fem::Element::Pointer o1 = dynamic_cast<fem::Element *>(a.GetPointer());
@@ -137,7 +137,7 @@ MetaFEMObjectConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectTy
 
   while (it_load != loadlist.end())
   {
-    FEMObjectLoad * load = (*it_load);
+    FEMObjectLoad * load = *it_load;
 
     std::string loadname(load->m_LoadName);
     if (loadname == "LoadNode")

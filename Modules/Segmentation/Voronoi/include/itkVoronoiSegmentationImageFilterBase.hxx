@@ -337,7 +337,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
     for (PointIdIterator currPit = currCell->PointIdsBegin(); currPit != currPitEnd; ++currPit)
     {
       PointType currP;
-      m_WorkingVD->GetPoint((*currPit), &(currP));
+      m_WorkingVD->GetPoint(*currPit, &(currP));
       VertList.push_back(currP);
     }
     IndexList PixelPool;
@@ -534,7 +534,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
       const auto nitend = m_WorkingVD->NeighborIdsEnd(i);
       for (auto nit = m_WorkingVD->NeighborIdsBegin(i); nit != nitend; ++nit)
       {
-        if (((*nit) > i) && (m_Label[*nit] == 2))
+        if ((*nit > i) && (m_Label[*nit] == 2))
         {
           drawLine(m_WorkingVD->GetSeed(i), m_WorkingVD->GetSeed(*nit));
         }
@@ -567,7 +567,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
       for (PointIdIterator currPit = currCell->PointIdsBegin(); currPit != currPitEnd; ++currPit)
       {
         PointType currP;
-        m_WorkingVD->GetPoint((*currPit), &(currP));
+        m_WorkingVD->GetPoint(*currPit, &(currP));
         VertList.push_back(currP);
       }
       FillPolygon(VertList);

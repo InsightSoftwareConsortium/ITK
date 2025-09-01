@@ -282,7 +282,7 @@ ImageSeriesWriter<TInputImage, TOutputImage>::WriteFiles()
                                                  << m_MetaDataDictionaryArray->size() << '.');
         }
         DictionaryRawPointer dictionary = (*m_MetaDataDictionaryArray)[slice];
-        m_ImageIO->SetMetaDataDictionary((*dictionary));
+        m_ImageIO->SetMetaDataDictionary(*dictionary);
       }
       else
       {

@@ -164,7 +164,7 @@ readNoPreambleDicom(std::ifstream & file) // NOTE: This file is duplicated in it
       auto * uilength = reinterpret_cast<unsigned int *>(lengthChars);
       ByteSwapper<unsigned int>::SwapFromSystemToLittleEndian(uilength);
 
-      length = (*uilength);
+      length = *uilength;
     }
     if (length <= 0)
     {

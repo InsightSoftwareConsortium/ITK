@@ -161,7 +161,7 @@ public:
       m_IsPointVisited = r.m_IsPointVisited;
       m_CurrentEdge = r.m_CurrentEdge;
     }
-    return (*this);
+    return *this;
   }
 
   // Iteration methods.
@@ -285,7 +285,7 @@ public:
   operator=(const NoConstType & r)
   {
     this->m_Mesh = r.GetMesh();
-    return (*this);
+    return *this;
   }
 
   [[nodiscard]] const QEType *

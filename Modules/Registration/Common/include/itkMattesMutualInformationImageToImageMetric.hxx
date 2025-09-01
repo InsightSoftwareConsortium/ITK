@@ -779,7 +779,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAn
           for (unsigned int parameter = 0; parameter < this->m_NumberOfParameters; ++parameter, derivPtr++)
           {
             // Ref: eqn 23 of Thevenaz & Unser paper [3]
-            derivative[parameter] -= (*derivPtr) * pRatio;
+            derivative[parameter] -= *derivPtr * pRatio;
           } // end for-loop over parameters
         }
         else

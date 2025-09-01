@@ -400,7 +400,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
                    ++parameter, derivPtr++)
               {
                 // Ref: eqn 23 of Thevenaz & Unser paper [3]
-                (*(this->m_DerivativeResult))[parameter] += (*derivPtr) * pRatio;
+                (*(this->m_DerivativeResult))[parameter] += *derivPtr * pRatio;
               } // end for-loop over parameters
             }
             else

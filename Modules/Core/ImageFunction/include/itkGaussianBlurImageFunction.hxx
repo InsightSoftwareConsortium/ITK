@@ -332,8 +332,8 @@ GaussianBlurImageFunction<TInputImage, TOutput>::RecomputeContinuousGaussianKern
         }
       }
 
-      (*it) = m_GaussianFunction->Evaluate(pt);
-      sum += (*it);
+      *it = m_GaussianFunction->Evaluate(pt);
+      sum += *it;
       ++i;
       ++it;
     }
@@ -342,7 +342,7 @@ GaussianBlurImageFunction<TInputImage, TOutput>::RecomputeContinuousGaussianKern
     it = gaussianNeighborhood.Begin();
     while (it != gaussianNeighborhood.End())
     {
-      (*it) /= sum;
+      *it /= sum;
       ++it;
     }
     m_ContinuousOperatorArray[direction] = gaussianNeighborhood;
