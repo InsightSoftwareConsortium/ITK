@@ -49,7 +49,7 @@ QuadEdgeMeshTopologyChecker<TMesh>::ValidateEulerCharacteristic() const
   // Number of USED faces
   const CellIdentifier numFaces = m_Mesh->ComputeNumberOfFaces();
   // Number of Boundaries
-  typename BoundaryEdges::OutputType listOfBoundaries = boundaryEdges->Evaluate((*m_Mesh));
+  typename BoundaryEdges::OutputType listOfBoundaries = boundaryEdges->Evaluate(*m_Mesh);
   auto                               numBounds = static_cast<CellIdentifier>(listOfBoundaries->size());
   delete listOfBoundaries;
 

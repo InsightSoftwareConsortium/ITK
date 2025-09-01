@@ -186,7 +186,7 @@ ProcessArguments(int * argc, ArgumentStringType * argv, ProcessedOutputType * pr
         return 1;
       }
       regressionTestParameters.compareList.emplace_back((*argv)[i + 1], (*argv)[i + 2]);
-      (*argv) += 3;
+      *argv += 3;
       *argc -= 3;
     }
     else if (!skip && strcmp((*argv)[i], "--compare-MD5") == 0)
@@ -211,8 +211,8 @@ ProcessArguments(int * argc, ArgumentStringType * argv, ProcessedOutputType * pr
       std::vector<std::string> hashVector;
       hashVector.push_back(md5hash0);
 
-      (*argv) += 3;
-      (*argc) -= 3;
+      *argv += 3;
+      *argc -= 3;
 
       // continue eating hash values
       while (*argc - i > 0)
@@ -291,7 +291,7 @@ ProcessArguments(int * argc, ArgumentStringType * argv, ProcessedOutputType * pr
         return 1;
       }
       regressionTestParameters.radiusTolerance = std::stoi((*argv)[i + 1]);
-      (*argv) += 2;
+      *argv += 2;
       *argc -= 2;
     }
     else if (!skip && strcmp((*argv)[i], "--compareIntensityTolerance") == 0)
@@ -302,7 +302,7 @@ ProcessArguments(int * argc, ArgumentStringType * argv, ProcessedOutputType * pr
         return 1;
       }
       regressionTestParameters.intensityTolerance = std::stod((*argv)[i + 1]);
-      (*argv) += 2;
+      *argv += 2;
       *argc -= 2;
     }
     else if (!skip && strcmp((*argv)[i], "--compareCoordinateTolerance") == 0)
@@ -313,7 +313,7 @@ ProcessArguments(int * argc, ArgumentStringType * argv, ProcessedOutputType * pr
         return 1;
       }
       regressionTestParameters.coordinateTolerance = std::stod((*argv)[i + 1]);
-      (*argv) += 2;
+      *argv += 2;
       *argc -= 2;
     }
     else if (!skip && strcmp((*argv)[i], "--compareDirectionTolerance") == 0)
@@ -324,13 +324,13 @@ ProcessArguments(int * argc, ArgumentStringType * argv, ProcessedOutputType * pr
         return 1;
       }
       regressionTestParameters.directionTolerance = std::stod((*argv)[i + 1]);
-      (*argv) += 2;
+      *argv += 2;
       *argc -= 2;
     }
     else if (!skip && strcmp((*argv)[i], "--ignoreInputInformation") == 0)
     {
       regressionTestParameters.verifyInputInformation = false;
-      (*argv) += 1;
+      *argv += 1;
       *argc -= 1;
     }
     else if (!skip && strcmp((*argv)[i], "--add-before-libpath") == 0)
@@ -344,7 +344,7 @@ ProcessArguments(int * argc, ArgumentStringType * argv, ProcessedOutputType * pr
       {
         processedOutput->add_before_libpath.push_back((*argv)[i + 1]);
       }
-      (*argv) += 2;
+      *argv += 2;
       *argc -= 2;
     }
     else if (!skip && strcmp((*argv)[i], "--add-before-env") == 0)
@@ -359,7 +359,7 @@ ProcessArguments(int * argc, ArgumentStringType * argv, ProcessedOutputType * pr
         processedOutput->add_before_env.push_back((*argv)[i + 1]);
         processedOutput->add_before_env.push_back((*argv)[i + 2]);
       }
-      (*argv) += 3;
+      *argv += 3;
       *argc -= 3;
     }
     else if (!skip && strcmp((*argv)[i], "--add-before-env-with-sep") == 0)
@@ -375,7 +375,7 @@ ProcessArguments(int * argc, ArgumentStringType * argv, ProcessedOutputType * pr
         processedOutput->add_before_env_with_sep.push_back((*argv)[i + 2]);
         processedOutput->add_before_env_with_sep.push_back((*argv)[i + 3]);
       }
-      (*argv) += 4;
+      *argv += 4;
       *argc -= 4;
     }
     else if (!skip && strcmp((*argv)[i], "--remove-env") == 0)
@@ -388,7 +388,7 @@ ProcessArguments(int * argc, ArgumentStringType * argv, ProcessedOutputType * pr
 
       itksys::SystemTools::UnPutEnv((*argv)[i + 1]);
 
-      (*argv) += 2;
+      *argv += 2;
       *argc -= 2;
     }
     else if (!skip && strcmp((*argv)[i], "--full-output") == 0)
@@ -396,7 +396,7 @@ ProcessArguments(int * argc, ArgumentStringType * argv, ProcessedOutputType * pr
       // emit the string to tell ctest that the full output should be
       // passed to cdash.
       std::cout << "CTEST_FULL_OUTPUT" << std::endl;
-      (*argv) += 1;
+      *argv += 1;
       *argc -= 1;
     }
     else if (!skip && strcmp((*argv)[i], "--no-process") == 0)
@@ -407,7 +407,7 @@ ProcessArguments(int * argc, ArgumentStringType * argv, ProcessedOutputType * pr
       {
         processedOutput->externalProcessMustBeCalled = false;
       }
-      (*argv) += 1;
+      *argv += 1;
       *argc -= 1;
     }
     else if (!skip && strcmp((*argv)[i], "--redirectOutput") == 0)

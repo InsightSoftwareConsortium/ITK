@@ -634,7 +634,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>::GetCellBoundaryFeatureNeighbors(int  
 
       for (auto usingCell = boundary->UsingCellsBegin(); usingCell != boundary->UsingCellsEnd(); ++usingCell)
       {
-        if ((*usingCell) != cellId)
+        if (*usingCell != cellId)
         {
           cellSet->insert(*usingCell);
         }

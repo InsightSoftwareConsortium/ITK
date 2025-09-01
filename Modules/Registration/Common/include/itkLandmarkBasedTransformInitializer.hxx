@@ -107,7 +107,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
     auto weightIt = this->m_LandmarkWeight.begin();
     for (unsigned int i = 0; weightIt != this->m_LandmarkWeight.end(); ++i, ++weightIt)
     {
-      weights->InsertElement(i, (*weightIt));
+      weights->InsertElement(i, *weightIt);
     }
   }
   else
@@ -126,7 +126,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   auto movingIt = this->m_MovingLandmarks.begin();
   for (size_t i = 0; fixedIt != this->m_FixedLandmarks.end(); ++i, ++fixedIt, ++movingIt)
   {
-    pointSet->SetPoint(static_cast<typename PointSetType::PointIdentifier>(i), (*fixedIt));
+    pointSet->SetPoint(static_cast<typename PointSetType::PointIdentifier>(i), *fixedIt);
     VectorType vectorTmp;
     for (unsigned int d = 0; d < ImageDimension; ++d)
     {
@@ -222,7 +222,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
     auto weightIt = this->m_LandmarkWeight.begin();
     for (unsigned int i = 0; weightIt != this->m_LandmarkWeight.end(); ++i, ++weightIt)
     {
-      vnlWeight(i, i) = (*weightIt);
+      vnlWeight(i, i) = *weightIt;
     }
   }
   // Normalize weights.

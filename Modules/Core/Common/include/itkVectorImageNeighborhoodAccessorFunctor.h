@@ -79,7 +79,7 @@ public:
 
   /** Method to dereference a pixel pointer. This is used from the
    * ConstNeighborhoodIterator as the equivalent operation to (*it).
-   * This method should be preferred over the former (*it) notation.
+   * This method should be preferred over the former *it notation.
    * The reason is that dereferencing a pointer to a location of
    * VectorImage pixel involves a different operation that simply
    * dereferencing the pointer. Here a PixelType (array of InternalPixelType s)

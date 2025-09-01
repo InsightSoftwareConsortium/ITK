@@ -75,7 +75,7 @@ MedianImageFunction<TInputImage, TCoordinate>::EvaluateAtIndex(const IndexType &
   const auto medianIterator = pixels.begin() + (pixels.size() / 2);
   std::nth_element(pixels.begin(), medianIterator, pixels.end());
 
-  return (*medianIterator);
+  return *medianIterator;
 }
 } // namespace itk
 

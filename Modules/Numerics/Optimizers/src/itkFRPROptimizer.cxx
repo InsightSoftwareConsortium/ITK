@@ -34,7 +34,7 @@ FRPROptimizer::GetValueAndDerivative(ParametersType & p, double * val, Parameter
   this->m_CostFunction->GetValueAndDerivative(p, *val, *xi);
   if (this->GetMaximize())
   {
-    (*val) *= -1;
+    *val *= -1;
     for (unsigned int i = 0; i < this->GetSpaceDimension(); ++i)
     {
       (*xi)[i] *= -1;
@@ -69,7 +69,7 @@ FRPROptimizer::LineOptimize(ParametersType * p, ParametersType & xi, double * va
   this->SetLine(*p, xi);
 
   double ax = 0.0;
-  double fa = (*val);
+  double fa = *val;
   double xx = this->GetStepLength();
   double fx = NAN;
   double bx = NAN;
@@ -84,8 +84,8 @@ FRPROptimizer::LineOptimize(ParametersType * p, ParametersType & xi, double * va
   this->BracketedLineOptimize(ax, xx, bx, fa, fx, fb, &extX, &extVal, tempCoord);
   this->SetCurrentLinePoint(extX, extVal);
 
-  (*p) = this->GetCurrentPosition();
-  (*val) = extVal;
+  *p = this->GetCurrentPosition();
+  *val = extVal;
 }
 
 void

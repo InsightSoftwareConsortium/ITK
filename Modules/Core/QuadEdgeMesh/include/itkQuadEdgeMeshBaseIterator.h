@@ -105,7 +105,7 @@ public:
       m_OpType = r.m_OpType;
       m_Start = r.m_Start;
     }
-    return (*this);
+    return *this;
   }
 
   [[nodiscard]] [[nodiscard]] QuadEdgeType *
@@ -148,7 +148,7 @@ public:
       m_Start = !(m_Iterator == m_StartEdge);
     }
 
-    return (*this);
+    return *this;
   }
 
   Self &
@@ -159,7 +159,7 @@ public:
       this->GoToNext();
       m_Start = !(m_Iterator == m_StartEdge);
     }
-    return (*this);
+    return *this;
   }
 
 protected:
@@ -323,7 +323,7 @@ public:
     this->m_Iterator = r.GetIterator();
     this->m_OpType = r.GetOpType();
     this->m_Start = r.GetStart();
-    return (*this);
+    return *this;
   }
 
   [[nodiscard]] [[nodiscard]] const QuadEdgeType *
@@ -370,7 +370,7 @@ public:
     this->m_Iterator = r.GetIterator();
     this->m_OpType = r.GetOpType();
     this->m_Start = r.GetStart();
-    return (*this);
+    return *this;
   }
 
   const OriginRefType

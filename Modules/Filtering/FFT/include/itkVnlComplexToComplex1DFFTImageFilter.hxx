@@ -103,7 +103,7 @@ VnlComplexToComplex1DFFTImageFilter<TInputImage, TOutputImage>::GenerateData()
           outputIt.GoToBeginOfLine();
           while (!outputIt.IsAtEndOfLine())
           {
-            outputIt.Set((*outputBufferIt) / static_cast<PixelType>(vectorSize));
+            outputIt.Set(*outputBufferIt / static_cast<PixelType>(vectorSize));
             ++outputIt;
             ++outputBufferIt;
           }

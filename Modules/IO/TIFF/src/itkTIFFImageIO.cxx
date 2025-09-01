@@ -1515,7 +1515,7 @@ TIFFImageIO::PutPaletteRGB(TType *      to,
   {
     for (unsigned int x = xsize; x-- > 0;)
     {
-      const TFromType index = (*from) % m_TotalColors;
+      const TFromType index = *from % m_TotalColors;
 
       const auto red = static_cast<TType>(*(m_ColorRed + index));
       const auto green = static_cast<TType>(*(m_ColorGreen + index));

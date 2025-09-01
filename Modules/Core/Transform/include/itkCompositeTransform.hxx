@@ -990,7 +990,7 @@ CompositeTransform<TParametersValueType, VDimension>::InternalClone() const
        ++tqIt, ++tfIt, ++i)
   {
     clone->AddTransform((*tqIt)->Clone().GetPointer());
-    clone->SetNthTransformToOptimize(i, (*tfIt));
+    clone->SetNthTransformToOptimize(i, *tfIt);
   }
   return loPtr;
 }

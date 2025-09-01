@@ -342,7 +342,7 @@ ParticleSwarmOptimizerBase::ValidateSettings()
     const auto end = this->m_Particles.end();
     for (auto it = this->m_Particles.begin(); it != end; ++it)
     {
-      ParticleData & p = (*it);
+      ParticleData & p = *it;
       for (unsigned int i = 0; i < n; ++i)
       {
         if (p.m_CurrentParameters[i] < m_ParameterBounds[i].first ||
