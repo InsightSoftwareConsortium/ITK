@@ -8,7 +8,7 @@ readonly name="GoogleTest"
 readonly ownership="GoogleTest Upstream <googletestframework@googlegroups.com>"
 readonly subtree="Modules/ThirdParty/GoogleTest/src/itkgoogletest"
 readonly repo="https://github.com/google/googletest.git"
-readonly tag="v1.15.2"
+readonly tag="v1.17.0"
 readonly shortlog=false
 readonly paths="
 CMakeLists.txt
