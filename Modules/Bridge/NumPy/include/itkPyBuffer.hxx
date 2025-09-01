@@ -113,9 +113,10 @@ PyBuffer<TImage>::_GetImageViewFromArray(PyObject * arr, PyObject * shape, PyObj
 
   for (unsigned int i = 0; i < dimension; ++i)
   {
-    item = PySequence_Fast_GET_ITEM(shapeseq, i);
+    item = PySequence_GetItem(shapeseq, i);
     size[i] = (SizeValueType)PyInt_AsLong(item);
     sizeFortran[dimension - 1 - i] = (SizeValueType)PyInt_AsLong(item);
+    Py_DECREF(item);
     numberOfPixels *= size[i];
   }
 

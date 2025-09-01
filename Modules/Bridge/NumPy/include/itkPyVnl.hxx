@@ -93,8 +93,9 @@ PyVnl<TElement>::_GetVnlVectorFromArray(PyObject * arr, PyObject * shape) -> con
   shapeseq = PySequence_Fast(obj, "expected sequence");
   dimension = PySequence_Size(obj);
 
-  item = PySequence_Fast_GET_ITEM(shapeseq, 0); // Only one dimension
+  item = PySequence_GetItem(shapeseq, 0); // Only one dimension
   numberOfElements = (size_t)PyInt_AsLong(item);
+  Py_DECREF(item);
 
   len = numberOfElements * elementSize;
   if (bufferLength != len)
@@ -182,8 +183,9 @@ PyVnl<TElement>::_GetVnlMatrixFromArray(PyObject * arr, PyObject * shape) -> con
 
   for (unsigned int i = 0; i < 2; ++i)
   {
-    item = PySequence_Fast_GET_ITEM(shapeseq, i);
+    item = PySequence_GetItem(shapeseq, i);
     size[i] = static_cast<unsigned int>(PyInt_AsLong(item));
+    Py_DECREF(item);
     numberOfElements *= size[i];
   }
 
