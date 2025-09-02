@@ -510,7 +510,7 @@ private:
    * `TMatrix` (which is the case when `TMatrix` = `itk::Array2D`).
    */
   template <typename QMatrix = TMatrix>
-  [[nodiscard]] [[nodiscard]] auto
+  [[nodiscard]] auto
   GetMatrixValueType(bool) const -> typename QMatrix::element_type
   {
     return QMatrix::element_type();
