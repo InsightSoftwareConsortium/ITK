@@ -60,6 +60,8 @@ set(
   _required_vtk_libraries
   ${_target_prefix}IOImage
   ${_target_prefix}ImagingSources
+  ${_target_prefix}kwiml
+  ${_target_prefix}vtksys
 )
 if(ITK_WRAP_PYTHON)
   list(
