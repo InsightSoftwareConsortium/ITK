@@ -41,7 +41,7 @@ VoronoiPartitioningImageFilter<TInputImage, TOutputImage>::ClassifyDiagram()
     VertList.clear();
     for (currPit = currCell->PointIdsBegin(); currPit != currPitEnd; ++currPit)
     {
-      this->m_WorkingVD->GetPoint(*currPit, &(currP));
+      this->m_WorkingVD->GetPoint(*currPit, &currP);
       VertList.push_back(currP);
     }
 
@@ -138,7 +138,7 @@ VoronoiPartitioningImageFilter<TInputImage, TOutputImage>::MakeSegmentObject()
     VertList.clear();
     for (currPit = currCell->PointIdsBegin(); currPit != currPitEnd; ++currPit)
     {
-      this->m_WorkingVD->GetPoint(*currPit, &(currP));
+      this->m_WorkingVD->GetPoint(*currPit, &currP);
       VertList.push_back(currP);
     }
     // Need to fill with an segment identifier

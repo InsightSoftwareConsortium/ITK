@@ -368,15 +368,15 @@ OFFMeshIO::WriteMeshInformation()
   {
     // Write number of points
     auto numberOfPoints = static_cast<itk::uint32_t>(this->m_NumberOfPoints);
-    this->WriteBufferAsBinary<itk::uint32_t>(&(numberOfPoints), outputFile, 1);
+    this->WriteBufferAsBinary<itk::uint32_t>(&numberOfPoints, outputFile, 1);
 
     // Write number of cells
     auto numberOfCells = static_cast<itk::uint32_t>(this->m_NumberOfCells);
-    this->WriteBufferAsBinary<itk::uint32_t>(&(numberOfCells), outputFile, 1);
+    this->WriteBufferAsBinary<itk::uint32_t>(&numberOfCells, outputFile, 1);
 
     // Write number of edges
     itk::uint32_t numberOfEdges = 0;
-    this->WriteBufferAsBinary<itk::uint32_t>(&(numberOfEdges), outputFile, 1);
+    this->WriteBufferAsBinary<itk::uint32_t>(&numberOfEdges, outputFile, 1);
   }
 
   outputFile.close();
