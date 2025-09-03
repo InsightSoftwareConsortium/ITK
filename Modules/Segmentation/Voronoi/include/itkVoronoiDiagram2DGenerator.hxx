@@ -526,7 +526,7 @@ VoronoiDiagram2DGenerator<TCoordinate>::deleteEdgeList(FortuneHalfEdge * task)
 {
   (task->m_Left)->m_Right = task->m_Right;
   (task->m_Right)->m_Left = task->m_Left;
-  task->m_Edge = &(m_DELETED);
+  task->m_Edge = &m_DELETED;
 }
 
 template <typename TCoordinate>
@@ -1063,14 +1063,14 @@ VoronoiDiagram2DGenerator<TCoordinate>::GenerateVDFortune()
   {
     m_ELHash[i] = nullptr;
   }
-  createHalfEdge(&(m_ELleftend), nullptr, 0);
-  createHalfEdge(&(m_ELrightend), nullptr, 0);
+  createHalfEdge(&m_ELleftend, nullptr, 0);
+  createHalfEdge(&m_ELrightend, nullptr, 0);
   m_ELleftend.m_Left = nullptr;
-  m_ELleftend.m_Right = &(m_ELrightend);
-  m_ELrightend.m_Left = &(m_ELleftend);
+  m_ELleftend.m_Right = &m_ELrightend;
+  m_ELrightend.m_Left = &m_ELleftend;
   m_ELrightend.m_Right = nullptr;
-  m_ELHash[0] = &(m_ELleftend);
-  m_ELHash[m_ELhashsize - 1] = &(m_ELrightend);
+  m_ELHash[0] = &m_ELleftend;
+  m_ELHash[m_ELhashsize - 1] = &m_ELrightend;
 
   m_BottomSite = &(m_SeedSites[0]);
   FortuneSite * currentSite = &(m_SeedSites[1]);
