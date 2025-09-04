@@ -52,7 +52,7 @@ itkNrrdImageIOTestGenerateRandomImage(unsigned int size)
   source->SetSpacing(spacing);
 
   source->Update();
-  return (source->GetOutput());
+  return source->GetOutput();
 }
 
 template <typename TPixelType, unsigned int VImageDimension>

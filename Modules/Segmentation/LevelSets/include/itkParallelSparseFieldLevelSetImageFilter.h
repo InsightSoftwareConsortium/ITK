@@ -540,7 +540,7 @@ protected:
                                const ValueType &    value,
                                const ValueType &    change)
   {
-    return (value + static_cast<ValueType>(dt) * change);
+    return value + static_cast<ValueType>(dt) * change;
   }
 
   // This method can be overridden in derived classes.

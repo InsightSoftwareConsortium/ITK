@@ -448,7 +448,7 @@ QuadEdge::IsLnextGivenSizeCyclic(const int size) const
       return false;
     }
   }
-  return (this == iterated);
+  return this == iterated;
 }
 
 unsigned int

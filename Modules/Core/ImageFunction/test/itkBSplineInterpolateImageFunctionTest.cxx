@@ -315,7 +315,7 @@ test1DCubicSpline()
     }
   }
 
-  return (flag);
+  return flag;
 }
 
 int
@@ -393,7 +393,7 @@ test2DSpline()
     }
   } // end of splineOrder
 
-  return (flag);
+  return flag;
 }
 
 int
@@ -468,7 +468,7 @@ test3DSpline()
     }
   } // end of splineOrder
 
-  return (flag);
+  return flag;
 }
 
 int
@@ -535,7 +535,7 @@ test3DSplineDerivative()
     }
   } // end of splineOrder
 
-  return (flag);
+  return flag;
 }
 
 int
@@ -607,7 +607,7 @@ testInteger3DSpline()
     }
   } // end of splineOrder
 
-  return (flag);
+  return flag;
 }
 
 // Test to verify that EvaluateDerivativeAtContinuousIndex and EvaluateValueAndDerivativeAtContinuousIndex

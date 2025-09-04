@@ -131,7 +131,7 @@ template <typename TInputImage, typename TOutputImage>
 const unsigned int *
 MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GetStartingShrinkFactors() const
 {
-  return (m_Schedule.data_block());
+  return m_Schedule.data_block();
 }
 
 template <typename TInputImage, typename TOutputImage>

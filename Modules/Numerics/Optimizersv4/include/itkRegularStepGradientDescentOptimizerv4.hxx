@@ -176,7 +176,7 @@ template <typename TInternalComputationValueType>
 double
 RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>::GetCurrentStepLength() const
 {
-  return (this->m_CurrentLearningRateRelaxation * this->m_LearningRate);
+  return this->m_CurrentLearningRateRelaxation * this->m_LearningRate;
 }
 
 template <typename TInternalComputationValueType>

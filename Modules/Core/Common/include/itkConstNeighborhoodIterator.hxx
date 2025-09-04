@@ -174,7 +174,7 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>::GetPixel(NeighborIndexTyp
   else
   {
     IsInBounds = false;
-    return (m_NeighborhoodAccessorFunctor.BoundaryCondition(internalIndex, offset, this, this->m_BoundaryCondition));
+    return m_NeighborhoodAccessorFunctor.BoundaryCondition(internalIndex, offset, this, this->m_BoundaryCondition);
   }
 }
 

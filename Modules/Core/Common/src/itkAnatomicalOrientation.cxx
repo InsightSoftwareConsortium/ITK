@@ -307,13 +307,13 @@ operator<<(std::ostream & out, typename AnatomicalOrientation::CoordinateEnum va
 std::ostream &
 operator<<(std::ostream & out, typename AnatomicalOrientation::PositiveEnum value)
 {
-  return (out << AnatomicalOrientation(value).GetAsPositiveStringEncoding());
+  return out << AnatomicalOrientation(value).GetAsPositiveStringEncoding();
 }
 
 std::ostream &
 operator<<(std::ostream & out, typename AnatomicalOrientation::NegativeEnum value)
 {
-  return (out << AnatomicalOrientation(value).GetAsNegativeStringEncoding());
+  return out << AnatomicalOrientation(value).GetAsNegativeStringEncoding();
 }
 
 std::ostream &

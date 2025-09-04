@@ -35,7 +35,7 @@ square(unsigned int x, unsigned int y)
   {
     dis = RADIUS - std::max(X, Y);
   }
-  return (dis);
+  return dis;
 }
 
 // Evaluates a function at each pixel in the itk image

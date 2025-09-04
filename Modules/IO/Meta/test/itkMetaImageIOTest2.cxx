@@ -102,5 +102,5 @@ itkMetaImageIOTest2(int argc, char * argv[])
   }
 
   const bool pass = (TestUnknowMetaDataBug(argv[1]) == EXIT_SUCCESS);
-  return (pass ? EXIT_SUCCESS : EXIT_FAILURE);
+  return pass ? EXIT_SUCCESS : EXIT_FAILURE;
 }

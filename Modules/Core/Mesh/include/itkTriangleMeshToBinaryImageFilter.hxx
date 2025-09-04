@@ -117,17 +117,17 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::ComparePoints2D(Point
   // sort xy points by ascending y value, then x
   if (Math::ExactlyEquals(a[1], b[1]))
   {
-    return (a[0] < b[0]);
+    return a[0] < b[0];
   }
 
-  return (a[1] < b[1]);
+  return a[1] < b[1];
 }
 
 template <typename TInputMesh, typename TOutputImage>
 bool
 TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::ComparePoints1D(Point1D a, Point1D b)
 {
-  return (a.m_X < b.m_X);
+  return a.m_X < b.m_X;
 }
 
 template <typename TInputMesh, typename TOutputImage>

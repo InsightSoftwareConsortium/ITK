@@ -53,7 +53,7 @@ private:
     {
       return false;
     }
-    return (item1->GetImageFileName() < item2->GetImageFileName());
+    return item1->GetImageFileName() < item2->GetImageFileName();
   }
 
 public:
@@ -94,7 +94,7 @@ private:
     {
       return true;
     }
-    return (item1->GetImageFileName() > item2->GetImageFileName());
+    return item1->GetImageFileName() > item2->GetImageFileName();
   }
 
 public:
@@ -111,7 +111,7 @@ public:
   bool
   operator()(IPLFileSortInfo * item1, IPLFileSortInfo * item2)
   {
-    return (item1->GetImageFileName() < item2->GetImageFileName());
+    return item1->GetImageFileName() < item2->GetImageFileName();
   }
 };
 
@@ -121,7 +121,7 @@ public:
   bool
   operator()(IPLFileSortInfo * item1, IPLFileSortInfo * item2)
   {
-    return (item1->GetImageFileName() >= item2->GetImageFileName());
+    return item1->GetImageFileName() >= item2->GetImageFileName();
   }
 };
 

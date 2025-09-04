@@ -116,7 +116,7 @@ template <typename TCoordinate, unsigned int VPointDimension, typename TQuadEdge
 TQuadEdge *
 QuadEdgeMeshPoint<TCoordinate, VPointDimension, TQuadEdge>::GetEdge()
 {
-  return (m_Edge);
+  return m_Edge;
 }
 
 /** Set Point Coordinates

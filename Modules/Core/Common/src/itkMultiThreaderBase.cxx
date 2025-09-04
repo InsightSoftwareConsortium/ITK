@@ -111,7 +111,7 @@ MultiThreaderBase::SetGlobalDefaultUseThreadPool(const bool GlobalDefaultUseThre
 bool
 MultiThreaderBase::GetGlobalDefaultUseThreadPool()
 {
-  return (GetGlobalDefaultThreader() == ThreaderEnum::Pool);
+  return GetGlobalDefaultThreader() == ThreaderEnum::Pool;
 }
 #endif
 

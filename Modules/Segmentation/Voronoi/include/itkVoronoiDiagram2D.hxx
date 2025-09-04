@@ -93,7 +93,7 @@ VoronoiDiagram2D<TCoordinate>::GetSeedsIDAroundEdge(VoronoiEdge * task) -> EdgeI
 
   answer[0] = m_LineList[task->m_LineID][0];
   answer[1] = m_LineList[task->m_LineID][1];
-  return (answer);
+  return answer;
 }
 
 

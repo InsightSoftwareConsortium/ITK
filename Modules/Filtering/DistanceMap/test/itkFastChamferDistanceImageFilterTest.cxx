@@ -46,7 +46,7 @@ SimpleSignedDistance(const TPoint & p)
   }
   else
   {
-    return (accum - radius);
+    return accum - radius;
   }
 }
 

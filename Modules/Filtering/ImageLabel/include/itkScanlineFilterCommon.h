@@ -242,7 +242,7 @@ protected:
 
     if (!this->m_FullyConnected)
     {
-      return (diffSum <= 1); // indices can differ only along one dimension
+      return diffSum <= 1; // indices can differ only along one dimension
     }
     return true;
   }

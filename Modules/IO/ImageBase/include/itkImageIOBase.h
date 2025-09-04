@@ -558,7 +558,7 @@ public:
   virtual bool
   SupportsDimension(unsigned long dim)
   {
-    return (dim == 2);
+    return dim == 2;
   }
 
   /** Method for supporting streaming.  Given a requested region, determine what

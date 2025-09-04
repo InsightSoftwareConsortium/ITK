@@ -100,7 +100,7 @@ public:
   const PixelType &
   Value()
   {
-    return (this->m_Image->GetPixel(this->m_CurrentImageIndex));
+    return this->m_Image->GetPixel(this->m_CurrentImageIndex);
   }
 
   /** operator= is provided to make sure the handle to the image is properly

@@ -411,6 +411,6 @@ StreamingImageIOBase::RequestedToStream() const
     }
   }
 
-  return (largestRegion != ioregion);
+  return largestRegion != ioregion;
 }
 } // namespace itk

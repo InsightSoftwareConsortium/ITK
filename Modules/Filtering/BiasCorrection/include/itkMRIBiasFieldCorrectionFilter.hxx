@@ -276,7 +276,7 @@ template <typename TInputImage, typename TOutputImage, typename TMaskImage>
 const unsigned int *
 MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::GetStartingShrinkFactors() const
 {
-  return (m_Schedule.data_block());
+  return m_Schedule.data_block();
 }
 
 template <typename TInputImage, typename TOutputImage, typename TMaskImage>

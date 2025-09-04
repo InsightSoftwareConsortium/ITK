@@ -149,7 +149,7 @@ public:
     bool
     operator==(const ConstIterator & it) const
     {
-      return (this->m_Iter == it.m_Iter);
+      return this->m_Iter == it.m_Iter;
     }
 
     ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(ConstIterator);

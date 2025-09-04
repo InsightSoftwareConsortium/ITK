@@ -118,7 +118,7 @@ QuadEdgeMeshFrontBaseIterator<TMesh, TQE>::operator++()
   // the edge from the front, and move to next edge...
   m_Front->pop_front();
   m_CurrentEdge = (QEType *)nullptr;
-  return (this->operator++());
+  return this->operator++();
 }
 
 /**

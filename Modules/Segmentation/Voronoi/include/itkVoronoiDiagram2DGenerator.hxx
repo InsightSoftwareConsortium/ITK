@@ -177,8 +177,7 @@ VoronoiDiagram2DGenerator<TCoordinate>::differentPoint(PointType p1, PointType p
   double diffx = p1[0] - p2[0];
   double diffy = p1[1] - p2[1];
 
-  return ((diffx < -DIFF_TOLERENCE) || (diffx > DIFF_TOLERENCE) || (diffy < -DIFF_TOLERENCE) ||
-          (diffy > DIFF_TOLERENCE));
+  return (diffx < -DIFF_TOLERENCE) || (diffx > DIFF_TOLERENCE) || (diffy < -DIFF_TOLERENCE) || (diffy > DIFF_TOLERENCE);
 }
 
 template <typename TCoordinate>
@@ -187,7 +186,7 @@ VoronoiDiagram2DGenerator<TCoordinate>::almostsame(CoordinateType p1, Coordinate
 {
   const double diff = p1 - p2;
   const bool   save = ((diff < -DIFF_TOLERENCE) || (diff > DIFF_TOLERENCE));
-  return (!save);
+  return !save;
 }
 
 template <typename TCoordinate>
@@ -428,11 +427,11 @@ VoronoiDiagram2DGenerator<TCoordinate>::right_of(FortuneHalfEdge * el, PointType
 
   if (right_of_site && (!(el->m_RorL)))
   {
-    return (true);
+    return true;
   }
   if ((!right_of_site) && (el->m_RorL))
   {
-    return (false);
+    return false;
   }
   bool above = false;
   bool fast = false;
@@ -476,7 +475,7 @@ VoronoiDiagram2DGenerator<TCoordinate>::right_of(FortuneHalfEdge * el, PointType
     const double t3 = y1 - topsite->m_Coord[1];
     above = ((t1 * t1) > (t2 * t2 + t3 * t3));
   }
-  return (el->m_RorL ? (!above) : above);
+  return el->m_RorL ? (!above) : above;
 }
 
 template <typename TCoordinate>
@@ -546,7 +545,7 @@ VoronoiDiagram2DGenerator<TCoordinate>::PQbucket(FortuneHalfEdge * task)
   {
     m_PQmin = bucket;
   }
-  return (bucket);
+  return bucket;
 }
 
 template <typename TCoordinate>
@@ -576,7 +575,7 @@ VoronoiDiagram2DGenerator<TCoordinate>::dist(FortuneSite * s1, FortuneSite * s2)
   const double dx = (s1->m_Coord[0]) - (s2->m_Coord[0]);
   const double dy = (s1->m_Coord[1]) - (s2->m_Coord[1]);
 
-  return (std::sqrt(dx * dx + dy * dy));
+  return std::sqrt(dx * dx + dy * dy);
 }
 
 template <typename TCoordinate>
@@ -585,24 +584,24 @@ VoronoiDiagram2DGenerator<TCoordinate>::ELgethash(int b) -> FortuneHalfEdge *
 {
   if ((b < 0) || (b >= static_cast<int>(m_ELhashsize)))
   {
-    return (nullptr);
+    return nullptr;
   }
   FortuneHalfEdge * he = m_ELHash[b];
   if (he == nullptr)
   {
-    return (he);
+    return he;
   }
   if (he->m_Edge == nullptr)
   {
-    return (he);
+    return he;
   }
   if ((he->m_Edge) != (&m_DELETED))
   {
-    return (he);
+    return he;
   }
   m_ELHash[b] = nullptr;
 
-  return (nullptr);
+  return nullptr;
 }
 
 template <typename TCoordinate>
@@ -656,7 +655,7 @@ VoronoiDiagram2DGenerator<TCoordinate>::findLeftHE(PointType * p) -> FortuneHalf
   {
     m_ELHash[bucket] = he;
   }
-  return (he);
+  return he;
 }
 
 template <typename TCoordinate>
@@ -665,15 +664,15 @@ VoronoiDiagram2DGenerator<TCoordinate>::getRightReg(FortuneHalfEdge * he) -> For
 {
   if ((he->m_Edge) == nullptr)
   {
-    return (m_BottomSite);
+    return m_BottomSite;
   }
   if (he->m_RorL)
   {
-    return (he->m_Edge->m_Reg[0]);
+    return he->m_Edge->m_Reg[0];
   }
   else
   {
-    return (he->m_Edge->m_Reg[1]);
+    return he->m_Edge->m_Reg[1];
   }
 }
 
@@ -683,15 +682,15 @@ VoronoiDiagram2DGenerator<TCoordinate>::getLeftReg(FortuneHalfEdge * he) -> Fort
 {
   if ((he->m_Edge) == nullptr)
   {
-    return (m_BottomSite);
+    return m_BottomSite;
   }
   if (he->m_RorL)
   {
-    return (he->m_Edge->m_Reg[1]);
+    return he->m_Edge->m_Reg[1];
   }
   else
   {
-    return (he->m_Edge->m_Reg[0]);
+    return he->m_Edge->m_Reg[0];
   }
 }
 
@@ -807,7 +806,7 @@ VoronoiDiagram2DGenerator<TCoordinate>::getPQmin() -> FortuneHalfEdge *
 
   m_PQHash[m_PQmin].m_Next = curr->m_Next;
   --m_PQcount;
-  return (curr);
+  return curr;
 }
 
 template <typename TCoordinate>

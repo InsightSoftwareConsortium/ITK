@@ -37,7 +37,7 @@ QuadEdgeMeshTopologyChecker<TMesh>::ValidateEulerCharacteristic() const
 {
   if (!this->m_Mesh)
   {
-    return (false);
+    return false;
   }
 
   auto boundaryEdges = BoundaryEdges::New();
@@ -69,7 +69,7 @@ QuadEdgeMeshTopologyChecker<TMesh>::ValidateEulerCharacteristic() const
   if (m_Mesh->GetNumberOfPoints() != numPoints)
   {
     // They are isolated vertices:
-    return (false);
+    return false;
   }
 
   // The euler formula states:
@@ -82,7 +82,7 @@ QuadEdgeMeshTopologyChecker<TMesh>::ValidateEulerCharacteristic() const
 
   if (twiceGenus % 2)
   {
-    return (false);
+    return false;
   }
 
   // Look is they are isolated edges
@@ -101,7 +101,7 @@ QuadEdgeMeshTopologyChecker<TMesh>::ValidateEulerCharacteristic() const
           // Is it an isolated edge ?
           if (edge->IsIsolated() && edge->GetSym()->IsIsolated())
           {
-            return (false);
+            return false;
           }
         }
       }
@@ -114,7 +114,7 @@ QuadEdgeMeshTopologyChecker<TMesh>::ValidateEulerCharacteristic() const
     ++cellIterator;
   } // end of while
 
-  return (true);
+  return true;
 }
 
 template <typename TMesh>

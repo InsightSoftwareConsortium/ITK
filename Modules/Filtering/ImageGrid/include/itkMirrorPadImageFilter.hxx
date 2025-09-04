@@ -239,7 +239,7 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::RegionIsOdd(long base, long tes
   }
 
   const long oddness = (test - base) / size;
-  return (oddness & 1);
+  return oddness & 1;
 }
 
 /**

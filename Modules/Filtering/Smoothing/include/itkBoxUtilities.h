@@ -188,7 +188,7 @@ CornerOffsets(const TImage * im)
       result.push_back(offset);
     }
   }
-  return (result);
+  return result;
 }
 
 template <typename TInputImage, typename TOutputImage>

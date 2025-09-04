@@ -256,7 +256,7 @@ public:
   {
     if (this->m_Rot)
     {
-      return (this->m_Rot->m_Rot);
+      return this->m_Rot->m_Rot;
     }
     return nullptr;
   }
@@ -266,7 +266,7 @@ public:
   {
     if (this->m_Rot)
     {
-      return (this->m_Rot->m_Rot);
+      return this->m_Rot->m_Rot;
     }
     return nullptr;
   }
@@ -339,7 +339,7 @@ public:
   GetInvRot()
   {
 #ifdef NDEBUG
-    return (this->GetRot()->GetRot()->GetRot());
+    return this->GetRot()->GetRot()->GetRot();
 #else
     Self * p1 = this->GetRot();
     if (!p1)
@@ -384,7 +384,7 @@ public:
   GetInvRot() const
   {
 #ifdef NDEBUG
-    return (this->GetRot()->GetRot()->GetRot());
+    return this->GetRot()->GetRot()->GetRot();
 #else
     const Self * p1 = this->GetRot();
     if (!p1)
@@ -432,12 +432,12 @@ public:
   [[nodiscard]] inline bool
   IsHalfEdge() const
   {
-    return ((m_Onext == this) || (m_Rot == nullptr));
+    return (m_Onext == this) || (m_Rot == nullptr);
   }
   [[nodiscard]] inline bool
   IsIsolated() const
   {
-    return (this == this->GetOnext());
+    return this == this->GetOnext();
   }
   bool
   IsEdgeInOnextRing(Self * testEdge) const;

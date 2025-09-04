@@ -345,7 +345,7 @@ protected:
                        const ValueType &       value,
                        const ValueType &       change)
   {
-    return (value + dt * change);
+    return value + dt * change;
   }
 
   /**This method packages the output(s) into a consistent format.  The default

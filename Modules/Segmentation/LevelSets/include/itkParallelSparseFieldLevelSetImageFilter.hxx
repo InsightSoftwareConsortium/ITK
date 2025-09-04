@@ -2328,7 +2328,7 @@ template <typename TInputImage, typename TOutputImage>
 unsigned int
 ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::GetThreadNumber(unsigned int splitAxisValue)
 {
-  return (m_MapZToThreadNumber[splitAxisValue]);
+  return m_MapZToThreadNumber[splitAxisValue];
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -2403,7 +2403,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::WaitForNeighb
   if (td.m_Semaphore[SemaphoreArrayNumber] == 0)
   {
     td.m_Condition[SemaphoreArrayNumber].wait(
-      mutexHolder, [&td, SemaphoreArrayNumber] { return (td.m_Semaphore[SemaphoreArrayNumber] != 0); });
+      mutexHolder, [&td, SemaphoreArrayNumber] { return td.m_Semaphore[SemaphoreArrayNumber] != 0; });
   }
   --td.m_Semaphore[SemaphoreArrayNumber];
 }

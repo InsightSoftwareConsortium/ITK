@@ -276,7 +276,7 @@ public:
   IndexType
   GetIndex(const OffsetType & o) const
   {
-    return (this->GetIndex() + o);
+    return this->GetIndex() + o;
   }
 
   /** Returns the image index for neighbor pixel at index i in the
@@ -284,7 +284,7 @@ public:
   IndexType
   GetIndex(NeighborIndexType i) const
   {
-    return (this->GetIndex() + this->GetOffset(i));
+    return this->GetIndex() + this->GetOffset(i);
   }
 
   /**  Returns the region of iteration. */
@@ -344,7 +344,7 @@ public:
   bool
   IsAtBegin() const
   {
-    return (this->GetCenterPointer() == m_Begin);
+    return this->GetCenterPointer() == m_Begin;
   }
 
   /** Method for determining whether the iterator has reached the
@@ -362,7 +362,7 @@ public:
       e.SetDescription(msg.str().c_str());
       throw e;
     }
-    return (this->GetCenterPointer() == m_End);
+    return this->GetCenterPointer() == m_End;
   }
 
   /** Increments the pointers in the ConstNeighborhoodIterator,
@@ -661,7 +661,7 @@ inline ConstNeighborhoodIterator<TImage>
 operator+(const typename ConstNeighborhoodIterator<TImage>::OffsetType & ind,
           const ConstNeighborhoodIterator<TImage> &                      it)
 {
-  return (it + ind);
+  return it + ind;
 }
 
 template <typename TImage>

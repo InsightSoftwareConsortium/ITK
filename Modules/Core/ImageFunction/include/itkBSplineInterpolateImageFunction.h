@@ -132,7 +132,7 @@ public:
     const ContinuousIndexType index =
       this->GetInputImage()->template TransformPhysicalPointToContinuousIndex<TCoordinate>(point);
     // No thread info passed in, so call method that doesn't need thread ID.
-    return (this->EvaluateAtContinuousIndex(index));
+    return this->EvaluateAtContinuousIndex(index);
   }
 
   virtual OutputType
@@ -140,7 +140,7 @@ public:
   {
     const ContinuousIndexType index =
       this->GetInputImage()->template TransformPhysicalPointToContinuousIndex<TCoordinate>(point);
-    return (this->EvaluateAtContinuousIndex(index, threadId));
+    return this->EvaluateAtContinuousIndex(index, threadId);
   }
 
   OutputType
@@ -170,7 +170,7 @@ public:
       this->GetInputImage()->template TransformPhysicalPointToContinuousIndex<TCoordinate>(point);
 
     // No thread info passed in, so call method that doesn't need thread ID.
-    return (this->EvaluateDerivativeAtContinuousIndex(index));
+    return this->EvaluateDerivativeAtContinuousIndex(index);
   }
 
   CovariantVectorType
@@ -178,7 +178,7 @@ public:
   {
     const ContinuousIndexType index =
       this->GetInputImage()->template TransformPhysicalPointToContinuousIndex<TCoordinate>(point);
-    return (this->EvaluateDerivativeAtContinuousIndex(index, threadId));
+    return this->EvaluateDerivativeAtContinuousIndex(index, threadId);
   }
 
   CovariantVectorType

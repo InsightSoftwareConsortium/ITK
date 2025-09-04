@@ -112,7 +112,7 @@ public:
   CellIdentifier
   GetIdent()
   {
-    return (m_Ident);
+    return m_Ident;
   }
   /** @ITKEndGrouping */
   /** Lnext ring entry accessors. */
@@ -120,7 +120,7 @@ public:
   QuadEdgeType *
   GetEdgeRingEntry() const
   {
-    return (m_EdgeRingEntry);
+    return m_EdgeRingEntry;
   }
   void
   SetEdgeRingEntry(QuadEdgeType * entry)
@@ -139,7 +139,7 @@ public:
   CellGeometryEnum
   GetType() const override
   {
-    return (CellGeometryEnum::POLYGON_CELL);
+    return CellGeometryEnum::POLYGON_CELL;
   }
 
   /** itk topology related methods. */
@@ -152,7 +152,7 @@ public:
   unsigned int
   GetDimension() const override
   {
-    return (Self::CellDimension);
+    return Self::CellDimension;
   }
 
   unsigned int
@@ -208,7 +208,7 @@ public:
     MakePointIds();
     if (m_PointIds.empty())
     {
-      return (static_cast<PointIdIterator>(nullptr));
+      return static_cast<PointIdIterator>(nullptr);
     }
 
     return &m_PointIds.front();
@@ -220,7 +220,7 @@ public:
     // NOTE ALEX: should update the array on the fly to make it faster
     if (m_PointIds.empty())
     {
-      return (static_cast<PointIdIterator>(nullptr));
+      return static_cast<PointIdIterator>(nullptr);
     }
 
     return &m_PointIds.back() + 1;
@@ -233,7 +233,7 @@ public:
     MakePointIds();
     if (m_PointIds.empty())
     {
-      return (static_cast<PointIdIterator>(nullptr));
+      return static_cast<PointIdIterator>(nullptr);
     }
 
     return &m_PointIds.front();
@@ -245,7 +245,7 @@ public:
     // NOTE ALEX: should update the array on the fly to make it faster
     if (m_PointIds.empty())
     {
-      return (static_cast<PointIdIterator>(nullptr));
+      return static_cast<PointIdIterator>(nullptr);
     }
 
     return &m_PointIds.back() + 1;

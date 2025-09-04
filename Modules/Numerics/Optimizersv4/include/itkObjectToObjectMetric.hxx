@@ -164,8 +164,8 @@ template <unsigned int TFixedDimension,
 bool
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParametersValueType>::HasLocalSupport() const
 {
-  return (this->m_MovingTransform->GetTransformCategory() ==
-          MovingTransformType::TransformCategoryEnum::DisplacementField);
+  return this->m_MovingTransform->GetTransformCategory() ==
+         MovingTransformType::TransformCategoryEnum::DisplacementField;
 }
 
 template <unsigned int TFixedDimension,

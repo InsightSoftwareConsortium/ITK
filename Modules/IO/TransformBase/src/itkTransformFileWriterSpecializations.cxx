@@ -60,7 +60,7 @@ template <typename TParametersValueType>
 bool
 TransformFileWriterTemplate<TParametersValueType>::GetAppendMode()
 {
-  return (this->m_AppendMode);
+  return this->m_AppendMode;
 }
 #endif
 

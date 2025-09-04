@@ -179,22 +179,22 @@ public:
   [[nodiscard]] inline const OriginRefType
   GetOrigin() const
   {
-    return (m_Origin);
+    return m_Origin;
   }
   [[nodiscard]] inline const OriginRefType
   GetDestination() const
   {
-    return (GetSym()->GetOrigin());
+    return GetSym()->GetOrigin();
   }
   [[nodiscard]] inline const DualOriginRefType
   GetRight() const
   {
-    return (GetRot()->GetOrigin());
+    return GetRot()->GetOrigin();
   }
   [[nodiscard]] inline const DualOriginRefType
   GetLeft() const
   {
-    return (GetInvRot()->GetOrigin());
+    return GetInvRot()->GetOrigin();
   }
   /** @ITKEndGrouping */
   /** Boolean accessors. */
@@ -251,12 +251,12 @@ public:
   inline PrimalDataType
   GetPrimalData()
   {
-    return (m_Data);
+    return m_Data;
   }
   inline DualDataType
   GetDualData()
   {
-    return (this->GetRot()->GetPrimalData());
+    return this->GetRot()->GetPrimalData();
   }
   /** @ITKEndGrouping */
   /** Boolean accessors. */
@@ -264,12 +264,12 @@ public:
   inline bool
   IsPrimalDataSet()
   {
-    return (m_DataSet);
+    return m_DataSet;
   }
   inline bool
   IsDualDataSet()
   {
-    return (this->GetRot()->IsPrimalDataSet());
+    return this->GetRot()->IsPrimalDataSet();
   }
   /** @ITKEndGrouping */
   /**
@@ -300,7 +300,7 @@ public:
   [[nodiscard]] inline bool
   IsInternal() const
   {
-    return (this->IsLeftSet() && this->IsRightSet());
+    return this->IsLeftSet() && this->IsRightSet();
   }
 
   [[nodiscard]] bool
@@ -332,17 +332,17 @@ public:
   inline bool
   IsOriginDisconnected()
   {
-    return (this == this->GetOnext());
+    return this == this->GetOnext();
   }
   inline bool
   IsDestinationDisconnected()
   {
-    return (this->GetSym()->IsOriginDisconnected());
+    return this->GetSym()->IsOriginDisconnected();
   }
   inline bool
   IsDisconnected()
   {
-    return (this->IsOriginDisconnected() && this->IsDestinationDisconnected());
+    return this->IsOriginDisconnected() && this->IsDestinationDisconnected();
   }
   /** @ITKEndGrouping */
   void
@@ -356,7 +356,7 @@ public:
   inline LineCellIdentifier
   GetIdent()
   {
-    return (this->m_LineCellIdent);
+    return this->m_LineCellIdent;
   }
 
 public:

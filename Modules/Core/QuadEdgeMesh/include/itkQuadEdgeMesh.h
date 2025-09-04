@@ -180,7 +180,7 @@ public:
   bool
   RequestedRegionIsOutsideOfTheBufferedRegion() override
   {
-    return (false);
+    return false;
   }
 
   void
@@ -242,14 +242,14 @@ public:
   BoundaryAssignmentsContainerPointer
   GetBoundaryAssignments(int itkNotUsed(dimension))
   {
-    return (nullptr);
+    return nullptr;
   }
 
   /** overloaded method for backward compatibility */
   const BoundaryAssignmentsContainerPointer
   GetBoundaryAssignments(int itkNotUsed(dimension)) const
   {
-    return (nullptr);
+    return nullptr;
   }
 
 #endif
@@ -269,7 +269,7 @@ public:
                         CellFeatureIdentifier itkNotUsed(featureId),
                         CellIdentifier *      itkNotUsed(boundaryId))
   {
-    return (false); // ALEX: is it the good way?
+    return false; // ALEX: is it the good way?
   }
 
   /** overloaded method for backward compatibility */
@@ -278,7 +278,7 @@ public:
                            CellIdentifier        itkNotUsed(cellId),
                            CellFeatureIdentifier itkNotUsed(featureId))
   {
-    return (false); // ALEX: is it the good way?
+    return false; // ALEX: is it the good way?
   }
 
   /** overloaded method for backward compatibility */
@@ -288,7 +288,7 @@ public:
                          CellFeatureIdentifier itkNotUsed(featureId),
                          CellAutoPointer &     itkNotUsed(cellAP)) const
   {
-    return (false);
+    return false;
   }
 
   /** overloaded method for backward compatibility */
@@ -315,7 +315,7 @@ public:
                                      CellFeatureIdentifier itkNotUsed(featureId),
                                      CellAutoPointer &     itkNotUsed(cellAP)) const
   {
-    return (false); // ALEX: is it the good way?
+    return false; // ALEX: is it the good way?
   }
 
   /** overloaded method for backward compatibility */
@@ -387,7 +387,7 @@ public:
   bool
   GetPoint(PointIdentifier pid, PointType * pt) const
   {
-    return (Superclass::GetPoint(pid, pt));
+    return Superclass::GetPoint(pid, pt);
   }
 
   virtual PointType
@@ -444,12 +444,12 @@ public:
   CellIdentifier
   GetNumberOfFaces() const
   {
-    return (m_NumberOfFaces);
+    return m_NumberOfFaces;
   }
   CellIdentifier
   GetNumberOfEdges() const
   {
-    return (m_NumberOfEdges);
+    return m_NumberOfEdges;
   }
 
 protected:

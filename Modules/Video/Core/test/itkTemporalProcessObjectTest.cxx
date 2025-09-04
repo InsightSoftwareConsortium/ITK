@@ -177,8 +177,8 @@ public:
   bool
   operator==(const CallRecord & other) const
   {
-    return (m_CallerId == other.GetCallerId() && m_RecordType == other.GetRecordType() &&
-            m_MethodType == other.GetMethodType());
+    return m_CallerId == other.GetCallerId() && m_RecordType == other.GetRecordType() &&
+           m_MethodType == other.GetMethodType();
   }
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(CallRecord);

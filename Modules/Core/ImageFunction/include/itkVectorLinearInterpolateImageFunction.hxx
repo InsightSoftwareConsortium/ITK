@@ -104,7 +104,7 @@ VectorLinearInterpolateImageFunction<TInputImage, TCoordinate>::EvaluateAtContin
     }
   }
 
-  return (output);
+  return output;
 }
 } // end namespace itk
 
