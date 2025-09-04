@@ -178,6 +178,9 @@ Rajagopalan
 RCSfile
 RegistrationMethodv
 Req
+Resizeable
+resizeable
+Resizes
 Ribiere
 Rician
 Rightarrow
