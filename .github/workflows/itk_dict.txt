@@ -228,6 +228,8 @@ RSGv
 Rajagopalan
 RegistrationMethodv
 Req
+Resizeable
+resizeable
 Resizes
 Ribiere
 Rician
