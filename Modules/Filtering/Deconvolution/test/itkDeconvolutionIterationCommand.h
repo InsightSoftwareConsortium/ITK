@@ -59,7 +59,7 @@ public:
   bool
   GetInvoked() const
   {
-    return (m_NumberOfIterations > 0);
+    return m_NumberOfIterations > 0;
   }
 
 protected:

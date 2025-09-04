@@ -67,7 +67,7 @@ bool
 DOMNode::HasAttribute(const std::string & key) const
 {
   auto i = this->m_Attributes.find(key);
-  return (i != this->m_Attributes.end());
+  return i != this->m_Attributes.end();
 }
 
 /** Add or replace an attribute. */
@@ -445,7 +445,7 @@ DOMNode::GetRoot() const
 bool
 DOMNode::ShareRoot(const DOMNode * node) const
 {
-  return (node != nullptr && node->GetRoot() == this->GetRoot());
+  return node != nullptr && node->GetRoot() == this->GetRoot();
 }
 
 /**

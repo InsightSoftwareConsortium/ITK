@@ -116,7 +116,7 @@ template <typename TPixelType, typename TCellTraits>
 bool
 CellInterface<TPixelType, TCellTraits>::IsUsingCell(CellIdentifier cellId)
 {
-  return (m_UsingCells.count(cellId) > 0);
+  return m_UsingCells.count(cellId) > 0;
 }
 
 /**

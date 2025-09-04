@@ -679,7 +679,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::Calcula
   }
   sigma = std::sqrt(sigma / (N - 1.0));
 
-  return (sigma / mu);
+  return sigma / mu;
 }
 
 template <typename TInputImage, typename TMaskImage, typename TOutputImage>

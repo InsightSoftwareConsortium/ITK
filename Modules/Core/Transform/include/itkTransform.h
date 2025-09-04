@@ -456,7 +456,7 @@ public:
   virtual bool
   IsLinear() const
   {
-    return (this->GetTransformCategory() == Superclass::TransformCategoryEnum::Linear);
+    return this->GetTransformCategory() == Superclass::TransformCategoryEnum::Linear;
   }
 
   /**

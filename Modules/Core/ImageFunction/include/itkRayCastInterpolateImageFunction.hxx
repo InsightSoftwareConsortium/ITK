@@ -966,7 +966,7 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::Adjust
     }
   } while ((!(startOK && endOK)) && (m_TotalRayVoxelPlanes > 1));
 
-  return (startOK && endOK);
+  return startOK && endOK;
 }
 
 /* -----------------------------------------------------------------------
@@ -1398,7 +1398,7 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::Evaluate(const PointT
   ray.SetRay(rayPosition, direction);
   ray.IntegrateAboveThreshold(integral, m_Threshold);
 
-  return (static_cast<OutputType>(integral));
+  return static_cast<OutputType>(integral);
 }
 
 template <typename TInputImage, typename TCoordinate>

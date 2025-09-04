@@ -99,7 +99,7 @@ CovarianceImageFunction<TInputImage, TCoordinate>::EvaluateAtIndex(const IndexTy
     }
   }
 
-  return (covariance);
+  return covariance;
 }
 
 template <typename TInputImage, typename TCoordinate>

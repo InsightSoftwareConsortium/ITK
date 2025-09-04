@@ -115,9 +115,9 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::Evaluate(QEType * e
     case SAMOSA_CONFIG:
     // Eye case
     case EYE_CONFIG:
-      return ((QEType *)nullptr);
+      return (QEType *)nullptr;
     case EDGE_JOINING_DIFFERENT_BORDERS:
-      return ((QEType *)nullptr);
+      return (QEType *)nullptr;
   }
 }
 
@@ -191,7 +191,7 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::Process(QEType * e)
     if (QEType::m_NoPoint != zip->Evaluate(leftZip))
     {
       itkDebugMacro("Zip must return NoPoint (left).");
-      return ((QEType *)nullptr);
+      return (QEType *)nullptr;
     }
   }
   else
@@ -211,7 +211,7 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::Process(QEType * e)
     if (QEType::m_NoPoint != zip->Evaluate(riteZip))
     {
       itkDebugMacro("Zip must return NoPoint (right).");
-      return ((QEType *)nullptr);
+      return (QEType *)nullptr;
     }
   }
   else
@@ -228,7 +228,7 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::Process(QEType * e)
   {
     result = this->m_Mesh->FindEdge(NewDest)->GetSym();
   }
-  return (result);
+  return result;
 }
 
 template <typename TMesh, typename TQEType>
@@ -252,7 +252,7 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::ProcessIsolatedQuad
   // case using SplitVertex. Thus the return value is
   // of less interest.
   // We return an edge whose dest is a, whichever.
-  return (rebuildEdge);
+  return rebuildEdge;
 }
 
 template <typename TMesh, typename TQEType>
@@ -506,7 +506,7 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::IsEye(QEType * e)
   const bool OriginOrderIsTwo = (e->GetOrder() == 2);
   const bool DestinationOrderIsTwo = (e->GetSym()->GetOrder() == 2);
 
-  return ((OriginOrderIsTwo && !DestinationOrderIsTwo) || (!OriginOrderIsTwo && DestinationOrderIsTwo));
+  return (OriginOrderIsTwo && !DestinationOrderIsTwo) || (!OriginOrderIsTwo && DestinationOrderIsTwo);
 }
 
 template <typename TMesh, typename TQEType>

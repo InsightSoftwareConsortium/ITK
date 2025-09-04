@@ -28,13 +28,13 @@ QuadEdgeMeshZipMeshFunction<TMesh, TQEType>::Evaluate(QEType * e) -> OutputType
   if (!this->m_Mesh)
   {
     itkDebugMacro("No mesh present.");
-    return (QEType::m_NoPoint);
+    return QEType::m_NoPoint;
   }
 
   if (e->IsLeftSet())
   {
     itkDebugMacro("Incoming edge must be adjacent to NOFACE.");
-    return (QEType::m_NoPoint);
+    return QEType::m_NoPoint;
   }
 
   //     Initial state                          Final state        //
@@ -107,7 +107,7 @@ QuadEdgeMeshZipMeshFunction<TMesh, TQEType>::Evaluate(QEType * e) -> OutputType
     {
       this->m_Mesh->LightWeightDeleteEdge(e);
       this->m_Mesh->LightWeightDeleteEdge(b);
-      return (resultingPointId);
+      return resultingPointId;
     }
   }
 
@@ -213,7 +213,7 @@ QuadEdgeMeshZipMeshFunction<TMesh, TQEType>::Evaluate(QEType * e) -> OutputType
   }
 
   this->m_Mesh->Modified();
-  return (resultingPointId);
+  return resultingPointId;
 }
 } // end namespace itk
 

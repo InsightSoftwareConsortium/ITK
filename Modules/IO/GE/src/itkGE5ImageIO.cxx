@@ -435,7 +435,7 @@ GE5ImageIO::ReadHeader(const char * FileNameToRead)
   // Return the pointer to the header.
   // The function that receives the pointer must do memory
   // cleanup or a memory leak will occur.
-  return (curImage);
+  return curImage;
 }
 
 void

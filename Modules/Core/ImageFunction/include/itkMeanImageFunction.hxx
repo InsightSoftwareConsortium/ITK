@@ -40,12 +40,12 @@ MeanImageFunction<TInputImage, TCoordinate>::EvaluateAtIndex(const IndexType & i
 
   if (image == nullptr)
   {
-    return (NumericTraits<RealType>::max());
+    return NumericTraits<RealType>::max();
   }
 
   if (!this->IsInsideBuffer(index))
   {
-    return (NumericTraits<RealType>::max());
+    return NumericTraits<RealType>::max();
   }
 
   const ShapedImageNeighborhoodRange<const InputImageType> neighborhoodRange(*image, index, m_NeighborhoodOffsets);

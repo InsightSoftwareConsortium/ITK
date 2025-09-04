@@ -409,7 +409,7 @@ endpass:
   ts = m_Chic1 * (m_Chic2 + m_GScale * m_Vec1[m_TLEN - 1]);
   /*    m_TLEN * ts * ts  has ChiSq (m_TLEN) distribution   */
   m_GScale = m_Rscale * ts * m_ActualRSD;
-  return (m_GScale * m_Vec1[0]);
+  return m_GScale * m_Vec1[0];
 
 renormalize:
   if (m_Nslew & 0xFFFF)

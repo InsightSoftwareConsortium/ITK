@@ -251,7 +251,7 @@ DiscreteGaussianDerivativeImageFunction<TInputImage, TOutput>::EvaluateAtContinu
       break;
     }
   }
-  return (static_cast<OutputType>(value));
+  return static_cast<OutputType>(value);
 }
 } // end namespace itk
 

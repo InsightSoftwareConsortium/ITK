@@ -97,7 +97,7 @@ QuadEdgeMeshPolygonCell<TCellInterface>::New() -> SelfAutoPointer
   SelfAutoPointer ptr(new Self);
 
   ptr.TakeOwnership();
-  return (ptr);
+  return ptr;
 }
 
 // ---------------------------------------------------------------------
@@ -145,11 +145,11 @@ QuadEdgeMeshPolygonCell<TCellInterface>::GetNumberOfBoundaryFeatures(int dimensi
   switch (dimension)
   {
     case 0:
-      return (this->GetNumberOfPoints());
+      return this->GetNumberOfPoints();
     case 1:
-      return (this->GetNumberOfPoints());
+      return this->GetNumberOfPoints();
     default:
-      return (0);
+      return 0;
   }
 }
 
@@ -161,7 +161,7 @@ QuadEdgeMeshPolygonCell<TCellInterface>::GetBoundaryFeature(int                 
                                                             CellAutoPointer &     itkNotUsed(cell))
 {
   /// \todo
-  return (false);
+  return false;
 }
 
 // ---------------------------------------------------------------------
@@ -272,12 +272,12 @@ QuadEdgeMeshPolygonCell<TCellInterface>::GetPointId(int localId) const -> PointI
   {
     if (n == localId)
     {
-      return (it.Value()->GetOrigin());
+      return it.Value()->GetOrigin();
     }
     ++it;
     ++n;
   }
-  return (PointIdentifier(-1));
+  return PointIdentifier(-1);
 }
 
 // ---------------------------------------------------------------------

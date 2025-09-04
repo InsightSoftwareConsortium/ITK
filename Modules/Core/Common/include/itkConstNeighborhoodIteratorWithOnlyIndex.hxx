@@ -286,7 +286,7 @@ ConstNeighborhoodIteratorWithOnlyIndex<TImage>::IsAtEnd() const
     e.SetDescription(msg.str().c_str());
     throw e;
   }
-  return (this->GetIndex()[Dimension - 1] == this->m_EndIndex[Dimension - 1]);
+  return this->GetIndex()[Dimension - 1] == this->m_EndIndex[Dimension - 1];
 }
 
 template <typename TImage>

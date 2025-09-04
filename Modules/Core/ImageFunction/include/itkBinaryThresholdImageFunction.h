@@ -91,7 +91,7 @@ public:
     IndexType index;
 
     this->ConvertPointToNearestIndex(point, index);
-    return (this->EvaluateAtIndex(index));
+    return this->EvaluateAtIndex(index);
   }
 
   /** BinaryThreshold the image at a continuous index position
@@ -124,7 +124,7 @@ public:
   {
     const PixelType value = this->GetInputImage()->GetPixel(index);
 
-    return (m_Lower <= value && value <= m_Upper);
+    return m_Lower <= value && value <= m_Upper;
   }
 
   /** Get the lower threshold value. */

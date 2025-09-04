@@ -171,7 +171,7 @@ public:
     bool
     operator==(const ConstIterator & it) const
     {
-      return (m_InstanceIdentifier == it.m_InstanceIdentifier);
+      return m_InstanceIdentifier == it.m_InstanceIdentifier;
     }
 
     ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(ConstIterator);

@@ -63,7 +63,7 @@ public:
   PointIdentifier
   GetOldPointID()
   {
-    return (this->m_OldPointID);
+    return this->m_OldPointID;
   }
 
 protected:

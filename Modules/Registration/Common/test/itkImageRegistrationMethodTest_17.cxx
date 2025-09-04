@@ -358,6 +358,6 @@ F(itk::Vector<double, 3> & v)
     value = 400;
   }
 
-  return (value - 24000.0);
+  return value - 24000.0;
 }
 } // namespace

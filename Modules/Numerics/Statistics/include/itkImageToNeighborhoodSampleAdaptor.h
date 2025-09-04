@@ -206,7 +206,7 @@ public:
     bool
     operator==(const ConstIterator & it) const
     {
-      return (m_MeasurementVectorCache[0] == it.m_MeasurementVectorCache[0]);
+      return m_MeasurementVectorCache[0] == it.m_MeasurementVectorCache[0];
     }
 
     ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(ConstIterator);

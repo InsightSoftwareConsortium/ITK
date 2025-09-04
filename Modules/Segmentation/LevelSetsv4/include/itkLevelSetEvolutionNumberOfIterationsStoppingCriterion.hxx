@@ -26,7 +26,7 @@ template <typename TLevelSetContainer>
 bool
 LevelSetEvolutionNumberOfIterationsStoppingCriterion<TLevelSetContainer>::IsSatisfied() const
 {
-  return (this->m_CurrentIteration >= this->m_NumberOfIterations);
+  return this->m_CurrentIteration >= this->m_NumberOfIterations;
 }
 
 template <typename TLevelSetContainer>

@@ -669,31 +669,31 @@ template <typename TInput, typename TOutput>
 bool
 FastMarchingImageFilterBase<TInput, TOutput>::IsCriticalC1Configuration2D(const std::bitset<9> & neighborhood) const
 {
-  return (!neighborhood[0] && neighborhood[1] && neighborhood[3] && !neighborhood[4] && !neighborhood[8]);
+  return !neighborhood[0] && neighborhood[1] && neighborhood[3] && !neighborhood[4] && !neighborhood[8];
 }
 
 template <typename TInput, typename TOutput>
 bool
 FastMarchingImageFilterBase<TInput, TOutput>::IsCriticalC2Configuration2D(const std::bitset<9> & neighborhood) const
 {
-  return (!neighborhood[0] && neighborhood[1] && neighborhood[3] && !neighborhood[4] && neighborhood[8] &&
-          (neighborhood[5] || neighborhood[7]));
+  return !neighborhood[0] && neighborhood[1] && neighborhood[3] && !neighborhood[4] && neighborhood[8] &&
+         (neighborhood[5] || neighborhood[7]);
 }
 
 template <typename TInput, typename TOutput>
 bool
 FastMarchingImageFilterBase<TInput, TOutput>::IsCriticalC3Configuration2D(const std::bitset<9> & neighborhood) const
 {
-  return (!neighborhood[0] && neighborhood[1] && neighborhood[3] && !neighborhood[4] && !neighborhood[5] &&
-          neighborhood[6] && !neighborhood[7] && neighborhood[8]);
+  return !neighborhood[0] && neighborhood[1] && neighborhood[3] && !neighborhood[4] && !neighborhood[5] &&
+         neighborhood[6] && !neighborhood[7] && neighborhood[8];
 }
 
 template <typename TInput, typename TOutput>
 bool
 FastMarchingImageFilterBase<TInput, TOutput>::IsCriticalC4Configuration2D(const std::bitset<9> & neighborhood) const
 {
-  return (!neighborhood[0] && neighborhood[1] && neighborhood[3] && !neighborhood[4] && !neighborhood[5] &&
-          !neighborhood[6] && !neighborhood[7] && neighborhood[8]);
+  return !neighborhood[0] && neighborhood[1] && neighborhood[3] && !neighborhood[4] && !neighborhood[5] &&
+         !neighborhood[6] && !neighborhood[7] && neighborhood[8];
 }
 
 template <typename TInput, typename TOutput>
@@ -822,8 +822,8 @@ template <typename TInput, typename TOutput>
 bool
 FastMarchingImageFilterBase<TInput, TOutput>::IsCriticalC1Configuration3D(const std::bitset<8> & neighborhood) const
 {
-  return ((neighborhood[0] && neighborhood[1] && !neighborhood[2] && !neighborhood[3]) ||
-          (!neighborhood[0] && !neighborhood[1] && neighborhood[2] && neighborhood[3]));
+  return (neighborhood[0] && neighborhood[1] && !neighborhood[2] && !neighborhood[3]) ||
+         (!neighborhood[0] && !neighborhood[1] && neighborhood[2] && neighborhood[3]);
 }
 
 template <typename TInput, typename TOutput>

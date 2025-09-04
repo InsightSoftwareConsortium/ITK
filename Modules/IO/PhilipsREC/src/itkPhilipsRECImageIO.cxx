@@ -113,10 +113,10 @@ GetExtension(const std::string & filename)
   if (fileExt != ".REC.gz" && fileExt != ".REC" && fileExt != ".PAR" && fileExt != ".rec.gz" && fileExt != ".rec" &&
       fileExt != ".par")
   {
-    return ("");
+    return "";
   }
 
-  return (fileExt);
+  return fileExt;
 }
 
 static std::string
@@ -130,10 +130,10 @@ GetRootName(const std::string & filename)
   {
     const std::string::size_type it = filename.find_last_of(fileExt);
     std::string                  baseName(filename, 0, it - (fileExt.length() - 1));
-    return (baseName);
+    return baseName;
   }
   // Default to return same as input when the extension is nothing.
-  return (filename);
+  return filename;
 }
 
 static std::string
@@ -153,7 +153,7 @@ GetHeaderFileName(const std::string & filename)
     ImageFileName = GetRootName(filename);
     ImageFileName += ".par";
   }
-  return (ImageFileName);
+  return ImageFileName;
 }
 
 // Returns the base image filename.
@@ -174,7 +174,7 @@ GetImageFileName(const std::string & filename)
     ImageFileName = GetRootName(filename);
     ImageFileName += ".rec";
   }
-  return (ImageFileName);
+  return ImageFileName;
 }
 
 //----------------------------------------------------------------------------

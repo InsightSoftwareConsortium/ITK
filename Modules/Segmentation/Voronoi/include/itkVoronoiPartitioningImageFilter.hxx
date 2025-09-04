@@ -169,7 +169,7 @@ VoronoiPartitioningImageFilter<TInputImage, TOutputImage>::TestHomogeneity(Index
     savevar = std::sqrt((addpp - (addp * addp) / static_cast<double>(num)) / (static_cast<double>(num) - 1.0));
   }
 
-  return (savevar >= 0 && std::sqrt(savevar) < m_SigmaThreshold);
+  return savevar >= 0 && std::sqrt(savevar) < m_SigmaThreshold;
 }
 
 template <typename TInputImage, typename TOutputImage>

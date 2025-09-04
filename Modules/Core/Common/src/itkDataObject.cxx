@@ -158,7 +158,7 @@ DataObject::ReleaseData()
 bool
 DataObject::ShouldIReleaseData() const
 {
-  return (GetGlobalReleaseDataFlag() || m_ReleaseDataFlag);
+  return GetGlobalReleaseDataFlag() || m_ReleaseDataFlag;
 }
 
 //----------------------------------------------------------------------------

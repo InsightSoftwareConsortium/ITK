@@ -297,7 +297,7 @@ public:
   [[nodiscard]] bool
   GetOrderEigenValues() const
   {
-    return (m_OrderEigenValues == EigenValueOrderEnum::OrderByValue);
+    return m_OrderEigenValues == EigenValueOrderEnum::OrderByValue;
   }
   /** @ITKEndGrouping */
 
@@ -321,7 +321,7 @@ public:
   [[nodiscard]] bool
   GetOrderEigenMagnitudes() const
   {
-    return (m_OrderEigenValues == EigenValueOrderEnum::OrderByMagnitude);
+    return m_OrderEigenValues == EigenValueOrderEnum::OrderByMagnitude;
   }
   /** @ITKEndGrouping */
 
@@ -827,7 +827,7 @@ public:
   [[nodiscard]] bool
   GetOrderEigenValues() const
   {
-    return (m_OrderEigenValues == EigenValueOrderEnum::OrderByValue);
+    return m_OrderEigenValues == EigenValueOrderEnum::OrderByValue;
   }
   void
   SetOrderEigenMagnitudes(const bool b)
@@ -844,7 +844,7 @@ public:
   [[nodiscard]] bool
   GetOrderEigenMagnitudes() const
   {
-    return (m_OrderEigenValues == EigenValueOrderEnum::OrderByMagnitude);
+    return m_OrderEigenValues == EigenValueOrderEnum::OrderByMagnitude;
   }
   [[nodiscard]] constexpr unsigned int
   GetOrder() const

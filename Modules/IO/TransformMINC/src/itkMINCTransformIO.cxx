@@ -63,7 +63,7 @@ bool
 MINCTransformIOTemplate<TParametersValueType>::CanReadFile(const char * fileName)
 {
   std::string ext(itksys::SystemTools::GetFilenameLastExtension(fileName));
-  return (ext == ".xfm" || ext == ".XFM");
+  return ext == ".xfm" || ext == ".XFM";
 }
 
 template <typename TParametersValueType>
@@ -71,7 +71,7 @@ bool
 MINCTransformIOTemplate<TParametersValueType>::CanWriteFile(const char * fileName)
 {
   std::string ext(itksys::SystemTools::GetFilenameLastExtension(fileName));
-  return (ext == ".xfm" || ext == ".XFM");
+  return ext == ".xfm" || ext == ".XFM";
 }
 
 template <typename TParametersValueType>

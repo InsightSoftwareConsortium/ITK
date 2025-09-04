@@ -223,7 +223,7 @@ public:
   {
     if (functionIndex < m_FunctionCount)
     {
-      return (this->m_DifferenceFunctions[functionIndex]);
+      return this->m_DifferenceFunctions[functionIndex];
     }
     else
     {

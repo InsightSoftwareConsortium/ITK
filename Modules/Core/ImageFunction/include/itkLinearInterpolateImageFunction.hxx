@@ -92,7 +92,7 @@ LinearInterpolateImageFunction<TInputImage, TCoordinate>::EvaluateUnoptimized(co
     value += static_cast<RealType>(inputImagePtr->GetPixel(neighIndex)) * overlap;
   }
 
-  return (static_cast<OutputType>(value));
+  return static_cast<OutputType>(value);
 }
 
 template <typename TInputImage, typename TCoordinate>
