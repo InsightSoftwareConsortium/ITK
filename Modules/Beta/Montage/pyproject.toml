@@ -4,7 +4,7 @@ build-backend = "scikit_build_core.build"
 
 [project]
 name = "itk-montage"
-version = "0.8.3"
+version = "0.8.4"
 description = "Montaging for microscopy imaging files."
 readme = "README.md"
 license = {file = "LICENSE"}
