@@ -177,7 +177,7 @@ FastChamferDistanceImageFilter<TInputImage, TOutputImage>::GenerateDataND()
     m_NarrowBand->Clear();
   }
 
-  /** Precomputing the neighbor neighbor types */
+  /** Precomputing the neighbor types */
   neighbor_start = 0;
   neighbor_end = center_voxel - 1;
 

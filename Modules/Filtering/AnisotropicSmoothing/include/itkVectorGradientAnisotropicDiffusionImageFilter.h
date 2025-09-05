@@ -27,7 +27,7 @@ namespace itk
 /** \class VectorGradientAnisotropicDiffusionImageFilter
  *
  * This filter performs anisotropic diffusion on a vector itk::Image using the
- * anisotropic diffusion function implemented implemented in
+ * anisotropic diffusion function implemented in
  * itkVectorGradientNDAnisotropicDiffusionFunction.  For detailed information on
  * anisotropic diffusion see itkAnisotropicDiffusionFunction,
  * itkVectorGradientNDAnisotropicDiffusionFunction, and

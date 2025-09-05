@@ -46,7 +46,7 @@ public:
   /**Standard Macros */
   itkOverrideGetNameOfClassMacro(HistogramAlgorithmBase);
 
-  /** Histogram type alias alias */
+  /** Histogram type alias */
   using InputHistogramType = TInputHistogram;
 
   /** Stores the histogram pointer */

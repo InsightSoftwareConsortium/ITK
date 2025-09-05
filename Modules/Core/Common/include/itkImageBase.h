@@ -721,7 +721,7 @@ public:
    * will copy meta-data from the first input to all of its
    * outputs. See ProcessObject::GenerateOutputInformation().  Each
    * subclass of DataObject is responsible for being able to copy
-   * whatever meta-data it needs from from another DataObject.
+   * whatever meta-data it needs from another DataObject.
    * ImageBase has more meta-data than its DataObject.  Thus, it must
    * provide its own version of CopyInformation() in order to copy the
    * LargestPossibleRegion from the input parameter. */

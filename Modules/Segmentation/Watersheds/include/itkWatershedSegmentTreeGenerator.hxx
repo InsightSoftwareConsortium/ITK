@@ -236,7 +236,7 @@ SegmentTreeGenerator<TScalar>::ExtractMergeHierarchy(SegmentTableTypePointer seg
     const IdentifierType toSegLabel = m_MergedSegmentsTable->RecursiveLookup(topMerge.to);
 
     // If the two segments do not resolve to the same segment and the
-    // "TO" segment has never been merged, then then merge them.
+    // "TO" segment has never been merged, then merge them.
     // Otherwise, ignore this particular entry.
     if (fromSegLabel == topMerge.from && fromSegLabel != toSegLabel)
     {

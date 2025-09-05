@@ -285,7 +285,7 @@ BinShrinkImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 
     outputStartIndex[i] = Math::Ceil<SizeValueType>(inputStartIndex[i] / static_cast<double>(m_ShrinkFactors[i]));
 
-    // Round down so that all output pixels fit input input region
+    // Round down so that all output pixels fit input region
     outputSize[i] = Math::Floor<SizeValueType>(
       static_cast<double>(inputSize[i] - outputStartIndex[i] * m_ShrinkFactors[i] + inputStartIndex[i]) /
       static_cast<double>(m_ShrinkFactors[i]));
