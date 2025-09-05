@@ -111,7 +111,7 @@ namespace itk
  * value used during processing. Raising this threshold percentage effectively
  * decreases the number of local minima in the input, resulting in an initial
  * segmentation with fewer regions.  The assumption is that the shallow regions
- * that thresholding removes are of of less interest.
+ * that thresholding removes are of less interest.
  *
  * \par
  * The Level parameter controls the depth of metaphorical flooding of the
@@ -241,7 +241,7 @@ public:
     return m_Segmenter->GetOutputImage();
   }
 
-  /** Get the segmentation tree from from the TreeGenerator member filter. */
+  /** Get the segmentation tree from the TreeGenerator member filter. */
   typename watershed::SegmentTreeGenerator<ScalarType>::SegmentTreeType *
   GetSegmentTree()
   {

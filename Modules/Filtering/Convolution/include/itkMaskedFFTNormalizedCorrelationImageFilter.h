@@ -72,7 +72,7 @@ namespace itk
  * results from fewer than the product of this fraction and the internally computed maximum
  * number of overlapping pixels will be set to zero.
  * The value ranges between 0.0 and 1.0.
- * This is very useful when the user does does not know beforehand the maximum number of pixels
+ * This is very useful when the user does not know beforehand the maximum number of pixels
  * of the masks that will overlap.
  * For example, when the masks have strange shapes, it is difficult to predict
  * how the correlation of the masks will interact and what the maximum overlap will be.

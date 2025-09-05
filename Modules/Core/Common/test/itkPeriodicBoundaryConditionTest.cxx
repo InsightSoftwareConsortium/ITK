@@ -80,7 +80,7 @@ TestPrintNeighborhood(IteratorType & p, VectorIteratorType & v)
 
       std::cout << pixel1 << ' ';
 
-      // Check agreement of output from three three methods of accessing pixel values.
+      // Check agreement of output from three methods of accessing pixel values.
       if (pixel1 != pixel2)
       {
         success = false;
