@@ -13,7 +13,7 @@ if(ITK_USE_SYSTEM_EXPAT)
 else()
   set(ITKExpat_INCLUDE_DIRS
   ${ITKExpat_BINARY_DIR}/src/expat
-  ${ITKExpat_SOURCE_DIR}/src/expat
+  ${ITKExpat_SOURCE_DIR}/src/expat/lib
   )
 set(ITKExpat_LIBRARIES ITKEXPAT)
 set(ITK_LIBRARY_PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS FALSE)
