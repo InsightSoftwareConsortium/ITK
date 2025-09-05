@@ -189,7 +189,14 @@ ImageSeriesReader<TOutputImage>::GenerateOutputInformation()
     {
       spacing[this->m_NumberOfDimensionsInImage] = dirNnorm / (numberOfFiles - 1);
       this->m_SpacingDefined = true;
-      if (!m_ForceOrthogonalDirection)
+      if (m_ForceOrthogonalDirection)
+      {
+        for (unsigned int j = 0; j < TOutputImage::ImageDimension; ++j)
+        {
+          direction[j][this->m_NumberOfDimensionsInImage] *= std::signbit(dirN[j]) ? -1.0 : 1.0;
+        }
+      }
+      else
       {
         for (unsigned int j = 0; j < TOutputImage::ImageDimension; ++j)
         {
