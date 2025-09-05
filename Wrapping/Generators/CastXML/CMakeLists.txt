@@ -28,7 +28,7 @@ else()
   set(_download_castxml_binaries 0)
   set(_castxml_url)
   set(_castxml_hash)
-  set(_castxml_version 0.6.5)
+  set(_castxml_version 2025.09.03)
 
   # If 64 bit Linux build host, use the CastXML binary
   if(
@@ -42,11 +42,11 @@ else()
   )
     set(
       _castxml_hash
-      592fcb6c7f85b6a1670cef7e0692ec6d1c9ba2e250825032ed6dcf9581aa169540eded608510aa1208ea1174df48c16390ee7daf7a17c7114d93a83a8a8e109b
+      cadfe688e3402f5ee34e7b3d40e1362ff334e24f887cdd18178b31cbe4faf4ae
     )
     set(
       _castxml_url
-      "https://github.com/CastXML/CastXMLSuperbuild/releases/download/v${_castxml_version}/castxml-linux.tar.gz"
+      "https://github.com/CastXML/CastXMLSuperbuild/releases/download/v${_castxml_version}/castxml-alma-linux-8-x86_64.tar.gz"
     )
     set(_download_castxml_binaries 1)
   elseif(
@@ -60,11 +60,11 @@ else()
   )
     set(
       _castxml_hash
-      229d5339e217660f09dd87e2e639d666921a8c4e6c328a754dcae4290bba6bcac9d3b8e953814314ecdbf908d5d8e0d7dacbf1fdf6040a2e20d7acb98fb32f7d
+      c6b148a4a123788f2a5a612bd58014080fc9de0ff028202178c6870ade14d38e
     )
     set(
       _castxml_url
-      "https://github.com/CastXML/CastXMLSuperbuild/releases/download/v${_castxml_version}/castxml-linux-aarch64.tar.gz"
+      "https://github.com/CastXML/CastXMLSuperbuild/releases/download/v${_castxml_version}/castxml-alma-linux-8-arm-aarch64.tar.gz"
     )
     set(_download_castxml_binaries 1)
 
@@ -80,11 +80,11 @@ else()
   )
     set(
       _castxml_hash
-      7c1970ad6f2e5f06a8704606db92df3400c4cd9716f88cac604924430c7e6865f8256a67282d28005714f0ed0a42f7f6e386f24ce80fb075371902d35674c6cc
+      3a4f91315872811de33ebbaf34ba34b5cd1fdb6120ec22853793ad311a1c014f
     )
     set(
       _castxml_url
-      "https://github.com/CastXML/CastXMLSuperbuild/releases/download/v${_castxml_version}/castxml-windows.zip"
+      "https://github.com/CastXML/CastXMLSuperbuild/releases/download/v${_castxml_version}/castxml-windows-2025-amd64.zip"
     )
     set(_download_castxml_binaries 1)
 
@@ -102,16 +102,16 @@ else()
         NOT
           CMAKE_HOST_SYSTEM_VERSION
             VERSION_LESS
-            "11.0.0"
+            "13.0.0"
       )
   )
     set(
       _castxml_hash
-      c6986a796ab9a4f4deaf569534d628cc584088aa8b0e56026ea5ba19550b8ceeb41c34f46a85566a21205d6bb529717ee8944cfa9a9c7c27edb0504eece5544a
+      71b2465be9993de2c4a003d848edf49e4a8731a76f62aad3b253f88a0e1d93dc
     )
     set(
       _castxml_url
-      "https://github.com/CastXML/CastXMLSuperbuild/releases/download/v${_castxml_version}/castxml-macosx.tar.gz"
+      "https://github.com/CastXML/CastXMLSuperbuild/releases/download/v${_castxml_version}/castxml-macos-13-x86_64.tar.gz"
     )
     set(_download_castxml_binaries 1)
   elseif(
@@ -125,11 +125,11 @@ else()
   )
     set(
       _castxml_hash
-      4c8c969f7e53cd758b516bada449b322d37ad19d6d46602660d83ece20ce07f3d55462493382a1c422048928962fd33f9704638e2e41637d1147473562a55f94
+      acaee5ed191b886b437c6ed982f540d782df9dc4b8282cb4c28403d2f1d89120
     )
     set(
       _castxml_url
-      "https://github.com/CastXML/CastXMLSuperbuild/releases/download/v${_castxml_version}/castxml-macos-arm.tar.gz"
+      "https://github.com/CastXML/CastXMLSuperbuild/releases/download/v${_castxml_version}/castxml-macos-15-arm64.tar.gz"
     )
     set(_download_castxml_binaries 1)
   endif()
@@ -150,7 +150,7 @@ else()
       castxml
       URL
         ${_castxml_url}
-      URL_HASH SHA512=${_castxml_hash}
+      URL_HASH SHA256=${_castxml_hash}
       CONFIGURE_COMMAND
         ""
       BUILD_COMMAND
