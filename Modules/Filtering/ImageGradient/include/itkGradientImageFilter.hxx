@@ -37,12 +37,22 @@ GradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType, TOutputIm
   this->ThreaderUpdateProgressOff();
 }
 
+#ifndef ITK_FUTURE_LEGACY_REMOVE
 template <typename TInputImage, typename TOperatorValueType, typename TOutputValue, typename TOutputImage>
 void
 GradientImageFilter<TInputImage, TOperatorValueType, TOutputValue, TOutputImage>::OverrideBoundaryCondition(
-  ImageBoundaryCondition<TInputImage> * boundaryCondition)
+  BoundaryConditionType * boundaryCondition)
 {
   m_BoundaryCondition.reset(boundaryCondition);
+}
+#endif
+
+template <typename TInputImage, typename TOperatorValueType, typename TOutputValue, typename TOutputImage>
+void
+GradientImageFilter<TInputImage, TOperatorValueType, TOutputValue, TOutputImage>::OverrideBoundaryCondition(
+  std::unique_ptr<BoundaryConditionType> && boundaryCondition)
+{
+  m_BoundaryCondition = std::move(boundaryCondition);
 }
 
 template <typename TInputImage, typename TOperatorValueType, typename TOutputValueType, typename TOutputImageType>

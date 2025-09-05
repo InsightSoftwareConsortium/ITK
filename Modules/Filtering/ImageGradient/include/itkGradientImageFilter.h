@@ -100,6 +100,9 @@ public:
   using CovariantVectorType = CovariantVector<OutputValueType, Self::OutputImageDimension>;
   using OutputImageRegionType = typename OutputImageType::RegionType;
 
+  /** Helper typedef for the parameter type of OverrideBoundaryCondition. */
+  using BoundaryConditionType = ImageBoundaryCondition<TInputImage>;
+
   /** GradientImageFilter needs a larger input requested region than
    * the output requested region.  As such, GradientImageFilter needs
    * to provide an implementation for GenerateInputRequestedRegion()
@@ -139,9 +142,16 @@ public:
   }
 #endif
 
+#ifndef ITK_FUTURE_LEGACY_REMOVE
+  /** Allows to change the default boundary condition
+   * \note This filter takes ownership of the specified boundary condition object. */
+  [[deprecated("Deprecated in favor of `OverrideBoundaryCondition(std::unique_ptr<BoundaryConditionType>)`.")]] void
+  OverrideBoundaryCondition(BoundaryConditionType * boundaryCondition);
+#endif
+
   /** Allows to change the default boundary condition */
   void
-  OverrideBoundaryCondition(ImageBoundaryCondition<TInputImage> * boundaryCondition);
+  OverrideBoundaryCondition(std::unique_ptr<BoundaryConditionType> && boundaryCondition);
 
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputPixelType, OutputValueType>));
   itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<OutputValueType>));
@@ -225,8 +235,8 @@ private:
   // when computing the derivatives.
   bool m_UseImageDirection{ true };
 
-  // allow setting the the m_BoundaryCondition
-  std::unique_ptr<ImageBoundaryCondition<TInputImage, TInputImage>> m_BoundaryCondition{
+  // allow setting the m_BoundaryCondition
+  std::unique_ptr<BoundaryConditionType> m_BoundaryCondition{
     std::make_unique<ZeroFluxNeumannBoundaryCondition<TInputImage>>()
   };
 };
