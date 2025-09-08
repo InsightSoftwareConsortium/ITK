@@ -16,6 +16,12 @@ if("${VTK_VERSION}" VERSION_LESS 7.0.0)
     WARNING
     "The ITKVtkGlue module can only built with Python 3 and VTK >= 7."
   )
+elseif(ITK_USE_PYTHON_LIMITED_API)
+  message(
+    FATAL_ERROR
+    "The ITKVtkGlue module can only built without Python limited API due to VTK limitations."
+    "Please set `ITK_USE_PYTHON_LIMITED_API` to `FALSE`."
+  )
 else()
   list(
     APPEND
