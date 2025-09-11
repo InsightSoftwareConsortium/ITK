@@ -111,7 +111,7 @@ DOMNodeXMLReader::Update()
   std::ifstream is(this->m_FileName.c_str());
   if (!is.is_open())
   {
-    itkExceptionMacro("failed opening the input XML file");
+    itkExceptionStringMacro("failed opening the input XML file");
   }
 
   this->Update(is);
@@ -165,7 +165,7 @@ DOMNodeXMLReader::EndElement(const char * name)
 {
   if (this->m_Context->GetName() != name)
   {
-    itkExceptionMacro("start/end tag names mismatch");
+    itkExceptionStringMacro("start/end tag names mismatch");
   }
 
   this->m_Context = this->m_Context->GetParent();

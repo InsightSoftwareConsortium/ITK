@@ -41,7 +41,7 @@ CovarianceImageFunction<TInputImage, TCoordinate>::EvaluateAtIndex(const IndexTy
 
   if (!this->GetInputImage())
   {
-    itkExceptionMacro("No image connected to CovarianceImageFunction");
+    itkExceptionStringMacro("No image connected to CovarianceImageFunction");
   }
 
   const unsigned int VectorDimension = this->GetInputImage()->GetNumberOfComponentsPerPixel();
@@ -99,7 +99,7 @@ CovarianceImageFunction<TInputImage, TCoordinate>::EvaluateAtIndex(const IndexTy
     }
   }
 
-  return (covariance);
+  return covariance;
 }
 
 template <typename TInputImage, typename TCoordinate>

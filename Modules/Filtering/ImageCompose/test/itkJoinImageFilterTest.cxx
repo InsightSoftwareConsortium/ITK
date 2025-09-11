@@ -29,7 +29,7 @@ itkJoinImageFilterTest(int, char *[])
   constexpr unsigned int myDimension = 2;
 
   // Declare the types of the images
-  using myImageType1 = itk::Image<char, myDimension>;
+  using myImageType1 = itk::Image<signed char, myDimension>;
   using myImageType2 = itk::Image<itk::Vector<unsigned short, 2>, myDimension>;
   using myImageType3 = itk::Image<itk::RGBAPixel<short>, myDimension>;
 
@@ -70,7 +70,7 @@ itkJoinImageFilterTest(int, char *[])
   inputImageC->SetRegions(region);
   inputImageC->Allocate();
 
-  // Declare Iterator types apropriated for each image
+  // Declare Iterator types appropriate for each image
   using myIteratorType1 = itk::ImageRegionIterator<myImageType1>;
   using myIteratorType2 = itk::ImageRegionIterator<myImageType2>;
   using myIteratorType3 = itk::ImageRegionIterator<myImageType3>;

@@ -8,9 +8,8 @@ itk_module(
   ITKPolynomials
   ENABLE_SHARED
   DEPENDS
-  ITKCommon
+    ITKCommon
   TEST_DEPENDS
-  ITKTestKernel
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+  DESCRIPTION "${DOCUMENTATION}"
 )

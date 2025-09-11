@@ -29,7 +29,7 @@ GPUBinaryThresholdImageFilter<TInputImage, TOutputImage>::GPUBinaryThresholdImag
 
   if (TInputImage::ImageDimension > 3)
   {
-    itkExceptionMacro("GPUBinaryThresholdImageFilter supports 1/2/3D image.");
+    itkExceptionStringMacro("GPUBinaryThresholdImageFilter supports 1/2/3D image.");
   }
 
   std::vector<std::string> validTypes;
@@ -105,7 +105,7 @@ GPUBinaryThresholdImageFilter<TInputImage, TOutputImage>::GPUGenerateData()
 
   if (lowerThreshold->Get() > upperThreshold->Get())
   {
-    itkExceptionMacro("Lower threshold cannot be greater than upper threshold.");
+    itkExceptionStringMacro("Lower threshold cannot be greater than upper threshold.");
   }
 
   // Setup up the functor

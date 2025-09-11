@@ -76,12 +76,11 @@ itk_module(
   ITKQuadEdgeMesh
   ENABLE_SHARED
   PRIVATE_DEPENDS
-  ITKMesh
+    ITKMesh
   COMPILE_DEPENDS
-  ITKCommon
+    ITKCommon
   TEST_DEPENDS
-  ITKTestKernel
-  ITKMesh
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+    ITKMesh
+  DESCRIPTION "${DOCUMENTATION}"
 )

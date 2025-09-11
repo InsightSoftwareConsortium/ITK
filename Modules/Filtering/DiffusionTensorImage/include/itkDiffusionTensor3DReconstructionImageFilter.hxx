@@ -210,7 +210,7 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
         dynamic_cast<GradientImageType *>(this->ProcessObject::GetInput(i + 1));
       if (gradientImagePointer.IsNull())
       {
-        itkExceptionMacro("Invalid dynamic_cast");
+        itkExceptionStringMacro("Invalid dynamic_cast");
       }
 
       auto * git = new GradientIteratorType(gradientImagePointer, outputRegionForThread);
@@ -467,7 +467,7 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
   if (m_GradientImageTypeEnumeration ==
       DiffusionTensor3DReconstructionImageFilterEnums::GradientImageFormat::GradientIsInASingleImage)
   {
-    itkExceptionMacro("Cannot retrieve individual gradient Image if all gradients are in a single image.");
+    itkExceptionStringMacro("Cannot retrieve individual gradient Image if all gradients are in a single image.");
   }
   // input 0 is either the single gradient image, or the reference
   // image. input 1 is either null or a mask image.
@@ -491,7 +491,8 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
   if (m_GradientImageTypeEnumeration ==
       DiffusionTensor3DReconstructionImageFilterEnums::GradientImageFormat::GradientIsInASingleImage)
   {
-    itkExceptionMacro("Cannot call both methods:AddGradientImage and SetGradientImage. Please call only one of them.");
+    itkExceptionStringMacro(
+      "Cannot call both methods:AddGradientImage and SetGradientImage. Please call only one of them.");
   }
 
   // If the container to hold the gradient directions hasn't been allocated
@@ -526,7 +527,8 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
   if (m_GradientImageTypeEnumeration ==
       DiffusionTensor3DReconstructionImageFilterEnums::GradientImageFormat::GradientIsInManyImages)
   {
-    itkExceptionMacro("Cannot call both methods:AddGradientImage and SetGradientImage. Please call only one of them.");
+    itkExceptionStringMacro(
+      "Cannot call both methods:AddGradientImage and SetGradientImage. Please call only one of them.");
   }
 
   this->m_GradientDirectionContainer = gradientDirection;
@@ -645,11 +647,11 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
 
   if (this->m_NumberOfBaselineImages == 0)
   {
-    itkExceptionMacro("Number of baseline images is null");
+    itkExceptionStringMacro("Number of baseline images is null");
   }
   if (this->m_NumberOfGradientDirections < 6)
   {
-    itkExceptionMacro("Not enough gradient directions supplied. Need to supply at least 6");
+    itkExceptionStringMacro("Not enough gradient directions supplied. Need to supply at least 6");
   }
 }
 

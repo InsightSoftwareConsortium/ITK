@@ -104,7 +104,7 @@ WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::VerifyInputInfor
 {
   if (ImageDimension != GetDisplacementField()->GetNumberOfComponentsPerPixel())
   {
-    itkExceptionMacro("Expected number of components of displacement field to match image dimensions!");
+    itkExceptionStringMacro("Expected number of components of displacement field to match image dimensions!");
   }
 }
 
@@ -119,7 +119,7 @@ WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::BeforeThreadedGe
 {
   if (!m_Interpolator)
   {
-    itkExceptionMacro("Interpolator not set");
+    itkExceptionStringMacro("Interpolator not set");
   }
   const DisplacementFieldType * fieldPtr = this->GetDisplacementField();
 

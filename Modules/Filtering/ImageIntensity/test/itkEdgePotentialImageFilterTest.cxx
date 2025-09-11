@@ -32,7 +32,7 @@ itkEdgePotentialImageFilterTest(int, char *[])
   using InputImageType = itk::Image<VectorType, ImageDimension>;
   using OutputImageType = itk::Image<float, ImageDimension>;
 
-  // Declare Iterator types apropriated for each image
+  // Declare Iterator types appropriate for each image
   using InputIteratorType = itk::ImageRegionIterator<InputImageType>;
   using OutputIteratorType = itk::ImageRegionIterator<OutputImageType>;
 

@@ -203,7 +203,7 @@ ExtractSliceImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
     {
       if (vnl_determinant(outputDirection.GetVnlMatrix()) == 0.0)
       {
-        itkExceptionMacro("Invalid submatrix extracted for collapsed direction.");
+        itkExceptionStringMacro("Invalid submatrix extracted for collapsed direction.");
       }
     }
     break;

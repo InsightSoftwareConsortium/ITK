@@ -44,31 +44,31 @@ QuadEdgeMeshEulerOperatorSplitFacetFunction<TMesh, TQEType>::Evaluate(QEType * h
   if (!h || !g)
   {
     itkDebugMacro("At least one of the Input is not an edge.");
-    return ((QEType *)nullptr);
+    return (QEType *)nullptr;
   }
 
   if (!this->m_Mesh)
   {
     itkDebugMacro("No mesh present.");
-    return ((QEType *)nullptr);
+    return (QEType *)nullptr;
   }
 
   if (h == g)
   {
     itkDebugMacro("Provided edges should be different.");
-    return ((QEType *)nullptr);
+    return (QEType *)nullptr;
   }
 
   if (h->GetLeft() != g->GetLeft())
   {
     itkDebugMacro("The edges are not around the same face.");
-    return ((QEType *)nullptr);
+    return (QEType *)nullptr;
   }
 
   if ((h->GetLnext() == g) || (g->GetLnext() == h))
   {
     itkDebugMacro("Provided edges should NOT be consecutive.");
-    return ((QEType *)nullptr);
+    return (QEType *)nullptr;
   }
 
   using VertexRefType = typename MeshType::VertexRefType;
@@ -99,7 +99,7 @@ QuadEdgeMeshEulerOperatorSplitFacetFunction<TMesh, TQEType>::Evaluate(QEType * h
   this->m_Mesh->AddFace(h);
   this->m_Mesh->AddFace(g);
   this->m_Mesh->Modified();
-  return (newEdgeGeom);
+  return newEdgeGeom;
 }
 
 } // end namespace itk

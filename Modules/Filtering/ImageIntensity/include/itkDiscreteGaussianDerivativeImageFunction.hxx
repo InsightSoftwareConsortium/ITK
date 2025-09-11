@@ -76,7 +76,7 @@ DiscreteGaussianDerivativeImageFunction<TInputImage, TOutput>::RecomputeGaussian
     {
       if (this->GetInputImage()->GetSpacing()[direction] == 0.0)
       {
-        itkExceptionMacro("Pixel spacing cannot be zero");
+        itkExceptionStringMacro("Pixel spacing cannot be zero");
       }
       else
       {
@@ -251,7 +251,7 @@ DiscreteGaussianDerivativeImageFunction<TInputImage, TOutput>::EvaluateAtContinu
       break;
     }
   }
-  return (static_cast<OutputType>(value));
+  return static_cast<OutputType>(value);
 }
 } // end namespace itk
 

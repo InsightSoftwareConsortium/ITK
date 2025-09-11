@@ -111,7 +111,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
   {
     if (this->m_Size[i] == 0)
     {
-      itkExceptionMacro("Size must be specified.");
+      itkExceptionStringMacro("Size must be specified.");
     }
   }
 
@@ -179,7 +179,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
   }
   else
   {
-    itkExceptionMacro("Only support 2 and 3 dimension");
+    itkExceptionStringMacro("Only support 2 and 3 dimension");
   }
 }
 
@@ -385,7 +385,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
 
   if (!materialContainer)
   {
-    itkExceptionMacro("Missing material container");
+    itkExceptionStringMacro("Missing material container");
   }
 
   materialContainer->Initialize();
@@ -410,7 +410,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
 
   if (!nodeContainer)
   {
-    itkExceptionMacro("Missing node container");
+    itkExceptionStringMacro("Missing node container");
   }
 
   nodeContainer->Initialize();
@@ -454,7 +454,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
 
   if (!elementContainer)
   {
-    itkExceptionMacro("Missing element container");
+    itkExceptionStringMacro("Missing element container");
   }
 
   elementContainer->Initialize();
@@ -600,7 +600,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
 
   if (!loadContainer)
   {
-    itkExceptionMacro("Missing load container");
+    itkExceptionStringMacro("Missing load container");
   }
 
   loadContainer->Initialize();
@@ -611,14 +611,14 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
 
   if (!input)
   {
-    itkExceptionMacro("No feature points");
+    itkExceptionStringMacro("No feature points");
   }
 
   const PointDataContainerType * displacementVector = input->GetPointData();
 
   if (!displacementVector)
   {
-    itkExceptionMacro("No displacement vectors associated with feature point set");
+    itkExceptionStringMacro("No displacement vectors associated with feature point set");
   }
 
   const PointsContainer * featurePoints = input->GetPoints();

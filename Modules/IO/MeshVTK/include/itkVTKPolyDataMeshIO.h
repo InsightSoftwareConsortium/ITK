@@ -177,7 +177,7 @@ protected:
           numberOfPolygonIndices += nn + 1;
           break;
         default:
-          itkExceptionMacro("Currently we dont support this cell type");
+          itkExceptionStringMacro("Currently we dont support this cell type");
       }
 
       index += nn;
@@ -257,7 +257,7 @@ protected:
         }
         else
         {
-          itkExceptionMacro("UnExpected end of line while trying to read POINT_DATA");
+          itkExceptionStringMacro("UnExpected end of line while trying to read POINT_DATA");
         }
 
         /** For scalars we have to read the next line of LOOKUP_TABLE */
@@ -268,12 +268,12 @@ protected:
             std::getline(inputFile, line, '\n');
             if (line.find("LOOKUP_TABLE") == std::string::npos)
             {
-              itkExceptionMacro("UnExpected end of line while trying to read LOOKUP_TABLE");
+              itkExceptionStringMacro("UnExpected end of line while trying to read LOOKUP_TABLE");
             }
           }
           else
           {
-            itkExceptionMacro("UnExpected end of line while trying to read LOOKUP_TABLE");
+            itkExceptionStringMacro("UnExpected end of line while trying to read LOOKUP_TABLE");
           }
         }
 
@@ -301,7 +301,7 @@ protected:
         }
         else
         {
-          itkExceptionMacro("UnExpected end of line while trying to read POINT_DATA");
+          itkExceptionStringMacro("UnExpected end of line while trying to read POINT_DATA");
         }
 
         /** For scalars we have to read the next line of LOOKUP_TABLE */
@@ -312,12 +312,12 @@ protected:
             std::getline(inputFile, line, '\n');
             if (line.find("LOOKUP_TABLE") == std::string::npos)
             {
-              itkExceptionMacro("UnExpected end of line while trying to read LOOKUP_TABLE");
+              itkExceptionStringMacro("UnExpected end of line while trying to read LOOKUP_TABLE");
             }
           }
           else
           {
-            itkExceptionMacro("UnExpected end of line while trying to read LOOKUP_TABLE");
+            itkExceptionStringMacro("UnExpected end of line while trying to read LOOKUP_TABLE");
           }
         }
 
@@ -349,7 +349,7 @@ protected:
         }
         else
         {
-          itkExceptionMacro("UnExpected end of line while trying to read CELL_DATA");
+          itkExceptionStringMacro("UnExpected end of line while trying to read CELL_DATA");
         }
 
         /** For scalars we have to read the next line of LOOKUP_TABLE */
@@ -360,12 +360,12 @@ protected:
             std::getline(inputFile, line, '\n');
             if (line.find("LOOKUP_TABLE") == std::string::npos)
             {
-              itkExceptionMacro("UnExpected end of line while trying to read LOOKUP_TABLE");
+              itkExceptionStringMacro("UnExpected end of line while trying to read LOOKUP_TABLE");
             }
           }
           else
           {
-            itkExceptionMacro("UnExpected end of line while trying to read LOOKUP_TABLE");
+            itkExceptionStringMacro("UnExpected end of line while trying to read LOOKUP_TABLE");
           }
         }
 
@@ -393,7 +393,7 @@ protected:
         }
         else
         {
-          itkExceptionMacro("UnExpected end of line while trying to read POINT_DATA");
+          itkExceptionStringMacro("UnExpected end of line while trying to read POINT_DATA");
         }
 
         /** For scalars we have to read the next line of LOOKUP_TABLE */
@@ -404,12 +404,12 @@ protected:
             std::getline(inputFile, line, '\n');
             if (line.find("LOOKUP_TABLE") == std::string::npos)
             {
-              itkExceptionMacro("UnExpected end of line while trying to read LOOKUP_TABLE");
+              itkExceptionStringMacro("UnExpected end of line while trying to read LOOKUP_TABLE");
             }
           }
           else
           {
-            itkExceptionMacro("UnExpected end of line while trying to read LOOKUP_TABLE");
+            itkExceptionStringMacro("UnExpected end of line while trying to read LOOKUP_TABLE");
           }
         }
 
@@ -720,7 +720,7 @@ protected:
       }
       default:
       {
-        itkExceptionMacro("Unknown point pixel type");
+        itkExceptionStringMacro("Unknown point pixel type");
       }
     }
 
@@ -851,7 +851,7 @@ protected:
       }
       default:
       {
-        itkExceptionMacro("Unknown point pixel type");
+        itkExceptionStringMacro("Unknown point pixel type");
       }
     }
 
@@ -914,7 +914,7 @@ protected:
       }
       default:
       {
-        itkExceptionMacro("Unknown cell pixel type");
+        itkExceptionStringMacro("Unknown cell pixel type");
       }
     }
 
@@ -1041,7 +1041,7 @@ protected:
       }
       default:
       {
-        itkExceptionMacro("Unknown cell pixel type");
+        itkExceptionStringMacro("Unknown cell pixel type");
       }
     }
 

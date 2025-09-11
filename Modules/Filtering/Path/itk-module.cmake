@@ -9,16 +9,15 @@ concept of iterators, polylines, and smooth approximations to paths."
 itk_module(
   ITKPath
   PRIVATE_DEPENDS
-  ITKCommon
+    ITKCommon
   COMPILE_DEPENDS
-  ITKImageFunction
+    ITKImageFunction
   TEST_DEPENDS
-  ITKTestKernel
-  ITKImageIntensity
-  ITKSmoothing
-  ITKImageFeature
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+    ITKImageIntensity
+    ITKSmoothing
+    ITKImageFeature
+  DESCRIPTION "${DOCUMENTATION}"
 )
 
 # Extra test dependencies on ITKImageIntensity, ITKSmoothing, and ITKImageFeature are introduced by itkOrthogonalSwath2DPathFilterTest.

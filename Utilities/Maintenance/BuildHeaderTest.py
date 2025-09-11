@@ -16,7 +16,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-# ==========================================================================*/
+# ==========================================================================
 
 
 usage = """usage: BuildHeaderTest.py <module_name> <module_source_path> <module_binary_path> <maximum_number_of_headers>

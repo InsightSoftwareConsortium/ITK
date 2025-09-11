@@ -59,17 +59,17 @@ MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>::GetValue(const Parameters
 {
   if (m_Image.IsNull())
   {
-    itkExceptionMacro("Image is null");
+    itkExceptionStringMacro("Image is null");
   }
 
   if (!m_InternalEnergyFunction)
   {
-    itkExceptionMacro("EnergyFunction is null");
+    itkExceptionStringMacro("EnergyFunction is null");
   }
 
   if (m_BiasField == nullptr)
   {
-    itkExceptionMacro("BiasField is null");
+    itkExceptionStringMacro("BiasField is null");
   }
 
   MeasureType total = 0.0;
@@ -276,7 +276,7 @@ template <typename TInputImage, typename TOutputImage, typename TMaskImage>
 const unsigned int *
 MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::GetStartingShrinkFactors() const
 {
-  return (m_Schedule.data_block());
+  return m_Schedule.data_block();
 }
 
 template <typename TInputImage, typename TOutputImage, typename TMaskImage>
@@ -352,7 +352,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::SetInputMas
     }
     else
     {
-      itkExceptionMacro("The size of the mask differs from the input image");
+      itkExceptionStringMacro("The size of the mask differs from the input image");
     }
   }
 }
@@ -370,7 +370,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::SetOutputMa
     }
     else
     {
-      itkExceptionMacro("The size of the mask differs from the input image");
+      itkExceptionStringMacro("The size of the mask differs from the input image");
     }
   }
 }
@@ -406,7 +406,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::Initialize(
   // Initialize the energy function
   if (m_TissueClassMeans.Size() < 1)
   {
-    itkExceptionMacro("Tissue Class Means is empty");
+    itkExceptionStringMacro("Tissue Class Means is empty");
   }
 
   if (!m_EnergyFunction)
@@ -744,17 +744,17 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::SetTissueCl
 
   if (meanSize == 0)
   {
-    itkExceptionMacro("arrays of Means is empty");
+    itkExceptionStringMacro("arrays of Means is empty");
   }
 
   if (sigmaSize == 0)
   {
-    itkExceptionMacro("arrays of Sigmas is empty");
+    itkExceptionStringMacro("arrays of Sigmas is empty");
   }
 
   if (meanSize != sigmaSize)
   {
-    itkExceptionMacro("arrays of Means and Sigmas have different lengths");
+    itkExceptionStringMacro("arrays of Means and Sigmas have different lengths");
   }
 
   m_TissueClassMeans = means;

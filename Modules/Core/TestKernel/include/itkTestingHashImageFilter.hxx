@@ -75,7 +75,7 @@ HashImageFilter<TImageType>::AfterThreadedGenerateData()
     }
     else if (sizeof(PixelType) % sizeof(ValueType) != 0)
     {
-      itkExceptionMacro("Unsupported data type for hashing!");
+      itkExceptionStringMacro("Unsupported data type for hashing!");
     }
 
     // we feel bad about accessing the data this way

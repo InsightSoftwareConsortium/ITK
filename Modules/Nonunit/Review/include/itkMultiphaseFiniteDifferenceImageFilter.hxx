@@ -34,7 +34,7 @@ MultiphaseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputImage, 
 {
   if (!this->m_FunctionCount)
   {
-    itkExceptionMacro("Number of level set functions not specified. Please set using SetFunctionCount()");
+    itkExceptionStringMacro("Number of level set functions not specified. Please set using SetFunctionCount()");
   }
 
   if (!this->m_InitializedState)
@@ -180,8 +180,7 @@ MultiphaseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputImage, 
     // build an exception
     InvalidRequestedRegionError e(__FILE__, __LINE__);
     e.SetLocation(ITK_LOCATION);
-    e.SetDescription("Requested region is (at least partially) outside the "
-                     "largest possible region.");
+    e.SetDescription("Requested region is (at least partially) outside the largest possible region.");
     e.SetDataObject(inputPtr);
     throw e;
   }
@@ -221,7 +220,7 @@ MultiphaseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputImage, 
 
     if (!flag)
     {
-      itkExceptionMacro("No Values");
+      itkExceptionStringMacro("No Values");
     }
 
     // find minimum value

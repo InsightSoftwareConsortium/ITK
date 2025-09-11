@@ -201,7 +201,7 @@ BSplineTransformParametersAdaptor<TTransform>::AdaptTransformParameters()
 {
   if (!this->m_Transform)
   {
-    itkExceptionMacro("Transform has not been set.");
+    itkExceptionStringMacro("Transform has not been set.");
   }
 
   if (this->m_RequiredFixedParameters == this->m_Transform->GetFixedParameters())

@@ -88,7 +88,7 @@ SpatialObject<TDimension>::DerivativeAtInObjectSpace(const PointType &          
 {
   if (!IsEvaluableAtInObjectSpace(point, depth, name))
   {
-    itkExceptionMacro("This spatial object is not evaluable at the point");
+    itkExceptionStringMacro("This spatial object is not evaluable at the point");
   }
 
   if (order == 0)
@@ -123,7 +123,7 @@ SpatialObject<TDimension>::DerivativeAtInObjectSpace(const PointType &          
       DerivativeAtInObjectSpace(p1, order - 1, v1, depth, name, offsetDiv2);
       DerivativeAtInObjectSpace(p2, order - 1, v2, depth, name, offsetDiv2);
 
-      (*it) = ((*it_v2) - (*it_v1)) / 2;
+      *it = (*it_v2 - *it_v1) / 2;
     }
   }
 }
@@ -468,7 +468,7 @@ SpatialObject<TDimension>::SetObjectToParentTransform(const TransformType * tran
 {
   if (!transform->GetInverse(m_ObjectToParentTransformInverse))
   {
-    itkExceptionMacro("Transform must be invertible.");
+    itkExceptionStringMacro("Transform must be invertible.");
   }
 
   m_ObjectToParentTransform->SetFixedParameters(transform->GetFixedParameters());
@@ -501,7 +501,7 @@ SpatialObject<TDimension>::ProtectedComputeObjectToWorldTransform()
 
   if (!m_ObjectToWorldTransform->GetInverse(m_ObjectToWorldTransformInverse))
   {
-    itkExceptionMacro("Transform must be invertible.");
+    itkExceptionStringMacro("Transform must be invertible.");
   }
 
   // Propagate the changes to the children
@@ -519,7 +519,7 @@ SpatialObject<TDimension>::SetObjectToWorldTransform(const TransformType * trans
 {
   if (!transform->GetInverse(m_ObjectToWorldTransformInverse))
   {
-    itkExceptionMacro("Transform must be invertible.");
+    itkExceptionStringMacro("Transform must be invertible.");
   }
 
   m_ObjectToWorldTransform->SetFixedParameters(transform->GetFixedParameters());
@@ -556,13 +556,13 @@ SpatialObject<TDimension>::ComputeObjectToParentTransform()
     }
     else
     {
-      itkExceptionMacro("Parent's ObjectToWorldTransform not invertible.");
+      itkExceptionStringMacro("Parent's ObjectToWorldTransform not invertible.");
     }
   }
 
   if (!m_ObjectToParentTransform->GetInverse(m_ObjectToParentTransformInverse))
   {
-    itkExceptionMacro("ObjectToParentTransform not invertible.");
+    itkExceptionStringMacro("ObjectToParentTransform not invertible.");
   }
   ProtectedComputeObjectToWorldTransform();
 }

@@ -11,29 +11,28 @@ module, instead."
 itk_module(
   ITKIOMesh
   DEPENDS
-  ITKCommon
-  ITKIOMeshBase
-  ITKIOMeshVTK
-  ITKIOMeshBYU
-  ITKIOMeshFreeSurfer
-  ITKIOMeshGifti
-  ITKIOMeshOBJ
-  ITKIOMeshOFF
+    ITKCommon
+    ITKIOMeshBase
+    ITKIOMeshVTK
+    ITKIOMeshBYU
+    ITKIOMeshFreeSurfer
+    ITKIOMeshGifti
+    ITKIOMeshOBJ
+    ITKIOMeshOFF
   TEST_DEPENDS
-  ITKTestKernel
-  ITKQuadEdgeMesh
-  ITKIOMeshVTK
-  ITKIOMeshFreeSurfer
-  ITKIOMeshGifti
-  ITKIOMeshOBJ
-  ITKIOMeshOFF
+    ITKTestKernel
+    ITKQuadEdgeMesh
+    ITKIOMeshVTK
+    ITKIOMeshFreeSurfer
+    ITKIOMeshGifti
+    ITKIOMeshOBJ
+    ITKIOMeshOFF
   FACTORY_NAMES
-  MeshIO::BYU
-  MeshIO::FreeSurferAscii
-  MeshIO::FreeSurferBinary
-  MeshIO::Gifti
-  MeshIO::OBJ
-  MeshIO::OFF
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    MeshIO::BYU
+    MeshIO::FreeSurferAscii
+    MeshIO::FreeSurferBinary
+    MeshIO::Gifti
+    MeshIO::OBJ
+    MeshIO::OFF
+  DESCRIPTION "${DOCUMENTATION}"
 )

@@ -34,8 +34,7 @@ namespace Eigen {
 namespace internal {
 
 template <>
-EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS Packet4f
-plog<Packet4f>(const Packet4f& _x) {
+EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS Packet4f plog<Packet4f>(const Packet4f& _x) {
   static EIGEN_DECLARE_CONST_Packet4f(cephes_SQRTHF, 0.707106781186547524f);
   static EIGEN_DECLARE_CONST_Packet4f(cephes_log_p0, 7.0376836292e-2f);
   static EIGEN_DECLARE_CONST_Packet4f(cephes_log_p1, -1.1514610310e-1f);
@@ -122,8 +121,7 @@ plog<Packet4f>(const Packet4f& _x) {
 }
 
 template <>
-EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS Packet4f
-pexp<Packet4f>(const Packet4f& _x) {
+EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS Packet4f pexp<Packet4f>(const Packet4f& _x) {
   // Limiting single-precision pexp's argument to [-128, +128] lets pexp
   // reach 0 and INFINITY naturally.
   static EIGEN_DECLARE_CONST_Packet4f(exp_lo, -128.0f);
@@ -143,10 +141,8 @@ pexp<Packet4f>(const Packet4f& _x) {
   Packet4f x = _x;
 
   // Clamp x.
-  x = (Packet4f)__builtin_msa_bsel_v((v16u8)__builtin_msa_fclt_w(x, p4f_exp_lo), (v16u8)x,
-                                     (v16u8)p4f_exp_lo);
-  x = (Packet4f)__builtin_msa_bsel_v((v16u8)__builtin_msa_fclt_w(p4f_exp_hi, x), (v16u8)x,
-                                     (v16u8)p4f_exp_hi);
+  x = (Packet4f)__builtin_msa_bsel_v((v16u8)__builtin_msa_fclt_w(x, p4f_exp_lo), (v16u8)x, (v16u8)p4f_exp_lo);
+  x = (Packet4f)__builtin_msa_bsel_v((v16u8)__builtin_msa_fclt_w(p4f_exp_hi, x), (v16u8)x, (v16u8)p4f_exp_hi);
 
   // Round to nearest integer by adding 0.5 (with x's sign) and truncating.
   Packet4f x2_add = (Packet4f)__builtin_msa_binsli_w((v4u32)p4f_half, (v4u32)x, 0);
@@ -175,8 +171,7 @@ pexp<Packet4f>(const Packet4f& _x) {
 }
 
 template <>
-EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS Packet4f
-ptanh<Packet4f>(const Packet4f& _x) {
+EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS Packet4f ptanh<Packet4f>(const Packet4f& _x) {
   static EIGEN_DECLARE_CONST_Packet4f(tanh_tiny, 1e-4f);
   static EIGEN_DECLARE_CONST_Packet4f(tanh_hi, 9.0f);
   // The monomial coefficients of the numerator polynomial (odd).
@@ -198,8 +193,7 @@ ptanh<Packet4f>(const Packet4f& _x) {
 
   // Clamp the inputs to the range [-9, 9] since anything outside
   // this range is -/+1.0f in single-precision.
-  x = (Packet4f)__builtin_msa_bsel_v((v16u8)__builtin_msa_fclt_w(p4f_tanh_hi, x), (v16u8)x,
-                                     (v16u8)p4f_tanh_hi);
+  x = (Packet4f)__builtin_msa_bsel_v((v16u8)__builtin_msa_fclt_w(p4f_tanh_hi, x), (v16u8)x, (v16u8)p4f_tanh_hi);
 
   // Since the polynomials are odd/even, we need x**2.
   Packet4f x2 = pmul(x, x);
@@ -264,7 +258,7 @@ Packet4f psincos_inner_msa_float(const Packet4f& _x) {
   // x's from odd-numbered octants will translate to octant -1: [-Pi/4, 0].
   // Adjustment for odd-numbered octants: octant = (octant + 1) & (~1).
   Packet4i y_int1 = __builtin_msa_addvi_w(y_int, 1);
-  Packet4i y_int2 = (Packet4i)__builtin_msa_bclri_w((Packet4ui)y_int1, 0); // bclri = bit-clear
+  Packet4i y_int2 = (Packet4i)__builtin_msa_bclri_w((Packet4ui)y_int1, 0);  // bclri = bit-clear
   y = __builtin_msa_ffint_s_w(y_int2);
 
   // Compute the sign to apply to the polynomial.
@@ -308,25 +302,22 @@ Packet4f psincos_inner_msa_float(const Packet4f& _x) {
 
   // Update the sign.
   sign_mask = pxor(sign_mask, (Packet4i)y);
-  y = (Packet4f)__builtin_msa_binsli_w((v4u32)y, (v4u32)sign_mask, 0); // binsli = bit-insert-left
+  y = (Packet4f)__builtin_msa_binsli_w((v4u32)y, (v4u32)sign_mask, 0);  // binsli = bit-insert-left
   return y;
 }
 
 template <>
-EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS Packet4f
-psin<Packet4f>(const Packet4f& x) {
+EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS Packet4f psin<Packet4f>(const Packet4f& x) {
   return psincos_inner_msa_float</* sine */ true>(x);
 }
 
 template <>
-EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS Packet4f
-pcos<Packet4f>(const Packet4f& x) {
+EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS Packet4f pcos<Packet4f>(const Packet4f& x) {
   return psincos_inner_msa_float</* sine */ false>(x);
 }
 
 template <>
-EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS Packet2d
-pexp<Packet2d>(const Packet2d& _x) {
+EIGEN_DEFINE_FUNCTION_ALLOWING_MULTIPLE_DEFINITIONS Packet2d pexp<Packet2d>(const Packet2d& _x) {
   // Limiting double-precision pexp's argument to [-1024, +1024] lets pexp
   // reach 0 and INFINITY naturally.
   static EIGEN_DECLARE_CONST_Packet2d(exp_lo, -1024.0);
@@ -348,10 +339,8 @@ pexp<Packet2d>(const Packet2d& _x) {
   Packet2d x = _x;
 
   // Clamp x.
-  x = (Packet2d)__builtin_msa_bsel_v((v16u8)__builtin_msa_fclt_d(x, p2d_exp_lo), (v16u8)x,
-                                     (v16u8)p2d_exp_lo);
-  x = (Packet2d)__builtin_msa_bsel_v((v16u8)__builtin_msa_fclt_d(p2d_exp_hi, x), (v16u8)x,
-                                     (v16u8)p2d_exp_hi);
+  x = (Packet2d)__builtin_msa_bsel_v((v16u8)__builtin_msa_fclt_d(x, p2d_exp_lo), (v16u8)x, (v16u8)p2d_exp_lo);
+  x = (Packet2d)__builtin_msa_bsel_v((v16u8)__builtin_msa_fclt_d(p2d_exp_hi, x), (v16u8)x, (v16u8)p2d_exp_hi);
 
   // Round to nearest integer by adding 0.5 (with x's sign) and truncating.
   Packet2d x2_add = (Packet2d)__builtin_msa_binsli_d((v2u64)p2d_half, (v2u64)x, 0);

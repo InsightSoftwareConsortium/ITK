@@ -127,13 +127,13 @@ ArchetypeSeriesFileNames::Scan()
   for (std::string::iterator sit = fileName.begin(); sit < fileName.end(); ++sit)
   {
     // If the element is a number, find its starting index and length.
-    if ((*sit) >= '0' && (*sit) <= '9')
+    if (*sit >= '0' && *sit <= '9')
     {
       const int sIndex = static_cast<int>(sit - fileName.begin());
       numGroupStart.push_back(sIndex);
 
       // Loop to one past the end of the group of numbers.
-      while (sit != fileName.end() && (*sit) >= '0' && (*sit) <= '9')
+      while (sit != fileName.end() && *sit >= '0' && *sit <= '9')
       {
         ++sit;
       }

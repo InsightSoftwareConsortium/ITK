@@ -30,20 +30,20 @@ QuadEdgeMeshEulerOperatorCreateCenterVertexFunction<TMesh, TQEType>::Evaluate(QE
   if (!e)
   {
     itkDebugMacro("Input is not an edge.");
-    return ((QEType *)nullptr);
+    return (QEType *)nullptr;
   }
 
   if (!this->m_Mesh)
   {
     itkDebugMacro("No mesh present.");
-    return ((OutputType) nullptr);
+    return (OutputType) nullptr;
   }
 
   // Is left face set ?
   if (!e->IsLeftSet())
   {
     itkDebugMacro("Argument edge has no left face.");
-    return ((OutputType) nullptr);
+    return (OutputType) nullptr;
   }
 #endif
 
@@ -88,7 +88,7 @@ QuadEdgeMeshEulerOperatorCreateCenterVertexFunction<TMesh, TQEType>::Evaluate(QE
     edgeRef = this->m_Mesh->FindEdge(this->m_NewPointID, tempPoint);
   }
 
-  return (e->GetLnext());
+  return e->GetLnext();
 }
 
 } // end namespace itk

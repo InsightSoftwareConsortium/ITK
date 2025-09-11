@@ -20,78 +20,72 @@ createtestdriver(ITKPDEDeformableRegistration "${ITKPDEDeformableRegistration-Te
 )
 
 itk_add_test(
-  NAME
-  itkDemonsRegistrationFilterTest
+  NAME itkDemonsRegistrationFilterTest
   COMMAND
-  ITKPDEDeformableRegistrationTestDriver
-  itkDemonsRegistrationFilterTest
+    ITKPDEDeformableRegistrationTestDriver
+    itkDemonsRegistrationFilterTest
 )
 itk_add_test(
-  NAME
-  itkLevelSetMotionRegistrationFilterTest
+  NAME itkLevelSetMotionRegistrationFilterTest
   COMMAND
-  ITKPDEDeformableRegistrationTestDriver
-  itkLevelSetMotionRegistrationFilterTest
-  ${ITK_TEST_OUTPUT_DIR}/itkLevelSetMotionRegistrationFilterTestFixedImage.mha
-  ${ITK_TEST_OUTPUT_DIR}/itkLevelSetMotionRegistrationFilterTestMovingImage.mha
-  ${ITK_TEST_OUTPUT_DIR}/itkLevelSetMotionRegistrationFilterTestResampledImage.mha
+    ITKPDEDeformableRegistrationTestDriver
+    itkLevelSetMotionRegistrationFilterTest
+    ${ITK_TEST_OUTPUT_DIR}/itkLevelSetMotionRegistrationFilterTestFixedImage.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkLevelSetMotionRegistrationFilterTestMovingImage.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkLevelSetMotionRegistrationFilterTestResampledImage.mha
 )
 itk_add_test(
-  NAME
-  itkSymmetricForcesDemonsRegistrationFilterTest
+  NAME itkSymmetricForcesDemonsRegistrationFilterTest
   COMMAND
-  ITKPDEDeformableRegistrationTestDriver
-  itkSymmetricForcesDemonsRegistrationFilterTest
+    ITKPDEDeformableRegistrationTestDriver
+    itkSymmetricForcesDemonsRegistrationFilterTest
 )
 itk_add_test(
-  NAME
-  itkMultiResolutionPDEDeformableRegistrationTestD
+  NAME itkMultiResolutionPDEDeformableRegistrationTestD
   ${TestDriver}
   COMMAND
-  ITKPDEDeformableRegistrationTestDriver
-  --compare
-  DATA{${BASELINE}/itkMultiResolutionPDEDeformableRegistrationTestPixelCentered.png}
-  ${TEMP}/itkMultiResolutionPDEDeformableRegistrationTestPixelCentered.png
-  --compareNumberOfPixelsTolerance
-  20
-  itkMultiResolutionPDEDeformableRegistrationTest
-  ${TEMP}/itkMultiResolutionPDEDeformableRegistrationTestPixelCentered.png
+    ITKPDEDeformableRegistrationTestDriver
+    --compare
+    DATA{${BASELINE}/itkMultiResolutionPDEDeformableRegistrationTestPixelCentered.png}
+    ${TEMP}/itkMultiResolutionPDEDeformableRegistrationTestPixelCentered.png
+    --compareNumberOfPixelsTolerance
+    20
+    itkMultiResolutionPDEDeformableRegistrationTest
+    ${TEMP}/itkMultiResolutionPDEDeformableRegistrationTestPixelCentered.png
 )
 itk_add_test(
-  NAME
-  itkDiffeomorphicDemonsRegistrationFilterTest01
+  NAME itkDiffeomorphicDemonsRegistrationFilterTest01
   COMMAND
-  ITKPDEDeformableRegistrationTestDriver
-  itkDiffeomorphicDemonsRegistrationFilterTest
-  0
-  0
-  0.001
-  20.0
-  200
-  0.01
-  0.08
-  5
-  10
+    ITKPDEDeformableRegistrationTestDriver
+    itkDiffeomorphicDemonsRegistrationFilterTest
+    0
+    0
+    0.001
+    20.0
+    200
+    0.01
+    0.08
+    5
+    10
 )
 itk_add_test(
-  NAME
-  itkDiffeomorphicDemonsRegistrationFilterTest02
+  NAME itkDiffeomorphicDemonsRegistrationFilterTest02
   COMMAND
-  ITKPDEDeformableRegistrationTestDriver
-  --redirectOutput
-  itkDiffeomorphicDemonsRegistrationFilterTest02
-  --redirectOutput
-  ${TEMP}/itkDiffeomorphicDemonsRegistrationFilterTest02.txt
-  itkDiffeomorphicDemonsRegistrationFilterTest
-  1
-  0
-  0.01
-  3.0
-  400
-  0.2
-  0.9
-  10
-  70
+    ITKPDEDeformableRegistrationTestDriver
+    --redirectOutput
+    itkDiffeomorphicDemonsRegistrationFilterTest02
+    --redirectOutput
+    ${TEMP}/itkDiffeomorphicDemonsRegistrationFilterTest02.txt
+    itkDiffeomorphicDemonsRegistrationFilterTest
+    1
+    0
+    0.01
+    3.0
+    400
+    0.2
+    0.9
+    10
+    70
 )
 set_tests_properties(
   itkDiffeomorphicDemonsRegistrationFilterTest02
@@ -101,55 +95,52 @@ set_tests_properties(
 )
 
 itk_add_test(
-  NAME
-  itkDiffeomorphicDemonsRegistrationFilterTest03
+  NAME itkDiffeomorphicDemonsRegistrationFilterTest03
   COMMAND
-  ITKPDEDeformableRegistrationTestDriver
-  itkDiffeomorphicDemonsRegistrationFilterTest
-  2
-  0
-  0.001
-  20.0
-  200
-  0.01
-  0.08
-  5
-  10
+    ITKPDEDeformableRegistrationTestDriver
+    itkDiffeomorphicDemonsRegistrationFilterTest
+    2
+    0
+    0.001
+    20.0
+    200
+    0.01
+    0.08
+    5
+    10
 )
 itk_add_test(
-  NAME
-  itkDiffeomorphicDemonsRegistrationFilterTest04
+  NAME itkDiffeomorphicDemonsRegistrationFilterTest04
   COMMAND
-  ITKPDEDeformableRegistrationTestDriver
-  itkDiffeomorphicDemonsRegistrationFilterTest
-  3
-  0
-  0.01
-  3.0
-  200
-  0.2
-  0.8
-  5
-  70
+    ITKPDEDeformableRegistrationTestDriver
+    itkDiffeomorphicDemonsRegistrationFilterTest
+    3
+    0
+    0.01
+    3.0
+    200
+    0.2
+    0.8
+    5
+    70
 )
 
 itk_add_test(
-  NAME
-  itkDiffeomorphicDemonsRegistrationFilterTest05
+  NAME itkDiffeomorphicDemonsRegistrationFilterTest05
   COMMAND
-  ITKPDEDeformableRegistrationTestDriver
-  --redirectOutput
-  ${TEMP}/itkDiffeomorphicDemonsRegistrationFilterTest05.txt
-  itkDiffeomorphicDemonsRegistrationFilterTest
-  0
-  1
-  0.01
-  3.0
-  400
-  0.2
-  0.08
-  5
-  70
+    ITKPDEDeformableRegistrationTestDriver
+    --redirectOutput
+    ${TEMP}/itkDiffeomorphicDemonsRegistrationFilterTest05.txt
+    itkDiffeomorphicDemonsRegistrationFilterTest
+    0
+    1
+    0.01
+    3.0
+    400
+    0.2
+    0.08
+    5
+    70
 )
 set_tests_properties(
   itkDiffeomorphicDemonsRegistrationFilterTest05
@@ -159,102 +150,94 @@ set_tests_properties(
 )
 
 itk_add_test(
-  NAME
-  itkDiffeomorphicDemonsRegistrationFilterTest06
+  NAME itkDiffeomorphicDemonsRegistrationFilterTest06
   COMMAND
-  ITKPDEDeformableRegistrationTestDriver
-  itkDiffeomorphicDemonsRegistrationFilterTest
-  0
-  0
-  0.005
-  20.0
-  200
-  0.01
-  0.08
-  5
-  10
+    ITKPDEDeformableRegistrationTestDriver
+    itkDiffeomorphicDemonsRegistrationFilterTest
+    0
+    0
+    0.005
+    20.0
+    200
+    0.01
+    0.08
+    5
+    10
 )
 itk_add_test(
-  NAME
-  itkDiffeomorphicDemonsRegistrationFilterTest07
+  NAME itkDiffeomorphicDemonsRegistrationFilterTest07
   COMMAND
-  ITKPDEDeformableRegistrationTestDriver
-  itkDiffeomorphicDemonsRegistrationFilterTest2
-  ${ITK_EXAMPLE_DATA_ROOT}/RatLungSlice1.mha
-  ${ITK_EXAMPLE_DATA_ROOT}/RatLungSlice2.mha
-  ${ITK_TEST_OUTPUT_DIR}/itkDiffeomorphicDemonsRegistrationFilterTest07.mha
-  0
-  0
-  0.001
-  0.1
+    ITKPDEDeformableRegistrationTestDriver
+    itkDiffeomorphicDemonsRegistrationFilterTest2
+    ${ITK_EXAMPLE_DATA_ROOT}/RatLungSlice1.mha
+    ${ITK_EXAMPLE_DATA_ROOT}/RatLungSlice2.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkDiffeomorphicDemonsRegistrationFilterTest07.mha
+    0
+    0
+    0.001
+    0.1
 )
 itk_add_test(
-  NAME
-  itkDiffeomorphicDemonsRegistrationFilterTest08
+  NAME itkDiffeomorphicDemonsRegistrationFilterTest08
   COMMAND
-  ITKPDEDeformableRegistrationTestDriver
-  itkDiffeomorphicDemonsRegistrationFilterTest2
-  ${ITK_EXAMPLE_DATA_ROOT}/RatLungSlice1.mha
-  ${ITK_EXAMPLE_DATA_ROOT}/RatLungSlice2.mha
-  ${ITK_TEST_OUTPUT_DIR}/itkDiffeomorphicDemonsRegistrationFilterTest08.mha
-  1
-  0
-  0.001
-  0.1
+    ITKPDEDeformableRegistrationTestDriver
+    itkDiffeomorphicDemonsRegistrationFilterTest2
+    ${ITK_EXAMPLE_DATA_ROOT}/RatLungSlice1.mha
+    ${ITK_EXAMPLE_DATA_ROOT}/RatLungSlice2.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkDiffeomorphicDemonsRegistrationFilterTest08.mha
+    1
+    0
+    0.001
+    0.1
 )
 itk_add_test(
-  NAME
-  itkDiffeomorphicDemonsRegistrationFilterTest09
+  NAME itkDiffeomorphicDemonsRegistrationFilterTest09
   COMMAND
-  ITKPDEDeformableRegistrationTestDriver
-  itkDiffeomorphicDemonsRegistrationFilterTest2
-  ${ITK_EXAMPLE_DATA_ROOT}/RatLungSlice1.mha
-  ${ITK_EXAMPLE_DATA_ROOT}/RatLungSlice2.mha
-  ${ITK_TEST_OUTPUT_DIR}/itkDiffeomorphicDemonsRegistrationFilterTest09.mha
-  2
-  0
-  0.001
-  0.1
+    ITKPDEDeformableRegistrationTestDriver
+    itkDiffeomorphicDemonsRegistrationFilterTest2
+    ${ITK_EXAMPLE_DATA_ROOT}/RatLungSlice1.mha
+    ${ITK_EXAMPLE_DATA_ROOT}/RatLungSlice2.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkDiffeomorphicDemonsRegistrationFilterTest09.mha
+    2
+    0
+    0.001
+    0.1
 )
 itk_add_test(
-  NAME
-  itkDiffeomorphicDemonsRegistrationFilterTest10
+  NAME itkDiffeomorphicDemonsRegistrationFilterTest10
   COMMAND
-  ITKPDEDeformableRegistrationTestDriver
-  itkDiffeomorphicDemonsRegistrationFilterTest2
-  ${ITK_EXAMPLE_DATA_ROOT}/RatLungSlice1.mha
-  ${ITK_EXAMPLE_DATA_ROOT}/RatLungSlice2.mha
-  ${ITK_TEST_OUTPUT_DIR}/itkDiffeomorphicDemonsRegistrationFilterTest10.mha
-  3
-  0
-  0.001
-  0.1
+    ITKPDEDeformableRegistrationTestDriver
+    itkDiffeomorphicDemonsRegistrationFilterTest2
+    ${ITK_EXAMPLE_DATA_ROOT}/RatLungSlice1.mha
+    ${ITK_EXAMPLE_DATA_ROOT}/RatLungSlice2.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkDiffeomorphicDemonsRegistrationFilterTest10.mha
+    3
+    0
+    0.001
+    0.1
 )
 itk_add_test(
-  NAME
-  itkDiffeomorphicDemonsRegistrationFilterTest11
+  NAME itkDiffeomorphicDemonsRegistrationFilterTest11
   COMMAND
-  ITKPDEDeformableRegistrationTestDriver
-  itkDiffeomorphicDemonsRegistrationFilterTest2
-  ${ITK_EXAMPLE_DATA_ROOT}/RatLungSlice1.mha
-  ${ITK_EXAMPLE_DATA_ROOT}/RatLungSlice2.mha
-  ${ITK_TEST_OUTPUT_DIR}/itkDiffeomorphicDemonsRegistrationFilterTest11.mha
-  0
-  1
-  0.001
-  0.1
+    ITKPDEDeformableRegistrationTestDriver
+    itkDiffeomorphicDemonsRegistrationFilterTest2
+    ${ITK_EXAMPLE_DATA_ROOT}/RatLungSlice1.mha
+    ${ITK_EXAMPLE_DATA_ROOT}/RatLungSlice2.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkDiffeomorphicDemonsRegistrationFilterTest11.mha
+    0
+    1
+    0.001
+    0.1
 )
 itk_add_test(
-  NAME
-  itkFastSymmetricForcesDemonsRegistrationFilterTest
+  NAME itkFastSymmetricForcesDemonsRegistrationFilterTest
   COMMAND
-  ITKPDEDeformableRegistrationTestDriver
-  itkFastSymmetricForcesDemonsRegistrationFilterTest
+    ITKPDEDeformableRegistrationTestDriver
+    itkFastSymmetricForcesDemonsRegistrationFilterTest
 )
 itk_add_test(
-  NAME
-  itkESMDemonsRegistrationFunctionTest
+  NAME itkESMDemonsRegistrationFunctionTest
   COMMAND
-  ITKPDEDeformableRegistrationTestDriver
-  itkESMDemonsRegistrationFunctionTest
+    ITKPDEDeformableRegistrationTestDriver
+    itkESMDemonsRegistrationFunctionTest
 )

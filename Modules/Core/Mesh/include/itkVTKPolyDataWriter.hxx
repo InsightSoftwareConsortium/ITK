@@ -69,7 +69,7 @@ VTKPolyDataWriter<TInputMesh>::GenerateData()
 {
   if (this->m_FileName.empty())
   {
-    itkExceptionMacro("No FileName");
+    itkExceptionStringMacro("No FileName");
   }
 
   //

@@ -7,9 +7,8 @@ eigenvectors and eigenvalues."
 itk_module(
   ITKEigen
   DEPENDS
-  ITKImageFilterBase
+    ITKImageFilterBase
   TEST_DEPENDS
-  ITKTestKernel
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+  DESCRIPTION "${DOCUMENTATION}"
 )

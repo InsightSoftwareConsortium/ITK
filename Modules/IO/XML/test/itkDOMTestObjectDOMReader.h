@@ -69,14 +69,14 @@ DOMTestObjectDOMReader::GenerateData(const DOMNodeType * inputdom, const void *)
 
   if (inputdom->GetName() != "DOMTestObject")
   {
-    itkExceptionMacro("tag name DOMTestObject is expected");
+    itkExceptionStringMacro("tag name DOMTestObject is expected");
   }
 
   // read child foo
   const DOMNodeType * foo = inputdom->GetChild("foo");
   if (foo == nullptr)
   {
-    itkExceptionMacro("child foo not found");
+    itkExceptionStringMacro("child foo not found");
   }
   s = foo->GetAttribute("fname");
   output->SetFooFileName(s);
@@ -84,7 +84,7 @@ DOMTestObjectDOMReader::GenerateData(const DOMNodeType * inputdom, const void *)
   ifs.open(s.ToString().c_str());
   if (!ifs.is_open())
   {
-    itkExceptionMacro("cannot read foo file");
+    itkExceptionStringMacro("cannot read foo file");
   }
   std::string fooValue;
   ifs >> fooValue;

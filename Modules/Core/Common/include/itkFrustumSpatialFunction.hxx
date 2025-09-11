@@ -106,7 +106,7 @@ FrustumSpatialFunction<VDimension, TInput>::Evaluate(const InputType & position)
   }
   else
   {
-    itkExceptionMacro("Rotation plane not set or set to an unsupported value!");
+    itkExceptionStringMacro("Rotation plane not set or set to an unsupported value!");
   }
 }
 

@@ -152,11 +152,11 @@ TxtTransformIOTemplate<TParametersValueType>::Read()
     }
 
     // Get the name
-    const std::string::size_type end = line.find(":");
+    const std::string::size_type end = line.find(':');
     if (end == std::string::npos)
     {
       // Throw an error
-      itkExceptionMacro("Tags must be delimited by :");
+      itkExceptionStringMacro("Tags must be delimited by :");
     }
     const std::string Name = trim(line.substr(0, end));
     std::string       Value = trim(line.substr(end + 1, line.length()));
@@ -211,8 +211,7 @@ TxtTransformIOTemplate<TParametersValueType>::Read()
         itkDebugMacro("Setting Fixed Parameters: " << TmpFixedParameterArray);
         if (!transform)
         {
-          itkExceptionMacro("Please set the transform before parameters"
-                            "or fixed parameters");
+          itkExceptionStringMacro("Please set the transform before parametersor fixed parameters");
         }
         if (haveParameters)
         {
@@ -288,7 +287,7 @@ TxtTransformIOTemplate<TParametersValueType>::Write()
     {
       if (count > 0)
       {
-        itkExceptionMacro("Composite Transform can only be 1st transform in a file");
+        itkExceptionStringMacro("Composite Transform can only be 1st transform in a file");
       }
     }
     else

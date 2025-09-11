@@ -9,9 +9,8 @@ not intended to be instantiated by themselves."
 itk_module(
   ITKFiniteDifference
   COMPILE_DEPENDS
-  ITKCommon
+    ITKCommon
   TEST_DEPENDS
-  ITKTestKernel
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+  DESCRIPTION "${DOCUMENTATION}"
 )

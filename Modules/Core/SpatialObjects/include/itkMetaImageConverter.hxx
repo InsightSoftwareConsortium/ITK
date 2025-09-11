@@ -96,7 +96,7 @@ MetaImageConverter<VDimension, PixelType, TSpatialObjectType>::MetaObjectToSpati
 
   if (imageMO == nullptr)
   {
-    itkExceptionMacro("Can't convert MetaObject to MetaImage");
+    itkExceptionStringMacro("Can't convert MetaObject to MetaImage");
   }
 
   const ImageSpatialObjectPointer imageSO = ImageSpatialObjectType::New();
@@ -127,7 +127,7 @@ MetaImageConverter<VDimension, PixelType, TSpatialObjectType>::SpatialObjectToMe
 
   if (imageSO.IsNull())
   {
-    itkExceptionMacro("Can't downcast SpatialObject to ImageSpatialObject");
+    itkExceptionStringMacro("Can't downcast SpatialObject to ImageSpatialObject");
   }
   using ImageConstPointer = typename ImageType::ConstPointer;
 

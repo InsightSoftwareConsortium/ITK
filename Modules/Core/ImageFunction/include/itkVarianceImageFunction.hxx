@@ -50,12 +50,12 @@ VarianceImageFunction<TInputImage, TCoordinate>::EvaluateAtIndex(const IndexType
 
   if (!this->GetInputImage())
   {
-    return (NumericTraits<RealType>::max());
+    return NumericTraits<RealType>::max();
   }
 
   if (!this->IsInsideBuffer(index))
   {
-    return (NumericTraits<RealType>::max());
+    return NumericTraits<RealType>::max();
   }
 
   // Create an N-d neighborhood kernel, using a zeroflux boundary condition
@@ -79,7 +79,7 @@ VarianceImageFunction<TInputImage, TCoordinate>::EvaluateAtIndex(const IndexType
   const auto num = static_cast<double>(size);
   var = (sumOfSquares - (sum * sum / num)) / (num - 1.0);
 
-  return (var);
+  return var;
 }
 } // end namespace itk
 

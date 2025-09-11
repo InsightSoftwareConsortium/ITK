@@ -16,20 +16,18 @@ createtestdriver(ITKVideoCore "${ITKVideoCore-Test_LIBRARIES}" "${ITKVideoCoreTe
 
 # VideoToVideoFilterTest
 itk_add_test(
-  NAME
-  VideoToVideoFilterTest
+  NAME VideoToVideoFilterTest
   COMMAND
-  ITKVideoCoreTestDriver
-  itkVideoToVideoFilterTest
+    ITKVideoCoreTestDriver
+    itkVideoToVideoFilterTest
 )
 
 # VideoSourceTest
 itk_add_test(
-  NAME
-  VideoSourceTest
+  NAME VideoSourceTest
   COMMAND
-  ITKVideoCoreTestDriver
-  itkVideoSourceTest
+    ITKVideoCoreTestDriver
+    itkVideoSourceTest
 )
 
 # VideoStreamTest
@@ -37,9 +35,8 @@ itk_add_test(
 # for the dashboards sake until we have time to debug further.
 if(0)
   itk_add_test(
-      NAME
-      VideoStreamTest
-      COMMAND
+    NAME VideoStreamTest
+    COMMAND
       ITKVideoCoreTestDriver
       itkVideoStreamTest
   )
@@ -47,62 +44,56 @@ endif()
 
 # TemporalProcessObjectTest
 itk_add_test(
-  NAME
-  TemporalProcessObjectTest
+  NAME TemporalProcessObjectTest
   COMMAND
-  ITKVideoCoreTestDriver
-  itkTemporalProcessObjectTest
+    ITKVideoCoreTestDriver
+    itkTemporalProcessObjectTest
 )
 
 # RingBufferTest
 itk_add_test(
-  NAME
-  RingBufferTest
+  NAME RingBufferTest
   COMMAND
-  ITKVideoCoreTestDriver
-  itkRingBufferTest
+    ITKVideoCoreTestDriver
+    itkRingBufferTest
 )
 
 # Testing Temporal Regions
 itk_add_test(
-  NAME
-  TemporalRegionTest
+  NAME TemporalRegionTest
   COMMAND
-  ITKVideoCoreTestDriver
-  itkTemporalRegionTest
+    ITKVideoCoreTestDriver
+    itkTemporalRegionTest
 )
 
 # Testing Temporal Data Object
 itk_add_test(
-  NAME
-  TemporalDataObjectTest
+  NAME TemporalDataObjectTest
   COMMAND
-  ITKVideoCoreTestDriver
-  itkTemporalDataObjectTest
+    ITKVideoCoreTestDriver
+    itkTemporalDataObjectTest
 )
 
 itk_add_test(
-  NAME
-  ImageToVideoFilterTest
+  NAME ImageToVideoFilterTest
   COMMAND
-  ITKVideoCoreTestDriver
-  --compare
-  DATA{Baseline/HeadMRVolume_Frame0.mha}
-  ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume_Frame0.mha
-  itkImageToVideoFilterTest
-  DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeCompressed.mha}
-  ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume_Frame0.mha
+    ITKVideoCoreTestDriver
+    --compare
+    DATA{Baseline/HeadMRVolume_Frame0.mha}
+    ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume_Frame0.mha
+    itkImageToVideoFilterTest
+    DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeCompressed.mha}
+    ${ITK_TEST_OUTPUT_DIR}/HeadMRVolume_Frame0.mha
 )
 
 itk_add_test(
-  NAME
-  VectorImageToVideoTest
+  NAME VectorImageToVideoTest
   COMMAND
-  ITKVideoCoreTestDriver
-  --compare
-  DATA{Baseline/RGBTestImage_Slice0.png}
-  ${ITK_TEST_OUTPUT_DIR}/RGBTestImage_Slice0.png
-  itkVectorImageToVideoTest
-  DATA{${ITK_DATA_ROOT}/Input/RGBTestImage.tif}
-  ${ITK_TEST_OUTPUT_DIR}/RGBTestImage_Slice0.png
+    ITKVideoCoreTestDriver
+    --compare
+    DATA{Baseline/RGBTestImage_Slice0.png}
+    ${ITK_TEST_OUTPUT_DIR}/RGBTestImage_Slice0.png
+    itkVectorImageToVideoTest
+    DATA{${ITK_DATA_ROOT}/Input/RGBTestImage.tif}
+    ${ITK_TEST_OUTPUT_DIR}/RGBTestImage_Slice0.png
 )

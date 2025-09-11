@@ -278,25 +278,25 @@ protected:
   inline ElementIdentifierType
   GetParent(const ElementIdentifierType & identifier) const
   {
-    return ((identifier - 1) >> 1);
+    return (identifier - 1) >> 1;
   }
 
   inline ElementIdentifierType
   GetLeft(const ElementIdentifierType & identifier) const
   {
-    return ((identifier << 1) + 1);
+    return (identifier << 1) + 1;
   }
 
   inline ElementIdentifierType
   GetRight(const ElementIdentifierType & identifier) const
   {
-    return ((identifier << 1) + 2);
+    return (identifier << 1) + 2;
   }
 
   inline bool
   HasParent(const ElementIdentifierType & iId) const
   {
-    return (iId > 0);
+    return iId > 0;
   }
 
   void

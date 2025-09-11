@@ -70,11 +70,11 @@ DisplacementFieldTransform<TParametersValueType, VDimension>::TransformPoint(con
 {
   if (!this->m_DisplacementField)
   {
-    itkExceptionMacro("No displacement field is specified.");
+    itkExceptionStringMacro("No displacement field is specified.");
   }
   if (!this->m_Interpolator)
   {
-    itkExceptionMacro("No interpolator is specified.");
+    itkExceptionStringMacro("No interpolator is specified.");
   }
 
   typename InterpolatorType::PointType point;
@@ -463,7 +463,7 @@ DisplacementFieldTransform<TParametersValueType, VDimension>::SetFixedParameters
 {
   if (fixedParameters.Size() != VDimension * (VDimension + 3))
   {
-    itkExceptionMacro("The fixed parameters are not the right size.");
+    itkExceptionStringMacro("The fixed parameters are not the right size.");
   }
 
   bool nullState = true;

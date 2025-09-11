@@ -10,12 +10,11 @@ recursive separable filters and the base classes for neighborhood filters."
 itk_module(
   ITKGPUImageFilterBase
   DEPENDS
-  ITKCommon
-  ITKGPUCommon
+    ITKCommon
+    ITKGPUCommon
   COMPILE_DEPENDS
-  ITKImageFilterBase
+    ITKImageFilterBase
   TEST_DEPENDS
-  ITKTestKernel
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+  DESCRIPTION "${DOCUMENTATION}"
 )

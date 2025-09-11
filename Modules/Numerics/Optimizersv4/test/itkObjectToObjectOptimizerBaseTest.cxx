@@ -206,7 +206,7 @@ itkObjectToObjectOptimizerBaseTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  /* Test that weights are init'ed by default to identity */
+  /* Test that weights are initialized by default to identity */
   const ObjectToObjectOptimizerBaseTestOptimizer::NumberOfParametersType weightsSize =
     metric->GetNumberOfLocalParameters();
   ITK_TRY_EXPECT_NO_EXCEPTION(optimizer->StartOptimization());

@@ -40,7 +40,7 @@ AssertTopologicalInvariants(TMesh *        mesh,
   check->SetExpectedNumberOfFaces(NumEdges);
   check->SetExpectedNumberOfBoundaries(NumBorders);
   check->SetExpectedGenus(Genus);
-  return (check->ValidateEulerCharacteristic());
+  return check->ValidateEulerCharacteristic();
 }
 
 //----------------------------------------------------------------------------

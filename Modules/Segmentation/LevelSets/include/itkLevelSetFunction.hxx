@@ -107,7 +107,7 @@ LevelSetFunction<TImageType>::ComputeMinimalCurvature(const NeighborhoodType & i
     }
   }
 
-  return (mincurve / gradMag);
+  return mincurve / gradMag;
 }
 
 template <typename TImageType>
@@ -142,7 +142,7 @@ LevelSetFunction<TImageType>::Compute3DMinimalCurvature(const NeighborhoodType &
       discriminant = 0.0;
     }
     discriminant = std::sqrt(discriminant);
-    return (mean_curve - discriminant);
+    return mean_curve - discriminant;
   }
   itkExceptionMacro(<< "This function should only be called for 3D images.");
 }
@@ -168,7 +168,7 @@ LevelSetFunction<TImageType>::ComputeMeanCurvature(const NeighborhoodType & itkN
     }
   }
 
-  return (curvature_term / gd->m_GradMagSqr);
+  return curvature_term / gd->m_GradMagSqr;
 }
 
 template <typename TImageType>

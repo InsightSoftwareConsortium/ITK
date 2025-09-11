@@ -279,7 +279,7 @@ test1DCubicSpline()
   interp->Print(std::cout);
 
   // Test evaluation at continuous indices and corresponding
-  // gemetric points
+  // geometric points
   std::cout << "Testing 1D Cubic B-Spline:\n";
   std::cout << "Evaluate at: " << std::endl;
 
@@ -315,7 +315,7 @@ test1DCubicSpline()
     }
   }
 
-  return (flag);
+  return flag;
 }
 
 int
@@ -349,7 +349,7 @@ test2DSpline()
     interp->Print(std::cout);
 
     /* Test evaluation at continuous indices and corresponding
-    gemetric points */
+    geometric points */
     std::cout << "Testing 2D B-Spline of Order " << splineOrder << ":\n";
     std::cout << "Evaluate at: " << std::endl;
 
@@ -393,7 +393,7 @@ test2DSpline()
     }
   } // end of splineOrder
 
-  return (flag);
+  return flag;
 }
 
 int
@@ -421,7 +421,7 @@ test3DSpline()
     interp->Print(std::cout);
 
     /* Test evaluation at continuous indices and corresponding
-    gemetric points */
+    geometric points */
     std::cout << "Testing 3D B-Spline of Order " << splineOrder << ":\n";
     std::cout << "Evaluate at: " << std::endl;
 
@@ -468,7 +468,7 @@ test3DSpline()
     }
   } // end of splineOrder
 
-  return (flag);
+  return flag;
 }
 
 int
@@ -496,7 +496,7 @@ test3DSplineDerivative()
     interp->Print(std::cout);
 
     /* Test evaluation at continuous indices and corresponding
-    gemetric points */
+    geometric points */
     std::cout << "Testing Derivatives of 3D B-Spline of Order " << splineOrder << ":\n";
     std::cout << "Evaluate at: " << std::endl;
 
@@ -535,7 +535,7 @@ test3DSplineDerivative()
     }
   } // end of splineOrder
 
-  return (flag);
+  return flag;
 }
 
 int
@@ -563,7 +563,7 @@ testInteger3DSpline()
     interp->Print(std::cout);
 
     /* Test evaluation at continuous indices and corresponding
-    gemetric points */
+    geometric points */
     std::cout << "Testing 3D Integer B-Spline of Order " << splineOrder << ":\n";
     std::cout << "Evaluate at: " << std::endl;
 
@@ -607,7 +607,7 @@ testInteger3DSpline()
     }
   } // end of splineOrder
 
-  return (flag);
+  return flag;
 }
 
 // Test to verify that EvaluateDerivativeAtContinuousIndex and EvaluateValueAndDerivativeAtContinuousIndex

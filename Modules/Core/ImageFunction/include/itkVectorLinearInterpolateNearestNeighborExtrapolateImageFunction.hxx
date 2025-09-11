@@ -118,7 +118,7 @@ VectorLinearInterpolateNearestNeighborExtrapolateImageFunction<TInputImage, TCoo
     }
   }
 
-  return (output);
+  return output;
 }
 
 /**

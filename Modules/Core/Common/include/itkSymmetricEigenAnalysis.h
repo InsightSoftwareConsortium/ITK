@@ -297,7 +297,7 @@ public:
   [[nodiscard]] bool
   GetOrderEigenValues() const
   {
-    return (m_OrderEigenValues == EigenValueOrderEnum::OrderByValue);
+    return m_OrderEigenValues == EigenValueOrderEnum::OrderByValue;
   }
   /** @ITKEndGrouping */
 
@@ -321,7 +321,7 @@ public:
   [[nodiscard]] bool
   GetOrderEigenMagnitudes() const
   {
-    return (m_OrderEigenValues == EigenValueOrderEnum::OrderByMagnitude);
+    return m_OrderEigenValues == EigenValueOrderEnum::OrderByMagnitude;
   }
   /** @ITKEndGrouping */
 
@@ -510,7 +510,7 @@ private:
    * `TMatrix` (which is the case when `TMatrix` = `itk::Array2D`).
    */
   template <typename QMatrix = TMatrix>
-  [[nodiscard]] [[nodiscard]] auto
+  [[nodiscard]] auto
   GetMatrixValueType(bool) const -> typename QMatrix::element_type
   {
     return QMatrix::element_type();
@@ -827,7 +827,7 @@ public:
   [[nodiscard]] bool
   GetOrderEigenValues() const
   {
-    return (m_OrderEigenValues == EigenValueOrderEnum::OrderByValue);
+    return m_OrderEigenValues == EigenValueOrderEnum::OrderByValue;
   }
   void
   SetOrderEigenMagnitudes(const bool b)
@@ -844,7 +844,7 @@ public:
   [[nodiscard]] bool
   GetOrderEigenMagnitudes() const
   {
-    return (m_OrderEigenValues == EigenValueOrderEnum::OrderByMagnitude);
+    return m_OrderEigenValues == EigenValueOrderEnum::OrderByMagnitude;
   }
   [[nodiscard]] constexpr unsigned int
   GetOrder() const

@@ -59,7 +59,7 @@ FreeSurferAsciiMeshIO::OpenFile()
 {
   if (this->m_FileName.empty())
   {
-    itkExceptionMacro("No input FileName");
+    itkExceptionStringMacro("No input FileName");
   }
 
   if (!itksys::SystemTools::FileExists(m_FileName.c_str()))
@@ -196,7 +196,7 @@ FreeSurferAsciiMeshIO::WriteMeshInformation()
   // Check file name
   if (this->m_FileName.empty())
   {
-    itkExceptionMacro("No Input FileName");
+    itkExceptionStringMacro("No Input FileName");
   }
 
   // Write to output file
@@ -224,7 +224,7 @@ FreeSurferAsciiMeshIO::WritePoints(void * buffer)
   // check file name
   if (this->m_FileName.empty())
   {
-    itkExceptionMacro("No Input FileName");
+    itkExceptionStringMacro("No Input FileName");
   }
 
   // Write to output file
@@ -245,7 +245,7 @@ FreeSurferAsciiMeshIO::WritePoints(void * buffer)
       WritePoints(static_cast<unsigned char *>(buffer), outputFile);
       break;
     }
-    case IOComponentEnum::CHAR:
+    case IOComponentEnum::SCHAR:
     {
       WritePoints(static_cast<char *>(buffer), outputFile);
 
@@ -319,7 +319,7 @@ FreeSurferAsciiMeshIO::WritePoints(void * buffer)
     }
     default:
     {
-      itkExceptionMacro("Unknown point pixel component type" << std::endl);
+      itkExceptionStringMacro("Unknown point pixel component type");
     }
   }
 
@@ -332,7 +332,7 @@ FreeSurferAsciiMeshIO::WriteCells(void * buffer)
   // Check file name
   if (this->m_FileName.empty())
   {
-    itkExceptionMacro("No Input FileName");
+    itkExceptionStringMacro("No Input FileName");
   }
 
   // Write to output file
@@ -353,7 +353,7 @@ FreeSurferAsciiMeshIO::WriteCells(void * buffer)
       WriteCells(static_cast<unsigned char *>(buffer), outputFile);
       break;
     }
-    case IOComponentEnum::CHAR:
+    case IOComponentEnum::SCHAR:
     {
       WriteCells(static_cast<unsigned char *>(buffer), outputFile);
       break;
@@ -415,7 +415,7 @@ FreeSurferAsciiMeshIO::WriteCells(void * buffer)
     }
     default:
     {
-      itkExceptionMacro("Unknown cell pixel component type" << std::endl);
+      itkExceptionStringMacro("Unknown cell pixel component type");
     }
   }
 

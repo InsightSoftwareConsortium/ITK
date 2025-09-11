@@ -66,7 +66,7 @@ FreeSurferBinaryMeshIO::OpenFile()
 {
   if (this->m_FileName.empty())
   {
-    itkExceptionMacro("No input FileName");
+    itkExceptionStringMacro("No input FileName");
   }
 
   if (!itksys::SystemTools::FileExists(m_FileName.c_str()))
@@ -131,7 +131,7 @@ FreeSurferBinaryMeshIO::ReadMeshInformation()
       byte = m_InputFile.get();
       if (byte == EOF)
       {
-        itkExceptionMacro("Unexpected EOF");
+        itkExceptionStringMacro("Unexpected EOF");
       }
     }
     // Try to get the second '\n', but if the '\n' is not there, we put the byte
@@ -141,7 +141,7 @@ FreeSurferBinaryMeshIO::ReadMeshInformation()
     {
       if (byte == EOF)
       {
-        itkExceptionMacro("Unexpected EOF");
+        itkExceptionStringMacro("Unexpected EOF");
       }
       m_InputFile.unget();
     }
@@ -279,7 +279,7 @@ FreeSurferBinaryMeshIO::WriteMeshInformation()
   // Check file name
   if (this->m_FileName.empty())
   {
-    itkExceptionMacro("No Input FileName");
+    itkExceptionStringMacro("No Input FileName");
   }
 
   // Write to output file
@@ -330,7 +330,7 @@ FreeSurferBinaryMeshIO::WritePoints(void * buffer)
   // check file name
   if (this->m_FileName.empty())
   {
-    itkExceptionMacro("No Input FileName");
+    itkExceptionStringMacro("No Input FileName");
   }
 
   // Write to output file
@@ -351,7 +351,7 @@ FreeSurferBinaryMeshIO::WritePoints(void * buffer)
       WritePoints(static_cast<unsigned char *>(buffer), outputFile);
       break;
     }
-    case IOComponentEnum::CHAR:
+    case IOComponentEnum::SCHAR:
     {
       WritePoints(static_cast<char *>(buffer), outputFile);
 
@@ -425,7 +425,7 @@ FreeSurferBinaryMeshIO::WritePoints(void * buffer)
     }
     default:
     {
-      itkExceptionMacro("Unknown point pixel component type" << std::endl);
+      itkExceptionStringMacro("Unknown point pixel component type");
     }
   }
 
@@ -438,7 +438,7 @@ FreeSurferBinaryMeshIO::WriteCells(void * buffer)
   // Check file name
   if (this->m_FileName.empty())
   {
-    itkExceptionMacro("No Input FileName");
+    itkExceptionStringMacro("No Input FileName");
   }
 
   // Write to output file
@@ -459,7 +459,7 @@ FreeSurferBinaryMeshIO::WriteCells(void * buffer)
       WriteCells(static_cast<unsigned char *>(buffer), outputFile);
       break;
     }
-    case IOComponentEnum::CHAR:
+    case IOComponentEnum::SCHAR:
     {
       WriteCells(static_cast<char *>(buffer), outputFile);
       break;
@@ -521,7 +521,7 @@ FreeSurferBinaryMeshIO::WriteCells(void * buffer)
     }
     default:
     {
-      itkExceptionMacro("Unknown cell component type" << std::endl);
+      itkExceptionStringMacro("Unknown cell component type");
     }
   }
 
@@ -534,7 +534,7 @@ FreeSurferBinaryMeshIO::WritePointData(void * buffer)
   // check file name
   if (this->m_FileName.empty())
   {
-    itkExceptionMacro("No Input FileName");
+    itkExceptionStringMacro("No Input FileName");
   }
 
   // Write to output file
@@ -555,7 +555,7 @@ FreeSurferBinaryMeshIO::WritePointData(void * buffer)
       WritePointData(static_cast<unsigned char *>(buffer), outputFile);
       break;
     }
-    case IOComponentEnum::CHAR:
+    case IOComponentEnum::SCHAR:
     {
       WritePointData(static_cast<char *>(buffer), outputFile);
 
@@ -629,7 +629,7 @@ FreeSurferBinaryMeshIO::WritePointData(void * buffer)
     }
     default:
     {
-      itkExceptionMacro("Unknown point data pixel component type" << std::endl);
+      itkExceptionStringMacro("Unknown point data pixel component type");
     }
   }
 

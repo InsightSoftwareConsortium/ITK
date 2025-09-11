@@ -57,7 +57,7 @@ GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::Initialize()
 {
   if (!this->GetComputeGradient())
   {
-    itkExceptionMacro("Gradients must be calculated");
+    itkExceptionStringMacro("Gradients must be calculated");
   }
 
   // Initialise the base class

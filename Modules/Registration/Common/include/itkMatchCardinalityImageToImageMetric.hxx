@@ -49,7 +49,7 @@ MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::GetNonconstValue(
   const FixedImageConstPointer fixedImage = this->m_FixedImage;
   if (!fixedImage)
   {
-    itkExceptionMacro("Fixed image has not been assigned");
+    itkExceptionStringMacro("Fixed image has not been assigned");
   }
 
   // Initialize some variables before spawning threads
@@ -96,7 +96,7 @@ MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::GetNonconstValue(
   }
   if (!this->m_NumberOfPixelsCounted)
   {
-    itkExceptionMacro("All the points mapped to outside of the moving image");
+    itkExceptionStringMacro("All the points mapped to outside of the moving image");
   }
   else
   {
@@ -116,7 +116,7 @@ MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::ThreadedGetValue(
 
   if (!fixedImage)
   {
-    itkExceptionMacro("Fixed image has not been assigned");
+    itkExceptionStringMacro("Fixed image has not been assigned");
   }
 
   using FixedIteratorType = ImageRegionConstIteratorWithIndex<FixedImageType>;

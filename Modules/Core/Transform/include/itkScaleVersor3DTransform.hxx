@@ -200,7 +200,7 @@ template <typename TParametersValueType>
 void
 ScaleVersor3DTransform<TParametersValueType>::ComputeMatrixParameters()
 {
-  itkExceptionMacro("Setting the matrix of a ScaleVersor3D transform is not supported at this time.");
+  itkExceptionStringMacro("Setting the matrix of a ScaleVersor3D transform is not supported at this time.");
 }
 
 // Print self

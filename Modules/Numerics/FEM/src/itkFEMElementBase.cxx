@@ -288,7 +288,7 @@ Element::Jacobian(const VectorType & pt, MatrixType & J, const MatrixType * psha
     coords.set_row(n, p);
   }
 
-  J = (*pshapeD) * coords;
+  J = *pshapeD * coords;
 }
 
 Element::Float
@@ -355,7 +355,7 @@ Element::ShapeFunctionGlobalDerivatives(const VectorType & pt,
   MatrixType invJ;
   this->JacobianInverse(pt, invJ, pJ);
 
-  shapeDgl = invJ * (*pshapeD);
+  shapeDgl = invJ * *pshapeD;
 }
 
 Element::VectorType

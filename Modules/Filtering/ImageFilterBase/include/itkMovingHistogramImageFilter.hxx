@@ -54,7 +54,7 @@ MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, THistogram>::Dyna
   // initialize the histogram
   for (auto listIt = this->m_KernelOffsets.begin(); listIt != this->m_KernelOffsets.end(); ++listIt)
   {
-    const IndexType idx = outputRegionForThread.GetIndex() + (*listIt);
+    const IndexType idx = outputRegionForThread.GetIndex() + *listIt;
     if (inputRegion.IsInside(idx))
     {
       histogram.AddPixel(inputImage->GetPixel(idx));
@@ -185,11 +185,11 @@ MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, THistogram>::Push
     // update the histogram
     for (auto addedIt = addedList->begin(); addedIt != addedList->end(); ++addedIt)
     {
-      histogram.AddPixel(inputImage->GetPixel(currentIdx + (*addedIt)));
+      histogram.AddPixel(inputImage->GetPixel(currentIdx + *addedIt));
     }
     for (auto removedIt = removedList->begin(); removedIt != removedList->end(); ++removedIt)
     {
-      histogram.RemovePixel(inputImage->GetPixel(currentIdx + (*removedIt)));
+      histogram.RemovePixel(inputImage->GetPixel(currentIdx + *removedIt));
     }
   }
   else
@@ -197,7 +197,7 @@ MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, THistogram>::Push
     // update the histogram
     for (auto addedIt = addedList->begin(); addedIt != addedList->end(); ++addedIt)
     {
-      const IndexType idx = currentIdx + (*addedIt);
+      const IndexType idx = currentIdx + *addedIt;
       if (inputRegion.IsInside(idx))
       {
         histogram.AddPixel(inputImage->GetPixel(idx));
@@ -209,7 +209,7 @@ MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, THistogram>::Push
     }
     for (auto removedIt = removedList->begin(); removedIt != removedList->end(); ++removedIt)
     {
-      const IndexType idx = currentIdx + (*removedIt);
+      const IndexType idx = currentIdx + *removedIt;
       if (inputRegion.IsInside(idx))
       {
         histogram.RemovePixel(inputImage->GetPixel(idx));

@@ -8,11 +8,10 @@ itk_module(
   ITKIOTransformMatlab
   ENABLE_SHARED
   DEPENDS
-  ITKIOTransformBase
+    ITKIOTransformBase
   TEST_DEPENDS
-  ITKTestKernel
+    ITKTestKernel
   FACTORY_NAMES
-  TransformIO::Matlab
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    TransformIO::Matlab
+  DESCRIPTION "${DOCUMENTATION}"
 )

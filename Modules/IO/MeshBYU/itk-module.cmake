@@ -7,15 +7,14 @@ itk_module(
   ITKIOMeshBYU
   ENABLE_SHARED
   DEPENDS
-  ITKCommon
-  ITKIOMeshBase
+    ITKCommon
+    ITKIOMeshBase
   COMPILE_DEPENDS
-  ITKMesh
+    ITKMesh
   TEST_DEPENDS
-  ITKTestKernel
-  ITKQuadEdgeMesh
+    ITKTestKernel
+    ITKQuadEdgeMesh
   FACTORY_NAMES
-  MeshIO::BYU
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    MeshIO::BYU
+  DESCRIPTION "${DOCUMENTATION}"
 )

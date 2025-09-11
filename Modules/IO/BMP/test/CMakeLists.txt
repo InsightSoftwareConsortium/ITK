@@ -15,153 +15,140 @@ set(TEMP ${ITK_BINARY_DIR}/Testing/Temporary)
 createtestdriver(ITKIOBMP "${ITKIOBMP-Test_LIBRARIES}" "${ITKIOBMPTests}")
 
 itk_add_test(
-  NAME
-  itkBMPImageIOTest5
+  NAME itkBMPImageIOTest5
   COMMAND
-  ITKIOBMPTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/IO/smallRGBA.mha}
-  ${ITK_TEST_OUTPUT_DIR}/smallRGBA.mha
-  itkBMPImageIOTest2
-  DATA{${ITK_DATA_ROOT}/Input/smallRGBA.bmp}
-  ${ITK_TEST_OUTPUT_DIR}/smallRGBA.mha
+    ITKIOBMPTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/IO/smallRGBA.mha}
+    ${ITK_TEST_OUTPUT_DIR}/smallRGBA.mha
+    itkBMPImageIOTest2
+    DATA{${ITK_DATA_ROOT}/Input/smallRGBA.bmp}
+    ${ITK_TEST_OUTPUT_DIR}/smallRGBA.mha
 )
 itk_add_test(
-  NAME
-  itkBMPImageIOTest6
+  NAME itkBMPImageIOTest6
   COMMAND
-  ITKIOBMPTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/IO/smallRGBA.mha}
-  ${ITK_TEST_OUTPUT_DIR}/smallRGBA.bmp
-  itkBMPImageIOTest2
-  DATA{${ITK_DATA_ROOT}/Input/smallRGBA.bmp}
-  ${ITK_TEST_OUTPUT_DIR}/smallRGBA.bmp
+    ITKIOBMPTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/IO/smallRGBA.mha}
+    ${ITK_TEST_OUTPUT_DIR}/smallRGBA.bmp
+    itkBMPImageIOTest2
+    DATA{${ITK_DATA_ROOT}/Input/smallRGBA.bmp}
+    ${ITK_TEST_OUTPUT_DIR}/smallRGBA.bmp
 )
 itk_add_test(
-  NAME
-  itkBMPImageIOTest
+  NAME itkBMPImageIOTest
   COMMAND
-  ITKIOBMPTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/IO/cthead1.bmp}
-  ${ITK_TEST_OUTPUT_DIR}/cthead1.bmp
-  itkBMPImageIOTest
-  DATA{${ITK_DATA_ROOT}/Input/cthead1.bmp}
-  ${ITK_TEST_OUTPUT_DIR}/cthead1.bmp
+    ITKIOBMPTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/IO/cthead1.bmp}
+    ${ITK_TEST_OUTPUT_DIR}/cthead1.bmp
+    itkBMPImageIOTest
+    DATA{${ITK_DATA_ROOT}/Input/cthead1.bmp}
+    ${ITK_TEST_OUTPUT_DIR}/cthead1.bmp
 )
 itk_add_test(
-  NAME
-  itkBMPImageIOTest2
+  NAME itkBMPImageIOTest2
   COMMAND
-  ITKIOBMPTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/IO/cthead254x254.bmp}
-  ${ITK_TEST_OUTPUT_DIR}/cthead254x254.bmp
-  itkBMPImageIOTest
-  DATA{${ITK_DATA_ROOT}/Input/cthead254x254.bmp}
-  ${ITK_TEST_OUTPUT_DIR}/cthead254x254.bmp
+    ITKIOBMPTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/IO/cthead254x254.bmp}
+    ${ITK_TEST_OUTPUT_DIR}/cthead254x254.bmp
+    itkBMPImageIOTest
+    DATA{${ITK_DATA_ROOT}/Input/cthead254x254.bmp}
+    ${ITK_TEST_OUTPUT_DIR}/cthead254x254.bmp
 )
 itk_add_test(
-  NAME
-  itkBMPImageIOTest3
+  NAME itkBMPImageIOTest3
   COMMAND
-  ITKIOBMPTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/IO/image_grayscale.bmp}
-  ${ITK_TEST_OUTPUT_DIR}/image_grayscale.bmp
-  itkBMPImageIOTest
-  DATA{${ITK_DATA_ROOT}/Input/image_grayscale.bmp}
-  ${ITK_TEST_OUTPUT_DIR}/image_grayscale.bmp
+    ITKIOBMPTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/IO/image_grayscale.bmp}
+    ${ITK_TEST_OUTPUT_DIR}/image_grayscale.bmp
+    itkBMPImageIOTest
+    DATA{${ITK_DATA_ROOT}/Input/image_grayscale.bmp}
+    ${ITK_TEST_OUTPUT_DIR}/image_grayscale.bmp
 )
 itk_add_test(
-  NAME
-  itkBMPImageIOTest4
+  NAME itkBMPImageIOTest4
   COMMAND
-  ITKIOBMPTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/IO/image_color.bmp}
-  ${ITK_TEST_OUTPUT_DIR}/image_color.bmp
-  itkBMPImageIOTest
-  DATA{${ITK_DATA_ROOT}/Input/image_color.bmp}
-  ${ITK_TEST_OUTPUT_DIR}/image_color.bmp
+    ITKIOBMPTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/IO/image_color.bmp}
+    ${ITK_TEST_OUTPUT_DIR}/image_color.bmp
+    itkBMPImageIOTest
+    DATA{${ITK_DATA_ROOT}/Input/image_color.bmp}
+    ${ITK_TEST_OUTPUT_DIR}/image_color.bmp
 )
 itk_add_test(
-  NAME
-  itkBMPImageIOTest7
+  NAME itkBMPImageIOTest7
   COMMAND
-  ITKIOBMPTestDriver
-  itkBMPImageIOTest3
-  DATA{${ITK_DATA_ROOT}/Input/grayscale_lowerleft.bmp}
-  DATA{${ITK_DATA_ROOT}/Input/grayscale_upperleft.bmp}
+    ITKIOBMPTestDriver
+    itkBMPImageIOTest3
+    DATA{${ITK_DATA_ROOT}/Input/grayscale_lowerleft.bmp}
+    DATA{${ITK_DATA_ROOT}/Input/grayscale_upperleft.bmp}
 )
 itk_add_test(
-  NAME
-  itkBMPImageIOTest8
+  NAME itkBMPImageIOTest8
   COMMAND
-  ITKIOBMPTestDriver
-  itkBMPImageIOTest4
-  DATA{${ITK_DATA_ROOT}/Input/color_lowerleft.bmp}
-  DATA{${ITK_DATA_ROOT}/Input/color_upperleft.bmp}
+    ITKIOBMPTestDriver
+    itkBMPImageIOTest4
+    DATA{${ITK_DATA_ROOT}/Input/color_lowerleft.bmp}
+    DATA{${ITK_DATA_ROOT}/Input/color_upperleft.bmp}
 )
 itk_add_test(
-  NAME
-  itkBMPImageIOTest9
+  NAME itkBMPImageIOTest9
   COMMAND
-  ITKIOBMPTestDriver
-  itkBMPImageIOTest5
-  DATA{${ITK_DATA_ROOT}/Input/grayscale_lowerleft_rle.bmp}
-  DATA{${ITK_DATA_ROOT}/Input/grayscale_lowerleft.bmp}
+    ITKIOBMPTestDriver
+    itkBMPImageIOTest5
+    DATA{${ITK_DATA_ROOT}/Input/grayscale_lowerleft_rle.bmp}
+    DATA{${ITK_DATA_ROOT}/Input/grayscale_lowerleft.bmp}
 )
 
 itk_add_test(
-  NAME
-  itkBMPImageIOTestPaletteExpanded
+  NAME itkBMPImageIOTestPaletteExpanded
   COMMAND
-  ITKIOBMPTestDriver
-  --compare-MD5
-  ${ITK_TEST_OUTPUT_DIR}/itkBMPImageIOTestPaletteExpanded.bmp
-  8bb8e63723835db9d92690351a71783f
-  itkBMPImageIOTestPalette
-  DATA{Input/HeliconiusNumataPalette.bmp}
-  ${ITK_TEST_OUTPUT_DIR}/itkBMPImageIOTestPaletteExpanded.bmp
-  1
-  0
+    ITKIOBMPTestDriver
+    --compare-MD5
+    ${ITK_TEST_OUTPUT_DIR}/itkBMPImageIOTestPaletteExpanded.bmp
+    8bb8e63723835db9d92690351a71783f
+    itkBMPImageIOTestPalette
+    DATA{Input/HeliconiusNumataPalette.bmp}
+    ${ITK_TEST_OUTPUT_DIR}/itkBMPImageIOTestPaletteExpanded.bmp
+    1
+    0
 )
 itk_add_test(
-  NAME
-  itkBMPImageIOTestPaletteNotExpanded
+  NAME itkBMPImageIOTestPaletteNotExpanded
   COMMAND
-  ITKIOBMPTestDriver
-  --compare-MD5
-  ${ITK_TEST_OUTPUT_DIR}/itkBMPImageIOTestPaletteNotExpanded.bmp
-  93a72ac86af5191d777707135c98999d
-  itkBMPImageIOTestPalette
-  DATA{Input/HeliconiusNumataPalette.bmp}
-  ${ITK_TEST_OUTPUT_DIR}/itkBMPImageIOTestPaletteNotExpanded.bmp
-  0
-  1
+    ITKIOBMPTestDriver
+    --compare-MD5
+    ${ITK_TEST_OUTPUT_DIR}/itkBMPImageIOTestPaletteNotExpanded.bmp
+    93a72ac86af5191d777707135c98999d
+    itkBMPImageIOTestPalette
+    DATA{Input/HeliconiusNumataPalette.bmp}
+    ${ITK_TEST_OUTPUT_DIR}/itkBMPImageIOTestPaletteNotExpanded.bmp
+    0
+    1
 )
 itk_add_test(
-  NAME
-  itkBMPImageIOTestPaletteNotExpandedGrey
+  NAME itkBMPImageIOTestPaletteNotExpandedGrey
   COMMAND
-  ITKIOBMPTestDriver
-  --compare-MD5
-  ${ITK_TEST_OUTPUT_DIR}/itkBMPImageIOTestPaletteNotExpandedGrey.bmp
-  93a72ac86af5191d777707135c98999d
-  itkBMPImageIOTestPalette
-  DATA{Input/HeliconiusNumataPalette.bmp}
-  ${ITK_TEST_OUTPUT_DIR}/itkBMPImageIOTestPaletteNotExpandedGrey.bmp
-  0
-  0
+    ITKIOBMPTestDriver
+    --compare-MD5
+    ${ITK_TEST_OUTPUT_DIR}/itkBMPImageIOTestPaletteNotExpandedGrey.bmp
+    93a72ac86af5191d777707135c98999d
+    itkBMPImageIOTestPalette
+    DATA{Input/HeliconiusNumataPalette.bmp}
+    ${ITK_TEST_OUTPUT_DIR}/itkBMPImageIOTestPaletteNotExpandedGrey.bmp
+    0
+    0
 )
 
 itk_add_test(
-  NAME
-  itkBMPImageIOTestExtensionNotRequired
+  NAME itkBMPImageIOTestExtensionNotRequired
   COMMAND
-  ITKIOBMPTestDriver
-  itkBMPImageIOTestExtension
-  ${TEMP}
+    ITKIOBMPTestDriver
+    itkBMPImageIOTestExtension
+    ${TEMP}
 )

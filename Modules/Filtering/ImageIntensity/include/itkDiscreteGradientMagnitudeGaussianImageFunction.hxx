@@ -81,7 +81,7 @@ DiscreteGradientMagnitudeGaussianImageFunction<TInputImage, TOutput>::RecomputeG
       {
         if (this->GetInputImage()->GetSpacing()[direction] == 0.0)
         {
-          itkExceptionMacro("Pixel spacing cannot be zero");
+          itkExceptionStringMacro("Pixel spacing cannot be zero");
         }
         else
         {
@@ -285,7 +285,7 @@ DiscreteGradientMagnitudeGaussianImageFunction<TInputImage, TOutput>::EvaluateAt
       break;
     }
   }
-  return (static_cast<OutputType>(value));
+  return static_cast<OutputType>(value);
 }
 } // end namespace itk
 

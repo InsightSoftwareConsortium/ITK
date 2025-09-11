@@ -76,7 +76,7 @@ NeedToDoFace(const TRegion AllImage, const TRegion face, const TLine line)
       return true;
     }
   }
-  return (false);
+  return false;
 }
 
 template <typename TImage, typename TBres, typename TLine>
@@ -134,7 +134,7 @@ ComputeStartEnd(const typename TImage::IndexType  StartIndex,
       {
         // no intersection
         start = end = 0;
-        return (0);
+        return 0;
       }
     }
   }
@@ -189,7 +189,7 @@ ComputeStartEnd(const typename TImage::IndexType  StartIndex,
     {
       //      std::cout << StartIndex << "No intersection" << std::endl;
       start = end = 0;
-      return (0);
+      return 0;
     }
   }
   else
@@ -261,7 +261,7 @@ ComputeStartEnd(const typename TImage::IndexType  StartIndex,
   }
   start = sPos;
   end = ePos;
-  return (1);
+  return 1;
 }
 
 template <typename TImage, typename TBres>
@@ -427,7 +427,7 @@ FillLineBuffer(typename TImage::ConstPointer             input,
   const int status = ComputeStartEnd<TImage, TBres, TLine>(StartIndex, line, tol, LineOffsets, AllImage, start, end);
   if (!status)
   {
-    return (status);
+    return status;
   }
   const unsigned int size = end - start + 1;
   // compat
@@ -436,7 +436,7 @@ FillLineBuffer(typename TImage::ConstPointer             input,
     itkAssertInDebugAndIgnoreInReleaseMacro(start + i < LineOffsets.size());
     inbuffer[i + 1] = input->GetPixel(StartIndex + LineOffsets[start + i]);
   }
-  return (1);
+  return 1;
 }
 
 template <typename TLine>

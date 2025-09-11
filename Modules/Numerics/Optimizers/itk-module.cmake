@@ -10,10 +10,9 @@ itk_module(
   ITKOptimizers
   ENABLE_SHARED
   DEPENDS
-  ITKStatistics
+    ITKStatistics
   TEST_DEPENDS
-  ITKTransform
-  ITKTestKernel
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTransform
+    ITKTestKernel
+  DESCRIPTION "${DOCUMENTATION}"
 )

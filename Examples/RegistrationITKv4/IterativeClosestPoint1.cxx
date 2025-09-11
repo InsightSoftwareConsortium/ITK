@@ -67,7 +67,7 @@ public:
     auto optimizer = dynamic_cast<OptimizerPointer>(object);
     if (optimizer == nullptr)
     {
-      itkExceptionMacro("Could not cast optimizer.");
+      itkExceptionStringMacro("Could not cast optimizer.");
     }
 
     if (!itk::IterationEvent().CheckEvent(&event))

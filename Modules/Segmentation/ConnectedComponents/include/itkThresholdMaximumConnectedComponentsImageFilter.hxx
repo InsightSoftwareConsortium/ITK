@@ -147,8 +147,7 @@ ThresholdMaximumConnectedComponentsImageFilter<TInputImage, TOutputImage>::Gener
     midpointR = (upperBound - (upperBound - midpoint) / 2);
 
 #ifndef NDEBUG
-    itkDebugMacro("new midpointL: " << midpointL << "\t new midpoint:" << midpoint << "\t new midpointR:" << midpointR
-                                    << std::endl);
+    itkDebugMacro("new midpointL: " << midpointL << "\t new midpoint:" << midpoint << "\t new midpointR:" << midpointR);
     itkDebugMacro("Iteration #:" << iterationCounter);
 
     ++iterationCounter;

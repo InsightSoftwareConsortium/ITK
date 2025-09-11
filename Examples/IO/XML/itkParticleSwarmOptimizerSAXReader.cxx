@@ -59,7 +59,7 @@ ParticleSwarmOptimizerSAXReader::StartElement(const char *  name,
     const char * id = this->GetAttribute(atts, "id");
     if (id == nullptr)
     {
-      itkExceptionMacro("Bound ID is missing!\n");
+      itkExceptionStringMacro("Bound ID is missing!\n");
     }
     else if (itksys::SystemTools::Strucmp(id, "lower") == 0)
     {
@@ -177,7 +177,7 @@ ParticleSwarmOptimizerSAXReader::ReadFile()
 
     if (this->m_OutputObject == nullptr)
     {
-      itkExceptionMacro("Object to be read is null!\n");
+      itkExceptionStringMacro("Object to be read is null!\n");
     }
 
     this->m_CurrentTags.clear();

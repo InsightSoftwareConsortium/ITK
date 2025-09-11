@@ -37,7 +37,7 @@ DOMNodeXMLWriter::Update(std::ostream & os, std::string indent)
   const InputType * input = this->GetInput();
   if (input == nullptr)
   {
-    itkExceptionMacro("input object is null");
+    itkExceptionStringMacro("input object is null");
   }
 
   // if it is a text node
@@ -101,7 +101,7 @@ DOMNodeXMLWriter::Update()
   std::ofstream os(this->m_FileName.c_str());
   if (!os.is_open())
   {
-    itkExceptionMacro("failed opening the output XML file");
+    itkExceptionStringMacro("failed opening the output XML file");
   }
 
   this->Update(os);

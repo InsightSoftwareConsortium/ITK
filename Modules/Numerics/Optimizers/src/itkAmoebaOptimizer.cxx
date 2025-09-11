@@ -68,12 +68,12 @@ AmoebaOptimizer::GetValue() const
   {
     if (static_cast<unsigned int>(costFunction->get_number_of_unknowns()) != numberOfParameters)
     {
-      itkExceptionMacro("cost function and current position dimensions mismatch");
+      itkExceptionStringMacro("cost function and current position dimensions mismatch");
     }
   }
   else
   {
-    itkExceptionMacro("cost function not set");
+    itkExceptionStringMacro("cost function not set");
   }
 
   if (m_ScalesInitialized)
@@ -111,7 +111,7 @@ AmoebaOptimizer::SetCostFunction(SingleValuedCostFunction * costFunction)
   // correctly. Unfortunately, there is a side effect to
   // this function call, it also sets the scales to one if they haven't been
   // initialized yet. This causes the optimization to use the scales which
-  // only increases the computationaly complexity without any benefit.
+  // only increases the computational complexity without any benefit.
   // Right now the result of GetCostFunction() will be a null pointer.
   // SingleValuedNonLinearOptimizer::SetCostFunction( costFunction );
 
@@ -277,7 +277,7 @@ AmoebaOptimizer::ValidateSettings()
   // we have to have a cost function
   if (GetCostFunctionAdaptor() == nullptr)
   {
-    itkExceptionMacro("nullptr cost function");
+    itkExceptionStringMacro("nullptr cost function");
   }
   // if we got here it is safe to get the number of parameters the cost
   // function expects
@@ -286,7 +286,7 @@ AmoebaOptimizer::ValidateSettings()
   // check that the number of parameters match
   if (GetInitialPosition().Size() != n)
   {
-    itkExceptionMacro("cost function and initial position dimensions mismatch");
+    itkExceptionStringMacro("cost function and initial position dimensions mismatch");
   }
 
   // the user gave us data to use for the initial simplex, check that it
@@ -297,7 +297,7 @@ AmoebaOptimizer::ValidateSettings()
   {
     if (m_InitialSimplexDelta.size() != n)
     {
-      itkExceptionMacro("cost function and simplex delta dimensions mismatch");
+      itkExceptionStringMacro("cost function and simplex delta dimensions mismatch");
     }
   }
   // check that the number of scale factors matches
@@ -305,18 +305,18 @@ AmoebaOptimizer::ValidateSettings()
   {
     if (this->GetScales().Size() != n)
     {
-      itkExceptionMacro("cost function and scaling information dimensions mismatch");
+      itkExceptionStringMacro("cost function and scaling information dimensions mismatch");
     }
   }
   // parameters' convergence tolerance has to be positive
   if (this->m_ParametersConvergenceTolerance < 0)
   {
-    itkExceptionMacro("negative parameters convergence tolerance");
+    itkExceptionStringMacro("negative parameters convergence tolerance");
   }
   // function convergence tolerance has to be positive
   if (this->m_FunctionConvergenceTolerance < 0)
   {
-    itkExceptionMacro("negative function convergence tolerance");
+    itkExceptionStringMacro("negative function convergence tolerance");
   }
 }
 

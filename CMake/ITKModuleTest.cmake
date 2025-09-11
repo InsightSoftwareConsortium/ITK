@@ -195,23 +195,21 @@ function(itk_python_add_test)
   endif()
 
   itk_add_test(
-      NAME
-      ${PYTHON_ADD_TEST_NAME}
-      COMMAND
+    NAME ${PYTHON_ADD_TEST_NAME}
+    COMMAND
       itkTestDriver
       --add-before-env
       PYTHONPATH
       "${itk_wrap_python_binary_dir}" # parent directory of the itk package
-    --add-before-env
-    PYTHONPATH
-    "${ITK_PYTHON_PACKAGE_DIR}" # package directory and shared libraries + swig artifacts
-    --add-before-libpath
-    "${ITK_PYTHON_PACKAGE_DIR}" # itk non-wrapping shared libs
-    ${PYTHON_ADD_TEST_TEST_DRIVER_ARGS}
-    ${command}
-    ${PYTHON_ADD_TEST_COMMAND}
-    WORKING_DIRECTORY
-    "${CMAKE_CURRENT_LIST_DIR}"
+      --add-before-env
+      PYTHONPATH
+      "${ITK_PYTHON_PACKAGE_DIR}" # package directory and shared libraries + swig artifacts
+      --add-before-libpath
+      "${ITK_PYTHON_PACKAGE_DIR}" # itk non-wrapping shared libs
+      ${PYTHON_ADD_TEST_TEST_DRIVER_ARGS}
+      ${command}
+      ${PYTHON_ADD_TEST_COMMAND}
+    WORKING_DIRECTORY "${CMAKE_CURRENT_LIST_DIR}"
   )
   set_property(
     TEST
@@ -267,9 +265,8 @@ function(itk_python_expression_add_test)
   )
 
   itk_python_add_test(
-      NAME
-      ${PYTHON_EXPRESSION_ADD_TEST_NAME}
-      COMMAND
+    NAME ${PYTHON_EXPRESSION_ADD_TEST_NAME}
+    COMMAND
       -c
       "import itk$<SEMICOLON> itk.auto_progress(2)$<SEMICOLON> ${PYTHON_EXPRESSION_ADD_TEST_EXPRESSION}"
   )

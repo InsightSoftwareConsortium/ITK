@@ -10,9 +10,8 @@ from the GPU, and managing the GPU contexts."
 itk_module(
   ITKGPUCommon
   DEPENDS
-  ITKCommon
+    ITKCommon
   TEST_DEPENDS
-  ITKTestKernel
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+  DESCRIPTION "${DOCUMENTATION}"
 )

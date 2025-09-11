@@ -66,7 +66,7 @@ GetImage(const itk::FlatStructuringElement<VDimension> & flatElement)
     }
   }
   return image;
-};
+}
 
 /** Test. Compare the result of GetImage() with the original input image. */
 int

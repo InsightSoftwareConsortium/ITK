@@ -83,6 +83,12 @@ public:
   void
   DisplayDebugText(const char *) override;
 
+  // Bring base class overloads into scope to avoid hiding
+  using Superclass::DisplayErrorText;
+  using Superclass::DisplayWarningText;
+  using Superclass::DisplayGenericOutputText;
+  using Superclass::DisplayDebugText;
+
   /**  Put the text into the log file without processing it. */
   virtual void
   DisplayTag(const char *);

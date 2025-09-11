@@ -36,7 +36,7 @@ NumericSeriesFileNames::GetFileNames()
   }
   if (m_IncrementIndex == 0)
   {
-    itkExceptionMacro("IncrementIndex is zero.");
+    itkExceptionStringMacro("IncrementIndex is zero.");
   }
 
   // clear the file names vector

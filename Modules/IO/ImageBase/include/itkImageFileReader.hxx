@@ -182,13 +182,13 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateOutputInformation()
       axis = directionIO[i];
       for (unsigned int j = 0; j < TOutputImage::ImageDimension; ++j)
       {
-        if (j < numberOfDimensionsIO)
+        if (j < numberOfDimensionsIO && j < axis.size())
         {
           direction[j][i] = axis[j];
         }
         else
         {
-          direction[j][i] = 0.0;
+          direction[j][i] = (i == j ? 1.0 : 0.0);
         }
       }
     }
@@ -482,7 +482,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::DoConvertBuffer(const void * 
   {
   }
   ITK_CONVERT_BUFFER_IF_BLOCK(IOComponentEnum::UCHAR, unsigned char)
-  ITK_CONVERT_BUFFER_IF_BLOCK(IOComponentEnum::CHAR, char)
+  ITK_CONVERT_BUFFER_IF_BLOCK(IOComponentEnum::CHAR, signed char)
   ITK_CONVERT_BUFFER_IF_BLOCK(IOComponentEnum::USHORT, unsigned short)
   ITK_CONVERT_BUFFER_IF_BLOCK(IOComponentEnum::SHORT, short)
   ITK_CONVERT_BUFFER_IF_BLOCK(IOComponentEnum::UINT, unsigned int)

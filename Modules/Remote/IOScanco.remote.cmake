@@ -24,7 +24,7 @@
 #-- ## Compliance Level 3 star (Quality beta code)
 #--   - [ ] API | executable interface is considered mostly stable and feature complete
 #--   - [ ] 10% C0-code coverage demonstrated for testing suite
-#--   - [ ] Some tests exist and pass on at least some platform
+#--   - [x] Some tests exist and pass on at least some platform
 #--   - [X] All requirements of Levels 2,1
 #--
 #-- ## Compliance Level 2 star (Alpha code feature API development or niche community/execution environment dependance )
@@ -46,5 +46,5 @@ itk_fetch_module(
   "An ITK module to read and write Scanco microCT .isq files."
   MODULE_COMPLIANCE_LEVEL 2
   GIT_REPOSITORY https://github.com/InsightSoftwareConsortium/ITKIOScanco.git
-  GIT_TAG 1d9ee255289d7aaaf8b321a75842f650028e2d04
+  GIT_TAG dc5b73a58daffb1aed42917198f4336b3c61a334
   )

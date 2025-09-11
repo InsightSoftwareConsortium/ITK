@@ -37,7 +37,7 @@ itkImageFileReaderDimensionsTest(int argc, char * argv[])
   using Image2DType = itk::Image<short, 2>;
   using Image3DType = itk::Image<short, 3>;
   using Image4DType = itk::Image<short, 4>;
-  using CharImage2DType = itk::Image<char, 2>;
+  using CharImage2DType = itk::Image<signed char, 2>;
 
   using Reader2DType = itk::ImageFileReader<Image2DType>;
   using Reader3DType = itk::ImageFileReader<Image3DType>;

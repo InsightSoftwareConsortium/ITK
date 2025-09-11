@@ -10,16 +10,14 @@ createtestdriver(ITKMarkovRandomFieldsClassifiers "${ITKMarkovRandomFieldsClassi
 )
 
 itk_add_test(
-  NAME
-  itkMRFImageFilterTest
+  NAME itkMRFImageFilterTest
   COMMAND
-  ITKMarkovRandomFieldsClassifiersTestDriver
-  itkMRFImageFilterTest
+    ITKMarkovRandomFieldsClassifiersTestDriver
+    itkMRFImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkRGBGibbsPriorFilterTest
+  NAME itkRGBGibbsPriorFilterTest
   COMMAND
-  ITKMarkovRandomFieldsClassifiersTestDriver
-  itkRGBGibbsPriorFilterTest
+    ITKMarkovRandomFieldsClassifiersTestDriver
+    itkRGBGibbsPriorFilterTest
 )

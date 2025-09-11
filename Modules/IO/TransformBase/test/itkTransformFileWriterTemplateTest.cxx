@@ -52,7 +52,7 @@ itkTransformFileWriterTemplateTest(int, char *[])
   transformWriter->SetFileName(fileName);
   ITK_TEST_SET_GET_VALUE(fileName, transformWriter->GetFileName());
 
-  // trigger exception for transformio not found
+  // trigger exception for transformIO not found
   ITK_TRY_EXPECT_EXCEPTION(transformWriter->Update());
 
   std::cout << "Test finished." << std::endl;

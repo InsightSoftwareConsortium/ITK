@@ -102,12 +102,12 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   {
     if (this->m_LandmarkWeight.size() != numberOfLandMarks)
     {
-      itkExceptionMacro("Size mismatch between number of landmarks pairs and weights");
+      itkExceptionStringMacro("Size mismatch between number of landmarks pairs and weights");
     }
     auto weightIt = this->m_LandmarkWeight.begin();
     for (unsigned int i = 0; weightIt != this->m_LandmarkWeight.end(); ++i, ++weightIt)
     {
-      weights->InsertElement(i, (*weightIt));
+      weights->InsertElement(i, *weightIt);
     }
   }
   else
@@ -126,7 +126,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   auto movingIt = this->m_MovingLandmarks.begin();
   for (size_t i = 0; fixedIt != this->m_FixedLandmarks.end(); ++i, ++fixedIt, ++movingIt)
   {
-    pointSet->SetPoint(static_cast<typename PointSetType::PointIdentifier>(i), (*fixedIt));
+    pointSet->SetPoint(static_cast<typename PointSetType::PointIdentifier>(i), *fixedIt);
     VectorType vectorTmp;
     for (unsigned int d = 0; d < ImageDimension; ++d)
     {
@@ -217,12 +217,12 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   {
     if (this->m_LandmarkWeight.size() != numberOfLandmarks)
     {
-      itkExceptionMacro(" size mismatch between number of landmars pairs and weights");
+      itkExceptionStringMacro(" size mismatch between number of landmars pairs and weights");
     }
     auto weightIt = this->m_LandmarkWeight.begin();
     for (unsigned int i = 0; weightIt != this->m_LandmarkWeight.end(); ++i, ++weightIt)
     {
-      vnlWeight(i, i) = (*weightIt);
+      vnlWeight(i, i) = *weightIt;
     }
   }
   // Normalize weights.
@@ -348,11 +348,11 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   // Sanity check
   if constexpr (ImageDimension != 3)
   {
-    itkExceptionMacro("Transform is VersorRigid3DTransform and Fixed image dimension is not 3");
+    itkExceptionStringMacro("Transform is VersorRigid3DTransform and Fixed image dimension is not 3");
   }
   if (MovingImageType::ImageDimension != 3)
   {
-    itkExceptionMacro("Transform is VersorRigid3DTransform and Moving image dimension is not 3");
+    itkExceptionStringMacro("Transform is VersorRigid3DTransform and Moving image dimension is not 3");
   }
 
   // ----------------------------------------------------------------------------
@@ -480,11 +480,11 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   // Sanity check for dimension.
   if constexpr (ImageDimension != 3)
   {
-    itkExceptionMacro("Transform is Similiarity3DTransform and Fixed image dimension is not 3");
+    itkExceptionStringMacro("Transform is Similiarity3DTransform and Fixed image dimension is not 3");
   }
   if (MovingImageType::ImageDimension != 3)
   {
-    itkExceptionMacro("Transform is Similiarity3DTransform and Moving image dimension is not 3");
+    itkExceptionStringMacro("Transform is Similiarity3DTransform and Moving image dimension is not 3");
   }
 
   // ----------------------------------------------------------------------------
@@ -628,11 +628,11 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   // Sanity check.
   if constexpr (ImageDimension != 2)
   {
-    itkExceptionMacro("Transform is Rigid2DTransform and Fixed image dimension is not 2");
+    itkExceptionStringMacro("Transform is Rigid2DTransform and Fixed image dimension is not 2");
   }
   if (MovingImageType::ImageDimension != 2)
   {
-    itkExceptionMacro("Transform is Rigid2DTransform and Moving image dimension is not 2");
+    itkExceptionStringMacro("Transform is Rigid2DTransform and Moving image dimension is not 2");
   }
 
   const double PI = 4.0 * std::atan(1.0);
@@ -752,11 +752,11 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Initia
   // Sanity check.
   if (!m_Transform)
   {
-    itkExceptionMacro("Transform has not been set");
+    itkExceptionStringMacro("Transform has not been set");
   }
   if (this->m_FixedLandmarks.size() != this->m_MovingLandmarks.size())
   {
-    itkExceptionMacro("Different number of fixed and moving landmarks");
+    itkExceptionStringMacro("Different number of fixed and moving landmarks");
   }
   this->InternalInitializeTransform(static_cast<TTransform *>(nullptr));
 }

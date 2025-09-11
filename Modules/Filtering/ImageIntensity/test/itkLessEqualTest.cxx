@@ -81,7 +81,7 @@ itkLessEqualTest(int, char *[])
   inputImageB->Allocate();
 
 
-  // Declare Iterator types apropriated for each image
+  // Declare Iterator types appropriate for each image
   using myIteratorType1 = itk::ImageRegionIteratorWithIndex<myImageType1>;
   using myIteratorType2 = itk::ImageRegionIteratorWithIndex<myImageType2>;
 
@@ -133,7 +133,7 @@ itkLessEqualTest(int, char *[])
         inputImageA, inputImageB, outputImage, FG, BG);
     if (status1 == EXIT_FAILURE)
     {
-      return (EXIT_FAILURE);
+      return EXIT_FAILURE;
     }
 
     std::cout << "Step 1 passed" << std::endl;
@@ -161,7 +161,7 @@ itkLessEqualTest(int, char *[])
       inputImageA, C, outputImage, FG, BG);
     if (status2 == EXIT_FAILURE)
     {
-      return (EXIT_FAILURE);
+      return EXIT_FAILURE;
     }
 
     std::cout << "Step 2 passed " << std::endl;
@@ -186,7 +186,7 @@ itkLessEqualTest(int, char *[])
       filter->GetConstant1(), inputImageB, outputImage, FG, BG);
     if (status3 == EXIT_FAILURE)
     {
-      return (EXIT_FAILURE);
+      return EXIT_FAILURE;
     }
 
     std::cout << "Step 3 passed" << std::endl;

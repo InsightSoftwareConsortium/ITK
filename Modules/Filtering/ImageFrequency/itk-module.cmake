@@ -14,11 +14,10 @@ Cerdan, P.H. \"ITK Wavelet Module\".
 itk_module(
   ITKImageFrequency
   DEPENDS
-  ITKCommon
+    ITKCommon
   TEST_DEPENDS
-  ITKTestKernel
-  ITKImageIntensity
-  ITKFFT
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+    ITKImageIntensity
+    ITKFFT
+  DESCRIPTION "${DOCUMENTATION}"
 )

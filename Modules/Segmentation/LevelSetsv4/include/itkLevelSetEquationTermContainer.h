@@ -195,7 +195,7 @@ public:
     bool
     operator==(const Iterator & it) const
     {
-      return (m_Iterator == it.m_Iterator);
+      return m_Iterator == it.m_Iterator;
     }
 
     ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Iterator);
@@ -203,7 +203,7 @@ public:
     bool
     operator==(const ConstIterator & it) const
     {
-      return (m_Iterator == it.m_Iterator);
+      return m_Iterator == it.m_Iterator;
     }
 
     ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(ConstIterator);
@@ -278,7 +278,7 @@ public:
     bool
     operator==(const Iterator & it) const
     {
-      return (m_Iterator == it.m_Iterator);
+      return m_Iterator == it.m_Iterator;
     }
 
     ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Iterator);
@@ -286,7 +286,7 @@ public:
     bool
     operator==(const ConstIterator & it) const
     {
-      return (m_Iterator == it.m_Iterator);
+      return m_Iterator == it.m_Iterator;
     }
 
     ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(ConstIterator);

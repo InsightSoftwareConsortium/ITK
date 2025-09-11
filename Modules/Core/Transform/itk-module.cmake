@@ -13,16 +13,15 @@ itk_module(
   ITKTransform
   ENABLE_SHARED
   DEPENDS
-  ITKCommon
+    ITKCommon
   COMPILE_DEPENDS
-  ITKStatistics
-  ITKImageFilterBase
+    ITKStatistics
+    ITKImageFilterBase
   TEST_DEPENDS
-  ITKTestKernel
-  ITKGoogleTest
-  ITKDisplacementField
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+    ITKGoogleTest
+    ITKDisplacementField
+  DESCRIPTION "${DOCUMENTATION}"
 )
 
 # Extra dependencies on ImageFilterBase introduced by itkGaussianSmoothingOnUpdateDisplacementFieldTransform.

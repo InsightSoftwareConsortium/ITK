@@ -67,7 +67,7 @@ GPUDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::GP
 
   if (TDisplacementField::ImageDimension > 3 || TDisplacementField::ImageDimension < 1)
   {
-    itkExceptionMacro("GPUDenseFiniteDifferenceImageFilter supports 1/2/3D image.");
+    itkExceptionStringMacro("GPUDenseFiniteDifferenceImageFilter supports 1/2/3D image.");
   }
 
   defines << "#define DIM_" << TDisplacementField::ImageDimension << '\n';
@@ -146,7 +146,7 @@ GPUDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::In
 {
   if (!this->GetMovingImage() || !this->GetFixedImage() || !m_MovingImageInterpolator)
   {
-    itkExceptionMacro("MovingImage, FixedImage and/or Interpolator not set");
+    itkExceptionStringMacro("MovingImage, FixedImage and/or Interpolator not set");
   }
 
   // cache fixed image information
@@ -254,7 +254,7 @@ GPUDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::GP
   this->m_GPUKernelManager->SetKernelArgWithImage(
     m_ComputeUpdateGPUKernelHandle, argidx++, m_GPUSquaredDifference->GetGPUDataManager());
 
-  this->m_GPUKernelManager->SetKernelArg(m_ComputeUpdateGPUKernelHandle, argidx++, sizeof(float), &(normalizer));
+  this->m_GPUKernelManager->SetKernelArg(m_ComputeUpdateGPUKernelHandle, argidx++, sizeof(float), &normalizer);
   for (int i = 0; i < ImageDim; ++i)
   {
     this->m_GPUKernelManager->SetKernelArg(m_ComputeUpdateGPUKernelHandle, argidx++, sizeof(int), &(imgSize[i]));

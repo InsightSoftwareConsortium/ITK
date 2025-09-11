@@ -9,14 +9,13 @@ shrinking, and changing its origin or spacing or orientation."
 itk_module(
   ITKImageGrid
   COMPILE_DEPENDS
-  ITKImageFunction
+    ITKImageFunction
   TEST_DEPENDS
-  ITKTestKernel
-  ITKSmoothing
-  ITKImageSources
-  ITKImageIntensity
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+    ITKSmoothing
+    ITKImageSources
+    ITKImageIntensity
+  DESCRIPTION "${DOCUMENTATION}"
 )
 
 # ITKImageIntensity dependency introduced by itkBSplineScatteredDataPointSetToImageFilterTest4

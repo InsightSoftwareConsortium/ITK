@@ -184,9 +184,7 @@ public:
   virtual OutputVectorType
   TransformVector(const InputVectorType &) const
   {
-    itkExceptionMacro("TransformVector(const InputVectorType &)"
-                      "is unimplemented for "
-                      << this->GetNameOfClass());
+    itkExceptionMacro("TransformVector(const InputVectorType &)is unimplemented for " << this->GetNameOfClass());
   }
 
   /** Method to transform a vector at a given location.
@@ -200,9 +198,7 @@ public:
   virtual OutputVnlVectorType
   TransformVector(const InputVnlVectorType &) const
   {
-    itkExceptionMacro("TransformVector( const InputVnlVectorType & ) is "
-                      "unimplemented for "
-                      << this->GetNameOfClass());
+    itkExceptionMacro("TransformVector( const InputVnlVectorType & ) is unimplemented for " << this->GetNameOfClass());
   }
 
   /** Method to transform a vnl_vector, at a point.
@@ -216,8 +212,7 @@ public:
   virtual OutputVectorPixelType
   TransformVector(const InputVectorPixelType & itkNotUsed(vector)) const
   {
-    itkExceptionMacro("TransformVector( const InputVectorPixelType & ) is "
-                      "unimplemented for "
+    itkExceptionMacro("TransformVector( const InputVectorPixelType & ) is unimplemented for "
                       << this->GetNameOfClass());
   }
 
@@ -232,8 +227,7 @@ public:
   virtual OutputCovariantVectorType
   TransformCovariantVector(const InputCovariantVectorType &) const
   {
-    itkExceptionMacro("TransformCovariantVector( const InputCovariantVectorType & ) is "
-                      "unimplemented for "
+    itkExceptionMacro("TransformCovariantVector( const InputCovariantVectorType & ) is unimplemented for "
                       << this->GetNameOfClass());
   }
 
@@ -250,8 +244,7 @@ public:
   virtual OutputVectorPixelType
   TransformCovariantVector(const InputVectorPixelType & itkNotUsed(vector)) const
   {
-    itkExceptionMacro("TransformCovariantVector(const InputVectorPixelType &)"
-                      "is unimplemented for "
+    itkExceptionMacro("TransformCovariantVector(const InputVectorPixelType &)is unimplemented for "
                       << this->GetNameOfClass());
   }
 
@@ -267,8 +260,7 @@ public:
   virtual OutputDiffusionTensor3DType
   TransformDiffusionTensor3D(const InputDiffusionTensor3DType & itkNotUsed(tensor)) const
   {
-    itkExceptionMacro("TransformDiffusionTensor3D( const InputDiffusionTensor3DType & ) is "
-                      "unimplemented for "
+    itkExceptionMacro("TransformDiffusionTensor3D( const InputDiffusionTensor3DType & ) is unimplemented for "
                       << this->GetNameOfClass());
   }
 
@@ -284,8 +276,7 @@ public:
   virtual OutputVectorPixelType
   TransformDiffusionTensor3D(const InputVectorPixelType & itkNotUsed(tensor)) const
   {
-    itkExceptionMacro("TransformDiffusionTensor( const InputVectorPixelType & ) is "
-                      "unimplemented for "
+    itkExceptionMacro("TransformDiffusionTensor( const InputVectorPixelType & ) is unimplemented for "
                       << this->GetNameOfClass());
   }
 
@@ -305,17 +296,16 @@ public:
   virtual OutputSymmetricSecondRankTensorType
   TransformSymmetricSecondRankTensor(const InputSymmetricSecondRankTensorType & itkNotUsed(tensor)) const
   {
-    itkExceptionMacro("TransformSymmetricSecondRankTensor( const InputSymmetricSecondRankTensorType & ) is "
-                      "unimplemented for "
-                      << this->GetNameOfClass());
+    itkExceptionMacro(
+      "TransformSymmetricSecondRankTensor( const InputSymmetricSecondRankTensorType & ) is unimplemented for "
+      << this->GetNameOfClass());
   }
 
   /** Method to transform a ssr tensor stored in a VectorImage */
   virtual OutputVectorPixelType
   TransformSymmetricSecondRankTensor(const InputVectorPixelType & itkNotUsed(tensor)) const
   {
-    itkExceptionMacro("TransformSymmetricSecondRankTensor( const InputVectorPixelType & ) is "
-                      "unimplemented for "
+    itkExceptionMacro("TransformSymmetricSecondRankTensor( const InputVectorPixelType & ) is unimplemented for "
                       << this->GetNameOfClass());
   }
 
@@ -466,7 +456,7 @@ public:
   virtual bool
   IsLinear() const
   {
-    return (this->GetTransformCategory() == Superclass::TransformCategoryEnum::Linear);
+    return this->GetTransformCategory() == Superclass::TransformCategoryEnum::Linear;
   }
 
   /**
@@ -526,8 +516,7 @@ public:
   ComputeJacobianWithRespectToPosition(const InputPointType & itkNotUsed(x),
                                        JacobianPositionType & itkNotUsed(jacobian)) const
   {
-    itkExceptionMacro("ComputeJacobianWithRespectToPosition( InputPointType, JacobianType )"
-                      " is unimplemented for "
+    itkExceptionMacro("ComputeJacobianWithRespectToPosition( InputPointType, JacobianType ) is unimplemented for "
                       << this->GetNameOfClass());
   }
 

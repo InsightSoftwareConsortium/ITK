@@ -79,11 +79,11 @@ SpatialNeighborSubsampler<TSample, TRegion>::Search(const InstanceIdentifier & q
 {
   if (!m_RadiusInitialized)
   {
-    itkExceptionMacro("Radius not set.");
+    itkExceptionStringMacro("Radius not set.");
   }
   if (!this->m_SampleRegionInitialized)
   {
-    itkExceptionMacro("Sample region not set.");
+    itkExceptionStringMacro("Sample region not set.");
   }
   if (!this->GetRegionConstraintInitialized())
   {

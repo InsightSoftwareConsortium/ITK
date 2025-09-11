@@ -80,8 +80,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
   /* Expects moving image gradient source */
   if (this->GetGradientSourceIncludesFixed() || !this->GetGradientSourceIncludesMoving())
   {
-    itkExceptionMacro("Expected gradient source to be only Moving. Instead gradient source is: "
-                      " Fixed: "
+    itkExceptionMacro("Expected gradient source to be only Moving. Instead gradient source is:  Fixed: "
                       << this->GetGradientSourceIncludesFixed()
                       << " Moving: " << this->GetGradientSourceIncludesMoving());
   }
@@ -115,7 +114,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
 
         if (this->m_FixedTransform.IsNull())
         {
-          itkExceptionMacro(
+          itkExceptionStringMacro(
             "Unable to get transform for mapping sampled point set from virtual space to fixed image space.");
         }
 
@@ -227,10 +226,9 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
         }
       }
     }
-    itkDebugMacro(" FixedImageMin: " << this->m_FixedImageTrueMin << " FixedImageMax: " << this->m_FixedImageTrueMax
-                                     << std::endl);
-    itkDebugMacro(" MovingImageMin: " << this->m_MovingImageTrueMin << " MovingImageMax: " << this->m_MovingImageTrueMax
-                                      << std::endl);
+    itkDebugMacro(" FixedImageMin: " << this->m_FixedImageTrueMin << " FixedImageMax: " << this->m_FixedImageTrueMax);
+    itkDebugMacro(" MovingImageMin: " << this->m_MovingImageTrueMin
+                                      << " MovingImageMax: " << this->m_MovingImageTrueMax);
   }
 
   /**
@@ -304,15 +302,14 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
 {
   if (this->GetNumberOfValidPoints() == 0)
   {
-    itkExceptionMacro("All samples map outside moving image buffer. "
-                      "The images do not sufficiently "
-                      "overlap. They need to be initialized to have more overlap before this "
-                      "metric will work. For instance, you can align the image centers by translation."
-                      << std::endl);
+    itkExceptionStringMacro(
+      "All samples map outside moving image buffer. The images do not sufficiently overlap. They need "
+      "to be initialized to have more overlap before this metric will work. For instance, you can "
+      "align the image centers by translation.");
   }
   if (this->m_JointPDFSum < itk::NumericTraits<PDFValueType>::epsilon())
   {
-    itkExceptionMacro("Joint PDF summed to zero");
+    itkExceptionStringMacro("Joint PDF summed to zero");
   }
   const PDFValueType normalizationFactor = 1.0 / this->m_JointPDFSum;
 
@@ -403,7 +400,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
                    ++parameter, derivPtr++)
               {
                 // Ref: eqn 23 of Thevenaz & Unser paper [3]
-                (*(this->m_DerivativeResult))[parameter] += (*derivPtr) * pRatio;
+                (*(this->m_DerivativeResult))[parameter] += *derivPtr * pRatio;
               } // end for-loop over parameters
             }
             else

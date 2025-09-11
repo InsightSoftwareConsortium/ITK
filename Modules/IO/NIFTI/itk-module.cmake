@@ -8,16 +8,15 @@ itk_module(
   ITKIONIFTI
   ENABLE_SHARED
   DEPENDS
-  ITKIOImageBase
+    ITKIOImageBase
   PRIVATE_DEPENDS
-  ITKTransform
-  ITKNIFTI
+    ITKTransform
+    ITKNIFTI
   TEST_DEPENDS
-  ITKTestKernel
-  ITKNIFTI
-  ITKTransform
+    ITKTestKernel
+    ITKNIFTI
+    ITKTransform
   FACTORY_NAMES
-  ImageIO::Nifti
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ImageIO::Nifti
+  DESCRIPTION "${DOCUMENTATION}"
 )

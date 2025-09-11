@@ -12,15 +12,14 @@ itk_module(
   ITKStatistics
   ENABLE_SHARED
   DEPENDS
-  ITKCommon
-  ITKNetlib
+    ITKCommon
+    ITKNetlib
   TEST_DEPENDS
-  ITKTestKernel
-  ITKImageIntensity
-  ITKImageCompose
-  ITKIOImageBase
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+    ITKImageIntensity
+    ITKImageCompose
+    ITKIOImageBase
+  DESCRIPTION "${DOCUMENTATION}"
 )
 
 # Extra test dependency of ImageIntensity is introduced by itkImageToListSampleAdaptorTest.cxx.

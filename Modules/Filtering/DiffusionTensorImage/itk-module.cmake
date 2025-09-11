@@ -9,10 +9,9 @@ itk_module(
   ITKDiffusionTensorImage
   ENABLE_SHARED
   COMPILE_DEPENDS
-  ITKSpatialObjects
+    ITKSpatialObjects
   TEST_DEPENDS
-  ITKTestKernel
-  ITKImageFeature
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+    ITKImageFeature
+  DESCRIPTION "${DOCUMENTATION}"
 )

@@ -13,61 +13,54 @@ set(
 createtestdriver(ITKIOVTK "${ITKIOVTK-Test_LIBRARIES}" "${ITKIOVTKTests}")
 
 itk_add_test(
-  NAME
-  itkVTKImageIO2Test
+  NAME itkVTKImageIO2Test
   COMMAND
-  ITKIOVTKTestDriver
-  itkVTKImageIO2Test
-  ${ITK_TEST_OUTPUT_DIR}
+    ITKIOVTKTestDriver
+    itkVTKImageIO2Test
+    ${ITK_TEST_OUTPUT_DIR}
 )
 itk_add_test(
-  NAME
-  itkVTKImageIOTest
+  NAME itkVTKImageIOTest
   COMMAND
-  ITKIOVTKTestDriver
-  itkVTKImageIOTest
-  ${ITK_TEST_OUTPUT_DIR}/test1.vtk
-  ${ITK_TEST_OUTPUT_DIR}/test2.vtk
+    ITKIOVTKTestDriver
+    itkVTKImageIOTest
+    ${ITK_TEST_OUTPUT_DIR}/test1.vtk
+    ${ITK_TEST_OUTPUT_DIR}/test2.vtk
 )
 itk_add_test(
-  NAME
-  itkVTKImageIO2Test2
+  NAME itkVTKImageIO2Test2
   COMMAND
-  ITKIOVTKTestDriver
-  itkVTKImageIO2Test2
-  ${ITK_TEST_OUTPUT_DIR}/itkVTKImageIO2Test2.vtk
+    ITKIOVTKTestDriver
+    itkVTKImageIO2Test2
+    ${ITK_TEST_OUTPUT_DIR}/itkVTKImageIO2Test2.vtk
 )
 itk_add_test(
-  NAME
-  itkVTKImageIOTest2
+  NAME itkVTKImageIOTest2
   COMMAND
-  ITKIOVTKTestDriver
-  itkVTKImageIOTest2
-  DATA{${ITK_DATA_ROOT}/Input/VHFColor.mhd,VHFColor.raw}
-  ${ITK_TEST_OUTPUT_DIR}/testVector.vtk
+    ITKIOVTKTestDriver
+    itkVTKImageIOTest2
+    DATA{${ITK_DATA_ROOT}/Input/VHFColor.mhd,VHFColor.raw}
+    ${ITK_TEST_OUTPUT_DIR}/testVector.vtk
 )
 itk_add_test(
-  NAME
-  itkVTKImageIOTest3
+  NAME itkVTKImageIOTest3
   COMMAND
-  ITKIOVTKTestDriver
-  itkVTKImageIOTest3
-  DATA{Input/fibers.vtk}
+    ITKIOVTKTestDriver
+    itkVTKImageIOTest3
+    DATA{Input/fibers.vtk}
 )
 itk_add_test(
-  NAME
-  itkVTKImageIOStreamTest
+  NAME itkVTKImageIOStreamTest
   COMMAND
-  ITKIOVTKTestDriver
-  itkVTKImageIOStreamTest
-  ${ITK_TEST_OUTPUT_DIR}/itkVTKImageIOStreamTest.vtk
+    ITKIOVTKTestDriver
+    itkVTKImageIOStreamTest
+    ${ITK_TEST_OUTPUT_DIR}/itkVTKImageIOStreamTest.vtk
 )
 itk_add_test(
-  NAME
-  itkVTKImageIOFileReadTest
+  NAME itkVTKImageIOFileReadTest
   COMMAND
-  ITKIOVTKTestDriver
-  itkVTKImageIOFileReadTest
-  DATA{Input/matrix.vtk}
-  DATA{Input/ironProt.vtk}
+    ITKIOVTKTestDriver
+    itkVTKImageIOFileReadTest
+    DATA{Input/matrix.vtk}
+    DATA{Input/ironProt.vtk}
 )

@@ -106,7 +106,7 @@ public:
   {
     if (this->GetNumberOfOutputs() < 1)
     {
-      itkExceptionMacro("No output available.");
+      itkExceptionStringMacro("No output available.");
     }
     return static_cast<DecoratedOutputType *>(this->ProcessObject::GetOutput(0))->Get();
   }

@@ -261,7 +261,7 @@ ShrinkImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   {
     outputSpacing[i] = inputSpacing[i] * static_cast<double>(m_ShrinkFactors[i]);
 
-    // Round down so that all output pixels fit input input region
+    // Round down so that all output pixels fit input region
     outputSize[i] = static_cast<SizeValueType>(
       std::floor(static_cast<double>(inputSize[i]) / static_cast<double>(m_ShrinkFactors[i])));
 

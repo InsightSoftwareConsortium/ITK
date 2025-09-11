@@ -58,7 +58,7 @@ ParticleSwarmOptimizerSAXWriter::WriteFile()
 
     if (this->m_InputObject == nullptr)
     {
-      itkExceptionMacro("Object to be written is null!\n");
+      itkExceptionStringMacro("Object to be written is null!\n");
     }
 
     std::ofstream ofs(this->m_Filename.c_str());

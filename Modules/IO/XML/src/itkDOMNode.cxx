@@ -67,7 +67,7 @@ bool
 DOMNode::HasAttribute(const std::string & key) const
 {
   auto i = this->m_Attributes.find(key);
-  return (i != this->m_Attributes.end());
+  return i != this->m_Attributes.end();
 }
 
 /** Add or replace an attribute. */
@@ -104,7 +104,7 @@ DOMNode::RemoveAttribute(const std::string & key)
   auto i = this->m_Attributes.find(key);
   if (i == this->m_Attributes.end())
   {
-    itkExceptionMacro("attribute does not exist");
+    itkExceptionStringMacro("attribute does not exist");
   }
 
   // remove it from the ordered container first
@@ -228,12 +228,12 @@ DOMNode::AddChild(DOMNode * node, IdentifierType i)
 
   if (node == nullptr || this->ShareRoot(node))
   {
-    itkExceptionMacro("not able to add child");
+    itkExceptionStringMacro("not able to add child");
   }
 
   if (i < 0 || i >= static_cast<IdentifierType>(this->m_Children.size()))
   {
-    itkExceptionMacro("not able to add child");
+    itkExceptionStringMacro("not able to add child");
   }
 
   node->m_Parent = this;
@@ -246,7 +246,7 @@ DOMNode::AddChildAtBegin(DOMNode * node)
 {
   if (node == nullptr || this->ShareRoot(node))
   {
-    itkExceptionMacro("not able to add child");
+    itkExceptionStringMacro("not able to add child");
   }
 
   node->m_Parent = this;
@@ -259,7 +259,7 @@ DOMNode::AddChildAtEnd(DOMNode * node)
 {
   if (node == nullptr || this->ShareRoot(node))
   {
-    itkExceptionMacro("not able to add child");
+    itkExceptionStringMacro("not able to add child");
   }
 
   node->m_Parent = this;
@@ -272,12 +272,12 @@ DOMNode::SetChild(DOMNode * node, IdentifierType i)
 {
   if (node == nullptr || this->ShareRoot(node))
   {
-    itkExceptionMacro("not able to add child");
+    itkExceptionStringMacro("not able to add child");
   }
 
   if (i < 0 || i >= static_cast<IdentifierType>(this->m_Children.size()))
   {
-    itkExceptionMacro("not able to add child");
+    itkExceptionStringMacro("not able to add child");
   }
 
   node->m_Parent = this;
@@ -290,7 +290,7 @@ DOMNode::RemoveChild(IdentifierType i)
 {
   if (i < 0 || i >= static_cast<IdentifierType>(m_Children.size()))
   {
-    itkExceptionMacro("not able to remove child");
+    itkExceptionStringMacro("not able to remove child");
   }
 
   this->m_Children[i]->m_Parent = nullptr;
@@ -445,7 +445,7 @@ DOMNode::GetRoot() const
 bool
 DOMNode::ShareRoot(const DOMNode * node) const
 {
-  return (node != nullptr && node->GetRoot() == this->GetRoot());
+  return node != nullptr && node->GetRoot() == this->GetRoot();
 }
 
 /**

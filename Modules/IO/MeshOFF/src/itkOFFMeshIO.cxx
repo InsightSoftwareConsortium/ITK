@@ -65,7 +65,7 @@ OFFMeshIO::OpenFile()
 {
   if (this->m_FileName.empty())
   {
-    itkExceptionMacro("No input FileName");
+    itkExceptionStringMacro("No input FileName");
   }
 
   if (!itksys::SystemTools::FileExists(m_FileName.c_str()))
@@ -107,7 +107,7 @@ OFFMeshIO::ReadMeshInformation()
   std::getline(m_InputFile, line, '\n'); // delimiter is '\n'
   if (line.find("OFF") == std::string::npos)
   {
-    itkExceptionMacro("Error, the file doesn't begin with keyword \"OFF\" ");
+    itkExceptionStringMacro("Error, the file doesn't begin with keyword \"OFF\" ");
   }
 
   // If the file is binary file, it contains "BINARY"
@@ -137,7 +137,7 @@ OFFMeshIO::ReadMeshInformation()
 
   // Ignore comment lines
   std::getline(m_InputFile, line, '\n');
-  while (line.find("#") != std::string::npos)
+  while (line.find('#') != std::string::npos)
   {
     std::getline(m_InputFile, line, '\n');
   }
@@ -277,7 +277,7 @@ OFFMeshIO::ReadPoints(void * buffer)
   }
   else
   {
-    itkExceptionMacro("Invalid file type (not ASCII or BINARY)");
+    itkExceptionStringMacro("Invalid file type (not ASCII or BINARY)");
   }
 }
 
@@ -296,7 +296,7 @@ OFFMeshIO::ReadCells(void * buffer)
   }
   else
   {
-    itkExceptionMacro("Invalid file type (not ASCII or BINARY)");
+    itkExceptionStringMacro("Invalid file type (not ASCII or BINARY)");
   }
 
   CloseFile();
@@ -327,7 +327,7 @@ OFFMeshIO::WriteMeshInformation()
   // Check file name
   if (this->m_FileName.empty())
   {
-    itkExceptionMacro("No Input FileName");
+    itkExceptionStringMacro("No Input FileName");
   }
 
   // Write to output file
@@ -368,15 +368,15 @@ OFFMeshIO::WriteMeshInformation()
   {
     // Write number of points
     auto numberOfPoints = static_cast<itk::uint32_t>(this->m_NumberOfPoints);
-    this->WriteBufferAsBinary<itk::uint32_t>(&(numberOfPoints), outputFile, 1);
+    this->WriteBufferAsBinary<itk::uint32_t>(&numberOfPoints, outputFile, 1);
 
     // Write number of cells
     auto numberOfCells = static_cast<itk::uint32_t>(this->m_NumberOfCells);
-    this->WriteBufferAsBinary<itk::uint32_t>(&(numberOfCells), outputFile, 1);
+    this->WriteBufferAsBinary<itk::uint32_t>(&numberOfCells, outputFile, 1);
 
     // Write number of edges
     itk::uint32_t numberOfEdges = 0;
-    this->WriteBufferAsBinary<itk::uint32_t>(&(numberOfEdges), outputFile, 1);
+    this->WriteBufferAsBinary<itk::uint32_t>(&numberOfEdges, outputFile, 1);
   }
 
   outputFile.close();
@@ -388,7 +388,7 @@ OFFMeshIO::WritePoints(void * buffer)
   // check file name
   if (this->m_FileName.empty())
   {
-    itkExceptionMacro("No Input FileName");
+    itkExceptionStringMacro("No Input FileName");
   }
 
   // Write to output file
@@ -419,7 +419,7 @@ OFFMeshIO::WritePoints(void * buffer)
         WriteBufferAsAscii(static_cast<unsigned char *>(buffer), outputFile, m_NumberOfPoints, m_PointDimension);
         break;
       }
-      case IOComponentEnum::CHAR:
+      case IOComponentEnum::SCHAR:
       {
         WriteBufferAsAscii(static_cast<char *>(buffer), outputFile, m_NumberOfPoints, m_PointDimension);
 
@@ -493,7 +493,7 @@ OFFMeshIO::WritePoints(void * buffer)
       }
       default:
       {
-        itkExceptionMacro("Unknown point pixel component type" << std::endl);
+        itkExceptionStringMacro("Unknown point pixel component type");
       }
     }
   }
@@ -507,7 +507,7 @@ OFFMeshIO::WritePoints(void * buffer)
           static_cast<unsigned char *>(buffer), outputFile, m_NumberOfPoints * m_PointDimension);
         break;
       }
-      case IOComponentEnum::CHAR:
+      case IOComponentEnum::SCHAR:
       {
         WriteBufferAsBinary<float>(static_cast<char *>(buffer), outputFile, m_NumberOfPoints * m_PointDimension);
 
@@ -585,7 +585,7 @@ OFFMeshIO::WritePoints(void * buffer)
       }
       default:
       {
-        itkExceptionMacro("Unknown point pixel component type" << std::endl);
+        itkExceptionStringMacro("Unknown point pixel component type");
       }
     }
   }
@@ -599,7 +599,7 @@ OFFMeshIO::WriteCells(void * buffer)
   // Check file name
   if (this->m_FileName.empty())
   {
-    itkExceptionMacro("No Input FileName");
+    itkExceptionStringMacro("No Input FileName");
   }
 
   // Write to output file
@@ -631,7 +631,7 @@ OFFMeshIO::WriteCells(void * buffer)
 
         break;
       }
-      case IOComponentEnum::CHAR:
+      case IOComponentEnum::SCHAR:
       {
         WriteCellsAsAscii(static_cast<unsigned char *>(buffer), outputFile);
 
@@ -705,7 +705,7 @@ OFFMeshIO::WriteCells(void * buffer)
       }
       default:
       {
-        itkExceptionMacro("Unknown cell pixel component type" << std::endl);
+        itkExceptionStringMacro("Unknown cell pixel component type");
       }
     }
   }
@@ -719,7 +719,7 @@ OFFMeshIO::WriteCells(void * buffer)
 
         break;
       }
-      case IOComponentEnum::CHAR:
+      case IOComponentEnum::SCHAR:
       {
         WriteCellsAsBinary<itk::uint32_t>(static_cast<char *>(buffer), outputFile);
 
@@ -793,7 +793,7 @@ OFFMeshIO::WriteCells(void * buffer)
       }
       default:
       {
-        itkExceptionMacro("Unknown cell pixel component type" << std::endl);
+        itkExceptionStringMacro("Unknown cell pixel component type");
       }
     }
   }

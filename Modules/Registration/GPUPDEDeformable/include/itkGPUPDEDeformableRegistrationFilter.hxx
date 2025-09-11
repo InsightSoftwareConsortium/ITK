@@ -50,7 +50,7 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
 
   if (TFixedImage::ImageDimension > 3 || TFixedImage::ImageDimension < 1)
   {
-    itkExceptionMacro("GPUDenseFiniteDifferenceImageFilter supports 1/2/3D image.");
+    itkExceptionStringMacro("GPUDenseFiniteDifferenceImageFilter supports 1/2/3D image.");
   }
 
   defines << "#define DIM_" << TDisplacementField::ImageDimension << '\n';
@@ -144,7 +144,7 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
 
   if (!movingPtr || !fixedPtr)
   {
-    itkExceptionMacro("Fixed and/or moving image not set");
+    itkExceptionStringMacro("Fixed and/or moving image not set");
   }
 
   // update variables in the equation object
@@ -152,7 +152,7 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
 
   if (!f)
   {
-    itkExceptionMacro("FiniteDifferenceFunction not of type PDEDeformableRegistrationFilterFunction");
+    itkExceptionStringMacro("FiniteDifferenceFunction not of type PDEDeformableRegistrationFilterFunction");
   }
 
   f->SetFixedImage(fixedPtr);
@@ -329,7 +329,7 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
   int ImageDim = static_cast<int>(TDisplacementField::ImageDimension);
   if (ImageDim > 3)
   {
-    itkExceptionMacro("GPUSmoothDisplacementField supports 1/2/3D images.");
+    itkExceptionStringMacro("GPUSmoothDisplacementField supports 1/2/3D images.");
   }
   for (int i = 0; i < ImageDim; ++i)
   {
@@ -395,8 +395,7 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
     // image size
     this->m_GPUKernelManager->SetKernelArgWithImage(
       m_SmoothDisplacementFieldGPUKernelHandle, argidx++, m_GPUImageSizes);
-    this->m_GPUKernelManager->SetKernelArg(
-      m_SmoothDisplacementFieldGPUKernelHandle, argidx++, sizeof(int), &(ImageDim));
+    this->m_GPUKernelManager->SetKernelArg(m_SmoothDisplacementFieldGPUKernelHandle, argidx++, sizeof(int), &ImageDim);
 
     // smoothing kernel
     this->m_GPUKernelManager->SetKernelArgWithImage(
@@ -405,8 +404,8 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
       m_SmoothDisplacementFieldGPUKernelHandle, argidx++, sizeof(int), &(GPUSmoothingKernelSizes[indir]));
 
     // indir and outdir
-    this->m_GPUKernelManager->SetKernelArg(m_SmoothDisplacementFieldGPUKernelHandle, argidx++, sizeof(int), &(indir));
-    this->m_GPUKernelManager->SetKernelArg(m_SmoothDisplacementFieldGPUKernelHandle, argidx++, sizeof(int), &(outdir));
+    this->m_GPUKernelManager->SetKernelArg(m_SmoothDisplacementFieldGPUKernelHandle, argidx++, sizeof(int), &indir);
+    this->m_GPUKernelManager->SetKernelArg(m_SmoothDisplacementFieldGPUKernelHandle, argidx++, sizeof(int), &outdir);
 
     // shared memory below
     this->m_GPUKernelManager->SetKernelArg(m_SmoothDisplacementFieldGPUKernelHandle,
@@ -543,7 +542,7 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
   int ImageDim = static_cast<int>(TDisplacementField::ImageDimension);
   if (ImageDim > 3)
   {
-    itkExceptionMacro("GPUSmoothDisplacementField supports 1/2/3D images.");
+    itkExceptionStringMacro("GPUSmoothDisplacementField supports 1/2/3D images.");
   }
   for (int i = 0; i < ImageDim; ++i)
   {

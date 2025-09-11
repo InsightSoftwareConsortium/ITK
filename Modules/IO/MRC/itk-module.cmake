@@ -8,12 +8,11 @@ itk_module(
   ITKIOMRC
   ENABLE_SHARED
   DEPENDS
-  ITKIOImageBase
+    ITKIOImageBase
   TEST_DEPENDS
-  ITKTestKernel
-  ITKImageSources
+    ITKTestKernel
+    ITKImageSources
   FACTORY_NAMES
-  ImageIO::MRC
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ImageIO::MRC
+  DESCRIPTION "${DOCUMENTATION}"
 )

@@ -221,10 +221,8 @@ GetImageInformationDefinitionV3(std::string file, int lineNum, PhilipsPAR * phil
   }
   currentLine = philipsPARClass->GetLineNumber(file, lineNum);
   if ((currentLine.empty()) || (currentLine == "\n") || (currentLine == "\r\n") || (currentLine == "\r") ||
-      (currentLine == "#=== END OF DATA DESCRIPTION FILE ======================"
-                      "=========================") ||
-      (currentLine == "#=== END OF DATA DESCRIPTION FILE ======================"
-                      "=========================\r"))
+      (currentLine == "#=== END OF DATA DESCRIPTION FILE ===============================================") ||
+      (currentLine == "#=== END OF DATA DESCRIPTION FILE ===============================================\r"))
   {
     tempInfo.problemreading = 1;
     return tempInfo;
@@ -261,10 +259,8 @@ GetImageInformationDefinitionV4(std::string file, int lineNum, PhilipsPAR * phil
   }
   currentLine = philipsPARClass->GetLineNumber(file, lineNum);
   if ((currentLine.empty()) || (currentLine == "\n") || (currentLine == "\r\n") || (currentLine == "\r") ||
-      (currentLine == "#=== END OF DATA DESCRIPTION FILE ======================"
-                      "=========================") ||
-      (currentLine == "#=== END OF DATA DESCRIPTION FILE ======================"
-                      "=========================\r"))
+      (currentLine == "#=== END OF DATA DESCRIPTION FILE ===============================================") ||
+      (currentLine == "#=== END OF DATA DESCRIPTION FILE ===============================================\r"))
   {
     tempInfo.problemreading = 1;
     return tempInfo;
@@ -306,10 +302,8 @@ GetImageInformationDefinitionV41(std::string file, int lineNum, PhilipsPAR * phi
   }
   currentLine = philipsPARClass->GetLineNumber(file, lineNum);
   if ((currentLine.empty()) || (currentLine == "\n") || (currentLine == "\r\n") || (currentLine == "\r") ||
-      (currentLine == "#=== END OF DATA DESCRIPTION FILE ======================"
-                      "=========================") ||
-      (currentLine == "#=== END OF DATA DESCRIPTION FILE ======================"
-                      "=========================\r"))
+      (currentLine == "#=== END OF DATA DESCRIPTION FILE ===============================================") ||
+      (currentLine == "#=== END OF DATA DESCRIPTION FILE ===============================================\r"))
   {
     tempInfo.problemreading = 1;
     return tempInfo;
@@ -354,10 +348,8 @@ GetImageInformationDefinitionV42(std::string file, int lineNum, PhilipsPAR * phi
   }
   currentLine = philipsPARClass->GetLineNumber(file, lineNum);
   if ((currentLine.empty()) || (currentLine == "\n") || (currentLine == "\r\n") || (currentLine == "\r") ||
-      (currentLine == "#=== END OF DATA DESCRIPTION FILE ======================"
-                      "=========================") ||
-      (currentLine == "#=== END OF DATA DESCRIPTION FILE ======================"
-                      "=========================\r"))
+      (currentLine == "#=== END OF DATA DESCRIPTION FILE ===============================================") ||
+      (currentLine == "#=== END OF DATA DESCRIPTION FILE ===============================================\r"))
   {
     tempInfo.problemreading = 1;
     return tempInfo;
@@ -496,7 +488,7 @@ PhilipsPAR::GetGeneralInfoString(std::string file, int lineNum)
     return outString;
   }
   currentLine = this->GetLineNumber(file, lineNum);
-  index = currentLine.find(":");
+  index = currentLine.find(':');
   if (index != std::string::npos)
   {
     const std::string tempString = ":";
@@ -554,10 +546,10 @@ PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter * pPar)
       strncpy(pPar->protocol_name, this->GetGeneralInfoString(parFile, 14).c_str(), sizeof(pPar->protocol_name));
       strncpy(pPar->exam_date,
               this->GetGeneralInfoString(parFile, 15).c_str(),
-              this->GetGeneralInfoString(parFile, 15).find("/"));
+              this->GetGeneralInfoString(parFile, 15).find('/'));
       strncpy(
         pPar->exam_time,
-        this->GetGeneralInfoString(parFile, 15).substr(this->GetGeneralInfoString(parFile, 15).find("/") + 1).c_str(),
+        this->GetGeneralInfoString(parFile, 15).substr(this->GetGeneralInfoString(parFile, 15).find('/') + 1).c_str(),
         sizeof(pPar->exam_time));
       inString.str(this->GetGeneralInfoString(parFile, 16));
       inString >> pPar->scno;
@@ -1046,10 +1038,10 @@ PhilipsPAR::ReadPAR(std::string parFile, struct par_parameter * pPar)
       strncpy(pPar->protocol_name, this->GetGeneralInfoString(parFile, 14).c_str(), sizeof(pPar->protocol_name));
       strncpy(pPar->exam_date,
               this->GetGeneralInfoString(parFile, 15).c_str(),
-              this->GetGeneralInfoString(parFile, 15).find("/"));
+              this->GetGeneralInfoString(parFile, 15).find('/'));
       strncpy(
         pPar->exam_time,
-        this->GetGeneralInfoString(parFile, 15).substr(this->GetGeneralInfoString(parFile, 15).find("/") + 1).c_str(),
+        this->GetGeneralInfoString(parFile, 15).substr(this->GetGeneralInfoString(parFile, 15).find('/') + 1).c_str(),
         sizeof(pPar->exam_time));
       strncpy(pPar->series_type, this->GetGeneralInfoString(parFile, 16).c_str(), sizeof(pPar->series_type));
       inString.str(this->GetGeneralInfoString(parFile, 17));

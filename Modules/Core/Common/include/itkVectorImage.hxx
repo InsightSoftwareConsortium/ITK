@@ -39,7 +39,7 @@ VectorImage<TPixel, VImageDimension>::Allocate(const bool UseValueInitialization
 {
   if (m_VectorLength == 0)
   {
-    itkExceptionMacro("Cannot allocate VectorImage with VectorLength = 0");
+    itkExceptionStringMacro("Cannot allocate VectorImage with VectorLength = 0");
   }
 
   this->ComputeOffsetTable();

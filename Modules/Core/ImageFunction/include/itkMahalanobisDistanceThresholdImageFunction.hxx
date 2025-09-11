@@ -64,7 +64,7 @@ MahalanobisDistanceThresholdImageFunction<TInputImage, TCoordinate>::Evaluate(co
   IndexType index;
 
   this->ConvertPointToNearestIndex(point, index);
-  return (this->EvaluateAtIndex(index));
+  return this->EvaluateAtIndex(index);
 }
 
 template <typename TInputImage, typename TCoordinate>
@@ -84,7 +84,7 @@ MahalanobisDistanceThresholdImageFunction<TInputImage, TCoordinate>::EvaluateAtI
 {
   const double mahalanobisDistance = this->EvaluateDistanceAtIndex(index);
 
-  return (mahalanobisDistance <= m_Threshold);
+  return mahalanobisDistance <= m_Threshold;
 }
 
 template <typename TInputImage, typename TCoordinate>

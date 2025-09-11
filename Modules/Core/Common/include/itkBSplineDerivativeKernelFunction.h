@@ -137,15 +137,15 @@ private:
   {
     if ((u > TRealValueType{ -0.5 }) && (u < TRealValueType{ 0.5 }))
     {
-      return (TRealValueType{ -2.0 } * u);
+      return TRealValueType{ -2.0 } * u;
     }
     if ((u >= TRealValueType{ 0.5 }) && (u < TRealValueType{ 1.5 }))
     {
-      return (TRealValueType{ -1.5 } + u);
+      return TRealValueType{ -1.5 } + u;
     }
     else if ((u > TRealValueType{ -1.5 }) && (u <= TRealValueType{ -0.5 }))
     {
-      return (TRealValueType{ 1.5 } + u);
+      return TRealValueType{ 1.5 } + u;
     }
     else
     {
@@ -159,19 +159,19 @@ private:
   {
     if ((u >= TRealValueType{ 0.0 }) && (u < TRealValueType{ 1.0 }))
     {
-      return (TRealValueType{ -2.0 } * u + TRealValueType{ 1.5 } * u * u);
+      return TRealValueType{ -2.0 } * u + TRealValueType{ 1.5 } * u * u;
     }
     if ((u > TRealValueType{ -1.0 }) && (u < TRealValueType{ 0.0 }))
     {
-      return (TRealValueType{ -2.0 } * u - TRealValueType{ 1.5 } * u * u);
+      return TRealValueType{ -2.0 } * u - TRealValueType{ 1.5 } * u * u;
     }
     else if ((u >= TRealValueType{ 1.0 }) && (u < TRealValueType{ 2.0 }))
     {
-      return (TRealValueType{ -2.0 } + TRealValueType{ 2.0 } * u - TRealValueType{ 0.5 } * u * u);
+      return TRealValueType{ -2.0 } + TRealValueType{ 2.0 } * u - TRealValueType{ 0.5 } * u * u;
     }
     else if ((u > TRealValueType{ -2.0 }) && (u <= TRealValueType{ -1.0 }))
     {
-      return (TRealValueType{ 2.0 } + TRealValueType{ 2.0 } * u + TRealValueType{ 0.5 } * u * u);
+      return TRealValueType{ 2.0 } + TRealValueType{ 2.0 } * u + TRealValueType{ 0.5 } * u * u;
     }
     else
     {

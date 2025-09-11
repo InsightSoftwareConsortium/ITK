@@ -110,7 +110,7 @@ FFTWComplexToComplex1DFFTImageFilter<TInputImage, TOutputImage>::BeforeThreadedG
       }
       catch (const std::bad_alloc &)
       {
-        itkExceptionMacro("Problem allocating memory for internal computations");
+        itkExceptionStringMacro("Problem allocating memory for internal computations");
       }
       if (this->m_TransformDirection == Superclass::DIRECT)
       {

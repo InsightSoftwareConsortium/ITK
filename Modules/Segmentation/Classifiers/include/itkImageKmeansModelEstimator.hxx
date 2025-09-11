@@ -134,7 +134,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::Allocate()
     // Check the validity of the n
     if (this->GetNumberOfModels() <= 0)
     {
-      itkExceptionMacro("Number of models is less than 0.");
+      itkExceptionStringMacro("Number of models is less than 0.");
     }
 
     m_NumberOfCodewords = this->GetNumberOfModels();
@@ -287,7 +287,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::WithCodebookUseGLA(
     // Check for lack of convergence
     if (olddistortion < distortion)
     {
-      itkExceptionMacro("Distortion is increasing, not decreasing");
+      itkExceptionStringMacro("Distortion is increasing, not decreasing");
     }
 
     // Find number of empty cells
@@ -380,7 +380,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::WithCodebookUseGLA(
       ++pass;
     }
   } while (pass <= m_MaxSplitAttempts);
-  itkExceptionMacro("Lack of convergence");
+  itkExceptionStringMacro("Lack of convergence");
 }
 
 template <typename TInputImage, typename TMembershipFunction>
@@ -502,7 +502,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::NearestNeighborSear
   // Check for bizarre errors
   if (*distortion < 0.0)
   {
-    itkExceptionMacro("Computational overflow");
+    itkExceptionStringMacro("Computational overflow");
   }
 }
 

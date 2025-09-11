@@ -59,7 +59,7 @@ RobustSolver<VDimension>::Initialization()
 
   if (maxNumberOfNonZeroValues > NumericTraits<FEMIndexType>::max() / 2)
   {
-    itkExceptionMacro("Too large system of equations");
+    itkExceptionStringMacro("Too large system of equations");
   }
 
   this->m_Itpack.SetMaximumNonZeroValuesInMatrix(maxNumberOfNonZeroValues);
@@ -93,7 +93,7 @@ RobustSolver<VDimension>::InitializeLandmarks()
 
   if (!container)
   {
-    itkExceptionMacro("Missing container");
+    itkExceptionStringMacro("Missing container");
   }
 
   LoadContainerIterator it = container->Begin();
@@ -302,7 +302,7 @@ RobustSolver<VDimension>::ComputeLandmarkSimulatedDisplacementAndWeightedError()
 
   if (!container)
   {
-    itkExceptionMacro("No container");
+    itkExceptionStringMacro("No container");
   }
 
   LoadContainerIterator it = container->Begin();
@@ -315,7 +315,7 @@ RobustSolver<VDimension>::ComputeLandmarkSimulatedDisplacementAndWeightedError()
 
     if (landmark == nullptr)
     {
-      itkExceptionMacro("Encounter landmark that is not a LoadNoisyLandmark");
+      itkExceptionStringMacro("Encounter landmark that is not a LoadNoisyLandmark");
     }
 
     if (!landmark->IsOutlier())
@@ -375,7 +375,7 @@ RobustSolver<VDimension>::ComputeLandmarkTensor()
 
   if (!container)
   {
-    itkExceptionMacro("Missing container");
+    itkExceptionStringMacro("Missing container");
   }
 
   LoadContainerIterator it = container->Begin();
@@ -445,7 +445,7 @@ RobustSolver<VDimension>::NthElementWRTDisplacementError(unsigned int nthPoint)
 
   if (!container)
   {
-    itkExceptionMacro("Missing container");
+    itkExceptionStringMacro("Missing container");
   }
 
   LoadVectorType & loadVector = container->CastToSTLContainer();
@@ -472,7 +472,7 @@ RobustSolver<VDimension>::UnselectLandmarks(unsigned int nUnselected)
 
   if (!container)
   {
-    itkExceptionMacro("Missing container");
+    itkExceptionStringMacro("Missing container");
   }
 
   LoadVectorType & loadVector = container->CastToSTLContainer();
@@ -506,7 +506,7 @@ RobustSolver<VDimension>::DeleteFromLandmarkBeginning(unsigned int nDeleted)
 
   if (!container)
   {
-    itkExceptionMacro("Missing container");
+    itkExceptionStringMacro("Missing container");
   }
 
   LoadVectorType & loadVector = container->CastToSTLContainer();
@@ -533,7 +533,7 @@ RobustSolver<VDimension>::DeleteLandmarksOutOfMesh()
 
   if (!container)
   {
-    itkExceptionMacro("Missing container");
+    itkExceptionStringMacro("Missing container");
   }
 
   for (LoadContainerIterator it = container->Begin(); it != container->End(); ++it)
@@ -544,7 +544,7 @@ RobustSolver<VDimension>::DeleteLandmarksOutOfMesh()
 
     if (landmark == nullptr)
     {
-      itkExceptionMacro("Encounter landmark that is not a LoadNoisyLandmark");
+      itkExceptionStringMacro("Encounter landmark that is not a LoadNoisyLandmark");
     }
 
     if (landmark->IsOutOfMesh())
@@ -657,7 +657,7 @@ RobustSolver<VDimension>::AssembleLandmarkStiffnessMatrix()
 
   if (!container)
   {
-    itkExceptionMacro("Missing container");
+    itkExceptionStringMacro("Missing container");
   }
 
   LoadContainerIterator it = container->Begin();
@@ -670,7 +670,7 @@ RobustSolver<VDimension>::AssembleLandmarkStiffnessMatrix()
 
     if (landmark == nullptr)
     {
-      itkExceptionMacro("Encounter landmark that is not a LoadNoisyLandmark");
+      itkExceptionStringMacro("Encounter landmark that is not a LoadNoisyLandmark");
     }
 
     if (!landmark->IsOutlier())
@@ -746,7 +746,7 @@ RobustSolver<VDimension>::RemoveUnselectedLandmarkContributionInPointStiffnessMa
 
   if (!container)
   {
-    itkExceptionMacro("Missing container");
+    itkExceptionStringMacro("Missing container");
   }
 
   LoadContainerIterator it = container->Begin();
@@ -824,14 +824,14 @@ RobustSolver<VDimension>::GetLandmarkTensorPonderation() const
 
   if (!loadContainer)
   {
-    itkExceptionMacro("Missing load container");
+    itkExceptionStringMacro("Missing load container");
   }
 
   const NodeContainerType * nodeContainer = this->m_FEMObject->GetNodeContainer();
 
   if (!nodeContainer)
   {
-    itkExceptionMacro("Missing node container");
+    itkExceptionStringMacro("Missing node container");
   }
 
   const float ponderation = static_cast<float>(nodeContainer->Size()) / static_cast<float>(loadContainer->Size());
@@ -860,7 +860,7 @@ RobustSolver<VDimension>::AssembleF()
 
   if (!container)
   {
-    itkExceptionMacro("Missing container");
+    itkExceptionStringMacro("Missing container");
   }
 
   LoadContainerIterator it = container->Begin();
@@ -947,7 +947,7 @@ RobustSolver<VDimension>::InitializeInterpolationGrid()
   {
     if (size[i] == 0)
     {
-      itkExceptionMacro("Size must be specified.");
+      itkExceptionStringMacro("Size must be specified.");
     }
   }
 

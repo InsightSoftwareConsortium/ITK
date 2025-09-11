@@ -14,11 +14,10 @@ itk_module(
   ITKPDEDeformableRegistration
   ENABLE_SHARED
   DEPENDS
-  ${_FFTW_DEPENDS}
-  ITKRegistrationCommon
-  ITKFiniteDifference
+    ${_FFTW_DEPENDS}
+    ITKRegistrationCommon
+    ITKFiniteDifference
   TEST_DEPENDS
-  ITKTestKernel
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+  DESCRIPTION "${DOCUMENTATION}"
 )

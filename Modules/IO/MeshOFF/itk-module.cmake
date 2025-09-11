@@ -7,15 +7,14 @@ itk_module(
   ITKIOMeshOFF
   ENABLE_SHARED
   DEPENDS
-  ITKCommon
-  ITKIOMeshBase
+    ITKCommon
+    ITKIOMeshBase
   COMPILE_DEPENDS
-  ITKMesh
+    ITKMesh
   TEST_DEPENDS
-  ITKTestKernel
-  ITKQuadEdgeMesh
+    ITKTestKernel
+    ITKQuadEdgeMesh
   FACTORY_NAMES
-  MeshIO::OFF
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    MeshIO::OFF
+  DESCRIPTION "${DOCUMENTATION}"
 )

@@ -57,7 +57,7 @@ public:
     {
       if (m_Pointer->GetLambda() < 0)
       {
-        return (m_Pointer > rhs.m_Pointer);
+        return m_Pointer > rhs.m_Pointer;
       }
 
       // The purpose of this comparison is to not let any one region
@@ -72,9 +72,9 @@ public:
       const double v2 = std::max(static_cast<double>(rhs.m_Pointer->GetRegion1()->GetRegionBorderSize()),
                                  static_cast<double>(rhs.m_Pointer->GetRegion2()->GetRegionBorderSize()));
 
-      return (v1 > v2);
+      return v1 > v2;
     }
-    return (m_Pointer->GetLambda() > rhs.m_Pointer->GetLambda());
+    return m_Pointer->GetLambda() > rhs.m_Pointer->GetLambda();
   }
 
   bool
@@ -84,7 +84,7 @@ public:
     {
       if (m_Pointer->GetLambda() < 0)
       {
-        return (m_Pointer > rhs->m_Pointer);
+        return m_Pointer > rhs->m_Pointer;
       }
 
       // The purpose of this comparison is to not let any one region
@@ -99,9 +99,9 @@ public:
       double v2 = std::max(static_cast<double>(rhs->m_Pointer->GetRegion1()->GetRegionBorderSize()),
                            static_cast<double>(rhs->m_Pointer->GetRegion2()->GetRegionBorderSize()));
 
-      return (v1 > v2);
+      return v1 > v2;
     }
-    return (m_Pointer->GetLambda() > rhs->m_Pointer->GetLambda());
+    return m_Pointer->GetLambda() > rhs->m_Pointer->GetLambda();
   }
 
   TBorder * m_Pointer;

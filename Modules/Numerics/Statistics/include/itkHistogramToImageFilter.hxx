@@ -52,7 +52,7 @@ HistogramToImageFilter<THistogram, TImage, TFunction>::SetTotalFrequency(SizeVal
 {
   if (n < 1)
   {
-    itkExceptionMacro("Total frequency in the histogram must be at least 1.");
+    itkExceptionStringMacro("Total frequency in the histogram must be at least 1.");
   }
 
   if (n == this->GetFunctor().GetTotalFrequency())

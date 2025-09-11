@@ -174,12 +174,12 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   if (m_Seeds1.empty())
   {
-    itkExceptionMacro("Seeds1 container is empty");
+    itkExceptionStringMacro("Seeds1 container is empty");
   }
 
   if (m_Seeds2.empty())
   {
-    itkExceptionMacro("Seeds2 container is empty");
+    itkExceptionStringMacro("Seeds2 container is empty");
   }
 
   // Zero the output

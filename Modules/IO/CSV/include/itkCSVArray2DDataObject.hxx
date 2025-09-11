@@ -45,7 +45,7 @@ CSVArray2DDataObject<TData>::GetRowIndexByName(const std::string & row_name) con
 {
   if (!this->m_HasRowHeaders)
   {
-    itkExceptionMacro("The dataset does not contain any row headers!");
+    itkExceptionStringMacro("The dataset does not contain any row headers!");
   }
 
   const auto         it = std::find(this->m_RowHeaders.begin(), this->m_RowHeaders.end(), row_name);
@@ -64,7 +64,7 @@ CSVArray2DDataObject<TData>::GetColumnIndexByName(const std::string & column_nam
 {
   if (!this->m_HasColumnHeaders)
   {
-    itkExceptionMacro("The dataset does not contain any column headers!");
+    itkExceptionStringMacro("The dataset does not contain any column headers!");
   }
 
   const auto         it = std::find(this->m_ColumnHeaders.begin(), this->m_ColumnHeaders.end(), column_name);

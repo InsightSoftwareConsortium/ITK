@@ -44,7 +44,7 @@ GPUDenseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilte
 
   if (TInputImage::ImageDimension > 3 || ImageDimension < 1)
   {
-    itkExceptionMacro("GPUDenseFiniteDifferenceImageFilter supports 1/2/3D image.");
+    itkExceptionStringMacro("GPUDenseFiniteDifferenceImageFilter supports 1/2/3D image.");
   }
 
   defines << "#define DIM_" << TInputImage::ImageDimension << '\n';
@@ -134,7 +134,7 @@ GPUDenseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilte
   int argidx = 0;
   this->m_GPUKernelManager->SetKernelArgWithImage(m_ApplyUpdateGPUKernelHandle, argidx++, bfPtr->GetGPUDataManager());
   this->m_GPUKernelManager->SetKernelArgWithImage(m_ApplyUpdateGPUKernelHandle, argidx++, otPtr->GetGPUDataManager());
-  this->m_GPUKernelManager->SetKernelArg(m_ApplyUpdateGPUKernelHandle, argidx++, sizeof(float), &(timeStep));
+  this->m_GPUKernelManager->SetKernelArg(m_ApplyUpdateGPUKernelHandle, argidx++, sizeof(float), &timeStep);
   for (int i = 0; i < ImageDim; ++i)
   {
     this->m_GPUKernelManager->SetKernelArg(m_ApplyUpdateGPUKernelHandle, argidx++, sizeof(int), &(imgSize[i]));

@@ -40,7 +40,7 @@ VectorContainerToListSampleAdaptor<TVectorContainer>::Size() const -> InstanceId
 {
   if (this->m_VectorContainer.IsNull())
   {
-    itkExceptionMacro("Vector container has not been set yet");
+    itkExceptionStringMacro("Vector container has not been set yet");
   }
 
   return this->m_VectorContainer->Size();
@@ -52,7 +52,7 @@ VectorContainerToListSampleAdaptor<TVectorContainer>::GetMeasurementVector(Insta
 {
   if (this->m_VectorContainer.IsNull())
   {
-    itkExceptionMacro("Vector container has not been set yet");
+    itkExceptionStringMacro("Vector container has not been set yet");
   }
 
   return this->m_VectorContainer->ElementAt(identifier);
@@ -64,7 +64,7 @@ VectorContainerToListSampleAdaptor<TVectorContainer>::GetFrequency(InstanceIdent
 {
   if (this->m_VectorContainer.IsNull())
   {
-    itkExceptionMacro("Vector container has not been set yet");
+    itkExceptionStringMacro("Vector container has not been set yet");
   }
 
   return 1;
@@ -76,7 +76,7 @@ VectorContainerToListSampleAdaptor<TVectorContainer>::GetTotalFrequency() const 
 {
   if (this->m_VectorContainer.IsNull())
   {
-    itkExceptionMacro("Vector container has not been set yet");
+    itkExceptionStringMacro("Vector container has not been set yet");
   }
   return this->Size();
 }

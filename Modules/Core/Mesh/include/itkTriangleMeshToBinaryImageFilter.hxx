@@ -117,17 +117,17 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::ComparePoints2D(Point
   // sort xy points by ascending y value, then x
   if (Math::ExactlyEquals(a[1], b[1]))
   {
-    return (a[0] < b[0]);
+    return a[0] < b[0];
   }
 
-  return (a[1] < b[1]);
+  return a[1] < b[1];
 }
 
 template <typename TInputMesh, typename TOutputImage>
 bool
 TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::ComparePoints1D(Point1D a, Point1D b)
 {
-  return (a.m_X < b.m_X);
+  return a.m_X < b.m_X;
 }
 
 template <typename TInputMesh, typename TOutputImage>
@@ -142,7 +142,7 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::GenerateData()
   {
     if (m_Size[0] == 0 || m_Size[1] == 0 || m_Size[2] == 0)
     {
-      itkExceptionMacro("Must Set Image Size");
+      itkExceptionStringMacro("Must Set Image Size");
     }
 
     const typename OutputImageType::RegionType region(m_Index, m_Size);
@@ -392,7 +392,7 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::RasterizeTriangles()
       }
       break;
       default:
-        itkExceptionMacro("Need Triangle or Polygon cells ONLY");
+        itkExceptionStringMacro("Need Triangle or Polygon cells ONLY");
     }
     ++cellIt;
   }

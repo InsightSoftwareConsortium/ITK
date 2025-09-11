@@ -76,7 +76,7 @@ DOMTestObjectDOMWriter::GenerateData(DOMNodeType * outputdom, const void *) cons
   ofs.open(fn.ToString().c_str());
   if (!ofs.is_open())
   {
-    itkExceptionMacro("cannot write foo file");
+    itkExceptionStringMacro("cannot write foo file");
   }
   ofs << input->GetFooValue();
   ofs.close();

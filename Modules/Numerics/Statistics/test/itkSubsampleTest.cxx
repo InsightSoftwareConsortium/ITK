@@ -47,7 +47,7 @@ itkSubsampleTest(int, char *[])
   source->Update();
 
 
-  // creat a new image with array pixel type from the source
+  // create a new image with array pixel type from the source
   using ArrayPixelType = itk::FixedArray<FloatImage::PixelType, 1>;
 
   using ArrayPixelImageType = itk::Image<ArrayPixelType, 3>;

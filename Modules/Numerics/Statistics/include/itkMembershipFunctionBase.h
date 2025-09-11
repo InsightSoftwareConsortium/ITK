@@ -111,7 +111,7 @@ public:
       // exception
       if (defaultLength != s)
       {
-        itkExceptionMacro("Attempting to change the measurement vector size of a non-resizable vector type");
+        itkExceptionStringMacro("Attempting to change the measurement vector size of a non-resizable vector type");
       }
     }
   }

@@ -171,7 +171,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>::CreateCell(int cellType, CellAutoPoin
       cellPointer.TakeOwnership(new OutputQuadraticTriangleCellType);
       break;
     default:
-      itkExceptionMacro("Unknown mesh cell");
+      itkExceptionStringMacro("Unknown mesh cell");
   }
 
   return;
@@ -634,7 +634,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>::GetCellBoundaryFeatureNeighbors(int  
 
       for (auto usingCell = boundary->UsingCellsBegin(); usingCell != boundary->UsingCellsEnd(); ++usingCell)
       {
-        if ((*usingCell) != cellId)
+        if (*usingCell != cellId)
         {
           cellSet->insert(*usingCell);
         }
@@ -644,7 +644,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>::GetCellBoundaryFeatureNeighbors(int  
      * The number of neighboring cells is the number of cells using the
      * boundary less one for the cell through which the request was made.
      */
-    return (boundary->GetNumberOfUsingCells() - 1);
+    return boundary->GetNumberOfUsingCells() - 1;
   }
 
   /**

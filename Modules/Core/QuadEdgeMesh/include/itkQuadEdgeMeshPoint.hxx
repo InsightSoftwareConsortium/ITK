@@ -46,7 +46,7 @@ QuadEdgeMeshPoint<TCoordinate, VPointDimension, TQuadEdge>::operator=(const Supe
 {
   this->Superclass::operator=(r);
   this->Initialize();
-  return (*this);
+  return *this;
 }
 
 // ---------------------------------------------------------------------
@@ -56,7 +56,7 @@ QuadEdgeMeshPoint<TCoordinate, VPointDimension, TQuadEdge>::operator=(const Valu
 {
   this->Superclass::operator=(r);
   this->Initialize();
-  return (*this);
+  return *this;
 }
 
 template <typename TCoordinate, unsigned int VPointDimension, typename TQuadEdge>
@@ -116,7 +116,7 @@ template <typename TCoordinate, unsigned int VPointDimension, typename TQuadEdge
 TQuadEdge *
 QuadEdgeMeshPoint<TCoordinate, VPointDimension, TQuadEdge>::GetEdge()
 {
-  return (m_Edge);
+  return m_Edge;
 }
 
 /** Set Point Coordinates

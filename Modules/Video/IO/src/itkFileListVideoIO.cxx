@@ -88,14 +88,14 @@ FileListVideoIO::SetReadFromFile()
   }
   else
   {
-    itkExceptionMacro("Cannot change read type while reader is open");
+    itkExceptionStringMacro("Cannot change read type while reader is open");
   }
 }
 
 void
 FileListVideoIO::SetReadFromCamera()
 {
-  itkExceptionMacro("Read From Camera is not supported by this VideoIO");
+  itkExceptionStringMacro("Read From Camera is not supported by this VideoIO");
 }
 
 bool
@@ -182,13 +182,13 @@ FileListVideoIO::ReadImageInformation()
   // Open capture from a camera
   else if (m_ReadFrom == ReadFromEnum::ReadFromCamera)
   {
-    itkExceptionMacro("FileListVideoIO cannot read from a camera");
+    itkExceptionStringMacro("FileListVideoIO cannot read from a camera");
   }
 
   // Should never get here
   else
   {
-    itkExceptionMacro("Invalid Read Type... How did we get here?");
+    itkExceptionStringMacro("Invalid Read Type... How did we get here?");
   }
 }
 
@@ -199,7 +199,7 @@ FileListVideoIO::Read(void * buffer)
   // non-zero)
   if (m_Dimensions[0] == 0)
   {
-    itkExceptionMacro("Cannot read frame with zero dimension. May need to call ReadImageInformation");
+    itkExceptionStringMacro("Cannot read frame with zero dimension. May need to call ReadImageInformation");
   }
 
   // If video is not already open, open it and keep it open
@@ -236,7 +236,7 @@ FileListVideoIO::GetSpacing(unsigned int i) const
 {
   if (!m_ReaderOpen)
   {
-    itkExceptionMacro("Can't get Spacing without ImageIO open for reading");
+    itkExceptionStringMacro("Can't get Spacing without ImageIO open for reading");
   }
   return m_ImageIO->GetSpacing(i);
 }
@@ -246,7 +246,7 @@ FileListVideoIO::GetOrigin(unsigned int i) const
 {
   if (!m_ReaderOpen)
   {
-    itkExceptionMacro("Can't get Origin without ImageIO open for reading");
+    itkExceptionStringMacro("Can't get Origin without ImageIO open for reading");
   }
   return m_ImageIO->GetOrigin(i);
 }
@@ -256,7 +256,7 @@ FileListVideoIO::GetDirection(unsigned int i) const
 {
   if (!m_ReaderOpen)
   {
-    itkExceptionMacro("Can't get Direction without ImageIO open for reading");
+    itkExceptionStringMacro("Can't get Direction without ImageIO open for reading");
   }
   return m_ImageIO->GetDirection(i);
 }
@@ -326,7 +326,7 @@ FileListVideoIO::Write(const void * buffer)
   // Make sure parameters are specified
   if (m_Dimensions.empty())
   {
-    itkExceptionMacro("Cannot write with empty parameters. You probably need to call SetWriterParameters");
+    itkExceptionStringMacro("Cannot write with empty parameters. You probably need to call SetWriterParameters");
   }
 
   // If the writer isn't open yet, open it
@@ -360,18 +360,18 @@ FileListVideoIO::OpenReader()
 {
   if (m_ReaderOpen)
   {
-    itkExceptionMacro("Cannot open reader while video is already open for reading");
+    itkExceptionStringMacro("Cannot open reader while video is already open for reading");
   }
 
   if (m_WriterOpen)
   {
-    itkExceptionMacro("Cannot open reader while video is already open for writing");
+    itkExceptionStringMacro("Cannot open reader while video is already open for writing");
   }
 
   // Make sure FileNames have been specified
   if (m_FileNames.empty())
   {
-    itkExceptionMacro("Cannot open reader without file names set");
+    itkExceptionStringMacro("Cannot open reader without file names set");
   }
 
   // If neither reader nor writer is currently open, open the reader
@@ -385,17 +385,16 @@ FileListVideoIO::OpenReader()
     }
     else
     {
-      itkExceptionMacro("Video failed to open");
+      itkExceptionStringMacro("Video failed to open");
     }
   }
   else if (m_ReadFrom == ReadFromEnum::ReadFromCamera)
   {
-    itkExceptionMacro("FileListVideoIO doesn't support reading from camera");
+    itkExceptionStringMacro("FileListVideoIO doesn't support reading from camera");
   }
   else
   {
-    itkExceptionMacro("FileListVideoIO doesn't support reading from unknown "
-                      "ReadType");
+    itkExceptionStringMacro("FileListVideoIO doesn't support reading from unknown ReadType");
   }
 }
 
@@ -404,18 +403,18 @@ FileListVideoIO::OpenWriter()
 {
   if (m_WriterOpen)
   {
-    itkExceptionMacro("Cannot open writer while video is already open for writing");
+    itkExceptionStringMacro("Cannot open writer while video is already open for writing");
   }
 
   if (m_ReaderOpen)
   {
-    itkExceptionMacro("Cannot open writer while video is already open for reading");
+    itkExceptionStringMacro("Cannot open writer while video is already open for reading");
   }
 
   // Make sure FileNames have been specified
   if (m_FileNames.empty())
   {
-    itkExceptionMacro("Cannot open reader without file names set");
+    itkExceptionStringMacro("Cannot open reader without file names set");
   }
 
   // If neither reader nor writer is currently open, open the writer
@@ -426,7 +425,7 @@ FileListVideoIO::OpenWriter()
   }
   else
   {
-    itkExceptionMacro("File failed to open for writing");
+    itkExceptionStringMacro("File failed to open for writing");
   }
 }
 
@@ -463,8 +462,8 @@ FileListVideoIO::VerifyExtensions(const std::vector<std::string> & fileList) con
 {
   for (size_t i = 1; i < fileList.size(); ++i)
   {
-    const size_t prevExtPos = fileList[i - 1].rfind(".");
-    const size_t extPos = fileList[i].rfind(".");
+    const size_t prevExtPos = fileList[i - 1].rfind('.');
+    const size_t extPos = fileList[i].rfind('.');
     if (prevExtPos == std::string::npos || extPos == std::string::npos)
     {
       return false;

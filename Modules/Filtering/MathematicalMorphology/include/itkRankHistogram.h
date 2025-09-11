@@ -225,7 +225,7 @@ public:
 
     m_Below = total;
     itkAssertInDebugAndIgnoreInReleaseMacro(m_RankValue == GetValueBruteForce());
-    return (m_RankValue);
+    return m_RankValue;
   }
 
   void

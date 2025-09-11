@@ -66,8 +66,9 @@ PyVectorContainer<TElementIdentifier, TElement>::_vector_container_from_array(Py
   PyObject * const   shapeseq = PySequence_Fast(shape, "expected sequence");
   const unsigned int dimension = PySequence_Size(shape);
 
-  PyObject *   item = PySequence_Fast_GET_ITEM(shapeseq, 0); // Only one dimension
+  PyObject *   item = PySequence_GetItem(shapeseq, 0); // Only one dimension
   const size_t numberOfElements = static_cast<size_t>(PyInt_AsLong(item));
+  Py_DECREF(item);
 
   const size_t len = numberOfElements * sizeof(DataType);
   if (bufferLength < 0 || static_cast<size_t>(bufferLength) != len)

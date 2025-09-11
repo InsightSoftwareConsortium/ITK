@@ -342,7 +342,7 @@ RegularSphereMeshSource<TOutputMesh>::Divide(const PointType & p1, const PointTy
   result[1] = m_Center[1] + c[1];
   result[2] = m_Center[2] + c[2];
 
-  return (result);
+  return result;
 }
 
 template <typename TOutputMesh>

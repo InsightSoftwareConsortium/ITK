@@ -42,7 +42,7 @@ CorrelationImageToImageMetricv4<TFixedImage,
 
   if (this->m_MovingTransform->GetTransformCategory() == MovingTransformType::TransformCategoryEnum::DisplacementField)
   {
-    itkExceptionMacro("does not support displacement field transforms!!");
+    itkExceptionStringMacro("does not support displacement field transforms!!");
   }
 }
 
@@ -89,7 +89,7 @@ CorrelationImageToImageMetricv4<TFixedImage,
     const SizeValueType numberOfPoints = this->GetNumberOfDomainPoints();
     if (numberOfPoints < 1)
     {
-      itkExceptionMacro("FixedSampledPointSet must have 1 or more points.");
+      itkExceptionStringMacro("FixedSampledPointSet must have 1 or more points.");
     }
     typename ImageToImageMetricv4GetValueAndDerivativeThreader<ThreadedIndexedContainerPartitioner, Self>::DomainType
       range;

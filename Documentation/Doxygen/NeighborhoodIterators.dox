@@ -138,7 +138,7 @@ demonstrates this concept.
 \par
 Sometimes it may be more appropriate and efficient to work outside of the
 operator/operation model.  The mean calculation above is one example.  A
-``half'' directional derivative, shown below, is another example.
+"half" directional derivative, shown below, is another example.
 
 \code
 1  NeighborhoodIterator::RadiusType radius = {1, 0, 0};

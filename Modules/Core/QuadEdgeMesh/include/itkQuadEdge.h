@@ -27,19 +27,19 @@
 // FIXME: Maybe variations of these macros should be moved into
 // itkMacro.h
 //
-#define itkQEDebugMacro(x)                                                                              \
-  {                                                                                                     \
-    std::ostringstream itkmsg;                                                                          \
-    itkmsg << "Debug: In " __FILE__ ", line " << __LINE__ << '\n' << " (" << this << "): " x << "\n\n"; \
-    OutputWindowDisplayDebugText(itkmsg.str().c_str());                                                 \
-  }                                                                                                     \
+#define itkQEDebugMacro(x)                                                                    \
+  {                                                                                           \
+    std::ostringstream itkmsg;                                                                \
+    itkmsg << "" x;                                                                           \
+    OutputWindowDisplayDebugText(__FILE__, __LINE__, "QuadEdge", this, itkmsg.str().c_str()); \
+  }                                                                                           \
   ITK_MACROEND_NOOP_STATEMENT
-#define itkQEWarningMacro(x)                                                                              \
-  {                                                                                                       \
-    std::ostringstream itkmsg;                                                                            \
-    itkmsg << "WARNING: In " __FILE__ ", line " << __LINE__ << '\n' << " (" << this << "): " x << "\n\n"; \
-    OutputWindowDisplayWarningText(itkmsg.str().c_str());                                                 \
-  }                                                                                                       \
+#define itkQEWarningMacro(x)                                                                    \
+  {                                                                                             \
+    std::ostringstream itkmsg;                                                                  \
+    itkmsg << "" x;                                                                             \
+    OutputWindowDisplayWarningText(__FILE__, __LINE__, "QuadEdge", this, itkmsg.str().c_str()); \
+  }                                                                                             \
   ITK_MACROEND_NOOP_STATEMENT
 
 // -------------------------------------------------------------------------
@@ -200,12 +200,12 @@ public:
   {
     return this->m_Rot;
   }
-  [[nodiscard]] [[nodiscard]] inline const Self *
+  [[nodiscard]] inline const Self *
   GetOnext() const
   {
     return this->m_Onext;
   }
-  [[nodiscard]] [[nodiscard]] inline const Self *
+  [[nodiscard]] inline const Self *
   GetRot() const
   {
     return this->m_Rot;
@@ -256,17 +256,17 @@ public:
   {
     if (this->m_Rot)
     {
-      return (this->m_Rot->m_Rot);
+      return this->m_Rot->m_Rot;
     }
     return nullptr;
   }
 
-  [[nodiscard]] [[nodiscard]] inline const Self *
+  [[nodiscard]] inline const Self *
   GetSym() const
   {
     if (this->m_Rot)
     {
-      return (this->m_Rot->m_Rot);
+      return this->m_Rot->m_Rot;
     }
     return nullptr;
   }
@@ -277,7 +277,7 @@ public:
   Self *
   GetLnext();
 
-  [[nodiscard]] [[nodiscard]] const Self *
+  [[nodiscard]] const Self *
   GetLnext() const;
 
   /** Returns next edge with same Right face. The first edge
@@ -286,7 +286,7 @@ public:
   Self *
   GetRnext();
 
-  [[nodiscard]] [[nodiscard]] const Self *
+  [[nodiscard]] const Self *
   GetRnext() const;
 
   /** Returns next edge with same right face and same Destination. The
@@ -295,7 +295,7 @@ public:
   Self *
   GetDnext();
 
-  [[nodiscard]] [[nodiscard]] const Self *
+  [[nodiscard]] const Self *
   GetDnext() const;
 
   /** Returns previous edge with same Origin
@@ -303,7 +303,7 @@ public:
   Self *
   GetOprev();
 
-  [[nodiscard]] [[nodiscard]] const Self *
+  [[nodiscard]] const Self *
   GetOprev() const;
 
   /** Returns previous edge with same Left face. The first edge
@@ -312,7 +312,7 @@ public:
   Self *
   GetLprev();
 
-  [[nodiscard]] [[nodiscard]] const Self *
+  [[nodiscard]] const Self *
   GetLprev() const;
 
   /** Returns the previous edge with same Right face. The first edge
@@ -321,7 +321,7 @@ public:
   Self *
   GetRprev();
 
-  [[nodiscard]] [[nodiscard]] const Self *
+  [[nodiscard]] const Self *
   GetRprev() const;
 
   /** Returns the previous edge with same Right face and same Destination.
@@ -330,7 +330,7 @@ public:
   Self *
   GetDprev();
 
-  [[nodiscard]] [[nodiscard]] const Self *
+  [[nodiscard]] const Self *
   GetDprev() const;
 
   /** Inverse operators */
@@ -339,7 +339,7 @@ public:
   GetInvRot()
   {
 #ifdef NDEBUG
-    return (this->GetRot()->GetRot()->GetRot());
+    return this->GetRot()->GetRot()->GetRot();
 #else
     Self * p1 = this->GetRot();
     if (!p1)
@@ -380,11 +380,11 @@ public:
   {
     return this->GetDprev();
   }
-  [[nodiscard]] [[nodiscard]] inline const Self *
+  [[nodiscard]] inline const Self *
   GetInvRot() const
   {
 #ifdef NDEBUG
-    return (this->GetRot()->GetRot()->GetRot());
+    return this->GetRot()->GetRot()->GetRot();
 #else
     const Self * p1 = this->GetRot();
     if (!p1)
@@ -405,22 +405,22 @@ public:
 #endif
   }
 
-  [[nodiscard]] [[nodiscard]] inline const Self *
+  [[nodiscard]] inline const Self *
   GetInvOnext() const
   {
     return this->GetOprev();
   }
-  [[nodiscard]] [[nodiscard]] inline const Self *
+  [[nodiscard]] inline const Self *
   GetInvLnext() const
   {
     return this->GetLprev();
   }
-  [[nodiscard]] [[nodiscard]] inline const Self *
+  [[nodiscard]] inline const Self *
   GetInvRnext() const
   {
     return this->GetRprev();
   }
-  [[nodiscard]] [[nodiscard]] inline const Self *
+  [[nodiscard]] inline const Self *
   GetInvDnext() const
   {
     return this->GetDprev();
@@ -429,23 +429,23 @@ public:
 
   /** Queries. */
   /** @ITKStartGrouping */
-  [[nodiscard]] [[nodiscard]] inline bool
+  [[nodiscard]] inline bool
   IsHalfEdge() const
   {
-    return ((m_Onext == this) || (m_Rot == nullptr));
+    return (m_Onext == this) || (m_Rot == nullptr);
   }
-  [[nodiscard]] [[nodiscard]] inline bool
+  [[nodiscard]] inline bool
   IsIsolated() const
   {
-    return (this == this->GetOnext());
+    return this == this->GetOnext();
   }
   bool
   IsEdgeInOnextRing(Self * testEdge) const;
-  [[nodiscard]] [[nodiscard]] bool
+  [[nodiscard]] bool
   IsLnextGivenSizeCyclic(const int size) const;
   /** @ITKEndGrouping */
 
-  [[nodiscard]] [[nodiscard]] unsigned int
+  [[nodiscard]] unsigned int
   GetOrder() const;
 
 private:

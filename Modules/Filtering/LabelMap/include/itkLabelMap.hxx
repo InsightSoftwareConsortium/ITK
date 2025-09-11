@@ -429,7 +429,7 @@ LabelMap<TLabelObject>::PushLabelObject(LabelObjectType * labelObject)
       }
       if (label == lastLabel)
       {
-        itkExceptionMacro("Can't push the label object: the label map is full.");
+        itkExceptionStringMacro("Can't push the label object: the label map is full.");
       }
     }
   }

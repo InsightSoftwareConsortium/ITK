@@ -79,6 +79,43 @@ OutputWindowDisplayDebugText(const char * message)
 }
 
 void
+OutputWindowDisplayDebugText(const char * file,
+                             unsigned int line,
+                             const char * className,
+                             const void * objectAddress,
+                             const char * message)
+{
+  OutputWindow::GetInstance()->DisplayDebugText(file, line, className, objectAddress, message);
+}
+
+void
+OutputWindowDisplayWarningText(const char * file,
+                               unsigned int line,
+                               const char * className,
+                               const void * objectAddress,
+                               const char * message)
+{
+  OutputWindow::GetInstance()->DisplayWarningText(file, line, className, objectAddress, message);
+}
+
+void
+OutputWindowDisplayErrorText(const char * file,
+                             unsigned int line,
+                             const char * className,
+                             const void * objectAddress,
+                             const char * message)
+{
+  OutputWindow::GetInstance()->DisplayErrorText(file, line, className, objectAddress, message);
+}
+
+
+void
+OutputWindowDisplayGenericOutputText(const char * file, unsigned int line, const char * message)
+{
+  OutputWindow::GetInstance()->DisplayGenericOutputText(file, line, message);
+}
+
+void
 OutputWindow::PrintSelf(std::ostream & os, Indent indent) const
 {
   itkInitGlobalsMacro(PimplGlobals);
@@ -107,6 +144,53 @@ OutputWindow::DisplayText(const char * txt)
       Object::GlobalWarningDisplayOff();
     }
   }
+}
+
+void
+OutputWindow::DisplayDebugText(const char * file,
+                               unsigned int line,
+                               const char * className,
+                               const void * objectAddress,
+                               const char * message)
+{
+  std::ostringstream formattedMessage;
+  formattedMessage << "Debug: In " << file << ", line " << line << '\n'
+                   << className << " (" << objectAddress << "): " << message << "\n\n";
+  this->DisplayDebugText(formattedMessage.str().c_str());
+}
+
+void
+OutputWindow::DisplayWarningText(const char * file,
+                                 unsigned int line,
+                                 const char * className,
+                                 const void * objectAddress,
+                                 const char * message)
+{
+  std::ostringstream formattedMessage;
+  formattedMessage << "WARNING: In " << file << ", line " << line << '\n'
+                   << className << " (" << objectAddress << "): " << message << "\n\n";
+  this->DisplayWarningText(formattedMessage.str().c_str());
+}
+
+void
+OutputWindow::DisplayErrorText(const char * file,
+                               unsigned int line,
+                               const char * className,
+                               const void * objectAddress,
+                               const char * message)
+{
+  std::ostringstream formattedMessage;
+  formattedMessage << "ERROR: In " << file << ", line " << line << '\n'
+                   << className << " (" << objectAddress << "): " << message << "\n\n";
+  this->DisplayWarningText(formattedMessage.str().c_str());
+}
+
+void
+OutputWindow::DisplayGenericOutputText(const char * file, unsigned int line, const char * message)
+{
+  std::ostringstream formattedMessage;
+  formattedMessage << "INFO: In " << file << ", line " << line << "\n" << message << "\n\n";
+  this->DisplayGenericOutputText(formattedMessage.str().c_str());
 }
 
 /**

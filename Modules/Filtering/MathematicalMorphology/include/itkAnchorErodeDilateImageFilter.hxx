@@ -37,7 +37,7 @@ AnchorErodeDilateImageFilter<TImage, TKernel, TFunction1>::DynamicThreadedGenera
   // check that we are using a decomposable kernel
   if (!this->GetKernel().GetDecomposable())
   {
-    itkExceptionMacro("Anchor morphology only works with decomposable structuring elements");
+    itkExceptionStringMacro("Anchor morphology only works with decomposable structuring elements");
   }
   // TFunction1 will be < for erosions
   // TFunction2 will be <=

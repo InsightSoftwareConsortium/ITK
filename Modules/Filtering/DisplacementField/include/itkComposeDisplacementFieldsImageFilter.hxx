@@ -66,7 +66,7 @@ ComposeDisplacementFieldsImageFilter<InputImage, TOutputImage>::BeforeThreadedGe
 
   if (!this->m_Interpolator->GetInputImage())
   {
-    itkExceptionMacro("Displacement field not set in interpolator.");
+    itkExceptionStringMacro("Displacement field not set in interpolator.");
   }
 }
 

@@ -79,7 +79,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** type alias alias for the source data container */
+  /** type alias for the source data container */
   using typename Superclass::MeasurementVectorType;
   using typename Superclass::MeasurementType;
   using typename Superclass::SubsampleType;

@@ -205,9 +205,7 @@ itkQuadEdgeMeshAddFaceTest1(int argc, char * argv[])
     }
 
     /////////////////////////////////////////////////////////////
-    std::cout << "Adding a triangle with an inconsistent orientation should "
-                 "return false"
-              << std::endl;
+    std::cout << "Adding a triangle with an inconsistent orientation should return false" << std::endl;
     //                                                        //
     //                    p3--------------p2                  //
     //                    / \             / \                 //
@@ -401,9 +399,7 @@ itkQuadEdgeMeshAddFaceTest1(int argc, char * argv[])
     // after merging two patches with opposite orientations.
     //
 
-    std::cout << "Adding a triangle between patches of opposite orientations "
-                 "should return false"
-              << std::endl;
+    std::cout << "Adding a triangle between patches of opposite orientations should return false" << std::endl;
 
     //   auto inconsistentMesh = MeshType::New();
 
@@ -423,8 +419,7 @@ itkQuadEdgeMeshAddFaceTest1(int argc, char * argv[])
       return EXIT_FAILURE;
     }
 
-    std::cout << "Adding another triangle between patches of opposite "
-                 "orientations. It should return false."
+    std::cout << "Adding another triangle between patches of opposite orientations. It should return false."
               << std::endl;
 
     if (!mesh->AddFaceTriangle(pid[0], pid[2], pid[3]))
@@ -603,9 +598,7 @@ itkQuadEdgeMeshAddFaceTest1(int argc, char * argv[])
       moebPid[i] = moebiusMesh->AddPoint(moebPoints[i]);
     }
 
-    std::cout << "Adding triangles of a non-orientable surface but one "
-                 "triangle"
-              << std::endl;
+    std::cout << "Adding triangles of a non-orientable surface but one triangle" << std::endl;
 
     if (moebiusMesh->AddFaceTriangle(moebPid[0], moebPid[2], moebPid[1]) &&
         moebiusMesh->AddFaceTriangle(moebPid[2], moebPid[3], moebPid[1]) &&
@@ -621,9 +614,7 @@ itkQuadEdgeMeshAddFaceTest1(int argc, char * argv[])
       return EXIT_FAILURE;
     }
 
-    std::cout << "Adding one more triangle makes the surface non-orientable. "
-                 "It should return false"
-              << std::endl;
+    std::cout << "Adding one more triangle makes the surface non-orientable. It should return false" << std::endl;
 
     if (!moebiusMesh->AddFaceTriangle(moebPid[1], moebPid[0], moebPid[5]))
     {

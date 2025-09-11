@@ -8,13 +8,12 @@ itk_module(
   ITKIOTransformBase
   ENABLE_SHARED
   DEPENDS
-  ITKCommon
-  ITKTransform
-  ITKTransformFactory
+    ITKCommon
+    ITKTransform
+    ITKTransformFactory
   COMPILE_DEPENDS
-  ITKDisplacementField
+    ITKDisplacementField
   TEST_DEPENDS
-  ITKTestKernel
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+  DESCRIPTION "${DOCUMENTATION}"
 )

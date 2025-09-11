@@ -204,7 +204,7 @@ itkMathRoundProfileTest1(int, char *[])
 
   while (inpItr != inputEnd)
   {
-    if ((*outItr1) != (*outItr2))
+    if (*outItr1 != *outItr2)
     {
       std::cout << "Warning*** For input: " << *inpItr << " if-round: " << *outItr1
                 << " differs from itk::Math::Round: " << *outItr2 << std::endl;

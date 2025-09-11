@@ -38,7 +38,7 @@ GDCMSeriesFileNames::SetInputDirectory(const char * name)
 {
   if (!name)
   {
-    itkExceptionMacro("SetInputDirectory() received a nullptr string");
+    itkExceptionStringMacro("SetInputDirectory() received a nullptr string");
   }
   const std::string fname = name;
   this->SetInputDirectory(fname);
@@ -55,8 +55,7 @@ GDCMSeriesFileNames::SetInputDirectory(const std::string & name)
 {
   if (name.empty())
   {
-    itkWarningMacro("You need to specify a directory where "
-                    "the DICOM files are located");
+    itkWarningMacro("You need to specify a directory where the DICOM files are located");
     return;
   }
   if (m_InputDirectory == name)

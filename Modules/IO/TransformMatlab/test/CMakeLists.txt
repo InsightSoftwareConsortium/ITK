@@ -1,12 +1,5 @@
 itk_module_test()
-set(ITKIOTransformMatlabTests itkIOTransformMatlabTest.cxx)
 
-createtestdriver(ITKIOTransformMatlab "${ITKIOTransformMatlab-Test_LIBRARIES}" "${ITKIOTransformMatlabTests}")
+set(ITKIOTransformMatlabGTests itkIOTransformMatlabGTest.cxx)
 
-itk_add_test(
-  NAME
-  itkIOTransformMatlabTest
-  COMMAND
-  ITKIOTransformMatlabTestDriver
-  itkIOTransformMatlabTest
-)
+creategoogletestdriver(ITKIOTransformMatlab "${ITKIOTransformMatlab-Test_LIBRARIES}" "${ITKIOTransformMatlabGTests}")

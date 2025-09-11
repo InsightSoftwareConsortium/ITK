@@ -54,7 +54,7 @@ namespace itk::fem
  * choice of time step, dt.  This class inherits and uses most of the Solver class
  * functionality.
  *
- * Updated: The calls to to AssembleKandM (or AssembleK) and
+ * Updated: The calls to AssembleKandM (or AssembleK) and
  * AssembleFforTimeStep (or AssembleF) are now handled internally
  * by calling Update().
  *

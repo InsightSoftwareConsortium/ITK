@@ -142,7 +142,7 @@ GaussianBlurImageFunction<TInputImage, TOutput>::RecomputeGaussianKernel()
     {
       if (this->GetInputImage()->GetSpacing()[direction] == 0.0)
       {
-        itkExceptionMacro("Pixel spacing cannot be zero");
+        itkExceptionStringMacro("Pixel spacing cannot be zero");
       }
       else
       {
@@ -324,7 +324,7 @@ GaussianBlurImageFunction<TInputImage, TOutput>::RecomputeContinuousGaussianKern
       {
         if (this->GetInputImage()->GetSpacing()[direction] == 0.0)
         {
-          itkExceptionMacro("Pixel spacing cannot be zero");
+          itkExceptionStringMacro("Pixel spacing cannot be zero");
         }
         else
         {
@@ -332,8 +332,8 @@ GaussianBlurImageFunction<TInputImage, TOutput>::RecomputeContinuousGaussianKern
         }
       }
 
-      (*it) = m_GaussianFunction->Evaluate(pt);
-      sum += (*it);
+      *it = m_GaussianFunction->Evaluate(pt);
+      sum += *it;
       ++i;
       ++it;
     }
@@ -342,7 +342,7 @@ GaussianBlurImageFunction<TInputImage, TOutput>::RecomputeContinuousGaussianKern
     it = gaussianNeighborhood.Begin();
     while (it != gaussianNeighborhood.End())
     {
-      (*it) /= sum;
+      *it /= sum;
       ++it;
     }
     m_ContinuousOperatorArray[direction] = gaussianNeighborhood;

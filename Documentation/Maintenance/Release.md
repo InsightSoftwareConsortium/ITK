@@ -18,7 +18,7 @@ Release Life Cycle
 ------------------
 
 The first release candidate (RC) is the initial branch point, so it does not have
-special steps to create. However, as `master` moves fairly quickly, branches
+special steps to create. However, as `main` moves fairly quickly, branches
 need to be corralled into the `release` branch afterwards.
 
 When releasing a new ITK version, the following steps are be taken:
@@ -118,12 +118,12 @@ This ITK [blog post] describes the Linux distributions that package ITK.
 Integrate bug fixes in the release branch
 -----------------------------------------
 
-Update `master` and `release` branches:
+Update `main` and `release` branches:
 
 ```bash
 git fetch upstream
-git checkout master
-git reset --hard upstream/master
+git checkout main
+git reset --hard upstream/main
 git checkout release
 git reset --hard upstream/release
 ```
@@ -146,10 +146,10 @@ Merge bug fix commits in release. The topic branch should be named
 `<bug-name>-for-release`:
   * If topic branch was created from the `release` branch, `checkout` topic
     in new branch.
-  * If topic branch was created on `master`, `cherry-pick` commit (see
+  * If topic branch was created on `main`, `cherry-pick` commit (see
     command line on [GitHub]) on a topic branch created off `release`. The
     commit will be visible twice in the history once release in merged into
-    `master`.
+    `main`.
   * Merge new branch on `release`:
 
 ```bash
@@ -171,12 +171,12 @@ The following must be ensured before tagging the ITK repository:
 ### Increment the version number
 
 If the version number in `ITK/CMake/itkVersion.cmake` is not already set accordingly,
-submit a pull request to update ITK's version number in the `master` branch to
-what the new release is called. Any point beyond that in the `master` branch
+submit a pull request to update ITK's version number in the `main` branch to
+what the new release is called. Any point beyond that in the `main` branch
 could serve as the start of the new release branch.
 
 After creating the release branch, submit another merge request to update the
-master branch's minor version number.
+main branch's minor version number.
 
 Update Zenodo Citation Configuration
 ------------------------------------
@@ -339,7 +339,7 @@ maintainers after an ITK Confab.
 Use the command:
 
 ```bash
-git checkout master
+git checkout main
 git pull
 ```
 
@@ -350,7 +350,7 @@ tree that has been fully tested in the [Dashboard].
     bump the `ITK_VERSION_PATCH` variable in the `CMake/itkVersion.cmake`
     file before tagging.
   * When tagging a **feature release**, make sure to bump the
-   `ITK_VERSION_MINOR` version on the `master` branch after tagging.
+   `ITK_VERSION_MINOR` version on the `main` branch after tagging.
 
 ### Tag with a branch point reference
 
@@ -377,22 +377,22 @@ Note that only trusted GPG key holders may do this step.
 ### Update the release branch
 
 Update the `release` branch only during feature releases after the tag for the
-release. Perform a `fast-forward` merge of `master` into release:
+release. Perform a `fast-forward` merge of `main` into release:
 
 ```bash
 git checkout release
 git reset --hard upstream/release
 git merge --ff-only v$version
 git push upstream release
-git checkout master
+git checkout main
 ```
 
 This will not create a new commit, only move the release branch to the tag,
 i.e. it will be fast forwarded.
 
-For minor releases, merge the release branch into `master` branch as for a
+For minor releases, merge the release branch into `main` branch as for a
 normal commit, and resolve conflicts (arising from mismatch in version number)
-by keeping `master` branch versions.
+by keeping `main` branch versions.
 
 Merge the `release` branch into the current named `$major_minor` version branch, e.g. `5.4`.
 
@@ -424,14 +424,14 @@ the latest ITK tag, the following steps should be performed:
 
 1. Update the ITK tag used in the `azure-pipelines.yml` CI configuration and
 the `setup.py` Python setup files, and update the remote module Python package
-version to a new major version using the [UpdateRequiredITKVersionInRemoteModules.sh](https://github.com/InsightSoftwareConsortium/ITK/tree/master/Utilities/Maintenance/UpdateRequiredITKVersionInRemoteModules.sh)
+version to a new major version using the [UpdateRequiredITKVersionInRemoteModules.sh](https://github.com/InsightSoftwareConsortium/ITK/tree/main/Utilities/Maintenance/UpdateRequiredITKVersionInRemoteModules.sh)
 script. This will involve merging a new pull request to each remote module
 repository.
 
 2. Upload the new remote module Python wheel to [PyPI].
 
 3. Update the remote modules to their latest commits using the
-[UpdateRemoteModules.sh](https://github.com/InsightSoftwareConsortium/ITK/tree/master/Utilities/Maintenance/UpdateRemoteModules.sh)
+[UpdateRemoteModules.sh](https://github.com/InsightSoftwareConsortium/ITK/tree/main/Utilities/Maintenance/UpdateRemoteModules.sh)
 script.
 
 
@@ -525,7 +525,7 @@ documentation for further information.
 
 First, merge the
 [ITKPythonPackage](https://github.com/InsightSoftwareConsortium/ITKPythonPackage)
-`master` branch into the `release` branch.
+`main` branch into the `release` branch.
 
 Next, update the `VERSION` variable in *ITKPythonPackage/itkVersion.py* and
 `ITK_GIT_TAG` in *ITKPythonPackage/CMakeLists.txt*. Commit the update locally
@@ -792,7 +792,7 @@ version in `Superbuild/External-ITK.cmake`.
 Update the CMake minimum version in the example files if necessary.
 
 Rendered versions can be downloaded from the recent `build-test-publish`
-[Documentation GitHub Artifact](https://github.com/InsightSoftwareConsortium/ITKSphinxExamples/actions/workflows/build-test-publish.yml?query=branch%3Amaster).
+[Documentation GitHub Artifact](https://github.com/InsightSoftwareConsortium/ITKSphinxExamples/actions/workflows/build-test-publish.yml?query=branch%3Amain).
 These should be added to a new GitHub Release on the ITKSphinxExamples
 repository with the tag `v$version`.
 
@@ -818,7 +818,7 @@ Release Notes Posts
 -------------------
 
 To get started with the release notes, first use the download link
-cookiecutter to generate [download page](https://github.com/InsightSoftwareConsortium/ITK/blob/master/Documentation/docs/download.md) markdown:
+cookiecutter to generate [download page](https://github.com/InsightSoftwareConsortium/ITK/blob/main/Documentation/docs/download.md) markdown:
 
 ```bash
 pip install cookiecutter
@@ -956,7 +956,7 @@ For the final release, the release notes produced should be used to
   * Provide the release notes in the [ITK GitHub Releases]
   * Post a message in the [ITK discussion]
   * Create a post in the [Kitware blog]
-  * Add a release note doc in [ITK/Documentation/ReleaseNotes](https://github.com/InsightSoftwareConsortium/ITK/tree/master/Documentation/ReleaseNotes)
+  * Add a release note doc in [ITK/Documentation/ReleaseNotes](https://github.com/InsightSoftwareConsortium/ITK/tree/main/Documentation/ReleaseNotes)
   * Update [ITK's Wikipedia page](https://en.wikipedia.org/wiki/Insight_Segmentation_and_Registration_Toolkit).
   * Send out a summary to Arliss <help@numfocus.org> at NumFOCUS to announce
     the release in the NumFOCUS project update monthly newsletter.

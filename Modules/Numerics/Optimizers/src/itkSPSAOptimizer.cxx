@@ -99,14 +99,14 @@ SPSAOptimizer::StartOptimization()
 
   if (!m_CostFunction)
   {
-    itkExceptionMacro("No objective function defined! ");
+    itkExceptionStringMacro("No objective function defined! ");
   }
 
   // The number of parameters
   const unsigned int spaceDimension = m_CostFunction->GetNumberOfParameters();
   if (spaceDimension != this->GetInitialPosition().GetSize())
   {
-    itkExceptionMacro("Number of parameters not correct!");
+    itkExceptionStringMacro("Number of parameters not correct!");
   }
 
   m_CurrentIteration = 0;
@@ -348,7 +348,7 @@ SPSAOptimizer::GuessParameters(SizeValueType numberOfGradientEstimates, double i
 
   if (!m_CostFunction)
   {
-    itkExceptionMacro("No objective function defined! ");
+    itkExceptionStringMacro("No objective function defined! ");
   }
 
   // The number of parameters
@@ -358,7 +358,7 @@ SPSAOptimizer::GuessParameters(SizeValueType numberOfGradientEstimates, double i
   const ParametersType & initialPosition = this->GetInitialPosition();
   if (spaceDimension != initialPosition.GetSize())
   {
-    itkExceptionMacro("Number of parameters not correct!");
+    itkExceptionStringMacro("Number of parameters not correct!");
   }
 
   // Estimate the maximum absolute element of the initial gradient

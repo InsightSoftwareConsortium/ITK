@@ -42,7 +42,7 @@ MRASlabIdentifier<TInputImage>::GenerateSlabRegions()
   // this method only works with 3D MRI image
   if (ImageType::ImageDimension != 3)
   {
-    itkExceptionMacro("ERROR: This algorithm only works with 3D images.");
+    itkExceptionStringMacro("ERROR: This algorithm only works with 3D images.");
   }
 
   ImageSizeType   size;

@@ -44,13 +44,13 @@ itkTransformFileWriterTest(int, char *[])
   transformWriter->SetFileName("transform.garbage");
   try
   {
-    // trigger exception for transformio not found
+    // trigger exception for transformIO not found
     transformWriter->Update();
   }
   catch (const itk::ExceptionObject & excp)
   {
 
-    std::cerr << "Expected exception (no transformio that can write garbage and no transformio should be registered)"
+    std::cerr << "Expected exception (no transformIO that can write garbage and no transformIO should be registered)"
               << excp << std::endl;
   }
 

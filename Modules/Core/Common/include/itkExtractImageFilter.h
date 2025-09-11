@@ -202,7 +202,7 @@ public:
         break;
       case DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOUNKOWN:
       default:
-        itkExceptionMacro("Invalid Strategy Chosen for itk::ExtractImageFilter");
+        itkExceptionStringMacro("Invalid Strategy Chosen for itk::ExtractImageFilter");
     }
 
     this->m_DirectionCollapseStrategy = choosenStrategy;

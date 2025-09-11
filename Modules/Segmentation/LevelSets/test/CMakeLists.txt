@@ -34,220 +34,192 @@ set(
 createtestdriver(ITKLevelSets "${ITKLevelSets-Test_LIBRARIES}" "${ITKLevelSetsTests}")
 
 itk_add_test(
-  NAME
-  itkThresholdSegmentationLevelSetImageFilterTest
+  NAME itkThresholdSegmentationLevelSetImageFilterTest
   COMMAND
-  ITKLevelSetsTestDriver
-  itkThresholdSegmentationLevelSetImageFilterTest
+    ITKLevelSetsTestDriver
+    itkThresholdSegmentationLevelSetImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkVectorThresholdSegmentationLevelSetImageFilterTest
+  NAME itkVectorThresholdSegmentationLevelSetImageFilterTest
   COMMAND
-  ITKLevelSetsTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/Algorithms/VectorThresholdSegmentationLevelSetImageFilterTest.png,:}
-  ${ITK_TEST_OUTPUT_DIR}/VectorThresholdSegmentationLevelSetImageFilterTest.png
-  --compareNumberOfPixelsTolerance
-  55
-  itkVectorThresholdSegmentationLevelSetImageFilterTest
-  DATA{${ITK_DATA_ROOT}/Input/VisibleWomanEyeSliceInitialLevelSet.png}
-  DATA{${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png}
-  ${ITK_TEST_OUTPUT_DIR}/VectorThresholdSegmentationLevelSetImageFilterTest.png
-  5.0
-  50
+    ITKLevelSetsTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/Algorithms/VectorThresholdSegmentationLevelSetImageFilterTest.png,:}
+    ${ITK_TEST_OUTPUT_DIR}/VectorThresholdSegmentationLevelSetImageFilterTest.png
+    --compareNumberOfPixelsTolerance
+    55
+    itkVectorThresholdSegmentationLevelSetImageFilterTest
+    DATA{${ITK_DATA_ROOT}/Input/VisibleWomanEyeSliceInitialLevelSet.png}
+    DATA{${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png}
+    ${ITK_TEST_OUTPUT_DIR}/VectorThresholdSegmentationLevelSetImageFilterTest.png
+    5.0
+    50
 )
 itk_add_test(
-  NAME
-  itkAnisotropicFourthOrderLevelSetImageFilterTest
+  NAME itkAnisotropicFourthOrderLevelSetImageFilterTest
   COMMAND
-  ITKLevelSetsTestDriver
-  itkAnisotropicFourthOrderLevelSetImageFilterTest
+    ITKLevelSetsTestDriver
+    itkAnisotropicFourthOrderLevelSetImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkReinitializeLevelSetImageFilterTest
+  NAME itkReinitializeLevelSetImageFilterTest
   COMMAND
-  ITKLevelSetsTestDriver
-  itkReinitializeLevelSetImageFilterTest
+    ITKLevelSetsTestDriver
+    itkReinitializeLevelSetImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkLevelSetVelocityNeighborhoodExtractorTest
+  NAME itkLevelSetVelocityNeighborhoodExtractorTest
   COMMAND
-  ITKLevelSetsTestDriver
-  itkLevelSetVelocityNeighborhoodExtractorTest
+    ITKLevelSetsTestDriver
+    itkLevelSetVelocityNeighborhoodExtractorTest
 )
 itk_add_test(
-  NAME
-  itkIsotropicFourthOrderLevelSetImageFilterTest
+  NAME itkIsotropicFourthOrderLevelSetImageFilterTest
   COMMAND
-  ITKLevelSetsTestDriver
-  itkIsotropicFourthOrderLevelSetImageFilterTest
+    ITKLevelSetsTestDriver
+    itkIsotropicFourthOrderLevelSetImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkGeodesicActiveContourLevelSetImageFilterTest
+  NAME itkGeodesicActiveContourLevelSetImageFilterTest
   COMMAND
-  ITKLevelSetsTestDriver
-  itkGeodesicActiveContourLevelSetImageFilterTest
+    ITKLevelSetsTestDriver
+    itkGeodesicActiveContourLevelSetImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2
+  NAME itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2
   COMMAND
-  ITKLevelSetsTestDriver
-  itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2
+    ITKLevelSetsTestDriver
+    itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2
 )
 itk_add_test(
-  NAME
-  itkParallelSparseFieldLevelSetImageFilterTest
+  NAME itkParallelSparseFieldLevelSetImageFilterTest
   COMMAND
-  ITKLevelSetsTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/ParallelSparseFieldLevelSetImageFilterTest.mha}
-  ${ITK_TEST_OUTPUT_DIR}/ParallelSparseFieldLevelSetImageFilterTest.mha
-  itkParallelSparseFieldLevelSetImageFilterTest
-  ${ITK_TEST_OUTPUT_DIR}/ParallelSparseFieldLevelSetImageFilterTest.mha
+    ITKLevelSetsTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/ParallelSparseFieldLevelSetImageFilterTest.mha}
+    ${ITK_TEST_OUTPUT_DIR}/ParallelSparseFieldLevelSetImageFilterTest.mha
+    itkParallelSparseFieldLevelSetImageFilterTest
+    ${ITK_TEST_OUTPUT_DIR}/ParallelSparseFieldLevelSetImageFilterTest.mha
 )
 itk_add_test(
-  NAME
-  itkShapeDetectionLevelSetImageFilterTest
+  NAME itkShapeDetectionLevelSetImageFilterTest
   COMMAND
-  ITKLevelSetsTestDriver
-  itkShapeDetectionLevelSetImageFilterTest
+    ITKLevelSetsTestDriver
+    itkShapeDetectionLevelSetImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkNarrowBandThresholdSegmentationLevelSetImageFilterTest
+  NAME itkNarrowBandThresholdSegmentationLevelSetImageFilterTest
   COMMAND
-  ITKLevelSetsTestDriver
-  itkNarrowBandThresholdSegmentationLevelSetImageFilterTest
+    ITKLevelSetsTestDriver
+    itkNarrowBandThresholdSegmentationLevelSetImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkNarrowBandCurvesLevelSetImageFilterTest1
+  NAME itkNarrowBandCurvesLevelSetImageFilterTest1
   COMMAND
-  ITKLevelSetsTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/Algorithms/itkNarrowBandCurvesLevelSetImageFilterTest.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkNarrowBandCurvesLevelSetImageFilterTest.png
-  itkNarrowBandCurvesLevelSetImageFilterTest
-  ${ITK_TEST_OUTPUT_DIR}/itkNarrowBandCurvesLevelSetImageFilterTest.png
+    ITKLevelSetsTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/Algorithms/itkNarrowBandCurvesLevelSetImageFilterTest.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkNarrowBandCurvesLevelSetImageFilterTest.png
+    itkNarrowBandCurvesLevelSetImageFilterTest
+    ${ITK_TEST_OUTPUT_DIR}/itkNarrowBandCurvesLevelSetImageFilterTest.png
 )
 itk_add_test(
-  NAME
-  itkCollidingFrontsImageFilterTest
+  NAME itkCollidingFrontsImageFilterTest
   COMMAND
-  ITKLevelSetsTestDriver
-  itkCollidingFrontsImageFilterTest
-  -1e-6
-  1
-  1
+    ITKLevelSetsTestDriver
+    itkCollidingFrontsImageFilterTest
+    -1e-6
+    1
+    1
 )
 itk_add_test(
-  NAME
-  itkGeodesicActiveContourShapePriorLevelSetImageFilterTest
+  NAME itkGeodesicActiveContourShapePriorLevelSetImageFilterTest
   COMMAND
-  ITKLevelSetsTestDriver
-  itkGeodesicActiveContourShapePriorLevelSetImageFilterTest
+    ITKLevelSetsTestDriver
+    itkGeodesicActiveContourShapePriorLevelSetImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkLevelSetFunctionTest
+  NAME itkLevelSetFunctionTest
   COMMAND
-  ITKLevelSetsTestDriver
-  itkLevelSetFunctionTest
+    ITKLevelSetsTestDriver
+    itkLevelSetFunctionTest
 )
 itk_add_test(
-  NAME
-  itkExtensionVelocitiesImageFilterTest
+  NAME itkExtensionVelocitiesImageFilterTest
   COMMAND
-  ITKLevelSetsTestDriver
-  itkExtensionVelocitiesImageFilterTest
+    ITKLevelSetsTestDriver
+    itkExtensionVelocitiesImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkCannySegmentationLevelSetImageFilterTest
+  NAME itkCannySegmentationLevelSetImageFilterTest
   COMMAND
-  ITKLevelSetsTestDriver
-  itkCannySegmentationLevelSetImageFilterTest
+    ITKLevelSetsTestDriver
+    itkCannySegmentationLevelSetImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkLevelSetNeighborhoodExtractorTest
+  NAME itkLevelSetNeighborhoodExtractorTest
   COMMAND
-  ITKLevelSetsTestDriver
-  itkLevelSetNeighborhoodExtractorTest
+    ITKLevelSetsTestDriver
+    itkLevelSetNeighborhoodExtractorTest
 )
 itk_add_test(
-  NAME
-  itkShapePriorMAPCostFunctionTest
+  NAME itkShapePriorMAPCostFunctionTest
   COMMAND
-  ITKLevelSetsTestDriver
-  itkShapePriorMAPCostFunctionTest
+    ITKLevelSetsTestDriver
+    itkShapePriorMAPCostFunctionTest
 )
 itk_add_test(
-  NAME
-  itkImplicitManifoldNormalVectorFilterTest
+  NAME itkImplicitManifoldNormalVectorFilterTest
   COMMAND
-  ITKLevelSetsTestDriver
-  itkImplicitManifoldNormalVectorFilterTest
+    ITKLevelSetsTestDriver
+    itkImplicitManifoldNormalVectorFilterTest
 )
 itk_add_test(
-  NAME
-  itkSparseFieldFourthOrderLevelSetImageFilterTest
+  NAME itkSparseFieldFourthOrderLevelSetImageFilterTest
   COMMAND
-  ITKLevelSetsTestDriver
-  itkSparseFieldFourthOrderLevelSetImageFilterTest
+    ITKLevelSetsTestDriver
+    itkSparseFieldFourthOrderLevelSetImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkLaplacianSegmentationLevelSetImageFilterTest
+  NAME itkLaplacianSegmentationLevelSetImageFilterTest
   COMMAND
-  ITKLevelSetsTestDriver
-  itkLaplacianSegmentationLevelSetImageFilterTest
+    ITKLevelSetsTestDriver
+    itkLaplacianSegmentationLevelSetImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkShapePriorSegmentationLevelSetFunctionTest
+  NAME itkShapePriorSegmentationLevelSetFunctionTest
   COMMAND
-  ITKLevelSetsTestDriver
-  itkShapePriorSegmentationLevelSetFunctionTest
+    ITKLevelSetsTestDriver
+    itkShapePriorSegmentationLevelSetFunctionTest
 )
 itk_add_test(
-  NAME
-  itkGeodesicActiveContourLevelSetImageFilterZeroSigmaTest
+  NAME itkGeodesicActiveContourLevelSetImageFilterZeroSigmaTest
   COMMAND
-  ITKLevelSetsTestDriver
-  itkGeodesicActiveContourLevelSetImageFilterZeroSigmaTest
+    ITKLevelSetsTestDriver
+    itkGeodesicActiveContourLevelSetImageFilterZeroSigmaTest
 )
 itk_add_test(
-  NAME
-  itkUnsharpMaskLevelSetImageFilterTest
+  NAME itkUnsharpMaskLevelSetImageFilterTest
   COMMAND
-  ITKLevelSetsTestDriver
-  itkUnsharpMaskLevelSetImageFilterTest
+    ITKLevelSetsTestDriver
+    itkUnsharpMaskLevelSetImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkCurvesLevelSetImageFilterTest
+  NAME itkCurvesLevelSetImageFilterTest
   COMMAND
-  ITKLevelSetsTestDriver
-  itkCurvesLevelSetImageFilterTest
+    ITKLevelSetsTestDriver
+    itkCurvesLevelSetImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkCurvesLevelSetImageFilterZeroSigmaTest
+  NAME itkCurvesLevelSetImageFilterZeroSigmaTest
   COMMAND
-  ITKLevelSetsTestDriver
-  itkCurvesLevelSetImageFilterZeroSigmaTest
+    ITKLevelSetsTestDriver
+    itkCurvesLevelSetImageFilterZeroSigmaTest
 )
 itk_add_test(
-  NAME
-  itkBinaryMaskToNarrowBandPointSetFilterTest
+  NAME itkBinaryMaskToNarrowBandPointSetFilterTest
   COMMAND
-  ITKLevelSetsTestDriver
-  itkBinaryMaskToNarrowBandPointSetFilterTest
-  5.0
+    ITKLevelSetsTestDriver
+    itkBinaryMaskToNarrowBandPointSetFilterTest
+    5.0
 )

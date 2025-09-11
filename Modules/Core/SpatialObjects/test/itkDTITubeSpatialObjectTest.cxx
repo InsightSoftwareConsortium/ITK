@@ -196,7 +196,7 @@ itkDTITubeSpatialObjectTest(int, char *[])
 
     for (unsigned int i = 0; it != end; ++itTest, ++it, i++)
     {
-      if ((*itTest) != (*it))
+      if (*itTest != *it)
       {
         passed = false;
         break;
@@ -239,7 +239,7 @@ itkDTITubeSpatialObjectTest(int, char *[])
 
     for (unsigned int i = 0; it != end; ++itTest, ++it, i++)
     {
-      if ((*itTest) != (*it))
+      if (*itTest != *it)
       {
         passed = false;
         break;

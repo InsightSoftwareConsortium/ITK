@@ -236,7 +236,7 @@ MersenneTwisterRandomVariateGenerator::GetIntegerVariate()
   s1 ^= (s1 >> 11);
   s1 ^= (s1 << 7) & 0x9d2c5680;
   s1 ^= (s1 << 15) & 0xefc60000;
-  return (s1 ^ (s1 >> 18));
+  return s1 ^ (s1 >> 18);
 }
 
 

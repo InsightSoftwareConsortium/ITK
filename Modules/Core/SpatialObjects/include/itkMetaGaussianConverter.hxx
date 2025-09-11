@@ -37,7 +37,7 @@ MetaGaussianConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectTyp
   const auto * metaGaussian = dynamic_cast<const GaussianMetaObjectType *>(mo);
   if (metaGaussian == nullptr)
   {
-    itkExceptionMacro("Can't convert MetaObject to MetaGaussian");
+    itkExceptionStringMacro("Can't convert MetaObject to MetaGaussian");
   }
 
   const GaussianSpatialObjectPointer gaussianSO = GaussianSpatialObjectType::New();
@@ -65,7 +65,7 @@ MetaGaussianConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObject
   auto *                                  metaGaussian = new GaussianMetaObjectType;
   if (gaussianSO.IsNull())
   {
-    itkExceptionMacro("Can't downcast SpatialObject to GaussianSpatialObject");
+    itkExceptionStringMacro("Can't downcast SpatialObject to GaussianSpatialObject");
   }
 
   if (gaussianSO->GetParent())

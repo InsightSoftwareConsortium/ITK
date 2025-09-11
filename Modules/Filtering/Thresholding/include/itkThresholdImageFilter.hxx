@@ -79,7 +79,7 @@ ThresholdImageFilter<TImage>::ThresholdOutside(const PixelType & lower, const Pi
 {
   if (lower > upper)
   {
-    itkExceptionMacro("Lower threshold cannot be greater than upper threshold.");
+    itkExceptionStringMacro("Lower threshold cannot be greater than upper threshold.");
   }
 
   if (Math::NotExactlyEquals(m_Lower, lower) || Math::NotExactlyEquals(m_Upper, upper))

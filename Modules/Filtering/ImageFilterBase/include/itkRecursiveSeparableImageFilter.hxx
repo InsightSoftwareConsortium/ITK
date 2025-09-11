@@ -182,7 +182,7 @@ RecursiveSeparableImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequested
     // verify sane parameter
     if (this->m_Direction >= outputRegion.GetImageDimension())
     {
-      itkExceptionMacro("Direction selected for filtering is greater than ImageDimension");
+      itkExceptionStringMacro("Direction selected for filtering is greater than ImageDimension");
     }
 
     // expand output region to match largest in the "Direction" dimension
@@ -207,7 +207,7 @@ RecursiveSeparableImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerate
 
   if (this->m_Direction >= imageDimension)
   {
-    itkExceptionMacro("Direction selected for filtering is greater than ImageDimension");
+    itkExceptionStringMacro("Direction selected for filtering is greater than ImageDimension");
   }
 
   const typename InputImageType::SpacingType & pixelSize = inputImage->GetSpacing();

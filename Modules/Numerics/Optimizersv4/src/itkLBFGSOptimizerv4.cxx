@@ -134,7 +134,7 @@ LBFGSOptimizerv4::StartOptimization(bool /* doOnlyInitialization */)
 
   if (parameters.GetSize() == 0)
   {
-    itkExceptionMacro("Optimizer parameters are not initialized.");
+    itkExceptionStringMacro("Optimizer parameters are not initialized.");
   }
 
   // Scale the initial parameters up if scales are defined.

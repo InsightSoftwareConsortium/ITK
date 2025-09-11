@@ -625,7 +625,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // Having initialised the interpolator we pass the object to the
+  // Having initialized the interpolator we pass the object to the
   // resample filter.
   //
   // Software Guide : EndLatex

@@ -58,12 +58,12 @@ MedianImageFunction<TInputImage, TCoordinate>::EvaluateAtIndex(const IndexType &
 
   if (image == nullptr)
   {
-    return (NumericTraits<OutputType>::max());
+    return NumericTraits<OutputType>::max();
   }
 
   if (!this->IsInsideBuffer(index))
   {
-    return (NumericTraits<OutputType>::max());
+    return NumericTraits<OutputType>::max();
   }
 
   const ShapedImageNeighborhoodRange<const InputImageType> neighborhoodRange(*image, index, m_NeighborhoodOffsets);
@@ -75,7 +75,7 @@ MedianImageFunction<TInputImage, TCoordinate>::EvaluateAtIndex(const IndexType &
   const auto medianIterator = pixels.begin() + (pixels.size() / 2);
   std::nth_element(pixels.begin(), medianIterator, pixels.end());
 
-  return (*medianIterator);
+  return *medianIterator;
 }
 } // namespace itk
 

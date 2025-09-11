@@ -48,7 +48,7 @@ LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComp
       !this->m_MovingPointSet->GetPointData() ||
       this->m_MovingPointSet->GetPoints()->Size() != this->m_MovingPointSet->GetPointData()->Size())
   {
-    itkExceptionMacro("Each point of the point set must be associated with a label.");
+    itkExceptionStringMacro("Each point of the point set must be associated with a label.");
   }
 
   this->DetermineCommonPointSetLabels();
@@ -62,7 +62,7 @@ LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComp
       dynamic_cast<PointSetMetricType *>(this->m_PointSetMetric->Clone().GetPointer());
     if (metric.IsNull())
     {
-      itkExceptionMacro("The metric pointer clone is nullptr.");
+      itkExceptionStringMacro("The metric pointer clone is nullptr.");
     }
 
     const FixedPointSetPointer  fixedPointSet = this->GetLabeledFixedPointSet(*it);
@@ -92,7 +92,7 @@ LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComp
   auto labelIt = std::find(this->m_CommonPointSetLabels.begin(), this->m_CommonPointSetLabels.end(), label);
   if (labelIt == this->m_CommonPointSetLabels.end())
   {
-    itkExceptionMacro("Label not found in common label set");
+    itkExceptionStringMacro("Label not found in common label set");
   }
   else
   {
@@ -113,7 +113,7 @@ LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComp
   auto labelIt = std::find(this->m_CommonPointSetLabels.begin(), this->m_CommonPointSetLabels.end(), label);
   if (labelIt == this->m_CommonPointSetLabels.end())
   {
-    itkExceptionMacro("Label not found in common label set");
+    itkExceptionStringMacro("Label not found in common label set");
   }
   else
   {

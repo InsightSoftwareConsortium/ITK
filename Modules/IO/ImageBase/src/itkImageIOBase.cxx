@@ -170,7 +170,7 @@ ImageIOBase::GetComponentTypeInfo() const
   {
     case IOComponentEnum::UCHAR:
       return typeid(unsigned char);
-    case IOComponentEnum::CHAR:
+    case IOComponentEnum::SCHAR:
       return typeid(char);
     case IOComponentEnum::USHORT:
       return typeid(unsigned short);
@@ -227,13 +227,13 @@ ImageIOBase::GetImageSizeInPixels() const
 ImageIOBase::SizeType
 ImageIOBase::GetImageSizeInComponents() const
 {
-  return (this->GetImageSizeInPixels() * m_NumberOfComponents);
+  return this->GetImageSizeInPixels() * m_NumberOfComponents;
 }
 
 ImageIOBase::SizeType
 ImageIOBase::GetImageSizeInBytes() const
 {
-  return (this->GetImageSizeInComponents() * this->GetComponentSize());
+  return this->GetImageSizeInComponents() * this->GetComponentSize();
 }
 
 ImageIOBase::SizeType
@@ -356,36 +356,12 @@ ImageIOBase::InternalSetCompressor(const std::string & _compressor)
 unsigned int
 ImageIOBase::GetComponentSize() const
 {
-  switch (m_ComponentType)
+  if (const unsigned int sizeOfComponent = GetComponentTypeTraits(m_ComponentType).sizeOfComponent; sizeOfComponent > 0)
   {
-    case IOComponentEnum::UCHAR:
-      return sizeof(unsigned char);
-    case IOComponentEnum::CHAR:
-      return sizeof(char);
-    case IOComponentEnum::USHORT:
-      return sizeof(unsigned short);
-    case IOComponentEnum::SHORT:
-      return sizeof(short);
-    case IOComponentEnum::UINT:
-      return sizeof(unsigned int);
-    case IOComponentEnum::INT:
-      return sizeof(int);
-    case IOComponentEnum::ULONG:
-      return sizeof(unsigned long);
-    case IOComponentEnum::LONG:
-      return sizeof(long);
-    case IOComponentEnum::ULONGLONG:
-      return sizeof(unsigned long long);
-    case IOComponentEnum::LONGLONG:
-      return sizeof(long long);
-    case IOComponentEnum::FLOAT:
-      return sizeof(float);
-    case IOComponentEnum::DOUBLE:
-      return sizeof(double);
-    case IOComponentEnum::UNKNOWNCOMPONENTTYPE:
-    default:
-      itkExceptionMacro("Unknown component type: " << m_ComponentType);
+    return sizeOfComponent;
   }
+
+  itkExceptionMacro("Unknown component type: " << m_ComponentType);
 }
 
 std::string
@@ -426,7 +402,7 @@ ImageIOBase::GetComponentTypeAsString(IOComponentEnum t)
   {
     case IOComponentEnum::UCHAR:
       return { "unsigned_char" };
-    case IOComponentEnum::CHAR:
+    case IOComponentEnum::SCHAR:
       return { "char" };
     case IOComponentEnum::USHORT:
       return { "unsigned_short" };
@@ -611,7 +587,7 @@ ImageIOBase::OpenFileForReading(std::ifstream & inputStream, const std::string &
   // Make sure that we have a file to
   if (filename.empty())
   {
-    itkExceptionMacro("A FileName must be specified.");
+    itkExceptionStringMacro("A FileName must be specified.");
   }
 
   // Close file from any previous image
@@ -649,7 +625,7 @@ ImageIOBase::OpenFileForWriting(std::ofstream & outputStream, const std::string 
   // Make sure that we have a file to
   if (filename.empty())
   {
-    itkExceptionMacro("A FileName must be specified.");
+    itkExceptionStringMacro("A FileName must be specified.");
   }
 
   // Close file from any previous image
@@ -726,7 +702,7 @@ ImageIOBase::WriteBufferAsASCII(std::ostream &        os,
       WriteBuffer(os, buf, numComp);
     }
     break;
-    case IOComponentEnum::CHAR:
+    case IOComponentEnum::SCHAR:
     {
       using Type = const char *;
       auto buf = static_cast<Type>(buffer);
@@ -846,9 +822,9 @@ ImageIOBase::ReadBufferAsASCII(std::istream & is, void * buffer, IOComponentEnum
       ReadBuffer(is, buf, numComp);
     }
     break;
-    case IOComponentEnum::CHAR:
+    case IOComponentEnum::SCHAR:
     {
-      auto * buf = static_cast<char *>(buffer);
+      auto * buf = static_cast<signed char *>(buffer);
       ReadBuffer(is, buf, numComp);
     }
     break;

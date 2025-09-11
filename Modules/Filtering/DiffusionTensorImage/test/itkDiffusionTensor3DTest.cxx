@@ -478,5 +478,5 @@ itkDiffusionTensor3DTest(int, char *[])
     }
   }
 
-  return (passed ? EXIT_SUCCESS : EXIT_FAILURE);
+  return passed ? EXIT_SUCCESS : EXIT_FAILURE;
 }

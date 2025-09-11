@@ -479,6 +479,7 @@ namespace itk
  * This is to avoid Object \#include of OutputWindow
  * while OutputWindow \#includes Object. */
 /** @ITKStartGrouping */
+#ifndef ITK_FUTURE_LEGACY_REMOVE
 extern ITKCommon_EXPORT void
 OutputWindowDisplayText(const char *);
 
@@ -493,6 +494,32 @@ OutputWindowDisplayGenericOutputText(const char *);
 
 extern ITKCommon_EXPORT void
 OutputWindowDisplayDebugText(const char *);
+#endif
+
+// New context-aware versions of output display functions
+extern ITKCommon_EXPORT void
+OutputWindowDisplayDebugText(const char * file,
+                             unsigned int line,
+                             const char * className,
+                             const void * objectAddress,
+                             const char * message);
+
+extern ITKCommon_EXPORT void
+OutputWindowDisplayWarningText(const char * file,
+                               unsigned int line,
+                               const char * className,
+                               const void * objectAddress,
+                               const char * message);
+
+extern ITKCommon_EXPORT void
+OutputWindowDisplayErrorText(const char * file,
+                             unsigned int line,
+                             const char * className,
+                             const void * objectAddress,
+                             const char * message);
+
+extern ITKCommon_EXPORT void
+OutputWindowDisplayGenericOutputText(const char * file, unsigned int line, const char * message);
 /** @ITKEndGrouping */
 
 } // end namespace itk
@@ -507,17 +534,16 @@ OutputWindowDisplayDebugText(const char *);
 #  define itkDebugMacro(x) ITK_NOOP_STATEMENT
 #  define itkDebugStatement(x) ITK_NOOP_STATEMENT
 #else
-#  define itkDebugMacro(x)                                                     \
-    {                                                                          \
-      using namespace ::itk::print_helper; /* for ostream << std::vector<T> */ \
-      if (this->GetDebug() && ::itk::Object::GetGlobalWarningDisplay())        \
-      {                                                                        \
-        std::ostringstream itkmsg;                                             \
-        itkmsg << "Debug: In " __FILE__ ", line " << __LINE__ << '\n'          \
-               << this->GetNameOfClass() << " (" << this << "): " x << "\n\n"; \
-        ::itk::OutputWindowDisplayDebugText(itkmsg.str().c_str());             \
-      }                                                                        \
-    }                                                                          \
+#  define itkDebugMacro(x)                                                                                           \
+    {                                                                                                                \
+      using namespace ::itk::print_helper; /* for ostream << std::vector<T> */                                       \
+      if (this->GetDebug() && ::itk::Object::GetGlobalWarningDisplay())                                              \
+      {                                                                                                              \
+        std::ostringstream itkmsg;                                                                                   \
+        itkmsg << "" x;                                                                                              \
+        ::itk::OutputWindowDisplayDebugText(__FILE__, __LINE__, this->GetNameOfClass(), this, itkmsg.str().c_str()); \
+      }                                                                                                              \
+    }                                                                                                                \
     ITK_MACROEND_NOOP_STATEMENT
 // The itkDebugStatement is to be used to protect code that is only
 // used in the itkDebugMacro
@@ -527,16 +553,15 @@ OutputWindowDisplayDebugText(const char *);
 /** This macro is used to print warning information (i.e., unusual circumstance
  * but not necessarily fatal.) Example usage looks like:
  * itkWarningMacro("this is warning info" << this->SomeVariable); */
-#define itkWarningMacro(x)                                                   \
-  {                                                                          \
-    if (::itk::Object::GetGlobalWarningDisplay())                            \
-    {                                                                        \
-      std::ostringstream itkmsg;                                             \
-      itkmsg << "WARNING: In " __FILE__ ", line " << __LINE__ << '\n'        \
-             << this->GetNameOfClass() << " (" << this << "): " x << "\n\n"; \
-      ::itk::OutputWindowDisplayWarningText(itkmsg.str().c_str());           \
-    }                                                                        \
-  }                                                                          \
+#define itkWarningMacro(x)                                                                                           \
+  {                                                                                                                  \
+    if (::itk::Object::GetGlobalWarningDisplay())                                                                    \
+    {                                                                                                                \
+      std::ostringstream itkmsg;                                                                                     \
+      itkmsg << "" x;                                                                                                \
+      ::itk::OutputWindowDisplayWarningText(__FILE__, __LINE__, this->GetNameOfClass(), this, itkmsg.str().c_str()); \
+    }                                                                                                                \
+  }                                                                                                                  \
   ITK_MACROEND_NOOP_STATEMENT
 
 
@@ -573,32 +598,50 @@ OutputWindowDisplayDebugText(const char *);
 #define itkSpecializedMessageExceptionMacro(ExceptionType, x)                                                        \
   {                                                                                                                  \
     std::ostringstream exceptionDescriptionOutputStringStream;                                                       \
-    exceptionDescriptionOutputStringStream << "ITK ERROR: " x;                                                       \
+    exceptionDescriptionOutputStringStream << "" x;                                                                  \
     throw ::itk::ExceptionType(                                                                                      \
       std::string{ __FILE__ }, __LINE__, exceptionDescriptionOutputStringStream.str(), std::string{ ITK_LOCATION }); \
   }                                                                                                                  \
   ITK_MACROEND_NOOP_STATEMENT
 
 #define itkSpecializedExceptionMacro(ExceptionType) \
-  itkSpecializedMessageExceptionMacro(ExceptionType, << ::itk::ExceptionType::default_exception_message)
+  throw ::itk::ExceptionType(                       \
+    std::string{ __FILE__ }, __LINE__, ::itk::ExceptionType::default_exception_message, std::string{ ITK_LOCATION });
+
 
 /** The itkExceptionMacro macro is used to print error information (i.e., usually
  * a condition that results in program failure). Example usage looks like:
  * itkExceptionMacro("this is error info" << this->SomeVariable); */
-#define itkExceptionMacro(x) \
-  itkSpecializedMessageExceptionMacro(ExceptionObject, << this->GetNameOfClass() << '(' << this << "): " x)
+#define itkExceptionMacro(x)                                                   \
+  {                                                                            \
+    std::ostringstream exceptionDescriptionOutputStringStream;                 \
+    exceptionDescriptionOutputStringStream << "" x;                            \
+    throw ::itk::ExceptionObject(std::string{ __FILE__ },                      \
+                                 __LINE__,                                     \
+                                 exceptionDescriptionOutputStringStream.str(), \
+                                 std::string{ ITK_LOCATION },                  \
+                                 this);                                        \
+  }                                                                            \
+  ITK_MACROEND_NOOP_STATEMENT
+
+#define itkExceptionStringMacro(x)                                                             \
+  {                                                                                            \
+    throw ::itk::ExceptionObject(                                                              \
+      std::string{ __FILE__ }, __LINE__, std::string{ x }, std::string{ ITK_LOCATION }, this); \
+  }                                                                                            \
+  ITK_MACROEND_NOOP_STATEMENT
 
 #define itkGenericExceptionMacro(x) itkSpecializedMessageExceptionMacro(ExceptionObject, x)
 
-#define itkGenericOutputMacro(x)                                                   \
-  {                                                                                \
-    if (::itk::Object::GetGlobalWarningDisplay())                                  \
-    {                                                                              \
-      std::ostringstream itkmsg;                                                   \
-      itkmsg << "WARNING: In " __FILE__ ", line " << __LINE__ << "\n" x << "\n\n"; \
-      ::itk::OutputWindowDisplayGenericOutputText(itkmsg.str().c_str());           \
-    }                                                                              \
-  }                                                                                \
+#define itkGenericOutputMacro(x)                                                             \
+  {                                                                                          \
+    if (::itk::Object::GetGlobalWarningDisplay())                                            \
+    {                                                                                        \
+      std::ostringstream itkmsg;                                                             \
+      itkmsg << "" x;                                                                        \
+      ::itk::OutputWindowDisplayGenericOutputText(__FILE__, __LINE__, itkmsg.str().c_str()); \
+    }                                                                                        \
+  }                                                                                          \
   ITK_MACROEND_NOOP_STATEMENT
 
 //----------------------------------------------------------------------------
@@ -933,7 +976,7 @@ compilers.
       itkDynamicCastInDebugMode<const DecoratorType *>(this->ProcessObject::GetInput(#name));                        \
     if (input == nullptr)                                                                                            \
     {                                                                                                                \
-      itkExceptionMacro("input" #name " is not set");                                                                \
+      itkExceptionStringMacro("input" #name " is not set");                                                          \
     }                                                                                                                \
     return input->Get();                                                                                             \
   }                                                                                                                  \
@@ -1419,7 +1462,7 @@ ContainerCopyWithCheck(MemberContainerType & m, const CopyFromContainerType & c,
       itkDynamicCastInDebugMode<const DecoratorType *>(this->ProcessObject::GetOutput(#name));                        \
     if (output == nullptr)                                                                                            \
     {                                                                                                                 \
-      itkExceptionMacro("output" #name " is not set");                                                                \
+      itkExceptionStringMacro("output" #name " is not set");                                                          \
     }                                                                                                                 \
     return output->Get();                                                                                             \
   }                                                                                                                   \

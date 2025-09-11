@@ -8,12 +8,11 @@ itk_module(
   ITKIOVTK
   ENABLE_SHARED
   PRIVATE_DEPENDS
-  ITKIOImageBase
+    ITKIOImageBase
   TEST_DEPENDS
-  ITKTestKernel
-  ITKImageSources
+    ITKTestKernel
+    ITKImageSources
   FACTORY_NAMES
-  ImageIO::VTK
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ImageIO::VTK
+  DESCRIPTION "${DOCUMENTATION}"
 )

@@ -39,6 +39,7 @@
 
 #include <fstream>
 #include <string>
+#include <type_traits> // For is_same_v and is_signed_v.
 
 namespace itk
 {
@@ -98,13 +99,15 @@ public:
   using IndexValueType = itk::IndexValueType;
   using SizeValueType = itk::SizeValueType;
 
+#ifndef ITK_LEGACY_REMOVE
   /**
    * \class UnknownType
-   * Used to return information when types are unknown.
+   * \deprecated This class is intended to be removed from ITK 6.
    * \ingroup ITKIOImageBase
    */
-  class UnknownType
+  class [[deprecated("This class is intended to be removed from ITK 6.")]] UnknownType
   {};
+#endif
 
 #if !defined(ITK_LEGACY_REMOVE)
   /**Exposes enums values for backwards compatibility*/
@@ -341,6 +344,53 @@ public:
    * used for writing output files. */
   static std::string GetComponentTypeAsString(IOComponentEnum);
 
+  /** Tells whether or not the specified component type is a floating point type. */
+  static constexpr bool
+  IsComponentTypeFloatingPoint(const IOComponentEnum componentEnum)
+  {
+    return GetComponentTypeTraits(componentEnum).isFloatingPoint;
+  }
+
+  /** Tells whether or not the specified component type is an unsigned integer type. */
+  static constexpr bool
+  IsComponentTypeUnsigned(const IOComponentEnum componentEnum)
+  {
+    return GetComponentTypeTraits(componentEnum).isUnsigned;
+  }
+
+  /** Returns the number of bits of the specified component type. */
+  static constexpr size_t
+  GetNumberOfBitsOfComponentType(const IOComponentEnum componentEnum)
+  {
+    return GetComponentTypeTraits(componentEnum).sizeOfComponent * size_t{ CHAR_BIT };
+  }
+
+  /** Returns an enum value that specifies a component type that has the type traits specified by the function arguments
+   * (`std::is_floating_point`, `std::is_unsigned`, and its number of bits). */
+  static constexpr IOComponentEnum
+  GetComponentTypeFromTypeTraits(const bool isFloatingPoint, const bool isUnsigned, const size_t numberOfBits)
+  {
+    for (const auto componentEnum : { IOComponentEnum::UINT8,
+                                      IOComponentEnum::INT8,
+                                      IOComponentEnum::UINT16,
+                                      IOComponentEnum::INT16,
+                                      IOComponentEnum::UINT32,
+                                      IOComponentEnum::INT32,
+                                      IOComponentEnum::UINT64,
+                                      IOComponentEnum::INT64,
+                                      IOComponentEnum::FLOAT32,
+                                      IOComponentEnum::FLOAT64 })
+    {
+      if (const ComponentTypeTraits typeTraits = GetComponentTypeTraits(componentEnum);
+          typeTraits.isFloatingPoint == isFloatingPoint && typeTraits.isUnsigned == isUnsigned &&
+          typeTraits.sizeOfComponent * size_t{ CHAR_BIT } == numberOfBits)
+      {
+        return componentEnum;
+      }
+    }
+    return IOComponentEnum::UNKNOWNCOMPONENTTYPE;
+  }
+
   /** Convenience method returns the IOComponentEnum corresponding to a string. */
   static IOComponentEnum
   GetComponentTypeFromString(const std::string & typeString);
@@ -508,7 +558,7 @@ public:
   virtual bool
   SupportsDimension(unsigned long dim)
   {
-    return (dim == 2);
+    return dim == 2;
   }
 
   /** Method for supporting streaming.  Given a requested region, determine what
@@ -573,17 +623,34 @@ public:
   const ArrayOfExtensionsType &
   GetSupportedWriteExtensions() const;
 
+#ifndef ITK_LEGACY_REMOVE
+  // This member function (template) is not implemented and not specialized.
   template <typename TPixel>
-  void
-  SetTypeInfo(const TPixel *);
+  itkLegacyMacro(void SetTypeInfo(const TPixel *));
+#endif
 
-  /** Map between C++ Pixel type and ImageIOBase ComponentType */
+  /** Map between C++ pixel component type (`TComponent`) and ImageIOBase ComponentType enumerator */
   /** @ITKStartGrouping */
-  template <typename TPixel>
+  template <typename TComponent>
   struct MapPixelType
   {
-    static constexpr IOComponentEnum CType = IOComponentEnum::UNKNOWNCOMPONENTTYPE;
+    static constexpr IOComponentEnum CType =
+      std::is_same_v<TComponent, char> ? (std::is_signed_v<char> ? IOComponentEnum::CHAR : IOComponentEnum::UCHAR)
+      : std::is_same_v<TComponent, signed char>        ? IOComponentEnum::CHAR
+      : std::is_same_v<TComponent, unsigned char>      ? IOComponentEnum::UCHAR
+      : std::is_same_v<TComponent, short>              ? IOComponentEnum::SHORT
+      : std::is_same_v<TComponent, unsigned short>     ? IOComponentEnum::USHORT
+      : std::is_same_v<TComponent, int>                ? IOComponentEnum::INT
+      : std::is_same_v<TComponent, unsigned int>       ? IOComponentEnum::UINT
+      : std::is_same_v<TComponent, long>               ? IOComponentEnum::LONG
+      : std::is_same_v<TComponent, unsigned long>      ? IOComponentEnum::ULONG
+      : std::is_same_v<TComponent, long long>          ? IOComponentEnum::LONGLONG
+      : std::is_same_v<TComponent, unsigned long long> ? IOComponentEnum::ULONGLONG
+      : std::is_same_v<TComponent, float>              ? IOComponentEnum::FLOAT
+      : std::is_same_v<TComponent, double>             ? IOComponentEnum::DOUBLE
+                                                       : IOComponentEnum::UNKNOWNCOMPONENTTYPE;
   };
+
   template <typename TPixel>
   void
   SetPixelTypeInfo(const TPixel *)
@@ -592,21 +659,21 @@ public:
     this->SetPixelType(IOPixelEnum::SCALAR);
     this->SetComponentType(MapPixelType<TPixel>::CType);
   }
-  template <typename TPixel>
+  template <typename TComponent>
   void
-  SetPixelTypeInfo(const RGBPixel<TPixel> *)
+  SetPixelTypeInfo(const RGBPixel<TComponent> *)
   {
     this->SetNumberOfComponents(3);
     this->SetPixelType(IOPixelEnum::RGB);
-    this->SetComponentType(MapPixelType<TPixel>::CType);
+    this->SetComponentType(MapPixelType<TComponent>::CType);
   }
-  template <typename TPixel>
+  template <typename TComponent>
   void
-  SetPixelTypeInfo(const RGBAPixel<TPixel> *)
+  SetPixelTypeInfo(const RGBAPixel<TComponent> *)
   {
     this->SetNumberOfComponents(4);
     this->SetPixelType(IOPixelEnum::RGBA);
-    this->SetComponentType(MapPixelType<TPixel>::CType);
+    this->SetComponentType(MapPixelType<TComponent>::CType);
   }
   template <unsigned int VLength>
   void
@@ -616,13 +683,13 @@ public:
     this->SetPixelType(IOPixelEnum::OFFSET);
     this->SetComponentType(IOComponentEnum::LONG);
   }
-  template <typename TPixel, unsigned int VLength>
+  template <typename TComponent, unsigned int VLength>
   void
-  SetPixelTypeInfo(const Vector<TPixel, VLength> *)
+  SetPixelTypeInfo(const Vector<TComponent, VLength> *)
   {
     this->SetNumberOfComponents(VLength);
     this->SetPixelType(IOPixelEnum::VECTOR);
-    this->SetComponentType(MapPixelType<TPixel>::CType);
+    this->SetComponentType(MapPixelType<TComponent>::CType);
   }
   template <typename TCoordinate, unsigned int VPointDimension>
   void
@@ -632,53 +699,53 @@ public:
     this->SetPixelType(IOPixelEnum::POINT);
     this->SetComponentType(MapPixelType<TCoordinate>::CType);
   }
-  template <typename TPixel, unsigned int VLength>
+  template <typename TComponent, unsigned int VLength>
   void
-  SetPixelTypeInfo(const CovariantVector<TPixel, VLength> *)
+  SetPixelTypeInfo(const CovariantVector<TComponent, VLength> *)
   {
     this->SetNumberOfComponents(VLength);
     this->SetPixelType(IOPixelEnum::COVARIANTVECTOR);
-    this->SetComponentType(MapPixelType<TPixel>::CType);
+    this->SetComponentType(MapPixelType<TComponent>::CType);
   }
-  template <typename TPixel, unsigned int VLength>
+  template <typename TComponent, unsigned int VLength>
   void
-  SetPixelTypeInfo(const SymmetricSecondRankTensor<TPixel, VLength> *)
+  SetPixelTypeInfo(const SymmetricSecondRankTensor<TComponent, VLength> *)
   {
     this->SetNumberOfComponents(VLength * (VLength + 1) / 2);
     this->SetPixelType(IOPixelEnum::SYMMETRICSECONDRANKTENSOR);
-    this->SetComponentType(MapPixelType<TPixel>::CType);
+    this->SetComponentType(MapPixelType<TComponent>::CType);
   }
-  template <typename TPixel>
+  template <typename TComponent>
   void
-  SetPixelTypeInfo(const DiffusionTensor3D<TPixel> *)
+  SetPixelTypeInfo(const DiffusionTensor3D<TComponent> *)
   {
     this->SetNumberOfComponents(6);
     this->SetPixelType(IOPixelEnum::DIFFUSIONTENSOR3D);
-    this->SetComponentType(MapPixelType<TPixel>::CType);
+    this->SetComponentType(MapPixelType<TComponent>::CType);
   }
-  template <typename TPixel>
+  template <typename TComponent>
   void
-  SetPixelTypeInfo(const std::complex<TPixel> *)
+  SetPixelTypeInfo(const std::complex<TComponent> *)
   {
     this->SetNumberOfComponents(2);
     this->SetPixelType(IOPixelEnum::COMPLEX);
-    this->SetComponentType(MapPixelType<TPixel>::CType);
+    this->SetComponentType(MapPixelType<TComponent>::CType);
   }
-  template <typename TPixel, unsigned int VLength>
+  template <typename TComponent, unsigned int VLength>
   void
-  SetPixelTypeInfo(const FixedArray<TPixel, VLength> *)
+  SetPixelTypeInfo(const FixedArray<TComponent, VLength> *)
   {
     this->SetNumberOfComponents(VLength);
     this->SetPixelType(IOPixelEnum::FIXEDARRAY);
-    this->SetComponentType(MapPixelType<TPixel>::CType);
+    this->SetComponentType(MapPixelType<TComponent>::CType);
   }
-  template <typename TPixel>
+  template <typename TComponent>
   void
-  SetPixelTypeInfo(const VariableLengthVector<TPixel> *)
+  SetPixelTypeInfo(const VariableLengthVector<TComponent> *)
   {
     this->SetNumberOfComponents(1);
     this->SetPixelType(IOPixelEnum::VARIABLELENGTHVECTOR);
-    this->SetComponentType(MapPixelType<TPixel>::CType);
+    this->SetComponentType(MapPixelType<TComponent>::CType);
   }
   template <typename TValue>
   void
@@ -688,13 +755,13 @@ public:
     this->SetPixelType(IOPixelEnum::ARRAY);
     this->SetComponentType(MapPixelType<TValue>::CType);
   }
-  template <typename TPixel, unsigned int VLength>
+  template <typename TComponent, unsigned int VLength>
   void
-  SetPixelTypeInfo(const Matrix<TPixel, VLength, VLength> *)
+  SetPixelTypeInfo(const Matrix<TComponent, VLength, VLength> *)
   {
     this->SetNumberOfComponents(VLength * VLength);
     this->SetPixelType(IOPixelEnum::MATRIX);
-    this->SetComponentType(MapPixelType<TPixel>::CType);
+    this->SetComponentType(MapPixelType<TComponent>::CType);
   }
   template <typename TValue>
   void
@@ -921,6 +988,42 @@ protected:
                                          const ImageIORegion & pasteRegion) const;
 
 private:
+  struct ComponentTypeTraits
+  {
+    bool         isFloatingPoint;
+    bool         isUnsigned;
+    unsigned int sizeOfComponent;
+
+    template <typename... TComponent>
+    static constexpr ComponentTypeTraits
+    Get(const IOComponentEnum componentEnum)
+    {
+      ComponentTypeTraits result{};
+      return ((MapPixelType<TComponent>::CType == componentEnum
+                 ? result = { std::is_floating_point_v<TComponent>, std::is_unsigned_v<TComponent>, sizeof(TComponent) }
+                 : result),
+              ...);
+    }
+  };
+
+
+  static constexpr ComponentTypeTraits
+  GetComponentTypeTraits(const IOComponentEnum componentEnum)
+  {
+    return ComponentTypeTraits::Get<signed char,
+                                    unsigned char,
+                                    short,
+                                    unsigned short,
+                                    int,
+                                    unsigned int,
+                                    long,
+                                    unsigned long,
+                                    long long,
+                                    unsigned long long,
+                                    float,
+                                    double>(componentEnum);
+  }
+
   bool
   HasSupportedExtension(const char *, const ArrayOfExtensionsType &, bool ignoreCase = true);
 
@@ -943,29 +1046,6 @@ ReadRawBytesAfterSwapping(IOComponentEnum componentType,
                           void *          buffer,
                           IOByteOrderEnum byteOrder,
                           SizeValueType   numberOfComponents);
-
-#define IMAGEIOBASE_TYPEMAP(type, ctype)            \
-  template <>                                       \
-  struct ImageIOBase::MapPixelType<type>            \
-  {                                                 \
-    static constexpr IOComponentEnum CType = ctype; \
-  }
-
-// the following typemaps are not platform independent
-IMAGEIOBASE_TYPEMAP(signed char, IOComponentEnum::CHAR);
-IMAGEIOBASE_TYPEMAP(char, std::numeric_limits<char>::is_signed ? IOComponentEnum::CHAR : IOComponentEnum::UCHAR);
-IMAGEIOBASE_TYPEMAP(unsigned char, IOComponentEnum::UCHAR);
-IMAGEIOBASE_TYPEMAP(short, IOComponentEnum::SHORT);
-IMAGEIOBASE_TYPEMAP(unsigned short, IOComponentEnum::USHORT);
-IMAGEIOBASE_TYPEMAP(int, IOComponentEnum::INT);
-IMAGEIOBASE_TYPEMAP(unsigned int, IOComponentEnum::UINT);
-IMAGEIOBASE_TYPEMAP(long, IOComponentEnum::LONG);
-IMAGEIOBASE_TYPEMAP(unsigned long, IOComponentEnum::ULONG);
-IMAGEIOBASE_TYPEMAP(long long, IOComponentEnum::LONGLONG);
-IMAGEIOBASE_TYPEMAP(unsigned long long, IOComponentEnum::ULONGLONG);
-IMAGEIOBASE_TYPEMAP(float, IOComponentEnum::FLOAT);
-IMAGEIOBASE_TYPEMAP(double, IOComponentEnum::DOUBLE);
-#undef IMAGIOBASE_TYPEMAP
 
 } // end namespace itk
 

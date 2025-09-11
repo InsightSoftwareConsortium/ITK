@@ -64,7 +64,7 @@ F(itk::Vector<double, 3> & v);
  *
  * The registration uses a simple stochastic gradient ascent scheme. Steps
  * are repeatedly taken that are proportional to the approximate
- * deriviative of the mutual information with respect to the affine
+ * derivative of the mutual information with respect to the affine
  * transform parameters. The stepsize is governed by the LearningRate
  * parameter.
  *
@@ -358,6 +358,6 @@ F(itk::Vector<double, 3> & v)
     value = 400;
   }
 
-  return (value - 24000.0);
+  return value - 24000.0;
 }
 } // namespace

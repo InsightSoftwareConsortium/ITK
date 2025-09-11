@@ -90,7 +90,7 @@ VectorExpandImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
   if (!m_Interpolator || !this->GetInput())
   {
-    itkExceptionMacro("Interpolator and/or Input not set");
+    itkExceptionStringMacro("Interpolator and/or Input not set");
   }
 
   // Connect input image to interpolator
@@ -146,7 +146,7 @@ VectorExpandImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
     }
     else
     {
-      itkExceptionMacro("Interpolator outside buffer should never occur ");
+      itkExceptionStringMacro("Interpolator outside buffer should never occur ");
     }
     progress.CompletedPixel();
   }

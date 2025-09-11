@@ -4,13 +4,12 @@ set(test_input_dir ${itk-module_SOURCE_DIR}/test/Input)
 list(FIND ITK_WRAP_IMAGE_DIMS 2 wrap_2_index)
 if(ITK_WRAP_PYTHON AND ITK_WRAP_unsigned_char AND wrap_2_index GREATER -1)
   itk_python_add_test(
-      NAME
-      PythonMeanImageFilterTest
-      TEST_DRIVER_ARGS
+    NAME PythonMeanImageFilterTest
+    TEST_DRIVER_ARGS
       --compare
       ${ITK_TEST_OUTPUT_DIR}/PythonMeanImageFilterTest.png
       DATA{Baseline/PythonMeanImageFilterTest.png}
-      COMMAND
+    COMMAND
       ${CMAKE_CURRENT_SOURCE_DIR}/MeanImageFilterTest.py
       DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
       ${ITK_TEST_OUTPUT_DIR}/PythonMeanImageFilterTest.png
@@ -18,13 +17,12 @@ if(ITK_WRAP_PYTHON AND ITK_WRAP_unsigned_char AND wrap_2_index GREATER -1)
   )
 
   itk_python_add_test(
-      NAME
-      PythonMeanImageFilterFunctionCallTest
-      TEST_DRIVER_ARGS
+    NAME PythonMeanImageFilterFunctionCallTest
+    TEST_DRIVER_ARGS
       --compare
       ${ITK_TEST_OUTPUT_DIR}/PythonMeanImageFilterFunctionCallTest.png
       DATA{Baseline/PythonMeanImageFilterFunctionCallTest.png}
-      COMMAND
+    COMMAND
       ${CMAKE_CURRENT_SOURCE_DIR}/MeanImageFilterFunctionCallTest.py
       DATA{${test_input_dir}/cthead1UC.png}
       ${ITK_TEST_OUTPUT_DIR}/PythonMeanImageFilterFunctionCallTest.png
@@ -32,13 +30,12 @@ if(ITK_WRAP_PYTHON AND ITK_WRAP_unsigned_char AND wrap_2_index GREATER -1)
   )
 
   itk_python_add_test(
-      NAME
-      PythonMedianImageFilterTest
-      TEST_DRIVER_ARGS
+    NAME PythonMedianImageFilterTest
+    TEST_DRIVER_ARGS
       --compare
       ${ITK_TEST_OUTPUT_DIR}/PythonMedianImageFilterTest.png
       DATA{Baseline/PythonMedianImageFilterTest.png}
-      COMMAND
+    COMMAND
       ${CMAKE_CURRENT_SOURCE_DIR}/MedianImageFilterTest.py
       DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
       ${ITK_TEST_OUTPUT_DIR}/PythonMedianImageFilterTest.png
@@ -46,20 +43,18 @@ if(ITK_WRAP_PYTHON AND ITK_WRAP_unsigned_char AND wrap_2_index GREATER -1)
   )
   if(ITK_WRAP_DOC)
     itk_python_add_test(
-          NAME
-          PythonMedianImageFilterFunctionalDocumentationTest
-          COMMAND
-          ${CMAKE_CURRENT_SOURCE_DIR}/MedianImageFilterFunctionalDocumentationTest.py
+      NAME PythonMedianImageFilterFunctionalDocumentationTest
+      COMMAND
+        ${CMAKE_CURRENT_SOURCE_DIR}/MedianImageFilterFunctionalDocumentationTest.py
     )
   endif()
   itk_python_add_test(
-      NAME
-      PythonAutoPipelineTest
-      TEST_DRIVER_ARGS
+    NAME PythonAutoPipelineTest
+    TEST_DRIVER_ARGS
       --compare
       ${ITK_TEST_OUTPUT_DIR}/PythonAutoPipelineTest.png
       DATA{Baseline/PythonMedianImageFilterTest.png}
-      COMMAND
+    COMMAND
       ${CMAKE_CURRENT_SOURCE_DIR}/PythonAutoPipelineTest.py
       DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
       ${ITK_TEST_OUTPUT_DIR}/PythonAutoPipelineTest.png

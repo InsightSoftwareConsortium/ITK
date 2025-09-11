@@ -11,11 +11,10 @@ as well."
 itk_module(
   ITKCurvatureFlow
   COMPILE_DEPENDS
-  ITKFiniteDifference
-  ITKImageFilterBase
+    ITKFiniteDifference
+    ITKImageFilterBase
   TEST_DEPENDS
-  ITKTestKernel
-  ITKIOVTK
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+    ITKIOVTK
+  DESCRIPTION "${DOCUMENTATION}"
 )

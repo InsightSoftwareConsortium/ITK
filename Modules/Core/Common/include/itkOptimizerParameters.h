@@ -110,8 +110,7 @@ public:
   {
     if (m_Helper == nullptr)
     {
-      itkGenericExceptionMacro("OptimizerParameters::MoveDataPointer: "
-                               "m_Helper must be set.");
+      itkGenericExceptionMacro("OptimizerParameters::MoveDataPointer: m_Helper must be set.");
     }
     this->m_Helper->MoveDataPointer(this, pointer);
   }
@@ -125,8 +124,7 @@ public:
   {
     if (m_Helper == nullptr)
     {
-      itkGenericExceptionMacro("OptimizerParameters::SetParameterObject: "
-                               "m_Helper must be set.");
+      itkGenericExceptionMacro("OptimizerParameters::SetParameterObject: m_Helper must be set.");
     }
     this->m_Helper->SetParametersObject(this, object);
   }

@@ -40,7 +40,7 @@ VanHerkGilWermanErodeDilateImageFilter<TImage, TKernel, TFunction1>::DynamicThre
   // check that we are using a decomposable kernel
   if (!this->GetKernel().GetDecomposable())
   {
-    itkExceptionMacro("VanHerkGilWerman morphology only works with decomposable structuring elements");
+    itkExceptionStringMacro("VanHerkGilWerman morphology only works with decomposable structuring elements");
   }
 
   // TFunction1 will be < for erosions

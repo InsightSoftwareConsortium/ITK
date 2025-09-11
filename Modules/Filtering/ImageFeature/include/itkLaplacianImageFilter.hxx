@@ -101,7 +101,7 @@ LaplacianImageFilter<TInputImage, TOutputImage>::GenerateData()
     {
       if (this->GetInput()->GetSpacing()[i] == 0.0)
       {
-        itkExceptionMacro("Image spacing cannot be zero");
+        itkExceptionStringMacro("Image spacing cannot be zero");
       }
       else
       {

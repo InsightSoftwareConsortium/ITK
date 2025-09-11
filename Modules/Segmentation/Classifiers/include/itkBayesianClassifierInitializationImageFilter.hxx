@@ -62,7 +62,7 @@ BayesianClassifierInitializationImageFilter<TInputImage, TProbabilityPrecisionTy
 
   if (m_NumberOfClasses == 0)
   {
-    itkExceptionMacro("Number of classes unspecified");
+    itkExceptionStringMacro("Number of classes unspecified");
   }
   outputPtr->SetVectorLength(m_NumberOfClasses);
 }
@@ -233,7 +233,7 @@ BayesianClassifierInitializationImageFilter<TInputImage, TProbabilityPrecisionTy
 
   if (m_MembershipFunctionContainer->Size() != m_NumberOfClasses)
   {
-    itkExceptionMacro("Number of membership functions should be the same as the number of classes");
+    itkExceptionStringMacro("Number of membership functions should be the same as the number of classes");
   }
 
   this->AllocateOutputs();
@@ -269,7 +269,7 @@ BayesianClassifierInitializationImageFilter<TInputImage, TProbabilityPrecisionTy
   {
     if (membershipFunction->Size() != m_NumberOfClasses)
     {
-      itkExceptionMacro("Number of membership functions should be the same as the number of classes");
+      itkExceptionStringMacro("Number of membership functions should be the same as the number of classes");
     }
   }
   else

@@ -152,7 +152,7 @@ public:
     bool
     operator==(const ConstIterator & it) const
     {
-      return (m_Iter == it.m_Iter);
+      return m_Iter == it.m_Iter;
     }
 
     ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(ConstIterator);
@@ -179,7 +179,7 @@ public:
     [[nodiscard]] InstanceIdentifier
     GetInstanceIdentifier() const
     {
-      return (m_Iter - m_Subsample->GetIdHolder().begin());
+      return m_Iter - m_Subsample->GetIdHolder().begin();
     }
 
   protected:

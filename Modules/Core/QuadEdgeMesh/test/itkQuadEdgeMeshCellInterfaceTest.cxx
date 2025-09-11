@@ -121,7 +121,7 @@ TestCellInterface(const std::string_view name, TCell * aCell)
   }
 
   cell->SetPointIds(pointIds);
-  // exercing the const GetPointIds() method
+  // exercising the const GetPointIds() method
   // null for QE Cells
   if (cell2->GetPointIds())
   {
@@ -216,9 +216,9 @@ TestQECellInterface(const std::string_view name, TCell * aCell)
 
   // actually populate
   cell->SetPointIds(pointIds);
-  // exercing the non const internal equivalent.
+  // exercising the non const internal equivalent.
   cell->InternalSetPointIds(cell->InternalGetPointIds());
-  // exercing the const internal equivalent
+  // exercising the const internal equivalent
   cell->InternalSetPointIds(cell2->InternalGetPointIds());
 
 

@@ -174,7 +174,7 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>::GetPixel(NeighborIndexTyp
   else
   {
     IsInBounds = false;
-    return (m_NeighborhoodAccessorFunctor.BoundaryCondition(internalIndex, offset, this, this->m_BoundaryCondition));
+    return m_NeighborhoodAccessorFunctor.BoundaryCondition(internalIndex, offset, this, this->m_BoundaryCondition);
   }
 }
 
@@ -506,7 +506,7 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>::operator++()
       m_Loop[i] = m_BeginIndex[i];
       for (Iterator it = Superclass::Begin(); it < _end; ++it)
       {
-        (*it) += m_WrapOffset[i];
+        *it += m_WrapOffset[i];
       }
     }
     else
@@ -541,7 +541,7 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>::operator--()
       m_Loop[i] = m_Bound[i] - 1;
       for (Iterator it = Superclass::Begin(); it < _end; ++it)
       {
-        (*it) -= m_WrapOffset[i];
+        *it -= m_WrapOffset[i];
       }
     }
     else
@@ -713,7 +713,7 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>::operator+=(const OffsetTy
   // Increment pointers.
   for (Iterator it = this->Begin(); it < _end; ++it)
   {
-    (*it) += accumulator;
+    *it += accumulator;
   }
 
   // Update loop counter values
@@ -750,7 +750,7 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>::operator-=(const OffsetTy
   // Increment pointers.
   for (Iterator it = this->Begin(); it < _end; ++it)
   {
-    (*it) -= accumulator;
+    *it -= accumulator;
   }
 
   // Update loop counter values

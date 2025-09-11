@@ -187,7 +187,7 @@ OpenCVVideoCapture<TVideoStream>::retrieve(cv::Mat & image, int itkNotUsed(chann
   }
   else
   {
-    itkExceptionMacro("itk::OpenCVVideoCaptures -> Pixel type not supported");
+    itkExceptionStringMacro("itk::OpenCVVideoCaptures -> Pixel type not supported");
   }
 
   // Pass off to the Mat
@@ -259,7 +259,7 @@ OpenCVVideoCapture<TVideoStream>::set(int propId, double value)
   {
     // Figure out the frame numbers from the value -- This is not currently supported
     case CV_CAP_PROP_POS_MSEC:
-      itkExceptionMacro("OpenCVVideoCapture: Video Pipeline does not currently support RealTime");
+      itkExceptionStringMacro("OpenCVVideoCapture: Video Pipeline does not currently support RealTime");
       break;
 
     // Set the frame start of the requested region and update the pipeline
@@ -351,7 +351,7 @@ OpenCVVideoCapture<TVideoStream>::get(int propId)
   {
     // Figure out the frame numbers from the value -- This is not currently supported
     case CV_CAP_PROP_POS_MSEC:
-      itkExceptionMacro("OpenCVVideoCapture: Video Pipeline does not currently support RealTime");
+      itkExceptionStringMacro("OpenCVVideoCapture: Video Pipeline does not currently support RealTime");
       break;
 
     // Get the frame start of the requested region and update the pipeline

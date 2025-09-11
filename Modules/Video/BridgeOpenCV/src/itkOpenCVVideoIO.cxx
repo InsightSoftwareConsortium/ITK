@@ -107,7 +107,7 @@ OpenCVVideoIO::SetReadFromFile()
   }
   else
   {
-    itkExceptionMacro("Cannot change read type while reader is open");
+    itkExceptionStringMacro("Cannot change read type while reader is open");
   }
 }
 
@@ -120,7 +120,7 @@ OpenCVVideoIO::SetReadFromCamera()
   }
   else
   {
-    itkExceptionMacro("Cannot change read type while reader is open");
+    itkExceptionStringMacro("Cannot change read type while reader is open");
   }
 }
 
@@ -223,7 +223,7 @@ OpenCVVideoIO::ReadImageInformation()
 
       if (this->m_IFrameInterval == 0)
       {
-        itkExceptionMacro(" I-Frame spacing for this video is zero! Please check input data.");
+        itkExceptionStringMacro(" I-Frame spacing for this video is zero! Please check input data.");
       }
 
       this->m_LastIFrame = (OpenCVVideoIO::FrameOffsetType)(static_cast<float>(this->m_FrameTotal) /
@@ -270,7 +270,7 @@ OpenCVVideoIO::ReadImageInformation()
   // Should never get here
   else
   {
-    itkExceptionMacro("Invalid Read Type... How did we get here?");
+    itkExceptionStringMacro("Invalid Read Type... How did we get here?");
   }
 
   // Populate member variables
@@ -298,7 +298,7 @@ OpenCVVideoIO::ReadImageInformation()
   }
   else
   {
-    itkExceptionMacro("OpenCV IO only supports Mono, RGB, and RGBA input");
+    itkExceptionStringMacro("OpenCV IO only supports Mono, RGB, and RGBA input");
   }
 
   // Release the local capture and image
@@ -311,7 +311,7 @@ OpenCVVideoIO::Read(void * buffer)
   // Make sure we've already called ReadImageInformation (dimensions are non-zero)
   if (this->m_Dimensions[0] == 0 || this->m_Dimensions[1] == 0)
   {
-    itkExceptionMacro("Cannot read frame with zero dimension. May need to call ReadImageInformation");
+    itkExceptionStringMacro("Cannot read frame with zero dimension. May need to call ReadImageInformation");
   }
 
   // If video is not already open, open it and keep it open
@@ -435,18 +435,18 @@ OpenCVVideoIO::SetWriterParameters(TemporalRatioType                  fps,
 {
   if (this->m_ReaderOpen || this->m_WriterOpen)
   {
-    itkExceptionMacro("Can not set the writer's parameters when either reader or writer is already open");
+    itkExceptionStringMacro("Can not set the writer's parameters when either reader or writer is already open");
   }
 
   // Make sure componentType is acceptable (right now we only support char)
   if (componentType != IOComponentEnum::UCHAR)
   {
-    itkExceptionMacro("OpenCV IO only supports writing video with pixels of UCHAR");
+    itkExceptionStringMacro("OpenCV IO only supports writing video with pixels of UCHAR");
   }
 
   if (dim.size() != 2)
   {
-    itkExceptionMacro("OpenCV IO only supports 2D video");
+    itkExceptionStringMacro("OpenCV IO only supports 2D video");
   }
   this->m_Dimensions.clear();
   this->m_Dimensions.push_back(dim[0]);
@@ -469,7 +469,7 @@ OpenCVVideoIO::SetWriterParameters(TemporalRatioType                  fps,
   }
   else
   {
-    itkExceptionMacro("OpenCV IO only supports Mono, RGB, and RGBA output");
+    itkExceptionStringMacro("OpenCV IO only supports Mono, RGB, and RGBA output");
   }
 }
 
@@ -479,7 +479,7 @@ OpenCVVideoIO::Write(const void * buffer)
   // Make sure parameters are specified
   if (this->m_FramesPerSecond == 0 || this->m_Dimensions.size() == 0 || this->m_FourCC == 0)
   {
-    itkExceptionMacro("Can not write with empty parameters. You probably need to call SetWriterParameters");
+    itkExceptionStringMacro("Can not write with empty parameters. You probably need to call SetWriterParameters");
   }
 
   // Make sure the number of channels is 1 or 3
@@ -531,7 +531,7 @@ OpenCVVideoIO::Write(const void * buffer)
 void
 OpenCVVideoIO::UpdateReaderProperties()
 {
-  // 0-based index of the frame tobe decoded/captured next
+  // 0-based index of the frame to be decoded/captured next
   this->m_CurrentFrame = cvGetCaptureProperty(this->m_Capture, CV_CAP_PROP_POS_FRAMES);
   this->m_PositionInMSec = cvGetCaptureProperty(this->m_Capture, CV_CAP_PROP_POS_MSEC);
   this->m_FramesPerSecond = static_cast<double>(cvGetCaptureProperty(this->m_Capture, CV_CAP_PROP_FPS));
@@ -544,12 +544,12 @@ OpenCVVideoIO::OpenReader()
 {
   if (this->m_ReaderOpen)
   {
-    itkExceptionMacro("Can not open reader while video is already open for reading");
+    itkExceptionStringMacro("Can not open reader while video is already open for reading");
   }
 
   if (this->m_WriterOpen)
   {
-    itkExceptionMacro("Can not open reader while video is already open for writing");
+    itkExceptionStringMacro("Can not open reader while video is already open for writing");
   }
 
   // If neither reader nor writer is currently open, open the reader
@@ -562,7 +562,7 @@ OpenCVVideoIO::OpenReader()
     }
     else
     {
-      itkExceptionMacro("Video failed to open");
+      itkExceptionStringMacro("Video failed to open");
     }
   }
   else if (this->m_ReadFrom == ReadFromEnum::ReadFromCamera)
@@ -574,7 +574,7 @@ OpenCVVideoIO::OpenReader()
     }
     else
     {
-      itkExceptionMacro("Video failed to open");
+      itkExceptionStringMacro("Video failed to open");
     }
   }
 }
@@ -584,12 +584,12 @@ OpenCVVideoIO::OpenWriter()
 {
   if (this->m_WriterOpen)
   {
-    itkExceptionMacro("Can not open writer while video is already open for writing");
+    itkExceptionStringMacro("Can not open writer while video is already open for writing");
   }
 
   if (this->m_ReaderOpen)
   {
-    itkExceptionMacro("Can not open writer while video is already open for reading");
+    itkExceptionStringMacro("Can not open writer while video is already open for reading");
   }
 
   // If neither reader nor writer is currently open, open the writer

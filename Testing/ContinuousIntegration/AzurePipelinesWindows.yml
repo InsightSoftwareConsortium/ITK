@@ -3,7 +3,7 @@ name: ITK.Windows
 trigger:
   branches:
     include:
-    - master
+    - main
     - release*
   paths:
     exclude:

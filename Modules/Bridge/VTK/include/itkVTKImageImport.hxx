@@ -92,7 +92,7 @@ VTKImageImport<TOutputImage>::VTKImageImport()
   }
   else
   {
-    itkExceptionMacro("Type currently not supported");
+    itkExceptionStringMacro("Type currently not supported");
   }
 }
 
@@ -107,7 +107,7 @@ VTKImageImport<TOutputImage>::PropagateRequestedRegion(DataObject * outputPtr)
 
   if (!output)
   {
-    itkExceptionMacro("Downcast from DataObject to my Image type failed.");
+    itkExceptionStringMacro("Downcast from DataObject to my Image type failed.");
   }
   Superclass::PropagateRequestedRegion(output);
   if (m_PropagateUpdateExtentCallback)
@@ -246,7 +246,7 @@ VTKImageImport<TOutputImage>::GenerateOutputInformation()
                             << "This means that the " << ijk[j] << " data axis has a " << xyz[i]
                             << " component in physical space, but the ITK image can only represent values"
                             << " along " << ijk.substr(0, OutputImageDimension) << " projected on "
-                            << xyz.substr(0, OutputImageDimension) << '.' << std::endl);
+                            << xyz.substr(0, OutputImageDimension) << '.');
         }
       }
     }

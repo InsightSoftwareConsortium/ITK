@@ -4,9 +4,8 @@ set(ITKEigenTests itkEigenAnalysis2DImageFilterTest.cxx)
 createtestdriver(ITKEigen "${ITKEigen-Test_LIBRARIES}" "${ITKEigenTests}")
 
 itk_add_test(
-  NAME
-  itkEigenAnalysis2DImageFilterTest
+  NAME itkEigenAnalysis2DImageFilterTest
   COMMAND
-  ITKEigenTestDriver
-  itkEigenAnalysis2DImageFilterTest
+    ITKEigenTestDriver
+    itkEigenAnalysis2DImageFilterTest
 )

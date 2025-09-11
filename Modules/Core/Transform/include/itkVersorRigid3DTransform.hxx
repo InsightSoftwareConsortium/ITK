@@ -130,10 +130,8 @@ VersorRigid3DTransform<TParametersValueType>::UpdateTransformParameters(const De
 
   if (update.Size() != numberOfParameters)
   {
-    itkExceptionMacro("Parameter update size, " << update.Size()
-                                                << ", must "
-                                                   " be same as transform parameter size, "
-                                                << numberOfParameters << std::endl);
+    itkExceptionMacro("Parameter update size, " << update.Size() << ", must  be same as transform parameter size, "
+                                                << numberOfParameters);
   }
 
   /* Make sure m_Parameters is updated to reflect the current values in

@@ -337,7 +337,7 @@ FastMarchingQuadEdgeMeshFilterBase<TInput, TOutput>::ComputeUpdate(const OutputV
     {
       t = (-f1 - std::sqrt(delta)) / f2;
 
-      // test if we must must choose the other solution
+      // test if we must choose the other solution
       if ((t < u) || (iNorm2 * (t - u) / t < iNorm1 * CosAngle) || (iNorm1 / CosAngle < iNorm2 * (t - u) / t))
       {
         t = (-f1 + std::sqrt(delta)) / f2;

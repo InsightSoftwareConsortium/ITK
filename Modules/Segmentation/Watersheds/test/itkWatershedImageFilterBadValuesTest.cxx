@@ -23,7 +23,7 @@
 #include "itkTestingMacros.h"
 #include <iostream>
 /// Uncovered a heap error or something by putting in bad values to WatershedImageFilter
-/// This tests an added check in itkWaterhedSegmentTreeGenerator
+/// This tests an added check in itkWatershedSegmentTreeGenerator
 /// At the time of this test, it's hard to predict what inputs are going to put the WatershedImageFilter in exception
 /// state.
 

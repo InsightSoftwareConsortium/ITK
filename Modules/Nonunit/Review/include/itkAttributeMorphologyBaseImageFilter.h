@@ -194,7 +194,7 @@ private:
     bool
     operator()(const OffsetValueType & l, const OffsetValueType & r) const
     {
-      return (m_TFunction(buf[l], buf[r]));
+      return m_TFunction(buf[l], buf[r]);
     }
   };
 
@@ -214,18 +214,18 @@ private:
     if (m_Parent[x] >= 0)
     {
       m_Parent[x] = FindRoot(m_Parent[x]);
-      return (m_Parent[x]);
+      return m_Parent[x];
     }
     else
     {
-      return (x);
+      return x;
     }
   }
 
   bool
   Criterion(OffsetValueType x, OffsetValueType y)
   {
-    return ((m_Raw[x] == m_Raw[y]) || (m_AuxData[x] < m_Lambda));
+    return (m_Raw[x] == m_Raw[y]) || (m_AuxData[x] < m_Lambda);
   }
 
   void

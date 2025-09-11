@@ -36,7 +36,7 @@ template <typename TInput, unsigned int VDimension, typename TOutput, typename T
 bool
 LevelSetBase<TInput, VDimension, TOutput, TDomain>::IsInside(const InputType & iP) const
 {
-  return (this->Evaluate(iP) <= OutputType{});
+  return this->Evaluate(iP) <= OutputType{};
 }
 
 // ----------------------------------------------------------------------------

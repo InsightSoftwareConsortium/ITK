@@ -425,7 +425,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::UpdateActiveLayerValu
     else
     {
       rms_change_accumulator += itk::Math::sqr(new_value - outputIt.GetCenterPixel());
-      // rms_change_accumulator += (*updateIt) * (*updateIt);
+      // rms_change_accumulator += *updateIt * *updateIt;
       outputIt.SetCenterPixel(new_value);
       ++layerIt;
     }
@@ -552,7 +552,8 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::Initialize()
   // Throw an exception if we don't have enough layers.
   if (m_Layers.size() < 3)
   {
-    itkExceptionMacro("Not enough layers have been allocated for the sparse field.  Requires at least one layer.");
+    itkExceptionStringMacro(
+      "Not enough layers have been allocated for the sparse field.  Requires at least one layer.");
   }
 
   // Construct the active layer and initialize the first layers inside and
@@ -979,7 +980,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::PropagateLayerValues(
     for (unsigned int i = 0; i < m_NeighborList.GetSize(); ++i)
     {
       // If this neighbor is in the "from" list, compare its absolute value
-      // to to any previous values found in the "from" list.  Keep the value
+      // to any previous values found in the "from" list.  Keep the value
       // that will cause the next layer to be closest to the zero level set.
 
       if (statusIt.GetPixel(m_NeighborList.GetArrayIndex(i)) == from)

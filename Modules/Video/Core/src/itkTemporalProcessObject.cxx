@@ -138,8 +138,7 @@ TemporalProcessObject::GenerateOutputRequestedTemporalRegion(TemporalDataObject 
     output->SetRequestedTemporalRegion(requestedRegion);
 
     // Warn the user about this corner case
-    itkWarningMacro("Largest possible temporal region is infinite. Setting "
-                    "requested temporal region's duration to 1");
+    itkWarningMacro("Largest possible temporal region is infinite. Setting requested temporal region's duration to 1");
   }
 
   // If the current region is set to no duration, use the largest possible
@@ -445,7 +444,7 @@ TemporalProcessObject::GenerateData()
     // Call TemporalStreamingGenerateData to process the chunk of data
     this->TemporalStreamingGenerateData();
 
-    // Update the bufferd region information
+    // Update the buffered region information
     TemporalRegion outputBufferedRegion = output->GetBufferedTemporalRegion();
     SizeValueType  bufferedStart = outputBufferedRegion.GetFrameStart();
     SizeValueType  bufferedDuration = outputBufferedRegion.GetFrameDuration();

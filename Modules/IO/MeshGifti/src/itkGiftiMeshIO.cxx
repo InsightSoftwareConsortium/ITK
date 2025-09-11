@@ -208,7 +208,7 @@ GiftiMeshIO::ReadMeshInformation()
         if (m_GiftiImage->darray[ii]->dims[1] != 3)
         {
           gifti_free_image(m_GiftiImage);
-          itkExceptionMacro("Input mesh is not triangle mesh");
+          itkExceptionStringMacro("Input mesh is not triangle mesh");
         }
       }
       this->m_CellBufferSize = static_cast<SizeValueType>(m_GiftiImage->darray[ii]->nvals + 2 * this->m_NumberOfCells);
@@ -239,8 +239,8 @@ GiftiMeshIO::ReadMeshInformation()
           else
           {
             gifti_free_image(m_GiftiImage);
-            itkExceptionMacro("Could not read input GIfTI image because the number of point data or "
-                              "number of cell data in the image are not consistent with the current values in "
+            itkExceptionMacro("Could not read input GIfTI image because the number of point data or number of cell "
+                              "data in the image are not consistent with the current values in "
                               << this->m_FileName);
           }
         }
@@ -288,8 +288,8 @@ GiftiMeshIO::ReadMeshInformation()
           else
           {
             gifti_free_image(m_GiftiImage);
-            itkExceptionMacro("Could not read input GIfTI image because the number of point data or "
-                              "number of cell data in the image are not consistent with the current values in "
+            itkExceptionMacro("Could not read input GIfTI image because the number of point data or number of cell "
+                              "data in the image are not consistent with the current values in "
                               << this->m_FileName);
           }
         }
@@ -403,8 +403,8 @@ GiftiMeshIO::ReadMeshInformation()
           else
           {
             gifti_free_image(m_GiftiImage);
-            itkExceptionMacro("Could not read input GIfTI image because the number of point data or "
-                              "number of cell data in the image are not consistent with the current values in "
+            itkExceptionMacro("Could not read input GIfTI image because the number of point data or number of cell "
+                              "data in the image are not consistent with the current values in "
                               << this->m_FileName);
           }
         }
@@ -470,7 +470,7 @@ GiftiMeshIO::ReadCells(void * buffer)
   // Get gifti image pointer
   m_GiftiImage = gifti_read_image(this->GetFileName(), true);
 
-  // Whter reading is successful
+  // Whether reading is successful
   if (m_GiftiImage == nullptr)
   {
     itkExceptionMacro(<< this->GetFileName() << " is not recognized as a GIfTI file");
@@ -483,7 +483,7 @@ GiftiMeshIO::ReadCells(void * buffer)
     {
       switch (this->m_CellComponentType)
       {
-        case IOComponentEnum::CHAR:
+        case IOComponentEnum::SCHAR:
         {
           this->WriteCellsBuffer(static_cast<char *>(m_GiftiImage->darray[ii]->data),
                                  static_cast<char *>(buffer),
@@ -603,7 +603,7 @@ GiftiMeshIO::ReadCells(void * buffer)
         default:
         {
           gifti_free_image(m_GiftiImage);
-          itkExceptionMacro("Unknown cell data pixel component type" << std::endl);
+          itkExceptionStringMacro("Unknown cell data pixel component type");
         }
       }
     }
@@ -701,10 +701,10 @@ GiftiMeshIO::WriteMeshInformation()
   int dims[6] = { 0 };
   m_GiftiImage = gifti_create_image(nda, NIFTI_INTENT_POINTSET, NIFTI_TYPE_UINT32, 0, dims, 0);
 
-  // Whter reading is successful
+  // Whether reading is successful
   if (m_GiftiImage == nullptr)
   {
-    itkExceptionMacro("Could not create a new GIfTI image");
+    itkExceptionStringMacro("Could not create a new GIfTI image");
   }
 
   // write labelTable using labelMap and colorMap
@@ -1072,7 +1072,7 @@ GiftiMeshIO::WritePoints(void * buffer)
                         pointsBufferSize);
           break;
         }
-        case IOComponentEnum::CHAR:
+        case IOComponentEnum::SCHAR:
         {
           ConvertBuffer(
             static_cast<char *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), pointsBufferSize);
@@ -1151,7 +1151,7 @@ GiftiMeshIO::WritePoints(void * buffer)
         default:
         {
           gifti_free_image(m_GiftiImage);
-          itkExceptionMacro("Unknown point component type" << std::endl);
+          itkExceptionStringMacro("Unknown point component type");
         }
       }
     }
@@ -1174,7 +1174,7 @@ GiftiMeshIO::WriteCells(void * buffer)
                                 static_cast<int32_t *>(m_GiftiImage->darray[ii]->data));
           break;
         }
-        case IOComponentEnum::CHAR:
+        case IOComponentEnum::SCHAR:
         {
           this->ReadCellsBuffer(static_cast<char *>(buffer), static_cast<int32_t *>(m_GiftiImage->darray[ii]->data));
           break;
@@ -1243,7 +1243,7 @@ GiftiMeshIO::WriteCells(void * buffer)
         default:
         {
           gifti_free_image(m_GiftiImage);
-          itkExceptionMacro("Unknown cell component type" << std::endl);
+          itkExceptionStringMacro("Unknown cell component type");
         }
       }
     }
@@ -1271,7 +1271,7 @@ GiftiMeshIO::WritePointData(void * buffer)
                           pointDataBufferSize);
             break;
           }
-          case IOComponentEnum::CHAR:
+          case IOComponentEnum::SCHAR:
           {
             ConvertBuffer(
               static_cast<char *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), pointDataBufferSize);
@@ -1352,7 +1352,7 @@ GiftiMeshIO::WritePointData(void * buffer)
           default:
           {
             gifti_free_image(m_GiftiImage);
-            itkExceptionMacro("Unknown point data pixel component type" << std::endl);
+            itkExceptionStringMacro("Unknown point data pixel component type");
           }
         }
       }
@@ -1372,7 +1372,7 @@ GiftiMeshIO::WritePointData(void * buffer)
                           pointDataBufferSize);
             break;
           }
-          case IOComponentEnum::CHAR:
+          case IOComponentEnum::SCHAR:
           {
             ConvertBuffer(
               static_cast<char *>(buffer), static_cast<int *>(m_GiftiImage->darray[ii]->data), pointDataBufferSize);
@@ -1453,7 +1453,7 @@ GiftiMeshIO::WritePointData(void * buffer)
           default:
           {
             gifti_free_image(m_GiftiImage);
-            itkExceptionMacro("Unknown point data pixel component type" << std::endl);
+            itkExceptionStringMacro("Unknown point data pixel component type");
           }
         }
       }
@@ -1482,7 +1482,7 @@ GiftiMeshIO::WriteCellData(void * buffer)
                           cellDataBufferSize);
             break;
           }
-          case IOComponentEnum::CHAR:
+          case IOComponentEnum::SCHAR:
           {
             ConvertBuffer(
               static_cast<char *>(buffer), static_cast<float *>(m_GiftiImage->darray[ii]->data), cellDataBufferSize);
@@ -1563,7 +1563,7 @@ GiftiMeshIO::WriteCellData(void * buffer)
           default:
           {
             gifti_free_image(m_GiftiImage);
-            itkExceptionMacro("Unknown cell data pixel component type" << std::endl);
+            itkExceptionStringMacro("Unknown cell data pixel component type");
           }
         }
       }
@@ -1583,7 +1583,7 @@ GiftiMeshIO::WriteCellData(void * buffer)
                           cellDataBufferSize);
             break;
           }
-          case IOComponentEnum::CHAR:
+          case IOComponentEnum::SCHAR:
           {
             ConvertBuffer(
               static_cast<char *>(buffer), static_cast<int *>(m_GiftiImage->darray[ii]->data), cellDataBufferSize);
@@ -1663,7 +1663,7 @@ GiftiMeshIO::WriteCellData(void * buffer)
           default:
           {
             gifti_free_image(m_GiftiImage);
-            itkExceptionMacro("Unknown cell data pixel component type" << std::endl);
+            itkExceptionStringMacro("Unknown cell data pixel component type");
           }
         }
       }
@@ -1742,7 +1742,7 @@ GiftiMeshIO::GetComponentTypeFromGifti(int datatype)
       break;
     default:
       compType = IOComponentEnum::UNKNOWNCOMPONENTTYPE;
-      itkExceptionMacro("Unknown component type");
+      itkExceptionStringMacro("Unknown component type");
   }
   return compType;
 }
@@ -1778,7 +1778,7 @@ GiftiMeshIO::GetPixelTypeFromGifti(int datatype)
       break;
     default:
       pixelType = IOPixelEnum::UNKNOWNPIXELTYPE;
-      itkExceptionMacro("Unknown pixel type");
+      itkExceptionStringMacro("Unknown pixel type");
   }
   return pixelType;
 }

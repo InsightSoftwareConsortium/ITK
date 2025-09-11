@@ -165,7 +165,7 @@ ComponentToPredType(IOComponentEnum cType)
   {
     case IOComponentEnum::UCHAR:
       return H5::PredType::NATIVE_UCHAR;
-    case IOComponentEnum::CHAR:
+    case IOComponentEnum::SCHAR:
       return H5::PredType::NATIVE_CHAR;
     case IOComponentEnum::USHORT:
       return H5::PredType::NATIVE_USHORT;
@@ -204,7 +204,7 @@ ComponentToString(IOComponentEnum cType)
     case IOComponentEnum::UCHAR:
       rval = "UCHAR";
       break;
-    case IOComponentEnum::CHAR:
+    case IOComponentEnum::SCHAR:
       rval = "CHAR";
       break;
     case IOComponentEnum::USHORT:
@@ -391,12 +391,12 @@ HDF5ImageIO::ReadScalar(const std::string & DataSetName)
 
   if (Space.getSimpleExtentNdims() != 1)
   {
-    itkExceptionMacro("Wrong # of dims for TransformType in HDF5 File");
+    itkExceptionStringMacro("Wrong # of dims for TransformType in HDF5 File");
   }
   Space.getSimpleExtentDims(dim, nullptr);
   if (dim[0] != 1)
   {
-    itkExceptionMacro("Elements > 1 for scalar type in HDF5 File");
+    itkExceptionStringMacro("Elements > 1 for scalar type in HDF5 File");
   }
   TScalar            scalar;
   const H5::PredType scalarType = GetType<TScalar>();
@@ -460,7 +460,7 @@ HDF5ImageIO::ReadVector(const std::string & DataSetName)
 
   if (Space.getSimpleExtentNdims() != 1)
   {
-    itkExceptionMacro("Wrong # of dims for TransformType in HDF5 File");
+    itkExceptionStringMacro("Wrong # of dims for TransformType in HDF5 File");
   }
   Space.getSimpleExtentDims(dim, nullptr);
   vec.resize(dim[0]);
@@ -502,7 +502,7 @@ HDF5ImageIO::ReadDirections(const std::string & path)
   hsize_t                          dim[2];
   if (dirSpace.getSimpleExtentNdims() != 2)
   {
-    itkExceptionMacro(" Wrong # of dims for Image Directions in HDF5 File");
+    itkExceptionStringMacro(" Wrong # of dims for Image Directions in HDF5 File");
   }
   dirSpace.getSimpleExtentDims(dim, nullptr);
   rval.resize(dim[1]);

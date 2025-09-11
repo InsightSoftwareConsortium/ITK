@@ -88,7 +88,7 @@ public:
         std::cout << "Index is not inside region! - " << index << std::endl;
         return false;
       }
-      // check repeatibility
+      // check repeatability
       if (index != it.GetIndex())
       {
         std::cout << "Failed to repeat GetIndex." << std::endl;
@@ -112,7 +112,7 @@ public:
         return false;
       }
       ++step;
-      // check repeatibility after decrement
+      // check repeatability after decrement
       --it;
       if (index != it.GetIndex())
       {
@@ -189,7 +189,7 @@ itkImageRegionConstIteratorWithOnlyIndexTest(int, char *[])
 
   {
     std::cout << "Testing with Image< char, 3 >... " << std::endl;
-    itkImageRegionConstIteratorWithOnlyIndexTestIteratorTester<itk::Image<char, 3>> Tester;
+    itkImageRegionConstIteratorWithOnlyIndexTestIteratorTester<itk::Image<signed char, 3>> Tester;
     if (Tester.TestConstIterator() == false)
     {
       testPassed = false;

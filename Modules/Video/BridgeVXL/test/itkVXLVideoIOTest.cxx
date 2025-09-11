@@ -223,11 +223,11 @@ test_VXLVideoIO(char *        input,
     ret = EXIT_FAILURE;
   }
 
-  // Test CanReadFile on non-existant file
-  std::string nonExistantFile = "Bad/Path/To/Nothing";
-  if (vxlIO->CanReadFile(nonExistantFile.c_str()))
+  // Test CanReadFile on non-existent file
+  std::string nonExistentFile = "Bad/Path/To/Nothing";
+  if (vxlIO->CanReadFile(nonExistentFile.c_str()))
   {
-    std::cerr << "Should have failed to open \"" << nonExistantFile << '"' << std::endl;
+    std::cerr << "Should have failed to open \"" << nonExistentFile << '"' << std::endl;
     ret = EXIT_FAILURE;
   }
 
@@ -519,9 +519,9 @@ itkVXLVideoIOTest(int argc, char * argv[])
 {
   if (argc != 9)
   {
-    std::cerr << "Usage: [Video Input] [Non-Video Input] [Video Output] [Webcam Output] "
-                 "[Width] [Height] [Num Frames] [FpS]"
-              << std::endl;
+    std::cerr
+      << "Usage: [Video Input] [Non-Video Input] [Video Output] [Webcam Output] [Width] [Height] [Num Frames] [FpS]"
+      << std::endl;
     return EXIT_FAILURE;
   }
 

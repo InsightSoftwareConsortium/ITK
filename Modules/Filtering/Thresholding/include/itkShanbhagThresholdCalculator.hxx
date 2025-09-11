@@ -33,7 +33,7 @@ ShanbhagThresholdCalculator<THistogram, TOutput>::GenerateData()
 
   if (histogram->GetTotalFrequency() == 0)
   {
-    itkExceptionMacro("Histogram is empty");
+    itkExceptionStringMacro("Histogram is empty");
   }
   const ProgressReporter progress(this, 0, histogram->GetSize(0));
   if (histogram->GetSize(0) == 1)

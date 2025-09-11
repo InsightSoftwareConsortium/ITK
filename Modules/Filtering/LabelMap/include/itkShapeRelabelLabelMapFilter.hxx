@@ -33,7 +33,7 @@ ShapeRelabelLabelMapFilter<TImage>::GenerateData()
 {
   switch (m_Attribute)
   {
-    itkShapeLabelMapFilterDispatchMacro() default : itkExceptionMacro("Unknown attribute type");
+    itkShapeLabelMapFilterDispatchMacro() default : itkExceptionStringMacro("Unknown attribute type");
     break;
   }
 }

@@ -169,7 +169,7 @@ startpass:
 
   switch (stype)
   {
-    case 0: /*   From consecutive in top to scattered in bot  */
+    case 0: /*   From consecutive in top to scattered in bottom  */
       inc = 1;
       mask = m_LMASK;
       pa = m_Vec1;
@@ -178,7 +178,7 @@ startpass:
       pd = pc + m_LEN;
       p0 = m_Vec1 + 4 * m_LEN;
       goto scanset;
-    case 1: /*   From consec in bot to scatt in top  */
+    case 1: /*   From consecutive in bottom to scattered in top  */
       inc = 1;
       mask = m_LMASK;
       pa = m_Vec1 + 4 * m_LEN;
@@ -187,7 +187,7 @@ startpass:
       pd = pc + m_LEN;
       p0 = m_Vec1;
       goto scanset;
-    case 2: /*   From consec in even to scatt in odd  */
+    case 2: /*   From consecutive in even to scattered in odd  */
       inc = 2;
       mask = 2 * m_LMASK;
       skew *= 2;
@@ -409,7 +409,7 @@ endpass:
   ts = m_Chic1 * (m_Chic2 + m_GScale * m_Vec1[m_TLEN - 1]);
   /*    m_TLEN * ts * ts  has ChiSq (m_TLEN) distribution   */
   m_GScale = m_Rscale * ts * m_ActualRSD;
-  return (m_GScale * m_Vec1[0]);
+  return m_GScale * m_Vec1[0];
 
 renormalize:
   if (m_Nslew & 0xFFFF)
@@ -469,7 +469,7 @@ recalcsumsq:
   }
   /*    Now ts should be Scale*Scale*TLEN or thereabouts   */
   ts = std::sqrt(ts / (m_Scale * m_Scale * m_TLEN));
-  m_ActualRSD = 1.0 / ts; /* Reciprocal of actual Standard Devtn */
+  m_ActualRSD = 1.0 / ts; /* Reciprocal of actual Standard Deviation */
   goto startpass;
 }
 } // namespace itk::Statistics

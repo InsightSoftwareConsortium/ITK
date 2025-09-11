@@ -208,7 +208,7 @@ BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
   bioradheader h;
   if constexpr (sizeof(h) != BIORAD_HEADER_LENGTH)
   {
-    itkExceptionMacro("Problem of alignment on your platform");
+    itkExceptionStringMacro("Problem of alignment on your platform");
   }
   file.seekg(0, std::ios::beg);
   bioradheader * p = &h;
@@ -273,7 +273,7 @@ BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
     else
     {
       SetComponentType(IOComponentEnum::UNKNOWNCOMPONENTTYPE);
-      itkExceptionMacro("Cannot read requested file");
+      itkExceptionStringMacro("Cannot read requested file");
     }
   }
   int          punt(0);
@@ -293,7 +293,7 @@ BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
     bioradnote note;
     if constexpr (sizeof(note) != 96)
     {
-      itkExceptionMacro("BIORadImageIO:Problem with structure alignment");
+      itkExceptionStringMacro("BIORadImageIO:Problem with structure alignment");
     }
     while (!file.eof())
     {
@@ -328,7 +328,7 @@ BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
         {
           ss >> origin; // skip origin
           ss >> spacing;
-          spacing *= 1000; // move to millemeters
+          spacing *= 1000; // move to millimeters
           m_Spacing[0] = spacing;
           ++punt;
         }
@@ -336,7 +336,7 @@ BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
         {
           ss >> origin; // skip origin
           ss >> spacing;
-          spacing *= 1000; // move to millemeters
+          spacing *= 1000; // move to millimeters
           m_Spacing[1] = spacing;
           ++punt;
         }
@@ -344,7 +344,7 @@ BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
         {
           ss >> origin; // skip origin
           ss >> spacing;
-          spacing *= 1000; // move to millemeters
+          spacing *= 1000; // move to millimeters
           m_Spacing[2] = spacing;
           ++punt;
         }
@@ -406,7 +406,7 @@ BioRadImageIO::Write(const void * buffer)
   const unsigned int numDims = this->GetNumberOfDimensions();
   if (numDims != 3 && numDims != 2)
   {
-    itkExceptionMacro("BioRad Writer can only write 2 or 3-dimensional images");
+    itkExceptionStringMacro("BioRad Writer can only write 2 or 3-dimensional images");
   }
 
   // Write the BioRad header information
@@ -414,7 +414,7 @@ BioRadImageIO::Write(const void * buffer)
   bioradheader * p = &header;
   if constexpr (sizeof(header) != BIORAD_HEADER_LENGTH)
   {
-    itkExceptionMacro("Problem of alignment on your platform");
+    itkExceptionStringMacro("Problem of alignment on your platform");
   }
   // In particular `notes' needs to be set to zero to indicate there is no notes
   header.nx = static_cast<unsigned short>(m_Dimensions[0]);
@@ -452,7 +452,7 @@ BioRadImageIO::Write(const void * buffer)
       header.ramp2_max = 65535;
       break;
     default:
-      itkExceptionMacro("Component type not supported.");
+      itkExceptionStringMacro("Component type not supported.");
   }
   // write the actual header
   ByteSwapper<unsigned short>::SwapRangeFromSystemToLittleEndian(reinterpret_cast<unsigned short *>(p),

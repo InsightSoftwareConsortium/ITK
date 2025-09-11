@@ -58,7 +58,7 @@ ImageAndPathToImageFilter<TInputImage, TInputPath, TOutputImage>::GetNonConstIma
   auto * temp_return = dynamic_cast<TInputImage *>(this->ProcessObject::GetInput(0));
   if (temp_return == nullptr)
   {
-    itkExceptionMacro("Invalid type conversion in GetNonConstImageInput()");
+    itkExceptionStringMacro("Invalid type conversion in GetNonConstImageInput()");
   }
   return temp_return;
 }
@@ -87,7 +87,7 @@ ImageAndPathToImageFilter<TInputImage, TInputPath, TOutputImage>::GetNonConstPat
   auto * temp_return = dynamic_cast<TInputPath *>(this->ProcessObject::GetInput(1));
   if (temp_return == nullptr)
   {
-    itkExceptionMacro("Invalid type conversion in GetNonConstPathInput()");
+    itkExceptionStringMacro("Invalid type conversion in GetNonConstPathInput()");
   }
   return temp_return;
 }

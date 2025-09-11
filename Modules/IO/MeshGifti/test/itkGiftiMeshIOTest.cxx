@@ -28,11 +28,10 @@ itkGiftiMeshIOTest(int argc, char * argv[])
   {
     std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr
-      << " inputFileName outputFileName notAGiftiInputFileName notAGiftiOutputFileName useCompression updatePoints "
-         "updatePointData updateCells updateCellData writeUpdatePointData writeUpdateCellData readPointData "
-         "numberOfPoints numberOfPointPixels numberOfCells numberOfCellPixels requiresConsistency"
-      << std::endl;
+    std::cerr << " inputFileName outputFileName notAGiftiInputFileName notAGiftiOutputFileName useCompression "
+                 "updatePoints updatePointData updateCells updateCellData writeUpdatePointData writeUpdateCellData "
+                 "readPointData numberOfPoints numberOfPointPixels numberOfCells numberOfCellPixels requiresConsistency"
+              << std::endl;
     return EXIT_FAILURE;
   }
 

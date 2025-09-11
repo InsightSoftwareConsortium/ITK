@@ -31,7 +31,7 @@ ImageToListSampleAdaptor<TImage>::GetMeasurementVector(InstanceIdentifier id) co
 {
   if (m_Image.IsNull())
   {
-    itkExceptionMacro("Image has not been set yet");
+    itkExceptionStringMacro("Image has not been set yet");
   }
   MeasurementVectorTraits::Assign(m_MeasurementVectorInternal, m_Image->GetPixel(m_Image->ComputeIndex(id)));
 
@@ -45,7 +45,7 @@ ImageToListSampleAdaptor<TImage>::Size() const -> InstanceIdentifier
 {
   if (m_Image.IsNull())
   {
-    itkExceptionMacro("Image has not been set yet");
+    itkExceptionStringMacro("Image has not been set yet");
   }
 
   return m_Image->GetLargestPossibleRegion().GetNumberOfPixels();
@@ -57,7 +57,7 @@ ImageToListSampleAdaptor<TImage>::GetFrequency(InstanceIdentifier) const -> Abso
 {
   if (m_Image.IsNull())
   {
-    itkExceptionMacro("Image has not been set yet");
+    itkExceptionStringMacro("Image has not been set yet");
   }
 
   return NumericTraits<AbsoluteFrequencyType>::OneValue();
@@ -103,7 +103,7 @@ ImageToListSampleAdaptor<TImage>::GetImage() const
 {
   if (m_Image.IsNull())
   {
-    itkExceptionMacro("Image has not been set yet");
+    itkExceptionStringMacro("Image has not been set yet");
   }
 
   return m_Image.GetPointer();
@@ -115,7 +115,7 @@ ImageToListSampleAdaptor<TImage>::GetTotalFrequency() const -> TotalAbsoluteFreq
 {
   if (m_Image.IsNull())
   {
-    itkExceptionMacro("Image has not been set yet");
+    itkExceptionStringMacro("Image has not been set yet");
   }
 
   return this->Size();

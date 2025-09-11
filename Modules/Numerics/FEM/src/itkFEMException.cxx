@@ -19,6 +19,7 @@
 #include "itkFEMException.h"
 
 #include <iostream>
+#include <utility>
 
 namespace itk::fem
 {
@@ -53,7 +54,7 @@ FEMExceptionObjectNotFound::FEMExceptionObjectNotFound(std::string  file,
                                                        std::string  baseClassName,
                                                        int          GN)
   : FEMException(std::move(file), lineNumber, std::move(location))
-  , m_baseClassName(baseClassName)
+  , m_baseClassName(std::move(baseClassName))
   , m_GlobalNumber(GN)
 {
   std::ostringstream buf;

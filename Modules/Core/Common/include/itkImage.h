@@ -219,7 +219,7 @@ public:
   GetPixel(const IndexType & index) const
   {
     const OffsetValueType offset = this->FastComputeOffset(index);
-    return ((*m_Buffer)[offset]);
+    return (*m_Buffer)[offset];
   }
 
   /** \brief Get a reference to a pixel (e.g. for editing).
@@ -230,7 +230,7 @@ public:
   GetPixel(const IndexType & index)
   {
     const OffsetValueType offset = this->FastComputeOffset(index);
-    return ((*m_Buffer)[offset]);
+    return (*m_Buffer)[offset];
   }
 
   /** \brief Access a pixel. This version can be an lvalue.
@@ -369,8 +369,8 @@ public:
     const TEqualityComparable * const lhsBufferPointer = lhsBuffer.GetBufferPointer();
     const TEqualityComparable * const rhsBufferPointer = rhsBuffer.GetBufferPointer();
 
-    return ((lhsBufferPointer == rhsBufferPointer) ||
-            std::equal(lhsBufferPointer, lhsBufferPointer + bufferSize, rhsBufferPointer));
+    return (lhsBufferPointer == rhsBufferPointer) ||
+           std::equal(lhsBufferPointer, lhsBufferPointer + bufferSize, rhsBufferPointer);
   }
 
   /** Returns (image1 != image2). */

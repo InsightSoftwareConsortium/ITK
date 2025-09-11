@@ -83,7 +83,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** type alias alias for the source data container */
+  /** type alias for the source data container */
   using MeasurementVectorType = typename TSample::MeasurementVectorType;
   using MeasurementType = typename TSample::MeasurementType;
 

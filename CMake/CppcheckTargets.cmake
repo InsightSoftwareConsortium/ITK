@@ -121,14 +121,13 @@ function(add_cppcheck_dir _name _dir _include_dirs)
     set(_cppcheck_compile_args ${_cppcheck_include})
 
     itk_add_test(
-          NAME
-          ${_name}CPPCheckTest
-          COMMAND
-          "${CPPCHECK_EXECUTABLE}"
-          ${CPPCHECK_TEMPLATE_ARG}
-          ${_cppcheck_args}
-          ${_cppcheck_compile_args}
-          ${_dir}
+      NAME ${_name}CPPCheckTest
+      COMMAND
+        "${CPPCHECK_EXECUTABLE}"
+        ${CPPCHECK_TEMPLATE_ARG}
+        ${_cppcheck_args}
+        ${_cppcheck_compile_args}
+        ${_dir}
     )
 
     set_tests_properties(
@@ -232,14 +231,13 @@ function(add_cppcheck_sources _targetname)
     )
 
     itk_add_test(
-          NAME
-          ${_targetname}CPPCheckTest
-          COMMAND
-          "${CPPCHECK_EXECUTABLE}"
-          ${CPPCHECK_TEMPLATE_ARG}
-          ${_cppcheck_args}
-          ${_cppcheck_compile_args}
-          ${_files}
+      NAME ${_targetname}CPPCheckTest
+      COMMAND
+        "${CPPCHECK_EXECUTABLE}"
+        ${CPPCHECK_TEMPLATE_ARG}
+        ${_cppcheck_args}
+        ${_cppcheck_compile_args}
+        ${_files}
     )
 
     set_tests_properties(
@@ -328,14 +326,13 @@ function(add_cppcheck _name)
     )
 
     itk_add_test(
-          NAME
-          ${_name}CPPCheckTest
-          COMMAND
-          "${CPPCHECK_EXECUTABLE}"
-          ${CPPCHECK_TEMPLATE_ARG}
-          ${_cppcheck_args}
-          ${_cppcheck_compile_args}
-          ${_files}
+      NAME ${_name}CPPCheckTest
+      COMMAND
+        "${CPPCHECK_EXECUTABLE}"
+        ${CPPCHECK_TEMPLATE_ARG}
+        ${_cppcheck_args}
+        ${_cppcheck_compile_args}
+        ${_files}
     )
 
     set_tests_properties(

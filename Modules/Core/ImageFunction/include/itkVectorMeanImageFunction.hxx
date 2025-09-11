@@ -88,7 +88,7 @@ VectorMeanImageFunction<TInputImage, TCoordinate>::EvaluateAtIndex(const IndexTy
     sum[dim] /= static_cast<double>(it.Size());
   }
 
-  return (sum);
+  return sum;
 }
 } // end namespace itk
 

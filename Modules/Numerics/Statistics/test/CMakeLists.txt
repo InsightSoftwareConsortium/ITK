@@ -102,100 +102,89 @@ createtestdriver(ITKStatistics "${ITKStatistics-Test_LIBRARIES}" "${ITKStatistic
 set(TEMP ${ITK_TEST_OUTPUT_DIR})
 
 itk_add_test(
-  NAME
-  itkDecisionRuleTest
+  NAME itkDecisionRuleTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkDecisionRuleTest
+    ITKStatisticsTestDriver
+    itkDecisionRuleTest
 )
 itk_add_test(
-  NAME
-  itkDenseFrequencyContainer2Test
+  NAME itkDenseFrequencyContainer2Test
   COMMAND
-  ITKStatisticsTestDriver
-  itkDenseFrequencyContainer2Test
+    ITKStatisticsTestDriver
+    itkDenseFrequencyContainer2Test
 )
 itk_add_test(
-  NAME
-  itkExpectationMaximizationMixtureModelEstimatorTest
+  NAME itkExpectationMaximizationMixtureModelEstimatorTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkExpectationMaximizationMixtureModelEstimatorTest
-  DATA{${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat}
+    ITKStatisticsTestDriver
+    itkExpectationMaximizationMixtureModelEstimatorTest
+    DATA{${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat}
 )
 itk_add_test(
-  NAME
-  itkGaussianDistributionTest
+  NAME itkGaussianDistributionTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkGaussianDistributionTest
+    ITKStatisticsTestDriver
+    itkGaussianDistributionTest
 )
 itk_add_test(
-  NAME
-  itkGaussianMembershipFunctionTest
+  NAME itkGaussianMembershipFunctionTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkGaussianMembershipFunctionTest
+    ITKStatisticsTestDriver
+    itkGaussianMembershipFunctionTest
 )
 itk_add_test(
-  NAME
-  itkGaussianMixtureModelComponentTest
+  NAME itkGaussianMixtureModelComponentTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkGaussianMixtureModelComponentTest
-  DATA{${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat}
+    ITKStatisticsTestDriver
+    itkGaussianMixtureModelComponentTest
+    DATA{${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat}
 )
 itk_add_test(
-  NAME
-  itkGaussianRandomSpatialNeighborSubsamplerTest
+  NAME itkGaussianRandomSpatialNeighborSubsamplerTest
   COMMAND
-  ITKStatisticsTestDriver
-  --compare
-  DATA{Baseline/itkGaussianRandomSubsamplingTest.mha}
-  ${ITK_TEST_OUTPUT_DIR}/itkGaussianRandomSubsamplingTest.mha
-  itkGaussianRandomSpatialNeighborSubsamplerTest
-  ${ITK_TEST_OUTPUT_DIR}/itkGaussianRandomSubsamplingTest.mha
+    ITKStatisticsTestDriver
+    --compare
+    DATA{Baseline/itkGaussianRandomSubsamplingTest.mha}
+    ${ITK_TEST_OUTPUT_DIR}/itkGaussianRandomSubsamplingTest.mha
+    itkGaussianRandomSpatialNeighborSubsamplerTest
+    ${ITK_TEST_OUTPUT_DIR}/itkGaussianRandomSubsamplingTest.mha
 )
 itk_add_test(
-  NAME
-  itkKalmanLinearEstimatorTest
+  NAME itkKalmanLinearEstimatorTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkKalmanLinearEstimatorTest
+    ITKStatisticsTestDriver
+    itkKalmanLinearEstimatorTest
 )
 itk_add_test(
-  NAME
-  itkKdTreeBasedKmeansEstimatorTest
+  NAME itkKdTreeBasedKmeansEstimatorTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkKdTreeBasedKmeansEstimatorTest
-  DATA{${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat}
-  1
-  28.54746
-  0.07
-  0
+    ITKStatisticsTestDriver
+    itkKdTreeBasedKmeansEstimatorTest
+    DATA{${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat}
+    1
+    28.54746
+    0.07
+    0
 )
 itk_add_test(
-  NAME
-  itkKdTreeGeneratorTest
+  NAME itkKdTreeGeneratorTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkKdTreeGeneratorTest
-  DATA{${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat}
+    ITKStatisticsTestDriver
+    itkKdTreeGeneratorTest
+    DATA{${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat}
 )
 
 itk_add_test(
-  NAME
-  itkKdTreeTest1
+  NAME itkKdTreeTest1
   COMMAND
-  ITKStatisticsTestDriver
-  --redirectOutput
-  ${TEMP}/itkKdTreeTest1.txt
-  itkKdTreeTest1
-  100
-  100
-  1
-  ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest1_100.dot
+    ITKStatisticsTestDriver
+    --redirectOutput
+    ${TEMP}/itkKdTreeTest1.txt
+    itkKdTreeTest1
+    100
+    100
+    1
+    ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest1_100.dot
 )
 set_tests_properties(
   itkKdTreeTest1
@@ -205,16 +194,15 @@ set_tests_properties(
 )
 
 itk_add_test(
-  NAME
-  itkKdTreeTest2
+  NAME itkKdTreeTest2
   COMMAND
-  ITKStatisticsTestDriver
-  --redirectOutput
-  ${TEMP}/itkKdTreeTest2.txt
-  itkKdTreeTest2
-  DATA{${ITK_DATA_ROOT}/Input/pointsForKdTree.txt}
-  1
-  ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest2.dot
+    ITKStatisticsTestDriver
+    --redirectOutput
+    ${TEMP}/itkKdTreeTest2.txt
+    itkKdTreeTest2
+    DATA{${ITK_DATA_ROOT}/Input/pointsForKdTree.txt}
+    1
+    ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest2.dot
 )
 set_tests_properties(
   itkKdTreeTest2
@@ -224,16 +212,15 @@ set_tests_properties(
 )
 
 itk_add_test(
-  NAME
-  itkKdTreeTest3
+  NAME itkKdTreeTest3
   COMMAND
-  ITKStatisticsTestDriver
-  --redirectOutput
-  ${TEMP}/itkKdTreeTest3.txt
-  itkKdTreeTest2
-  DATA{${ITK_DATA_ROOT}/Input/pointsForKdTree2.txt}
-  1
-  ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest3.dot
+    ITKStatisticsTestDriver
+    --redirectOutput
+    ${TEMP}/itkKdTreeTest3.txt
+    itkKdTreeTest2
+    DATA{${ITK_DATA_ROOT}/Input/pointsForKdTree2.txt}
+    1
+    ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest3.dot
 )
 set_tests_properties(
   itkKdTreeTest3
@@ -243,16 +230,15 @@ set_tests_properties(
 )
 
 itk_add_test(
-  NAME
-  itkKdTreeTest4
+  NAME itkKdTreeTest4
   COMMAND
-  ITKStatisticsTestDriver
-  --redirectOutput
-  ${TEMP}/itkKdTreeTest4.txt
-  itkKdTreeTest1
-  1000
-  1000
-  1
+    ITKStatisticsTestDriver
+    --redirectOutput
+    ${TEMP}/itkKdTreeTest4.txt
+    itkKdTreeTest1
+    1000
+    1000
+    1
 )
 set_tests_properties(
   itkKdTreeTest4
@@ -262,16 +248,15 @@ set_tests_properties(
 )
 
 itk_add_test(
-  NAME
-  itkKdTreeTest5
+  NAME itkKdTreeTest5
   COMMAND
-  ITKStatisticsTestDriver
-  --redirectOutput
-  ${TEMP}/itkKdTreeTest5.txt
-  itkKdTreeTest1
-  1000
-  1000
-  2
+    ITKStatisticsTestDriver
+    --redirectOutput
+    ${TEMP}/itkKdTreeTest5.txt
+    itkKdTreeTest1
+    1000
+    1000
+    2
 )
 set_tests_properties(
   itkKdTreeTest5
@@ -281,16 +266,15 @@ set_tests_properties(
 )
 
 itk_add_test(
-  NAME
-  itkKdTreeTest6
+  NAME itkKdTreeTest6
   COMMAND
-  ITKStatisticsTestDriver
-  --redirectOutput
-  ${TEMP}/itkKdTreeTest6.txt
-  itkKdTreeTest1
-  1000
-  1000
-  3
+    ITKStatisticsTestDriver
+    --redirectOutput
+    ${TEMP}/itkKdTreeTest6.txt
+    itkKdTreeTest1
+    1000
+    1000
+    3
 )
 set_tests_properties(
   itkKdTreeTest6
@@ -300,16 +284,15 @@ set_tests_properties(
 )
 
 itk_add_test(
-  NAME
-  itkKdTreeTest7
+  NAME itkKdTreeTest7
   COMMAND
-  ITKStatisticsTestDriver
-  --redirectOutput
-  ${TEMP}/itkKdTreeTest7.txt
-  itkKdTreeTest1
-  1000
-  1000
-  5
+    ITKStatisticsTestDriver
+    --redirectOutput
+    ${TEMP}/itkKdTreeTest7.txt
+    itkKdTreeTest1
+    1000
+    1000
+    5
 )
 set_tests_properties(
   itkKdTreeTest7
@@ -319,16 +302,15 @@ set_tests_properties(
 )
 
 itk_add_test(
-  NAME
-  itkKdTreeTest8
+  NAME itkKdTreeTest8
   COMMAND
-  ITKStatisticsTestDriver
-  --redirectOutput
-  ${TEMP}/itkKdTreeTest8.txt
-  itkKdTreeTest1
-  1000
-  1000
-  10
+    ITKStatisticsTestDriver
+    --redirectOutput
+    ${TEMP}/itkKdTreeTest8.txt
+    itkKdTreeTest1
+    1000
+    1000
+    10
 )
 set_tests_properties(
   itkKdTreeTest8
@@ -338,16 +320,15 @@ set_tests_properties(
 )
 
 itk_add_test(
-  NAME
-  itkKdTreeTest9
+  NAME itkKdTreeTest9
   COMMAND
-  ITKStatisticsTestDriver
-  --redirectOutput
-  ${TEMP}/itkKdTreeTest9.txt
-  itkKdTreeTest1
-  1000
-  1000
-  20
+    ITKStatisticsTestDriver
+    --redirectOutput
+    ${TEMP}/itkKdTreeTest9.txt
+    itkKdTreeTest1
+    1000
+    1000
+    20
 )
 set_tests_properties(
   itkKdTreeTest9
@@ -357,16 +338,15 @@ set_tests_properties(
 )
 
 itk_add_test(
-  NAME
-  itkKdTreeTest10
+  NAME itkKdTreeTest10
   COMMAND
-  ITKStatisticsTestDriver
-  --redirectOutput
-  ${TEMP}/itkKdTreeTest10.txt
-  itkKdTreeTest1
-  1000
-  1000
-  100
+    ITKStatisticsTestDriver
+    --redirectOutput
+    ${TEMP}/itkKdTreeTest10.txt
+    itkKdTreeTest1
+    1000
+    1000
+    100
 )
 set_tests_properties(
   itkKdTreeTest10
@@ -376,17 +356,16 @@ set_tests_properties(
 )
 
 itk_add_test(
-  NAME
-  itkKdTreeTest11
+  NAME itkKdTreeTest11
   COMMAND
-  ITKStatisticsTestDriver
-  --redirectOutput
-  ${TEMP}/itkKdTreeTest11.txt
-  itkKdTreeTest3
-  1000
-  100
-  20
-  16
+    ITKStatisticsTestDriver
+    --redirectOutput
+    ${TEMP}/itkKdTreeTest11.txt
+    itkKdTreeTest3
+    1000
+    100
+    20
+    16
 )
 set_tests_properties(
   itkKdTreeTest11
@@ -405,9 +384,8 @@ set_tests_properties(
 #
 if(DOXYGEN_DOT_EXECUTABLE)
   itk_add_test(
-      NAME
-      itkKdTreeTest1Plot
-      COMMAND
+    NAME itkKdTreeTest1Plot
+    COMMAND
       ${DOXYGEN_DOT_EXECUTABLE}
       -Tpng
       -o
@@ -421,9 +399,8 @@ if(DOXYGEN_DOT_EXECUTABLE)
         itkKdTreeTest1
   )
   itk_add_test(
-      NAME
-      itkKdTreeTest2Plot
-      COMMAND
+    NAME itkKdTreeTest2Plot
+    COMMAND
       ${DOXYGEN_DOT_EXECUTABLE}
       -Tpng
       -o
@@ -437,9 +414,8 @@ if(DOXYGEN_DOT_EXECUTABLE)
         itkKdTreeTest2
   )
   itk_add_test(
-      NAME
-      itkKdTreeTest3Plot
-      COMMAND
+    NAME itkKdTreeTest3Plot
+    COMMAND
       ${DOXYGEN_DOT_EXECUTABLE}
       -Tpng
       -o
@@ -455,679 +431,589 @@ if(DOXYGEN_DOT_EXECUTABLE)
 endif()
 
 itk_add_test(
-  NAME
-  itkKdTreeTestSamplePoints
+  NAME itkKdTreeTestSamplePoints
   COMMAND
-  ITKStatisticsTestDriver
-  itkKdTreeTestSamplePoints
+    ITKStatisticsTestDriver
+    itkKdTreeTestSamplePoints
 )
 itk_add_test(
-  NAME
-  itkMaximumDecisionRuleTest
+  NAME itkMaximumDecisionRuleTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkMaximumDecisionRuleTest
+    ITKStatisticsTestDriver
+    itkMaximumDecisionRuleTest
 )
 itk_add_test(
-  NAME
-  itkMinimumDecisionRuleTest
+  NAME itkMinimumDecisionRuleTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkMinimumDecisionRuleTest
+    ITKStatisticsTestDriver
+    itkMinimumDecisionRuleTest
 )
 itk_add_test(
-  NAME
-  itkMaximumRatioDecisionRuleTest
+  NAME itkMaximumRatioDecisionRuleTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkMaximumRatioDecisionRuleTest
+    ITKStatisticsTestDriver
+    itkMaximumRatioDecisionRuleTest
 )
 itk_add_test(
-  NAME
-  itkMeanSampleFilterTest
+  NAME itkMeanSampleFilterTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkMeanSampleFilterTest
+    ITKStatisticsTestDriver
+    itkMeanSampleFilterTest
 )
 itk_add_test(
-  NAME
-  itkMeanSampleFilterTest2
+  NAME itkMeanSampleFilterTest2
   COMMAND
-  ITKStatisticsTestDriver
-  itkMeanSampleFilterTest2
+    ITKStatisticsTestDriver
+    itkMeanSampleFilterTest2
 )
 itk_add_test(
-  NAME
-  itkMeanSampleFilterTest3
+  NAME itkMeanSampleFilterTest3
   COMMAND
-  ITKStatisticsTestDriver
-  itkMeanSampleFilterTest3
+    ITKStatisticsTestDriver
+    itkMeanSampleFilterTest3
 )
 itk_add_test(
-  NAME
-  itkHistogramTest
+  NAME itkHistogramTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkHistogramTest
+    ITKStatisticsTestDriver
+    itkHistogramTest
 )
 itk_add_test(
-  NAME
-  itkHistogramToTextureFeaturesFilterTest
+  NAME itkHistogramToTextureFeaturesFilterTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkHistogramToTextureFeaturesFilterTest
+    ITKStatisticsTestDriver
+    itkHistogramToTextureFeaturesFilterTest
 )
 itk_add_test(
-  NAME
-  itkHistogramToTextureFeaturesFilterNaNTest
+  NAME itkHistogramToTextureFeaturesFilterNaNTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkHistogramToTextureFeaturesFilterNaNTest
+    ITKStatisticsTestDriver
+    itkHistogramToTextureFeaturesFilterNaNTest
 )
 itk_add_test(
-  NAME
-  itkChiSquareDistributionTest
+  NAME itkChiSquareDistributionTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkChiSquareDistributionTest
+    ITKStatisticsTestDriver
+    itkChiSquareDistributionTest
 )
 itk_add_test(
-  NAME
-  itkCovarianceSampleFilterTest
+  NAME itkCovarianceSampleFilterTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkCovarianceSampleFilterTest
+    ITKStatisticsTestDriver
+    itkCovarianceSampleFilterTest
 )
 itk_add_test(
-  NAME
-  itkCovarianceSampleFilterTest2
+  NAME itkCovarianceSampleFilterTest2
   COMMAND
-  ITKStatisticsTestDriver
-  itkCovarianceSampleFilterTest2
+    ITKStatisticsTestDriver
+    itkCovarianceSampleFilterTest2
 )
 itk_add_test(
-  NAME
-  itkCovarianceSampleFilterTest3
+  NAME itkCovarianceSampleFilterTest3
   COMMAND
-  ITKStatisticsTestDriver
-  itkCovarianceSampleFilterTest3
+    ITKStatisticsTestDriver
+    itkCovarianceSampleFilterTest3
 )
 itk_add_test(
-  NAME
-  itkWeightedCentroidKdTreeGeneratorTest1
+  NAME itkWeightedCentroidKdTreeGeneratorTest1
   COMMAND
-  ITKStatisticsTestDriver
-  itkWeightedCentroidKdTreeGeneratorTest1
-  1000
-  1000
-  1
+    ITKStatisticsTestDriver
+    itkWeightedCentroidKdTreeGeneratorTest1
+    1000
+    1000
+    1
 )
 itk_add_test(
-  NAME
-  itkWeightedCentroidKdTreeGeneratorTest2
+  NAME itkWeightedCentroidKdTreeGeneratorTest2
   COMMAND
-  ITKStatisticsTestDriver
-  itkWeightedCentroidKdTreeGeneratorTest1
-  1000
-  1000
-  2
+    ITKStatisticsTestDriver
+    itkWeightedCentroidKdTreeGeneratorTest1
+    1000
+    1000
+    2
 )
 itk_add_test(
-  NAME
-  itkWeightedCentroidKdTreeGeneratorTest3
+  NAME itkWeightedCentroidKdTreeGeneratorTest3
   COMMAND
-  ITKStatisticsTestDriver
-  itkWeightedCentroidKdTreeGeneratorTest1
-  1000
-  1000
-  3
+    ITKStatisticsTestDriver
+    itkWeightedCentroidKdTreeGeneratorTest1
+    1000
+    1000
+    3
 )
 itk_add_test(
-  NAME
-  itkWeightedCentroidKdTreeGeneratorTest4
+  NAME itkWeightedCentroidKdTreeGeneratorTest4
   COMMAND
-  ITKStatisticsTestDriver
-  itkWeightedCentroidKdTreeGeneratorTest1
-  1000
-  1000
-  5
+    ITKStatisticsTestDriver
+    itkWeightedCentroidKdTreeGeneratorTest1
+    1000
+    1000
+    5
 )
 itk_add_test(
-  NAME
-  itkWeightedCentroidKdTreeGeneratorTest5
+  NAME itkWeightedCentroidKdTreeGeneratorTest5
   COMMAND
-  ITKStatisticsTestDriver
-  itkWeightedCentroidKdTreeGeneratorTest1
-  1000
-  1000
-  10
+    ITKStatisticsTestDriver
+    itkWeightedCentroidKdTreeGeneratorTest1
+    1000
+    1000
+    10
 )
 itk_add_test(
-  NAME
-  itkWeightedCentroidKdTreeGeneratorTest6
+  NAME itkWeightedCentroidKdTreeGeneratorTest6
   COMMAND
-  ITKStatisticsTestDriver
-  itkWeightedCentroidKdTreeGeneratorTest1
-  1000
-  1000
-  20
+    ITKStatisticsTestDriver
+    itkWeightedCentroidKdTreeGeneratorTest1
+    1000
+    1000
+    20
 )
 itk_add_test(
-  NAME
-  itkWeightedCentroidKdTreeGeneratorTest7
+  NAME itkWeightedCentroidKdTreeGeneratorTest7
   COMMAND
-  ITKStatisticsTestDriver
-  itkWeightedCentroidKdTreeGeneratorTest1
-  1000
-  1000
-  100
+    ITKStatisticsTestDriver
+    itkWeightedCentroidKdTreeGeneratorTest1
+    1000
+    1000
+    100
 )
 itk_add_test(
-  NAME
-  itkWeightedCentroidKdTreeGeneratorTest8
+  NAME itkWeightedCentroidKdTreeGeneratorTest8
   COMMAND
-  ITKStatisticsTestDriver
-  itkWeightedCentroidKdTreeGeneratorTest8
-  1000
-  1000
-  1
+    ITKStatisticsTestDriver
+    itkWeightedCentroidKdTreeGeneratorTest8
+    1000
+    1000
+    1
 )
 itk_add_test(
-  NAME
-  itkWeightedCentroidKdTreeGeneratorTest9
+  NAME itkWeightedCentroidKdTreeGeneratorTest9
   COMMAND
-  ITKStatisticsTestDriver
-  itkWeightedCentroidKdTreeGeneratorTest9
-  1000
-  1000
-  1
+    ITKStatisticsTestDriver
+    itkWeightedCentroidKdTreeGeneratorTest9
+    1000
+    1000
+    1
 )
 itk_add_test(
-  NAME
-  itkWeightedCovarianceSampleFilterTest
+  NAME itkWeightedCovarianceSampleFilterTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkWeightedCovarianceSampleFilterTest
+    ITKStatisticsTestDriver
+    itkWeightedCovarianceSampleFilterTest
 )
 itk_add_test(
-  NAME
-  itkWeightedCovarianceSampleFilterTest2
+  NAME itkWeightedCovarianceSampleFilterTest2
   COMMAND
-  ITKStatisticsTestDriver
-  itkWeightedCovarianceSampleFilterTest2
+    ITKStatisticsTestDriver
+    itkWeightedCovarianceSampleFilterTest2
 )
 itk_add_test(
-  NAME
-  itkWeightedMeanSampleFilterTest
+  NAME itkWeightedMeanSampleFilterTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkWeightedMeanSampleFilterTest
+    ITKStatisticsTestDriver
+    itkWeightedMeanSampleFilterTest
 )
 itk_add_test(
-  NAME
-  itkDistanceMetricTest
+  NAME itkDistanceMetricTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkDistanceMetricTest
+    ITKStatisticsTestDriver
+    itkDistanceMetricTest
 )
 itk_add_test(
-  NAME
-  itkDistanceMetricTest2
+  NAME itkDistanceMetricTest2
   COMMAND
-  ITKStatisticsTestDriver
-  itkDistanceMetricTest2
+    ITKStatisticsTestDriver
+    itkDistanceMetricTest2
 )
 itk_add_test(
-  NAME
-  itkDistanceToCentroidMembershipFunctionTest
+  NAME itkDistanceToCentroidMembershipFunctionTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkDistanceToCentroidMembershipFunctionTest
+    ITKStatisticsTestDriver
+    itkDistanceToCentroidMembershipFunctionTest
 )
 itk_add_test(
-  NAME
-  itkEuclideanDistanceMetricTest
+  NAME itkEuclideanDistanceMetricTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkEuclideanDistanceMetricTest
+    ITKStatisticsTestDriver
+    itkEuclideanDistanceMetricTest
 )
 itk_add_test(
-  NAME
-  itkEuclideanSquareDistanceMetricTest
+  NAME itkEuclideanSquareDistanceMetricTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkEuclideanSquareDistanceMetricTest
+    ITKStatisticsTestDriver
+    itkEuclideanSquareDistanceMetricTest
 )
 itk_add_test(
-  NAME
-  itkListSampleTest1
+  NAME itkListSampleTest1
   COMMAND
-  ITKStatisticsTestDriver
-  itkListSampleTest
-  1
+    ITKStatisticsTestDriver
+    itkListSampleTest
+    1
 )
 itk_add_test(
-  NAME
-  itkListSampleTest2
+  NAME itkListSampleTest2
   COMMAND
-  ITKStatisticsTestDriver
-  itkListSampleTest
-  5
+    ITKStatisticsTestDriver
+    itkListSampleTest
+    5
 )
 itk_add_test(
-  NAME
-  itkListSampleTest3
+  NAME itkListSampleTest3
   COMMAND
-  ITKStatisticsTestDriver
-  itkListSampleTest
-  10
+    ITKStatisticsTestDriver
+    itkListSampleTest
+    10
 )
 itk_add_test(
-  NAME
-  itkListSampleTest4
+  NAME itkListSampleTest4
   COMMAND
-  ITKStatisticsTestDriver
-  itkListSampleTest
-  100
+    ITKStatisticsTestDriver
+    itkListSampleTest
+    100
 )
 itk_add_test(
-  NAME
-  itkImageToListSampleAdaptorTest
+  NAME itkImageToListSampleAdaptorTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkImageToListSampleAdaptorTest
+    ITKStatisticsTestDriver
+    itkImageToListSampleAdaptorTest
 )
 itk_add_test(
-  NAME
-  itkImageToListSampleAdaptorTest2
+  NAME itkImageToListSampleAdaptorTest2
   COMMAND
-  ITKStatisticsTestDriver
-  itkImageToListSampleAdaptorTest2
+    ITKStatisticsTestDriver
+    itkImageToListSampleAdaptorTest2
 )
 itk_add_test(
-  NAME
-  itkImageToListSampleFilterTest
+  NAME itkImageToListSampleFilterTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkImageToListSampleFilterTest
+    ITKStatisticsTestDriver
+    itkImageToListSampleFilterTest
 )
 itk_add_test(
-  NAME
-  itkImageToListSampleFilterTest2
+  NAME itkImageToListSampleFilterTest2
   COMMAND
-  ITKStatisticsTestDriver
-  itkImageToListSampleFilterTest2
+    ITKStatisticsTestDriver
+    itkImageToListSampleFilterTest2
 )
 itk_add_test(
-  NAME
-  itkImageToListSampleFilterTest3
+  NAME itkImageToListSampleFilterTest3
   COMMAND
-  ITKStatisticsTestDriver
-  itkImageToListSampleFilterTest3
+    ITKStatisticsTestDriver
+    itkImageToListSampleFilterTest3
 )
 itk_add_test(
-  NAME
-  itkJointDomainImageToListSampleAdaptorTest
+  NAME itkJointDomainImageToListSampleAdaptorTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkJointDomainImageToListSampleAdaptorTest
+    ITKStatisticsTestDriver
+    itkJointDomainImageToListSampleAdaptorTest
 )
 itk_add_test(
-  NAME
-  itkPointSetToListSampleAdaptorTest
+  NAME itkPointSetToListSampleAdaptorTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkPointSetToListSampleAdaptorTest
+    ITKStatisticsTestDriver
+    itkPointSetToListSampleAdaptorTest
 )
 itk_add_test(
-  NAME
-  itkProbabilityDistributionTest
+  NAME itkProbabilityDistributionTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkProbabilityDistributionTest
+    ITKStatisticsTestDriver
+    itkProbabilityDistributionTest
 )
 itk_add_test(
-  NAME
-  itkRandomVariateGeneratorBaseTest
+  NAME itkRandomVariateGeneratorBaseTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkRandomVariateGeneratorBaseTest
+    ITKStatisticsTestDriver
+    itkRandomVariateGeneratorBaseTest
 )
 itk_add_test(
-  NAME
-  itkMahalanobisDistanceMetricTest
+  NAME itkMahalanobisDistanceMetricTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkMahalanobisDistanceMetricTest
+    ITKStatisticsTestDriver
+    itkMahalanobisDistanceMetricTest
 )
 itk_add_test(
-  NAME
-  itkManhattanDistanceMetricTest
+  NAME itkManhattanDistanceMetricTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkManhattanDistanceMetricTest
+    ITKStatisticsTestDriver
+    itkManhattanDistanceMetricTest
 )
 itk_add_test(
-  NAME
-  itkMembershipFunctionBaseTest
+  NAME itkMembershipFunctionBaseTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkMembershipFunctionBaseTest
+    ITKStatisticsTestDriver
+    itkMembershipFunctionBaseTest
 )
 itk_add_test(
-  NAME
-  itkMembershipFunctionBaseTest2
+  NAME itkMembershipFunctionBaseTest2
   COMMAND
-  ITKStatisticsTestDriver
-  itkMembershipFunctionBaseTest2
+    ITKStatisticsTestDriver
+    itkMembershipFunctionBaseTest2
 )
 itk_add_test(
-  NAME
-  itkMembershipSampleTest1
+  NAME itkMembershipSampleTest1
   COMMAND
-  ITKStatisticsTestDriver
-  itkMembershipSampleTest1
+    ITKStatisticsTestDriver
+    itkMembershipSampleTest1
 )
 itk_add_test(
-  NAME
-  itkMembershipSampleTest2
+  NAME itkMembershipSampleTest2
   COMMAND
-  ITKStatisticsTestDriver
-  itkMembershipSampleTest2
+    ITKStatisticsTestDriver
+    itkMembershipSampleTest2
 )
 itk_add_test(
-  NAME
-  itkMembershipSampleTest3
+  NAME itkMembershipSampleTest3
   COMMAND
-  ITKStatisticsTestDriver
-  itkMembershipSampleTest3
+    ITKStatisticsTestDriver
+    itkMembershipSampleTest3
 )
 itk_add_test(
-  NAME
-  itkMembershipSampleTest4
+  NAME itkMembershipSampleTest4
   COMMAND
-  ITKStatisticsTestDriver
-  itkMembershipSampleTest4
+    ITKStatisticsTestDriver
+    itkMembershipSampleTest4
 )
 itk_add_test(
-  NAME
-  itkMeasurementVectorTraitsTest
+  NAME itkMeasurementVectorTraitsTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkMeasurementVectorTraitsTest
+    ITKStatisticsTestDriver
+    itkMeasurementVectorTraitsTest
 )
 itk_add_test(
-  NAME
-  itkNeighborhoodSamplerTest1
+  NAME itkNeighborhoodSamplerTest1
   COMMAND
-  ITKStatisticsTestDriver
-  itkNeighborhoodSamplerTest1
+    ITKStatisticsTestDriver
+    itkNeighborhoodSamplerTest1
 )
 itk_add_test(
-  NAME
-  itkMixtureModelComponentBaseTest
+  NAME itkMixtureModelComponentBaseTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkMixtureModelComponentBaseTest
+    ITKStatisticsTestDriver
+    itkMixtureModelComponentBaseTest
 )
 itk_add_test(
-  NAME
-  itkNormalVariateGeneratorTest1
+  NAME itkNormalVariateGeneratorTest1
   COMMAND
-  ITKStatisticsTestDriver
-  itkNormalVariateGeneratorTest1
+    ITKStatisticsTestDriver
+    itkNormalVariateGeneratorTest1
 )
 itk_add_test(
-  NAME
-  itkSampleTest
+  NAME itkSampleTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkSampleTest
+    ITKStatisticsTestDriver
+    itkSampleTest
 )
 itk_add_test(
-  NAME
-  itkSampleTest2
+  NAME itkSampleTest2
   COMMAND
-  ITKStatisticsTestDriver
-  itkSampleTest2
+    ITKStatisticsTestDriver
+    itkSampleTest2
 )
 itk_add_test(
-  NAME
-  itkSampleTest3
+  NAME itkSampleTest3
   COMMAND
-  ITKStatisticsTestDriver
-  itkSampleTest3
+    ITKStatisticsTestDriver
+    itkSampleTest3
 )
 itk_add_test(
-  NAME
-  itkSampleTest4
+  NAME itkSampleTest4
   COMMAND
-  ITKStatisticsTestDriver
-  itkSampleTest4
+    ITKStatisticsTestDriver
+    itkSampleTest4
 )
 itk_add_test(
-  NAME
-  itkSampleToHistogramFilterTest
+  NAME itkSampleToHistogramFilterTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkSampleToHistogramFilterTest
+    ITKStatisticsTestDriver
+    itkSampleToHistogramFilterTest
 )
 itk_add_test(
-  NAME
-  itkSampleToHistogramFilterTest2
+  NAME itkSampleToHistogramFilterTest2
   COMMAND
-  ITKStatisticsTestDriver
-  itkSampleToHistogramFilterTest2
+    ITKStatisticsTestDriver
+    itkSampleToHistogramFilterTest2
 )
 itk_add_test(
-  NAME
-  itkSampleToHistogramFilterTest3
+  NAME itkSampleToHistogramFilterTest3
   COMMAND
-  ITKStatisticsTestDriver
-  itkSampleToHistogramFilterTest3
+    ITKStatisticsTestDriver
+    itkSampleToHistogramFilterTest3
 )
 # There is a bug in VS2008, Release build that causes this test to fail.
 if(NOT MSVC90)
   itk_add_test(
-      NAME
-      itkSampleToHistogramFilterTest4
-      COMMAND
+    NAME itkSampleToHistogramFilterTest4
+    COMMAND
       ITKStatisticsTestDriver
       itkSampleToHistogramFilterTest4
   )
 endif()
 itk_add_test(
-  NAME
-  itkSampleToHistogramFilterTest5
+  NAME itkSampleToHistogramFilterTest5
   COMMAND
-  ITKStatisticsTestDriver
-  itkSampleToHistogramFilterTest5
-  DATA{${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png}
+    ITKStatisticsTestDriver
+    itkSampleToHistogramFilterTest5
+    DATA{${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png}
 )
 itk_add_test(
-  NAME
-  itkSampleToHistogramFilterTest6
+  NAME itkSampleToHistogramFilterTest6
   COMMAND
-  ITKStatisticsTestDriver
-  itkSampleToHistogramFilterTest6
+    ITKStatisticsTestDriver
+    itkSampleToHistogramFilterTest6
 )
 itk_add_test(
-  NAME
-  itkSampleToHistogramFilterTest7
+  NAME itkSampleToHistogramFilterTest7
   COMMAND
-  ITKStatisticsTestDriver
-  itkSampleToHistogramFilterTest7
+    ITKStatisticsTestDriver
+    itkSampleToHistogramFilterTest7
 )
 itk_add_test(
-  NAME
-  itkSampleToSubsampleFilterTest1
+  NAME itkSampleToSubsampleFilterTest1
   COMMAND
-  ITKStatisticsTestDriver
-  itkSampleToSubsampleFilterTest1
+    ITKStatisticsTestDriver
+    itkSampleToSubsampleFilterTest1
 )
 itk_add_test(
-  NAME
-  itkScalarImageToCooccurrenceListSampleFilterTest
+  NAME itkScalarImageToCooccurrenceListSampleFilterTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkScalarImageToCooccurrenceListSampleFilterTest
+    ITKStatisticsTestDriver
+    itkScalarImageToCooccurrenceListSampleFilterTest
 )
 itk_add_test(
-  NAME
-  itkScalarImageToCooccurrenceMatrixFilterTest
+  NAME itkScalarImageToCooccurrenceMatrixFilterTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkScalarImageToCooccurrenceMatrixFilterTest
+    ITKStatisticsTestDriver
+    itkScalarImageToCooccurrenceMatrixFilterTest
 )
 itk_add_test(
-  NAME
-  itkScalarImageToCooccurrenceMatrixFilterTest2
+  NAME itkScalarImageToCooccurrenceMatrixFilterTest2
   COMMAND
-  ITKStatisticsTestDriver
-  itkScalarImageToCooccurrenceMatrixFilterTest2
+    ITKStatisticsTestDriver
+    itkScalarImageToCooccurrenceMatrixFilterTest2
 )
 itk_add_test(
-  NAME
-  itkScalarImageToTextureFeaturesFilterTest
+  NAME itkScalarImageToTextureFeaturesFilterTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkScalarImageToTextureFeaturesFilterTest
+    ITKStatisticsTestDriver
+    itkScalarImageToTextureFeaturesFilterTest
 )
 itk_add_test(
-  NAME
-  itkScalarImageToRunLengthMatrixFilterTest
+  NAME itkScalarImageToRunLengthMatrixFilterTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkScalarImageToRunLengthMatrixFilterTest
+    ITKStatisticsTestDriver
+    itkScalarImageToRunLengthMatrixFilterTest
 )
 itk_add_test(
-  NAME
-  itkScalarImageToRunLengthFeaturesFilterTest
+  NAME itkScalarImageToRunLengthFeaturesFilterTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkScalarImageToRunLengthFeaturesFilterTest
+    ITKStatisticsTestDriver
+    itkScalarImageToRunLengthFeaturesFilterTest
 )
 itk_add_test(
-  NAME
-  itkSparseFrequencyContainer2Test
+  NAME itkSparseFrequencyContainer2Test
   COMMAND
-  ITKStatisticsTestDriver
-  itkSparseFrequencyContainer2Test
+    ITKStatisticsTestDriver
+    itkSparseFrequencyContainer2Test
 )
 itk_add_test(
-  NAME
-  itkSpatialNeighborSubsamplerTest
+  NAME itkSpatialNeighborSubsamplerTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkSpatialNeighborSubsamplerTest
+    ITKStatisticsTestDriver
+    itkSpatialNeighborSubsamplerTest
 )
 itk_add_test(
-  NAME
-  itkStandardDeviationPerComponentSampleFilterTest
+  NAME itkStandardDeviationPerComponentSampleFilterTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkStandardDeviationPerComponentSampleFilterTest
+    ITKStatisticsTestDriver
+    itkStandardDeviationPerComponentSampleFilterTest
 )
 itk_add_test(
-  NAME
-  itkStatisticsTypesTest
+  NAME itkStatisticsTypesTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkStatisticsTypesTest
+    ITKStatisticsTestDriver
+    itkStatisticsTypesTest
 )
 itk_add_test(
-  NAME
-  itkSubsampleTest
+  NAME itkSubsampleTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkSubsampleTest
+    ITKStatisticsTestDriver
+    itkSubsampleTest
 )
 itk_add_test(
-  NAME
-  itkSubsampleTest2
+  NAME itkSubsampleTest2
   COMMAND
-  ITKStatisticsTestDriver
-  itkSubsampleTest2
+    ITKStatisticsTestDriver
+    itkSubsampleTest2
 )
 itk_add_test(
-  NAME
-  itkSubsampleTest3
+  NAME itkSubsampleTest3
   COMMAND
-  ITKStatisticsTestDriver
-  itkSubsampleTest3
+    ITKStatisticsTestDriver
+    itkSubsampleTest3
 )
 itk_add_test(
-  NAME
-  itkTDistributionTest
+  NAME itkTDistributionTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkTDistributionTest
+    ITKStatisticsTestDriver
+    itkTDistributionTest
 )
 itk_add_test(
-  NAME
-  itkStatisticsAlgorithmTest
+  NAME itkStatisticsAlgorithmTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkStatisticsAlgorithmTest
+    ITKStatisticsTestDriver
+    itkStatisticsAlgorithmTest
 )
 itk_add_test(
-  NAME
-  itkStatisticsAlgorithmTest2
+  NAME itkStatisticsAlgorithmTest2
   COMMAND
-  ITKStatisticsTestDriver
-  itkStatisticsAlgorithmTest2
+    ITKStatisticsTestDriver
+    itkStatisticsAlgorithmTest2
 )
 itk_add_test(
-  NAME
-  itkUniformRandomSpatialNeighborSubsamplerTest
+  NAME itkUniformRandomSpatialNeighborSubsamplerTest
   COMMAND
-  ITKStatisticsTestDriver
-  --compare
-  DATA{Baseline/itkUniformRandomSubsamplingTest.mha}
-  ${ITK_TEST_OUTPUT_DIR}/itkUniformRandomSubsamplingTest.mha
-  itkUniformRandomSpatialNeighborSubsamplerTest
-  0
-  ${ITK_TEST_OUTPUT_DIR}/itkUniformRandomSubsamplingTest.mha
+    ITKStatisticsTestDriver
+    --compare
+    DATA{Baseline/itkUniformRandomSubsamplingTest.mha}
+    ${ITK_TEST_OUTPUT_DIR}/itkUniformRandomSubsamplingTest.mha
+    itkUniformRandomSpatialNeighborSubsamplerTest
+    0
+    ${ITK_TEST_OUTPUT_DIR}/itkUniformRandomSubsamplingTest.mha
 )
 itk_add_test(
-  NAME
-  itkVectorContainerToListSampleAdaptorTest
+  NAME itkVectorContainerToListSampleAdaptorTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkVectorContainerToListSampleAdaptorTest
+    ITKStatisticsTestDriver
+    itkVectorContainerToListSampleAdaptorTest
 )
 itk_add_test(
-  NAME
-  itkImageToHistogramFilterTest
+  NAME itkImageToHistogramFilterTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkImageToHistogramFilterTest
+    ITKStatisticsTestDriver
+    itkImageToHistogramFilterTest
 )
 itk_add_test(
-  NAME
-  itkImageToHistogramFilterTest2
+  NAME itkImageToHistogramFilterTest2
   COMMAND
-  ITKStatisticsTestDriver
-  itkImageToHistogramFilterTest2
-  DATA{${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkImageToHistogramFilterTest2.txt
+    ITKStatisticsTestDriver
+    itkImageToHistogramFilterTest2
+    DATA{${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkImageToHistogramFilterTest2.txt
 )
 itk_add_test(
-  NAME
-  itkImageToHistogramFilterTest2_Auto
+  NAME itkImageToHistogramFilterTest2_Auto
   COMMAND
-  ITKStatisticsTestDriver
-  itkImageToHistogramFilterTest2
-  DATA{${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkImageToHistogramFilterTest2.txt
-  1
+    ITKStatisticsTestDriver
+    itkImageToHistogramFilterTest2
+    DATA{${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkImageToHistogramFilterTest2.txt
+    1
 )
 itk_add_test(
-  NAME
-  itkScalarImageToHistogramGeneratorTest
+  NAME itkScalarImageToHistogramGeneratorTest
   COMMAND
-  ITKStatisticsTestDriver
-  itkScalarImageToHistogramGeneratorTest
-  DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkScalarImageToHistogramGeneratorTest.txt
+    ITKStatisticsTestDriver
+    itkScalarImageToHistogramGeneratorTest
+    DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkScalarImageToHistogramGeneratorTest.txt
 )

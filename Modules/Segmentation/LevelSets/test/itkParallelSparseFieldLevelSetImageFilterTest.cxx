@@ -52,7 +52,7 @@ sphere(unsigned int x, unsigned int y, unsigned int z)
               (y - float{ HEIGHT } / 2.0) * (y - float{ HEIGHT } / 2.0) +
               (z - float{ DEPTH } / 2.0) * (z - float{ DEPTH } / 2.0);
   dis = RADIUS - std::sqrt(dis);
-  return (-dis);
+  return -dis;
 }
 
 // Distance transform function for a cube
@@ -67,7 +67,7 @@ cube(unsigned int x, unsigned int y, unsigned int z)
   {
     dis = RADIUS - (std::max(std::max(X, Y), Z));
   }
-  return (-dis);
+  return -dis;
 }
 
 // Evaluates a function at each pixel in the itk volume

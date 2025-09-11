@@ -92,7 +92,7 @@ LaplacianDeformationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>::
       return OutputCoordinateType{};
     }
 
-    return (1. / (2. * area));
+    return 1. / (2. * area);
   }
   else
   {

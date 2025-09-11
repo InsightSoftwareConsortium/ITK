@@ -18,7 +18,7 @@
 
 #else
 
-#if ((EIGEN_COMP_GNUC) || __has_feature(cxx_thread_local) || EIGEN_COMP_MSVC )
+#if ((EIGEN_COMP_GNUC) || __has_feature(cxx_thread_local) || EIGEN_COMP_MSVC)
 #define EIGEN_THREAD_LOCAL static thread_local
 #endif
 
@@ -31,8 +31,8 @@
 #endif
 // Checks whether C++11's `thread_local` storage duration specifier is
 // supported.
-#if EIGEN_COMP_CLANGAPPLE && ((EIGEN_COMP_CLANGAPPLE < 8000042) || \
-     (TARGET_OS_IPHONE && __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_9_0))
+#if EIGEN_COMP_CLANGAPPLE && \
+    ((EIGEN_COMP_CLANGAPPLE < 8000042) || (TARGET_OS_IPHONE && __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_9_0))
 // Notes: Xcode's clang did not support `thread_local` until version
 // 8, and even then not for all iOS < 9.0.
 #undef EIGEN_THREAD_LOCAL
@@ -43,14 +43,8 @@
 // This is primarily because of linker problems and toolchain misconfiguration:
 // TLS isn't supported until NDK r12b per
 // https://developer.android.com/ndk/downloads/revision_history.html
-// Since NDK r16, `__NDK_MAJOR__` and `__NDK_MINOR__` are defined in
-// <android/ndk-version.h>. For NDK < r16, users should define these macros,
-// e.g. `-D__NDK_MAJOR__=11 -D__NKD_MINOR__=0` for NDK r11.
-#if __has_include(<android/ndk-version.h>)
-#include <android/ndk-version.h>
-#endif  // __has_include(<android/ndk-version.h>)
-#if defined(__ANDROID__) && defined(__clang__) && defined(__NDK_MAJOR__) && \
-    defined(__NDK_MINOR__) &&                                               \
+
+#if defined(__ANDROID__) && defined(__clang__) && defined(__NDK_MAJOR__) && defined(__NDK_MINOR__) && \
     ((__NDK_MAJOR__ < 12) || ((__NDK_MAJOR__ == 12) && (__NDK_MINOR__ < 1)))
 #undef EIGEN_THREAD_LOCAL
 #endif
@@ -108,22 +102,18 @@ struct ThreadLocalNoOpRelease {
 // Somewhat similar to TBB thread local storage, with similar restrictions:
 // https://www.threadingbuildingblocks.org/docs/help/reference/thread_local_storage/enumerable_thread_specific_cls.html
 //
-template <typename T,
-          typename Initialize = internal::ThreadLocalNoOpInitialize<T>,
+template <typename T, typename Initialize = internal::ThreadLocalNoOpInitialize<T>,
           typename Release = internal::ThreadLocalNoOpRelease<T>>
 class ThreadLocal {
   // We preallocate default constructed elements in MaxSizedVector.
-  static_assert(std::is_default_constructible<T>::value,
-                "ThreadLocal data type must be default constructible");
+  static_assert(std::is_default_constructible<T>::value, "ThreadLocal data type must be default constructible");
 
  public:
   explicit ThreadLocal(int capacity)
-      : ThreadLocal(capacity, internal::ThreadLocalNoOpInitialize<T>(),
-                    internal::ThreadLocalNoOpRelease<T>()) {}
+      : ThreadLocal(capacity, internal::ThreadLocalNoOpInitialize<T>(), internal::ThreadLocalNoOpRelease<T>()) {}
 
   ThreadLocal(int capacity, Initialize initialize)
-      : ThreadLocal(capacity, std::move(initialize),
-                    internal::ThreadLocalNoOpRelease<T>()) {}
+      : ThreadLocal(capacity, std::move(initialize), internal::ThreadLocalNoOpRelease<T>()) {}
 
   ThreadLocal(int capacity, Initialize initialize, Release release)
       : initialize_(std::move(initialize)),
@@ -174,8 +164,7 @@ class ThreadLocal {
     // free storage. If old value in `filled_records_` is larger than the
     // records capacity, it means that some other thread added an element while
     // we were traversing lookup table.
-    int insertion_index =
-        filled_records_.fetch_add(1, std::memory_order_relaxed);
+    int insertion_index = filled_records_.fetch_add(1, std::memory_order_relaxed);
     if (insertion_index >= capacity_) return SpilledLocal(this_thread);
 
     // At this point it's guaranteed that we can access to

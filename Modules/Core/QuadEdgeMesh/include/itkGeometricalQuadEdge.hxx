@@ -44,14 +44,14 @@ GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::Geometric
 template <typename TVRef, typename TFRef, typename TPrimalData, typename TDualData, bool PrimalDual>
 bool
 GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::SetLnextRingWithSameLeftFace(
-  const DualOriginRefType faceGeom,
+  const DualOriginRefType faceGeometry,
   int                     maxSize)
 {
 #ifndef NDEBUG
   if (!this->IsLnextSharingSameFace(maxSize))
   {
     itkQEDebugMacro("Lnext() edges do NOT share the same Left().");
-    return (false);
+    return false;
   }
 #endif
 
@@ -59,12 +59,12 @@ GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::SetLnextR
 
   while (maxSize && (it != this->EndGeomLnext()))
   {
-    it.Value()->SetLeft(faceGeom);
+    it.Value()->SetLeft(faceGeometry);
     ++it;
     --maxSize;
   }
 
-  return (true);
+  return true;
 }
 
 /**
@@ -77,7 +77,7 @@ template <typename TVRef, typename TFRef, typename TPrimalData, typename TDualDa
 bool
 GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::IsLnextOfTriangle()
 {
-  return (this->IsLnextSharingSameFace(3));
+  return this->IsLnextSharingSameFace(3);
 }
 
 /**
@@ -196,7 +196,7 @@ GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::IsLnextSh
     //
     if (!(facesAreNotSet || (facesAreSet && facesAreTheSame)))
     {
-      return (false);
+      return false;
     }
     ++it;
     --maxSize;
@@ -205,9 +205,9 @@ GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::IsLnextSh
   if (it != this->EndGeomLnext())
   {
     // The Lnext ring is bigger than the caller expected
-    return (false);
+    return false;
   }
-  return (true);
+  return true;
 }
 
 /**
@@ -297,7 +297,7 @@ GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::GetNextBo
   {
     itkQEDebugMacro("No border edge available; point is internal.");
     itkAssertInDebugAndIgnoreInReleaseMacro(false);
-    return (nullptr);
+    return nullptr;
   }
 
   // Update reference
@@ -306,7 +306,7 @@ GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::GetNextBo
   // On efficiency purposes
   if (edgeTest->IsIsolated())
   {
-    return (edgeTest);
+    return edgeTest;
   }
 
   // Ok, no more special cases
@@ -317,7 +317,7 @@ GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::GetNextBo
   {
     if (!it.Value()->IsLeftSet())
     {
-      return (it.Value());
+      return it.Value();
     }
     ++it;
   }
@@ -325,7 +325,7 @@ GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::GetNextBo
   // No border edge found
   itkQEDebugMacro("No border edge available; point is internal.");
   itkAssertInDebugAndIgnoreInReleaseMacro(false);
-  return (nullptr);
+  return nullptr;
 }
 
 /**
@@ -376,7 +376,7 @@ GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::InsertAft
         (IsOriginSet() && isol->IsOriginSet() && (m_Origin == isol->m_Origin))))
   {
     itkQEDebugMacro("Isolated Origin() differs from this Origin.");
-    return (false);
+    return false;
   }
 
   // Find out if this point has some room left for edge insertion:
@@ -384,12 +384,12 @@ GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::InsertAft
   if (!edgeAfter)
   {
     itkQEDebugMacro("No border edge available; the point is surrounded by faces.");
-    return (false);
+    return false;
   }
 
   // Normally, an edge was found
   edgeAfter->Splice(isol);
-  return (true);
+  return true;
 }
 
 /**
@@ -542,24 +542,24 @@ GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::ReorderOn
   if (first->GetOrigin() != second->GetOrigin())
   {
     itkQEDebugMacro("Edges not adjacent at same point!");
-    return (false);
+    return false;
   }
 
   if (first->GetOnext() == second)
   {
-    return (true);
+    return true;
   }
 
   if (first->IsLeftSet())
   {
     itkQEDebugMacro("First should NOT have a left face.");
-    return (false);
+    return false;
   }
 
   // Second is an internal edge.
   if (second->IsInternal())
   {
-    return (false);
+    return false;
   }
 
   // Disconnect the triangles containing second
@@ -570,7 +570,7 @@ GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::ReorderOn
 
   // Reconnect second after first:
   first->Splice(bsplice);
-  return (true);
+  return true;
 }
 
 // ---------------------------------------------------------------------
@@ -630,7 +630,7 @@ template <typename TVRef, typename TFRef, typename TPrimalData, typename TDualDa
 bool
 GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::IsOriginSet() const
 {
-  return (this->m_Origin != m_NoPoint);
+  return this->m_Origin != m_NoPoint;
 }
 
 // ---------------------------------------------------------------------

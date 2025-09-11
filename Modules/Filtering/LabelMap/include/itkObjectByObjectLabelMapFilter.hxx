@@ -103,8 +103,8 @@ ObjectByObjectLabelMapFilter<TInputImage,
   if (outputFilter == nullptr && filter != nullptr)
   {
     // TODO: can it be replaced by a concept check ?
-    itkExceptionMacro("Wrong output filter type. Use SetOutputFilter() and SetInputFilter() instead of SetFilter() "
-                      "when input and output filter types are different.");
+    itkExceptionStringMacro("Wrong output filter type. Use SetOutputFilter() and SetInputFilter() instead of "
+                            "SetFilter() when input and output filter types are different.");
   }
   this->SetInputFilter(filter);
   this->SetOutputFilter(outputFilter);
@@ -171,12 +171,12 @@ ObjectByObjectLabelMapFilter<TInputImage,
 {
   if (!m_InputFilter)
   {
-    itkExceptionMacro("InputFilter must be set.");
+    itkExceptionStringMacro("InputFilter must be set.");
   }
 
   if (!m_OutputFilter)
   {
-    itkExceptionMacro("OutputFilter must be set.");
+    itkExceptionStringMacro("OutputFilter must be set.");
   }
 
   this->AllocateOutputs();

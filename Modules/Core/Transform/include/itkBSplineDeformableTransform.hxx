@@ -398,7 +398,7 @@ BSplineDeformableTransform<TParametersValueType, VDimension, VSplineOrder>::SetC
   }
   else
   {
-    itkExceptionMacro("SetCoefficientImage() requires that an array of correctly sized images be supplied.");
+    itkExceptionStringMacro("SetCoefficientImage() requires that an array of correctly sized images be supplied.");
   }
 }
 
@@ -473,7 +473,7 @@ BSplineDeformableTransform<TParametersValueType, VDimension, VSplineOrder>::Tran
   // if no coefficients are set, this isn't a proper BSpline Transform
   if (this->m_CoefficientImages[0]->GetBufferPointer() == nullptr)
   {
-    itkExceptionMacro("B-spline coefficients have not been set");
+    itkExceptionStringMacro("B-spline coefficients have not been set");
   }
 
   ContinuousIndexType index =

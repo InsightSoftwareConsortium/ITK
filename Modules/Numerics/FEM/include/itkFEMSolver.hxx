@@ -401,7 +401,7 @@ Solver<VDimension>::AssembleF(int dim)
         // we apply the load to all elements in that array.
         for (auto i = l1->GetElementArray().begin(); i != l1->GetElementArray().end(); i++)
         {
-          const Element * el0 = (*i);
+          const Element * el0 = *i;
           // Call the Fe() function of the element that we are applying the load
           // to.
           // We pass a pointer to the load object as a parameter and a reference
@@ -868,7 +868,7 @@ Solver<VDimension>::InitializeInterpolationGrid(const InterpolationGridRegionTyp
   {
     if (size[i] == 0)
     {
-      itkExceptionMacro("Size must be specified.");
+      itkExceptionStringMacro("Size must be specified.");
     }
   }
 

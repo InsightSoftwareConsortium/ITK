@@ -46,7 +46,7 @@ IterativeInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::Generat
   // some checks
   if (inputPtr.IsNull())
   {
-    itkExceptionMacro("\n Input is missing.");
+    itkExceptionStringMacro("\n Input is missing.");
   }
 
   // calculate a first guess

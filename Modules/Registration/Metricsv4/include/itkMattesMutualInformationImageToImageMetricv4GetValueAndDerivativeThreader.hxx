@@ -41,7 +41,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
   this->m_MattesAssociate = dynamic_cast<TMattesMutualInformationMetric *>(this->m_Associate);
   if (this->m_MattesAssociate == nullptr)
   {
-    itkExceptionMacro("Dynamic casting of associate pointer failed.");
+    itkExceptionStringMacro("Dynamic casting of associate pointer failed.");
   }
 
   /* Porting: these next blocks of code are from MattesMutualImageToImageMetric::Initialize */

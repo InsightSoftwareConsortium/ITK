@@ -37,6 +37,7 @@
 #include "itkMakeUniqueForOverwrite.h"
 
 #include <string>
+#include <type_traits> // For is_same_v.
 #include <complex>
 #include <fstream>
 
@@ -88,13 +89,15 @@ public:
 
   using SizeValueType = IdentifierType;
 
+#ifndef ITK_LEGACY_REMOVE
   /**
    * \class UnknownType
-   * Used to return information when types are unknown.
+   * \deprecated This class is intended to be removed from ITK 6.
    * \ingroup ITKIOMeshBase
    */
-  class UnknownType
+  class [[deprecated("This class is intended to be removed from ITK 6.")]] UnknownType
   {};
+#endif
 
   /** \see LightObject::GetNameOfClass() */
   itkOverrideGetNameOfClassMacro(MeshIOBase);
@@ -200,10 +203,25 @@ public:
   itkSetEnumMacro(CellPixelComponentType, itk::CommonEnums::IOComponent);
   itkGetEnumMacro(CellPixelComponentType, itk::CommonEnums::IOComponent);
   /** @ITKEndGrouping */
-  template <typename T>
+
+  template <typename TComponent>
   struct MapComponentType
   {
-    static constexpr IOComponentEnum CType = IOComponentEnum::UNKNOWNCOMPONENTTYPE;
+    static constexpr IOComponentEnum CType =
+      std::is_same_v<TComponent, unsigned char>        ? IOComponentEnum::UCHAR
+      : std::is_same_v<TComponent, char>               ? IOComponentEnum::CHAR
+      : std::is_same_v<TComponent, short>              ? IOComponentEnum::SHORT
+      : std::is_same_v<TComponent, unsigned short>     ? IOComponentEnum::USHORT
+      : std::is_same_v<TComponent, int>                ? IOComponentEnum::INT
+      : std::is_same_v<TComponent, unsigned int>       ? IOComponentEnum::UINT
+      : std::is_same_v<TComponent, long>               ? IOComponentEnum::LONG
+      : std::is_same_v<TComponent, unsigned long>      ? IOComponentEnum::ULONG
+      : std::is_same_v<TComponent, long long>          ? IOComponentEnum::LONGLONG
+      : std::is_same_v<TComponent, unsigned long long> ? IOComponentEnum::ULONGLONG
+      : std::is_same_v<TComponent, float>              ? IOComponentEnum::FLOAT
+      : std::is_same_v<TComponent, double>             ? IOComponentEnum::DOUBLE
+      : std::is_same_v<TComponent, long double>        ? IOComponentEnum::LDOUBLE
+                                                       : IOComponentEnum::UNKNOWNCOMPONENTTYPE;
   };
 
   template <typename T>
@@ -874,27 +892,6 @@ private:
   ArrayOfExtensionsType m_SupportedReadExtensions{};
   ArrayOfExtensionsType m_SupportedWriteExtensions{};
 };
-#define MESHIOBASE_TYPEMAP(type, ctype)             \
-  template <>                                       \
-  struct MeshIOBase::MapComponentType<type>         \
-  {                                                 \
-    static constexpr IOComponentEnum CType = ctype; \
-  }
-
-MESHIOBASE_TYPEMAP(unsigned char, IOComponentEnum::UCHAR);
-MESHIOBASE_TYPEMAP(char, IOComponentEnum::CHAR);
-MESHIOBASE_TYPEMAP(unsigned short, IOComponentEnum::USHORT);
-MESHIOBASE_TYPEMAP(short, IOComponentEnum::SHORT);
-MESHIOBASE_TYPEMAP(unsigned int, IOComponentEnum::UINT);
-MESHIOBASE_TYPEMAP(int, IOComponentEnum::INT);
-MESHIOBASE_TYPEMAP(unsigned long, IOComponentEnum::ULONG);
-MESHIOBASE_TYPEMAP(long, IOComponentEnum::LONG);
-MESHIOBASE_TYPEMAP(unsigned long long, IOComponentEnum::ULONGLONG);
-MESHIOBASE_TYPEMAP(long long, IOComponentEnum::LONGLONG);
-MESHIOBASE_TYPEMAP(float, IOComponentEnum::FLOAT);
-MESHIOBASE_TYPEMAP(double, IOComponentEnum::DOUBLE);
-MESHIOBASE_TYPEMAP(long double, IOComponentEnum::LDOUBLE);
-#undef MESHIOBASE_TYPEMAP
 } // end namespace itk
 
 #endif

@@ -639,7 +639,8 @@ class gemm_class {
     }
   }
 
-  template <int uk, int max_b_unroll, int a_unroll, int b_unroll, bool ktail, bool fetch_x, bool c_fetch, bool no_a_preload = false>
+  template <int uk, int max_b_unroll, int a_unroll, int b_unroll, bool ktail, bool fetch_x, bool c_fetch,
+            bool no_a_preload = false>
   EIGEN_ALWAYS_INLINE void innerkernel_1uk(const Scalar *&aa, const Scalar *const &ao, const Scalar *const &bo,
                                            Scalar *&co2, int &fetchA_idx, int &fetchB_idx) {
     const int um_vecs = numext::div_ceil(a_unroll, nelems_in_cache_line);
@@ -696,7 +697,8 @@ class gemm_class {
    *  bo += b_unroll * kfactor;
    */
 
-  template <int a_unroll, int b_unroll, int k_factor, int max_b_unroll, int max_k_factor, bool c_fetch, bool no_a_preload = false>
+  template <int a_unroll, int b_unroll, int k_factor, int max_b_unroll, int max_k_factor, bool c_fetch,
+            bool no_a_preload = false>
   EIGEN_ALWAYS_INLINE void innerkernel(const Scalar *&aa, const Scalar *&ao, const Scalar *&bo, Scalar *&co2) {
     int fetchA_idx = 0;
     int fetchB_idx = 0;
@@ -705,20 +707,21 @@ class gemm_class {
     const bool ktail = k_factor == 1;
 
     static_assert(k_factor <= 4 && k_factor > 0, "innerkernel maximum k_factor supported is 4");
-    static_assert(no_a_preload == false || (no_a_preload == true && k_factor == 1), "skipping a preload only allowed when k unroll is 1");
+    static_assert(no_a_preload == false || (no_a_preload == true && k_factor == 1),
+                  "skipping a preload only allowed when k unroll is 1");
 
     if (k_factor > 0)
-      innerkernel_1uk<0, max_b_unroll, a_unroll, b_unroll, ktail, fetch_x, c_fetch, no_a_preload>(aa, ao, bo, co2, fetchA_idx,
-                                                                                    fetchB_idx);
+      innerkernel_1uk<0, max_b_unroll, a_unroll, b_unroll, ktail, fetch_x, c_fetch, no_a_preload>(
+          aa, ao, bo, co2, fetchA_idx, fetchB_idx);
     if (k_factor > 1)
-      innerkernel_1uk<1, max_b_unroll, a_unroll, b_unroll, ktail, fetch_x, c_fetch, no_a_preload>(aa, ao, bo, co2, fetchA_idx,
-                                                                                    fetchB_idx);
+      innerkernel_1uk<1, max_b_unroll, a_unroll, b_unroll, ktail, fetch_x, c_fetch, no_a_preload>(
+          aa, ao, bo, co2, fetchA_idx, fetchB_idx);
     if (k_factor > 2)
-      innerkernel_1uk<2, max_b_unroll, a_unroll, b_unroll, ktail, fetch_x, c_fetch, no_a_preload>(aa, ao, bo, co2, fetchA_idx,
-                                                                                    fetchB_idx);
+      innerkernel_1uk<2, max_b_unroll, a_unroll, b_unroll, ktail, fetch_x, c_fetch, no_a_preload>(
+          aa, ao, bo, co2, fetchA_idx, fetchB_idx);
     if (k_factor > 3)
-      innerkernel_1uk<3, max_b_unroll, a_unroll, b_unroll, ktail, fetch_x, c_fetch, no_a_preload>(aa, ao, bo, co2, fetchA_idx,
-                                                                                    fetchB_idx);
+      innerkernel_1uk<3, max_b_unroll, a_unroll, b_unroll, ktail, fetch_x, c_fetch, no_a_preload>(
+          aa, ao, bo, co2, fetchA_idx, fetchB_idx);
 
     // Advance A/B pointers after uk-loop.
     ao += a_unroll * k_factor;
@@ -1201,10 +1204,9 @@ struct gemm_pack_rhs<Scalar, Index, DataMapper, 8, RowMajor, Conjugate, PanelMod
 
 template <typename Scalar, typename Index, typename DataMapper, int mr, bool ConjugateLhs, bool ConjugateRhs>
 struct gebp_kernel<Scalar, Scalar, Index, DataMapper, mr, 8, ConjugateLhs, ConjugateRhs> {
-  EIGEN_ALWAYS_INLINE
-  void operator()(const DataMapper &res, const Scalar *blockA, const Scalar *blockB, Index rows, Index depth,
-                  Index cols, Scalar alpha, Index strideA = -1, Index strideB = -1, Index offsetA = 0,
-                  Index offsetB = 0);
+  EIGEN_ALWAYS_INLINE void operator()(const DataMapper &res, const Scalar *blockA, const Scalar *blockB, Index rows,
+                                      Index depth, Index cols, Scalar alpha, Index strideA = -1, Index strideB = -1,
+                                      Index offsetA = 0, Index offsetB = 0);
 };
 
 template <typename Scalar, typename Index, typename DataMapper, int mr, bool ConjugateLhs, bool ConjugateRhs>
@@ -1233,7 +1235,7 @@ EIGEN_ALWAYS_INLINE void gebp_kernel<Scalar, Scalar, Index, DataMapper, mr, 8, C
     }
   }
 }
-#endif // EIGEN_USE_AVX512_GEMM_KERNELS
+#endif  // EIGEN_USE_AVX512_GEMM_KERNELS
 
 }  // namespace internal
 }  // namespace Eigen

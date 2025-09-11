@@ -306,17 +306,17 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,
 
   if (!movingImage || !fixedImage)
   {
-    itkExceptionMacro("Fixed and/or moving image not set");
+    itkExceptionStringMacro("Fixed and/or moving image not set");
   }
 
   if (!m_MovingImagePyramid || !m_FixedImagePyramid)
   {
-    itkExceptionMacro("Fixed and/or moving pyramid not set");
+    itkExceptionStringMacro("Fixed and/or moving pyramid not set");
   }
 
   if (!m_RegistrationFilter)
   {
-    itkExceptionMacro("Registration filter not set");
+    itkExceptionStringMacro("Registration filter not set");
   }
 
   if (this->m_InitialDisplacementField && this->GetInput(0))

@@ -227,7 +227,7 @@ itkVersorTransformOptimizerTest(int, char *[])
   itkOptimizer->MaximizeOn();
   itkOptimizer->SetScales(parametersScale);
   itkOptimizer->SetGradientMagnitudeTolerance(1e-15);
-  itkOptimizer->SetMaximumStepLength(0.1745); // About 10 deegres
+  itkOptimizer->SetMaximumStepLength(0.1745); // About 10 degrees
   itkOptimizer->SetMinimumStepLength(1e-9);
   itkOptimizer->SetNumberOfIterations(10);
 
