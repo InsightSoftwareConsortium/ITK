@@ -79,16 +79,14 @@ if(ITK_USE_KWSTYLE)
   if(BUILD_TESTING)
     set(itk-module KWStyle)
     itk_add_test(
-          NAME
-          KWStyleExamplesTest
-          COMMAND
-          ${KWSTYLE_EXECUTABLE}
-          ${kwstyle_common_arguments}
-          -D
-          ${kwstyle_itk_examples_files_list_file}
-          -gcc
-          WORKING_DIRECTORY
-          ${ITK_SOURCE_DIR}
+      NAME KWStyleExamplesTest
+      COMMAND
+        ${KWSTYLE_EXECUTABLE}
+        ${kwstyle_common_arguments}
+        -D
+        ${kwstyle_itk_examples_files_list_file}
+        -gcc
+      WORKING_DIRECTORY ${ITK_SOURCE_DIR}
     )
   endif()
 endif()

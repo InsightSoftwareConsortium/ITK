@@ -88,7 +88,7 @@ GPUNeighborhoodOperatorImageFilter<TInputImage, TOutputImage, TOperatorValueType
 
   if (TInputImage::ImageDimension > 3 || TInputImage::ImageDimension < 1)
   {
-    itkExceptionMacro("GPUneighborhoodOperatorImageFilter supports 1/2/3D image.");
+    itkExceptionStringMacro("GPUneighborhoodOperatorImageFilter supports 1/2/3D image.");
   }
 
   defines << "#define DIM_" << TInputImage::ImageDimension << '\n';
@@ -224,7 +224,7 @@ GPUNeighborhoodOperatorImageFilter<TInputImage, TOutputImage, TOperatorValueType
   // This filter can only operate on data types that are signed.
    if ( !NumericTraits< typename NumericTraits< OutputPixelType  >::ValueType >::is_signed )
     {
-    itkExceptionMacro("This filter can only create images of signed data type.");
+    itkExceptionStringMacro("This filter can only create images of signed data type.");
     }
 
   // Allocate output

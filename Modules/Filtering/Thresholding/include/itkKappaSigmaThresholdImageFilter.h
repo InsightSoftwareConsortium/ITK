@@ -29,9 +29,9 @@ namespace itk
  *
  * This filter creates a binary thresholded image which separates background and
  * foreground modes by iteratively rejecting pixels that do not belong to
- * the dominant mode. The filter computes the threshold using the KappaSigmaThre-
- * sholdImageCalculator and applies that threshold to the input image using the
- * BinaryThresholdImageFilter.
+ * the dominant mode. The filter computes the threshold using the
+ * KappaSigmaThresholdImageCalculator and applies that threshold to the input
+ * image using the BinaryThresholdImageFilter.
  *
  * \author Gaetan Lehmann
  *

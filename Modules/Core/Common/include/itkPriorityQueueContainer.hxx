@@ -39,7 +39,7 @@ auto
 ElementWrapperPointerInterface<TElementWrapperPointer, TElementIdentifier>::GetLocation(
   const ElementWrapperPointerType & element) const -> ElementIdentifierType
 {
-  return (element->GetLocation(*element));
+  return element->GetLocation(*element);
 }
 // -----------------------------------------------------------------------------
 
@@ -61,7 +61,7 @@ ElementWrapperPointerInterface<TElementWrapperPointer, TElementIdentifier>::is_l
   const ElementWrapperPointerType & element1,
   const ElementWrapperPointerType & element2) const
 {
-  return (element1->is_less((*element1), (*element2)));
+  return element1->is_less(*element1, *element2);
 }
 // -----------------------------------------------------------------------------
 
@@ -72,7 +72,7 @@ ElementWrapperPointerInterface<TElementWrapperPointer, TElementIdentifier>::is_g
   const ElementWrapperPointerType & element1,
   const ElementWrapperPointerType & element2) const
 {
-  return (element1->is_greater((*element1), (*element2)));
+  return element1->is_greater(*element1, *element2);
 }
 // -----------------------------------------------------------------------------
 
@@ -156,7 +156,7 @@ MinPriorityQueueElementWrapper<TElement, TElementPriority, TElementIdentifier>::
   const MinPriorityQueueElementWrapper & element1,
   const MinPriorityQueueElementWrapper & element2) const
 {
-  return (element1 < element2);
+  return element1 < element2;
 }
 // -----------------------------------------------------------------------------
 
@@ -167,7 +167,7 @@ MinPriorityQueueElementWrapper<TElement, TElementPriority, TElementIdentifier>::
   const MinPriorityQueueElementWrapper & element1,
   const MinPriorityQueueElementWrapper & element2) const
 {
-  return (element1 > element2);
+  return element1 > element2;
 }
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
@@ -195,7 +195,7 @@ MaxPriorityQueueElementWrapper<TElement, TElementPriority, TElementIdentifier>::
   const MaxPriorityQueueElementWrapper & element1,
   const MaxPriorityQueueElementWrapper & element2) const
 {
-  return (element1 > element2);
+  return element1 > element2;
 }
 // -----------------------------------------------------------------------------
 
@@ -217,7 +217,7 @@ MaxPriorityQueueElementWrapper<TElement, TElementPriority, TElementIdentifier>::
   const MaxPriorityQueueElementWrapper & element1,
   const MaxPriorityQueueElementWrapper & element2) const
 {
-  return (element1 < element2);
+  return element1 < element2;
 }
 // -----------------------------------------------------------------------------
 
@@ -267,7 +267,7 @@ template <typename TElementWrapper,
 bool
 PriorityQueueContainer<TElementWrapper, TElementWrapperInterface, TElementPriority, TElementIdentifier>::Empty() const
 {
-  return (this->empty());
+  return this->empty();
 }
 // -----------------------------------------------------------------------------
 
@@ -298,7 +298,7 @@ const typename PriorityQueueContainer<TElementWrapper, TElementWrapperInterface,
   {
     itkGenericExceptionMacro("Empty PriorityQueueContainer");
   }
-  return (GetElementAtLocation(0));
+  return GetElementAtLocation(0);
 }
 // -----------------------------------------------------------------------------
 

@@ -9,10 +9,9 @@ maxima and minima filters, and reconstruction filters."
 itk_module(
   ITKBinaryMathematicalMorphology
   COMPILE_DEPENDS
-  ITKLabelMap
-  ITKMathematicalMorphology
+    ITKLabelMap
+    ITKMathematicalMorphology
   TEST_DEPENDS
-  ITKTestKernel
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+  DESCRIPTION "${DOCUMENTATION}"
 )

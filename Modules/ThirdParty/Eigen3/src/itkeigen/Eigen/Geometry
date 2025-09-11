@@ -17,21 +17,20 @@
 #include "src/Core/util/DisableStupidWarnings.h"
 
 /** \defgroup Geometry_Module Geometry module
-  *
-  * This module provides support for:
-  *  - fixed-size homogeneous transformations
-  *  - translation, scaling, 2D and 3D rotations
-  *  - \link Quaternion quaternions \endlink
-  *  - cross products (\ref MatrixBase::cross, \ref MatrixBase::cross3)
-  *  - orthognal vector generation (\ref MatrixBase::unitOrthogonal)
-  *  - some linear components: \link ParametrizedLine parametrized-lines \endlink and \link Hyperplane hyperplanes \endlink
-  *  - \link AlignedBox axis aligned bounding boxes \endlink
-  *  - \link umeyama least-square transformation fitting \endlink
-  *
-  * \code
-  * #include <Eigen/Geometry>
-  * \endcode
-  */
+ *
+ * This module provides support for:
+ *  - fixed-size homogeneous transformations
+ *  - translation, scaling, 2D and 3D rotations
+ *  - \link Quaternion quaternions \endlink
+ *  - cross products (\ref MatrixBase::cross(), \ref MatrixBase::cross3())
+ *  - orthogonal vector generation (MatrixBase::unitOrthogonal)
+ *  - some linear components: \link ParametrizedLine parametrized-lines \endlink and \link Hyperplane hyperplanes \endlink
+ *  - \link AlignedBox axis aligned bounding boxes \endlink
+ *  - \link umeyama() least-square transformation fitting \endlink
+ * \code
+ * #include <Eigen/Geometry>
+ * \endcode
+ */
 
 // IWYU pragma: begin_exports
 #include "src/Geometry/OrthoMethods.h"
@@ -57,4 +56,4 @@
 
 #include "src/Core/util/ReenableStupidWarnings.h"
 
-#endif // EIGEN_GEOMETRY_MODULE_H
+#endif  // EIGEN_GEOMETRY_MODULE_H

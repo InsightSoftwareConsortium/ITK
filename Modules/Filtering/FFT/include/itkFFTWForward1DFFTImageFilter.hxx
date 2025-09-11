@@ -110,7 +110,7 @@ FFTWForward1DFFTImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateDa
       }
       catch (const std::bad_alloc &)
       {
-        itkExceptionMacro("Problem allocating memory for internal computations");
+        itkExceptionStringMacro("Problem allocating memory for internal computations");
       }
       m_PlanArray[i] = FFTW1DProxyType::Plan_dft_1d(
         lineSize, m_InputBufferArray[i], m_OutputBufferArray[i], FFTW_FORWARD, FFTW_ESTIMATE, 1);

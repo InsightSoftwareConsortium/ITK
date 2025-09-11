@@ -57,7 +57,7 @@ GPUDiscreteGaussianImageFilter<TInputImage, TOutputImage>::GPUDiscreteGaussianIm
   }
   else
   {
-    itkExceptionMacro("GPUDiscreteGaussianImageFilter only supports n-dimensional image.");
+    itkExceptionStringMacro("GPUDiscreteGaussianImageFilter only supports n-dimensional image.");
   }
 }
 
@@ -169,7 +169,7 @@ GPUDiscreteGaussianImageFilter<TInputImage, TOutputImage>::GPUGenerateData()
     {
       if (localInput->GetSpacing()[i] == 0.0)
       {
-        itkExceptionMacro("Pixel spacing cannot be zero");
+        itkExceptionStringMacro("Pixel spacing cannot be zero");
       }
       else
       {

@@ -56,7 +56,7 @@ SimpleSignedDistance(const TPoint & p)
     accum += itk::Math::sqr(p[j] - static_cast<double>(center[j]));
   }
   accum = std::sqrt(accum);
-  return (accum - radius);
+  return accum - radius;
 }
 
 } // namespace

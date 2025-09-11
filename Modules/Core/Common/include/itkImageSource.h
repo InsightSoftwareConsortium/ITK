@@ -326,7 +326,7 @@ protected:
   {}
 
   /** If an imaging filter needs to perform processing after all
-   * processing threads have completed, the filter can can provide an
+   * processing threads have completed, the filter can provide an
    * implementation for AfterThreadedGenerateData(). The execution
    * flow in the default GenerateData() method will be:
    *      1) Allocate the output buffer

@@ -327,7 +327,7 @@ main(int argc, char * argv[])
   // A way of testing the pixel type of an image in file is to
   // invoke the ImageIO object from the reader and then call
   // \code{GetPixelTypeAsString()}
-  complexReader->GetImageIO()->GetPixelTypeAsString(
+  itk::ImageIOBase::GetPixelTypeAsString(
     complexReader->GetImageIO()->GetPixelType());
 
 

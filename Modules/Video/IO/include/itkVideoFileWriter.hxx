@@ -85,19 +85,19 @@ VideoFileWriter<TInputVideoStream>::Write()
   const VideoStreamType * input = this->GetInput();
   if (input == nullptr)
   {
-    itkExceptionMacro("No input to writer");
+    itkExceptionStringMacro("No input to writer");
   }
 
   // Make sure FileName is specified
   if (m_FileName.empty())
   {
-    itkExceptionMacro("No FileName set for writer");
+    itkExceptionStringMacro("No FileName set for writer");
   }
 
   // Make sure FramesPerSecond and FourCC have been set
   if (Math::ExactlyEquals(m_FramesPerSecond, TemporalRatioType{}) || m_FourCC.empty())
   {
-    itkExceptionMacro("Cannot write with FramesPerSecond or FourCC unset");
+    itkExceptionStringMacro("Cannot write with FramesPerSecond or FourCC unset");
   }
 
 
@@ -119,13 +119,13 @@ VideoFileWriter<TInputVideoStream>::Write()
   // Initialize writing information
   if (!this->InitializeOutputParameters())
   {
-    itkExceptionMacro("Could not initialize output parameters for writing");
+    itkExceptionStringMacro("Could not initialize output parameters for writing");
   }
 
   // Initialize VideoIO if necessary
   if (m_VideoIO.IsNull() && !this->InitializeVideoIO())
   {
-    itkExceptionMacro("Could not create VideoIO");
+    itkExceptionStringMacro("Could not create VideoIO");
   }
 
   // Set output information
@@ -205,7 +205,7 @@ VideoFileWriter<TInputVideoStream>::UpdateLargestPossibleRegion()
   const VideoStreamType * input = this->GetInput();
   if (input == nullptr)
   {
-    itkExceptionMacro("No input to writer");
+    itkExceptionStringMacro("No input to writer");
   }
   m_OutputTemporalRegion = input->GetLargestPossibleTemporalRegion();
   this->Write();
@@ -220,7 +220,7 @@ VideoFileWriter<TInputVideoStream>::TemporalStreamingGenerateData()
   auto *                        output = dynamic_cast<TemporalDataObject *>(this->GetOutput(0));
   if (!output)
   {
-    itkExceptionMacro("Could not cast output to TemporalDataObject");
+    itkExceptionStringMacro("Could not cast output to TemporalDataObject");
   }
 
   // Get the frame we're going to write

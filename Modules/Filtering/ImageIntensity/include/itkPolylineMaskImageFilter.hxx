@@ -46,13 +46,13 @@ PolylineMaskImageFilter<TInputImage, TPolyline, TVector, TOutputImage>::Polyline
   // throw an exception otherwise.
   if ((TInputImage::ImageDimension != 3) || (TOutputImage::ImageDimension != 3))
   {
-    itkExceptionMacro("PolylineMaskImageFilter must be templated over input and output images of dimension 3");
+    itkExceptionStringMacro("PolylineMaskImageFilter must be templated over input and output images of dimension 3");
   }
 
   // View vectors must be of dimension 3
   if (TVector::Length != 3)
   {
-    itkExceptionMacro("PolylineMaskImageFilter must be templated over a view vector of length 3");
+    itkExceptionStringMacro("PolylineMaskImageFilter must be templated over a view vector of length 3");
   }
 }
 
@@ -283,7 +283,7 @@ PolylineMaskImageFilter<TInputImage, TPolyline, TVector, TOutputImage>::Generate
 
   if (!boundingBox->ComputeBoundingBox())
   {
-    itkExceptionMacro("Bounding box computation error");
+    itkExceptionStringMacro("Bounding box computation error");
   }
 
   const BoundingBoxType::BoundsArrayType & bounds = boundingBox->GetBounds();

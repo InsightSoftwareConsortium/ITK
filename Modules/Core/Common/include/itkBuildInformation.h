@@ -32,7 +32,7 @@ namespace itk
  * std::map< std::string, std::string> of key value pairs
  * that describe this version of ITK.
  *
- * Values in in the map provide information about
+ * Values in the map provide information about
  * the ITK (i.e. its version, the build options,
  * configuration options, the home URL for the project,
  * and other static information) that can be gathered

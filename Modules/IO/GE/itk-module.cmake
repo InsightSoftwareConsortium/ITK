@@ -9,16 +9,15 @@ itk_module(
   ITKIOGE
   ENABLE_SHARED
   DEPENDS
-  ITKIOIPL
+    ITKIOIPL
   PRIVATE_DEPENDS
-  ITKIOImageBase
+    ITKIOImageBase
   TEST_DEPENDS
-  ITKTestKernel
-  ITKIOIPL
-  ITKIOSiemens
+    ITKTestKernel
+    ITKIOIPL
+    ITKIOSiemens
   FACTORY_NAMES
-  ImageIO::GE4
-  ImageIO::GE5
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ImageIO::GE4
+    ImageIO::GE5
+  DESCRIPTION "${DOCUMENTATION}"
 )

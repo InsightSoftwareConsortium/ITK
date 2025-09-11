@@ -34,7 +34,7 @@ HuangThresholdCalculator<THistogram, TOutput>::GenerateData()
   const TotalAbsoluteFrequencyType total = histogram->GetTotalFrequency();
   if (total == TotalAbsoluteFrequencyType{})
   {
-    itkExceptionMacro("Histogram is empty");
+    itkExceptionStringMacro("Histogram is empty");
   }
   m_Size = histogram->GetSize(0);
   const ProgressReporter progress(this, 0, m_Size);
@@ -127,7 +127,7 @@ HuangThresholdCalculator<THistogram, TOutput>::GenerateData()
       const bool status = histogram->GetIndex(v, muFullIdx);
       if (!status)
       {
-        itkExceptionMacro("Failed looking up histogram");
+        itkExceptionStringMacro("Failed looking up histogram");
       }
       muIdx = muFullIdx[0];
       for (InstanceIdentifier i = threshold + 1; i <= m_LastBin; ++i)

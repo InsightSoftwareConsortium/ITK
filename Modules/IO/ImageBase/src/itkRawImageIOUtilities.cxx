@@ -81,21 +81,18 @@ WriteRawBytesAfterSwapping(IOComponentEnum componentType,
                            SizeValueType   numberOfComponents)
 {
   // Swap bytes if necessary
-  if (componentType == IOComponentEnum::USHORT)
+  if (componentType == IOComponentEnum::CHAR || componentType == IOComponentEnum::UCHAR)
+  {
+    // For CHAR and UCHAR, byte swapping is not necessary.
+    file.write(static_cast<const char *>(buffer), numberOfBytes);
+  }
+  else if (componentType == IOComponentEnum::USHORT)
   {
     _WriteRawBytesAfterSwappingUtility<unsigned short>(buffer, file, byteOrder, numberOfBytes, numberOfComponents);
   }
   else if (componentType == IOComponentEnum::SHORT)
   {
     _WriteRawBytesAfterSwappingUtility<short>(buffer, file, byteOrder, numberOfBytes, numberOfComponents);
-  }
-  else if (componentType == IOComponentEnum::CHAR)
-  {
-    _WriteRawBytesAfterSwappingUtility<char>(buffer, file, byteOrder, numberOfBytes, numberOfComponents);
-  }
-  else if (componentType == IOComponentEnum::UCHAR)
-  {
-    _WriteRawBytesAfterSwappingUtility<unsigned char>(buffer, file, byteOrder, numberOfBytes, numberOfComponents);
   }
   else if (componentType == IOComponentEnum::UINT)
   {
@@ -138,6 +135,7 @@ ReadRawBytesAfterSwapping(IOComponentEnum componentType,
                           SizeValueType   numberOfComponents)
 {
   // Swap bytes if necessary
+  // Note that for CHAR and UCHAR, byte swapping is not necessary.
   if (componentType == IOComponentEnum::USHORT)
   {
     _ReadRawBytesAfterSwappingUtility<unsigned short>(buffer, byteOrder, numberOfComponents);
@@ -145,14 +143,6 @@ ReadRawBytesAfterSwapping(IOComponentEnum componentType,
   else if (componentType == IOComponentEnum::SHORT)
   {
     _ReadRawBytesAfterSwappingUtility<short>(buffer, byteOrder, numberOfComponents);
-  }
-  else if (componentType == IOComponentEnum::CHAR)
-  {
-    _ReadRawBytesAfterSwappingUtility<char>(buffer, byteOrder, numberOfComponents);
-  }
-  else if (componentType == IOComponentEnum::UCHAR)
-  {
-    _ReadRawBytesAfterSwappingUtility<unsigned char>(buffer, byteOrder, numberOfComponents);
   }
   else if (componentType == IOComponentEnum::UINT)
   {

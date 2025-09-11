@@ -156,14 +156,14 @@ public:
   OutputVectorType
   TransformVector(const InputVectorType &, const InputPointType &) const override
   {
-    itkExceptionMacro("Not Implemented");
+    itkExceptionStringMacro("Not Implemented");
   }
 
   /**  Method to transform a vector. */
   OutputVnlVectorType
   TransformVector(const InputVnlVectorType &, const InputPointType &) const override
   {
-    itkExceptionMacro("Not Implemented");
+    itkExceptionStringMacro("Not Implemented");
   }
 
   /**  Method to transform a vector. */
@@ -191,14 +191,14 @@ public:
   OutputVectorPixelType
   TransformVector(const InputVectorPixelType &, const InputPointType &) const override
   {
-    itkExceptionMacro("Not Implemented");
+    itkExceptionStringMacro("Not Implemented");
   }
 
   /**  Method to transform a CovariantVector. */
   OutputCovariantVectorType
   TransformCovariantVector(const InputCovariantVectorType &, const InputPointType &) const override
   {
-    itkExceptionMacro("Not Implemented");
+    itkExceptionStringMacro("Not Implemented");
   }
 
   /**  Method to transform a CovariantVector. */
@@ -219,7 +219,7 @@ public:
   OutputVectorPixelType
   TransformCovariantVector(const InputVectorPixelType &, const InputPointType &) const override
   {
-    itkExceptionMacro("Not Implemented");
+    itkExceptionStringMacro("Not Implemented");
   }
 
   /** Set the transformation to an Identity
@@ -233,20 +233,20 @@ public:
   void
   SetFixedParameters(const FixedParametersType &) override
   {
-    itkExceptionMacro("Not Implemented");
+    itkExceptionStringMacro("Not Implemented");
   }
 
   void
   ComputeJacobianWithRespectToParameters(const InputPointType &, JacobianType &) const override
   {
-    itkExceptionMacro("Not Implemented");
+    itkExceptionStringMacro("Not Implemented");
   }
 
   NumberOfParametersType
   GetNumberOfParameters() const override
   {
     // this transform is defined by XFM file
-    itkExceptionMacro("Not Defined");
+    itkExceptionStringMacro("Not Defined");
   }
 
   /** Set the Transformation Parameters
@@ -254,13 +254,13 @@ public:
   void
   SetParameters(const ParametersType &) override
   {
-    itkExceptionMacro("Not Implemented");
+    itkExceptionStringMacro("Not Implemented");
   }
 
   const ParametersType &
   GetParameters() const override
   {
-    itkExceptionMacro("Not Implemented");
+    itkExceptionStringMacro("Not Implemented");
   }
 
   void
@@ -279,7 +279,7 @@ public:
   {
     if (!m_Initialized)
     {
-      itkExceptionMacro("XFM not initialized");
+      itkExceptionStringMacro("XFM not initialized");
     }
     if (!m_Initialized_invert)
     {
@@ -294,7 +294,7 @@ protected:
   {
     if constexpr (VInputDimension != 3 || VOutputDimension != 3)
     {
-      itkExceptionMacro("MINC transform is currently implemented only for 3D to 3D.");
+      itkExceptionStringMacro("MINC transform is currently implemented only for 3D to 3D.");
     }
   }
 

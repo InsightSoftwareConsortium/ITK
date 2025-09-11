@@ -422,7 +422,7 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::CalcPl
     // find constant
     const double D = -(A * m_BoundingCorner[c1][0] + B * m_BoundingCorner[c1][1] + C * m_BoundingCorner[c1][2]);
 
-    // initialise plane value and normalise
+    // initialize plane value and normalise
     m_BoundingPlane[j][0] = A / std::sqrt(A * A + B * B + C * C);
     m_BoundingPlane[j][1] = B / std::sqrt(A * A + B * B + C * C);
     m_BoundingPlane[j][2] = C / std::sqrt(A * A + B * B + C * C);
@@ -432,8 +432,7 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::CalcPl
     {
       itk::ExceptionObject err(__FILE__, __LINE__);
       err.SetLocation(ITK_LOCATION);
-      err.SetDescription("Division by zero (planes) "
-                         "- CalcPlanesAndCorners().");
+      err.SetDescription("Division by zero (planes) - CalcPlanesAndCorners().");
       throw err;
     }
   }
@@ -918,8 +917,7 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::Adjust
   {
     itk::ExceptionObject err(__FILE__, __LINE__);
     err.SetLocation(ITK_LOCATION);
-    err.SetDescription("The ray traversal direction is unset "
-                       "- AdjustRayLength().");
+    err.SetDescription("The ray traversal direction is unset - AdjustRayLength().");
     throw err;
   }
 
@@ -968,7 +966,7 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::Adjust
     }
   } while ((!(startOK && endOK)) && (m_TotalRayVoxelPlanes > 1));
 
-  return (startOK && endOK);
+  return startOK && endOK;
 }
 
 /* -----------------------------------------------------------------------
@@ -1145,8 +1143,7 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::Initia
     {
       itk::ExceptionObject err(__FILE__, __LINE__);
       err.SetLocation(ITK_LOCATION);
-      err.SetDescription("The ray traversal direction is unset "
-                         "- InitialiseVoxelPointers().");
+      err.SetDescription("The ray traversal direction is unset - InitialiseVoxelPointers().");
       throw err;
     }
   }
@@ -1227,8 +1224,7 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::GetCur
     {
       itk::ExceptionObject err(__FILE__, __LINE__);
       err.SetLocation(ITK_LOCATION);
-      err.SetDescription("The ray traversal direction is unset "
-                         "- GetCurrentIntensity().");
+      err.SetDescription("The ray traversal direction is unset - GetCurrentIntensity().");
       throw err;
     }
   }
@@ -1402,7 +1398,7 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::Evaluate(const PointT
   ray.SetRay(rayPosition, direction);
   ray.IntegrateAboveThreshold(integral, m_Threshold);
 
-  return (static_cast<OutputType>(integral));
+  return static_cast<OutputType>(integral);
 }
 
 template <typename TInputImage, typename TCoordinate>

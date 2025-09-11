@@ -84,7 +84,7 @@ ImageToImageMetric<TFixedImage, TMovingImage>::SetTransformParameters(const Para
 {
   if (!m_Transform)
   {
-    itkExceptionMacro("Transform has not been assigned");
+    itkExceptionStringMacro("Transform has not been assigned");
   }
   m_Transform->SetParameters(parameters);
 }
@@ -225,23 +225,23 @@ ImageToImageMetric<TFixedImage, TMovingImage>::Initialize()
 {
   if (!m_Transform)
   {
-    itkExceptionMacro("Transform is not present");
+    itkExceptionStringMacro("Transform is not present");
   }
   m_NumberOfParameters = m_Transform->GetNumberOfParameters();
 
   if (!m_Interpolator)
   {
-    itkExceptionMacro("Interpolator is not present");
+    itkExceptionStringMacro("Interpolator is not present");
   }
 
   if (!m_MovingImage)
   {
-    itkExceptionMacro("MovingImage is not present");
+    itkExceptionStringMacro("MovingImage is not present");
   }
 
   if (!m_FixedImage)
   {
-    itkExceptionMacro("FixedImage is not present");
+    itkExceptionStringMacro("FixedImage is not present");
   }
 
   // If the image is provided by a source, update the source.
@@ -256,7 +256,7 @@ ImageToImageMetric<TFixedImage, TMovingImage>::Initialize()
   {
     if (this->m_FixedImageIndexes.empty())
     {
-      itkExceptionMacro("FixedImageIndexes list is empty");
+      itkExceptionStringMacro("FixedImageIndexes list is empty");
     }
   }
   else
@@ -264,12 +264,12 @@ ImageToImageMetric<TFixedImage, TMovingImage>::Initialize()
     // Make sure the FixedImageRegion is within the FixedImage buffered region
     if (m_FixedImageRegion.GetNumberOfPixels() == 0)
     {
-      itkExceptionMacro("FixedImageRegion is empty");
+      itkExceptionStringMacro("FixedImageRegion is empty");
     }
 
     if (!m_FixedImageRegion.Crop(m_FixedImage->GetBufferedRegion()))
     {
-      itkExceptionMacro("FixedImageRegion does not overlap the fixed image buffered region");
+      itkExceptionStringMacro("FixedImageRegion does not overlap the fixed image buffered region");
     }
   }
 

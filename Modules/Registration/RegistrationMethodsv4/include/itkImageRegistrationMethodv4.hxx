@@ -274,7 +274,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
     const SizeValueType numberOfObjectPairs = static_cast<unsigned int>(0.5 * this->GetNumberOfIndexedInputs());
     if (numberOfObjectPairs == 0)
     {
-      itkExceptionMacro("There are no input objects.");
+      itkExceptionStringMacro("There are no input objects.");
     }
 
     if (this->m_Metric->GetMetricCategory() == ObjectToObjectMetricBaseTemplateEnums::MetricCategory::MULTI_METRIC)
@@ -282,7 +282,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
       this->m_NumberOfMetrics = multiMetric->GetNumberOfMetrics();
       if (this->m_NumberOfMetrics != numberOfObjectPairs)
       {
-        itkExceptionMacro("Mismatch between number of image pairs and the number of metrics.");
+        itkExceptionStringMacro("Mismatch between number of image pairs and the number of metrics.");
       }
     }
     else
@@ -294,17 +294,17 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
     // metrics
     if (this->m_NumberOfFixedObjects != this->m_NumberOfMovingObjects)
     {
-      itkExceptionMacro("The number of fixed and moving images is not equal.");
+      itkExceptionStringMacro("The number of fixed and moving images is not equal.");
     }
   }
 
   if (!this->m_Optimizer)
   {
-    itkExceptionMacro("The optimizer is not present.");
+    itkExceptionStringMacro("The optimizer is not present.");
   }
   if (!this->m_Metric)
   {
-    itkExceptionMacro("The metric is not present.");
+    itkExceptionStringMacro("The metric is not present.");
   }
 
   auto * movingInitialTransform = const_cast<InitialTransformType *>(this->GetMovingInitialTransform());
@@ -430,7 +430,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
         }
         else
         {
-          itkExceptionMacro("Invalid metric type.");
+          itkExceptionStringMacro("Invalid metric type.");
         }
       }
     }
@@ -453,7 +453,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   }
   else
   {
-    itkExceptionMacro("A virtual domain image is not found.  It should be specified in one of the metrics.");
+    itkExceptionStringMacro("A virtual domain image is not found.  It should be specified in one of the metrics.");
   }
 
   if (this->m_Metric->GetMetricCategory() == ObjectToObjectMetricBaseTemplateEnums::MetricCategory::MULTI_METRIC)
@@ -486,7 +486,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
         }
         else
         {
-          itkExceptionMacro("Virtual domain image is not specified.");
+          itkExceptionStringMacro("Virtual domain image is not specified.");
         }
       }
       else if (multiMetric->GetMetricQueue()[n]->GetMetricCategory() ==
@@ -558,7 +558,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   }
   else
   {
-    itkExceptionMacro("Invalid metric conversion.");
+    itkExceptionStringMacro("Invalid metric conversion.");
   }
 
   // We update the fixed and moving images for the image metrics and
@@ -659,7 +659,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
       }
       else
       {
-        itkExceptionMacro("Invalid metric type.");
+        itkExceptionStringMacro("Invalid metric type.");
       }
     }
     else if (this->m_Metric->GetMetricCategory() ==
@@ -687,12 +687,12 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
       }
       else
       {
-        itkExceptionMacro("Invalid metric type.");
+        itkExceptionStringMacro("Invalid metric type.");
       }
     }
     else
     {
-      itkExceptionMacro("Invalid metric type.");
+      itkExceptionStringMacro("Invalid metric type.");
     }
   }
 
@@ -763,7 +763,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
         return;
       }
 
-      itkExceptionMacro("Unable to convert InitialTransform input to the OutputTransform type");
+      itkExceptionStringMacro("Unable to convert InitialTransform input to the OutputTransform type");
     }
   }
 
@@ -810,7 +810,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
 {
   if (this->m_NumberOfLevels != adaptors.size())
   {
-    itkExceptionMacro("The number of levels does not equal the number array size.");
+    itkExceptionStringMacro("The number of levels does not equal the number array size.");
   }
   else
   {
@@ -882,7 +882,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
     numberOfLocalMetrics = multiMetric->GetNumberOfMetrics();
     if (numberOfLocalMetrics < 1)
     {
-      itkExceptionMacro("Input multi metric should have at least one metric component.");
+      itkExceptionStringMacro("Input multi metric should have at least one metric component.");
     }
     else
     {
@@ -895,7 +895,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
       }
       else
       {
-        itkExceptionMacro("Invalid metric conversion.");
+        itkExceptionStringMacro("Invalid metric conversion.");
       }
     }
   }
@@ -909,7 +909,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
     }
     else
     {
-      itkExceptionMacro("Invalid metric conversion.");
+      itkExceptionStringMacro("Invalid metric conversion.");
     }
   }
 
@@ -1004,7 +1004,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
       }
       default:
       {
-        itkExceptionMacro("Invalid sampling strategy requested.");
+        itkExceptionStringMacro("Invalid sampling strategy requested.");
       }
     }
 
@@ -1228,7 +1228,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
 {
   if (output > 0)
   {
-    itkExceptionMacro("MakeOutput request for an output number larger than the expected number of outputs.");
+    itkExceptionStringMacro("MakeOutput request for an output number larger than the expected number of outputs.");
   }
   OutputTransformPointer ptr;
   Self::MakeOutputTransform(ptr);
@@ -1288,7 +1288,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
     {
       if (*it <= 0.0 || *it > 1.0)
       {
-        itkExceptionMacro("sampling percentage outside expected (0,1] range");
+        itkExceptionStringMacro("sampling percentage outside expected (0,1] range");
       }
     }
     this->m_MetricSamplingPercentagePerLevel = samplingPercentages;

@@ -29,7 +29,7 @@
  *
  * This test creates a sample GaussianSpatialObject and a sample MetaGaussian
  * and converts between the two, testing for conversion completeness. At the
- * moment, this means testing to make sure maixum, radius and color are
+ * moment, this means testing to make sure maximum, radius and color are
  * properly converted, but it may also include testing sigma. The test also
  * runs the read and write methods to test them.
  *

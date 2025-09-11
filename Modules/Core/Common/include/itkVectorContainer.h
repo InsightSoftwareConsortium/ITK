@@ -236,7 +236,7 @@ public:
     bool
     operator>(const Iterator & r) const
     {
-      return (r < *this);
+      return r < *this;
     }
     bool
     operator>=(const Iterator & r) const
@@ -381,12 +381,12 @@ public:
     bool
     operator<(const ConstIterator & r) const
     {
-      return (this->operator-(r) < 0);
+      return this->operator-(r) < 0;
     }
     bool
     operator>(const ConstIterator & r) const
     {
-      return (r < *this);
+      return r < *this;
     }
     bool
     operator<=(const ConstIterator & r) const

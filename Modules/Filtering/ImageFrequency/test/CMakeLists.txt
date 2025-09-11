@@ -12,28 +12,25 @@ createtestdriver(ITKImageFrequency "${ITKImageFrequency-Test_LIBRARIES}" "${ITKI
 
 # FrequencyIterator
 itk_add_test(
-  NAME
-  itkFrequencyFFTLayoutImageRegionIteratorWithIndexTest
+  NAME itkFrequencyFFTLayoutImageRegionIteratorWithIndexTest
   COMMAND
-  ITKImageFrequencyTestDriver
-  itkFrequencyFFTLayoutImageRegionIteratorWithIndexTest
+    ITKImageFrequencyTestDriver
+    itkFrequencyFFTLayoutImageRegionIteratorWithIndexTest
 )
 ## BandPass
 itk_add_test(
-  NAME
-  itkFrequencyBandImageFilterEvenTest
+  NAME itkFrequencyBandImageFilterEvenTest
   COMMAND
-  ITKImageFrequencyTestDriver
-  itkFrequencyBandImageFilterTest
-  "Even"
+    ITKImageFrequencyTestDriver
+    itkFrequencyBandImageFilterTest
+    "Even"
 )
 itk_add_test(
-  NAME
-  itkFrequencyBandImageFilterOddTest
+  NAME itkFrequencyBandImageFilterOddTest
   COMMAND
-  ITKImageFrequencyTestDriver
-  itkFrequencyBandImageFilterTest
-  "Odd"
+    ITKImageFrequencyTestDriver
+    itkFrequencyBandImageFilterTest
+    "Odd"
 )
 
 set(${itk-module}GTests itkFrequencyIteratorsGTest.cxx)

@@ -63,7 +63,7 @@ public:
   typename TInput::ValueType
   GetDistanceThreshold()
   {
-    return (m_Threshold);
+    return m_Threshold;
   }
 
   bool
@@ -138,7 +138,7 @@ public:
   virtual InputValueType
   GetDistanceThreshold()
   {
-    return (this->GetFunctor().GetDistanceThreshold());
+    return this->GetFunctor().GetDistanceThreshold();
   }
 
   itkConceptMacro(InputValueHasNumericTraitsCheck, (Concept::HasNumericTraits<InputValueType>));

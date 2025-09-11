@@ -110,14 +110,14 @@ public:
     const double x = (*m_Parameters)[0];
     const double y = (*m_Parameters)[1];
     const double metric = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - 2 * x + 8 * y;
-    std::cout << (*m_Parameters) << " metric " << metric << std::endl;
+    std::cout << *m_Parameters << " metric " << metric << std::endl;
     return metric;
   }
 
   void
   UpdateTransformParameters(const DerivativeType & update, ParametersValueType) override
   {
-    (*m_Parameters) += update;
+    *m_Parameters += update;
   }
 
   unsigned int
@@ -149,7 +149,7 @@ public:
   const ParametersType &
   GetParameters() const override
   {
-    return (*m_Parameters);
+    return *m_Parameters;
   }
 
 private:
@@ -225,7 +225,7 @@ public:
     const double x = (*m_Parameters)[0];
     const double y = (*m_Parameters)[1];
     const double metric = 0.5 * (3 * x * x + 4 * x * y + 6 * y * y) - x + 4 * y;
-    std::cout << (*m_Parameters) << " metric " << metric << std::endl;
+    std::cout << *m_Parameters << " metric " << metric << std::endl;
     return metric;
   }
 
@@ -238,7 +238,7 @@ public:
   void
   UpdateTransformParameters(const DerivativeType & update, ParametersValueType) override
   {
-    (*m_Parameters) += update;
+    *m_Parameters += update;
   }
 
   unsigned int
@@ -264,7 +264,7 @@ public:
   const ParametersType &
   GetParameters() const override
   {
-    return (*m_Parameters);
+    return *m_Parameters;
   }
 
 private:

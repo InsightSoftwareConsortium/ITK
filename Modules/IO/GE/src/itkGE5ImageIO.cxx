@@ -242,7 +242,7 @@ GE5ImageIO::ReadHeader(const char * FileNameToRead)
   if (f.fail())
   {
     f.close();
-    itkExceptionMacro("GE5ImageIO:Could not read exam header!");
+    itkExceptionStringMacro("GE5ImageIO:Could not read exam header!");
   }
 
   // Now extract the exam information from the buffer.
@@ -289,7 +289,7 @@ GE5ImageIO::ReadHeader(const char * FileNameToRead)
   if (f.fail())
   {
     f.close();
-    itkExceptionMacro("GE5ImageIO:Could not read exam header!");
+    itkExceptionStringMacro("GE5ImageIO:Could not read exam header!");
   }
 
   // Now extract the series information from the buffer.
@@ -315,7 +315,7 @@ GE5ImageIO::ReadHeader(const char * FileNameToRead)
   }
   if (f.fail())
   {
-    itkExceptionMacro("GE5ImageIOCould not read exam header!");
+    itkExceptionStringMacro("GE5ImageIOCould not read exam header!");
   }
   // Won't need anymore info from the file after this, so close file.
   f.close();
@@ -435,7 +435,7 @@ GE5ImageIO::ReadHeader(const char * FileNameToRead)
   // Return the pointer to the header.
   // The function that receives the pointer must do memory
   // cleanup or a memory leak will occur.
-  return (curImage);
+  return curImage;
 }
 
 void

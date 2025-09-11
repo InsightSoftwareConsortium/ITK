@@ -55,7 +55,7 @@ GPUDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TPare
 
   if (!drfp)
   {
-    itkExceptionMacro("Could not cast difference function to DemonsRegistrationFunction");
+    itkExceptionStringMacro("Could not cast difference function to DemonsRegistrationFunction");
   }
 
   drfp->SetUseMovingImageGradient(m_UseMovingImageGradient);
@@ -75,7 +75,7 @@ GPUDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TPare
 
   if (!drfp)
   {
-    itkExceptionMacro("Could not cast difference function to DemonsRegistrationFunction");
+    itkExceptionStringMacro("Could not cast difference function to DemonsRegistrationFunction");
   }
 
   return drfp->GetMetric();
@@ -90,7 +90,7 @@ GPUDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TPare
 
   if (!drfp)
   {
-    itkExceptionMacro("Could not cast difference function to DemonsRegistrationFunction");
+    itkExceptionStringMacro("Could not cast difference function to DemonsRegistrationFunction");
   }
 
   return drfp->GetIntensityDifferenceThreshold();
@@ -105,7 +105,7 @@ GPUDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TPare
 
   if (!drfp)
   {
-    itkExceptionMacro("Could not cast difference function to DemonsRegistrationFunction");
+    itkExceptionStringMacro("Could not cast difference function to DemonsRegistrationFunction");
   }
 
   drfp->SetIntensityDifferenceThreshold(threshold);
@@ -131,7 +131,7 @@ GPUDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TPare
 
   if (!drfp)
   {
-    itkExceptionMacro("Could not cast difference function to DemonsRegistrationFunction");
+    itkExceptionStringMacro("Could not cast difference function to DemonsRegistrationFunction");
   }
 
   this->SetRMSChange(drfp->GetRMSChange());

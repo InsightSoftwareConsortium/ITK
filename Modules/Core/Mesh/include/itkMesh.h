@@ -278,7 +278,7 @@ public:
     bool
     operator==(const Self & r) const
     {
-      return ((m_CellId == r.m_CellId) && (m_FeatureId == r.m_FeatureId));
+      return (m_CellId == r.m_CellId) && (m_FeatureId == r.m_FeatureId);
     }
 
   }; // End Class: Mesh::BoundaryAssignmentIdentifier

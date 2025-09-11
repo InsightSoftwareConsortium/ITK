@@ -13,7 +13,7 @@
 // IWYU pragma: private
 #include "../InternalHeaderCheck.h"
 
-namespace Eigen { 
+namespace Eigen {
 
 namespace internal {
 
@@ -21,48 +21,42 @@ namespace internal {
  * It corresponds to the Level2 syr2 BLAS routine
  */
 
-template<typename Scalar, typename Index, typename UType, typename VType, int UpLo>
+template <typename Scalar, typename Index, typename UType, typename VType, int UpLo>
 struct selfadjoint_rank2_update_selector;
 
-template<typename Scalar, typename Index, typename UType, typename VType>
-struct selfadjoint_rank2_update_selector<Scalar,Index,UType,VType,Lower>
-{
-  static EIGEN_DEVICE_FUNC
-  void run(Scalar* mat, Index stride, const UType& u, const VType& v, const Scalar& alpha)
-  {
+template <typename Scalar, typename Index, typename UType, typename VType>
+struct selfadjoint_rank2_update_selector<Scalar, Index, UType, VType, Lower> {
+  static EIGEN_DEVICE_FUNC void run(Scalar* mat, Index stride, const UType& u, const VType& v, const Scalar& alpha) {
     const Index size = u.size();
-    for (Index i=0; i<size; ++i)
-    {
-      Map<Matrix<Scalar,Dynamic,1> >(mat+stride*i+i, size-i) +=
-                        (numext::conj(alpha) * numext::conj(u.coeff(i))) * v.tail(size-i)
-                      + (alpha * numext::conj(v.coeff(i))) * u.tail(size-i);
+    for (Index i = 0; i < size; ++i) {
+      Map<Matrix<Scalar, Dynamic, 1>>(mat + stride * i + i, size - i) +=
+          (numext::conj(alpha) * numext::conj(u.coeff(i))) * v.tail(size - i) +
+          (alpha * numext::conj(v.coeff(i))) * u.tail(size - i);
     }
   }
 };
 
-template<typename Scalar, typename Index, typename UType, typename VType>
-struct selfadjoint_rank2_update_selector<Scalar,Index,UType,VType,Upper>
-{
-  static void run(Scalar* mat, Index stride, const UType& u, const VType& v, const Scalar& alpha)
-  {
+template <typename Scalar, typename Index, typename UType, typename VType>
+struct selfadjoint_rank2_update_selector<Scalar, Index, UType, VType, Upper> {
+  static void run(Scalar* mat, Index stride, const UType& u, const VType& v, const Scalar& alpha) {
     const Index size = u.size();
-    for (Index i=0; i<size; ++i)
-      Map<Matrix<Scalar,Dynamic,1> >(mat+stride*i, i+1) +=
-                        (numext::conj(alpha)  * numext::conj(u.coeff(i))) * v.head(i+1)
-                      + (alpha * numext::conj(v.coeff(i))) * u.head(i+1);
+    for (Index i = 0; i < size; ++i)
+      Map<Matrix<Scalar, Dynamic, 1>>(mat + stride * i, i + 1) +=
+          (numext::conj(alpha) * numext::conj(u.coeff(i))) * v.head(i + 1) +
+          (alpha * numext::conj(v.coeff(i))) * u.head(i + 1);
   }
 };
 
-template<bool Cond, typename T>
-using conj_expr_if = std::conditional<!Cond, const T&, CwiseUnaryOp<scalar_conjugate_op<typename traits<T>::Scalar>,T>>;
+template <bool Cond, typename T>
+using conj_expr_if =
+    std::conditional<!Cond, const T&, CwiseUnaryOp<scalar_conjugate_op<typename traits<T>::Scalar>, T>>;
 
-} // end namespace internal
+}  // end namespace internal
 
-template<typename MatrixType, unsigned int UpLo>
-template<typename DerivedU, typename DerivedV>
-EIGEN_DEVICE_FUNC SelfAdjointView<MatrixType,UpLo>& SelfAdjointView<MatrixType,UpLo>
-::rankUpdate(const MatrixBase<DerivedU>& u, const MatrixBase<DerivedV>& v, const Scalar& alpha)
-{
+template <typename MatrixType, unsigned int UpLo>
+template <typename DerivedU, typename DerivedV>
+EIGEN_DEVICE_FUNC SelfAdjointView<MatrixType, UpLo>& SelfAdjointView<MatrixType, UpLo>::rankUpdate(
+    const MatrixBase<DerivedU>& u, const MatrixBase<DerivedV>& v, const Scalar& alpha) {
   typedef internal::blas_traits<DerivedU> UBlasTraits;
   typedef typename UBlasTraits::DirectLinearAccessType ActualUType;
   typedef internal::remove_all_t<ActualUType> ActualUType_;
@@ -76,21 +70,26 @@ EIGEN_DEVICE_FUNC SelfAdjointView<MatrixType,UpLo>& SelfAdjointView<MatrixType,U
   // If MatrixType is row major, then we use the routine for lower triangular in the upper triangular case and
   // vice versa, and take the complex conjugate of all coefficients and vector entries.
 
-  enum { IsRowMajor = (internal::traits<MatrixType>::Flags&RowMajorBit) ? 1 : 0 };
-  Scalar actualAlpha = alpha * UBlasTraits::extractScalarFactor(u.derived())
-                             * numext::conj(VBlasTraits::extractScalarFactor(v.derived()));
-  if (IsRowMajor)
-    actualAlpha = numext::conj(actualAlpha);
+  enum { IsRowMajor = (internal::traits<MatrixType>::Flags & RowMajorBit) ? 1 : 0 };
+  Scalar actualAlpha = alpha * UBlasTraits::extractScalarFactor(u.derived()) *
+                       numext::conj(VBlasTraits::extractScalarFactor(v.derived()));
+  if (IsRowMajor) actualAlpha = numext::conj(actualAlpha);
 
-  typedef internal::remove_all_t<typename internal::conj_expr_if<int(IsRowMajor) ^ int(UBlasTraits::NeedToConjugate), ActualUType_>::type> UType;
-  typedef internal::remove_all_t<typename internal::conj_expr_if<int(IsRowMajor) ^ int(VBlasTraits::NeedToConjugate), ActualVType_>::type> VType;
+  typedef internal::remove_all_t<
+      typename internal::conj_expr_if<int(IsRowMajor) ^ int(UBlasTraits::NeedToConjugate), ActualUType_>::type>
+      UType;
+  typedef internal::remove_all_t<
+      typename internal::conj_expr_if<int(IsRowMajor) ^ int(VBlasTraits::NeedToConjugate), ActualVType_>::type>
+      VType;
   internal::selfadjoint_rank2_update_selector<Scalar, Index, UType, VType,
-    (IsRowMajor ? int(UpLo==Upper ? Lower : Upper) : UpLo)>
-    ::run(_expression().const_cast_derived().data(),_expression().outerStride(),UType(actualU),VType(actualV),actualAlpha);
+                                              (IsRowMajor ? int(UpLo == Upper ? Lower : Upper)
+                                                          : UpLo)>::run(_expression().const_cast_derived().data(),
+                                                                        _expression().outerStride(), UType(actualU),
+                                                                        VType(actualV), actualAlpha);
 
   return *this;
 }
 
-} // end namespace Eigen
+}  // end namespace Eigen
 
-#endif // EIGEN_SELFADJOINTRANK2UPTADE_H
+#endif  // EIGEN_SELFADJOINTRANK2UPTADE_H

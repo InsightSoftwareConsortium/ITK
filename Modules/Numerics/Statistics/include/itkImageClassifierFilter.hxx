@@ -103,17 +103,17 @@ ImageClassifierFilter<TSample, TInputImage, TOutputImage>::GenerateData()
   // */
   if (membershipFunctions.size() != this->m_NumberOfClasses)
   {
-    itkExceptionMacro("Number of Membership functions does not match the number of classes");
+    itkExceptionStringMacro("Number of Membership functions does not match the number of classes");
   }
 
   if (classLabels.size() != this->m_NumberOfClasses)
   {
-    itkExceptionMacro("Number of class labels does not match the number of classes");
+    itkExceptionStringMacro("Number of class labels does not match the number of classes");
   }
 
   if (m_DecisionRule.IsNull())
   {
-    itkExceptionMacro("Decision rule is not set");
+    itkExceptionStringMacro("Decision rule is not set");
   }
 
   MembershipFunctionsWeightsArrayType membershipFunctionsWeightsArray;
@@ -132,7 +132,7 @@ ImageClassifierFilter<TSample, TInputImage, TOutputImage>::GenerateData()
 
   if (membershipFunctionsWeightsArray.Size() != this->m_NumberOfClasses)
   {
-    itkExceptionMacro("Membership functions weight array size does not match the number of classes ");
+    itkExceptionStringMacro("Membership functions weight array size does not match the number of classes ");
   }
 
   const auto * inputImage = static_cast<const InputImageType *>(this->ProcessObject::GetInput(0));

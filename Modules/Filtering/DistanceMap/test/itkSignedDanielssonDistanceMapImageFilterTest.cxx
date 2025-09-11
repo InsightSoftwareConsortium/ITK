@@ -26,7 +26,7 @@ test(int);
 int
 itkSignedDanielssonDistanceMapImageFilterTest(int, char *[])
 {
-  test(1); // Test with a 9x9 square, with a 5x5 subsquare in the middle ON
+  test(1); // Test with a 9x9 square, with a 5x5 sub-square in the middle ON
   test(0); // Test with 2 points.. same test and results as
            // DanielssonDistanceMap
   return EXIT_SUCCESS;
@@ -48,8 +48,8 @@ test(int testIdx)
   using myImageType2D1 = itk::Image<unsigned char, Dimension>;
   using myImageType2D2 = itk::Image<PixelType, Dimension>;
 
-  /* TEST 1: For a point image, SignedDaniessonDistanceMapImageFilter should
-   * give the same output as DaniessonDistanceMapImageFilter  */
+  /* TEST 1: For a point image, SignedDanielssonDistanceMapImageFilter should
+   * give the same output as DanielssonDistanceMapImageFilter  */
 
   /* Allocate the 2D image */
   auto size2D = myImageType2D1::SizeType::Filled(9);

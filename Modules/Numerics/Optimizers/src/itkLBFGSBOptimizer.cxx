@@ -293,22 +293,22 @@ LBFGSBOptimizer::StartOptimization()
 
   if (this->GetInitialPosition().Size() < numberOfParameters)
   {
-    itkExceptionMacro("InitialPosition array does not have sufficient number of elements");
+    itkExceptionStringMacro("InitialPosition array does not have sufficient number of elements");
   }
 
   if (m_LowerBound.size() < numberOfParameters)
   {
-    itkExceptionMacro("LowerBound array does not have sufficient number of elements");
+    itkExceptionStringMacro("LowerBound array does not have sufficient number of elements");
   }
 
   if (m_UpperBound.size() < numberOfParameters)
   {
-    itkExceptionMacro("UppperBound array does not have sufficient number of elements");
+    itkExceptionStringMacro("UppperBound array does not have sufficient number of elements");
   }
 
   if (m_BoundSelection.size() < numberOfParameters)
   {
-    itkExceptionMacro("BoundSelection array does not have sufficient number of elements");
+    itkExceptionStringMacro("BoundSelection array does not have sufficient number of elements");
   }
 
   if (this->GetMaximize())
@@ -317,8 +317,8 @@ LBFGSBOptimizer::StartOptimization()
   }
   if (this->m_CostFunctionConvergenceFactor == 0.0 && this->m_ProjectedGradientTolerance == 0.0)
   {
-    itkExceptionMacro("LBFGSB Optimizer cannot function if both CostFunctionConvergenceFactor"
-                      " and ProjectedGradienctTolerance are zero.");
+    itkExceptionStringMacro("LBFGSB Optimizer cannot function if both CostFunctionConvergenceFactor and "
+                            "ProjectedGradienctTolerance are zero.");
   }
   this->SetCurrentPosition(this->GetInitialPosition());
 
@@ -334,7 +334,7 @@ LBFGSBOptimizer::StartOptimization()
   {
     // set current position to initial position and throw an exception
     this->SetCurrentPosition(this->GetInitialPosition());
-    itkExceptionMacro("Error occurred in optimization");
+    itkExceptionStringMacro("Error occurred in optimization");
   }
 
   this->SetCurrentPosition(parameters);

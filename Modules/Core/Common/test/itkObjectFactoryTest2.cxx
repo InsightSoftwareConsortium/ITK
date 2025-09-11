@@ -98,7 +98,7 @@ itkObjectFactoryTest2(int argc, char * argv[])
   // This is needed on WIndows to see warnings in the test output
   itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
-  // Build up a path from the argumentes
+  // Build up a path from the arguments
 #ifdef _WIN32
   std::string pathSeparator = ";";
 #else

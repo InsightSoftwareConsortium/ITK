@@ -18,23 +18,41 @@ namespace Eigen {
 template <typename Environment>
 class ThreadPoolTempl : public Eigen::ThreadPoolInterface {
  public:
+  typedef typename Environment::EnvThread Thread;
   typedef typename Environment::Task Task;
   typedef RunQueue<Task, 1024> Queue;
 
-  ThreadPoolTempl(int num_threads, Environment env = Environment())
-      : ThreadPoolTempl(num_threads, true, env) {}
+  struct PerThread {
+    constexpr PerThread() : pool(NULL), rand(0), thread_id(-1) {}
+    ThreadPoolTempl* pool;  // Parent pool, or null for normal threads.
+    uint64_t rand;          // Random generator state.
+    int thread_id;          // Worker thread index in pool.
+  };
 
-  ThreadPoolTempl(int num_threads, bool allow_spinning,
-                  Environment env = Environment())
+  struct ThreadData {
+    constexpr ThreadData() : thread(), steal_partition(0), queue() {}
+    std::unique_ptr<Thread> thread;
+    std::atomic<unsigned> steal_partition;
+    Queue queue;
+  };
+
+  ThreadPoolTempl(int num_threads, Environment env = Environment()) : ThreadPoolTempl(num_threads, true, env) {}
+
+  ThreadPoolTempl(int num_threads, bool allow_spinning, Environment env = Environment())
       : env_(env),
         num_threads_(num_threads),
         allow_spinning_(allow_spinning),
+        spin_count_(
+            // TODO(dvyukov,rmlarsen): The time spent in NonEmptyQueueIndex() is proportional to num_threads_ and
+            // we assume that new work is scheduled at a constant rate, so we divide `kSpintCount` by number of
+            // threads and number of spinning threads. The constant was picked based on a fair dice roll, tune it.
+            allow_spinning && num_threads > 0 ? kSpinCount / kMaxSpinningThreads / num_threads : 0),
         thread_data_(num_threads),
         all_coprimes_(num_threads),
         waiters_(num_threads),
         global_steal_partition_(EncodePartition(0, num_threads_)),
+        spinning_state_(0),
         blocked_(0),
-        spinning_(0),
         done_(false),
         cancelled_(false),
         ec_(waiters_) {
@@ -57,8 +75,7 @@ class ThreadPoolTempl : public Eigen::ThreadPoolInterface {
     thread_data_.resize(num_threads_);
     for (int i = 0; i < num_threads_; i++) {
       SetStealPartition(i, EncodePartition(0, num_threads_));
-      thread_data_[i].thread.reset(
-          env_.CreateThread([this, i]() { WorkerLoop(i); }));
+      thread_data_[i].thread.reset(env_.CreateThread([this, i]() { WorkerLoop(i); }));
     }
 #ifndef EIGEN_THREAD_LOCAL
     // Wait for workers to initialize per_thread_map_. Otherwise we might race
@@ -84,8 +101,7 @@ class ThreadPoolTempl : public Eigen::ThreadPoolInterface {
     }
     // Join threads explicitly (by destroying) to avoid destruction order within
     // this class.
-    for (size_t i = 0; i < thread_data_.size(); ++i)
-      thread_data_[i].thread.reset();
+    for (size_t i = 0; i < thread_data_.size(); ++i) thread_data_[i].thread.reset();
   }
 
   void SetStealPartitions(const std::vector<std::pair<unsigned, unsigned>>& partitions) {
@@ -101,12 +117,9 @@ class ThreadPoolTempl : public Eigen::ThreadPoolInterface {
     }
   }
 
-  void Schedule(std::function<void()> fn) EIGEN_OVERRIDE {
-    ScheduleWithHint(std::move(fn), 0, num_threads_);
-  }
+  void Schedule(std::function<void()> fn) EIGEN_OVERRIDE { ScheduleWithHint(std::move(fn), 0, num_threads_); }
 
-  void ScheduleWithHint(std::function<void()> fn, int start,
-                        int limit) override {
+  void ScheduleWithHint(std::function<void()> fn, int start, int limit) override {
     Task t = env_.CreateTask(std::move(fn));
     PerThread* pt = GetPerThread();
     if (pt->pool == this) {
@@ -132,9 +145,48 @@ class ThreadPoolTempl : public Eigen::ThreadPoolInterface {
     // this. We expect that such scenario is prevented by program, that is,
     // this is kept alive while any threads can potentially be in Schedule.
     if (!t.f) {
-      ec_.Notify(false);
+      if (IsNotifyParkedThreadRequired()) {
+        ec_.Notify(false);
+      }
     } else {
       env_.ExecuteTask(t);  // Push failed, execute directly.
+    }
+  }
+
+  // Tries to assign work to the current task.
+  void MaybeGetTask(Task* t) {
+    PerThread* pt = GetPerThread();
+    const int thread_id = pt->thread_id;
+    // If we are not a worker thread of this pool, we can't get any work.
+    if (thread_id < 0) return;
+    Queue& q = thread_data_[thread_id].queue;
+    *t = q.PopFront();
+    if (t->f) return;
+    if (num_threads_ == 1) {
+      // For num_threads_ == 1 there is no point in going through the expensive
+      // steal loop. Moreover, since NonEmptyQueueIndex() calls PopBack() on the
+      // victim queues it might reverse the order in which ops are executed
+      // compared to the order in which they are scheduled, which tends to be
+      // counter-productive for the types of I/O workloads single thread pools
+      // tend to be used for.
+      for (int i = 0; i < spin_count_ && !t->f; ++i) *t = q.PopFront();
+    } else {
+      if (EIGEN_PREDICT_FALSE(!t->f)) *t = LocalSteal();
+      if (EIGEN_PREDICT_FALSE(!t->f)) *t = GlobalSteal();
+      if (EIGEN_PREDICT_FALSE(!t->f)) {
+        if (allow_spinning_ && StartSpinning()) {
+          for (int i = 0; i < spin_count_ && !t->f; ++i) *t = GlobalSteal();
+          // Notify `spinning_state_` that we are no longer spinning.
+          bool has_no_notify_task = StopSpinning();
+          // If a task was submitted to the queue without a call to
+          // `ec_.Notify()` (if `IsNotifyParkedThreadRequired()` returned
+          // false), and we didn't steal anything above, we must try to
+          // steal one more time, to make sure that this task will be
+          // executed. We will not necessarily find it, because it might
+          // have been already stolen by some other thread.
+          if (has_no_notify_task && !t->f) *t = GlobalSteal();
+        }
+      }
     }
   }
 
@@ -172,12 +224,10 @@ class ThreadPoolTempl : public Eigen::ThreadPoolInterface {
   // Exposed publicly as static functions so that external callers can reuse
   // this encode/decode logic for maintaining their own thread-safe copies of
   // scheduling and steal domain(s).
-  static const int kMaxPartitionBits = 16;
-  static const int kMaxThreads = 1 << kMaxPartitionBits;
+  static constexpr int kMaxPartitionBits = 16;
+  static constexpr int kMaxThreads = 1 << kMaxPartitionBits;
 
-  inline unsigned EncodePartition(unsigned start, unsigned limit) {
-    return (start << kMaxPartitionBits) | limit;
-  }
+  inline unsigned EncodePartition(unsigned start, unsigned limit) { return (start << kMaxPartitionBits) | limit; }
 
   inline void DecodePartition(unsigned val, unsigned* start, unsigned* limit) {
     *limit = val & (kMaxThreads - 1);
@@ -195,9 +245,7 @@ class ThreadPoolTempl : public Eigen::ThreadPoolInterface {
     thread_data_[i].steal_partition.store(val, std::memory_order_relaxed);
   }
 
-  inline unsigned GetStealPartition(int i) {
-    return thread_data_[i].steal_partition.load(std::memory_order_relaxed);
-  }
+  inline unsigned GetStealPartition(int i) { return thread_data_[i].steal_partition.load(std::memory_order_relaxed); }
 
   void ComputeCoprimes(int N, MaxSizeVector<unsigned>* coprimes) {
     for (int i = 1; i <= N; i++) {
@@ -215,35 +263,68 @@ class ThreadPoolTempl : public Eigen::ThreadPoolInterface {
     }
   }
 
-  typedef typename Environment::EnvThread Thread;
+  // Maximum number of threads that can spin in steal loop.
+  static constexpr int kMaxSpinningThreads = 1;
 
-  struct PerThread {
-    constexpr PerThread() : pool(NULL), rand(0), thread_id(-1) {}
-    ThreadPoolTempl* pool;  // Parent pool, or null for normal threads.
-    uint64_t rand;          // Random generator state.
-    int thread_id;          // Worker thread index in pool.
-#ifndef EIGEN_THREAD_LOCAL
-    // Prevent false sharing.
-    char pad_[128];
-#endif
-  };
+  // The number of steal loop spin iterations before parking (this number is
+  // divided by the number of threads, to get spin count for each thread).
+  static constexpr int kSpinCount = 5000;
 
-  struct ThreadData {
-    constexpr ThreadData() : thread(), steal_partition(0), queue() {}
-    std::unique_ptr<Thread> thread;
-    std::atomic<unsigned> steal_partition;
-    Queue queue;
+  // If there are enough active threads with empty pending-task queues, a thread
+  // that runs out of work can just be parked without spinning, because these
+  // active threads will go into a steal loop after finishing their current
+  // tasks.
+  //
+  // In the worst case when all active threads are executing long/expensive
+  // tasks, the next Schedule() will have to wait until one of the parked
+  // threads will be unparked, however this should be very rare in practice.
+  static constexpr int kMinActiveThreadsToStartSpinning = 4;
+
+  struct SpinningState {
+    // Spinning state layout:
+    //
+    // - Low 32 bits encode the number of threads that are spinning in steal
+    //   loop.
+    //
+    // - High 32 bits encode the number of tasks that were submitted to the pool
+    //   without a call to `ec_.Notify()`. This number can't be larger than
+    //   the number of spinning threads. Each spinning thread, when it exits the
+    //   spin loop must check if this number is greater than zero, and maybe
+    //   make another attempt to steal a task and decrement it by one.
+    static constexpr uint64_t kNumSpinningMask = 0x00000000FFFFFFFF;
+    static constexpr uint64_t kNumNoNotifyMask = 0xFFFFFFFF00000000;
+    static constexpr uint64_t kNumNoNotifyShift = 32;
+
+    uint64_t num_spinning;         // number of spinning threads
+    uint64_t num_no_notification;  // number of tasks submitted without
+                                   // notifying waiting threads
+
+    // Decodes `spinning_state_` value.
+    static SpinningState Decode(uint64_t state) {
+      uint64_t num_spinning = (state & kNumSpinningMask);
+      uint64_t num_no_notification = (state & kNumNoNotifyMask) >> kNumNoNotifyShift;
+
+      eigen_plain_assert(num_no_notification <= num_spinning);
+      return {num_spinning, num_no_notification};
+    }
+
+    // Encodes as `spinning_state_` value.
+    uint64_t Encode() const {
+      eigen_plain_assert(num_no_notification <= num_spinning);
+      return (num_no_notification << kNumNoNotifyShift) | num_spinning;
+    }
   };
 
   Environment env_;
   const int num_threads_;
   const bool allow_spinning_;
+  const int spin_count_;
   MaxSizeVector<ThreadData> thread_data_;
   MaxSizeVector<MaxSizeVector<unsigned>> all_coprimes_;
   MaxSizeVector<EventCount::Waiter> waiters_;
   unsigned global_steal_partition_;
+  std::atomic<uint64_t> spinning_state_;
   std::atomic<unsigned> blocked_;
-  std::atomic<bool> spinning_;
   std::atomic<bool> done_;
   std::atomic<bool> cancelled_;
   EventCount ec_;
@@ -252,6 +333,9 @@ class ThreadPoolTempl : public Eigen::ThreadPoolInterface {
   EIGEN_MUTEX per_thread_map_mutex_;  // Protects per_thread_map_.
   std::unordered_map<uint64_t, std::unique_ptr<PerThread>> per_thread_map_;
 #endif
+
+  unsigned NumBlockedThreads() const { return blocked_.load(); }
+  unsigned NumActiveThreads() const { return num_threads_ - blocked_.load(); }
 
   // Main worker thread loop.
   void WorkerLoop(int thread_id) {
@@ -269,68 +353,16 @@ class ThreadPoolTempl : public Eigen::ThreadPoolInterface {
     pt->pool = this;
     pt->rand = GlobalThreadIdHash();
     pt->thread_id = thread_id;
-    Queue& q = thread_data_[thread_id].queue;
-    EventCount::Waiter* waiter = &waiters_[thread_id];
-    // TODO(dvyukov,rmlarsen): The time spent in NonEmptyQueueIndex() is
-    // proportional to num_threads_ and we assume that new work is scheduled at
-    // a constant rate, so we set spin_count to 5000 / num_threads_. The
-    // constant was picked based on a fair dice roll, tune it.
-    const int spin_count =
-        allow_spinning_ && num_threads_ > 0 ? 5000 / num_threads_ : 0;
-    if (num_threads_ == 1) {
-      // For num_threads_ == 1 there is no point in going through the expensive
-      // steal loop. Moreover, since NonEmptyQueueIndex() calls PopBack() on the
-      // victim queues it might reverse the order in which ops are executed
-      // compared to the order in which they are scheduled, which tends to be
-      // counter-productive for the types of I/O workloads the single thread
-      // pools tend to be used for.
-      while (!cancelled_) {
-        Task t = q.PopFront();
-        for (int i = 0; i < spin_count && !t.f; i++) {
-          if (!cancelled_.load(std::memory_order_relaxed)) {
-            t = q.PopFront();
-          }
-        }
-        if (!t.f) {
-          if (!WaitForWork(waiter, &t)) {
-            return;
-          }
-        }
-        if (t.f) {
-          env_.ExecuteTask(t);
-        }
+    Task t;
+    while (!cancelled_.load(std::memory_order_relaxed)) {
+      MaybeGetTask(&t);
+      // If we still don't have a task, wait for one. Return if thread pool is
+      // in cancelled state.
+      if (EIGEN_PREDICT_FALSE(!t.f)) {
+        EventCount::Waiter* waiter = &waiters_[pt->thread_id];
+        if (!WaitForWork(waiter, &t)) return;
       }
-    } else {
-      while (!cancelled_) {
-        Task t = q.PopFront();
-        if (!t.f) {
-          t = LocalSteal();
-          if (!t.f) {
-            t = GlobalSteal();
-            if (!t.f) {
-              // Leave one thread spinning. This reduces latency.
-              if (allow_spinning_ && !spinning_ && !spinning_.exchange(true)) {
-                for (int i = 0; i < spin_count && !t.f; i++) {
-                  if (!cancelled_.load(std::memory_order_relaxed)) {
-                    t = GlobalSteal();
-                  } else {
-                    return;
-                  }
-                }
-                spinning_ = false;
-              }
-              if (!t.f) {
-                if (!WaitForWork(waiter, &t)) {
-                  return;
-                }
-              }
-            }
-          }
-        }
-        if (t.f) {
-          env_.ExecuteTask(t);
-        }
-      }
+      if (EIGEN_PREDICT_TRUE(t.f)) env_.ExecuteTask(t);
     }
   }
 
@@ -342,9 +374,9 @@ class ThreadPoolTempl : public Eigen::ThreadPoolInterface {
     unsigned r = Rand(&pt->rand);
     // Reduce r into [0, size) range, this utilizes trick from
     // https://lemire.me/blog/2016/06/27/a-fast-alternative-to-the-modulo-reduction/
-    eigen_plain_assert(all_coprimes_[size - 1].size() < (1<<30));
+    eigen_plain_assert(all_coprimes_[size - 1].size() < (1 << 30));
     unsigned victim = ((uint64_t)r * (uint64_t)size) >> 32;
-    unsigned index = ((uint64_t) all_coprimes_[size - 1].size() * (uint64_t)r) >> 32;
+    unsigned index = ((uint64_t)all_coprimes_[size - 1].size() * (uint64_t)r) >> 32;
     unsigned inc = all_coprimes_[size - 1][index];
 
     for (unsigned i = 0; i < size; i++) {
@@ -355,7 +387,7 @@ class ThreadPoolTempl : public Eigen::ThreadPoolInterface {
       }
       victim += inc;
       if (victim >= size) {
-        victim -= size;
+        victim -= static_cast<unsigned int>(size);
       }
     }
     return Task();
@@ -376,10 +408,7 @@ class ThreadPoolTempl : public Eigen::ThreadPoolInterface {
   }
 
   // Steals work from any other thread in the pool.
-  Task GlobalSteal() {
-    return Steal(0, num_threads_);
-  }
-
+  Task GlobalSteal() { return Steal(0, num_threads_); }
 
   // WaitForWork blocks until new work is available (returns true), or if it is
   // time to exit (returns false). Can optionally return a task to execute in t
@@ -446,10 +475,80 @@ class ThreadPoolTempl : public Eigen::ThreadPoolInterface {
       }
       victim += inc;
       if (victim >= size) {
-        victim -= size;
+        victim -= static_cast<unsigned int>(size);
       }
     }
     return -1;
+  }
+
+  // StartSpinning() checks if the number of threads in the spin loop is less
+  // than the allowed maximum. If so, increments the number of spinning threads
+  // by one and returns true (caller must enter the spin loop). Otherwise
+  // returns false, and the caller must not enter the spin loop.
+  bool StartSpinning() {
+    if (NumActiveThreads() > kMinActiveThreadsToStartSpinning) return false;
+
+    uint64_t spinning = spinning_state_.load(std::memory_order_relaxed);
+    for (;;) {
+      SpinningState state = SpinningState::Decode(spinning);
+
+      if ((state.num_spinning - state.num_no_notification) >= kMaxSpinningThreads) {
+        return false;
+      }
+
+      // Increment the number of spinning threads.
+      ++state.num_spinning;
+
+      if (spinning_state_.compare_exchange_weak(spinning, state.Encode(), std::memory_order_relaxed)) {
+        return true;
+      }
+    }
+  }
+
+  // StopSpinning() decrements the number of spinning threads by one. It also
+  // checks if there were any tasks submitted into the pool without notifying
+  // parked threads, and decrements the count by one. Returns true if the number
+  // of tasks submitted without notification was decremented. In this case,
+  // caller thread might have to call Steal() one more time.
+  bool StopSpinning() {
+    uint64_t spinning = spinning_state_.load(std::memory_order_relaxed);
+    for (;;) {
+      SpinningState state = SpinningState::Decode(spinning);
+
+      // Decrement the number of spinning threads.
+      --state.num_spinning;
+
+      // Maybe decrement the number of tasks submitted without notification.
+      bool has_no_notify_task = state.num_no_notification > 0;
+      if (has_no_notify_task) --state.num_no_notification;
+
+      if (spinning_state_.compare_exchange_weak(spinning, state.Encode(), std::memory_order_relaxed)) {
+        return has_no_notify_task;
+      }
+    }
+  }
+
+  // IsNotifyParkedThreadRequired() returns true if parked thread must be
+  // notified about new added task. If there are threads spinning in the steal
+  // loop, there is no need to unpark any of the waiting threads, the task will
+  // be picked up by one of the spinning threads.
+  bool IsNotifyParkedThreadRequired() {
+    uint64_t spinning = spinning_state_.load(std::memory_order_relaxed);
+    for (;;) {
+      SpinningState state = SpinningState::Decode(spinning);
+
+      // If the number of tasks submitted without notifying parked threads is
+      // equal to the number of spinning threads, we must wake up one of the
+      // parked threads.
+      if (state.num_no_notification == state.num_spinning) return true;
+
+      // Increment the number of tasks submitted without notification.
+      ++state.num_no_notification;
+
+      if (spinning_state_.compare_exchange_weak(spinning, state.Encode(), std::memory_order_relaxed)) {
+        return false;
+      }
+    }
   }
 
   static EIGEN_STRONG_INLINE uint64_t GlobalThreadIdHash() {
@@ -477,8 +576,7 @@ class ThreadPoolTempl : public Eigen::ThreadPoolInterface {
     // Update the internal state
     *state = current * 6364136223846793005ULL + 0xda3e39cb94b95bdbULL;
     // Generate the random output (using the PCG-XSH-RS scheme)
-    return static_cast<unsigned>((current ^ (current >> 22)) >>
-                                 (22 + (current >> 61)));
+    return static_cast<unsigned>((current ^ (current >> 22)) >> (22 + (current >> 61)));
   }
 };
 

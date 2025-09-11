@@ -10,9 +10,8 @@ itk_module(
   ITKRegionGrowing
   ENABLE_SHARED
   DEPENDS
-  ITKThresholding
+    ITKThresholding
   TEST_DEPENDS
-  ITKTestKernel
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+  DESCRIPTION "${DOCUMENTATION}"
 )

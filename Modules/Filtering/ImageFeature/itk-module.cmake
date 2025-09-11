@@ -10,17 +10,16 @@ itk_module(
   ITKImageFeature
   ENABLE_SHARED
   DEPENDS
-  ITKSmoothing
-  ITKSpatialObjects
+    ITKSmoothing
+    ITKSpatialObjects
   COMPILE_DEPENDS
-  ITKImageGradient
-  ITKImageSources
-  ITKMesh
-  ITKImageStatistics
+    ITKImageGradient
+    ITKImageSources
+    ITKMesh
+    ITKImageStatistics
   TEST_DEPENDS
-  ITKTestKernel
-  ITKThresholding
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+    ITKThresholding
+  DESCRIPTION "${DOCUMENTATION}"
 )
 # Extra test dependency on ITKThresholding is introduced by itkHoughTransform2DCirclesImageTest.

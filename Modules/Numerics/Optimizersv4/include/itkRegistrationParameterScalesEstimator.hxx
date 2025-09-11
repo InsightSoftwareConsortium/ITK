@@ -67,16 +67,16 @@ RegistrationParameterScalesEstimator<TMetric>::CheckAndSetInputs()
 {
   if (m_Metric.IsNull())
   {
-    itkExceptionMacro("RegistrationParameterScalesEstimator: the metric is nullptr");
+    itkExceptionStringMacro("RegistrationParameterScalesEstimator: the metric is nullptr");
   }
 
   if (this->m_Metric->GetMovingTransform() == nullptr)
   {
-    itkExceptionMacro("RegistrationParameterScalesEstimator: this->m_MovingTransform in the metric is nullptr.");
+    itkExceptionStringMacro("RegistrationParameterScalesEstimator: this->m_MovingTransform in the metric is nullptr.");
   }
   if (this->m_Metric->GetFixedTransform() == nullptr)
   {
-    itkExceptionMacro("RegistrationParameterScalesEstimator: this->m_FixedTransform in the metric is nullptr.");
+    itkExceptionStringMacro("RegistrationParameterScalesEstimator: this->m_FixedTransform in the metric is nullptr.");
   }
 
   return true;
@@ -306,8 +306,8 @@ RegistrationParameterScalesEstimator<TMetric>::SampleVirtualDomain()
 
   if (!this->m_Metric->SupportsArbitraryVirtualDomainSamples() && !this->m_VirtualDomainPointSet)
   {
-    itkExceptionMacro(" The assigned metric does not support arbitrary virtual domain sampling, "
-                      " yet this->m_VirtualDomainPointSet has not been assigned. ");
+    itkExceptionStringMacro(" The assigned metric does not support arbitrary virtual domain sampling,  yet "
+                            "this->m_VirtualDomainPointSet has not been assigned. ");
   }
 
   if (m_SamplingStrategy == SamplingStrategyEnum::VirtualDomainPointSetSampling)
@@ -334,7 +334,7 @@ RegistrationParameterScalesEstimator<TMetric>::SampleVirtualDomain()
   // Sanity check
   if (this->m_SamplePoints.empty())
   {
-    itkExceptionMacro("No sample points were created.");
+    itkExceptionStringMacro("No sample points were created.");
   }
 
   this->Modified();
@@ -584,11 +584,11 @@ RegistrationParameterScalesEstimator<TMetric>::SampleVirtualDomainWithPointSet()
   // The virtual domain point set must already be supplied.
   if (!this->m_VirtualDomainPointSet)
   {
-    itkExceptionMacro("The virtual domain point set has not been set.");
+    itkExceptionStringMacro("The virtual domain point set has not been set.");
   }
   if (this->m_VirtualDomainPointSet->GetNumberOfPoints() < 1)
   {
-    itkExceptionMacro("The virtual domain point set has no points.");
+    itkExceptionStringMacro("The virtual domain point set has no points.");
   }
 
   this->m_SamplePoints.resize(this->m_VirtualDomainPointSet->GetNumberOfPoints());

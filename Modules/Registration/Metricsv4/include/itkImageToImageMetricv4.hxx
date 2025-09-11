@@ -77,19 +77,19 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   /* Verify things are connected */
   if (this->m_FixedImage.IsNull())
   {
-    itkExceptionMacro("FixedImage is not present");
+    itkExceptionStringMacro("FixedImage is not present");
   }
   if (this->m_MovingImage.IsNull())
   {
-    itkExceptionMacro("MovingImage is not present");
+    itkExceptionStringMacro("MovingImage is not present");
   }
   if (this->m_FixedTransform.IsNull())
   {
-    itkExceptionMacro("FixedTransform is not present");
+    itkExceptionStringMacro("FixedTransform is not present");
   }
   if (this->m_MovingTransform.IsNull())
   {
-    itkExceptionMacro("MovingTransform is not present");
+    itkExceptionStringMacro("MovingTransform is not present");
   }
 
   // If the image is provided by a source, update the source.
@@ -245,7 +245,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
     const SizeValueType numberOfPoints = this->GetNumberOfDomainPoints();
     if (numberOfPoints < 1)
     {
-      itkExceptionMacro("VirtualSampledPointSet must have 1 or more points.");
+      itkExceptionStringMacro("VirtualSampledPointSet must have 1 or more points.");
     }
     typename ImageToImageMetricv4GetValueAndDerivativeThreader<ThreadedIndexedContainerPartitioner, Self>::DomainType
       range;
@@ -386,9 +386,9 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   {
     if (!this->GetGradientSourceIncludesFixed())
     {
-      itkExceptionMacro(
-        "Attempted to retrieve fixed image gradient from gradient image filter, "
-        "but GradientSource does not include 'fixed', and thus the gradient image has not been calculated.");
+      itkExceptionStringMacro(
+        "Attempted to retrieve fixed image gradient from gradient image filter, but GradientSource does not include "
+        "'fixed', and thus the gradient image has not been calculated.");
     }
     gradient = m_FixedImageGradientInterpolator->Evaluate(mappedPoint);
   }
@@ -412,9 +412,9 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   {
     if (!this->GetGradientSourceIncludesMoving())
     {
-      itkExceptionMacro(
-        "Attempted to retrieve moving image gradient from gradient image filter, "
-        "but GradientSource does not include 'moving', and thus the gradient image has not been calculated.");
+      itkExceptionStringMacro(
+        "Attempted to retrieve moving image gradient from gradient image filter, but GradientSource does not include "
+        "'moving', and thus the gradient image has not been calculated.");
     }
     gradient = m_MovingImageGradientInterpolator->Evaluate(mappedPoint);
   }
@@ -575,7 +575,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   const typename PointsContainer::ConstPointer points = this->m_FixedSampledPointSet->GetPoints();
   if (points.IsNull())
   {
-    itkExceptionMacro("Fixed Sample point set is empty.");
+    itkExceptionStringMacro("Fixed Sample point set is empty.");
   }
   typename PointsContainer::ConstIterator fixedIt = points->Begin();
 
@@ -583,8 +583,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
     this->m_FixedTransform->GetInverseTransform();
   if (inverseTransform.IsNull())
   {
-    itkExceptionMacro("Unable to get inverse transform for mapping sampled "
-                      " point set.");
+    itkExceptionStringMacro("Unable to get inverse transform for mapping sampled  point set.");
   }
 
   this->m_NumberOfSkippedFixedSampledPoints = 0;
@@ -608,9 +607,8 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   }
   if (this->m_VirtualSampledPointSet->GetNumberOfPoints() == 0)
   {
-    itkExceptionMacro("The virtual sampled point set has zero points because "
-                      "no fixed sampled points were within the virtual "
-                      "domain after mapping. There are no points to evaluate.");
+    itkExceptionStringMacro("The virtual sampled point set has zero points because no fixed sampled points were within "
+                            "the virtual domain after mapping. There are no points to evaluate.");
   }
 }
 

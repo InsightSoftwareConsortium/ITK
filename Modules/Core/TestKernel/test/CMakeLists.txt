@@ -13,39 +13,35 @@ set(BASELINE "${ITK_DATA_ROOT}/Baseline/Common")
 set(TEMP ${ITK_TEST_OUTPUT_DIR})
 
 itk_add_test(
-  NAME
-  itkRandomImageSourceAttributesTest
+  NAME itkRandomImageSourceAttributesTest
   COMMAND
-  ITKTestKernelTestDriver
-  itkRandomImageSourceAttributesTest
+    ITKTestKernelTestDriver
+    itkRandomImageSourceAttributesTest
 )
 
 itk_add_test(
-  NAME
-  itkRandomImageSourceValuesTest
+  NAME itkRandomImageSourceValuesTest
   COMMAND
-  ITKTestKernelTestDriver
-  --compare
-  DATA{Baseline/itkRandomImageSourceValuesTest.mha}
-  ${ITK_TEST_OUTPUT_DIR}/itkRandomImageSourceValuesTest.mha
-  itkRandomImageSourceValuesTest
-  ${ITK_TEST_OUTPUT_DIR}/itkRandomImageSourceValuesTest.mha
+    ITKTestKernelTestDriver
+    --compare
+    DATA{Baseline/itkRandomImageSourceValuesTest.mha}
+    ${ITK_TEST_OUTPUT_DIR}/itkRandomImageSourceValuesTest.mha
+    itkRandomImageSourceValuesTest
+    ${ITK_TEST_OUTPUT_DIR}/itkRandomImageSourceValuesTest.mha
 )
 
 itk_add_test(
-  NAME
-  itkTestingExtractSliceImageFilterTest
+  NAME itkTestingExtractSliceImageFilterTest
   COMMAND
-  ITKTestKernelTestDriver
-  itkTestingExtractSliceImageFilterTest
+    ITKTestKernelTestDriver
+    itkTestingExtractSliceImageFilterTest
 )
 
 itk_add_test(
-  NAME
-  itkTestingStretchIntensityImageFilterTest
+  NAME itkTestingStretchIntensityImageFilterTest
   COMMAND
-  ITKTestKernelTestDriver
-  itkTestingStretchIntensityImageFilterTest
+    ITKTestKernelTestDriver
+    itkTestingStretchIntensityImageFilterTest
 )
 
 set(

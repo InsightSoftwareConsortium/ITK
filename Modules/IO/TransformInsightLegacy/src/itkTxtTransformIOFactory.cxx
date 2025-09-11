@@ -51,8 +51,7 @@ TxtTransformIOFactory::GetITKSourceVersion() const
 const char *
 TxtTransformIOFactory::GetDescription() const
 {
-  return "Txt TransformIO Factory, allows the"
-         " loading of Nifti images into insight";
+  return "Txt TransformIO Factory, allows the loading of Nifti images into insight";
 }
 
 // Undocumented API used to register during static initialization.

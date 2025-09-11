@@ -74,7 +74,7 @@ MeanSquareRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::I
 {
   if (!this->GetMovingImage() || !this->GetFixedImage() || !m_MovingImageInterpolator)
   {
-    itkExceptionMacro("MovingImage, FixedImage and/or Interpolator not set");
+    itkExceptionStringMacro("MovingImage, FixedImage and/or Interpolator not set");
   }
 
   // cache fixed image information

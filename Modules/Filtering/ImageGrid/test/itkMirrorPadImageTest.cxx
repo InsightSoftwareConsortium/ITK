@@ -74,7 +74,7 @@ VerifyPixel(int row, int col, int val)
     colVal = col;
   }
   const int nextVal = 8 * colVal + rowVal;
-  return (val == nextVal);
+  return val == nextVal;
 }
 } // namespace
 

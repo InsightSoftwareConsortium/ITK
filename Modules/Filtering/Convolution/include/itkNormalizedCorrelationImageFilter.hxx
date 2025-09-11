@@ -106,8 +106,8 @@ NormalizedCorrelationImageFilter<TInputImage, TMaskImage, TOutputImage, TOperato
          tIt < this->GetOperator().End();
          ++tIt)
     {
-      sum += (*tIt);
-      sumOfSquares += ((*tIt) * (*tIt));
+      sum += *tIt;
+      sumOfSquares += (*tIt * *tIt);
     }
   }
   auto                      num = static_cast<OutputPixelRealType>(this->GetOperator().Size());

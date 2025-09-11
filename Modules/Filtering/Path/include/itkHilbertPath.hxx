@@ -105,7 +105,7 @@ HilbertPath<TIndexValue, VDimension>::GetTransform(const PathIndexType entry,
                                                    const PathIndexType width,
                                                    const PathIndexType x) -> PathIndexType
 {
-  return (this->GetRightBitRotation(x ^ entry, direction + 1, width));
+  return this->GetRightBitRotation(x ^ entry, direction + 1, width);
 }
 
 template <typename TIndexValue, unsigned int VDimension>
@@ -115,7 +115,7 @@ HilbertPath<TIndexValue, VDimension>::GetInverseTransform(const PathIndexType en
                                                           const PathIndexType width,
                                                           const PathIndexType x) -> PathIndexType
 {
-  return (this->GetLeftBitRotation(x, direction + 1, width) ^ entry);
+  return this->GetLeftBitRotation(x, direction + 1, width) ^ entry;
 }
 
 template <typename TIndexValue, unsigned int VDimension>
@@ -163,7 +163,7 @@ template <typename TIndexValue, unsigned int VDimension>
 auto
 HilbertPath<TIndexValue, VDimension>::GetGrayCode(const PathIndexType x) -> PathIndexType
 {
-  return (x ^ (x >> 1));
+  return x ^ (x >> 1);
 }
 
 template <typename TIndexValue, unsigned int VDimension>
@@ -215,11 +215,11 @@ HilbertPath<TIndexValue, VDimension>::GetDirection(const PathIndexType x, const 
   }
   if (x % 2 == 0)
   {
-    return (this->GetTrailingSetBits(x - 1, n) % n);
+    return this->GetTrailingSetBits(x - 1, n) % n;
   }
   else
   {
-    return (this->GetTrailingSetBits(x, n) % n);
+    return this->GetTrailingSetBits(x, n) % n;
   }
 }
 

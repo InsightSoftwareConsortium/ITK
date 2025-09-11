@@ -158,7 +158,7 @@ itkExhaustiveOptimizerTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(itkOptimizer, ExhaustiveOptimizer, SingleValuedNonLinearOptimizer);
 
 
-  // Index observer (enables us to check if all positions were indeed visisted):
+  // Index observer (enables us to check if all positions were indeed visited):
   auto idxObserver = IndexObserver::New();
   itkOptimizer->AddObserver(itk::IterationEvent(), idxObserver);
 

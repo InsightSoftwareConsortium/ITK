@@ -269,7 +269,7 @@ public:
   OutputVectorType
   TransformVector(const InputVectorType &) const override
   {
-    itkExceptionMacro("Method not applicable for deformable transform.");
+    itkExceptionStringMacro("Method not applicable for deformable transform.");
   }
 
   /** Method to transform a vnl_vector -
@@ -277,7 +277,7 @@ public:
   OutputVnlVectorType
   TransformVector(const InputVnlVectorType &) const override
   {
-    itkExceptionMacro("Method not applicable for deformable transform. ");
+    itkExceptionStringMacro("Method not applicable for deformable transform. ");
   }
 
   /** Method to transform a CovariantVector -
@@ -286,7 +286,7 @@ public:
   OutputCovariantVectorType
   TransformCovariantVector(const InputCovariantVectorType &) const override
   {
-    itkExceptionMacro("Method not applicable for deformable transform. ");
+    itkExceptionStringMacro("Method not applicable for deformable transform. ");
   }
 
   /** Get Jacobian at a point. A very specialized function just for BSplines */
@@ -301,9 +301,7 @@ public:
   void
   ComputeJacobianWithRespectToPosition(const InputPointType &, JacobianPositionType &) const override
   {
-    itkExceptionMacro("ComputeJacobianWithRespectToPosition not yet implemented "
-                      "for "
-                      << this->GetNameOfClass());
+    itkExceptionMacro("ComputeJacobianWithRespectToPosition not yet implemented for " << this->GetNameOfClass());
   }
   using Superclass::ComputeJacobianWithRespectToPosition;
 
@@ -384,7 +382,7 @@ protected:
   InsideValidRegion(ContinuousIndexType &) const = 0;
 
   // NOTE:  There is a natural duality between the
-  //       two representations of of the coefficients
+  //       two representations of the coefficients
   //       whereby the m_InternalParametersBuffer is
   //       needed to fit into the optimization framework
   //       and the m_CoefficientImages is needed for

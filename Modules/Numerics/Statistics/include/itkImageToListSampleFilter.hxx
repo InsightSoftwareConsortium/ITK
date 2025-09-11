@@ -87,7 +87,7 @@ ImageToListSampleFilter<TImage, TMaskImage>::GetMeasurementVectorSize() const
 
   if (input == nullptr)
   {
-    itkExceptionMacro("Input image has not been set yet");
+    itkExceptionStringMacro("Input image has not been set yet");
   }
 
   unsigned int measurementVectorSize = input->GetNumberOfComponentsPerPixel();
@@ -118,7 +118,7 @@ ImageToListSampleFilter<TImage, TMaskImage>::GenerateData()
 
     if (input->GetLargestPossibleRegion() != maskImage->GetLargestPossibleRegion())
     {
-      itkExceptionMacro("LargestPossibleRegion of the mask does not match the one for the image");
+      itkExceptionStringMacro("LargestPossibleRegion of the mask does not match the one for the image");
     }
   }
 

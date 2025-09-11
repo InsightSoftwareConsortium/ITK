@@ -46,7 +46,7 @@ TimeVaryingBSplineVelocityFieldTransform<TParametersValueType, VDimension>::Inte
 {
   if (!this->GetVelocityField())
   {
-    itkExceptionMacro("The B-spline velocity field does not exist.");
+    itkExceptionStringMacro("The B-spline velocity field does not exist.");
   }
 
   using BSplineFilterType = BSplineControlPointImageFilter<VelocityFieldType, VelocityFieldType>;
@@ -121,7 +121,7 @@ TimeVaryingBSplineVelocityFieldTransform<TParametersValueType, VDimension>::Upda
   if (update.Size() != numberOfParameters)
   {
     itkExceptionMacro("Parameter update size, " << update.Size() << ", must be same as transform parameter size, "
-                                                << numberOfParameters << std::endl);
+                                                << numberOfParameters);
   }
 
   DerivativeType scaledUpdate = update;

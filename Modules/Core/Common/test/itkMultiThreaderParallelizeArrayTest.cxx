@@ -66,7 +66,7 @@ itkMultiThreaderParallelizeArrayTest(int argc, char * argv[])
   constexpr unsigned int    size = 1029;
   std::vector<unsigned int> vec(size);
 
-  using SomeProcessObject = itk::AbsImageFilter<itk::Image<char>, itk::Image<char>>;
+  using SomeProcessObject = itk::AbsImageFilter<itk::Image<signed char>, itk::Image<signed char>>;
   auto progressPO = SomeProcessObject::New();
   auto showProgress = ShowProgress::New();
   progressPO->AddObserver(itk::ProgressEvent(), showProgress);

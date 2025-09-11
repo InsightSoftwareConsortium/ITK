@@ -22,17 +22,15 @@ target_link_libraries(
 )
 
 itk_add_test(
-  NAME
-  itkIOTransformMINCTest
+  NAME itkIOTransformMINCTest
   COMMAND
-  ITKIOTransformMINCTestDriver
-  itkIOTransformMINCTest
+    ITKIOTransformMINCTestDriver
+    itkIOTransformMINCTest
 )
 
 itk_add_test(
-  NAME
-  itkMINCTransformAdapterTest
+  NAME itkMINCTransformAdapterTest
   COMMAND
-  ITKIOTransformMINCTestDriver
-  itkMINCTransformAdapterTest
+    ITKIOTransformMINCTestDriver
+    itkMINCTransformAdapterTest
 )

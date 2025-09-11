@@ -131,7 +131,7 @@ MixtureModelComponentBase<TSample>::SetWeight(unsigned int index, double value)
   }
   else
   {
-    itkExceptionMacro("Weight array is not allocated.");
+    itkExceptionStringMacro("Weight array is not allocated.");
   }
 }
 
@@ -144,7 +144,7 @@ MixtureModelComponentBase<TSample>::GetWeight(unsigned int index) const
     return m_Weights[index];
   }
 
-  itkExceptionMacro("Weight array is not allocated.");
+  itkExceptionStringMacro("Weight array is not allocated.");
 }
 
 template <typename TSample>

@@ -54,9 +54,9 @@ itkImageFillBufferTest(int argc, char * argv[])
   //     {
   //     std::cout << e << std::endl;
   //     std::cout << "Can't allocate memory - that's nice. Don't go further." << std::endl;
-  //     return (EXIT_SUCCESS);
+  //     return EXIT_SUCCESS;
   //     }
-  //   return (EXIT_FAILURE);
+  //   return EXIT_FAILURE;
   //   }
   // else
   //   {
@@ -78,8 +78,8 @@ itkImageFillBufferTest(int argc, char * argv[])
   if (image->GetPixel(idx) != 128)
   {
     std::cerr << "Value is not 128!" << std::endl;
-    return (EXIT_FAILURE);
+    return EXIT_FAILURE;
   }
 
-  return (EXIT_SUCCESS);
+  return EXIT_SUCCESS;
 }

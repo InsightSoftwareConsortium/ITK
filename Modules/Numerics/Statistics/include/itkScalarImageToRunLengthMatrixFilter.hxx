@@ -181,7 +181,7 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>::Ge
                   // is out-of-bounds or is outside the mask.
       }
 
-      itkDebugMacro("===> offset = " << offset << std::endl);
+      itkDebugMacro("===> offset = " << offset);
 
       const MeasurementType centerBinMin = this->GetOutput()->GetBinMinFromValue(0, centerPixelIntensity);
       const MeasurementType centerBinMax = this->GetOutput()->GetBinMaxFromValue(0, centerPixelIntensity);
@@ -258,7 +258,7 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>::Ge
                                               << this->GetOutput()->GetBinMinFromValue(0, run[0]) << ','
                                               << this->GetOutput()->GetBinMaxFromValue(0, run[0]) << ']' << "~["
                                               << this->GetOutput()->GetBinMinFromValue(1, run[1]) << ','
-                                              << this->GetOutput()->GetBinMaxFromValue(1, run[1]) << ']' << std::endl);
+                                              << this->GetOutput()->GetBinMaxFromValue(1, run[1]) << ']');
       }
     }
   }
@@ -320,7 +320,7 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>::No
   OffsetType & offset)
 {
 
-  itkDebugMacro("old offset = " << offset << std::endl);
+  itkDebugMacro("old offset = " << offset);
   int  sign = 1;
   bool metLastNonZero = false;
   for (int i = offset.GetOffsetDimension() - 1; i >= 0; i--)
@@ -337,7 +337,7 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>::No
     }
   }
 
-  itkDebugMacro("new  offset = " << offset << std::endl);
+  itkDebugMacro("new  offset = " << offset);
 }
 
 } // namespace itk::Statistics

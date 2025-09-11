@@ -38,7 +38,7 @@ itkImageDuplicatorTest(int, char *[])
   region.SetIndex(index);
 
   {
-    /** Create an image image */
+    /** Create an image */
     std::cout << "Creating simulated image: ";
     auto m_Image = ImageType::New();
     m_Image->SetRegions(region);
@@ -141,7 +141,7 @@ itkImageDuplicatorTest(int, char *[])
   }
 
   {
-    /** Create an RGB image image */
+    /** Create an RGB image */
     using RGBImageType = itk::Image<itk::RGBPixel<unsigned char>, 3>;
     std::cout << "Creating simulated image: ";
     auto m_RGBImage = RGBImageType::New();

@@ -88,7 +88,7 @@ PasteImageFilter<TInputImage, TSourceImage, TOutputImage>::VerifyPreconditions()
 
   if (sourceInput == nullptr && constantInput == nullptr)
   {
-    itkExceptionMacro("The Source or the Constant input are required.");
+    itkExceptionStringMacro("The Source or the Constant input are required.");
   }
 
 

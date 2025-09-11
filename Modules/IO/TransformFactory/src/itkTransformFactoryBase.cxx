@@ -85,7 +85,7 @@ TransformFactoryBase::RegisterDefaultTransforms()
     ////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////
     //
-    // float Parameters, double FixedParamters instances (in alphabetical order)
+    // float Parameters, double FixedParameters instances (in alphabetical order)
     //
     RegisterTransformFactoryFloatParameters();
   }

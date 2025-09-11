@@ -42,7 +42,7 @@ SingleValuedNonLinearVnlOptimizerv4::StartOptimization(bool doOnlyInitialization
   // Verify adaptor
   if (this->m_CostFunctionAdaptor == nullptr)
   {
-    itkExceptionMacro("CostFunctionAdaptor has not been set.");
+    itkExceptionStringMacro("CostFunctionAdaptor has not been set.");
   }
 
   // If the user provides the scales and they're not identity, then we set.

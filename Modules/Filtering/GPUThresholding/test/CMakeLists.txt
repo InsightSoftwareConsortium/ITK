@@ -11,9 +11,8 @@ if(ITK_USE_GPU)
   createtestdriver(ITKGPUThresholding "${ITKGPUThresholding-Test_LIBRARIES}" "${ITKGPUThresholding-tests}")
 
   itk_add_test(
-      NAME
-      itkGPUImageFilterTest2D
-      COMMAND
+    NAME itkGPUImageFilterTest2D
+    COMMAND
       ITKGPUThresholdingTestDriver
       itkGPUImageFilterTest
       ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
@@ -21,9 +20,8 @@ if(ITK_USE_GPU)
       2
   )
   itk_add_test(
-      NAME
-      itkGPUImageFilterTest3D
-      COMMAND
+    NAME itkGPUImageFilterTest3D
+    COMMAND
       ITKGPUThresholdingTestDriver
       itkGPUImageFilterTest
       ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
@@ -39,9 +37,8 @@ if(ITK_USE_GPU)
   #        ${ITK_TEST_OUTPUT_DIR}/gpuImageFilterTest.png)
 
   itk_add_test(
-      NAME
-      itkGPUBinaryThresholdImageFilterTest2D
-      COMMAND
+    NAME itkGPUBinaryThresholdImageFilterTest2D
+    COMMAND
       ITKGPUThresholdingTestDriver
       itkGPUBinaryThresholdImageFilterTest
       ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
@@ -50,9 +47,8 @@ if(ITK_USE_GPU)
   )
 
   itk_add_test(
-      NAME
-      itkGPUBinaryThresholdImageFilterTest3D
-      COMMAND
+    NAME itkGPUBinaryThresholdImageFilterTest3D
+    COMMAND
       ITKGPUThresholdingTestDriver
       itkGPUBinaryThresholdImageFilterTest
       ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png

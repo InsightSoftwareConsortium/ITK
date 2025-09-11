@@ -56,7 +56,7 @@ SimpleSignedDistance(const TPoint & p)
     accum += itk::Math::sqr(p[j] - center[j]);
   }
   accum = std::sqrt(accum);
-  return (accum - radius);
+  return accum - radius;
 }
 
 // simple velocity function to be extended
@@ -106,7 +106,7 @@ SimpleVelocity(const TPoint & p)
     }
   }
 
-  return (10 * std::sin(value));
+  return 10 * std::sin(value);
 }
 
 } // namespace

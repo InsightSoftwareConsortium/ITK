@@ -236,7 +236,7 @@ SegmentTreeGenerator<TScalar>::ExtractMergeHierarchy(SegmentTableTypePointer seg
     const IdentifierType toSegLabel = m_MergedSegmentsTable->RecursiveLookup(topMerge.to);
 
     // If the two segments do not resolve to the same segment and the
-    // "TO" segment has never been merged, then then merge them.
+    // "TO" segment has never been merged, then merge them.
     // Otherwise, ignore this particular entry.
     if (fromSegLabel == topMerge.from && fromSegLabel != toSegLabel)
     {
@@ -429,8 +429,8 @@ SegmentTreeGenerator<TScalar>::MergeSegments(SegmentTableTypePointer           s
 
   if (from_seg == nullptr || to_seg == nullptr)
   {
-    itkGenericExceptionMacro("itk::watershed::SegmentTreeGenerator::MergeSegments:: An unexpected and fatal error "
-                             "has occurred. This is probably the result of overthresholding of the input image.");
+    itkGenericExceptionMacro("itk::watershed::SegmentTreeGenerator::MergeSegments:: An unexpected and fatal error has "
+                             "occurred. This is probably the result of overthresholding of the input image.");
   }
 
   // Compare the minimum values.

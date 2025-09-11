@@ -25,9 +25,14 @@
 
 #include <memory> // For shared_ptr.
 #include <string>
+#include <typeinfo>
+#include <type_traits>
 
 namespace itk
 {
+
+class LightObject;
+
 /** \class ExceptionObject
  * \brief Standard exception handling object.
  *
@@ -56,10 +61,17 @@ public:
   /** Explicitly-defaulted default-constructor. Creates an empty exception object. */
   ExceptionObject() noexcept = default;
 
+  explicit ExceptionObject(std::string         file,
+                           unsigned int        lineNumber,
+                           std::string         description,
+                           std::string         location,
+                           const LightObject * thrower);
+
   explicit ExceptionObject(std::string  file,
                            unsigned int lineNumber = 0,
                            std::string  description = "None",
-                           std::string  location = {});
+                           std::string  location = {},
+                           const void * thrower = nullptr);
 
   /** Copy-constructor. */
   ExceptionObject(const ExceptionObject &) noexcept = default;
@@ -82,6 +94,8 @@ public:
   /** Equivalence operator. */
   virtual bool
   operator==(const ExceptionObject & orig) const;
+
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(ExceptionObject);
 
   /** \see LightObject::GetNameOfClass() */
   itkVirtualGetNameOfClassMacro(ExceptionObject);
@@ -108,6 +122,7 @@ public:
   virtual void
   SetDescription(const char * s);
 
+
   [[nodiscard]] virtual const char *
   GetLocation() const;
 
@@ -127,7 +142,7 @@ public:
   what() const noexcept override;
 
 private:
-  class ExceptionData;
+  class ExceptionData; // Defined in .cxx
 
   std::shared_ptr<const ExceptionData> m_ExceptionData;
 };

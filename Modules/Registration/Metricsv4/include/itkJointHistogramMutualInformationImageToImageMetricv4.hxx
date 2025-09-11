@@ -136,10 +136,8 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,
     }
     ++mi;
   }
-  itkDebugMacro(" FixedImageMin: " << this->m_FixedImageTrueMin << " FixedImageMax: " << this->m_FixedImageTrueMax
-                                   << std::endl);
-  itkDebugMacro(" MovingImageMin: " << this->m_MovingImageTrueMin << " MovingImageMax: " << this->m_MovingImageTrueMax
-                                    << std::endl);
+  itkDebugMacro(" FixedImageMin: " << this->m_FixedImageTrueMin << " FixedImageMax: " << this->m_FixedImageTrueMax);
+  itkDebugMacro(" MovingImageMin: " << this->m_MovingImageTrueMin << " MovingImageMax: " << this->m_MovingImageTrueMax);
 
 
   // Allocate memory for the joint PDF.
@@ -227,7 +225,7 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,
     const SizeValueType numberOfPoints = this->GetNumberOfDomainPoints();
     if (numberOfPoints < 1)
     {
-      itkExceptionMacro("VirtualSampledPointSet must have 1 or more points.");
+      itkExceptionStringMacro("VirtualSampledPointSet must have 1 or more points.");
     }
     typename JointHistogramMutualInformationSparseComputeJointPDFThreaderType::DomainType sampledRange;
     sampledRange[0] = 0;
@@ -375,7 +373,7 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,
       total_mi += local_mi;
     } // over jh bins 2
   } // over jh bins 1
-  return (-1.0 * total_mi.GetSum() / this->m_Log2);
+  return -1.0 * total_mi.GetSum() / this->m_Log2;
 }
 
 template <typename TFixedImage,

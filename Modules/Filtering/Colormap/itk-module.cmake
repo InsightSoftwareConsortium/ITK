@@ -8,9 +8,8 @@ itk_module(
   ITKColormap
   ENABLE_SHARED
   COMPILE_DEPENDS
-  ITKCommon
+    ITKCommon
   TEST_DEPENDS
-  ITKTestKernel
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+  DESCRIPTION "${DOCUMENTATION}"
 )

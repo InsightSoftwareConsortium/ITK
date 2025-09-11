@@ -11,9 +11,8 @@ if(ITK_USE_GPU)
   )
 
   itk_add_test(
-      NAME
-      itkGPUGradientAnisotropicDiffusionImageFilterTest2D
-      COMMAND
+    NAME itkGPUGradientAnisotropicDiffusionImageFilterTest2D
+    COMMAND
       ITKGPUAnisotropicSmoothingTestDriver
       itkGPUGradientAnisotropicDiffusionImageFilterTest
       DATA{Input/BrainProtonDensitySlice.png}
@@ -22,9 +21,8 @@ if(ITK_USE_GPU)
   )
 
   itk_add_test(
-      NAME
-      itkGPUGradientAnisotropicDiffusionImageFilterTest3D
-      COMMAND
+    NAME itkGPUGradientAnisotropicDiffusionImageFilterTest3D
+    COMMAND
       ITKGPUAnisotropicSmoothingTestDriver
       itkGPUGradientAnisotropicDiffusionImageFilterTest
       DATA{Input/HeadMRVolume.mha}

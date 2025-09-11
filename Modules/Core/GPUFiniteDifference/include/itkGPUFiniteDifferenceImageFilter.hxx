@@ -266,7 +266,7 @@ GPUFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilter>::I
     const TOutputImage * outputImage = this->GetOutput();
     if (outputImage == nullptr)
     {
-      itkExceptionMacro("Output image is nullptr");
+      itkExceptionStringMacro("Output image is nullptr");
     }
 
     using SpacingType = typename TOutputImage::SpacingType;

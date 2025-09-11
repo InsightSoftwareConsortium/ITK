@@ -236,7 +236,7 @@ LSMImageIO::Write(const void * buffer)
   unsigned int pages = 1;
   if (this->GetNumberOfDimensions() < 2)
   {
-    itkExceptionMacro("TIFF requires images to have at least 2 dimensions");
+    itkExceptionStringMacro("TIFF requires images to have at least 2 dimensions");
   }
   const unsigned int width = m_Dimensions[0];
   const unsigned int height = m_Dimensions[1];
@@ -258,7 +258,7 @@ LSMImageIO::Write(const void * buffer)
       break;
 
     default:
-      itkExceptionMacro("TIFF supports unsigned char and unsigned short");
+      itkExceptionStringMacro("TIFF supports unsigned char and unsigned short");
   }
 
   constexpr float resolution = -1;
@@ -383,7 +383,7 @@ LSMImageIO::Write(const void * buffer)
         rowLength = sizeof(unsigned short);
         break;
       default:
-        itkExceptionMacro("TIFF supports unsigned char and unsigned short");
+        itkExceptionStringMacro("TIFF supports unsigned char and unsigned short");
     }
 
     rowLength *= this->GetNumberOfComponents();
@@ -394,7 +394,7 @@ LSMImageIO::Write(const void * buffer)
     {
       if (TIFFWriteScanline(tif, const_cast<unsigned char *>(outPtr), row, 0) < 0)
       {
-        itkExceptionMacro("TIFFImageIO: error out of disk space");
+        itkExceptionStringMacro("TIFFImageIO: error out of disk space");
       }
       outPtr += rowLength;
       ++row;

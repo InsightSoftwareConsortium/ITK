@@ -70,7 +70,7 @@ TimeVaryingVelocityFieldTransform<TParametersValueType, VDimension>::IntegrateVe
   }
   else
   {
-    itkExceptionMacro("The velocity field does not exist.");
+    itkExceptionStringMacro("The velocity field does not exist.");
   }
 }
 

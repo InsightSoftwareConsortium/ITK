@@ -210,7 +210,7 @@ private:
 /** Convenience function for reading a mesh.
  *
  * `TOutputMesh` is the expected output mesh type, and the optional
- * `ConvertPointPixelTraits`, ``ConvertCellPixelTraits` template parameters are used to do the conversion,
+ * `ConvertPointPixelTraits`, `ConvertCellPixelTraits` template parameters are used to do the conversion,
  * as specified by MeshFileReader.
  *
  * The function reads the mesh from the specified file, and returns the

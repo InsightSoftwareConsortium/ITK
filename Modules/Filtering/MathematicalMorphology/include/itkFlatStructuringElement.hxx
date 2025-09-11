@@ -1165,10 +1165,10 @@ FlatStructuringElement<VDimension>::CheckParallel(LType NewVec) const
     const float L = NN * LL;
     if ((1.0 - itk::Math::abs(L)) < 0.000001)
     {
-      return (true);
+      return true;
     }
   }
-  return (false);
+  return false;
 }
 
 template <unsigned int VDimension>

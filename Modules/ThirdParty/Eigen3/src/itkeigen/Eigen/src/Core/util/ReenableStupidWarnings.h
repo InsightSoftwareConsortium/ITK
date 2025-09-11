@@ -1,27 +1,27 @@
 #ifdef EIGEN_WARNINGS_DISABLED_2
 // "DisableStupidWarnings.h" was included twice recursively: Do not re-enable warnings yet!
-#  undef EIGEN_WARNINGS_DISABLED_2
+#undef EIGEN_WARNINGS_DISABLED_2
 
 #elif defined(EIGEN_WARNINGS_DISABLED)
 #undef EIGEN_WARNINGS_DISABLED
 
 #ifndef EIGEN_PERMANENTLY_DISABLE_STUPID_WARNINGS
-  #ifdef _MSC_VER
-    #pragma warning( pop )
-    #ifdef EIGEN_REENABLE_CXX23_DENORM_DEPRECATION_WARNING
-      #undef EIGEN_REENABLE_CXX23_DENORM_DEPRECATION_WARNING
-      #undef _SILENCE_CXX23_DENORM_DEPRECATION_WARNING
-    #endif
+#ifdef _MSC_VER
+#pragma warning(pop)
+#ifdef EIGEN_REENABLE_CXX23_DENORM_DEPRECATION_WARNING
+#undef EIGEN_REENABLE_CXX23_DENORM_DEPRECATION_WARNING
+#undef _SILENCE_CXX23_DENORM_DEPRECATION_WARNING
+#endif
 
-  #elif defined __INTEL_COMPILER
-    #pragma warning pop
-  #elif defined __clang__
-    #pragma clang diagnostic pop
-  #elif defined __GNUC__  &&  !defined(__FUJITSU) && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 6))
-    #pragma GCC diagnostic pop
-  #endif
+#elif defined __INTEL_COMPILER
+#pragma warning pop
+#elif defined __clang__
+#pragma clang diagnostic pop
+#elif defined __GNUC__ && !defined(__FUJITSU) && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 6))
+#pragma GCC diagnostic pop
+#endif
 
-  #if defined __NVCC__
+#if defined __NVCC__
 //    Don't re-enable the diagnostic messages, as it turns out these messages need
 //    to be disabled at the point of the template instantiation (i.e the user code)
 //    otherwise they'll be triggered by nvcc.
@@ -37,8 +37,8 @@
 //    EIGEN_NV_DIAG_DEFAULT(2653)
 //    #undef EIGEN_NV_DIAG_DEFAULT
 //    #undef EIGEN_MAKE_PRAGMA
-  #endif
+#endif
 
 #endif
 
-#endif // EIGEN_WARNINGS_DISABLED
+#endif  // EIGEN_WARNINGS_DISABLED

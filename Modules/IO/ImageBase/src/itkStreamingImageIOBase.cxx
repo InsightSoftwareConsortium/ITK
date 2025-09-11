@@ -75,7 +75,7 @@ StreamingImageIOBase::StreamReadBufferAsBinary(std::istream & file, void * _buff
 
     if (!this->ReadBufferAsBinary(file, buffer, sizeOfChunk))
     {
-      itkExceptionMacro("Error reading in ReadBufferAsBinary!");
+      itkExceptionStringMacro("Error reading in ReadBufferAsBinary!");
     }
 
     // increment the buffer pointer
@@ -83,7 +83,7 @@ StreamingImageIOBase::StreamReadBufferAsBinary(std::istream & file, void * _buff
 
     if (file.fail())
     {
-      itkExceptionMacro("Fail reading");
+      itkExceptionStringMacro("Fail reading");
     }
 
     if (movingDirection == m_IORegion.GetImageDimension())
@@ -197,7 +197,7 @@ StreamingImageIOBase::StreamWriteBufferAsBinary(std::ostream & file, const void 
     file.seekp(dataPos + seekPos, std::ios::beg);
     if (!this->WriteBufferAsBinary(file, buffer, sizeOfChunk))
     {
-      itkExceptionMacro("Error reading in WriteBufferAsBinary!");
+      itkExceptionStringMacro("Error reading in WriteBufferAsBinary!");
     }
 
     // increment the buffer pointer
@@ -208,7 +208,7 @@ StreamingImageIOBase::StreamWriteBufferAsBinary(std::ostream & file, const void 
 
     if (file.fail())
     {
-      itkExceptionMacro("Fail writing");
+      itkExceptionStringMacro("Fail writing");
     }
 
     if (movingDirection == m_IORegion.GetImageDimension())
@@ -253,7 +253,7 @@ StreamingImageIOBase::GetActualNumberOfSplitsForWriting(unsigned int          nu
   if (!const_cast<StreamingImageIOBase *>(this)->CanStreamWrite())
   {
     // ImageIOs may not always be able to stream,
-    // fall back to super classses non-streaming implementation
+    // fall back to super classes non-streaming implementation
     return ImageIOBase::GetActualNumberOfSplitsForWriting(numberOfRequestedSplits, pasteRegion, largestPossibleRegion);
   }
   if (!itksys::SystemTools::FileExists(m_FileName.c_str()))
@@ -411,6 +411,6 @@ StreamingImageIOBase::RequestedToStream() const
     }
   }
 
-  return (largestRegion != ioregion);
+  return largestRegion != ioregion;
 }
 } // namespace itk

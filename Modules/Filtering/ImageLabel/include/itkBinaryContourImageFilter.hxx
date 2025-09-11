@@ -204,7 +204,7 @@ BinaryContourImageFilter<TInputImage, TOutputImage>::ThreadedIntegrateData(const
     {
       for (auto I = this->m_LineOffsets.begin(); I != this->m_LineOffsets.end(); ++I)
       {
-        const OffsetValueType neighIdx = thisIdx + (*I);
+        const OffsetValueType neighIdx = thisIdx + *I;
 
         // check if the neighbor is in the map
         if (neighIdx >= 0 && neighIdx < OffsetValueType(linecount) && !m_BackgroundLineMap[neighIdx].empty())

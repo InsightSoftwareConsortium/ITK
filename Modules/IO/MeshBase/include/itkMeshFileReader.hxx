@@ -332,7 +332,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
       }
       default:
       {
-        itkExceptionMacro("Unknown cell type");
+        itkExceptionStringMacro("Unknown cell type");
       }
     }
   }
@@ -509,7 +509,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
   {
     switch (m_MeshIO->GetPointComponentType())
     {
-      case IOComponentEnum::CHAR:
+      case IOComponentEnum::SCHAR:
       {
         Self::ReadPointsUsingMeshIO<char>();
         break;
@@ -577,7 +577,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
       case IOComponentEnum::UNKNOWNCOMPONENTTYPE:
       default:
       {
-        itkExceptionMacro("Unknown point component type");
+        itkExceptionStringMacro("Unknown point component type");
       }
     }
   }
@@ -587,7 +587,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
   {
     switch (m_MeshIO->GetCellComponentType())
     {
-      case IOComponentEnum::CHAR:
+      case IOComponentEnum::SCHAR:
       {
         Self::ReadCellsUsingMeshIO<char>();
         break;
@@ -655,7 +655,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
       case IOComponentEnum::UNKNOWNCOMPONENTTYPE:
       default:
       {
-        itkExceptionMacro("Unknown cell component type");
+        itkExceptionStringMacro("Unknown cell component type");
       }
     }
   }
@@ -703,7 +703,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Co
   {
   }
   ITK_CONVERT_POINT_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::UCHAR, unsigned char)
-  ITK_CONVERT_POINT_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::CHAR, char)
+  ITK_CONVERT_POINT_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::CHAR, signed char)
   ITK_CONVERT_POINT_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::USHORT, unsigned short)
   ITK_CONVERT_POINT_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::SHORT, short)
   ITK_CONVERT_POINT_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::UINT, unsigned int)
@@ -778,7 +778,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Co
   {
   }
   ITK_CONVERT_CELL_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::UCHAR, unsigned char)
-  ITK_CONVERT_CELL_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::CHAR, char)
+  ITK_CONVERT_CELL_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::CHAR, signed char)
   ITK_CONVERT_CELL_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::USHORT, unsigned short)
   ITK_CONVERT_CELL_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::SHORT, short)
   ITK_CONVERT_CELL_PIXEL_BUFFER_IF_BLOCK(IOComponentEnum::UINT, unsigned int)

@@ -85,7 +85,7 @@ DOMReader<TOutput>::Update(const DOMNodeType * inputdom, const void * userdata)
 {
   if (inputdom == nullptr)
   {
-    itkExceptionMacro("read from an invalid DOM object");
+    itkExceptionStringMacro("read from an invalid DOM object");
   }
 
   // group subsequent logging under this reader
@@ -108,7 +108,7 @@ DOMReader<TOutput>::Update(const DOMNodeType * inputdom, const void * userdata)
 
   if (this->GetOutput() == nullptr)
   {
-    itkExceptionMacro("no valid output object was generated");
+    itkExceptionStringMacro("no valid output object was generated");
   }
 }
 

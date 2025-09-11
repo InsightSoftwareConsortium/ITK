@@ -393,7 +393,8 @@ Object::UnRegister() const noexcept
       {
         if (GetGlobalWarningDisplay())
         {
-          itk::OutputWindowDisplayWarningText("WARNING: Exception occurred in DeleteEvent Observer!");
+          itk::OutputWindowDisplayWarningText(
+            __FILE__, __LINE__, this->GetNameOfClass(), this, "Exception occurred in DeleteEvent Observer!");
         }
       }
       catch (...)

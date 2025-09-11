@@ -276,7 +276,7 @@ GE4ImageIO::ReadHeader(const char * FileNameToRead)
   //    status = stat (imageFile, &statBuf);
   //    if (status == -1)
   //      {
-  //  return (nullptr);
+  //  return nullptr;
   //      }
   //
   //    hdr->offset = statBuf.st_size - (hdr->imageXsize * hdr->imageYsize * 2);

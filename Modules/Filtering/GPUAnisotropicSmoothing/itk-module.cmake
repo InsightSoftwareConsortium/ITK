@@ -11,13 +11,12 @@ stage of segmentation algorithms. You may find useful as well the filters in the
 itk_module(
   ITKGPUAnisotropicSmoothing
   DEPENDS
-  ITKCommon
-  ITKGPUCommon
-  ITKGPUFiniteDifference
+    ITKCommon
+    ITKGPUCommon
+    ITKGPUFiniteDifference
   COMPILE_DEPENDS
-  ITKAnisotropicSmoothing
+    ITKAnisotropicSmoothing
   TEST_DEPENDS
-  ITKTestKernel
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+  DESCRIPTION "${DOCUMENTATION}"
 )

@@ -687,7 +687,7 @@ itkQuadEdgeMeshEulerOperatorJoinVertexTest(int argc, char * argv[])
 
   std::cout << ".OK" << std::endl;
   // Consider a last pathological Test of an edge with an isolated
-  // end potientaly immersed in a face. Here is the initial situation:
+  // end potentially immersed in a face. Here is the initial situation:
   //
   //   20 --------- 21 --------- 22 --------- 23 --------- 24
   //    |        __/ |        __/ |        __/ |        __/ |

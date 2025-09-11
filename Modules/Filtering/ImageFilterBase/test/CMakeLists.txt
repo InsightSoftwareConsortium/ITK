@@ -25,44 +25,39 @@ endif()
 createtestdriver(ITKImageFilterBase "${ITKImageFilterBase-Test_LIBRARIES}" "${ITKImageFilterBaseTests}")
 
 itk_add_test(
-  NAME
-  itkNeighborhoodOperatorImageFilterTest
+  NAME itkNeighborhoodOperatorImageFilterTest
   COMMAND
-  ITKImageFilterBaseTestDriver
-  itkNeighborhoodOperatorImageFilterTest
+    ITKImageFilterBaseTestDriver
+    itkNeighborhoodOperatorImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkImageToImageFilterTest
+  NAME itkImageToImageFilterTest
   COMMAND
-  ITKImageFilterBaseTestDriver
-  itkImageToImageFilterTest
+    ITKImageFilterBaseTestDriver
+    itkImageToImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkVectorNeighborhoodOperatorImageFilterTest
+  NAME itkVectorNeighborhoodOperatorImageFilterTest
   COMMAND
-  ITKImageFilterBaseTestDriver
-  itkVectorNeighborhoodOperatorImageFilterTest
+    ITKImageFilterBaseTestDriver
+    itkVectorNeighborhoodOperatorImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkMaskNeighborhoodOperatorImageFilterTest
+  NAME itkMaskNeighborhoodOperatorImageFilterTest
   COMMAND
-  ITKImageFilterBaseTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/MaskNeighborhoodOperatorImageFilterTest.png}
-  ${ITK_TEST_OUTPUT_DIR}/MaskNeighborhoodOperatorImageFilterTest.png
-  itkMaskNeighborhoodOperatorImageFilterTest
-  DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
-  ${ITK_TEST_OUTPUT_DIR}/MaskNeighborhoodOperatorImageFilterTest.png
+    ITKImageFilterBaseTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/MaskNeighborhoodOperatorImageFilterTest.png}
+    ${ITK_TEST_OUTPUT_DIR}/MaskNeighborhoodOperatorImageFilterTest.png
+    itkMaskNeighborhoodOperatorImageFilterTest
+    DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/MaskNeighborhoodOperatorImageFilterTest.png
 )
 itk_add_test(
-  NAME
-  itkCastImageFilterTest
+  NAME itkCastImageFilterTest
   COMMAND
-  ITKImageFilterBaseTestDriver
-  itkCastImageFilterTest
+    ITKImageFilterBaseTestDriver
+    itkCastImageFilterTest
 )
 
 set(ITKImageFilterBaseGTests itkGeneratorImageFilterGTest.cxx)

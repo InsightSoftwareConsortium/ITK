@@ -122,7 +122,7 @@ MultiScaleHessianBasedMeasureImageFilter<TInputImage, THessianImage, TOutputImag
 
   if (m_HessianToMeasureFilter.IsNull())
   {
-    itkExceptionMacro(" HessianToMeasure filter is not set. Use SetHessianToMeasureFilter() ");
+    itkExceptionStringMacro(" HessianToMeasure filter is not set. Use SetHessianToMeasureFilter() ");
   }
 
   if (m_GenerateScalesOutput)

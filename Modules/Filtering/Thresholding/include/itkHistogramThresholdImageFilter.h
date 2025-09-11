@@ -208,7 +208,7 @@ protected:
     Superclass::VerifyPreconditions();
     if (m_Calculator.IsNull())
     {
-      itkExceptionMacro("No threshold calculator set.");
+      itkExceptionStringMacro("No threshold calculator set.");
     }
   }
 

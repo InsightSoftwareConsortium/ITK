@@ -124,7 +124,7 @@ FEMObject<VDimension>::DeepCopy(FEMObject * Copy)
     auto * mCopy = dynamic_cast<fem::MaterialLinearElasticity *>(Copy->GetMaterial(i).GetPointer());
     if (mCopy == nullptr)
     {
-      itkExceptionMacro("dynamic_cast failed.");
+      itkExceptionStringMacro("dynamic_cast failed.");
     }
     auto m = fem::MaterialLinearElasticity::New();
     m->SetGlobalNumber(mCopy->GetGlobalNumber());
@@ -147,7 +147,7 @@ FEMObject<VDimension>::DeepCopy(FEMObject * Copy)
     auto * o1 = dynamic_cast<fem::Element *>(a.GetPointer());
     if (o1 == nullptr)
     {
-      itkExceptionMacro("dynamic_cast failed.");
+      itkExceptionStringMacro("dynamic_cast failed.");
     }
     o1->SetGlobalNumber(elCopy->GetGlobalNumber());
 
@@ -175,7 +175,7 @@ FEMObject<VDimension>::DeepCopy(FEMObject * Copy)
       auto * lCopy = dynamic_cast<fem::LoadNode *>(load);
       if (lCopy == nullptr)
       {
-        itkExceptionMacro("dynamic_cast failed.");
+        itkExceptionStringMacro("dynamic_cast failed.");
       }
       auto o1 = fem::LoadNode::New();
 
@@ -199,7 +199,7 @@ FEMObject<VDimension>::DeepCopy(FEMObject * Copy)
       auto * lCopy = dynamic_cast<fem::LoadBC *>(load);
       if (lCopy == nullptr)
       {
-        itkExceptionMacro("dynamic_cast failed.");
+        itkExceptionStringMacro("dynamic_cast failed.");
       }
 
       auto o1 = fem::LoadBC::New();
@@ -224,7 +224,7 @@ FEMObject<VDimension>::DeepCopy(FEMObject * Copy)
       auto * lCopy = dynamic_cast<fem::LoadBCMFC *>(load);
       if (lCopy == nullptr)
       {
-        itkExceptionMacro("dynamic_cast failed.");
+        itkExceptionStringMacro("dynamic_cast failed.");
       }
 
       auto o1 = fem::LoadBCMFC::New();
@@ -262,7 +262,7 @@ FEMObject<VDimension>::DeepCopy(FEMObject * Copy)
       auto * lCopy = dynamic_cast<fem::LoadEdge *>(load);
       if (lCopy == nullptr)
       {
-        itkExceptionMacro("dynamic_cast failed.");
+        itkExceptionStringMacro("dynamic_cast failed.");
       }
 
       auto o1 = fem::LoadEdge::New();
@@ -298,7 +298,7 @@ FEMObject<VDimension>::DeepCopy(FEMObject * Copy)
       auto * lCopy = dynamic_cast<fem::LoadGravConst *>(load);
       if (lCopy == nullptr)
       {
-        itkExceptionMacro("dynamic_cast failed.");
+        itkExceptionStringMacro("dynamic_cast failed.");
       }
 
       auto o1 = fem::LoadGravConst::New();

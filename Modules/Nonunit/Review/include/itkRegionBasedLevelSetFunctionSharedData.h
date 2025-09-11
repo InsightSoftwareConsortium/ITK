@@ -118,7 +118,7 @@ public:
     auto end = m_LevelSetDataPointerVector.end();
     while (it != end)
     {
-      (*it) = LevelSetDataType::New();
+      *it = LevelSetDataType::New();
       ++it;
     }
   }

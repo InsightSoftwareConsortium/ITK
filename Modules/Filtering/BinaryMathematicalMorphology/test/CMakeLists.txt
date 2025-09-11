@@ -19,374 +19,348 @@ createtestdriver(ITKBinaryMathematicalMorphology "${ITKBinaryMathematicalMorphol
 )
 
 itk_add_test(
-  NAME
-  itkErodeObjectMorphologyImageFilterTest
+  NAME itkErodeObjectMorphologyImageFilterTest
   COMMAND
-  ITKBinaryMathematicalMorphologyTestDriver
-  itkErodeObjectMorphologyImageFilterTest
+    ITKBinaryMathematicalMorphologyTestDriver
+    itkErodeObjectMorphologyImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkBinaryClosingByReconstructionImageFilterTest
+  NAME itkBinaryClosingByReconstructionImageFilterTest
   COMMAND
-  ITKBinaryMathematicalMorphologyTestDriver
-  --compare-MD5
-  ${ITK_TEST_OUTPUT_DIR}/itkBinaryClosingByReconstructionImageFilterTest.png
-  "4eadd941a629c7b52f9aa1be048c854c"
-  itkBinaryClosingByReconstructionImageFilterTest
-  DATA{${ITK_DATA_ROOT}/Input/cthead1-bin.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkBinaryClosingByReconstructionImageFilterTest.png
-  0
-  255
-  10
+    ITKBinaryMathematicalMorphologyTestDriver
+    --compare-MD5
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryClosingByReconstructionImageFilterTest.png
+    "4eadd941a629c7b52f9aa1be048c854c"
+    itkBinaryClosingByReconstructionImageFilterTest
+    DATA{${ITK_DATA_ROOT}/Input/cthead1-bin.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryClosingByReconstructionImageFilterTest.png
+    0
+    255
+    10
 )
 itk_add_test(
-  NAME
-  itkBinaryDilateImageFilterTest
+  NAME itkBinaryDilateImageFilterTest
   COMMAND
-  ITKBinaryMathematicalMorphologyTestDriver
-  itkBinaryDilateImageFilterTest
+    ITKBinaryMathematicalMorphologyTestDriver
+    itkBinaryDilateImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkFastIncrementalBinaryDilateImageFilterTest
+  NAME itkFastIncrementalBinaryDilateImageFilterTest
   COMMAND
-  ITKBinaryMathematicalMorphologyTestDriver
-  itkFastIncrementalBinaryDilateImageFilterTest
+    ITKBinaryMathematicalMorphologyTestDriver
+    itkFastIncrementalBinaryDilateImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkBinaryDilateImageFilterTest-100-0-0
+  NAME itkBinaryDilateImageFilterTest-100-0-0
   COMMAND
-  ITKBinaryMathematicalMorphologyTestDriver
-  --compare-MD5
-  ${ITK_TEST_OUTPUT_DIR}/itkBinaryDilateImageFilterTest-100-0-0.png
-  "6fd97580a84c71b381d220b132b1335a"
-  itkBinaryDilateImageFilterTest3
-  DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkBinaryDilateImageFilterTest-100-0-0.png
-  100
-  0
-  0
-  10
+    ITKBinaryMathematicalMorphologyTestDriver
+    --compare-MD5
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryDilateImageFilterTest-100-0-0.png
+    "6fd97580a84c71b381d220b132b1335a"
+    itkBinaryDilateImageFilterTest3
+    DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryDilateImageFilterTest-100-0-0.png
+    100
+    0
+    0
+    10
 )
 itk_add_test(
-  NAME
-  itkBinaryDilateImageFilterTest-100-0-1
+  NAME itkBinaryDilateImageFilterTest-100-0-1
   COMMAND
-  ITKBinaryMathematicalMorphologyTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkBinaryDilateImageFilterTest-100-0-1.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkBinaryDilateImageFilterTest-100-0-1.png
-  itkBinaryDilateImageFilterTest3
-  DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkBinaryDilateImageFilterTest-100-0-1.png
-  100
-  0
-  1
-  10
+    ITKBinaryMathematicalMorphologyTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkBinaryDilateImageFilterTest-100-0-1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryDilateImageFilterTest-100-0-1.png
+    itkBinaryDilateImageFilterTest3
+    DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryDilateImageFilterTest-100-0-1.png
+    100
+    0
+    1
+    10
 )
 itk_add_test(
-  NAME
-  itkBinaryDilateImageFilterTest-100-150-0
+  NAME itkBinaryDilateImageFilterTest-100-150-0
   COMMAND
-  ITKBinaryMathematicalMorphologyTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkBinaryDilateImageFilterTest-100-150-0.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkBinaryDilateImageFilterTest-100-150-0.png
-  itkBinaryDilateImageFilterTest3
-  DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkBinaryDilateImageFilterTest-100-150-0.png
-  100
-  150
-  0
-  10
+    ITKBinaryMathematicalMorphologyTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkBinaryDilateImageFilterTest-100-150-0.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryDilateImageFilterTest-100-150-0.png
+    itkBinaryDilateImageFilterTest3
+    DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryDilateImageFilterTest-100-150-0.png
+    100
+    150
+    0
+    10
 )
 itk_add_test(
-  NAME
-  itkBinaryDilateImageFilterTest-100-150-1
+  NAME itkBinaryDilateImageFilterTest-100-150-1
   COMMAND
-  ITKBinaryMathematicalMorphologyTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkBinaryDilateImageFilterTest-100-150-1.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkBinaryDilateImageFilterTest-100-150-1.png
-  itkBinaryDilateImageFilterTest3
-  DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkBinaryDilateImageFilterTest-100-150-1.png
-  100
-  150
-  1
-  10
+    ITKBinaryMathematicalMorphologyTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkBinaryDilateImageFilterTest-100-150-1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryDilateImageFilterTest-100-150-1.png
+    itkBinaryDilateImageFilterTest3
+    DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryDilateImageFilterTest-100-150-1.png
+    100
+    150
+    1
+    10
 )
 itk_add_test(
-  NAME
-  itkBinaryDilateImageFilterTest-200-0-0
+  NAME itkBinaryDilateImageFilterTest-200-0-0
   COMMAND
-  ITKBinaryMathematicalMorphologyTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkBinaryDilateImageFilterTest-200-0-0.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkBinaryDilateImageFilterTest-200-0-0.png
-  itkBinaryDilateImageFilterTest3
-  DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkBinaryDilateImageFilterTest-200-0-0.png
-  200
-  0
-  0
-  10
+    ITKBinaryMathematicalMorphologyTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkBinaryDilateImageFilterTest-200-0-0.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryDilateImageFilterTest-200-0-0.png
+    itkBinaryDilateImageFilterTest3
+    DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryDilateImageFilterTest-200-0-0.png
+    200
+    0
+    0
+    10
 )
 itk_add_test(
-  NAME
-  itkBinaryDilateImageFilterTest-200-0-1
+  NAME itkBinaryDilateImageFilterTest-200-0-1
   COMMAND
-  ITKBinaryMathematicalMorphologyTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkBinaryDilateImageFilterTest-200-0-1.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkBinaryDilateImageFilterTest-200-0-1.png
-  itkBinaryDilateImageFilterTest3
-  DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkBinaryDilateImageFilterTest-200-0-1.png
-  200
-  0
-  1
-  10
+    ITKBinaryMathematicalMorphologyTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkBinaryDilateImageFilterTest-200-0-1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryDilateImageFilterTest-200-0-1.png
+    itkBinaryDilateImageFilterTest3
+    DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryDilateImageFilterTest-200-0-1.png
+    200
+    0
+    1
+    10
 )
 itk_add_test(
-  NAME
-  itkBinaryDilateImageFilterTest-200-150-0
+  NAME itkBinaryDilateImageFilterTest-200-150-0
   COMMAND
-  ITKBinaryMathematicalMorphologyTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkBinaryDilateImageFilterTest-200-150-0.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkBinaryDilateImageFilterTest-200-150-0.png
-  itkBinaryDilateImageFilterTest3
-  DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkBinaryDilateImageFilterTest-200-150-0.png
-  200
-  150
-  0
-  10
+    ITKBinaryMathematicalMorphologyTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkBinaryDilateImageFilterTest-200-150-0.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryDilateImageFilterTest-200-150-0.png
+    itkBinaryDilateImageFilterTest3
+    DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryDilateImageFilterTest-200-150-0.png
+    200
+    150
+    0
+    10
 )
 itk_add_test(
-  NAME
-  itkBinaryDilateImageFilterTest-200-150-1
+  NAME itkBinaryDilateImageFilterTest-200-150-1
   COMMAND
-  ITKBinaryMathematicalMorphologyTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkBinaryDilateImageFilterTest-200-150-1.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkBinaryDilateImageFilterTest-200-150-1.png
-  itkBinaryDilateImageFilterTest3
-  DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkBinaryDilateImageFilterTest-200-150-1.png
-  200
-  150
-  1
-  10
+    ITKBinaryMathematicalMorphologyTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkBinaryDilateImageFilterTest-200-150-1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryDilateImageFilterTest-200-150-1.png
+    itkBinaryDilateImageFilterTest3
+    DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryDilateImageFilterTest-200-150-1.png
+    200
+    150
+    1
+    10
 )
 itk_add_test(
-  NAME
-  itkBinaryErodeImageFilterTest
+  NAME itkBinaryErodeImageFilterTest
   COMMAND
-  ITKBinaryMathematicalMorphologyTestDriver
-  itkBinaryErodeImageFilterTest
+    ITKBinaryMathematicalMorphologyTestDriver
+    itkBinaryErodeImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkBinaryErodeImageFilterTest-100-0-0
+  NAME itkBinaryErodeImageFilterTest-100-0-0
   COMMAND
-  ITKBinaryMathematicalMorphologyTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkBinaryErodeImageFilterTest-100-0-0.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkBinaryErodeImageFilterTest-100-0-0.png
-  itkBinaryErodeImageFilterTest3
-  DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkBinaryErodeImageFilterTest-100-0-0.png
-  100
-  0
-  0
-  10
+    ITKBinaryMathematicalMorphologyTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkBinaryErodeImageFilterTest-100-0-0.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryErodeImageFilterTest-100-0-0.png
+    itkBinaryErodeImageFilterTest3
+    DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryErodeImageFilterTest-100-0-0.png
+    100
+    0
+    0
+    10
 )
 itk_add_test(
-  NAME
-  itkBinaryErodeImageFilterTest-100-0-1
+  NAME itkBinaryErodeImageFilterTest-100-0-1
   COMMAND
-  ITKBinaryMathematicalMorphologyTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkBinaryErodeImageFilterTest-100-0-1.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkBinaryErodeImageFilterTest-100-0-1.png
-  itkBinaryErodeImageFilterTest3
-  DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkBinaryErodeImageFilterTest-100-0-1.png
-  100
-  0
-  1
-  10
+    ITKBinaryMathematicalMorphologyTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkBinaryErodeImageFilterTest-100-0-1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryErodeImageFilterTest-100-0-1.png
+    itkBinaryErodeImageFilterTest3
+    DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryErodeImageFilterTest-100-0-1.png
+    100
+    0
+    1
+    10
 )
 itk_add_test(
-  NAME
-  itkBinaryErodeImageFilterTest-100-150-0
+  NAME itkBinaryErodeImageFilterTest-100-150-0
   COMMAND
-  ITKBinaryMathematicalMorphologyTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkBinaryErodeImageFilterTest-100-150-0.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkBinaryErodeImageFilterTest-100-150-0.png
-  itkBinaryErodeImageFilterTest3
-  DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkBinaryErodeImageFilterTest-100-150-0.png
-  100
-  150
-  0
-  10
+    ITKBinaryMathematicalMorphologyTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkBinaryErodeImageFilterTest-100-150-0.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryErodeImageFilterTest-100-150-0.png
+    itkBinaryErodeImageFilterTest3
+    DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryErodeImageFilterTest-100-150-0.png
+    100
+    150
+    0
+    10
 )
 itk_add_test(
-  NAME
-  itkBinaryErodeImageFilterTest-100-150-1
+  NAME itkBinaryErodeImageFilterTest-100-150-1
   COMMAND
-  ITKBinaryMathematicalMorphologyTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkBinaryErodeImageFilterTest-100-150-1.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkBinaryErodeImageFilterTest-100-150-1.png
-  itkBinaryErodeImageFilterTest3
-  DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkBinaryErodeImageFilterTest-100-150-1.png
-  100
-  150
-  1
-  10
+    ITKBinaryMathematicalMorphologyTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkBinaryErodeImageFilterTest-100-150-1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryErodeImageFilterTest-100-150-1.png
+    itkBinaryErodeImageFilterTest3
+    DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryErodeImageFilterTest-100-150-1.png
+    100
+    150
+    1
+    10
 )
 itk_add_test(
-  NAME
-  itkBinaryErodeImageFilterTest-200-0-0
+  NAME itkBinaryErodeImageFilterTest-200-0-0
   COMMAND
-  ITKBinaryMathematicalMorphologyTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkBinaryErodeImageFilterTest-200-0-0.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkBinaryErodeImageFilterTest-200-0-0.png
-  itkBinaryErodeImageFilterTest3
-  DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkBinaryErodeImageFilterTest-200-0-0.png
-  200
-  0
-  0
-  10
+    ITKBinaryMathematicalMorphologyTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkBinaryErodeImageFilterTest-200-0-0.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryErodeImageFilterTest-200-0-0.png
+    itkBinaryErodeImageFilterTest3
+    DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryErodeImageFilterTest-200-0-0.png
+    200
+    0
+    0
+    10
 )
 itk_add_test(
-  NAME
-  itkBinaryErodeImageFilterTest-200-0-1
+  NAME itkBinaryErodeImageFilterTest-200-0-1
   COMMAND
-  ITKBinaryMathematicalMorphologyTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkBinaryErodeImageFilterTest-200-0-1.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkBinaryErodeImageFilterTest-200-0-1.png
-  itkBinaryErodeImageFilterTest3
-  DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkBinaryErodeImageFilterTest-200-0-1.png
-  200
-  0
-  1
-  10
+    ITKBinaryMathematicalMorphologyTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkBinaryErodeImageFilterTest-200-0-1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryErodeImageFilterTest-200-0-1.png
+    itkBinaryErodeImageFilterTest3
+    DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryErodeImageFilterTest-200-0-1.png
+    200
+    0
+    1
+    10
 )
 itk_add_test(
-  NAME
-  itkBinaryErodeImageFilterTest-200-150-0
+  NAME itkBinaryErodeImageFilterTest-200-150-0
   COMMAND
-  ITKBinaryMathematicalMorphologyTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkBinaryErodeImageFilterTest-200-150-0.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkBinaryErodeImageFilterTest-200-150-0.png
-  itkBinaryErodeImageFilterTest3
-  DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkBinaryErodeImageFilterTest-200-150-0.png
-  200
-  150
-  0
-  10
+    ITKBinaryMathematicalMorphologyTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkBinaryErodeImageFilterTest-200-150-0.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryErodeImageFilterTest-200-150-0.png
+    itkBinaryErodeImageFilterTest3
+    DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryErodeImageFilterTest-200-150-0.png
+    200
+    150
+    0
+    10
 )
 itk_add_test(
-  NAME
-  itkBinaryErodeImageFilterTest-200-150-1
+  NAME itkBinaryErodeImageFilterTest-200-150-1
   COMMAND
-  ITKBinaryMathematicalMorphologyTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkBinaryErodeImageFilterTest-200-150-1.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkBinaryErodeImageFilterTest-200-150-1.png
-  itkBinaryErodeImageFilterTest3
-  DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkBinaryErodeImageFilterTest-200-150-1.png
-  200
-  150
-  1
-  10
+    ITKBinaryMathematicalMorphologyTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkBinaryErodeImageFilterTest-200-150-1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryErodeImageFilterTest-200-150-1.png
+    itkBinaryErodeImageFilterTest3
+    DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryErodeImageFilterTest-200-150-1.png
+    200
+    150
+    1
+    10
 )
 itk_add_test(
-  NAME
-  itkBinaryMorphologicalClosingImageFilterTest
+  NAME itkBinaryMorphologicalClosingImageFilterTest
   COMMAND
-  ITKBinaryMathematicalMorphologyTestDriver
-  --compare
-  DATA{Baseline/itkBinaryMorphologicalClosingImageFilterTest.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkBinaryMorphologicalClosingImageFilterTest.png
-  itkBinaryMorphologicalClosingImageFilterTest
-  DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkBinaryMorphologicalClosingImageFilterTest.png
-  40
-  1
-  200
+    ITKBinaryMathematicalMorphologyTestDriver
+    --compare
+    DATA{Baseline/itkBinaryMorphologicalClosingImageFilterTest.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryMorphologicalClosingImageFilterTest.png
+    itkBinaryMorphologicalClosingImageFilterTest
+    DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryMorphologicalClosingImageFilterTest.png
+    40
+    1
+    200
 )
 itk_add_test(
-  NAME
-  itkBinaryMorphologicalClosingImageFilterTestUnsafe
+  NAME itkBinaryMorphologicalClosingImageFilterTestUnsafe
   COMMAND
-  ITKBinaryMathematicalMorphologyTestDriver
-  --compare
-  DATA{Baseline/itkBinaryMorphologicalClosingImageFilterTestUnsafe.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkBinaryMorphologicalClosingImageFilterTestUnsafe.png
-  itkBinaryMorphologicalClosingImageFilterTest
-  DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkBinaryMorphologicalClosingImageFilterTestUnsafe.png
-  40
-  0
-  200
+    ITKBinaryMathematicalMorphologyTestDriver
+    --compare
+    DATA{Baseline/itkBinaryMorphologicalClosingImageFilterTestUnsafe.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryMorphologicalClosingImageFilterTestUnsafe.png
+    itkBinaryMorphologicalClosingImageFilterTest
+    DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryMorphologicalClosingImageFilterTestUnsafe.png
+    40
+    0
+    200
 )
 itk_add_test(
-  NAME
-  itkBinaryMorphologicalOpeningImageFilterTest
+  NAME itkBinaryMorphologicalOpeningImageFilterTest
   COMMAND
-  ITKBinaryMathematicalMorphologyTestDriver
-  --compare
-  DATA{Baseline/itkBinaryMorphologicalOpeningImageFilterTest.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkBinaryMorphologicalOpeningImageFilterTest.png
-  itkBinaryMorphologicalOpeningImageFilterTest
-  DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkBinaryMorphologicalOpeningImageFilterTest.png
-  8
-  150
-  200
+    ITKBinaryMathematicalMorphologyTestDriver
+    --compare
+    DATA{Baseline/itkBinaryMorphologicalOpeningImageFilterTest.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryMorphologicalOpeningImageFilterTest.png
+    itkBinaryMorphologicalOpeningImageFilterTest
+    DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryMorphologicalOpeningImageFilterTest.png
+    8
+    150
+    200
 )
 itk_add_test(
-  NAME
-  itkBinaryOpeningByReconstructionImageFilterTest
+  NAME itkBinaryOpeningByReconstructionImageFilterTest
   COMMAND
-  ITKBinaryMathematicalMorphologyTestDriver
-  --compare
-  DATA{Baseline/itkBinaryOpeningByReconstructionImageFilterTest.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkBinaryOpeningByReconstructionImageFilterTest.png
-  itkBinaryOpeningByReconstructionImageFilterTest
-  DATA{${ITK_DATA_ROOT}/Input/cthead1-bin.png}
-  ${ITK_TEST_OUTPUT_DIR}/itkBinaryOpeningByReconstructionImageFilterTest.png
-  10
-  0
-  255
-  0
+    ITKBinaryMathematicalMorphologyTestDriver
+    --compare
+    DATA{Baseline/itkBinaryOpeningByReconstructionImageFilterTest.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryOpeningByReconstructionImageFilterTest.png
+    itkBinaryOpeningByReconstructionImageFilterTest
+    DATA{${ITK_DATA_ROOT}/Input/cthead1-bin.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkBinaryOpeningByReconstructionImageFilterTest.png
+    10
+    0
+    255
+    0
 )
 itk_add_test(
-  NAME
-  itkBinaryThinningImageFilterTest
+  NAME itkBinaryThinningImageFilterTest
   COMMAND
-  ITKBinaryMathematicalMorphologyTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/Algorithms/BinaryThinningImageFilterTest.png}
-  ${ITK_TEST_OUTPUT_DIR}/BinaryThinningImageFilterTest.png
-  itkBinaryThinningImageFilterTest
-  DATA{${ITK_DATA_ROOT}/Input/Shapes.png}
-  ${ITK_TEST_OUTPUT_DIR}/BinaryThinningImageFilterTest.png
+    ITKBinaryMathematicalMorphologyTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/Algorithms/BinaryThinningImageFilterTest.png}
+    ${ITK_TEST_OUTPUT_DIR}/BinaryThinningImageFilterTest.png
+    itkBinaryThinningImageFilterTest
+    DATA{${ITK_DATA_ROOT}/Input/Shapes.png}
+    ${ITK_TEST_OUTPUT_DIR}/BinaryThinningImageFilterTest.png
 )

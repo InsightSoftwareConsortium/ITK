@@ -60,7 +60,7 @@ public:
   [[nodiscard]] bool
   IsSatisfied() const override
   {
-    return (this->m_CurrentValue >= this->m_Threshold);
+    return this->m_CurrentValue >= this->m_Threshold;
   }
 
   [[nodiscard]] std::string

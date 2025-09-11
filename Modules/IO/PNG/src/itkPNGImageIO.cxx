@@ -248,7 +248,7 @@ PNGImageIO::Read(void * buffer)
   if (setjmp(png_jmpbuf(png_ptr)))
   {
     png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
-    itkExceptionMacro("Error while reading file: " << this->GetFileName() << std::endl);
+    itkExceptionMacro("Error while reading file: " << this->GetFileName());
   }
   png_read_image(png_ptr, row_pointers.get());
   // close the file
@@ -555,14 +555,14 @@ PNGImageIO::WriteSlice(const std::string & fileName, const void * const buffer)
   png_structp png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, (png_voidp) nullptr, nullptr, nullptr);
   if (!png_ptr)
   {
-    itkExceptionMacro("Unable to write PNG file! png_create_write_struct failed.");
+    itkExceptionStringMacro("Unable to write PNG file! png_create_write_struct failed.");
   }
 
   png_infop info_ptr = png_create_info_struct(png_ptr);
   if (!info_ptr)
   {
     png_destroy_write_struct(&png_ptr, (png_infopp) nullptr);
-    itkExceptionMacro("Unable to write PNG file!. png_create_info_struct failed.");
+    itkExceptionStringMacro("Unable to write PNG file!. png_create_info_struct failed.");
   }
 
   png_init_io(png_ptr, fp);

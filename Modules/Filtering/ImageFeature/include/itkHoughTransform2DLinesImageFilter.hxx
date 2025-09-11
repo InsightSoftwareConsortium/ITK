@@ -140,7 +140,7 @@ HoughTransform2DLinesImageFilter<TInputPixelType, TOutputPixelType>::Simplify()
 
   if (!inputImage || !outputImage)
   {
-    itkExceptionMacro("Update() must be called before Simplify().");
+    itkExceptionStringMacro("Update() must be called before Simplify().");
   }
 
   // Allocate the simplify accumulator.
@@ -230,7 +230,7 @@ HoughTransform2DLinesImageFilter<TInputPixelType, TOutputPixelType>::GetLines() 
 
     if (!outputImage)
     {
-      itkExceptionMacro("Update() must be called before GetLines().");
+      itkExceptionStringMacro("Update() must be called before GetLines().");
     }
 
     // Convert the accumulator output image type to internal image type.

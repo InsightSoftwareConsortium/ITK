@@ -179,7 +179,7 @@ public:
     const InputImageType * input = this->GetInputImage();
     if (!input)
     {
-      itkExceptionMacro("Input image required!");
+      itkExceptionStringMacro("Input image required!");
     }
     return input->GetLargestPossibleRegion().GetSize();
   }

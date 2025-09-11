@@ -9,7 +9,7 @@ These are the sources for the [ITK docs](https://docs.itk.org)
 The contribution process generally follows our [contributing
 guidelines](./contributing/index.md).
 
-Once merged into `master`, the documentation will be available in the `latest`
+Once merged into `main`, the documentation will be available in the `latest`
 version of the ReadTheDocs documentation as https://docs.itk.org/. Note that
 `latest` is not the default version (`release` is). To change versions, use the links in the lower
 left of the page.

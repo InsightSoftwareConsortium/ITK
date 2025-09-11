@@ -10,10 +10,9 @@ operations on the fly."
 itk_module(
   ITKImageAdaptors
   PRIVATE_DEPENDS
-  ITKCommon
+    ITKCommon
   TEST_DEPENDS
-  ITKTestKernel
-  ITKCommon
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+    ITKCommon
+  DESCRIPTION "${DOCUMENTATION}"
 )

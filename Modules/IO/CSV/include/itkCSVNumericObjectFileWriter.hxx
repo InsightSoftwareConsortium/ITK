@@ -94,13 +94,13 @@ CSVNumericObjectFileWriter<TValue, VRows, VColumns>::PrepareForWriting()
   // throw an exception if no filename is provided
   if (this->m_FileName.empty())
   {
-    itkExceptionMacro("A filename for writing was not specified!");
+    itkExceptionStringMacro("A filename for writing was not specified!");
   }
 
   // throw an exception if no input object is provided
   if (this->m_InputObject == nullptr)
   {
-    itkExceptionMacro("An input object was not specified!");
+    itkExceptionStringMacro("An input object was not specified!");
   }
 
   // output a warning if the number of row headers and number of rows in the

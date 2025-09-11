@@ -16,29 +16,29 @@
  *
  *=========================================================================*/
 
-#include "itkIndent.h"
 #include "itkMacro.h"
+#include "itkIndent.h"
+#include "itkLightObject.h"
 
 #include <utility>
 
 namespace itk
 {
-/** \class ExceptionObject::ExceptionData
- * \brief Exception data, used to implement itk::ExceptionObject.
- *
- * Contains the location and description of the error, as well as
- * the text that should be returned by itk::ExceptionObject::what().
- */
 class ExceptionObject::ExceptionData
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(ExceptionData);
-
-  // Constructor. Might throw an exception.
-  ExceptionData(std::string file, unsigned int line, std::string description, std::string location)
+  ExceptionData(std::string  file,
+                unsigned int line,
+                std::string  description,
+                std::string  location,
+                std::string  className = "",
+                const void * thrower = nullptr)
     : m_Location(std::move(location))
     , m_Description(std::move(description))
     , m_File(std::move(file))
+    , m_ClassName(std::move(className))
+    , m_Thrower(thrower)
     , m_Line(line)
     , m_What(m_File)
   {
@@ -48,31 +48,51 @@ public:
       m_What += " in '" + m_Location + "':";
     }
     m_What += '\n';
-    m_What += m_Description;
+    if (!m_ClassName.empty())
+    {
+      m_What += "ITK ERROR " + m_ClassName;
+      if (m_Thrower)
+      {
+        m_What += '(' + std::to_string(reinterpret_cast<std::uintptr_t>(m_Thrower)) + ')';
+      }
+      m_What += ": " + m_Description;
+    }
+    else
+    {
+      m_What += "ITK ERROR: " + m_Description;
+    }
   }
 
-private:
-  friend class ExceptionObject;
-
-  // The data members should never change after construction of the
-  // ExceptionData object,
-  // to ensure the consistency of the exception data.
   const std::string  m_Location;
   const std::string  m_Description;
   const std::string  m_File;
+  const std::string  m_ClassName;
+  const void *       m_Thrower;
   const unsigned int m_Line;
   std::string        m_What;
 };
 
+ExceptionObject::ExceptionObject(std::string         file,
+                                 unsigned int        lineNumber,
+                                 std::string         description,
+                                 std::string         location,
+                                 const LightObject * thrower)
+  : m_ExceptionData(std::make_shared<const ExceptionData>(std::move(file),
+                                                          lineNumber,
+                                                          std::move(description),
+                                                          std::move(location),
+                                                          thrower ? thrower->GetNameOfClass() : std::string{},
+                                                          thrower))
+{}
 
 ExceptionObject::ExceptionObject(std::string  file,
                                  unsigned int lineNumber,
                                  std::string  description,
-                                 std::string  location)
+                                 std::string  location,
+                                 const void *)
   : m_ExceptionData(
       std::make_shared<const ExceptionData>(std::move(file), lineNumber, std::move(description), std::move(location)))
 {}
-
 
 // Note: It appears necessary to define the destructor "out-of-line" for external linkage.
 ExceptionObject::~ExceptionObject() = default;
@@ -93,7 +113,7 @@ ExceptionObject::operator==(const ExceptionObject & orig) const
 
   return (thisData != nullptr) && (origData != nullptr) && thisData->m_Location == origData->m_Location &&
          thisData->m_Description == origData->m_Description && thisData->m_File == origData->m_File &&
-         thisData->m_Line == origData->m_Line;
+         thisData->m_Line == origData->m_Line && thisData->m_ClassName == origData->m_ClassName;
 }
 
 void
@@ -101,10 +121,13 @@ ExceptionObject::SetLocation(const std::string & s)
 {
   const bool IsNull = m_ExceptionData == nullptr;
 
-  m_ExceptionData = std::make_shared<const ExceptionData>(IsNull ? "" : m_ExceptionData->m_File.c_str(),
-                                                          IsNull ? 0 : m_ExceptionData->m_Line,
-                                                          IsNull ? "" : m_ExceptionData->m_Description.c_str(),
-                                                          s);
+  m_ExceptionData =
+    std::make_shared<const ExceptionData>(IsNull ? std::string{} : std::move(m_ExceptionData->m_File),
+                                          IsNull ? 0 : m_ExceptionData->m_Line,
+                                          IsNull ? std::string{} : std::move(m_ExceptionData->m_Description),
+                                          s,
+                                          IsNull ? std::string{} : std::move(m_ExceptionData->m_ClassName),
+                                          IsNull ? nullptr : m_ExceptionData->m_Thrower);
 }
 
 void
@@ -112,10 +135,13 @@ ExceptionObject::SetDescription(const std::string & s)
 {
   const bool IsNull = m_ExceptionData == nullptr;
 
-  m_ExceptionData = std::make_shared<const ExceptionData>(IsNull ? "" : m_ExceptionData->m_File.c_str(),
-                                                          IsNull ? 0 : m_ExceptionData->m_Line,
-                                                          s,
-                                                          IsNull ? "" : m_ExceptionData->m_Location.c_str());
+  m_ExceptionData =
+    std::make_shared<const ExceptionData>(IsNull ? std::string{} : std::move(m_ExceptionData->m_File),
+                                          IsNull ? 0 : m_ExceptionData->m_Line,
+                                          s,
+                                          IsNull ? std::string{} : std::move(m_ExceptionData->m_Location),
+                                          IsNull ? std::string{} : std::move(m_ExceptionData->m_ClassName),
+                                          IsNull ? nullptr : m_ExceptionData->m_Thrower);
 }
 
 void
@@ -142,6 +168,7 @@ ExceptionObject::SetDescription(const char * s)
   ExceptionObject::SetDescription(description);
 }
 
+
 const char *
 ExceptionObject::GetLocation() const
 {
@@ -165,6 +192,7 @@ ExceptionObject::GetLine() const
 {
   return (m_ExceptionData == nullptr) ? 0 : m_ExceptionData->m_Line;
 }
+
 
 const char *
 ExceptionObject::what() const noexcept
@@ -195,6 +223,16 @@ ExceptionObject::Print(std::ostream & os) const
     {
       os << indent << "File: " << data.m_File << std::endl;
       os << indent << "Line: " << data.m_Line << std::endl;
+    }
+
+    if (!data.m_ClassName.empty())
+    {
+      os << indent << "ClassName: " << data.m_ClassName << std::endl;
+    }
+
+    if (data.m_Thrower)
+    {
+      os << indent << "Thrower: " << data.m_Thrower << std::endl;
     }
 
     if (!data.m_Description.empty())

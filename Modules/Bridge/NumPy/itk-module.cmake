@@ -13,10 +13,9 @@ endif()
 itk_module(
   ITKBridgeNumPy
   DEPENDS
-  ITKCommon
+    ITKCommon
   TEST_DEPENDS
-  ITKTestKernel
-  ${_exclude_from_default}
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+    ${_exclude_from_default}
+  DESCRIPTION "${DOCUMENTATION}"
 )

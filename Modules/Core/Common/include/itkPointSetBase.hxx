@@ -66,7 +66,7 @@ PointSetBase<TPointsContainer>::SetPoints(PointsVectorContainer * points)
   itkDebugMacro("setting Points container to " << points);
   if (points->Size() % PointDimension != 0)
   {
-    itkExceptionMacro("Number of entries in given 1d array incompatible with the point dimension");
+    itkExceptionStringMacro("Number of entries in given 1d array incompatible with the point dimension");
   }
 
   // Note: this cast is unsafe. It may lead to undefined behavior.
@@ -87,7 +87,7 @@ PointSetBase<TPointsContainer>::SetPointsByCoordinates(const std::vector<Coordin
 
   if (numberOfCoordinates % PointDimension != 0)
   {
-    itkExceptionMacro("Number of specified coordinates incompatible with the point dimension");
+    itkExceptionStringMacro("Number of specified coordinates incompatible with the point dimension");
   }
 
   const size_t numberOfPoints = numberOfCoordinates / PointDimension;
@@ -192,7 +192,7 @@ PointSetBase<TPointsContainer>::GetPoint(PointIdentifier ptId) const -> PointTyp
    */
   if (!m_PointsContainer)
   {
-    itkExceptionMacro("Point container doesn't exist.");
+    itkExceptionStringMacro("Point container doesn't exist.");
   }
 
   /**

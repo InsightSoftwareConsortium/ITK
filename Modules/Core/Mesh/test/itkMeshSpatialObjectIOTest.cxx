@@ -249,10 +249,10 @@ itkMeshSpatialObjectIOTest(int argc, char * argv[])
     auto         it = (*it_celllinks)->Value().begin();
     while (it != (*it_celllinks)->Value().end())
     {
-      if ((*it) != i)
+      if (*it != i)
       {
         std::cout << " [FAILED]" << std::endl;
-        std::cout << (*it) << " v.s " << i << std::endl;
+        std::cout << *it << " v.s " << i << std::endl;
         return EXIT_FAILURE;
       }
       i++;

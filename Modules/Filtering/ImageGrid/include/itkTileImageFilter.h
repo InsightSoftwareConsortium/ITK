@@ -113,7 +113,7 @@ public:
   itkGetConstMacro(Layout, LayoutArrayType);
   /** @ITKEndGrouping */
   /** Set the pixel value for locations that are not covered by an
-   * input image. The default default pixel value is Zero. */
+   * input image. The default pixel value is Zero. */
   itkSetMacro(DefaultPixelValue, OutputPixelType);
 
   /** Get the pixel value for locations that are not covered by an

@@ -120,7 +120,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::CopyInputToOutput()
 {
   if (!this->m_InputImage || !this->m_OutputImage)
   {
-    itkExceptionMacro("Input or Output image is nullptr.");
+    itkExceptionStringMacro("Input or Output image is nullptr.");
   }
 
   InputImageRegionConstIteratorType inputIt(this->m_InputImage, this->m_InputImage->GetRequestedRegion());
@@ -230,7 +230,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::Initialize()
   // Get the number of pixels in the input image.
   m_TotalNumberPixels = largestRegion.GetNumberOfPixels();
 
-  // For automatic sigma estimation, select every 'k'th pixel.
+  // For automatic sigma estimation, select every k'th pixel.
   m_SigmaUpdateDecimationFactor =
     static_cast<unsigned int>(Math::Round<int64_t>(1.0 / m_KernelBandwidthFractionPixelsForEstimation));
   // For automatic sigma estimation, use at least 1% of pixels.

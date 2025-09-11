@@ -55,16 +55,15 @@ DemonsImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalCo
   // gradients
   if (this->GetGradientSource() == ObjectToObjectMetricBaseTemplateEnums::GradientSource::GRADIENT_SOURCE_BOTH)
   {
-    itkExceptionMacro("GradientSource has been set to GRADIENT_SOURCE_BOTH. "
-                      "You must choose either GRADIENT_SOURCE_MOVING or "
-                      "GRADIENT_SOURCE_FIXED.");
+    itkExceptionStringMacro("GradientSource has been set to GRADIENT_SOURCE_BOTH. You must choose either "
+                            "GRADIENT_SOURCE_MOVING or GRADIENT_SOURCE_FIXED.");
   }
 
   // Verify that the transform has local support, and its number of local
   // parameters equals the dimensionality of the image gradient source.
   if (this->m_MovingTransform->GetTransformCategory() != MovingTransformType::TransformCategoryEnum::DisplacementField)
   {
-    itkExceptionMacro("The moving transform must be a displacement field transform");
+    itkExceptionStringMacro("The moving transform must be a displacement field transform");
   }
 
   // compute the normalizer

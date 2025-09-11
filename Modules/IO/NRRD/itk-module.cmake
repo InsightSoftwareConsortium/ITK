@@ -9,13 +9,14 @@ itk_module(
   ITKIONRRD
   ENABLE_SHARED
   DEPENDS
-  ITKIOImageBase
+    ITKIOImageBase
   PRIVATE_DEPENDS
-  ITKNrrdIO
+    ITKNrrdIO
   TEST_DEPENDS
-  ITKTestKernel
+    ITKImageCompose
+    ITKImageGrid
+    ITKTestKernel
   FACTORY_NAMES
-  ImageIO::Nrrd
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ImageIO::Nrrd
+  DESCRIPTION "${DOCUMENTATION}"
 )

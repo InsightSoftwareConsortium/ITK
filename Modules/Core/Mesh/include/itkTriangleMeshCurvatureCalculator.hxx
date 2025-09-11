@@ -56,7 +56,7 @@ TriangleMeshCurvatureCalculator<TInputMesh>::Compute()
   const InputMeshType * inputMesh = this->m_TriangleMesh;
   if (inputMesh == nullptr)
   {
-    itkExceptionMacro("First set the Input Triangle Mesh to perform computation");
+    itkExceptionStringMacro("First set the Input Triangle Mesh to perform computation");
   }
 
   if (this->GetCurvatureType() == TriangleMeshCurvatureCalculatorEnums::Curvatures::GaussCurvature)
@@ -68,7 +68,7 @@ TriangleMeshCurvatureCalculator<TInputMesh>::Compute()
   }
   else
   {
-    itkExceptionMacro("Only Gauss Curvature type available");
+    itkExceptionStringMacro("Only Gauss Curvature type available");
   }
 }
 
@@ -95,7 +95,7 @@ TriangleMeshCurvatureCalculator<TInputMesh>::ComputeGaussCurvature(const InputMe
     auto *     triangleCellPointer = dynamic_cast<TriangleCellType *>(cellPointer);
     if (triangleCellPointer == nullptr)
     {
-      itkExceptionMacro("Input Mesh is not a Triangle Mesh");
+      itkExceptionStringMacro("Input Mesh is not a Triangle Mesh");
     }
     MeshPointIdConstIterator point_ids = triangleCellPointer->GetPointIds();
 

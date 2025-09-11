@@ -11,16 +11,15 @@ itk_module(
   ITKIOMeta
   ENABLE_SHARED
   DEPENDS
-  ITKMetaIO
-  ITKIOImageBase
+    ITKMetaIO
+    ITKIOImageBase
   TEST_DEPENDS
-  ITKTestKernel
-  ITKSmoothing
-  ITKMetaIO
+    ITKTestKernel
+    ITKSmoothing
+    ITKMetaIO
   FACTORY_NAMES
-  ImageIO::Meta
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ImageIO::Meta
+  DESCRIPTION "${DOCUMENTATION}"
 )
 
 # Extra test dependency of ITKSmoothing is caused by itkMetaStreamingIOTest.

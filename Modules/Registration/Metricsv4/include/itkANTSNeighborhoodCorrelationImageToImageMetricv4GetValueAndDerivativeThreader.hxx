@@ -36,7 +36,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDo
   auto associate = dynamic_cast<TNeighborhoodCorrelationMetric *>(this->m_Associate);
   if (associate == nullptr)
   {
-    itkExceptionMacro("Dynamic casting of associate pointer failed.");
+    itkExceptionStringMacro("Dynamic casting of associate pointer failed.");
   }
 
   std::call_once(this->m_ANTSAssociateOnceFlag, [this, &associate]() { this->m_ANTSAssociate = associate; });
@@ -118,7 +118,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
     this->m_ANTSAssociate = dynamic_cast<TNeighborhoodCorrelationMetric *>(this->m_Associate);
     if (this->m_ANTSAssociate == nullptr)
     {
-      itkExceptionMacro("Dynamic casting of associate pointer failed.");
+      itkExceptionStringMacro("Dynamic casting of associate pointer failed.");
     }
   });
 

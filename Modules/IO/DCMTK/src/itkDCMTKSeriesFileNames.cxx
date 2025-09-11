@@ -43,7 +43,7 @@ DCMTKSeriesFileNames::SetInputDirectory(const char * name)
 {
   if (!name)
   {
-    itkExceptionMacro("SetInputDirectory() received a nullptr string");
+    itkExceptionStringMacro("SetInputDirectory() received a nullptr string");
   }
   std::string fname = name;
   this->SetInputDirectory(fname);
@@ -54,8 +54,7 @@ DCMTKSeriesFileNames::SetInputDirectory(const std::string & name)
 {
   if (name.empty())
   {
-    itkWarningMacro("You need to specify a directory where "
-                    "the DICOM files are located");
+    itkWarningMacro("You need to specify a directory where the DICOM files are located");
     return;
   }
   if (m_InputDirectory == name)
@@ -127,7 +126,7 @@ DCMTKSeriesFileNames::GetDicomData(const std::string & series, bool saveFileName
       std::string uid;
       reader->GetElementUI(0x0020, 0x000e, uid);
       //
-      // if you've restricked it to a particular series instance ID
+      // if you've restricted it to a particular series instance ID
       if (series.empty() || series == uid)
       {
         allHeaders.push_back(reader);

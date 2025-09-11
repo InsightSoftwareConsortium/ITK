@@ -98,7 +98,7 @@ ComposeImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
     }
     else if (input->GetLargestPossibleRegion() != region)
     {
-      itkExceptionMacro("All Inputs must have the same dimensions.");
+      itkExceptionStringMacro("All Inputs must have the same dimensions.");
     }
   }
 }

@@ -144,12 +144,12 @@ public:
   /**
    * Set the Left() of all the edges in the Lnext() ring of "this"
    * with the same given geometrical information.
-   * @param  faceGeom Looks at most maxSize edges in the Lnext() ring.
+   * @param  faceGeometry Looks at most maxSize edges in the Lnext() ring.
    * @param  maxSize Sets at most maxSize edges in the Lnext() ring.
    * @return Returns true on success. False otherwise.
    */
   bool
-  SetLnextRingWithSameLeftFace(const DualOriginRefType faceGeom, int maxSize = 100);
+  SetLnextRingWithSameLeftFace(const DualOriginRefType faceGeometry, int maxSize = 100);
 
   inline void
   UnsetOrigin()
@@ -176,38 +176,38 @@ public:
   /** @ITKStartGrouping */
   // ORIENTATION_NOTE: this definition of GetLeft (or GetRight)
   // implicitly assumes that the Onext order is counter-clockwise !
-  [[nodiscard]] [[nodiscard]] inline const OriginRefType
+  [[nodiscard]] inline const OriginRefType
   GetOrigin() const
   {
-    return (m_Origin);
+    return m_Origin;
   }
-  [[nodiscard]] [[nodiscard]] inline const OriginRefType
+  [[nodiscard]] inline const OriginRefType
   GetDestination() const
   {
-    return (GetSym()->GetOrigin());
+    return GetSym()->GetOrigin();
   }
-  [[nodiscard]] [[nodiscard]] inline const DualOriginRefType
+  [[nodiscard]] inline const DualOriginRefType
   GetRight() const
   {
-    return (GetRot()->GetOrigin());
+    return GetRot()->GetOrigin();
   }
-  [[nodiscard]] [[nodiscard]] inline const DualOriginRefType
+  [[nodiscard]] inline const DualOriginRefType
   GetLeft() const
   {
-    return (GetInvRot()->GetOrigin());
+    return GetInvRot()->GetOrigin();
   }
   /** @ITKEndGrouping */
   /** Boolean accessors. */
-  [[nodiscard]] [[nodiscard]] bool
+  [[nodiscard]] bool
   IsOriginSet() const;
 
-  [[nodiscard]] [[nodiscard]] bool
+  [[nodiscard]] bool
   IsDestinationSet() const;
 
-  [[nodiscard]] [[nodiscard]] bool
+  [[nodiscard]] bool
   IsRightSet() const;
 
-  [[nodiscard]] [[nodiscard]] bool
+  [[nodiscard]] bool
   IsLeftSet() const;
 
   /** Extra data set methods. */
@@ -251,12 +251,12 @@ public:
   inline PrimalDataType
   GetPrimalData()
   {
-    return (m_Data);
+    return m_Data;
   }
   inline DualDataType
   GetDualData()
   {
-    return (this->GetRot()->GetPrimalData());
+    return this->GetRot()->GetPrimalData();
   }
   /** @ITKEndGrouping */
   /** Boolean accessors. */
@@ -264,12 +264,12 @@ public:
   inline bool
   IsPrimalDataSet()
   {
-    return (m_DataSet);
+    return m_DataSet;
   }
   inline bool
   IsDualDataSet()
   {
-    return (this->GetRot()->IsPrimalDataSet());
+    return this->GetRot()->IsPrimalDataSet();
   }
   /** @ITKEndGrouping */
   /**
@@ -297,13 +297,13 @@ public:
    * @return Returns true when "this" has faces set on both sides.
    *         Return false otherwise.
    */
-  [[nodiscard]] [[nodiscard]] inline bool
+  [[nodiscard]] inline bool
   IsInternal() const
   {
-    return (this->IsLeftSet() && this->IsRightSet());
+    return this->IsLeftSet() && this->IsRightSet();
   }
 
-  [[nodiscard]] [[nodiscard]] bool
+  [[nodiscard]] bool
   IsOriginInternal() const;
 
   bool
@@ -332,17 +332,17 @@ public:
   inline bool
   IsOriginDisconnected()
   {
-    return (this == this->GetOnext());
+    return this == this->GetOnext();
   }
   inline bool
   IsDestinationDisconnected()
   {
-    return (this->GetSym()->IsOriginDisconnected());
+    return this->GetSym()->IsOriginDisconnected();
   }
   inline bool
   IsDisconnected()
   {
-    return (this->IsOriginDisconnected() && this->IsDestinationDisconnected());
+    return this->IsOriginDisconnected() && this->IsDestinationDisconnected();
   }
   /** @ITKEndGrouping */
   void
@@ -356,7 +356,7 @@ public:
   inline LineCellIdentifier
   GetIdent()
   {
-    return (this->m_LineCellIdent);
+    return this->m_LineCellIdent;
   }
 
 public:

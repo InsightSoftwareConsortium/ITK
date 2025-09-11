@@ -85,7 +85,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::SetSpli
   {
     if (this->m_SplineOrder[i] == 0)
     {
-      itkExceptionMacro("The spline order in each dimension must be greater than 0");
+      itkExceptionStringMacro("The spline order in each dimension must be greater than 0");
     }
 
     this->m_Kernel[i] = KernelType::New();
@@ -144,7 +144,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::SetNumb
   {
     if (this->m_NumberOfLevels[i] == 0)
     {
-      itkExceptionMacro("The number of levels in each dimension must be greater than 0");
+      itkExceptionStringMacro("The number of levels in each dimension must be greater than 0");
     }
     if (this->m_NumberOfLevels[i] > this->m_MaximumNumberOfLevels)
     {
@@ -194,7 +194,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Generat
   {
     if (this->m_Size[i] == 0)
     {
-      itkExceptionMacro("Size must be specified.");
+      itkExceptionStringMacro("Size must be specified.");
     }
   }
 
@@ -209,14 +209,14 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Generat
 
   if (this->m_UsePointWeights && (this->m_PointWeights->Size() != inputPointSet->GetNumberOfPoints()))
   {
-    itkExceptionMacro("The number of weight points and input points must be equal.");
+    itkExceptionStringMacro("The number of weight points and input points must be equal.");
   }
 
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     if (this->m_NumberOfControlPoints[i] < this->m_SplineOrder[i] + 1)
     {
-      itkExceptionMacro("The number of control points must be greater than the spline order.");
+      itkExceptionStringMacro("The number of control points must be greater than the spline order.");
     }
   }
 

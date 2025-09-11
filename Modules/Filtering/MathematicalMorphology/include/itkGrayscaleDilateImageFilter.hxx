@@ -127,7 +127,7 @@ GrayscaleDilateImageFilter<TInputImage, TOutputImage, TKernel>::SetAlgorithm(Alg
     }
     else
     {
-      itkExceptionMacro("Invalid algorithm");
+      itkExceptionStringMacro("Invalid algorithm");
     }
 
     m_Algorithm = algo;

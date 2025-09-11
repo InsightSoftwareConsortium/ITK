@@ -84,7 +84,7 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>::GetKernelVarianceArray()
   {
     if (this->GetInput() == nullptr)
     {
-      itkExceptionMacro("Could not get kernel variance! UseImageSpacing is ON but no input image was provided");
+      itkExceptionStringMacro("Could not get kernel variance! UseImageSpacing is ON but no input image was provided");
     }
 
     const auto & spacing = this->GetInput()->GetSpacing();

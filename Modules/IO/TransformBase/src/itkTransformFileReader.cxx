@@ -84,7 +84,7 @@ TransformFileReaderTemplate<TParametersValueType>::Update()
 {
   if (m_FileName.empty())
   {
-    itkExceptionMacro("No file name given");
+    itkExceptionStringMacro("No file name given");
   }
 
   if (m_TransformIO.IsNull())
@@ -159,9 +159,9 @@ TransformFileReaderTemplate<TParametersValueType>::Update()
     if (KernelTransformHelper<TParametersValueType, ITK_TRANSFORM_FACTORY_MAX_DIM>::InitializeWMatrix(
           ioTransformList.front().GetPointer()))
     {
-      itkDebugMacro("KernelTransform with dimension " << ioTransformList.front()->GetInputSpaceDimension()
-                                                      << " is not automatically initialized. \"ComputeWMatrix()\""
-                                                         " method has to be called.");
+      itkDebugMacro("KernelTransform with dimension "
+                    << ioTransformList.front()->GetInputSpaceDimension()
+                    << " is not automatically initialized. \"ComputeWMatrix()\" method has to be called.");
     }
   }
 

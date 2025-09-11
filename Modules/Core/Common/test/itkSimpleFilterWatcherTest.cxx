@@ -85,7 +85,7 @@ itkSimpleFilterWatcherTest(int, char *[])
 {
   // Test out the code
   using WatcherType = itk::SimpleFilterWatcher;
-  using ImageType = itk::Image<char, 3>;
+  using ImageType = itk::Image<signed char, 3>;
   using FilterType = itk::TanHelperImageFilter<ImageType, ImageType>;
   auto         filter = FilterType::New();
   const char * comment = "comment";

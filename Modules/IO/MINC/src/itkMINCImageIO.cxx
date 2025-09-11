@@ -129,7 +129,7 @@ MINCImageIO::Read(void * buffer)
     case IOComponentEnum::UCHAR:
       volume_data_type = MI_TYPE_UBYTE;
       break;
-    case IOComponentEnum::CHAR:
+    case IOComponentEnum::SCHAR:
       volume_data_type = MI_TYPE_BYTE;
       break;
     case IOComponentEnum::USHORT:
@@ -163,7 +163,7 @@ MINCImageIO::Read(void * buffer)
 
   if (miget_real_value_hyperslab(m_MINCPImpl->m_Volume, volume_data_type, start.get(), count.get(), buffer) < 0)
   {
-    itkExceptionMacro(" Can not get real value hyperslab!!\n");
+    itkExceptionStringMacro(" Can not get real value hyperslab!!\n");
   }
 }
 
@@ -317,7 +317,7 @@ MINCImageIO::ReadImageInformation()
                               m_MINCPImpl->m_NDims,
                               m_MINCPImpl->m_MincFileDims) < 0)
   {
-    itkExceptionMacro("Could not get dimension handles!");
+    itkExceptionStringMacro("Could not get dimension handles!");
   }
 
   for (int i = 0; i < m_MINCPImpl->m_NDims; ++i)
@@ -326,7 +326,7 @@ MINCImageIO::ReadImageInformation()
     if (miget_dimension_name(m_MINCPImpl->m_MincFileDims[i], &name) < 0)
     {
       // Error getting dimension name
-      itkExceptionMacro("Could not get dimension name!");
+      itkExceptionStringMacro("Could not get dimension name!");
     }
     double       _sep = NAN;
     const char * _sign = "+";
@@ -375,25 +375,25 @@ MINCImageIO::ReadImageInformation()
   if (miget_dimension_sizes(m_MINCPImpl->m_MincFileDims, m_MINCPImpl->m_NDims, m_MINCPImpl->m_DimensionSize) < 0)
   {
     // Error getting dimension sizes
-    itkExceptionMacro("Could not get dimension sizes!");
+    itkExceptionStringMacro("Could not get dimension sizes!");
   }
 
   if (miget_dimension_separations(
         m_MINCPImpl->m_MincFileDims, MI_ORDER_FILE, m_MINCPImpl->m_NDims, m_MINCPImpl->m_DimensionStep) < 0)
   {
-    itkExceptionMacro(" Could not dimension sizes");
+    itkExceptionStringMacro(" Could not dimension sizes");
   }
 
   if (miget_dimension_starts(
         m_MINCPImpl->m_MincFileDims, MI_ORDER_FILE, m_MINCPImpl->m_NDims, m_MINCPImpl->m_DimensionStart) < 0)
   {
-    itkExceptionMacro(" Could not dimension sizes");
+    itkExceptionStringMacro(" Could not dimension sizes");
   }
 
   mitype_t volume_data_type;
   if (miget_data_type(m_MINCPImpl->m_Volume, &volume_data_type) < 0)
   {
-    itkExceptionMacro(" Can not get volume data type!!\n");
+    itkExceptionStringMacro(" Can not get volume data type!!\n");
   }
 
   // find out whether the data has slice scaling
@@ -402,7 +402,7 @@ MINCImageIO::ReadImageInformation()
 
   if (miget_slice_scaling_flag(m_MINCPImpl->m_Volume, &slice_scaling_flag) < 0)
   {
-    itkExceptionMacro(" Can not get slice scaling flag!!\n");
+    itkExceptionStringMacro(" Can not get slice scaling flag!!\n");
   }
 
   // voxel valid range
@@ -411,17 +411,17 @@ MINCImageIO::ReadImageInformation()
   // get the voxel valid range
   if (miget_volume_valid_range(m_MINCPImpl->m_Volume, &valid_max, &valid_min) < 0)
   {
-    itkExceptionMacro(" Can not get volume valid range!!\n");
+    itkExceptionStringMacro(" Can not get volume valid range!!\n");
   }
 
-  // real volume range, only awailable when slice scaling is off
+  // real volume range, only available when slice scaling is off
   double volume_min = 0.0;
   double volume_max = 1.0;
   if (!slice_scaling_flag)
   {
     if (miget_volume_range(m_MINCPImpl->m_Volume, &volume_max, &volume_min) < 0)
     {
-      itkExceptionMacro(" Can not get volume range!!\n");
+      itkExceptionStringMacro(" Can not get volume range!!\n");
     }
     global_scaling_flag = !(volume_min == valid_min && volume_max == valid_max);
   }
@@ -439,12 +439,12 @@ MINCImageIO::ReadImageInformation()
 
   if (spatial_dimension_count == 0) // sorry, this is metaphysical question
   {
-    itkExceptionMacro(" minc files without spatial dimensions are not supported!");
+    itkExceptionStringMacro(" minc files without spatial dimensions are not supported!");
   }
 
   if (m_MINCPImpl->m_DimensionIndices[0] != -1 && m_MINCPImpl->m_DimensionIndices[4] != -1)
   {
-    itkExceptionMacro(" 4D minc files vector dimension are not supported currently");
+    itkExceptionStringMacro(" 4D minc files vector dimension are not supported currently");
   }
 
   this->SetNumberOfDimensions(spatial_dimension_count);
@@ -547,14 +547,14 @@ MINCImageIO::ReadImageInformation()
   // Set apparent dimension order to the MINC2 api
   if (miset_apparent_dimension_order(m_MINCPImpl->m_Volume, usableDimensions, m_MINCPImpl->m_MincApparentDims) < 0)
   {
-    itkExceptionMacro(" Can't set apparent dimension order!");
+    itkExceptionStringMacro(" Can't set apparent dimension order!");
   }
 
   miclass_t volume_data_class;
 
   if (miget_data_class(m_MINCPImpl->m_Volume, &volume_data_class) < 0)
   {
-    itkExceptionMacro(" Could not get data class");
+    itkExceptionStringMacro(" Could not get data class");
   }
 
   // set the file data type
@@ -621,7 +621,7 @@ MINCImageIO::ReadImageInformation()
         this->SetComponentType(IOComponentEnum::DOUBLE);
         break;
       default:
-        itkExceptionMacro("Bad data type ");
+        itkExceptionStringMacro("Bad data type ");
     } // end of switch
   }
 
@@ -665,7 +665,7 @@ MINCImageIO::ReadImageInformation()
       numberOfComponents *= 2;
       break;
     default:
-      itkExceptionMacro("Bad data class ");
+      itkExceptionStringMacro("Bad data class ");
   } // end of switch
 
   this->SetNumberOfComponents(numberOfComponents);
@@ -812,7 +812,7 @@ MINCImageIO::ReadImageInformation()
                 }
                 else
                 {
-                  itkExceptionMacro(" Error getting float attribute! ");
+                  itkExceptionStringMacro(" Error getting float attribute! ");
                 }
               }
               break;
@@ -853,12 +853,12 @@ MINCImageIO::ReadImageInformation()
               }
               break;
               default:
-                itkExceptionMacro("Unsupported Attribute data type ");
+                itkExceptionStringMacro("Unsupported Attribute data type ");
             }
           }
           else
           {
-            itkExceptionMacro("Problem reading attribute info ");
+            itkExceptionStringMacro("Problem reading attribute info ");
           }
         }
         milist_finish(attlist);
@@ -961,7 +961,7 @@ MINCImageIO::WriteImageInformation()
   if (nDims > 3)
   {
     MINCIOFreeTmpDimHandle(minc_dimensions, m_MINCPImpl->m_MincApparentDims);
-    itkExceptionMacro("Unfortunately, only up to 3D volume are supported now.");
+    itkExceptionStringMacro("Unfortunately, only up to 3D volume are supported now.");
   }
 
   // allocating dimensions
@@ -1022,7 +1022,7 @@ MINCImageIO::WriteImageInformation()
     case IOComponentEnum::UCHAR:
       m_MINCPImpl->m_Volume_type = MI_TYPE_UBYTE;
       break;
-    case IOComponentEnum::CHAR:
+    case IOComponentEnum::SCHAR:
       m_MINCPImpl->m_Volume_type = MI_TYPE_BYTE;
       break;
     case IOComponentEnum::USHORT:
@@ -1159,7 +1159,7 @@ MINCImageIO::WriteImageInformation()
 
             miset_dimension_apparent_voxel_order(m_MINCPImpl->m_MincApparentDims[j], MI_POSITIVE);
           }
-          // Hmmm.... what are we going to get in the end?
+          // DEVELOPER NOTE:  This is odd ... what are we going to get in the end?
           m_MINCPImpl->m_MincFileDims[i] = m_MINCPImpl->m_MincApparentDims[j];
         }
       }
@@ -1182,7 +1182,7 @@ MINCImageIO::WriteImageInformation()
   if (minew_volume_props(&hprops) < 0)
   {
     MINCIOFreeTmpDimHandle(minc_dimensions, m_MINCPImpl->m_MincApparentDims);
-    itkExceptionMacro("Could not allocate MINC properties");
+    itkExceptionStringMacro("Could not allocate MINC properties");
   }
 
   if (this->m_UseCompression)
@@ -1191,14 +1191,14 @@ MINCImageIO::WriteImageInformation()
     {
       MINCIOFreeTmpDimHandle(minc_dimensions, m_MINCPImpl->m_MincApparentDims);
       mifree_volume_props(hprops);
-      itkExceptionMacro("Could not set MINC compression");
+      itkExceptionStringMacro("Could not set MINC compression");
     }
 
     if (miset_props_zlib_compression(hprops, this->GetCompressionLevel()) < 0)
     {
       MINCIOFreeTmpDimHandle(minc_dimensions, m_MINCPImpl->m_MincApparentDims);
       mifree_volume_props(hprops);
-      itkExceptionMacro("Could not set MINC compression level");
+      itkExceptionStringMacro("Could not set MINC compression level");
     }
   }
   else
@@ -1207,7 +1207,7 @@ MINCImageIO::WriteImageInformation()
     {
       MINCIOFreeTmpDimHandle(minc_dimensions, m_MINCPImpl->m_MincApparentDims);
       mifree_volume_props(hprops);
-      itkExceptionMacro("Could not set MINC compression");
+      itkExceptionStringMacro("Could not set MINC compression");
     }
   }
 
@@ -1235,13 +1235,13 @@ MINCImageIO::WriteImageInformation()
   if (miset_apparent_dimension_order(m_MINCPImpl->m_Volume, minc_dimensions, m_MINCPImpl->m_MincApparentDims) < 0)
   {
     mifree_volume_props(hprops);
-    itkExceptionMacro(" Can't set apparent dimension order!");
+    itkExceptionStringMacro(" Can't set apparent dimension order!");
   }
 
   if (miset_slice_scaling_flag(m_MINCPImpl->m_Volume, 0) < 0)
   {
     mifree_volume_props(hprops);
-    itkExceptionMacro("Could not set slice scaling flag");
+    itkExceptionStringMacro("Could not set slice scaling flag");
   }
 
   double valid_min = NAN;
@@ -1394,9 +1394,9 @@ MINCImageIO::Write(const void * buffer)
       volume_data_type = MI_TYPE_UBYTE;
       get_buffer_min_max<unsigned char>(buffer, buffer_length, buffer_min, buffer_max);
       break;
-    case IOComponentEnum::CHAR:
+    case IOComponentEnum::SCHAR:
       volume_data_type = MI_TYPE_BYTE;
-      get_buffer_min_max<char>(buffer, buffer_length, buffer_min, buffer_max);
+      get_buffer_min_max<signed char>(buffer, buffer_length, buffer_min, buffer_max);
       break;
     case IOComponentEnum::USHORT:
       volume_data_type = MI_TYPE_USHORT;
@@ -1462,7 +1462,7 @@ MINCImageIO::Write(const void * buffer)
   if (miset_real_value_hyperslab(
         m_MINCPImpl->m_Volume, volume_data_type, start.get(), count.get(), const_cast<void *>(buffer)) < 0)
   {
-    itkExceptionMacro(" Can not set real value hyperslab!!\n");
+    itkExceptionStringMacro(" Can not set real value hyperslab!!\n");
   }
   // TODO: determine what to do if we are streaming
   this->CloseVolume();

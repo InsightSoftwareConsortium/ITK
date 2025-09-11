@@ -207,7 +207,7 @@ SliceImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
   if (inputRequestedRegion.GetNumberOfPixels() > 0 &&
       !inputPtr->GetLargestPossibleRegion().IsInside(inputRequestedRegion))
   {
-    itkExceptionMacro("Logic Error: incorrect computation of RequestedRegion");
+    itkExceptionStringMacro("Logic Error: incorrect computation of RequestedRegion");
   }
 
   inputPtr->SetRequestedRegion(inputRequestedRegion);

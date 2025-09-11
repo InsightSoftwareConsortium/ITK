@@ -244,7 +244,7 @@ GiplImageIO::Read(void * buffer)
   }
   if (!success)
   {
-    itkExceptionMacro("Error reading image data.");
+    itkExceptionStringMacro("Error reading image data.");
   }
 
   SwapBytesIfNecessary(buffer, numberOfPixels);
@@ -437,15 +437,6 @@ GiplImageIO::ReadImageInformation()
     m_Ifstream.read(&flag1, sizeof(char));
   }
 
-  if (m_ByteOrder == IOByteOrderEnum::BigEndian)
-  {
-    ByteSwapper<char>::SwapFromSystemToBigEndian(&flag1);
-  }
-  else if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
-  {
-    ByteSwapper<char>::SwapFromSystemToLittleEndian(&flag1);
-  }
-
   char flag2 = 0; /*  187    1                              */
   if (m_IsCompressed)
   {
@@ -454,15 +445,6 @@ GiplImageIO::ReadImageInformation()
   else
   {
     m_Ifstream.read(&flag2, sizeof(char));
-  }
-
-  if (m_ByteOrder == IOByteOrderEnum::BigEndian)
-  {
-    ByteSwapper<char>::SwapFromSystemToBigEndian(&flag2);
-  }
-  else if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
-  {
-    ByteSwapper<char>::SwapFromSystemToLittleEndian(&flag2);
   }
 
   double min = NAN; /*  188    8  Minimum voxel value         */
@@ -614,30 +596,10 @@ GiplImageIO::SwapBytesIfNecessary(void * buffer, SizeValueType numberOfPixels)
 {
   switch (m_ComponentType)
   {
-    case IOComponentEnum::CHAR:
-    {
-      if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
-      {
-        ByteSwapper<char>::SwapRangeFromSystemToLittleEndian(static_cast<char *>(buffer), numberOfPixels);
-      }
-      else if (m_ByteOrder == IOByteOrderEnum::BigEndian)
-      {
-        ByteSwapper<char>::SwapRangeFromSystemToBigEndian(static_cast<char *>(buffer), numberOfPixels);
-      }
-      break;
-    }
+    case IOComponentEnum::SCHAR:
     case IOComponentEnum::UCHAR:
     {
-      if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
-      {
-        ByteSwapper<unsigned char>::SwapRangeFromSystemToLittleEndian(static_cast<unsigned char *>(buffer),
-                                                                      numberOfPixels);
-      }
-      else if (m_ByteOrder == IOByteOrderEnum::BigEndian)
-      {
-        ByteSwapper<unsigned char>::SwapRangeFromSystemToBigEndian(static_cast<unsigned char *>(buffer),
-                                                                   numberOfPixels);
-      }
+      // For CHAR and UCHAR, it is not necessary to swap bytes.
       break;
     }
     case IOComponentEnum::SHORT:
@@ -744,11 +706,11 @@ GiplImageIO::Write(const void * buffer)
       if (m_IsCompressed)
       {
         gzwrite(
-          m_Internal->m_GzFile, reinterpret_cast<char *>(&(value)), static_cast<unsigned int>(sizeof(unsigned short)));
+          m_Internal->m_GzFile, reinterpret_cast<char *>(&value), static_cast<unsigned int>(sizeof(unsigned short)));
       }
       else
       {
-        m_Ofstream.write(reinterpret_cast<char *>(&(value)), sizeof(unsigned short));
+        m_Ofstream.write(reinterpret_cast<char *>(&value), sizeof(unsigned short));
       }
     }
     else
@@ -765,7 +727,7 @@ GiplImageIO::Write(const void * buffer)
       if (m_IsCompressed)
       {
         gzwrite(
-          m_Internal->m_GzFile, reinterpret_cast<char *>(&(value)), static_cast<unsigned int>(sizeof(unsigned short)));
+          m_Internal->m_GzFile, reinterpret_cast<char *>(&value), static_cast<unsigned int>(sizeof(unsigned short)));
       }
       else
       {
@@ -777,7 +739,7 @@ GiplImageIO::Write(const void * buffer)
   unsigned short image_type = 0;
   switch (m_ComponentType)
   {
-    case IOComponentEnum::CHAR:
+    case IOComponentEnum::SCHAR:
       image_type = GIPL_CHAR;
       break;
     case IOComponentEnum::UCHAR:

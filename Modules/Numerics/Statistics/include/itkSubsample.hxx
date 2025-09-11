@@ -155,7 +155,7 @@ Subsample<TSample>::Swap(unsigned int index1, unsigned int index2)
 {
   if (index1 >= m_IdHolder.size() || index2 >= m_IdHolder.size())
   {
-    itkExceptionMacro("Index out of range");
+    itkExceptionStringMacro("Index out of range");
   }
 
   const InstanceIdentifier temp = m_IdHolder[index1];
@@ -170,7 +170,7 @@ Subsample<TSample>::GetMeasurementVectorByIndex(unsigned int index) const
 {
   if (index >= m_IdHolder.size())
   {
-    itkExceptionMacro("Index out of range");
+    itkExceptionStringMacro("Index out of range");
   }
   return m_Sample->GetMeasurementVector(m_IdHolder[index]);
 }
@@ -181,7 +181,7 @@ Subsample<TSample>::GetFrequencyByIndex(unsigned int index) const -> AbsoluteFre
 {
   if (index >= m_IdHolder.size())
   {
-    itkExceptionMacro("Index out of range");
+    itkExceptionStringMacro("Index out of range");
   }
 
   return m_Sample->GetFrequency(m_IdHolder[index]);
@@ -193,7 +193,7 @@ Subsample<TSample>::GetInstanceIdentifier(unsigned int index) -> InstanceIdentif
 {
   if (index >= m_IdHolder.size())
   {
-    itkExceptionMacro("Index out of range");
+    itkExceptionStringMacro("Index out of range");
   }
   return m_IdHolder[index];
 }

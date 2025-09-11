@@ -17,19 +17,19 @@
 #include "src/Core/util/DisableStupidWarnings.h"
 
 /** \defgroup QR_Module QR module
-  *
-  *
-  *
-  * This module provides various QR decompositions
-  * This module also provides some MatrixBase methods, including:
-  *  - MatrixBase::householderQr()
-  *  - MatrixBase::colPivHouseholderQr()
-  *  - MatrixBase::fullPivHouseholderQr()
-  *
-  * \code
-  * #include <Eigen/QR>
-  * \endcode
-  */
+ *
+ *
+ *
+ * This module provides various QR decompositions
+ * This module also provides some MatrixBase methods, including:
+ *  - MatrixBase::householderQr()
+ *  - MatrixBase::colPivHouseholderQr()
+ *  - MatrixBase::fullPivHouseholderQr()
+ *
+ * \code
+ * #include <Eigen/QR>
+ * \endcode
+ */
 
 // IWYU pragma: begin_exports
 #include "src/QR/HouseholderQR.h"
@@ -45,4 +45,4 @@
 
 #include "src/Core/util/ReenableStupidWarnings.h"
 
-#endif // EIGEN_QR_MODULE_H
+#endif  // EIGEN_QR_MODULE_H

@@ -217,7 +217,7 @@ protected:
     }
     if (m_NumberOfTargetsToBeReached < 1)
     {
-      itkExceptionMacro("Number of target nodes to be reached is null");
+      itkExceptionStringMacro("Number of target nodes to be reached is null");
     }
     if (m_NumberOfTargetsToBeReached > m_TargetNodes.size())
     {

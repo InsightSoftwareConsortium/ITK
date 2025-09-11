@@ -106,7 +106,7 @@ public:
     Iterator
     operator->() const
     {
-      return (m_Iterator - 1);
+      return m_Iterator - 1;
     }
     ValueType &
     operator*() const
@@ -163,7 +163,7 @@ public:
     ConstIterator
     operator->() const
     {
-      return (m_Iterator - 1);
+      return m_Iterator - 1;
     }
     const ValueType &
     operator*() const

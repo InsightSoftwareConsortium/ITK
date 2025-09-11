@@ -233,7 +233,7 @@ LBFGSOptimizer::StartOptimization()
   {
     // set current position to initial position and throw an exception
     this->SetCurrentPosition(currentPositionInternalValue);
-    itkExceptionMacro("Error occurred in optimization");
+    itkExceptionStringMacro("Error occurred in optimization");
   }
 
   // we scale the vnlCompatibleParameters down if scales are defined

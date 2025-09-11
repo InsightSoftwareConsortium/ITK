@@ -10,14 +10,13 @@ itk_module(
   ITKMathematicalMorphology
   ENABLE_SHARED
   DEPENDS
-  ITKImageIntensity
+    ITKImageIntensity
   COMPILE_DEPENDS
-  ITKImageFilterBase
-  ITKImageGrid
-  ITKThresholding
-  ITKConnectedComponents
+    ITKImageFilterBase
+    ITKImageGrid
+    ITKThresholding
+    ITKConnectedComponents
   TEST_DEPENDS
-  ITKTestKernel
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+  DESCRIPTION "${DOCUMENTATION}"
 )

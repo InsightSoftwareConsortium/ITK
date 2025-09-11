@@ -8,14 +8,13 @@ itk_module(
   ITKIOMINC
   ENABLE_SHARED
   DEPENDS
-  ITKIOImageBase
+    ITKIOImageBase
   PRIVATE_DEPENDS
-  ITKMINC
+    ITKMINC
   TEST_DEPENDS
-  ITKTestKernel
-  ITKImageStatistics
+    ITKTestKernel
+    ITKImageStatistics
   FACTORY_NAMES
-  ImageIO::MINC
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ImageIO::MINC
+  DESCRIPTION "${DOCUMENTATION}"
 )

@@ -170,7 +170,7 @@ VXLVideoIO::SetReadFromFile()
   }
   else
   {
-    itkExceptionMacro("Cannot change read type while reader is open");
+    itkExceptionStringMacro("Cannot change read type while reader is open");
   }
 }
 
@@ -186,7 +186,7 @@ VXLVideoIO::SetReadFromCamera()
   }
   else
   {
-    itkExceptionMacro("Cannot change read type while reader is open");
+    itkExceptionStringMacro("Cannot change read type while reader is open");
   }
 }
 
@@ -259,7 +259,7 @@ VXLVideoIO::ReadImageInformation()
   // Get information from camera
   if (this->m_ReadType == ReadFromCamera)
   {
-    itkExceptionMacro("For now, camera reading is not supported with VXL");
+    itkExceptionStringMacro("For now, camera reading is not supported with VXL");
   }
 
   // Get information from file
@@ -281,7 +281,7 @@ VXLVideoIO::ReadImageInformation()
     unsigned int bytesPerPixel = this->GetSizeFromPixelFormat(this->m_PixelFormat);
     if (bytesPerPixel == 0)
     {
-      itkExceptionMacro("Failed to load local steam. FFMPEG libraries seems to be missing in VXL installation.");
+      itkExceptionStringMacro("Failed to load local steam. FFMPEG libraries seems to be missing in VXL installation.");
     }
     if (bytesPerPixel == 1)
     {
@@ -293,7 +293,7 @@ VXLVideoIO::ReadImageInformation()
     }
     else
     {
-      itkExceptionMacro("Unknown Pixel Component Type");
+      itkExceptionStringMacro("Unknown Pixel Component Type");
     }
 
     // Try to figure out if there are I-Frame issues we need to worry about
@@ -305,7 +305,7 @@ VXLVideoIO::ReadImageInformation()
       this->m_IFrameInterval = localStream.frame_number();
       if (this->m_IFrameInterval == 0)
       {
-        itkExceptionMacro("I-Frame spacing for this video is zeror! Please check input data.");
+        itkExceptionStringMacro("I-Frame spacing for this video is zeror! Please check input data.");
       }
       this->m_LastIFrame = static_cast<FrameOffsetType>(static_cast<float>(this->m_FrameTotal) /
                                                         static_cast<float>(this->m_IFrameInterval)) *
@@ -324,7 +324,7 @@ VXLVideoIO::ReadImageInformation()
   // Should never get here
   else
   {
-    itkExceptionMacro("Invalid Read Type... How did we get here?");
+    itkExceptionStringMacro("Invalid Read Type... How did we get here?");
   }
 }
 
@@ -338,7 +338,7 @@ VXLVideoIO::Read(void * buffer)
   // Make sure we've already called ReadImageInformation (dimensions are non-zero)
   if (this->m_Dimensions.size() != 2 || this->m_Dimensions[0] == 0 || this->m_Dimensions[1] == 0)
   {
-    itkExceptionMacro("Cannot read frame with zero dimension. May need to call ReadImageInformation");
+    itkExceptionStringMacro("Cannot read frame with zero dimension. May need to call ReadImageInformation");
   }
 
   // If video is not already open, open it and keep it open
@@ -495,12 +495,12 @@ VXLVideoIO::SetWriterParameters(TemporalRatioType                  fps,
 {
   if (this->m_ReaderOpen || this->m_WriterOpen)
   {
-    itkExceptionMacro("Can not set the writer's parameters when either reader or writer is already open");
+    itkExceptionStringMacro("Can not set the writer's parameters when either reader or writer is already open");
   }
 
   if (componentType != IOComponentEnum::UCHAR && IOComponentEnum::componentType != UINT)
   {
-    itkExceptionMacro("VXL IO only supports writing video with pixels of UCHAR and UINT");
+    itkExceptionStringMacro("VXL IO only supports writing video with pixels of UCHAR and UINT");
   }
   else
   {
@@ -509,7 +509,7 @@ VXLVideoIO::SetWriterParameters(TemporalRatioType                  fps,
 
   if (dim.size() != 2)
   {
-    itkExceptionMacro("VXL IO only supports 2D video");
+    itkExceptionStringMacro("VXL IO only supports 2D video");
   }
   this->m_Dimensions.clear();
   this->m_Dimensions.push_back(dim[0]);
@@ -556,7 +556,7 @@ VXLVideoIO::Write(const void * buffer)
   // Make sure parameters are specified
   if (this->m_FramesPerSecond == 0 || this->m_Dimensions.size() != 2 || this->m_Encoder == 0)
   {
-    itkExceptionMacro("Can not write with empty parameters. You probably need to call SetWriterParameters");
+    itkExceptionStringMacro("Can not write with empty parameters. You probably need to call SetWriterParameters");
   }
 
   // If the writer isn't open yet, open it
@@ -684,12 +684,12 @@ VXLVideoIO::OpenReader()
 {
   if (this->m_ReaderOpen)
   {
-    itkExceptionMacro("Can not open reader while video is already open for reading");
+    itkExceptionStringMacro("Can not open reader while video is already open for reading");
   }
 
   if (this->m_WriterOpen)
   {
-    itkExceptionMacro("Can not open reader while video is already open for writing");
+    itkExceptionStringMacro("Can not open reader while video is already open for writing");
   }
 
   // If neither reader nor writer is currently open, open the reader
@@ -703,7 +703,7 @@ VXLVideoIO::OpenReader()
     }
     else
     {
-      itkExceptionMacro("Video failed to open");
+      itkExceptionStringMacro("Video failed to open");
     }
   }
 
@@ -722,12 +722,12 @@ VXLVideoIO::OpenWriter()
 {
   if (this->m_WriterOpen)
   {
-    itkExceptionMacro("Can not open writer while video is already open for writing");
+    itkExceptionStringMacro("Can not open writer while video is already open for writing");
   }
 
   if (this->m_ReaderOpen)
   {
-    itkExceptionMacro("Can not open writer while video is already open for reading");
+    itkExceptionStringMacro("Can not open writer while video is already open for reading");
   }
 
   vidl_ffmpeg_ostream_params parameters;

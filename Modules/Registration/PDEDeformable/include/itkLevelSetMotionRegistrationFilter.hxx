@@ -59,7 +59,7 @@ LevelSetMotionRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>:
 
   if (!drfp)
   {
-    itkExceptionMacro("Could not cast difference function to LevelSetMotionRegistrationFunction");
+    itkExceptionStringMacro("Could not cast difference function to LevelSetMotionRegistrationFunction");
   }
 
   drfp->SetUseImageSpacing(this->GetUseImageSpacing());
@@ -96,7 +96,7 @@ LevelSetMotionRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>:
 
   if (!drfp)
   {
-    itkExceptionMacro("Could not cast difference function to LevelSetMotionRegistrationFunction");
+    itkExceptionStringMacro("Could not cast difference function to LevelSetMotionRegistrationFunction");
   }
 
   return drfp->GetMetric();
@@ -110,7 +110,7 @@ LevelSetMotionRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>:
 
   if (!drfp)
   {
-    itkExceptionMacro("Could not cast difference function to LevelSetMotionRegistrationFunction");
+    itkExceptionStringMacro("Could not cast difference function to LevelSetMotionRegistrationFunction");
   }
 
   return drfp->GetAlpha();
@@ -124,7 +124,7 @@ LevelSetMotionRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>:
 
   if (!drfp)
   {
-    itkExceptionMacro("Could not cast difference function to LevelSetMotionRegistrationFunction");
+    itkExceptionStringMacro("Could not cast difference function to LevelSetMotionRegistrationFunction");
   }
 
   drfp->SetAlpha(alpha);
@@ -138,7 +138,7 @@ LevelSetMotionRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>:
 
   if (!drfp)
   {
-    itkExceptionMacro("Could not cast difference function to LevelSetMotionRegistrationFunction");
+    itkExceptionStringMacro("Could not cast difference function to LevelSetMotionRegistrationFunction");
   }
 
   return drfp->GetIntensityDifferenceThreshold();
@@ -153,7 +153,7 @@ LevelSetMotionRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>:
 
   if (!drfp)
   {
-    itkExceptionMacro("Could not cast difference function to LevelSetMotionRegistrationFunction");
+    itkExceptionStringMacro("Could not cast difference function to LevelSetMotionRegistrationFunction");
   }
 
   drfp->SetIntensityDifferenceThreshold(threshold);
@@ -167,7 +167,7 @@ LevelSetMotionRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>:
 
   if (!drfp)
   {
-    itkExceptionMacro("Could not cast difference function to LevelSetMotionRegistrationFunction");
+    itkExceptionStringMacro("Could not cast difference function to LevelSetMotionRegistrationFunction");
   }
 
   return drfp->GetGradientMagnitudeThreshold();
@@ -182,7 +182,7 @@ LevelSetMotionRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>:
 
   if (!drfp)
   {
-    itkExceptionMacro("Could not cast difference function to LevelSetMotionRegistrationFunction");
+    itkExceptionStringMacro("Could not cast difference function to LevelSetMotionRegistrationFunction");
   }
 
   drfp->SetGradientMagnitudeThreshold(threshold);
@@ -197,7 +197,7 @@ LevelSetMotionRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>:
 
   if (!drfp)
   {
-    itkExceptionMacro("Could not cast difference function to LevelSetMotionRegistrationFunction");
+    itkExceptionStringMacro("Could not cast difference function to LevelSetMotionRegistrationFunction");
   }
 
   return drfp->GetGradientSmoothingStandardDeviations();
@@ -212,7 +212,7 @@ LevelSetMotionRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>:
 
   if (!drfp)
   {
-    itkExceptionMacro("Could not cast difference function to LevelSetMotionRegistrationFunction");
+    itkExceptionStringMacro("Could not cast difference function to LevelSetMotionRegistrationFunction");
   }
 
   drfp->SetGradientSmoothingStandardDeviations(sigma);
@@ -235,7 +235,7 @@ LevelSetMotionRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>:
 
   if (!drfp)
   {
-    itkExceptionMacro("Could not cast difference function to LevelSetMotionRegistrationFunction");
+    itkExceptionStringMacro("Could not cast difference function to LevelSetMotionRegistrationFunction");
   }
 
   this->SetRMSChange(drfp->GetRMSChange());

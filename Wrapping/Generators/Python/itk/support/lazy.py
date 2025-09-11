@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-# ==========================================================================*/
+# ==========================================================================
 import types
 from itk.support import base
 from itkConfig import DefaultFactoryLoading as _DefaultFactoryLoading

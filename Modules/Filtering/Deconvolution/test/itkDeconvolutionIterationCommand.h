@@ -52,14 +52,14 @@ public:
     const auto * filter = static_cast<const TFilterType *>(object);
     if (filter->GetCurrentEstimate() == nullptr)
     {
-      itkExceptionMacro("CurrentEstimate is nullptr, but should not be.");
+      itkExceptionStringMacro("CurrentEstimate is nullptr, but should not be.");
     }
   }
 
   bool
   GetInvoked() const
   {
-    return (m_NumberOfIterations > 0);
+    return m_NumberOfIterations > 0;
   }
 
 protected:

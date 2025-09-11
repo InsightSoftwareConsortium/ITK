@@ -274,7 +274,7 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
     using KernelType = itk::BSplineKernelFunction<SplineOrder>;
     auto kernel = KernelType::New();
 
-    using ImageType = itk::Image<char, SpaceDimension>;
+    using ImageType = itk::Image<signed char, SpaceDimension>;
     auto                        image = ImageType::New();
     const ImageType::RegionType region{ startIndex, size };
 

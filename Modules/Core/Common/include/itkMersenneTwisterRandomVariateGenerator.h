@@ -380,7 +380,7 @@ MersenneTwisterRandomVariateGenerator::GetUniformVariate(const double a, const d
 {
   const double u = GetVariateWithOpenUpperRange();
 
-  return ((1.0 - u) * a + u * b);
+  return (1.0 - u) * a + u * b;
 }
 
 /* Change log from MTRand.h */

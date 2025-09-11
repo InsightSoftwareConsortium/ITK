@@ -8,20 +8,19 @@ itk_module(
   ITKIOTransformMINC
   ENABLE_SHARED
   DEPENDS
-  ITKIOTransformBase
-  ITKMINC
+    ITKIOTransformBase
+    ITKMINC
   COMPILE_DEPENDS
-  ITKIOImageBase
+    ITKIOImageBase
   PRIVATE_DEPENDS
-  ITKIOMINC
+    ITKIOMINC
   TEST_DEPENDS
-  ITKTestKernel
-  ITKDisplacementField
-  ITKMINC
-  ITKIOMINC
+    ITKTestKernel
+    ITKDisplacementField
+    ITKMINC
+    ITKIOMINC
   FACTORY_NAMES
-  TransformIO::MINC
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    TransformIO::MINC
+  DESCRIPTION "${DOCUMENTATION}"
   EXCLUDE_FROM_DEFAULT
 )

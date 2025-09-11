@@ -8,15 +8,14 @@ superpixel segmentation and clustering algorithms."
 itk_module(
   ITKSuperPixel
   DEPENDS
-  ITKCommon
-  ITKStatistics
-  ITKImageGrid
+    ITKCommon
+    ITKStatistics
+    ITKImageGrid
   COMPILE_DEPENDS
-  ITKImageSources
+    ITKImageSources
   TEST_DEPENDS
-  ITKTestKernel
-  ITKGoogleTest
-  ITKMetaIO
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+    ITKGoogleTest
+    ITKMetaIO
+  DESCRIPTION "${DOCUMENTATION}"
 )

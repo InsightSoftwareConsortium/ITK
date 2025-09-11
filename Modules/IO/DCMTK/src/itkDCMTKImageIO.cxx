@@ -110,7 +110,7 @@ isNoPreambleDicom(std::ifstream & file) // NOTE: Similar function is in itkGDCMI
       auto * uilength = reinterpret_cast<unsigned int *>(lengthChars);
       itk::ByteSwapper<unsigned int>::SwapFromSystemToLittleEndian(uilength);
 
-      length = (*uilength);
+      length = *uilength;
     }
     if (length <= 0)
     {
@@ -519,7 +519,7 @@ DCMTKImageIO::ReadImageInformation()
       this->m_PixelType = IOPixelEnum::SCALAR;
       break;
     case 2:
-      // hack, supposedly Luminence/Alpha
+      // hack, supposedly Luminance/Alpha
       this->SetNumberOfComponents(2);
       this->m_PixelType = IOPixelEnum::VECTOR;
       break;

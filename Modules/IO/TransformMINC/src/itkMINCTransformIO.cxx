@@ -63,7 +63,7 @@ bool
 MINCTransformIOTemplate<TParametersValueType>::CanReadFile(const char * fileName)
 {
   std::string ext(itksys::SystemTools::GetFilenameLastExtension(fileName));
-  return (ext == ".xfm" || ext == ".XFM");
+  return ext == ".xfm" || ext == ".XFM";
 }
 
 template <typename TParametersValueType>
@@ -71,7 +71,7 @@ bool
 MINCTransformIOTemplate<TParametersValueType>::CanWriteFile(const char * fileName)
 {
   std::string ext(itksys::SystemTools::GetFilenameLastExtension(fileName));
-  return (ext == ".xfm" || ext == ".XFM");
+  return ext == ".xfm" || ext == ".XFM";
 }
 
 template <typename TParametersValueType>
@@ -151,10 +151,10 @@ MINCTransformIOTemplate<TParametersValueType>::ReadOneTransform(VIO_General_tran
       break;
     }
     case THIN_PLATE_SPLINE:
-      itkExceptionMacro("Reading THIN_PLATE_SPLINE transform is not supported yet");
+      itkExceptionStringMacro("Reading THIN_PLATE_SPLINE transform is not supported yet");
       break;
     case USER_TRANSFORM:
-      itkExceptionMacro("Reading USER_TRANSFORM transform is not supported yet");
+      itkExceptionStringMacro("Reading USER_TRANSFORM transform is not supported yet");
       break;
     case GRID_TRANSFORM:
     {
@@ -225,11 +225,11 @@ MINCTransformIOTemplate<TParametersValueType>::ReadOneTransform(VIO_General_tran
       }
       else
       {
-        itkExceptionMacro("Got grid transform without file name !");
+        itkExceptionStringMacro("Got grid transform without file name !");
       }
     }
     default:
-      itkExceptionMacro("Reading Unknown transform is not supported!");
+      itkExceptionStringMacro("Reading Unknown transform is not supported!");
       break;
   }
 }
@@ -269,7 +269,7 @@ MINCTransformIOTemplate<TParametersValueType>::WriteOneTransform(const int      
   {
     if (transformIndex != 0)
     {
-      itkExceptionMacro("Composite Transform can only be 1st transform in a file");
+      itkExceptionStringMacro("Composite Transform can only be 1st transform in a file");
     }
   }
   else
@@ -353,7 +353,7 @@ MINCTransformIOTemplate<TParametersValueType>::WriteOneTransform(const int      
       }
       else
       {
-        itkExceptionMacro("Trying to write-out displacement transform without displacement field");
+        itkExceptionStringMacro("Trying to write-out displacement transform without displacement field");
       }
 
       if (this->m_RAStoLPS)

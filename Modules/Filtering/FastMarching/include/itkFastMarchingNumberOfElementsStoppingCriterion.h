@@ -66,7 +66,7 @@ public:
   [[nodiscard]] bool
   IsSatisfied() const override
   {
-    return (this->m_CurrentNumberOfElements >= this->m_TargetNumberOfElements);
+    return this->m_CurrentNumberOfElements >= this->m_TargetNumberOfElements;
   }
 
   [[nodiscard]] std::string

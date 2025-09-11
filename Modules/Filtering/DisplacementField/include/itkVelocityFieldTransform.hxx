@@ -136,7 +136,7 @@ VelocityFieldTransform<TParametersValueType, VDimension>::SetFixedParameters(
 {
   if (fixedParameters.Size() != VelocityFieldDimension * (VelocityFieldDimension + 3))
   {
-    itkExceptionMacro("The fixed parameters are not the right size.");
+    itkExceptionStringMacro("The fixed parameters are not the right size.");
   }
 
   SizeType size;
@@ -289,7 +289,7 @@ VelocityFieldTransform<TParametersValueType, VDimension>::InternalClone() const
     dynamic_cast<VelocityFieldInterpolatorType *>(this->m_VelocityFieldInterpolator->CreateAnother().GetPointer());
   if (newInterp.IsNull())
   {
-    itkExceptionMacro("dynamic_cast failed.");
+    itkExceptionStringMacro("dynamic_cast failed.");
   }
 
   // interpolator needs to know about the velocity field

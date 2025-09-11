@@ -28,7 +28,7 @@ The following sections outline how to use the ITKPythonPackage project to build 
 
 ### Linux
 
-On any linux distribution with docker and bash installed, running the script [dockcross-manylinux-build-wheels.sh](https://github.com/InsightSoftwareConsortium/ITKPythonPackage/blob/master/scripts/dockcross-manylinux-build-wheels.sh) will create 64-bit wheels for Python 3.x in the `dist` directory. A Python version to target may be passed as a trailing argument, or passing no arguments will target all default Python versions.
+On any linux distribution with docker and bash installed, running the script [dockcross-manylinux-build-wheels.sh](https://github.com/InsightSoftwareConsortium/ITKPythonPackage/blob/main/scripts/dockcross-manylinux-build-wheels.sh) will create 64-bit wheels for Python 3.x in the `dist` directory. A Python version to target may be passed as a trailing argument, or passing no arguments will target all default Python versions.
 
 In addition, the environment variables `MANYLINUX_VERSION` and `IMAGE_TAG` may be set before calling the script to control the [dockcross](https://github.com/dockcross/dockcross) Docker image and target a specific platform type. See ITKPythonPackage for more information.
 
@@ -55,7 +55,7 @@ First, install the Python.org macOS Python distributions. This step requires sud
 ./scripts/macpython-install-python.sh
 ```
 
-Then, run [macpython-build-wheels.sh](https://github.com/InsightSoftwareConsortium/ITKPythonPackage/blob/master/scripts/macpython-build-wheels.sh) to build the wheels. A Python version may be targetd by passing a trailing argument to the script. See ITKPythonPackage for environment variables used by `macpython-build-wheels.sh`.
+Then, run [macpython-build-wheels.sh](https://github.com/InsightSoftwareConsortium/ITKPythonPackage/blob/main/scripts/macpython-build-wheels.sh) to build the wheels. A Python version may be targetd by passing a trailing argument to the script. See ITKPythonPackage for environment variables used by `macpython-build-wheels.sh`.
 
 ```bash
 git clone https://github.com/InsightSoftwareConsortium/ITKPythonPackage.git
@@ -77,7 +77,7 @@ Open a PowerShell terminal as Administrator, and install Python:
 ```pwsh
 PS C:\> Set-ExecutionPolicy Unrestricted
 PS C:\> $pythonArch = "64"
-PS C:\> iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/scikit-build/scikit-ci-addons/master/windows/install-python.ps1'))
+PS C:\> iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/scikit-build/scikit-ci-addons/main/windows/install-python.ps1'))
 ```
 
 Clone the ITKPythonPackage project into a short directory to avoid path length limitations on Windows. Also, it is necessary to disable antivirus checking on the C:\IPP directory. Otherwise, the build system conflicts with the antivirus when many files are created and deleted quickly, which can result in Access Denied errors. Windows 10 ships with an antivirus application, Windows Defender, that is enabled by default.
@@ -88,7 +88,7 @@ PS C:\> git clone https://github.com/InsightSoftwareConsortium/ITKPythonPackage.
 PS C:\> cd IPP
 ```
 
-Then run the [windows_build_wheels.py](https://github.com/InsightSoftwareConsortium/ITKPythonPackage/blob/master/scripts/windows_build_wheels.py) script. The `--help` argument may be used to list available build options, including target Python versions and CMake options.
+Then run the [windows_build_wheels.py](https://github.com/InsightSoftwareConsortium/ITKPythonPackage/blob/main/scripts/windows_build_wheels.py) script. The `--help` argument may be used to list available build options, including target Python versions and CMake options.
 
 ```pwsh
 PS C:\IPP> .\scripts\windows_build_wheels.py

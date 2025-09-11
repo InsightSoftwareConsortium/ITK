@@ -29,12 +29,7 @@ target_link_libraries(
   LINK_PUBLIC
     ${ITKIntegratedTest-Test_LIBRARIES}
 )
-itk_add_test(
-  NAME
-  itkAlgorithmsPrintTest
-  COMMAND
-  itkAlgorithmsPrintTest
-)
+itk_add_test(NAME itkAlgorithmsPrintTest COMMAND itkAlgorithmsPrintTest)
 
 add_executable(itkAlgorithmsPrintTest2 itkAlgorithmsPrintTest2.cxx)
 target_link_options(
@@ -48,12 +43,7 @@ target_link_libraries(
   LINK_PUBLIC
     ${ITKIntegratedTest-Test_LIBRARIES}
 )
-itk_add_test(
-  NAME
-  itkAlgorithmsPrintTest2
-  COMMAND
-  itkAlgorithmsPrintTest
-)
+itk_add_test(NAME itkAlgorithmsPrintTest2 COMMAND itkAlgorithmsPrintTest)
 
 add_executable(itkAlgorithmsPrintTest3 itkAlgorithmsPrintTest3.cxx)
 target_link_options(
@@ -67,12 +57,7 @@ target_link_libraries(
   LINK_PUBLIC
     ${ITKIntegratedTest-Test_LIBRARIES}
 )
-itk_add_test(
-  NAME
-  itkAlgorithmsPrintTest3
-  COMMAND
-  itkAlgorithmsPrintTest
-)
+itk_add_test(NAME itkAlgorithmsPrintTest3 COMMAND itkAlgorithmsPrintTest)
 
 add_executable(itkAlgorithmsPrintTest4 itkAlgorithmsPrintTest4.cxx)
 target_link_options(
@@ -86,44 +71,35 @@ target_link_libraries(
   LINK_PUBLIC
     ${ITKIntegratedTest-Test_LIBRARIES}
 )
-itk_add_test(
-  NAME
-  itkAlgorithmsPrintTest4
-  COMMAND
-  itkAlgorithmsPrintTest
-)
+itk_add_test(NAME itkAlgorithmsPrintTest4 COMMAND itkAlgorithmsPrintTest)
 
 #-------------------------------------------------------------------------
 itk_add_test(
-  NAME
-  itkStatisticsPrintTest
+  NAME itkStatisticsPrintTest
   COMMAND
-  ITKIntegratedTestTestDriver
-  itkStatisticsPrintTest
+    ITKIntegratedTestTestDriver
+    itkStatisticsPrintTest
 )
 itk_add_test(
-  NAME
-  itkSpatialObjectPrintTest
+  NAME itkSpatialObjectPrintTest
   COMMAND
-  ITKIntegratedTestTestDriver
-  itkSpatialObjectPrintTest
+    ITKIntegratedTestTestDriver
+    itkSpatialObjectPrintTest
 )
 itk_add_test(
-  NAME
-  itkIOPrintTest
+  NAME itkIOPrintTest
   COMMAND
-  ITKIntegratedTestTestDriver
-  itkIOPrintTest
+    ITKIntegratedTestTestDriver
+    itkIOPrintTest
 )
 
 itk_add_test(
-  NAME
-  itkCommonPrintTest
+  NAME itkCommonPrintTest
   COMMAND
-  ITKIntegratedTestTestDriver
-  --redirectOutput
-  ${TEMP}/itkCommonPrintTest.txt
-  itkCommonPrintTest
+    ITKIntegratedTestTestDriver
+    --redirectOutput
+    ${TEMP}/itkCommonPrintTest.txt
+    itkCommonPrintTest
 )
 set_tests_properties(
   itkCommonPrintTest
@@ -133,13 +109,12 @@ set_tests_properties(
 )
 
 itk_add_test(
-  NAME
-  itkBasicFiltersPrintTest
+  NAME itkBasicFiltersPrintTest
   COMMAND
-  ITKIntegratedTestTestDriver
-  --redirectOutput
-  ${TEMP}/itkBasicFiltersPrintTest.txt
-  itkBasicFiltersPrintTest
+    ITKIntegratedTestTestDriver
+    --redirectOutput
+    ${TEMP}/itkBasicFiltersPrintTest.txt
+    itkBasicFiltersPrintTest
 )
 set_tests_properties(
   itkBasicFiltersPrintTest
@@ -149,17 +124,15 @@ set_tests_properties(
 )
 
 itk_add_test(
-  NAME
-  itkNumericsPrintTest
+  NAME itkNumericsPrintTest
   COMMAND
-  ITKIntegratedTestTestDriver
-  itkNumericsPrintTest
+    ITKIntegratedTestTestDriver
+    itkNumericsPrintTest
 )
 
 itk_add_test(
-  NAME
-  itkShrinkImagePreserveObjectPhysicalLocations
+  NAME itkShrinkImagePreserveObjectPhysicalLocations
   COMMAND
-  ITKIntegratedTestTestDriver
-  itkShrinkImagePreserveObjectPhysicalLocations
+    ITKIntegratedTestTestDriver
+    itkShrinkImagePreserveObjectPhysicalLocations
 )

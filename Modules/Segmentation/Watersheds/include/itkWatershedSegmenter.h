@@ -43,7 +43,7 @@ namespace itk::watershed
  * There is one input to this algorithm, a real-valued (scalar) itk::Image of
  * arbitrary dimension.  The input is assumed to represents a height function,
  * such as a gradient magnitude edge image.  The filter can process an image of
- * any dimension. Note that the terms "pixel'' and ``voxel" are
+ * any dimension. Note that the terms "pixel" and "voxel" are
  * interchangeable in this and other watershed component class documentation.
  *
  * \par Outputs

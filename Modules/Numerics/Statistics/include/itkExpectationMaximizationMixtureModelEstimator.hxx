@@ -234,7 +234,7 @@ ExpectationMaximizationMixtureModelEstimator<TSample>::CalculateExpectation() co
         else
         {
           // let's throw an exception
-          itkExceptionMacro("temp is null");
+          itkExceptionStringMacro("temp is null");
         }
         // m_ComponentVector[componentIndex]->GetWeight(measurementVectorIndex) ) );
       }

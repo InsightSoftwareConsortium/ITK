@@ -243,7 +243,7 @@ BinShrinkImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
   if (!inputPtr->GetLargestPossibleRegion().IsInside(inputRequestedRegion.GetIndex()) ||
       !inputPtr->GetLargestPossibleRegion().IsInside(inputRequestedRegion.GetUpperIndex()))
   {
-    itkExceptionMacro("Unexpected error calculating RR");
+    itkExceptionStringMacro("Unexpected error calculating RR");
   }
 
   itkDebugMacro("InputRequestedRegion: " << inputRequestedRegion);
@@ -285,14 +285,14 @@ BinShrinkImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 
     outputStartIndex[i] = Math::Ceil<SizeValueType>(inputStartIndex[i] / static_cast<double>(m_ShrinkFactors[i]));
 
-    // Round down so that all output pixels fit input input region
+    // Round down so that all output pixels fit input region
     outputSize[i] = Math::Floor<SizeValueType>(
       static_cast<double>(inputSize[i] - outputStartIndex[i] * m_ShrinkFactors[i] + inputStartIndex[i]) /
       static_cast<double>(m_ShrinkFactors[i]));
 
     if (outputSize[i] < 1)
     {
-      itkExceptionMacro("InputImage is too small! An output pixel does not map to a whole input bin.");
+      itkExceptionStringMacro("InputImage is too small! An output pixel does not map to a whole input bin.");
     }
   }
 

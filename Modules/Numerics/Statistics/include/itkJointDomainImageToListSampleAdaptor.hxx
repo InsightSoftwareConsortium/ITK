@@ -35,7 +35,7 @@ JointDomainImageToListSampleAdaptor<TImage>::Size() const -> InstanceIdentifier
 {
   if (m_Image.IsNull())
   {
-    itkExceptionMacro("Image has not been set yet");
+    itkExceptionStringMacro("Image has not been set yet");
   }
 
   return m_Image->GetPixelContainer()->Size();
@@ -47,7 +47,7 @@ JointDomainImageToListSampleAdaptor<TImage>::GetFrequency(InstanceIdentifier) co
 {
   if (m_Image.IsNull())
   {
-    itkExceptionMacro("Image has not been set yet");
+    itkExceptionStringMacro("Image has not been set yet");
   }
 
   return NumericTraits<AbsoluteFrequencyType>::OneValue();
@@ -86,7 +86,7 @@ JointDomainImageToListSampleAdaptor<TImage>::GetImage() const
 {
   if (m_Image.IsNull())
   {
-    itkExceptionMacro("Image has not been set yet");
+    itkExceptionStringMacro("Image has not been set yet");
   }
 
   return m_Image.GetPointer();
@@ -98,7 +98,7 @@ JointDomainImageToListSampleAdaptor<TImage>::GetTotalFrequency() const -> TotalA
 {
   if (m_Image.IsNull())
   {
-    itkExceptionMacro("Image has not been set yet");
+    itkExceptionStringMacro("Image has not been set yet");
   }
 
   return this->Size();

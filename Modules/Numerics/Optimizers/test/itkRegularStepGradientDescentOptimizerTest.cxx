@@ -260,9 +260,7 @@ itkRegularStepGradientDescentOptimizerTest(int, char *[])
   };
   for (const auto & ee : allStopCondition)
   {
-    std::cout << "STREAMED ENUM VALUE "
-                 "RegularStepGradientDescentBaseOptimizerEnums::StopCondition: "
-              << ee << std::endl;
+    std::cout << "STREAMED ENUM VALUE RegularStepGradientDescentBaseOptimizerEnums::StopCondition: " << ee << std::endl;
   }
 
   std::cout << "Test finished." << std::endl;

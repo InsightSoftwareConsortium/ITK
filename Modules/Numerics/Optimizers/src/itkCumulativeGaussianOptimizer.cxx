@@ -70,7 +70,7 @@ CumulativeGaussianOptimizer::FindAverageSumOfSquaredDifferences(MeasureType * ar
   {
     sum = sum + (array1->get(i) - array2->get(i)) * (array1->get(i) - array2->get(i));
   }
-  return (sum / size);
+  return sum / size;
 }
 
 void
@@ -358,7 +358,7 @@ CumulativeGaussianOptimizer::VerticalBestShift(MeasureType * originalArray, Meas
   {
     c -= newArray->get(i);
   }
-  return (c / size);
+  return c / size;
 }
 
 std::string

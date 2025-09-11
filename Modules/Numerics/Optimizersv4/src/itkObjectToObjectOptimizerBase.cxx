@@ -78,7 +78,7 @@ ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>::SetNumberOfW
 {
   if (number < 1)
   {
-    itkExceptionMacro("Number of work units must be > 0");
+    itkExceptionStringMacro("Number of work units must be > 0");
   }
   if (number != this->m_NumberOfWorkUnits)
   {
@@ -95,7 +95,7 @@ ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>::StartOptimiz
   /* Validate some settings */
   if (this->m_Metric.IsNull())
   {
-    itkExceptionMacro("m_Metric must be set.");
+    itkExceptionStringMacro("m_Metric must be set.");
   }
 
   /* Estimate the parameter scales if requested. */
@@ -129,7 +129,7 @@ ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>::StartOptimiz
       }
       /* Check if the scales are identity. Consider to be identity if
        * within a tolerance, to allow for automatically estimated scales
-       * that may not be exactly 1.0 when in priciniple they should be. */
+       * that may not be exactly 1.0 when in principle they should be. */
       const SValueType difference = itk::Math::abs(NumericTraits<SValueType>::OneValue() - this->m_Scales[i]);
       auto             tolerance = static_cast<SValueType>(0.01);
       if (difference > tolerance)
@@ -183,7 +183,7 @@ ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>::GetCurrentPo
 {
   if (this->m_Metric.IsNull())
   {
-    itkExceptionMacro("m_Metric has not been assigned. Cannot get parameters.");
+    itkExceptionStringMacro("m_Metric has not been assigned. Cannot get parameters.");
   }
   return this->m_Metric->GetParameters();
 }

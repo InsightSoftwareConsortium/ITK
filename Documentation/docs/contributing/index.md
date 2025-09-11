@@ -17,7 +17,7 @@ Setup
 Before you begin, perform initial setup:
 
   1. [Register for a GitHub](https://github.com/join) account.
-  2. Optionally download our [one page PDF desk reference](https://raw.githubusercontent.com/InsightSoftwareConsortium/ITK/master/Documentation/docs/contributing/GitCheatSheet.pdf).
+  2. Optionally download our [one page PDF desk reference](https://raw.githubusercontent.com/InsightSoftwareConsortium/ITK/main/Documentation/docs/contributing/GitCheatSheet.pdf).
   3. Follow the [download instructions] to create a local ITK clone:
 
 ```bash
@@ -72,10 +72,10 @@ three main steps:
 Update
 ------
 
-Update your local `master` branch:
+Update your local `main` branch:
 
 ```bash
-git checkout master
+git checkout main
 git pullall
 ```
 
@@ -93,10 +93,10 @@ To start a new topic branch:
 git fetch upstream
 ```
 
-For new development, start the topic from `upstream/master`:
+For new development, start the topic from `upstream/main`:
 
 ```bash
-git checkout -b my-topic upstream/master
+git checkout -b my-topic upstream/main
 ```
 
 For release branch fixes, start the topic from `upstream/release`:
@@ -325,7 +325,7 @@ comment on the pull request which states the topic should be merged to the
 `release` and `release-X.X` maintenance branch, where `X.X` are the current
 maintenance version, e.g. `5.4`.
 
-Here are the recommended steps to merge a topic to both `release` and `master`
+Here are the recommended steps to merge a topic to both `release` and `main`
 branches, assuming the topic branch is forked off the `release` branch:
 
 ```bash
@@ -347,13 +347,13 @@ git push upstream release
 then:
 
 ```bash
-git checkout master
-git pull --ff-only upstream master
+git checkout main
+git pull --ff-only upstream main
 git merge --no-ff release
-git push upstream master
+git push upstream main
 ```
 
-to merge the `release` branch back to `master`.
+to merge the `release` branch back to `main`.
 
 (delete-a-topic)=
 Delete a Topic
@@ -361,10 +361,10 @@ Delete a Topic
 
 After a topic has been merged upstream, delete your local branch for the topic.
 
-Checkout and update the `master` branch:
+Checkout and update the `main` branch:
 
 ```bash
-git checkout master
+git checkout main
 git pullall
 ```
 
@@ -392,12 +392,12 @@ Branches
 At the time of this writing the `ITK` repository has the following
 branches:
 
-  * `master`: Development (default)
+  * `main`: Development (default)
   * `release`: Maintenance of latest release
   * `release-3.20`: Maintenance of the ITKv3 series
   * `release-4.13`: Maintenance of the ITKv4 series
   * `release-5.4`: Maintenance of the ITKv5 series.
-  * `nightly-master`: Follows master, updated at 01:00 UTC for nightly dashboard build consistency.
+  * `nightly-main`: Follows main, updated at 01:00 UTC for nightly dashboard build consistency.
   * `hooks`: Local commit hooks (place in `.git/hooks`)
   * `dashboard`: Dashboard script (setup a CDash client)
 
@@ -416,7 +416,7 @@ module_workflows.md
 ITK Software Guide, Book 1, Part III: Development Guidelines <https://itk.org/ItkSoftwareGuide.pdf>
 git_help.md
 GitHub flow guide <https://guides.github.com/introduction/flow/index.html>
-ITK Git Cheatsheet <https://github.com/InsightSoftwareConsortium/ITK/blob/master/Documentation/docs/contributing/GitCheatSheet.pdf>
+ITK Git Cheatsheet <https://github.com/InsightSoftwareConsortium/ITK/blob/main/Documentation/docs/contributing/GitCheatSheet.pdf>
 CDash Dashboard <https://open.cdash.org/index.php?project=Insight>
 dashboard.md
 updating_third_party.md
@@ -429,8 +429,8 @@ python_packaging.md
 [Updating Third Party]: ./updating_third_party.md
 [build and test ITK]: ./build_test_itk.md
 
-[`SetupForDevelopment.sh`]: https://github.com/InsightSoftwareConsortium/ITK/blob/master/Utilities/SetupForDevelopment.sh
-[`setup-git-aliases`]: https://github.com/InsightSoftwareConsortium/ITK/blob/master/Utilities/GitSetup/setup-git-aliases
+[`SetupForDevelopment.sh`]: https://github.com/InsightSoftwareConsortium/ITK/blob/main/Utilities/SetupForDevelopment.sh
+[`setup-git-aliases`]: https://github.com/InsightSoftwareConsortium/ITK/blob/main/Utilities/GitSetup/setup-git-aliases
 
 [ITK's Discourse]: https://discourse.itk.org/
 

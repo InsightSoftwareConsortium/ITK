@@ -374,7 +374,7 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>::ComputeValue(const Inp
       }
       else
       {
-        itkExceptionMacro("Gradient norm is lower than pixel precision");
+        itkExceptionStringMacro("Gradient norm is lower than pixel precision");
       }
     } // end if (sign != signNeigh)
   } // end for n

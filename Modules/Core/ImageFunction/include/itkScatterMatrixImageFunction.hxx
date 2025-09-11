@@ -94,7 +94,7 @@ ScatterMatrixImageFunction<TInputImage, TCoordinate>::EvaluateAtIndex(const Inde
     }
   }
 
-  return (covariance);
+  return covariance;
 }
 } // end namespace itk
 

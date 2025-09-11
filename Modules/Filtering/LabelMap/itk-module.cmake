@@ -12,16 +12,15 @@ itk_module(
   ITKLabelMap
   ENABLE_SHARED
   DEPENDS
-  ITKImageLabel
+    ITKImageLabel
   PRIVATE_DEPENDS
-  ITKStatistics
+    ITKStatistics
   COMPILE_DEPENDS
-  ITKTransform
+    ITKTransform
   TEST_DEPENDS
-  ITKTestKernel
-  ITKBinaryMathematicalMorphology
-  ITKStatistics
-  ITKGoogleTest
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+    ITKBinaryMathematicalMorphology
+    ITKStatistics
+    ITKGoogleTest
+  DESCRIPTION "${DOCUMENTATION}"
 )

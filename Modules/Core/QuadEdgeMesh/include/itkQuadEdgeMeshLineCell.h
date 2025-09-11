@@ -101,7 +101,7 @@ public:
   QEType *
   GetQEGeom() const
   {
-    return (m_QuadEdgeGeom);
+    return m_QuadEdgeGeom;
   }
 
 public:
@@ -177,7 +177,7 @@ public:
   PointIdsEnd() override
   {
     SynchronizePointsAPI();
-    return (&m_PointIds[1] + 1);
+    return &m_PointIds[1] + 1;
   }
 
   PointIdConstIterator
@@ -198,7 +198,7 @@ public:
   PointIdsEnd() const override
   {
     SynchronizePointsAPI();
-    return (&m_PointIds[1] + 1);
+    return &m_PointIds[1] + 1;
   }
 
   /** helper for backward compatibility */

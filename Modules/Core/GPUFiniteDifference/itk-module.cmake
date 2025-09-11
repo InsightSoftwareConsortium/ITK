@@ -9,12 +9,11 @@ itk_module(
   ITKGPUFiniteDifference
   ENABLE_SHARED
   DEPENDS
-  ITKCommon
-  ITKGPUCommon
+    ITKCommon
+    ITKGPUCommon
   COMPILE_DEPENDS
-  ITKFiniteDifference
+    ITKFiniteDifference
   TEST_DEPENDS
-  ITKTestKernel
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+  DESCRIPTION "${DOCUMENTATION}"
 )

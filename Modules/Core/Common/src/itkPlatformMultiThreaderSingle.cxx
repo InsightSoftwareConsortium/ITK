@@ -61,7 +61,7 @@ PlatformMultiThreader::SpawnThread(ThreadFunctionType itkNotUsed(f), void * User
 {
   // There is no multi threading, so there is only one thread.
   // This won't work - so give an error message.
-  itkExceptionMacro("Cannot spawn thread in a single threaded environment!");
+  itkExceptionStringMacro("Cannot spawn thread in a single threaded environment!");
   return -1;
 }
 
@@ -70,7 +70,7 @@ PlatformMultiThreader::TerminateThread(ThreadIdType WorkUnitID)
 {
   // There is no multi threading, so there is only one thread.
   // This won't work - so give an error message.
-  itkExceptionMacro("Cannot terminate thread in single threaded environment!");
+  itkExceptionStringMacro("Cannot terminate thread in single threaded environment!");
 }
 #endif
 

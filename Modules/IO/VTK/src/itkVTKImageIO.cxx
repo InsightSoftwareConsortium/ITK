@@ -43,7 +43,7 @@ VTKImageIO::GetNextLine(std::ifstream & ifs, std::string & line, bool lowerCase,
   // The terminal condition for this recursive calls
   if (count > 5)
   {
-    itkExceptionMacro("Error of GetNextLine due to consecutive 5 empty lines in the given .*vtk file ");
+    itkExceptionStringMacro("Error of GetNextLine due to consecutive 5 empty lines in the given .*vtk file ");
   }
 
   // Get a next line from a given *.vtk file
@@ -52,10 +52,10 @@ VTKImageIO::GetNextLine(std::ifstream & ifs, std::string & line, bool lowerCase,
   // Check the End-of-File of the file
   if (ifs.eof())
   {
-    itkExceptionMacro("Premature EOF in reading a line");
+    itkExceptionStringMacro("Premature EOF in reading a line");
   }
 
-  // Convert characters of the line to lowercas
+  // Convert characters of the line to lowercase
   if (lowerCase)
   {
     std::transform(line.begin(), line.end(), line.begin(), ::tolower);
@@ -139,7 +139,7 @@ VTKImageIO::SetPixelTypeFromString(const std::string & pixelType)
     }
     else
     {
-      itkExceptionMacro("Unrecognized pixel type");
+      itkExceptionStringMacro("Unrecognized pixel type");
     }
   }
   else
@@ -183,14 +183,14 @@ VTKImageIO::InternalReadImageInformation(std::ifstream & file)
   }
   else
   {
-    itkExceptionMacro("Unrecognized type");
+    itkExceptionStringMacro("Unrecognized type");
   }
 
   this->GetNextLine(file, text);
 
   if (text.find("structured_points") >= text.length())
   {
-    itkExceptionMacro("Not structured points, can't read");
+    itkExceptionStringMacro("Not structured points, can't read");
   }
 
   this->GetNextLine(file, text);
@@ -226,7 +226,7 @@ VTKImageIO::InternalReadImageInformation(std::ifstream & file)
   }
   else
   {
-    itkExceptionMacro("No dimensions defined");
+    itkExceptionStringMacro("No dimensions defined");
   }
 
   for (bool readAttribute = false; !readAttribute;)
@@ -353,7 +353,7 @@ VTKImageIO::InternalReadImageInformation(std::ifstream & file)
 
     if (!file.good())
     {
-      itkExceptionMacro("Error reading header");
+      itkExceptionStringMacro("Error reading header");
     }
   }
 
@@ -401,7 +401,7 @@ VTKImageIO::ReadHeaderSize(std::ifstream & file)
 
   if (file.fail())
   {
-    itkExceptionMacro("Failed reading header information");
+    itkExceptionStringMacro("Failed reading header information");
   }
 
   // set the header size based on how much we just read
@@ -461,7 +461,7 @@ VTKImageIO::ReadBufferAsASCII(std::istream &              is,
   {
     if (this->GetNumberOfComponents() != 6)
     {
-      itkExceptionMacro("itk::ERROR: VTKImageIO: Unsupported number of components in tensor.");
+      itkExceptionStringMacro("itk::ERROR: VTKImageIO: Unsupported number of components in tensor.");
     }
 
     switch (ctype)
@@ -500,7 +500,7 @@ VTKImageIO::ReadSymmetricTensorBufferAsBinary(std::istream & is, void * buffer, 
 
   if (this->GetNumberOfComponents() != 6)
   {
-    itkExceptionMacro("Unsupported tensor dimension.");
+    itkExceptionStringMacro("Unsupported tensor dimension.");
   }
   while (bytesRemaining)
   {
@@ -520,7 +520,7 @@ VTKImageIO::ReadSymmetricTensorBufferAsBinary(std::istream & is, void * buffer, 
 
   if (is.fail())
   {
-    itkExceptionMacro("Failure during writing of file.");
+    itkExceptionStringMacro("Failure during writing of file.");
   }
 }
 
@@ -535,7 +535,7 @@ VTKImageIO::Read(void * buffer)
 
     if (this->GetPixelType() == IOPixelEnum::SYMMETRICSECONDRANKTENSOR)
     {
-      itkExceptionMacro("Cannot stream read binary second rank tensors.");
+      itkExceptionStringMacro("Cannot stream read binary second rank tensors.");
     }
 
     // open and stream read
@@ -573,7 +573,7 @@ VTKImageIO::Read(void * buffer)
 
     if (file.fail())
     {
-      itkExceptionMacro("Failed seeking to data position");
+      itkExceptionStringMacro("Failed seeking to data position");
     }
 
     // seek pass the header
@@ -647,7 +647,7 @@ VTKImageIO::WriteImageInformation(const void * itkNotUsed(buffer))
   const unsigned int numDims = this->GetNumberOfDimensions();
   if (numDims < 1 || numDims > 3)
   {
-    itkExceptionMacro("VTK Writer can only write 1, 2 or 3-dimensional images");
+    itkExceptionStringMacro("VTK Writer can only write 1, 2 or 3-dimensional images");
   }
 
   // Write the VTK header information
@@ -910,12 +910,12 @@ VTKImageIO::WriteSymmetricTensorBufferAsBinary(std::ostream &                 os
       break;
     }
     default:
-      itkExceptionMacro("Unsupported tensor dimension.");
+      itkExceptionStringMacro("Unsupported tensor dimension.");
   }
 
   if (os.fail())
   {
-    itkExceptionMacro("Failure during writing of file.");
+    itkExceptionStringMacro("Failure during writing of file.");
   }
 }
 
@@ -928,7 +928,7 @@ VTKImageIO::Write(const void * buffer)
 
     if (this->GetPixelType() == IOPixelEnum::SYMMETRICSECONDRANKTENSOR)
     {
-      itkExceptionMacro("Cannot stream write binary second rank tensors.");
+      itkExceptionStringMacro("Cannot stream write binary second rank tensors.");
     }
 
     std::ofstream file;
@@ -970,7 +970,9 @@ VTKImageIO::Write(const void * buffer)
       switch (this->GetComponentSize())
       {
         case 1:
-          StreamWriteVTKImageBinaryBlockMACRO(char) break;
+          // When the component size is 1, byte swapping is not needed.
+          this->StreamWriteBufferAsBinary(file, buffer);
+          break;
         case 2:
           StreamWriteVTKImageBinaryBlockMACRO(uint16_t) break;
         case 4:
@@ -1003,7 +1005,7 @@ VTKImageIO::Write(const void * buffer)
 
     if (file.fail())
     {
-      itkExceptionMacro("Failed seeking to data position");
+      itkExceptionStringMacro("Failed seeking to data position");
     }
 
     // Write the actual pixel data
@@ -1013,26 +1015,7 @@ VTKImageIO::Write(const void * buffer)
     }
     else // binary
     {
-      // the binary data must be written in big endian format
-      if constexpr (!ByteSwapper<uint16_t>::SystemIsBigEndian())
-      {
-        // only swap  when needed
-        switch (this->GetComponentSize())
-        {
-          case 1:
-            WriteVTKImageBinaryBlockMACRO(char) break;
-          case 2:
-            WriteVTKImageBinaryBlockMACRO(uint16_t) break;
-          case 4:
-            WriteVTKImageBinaryBlockMACRO(uint32_t) break;
-          case 8:
-            WriteVTKImageBinaryBlockMACRO(uint64_t) break;
-          default:
-            itkExceptionMacro("Unknown component size" << this->GetComponentSize());
-        }
-      }
-      else
-      {
+      const auto writeBufferAsBinary = [this, &file, buffer] {
         // write the image
         if (this->GetPixelType() == IOPixelEnum::SYMMETRICSECONDRANKTENSOR)
         {
@@ -1045,6 +1028,31 @@ VTKImageIO::Write(const void * buffer)
             itkExceptionMacro("Could not write file: " << m_FileName);
           }
         }
+      };
+
+      // the binary data must be written in big endian format
+      if constexpr (!ByteSwapper<uint16_t>::SystemIsBigEndian())
+      {
+        // only swap  when needed
+        switch (this->GetComponentSize())
+        {
+          case 1:
+            // When the component size is 1, byte swapping is not needed.
+            writeBufferAsBinary();
+            break;
+          case 2:
+            WriteVTKImageBinaryBlockMACRO(uint16_t) break;
+          case 4:
+            WriteVTKImageBinaryBlockMACRO(uint32_t) break;
+          case 8:
+            WriteVTKImageBinaryBlockMACRO(uint64_t) break;
+          default:
+            itkExceptionMacro("Unknown component size" << this->GetComponentSize());
+        }
+      }
+      else
+      {
+        writeBufferAsBinary();
       }
     }
   }
@@ -1059,13 +1067,13 @@ VTKImageIO::GetIORegionSizeInPixels() const
 ImageIOBase::SizeType
 VTKImageIO::GetIORegionSizeInComponents() const
 {
-  return (this->GetIORegionSizeInPixels() * m_NumberOfComponents);
+  return this->GetIORegionSizeInPixels() * m_NumberOfComponents;
 }
 
 ImageIOBase::SizeType
 VTKImageIO::GetIORegionSizeInBytes() const
 {
-  return (this->GetIORegionSizeInComponents() * this->GetComponentSize());
+  return this->GetIORegionSizeInComponents() * this->GetComponentSize();
 }
 
 void

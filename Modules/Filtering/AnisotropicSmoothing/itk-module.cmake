@@ -11,10 +11,9 @@ algorithms. You may find useful as well the filters in
 itk_module(
   ITKAnisotropicSmoothing
   COMPILE_DEPENDS
-  ITKImageGrid
-  ITKCurvatureFlow
+    ITKImageGrid
+    ITKCurvatureFlow
   TEST_DEPENDS
-  ITKTestKernel
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+  DESCRIPTION "${DOCUMENTATION}"
 )

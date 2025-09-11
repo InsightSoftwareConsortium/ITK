@@ -96,7 +96,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage,
 
   if (virtualDomainImage.IsNull())
   {
-    itkExceptionMacro("The virtual domain image is not found.");
+    itkExceptionStringMacro("The virtual domain image is not found.");
   }
 
   const typename MultiMetricType::Pointer multiMetric = dynamic_cast<MultiMetricType *>(this->m_Metric.GetPointer());
@@ -110,7 +110,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage,
     }
     else
     {
-      itkExceptionMacro("ERROR: Invalid conversion from the multi metric queue.");
+      itkExceptionStringMacro("ERROR: Invalid conversion from the multi metric queue.");
     }
   }
   else
@@ -171,7 +171,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage,
     {
       if (velocityFieldPointSet->GetNumberOfPoints() != velocityFieldPointSetFromPreviousIteration->GetNumberOfPoints())
       {
-        itkExceptionMacro("The number of points is not the same between iterations.");
+        itkExceptionStringMacro("The number of points is not the same between iterations.");
       }
 
       typename VelocityFieldPointSetType::PointDataContainerIterator ItV =
@@ -672,7 +672,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<
       }
       else
       {
-        itkExceptionMacro("Invalid metric.");
+        itkExceptionStringMacro("Invalid metric.");
       }
     }
   }
@@ -706,7 +706,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<
   }
   else // The point set metric is handled as a special case in ::GetMetricDerivativePointSet()
   {
-    itkExceptionMacro("Invalid metric.");
+    itkExceptionStringMacro("Invalid metric.");
   }
 
   this->m_Metric->Initialize();

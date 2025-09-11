@@ -518,7 +518,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::Eval
     interpolated += w * m_Coefficients->GetPixel(coefficientIndex);
   }
 
-  return (interpolated);
+  return interpolated;
 }
 
 template <typename TImageType, typename TCoordinate, typename TCoefficientType>
@@ -648,7 +648,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::Eval
     return inputImage->TransformLocalVectorToPhysicalVector(derivativeValue);
   }
 
-  return (derivativeValue);
+  return derivativeValue;
 }
 } // namespace itk
 

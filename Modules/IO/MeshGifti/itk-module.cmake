@@ -7,17 +7,16 @@ itk_module(
   ITKIOMeshGifti
   ENABLE_SHARED
   DEPENDS
-  ITKCommon
-  ITKIOMeshBase
+    ITKCommon
+    ITKIOMeshBase
   COMPILE_DEPENDS
-  ITKMesh
+    ITKMesh
   PRIVATE_DEPENDS
-  ITKGIFTI
+    ITKGIFTI
   TEST_DEPENDS
-  ITKTestKernel
-  ITKQuadEdgeMesh
+    ITKTestKernel
+    ITKQuadEdgeMesh
   FACTORY_NAMES
-  MeshIO::Gifti
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    MeshIO::Gifti
+  DESCRIPTION "${DOCUMENTATION}"
 )

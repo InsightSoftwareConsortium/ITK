@@ -12,10 +12,9 @@ itk_module(
   ITKVideoCore
   ENABLE_SHARED
   DEPENDS
-  ITKCommon
+    ITKCommon
   TEST_DEPENDS
-  ITKTestKernel
-  ITKVideoIO
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+    ITKVideoIO
+  DESCRIPTION "${DOCUMENTATION}"
 )

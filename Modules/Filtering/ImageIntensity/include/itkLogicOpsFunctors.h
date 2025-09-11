@@ -87,12 +87,12 @@ public:
   [[nodiscard]] TOutput
   GetForegroundValue() const
   {
-    return (m_ForegroundValue);
+    return m_ForegroundValue;
   }
   [[nodiscard]] TOutput
   GetBackgroundValue() const
   {
-    return (m_BackgroundValue);
+    return m_BackgroundValue;
   }
 
 protected:

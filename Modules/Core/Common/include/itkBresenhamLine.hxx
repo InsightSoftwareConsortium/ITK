@@ -99,7 +99,7 @@ BresenhamLine<VDimension>::BuildLine(LType Direction, IdentifierType length) -> 
 
     ++steps;
   }
-  return (result);
+  return result;
 }
 
 template <unsigned int VDimension>

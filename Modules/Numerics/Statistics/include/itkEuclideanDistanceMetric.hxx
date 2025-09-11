@@ -28,7 +28,7 @@ EuclideanDistanceMetric<TVector>::Evaluate(const MeasurementVectorType & x) cons
 
   if (measurementVectorSize == 0)
   {
-    itkExceptionMacro("Please set the MeasurementVectorSize first");
+    itkExceptionStringMacro("Please set the MeasurementVectorSize first");
   }
   MeasurementVectorTraits::Assert(this->GetOrigin(),
                                   measurementVectorSize,

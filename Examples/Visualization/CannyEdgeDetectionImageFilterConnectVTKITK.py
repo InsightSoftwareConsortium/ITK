@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-# ==========================================================================*/
+# ==========================================================================
 
 # This file demonstrates how to connect VTK and ITK pipelines together
 # in scripted languages with the new ConnectVTKITK wrapping functionality.

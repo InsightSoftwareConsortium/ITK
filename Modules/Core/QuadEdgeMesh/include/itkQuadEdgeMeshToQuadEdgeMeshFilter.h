@@ -250,7 +250,7 @@ CopyMeshToMeshCells(const TInputMesh * in, TOutputMesh * out)
 
       while (pIt != pEnd)
       {
-        points.push_back((*pIt));
+        points.push_back(*pIt);
         ++pIt;
       }
       out->AddFaceWithSecurePointList(points, false);

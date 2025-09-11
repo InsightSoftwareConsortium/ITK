@@ -44,7 +44,7 @@ ShapePositionLabelMapFilter<TImage>::ThreadedProcessLabelObject(LabelObjectType 
       break;
     }
     default:
-      itkExceptionMacro("Unknown attribute type");
+      itkExceptionStringMacro("Unknown attribute type");
       break;
   }
 }

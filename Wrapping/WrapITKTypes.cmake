@@ -158,8 +158,17 @@ foreach(d ${ITK_WRAP_IMAGE_DIMS})
   foreach(i RANGE 1 ${d})
     math(EXPR comp "${comp}*4")
   endforeach()
-  add_template("${ITKM_D}${comp}" "${ITKT_D},${comp}")
-  add_template("${ITKM_UL}${comp}" "${ITKT_UL},${comp}")
+
+  # Check if computed comp dimension has already wrapped above
+  # by searching for it in ITK_WRAP_IMAGE_DIMS.
+  # If not, wrap it.
+  list(FIND ITK_WRAP_IMAGE_DIMS ${comp} ITK_FIXED_ARRAY_COMP_INDEX)
+
+  if(ITK_FIXED_ARRAY_COMP_INDEX LESS 0)
+    # Not already in ITK_WRAP_IMAGE_DIMS
+    add_template("${ITKM_D}${comp}" "${ITKT_D},${comp}")
+    add_template("${ITKM_UL}${comp}" "${ITKT_UL},${comp}")
+  endif()
 endforeach()
 end_wrap_type()
 set(itk_Wrap_FixedArray ${WRAPPER_TEMPLATES})

@@ -10,18 +10,17 @@ itk_module(
   ITKOptimizersv4
   ENABLE_SHARED
   DEPENDS
-  ITKOptimizers
-  ITKLIBLBFGS
+    ITKOptimizers
+    ITKLIBLBFGS
   COMPILE_DEPENDS
-  ITKCommon
-  ITKTransform
-  ITKImageGrid
-  ITKDisplacementField
+    ITKCommon
+    ITKTransform
+    ITKImageGrid
+    ITKDisplacementField
   TEST_DEPENDS
-  ITKTestKernel
-  ITKMetricsv4
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+    ITKMetricsv4
+  DESCRIPTION "${DOCUMENTATION}"
 )
 
 # ITKOptimizers dependency added to get itkCostFunction for itkSingleValuedCostFunctionv4

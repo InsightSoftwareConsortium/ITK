@@ -100,7 +100,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage,
     }
     else
     {
-      itkExceptionMacro("ERROR: Invalid conversion from the multi metric queue.");
+      itkExceptionStringMacro("ERROR: Invalid conversion from the multi metric queue.");
     }
   }
   else
@@ -112,7 +112,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage,
     }
     else
     {
-      itkExceptionMacro("ERROR: Invalid metric conversion.");
+      itkExceptionStringMacro("ERROR: Invalid metric conversion.");
     }
   }
 
@@ -237,7 +237,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage,
           }
           else
           {
-            itkExceptionMacro("ERROR: Invalid conversion from the multi metric queue.");
+            itkExceptionStringMacro("ERROR: Invalid conversion from the multi metric queue.");
           }
         }
         else

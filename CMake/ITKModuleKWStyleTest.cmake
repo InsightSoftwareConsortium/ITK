@@ -91,20 +91,18 @@ macro(itk_module_kwstyle_test _name)
   else()
     if(NOT DISABLE_MODULE_TESTS)
       itk_add_test(
-              NAME
-              ${itk-module}KWStyleTest
-              COMMAND
-              ${KWSTYLE_EXECUTABLE}
-              -xml
-              ${_kwstyle_itk_configuration_file}
-              -v
-              -o
-              ${_kwstyle_itk_overwrite_file}
-              -D
-              ${_kwstyle_itk_module_files_list_file}
-              -gcc
-              WORKING_DIRECTORY
-              ${ITK_CMAKE_DIR}/..
+        NAME ${itk-module}KWStyleTest
+        COMMAND
+          ${KWSTYLE_EXECUTABLE}
+          -xml
+          ${_kwstyle_itk_configuration_file}
+          -v
+          -o
+          ${_kwstyle_itk_overwrite_file}
+          -D
+          ${_kwstyle_itk_module_files_list_file}
+          -gcc
+        WORKING_DIRECTORY ${ITK_CMAKE_DIR}/..
       )
     endif()
   endif()

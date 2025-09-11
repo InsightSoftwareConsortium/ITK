@@ -97,14 +97,14 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::Generat
 
   if ((maskImage != nullptr) && (maskImage->GetBufferedRegion().GetSize() != inputImageSize))
   {
-    itkExceptionMacro("If a mask image is specified, its size should be equal to the input image size");
+    itkExceptionStringMacro("If a mask image is specified, its size should be equal to the input image size");
   }
 
   const RealImageType * const confidenceImage = GetConfidenceImage();
 
   if ((confidenceImage != nullptr) && (confidenceImage->GetBufferedRegion().GetSize() != inputImageSize))
   {
-    itkExceptionMacro("If a confidence image is specified, its size should be equal to the input image size");
+    itkExceptionStringMacro("If a confidence image is specified, its size should be equal to the input image size");
   }
 
   // Calculate the log of the input image.
@@ -174,7 +174,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::Generat
   }
   if (this->m_MaximumNumberOfIterations.Size() != maximumNumberOfLevels)
   {
-    itkExceptionMacro("Number of iteration levels is not equal to the max number of levels.");
+    itkExceptionStringMacro("Number of iteration levels is not equal to the max number of levels.");
   }
 
   for (this->m_CurrentLevel = 0; this->m_CurrentLevel < maximumNumberOfLevels; this->m_CurrentLevel++)
@@ -679,7 +679,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::Calcula
   }
   sigma = std::sqrt(sigma / (N - 1.0));
 
-  return (sigma / mu);
+  return sigma / mu;
 }
 
 template <typename TInputImage, typename TMaskImage, typename TOutputImage>

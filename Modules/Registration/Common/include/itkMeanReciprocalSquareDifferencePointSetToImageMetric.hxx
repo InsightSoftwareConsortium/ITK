@@ -39,7 +39,7 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage
 
   if (!fixedPointSet)
   {
-    itkExceptionMacro("Fixed point set has not been assigned");
+    itkExceptionStringMacro("Fixed point set has not been assigned");
   }
 
   PointIterator       pointItr = fixedPointSet->GetPoints()->Begin();
@@ -77,7 +77,7 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage
 
   if (!this->m_NumberOfPixelsCounted)
   {
-    itkExceptionMacro("All the points mapped to outside of the moving image");
+    itkExceptionStringMacro("All the points mapped to outside of the moving image");
   }
   else
   {
@@ -95,14 +95,14 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage
 {
   if (!this->GetGradientImage())
   {
-    itkExceptionMacro("The gradient image is null, maybe you forgot to call Initialize()");
+    itkExceptionStringMacro("The gradient image is null, maybe you forgot to call Initialize()");
   }
 
   const FixedPointSetConstPointer fixedPointSet = this->GetFixedPointSet();
 
   if (!fixedPointSet)
   {
-    itkExceptionMacro("Fixed image has not been assigned");
+    itkExceptionStringMacro("Fixed image has not been assigned");
   }
 
   this->m_NumberOfPixelsCounted = 0;
@@ -173,7 +173,7 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage
 
   if (!this->m_NumberOfPixelsCounted)
   {
-    itkExceptionMacro("All the points mapped to outside of the moving image");
+    itkExceptionStringMacro("All the points mapped to outside of the moving image");
   }
   else
   {
@@ -193,14 +193,14 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage
 {
   if (!this->GetGradientImage())
   {
-    itkExceptionMacro("The gradient image is null, maybe you forgot to call Initialize()");
+    itkExceptionStringMacro("The gradient image is null, maybe you forgot to call Initialize()");
   }
 
   const FixedPointSetConstPointer fixedPointSet = this->GetFixedPointSet();
 
   if (!fixedPointSet)
   {
-    itkExceptionMacro("Fixed image has not been assigned");
+    itkExceptionStringMacro("Fixed image has not been assigned");
   }
 
   this->m_NumberOfPixelsCounted = 0;
@@ -270,7 +270,7 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage
 
   if (!this->m_NumberOfPixelsCounted)
   {
-    itkExceptionMacro("All the points mapped to outside of the moving image");
+    itkExceptionStringMacro("All the points mapped to outside of the moving image");
   }
   else
   {

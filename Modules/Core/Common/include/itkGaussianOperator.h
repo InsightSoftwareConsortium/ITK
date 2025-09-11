@@ -90,7 +90,7 @@ public:
   {
     if (max_error >= 1 || max_error <= 0)
     {
-      itkExceptionMacro("Maximum Error Must be in the range [ 0.0 , 1.0 ]");
+      itkExceptionStringMacro("Maximum Error Must be in the range [ 0.0 , 1.0 ]");
     }
 
     m_MaximumError = max_error;

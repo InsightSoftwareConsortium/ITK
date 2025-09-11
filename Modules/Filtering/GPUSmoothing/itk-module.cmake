@@ -9,12 +9,11 @@ filters.  You may also find it interesting to look at the
 itk_module(
   ITKGPUSmoothing
   DEPENDS
-  ITKCommon
-  ITKGPUCommon
-  ITKGPUImageFilterBase
-  ITKSmoothing
+    ITKCommon
+    ITKGPUCommon
+    ITKGPUImageFilterBase
+    ITKSmoothing
   TEST_DEPENDS
-  ITKTestKernel
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+  DESCRIPTION "${DOCUMENTATION}"
 )

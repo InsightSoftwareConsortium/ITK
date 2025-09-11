@@ -354,7 +354,7 @@ itkCentralDifferenceImageFunctionTest(int, char *[])
   }
 
   // test an out-of-bounds point with swapped dimensions
-  // it should yield a deriviative of 0
+  // it should yield a derivative of 0
   point[0] = 1.0;
   point[1] = 8.0;
   function->SetUseImageDirection(false);

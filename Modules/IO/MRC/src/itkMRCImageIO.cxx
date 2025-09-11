@@ -106,7 +106,7 @@ MRCImageIO::GetHeaderSize() const
 {
   if (m_MRCHeader.IsNull())
   {
-    itkExceptionMacro("Must read info first");
+    itkExceptionStringMacro("Must read info first");
   }
 
   return m_MRCHeader->GetExtendedHeaderSize() + m_MRCHeader->GetHeaderSize();
@@ -196,7 +196,7 @@ MRCImageIO::ReadImageInformation()
     }
     default:
     {
-      itkExceptionMacro("Unrecognized mode");
+      itkExceptionStringMacro("Unrecognized mode");
     }
   }
 
@@ -247,13 +247,13 @@ MRCImageIO::InternalReadImageInformation(std::ifstream & file)
   // convert the raw buffer into the header
   if (!m_MRCHeader->SetHeader(reinterpret_cast<const MRCHeaderObject::Header *>(buffer.get())))
   {
-    itkExceptionMacro("Unrecognized header");
+    itkExceptionStringMacro("Unrecognized header");
   }
 
   buffer = make_unique_for_overwrite<char[]>(m_MRCHeader->GetExtendedHeaderSize());
   if (!this->ReadBufferAsBinary(file, static_cast<void *>(buffer.get()), m_MRCHeader->GetExtendedHeaderSize()))
   {
-    itkExceptionMacro("Extended Header Read failed.");
+    itkExceptionStringMacro("Extended Header Read failed.");
   }
 
   m_MRCHeader->SetExtendedHeader(buffer.get());
@@ -283,7 +283,7 @@ MRCImageIO::Read(void * buffer)
 
     if (file.fail())
     {
-      itkExceptionMacro("Failed seeking to data position");
+      itkExceptionStringMacro("Failed seeking to data position");
     }
 
     // read the image
@@ -310,7 +310,7 @@ MRCImageIO::Read(void * buffer)
                                                                    this->GetImageSizeInComponents());
       break;
     default:
-      itkExceptionMacro("Unknown component size");
+      itkExceptionStringMacro("Unknown component size");
   }
 }
 
@@ -349,7 +349,7 @@ MRCImageIO::UpdateHeaderFromImageIO()
   itkAssertOrThrowMacro(this->GetNumberOfDimensions() != 0, "Invalid Dimension for Writing");
   if (this->GetNumberOfDimensions() > 3)
   {
-    itkExceptionMacro("MRC Writer can not write more than 3-dimensional images");
+    itkExceptionStringMacro("MRC Writer can not write more than 3-dimensional images");
   }
 
   // magic number
@@ -418,11 +418,11 @@ MRCImageIO::UpdateHeaderFromImageIO()
 
   if (header.mode == -1)
   {
-    itkExceptionMacro("Unsupported pixel type: "
-                      << ImageIOBase::GetPixelTypeAsString(this->GetPixelType()) << ' '
-                      << ImageIOBase::GetComponentTypeAsString(this->GetComponentType()) << std::endl
-                      << "Supported pixel types include unsigned byte, unsigned short, short, float, rgb "
-                         "unsigned char, float complex");
+    itkExceptionMacro(
+      "Unsupported pixel type: "
+      << ImageIOBase::GetPixelTypeAsString(this->GetPixelType()) << ' '
+      << ImageIOBase::GetComponentTypeAsString(this->GetComponentType()) << std::endl
+      << "Supported pixel types include unsigned byte, unsigned short, short, float, rgb unsigned char, float complex");
   }
 
   header.nxstart = 0;
@@ -442,7 +442,7 @@ MRCImageIO::UpdateHeaderFromImageIO()
   m_MRCHeader = MRCHeaderObject::New();
   if (!m_MRCHeader->SetHeader(&header))
   {
-    itkExceptionMacro("Unexpected error setting header");
+    itkExceptionStringMacro("Unexpected error setting header");
   }
 }
 
@@ -459,7 +459,7 @@ MRCImageIO::WriteImageInformation(const void * buffer)
 
   // write the header
   const MRCHeaderObject::Header & header = m_MRCHeader->GetHeader();
-  file.write(static_cast<const char *>((const void *)&(header)), 1024);
+  file.write(static_cast<const char *>((const void *)&header), 1024);
 }
 
 void
@@ -493,7 +493,7 @@ MRCImageIO::UpdateHeaderWithMinMaxMean(const void * bufferBegin)
       // complex short
 
       // What is the best way to map complex to float?
-      // just set resonable values
+      // just set reasonable values
       m_MRCHeader->m_Header.amin = -1.0f;
       m_MRCHeader->m_Header.amax = 1.0f;
       m_MRCHeader->m_Header.amean = 0.0f;
@@ -504,7 +504,7 @@ MRCImageIO::UpdateHeaderWithMinMaxMean(const void * bufferBegin)
       // complex float
 
       // What is the best way to map complex to float?
-      // just set resonable values
+      // just set reasonable values
       m_MRCHeader->m_Header.amin = -1.0f;
       m_MRCHeader->m_Header.amax = 1.0f;
       m_MRCHeader->m_Header.amean = 0.0f;
@@ -520,7 +520,7 @@ MRCImageIO::UpdateHeaderWithMinMaxMean(const void * bufferBegin)
     {
       // RGB of unsigned char
 
-      // just set resonable values
+      // just set reasonable values
       m_MRCHeader->m_Header.amin = 0.0f;
       m_MRCHeader->m_Header.amax = 255.0f;
       m_MRCHeader->m_Header.amean = 127.5f;
@@ -528,7 +528,7 @@ MRCImageIO::UpdateHeaderWithMinMaxMean(const void * bufferBegin)
     }
     default:
     {
-      itkExceptionMacro("Unrecognized mode");
+      itkExceptionStringMacro("Unrecognized mode");
     }
   }
 }
@@ -601,7 +601,7 @@ MRCImageIO::Write(const void * buffer)
 
     if (file.fail())
     {
-      itkExceptionMacro("Failed seeking to data position");
+      itkExceptionStringMacro("Failed seeking to data position");
     }
 
     // read the image

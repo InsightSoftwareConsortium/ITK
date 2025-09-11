@@ -178,7 +178,7 @@ ContourSpatialObject<TDimension>::Update()
     case InterpolationMethodEnum::BEZIER_INTERPOLATION:
       // TODO: Implement bezier interpolation
       {
-        itkExceptionMacro("Bezier interpolation type not yet defined.");
+        itkExceptionStringMacro("Bezier interpolation type not yet defined.");
       }
       break;
     case InterpolationMethodEnum::LINEAR_INTERPOLATION:
@@ -218,7 +218,7 @@ ContourSpatialObject<TDimension>::Update()
             newPoint[d] = pnt[d] + i * step[d];
           }
         }
-        typename Superclass::SpatialObjectPointType newSOPoint = (*it);
+        typename Superclass::SpatialObjectPointType newSOPoint = *it;
         newSOPoint.SetSpatialObject(this);
         newSOPoint.SetPositionInObjectSpace(newPoint);
         this->m_Points.push_back(newSOPoint);

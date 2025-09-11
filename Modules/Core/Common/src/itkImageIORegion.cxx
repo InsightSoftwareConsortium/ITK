@@ -134,7 +134,7 @@ ImageIORegion::GetSize(unsigned int i) const
 {
   if (i >= m_Size.size())
   {
-    itkExceptionMacro("Invalid index in GetSize()");
+    itkExceptionStringMacro("Invalid index in GetSize()");
   }
   return m_Size[i];
 }
@@ -144,7 +144,7 @@ ImageIORegion::GetIndex(unsigned int i) const
 {
   if (i >= m_Index.size())
   {
-    itkExceptionMacro("Invalid index in GetIndex()");
+    itkExceptionStringMacro("Invalid index in GetIndex()");
   }
   return m_Index[i];
 }
@@ -154,7 +154,7 @@ ImageIORegion::SetSize(const unsigned int i, SizeValueType size)
 {
   if (i >= m_Size.size())
   {
-    itkExceptionMacro("Invalid index in SetSize()");
+    itkExceptionStringMacro("Invalid index in SetSize()");
   }
   m_Size[i] = size;
 }
@@ -164,7 +164,7 @@ ImageIORegion::SetIndex(const unsigned int i, IndexValueType idx)
 {
   if (i >= m_Index.size())
   {
-    itkExceptionMacro("Invalid index in SetIndex()");
+    itkExceptionStringMacro("Invalid index in SetIndex()");
   }
   m_Index[i] = idx;
 }

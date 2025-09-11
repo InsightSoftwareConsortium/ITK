@@ -118,27 +118,27 @@ ImageRegistrationMethod<TFixedImage, TMovingImage>::Initialize()
 {
   if (!m_FixedImage)
   {
-    itkExceptionMacro("FixedImage is not present");
+    itkExceptionStringMacro("FixedImage is not present");
   }
 
   if (!m_MovingImage)
   {
-    itkExceptionMacro("MovingImage is not present");
+    itkExceptionStringMacro("MovingImage is not present");
   }
 
   if (!m_Metric)
   {
-    itkExceptionMacro("Metric is not present");
+    itkExceptionStringMacro("Metric is not present");
   }
 
   if (!m_Optimizer)
   {
-    itkExceptionMacro("Optimizer is not present");
+    itkExceptionStringMacro("Optimizer is not present");
   }
 
   if (!m_Transform)
   {
-    itkExceptionMacro("Transform is not present");
+    itkExceptionStringMacro("Transform is not present");
   }
 
   //
@@ -150,7 +150,7 @@ ImageRegistrationMethod<TFixedImage, TMovingImage>::Initialize()
 
   if (!m_Interpolator)
   {
-    itkExceptionMacro("Interpolator is not present");
+    itkExceptionStringMacro("Interpolator is not present");
   }
 
   // Setup the metric
@@ -264,7 +264,7 @@ ImageRegistrationMethod<TFixedImage, TMovingImage>::MakeOutput(DataObjectPointer
 {
   if (output > 0)
   {
-    itkExceptionMacro("MakeOutput request for an output number larger than the expected number of outputs.");
+    itkExceptionStringMacro("MakeOutput request for an output number larger than the expected number of outputs.");
   }
   return TransformOutputType::New().GetPointer();
 }

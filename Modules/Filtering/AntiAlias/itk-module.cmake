@@ -10,9 +10,8 @@ segmentation as input to a level set filter."
 itk_module(
   ITKAntiAlias
   COMPILE_DEPENDS
-  ITKLevelSets
+    ITKLevelSets
   TEST_DEPENDS
-  ITKTestKernel
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+  DESCRIPTION "${DOCUMENTATION}"
 )

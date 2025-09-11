@@ -78,6 +78,26 @@ extern ITKIOGDCM_EXPORT std::ostream &
  * The compressors supported include "JPEG2000" (default), and
  * "JPEG". The compression level parameter is not supported.
  *
+ * DICOM tags are represented as strings in the metadata
+ * dictionary. The string format is "XXXX,XXXX", DICOM group number followed
+ * by element number, both are hexadecimals. The separator character
+ * is either a pipe "|" or a comma ",".
+ *
+ * \warning As the metadata dictionary uses the DICOM tag strings as
+ * keys it is possible to have multiple entries representing the same
+ * DICOM tag with different values. The last one encountered will be
+ * used when writing the image to file. For example, the patient name tag
+ * "0010,0010" and "0010|0010" may both be in the dictionary with different values
+ * due to the different separator character. Similarly,
+ * the series description tag may appear multiple times as "0008,103e",
+ * "0008,103E", "0008|103e", or "0008|103E". The strings differ in
+ * the separator character and lower or upper case letters in the
+ * hexadecimal numbers. Note that when read from file, letters in
+ * the hexadecimal numbers are always set to lower case and the
+ * separator character is a pipe. To ensure consistency,
+ * it is best to always use lower case letters and the pipe separator
+ * when explicitly adding tags to the metadata dictionary.
+ *
  *  \warning There are several restrictions to this current writer:
  *           -  Even though during the writing process you pass in a DICOM file as input
  *              The output file may not contains ALL DICOM field from the input file.

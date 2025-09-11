@@ -12,16 +12,15 @@ itk_module(
   ITKImageIntensity
   ENABLE_SHARED
   COMPILE_DEPENDS
-  ITKImageAdaptors
-  ITKImageStatistics
-  ITKImageGrid
-  ITKPath
+    ITKImageAdaptors
+    ITKImageStatistics
+    ITKImageGrid
+    ITKPath
   TEST_DEPENDS
-  ITKTestKernel
-  ITKDistanceMap
-  ITKGoogleTest
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+    ITKDistanceMap
+    ITKGoogleTest
+  DESCRIPTION "${DOCUMENTATION}"
 )
 
 # Extra dependency of ITKSpatialObjects is introduced by itkPolylineMaskImageFilterTest.

@@ -154,7 +154,7 @@ ImageMetricLoad<TMoving, TFixed>::EvaluateMetricGivenSolution(Element::ArrayType
   {
     for (unsigned int i = 0; i < m_NumberOfIntegrationPoints; ++i)
     {
-      static_cast<Element *>((*elt))->GetIntegrationPointAndWeight(i, ip, w, m_NumberOfIntegrationPoints);
+      static_cast<Element *>(*elt)->GetIntegrationPointAndWeight(i, ip, w, m_NumberOfIntegrationPoints);
       // FIXME REMOVE WHEN ELEMENT NEW IS BASE CLASS
       shapef = (*elt)->ShapeFunctions(ip);
 
@@ -222,7 +222,7 @@ ImageMetricLoad<TMoving, TFixed>::EvaluateMetricGivenSolution1(Element::ArrayTyp
   {
     for (unsigned int i = 0; i < m_NumberOfIntegrationPoints; ++i)
     {
-      static_cast<Element *>((*elt))->GetIntegrationPointAndWeight(i, ip, w, m_NumberOfIntegrationPoints);
+      static_cast<Element *>(*elt)->GetIntegrationPointAndWeight(i, ip, w, m_NumberOfIntegrationPoints);
       // FIXME REMOVE WHEN ELEMENT NEW IS BASE CLASS
       shapef = (*elt)->ShapeFunctions(ip);
 

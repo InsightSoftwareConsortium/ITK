@@ -10,60 +10,55 @@ set(
 createtestdriver(ITKVoronoi "${ITKVoronoi-Test_LIBRARIES}" "${ITKVoronoiTests}")
 
 itk_add_test(
-  NAME
-  itkVoronoiSegmentationImageFilterTest
+  NAME itkVoronoiSegmentationImageFilterTest
   COMMAND
-  ITKVoronoiTestDriver
-  itkVoronoiSegmentationImageFilterTest
-  520.0
-  20.0
-  10.0
-  20.0
-  400
-  5
-  0.1
-  1.5
+    ITKVoronoiTestDriver
+    itkVoronoiSegmentationImageFilterTest
+    520.0
+    20.0
+    10.0
+    20.0
+    400
+    5
+    0.1
+    1.5
 )
 itk_add_test(
-  NAME
-  itkVoronoiSegmentationRGBImageFilterTest
+  NAME itkVoronoiSegmentationRGBImageFilterTest
   COMMAND
-  ITKVoronoiTestDriver
-  itkVoronoiSegmentationRGBImageFilterTest
+    ITKVoronoiTestDriver
+    itkVoronoiSegmentationRGBImageFilterTest
 )
 itk_add_test(
-  NAME
-  itkVoronoiDiagram2DTest
+  NAME itkVoronoiDiagram2DTest
   COMMAND
-  ITKVoronoiTestDriver
-  itkVoronoiDiagram2DTest
-  ${ITK_TEST_OUTPUT_DIR}/VoronoiDiagram2DTest.vtk
+    ITKVoronoiTestDriver
+    itkVoronoiDiagram2DTest
+    ${ITK_TEST_OUTPUT_DIR}/VoronoiDiagram2DTest.vtk
 )
 itk_add_test(
-  NAME
-  itkVoronoiPartitioningImageFilterTest1
+  NAME itkVoronoiPartitioningImageFilterTest1
   COMMAND
-  ITKVoronoiTestDriver
-  --compareNumberOfPixelsTolerance
-  20
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/Algorithms/VoronoiPartioningImageFilterTest1.png,:}
-  ${ITK_TEST_OUTPUT_DIR}/VoronoiPartioningImageFilterTest1.png
-  itkVoronoiPartitioningImageFilterTest
-  DATA{${ITK_DATA_ROOT}/Input/sf4.png}
-  ${ITK_TEST_OUTPUT_DIR}/VoronoiPartioningImageFilterTest1.png
-  1
+    ITKVoronoiTestDriver
+    --compareNumberOfPixelsTolerance
+    20
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/Algorithms/VoronoiPartioningImageFilterTest1.png,:}
+    ${ITK_TEST_OUTPUT_DIR}/VoronoiPartioningImageFilterTest1.png
+    itkVoronoiPartitioningImageFilterTest
+    DATA{${ITK_DATA_ROOT}/Input/sf4.png}
+    ${ITK_TEST_OUTPUT_DIR}/VoronoiPartioningImageFilterTest1.png
+    1
 )
 itk_add_test(
-  NAME
-  itkVoronoiPartitioningImageFilterTest2
+  NAME itkVoronoiPartitioningImageFilterTest2
   COMMAND
-  ITKVoronoiTestDriver
-  --compare
-  DATA{${ITK_DATA_ROOT}/Baseline/Algorithms/VoronoiPartioningImageFilterTest2.png,:}
-  ${ITK_TEST_OUTPUT_DIR}/VoronoiPartioningImageFilterTest2.png
-  itkVoronoiPartitioningImageFilterTest
-  DATA{${ITK_DATA_ROOT}/Input/sf4.png}
-  ${ITK_TEST_OUTPUT_DIR}/VoronoiPartioningImageFilterTest2.png
-  0
+    ITKVoronoiTestDriver
+    --compare
+    DATA{${ITK_DATA_ROOT}/Baseline/Algorithms/VoronoiPartioningImageFilterTest2.png,:}
+    ${ITK_TEST_OUTPUT_DIR}/VoronoiPartioningImageFilterTest2.png
+    itkVoronoiPartitioningImageFilterTest
+    DATA{${ITK_DATA_ROOT}/Input/sf4.png}
+    ${ITK_TEST_OUTPUT_DIR}/VoronoiPartioningImageFilterTest2.png
+    0
 )

@@ -102,7 +102,7 @@ SimpleSignedDistance(const TPoint & p)
     accum += itk::Math::sqr(p[j] - center[j]);
   }
   accum = std::sqrt(accum);
-  return (accum - radius);
+  return accum - radius;
 }
 } // namespace
 
@@ -152,7 +152,7 @@ itkNarrowBandImageFilterBaseTest(int argc, char * argv[])
   randomSource->SetMin(-2);
   randomSource->SetMax(2);
   //  For testing purposes we want random source to produce
-  //  deterministic values. This is accompished by restricting the
+  //  deterministic values. This is accomplished by restricting the
   //  number of threads to 1.
   randomSource->SetNumberOfWorkUnits(1);
 

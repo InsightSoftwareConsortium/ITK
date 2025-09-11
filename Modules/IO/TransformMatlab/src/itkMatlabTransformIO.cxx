@@ -94,7 +94,7 @@ MatlabTransformIOTemplate<ParametersValueType>::Read()
     if (mathdr.cols() != 1)
     {
       matfile.close();
-      itkExceptionMacro("Only vector parameters supported");
+      itkExceptionStringMacro("Only vector parameters supported");
     }
     typename TransformType::ParametersType TmpParameterArray(mathdr.rows());
     ReadMat<ParametersValueType>(mathdr, TmpParameterArray);
@@ -110,7 +110,7 @@ MatlabTransformIOTemplate<ParametersValueType>::Read()
     if (mathdr2.cols() != 1)
     {
       matfile.close();
-      itkExceptionMacro("Only vector parameters supported");
+      itkExceptionStringMacro("Only vector parameters supported");
     }
     typename TransformType::FixedParametersType TmpFixedParameterArray(mathdr2.rows());
     ReadMat<typename TransformType::FixedParametersValueType>(mathdr2, TmpFixedParameterArray);

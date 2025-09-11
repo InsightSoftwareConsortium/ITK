@@ -38,7 +38,7 @@ itkTransformFileReaderTemplateTest(int, char *[])
   transformReader->SetFileName(fileName);
   ITK_TEST_SET_GET_VALUE(fileName, transformReader->GetFileName());
 
-  // trigger exception for transformio not found
+  // trigger exception for transformIO not found
   ITK_TRY_EXPECT_EXCEPTION(transformReader->Update());
 
   std::cout << "Test PASSED!" << std::endl;

@@ -37,17 +37,15 @@
 // IWYU pragma: private
 #include "./InternalHeaderCheck.h"
 
-namespace Eigen { 
+namespace Eigen {
 
 namespace internal {
 
 namespace lapacke_helpers {
 
-template<typename MatrixQR, typename HCoeffs>
-struct lapacke_hqr
-{
-  static void run(MatrixQR& mat, HCoeffs& hCoeffs, Index = 32, typename MatrixQR::Scalar* = 0)
-  {
+template <typename MatrixQR, typename HCoeffs>
+struct lapacke_hqr {
+  static void run(MatrixQR& mat, HCoeffs& hCoeffs, Index = 32, typename MatrixQR::Scalar* = 0) {
     lapack_int m = to_lapack(mat.rows());
     lapack_int n = to_lapack(mat.cols());
     lapack_int lda = to_lapack(mat.outerStride());
@@ -57,12 +55,13 @@ struct lapacke_hqr
   }
 };
 
-}
+}  // namespace lapacke_helpers
 
 /** \internal Specialization for the data types supported by LAPACKe */
-#define EIGEN_LAPACKE_HH_QR(EIGTYPE) \
-template<typename MatrixQR, typename HCoeffs> \
-struct householder_qr_inplace_blocked<MatrixQR, HCoeffs, EIGTYPE, true> : public lapacke_helpers::lapacke_hqr<MatrixQR, HCoeffs> {};
+#define EIGEN_LAPACKE_HH_QR(EIGTYPE)                                      \
+  template <typename MatrixQR, typename HCoeffs>                          \
+  struct householder_qr_inplace_blocked<MatrixQR, HCoeffs, EIGTYPE, true> \
+      : public lapacke_helpers::lapacke_hqr<MatrixQR, HCoeffs> {};
 
 EIGEN_LAPACKE_HH_QR(double)
 EIGEN_LAPACKE_HH_QR(float)
@@ -71,8 +70,8 @@ EIGEN_LAPACKE_HH_QR(std::complex<float>)
 
 #undef EIGEN_LAPACKE_HH_QR
 
-} // end namespace internal
+}  // end namespace internal
 
-} // end namespace Eigen
+}  // end namespace Eigen
 
-#endif // EIGEN_QR_LAPACKE_H
+#endif  // EIGEN_QR_LAPACKE_H

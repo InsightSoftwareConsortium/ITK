@@ -91,7 +91,7 @@ RegistrationParameterScalesFromJacobian<TMetric>::EstimateLocalStepScales(const 
 {
   if (!this->IsDisplacementFieldTransform())
   {
-    itkExceptionMacro("EstimateLocalStepScales: the transform doesn't have local support.");
+    itkExceptionStringMacro("EstimateLocalStepScales: the transform doesn't have local support.");
   }
 
   this->CheckAndSetInputs();

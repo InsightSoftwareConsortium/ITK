@@ -177,7 +177,7 @@ public:
   [[nodiscard]] const DecompType &
   GetLines() const
   {
-    return (m_Lines);
+    return m_Lines;
   }
   void
   AddLine(LType l)

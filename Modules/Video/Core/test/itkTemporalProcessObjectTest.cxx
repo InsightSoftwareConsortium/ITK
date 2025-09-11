@@ -177,8 +177,8 @@ public:
   bool
   operator==(const CallRecord & other) const
   {
-    return (m_CallerId == other.GetCallerId() && m_RecordType == other.GetRecordType() &&
-            m_MethodType == other.GetMethodType());
+    return m_CallerId == other.GetCallerId() && m_RecordType == other.GetRecordType() &&
+           m_MethodType == other.GetMethodType();
   }
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(CallRecord);
@@ -352,7 +352,7 @@ public:
     const SizeValueType numFramesOut = this->GetOutput()->GetRequestedTemporalRegion().GetFrameDuration();
     if (numFramesOut != m_UnitOutputNumberOfFrames)
     {
-      itkExceptionMacro("Requested non-unit number of output frames");
+      itkExceptionStringMacro("Requested non-unit number of output frames");
     }
 
     // Just pass frames from the input through to the output and add debug info

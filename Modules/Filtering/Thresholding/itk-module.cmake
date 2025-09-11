@@ -9,14 +9,13 @@ single and multiple thresholds."
 itk_module(
   ITKThresholding
   DEPENDS
-  ITKImageIntensity
+    ITKImageIntensity
   COMPILE_DEPENDS
-  ITKImageStatistics
+    ITKImageStatistics
   TEST_DEPENDS
-  ITKTestKernel
-  ITKSignedDistanceFunction
-  DESCRIPTION
-  "${DOCUMENTATION}"
+    ITKTestKernel
+    ITKSignedDistanceFunction
+  DESCRIPTION "${DOCUMENTATION}"
 )
 
 # Extra test dependency on ITKSignedDistanceFunction  is introduced by itkBinaryThresholdSpatialFunctionTest.

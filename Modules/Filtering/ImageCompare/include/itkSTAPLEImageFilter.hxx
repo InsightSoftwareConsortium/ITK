@@ -85,7 +85,7 @@ STAPLEImageFilter<TInputImage, TOutputImage>::GenerateData()
   {
     if (this->GetInput(i)->GetRequestedRegion() != W->GetRequestedRegion())
     {
-      itkExceptionMacro("One or more input images do not contain matching RequestedRegions");
+      itkExceptionStringMacro("One or more input images do not contain matching RequestedRegions");
     }
 
     IteratorType      in = IteratorType(this->GetInput(i), W->GetRequestedRegion());

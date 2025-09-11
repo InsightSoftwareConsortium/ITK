@@ -69,7 +69,7 @@ void
 KernelTransform<TParametersValueType, VDimension>::ComputeG(const InputVectorType &,
                                                             GMatrixType & itkNotUsed(gmatrix)) const
 {
-  itkExceptionMacro("ComputeG(vector,gmatrix) must be reimplemented in subclasses of KernelTransform.");
+  itkExceptionStringMacro("ComputeG(vector,gmatrix) must be reimplemented in subclasses of KernelTransform.");
 }
 
 
@@ -90,7 +90,7 @@ KernelTransform<TParametersValueType, VDimension>::ComputeDeformationContributio
                                                                                   OutputPointType &      result) const
 {
   /*
-   * Default implementation of the the method. This can be overloaded
+   * Default implementation of the method. This can be overloaded
    * in transforms whose kernel produce diagonal G matrices.
    */
   const PointIdentifier numberOfLandmarks = this->m_SourceLandmarks->GetNumberOfPoints();
@@ -355,7 +355,7 @@ KernelTransform<TParametersValueType, VDimension>::ComputeJacobianWithRespectToP
   // FIXME: TODO
   // The Jacobian should be computable in terms of the matrices
   // used to Transform points...
-  itkExceptionMacro("Get[Local]Jacobian must be implemented in subclasses of KernelTransform.");
+  itkExceptionStringMacro("Get[Local]Jacobian must be implemented in subclasses of KernelTransform.");
 }
 
 

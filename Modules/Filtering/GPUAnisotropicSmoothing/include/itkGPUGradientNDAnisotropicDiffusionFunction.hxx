@@ -80,7 +80,7 @@ GPUGradientNDAnisotropicDiffusionFunction<TImage>::GPUGradientNDAnisotropicDiffu
 
   if (TImage::ImageDimension > 3)
   {
-    itkExceptionMacro("GPUGradientNDAnisotropicDiffusionFunction supports 1/2/3D image.");
+    itkExceptionStringMacro("GPUGradientNDAnisotropicDiffusionFunction supports 1/2/3D image.");
   }
 
   defines << "#define DIM_" << TImage::ImageDimension << '\n'
@@ -159,7 +159,7 @@ GPUGradientNDAnisotropicDiffusionFunction<TImage>::GPUComputeUpdate(const typena
   this->m_GPUKernelManager->SetKernelArgWithImage(
     this->m_ComputeUpdateGPUKernelHandle, argidx++, bfPtr->GetGPUDataManager());
   this->m_GPUKernelManager->SetKernelArg(
-    this->m_ComputeUpdateGPUKernelHandle, argidx++, sizeof(typename TImage::PixelType), &(m_K));
+    this->m_ComputeUpdateGPUKernelHandle, argidx++, sizeof(typename TImage::PixelType), &m_K);
 
   // filter scale parameter
   for (int i = 0; i < ImageDim; ++i)
