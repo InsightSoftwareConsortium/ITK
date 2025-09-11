@@ -190,7 +190,7 @@ void FileMetaInformation::FillFromDataSet(DataSet const &ds)
         {
         const DataElement& sopclass = ds.GetDataElement( Tag(0x0008, 0x0016) );
         DataElement mssopclass = GetDataElement( Tag(0x0002, 0x0002) );
-        assert( !mssopclass.IsEmpty() );
+        gdcm_assert( !mssopclass.IsEmpty() );
         const ByteValue *bv = sopclass.GetByteValue();
         if( bv )
           {
@@ -233,7 +233,7 @@ void FileMetaInformation::FillFromDataSet(DataSet const &ds)
       }
     else
       {
-      //assert(0);
+      //gdcm_assert(0);
       throw gdcm::Exception( "No 2,3 and 8,18 element sorry" );
       }
     }
@@ -248,26 +248,26 @@ void FileMetaInformation::FillFromDataSet(DataSet const &ds)
       if( !ds.FindDataElement( Tag(0x0008, 0x0018) ) || ds.GetDataElement( Tag(0x0008, 0x0018) ).IsEmpty() )
         {
         throw gdcm::Exception( "No 8,18 element sorry" );
-        //assert(0);
+        //gdcm_assert(0);
         }
       const DataElement& sopinst = ds.GetDataElement( Tag(0x0008, 0x0018) );
       //const DataElement & foo = GetDataElement( Tag(0x0002, 0x0003) );
-      assert( !GetDataElement( Tag(0x0002, 0x0003) ).IsEmpty() );
+      gdcm_assert( !GetDataElement( Tag(0x0002, 0x0003) ).IsEmpty() );
       DataElement mssopinst = GetDataElement( Tag(0x0002, 0x0003) );
       const ByteValue *bv = sopinst.GetByteValue();
-      assert( bv );
+      gdcm_assert( bv );
       mssopinst.SetByteValue( bv->GetPointer(), bv->GetLength() );
       Replace( mssopinst );
       }
     }
-  //assert( !GetDataElement( Tag(0x0002,0x0003) ).IsEmpty() );
+  //gdcm_assert( !GetDataElement( Tag(0x0002,0x0003) ).IsEmpty() );
   // Transfer Syntax UID (0002,0010) -> ??? (computed at write time at most)
   if( FindDataElement( Tag(0x0002, 0x0010) ) && !GetDataElement( Tag(0x0002,0x0010) ).IsEmpty() )
     {
     DataElement tsuid = GetDataElement( Tag(0x0002, 0x0010) );
     const char * datasetts = DataSetTS.GetString();
     const ByteValue * bv = tsuid.GetByteValue();
-    assert( bv );
+    gdcm_assert( bv );
     std::string currentts( bv->GetPointer(), bv->GetPointer() + bv->GetLength() );
     if( strlen(currentts.c_str()) != strlen(datasetts)
       || strcmp( currentts.c_str(), datasetts ) != 0 )
@@ -316,7 +316,7 @@ void FileMetaInformation::FillFromDataSet(DataSet const &ds)
     // TODO: Need to check Implementation UID is actually a valid UID...
     //const DataElement& impuid = GetDataElement( Tag(0x0002, 0x0012) );
     //const ByteValue *bv = impuid.GetByteValue();
-    //assert( bv );
+    //gdcm_assert( bv );
     //std::string copy( bv->GetPointer(), bv->GetLength() );
     //if( !UIDGenerator::IsValid( copy.c_str() ) )
     //  {
@@ -351,11 +351,11 @@ void FileMetaInformation::FillFromDataSet(DataSet const &ds)
   Attribute<0x0002, 0x0000> filemetagrouplength;
   Remove( filemetagrouplength.GetTag() );
   unsigned int glen = GetLength<ExplicitDataElement>();
-  assert( (glen % 2) == 0 );
+  gdcm_assert( (glen % 2) == 0 );
   filemetagrouplength.SetValue( glen );
   Insert( filemetagrouplength.GetAsDataElement() );
 
-  assert( !IsEmpty() );
+  gdcm_assert( !IsEmpty() );
 }
 
 // FIXME
@@ -372,7 +372,7 @@ bool ReadExplicitDataElement(std::istream &is, ExplicitDataElement &de)
   Tag t;
   if( !t.template Read<TSwap>(is) )
     {
-    assert(0 && "Should not happen" );
+    gdcm_assert(0 && "Should not happen" );
     return false;
     }
   //std::cout << "Tag: " << t << std::endl;
@@ -384,8 +384,8 @@ bool ReadExplicitDataElement(std::istream &is, ExplicitDataElement &de)
     // which seems to be quite different than fseeking in reverse from
     // the current position... ???
     //is.seekg( start, std::ios::beg );
-    assert( (start - currentpos) <= 0);
-    assert( (int)(start - currentpos) == -4 );
+    gdcm_assert( (start - currentpos) <= 0);
+    gdcm_assert( (int)(start - currentpos) == -4 );
     is.seekg( (start - currentpos), std::ios::cur );
     return false;
     }
@@ -403,7 +403,7 @@ bool ReadExplicitDataElement(std::istream &is, ExplicitDataElement &de)
     {
     if( !vl.template Read<TSwap>(is) )
       {
-      assert(0 && "Should not happen");
+      gdcm_assert(0 && "Should not happen");
       return false;
       }
     }
@@ -417,12 +417,12 @@ bool ReadExplicitDataElement(std::istream &is, ExplicitDataElement &de)
   ByteValue *bv = nullptr;
   if( vr == VR::SQ )
     {
-    assert(0 && "Should not happen");
+    gdcm_assert(0 && "Should not happen");
     return false;
     }
   else if( vl.IsUndefined() )
     {
-    assert(0 && "Should not happen");
+    gdcm_assert(0 && "Should not happen");
     return false;
     }
   else
@@ -433,13 +433,13 @@ bool ReadExplicitDataElement(std::istream &is, ExplicitDataElement &de)
   bv->SetLength(vl); // perform realloc
   if( !bv->template Read<TSwap>(is) )
     {
-    assert(0 && "Should not happen");
+    gdcm_assert(0 && "Should not happen");
     return false;
     }
   //std::cout << "Value : ";
   //bv->Print( std::cout );
   //std::cout << std::endl;
-  assert( bv->GetLength() == vl );
+  gdcm_assert( bv->GetLength() == vl );
 
   de.SetTag(t);
   de.SetVR(vr);
@@ -449,7 +449,7 @@ bool ReadExplicitDataElement(std::istream &is, ExplicitDataElement &de)
 
 //  if( vl == 0 )
 //    {
-//    assert( de.IsEmpty() );
+//    gdcm_assert( de.IsEmpty() );
 //    }
 
   return true;
@@ -464,7 +464,7 @@ bool ReadImplicitDataElement(std::istream &is, ImplicitDataElement &de)
   Tag t;
   if( !t.template Read<TSwap>(is) )
     {
-    assert(0 && "Should not happen");
+    gdcm_assert(0 && "Should not happen");
     return false;
     }
   //std::cout << "Tag: " << t << std::endl;
@@ -478,13 +478,13 @@ bool ReadImplicitDataElement(std::istream &is, ImplicitDataElement &de)
   VL vl;
   if( !vl.template Read<TSwap>(is) )
     {
-    assert(0 && "Should not happen");
+    gdcm_assert(0 && "Should not happen");
     return false;
     }
   ByteValue *bv = nullptr;
   if( vl.IsUndefined() )
     {
-    assert(0 && "Should not happen");
+    gdcm_assert(0 && "Should not happen");
     return false;
     }
   else
@@ -495,7 +495,7 @@ bool ReadImplicitDataElement(std::istream &is, ImplicitDataElement &de)
   bv->SetLength(vl); // perform realloc
   if( !bv->template Read<TSwap>(is) )
     {
-    assert(0 && "Should not happen");
+    gdcm_assert(0 && "Should not happen");
     return false;
     }
   de.SetTag(t);
@@ -588,7 +588,7 @@ std::istream &FileMetaInformation::Read(std::istream &is)
 std::istream &FileMetaInformation::ReadCompat(std::istream &is)
 {
   // \precondition
-  assert( is.good() );
+  gdcm_assert( is.good() );
   // First off save position in case we fail (no File Meta Information)
   // See PS 3.5, Data Element Structure With Explicit VR
   if( !IsEmpty() )
@@ -659,7 +659,7 @@ std::istream &FileMetaInformation::ReadCompat(std::istream &is)
     }
   else
     {
-    //assert( t.GetElement() == 0x0 );
+    //gdcm_assert( t.GetElement() == 0x0 );
     char vr_str[3];
     VR::VRType vr = VR::VR_END;
     if( is.read(vr_str, 2) )
@@ -691,7 +691,7 @@ std::istream &FileMetaInformation::ReadCompat(std::istream &is)
         // something like IM-0001-0066.CommandTag00.dcm was crafted
         ide.ReadValue<SwapperNoOp>(is);
         ReadCompat(is); // this will read the next element
-        assert( DataSetTS == TransferSyntax::ImplicitVRLittleEndian );
+        gdcm_assert( DataSetTS == TransferSyntax::ImplicitVRLittleEndian );
         is.seekg(-12, std::ios::cur); // Seek back
         return is;
         }
@@ -730,7 +730,7 @@ bool AddVRToDataElement(DataElement &de)
 template <typename TSwap>
 std::istream &FileMetaInformation::ReadCompatInternal(std::istream &is)
 {
-  //assert( t.GetGroup() == 0x0002 );
+  //gdcm_assert( t.GetGroup() == 0x0002 );
 //  if( t.GetGroup() == 0x0002 )
     {
     // Purposely not Re-use ReadVR since we can read VR_END
@@ -821,7 +821,7 @@ std::istream &FileMetaInformation::ReadCompatInternal(std::istream &is)
 
 //void FileMetaInformation::SetTransferSyntaxType(TS const &ts)
 //{
-//  //assert( DS == 0 );
+//  //gdcm_assert( DS == 0 );
 //  //InternalTS = ts;
 //}
 
@@ -871,7 +871,7 @@ std::string FileMetaInformation::GetMediaStorageAsString() const
   std::string ts;
     {
     const ByteValue *bv = de.GetByteValue();
-    assert( bv );
+    gdcm_assert( bv );
     if( bv->GetPointer() && bv->GetLength() )
       {
       // Pad string with a \0
@@ -931,7 +931,7 @@ std::ostream &FileMetaInformation::Write(std::ostream &os) const
   }
 //  else
 //  {
-//    assert(0);
+//    gdcm_assert(0);
 //  }
 #if 0
     // At least make sure to have group length

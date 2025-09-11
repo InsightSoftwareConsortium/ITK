@@ -255,7 +255,7 @@ bool IPPSorter::Sort(std::vector<std::string> const & filenames)
       }
     }
 }
-  assert( !sorted.empty() );
+  gdcm_assert( !sorted.empty() );
 {
   SortedFilenames::const_iterator it2 = sorted.begin();
   double prev = it2->first;
@@ -307,7 +307,7 @@ bool IPPSorter::Sort(std::vector<std::string> const & filenames)
         }
       gdcmDebugMacro( os.str() );
       }
-    assert( spacingisgood == false ||  (ComputeZSpacing ? (ZSpacing > ZTolerance && ZTolerance > 0) : ZTolerance > 0) );
+    gdcm_assert( spacingisgood == false ||  (ComputeZSpacing ? (ZSpacing > ZTolerance && ZTolerance > 0) : ZTolerance > 0) );
     }
 }
 

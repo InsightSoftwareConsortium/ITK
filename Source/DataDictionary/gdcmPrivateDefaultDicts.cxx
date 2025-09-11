@@ -11999,7 +11999,7 @@ void Dict::LoadDefault()
    {
    if( n.group % 2 == 0 )
      {
-     assert( n.owner == 0 );
+     gdcm_assert( n.owner == 0 );
      Tag t(n.group, n.element);
      DictEntry e( n.name, n.vr, n.vm, n.ret );
      AddDictEntry( t, e );
@@ -12017,10 +12017,10 @@ void PrivateDict::LoadDefault()
    {
 //   if( n.group % 2 != 0 )
      {
-     assert( n.owner != nullptr );
-     assert( n.name );
-     assert( n.group % 2 != 0 || n.group == 0xffff );
-     assert( n.element <= 0xff || n.element == 0xffff );
+     gdcm_assert( n.owner != nullptr );
+     gdcm_assert( n.name );
+     gdcm_assert( n.group % 2 != 0 || n.group == 0xffff );
+     gdcm_assert( n.element <= 0xff || n.element == 0xffff );
      PrivateTag t(n.group, n.element,n.owner);
      DictEntry e( n.name, "", n.vr, n.vm, n.ret );
      AddDictEntry( t, e );

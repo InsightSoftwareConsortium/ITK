@@ -257,7 +257,7 @@ bool CompositeNetworkFunctions::CFind( const char *remote, uint16_t portno,
     gdcmErrorMacro( "Failed to GetResponses." );
     return false;
     }
-  assert( !theResponses.empty() );
+  gdcm_assert( !theResponses.empty() );
   // take the last one:
   const DataSet &ds = theResponses[ theResponses.size() - 1 ]; // FIXME
   assert ( ds.FindDataElement(Tag(0x0, 0x0900)) );
@@ -288,7 +288,7 @@ bool CompositeNetworkFunctions::CFind( const char *remote, uint16_t portno,
       Attribute<0x0,0x0902> errormsg;
       errormsg.SetFromDataSet( ds );
       const char *themsg = errormsg.GetValue();
-      assert( themsg ); (void)themsg;
+      gdcm_assert( themsg ); (void)themsg;
       gdcmErrorMacro( "Response Status: [" << themsg << "]" );
       }
     break;
@@ -305,7 +305,7 @@ bool CompositeNetworkFunctions::CFind( const char *remote, uint16_t portno,
         Attribute<0x0,0x0902> errormsg;
         errormsg.SetFromDataSet( ds );
         const char *themsg = errormsg.GetValue();
-        assert( themsg ); (void)themsg;
+        gdcm_assert( themsg ); (void)themsg;
         gdcmErrorMacro( "Response Status: " << themsg );
         }
       }
@@ -326,7 +326,7 @@ public:
   void ShowIteration() override
     {
     index++;
-    assert( index <= nfiles );
+    gdcm_assert( index <= nfiles );
     refprogress = progress;
     }
   void ShowProgress(Subject *caller, const Event &evt) override
@@ -384,7 +384,7 @@ bool CompositeNetworkFunctions::CStore( const char *remote, uint16_t portno,
       {
       const std::string & filename = files[i];
       fn = filename.c_str();
-      assert( fn && *fn ); (void)fn;
+      gdcm_assert( fn && *fn ); (void)fn;
       Reader reader;
       reader.SetFileName( filename.c_str() );
       gdcmDebugMacro( "Processing: " << filename );
@@ -401,7 +401,7 @@ bool CompositeNetworkFunctions::CStore( const char *remote, uint16_t portno,
         gdcmErrorMacro( "Could not C-STORE: " << filename );
         return false;
         }
-      assert( theDataSets.size() == 1 );
+      gdcm_assert( theDataSets.size() == 1 );
       const DataSet &ds = theDataSets[0];
       assert ( ds.FindDataElement(Tag(0x0, 0x0900)) );
       DataElement const & de = ds.GetDataElement(Tag(0x0,0x0900));
@@ -429,7 +429,7 @@ bool CompositeNetworkFunctions::CStore( const char *remote, uint16_t portno,
           Attribute<0x0,0x0902> errormsg;
           errormsg.SetFromDataSet( ds );
           const char *themsg = errormsg.GetValue();
-          assert( themsg ); (void)themsg;
+          gdcm_assert( themsg ); (void)themsg;
           gdcmErrorMacro( "Response Status: " << themsg );
           ret = false; // at least one file was not sent correctly
         }

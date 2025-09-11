@@ -53,7 +53,7 @@ ImageCodec::~ImageCodec()
 bool ImageCodec::GetHeaderInfo(std::istream &, TransferSyntax &)
 {
   // This function should really be virtual pure.
-  assert( 0 );
+  gdcm_assert( 0 );
   return false;
 }
 
@@ -98,17 +98,17 @@ bool ImageCodec::DoByteSwap(std::istream &is, std::ostream &os)
 {
   // FIXME: Do some stupid work:
   std::streampos start = is.tellg();
-  assert( 0 - start == 0 );
+  gdcm_assert( 0 - start == 0 );
   is.seekg( 0, std::ios::end);
   size_t buf_size = (size_t)is.tellg();
-  //assert(buf_size < INT_MAX);
+  //gdcm_assert(buf_size < INT_MAX);
   char *dummy_buffer = new char[(unsigned int)buf_size];
   is.seekg(start, std::ios::beg);
   is.read( dummy_buffer, buf_size);
   is.seekg(start, std::ios::beg); // reset
   //SwapCode sc = is.GetSwapCode();
 
-  assert( !(buf_size % 2) );
+  gdcm_assert( !(buf_size % 2) );
 #ifdef GDCM_WORDS_BIGENDIAN
   if( PF.GetBitsAllocated() == 16 )
     {
@@ -117,7 +117,7 @@ bool ImageCodec::DoByteSwap(std::istream &is, std::ostream &os)
     }
 #else
   // GE_DLX-8-MONO2-PrivateSyntax.dcm is 8bits
-  //  assert( PF.GetBitsAllocated() == 16 );
+  //  gdcm_assert( PF.GetBitsAllocated() == 16 );
   if ( PF.GetBitsAllocated() == 16 )
     {
     ByteSwap<uint16_t>::SwapRangeFromSwapCodeIntoSystem((uint16_t*)
@@ -133,10 +133,10 @@ bool ImageCodec::DoYBR(std::istream &is, std::ostream &os)
 {
   // FIXME: Do some stupid work:
   std::streampos start = is.tellg();
-  assert( 0 - start == 0 );
+  gdcm_assert( 0 - start == 0 );
   is.seekg( 0, std::ios::end);
   size_t buf_size = (size_t)is.tellg();
-  //assert(buf_size < INT_MAX);
+  //gdcm_assert(buf_size < INT_MAX);
   char *dummy_buffer = new char[(unsigned int)buf_size];
   is.seekg(start, std::ios::beg);
   is.read( dummy_buffer, buf_size);
@@ -145,12 +145,12 @@ bool ImageCodec::DoYBR(std::istream &is, std::ostream &os)
 
   // Code is coming from:
   // http://lestourtereaux.free.fr/papers/data/yuvrgb.pdf
-  assert( !(buf_size % 3) );
+  gdcm_assert( !(buf_size % 3) );
   unsigned long size = (unsigned long)buf_size/3;
-  //assert(buf_size < INT_MAX);
+  //gdcm_assert(buf_size < INT_MAX);
   unsigned char *copy = new unsigned char[ (unsigned int)buf_size ];
   memmove( copy, dummy_buffer, (size_t)buf_size);
-assert(0); // Do not use this code !
+gdcm_assert(0); // Do not use this code !
   // FIXME FIXME FIXME
   // The following is bogus: we are doing two operation at once:
   // Planar configuration AND YBR... doh !
@@ -194,7 +194,7 @@ bool ImageCodec::DoYBRFull422(std::istream &is, std::ostream &os)
 {
   // FIXME: Do some stupid work:
   std::streampos start = is.tellg();
-  assert( 0 - start == 0 );
+  gdcm_assert( 0 - start == 0 );
   is.seekg( 0, std::ios::end);
   const size_t buf_size = (size_t)is.tellg();
   const size_t rgb_buf_size = buf_size * 3 / 2;
@@ -203,8 +203,8 @@ bool ImageCodec::DoYBRFull422(std::istream &is, std::ostream &os)
   is.read( (char*)dummy_buffer, buf_size);
   is.seekg(start, std::ios::beg); // reset
 
-  assert( !(rgb_buf_size % 3) );
-  assert( !(buf_size % 2) );
+  gdcm_assert( !(rgb_buf_size % 3) );
+  gdcm_assert( !(buf_size % 2) );
   unsigned char *copy = new unsigned char[ rgb_buf_size ];
   const size_t size = buf_size/4;
 
@@ -251,10 +251,10 @@ bool ImageCodec::DoPlanarConfiguration(std::istream &is, std::ostream &os)
 {
   // FIXME: Do some stupid work:
   std::streampos start = is.tellg();
-  assert( 0 - start == 0 );
+  gdcm_assert( 0 - start == 0 );
   is.seekg( 0, std::ios::end);
   size_t buf_size = (size_t)is.tellg();
-  //assert(buf_size < INT_MAX);
+  //gdcm_assert(buf_size < INT_MAX);
   char *dummy_buffer = new char[(unsigned int)buf_size];
   is.seekg(start, std::ios::beg);
   is.read( dummy_buffer, buf_size);
@@ -262,8 +262,8 @@ bool ImageCodec::DoPlanarConfiguration(std::istream &is, std::ostream &os)
   //SwapCode sc = is.GetSwapCode();
 
   // US-RGB-8-epicard.dcm
-  //assert( image.GetNumberOfDimensions() == 3 );
-  assert( buf_size % 3 == 0 );
+  //gdcm_assert( image.GetNumberOfDimensions() == 3 );
+  gdcm_assert( buf_size % 3 == 0 );
   unsigned long size = (unsigned long)buf_size/3;
   char *copy = new char[ (unsigned int)buf_size ];
   //memmove( copy, dummy_buffer, buf_size);
@@ -290,10 +290,10 @@ bool ImageCodec::DoSimpleCopy(std::istream &is, std::ostream &os)
 {
 #if 1
   std::streampos start = is.tellg();
-  assert( 0 - start == 0 );
+  gdcm_assert( 0 - start == 0 );
   is.seekg( 0, std::ios::end);
   size_t buf_size = (size_t)is.tellg();
-  //assert(buf_size < INT_MAX);
+  //gdcm_assert(buf_size < INT_MAX);
   char *dummy_buffer = new char[(unsigned int)buf_size];
   is.seekg(start, std::ios::beg);
   is.read( dummy_buffer, buf_size);
@@ -313,17 +313,17 @@ bool ImageCodec::DoPaddedCompositePixelCode(std::istream &is, std::ostream &os)
 {
   // FIXME: Do some stupid work:
   std::streampos start = is.tellg();
-  assert( 0 - start == 0 );
+  gdcm_assert( 0 - start == 0 );
   is.seekg( 0, std::ios::end);
   size_t buf_size = (size_t)is.tellg();
-  //assert(buf_size < INT_MAX);
+  //gdcm_assert(buf_size < INT_MAX);
   char *dummy_buffer = new char[(unsigned int)buf_size];
   is.seekg(start, std::ios::beg);
   is.read( dummy_buffer, buf_size);
   is.seekg(start, std::ios::beg); // reset
   //SwapCode sc = is.GetSwapCode();
 
-  assert( !(buf_size % 2) );
+  gdcm_assert( !(buf_size % 2) );
   bool ret = true;
   if( GetPixelFormat().GetBitsAllocated() == 16 )
     {
@@ -340,7 +340,7 @@ bool ImageCodec::DoPaddedCompositePixelCode(std::istream &is, std::ostream &os)
     }
   else if( GetPixelFormat().GetBitsAllocated() == 32 )
     {
-  assert( !(buf_size % 4) );
+  gdcm_assert( !(buf_size % 4) );
     for(size_t i = 0; i < buf_size/4; ++i)
       {
 #ifdef GDCM_WORDS_BIGENDIAN
@@ -379,7 +379,7 @@ bool ImageCodec::DoInvertMonochrome(std::istream &is, std::ostream &os)
       }
     else if ( PF.GetBitsAllocated() == 16 )
       {
-      assert( PF.GetBitsStored() != 12 );
+      gdcm_assert( PF.GetBitsStored() != 12 );
       uint16_t smask16 = 65535;
       uint16_t c;
       while( is.read((char*)&c,2) )
@@ -421,9 +421,9 @@ bool ImageCodec::DoInvertMonochrome(std::istream &is, std::ostream &os)
             << " results will be truncated. Use at own risk");
           c = mask;
           }
-        assert( c <= mask );
+        gdcm_assert( c <= mask );
         c = (uint16_t)(mask - c);
-        assert( c <= mask );
+        gdcm_assert( c <= mask );
         os.write((char*)&c, 2);
         }
       }
@@ -436,7 +436,7 @@ bool ImageCodec::CleanupUnusedBits(char * data8, size_t datalen)
 {
   if( !NeedOverlayCleanup ) return true;
   void * data = data8;
-  assert( PF.GetBitsAllocated() > 8 );
+  gdcm_assert( PF.GetBitsAllocated() > 8 );
   if( PF.GetBitsAllocated() == 16 )
     {
     // pmask : to mask the 'unused bits' (may contain overlays)
@@ -520,7 +520,7 @@ bool ImageCodec::CleanupUnusedBits(char * data8, size_t datalen)
   }
   else
     {
-    assert(0); // TODO
+    gdcm_assert(0); // TODO
     return false;
     }
   return true;
@@ -529,7 +529,7 @@ bool ImageCodec::CleanupUnusedBits(char * data8, size_t datalen)
 // Cleanup the unused bits
 bool ImageCodec::DoOverlayCleanup(std::istream &is, std::ostream &os)
 {
-  assert( PF.GetBitsAllocated() > 8 );
+  gdcm_assert( PF.GetBitsAllocated() > 8 );
   if( PF.GetBitsAllocated() == 16 )
     {
     // pmask : to mask the 'unused bits' (may contain overlays)
@@ -628,7 +628,7 @@ bool ImageCodec::DoOverlayCleanup(std::istream &is, std::ostream &os)
   }
   else
     {
-    assert(0); // TODO
+    gdcm_assert(0); // TODO
     return false;
     }
   return true;
@@ -641,8 +641,8 @@ bool ImageCodec::Decode(DataElement const &, DataElement &)
 
 bool ImageCodec::DecodeByStreams(std::istream &is, std::ostream &os)
 {
-  assert( PlanarConfiguration == 0 || PlanarConfiguration == 1);
-  assert( PI != PhotometricInterpretation::UNKNOWN );
+  gdcm_assert( PlanarConfiguration == 0 || PlanarConfiguration == 1);
+  gdcm_assert( PI != PhotometricInterpretation::UNKNOWN );
   std::stringstream bs_os; // ByteSwap
   std::stringstream pcpc_os; // Padded Composite Pixel Code
   //std::stringstream pi_os; // PhotometricInterpretation
@@ -693,7 +693,7 @@ bool ImageCodec::DecodeByStreams(std::istream &is, std::ostream &os)
     }
     break;
   case PhotometricInterpretation::PALETTE_COLOR:
-    //assert( LUT );
+    //gdcm_assert( LUT );
     // Nothing needs to be done
     break;
   case PhotometricInterpretation::YBR_FULL_422:
@@ -751,7 +751,7 @@ bool ImageCodec::DecodeByStreams(std::istream &is, std::ostream &os)
     }
   else
     {
-    assert( PF.GetBitsAllocated() == PF.GetBitsStored() );
+    gdcm_assert( PF.GetBitsAllocated() == PF.GetBitsStored() );
     copySuccess = DoSimpleCopy(*cur_is, os);
     }
 
@@ -773,7 +773,7 @@ void ImageCodec::SetDimensions(const unsigned int d[3])
 void ImageCodec::SetDimensions(const std::vector<unsigned int> & d)
 {
   size_t theSize = d.size();
-  assert(theSize<= 3);
+  gdcm_assert(theSize<= 3);
   for (size_t i = 0; i < 3; i++)
     {
     if (i < theSize)
@@ -785,7 +785,7 @@ void ImageCodec::SetDimensions(const std::vector<unsigned int> & d)
 
 bool ImageCodec::StartEncode( std::ostream & )
 {
-  assert(0);
+  gdcm_assert(0);
   return false;
 }
 bool ImageCodec::IsRowEncoder()
@@ -798,19 +798,19 @@ bool ImageCodec::IsFrameEncoder()
 }
 bool ImageCodec::AppendRowEncode( std::ostream & , const char * , size_t )
 {
-  assert(0);
+  gdcm_assert(0);
   return false;
 }
 // TODO: technically the frame encoder could use the row encoder when present
 // this could reduce code duplication
 bool ImageCodec::AppendFrameEncode( std::ostream & , const char * , size_t )
 {
-  assert(0);
+  gdcm_assert(0);
   return false;
 }
 bool ImageCodec::StopEncode( std::ostream & )
 {
-  assert(0);
+  gdcm_assert(0);
   return false;
 }
 

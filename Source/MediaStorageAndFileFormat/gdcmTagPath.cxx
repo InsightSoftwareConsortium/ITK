@@ -51,7 +51,7 @@ void TagPath::Print(std::ostream &os) const
       }
     else // item number
       {
-      // assert( it->GetElementTag() < 255 ); // how many item max can we have ?
+      // gdcm_assert( it->GetElementTag() < 255 ); // how many item max can we have ?
       os << it->GetElementTag() << "/";
       }
     ++flip;
@@ -126,7 +126,7 @@ bool TagPath::ConstructFromString(const char *path)
       }
     ++flip;
     if( pos != len && path[pos] == '/' ) ++pos;
-    //else assert(0);
+    //else gdcm_assert(0);
     }
   return true;
 }

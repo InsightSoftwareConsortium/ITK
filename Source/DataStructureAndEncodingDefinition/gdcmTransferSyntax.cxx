@@ -118,14 +118,14 @@ TransferSyntax::TSType TransferSyntax::GetTSType(const char *cstr)
 
 const char* TransferSyntax::GetTSString(TSType ts)
 {
-  assert( ts <= TS_END );
+  gdcm_assert( ts <= TS_END );
   return TSStrings[(int)ts];
   //return TransferSyntaxStrings[(int)ts];
 }
 
 bool TransferSyntax::IsImplicit(TSType ts) const
 {
-  assert( ts != TS_END );
+  gdcm_assert( ts != TS_END );
   return ts == ImplicitVRLittleEndian
     || ts == ImplicitVRBigEndianACRNEMA
     || ts == ImplicitVRBigEndianPrivateGE
@@ -230,7 +230,7 @@ bool TransferSyntax::IsLossless() const
 // By implementation those two functions form a partition
 bool TransferSyntax::IsExplicit(TSType ts) const
 {
-  assert( ts != TS_END );
+  gdcm_assert( ts != TS_END );
   return !IsImplicit(ts);
 }
 
@@ -249,13 +249,13 @@ TransferSyntax::NegociatedType TransferSyntax::GetNegociatedType() const
 
 bool TransferSyntax::IsLittleEndian(TSType ts) const
 {
-  assert( ts != TS_END );
+  gdcm_assert( ts != TS_END );
   return !IsBigEndian(ts);
 }
 
 bool TransferSyntax::IsBigEndian(TSType ts) const
 {
-  assert( ts != TS_END );
+  gdcm_assert( ts != TS_END );
   return ts == ExplicitVRBigEndian
 //    || ts == ImplicitVRBigEndianPrivateGE // Indeed this is LittleEndian
     || ts == ImplicitVRBigEndianACRNEMA;
@@ -263,12 +263,12 @@ bool TransferSyntax::IsBigEndian(TSType ts) const
 
 SwapCode TransferSyntax::GetSwapCode() const
 {
-  assert( TSField != TS_END );
+  gdcm_assert( TSField != TS_END );
   if( IsBigEndian( TSField ) )
     {
     return SwapCode::BigEndian;
     }
-  assert( IsLittleEndian( TSField ) );
+  gdcm_assert( IsLittleEndian( TSField ) );
   return SwapCode::LittleEndian;
 }
 

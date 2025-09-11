@@ -49,6 +49,14 @@ class GDCM_EXPORT Cleaner : public Subject {
   bool Scrub(DPath const &dpath);
   bool Scrub(VR const &vr);
 
+  // 8 Encoding of Coded Entry Data
+  // https://dicom.nema.org/medical/dicom/current/output/chtml/part03/chapter_8.html
+  typedef std::tuple<std::string, std::string, std::string> CodedEntryData;
+
+  ///  Coded Entry Data
+  bool ReplaceCodeMeaning(CodedEntryData const &ced);
+
+  ///  Preserve
   bool Preserve(DPath const &dpath);
 
   /// Should I remove all private tag for which no private creator is found.

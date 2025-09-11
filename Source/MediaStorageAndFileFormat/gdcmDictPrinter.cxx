@@ -51,7 +51,7 @@ VM GuessVMType(DataElement const &de)
     }
   else
     {
-    assert( VR::IsASCII( vr ) || vr == VR::INVALID );
+    gdcm_assert( VR::IsASCII( vr ) || vr == VR::INVALID );
     switch(vr)
       {
     case VR::INVALID:
@@ -75,7 +75,7 @@ VM GuessVMType(DataElement const &de)
         vm = VM::VM1; // why not ?
         if(!de.IsEmpty())
           {
-          assert( bv && "not bv" );
+          gdcm_assert( bv && "not bv" );
           const char *array = bv->GetPointer();
           size_t c = VM::GetNumberOfElementsFromArray(array, vl);
           vm = VM::GetVMTypeFromLength( c, 1 );
@@ -84,7 +84,7 @@ VM GuessVMType(DataElement const &de)
       break;
     default:
       vm = VM::VM0;
-      assert( 0 ); // Impossible happen ! (someone added new VR and forgot this switch)
+      gdcm_assert( 0 ); // Impossible happen ! (someone added new VR and forgot this switch)
       }
     }
 
@@ -406,7 +406,7 @@ std::string GetVersion(std::string const &owner)
 //      {
 //      // HEY !
 //      std::cerr << "OWNER= \"" << p->owner << "\"" << std::endl;
-//      assert(0);
+//      gdcm_assert(0);
 //      }
 //#endif
     //if( owner == p->owner )
@@ -449,7 +449,7 @@ void DictPrinter::PrintDataElement2(std::ostream& os, const DataSet &ds, const D
     const DictEntry &entry = dicts.GetDictEntry(t,owner);
     dict_vr = entry.GetVR();
 
-    assert(t.GetElement() >= 0x0100 );
+    gdcm_assert(t.GetElement() >= 0x0100 );
     //owner = GetOwner(ds,de);
     //version = GetVersion(owner);
 
@@ -475,7 +475,7 @@ void DictPrinter::PrintDataElement2(std::ostream& os, const DataSet &ds, const D
       os <<  "vr=\"" << pvr << "\" vm=\"" << vm << "\" ";
     if( t.IsPrivate() )
       {
-      assert( owner && *owner );
+      gdcm_assert( owner && *owner );
       os << R"(name="?" owner=")" << owner << "\"/>\n";
       }
     }

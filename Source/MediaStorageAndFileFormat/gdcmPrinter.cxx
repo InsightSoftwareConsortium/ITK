@@ -141,8 +141,8 @@ void PrintValue(VR::VRType const &vr, VM const &vm, const Value &v);
 template <typename T>
 inline char *bswap(char *out, const char *in, size_t length)
 {
-  assert( !(length % sizeof(T)) );
-  assert( out != in );
+  gdcm_assert( !(length % sizeof(T)) );
+  gdcm_assert( out != in );
   for(size_t i = 0; i < length; i+=2)
     {
     //const char copy = in[i];
@@ -193,15 +193,15 @@ void Printer::PrintElement(std::ostream& os, const ImplicitDataElement &ide, Dic
 #define PrinterTemplateSubCase1n(type,rep) \
   case VM::rep: \
     {Element<VR::type, VM::rep> e; \
-    /*assert( VM::rep == VM::VM1_n );*/ \
+    /*gdcm_assert( VM::rep == VM::VM1_n );*/ \
     e.SetArray( (const VRToType<VR::type>::Type *)array, length, true ); \
     e.Print( os ); }\
     break;
 #define PrinterTemplateSubCase(type,rep) \
   case VM::rep: \
     {Element<VR::type, VM::rep> e; \
-    /*assert( bv.GetLength() == VMToLength<VM::rep>::Length * sizeof( VRToType<VR::type>::Type) ); */ \
-    assert( bv.GetLength() == e.GetLength() * sizeof( VRToType<VR::type>::Type) ); \
+    /*gdcm_assert( bv.GetLength() == VMToLength<VM::rep>::Length * sizeof( VRToType<VR::type>::Type) ); */ \
+    gdcm_assert( bv.GetLength() == e.GetLength() * sizeof( VRToType<VR::type>::Type) ); \
     memcpy( (void*)(&e), array, e.GetLength() * sizeof( VRToType<VR::type>::Type) ); \
     e.Print( os ); }\
     break;
@@ -215,12 +215,12 @@ PrinterTemplateSubCase(type, VM5) \
 PrinterTemplateSubCase(type, VM6) \
 PrinterTemplateSubCase(type, VM24) \
 PrinterTemplateSubCase1n(type, VM1_n) \
-default: assert(0); }
+default: gdcm_assert(0); }
 
 #define PrinterTemplateSub2(type) \
 switch(vm) { \
   PrinterTemplateSubCase1n(type, VM1) \
-default: assert(0); }
+default: gdcm_assert(0); }
 
 #define PrinterTemplateCase(type) \
   case VR::type: \
@@ -259,7 +259,7 @@ PrinterTemplateCase(UL) \
 PrinterTemplateCase(UN) \
 PrinterTemplateCase(US) \
 PrinterTemplateCase(UT) \
-default: assert(0); }
+default: gdcm_assert(0); }
 
 void PrintValue(VR::VRType const &vr, VM const &vm, const Value &v)
 {
@@ -309,8 +309,8 @@ void Printer::PrintDataSet(std::ostream& os, const DataSet<ImplicitDataElement> 
       VM::VMType vm = entry.GetVM();
       if( /*de.GetTag().GetGroup()%2 &&*/ de.GetTag().GetElement() == 0 )
         {
-        assert( vr == VR::INVALID || vr == VR::UL );
-        assert( vm == VM::VM0 || vm == VM::VM1 );
+        gdcm_assert( vr == VR::INVALID || vr == VR::UL );
+        gdcm_assert( vm == VM::VM0 || vm == VM::VM1 );
         vr = VR::UL;
         vm = VM::VM1;
         }
@@ -334,7 +334,7 @@ void Printer::PrintDataSet(std::ostream& os, const DataSet<ImplicitDataElement> 
   //VM::VMType vm = VM::VM1;
   if( t == Tag(0x7fe0,0x0010) )
     {
-    assert( vr == VR::OB_OW );
+    gdcm_assert( vr == VR::OB_OW );
     vr = VR::OW;
     //vm = VM::VM1_n;
     }
@@ -346,7 +346,7 @@ void Printer::PrintDataSet(std::ostream& os, const DataSet<ImplicitDataElement> 
   // The component points shall be encoded in Little Endian.
   else if( t == Tag(0x5004,0x3000) ) // FIXME
     {
-    assert( vr == VR::OB_OW );
+    gdcm_assert( vr == VR::OB_OW );
     vr = VR::OB;
     }
   // Value of pixels not present in the native image added to an image
@@ -374,12 +374,12 @@ void Printer::PrintDataSet(std::ostream& os, const DataSet<ImplicitDataElement> 
       const ByteValue &bv = static_cast<const ByteValue&>(value);
       // FIXME:
       unsigned short pixel_rep_value = *(unsigned short*)(bv.GetPointer());
-      assert( pixel_rep_value == 0x0 || pixel_rep_value == 0x1 );
+      gdcm_assert( pixel_rep_value == 0x0 || pixel_rep_value == 0x1 );
       vr = pixel_rep_value ? VR::SS : VR::US;
       }
     else
     {
-      assert(0);
+      gdcm_assert(0);
     }
     }
 
@@ -387,7 +387,7 @@ void Printer::PrintDataSet(std::ostream& os, const DataSet<ImplicitDataElement> 
         }
       else
         {
-        assert(0);
+        gdcm_assert(0);
         const Value& val = de.GetValue();
         _os << de.GetTag();
         if ( printVR )
@@ -448,7 +448,7 @@ void Printer::PrintDataSet(std::ostream& os, const DataSet<ImplicitDataElement> 
       os << ""; } \
       else { if( de.IsEmpty() ) os << GDCM_TERMINAL_VT100_INVERSE << "(no value)" << GDCM_TERMINAL_VT100_NORMAL; \
                  else os << GDCM_TERMINAL_VT100_INVERSE << GDCM_TERMINAL_VT100_FOREGROUND_RED << "(VR=" << refvr << " is incompatible with length)" << GDCM_TERMINAL_VT100_NORMAL; } } \
-      else { assert( de.IsEmpty()); os << GDCM_TERMINAL_VT100_INVERSE << "(no value)" << GDCM_TERMINAL_VT100_NORMAL; } \
+      else { gdcm_assert( de.IsEmpty()); os << GDCM_TERMINAL_VT100_INVERSE << "(no value)" << GDCM_TERMINAL_VT100_NORMAL; } \
     } break
 
 VR Printer::PrintDataElement(std::ostringstream &os, const Dicts &dicts, const DataSet & ds,
@@ -472,7 +472,7 @@ VR Printer::PrintDataElement(std::ostringstream &os, const Dicts &dicts, const D
   const VM &vm = entry.GetVM();
   const char *name = entry.GetName();
   bool retired = entry.GetRetired();
-  //if( t.IsPrivate() ) assert( retired == false );
+  //if( t.IsPrivate() ) gdcm_assert( retired == false );
 
   const VR &vr_read = de.GetVR();
   const VL &vl_read = de.GetVL();
@@ -500,8 +500,8 @@ VR Printer::PrintDataElement(std::ostringstream &os, const Dicts &dicts, const D
     refvr = DataSetHelper::ComputeVR(*F,ds, t);
     }
 
-  assert( refvr != VR::US_SS );
-  assert( refvr != VR::OB_OW );
+  gdcm_assert( refvr != VR::US_SS );
+  gdcm_assert( refvr != VR::OB_OW );
 
   if( !de.IsEmpty() )
   {
@@ -510,21 +510,21 @@ VR Printer::PrintDataElement(std::ostringstream &os, const Dicts &dicts, const D
     {
     sqi = de.GetValueAsSQ();
     refvr = VR::SQ;
-    assert( refvr == VR::SQ );
+    gdcm_assert( refvr == VR::SQ );
     }
 #if 0
   else if( vr == VR::SQ && vr_read != VR::SQ )
     {
     sqi = de.GetValueAsSQ();
     refvr = VR::SQ;
-    assert( refvr == VR::SQ );
+    gdcm_assert( refvr == VR::SQ );
     }
 #endif
   }
 
   if( (vr_read == VR::INVALID || vr_read == VR::UN ) && vl_read.IsUndefined() )
     {
-    assert( refvr == VR::SQ );
+    gdcm_assert( refvr == VR::SQ );
     }
 
 //  if( vr_read == VR::SQ || vr_read == VR::UN )
@@ -533,7 +533,7 @@ VR Printer::PrintDataElement(std::ostringstream &os, const Dicts &dicts, const D
 //    }
   if( vr != VR::INVALID && (!vr.Compatible( vr_read ) || vr_read == VR::INVALID || vr_read == VR::UN || vr_read != refvr ) )
     {
-    assert( vr != VR::INVALID );
+    gdcm_assert( vr != VR::INVALID );
     bool valid = true;
     if( vr_read == VR::SQ ) {
       if( !vr.Compatible( vr_read ) ) {
@@ -560,14 +560,14 @@ VR Printer::PrintDataElement(std::ostringstream &os, const Dicts &dicts, const D
     os << GDCM_TERMINAL_VT100_FOREGROUND_GREEN;
     os << "(SQ) ";
     os << GDCM_TERMINAL_VT100_NORMAL;
-    assert( refvr == VR::INVALID );
+    gdcm_assert( refvr == VR::INVALID );
     refvr = VR::SQ;
     }
 
   // Print Value now:
   if( refvr & VR::VRASCII )
     {
-    assert( !sqi && !sqf );
+    gdcm_assert( !sqi && !sqf );
     if( bv )
       {
       VL l = std::min( bv->GetLength(), MaxPrintLength );
@@ -587,7 +587,7 @@ VR Printer::PrintDataElement(std::ostringstream &os, const Dicts &dicts, const D
       }
     else
       {
-      assert( de.IsEmpty() );
+      gdcm_assert( de.IsEmpty() );
       os << GDCM_TERMINAL_VT100_INVERSE;
       os << "(no value)";
       os << GDCM_TERMINAL_VT100_NORMAL;
@@ -595,7 +595,7 @@ VR Printer::PrintDataElement(std::ostringstream &os, const Dicts &dicts, const D
     }
   else
     {
-    assert( refvr & VR::VRBINARY || (vr == VR::INVALID && refvr == VR::INVALID) );
+    gdcm_assert( refvr & VR::VRBINARY || (vr == VR::INVALID && refvr == VR::INVALID) );
     //std::ostringstream os;
     std::string s;
     switch(refvr)
@@ -642,7 +642,7 @@ VR Printer::PrintDataElement(std::ostringstream &os, const Dicts &dicts, const D
           }
         else if ( sqf )
           {
-          assert( t == Tag(0x7fe0,0x0010) );
+          gdcm_assert( t == Tag(0x7fe0,0x0010) );
           //os << *sqf;
           }
         else if ( sqi )
@@ -653,15 +653,15 @@ VR Printer::PrintDataElement(std::ostringstream &os, const Dicts &dicts, const D
           }
         else
           {
-          assert( !sqi && !sqf );
-          assert( de.IsEmpty() );
+          gdcm_assert( !sqi && !sqf );
+          gdcm_assert( de.IsEmpty() );
           os << GDCM_TERMINAL_VT100_INVERSE << "(no value)" << GDCM_TERMINAL_VT100_NORMAL;
           }
         }
       break;
     case VR::US_SS:
       // impossible...
-      assert( refvr != VR::US_SS );
+      gdcm_assert( refvr != VR::US_SS );
       break;
     case VR::SQ:
       if( !sqi /*!de.GetSequenceOfItems()*/ && !de.IsEmpty() && de.GetValue().GetLength() )
@@ -709,8 +709,8 @@ VR Printer::PrintDataElement(std::ostringstream &os, const Dicts &dicts, const D
           }
         else
           {
-          assert( !sqi && !sqf );
-          assert( de.IsEmpty() );
+          gdcm_assert( !sqi && !sqf );
+          gdcm_assert( de.IsEmpty() );
           os << GDCM_TERMINAL_VT100_INVERSE << "(no value)" << GDCM_TERMINAL_VT100_NORMAL;
           }
         }
@@ -742,7 +742,7 @@ VR Printer::PrintDataElement(std::ostringstream &os, const Dicts &dicts, const D
     case VR::VR_VM1:
     case VR::VRALL:
     case VR::VR_END:
-      assert(0);
+      gdcm_assert(0);
       break;
       }
     os << s;
@@ -788,8 +788,8 @@ VR Printer::PrintDataElement(std::ostringstream &os, const Dicts &dicts, const D
   VM guessvm = VM::VM0;
   if( refvr & VR::VRASCII )
     {
-    assert( refvr != VR::INVALID );
-    assert( refvr & VR::VRASCII );
+    gdcm_assert( refvr != VR::INVALID );
+    gdcm_assert( refvr & VR::VRASCII );
     if( bv )
       {
       size_t count = VM::GetNumberOfElementsFromArray(bv->GetPointer(), bv->GetLength());
@@ -798,8 +798,8 @@ VR Printer::PrintDataElement(std::ostringstream &os, const Dicts &dicts, const D
     }
   else if( refvr & VR::VRBINARY )
     {
-    assert( refvr != VR::INVALID );
-    assert( refvr & VR::VRBINARY );
+    gdcm_assert( refvr != VR::INVALID );
+    gdcm_assert( refvr & VR::VRBINARY );
     if( refvr & VR::OB_OW || refvr == VR::OD || refvr == VR::OF || refvr == VR::SQ )
       {
       guessvm = VM::VM1;
@@ -816,7 +816,7 @@ VR Printer::PrintDataElement(std::ostringstream &os, const Dicts &dicts, const D
     else
       {
       if( de.IsEmpty() ) guessvm = VM::VM0;
-      else assert( 0 && "Impossible" );
+      else gdcm_assert( 0 && "Impossible" );
       }
     }
   else if( refvr == VR::INVALID )
@@ -827,7 +827,7 @@ VR Printer::PrintDataElement(std::ostringstream &os, const Dicts &dicts, const D
   else
     {
     // Burst into flames !
-    assert( 0 && "Impossible happen" );
+    gdcm_assert( 0 && "Impossible happen" );
     }
   if( !vm.Compatible( guessvm ) )
     {
@@ -939,7 +939,7 @@ void Printer::PrintDataSet(const DataSet &ds, std::ostream &out, std::string con
       const SequenceOfItems *sqi = de.GetSequenceOfItems();
       if( sqi ) // empty SQ ?
       {
-      assert( sqi );
+      gdcm_assert( sqi );
       PrintSQ(sqi, os, indent);
       }
       else

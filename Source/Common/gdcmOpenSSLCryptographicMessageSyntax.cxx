@@ -56,7 +56,7 @@ CryptographicMessageSyntax::CipherTypes OpenSSLCryptographicMessageSyntax::GetCi
 
 bool OpenSSLCryptographicMessageSyntax::SetPassword(const char * pass, size_t passLen)
 {
-  assert(pass);
+  gdcm_assert(pass);
 
   if (password)
     {
@@ -281,7 +281,7 @@ bool OpenSSLCryptographicMessageSyntax::ParseKeyFile( const char *keyfile)
 
 bool OpenSSLCryptographicMessageSyntax::ParseCertificateFile( const char *keyfile)
 {
-  assert( recips );
+  gdcm_assert( recips );
   ::X509 *x509 = NULL;
 
   ::BIO *in;

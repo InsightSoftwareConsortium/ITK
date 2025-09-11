@@ -28,7 +28,7 @@ namespace gdcm
   bool StrictReadUpToTag( const char * filename, Tag const & last, std::set<Tag> const & skiptags )
     {
     gdcmstrict::Reader reader;
-    assert( filename );
+    gdcm_assert( filename );
     reader.SetFileName( filename );
     bool read = false;
     try

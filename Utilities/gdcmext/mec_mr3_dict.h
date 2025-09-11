@@ -29,4 +29,4 @@ const char *get_mec_mr3_info_name(uint8_t group, uint32_t key);
 } /* end extern "C" */
 #endif
 
-#endif // MEC_MR3_DICT_H
+#endif  // MEC_MR3_DICT_H

@@ -71,7 +71,7 @@ inline std::ostream& operator<<(std::ostream &os, const File &val)
 {
   os << val.GetHeader() << std::endl;
   //os << val.GetDataSet() << std::endl; // FIXME
-  assert(0);
+  gdcm_assert(0);
   return os;
 }
 

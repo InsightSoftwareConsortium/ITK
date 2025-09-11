@@ -146,9 +146,9 @@ bool FileAnonymizer::ComputeReplaceTagPosition()
  will try very hard to decode it as SQ...which obviously will fail
  Instead do not support SQ at all here and document it should not be used for SQ
  */
-  assert( !Internals->InputFilename.empty() );
+  gdcm_assert( !Internals->InputFilename.empty() );
   const char *filename = Internals->InputFilename.c_str();
-  assert( filename );
+  gdcm_assert( filename );
   const bool inplace = file_exist(Internals->OutputFilename.c_str());
 
   std::map<Tag, std::string>::reverse_iterator rit = Internals->ReplaceTags.rbegin();
@@ -184,9 +184,9 @@ bool FileAnonymizer::ComputeReplaceTagPosition()
       pe.IsTagFound = true;
       pe.DE.SetVL( de.GetVL() ); // Length is not used, unless to check undefined flag
       pe.DE.SetVR( de.GetVR() );
-      assert( pe.DE.GetVL().IsUndefined() == de.GetVL().IsUndefined() );
-      assert( pe.DE.GetVR() == de.GetVR() );
-      assert( pe.DE.GetTag() == de.GetTag() );
+      gdcm_assert( pe.DE.GetVL().IsUndefined() == de.GetVL().IsUndefined() );
+      gdcm_assert( pe.DE.GetVR() == de.GetVR() );
+      gdcm_assert( pe.DE.GetTag() == de.GetTag() );
       if( de.GetVL().IsUndefined() )
         {
         // This is a SQ
@@ -200,15 +200,15 @@ bool FileAnonymizer::ComputeReplaceTagPosition()
           gdcmErrorMacro( "inplace mode requires same length attribute" ); // TODO we could allow smaller size (and pad with space...)
           return false;
           }
-        assert( !de.GetVL().IsUndefined() );
+        gdcm_assert( !de.GetVL().IsUndefined() );
         pe.BeginPos -= de.GetVL();
         pe.BeginPos -= 2 * de.GetVR().GetLength(); // (VR+) VL
         pe.BeginPos -= 4; // Tag
-        assert( (int)pe.EndPos ==
+        gdcm_assert( (int)pe.EndPos ==
           (int)pe.BeginPos + (int)de.GetVL() + 2 * de.GetVR().GetLength() + 4 );
         }
       pe.DE.SetByteValue( valuereplace.c_str(), (uint32_t)valuereplace.size() );
-      assert( pe.DE.GetVL() == valuereplace.size() );
+      gdcm_assert( pe.DE.GetVL() == valuereplace.size() );
       }
     else
       {
@@ -221,7 +221,7 @@ bool FileAnonymizer::ComputeReplaceTagPosition()
       //FIXME, for some public element we could do something nicer than VR:UN
       pe.DE.SetVR( VR::UN );
       pe.DE.SetByteValue( valuereplace.c_str(), (uint32_t)valuereplace.size() );
-      assert( pe.DE.GetVL() == valuereplace.size() );
+      gdcm_assert( pe.DE.GetVL() == valuereplace.size() );
       }
 
     // We need to push_back outside of if() since Action:Replace
@@ -235,9 +235,9 @@ bool FileAnonymizer::ComputeReplaceTagPosition()
 
 bool FileAnonymizer::ComputeRemoveTagPosition()
 {
-  assert( !Internals->InputFilename.empty() );
+  gdcm_assert( !Internals->InputFilename.empty() );
   const char *filename = Internals->InputFilename.c_str();
-  assert( filename );
+  gdcm_assert( filename );
   const bool inplace = file_exist(Internals->OutputFilename.c_str());
   if( inplace && !Internals->RemoveTags.empty())
     {
@@ -277,9 +277,9 @@ bool FileAnonymizer::ComputeRemoveTagPosition()
       pe.IsTagFound = true;
       pe.DE.SetVL( de.GetVL() ); // Length is not used, unless to check undefined flag
       pe.DE.SetVR( de.GetVR() );
-      assert( pe.DE.GetVL().IsUndefined() == de.GetVL().IsUndefined() );
-      assert( pe.DE.GetVR() == de.GetVR() );
-      assert( pe.DE.GetTag() == de.GetTag() );
+      gdcm_assert( pe.DE.GetVL().IsUndefined() == de.GetVL().IsUndefined() );
+      gdcm_assert( pe.DE.GetVR() == de.GetVR() );
+      gdcm_assert( pe.DE.GetTag() == de.GetTag() );
       if( de.GetVL().IsUndefined() )
         {
         // This is a SQ
@@ -292,16 +292,16 @@ bool FileAnonymizer::ComputeRemoveTagPosition()
           {
           vl = de.GetLength<ExplicitDataElement>();
           }
-        assert( pe.BeginPos > vl );
+        gdcm_assert( pe.BeginPos > vl );
         pe.BeginPos -= vl;
         }
       else
         {
-        assert( !de.GetVL().IsUndefined() );
+        gdcm_assert( !de.GetVL().IsUndefined() );
         pe.BeginPos -= de.GetVL();
         pe.BeginPos -= 2 * de.GetVR().GetLength(); // (VR+) VL
         pe.BeginPos -= 4; // Tag
-        assert( (int)pe.EndPos ==
+        gdcm_assert( (int)pe.EndPos ==
           (int)pe.BeginPos + (int)de.GetVL() + 2 * de.GetVR().GetLength() + 4 );
         }
       Internals->PositionEmptyArray.push_back( pe );
@@ -320,9 +320,9 @@ bool FileAnonymizer::ComputeRemoveTagPosition()
 bool FileAnonymizer::ComputeEmptyTagPosition()
 {
   // FIXME we sometime empty, attributes that are already empty...
-  assert( !Internals->InputFilename.empty() );
+  gdcm_assert( !Internals->InputFilename.empty() );
   const char *filename = Internals->InputFilename.c_str();
-  assert( filename );
+  gdcm_assert( filename );
   const bool inplace = file_exist(Internals->OutputFilename.c_str());
   if( inplace && !Internals->EmptyTags.empty())
     {
@@ -362,9 +362,9 @@ bool FileAnonymizer::ComputeEmptyTagPosition()
       pe.IsTagFound = true;
       pe.DE.SetVL( de.GetVL() ); // Length is not used, unless to check undefined flag
       pe.DE.SetVR( de.GetVR() );
-      assert( pe.DE.GetVL().IsUndefined() == de.GetVL().IsUndefined() );
-      assert( pe.DE.GetVR() == de.GetVR() );
-      assert( pe.DE.GetTag() == de.GetTag() );
+      gdcm_assert( pe.DE.GetVL().IsUndefined() == de.GetVL().IsUndefined() );
+      gdcm_assert( pe.DE.GetVR() == de.GetVR() );
+      gdcm_assert( pe.DE.GetTag() == de.GetTag() );
       if( de.GetVL().IsUndefined() )
         {
         // This is a SQ
@@ -377,7 +377,7 @@ bool FileAnonymizer::ComputeEmptyTagPosition()
           {
           vl = de.GetLength<ExplicitDataElement>();
           }
-        assert( pe.BeginPos > vl );
+        gdcm_assert( pe.BeginPos > vl );
         pe.BeginPos -= vl;
         pe.BeginPos += 4; // Tag
         if( ts.GetNegociatedType() == TransferSyntax::Implicit )
@@ -391,7 +391,7 @@ bool FileAnonymizer::ComputeEmptyTagPosition()
         }
       else
         {
-        assert( !de.GetVL().IsUndefined() );
+        gdcm_assert( !de.GetVL().IsUndefined() );
         pe.BeginPos -= de.GetVL();
         if( ts.GetNegociatedType() == TransferSyntax::Implicit )
           {
@@ -400,7 +400,7 @@ bool FileAnonymizer::ComputeEmptyTagPosition()
         else
           {
           pe.BeginPos -= de.GetVR().GetLength();
-          assert( (int)pe.EndPos ==
+          gdcm_assert( (int)pe.EndPos ==
             (int)pe.BeginPos + (int)de.GetVL() + de.GetVR().GetLength() );
           }
         }
@@ -489,7 +489,7 @@ bool FileAnonymizer::Write()
         }
       if( action == EMPTY )
         {
-        assert( !inplace );
+        gdcm_assert( !inplace );
         // Create a 0 Value Length (VR+Tag was copied in previous loop)
         for( int i = 0; i < vrlen; ++i)
           {
@@ -523,11 +523,11 @@ bool FileAnonymizer::Write()
           }
         }
       // Skip the Value
-      assert( is.good() );
+      gdcm_assert( is.good() );
       is.seekg( pe.EndPos );
-      assert( is.good() );
+      gdcm_assert( is.good() );
       prev = is.tellg();
-      assert( prev == pe.EndPos );
+      gdcm_assert( prev == pe.EndPos );
       }
     else
       {

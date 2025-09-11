@@ -103,7 +103,7 @@ template <typename T, typename U>
 unsigned short SurfaceHelper::RGBToRecommendedDisplayGrayscale(const std::vector<T> & RGB,
                                                                const U rangeMax/* = 255*/)
 {
-  assert(RGB.size() > 2);
+  gdcm_assert(RGB.size() > 2);
 
   unsigned short Grayscale = 0;
 
@@ -121,7 +121,7 @@ template <typename T, typename U>
 SurfaceHelper::ColorArray SurfaceHelper::RGBToRecommendedDisplayCIELab(const std::vector<T> & RGB,
                                                                        const U rangeMax/* = 255*/)
 {
-  assert(RGB.size() > 2);
+  gdcm_assert(RGB.size() > 2);
 
   ColorArray CIELab(3);
   std::vector<float> tmp(3);
@@ -161,7 +161,7 @@ template <typename T, typename U>
 std::vector<T> SurfaceHelper::RecommendedDisplayCIELabToRGB(const ColorArray & CIELab,
                                                             const U rangeMax/* = 255*/)
 {
-  assert(CIELab.size() > 2);
+  gdcm_assert(CIELab.size() > 2);
 
   std::vector<T> RGB(3);
   std::vector<float> tmp(3);

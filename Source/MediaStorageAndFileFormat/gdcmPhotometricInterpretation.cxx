@@ -62,7 +62,7 @@ static const char *PIStrings[] = {
 
 const char *PhotometricInterpretation::GetPIString(PIType pi)
 {
-  //assert( pi < PhotometricInterpretation::PI_END );
+  //gdcm_assert( pi < PhotometricInterpretation::PI_END );
   return PIStrings[pi];
 }
 
@@ -100,7 +100,7 @@ PhotometricInterpretation::PIType PhotometricInterpretation::GetPIType(const cha
       return PIType(i);
       }
     }
-  //assert(0);
+  //gdcm_assert(0);
   return PI_END;
 }
 
@@ -124,8 +124,8 @@ unsigned short PhotometricInterpretation::GetSamplesPerPixel() const
     }
   else
     {
-    assert( PIField != PI_END );
-    assert( //PIField == PALETTE_COLOR
+    gdcm_assert( PIField != PI_END );
+    gdcm_assert( //PIField == PALETTE_COLOR
             PIField == RGB
          || PIField == HSV
          //|| PIField == ARGB
@@ -167,11 +167,11 @@ bool PhotometricInterpretation::IsLossless() const
   case YBR_ICT:
     return false;
   default:
-    assert(0);
+    gdcm_assert(0);
     return false;
     }
 
-  assert( 0 ); // technically one should not reach here, unless UNKNOWN ...
+  gdcm_assert( 0 ); // technically one should not reach here, unless UNKNOWN ...
   return false;
 }
 

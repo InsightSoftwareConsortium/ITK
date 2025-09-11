@@ -92,7 +92,7 @@ bool FilenameGenerator::Generate()
     for( SizeType i = 0; i < numfiles && success; ++i)
       {
       int res = snprintf( internal, internal_len, Pattern.c_str(), i );
-      assert( res >= 0 );
+      gdcm_assert( res >= 0 );
       success = (SizeType)res < internal_len;
       if( Pattern.empty() )
         {
@@ -102,7 +102,7 @@ bool FilenameGenerator::Generate()
         {
         Filenames[i] = Prefix + internal;
         }
-      //assert( Filenames[i].size() == res ); // upon success only
+      //gdcm_assert( Filenames[i].size() == res ); // upon success only
       }
     delete[] internal;
     if( !success )

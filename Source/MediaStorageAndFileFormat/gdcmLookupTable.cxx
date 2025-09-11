@@ -93,9 +93,9 @@ void LookupTable::InitializeLUT(LookupTableType type, unsigned short length,
     {
     return;
     }
-  assert( type >= RED && type <= BLUE );
-  assert( subscript == 0 );
-  assert( bitsize == 8 || bitsize == 16 );
+  gdcm_assert( type >= RED && type <= BLUE );
+  gdcm_assert( subscript == 0 );
+  gdcm_assert( bitsize == 8 || bitsize == 16 );
   if( length == 0 )
     {
     Internal->Length[type] = 65536;
@@ -142,11 +142,11 @@ void LookupTable::SetLUT(LookupTableType type, const unsigned char *array,
     {
       const unsigned int mult = Internal->BitSize[type]/8;
       const unsigned int mult2 = length / Internal->Length[type];
-      assert( Internal->Length[type] * mult2 == length );
+      gdcm_assert( Internal->Length[type] * mult2 == length );
       if( Internal->Length[type]*mult == length
           || Internal->Length[type]*mult + 1 == length )
       {
-        assert( mult2 == 1 || mult2 == 2 );
+        gdcm_assert( mult2 == 1 || mult2 == 2 );
         unsigned int offset = 0;
         if( mult == 2 )
         {
@@ -154,32 +154,32 @@ void LookupTable::SetLUT(LookupTableType type, const unsigned char *array,
         }
         for( unsigned int i = 0; i < Internal->Length[type]; ++i)
         {
-          assert( i*mult+offset < length );
-          assert( 3*i+type < Internal->RGB.size() );
+          gdcm_assert( i*mult+offset < length );
+          gdcm_assert( 3*i+type < Internal->RGB.size() );
           Internal->RGB[3*i+type] = array[i*mult+offset];
         }
       }
       else
       {
         unsigned int offset = 0;
-        assert( mult2 == 2 );
+        gdcm_assert( mult2 == 2 );
         for( unsigned int i = 0; i < Internal->Length[type]; ++i)
         {
-          assert( i*mult2+offset < length );
-          assert( 3*i+type < Internal->RGB.size() );
+          gdcm_assert( i*mult2+offset < length );
+          gdcm_assert( 3*i+type < Internal->RGB.size() );
           Internal->RGB[3*i+type] = array[i*mult2+offset];
         }
       }
     }
   else if( BitSample == 16 )
     {
-    assert( Internal->Length[type]*(BitSample/8) == length );
+    gdcm_assert( Internal->Length[type]*(BitSample/8) == length );
     uint16_t *uchar16 = (uint16_t*)(void*)Internal->RGB.data();
     const uint16_t *array16 = (const uint16_t*)(const void*)array;
     for( unsigned int i = 0; i < Internal->Length[type]; ++i)
       {
-      assert( 2*i < length );
-      assert( 2*(3*i+type) < Internal->RGB.size() );
+      gdcm_assert( 2*i < length );
+      gdcm_assert( 2*(3*i+type) < Internal->RGB.size() );
       uchar16[3*i+type] = array16[i];
       }
     }
@@ -198,8 +198,8 @@ void LookupTable::GetLUT(LookupTableType type, unsigned char *array, unsigned in
       }
     for( unsigned int i = 0; i < Internal->Length[type]; ++i)
       {
-      assert( i*mult+offset < length );
-      assert( 3*i+type < Internal->RGB.size() );
+      gdcm_assert( i*mult+offset < length );
+      gdcm_assert( 3*i+type < Internal->RGB.size() );
       array[i*mult+offset] = Internal->RGB[3*i+type];
       }
     }
@@ -210,8 +210,8 @@ void LookupTable::GetLUT(LookupTableType type, unsigned char *array, unsigned in
     uint16_t *array16 = (uint16_t*)(void*)array;
     for( unsigned int i = 0; i < Internal->Length[type]; ++i)
       {
-      assert( 2*i < length );
-      assert( 2*(3*i+type) < Internal->RGB.size() );
+      gdcm_assert( 2*i < length );
+      gdcm_assert( 2*(3*i+type) < Internal->RGB.size() );
       array16[i] = uchar16[3*i+type];
       }
     }
@@ -220,7 +220,7 @@ void LookupTable::GetLUT(LookupTableType type, unsigned char *array, unsigned in
 void LookupTable::GetLUTDescriptor(LookupTableType type, unsigned short &length,
   unsigned short &subscript, unsigned short &bitsize) const
 {
-  assert( type >= RED && type <= BLUE );
+  gdcm_assert( type >= RED && type <= BLUE );
   if( Internal->Length[type] == 65536 )
     {
     length = 0;
@@ -233,8 +233,8 @@ void LookupTable::GetLUTDescriptor(LookupTableType type, unsigned short &length,
   bitsize = Internal->BitSize[type];
 
   // postcondition
-  assert( subscript == 0 );
-  assert( bitsize == 8 || bitsize == 16 );
+  gdcm_assert( subscript == 0 );
+  gdcm_assert( bitsize == 8 || bitsize == 16 );
 }
 
 void LookupTable::InitializeRedLUT(unsigned short length,
@@ -324,15 +324,15 @@ void LookupTable::Encode(std::istream &is, std::ostream &os)
       U8 u;
       u.rgb[3] = 0;
       is.read( (char*)u.rgb, 3);
-      assert( u.rgb[3] == 0 );
-      //assert( u.rgb[0] == u.rgb[1] && u.rgb[1] == u.rgb[2] );
+      gdcm_assert( u.rgb[3] == 0 );
+      //gdcm_assert( u.rgb[0] == u.rgb[1] && u.rgb[1] == u.rgb[2] );
       std::pair<RGBColorIndexer::iterator,bool> it = s.insert( u );
       if( it.second ) ++count;
       int d = std::distance(s.begin(), it.first);
       //std::cout << count << " Index: " << d << " -> "; printrgb( u.rgb ); std::cout << "\n";
-      //assert( s.size() < 256 );
-      assert( d < s.size() );
-      //assert( d < 256 && d >= 0 );
+      //gdcm_assert( s.size() < 256 );
+      gdcm_assert( d < s.size() );
+      //gdcm_assert( d < 256 && d >= 0 );
       }
 
     // now generate output image
@@ -344,13 +344,13 @@ void LookupTable::Encode(std::istream &is, std::ostream &os)
       U8 u;
       u.rgb[3] = 0;
       is.read( (char*)u.rgb, 3);
-      assert( u.rgb[3] == 0 );
-      //assert( u.rgb[0] == u.rgb[1] && u.rgb[1] == u.rgb[2] );
+      gdcm_assert( u.rgb[3] == 0 );
+      //gdcm_assert( u.rgb[0] == u.rgb[1] && u.rgb[1] == u.rgb[2] );
       std::pair<RGBColorIndexer::iterator,bool> it = s.insert( u );
       int d = std::distance(s.begin(), it.first);
       //std::cout << "Index: " << d << " -> "; printrgb( u.rgb ); std::cout << "\n";
-      assert( d < s.size() );
-      //assert( d < 256 && d >= 0 );
+      gdcm_assert( d < s.size() );
+      //gdcm_assert( d < 256 && d >= 0 );
       os.put( d );
       }
 
@@ -362,11 +362,11 @@ void LookupTable::Encode(std::istream &is, std::ostream &os)
     InitializeGreenLUT(ncolor, 0, 8);
     InitializeBlueLUT(ncolor, 0, 8);
     //int i = Internal->RGB.size();
-    //assert( Internal->RGB.size() == 5 );
+    //gdcm_assert( Internal->RGB.size() == 5 );
     int idx = 0;
     for( RGBColorIndexer::const_iterator it = s.begin(); it != s.end() && idx < 256; ++it, ++idx )
       {
-      assert( idx == std::distance( s.begin(), it ) );
+      gdcm_assert( idx == std::distance( s.begin(), it ) );
       //std::cout << "Index: " << idx << " -> "; printrgb( it->rgb ); std::cout << "\n";
       Internal->RGB[3*idx+RED]   = it->rgb[RED];
       Internal->RGB[3*idx+GREEN] = it->rgb[GREEN];
@@ -378,9 +378,9 @@ void LookupTable::Encode(std::istream &is, std::ostream &os)
       U8 u;
       u.rgb[3] = 0;
       is.read( (char*)u.rgb, 3);
-      assert( u.rgb[3] == 0 );
+      gdcm_assert( u.rgb[3] == 0 );
       int d = 0;
-      assert( d < 256 && d >= 0 );
+      gdcm_assert( d < 256 && d >= 0 );
       os.put( (char)d );
       }
 #endif
@@ -396,13 +396,13 @@ void LookupTable::Encode(std::istream &is, std::ostream &os)
       U16 u;
       u.rgb[3] = 0;
       is.read( (char*)u.rgb, 3*2);
-      assert( u.rgb[3] == 0 );
-      //assert( u.rgb[0] == u.rgb[1] && u.rgb[1] == u.rgb[2] );
+      gdcm_assert( u.rgb[3] == 0 );
+      //gdcm_assert( u.rgb[0] == u.rgb[1] && u.rgb[1] == u.rgb[2] );
       std::pair<RGBColorIndexer::iterator,bool> it = s.insert( u );
       int d = std::distance(s.begin(), it.first);
       //std::cout << "Index: " << d << " -> "; printrgb( u.rgb ); std::cout << "\n";
-      assert( d < s.size() );
-      assert( d < 65536 && d >= 0 );
+      gdcm_assert( d < s.size() );
+      gdcm_assert( d < 65536 && d >= 0 );
       }
 
     // now generate output image
@@ -414,13 +414,13 @@ void LookupTable::Encode(std::istream &is, std::ostream &os)
       U16 u;
       u.rgb[3] = 0;
       is.read( (char*)u.rgb, 3*2);
-      assert( u.rgb[3] == 0 );
-      //assert( u.rgb[0] == u.rgb[1] && u.rgb[1] == u.rgb[2] );
+      gdcm_assert( u.rgb[3] == 0 );
+      //gdcm_assert( u.rgb[0] == u.rgb[1] && u.rgb[1] == u.rgb[2] );
       std::pair<RGBColorIndexer::iterator,bool> it = s.insert( u );
       unsigned short d = std::distance(s.begin(), it.first);
       //std::cout << "Index: " << d << " -> "; printrgb( u.rgb ); std::cout << "\n";
-      assert( d < s.size() );
-      assert( d < 65536 && d >= 0 );
+      gdcm_assert( d < s.size() );
+      gdcm_assert( d < 65536 && d >= 0 );
       os.write( (const char*)&d , 2 );
       }
 
@@ -430,12 +430,12 @@ void LookupTable::Encode(std::istream &is, std::ostream &os)
     InitializeGreenLUT(ncolor, 0, 16);
     InitializeBlueLUT(ncolor, 0, 16);
     //int i = Internal->RGB.size();
-    //assert( Internal->RGB.size() == 5 );
+    //gdcm_assert( Internal->RGB.size() == 5 );
     int idx = 0;
     uint16_t *rgb16 = (uint16_t*)&Internal->RGB[0];
     for( RGBColorIndexer::const_iterator it = s.begin(); it != s.end(); ++it, ++idx )
       {
-      assert( idx == std::distance( s.begin(), it ) );
+      gdcm_assert( idx == std::distance( s.begin(), it ) );
       //std::cout << "Index: " << idx << " -> "; printrgb( it->rgb ); std::cout << "\n";
       rgb16[3*idx+RED]   = it->rgb[RED];
       rgb16[3*idx+GREEN] = it->rgb[GREEN];
@@ -447,9 +447,9 @@ void LookupTable::Encode(std::istream &is, std::ostream &os)
       U16 u;
       u.rgb[3] = 0;
       is.read( (char*)u.rgb, 3*2);
-      assert( u.rgb[3] == 0 );
+      gdcm_assert( u.rgb[3] == 0 );
       int d = 0;
-      assert( d < 65536 && d >= 0 );
+      gdcm_assert( d < 65536 && d >= 0 );
       os.write( (const char*)&d , 2 );
       }
 #endif
@@ -458,7 +458,7 @@ void LookupTable::Encode(std::istream &is, std::ostream &os)
 
 void LookupTable::Decode(std::istream &is, std::ostream &os) const
 {
-  assert( Initialized() );
+  gdcm_assert( Initialized() );
   if ( BitSample == 8 )
     {
     unsigned char idx;
@@ -469,9 +469,9 @@ void LookupTable::Decode(std::istream &is, std::ostream &os) const
       if( is.eof() || !is.good() ) break;
       if( IncompleteLUT )
         {
-        assert( idx < Internal->Length[RED] );
-        assert( idx < Internal->Length[GREEN] );
-        assert( idx < Internal->Length[BLUE] );
+        gdcm_assert( idx < Internal->Length[RED] );
+        gdcm_assert( idx < Internal->Length[GREEN] );
+        gdcm_assert( idx < Internal->Length[BLUE] );
         }
       rgb[RED]   = Internal->RGB[3*idx+RED];
       rgb[GREEN] = Internal->RGB[3*idx+GREEN];
@@ -491,9 +491,9 @@ void LookupTable::Decode(std::istream &is, std::ostream &os) const
       if( is.eof() || !is.good() ) break;
       if( IncompleteLUT )
         {
-        assert( idx < Internal->Length[RED] );
-        assert( idx < Internal->Length[GREEN] );
-        assert( idx < Internal->Length[BLUE] );
+        gdcm_assert( idx < Internal->Length[RED] );
+        gdcm_assert( idx < Internal->Length[GREEN] );
+        gdcm_assert( idx < Internal->Length[BLUE] );
         }
       rgb[RED]   = rgb16[3*idx+RED];
       rgb[GREEN] = rgb16[3*idx+GREEN];
@@ -524,9 +524,9 @@ bool LookupTable::Decode(char *output, size_t outlen, const char *input, size_t 
       {
       if( IncompleteLUT )
         {
-        assert( *idx < Internal->Length[RED] );
-        assert( *idx < Internal->Length[GREEN] );
-        assert( *idx < Internal->Length[BLUE] );
+        gdcm_assert( *idx < Internal->Length[RED] );
+        gdcm_assert( *idx < Internal->Length[GREEN] );
+        gdcm_assert( *idx < Internal->Length[BLUE] );
         }
       rgb[RED]   = Internal->RGB[3 * *idx+RED];
       rgb[GREEN] = Internal->RGB[3 * *idx+GREEN];
@@ -538,16 +538,16 @@ bool LookupTable::Decode(char *output, size_t outlen, const char *input, size_t 
   else if ( BitSample == 16 )
     {
     const uint16_t *rgb16 = (const uint16_t*)(void*)Internal->RGB.data();
-    assert( inlen % 2 == 0 );
+    gdcm_assert( inlen % 2 == 0 );
     const uint16_t * end = (const uint16_t*)(const void*)(input + inlen);
     uint16_t * rgb = (uint16_t*)(void*)output;
     for( const uint16_t * idx = (const uint16_t*)(const void*)input; idx != end; ++idx )
       {
       if( IncompleteLUT )
         {
-        assert( *idx < Internal->Length[RED] );
-        assert( *idx < Internal->Length[GREEN] );
-        assert( *idx < Internal->Length[BLUE] );
+        gdcm_assert( *idx < Internal->Length[RED] );
+        gdcm_assert( *idx < Internal->Length[GREEN] );
+        gdcm_assert( *idx < Internal->Length[BLUE] );
         }
       rgb[RED]   = rgb16[3 * *idx+RED];
       rgb[GREEN] = rgb16[3 * *idx+GREEN];
@@ -580,9 +580,9 @@ bool LookupTable::Decode8(char *output, size_t outlen, const char *input, size_t
       {
       if( IncompleteLUT )
         {
-        assert( *idx < Internal->Length[RED] );
-        assert( *idx < Internal->Length[GREEN] );
-        assert( *idx < Internal->Length[BLUE] );
+        gdcm_assert( *idx < Internal->Length[RED] );
+        gdcm_assert( *idx < Internal->Length[GREEN] );
+        gdcm_assert( *idx < Internal->Length[BLUE] );
         }
       rgb[RED]   = Internal->RGB[3 * *idx+RED];
       rgb[GREEN] = Internal->RGB[3 * *idx+GREEN];
@@ -594,16 +594,16 @@ bool LookupTable::Decode8(char *output, size_t outlen, const char *input, size_t
   else if ( BitSample == 16 )
     {
     const uint16_t *rgb16 = (const uint16_t*)(void*)Internal->RGB.data();
-    assert( inlen % 2 == 0 );
+    gdcm_assert( inlen % 2 == 0 );
     const uint16_t * end = (const uint16_t*)(const void*)(input + inlen);
     uint8_t * rgb = (uint8_t*)output;
     for( const uint16_t * idx = (const uint16_t*)(const void*)input; idx != end; ++idx )
       {
       if( IncompleteLUT )
         {
-        assert( *idx < Internal->Length[RED] );
-        assert( *idx < Internal->Length[GREEN] );
-        assert( *idx < Internal->Length[BLUE] );
+        gdcm_assert( *idx < Internal->Length[RED] );
+        gdcm_assert( *idx < Internal->Length[GREEN] );
+        gdcm_assert( *idx < Internal->Length[BLUE] );
         }
       rgb[RED]   = rgb16[3 * *idx+RED] >> 8;
       rgb[GREEN] = rgb16[3 * *idx+GREEN] >> 8;
@@ -646,13 +646,13 @@ bool LookupTable::GetBufferAsRGBA(unsigned char *rgba) const
   else if ( BitSample == 16 )
     {
 /*
-    assert( Internal->Length[type]*(BitSample/8) == length );
+    gdcm_assert( Internal->Length[type]*(BitSample/8) == length );
     uint16_t *uchar16 = (uint16_t*)&Internal->RGB[0];
     const uint16_t *array16 = (uint16_t*)array;
     for( unsigned int i = 0; i < Internal->Length[type]; ++i)
       {
-      assert( 2*i < length );
-      assert( 2*(3*i+type) < Internal->RGB.size() );
+      gdcm_assert( 2*i < length );
+      gdcm_assert( 2*(3*i+type) < Internal->RGB.size() );
       uchar16[3*i+type] = array16[i];
       std::cout << i << " -> " << array16[i] << "\n";
       }
@@ -704,18 +704,18 @@ bool LookupTable::WriteBufferAsRGBA(const unsigned char *rgba)
     }
   else if ( BitSample == 16 )
     {
-    //assert( Internal->Length[type]*(BitSample/8) == length );
+    //gdcm_assert( Internal->Length[type]*(BitSample/8) == length );
     uint16_t *uchar16 = (uint16_t*)(void*)Internal->RGB.data();
     const uint16_t *rgba16 = (const uint16_t*)(const void*)rgba;
     size_t s = Internal->RGB.size();
     s /= 2;
     s /= 3;
-    assert( s == 65536 );
+    gdcm_assert( s == 65536 );
 
     for( unsigned int i = 0; i < s /*i < Internal->Length[type]*/; ++i)
       {
-      //assert( 2*i < length );
-      //assert( 2*(3*i+type) < Internal->RGB.size() );
+      //gdcm_assert( 2*i < length );
+      //gdcm_assert( 2*(3*i+type) < Internal->RGB.size() );
       //uchar16[3*i+type] = array16[i];
       //std::cout << i << " -> " << array16[i] << "\n";
       // RED
@@ -748,7 +748,7 @@ void LookupTable::Print(std::ostream &os) const
       os << std::dec <<std::setw( 5 ) << std::setfill( '0' ) << i << " : ";
       for(int type = RED; type <= BLUE; ++type )
         {
-        assert( 2*(3*i+type) < Internal->RGB.size() );
+        gdcm_assert( 2*(3*i+type) < Internal->RGB.size() );
         const uint16_t val = SwapperDoOp::Swap(uchar16[3*i+type]);
         minlut[type] = std::min( minlut[type], val );
         maxlut[type] = std::max( maxlut[type], val );
@@ -780,7 +780,7 @@ bool LookupTable::IsRGB8() const
       {
       for(int type = RED; type <= BLUE; ++type )
         {
-        assert( 2*(3*i+type) < Internal->RGB.size() );
+        gdcm_assert( 2*(3*i+type) < Internal->RGB.size() );
         const uint16_t val = SwapperDoOp::Swap(uchar16[3*i+type]);
         minlut[type] = std::min( minlut[type], val );
         maxlut[type] = std::max( maxlut[type], val );

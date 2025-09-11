@@ -50,11 +50,11 @@ public:
   }
   void SetBlob(const std::vector<char>& v) {
     (void)v;
-    assert(0); //TODO
+    gdcm_assert(0); //TODO
   }
   void Print(std::ostream &os) const {
   (void)os;
-    assert(0); //TODO
+    gdcm_assert(0); //TODO
   }
 };
 

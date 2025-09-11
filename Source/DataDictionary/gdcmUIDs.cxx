@@ -511,8 +511,8 @@ const char * const * UIDs::GetTransferSyntaxString(unsigned int ts)
 {
   if( ts > 0 && ts <= UIDs::GetNumberOfTransferSyntaxStrings() ) return TransferSyntaxStrings[ts];
   // else return the {0x0, 0x0} sentinel (begin or end)
-  assert( *TransferSyntaxStrings[ UIDs::GetNumberOfTransferSyntaxStrings() + 1 ] == nullptr );
-  assert( *TransferSyntaxStrings[ 0 ] == nullptr );
+  gdcm_assert( *TransferSyntaxStrings[ UIDs::GetNumberOfTransferSyntaxStrings() + 1 ] == nullptr );
+  gdcm_assert( *TransferSyntaxStrings[ 0 ] == nullptr );
   return TransferSyntaxStrings[ UIDs::GetNumberOfTransferSyntaxStrings() + 1 ];
 }
 
@@ -553,11 +553,11 @@ bool UIDs::SetFromUID(const char *str)
   if( p )
     {
     TSField = TSType(i);
-    assert( TSField != (TSType)0 );
+    gdcm_assert( TSField != (TSType)0 );
     return true;
     }
 
-  assert( TSField == (TSType)0 );
+  gdcm_assert( TSField == (TSType)0 );
   return false;
 }
 

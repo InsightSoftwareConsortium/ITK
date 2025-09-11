@@ -43,7 +43,9 @@ public:
 #endif
     TableInternal.insert(
       MapTableEntry::value_type(tag, te));
-    assert( s < TableInternal.size() );
+#ifndef NDEBUG
+    gdcm_assert( s < TableInternal.size() );
+#endif
     }
 
   const TableEntry &GetTableEntry(const Tag &tag) const
@@ -52,7 +54,7 @@ public:
       TableInternal.find(tag);
     if (it == TableInternal.end())
       {
-      assert( 0 && "Impossible" );
+      gdcm_assert( 0 && "Impossible" );
       return GetTableEntry(Tag(0,0));
       }
     return it->second;

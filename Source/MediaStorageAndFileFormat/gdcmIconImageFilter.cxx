@@ -100,7 +100,7 @@ void IconImageFilter::ExtractIconImages()
       pixeldata.SetPixelFormat( pf );
       // D 0028|0004 [CS] [Photometric Interpretation] [MONOCHROME2 ]
       const Tag tphotometricinterpretation(0x0028, 0x0004);
-      assert( ds.FindDataElement( tphotometricinterpretation ) );
+      gdcm_assert( ds.FindDataElement( tphotometricinterpretation ) );
       const ByteValue *photometricinterpretation =
         ds.GetDataElement( tphotometricinterpretation ).GetByteValue();
       std::string photometricinterpretation_str(
@@ -109,7 +109,7 @@ void IconImageFilter::ExtractIconImages()
       PhotometricInterpretation pi(
         PhotometricInterpretation::GetPIType(
           photometricinterpretation_str.c_str()));
-      assert( pi != PhotometricInterpretation::UNKNOWN);
+      gdcm_assert( pi != PhotometricInterpretation::UNKNOWN);
       pixeldata.SetPhotometricInterpretation( pi );
 
       //
@@ -151,29 +151,29 @@ void IconImageFilter::ExtractIconImages()
           if( ds.FindDataElement( tlut ) )
             {
             const ByteValue *lut_raw = ds.GetDataElement( tlut ).GetByteValue();
-            assert( lut_raw );
+            gdcm_assert( lut_raw );
             // LookupTableType::RED == 0
             lut->SetLUT( LookupTable::LookupTableType(i),
               (const unsigned char*)lut_raw->GetPointer(), lut_raw->GetLength() );
-            //assert( pf.GetBitsAllocated() == el_us3.GetValue(2) );
+            //gdcm_assert( pf.GetBitsAllocated() == el_us3.GetValue(2) );
 
             //unsigned long check =
             //  (el_us3.GetValue(0) ? el_us3.GetValue(0) : 65536)
             //  * el_us3.GetValue(2) / 8;
-            //assert( check == lut_raw->GetLength() ); (void)check;
+            //gdcm_assert( check == lut_raw->GetLength() ); (void)check;
             }
           else if( ds.FindDataElement( seglut ) )
             {
             const ByteValue *lut_raw = ds.GetDataElement( seglut ).GetByteValue();
-            assert( lut_raw );
+            gdcm_assert( lut_raw );
             lut->SetLUT( LookupTable::LookupTableType(i),
               (const unsigned char*)lut_raw->GetPointer(), lut_raw->GetLength() );
-            //assert( pf.GetBitsAllocated() == el_us3.GetValue(2) );
+            //gdcm_assert( pf.GetBitsAllocated() == el_us3.GetValue(2) );
 
             //unsigned long check =
             //  (el_us3.GetValue(0) ? el_us3.GetValue(0) : 65536)
             //  * el_us3.GetValue(2) / 8;
-            //assert( check == lut_raw->GetLength() ); (void)check;
+            //gdcm_assert( check == lut_raw->GetLength() ); (void)check;
             }
           else
             {
@@ -216,7 +216,7 @@ void IconImageFilter::ExtractIconImages()
     //const SequenceOfItems* sq = iconimagesq.GetSequenceOfItems();
     SmartPointer<SequenceOfItems> sq = iconimagesq.GetValueAsSQ();
     // Is SQ empty ?
-    assert( sq );
+    gdcm_assert( sq );
     if( !sq ) return;
     SmartPointer< IconImage > si1 = new IconImage;
     IconImage &pixeldata = *si1;
@@ -279,7 +279,7 @@ void IconImageFilter::ExtractIconImages()
     pixeldata.SetPixelFormat( pf1 );
     // D 0028|0004 [CS] [Photometric Interpretation] [MONOCHROME2 ]
     const Tag tphotometricinterpretation(0x0028, 0x0004);
-    assert( ds.FindDataElement( tphotometricinterpretation ) );
+    gdcm_assert( ds.FindDataElement( tphotometricinterpretation ) );
     const ByteValue *photometricinterpretation = ds.GetDataElement( tphotometricinterpretation ).GetByteValue();
     std::string photometricinterpretation_str(
       photometricinterpretation->GetPointer(),
@@ -287,10 +287,10 @@ void IconImageFilter::ExtractIconImages()
     PhotometricInterpretation pi(
       PhotometricInterpretation::GetPIType(
         photometricinterpretation_str.c_str()));
-    assert( pi != PhotometricInterpretation::UNKNOWN);
+    gdcm_assert( pi != PhotometricInterpretation::UNKNOWN);
     pixeldata.SetPhotometricInterpretation( pi );
     const Tag tpixeldata = Tag(0x7fe0, 0x0010);
-    assert( ds.FindDataElement( tpixeldata ) );
+    gdcm_assert( ds.FindDataElement( tpixeldata ) );
       {
       const DataElement& de = ds.GetDataElement( tpixeldata );
 #if 0
@@ -319,7 +319,7 @@ void IconImageFilter::ExtractIconImages()
 #if 1
       std::istringstream is;
       const ByteValue *bv = de.GetByteValue();
-      assert( bv );
+      gdcm_assert( bv );
       is.str( std::string( bv->GetPointer(), bv->GetLength() ) );
       TransferSyntax jpegts;
       JPEGCodec jpeg;
@@ -327,7 +327,7 @@ void IconImageFilter::ExtractIconImages()
       bool b = jpeg.GetHeaderInfo( is, jpegts );
       if( !b )
         {
-        assert( 0 );
+        gdcm_assert( 0 );
         }
       //jpeg.GetPixelFormat().Print (std::cout);
       pixeldata.SetPixelFormat( jpeg.GetPixelFormat() );
@@ -353,7 +353,7 @@ void IconImageFilter::ExtractIconImages()
     //const SequenceOfItems* sq = iconimagesq.GetSequenceOfItems();
     SmartPointer<SequenceOfItems> sq = iconimagesq.GetValueAsSQ();
     // Is SQ empty ?
-    assert( sq );
+    gdcm_assert( sq );
     if( !sq ) return;
 
     SmartPointer< IconImage > si1 = new IconImage;
@@ -417,7 +417,7 @@ void IconImageFilter::ExtractIconImages()
     pixeldata.SetPixelFormat( pf );
     // D 0028|0004 [CS] [Photometric Interpretation] [MONOCHROME2 ]
     const Tag tphotometricinterpretation(0x0028, 0x0004);
-    assert( ds.FindDataElement( tphotometricinterpretation ) );
+    gdcm_assert( ds.FindDataElement( tphotometricinterpretation ) );
     const ByteValue *photometricinterpretation = ds.GetDataElement( tphotometricinterpretation ).GetByteValue();
     std::string photometricinterpretation_str(
       photometricinterpretation->GetPointer(),
@@ -425,11 +425,11 @@ void IconImageFilter::ExtractIconImages()
     PhotometricInterpretation pi(
       PhotometricInterpretation::GetPIType(
         photometricinterpretation_str.c_str()));
-    assert( pi != PhotometricInterpretation::UNKNOWN);
+    gdcm_assert( pi != PhotometricInterpretation::UNKNOWN);
     pixeldata.SetPhotometricInterpretation( pi );
     //const Tag tpixeldata = Tag(0x7fe0, 0x0010);
     const PrivateTag tpixeldata(0x6003,0x0011,"GEMS_Ultrasound_ImageGroup_001");
-    assert( ds.FindDataElement( tpixeldata ) );
+    gdcm_assert( ds.FindDataElement( tpixeldata ) );
       {
       const DataElement& de = ds.GetDataElement( tpixeldata );
       pixeldata.SetDataElement( de );
@@ -519,7 +519,7 @@ void IconImageFilter::ExtractVeproIconImages()
     dims[0] = data.Width;
     dims[1] = data.Height;
 
-    assert( dims[0] * dims[1] == len - sizeof(data) - offset );
+    gdcm_assert( dims[0] * dims[1] == len - sizeof(data) - offset );
 
     DataElement pd;
     pd.SetByteValue( raw + offset, (uint32_t)(len - sizeof(data) - offset) );
@@ -555,7 +555,7 @@ unsigned int IconImageFilter::GetNumberOfIconImages() const
 
 IconImage& IconImageFilter::GetIconImage( unsigned int i ) const
 {
-  assert( i < Internals->icons.size() );
+  gdcm_assert( i < Internals->icons.size() );
   return *Internals->icons[i];
 }
 

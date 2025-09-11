@@ -44,7 +44,7 @@ public:
   // - on some system where it make sense the path where the Resource should be located
   void LoadDefaultPaths()
     {
-    assert( ResourcePaths.empty() );
+    gdcm_assert( ResourcePaths.empty() );
     const char filename2[] = GDCM_CMAKE_INSTALL_PREFIX "/" GDCM_INSTALL_DATA_DIR "/XML/";
     ResourcePaths.emplace_back(filename2 );
     const char filename3[] = GDCM_CMAKE_INSTALL_PREFIX " " GDCM_API_VERSION "/" GDCM_INSTALL_DATA_DIR "/XML/";
@@ -76,14 +76,14 @@ Global::Global()
 {
   if(++GlobalCount == 1)
     {
-    assert( Internals == nullptr ); // paranoid
+    gdcm_assert( Internals == nullptr ); // paranoid
     Internals = new GlobalInternal;
-    assert( Internals->GlobalDicts.IsEmpty() );
+    gdcm_assert( Internals->GlobalDicts.IsEmpty() );
     // Fill in with default values now !
     // at startup time is safer as later call might be from different thread
     // thus initialization of std::map would be all skrew up
     Internals->GlobalDicts.LoadDefaults();
-    assert( Internals->GlobalDefs.IsEmpty() );
+    gdcm_assert( Internals->GlobalDefs.IsEmpty() );
     // Same goes for GlobalDefs:
     //Internals->GlobalDefs.LoadDefaults();
     Internals->LoadDefaultPaths();
@@ -102,7 +102,7 @@ Global::~Global()
 
 bool Global::LoadResourcesFiles()
 {
-  assert( Internals != nullptr ); // paranoid
+  gdcm_assert( Internals != nullptr ); // paranoid
   const char *filename = Locate( "Part3.xml" );
   if( filename )
     {
@@ -171,19 +171,19 @@ const char *Global::Locate(const char *resfile) const
 
 Dicts const &Global::GetDicts() const
 {
-  assert( !Internals->GlobalDicts.IsEmpty() );
+  gdcm_assert( !Internals->GlobalDicts.IsEmpty() );
   return Internals->GlobalDicts;
 }
 
 Dicts &Global::GetDicts()
 {
-  assert( !Internals->GlobalDicts.IsEmpty() );
+  gdcm_assert( !Internals->GlobalDicts.IsEmpty() );
   return Internals->GlobalDicts;
 }
 
 Defs const &Global::GetDefs() const
 {
-  assert( !Internals->GlobalDefs.IsEmpty() );
+  gdcm_assert( !Internals->GlobalDefs.IsEmpty() );
   return Internals->GlobalDefs;
 }
 

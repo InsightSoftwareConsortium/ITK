@@ -33,7 +33,7 @@ static const char * MPStrings[] = {
 
 const char * MeshPrimitive::GetMPTypeString(const MPType type)
 {
-  assert( type <= MPType_END );
+  gdcm_assert( type <= MPType_END );
   return MPStrings[(int)type];
 }
 
@@ -86,7 +86,7 @@ MeshPrimitive::MPType MeshPrimitive::GetPrimitiveType() const
 
 void MeshPrimitive::SetPrimitiveType(const MPType type)
 {
-    assert( type <= MPType_END );
+    gdcm_assert( type <= MPType_END );
     PrimitiveType = type;
 }
 
@@ -132,12 +132,12 @@ void MeshPrimitive::AddPrimitiveData(DataElement const & de)
 
 const DataElement & MeshPrimitive::GetPrimitiveData(const unsigned int idx) const
 {
-    assert( idx < this->GetNumberOfPrimitivesData() );
+    gdcm_assert( idx < this->GetNumberOfPrimitivesData() );
     return PrimitiveData[idx];
 }
 DataElement & MeshPrimitive::GetPrimitiveData(const unsigned int idx)
 {
-    assert( idx < this->GetNumberOfPrimitivesData() );
+    gdcm_assert( idx < this->GetNumberOfPrimitivesData() );
     return PrimitiveData[idx];
 }
 

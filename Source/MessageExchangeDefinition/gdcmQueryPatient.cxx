@@ -58,7 +58,7 @@ std::vector<Tag> QueryPatient::GetUniqueTags(const ERootType& inRootType) const
 
 std::vector<Tag> QueryPatient::GetHierachicalSearchTags(const ERootType& inRootType) const
 {
-  assert( inRootType == ePatientRootType );
+  gdcm_assert( inRootType == ePatientRootType );
   std::vector<Tag> tags;
   // Patient is always toplevel !
   // just return Required and Unique

@@ -62,7 +62,7 @@ bool RAWCodec::CanDecode(TransferSyntax const &ts) const
 bool RAWCodec::Code(DataElement const &in, DataElement &out)
 {
   out = in;
-  //assert(0);
+  //gdcm_assert(0);
   return true;
 }
 
@@ -77,14 +77,14 @@ bool RAWCodec::DecodeBytes(const char* inBytes, size_t inBufferLength,
     GetPixelFormat().GetBitsAllocated() != 12 &&
     !NeedOverlayCleanup )
     {
-    assert( !NeedOverlayCleanup );
-    assert( PI != PhotometricInterpretation::YBR_PARTIAL_422 );
-    assert( PI != PhotometricInterpretation::YBR_PARTIAL_420 );
-    assert( PI != PhotometricInterpretation::YBR_ICT );
-    assert( this->GetPixelFormat() != PixelFormat::UINT12 );
-    assert( this->GetPixelFormat() != PixelFormat::INT12 );
+    gdcm_assert( !NeedOverlayCleanup );
+    gdcm_assert( PI != PhotometricInterpretation::YBR_PARTIAL_422 );
+    gdcm_assert( PI != PhotometricInterpretation::YBR_PARTIAL_420 );
+    gdcm_assert( PI != PhotometricInterpretation::YBR_ICT );
+    gdcm_assert( this->GetPixelFormat() != PixelFormat::UINT12 );
+    gdcm_assert( this->GetPixelFormat() != PixelFormat::INT12 );
     // DermaColorLossLess.dcm
-    //assert(inBufferLength == inOutBufferLength || inBufferLength == inOutBufferLength + 1);
+    //gdcm_assert(inBufferLength == inOutBufferLength || inBufferLength == inOutBufferLength + 1);
     // What if the user request a subportion of the image:
     // this happen in the case of MOSAIC image, where we are only interested in the non-zero
     // pixel of the tiled image.
@@ -102,13 +102,13 @@ bool RAWCodec::DecodeBytes(const char* inBytes, size_t inBufferLength,
     return true;
     }
   // else
-  assert( inBytes );
-  assert( outBytes );
+  gdcm_assert( inBytes );
+  gdcm_assert( outBytes );
   std::stringstream is;
   is.write(inBytes, inBufferLength);
   std::stringstream os;
   bool r = DecodeByStreams(is, os);
-  assert( r );
+  gdcm_assert( r );
   if(!r) return false;
 
   std::string str = os.str();
@@ -118,10 +118,14 @@ bool RAWCodec::DecodeBytes(const char* inBytes, size_t inBufferLength,
     {
     size_t len = str.size() * 16 / 12;
     char * copy = new char[len];
-    bool b = Unpacker12Bits::Unpack(copy, str.data(), str.size() ); (void)b;
-    assert( b );
+    bool b = Unpacker12Bits::Unpack(copy, str.data(), str.size() );
+    if (!b)
+      {
+      delete[] copy;
+      return false;
+      }
     assert (len == inOutBufferLength);
-    assert(inOutBufferLength == len);
+    gdcm_assert(inOutBufferLength == len);
     memcpy(outBytes, copy, len);
 
     delete[] copy;
@@ -156,20 +160,20 @@ bool RAWCodec::Decode(DataElement const &in, DataElement &out)
     GetPixelFormat().GetBitsAllocated() != 12 &&
     !NeedOverlayCleanup )
     {
-    assert( this->GetPixelFormat() != PixelFormat::UINT12 );
-    assert( this->GetPixelFormat() != PixelFormat::INT12 );
+    gdcm_assert( this->GetPixelFormat() != PixelFormat::UINT12 );
+    gdcm_assert( this->GetPixelFormat() != PixelFormat::INT12 );
     out = in;
     return true;
     }
   // else
   const ByteValue *bv = in.GetByteValue();
-  assert( bv );
+  gdcm_assert( bv );
   std::stringstream is;
   is.write(bv->GetPointer(), bv->GetLength());
   std::stringstream os;
   bool r = DecodeByStreams(is, os);
   if(!r) return false;
-  assert( r );
+  gdcm_assert( r );
 
   std::string str = os.str();
   //std::string::size_type check = str.size();
@@ -182,7 +186,7 @@ bool RAWCodec::Decode(DataElement const &in, DataElement &out)
     size_t len = str.size() * 16 / 12;
     char * copy = new char[len];//why use an array, and not a vector?
     bool b = Unpacker12Bits::Unpack(copy, str.data(), str.size() );
-    assert( b );
+    gdcm_assert(b);
     (void)b;
     VL::Type lenSize = (VL::Type)len;
     out.SetByteValue( copy, lenSize );
