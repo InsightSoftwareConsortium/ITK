@@ -62,9 +62,19 @@ set(
   _required_vtk_libraries
   ${_target_prefix}IOImage
   ${_target_prefix}ImagingSources
-  ${_target_prefix}kwiml
-  ${_target_prefix}${_vtk_sys_name}
 )
+
+if(VTK_VERSION VERSION_GREATER_EQUAL 8.90.0)
+  list(
+    APPEND
+    _required_vtk_libraries
+    "VTK::vtksys"
+    "VTK::kwiml"
+  )
+else()
+  list(APPEND _required_vtk_libraries "vtksys")
+endif()
+
 if(ITK_WRAP_PYTHON)
   list(
     APPEND
