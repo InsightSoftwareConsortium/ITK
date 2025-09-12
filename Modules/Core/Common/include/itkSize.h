@@ -419,7 +419,8 @@ private:
   {
     if (pos >= VDimension)
     {
-      throw std::out_of_range("array::ExceptionThrowingBoundsCheck");
+      throw std::out_of_range("Out of range: `itk::Size::at` argument `pos` (which is " + std::to_string(pos) +
+                              ") should be less than `Dimension` (which is " + std::to_string(VDimension) + ")!");
     }
   }
 
