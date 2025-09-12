@@ -414,8 +414,8 @@ public:
   }
 
 private:
-  void
-  ExceptionThrowingBoundsCheck(size_type pos) const
+  static void
+  ExceptionThrowingBoundsCheck(size_type pos)
   {
     if (pos >= VDimension)
     {
