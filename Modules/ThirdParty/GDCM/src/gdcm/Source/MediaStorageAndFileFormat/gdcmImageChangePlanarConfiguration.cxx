@@ -35,7 +35,7 @@ bool ImageChangePlanarConfiguration::Change()
     {
     return true;
     }
-  assert( Input->GetPhotometricInterpretation() == PhotometricInterpretation::YBR_FULL
+  gdcm_assert( Input->GetPhotometricInterpretation() == PhotometricInterpretation::YBR_FULL
     || Input->GetPhotometricInterpretation() == PhotometricInterpretation::YBR_FULL_422
     || Input->GetPhotometricInterpretation() == PhotometricInterpretation::YBR_PARTIAL_422
     || Input->GetPhotometricInterpretation() == PhotometricInterpretation::YBR_RCT
@@ -52,11 +52,11 @@ bool ImageChangePlanarConfiguration::Change()
   char *p = new char[len];
   image.GetBuffer( p );
 
-  assert( len % 3 == 0 );
+  gdcm_assert( len % 3 == 0 );
   PixelFormat pf = Input->GetPixelFormat();
   const size_t ps = pf.GetPixelSize();
   const size_t framesize = dims[0] * dims[1] * ps;
-  assert( framesize * dims[2] == len );
+  gdcm_assert( framesize * dims[2] == len );
 
   char *copy = new char[len];
   size_t size = framesize / 3;
@@ -82,7 +82,7 @@ bool ImageChangePlanarConfiguration::Change()
     }
   else // User requested to do PlanarConfiguration == 1
     {
-    assert( PlanarConfiguration == 1 );
+    gdcm_assert( PlanarConfiguration == 1 );
     for(unsigned int z = 0; z < dims[2]; ++z)
       {
       const void *frame = p + z * framesize;
@@ -110,7 +110,7 @@ bool ImageChangePlanarConfiguration::Change()
   Output->SetPlanarConfiguration( PlanarConfiguration );
   if( Input->GetTransferSyntax().IsImplicit() )
     {
-    assert( Output->GetTransferSyntax().IsImplicit() );
+    gdcm_assert( Output->GetTransferSyntax().IsImplicit() );
     }
   else if( Input->GetTransferSyntax() == TransferSyntax::ExplicitVRBigEndian )
     {
@@ -120,8 +120,8 @@ bool ImageChangePlanarConfiguration::Change()
     {
     Output->SetTransferSyntax( TransferSyntax::ExplicitVRLittleEndian );
     }
-  //assert( Output->GetTransferSyntax().IsRaw() );
-  assert( Output->GetPhotometricInterpretation() == Input->GetPhotometricInterpretation() );
+  //gdcm_assert( Output->GetTransferSyntax().IsRaw() );
+  gdcm_assert( Output->GetPhotometricInterpretation() == Input->GetPhotometricInterpretation() );
 
   return true;
 }

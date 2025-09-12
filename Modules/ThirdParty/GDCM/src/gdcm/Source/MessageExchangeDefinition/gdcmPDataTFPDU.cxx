@@ -23,16 +23,16 @@ const uint8_t PDataTFPDU::Reserved2 = 0x00;
 
 PDataTFPDU::PDataTFPDU()
 {
-  assert(Size() < std::numeric_limits<uint32_t>::max());
+  gdcm_assert(Size() < std::numeric_limits<uint32_t>::max());
   ItemLength = (uint32_t)Size() - 6;
-  assert( (ItemLength + 4 + 1 + 1) == Size() );
+  gdcm_assert( (ItemLength + 4 + 1 + 1) == Size() );
 }
 
 std::istream &PDataTFPDU::Read(std::istream &is)
 {
   //uint8_t itemtype = 0;
   //is.read( (char*)&itemtype, sizeof(ItemType) );
-  //assert( itemtype == ItemType );
+  //gdcm_assert( itemtype == ItemType );
   uint8_t reserved2 = 0;
   is.read( (char*)&reserved2, sizeof(Reserved2) );
   uint32_t itemlength = ItemLength;
@@ -48,8 +48,8 @@ std::istream &PDataTFPDU::Read(std::istream &is)
     V.push_back( pdv );
     curlen += pdv.Size();
     }
-  assert( curlen == ItemLength );
-  assert( (ItemLength + 4 + 1 + 1) == Size() );
+  gdcm_assert( curlen == ItemLength );
+  gdcm_assert( (ItemLength + 4 + 1 + 1) == Size() );
 
   return is;
 }
@@ -58,7 +58,7 @@ std::istream &PDataTFPDU::ReadInto(std::istream &is, std::ostream &os)
 {
   uint8_t itemtype = 0;
   is.read( (char*)&itemtype, sizeof(ItemType) );
-  assert( itemtype == ItemType );
+  gdcm_assert( itemtype == ItemType );
   uint8_t reserved2 = 0;
   is.read( (char*)&reserved2, sizeof(Reserved2) );
   uint32_t itemlength = ItemLength;
@@ -74,15 +74,15 @@ std::istream &PDataTFPDU::ReadInto(std::istream &is, std::ostream &os)
     V.push_back( pdv );
     curlen += pdv.Size();
     }
-  assert( curlen == ItemLength );
-  assert( (ItemLength + 4 + 1 + 1) == Size() );
+  gdcm_assert( curlen == ItemLength );
+  gdcm_assert( (ItemLength + 4 + 1 + 1) == Size() );
 
   return is;
 }
 
 const std::ostream &PDataTFPDU::Write(std::ostream &os) const
 {
-  assert( (ItemLength + 4 + 1 + 1) == Size() );
+  gdcm_assert( (ItemLength + 4 + 1 + 1) == Size() );
   os.write( (const char*)&ItemType, sizeof(ItemType) );
   os.write( (const char*)&Reserved2, sizeof(Reserved2) );
   //os.write( (const char*)&ItemLength, sizeof(ItemLength) );

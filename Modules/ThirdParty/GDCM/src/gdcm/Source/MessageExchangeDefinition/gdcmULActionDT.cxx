@@ -48,7 +48,7 @@ static void process_input(iosockinet& sio)
 {
   uint8_t itemtype = 0x0;
   sio.read( (char*)&itemtype, 1 );
-  assert( itemtype == 0x1 );
+  gdcm_assert( itemtype == 0x1 );
 
   AAssociateRQPDU rqpdu;
   //rqpdu.SetCallingAETitle( "MOTESCU" );
@@ -82,7 +82,7 @@ static void process_input(iosockinet& sio)
   //std::cout << "done AAssociateACPDU !" << std::endl;
 
   sio.read( (char*)&itemtype, 1 );
-  assert( itemtype == 0x4 );
+  gdcm_assert( itemtype == 0x4 );
 
   PDataTFPDU pdata;
   pdata.Read( sio );
@@ -90,7 +90,7 @@ static void process_input(iosockinet& sio)
   // pick the first one:
   size_t n = pdata.GetNumPDVs();
 
-  assert( n == 1 );
+  gdcm_assert( n == 1 );
   PresentationDataValue const &input_pdv = pdata.GetPresentationDataValue(0);
 
   //std::cout << "done PDataTFPDU 1!" << std::endl;
@@ -104,7 +104,7 @@ static void process_input(iosockinet& sio)
   //at.SetFromDataSet( input_pdv.GetDataSet() );
   unsigned short commanddatasettype = at.GetValue();
   //std::cout << "CommandDataSetType: " << at.GetValue() << std::endl;
-  assert( messageheader == 3 );
+  gdcm_assert( messageheader == 3 );
 
   // C-STORE
   if( commanddatasettype == 0 )
@@ -117,7 +117,7 @@ static void process_input(iosockinet& sio)
       pdata2.ReadInto( sio, out );
       //pdata2.Print( std::cout );
       size_t n2 = pdata.GetNumPDVs();
-      assert( n2 == 1 );
+      gdcm_assert( n2 == 1 );
       PresentationDataValue const &pdv = pdata2.GetPresentationDataValue(0);
       messageheader = pdv.GetMessageHeader();
       //std::cout << "---------------- done PDataTFPDU: " << i << std::endl;
@@ -125,7 +125,7 @@ static void process_input(iosockinet& sio)
       ++i;
       }
     while( messageheader == 0 );
-    assert( messageheader == 2 ); // end of data
+    gdcm_assert( messageheader == 2 ); // end of data
     out.close();
 
     PresentationDataValue pdv;
@@ -155,7 +155,7 @@ static void process_input(iosockinet& sio)
     }
 
   //sio.read( (char*)&itemtype, 1 );
-  //assert( itemtype == 0x4 );
+  //gdcm_assert( itemtype == 0x4 );
   //AReleaseRQPDU rel0;
   //rel0.Read( sio );
 

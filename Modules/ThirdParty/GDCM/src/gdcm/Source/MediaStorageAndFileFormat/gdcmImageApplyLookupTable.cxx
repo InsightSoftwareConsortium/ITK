@@ -80,7 +80,7 @@ bool ImageApplyLookupTable::Apply()
     lut.Decode8(v2.data(), v2.size(), v.data(), v.size());
   else
     lut.Decode(v2.data(), v2.size(), v.data(), v.size());
-  assert( v2.size() < (size_t)std::numeric_limits<uint32_t>::max() );
+  gdcm_assert( v2.size() < (size_t)std::numeric_limits<uint32_t>::max() );
   if( pimpl->rgb8 )
     de.SetByteValue( v2.data(), (uint32_t)v2.size() / 2);
   else
@@ -93,14 +93,14 @@ bool ImageApplyLookupTable::Apply()
     Output->GetPixelFormat().SetBitsAllocated(8);
   Output->SetPlanarConfiguration( 0 ); // FIXME OT-PAL-8-face.dcm has a PlanarConfiguration while being PALETTE COLOR...
   const TransferSyntax &ts = image.GetTransferSyntax();
-  //assert( ts == TransferSyntax::RLELossless );
+  //gdcm_assert( ts == TransferSyntax::RLELossless );
   if( ts.IsExplicit() )
     {
     Output->SetTransferSyntax( TransferSyntax::ExplicitVRLittleEndian );
     }
   else
     {
-    assert( ts.IsImplicit() );
+    gdcm_assert( ts.IsImplicit() );
     Output->SetTransferSyntax( TransferSyntax::ImplicitVRLittleEndian );
     }
   // I do not have access to the DataSet:

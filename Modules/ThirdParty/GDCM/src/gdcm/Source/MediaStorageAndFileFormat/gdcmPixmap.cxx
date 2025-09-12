@@ -45,7 +45,7 @@ bool Pixmap::AreOverlaysInPixelData() const
     {
     total += (int)it->IsInPixelData();
     }
-  assert( total == (int)GetNumberOfOverlays() || !total );
+  gdcm_assert( total == (int)GetNumberOfOverlays() || !total );
   return total != 0;
 }
 

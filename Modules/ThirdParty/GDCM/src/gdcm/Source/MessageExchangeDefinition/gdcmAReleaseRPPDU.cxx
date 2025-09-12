@@ -25,14 +25,14 @@ const uint32_t AReleaseRPPDU::Reserved7_10 = 0x0;
 AReleaseRPPDU::AReleaseRPPDU()
 {
   ItemLength = (uint32_t)(Size() - 6); // PDU Length
-  assert( ItemLength + 6 == Size() );
+  gdcm_assert( ItemLength + 6 == Size() );
 }
 
 std::istream &AReleaseRPPDU::Read(std::istream &is)
 {
   //uint8_t itemtype = 0;
   //is.read( (char*)&itemtype, sizeof(ItemType) );
-  //assert( itemtype == ItemType );
+  //gdcm_assert( itemtype == ItemType );
   uint8_t reserved2 = 0;
   is.read( (char*)&reserved2, sizeof(Reserved2) );
   uint32_t itemlength = ItemLength;
@@ -42,7 +42,7 @@ std::istream &AReleaseRPPDU::Read(std::istream &is)
   uint32_t reserved7_10;
   is.read( (char*)&reserved7_10, sizeof(Reserved7_10) );
 
-  assert( ItemLength + 6 == Size() );
+  gdcm_assert( ItemLength + 6 == Size() );
   return is;
 }
 
@@ -55,7 +55,7 @@ const std::ostream &AReleaseRPPDU::Write(std::ostream &os) const
   os.write( (const char*)&copy, sizeof(ItemLength) );
   os.write( (const char*)&Reserved7_10, sizeof(Reserved7_10) );
 
-  assert( ItemLength + 6 == Size() );
+  gdcm_assert( ItemLength + 6 == Size() );
 
   return os;
 }

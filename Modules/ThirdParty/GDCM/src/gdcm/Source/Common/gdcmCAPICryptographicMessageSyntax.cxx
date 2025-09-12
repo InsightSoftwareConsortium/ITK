@@ -313,7 +313,7 @@ bool CAPICryptographicMessageSyntax::Decrypt(char *output, size_t &outlen, const
   keyBlob.header.reserved = 0;
   keyBlob.header.aiKeyAlg = GetAlgIdByObjId(cekAlg->pszObjId);
   keyBlob.cbKeySize = cekLen;
-  assert(cekLen <= 32);
+  gdcm_assert(cekLen <= 32);
   memcpy(keyBlob.rgbKeyData, cek, cekLen);
 
   if (!CryptImportKey(hProv, (unsigned char*)&keyBlob, sizeof(keyBlob), 0, 0, &hCEK))
@@ -480,7 +480,7 @@ void CAPICryptographicMessageSyntax::ReverseBytes(unsigned char* data, DWORD len
 
 bool CAPICryptographicMessageSyntax::LoadFile(const char * filename, unsigned char* & buffer, DWORD & bufLen)
 {
-  assert( !buffer );
+  gdcm_assert( !buffer );
   FILE * f = fopen(filename, "rb");
   if (f == NULL)
     {

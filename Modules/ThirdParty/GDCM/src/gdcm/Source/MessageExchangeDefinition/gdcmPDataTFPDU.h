@@ -42,13 +42,13 @@ public:
 
   void AddPresentationDataValue( PresentationDataValue const &pdv ) {
     V.push_back( pdv );
-    assert(Size() < std::numeric_limits<uint32_t>::max());
+    gdcm_assert(Size() < std::numeric_limits<uint32_t>::max());
     ItemLength = (uint32_t)Size() - 6;
     }
 
   typedef std::vector<PresentationDataValue>::size_type SizeType;
   PresentationDataValue const &GetPresentationDataValue(SizeType i) const {
-    assert( !V.empty() && i < V.size() );
+    gdcm_assert( !V.empty() && i < V.size() );
     return V[i];
   }
   SizeType GetNumberOfPresentationDataValues() const {

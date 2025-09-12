@@ -31,7 +31,7 @@ PresentationDataValue::PresentationDataValue()
   PresentationContextID = 0; //MUST BE SET BY THE CALLER!
 
   // postcondition
-  assert(Size() < std::numeric_limits<uint32_t>::max());
+  gdcm_assert(Size() < std::numeric_limits<uint32_t>::max());
   ItemLength = (uint32_t)Size() - 4;
   assert (ItemLength + 4 == Size() );
 }
@@ -52,7 +52,7 @@ std::istream &PresentationDataValue::Read(std::istream &is)
     gdcmDebugMacro( "Bizarre MessageHeader: " << MessageHeader );
     }
 
-  assert( ItemLength > 2 );
+  gdcm_assert( ItemLength > 2 );
   uint32_t vl = ItemLength - 2;
   Blob.resize( vl );
   is.read( &Blob[0], vl );
@@ -77,7 +77,7 @@ std::istream &PresentationDataValue::ReadInto(std::istream &is, std::ostream &os
     gdcmDebugMacro( "Bizarre MessageHeader: " << MessageHeader );
     }
 
-  assert( ItemLength > 2 );
+  gdcm_assert( ItemLength > 2 );
   uint32_t vl = ItemLength - 2;
   Blob.resize( vl );
   is.read( &Blob[0], vl );
@@ -92,18 +92,18 @@ const std::ostream &PresentationDataValue::Write(std::ostream &os) const
   uint32_t copy = ItemLength;
   SwapperDoOp::SwapArray(&copy,1);
   os.write( (const char*)&copy, sizeof(ItemLength) );
-  assert( os.good() );
+  gdcm_assert( os.good() );
   os.write( (const char*)&PresentationContextID, sizeof(PresentationContextID) );
-  assert( os.good() );
+  gdcm_assert( os.good() );
 
-  assert( MessageHeader <= 3 );
+  gdcm_assert( MessageHeader <= 3 );
   uint8_t t = MessageHeader;
   os.write( (const char*)&t, 1 );
-  assert( os.good() );
+  gdcm_assert( os.good() );
 
   os.write( Blob.c_str(), Blob.size() );
 
-  assert( Blob.size() == ItemLength - 2 );
+  gdcm_assert( Blob.size() == ItemLength - 2 );
   assert (ItemLength + 4 == Size() );
 
   return os;
@@ -122,9 +122,9 @@ size_t PresentationDataValue::Size() const
 
 void PresentationDataValue::SetBlob(const std::string & partialblob)
 {
-  assert( !partialblob.empty() );
+  gdcm_assert( !partialblob.empty() );
   Blob = partialblob;
-  assert(Size() < std::numeric_limits<uint32_t>::max());
+  gdcm_assert(Size() < std::numeric_limits<uint32_t>::max());
   ItemLength = (uint32_t)Size() - 4;
   assert (ItemLength + 4 == Size() );
 }

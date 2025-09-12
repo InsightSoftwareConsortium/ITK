@@ -31,6 +31,8 @@
 # endif
 #endif
 
+#define gdcm_forced_assert(cond) assert(cond)
+
 namespace gdcm
 {
 
@@ -54,9 +56,9 @@ class Exception : public std::exception
                                  const unsigned int lineNumber,
                                  const char* const func)
   {
-    assert(desc != nullptr);
-    assert(file != nullptr);
-    assert(func != nullptr);
+    gdcm_forced_assert(desc != nullptr);
+    gdcm_forced_assert(file != nullptr);
+    gdcm_forced_assert(func != nullptr);
     std::ostringstream oswhat;
     oswhat << file << ":" << lineNumber << " (" << func << "):\n";
     oswhat << desc;
@@ -97,6 +99,17 @@ private:
 };
 
 } // end namespace gdcm
+
+// Always defined
+#define gdcm_assert(cond) \
+  if (!(cond)) throw gdcm::Exception("An invalid logic behavior occurred" #cond, __FILE__ , __LINE__)
+
+/* Asserts that should only exist in debug builds. */
+#ifndef NDEBUG // checks in debug builds and elision in release builds (like assert)
+#define gdcm_debug_assert(cond) gdcm_assert(cond)
+#else
+#define gdcm_debug_assert(cond) ((void)0)
+#endif
 
 // Undo warning suppression.
 #if defined(__clang__) && defined(__has_warning)

@@ -64,7 +64,7 @@ namespace gdcm_ns
       }
     // I cannot check IsPrintable some file contains \2 or \0 in a VR::LO element
     // See: acr_image_with_non_printable_in_0051_1010.acr
-    //assert( IsPrintable(length) );
+    //gdcm_assert( IsPrintable(length) );
     std::vector<char>::const_iterator it = Internal.begin();
     for(; it != Internal.begin()+length; ++it)
       {
@@ -156,7 +156,7 @@ namespace gdcm_ns
         else
           {
           //in the rare case there are more ^ characters
-          assert("Name components exceeded");
+          gdcm_assert("Name components exceeded");
           }
         }
       else if ( c == '=' )
@@ -201,7 +201,7 @@ namespace gdcm_ns
           }
         else
           {
-          assert("Impossible - only 3 names allowed");
+          gdcm_assert("Impossible - only 3 names allowed");
           }
         count2=1;
         }
@@ -325,7 +325,7 @@ namespace gdcm_ns
     Internal.insert( Internal.end(), bv.Internal.begin(), bv.Internal.end());
     Length += bv.Length;
     // post condition
-    assert( Internal.size() % 2 == 0 && Internal.size() == Length );
+    gdcm_assert( Internal.size() % 2 == 0 && Internal.size() == Length );
     }
    
 } // end namespace gdcm_ns

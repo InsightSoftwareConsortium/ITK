@@ -139,7 +139,7 @@ void ULConnection::AddAcceptedPresentationContext(const PresentationContextAC& i
 PresentationContextRQ ULConnection::FindContext(const DataElement& ) const
 {
   PresentationContextRQ empty;
-  assert( 0 && "TODO" );
+  gdcm_assert( 0 && "TODO" );
   return empty;
 }
 
@@ -323,7 +323,7 @@ uint8_t ULConnection::GetPresentationContextIDFromPresentationContext(Presentati
     ret = it->GetPresentationContextID();
     }
 
-  assert( ret );
+  gdcm_assert( ret );
   return ret;
 }
 
@@ -340,7 +340,7 @@ TransferSyntaxSub const & ULConnection::GetCStoreTransferSyntax( ) const
   TransferSyntaxSub ts2;
   ts2.SetNameFromUID( UIDs::ExplicitVRLittleEndian );
 
-  assert( strcmp(cstorets.GetName(), ts1.GetName()) == 0
+  gdcm_assert( strcmp(cstorets.GetName(), ts1.GetName()) == 0
        || strcmp(cstorets.GetName(), ts2.GetName()) == 0
   );
 

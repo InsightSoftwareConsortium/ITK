@@ -94,7 +94,7 @@ Overlay::Overlay(Overlay const &ov):Object(ov)
 
 Overlay & Overlay::operator=(Overlay const &ov)
 {
-  assert( Internal );
+  gdcm_assert( Internal );
   *Internal = *ov.Internal;
   return *this;
 }
@@ -118,13 +118,13 @@ void Overlay::Update(const DataElement & de)
     Bit Position (60xx,0102) is always 0.
 */
 
-  assert( de.GetTag().IsPublic() );
+  gdcm_assert( de.GetTag().IsPublic() );
   const ByteValue* bv = de.GetByteValue();
   if( !bv ) return; // Discard any empty element (will default to another value)
-  assert( bv->GetPointer() && bv->GetLength() );
+  gdcm_assert( bv->GetPointer() && bv->GetLength() );
   std::string s( bv->GetPointer(), bv->GetLength() );
   // What if a \0 can be found before the end of string...
-  //assert( strlen( s.c_str() ) == s.size() );
+  //gdcm_assert( strlen( s.c_str() ) == s.size() );
 
   // First thing check consistency:
   if( !GetGroup() )
@@ -133,7 +133,7 @@ void Overlay::Update(const DataElement & de)
     }
   else // check consistency
     {
-    assert( GetGroup() == de.GetTag().GetGroup() ); // programmer error
+    gdcm_assert( GetGroup() == de.GetTag().GetGroup() ); // programmer error
     }
 
   //std::cerr << "Tag: " << de.GetTag() << std::endl;
@@ -185,7 +185,7 @@ void Overlay::Update(const DataElement & de)
     }
   else if( de.GetTag().GetElement() == 0x0060 ) // OverlayCompressionCode (RET)
     {
-    assert( s == "NONE" ); // FIXME ??
+    gdcm_assert( s == "NONE" ); // FIXME ??
     }
   else if( de.GetTag().GetElement() == 0x0100 ) // OverlayBitsAllocated
     {
@@ -211,7 +211,7 @@ void Overlay::Update(const DataElement & de)
     }
   else if( de.GetTag().GetElement() == 0x0110 ) // OverlayFormat (RET)
     {
-    assert( s == "RECT" );
+    gdcm_assert( s == "RECT" );
     }
   else if( de.GetTag().GetElement() == 0x0200 ) // OverlayLocation (RET)
     {
@@ -242,7 +242,7 @@ void Overlay::Update(const DataElement & de)
   else
     {
     gdcmErrorMacro( "Tag is not supported: " << de.GetTag() << std::endl );
-    assert(0);
+    gdcm_assert(0);
     }
 }
 
@@ -268,7 +268,7 @@ bool Overlay::GrabOverlayFromPixelData(DataSet const &ds)
     const unsigned int length = ovlength * 8 * 1; //bv->GetLength();
     const uint8_t *p = (const uint8_t*)(const void*)array;
     const uint8_t *end = (const uint8_t*)(const void*)(array + length);
-    assert( 8 * ovlength == (unsigned int)Internal->Rows * Internal->Columns );
+    gdcm_assert( 8 * ovlength == (unsigned int)Internal->Rows * Internal->Columns );
     if( Internal->Data.empty() )
       {
       gdcmWarningMacro("Internal Data is empty." );
@@ -277,11 +277,11 @@ bool Overlay::GrabOverlayFromPixelData(DataSet const &ds)
     unsigned char * overlay = (unsigned char*)Internal->Data.data();
     int c = 0;
     uint8_t pmask = (uint8_t)(1 << Internal->BitPosition);
-    assert( length / 1 == ovlength * 8 );
+    gdcm_assert( length / 1 == ovlength * 8 );
     while( p != end )
       {
       const uint8_t val = *p & pmask;
-      assert( val == 0x0 || val == pmask );
+      gdcm_assert( val == 0x0 || val == pmask );
       // 128 -> 0x80
       if( val )
         {
@@ -294,11 +294,11 @@ bool Overlay::GrabOverlayFromPixelData(DataSet const &ds)
       ++p;
       ++c;
       }
-    assert( (unsigned)c / 8 == ovlength );
+    gdcm_assert( (unsigned)c / 8 == ovlength );
     }
   else if( Internal->BitsAllocated == 16 )
     {
-    //assert( Internal->BitPosition >= 12 );
+    //gdcm_assert( Internal->BitPosition >= 12 );
     if( !ds.FindDataElement( Tag(0x7fe0,0x0010) ) )
       {
       gdcmWarningMacro("Could not find Pixel Data. Cannot extract Overlay." );
@@ -312,7 +312,7 @@ bool Overlay::GrabOverlayFromPixelData(DataSet const &ds)
       gdcmWarningMacro("Could not extract overlay from encapsulated stream." );
       return false;
       }
-    assert( bv );
+    gdcm_assert( bv );
     const char *array = bv->GetPointer();
     // SIEMENS_GBS_III-16-ACR_NEMA_1.acr is pain to support,
     // I cannot simply use the bv->GetLength I have to use the image dim:
@@ -320,7 +320,7 @@ bool Overlay::GrabOverlayFromPixelData(DataSet const &ds)
     const uint16_t *p = (const uint16_t*)(const void*)array;
     const uint16_t *end = (const uint16_t*)(const void*)(array + length);
     //const unsigned int ovlength = length / (8*2);
-    assert( 8 * ovlength == (unsigned int)Internal->Rows * Internal->Columns );
+    gdcm_assert( 8 * ovlength == (unsigned int)Internal->Rows * Internal->Columns );
     if( Internal->Data.empty() )
       {
       gdcmWarningMacro("Internal Data is empty." );
@@ -329,11 +329,11 @@ bool Overlay::GrabOverlayFromPixelData(DataSet const &ds)
     unsigned char * overlay = (unsigned char*)Internal->Data.data();
     int c = 0;
     uint16_t pmask = (uint16_t)(1 << Internal->BitPosition);
-    assert( length / 2 == ovlength * 8 );
+    gdcm_assert( length / 2 == ovlength * 8 );
     while( p != end )
       {
       const uint16_t val = *p & pmask;
-      assert( val == 0x0 || val == pmask );
+      gdcm_assert( val == 0x0 || val == pmask );
       // 128 -> 0x80
       if( val )
         {
@@ -346,7 +346,7 @@ bool Overlay::GrabOverlayFromPixelData(DataSet const &ds)
       ++p;
       ++c;
       }
-    assert( (unsigned)c / 8 == ovlength );
+    gdcm_assert( (unsigned)c / 8 == ovlength );
     }
   else
     {
@@ -473,8 +473,8 @@ void Overlay::SetOverlay(const char *array, size_t length)
     std::copy(array, array+computed_length, Internal->Data.begin());
     }
   /* warning need to take into account padding to the next word (8bits) */
-  //assert( length == compute_bit_and_dicom_padding(Internal->Rows, Internal->Columns) );
-  assert( Internal->Data.size() == computed_length );
+  //gdcm_assert( length == compute_bit_and_dicom_padding(Internal->Rows, Internal->Columns) );
+  gdcm_assert( Internal->Data.size() == computed_length );
 }
 
 const ByteValue &Overlay::GetOverlayData() const
@@ -498,7 +498,7 @@ bool Overlay::GetUnpackBuffer(char *buffer, size_t len) const
   const unsigned char *begin = unpackedbytes;
   for( std::vector<char>::const_iterator it = Internal->Data.begin(); it != Internal->Data.end(); ++it )
     {
-    assert( unpackedbytes <= begin + len ); // We never store more than actually required
+    gdcm_assert( unpackedbytes <= begin + len ); // We never store more than actually required
     // const unsigned char &packedbytes = *it;
     // weird bug with gcc 3.3 (prerelease on SuSE) apparently:
     unsigned char packedbytes = static_cast<unsigned char>(*it);
@@ -517,7 +517,7 @@ bool Overlay::GetUnpackBuffer(char *buffer, size_t len) const
       mask <<= 1;
       }
     }
-  assert(unpackedbytes <= begin + len);
+  gdcm_assert(unpackedbytes <= begin + len);
   return true;
 }
 

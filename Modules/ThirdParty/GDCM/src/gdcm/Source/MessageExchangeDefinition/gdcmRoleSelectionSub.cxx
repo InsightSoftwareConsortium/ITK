@@ -30,14 +30,14 @@ RoleSelectionSub::RoleSelectionSub()
   SCPRole = 0;
 
   ItemLength = (uint16_t)(Size() - 4);
-  assert( (size_t)ItemLength + 4 == Size() );
+  gdcm_assert( (size_t)ItemLength + 4 == Size() );
 }
 
 std::istream &RoleSelectionSub::Read(std::istream &is)
 {
   //uint8_t itemtype = 0x0;
   //is.read( (char*)&itemtype, sizeof(ItemType) );
-  //assert( itemtype == ItemType );
+  //gdcm_assert( itemtype == ItemType );
   uint8_t reserved2;
   is.read( (char*)&reserved2, sizeof(Reserved2) );
   uint16_t itemlength;
@@ -51,7 +51,7 @@ std::istream &RoleSelectionSub::Read(std::istream &is)
   UIDLength = uidlength;
 
   char name[256];
-  assert( uidlength < 256 );
+  gdcm_assert( uidlength < 256 );
   is.read( name, uidlength );
   Name = std::string(name,uidlength);
 
@@ -63,14 +63,14 @@ std::istream &RoleSelectionSub::Read(std::istream &is)
   is.read( (char*)&scprole, sizeof(SCPRole) );
   SCPRole = scprole;
 
-  assert( (size_t)ItemLength + 4 == Size() );
+  gdcm_assert( (size_t)ItemLength + 4 == Size() );
 
   return is;
 }
 
 const std::ostream &RoleSelectionSub::Write(std::ostream &os) const
 {
-  assert( (size_t)ItemLength + 4 == Size() );
+  gdcm_assert( (size_t)ItemLength + 4 == Size() );
 
   os.write( (const char*)&ItemType, sizeof(ItemType) );
   os.write( (const char*)&Reserved2, sizeof(Reserved2) );
@@ -79,20 +79,20 @@ const std::ostream &RoleSelectionSub::Write(std::ostream &os) const
   SwapperDoOp::SwapArray(&copy,1);
   os.write( (const char*)&copy, sizeof(ItemLength) );
 
-  assert( ItemLength > UIDLength );
+  gdcm_assert( ItemLength > UIDLength );
   uint16_t uidlength = UIDLength;
   SwapperDoOp::SwapArray(&uidlength,1);
   os.write( (const char*)&uidlength, sizeof(UIDLength) );
 
-  assert( (size_t)UIDLength == Name.size() );
+  gdcm_assert( (size_t)UIDLength == Name.size() );
   os.write( Name.c_str(), Name.size() );
 
   uint8_t scurole = SCURole;
-  assert( scurole == 0 || scurole == 1 );
+  gdcm_assert( scurole == 0 || scurole == 1 );
   os.write( (const char*)&scurole, sizeof(SCURole) );
 
   uint8_t scprole = SCPRole;
-  assert( scprole == 0 || scprole == 1 );
+  gdcm_assert( scprole == 0 || scprole == 1 );
   os.write( (const char*)&scprole, sizeof(SCPRole) );
 
   return os;
@@ -105,7 +105,7 @@ size_t RoleSelectionSub::Size() const
   ret += sizeof(Reserved2);
   ret += sizeof(ItemLength);
   ret += sizeof(UIDLength);
-  assert( Name.size() == UIDLength );
+  gdcm_assert( Name.size() == UIDLength );
   ret += UIDLength;
   ret += sizeof(SCURole);
   ret += sizeof(SCPRole);
@@ -134,13 +134,13 @@ void RoleSelectionSub::SetTuple(const char *uid, uint8_t scurole, uint8_t scprol
     {
     Name = uid;
     UIDLength = (uint16_t)strlen( uid );
-    assert( (size_t)UIDLength == Name.size() );
+    gdcm_assert( (size_t)UIDLength == Name.size() );
     SCURole = scurole % 2;
     SCPRole = scprole % 2;
     ItemLength = (uint16_t)(Size() - 4);
     }
   // post condition
-  assert( (size_t)ItemLength + 4 == Size() );
+  gdcm_assert( (size_t)ItemLength + 4 == Size() );
 }
 
 void RoleSelectionSub::Print(std::ostream &os) const

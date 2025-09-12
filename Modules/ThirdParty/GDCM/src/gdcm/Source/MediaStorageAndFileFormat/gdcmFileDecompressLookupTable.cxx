@@ -28,8 +28,8 @@ bool FileDecompressLookupTable::Change()
     if ( pi == PhotometricInterpretation::PALETTE_COLOR )
       {
       const LookupTable &lut = PixelData->GetLUT();
-      assert( lut.Initialized() );
-//      assert( (pf.GetBitsAllocated() == 8  && pf.GetPixelRepresentation() == 0)
+      gdcm_assert( lut.Initialized() );
+//      gdcm_assert( (pf.GetBitsAllocated() == 8  && pf.GetPixelRepresentation() == 0)
 //           || (pf.GetBitsAllocated() == 16 && pf.GetPixelRepresentation() == 0) );
       // lut descriptor:
       // (0028,1101) US 256\0\16                                 #   6, 3 RedPaletteColorLookupTableDescriptor

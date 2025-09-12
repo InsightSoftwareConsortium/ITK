@@ -139,15 +139,15 @@ unsigned int VM::GetLength() const
     return 0;
   default:
     len = 0;
-    assert(0);
+    gdcm_assert(0);
     }
-  assert( len );
+  gdcm_assert( len );
   return len;
 }
 
 unsigned int VM::GetIndex(VMType vm)
 {
-  assert( vm <= VM_END );
+  gdcm_assert( vm <= VM_END );
   unsigned int l;
   switch(vm)
     {
@@ -225,8 +225,8 @@ unsigned int VM::GetIndex(VMType vm)
 const char *VM::GetVMString(VMType vm)
 {
   unsigned int idx = GetIndex(vm);
-  assert( idx < sizeof(VMStrings) / sizeof(VMStrings[0]) );
-  //assert( idx );
+  gdcm_assert( idx < sizeof(VMStrings) / sizeof(VMStrings[0]) );
+  //gdcm_assert( idx );
   return VMStrings[idx];
 }
 
@@ -250,7 +250,7 @@ VM::VMType VM::GetVMType(const char *vm)
 bool VM::IsValid(int vm1, VMType vm2)
 {
   bool r = false;
-  assert( vm1 >= 0 ); // Still need to check Part 3
+  gdcm_assert( vm1 >= 0 ); // Still need to check Part 3
   // If you update the VMType, you need to update this code. Hopefully a compiler is
   // able to tell when a case is missing
   switch(vm2)
@@ -313,7 +313,7 @@ bool VM::IsValid(int vm1, VMType vm2)
     r = (vm1 >= 3);
     break;
   default:
-    assert(0); // should not happen
+    gdcm_assert(0); // should not happen
     }
   return r;
 }
@@ -382,7 +382,7 @@ size_t VM::GetNumberOfElementsFromArray(const char *array, size_t length)
 bool VM::Compatible(VM const &vm) const
 {
   // make sure that vm is a numeric value
-  //assert( vm.VMField <= VM256 );
+  //gdcm_assert( vm.VMField <= VM256 );
   if ( VMField == VM::VM0 ) return false; // nothing was found in the dict
   if ( vm == VM::VM0 ) return true; // the user was not able to compute the vm from the empty bytevalue
   // let's start with the easy case:
@@ -431,7 +431,7 @@ bool VM::Compatible(VM const &vm) const
     }
   if( r )
     {
-    assert( VMField & vm.VMField );
+    gdcm_assert( VMField & vm.VMField );
     }
   return r;
 }

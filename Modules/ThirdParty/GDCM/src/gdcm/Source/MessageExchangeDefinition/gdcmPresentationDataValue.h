@@ -49,18 +49,18 @@ public:
 
   uint8_t GetPresentationContextID() const { return PresentationContextID; }
   void SetPresentationContextID(uint8_t id) {
-    assert( id );
+    gdcm_assert( id );
     PresentationContextID = id;
   }
   uint8_t GetMessageHeader() const {
-    assert( MessageHeader <= 0x3 );
+    gdcm_assert( MessageHeader <= 0x3 );
     return MessageHeader;
   }
   // E.2 MESSAGE CONTROL HEADER ENCODING
   // Only the first two bits are considered
   void SetMessageHeader(uint8_t messageheader) {
     MessageHeader = messageheader;
-    assert( MessageHeader <= 0x3 );
+    gdcm_assert( MessageHeader <= 0x3 );
   }
   //flip the least significant bit of the message header to 1
   //if this is a command, else set it to 0.

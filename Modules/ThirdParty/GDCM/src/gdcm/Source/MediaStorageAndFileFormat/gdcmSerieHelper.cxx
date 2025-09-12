@@ -154,7 +154,7 @@ static bool CompareDicomString(const std::string &s1, const char *s2, int op)
   // s2 is the string from the DICOM reference e.g. : 'MONOCHROME1'
   std::string s1_even = s1; //Never change input parameter
   std::string s2_even = /*DicomString(*/ s2 ;
-  assert( s2_even.size() % 2 == 0 );
+  gdcm_assert( s2_even.size() % 2 == 0 );
   if ( s1_even[s1_even.size()-1] == ' ' )
     {
     s1_even[s1_even.size()-1] = '\0'; //replace space character by null

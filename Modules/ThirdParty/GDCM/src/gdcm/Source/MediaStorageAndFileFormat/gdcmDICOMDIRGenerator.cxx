@@ -87,7 +87,7 @@ static const char *GetLowerLevelDirectoryRecord(const char *input)
     {
     return nullptr;
     }
-  assert( 0 );
+  gdcm_assert( 0 );
   //std::cerr << "COULD NOT FIND:" << input << std::endl;
   return nullptr;
 }
@@ -113,13 +113,13 @@ DICOMDIRGenerator::MyPair DICOMDIRGenerator::GetReferenceValueForDirectoryType(s
   directoryrecordtype.Set( ds );
 
   const char *input = directoryrecordtype.GetValue();
-  assert( input );
+  gdcm_assert( input );
 
   if( strcmp( input, "PATIENT " ) == 0 )
     {
     Attribute<0x10,0x20> patientid;
     patientid.Set( ds );
-    assert( patientid.GetValue() );
+    gdcm_assert( patientid.GetValue() );
     ret.first = patientid.GetValue();
     ret.second = patientid.GetTag();
     }
@@ -127,7 +127,7 @@ DICOMDIRGenerator::MyPair DICOMDIRGenerator::GetReferenceValueForDirectoryType(s
     {
     Attribute <0x20,0xd> studyuid;
     studyuid.Set( ds );
-    assert( studyuid.GetValue() );
+    gdcm_assert( studyuid.GetValue() );
     ret.first = studyuid.GetValue();
     ret.second = studyuid.GetTag();
     }
@@ -135,7 +135,7 @@ DICOMDIRGenerator::MyPair DICOMDIRGenerator::GetReferenceValueForDirectoryType(s
     {
     Attribute <0x20,0xe> seriesuid;
     seriesuid.Set( ds );
-    assert( seriesuid.GetValue() );
+    gdcm_assert( seriesuid.GetValue() );
     ret.first = seriesuid.GetValue();
     ret.second = seriesuid.GetTag();
     }
@@ -143,13 +143,13 @@ DICOMDIRGenerator::MyPair DICOMDIRGenerator::GetReferenceValueForDirectoryType(s
     {
     Attribute <0x04,0x1511> sopuid;
     sopuid.Set( ds );
-    assert( sopuid.GetValue() );
+    gdcm_assert( sopuid.GetValue() );
     ret.first = sopuid.GetValue();
     ret.second = Tag(0x8,0x18); // watch out !
     }
   else
     {
-    assert( 0 );
+    gdcm_assert( 0 );
     }
   return ret;
 }
@@ -175,15 +175,15 @@ static Tag GetParentTag(Tag const &t)
     }
   else
     {
-    assert( 0 );
+    gdcm_assert( 0 );
     }
   return ret;
 }
 
 bool DICOMDIRGenerator::SeriesBelongToStudy(const char *seriesuid, const char *studyuid)
 {
-  assert( seriesuid );
-  assert( studyuid );
+  gdcm_assert( seriesuid );
+  gdcm_assert( studyuid );
   const Scanner &scanner = GetScanner();
 
   Scanner::TagToValue const &ttv = scanner.GetMappingFromTagToValue(Tag(0x20,0xe), seriesuid);
@@ -203,8 +203,8 @@ bool DICOMDIRGenerator::SeriesBelongToStudy(const char *seriesuid, const char *s
 
 bool DICOMDIRGenerator::ImageBelongToSeries(const char *sopuid, const char *seriesuid, Tag const &t1, Tag const &t2)
 {
-  assert( seriesuid );
-  assert( sopuid );
+  gdcm_assert( seriesuid );
+  gdcm_assert( sopuid );
   const Scanner &scanner = GetScanner();
 
   Scanner::TagToValue const &ttv = scanner.GetMappingFromTagToValue(t1, sopuid);
@@ -223,8 +223,8 @@ bool DICOMDIRGenerator::ImageBelongToSeries(const char *sopuid, const char *seri
 
 bool DICOMDIRGenerator::ImageBelongToSameSeries(const char *sopuid1, const char *sopuid2, Tag const &t)
 {
-  assert( sopuid1 );
-  assert( sopuid2 );
+  gdcm_assert( sopuid1 );
+  gdcm_assert( sopuid2 );
   const Scanner &scanner = GetScanner();
 
   Scanner::TagToValue const &ttv1 = scanner.GetMappingFromTagToValue(t, sopuid1);
@@ -246,8 +246,8 @@ bool DICOMDIRGenerator::ImageBelongToSameSeries(const char *sopuid1, const char 
     {
     seriesuid2 = ttv2.find(tseriesuid)->second;
     }
-  assert( seriesuid1 );
-  assert( seriesuid2 );
+  gdcm_assert( seriesuid1 );
+  gdcm_assert( seriesuid2 );
 
   b = strcmp( seriesuid1, seriesuid2) == 0;
   return b;
@@ -278,7 +278,7 @@ size_t DICOMDIRGenerator::FindLowerLevelDirectoryRecord( size_t item1, const cha
         refval1.first.c_str(), refval2.second, refval1.second);
       if( b ) return i;
       }
-    //assert( strncmp( lowerdirectorytype, directoryrecordtype.GetValue(), strlen( lowerdirectorytype ) ) != 0 );
+    //gdcm_assert( strncmp( lowerdirectorytype, directoryrecordtype.GetValue(), strlen( lowerdirectorytype ) ) != 0 );
     }
 
   // Not found
@@ -313,7 +313,7 @@ size_t DICOMDIRGenerator::FindNextDirectoryRecord( size_t item1, const char *dir
       bool b = ImageBelongToSameSeries(refval1.first.c_str(), refval2.first.c_str(), refval1.second);
       if( b ) return i;
       }
-    //assert( strncmp( directorytype, directoryrecordtype.GetValue(), strlen( directorytype ) ) != 0 );
+    //gdcm_assert( strncmp( directorytype, directoryrecordtype.GetValue(), strlen( directorytype ) ) != 0 );
     }
 
   // Not found
@@ -359,7 +359,7 @@ void SingleDataElementInserter(DataSet &ds, Scanner const & scanner)
   Scanner::ValuesType patientsnames = scanner.GetValues( patientsname.GetTag() );
 #ifndef NDEBUG
   const unsigned int npatient = patientsnames.size();
-  assert( npatient == 1 );
+  gdcm_assert( npatient == 1 );
 #endif
 
   Scanner::ValuesType::const_iterator it = patientsnames.begin();
@@ -682,7 +682,7 @@ bool DICOMDIRGenerator::AddImageDirectoryRecord()
     std::string::size_type l = relative.find( rd );
     if( l != std::string::npos )
       {
-      assert( l == 0 ); // FIXME
+      gdcm_assert( l == 0 ); // FIXME
       relative.replace( l, strlen_rd, "" );
       fn = relative.c_str() + 1;
       }
@@ -719,7 +719,7 @@ bool DICOMDIRGenerator::AddImageDirectoryRecord()
     Attribute<0x8,0x8> imagetype;
     //Scanner::ValuesType imagetypes = scanner.GetValues( imagetype.GetTag() );
     //Scanner::ValuesType::const_iterator it = imagetypes.begin();
-    //assert( imagetypes.size() == 1 );
+    //gdcm_assert( imagetypes.size() == 1 );
     //imagetype.SetNumberOfValues( 1 );
     //imagetype.SetValue( it->c_str() );
     //ds.Replace( imagetype.GetAsDataElement() );
@@ -861,7 +861,7 @@ bool DICOMDIRGenerator::Generate()
     std::string::size_type l = relative.find( rd );
     if( l != std::string::npos )
       {
-      assert( l == 0 ); // FIXME
+      gdcm_assert( l == 0 ); // FIXME
       relative.replace( l, strlen_rd, "" );
       f = relative.c_str() + 1;
       }
@@ -1046,7 +1046,7 @@ SequenceOfItems *DICOMDIRGenerator::GetDirectoryRecordSequence()
 
 const char *DICOMDIRGenerator::ComputeFileID(const char *input)
 {
-  assert( 0 ); (void)input;
+  gdcm_assert( 0 ); (void)input;
   return nullptr;
 }
 

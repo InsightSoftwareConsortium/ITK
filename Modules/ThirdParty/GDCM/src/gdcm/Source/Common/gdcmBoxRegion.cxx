@@ -67,7 +67,7 @@ Region *BoxRegion::Clone() const
 
 bool BoxRegion::Empty() const
 {
-  assert( 0 );
+  gdcm_assert( 0 );
   return false;
 }
 
@@ -146,14 +146,14 @@ BoxRegion BoxRegion::BoundingBox(BoxRegion const & b1, BoxRegion const & b2 )
 
 BoxRegion::BoxRegion(const BoxRegion& b)
 {
-  assert( b.Internals );
+  gdcm_assert( b.Internals );
   Internals = new BoxRegionInternals;
   *Internals = *b.Internals;
 }
 
 void BoxRegion::operator=(const BoxRegion& b)
 {
-  assert( b.Internals );
+  gdcm_assert( b.Internals );
   *Internals = *b.Internals;
 }
 

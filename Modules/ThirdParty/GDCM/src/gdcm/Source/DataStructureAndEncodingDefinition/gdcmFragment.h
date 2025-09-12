@@ -119,7 +119,7 @@ public:
     while( cont )
       {
       TagField.Read<TSwap>(is);
-      assert( is );
+      gdcm_assert( is );
       if( TagField != itemStart && TagField != seqDelItem )
         {
         ++offset;
@@ -136,7 +136,7 @@ public:
         cont = false;
         }
       }
-    assert( TagField == itemStart || TagField == seqDelItem );
+    gdcm_assert( TagField == itemStart || TagField == seqDelItem );
     if( !ValueLengthField.Read<TSwap>(is) )
       {
       return is;
@@ -166,10 +166,10 @@ public:
     const Tag seqDelItem(0xfffe,0xe0dd);
     if( !TagField.Write<TSwap>(os) )
       {
-      assert(0 && "Should not happen");
+      gdcm_assert(0 && "Should not happen");
       return os;
       }
-    assert( TagField == itemStart
+    gdcm_assert( TagField == itemStart
          || TagField == seqDelItem );
     const ByteValue *bv = GetByteValue();
     // VL
@@ -177,23 +177,23 @@ public:
     // CompressedLossy.dcm
     if( IsEmpty() )
       {
-      //assert( bv );
+      //gdcm_assert( bv );
       VL zero = 0;
       if( !zero.Write<TSwap>(os) )
         {
-        assert(0 && "Should not happen");
+        gdcm_assert(0 && "Should not happen");
         return os;
         }
       }
     else
       {
-      assert( ValueLengthField );
-      assert( !ValueLengthField.IsUndefined() );
+      gdcm_assert( ValueLengthField );
+      gdcm_assert( !ValueLengthField.IsUndefined() );
       const VL actuallen = bv->ComputeLength();
-      assert( actuallen == ValueLengthField || actuallen == ValueLengthField + 1 );
+      gdcm_assert( actuallen == ValueLengthField || actuallen == ValueLengthField + 1 );
       if( !actuallen.Write<TSwap>(os) )
         {
-        assert(0 && "Should not happen");
+        gdcm_assert(0 && "Should not happen");
         return os;
         }
       }
@@ -201,11 +201,11 @@ public:
     if( ValueLengthField && bv )
       {
       // Self
-      assert( bv );
-      assert( bv->GetLength() == ValueLengthField );
+      gdcm_assert( bv );
+      gdcm_assert( bv->GetLength() == ValueLengthField );
       if( !bv->Write<TSwap>(os) )
         {
-        assert(0 && "Should not happen");
+        gdcm_assert(0 && "Should not happen");
         return os;
         }
       }

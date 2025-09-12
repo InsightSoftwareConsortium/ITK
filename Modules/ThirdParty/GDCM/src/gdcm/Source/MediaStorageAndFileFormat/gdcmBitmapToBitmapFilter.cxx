@@ -44,7 +44,7 @@ void BitmapToBitmapFilter::SetInput(const Bitmap& image)
   else
     {
     Output = nullptr;
-    assert( 0 );
+    gdcm_assert( 0 );
     }
 }
 

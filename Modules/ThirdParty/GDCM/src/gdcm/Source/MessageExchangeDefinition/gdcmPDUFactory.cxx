@@ -345,7 +345,7 @@ std::vector<PresentationDataValue> PDUFactory::GetPDVs(const std::vector<BasePDU
     PDataTFPDU* thePDataTFPDU = dynamic_cast<PDataTFPDU*>(*itor);
     if (thePDataTFPDU == nullptr)
       {
-      assert(0); //shouldn't really get here.
+      gdcm_assert(0); //shouldn't really get here.
       return outPDVs; //just stop now, no longer with data pdus.
       }
     size_t theNumPDVsinPDU = thePDataTFPDU->GetNumberOfPresentationDataValues();
