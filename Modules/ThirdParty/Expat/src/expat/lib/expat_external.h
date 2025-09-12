@@ -122,6 +122,8 @@
 #  define XML_ATTR_ALLOC_SIZE(x)
 #endif
 
+#define XMLPARSEAPI(type) XMLIMPORT type XMLCALL
+
 #ifdef __cplusplus
 extern "C" {
 #endif
