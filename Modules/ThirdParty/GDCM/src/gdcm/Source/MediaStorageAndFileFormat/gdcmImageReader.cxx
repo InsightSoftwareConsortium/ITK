@@ -67,7 +67,7 @@ bool ImageReader::ReadImage(MediaStorage const &ms)
   // FIXME: Only SC is allowed not to have spacing:
   if( !spacing.empty() )
     {
-    assert( spacing.size() >= pixeldata.GetNumberOfDimensions() ); // In MR, you can have a Z spacing, but store a 2D image
+    gdcm_assert( spacing.size() >= pixeldata.GetNumberOfDimensions() ); // In MR, you can have a Z spacing, but store a 2D image
     pixeldata.SetSpacing( spacing.data() );
     if( spacing.size() > pixeldata.GetNumberOfDimensions() ) // FIXME HACK
       {

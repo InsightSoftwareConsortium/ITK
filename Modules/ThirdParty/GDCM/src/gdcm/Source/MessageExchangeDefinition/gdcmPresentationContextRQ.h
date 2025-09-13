@@ -64,8 +64,8 @@ public:
 
   bool operator==(const PresentationContextRQ & pc) const
     {
-    assert( TransferSyntaxes.size() == 1 ); // TODO
-    assert( pc.TransferSyntaxes.size() == 1 );
+    gdcm_assert( TransferSyntaxes.size() == 1 ); // TODO
+    gdcm_assert( pc.TransferSyntaxes.size() == 1 );
     return SubItems == pc.SubItems && TransferSyntaxes == pc.TransferSyntaxes;
     }
 

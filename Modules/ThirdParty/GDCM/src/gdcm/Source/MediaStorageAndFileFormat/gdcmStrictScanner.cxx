@@ -43,7 +43,7 @@ void StrictScanner::ClearSkipTags()
 void StrictScanner::AddSkipTag( Tag const & t )
 {
   SkipTags.insert( t );
-  assert(0); // This is NOT implemented for now
+  gdcm_assert(0); // This is NOT implemented for now
 }
 
 // Warning: API is passing a public tag (no way to specify private tag)
@@ -64,7 +64,7 @@ void StrictScanner::AddPrivateTag( PrivateTag const & t )
     }
   else
     {
-    assert( entry.GetVR() & VR::VRBINARY );
+    gdcm_assert( entry.GetVR() & VR::VRBINARY );
     //gdcmWarningMacro( "Only ASCII VR are supported for now. Tag " << t << " will be discarded" );
     PrivateTags.insert( t );
     }
@@ -86,7 +86,7 @@ void StrictScanner::AddTag( Tag const & t )
     }
   else
     {
-    assert( entry.GetVR() & VR::VRBINARY );
+    gdcm_assert( entry.GetVR() & VR::VRBINARY );
     //gdcmWarningMacro( "Only ASCII VR are supported for now. Tag " << t << " will be discarded" );
     Tags.insert( t );
     }
@@ -134,7 +134,7 @@ bool StrictScanner::Scan( Directory::FilenamesType const & filenames )
       {
       Reader reader;
       const char *filename = it->c_str();
-      assert( filename );
+      gdcm_assert( filename );
       reader.SetFileName( filename );
       // Pass #1, just check if the file is valid (up to the tag)
       const bool strict = StrictReadUpToTag( filename, last, SkipTags );
@@ -192,7 +192,7 @@ void StrictScanner::Print( std::ostream & os ) const
   for(; file != Filenames.end(); ++file)
     {
     const char *filename = file->c_str();
-    assert( filename && *filename );
+    gdcm_assert( filename && *filename );
     bool b = IsKey(filename);
     const char *comment = !b ? "could not be read" : "could be read";
     os << "Filename: " << filename << " (" << comment << ")\n";
@@ -232,7 +232,7 @@ void StrictScanner::PrintTable( std::ostream & os ) const
   for(; file != Filenames.end(); ++file)
     {
     const char *filename = file->c_str();
-    assert( filename && *filename );
+    gdcm_assert( filename && *filename );
     os << '"' << filename << '"' << "\t";
     TagsType::const_iterator tag = Tags.begin();
     const TagToValue &mapping = GetMapping(filename);
@@ -254,8 +254,8 @@ void StrictScanner::PrintTable( std::ostream & os ) const
 
 StrictScanner::TagToValue const & StrictScanner::GetMapping(const char *filename) const
 {
-//  assert( Mappings.find(filename) != Mappings.end() );
-  assert( filename && *filename );
+//  gdcm_assert( Mappings.find(filename) != Mappings.end() );
+  gdcm_assert( filename && *filename );
   if( Mappings.find(filename) != Mappings.end() )
     return Mappings.find(filename)->second;
   return Mappings.find("")->second; // dummy file could not be found
@@ -273,7 +273,7 @@ bool StrictScanner::IsKey( const char * filename ) const
     }
 */
   // Look for the file in Mappings table:
-  assert( filename && *filename );
+  gdcm_assert( filename && *filename );
   MappingType::const_iterator it2 = Mappings.find(filename);
   return it2 != Mappings.end();
 }
@@ -292,7 +292,7 @@ Directory::FilenamesType StrictScanner::GetKeys() const
       keys.push_back( filename );
       }
     }
-  assert( keys.size() <= Filenames.size() );
+  gdcm_assert( keys.size() <= Filenames.size() );
   return keys;
 }
 
@@ -300,7 +300,7 @@ Directory::FilenamesType StrictScanner::GetKeys() const
 const char* StrictScanner::GetValue(const char *filename, Tag const &t) const
 {
   // \precondition
-  assert( Tags.find( t ) != Tags.end() );
+  gdcm_assert( Tags.find( t ) != Tags.end() );
   TagToValue const &ftv = GetMapping(filename);
   if( ftv.find(t) != ftv.end() )
     {
@@ -402,7 +402,7 @@ Directory::FilenamesType StrictScanner::GetOrderedValues(Tag const &t) const
 
 void StrictScanner::ProcessPublicTag(StringFilter &sf, const char *filename)
 {
-  assert( filename );
+  gdcm_assert( filename );
   TagToValue &mapping = Mappings[filename];
   const File& file = sf.GetFile();
 
@@ -418,7 +418,7 @@ void StrictScanner::ProcessPublicTag(StringFilter &sf, const char *filename)
         //std::string s;
         DataElement const & de = header.GetDataElement( *tag );
         //const ByteValue *bv = de.GetByteValue();
-        ////assert( VR::IsASCII( vr ) );
+        ////gdcm_assert( VR::IsASCII( vr ) );
         //if( bv ) // Hum, should I store an empty string or what ?
         //  {
         //  s = std::string( bv->GetPointer(), bv->GetLength() );
@@ -428,9 +428,9 @@ void StrictScanner::ProcessPublicTag(StringFilter &sf, const char *filename)
 
         // Store the potentially new value:
         Values.insert( s );
-        assert( Values.find( s ) != Values.end() );
+        gdcm_assert( Values.find( s ) != Values.end() );
         const char *value = Values.find( s )->c_str();
-        assert( value );
+        gdcm_assert( value );
         mapping.insert(
           TagToValue::value_type(*tag, value));
         }
@@ -442,7 +442,7 @@ void StrictScanner::ProcessPublicTag(StringFilter &sf, const char *filename)
         //std::string s;
         DataElement const & de = ds.GetDataElement( *tag );
         //const ByteValue *bv = de.GetByteValue();
-        ////assert( VR::IsASCII( vr ) );
+        ////gdcm_assert( VR::IsASCII( vr ) );
         //if( bv ) // Hum, should I store an empty string or what ?
         //  {
         //  s = std::string( bv->GetPointer(), bv->GetLength() );
@@ -452,9 +452,9 @@ void StrictScanner::ProcessPublicTag(StringFilter &sf, const char *filename)
 
         // Store the potentially new value:
         Values.insert( s );
-        assert( Values.find( s ) != Values.end() );
+        gdcm_assert( Values.find( s ) != Values.end() );
         const char *value = Values.find( s )->c_str();
-        assert( value );
+        gdcm_assert( value );
         mapping.insert(
           TagToValue::value_type(*tag, value));
         }

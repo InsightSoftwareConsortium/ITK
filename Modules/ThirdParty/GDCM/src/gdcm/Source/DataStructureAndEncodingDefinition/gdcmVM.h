@@ -143,7 +143,7 @@ private:
 //-----------------------------------------------------------------------------
 inline std::ostream& operator<<(std::ostream& _os, const VM &_val)
 {
-  assert( VM::GetVMString(_val) );
+  gdcm_assert( VM::GetVMString(_val) );
   _os << VM::GetVMString(_val);
   return _os;
 }

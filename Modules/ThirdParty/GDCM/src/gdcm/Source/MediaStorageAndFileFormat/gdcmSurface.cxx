@@ -30,7 +30,7 @@ static const char * STATESStrings[] = {
 
 const char * Surface::GetSTATESString(STATES state)
 {
-  assert( state <= STATES_END );
+  gdcm_assert( state <= STATES_END );
   return STATESStrings[(int)state];
 }
 
@@ -77,7 +77,7 @@ static const char * VIEWStrings[] = {
 
 const char * Surface::GetVIEWTypeString(VIEWType type)
 {
-  assert( type <= VIEWType_END );
+  gdcm_assert( type <= VIEWType_END );
   return VIEWStrings[(int)type];
 }
 
@@ -171,7 +171,7 @@ const unsigned short * Surface::GetRecommendedDisplayCIELabValue() const
 
 unsigned short Surface::GetRecommendedDisplayCIELabValue(const unsigned int idx) const
 {
-  assert( idx < 3 );
+  gdcm_assert( idx < 3 );
   return RecommendedDisplayCIELabValue[idx];
 }
 
@@ -184,13 +184,13 @@ void Surface::SetRecommendedDisplayCIELabValue(const unsigned short vl[3])
 
 void Surface::SetRecommendedDisplayCIELabValue(const unsigned short vl, const unsigned int idx/* = 0*/)
 {
-  assert( idx < 3 );
+  gdcm_assert( idx < 3 );
   RecommendedDisplayCIELabValue[idx] = vl;
 }
 
 void Surface::SetRecommendedDisplayCIELabValue(const std::vector< unsigned short > & vl)
 {
-  assert( vl.size() > 2 );
+  gdcm_assert( vl.size() > 2 );
 
   RecommendedDisplayCIELabValue[0] = vl[0];
   RecommendedDisplayCIELabValue[1] = vl[1];
@@ -298,7 +298,7 @@ Surface::STATES Surface::GetFiniteVolume() const
 
 void Surface::SetFiniteVolume(STATES state)
 {
-  assert( state < STATES_END );
+  gdcm_assert( state < STATES_END );
   FiniteVolume = state;
 }
 
@@ -309,7 +309,7 @@ Surface::STATES Surface::GetManifold() const
 
 void Surface::SetManifold(STATES state)
 {
-  assert( state < STATES_END );
+  gdcm_assert( state < STATES_END );
   Manifold = state;
 }
 
@@ -383,7 +383,7 @@ const float * Surface::GetPointPositionAccuracy() const
 
 void Surface::SetPointPositionAccuracy(const float * accuracies)
 {
-  assert(accuracies);
+  gdcm_assert(accuracies);
 
   if (PointPositionAccuracy == nullptr) PointPositionAccuracy = new float[3];
 
@@ -419,7 +419,7 @@ const float * Surface::GetPointsBoundingBoxCoordinates() const
 
 void Surface::SetPointsBoundingBoxCoordinates(const float * coordinates)
 {
-  assert(coordinates);
+  gdcm_assert(coordinates);
 
   if (PointsBoundingBoxCoordinates == nullptr) PointsBoundingBoxCoordinates = new float[6];
 
@@ -438,7 +438,7 @@ const float * Surface::GetAxisOfRotation() const
 
 void Surface::SetAxisOfRotation(const float * axis)
 {
-  assert(axis);
+  gdcm_assert(axis);
 
   if (AxisOfRotation == nullptr) AxisOfRotation = new float[3];
 
@@ -454,7 +454,7 @@ const float * Surface::GetCenterOfRotation() const
 
 void Surface::SetCenterOfRotation(const float * center)
 {
-  assert(center);
+  gdcm_assert(center);
 
   if (CenterOfRotation == nullptr) CenterOfRotation = new float[3];
 
@@ -490,7 +490,7 @@ const float * Surface::GetVectorAccuracy() const
 
 void Surface::SetVectorAccuracy(const float * accuracy)
 {
-  assert(accuracy);
+  gdcm_assert(accuracy);
 
   if (VectorAccuracy == nullptr) VectorAccuracy = new float[ VectorDimensionality ];
 
@@ -523,7 +523,7 @@ MeshPrimitive & Surface::GetMeshPrimitive()
   return *Primitive;
 }
 
-void Surface::SetMeshPrimitive(MeshPrimitive & mp)
+void Surface::SetMeshPrimitive(MeshPrimitive const & mp)
 {
   Primitive = mp;
 }

@@ -212,7 +212,7 @@ bool System::FileExists(const char* filename)
     }
   else
     {
-    //assert( !FileIsDirectory(filename) );
+    //gdcm_assert( !FileIsDirectory(filename) );
     return true;
     }
 }
@@ -437,7 +437,7 @@ bool System::DeleteDirectory(const char *source)
         out = prefix + (out.c_str() + 2);
       } else {
         // regular C:\ style path:
-        assert(out[1] == ':');
+        gdcm_assert(out[1] == ':');
         const std::wstring prefix = LR"(\\?\)";
         out = prefix + out.c_str();
       }
@@ -613,7 +613,7 @@ inline int getlastdigit(unsigned char *data, unsigned long size)
     data[i] = (unsigned char)(extended / 10);
     carry = extended % 10;
     }
-  assert( carry >= 0 && carry < 10 );
+  gdcm_assert( carry >= 0 && carry < 10 );
   return carry;
 }
 
@@ -689,7 +689,7 @@ int gettimeofday(struct timeval *tv, struct timezone *tz)
        (other than the declaration) is a bug. Thus, the following is purely of
        historic interest.
 */
-  assert( tz == 0 );
+  gdcm_assert( tz == 0 );
   FILETIME ft;
   unsigned __int64 tmpres = 0;
   //static int tzflag;
@@ -818,7 +818,7 @@ const char *System::GetTimezoneOffsetFromUTC()
   time_t t = time(nullptr);
   struct tm *tmp = localtime(&t);
   size_t l = strftime(outstr, sizeof(outstr), "%z", tmp);
-  assert( l == 5 ); (void)l;
+  gdcm_assert( l == 5 ); (void)l;
   buffer = outstr;
   return buffer.c_str();
 }
@@ -846,7 +846,7 @@ bool System::FormatDateTime(char date[22], time_t timep, long milliseconds)
     }
   // Format the date and time, down to a single second.
   size_t ret = strftime (tmp, sizeof (tmp), "%Y%m%d%H%M%S", ptm);
-  assert( ret == 14 );
+  gdcm_assert( ret == 14 );
   if( ret == 0 || ret >= maxsize )
     {
     return false;
@@ -911,7 +911,7 @@ bool System::GetCurrentDateTime(char date[22])
   // "59"), SS = Second (range "00" - "60").
   // FFFFFF = Fractional Second contains a fractional part of a second as small
   // as 1 millionth of a second (range 000000 - 999999).
-  assert( tv.tv_usec >= 0 && tv.tv_usec < 1000000 );
+  gdcm_assert( tv.tv_usec >= 0 && tv.tv_usec < 1000000 );
   milliseconds = tv.tv_usec;
 
   return FormatDateTime(date, timep, milliseconds);
@@ -925,7 +925,7 @@ int System::StrNCaseCmp(const char *s1, const char *s2, size_t n)
   return _strnicmp(s1,s2,n);
 #else // default implementation
 #error
-  assert( n ); // TODO
+  gdcm_assert( n ); // TODO
   while (--n && *s1 && (tolower(*s1) == tolower(*s2)))
     {
     s1++;
@@ -1042,16 +1042,16 @@ char *System::StrSep(char **sp, const char *sep)
 #endif
 }
 
+#if defined(_WIN32)
 struct CharsetAliasType
 {
   const char *alias;
   const char *name;
 };
 
-#if defined(_WIN32)
 static const char *CharsetAliasToName(const char *alias)
 {
-  assert( alias );
+  gdcm_assert( alias );
   //gdcmDebugMacro( alias );
   // http://msdn.microsoft.com/en-us/library/windows/desktop/dd317756(v=vs.85).aspx
   // 1252 windows-1252  ANSI Latin 1; Western European (Windows)

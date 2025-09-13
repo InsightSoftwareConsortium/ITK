@@ -73,7 +73,7 @@ namespace gdcm{
   {
   Attribute<0x0,0x0> at = { 0 };
   unsigned int glen = ds.GetLength<ImplicitDataElement>();
-  assert( (glen % 2) == 0 );
+  gdcm_assert( (glen % 2) == 0 );
   at.SetValue( glen );
   ds.Insert( at.GetAsDataElement() );
   }
@@ -90,7 +90,7 @@ namespace gdcm{
       NSetRSP::ConstructPDVByDataSet(const DataSet* inDataSet){
     std::vector<PresentationDataValue> thePDV;
     (void)inDataSet;
-    assert( 0 && "TODO" );
+    gdcm_assert( 0 && "TODO" );
     return thePDV;
   }
 

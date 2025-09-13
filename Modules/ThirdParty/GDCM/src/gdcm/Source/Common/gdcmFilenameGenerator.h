@@ -62,7 +62,7 @@ public:
   const char * GetFilename(SizeType n) const;
 
   /// Return all filenames
-  FilenamesType const & GetFilenames() const { assert( !Pattern.empty() ); return Filenames; }
+  FilenamesType const & GetFilenames() const { gdcm_assert( !Pattern.empty() ); return Filenames; }
 
 private:
   FilenameType Pattern;

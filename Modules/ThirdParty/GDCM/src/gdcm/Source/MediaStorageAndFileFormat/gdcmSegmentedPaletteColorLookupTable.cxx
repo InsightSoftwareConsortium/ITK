@@ -124,7 +124,7 @@ namespace gdcm
             EntryType nNumCopies = *(this->_first + 1);
             typename SegmentMap::const_iterator ppSeg = ppHeadSeg;
             while ( std::distance(ppHeadSeg, ppSeg) <nNumCopies ) {
-                assert( ppSeg != instances.end() );
+                gdcm_assert( ppSeg != instances.end() );
                 ppSeg->second->Expand(instances, expanded);
                 ++ppSeg;
             }
@@ -181,7 +181,7 @@ void SegmentedPaletteColorLookupTable::SetLUT(LookupTableType type, const unsign
 {
   if( BitSample == 8 )
     {
-    assert(0); // TODO
+    gdcm_assert(0); // TODO
     }
   else if( BitSample == 16 )
     {
@@ -190,7 +190,7 @@ void SegmentedPaletteColorLookupTable::SetLUT(LookupTableType type, const unsign
     std::vector<uint16_t> palette;
     unsigned int num_entries = GetLUTLength(type);
     palette.reserve(num_entries);
-    assert( length % 2 == 0 );
+    gdcm_assert( length % 2 == 0 );
     // FIXME: inplace byteswapping (BAD!)
     SwapperNoOp::SwapArray(const_cast<uint16_t*>(segment_values),length/2);
     ExpandPalette(segment_values, length, palette);

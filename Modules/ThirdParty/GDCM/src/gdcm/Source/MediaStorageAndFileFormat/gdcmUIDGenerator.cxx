@@ -57,7 +57,7 @@ std::string UIDGenerator::EncodedHardwareAddress; // = System::GetHardwareAddres
 
 const char *UIDGenerator::GetRoot() { return Root.c_str(); }
 void UIDGenerator::SetRoot(const char * root) {
-  assert( IsValid( root ) );
+  gdcm_assert( IsValid( root ) );
   Root = root;
 }
 
@@ -114,7 +114,7 @@ const char* UIDGenerator::Generate()
   if( !r ) return nullptr;
   char randbytesbuf[64];
   size_t len = System::EncodeBytes(randbytesbuf, uuid, sizeof(uuid));
-  assert( len < 64 ); // programmer error
+  gdcm_assert( len < 64 ); // programmer error
   Unique += "."; // This dot is compulsory to separate root from suffix
   if( Unique.size() + len > 64 )
     {
@@ -155,7 +155,7 @@ const char* UIDGenerator::Generate()
   // can now safely use randbytesbuf as is, no need to truncate any more:
   Unique += randbytesbuf;
 
-  assert( IsValid( Unique.c_str() ) );
+  gdcm_assert( IsValid( Unique.c_str() ) );
 
   return Unique.c_str();
 }

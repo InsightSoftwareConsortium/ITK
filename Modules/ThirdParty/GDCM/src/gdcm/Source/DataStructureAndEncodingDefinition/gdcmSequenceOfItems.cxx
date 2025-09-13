@@ -21,7 +21,7 @@ void SequenceOfItems::AddItem(Item const &item)
   Items.push_back( item );
   if( !SequenceLengthField.IsUndefined() )
     {
-    assert(0); // TODO
+    gdcm_assert(0); // TODO
     }
 }
 
@@ -36,7 +36,7 @@ Item & SequenceOfItems::AddNewUndefinedLengthItem()
 void SequenceOfItems::Clear()
 {
   Items.clear();
-  assert( SequenceLengthField.IsUndefined() );
+  gdcm_assert( SequenceLengthField.IsUndefined() );
 }
 
 bool SequenceOfItems::RemoveItemByIndex( const SizeType position )

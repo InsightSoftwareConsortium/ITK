@@ -40,14 +40,14 @@ AAssociateACPDU::AAssociateACPDU()
 void AAssociateACPDU::SetCalledAETitle(const char calledaetitle[16])
 {
   //size_t len = strlen( calledaetitle );
-  //assert( len <= 16 ); // since forwarded from AA-RQ no reason to be invalid
+  //gdcm_assert( len <= 16 ); // since forwarded from AA-RQ no reason to be invalid
   memcpy(Reserved11_26, calledaetitle, 16 );
 }
 
 void AAssociateACPDU::SetCallingAETitle(const char callingaetitle[16])
 {
   //size_t len = strlen( callingaetitle );
-  //assert( len <= 16 ); // since forwarded from AA-RQ no reason to be invalid
+  //gdcm_assert( len <= 16 ); // since forwarded from AA-RQ no reason to be invalid
   memcpy(Reserved27_42, callingaetitle, 16 );
 }
 
@@ -55,8 +55,8 @@ std::istream &AAssociateACPDU::Read(std::istream &is)
 {
   //uint8_t itemtype = 0;
   //is.read( (char*)&itemtype, sizeof(ItemType) );
-  //assert( itemtype == ItemType );
-  assert( is.good() );
+  //gdcm_assert( itemtype == ItemType );
+  gdcm_assert( is.good() );
   uint8_t reserved2;
   is.read( (char*)&reserved2, sizeof(Reserved2) );
   uint32_t pdulength = 0;
@@ -119,8 +119,8 @@ std::istream &AAssociateACPDU::Read(std::istream &is)
     // length of remaining bytes to read.
     //curlen = Size();
     }
-  assert( curlen + 68 == PDULength );
-  assert( PDULength + 4 + 1 + 1 == Size() );
+  gdcm_assert( curlen + 68 == PDULength );
+  gdcm_assert( PDULength + 4 + 1 + 1 == Size() );
 
   return is;
 }
@@ -155,7 +155,7 @@ const std::ostream &AAssociateACPDU::Write(std::ostream &os) const
     }
   UserInfo.Write( os );
 
-  assert( PDULength + 4 + 1 + 1 == Size() );
+  gdcm_assert( PDULength + 4 + 1 + 1 == Size() );
 
   return os;
 }
@@ -185,7 +185,7 @@ void AAssociateACPDU::AddPresentationContextAC( PresentationContextAC const &pca
 {
   PresContextAC.push_back( pcac );
   PDULength = (uint32_t)(Size() - 6);
-  assert( PDULength + 4 + 1 + 1 == Size() );
+  gdcm_assert( PDULength + 4 + 1 + 1 == Size() );
 }
 
 void AAssociateACPDU::Print(std::ostream &os) const
@@ -219,11 +219,11 @@ void AAssociateACPDU::InitFromRQ( AAssociateRQPDU const & rqpdu )
   const std::string reserved = rqpdu.GetReserved43_74();
   memcpy( Reserved43_74, reserved.c_str(), sizeof(Reserved43_74) );
 
-  assert( ProtocolVersion == 0x01 );
-  assert( Reserved9_10 == 0x0 );
-  assert( memcmp( Reserved11_26, called.c_str(), sizeof( Reserved11_26) ) == 0 );
-  assert( memcmp( Reserved27_42, calling.c_str(), sizeof(Reserved27_42) ) == 0 );
-  assert( memcmp( Reserved43_74, reserved.c_str(), sizeof(Reserved43_74) ) == 0 );
+  gdcm_assert( ProtocolVersion == 0x01 );
+  gdcm_assert( Reserved9_10 == 0x0 );
+  gdcm_assert( memcmp( Reserved11_26, called.c_str(), sizeof( Reserved11_26) ) == 0 );
+  gdcm_assert( memcmp( Reserved27_42, calling.c_str(), sizeof(Reserved27_42) ) == 0 );
+  gdcm_assert( memcmp( Reserved43_74, reserved.c_str(), sizeof(Reserved43_74) ) == 0 );
 }
 
 
@@ -232,7 +232,7 @@ void AAssociateACPDU::InitSimple( AAssociateRQPDU const & rqpdu )
   TransferSyntaxSub ts1;
   ts1.SetNameFromUID( UIDs::ImplicitVRLittleEndianDefaultTransferSyntaxforDICOM );
 
-  assert( rqpdu.GetNumberOfPresentationContext() );
+  gdcm_assert( rqpdu.GetNumberOfPresentationContext() );
   for( unsigned int index = 0; index < rqpdu.GetNumberOfPresentationContext(); index++ )
     {
     // FIXME / HARDCODED We only ever accept Little Endian

@@ -29,7 +29,7 @@ namespace gdcm
 class GDCM_EXPORT CSAElement
 {
 public:
-  CSAElement(unsigned int kf = 0):KeyField(kf) {}
+  CSAElement(unsigned int kf = 0):KeyField(kf),SyngoDTField(0),NoOfItemsField(0) {}
 
   friend std::ostream& operator<<(std::ostream &os, const CSAElement &val);
 
@@ -61,7 +61,7 @@ public:
   Value const &GetValue() const { return *DataField; }
   Value &GetValue() { return *DataField; }
   void SetValue(Value const & vl) {
-    //assert( DataField == 0 );
+    //gdcm_assert( DataField == 0 );
     DataField = vl;
   }
   /// Check if CSA Element is empty
@@ -131,7 +131,7 @@ inline std::ostream& operator<<(std::ostream &os, const CSAElement &val)
     {
     //val.DataField->Print( os << "'" );
     const ByteValue * bv = dynamic_cast<ByteValue*>(&*val.DataField);
-    assert( bv );
+    gdcm_assert( bv );
     const char * p = bv->GetPointer();
     std::string str(p, p + bv->GetLength() );
     if( val.ValueMultiplicityField == VM::VM1 )

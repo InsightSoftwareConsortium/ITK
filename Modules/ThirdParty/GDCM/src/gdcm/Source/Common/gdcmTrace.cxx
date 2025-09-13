@@ -36,7 +36,7 @@ void Trace::SetStreamToFile( const char *filename )
   if( !filename ) return;
   if( UseStreamToFile )
     {
-    assert( FileStream );
+    gdcm_assert( FileStream );
     FileStream->close();
     FileStream = nullptr;
     UseStreamToFile = false;
@@ -45,7 +45,7 @@ void Trace::SetStreamToFile( const char *filename )
   if( !out ) return;
   out->open( filename );
   if( !out->good() ) return;
-  assert( !FileStream && !UseStreamToFile );
+  gdcm_assert( !FileStream && !UseStreamToFile );
   FileStream = out;
   UseStreamToFile = true;
   DebugStream   = FileStream;
@@ -58,7 +58,7 @@ void Trace::SetStream(std::ostream &os)
   if( !os.good() ) return;
   if( UseStreamToFile )
     {
-    assert( FileStream );
+    gdcm_assert( FileStream );
     FileStream->close();
     FileStream = nullptr;
     UseStreamToFile = false;
@@ -114,7 +114,7 @@ Trace::~Trace()
 {
   if( UseStreamToFile )
     {
-    assert( FileStream );
+    gdcm_forced_assert( FileStream );
     FileStream->close();
     FileStream = nullptr;
     }

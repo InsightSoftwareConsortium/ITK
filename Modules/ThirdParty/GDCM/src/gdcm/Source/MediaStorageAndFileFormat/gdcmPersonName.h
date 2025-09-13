@@ -45,7 +45,7 @@ public:
   unsigned int GetMaxLength() const { return MaxLength; }
   void SetBlob(const std::vector<char>& v) {
   (void)v;
-    //assert(0); //TODO
+    //gdcm_assert(0); //TODO
   }
   void SetComponents(const char *comp1 = "",
     const char *comp2 = "",
@@ -60,7 +60,7 @@ public:
       for(unsigned int i = 0; i < 5; ++i) {
         if( components[i] && strlen(components[i]) < GetMaxLength() )
           strcpy(Component[i], components[i]);
-        assert( strlen(Component[i]) < GetMaxLength() );
+        gdcm_assert( strlen(Component[i]) < GetMaxLength() );
       }
   }
   void Print(std::ostream &os) const

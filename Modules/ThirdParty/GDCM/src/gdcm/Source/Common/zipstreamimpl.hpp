@@ -272,7 +272,7 @@ bool basic_zip_streambuf<charT, traits>::zip_to_stream(
             {
                 // copy to the beginning of the stream
 				std::streamsize theDiff = written_byte_size-remainder;
-				//assert(theDiff > 0 && theDiff < std::numeric_limits<unsigned int>::max());
+				//gdcm_assert(theDiff > 0 && theDiff < std::numeric_limits<unsigned int>::max());
                 memcpy(&_output_buffer[0],
                        &_output_buffer[(unsigned int)theDiff],
                        remainder);
@@ -511,7 +511,7 @@ basic_unzip_streambuf<charT, traits>::fill_input_buffer()
         // Ok so we reached the end of file, since we did not read no header
         // we have to explicitly tell zlib the compress stream ends, therefore
         // we add an extra \0 character...it may not always be needed...
-        assert( nbytesread < (std::streamsize)(_input_buffer.size() / sizeof(char_type)) );
+        gdcm_assert( nbytesread < (std::streamsize)(_input_buffer.size() / sizeof(char_type)) );
         _input_buffer[ (unsigned int)nbytesread ] = 0;
         ++nbytesread;
         }

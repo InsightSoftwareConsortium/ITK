@@ -19,9 +19,9 @@
 namespace gdcm {
 
 // FIXME: fuji and hitachi are the same now
-static const char* TypeStrings[] = {"UNKNOWN", "FUJI",    "GEMS",    "HITACHI",
-                                    "KODAK",   "MARCONI", "PMS",     "SIEMENS",
-                                    "TOSHIBA", "AGFA",    "SAMSUNG", "UIH"};
+static const char* TypeStrings[] = {"UNKNOWN", "AGFA",    "FUJI",    "GEMS",
+                                    "HITACHI", "KODAK",   "MARCONI", "PMS",
+                                    "SAMSUNG", "SIEMENS", "TOSHIBA", "UIH"};
 
 const char* EquipmentManufacturer::TypeToString(Type type) {
   return TypeStrings[type];

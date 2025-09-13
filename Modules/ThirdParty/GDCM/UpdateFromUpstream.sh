@@ -8,7 +8,7 @@ readonly name="GDCM"
 readonly ownership="GDCM Upstream <gdcm-developers@lists.sourceforge.net>"
 readonly subtree="Modules/ThirdParty/GDCM/src/gdcm"
 readonly repo="https://github.com/malaterre/GDCM.git"
-readonly tag="v3.0.25"
+readonly tag="v3.2.1"
 readonly shortlog=false
 readonly paths="
   .gitattributes
@@ -32,7 +32,6 @@ readonly paths="
   Utilities/gdcm_md5.h
   Utilities/gdcm_openjpeg.h
   Utilities/gdcmrle
-  Utilities/gdcmutfcpp
   Utilities/gdcmuuid
   Utilities/gdcm_uuid.h
   Utilities/gdcm_zlib.h

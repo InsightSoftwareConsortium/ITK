@@ -44,17 +44,17 @@ std::istream &CP246ExplicitDataElement::ReadPreValue(std::istream &is)
     {
     if( !is.eof() ) // FIXME This should not be needed
       {
-      assert(0 && "Should not happen" );
+      gdcm_assert(0 && "Should not happen" );
       }
     return is;
     }
-  assert( TagField != Tag(0xfffe,0xe0dd) );
+  gdcm_assert( TagField != Tag(0xfffe,0xe0dd) );
   const Tag itemDelItem(0xfffe,0xe00d);
   if( TagField == itemDelItem )
     {
     if( !ValueLengthField.Read<TSwap>(is) )
       {
-      assert(0 && "Should not happen");
+      gdcm_assert(0 && "Should not happen");
       return is;
       }
     if( ValueLengthField != 0 )
@@ -72,20 +72,20 @@ std::istream &CP246ExplicitDataElement::ReadPreValue(std::istream &is)
     {
     if( !VRField.Read(is) )
       {
-      assert(0 && "Should not happen" );
+      gdcm_assert(0 && "Should not happen" );
       return is;
       }
     }
   catch( std::exception & )
     {
     // gdcm-MR-PHILIPS-16-Multi-Seq.dcm
-    // assert( TagField == Tag(0xfffe, 0xe000) );
+    // gdcm_assert( TagField == Tag(0xfffe, 0xe000) );
     // -> For some reason VR is written as {44,0} well I guess this is a VR...
     // Technically there is a second bug, dcmtk assume other things when reading this tag,
     // so I need to change this tag too, if I ever want dcmtk to read this file. oh well
     // 0019004_Baseline_IMG1.dcm
     // -> VR is garbage also...
-    // assert( TagField == Tag(8348,0339) || TagField == Tag(b5e8,0338))
+    // gdcm_assert( TagField == Tag(8348,0339) || TagField == Tag(b5e8,0338))
     gdcmWarningMacro( "Assuming 16 bits VR for Tag=" <<
       TagField << " in order to read a buggy DICOM file." );
     VRField = VR::INVALID;
@@ -95,7 +95,7 @@ std::istream &CP246ExplicitDataElement::ReadPreValue(std::istream &is)
     {
     if( !ValueLengthField.Read<TSwap>(is) )
       {
-      assert(0 && "Should not happen");
+      gdcm_assert(0 && "Should not happen");
       return is;
       }
     }
@@ -128,11 +128,11 @@ std::istream &CP246ExplicitDataElement::ReadValue(std::istream &is, bool readval
 
   //std::cerr << "exp cur tag=" << TagField << " VR=" << VRField << " VL=" << ValueLengthField << std::endl;
   // Read the Value
-  //assert( ValueField == 0 );
+  //gdcm_assert( ValueField == 0 );
   if( VRField == VR::SQ )
     {
     // Check whether or not this is an undefined length sequence
-    assert( TagField != Tag(0x7fe0,0x0010) );
+    gdcm_assert( TagField != Tag(0x7fe0,0x0010) );
     ValueField = new SequenceOfItems;
     }
   else if( ValueLengthField.IsUndefined() )
@@ -143,14 +143,14 @@ std::istream &CP246ExplicitDataElement::ReadValue(std::istream &is, bool readval
       // Enhanced_MR_Image_Storage_PixelSpacingNotIn_0028_0030.dcm (illegal)
       // vs
       // undefined_length_un_vr.dcm
-      assert( TagField != Tag(0x7fe0,0x0010) );
+      gdcm_assert( TagField != Tag(0x7fe0,0x0010) );
       ValueField = new SequenceOfItems;
       ValueField->SetLength(ValueLengthField); // perform realloc
       try
         {
         if( !ValueIO<CP246ExplicitDataElement,TSwap>::Read(is,*ValueField,readvalues) ) // non cp246
           {
-          assert(0);
+          gdcm_assert(0);
           }
         }
       catch( std::exception &)
@@ -167,14 +167,14 @@ std::istream &CP246ExplicitDataElement::ReadValue(std::istream &is, bool readval
     else
       {
       // Ok this is Pixel Data fragmented...
-      assert( TagField == Tag(0x7fe0,0x0010) );
-      assert( VRField & VR::OB_OW );
+      gdcm_assert( TagField == Tag(0x7fe0,0x0010) );
+      gdcm_assert( VRField & VR::OB_OW );
       ValueField = new SequenceOfFragments;
       }
     }
   else
     {
-    //assert( TagField != Tag(0x7fe0,0x0010) );
+    //gdcm_assert( TagField != Tag(0x7fe0,0x0010) );
     ValueField = new ByteValue;
     }
   // We have the length we should be able to read the value
@@ -191,12 +191,12 @@ std::istream &CP246ExplicitDataElement::ReadValue(std::istream &is, bool readval
   )
     {
     gdcmWarningMacro( "ByteSwaping Private SQ: " << TagField );
-    assert( VRField == VR::SQ );
+    gdcm_assert( VRField == VR::SQ );
     try
       {
       if( !ValueIO<CP246ExplicitDataElement,SwapperDoOp>::Read(is,*ValueField,readvalues) )
         {
-        assert(0 && "Should not happen");
+        gdcm_assert(0 && "Should not happen");
         }
       }
     catch( std::exception & )

@@ -14,6 +14,7 @@
 #include "io.h"
 
 #include "info.h"
+#include <cstddef>
 #include <stdexcept>
 #include <cassert>
 

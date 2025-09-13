@@ -523,6 +523,7 @@ typedef std::set<DataElement> DataElementSet;
 typedef DataElementSet::const_iterator ConstIterator;
 
 struct Cleaner::impl {
+  std::set<CodedEntryData> coded_entry_datas;
   std::set<DPath> preserve_dpaths;
   std::set<DPath> empty_dpaths;
   std::set<DPath> remove_dpaths;
@@ -545,7 +546,13 @@ struct Cleaner::impl {
         AllIllegal(true),
         WhenScrubFails(false) {}
 
-  enum ACTION { NONE, EMPTY, REMOVE, SCRUB };
+  // CODE_MEANING:
+  // In general, there are no Code Sequence Attributes in this table, since it
+  // is usually safe to assume that coded sequence entries, including private
+  // codes, do not contain identifying information. Exceptions are codes for
+  // providers and staff.
+  // https://dicom.nema.org/medical/dicom/current/output/chtml/part15/chapter_E.html#para_d0913a6e-9386-42b2-b2b3-e87c84cdb304
+  enum ACTION { NONE, EMPTY, REMOVE, SCRUB, CODE_MEANING };
   enum ACTION ComputeAction(File const &file, DataSet &ds,
                             const DataElement &de, VR const &ref_dict_vr,
                             const std::string &tag_path);
@@ -659,6 +666,11 @@ struct Cleaner::impl {
 
   bool Scrub(VR const & /*vr*/) { return false; }
 
+  bool ReplaceCodeMeaning(CodedEntryData const &ced) { 
+      coded_entry_datas.insert(ced);
+      return true; 
+  }
+  
   bool Preserve(DPath const &dpath) {
     preserve_dpaths.insert(dpath);
     return true;
@@ -684,13 +696,13 @@ static VR ComputeDictVR(File &file, DataSet &ds, DataElement const &de) {
   } else {
     const PrivateTag pt = ds.GetPrivateTag(tag);
     const char *owner = pt.GetOwner();
-    assert(owner);
+    gdcm_assert(owner);
     compute_dict_vr = *owner != 0;
   }
   if (compute_dict_vr) dict_vr = DataSetHelper::ComputeVR(file, ds, tag);
 
   if (de.GetVR() == VR::SQ) {
-    assert(dict_vr != VR::UN);
+    gdcm_assert(dict_vr != VR::UN);
     if (!dict_vr.Compatible(de.GetVR())) {
       gdcmErrorMacro("Impossible. Dict states VR is: "
                      << dict_vr << " which is impossible for SQ");
@@ -699,11 +711,15 @@ static VR ComputeDictVR(File &file, DataSet &ds, DataElement const &de) {
   }
   if (dict_vr != VR::SQ) {
     if (de.GetVL().IsUndefined()) {
-      Tag pixelData(0x7fe0, 0x0010);
-      assert(dict_vr == VR::OB);
-      if (tag != pixelData) {
-        gdcmErrorMacro("Impossible happen: " << de);
-        return VR::SQ;
+      if (dict_vr == VR::UN) {
+        // implicit dataset, where SQ is undefined length
+      } else {
+        const Tag pixelData(0x7fe0, 0x0010);
+        gdcm_assert(dict_vr == VR::OB);
+        if (tag != pixelData) {
+          gdcmErrorMacro("Impossible happen: " << de);
+          return VR::SQ;
+        }
       }
     }
   }
@@ -812,7 +828,7 @@ static inline int bs_memcmp(const void *s1, const void *s2, size_t n) {
   size_t i;
   const unsigned char *us1 = (const unsigned char *)s1;
   const unsigned char *us2 = (const unsigned char *)s2;
-  assert(n % 2 == 0);
+  gdcm_assert(n % 2 == 0);
 
   for (i = 0; i < n; i += 2, us1 += 2, us2 += 2) {
     if (*us1 < *(us2 + 1)) {
@@ -1096,7 +1112,29 @@ Cleaner::impl::ACTION Cleaner::impl::ComputeAction(
   }
 
   if (tag.IsPublic()) {
+    // CodeMeaning
+    if (tag == gdcm::Tag(0x0008, 0x0104)) {
+      Attribute<0x0008, 0x0100> codeValue{};
+      codeValue.SetFromDataSet(ds);
+      Attribute<0x0008, 0x0102> codingSchemeDesignator{};
+      codingSchemeDesignator.SetFromDataSet(ds);
+      Attribute<0x0008, 0x0103> codingSchemeVersion{};
+      codingSchemeVersion.SetFromDataSet(ds);
+      const std::string codeValueStr = codeValue.GetValue().Trim();
+      const std::string codingSchemeDesignatorStr = codingSchemeDesignator.GetValue().Trim();
+      const std::string codingSchemeVersionStr = codingSchemeVersion.GetValue().Trim();
+      {
+        CodedEntryData ced;
+        ced = std::make_tuple(codeValueStr, codingSchemeDesignatorStr,
+                              codingSchemeVersionStr);
+        if( coded_entry_datas.find(ced) != coded_entry_datas.end() )
+          return Cleaner::impl::CODE_MEANING;
+      }
+        
+      return Cleaner::impl::NONE;
+    }
     const DPath dpath = ConstructDPath(tag_path, ds, tag);
+
     // Preserve
     if (IsDPathInSet(preserve_dpaths, dpath)) return Cleaner::impl::NONE;
     // Scrub
@@ -1107,9 +1145,9 @@ Cleaner::impl::ACTION Cleaner::impl::ComputeAction(
     // Empty
     if (empty_tags.find(tag) != empty_tags.end() ||
         IsDPathInSet(empty_dpaths, dpath)) {
-      assert(!tag.IsGroupLength());
-      assert(!tag.IsPrivateCreator());
-      assert(ds.FindDataElement(tag));
+      gdcm_assert(!tag.IsGroupLength());
+      gdcm_assert(!tag.IsPrivateCreator());
+      gdcm_assert(ds.FindDataElement(tag));
       return Cleaner::impl::EMPTY;
     }
     // Remove
@@ -1122,7 +1160,7 @@ Cleaner::impl::ACTION Cleaner::impl::ComputeAction(
   if (tag.IsPrivate() && !tag.IsPrivateCreator() && !tag.IsGroupLength()) {
     const PrivateTag pt = ds.GetPrivateTag(tag);
     const char *owner = pt.GetOwner();
-    assert(owner);
+    gdcm_assert(owner);
     if (*owner == 0 && AllMissingPrivateCreator) {
       return Cleaner::impl::REMOVE;
     }
@@ -1150,7 +1188,7 @@ Cleaner::impl::ACTION Cleaner::impl::ComputeAction(
   // VR cleanup
   if (!empty_vrs.empty() || !remove_vrs.empty()) {
     VR vr = de.GetVR();
-    assert(ref_dict_vr != VR::INVALID);
+    gdcm_assert(ref_dict_vr != VR::INVALID);
     // be careful with vr handling since we must always prefer the one from
     // the dict in case of attribute written as 'OB' but dict states 'PN':
     if (ref_dict_vr != VR::UN /*&& ref_dict_vr != VR::INVALID*/) {
@@ -1161,7 +1199,7 @@ Cleaner::impl::ACTION Cleaner::impl::ComputeAction(
         vr = ref_dict_vr;
       }
       if (vr != ref_dict_vr) {
-        // assert(vr == VR::OB || vr == VR::OW);
+        // gdcm_assert(vr == VR::OB || vr == VR::OW);
         vr = ref_dict_vr;
       }
     }
@@ -1283,6 +1321,18 @@ bool Cleaner::impl::ProcessDataSet(Subject &subject, File &file, DataSet &ds,
         return false;
       }
       subject.InvokeEvent(ae);
+    } else if (action == Cleaner::impl::CODE_MEANING) {
+      // Cannot simply 'empty' public data element in this case:
+      // Code Meaning (0008, 0104) 1 Text that conveys the meaning of the Coded Entry.
+      // https://dicom.nema.org/medical/dicom/current/output/chtml/part03/sect_8.8.html#table_8.8-1a
+      // Action Code 'Z' states:
+      // replace with a zero length value, or a non - zero length value that may be a dummy value and consistent with the VR
+      DataElement clean(de.GetTag());
+      clean.SetVR(de.GetVR());
+      static const char clean_str[] = "ALTERED CODE MEANING"; // len=20
+      clean.SetByteValue(clean_str, static_cast<uint32_t>(strlen(clean_str)));
+      ds.Replace(clean);
+      subject.InvokeEvent(ae);
     } else {
       gdcmErrorMacro("Missing handling of action: " << action);
       return false;
@@ -1309,6 +1359,10 @@ bool Cleaner::Scrub(Tag const &t) { return pimpl->Scrub(t); }
 bool Cleaner::Scrub(PrivateTag const &pt) { return pimpl->Scrub(pt); }
 bool Cleaner::Scrub(DPath const &dpath) { return pimpl->Scrub(dpath); }
 bool Cleaner::Scrub(VR const &vr) { return pimpl->Scrub(vr); }
+
+bool Cleaner::ReplaceCodeMeaning(Cleaner::CodedEntryData const &ced) {
+  return pimpl->ReplaceCodeMeaning(ced);
+}
 
 bool Cleaner::Preserve(DPath const &dpath) { return pimpl->Preserve(dpath); }
 

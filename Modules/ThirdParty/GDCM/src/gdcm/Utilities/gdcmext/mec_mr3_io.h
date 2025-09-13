@@ -27,4 +27,4 @@ bool mec_mr3_print(const void *input, size_t len);
 } /* end extern "C" */
 #endif
 
-#endif // MEC_MR3_IO_H
+#endif  // MEC_MR3_IO_H

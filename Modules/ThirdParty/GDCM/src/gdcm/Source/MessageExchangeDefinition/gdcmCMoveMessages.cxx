@@ -69,7 +69,7 @@ std::vector<PresentationDataValue> CMoveRQ::ConstructPDV(
   {
   Attribute<0x0,0x600> at = { "" };
   const char *calling = inConnection.GetConnectionInfo().GetCallingAETitle();
-  assert( AAssociateRQPDU::IsAETitleValid( calling ) );
+  gdcm_assert( AAssociateRQPDU::IsAETitleValid( calling ) );
   at.SetValue( calling );
   ds.Insert( at.GetAsDataElement() );
   }
@@ -84,7 +84,7 @@ std::vector<PresentationDataValue> CMoveRQ::ConstructPDV(
   {
   Attribute<0x0,0x0> at = { 0 };
   unsigned int glen = ds.GetLength<ImplicitDataElement>();
-  assert( (glen % 2) == 0 );
+  gdcm_assert( (glen % 2) == 0 );
   at.SetValue( glen );
   ds.Insert( at.GetAsDataElement() );
   }
@@ -110,7 +110,7 @@ std::vector<PresentationDataValue> CMoveRQ::ConstructPDV(
 std::vector<PresentationDataValue> CMoveRQ::ConstructPDVByDataSet(const DataSet* inDataSet){
   std::vector<PresentationDataValue> thePDVs;
   (void)inDataSet;
-  assert( 0 && "TODO" );
+  gdcm_assert( 0 && "TODO" );
   return thePDVs;
 
 }
@@ -118,13 +118,13 @@ std::vector<PresentationDataValue> CMoveRQ::ConstructPDVByDataSet(const DataSet*
 std::vector<PresentationDataValue>  CMoveRSP::ConstructPDVByDataSet(const DataSet* inDataSet){
   std::vector<PresentationDataValue> thePDV;
   (void)inDataSet;
-  assert( 0 && "TODO" );
+  gdcm_assert( 0 && "TODO" );
   return thePDV;
 }
 std::vector<PresentationDataValue>  CMoveCancelRq::ConstructPDVByDataSet(const DataSet* inDataSet){
   std::vector<PresentationDataValue> thePDV;
   (void)inDataSet;
-  assert( 0 && "TODO" );
+  gdcm_assert( 0 && "TODO" );
   return thePDV;
 }
 

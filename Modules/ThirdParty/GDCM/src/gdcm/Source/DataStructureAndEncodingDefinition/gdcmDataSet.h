@@ -69,7 +69,7 @@ public:
   DataElementSet &GetDES() { return DES; }
   void Clear() {
     DES.clear();
-    assert( DES.empty() );
+    gdcm_assert( DES.empty() );
   }
 
   SizeType Size() const {
@@ -79,7 +79,7 @@ public:
   void Print(std::ostream &os, std::string const &indent = "") const {
     // CT_Phillips_JPEG2K_Decompr_Problem.dcm has a SQ of length == 0
     //int s = DES.size();
-    //assert( s );
+    //gdcm_assert( s );
     //std::copy(DES.begin(), DES.end(),
     //  std::ostream_iterator<DataElement>(os, "\n"));
     ConstIterator it = DES.begin();
@@ -92,15 +92,15 @@ public:
   template <typename TDE>
   unsigned int ComputeGroupLength(Tag const &tag) const
     {
-    assert( tag.GetElement() == 0x0 );
+    gdcm_assert( tag.GetElement() == 0x0 );
     const DataElement r(tag);
     ConstIterator it = DES.find(r);
     unsigned int res = 0;
     for( ++it; it != DES.end()
       && it->GetTag().GetGroup() == tag.GetGroup(); ++it)
       {
-      assert( it->GetTag().GetElement() != 0x0 );
-      assert( it->GetTag().GetGroup() == tag.GetGroup() );
+      gdcm_assert( it->GetTag().GetElement() != 0x0 );
+      gdcm_assert( it->GetTag().GetGroup() == tag.GetGroup() );
       res += it->GetLength<TDE>();
       }
     return res;
@@ -109,13 +109,13 @@ public:
   template <typename TDE>
   VL GetLength() const {
     if( DES.empty() ) return 0;
-    assert( !DES.empty() );
+    gdcm_assert( !DES.empty() );
     VL ll = 0;
-    assert( ll == 0 );
+    gdcm_assert( ll == 0 );
     ConstIterator it = DES.begin();
     for( ; it != DES.end(); ++it)
       {
-      assert( !(it->GetLength<TDE>().IsUndefined()) );
+      gdcm_assert( !(it->GetLength<TDE>().IsUndefined()) );
       if ( it->GetTag() != Tag(0xfffe,0xe00d) )
         {
         ll += it->GetLength<TDE>();
@@ -171,7 +171,7 @@ public:
   /// Completely remove a dataelement from the dataset
   SizeType Remove(const Tag& tag) {
     DataElementSet::size_type count = DES.erase(tag);
-    assert( count == 0 || count == 1 );
+    gdcm_assert( count == 0 || count == 1 );
     return count;
   }
 
@@ -283,7 +283,7 @@ protected:
 #else
     DES.insert(de);
 #endif
-    assert( de.IsEmpty() || de.GetVL() == de.GetValue().GetLength() );
+    gdcm_assert( de.IsEmpty() || de.GetVL() == de.GetValue().GetLength() );
     }
 
 protected:

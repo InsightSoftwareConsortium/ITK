@@ -54,14 +54,14 @@ AAbortPDU::AAbortPDU()
   Reason = 0;
 
   ItemLength = (uint32_t)Size() - 6;
-  assert( (ItemLength + 4 + 1 + 1) == Size() );
+  gdcm_assert( (ItemLength + 4 + 1 + 1) == Size() );
 }
 
 std::istream &AAbortPDU::Read(std::istream &is)
 {
   //uint8_t itemtype = 0;
   //is.read( (char*)&itemtype, sizeof(ItemType) );
-  //assert( itemtype == ItemType );
+  //gdcm_assert( itemtype == ItemType );
   uint8_t reserved2 = 0;
   is.read( (char*)&reserved2, sizeof(Reserved2) );
   uint32_t itemlength = ItemLength;
@@ -79,7 +79,7 @@ std::istream &AAbortPDU::Read(std::istream &is)
   is.read( (char*)&reason, sizeof(Reason) );
   Reason = reason;
 
-  assert( (ItemLength + 4 + 1 + 1) == Size() );
+  gdcm_assert( (ItemLength + 4 + 1 + 1) == Size() );
   return is;
 }
 
@@ -138,7 +138,7 @@ static const char *PrintReasonAsString( uint8_t reason )
   case 0x6:
     return "invalid-PDU-parameter value";
     }
-  assert( 0 );
+  gdcm_assert( 0 );
   return nullptr;
 }
 }

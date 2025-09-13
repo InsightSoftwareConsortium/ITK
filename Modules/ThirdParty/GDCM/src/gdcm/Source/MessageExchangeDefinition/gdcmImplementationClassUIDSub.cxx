@@ -27,14 +27,14 @@ ImplementationClassUIDSub::ImplementationClassUIDSub()
   ImplementationClassUID = FileMetaInformation::GetImplementationClassUID();
 
   ItemLength = (uint16_t)ImplementationClassUID.size();
-  assert( (size_t)ItemLength + 4 == Size() );
+  gdcm_assert( (size_t)ItemLength + 4 == Size() );
 }
 
 std::istream &ImplementationClassUIDSub::Read(std::istream &is)
 {
   //uint8_t itemtype = 0x0;
   //is.read( (char*)&itemtype, sizeof(ItemType) );
-  //assert( itemtype == ItemType );
+  //gdcm_assert( itemtype == ItemType );
   uint8_t reserved2;
   is.read( (char*)&reserved2, sizeof(Reserved2) );
   uint16_t itemlength;
@@ -43,11 +43,11 @@ std::istream &ImplementationClassUIDSub::Read(std::istream &is)
   ItemLength = itemlength;
 
   char name[256];
-  assert( itemlength < 256 );
+  gdcm_assert( itemlength < 256 );
   is.read( name, itemlength );
   ImplementationClassUID = std::string(name, itemlength);
 
-  assert( (size_t)ItemLength + 4 == Size() );
+  gdcm_assert( (size_t)ItemLength + 4 == Size() );
   return is;
 }
 
@@ -68,7 +68,7 @@ const std::ostream &ImplementationClassUIDSub::Write(std::ostream &os) const
 size_t ImplementationClassUIDSub::Size() const
 {
   size_t ret = 0;
-  assert( ImplementationClassUID.size() == ItemLength );
+  gdcm_assert( ImplementationClassUID.size() == ItemLength );
   ret += sizeof(ItemType);
   ret += sizeof(Reserved2);
   ret += sizeof(ItemLength);

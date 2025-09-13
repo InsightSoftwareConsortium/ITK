@@ -59,7 +59,7 @@ const ModuleEntry& Module::GetModuleEntryInMacros(Macros const &macros, const Ta
   MapModuleEntry::const_iterator it = ModuleInternal.find(tag);
   if( it != ModuleInternal.end() )
     {
-    assert( it->first == tag );
+    gdcm_assert( it->first == tag );
     return it->second;
     }
   // Need to search within Nested-Included Macro:
