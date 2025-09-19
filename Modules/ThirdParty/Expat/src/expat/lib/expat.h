@@ -41,19 +41,12 @@
 #define Expat_INCLUDED 1
 
 #include <stdlib.h>
+// ITK --start
+// We must ensure that the ITK name mangling occurs
+// in all compilation units
+#include "itk_expat_mangle.h"
+// ITK --stop
 #include "expat_external.h"
-
-#include "expatDllConfig.h"
-
-#if defined(_WIN32) && !defined(ITK_EXPAT_STATIC)
-#  if defined(ITKEXPAT_EXPORTS)
-#    define XMLPARSEAPI(type) __declspec( dllexport ) type __cdecl
-#  else
-#    define XMLPARSEAPI(type) __declspec( dllimport ) type __cdecl
-#  endif
-#else
-#  define XMLPARSEAPI(type) type
-#endif
 
 #ifdef __cplusplus
 extern "C" {
