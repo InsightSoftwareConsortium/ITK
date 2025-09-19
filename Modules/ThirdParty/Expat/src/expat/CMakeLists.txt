@@ -1,11 +1,6 @@
 PROJECT(ITK3P_EXPAT)
 INCLUDE_REGULAR_EXPRESSION("^(expat|xml|ascii|utf|name|iascii|latin|itk).*$")
 
-SET(expat_SRCS
-  xmlparse.c
-  xmltok.c
-  xmlrole.c
-)
 
 INCLUDE_DIRECTORIES(BEFORE ${ITK3P_EXPAT_SOURCE_DIR})
 INCLUDE_DIRECTORIES(BEFORE ${ITK3P_EXPAT_BINARY_DIR})
@@ -170,7 +165,6 @@ if(NOT WIN32)
 endif()
 set(XML_CONTEXT_BYTES ${EXPAT_CONTEXT_BYTES})
 
-
 CONFIGURE_FILE(${ITK3P_EXPAT_SOURCE_DIR}/expatConfig.h.in
                ${ITK3P_EXPAT_BINARY_DIR}/expatConfig.h)
 CONFIGURE_FILE(${ITK3P_EXPAT_SOURCE_DIR}/expatDllConfig.h.in
@@ -182,6 +176,18 @@ set(MANGLE_PREFIX itk_expat)
 configure_file(itk_expat_mangle.h.in
                "${ITK3P_EXPAT_BINARY_DIR}/itk_expat_mangle.h"
                @ONLY)
+
+#
+# C library
+#
+set(expat_SRCS
+    lib/xmlparse.c
+    lib/xmlrole.c
+    lib/xmltok.c
+# NOTE: ISO C forbids an empty translation unit
+#   lib/xmltok_impl.c
+#   lib/xmltok_ns.c
+)
 
 ADD_LIBRARY(ITKEXPAT ${expat_SRCS})
 
@@ -199,9 +205,9 @@ INSTALL(TARGETS ITKEXPAT
 
 INSTALL(FILES
   ${ITK3P_EXPAT_BINARY_DIR}/expatDllConfig.h
-  ${ITK3P_EXPAT_SOURCE_DIR}/expat.h
-  ${ITK3P_EXPAT_BINARY_DIR}/expat_config.h
-  ${ITK3P_EXPAT_SOURCE_DIR}/expat_external.h
   ${ITK3P_EXPAT_BINARY_DIR}/itk_expat_mangle.h
+  ${ITK3P_EXPAT_BINARY_DIR}/expat_config.h
+  ${ITK3P_EXPAT_SOURCE_DIR}/lib/expat.h
+  ${ITK3P_EXPAT_SOURCE_DIR}/lib/expat_external.h
   DESTINATION ${ITK3P_INSTALL_INCLUDE_DIR} # TODO: itk_expat.h #include "itkexpat/expat.h"
   COMPONENT Development)
