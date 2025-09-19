@@ -1,15 +1,15 @@
-PROJECT(ITK3P_EXPAT)
-INCLUDE_REGULAR_EXPRESSION("^(expat|xml|ascii|utf|name|iascii|latin|itk).*$")
+project(ITK3P_EXPAT)
+include_regular_expression("^(expat|xml|ascii|utf|name|iascii|latin|itk).*$")
 
 
-INCLUDE_DIRECTORIES(BEFORE ${ITK3P_EXPAT_SOURCE_DIR})
-INCLUDE_DIRECTORIES(BEFORE ${ITK3P_EXPAT_BINARY_DIR})
+include_directories(BEFORE ${ITK3P_EXPAT_SOURCE_DIR})
+include_directories(BEFORE ${ITK3P_EXPAT_BINARY_DIR})
 
-IF(WIN32)
-  IF(NOT BUILD_SHARED_LIBS)
-    SET (ITK_EXPAT_STATIC 1)
-  ENDIF(NOT BUILD_SHARED_LIBS)
-ENDIF(WIN32)
+if(WIN32)
+  if(NOT BUILD_SHARED_LIBS)
+    set (ITK_EXPAT_STATIC 1)
+  endif(NOT BUILD_SHARED_LIBS)
+endif(WIN32)
 
 #
 # Configuration
@@ -165,9 +165,9 @@ if(NOT WIN32)
 endif()
 set(XML_CONTEXT_BYTES ${EXPAT_CONTEXT_BYTES})
 
-CONFIGURE_FILE(${ITK3P_EXPAT_SOURCE_DIR}/expatConfig.h.in
+configure_file(${ITK3P_EXPAT_SOURCE_DIR}/expatConfig.h.in
                ${ITK3P_EXPAT_BINARY_DIR}/expatConfig.h)
-CONFIGURE_FILE(${ITK3P_EXPAT_SOURCE_DIR}/expatDllConfig.h.in
+configure_file(${ITK3P_EXPAT_SOURCE_DIR}/expatDllConfig.h.in
                ${ITK3P_EXPAT_BINARY_DIR}/expatDllConfig.h)
 
 configure_file(expat_config.h.cmake "${ITK3P_EXPAT_BINARY_DIR}/expat_config.h")
@@ -189,21 +189,21 @@ set(expat_SRCS
 #   lib/xmltok_ns.c
 )
 
-ADD_LIBRARY(ITKEXPAT ${expat_SRCS})
+add_library(ITKEXPAT ${expat_SRCS})
 
 # Apply user-defined properties to the library target.
-IF(ITK_LIBRARY_PROPERTIES)
-  SET_TARGET_PROPERTIES(ITKEXPAT PROPERTIES ${ITK_LIBRARY_PROPERTIES})
-ENDIF(ITK_LIBRARY_PROPERTIES)
+if(ITK_LIBRARY_PROPERTIES)
+  set_target_properties(ITKEXPAT PROPERTIES ${ITK_LIBRARY_PROPERTIES})
+endif(ITK_LIBRARY_PROPERTIES)
 
-INSTALL(TARGETS ITKEXPAT
+install(TARGETS ITKEXPAT
   EXPORT ${ITK3P_INSTALL_EXPORT_NAME}
   RUNTIME DESTINATION ${ITK3P_INSTALL_RUNTIME_DIR} COMPONENT RuntimeLibraries
   LIBRARY DESTINATION ${ITK3P_INSTALL_LIBRARY_DIR} COMPONENT RuntimeLibraries
   ARCHIVE DESTINATION ${ITK3P_INSTALL_ARCHIVE_DIR} COMPONENT Development
   )
 
-INSTALL(FILES
+install(FILES
   ${ITK3P_EXPAT_BINARY_DIR}/expatDllConfig.h
   ${ITK3P_EXPAT_BINARY_DIR}/itk_expat_mangle.h
   ${ITK3P_EXPAT_BINARY_DIR}/expat_config.h
