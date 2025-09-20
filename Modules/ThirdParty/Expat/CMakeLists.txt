@@ -17,6 +17,8 @@ else()
   )
 set(ITKExpat_LIBRARIES ITKEXPAT)
 set(ITK_LIBRARY_PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS FALSE)
+set(EXPAT_GE ON CACHE BOOL   "Define to make general entity parsing functionality available" FORCE)
+set(XML_GE 1    CACHE STRING "Define to make general entity parsing functionality available" FORCE)
 endif()
 
 itk_module_impl()
