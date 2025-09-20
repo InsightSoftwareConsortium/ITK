@@ -31,12 +31,14 @@ nm libITKEXPAT-5.3.a | grep " [TRD] " |  awk '{ print $3 }' | sort -df | awk '{ 
 
 */
 
+#define g_reparseDeferralEnabledDefault @MANGLE_PREFIX@_g_reparseDeferralEnabledDefault
 #define _INTERNAL_trim_to_complete_utf8_characters @MANGLE_PREFIX@__INTERNAL_trim_to_complete_utf8_characters
 #define testingAccountingGetCountBytesDirect @MANGLE_PREFIX@_testingAccountingGetCountBytesDirect
 #define testingAccountingGetCountBytesIndirect @MANGLE_PREFIX@_testingAccountingGetCountBytesIndirect
 #define unsignedCharToPrintable @MANGLE_PREFIX@_unsignedCharToPrintable
 #define XML_DefaultCurrent @MANGLE_PREFIX@_XML_DefaultCurrent
 #define XML_ErrorString @MANGLE_PREFIX@_XML_ErrorString
+#define XML_ExpatVersionInfo @MANGLE_PREFIX@_XML_ExpatVersionInfo
 #define XML_ExpatVersion @MANGLE_PREFIX@_XML_ExpatVersion
 #define XML_ExpatVersionInfo @MANGLE_PREFIX@_XML_ExpatVersionInfo
 #define XML_ExternalEntityParserCreate @MANGLE_PREFIX@_XML_ExternalEntityParserCreate
@@ -64,6 +66,7 @@ nm libITKEXPAT-5.3.a | grep " [TRD] " |  awk '{ print $3 }' | sort -df | awk '{ 
 #define XML_MemFree @MANGLE_PREFIX@_XML_MemFree
 #define XML_MemMalloc @MANGLE_PREFIX@_XML_MemMalloc
 #define XML_MemRealloc @MANGLE_PREFIX@_XML_MemRealloc
+#define XML_ParseBuffer @MANGLE_PREFIX@_XML_ParseBuffer
 #define XML_Parse @MANGLE_PREFIX@_XML_Parse
 #define XML_ParseBuffer @MANGLE_PREFIX@_XML_ParseBuffer
 #define XML_ParserCreate @MANGLE_PREFIX@_XML_ParserCreate
@@ -73,9 +76,12 @@ nm libITKEXPAT-5.3.a | grep " [TRD] " |  awk '{ print $3 }' | sort -df | awk '{ 
 #define XML_ParserReset @MANGLE_PREFIX@_XML_ParserReset
 #define XmlParseXmlDecl @MANGLE_PREFIX@_XmlParseXmlDecl
 #define XmlParseXmlDeclNS @MANGLE_PREFIX@_XmlParseXmlDeclNS
+#define XmlPrologStateInitExternalEntity @MANGLE_PREFIX@_XmlPrologStateInitExternalEntity
 #define XmlPrologStateInit @MANGLE_PREFIX@_XmlPrologStateInit
 #define XmlPrologStateInitExternalEntity @MANGLE_PREFIX@_XmlPrologStateInitExternalEntity
 #define XML_ResumeParser @MANGLE_PREFIX@_XML_ResumeParser
+#define XML_SetAllocTrackerActivationThreshold @MANGLE_PREFIX@_XML_SetAllocTrackerActivationThreshold
+#define XML_SetAllocTrackerMaximumAmplification @MANGLE_PREFIX@_XML_SetAllocTrackerMaximumAmplification
 #define XML_SetAttlistDeclHandler @MANGLE_PREFIX@_XML_SetAttlistDeclHandler
 #define XML_SetBase @MANGLE_PREFIX@_XML_SetBase
 #define XML_SetBillionLaughsAttackProtectionActivationThreshold @MANGLE_PREFIX@_XML_SetBillionLaughsAttackProtectionActivationThreshold
@@ -83,6 +89,7 @@ nm libITKEXPAT-5.3.a | grep " [TRD] " |  awk '{ print $3 }' | sort -df | awk '{ 
 #define XML_SetCdataSectionHandler @MANGLE_PREFIX@_XML_SetCdataSectionHandler
 #define XML_SetCharacterDataHandler @MANGLE_PREFIX@_XML_SetCharacterDataHandler
 #define XML_SetCommentHandler @MANGLE_PREFIX@_XML_SetCommentHandler
+#define XML_SetDefaultHandlerExpand @MANGLE_PREFIX@_XML_SetDefaultHandlerExpand
 #define XML_SetDefaultHandler @MANGLE_PREFIX@_XML_SetDefaultHandler
 #define XML_SetDefaultHandlerExpand @MANGLE_PREFIX@_XML_SetDefaultHandlerExpand
 #define XML_SetDoctypeDeclHandler @MANGLE_PREFIX@_XML_SetDoctypeDeclHandler
@@ -94,6 +101,7 @@ nm libITKEXPAT-5.3.a | grep " [TRD] " |  awk '{ print $3 }' | sort -df | awk '{ 
 #define XML_SetEndElementHandler @MANGLE_PREFIX@_XML_SetEndElementHandler
 #define XML_SetEndNamespaceDeclHandler @MANGLE_PREFIX@_XML_SetEndNamespaceDeclHandler
 #define XML_SetEntityDeclHandler @MANGLE_PREFIX@_XML_SetEntityDeclHandler
+#define XML_SetExternalEntityRefHandlerArg @MANGLE_PREFIX@_XML_SetExternalEntityRefHandlerArg
 #define XML_SetExternalEntityRefHandler @MANGLE_PREFIX@_XML_SetExternalEntityRefHandler
 #define XML_SetExternalEntityRefHandlerArg @MANGLE_PREFIX@_XML_SetExternalEntityRefHandlerArg
 #define XML_SetHashSalt @MANGLE_PREFIX@_XML_SetHashSalt
@@ -102,6 +110,7 @@ nm libITKEXPAT-5.3.a | grep " [TRD] " |  awk '{ print $3 }' | sort -df | awk '{ 
 #define XML_SetNotStandaloneHandler @MANGLE_PREFIX@_XML_SetNotStandaloneHandler
 #define XML_SetParamEntityParsing @MANGLE_PREFIX@_XML_SetParamEntityParsing
 #define XML_SetProcessingInstructionHandler @MANGLE_PREFIX@_XML_SetProcessingInstructionHandler
+#define XML_SetReparseDeferralEnabled @MANGLE_PREFIX@_XML_SetReparseDeferralEnabled
 #define XML_SetReturnNSTriplet @MANGLE_PREFIX@_XML_SetReturnNSTriplet
 #define XML_SetSkippedEntityHandler @MANGLE_PREFIX@_XML_SetSkippedEntityHandler
 #define XML_SetStartCdataSectionHandler @MANGLE_PREFIX@_XML_SetStartCdataSectionHandler
@@ -118,5 +127,4 @@ nm libITKEXPAT-5.3.a | grep " [TRD] " |  awk '{ print $3 }' | sort -df | awk '{ 
 #define XML_UseParserAsHandlerArg @MANGLE_PREFIX@_XML_UseParserAsHandlerArg
 #define XmlUtf16Encode @MANGLE_PREFIX@_XmlUtf16Encode
 #define XmlUtf8Encode @MANGLE_PREFIX@_XmlUtf8Encode
-
 #endif /* itk_expat_mangle_h */
