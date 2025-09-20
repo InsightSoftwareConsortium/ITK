@@ -110,11 +110,16 @@ if(MSVC)
 else()
     set(_EXPAT_BUILD_PKGCONFIG_DEFAULT ON)
 endif()
+if(0) # ITK --start
 if(DEFINED BUILD_SHARED_LIBS)
     set(_EXPAT_SHARED_LIBS_DEFAULT ${BUILD_SHARED_LIBS})
 else()
     set(_EXPAT_SHARED_LIBS_DEFAULT ON)
 endif()
+else() # ITK
+    set(_EXPAT_SHARED_LIBS_DEFAULT ${ITK_BUILD_SHARED_LIBS})
+    set(EXPAT_SHARED_LIBS ${_EXPAT_SHARED_LIBS_DEFAULT} CACHE BOOL "build a shared expat library" FORCE )
+endif() # ITK --end
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE NoConfig)  # so that accessing CMAKE_*_POSTFIX will be waterproof
 endif()
@@ -432,7 +437,7 @@ if(EXPAT_WITH_LIBBSD)
 endif()
 
 if(WIN32)
-  if(NOT BUILD_SHARED_LIBS)
+  if(NOT EXPAT_SHARED_LIBS)
     set (ITK_EXPAT_STATIC 1)
   endif()
 endif()
