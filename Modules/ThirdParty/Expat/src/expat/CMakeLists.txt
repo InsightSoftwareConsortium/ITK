@@ -96,8 +96,12 @@ else()
 endif()
 #]]
 # ITK --start
-    set(_EXPAT_SHARED_LIBS_DEFAULT ${ITK_BUILD_SHARED_LIBS})
-    set(EXPAT_SHARED_LIBS ${_EXPAT_SHARED_LIBS_DEFAULT} CACHE BOOL "build a shared expat library" FORCE )
+     # To match previous behavior prior to synchronizing with expat 2.7.2,
+     # only static builds of expat internal to ITK are supported.
+     set(_EXPAT_SHARED_LIBS_DEFAULT OFF)
+     set(EXPAT_SHARED_LIBS OFF CACHE BOOL "build a shared expat library" FORCE )
+   # set(_EXPAT_SHARED_LIBS_DEFAULT ${ITK_BUILD_SHARED_LIBS})
+   # set(EXPAT_SHARED_LIBS ${_EXPAT_SHARED_LIBS_DEFAULT} CACHE BOOL "build a shared expat library" FORCE )
 # ITK --end
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE NoConfig)  # so that accessing EXPAT_*_POSTFIX will be waterproof
