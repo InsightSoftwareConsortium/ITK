@@ -197,8 +197,13 @@ elseif(MSVC)
     # (who'd use cmake from an IDE...) but checking for ICC before checking for MSVC should
     # avoid mistakes.
     # /Oi ?
+    #[[ ITK--start
     set(WARNFLAGS /W3 /w34242 /WX)
     set(WARNFLAGS_MAINTAINER /W4)
+    #]]
+    set(WARNFLAGS /w34242 /WX)
+    set(WARNFLAGS_MAINTAINER)
+    #ITK --stop
     set(WARNFLAGS_DISABLE /wd4206 /wd4054 /wd4324)
     if(BASEARCH_ARM_FOUND)
         add_definitions(-D_ARM_WINAPI_PARTITION_DESKTOP_SDK_AVAILABLE)
