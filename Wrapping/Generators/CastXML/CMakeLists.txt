@@ -80,11 +80,11 @@ else()
   )
     set(
       _castxml_hash
-      3a4f91315872811de33ebbaf34ba34b5cd1fdb6120ec22853793ad311a1c014f
+      f3c4639e84cc65d0ba6e608772d07dd32f47ccb0d03e16fcbe182429908ed4f2
     )
     set(
       _castxml_url
-      "https://github.com/CastXML/CastXMLSuperbuild/releases/download/v${_castxml_version}/castxml-windows-2025-amd64.zip"
+      "https://github.com/CastXML/CastXMLSuperbuild/releases/download/v${_castxml_version}/castxml-windows-2022-amd64.zip"
     )
     set(_download_castxml_binaries 1)
 
