@@ -277,6 +277,21 @@ endif()
 # ITK build configuration options.
 option(BUILD_SHARED_LIBS "Build ITK with shared libraries." OFF)
 set(ITK_BUILD_SHARED_LIBS ${BUILD_SHARED_LIBS})
+# Enforce that exactly one of BUILD_SHARED_LIBS or BUILD_STATIC_LIBS is set to ON.
+# ThirdParty (HDF5, openjpeg, ..) code bases have complicated relationships with
+# the forced CACHE setting of BUILD_[SHARED|STATIC]_LIBS, but ITK internal build
+# only allows one or the other.
+#
+# Changing the state of BUILD_SHARED_LIBS must also
+# change the state of BUILD_STATIC_LIBS.
+if(NOT BUILD_SHARED_LIBS)
+  set_boolean_with_change_warning(BUILD_SHARED_LIBS OFF)
+  set_boolean_with_change_warning(BUILD_STATIC_LIBS ON)
+else()
+  set_boolean_with_change_warning(BUILD_SHARED_LIBS ON)
+  set_boolean_with_change_warning(BUILD_STATIC_LIBS OFF)
+endif()
+mark_as_advanced(BUILD_STATIC_LIBS)
 
 set(ITK_DYNAMIC_LOADING_DEFAULT ON)
 if(WASI OR EMSCRIPTEN)

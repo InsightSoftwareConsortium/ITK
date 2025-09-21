@@ -526,6 +526,10 @@ option (HDF5_BUILD_STATIC_TOOLS "Build Static Tools NOT Shared Tools" OFF)
 # only shared libraries/tools is true if user forces static OFF
 if (NOT BUILD_STATIC_LIBS)
   set (ONLY_SHARED_LIBS ON CACHE BOOL "Only Build Shared Libraries" FORCE)
+#ITK --start
+else()
+  set (ONLY_SHARED_LIBS OFF CACHE BOOL "Only Build Shared Libraries" FORCE)
+#ITK --stop
 endif ()
 
 # only shared libraries is set ON by user then force settings
@@ -537,6 +541,13 @@ if (ONLY_SHARED_LIBS)
     message (WARNING "Cannot build static tools without static libraries. Building shared tools.")
   endif ()
   set (HDF5_BUILD_STATIC_TOOLS OFF CACHE BOOL "Build Static Tools NOT Shared Tools" FORCE)
+#ITK --start
+else()
+  set (H5_ENABLE_STATIC_LIB YES)
+  set (BUILD_SHARED_LIBS OFF CACHE BOOL "Build Shared Libraries" FORCE)
+  set (BUILD_STATIC_LIBS ON CACHE BOOL "Build Static Libraries" FORCE)
+  set (HDF5_BUILD_STATIC_TOOLS OFF CACHE BOOL "Build Static Tools NOT Shared Tools" FORCE)
+#ITK --stop
 endif ()
 
 #[[ ITK --start

@@ -74,6 +74,10 @@ set (DEFAULT_API_VERSION "v114" CACHE INTERNAL "Enable v1.14 API (v16, v18, v110
 
 if (NOT BUILD_SHARED_LIBS)
   set (BUILD_STATIC_LIBS ON CACHE INTERNAL "Build Static Libraries")
+#ITK --start
+else()
+  set (BUILD_STATIC_LIBS OFF CACHE INTERNAL "Build Static Libraries")
+#ITK --stop
 endif()
 
 # Setup all necessary overrides for zlib so that HDF5 uses our
