@@ -12,13 +12,16 @@ if(ITK_USE_SYSTEM_EXPAT)
   set(ITKExpat_NO_SRC 1)
 else()
   set(ITKExpat_INCLUDE_DIRS
-  ${ITKExpat_BINARY_DIR}/src/itkexpat
-  ${ITKExpat_SOURCE_DIR}/src/itkexpat/lib
+    ${ITKExpat_BINARY_DIR}/src
+    ${ITKExpat_BINARY_DIR}/src/itkexpat
+    ${ITKExpat_SOURCE_DIR}/src
   )
 set(ITKExpat_LIBRARIES ITKEXPAT)
 set(ITK_LIBRARY_PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS FALSE)
 set(EXPAT_GE ON CACHE BOOL   "Define to make general entity parsing functionality available" FORCE)
 set(XML_GE 1    CACHE STRING "Define to make general entity parsing functionality available" FORCE)
 endif()
+
+configure_file(src/itk_expat.h.in src/itk_expat.h)
 
 itk_module_impl()
