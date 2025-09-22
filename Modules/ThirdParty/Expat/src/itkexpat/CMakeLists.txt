@@ -37,12 +37,21 @@
 
 cmake_minimum_required(VERSION 3.15.0)
 
+if (0) # ITK --start
 project(expat
     VERSION
         2.7.2
     LANGUAGES
         C
 )
+else()
+project(ITK3P_EXPAT
+    VERSION
+        2.7.2
+    LANGUAGES
+        C
+  )
+endif() # ITK --stop
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_EXTENSIONS OFF)  # i.e. -std=c99 rather than default -std=gnu99
@@ -79,11 +88,21 @@ if(MSVC)
 else()
     set(_EXPAT_BUILD_PKGCONFIG_DEFAULT ON)
 endif()
+#[[ # ITK --replace
 if(DEFINED BUILD_SHARED_LIBS)
     set(_EXPAT_SHARED_LIBS_DEFAULT ${BUILD_SHARED_LIBS})
 else()
     set(_EXPAT_SHARED_LIBS_DEFAULT ON)
 endif()
+#]]
+# ITK --start
+     # To match previous behavior prior to synchronizing with expat 2.7.2,
+     # only static builds of expat internal to ITK are supported.
+     set(_EXPAT_SHARED_LIBS_DEFAULT OFF)
+     set(EXPAT_SHARED_LIBS OFF CACHE BOOL "build a shared expat library" FORCE )
+   # set(_EXPAT_SHARED_LIBS_DEFAULT ${ITK_BUILD_SHARED_LIBS})
+   # set(EXPAT_SHARED_LIBS ${_EXPAT_SHARED_LIBS_DEFAULT} CACHE BOOL "build a shared expat library" FORCE )
+# ITK --end
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE NoConfig)  # so that accessing EXPAT_*_POSTFIX will be waterproof
 endif()
@@ -162,7 +181,12 @@ mark_as_advanced(EXPAT_LARGE_SIZE)
 expat_shy_set(EXPAT_MIN_SIZE OFF CACHE BOOL "Get a smaller (but slower) parser (in particular avoid multiple copies of the tokenizer)")
 mark_as_advanced(EXPAT_MIN_SIZE)
 if(MSVC OR _EXPAT_HELP)
+#[[ ITK --replace
     expat_shy_set(EXPAT_MSVC_STATIC_CRT OFF CACHE BOOL "Use /MT flag (static CRT) when compiling in MSVC")
+#]]
+# ITK --start
+    expat_shy_set(EXPAT_MSVC_STATIC_CRT ${ITK_MSVC_STATIC_RUNTIME_LIBRARY} CACHE INTERNAL "Use /MT flag (static CRT) when compiling in MSVC")
+# ITK --stop
 endif()
 if(NOT _EXPAT_HELP)
     expat_shy_set(_EXPAT_M32 OFF CACHE BOOL "(Unofficial!) Produce 32bit code with -m32")
@@ -310,9 +334,18 @@ macro(expat_install)
     endif()
 endmacro()
 
+#[[
 configure_file(expat_config.h.cmake "${CMAKE_CURRENT_BINARY_DIR}/expat_config.h")
 expat_install(FILES "${CMAKE_CURRENT_BINARY_DIR}/expat_config.h" DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+#]]
+#ITK --start
+configure_file(expat_config.h.cmake "${ITK3P_EXPAT_BINARY_DIR}/expat_config.h")
 
+set(MANGLE_PREFIX itk_expat)
+configure_file(itk_expat_mangle.h.in
+               "${ITK3P_EXPAT_BINARY_DIR}/itk_expat_mangle.h"
+               @ONLY)
+# ITK --stop
 
 set(EXTRA_COMPILE_FLAGS)
 if(FLAG_NO_STRICT_ALIASING)
@@ -373,7 +406,14 @@ if(_EXPAT_M32 AND NOT MSVC)
     endforeach()
 endif()
 
+if(0) # ITK --start
 include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/lib)
+else()
+include_regular_expression("^(expat|xml|ascii|utf|name|iascii|latin|itk).*$")
+
+include_directories(BEFORE ${ITK3P_EXPAT_SOURCE_DIR})
+include_directories(BEFORE ${ITK3P_EXPAT_BINARY_DIR})
+endif() # ITK --stop
 if(MSVC)
     add_definitions(-D_CRT_SECURE_NO_WARNINGS -wd4996)
 endif()
@@ -392,6 +432,7 @@ set(_EXPAT_C_SOURCES
 
 if(EXPAT_SHARED_LIBS)
     set(_SHARED SHARED)
+    #[[ ITK --start  ITK does not use the .def file for MSVC
     if(WIN32)
         macro(_expat_def_file_toggle source_var target_var)
             if(${source_var})
@@ -418,10 +459,12 @@ if(EXPAT_SHARED_LIBS)
         configure_file("${CMAKE_CURRENT_SOURCE_DIR}/win32/version.rc.cmake" "${CMAKE_CURRENT_BINARY_DIR}/win32/version.rc")
         set(_EXPAT_EXTRA_SOURCES ${_EXPAT_EXTRA_SOURCES} "${CMAKE_CURRENT_BINARY_DIR}/win32/version.rc")
     endif()
+    #]] # ITK --stop
 else()
     set(_SHARED STATIC)
 endif()
 
+#[[ ITK --replace
 add_library(expat ${_SHARED} ${_EXPAT_C_SOURCES} ${_EXPAT_EXTRA_SOURCES})
 add_library(expat::expat ALIAS expat)
 if(_EXPAT_LIBM_FOUND)
@@ -431,6 +474,42 @@ if(EXPAT_WITH_LIBBSD)
     target_link_libraries(expat ${LIB_BSD})
 endif()
 
+#]]
+# ITK -start
+add_library(ITKEXPAT ${_SHARED} ${_EXPAT_C_SOURCES})
+if(_EXPAT_LIBM_FOUND)
+  target_link_libraries(ITKEXPAT m)
+endif()
+if(EXPAT_WITH_LIBBSD)
+  target_link_libraries(ITKEXPAT ${LIB_BSD})
+endif()
+#ITK --stop
+# ITK --start
+# Apply user-defined properties to the library target.
+if(ITK_LIBRARY_PROPERTIES)
+  set_target_properties(ITKEXPAT PROPERTIES ${ITK_LIBRARY_PROPERTIES})
+endif()
+if(NOT EXPAT_SHARED_LIBS)
+   target_compile_definitions(ITKEXPAT PUBLIC -DXML_STATIC)
+endif()
+
+install(TARGETS ITKEXPAT
+  EXPORT ${ITK3P_INSTALL_EXPORT_NAME}
+  RUNTIME DESTINATION ${ITK3P_INSTALL_RUNTIME_DIR} COMPONENT RuntimeLibraries
+  LIBRARY DESTINATION ${ITK3P_INSTALL_LIBRARY_DIR} COMPONENT RuntimeLibraries
+  ARCHIVE DESTINATION ${ITK3P_INSTALL_ARCHIVE_DIR} COMPONENT Development
+  )
+
+install(FILES
+  ${ITK3P_EXPAT_BINARY_DIR}/itk_expat_mangle.h
+  ${ITK3P_EXPAT_BINARY_DIR}/expat_config.h
+  ${ITK3P_EXPAT_SOURCE_DIR}/lib/expat.h
+  ${ITK3P_EXPAT_SOURCE_DIR}/lib/expat_external.h
+  DESTINATION ${ITK3P_INSTALL_INCLUDE_DIR} # TODO: itk_expat.h #include "itkexpat/expat.h"
+  COMPONENT Development)
+# ITK --stop
+
+#[[  ITK --start  the rest of configuation is not used in ITK, but here to minimize diff with upstream
 #
 # Library filename postfix
 #
@@ -1028,3 +1107,4 @@ if(CMAKE_GENERATOR STREQUAL "Unix Makefiles")
     message(STATUS "")
 endif()
 message(STATUS "===========================================================================")
+#]]
