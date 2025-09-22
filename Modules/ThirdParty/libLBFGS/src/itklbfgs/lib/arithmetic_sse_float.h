@@ -65,7 +65,11 @@ inline static void* vecalloc(size_t size)
 
 inline static void vecfree(void *memblock)
 {
+#ifdef	_MSC_VER
     _aligned_free(memblock);
+#else
+    free(memblock);
+#endif
 }
 
 #define vecset(x, c, n) \

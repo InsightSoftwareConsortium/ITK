@@ -8,7 +8,7 @@ readonly name="libLBFGS"
 readonly ownership="libLBFGS Upstream <kwrobot@kitware.com>"
 readonly subtree="Modules/ThirdParty/libLBFGS/src/itklbfgs"
 readonly repo="https://github.com/chokkan/liblbfgs.git"
-readonly tag="v1.10"
+readonly tag="5ad02fbefefdeff339ab03635e673571055a0644" #Jun 19, 2023
 readonly paths="
 COPYING
 include/*.h
