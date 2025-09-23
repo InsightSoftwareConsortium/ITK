@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 #include "itkDOMNodeXMLReader.h"
-#include "expat.h"
+#include "itk_expat.h"
 
 #include <fstream>
 
