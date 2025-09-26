@@ -278,6 +278,11 @@ bool PixelFormat::Validate()
     gdcmDebugMacro( "Bits Stored is 0. Setting is to max value" );
     BitsStored = BitsAllocated;
     }
+  if ( HighBit == 0 && BitsStored > 1 )
+    {
+    gdcmDebugMacro( "High Bit is 0. Setting is to BitStored - 1" );
+    HighBit = BitsStored - 1;
+    }
   if ( BitsAllocated == 24 )
     {
     gdcmDebugMacro( "ACR-NEMA way of storing RGB data. Updating" );
