@@ -34,6 +34,7 @@
 
 #include "itkVector.h"
 
+#include "itkMath.h"
 #include "itkMatrix.h"
 #include "itkPrintHelper.h"
 
@@ -144,11 +145,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::SetS
   m_CoefficientFilter->SetSplineOrder(SplineOrder);
 
   // this->SetPoles();
-  m_MaxNumberInterpolationPoints = 1;
-  for (unsigned int n = 0; n < ImageDimension; ++n)
-  {
-    m_MaxNumberInterpolationPoints *= (m_SplineOrder + 1);
-  }
+  m_MaxNumberInterpolationPoints = Math::UnsignedPower(SplineOrder + 1, ImageDimension);
   this->GeneratePointsToIndex();
 }
 
