@@ -25,7 +25,7 @@ if(ITK_USE_SYSTEM_DCMTK)
   # Use local FindDCMTK.cmake.
   list(INSERT CMAKE_MODULE_PATH 0 "${CMAKE_CURRENT_LIST_DIR}/CMake")
   find_package(DCMTK REQUIRED NO_MODULE)
-else(ITK_USE_SYSTEM_DCMTK)
+else()
   # Change default from OFF to ON for portability.
   option(DCMTK_ENABLE_BUILTIN_OFICONV_DATA "Embed oficonv data files into oficonv library" ON)
   # Copied and mofified from DCMTK/CMake/3rdparty.cmake
@@ -52,4 +52,4 @@ else(ITK_USE_SYSTEM_DCMTK)
       set(ITKDCMTK_ICU_LIBRARIES ${ICU_LIBRARIES})
     endif()
   endif()
-endif(ITK_USE_SYSTEM_DCMTK)
+endif()
