@@ -18,6 +18,8 @@ itk_module(
     ITKIODCMTK
     ITKIOGDCM
     ITKImageGrid
+  FACTORY_NAMES
+    TransformIO::DCMTK
   EXCLUDE_FROM_DEFAULT
   DESCRIPTION "Module ingested from upstream."
 )
