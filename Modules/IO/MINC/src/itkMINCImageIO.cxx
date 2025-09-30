@@ -27,6 +27,7 @@
 
 #include "itk_minc2.h"
 
+#include <array>
 #include <memory> // For unique_ptr.
 
 
@@ -481,7 +482,7 @@ MINCImageIO::ReadImageInformation()
 
       double _sep = NAN;
       miget_dimension_separation(m_MINCPImpl->m_MincApparentDims[usableDimensions], MI_ORDER_APPARENT, &_sep);
-      std::vector<double> _dir(3);
+      std::array<double, 3> _dir{};
       miget_dimension_cosines(m_MINCPImpl->m_MincApparentDims[usableDimensions], &_dir[0]);
       double _start = NAN;
       miget_dimension_start(m_MINCPImpl->m_MincApparentDims[usableDimensions], MI_ORDER_APPARENT, &_start);
