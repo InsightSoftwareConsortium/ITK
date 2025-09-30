@@ -18,6 +18,7 @@
 
 #include "itkNeighborhoodIteratorTestCommon.hxx"
 #include "itkConstNeighborhoodIterator.h"
+#include <array>
 
 void
 println(const char * s)
@@ -356,17 +357,8 @@ itkConstNeighborhoodIteratorTest(int, char *[])
     using NeighborhoodIteratorType = itk::ConstNeighborhoodIterator<ChangeRegionTestImageType>;
     NeighborhoodIteratorType neighborhoodIterator(neighborhoodRadius, image, region1);
 
-    std::vector<int> expectedValuesRegion1(9);
-    expectedValuesRegion1[0] = 0;
-    expectedValuesRegion1[1] = 255;
-    expectedValuesRegion1[2] = 255;
-    expectedValuesRegion1[3] = 0;
-    expectedValuesRegion1[4] = 255;
-    expectedValuesRegion1[5] = 255;
-    expectedValuesRegion1[6] = 0;
-    expectedValuesRegion1[7] = 255;
-    expectedValuesRegion1[8] = 255;
-    unsigned int counter = 0;
+    static constexpr std::array<int, 9> expectedValuesRegion1{ 0, 255, 255, 0, 255, 255, 0, 255, 255 };
+    unsigned int                        counter = 0;
 
     for (NeighborhoodIteratorType::ConstIterator pixelIterator = neighborhoodIterator.Begin();
          pixelIterator < neighborhoodIterator.End();
@@ -387,16 +379,7 @@ itkConstNeighborhoodIteratorTest(int, char *[])
     neighborhoodIterator.SetRegion(region2);
     neighborhoodIterator.GoToBegin();
 
-    std::vector<int> expectedValuesRegion2(9);
-    expectedValuesRegion2[0] = 255;
-    expectedValuesRegion2[1] = 255;
-    expectedValuesRegion2[2] = 255;
-    expectedValuesRegion2[3] = 255;
-    expectedValuesRegion2[4] = 255;
-    expectedValuesRegion2[5] = 255;
-    expectedValuesRegion2[6] = 255;
-    expectedValuesRegion2[7] = 255;
-    expectedValuesRegion2[8] = 255;
+    static constexpr std::array<int, 9> expectedValuesRegion2{ 255, 255, 255, 255, 255, 255, 255, 255, 255 };
     counter = 0;
     for (NeighborhoodIteratorType::ConstIterator pixelIterator = neighborhoodIterator.Begin();
          pixelIterator < neighborhoodIterator.End();

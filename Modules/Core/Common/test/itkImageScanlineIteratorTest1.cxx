@@ -19,6 +19,7 @@
 #include <iostream>
 
 #include "itkImageScanlineIterator.h"
+#include <array>
 
 
 // This routine is used to make sure that we call the "const" version
@@ -188,12 +189,8 @@ itkImageScanlineIteratorTest1(int, char *[])
 
     itk::ImageScanlineConstIterator<TestImageType> imageIterator(image, region1);
 
-    std::vector<int> expectedValuesRegion1(4);
-    expectedValuesRegion1[0] = 0;
-    expectedValuesRegion1[1] = 255;
-    expectedValuesRegion1[2] = 0;
-    expectedValuesRegion1[3] = 255;
-    unsigned int counter = 0;
+    static constexpr std::array<int, 4> expectedValuesRegion1{ 0, 255, 0, 255 };
+    unsigned int                        counter = 0;
     while (!imageIterator.IsAtEnd())
     {
       while (!imageIterator.IsAtEndOfLine())
@@ -216,11 +213,7 @@ itkImageScanlineIteratorTest1(int, char *[])
     imageIterator.SetRegion(region2);
     imageIterator.GoToBegin();
 
-    std::vector<int> expectedValuesRegion2(4);
-    expectedValuesRegion2[0] = 255;
-    expectedValuesRegion2[1] = 255;
-    expectedValuesRegion2[2] = 255;
-    expectedValuesRegion2[3] = 255;
+    static constexpr std::array<int, 4> expectedValuesRegion2{ 255, 255, 255, 255 };
     counter = 0;
     while (!imageIterator.IsAtEnd())
     {
