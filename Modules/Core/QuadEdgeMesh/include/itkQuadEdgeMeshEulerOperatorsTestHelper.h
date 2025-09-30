@@ -20,6 +20,7 @@
 
 #include "itkQuadEdgeMeshTopologyChecker.h"
 #include "itkQuadEdgeMeshPolygonCell.h"
+#include <array>
 
 using IdentifierType = unsigned long;
 
@@ -178,7 +179,7 @@ CreateTetraedronMesh(typename TMesh::Pointer mesh)
   const int     simpleSquareCells[12] = { 0, 1, 2, 1, 0, 3, 1, 3, 2, 2, 3, 0 };
 
   using PointType = typename TMesh::PointType;
-  std::vector<PointType> pts(4);
+  std::array<PointType, 4> pts{};
   {
     int i(0);
     pts[i][0] = 0.;
@@ -235,7 +236,7 @@ CreateSamosa(typename TMesh::Pointer mesh)
   const int     simpleSquareCells[6] = { 0, 1, 2, 1, 0, 2 };
 
   using PointType = typename TMesh::PointType;
-  std::vector<PointType> pts(3);
+  std::array<PointType, 3> pts{};
   {
     int i(0);
     pts[i][0] = 0.;
