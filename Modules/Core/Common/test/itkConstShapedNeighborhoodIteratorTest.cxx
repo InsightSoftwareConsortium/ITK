@@ -18,6 +18,7 @@
 
 #include "itkNeighborhoodIteratorTestCommon.hxx"
 #include "itkConstShapedNeighborhoodIterator.h"
+#include <array>
 
 void
 PrintShapedNeighborhood(const itk::ConstShapedNeighborhoodIterator<TestImageType> & n)
@@ -470,9 +471,7 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
       shapedNeighborhoodIterator.ActivateOffset(offset_item);
     }
 
-    std::vector<int> expectedValuesRegion1(2);
-    expectedValuesRegion1[0] = 0;
-    expectedValuesRegion1[1] = 255;
+    static constexpr std::array<int, 2> expectedValuesRegion1{ 0, 255 };
 
     unsigned int counter = 0;
     // while(!shapedNeighborhoodIterator.IsAtEnd()) // no need for this loop as we are only iterating over a 1x1 region
@@ -500,9 +499,7 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
     shapedNeighborhoodIterator.SetRegion(region2);
     shapedNeighborhoodIterator.GoToBegin();
 
-    std::vector<int> expectedValuesRegion2(2);
-    expectedValuesRegion2[0] = 255;
-    expectedValuesRegion2[1] = 255;
+    static constexpr std::array<int, 2> expectedValuesRegion2{ 255, 255 };
 
     counter = 0;
     // while(!shapedNeighborhoodIterator.IsAtEnd()) // no need for this loop as we are only iterating over a 1x1 region
