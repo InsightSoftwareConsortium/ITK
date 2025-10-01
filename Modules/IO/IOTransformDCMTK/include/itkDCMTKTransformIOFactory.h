@@ -54,7 +54,7 @@ public:
   itkFactorylessNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(DCMTKTransformIOFactory, ObjectFactoryBase);
+  itkOverrideGetNameOfClassMacro(DCMTKTransformIOFactory);
 
   /** Register one factory of this type  */
   static void
