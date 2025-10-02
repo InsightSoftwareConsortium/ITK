@@ -50,11 +50,7 @@ itkLargeTIFFImageWriteReadTestHelper(std::string filename, typename TImage::Size
 
     image->SetRegions(region);
 
-    SizeValueType numberOfPixels = 1;
-    for (unsigned int i = 0; i < ImageType::ImageDimension; ++i)
-    {
-      numberOfPixels *= static_cast<SizeValueType>(region.GetSize(i));
-    }
+    const SizeValueType numberOfPixels = size.CalculateProductOfElements();
 
     constexpr SizeValueType oneMebiByte = static_cast<SizeValueType>(1024) * static_cast<SizeValueType>(1024);
 

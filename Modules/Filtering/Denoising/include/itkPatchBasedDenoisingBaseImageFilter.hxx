@@ -174,12 +174,7 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>::GetPatchLengthInV
 {
   const PatchRadiusType diameter = this->GetPatchDiameterInVoxels();
 
-  typename PatchRadiusType::SizeValueType length = 1;
-  for (unsigned int dim = 0; dim < ImageDimension; ++dim)
-  {
-    length *= diameter[dim];
-  }
-  return length;
+  return diameter.CalculateProductOfElements();
 }
 
 template <typename TInputImage, typename TOutputImage>

@@ -63,11 +63,7 @@ void
 ImagePCADecompositionCalculator<TInputImage, TBasisImage>::CalculateBasisMatrix()
 {
   m_Size = m_BasisImages[0]->GetRequestedRegion().GetSize();
-  m_NumPixels = 1;
-  for (unsigned int i = 0; i < BasisImageDimension; ++i)
-  {
-    m_NumPixels *= m_Size[i];
-  }
+  m_NumPixels = m_Size.CalculateProductOfElements();
 
   m_BasisMatrix = BasisMatrixType(static_cast<unsigned int>(m_BasisImages.size()), m_NumPixels);
 
