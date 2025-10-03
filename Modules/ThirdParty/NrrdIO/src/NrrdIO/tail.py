@@ -1,8 +1,9 @@
+#!/usr/bin/env python3
 #
-#  NrrdIO: stand-alone code for basic nrrd functionality
-#  Copyright (C) 2013, 2012, 2011, 2010, 2009  University of Chicago
-#  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
-#  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
+#  NrrdIO: C library for NRRD file IO (with optional compressions)
+#  Copyright (C) 2009--2026  University of Chicago
+#  Copyright (C) 2005--2008  Gordon Kindlmann
+#  Copyright (C) 1998--2004  University of Utah
 #
 #  This software is provided 'as-is', without any express or implied
 #  warranty.  In no event will the authors be held liable for any
@@ -23,14 +24,17 @@
 #  3. This notice may not be removed or altered from any source distribution.
 #
 
-#
-# This simply removes the lines up to and including a line
-# containing nothing but "*/", which is presumably the end
-# of the comment block at the top of a Teem .c or .h file
-#
+"""
+This removes a large comment-block at the top of a Teem .c or .h file, by
+eliding the lines up to and including a line containing nothing but '*/'
+"""
 
-$printing = 0;
-while (<>) {
-    print if $printing;
-    $printing = 1 if (m/^\*\//);
-}
+import sys
+import re
+
+PRINTING = False
+for line in sys.stdin:
+    if PRINTING:
+        sys.stdout.write(line)
+    elif re.match(r'^\*/\s*$', line):
+        PRINTING = True

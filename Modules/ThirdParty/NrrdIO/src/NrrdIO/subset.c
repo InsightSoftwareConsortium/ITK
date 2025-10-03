@@ -1,8 +1,8 @@
 /*
-  NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2013, 2012, 2011, 2010, 2009  University of Chicago
-  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
-  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
+  NrrdIO: C library for NRRD file IO (with optional compressions)
+  Copyright (C) 2009--2026  University of Chicago
+  Copyright (C) 2005--2008  Gordon Kindlmann
+  Copyright (C) 1998--2004  University of Utah
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
@@ -39,7 +39,7 @@
 ** beginning it starts (offset), the length of the "on" part (length),
 ** the period (period), and the number of periods (numper).
 */
-int
+int /* Biff: 1 */
 nrrdSlice(Nrrd *nout, const Nrrd *cnin, unsigned int saxi, size_t pos) {
   static const char me[] = "nrrdSlice", func[] = "slice";
   size_t I, rowLen, /* length of segment */
@@ -49,7 +49,7 @@ nrrdSlice(Nrrd *nout, const Nrrd *cnin, unsigned int saxi, size_t pos) {
   unsigned int ai, outdim;
   int map[NRRD_DIM_MAX];
   const char *src;
-  char *dest, stmp[2][AIR_STRLEN_SMALL];
+  char *dest, stmp[2][AIR_STRLEN_SMALL + 1];
   airArray *mop;
   Nrrd *nin;
 
@@ -68,7 +68,7 @@ nrrdSlice(Nrrd *nout, const Nrrd *cnin, unsigned int saxi, size_t pos) {
     }
   } else {
     if (!(saxi < cnin->dim)) {
-      biffAddf(NRRD, "%s: slice axis %d out of bounds (0 to %d)", me, saxi,
+      biffAddf(NRRD, "%s: slice axis %u out of bounds (0 to %u)", me, saxi,
                cnin->dim - 1);
       return 1;
     }
@@ -94,7 +94,7 @@ nrrdSlice(Nrrd *nout, const Nrrd *cnin, unsigned int saxi, size_t pos) {
        cnin), even if pointlessly so; this expression that can't be assigned
        to a new variable because of the difference in const. */
     nin = nrrdNew();
-    airMopAdd(mop, nin, (airMopper)nrrdNuke, airMopAlways);
+    airMopAdd(mop, nin, nrrdNuke_mop, airMopAlways);
     if (nrrdAxesInsert(nin, cnin, 1)) {
       biffAddf(NRRD, "%s: trouble inserting axis on 1-D array", me);
       airMopError(mop);
@@ -152,8 +152,9 @@ nrrdSlice(Nrrd *nout, const Nrrd *cnin, unsigned int saxi, size_t pos) {
     return 1;
   }
   if (nrrdBasicInfoCopy(nout, (nin ? nin : cnin),
-                        NRRD_BASIC_INFO_DATA_BIT | NRRD_BASIC_INFO_TYPE_BIT
-                          | NRRD_BASIC_INFO_BLOCKSIZE_BIT | NRRD_BASIC_INFO_DIMENSION_BIT
+                        NRRD_BASIC_INFO_DATA_BIT /* */
+                          | NRRD_BASIC_INFO_TYPE_BIT | NRRD_BASIC_INFO_BLOCKSIZE_BIT
+                          | NRRD_BASIC_INFO_DIMENSION_BIT
                           | NRRD_BASIC_INFO_SPACEORIGIN_BIT | NRRD_BASIC_INFO_CONTENT_BIT
                           | NRRD_BASIC_INFO_COMMENTS_BIT
                           | (nrrdStateKeyValuePairsPropagate
@@ -183,10 +184,11 @@ nrrdSlice(Nrrd *nout, const Nrrd *cnin, unsigned int saxi, size_t pos) {
 ** nrrd with the same dimensions, but with equal or smaller sizes
 ** along each axis.
 */
-int
+int /* Biff: 1 */
 nrrdCrop(Nrrd *nout, const Nrrd *nin, size_t *min, size_t *max) {
   static const char me[] = "nrrdCrop", func[] = "crop";
-  char buff1[NRRD_DIM_MAX * 30], buff2[AIR_STRLEN_SMALL];
+  char *buff, _buff[NRRD_DIM_MAX * 30];
+  size_t buffSize = NRRD_DIM_MAX * 30;
   unsigned int ai;
   size_t I, lineSize,   /* #bytes in one scanline to be copied */
     typeSize,           /* size of data type */
@@ -195,7 +197,7 @@ nrrdCrop(Nrrd *nout, const Nrrd *nin, size_t *min, size_t *max) {
     szIn[NRRD_DIM_MAX], szOut[NRRD_DIM_MAX], idxIn,
     idxOut,   /* linear indices for input and output */
     numLines; /* number of scanlines in output nrrd */
-  char *dataIn, *dataOut, stmp[3][AIR_STRLEN_SMALL];
+  char *dataIn, *dataOut, stmp[3][AIR_STRLEN_SMALL + 1];
 
   /* errors */
   if (!(nout && nin && min && max)) {
@@ -208,12 +210,12 @@ nrrdCrop(Nrrd *nout, const Nrrd *nin, size_t *min, size_t *max) {
   }
   for (ai = 0; ai < nin->dim; ai++) {
     if (!(min[ai] <= max[ai])) {
-      biffAddf(NRRD, "%s: axis %d min (%s) not <= max (%s)", me, ai,
+      biffAddf(NRRD, "%s: axis %u min (%s) not <= max (%s)", me, ai,
                airSprintSize_t(stmp[0], min[ai]), airSprintSize_t(stmp[1], max[ai]));
       return 1;
     }
     if (!(min[ai] < nin->axis[ai].size && max[ai] < nin->axis[ai].size)) {
-      biffAddf(NRRD, "%s: axis %d min (%s) or max (%s) out of bounds [0,%s]", me, ai,
+      biffAddf(NRRD, "%s: axis %u min (%s) or max (%s) out of bounds [0,%s]", me, ai,
                airSprintSize_t(stmp[0], min[ai]), airSprintSize_t(stmp[1], max[ai]),
                airSprintSize_t(stmp[2], nin->axis[ai].size - 1));
       return 1;
@@ -282,7 +284,7 @@ nrrdCrop(Nrrd *nout, const Nrrd *nin, size_t *min, size_t *max) {
     nrrdAxisInfoPosRange(&(nout->axis[ai].min), &(nout->axis[ai].max), nin, ai,
                          AIR_CAST(double, min[ai]), AIR_CAST(double, max[ai]));
     /* do the safe thing first */
-    nout->axis[ai].kind = _nrrdKindAltered(nin->axis[ai].kind, AIR_FALSE);
+    nout->axis[ai].kind = nrrd__KindAltered(nin->axis[ai].kind, AIR_FALSE);
     /* try cleverness */
     if (!nrrdStateKindNoop) {
       if (nout->axis[ai].size == nin->axis[ai].size) {
@@ -314,19 +316,21 @@ nrrdCrop(Nrrd *nout, const Nrrd *nin, size_t *min, size_t *max) {
       }
     }
   }
-  strcpy(buff1, "");
+  buff = _buff;
+  buff[0] = '\0';
   for (ai = 0; ai < nin->dim; ai++) {
-    sprintf(buff2, "%s[%s,%s]", (ai ? "x" : ""), airSprintSize_t(stmp[0], min[ai]),
-            airSprintSize_t(stmp[1], max[ai]));
-    strcat(buff1, buff2);
+    snprintf(buff, buffSize, "%s[%s,%s]", (ai ? "x" : ""),
+             airSprintSize_t(stmp[0], min[ai]), airSprintSize_t(stmp[1], max[ai]));
+    SN_INCR(buff, buffSize);
   }
-  if (nrrdContentSet_va(nout, func, nin, "%s", buff1)) {
+  if (nrrdContentSet_va(nout, func, nin, "%s", _buff)) {
     biffAddf(NRRD, "%s:", me);
     return 1;
   }
   if (nrrdBasicInfoCopy(nout, nin,
-                        NRRD_BASIC_INFO_DATA_BIT | NRRD_BASIC_INFO_TYPE_BIT
-                          | NRRD_BASIC_INFO_BLOCKSIZE_BIT | NRRD_BASIC_INFO_DIMENSION_BIT
+                        NRRD_BASIC_INFO_DATA_BIT /* */
+                          | NRRD_BASIC_INFO_TYPE_BIT | NRRD_BASIC_INFO_BLOCKSIZE_BIT
+                          | NRRD_BASIC_INFO_DIMENSION_BIT
                           | NRRD_BASIC_INFO_SPACEORIGIN_BIT | NRRD_BASIC_INFO_CONTENT_BIT
                           | NRRD_BASIC_INFO_COMMENTS_BIT
                           | (nrrdStateKeyValuePairsPropagate

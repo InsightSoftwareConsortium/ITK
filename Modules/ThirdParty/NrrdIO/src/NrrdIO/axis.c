@@ -1,8 +1,8 @@
 /*
-  NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2013, 2012, 2011, 2010, 2009  University of Chicago
-  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
-  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
+  NrrdIO: C library for NRRD file IO (with optional compressions)
+  Copyright (C) 2009--2026  University of Chicago
+  Copyright (C) 2005--2008  Gordon Kindlmann
+  Copyright (C) 1998--2004  University of Utah
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
@@ -29,8 +29,8 @@
 /* ------------------------------------------------------------ */
 
 void
-_nrrdAxisInfoInit(NrrdAxisInfo *axis) {
-  int dd;
+nrrd__AxisInfoInit(NrrdAxisInfo *axis) {
+  unsigned int dd;
 
   if (axis) {
     axis->size = 0;
@@ -47,12 +47,12 @@ _nrrdAxisInfoInit(NrrdAxisInfo *axis) {
 }
 
 void
-_nrrdAxisInfoNewInit(NrrdAxisInfo *axis) {
+nrrd__AxisInfoNewInit(NrrdAxisInfo *axis) {
 
   if (axis) {
     axis->label = NULL;
     axis->units = NULL;
-    _nrrdAxisInfoInit(axis);
+    nrrd__AxisInfoInit(axis);
   }
 }
 
@@ -65,7 +65,7 @@ _nrrdAxisInfoNewInit(NrrdAxisInfo *axis) {
 ** axes, or independent variable axes, or resample-able axes, all
 ** different ways of describing the same thing
 */
-int
+int /* Biff: nope */
 nrrdKindIsDomain(int kind) {
 
   return (nrrdKindDomain == kind || nrrdKindSpace == kind || nrrdKindTime == kind);
@@ -78,7 +78,7 @@ nrrdKindIsDomain(int kind) {
 ** 0 if either (1) there is no suggested size because the axis is the
 ** kind of an independent or domain variable or (2) the kind is invalid
 */
-unsigned int
+unsigned int /* Biff: nope */
 nrrdKindSize(int kind) {
   static const char me[] = "nrrdKindSize";
   unsigned int ret;
@@ -158,13 +158,13 @@ nrrdKindSize(int kind) {
 }
 
 /*
-** _nrrdKindAltered:
+** nrrd__KindAltered:
 **
 ** implements logic for how kind should be updated when samples
 ** along the axis are altered
 */
-int
-_nrrdKindAltered(int kindIn, int resampling) {
+int /* Biff: (private) nope */
+nrrd__KindAltered(int kindIn, int resampling) {
   int kindOut;
 
   if (nrrdStateKindNoop) {
@@ -183,14 +183,14 @@ _nrrdKindAltered(int kindIn, int resampling) {
 }
 
 /*
-** _nrrdAxisInfoCopy
-**
-** HEY: we have a void return even though this function potentially
-** involves calling airStrdup!!
-*/
+ * nrrd__AxisInfoCopy
+ *
+ * HEY: we have a void return even though this function potentially
+ * involves calling airStrdup!!
+ */
 void
-_nrrdAxisInfoCopy(NrrdAxisInfo *dest, const NrrdAxisInfo *src, int bitflag) {
-  int ii;
+nrrd__AxisInfoCopy(NrrdAxisInfo *dest, const NrrdAxisInfo *src, int bitflag) {
+  unsigned int ii;
 
   if (!(NRRD_AXIS_INFO_SIZE_BIT & bitflag)) {
     dest->size = src->size;
@@ -256,7 +256,7 @@ _nrrdAxisInfoCopy(NrrdAxisInfo *dest, const NrrdAxisInfo *src, int bitflag) {
 ** Sun Feb 27 21:12:57 EST 2005: decided to allow nout==nin, so now
 ** use a local array of NrrdAxisInfo as buffer.
 */
-int
+int /* Biff: nope */
 nrrdAxisInfoCopy(Nrrd *nout, const Nrrd *nin, const int *axmap, int bitflag) {
   NrrdAxisInfo axisBuffer[NRRD_DIM_MAX];
   const NrrdAxisInfo *axis;
@@ -278,8 +278,8 @@ nrrdAxisInfoCopy(Nrrd *nout, const Nrrd *nin, const int *axmap, int bitflag) {
   if (nout == nin) {
     /* copy axis info to local buffer */
     for (axi = 0; axi < nin->dim; axi++) {
-      _nrrdAxisInfoNewInit(axisBuffer + axi);
-      _nrrdAxisInfoCopy(axisBuffer + axi, nin->axis + axi, bitflag);
+      nrrd__AxisInfoNewInit(axisBuffer + axi);
+      nrrd__AxisInfoCopy(axisBuffer + axi, nin->axis + axi, bitflag);
     }
     axis = axisBuffer;
   } else {
@@ -291,12 +291,12 @@ nrrdAxisInfoCopy(Nrrd *nout, const Nrrd *nin, const int *axmap, int bitflag) {
       continue;
     }
     from = axmap ? (unsigned int)axmap[axi] : axi;
-    _nrrdAxisInfoCopy(nout->axis + axi, axis + from, bitflag);
+    nrrd__AxisInfoCopy(nout->axis + axi, axis + from, bitflag);
   }
   if (nout == nin) {
     /* free dynamically allocated stuff */
     for (axi = 0; axi < nin->dim; axi++) {
-      _nrrdAxisInfoInit(axisBuffer + axi);
+      nrrd__AxisInfoInit(axisBuffer + axi);
     }
   }
   return 0;
@@ -325,7 +325,7 @@ nrrdAxisInfoCopy(Nrrd *nout, const Nrrd *nin, const int *axmap, int bitflag) {
 */
 void
 nrrdAxisInfoSet_nva(Nrrd *nrrd, int axInfo, const void *_info) {
-  _nrrdAxisInfoSetPtrs info;
+  nrrd__AxisInfoSetPtrs info;
   int exists;
   unsigned int ai, si, minsi;
 
@@ -413,7 +413,7 @@ nrrdAxisInfoSet_nva(Nrrd *nrrd, int axInfo, const void *_info) {
 void
 nrrdAxisInfoSet_va(Nrrd *nrrd, int axInfo, ...) {
   NRRD_TYPE_BIGGEST *buffer[NRRD_DIM_MAX];
-  _nrrdAxisInfoSetPtrs info;
+  nrrd__AxisInfoSetPtrs info;
   unsigned int ai, si;
   va_list ap;
   double *dp, svec[NRRD_DIM_MAX][NRRD_SPACE_DIM_MAX];
@@ -517,7 +517,7 @@ nrrdAxisInfoSet_va(Nrrd *nrrd, int axInfo, ...) {
 */
 void
 nrrdAxisInfoGet_nva(const Nrrd *nrrd, int axInfo, void *_info) {
-  _nrrdAxisInfoGetPtrs info;
+  nrrd__AxisInfoGetPtrs info;
   unsigned int ai, si;
 
   if (!(nrrd && AIR_IN_CL(1, nrrd->dim, NRRD_DIM_MAX)
@@ -593,7 +593,7 @@ nrrdAxisInfoGet_nva(const Nrrd *nrrd, int axInfo, void *_info) {
 void
 nrrdAxisInfoGet_va(const Nrrd *nrrd, int axInfo, ...) {
   void *buffer[NRRD_DIM_MAX], *ptr;
-  _nrrdAxisInfoGetPtrs info;
+  nrrd__AxisInfoGetPtrs info;
   unsigned int ai, si;
   va_list ap;
   double svec[NRRD_DIM_MAX][NRRD_SPACE_DIM_MAX];
@@ -606,7 +606,12 @@ nrrdAxisInfoGet_va(const Nrrd *nrrd, int axInfo, ...) {
   if (nrrdAxisInfoSpaceDirection != axInfo) {
     info.P = buffer;
     nrrdAxisInfoGet_nva(nrrd, axInfo, info.P);
+    /* quiet clang-tidy */
+    for (ai = 0; ai < nrrd->dim; ai++)
+      for (si = 0; si < nrrd->spaceDim; si++)
+        svec[ai][si] = AIR_NAN;
   } else {
+    info.P = NULL; /* quiet clang-tidy */
     nrrdAxisInfoGet_nva(nrrd, axInfo, svec);
   }
 
@@ -659,7 +664,7 @@ nrrdAxisInfoGet_va(const Nrrd *nrrd, int axInfo, ...) {
 }
 
 /*
-** _nrrdCenter()
+** nrrd__Center()
 **
 ** for nrrdCenterCell and nrrdCenterNode, return will be the same
 ** as input.  Converts nrrdCenterUnknown into nrrdDefaultCenter,
@@ -668,16 +673,16 @@ nrrdAxisInfoGet_va(const Nrrd *nrrd, int axInfo, ...) {
 ** Thus, this ALWAYS returns nrrdCenterNode or nrrdCenterCell
 ** (as long as those are the only two centering schemes).
 */
-int
-_nrrdCenter(int center) {
+int /* Biff: (private) nope */
+nrrd__Center(int center) {
 
   center = (nrrdCenterUnknown == center ? nrrdDefaultCenter : center);
   center = AIR_CLAMP(nrrdCenterUnknown + 1, center, nrrdCenterLast - 1);
   return center;
 }
 
-int
-_nrrdCenter2(int center, int defCenter) {
+int /* Biff: (private) nope */
+nrrd__Center2(int center, int defCenter) {
 
   center = (nrrdCenterUnknown == center ? defCenter : center);
   center = AIR_CLAMP(nrrdCenterUnknown + 1, center, nrrdCenterLast - 1);
@@ -690,10 +695,8 @@ _nrrdCenter2(int center, int defCenter) {
 ** given a nrrd, an axis, and a (floating point) index space position,
 ** return the position implied the axis's min, max, and center
 ** Does the opposite of nrrdAxisIdx().
-**
-** does not use biff
 */
-double
+double /* Biff: nope */
 nrrdAxisInfoPos(const Nrrd *nrrd, unsigned int ax, double idx) {
   int center;
   size_t size;
@@ -702,38 +705,12 @@ nrrdAxisInfoPos(const Nrrd *nrrd, unsigned int ax, double idx) {
   if (!(nrrd && ax <= nrrd->dim - 1)) {
     return AIR_NAN;
   }
-  center = _nrrdCenter(nrrd->axis[ax].center);
+  center = nrrd__Center(nrrd->axis[ax].center);
   min = nrrd->axis[ax].min;
   max = nrrd->axis[ax].max;
   size = nrrd->axis[ax].size;
 
   return NRRD_POS(center, min, max, size, idx);
-}
-
-/*
-******** nrrdAxisInfoIdx()
-**
-** given a nrrd, an axis, and a (floating point) world space position,
-** return the index implied the axis's min, max, and center.
-** Does the opposite of nrrdAxisPos().
-**
-** does not use biff
-*/
-double
-nrrdAxisInfoIdx(const Nrrd *nrrd, unsigned int ax, double pos) {
-  int center;
-  size_t size;
-  double min, max;
-
-  if (!(nrrd && ax <= nrrd->dim - 1)) {
-    return AIR_NAN;
-  }
-  center = _nrrdCenter(nrrd->axis[ax].center);
-  min = nrrd->axis[ax].min;
-  max = nrrd->axis[ax].max;
-  size = nrrd->axis[ax].size;
-
-  return NRRD_IDX(center, min, max, size, pos);
 }
 
 /*
@@ -751,10 +728,11 @@ nrrdAxisInfoPosRange(double *loP, double *hiP, const Nrrd *nrrd, unsigned int ax
   double min, max, tmp;
 
   if (!(loP && hiP && nrrd && ax <= nrrd->dim - 1)) {
-    *loP = *hiP = AIR_NAN;
+    if (loP) *loP = AIR_NAN;
+    if (hiP) *hiP = AIR_NAN;
     return;
   }
-  center = _nrrdCenter(nrrd->axis[ax].center);
+  center = nrrd__Center(nrrd->axis[ax].center);
   min = nrrd->axis[ax].min;
   max = nrrd->axis[ax].max;
   size = nrrd->axis[ax].size;
@@ -782,124 +760,6 @@ nrrdAxisInfoPosRange(double *loP, double *hiP, const Nrrd *nrrd, unsigned int ax
 }
 
 /*
-******** nrrdAxisInfoIdxRange()
-**
-** given a nrrd, an axis, and two (floating point) world space positions,
-** return the range of index space implied the axis's min, max, and center
-** The opposite of nrrdAxisPosRange().
-**
-** Actually- there are situations where sending an interval through
-** nrrdAxisIdxRange -> nrrdAxisPosRange -> nrrdAxisIdxRange
-** such as in cell centering, when the range of positions given does
-** not even span one sample.  Such as:
-** axis->size = 4, axis->min = -4, axis->max = 4, loPos = 0, hiPos = 1
-** --> nrrdAxisIdxRange == (2, 1.5) --> nrrdAxisPosRange == (2, -1)
-** The basic problem is that because of the 0.5 offset inherent in
-** cell centering, there are situations where (in terms of the arguments
-** to nrrdAxisIdxRange()) loPos < hiPos, but *loP > *hiP.
-*/
-void
-nrrdAxisInfoIdxRange(double *loP, double *hiP, const Nrrd *nrrd, unsigned int ax,
-                     double loPos, double hiPos) {
-  int center, flip = 0;
-  size_t size;
-  double min, max, tmp;
-
-  if (!(loP && hiP && nrrd && ax <= nrrd->dim - 1)) {
-    *loP = *hiP = AIR_NAN;
-    return;
-  }
-  center = _nrrdCenter(nrrd->axis[ax].center);
-  min = nrrd->axis[ax].min;
-  max = nrrd->axis[ax].max;
-  size = nrrd->axis[ax].size;
-
-  if (loPos > hiPos) {
-    flip = 1;
-    tmp = loPos;
-    loPos = hiPos;
-    hiPos = tmp;
-  }
-  if (nrrdCenterCell == center) {
-    if (min < max) {
-      *loP = AIR_AFFINE(min, loPos, max, 0, size);
-      *hiP = AIR_AFFINE(min, hiPos, max, -1, size - 1);
-    } else {
-      *loP = AIR_AFFINE(min, loPos, max, -1, size - 1);
-      *hiP = AIR_AFFINE(min, hiPos, max, 0, size);
-    }
-  } else {
-    *loP = AIR_AFFINE(min, loPos, max, 0, size - 1);
-    *hiP = AIR_AFFINE(min, hiPos, max, 0, size - 1);
-  }
-  if (flip) {
-    tmp = *loP;
-    *loP = *hiP;
-    *hiP = tmp;
-  }
-
-  return;
-}
-
-void
-nrrdAxisInfoSpacingSet(Nrrd *nrrd, unsigned int ax) {
-  int sign;
-  double min, max, tmp;
-
-  if (!(nrrd && ax <= nrrd->dim - 1)) {
-    return;
-  }
-
-  min = nrrd->axis[ax].min;
-  max = nrrd->axis[ax].max;
-  if (!(AIR_EXISTS(min) && AIR_EXISTS(max))) {
-    /* there's no actual basis on which to set the spacing information,
-       but we have to set it something, so here goes .. */
-    nrrd->axis[ax].spacing = nrrdDefaultSpacing;
-    return;
-  }
-
-  if (min > max) {
-    tmp = min;
-    min = max;
-    max = tmp;
-    sign = -1;
-  } else {
-    sign = 1;
-  }
-
-  /* the skinny */
-  nrrd->axis[ax].spacing = NRRD_SPACING(_nrrdCenter(nrrd->axis[ax].center), min, max,
-                                        nrrd->axis[ax].size);
-  nrrd->axis[ax].spacing *= sign;
-
-  return;
-}
-
-void
-nrrdAxisInfoMinMaxSet(Nrrd *nrrd, unsigned int ax, int defCenter) {
-  int center;
-  double spacing;
-
-  if (!(nrrd && ax <= nrrd->dim - 1)) {
-    return;
-  }
-
-  center = _nrrdCenter2(nrrd->axis[ax].center, defCenter);
-  spacing = nrrd->axis[ax].spacing;
-  if (!AIR_EXISTS(spacing)) spacing = nrrdDefaultSpacing;
-  if (nrrdCenterCell == center) {
-    nrrd->axis[ax].min = 0;
-    nrrd->axis[ax].max = spacing * AIR_CAST(double, nrrd->axis[ax].size);
-  } else {
-    nrrd->axis[ax].min = 0;
-    nrrd->axis[ax].max = spacing * AIR_CAST(double, nrrd->axis[ax].size - 1);
-  }
-
-  return;
-}
-
-/*
 ******** nrrdDomainAxesGet
 **
 ** Based on the per-axis "kind" field, learns which are the domain
@@ -911,7 +771,7 @@ nrrdAxisInfoMinMaxSet(Nrrd *nrrd, unsigned int ax, int defCenter) {
 ** NOTE: this takes a wild guess that an unset (nrrdKindUnknown) kind
 ** is a domain axis.
 */
-unsigned int
+unsigned int /* Biff: nope */
 nrrdDomainAxesGet(const Nrrd *nrrd, unsigned int axisIdx[NRRD_DIM_MAX]) {
   unsigned int domAxi, axi;
 
@@ -928,8 +788,8 @@ nrrdDomainAxesGet(const Nrrd *nrrd, unsigned int axisIdx[NRRD_DIM_MAX]) {
   return domAxi;
 }
 
-int
-_nrrdSpaceVecExists(const Nrrd *nrrd, unsigned int axi) {
+static int
+spaceVecExists(const Nrrd *nrrd, unsigned int axi) {
   unsigned int sai;
   int ret;
 
@@ -944,7 +804,7 @@ _nrrdSpaceVecExists(const Nrrd *nrrd, unsigned int axi) {
   return ret;
 }
 
-unsigned int
+unsigned int /* Biff: nope */
 nrrdSpatialAxesGet(const Nrrd *nrrd, unsigned int axisIdx[NRRD_DIM_MAX]) {
   unsigned int spcAxi, axi;
 
@@ -953,7 +813,7 @@ nrrdSpatialAxesGet(const Nrrd *nrrd, unsigned int axisIdx[NRRD_DIM_MAX]) {
   }
   spcAxi = 0;
   for (axi = 0; axi < nrrd->dim; axi++) {
-    if (_nrrdSpaceVecExists(nrrd, axi)) {
+    if (spaceVecExists(nrrd, axi)) {
       axisIdx[spcAxi++] = axi;
     }
   }
@@ -972,7 +832,7 @@ nrrdSpatialAxesGet(const Nrrd *nrrd, unsigned int axisIdx[NRRD_DIM_MAX]) {
 ** Note: this really is as simple as returning the complement of the
 ** axis selected by nrrdDomainAxesGet()
 */
-unsigned int
+unsigned int /* Biff: nope */
 nrrdRangeAxesGet(const Nrrd *nrrd, unsigned int axisIdx[NRRD_DIM_MAX]) {
   unsigned int domNum, domIdx[NRRD_DIM_MAX], rngAxi, axi, ii, isDom;
 
@@ -993,7 +853,7 @@ nrrdRangeAxesGet(const Nrrd *nrrd, unsigned int axisIdx[NRRD_DIM_MAX]) {
   return rngAxi;
 }
 
-unsigned int
+unsigned int /* Biff: nope */
 nrrdNonSpatialAxesGet(const Nrrd *nrrd, unsigned int axisIdx[NRRD_DIM_MAX]) {
   unsigned int spcNum, spcIdx[NRRD_DIM_MAX], nspAxi, axi, ii, isSpc;
 
@@ -1057,14 +917,14 @@ nrrdNonSpatialAxesGet(const Nrrd *nrrd, unsigned int axisIdx[NRRD_DIM_MAX]) {
 **                                   NOTE: it is still possible for both
 **                                   *spacing and vector to be all NaNs!!
 */
-int
+int /* Biff: nope */
 nrrdSpacingCalculate(const Nrrd *nrrd, unsigned int ax, double *spacing,
                      double vector[NRRD_SPACE_DIM_MAX]) {
   int ret;
 
   if (!(nrrd && spacing && vector && ax <= nrrd->dim - 1
-        && !_nrrdCheck(nrrd, AIR_FALSE, AIR_FALSE))) {
-    /* there's a problem with the arguments.  Note: the _nrrdCheck()
+        && !nrrdCheckMore(nrrd, AIR_FALSE, AIR_FALSE))) {
+    /* there's a problem with the arguments.  Note: the nrrdCheckMore()
        call does not check on non-NULL-ity of nrrd->data */
     ret = nrrdSpacingStatusUnknown;
     if (spacing) {
@@ -1083,7 +943,7 @@ nrrdSpacingCalculate(const Nrrd *nrrd, unsigned int ax, double *spacing,
       *spacing = nrrd->axis[ax].spacing;
       nrrdSpaceVecSetNaN(vector);
     } else {
-      if (nrrd->spaceDim > 0 && _nrrdSpaceVecExists(nrrd, ax)) {
+      if (nrrd->spaceDim > 0 && spaceVecExists(nrrd, ax)) {
         ret = nrrdSpacingStatusDirection;
         *spacing = nrrdSpaceVecNorm(nrrd->spaceDim, nrrd->axis[ax].spaceDirection);
         nrrdSpaceVecScale(vector, 1.0 / (*spacing), nrrd->axis[ax].spaceDirection);
@@ -1097,14 +957,14 @@ nrrdSpacingCalculate(const Nrrd *nrrd, unsigned int ax, double *spacing,
   return ret;
 }
 
-int
+int /* Biff: 1 */
 nrrdOrientationReduce(Nrrd *nout, const Nrrd *nin, int setMinsFromOrigin) {
   static const char me[] = "nrrdOrientationReduce";
   unsigned int spatialAxisNum, spatialAxisIdx[NRRD_DIM_MAX], saxii;
   NrrdAxisInfo *axis;
 
   if (!(nout && nin)) {
-    biffAddf(NRRD, "%s: got NULL spacing", me);
+    biffAddf(NRRD, "%s: got NULL pointer", me);
     return 1;
   }
 

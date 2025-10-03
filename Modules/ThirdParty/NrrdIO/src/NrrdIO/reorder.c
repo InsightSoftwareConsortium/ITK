@@ -1,8 +1,8 @@
 /*
-  NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2013, 2012, 2011, 2010, 2009  University of Chicago
-  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
-  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
+  NrrdIO: C library for NRRD file IO (with optional compressions)
+  Copyright (C) 2009--2026  University of Chicago
+  Copyright (C) 2005--2008  Gordon Kindlmann
+  Copyright (C) 1998--2004  University of Utah
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
@@ -34,14 +34,14 @@
 ** is not its core functionality, but all the error checking it
 ** provides.
 */
-int
+int /* Biff: 1 */
 nrrdInvertPerm(unsigned int *invp, const unsigned int *pp, unsigned int nn) {
   static const char me[] = "nrrdInvertPerm";
   int problem;
   unsigned int ii;
 
   if (!(invp && pp && nn > 0)) {
-    biffAddf(NRRD, "%s: got NULL pointer or non-positive nn (%d)", me, nn);
+    biffAddf(NRRD, "%s: got NULL pointer or non-positive nn (%u)", me, nn);
     return 1;
   }
 
@@ -49,21 +49,20 @@ nrrdInvertPerm(unsigned int *invp, const unsigned int *pp, unsigned int nn) {
   memset(invp, 0, nn * sizeof(unsigned int));
   for (ii = 0; ii < nn; ii++) {
     if (!(pp[ii] <= nn - 1)) {
-      biffAddf(NRRD, "%s: permutation element #%d == %d out of bounds [0,%d]", me, ii,
+      biffAddf(NRRD, "%s: permutation element #%u == %u out of bounds [0,%u]", me, ii,
                pp[ii], nn - 1);
       return 1;
     }
     invp[pp[ii]]++;
   }
-  /* for some reason when this code was written (revision 2700 Sun Jul
-     3 04:18:33 2005 UTC) it was decided that all problems with the
-     permutation would be reported with a pile of error messages in
-     biff; rather than bailing at the first problem.  Not clear if
-     this is a good idea. */
+  /* for some reason when this code was written (revision 2700 Sun Jul 3 04:18:33
+     2005 UTC) it was decided that all problems with the  permutation would be
+     reported with a pile of error messages in biff; rather than bailing at the
+     first problem.  Not clear if this is a good idea. */
   problem = AIR_FALSE;
   for (ii = 0; ii < nn; ii++) {
     if (1 != invp[ii]) {
-      biffAddf(NRRD, "%s: element #%d mapped to %d times (should be once)", me, ii,
+      biffAddf(NRRD, "%s: element #%u mapped to %u times (should be once)", me, ii,
                invp[ii]);
       problem = AIR_TRUE;
     }
@@ -87,7 +86,7 @@ nrrdInvertPerm(unsigned int *invp, const unsigned int *pp, unsigned int nn) {
 ** this is only for adding a "stub" axis with length 1.  All other
 ** axis attributes are initialized as usual.
 */
-int
+int /* Biff: 1 */
 nrrdAxesInsert(Nrrd *nout, const Nrrd *nin, unsigned int axis) {
   static const char me[] = "nrrdAxesInsert", func[] = "axinsert";
   unsigned int ai;
@@ -97,30 +96,30 @@ nrrdAxesInsert(Nrrd *nout, const Nrrd *nin, unsigned int axis) {
     return 1;
   }
   if (!(axis <= nin->dim)) {
-    biffAddf(NRRD, "%s: given axis (%d) outside valid range [0, %d]", me, axis,
+    biffAddf(NRRD, "%s: given axis (%u) outside valid range [0, %u]", me, axis,
              nin->dim);
     return 1;
   }
   if (NRRD_DIM_MAX == nin->dim) {
-    biffAddf(NRRD, "%s: given nrrd already at NRRD_DIM_MAX (%d)", me, NRRD_DIM_MAX);
+    biffAddf(NRRD, "%s: given nrrd already at NRRD_DIM_MAX (%u)", me, NRRD_DIM_MAX);
     return 1;
   }
   if (nout != nin) {
-    if (_nrrdCopy(nout, nin,
-                  (NRRD_BASIC_INFO_COMMENTS_BIT
-                   | (nrrdStateKeyValuePairsPropagate
-                        ? 0
-                        : NRRD_BASIC_INFO_KEYVALUEPAIRS_BIT)))) {
+    if (nrrd__Copy(nout, nin,
+                   (NRRD_BASIC_INFO_COMMENTS_BIT
+                    | (nrrdStateKeyValuePairsPropagate
+                         ? 0
+                         : NRRD_BASIC_INFO_KEYVALUEPAIRS_BIT)))) {
       biffAddf(NRRD, "%s:", me);
       return 1;
     }
   }
   nout->dim = 1 + nin->dim;
   for (ai = nin->dim; ai > axis; ai--) {
-    _nrrdAxisInfoCopy(&(nout->axis[ai]), &(nin->axis[ai - 1]), NRRD_AXIS_INFO_NONE);
+    nrrd__AxisInfoCopy(&(nout->axis[ai]), &(nin->axis[ai - 1]), NRRD_AXIS_INFO_NONE);
   }
   /* the ONLY thing we can say about the new axis is its size */
-  _nrrdAxisInfoInit(&(nout->axis[axis]));
+  nrrd__AxisInfoInit(&(nout->axis[axis]));
   if (!nrrdStateKindNoop) {
     /* except maybe the kind */
     nout->axis[axis].kind = nrrdKindStub;
@@ -153,10 +152,11 @@ nrrdAxesInsert(Nrrd *nout, const Nrrd *nin, unsigned int axis) {
 ** (axis[i] answers: "what do I put here", from the standpoint of the output,
 ** not "where do I put this", from the standpoint of the input)
 */
-int
+int /* Biff: 1 */
 nrrdAxesPermute(Nrrd *nout, const Nrrd *nin, const unsigned int *axes) {
   static const char me[] = "nrrdAxesPermute", func[] = "permute";
-  char buff1[NRRD_DIM_MAX * 30], buff2[AIR_STRLEN_SMALL];
+  char *buff, _buff[NRRD_DIM_MAX * 30];
+  size_t buffSize = NRRD_DIM_MAX * 30;
   size_t idxOut, idxInA = 0, /* indices for input and output scanlines */
     lineSize,                /* size of block of memory which can be
                                 moved contiguously from input to output,
@@ -259,20 +259,21 @@ nrrdAxesPermute(Nrrd *nout, const Nrrd *nin, const unsigned int *axes) {
       NRRD_COORD_INCR(cOut, lszOut, ldim, 0);
     }
     /* set content */
-    strcpy(buff1, "");
+    buff = _buff;
+    buff[0] = '\0';
     for (ai = 0; ai < nin->dim; ai++) {
-      sprintf(buff2, "%s%d", (ai ? "," : ""), axes[ai]);
-      strcat(buff1, buff2);
+      snprintf(buff, buffSize, "%s%u", (ai ? "," : ""), axes[ai]);
+      SN_INCR(buff, buffSize);
     }
-    if (nrrdContentSet_va(nout, func, nin, "%s", buff1)) {
+    if (nrrdContentSet_va(nout, func, nin, "%s", _buff)) {
       biffAddf(NRRD, "%s:", me);
       airMopError(mop);
       return 1;
     }
     if (nout != nin) {
       if (nrrdBasicInfoCopy(nout, nin,
-                            NRRD_BASIC_INFO_DATA_BIT | NRRD_BASIC_INFO_TYPE_BIT
-                              | NRRD_BASIC_INFO_BLOCKSIZE_BIT
+                            NRRD_BASIC_INFO_DATA_BIT /* */
+                              | NRRD_BASIC_INFO_TYPE_BIT | NRRD_BASIC_INFO_BLOCKSIZE_BIT
                               | NRRD_BASIC_INFO_DIMENSION_BIT
                               | NRRD_BASIC_INFO_CONTENT_BIT
                               | NRRD_BASIC_INFO_COMMENTS_BIT
@@ -307,10 +308,9 @@ nrrdAxesPermute(Nrrd *nout, const Nrrd *nin, const unsigned int *axes) {
 ** insures that there is an source for all positions along the new
 ** array.
 */
-int
+int /* Biff: 1 */
 nrrdShuffle(Nrrd *nout, const Nrrd *nin, unsigned int axis, const size_t *perm) {
   static const char me[] = "nrrdShuffle", func[] = "shuffle";
-  char buff2[AIR_STRLEN_SMALL];
   /* Sun Feb 8 13:13:58 CST 2009: There was a memory bug here caused
      by using the same buff1[NRRD_DIM_MAX*30] declaration that had
      worked fine for nrrdAxesPermute and nrrdReshape, but does NOT
@@ -325,7 +325,8 @@ nrrdShuffle(Nrrd *nout, const Nrrd *nin, unsigned int axis, const size_t *perm) 
      probably do *not* need the shuffle (the sample reversal) to be
      documented for long axes */
 #define LONGEST_INTERESTING_AXIS 42
-  char buff1[LONGEST_INTERESTING_AXIS * 30];
+  char *buff, _buff[LONGEST_INTERESTING_AXIS * 30];
+  size_t buffSize = LONGEST_INTERESTING_AXIS * 30;
   unsigned int ai, ldim, len;
   size_t idxInB = 0, idxOut, lineSize, numLines, size[NRRD_DIM_MAX], *lsize,
          cIn[NRRD_DIM_MAX + 1], cOut[NRRD_DIM_MAX + 1];
@@ -340,14 +341,14 @@ nrrdShuffle(Nrrd *nout, const Nrrd *nin, unsigned int axis, const size_t *perm) 
     return 1;
   }
   if (!(axis < nin->dim)) {
-    biffAddf(NRRD, "%s: axis %d outside valid range [0,%d]", me, axis, nin->dim - 1);
+    biffAddf(NRRD, "%s: axis %u outside valid range [0,%u]", me, axis, nin->dim - 1);
     return 1;
   }
-  len = AIR_CAST(unsigned int, nin->axis[axis].size);
+  len = AIR_UINT(nin->axis[axis].size);
   for (ai = 0; ai < len; ai++) {
     if (!(perm[ai] < len)) {
-      char stmp[AIR_STRLEN_SMALL];
-      biffAddf(NRRD, "%s: perm[%d] (%s) outside valid range [0,%d]", me, ai,
+      char stmp[AIR_STRLEN_SMALL + 1];
+      biffAddf(NRRD, "%s: perm[%u] (%s) outside valid range [0,%u]", me, ai,
                airSprintSize_t(stmp, perm[ai]), len - 1);
       return 1;
     }
@@ -371,7 +372,7 @@ nrrdShuffle(Nrrd *nout, const Nrrd *nin, unsigned int axis, const size_t *perm) 
   /* the min and max along the shuffled axis are now meaningless */
   nout->axis[axis].min = nout->axis[axis].max = AIR_NAN;
   /* do the safe thing first */
-  nout->axis[axis].kind = _nrrdKindAltered(nin->axis[axis].kind, AIR_FALSE);
+  nout->axis[axis].kind = nrrd__KindAltered(nin->axis[axis].kind, AIR_FALSE);
   /* try cleverness */
   if (!nrrdStateKindNoop) {
     if (0 == nrrdKindSize(nin->axis[axis].kind) || nrrdKindStub == nin->axis[axis].kind
@@ -411,13 +412,14 @@ nrrdShuffle(Nrrd *nout, const Nrrd *nin, unsigned int axis, const size_t *perm) 
   /* Set content. The LONGEST_INTERESTING_AXIS hack avoids the
      previous array out-of-bounds bug */
   if (len <= LONGEST_INTERESTING_AXIS) {
-    strcpy(buff1, "");
+    buff = _buff;
+    buff[0] = '\0';
     for (ai = 0; ai < len; ai++) {
-      char stmp[AIR_STRLEN_SMALL];
-      sprintf(buff2, "%s%s", (ai ? "," : ""), airSprintSize_t(stmp, perm[ai]));
-      strcat(buff1, buff2);
+      char stmp[AIR_STRLEN_SMALL + 1];
+      snprintf(buff, buffSize, "%s%s", (ai ? "," : ""), airSprintSize_t(stmp, perm[ai]));
+      SN_INCR(buff, buffSize);
     }
-    if (nrrdContentSet_va(nout, func, nin, "%s", buff1)) {
+    if (nrrdContentSet_va(nout, func, nin, "%s", _buff)) {
       biffAddf(NRRD, "%s:", me);
       return 1;
     }
@@ -428,9 +430,10 @@ nrrdShuffle(Nrrd *nout, const Nrrd *nin, unsigned int axis, const size_t *perm) 
     }
   }
   if (nrrdBasicInfoCopy(nout, nin,
-                        NRRD_BASIC_INFO_DATA_BIT | NRRD_BASIC_INFO_TYPE_BIT
-                          | NRRD_BASIC_INFO_BLOCKSIZE_BIT | NRRD_BASIC_INFO_DIMENSION_BIT
-                          | NRRD_BASIC_INFO_CONTENT_BIT | NRRD_BASIC_INFO_COMMENTS_BIT
+                        NRRD_BASIC_INFO_DATA_BIT /* */
+                          | NRRD_BASIC_INFO_TYPE_BIT | NRRD_BASIC_INFO_BLOCKSIZE_BIT
+                          | NRRD_BASIC_INFO_DIMENSION_BIT | NRRD_BASIC_INFO_CONTENT_BIT
+                          | NRRD_BASIC_INFO_COMMENTS_BIT
                           | (nrrdStateKeyValuePairsPropagate
                                ? 0
                                : NRRD_BASIC_INFO_KEYVALUEPAIRS_BIT))) {

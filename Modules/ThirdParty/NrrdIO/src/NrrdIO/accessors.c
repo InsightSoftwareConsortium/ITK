@@ -1,8 +1,8 @@
 /*
-  NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2013, 2012, 2011, 2010, 2009  University of Chicago
-  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
-  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
+  NrrdIO: C library for NRRD file IO (with optional compressions)
+  Copyright (C) 2009--2026  University of Chicago
+  Copyright (C) 2005--2008  Gordon Kindlmann
+  Copyright (C) 1998--2004  University of Utah
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
@@ -28,7 +28,7 @@
 #include "float.h"
 
 /*
-** making these typedefs here allows us to used one token for both
+** making these typedefs here allows us to use one token for both
 ** constructing function names, and for specifying argument types
 */
 typedef signed char CH;
@@ -40,7 +40,7 @@ typedef signed int JN;
 typedef unsigned int UI;
 typedef airLLong LL;
 /* ui64 to double conversion is not implemented, sorry */
-#if _MSC_VER < 1300
+#if defined(_MSC_VER) && _MSC_VER < 1300
 typedef airLLong UL;
 #else
 typedef airULLong UL;
@@ -61,158 +61,190 @@ typedef double DB;
   F(A, DB)
 
 /*
-** _nrrdLoad<TA><TB>(<TB> *v)
-**
-** Dereferences v as TB*, casts it to TA, returns it.
-*/
-#define LOAD_DEF(TA, TB)                                                                \
-  static TA _nrrdLoad##TA##TB(TB *v) { return (TA)(*v); }
-#define LOAD_LIST(TA, TB) (TA (*)(const void *)) _nrrdLoad##TA##TB,
+ * nload<TA><TB>(const void *_v)
+ *
+ * Load value from TB*, convert to TA:
+ * assign `*_v` to `const TB*`, dereference, cast value to TA, return it.
+ *
+ * calling a cast function pointer is undefined behavior (UB), so TeemV2 avoids this:
+ * #define LOAD_DEFN(TA, TB) static TA nload##TA##TB(TB *v) { return (TA)(*v); }
+ * #define LOAD_LIST(TA, TB) (TA (*)(const void *)) nload##TA##TB,
+ *                           ^^^^^^^^^^^^^^^^^^^^^^ casting function pointer
+ */
+#define LOAD_DEFN(TA, TB)                                                               \
+  static TA nload##TA##TB(const void *_v) {                                             \
+    const TB *v = _v;                                                                   \
+    return (TA)(*v);                                                                    \
+  }
+#define LOAD_LIST(TA, TB) nload##TA##TB,
 
-MAP(LOAD_DEF, UI)
-MAP(LOAD_DEF, JN)
-MAP(LOAD_DEF, FL)
-MAP(LOAD_DEF, DB)
+MAP(LOAD_DEFN, UI)
+MAP(LOAD_DEFN, JN)
+MAP(LOAD_DEFN, FL)
+MAP(LOAD_DEFN, DB)
 
-unsigned int (*nrrdUILoad[NRRD_TYPE_MAX + 1])(const void *) = {NULL,
-                                                               MAP(LOAD_LIST, UI) NULL};
-int (*nrrdILoad[NRRD_TYPE_MAX + 1])(const void *) = {NULL, MAP(LOAD_LIST, JN) NULL};
-float (*nrrdFLoad[NRRD_TYPE_MAX + 1])(const void *) = {NULL, MAP(LOAD_LIST, FL) NULL};
-double (*nrrdDLoad[NRRD_TYPE_MAX + 1])(const void *) = {NULL, MAP(LOAD_LIST, DB) NULL};
+/* clang-format off */
+unsigned int (*const nrrdUILoad[NRRD_TYPE_MAX + 1])(const void *) = {NULL, MAP(LOAD_LIST, UI) NULL};
+         int (*const  nrrdILoad[NRRD_TYPE_MAX + 1])(const void *) = {NULL, MAP(LOAD_LIST, JN) NULL};
+       float (*const  nrrdFLoad[NRRD_TYPE_MAX + 1])(const void *) = {NULL, MAP(LOAD_LIST, FL) NULL};
+      double (*const  nrrdDLoad[NRRD_TYPE_MAX + 1])(const void *) = {NULL, MAP(LOAD_LIST, DB) NULL};
+/* clang-format on */
+#undef LOAD_DEFN
+#undef LOAD_LIST
 
 /*
-** _nrrdStore<TA><TB>(<TB> *v, <TA> j)
-**
-** Takes a TA j, and stores it in *v, thereby implicitly casting it to TB.
-** Returns the result of the assignment, which may not be the same as
-** the value that was passed in.
-*/
+ * nstore<TA><TB>(void *_v, <TA> j)
+ *
+ * Stores TA `j` in (after casting to `TB*`) `*_v`, implicitly casting value to TB.
+ * Returns the result of the assignment, cast back to TA, which may not be the same as
+ * the value that was passed in.
+ *
+ * TeemV2 seeks to avoid UB by not casting function pointers, so no longer doing:
+ * #define STORE_DEF(TA, TB) \
+ *    static TA nstore##TA##TB(TB *v, TA j) { return (TA)(*v = (TB)j); }
+ * #define STORE_LIST(TA, TB) (TA (*)(void *, TA)) nstore##TA##TB,
+ *                            ^^^^^^^^^^^^^^^^^^^ casting function pointer
+ */
 #define STORE_DEF(TA, TB)                                                               \
-  static TA _nrrdStore##TA##TB(TB *v, TA j) { return (TA)(*v = (TB)j); }
-#define STORE_LIST(TA, TB) (TA (*)(void *, TA)) _nrrdStore##TA##TB,
+  static TA nstore##TA##TB(void *_v, TA j) {                                            \
+    TB *v = _v;                                                                         \
+    return (TA)(*v = (TB)j);                                                            \
+  }
+#define STORE_LIST(TA, TB) nstore##TA##TB,
 
 MAP(STORE_DEF, UI)
 MAP(STORE_DEF, JN)
 MAP(STORE_DEF, FL)
 MAP(STORE_DEF, DB)
 
-unsigned int (*nrrdUIStore[NRRD_TYPE_MAX + 1])(void *, unsigned int)
-  = {NULL, MAP(STORE_LIST, UI) NULL};
-int (*nrrdIStore[NRRD_TYPE_MAX + 1])(void *, int) = {NULL, MAP(STORE_LIST, JN) NULL};
-float (*nrrdFStore[NRRD_TYPE_MAX + 1])(void *, float) = {NULL, MAP(STORE_LIST, FL) NULL};
-double (*nrrdDStore[NRRD_TYPE_MAX + 1])(void *, double) = {NULL,
-                                                           MAP(STORE_LIST, DB) NULL};
+/* clang-format off */
+unsigned int (*const nrrdUIStore[NRRD_TYPE_MAX + 1])(void *, unsigned int) = {NULL, MAP(STORE_LIST, UI) NULL};
+         int (*const  nrrdIStore[NRRD_TYPE_MAX + 1])(void *, int)          = {NULL, MAP(STORE_LIST, JN) NULL};
+       float (*const  nrrdFStore[NRRD_TYPE_MAX + 1])(void *, float)        = {NULL, MAP(STORE_LIST, FL) NULL};
+      double (*const  nrrdDStore[NRRD_TYPE_MAX + 1])(void *, double)       = {NULL, MAP(STORE_LIST, DB) NULL};
+/* clang-format on */
+#undef STORE_DEF
+#undef STORE_LIST
 
 /*
-** _nrrdLookup<TA><TB>(<TB> *v, size_t I)
-**
-** Looks up element I of TB array v, and returns it cast to a TA.
-*/
+ * nlookup<TA><TB>(const void *_v, size_t I)
+ *
+ * After assigning _v to TB *v, looks up TB v[I], and returns it cast to TA.
+ *
+ * pre-TeemV2 UB code:
+ * #define LOOKUP_DEF(TA, TB)
+ *   static TA nlookup##TA##TB(TB *v, size_t I) { return (TA)v[I]; }
+ * #define LOOKUP_LIST(TA, TB) (TA (*)(const void *, size_t)) nlookup##TA##TB,
+ */
 #define LOOKUP_DEF(TA, TB)                                                              \
-  static TA _nrrdLookup##TA##TB(TB *v, size_t I) { return (TA)v[I]; }
-#define LOOKUP_LIST(TA, TB) (TA (*)(const void *, size_t)) _nrrdLookup##TA##TB,
+  static TA nlookup##TA##TB(const void *_v, size_t I) {                                 \
+    const TB *v = _v;                                                                   \
+    return (TA)v[I];                                                                    \
+  }
+#define LOOKUP_LIST(TA, TB) nlookup##TA##TB,
 
 MAP(LOOKUP_DEF, UI)
 MAP(LOOKUP_DEF, JN)
 MAP(LOOKUP_DEF, FL)
 MAP(LOOKUP_DEF, DB)
 
-unsigned int (*nrrdUILookup[NRRD_TYPE_MAX + 1])(const void *, size_t)
-  = {NULL, MAP(LOOKUP_LIST, UI) NULL};
-int (*nrrdILookup[NRRD_TYPE_MAX + 1])(const void *, size_t) = {NULL, MAP(LOOKUP_LIST, JN)
-                                                                       NULL};
-float (*nrrdFLookup[NRRD_TYPE_MAX + 1])(const void *, size_t) = {NULL, MAP(LOOKUP_LIST,
-                                                                           FL) NULL};
-double (*nrrdDLookup[NRRD_TYPE_MAX + 1])(const void *, size_t) = {NULL, MAP(LOOKUP_LIST,
-                                                                            DB) NULL};
+/* clang-format off */
+unsigned int (*const nrrdUILookup[NRRD_TYPE_MAX + 1])(const void *, size_t) = {NULL, MAP(LOOKUP_LIST, UI) NULL};
+         int (*const  nrrdILookup[NRRD_TYPE_MAX + 1])(const void *, size_t) = {NULL, MAP(LOOKUP_LIST, JN) NULL};
+       float (*const  nrrdFLookup[NRRD_TYPE_MAX + 1])(const void *, size_t) = {NULL, MAP(LOOKUP_LIST, FL) NULL};
+      double (*const  nrrdDLookup[NRRD_TYPE_MAX + 1])(const void *, size_t) = {NULL, MAP(LOOKUP_LIST, DB) NULL};
+/* clang-format on */
+#undef LOOKUP_DEF
+#undef LOOKUP_LIST
 
 /*
-** _nrrdInsert<TA><TB>(<TB> *v, size_t I, <TA> j)
-**
-** Given TA j, stores it in v[i] (implicitly casting to TB).
-** Returns the result of the assignment, which may not be the same as
-** the value that was passed in.
-*/
+ * ninsert<TA><TB>(void *_v, size_t I, <TA> j)
+ *
+ * Given TA j, casts to TB, and stores it in (after casting to TB*) _v[i].
+ * Returns the result of the assignment, cast back to TA, which may not be the same as
+ * the value that was passed in.
+ * pre-TeemV2 UB code:
+ * #define INSERT_DEF(TA, TB)
+ *   static TA ninsert##TA##TB(TB *v, size_t I, TA j) { return (TA)(v[I] = (TB)j); }
+ * #define INSERT_LIST(TA, TB) (TA (*)(void *, size_t, TA)) ninsert##TA##TB,
+ */
 #define INSERT_DEF(TA, TB)                                                              \
-  static TA _nrrdInsert##TA##TB(TB *v, size_t I, TA j) { return (TA)(v[I] = (TB)j); }
-#define INSERT_LIST(TA, TB) (TA (*)(void *, size_t, TA)) _nrrdInsert##TA##TB,
+  static TA ninsert##TA##TB(void *_v, size_t I, TA j) {                                 \
+    TB *v = _v;                                                                         \
+    return (TA)(v[I] = (TB)j);                                                          \
+  }
+#define INSERT_LIST(TA, TB) ninsert##TA##TB,
 
 MAP(INSERT_DEF, UI)
 MAP(INSERT_DEF, JN)
 MAP(INSERT_DEF, FL)
 MAP(INSERT_DEF, DB)
 
-unsigned int (*nrrdUIInsert[NRRD_TYPE_MAX + 1])(void *, size_t, unsigned int)
-  = {NULL, MAP(INSERT_LIST, UI) NULL};
-int (*nrrdIInsert[NRRD_TYPE_MAX + 1])(void *, size_t, int) = {NULL,
-                                                              MAP(INSERT_LIST, JN) NULL};
-float (*nrrdFInsert[NRRD_TYPE_MAX + 1])(void *, size_t, float) = {NULL, MAP(INSERT_LIST,
-                                                                            FL) NULL};
-double (*nrrdDInsert[NRRD_TYPE_MAX + 1])(void *, size_t, double)
-  = {NULL, MAP(INSERT_LIST, DB) NULL};
+/* clang-format off */
+unsigned int (*const nrrdUIInsert[NRRD_TYPE_MAX + 1])(void *, size_t, unsigned int) = {NULL, MAP(INSERT_LIST, UI) NULL};
+         int (*const  nrrdIInsert[NRRD_TYPE_MAX + 1])(void *, size_t, int)          = {NULL, MAP(INSERT_LIST, JN) NULL};
+       float (*const  nrrdFInsert[NRRD_TYPE_MAX + 1])(void *, size_t, float)        = {NULL, MAP(INSERT_LIST, FL) NULL};
+      double (*const  nrrdDInsert[NRRD_TYPE_MAX + 1])(void *, size_t, double)       = {NULL, MAP(INSERT_LIST, DB) NULL};
+/* clang-format on */
+#undef INSERT_DEF
+#undef INSERT_LIST
 
 /*
-******** nrrdSprint
-**
-** Dereferences pointer v and sprintf()s that value into given string s,
-** returns the result of sprintf()
-**
-** There is obviously no provision for ensuring that the sprint'ing
-** doesn't overflow the buffer, which is unfortunate...
-*/
+ ******** nrrdSprint
+ *
+ * Dereferences void *_v (after casting to specific type)
+ * and snprintf()s that value into given string s,
+ * returns the result of snprintf()
+ */
+/* clang-format off */
 static int
-_nrrdSprintCH(char *s, const CH *v) {
-  return sprintf(s, "%d", *v);
+nsprintCH(char *s, size_t sz, const void *_v) {
+     const CH *v = _v; return snprintf(s, sz, "%d", *v); }
+static int
+nsprintUC(char *s, size_t sz, const void *_v) {
+     const UC *v = _v; return snprintf(s, sz, "%u", *v); }
+static int
+nsprintSH(char *s, size_t sz, const void *_v) {
+    const SH *v = _v; return snprintf(s, sz, "%d", *v); }
+static int
+nsprintUS(char *s, size_t sz, const void *_v) {
+     const US *v = _v; return snprintf(s, sz, "%u", *v); }
+static int
+nsprintIN(char *s, size_t sz, const void *_v) {
+     const JN *v = _v; return snprintf(s, sz, "%d", *v); }
+static int
+nsprintUI(char *s, size_t sz, const void *_v) {
+     const UI *v = _v; return snprintf(s, sz, "%u", *v); }
+static int
+nsprintLL(char *s, size_t sz, const void *_v) {
+     const LL *v = _v; return snprintf(s, sz, AIR_LLONG_FMT, *v); }
+static int
+nsprintUL(char *s, size_t sz, const void *_v) {
+     const UL *v = _v; return snprintf(s, sz, AIR_ULLONG_FMT, *v); }
+static int
+nsprintFL(char *s, size_t sz, const void *_v) {
+  const FL *v = _v;
+  /* having %.8g instead of %.9g was a roughly 20-year old bug,
+     but now using %g with TeemV2 airSinglePrintf */
+  return airSinglePrintf(NULL, s, sz, "%g", *v);
 }
 static int
-_nrrdSprintUC(char *s, const UC *v) {
-  return sprintf(s, "%u", *v);
+nsprintDB(char *s, size_t sz, const void *_v) {
+  const DB *v = _v;
+  /* not with %.17g thanks to TeemV2 airSinglePrintf */
+  return airSinglePrintf(NULL, s, sz, "%lg", *v);
 }
-static int
-_nrrdSprintSH(char *s, const SH *v) {
-  return sprintf(s, "%d", *v);
-}
-static int
-_nrrdSprintUS(char *s, const US *v) {
-  return sprintf(s, "%u", *v);
-}
-static int
-_nrrdSprintIN(char *s, const JN *v) {
-  return sprintf(s, "%d", *v);
-}
-static int
-_nrrdSprintUI(char *s, const UI *v) {
-  return sprintf(s, "%u", *v);
-}
-static int
-_nrrdSprintLL(char *s, const LL *v) {
-  return sprintf(s, AIR_LLONG_FMT, *v);
-}
-static int
-_nrrdSprintUL(char *s, const UL *v) {
-  return sprintf(s, AIR_ULLONG_FMT, *v);
-}
-/* HEY: sizeof(float) and sizeof(double) assumed here, since we're
-   basing "8" and "17" on 6 == FLT_DIG and 15 == DBL_DIG, which are
-   digits of precision for floats and doubles, respectively */
-static int
-_nrrdSprintFL(char *s, const FL *v) {
-  return airSinglePrintf(NULL, s, "%.8g", (double)(*v));
-}
-static int
-_nrrdSprintDB(char *s, const DB *v) {
-  return airSinglePrintf(NULL, s, "%.17g", *v);
-}
-int (*nrrdSprint[NRRD_TYPE_MAX + 1])(char *, const void *)
+int (*const nrrdSprint[NRRD_TYPE_MAX + 1])(char *, size_t, const void *)
   = {NULL,
-     (int (*)(char *, const void *))_nrrdSprintCH,
-     (int (*)(char *, const void *))_nrrdSprintUC,
-     (int (*)(char *, const void *))_nrrdSprintSH,
-     (int (*)(char *, const void *))_nrrdSprintUS,
-     (int (*)(char *, const void *))_nrrdSprintIN,
-     (int (*)(char *, const void *))_nrrdSprintUI,
-     (int (*)(char *, const void *))_nrrdSprintLL,
-     (int (*)(char *, const void *))_nrrdSprintUL,
-     (int (*)(char *, const void *))_nrrdSprintFL,
-     (int (*)(char *, const void *))_nrrdSprintDB,
+     nsprintCH,
+     nsprintUC,
+     nsprintSH,
+     nsprintUS,
+     nsprintIN,
+     nsprintUI,
+     nsprintLL,
+     nsprintUL,
+     nsprintFL,
+     nsprintDB,
      NULL};
+/* clang-format on */

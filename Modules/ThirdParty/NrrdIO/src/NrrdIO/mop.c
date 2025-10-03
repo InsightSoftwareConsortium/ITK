@@ -1,8 +1,8 @@
 /*
-  NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2013, 2012, 2011, 2010, 2009  University of Chicago
-  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
-  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
+  NrrdIO: C library for NRRD file IO (with optional compressions)
+  Copyright (C) 2009--2026  University of Chicago
+  Copyright (C) 2005--2008  Gordon Kindlmann
+  Copyright (C) 1998--2004  University of Utah
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
@@ -58,12 +58,12 @@ airMopSub() and airMopUnMem were created
 
 */
 
-#define AIR_MOP_INCR 10
+#define MOP_INCR 10
 
 airArray *
-airMopNew() {
+airMopNew(void) {
 
-  return airArrayNew(NULL, NULL, sizeof(airMop), AIR_MOP_INCR);
+  return airArrayNew(NULL, NULL, sizeof(airMop), MOP_INCR);
 }
 
 /*
@@ -143,7 +143,7 @@ airMopMem(airArray *arr, void *_ptrP, int when) {
   }
 
   ptrP = (void **)_ptrP;
-  airMopAdd(arr, ptrP, (airMopper)airSetNull, when);
+  airMopAdd(arr, ptrP, airSetNull_mop, when);
   airMopAdd(arr, *ptrP, airFree, when);
   /*
   printf("airMopMem(0x%p): will free() 0x%p\n",
@@ -163,13 +163,13 @@ airMopUnMem(airArray *arr, void *_ptrP) {
   }
 
   ptrP = (void **)_ptrP;
-  airMopSub(arr, ptrP, (airMopper)airSetNull);
+  airMopSub(arr, ptrP, airSetNull_mop);
   airMopSub(arr, *ptrP, airFree);
   return;
 }
 
 static void *
-_airMopPrint(void *_str) {
+mopPrint(void *_str) {
   char *str;
 
   str = (char *)_str;
@@ -187,11 +187,11 @@ airMopPrint(airArray *arr, const void *_str, int when) {
 
   copy = airStrdup(AIR_CAST(const char *, _str));
   airMopAdd(arr, copy, airFree, airMopAlways);
-  airMopAdd(arr, copy, _airMopPrint, when);
+  airMopAdd(arr, copy, mopPrint, when);
   return;
 }
 
-static const char _airMopWhenStr[4][128] = {
+static const char mopWhenStr[4][128] = {
   " never",
   " error",
   "  okay",
@@ -228,21 +228,21 @@ airMopDebug(airArray *arr) {
         continue;
       }
       /* else */
-      printf("%s: ", _airMopWhenStr[mops[ii].when]);
+      printf("%s: ", mopWhenStr[mops[ii].when]);
       if (airFree == mops[ii].mop) {
         printf("airFree(0x%p)\n", AIR_VOIDP(mops[ii].ptr));
         continue;
       }
-      if ((airMopper)airSetNull == mops[ii].mop) {
+      if ((airMopper)airSetNull == mops[ii].mop || airSetNull_mop == mops[ii].mop) {
         printf("airSetNull(0x%p)\n", AIR_VOIDP(mops[ii].ptr));
         continue;
       }
-      if (_airMopPrint == mops[ii].mop) {
-        printf("_airMopPrint(\"%s\" == 0x%p)\n", AIR_CAST(char *, mops[ii].ptr),
+      if (mopPrint == mops[ii].mop) {
+        printf("mopPrint(\"%s\" == 0x%p)\n", AIR_CAST(char *, mops[ii].ptr),
                AIR_VOIDP(mops[ii].ptr));
         continue;
       }
-      if ((airMopper)airFclose == mops[ii].mop) {
+      if ((airMopper)airFclose == mops[ii].mop || airFclose_mop == mops[ii].mop) {
         printf("airFclose(0x%p)\n", AIR_VOIDP(mops[ii].ptr));
         continue;
       }
@@ -254,7 +254,7 @@ airMopDebug(airArray *arr) {
   printf("airMopDebug: ^^^^^^^^^^^^^^^^^^^^^^^^^\n");
 }
 
-void
+airArray *
 airMopDone(airArray *arr, int error) {
   airMop *mops;
   unsigned int ii;
@@ -281,17 +281,17 @@ airMopDone(airArray *arr, int error) {
       printf("airMopDone(%p): done!\n", (void*)arr);
     */
   }
-  return;
+  return NULL;
 }
 
-void
+airArray *
 airMopError(airArray *arr) {
 
-  airMopDone(arr, AIR_TRUE);
+  return airMopDone(arr, AIR_TRUE);
 }
 
-void
+airArray *
 airMopOkay(airArray *arr) {
 
-  airMopDone(arr, AIR_FALSE);
+  return airMopDone(arr, AIR_FALSE);
 }

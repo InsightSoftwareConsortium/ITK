@@ -1,8 +1,8 @@
 /*
-  NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2013, 2012, 2011, 2010, 2009  University of Chicago
-  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
-  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
+  NrrdIO: C library for NRRD file IO (with optional compressions)
+  Copyright (C) 2009--2026  University of Chicago
+  Copyright (C) 2005--2008  Gordon Kindlmann
+  Copyright (C) 1998--2004  University of Utah
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
@@ -26,7 +26,7 @@
 #include "NrrdIO.h"
 
 static void
-_airLenSet(airArray *a, unsigned int len) {
+lenSet(airArray *a, unsigned int len) {
 
   a->len = len;
   /* printf("    HEY: len = %d\n", a->len); */
@@ -38,7 +38,7 @@ _airLenSet(airArray *a, unsigned int len) {
 }
 
 static void
-_airSetData(airArray *a, void *data) {
+setData(airArray *a, void *data) {
 
   a->data = data;
   if (a->dataP) {
@@ -68,7 +68,7 @@ airArray *
 airArrayNew(void **dataP, unsigned int *lenP, size_t unit, unsigned int incr) {
   airArray *a;
 
-  if (unit <= 0 || incr <= 0) {
+  if (!unit || !incr) {
     return NULL;
   }
 
@@ -78,9 +78,9 @@ airArrayNew(void **dataP, unsigned int *lenP, size_t unit, unsigned int incr) {
   }
 
   a->dataP = dataP;
-  _airSetData(a, NULL);
+  setData(a, NULL);
   a->lenP = lenP;
-  _airLenSet(a, 0);
+  lenSet(a, 0);
   a->incr = incr;
   a->unit = unit;
   a->noReallocWhenSmaller = AIR_FALSE;
@@ -130,21 +130,18 @@ airArrayPointerCB(airArray *a, void *(*allocCB)(void), void *(*freeCB)(void *)) 
 **
 ** Set the length of the array, allocating or freeing as needed
 **
-** returns 1 on error, otherwise 0 if okay
-** possible errors: bogus arguments, or couldn't allocate new memory segment
-**
 ** In case we can't allocate the new space, the old space is left untouched,
 ** however if the new length is smaller, the free/done callbacks will
 ** have been called on invalidated elements
 **
-** NB: this used to have a "boolean" return to indicate allocation
-** error, but almost nothing in Teem actually did the error checking.
-** Now conscientious users can look at NULL-ity of a->data to detect
-** such an error.
+** NB: this used to have a "boolean" return to indicate allocation error, but almost
+** nothing in Teem actually did the error checking. Now conscientious users can look at
+** NULL-ity of a->data to detect such an error (e.g. bogus arguments, or couldn't
+** allocate new memory segment)
 */
 void
 airArrayLenSet(airArray *a, unsigned int newlen) {
-  /* char me[]="airArrayLenSet"; */
+  /* static const char me[] = "airArrayLenSet"; */
   unsigned int ii, newsize;
   void *addr, *newdata;
 
@@ -178,21 +175,26 @@ airArrayLenSet(airArray *a, unsigned int newlen) {
     if (newsize) {
       /* array should be bigger or smaller, but not zero-length */
       if (newsize > a->size || (newsize < a->size && !(a->noReallocWhenSmaller))) {
+        size_t sztocpy;
         newdata = calloc(newsize * a->incr, a->unit);
         if (!newdata) {
           free(a->data);
-          _airSetData(a, NULL);
+          setData(a, NULL);
           return;
         }
-        memcpy(newdata, a->data, AIR_MIN(a->len * a->unit, newsize * a->incr * a->unit));
-        free(a->data);
-        _airSetData(a, newdata);
+        sztocpy = AIR_MIN(a->len * a->unit, newsize * a->incr * a->unit);
+        if (sztocpy) {
+          /* only copy old data when there's something to copy */
+          memcpy(newdata, a->data, sztocpy);
+          free(a->data);
+        }
+        setData(a, newdata);
         a->size = newsize;
       }
     } else {
       /* array should be zero-length */
       free(a->data);
-      _airSetData(a, NULL);
+      setData(a, NULL);
       a->size = newsize;
     }
   }
@@ -210,7 +212,7 @@ airArrayLenSet(airArray *a, unsigned int newlen) {
       }
     }
   }
-  _airLenSet(a, newlen);
+  lenSet(a, newlen);
 
   return;
 }
@@ -232,7 +234,7 @@ airArrayLenSet(airArray *a, unsigned int newlen) {
 */
 unsigned int
 airArrayLenIncr(airArray *a, int delta) {
-  /* char me[]="airArrayLenIncr"; */
+  /* static const char me[] = "airArrayLenIncr"; */
   unsigned int oldlen, ret, negdel;
 
   if (!a) {
@@ -270,6 +272,7 @@ airArrayNuke(airArray *a) {
   }
   return NULL;
 }
+AIR_MOPPER(airArrayNuke)
 
 /*
 ******** airArrayNix()
@@ -284,3 +287,4 @@ airArrayNix(airArray *a) {
   }
   return NULL;
 }
+AIR_MOPPER(airArrayNix)
