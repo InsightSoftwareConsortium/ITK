@@ -1,8 +1,8 @@
 /*
-  NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2013, 2012, 2011, 2010, 2009  University of Chicago
-  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
-  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
+  NrrdIO: C library for NRRD file IO (with optional compressions)
+  Copyright (C) 2009--2025  University of Chicago
+  Copyright (C) 2005--2008  Gordon Kindlmann
+  Copyright (C) 1998--2004  University of Utah
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
@@ -37,7 +37,7 @@
 **
 ** returns the number of key/value pairs in a nrrd
 */
-unsigned int
+unsigned int /* Biff: nope */
 nrrdKeyValueSize(const Nrrd *nrrd) {
 
   if (!nrrd) {
@@ -117,7 +117,7 @@ nrrdKeyValueClear(Nrrd *nrrd) {
   return;
 }
 
-int
+int /* Biff: nope */
 nrrdKeyValueErase(Nrrd *nrrd, const char *key) {
   unsigned int nk, ki;
   int found;
@@ -151,10 +151,8 @@ nrrdKeyValueErase(Nrrd *nrrd, const char *key) {
 ** NOTE: Despite what might be most logical, there is no effort made
 ** here to cleanup key or value, including any escaping or filtering
 ** that might be warranted for white space other than \n
-**
-** does NOT use BIFF
 */
-int
+int /* Biff: nope */
 nrrdKeyValueAdd(Nrrd *nrrd, const char *key, const char *value) {
   unsigned int ki;
   int found;
@@ -188,10 +186,8 @@ nrrdKeyValueAdd(Nrrd *nrrd, const char *key, const char *value) {
 ** "inside" the nrrd struct (pointers which you had better not free()!)
 ** is controlled by nrrdStateKeyValueReturnInternalPointers, which defaults
 ** to AIR_FALSE
-**
-** does NOT use BIFF
 */
-char *
+char * /* Biff: nope */
 nrrdKeyValueGet(const Nrrd *nrrd, const char *key) {
   char *ret;
   unsigned int ki;
@@ -229,7 +225,7 @@ nrrdKeyValueGet(const Nrrd *nrrd, const char *key) {
 void
 _nrrdWriteEscaped(FILE *file, char *dst, const char *str, const char *toescape,
                   const char *tospace) {
-  /* static const char me[]="_nrrdWriteEscaped"; */
+  /* static const char me[] = "_nrrdWriteEscaped"; */
   size_t ci, gslen; /* given strlen */
 
   gslen = strlen(str);
@@ -283,7 +279,7 @@ _nrrdWriteEscaped(FILE *file, char *dst, const char *str, const char *toescape,
 ** writes a given key and value to a file, starting with the given
 ** prefix (if non-NULL), and ending with "\n"
 */
-int
+int /* Biff: (private) nope */
 _nrrdKeyValueWrite(FILE *file, char **stringP, const char *prefix, const char *key,
                    const char *value) {
 
@@ -324,7 +320,7 @@ _nrrdKeyValueWrite(FILE *file, char **stringP, const char *prefix, const char *k
 ** copies key/value pairs from one nrrd to another
 ** Existing key/value pairs in nout are blown away
 */
-int
+int /* Biff: nope */
 nrrdKeyValueCopy(Nrrd *nout, const Nrrd *nin) {
   char *key, *value;
   unsigned int ki;

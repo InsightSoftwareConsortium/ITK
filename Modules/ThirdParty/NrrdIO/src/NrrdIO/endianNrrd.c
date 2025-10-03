@@ -1,8 +1,8 @@
 /*
-  NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2013, 2012, 2011, 2010, 2009  University of Chicago
-  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
-  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
+  NrrdIO: C library for NRRD file IO (with optional compressions)
+  Copyright (C) 2009--2025  University of Chicago
+  Copyright (C) 2005--2008  Gordon Kindlmann
+  Copyright (C) 1998--2004  University of Utah
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
@@ -34,12 +34,12 @@ _nrrdSwap16Endian(void *_data, size_t N) {
     return;
   }
   data = AIR_CAST(unsigned short *, _data);
-  mask = AIR_CAST(unsigned short, 0x00FFu);
+  mask = AIR_USHORT(0x00FFu);
   for (I = 0; I < N; I++) {
     dd = data[I];
     fix = (dd & mask);
     dd >>= 0x08;
-    fix = (dd & mask) | AIR_CAST(unsigned short, fix << 0x08);
+    fix = (dd & mask) | AIR_USHORT(fix << 0x08);
     data[I] = fix;
   }
 }
@@ -56,13 +56,12 @@ _nrrdSwap32Endian(void *_data, size_t N) {
   mask = 0x000000FFu;
   for (I = 0; I < N; I++) {
     dd = data[I];
-    fix = (dd & mask);
-    dd >>= 0x08;
+    /* clang-format off */
+    fix = (dd & mask);                 dd >>= 0x08;
+    fix = (dd & mask) | (fix << 0x08); dd >>= 0x08;
+    fix = (dd & mask) | (fix << 0x08); dd >>= 0x08;
     fix = (dd & mask) | (fix << 0x08);
-    dd >>= 0x08;
-    fix = (dd & mask) | (fix << 0x08);
-    dd >>= 0x08;
-    fix = (dd & mask) | (fix << 0x08);
+    /* clang-format on */
     data[I] = fix;
   }
 }
@@ -79,21 +78,16 @@ _nrrdSwap64Endian(void *_data, size_t N) {
   mask = AIR_ULLONG(0x00000000000000FF);
   for (I = 0; I < N; I++) {
     dd = data[I];
-    fix = (dd & mask);
-    dd >>= 0x08;
+    /* clang-format off */
+    fix = (dd & mask);                 dd >>= 0x08;
+    fix = (dd & mask) | (fix << 0x08); dd >>= 0x08;
+    fix = (dd & mask) | (fix << 0x08); dd >>= 0x08;
+    fix = (dd & mask) | (fix << 0x08); dd >>= 0x08;
+    fix = (dd & mask) | (fix << 0x08); dd >>= 0x08;
+    fix = (dd & mask) | (fix << 0x08); dd >>= 0x08;
+    fix = (dd & mask) | (fix << 0x08); dd >>= 0x08;
     fix = (dd & mask) | (fix << 0x08);
-    dd >>= 0x08;
-    fix = (dd & mask) | (fix << 0x08);
-    dd >>= 0x08;
-    fix = (dd & mask) | (fix << 0x08);
-    dd >>= 0x08;
-    fix = (dd & mask) | (fix << 0x08);
-    dd >>= 0x08;
-    fix = (dd & mask) | (fix << 0x08);
-    dd >>= 0x08;
-    fix = (dd & mask) | (fix << 0x08);
-    dd >>= 0x08;
-    fix = (dd & mask) | (fix << 0x08);
+    /* clang-format on */
     data[I] = fix;
   }
 }
@@ -107,7 +101,7 @@ _nrrdNoopEndian(void *data, size_t N) {
 
 static void
 _nrrdBlockEndian(void *data, size_t N) {
-  char me[] = "_nrrdBlockEndian";
+  static const char me[] = "_nrrdBlockEndian";
 
   AIR_UNUSED(data);
   AIR_UNUSED(N);

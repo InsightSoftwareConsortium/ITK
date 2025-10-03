@@ -1,8 +1,8 @@
 /*
-  NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2013, 2012, 2011, 2010, 2009  University of Chicago
-  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
-  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
+  NrrdIO: C library for NRRD file IO (with optional compressions)
+  Copyright (C) 2009--2025  University of Chicago
+  Copyright (C) 2005--2008  Gordon Kindlmann
+  Copyright (C) 1998--2004  University of Utah
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
@@ -263,7 +263,7 @@ biffMaybeAddf(int useBiff, const char *key, const char *errfmt, ...) {
 ** be considered a glorified strdup(): it is the callers responsibility
 ** to free() this string later
 */
-char * /*Teem: allocates char* */ /* this comment is an experiment */
+char *
 biffGet(const char *key) {
   static const char me[] = "biffGet";
   char *ret;
@@ -411,7 +411,7 @@ biffMove(const char *destKey, const char *err, const char *srcKey) {
 
 static void
 _biffMoveVL(const char *destKey, const char *srcKey, const char *errfmt, va_list args) {
-  static const char me[] = "biffMovev";
+  static const char me[] = "_biffMoveVL";
   biffMsg *dest, *src;
 
   _bmsgStart();
@@ -422,6 +422,7 @@ _biffMoveVL(const char *destKey, const char *srcKey, const char *errfmt, va_list
     return;
   }
   _biffMsgMoveVL(dest, src, errfmt, args);
+  biffDone(srcKey);
   return;
 }
 

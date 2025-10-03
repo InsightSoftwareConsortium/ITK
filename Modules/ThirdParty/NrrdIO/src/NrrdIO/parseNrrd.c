@@ -1,8 +1,8 @@
 /*
-  NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2013, 2012, 2011, 2010, 2009  University of Chicago
-  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
-  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
+  NrrdIO: C library for NRRD file IO (with optional compressions)
+  Copyright (C) 2009--2025  University of Chicago
+  Copyright (C) 2005--2008  Gordon Kindlmann
+  Copyright (C) 1998--2004  University of Utah
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
@@ -31,7 +31,7 @@
 **
 ** This is for parsing the stuff BEFORE the colon
 */
-int
+int /* Biff: (private) maybe:2:nrrdField_unknown */
 _nrrdReadNrrdParseField(NrrdIoState *nio, int useBiff) {
   static const char me[] = "_nrrdReadNrrdParseField";
   char *next, *buff, *colon, *keysep;
@@ -87,7 +87,7 @@ _nrrdReadNrrdParseField(NrrdIoState *nio, int useBiff) {
 
     /* skip whitespace prior to start of first field descriptor */
     next += strspn(next, _nrrdFieldSep);
-    nio->pos = AIR_CAST(int, next - nio->line);
+    nio->pos = AIR_INT(next - nio->line);
 
     ret = fld;
   }
@@ -120,7 +120,7 @@ _nrrdReadNrrdParse_nonfield(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBif
   return 0;
 }
 
-static int
+static int /* Biff: maybe:4:1 */
 _nrrdReadNrrdParse_comment(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
   static const char me[] = "_nrrdReadNrrdParse_comment";
   char *info;
@@ -135,7 +135,7 @@ _nrrdReadNrrdParse_comment(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBiff
   return 0;
 }
 
-static int
+static int /* Biff: maybe:4:1 */
 _nrrdReadNrrdParse_content(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
   static const char me[] = "_nrrdReadNrrdParse_content";
   char *info;
@@ -149,18 +149,18 @@ _nrrdReadNrrdParse_content(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBiff
   return 0;
 }
 
-static int
+static int /* Biff: nope # unlike other parsers, for reasons described below */
 _nrrdReadNrrdParse_number(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
   /*
-  static const char me[]="_nrrdReadNrrdParse_number";
-  char *info;
-
-  info = nio->line + nio->pos;
-  if (1 != sscanf(info, NRRD_BIG_INT_PRINTF, &(nrrd->num))) {
-    biffMaybeAddf(useBiff, NRRD,
-                  "%s: couldn't parse number \"%s\"", me, info); return 1;
-  }
-  */
+   *static const char me[] = "_nrrdReadNrrdParse_number";
+   *char *info;
+   *
+   *info = nio->line + nio->pos;
+   *if (1 != sscanf(info, NRRD_BIG_INT_PRINTF, &(nrrd->num))) {
+   *  biffMaybeAddf(useBiff, NRRD,
+   *                "%s: couldn't parse number \"%s\"", me, info); return 1;
+   *}
+   */
 
   AIR_UNUSED(file);
   AIR_UNUSED(nrrd);
@@ -180,7 +180,7 @@ _nrrdReadNrrdParse_number(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBiff)
   return 0;
 }
 
-static int
+static int /* Biff: maybe:4:1 */
 _nrrdReadNrrdParse_type(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
   static const char me[] = "_nrrdReadNrrdParse_type";
   char *info;
@@ -199,12 +199,12 @@ _nrrdReadNrrdParse_type(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
 }
 
 #define _PARSE_ONE_VAL(FIELD, CONV, TYPE)                                               \
-  if (1 != sscanf(info, CONV, &(FIELD))) {                                              \
+  if (1 != airSingleSscanf(info, CONV, &(FIELD))) {                                     \
     biffMaybeAddf(useBiff, NRRD, "%s: couldn't parse " TYPE " from \"%s\"", me, info);  \
     return 1;                                                                           \
   }
 
-static int
+static int /* Biff: maybe:4:1 */
 _nrrdReadNrrdParse_block_size(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
   static const char me[] = "_nrrdReadNrrdParse_block_size";
   char *info;
@@ -216,13 +216,16 @@ _nrrdReadNrrdParse_block_size(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useB
                   "%s: couldn't parse size_t"
                   " from \"%s\"",
                   me, info);
+    /* For >15 years this return was missing; highlighting that it was missing was thanks
+     * to the biff auto-scan in teem/src/_util/scan-symbols.py */
+    return 1;
   }
   /* because blockSize and type fields may appear in any order,
      we can't use _nrrdFieldCheck[] */
   return 0;
 }
 
-static int
+static int /* Biff: maybe:4:1 */
 _nrrdReadNrrdParse_dimension(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
   static const char me[] = "_nrrdReadNrrdParse_dimension";
   char *info;
@@ -261,7 +264,7 @@ _nrrdReadNrrdParse_dimension(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBi
     return 1;                                                                           \
   }
 
-static int
+static int /* Biff: maybe:4:1 */
 _nrrdReadNrrdParse_sizes(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
   static const char me[] = "_nrrdReadNrrdParse_sizes";
   unsigned int ret;
@@ -287,7 +290,7 @@ _nrrdReadNrrdParse_sizes(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBiff) 
   return 0;
 }
 
-static int
+static int /* Biff: maybe:4:1 */
 _nrrdReadNrrdParse_spacings(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
   static const char me[] = "_nrrdReadNrrdParse_spacings";
   unsigned int ret;
@@ -313,7 +316,7 @@ _nrrdReadNrrdParse_spacings(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBif
   return 0;
 }
 
-static int
+static int /* Biff: maybe:4:1 */
 _nrrdReadNrrdParse_thicknesses(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
   static const char me[] = "_nrrdReadNrrdParse_thicknesses";
   unsigned int ret;
@@ -339,7 +342,7 @@ _nrrdReadNrrdParse_thicknesses(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int use
   return 0;
 }
 
-static int
+static int /* Biff: maybe:4:1 */
 _nrrdReadNrrdParse_axis_mins(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
   static const char me[] = "_nrrdReadNrrdParse_axis_mins";
   unsigned int ret;
@@ -365,7 +368,7 @@ _nrrdReadNrrdParse_axis_mins(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBi
   return 0;
 }
 
-static int
+static int /* Biff: maybe:4:1 */
 _nrrdReadNrrdParse_axis_maxs(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
   static const char me[] = "_nrrdReadNrrdParse_axis_maxs";
   unsigned int ret;
@@ -391,7 +394,7 @@ _nrrdReadNrrdParse_axis_maxs(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBi
   return 0;
 }
 
-int
+static int /* Biff: maybe:4:1 */
 _nrrdSpaceVectorParse(double val[NRRD_SPACE_DIM_MAX], char **hhP, unsigned int spaceDim,
                       int useBiff) {
   static const char me[] = "_nrrdSpaceVectorParse";
@@ -510,7 +513,7 @@ _nrrdSpaceVectorParse(double val[NRRD_SPACE_DIM_MAX], char **hhP, unsigned int s
   return 0;
 }
 
-static int
+static int /* Biff: maybe:4:1 */
 _nrrdReadNrrdParse_space_directions(FILE *file, Nrrd *nrrd, NrrdIoState *nio,
                                     int useBiff) {
   static const char me[] = "_nrrdReadNrrdParse_space_directions";
@@ -542,7 +545,7 @@ _nrrdReadNrrdParse_space_directions(FILE *file, Nrrd *nrrd, NrrdIoState *nio,
   return 0;
 }
 
-static int
+static int /* Biff: maybe:4:1 */
 _nrrdReadNrrdParse_centers(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
   static const char me[] = "_nrrdReadNrrdParse_centers";
   unsigned int ai;
@@ -592,7 +595,7 @@ _nrrdReadNrrdParse_centers(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBiff
   return 0;
 }
 
-static int
+static int /* Biff: maybe:4:1 */
 _nrrdReadNrrdParse_kinds(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
   static const char me[] = "_nrrdReadNrrdParse_kinds";
   unsigned int ai;
@@ -634,18 +637,23 @@ _nrrdReadNrrdParse_kinds(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBiff) 
     return 1;
   }
   /* can't run this now because kinds can come before sizes, in which
-     case the kind/size check in _nrrdFieldCheck_kinds will incorrectly
-     flag an error ...
-  if (_nrrdFieldCheck[nrrdField_kinds](nrrd, useBiff)) {
-    biffMaybeAddf(useBiff, NRRD, "%s: trouble", me);
-    airMopError(mop); return 1;
-    }
-  */
+   *   case the kind/size check in _nrrdFieldCheck_kinds will incorrectly
+   *   flag an error ...
+   * if (_nrrdFieldCheck[nrrdField_kinds](nrrd, useBiff)) {
+   *  biffMaybeAddf(useBiff, NRRD, "%s: trouble", me);
+   *  airMopError(mop); return 1;
+   *  }
+   */
   airMopOkay(mop);
   return 0;
 }
 
-static char *
+/*
+ * The kind of double-quoted string extraction used for NRRD units, space units, and
+ * labels: get the string within the "", with only one kind of escaping supported:
+ * \" means "
+ */
+static char * /* Biff: maybe:2:NULL */
 _nrrdGetQuotedString(char **hP, int useBiff) {
   static const char me[] = "_nrrdGetQuotedString";
   char *h, *buff, *ret;
@@ -705,7 +713,7 @@ _nrrdGetQuotedString(char **hP, int useBiff) {
   return ret;
 }
 
-static int
+static int /* Biff: maybe:4:1 */
 _nrrdReadNrrdParse_labels(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
   static const char me[] = "_nrrdReadNrrdParse_labels";
   char *h; /* this is the "here" pointer which gradually progresses
@@ -739,7 +747,7 @@ _nrrdReadNrrdParse_labels(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBiff)
   return 0;
 }
 
-static int
+static int /* Biff: maybe:4:1 */
 _nrrdReadNrrdParse_units(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
   static const char me[] = "_nrrdReadNrrdParse_units";
   char *h; /* this is the "here" pointer which gradually progresses
@@ -802,7 +810,7 @@ _nrrdReadNrrdParse_max(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
   return 0;
 }
 
-static int
+static int /* Biff: maybe:4:1 */
 _nrrdReadNrrdParse_old_min(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
   static const char me[] = "_nrrdReadNrrdParse_old_min";
   char *info;
@@ -817,7 +825,7 @@ _nrrdReadNrrdParse_old_min(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBiff
   return 0;
 }
 
-static int
+static int /* Biff: maybe:4:1 */
 _nrrdReadNrrdParse_old_max(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
   static const char me[] = "_nrrdReadNrrdParse_old_max";
   char *info;
@@ -832,7 +840,7 @@ _nrrdReadNrrdParse_old_max(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBiff
   return 0;
 }
 
-static int
+static int /* Biff: maybe:4:1 */
 _nrrdReadNrrdParse_endian(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
   static const char me[] = "_nrrdReadNrrdParse_endian";
   char *info;
@@ -847,7 +855,7 @@ _nrrdReadNrrdParse_endian(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBiff)
   return 0;
 }
 
-static int
+static int /* Biff: maybe:4:1 */
 _nrrdReadNrrdParse_encoding(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
   static const char me[] = "_nrrdReadNrrdParse_encoding";
   char *info;
@@ -865,7 +873,7 @@ _nrrdReadNrrdParse_encoding(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBif
   return 0;
 }
 
-static int
+static int /* Biff: maybe:4:1 */
 _nrrdReadNrrdParse_line_skip(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
   static const char me[] = "_nrrdReadNrrdParse_line_skip";
   char *info;
@@ -905,7 +913,7 @@ _nrrdReadNrrdParse_byte_skip(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBi
   return 0;
 }
 
-static int
+static int /* Biff: maybe:4:1 */
 _nrrdReadNrrdParse_keyvalue(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
   static const char me[] = "_nrrdReadNrrdParse_keyvalue";
   char *keysep, *line, *key, *value;
@@ -939,7 +947,7 @@ _nrrdReadNrrdParse_keyvalue(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBif
   return 0;
 }
 
-static int
+static int /* Biff: maybe:4:1 */
 _nrrdReadNrrdParse_sample_units(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
   static const char me[] = "_nrrdReadNrrdParse_sample_units";
   char *info;
@@ -958,7 +966,7 @@ _nrrdReadNrrdParse_sample_units(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int us
   return 0;
 }
 
-static int
+static int /* Biff: maybe:4:1 */
 _nrrdReadNrrdParse_space(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
   static const char me[] = "_nrrdReadNrrdParse_space";
   char *info;
@@ -988,7 +996,7 @@ _nrrdReadNrrdParse_space(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBiff) 
   return 0;
 }
 
-static int
+static int /* Biff: maybe:4:1 */
 _nrrdReadNrrdParse_space_dimension(FILE *file, Nrrd *nrrd, NrrdIoState *nio,
                                    int useBiff) {
   static const char me[] = "_nrrdReadNrrdParse_space_dimension";
@@ -1011,7 +1019,7 @@ _nrrdReadNrrdParse_space_dimension(FILE *file, Nrrd *nrrd, NrrdIoState *nio,
   return 0;
 }
 
-static int
+static int /* Biff: maybe:4:1 */
 _nrrdReadNrrdParse_space_units(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
   static const char me[] = "_nrrdReadNrrdParse_space_units";
   char *h; /* this is the "here" pointer which gradually progresses
@@ -1045,7 +1053,7 @@ _nrrdReadNrrdParse_space_units(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int use
   return 0;
 }
 
-static int
+static int /* Biff: maybe:4:1 */
 _nrrdReadNrrdParse_space_origin(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
   static const char me[] = "_nrrdReadNrrdParse_space_origin";
   char *info;
@@ -1066,7 +1074,7 @@ _nrrdReadNrrdParse_space_origin(FILE *file, Nrrd *nrrd, NrrdIoState *nio, int us
   return 0;
 }
 
-static int
+static int /* Biff: maybe:4:1 */
 _nrrdReadNrrdParse_measurement_frame(FILE *file, Nrrd *nrrd, NrrdIoState *nio,
                                      int useBiff) {
   static const char me[] = "_nrrdReadNrrdParse_measurement_frame";
@@ -1107,8 +1115,8 @@ _nrrdReadNrrdParse_measurement_frame(FILE *file, Nrrd *nrrd, NrrdIoState *nio,
   return 0;
 }
 
-int
-_nrrdContainsPercentThisAndMore(const char *str, char thss) {
+int /* Biff: nope */
+nrrdContainsPercentThisAndMore(const char *str, char thss) {
   const char *hh, *tmp;
 
   tmp = str;
@@ -1133,7 +1141,7 @@ _nrrdContainsPercentThisAndMore(const char *str, char thss) {
   return !!hh;
 }
 
-unsigned int
+unsigned int /* Biff: nope */
 _nrrdDataFNNumber(NrrdIoState *nio) {
   unsigned int ret;
   int ii;
@@ -1161,11 +1169,11 @@ _nrrdDataFNNumber(NrrdIoState *nio) {
 /*
 ** this always requires that the per-axis size fields have been set
 */
-int
+int /* Biff: maybe:3:1 */
 _nrrdDataFNCheck(NrrdIoState *nio, Nrrd *nrrd, int useBiff) {
   static const char me[] = "_nrrdDataFNCheck";
   size_t pieceSize, pieceNum;
-  char stmp[AIR_STRLEN_SMALL];
+  char stmp[AIR_STRLEN_SMALL + 1];
 
   if (!nio->seen[nrrdField_sizes]) {
     biffMaybeAddf(useBiff, NRRD,
@@ -1222,7 +1230,7 @@ _nrrdDataFNCheck(NrrdIoState *nio, Nrrd *nrrd, int useBiff) {
 ** identifying multiple data files, and possibly prefixing them with
 ** nio->path.
 */
-static int
+static int /* Biff: maybe:4:1 */
 _nrrdReadNrrdParse_data_file(FILE *ffile, Nrrd *nrrd, NrrdIoState *nio, int useBiff) {
   static const char me[] = "_nrrdReadNrrdParse_data_file";
   char *info, *nums;
@@ -1238,9 +1246,9 @@ _nrrdReadNrrdParse_data_file(FILE *ffile, Nrrd *nrrd, NrrdIoState *nio, int useB
   airMopAdd(mop, info, airFree, airMopAlways);
 
   /* HEY: this change should be made someday
-  if (_nrrdContainsPercentThisAndMore(info, 'd')
-      || _nrrdContainsPercentThisAndMore(info, 'u')) { */
-  if (_nrrdContainsPercentThisAndMore(info, 'd')) {
+  if (nrrdContainsPercentThisAndMore(info, 'd')
+      || nrrdContainsPercentThisAndMore(info, 'u')) { */
+  if (nrrdContainsPercentThisAndMore(info, 'd')) {
     /* ---------------------------------------------------------- */
     /* --------- format.%d <min> <max> <step> [<dim>] ----------- */
     /* ---------------------------------------------------------- */
@@ -1296,21 +1304,25 @@ _nrrdReadNrrdParse_data_file(FILE *ffile, Nrrd *nrrd, NrrdIoState *nio, int useB
       airMopError(mop);
       return 1;
     }
-  } else if (!strncmp(info, NRRD_LIST_FLAG, strlen(NRRD_LIST_FLAG))) {
+  } else if (!strncmp(info, NRRD_LIST_FLAG, strlen(NRRD_LIST_FLAG))
+             || !strncmp(info, NRRD_SKIPLIST_FLAG, strlen(NRRD_SKIPLIST_FLAG))) {
+    int skiplist;
+    unsigned int lineidx;
     /* ---------------------------------------------------------- */
-    /* ------------------------- LIST --------------------------- */
+    /* -------------------- LIST or SKIPLIST -------------------- */
     /* ---------------------------------------------------------- */
     _CHECK_HAVE_DIM;
+    skiplist = !strncmp(info, NRRD_SKIPLIST_FLAG, strlen(NRRD_SKIPLIST_FLAG));
     if (_nrrdHeaderCheck(nrrd, nio, AIR_TRUE)) {
       biffMaybeAddf(useBiff, NRRD,
-                    "%s: NRRD header is incomplete. \"" NRRD_LIST_FLAG
-                    "\" data file specification must be "
+                    "%s: NRRD header is incomplete. "
+                    "\"%s\" data file specification must be "
                     "contiguous with end of header!",
-                    me);
+                    me, skiplist ? NRRD_SKIPLIST_FLAG : NRRD_LIST_FLAG);
       airMopError(mop);
       return 1;
     }
-    info += strlen(NRRD_LIST_FLAG);
+    info += strlen(skiplist ? NRRD_SKIPLIST_FLAG : NRRD_LIST_FLAG);
     if (info[0]) {
       if (1 == sscanf(info, "%u", &(nio->dataFileDim))) {
         if (!AIR_IN_CL(1, nio->dataFileDim, nrrd->dim)) {
@@ -1323,28 +1335,67 @@ _nrrdReadNrrdParse_data_file(FILE *ffile, Nrrd *nrrd, NrrdIoState *nio, int useB
         }
       } else {
         biffMaybeAddf(useBiff, NRRD,
-                      "%s: couldn't parse info after \"" NRRD_LIST_FLAG "\" as an int",
-                      me);
+                      "%s: couldn't parse info after "
+                      "\"%s\" as an int",
+                      me, skiplist ? NRRD_SKIPLIST_FLAG : NRRD_LIST_FLAG);
         airMopError(mop);
         return 1;
       }
     } else {
-      /* nothing after NRRD_LIST_FLAG, so dataFileDim is implicit */
+      /* nothing after NRRD_LIST_FLAG or NRRD_SKIPLIST_FLAG,
+         so dataFileDim is implicit */
       nio->dataFileDim = nrrd->dim - 1;
     }
     /* read in all the datafile names */
+    lineidx = 0;
     do {
-      /* yes, nio->line is re-used/over-written here, but I don't
-         think that's a problem */
-      if (_nrrdOneLine(&linelen, nio, ffile)) {
-        biffMaybeAddf(useBiff, NRRD, "%s: trouble getting file name line", me);
+      /* yes, nio->line is re-used/over-written here, but I don't think that's a problem
+         (2025 ha ha can I point out nioLineSave in formatNRRD.c/_nrrdFormatNRRD_read) */
+      if (nrrdOneLine(&linelen, nio, ffile)) {
+        biffMaybeAddf(useBiff, NRRD, "%s: trouble getting file name line %u", me,
+                      lineidx);
         airMopError(mop);
         return 1;
       }
       if (linelen > 0) {
-        tmp = airArrayLenIncr(nio->dataFNArr, 1);
-        nio->dataFN[tmp] = airStrdup(nio->line);
+        /* we got a non-empty line */
+        if (skiplist) {
+          char *lhere;
+          long int oneskip;
+          if (1 != airSingleSscanf(nio->line, "%ld", &oneskip)) {
+            biffMaybeAddf(useBiff, NRRD, "%s: couldn't parse skip on list line %u", me,
+                          lineidx);
+            airMopError(mop);
+            return 1;
+          }
+          lhere = strchr(nio->line, ' ');
+          if (!lhere) {
+            biffMaybeAddf(useBiff, NRRD,
+                          "%s: didn't see space after "
+                          "skip on list line %u",
+                          me, lineidx);
+            airMopError(mop);
+            return 1;
+          }
+          lhere++;
+          if (!(lhere[0])) {
+            biffMaybeAddf(useBiff, NRRD,
+                          "%s: didn't see filename after "
+                          "skip and space on list line %u",
+                          me, lineidx);
+            airMopError(mop);
+            return 1;
+          }
+          airArrayLenIncr(nio->dataFSkipArr, 1);
+          nio->dataFSkip[lineidx] = oneskip;
+          airArrayLenIncr(nio->dataFNArr, 1);
+          nio->dataFN[lineidx] = airStrdup(lhere);
+        } else {
+          airArrayLenIncr(nio->dataFNArr, 1);
+          nio->dataFN[lineidx] = airStrdup(nio->line);
+        }
       }
+      ++lineidx;
     } while (linelen > 0);
     if (_nrrdDataFNCheck(nio, nrrd, useBiff)) {
       biffMaybeAddf(useBiff, NRRD, "%s: trouble with number of datafiles", me);
@@ -1370,7 +1421,7 @@ _nrrdReadNrrdParse_data_file(FILE *ffile, Nrrd *nrrd, NrrdIoState *nio, int useB
 **
 ** These are all for parsing the stuff AFTER the colon
 */
-int (*nrrdFieldInfoParse[NRRD_FIELD_MAX + 1])(FILE *, Nrrd *, NrrdIoState *, int)
+int (*const nrrdFieldInfoParse[NRRD_FIELD_MAX + 1])(FILE *, Nrrd *, NrrdIoState *, int)
   = {_nrrdReadNrrdParse_nonfield,
      _nrrdReadNrrdParse_comment,
      _nrrdReadNrrdParse_content,
@@ -1406,3 +1457,75 @@ int (*nrrdFieldInfoParse[NRRD_FIELD_MAX + 1])(FILE *, Nrrd *, NrrdIoState *, int
      _nrrdReadNrrdParse_data_file};
 
 /* kernel parsing is all in kernel.c */
+
+/* nrrdStringValsParse[]: parse N values of given type from string
+   NB: based on air/parseAir.c
+*/
+#define P_ARGS (void *_out, const char *_s, const char *sep, size_t n)
+#define P_BODY(type, ntype)                                                             \
+  size_t i;                                                                             \
+  char *tmp, *s, *last;                                                                 \
+  const char *format;                                                                   \
+  type *out;                                                                            \
+                                                                                        \
+  /* if we got NULL, there's nothing to do */                                           \
+  if (!(_out && _s && sep)) return 0;                                                   \
+  format = nrrdTypePrintfStr[ntype];                                                    \
+  out = (type *)_out;                                                                   \
+  /* copy the input so that we don't change it */                                       \
+  s = airStrdup(_s);                                                                    \
+                                                                                        \
+  /* keep calling airStrtok() until we have everything */                               \
+  for (i = 0; i < n; i++) {                                                             \
+    tmp = airStrtok(i ? NULL : s, sep, &last);                                          \
+    if (!tmp) {                                                                         \
+      free(s);                                                                          \
+      return i;                                                                         \
+    }                                                                                   \
+    if (1 != airSingleSscanf(tmp, format, out + i)) {                                   \
+      free(s);                                                                          \
+      return i;                                                                         \
+    }                                                                                   \
+  }                                                                                     \
+  free(s);                                                                              \
+  return n
+
+/* clang-format off */
+static size_t   _parseChar P_ARGS { P_BODY(          char,   nrrdTypeChar); }
+static size_t  _parseUChar P_ARGS { P_BODY( unsigned char,  nrrdTypeUChar); }
+static size_t  _parseShort P_ARGS { P_BODY(         short,  nrrdTypeShort); }
+static size_t _parseUShort P_ARGS { P_BODY(unsigned short, nrrdTypeUShort); }
+static size_t    _parseInt P_ARGS { P_BODY(           int,    nrrdTypeInt); }
+static size_t   _parseUInt P_ARGS { P_BODY(  unsigned int,   nrrdTypeUInt); }
+static size_t  _parseLLong P_ARGS { P_BODY(      airLLong,  nrrdTypeLLong); }
+static size_t _parseULLong P_ARGS { P_BODY(     airULLong, nrrdTypeULLong); }
+static size_t  _parseFloat P_ARGS { P_BODY(         float,  nrrdTypeFloat); }
+static size_t _parseDouble P_ARGS { P_BODY(        double, nrrdTypeDouble); }
+static size_t _parseNoop(void *out, const char *s, const char *sep, size_t n) {
+  AIR_UNUSED(out);
+  AIR_UNUSED(s);
+  AIR_UNUSED(sep);
+  AIR_UNUSED(n);
+  return 0;
+}
+#undef P_ARGS
+#undef P_BODY
+
+size_t
+(*const nrrdStringValsParse[NRRD_TYPE_MAX+1])(void *out, const char *s,
+                                              const char *sep, size_t n)
+= {
+   _parseNoop, /* 0 = unknown */
+   _parseChar,
+   _parseUChar,
+   _parseShort,
+   _parseUShort,
+   _parseInt,
+   _parseUInt,
+   _parseLLong,
+   _parseULLong,
+   _parseFloat,
+   _parseDouble,
+   _parseNoop /* block */
+};
+/* clang-format on */

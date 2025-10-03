@@ -1,8 +1,8 @@
 /*
-  NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2013, 2012, 2011, 2010, 2009  University of Chicago
-  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
-  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
+  NrrdIO: C library for NRRD file IO (with optional compressions)
+  Copyright (C) 2009--2025  University of Chicago
+  Copyright (C) 2005--2008  Gordon Kindlmann
+  Copyright (C) 1998--2004  University of Utah
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
@@ -62,7 +62,7 @@ _nrrdFormatUnknown_nameLooksLike(const char *filename) {
   return AIR_FALSE;
 }
 
-static int
+static int /* Biff: maybe:3:AIR_FALSE */
 _nrrdFormatUnknown_fitsInto(const Nrrd *nrrd, const NrrdEncoding *encoding,
                             int useBiff) {
   static const char me[] = "_nrrdFormatUnknown_fitsInto";
@@ -87,7 +87,7 @@ _nrrdFormatUnknown_contentStartsLike(NrrdIoState *nio) {
   return AIR_FALSE;
 }
 
-static int
+static int /* Biff: 1 */
 _nrrdFormatUnknown_read(FILE *file, Nrrd *nrrd, NrrdIoState *nio) {
   static const char me[] = "_nrrdFormatUnknown_read";
 
@@ -100,7 +100,7 @@ _nrrdFormatUnknown_read(FILE *file, Nrrd *nrrd, NrrdIoState *nio) {
   return 1;
 }
 
-static int
+static int /* Biff: 1 */
 _nrrdFormatUnknown_write(FILE *file, const Nrrd *nrrd, NrrdIoState *nio) {
   static const char me[] = "_nrrdFormatUnknown_write";
 
@@ -116,7 +116,6 @@ _nrrdFormatUnknown_write(FILE *file, const Nrrd *nrrd, NrrdIoState *nio) {
 static const NrrdFormat _nrrdFormatUnknown = {"unknown",
                                               AIR_FALSE, /* isImage */
                                               AIR_TRUE,  /* readable */
-                                              AIR_FALSE, /* usesDIO */
                                               _nrrdFormatUnknown_available,
                                               _nrrdFormatUnknown_nameLooksLike,
                                               _nrrdFormatUnknown_fitsInto,
@@ -126,6 +125,12 @@ static const NrrdFormat _nrrdFormatUnknown = {"unknown",
 
 const NrrdFormat *const nrrdFormatUnknown = &_nrrdFormatUnknown;
 
-const NrrdFormat *const nrrdFormatArray[NRRD_FORMAT_TYPE_MAX + 1]
-  = {&_nrrdFormatUnknown, &_nrrdFormatNRRD, &_nrrdFormatPNM, &_nrrdFormatPNG,
-     &_nrrdFormatVTK,     &_nrrdFormatText, &_nrrdFormatEPS};
+const NrrdFormat *const nrrdFormatArray[NRRD_FORMAT_TYPE_MAX + 1] = {
+  &_nrrdFormatUnknown, /* */
+  &_nrrdFormatNRRD,    /* */
+  &_nrrdFormatPNM,     /* */
+  &_nrrdFormatPNG,     /* */
+  &_nrrdFormatVTK,     /* */
+  &_nrrdFormatText,    /* */
+  &_nrrdFormatEPS      /* */
+};

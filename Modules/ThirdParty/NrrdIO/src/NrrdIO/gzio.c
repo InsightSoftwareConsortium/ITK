@@ -1,8 +1,8 @@
 /*
-  NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2013, 2012, 2011, 2010, 2009  University of Chicago
-  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
-  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
+  NrrdIO: C library for NRRD file IO (with optional compressions)
+  Copyright (C) 2009--2025  University of Chicago
+  Copyright (C) 2005--2008  Gordon Kindlmann
+  Copyright (C) 1998--2004  University of Utah
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
@@ -157,7 +157,7 @@ static uLong _nrrdGzGetLong(_NrrdGzStream *s);
 ** can be checked to distinguish the two cases (if errno is zero, the
 ** zlib error is Z_MEM_ERROR).
 */
-gzFile
+gzFile /* Biff: (private) (gzFile)Z_NULL */
 _nrrdGzOpen(FILE *fd, const char *mode) {
   static const char me[] = "_nrrdGzOpen";
   int error;
@@ -165,18 +165,18 @@ _nrrdGzOpen(FILE *fd, const char *mode) {
   int strategy = Z_DEFAULT_STRATEGY; /* compression strategy */
   const char *p = mode;
   _NrrdGzStream *s;
-  char fmode[AIR_STRLEN_MED]; /* copy of mode, without the compression level */
+  char fmode[AIR_STRLEN_MED + 1]; /* copy of mode, without the compression level */
   char *m = fmode;
 
   if (!mode) {
     biffAddf(NRRD, "%s: no file mode specified", me);
-    return Z_NULL;
+    return (gzFile)Z_NULL;
   }
   /* allocate stream struct */
   s = (_NrrdGzStream *)calloc(1, sizeof(_NrrdGzStream));
   if (!s) {
     biffAddf(NRRD, "%s: failed to allocate stream buffer", me);
-    return Z_NULL;
+    return (gzFile)Z_NULL;
   }
   /* initialize stream struct */
   s->stream.zalloc = (alloc_func)0;
@@ -208,7 +208,8 @@ _nrrdGzOpen(FILE *fd, const char *mode) {
   } while (*p++ && m != fmode + sizeof(fmode));
   if (s->mode == '\0') {
     biffAddf(NRRD, "%s: invalid file mode", me);
-    return _nrrdGzDestroy(s), (gzFile)Z_NULL;
+    _nrrdGzDestroy(s);
+    return (gzFile)Z_NULL;
   }
 
   if (s->mode == 'w') {
@@ -219,7 +220,8 @@ _nrrdGzOpen(FILE *fd, const char *mode) {
     s->stream.next_out = s->outbuf = (Byte *)calloc(1, _NRRD_Z_BUFSIZE);
     if (error != Z_OK || s->outbuf == Z_NULL) {
       biffAddf(NRRD, "%s: stream init failed", me);
-      return _nrrdGzDestroy(s), (gzFile)Z_NULL;
+      _nrrdGzDestroy(s);
+      return (gzFile)Z_NULL;
     }
   } else {
     s->stream.next_in = s->inbuf = (Byte *)calloc(1, _NRRD_Z_BUFSIZE);
@@ -233,7 +235,8 @@ _nrrdGzOpen(FILE *fd, const char *mode) {
      */
     if (error != Z_OK || s->inbuf == Z_NULL) {
       biffAddf(NRRD, "%s: stream init failed", me);
-      return _nrrdGzDestroy(s), (gzFile)Z_NULL;
+      _nrrdGzDestroy(s);
+      return (gzFile)Z_NULL;
     }
   }
   s->stream.avail_out = _NRRD_Z_BUFSIZE;
@@ -241,7 +244,8 @@ _nrrdGzOpen(FILE *fd, const char *mode) {
   s->file = fd;
   if (s->file == NULL) {
     biffAddf(NRRD, "%s: null file pointer", me);
-    return _nrrdGzDestroy(s), (gzFile)Z_NULL;
+    _nrrdGzDestroy(s);
+    return (gzFile)Z_NULL;
   }
   if (s->mode == 'w') {
     /* Write a very simple .gz header: */
@@ -266,7 +270,7 @@ _nrrdGzOpen(FILE *fd, const char *mode) {
 ** Flushes all pending output if necessary, closes the compressed file
 ** and deallocates the (de)compression state.
 */
-int
+int /* Biff: (private) 1 */
 _nrrdGzClose(gzFile file) {
   static const char me[] = "_nrrdGzClose";
   int error;
@@ -280,12 +284,17 @@ _nrrdGzClose(gzFile file) {
     error = _nrrdGzDoFlush(file, Z_FINISH);
     if (error != Z_OK) {
       biffAddf(NRRD, "%s: failed to flush pending data", me);
-      return _nrrdGzDestroy((_NrrdGzStream *)file);
+      _nrrdGzDestroy((_NrrdGzStream *)file);
+      return 1; /* _nrrdGzDestroy's return does not communicate our known error */
     }
     _nrrdGzPutLong(s->file, s->crc);
     _nrrdGzPutLong(s->file, s->stream.total_in);
   }
-  return _nrrdGzDestroy((_NrrdGzStream *)file);
+  if (_nrrdGzDestroy((_NrrdGzStream *)file)) {
+    biffAddf(NRRD, "%s: failed to clean up", me);
+    return 1;
+  }
+  return 0;
 }
 
 /*
@@ -294,7 +303,7 @@ _nrrdGzClose(gzFile file) {
 ** Reads the given number of uncompressed bytes from the compressed file.
 ** Returns the number of bytes actually read (0 for end of file).
 */
-int
+int /* Biff: (private) 1 */
 _nrrdGzRead(gzFile file, void *buf, unsigned int len, unsigned int *didread) {
   static const char me[] = "_nrrdGzRead";
   _NrrdGzStream *s = (_NrrdGzStream *)file;
@@ -400,7 +409,7 @@ _nrrdGzRead(gzFile file, void *buf, unsigned int len, unsigned int *didread) {
 ** Writes the given number of uncompressed bytes into the compressed file.
 ** Returns the number of bytes actually written (0 in case of error).
 */
-int
+int /* Biff: (private) 1 */
 _nrrdGzWrite(gzFile file, const void *buf, unsigned int len, unsigned int *written) {
   static const char me[] = "_nrrdGzWrite";
   _NrrdGzStream *s = (_NrrdGzStream *)file;
@@ -426,13 +435,23 @@ _nrrdGzWrite(gzFile file, const void *buf, unsigned int len, unsigned int *writt
       s->stream.next_out = s->outbuf;
       if (fwrite(s->outbuf, 1, _NRRD_Z_BUFSIZE, s->file) != _NRRD_Z_BUFSIZE) {
         s->z_err = Z_ERRNO;
-        biffAddf(NRRD, "%s: failed to write to file", me);
-        break;
+        biffAddf(NRRD, "%s: failed to fwrite to file", me);
+        /* earlier code had a "break" here instead of return, which seemed to
+        permit the function returning 0 instead of 1; so doing the return here
+        and not trying to record any additional state in s */
+        return 1;
       }
       s->stream.avail_out = _NRRD_Z_BUFSIZE;
     }
     s->z_err = deflate(&(s->stream), Z_NO_FLUSH);
-    if (s->z_err != Z_OK) break;
+    if (s->z_err != Z_OK) {
+      /* earlier code had a mere "break" here, which definitely meant that
+      the error was not reflected in the final return (always returned 0),
+      so adding info to biff (and also not trying to record anything in s)
+      */
+      biffAddf(NRRD, "%s: s->z_err (%d) != Z_OK (%d)", me, s->z_err, Z_OK);
+      return 1;
+    }
   }
   s->crc = crc32(s->crc, (const Bytef *)buf, len);
 
@@ -447,7 +466,7 @@ _nrrdGzWrite(gzFile file, const void *buf, unsigned int len, unsigned int *writt
 ** Returns EOF for end of file.
 ** IN assertion: the stream s has been sucessfully opened for reading.
 */
-static int
+static int /* Biff: EOF */
 _nrrdGzGetByte(_NrrdGzStream *s) {
   static const char me[] = "_nrrdGzGetByte";
 
@@ -482,7 +501,7 @@ _nrrdGzGetByte(_NrrdGzStream *s) {
 */
 static void
 _nrrdGzCheckHeader(_NrrdGzStream *s) {
-  static const char me[] = "_nrrdGzCheckHeader";
+  /* static const char me[] = "_nrrdGzCheckHeader"; */
   int method; /* method byte */
   int flags;  /* flags byte */
   uInt len;
@@ -504,7 +523,8 @@ _nrrdGzCheckHeader(_NrrdGzStream *s) {
   method = _nrrdGzGetByte(s);
   flags = _nrrdGzGetByte(s);
   if (method != Z_DEFLATED || (flags & _NRRD_RESERVED) != 0) {
-    biffAddf(NRRD, "%s: gzip compression method is not deflate", me);
+    /* (GLK) this (long-standing) biff usage is not acted on by any callers */
+    /* biffAddf(NRRD, "%s: gzip compression method is not deflate", me); */
     s->z_err = Z_DATA_ERROR;
     return;
   }
@@ -533,6 +553,7 @@ _nrrdGzCheckHeader(_NrrdGzStream *s) {
       (void)_nrrdGzGetByte(s);
   }
   s->z_err = s->z_eof ? Z_DATA_ERROR : Z_OK;
+  return;
 }
 
 /*
@@ -541,8 +562,10 @@ _nrrdGzCheckHeader(_NrrdGzStream *s) {
 ** Cleans up then free the given _NrrdGzStream. Returns a zlib error code.
 ** Try freeing in the reverse order of allocations.  FILE* s->file is not
 ** closed.  Because we didn't allocate it, we shouldn't delete it.
+**
+** Returns 1 (not an zlib error code) in case of error
 */
-static int
+static int /* Biff: 1 */
 _nrrdGzDestroy(_NrrdGzStream *s) {
   static const char me[] = "_nrrdGzDestroy";
   int error = Z_OK;
@@ -560,16 +583,18 @@ _nrrdGzDestroy(_NrrdGzStream *s) {
     }
   }
   if (error != Z_OK) {
-    biffAddf(NRRD, "%s: %s", me, _NRRD_GZ_ERR_MSG(error));
+    biffAddf(NRRD, "%s: %s (%d)", me, _NRRD_GZ_ERR_MSG(error), error);
+    return 1;
   }
-  if (s->z_err < 0) error = s->z_err;
+  if (s->z_err < 0) error = s->z_err; /* GLK is curious why */
   if (error != Z_OK) {
-    biffAddf(NRRD, "%s: %s", me, _NRRD_GZ_ERR_MSG(error));
+    biffAddf(NRRD, "%s: %s (%d)", me, _NRRD_GZ_ERR_MSG(error), error);
+    return 1;
   }
   s->inbuf = (Byte *)airFree(s->inbuf);
   s->outbuf = (Byte *)airFree(s->outbuf);
-  airFree(s); /* avoiding unused value warnings, no NULL set */
-  return error != Z_OK;
+  airFree(s);
+  return 0;
 }
 
 /*
@@ -578,7 +603,7 @@ _nrrdGzDestroy(_NrrdGzStream *s) {
 ** Flushes all pending output into the compressed file. The parameter
 ** flush is the same as in the deflate() function.
 */
-static int
+static int /* Biff: Z_STREAM_ERROR */
 _nrrdGzDoFlush(gzFile file, int flush) {
   static const char me[] = "_nrrdGzDoFlush";
   uInt len;
@@ -657,7 +682,7 @@ _nrrdGzGetLong(_NrrdGzStream *s) {
 /*
 ** random symbol to have in object file, even when Zlib not enabled
 */
-int
+int /* Biff: (private) nope */
 _nrrdGzDummySymbol(void) {
   return 42;
 }

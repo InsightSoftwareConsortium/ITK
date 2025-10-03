@@ -1,8 +1,8 @@
 /*
-  NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2013, 2012, 2011, 2010, 2009  University of Chicago
-  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
-  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
+  NrrdIO: C library for NRRD file IO (with optional compressions)
+  Copyright (C) 2009--2025  University of Chicago
+  Copyright (C) 2005--2008  Gordon Kindlmann
+  Copyright (C) 1998--2004  University of Utah
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
@@ -39,7 +39,7 @@
 ** beginning it starts (offset), the length of the "on" part (length),
 ** the period (period), and the number of periods (numper).
 */
-int
+int /* Biff: 1 */
 nrrdSlice(Nrrd *nout, const Nrrd *cnin, unsigned int saxi, size_t pos) {
   static const char me[] = "nrrdSlice", func[] = "slice";
   size_t I, rowLen, /* length of segment */
@@ -49,7 +49,7 @@ nrrdSlice(Nrrd *nout, const Nrrd *cnin, unsigned int saxi, size_t pos) {
   unsigned int ai, outdim;
   int map[NRRD_DIM_MAX];
   const char *src;
-  char *dest, stmp[2][AIR_STRLEN_SMALL];
+  char *dest, stmp[2][AIR_STRLEN_SMALL + 1];
   airArray *mop;
   Nrrd *nin;
 
@@ -152,8 +152,9 @@ nrrdSlice(Nrrd *nout, const Nrrd *cnin, unsigned int saxi, size_t pos) {
     return 1;
   }
   if (nrrdBasicInfoCopy(nout, (nin ? nin : cnin),
-                        NRRD_BASIC_INFO_DATA_BIT | NRRD_BASIC_INFO_TYPE_BIT
-                          | NRRD_BASIC_INFO_BLOCKSIZE_BIT | NRRD_BASIC_INFO_DIMENSION_BIT
+                        NRRD_BASIC_INFO_DATA_BIT /* */
+                          | NRRD_BASIC_INFO_TYPE_BIT | NRRD_BASIC_INFO_BLOCKSIZE_BIT
+                          | NRRD_BASIC_INFO_DIMENSION_BIT
                           | NRRD_BASIC_INFO_SPACEORIGIN_BIT | NRRD_BASIC_INFO_CONTENT_BIT
                           | NRRD_BASIC_INFO_COMMENTS_BIT
                           | (nrrdStateKeyValuePairsPropagate
@@ -183,10 +184,10 @@ nrrdSlice(Nrrd *nout, const Nrrd *cnin, unsigned int saxi, size_t pos) {
 ** nrrd with the same dimensions, but with equal or smaller sizes
 ** along each axis.
 */
-int
+int /* Biff: 1 */
 nrrdCrop(Nrrd *nout, const Nrrd *nin, size_t *min, size_t *max) {
   static const char me[] = "nrrdCrop", func[] = "crop";
-  char buff1[NRRD_DIM_MAX * 30], buff2[AIR_STRLEN_SMALL];
+  char buff1[NRRD_DIM_MAX * 30], buff2[AIR_STRLEN_SMALL + 1];
   unsigned int ai;
   size_t I, lineSize,   /* #bytes in one scanline to be copied */
     typeSize,           /* size of data type */
@@ -195,7 +196,7 @@ nrrdCrop(Nrrd *nout, const Nrrd *nin, size_t *min, size_t *max) {
     szIn[NRRD_DIM_MAX], szOut[NRRD_DIM_MAX], idxIn,
     idxOut,   /* linear indices for input and output */
     numLines; /* number of scanlines in output nrrd */
-  char *dataIn, *dataOut, stmp[3][AIR_STRLEN_SMALL];
+  char *dataIn, *dataOut, stmp[3][AIR_STRLEN_SMALL + 1];
 
   /* errors */
   if (!(nout && nin && min && max)) {
@@ -325,8 +326,9 @@ nrrdCrop(Nrrd *nout, const Nrrd *nin, size_t *min, size_t *max) {
     return 1;
   }
   if (nrrdBasicInfoCopy(nout, nin,
-                        NRRD_BASIC_INFO_DATA_BIT | NRRD_BASIC_INFO_TYPE_BIT
-                          | NRRD_BASIC_INFO_BLOCKSIZE_BIT | NRRD_BASIC_INFO_DIMENSION_BIT
+                        NRRD_BASIC_INFO_DATA_BIT /* */
+                          | NRRD_BASIC_INFO_TYPE_BIT | NRRD_BASIC_INFO_BLOCKSIZE_BIT
+                          | NRRD_BASIC_INFO_DIMENSION_BIT
                           | NRRD_BASIC_INFO_SPACEORIGIN_BIT | NRRD_BASIC_INFO_CONTENT_BIT
                           | NRRD_BASIC_INFO_COMMENTS_BIT
                           | (nrrdStateKeyValuePairsPropagate

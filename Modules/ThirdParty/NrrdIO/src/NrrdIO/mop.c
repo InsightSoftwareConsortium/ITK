@@ -1,8 +1,8 @@
 /*
-  NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2013, 2012, 2011, 2010, 2009  University of Chicago
-  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
-  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
+  NrrdIO: C library for NRRD file IO (with optional compressions)
+  Copyright (C) 2009--2025  University of Chicago
+  Copyright (C) 2005--2008  Gordon Kindlmann
+  Copyright (C) 1998--2004  University of Utah
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
@@ -61,7 +61,7 @@ airMopSub() and airMopUnMem were created
 #define AIR_MOP_INCR 10
 
 airArray *
-airMopNew() {
+airMopNew(void) {
 
   return airArrayNew(NULL, NULL, sizeof(airMop), AIR_MOP_INCR);
 }
@@ -254,7 +254,7 @@ airMopDebug(airArray *arr) {
   printf("airMopDebug: ^^^^^^^^^^^^^^^^^^^^^^^^^\n");
 }
 
-void
+airArray *
 airMopDone(airArray *arr, int error) {
   airMop *mops;
   unsigned int ii;
@@ -281,17 +281,17 @@ airMopDone(airArray *arr, int error) {
       printf("airMopDone(%p): done!\n", (void*)arr);
     */
   }
-  return;
+  return NULL;
 }
 
-void
+airArray *
 airMopError(airArray *arr) {
 
-  airMopDone(arr, AIR_TRUE);
+  return airMopDone(arr, AIR_TRUE);
 }
 
-void
+airArray *
 airMopOkay(airArray *arr) {
 
-  airMopDone(arr, AIR_FALSE);
+  return airMopDone(arr, AIR_FALSE);
 }

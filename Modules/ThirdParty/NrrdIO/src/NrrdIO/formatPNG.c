@@ -1,8 +1,8 @@
 /*
   NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2013, 2012, 2011, 2010, 2009  University of Chicago
-  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
-  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
+  Copyright (C) 2009--2025  University of Chicago
+  Copyright (C) 2005--2008  Gordon Kindlmann
+  Copyright (C) 1998--2004  University of Utah
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
@@ -26,21 +26,22 @@
 #include "NrrdIO.h"
 #include "privateNrrd.h"
 
-int
+static int
 _nrrdFormatPNG_available(void) {
 
   return AIR_FALSE;
 }
 
-int
+static int
 _nrrdFormatPNG_nameLooksLike(const char *filename) {
 
   return airEndsWith(filename, NRRD_EXT_PNG);
 }
 
-int
+static int /* Biff: maybe:3:AIR_FALSE */
 _nrrdFormatPNG_fitsInto(const Nrrd *nrrd, const NrrdEncoding *encoding, int useBiff) {
-  char me[] = "_nrrdFormatPNG_fitsInto", err[AIR_STRLEN_MED];
+  static const char me[] = "_nrrdFormatPNG_fitsInto";
+  char err[AIR_STRLEN_MED];
 
   AIR_UNUSED(nrrd);
   AIR_UNUSED(encoding);
@@ -50,16 +51,17 @@ _nrrdFormatPNG_fitsInto(const Nrrd *nrrd, const NrrdEncoding *encoding, int useB
   return AIR_FALSE;
 }
 
-int
+static int
 _nrrdFormatPNG_contentStartsLike(NrrdIoState *nio) {
 
   AIR_UNUSED(nio);
   return AIR_FALSE;
 }
 
-int
+static int /* Biff: 1 */
 _nrrdFormatPNG_read(FILE *file, Nrrd *nrrd, NrrdIoState *nio) {
-  char me[] = "_nrrdReadPNG", err[AIR_STRLEN_MED];
+  static const char me[] = "_nrrdFormatPNG_read";
+  char err[AIR_STRLEN_MED];
 
   AIR_UNUSED(file);
   AIR_UNUSED(nrrd);
@@ -69,9 +71,10 @@ _nrrdFormatPNG_read(FILE *file, Nrrd *nrrd, NrrdIoState *nio) {
   return 1;
 }
 
-int
+static int /* Biff: 1 */
 _nrrdFormatPNG_write(FILE *file, const Nrrd *nrrd, NrrdIoState *nio) {
-  char me[] = "_nrrdFormatPNG_write", err[AIR_STRLEN_MED];
+  static const char me[] = "_nrrdFormatPNG_write";
+  char err[AIR_STRLEN_MED];
 
   AIR_UNUSED(file);
   AIR_UNUSED(nrrd);
@@ -84,7 +87,6 @@ _nrrdFormatPNG_write(FILE *file, const Nrrd *nrrd, NrrdIoState *nio) {
 const NrrdFormat _nrrdFormatPNG = {"PNG",
                                    AIR_FALSE, /* isImage */
                                    AIR_FALSE, /* readable */
-                                   AIR_FALSE, /* usesDIO */
                                    _nrrdFormatPNG_available,
                                    _nrrdFormatPNG_nameLooksLike,
                                    _nrrdFormatPNG_fitsInto,

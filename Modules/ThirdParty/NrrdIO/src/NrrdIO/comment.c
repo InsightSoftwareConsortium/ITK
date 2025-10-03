@@ -1,8 +1,8 @@
 /*
-  NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2013, 2012, 2011, 2010, 2009  University of Chicago
-  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
-  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
+  NrrdIO: C library for NRRD file IO (with optional compressions)
+  Copyright (C) 2009--2025  University of Chicago
+  Copyright (C) 2005--2008  Gordon Kindlmann
+  Copyright (C) 1998--2004  University of Utah
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
@@ -31,20 +31,15 @@
 **
 ** Adds a given string to the list of comments
 ** Leading spaces (' ') and comment chars ('#') are not included.
-**
-** This function does NOT use biff.
 */
-int
+int /* Biff: nope */
 nrrdCommentAdd(Nrrd *nrrd, const char *_str) {
-  /* static const char me[]="nrrdCommentAdd";*/
+  /* static const char me[] = "nrrdCommentAdd";*/
   char *str;
   unsigned int ii;
 
   if (!(nrrd && _str)) {
-    /*
-    sprintf(err, "%s: got NULL pointer", me);
-    biffMaybeAdd(NRRD, err, useBiff);
-    */
+    /* got NULL pointer */
     return 1;
   }
   _str += strspn(_str, " #");
@@ -58,20 +53,14 @@ nrrdCommentAdd(Nrrd *nrrd, const char *_str) {
   }
   str = airStrdup(_str);
   if (!str) {
-    /*
-    sprintf(err, "%s: couldn't strdup given string", me);
-    biffMaybeAdd(NRRD, err, useBiff);
-    */
+    /* couldn't strdup given string */
     return 1;
   }
   /* clean out carraige returns that would screw up reader */
   airOneLinify(str);
   ii = airArrayLenIncr(nrrd->cmtArr, 1);
   if (!nrrd->cmtArr->data) {
-    /*
-    sprintf(err, "%s: couldn't lengthen comment array", me);
-    biffMaybeAdd(NRRD, err, useBiff);
-    */
+    /* couldn't lengthen comment array */
     return 1;
   }
   nrrd->cmt[ii] = str;
@@ -83,7 +72,7 @@ nrrdCommentAdd(Nrrd *nrrd, const char *_str) {
 **
 ** blows away comments, but does not blow away the comment airArray
 */
-void
+void /* Biff: nope */
 nrrdCommentClear(Nrrd *nrrd) {
 
   if (nrrd) {
@@ -96,20 +85,15 @@ nrrdCommentClear(Nrrd *nrrd) {
 **
 ** copies comments from one nrrd to another
 ** Existing comments in nout are blown away
-**
-** This does NOT use biff.
 */
-int
+int /* Biff: nope */
 nrrdCommentCopy(Nrrd *nout, const Nrrd *nin) {
-  /* static const char me[]="nrrdCommentCopy"; */
+  /* static const char me[] = "nrrdCommentCopy"; */
   int E;
   unsigned int numc, ii;
 
   if (!(nout && nin)) {
-    /*
-    sprintf(err, "%s: got NULL pointer", me);
-    biffMaybeAdd(NRRD, err, useBiff);
-    */
+    /* got NULL pointer */
     return 1;
   }
   if (nout == nin) {
@@ -123,10 +107,7 @@ nrrdCommentCopy(Nrrd *nout, const Nrrd *nin) {
     if (!E) E |= nrrdCommentAdd(nout, nin->cmt[ii]);
   }
   if (E) {
-    /*
-    sprintf(err, "%s: couldn't add all comments", me);
-    biffMaybeAdd(NRRD, err, useBiff);
-    */
+    /* couldn't add all comments */
     return 3;
   }
   return 0;

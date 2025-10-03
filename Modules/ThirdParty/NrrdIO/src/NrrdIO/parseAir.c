@@ -1,8 +1,8 @@
 /*
-  NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2013, 2012, 2011, 2010, 2009  University of Chicago
-  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
-  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
+  NrrdIO: C library for NRRD file IO (with optional compressions)
+  Copyright (C) 2009--2025  University of Chicago
+  Copyright (C) 2005--2008  Gordon Kindlmann
+  Copyright (C) 1998--2004  University of Utah
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
@@ -25,27 +25,56 @@
 
 #include "NrrdIO.h"
 
-static const char *_airBoolStr[] = {"(unknown bool)", "false", "true"};
+/* clang-format off */
+static const char *
+_airBoolStr[] = {
+  "(unknown bool)",
+  "false",
+  "true"
+};
 
-static const char *_airBoolDesc[] = {"unknown boolean", "false", "true"};
+static const char *
+_airBoolDesc[] = {
+  "unknown boolean",
+  "false",
+  "true"
+};
 
-static const int _airBoolVal[] = {-1, AIR_FALSE, AIR_TRUE};
+static const int
+_airBoolVal[] = {
+  -1,
+  AIR_FALSE,
+  AIR_TRUE
+};
 
-static const char *_airBoolStrEqv[] = {"0",    "no",   "n",  "false", "f",
-                                       "off",  "nope", "1",  "yes",   "y",
-                                       "true", "t",    "on", "yea",   ""};
+static const char *
+_airBoolStrEqv[] = {
+  "0", "no", "n", "false", "f", "off", "nope",
+  "1", "yes", "y", "true", "t", "on", "yea",
+  ""
+};
 
-static const int _airBoolValEqv[] = {AIR_FALSE, AIR_FALSE, AIR_FALSE, AIR_FALSE,
-                                     AIR_FALSE, AIR_FALSE, AIR_FALSE, AIR_TRUE,
-                                     AIR_TRUE,  AIR_TRUE,  AIR_TRUE,  AIR_TRUE,
-                                     AIR_TRUE,  AIR_TRUE};
+static const int
+_airBoolValEqv[] = {
+  AIR_FALSE, AIR_FALSE, AIR_FALSE, AIR_FALSE, AIR_FALSE, AIR_FALSE, AIR_FALSE,
+  AIR_TRUE, AIR_TRUE, AIR_TRUE, AIR_TRUE, AIR_TRUE, AIR_TRUE, AIR_TRUE
+};
 
-static const airEnum _airBool = {"boolean",      2,
-                                 _airBoolStr,    _airBoolVal,
-                                 _airBoolDesc,   _airBoolStrEqv,
-                                 _airBoolValEqv, AIR_FALSE};
+static const airEnum
+_airBool = {
+  "boolean",
+  2,
+  _airBoolStr,
+  _airBoolVal,
+  _airBoolDesc,
+  _airBoolStrEqv,
+  _airBoolValEqv,
+  AIR_FALSE
+};
 
-const airEnum *const airBool = &_airBool;
+const airEnum *const
+airBool = &_airBool;
+/* clang-format on */
 
 double
 airAtod(const char *str) {
@@ -54,6 +83,8 @@ airAtod(const char *str) {
   airSingleSscanf(str, "%lf", &val);
   return val;
 }
+
+/* NOTE: see info n air.h about TeemV2 changes to all things airType and airParse */
 
 int
 airSingleSscanf(const char *str, const char *fmt, void *ptr) {
@@ -69,14 +100,16 @@ airSingleSscanf(const char *str, const char *fmt, void *ptr) {
     }
     airToLower(tmp);
     if (strstr(tmp, "nan")) {
-      val = AIR_NAN;
+      val = (double)AIR_NAN;
     } else if (strstr(tmp, "-inf")) {
-      val = AIR_NEG_INF;
+      val = (double)AIR_NEG_INF;
     } else if (strstr(tmp, "inf")) {
-      val = AIR_POS_INF;
+      val = (double)AIR_POS_INF;
     } else {
       /* nothing special matched; pass it off to sscanf() */
+      /* (save setlocale here) */
       ret = sscanf(str, fmt, ptr);
+      /* (return setlocale here) */
       free(tmp);
       return ret;
     }
@@ -86,7 +119,7 @@ airSingleSscanf(const char *str, const char *fmt, void *ptr) {
       *((double *)(ptr)) = val;
     } else {
       /* we were given a float pointer */
-      *((float *)(ptr)) = AIR_CAST(float, val);
+      *((float *)(ptr)) = AIR_FLOAT(val);
     }
     free(tmp);
     return 1;
@@ -96,7 +129,7 @@ airSingleSscanf(const char *str, const char *fmt, void *ptr) {
     const char *chh = str; /* char here */
     while (chh) {
       int dig;
-      dig = AIR_CAST(int, *chh - '0');
+      dig = AIR_INT(*chh - '0');
       if (AIR_IN_CL(0, dig, 9)) {
         tsz = 10 * tsz + AIR_CAST(size_t, dig);
       } else {
@@ -112,8 +145,35 @@ airSingleSscanf(const char *str, const char *fmt, void *ptr) {
   }
 }
 
-#define _PARSE_STR_ARGS(type)                                                           \
-  type *out, const char *_s, const char *ct, unsigned int n, ...
+unsigned int
+airParseStrB(int *out, const char *_s, const char *ct, unsigned int n) {
+  unsigned int i;
+  char *tmp, *s, *last;
+
+  /* if we got NULL, there's nothing to do */
+  if (!(out && _s && ct)) return 0;
+
+  /* copy the input so that we don't change it */
+  s = airStrdup(_s);
+
+  /* keep calling airStrtok() until we have everything */
+  for (i = 0; i < n; i++) {
+    tmp = airStrtok(i ? NULL : s, ct, &last);
+    if (!tmp) {
+      free(s);
+      return i;
+    }
+    out[i] = airEnumVal(airBool, tmp);
+    if (airEnumUnknown(airBool) == out[i]) {
+      free(s);
+      return i;
+    }
+  }
+  free(s);
+  return n;
+}
+
+#define _PARSE_STR_ARGS(type) type *out, const char *_s, const char *ct, unsigned int n
 #define _PARSE_STR_BODY(format)                                                         \
   unsigned int i;                                                                       \
   char *tmp, *s, *last;                                                                 \
@@ -141,21 +201,25 @@ airSingleSscanf(const char *str, const char *fmt, void *ptr) {
 
 /*
 ******* airParse*()
-**
-** parse ints, floats, doubles, or single characters, from some
-** given string "s"; try to parse "n" of them, as delimited by
-** characters in "ct", and put the results in "out".
-**
-** Returns the number of things succesfully parsed- should be n;
-** there's been an error if return is < n.
-**
-** The embarrassing reason for the var-args ("...") is that I want the
-** type signature of all these functions to be the same, and I have a function
-** for parsing airEnums, in case the airEnum must be supplied as a final
-** argument.
-**
-** This uses air's thread-safe strtok() replacement: airStrtok()
+*
+* parse `n` shorts, ints, floats, doubles, or single chars, from some given string `s`;
+* the `n` of them are delimited by characters in `ct`; put the results in `out`.
+*
+* Returns the number of things succesfully parsed- should be `n`; there's been an error
+* if return is < `n`.
+*
+* This uses air's thread-safe strtok() replacement: airStrtok()
 */
+unsigned int
+airParseStrH(_PARSE_STR_ARGS(short)) {
+  _PARSE_STR_BODY("%hd")
+}
+
+unsigned int
+airParseStrUH(_PARSE_STR_ARGS(unsigned short)) {
+  _PARSE_STR_BODY("%hu")
+}
+
 unsigned int
 airParseStrI(_PARSE_STR_ARGS(int)) {
   _PARSE_STR_BODY("%d")
@@ -167,12 +231,12 @@ airParseStrUI(_PARSE_STR_ARGS(unsigned int)) {
 }
 
 unsigned int
-airParseStrLI(_PARSE_STR_ARGS(long int)) {
+airParseStrL(_PARSE_STR_ARGS(long int)) {
   _PARSE_STR_BODY("%ld")
 }
 
 unsigned int
-airParseStrULI(_PARSE_STR_ARGS(unsigned long int)) {
+airParseStrUL(_PARSE_STR_ARGS(unsigned long int)) {
   _PARSE_STR_BODY("%lu")
 }
 
@@ -192,35 +256,7 @@ airParseStrD(_PARSE_STR_ARGS(double)) {
 }
 
 unsigned int
-airParseStrB(int *out, const char *_s, const char *ct, unsigned int n, ...) {
-  unsigned int i;
-  char *tmp, *s, *last;
-
-  /* if we got NULL, there's nothing to do */
-  if (!(out && _s && ct)) return 0;
-
-  /* copy the input so that we don't change it */
-  s = airStrdup(_s);
-
-  /* keep calling airStrtok() until we have everything */
-  for (i = 0; i < n; i++) {
-    tmp = airStrtok(i ? NULL : s, ct, &last);
-    if (!tmp) {
-      free(s);
-      return i;
-    }
-    out[i] = airEnumVal(airBool, tmp);
-    if (airEnumUnknown(airBool) == out[i]) {
-      free(s);
-      return i;
-    }
-  }
-  free(s);
-  return n;
-}
-
-unsigned int
-airParseStrC(char *out, const char *_s, const char *ct, unsigned int n, ...) {
+airParseStrC(char *out, const char *_s, const char *ct, unsigned int n) {
   unsigned int i;
   char *tmp, *s, *last;
 
@@ -243,18 +279,14 @@ airParseStrC(char *out, const char *_s, const char *ct, unsigned int n, ...) {
   return n;
 }
 
+/* for TeemV2: "greedy" was a dumb idea, and is gone. It used to be passed in as the last
+ * var-args argument. In the case of n==1, if greedy than the whole string was returned,
+ * else (!greedy) airStrtok() was called */
 unsigned int
-airParseStrS(char **out, const char *_s, const char *ct, unsigned int n, ...) {
+airParseStrS(char **out, const char *_s, const char *ct, unsigned int n) {
   unsigned int i;
-  int greedy;
   char *tmp, *s, *last;
   airArray *mop;
-  va_list ap;
-
-  /* grab "greedy" every time, prior to error checking */
-  va_start(ap, n);
-  greedy = va_arg(ap, int);
-  va_end(ap);
 
   /* if we got NULL, there's nothing to do */
   if (!(out && _s && ct)) return 0;
@@ -266,10 +298,7 @@ airParseStrS(char **out, const char *_s, const char *ct, unsigned int n, ...) {
 
   /* keep calling airStrtok() until we have everything */
   for (i = 0; i < n; i++) {
-    /* if n == 1, then with greediness, the whole string is used,
-       and without greediness, we use airStrtok() to get only
-       the first part of it */
-    if (n > 1 || !greedy) {
+    if (n > 1) {
       tmp = airStrtok(i ? NULL : s, ct, &last);
     } else {
       tmp = s;
@@ -290,17 +319,14 @@ airParseStrS(char **out, const char *_s, const char *ct, unsigned int n, ...) {
 }
 
 unsigned int
-airParseStrE(int *out, const char *_s, const char *ct, unsigned int n, ...) {
+airParseStrE(int *out,
+             const char *_s,
+             const char *ct,
+             unsigned int n,
+             const airEnum *enm) {
   unsigned int i;
   char *tmp, *s, *last;
   airArray *mop;
-  va_list ap;
-  airEnum *enm;
-
-  /* grab the enum every time, prior to error checking */
-  va_start(ap, n);
-  enm = va_arg(ap, airEnum *);
-  va_end(ap);
 
   /* if we got NULL, there's nothing to do */
   if (!(out && _s && ct)) {
@@ -343,32 +369,3 @@ airParseStrE(int *out, const char *_s, const char *ct, unsigned int n, ...) {
   airMopOkay(mop);
   return n;
 }
-
-unsigned int (*airParseStr[AIR_TYPE_MAX + 1])(void *, const char *, const char *,
-                                              unsigned int, ...)
-  = {
-    NULL,
-    (unsigned int (*)(void *, const char *, const char *, unsigned int,
-                      ...))airParseStrB,
-    (unsigned int (*)(void *, const char *, const char *, unsigned int,
-                      ...))airParseStrI,
-    (unsigned int (*)(void *, const char *, const char *, unsigned int,
-                      ...))airParseStrUI,
-    (unsigned int (*)(void *, const char *, const char *, unsigned int,
-                      ...))airParseStrLI,
-    (unsigned int (*)(void *, const char *, const char *, unsigned int,
-                      ...))airParseStrULI,
-    (unsigned int (*)(void *, const char *, const char *, unsigned int,
-                      ...))airParseStrZ,
-    (unsigned int (*)(void *, const char *, const char *, unsigned int,
-                      ...))airParseStrF,
-    (unsigned int (*)(void *, const char *, const char *, unsigned int,
-                      ...))airParseStrD,
-    (unsigned int (*)(void *, const char *, const char *, unsigned int,
-                      ...))airParseStrC,
-    (unsigned int (*)(void *, const char *, const char *, unsigned int,
-                      ...))airParseStrS,
-    (unsigned int (*)(void *, const char *, const char *, unsigned int,
-                      ...))airParseStrE,
-    NULL /* no standard way of parsing type "other" */
-};

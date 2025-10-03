@@ -1,8 +1,8 @@
 /*
   NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2013, 2012, 2011, 2010, 2009  University of Chicago
-  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
-  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
+  Copyright (C) 2009--2025  University of Chicago
+  Copyright (C) 2005--2008  Gordon Kindlmann
+  Copyright (C) 1998--2004  University of Utah
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
@@ -26,48 +26,43 @@
 #include "NrrdIO.h"
 
 void
-demoIO(char *filename) {
-  char me[] = "demoIO", newname[] = "foo.nrrd", *err, *key, *val;
-  unsigned int kvn, kvi;
+demoIO(const char *fnin, const char *fnout) {
+  static const char me[] = "demoIO";
+  char *err;
   Nrrd *nin;
 
   /* create a nrrd; at this point this is just an empty container */
   nin = nrrdNew();
 
   /* read in the nrrd from file */
-  if (nrrdLoad(nin, filename, NULL)) {
+  if (nrrdLoad(nin, fnin, NULL)) {
     err = biffGetDone(NRRD);
-    fprintf(stderr, "%s: trouble reading \"%s\":\n%s", me, filename, err);
+    fprintf(stderr, "%s: trouble reading \"%s\":\n%s", me, fnin, err);
     free(err);
     return;
   }
 
-  /* say something about the array */
-  printf("%s: \"%s\" is a %d-dimensional nrrd of type %d (%s)\n", me, filename, nin->dim,
-         nin->type, airEnumStr(nrrdType, nin->type));
-  printf("%s: the array contains %d elements, each %d bytes in size\n", me,
-         (int)nrrdElementNumber(nin), (int)nrrdElementSize(nin));
+  /* say something about the array (like "unu describe" does) */
+  printf("%s: nrrdDescribeMore(%s):\n", me, fnin);
+  /* see implementation of nrrdDescribeMore in simple.c */
+  nrrdDescribeMore(stdout, nin, NULL /* prefix */, 1 /* showPtrs */,
+                   1 /* elideNonExist */, 1 /* elideUnknown */, "-=", 40);
 
-  /* print out the key/value pairs present */
-  kvn = nrrdKeyValueSize(nin);
-  if (kvn) {
-    for (kvi = 0; kvi < kvn; kvi++) {
-      nrrdKeyValueIndex(nin, &key, &val, kvi);
-      printf("%s: key:value %u = %s:%s\n", me, kvi, key, val);
-      free(key);
-      free(val);
-      key = val = NULL;
+  if (fnout) {
+    /* as an example of some API usage: modify key/value pairs, modify comments, and
+       write out the nrrd to a different file */
+    nrrdKeyValueClear(nin);
+    nrrdKeyValueAdd(nin, "new key", "precious value");
+    nrrdCommentClear(nin);
+    nrrdCommentAdd(nin, "new comment");
+    if (nrrdSave(fnout, nin, NULL)) {
+      err = biffGetDone(NRRD);
+      fprintf(stderr, "%s: trouble writing \"%s\":\n%s", me, fnout, err);
+      free(err);
+      return;
+    } else {
+      printf("%s: saved modified nrrd to \"%s\"\n", me, fnout);
     }
-  }
-
-  /* modify key/value pairs, and write out the nrrd to a different file */
-  nrrdKeyValueClear(nin);
-  nrrdKeyValueAdd(nin, "new key", "precious value");
-  if (nrrdSave(newname, nin, NULL)) {
-    err = biffGetDone(NRRD);
-    fprintf(stderr, "%s: trouble writing \"%s\":\n%s", me, newname, err);
-    free(err);
-    return;
   }
 
   /* blow away both the Nrrd struct *and* the memory at nin->data
@@ -79,8 +74,9 @@ demoIO(char *filename) {
 }
 
 int
-main(int argc, char **argv) {
-  char *err, *me;
+main(int argc, const char **argv) {
+  const char *me;
+  char *err;
   int enc, form, miss;
 
   me = argv[0];
@@ -136,12 +132,12 @@ main(int argc, char **argv) {
   }
   fprintf(stderr, "\n");
 
-  if (2 != argc) {
-    fprintf(stderr, "usage: %s <filename>\n", me);
+  if (!(2 == argc || 3 == argc)) {
+    fprintf(stderr, "usage: %s <fileIn> [<fileOut>]\n", me);
     return 1;
   }
 
-  demoIO(argv[1]);
+  demoIO(argv[1], 3 == argc ? argv[2] : NULL);
 
   return 0;
 }

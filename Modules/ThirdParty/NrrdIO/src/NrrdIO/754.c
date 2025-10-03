@@ -1,8 +1,8 @@
 /*
-  NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2013, 2012, 2011, 2010, 2009  University of Chicago
-  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
-  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
+  NrrdIO: C library for NRRD file IO (with optional compressions)
+  Copyright (C) 2009--2025  University of Chicago
+  Copyright (C) 2005--2008  Gordon Kindlmann
+  Copyright (C) 1998--2004  University of Utah
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
@@ -25,7 +25,69 @@
 
 #include "NrrdIO.h"
 #include "privateAir.h"
-#include "teemQnanhibit.h"
+
+/* clang-format off */
+static const char *_airFPClass_Str[AIR_FP_MAX+1] = {
+  "(unknown_class)",
+  "nan",
+  "pinf",
+  "ninf",
+  "pnorm",
+  "nnorm",
+  "pdenorm",
+  "ndenorm",
+  "pzero",
+  "nzero",
+};
+
+static const char *_airFPClass_Desc[AIR_FP_MAX+1] = {
+  "unknown_class",
+  "(quiet) nan",
+  "positive infinity",
+  "negative infinity",
+  "positive normalized",
+  "negative normalized",
+  "positive denormalized",
+  "negative denormalized",
+  "positive zero",
+  "negative zero",
+};
+
+static const char *_airFPClass_StrEqv[] = {
+  "nan", "qnan",
+  "pinf", "posinf", "+inf", "inf",
+  "ninf", "neginf", "-inf",
+  "pnorm", "posnorm", "+norm", "norm",
+  "nnorm", "negnorm", "-norm",
+  "pdenorm", "posdenorm", "+denorm", "denorm",
+  "ndenorm", "negdenorm", "-denorm",
+  "pzero", "+0", "+zero", "zero", "0",
+  "nzero", "-0", "-zero",
+  "",
+};
+
+static const int _airFPClass_ValEqv[] = {
+  airFP_NAN, airFP_NAN,
+  airFP_POS_INF, airFP_POS_INF, airFP_POS_INF, airFP_POS_INF,
+  airFP_NEG_INF, airFP_NEG_INF, airFP_NEG_INF,
+  airFP_POS_NORM, airFP_POS_NORM, airFP_POS_NORM, airFP_POS_NORM,
+  airFP_NEG_NORM, airFP_NEG_NORM, airFP_NEG_NORM,
+  airFP_POS_DENORM, airFP_POS_DENORM, airFP_POS_DENORM, airFP_POS_DENORM,
+  airFP_NEG_DENORM, airFP_NEG_DENORM, airFP_NEG_DENORM,
+  airFP_POS_ZERO, airFP_POS_ZERO, airFP_POS_ZERO, airFP_POS_ZERO, airFP_POS_ZERO,
+  airFP_NEG_ZERO, airFP_NEG_ZERO, airFP_NEG_ZERO,
+};
+
+static const airEnum _airFPClass_ae = {"FP_class",
+                                        AIR_FP_MAX,
+                                        _airFPClass_Str,
+                                        NULL,
+                                        _airFPClass_Desc,
+                                        _airFPClass_StrEqv,
+                                        _airFPClass_ValEqv,
+                                        AIR_FALSE};
+const airEnum *const airFPClass_ae = &_airFPClass_ae;
+/* clang-format on */
 
 /*
 ** all this is based on a reading of
@@ -40,79 +102,41 @@
 */
 
 /*
-** _airFloatEndian{Little,Big}, _airDoubleEndian{Little,Big}
-**
-** these unions facilitate converting amongst
-** i: unsigned integral type
-** c: (sign,exp,frac) triples of unsigned integral components
-** v: the floating point numbers these bit-patterns represent
-*/
-typedef union {
-  unsigned int i;
-  struct {
-    unsigned int mant : 23;
-    unsigned int expo : 8;
-    unsigned int sign : 1;
-  } c;
-  float v;
-} _airFloatEndianLittle;
-/* HEY COPY AND PASTE */
-typedef union {
-  unsigned int i;
-  struct {
-    unsigned int sign : 1;
-    unsigned int expo : 8;
-    unsigned int mant : 23;
-  } c;
-  float v;
-} _airFloatEndianBig;
-
-typedef union {
-  airULLong i;
-  /* these next two members are used for printing in airFPFprintf_d */
-  struct { /* access to whole double as two unsigned ints */
-    unsigned int half0 : 32;
-    unsigned int half1 : 32;
-  } h;
-  struct { /* access to fraction with two unsigned ints */
-    unsigned int mant1 : 32;
-    unsigned int mant0 : 20;
-    unsigned int expo : 11;
-    unsigned int sign : 1;
-  } c;
-  double v;
-} _airDoubleEndianLittle;
-/* HEY COPY AND PASTE */
-typedef union {
-  airULLong i;
-  /* these next two members are used for printing in airFPFprintf_d */
-  struct { /* access to whole double as two unsigned ints */
-    unsigned int half1 : 32;
-    unsigned int half0 : 32;
-  } h;
-  struct { /* access to fraction with two unsigned ints */
-    unsigned int sign : 1;
-    unsigned int expo : 11;
-    unsigned int mant0 : 20;
-    unsigned int mant1 : 32;
-  } c;
-  double v;
-} _airDoubleEndianBig;
-
-/*
 ** The hex numbers in braces are examples of C's "initial member of a union"
 ** aggregate initialization.
 */
 
-#if TEEM_QNANHIBIT == 1
-const int airMyQNaNHiBit = 1;
-const airFloat airFloatQNaN = {0x7fffffff};
-const airFloat airFloatSNaN = {0x7fbfffff};
-#else
-const int airMyQNaNHiBit = 0;
-const airFloat airFloatQNaN = {0x7fbfffff};
-const airFloat airFloatSNaN = {0x7fffffff};
-#endif
+/*
+With TeemV2, GLK decided to drop configuration-time learning of, and compile-time
+handling of, "QNaNHiBit": the most significant bit (MSB) of the fraction bitfield in a
+quiet (versus signalling) NaN.
+
+In ~2000 when this code was written, if you generated a NaN from scratch via floating
+point (FP) operations (e.g. create an inf by overflowing multiplication, and then divide
+inf by itself), then SGI IRIX machines would set to the MSB fraction bit to 0, rather
+than the 1 that other machines used. With the assumption that these operations should
+have created what should be a quiet NaN, GLK interpreted this as a platform dependence in
+how a quiet NaN with the same bit pattern should be created at compile time. This
+motivated handling variable QNaNHiBit at configuration time, and the associated
+complication in the code below.
+
+Now, the world now seems to agree that QNaNHiBit should be 1 (and the
+http://en.wikipedia.org/wiki/NaN#Encoding URL, noted above in the first iterations of
+754.c and which has happily remained valid over 25 years, now documents this). For
+whatever tiny extant fraction of the world wants QNaNHiBit to be 0, they may risk
+floating point signal handlers being triggered by the NaN generated here at compile
+time. Hopefully they have the wherewithal to disable those signal handlers for that
+circumstance.
+
+With the simplification of how QNaN is handled, the decision was also made to make
+"NaN" in Teem code refer to a quiet NaN, with no pretense of generating signalling
+NaNs at compile-time.  Teem has never invoked an FP signal handler, and has no reason
+to start now.  So airFloatQNaN turned into airFloatQNaN and airFloatSNaN was dropped.
+*/
+/* #if TEEM_QNANHIBIT == 1 ... (no more) */
+/* const unsigned int airMyQNaNHiBit = 1; (no more) */
+#define _QNANHIBIT 1 /* just for this file */
+const airFloat airFloatNaN = {0x7fffffff};
 
 const airFloat airFloatPosInf = {0x7f800000};
 const airFloat airFloatNegInf = {0xff800000}; /* why does solaris whine? */
@@ -137,66 +161,23 @@ extern air_export const airDouble airDoubleMin;
 #define AIR_DBL_MAX (airDoubleMax.d)
 */
 
-/* the bit-masking done here quiets gcc -Wconversion warnings */
-#define FP_SET_F(flit, fbig, s, e, m)                                                   \
-  flit.c.sign = 1u & (s);                                                               \
-  flit.c.expo = ((1u < 8) - 1) & (e);                                                   \
-  flit.c.mant = ((1u < 23) - 1) & (m);                                                  \
-  fbig.c.sign = 1u & (s);                                                               \
-  fbig.c.expo = ((1u < 8) - 1) & (e);                                                   \
-  fbig.c.mant = ((1u < 23) - 1) & (m)
+#define PARTSHIFT_F(sign, expo, mant)                                                   \
+  (((sign & 1u) << (8 + 23)) |        /* */                                             \
+   ((expo & ((1u << 8) - 1)) << 23) | /* */                                             \
+   (mant & ((1u << 23) - 1)))
 
-#define FP_GET_F(s, e, m, flit, fbig)                                                   \
-  if (airEndianLittle == airMyEndian()) {                                               \
-    (s) = flit.c.sign;                                                                  \
-    (e) = flit.c.expo;                                                                  \
-    (m) = flit.c.mant;                                                                  \
-  } else {                                                                              \
-    (s) = fbig.c.sign;                                                                  \
-    (e) = fbig.c.expo;                                                                  \
-    (m) = fbig.c.mant;                                                                  \
-  }
-
-#define FP_SET_D(dlit, dbig, s, e, m0, m1)                                              \
-  dlit.c.sign = 1u & (s);                                                               \
-  dlit.c.expo = ((1u << 11) - 1) & (e);                                                 \
-  dlit.c.mant0 = ((1u << 20) - 1) & (m0);                                               \
-  dlit.c.mant1 = (m1);                                                                  \
-  dbig.c.sign = 1u & (s);                                                               \
-  dbig.c.expo = ((1u << 11) - 1) & (e);                                                 \
-  dbig.c.mant0 = ((1u << 20) - 1) & (m0);                                               \
-  dbig.c.mant1 = (m1)
-
-#define FP_GET_D(s, e, m0, m1, dlit, dbig)                                              \
-  if (airEndianLittle == airMyEndian()) {                                               \
-    (s) = dlit.c.sign;                                                                  \
-    (e) = dlit.c.expo;                                                                  \
-    (m0) = dlit.c.mant0;                                                                \
-    (m1) = dlit.c.mant1;                                                                \
-  } else {                                                                              \
-    (s) = dbig.c.sign;                                                                  \
-    (e) = dbig.c.expo;                                                                  \
-    (m0) = dbig.c.mant0;                                                                \
-    (m1) = dbig.c.mant1;                                                                \
-  }
+#define PARTSHIFT_D(sign, expo, mant0, mant1)                                           \
+  (((sign & AIR_ULLONG(1)) << (11 + 52)) |         /* */                                \
+   ((expo & ((AIR_ULLONG(1) << 11) - 1)) << 52) |  /* */                                \
+   ((mant0 & ((AIR_ULLONG(1) << 20) - 1)) << 32) | /* */                                \
+   (mant1 & ((AIR_ULLONG(1) << 32) - 1)))
 
 float
 airFPPartsToVal_f(unsigned int sign, unsigned int expo, unsigned int mant) {
-  _airFloatEndianLittle flit;
-  _airFloatEndianBig fbig;
+  airFloat af;
 
-  FP_SET_F(flit, fbig, sign, expo, mant);
-  return (airEndianLittle == airMyEndian() ? flit.v : fbig.v);
-}
-
-void
-airFPValToParts_f(unsigned int *signP, unsigned int *expoP, unsigned int *mantP,
-                  float v) {
-  _airFloatEndianLittle flit;
-  _airFloatEndianBig fbig;
-
-  flit.v = fbig.v = v;
-  FP_GET_F(*signP, *expoP, *mantP, flit, fbig);
+  af.i = PARTSHIFT_F(sign, expo, mant);
+  return af.f;
 }
 
 double
@@ -204,33 +185,43 @@ airFPPartsToVal_d(unsigned int sign,
                   unsigned int expo,
                   unsigned int mant0,
                   unsigned int mant1) {
-  _airDoubleEndianLittle dlit;
-  _airDoubleEndianBig dbig;
+  airDouble ad;
 
-  FP_SET_D(dlit, dbig, sign, expo, mant0, mant1);
-  return (airEndianLittle == airMyEndian() ? dlit.v : dbig.v);
+  ad.i = PARTSHIFT_D(sign, expo, mant0, mant1);
+  return ad.d;
 }
 
-/*
-** Disable the 'local variable used without having been initialized'
-** warning produced by the MSVC compiler
-*/
-#ifdef _MSC_VER
-#  pragma warning(push)
-#  pragma warning(disable : 4700)
-#endif
+void
+airFPValToParts_f(unsigned int *signP, unsigned int *expoP, unsigned int *mantP,
+                  float v) {
+  airFloat af;
+  unsigned int ui;
+
+  af.f = v;
+  ui = af.i;
+  *mantP = ui & ((1u << 23) - 1);
+  ui >>= 23;
+  *expoP = ui & ((1u << 8) - 1);
+  ui >>= 8;
+  *signP = ui & 1u;
+}
+
 void
 airFPValToParts_d(unsigned int *signP, unsigned int *expoP, unsigned int *mant0P,
                   unsigned int *mant1P, double v) {
-  _airDoubleEndianLittle dlit;
-  _airDoubleEndianBig dbig;
+  airDouble ad;
+  airULLong ui;
 
-  dlit.v = dbig.v = v;
-  FP_GET_D(*signP, *expoP, *mant0P, *mant1P, dlit, dbig);
+  ad.d = v;
+  ui = ad.i;
+  *mant1P = AIR_UINT(ui & ((AIR_ULLONG(1) << 32) - 1));
+  ui >>= 32;
+  *mant0P = AIR_UINT(ui & ((AIR_ULLONG(1) << 20) - 1));
+  ui >>= 20;
+  *expoP = AIR_UINT(ui & ((AIR_ULLONG(1) << 11) - 1));
+  ui >>= 11;
+  *signP = AIR_UINT(ui & AIR_ULLONG(1));
 }
-#ifdef _MSC_VER
-#  pragma warning(pop)
-#endif
 
 /*
 ******** airFPGen_f()
@@ -239,49 +230,54 @@ airFPValToParts_d(unsigned int *signP, unsigned int *expoP, unsigned int *mant0P
 */
 float
 airFPGen_f(int cls) {
-  _airFloatEndianLittle flit;
-  _airFloatEndianBig fbig;
+  airFloat af;
+  unsigned int sign, expo, mant;
+
+#define SET_SEM(ss, ee, mm)                                                             \
+  sign = (ss);                                                                          \
+  expo = (ee);                                                                          \
+  mant = (mm)
 
   switch (cls) {
-  case airFP_SNAN:
-    /* sgn: anything, mant: anything non-zero with high bit !TEEM_QNANHIBIT */
-    FP_SET_F(flit, fbig, 0, 0xff, (!TEEM_QNANHIBIT << 22) | 0x3fffff);
-    break;
-  case airFP_QNAN:
-    /* sgn: anything, mant: anything non-zero with high bit TEEM_QNANHIBIT */
-    FP_SET_F(flit, fbig, 0, 0xff, (TEEM_QNANHIBIT << 22) | 0x3fffff);
+  case airFP_NAN:
+    /* (no separate handling of signalling NaN) */
+    SET_SEM(0, 0xff, (_QNANHIBIT << 22) | 0x3fffff);
     break;
   case airFP_POS_INF:
-    FP_SET_F(flit, fbig, 0, 0xff, 0);
+    SET_SEM(0, 0xff, 0);
     break;
   case airFP_NEG_INF:
-    FP_SET_F(flit, fbig, 1, 0xff, 0);
+    SET_SEM(1, 0xff, 0);
     break;
   case airFP_POS_NORM:
     /* exp: anything non-zero but < 0xff, mant: anything */
-    FP_SET_F(flit, fbig, 0, 0x80, 0x7ff000);
+    SET_SEM(0, 0x80, 0x7ff000);
     break;
   case airFP_NEG_NORM:
     /* exp: anything non-zero but < 0xff, mant: anything */
-    FP_SET_F(flit, fbig, 1, 0x80, 0x7ff000);
+    SET_SEM(1, 0x80, 0x7ff000);
     break;
   case airFP_POS_DENORM:
     /* mant: anything non-zero */
-    FP_SET_F(flit, fbig, 0, 0, 0xff);
+    SET_SEM(0, 0, 0xff);
     break;
   case airFP_NEG_DENORM:
     /* mant: anything non-zero */
-    FP_SET_F(flit, fbig, 1, 0, 0xff);
+    SET_SEM(1, 0, 0xff);
     break;
   case airFP_NEG_ZERO:
-    FP_SET_F(flit, fbig, 1, 0, 0);
+    SET_SEM(1, 0, 0);
     break;
   case airFP_POS_ZERO:
   default:
-    FP_SET_F(flit, fbig, 0, 0, 0);
+    SET_SEM(0, 0, 0);
     break;
   }
-  return (airEndianLittle == airMyEndian() ? flit.v : fbig.v);
+#undef SET_SEM
+  af.i = PARTSHIFT_F(sign, expo, mant);
+  /* printf("%s(0x%x, 0x%x, 0x%x) = 0x%x -> %.9g\n", __func__, sign, expo, mant, af.i,
+         af.f); */
+  return af.f;
 }
 
 /*
@@ -291,67 +287,60 @@ airFPGen_f(int cls) {
 */
 double
 airFPGen_d(int cls) {
-  _airDoubleEndianLittle dlit;
-  _airDoubleEndianBig dbig;
+  airDouble ad;
+  unsigned int sign, expo, mant0, mant1;
+
+#define SET_SEM(ss, ee, m0, m1)                                                         \
+  sign = (ss);                                                                          \
+  expo = (ee);                                                                          \
+  mant0 = (m0);                                                                         \
+  mant1 = (m1)
 
   switch (cls) {
-  case airFP_SNAN:
-    /* sgn: anything, mant: anything non-zero with high bit !TEEM_QNANHIBIT */
-    FP_SET_D(dlit, dbig, 0, 0x7ff, (!TEEM_QNANHIBIT << 19) | 0x7ffff, 0xffffffff);
-    break;
-  case airFP_QNAN:
-    /* sgn: anything, mant anything non-zero with high bit TEEM_QNANHIBIT */
-    FP_SET_D(dlit, dbig, 0, 0x7ff, (TEEM_QNANHIBIT << 19) | 0x7ffff, 0xffffffff);
+  case airFP_NAN:
+    /* (no separate handling of signalling NaN) */
+    /* sgn: anything, mant anything non-zero with high bit _QNANHIBIT */
+    SET_SEM(0, 0x7ff, (_QNANHIBIT << 19) | 0x7ffff, 0xffffffff);
     break;
   case airFP_POS_INF:
-    FP_SET_D(dlit, dbig, 0, 0x7ff, 0, 0);
+    SET_SEM(0, 0x7ff, 0, 0);
     break;
   case airFP_NEG_INF:
-    FP_SET_D(dlit, dbig, 1, 0x7ff, 0, 0);
+    SET_SEM(1, 0x7ff, 0, 0);
     break;
   case airFP_POS_NORM:
     /* exp: anything non-zero but < 0xff, mant: anything */
-    FP_SET_D(dlit, dbig, 0, 0x400, 0x0ff00, 0);
+    SET_SEM(0, 0x400, 0x0ff00, 0);
     break;
   case airFP_NEG_NORM:
     /* exp: anything non-zero but < 0xff, mant: anything */
-    FP_SET_D(dlit, dbig, 1, 0x400, 0x0ff00, 0);
+    SET_SEM(1, 0x400, 0x0ff00, 0);
     break;
   case airFP_POS_DENORM:
     /* mant: anything non-zero */
-    FP_SET_D(dlit, dbig, 0, 0, 0xff, 0);
+    SET_SEM(0, 0, 0xff, 0);
     break;
   case airFP_NEG_DENORM:
     /* mant: anything non-zero */
-    FP_SET_D(dlit, dbig, 1, 0, 0xff, 0);
+    SET_SEM(1, 0, 0xff, 0);
     break;
   case airFP_NEG_ZERO:
-    FP_SET_D(dlit, dbig, 1, 0, 0, 0);
+    SET_SEM(1, 0, 0, 0);
     break;
   case airFP_POS_ZERO:
   default:
-    FP_SET_D(dlit, dbig, 0, 0, 0, 0);
+    SET_SEM(0, 0, 0, 0);
     break;
   }
-  return (airEndianLittle == airMyEndian() ? dlit.v : dbig.v);
+#undef SET_SEM
+  ad.i = PARTSHIFT_D(sign, expo, mant0, mant1);
+  return ad.d;
 }
 
-/*
-******** airFPClass_f()
-**
-** given a floating point number, tells which class its in
-*/
-int
-airFPClass_f(float val) {
-  _airFloatEndianLittle flit;
-  _airFloatEndianBig fbig;
-  unsigned int sign, expv, mant;
-  int indexv, ret = 0;
-
-  flit.v = fbig.v = val;
-  FP_GET_F(sign, expv, mant, flit, fbig);
-  indexv = ((!!sign) << 2) | ((!!expv) << 1) | (!!mant);
-  switch (indexv) {
+static int
+wutClass(unsigned int index, int expoMax) {
+  int ret = airFP_Unknown;
+  switch (index) {
   case 0:
     /* all fields are zero */
     ret = airFP_POS_ZERO;
@@ -362,7 +351,7 @@ airFPClass_f(float val) {
     break;
   case 2:
     /* only exponent field is non-zero */
-    if (0xff == expv) {
+    if (expoMax) {
       ret = airFP_POS_INF;
     } else {
       ret = airFP_POS_NORM;
@@ -370,12 +359,9 @@ airFPClass_f(float val) {
     break;
   case 3:
     /* exponent and mantissa fields are non-zero */
-    if (0xff == expv) {
-      if (TEEM_QNANHIBIT == mant >> 22) {
-        ret = airFP_QNAN;
-      } else {
-        ret = airFP_SNAN;
-      }
+    if (expoMax) {
+      /* we don't distinguish (any longer) between qnan and snan */
+      ret = airFP_NAN;
     } else {
       ret = airFP_POS_NORM;
     }
@@ -390,36 +376,39 @@ airFPClass_f(float val) {
     break;
   case 6:
     /* sign and exponent fields are non-zero */
-    if (0xff > expv) {
-      ret = airFP_NEG_NORM;
-    } else {
+    if (expoMax) {
       ret = airFP_NEG_INF;
+    } else {
+      ret = airFP_NEG_NORM;
     }
     break;
   case 7:
     /* all fields are non-zero */
-    if (0xff > expv) {
-      ret = airFP_NEG_NORM;
+    if (expoMax) {
+      /* we don't distinguish (any longer) between qnan and snan */
+      ret = airFP_NAN;
     } else {
-      if (TEEM_QNANHIBIT == mant >> 22) {
-        ret = airFP_QNAN;
-      } else {
-        ret = airFP_SNAN;
-      }
+      ret = airFP_NEG_NORM;
     }
     break;
   }
   return ret;
 }
-
 /*
-** Disable the 'local variable used without having been initialized'
-** warning produced by the MSVC compiler
+******** airFPClass_f()
+**
+** given a floating point number, tells which class its in
 */
-#ifdef _MSC_VER
-#  pragma warning(push)
-#  pragma warning(disable : 4700)
-#endif
+int
+airFPClass_f(float val) {
+  unsigned int sign, expo, mant, indexv;
+
+  airFPValToParts_f(&sign, &expo, &mant, val);
+  /* "!" produces an int: https://en.cppreference.com/w/c/language/operator_logical */
+  indexv = (AIR_UINT(!!sign) << 2) | (AIR_UINT(!!expo) << 1) | AIR_UINT(!!mant);
+  return wutClass(indexv, 0xff == expo);
+}
+
 /*
 ******** airFPClass_d()
 **
@@ -427,84 +416,13 @@ airFPClass_f(float val) {
 */
 int
 airFPClass_d(double val) {
-  _airDoubleEndianLittle dlit;
-  _airDoubleEndianBig dbig;
-  unsigned int sign, expo, mant0, mant1;
-  int indexv, ret = 0;
-  unsigned char hibit;
+  unsigned int sign, expo, mant0, mant1, indexv;
 
-  dlit.v = dbig.v = val;
-  /* "expo = d.c.expo" had been annotated with: "this seems to be a
-     WIN32 bug: on a quiet-NaN, d.c.exp should be non-zero, but it was
-     completely zero, so that this function returned airFP_NEG_DENORM
-     instead of airFP_QNAN" */
-  FP_GET_D(sign, expo, mant0, mant1, dlit, dbig);
-  hibit = AIR_CAST(unsigned char, mant0 >> 19); /* mant0 20 bits wide: ok */
-
-  indexv = ((!!sign) << 2) | ((!!expo) << 1) | (!!mant0 || !!mant1);
-  switch (indexv) {
-  case 0:
-    /* all fields are zero */
-    ret = airFP_POS_ZERO;
-    break;
-  case 1:
-    /* only fractional field is non-zero */
-    ret = airFP_POS_DENORM;
-    break;
-  case 2:
-    /* only exponent field is non-zero */
-    if (0x7ff > expo) {
-      ret = airFP_POS_NORM;
-    } else {
-      ret = airFP_POS_INF;
-    }
-    break;
-  case 3:
-    /* exponent and fractional fields are non-zero */
-    if (0x7ff > expo) {
-      ret = airFP_POS_NORM;
-    } else {
-      if (TEEM_QNANHIBIT == hibit) {
-        ret = airFP_QNAN;
-      } else {
-        ret = airFP_SNAN;
-      }
-    }
-    break;
-  case 4:
-    /* only sign field is non-zero */
-    ret = airFP_NEG_ZERO;
-    break;
-  case 5:
-    /* sign and fractional fields are non-zero */
-    ret = airFP_NEG_DENORM;
-    break;
-  case 6:
-    /* sign and exponent fields are non-zero */
-    if (0x7ff > expo) {
-      ret = airFP_NEG_NORM;
-    } else {
-      ret = airFP_NEG_INF;
-    }
-    break;
-  case 7:
-    /* all fields are non-zero */
-    if (0x7ff > expo)
-      ret = airFP_NEG_NORM;
-    else {
-      if (TEEM_QNANHIBIT == hibit) {
-        ret = airFP_QNAN;
-      } else {
-        ret = airFP_SNAN;
-      }
-    }
-    break;
-  }
-  return ret;
+  airFPValToParts_d(&sign, &expo, &mant0, &mant1, val);
+  indexv = (AIR_UINT(!!sign) << 2) | (AIR_UINT(!!expo) << 1)
+         | (AIR_UINT(!!mant0) || AIR_UINT(!!mant1));
+  return wutClass(indexv, 0x7ff == expo);
 }
-#ifdef _MSC_VER
-#  pragma warning(pop)
-#endif
 
 /*
 ******** airIsNaN()
@@ -517,12 +435,9 @@ airFPClass_d(double val) {
 */
 int
 airIsNaN(double g) {
-  _airFloatEndianLittle flit;
-  _airFloatEndianBig fbig;
   unsigned int sign, expo, mant;
 
-  flit.v = fbig.v = AIR_CAST(float, g);
-  FP_GET_F(sign, expo, mant, flit, fbig);
+  airFPValToParts_f(&sign, &expo, &mant, AIR_FLOAT(g));
   AIR_UNUSED(sign);
   return (0xff == expo && mant);
 }
@@ -576,12 +491,13 @@ airIsInf_d(double d) {
 */
 int
 airExists(double val) {
-  _airDoubleEndianLittle dlit;
-  _airDoubleEndianBig dbig;
+  airDouble ad;
+  airULLong ui;
 
-  dbig.v = dlit.v = val;
-  return (airEndianLittle == airMyEndian() ? 0x7ff != dlit.c.expo
-                                           : 0x7ff != dbig.c.expo);
+  ad.d = val;
+  ui = ad.i;
+  ui >>= 52;
+  return 0x7ff != AIR_UINT(ui & 0x7ff);
 }
 
 /*
@@ -592,7 +508,7 @@ airExists(double val) {
 float
 airNaN(void) {
 
-  return airFPGen_f(airFP_QNAN);
+  return airFPGen_f(airFP_NAN);
 }
 
 /*
@@ -602,16 +518,16 @@ airNaN(void) {
 */
 void
 airFPFprintf_f(FILE *file, float val) {
-  int i;
+  int i, cls;
   unsigned int sign, expo, mant;
-  _airFloatEndianLittle flit;
-  _airFloatEndianBig fbig;
+  airFloat af;
 
   if (file) {
-    flit.v = fbig.v = val;
-    FP_GET_F(sign, expo, mant, flit, fbig);
-    fprintf(file, "%f: class %d; 0x%08x = ", val, airFPClass_f(val),
-            airEndianLittle == airMyEndian() ? flit.i : fbig.i);
+    af.f = val;
+    airFPValToParts_f(&sign, &expo, &mant, val);
+    cls = airFPClass_f(val);
+    fprintf(file, "%.9g (class %d=%s) 0x%08x = ", (double)val, cls,
+            airEnumStr(airFPClass_ae, cls), af.i);
     fprintf(file, "sign:0x%x, expo:0x%02x, mant:0x%06x = \n", sign, expo, mant);
     fprintf(file, " S [ . . Exp . . ] "
                   "[ . . . . . . . . . Mant. . . . . . . . . . ]\n");
@@ -633,17 +549,21 @@ airFPFprintf_f(FILE *file, float val) {
 */
 void
 airFPFprintf_d(FILE *file, double val) {
-  int i;
-  _airDoubleEndianLittle dlit;
-  _airDoubleEndianBig dbig;
-  unsigned int sign, expo, mant0, mant1;
+  int i, cls;
+  unsigned int sign, expo, mant0, mant1, half0, half1;
+  airDouble ad;
+  airULLong ui;
 
   if (file) {
-    dlit.v = dbig.v = val;
-    fprintf(file, "%f: class %d; 0x%08x %08x = \n", val, airFPClass_d(val),
-            (airEndianLittle == airMyEndian() ? dlit.h.half1 : dbig.h.half1),
-            (airEndianLittle == airMyEndian() ? dlit.h.half0 : dbig.h.half0));
-    FP_GET_D(sign, expo, mant0, mant1, dlit, dbig);
+    ad.d = val;
+    ui = ad.i;
+    half1 = AIR_UINT(ui & 0xffffffff);
+    ui >>= 32;
+    half0 = AIR_UINT(ui & 0xffffffff);
+    cls = airFPClass_d(val);
+    fprintf(file, "%.17g (class %d=%s) 0x%08x %08x = \n", val, cls,
+            airEnumStr(airFPClass_ae, cls), half0, half1);
+    airFPValToParts_d(&sign, &expo, &mant0, &mant1, val);
     fprintf(file, "sign:0x%x, expo:0x%03x, mant:0x%05x %08x = \n", sign, expo, mant0,
             mant1);
     fprintf(file, "S[...Exp...][.......................Mant.......................]\n");

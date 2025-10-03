@@ -1,8 +1,8 @@
 /*
-  NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2013, 2012, 2011, 2010, 2009  University of Chicago
-  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
-  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
+  NrrdIO: C library for NRRD file IO (with optional compressions)
+  Copyright (C) 2009--2025  University of Chicago
+  Copyright (C) 2005--2008  Gordon Kindlmann
+  Copyright (C) 1998--2004  University of Utah
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
@@ -25,9 +25,11 @@
 
 #include "NrrdIO.h"
 
-/* this has to default to false in order for airStrtok to be a
-   functional substitute for strtok() */
-int airStrtokQuoting = AIR_FALSE;
+/* removed for TeemV2:
+ *  / * this has to default to false in order for airStrtok to be a
+ *    functional substitute for strtok() * /
+ *  int airStrtokQuoting = AIR_FALSE;
+ */
 
 /*
 ******** airStrdup()
@@ -69,17 +71,18 @@ airStrlen(const char *s) {
 
 /*
 ******** airStrtok()
-**
-** thread-safe strtok() replacement.  Use just like strtok(), but on
-** each call to parse a given string, pass as the last argument the
-** address of a char*, to be used for saving state while the string is
-** traversed.  Like strtok(), this will alter the "s" array passed to
-** it on the first call, and like strtok(), this returns pointers into
-** this string (rather than allocating new strings for each token).
+*
+* thread-safe strtok() replacement.  Use just like strtok(), but on each call to parse a
+* given string, pass as the last argument the address of a char*, to be used for saving
+* state while the string is traversed.  Like strtok(), this will alter the "s" array
+* passed to it on the first call, and like strtok(), this returns pointers into this
+* string (rather than allocating new strings for each token).
+*
+* NOTE: TeemV2 removed global airStrtokQuoting and the code in here that used it.
 */
 char *
 airStrtok(char *s, const char *ct, char **last) {
-  char *h, *e, *q;
+  char *h, *e;
 
   if (!(ct && last)) {
     /* can't do any work, bail */
@@ -88,24 +91,7 @@ airStrtok(char *s, const char *ct, char **last) {
   h = s ? s : *last;
   if (!airStrlen(h)) return NULL;
   h += strspn(h, ct);
-  if ('\"' == *h && airStrtokQuoting) {
-    /* something is trying to be quoted, and, we'll respect that */
-    /* have to find the next un-escaped '\"' */
-    h++;
-    q = h;
-    while (*q && !('\"' == *q && '\\' != q[-1])) {
-      q++;
-    }
-    if (*q) {
-      /* we found an unescaped '\"' */
-      e = q;
-    } else {
-      /* give up; pretend we never tried to do this quoting stuff */
-      e = h + strcspn(h, ct);
-    }
-  } else {
-    e = h + strcspn(h, ct);
-  }
+  e = h + strcspn(h, ct);
   if ('\0' == *e) {
     *last = e;
   } else {
@@ -158,14 +144,14 @@ airStrtrans(char *s, char from, char to) {
 **
 ** Like strncpy but logic is different (and perhaps more useful), being:
 ** "dst is allocated for dstSize chars. Copy as much of src as can
-** "fit in dst, and always 0-terminate the resulting dst.",
+** fit in dst, while always 0-terminating the resulting dst.",
 ** instead of strncpy's "Copy at most n characters, blah blah blah,
 ** and you still have to 0-terminate the rest yourself".
 **
-** E.g. with declaration buff[AIR_STRLEN_SMALL], you call
-** airStrcpy(buff, AIR_STRLEN_SMALL, src), and know that then
-** strlen(buff) <= AIR_STRLEN_SMALL-1. (see note in air.h about
-** the meaning of the STRLEN #defines).
+** E.g. with declaration buff[AIR_STRLEN_SMALL+1], you call
+** airStrcpy(buff, AIR_STRLEN_SMALL+1, src), and know then that
+** strlen(buff) will not run off the end of the buffer, and that
+** strlen(buff) <= AIR_STRLEN_SMALL.
 **
 ** Returns NULL if there was a problem (NULL dst or dstSize zero),
 ** otherwise returns dst
@@ -210,7 +196,8 @@ airEndsWith(const char *s, const char *suff) {
 /*
 ******** airUnescape()
 **
-** unescapes \\ and \n in place in a given string.
+** unescapes \\ and \n in place in a given string, which is the only form of
+** escaping supported by key/value pairs in NRRD headers.
 ** Always returns the same pointer as given
 */
 char *
@@ -263,17 +250,19 @@ airOneLinify(char *s) {
   if (!len) return s;
 
   /* convert white space to space (' '), and delete unprintables */
-  for (i = 0; i < len && s[i]; i++) {
-    if (isspace(AIR_CAST(int, s[i]))) {
+  for (i = 0; i < len; i++) {
+    if (isspace(AIR_INT(s[i]))) {
       s[i] = ' ';
       continue;
     }
-    if (!isprint(AIR_CAST(int, s[i]))) {
+    if (!isprint(AIR_INT(s[i]))) {
       for (j = i; j < len; j++) {
         /* this will copy the '\0' at the end */
         s[j] = s[j + 1];
       }
       i--;
+      /* string got shorter (prevent ininite loop) */
+      len--;
       continue;
     }
   }

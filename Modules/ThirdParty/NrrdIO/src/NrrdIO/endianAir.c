@@ -1,8 +1,8 @@
 /*
-  NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2013, 2012, 2011, 2010, 2009  University of Chicago
-  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
-  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
+  NrrdIO: C library for NRRD file IO (with optional compressions)
+  Copyright (C) 2009--2025  University of Chicago
+  Copyright (C) 2005--2008  Gordon Kindlmann
+  Copyright (C) 1998--2004  University of Utah
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
@@ -53,18 +53,38 @@ airMyEndian(void) {
   return ret;
 }
 
-static const char *_airEndianStr[] = {"(unknown endian)", "little", "big"};
+/* clang-format off */
+static const char *
+_airEndianStr[] = {
+  "(unknown endian)",
+  "little",
+  "big"
+};
 
-static const char *_airEndianDesc[] = {"unknown endianness", "Intel and compatible",
-                                       "Everyone besides Intel and compatible"};
+static const char *
+_airEndianDesc[] = {
+  "unknown endianness",
+  "Intel and compatible",
+  "Everyone besides Intel and compatible"
+};
 
-static const int _airEndianVal[] = {
+static const int
+_airEndianVal[] = {
   airEndianUnknown,
   airEndianLittle,
   airEndianBig,
 };
 
-static const airEnum _airEndian = {"endian",       2,    _airEndianStr, _airEndianVal,
-                                   _airEndianDesc, NULL, NULL,          AIR_FALSE};
+static const airEnum
+_airEndian = {
+  "endian",
+  2,
+  _airEndianStr, _airEndianVal,
+  _airEndianDesc,
+  NULL, NULL,
+  AIR_FALSE
+};
 
-const airEnum *const airEndian = &_airEndian;
+const airEnum *const
+airEndian = &_airEndian;
+/* clang-format on */

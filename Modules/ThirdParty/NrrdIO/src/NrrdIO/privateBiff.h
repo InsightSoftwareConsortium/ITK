@@ -1,8 +1,8 @@
 /*
-  NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2013, 2012, 2011, 2010, 2009  University of Chicago
-  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
-  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
+  NrrdIO: C library for NRRD file IO (with optional compressions)
+  Copyright (C) 2009--2025  University of Chicago
+  Copyright (C) 2005--2008  Gordon Kindlmann
+  Copyright (C) 1998--2004  University of Utah
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
@@ -28,18 +28,29 @@ extern "C" {
 #endif
 
 /*
-** This private header exists because these functions are used in
-** the biff sources, but no where else.  Also, they take a va_list,
-** which is unusual, and (currently) used for no other public functions
-** in Teem.  Use of va_list args complicates python wrapping (at least
-** with the current ctypeslib mechanism), so these functions are being
-** taken out of the public API.
+** This private header was created because the following two "VL" functions are used
+** only within in the biff sources. They take a va_list, which is unusual, and
+** (currently) used for no other public functions in Teem.
+**
+** Furthermore, pre-1.13 release it became apparent that nothing else in Teem (outside
+** of biff) was using any biffMsg anything, so these were also all moved to here,
+** though out of laziness no _ prefix was added (as is expected of "private" text
+** symbols in the library)
 */
 
 /* biffmsg.c */
 extern void _biffMsgAddVL(biffMsg *msg, const char *errfmt, va_list args);
 extern void _biffMsgMoveVL(biffMsg *dest, biffMsg *src, const char *errfmt,
                            va_list args);
+
+extern biffMsg *biffMsgNew(const char *key);
+extern biffMsg *biffMsgNix(biffMsg *msg);
+extern void biffMsgAdd(biffMsg *msg, const char *err);
+extern void biffMsgClear(biffMsg *msg);
+extern void biffMsgMove(biffMsg *dest, biffMsg *src, const char *err);
+extern unsigned int biffMsgErrNum(const biffMsg *msg);
+extern unsigned int biffMsgStrlen(const biffMsg *msg);
+extern void biffMsgStrSet(char *ret, const biffMsg *msg);
 
 #ifdef __cplusplus
 }

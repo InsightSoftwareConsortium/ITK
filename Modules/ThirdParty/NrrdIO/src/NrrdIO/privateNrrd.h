@@ -1,8 +1,8 @@
 /*
-  NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2013, 2012, 2011, 2010, 2009  University of Chicago
-  Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
-  Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
+  NrrdIO: C library for NRRD file IO (with optional compressions)
+  Copyright (C) 2009--2025  University of Chicago
+  Copyright (C) 2005--2008  Gordon Kindlmann
+  Copyright (C) 1998--2004  University of Utah
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any
@@ -78,8 +78,8 @@ extern int _nrrdKeyValueWrite(FILE *file, char **stringP, const char *prefix,
                               const char *key, const char *value);
 
 /* formatXXX.c */
-extern const char *_nrrdFormatURLLine0;
-extern const char *_nrrdFormatURLLine1;
+extern const char *const _nrrdFormatURLLine0;
+extern const char *const _nrrdFormatURLLine1;
 extern const NrrdFormat _nrrdFormatNRRD;
 extern const NrrdFormat _nrrdFormatPNM;
 extern const NrrdFormat _nrrdFormatPNG;
@@ -95,16 +95,12 @@ extern const NrrdEncoding _nrrdEncodingAscii;
 extern const NrrdEncoding _nrrdEncodingHex;
 extern const NrrdEncoding _nrrdEncodingGzip;
 extern const NrrdEncoding _nrrdEncodingBzip2;
-
-/* read.c */
-extern int _nrrdCalloc(Nrrd *nrrd, NrrdIoState *nio, FILE *file);
-extern char _nrrdFieldSep[];
+extern const NrrdEncoding _nrrdEncodingZRL;
 
 /* arrays.c */
 extern const int _nrrdFieldValidInImage[NRRD_FIELD_MAX + 1];
 extern const int _nrrdFieldValidInText[NRRD_FIELD_MAX + 1];
 extern const int _nrrdFieldOnePerAxis[NRRD_FIELD_MAX + 1];
-extern const char _nrrdEnumFieldStr[NRRD_FIELD_MAX + 1][AIR_STRLEN_SMALL];
 extern const int _nrrdFieldRequired[NRRD_FIELD_MAX + 1];
 
 /* simple.c */
@@ -113,7 +109,7 @@ extern int _nrrdContentSet_nva(Nrrd *nout, const char *func, char *content,
                                const char *format, va_list arg);
 extern int _nrrdContentSet_va(Nrrd *nout, const char *func, char *content,
                               const char *format, ...);
-extern int (*_nrrdFieldCheck[NRRD_FIELD_MAX + 1])(const Nrrd *nrrd, int useBiff);
+extern int (*const _nrrdFieldCheck[NRRD_FIELD_MAX + 1])(const Nrrd *nrrd, int useBiff);
 extern void _nrrdSplitSizes(size_t *pieceSize, size_t *pieceNum, Nrrd *nrrd,
                             unsigned int listDim);
 
@@ -126,29 +122,28 @@ extern int _nrrdCenter(int center);
 extern int _nrrdCenter2(int center, int def);
 
 /* read.c */
-extern char _nrrdFieldStr[NRRD_FIELD_MAX + 1][AIR_STRLEN_SMALL];
-extern char _nrrdRelativePathFlag[];
-extern char _nrrdFieldSep[];
-extern char _nrrdNoSpaceVector[];
-extern char _nrrdTextSep[];
+extern const char *const _nrrdFieldSep;
+extern const char *const _nrrdTextSep;
+extern const char *const _nrrdNoSpaceVector;
+extern int _nrrdCharIsFieldSep(char cc);
+extern int _nrrdByteSkipSkip(FILE *dataFile, Nrrd *nrrd, NrrdIoState *nio,
+                             long int byteSkip);
+extern int _nrrdCalloc(Nrrd *nrrd, NrrdIoState *nio);
 extern void _nrrdSplitName(char **dirP, char **baseP, const char *name);
 
 /* write.c */
 extern int _nrrdFieldInteresting(const Nrrd *nrrd, NrrdIoState *nio, int field);
 extern void _nrrdSprintFieldInfo(char **strP, const char *prefix, const Nrrd *nrrd,
-                                 NrrdIoState *nio, int field);
+                                 NrrdIoState *nio, int field, int dropAxis0);
 extern void _nrrdFprintFieldInfo(FILE *file, const char *prefix, const Nrrd *nrrd,
-                                 NrrdIoState *nio, int field);
+                                 NrrdIoState *nio, int field, int dropAxis0);
 
 /* parseNrrd.c */
 extern int _nrrdReadNrrdParseField(NrrdIoState *nio, int useBiff);
 
 /* methodsNrrd.c */
-extern void nrrdPeripheralInit(Nrrd *nrrd);
-extern int nrrdPeripheralCopy(Nrrd *nout, const Nrrd *nin);
 extern int _nrrdCopy(Nrrd *nout, const Nrrd *nin, int bitflag);
 extern int _nrrdSizeCheck(const size_t *size, unsigned int dim, int useBiff);
-extern void _nrrdTraverse(Nrrd *nrrd);
 extern int _nrrdMaybeAllocMaybeZero_nva(Nrrd *nrrd, int type, unsigned int dim,
                                         const size_t *size, int zeroWhenNoAlloc);
 
@@ -156,7 +151,11 @@ extern int _nrrdMaybeAllocMaybeZero_nva(Nrrd *nrrd, int type, unsigned int dim,
 #  if TEEM_VTK_MANGLE
 #    include "vtk_zlib_mangle.h"
 #  endif
-#  include "itk_zlib.h"
+#  if TEEM_ITK_MANGLE
+#    include "itk_zlib.h"
+#  else
+#    include "zlib.h"
+#  endif
 
 /* gzio.c */
 extern gzFile _nrrdGzOpen(FILE *fd, const char *mode);
@@ -164,6 +163,8 @@ extern int _nrrdGzClose(gzFile file);
 extern int _nrrdGzRead(gzFile file, void *buf, unsigned int len, unsigned int *read);
 extern int _nrrdGzWrite(gzFile file, const void *buf, unsigned int len,
                         unsigned int *written);
+#else
+extern int _nrrdGzDummySymbol(void);
 #endif
 
 #ifdef __cplusplus
