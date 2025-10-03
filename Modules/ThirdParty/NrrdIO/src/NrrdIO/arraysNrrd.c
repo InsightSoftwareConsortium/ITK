@@ -30,8 +30,7 @@
 const int blah[] array in an object file if it hasn't been declared
 as "extern" */
 
-const char
-nrrdTypePrintfStr[NRRD_TYPE_MAX+1][AIR_STRLEN_SMALL] = {
+const char nrrdTypePrintfStr[NRRD_TYPE_MAX + 1][AIR_STRLEN_SMALL] = {
   "%*d",          /* nrrdTypeUnknown: what else?  the effect will be
                     "skip" for sscanf, and "minimum precision" for printf */
   "%d",           /* nrrdTypeChar: char */
@@ -50,52 +49,49 @@ nrrdTypePrintfStr[NRRD_TYPE_MAX+1][AIR_STRLEN_SMALL] = {
 /*
 ** the setting of NRRD_TYPE_BIGGEST has to be in accordance with this
 */
-const size_t
-nrrdTypeSize[NRRD_TYPE_MAX+1] = {
-  0,  /* nrrdTypeUnknown: unknown */
-  1,  /* nrrdTypeChar: char */
-  1,  /* nrrdTypeUChar: unsigned char */
-  2,  /* nrrdTypeShort: short */
-  2,  /* nrrdTypeUShort: unsigned short */
-  4,  /* nrrdTypeInt: int */
-  4,  /* nrrdTypeUInt: unsigned int */
-  8,  /* nrrdTypeLLong: long long */
-  8,  /* nrrdTypeULLong: unsigned long long */
-  4,  /* nrrdTypeFloat: float */
-  8,  /* nrrdTypeDouble: double */
-  0   /* nrrdTypeBlock: effectively unknown; user has to set explicitly */
+const size_t nrrdTypeSize[NRRD_TYPE_MAX + 1] = {
+  0, /* nrrdTypeUnknown: unknown */
+  1, /* nrrdTypeChar: char */
+  1, /* nrrdTypeUChar: unsigned char */
+  2, /* nrrdTypeShort: short */
+  2, /* nrrdTypeUShort: unsigned short */
+  4, /* nrrdTypeInt: int */
+  4, /* nrrdTypeUInt: unsigned int */
+  8, /* nrrdTypeLLong: long long */
+  8, /* nrrdTypeULLong: unsigned long long */
+  4, /* nrrdTypeFloat: float */
+  8, /* nrrdTypeDouble: double */
+  0  /* nrrdTypeBlock: effectively unknown; user has to set explicitly */
 };
 
-const int
-nrrdTypeIsIntegral[NRRD_TYPE_MAX+1] = {
-  0,  /* nrrdTypeUnknown: unknown */
-  1,  /* nrrdTypeChar: char */
-  1,  /* nrrdTypeUChar: unsigned char */
-  1,  /* nrrdTypeShort: short */
-  1,  /* nrrdTypeUShort: unsigned short */
-  1,  /* nrrdTypeInt: int */
-  1,  /* nrrdTypeUInt: unsigned int */
-  1,  /* nrrdTypeLLong: long long */
-  1,  /* nrrdTypeULLong: unsigned long long */
-  0,  /* nrrdTypeFloat: float */
-  0,  /* nrrdTypeDouble: double */
-  1   /* nrrdTypeBlock: for some reason we pretend that blocks are integers */
+const int nrrdTypeIsIntegral[NRRD_TYPE_MAX + 1] = {
+  0, /* nrrdTypeUnknown: unknown */
+  1, /* nrrdTypeChar: char */
+  1, /* nrrdTypeUChar: unsigned char */
+  1, /* nrrdTypeShort: short */
+  1, /* nrrdTypeUShort: unsigned short */
+  1, /* nrrdTypeInt: int */
+  1, /* nrrdTypeUInt: unsigned int */
+  1, /* nrrdTypeLLong: long long */
+  1, /* nrrdTypeULLong: unsigned long long */
+  0, /* nrrdTypeFloat: float */
+  0, /* nrrdTypeDouble: double */
+  1  /* nrrdTypeBlock: for some reason we pretend that blocks are integers */
 };
 
-const int
-nrrdTypeIsUnsigned[NRRD_TYPE_MAX+1] = {
-  0,  /* nrrdTypeUnknown: unknown */
-  0,  /* nrrdTypeChar: char */
-  1,  /* nrrdTypeUChar: unsigned char */
-  0,  /* nrrdTypeShort: short */
-  1,  /* nrrdTypeUShort: unsigned short */
-  0,  /* nrrdTypeInt: int */
-  1,  /* nrrdTypeUInt: unsigned int */
-  0,  /* nrrdTypeLLong: long long */
-  1,  /* nrrdTypeULLong: unsigned long long */
-  0,  /* nrrdTypeFloat: float */
-  0,  /* nrrdTypeDouble: double */
-  0   /* nrrdTypeBlock: for some reason we pretend that blocks are signed */
+const int nrrdTypeIsUnsigned[NRRD_TYPE_MAX + 1] = {
+  0, /* nrrdTypeUnknown: unknown */
+  0, /* nrrdTypeChar: char */
+  1, /* nrrdTypeUChar: unsigned char */
+  0, /* nrrdTypeShort: short */
+  1, /* nrrdTypeUShort: unsigned short */
+  0, /* nrrdTypeInt: int */
+  1, /* nrrdTypeUInt: unsigned int */
+  0, /* nrrdTypeLLong: long long */
+  1, /* nrrdTypeULLong: unsigned long long */
+  0, /* nrrdTypeFloat: float */
+  0, /* nrrdTypeDouble: double */
+  0  /* nrrdTypeBlock: for some reason we pretend that blocks are signed */
 };
 
 /*
@@ -145,8 +141,7 @@ nrrdTypeMax[NRRD_TYPE_MAX+1] = {
 ** This does NOT include the fields who's values are constrained
 ** by the image format (and in the case of PNM, magic) itself.
 */
-const int
-_nrrdFieldValidInImage[NRRD_FIELD_MAX+1] = {
+const int _nrrdFieldValidInImage[NRRD_FIELD_MAX + 1] = {
   0, /* nrrdField_unknown */
   1, /* nrrdField_comment */
   1, /* nrrdField_content */
@@ -187,8 +182,7 @@ _nrrdFieldValidInImage[NRRD_FIELD_MAX+1] = {
 **
 ** whether or not you need one value per axis, like labels and spacings
 */
-const int
-_nrrdFieldOnePerAxis[NRRD_FIELD_MAX+1] = {
+const int _nrrdFieldOnePerAxis[NRRD_FIELD_MAX + 1] = {
   0, /* nrrdField_unknown */
   0, /* nrrdField_comment */
   0, /* nrrdField_content */
@@ -231,8 +225,7 @@ _nrrdFieldOnePerAxis[NRRD_FIELD_MAX+1] = {
 ** This does NOT include the fields who's values are constrained
 ** the plain text format itself.
 */
-const int
-_nrrdFieldValidInText[NRRD_FIELD_MAX+1] = {
+const int _nrrdFieldValidInText[NRRD_FIELD_MAX + 1] = {
   0, /* nrrdField_unknown */
   1, /* nrrdField_comment */
   1, /* nrrdField_content */
@@ -275,8 +268,7 @@ _nrrdFieldValidInText[NRRD_FIELD_MAX+1] = {
 ** regardless of whether its a nrrd, PNM, or plain text, these things
 ** need to be conveyed, either explicity or implicitly
 */
-const int
-_nrrdFieldRequired[NRRD_FIELD_MAX+1] = {
+const int _nrrdFieldRequired[NRRD_FIELD_MAX + 1] = {
   0, /* "Ernesto \"Che\" Guevara" */
   0, /* "#" */
   0, /* nrrdField_content */
@@ -311,4 +303,3 @@ _nrrdFieldRequired[NRRD_FIELD_MAX+1] = {
   0, /* nrrdField_measurement_frame */
   0  /* nrrdField_data file */
 };
-

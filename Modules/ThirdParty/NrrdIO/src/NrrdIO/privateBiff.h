@@ -23,7 +23,6 @@
   3. This notice may not be removed or altered from any source distribution.
 */
 
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -39,8 +38,8 @@ extern "C" {
 
 /* biffmsg.c */
 extern void _biffMsgAddVL(biffMsg *msg, const char *errfmt, va_list args);
-extern void _biffMsgMoveVL(biffMsg *dest, biffMsg *src,
-                           const char *errfmt, va_list args);
+extern void _biffMsgMoveVL(biffMsg *dest, biffMsg *src, const char *errfmt,
+                           va_list args);
 
 #ifdef __cplusplus
 }

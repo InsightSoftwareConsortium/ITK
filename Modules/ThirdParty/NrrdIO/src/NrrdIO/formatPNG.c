@@ -39,18 +39,15 @@ _nrrdFormatPNG_nameLooksLike(const char *filename) {
 }
 
 int
-_nrrdFormatPNG_fitsInto(const Nrrd *nrrd, const NrrdEncoding *encoding,
-                        int useBiff) {
-  char me[]="_nrrdFormatPNG_fitsInto", err[AIR_STRLEN_MED];
+_nrrdFormatPNG_fitsInto(const Nrrd *nrrd, const NrrdEncoding *encoding, int useBiff) {
+  char me[] = "_nrrdFormatPNG_fitsInto", err[AIR_STRLEN_MED];
 
   AIR_UNUSED(nrrd);
   AIR_UNUSED(encoding);
   AIR_UNUSED(useBiff);
-  sprintf(err, "%s: Sorry, %s format not available in NrrdIO",
-          me, nrrdFormatPNG->name);
+  sprintf(err, "%s: Sorry, %s format not available in NrrdIO", me, nrrdFormatPNG->name);
   biffMaybeAdd(NRRD, err, useBiff);
   return AIR_FALSE;
-
 }
 
 int
@@ -58,48 +55,41 @@ _nrrdFormatPNG_contentStartsLike(NrrdIoState *nio) {
 
   AIR_UNUSED(nio);
   return AIR_FALSE;
-
 }
 
 int
 _nrrdFormatPNG_read(FILE *file, Nrrd *nrrd, NrrdIoState *nio) {
-  char me[]="_nrrdReadPNG", err[AIR_STRLEN_MED];
+  char me[] = "_nrrdReadPNG", err[AIR_STRLEN_MED];
 
   AIR_UNUSED(file);
   AIR_UNUSED(nrrd);
   AIR_UNUSED(nio);
-  sprintf(err, "%s: Sorry, %s format not available in NrrdIO",
-          me, nrrdFormatPNG->name);
+  sprintf(err, "%s: Sorry, %s format not available in NrrdIO", me, nrrdFormatPNG->name);
   biffAdd(NRRD, err);
   return 1;
 }
 
 int
 _nrrdFormatPNG_write(FILE *file, const Nrrd *nrrd, NrrdIoState *nio) {
-  char me[]="_nrrdFormatPNG_write", err[AIR_STRLEN_MED];
+  char me[] = "_nrrdFormatPNG_write", err[AIR_STRLEN_MED];
 
   AIR_UNUSED(file);
   AIR_UNUSED(nrrd);
   AIR_UNUSED(nio);
-  sprintf(err, "%s: Sorry, %s format not available in NrrdIO",
-          me, nrrdFormatPNG->name);
+  sprintf(err, "%s: Sorry, %s format not available in NrrdIO", me, nrrdFormatPNG->name);
   biffAdd(NRRD, err);
   return 1;
 }
 
-const NrrdFormat
-_nrrdFormatPNG = {
-  "PNG",
-  AIR_FALSE,  /* isImage */
-  AIR_FALSE,  /* readable */
-  AIR_FALSE,  /* usesDIO */
-  _nrrdFormatPNG_available,
-  _nrrdFormatPNG_nameLooksLike,
-  _nrrdFormatPNG_fitsInto,
-  _nrrdFormatPNG_contentStartsLike,
-  _nrrdFormatPNG_read,
-  _nrrdFormatPNG_write
-};
+const NrrdFormat _nrrdFormatPNG = {"PNG",
+                                   AIR_FALSE, /* isImage */
+                                   AIR_FALSE, /* readable */
+                                   AIR_FALSE, /* usesDIO */
+                                   _nrrdFormatPNG_available,
+                                   _nrrdFormatPNG_nameLooksLike,
+                                   _nrrdFormatPNG_fitsInto,
+                                   _nrrdFormatPNG_contentStartsLike,
+                                   _nrrdFormatPNG_read,
+                                   _nrrdFormatPNG_write};
 
-const NrrdFormat *const
-nrrdFormatPNG = &_nrrdFormatPNG;
+const NrrdFormat *const nrrdFormatPNG = &_nrrdFormatPNG;
