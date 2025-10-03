@@ -1,6 +1,6 @@
 /*
   NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2013, 2012, 2011, 2010, 2009  University of Chicago
+  Copyright (C) 2009--2020  University of Chicago
   Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
   Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
 
@@ -42,6 +42,7 @@
 
 int nrrdDefaultWriteEncodingType = nrrdEncodingTypeRaw;
 int nrrdDefaultWriteBareText = AIR_TRUE;
+int nrrdDefaultWriteMoreThanFloatInText = AIR_FALSE;
 unsigned int nrrdDefaultWriteCharsPerLine = 75;
 unsigned int nrrdDefaultWriteValsPerLine = 8;
 int nrrdDefaultCenter = nrrdCenterCell;
@@ -66,15 +67,15 @@ int nrrdStateKeyValueReturnInternalPointers = AIR_FALSE;
 int nrrdStateKindNoop = AIR_FALSE;
 
 /* these are helper functions for min/max testing */
-airLLong
+airLLong /* Biff: (private) nope */
 _nrrdLLongMaxHelp(airLLong val) {
   return val * 2 + 1;
 }
-airLLong
+airLLong /* Biff: (private) nope */
 _nrrdLLongMinHelp(airLLong val) {
   return val * 2;
 }
-airULLong
+airULLong /* Biff: (private) nope */
 _nrrdULLongMaxHelp(airULLong val) {
   return val + 1;
 }
