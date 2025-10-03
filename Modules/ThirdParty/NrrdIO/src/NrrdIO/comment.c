@@ -52,8 +52,7 @@ nrrdCommentAdd(Nrrd *nrrd, const char *_str) {
     /* we don't bother adding comments with no length */
     return 0;
   }
-  if (!strcmp(_str, _nrrdFormatURLLine0)
-      || !strcmp(_str, _nrrdFormatURLLine1)) {
+  if (!strcmp(_str, _nrrdFormatURLLine0) || !strcmp(_str, _nrrdFormatURLLine1)) {
     /* sneaky hack: don't store the format URL comment lines */
     return 0;
   }
@@ -120,7 +119,7 @@ nrrdCommentCopy(Nrrd *nout, const Nrrd *nin) {
   nrrdCommentClear(nout);
   numc = nin->cmtArr->len;
   E = 0;
-  for (ii=0; ii<numc; ii++) {
+  for (ii = 0; ii < numc; ii++) {
     if (!E) E |= nrrdCommentAdd(nout, nin->cmt[ii]);
   }
   if (E) {

@@ -57,69 +57,69 @@
 
 #if TEEM_ZLIB
 
-#include "NrrdIO.h"
-#include "privateNrrd.h"
+#  include "NrrdIO.h"
+#  include "privateNrrd.h"
 
-#ifdef _WIN32 /* Window 95 & Windows NT */
-#  define _NRRD_OS_CODE  0x0b
-#endif
+#  ifdef _WIN32 /* Window 95 & Windows NT */
+#    define _NRRD_OS_CODE 0x0b
+#  endif
 
-#if defined(MACOS) || defined(TARGET_OS_MAC) || defined(__APPLE_CC__)
-#  define _NRRD_OS_CODE  0x07
-#endif
+#  if defined(MACOS) || defined(TARGET_OS_MAC) || defined(__APPLE_CC__)
+#    define _NRRD_OS_CODE 0x07
+#  endif
 
-#ifndef _NRRD_OS_CODE
-#  define _NRRD_OS_CODE  0x03  /* assume Unix */
-#endif
+#  ifndef _NRRD_OS_CODE
+#    define _NRRD_OS_CODE 0x03 /* assume Unix */
+#  endif
 
 /* default memLevel */
-#if MAX_MEM_LEVEL >= 8
-#  define _NRRD_DEF_MEM_LEVEL 8
-#else
-#  define _NRRD_DEF_MEM_LEVEL  MAX_MEM_LEVEL
-#endif
+#  if MAX_MEM_LEVEL >= 8
+#    define _NRRD_DEF_MEM_LEVEL 8
+#  else
+#    define _NRRD_DEF_MEM_LEVEL MAX_MEM_LEVEL
+#  endif
 
 /* stream buffer size */
-#define _NRRD_Z_BUFSIZE 16 * 1024
+#  define _NRRD_Z_BUFSIZE 16 * 1024
 
 /* gzip flag byte */
-#define _NRRD_ASCII_FLAG   0x01 /* bit 0 set: file probably ascii text */
-#define _NRRD_HEAD_CRC     0x02 /* bit 1 set: header CRC present */
-#define _NRRD_EXTRA_FIELD  0x04 /* bit 2 set: extra field present */
-#define _NRRD_ORIG_NAME    0x08 /* bit 3 set: original file name present */
-#define _NRRD_COMMENT      0x10 /* bit 4 set: file comment present */
-#define _NRRD_RESERVED     0xE0 /* bits 5..7: reserved */
+#  define _NRRD_ASCII_FLAG  0x01 /* bit 0 set: file probably ascii text */
+#  define _NRRD_HEAD_CRC    0x02 /* bit 1 set: header CRC present */
+#  define _NRRD_EXTRA_FIELD 0x04 /* bit 2 set: extra field present */
+#  define _NRRD_ORIG_NAME   0x08 /* bit 3 set: original file name present */
+#  define _NRRD_COMMENT     0x10 /* bit 4 set: file comment present */
+#  define _NRRD_RESERVED    0xE0 /* bits 5..7: reserved */
 
 typedef struct _NrrdGzStream {
   z_stream stream;
-  int      z_err;   /* error code for last stream operation */
-  int      z_eof;   /* set if end of input file */
-  FILE     *file;   /* .gz file */
-  Byte     *inbuf;  /* input buffer */
-  Byte     *outbuf; /* output buffer */
-  uLong    crc;     /* crc32 of uncompressed data */
-  char     *msg;    /* error message */
-  int      transparent; /* 1 if input file is not a .gz file */
-  char     mode;    /* 'w' or 'r' */
-  long     startpos; /* start of compressed data in file (header skipped) */
+  int z_err;       /* error code for last stream operation */
+  int z_eof;       /* set if end of input file */
+  FILE *file;      /* .gz file */
+  Byte *inbuf;     /* input buffer */
+  Byte *outbuf;    /* output buffer */
+  uLong crc;       /* crc32 of uncompressed data */
+  char *msg;       /* error message */
+  int transparent; /* 1 if input file is not a .gz file */
+  char mode;       /* 'w' or 'r' */
+  long startpos;   /* start of compressed data in file (header skipped) */
 } _NrrdGzStream;
 
 static int _nrrdGzMagic[2] = {0x1f, 0x8b}; /* gzip magic header */
 
 /* zlib error messages */
-static const char *_nrrdGzErrMsg[10] = {
-  "need dictionary",     /* Z_NEED_DICT       2  */
-  "stream end",          /* Z_STREAM_END      1  */
-  "",                    /* Z_OK              0  */
-  "file error",          /* Z_ERRNO         (-1) */
-  "stream error",        /* Z_STREAM_ERROR  (-2) */
-  "data error",          /* Z_DATA_ERROR    (-3) */
-  "insufficient memory", /* Z_MEM_ERROR     (-4) */
-  "buffer error",        /* Z_BUF_ERROR     (-5) */
-  "incompatible version",/* Z_VERSION_ERROR (-6) */
-  ""};
+static const char *_nrrdGzErrMsg[10]
+  = {"need dictionary",      /* Z_NEED_DICT       2  */
+     "stream end",           /* Z_STREAM_END      1  */
+     "",                     /* Z_OK              0  */
+     "file error",           /* Z_ERRNO         (-1) */
+     "stream error",         /* Z_STREAM_ERROR  (-2) */
+     "data error",           /* Z_DATA_ERROR    (-3) */
+     "insufficient memory",  /* Z_MEM_ERROR     (-4) */
+     "buffer error",         /* Z_BUF_ERROR     (-5) */
+     "incompatible version", /* Z_VERSION_ERROR (-6) */
+     ""};
 
-#define _NRRD_GZ_ERR_MSG(err) _nrrdGzErrMsg[Z_NEED_DICT-(err)]
+#  define _NRRD_GZ_ERR_MSG(err) _nrrdGzErrMsg[Z_NEED_DICT - (err)]
 
 /* some forward declarations for things in this file */
 static void _nrrdGzCheckHeader(_NrrdGzStream *s);
@@ -158,8 +158,8 @@ static uLong _nrrdGzGetLong(_NrrdGzStream *s);
 ** zlib error is Z_MEM_ERROR).
 */
 gzFile
-_nrrdGzOpen(FILE* fd, const char* mode) {
-  static const char me[]="_nrrdGzOpen";
+_nrrdGzOpen(FILE *fd, const char *mode) {
+  static const char me[] = "_nrrdGzOpen";
   int error;
   int level = Z_DEFAULT_COMPRESSION; /* compression level */
   int strategy = Z_DEFAULT_STRATEGY; /* compression strategy */
@@ -212,18 +212,17 @@ _nrrdGzOpen(FILE* fd, const char* mode) {
   }
 
   if (s->mode == 'w') {
-    error = deflateInit2(&(s->stream), level,
-                         Z_DEFLATED, -MAX_WBITS, _NRRD_DEF_MEM_LEVEL,
-                         strategy);
+    error = deflateInit2(&(s->stream), level, Z_DEFLATED, -MAX_WBITS,
+                         _NRRD_DEF_MEM_LEVEL, strategy);
     /* windowBits is passed < 0 to suppress zlib header */
 
-    s->stream.next_out = s->outbuf = (Byte*)calloc(1, _NRRD_Z_BUFSIZE);
+    s->stream.next_out = s->outbuf = (Byte *)calloc(1, _NRRD_Z_BUFSIZE);
     if (error != Z_OK || s->outbuf == Z_NULL) {
       biffAddf(NRRD, "%s: stream init failed", me);
       return _nrrdGzDestroy(s), (gzFile)Z_NULL;
     }
   } else {
-    s->stream.next_in  = s->inbuf = (Byte*)calloc(1, _NRRD_Z_BUFSIZE);
+    s->stream.next_in = s->inbuf = (Byte *)calloc(1, _NRRD_Z_BUFSIZE);
 
     error = inflateInit2(&(s->stream), -MAX_WBITS);
     /* windowBits is passed < 0 to tell that there is no zlib header.
@@ -247,11 +246,7 @@ _nrrdGzOpen(FILE* fd, const char* mode) {
   if (s->mode == 'w') {
     /* Write a very simple .gz header: */
     fprintf(s->file, "%c%c%c%c%c%c%c%c%c%c", _nrrdGzMagic[0], _nrrdGzMagic[1],
-            Z_DEFLATED,
-            0 /*flags*/,
-            0,0,0,0 /*time*/,
-            0 /*xflags*/,
-            _NRRD_OS_CODE);
+            Z_DEFLATED, 0 /*flags*/, 0, 0, 0, 0 /*time*/, 0 /*xflags*/, _NRRD_OS_CODE);
     s->startpos = 10L;
     /* We use 10L instead of ftell(s->file) to because ftell causes an
      * fflush on some systems. This version of the library doesn't use
@@ -272,10 +267,10 @@ _nrrdGzOpen(FILE* fd, const char* mode) {
 ** and deallocates the (de)compression state.
 */
 int
-_nrrdGzClose (gzFile file) {
-  static const char me[]="_nrrdGzClose";
+_nrrdGzClose(gzFile file) {
+  static const char me[] = "_nrrdGzClose";
   int error;
-  _NrrdGzStream *s = (_NrrdGzStream*)file;
+  _NrrdGzStream *s = (_NrrdGzStream *)file;
 
   if (s == NULL) {
     biffAddf(NRRD, "%s: invalid stream", me);
@@ -285,12 +280,12 @@ _nrrdGzClose (gzFile file) {
     error = _nrrdGzDoFlush(file, Z_FINISH);
     if (error != Z_OK) {
       biffAddf(NRRD, "%s: failed to flush pending data", me);
-      return _nrrdGzDestroy((_NrrdGzStream*)file);
+      return _nrrdGzDestroy((_NrrdGzStream *)file);
     }
     _nrrdGzPutLong(s->file, s->crc);
     _nrrdGzPutLong(s->file, s->stream.total_in);
   }
-  return _nrrdGzDestroy((_NrrdGzStream*)file);
+  return _nrrdGzDestroy((_NrrdGzStream *)file);
 }
 
 /*
@@ -300,11 +295,11 @@ _nrrdGzClose (gzFile file) {
 ** Returns the number of bytes actually read (0 for end of file).
 */
 int
-_nrrdGzRead(gzFile file, void* buf, unsigned int len, unsigned int* didread) {
-  static const char me[]="_nrrdGzRead";
-  _NrrdGzStream *s = (_NrrdGzStream*)file;
-  Bytef *start = (Bytef*)buf; /* starting point for crc computation */
-  Byte  *next_out; /* == stream.next_out but not forced far (for MSDOS) */
+_nrrdGzRead(gzFile file, void *buf, unsigned int len, unsigned int *didread) {
+  static const char me[] = "_nrrdGzRead";
+  _NrrdGzStream *s = (_NrrdGzStream *)file;
+  Bytef *start = (Bytef *)buf; /* starting point for crc computation */
+  Byte *next_out;              /* == stream.next_out but not forced far (for MSDOS) */
 
   if (s == NULL || s->mode != 'r') {
     biffAddf(NRRD, "%s: invalid stream or file mode", me);
@@ -320,11 +315,11 @@ _nrrdGzRead(gzFile file, void* buf, unsigned int len, unsigned int* didread) {
 
   if (s->z_err == Z_STREAM_END) {
     *didread = 0;
-    return 0;  /* EOF */
+    return 0; /* EOF */
   }
 
-  next_out = (Byte*)buf;
-  s->stream.next_out = (Bytef*)buf;
+  next_out = (Byte *)buf;
+  s->stream.next_out = (Bytef *)buf;
   s->stream.avail_out = len;
 
   while (s->stream.avail_out != 0) {
@@ -337,16 +332,15 @@ _nrrdGzRead(gzFile file, void* buf, unsigned int len, unsigned int* didread) {
         memcpy(s->stream.next_out, s->stream.next_in, n);
         next_out += n;
         s->stream.next_out = next_out;
-        s->stream.next_in   += n;
+        s->stream.next_in += n;
         s->stream.avail_out -= n;
-        s->stream.avail_in  -= n;
+        s->stream.avail_in -= n;
       }
       if (s->stream.avail_out > 0) {
-        s->stream.avail_out -= (uInt)fread(next_out, 1, s->stream.avail_out,
-                                           s->file);
+        s->stream.avail_out -= (uInt)fread(next_out, 1, s->stream.avail_out, s->file);
       }
       len -= s->stream.avail_out;
-      s->stream.total_in  += len;
+      s->stream.total_in += len;
       s->stream.total_out += len;
       if (len == 0) s->z_eof = 1;
       *didread = len;
@@ -407,10 +401,9 @@ _nrrdGzRead(gzFile file, void* buf, unsigned int len, unsigned int* didread) {
 ** Returns the number of bytes actually written (0 in case of error).
 */
 int
-_nrrdGzWrite(gzFile file, const void* buf, unsigned int len,
-             unsigned int* written) {
-  static const char me[]="_nrrdGzWrite";
-  _NrrdGzStream *s = (_NrrdGzStream*)file;
+_nrrdGzWrite(gzFile file, const void *buf, unsigned int len, unsigned int *written) {
+  static const char me[] = "_nrrdGzWrite";
+  _NrrdGzStream *s = (_NrrdGzStream *)file;
   void *nonconstbuf;
 
   if (s == NULL || s->mode != 'w') {
@@ -424,8 +417,8 @@ _nrrdGzWrite(gzFile file, const void* buf, unsigned int len,
      zlib doesn't have all the consts that it should, and various code
      examples of using multiple casts to hide the problem. Here's a
      slow way that doesn't use mere casting to make the const go away */
-  memcpy(&nonconstbuf, &buf, sizeof(void*));
-  s->stream.next_in = (Bytef*)nonconstbuf;
+  memcpy(&nonconstbuf, &buf, sizeof(void *));
+  s->stream.next_in = (Bytef *)nonconstbuf;
   s->stream.avail_in = len;
 
   while (s->stream.avail_in != 0) {
@@ -456,7 +449,7 @@ _nrrdGzWrite(gzFile file, const void* buf, unsigned int len,
 */
 static int
 _nrrdGzGetByte(_NrrdGzStream *s) {
-  static const char me[]="_nrrdGzGetByte";
+  static const char me[] = "_nrrdGzGetByte";
 
   if (s->z_eof) return EOF;
   if (s->stream.avail_in == 0) {
@@ -489,7 +482,7 @@ _nrrdGzGetByte(_NrrdGzStream *s) {
 */
 static void
 _nrrdGzCheckHeader(_NrrdGzStream *s) {
-  static const char me[]="_nrrdGzCheckHeader";
+  static const char me[] = "_nrrdGzCheckHeader";
   int method; /* method byte */
   int flags;  /* flags byte */
   uInt len;
@@ -517,22 +510,27 @@ _nrrdGzCheckHeader(_NrrdGzStream *s) {
   }
 
   /* Discard time, xflags and OS code: */
-  for (len = 0; len < 6; len++) (void)_nrrdGzGetByte(s);
+  for (len = 0; len < 6; len++)
+    (void)_nrrdGzGetByte(s);
 
   if ((flags & _NRRD_EXTRA_FIELD) != 0) { /* skip the extra field */
-    len  =  (uInt)_nrrdGzGetByte(s);
-    len += ((uInt)_nrrdGzGetByte(s))<<8;
+    len = (uInt)_nrrdGzGetByte(s);
+    len += ((uInt)_nrrdGzGetByte(s)) << 8;
     /* len is garbage if EOF but the loop below will quit anyway */
-    while (len-- != 0 && _nrrdGzGetByte(s) != EOF) ;
+    while (len-- != 0 && _nrrdGzGetByte(s) != EOF)
+      ;
   }
   if ((flags & _NRRD_ORIG_NAME) != 0) { /* skip the original file name */
-    while ((c = _nrrdGzGetByte(s)) != 0 && c != EOF) ;
+    while ((c = _nrrdGzGetByte(s)) != 0 && c != EOF)
+      ;
   }
-  if ((flags & _NRRD_COMMENT) != 0) {   /* skip the .gz file comment */
-    while ((c = _nrrdGzGetByte(s)) != 0 && c != EOF) ;
+  if ((flags & _NRRD_COMMENT) != 0) { /* skip the .gz file comment */
+    while ((c = _nrrdGzGetByte(s)) != 0 && c != EOF)
+      ;
   }
-  if ((flags & _NRRD_HEAD_CRC) != 0) {  /* skip the header crc */
-    for (len = 0; len < 2; len++) (void)_nrrdGzGetByte(s);
+  if ((flags & _NRRD_HEAD_CRC) != 0) { /* skip the header crc */
+    for (len = 0; len < 2; len++)
+      (void)_nrrdGzGetByte(s);
   }
   s->z_err = s->z_eof ? Z_DATA_ERROR : Z_OK;
 }
@@ -546,7 +544,7 @@ _nrrdGzCheckHeader(_NrrdGzStream *s) {
 */
 static int
 _nrrdGzDestroy(_NrrdGzStream *s) {
-  static const char me[]="_nrrdGzDestroy";
+  static const char me[] = "_nrrdGzDestroy";
   int error = Z_OK;
 
   if (s == NULL) {
@@ -570,7 +568,7 @@ _nrrdGzDestroy(_NrrdGzStream *s) {
   }
   s->inbuf = (Byte *)airFree(s->inbuf);
   s->outbuf = (Byte *)airFree(s->outbuf);
-  airFree(s);   /* avoiding unused value warnings, no NULL set */
+  airFree(s); /* avoiding unused value warnings, no NULL set */
   return error != Z_OK;
 }
 
@@ -582,10 +580,10 @@ _nrrdGzDestroy(_NrrdGzStream *s) {
 */
 static int
 _nrrdGzDoFlush(gzFile file, int flush) {
-  static const char me[]="_nrrdGzDoFlush";
+  static const char me[] = "_nrrdGzDoFlush";
   uInt len;
   int done = 0;
-  _NrrdGzStream *s = (_NrrdGzStream*)file;
+  _NrrdGzStream *s = (_NrrdGzStream *)file;
 
   if (s == NULL || s->mode != 'w') {
     biffAddf(NRRD, "%s: invalid stream or file mode", me);
@@ -618,7 +616,7 @@ _nrrdGzDoFlush(gzFile file, int flush) {
 
     if (s->z_err != Z_OK && s->z_err != Z_STREAM_END) break;
   }
-  return  s->z_err == Z_STREAM_END ? Z_OK : s->z_err;
+  return s->z_err == Z_STREAM_END ? Z_OK : s->z_err;
 }
 
 /*
@@ -627,7 +625,7 @@ _nrrdGzDoFlush(gzFile file, int flush) {
 ** Outputs a long in LSB order to the given file.
 */
 static void
-_nrrdGzPutLong(FILE* file, uLong x) {
+_nrrdGzPutLong(FILE *file, uLong x) {
   int n;
   for (n = 0; n < 4; n++) {
     fputc((int)(x & 0xff), file);
@@ -646,11 +644,11 @@ _nrrdGzGetLong(_NrrdGzStream *s) {
   uLong x = (uLong)_nrrdGzGetByte(s);
   int c;
 
-  x += ((uLong)_nrrdGzGetByte(s))<<8;
-  x += ((uLong)_nrrdGzGetByte(s))<<16;
+  x += ((uLong)_nrrdGzGetByte(s)) << 8;
+  x += ((uLong)_nrrdGzGetByte(s)) << 16;
   c = _nrrdGzGetByte(s);
   if (c == EOF) s->z_err = Z_DATA_ERROR;
-  x += ((uLong)c)<<24;
+  x += ((uLong)c) << 24;
   return x;
 }
 
@@ -663,4 +661,3 @@ int
 _nrrdGzDummySymbol(void) {
   return 42;
 }
-

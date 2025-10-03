@@ -138,66 +138,60 @@ extern air_export const airDouble airDoubleMin;
 */
 
 /* the bit-masking done here quiets gcc -Wconversion warnings */
-#define FP_SET_F(flit, fbig, s, e, m)          \
-  flit.c.sign = 1u & (s);                      \
-  flit.c.expo = ((1u<8)-1) & (e);              \
-  flit.c.mant = ((1u<23)-1) & (m);             \
-  fbig.c.sign = 1u & (s);                      \
-  fbig.c.expo = ((1u<8)-1) & (e);              \
-  fbig.c.mant = ((1u<23)-1) & (m)
+#define FP_SET_F(flit, fbig, s, e, m)                                                   \
+  flit.c.sign = 1u & (s);                                                               \
+  flit.c.expo = ((1u < 8) - 1) & (e);                                                   \
+  flit.c.mant = ((1u < 23) - 1) & (m);                                                  \
+  fbig.c.sign = 1u & (s);                                                               \
+  fbig.c.expo = ((1u < 8) - 1) & (e);                                                   \
+  fbig.c.mant = ((1u < 23) - 1) & (m)
 
-#define FP_GET_F(s, e, m, flit, fbig)            \
-  if (airEndianLittle == airMyEndian()) {        \
-    (s) = flit.c.sign;                           \
-    (e) = flit.c.expo;                           \
-    (m) = flit.c.mant;                           \
-  } else {                                       \
-    (s) = fbig.c.sign;                           \
-    (e) = fbig.c.expo;                           \
-    (m) = fbig.c.mant;                           \
+#define FP_GET_F(s, e, m, flit, fbig)                                                   \
+  if (airEndianLittle == airMyEndian()) {                                               \
+    (s) = flit.c.sign;                                                                  \
+    (e) = flit.c.expo;                                                                  \
+    (m) = flit.c.mant;                                                                  \
+  } else {                                                                              \
+    (s) = fbig.c.sign;                                                                  \
+    (e) = fbig.c.expo;                                                                  \
+    (m) = fbig.c.mant;                                                                  \
   }
 
-#define FP_SET_D(dlit, dbig, s, e, m0, m1)     \
-  dlit.c.sign = 1u & (s);                      \
-  dlit.c.expo = ((1u<<11)-1) & (e);            \
-  dlit.c.mant0 = ((1u<<20)-1) & (m0);          \
-  dlit.c.mant1 = (m1);                         \
-  dbig.c.sign = 1u & (s);                      \
-  dbig.c.expo = ((1u<<11)-1) & (e);            \
-  dbig.c.mant0 = ((1u<<20)-1) & (m0);          \
+#define FP_SET_D(dlit, dbig, s, e, m0, m1)                                              \
+  dlit.c.sign = 1u & (s);                                                               \
+  dlit.c.expo = ((1u << 11) - 1) & (e);                                                 \
+  dlit.c.mant0 = ((1u << 20) - 1) & (m0);                                               \
+  dlit.c.mant1 = (m1);                                                                  \
+  dbig.c.sign = 1u & (s);                                                               \
+  dbig.c.expo = ((1u << 11) - 1) & (e);                                                 \
+  dbig.c.mant0 = ((1u << 20) - 1) & (m0);                                               \
   dbig.c.mant1 = (m1)
 
-#define FP_GET_D(s, e, m0, m1, dlit, dbig)       \
-  if (airEndianLittle == airMyEndian()) {        \
-    (s) = dlit.c.sign;                           \
-    (e) = dlit.c.expo;                           \
-    (m0) = dlit.c.mant0;                         \
-    (m1) = dlit.c.mant1;                         \
-  } else {                                       \
-    (s) = dbig.c.sign;                           \
-    (e) = dbig.c.expo;                           \
-    (m0) = dbig.c.mant0;                         \
-    (m1) = dbig.c.mant1;                         \
+#define FP_GET_D(s, e, m0, m1, dlit, dbig)                                              \
+  if (airEndianLittle == airMyEndian()) {                                               \
+    (s) = dlit.c.sign;                                                                  \
+    (e) = dlit.c.expo;                                                                  \
+    (m0) = dlit.c.mant0;                                                                \
+    (m1) = dlit.c.mant1;                                                                \
+  } else {                                                                              \
+    (s) = dbig.c.sign;                                                                  \
+    (e) = dbig.c.expo;                                                                  \
+    (m0) = dbig.c.mant0;                                                                \
+    (m1) = dbig.c.mant1;                                                                \
   }
 
-
 float
-airFPPartsToVal_f(unsigned int sign,
-                  unsigned int expo,
-                  unsigned int mant) {
+airFPPartsToVal_f(unsigned int sign, unsigned int expo, unsigned int mant) {
   _airFloatEndianLittle flit;
   _airFloatEndianBig fbig;
 
   FP_SET_F(flit, fbig, sign, expo, mant);
-  return (airEndianLittle == airMyEndian()
-          ? flit.v
-          : fbig.v);
+  return (airEndianLittle == airMyEndian() ? flit.v : fbig.v);
 }
 
 void
-airFPValToParts_f(unsigned int *signP,
-                  unsigned int *expoP,
-                  unsigned int *mantP, float v) {
+airFPValToParts_f(unsigned int *signP, unsigned int *expoP, unsigned int *mantP,
+                  float v) {
   _airFloatEndianLittle flit;
   _airFloatEndianBig fbig;
 
@@ -214,9 +208,7 @@ airFPPartsToVal_d(unsigned int sign,
   _airDoubleEndianBig dbig;
 
   FP_SET_D(dlit, dbig, sign, expo, mant0, mant1);
-  return (airEndianLittle == airMyEndian()
-          ? dlit.v
-          : dbig.v);
+  return (airEndianLittle == airMyEndian() ? dlit.v : dbig.v);
 }
 
 /*
@@ -224,13 +216,11 @@ airFPPartsToVal_d(unsigned int sign,
 ** warning produced by the MSVC compiler
 */
 #ifdef _MSC_VER
-#pragma warning(push)
-#pragma warning(disable : 4700)
+#  pragma warning(push)
+#  pragma warning(disable : 4700)
 #endif
 void
-airFPValToParts_d(unsigned int *signP,
-                  unsigned int *expoP,
-                  unsigned int *mant0P,
+airFPValToParts_d(unsigned int *signP, unsigned int *expoP, unsigned int *mant0P,
                   unsigned int *mant1P, double v) {
   _airDoubleEndianLittle dlit;
   _airDoubleEndianBig dbig;
@@ -239,7 +229,7 @@ airFPValToParts_d(unsigned int *signP,
   FP_GET_D(*signP, *expoP, *mant0P, *mant1P, dlit, dbig);
 }
 #ifdef _MSC_VER
-#pragma warning(pop)
+#  pragma warning(pop)
 #endif
 
 /*
@@ -252,7 +242,7 @@ airFPGen_f(int cls) {
   _airFloatEndianLittle flit;
   _airFloatEndianBig fbig;
 
-  switch(cls) {
+  switch (cls) {
   case airFP_SNAN:
     /* sgn: anything, mant: anything non-zero with high bit !TEEM_QNANHIBIT */
     FP_SET_F(flit, fbig, 0, 0xff, (!TEEM_QNANHIBIT << 22) | 0x3fffff);
@@ -291,9 +281,7 @@ airFPGen_f(int cls) {
     FP_SET_F(flit, fbig, 0, 0, 0);
     break;
   }
-  return (airEndianLittle == airMyEndian()
-          ? flit.v
-          : fbig.v);
+  return (airEndianLittle == airMyEndian() ? flit.v : fbig.v);
 }
 
 /*
@@ -306,48 +294,46 @@ airFPGen_d(int cls) {
   _airDoubleEndianLittle dlit;
   _airDoubleEndianBig dbig;
 
-  switch(cls) {
+  switch (cls) {
   case airFP_SNAN:
     /* sgn: anything, mant: anything non-zero with high bit !TEEM_QNANHIBIT */
-    FP_SET_D(dlit, dbig,  0, 0x7ff, (!TEEM_QNANHIBIT << 19) | 0x7ffff, 0xffffffff);
+    FP_SET_D(dlit, dbig, 0, 0x7ff, (!TEEM_QNANHIBIT << 19) | 0x7ffff, 0xffffffff);
     break;
   case airFP_QNAN:
     /* sgn: anything, mant anything non-zero with high bit TEEM_QNANHIBIT */
-    FP_SET_D(dlit, dbig,  0, 0x7ff, (TEEM_QNANHIBIT << 19) | 0x7ffff, 0xffffffff);
+    FP_SET_D(dlit, dbig, 0, 0x7ff, (TEEM_QNANHIBIT << 19) | 0x7ffff, 0xffffffff);
     break;
   case airFP_POS_INF:
-    FP_SET_D(dlit, dbig,  0, 0x7ff, 0, 0);
+    FP_SET_D(dlit, dbig, 0, 0x7ff, 0, 0);
     break;
   case airFP_NEG_INF:
-    FP_SET_D(dlit, dbig,  1, 0x7ff, 0, 0);
+    FP_SET_D(dlit, dbig, 1, 0x7ff, 0, 0);
     break;
   case airFP_POS_NORM:
     /* exp: anything non-zero but < 0xff, mant: anything */
-    FP_SET_D(dlit, dbig,  0, 0x400, 0x0ff00, 0);
+    FP_SET_D(dlit, dbig, 0, 0x400, 0x0ff00, 0);
     break;
   case airFP_NEG_NORM:
     /* exp: anything non-zero but < 0xff, mant: anything */
-    FP_SET_D(dlit, dbig,  1, 0x400, 0x0ff00, 0);
+    FP_SET_D(dlit, dbig, 1, 0x400, 0x0ff00, 0);
     break;
   case airFP_POS_DENORM:
     /* mant: anything non-zero */
-    FP_SET_D(dlit, dbig,  0, 0, 0xff, 0);
+    FP_SET_D(dlit, dbig, 0, 0, 0xff, 0);
     break;
   case airFP_NEG_DENORM:
     /* mant: anything non-zero */
-    FP_SET_D(dlit, dbig,  1, 0, 0xff, 0);
+    FP_SET_D(dlit, dbig, 1, 0, 0xff, 0);
     break;
   case airFP_NEG_ZERO:
-    FP_SET_D(dlit, dbig,  1, 0, 0, 0);
+    FP_SET_D(dlit, dbig, 1, 0, 0, 0);
     break;
   case airFP_POS_ZERO:
   default:
-    FP_SET_D(dlit, dbig,  0, 0, 0, 0);
+    FP_SET_D(dlit, dbig, 0, 0, 0, 0);
     break;
   }
-  return (airEndianLittle == airMyEndian()
-          ? dlit.v
-          : dbig.v);
+  return (airEndianLittle == airMyEndian() ? dlit.v : dbig.v);
 }
 
 /*
@@ -365,7 +351,7 @@ airFPClass_f(float val) {
   flit.v = fbig.v = val;
   FP_GET_F(sign, expv, mant, flit, fbig);
   indexv = ((!!sign) << 2) | ((!!expv) << 1) | (!!mant);
-  switch(indexv) {
+  switch (indexv) {
   case 0:
     /* all fields are zero */
     ret = airFP_POS_ZERO;
@@ -431,8 +417,8 @@ airFPClass_f(float val) {
 ** warning produced by the MSVC compiler
 */
 #ifdef _MSC_VER
-#pragma warning(push)
-#pragma warning(disable : 4700)
+#  pragma warning(push)
+#  pragma warning(disable : 4700)
 #endif
 /*
 ******** airFPClass_d()
@@ -444,7 +430,7 @@ airFPClass_d(double val) {
   _airDoubleEndianLittle dlit;
   _airDoubleEndianBig dbig;
   unsigned int sign, expo, mant0, mant1;
-  int indexv, ret=0;
+  int indexv, ret = 0;
   unsigned char hibit;
 
   dlit.v = dbig.v = val;
@@ -456,7 +442,7 @@ airFPClass_d(double val) {
   hibit = AIR_CAST(unsigned char, mant0 >> 19); /* mant0 20 bits wide: ok */
 
   indexv = ((!!sign) << 2) | ((!!expo) << 1) | (!!mant0 || !!mant1);
-  switch(indexv) {
+  switch (indexv) {
   case 0:
     /* all fields are zero */
     ret = airFP_POS_ZERO;
@@ -517,7 +503,7 @@ airFPClass_d(double val) {
   return ret;
 }
 #ifdef _MSC_VER
-#pragma warning(pop)
+#  pragma warning(pop)
 #endif
 
 /*
@@ -594,9 +580,8 @@ airExists(double val) {
   _airDoubleEndianBig dbig;
 
   dbig.v = dlit.v = val;
-  return (airEndianLittle == airMyEndian()
-          ? 0x7ff != dlit.c.expo
-          : 0x7ff != dbig.c.expo);
+  return (airEndianLittle == airMyEndian() ? 0x7ff != dlit.c.expo
+                                           : 0x7ff != dbig.c.expo);
 }
 
 /*
@@ -625,17 +610,16 @@ airFPFprintf_f(FILE *file, float val) {
   if (file) {
     flit.v = fbig.v = val;
     FP_GET_F(sign, expo, mant, flit, fbig);
-    fprintf(file, "%f: class %d; 0x%08x = ",val, airFPClass_f(val),
+    fprintf(file, "%f: class %d; 0x%08x = ", val, airFPClass_f(val),
             airEndianLittle == airMyEndian() ? flit.i : fbig.i);
-    fprintf(file, "sign:0x%x, expo:0x%02x, mant:0x%06x = \n",
-            sign, expo, mant);
+    fprintf(file, "sign:0x%x, expo:0x%02x, mant:0x%06x = \n", sign, expo, mant);
     fprintf(file, " S [ . . Exp . . ] "
-            "[ . . . . . . . . . Mant. . . . . . . . . . ]\n");
+                  "[ . . . . . . . . . Mant. . . . . . . . . . ]\n");
     fprintf(file, " %d ", sign);
-    for (i=7; i>=0; i--) {
+    for (i = 7; i >= 0; i--) {
       fprintf(file, "%d ", (expo >> i) & 1);
     }
-    for (i=22; i>=0; i--) {
+    for (i = 22; i >= 0; i--) {
       fprintf(file, "%d ", (mant >> i) & 1);
     }
     fprintf(file, "\n");
@@ -656,25 +640,23 @@ airFPFprintf_d(FILE *file, double val) {
 
   if (file) {
     dlit.v = dbig.v = val;
-    fprintf(file, "%f: class %d; 0x%08x %08x = \n",
-            val, airFPClass_d(val),
+    fprintf(file, "%f: class %d; 0x%08x %08x = \n", val, airFPClass_d(val),
             (airEndianLittle == airMyEndian() ? dlit.h.half1 : dbig.h.half1),
             (airEndianLittle == airMyEndian() ? dlit.h.half0 : dbig.h.half0));
     FP_GET_D(sign, expo, mant0, mant1, dlit, dbig);
-    fprintf(file, "sign:0x%x, expo:0x%03x, mant:0x%05x %08x = \n",
-            sign, expo, mant0, mant1);
+    fprintf(file, "sign:0x%x, expo:0x%03x, mant:0x%05x %08x = \n", sign, expo, mant0,
+            mant1);
     fprintf(file, "S[...Exp...][.......................Mant.......................]\n");
     fprintf(file, "%d", sign);
-    for (i=10; i>=0; i--) {
+    for (i = 10; i >= 0; i--) {
       fprintf(file, "%d", (expo >> i) & 1);
     }
-    for (i=19; i>=0; i--) {
+    for (i = 19; i >= 0; i--) {
       fprintf(file, "%d", (mant0 >> i) & 1);
     }
-    for (i=31; i>=0; i--) {
+    for (i = 31; i >= 0; i--) {
       fprintf(file, "%d", (mant1 >> i) & 1);
     }
     fprintf(file, "\n");
   }
 }
-

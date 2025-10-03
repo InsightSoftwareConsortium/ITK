@@ -27,7 +27,7 @@
 #include "privateNrrd.h"
 
 #if TEEM_BZIP2
-#include <bzlib.h>
+#  include <bzlib.h>
 #endif
 
 /* The "/ *Teem:" (without space) comments in here are an experiment */
@@ -80,25 +80,25 @@ _nrrdHeaderStringOneLine(NrrdIoState *nio) {
 */
 int
 _nrrdOneLine(unsigned int *lenP, NrrdIoState *nio, FILE *file) {
-  static const char me[]="_nrrdOneLine";
+  static const char me[] = "_nrrdOneLine";
   char **line;
   airArray *mop, *lineArr;
   airPtrPtrUnion appu;
   unsigned int lineIdx, len, needLen;
 
-  if (!( lenP && nio && (file || nio->headerStringRead))) {
-    biffAddf(NRRD, "%s: got NULL pointer (%p, %p, %p/%p)", me,
-             AIR_CAST(void*, lenP), AIR_CAST(void*, nio),
-             AIR_CAST(void*, file), nio->headerStringRead);
+  if (!(lenP && nio && (file || nio->headerStringRead))) {
+    biffAddf(NRRD, "%s: got NULL pointer (%p, %p, %p/%p)", me, AIR_CAST(void *, lenP),
+             AIR_CAST(void *, nio), AIR_CAST(void *, file), nio->headerStringRead);
     return 1;
   }
   if (0 == nio->lineLen) {
     /* nio->line hasn't been allocated for anything */
     nio->lineLen = 3;
-    nio->line = (char*)malloc(nio->lineLen);
+    nio->line = (char *)malloc(nio->lineLen);
     if (!nio->line) {
       biffAddf(NRRD, "%s: couldn't alloc %d-char line\n", me, nio->lineLen);
-      *lenP = 0; return 1;
+      *lenP = 0;
+      return 1;
     }
   }
   if (file) {
@@ -106,14 +106,14 @@ _nrrdOneLine(unsigned int *lenP, NrrdIoState *nio, FILE *file) {
   } else {
     /* NOTE: NULL-ity error check above makes this safe */
     needLen = _nrrdHeaderStringOneLineStrlen(nio);
-    if (needLen+1 > nio->lineLen) {
-      nio->lineLen = needLen+1;
-      airFree(nio->line);  /* lose previous allocated line */
-      nio->line = (char*)malloc(nio->lineLen);
+    if (needLen + 1 > nio->lineLen) {
+      nio->lineLen = needLen + 1;
+      airFree(nio->line); /* lose previous allocated line */
+      nio->line = (char *)malloc(nio->lineLen);
       if (!nio->line) {
-        biffAddf(NRRD, "%s: couldn't alloc %d-char line\n",
-                 me, nio->lineLen);
-        *lenP = 0; return 1;
+        biffAddf(NRRD, "%s: couldn't alloc %d-char line\n", me, nio->lineLen);
+        *lenP = 0;
+        return 1;
       }
     }
     len = _nrrdHeaderStringOneLine(nio);
@@ -131,24 +131,28 @@ _nrrdOneLine(unsigned int *lenP, NrrdIoState *nio, FILE *file) {
     lineArr = airArrayNew(appu.v, NULL, sizeof(char *), 1);
     if (!lineArr) {
       biffAddf(NRRD, "%s: couldn't allocate airArray", me);
-      *lenP = 0; return 1;
+      *lenP = 0;
+      return 1;
     }
     airArrayPointerCB(lineArr, airNull, airFree);
     mop = airMopNew();
     airMopAdd(mop, lineArr, (airMopper)airArrayNuke, airMopAlways);
-    while (len == nio->lineLen+1) {
+    while (len == nio->lineLen + 1) {
       lineIdx = airArrayLenIncr(lineArr, 1);
       if (!lineArr->data) {
         biffAddf(NRRD, "%s: couldn't increment line buffer array", me);
-        *lenP = 0; airMopError(mop); return 1;
+        *lenP = 0;
+        airMopError(mop);
+        return 1;
       }
       line[lineIdx] = nio->line;
       nio->lineLen *= 2;
-      nio->line = (char*)malloc(nio->lineLen);
+      nio->line = (char *)malloc(nio->lineLen);
       if (!nio->line) {
-        biffAddf(NRRD, "%s: couldn't alloc %d-char line\n",
-                 me, nio->lineLen);
-        *lenP = 0; airMopError(mop); return 1;
+        biffAddf(NRRD, "%s: couldn't alloc %d-char line\n", me, nio->lineLen);
+        *lenP = 0;
+        airMopError(mop);
+        return 1;
       }
       len = airOneLine(file, nio->line, nio->lineLen);
     }
@@ -156,18 +160,22 @@ _nrrdOneLine(unsigned int *lenP, NrrdIoState *nio, FILE *file) {
     lineIdx = airArrayLenIncr(lineArr, 1);
     if (!lineArr->data) {
       biffAddf(NRRD, "%s: couldn't increment line buffer array", me);
-      *lenP = 0; airMopError(mop); return 1;
+      *lenP = 0;
+      airMopError(mop);
+      return 1;
     }
     line[lineIdx] = nio->line;
-    nio->lineLen *= 3;  /* for good measure */
-    nio->line = (char*)malloc(nio->lineLen);
+    nio->lineLen *= 3; /* for good measure */
+    nio->line = (char *)malloc(nio->lineLen);
     if (!nio->line) {
       biffAddf(NRRD, "%s: couldn't alloc %d-char line\n", me, nio->lineLen);
-      *lenP = 0; airMopError(mop); return 1;
+      *lenP = 0;
+      airMopError(mop);
+      return 1;
     }
     /* now concatenate everything into a new nio->line */
     strcpy(nio->line, "");
-    for (lineIdx=0; lineIdx<lineArr->len; lineIdx++) {
+    for (lineIdx = 0; lineIdx < lineArr->len; lineIdx++) {
       strcat(nio->line, line[lineIdx]);
     }
     /* HEY: API is bad: *lenP should be a size_t pointer! */
@@ -194,12 +202,12 @@ _nrrdOneLine(unsigned int *lenP, NrrdIoState *nio, FILE *file) {
 */
 int
 _nrrdCalloc(Nrrd *nrrd, NrrdIoState *nio, FILE *file) {
-  static const char me[]="_nrrdCalloc";
+  static const char me[] = "_nrrdCalloc";
   size_t needDataSize;
   int fd;
 
-  needDataSize = nrrdElementNumber(nrrd)*nrrdElementSize(nrrd);
-  if (nio->oldData &&  needDataSize == nio->oldDataSize) {
+  needDataSize = nrrdElementNumber(nrrd) * nrrdElementSize(nrrd);
+  if (nio->oldData && needDataSize == nio->oldDataSize) {
     /* re-use old data */
     nrrd->data = nio->oldData;
     /* its not an error to have a directIO-incompatible pointer, so
@@ -207,8 +215,7 @@ _nrrdCalloc(Nrrd *nrrd, NrrdIoState *nio, FILE *file) {
   } else {
     nrrd->data = airFree(nrrd->data);
     fd = file ? fileno(file) : -1;
-    if (nrrdEncodingRaw == nio->encoding
-        && -1 != fd
+    if (nrrdEncodingRaw == nio->encoding && -1 != fd
         && airNoDio_okay == airDioTest(fd, NULL, needDataSize)) {
       nrrd->data = airDioMalloc(needDataSize, fd);
     }
@@ -237,7 +244,7 @@ _nrrdCalloc(Nrrd *nrrd, NrrdIoState *nio, FILE *file) {
 */
 int
 nrrdLineSkip(FILE *dataFile, NrrdIoState *nio) {
-  static const char me[]="nrrdLineSkip";
+  static const char me[] = "nrrdLineSkip";
   unsigned int lsi, skipRet;
 
   /* For compressed data: If you don't actually have ascii headers on
@@ -245,20 +252,18 @@ nrrdLineSkip(FILE *dataFile, NrrdIoState *nio) {
      while _nrrdOneLine looks for line terminations.  Quoting Gordon:
      "Garbage in, Garbage out." */
 
-  if (!( dataFile && nio )) {
+  if (!(dataFile && nio)) {
     biffAddf(NRRD, "%s: got NULL pointer", me);
     return 1;
   }
 
-  for (lsi=0; lsi<nio->lineSkip; lsi++) {
+  for (lsi = 0; lsi < nio->lineSkip; lsi++) {
     if (_nrrdOneLine(&skipRet, nio, dataFile)) {
-      biffAddf(NRRD, "%s: error skipping line %u of %u",
-               me, lsi+1, nio->lineSkip);
+      biffAddf(NRRD, "%s: error skipping line %u of %u", me, lsi + 1, nio->lineSkip);
       return 1;
     }
     if (!skipRet) {
-      biffAddf(NRRD, "%s: hit EOF skipping line %u of %u",
-               me, lsi+1, nio->lineSkip);
+      biffAddf(NRRD, "%s: hit EOF skipping line %u of %u", me, lsi + 1, nio->lineSkip);
       return 1;
     }
   }
@@ -274,32 +279,35 @@ nrrdLineSkip(FILE *dataFile, NrrdIoState *nio) {
 */
 int
 nrrdByteSkip(FILE *dataFile, Nrrd *nrrd, NrrdIoState *nio) {
-  static const char me[]="nrrdByteSkip";
+  static const char me[] = "nrrdByteSkip";
   int skipRet;
   size_t bsize;
 
-  if (!( dataFile && nrrd && nio )) {
+  if (!(dataFile && nrrd && nio)) {
     biffAddf(NRRD, "%s: got NULL pointer", me);
     return 1;
   }
   if (nio->encoding->isCompression) {
-    biffAddf(NRRD, "%s: this function can't work with compressed "
-             "encoding %s", me, nio->encoding->name);
+    biffAddf(NRRD,
+             "%s: this function can't work with compressed "
+             "encoding %s",
+             me, nio->encoding->name);
     return 1;
   }
   if (nio->byteSkip < 0) {
     long backwards;
     if (nrrdEncodingRaw != nio->encoding) {
-      biffAddf(NRRD, "%s: this function can do backwards byte skip only "
-               "in %s encoding, not %s", me,
-               nrrdEncodingRaw->name, nio->encoding->name);
+      biffAddf(NRRD,
+               "%s: this function can do backwards byte skip only "
+               "in %s encoding, not %s",
+               me, nrrdEncodingRaw->name, nio->encoding->name);
       return 1;
     }
     if (stdin == dataFile) {
       biffAddf(NRRD, "%s: can't fseek on stdin", me);
       return 1;
     }
-    bsize = nrrdElementNumber(nrrd)/_nrrdDataFNNumber(nio);
+    bsize = nrrdElementNumber(nrrd) / _nrrdDataFNNumber(nio);
     bsize *= nrrdElementSize(nrrd);
     /* backwards is (positive) number of bytes AFTER data that we ignore */
     backwards = -nio->byteSkip - 1;
@@ -311,19 +319,18 @@ nrrdByteSkip(FILE *dataFile, Nrrd *nrrd, NrrdIoState *nio) {
       return 1;
     }
     if (nrrdStateVerboseIO >= 2) {
-      fprintf(stderr, "(%s: actually skipped %d bytes)\n",
-              me, (int)ftell(dataFile));
+      fprintf(stderr, "(%s: actually skipped %d bytes)\n", me, (int)ftell(dataFile));
     }
   } else {
-    if ((stdin == dataFile) || (-1==fseek(dataFile, nio->byteSkip, SEEK_CUR))) {
+    if ((stdin == dataFile) || (-1 == fseek(dataFile, nio->byteSkip, SEEK_CUR))) {
       long skipi;
       /* fseek failed, perhaps because we're reading stdin, so
          we revert to consuming the input one byte at a time */
-      for (skipi=0; skipi<nio->byteSkip; skipi++) {
+      for (skipi = 0; skipi < nio->byteSkip; skipi++) {
         skipRet = fgetc(dataFile);
         if (EOF == skipRet) {
-          biffAddf(NRRD, "%s: hit EOF skipping byte %ld of %ld",
-                   me, skipi, nio->byteSkip);
+          biffAddf(NRRD, "%s: hit EOF skipping byte %ld of %ld", me, skipi,
+                   nio->byteSkip);
           return 1;
         }
       }
@@ -348,7 +355,7 @@ nrrdByteSkip(FILE *dataFile, Nrrd *nrrd, NrrdIoState *nio) {
 */
 int
 _nrrdRead(Nrrd *nrrd, FILE *file, const char *string, NrrdIoState *_nio) {
-  static const char me[]="_nrrdRead";
+  static const char me[] = "_nrrdRead";
   unsigned int llen;
   NrrdIoState *nio;
   int nfi;
@@ -356,8 +363,7 @@ _nrrdRead(Nrrd *nrrd, FILE *file, const char *string, NrrdIoState *_nio) {
 
   /* sanity check, for good measure */
   if (!nrrdSanity()) {
-    biffAddf(NRRD, "%s: sanity check FAILED: have to fix and re-compile",
-             me);
+    biffAddf(NRRD, "%s: sanity check FAILED: have to fix and re-compile", me);
     return 1;
   }
 
@@ -384,9 +390,8 @@ _nrrdRead(Nrrd *nrrd, FILE *file, const char *string, NrrdIoState *_nio) {
   /* remember old data pointer and allocated size.  Whether or not to
      free() this memory will be decided later */
   nio->oldData = nrrd->data;
-  nio->oldDataSize = (nio->oldData
-                      ? nrrdElementNumber(nrrd)*nrrdElementSize(nrrd)
-                      : 0);
+  nio->oldDataSize = (nio->oldData ? nrrdElementNumber(nrrd) * nrrdElementSize(nrrd)
+                                   : 0);
   /*
   fprintf(stderr, "!%s: nio->oldData = %p, oldDataSize = %d\n", me,
           nio->oldData, (int)(nio->oldDataSize));
@@ -400,19 +405,18 @@ _nrrdRead(Nrrd *nrrd, FILE *file, const char *string, NrrdIoState *_nio) {
   nio->headerStringRead = string;
 
   if (_nrrdOneLine(&llen, nio, file)) {
-    biffAddf(NRRD, "%s: error getting first line (containing \"magic\")",
-             me);
-    airMopError(mop); return 1;
+    biffAddf(NRRD, "%s: error getting first line (containing \"magic\")", me);
+    airMopError(mop);
+    return 1;
   }
   if (!llen) {
-     biffAddf(NRRD, "%s: immediately hit EOF", me);
-     airMopError(mop); return 1;
+    biffAddf(NRRD, "%s: immediately hit EOF", me);
+    airMopError(mop);
+    return 1;
   }
 
   nio->format = nrrdFormatUnknown;
-  for (nfi = nrrdFormatTypeUnknown+1;
-       nfi < nrrdFormatTypeLast;
-       nfi++) {
+  for (nfi = nrrdFormatTypeUnknown + 1; nfi < nrrdFormatTypeLast; nfi++) {
     if (nrrdFormatArray[nfi]->contentStartsLike(nio)) {
       nio->format = nrrdFormatArray[nfi];
       break;
@@ -422,25 +426,31 @@ _nrrdRead(Nrrd *nrrd, FILE *file, const char *string, NrrdIoState *_nio) {
     char linestart[AIR_STRLEN_SMALL], stmp[AIR_STRLEN_SMALL];
     airStrcpy(linestart, AIR_STRLEN_SMALL, nio->line);
     if (strlen(linestart) != strlen(nio->line)) {
-      biffAddf(NRRD, "%s: couldn't parse (length %s) line starting "
+      biffAddf(NRRD,
+               "%s: couldn't parse (length %s) line starting "
                "with \"%s\" as magic or beginning of any recognized format",
                me, airSprintSize_t(stmp, strlen(nio->line)), linestart);
     } else {
-      biffAddf(NRRD, "%s: couldn't parse \"%s\" as magic or beginning "
-               "of any recognized format", me, nio->line);
+      biffAddf(NRRD,
+               "%s: couldn't parse \"%s\" as magic or beginning "
+               "of any recognized format",
+               me, nio->line);
     }
-    airMopError(mop); return 1;
+    airMopError(mop);
+    return 1;
   }
   if (string && nrrdFormatNRRD != nio->format) {
-    biffAddf(NRRD, "%s: sorry, can only read %s files from strings (not %s)",
-             me, nrrdFormatNRRD->name, nio->format->name);
-    airMopError(mop); return 1;
+    biffAddf(NRRD, "%s: sorry, can only read %s files from strings (not %s)", me,
+             nrrdFormatNRRD->name, nio->format->name);
+    airMopError(mop);
+    return 1;
   }
 
   /* try to read the file */
   if (nio->format->read(file, nrrd, nio)) {
     biffAddf(NRRD, "%s: trouble reading %s file", me, nio->format->name);
-    airMopError(mop); return 1;
+    airMopError(mop);
+    return 1;
   }
 
   /* reshape up grayscale images, if desired */
@@ -477,7 +487,7 @@ _nrrdRead(Nrrd *nrrd, FILE *file, const char *string, NrrdIoState *_nio) {
 */
 int
 nrrdRead(Nrrd *nrrd, FILE *file, NrrdIoState *_nio) {
-  static const char me[]="nrrdRead";
+  static const char me[] = "nrrdRead";
 
   if (_nrrdRead(nrrd, file, NULL, _nio)) {
     biffAddf(NRRD, "%s: trouble", me);
@@ -497,7 +507,7 @@ nrrdRead(Nrrd *nrrd, FILE *file, NrrdIoState *_nio) {
 */
 int
 nrrdStringRead(Nrrd *nrrd, const char *string, NrrdIoState *_nio) {
-  static const char me[]="nrrdRead";
+  static const char me[] = "nrrdRead";
 
   if (_nrrdRead(nrrd, NULL, string, _nio)) {
     biffAddf(NRRD, "%s: trouble", me);
@@ -532,7 +542,7 @@ _nrrdSplitName(char **dirP, char **baseP, const char *name) {
   where = strrchr(name, '/');
 #ifdef _WIN32
   /* Deal with Windows "\" path separators; thanks to Torsten Rohlfing */
-  if ( !where || (strrchr(name, '\\') > where) ) {
+  if (!where || (strrchr(name, '\\') > where)) {
     where = strrchr(name, '\\');
   }
 #endif
@@ -593,7 +603,7 @@ _nrrdSplitName(char **dirP, char **baseP, const char *name) {
 */
 int /*Teem: biff if (ret) */
 nrrdLoad(Nrrd *nrrd, const char *filename, NrrdIoState *nio) {
-  static const char me[]="nrrdLoad";
+  static const char me[] = "nrrdLoad";
   FILE *file;
   airArray *mop;
 
@@ -617,22 +627,22 @@ nrrdLoad(Nrrd *nrrd, const char *filename, NrrdIoState *nio) {
   _nrrdSplitName(&(nio->path), NULL, filename);
   /* printf("!%s: |%s|%s|\n", me, nio->dir, nio->base); */
 
-  if (!( file = airFopen(filename, stdin, "rb") )) {
-    biffAddf(NRRD, "%s: fopen(\"%s\",\"rb\") failed: %s",
-             me, filename, strerror(errno));
-    airMopError(mop); return 2;
+  if (!(file = airFopen(filename, stdin, "rb"))) {
+    biffAddf(NRRD, "%s: fopen(\"%s\",\"rb\") failed: %s", me, filename, strerror(errno));
+    airMopError(mop);
+    return 2;
   }
   airMopAdd(mop, file, (airMopper)airFclose, airMopOnError);
   /* non-error exiting is handled below */
 
   if (nrrdRead(nrrd, file, nio)) {
     biffAddf(NRRD, "%s: trouble reading \"%s\"", me, filename);
-    airMopError(mop); return 1;
+    airMopError(mop);
+    return 1;
   }
 
-  if (nrrdFormatNRRD == nio->format
-      && nio->keepNrrdDataFileOpen
-      && file == nio->dataFile ) {
+  if (nrrdFormatNRRD == nio->format && nio->keepNrrdDataFileOpen
+      && file == nio->dataFile) {
     /* we have to keep the datafile open.  If was attached, we can't
        close file, because that is the datafile.  If was detached,
        file != nio->dataFile, so we can close file.  */
@@ -646,10 +656,9 @@ nrrdLoad(Nrrd *nrrd, const char *filename, NrrdIoState *nio) {
 }
 
 int
-nrrdLoadMulti(Nrrd *const *nin, unsigned int ninLen,
-              const char *fnameFormat,
+nrrdLoadMulti(Nrrd *const *nin, unsigned int ninLen, const char *fnameFormat,
               unsigned int numStart, NrrdIoState *nio) {
-  static const char me[]="nrrdLoadMulti";
+  static const char me[] = "nrrdLoadMulti";
   char *fname;
   airArray *mop;
   unsigned int nii;
@@ -658,10 +667,12 @@ nrrdLoadMulti(Nrrd *const *nin, unsigned int ninLen,
     biffAddf(NRRD, "%s: got NULL pointer", me);
     return 1;
   }
-  if (!( _nrrdContainsPercentThisAndMore(fnameFormat, 'u') )) {
-    biffAddf(NRRD, "%s: given format \"%s\" doesn't seem to "
+  if (!(_nrrdContainsPercentThisAndMore(fnameFormat, 'u'))) {
+    biffAddf(NRRD,
+             "%s: given format \"%s\" doesn't seem to "
              "have the \"%%u\" conversion specification to sprintf "
-             "an unsigned int\n", me, fnameFormat);
+             "an unsigned int\n",
+             me, fnameFormat);
     return 1;
   }
 
@@ -670,17 +681,19 @@ nrrdLoadMulti(Nrrd *const *nin, unsigned int ninLen,
   fname = AIR_CAST(char *, malloc(strlen(fnameFormat) + 128));
   if (!(fname)) {
     biffAddf(NRRD, "%s: couldn't allocate local fname buffer", me);
-    airMopError(mop); return 1;
+    airMopError(mop);
+    return 1;
   }
   airMopAdd(mop, fname, airFree, airMopAlways);
 
-  for (nii=0; nii<ninLen; nii++) {
+  for (nii = 0; nii < ninLen; nii++) {
     unsigned int num;
     num = numStart + nii;
     sprintf(fname, fnameFormat, num);
     if (nrrdLoad(nin[nii], fname, nio)) {
       biffAddf(NRRD, "%s: trouble loading nin[%u] from %s", me, nii, fname);
-      airMopError(mop); return 1;
+      airMopError(mop);
+      return 1;
     }
     /* HEY: GLK hopes that the nio doesn't have any state that needs
        resetting, but we can't call nrrdIoStateInit() because that

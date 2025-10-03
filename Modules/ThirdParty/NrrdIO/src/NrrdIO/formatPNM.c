@@ -35,23 +35,19 @@ _nrrdFormatPNM_available(void) {
 int
 _nrrdFormatPNM_nameLooksLike(const char *filename) {
 
-  return (airEndsWith(filename, NRRD_EXT_PGM)
-          || airEndsWith(filename, NRRD_EXT_PPM));
+  return (airEndsWith(filename, NRRD_EXT_PGM) || airEndsWith(filename, NRRD_EXT_PPM));
 }
 
 int
-_nrrdFormatPNM_fitsInto(const Nrrd *nrrd, const NrrdEncoding *encoding,
-                        int useBiff) {
-  char me[]="_nrrdFormatPNM_fitsInto", err[AIR_STRLEN_MED];
+_nrrdFormatPNM_fitsInto(const Nrrd *nrrd, const NrrdEncoding *encoding, int useBiff) {
+  char me[] = "_nrrdFormatPNM_fitsInto", err[AIR_STRLEN_MED];
 
   AIR_UNUSED(nrrd);
   AIR_UNUSED(encoding);
   AIR_UNUSED(useBiff);
-  sprintf(err, "%s: Sorry, %s format not available in NrrdIO",
-          me, nrrdFormatPNM->name);
+  sprintf(err, "%s: Sorry, %s format not available in NrrdIO", me, nrrdFormatPNM->name);
   biffMaybeAdd(NRRD, err, useBiff);
   return AIR_FALSE;
-
 }
 
 int
@@ -59,48 +55,41 @@ _nrrdFormatPNM_contentStartsLike(NrrdIoState *nio) {
 
   AIR_UNUSED(nio);
   return AIR_FALSE;
-
 }
 
 int
 _nrrdFormatPNM_read(FILE *file, Nrrd *nrrd, NrrdIoState *nio) {
-  char me[]="_nrrdReadPNM", err[AIR_STRLEN_MED];
+  char me[] = "_nrrdReadPNM", err[AIR_STRLEN_MED];
 
   AIR_UNUSED(file);
   AIR_UNUSED(nrrd);
   AIR_UNUSED(nio);
-  sprintf(err, "%s: Sorry, %s format not available in NrrdIO",
-          me, nrrdFormatPNM->name);
+  sprintf(err, "%s: Sorry, %s format not available in NrrdIO", me, nrrdFormatPNM->name);
   biffAdd(NRRD, err);
   return 1;
 }
 
 int
 _nrrdFormatPNM_write(FILE *file, const Nrrd *nrrd, NrrdIoState *nio) {
-  char me[]="_nrrdFormatPNM_write", err[AIR_STRLEN_MED];
+  char me[] = "_nrrdFormatPNM_write", err[AIR_STRLEN_MED];
 
   AIR_UNUSED(file);
   AIR_UNUSED(nrrd);
   AIR_UNUSED(nio);
-  sprintf(err, "%s: Sorry, %s format not available in NrrdIO",
-          me, nrrdFormatPNM->name);
+  sprintf(err, "%s: Sorry, %s format not available in NrrdIO", me, nrrdFormatPNM->name);
   biffAdd(NRRD, err);
   return 1;
 }
 
-const NrrdFormat
-_nrrdFormatPNM = {
-  "PNM",
-  AIR_FALSE,  /* isImage */
-  AIR_FALSE,  /* readable */
-  AIR_FALSE,  /* usesDIO */
-  _nrrdFormatPNM_available,
-  _nrrdFormatPNM_nameLooksLike,
-  _nrrdFormatPNM_fitsInto,
-  _nrrdFormatPNM_contentStartsLike,
-  _nrrdFormatPNM_read,
-  _nrrdFormatPNM_write
-};
+const NrrdFormat _nrrdFormatPNM = {"PNM",
+                                   AIR_FALSE, /* isImage */
+                                   AIR_FALSE, /* readable */
+                                   AIR_FALSE, /* usesDIO */
+                                   _nrrdFormatPNM_available,
+                                   _nrrdFormatPNM_nameLooksLike,
+                                   _nrrdFormatPNM_fitsInto,
+                                   _nrrdFormatPNM_contentStartsLike,
+                                   _nrrdFormatPNM_read,
+                                   _nrrdFormatPNM_write};
 
-const NrrdFormat *const
-nrrdFormatPNM = &_nrrdFormatPNM;
+const NrrdFormat *const nrrdFormatPNM = &_nrrdFormatPNM;

@@ -68,7 +68,7 @@ airArray *
 airArrayNew(void **dataP, unsigned int *lenP, size_t unit, unsigned int incr) {
   airArray *a;
 
-  if (unit<=0 || incr<=0) {
+  if (unit <= 0 || incr <= 0) {
     return NULL;
   }
 
@@ -99,8 +99,7 @@ airArrayNew(void **dataP, unsigned int *lenP, size_t unit, unsigned int incr) {
 ** set callbacks to maintain array of structs
 */
 void
-airArrayStructCB(airArray *a,
-                 void (*initCB)(void *), void (*doneCB)(void *)) {
+airArrayStructCB(airArray *a, void (*initCB)(void *), void (*doneCB)(void *)) {
 
   if (a) {
     a->initCB = initCB;
@@ -116,8 +115,7 @@ airArrayStructCB(airArray *a,
 ** set callbacks to maintain array of pointers
 */
 void
-airArrayPointerCB(airArray *a,
-                  void *(*allocCB)(void), void *(*freeCB)(void *)) {
+airArrayPointerCB(airArray *a, void *(*allocCB)(void), void *(*freeCB)(void *)) {
 
   if (a) {
     a->initCB = NULL;
@@ -126,7 +124,6 @@ airArrayPointerCB(airArray *a,
     a->freeCB = freeCB;
   }
 }
-
 
 /*
 ******** airArrayLenSet()
@@ -165,31 +162,29 @@ airArrayLenSet(airArray *a, unsigned int newlen) {
   /* Wed Sep 12 14:40:45 EDT 2007: the order in which these called is
      now ascending, instead of descending (as was the way before) */
   if (newlen < a->len && (a->freeCB || a->doneCB)) {
-    for (ii=newlen; ii<a->len; ii++) {
-      addr = (char*)(a->data) + ii*a->unit;
+    for (ii = newlen; ii < a->len; ii++) {
+      addr = (char *)(a->data) + ii * a->unit;
       if (a->freeCB) {
-        (a->freeCB)(*((void**)addr));
+        (a->freeCB)(*((void **)addr));
       } else {
         (a->doneCB)(addr);
       }
     }
   }
 
-  newsize = newlen ? (newlen-1)/a->incr + 1 : 0;
+  newsize = newlen ? (newlen - 1) / a->incr + 1 : 0;
   if (newsize != a->size) {
     /* we have to change the size of the array */
     if (newsize) {
       /* array should be bigger or smaller, but not zero-length */
-      if (newsize > a->size
-          || (newsize < a->size && !(a->noReallocWhenSmaller)) ) {
-        newdata = calloc(newsize*a->incr, a->unit);
+      if (newsize > a->size || (newsize < a->size && !(a->noReallocWhenSmaller))) {
+        newdata = calloc(newsize * a->incr, a->unit);
         if (!newdata) {
           free(a->data);
           _airSetData(a, NULL);
           return;
         }
-        memcpy(newdata, a->data, AIR_MIN(a->len*a->unit,
-                                         newsize*a->incr*a->unit));
+        memcpy(newdata, a->data, AIR_MIN(a->len * a->unit, newsize * a->incr * a->unit));
         free(a->data);
         _airSetData(a, newdata);
         a->size = newsize;
@@ -206,10 +201,10 @@ airArrayLenSet(airArray *a, unsigned int newlen) {
 
   /* call allocCB/initCB on newly created elements */
   if (newlen > a->len && (a->allocCB || a->initCB)) {
-    for (ii=a->len; ii<newlen; ii++) {
-      addr = (char*)(a->data) + ii*a->unit;
+    for (ii = a->len; ii < newlen; ii++) {
+      addr = (char *)(a->data) + ii * a->unit;
       if (a->allocCB) {
-        *((void**)addr) = (a->allocCB)();
+        *((void **)addr) = (a->allocCB)();
       } else {
         (a->initCB)(addr);
       }
@@ -243,18 +238,14 @@ airArrayLenIncr(airArray *a, int delta) {
   if (!a) {
     return 0;
   }
-  negdel = (delta < 0
-            ? AIR_UINT(-delta)
-            : 0);
+  negdel = (delta < 0 ? AIR_UINT(-delta) : 0);
   if (delta < 0 && negdel > a->len) {
     /* error: asked for newlength to be negative */
     airArrayLenSet(a, 0);
     return 0;
   }
   oldlen = a->len;
-  airArrayLenSet(a, (delta >= 0
-                     ? oldlen + AIR_UINT(delta)
-                     : oldlen - negdel));
+  airArrayLenSet(a, (delta >= 0 ? oldlen + AIR_UINT(delta) : oldlen - negdel));
   if (!a->data) {
     /* allocation error */
     ret = 0;

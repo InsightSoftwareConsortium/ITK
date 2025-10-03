@@ -137,7 +137,7 @@ On output:
 ****
 ***/
 
-#define MAGIC "NRRD"
+#define MAGIC  "NRRD"
 #define MAGIC0 "NRRD00.01"
 #define MAGIC1 "NRRD0001"
 #define MAGIC2 "NRRD0002"
@@ -145,10 +145,8 @@ On output:
 #define MAGIC4 "NRRD0004"
 #define MAGIC5 "NRRD0005"
 
-const char *
-_nrrdFormatURLLine0 = "Complete NRRD file format specification at:";
-const char *
-_nrrdFormatURLLine1 = "http://teem.sourceforge.net/nrrd/format.html";
+const char *_nrrdFormatURLLine0 = "Complete NRRD file format specification at:";
+const char *_nrrdFormatURLLine1 = "http://teem.sourceforge.net/nrrd/format.html";
 
 void
 nrrdIoStateDataFileIterBegin(NrrdIoState *nio) {
@@ -164,9 +162,7 @@ nrrdIoStateDataFileIterBegin(NrrdIoState *nio) {
 ** else str[1] != ':'
 ** if str[0] = '/', its a normal full path, return false
 */
-#define _NEED_PATH(str) (strcmp("-", (str)) \
-                         && ':' != (str)[1] \
-                         && '/' != (str)[0])
+#define _NEED_PATH(str) (strcmp("-", (str)) && ':' != (str)[1] && '/' != (str)[0])
 
 /*
 ** this is responsible for the header-relative path processing
@@ -178,23 +174,25 @@ nrrdIoStateDataFileIterBegin(NrrdIoState *nio) {
 */
 int
 nrrdIoStateDataFileIterNext(FILE **fileP, NrrdIoState *nio, int reading) {
-  static const char me[]="nrrdIoStateDataFileIterNext";
-  char *fname=NULL;
+  static const char me[] = "nrrdIoStateDataFileIterNext";
+  char *fname = NULL;
   int ii, needPath;
   unsigned int num, fi;
   size_t maxl;
   airArray *mop;
 
   mop = airMopNew();
-  airMopAdd(mop, (void*)fileP, (airMopper)airSetNull, airMopOnError);
+  airMopAdd(mop, (void *)fileP, (airMopper)airSetNull, airMopOnError);
 
   if (!fileP) {
     biffAddf(NRRD, "%s: got NULL pointer", me);
-    airMopError(mop); return 1;
+    airMopError(mop);
+    return 1;
   }
   if (!_nrrdDataFNNumber(nio)) {
     biffAddf(NRRD, "%s: there appear to be zero datafiles!", me);
-    airMopError(mop); return 1;
+    airMopError(mop);
+    return 1;
   }
 
   if (nio->dataFNIndex >= _nrrdDataFNNumber(nio)) {
@@ -216,19 +214,21 @@ nrrdIoStateDataFileIterNext(FILE **fileP, NrrdIoState *nio, int reading) {
       /* assuming 10-digit integers is plenty big */
       maxl = 10 + strlen(nio->dataFNFormat);
     } else {
-      for (fi=0; fi<nio->dataFNArr->len; fi++) {
+      for (fi = 0; fi < nio->dataFNArr->len; fi++) {
         needPath |= _NEED_PATH(nio->dataFN[fi]);
         maxl = AIR_MAX(maxl, strlen(nio->dataFN[fi]));
       }
     }
     if (needPath && !airStrlen(nio->path)) {
       biffAddf(NRRD, "%s: need nio->path for header-relative datafiles", me);
-      airMopError(mop); return 1;
+      airMopError(mop);
+      return 1;
     }
-    fname = (char*)malloc(airStrlen(nio->path) + strlen("/") + maxl + 1);
+    fname = (char *)malloc(airStrlen(nio->path) + strlen("/") + maxl + 1);
     if (!fname) {
       biffAddf(NRRD, "%s: couldn't allocate filename buffer", me);
-      airMopError(mop); return 1;
+      airMopError(mop);
+      return 1;
     }
     airMopAdd(mop, fname, airFree, airMopAlways);
   }
@@ -238,9 +238,8 @@ nrrdIoStateDataFileIterNext(FILE **fileP, NrrdIoState *nio, int reading) {
     /* --------- base.%d <min> <max> <step> [<dim>] ------------- */
     /* ---------------------------------------------------------- */
     num = 0;
-    for (ii = nio->dataFNMin;
-         ((nio->dataFNStep > 0 && ii <= nio->dataFNMax)
-          || (nio->dataFNStep < 0 && ii >= nio->dataFNMax));
+    for (ii = nio->dataFNMin; ((nio->dataFNStep > 0 && ii <= nio->dataFNMax)
+                               || (nio->dataFNStep < 0 && ii >= nio->dataFNMax));
          ii += nio->dataFNStep) {
       if (num == nio->dataFNIndex) {
         break;
@@ -269,10 +268,11 @@ nrrdIoStateDataFileIterNext(FILE **fileP, NrrdIoState *nio, int reading) {
   if (nio->dataFNFormat || nio->dataFNArr->len) {
     *fileP = airFopen(fname, reading ? stdin : stdout, reading ? "rb" : "wb");
     if (!(*fileP)) {
-      biffAddf(NRRD, "%s: couldn't open \"%s\" (data file %u of %u) for %s",
-               me, fname, nio->dataFNIndex+1, _nrrdDataFNNumber(nio),
+      biffAddf(NRRD, "%s: couldn't open \"%s\" (data file %u of %u) for %s", me, fname,
+               nio->dataFNIndex + 1, _nrrdDataFNNumber(nio),
                reading ? "reading" : "writing");
-      airMopError(mop); return 1;
+      airMopError(mop);
+      return 1;
     }
   } else {
     /* data file is attached */
@@ -324,18 +324,16 @@ _nrrdFormatNRRD_available(void) {
 static int
 _nrrdFormatNRRD_nameLooksLike(const char *filename) {
 
-  return (airEndsWith(filename, NRRD_EXT_NRRD)
-          || airEndsWith(filename, NRRD_EXT_NHDR));
+  return (airEndsWith(filename, NRRD_EXT_NRRD) || airEndsWith(filename, NRRD_EXT_NHDR));
 }
 
 static int
-_nrrdFormatNRRD_fitsInto(const Nrrd *nrrd, const NrrdEncoding *encoding,
-                         int useBiff) {
-  static const char me[]="_nrrdFormatNRRD_fitsInto";
+_nrrdFormatNRRD_fitsInto(const Nrrd *nrrd, const NrrdEncoding *encoding, int useBiff) {
+  static const char me[] = "_nrrdFormatNRRD_fitsInto";
 
-  if (!( nrrd && encoding )) {
-    biffMaybeAddf(useBiff, NRRD, "%s: got NULL nrrd (%p) or encoding (%p)",
-                  me, AIR_CVOIDP(nrrd), AIR_CVOIDP(encoding));
+  if (!(nrrd && encoding)) {
+    biffMaybeAddf(useBiff, NRRD, "%s: got NULL nrrd (%p) or encoding (%p)", me,
+                  AIR_CVOIDP(nrrd), AIR_CVOIDP(encoding));
     return AIR_FALSE;
   }
 
@@ -346,13 +344,9 @@ _nrrdFormatNRRD_fitsInto(const Nrrd *nrrd, const NrrdEncoding *encoding,
 static int
 _nrrdFormatNRRD_contentStartsLike(NrrdIoState *nio) {
 
-  return (!strcmp(MAGIC0, nio->line)
-          || !strcmp(MAGIC1, nio->line)
-          || !strcmp(MAGIC2, nio->line)
-          || !strcmp(MAGIC3, nio->line)
-          || !strcmp(MAGIC4, nio->line)
-          || !strcmp(MAGIC5, nio->line)
-          );
+  return (!strcmp(MAGIC0, nio->line) || !strcmp(MAGIC1, nio->line)
+          || !strcmp(MAGIC2, nio->line) || !strcmp(MAGIC3, nio->line)
+          || !strcmp(MAGIC4, nio->line) || !strcmp(MAGIC5, nio->line));
 }
 
 /*
@@ -369,14 +363,14 @@ _nrrdFormatNRRD_contentStartsLike(NrrdIoState *nio) {
 */
 int
 _nrrdHeaderCheck(Nrrd *nrrd, NrrdIoState *nio, int checkSeen) {
-  static const char me[]="_nrrdHeaderCheck";
+  static const char me[] = "_nrrdHeaderCheck";
   int i;
 
   if (checkSeen) {
-    for (i=1; i<=NRRD_FIELD_MAX; i++) {
+    for (i = 1; i <= NRRD_FIELD_MAX; i++) {
       if (_nrrdFieldRequired[i] && !nio->seen[i]) {
-        biffAddf(NRRD, "%s: didn't see required field: %s",
-                 me, airEnumStr(nrrdField, i));
+        biffAddf(NRRD, "%s: didn't see required field: %s", me,
+                 airEnumStr(nrrdField, i));
         return 1;
       }
     }
@@ -393,12 +387,10 @@ _nrrdHeaderCheck(Nrrd *nrrd, NrrdIoState *nio, int checkSeen) {
   }
   /* _nrrdReadNrrdParse_sizes() checks axis[i].size, which completely
      determines the return of nrrdElementNumber() */
-  if (airEndianUnknown == nio->endian
-      && nio->encoding->endianMatters
+  if (airEndianUnknown == nio->endian && nio->encoding->endianMatters
       && 1 != nrrdElementSize(nrrd)) {
     biffAddf(NRRD, "%s: type (%s) and encoding (%s) require %s info", me,
-             airEnumStr(nrrdType, nrrd->type),
-             nio->encoding->name,
+             airEnumStr(nrrdType, nrrd->type), nio->encoding->name,
              airEnumStr(nrrdField, nrrdField_endian));
     return 1;
   }
@@ -423,14 +415,14 @@ _nrrdHeaderCheck(Nrrd *nrrd, NrrdIoState *nio, int checkSeen) {
 */
 static int
 _nrrdFormatNRRD_read(FILE *file, Nrrd *nrrd, NrrdIoState *nio) {
-  static const char me[]="_nrrdFormatNRRD_read";
+  static const char me[] = "_nrrdFormatNRRD_read";
   /* Dynamically allocated for space reasons. */
   /* MWC: These strlen usages look really unsafe. */
   int ret;
   unsigned int llen;
   size_t valsPerPiece;
   char *data;
-  FILE *dataFile=NULL;
+  FILE *dataFile = NULL;
 
   /* record where the header is being read from for the sake of
      nrrdIoStateDataFileIterNext() */
@@ -441,8 +433,7 @@ _nrrdFormatNRRD_read(FILE *file, Nrrd *nrrd, NrrdIoState *nio) {
   /* nio->headerStringRead is NULL whenever IO from string is not being done */
   if (file || nio->headerStringRead) {
     if (!_nrrdFormatNRRD_contentStartsLike(nio)) {
-      biffAddf(NRRD, "%s: this doesn't look like a %s file", me,
-               nrrdFormatNRRD->name);
+      biffAddf(NRRD, "%s: this doesn't look like a %s file", me, nrrdFormatNRRD->name);
       return 1;
     }
     /* parse all the header lines */
@@ -455,15 +446,15 @@ _nrrdFormatNRRD_read(FILE *file, Nrrd *nrrd, NrrdIoState *nio) {
       if (llen > 1) {
         ret = _nrrdReadNrrdParseField(nio, AIR_TRUE);
         if (!ret) {
-          biffAddf(NRRD, "%s: trouble parsing NRRD field identifier from "
-                   "in \"%s\"", me, nio->line);
+          biffAddf(NRRD,
+                   "%s: trouble parsing NRRD field identifier from "
+                   "in \"%s\"",
+                   me, nio->line);
           return 1;
         }
         /* comments and key/values are allowed multiple times */
-        if (nio->seen[ret]
-            && !(ret == nrrdField_comment || ret == nrrdField_keyvalue)) {
-          biffAddf(NRRD, "%s: already set field %s", me,
-                   airEnumStr(nrrdField, ret));
+        if (nio->seen[ret] && !(ret == nrrdField_comment || ret == nrrdField_keyvalue)) {
+          biffAddf(NRRD, "%s: already set field %s", me, airEnumStr(nrrdField, ret));
           return 1;
         }
         if (nrrdFieldInfoParse[ret](file, nrrd, nio, AIR_TRUE)) {
@@ -477,9 +468,7 @@ _nrrdFormatNRRD_read(FILE *file, Nrrd *nrrd, NrrdIoState *nio) {
     /* either
        0 == llen: we're at EOF (or end of nio->headerStringRead), or
        1 == llen: we just read the empty line separating header from data */
-    if (0 == llen
-        && !nio->headerStringRead
-        && !nio->dataFNFormat
+    if (0 == llen && !nio->headerStringRead && !nio->dataFNFormat
         && 0 == nio->dataFNArr->len) {
       /* we're at EOF, we're not reading from a string, but there's
          apparently no separate data file */
@@ -491,7 +480,7 @@ _nrrdFormatNRRD_read(FILE *file, Nrrd *nrrd, NrrdIoState *nio) {
   if (_nrrdHeaderCheck(nrrd, nio, !!file)) {
     biffAddf(NRRD, "%s: %s", me,
              (llen ? "finished reading header, but there were problems"
-              : "hit EOF before seeing a complete valid header"));
+                   : "hit EOF before seeing a complete valid header"));
     return 1;
   }
 
@@ -511,14 +500,14 @@ _nrrdFormatNRRD_read(FILE *file, Nrrd *nrrd, NrrdIoState *nio) {
       biffAddf(NRRD, "%s: couldn't allocate memory for data", me);
       return 1;
     }
-    data = (char*)nrrd->data;
+    data = (char *)nrrd->data;
   }
 
   /* iterate through datafiles and read them in */
   /* NOTE: you have to open dataFile even in the case of skipData, because
      caller might have set keepNrrdDataFileOpen, in which case you need to
      do any line or byte skipping if it is specified */
-  valsPerPiece = nrrdElementNumber(nrrd)/_nrrdDataFNNumber(nio);
+  valsPerPiece = nrrdElementNumber(nrrd) / _nrrdDataFNNumber(nio);
   while (dataFile) {
     /* ---------------- skip, if need be */
     if (nrrdLineSkip(dataFile, nio)) {
@@ -558,7 +547,7 @@ _nrrdFormatNRRD_read(FILE *file, Nrrd *nrrd, NrrdIoState *nio) {
         dataFile = airFclose(dataFile);
       }
     }
-    data += valsPerPiece*nrrdElementSize(nrrd);
+    data += valsPerPiece * nrrdElementSize(nrrd);
     if (nrrdIoStateDataFileIterNext(&dataFile, nio, AIR_TRUE)) {
       biffAddf(NRRD, "%s: couldn't get the next datafile", me);
       return 1;
@@ -567,8 +556,7 @@ _nrrdFormatNRRD_read(FILE *file, Nrrd *nrrd, NrrdIoState *nio) {
 
   if (airEndianUnknown != nio->endian && nrrd->data) {
     /* we positively know the endianness of data just read */
-    if (1 < nrrdElementSize(nrrd)
-        && nio->encoding->endianMatters
+    if (1 < nrrdElementSize(nrrd) && nio->encoding->endianMatters
         && nio->endian != airMyEndian()) {
       /* endianness exposed in encoding, and its wrong */
       if (2 <= nrrdStateVerboseIO) {
@@ -588,29 +576,30 @@ _nrrdFormatNRRD_read(FILE *file, Nrrd *nrrd, NrrdIoState *nio) {
 
 static int
 _nrrdFormatNRRD_write(FILE *file, const Nrrd *nrrd, NrrdIoState *nio) {
-  static const char me[]="_nrrdFormatNRRD_write";
+  static const char me[] = "_nrrdFormatNRRD_write";
   char strbuf[AIR_STRLEN_MED], *strptr, *tmp;
   int ii;
   unsigned int jj;
   airArray *mop;
-  FILE *dataFile=NULL;
+  FILE *dataFile = NULL;
   size_t valsPerPiece;
   char *data;
 
   mop = airMopNew();
 
-  if (!(file
-        || nio->headerStringWrite
-        || nio->learningHeaderStrlen)) {
-    biffAddf(NRRD, "%s: have no file or string to write to, nor are "
-             "learning header string length", me);
-    airMopError(mop); return 1;
+  if (!(file || nio->headerStringWrite || nio->learningHeaderStrlen)) {
+    biffAddf(NRRD,
+             "%s: have no file or string to write to, nor are "
+             "learning header string length",
+             me);
+    airMopError(mop);
+    return 1;
   }
   if (nrrdTypeBlock == nrrd->type && nrrdEncodingAscii == nio->encoding) {
     biffAddf(NRRD, "%s: can't write nrrd type %s with %s encoding", me,
-             airEnumStr(nrrdType, nrrdTypeBlock),
-             nrrdEncodingAscii->name);
-    airMopError(mop); return 1;
+             airEnumStr(nrrdType, nrrdTypeBlock), nrrdEncodingAscii->name);
+    airMopError(mop);
+    return 1;
   }
 
   /* record where the header is being written to for the sake of
@@ -620,9 +609,7 @@ _nrrdFormatNRRD_write(FILE *file, const Nrrd *nrrd, NrrdIoState *nio) {
 
   /* we have to make sure that the data filename information is set
      (if needed), so that it can be printed by _nrrdFprintFieldInfo */
-  if (nio->detachedHeader
-      && !nio->dataFNFormat
-      && 0 == nio->dataFNArr->len) {
+  if (nio->detachedHeader && !nio->dataFNFormat && 0 == nio->dataFNArr->len) {
     /* NOTE: this means someone requested a detached header, but we
        don't already have implicit (via dataFNFormat) or explicit
        (via dataFN[]) information about the data file */
@@ -634,24 +621,28 @@ _nrrdFormatNRRD_write(FILE *file, const Nrrd *nrrd, NrrdIoState *nio) {
        a name in dataFN[0] will trump the name implied by nio->{path,base},
        which is a useful way for the user to explicitly set the output
        data filename (as with unu make -od) */
-    if (!( !!airStrlen(nio->path) && !!airStrlen(nio->base) )) {
-      biffAddf(NRRD, "%s: can't create data file name: nio's "
-               "path and base empty", me);
-      airMopError(mop); return 1;
+    if (!(!!airStrlen(nio->path) && !!airStrlen(nio->base))) {
+      biffAddf(NRRD,
+               "%s: can't create data file name: nio's "
+               "path and base empty",
+               me);
+      airMopError(mop);
+      return 1;
     }
-    tmp = (char*)malloc(strlen(nio->base)
-                        + strlen(".")
-                        + strlen(nio->encoding->suffix) + 1);
+    tmp = (char *)malloc(strlen(nio->base) + strlen(".") + strlen(nio->encoding->suffix)
+                         + 1);
     if (!tmp) {
       biffAddf(NRRD, "%s: couldn't allocate data filename", me);
-      airMopError(mop); return 1;
+      airMopError(mop);
+      return 1;
     }
     airMopAdd(mop, tmp, airFree, airMopOnError);
     sprintf(tmp, "%s.%s", nio->base, nio->encoding->suffix);
     jj = airArrayLenIncr(nio->dataFNArr, 1);
     if (!nio->dataFNArr->data) {
       biffAddf(NRRD, "%s: can't increase dataFNArr storage", me);
-      airMopError(mop); return 1;
+      airMopError(mop);
+      return 1;
     }
     nio->dataFN[jj] = tmp;
   }
@@ -660,8 +651,8 @@ _nrrdFormatNRRD_write(FILE *file, const Nrrd *nrrd, NrrdIoState *nio) {
   if (file) {
     fprintf(file, "%s%04d\n", MAGIC, _nrrdFormatNRRD_whichVersion(nrrd, nio));
   } else if (nio->headerStringWrite) {
-    sprintf(nio->headerStringWrite, "%s%04d\n",
-            MAGIC, _nrrdFormatNRRD_whichVersion(nrrd, nio));
+    sprintf(nio->headerStringWrite, "%s%04d\n", MAGIC,
+            _nrrdFormatNRRD_whichVersion(nrrd, nio));
   } else {
     nio->headerStrlen = AIR_CAST(unsigned int, strlen(MAGIC) + strlen("0000")) + 1;
   }
@@ -683,7 +674,7 @@ _nrrdFormatNRRD_write(FILE *file, const Nrrd *nrrd, NrrdIoState *nio) {
   }
 
   /* this is where the majority of the header printing happens */
-  for (ii=1; ii<=NRRD_FIELD_MAX; ii++) {
+  for (ii = 1; ii <= NRRD_FIELD_MAX; ii++) {
     if (_nrrdFieldInteresting(nrrd, nio, ii)) {
       if (file) {
         _nrrdFprintFieldInfo(file, "", nrrd, nio, ii);
@@ -708,40 +699,37 @@ _nrrdFormatNRRD_write(FILE *file, const Nrrd *nrrd, NrrdIoState *nio) {
   }
 
   /* comments and key/value pairs handled differently */
-  for (jj=0; jj<nrrd->cmtArr->len; jj++) {
+  for (jj = 0; jj < nrrd->cmtArr->len; jj++) {
     char *strtmp;
     strtmp = airOneLinify(airStrdup(nrrd->cmt[jj]));
     if (file) {
       fprintf(file, "%c %s\n", NRRD_COMMENT_CHAR, strtmp);
     } else if (nio->headerStringWrite) {
-      strptr = (char*)malloc(1 + strlen(" ")
-                             + strlen(strtmp) + strlen("\n") + 1);
+      strptr = (char *)malloc(1 + strlen(" ") + strlen(strtmp) + strlen("\n") + 1);
       sprintf(strptr, "%c %s\n", NRRD_COMMENT_CHAR, strtmp);
       strcat(nio->headerStringWrite, strptr);
       free(strptr);
       strptr = NULL;
     } else {
-      nio->headerStrlen += (1 + AIR_CAST(unsigned int, strlen(" ")
-                                         + strlen(strtmp)
-                                         + strlen("\n")) + 1);
+      nio->headerStrlen
+        += (1 + AIR_CAST(unsigned int, strlen(" ") + strlen(strtmp) + strlen("\n")) + 1);
     }
     airFree(strtmp);
   }
-  for (jj=0; jj<nrrd->kvpArr->len; jj++) {
+  for (jj = 0; jj < nrrd->kvpArr->len; jj++) {
     if (file) {
-      _nrrdKeyValueWrite(file, NULL,
-                         NULL, nrrd->kvp[0 + 2*jj], nrrd->kvp[1 + 2*jj]);
+      _nrrdKeyValueWrite(file, NULL, NULL, nrrd->kvp[0 + 2 * jj], nrrd->kvp[1 + 2 * jj]);
     } else if (nio->headerStringWrite) {
-      _nrrdKeyValueWrite(NULL, &strptr,
-                         NULL, nrrd->kvp[0 + 2*jj], nrrd->kvp[1 + 2*jj]);
+      _nrrdKeyValueWrite(NULL, &strptr, NULL, nrrd->kvp[0 + 2 * jj],
+                         nrrd->kvp[1 + 2 * jj]);
       if (strptr) {
         strcat(nio->headerStringWrite, strptr);
         free(strptr);
         strptr = NULL;
       }
     } else {
-      _nrrdKeyValueWrite(NULL, &strptr,
-                         NULL, nrrd->kvp[0 + 2*jj], nrrd->kvp[1 + 2*jj]);
+      _nrrdKeyValueWrite(NULL, &strptr, NULL, nrrd->kvp[0 + 2 * jj],
+                         nrrd->kvp[1 + 2 * jj]);
       if (strptr) {
         nio->headerStrlen += AIR_CAST(unsigned int, strlen(strptr));
         free(strptr);
@@ -751,7 +739,7 @@ _nrrdFormatNRRD_write(FILE *file, const Nrrd *nrrd, NrrdIoState *nio) {
   }
 
   if (file) {
-    if (!( nio->detachedHeader || _nrrdDataFNNumber(nio) > 1 )) {
+    if (!(nio->detachedHeader || _nrrdDataFNNumber(nio) > 1)) {
       fprintf(file, "\n");
     }
   }
@@ -760,11 +748,12 @@ _nrrdFormatNRRD_write(FILE *file, const Nrrd *nrrd, NrrdIoState *nio) {
     nrrdIoStateDataFileIterBegin(nio);
     if (nrrdIoStateDataFileIterNext(&dataFile, nio, AIR_FALSE)) {
       biffAddf(NRRD, "%s: couldn't write the first datafile", me);
-      airMopError(mop); return 1;
+      airMopError(mop);
+      return 1;
     }
 
-    valsPerPiece = nrrdElementNumber(nrrd)/_nrrdDataFNNumber(nio);
-    data = (char*)nrrd->data;
+    valsPerPiece = nrrdElementNumber(nrrd) / _nrrdDataFNNumber(nio);
+    data = (char *)nrrd->data;
     do {
       /* ---------------- write data */
       if (2 <= nrrdStateVerboseIO) {
@@ -776,7 +765,8 @@ _nrrdFormatNRRD_write(FILE *file, const Nrrd *nrrd, NrrdIoState *nio) {
           fprintf(stderr, "error!\n");
         }
         biffAddf(NRRD, "%s: couldn't write %s data", me, nio->encoding->name);
-        airMopError(mop); return 1;
+        airMopError(mop);
+        return 1;
       }
       if (2 <= nrrdStateVerboseIO) {
         fprintf(stderr, "done)\n");
@@ -785,10 +775,11 @@ _nrrdFormatNRRD_write(FILE *file, const Nrrd *nrrd, NrrdIoState *nio) {
       if (dataFile != nio->headerFile) {
         dataFile = airFclose(dataFile);
       }
-      data += valsPerPiece*nrrdElementSize(nrrd);
+      data += valsPerPiece * nrrdElementSize(nrrd);
       if (nrrdIoStateDataFileIterNext(&dataFile, nio, AIR_TRUE)) {
         biffAddf(NRRD, "%s: couldn't get the next datafile", me);
-        airMopError(mop); return 1;
+        airMopError(mop);
+        return 1;
       }
     } while (dataFile);
   }
@@ -797,19 +788,15 @@ _nrrdFormatNRRD_write(FILE *file, const Nrrd *nrrd, NrrdIoState *nio) {
   return 0;
 }
 
-const NrrdFormat
-_nrrdFormatNRRD = {
-  "NRRD",
-  AIR_FALSE,  /* isImage */
-  AIR_TRUE,   /* readable */
-  AIR_TRUE,   /* usesDIO */
-  _nrrdFormatNRRD_available,
-  _nrrdFormatNRRD_nameLooksLike,
-  _nrrdFormatNRRD_fitsInto,
-  _nrrdFormatNRRD_contentStartsLike,
-  _nrrdFormatNRRD_read,
-  _nrrdFormatNRRD_write
-};
+const NrrdFormat _nrrdFormatNRRD = {"NRRD",
+                                    AIR_FALSE, /* isImage */
+                                    AIR_TRUE,  /* readable */
+                                    AIR_TRUE,  /* usesDIO */
+                                    _nrrdFormatNRRD_available,
+                                    _nrrdFormatNRRD_nameLooksLike,
+                                    _nrrdFormatNRRD_fitsInto,
+                                    _nrrdFormatNRRD_contentStartsLike,
+                                    _nrrdFormatNRRD_read,
+                                    _nrrdFormatNRRD_write};
 
-const NrrdFormat *const
-nrrdFormatNRRD = &_nrrdFormatNRRD;
+const NrrdFormat *const nrrdFormatNRRD = &_nrrdFormatNRRD;

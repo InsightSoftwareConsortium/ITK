@@ -61,7 +61,7 @@ _airEnumIndex(const airEnum *enm, int val) {
 
   ret = 0;
   if (enm->val) {
-    for (ii=1; ii<=enm->M; ii++) {
+    for (ii = 1; ii <= enm->M; ii++) {
       if (val == enm->val[ii]) {
         ret = ii;
         break;
@@ -118,7 +118,7 @@ airEnumVal(const airEnum *enm, const char *str) {
   if (enm->strEqv) {
     /* want strlen and not airStrlen here because the strEqv array
        should be terminated by a non-null empty string */
-    for (ii=0; strlen(enm->strEqv[ii]); ii++) {
+    for (ii = 0; strlen(enm->strEqv[ii]); ii++) {
       airStrcpy(test, AIR_STRLEN_SMALL, enm->strEqv[ii]);
       if (!enm->sense) {
         airToLower(test);
@@ -130,7 +130,7 @@ airEnumVal(const airEnum *enm, const char *str) {
     }
   } else {
     /* enm->strEqv NULL */
-    for (ii=1; ii<=enm->M; ii++) {
+    for (ii = 1; ii <= enm->M; ii++) {
       airStrcpy(test, AIR_STRLEN_SMALL, enm->str[ii]);
       if (!enm->sense) {
         airToLower(test);
@@ -177,7 +177,7 @@ airEnumFmtDesc(const airEnum *enm, int val, int canon, const char *fmt) {
   _ident = airEnumStr(enm, val);
   if (!canon && enm->strEqv) {
     len = airStrlen(_ident);
-    for (i=0; airStrlen(enm->strEqv[i]); i++) {
+    for (i = 0; airStrlen(enm->strEqv[i]); i++) {
       if (val != enm->valEqv[i]) {
         /* this isn't a string representing the value we care about */
         continue;
@@ -194,8 +194,7 @@ airEnumFmtDesc(const airEnum *enm, int val, int canon, const char *fmt) {
     airToLower(ident);
   }
   desc = enm->desc[_airEnumIndex(enm, val)];
-  buff = AIR_CALLOC(airStrlen(fmt) + airStrlen(ident) +
-                    airStrlen(desc) + 1, char);
+  buff = AIR_CALLOC(airStrlen(fmt) + airStrlen(ident) + airStrlen(desc) + 1, char);
   if (buff) {
     sprintf(buff, fmt, ident, desc);
   }
@@ -210,12 +209,11 @@ _enumPrintVal(FILE *file, const airEnum *enm, int ii) {
   }
   if (enm->strEqv) {
     unsigned int jj;
-    fprintf(file, "eqv:"); fflush(file);
+    fprintf(file, "eqv:");
+    fflush(file);
     jj = 0;
     while (airStrlen(enm->strEqv[jj])) {
-      if (enm->valEqv[jj] == (enm->val
-                              ? enm->val[ii]
-                              : ii)) {
+      if (enm->valEqv[jj] == (enm->val ? enm->val[ii] : ii)) {
         fprintf(file, " \"%s\"", enm->strEqv[jj]);
       }
       jj++;
@@ -243,9 +241,8 @@ airEnumPrint(FILE *file, const airEnum *enm) {
   if (enm->val) {
     fprintf(file, "Values (%u valid) given explicitly\n", enm->M);
     fprintf(file, "--- (0) %d: \"%s\"\n", enm->val[0], enm->str[0]);
-    for (ii=1; ii<=AIR_CAST(int, enm->M); ii++) {
-      fprintf(file, "--- (%d) %d: \"%s\" == \"%s\"\n", ii,
-              enm->val[ii], enm->str[ii],
+    for (ii = 1; ii <= AIR_CAST(int, enm->M); ii++) {
+      fprintf(file, "--- (%d) %d: \"%s\" == \"%s\"\n", ii, enm->val[ii], enm->str[ii],
               airEnumStr(enm, enm->val[ii]));
       _enumPrintVal(file, enm, ii);
     }
@@ -253,9 +250,8 @@ airEnumPrint(FILE *file, const airEnum *enm) {
     /* enm->val NULL */
     fprintf(file, "Values implicit; [1,%u] valid\n", enm->M);
     fprintf(file, "--- 0: \"%s\"\n", enm->str[0]);
-    for (ii=1; ii<=AIR_CAST(int, enm->M); ii++) {
-      fprintf(file, "--- %d: %s == %s\n", ii, enm->str[ii],
-              airEnumStr(enm, ii));
+    for (ii = 1; ii <= AIR_CAST(int, enm->M); ii++) {
+      fprintf(file, "--- %d: %s == %s\n", ii, enm->str[ii], airEnumStr(enm, ii));
       _enumPrintVal(file, enm, ii);
     }
   }

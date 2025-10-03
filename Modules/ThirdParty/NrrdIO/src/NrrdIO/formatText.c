@@ -35,24 +35,20 @@ _nrrdFormatText_available(void) {
 int
 _nrrdFormatText_nameLooksLike(const char *fname) {
 
-  return (airEndsWith(fname, NRRD_EXT_TEXT)
-          || airEndsWith(fname, ".text")
+  return (airEndsWith(fname, NRRD_EXT_TEXT) || airEndsWith(fname, ".text")
           || airEndsWith(fname, ".ascii"));
 }
 
 int
-_nrrdFormatText_fitsInto(const Nrrd *nrrd, const NrrdEncoding *encoding,
-                        int useBiff) {
-  char me[]="_nrrdFormatText_fitsInto", err[AIR_STRLEN_MED];
+_nrrdFormatText_fitsInto(const Nrrd *nrrd, const NrrdEncoding *encoding, int useBiff) {
+  char me[] = "_nrrdFormatText_fitsInto", err[AIR_STRLEN_MED];
 
   AIR_UNUSED(nrrd);
   AIR_UNUSED(encoding);
   AIR_UNUSED(useBiff);
-  sprintf(err, "%s: Sorry, %s format not available in NrrdIO",
-          me, nrrdFormatText->name);
+  sprintf(err, "%s: Sorry, %s format not available in NrrdIO", me, nrrdFormatText->name);
   biffMaybeAdd(NRRD, err, useBiff);
   return AIR_FALSE;
-
 }
 
 int
@@ -60,48 +56,41 @@ _nrrdFormatText_contentStartsLike(NrrdIoState *nio) {
 
   AIR_UNUSED(nio);
   return AIR_FALSE;
-
 }
 
 int
 _nrrdFormatText_read(FILE *file, Nrrd *nrrd, NrrdIoState *nio) {
-  char me[]="_nrrdReadText", err[AIR_STRLEN_MED];
+  char me[] = "_nrrdReadText", err[AIR_STRLEN_MED];
 
   AIR_UNUSED(file);
   AIR_UNUSED(nrrd);
   AIR_UNUSED(nio);
-  sprintf(err, "%s: Sorry, %s format not available in NrrdIO",
-          me, nrrdFormatText->name);
+  sprintf(err, "%s: Sorry, %s format not available in NrrdIO", me, nrrdFormatText->name);
   biffAdd(NRRD, err);
   return 1;
 }
 
 int
 _nrrdFormatText_write(FILE *file, const Nrrd *nrrd, NrrdIoState *nio) {
-  char me[]="_nrrdFormatText_write", err[AIR_STRLEN_MED];
+  char me[] = "_nrrdFormatText_write", err[AIR_STRLEN_MED];
 
   AIR_UNUSED(file);
   AIR_UNUSED(nrrd);
   AIR_UNUSED(nio);
-  sprintf(err, "%s: Sorry, %s format not available in NrrdIO",
-          me, nrrdFormatText->name);
+  sprintf(err, "%s: Sorry, %s format not available in NrrdIO", me, nrrdFormatText->name);
   biffAdd(NRRD, err);
   return 1;
 }
 
-const NrrdFormat
-_nrrdFormatText = {
-  "text",
-  AIR_FALSE,  /* isImage */
-  AIR_FALSE,  /* readable */
-  AIR_FALSE,  /* usesDIO */
-  _nrrdFormatText_available,
-  _nrrdFormatText_nameLooksLike,
-  _nrrdFormatText_fitsInto,
-  _nrrdFormatText_contentStartsLike,
-  _nrrdFormatText_read,
-  _nrrdFormatText_write
-};
+const NrrdFormat _nrrdFormatText = {"text",
+                                    AIR_FALSE, /* isImage */
+                                    AIR_FALSE, /* readable */
+                                    AIR_FALSE, /* usesDIO */
+                                    _nrrdFormatText_available,
+                                    _nrrdFormatText_nameLooksLike,
+                                    _nrrdFormatText_fitsInto,
+                                    _nrrdFormatText_contentStartsLike,
+                                    _nrrdFormatText_read,
+                                    _nrrdFormatText_write};
 
-const NrrdFormat *const
-nrrdFormatText = &_nrrdFormatText;
+const NrrdFormat *const nrrdFormatText = &_nrrdFormatText;

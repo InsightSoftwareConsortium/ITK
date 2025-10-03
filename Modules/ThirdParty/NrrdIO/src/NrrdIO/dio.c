@@ -29,9 +29,9 @@
 #if TEEM_DIO == 0
 #else
 /* HEY: these may be SGI-specific */
-#include <sys/types.h>
-#include <unistd.h>
-#include <fcntl.h>
+#  include <sys/types.h>
+#  include <unistd.h>
+#  include <fcntl.h>
 #endif
 
 #if TEEM_DIO == 0
@@ -42,31 +42,28 @@ const int airMyDio = 1;
 
 int airDisableDio = AIR_FALSE;
 
-static const char
-_airNoDioErr[AIR_NODIO_MAX+2][AIR_STRLEN_SMALL] = {
-  "(invalid noDio value)",
-  "CAN TOO do direct I/O!",
-  "direct I/O apparently not available on this architecture",
-  "direct I/O apparently not suitable for given file format",
-  "won't do direct I/O on std{in|out|err}",
-  "got -1 as file descriptor",
-  "fcntl(F_DIOINFO) to learn direct I/O specifics failed",
-  "requested transfer size is too small",
-  "requested transfer size not a multiple of d_miniosz",
-  "data memory address not multiple of d_mem",
-  "current file position not multiple of d_miniosz",
-  "fcntl(F_SETFL, FDIRECT) to turn on direct I/O failed",
-  "memalign() test (on a small chuck of memory) failed",
-  "direct I/O (in air library) has been disabled with airDisableDio"
-};
+static const char _airNoDioErr[AIR_NODIO_MAX + 2][AIR_STRLEN_SMALL]
+  = {"(invalid noDio value)",
+     "CAN TOO do direct I/O!",
+     "direct I/O apparently not available on this architecture",
+     "direct I/O apparently not suitable for given file format",
+     "won't do direct I/O on std{in|out|err}",
+     "got -1 as file descriptor",
+     "fcntl(F_DIOINFO) to learn direct I/O specifics failed",
+     "requested transfer size is too small",
+     "requested transfer size not a multiple of d_miniosz",
+     "data memory address not multiple of d_mem",
+     "current file position not multiple of d_miniosz",
+     "fcntl(F_SETFL, FDIRECT) to turn on direct I/O failed",
+     "memalign() test (on a small chuck of memory) failed",
+     "direct I/O (in air library) has been disabled with airDisableDio"};
 
 const char *
 airNoDioErr(int noDio) {
 
   if (AIR_IN_CL(0, noDio, AIR_NODIO_MAX)) {
-    return _airNoDioErr[noDio+1];
-  }
-  else {
+    return _airNoDioErr[noDio + 1];
+  } else {
     return _airNoDioErr[0];
   }
 }
@@ -271,7 +268,7 @@ airDioRead(int fd, void *_ptr, size_t size) {
   size_t remain, part;
   char *ptr;
 
-  if (!( _ptr && airNoDio_okay == airDioTest(fd, _ptr, size) )) {
+  if (!(_ptr && airNoDio_okay == airDioTest(fd, _ptr, size))) {
     return 0;
   }
 
@@ -280,7 +277,7 @@ airDioRead(int fd, void *_ptr, size_t size) {
   airDioInfo(&align, &min, &max, fd);
   remain = size;
   totalred = 0;
-  ptr = (char*)_ptr;
+  ptr = (char *)_ptr;
   do {
     part = AIR_MIN(remain, max);
     red = read(fd, ptr, part);
@@ -323,7 +320,7 @@ airDioWrite(int fd, const void *_ptr, size_t size) {
   size_t remain, part;
   char *ptr;
 
-  if (!( _ptr && (airNoDio_okay == airDioTest(fd, _ptr, size)) )) {
+  if (!(_ptr && (airNoDio_okay == airDioTest(fd, _ptr, size)))) {
     return 0;
   }
 
@@ -332,7 +329,7 @@ airDioWrite(int fd, const void *_ptr, size_t size) {
   airDioInfo(&align, &min, &max, fd);
   remain = size;
   totalrit = 0;
-  ptr = (char*)_ptr;
+  ptr = (char *)_ptr;
   do {
     part = AIR_MIN(remain, max);
     rit = write(fd, ptr, part);

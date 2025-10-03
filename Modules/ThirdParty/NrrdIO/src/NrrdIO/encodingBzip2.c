@@ -33,45 +33,43 @@ _nrrdEncodingBzip2_available(void) {
 }
 
 int
-_nrrdEncodingBzip2_read(FILE *file, void *data, size_t elementNum,
-                        Nrrd *nrrd, struct NrrdIoState_t *nio) {
-  char me[]="_nrrdEncodingBzip2_read", err[AIR_STRLEN_MED];
+_nrrdEncodingBzip2_read(FILE *file, void *data, size_t elementNum, Nrrd *nrrd,
+                        struct NrrdIoState_t *nio) {
+  char me[] = "_nrrdEncodingBzip2_read", err[AIR_STRLEN_MED];
 
   AIR_UNUSED(file);
   AIR_UNUSED(data);
   AIR_UNUSED(elementNum);
   AIR_UNUSED(nrrd);
   AIR_UNUSED(nio);
-  sprintf(err, "%s: Sorry, %s encoding not available in NrrdIO",
-          me, nrrdEncodingBzip2->name);
-  biffAdd(NRRD, err); return 1;
+  sprintf(err, "%s: Sorry, %s encoding not available in NrrdIO", me,
+          nrrdEncodingBzip2->name);
+  biffAdd(NRRD, err);
+  return 1;
 }
 
 int
 _nrrdEncodingBzip2_write(FILE *file, const void *data, size_t elementNum,
                          const Nrrd *nrrd, struct NrrdIoState_t *nio) {
-  char me[]="_nrrdEncodingBzip2_write", err[AIR_STRLEN_MED];
+  char me[] = "_nrrdEncodingBzip2_write", err[AIR_STRLEN_MED];
 
   AIR_UNUSED(file);
   AIR_UNUSED(data);
   AIR_UNUSED(elementNum);
   AIR_UNUSED(nrrd);
   AIR_UNUSED(nio);
-  sprintf(err, "%s: Sorry, %s encoding not available in NrrdIO",
-          me, nrrdEncodingBzip2->name);
-  biffAdd(NRRD, err); return 1;
+  sprintf(err, "%s: Sorry, %s encoding not available in NrrdIO", me,
+          nrrdEncodingBzip2->name);
+  biffAdd(NRRD, err);
+  return 1;
 }
 
-const NrrdEncoding
-_nrrdEncodingBzip2 = {
-  "bzip2",     /* name */
-  "raw.bz2",   /* suffix */
-  AIR_TRUE,    /* endianMatters */
-  AIR_TRUE,    /* isCompression */
-  _nrrdEncodingBzip2_available,
-  _nrrdEncodingBzip2_read,
-  _nrrdEncodingBzip2_write
-};
+const NrrdEncoding _nrrdEncodingBzip2 = {"bzip2",   /* name */
+                                         "raw.bz2", /* suffix */
+                                         AIR_TRUE,  /* endianMatters */
+                                         AIR_TRUE,  /* isCompression */
+                                         _nrrdEncodingBzip2_available,
+                                         _nrrdEncodingBzip2_read,
+                                         _nrrdEncodingBzip2_write};
 
-const NrrdEncoding *const
-nrrdEncodingBzip2 = &_nrrdEncodingBzip2;
+const NrrdEncoding *const nrrdEncodingBzip2 = &_nrrdEncodingBzip2;
