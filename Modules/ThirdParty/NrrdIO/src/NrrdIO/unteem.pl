@@ -39,10 +39,10 @@ if (exists $ENV{"ITK_NRRDIO"}) {
 $printing = 1;
 while (<>) {
     $printing = 0 if (m/BEGIN non-NrrdIO/);
-    s|#include "air.h"|#include "NrrdIO.h"|g;
-    s|#include "biff.h"|#include "NrrdIO.h"|g;
-    s|#include "nrrd.h"|#include "NrrdIO.h"|g;
-    s|#include <teem(.*)>|#include "teem$1"|g;
+    s|#(.*)include "air.h"|#$1include "NrrdIO.h"|g;
+    s|#(.*)include "biff.h"|#$1include "NrrdIO.h"|g;
+    s|#(.*)include "nrrd.h"|#$1include "NrrdIO.h"|g;
+    s|#(.*)include <teem(.*)>|#$1include "teem$2"|g;
     if ($ITK) {
 	s|\/\* NrrdIO-hack-000 \*\/|\/\* THE FOLLOWING INCLUDE IS ONLY FOR THE ITK DISTRIBUTION.\n   This header mangles the symbols in the NrrdIO library, preventing\n   conflicts in applications linked against two versions of NrrdIO. \*\/\n#include "itk_NrrdIO_mangle.h"|g;
     } else {

@@ -1,6 +1,6 @@
 /*
   NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2013, 2012, 2011, 2010, 2009  University of Chicago
+  Copyright (C) 2009--2020  University of Chicago
   Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
   Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
 
@@ -22,20 +22,3 @@
 
   3. This notice may not be removed or altered from any source distribution.
 */
-
-
-/*
-** the end result of this is that the source file which includes
-** this can be sure that TEEM_QNANHIBIT is set, and can be sure that
-** it is set to either 0 or 1
-*/
-
-#ifndef TEEM_QNANHIBIT
-#  error TEEM_QNANHIBIT not defined
-#elif TEEM_QNANHIBIT == 1
-#  /* okay, its 1 */
-#elif TEEM_QNANHIBIT == 0
-#  /* okay, its 0 */
-#else
-#  error TEEM_QNANHIBIT not set to 0 or 1
-#endif
