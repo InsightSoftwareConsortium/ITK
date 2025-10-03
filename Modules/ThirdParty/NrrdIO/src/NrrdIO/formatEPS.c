@@ -39,18 +39,15 @@ _nrrdFormatEPS_nameLooksLike(const char *filename) {
 }
 
 int
-_nrrdFormatEPS_fitsInto(const Nrrd *nrrd, const NrrdEncoding *encoding,
-                        int useBiff) {
-  char me[]="_nrrdFormatEPS_fitsInto", err[AIR_STRLEN_MED];
+_nrrdFormatEPS_fitsInto(const Nrrd *nrrd, const NrrdEncoding *encoding, int useBiff) {
+  char me[] = "_nrrdFormatEPS_fitsInto", err[AIR_STRLEN_MED];
 
   AIR_UNUSED(nrrd);
   AIR_UNUSED(encoding);
   AIR_UNUSED(useBiff);
-  sprintf(err, "%s: Sorry, %s format not available in NrrdIO",
-          me, nrrdFormatEPS->name);
+  sprintf(err, "%s: Sorry, %s format not available in NrrdIO", me, nrrdFormatEPS->name);
   biffMaybeAdd(NRRD, err, useBiff);
   return AIR_FALSE;
-
 }
 
 int
@@ -58,48 +55,41 @@ _nrrdFormatEPS_contentStartsLike(NrrdIoState *nio) {
 
   AIR_UNUSED(nio);
   return AIR_FALSE;
-
 }
 
 int
 _nrrdFormatEPS_read(FILE *file, Nrrd *nrrd, NrrdIoState *nio) {
-  char me[]="_nrrdReadEPS", err[AIR_STRLEN_MED];
+  char me[] = "_nrrdReadEPS", err[AIR_STRLEN_MED];
 
   AIR_UNUSED(file);
   AIR_UNUSED(nrrd);
   AIR_UNUSED(nio);
-  sprintf(err, "%s: Sorry, %s format not available in NrrdIO",
-          me, nrrdFormatEPS->name);
+  sprintf(err, "%s: Sorry, %s format not available in NrrdIO", me, nrrdFormatEPS->name);
   biffAdd(NRRD, err);
   return 1;
 }
 
 int
 _nrrdFormatEPS_write(FILE *file, const Nrrd *nrrd, NrrdIoState *nio) {
-  char me[]="_nrrdFormatEPS_write", err[AIR_STRLEN_MED];
+  char me[] = "_nrrdFormatEPS_write", err[AIR_STRLEN_MED];
 
   AIR_UNUSED(file);
   AIR_UNUSED(nrrd);
   AIR_UNUSED(nio);
-  sprintf(err, "%s: Sorry, %s format not available in NrrdIO",
-          me, nrrdFormatEPS->name);
+  sprintf(err, "%s: Sorry, %s format not available in NrrdIO", me, nrrdFormatEPS->name);
   biffAdd(NRRD, err);
   return 1;
 }
 
-const NrrdFormat
-_nrrdFormatEPS = {
-  "EPS",
-  AIR_FALSE,  /* isImage */
-  AIR_FALSE,  /* readable */
-  AIR_FALSE,  /* usesDIO */
-  _nrrdFormatEPS_available,
-  _nrrdFormatEPS_nameLooksLike,
-  _nrrdFormatEPS_fitsInto,
-  _nrrdFormatEPS_contentStartsLike,
-  _nrrdFormatEPS_read,
-  _nrrdFormatEPS_write
-};
+const NrrdFormat _nrrdFormatEPS = {"EPS",
+                                   AIR_FALSE, /* isImage */
+                                   AIR_FALSE, /* readable */
+                                   AIR_FALSE, /* usesDIO */
+                                   _nrrdFormatEPS_available,
+                                   _nrrdFormatEPS_nameLooksLike,
+                                   _nrrdFormatEPS_fitsInto,
+                                   _nrrdFormatEPS_contentStartsLike,
+                                   _nrrdFormatEPS_read,
+                                   _nrrdFormatEPS_write};
 
-const NrrdFormat *const
-nrrdFormatEPS = &_nrrdFormatEPS;
+const NrrdFormat *const nrrdFormatEPS = &_nrrdFormatEPS;

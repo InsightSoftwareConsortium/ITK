@@ -44,7 +44,7 @@ airMyEndian(void) {
      (the "first" byte in memory ordering).
      On big endian, we're getting the most significant byte (0);
      on little endian, we're getting least significant byte (1) */
-  leastbyte = *(AIR_CAST(char*, &tmpI));
+  leastbyte = *(AIR_CAST(char *, &tmpI));
   if (leastbyte) {
     ret = airEndianLittle;
   } else {
@@ -53,37 +53,18 @@ airMyEndian(void) {
   return ret;
 }
 
-static const char *
-_airEndianStr[] = {
-  "(unknown endian)",
-  "little",
-  "big"
-};
+static const char *_airEndianStr[] = {"(unknown endian)", "little", "big"};
 
-static const char *
-_airEndianDesc[] = {
-  "unknown endianness",
-  "Intel and compatible",
-  "Everyone besides Intel and compatible"
-};
+static const char *_airEndianDesc[] = {"unknown endianness", "Intel and compatible",
+                                       "Everyone besides Intel and compatible"};
 
-static const int
-_airEndianVal[] = {
+static const int _airEndianVal[] = {
   airEndianUnknown,
   airEndianLittle,
   airEndianBig,
 };
 
-static const airEnum
-_airEndian = {
-  "endian",
-  2,
-  _airEndianStr, _airEndianVal,
-  _airEndianDesc,
-  NULL, NULL,
-  AIR_FALSE
-};
+static const airEnum _airEndian = {"endian",       2,    _airEndianStr, _airEndianVal,
+                                   _airEndianDesc, NULL, NULL,          AIR_FALSE};
 
-const airEnum *const
-airEndian = &_airEndian;
-
+const airEnum *const airEndian = &_airEndian;
