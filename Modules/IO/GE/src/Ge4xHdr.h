@@ -54,6 +54,7 @@
 #define Ge4xHdr_h
 #include "ITKIOGEExport.h"
 
+/* spell-check-disable */
 enum GE_4X_STUDYHDR_OFFSET
 {
   SIGNA_STHDR_ID = 0,              /*  Study Header Identifier */

@@ -932,9 +932,11 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::Compute3x3EigenAnalys
     const RealTensorValueT ey = term2 * term3;
     const RealTensorValueT ez = term1 * term3;
 
+    // spell-check-disable
     // Now normalize the vector
     // e = [ex ey ez]
     // eigenVec = e / sqrt(e'e)
+    // spell-check-enable
     const RealTensorValueT norm = ex * ex + ey * ey + ez * ez;
     const RealTensorValueT sqrtnorm = std::sqrt(norm);
     eigenVecs(i, 0) = ex / sqrtnorm;

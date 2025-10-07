@@ -543,6 +543,7 @@ extern "C"
   extern int
   dfault_(integer * iparm, doublereal * rparm);
 
+  // spell-check-disable
   /**
    * This routine initializes the itpack common blocks from the information
    * contained in IPARM and RPARM.  echall_ also prints the values of all the
@@ -557,6 +558,7 @@ extern "C"
    * \param icall indicator of which parameters are being printed
    * \note in this implementation...all printing is disabled
    */
+  // spell-check-enable
   extern int
   echall_(integer *    nn,
           integer *    ia,

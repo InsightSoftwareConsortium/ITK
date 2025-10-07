@@ -161,6 +161,8 @@ ChiSquareDistribution::InverseCDF(double p, SizeValueType degreesOfFreedom)
   //  10 iterations, error = 10^-10 at 100 degrees of freedom
   //  20 iterations, error = 10^-9  at 100 degrees of freedom
 
+  // spell-check-disable
+  //
   // We are trying to find the zero of
   //
   // f(x) = p - chisquarecdf(x) = 0;
@@ -172,6 +174,7 @@ ChiSquareDistribution::InverseCDF(double p, SizeValueType degreesOfFreedom)
   //
   // Note that f'(x) = - chisquarepdf(x)
   //
+  // spell-check-enable
   for (unsigned int newt = 0; newt < 10; ++newt)
   {
     const double delta =

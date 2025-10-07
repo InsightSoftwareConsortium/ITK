@@ -64,6 +64,7 @@ itkNewTest(int, char *[])
     return EXIT_FAILURE;
   }
 
+  // spell-check-disable
   // CreateObjectFunction
   // itk::CreateObjectFunction<itk::Mesh<int> >::Pointer COF = itk::CreateObjectFunction<itk::Mesh<int> >::New();
   // itk::Mesh<int>::Pointer B = COF->CreateObject();
@@ -81,6 +82,7 @@ itkNewTest(int, char *[])
   // Bad
   // using iDHFO = itk::ForwardDifferenceOperator<double>;
   // auto dhfo = iDHFO::New();
+  // spell-check-enable
 
   return EXIT_SUCCESS;
 }

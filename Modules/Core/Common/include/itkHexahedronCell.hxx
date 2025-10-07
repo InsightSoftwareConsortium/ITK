@@ -399,7 +399,9 @@ HexahedronCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
 
     // ONLY 3x3 determinants are supported.
     const double d = vnl_determinant(mat);
+    // spell-check-disable
     // d=vtkMath::Determinant3x3(rcol,scol,tcol);
+    // spell-check-enable
     if (itk::Math::abs(d) < 1.e-20)
     {
       return false;

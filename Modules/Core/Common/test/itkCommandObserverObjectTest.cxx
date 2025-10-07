@@ -281,10 +281,12 @@ testDeleteEventThrow()
 int
 testLambdaCommand()
 {
+  // spell-check-disable
   // NOTE: cnt needs to be defined BEFORE "o" because it MUST exist when the "DeleteEvent()" is causes the
   //      FIRST OBSERVER LAMBDA to be called.  If 'cnt' is defined after 'o' then when the scope
   //      ends, 'cnt' is deleted first, followed by deleting 'o' which tries to increment 'cnt' when
   //      the 'DeleteEvent' tries to be processed.
+  // spell-check-enable
   int cnt = 0;
   int name_of_class_cnt = 0;
 

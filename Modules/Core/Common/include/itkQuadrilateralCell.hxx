@@ -334,7 +334,9 @@ QuadrilateralCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
     }
 
     const double d = vnl_determinant(mat);
+    // spell-check-disable
     // d=vtkMath::Determinant2x2(rcol,scol);
+    // spell-check-enable
     if (itk::Math::abs(d) < 1.e-20)
     {
       return false;

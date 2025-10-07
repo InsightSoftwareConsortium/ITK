@@ -387,7 +387,7 @@ TemporalProcessObject::UpdateOutputData(DataObject * itkNotUsed(output))
   // Release any inputs if marked for release
   this->ReleaseInputs();
 
-  // Mark that we are no OffsetValueTypeer updating the data in this filter
+  // Mark that we are no OffsetValueType-er updating the data in this filter
   m_Updating = false;
 }
 
