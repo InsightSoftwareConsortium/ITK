@@ -163,6 +163,7 @@ protected:
   void
   DefineCorners();
 
+  // spell-check-disable
   /** \brief
    * Calculate the planes which define the volume.
    *
@@ -174,6 +175,7 @@ protected:
    * in the world x,y,z dirn [3]) and finally also to return the length
    * of the sides of the lines in mm.
    */
+  // spell-check-enable
   void
   CalcPlanesAndCorners();
 
@@ -404,7 +406,9 @@ RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::CalcPl
         break;
     }
 
+    // spell-check-disable
     // lines from one corner to another in x,y,z dirns
+    // spell-check-enable
     const double line1x = m_BoundingCorner[c1][0] - m_BoundingCorner[c2][0];
     const double line2x = m_BoundingCorner[c1][0] - m_BoundingCorner[c3][0];
 

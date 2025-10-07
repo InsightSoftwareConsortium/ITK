@@ -90,7 +90,6 @@ Frenet
 GEAdw
 GPUSuperclass's
 Gao
-Gausssave
 Gawedzki
 GetQEGeom
 Gibbsian
@@ -186,7 +185,6 @@ Nonunit
 Nslew
 NumbxHdrer
 Octant
-OffsetValueTypeer
 Olivo
 Onate
 Originv
@@ -241,7 +239,6 @@ SerieHelper
 SetBranchness
 SetMedialness
 SetRidgeness
-Setp
 Sf
 Sg
 Shanhbag
@@ -298,7 +295,6 @@ Wheter
 Wi
 Wmaybe
 Wrange
-Wtautological
 Wunused
 Xu
 Y'CbCr
@@ -312,13 +308,11 @@ Zurada
 Zurich
 aPrioris
 abdo
-acmag
 acq
 acqp
 adj
 adjNeigh
 advective
-aemag
 aff
 agui
 aic
@@ -355,13 +349,10 @@ axi
 axii
 backend
 backends
-bamag
 bayes
 bb
 bcc
-bcmfc
 beginthreadex
-bemag
 bestdistortion
 bezier
 bg
@@ -400,7 +391,6 @@ cdfs
 cellbuffersize
 celldata
 celllinks
-cemag
 centerline
 cert
 cfl
@@ -413,8 +403,6 @@ chebyshev
 checkboard
 checksum
 childrens
-chisquarecdf
-chisquarepdf
 chokkan
 chroma
 chunked
@@ -430,8 +418,6 @@ cline
 clusterer
 cmap
 cme
-cmptparm
-cmptparms
 cms
 cnt
 codec
@@ -440,8 +426,6 @@ coeff
 coeffP
 commandline
 comp
-complainty
-composedness
 computable
 confocal
 connectedness
@@ -450,7 +434,6 @@ convolves
 cooccurrence
 costfunction
 costless
-cottheta
 coverity
 cp
 cpp
@@ -478,7 +461,6 @@ cx
 cy
 cyclicity
 d'Attente
-dDwWmMyY
 da
 dapi
 dat
@@ -518,8 +500,6 @@ detections
 devicetype
 devs
 dgr
-dhbo
-dhfo
 diast
 dic
 dicoimg
@@ -531,9 +511,6 @@ dima
 dimb
 dimensionally
 dimensioned
-dirn
-dirns
-distn
 div
 dl
 docstring
@@ -562,10 +539,7 @@ dyy
 dyz
 dz
 dzz
-e'e
 eaa
-echall
-ecll
 edgecell
 eg
 eigen
@@ -633,7 +607,6 @@ fenv
 feraiseexcept
 fesetenv
 fexcept
-fffffff
 ffmpeg
 fftinput
 fftoutput
@@ -1006,7 +979,6 @@ ny
 nyz
 nz
 nzelts
-oXooooooooooooooooooo
 objectif
 obo
 octahedron
@@ -1018,9 +990,6 @@ oindex
 oitr
 oldnrm
 onedegree
-oooooooooooo
-ooooooooooooooooooooo
-ooooooooooooooooooooooooo
 op
 opencl
 opencvIO
@@ -1132,7 +1101,6 @@ rasterization
 rasterize
 rasterized
 rayleigh
-rcol
 reco
 reconstructer
 rectus
@@ -1180,7 +1148,6 @@ rscg
 rssi
 rt
 rtc
-rvref
 samedirection
 savemean
 savevar
@@ -1197,7 +1164,6 @@ scanlinesize
 scantype
 scatt
 scl
-scol
 scomponents
 sct
 sdk
@@ -1227,7 +1193,6 @@ signa
 signproduct
 sim
 situ
-sivic
 sizeable
 sizez
 slicessorted
@@ -1306,7 +1271,6 @@ tagvalue
 tardis
 tbb
 tcdf
-tcol
 td
 tdo
 tech
@@ -1329,7 +1293,6 @@ tiffinfo
 tiffiop
 timestamp
 timestamps
-tinuous
 tmpimage
 tname
 toffset
@@ -1453,7 +1416,6 @@ wunlink
 wv
 xarray
 xfff
-xffff
 xfrequency
 xfull
 xfullx

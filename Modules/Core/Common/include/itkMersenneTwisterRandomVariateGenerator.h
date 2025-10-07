@@ -404,7 +404,9 @@ MersenneTwisterRandomVariateGenerator::GetUniformVariate(const double a, const d
 //
 // v0.5 - Improved portability by replacing static const int's with enum's and
 //        clarifying return values in seed(); suggested by Eric Heimburg
+// spell-check-disable
 //      - Removed MAXINT constant; use 0xffffffffUL instead
+// spell-check-enable
 //
 // v0.6 - Eliminated seed overflow when uint32 is larger than 32 bits
 //      - Changed integer [0,n] generator to give better uniformity

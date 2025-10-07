@@ -107,7 +107,7 @@ extern ITKFastMarching_EXPORT std::ostream &
  *
  * Whereas the majority of related work uses the digital topological
  * concept of "simple points" to constrain the evolving front, this
- * filter uses the concept of "well-composedness".  Advantages of
+ * filter uses the concept of "well-composed-ness".  Advantages of
  * the latter over the former includes being able to use the standard
  * marching cubes algorithm to produce a mesh whose genus is identical
  * to that of the evolved front(s).

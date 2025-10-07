@@ -170,7 +170,9 @@ OFFMeshIO::ReadMeshInformation()
     // Set default cell component type
     this->m_CellBufferSize = this->m_NumberOfCells * 2;
 
+    // spell-check-disable
     // Read each ecll's number of points and put them to cell buffer size
+    // spell-check-enable
     unsigned int numberOfCellPoints = 0;
     for (SizeValueType id = 0; id < this->m_NumberOfCells; ++id)
     {

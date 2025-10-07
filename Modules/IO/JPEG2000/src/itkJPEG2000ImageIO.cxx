@@ -819,7 +819,9 @@ JPEG2000ImageIO::Write(const void * buffer)
     for (auto & cmptparm : cmptparms)
     {
       cmptparm.prec = 8;
+      /* spell-check-disable */
       /* cmptparm.bpp = 8;  deprecated "Use prec instead" */
+      /* spell-check-enable */
       cmptparm.sgnd = 0;
       cmptparm.dx = 1;
       cmptparm.dy = 1; // this->GetSpacing( 1 )
@@ -838,13 +840,17 @@ JPEG2000ImageIO::Write(const void * buffer)
     if (this->GetComponentType() == IOComponentEnum::UCHAR)
     {
       cmptparms[0].prec = 8;
+      /* spell-check-disable */
       /* cmptparms[0].bpp = 8; deprecated "Use prec instead" */
+      /* spell-check-enable */
     }
 
     if (this->GetComponentType() == IOComponentEnum::USHORT)
     {
       cmptparms[0].prec = 16;
+      /* spell-check-disable */
       /* cmptparms[0].bpp = 16; deprecated "Use prec instead" */
+      /* spell-check-enable */
     }
 
     cmptparms[0].sgnd = 0;

@@ -68,6 +68,7 @@ NormalVariateGenerator::Initialize(int randomSeed)
   m_Gaussfaze = 1;
   m_Nslew = 0;
   m_GScale = m_Rscale;
+  // spell-check-disable
   //      At one stage, we need to generate a random variable Z such that
   //      (TLEN * Z*Z) has a Chi-squared-TLEN density. Now, a var with
   //      an approximate Chi-sq-K distn can be got as
@@ -79,6 +80,7 @@ NormalVariateGenerator::Initialize(int randomSeed)
   //      where:
   //          B = C / A.
   //      We set m_Chic1 = A * std::sqrt(0.5 / TLEN),  m_Chic2 = B
+  // spell-check-enable
 
   constexpr double fake = 1.0 + 0.125 / m_TLEN; // This is A
   m_Chic2 = std::sqrt(2.0 * m_TLEN - fake * fake) / fake;
@@ -400,6 +402,7 @@ mpass3:
   goto endpass;
 
 endpass:
+  // spell-check-disable
   /*    Choose a value for m_GScale which will make the sum-of-squares have
         the variance of Chi-Sq (TLEN), i.e., 2*TLEN.  Choose a value from
         Chi-Sq (TLEN) using the method described in initnorm.
@@ -408,6 +411,8 @@ endpass:
   */
   ts = m_Chic1 * (m_Chic2 + m_GScale * m_Vec1[m_TLEN - 1]);
   /*    m_TLEN * ts * ts  has ChiSq (m_TLEN) distribution   */
+  // spell-check-enable
+
   m_GScale = m_Rscale * ts * m_ActualRSD;
   return m_GScale * m_Vec1[0];
 

@@ -185,15 +185,17 @@ GE5ImageIO::ReadHeader(const char * FileNameToRead)
   }
   SwapPixHdr(&imageHdr);
 
+  // spell-check-disable
   // NOTE: The handling of version 2 vs Version3 is modelled after
   // the sivic GE5Signa5x reader -- found here
   // http://sivic.svn.sourceforge.net
+  // spell-check-enable
   //
-  // if i didn't see it with my own eyes I wouldn't believe it.
+  // If I didn't see it with my own eyes I wouldn't believe it.
   // Signa 5x either have a proper header or they don't!
   // Apparently Version 2 files do always have a header or
   // we'd be totally lost!
-  // if they don't have a header, we have to make assumptions
+  // If they don't have a header, we have to make assumptions
   // about where they start and hope we're right; below, the offset
   // is computed once the X & Y dims are known
   bool pixelHdrFlag = false;
