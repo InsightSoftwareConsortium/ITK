@@ -47,11 +47,7 @@ ActualTest(std::string filename, typename TImageType::SizeType size)
 
     image->SetRegions(region);
 
-    size_t numberOfPixels = 1;
-    for (unsigned int i = 0; i < ImageType::ImageDimension; ++i)
-    {
-      numberOfPixels *= region.GetSize(i);
-    }
+    const size_t numberOfPixels = size.CalculateProductOfElements();
 
     const size_t sizeInMebiBytes = sizeof(PixelType) * numberOfPixels / (1024 * 1024);
 

@@ -271,11 +271,7 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::CalculateInnerProduct()
   // training data
   m_InputImageSize = (inputImagePointerArray[0])->GetBufferedRegion().GetSize();
 
-  m_NumberOfPixels = 1;
-  for (unsigned int i = 0; i < InputImageDimension; ++i)
-  {
-    m_NumberOfPixels *= m_InputImageSize[i];
-  }
+  m_NumberOfPixels = m_InputImageSize.CalculateProductOfElements();
 
   // Calculate the means
   m_Means.set_size(m_NumberOfPixels);
