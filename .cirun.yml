@@ -1,0 +1,15 @@
+# Self-Hosted Github Action Runners on AWS via Cirun.io
+# Reference: https://docs.cirun.io/reference/yaml.html
+runners:
+  - name: arm-runner
+    # Cloud Provider: Amazon Web Services
+    cloud: aws
+    # AWS A1 Arm system
+    instance_type: a1.4xlarge
+    # Ubuntu 20.04, 64 GB drive, Nov. 15, 2022
+    machine_image: ami-07cc1b7a8ed2ebcef
+    region: eu-west-1
+    preemptible: false
+    # Add a label to match runs-on param in Github Actions yml files
+    labels:
+      - arm
