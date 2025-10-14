@@ -44,9 +44,40 @@ jobs:
             fetch-depth: 5
             clean: true
 
+        - name: Disk space reporting BEFORE (optimize free-disk-space)
+          run: |
+            echo "****** df -h ${{ runner.temp }}"
+            df -h "${{ runner.temp }}"
+            echo "****** df -h"
+            df -h
+            echo "****** df -hi /"
+            df -h /
+
         - name: Free Disk Space (Ubuntu)
           if: matrix.os == 'ubuntu-22.04'
-          uses: jlumbroso/free-disk-space@main
+          uses: BRAINSia/free-disk-space@v2
+          with:
+            removalmode: "rmz"
+
+            swap-storage:   "true"
+            haskell:        "true"
+            dotnet:         "true"
+            docker-images:  "false" # Takes too long
+            tool-cache:     "true"
+            android:        "false" # Takes too long
+            large-packages: "true"  # Takes too long to remove apt-get packages
+            mandb:          "true"  # Speeds up future apt-get installs (disables man page generation), this CI does not use apt-get
+            # For ITK run with find
+            # TIME_REPORT: =============================================================
+            # TIME_REPORT:    swap-storage | 0          seconds | 4.0GiB       |
+            # TIME_REPORT:         haskell | 10         seconds | 6.2GiB       |
+            # TIME_REPORT:          dotnet | 27         seconds | 3.3GiB       |
+            # TIME_REPORT:   docker-images | 81         seconds | 3.4GiB       |
+            # TIME_REPORT:      tool-cache | 113        seconds | 5.3GiB       |
+            # TIME_REPORT:         android | 295        seconds | 8.8GiB       |
+            # TIME_REPORT:            root | 526        seconds | 27GiB        |
+            # TIME_REPORT:         overall | 526        seconds | 31GiB        |
+            # TIME_REPORT: == find ====================================================
 
         - name: Download testing data
           run: |
@@ -61,7 +92,25 @@ jobs:
           run: pixi run configure
 
         - name: Build
-          run: pixi run build
+          run: |
+            echo "****** df -h /  -- pre build"
+            df -h /
+            pixi run build_noconfigure
+            echo "****** df -h /  -- post build"
+            df -h /
+            find build -type f -name "*.o" -delete
+            find build -type f -name "*.a" -delete
+            echo "****** df -h /  -- post .o .a cleanup"
+            df -h /
 
         - name: Test
-          run: pixi run test
+          run: pixi run test_nobuild
+
+        - name: Disk space reporting AFTER (optimize free-disk-space)
+          run: |
+            echo "****** df -h ${{ runner.temp }}"
+            df -h "${{ runner.temp }}"
+            echo "****** df -h"
+            df -h
+            echo "****** df -h /"
+            df -h /
