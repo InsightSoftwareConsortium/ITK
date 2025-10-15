@@ -1,3 +1,4 @@
+#!/usr/bin/env perl
 #
 #  NrrdIO: stand-alone code for basic nrrd functionality
 #  Copyright (C) 2013, 2012, 2011, 2010, 2009  University of Chicago
@@ -27,23 +28,27 @@
 # source files where there is a concern of name-space collision induced
 # by linking to two different version of NrrdIO
 #
+use strict;
+use warnings;
 
 if (0 != $#ARGV) {
     die "usage: perl mangle.pl <prefix>\n";
 }
-$prefix = $ARGV[0];
+my $prefix = $ARGV[0];
 
 # there's probably a proper way to detect if the compiler is putting
 # an underscore in front of all the symbols, but this works to detect
 # what happens on macs
-if (exists $ENV{OSTYPE} and "darwin" eq $ENV{OSTYPE}) {
+my $mac = 0;
+# On macOS, $^O is "darwin".
+# On Linux, it’s usually "linux".
+# On Windows, it’s "MSWin32".
+if ( $^O eq 'darwin' ) {
     $mac = 1;
-} else {
-    $mac = 0;
 }
 
-print "#ifndef __${prefix}_NrrdIO_mangle_h\n";
-print "#define __${prefix}_NrrdIO_mangle_h\n";
+print "#ifndef __${prefix}_NrrdIO_mangle_h__\n";
+print "#define __${prefix}_NrrdIO_mangle_h__\n";
 print "\n";
 print "/*\n";
 print "This header file mangles all symbols exported from the\n";
@@ -54,7 +59,7 @@ print "\n";
 print "This file was created via the mangle.pl script in the\n";
 print "NrrdIO distribution:\n";
 print "\n";
-print "  perl mangle.pl ${prefix} > ${prefix}_NrrdIO_mangle.h\n";
+print "  perl mangle.pl \@MANGLE_PREFIX\@ > ${prefix}_NrrdIO_mangle.h.in\n";
 print "\n";
 print "This uses nm to list all text (T), data (D) symbols, as well\n";
 print "read-only (R) things (seen on Linux) and \"other\" (S) things\n";
@@ -78,9 +83,9 @@ while (<NM>) {
             s|^_||g;
         }
         chop;
-        $sym = $_;
-        print "#define ${sym} ${prefix}_${sym}\n";
+        my $sym = $_;
+        print "#define ${sym} \@MANGLE_PREFIX\@_${sym}\n";
     }
 }
 close(NM);
-print "#endif  /* __${prefix}_NrrdIO_mangle_h */ \n";
+print "#endif  /* __${prefix}_NrrdIO_mangle_h__ */\n";

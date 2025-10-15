@@ -1,6 +1,6 @@
 /*
   NrrdIO: stand-alone code for basic nrrd functionality
-  Copyright (C) 2013, 2012, 2011, 2010, 2009  University of Chicago
+  Copyright (C) 2009--2020  University of Chicago
   Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
   Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
 
@@ -27,29 +27,42 @@
 #include "privateAir.h"
 /* timer functions */
 #ifdef _WIN32
-#include <io.h>
-#include <fcntl.h>
-#include <time.h>
+#  include <io.h>
+#  include <fcntl.h>
+#  include <time.h>
 #else
-#include <sys/time.h>
+#  include <sys/time.h>
 #endif
 
 /*
 ******** airTeemVersion
+******** airTeemReleaseDone
 ******** airTeemReleaseDate
 **
 ** updated with each release to contain a string representation of
 ** the Teem version number and release date.  Originated in version 1.5;
 ** use of TEEM_VERSION #defines started in 1.9
 */
-const char *
-airTeemVersion = TEEM_VERSION_STRING;
-const char *
-airTeemReleaseDate = "8 August 2013";
+const char *const airTeemVersion = TEEM_VERSION_STRING;
+const int airTeemReleaseDone = AIR_FALSE;
+const char *const airTeemReleaseDate = "maybe 2019 or 2020";
+
+/*
+******** airTeemVersionSprint
+**
+** uniform way of printing information about the Teem version
+*/
+void
+airTeemVersionSprint(char buff[AIR_STRLEN_LARGE + 1]) {
+  snprintf(buff, AIR_STRLEN_LARGE + 1, "Teem version %s, %s%s%s", airTeemVersion,
+           airTeemReleaseDone ? "released on " : "", airTeemReleaseDate,
+           airTeemReleaseDone ? "" : " (not yet released)");
+  return;
+}
 
 double
 _airSanityHelper(double val) {
-  return val*val*val;
+  return val * val * val;
 }
 
 /*
@@ -95,10 +108,14 @@ airFree(void *ptr) {
 /*
 ******** airFopen()
 **
-** encapsulates that idea that "-" is either standard in or stardard
-** out, and does McRosopht stuff required to make piping work
+** encapsulates that idea that "-" OR "-=" is either standard in or standard
+** out, and does McRosopht stuff required to make piping work. Handling "-="
+** is a convenience for implementing NrrdIoState->declineStdioOnTTY, with
+** the semantics (not handled here) that "-=" means "read/write from stdin/
+** stdout, even when it IS a terminal". But this is currently only supported
+** in full Teem, not the minimal NrrdIO library.
 **
-** Does not error checking.  If fopen fails, then C' errno and strerror are
+** Does no error checking.  If fopen fails, then C' errno and strerror are
 ** left untouched for the caller to access.
 */
 FILE *
@@ -129,7 +146,7 @@ FILE *
 airFclose(FILE *file) {
 
   if (file) {
-    if (!( stdin == file || stdout == file || stderr == file )) {
+    if (!(stdin == file || stdout == file || stderr == file)) {
       fclose(file);
     }
   }
@@ -137,29 +154,31 @@ airFclose(FILE *file) {
 }
 
 /*
-******** airSinglePrintf
-**
-** a complete stand-in for {f|s}printf(), as long as the given format
-** string contains exactly one conversion sequence.  The utility of
-** this is to standardize the printing of IEEE 754 special values:
-** QNAN, SNAN -> "NaN"
-** POS_INF -> "+inf"
-** NEG_INF -> "-inf"
-** The format string can contain other things besides just the
-** conversion sequence: airSingleFprintf(f, " (%f)\n", AIR_NAN)
-** will be the same as fprintf(f, " (%s)\n", "NaN");
-**
-** To get fprintf behavior, pass "str" as NULL
-** to get sprintf bahavior, pass "file" as NULL
-**
-** Finding a complete {f|s|}printf replacement is a priority for Teem 2.0
-*/
+ ******* airSinglePrintf
+ *
+ * a complete stand-in for {f|s}printf(), as long as the given format string contains
+ * exactly one conversion sequence, and does use any precision modifiers.  The utility of
+ * this is to standardize the printing of IEEE 754 special values:
+ * NAN (any kind) -> "NaN"
+ * POS_INF -> "+inf"
+ * NEG_INF -> "-inf"
+ * The format string can contain other things besides just the conversion sequence:
+ * airSinglePrintf(f, NULL, " (%f)\n", AIR_NAN) will be the same as:
+ * fprintf(f, " (%s)\n", "NaN");
+ *
+ * To get fprintf behavior, pass "str" as NULL
+ * to get sprintf bahavior, pass "file" as NULL. AND NOTE THAT THIS DOES USE sprintf
+ * and not snprintf because we're not in a position to know what the buffer size is.
+ *
+ * Finding a complete {f|s|}printf replacement would be great, but finding one compatible
+ * with our LGPL+linking exception is hard.
+ */
 int
 airSinglePrintf(FILE *file, char *str, const char *_fmt, ...) {
-  char *fmt, buff[AIR_STRLEN_LARGE];
-  double val=0, gVal, fVal;
+  char *fmt, buff[AIR_STRLEN_LARGE + 1];
+  double val = 0, gVal, fVal;
   int ret, isF, isD, cls;
-  char *conv=NULL, *p0, *p1, *p2, *p3, *p4, *p5;
+  char *conv = NULL, *p0, *p1, *p2, *p3, *p4, *p5;
   va_list ap;
 
   va_start(ap, _fmt);
@@ -189,8 +208,7 @@ airSinglePrintf(FILE *file, char *str, const char *_fmt, ...) {
     val = va_arg(ap, double);
     cls = airFPClass_d(val);
     switch (cls) {
-    case airFP_SNAN:
-    case airFP_QNAN:
+    case airFP_NAN:
     case airFP_POS_INF:
     case airFP_NEG_INF:
       if (isF) {
@@ -203,10 +221,9 @@ airSinglePrintf(FILE *file, char *str, const char *_fmt, ...) {
       }
       break;
     }
-#define PRINT(F, S, C, V) ((F) ? fprintf((F),(C),(V)) : sprintf((S),(C),(V)))
+#define PRINT(F, S, C, V) ((F) ? fprintf((F), (C), (V)) : sprintf((S), (C), (V)))
     switch (cls) {
-    case airFP_SNAN:
-    case airFP_QNAN:
+    case airFP_NAN:
       ret = PRINT(file, str, fmt, "NaN");
       break;
     case airFP_POS_INF:
@@ -251,14 +268,14 @@ airSinglePrintf(FILE *file, char *str, const char *_fmt, ...) {
 ** non-standardized format specifier confusion with printf
 */
 char *
-airSprintSize_t(char _str[AIR_STRLEN_SMALL], size_t val) {
-  char str[AIR_STRLEN_SMALL];
+airSprintSize_t(char _str[AIR_STRLEN_SMALL + 1], size_t val) {
+  char str[AIR_STRLEN_SMALL + 1];
   unsigned int si;
 
   if (!_str) {
     return NULL;
   }
-  si = AIR_STRLEN_SMALL-1;
+  si = AIR_STRLEN_SMALL;
   str[si] = '\0';
   do {
     str[--si] = AIR_CAST(char, (val % 10) + '0');
@@ -275,15 +292,15 @@ airSprintSize_t(char _str[AIR_STRLEN_SMALL], size_t val) {
 ** non-standardized format specifier confusion with printf
 */
 char *
-airSprintPtrdiff_t(char _str[AIR_STRLEN_SMALL], ptrdiff_t val) {
-  char str[AIR_STRLEN_SMALL];
+airSprintPtrdiff_t(char _str[AIR_STRLEN_SMALL + 1], ptrdiff_t val) {
+  char str[AIR_STRLEN_SMALL + 1];
   unsigned int si;
   int sign;
 
   if (!_str) {
     return NULL;
   }
-  si = AIR_STRLEN_SMALL-1;
+  si = AIR_STRLEN_SMALL;
   str[si] = '\0';
   sign = (val < 0 ? -1 : 1);
   do {
@@ -298,4 +315,3 @@ airSprintPtrdiff_t(char _str[AIR_STRLEN_SMALL], ptrdiff_t val) {
   strcpy(_str, str + si);
   return _str;
 }
-

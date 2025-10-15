@@ -1,6 +1,6 @@
 #
 # NrrdIO: stand-alone code for basic nrrd functionality
-# Copyright (C) 2013, 2012, 2011, 2010, 2009  University of Chicago
+# Copyright (C) 2013--2020  University of Chicago
 # Copyright (C) 2008, 2007, 2006, 2005  Gordon Kindlmann
 # Copyright (C) 2004, 2003, 2002, 2001, 2000, 1999, 1998  University of Utah
 #
@@ -41,12 +41,12 @@ PLATFORM_DEFS = \
   -DTEEM_DIO=0 \
   -DTEEM_QNANHIBIT=1
 
-CC = gcc
+CC = cc
 
 ### Flags to cc. These now include all the various warnings that proved
 ### useful when cleaning up NrrdIO
 ###
-CCFLAGS = -O2 -std=c89 -pedantic \
+CCFLAGS = -O2 -std=c99 -pedantic \
    -W -Wall -Wextra -Wno-long-long -Wno-overlength-strings \
    -fstrict-aliasing -Wstrict-aliasing=2 -fstrict-overflow -Wstrict-overflow=5 \
    -ftrapv -fshort-enums -fno-common \

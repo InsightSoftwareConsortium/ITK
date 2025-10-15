@@ -27,7 +27,7 @@
 
 void
 demoIO(char *filename) {
-  char me[]="demoIO", newname[]="foo.nrrd", *err, *key, *val;
+  char me[] = "demoIO", newname[] = "foo.nrrd", *err, *key, *val;
   unsigned int kvn, kvi;
   Nrrd *nin;
 
@@ -43,19 +43,19 @@ demoIO(char *filename) {
   }
 
   /* say something about the array */
-  printf("%s: \"%s\" is a %d-dimensional nrrd of type %d (%s)\n",
-         me, filename, nin->dim, nin->type,
-         airEnumStr(nrrdType, nin->type));
-  printf("%s: the array contains %d elements, each %d bytes in size\n",
-         me, (int)nrrdElementNumber(nin), (int)nrrdElementSize(nin));
+  printf("%s: \"%s\" is a %d-dimensional nrrd of type %d (%s)\n", me, filename, nin->dim,
+         nin->type, airEnumStr(nrrdType, nin->type));
+  printf("%s: the array contains %d elements, each %d bytes in size\n", me,
+         (int)nrrdElementNumber(nin), (int)nrrdElementSize(nin));
 
   /* print out the key/value pairs present */
   kvn = nrrdKeyValueSize(nin);
   if (kvn) {
-    for (kvi=0; kvi<kvn; kvi++) {
+    for (kvi = 0; kvi < kvn; kvi++) {
       nrrdKeyValueIndex(nin, &key, &val, kvi);
       printf("%s: key:value %u = %s:%s\n", me, kvi, key, val);
-      free(key); free(val);
+      free(key);
+      free(val);
       key = val = NULL;
     }
   }
@@ -84,8 +84,7 @@ main(int argc, char **argv) {
   int enc, form, miss;
 
   me = argv[0];
-  fprintf(stderr, "(from Teem %s, %s)\n",
-          airTeemVersion, airTeemReleaseDate);
+  fprintf(stderr, "(from Teem %s, %s)\n", airTeemVersion, airTeemReleaseDate);
 
   if (!nrrdSanity()) {
     fprintf(stderr, "\n");
@@ -98,7 +97,7 @@ main(int argc, char **argv) {
   fprintf(stderr, "(nrrdSanity check passed)\n");
   fprintf(stderr, " Formats available:");
   miss = AIR_FALSE;
-  for (form=nrrdFormatTypeUnknown+1; form<nrrdFormatTypeLast; form++) {
+  for (form = nrrdFormatTypeUnknown + 1; form < nrrdFormatTypeLast; form++) {
     if (nrrdFormatArray[form]->available()) {
       fprintf(stderr, " %s", airEnumStr(nrrdFormatType, form));
     } else {
@@ -108,7 +107,7 @@ main(int argc, char **argv) {
   fprintf(stderr, "\n");
   if (miss) {
     fprintf(stderr, "   (not available:");
-    for (enc=nrrdFormatTypeUnknown+1; enc<nrrdFormatTypeLast; enc++) {
+    for (enc = nrrdFormatTypeUnknown + 1; enc < nrrdFormatTypeLast; enc++) {
       if (!nrrdFormatArray[enc]->available()) {
         fprintf(stderr, " %s", airEnumStr(nrrdFormatType, enc));
       }
@@ -118,7 +117,7 @@ main(int argc, char **argv) {
 
   fprintf(stderr, " Nrrd data encodings available:");
   miss = AIR_FALSE;
-  for (enc=nrrdEncodingTypeUnknown+1; enc<nrrdEncodingTypeLast; enc++) {
+  for (enc = nrrdEncodingTypeUnknown + 1; enc < nrrdEncodingTypeLast; enc++) {
     if (nrrdEncodingArray[enc]->available()) {
       fprintf(stderr, " %s", airEnumStr(nrrdEncodingType, enc));
     } else {
@@ -128,7 +127,7 @@ main(int argc, char **argv) {
   fprintf(stderr, "\n");
   if (miss) {
     fprintf(stderr, "   (not available:");
-    for (enc=nrrdEncodingTypeUnknown+1; enc<nrrdEncodingTypeLast; enc++) {
+    for (enc = nrrdEncodingTypeUnknown + 1; enc < nrrdEncodingTypeLast; enc++) {
       if (!nrrdEncodingArray[enc]->available()) {
         fprintf(stderr, " %s", airEnumStr(nrrdEncodingType, enc));
       }
