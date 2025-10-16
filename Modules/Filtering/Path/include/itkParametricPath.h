@@ -124,7 +124,7 @@ public:
   itkGetConstReferenceMacro(DefaultInputStepSize, InputType);
 
 protected:
-  ParametricPath();
+  ParametricPath() = default;
   ~ParametricPath() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
@@ -139,7 +139,7 @@ protected:
    * either 1 or 0.1 are probably good values.  This value should be set in the
    * constructor of all instantiable children.  Values set in child constructors
    * overwrite values set in parent constructors. */
-  InputType m_DefaultInputStepSize{};
+  InputType m_DefaultInputStepSize{ 0.3 };
 };
 
 } // namespace itk
