@@ -28,9 +28,6 @@
 namespace itk
 {
 template <typename TInputImage, typename TOutputImage>
-ScalarImageKmeansImageFilter<TInputImage, TOutputImage>::ScalarImageKmeansImageFilter() = default;
-
-template <typename TInputImage, typename TOutputImage>
 void
 ScalarImageKmeansImageFilter<TInputImage, TOutputImage>::SetImageRegion(const ImageRegionType & region)
 {

@@ -22,9 +22,6 @@
 namespace itk
 {
 template <typename TInputImage, typename TOutputImage>
-FFTShiftImageFilter<TInputImage, TOutputImage>::FFTShiftImageFilter() = default;
-
-template <typename TInputImage, typename TOutputImage>
 void
 FFTShiftImageFilter<TInputImage, TOutputImage>::GenerateData()
 {

@@ -82,7 +82,7 @@ public:
   }
 
 protected:
-  Forward1DFFTImageFilter();
+  Forward1DFFTImageFilter() = default;
   ~Forward1DFFTImageFilter() override = default;
 
   void

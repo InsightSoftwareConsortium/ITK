@@ -298,7 +298,7 @@ public:
   }
 
 protected:
-  MembershipSample();
+  MembershipSample() = default;
   ~MembershipSample() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

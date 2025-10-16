@@ -22,9 +22,6 @@
 namespace itk
 {
 template <typename TInputPix, typename TCompare>
-AnchorErodeDilateLine<TInputPix, TCompare>::AnchorErodeDilateLine() = default;
-
-template <typename TInputPix, typename TCompare>
 void
 AnchorErodeDilateLine<TInputPix, TCompare>::DoLine(std::vector<TInputPix> & buffer,
                                                    std::vector<TInputPix> & inbuffer,

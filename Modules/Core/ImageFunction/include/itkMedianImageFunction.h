@@ -118,7 +118,7 @@ public:
   itkGetConstReferenceMacro(NeighborhoodRadius, unsigned int);
   /** @ITKEndGrouping */
 protected:
-  MedianImageFunction();
+  MedianImageFunction() = default;
   ~MedianImageFunction() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

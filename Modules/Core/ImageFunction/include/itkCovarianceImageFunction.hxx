@@ -25,9 +25,6 @@ namespace itk
 {
 
 template <typename TInputImage, typename TCoordinate>
-CovarianceImageFunction<TInputImage, TCoordinate>::CovarianceImageFunction() = default;
-
-template <typename TInputImage, typename TCoordinate>
 auto
 CovarianceImageFunction<TInputImage, TCoordinate>::EvaluateAtIndex(const IndexType & index) const -> RealType
 {

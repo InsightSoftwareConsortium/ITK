@@ -318,7 +318,7 @@ public:
   }
 
 protected:
-  VoronoiDiagram2D();
+  VoronoiDiagram2D() = default;
   ~VoronoiDiagram2D() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

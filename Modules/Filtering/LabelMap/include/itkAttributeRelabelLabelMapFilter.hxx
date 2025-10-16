@@ -24,9 +24,6 @@
 namespace itk
 {
 
-template <typename TImage, typename TAttributeAccessor>
-AttributeRelabelLabelMapFilter<TImage, TAttributeAccessor>::AttributeRelabelLabelMapFilter() = default;
-
 
 template <typename TImage, typename TAttributeAccessor>
 void

@@ -22,9 +22,6 @@
 namespace itk
 {
 template <typename TInputPix, typename TCompare>
-AnchorOpenCloseLine<TInputPix, TCompare>::AnchorOpenCloseLine() = default;
-
-template <typename TInputPix, typename TCompare>
 void
 AnchorOpenCloseLine<TInputPix, TCompare>::DoLine(std::vector<InputImagePixelType> & buffer, unsigned int bufflength)
 {

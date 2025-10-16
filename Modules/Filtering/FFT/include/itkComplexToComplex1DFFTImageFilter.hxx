@@ -24,9 +24,6 @@
 
 namespace itk
 {
-template <typename TInputImage, typename TOutputImage>
-ComplexToComplex1DFFTImageFilter<TInputImage, TOutputImage>::ComplexToComplex1DFFTImageFilter() = default;
-
 
 template <typename TInputImage, typename TOutputImage>
 void

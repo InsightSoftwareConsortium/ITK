@@ -28,9 +28,6 @@ namespace itk
 {
 
 template <typename TInputImage, typename TCoordinate>
-MedianImageFunction<TInputImage, TCoordinate>::MedianImageFunction() = default;
-
-template <typename TInputImage, typename TCoordinate>
 void
 MedianImageFunction<TInputImage, TCoordinate>::SetNeighborhoodRadius(const unsigned int radius)
 {
