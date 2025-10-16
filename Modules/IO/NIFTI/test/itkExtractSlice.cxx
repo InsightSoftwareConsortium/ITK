@@ -50,9 +50,7 @@ itkExtractSlice(int argc, char * argv[])
   outSize[1] = 0;
   ImageType::IndexType outIndex = inRegion.GetIndex();
   outIndex[1] = inRegion.GetSize()[1] / 2;
-  ImageType::RegionType outRegion;
-  outRegion.SetSize(outSize);
-  outRegion.SetIndex(outIndex);
+  ImageType::RegionType outRegion{ outIndex, outSize };
 
   auto extractFilter = ExtractType::New();
   extractFilter->SetDirectionCollapseToSubmatrix();

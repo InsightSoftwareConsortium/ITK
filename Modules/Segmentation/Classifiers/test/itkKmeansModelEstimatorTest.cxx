@@ -65,10 +65,7 @@ itkKmeansModelEstimatorTest(int, char *[])
   constexpr VecImageType::SizeType vecImgSize = { { IMGWIDTH, IMGHEIGHT, NFRAMES } };
 
   constexpr VecImageType::IndexType index{};
-  VecImageType::RegionType          region;
-
-  region.SetSize(vecImgSize);
-  region.SetIndex(index);
+  VecImageType::RegionType          region{ index, vecImgSize };
 
   vecImage->SetLargestPossibleRegion(region);
   vecImage->SetBufferedRegion(region);

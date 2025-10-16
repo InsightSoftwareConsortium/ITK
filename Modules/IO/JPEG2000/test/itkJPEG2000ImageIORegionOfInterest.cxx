@@ -69,9 +69,7 @@ itkJPEG2000ImageIORegionOfInterest(int argc, char * argv[])
   size[0] = std::stoi(argv[5]);
   size[1] = std::stoi(argv[6]);
 
-  OutputImageType::RegionType desiredRegion;
-  desiredRegion.SetSize(size);
-  desiredRegion.SetIndex(start);
+  OutputImageType::RegionType desiredRegion{ start, size };
   //  Then the region is passed to the filter using the
   //  SetRegionOfInterest() method.
 

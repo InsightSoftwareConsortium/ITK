@@ -480,9 +480,7 @@ RGBTest(int argc, char * argv[])
     spacing[i] = 1.0;
     origin[i] = 0;
   }
-  typename RGBImageType::RegionType imageRegion;
-  imageRegion.SetSize(size);
-  imageRegion.SetIndex(index);
+  typename RGBImageType::RegionType    imageRegion{ index, size };
   const typename RGBImageType::Pointer im =
     itk::IOTestHelper::AllocateImageFromRegionAndSpacing<RGBImageType>(imageRegion, spacing);
   vnl_random                             randgen(12345678);

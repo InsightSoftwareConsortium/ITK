@@ -174,10 +174,7 @@ check_nonlinear_double(const char * nonlinear_transform, bool ras_to_lps)
 
   double                            spacing[] = { 2.0, 2.0, 2.0 };
   double                            origin[] = { -10.0, -10.0, -10.0 };
-  DisplacementFieldType::RegionType region;
-
-  region.SetSize(imageSize3D);
-  region.SetIndex(startIndex3D);
+  DisplacementFieldType::RegionType region{ startIndex3D, imageSize3D };
 
   field->SetRegions(region);
 
@@ -310,10 +307,7 @@ check_nonlinear_float(const char * nonlinear_transform, bool ras_to_lps)
 
   double                            spacing[] = { 2.0, 2.0, 2.0 };
   double                            origin[] = { -10.0, -10.0, -10.0 };
-  DisplacementFieldType::RegionType region;
-
-  region.SetSize(imageSize3D);
-  region.SetIndex(startIndex3D);
+  DisplacementFieldType::RegionType region{ startIndex3D, imageSize3D };
 
   field->SetRegions(region);
 
@@ -609,10 +603,7 @@ check_composite2(const char * transform_file, const char * transform_grid_file, 
 
   double                            spacing[] = { 2.0, 2.0, 2.0 };
   double                            origin[] = { -10.0, -10.0, -10.0 };
-  DisplacementFieldType::RegionType region;
-
-  region.SetSize(imageSize3D);
-  region.SetIndex(startIndex3D);
+  DisplacementFieldType::RegionType region{ startIndex3D, imageSize3D };
 
   field->SetRegions(region);
 

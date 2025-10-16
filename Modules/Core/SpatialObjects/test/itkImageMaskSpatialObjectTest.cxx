@@ -44,10 +44,7 @@ itkImageMaskSpatialObjectTest(int, char *[])
   auto                           image = ImageType::New();
   constexpr ImageType::SizeType  size = { { 50, 50, 50 } };
   constexpr ImageType::IndexType index = { { 0, 0, 0 } };
-  ImageType::RegionType          region;
-
-  region.SetSize(size);
-  region.SetIndex(index);
+  ImageType::RegionType          region{ index, size };
 
   image->SetRegions(region);
   image->AllocateInitialized();

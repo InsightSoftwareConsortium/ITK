@@ -78,10 +78,7 @@ itkImagePCADecompositionCalculatorTest(int, char *[])
   constexpr InputImageType::SizeType inputImageSize = { { IMGWIDTH, IMGHEIGHT } };
 
   constexpr InputImageType::IndexType index{};
-  InputImageType::RegionType          region;
-
-  region.SetSize(inputImageSize);
-  region.SetIndex(index);
+  InputImageType::RegionType          region{ index, inputImageSize };
 
   //--------------------------------------------------------------------------
   // Set up Image 1 first

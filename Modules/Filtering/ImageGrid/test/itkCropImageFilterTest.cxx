@@ -39,10 +39,7 @@ itkCropImageFilterTest(int, char *[])
   // Fill in the image
   constexpr ImageType::IndexType index = { { 0, 0 } };
   constexpr ImageType::SizeType  size = { { 8, 12 } };
-  ImageType::RegionType          region;
-
-  region.SetSize(size);
-  region.SetIndex(index);
+  ImageType::RegionType          region{ index, size };
   inputImage->SetLargestPossibleRegion(region);
   inputImage->SetBufferedRegion(region);
   inputImage->Allocate();

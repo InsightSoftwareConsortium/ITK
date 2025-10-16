@@ -51,9 +51,7 @@ MultiphaseDenseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputIm
     // should be pasted.
     const OutputIndexType start = output->TransformPhysicalPointToIndex(origin);
 
-    OutputRegionType region;
-    region.SetSize(size);
-    region.SetIndex(start);
+    OutputRegionType region{ start, size };
 
     if (!input || !output)
     {

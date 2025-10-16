@@ -327,9 +327,7 @@ itkMultiTransformTest(int, char *[])
   constexpr int                  dimLength = 4;
   constexpr auto                 size = itk::MakeFilled<FieldType::SizeType>(dimLength);
   constexpr FieldType::IndexType start{};
-  FieldType::RegionType          region;
-  region.SetSize(size);
-  region.SetIndex(start);
+  FieldType::RegionType          region{ start, size };
   field->SetRegions(region);
   field->Allocate();
 

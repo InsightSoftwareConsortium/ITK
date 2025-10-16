@@ -96,9 +96,7 @@ itkMirrorPadImageTest(int, char *[])
   // fill in an image
   ShortImage::IndexType  index = { { 0, 0 } };
   ShortImage::SizeType   size = { { 8, 12 } };
-  ShortImage::RegionType region;
-  region.SetSize(size);
-  region.SetIndex(index);
+  ShortImage::RegionType region{ index, size };
   if2->SetLargestPossibleRegion(region);
   if2->SetBufferedRegion(region);
   if2->Allocate();

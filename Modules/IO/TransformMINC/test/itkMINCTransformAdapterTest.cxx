@@ -150,10 +150,7 @@ compare_nonlinear_double(const char * nonlinear_transform)
 
   double                            spacing[] = { 2.0, 2.0, 2.0 };
   double                            origin[] = { -10.0, -10.0, -10.0 };
-  DisplacementFieldType::RegionType region;
-
-  region.SetSize(imageSize3D);
-  region.SetIndex(startIndex3D);
+  DisplacementFieldType::RegionType region{ startIndex3D, imageSize3D };
 
   field->SetRegions(region);
 

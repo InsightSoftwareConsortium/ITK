@@ -232,9 +232,7 @@ MaskFeaturePointSelectionFilter<TImage, TMask, TFeatures>::GenerateData()
 
         constexpr auto radius = SizeType::Filled(1); // iterate over neighbourhood of a voxel
 
-        RegionType center;
-        center.SetSize(radius);
-        center.SetIndex(indexOfPointToPick);
+        RegionType center{ indexOfPointToPick, radius };
 
         const SizeType                       neighborRadiusForTensor = m_BlockRadius + m_BlockRadius;
         ConstNeighborhoodIterator<ImageType> gradientItr(neighborRadiusForTensor, image, center);
