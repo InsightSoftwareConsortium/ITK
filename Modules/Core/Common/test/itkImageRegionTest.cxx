@@ -307,9 +307,7 @@ itkImageRegionTest(int, char *[])
   shrinkSize[0] = 33;
   shrinkSize[1] = 21;
   shrinkSize[2] = 3;
-  RegionType shrinkRegion;
-  shrinkRegion.SetIndex(shrinkIndex);
-  shrinkRegion.SetSize(shrinkSize);
+  RegionType shrinkRegion{ shrinkIndex, shrinkSize };
   RegionType padAndShrinkRegion = shrinkRegion;
 
   constexpr itk::OffsetValueType offsetValueRadius = 4;

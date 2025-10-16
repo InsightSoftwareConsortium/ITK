@@ -53,9 +53,7 @@ itkRegionOfInterestImageFilterTest(int, char *[])
   size[1] = 40;
   size[2] = 40;
 
-  RegionType region;
-  region.SetIndex(start);
-  region.SetSize(size);
+  RegionType region{ start, size };
 
   image->SetRegions(region);
   image->Allocate();
@@ -92,9 +90,7 @@ itkRegionOfInterestImageFilterTest(int, char *[])
   roiStart[1] = 9;
   roiStart[2] = 9;
 
-  RegionType regionOfInterest;
-  regionOfInterest.SetIndex(roiStart);
-  regionOfInterest.SetSize(roiSize);
+  RegionType regionOfInterest{ roiStart, roiSize };
 
   const itk::SimpleFilterWatcher watcher(filter);
 

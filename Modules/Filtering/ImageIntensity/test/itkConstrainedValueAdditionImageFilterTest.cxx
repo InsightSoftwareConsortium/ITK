@@ -67,9 +67,7 @@ itkConstrainedValueAdditionImageFilterTest(int argc, char * argv[])
   start[1] = 0;
   start[2] = 0;
 
-  RegionType region;
-  region.SetIndex(start);
-  region.SetSize(size);
+  RegionType region{ start, size };
 
   // Initialize Image A
   inputImageA->SetRegions(region);

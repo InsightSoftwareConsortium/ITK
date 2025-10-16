@@ -97,9 +97,7 @@ itkMaskConnectedComponentImageFilterTest(int argc, char * argv[])
   }
 
   MaskImageType::IndexType  index{};
-  MaskImageType::RegionType region;
-  region.SetIndex(index);
-  region.SetSize(size);
+  MaskImageType::RegionType region{ index, size };
 
   itk::ImageRegionIterator<MaskImageType> mit(mask, region);
   while (!mit.IsAtEnd())

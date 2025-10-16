@@ -901,9 +901,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::AdjustSlabR
     {
       tempIndex[m_SlicingDirection] = tempCoordFirst;
       tempSize[m_SlicingDirection] = tempCoordLast - tempCoordFirst + 1;
-      OutputImageRegionType tempRegion;
-      tempRegion.SetIndex(tempIndex);
-      tempRegion.SetSize(tempSize);
+      OutputImageRegionType tempRegion{ tempIndex, tempSize };
       *iter = tempRegion;
     }
     else

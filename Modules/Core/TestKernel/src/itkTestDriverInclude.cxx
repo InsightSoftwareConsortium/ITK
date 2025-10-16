@@ -583,10 +583,7 @@ RegressionTestHelper(const char *       testImageFilename,
       size[i] = 0;
     }
 
-    RegionType region;
-    region.SetIndex(index);
-
-    region.SetSize(size);
+    RegionType region{ index, size };
 
     auto extract = ExtractType::New();
     extract->SetDirectionCollapseToIdentity();
@@ -918,10 +915,7 @@ HashTestImage(const char * testImageFilename, const std::vector<std::string> & b
   }
 
 
-  ImageType::RegionType region;
-  region.SetIndex(index);
-
-  region.SetSize(size);
+  ImageType::RegionType region{ index, size };
 
   auto extract = ExtractType::New();
   extract->SetDirectionCollapseToIdentity();

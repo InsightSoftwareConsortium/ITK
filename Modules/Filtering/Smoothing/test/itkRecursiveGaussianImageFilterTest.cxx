@@ -192,9 +192,7 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
     IndexType start;
     start[0] = 0;
 
-    RegionType region;
-    region.SetIndex(start);
-    region.SetSize(size);
+    RegionType region{ start, size };
 
     SpacingType spacing;
     spacing[0] = 1.0;
@@ -467,9 +465,7 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
     IndexType start;
     start[0] = 0;
 
-    RegionType region;
-    region.SetIndex(start);
-    region.SetSize(size);
+    RegionType region{ start, size };
 
     SpacingType spacing;
     spacing[0] = 1.0;
