@@ -48,9 +48,7 @@ DoIt(int argc, char * argv[], const std::string & pixelType)
   size[0] = width;
   size[1] = height;
 
-  typename InputImageType::RegionType region;
-  region.SetSize(size);
-  region.SetIndex(index);
+  typename InputImageType::RegionType region{ index, size };
 
   inputimg->SetRegions(region);
   inputimg->Allocate();

@@ -128,10 +128,7 @@ test_RegionGrowKLMExceptionHandling()
 
   constexpr ImageType5D::IndexType index5D{};
 
-  ImageType5D::RegionType region5D;
-
-  region5D.SetSize(imageSize5D);
-  region5D.SetIndex(index5D);
+  ImageType5D::RegionType region5D{ index5D, imageSize5D };
 
   image5D->SetLargestPossibleRegion(region5D);
   image5D->SetBufferedRegion(region5D);

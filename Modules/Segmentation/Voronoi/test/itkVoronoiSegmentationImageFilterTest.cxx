@@ -48,10 +48,7 @@ itkVoronoiSegmentationImageFilterTest(int argc, char * argv[])
   constexpr UShortImage::SizeType size = { { width, height } };
   UShortImage::IndexType          index{};
 
-  UShortImage::RegionType region;
-
-  region.SetSize(size);
-  region.SetIndex(index);
+  UShortImage::RegionType region{ index, size };
 
   std::cout << "Allocating image" << std::endl;
   inputImage->SetRegions(region);

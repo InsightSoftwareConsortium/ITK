@@ -60,9 +60,7 @@ test_fft(unsigned int * SizeOfDimensions)
                                                             // image indices correctly
   }
 
-  typename RealImageType::RegionType region;
-  region.SetSize(imageSize);
-  region.SetIndex(imageIndex);
+  typename RealImageType::RegionType region{ imageIndex, imageSize };
 
   // Create the Real Image.
   auto realImage = RealImageType::New();
@@ -245,10 +243,8 @@ test_fft_rtc(unsigned int * SizeOfDimensions)
     imageIndex.SetElement(i, 0);
   }
 
-  typename RealImageType::RegionType region;
-  region.SetSize(imageSize);
-  region.SetIndex(imageIndex);
-  auto realImage = RealImageType::New();
+  typename RealImageType::RegionType region{ imageIndex, imageSize };
+  auto                               realImage = RealImageType::New();
 
   // Create the Real Image.
   realImage->SetRegions(region);

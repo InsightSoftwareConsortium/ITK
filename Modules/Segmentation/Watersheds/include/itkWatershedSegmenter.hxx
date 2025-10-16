@@ -101,9 +101,7 @@ Segmenter<TInputImage>::GenerateData()
     // Set LOW face
     idx[i] = regionToProcess.GetIndex()[i];
     sz[i] = 1;
-    ImageRegionType reg;
-    reg.SetSize(sz);
-    reg.SetIndex(idx);
+    ImageRegionType reg{ idx, sz };
 
     if (reg.GetIndex()[i] == largestPossibleRegion.GetIndex()[i])
     {

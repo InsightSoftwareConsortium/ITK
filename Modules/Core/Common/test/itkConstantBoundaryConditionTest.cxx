@@ -124,9 +124,7 @@ itkConstantBoundaryConditionTest(int, char *[])
   auto                image = ImageType::New();
   constexpr SizeType  imageSize = { { 5, 5 } };
   constexpr IndexType imageIndex = { { 0, 0 } };
-  RegionType          imageRegion;
-  imageRegion.SetSize(imageSize);
-  imageRegion.SetIndex(imageIndex);
+  RegionType          imageRegion{ imageIndex, imageSize };
   image->SetRegions(imageRegion);
   image->Allocate();
 

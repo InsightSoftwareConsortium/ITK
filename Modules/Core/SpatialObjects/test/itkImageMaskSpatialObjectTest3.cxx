@@ -58,10 +58,7 @@ itkImageMaskSpatialObjectTest3(int, char *[])
   direction[2][2] = 1;
   image->SetDirection(direction);
 
-  ImageType::RegionType region;
-
-  region.SetSize(size);
-  region.SetIndex(index);
+  ImageType::RegionType region{ index, size };
   image->SetRegions(region);
   image->AllocateInitialized();
 
