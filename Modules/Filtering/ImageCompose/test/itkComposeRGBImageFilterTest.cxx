@@ -50,9 +50,7 @@ itkComposeRGBImageFilterTest(int, char *[])
 
   constexpr IndexType start{};
 
-  RegionType region;
-  region.SetIndex(start);
-  region.SetSize(size);
+  RegionType region{ start, size };
 
   redImage->SetRegions(region);
   greenImage->SetRegions(region);

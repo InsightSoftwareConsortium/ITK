@@ -225,9 +225,7 @@ ShrinkImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
     inputRequestedRegionSize[i] = (outputRequestedRegionSize[i] - 1) * factorSize[i] + 1;
   }
 
-  typename TInputImage::RegionType inputRequestedRegion;
-  inputRequestedRegion.SetIndex(inputRequestedRegionIndex);
-  inputRequestedRegion.SetSize(inputRequestedRegionSize);
+  typename TInputImage::RegionType inputRequestedRegion{ inputRequestedRegionIndex, inputRequestedRegionSize };
   inputRequestedRegion.Crop(inputPtr->GetLargestPossibleRegion());
 
   inputPtr->SetRequestedRegion(inputRequestedRegion);

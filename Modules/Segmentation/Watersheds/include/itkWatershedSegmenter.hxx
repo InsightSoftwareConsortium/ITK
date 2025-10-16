@@ -1006,9 +1006,7 @@ Segmenter<TInputImage>::BuildRetainingWall(InputImageTypePointer img, ImageRegio
     typename ImageRegionType::IndexType idx = region.GetIndex(); // LOW face
     typename ImageRegionType::SizeType  sz = region.GetSize();
     sz[i] = 1;
-    ImageRegionType reg;
-    reg.SetIndex(idx);
-    reg.SetSize(sz);
+    ImageRegionType reg{ idx, sz };
     Segmenter::SetInputImageValues(img, reg, value);
     idx[i] = region.GetSize()[i] + region.GetIndex()[i] - 1; // HIGH face
     reg.SetIndex(idx);

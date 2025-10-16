@@ -65,9 +65,7 @@ itkAtan2ImageFilterTest(int, char *[])
   start[1] = 0;
   start[2] = 0;
 
-  RegionType region;
-  region.SetIndex(start);
-  region.SetSize(size);
+  RegionType region{ start, size };
 
   // Initialize Sine Image
   sinImage->SetRegions(region);

@@ -88,9 +88,7 @@ DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::Genera
   outputSize[0] = outputSize[1] = inputSize[m_RDirection];
   outputStart[0] = outputStart[1] = 0;
 
-  RegionType outputRegion;
-  outputRegion.SetIndex(outputStart);
-  outputRegion.SetSize(outputSize);
+  RegionType outputRegion{ outputStart, outputSize };
 
   outputImage->SetLargestPossibleRegion(outputRegion);
 

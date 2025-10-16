@@ -49,9 +49,7 @@ itkCompose3DVectorImageFilterTest(int, char *[])
 
   constexpr IndexType start{};
 
-  RegionType region;
-  region.SetIndex(start);
-  region.SetSize(size);
+  RegionType region{ start, size };
 
   zeroImage->SetRegions(region);
   oneImage->SetRegions(region);
