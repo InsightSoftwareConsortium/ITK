@@ -56,10 +56,9 @@ ParametricPath<VDimension>::IncrementInput(InputType & input) const -> OffsetTyp
   IndexType  currentImageIndex = this->EvaluateToIndex(input);
   IndexType  finalImageIndex = this->EvaluateToIndex(finalInputValue);
   OffsetType offset = finalImageIndex - currentImageIndex;
-  if ((offset == this->GetZeroOffset() && Math::NotExactlyEquals(input, this->StartOfInput())) ||
-      (input >= finalInputValue))
+  if ((offset == OffsetType{} && Math::NotExactlyEquals(input, this->StartOfInput())) || (input >= finalInputValue))
   {
-    return this->GetZeroOffset();
+    return {};
   }
 
   bool tooSmall = false;
@@ -75,7 +74,7 @@ ParametricPath<VDimension>::IncrementInput(InputType & input) const -> OffsetTyp
     offset = nextImageIndex - currentImageIndex;
 
     tooBig = false;
-    tooSmall = (offset == this->GetZeroOffset());
+    tooSmall = (offset == OffsetType{});
     if (tooSmall)
     {
       // double the input step size, but don't go past the end of the input

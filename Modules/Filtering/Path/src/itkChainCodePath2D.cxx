@@ -48,7 +48,7 @@ ChainCodePath2D::IncrementInput(InputType & input) const
     return DecodeOffset(m_Chain2D[input++]);
   }
 
-  return this->GetZeroOffset();
+  return {};
 }
 
 std::string

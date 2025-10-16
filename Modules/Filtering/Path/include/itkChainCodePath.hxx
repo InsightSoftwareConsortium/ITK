@@ -80,7 +80,7 @@ ChainCodePath<VDimension>::IncrementInput(InputType & input) const -> OffsetType
     return m_Chain[input++];
   }
 
-  return this->GetZeroOffset();
+  return {};
 }
 
 template <unsigned int VDimension>
