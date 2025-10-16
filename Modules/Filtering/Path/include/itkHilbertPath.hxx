@@ -25,9 +25,7 @@ namespace itk
 {
 
 template <typename TIndexValue, unsigned int VDimension>
-HilbertPath<TIndexValue, VDimension>::HilbertPath()
-
-  = default;
+HilbertPath<TIndexValue, VDimension>::HilbertPath() = default;
 
 template <typename TIndexValue, unsigned int VDimension>
 void
