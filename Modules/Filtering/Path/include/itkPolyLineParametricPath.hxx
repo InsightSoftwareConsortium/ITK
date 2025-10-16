@@ -111,7 +111,7 @@ PolyLineParametricPath<VDimension>::IncrementInput(InputType & input) const -> O
       offset[i] = potentialIndex[i] - originalIndex[i];
     }
 
-    if (offset != this->GetZeroOffset())
+    if (offset != OffsetType{})
     {
       return offset;
     }
