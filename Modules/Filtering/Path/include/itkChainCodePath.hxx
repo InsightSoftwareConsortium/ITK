@@ -85,7 +85,6 @@ ChainCodePath<VDimension>::IncrementInput(InputType & input) const -> OffsetType
 
 template <unsigned int VDimension>
 ChainCodePath<VDimension>::ChainCodePath()
-  : m_Start(this->GetZeroIndex())
 {}
 
 template <unsigned int VDimension>
