@@ -44,11 +44,10 @@ LabelContourImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion
   // We need all the input.
   const InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
 
-  if (!input)
+  if (input)
   {
-    return;
+    input->SetRequestedRegion(input->GetLargestPossibleRegion());
   }
-  input->SetRequestedRegion(input->GetLargestPossibleRegion());
 }
 
 // -----------------------------------------------------------------------------
