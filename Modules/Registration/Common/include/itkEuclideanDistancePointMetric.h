@@ -119,7 +119,7 @@ public:
   itkBooleanMacro(ComputeSquaredDistance);
   /** @ITKEndGrouping */
 protected:
-  EuclideanDistancePointMetric();
+  EuclideanDistancePointMetric() = default;
   ~EuclideanDistancePointMetric() override = default;
 
   void

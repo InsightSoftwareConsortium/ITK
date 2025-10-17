@@ -25,11 +25,6 @@ namespace itk
 {
 
 template <typename TFixedPointSet, typename TMovingPointSet, typename TDistanceMap>
-EuclideanDistancePointMetric<TFixedPointSet, TMovingPointSet, TDistanceMap>::EuclideanDistancePointMetric()
-
-  = default;
-
-template <typename TFixedPointSet, typename TMovingPointSet, typename TDistanceMap>
 unsigned int
 EuclideanDistancePointMetric<TFixedPointSet, TMovingPointSet, TDistanceMap>::GetNumberOfValues() const
 {

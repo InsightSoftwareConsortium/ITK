@@ -30,9 +30,6 @@ namespace itk
 {
 
 template <unsigned int VDimension>
-MetaFEMObjectConverter<VDimension>::MetaFEMObjectConverter() = default;
-
-template <unsigned int VDimension>
 auto
 MetaFEMObjectConverter<VDimension>::CreateMetaObject() -> MetaObjectType *
 {

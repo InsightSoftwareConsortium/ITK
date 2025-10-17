@@ -99,7 +99,7 @@ public:
   itkConceptMacro(InputOStreamWritableCheck, (Concept::OStreamWritable<InputImagePixelType>));
 
 protected:
-  GrayscaleFillholeImageFilter();
+  GrayscaleFillholeImageFilter() = default;
   ~GrayscaleFillholeImageFilter() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

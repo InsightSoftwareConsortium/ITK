@@ -70,7 +70,7 @@ public:
   using InputImagePixelType = typename InputImageType::PixelType;
 
 protected:
-  GPUInPlaceImageFilter();
+  GPUInPlaceImageFilter() = default;
   ~GPUInPlaceImageFilter() override;
 
   void

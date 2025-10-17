@@ -81,7 +81,7 @@ protected:
   MetaObjectType *
   CreateMetaObject() override;
 
-  MetaFEMObjectConverter();
+  MetaFEMObjectConverter() = default;
   ~MetaFEMObjectConverter() override = default;
 };
 } // end namespace itk

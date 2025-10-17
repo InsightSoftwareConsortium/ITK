@@ -26,11 +26,6 @@ namespace itk
 {
 
 template <typename TInputImage, typename TCoordinate>
-MeanImageFunction<TInputImage, TCoordinate>::MeanImageFunction()
-
-  = default;
-
-template <typename TInputImage, typename TCoordinate>
 auto
 MeanImageFunction<TInputImage, TCoordinate>::EvaluateAtIndex(const IndexType & index) const -> RealType
 {

@@ -159,7 +159,7 @@ public:
   TransformMultiDimensionalIndexToPathIndex(const IndexType & index);
 
 protected:
-  HilbertPath();
+  HilbertPath() = default;
   ~HilbertPath() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

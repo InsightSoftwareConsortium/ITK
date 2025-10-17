@@ -25,9 +25,6 @@ namespace itk
 {
 
 template <typename TImage>
-BinaryMinMaxCurvatureFlowFunction<TImage>::BinaryMinMaxCurvatureFlowFunction() = default;
-
-template <typename TImage>
 auto
 BinaryMinMaxCurvatureFlowFunction<TImage>::ComputeUpdate(const NeighborhoodType & it,
                                                          void *                   globalData,
