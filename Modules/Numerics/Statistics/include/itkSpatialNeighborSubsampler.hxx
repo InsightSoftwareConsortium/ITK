@@ -128,8 +128,7 @@ SpatialNeighborSubsampler<TSample, TRegion>::Search(const InstanceIdentifier & q
     endIndex[dim] = searchIndex[dim] + searchSize[dim];
   }
 
-  searchRegion.SetIndex(searchIndex);
-  searchRegion.SetSize(searchSize);
+  searchRegion = { searchIndex, searchSize };
 
   if (!this->m_RegionConstraint.IsInside(queryIndex))
   {

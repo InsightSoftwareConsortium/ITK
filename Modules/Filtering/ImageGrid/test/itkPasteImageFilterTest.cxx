@@ -74,8 +74,7 @@ itkPasteImageFilterTest(int argc, char * argv[])
   srcSize[0] = 60;
   srcSize[1] = 40;
 
-  srcRegion.SetIndex(srcIndex);
-  srcRegion.SetSize(srcSize);
+  srcRegion = { srcIndex, srcSize };
 
   filter->SetSourceRegion(srcRegion);
   ITK_TEST_SET_GET_VALUE(srcRegion, filter->GetSourceRegion());

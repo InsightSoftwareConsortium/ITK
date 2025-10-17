@@ -1577,8 +1577,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadedComputeSigmaU
       rIndex[dim] = std::min(nIndex[dim], static_cast<IndexValueType>(radius[dim]));
       rSize[dim] = std::max(nIndex[dim], static_cast<IndexValueType>(rSize[dim] - radius[dim] - 1)) - rIndex[dim] + 1;
     }
-    region.SetIndex(rIndex);
-    region.SetSize(rSize);
+    region = { rIndex, rSize };
 
     typename BaseSamplerType::SubsamplePointer selectedPatches = BaseSamplerType::SubsampleType::New();
     sampler->SetRegionConstraint(region);
@@ -2116,8 +2115,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ComputeGradientJointE
     rIndex[dim] = std::min(nIndex[dim], static_cast<IndexValueType>(radius[dim]));
     rSize[dim] = std::max(nIndex[dim], static_cast<IndexValueType>(rSize[dim] - radius[dim] - 1)) - rIndex[dim] + 1;
   }
-  region.SetIndex(rIndex);
-  region.SetSize(rSize);
+  region = { rIndex, rSize };
 
   typename BaseSamplerType::SubsamplePointer selectedPatches = BaseSamplerType::SubsampleType::New();
 

@@ -633,8 +633,7 @@ ImageMetricLoad<TMoving, TFixed>::GetPolynomialFitToMetric(VectorType Gpos, Vect
           }
         }
 
-        requestedRegion.SetIndex(temp);
-        requestedRegion.SetSize(regionRadius);
+        requestedRegion = { temp, regionRadius };
         m_TarImage->SetRequestedRegion(requestedRegion);
         m_Metric->SetFixedImageRegion(m_TarImage->GetRequestedRegion());
         measure[row + 1][col + 1] = 0.0;
@@ -683,8 +682,7 @@ ImageMetricLoad<TMoving, TFixed>::GetPolynomialFitToMetric(VectorType Gpos, Vect
             }
           }
 
-          requestedRegion.SetIndex(temp);
-          requestedRegion.SetSize(regionRadius);
+          requestedRegion = { temp, regionRadius };
           m_TarImage->SetRequestedRegion(requestedRegion);
           m_Metric->SetFixedImageRegion(m_TarImage->GetRequestedRegion());
           measure3D[row + 1][col + 1][z + 1] = 0.0;

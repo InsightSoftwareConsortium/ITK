@@ -91,8 +91,7 @@ itkLevelSetEquationChanAndVeseInternalTermTest(int argc, char * argv[])
   index.Fill(10);
   size.Fill(30);
 
-  region.SetIndex(index);
-  region.SetSize(size);
+  region = { index, size };
 
   InputImageIteratorType iIt(binary, region);
   iIt.GoToBegin();

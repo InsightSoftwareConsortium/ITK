@@ -223,8 +223,7 @@ ImageToImageFilterDefaultCopyRegion(const typename BinaryUnsignedIntDispatch<D1,
     destSize[dim] = srcSize[dim];
   }
 
-  destRegion.SetIndex(destIndex);
-  destRegion.SetSize(destSize);
+  destRegion = { destIndex, destSize };
 }
 
 /**
@@ -271,8 +270,7 @@ ImageToImageFilterDefaultCopyRegion(const typename BinaryUnsignedIntDispatch<D1,
       destSize[dim] = 1;
     }
   }
-  destRegion.SetIndex(destIndex);
-  destRegion.SetSize(destSize);
+  destRegion = { destIndex, destSize };
 }
 
 /** \class ImageRegionCopier

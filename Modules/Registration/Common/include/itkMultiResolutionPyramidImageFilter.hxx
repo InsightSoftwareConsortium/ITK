@@ -448,8 +448,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateOutputRequ
         outputIndex[idim] = static_cast<IndexValueType>(std::ceil(static_cast<double>(baseIndex[idim]) / factor));
       }
 
-      outputRegion.SetIndex(outputIndex);
-      outputRegion.SetSize(outputSize);
+      outputRegion = { outputIndex, outputSize };
 
       // make sure the region is within the largest possible region
       outputRegion.Crop(this->GetOutput(ilevel)->GetLargestPossibleRegion());

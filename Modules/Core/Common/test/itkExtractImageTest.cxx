@@ -302,8 +302,7 @@ itkExtractImageTest(int, char *[])
   extractIndex[1] = 0;
   extractSize[0] = 0;
   extractSize[1] = 3;
-  extractRegion.SetIndex(extractIndex);
-  extractRegion.SetSize(extractSize);
+  extractRegion = { extractIndex, extractSize };
 
   lineExtract->SetExtractionRegion(extractRegion);
   lineExtract->UpdateLargestPossibleRegion();

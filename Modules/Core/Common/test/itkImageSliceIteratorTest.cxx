@@ -217,8 +217,7 @@ itkImageSliceIteratorTest(int, char *[])
     start[1] = 25;
     start[2] = 25;
 
-    region.SetIndex(start);
-    region.SetSize(size);
+    region = { start, size };
 
     IteratorType ot(myImage, region);
 

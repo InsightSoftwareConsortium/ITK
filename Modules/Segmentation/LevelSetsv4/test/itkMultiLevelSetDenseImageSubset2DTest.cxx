@@ -92,8 +92,7 @@ itkMultiLevelSetDenseImageSubset2DTest(int, char *[])
   index.Fill(910);
   size.Fill(80);
 
-  region.SetIndex(index);
-  region.SetSize(size);
+  region = { index, size };
 
   InputIteratorType iIt(input, region);
   iIt.GoToBegin();
@@ -106,8 +105,7 @@ itkMultiLevelSetDenseImageSubset2DTest(int, char *[])
   index.Fill(0);
   size.Fill(100);
   origin.Fill(900.0);
-  region.SetIndex(index);
-  region.SetSize(size);
+  region = { index, size };
 
   // Binary initialization
   auto binary = InputImageType::New();
@@ -119,8 +117,7 @@ itkMultiLevelSetDenseImageSubset2DTest(int, char *[])
 
   index.Fill(30);
   size.Fill(40);
-  region.SetIndex(index);
-  region.SetSize(size);
+  region = { index, size };
 
   InputIteratorType bIt(binary, region);
   bIt.GoToBegin();
@@ -161,8 +158,7 @@ itkMultiLevelSetDenseImageSubset2DTest(int, char *[])
 
   index.Fill(900);
   size.Fill(100);
-  region.SetIndex(index);
-  region.SetSize(size);
+  region = { index, size };
 
   auto idImage = IdListImageType::New();
   idImage->SetRegions(input->GetLargestPossibleRegion());

@@ -46,8 +46,7 @@ itkCovarianceImageFunctionTest(int, char *[])
   constexpr ImageType::IndexValueType imageValue = 0;
   start.Fill(imageValue);
 
-  region.SetIndex(start);
-  region.SetSize(size);
+  region = { start, size };
 
   image->SetRegions(region);
   image->Allocate();
