@@ -278,8 +278,7 @@ public:
       index[i] = inIORegion.GetIndex(i) + largestRegionIndex[i];
     }
 
-    outImageRegion.SetSize(size);
-    outImageRegion.SetIndex(index);
+    outImageRegion = { index, size };
   }
 };
 } // end namespace itk

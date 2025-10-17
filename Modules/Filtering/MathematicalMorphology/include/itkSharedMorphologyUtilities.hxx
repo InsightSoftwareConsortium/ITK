@@ -313,8 +313,7 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
     R1.SetSize(S1);
 
     I2[i] = I2[i] + AllImage.GetSize()[i] - 1;
-    R2.SetSize(S1);
-    R2.SetIndex(I2);
+    R2 = { I2, S1 };
     faceList.push_back(R1);
     faceList.push_back(R2);
     //    std::cout << R1 << R2 << std::endl;
@@ -401,8 +400,7 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
         }
       }
     }
-    RelevantRegion.SetSize(NewSize);
-    RelevantRegion.SetIndex(NewStart);
+    RelevantRegion = { NewStart, NewSize };
   }
   else
   {

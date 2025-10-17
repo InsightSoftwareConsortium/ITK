@@ -36,8 +36,7 @@ SetUpSpatialRegion(unsigned int x, unsigned int y)
   size[0] = x;
   size[1] = y;
   start.Fill(0);
-  out.SetSize(size);
-  out.SetIndex(start);
+  out = { start, size };
   return out;
 }
 
@@ -267,8 +266,7 @@ itkVideoStreamTest(int, char *[])
   sz[0] = 10;
   sz[1] = 20;
   start.Fill(0);
-  spatReg.SetSize(sz);
-  spatReg.SetIndex(start);
+  spatReg = { start, sz };
   space[0] = 0.1;
   space[1] = 0.5;
   orgn[0] = 5.432;

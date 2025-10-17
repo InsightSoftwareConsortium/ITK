@@ -48,8 +48,7 @@ itkTIFFImageIOTest2(int argc, char * argv[])
   start[0] = 0;
   start[1] = 0;
 
-  region.SetSize(size);
-  region.SetIndex(start);
+  region = { start, size };
 
   image->SetRegions(region);
   image->AllocateInitialized();

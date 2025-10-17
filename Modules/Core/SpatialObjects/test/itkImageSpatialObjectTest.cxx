@@ -50,8 +50,7 @@ itkImageSpatialObjectTest(int, char *[])
   ImageType::RegionType          region;
   auto                           origin = itk::MakeFilled<ImageType::PointType>(5);
 
-  region.SetSize(size);
-  region.SetIndex(index);
+  region = { index, size };
   image->SetOrigin(origin);
   image->SetRegions(region);
   image->Allocate();

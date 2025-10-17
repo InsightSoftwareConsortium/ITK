@@ -242,8 +242,7 @@ private:
     size[1] = imgHeight;
     start.Fill(0);
     spacing.Fill(1);
-    region.SetSize(size);
-    region.SetIndex(start);
+    region = { start, size };
     out->SetRegions(region);
     out->SetSpacing(spacing);
     out->Allocate();

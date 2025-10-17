@@ -157,8 +157,7 @@ itkExtractImageTest(int, char *[])
   extractIndex[1] = 2;
   extractSize[0] = 5;
   extractSize[1] = 6;
-  extractRegion.SetSize(extractSize);
-  extractRegion.SetIndex(extractIndex);
+  extractRegion = { extractIndex, extractSize };
   extract->SetExtractionRegion(extractRegion);
   extract->UpdateLargestPossibleRegion();
   requestedRegion = extract->GetOutput()->GetRequestedRegion();
@@ -217,8 +216,7 @@ itkExtractImageTest(int, char *[])
   extractIndex[1] = 1;
   extractSize[0] = 7;
   extractSize[1] = 11;
-  extractRegion.SetSize(extractSize);
-  extractRegion.SetIndex(extractIndex);
+  extractRegion = { extractIndex, extractSize };
   extract->SetExtractionRegion(extractRegion);
 
   // Create a stream

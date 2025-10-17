@@ -65,8 +65,7 @@ itkMaskNeighborhoodOperatorImageFilterTest(int argc, char * argv[])
   const unsigned int width = size[0];
   size[0] = width / 2 - static_cast<unsigned int>(.25 * static_cast<float>(width));
   index[0] = size[0] + static_cast<unsigned int>(.25 * static_cast<float>(width));
-  region.SetSize(size);
-  region.SetIndex(index);
+  region = { index, size };
   {
     itk::ImageRegionIterator<MaskImageType> it(mask1, region);
     it.GoToBegin();

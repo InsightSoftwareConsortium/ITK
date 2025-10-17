@@ -236,8 +236,7 @@ itkParallelSparseFieldLevelSetImageFilterTest(int argc, char * argv[])
   ImageType::RegionType          r;
   constexpr ImageType::SizeType  sz = { { PSFLSIFT::HEIGHT, PSFLSIFT::WIDTH, PSFLSIFT::DEPTH } };
   constexpr ImageType::IndexType idx = { { 0, 0, 0 } };
-  r.SetSize(sz);
-  r.SetIndex(idx);
+  r = { idx, sz };
 
   ImageType::PointType     origin;
   ImageType::SpacingType   spacing;

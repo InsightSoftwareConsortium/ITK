@@ -155,8 +155,7 @@ LevelSetDomainMapImageFilter<TInputImage, TOutputImage>::GenerateData()
         sizeOfRegion[i] = stopIdx[i] - startIdx[i];
       }
 
-      subRegion.SetSize(sizeOfRegion);
-      subRegion.SetIndex(startIdx);
+      subRegion = { startIdx, sizeOfRegion };
 
       // Compute the consistent subregion
       subRegion = this->ComputeConsistentRegion(subRegion);

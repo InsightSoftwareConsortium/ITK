@@ -264,8 +264,7 @@ GaussianBlurImageFunction<TInputImage, TOutput>::EvaluateAtIndex(const IndexType
         ind[i] = 0;
       }
     }
-    region.SetSize(size);
-    region.SetIndex(ind);
+    region = { ind, size };
 
     m_OperatorInternalImageFunction->SetInputImage(m_InternalImage);
     m_OperatorInternalImageFunction->SetOperator(operatorArray[direction]);

@@ -95,8 +95,7 @@ ImageMetricLoad<TMoving, TFixed>::InitializeMetric()
   m_NumberOfIntegrationPoints = 0;
 
   // Set the associated region
-  requestedRegion.SetSize(size);
-  requestedRegion.SetIndex(tindex);
+  requestedRegion = { tindex, size };
   m_TarImage->SetRequestedRegion(requestedRegion);
   m_Metric->SetFixedImageRegion(m_TarImage->GetRequestedRegion());
 
@@ -335,8 +334,7 @@ ImageMetricLoad<TMoving, TFixed>::Fe(VectorType Gpos, VectorType Gsol) -> Vector
 
   // Set the associated region
 
-  requestedRegion.SetSize(regionRadius);
-  requestedRegion.SetIndex(tindex);
+  requestedRegion = { tindex, regionRadius };
 
   m_TarImage->SetRequestedRegion(requestedRegion);
   m_Metric->SetFixedImageRegion(m_TarImage->GetRequestedRegion());
@@ -439,8 +437,7 @@ ImageMetricLoad<TMoving, TFixed>::GetMetric(VectorType InVec) -> Float
 
   // Set the associated region
 
-  requestedRegion.SetSize(regionRadius);
-  requestedRegion.SetIndex(tindex);
+  requestedRegion = { tindex, regionRadius };
 
   m_TarImage->SetRequestedRegion(requestedRegion);
   m_Metric->SetFixedImageRegion(m_TarImage->GetRequestedRegion());

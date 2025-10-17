@@ -37,8 +37,7 @@ itkCropImageFilter3DTest(int, char *[])
   constexpr unsigned int                     dimSize(8);
   constexpr ImageType::RegionType::SizeType  size = { { dimSize, dimSize, dimSize } };
   constexpr ImageType::RegionType::IndexType index = { { 0, 0, 0 } };
-  region.SetSize(size);
-  region.SetIndex(index);
+  region = { index, size };
 
   auto image = ImageType::New();
 
@@ -87,8 +86,7 @@ itkCropImageFilter3DTest(int, char *[])
   ImageType::RegionType                      subRegion;
   constexpr ImageType::RegionType::SizeType  subSize = { { dimSize - 2, dimSize - 2, dimSize - 2 } };
   constexpr ImageType::RegionType::IndexType subIndex = { { 1, 1, 1 } };
-  subRegion.SetSize(subSize);
-  subRegion.SetIndex(subIndex);
+  subRegion = { subIndex, subSize };
 
   itk::ImageRegionIterator<ImageType> it1(image, subRegion);
   itk::ImageRegionIterator<ImageType> it2(croppedImage, croppedImage->GetLargestPossibleRegion());
