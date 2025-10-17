@@ -122,8 +122,7 @@ Segmenter<TInputImage>::GenerateData()
 
     // Set HIGH face
     idx[i] = (regionToProcess.GetIndex()[i] + regionToProcess.GetSize()[i]) - 1;
-    reg.SetSize(sz);
-    reg.SetIndex(idx);
+    reg = { idx, sz };
     if ((reg.GetIndex()[i] + reg.GetSize()[i]) ==
         (largestPossibleRegion.GetIndex()[i] + largestPossibleRegion.GetSize()[i]))
     {
@@ -139,10 +138,8 @@ Segmenter<TInputImage>::GenerateData()
       boundary->SetValid(true, i, 1);
     }
   }
-  thresholdImageRegion.SetSize(tsz);
-  thresholdImageRegion.SetIndex(tidx);
-  thresholdLargestPossibleRegion.SetSize(tlsz);
-  thresholdLargestPossibleRegion.SetIndex(tlidx);
+  thresholdImageRegion = { tidx, tsz };
+  thresholdLargestPossibleRegion = { tlidx, tlsz };
 
   // Now create and allocate the threshold image.  We need a single pixel
   // border around the NxM region we are segmenting.  This means that for faces

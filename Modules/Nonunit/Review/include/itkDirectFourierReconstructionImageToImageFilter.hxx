@@ -131,8 +131,7 @@ DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::Genera
   inputSize[m_ZDirection] = outputImage->GetRequestedRegion().GetSize()[2];
   inputStart[m_ZDirection] = outputImage->GetRequestedRegion().GetIndex()[2];
 
-  m_InputRequestedRegion.SetSize(inputSize);
-  m_InputRequestedRegion.SetIndex(inputStart);
+  m_InputRequestedRegion = { inputStart, inputSize };
 
   m_InputRequestedRegion.Crop(inputImage->GetLargestPossibleRegion());
   inputImage->SetRequestedRegion(m_InputRequestedRegion);
@@ -163,8 +162,7 @@ DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::Genera
   const double last_alpha_size = 1 + (180.0 * (inputROISize[m_AlphaDirection])) / m_AlphaRange - alpha_size;
   inputROIStart[m_AlphaDirection] += (inputROISize[m_AlphaDirection] - alpha_size) / 2;
   inputROISize[m_AlphaDirection] = alpha_size;
-  inputROI.SetSize(inputROISize);
-  inputROI.SetIndex(inputROIStart);
+  inputROI = { inputROIStart, inputROISize };
 
   // Setup the input ROI iterator
   InputSliceIteratorType inputIt(inputImage, inputROI);
@@ -180,8 +178,7 @@ DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::Genera
   ProjectionLineType::IndexType  pStart;
   pSize[0] = inputROISize[m_RDirection] * m_ZeroPadding;
   pStart[0] = inputROIStart[m_RDirection];
-  pRegion.SetSize(pSize);
-  pRegion.SetIndex(pStart);
+  pRegion = { pStart, pSize };
   projectionLine->SetRegions(pRegion);
   projectionLine->AllocateInitialized();
 
@@ -207,8 +204,7 @@ DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::Genera
 
   FFTSliceSize[0] = FFTSliceSize[1] = inputROISize[m_RDirection] * m_ZeroPadding * m_OverSampling;
   FFTSliceStart[0] = FFTSliceStart[1] = 0;
-  FFTSliceRegion.SetSize(FFTSliceSize);
-  FFTSliceRegion.SetIndex(FFTSliceStart);
+  FFTSliceRegion = { FFTSliceStart, FFTSliceSize };
 
   auto FFTSlice = FFTSliceType::New();
   FFTSlice->SetRegions(FFTSliceRegion);
@@ -233,8 +229,7 @@ DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::Genera
   outputWindowStart[0] = outputImage->GetRequestedRegion().GetIndex()[0] + outputWindowShift;
   outputWindowStart[1] = outputImage->GetRequestedRegion().GetIndex()[1] + outputWindowShift;
 
-  outputWindow.SetSize(outputWindowSize);
-  outputWindow.SetIndex(outputWindowStart);
+  outputWindow = { outputWindowStart, outputWindowSize };
 
   OutputSliceType::IndexType          wIdx;
   typename OutputImageType::IndexType oIdx;

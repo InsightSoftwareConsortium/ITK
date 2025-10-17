@@ -549,8 +549,7 @@ itkImageToImageMetricv4Test(int, char ** const)
   FieldType::RegionType defregion;
   defsize.Fill(imageSize);
   start.Fill(0);
-  defregion.SetSize(defsize);
-  defregion.SetIndex(start);
+  defregion = { start, defsize };
   field->SetRegions(defregion);
   field->Allocate();
   // Fill it with 0's

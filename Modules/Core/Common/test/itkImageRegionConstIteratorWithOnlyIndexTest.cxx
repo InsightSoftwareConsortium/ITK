@@ -46,8 +46,7 @@ public:
     //      size[0] = 40;
     start.Fill(10);
     //      start[0] = 8;
-    region.SetSize(size);
-    region.SetIndex(start);
+    region = { start, size };
     m_Image->SetRequestedRegion(region);
   }
 

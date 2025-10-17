@@ -46,8 +46,7 @@ CreateInputFrame(InputPixelType val)
   constexpr InputFrameType::IndexType startLR{};
   sizeLR[0] = 50;
   sizeLR[1] = 40;
-  largestRegion.SetSize(sizeLR);
-  largestRegion.SetIndex(startLR);
+  largestRegion = { startLR, sizeLR };
   out->SetRegions(largestRegion);
 
   out->Allocate();
@@ -206,8 +205,7 @@ itkVideoToVideoFilterTest(int, char *[])
   size[1] = inputVideo->GetFrame(0)->GetLargestPossibleRegion().GetSize()[1] / 2;
   start[0] = inputVideo->GetFrame(0)->GetLargestPossibleRegion().GetSize()[0] / 4;
   start[1] = inputVideo->GetFrame(0)->GetLargestPossibleRegion().GetSize()[1] / 4;
-  outputRequestedSpatialRegion.SetSize(size);
-  outputRequestedSpatialRegion.SetIndex(start);
+  outputRequestedSpatialRegion = { start, size };
   filter->GetOutput()->SetAllRequestedSpatialRegions(outputRequestedSpatialRegion);
 
   // Set the number of frame buffers on the output so that we get all output

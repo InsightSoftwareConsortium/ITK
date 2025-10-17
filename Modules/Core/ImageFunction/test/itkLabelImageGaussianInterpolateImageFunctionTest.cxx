@@ -48,8 +48,7 @@ itkLabelImageGaussianInterpolateImageFunctionTest(int, char *[])
       SizeType size;
       size[0] = small_xSize;
       size[1] = small_ySize;
-      region.SetSize(size);
-      region.SetIndex(start);
+      region = { start, size };
     }
 
     small_image->SetRegions(region);
@@ -118,8 +117,7 @@ itkLabelImageGaussianInterpolateImageFunctionTest(int, char *[])
       SizeType size;
       size[0] = large_xSize;
       size[1] = large_ySize;
-      region.SetSize(size);
-      region.SetIndex(start);
+      region = { start, size };
     }
 
     large_image->SetRegions(region);

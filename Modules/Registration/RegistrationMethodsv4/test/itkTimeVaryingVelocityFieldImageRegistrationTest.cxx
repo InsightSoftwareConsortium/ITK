@@ -225,8 +225,7 @@ PerformTimeVaryingVelocityFieldImageRegistration(int argc, char * argv[])
     }
   }
 
-  velocityFieldRegion.SetSize(velocityFieldSize);
-  velocityFieldRegion.SetIndex(velocityFieldIndex);
+  velocityFieldRegion = { velocityFieldIndex, velocityFieldSize };
 
   velocityField->SetOrigin(velocityFieldOrigin);
   velocityField->SetSpacing(velocityFieldSpacing);

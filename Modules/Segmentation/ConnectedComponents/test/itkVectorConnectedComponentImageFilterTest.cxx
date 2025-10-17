@@ -53,8 +53,7 @@ itkVectorConnectedComponentImageFilterTest(int argc, char * argv[])
   auto                  size = ImageType::SizeType::Filled(100);
   ImageType::IndexType  index{};
 
-  region.SetSize(size);
-  region.SetIndex(index);
+  region = { index, size };
   image->SetRegions(region);
   image->Allocate();
 
@@ -66,8 +65,7 @@ itkVectorConnectedComponentImageFilterTest(int argc, char * argv[])
 
   index[0] = 0;
   index[1] = 0;
-  region.SetSize(size);
-  region.SetIndex(index);
+  region = { index, size };
   {
     PixelType pixel;
     pixel[0] = 1;
@@ -85,8 +83,7 @@ itkVectorConnectedComponentImageFilterTest(int argc, char * argv[])
 
   index[0] = width / 2;
   index[1] = 0;
-  region.SetSize(size);
-  region.SetIndex(index);
+  region = { index, size };
   {
     PixelType pixel;
     pixel[0] = 0;
@@ -104,8 +101,7 @@ itkVectorConnectedComponentImageFilterTest(int argc, char * argv[])
 
   index[0] = 0;
   index[1] = width / 2;
-  region.SetSize(size);
-  region.SetIndex(index);
+  region = { index, size };
   {
     PixelType pixel;
     pixel[0] = -1;
@@ -123,8 +119,7 @@ itkVectorConnectedComponentImageFilterTest(int argc, char * argv[])
 
   index[0] = width / 2;
   index[1] = width / 2;
-  region.SetSize(size);
-  region.SetIndex(index);
+  region = { index, size };
   {
     PixelType pixel;
     pixel[0] = 0;
@@ -144,8 +139,7 @@ itkVectorConnectedComponentImageFilterTest(int argc, char * argv[])
   index[1] = width / 4;
   size[0] = width / 2;
   size[1] = width / 2;
-  region.SetSize(size);
-  region.SetIndex(index);
+  region = { index, size };
   {
     PixelType pixel;
     pixel[0] = 1;

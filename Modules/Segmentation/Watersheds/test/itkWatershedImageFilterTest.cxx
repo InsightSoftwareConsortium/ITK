@@ -44,8 +44,7 @@ itkWatershedImageFilterTest(int, char *[])
   origin[0] = 0;
   origin[1] = 0;
 
-  region.SetSize(size);
-  region.SetIndex(origin);
+  region = { origin, size };
 
   auto image2D = ImageType2D::New();
   image2D->SetRegions(region);

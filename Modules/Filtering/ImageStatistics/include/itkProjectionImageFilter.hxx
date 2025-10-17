@@ -266,8 +266,7 @@ ProjectionImageFilter<TInputImage, TOutputImage, TAccumulator>::DynamicThreadedG
     inputSizeForThread[m_ProjectionDimension] = inputSize[m_ProjectionDimension];
     inputIndexForThread[m_ProjectionDimension] = inputIndex[m_ProjectionDimension];
   }
-  inputRegionForThread.SetSize(inputSizeForThread);
-  inputRegionForThread.SetIndex(inputIndexForThread);
+  inputRegionForThread = { inputIndexForThread, inputSizeForThread };
 
   const SizeValueType projectionSize = inputSize[m_ProjectionDimension];
 

@@ -50,8 +50,7 @@ itkSparseImageTest(int, char *[])
   ImageType::RegionType          r;
   constexpr ImageType::SizeType  sz = { { 24, 24 } };
   constexpr ImageType::IndexType idx = { { 0, 0 } };
-  r.SetSize(sz);
-  r.SetIndex(idx);
+  r = { idx, sz };
 
   im->SetRegions(r);
   im->Allocate();

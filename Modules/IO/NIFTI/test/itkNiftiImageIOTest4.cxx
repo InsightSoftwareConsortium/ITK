@@ -63,8 +63,7 @@ itkNiftiImageIOTest4(int argc, char * argv[])
     spacing[i] = 1.0;
   }
 
-  imageRegion.SetSize(size);
-  imageRegion.SetIndex(index);
+  imageRegion = { index, size };
   const Test4ImageType::Pointer test4Image =
     itk::IOTestHelper::AllocateImageFromRegionAndSpacing<Test4ImageType>(imageRegion, spacing);
   test4Image->FillBuffer(0);

@@ -221,8 +221,7 @@ itkImageRegistrationMethodTest_15(int, char *[])
     size[jj] -= 4;
     index[jj] += 2;
   }
-  region.SetSize(size);
-  region.SetIndex(index);
+  region = { index, size };
   metric->SetFixedImageRegion(region);
   metric->ReinitializeSeed(itk::Statistics::MersenneTwisterRandomVariateGenerator::DefaultSeed);
 

@@ -30,8 +30,7 @@ itkIsotropicFourthOrderLevelSetImageFilterTest(int, char *[])
   ImageType::RegionType          r;
   constexpr ImageType::SizeType  sz = { { 128, 128 } };
   constexpr ImageType::IndexType idx = { { 0, 0 } };
-  r.SetSize(sz);
-  r.SetIndex(idx);
+  r = { idx, sz };
 
   im_init->SetRegions(r);
   im_init->Allocate();

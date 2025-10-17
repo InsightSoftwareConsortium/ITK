@@ -52,8 +52,7 @@ itkImageMaskSpatialObjectTest5(int, char *[])
   ImageType::RegionType          insideRegion;
   constexpr ImageType::SizeType  insideSize = { { 30, 30, 30 } };
   constexpr ImageType::IndexType insideIndex = { { 10, 10, 10 } };
-  insideRegion.SetSize(insideSize);
-  insideRegion.SetIndex(insideIndex);
+  insideRegion = { insideIndex, insideSize };
 
 
   Iterator it(image, insideRegion);

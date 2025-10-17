@@ -47,8 +47,7 @@ GenerateImageSequence(int numberOfTimePoints, std::vector<typename ImageType::Po
     size[2] = 10;
   }
   start.Fill(0);
-  region.SetSize(size);
-  region.SetIndex(start);
+  region = { start, size };
   // Origin
   inOrigin[0] = 10.0;
   inOrigin[1] = 20.0;

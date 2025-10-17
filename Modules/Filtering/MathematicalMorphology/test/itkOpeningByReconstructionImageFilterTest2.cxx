@@ -59,8 +59,7 @@ itkOpeningByReconstructionImageFilterTest2(int argc, char * argv[])
   RegionType          region;
   auto                size = SizeType::Filled(std::stoi(argv[2]));
   constexpr IndexType index{};
-  region.SetSize(size);
-  region.SetIndex(index);
+  region = { index, size };
 
   // fill spacing and origin
   OriginType origin;

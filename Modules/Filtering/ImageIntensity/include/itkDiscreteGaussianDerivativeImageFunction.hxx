@@ -117,8 +117,7 @@ DiscreteGaussianDerivativeImageFunction<TInputImage, TOutput>::RecomputeGaussian
   RegionType kernelRegion;
   size.Fill(2 * m_OperatorArray[0].GetRadius()[0] + 1);
   auto origin = RegionType::IndexType::Filled(m_OperatorArray[0].GetRadius()[0]);
-  kernelRegion.SetSize(size);
-  kernelRegion.SetIndex(origin);
+  kernelRegion = { origin, size };
 
   // Now create an image filter to perform successive convolutions
   using NeighborhoodFilterType = itk::NeighborhoodOperatorImageFilter<KernelImageType, KernelImageType>;

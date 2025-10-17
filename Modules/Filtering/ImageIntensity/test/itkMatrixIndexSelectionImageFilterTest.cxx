@@ -51,8 +51,7 @@ itkMatrixIndexSelectionImageFilterTest(int argc, char * argv[])
 
   InputImageType::IndexType index{};
 
-  region.SetSize(size);
-  region.SetIndex(index);
+  region = { index, size };
   image->SetRegions(region);
   image->Allocate();
 
@@ -67,8 +66,7 @@ itkMatrixIndexSelectionImageFilterTest(int argc, char * argv[])
   // Populate upper half of image
   index[0] = 0;
   index[1] = 0;
-  region.SetSize(size);
-  region.SetIndex(index);
+  region = { index, size };
   {
     PixelType pixel;
     pixel[0][0] = 128;
@@ -88,8 +86,7 @@ itkMatrixIndexSelectionImageFilterTest(int argc, char * argv[])
   // Populate lower half of image
   index[0] = 0;
   index[1] = height / 2;
-  region.SetSize(size);
-  region.SetIndex(index);
+  region = { index, size };
   {
     PixelType pixel;
     pixel[0][0] = 64;

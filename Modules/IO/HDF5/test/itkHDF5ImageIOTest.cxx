@@ -43,8 +43,7 @@ HDF5ReadWriteTest(const char * fileName)
     spacing[i] = 1.0 + static_cast<double>(i);
     origin[i] = static_cast<double>(i) * 5.0;
   }
-  imageRegion.SetSize(size);
-  imageRegion.SetIndex(index);
+  imageRegion = { index, size };
   const typename ImageType::Pointer im =
     itk::IOTestHelper::AllocateImageFromRegionAndSpacing<ImageType>(imageRegion, spacing);
 
