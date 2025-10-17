@@ -48,8 +48,7 @@ itkImageRegionTest(int, char *[])
   RegionType regionA;
   RegionType regionB;
 
-  regionA.SetSize(sizeA);
-  regionA.SetIndex(startA);
+  regionA = { startA, sizeA };
 
   if (regionA.GetUpperIndex() != endA)
   {
@@ -111,8 +110,7 @@ itkImageRegionTest(int, char *[])
     std::cout << "Caught expected exception" << err;
   }
 
-  regionB.SetSize(sizeB);
-  regionB.SetIndex(startB);
+  regionB = { startB, sizeB };
 
   // Test IsInside( integerIndex )
   IndexType index = startA;

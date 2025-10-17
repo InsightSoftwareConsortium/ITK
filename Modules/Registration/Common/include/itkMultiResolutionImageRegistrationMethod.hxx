@@ -247,8 +247,7 @@ MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::PreparePyrami
       start[dim] =
         static_cast<typename IndexType::IndexValueType>(std::ceil(static_cast<float>(inputStart[dim]) / scaleFactor));
     }
-    m_FixedImageRegionPyramid[level].SetSize(size);
-    m_FixedImageRegionPyramid[level].SetIndex(start);
+    m_FixedImageRegionPyramid[level] = { start, size };
   }
 }
 

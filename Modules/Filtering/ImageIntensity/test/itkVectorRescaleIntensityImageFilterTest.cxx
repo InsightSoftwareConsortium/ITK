@@ -44,8 +44,7 @@ itkVectorRescaleIntensityImageFilterTest(int, char *[])
   size.Fill(20);
   index.Fill(0);
 
-  region.SetIndex(index);
-  region.SetSize(size);
+  region = { index, size };
 
   InputPixelType pixelValue;
   pixelValue[0] = 10;

@@ -49,8 +49,7 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   float spacing[ImageDimension] = { 1.0, 1.0, 1.0 };
   float origin[ImageDimension] = { 0, 0, 0 };
 
-  imageRegion.SetSize(imageSize);
-  imageRegion.SetIndex(imageIndex);
+  imageRegion = { imageIndex, imageSize };
 
   // creates an image that will stores the Gaussian pixel * bias values
   auto imageWithBias = ImageType::New();

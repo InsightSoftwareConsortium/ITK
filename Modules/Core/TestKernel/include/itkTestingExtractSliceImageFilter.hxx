@@ -94,8 +94,7 @@ ExtractSliceImageFilter<TInputImage, TOutputImage>::SetExtractionRegion(InputIma
                       << InputImageDimension - OutputImageDimension << " zero sized dimensions to collapse.");
   }
 
-  m_OutputImageRegion.SetSize(outputSize);
-  m_OutputImageRegion.SetIndex(outputIndex);
+  m_OutputImageRegion = { outputIndex, outputSize };
   this->Modified();
 }
 

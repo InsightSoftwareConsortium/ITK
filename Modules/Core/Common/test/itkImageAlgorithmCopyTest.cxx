@@ -33,8 +33,7 @@ AverageTestCopy(typename TImage::SizeType & size)
 
 
   const typename ImageType::IndexType index{};
-  region.SetSize(size);
-  region.SetIndex(index);
+  region = { index, size };
 
   auto inImage = ImageType::New();
   inImage->SetRegions(region);

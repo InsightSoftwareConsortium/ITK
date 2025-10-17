@@ -288,8 +288,7 @@ TestMattesMetricWithAffineTransform(TInterpolator * interpolator,
   // set the region over which to compute metric
   index.Fill(2);
   size.Fill(96);
-  region.SetSize(size);
-  region.SetIndex(index);
+  region = { index, size };
   metric->SetFixedImageRegion(region);
 
   // initialize the metric before use

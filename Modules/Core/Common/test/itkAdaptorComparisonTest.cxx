@@ -179,8 +179,7 @@ itkAdaptorComparisonTest(int, char *[])
   index[0] = 0;
   index[1] = 0;
   index[2] = 0;
-  region.SetSize(size);
-  region.SetIndex(index);
+  region = { index, size };
 
   auto scalar_image = ScalarImageType::New();
   auto vector_image = VectorImageType::New();

@@ -47,8 +47,7 @@ itkImportImageTest(int, char *[])
   itk::ImageRegion<Dimension>                      region;
   constexpr itk::ImageRegion<Dimension>::IndexType index = { { 0, 0 } };
   constexpr itk::ImageRegion<Dimension>::SizeType  size = { { 8, 12 } };
-  region.SetIndex(index);
-  region.SetSize(size);
+  region = { index, size };
   // local scope to make sure that imported data is not deleted with ImportImageFilter
   // but with the ImportImageContainer is creates.
   {

@@ -55,8 +55,7 @@ CreateInputFrame(InputPixelType val)
   constexpr InputFrameType::IndexType startLR{};
   sizeLR[0] = 50;
   sizeLR[1] = 40;
-  largestRegion.SetSize(sizeLR);
-  largestRegion.SetIndex(startLR);
+  largestRegion = { startLR, sizeLR };
   out->SetRegions(largestRegion);
 
   out->Allocate();

@@ -87,8 +87,7 @@ itkHessian3DToVesselnessMeasureImageFilterTest(int argc, char * argv[])
   start[2] = 3;
 
   // Create one iterator for an internal region
-  region.SetSize(size);
-  region.SetIndex(start);
+  region = { start, size };
   myIteratorType itb(inputImage, region);
 
   // Initialize the content the internal region

@@ -67,8 +67,7 @@ itkInverseDisplacementFieldImageFilterTest(int argc, char * argv[])
   start[1] = 0;
 
   DisplacementFieldType::RegionType region{ start, size };
-  region.SetSize(size);
-  region.SetIndex(start);
+  region = { start, size };
   field->SetRegions(region);
   field->Allocate();
 

@@ -46,8 +46,7 @@ public:
     size[0] = 16; // To fill the range of 8 bits image
     size[1] = 16;
 
-    region.SetSize(size);
-    region.SetIndex(start);
+    region = { start, size };
 
     m_Image->SetRegions(region);
     m_Image->Allocate();

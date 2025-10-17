@@ -79,8 +79,7 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion
     inputSize[i] = std::min(inputSize[i], inputLargestPossibleRegionSize[i]);
   }
 
-  inputRegion.SetIndex(inputIndex);
-  inputRegion.SetSize(inputSize);
+  inputRegion = { inputIndex, inputSize };
 
   inputPtr->SetRequestedRegion(inputRegion);
 }

@@ -150,8 +150,7 @@ SlopeInterceptWriteTest()
   size[0] = 8;
   size[1] = 8;
   size[2] = 4;
-  region.SetSize(size);
-  region.SetIndex(start);
+  region = { start, size };
   auto outputimage = OutputImageType::New();
   outputimage->SetRegions(region);
   outputimage->Allocate();

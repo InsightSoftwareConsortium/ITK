@@ -58,8 +58,7 @@ itkExtractImage3Dto2DTest(int, char *[])
   extractIndex[2] = extractIndex[1] = extractIndex[0] = 0;
 
   extract->SetInput(im3d);
-  extractRegion.SetSize(extractSize);
-  extractRegion.SetIndex(extractIndex);
+  extractRegion = { extractIndex, extractSize };
   extract->SetExtractionRegion(extractRegion);
   extract->Update();
 
@@ -81,8 +80,7 @@ itkExtractImage3Dto2DTest(int, char *[])
   extractIndex[2] = extractIndex[1] = extractIndex[0] = 0;
 
   extract->SetInput(im3d);
-  extractRegion.SetSize(extractSize);
-  extractRegion.SetIndex(extractIndex);
+  extractRegion = { extractIndex, extractSize };
   extract->SetExtractionRegion(extractRegion);
   extract->Update();
   // remove first column/row, should obtain :

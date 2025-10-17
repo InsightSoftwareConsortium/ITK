@@ -48,15 +48,13 @@ public:
     // Setup the half, positive frequencies region.
     size.Fill(inputImageSize / 2);
     start.Fill(1);
-    m_PositiveHalfRegion.SetSize(size);
-    m_PositiveHalfRegion.SetIndex(start);
+    m_PositiveHalfRegion = { start, size };
 
     // Setup the half, negative frequencies region.
     const unsigned int isImageSizeOdd = m_ImageIsOdd ? 1 : 0;
     size.Fill(inputImageSize / 2);
     start.Fill(inputImageSize / 2 + isImageSizeOdd);
-    m_NegativeHalfRegion.SetSize(size);
-    m_NegativeHalfRegion.SetIndex(start);
+    m_NegativeHalfRegion = { start, size };
     //
     // With default frequency_spacing = 1 ( = sampling frequency)
     // Nyquist_first = fs * (N/2) / N where N is the size of that dim.

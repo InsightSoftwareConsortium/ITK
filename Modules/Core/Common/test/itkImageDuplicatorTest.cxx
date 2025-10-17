@@ -34,8 +34,7 @@ itkImageDuplicatorTest(int, char *[])
   size[1] = 20;
   size[2] = 30;
   constexpr ImageType::IndexType index{};
-  region.SetSize(size);
-  region.SetIndex(index);
+  region = { index, size };
 
   {
     /** Create an image */

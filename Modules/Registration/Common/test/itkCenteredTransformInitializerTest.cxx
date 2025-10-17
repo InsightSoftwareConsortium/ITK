@@ -202,8 +202,7 @@ PopulateImage(itk::SmartPointer<TImage> image)
   internalSize[2] = size[2] - 2 * border;
 
 
-  internalRegion.SetSize(internalSize);
-  internalRegion.SetIndex(internalIndex);
+  internalRegion = { internalIndex, internalSize };
 
   using Iterator = itk::ImageRegionIterator<ImageType>;
   Iterator it(image, internalRegion);

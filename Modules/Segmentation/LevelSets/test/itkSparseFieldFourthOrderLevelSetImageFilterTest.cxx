@@ -143,8 +143,7 @@ itkSparseFieldFourthOrderLevelSetImageFilterTest(int, char *[])
   ImageType::RegionType          r;
   constexpr ImageType::SizeType  sz = { { SFFOLSIFT::HEIGHT, SFFOLSIFT::WIDTH } };
   constexpr ImageType::IndexType idx = { { 0, 0 } };
-  r.SetSize(sz);
-  r.SetIndex(idx);
+  r = { idx, sz };
 
   image->SetRegions(r);
   image->Allocate();

@@ -116,8 +116,7 @@ CreateEmptyFrame()
   constexpr FrameType::IndexType startLR{};
   sizeLR[0] = 50;
   sizeLR[1] = 40;
-  largestRegion.SetSize(sizeLR);
-  largestRegion.SetIndex(startLR);
+  largestRegion = { startLR, sizeLR };
   out->SetLargestPossibleRegion(largestRegion);
 
   FrameType::RegionType requestedRegion;
@@ -125,8 +124,7 @@ CreateEmptyFrame()
   auto                  startReq = FrameType::IndexType::Filled(2);
   sizeReq[0] = 20;
   sizeReq[1] = 10;
-  requestedRegion.SetSize(sizeReq);
-  requestedRegion.SetIndex(startReq);
+  requestedRegion = { startReq, sizeReq };
   out->SetRequestedRegion(requestedRegion);
 
   out->Allocate();

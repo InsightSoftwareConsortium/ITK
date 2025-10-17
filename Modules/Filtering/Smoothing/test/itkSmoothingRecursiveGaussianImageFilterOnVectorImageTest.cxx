@@ -84,8 +84,7 @@ itkSmoothingRecursiveGaussianImageFilterOnVectorImageTest(int, char *[])
   start[2] = 2;
 
   // Create one iterator for an internal region
-  region.SetSize(size);
-  region.SetIndex(start);
+  region = { start, size };
   myIteratorType itb(inputImage, region);
 
   // Initialize the content the internal region

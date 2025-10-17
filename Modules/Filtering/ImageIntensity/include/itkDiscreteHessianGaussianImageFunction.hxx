@@ -122,8 +122,7 @@ DiscreteHessianGaussianImageFunction<TInputImage, TOutput>::RecomputeGaussianKer
   RegionType kernelRegion;
   size.Fill(2 * maxRadius + 1);
   auto origin = RegionType::IndexType::Filled(maxRadius);
-  kernelRegion.SetSize(size);
-  kernelRegion.SetIndex(origin);
+  kernelRegion = { origin, size };
 
   // Now create an image filter to perform successive convolutions
   using NeighborhoodFilterType = itk::NeighborhoodOperatorImageFilter<KernelImageType, KernelImageType>;

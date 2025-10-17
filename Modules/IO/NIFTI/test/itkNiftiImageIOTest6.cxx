@@ -45,8 +45,7 @@ itkNiftiImageIOTest6(int argc, char * argv[])
     index[i] = 0;
     spacing[i] = 1.0;
   }
-  imageRegion.SetSize(size);
-  imageRegion.SetIndex(index);
+  imageRegion = { index, size };
   const VectorImageType::Pointer vecImage =
     itk::IOTestHelper::AllocateImageFromRegionAndSpacing<VectorImageType>(imageRegion, spacing, vecLength);
 

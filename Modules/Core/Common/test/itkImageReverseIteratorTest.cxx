@@ -71,11 +71,9 @@ itkImageReverseIteratorTest(int, char *[])
 
   ImageType::RegionType region{ startIndex3D, imageSize3D };
   o3->SetLargestPossibleRegion(region);
-  region.SetSize(bufferSize3D);
-  region.SetIndex(bufferStartIndex3D);
+  region = { bufferStartIndex3D, bufferSize3D };
   o3->SetBufferedRegion(region);
-  region.SetSize(regionSize3D);
-  region.SetIndex(regionStartIndex3D);
+  region = { regionStartIndex3D, regionSize3D };
   o3->SetRequestedRegion(region);
 
   o3->SetOrigin(origin3D);

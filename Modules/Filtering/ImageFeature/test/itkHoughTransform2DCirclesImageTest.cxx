@@ -320,8 +320,7 @@ itkHoughTransform2DCirclesImageTest(int, char *[])
 
   ImageType::IndexType index{};
 
-  region.SetSize(size);
-  region.SetIndex(index);
+  region = { index, size };
 
   image->SetRegions(region);
   image->AllocateInitialized();

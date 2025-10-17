@@ -104,8 +104,7 @@ itkAntiAliasBinaryImageFilterTest(int argc, char * argv[])
     sz[k] = 64;
     idx[k] = 0;
   }
-  region.SetSize(sz);
-  region.SetIndex(idx);
+  region = { idx, sz };
   image->SetRegions(region);
   image->Allocate();
   AntiAliasBinaryImageFilterTestNamespace::evaluate_function(image, AntiAliasBinaryImageFilterTestNamespace::sphere);

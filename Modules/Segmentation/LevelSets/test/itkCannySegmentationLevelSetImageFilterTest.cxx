@@ -158,8 +158,7 @@ itkCannySegmentationLevelSetImageFilterTest(int, char *[])
   CSIFTN::ImageType::RegionType::IndexType idx;
   idx[0] = idx[1] = idx[2] = 0;
   sz[0] = sz[1] = sz[2] = 64;
-  reg.SetSize(sz);
-  reg.SetIndex(idx);
+  reg = { idx, sz };
 
   const CSIFTN::ImageType::Pointer     inputImage = CSIFTN::ImageType::New();
   const CSIFTN::SeedImageType::Pointer seedImage = CSIFTN::SeedImageType::New();

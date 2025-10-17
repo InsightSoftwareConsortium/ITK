@@ -45,8 +45,7 @@ itkImageFromBuffer(itk::OpenCVVideoIO::Pointer opencvIO, void * buffer, size_t b
   size[0] = opencvIO->GetDimensions(0);
   size[1] = opencvIO->GetDimensions(1);
   start.Fill(0);
-  region.SetIndex(start);
-  region.SetSize(size);
+  region = { start, size };
   ImageType::PointType   origin;
   ImageType::SpacingType space;
   origin.Fill(0.0);

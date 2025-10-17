@@ -145,8 +145,7 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
         {
           regionSize[i] = maxs[i] - mins[i] + 1;
         }
-        cropRegion.SetIndex(mins);
-        cropRegion.SetSize(regionSize);
+        cropRegion = { mins, regionSize };
       }
     }
     else
@@ -200,8 +199,7 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
         {
           regionSize[i] = maxs[i] - mins[i] + 1;
         }
-        cropRegion.SetIndex(mins);
-        cropRegion.SetSize(regionSize);
+        cropRegion = { mins, regionSize };
       }
     }
 

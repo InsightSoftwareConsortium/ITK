@@ -38,8 +38,7 @@ TestGaussianDerivativeImageFunction()
   size[1] = 50;
 
   start.Fill(0);
-  region.SetIndex(start);
-  region.SetSize(size);
+  region = { start, size };
 
   image->SetRegions(region);
   image->AllocateInitialized();

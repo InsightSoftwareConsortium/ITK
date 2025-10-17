@@ -43,8 +43,7 @@ itkShapedNeighborhoodIteratorTest(int, char *[])
   sz[0] = sz[1] = 10;
   sz[2] = 5;
   sz[3] = 1;
-  reg.SetIndex(idx);
-  reg.SetSize(sz);
+  reg = { idx, sz };
 
   // initialize an iterator
   println("Creating ShapedNeighborhoodIterator");

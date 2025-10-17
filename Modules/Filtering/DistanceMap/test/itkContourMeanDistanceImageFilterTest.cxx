@@ -63,13 +63,11 @@ itkContourMeanDistanceImageFilterTest(int argc, char * argv[])
 
   size.Fill(20);
   index.Fill(10);
-  region1.SetSize(size);
-  region1.SetIndex(index);
+  region1 = { index, size };
 
   size.Fill(15);
   index.Fill(20);
-  region2.SetSize(size);
-  region2.SetIndex(index);
+  region2 = { index, size };
 
   itk::ImageRegionIterator<Image1Type> it1(image1, region1);
   Pixel1Type                           count{};

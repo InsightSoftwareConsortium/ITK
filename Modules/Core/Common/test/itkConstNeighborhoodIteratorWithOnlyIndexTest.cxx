@@ -66,8 +66,7 @@ itkConstNeighborhoodIteratorWithOnlyIndexTestRun()
   sz[0] = sz[1] = 10;
   sz[2] = 5;
   sz[3] = 1;
-  reg.SetIndex(idx);
-  reg.SetSize(sz);
+  reg = { idx, sz };
 
   std::cout << "Creating ConstNeighborhoodIterator" << std::endl;
   ConstNeighborhoodIteratorType it(radius, img, reg);

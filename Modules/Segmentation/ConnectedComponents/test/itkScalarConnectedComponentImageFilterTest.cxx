@@ -86,8 +86,7 @@ itkScalarConnectedComponentImageFilterTest(int argc, char * argv[])
   {
     size[i] = static_cast<unsigned long>(0.5 * maskSize[i]);
   }
-  region.SetIndex(index);
-  region.SetSize(size);
+  region = { index, size };
 
   itk::ImageRegionIterator<MaskImageType> mit(mask, region);
   while (!mit.IsAtEnd())
@@ -102,8 +101,7 @@ itkScalarConnectedComponentImageFilterTest(int argc, char * argv[])
     index[i] = static_cast<long>(0.375 * maskSize[i]);
     size[i] = static_cast<unsigned long>(0.25 * maskSize[i]);
   }
-  region.SetIndex(index);
-  region.SetSize(size);
+  region = { index, size };
 
   itk::ImageRegionIterator<MaskImageType> mit2(mask, region);
   while (!mit2.IsAtEnd())

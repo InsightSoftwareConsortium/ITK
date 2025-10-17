@@ -109,8 +109,7 @@ itkCenteredVersorTransformInitializerTest(int, char *[])
   internalSize[2] = size[2] - 2 * 10;
 
 
-  internalRegion.SetSize(internalSize);
-  internalRegion.SetIndex(internalIndex);
+  internalRegion = { internalIndex, internalSize };
 
   using FixedIterator = itk::ImageRegionIterator<FixedImageType>;
   FixedIterator fi(fixedImage, internalRegion);
@@ -132,8 +131,7 @@ itkCenteredVersorTransformInitializerTest(int, char *[])
   internalSize[2] = size[2] - 2 * 30;
 
 
-  internalRegion.SetSize(internalSize);
-  internalRegion.SetIndex(internalIndex);
+  internalRegion = { internalIndex, internalSize };
 
 
   using MovingIterator = itk::ImageRegionIterator<MovingImageType>;

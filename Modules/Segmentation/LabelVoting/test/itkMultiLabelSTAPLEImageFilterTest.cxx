@@ -77,8 +77,7 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
     start[1] = 0;
     start[2] = 0;
 
-    region.SetIndex(start);
-    region.SetSize(size);
+    region = { start, size };
   }
 
   // Initialize Image A

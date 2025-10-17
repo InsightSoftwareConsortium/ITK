@@ -165,8 +165,7 @@ MaskFeaturePointSelectionFilter<TImage, TMask, TFeatures>::GenerateData()
     safeSize -= m_BlockRadius + m_BlockRadius;
   }
 
-  region.SetIndex(safeIndex);
-  region.SetSize(safeSize);
+  region = { safeIndex, safeSize };
 
   // iterators for variance computing loop
   ImageRegionIterator<SelectionMapType> mapItr(selectionMap, region);

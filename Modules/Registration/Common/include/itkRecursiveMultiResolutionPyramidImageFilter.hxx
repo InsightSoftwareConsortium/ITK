@@ -267,8 +267,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateO
       }
     }
 
-    requestedRegion.SetSize(requestedSize);
-    requestedRegion.SetIndex(requestedIndex);
+    requestedRegion = { requestedIndex, requestedSize };
     requestedRegion.PadByRadius(radius);
     requestedRegion.Crop(this->GetOutput(ilevel)->GetLargestPossibleRegion());
 
@@ -313,8 +312,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateO
         std::ceil(static_cast<double>(requestedIndex[idim]) / static_cast<double>(factors[idim])));
     }
 
-    requestedRegion.SetSize(requestedSize);
-    requestedRegion.SetIndex(requestedIndex);
+    requestedRegion = { requestedIndex, requestedSize };
     requestedRegion.Crop(this->GetOutput(ilevel)->GetLargestPossibleRegion());
 
     this->GetOutput(ilevel)->SetRequestedRegion(requestedRegion);

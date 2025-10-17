@@ -51,8 +51,7 @@ itkStatisticsImageFilterTest(int argc, char * argv[])
   auto                            size = FloatImage::SizeType::Filled(64);
   constexpr FloatImage::IndexType index{};
 
-  region.SetIndex(index);
-  region.SetSize(size);
+  region = { index, size };
 
   // first try a constant image
   constexpr float fillValue = -100.0;
@@ -151,8 +150,7 @@ itkStatisticsImageFilterTest(int argc, char * argv[])
   DoubleImage::RegionType dregion;
   dsize.Fill(50);
   dindex.Fill(0);
-  dregion.SetSize(dsize);
-  dregion.SetIndex(dindex);
+  dregion = { dindex, dsize };
   dImage->SetRegions(dregion);
   dImage->Allocate();
   itk::ImageRegionIterator<DoubleImage> it(dImage, dregion);

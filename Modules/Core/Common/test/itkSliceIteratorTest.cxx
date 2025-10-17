@@ -153,8 +153,7 @@ itkSliceIteratorTest(int, char *[])
     zeroIndex[0] = zeroIndex[1] = 0;
     imgSize[0] = imgSize[1] = 20;
     hoodRadius[0] = hoodRadius[1] = 2;
-    reg.SetIndex(zeroIndex);
-    reg.SetSize(imgSize);
+    reg = { zeroIndex, imgSize };
 
     const std::slice                                         hslice(10, 5, 1); // slice through the horizontal center
     const std::slice                                         vslice(2, 5, 5);  // slice through the vertical center

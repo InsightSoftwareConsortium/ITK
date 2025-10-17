@@ -703,8 +703,7 @@ itkVectorImageTest(int, char * argv[])
       ConstNeighborhoodIteratorType::RegionType region = vectorImage->GetBufferedRegion();
       auto                                      size = ConstNeighborhoodIteratorType::SizeType::Filled(4);
       auto                                      index = ConstNeighborhoodIteratorType::IndexType::Filled(1);
-      region.SetIndex(index);
-      region.SetSize(size);
+      region = { index, size };
 
       ConstNeighborhoodIteratorType cNit(radius, vectorImage, region);
 

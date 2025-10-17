@@ -47,8 +47,7 @@ itkGaussianSmoothingOnUpdateDisplacementFieldTransformTest(int, char *[])
   constexpr int         dimLength = 20;
   size.Fill(dimLength);
   start.Fill(0);
-  region.SetSize(size);
-  region.SetIndex(start);
+  region = { start, size };
   field->SetRegions(region);
   field->Allocate();
 

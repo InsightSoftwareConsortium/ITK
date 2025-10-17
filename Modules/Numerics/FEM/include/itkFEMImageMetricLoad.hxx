@@ -95,8 +95,7 @@ ImageMetricLoad<TMoving, TFixed>::InitializeMetric()
   m_NumberOfIntegrationPoints = 0;
 
   // Set the associated region
-  requestedRegion.SetSize(size);
-  requestedRegion.SetIndex(tindex);
+  requestedRegion = { tindex, size };
   m_TarImage->SetRequestedRegion(requestedRegion);
   m_Metric->SetFixedImageRegion(m_TarImage->GetRequestedRegion());
 
@@ -335,8 +334,7 @@ ImageMetricLoad<TMoving, TFixed>::Fe(VectorType Gpos, VectorType Gsol) -> Vector
 
   // Set the associated region
 
-  requestedRegion.SetSize(regionRadius);
-  requestedRegion.SetIndex(tindex);
+  requestedRegion = { tindex, regionRadius };
 
   m_TarImage->SetRequestedRegion(requestedRegion);
   m_Metric->SetFixedImageRegion(m_TarImage->GetRequestedRegion());
@@ -439,8 +437,7 @@ ImageMetricLoad<TMoving, TFixed>::GetMetric(VectorType InVec) -> Float
 
   // Set the associated region
 
-  requestedRegion.SetSize(regionRadius);
-  requestedRegion.SetIndex(tindex);
+  requestedRegion = { tindex, regionRadius };
 
   m_TarImage->SetRequestedRegion(requestedRegion);
   m_Metric->SetFixedImageRegion(m_TarImage->GetRequestedRegion());
@@ -633,8 +630,7 @@ ImageMetricLoad<TMoving, TFixed>::GetPolynomialFitToMetric(VectorType Gpos, Vect
           }
         }
 
-        requestedRegion.SetIndex(temp);
-        requestedRegion.SetSize(regionRadius);
+        requestedRegion = { temp, regionRadius };
         m_TarImage->SetRequestedRegion(requestedRegion);
         m_Metric->SetFixedImageRegion(m_TarImage->GetRequestedRegion());
         measure[row + 1][col + 1] = 0.0;
@@ -683,8 +679,7 @@ ImageMetricLoad<TMoving, TFixed>::GetPolynomialFitToMetric(VectorType Gpos, Vect
             }
           }
 
-          requestedRegion.SetIndex(temp);
-          requestedRegion.SetSize(regionRadius);
+          requestedRegion = { temp, regionRadius };
           m_TarImage->SetRequestedRegion(requestedRegion);
           m_Metric->SetFixedImageRegion(m_TarImage->GetRequestedRegion());
           measure3D[row + 1][col + 1][z + 1] = 0.0;
