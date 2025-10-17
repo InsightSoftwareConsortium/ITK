@@ -220,8 +220,7 @@ itkPeriodicBoundaryConditionTest(int, char *[])
   requestIndex[1] = 0;
   requestSize[0] = 3;
   requestSize[1] = 2;
-  requestRegion.SetIndex(requestIndex);
-  requestRegion.SetSize(requestSize);
+  requestRegion = { requestIndex, requestSize };
 
   IndexType expectedIndex;
   expectedIndex[0] = 0;
@@ -229,8 +228,7 @@ itkPeriodicBoundaryConditionTest(int, char *[])
   SizeType expectedSize;
   expectedSize[0] = 5;
   expectedSize[1] = 2;
-  expectedRegion.SetIndex(expectedIndex);
-  expectedRegion.SetSize(expectedSize);
+  expectedRegion = { expectedIndex, expectedSize };
 
   inputRegion = bc.GetInputRequestedRegion(imageRegion, requestRegion);
   if (!CheckInputRequestedRegion(imageRegion, inputRegion, expectedRegion))
@@ -246,15 +244,13 @@ itkPeriodicBoundaryConditionTest(int, char *[])
   requestIndex[1] = 8;
   requestSize[0] = 3;
   requestSize[1] = 3;
-  requestRegion.SetIndex(requestIndex);
-  requestRegion.SetSize(requestSize);
+  requestRegion = { requestIndex, requestSize };
 
   expectedIndex[0] = 0;
   expectedIndex[1] = 0;
   expectedSize[0] = 5;
   expectedSize[1] = 5;
-  expectedRegion.SetIndex(expectedIndex);
-  expectedRegion.SetSize(expectedSize);
+  expectedRegion = { expectedIndex, expectedSize };
 
   inputRegion = bc.GetInputRequestedRegion(imageRegion, requestRegion);
   if (!CheckInputRequestedRegion(imageRegion, inputRegion, expectedRegion))

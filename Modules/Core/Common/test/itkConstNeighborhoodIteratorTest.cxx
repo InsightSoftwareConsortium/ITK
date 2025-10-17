@@ -69,8 +69,7 @@ itkConstNeighborhoodIteratorTest(int, char *[])
   sz[0] = sz[1] = 10;
   sz[2] = 5;
   sz[3] = 1;
-  reg.SetIndex(idx);
-  reg.SetSize(sz);
+  reg = { idx, sz };
 
   println("Creating ConstNeighborhoodIterator");
   itk::ConstNeighborhoodIterator<TestImageType> it(radius, img, reg);

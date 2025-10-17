@@ -319,8 +319,7 @@ VideoSource<TOutputVideoStream>::SplitRequestedSpatialRegion(
   }
 
   // set the split region ivars
-  splitRegion.SetIndex(splitIndex);
-  splitRegion.SetSize(splitSize);
+  splitRegion = { splitIndex, splitSize };
 
   itkDebugMacro("  Split Piece: " << splitRegion);
 

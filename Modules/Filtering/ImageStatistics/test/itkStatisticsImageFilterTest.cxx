@@ -51,8 +51,7 @@ itkStatisticsImageFilterTest(int argc, char * argv[])
   auto                            size = FloatImage::SizeType::Filled(64);
   constexpr FloatImage::IndexType index{};
 
-  region.SetIndex(index);
-  region.SetSize(size);
+  region = { index, size };
 
   // first try a constant image
   constexpr float fillValue = -100.0;

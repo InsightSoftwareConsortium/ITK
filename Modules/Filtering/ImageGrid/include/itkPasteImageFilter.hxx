@@ -174,8 +174,7 @@ PasteImageFilter<TInputImage, TSourceImage, TOutputImage>::DynamicThreadedGenera
     }
 
     // Set the values in the region
-    sourceRegionInSourceImageCropped.SetIndex(sourceIndexInSourceImageCropped);
-    sourceRegionInSourceImageCropped.SetSize(sourceSizeCropped);
+    sourceRegionInSourceImageCropped = { sourceIndexInSourceImageCropped, sourceSizeCropped };
   }
 
 

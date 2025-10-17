@@ -42,8 +42,7 @@ itkStandardDeviationPerComponentSampleFilterTest(int, char *[])
   ImageType::SizeType            size;
   constexpr ImageType::IndexType index{};
   size.Fill(5);
-  region.SetIndex(index);
-  region.SetSize(size);
+  region = { index, size };
 
 
   image->SetBufferedRegion(region);

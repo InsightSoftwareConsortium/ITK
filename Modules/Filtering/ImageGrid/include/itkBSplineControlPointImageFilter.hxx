@@ -362,8 +362,7 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>::SplitRequestedRegion(
   }
 
   // set the split region ivars
-  splitRegion.SetIndex(splitIndex);
-  splitRegion.SetSize(splitSize);
+  splitRegion = { splitIndex, splitSize };
 
   itkDebugMacro("Split piece: " << splitRegion);
 

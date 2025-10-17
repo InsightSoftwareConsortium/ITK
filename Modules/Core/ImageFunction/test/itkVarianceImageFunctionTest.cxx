@@ -43,8 +43,7 @@ itkVarianceImageFunctionTest(int, char *[])
 
   start.Fill(0);
 
-  region.SetIndex(start);
-  region.SetSize(size);
+  region = { start, size };
 
   image->SetRegions(region);
   image->Allocate();

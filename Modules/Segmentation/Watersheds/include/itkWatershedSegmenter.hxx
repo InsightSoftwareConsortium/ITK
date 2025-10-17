@@ -195,8 +195,7 @@ Segmenter<TInputImage>::GenerateData()
     irsz[i] = thresholdImageRegion.GetSize()[i] - 2;
     iridx[i] = thresholdImageRegion.GetIndex()[i] + 1;
   }
-  regionToProcess.SetIndex(iridx);
-  regionToProcess.SetSize(irsz);
+  regionToProcess = { iridx, irsz };
 
   //
   // Initialize the connectivity information that will be used by the
@@ -248,8 +247,7 @@ Segmenter<TInputImage>::GenerateData()
 
       sz_b[b_idx.first] = 1;
 
-      reg_b.SetIndex(idx_b);
-      reg_b.SetSize(sz_b);
+      reg_b = { idx_b, sz_b };
 
       boundary->GetFace(b_idx)->SetRegions(reg_b);
       boundary->GetFace(b_idx)->Allocate();

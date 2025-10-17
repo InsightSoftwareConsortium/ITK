@@ -117,8 +117,7 @@ NeighborhoodAlgorithmTest()
 
   ind.Fill(1);
   size.Fill(4);
-  region.SetIndex(ind);
-  region.SetSize(size);
+  region = { ind, size };
 
   // test 2: requestToProcessRegion is part of bufferedRegion
   if (!ImageBoundaryFaceCalculatorTest(image.GetPointer(), region, radius))
@@ -153,8 +152,7 @@ NeighborhoodAlgorithmTest()
 
   ind.Fill(1);
   size.Fill(6);
-  region.SetIndex(ind);
-  region.SetSize(size);
+  region = { ind, size };
 
   // test 4: bufferedRegion is part of the requestToProcessRegion
   if (!ImageBoundaryFaceCalculatorTest(image.GetPointer(), region, radius))
@@ -164,8 +162,7 @@ NeighborhoodAlgorithmTest()
 
   ind.Fill(0);
   size.Fill(10);
-  region.SetIndex(ind);
-  region.SetSize(size);
+  region = { ind, size };
   image->Initialize();
   image->SetRegions(region);
   image->Allocate();
@@ -173,8 +170,7 @@ NeighborhoodAlgorithmTest()
 
   ind.Fill(1);
   size.Fill(2);
-  region.SetIndex(ind);
-  region.SetSize(size);
+  region = { ind, size };
   // test 5: requestToProcessRegion is part of boundary of bufferedRegion
   if (!ImageBoundaryFaceCalculatorTest(image.GetPointer(), region, radius))
   {
@@ -187,16 +183,14 @@ NeighborhoodAlgorithmTest()
     ind[1] = 249;
     size[0] = 256;
     size[1] = 7;
-    region.SetIndex(ind);
-    region.SetSize(size);
+    region = { ind, size };
     image->Initialize();
     image->SetRegions(region);
     image->Allocate();
 
     ind[1] = 253;
     size[1] = 3;
-    region.SetIndex(ind);
-    region.SetSize(size);
+    region = { ind, size };
     radius.Fill(4);
     // test 6: test condition encountered by BoxMeanImageFilterTest with 24 threads
     if (!ImageBoundaryFaceCalculatorTest(image.GetPointer(), region, radius))

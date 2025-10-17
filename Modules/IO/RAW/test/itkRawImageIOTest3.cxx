@@ -55,8 +55,7 @@ itkRawImageIOTest3(int argc, char * argv[])
   ImageType::RegionType          region;
   constexpr ImageType::IndexType index{};
 
-  region.SetIndex(index);
-  region.SetSize(size);
+  region = { index, size };
 
   auto image = ImageType::New();
   image->SetRegions(region);

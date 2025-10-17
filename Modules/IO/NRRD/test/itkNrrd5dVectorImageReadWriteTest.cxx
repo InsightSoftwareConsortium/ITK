@@ -327,8 +327,7 @@ ReadImageSequenceFile(std::string                                               
     typename ImageSequenceType::RegionType extractionRegion;
     typename ImageSequenceType::IndexType  extractionIndex = extractionRegion.GetIndex();
     extractionIndex[listDimIdx] = timePoint;
-    extractionRegion.SetIndex(extractionIndex);
-    extractionRegion.SetSize(extractionSize);
+    extractionRegion = { extractionIndex, extractionSize };
     extractImageFilter->SetDirectionCollapseToSubmatrix();
     extractImageFilter->SetExtractionRegion(extractionRegion);
     extractImageFilter->Update();

@@ -67,8 +67,7 @@ itkLabelMapTest(int argc, char * argv[])
   sizeIn[1] = 200;
   sizeIn[2] = 300;
 
-  regionIn.SetIndex(index);
-  regionIn.SetSize(sizeIn);
+  regionIn = { index, sizeIn };
   map->SetRegions(regionIn);
   map->Allocate();
 
