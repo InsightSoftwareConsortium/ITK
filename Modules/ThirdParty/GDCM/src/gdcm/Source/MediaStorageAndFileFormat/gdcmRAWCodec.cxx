@@ -117,6 +117,12 @@ bool RAWCodec::DecodeBytes(const char* inBytes, size_t inBufferLength,
       this->GetPixelFormat() == PixelFormat::INT12 )
     {
     size_t len = str.size() * 16 / 12;
+    if (inOutBufferLength != len)
+    {
+      gdcmDebugMacro("inOutBufferLength = " << inOutBufferLength
+                     << ", inBufferLength = " << inBufferLength << ", len = " << len)
+      return false;
+    }
     char * copy = new char[len];
     bool b = Unpacker12Bits::Unpack(copy, str.data(), str.size() );
     if (!b)
