@@ -48,11 +48,10 @@ BinaryContourImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegio
 
   // We need all the input.
   const InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
-  if (!input)
+  if (input)
   {
-    return;
+    input->SetRequestedRegionToLargestPossibleRegion();
   }
-  input->SetRequestedRegionToLargestPossibleRegion();
 }
 
 template <typename TInputImage, typename TOutputImage>
