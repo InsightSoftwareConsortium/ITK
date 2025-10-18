@@ -454,44 +454,45 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::ThreadedConnectivity
     idx[d] = Math::RoundHalfIntegerUp<IndexValueType>(cluster[numberOfComponents + d]);
   }
 
-
-  if (outputImage->GetPixel(idx) != clusterIndex)
+  bool clusterFound = outputImage->GetPixel(idx) == clusterIndex;
+  if (!clusterFound) // Search for cluster in in SearchLabels
   {
     itkDebugMacro("Searching for cluster: " << clusterIndex << " near idx: " << idx);
-
     searchLabelIt.SetLocation(idx);
-    size_t n = 0;
-    for (; n < searchLabelIt.Size(); ++n)
+    const size_t numSearchLabels = searchLabelIt.Size();
+    size_t       n = 0;
+    while (!clusterFound && n < numSearchLabels)
     {
       if (searchLabelIt.GetPixel(n) == clusterIndex)
       {
         idx = searchLabelIt.GetIndex(n);
-
+        clusterFound = true;
         itkDebugMacro("Non-Center does  match Id. @: " << idx << " for: " << clusterIndex);
-        break;
+      }
+      ++n;
+    }
+  }
+
+  if (clusterFound)
+  {
+    this->RelabelConnectedRegion(idx, clusterIndex, clusterIndex, indexStack);
+
+    if (indexStack.size() < minSuperSize)
+    {
+      // std::cout << "\tLabel is too small: " << indexStack.size() << std::endl;
+      // The connected Superpixel is too small, so demark the marker image
+      for (size_t indexStackDelabel = 0; indexStackDelabel < indexStack.size(); ++indexStackDelabel)
+      {
+        m_MarkerImage->SetPixel(indexStack[indexStackDelabel], 0);
       }
     }
-
-    if (n >= searchLabelIt.Size())
-    {
+  }
 #if defined(DEBUG)
-      itkWarningMacro("Failed to find cluster: " << clusterIndex << " in super grid size neighborhood!");
-#endif
-      return;
-    }
-  }
-
-  this->RelabelConnectedRegion(idx, clusterIndex, clusterIndex, indexStack);
-
-  if (indexStack.size() < minSuperSize)
+  else
   {
-    // std::cout << "\tLabel is too small: " << indexStack.size() << std::endl;
-    // The connected Superpixel is too small, so demark the marker image
-    for (size_t indexStackDelabel = 0; indexStackDelabel < indexStack.size(); ++indexStackDelabel)
-    {
-      m_MarkerImage->SetPixel(indexStack[indexStackDelabel], 0);
-    }
+    itkWarningMacro("Failed to find cluster: " << clusterIndex << " in super grid size neighborhood!");
   }
+#endif
 }
 
 
