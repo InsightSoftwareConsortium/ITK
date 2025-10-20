@@ -40,13 +40,9 @@ public:
   {
     m_Image = ImageType::New();
 
-    typename ImageType::RegionType          region;
-    typename ImageType::SizeType            size;
+    constexpr typename ImageType::SizeType  size{ 16, 16 };
     constexpr typename ImageType::IndexType start{};
-    size[0] = 16; // To fill the range of 8 bits image
-    size[1] = 16;
-
-    region = { start, size };
+    typename ImageType::RegionType          region = { start, size };
 
     m_Image->SetRegions(region);
     m_Image->Allocate();

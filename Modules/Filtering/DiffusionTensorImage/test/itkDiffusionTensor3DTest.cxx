@@ -152,32 +152,15 @@ itkDiffusionTensor3DTest(int, char *[])
 
   auto dti = ImageType::New();
 
-  ImageType::SizeType   size;
-  ImageType::IndexType  start;
-  ImageType::RegionType region;
-
-  size[0] = 128;
-  size[1] = 128;
-  size[2] = 128;
-
-  start[0] = 0;
-  start[1] = 0;
-  start[2] = 0;
-
-  region = { start, size };
+  constexpr ImageType::SizeType  size{ 128, 128, 128 };
+  constexpr ImageType::IndexType start{};
+  ImageType::RegionType          region = { start, size };
 
   dti->SetRegions(region);
   dti->Allocate();
 
-  ImageType::SpacingType spacing;
-  spacing[0] = 0.5;
-  spacing[1] = 0.5;
-  spacing[2] = 1.5;
-
-  ImageType::PointType origin;
-  origin[0] = 25.5;
-  origin[1] = 25.5;
-  origin[2] = 27.5;
+  ImageType::SpacingType spacing{ { 0.5, 0.5, 1.5 } };
+  ImageType::PointType   origin{ { 25.5, 25.5, 27.5 } };
 
   dti->SetOrigin(origin);
   dti->SetSpacing(spacing);
@@ -210,10 +193,7 @@ itkDiffusionTensor3DTest(int, char *[])
 
     Double3DTensorType tensor2;
 
-    double v[3];
-    v[0] = 19.0;
-    v[1] = 23.0;
-    v[2] = 29.0;
+    constexpr double v[3]{ 19.0, 23.0, 29.0 };
 
     tensor2(0, 0) = v[0];
     tensor2(0, 1) = 0.0;

@@ -33,18 +33,10 @@ itkScatterMatrixImageFunctionTest(int, char *[])
   using FunctionType = itk::ScatterMatrixImageFunction<ImageType>;
 
   // Create and allocate the image
-  auto                  image = ImageType::New();
-  ImageType::SizeType   size;
-  ImageType::IndexType  start;
-  ImageType::RegionType region;
-
-  size[0] = 20;
-  size[1] = 20;
-  size[2] = 20;
-
-  start.Fill(0);
-
-  region = { start, size };
+  auto                           image = ImageType::New();
+  constexpr ImageType::SizeType  size{ 20, 20, 20 };
+  constexpr ImageType::IndexType start{};
+  ImageType::RegionType          region = { start, size };
 
   image->SetRegions(region);
   image->Allocate();

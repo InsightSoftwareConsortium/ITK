@@ -44,29 +44,17 @@ itkBinaryMaskToNarrowBandPointSetFilterTest(int argc, char * argv[])
   //
   auto binaryMask = BinaryMaskImageType::New();
 
-  BinaryMaskImageType::SizeType   size;
-  BinaryMaskImageType::IndexType  index;
-  BinaryMaskImageType::RegionType region;
-
-  size[0] = 100;
-  size[1] = 100;
-
-  index[0] = 0;
-  index[1] = 0;
-
-  region = { index, size };
-
+  BinaryMaskImageType::SizeType   size{ 100, 100 };
+  BinaryMaskImageType::IndexType  index{};
+  BinaryMaskImageType::RegionType region = { index, size };
   binaryMask->SetRegions(region);
   binaryMask->AllocateInitialized();
 
   size[0] = 60;
   size[1] = 60;
-
   index[0] = 20;
   index[1] = 20;
-
   region = { index, size };
-
   itk::ImageRegionIterator<BinaryMaskImageType> it(binaryMask, region);
 
   it.GoToBegin();

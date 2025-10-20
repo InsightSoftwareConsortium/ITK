@@ -53,27 +53,15 @@ MyDerivedCSNI<ImageType>::TestNewExposedProtectedMembers()
 int
 itkConstShapedNeighborhoodIteratorTest2(int, char *[])
 {
-  const TestImageType::Pointer            img = GetTestImage(10, 10, 5, 3);
-  MyDerivedCSNI<TestImageType>::IndexType loc;
-  loc[0] = 4;
-  loc[1] = 4;
-  loc[2] = 2;
-  loc[3] = 1;
+  const TestImageType::Pointer img = GetTestImage(10, 10, 5, 3);
 
   // radius of the iterator
-  MyDerivedCSNI<TestImageType>::RadiusType radius;
-  radius[0] = radius[1] = radius[2] = radius[3] = 1;
+  constexpr MyDerivedCSNI<TestImageType>::RadiusType radius{ 1, 1, 1, 1 };
 
   // region over which the iterator is defined
-  MyDerivedCSNI<TestImageType>::RegionType reg;
-  MyDerivedCSNI<TestImageType>::SizeType   sz;
-  MyDerivedCSNI<TestImageType>::IndexType  idx;
-  idx[0] = idx[1] = idx[2] = 0;
-  idx[3] = 1;
-  sz[0] = sz[1] = 10;
-  sz[2] = 5;
-  sz[3] = 1;
-  reg = { idx, sz };
+  constexpr MyDerivedCSNI<TestImageType>::SizeType  sz{ 10, 10, 5, 1 };
+  constexpr MyDerivedCSNI<TestImageType>::IndexType idx{ 0, 0, 0, 1 };
+  MyDerivedCSNI<TestImageType>::RegionType          reg = { idx, sz };
 
   // initialize an iterator
   println("Creating ConstShapedNeighborhoodIterator");

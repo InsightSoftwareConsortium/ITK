@@ -109,12 +109,9 @@ protected:
 int
 itkNarrowBandThresholdSegmentationLevelSetImageFilterTest(int, char *[])
 {
-  NBTS::ImageType::RegionType            reg;
-  NBTS::ImageType::RegionType::SizeType  sz;
-  NBTS::ImageType::RegionType::IndexType idx;
-  idx[0] = idx[1] = idx[2] = 0;
-  sz[0] = sz[1] = sz[2] = 64;
-  reg = { idx, sz };
+  constexpr NBTS::ImageType::RegionType::SizeType sz{ 64, 64, 64 };
+  NBTS::ImageType::RegionType::IndexType          idx{};
+  NBTS::ImageType::RegionType                     reg = { idx, sz };
 
   const NBTS::ImageType::Pointer     inputImage = NBTS::ImageType::New();
   const NBTS::SeedImageType::Pointer seedImage = NBTS::SeedImageType::New();

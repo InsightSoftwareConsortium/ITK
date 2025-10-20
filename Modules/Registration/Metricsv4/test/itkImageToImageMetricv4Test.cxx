@@ -544,12 +544,10 @@ itkImageToImageMetricv4Test(int, char ** const)
   using FieldType = DisplacementTransformType::DisplacementFieldType;
   auto field = FieldType::New(); // This is based on itk::Image
 
-  FieldType::SizeType   defsize;
-  FieldType::IndexType  start;
-  FieldType::RegionType defregion;
+  FieldType::SizeType defsize;
   defsize.Fill(imageSize);
-  start.Fill(0);
-  defregion = { start, defsize };
+  constexpr FieldType::IndexType start{};
+  FieldType::RegionType          defregion = { start, defsize };
   field->SetRegions(defregion);
   field->Allocate();
   // Fill it with 0's

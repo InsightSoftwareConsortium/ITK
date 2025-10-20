@@ -23,7 +23,6 @@
 int
 itkDirectedHausdorffDistanceImageFilterTest1(int, char *[])
 {
-
   constexpr unsigned int ImageDimension = 3;
 
   using Pixel1Type = unsigned int;
@@ -47,19 +46,16 @@ itkDirectedHausdorffDistanceImageFilterTest1(int, char *[])
   image2->FillBuffer(Pixel2Type{});
 
   using RegionType = Image1Type::RegionType;
-  RegionType region1;
-  RegionType region2;
+
 
   using IndexType = Image1Type::IndexType;
-  IndexType index;
-
+  IndexType index{ 10, 10, 10 };
   size.Fill(20);
-  index.Fill(10);
-  region1 = { index, size };
+  RegionType region1 = { index, size };
 
   size.Fill(15);
   index.Fill(20);
-  region2 = { index, size };
+  RegionType region2 = { index, size };
 
   itk::ImageRegionIterator<Image1Type> it1(image1, region1);
   Pixel1Type                           count{};

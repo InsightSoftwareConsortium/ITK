@@ -30,12 +30,10 @@ CreateTestImage()
   using FixedImageType = itk::Image<unsigned char, Dimension>;
   auto image = FixedImageType::New();
 
-  typename FixedImageType::RegionType fRegion;
-  typename FixedImageType::SizeType   fSize;
-  typename FixedImageType::IndexType  fIndex;
-  fSize.Fill(30); // size 30 x 30 x 30
-  fIndex.Fill(0);
-  fRegion = { fIndex, fSize };
+  typename FixedImageType::SizeType fSize;
+  fSize.Fill(30);
+  constexpr typename FixedImageType::IndexType fIndex{};
+  typename FixedImageType::RegionType          fRegion = { fIndex, fSize };
   image->SetRegions(fRegion);
   image->Allocate();
   return image;

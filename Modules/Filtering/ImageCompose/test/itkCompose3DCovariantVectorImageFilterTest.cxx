@@ -43,14 +43,9 @@ itkCompose3DCovariantVectorImageFilterTest(int, char *[])
   auto oneImage = InputImageType::New();
   auto twoImage = InputImageType::New();
 
-  SizeType size;
-  size[0] = 2;
-  size[1] = 2;
-  size[2] = 2;
-
+  constexpr SizeType  size{ 2, 2, 2 };
   constexpr IndexType start{};
-
-  RegionType region{ start, size };
+  RegionType          region{ start, size };
 
   zeroImage->SetRegions(region);
   oneImage->SetRegions(region);

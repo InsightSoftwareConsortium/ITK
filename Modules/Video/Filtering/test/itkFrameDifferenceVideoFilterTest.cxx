@@ -50,12 +50,9 @@ CreateInputFrame(InputPixelType val)
 {
   auto out = InputFrameType::New();
 
-  InputFrameType::RegionType          largestRegion;
-  InputFrameType::SizeType            sizeLR;
+  InputFrameType::SizeType            sizeLR{ 50, 40 };
   constexpr InputFrameType::IndexType startLR{};
-  sizeLR[0] = 50;
-  sizeLR[1] = 40;
-  largestRegion = { startLR, sizeLR };
+  InputFrameType::RegionType          largestRegion = { startLR, sizeLR };
   out->SetRegions(largestRegion);
 
   out->Allocate();

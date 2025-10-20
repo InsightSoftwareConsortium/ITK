@@ -53,30 +53,11 @@ itkCenteredVersorTransformInitializerTest(int, char *[])
   // Transform Type
   using TransformType = itk::VersorRigid3DTransform<double>;
 
-  SizeType size;
-  size[0] = 100;
-  size[1] = 100;
-  size[2] = 150;
-
-  PointType fixedOrigin;
-  fixedOrigin[0] = 0.0;
-  fixedOrigin[1] = 0.0;
-  fixedOrigin[2] = 0.0;
-
-  PointType movingOrigin;
-  movingOrigin[0] = 29.0;
-  movingOrigin[1] = 17.0;
-  movingOrigin[2] = 13.0;
-
-  SpacingType spacing;
-  spacing[0] = 1.5;
-  spacing[1] = 1.5;
-  spacing[2] = 1.0;
-
-  IndexType index;
-  index[0] = 0;
-  index[1] = 0;
-  index[2] = 0;
+  SizeType            size{ { 100, 100, 150 } };
+  PointType           fixedOrigin{};
+  PointType           movingOrigin{ { 29.0, 17.0, 13.0 } };
+  SpacingType         spacing{ { 1.5, 1.5, 1.0 } };
+  constexpr IndexType index{};
 
   const RegionType region{ index, size };
 

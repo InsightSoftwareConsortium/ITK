@@ -141,17 +141,10 @@ SlopeInterceptWriteTest()
   // fill out an image and write it as nifti.
   const char * filename = "SlopeIntercept.nii";
   using OutputImageType = itk::Image<PixelType, 3>;
-  typename OutputImageType::RegionType region;
-  typename OutputImageType::IndexType  start;
-  start[0] = 0;
-  start[1] = 0;
-  start[2] = 0;
-  typename OutputImageType::SizeType size;
-  size[0] = 8;
-  size[1] = 8;
-  size[2] = 4;
-  region = { start, size };
-  auto outputimage = OutputImageType::New();
+  typename OutputImageType::IndexType  start{};
+  typename OutputImageType::SizeType   size{ 8, 8, 4 };
+  typename OutputImageType::RegionType region = { start, size };
+  auto                                 outputimage = OutputImageType::New();
   outputimage->SetRegions(region);
   outputimage->Allocate();
   using OutputIteratorType = itk::ImageRegionIterator<OutputImageType>;

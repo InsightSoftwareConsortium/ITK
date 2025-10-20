@@ -49,24 +49,12 @@ itkConstNeighborhoodIteratorWithOnlyIndexTestRun()
   using ConstNeighborhoodIteratorType = itk::ConstNeighborhoodIteratorWithOnlyIndex<ImageType>;
   using IndexType = typename ConstNeighborhoodIteratorType::IndexType;
 
-  IndexType loc;
-  loc[0] = 4;
-  loc[1] = 4;
-  loc[2] = 2;
-  loc[3] = 1;
+  IndexType loc{ 4, 4, 2, 1 };
 
-  typename ConstNeighborhoodIteratorType::RadiusType radius;
-  radius[0] = radius[1] = radius[2] = radius[3] = 1;
-
-  typename ConstNeighborhoodIteratorType::RegionType reg;
-  typename ConstNeighborhoodIteratorType::SizeType   sz;
-  IndexType                                          idx;
-  idx[0] = idx[1] = idx[2] = 0;
-  idx[3] = 1;
-  sz[0] = sz[1] = 10;
-  sz[2] = 5;
-  sz[3] = 1;
-  reg = { idx, sz };
+  typename ConstNeighborhoodIteratorType::RadiusType         radius{ 1, 1, 1, 1 };
+  constexpr typename ConstNeighborhoodIteratorType::SizeType sz{ 10, 10, 5, 1 };
+  constexpr IndexType                                        idx{ 0, 0, 0, 1 };
+  typename ConstNeighborhoodIteratorType::RegionType         reg = { idx, sz };
 
   std::cout << "Creating ConstNeighborhoodIterator" << std::endl;
   ConstNeighborhoodIteratorType it(radius, img, reg);

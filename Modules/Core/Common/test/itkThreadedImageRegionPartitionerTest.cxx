@@ -46,10 +46,9 @@ itkThreadedImageRegionPartitionerTest(int, char *[])
   const ImageRegionType completeRegion{ index, size };
 
   // Define the expected results
-  ImageRegionType              expectedRegion;
   std::vector<ImageRegionType> expectedSubRegions;
   size[1] = 25;
-  expectedRegion = { index, size };
+  ImageRegionType expectedRegion = { index, size };
   expectedSubRegions.push_back(expectedRegion);
 
   index[1] = 29;

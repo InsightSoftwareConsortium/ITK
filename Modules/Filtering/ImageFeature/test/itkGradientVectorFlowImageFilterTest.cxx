@@ -57,10 +57,7 @@ itkGradientVectorFlowImageFilterTest(int, char *[])
 
 
   // Define their size, and start index
-  mySizeType size;
-  size[0] = 128;
-  size[1] = 128;
-
+  mySizeType  size{ 128, 128 };
   myIndexType start{};
 
   myRegionType region{ start, size };

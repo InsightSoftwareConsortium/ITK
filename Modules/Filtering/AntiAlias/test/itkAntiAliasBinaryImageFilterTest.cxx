@@ -96,15 +96,9 @@ itkAntiAliasBinaryImageFilterTest(int argc, char * argv[])
 
   // Create a binary image of a sphere.
   auto                                   image = BinaryImageType::New();
-  BinaryImageType::RegionType            region;
-  BinaryImageType::RegionType::SizeType  sz;
-  BinaryImageType::RegionType::IndexType idx;
-  for (unsigned int k = 0; k < 3; ++k)
-  {
-    sz[k] = 64;
-    idx[k] = 0;
-  }
-  region = { idx, sz };
+  BinaryImageType::RegionType::SizeType  sz{ 64, 64, 64 };
+  BinaryImageType::RegionType::IndexType idx{};
+  BinaryImageType::RegionType            region = { idx, sz };
   image->SetRegions(region);
   image->Allocate();
   AntiAliasBinaryImageFilterTestNamespace::evaluate_function(image, AntiAliasBinaryImageFilterTestNamespace::sphere);

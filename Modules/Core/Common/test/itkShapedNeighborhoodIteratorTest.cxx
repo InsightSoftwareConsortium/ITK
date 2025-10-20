@@ -35,15 +35,9 @@ itkShapedNeighborhoodIteratorTest(int, char *[])
   radius[0] = radius[1] = radius[2] = radius[3] = 1;
 
   // region over which the iterator is defined
-  itk::ShapedNeighborhoodIterator<TestImageType>::RegionType reg;
-  itk::ShapedNeighborhoodIterator<TestImageType>::SizeType   sz;
-  itk::ShapedNeighborhoodIterator<TestImageType>::IndexType  idx;
-  idx[0] = idx[1] = idx[2] = 0;
-  idx[3] = 1;
-  sz[0] = sz[1] = 10;
-  sz[2] = 5;
-  sz[3] = 1;
-  reg = { idx, sz };
+  constexpr itk::ShapedNeighborhoodIterator<TestImageType>::SizeType  sz{ 10, 10, 5, 1 };
+  constexpr itk::ShapedNeighborhoodIterator<TestImageType>::IndexType idx{ 0, 0, 0, 1 };
+  itk::ShapedNeighborhoodIterator<TestImageType>::RegionType          reg = { idx, sz };
 
   // initialize an iterator
   println("Creating ShapedNeighborhoodIterator");

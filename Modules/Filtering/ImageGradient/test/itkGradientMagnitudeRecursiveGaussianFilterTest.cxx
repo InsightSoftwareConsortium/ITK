@@ -71,16 +71,9 @@ itkGradientMagnitudeRecursiveGaussianFilterTest(int argc, char * argv[])
   inputImage->AllocateInitialized();
 
   // Set the metadata for the image
-  myImageType::PointType     origin;
-  myImageType::SpacingType   spacing;
+  myImageType::PointType     origin{ { 1.0, 2.0, 3.0 } };
+  myImageType::SpacingType   spacing{ { .1, .2, .3 } };
   myImageType::DirectionType direction;
-
-  origin[0] = 1.0;
-  origin[1] = 2.0;
-  origin[2] = 3.0;
-  spacing[0] = .1;
-  spacing[1] = .2;
-  spacing[2] = .3;
   direction.SetIdentity();
   direction(1, 1) = -1.0;
 

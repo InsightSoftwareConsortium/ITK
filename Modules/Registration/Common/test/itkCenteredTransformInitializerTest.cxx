@@ -183,26 +183,15 @@ PopulateImage(itk::SmartPointer<TImage> image)
   const SizeType &   size = region.GetSize();
   const IndexType &  index = region.GetIndex();
 
-  RegionType internalRegion;
-  SizeType   internalSize;
-  IndexType  internalIndex;
 
   constexpr unsigned int border = 20;
 
   assert(2 * border < size[0]);
   assert(2 * border < size[1]);
   assert(2 * border < size[2]);
-
-  internalIndex[0] = index[0] + border;
-  internalIndex[1] = index[1] + border;
-  internalIndex[2] = index[2] + border;
-
-  internalSize[0] = size[0] - 2 * border;
-  internalSize[1] = size[1] - 2 * border;
-  internalSize[2] = size[2] - 2 * border;
-
-
-  internalRegion = { internalIndex, internalSize };
+  IndexType  internalIndex{ index[0] + border, index[1] + border, index[2] + border };
+  SizeType   internalSize{ size[0] - 2 * border, size[1] - 2 * border, size[2] - 2 * border };
+  RegionType internalRegion = { internalIndex, internalSize };
 
   using Iterator = itk::ImageRegionIterator<ImageType>;
   Iterator it(image, internalRegion);

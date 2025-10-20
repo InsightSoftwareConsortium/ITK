@@ -33,19 +33,14 @@ itkNiftiImageIOTest6(int argc, char * argv[])
   int success(EXIT_SUCCESS);
 
   using VectorImageType = itk::VectorImage<double, 3>;
-  VectorImageType::RegionType                 imageRegion;
-  VectorImageType::SizeType                   size;
-  VectorImageType::IndexType                  index;
-  VectorImageType::SpacingType                spacing;
+
+  constexpr VectorImageType::SizeType  size{ 3, 3, 3 };
+  constexpr VectorImageType::IndexType index{};
+
+  VectorImageType::RegionType                 imageRegion = { index, size };
+  VectorImageType::SpacingType                spacing{ { 1.0, 1.0, 1.0 } };
   constexpr VectorImageType::VectorLengthType vecLength(4);
 
-  for (unsigned int i = 0; i < 3; ++i)
-  {
-    size[i] = 3;
-    index[i] = 0;
-    spacing[i] = 1.0;
-  }
-  imageRegion = { index, size };
   const VectorImageType::Pointer vecImage =
     itk::IOTestHelper::AllocateImageFromRegionAndSpacing<VectorImageType>(imageRegion, spacing, vecLength);
 

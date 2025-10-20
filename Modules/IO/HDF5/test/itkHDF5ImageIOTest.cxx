@@ -30,21 +30,17 @@ HDF5ReadWriteTest(const char * fileName)
   std::cout << fileName << std::endl;
   int success(EXIT_SUCCESS);
   using ImageType = typename itk::Image<TPixel, 3>;
-  typename ImageType::RegionType  imageRegion;
-  typename ImageType::SizeType    size;
-  typename ImageType::IndexType   index;
   typename ImageType::SpacingType spacing;
   typename ImageType::PointType   origin;
-
   for (unsigned int i = 0; i < 3; ++i)
   {
-    size[i] = 5;
-    index[i] = 0;
     spacing[i] = 1.0 + static_cast<double>(i);
     origin[i] = static_cast<double>(i) * 5.0;
   }
-  imageRegion = { index, size };
-  const typename ImageType::Pointer im =
+  constexpr typename ImageType::SizeType  size{ 5, 5, 5 };
+  constexpr typename ImageType::IndexType index{};
+  typename ImageType::RegionType          imageRegion = { index, size };
+  const typename ImageType::Pointer       im =
     itk::IOTestHelper::AllocateImageFromRegionAndSpacing<ImageType>(imageRegion, spacing);
 
   itk::Matrix<itk::SpacePrecisionType> mat;

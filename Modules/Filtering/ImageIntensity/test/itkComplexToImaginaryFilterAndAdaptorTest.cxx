@@ -53,17 +53,9 @@ itkComplexToImaginaryFilterAndAdaptorTest(int, char *[])
   auto inputImage = InputImageType::New();
 
   // Define their size, and start index
-  SizeType size;
-  size[0] = 2;
-  size[1] = 2;
-  size[2] = 2;
-
-  IndexType start;
-  start[0] = 0;
-  start[1] = 0;
-  start[2] = 0;
-
-  RegionType region{ start, size };
+  constexpr SizeType  size{ 2, 2, 2 };
+  constexpr IndexType start{ 0, 0, 0 };
+  RegionType          region{ start, size };
 
   // Initialize Image A
   inputImage->SetRegions(region);

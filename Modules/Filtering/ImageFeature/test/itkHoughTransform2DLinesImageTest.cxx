@@ -138,13 +138,9 @@ itkHoughTransform2DLinesImageTest(int, char *[])
   // Create a line image with one line
   auto image = ImageType::New();
 
-  ImageType::RegionType region;
-
-  auto size = ImageType::SizeType::Filled(100);
-
-  ImageType::IndexType index{};
-
-  region = { index, size };
+  auto                  size = ImageType::SizeType::Filled(100);
+  ImageType::IndexType  index{};
+  ImageType::RegionType region = { index, size };
 
   image->SetRegions(region);
   image->AllocateInitialized();

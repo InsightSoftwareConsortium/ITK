@@ -194,17 +194,12 @@ PerformTimeVaryingVelocityFieldImageRegistration(int argc, char * argv[])
   using TimeVaryingVelocityFieldType = itk::Image<VectorType, ImageDimension + 1>;
   auto velocityField = TimeVaryingVelocityFieldType::New();
 
-  typename TimeVaryingVelocityFieldType::IndexType     velocityFieldIndex;
-  typename TimeVaryingVelocityFieldType::SizeType      velocityFieldSize;
-  typename TimeVaryingVelocityFieldType::PointType     velocityFieldOrigin;
-  typename TimeVaryingVelocityFieldType::SpacingType   velocityFieldSpacing;
-  typename TimeVaryingVelocityFieldType::DirectionType velocityFieldDirection;
-  typename TimeVaryingVelocityFieldType::RegionType    velocityFieldRegion;
+  auto velocityFieldIndex = TimeVaryingVelocityFieldType::IndexType::Filled(0);
+  auto velocityFieldSize = TimeVaryingVelocityFieldType::SizeType::Filled(4);
+  auto velocityFieldOrigin = itk::MakeFilled<typename TimeVaryingVelocityFieldType::PointType>(0.0);
+  auto velocityFieldSpacing = itk::MakeFilled<typename TimeVaryingVelocityFieldType::SpacingType>(1.0);
 
-  velocityFieldIndex.Fill(0);
-  velocityFieldSize.Fill(4);
-  velocityFieldOrigin.Fill(0.0);
-  velocityFieldSpacing.Fill(1.0);
+  typename TimeVaryingVelocityFieldType::DirectionType velocityFieldDirection;
   velocityFieldDirection.SetIdentity();
 
   typename FixedImageType::IndexType     fixedImageIndex = fixedImage->GetBufferedRegion().GetIndex();
@@ -225,7 +220,7 @@ PerformTimeVaryingVelocityFieldImageRegistration(int argc, char * argv[])
     }
   }
 
-  velocityFieldRegion = { velocityFieldIndex, velocityFieldSize };
+  typename TimeVaryingVelocityFieldType::RegionType velocityFieldRegion = { velocityFieldIndex, velocityFieldSize };
 
   velocityField->SetOrigin(velocityFieldOrigin);
   velocityField->SetSpacing(velocityFieldSpacing);

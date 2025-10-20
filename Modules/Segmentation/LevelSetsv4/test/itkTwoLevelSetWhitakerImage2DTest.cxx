@@ -88,14 +88,9 @@ itkTwoLevelSetWhitakerImage2DTest(int argc, char * argv[])
   binary->Allocate();
   binary->FillBuffer(InputPixelType{});
 
-  InputImageType::RegionType region;
-  InputImageType::IndexType  index;
-  InputImageType::SizeType   size;
-
-  index.Fill(10);
-  size.Fill(30);
-
-  region = { index, size };
+  constexpr InputImageType::IndexType index{ 10, 10 };
+  constexpr InputImageType::SizeType  size{ 30, 30 };
+  InputImageType::RegionType          region = { index, size };
 
   InputIteratorType iIt(binary, region);
   iIt.GoToBegin();

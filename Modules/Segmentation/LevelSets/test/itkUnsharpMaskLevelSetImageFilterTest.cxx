@@ -62,10 +62,9 @@ itkUnsharpMaskLevelSetImageFilterTest(int, char *[])
 
   auto im_init = ImageType::New();
 
-  ImageType::RegionType          r;
   constexpr ImageType::SizeType  sz = { { HEIGHT, WIDTH } };
   constexpr ImageType::IndexType idx = { { 0, 0 } };
-  r = { idx, sz };
+  ImageType::RegionType          r = { idx, sz };
 
   im_init->SetRegions(r);
   im_init->Allocate();

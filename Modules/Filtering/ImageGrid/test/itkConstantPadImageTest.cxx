@@ -33,8 +33,8 @@ itkConstantPadImageTest(int, char *[])
   auto image = ShortImage::New();
 
   // fill in an image
-  ShortImage::IndexType  index = { { 0, 0 } };
-  ShortImage::SizeType   size = { { 8, 12 } };
+  ShortImage::IndexType  index{ { 0, 0 } };
+  ShortImage::SizeType   size{ { 8, 12 } };
   ShortImage::RegionType region{ index, size };
   image->SetLargestPossibleRegion(region);
   image->SetBufferedRegion(region);

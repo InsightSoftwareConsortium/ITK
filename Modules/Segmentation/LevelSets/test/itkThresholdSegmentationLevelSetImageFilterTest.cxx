@@ -143,13 +143,9 @@ protected:
 int
 itkThresholdSegmentationLevelSetImageFilterTest(int, char *[])
 {
-
-  TSIFTN::ImageType::RegionType            reg;
-  TSIFTN::ImageType::RegionType::SizeType  sz;
-  TSIFTN::ImageType::RegionType::IndexType idx;
-  idx[0] = idx[1] = idx[2] = 0;
-  sz[0] = sz[1] = sz[2] = 64;
-  reg = { idx, sz };
+  TSIFTN::ImageType::RegionType::SizeType  sz{ 64, 64, 64 };
+  TSIFTN::ImageType::RegionType::IndexType idx{};
+  TSIFTN::ImageType::RegionType            reg = { idx, sz };
 
   const TSIFTN::ImageType::Pointer     inputImage = TSIFTN::ImageType::New();
   const TSIFTN::SeedImageType::Pointer seedImage = TSIFTN::SeedImageType::New();

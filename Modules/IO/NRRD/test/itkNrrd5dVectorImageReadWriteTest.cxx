@@ -33,22 +33,18 @@ template <class ImageType>
 void
 GenerateImageSequence(int numberOfTimePoints, std::vector<typename ImageType::Pointer> & imageList)
 {
-  typename ImageType::SizeType      size;
-  typename ImageType::IndexType     start;
-  typename ImageType::RegionType    region;
-  typename ImageType::DirectionType inDirection; // 3x3 matrix
-  typename ImageType::PointType     inOrigin;    // 3D vector
-  typename ImageType::SpacingType   inSpacing;   // 3D vector
   // Region
+  typename ImageType::SizeType size;
   size[0] = 8;
   size[1] = 12;
   if (ImageType::SizeType::Dimension > 2)
   {
     size[2] = 10;
   }
-  start.Fill(0);
-  region = { start, size };
+  typename ImageType::IndexType  start{};
+  typename ImageType::RegionType region = { start, size };
   // Origin
+  typename ImageType::PointType inOrigin; // 3D vector
   inOrigin[0] = 10.0;
   inOrigin[1] = 20.0;
   if (ImageType::PointType::Dimension > 2)
@@ -56,6 +52,7 @@ GenerateImageSequence(int numberOfTimePoints, std::vector<typename ImageType::Po
     inOrigin[2] = 15.0;
   }
   // Direction (matrix indices: column, row)
+  typename ImageType::DirectionType inDirection; // 3x3 matrix
   inDirection[0][0] = 0.94;
   inDirection[0][1] = 0.24;
   inDirection[1][0] = -0.10;
@@ -69,6 +66,7 @@ GenerateImageSequence(int numberOfTimePoints, std::vector<typename ImageType::Po
     inDirection[2][2] = 0.84;
   }
   // Spacing
+  typename ImageType::SpacingType inSpacing; // 3D vector
   inSpacing[0] = 1.2;
   inSpacing[1] = 2.3;
   if (ImageType::SpacingType::Dimension > 2)

@@ -45,13 +45,9 @@ itkUnsharpMaskImageFilterTestSimple(int, char *[])
   auto inputImage = InputImageType::New();
 
   // Define its size, and start index
-  SizeType size;
-  size[0] = 20;
-  size[1] = 4;
-
-  IndexType start{};
-
-  RegionType region{ start, size };
+  constexpr SizeType size{ 20, 4 };
+  IndexType          start{};
+  RegionType         region{ start, size };
 
   // Initialize the input image
   inputImage->SetRegions(region);

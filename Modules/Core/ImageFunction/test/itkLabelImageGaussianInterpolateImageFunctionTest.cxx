@@ -41,15 +41,10 @@ itkLabelImageGaussianInterpolateImageFunctionTest(int, char *[])
   constexpr itk::IndexValueType small_ySize = 3;
   auto                          small_image = ImageType::New();
   {
-    RegionType region;
-    {
-      constexpr IndexType start{};
+    constexpr IndexType start{};
+    constexpr SizeType  size{ small_xSize, small_ySize };
+    RegionType          region = { start, size };
 
-      SizeType size;
-      size[0] = small_xSize;
-      size[1] = small_ySize;
-      region = { start, size };
-    }
 
     small_image->SetRegions(region);
     small_image->Allocate();
