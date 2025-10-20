@@ -254,9 +254,6 @@ public:
           ImageRegionType &         outImageRegion,
           const ImageIndexType &    largestRegionIndex)
   {
-    auto           size = MakeFilled<ImageSizeType>(1); // initialize with default values
-    ImageIndexType index{};
-
     //
     // The ImageRegion and ImageIORegion objects may have different dimensions.
     // Here we only copy the common dimensions between the two. If the
@@ -273,6 +270,8 @@ public:
 
     const unsigned int minDimension = std::min(ioDimension, imageDimension);
 
+    auto           size = MakeFilled<ImageSizeType>(1); // initialize with default values
+    ImageIndexType index{};
     for (unsigned int i = 0; i < minDimension; ++i)
     {
       size[i] = inIORegion.GetSize(i);

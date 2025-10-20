@@ -129,9 +129,8 @@ LevelSetDomainMapImageFilter<TInputImage, TOutputImage>::GenerateData()
     // or there is nothing to be processed
     if ((!inputPixel.empty()) && (outputPixel == OutputImagePixelType{}))
     {
-      InputImageRegionType subRegion;
-      InputImageSizeType   sizeOfRegion;
 
+      InputImageSizeType sizeOfRegion;
       for (unsigned int i = 0; i < ImageDimension; ++i)
       {
         bool sameOverlappingLevelSetIds = true;
@@ -155,7 +154,7 @@ LevelSetDomainMapImageFilter<TInputImage, TOutputImage>::GenerateData()
         sizeOfRegion[i] = stopIdx[i] - startIdx[i];
       }
 
-      subRegion = { startIdx, sizeOfRegion };
+      InputImageRegionType subRegion = { startIdx, sizeOfRegion };
 
       // Compute the consistent subregion
       subRegion = this->ComputeConsistentRegion(subRegion);

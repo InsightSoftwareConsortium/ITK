@@ -93,11 +93,6 @@ SpatialNeighborSubsampler<TSample, TRegion>::Search(const InstanceIdentifier & q
   results->Clear();
   results->SetSample(this->m_Sample);
 
-  RegionType searchRegion;
-  IndexType  searchIndex;
-  SizeType   searchSize;
-  IndexType  endIndex;
-
   IndexType constraintIndex = this->m_RegionConstraint.GetIndex();
   SizeType  constraintSize = this->m_RegionConstraint.GetSize();
 
@@ -106,6 +101,9 @@ SpatialNeighborSubsampler<TSample, TRegion>::Search(const InstanceIdentifier & q
   this->m_SampleRegion.ComputeOffsetTable(offsetTable);
   ImageHelperType::ComputeIndex(this->m_SampleRegion.GetIndex(), query, offsetTable, queryIndex);
 
+  IndexType searchIndex;
+  SizeType  searchSize;
+  IndexType endIndex;
   for (unsigned int dim = 0; dim < RegionType::ImageDimension; ++dim)
   {
     if (queryIndex[dim] < static_cast<IndexValueType>(m_Radius[dim]))
@@ -128,7 +126,7 @@ SpatialNeighborSubsampler<TSample, TRegion>::Search(const InstanceIdentifier & q
     endIndex[dim] = searchIndex[dim] + searchSize[dim];
   }
 
-  searchRegion = { searchIndex, searchSize };
+  RegionType searchRegion = { searchIndex, searchSize };
 
   if (!this->m_RegionConstraint.IsInside(queryIndex))
   {
