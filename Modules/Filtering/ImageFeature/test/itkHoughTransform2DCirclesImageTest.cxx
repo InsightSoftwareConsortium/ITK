@@ -314,13 +314,9 @@ itkHoughTransform2DCirclesImageTest(int, char *[])
   // Create a black image
   auto image = ImageType::New();
 
-  ImageType::RegionType region;
-
-  auto size = ImageType::SizeType::Filled(100);
-
-  ImageType::IndexType index{};
-
-  region = { index, size };
+  auto                  size = ImageType::SizeType::Filled(100);
+  ImageType::IndexType  index{};
+  ImageType::RegionType region = { index, size };
 
   image->SetRegions(region);
   image->AllocateInitialized();

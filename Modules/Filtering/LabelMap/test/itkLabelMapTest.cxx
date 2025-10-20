@@ -43,25 +43,18 @@ itkLabelMapTest(int argc, char * argv[])
 
   auto map = LabelMapType::New();
 
-  SizeType sizeIn;
-  sizeIn[0] = 10;
-  sizeIn[1] = 20;
-  sizeIn[2] = 30;
+  SizeType sizeIn{ 10, 20, 30 };
   map->SetRegions(sizeIn);
   map->Allocate();
 
   RegionType regionIn;
   regionIn.SetSize(sizeIn);
 
-  RegionType regionOut;
-  regionOut = map->GetRequestedRegion();
+  RegionType regionOut = map->GetRequestedRegion();
   itkAssertOrThrowMacro((regionOut == regionIn), "SetRegions (size) failed");
   map->Initialize();
 
-  IndexType index;
-  index[0] = 1;
-  index[1] = 3;
-  index[2] = 5;
+  constexpr IndexType index{ 1, 2, 3 };
 
   sizeIn[0] = 100;
   sizeIn[1] = 200;

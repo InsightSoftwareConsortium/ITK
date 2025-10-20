@@ -49,10 +49,9 @@ itkImageMaskSpatialObjectTest5(int, char *[])
   image->SetRegions(region);
   image->AllocateInitialized();
 
-  ImageType::RegionType          insideRegion;
   constexpr ImageType::SizeType  insideSize = { { 30, 30, 30 } };
   constexpr ImageType::IndexType insideIndex = { { 10, 10, 10 } };
-  insideRegion = { insideIndex, insideSize };
+  ImageType::RegionType          insideRegion = { insideIndex, insideSize };
 
 
   Iterator it(image, insideRegion);

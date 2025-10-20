@@ -222,12 +222,8 @@ itkZeroFluxBoundaryConditionTest(int, char *[])
   requestSize[1] = 2;
   requestRegion = { requestIndex, requestSize };
 
-  IndexType expectedIndex;
-  expectedIndex[0] = 0;
-  expectedIndex[1] = 0;
-  SizeType expectedSize;
-  expectedSize[0] = 1;
-  expectedSize[1] = 2;
+  IndexType expectedIndex{};
+  SizeType  expectedSize{ 1, 2 };
   expectedRegion = { expectedIndex, expectedSize };
 
   inputRegion = bc.GetInputRequestedRegion(imageRegion, requestRegion);

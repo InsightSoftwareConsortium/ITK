@@ -23,7 +23,6 @@
 int
 itkTIFFImageIOTest2(int argc, char * argv[])
 {
-
   if (argc != 2)
   {
     std::cerr << "Missing parameters." << std::endl;
@@ -38,17 +37,9 @@ itkTIFFImageIOTest2(int argc, char * argv[])
 
   auto image = ImageType::New();
 
-  ImageType::RegionType region;
-  ImageType::IndexType  start;
-  ImageType::SizeType   size;
-
-  size[0] = 157;
-  size[1] = 129;
-
-  start[0] = 0;
-  start[1] = 0;
-
-  region = { start, size };
+  ImageType::IndexType  start{};
+  ImageType::SizeType   size{ 157, 129 };
+  ImageType::RegionType region = { start, size };
 
   image->SetRegions(region);
   image->AllocateInitialized();

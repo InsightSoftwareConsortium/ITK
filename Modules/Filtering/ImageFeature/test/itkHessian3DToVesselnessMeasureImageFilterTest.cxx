@@ -52,11 +52,7 @@ itkHessian3DToVesselnessMeasureImageFilterTest(int argc, char * argv[])
 
 
   // Define their size, and start index
-  mySizeType size;
-  size[0] = 8;
-  size[1] = 8;
-  size[2] = 8;
-
+  mySizeType  size{ 8, 8, 8 };
   myIndexType start{};
 
   myRegionType region{ start, size };

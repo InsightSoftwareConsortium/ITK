@@ -45,10 +45,7 @@ itkImageRegionTest(int, char *[])
   constexpr IndexType startB = { { 14, 14, 14 } };
   constexpr IndexType endA = { { 21, 31, 41 } };
 
-  RegionType regionA;
-  RegionType regionB;
-
-  regionA = { startA, sizeA };
+  RegionType regionA = { startA, sizeA };
 
   if (regionA.GetUpperIndex() != endA)
   {
@@ -110,7 +107,7 @@ itkImageRegionTest(int, char *[])
     std::cout << "Caught expected exception" << err;
   }
 
-  regionB = { startB, sizeB };
+  RegionType regionB = { startB, sizeB };
 
   // Test IsInside( integerIndex )
   IndexType index = startA;

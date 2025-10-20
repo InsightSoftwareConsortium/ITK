@@ -55,13 +55,10 @@ itkBSplineSmoothingOnUpdateDisplacementFieldTransformTest(int, char *[])
   using FieldType = DisplacementTransformType::DisplacementFieldType;
   auto field = FieldType::New(); // This is based on itk::Image
 
-  FieldType::SizeType   size;
-  FieldType::IndexType  start;
-  FieldType::RegionType region;
   constexpr int         dimLength = 20;
-  size.Fill(dimLength);
-  start.Fill(0);
-  region = { start, size };
+  FieldType::SizeType   size{ dimLength, dimLength };
+  FieldType::IndexType  start{};
+  FieldType::RegionType region = { start, size };
   field->SetRegions(region);
   field->Allocate();
 

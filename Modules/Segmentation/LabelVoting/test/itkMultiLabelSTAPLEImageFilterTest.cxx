@@ -64,21 +64,10 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
   const ImageTypePointer inputImageB = ImageType::New();
   const ImageTypePointer inputImageC = ImageType::New();
 
-  RegionType region;
-  {
-    // Define their size, and start index
-    SizeType size;
-    size[0] = imageSizePerDimension;
-    size[1] = imageSizePerDimension;
-    size[2] = imageSizePerDimension;
-
-    IndexType start;
-    start[0] = 0;
-    start[1] = 0;
-    start[2] = 0;
-
-    region = { start, size };
-  }
+  // Define their size, and start index
+  constexpr SizeType  size{ imageSizePerDimension, imageSizePerDimension, imageSizePerDimension };
+  constexpr IndexType start{};
+  RegionType          region = { start, size };
 
   // Initialize Image A
   inputImageA->SetRegions(region);

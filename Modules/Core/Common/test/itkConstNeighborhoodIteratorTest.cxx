@@ -51,25 +51,13 @@ GetTestImage(int d1, int d2, int d3, int d4)
 int
 itkConstNeighborhoodIteratorTest(int, char *[])
 {
-  const TestImageType::Pointer                             img = GetTestImage(10, 10, 5, 3);
-  itk::ConstNeighborhoodIterator<TestImageType>::IndexType loc;
-  loc[0] = 4;
-  loc[1] = 4;
-  loc[2] = 2;
-  loc[3] = 1;
+  const TestImageType::Pointer                              img = GetTestImage(10, 10, 5, 3);
+  itk::ConstNeighborhoodIterator<TestImageType>::IndexType  loc{ 4, 4, 2, 1 };
+  itk::ConstNeighborhoodIterator<TestImageType>::RadiusType radius{ 1, 1, 1, 1 };
 
-  itk::ConstNeighborhoodIterator<TestImageType>::RadiusType radius;
-  radius[0] = radius[1] = radius[2] = radius[3] = 1;
-
-  itk::ConstNeighborhoodIterator<TestImageType>::RegionType reg;
-  itk::ConstNeighborhoodIterator<TestImageType>::SizeType   sz;
-  itk::ConstNeighborhoodIterator<TestImageType>::IndexType  idx;
-  idx[0] = idx[1] = idx[2] = 0;
-  idx[3] = 1;
-  sz[0] = sz[1] = 10;
-  sz[2] = 5;
-  sz[3] = 1;
-  reg = { idx, sz };
+  constexpr itk::ConstNeighborhoodIterator<TestImageType>::SizeType  sz{ 10, 10, 5, 1 };
+  constexpr itk::ConstNeighborhoodIterator<TestImageType>::IndexType idx{ 0, 0, 0, 1 };
+  itk::ConstNeighborhoodIterator<TestImageType>::RegionType          reg = { idx, sz };
 
   println("Creating ConstNeighborhoodIterator");
   itk::ConstNeighborhoodIterator<TestImageType> it(radius, img, reg);

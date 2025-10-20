@@ -152,13 +152,9 @@ protected:
 int
 itkLaplacianSegmentationLevelSetImageFilterTest(int, char *[])
 {
-
-  LSIFTN::ImageType::RegionType            reg;
-  LSIFTN::ImageType::RegionType::SizeType  sz;
-  LSIFTN::ImageType::RegionType::IndexType idx;
-  idx[0] = idx[1] = idx[2] = 0;
-  sz[0] = sz[1] = sz[2] = 64;
-  reg = { idx, sz };
+  constexpr LSIFTN::ImageType::RegionType::SizeType  sz{ 64, 64, 64 };
+  constexpr LSIFTN::ImageType::RegionType::IndexType idx{};
+  LSIFTN::ImageType::RegionType                      reg = { idx, sz };
 
   const LSIFTN::ImageType::Pointer     inputImage = LSIFTN::ImageType::New();
   const LSIFTN::SeedImageType::Pointer seedImage = LSIFTN::SeedImageType::New();

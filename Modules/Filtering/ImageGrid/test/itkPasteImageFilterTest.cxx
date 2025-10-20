@@ -64,17 +64,9 @@ itkPasteImageFilterTest(int argc, char * argv[])
   filter->SetDestinationIndex(destIndex);
   ITK_TEST_SET_GET_VALUE(destIndex, filter->GetDestinationIndex());
 
-  FilterType::InputImageIndexType  srcIndex;
-  FilterType::InputImageSizeType   srcSize;
-  FilterType::InputImageRegionType srcRegion;
-
-  srcIndex[0] = 20;
-  srcIndex[1] = 40;
-
-  srcSize[0] = 60;
-  srcSize[1] = 40;
-
-  srcRegion = { srcIndex, srcSize };
+  constexpr FilterType::InputImageIndexType srcIndex{ 20, 40 };
+  constexpr FilterType::InputImageSizeType  srcSize{ 60, 40 };
+  FilterType::InputImageRegionType          srcRegion = { srcIndex, srcSize };
 
   filter->SetSourceRegion(srcRegion);
   ITK_TEST_SET_GET_VALUE(srcRegion, filter->GetSourceRegion());

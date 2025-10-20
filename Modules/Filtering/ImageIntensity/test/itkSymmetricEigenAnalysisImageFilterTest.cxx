@@ -114,14 +114,9 @@ public:
     auto inputImage = InputImageType::New();
 
     // Define its size, and start index
-    SizeType size;
-    size[0] = 8;
-    size[1] = 8;
-    size[2] = 8;
-
+    SizeType            size{ 8, 8, 8 };
     constexpr IndexType start{};
-
-    RegionType region{ start, size };
+    RegionType          region{ start, size };
 
     // Initialize the input image
     inputImage->SetRegions(region);

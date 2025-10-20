@@ -58,16 +58,9 @@ itkInverseDisplacementFieldImageFilterTest(int argc, char * argv[])
   // Creating an input displacement field
   auto field = DisplacementFieldType::New();
 
-  DisplacementFieldType::SizeType size;
-  size[0] = 128;
-  size[1] = 128;
-
-  DisplacementFieldType::IndexType start;
-  start[0] = 0;
-  start[1] = 0;
-
+  DisplacementFieldType::SizeType   size{ 128, 128 };
+  DisplacementFieldType::IndexType  start{};
   DisplacementFieldType::RegionType region{ start, size };
-  region = { start, size };
   field->SetRegions(region);
   field->Allocate();
 

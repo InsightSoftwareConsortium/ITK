@@ -28,13 +28,9 @@ int
 itkImageDuplicatorTest(int, char *[])
 {
   using ImageType = itk::Image<float, 3>;
-  ImageType::RegionType region;
-  ImageType::SizeType   size;
-  size[0] = 10;
-  size[1] = 20;
-  size[2] = 30;
+  constexpr ImageType::SizeType  size{ 10, 20, 30 };
   constexpr ImageType::IndexType index{};
-  region = { index, size };
+  ImageType::RegionType          region = { index, size };
 
   {
     /** Create an image */

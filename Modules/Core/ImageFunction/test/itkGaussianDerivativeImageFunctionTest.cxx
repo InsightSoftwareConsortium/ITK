@@ -30,15 +30,9 @@ TestGaussianDerivativeImageFunction()
 
   // Create and allocate the image
   auto                           image = ImageType::New();
-  typename ImageType::SizeType   size;
-  typename ImageType::IndexType  start;
-  typename ImageType::RegionType region;
-
-  size[0] = 50;
-  size[1] = 50;
-
-  start.Fill(0);
-  region = { start, size };
+  typename ImageType::SizeType   size{ 50, 50 };
+  typename ImageType::IndexType  start{};
+  typename ImageType::RegionType region = { start, size };
 
   image->SetRegions(region);
   image->AllocateInitialized();
@@ -46,9 +40,7 @@ TestGaussianDerivativeImageFunction()
   // Fill the image with a straight line
   for (unsigned int i = 0; i < 50; ++i)
   {
-    typename ImageType::IndexType ind;
-    ind[0] = i;
-    ind[1] = 25;
+    typename ImageType::IndexType ind{ i, 25 };
     image->SetPixel(ind, 1);
     ind[1] = 26;
     image->SetPixel(ind, 1);

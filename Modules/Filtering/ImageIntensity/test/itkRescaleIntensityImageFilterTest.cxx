@@ -38,13 +38,9 @@ itkRescaleIntensityImageFilterTest(int, char *[])
   using TestInputImage = itk::Image<PixelType, ImageDimension>;
   using TestOutputImage = itk::Image<PixelType, ImageDimension>;
 
-  TestInputImage::RegionType region;
-
-  auto size = TestInputImage::SizeType::Filled(64);
-
+  auto                                size = TestInputImage::SizeType::Filled(64);
   constexpr TestInputImage::IndexType index{};
-
-  region = { index, size };
+  TestInputImage::RegionType          region = { index, size };
 
 
   using FilterType = itk::RescaleIntensityImageFilter<TestInputImage, TestOutputImage>;

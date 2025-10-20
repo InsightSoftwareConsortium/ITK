@@ -34,29 +34,15 @@ itkVectorMeanImageFunctionTest(int, char *[])
   using FunctionType = itk::VectorMeanImageFunction<ImageType>;
 
   // Create and allocate the image
-  auto                  image = ImageType::New();
-  ImageType::SizeType   size;
-  ImageType::IndexType  start;
-  ImageType::RegionType region;
-
-  size[0] = 20;
-  size[1] = 20;
-  size[2] = 20;
-
-  start.Fill(0);
-
-  region = { start, size };
+  auto                           image = ImageType::New();
+  constexpr ImageType::SizeType  size{ 20, 20, 20 };
+  constexpr ImageType::IndexType start{};
+  ImageType::RegionType          region = { start, size };
 
   image->SetRegions(region);
   image->Allocate();
 
-  ImageType::PixelType initialValue;
-
-  initialValue[0] = 11;
-  initialValue[1] = 13;
-  initialValue[2] = 17;
-  initialValue[3] = 19;
-
+  ImageType::PixelType initialValue{ { 11, 13, 17, 19 } };
   image->FillBuffer(initialValue);
 
   auto function = FunctionType::New();
@@ -68,29 +54,18 @@ itkVectorMeanImageFunctionTest(int, char *[])
 
   function->SetNeighborhoodRadius(5);
 
-  ImageType::IndexType index;
-
-  index[0] = 10;
-  index[1] = 10;
-  index[2] = 10;
-
+  ImageType::IndexType     index{ 10, 10, 10 };
   FunctionType::OutputType mean = function->EvaluateAtIndex(index);
   std::cout << "function->EvaluateAtIndex( index ): " << mean << std::endl;
 
   // Test Evaluate
-  FunctionType::PointType point;
-  point[0] = 25;
-  point[1] = 25;
-  point[2] = 25;
+  FunctionType::PointType        point{ { 25, 25, 25 } };
   const FunctionType::OutputType mean2 = function->Evaluate(point);
   std::cout << "function->Evaluate(point): " << mean2 << std::endl;
 
   // Test EvaluateAtContinuousIndex
-  FunctionType::ContinuousIndexType cindex;
-  cindex[0] = 25;
-  cindex[1] = 25;
-  cindex[2] = 25;
-  const FunctionType::OutputType mean3 = function->EvaluateAtContinuousIndex(cindex);
+  FunctionType::ContinuousIndexType cindex{ { 25, 25, 25 } };
+  const FunctionType::OutputType    mean3 = function->EvaluateAtContinuousIndex(cindex);
   std::cout << "function->EvaluateAtContinuousIndex(cindex): " << mean3 << std::endl;
 
   // Test GetConstReferenceMacro

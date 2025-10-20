@@ -34,11 +34,9 @@ itkShiftScaleImageFilterTest(int, char *[])
   using RealType = itk::NumericTraits<char>::RealType;
 
   auto                                inputImage = TestInputImage::New();
-  TestInputImage::RegionType          region;
   auto                                size = TestInputImage::SizeType::Filled(64);
   constexpr TestInputImage::IndexType index{};
-
-  region = { index, size };
+  TestInputImage::RegionType          region = { index, size };
 
   // first try a constant image
   constexpr double fillValue = -100.0;

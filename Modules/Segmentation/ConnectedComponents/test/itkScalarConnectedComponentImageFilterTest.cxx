@@ -76,17 +76,13 @@ itkScalarConnectedComponentImageFilterTest(int argc, char * argv[])
   const MaskImageType::RegionType maskRegion = mask->GetLargestPossibleRegion();
   MaskImageType::SizeType         maskSize = maskRegion.GetSize();
 
-  MaskImageType::RegionType region;
-  MaskImageType::SizeType   size;
-  MaskImageType::IndexType  index;
-
-  // use upper left corner
-  index.Fill(0);
+  MaskImageType::SizeType size;
   for (unsigned int i = 0; i < MaskImageType::ImageDimension; ++i)
   {
     size[i] = static_cast<unsigned long>(0.5 * maskSize[i]);
   }
-  region = { index, size };
+  MaskImageType::IndexType  index{}; // use upper left corner
+  MaskImageType::RegionType region = { index, size };
 
   itk::ImageRegionIterator<MaskImageType> mit(mask, region);
   while (!mit.IsAtEnd())

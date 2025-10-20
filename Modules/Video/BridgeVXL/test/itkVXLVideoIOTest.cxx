@@ -36,15 +36,12 @@ ImageType::Pointer
 itkImageFromBuffer(itk::VXLVideoIO::Pointer vxlIO, void * buffer, size_t bufferSize)
 {
   // Set up for incoming image
-  ImageType::RegionType region;
-  ImageType::SizeType   size;
-  ImageType::IndexType  start;
-  size[0] = vxlIO->GetDimensions(0);
-  size[1] = vxlIO->GetDimensions(1);
-  start.Fill(0);
-  region = { start, size };
-  ImageType::PointType   origin;
-  ImageType::SpacingType space;
+
+  ImageType::SizeType            size{ vxlIO->GetDimensions(0), vxlIO->GetDimensions(1) };
+  constexpr ImageType::IndexType start{};
+  ImageType::RegionType          region = { start, size };
+  ImageType::PointType           origin;
+  ImageType::SpacingType         space;
   origin.Fill(0.0);
   space.Fill(1.0); // May need fixing
 

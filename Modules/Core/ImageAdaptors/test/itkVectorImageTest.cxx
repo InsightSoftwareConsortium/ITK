@@ -700,10 +700,9 @@ itkVectorImageTest(int, char * argv[])
       using ConstNeighborhoodIteratorType = itk::ConstNeighborhoodIterator<VectorImageType>;
       auto radius = itk::MakeFilled<ConstNeighborhoodIteratorType::RadiusType>(1);
 
-      ConstNeighborhoodIteratorType::RegionType region = vectorImage->GetBufferedRegion();
-      auto                                      size = ConstNeighborhoodIteratorType::SizeType::Filled(4);
+      constexpr auto                            size = ConstNeighborhoodIteratorType::SizeType::Filled(4);
       auto                                      index = ConstNeighborhoodIteratorType::IndexType::Filled(1);
-      region = { index, size };
+      ConstNeighborhoodIteratorType::RegionType region = { index, size };
 
       ConstNeighborhoodIteratorType cNit(radius, vectorImage, region);
 

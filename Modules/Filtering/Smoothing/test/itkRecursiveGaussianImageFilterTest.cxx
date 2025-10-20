@@ -53,13 +53,8 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
 
 
     // Define their size, and start index
-    mySizeType size;
-    size[0] = 100;
-    size[1] = 100;
-    size[2] = 100;
-
-    myIndexType start{};
-
+    mySizeType   size{ 100, 100, 100 };
+    myIndexType  start{};
     myRegionType region{ start, size };
 
     // Initialize Image A

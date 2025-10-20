@@ -25,7 +25,6 @@
 int
 itkNeighborhoodOperatorImageFunctionTest(int, char *[])
 {
-
   constexpr unsigned int Dimension = 3;
   using PixelType = float;
   using ImageType = itk::Image<PixelType, Dimension>;
@@ -33,18 +32,10 @@ itkNeighborhoodOperatorImageFunctionTest(int, char *[])
   using FunctionType = itk::NeighborhoodOperatorImageFunction<ImageType, PixelType>;
 
   // Create and allocate the image
-  auto                  image = ImageType::New();
-  ImageType::SizeType   size;
-  ImageType::IndexType  start;
-  ImageType::RegionType region;
-
-  size[0] = 50;
-  size[1] = 50;
-  size[2] = 50;
-
-  start.Fill(0);
-
-  region = { start, size };
+  auto                           image = ImageType::New();
+  constexpr ImageType::SizeType  size{ 50, 50, 50 };
+  constexpr ImageType::IndexType start{};
+  ImageType::RegionType          region = { start, size };
 
   image->SetRegions(region);
   image->Allocate();

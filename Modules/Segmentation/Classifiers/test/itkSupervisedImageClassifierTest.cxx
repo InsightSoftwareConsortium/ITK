@@ -69,8 +69,7 @@ itkSupervisedImageClassifierTest(int, char *[])
 
   auto vecImage = VecImageType::New();
 
-  constexpr VecImageType::SizeType vecImgSize = { { IMGWIDTH, IMGHEIGHT, NFRAMES } };
-
+  constexpr VecImageType::SizeType  vecImgSize = { { IMGWIDTH, IMGHEIGHT, NFRAMES } };
   constexpr VecImageType::IndexType index{};
   VecImageType::RegionType          region{ index, vecImgSize };
 

@@ -150,8 +150,6 @@ itkExtractImageTest(int, char *[])
             << extract->GetOutput()->GetSpacing()[1] << std::endl;
 
 
-  ShortImage::RegionType requestedRegion;
-
   // CASE 1
   extractIndex[0] = 1;
   extractIndex[1] = 2;
@@ -160,7 +158,7 @@ itkExtractImageTest(int, char *[])
   extractRegion = { extractIndex, extractSize };
   extract->SetExtractionRegion(extractRegion);
   extract->UpdateLargestPossibleRegion();
-  requestedRegion = extract->GetOutput()->GetRequestedRegion();
+  ShortImage::RegionType requestedRegion = extract->GetOutput()->GetRequestedRegion();
 
   itk::ImageRegionIterator<ShortImage> iteratorIn1(extract->GetOutput(), requestedRegion);
 

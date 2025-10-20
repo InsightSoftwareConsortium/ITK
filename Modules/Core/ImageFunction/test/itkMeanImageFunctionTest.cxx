@@ -35,17 +35,9 @@ itkMeanImageFunctionTest(int, char *[])
   // Create and allocate the image
   auto image = ImageType::New();
 
-  ImageType::SizeType   size;
-  ImageType::IndexType  start;
-  ImageType::RegionType region;
-
-  size[0] = 50;
-  size[1] = 50;
-  size[2] = 50;
-
-  start.Fill(0);
-
-  region = { start, size };
+  constexpr ImageType::SizeType  size{ 50, 50, 50 };
+  constexpr ImageType::IndexType start{};
+  ImageType::RegionType          region = { start, size };
 
   image->SetRegions(region);
   image->Allocate();

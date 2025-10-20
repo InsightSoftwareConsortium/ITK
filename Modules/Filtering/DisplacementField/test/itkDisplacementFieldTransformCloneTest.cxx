@@ -55,13 +55,11 @@ itkDisplacementFieldTransformCloneTest(int, char *[])
 
   auto field = FieldType::New();
 
-  FieldType::SizeType   size;
-  FieldType::IndexType  start;
-  FieldType::RegionType region;
-  constexpr int         dimLength = 20;
-  size.Fill(dimLength);
-  start.Fill(0);
-  region = { start, size };
+  constexpr int                  dimLength = 20;
+  constexpr FieldType::SizeType  size{ dimLength, dimLength, dimLength };
+  constexpr FieldType::IndexType start{};
+
+  FieldType::RegionType region = { start, size };
   field->SetRegions(region);
   field->Allocate();
 

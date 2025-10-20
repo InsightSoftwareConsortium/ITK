@@ -62,17 +62,9 @@ itkCheckerBoardImageFilterTest(int argc, char * argv[])
   auto inputImageB = ImageType::New();
 
   // Define their size, and start index
-  SizeType size;
-  size[0] = 40;
-  size[1] = 40;
-  size[2] = 40;
-
-  IndexType start;
-  start[0] = 0;
-  start[1] = 0;
-  start[2] = 0;
-
-  RegionType region{ start, size };
+  constexpr SizeType  size{ 40, 40, 40 };
+  constexpr IndexType start{ 0, 0, 0 };
+  RegionType          region{ start, size };
 
   // Initialize Image A
   inputImageA->SetRegions(region);

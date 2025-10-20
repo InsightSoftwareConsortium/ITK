@@ -47,10 +47,9 @@ itkImageSpatialObjectTest(int, char *[])
   auto                           image = ImageType::New();
   constexpr ImageType::SizeType  size = { { 10, 10, 10 } };
   constexpr ImageType::IndexType index = { { 0, 0, 0 } };
-  ImageType::RegionType          region;
   auto                           origin = itk::MakeFilled<ImageType::PointType>(5);
 
-  region = { index, size };
+  ImageType::RegionType region = { index, size };
   image->SetOrigin(origin);
   image->SetRegions(region);
   image->Allocate();

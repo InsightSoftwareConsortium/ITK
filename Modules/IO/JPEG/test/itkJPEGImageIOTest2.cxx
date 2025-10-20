@@ -38,17 +38,9 @@ itkJPEGImageIOTest2(int argc, char * argv[])
 
   auto image = ImageType::New();
 
-  ImageType::RegionType region;
-  ImageType::IndexType  start;
-  ImageType::SizeType   size;
-
-  size[0] = 157;
-  size[1] = 129;
-
-  start[0] = 0;
-  start[1] = 0;
-
-  region = { start, size };
+  constexpr ImageType::IndexType start{};
+  constexpr ImageType::SizeType  size{ 157, 129 };
+  ImageType::RegionType          region = { start, size };
 
   image->SetRegions(region);
   image->AllocateInitialized();

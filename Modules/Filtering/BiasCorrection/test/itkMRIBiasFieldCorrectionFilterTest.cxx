@@ -36,26 +36,19 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   using MaskType = itk::Image<InputImagePixelType, ImageDimension>;
   using ImageIteratorType = itk::ImageRegionIteratorWithIndex<ImageType>;
 
-  const bool            SaveImages = false;
-  ImageType::SizeType   imageSize;
-  ImageType::IndexType  imageIndex;
-  ImageType::RegionType imageRegion;
-  imageSize[0] = 30;
-  imageSize[1] = 30;
-  imageSize[2] = 15;
+  const bool                    SaveImages = false;
+  constexpr ImageType::SizeType imageSize{ 30, 30, 15 };
+  ImageType::IndexType          imageIndex{};
   std::cout << "Random Test image size: " << imageSize[0] << 'x' << imageSize[1] << 'x' << imageSize[2] << std::endl;
-
-  imageIndex.Fill(0);
-  float spacing[ImageDimension] = { 1.0, 1.0, 1.0 };
-  float origin[ImageDimension] = { 0, 0, 0 };
-
-  imageRegion = { imageIndex, imageSize };
+  ImageType::RegionType imageRegion = { imageIndex, imageSize };
 
   // creates an image that will stores the Gaussian pixel * bias values
   auto imageWithBias = ImageType::New();
   imageWithBias->SetBufferedRegion(imageRegion);
   imageWithBias->SetLargestPossibleRegion(imageRegion);
+  constexpr float spacing[ImageDimension] = { 1.0, 1.0, 1.0 };
   imageWithBias->SetSpacing(spacing);
+  constexpr float origin[ImageDimension] = { 0, 0, 0 };
   imageWithBias->SetOrigin(origin);
   imageWithBias->Allocate();
 

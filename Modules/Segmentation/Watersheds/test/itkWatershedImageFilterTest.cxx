@@ -33,18 +33,9 @@ itkWatershedImageFilterTest(int, char *[])
   using ImageType2D = itk::Image<PixelType, Dimension>;
   using LongImageType2D = itk::Image<itk::IdentifierType, Dimension>;
 
-
-  itk::ImageRegion<Dimension> region;
-
-  itk::Size<Dimension> size;
-  size[0] = 314;
-  size[1] = 314;
-
-  itk::Index<Dimension> origin;
-  origin[0] = 0;
-  origin[1] = 0;
-
-  region = { origin, size };
+  constexpr itk::Size<Dimension> size{ 314, 314 };
+  itk::Index<Dimension>          origin{};
+  itk::ImageRegion<Dimension>    region = { origin, size };
 
   auto image2D = ImageType2D::New();
   image2D->SetRegions(region);

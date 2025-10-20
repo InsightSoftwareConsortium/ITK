@@ -44,14 +44,12 @@ itkMatrixIndexSelectionImageFilterTest(int argc, char * argv[])
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
   // Create a matrix image
-  auto                       image = InputImageType::New();
-  InputImageType::RegionType region;
+  auto image = InputImageType::New();
 
-  auto size = InputImageType::SizeType::Filled(100);
-
+  auto                      size = InputImageType::SizeType::Filled(100);
   InputImageType::IndexType index{};
 
-  region = { index, size };
+  InputImageType::RegionType region = { index, size };
   image->SetRegions(region);
   image->Allocate();
 

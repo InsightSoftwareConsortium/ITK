@@ -468,19 +468,11 @@ RGBTest(int argc, char * argv[])
   }
 
   using RGBImageType = typename itk::Image<RGBPixelType, 3>;
-  typename RGBImageType::SizeType    size;
-  typename RGBImageType::IndexType   index;
-  typename RGBImageType::SpacingType spacing;
-  typename RGBImageType::PointType   origin;
+  constexpr typename RGBImageType::SizeType  size{ 5, 5, 5 };
+  constexpr typename RGBImageType::IndexType index{};
+  typename RGBImageType::RegionType          imageRegion{ index, size };
+  typename RGBImageType::SpacingType         spacing{ { 1., 1., 1. } };
 
-  for (unsigned int i = 0; i < 3; ++i)
-  {
-    size[i] = 5;
-    index[i] = 0;
-    spacing[i] = 1.0;
-    origin[i] = 0;
-  }
-  typename RGBImageType::RegionType    imageRegion{ index, size };
   const typename RGBImageType::Pointer im =
     itk::IOTestHelper::AllocateImageFromRegionAndSpacing<RGBImageType>(imageRegion, spacing);
   vnl_random                             randgen(12345678);

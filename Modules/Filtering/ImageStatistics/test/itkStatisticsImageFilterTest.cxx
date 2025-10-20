@@ -47,11 +47,9 @@ itkStatisticsImageFilterTest(int argc, char * argv[])
   itk::Statistics::MersenneTwisterRandomVariateGenerator::GetInstance()->SetSeed(987);
 
   auto                            image = FloatImage::New();
-  FloatImage::RegionType          region;
   auto                            size = FloatImage::SizeType::Filled(64);
   constexpr FloatImage::IndexType index{};
-
-  region = { index, size };
+  FloatImage::RegionType          region = { index, size };
 
   // first try a constant image
   constexpr float fillValue = -100.0;
@@ -145,12 +143,9 @@ itkStatisticsImageFilterTest(int argc, char * argv[])
 
   using DoubleImage = itk::Image<double, 3>;
   auto                    dImage = DoubleImage::New();
-  DoubleImage::SizeType   dsize;
-  DoubleImage::IndexType  dindex;
-  DoubleImage::RegionType dregion;
-  dsize.Fill(50);
-  dindex.Fill(0);
-  dregion = { dindex, dsize };
+  DoubleImage::SizeType   dsize{ 50, 50, 50 };
+  DoubleImage::IndexType  dindex{};
+  DoubleImage::RegionType dregion = { dindex, dsize };
   dImage->SetRegions(dregion);
   dImage->Allocate();
   itk::ImageRegionIterator<DoubleImage> it(dImage, dregion);

@@ -153,12 +153,9 @@ itkCannySegmentationLevelSetImageFilterTest(int, char *[])
 {
   std::cout << "Last modified 11/08/02" << std::endl;
 
-  CSIFTN::ImageType::RegionType            reg;
-  CSIFTN::ImageType::RegionType::SizeType  sz;
-  CSIFTN::ImageType::RegionType::IndexType idx;
-  idx[0] = idx[1] = idx[2] = 0;
-  sz[0] = sz[1] = sz[2] = 64;
-  reg = { idx, sz };
+  constexpr CSIFTN::ImageType::RegionType::SizeType  sz{ 64, 64, 64 };
+  constexpr CSIFTN::ImageType::RegionType::IndexType idx{};
+  CSIFTN::ImageType::RegionType                      reg = { idx, sz };
 
   const CSIFTN::ImageType::Pointer     inputImage = CSIFTN::ImageType::New();
   const CSIFTN::SeedImageType::Pointer seedImage = CSIFTN::SeedImageType::New();

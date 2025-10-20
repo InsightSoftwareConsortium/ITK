@@ -38,17 +38,12 @@ ImageType::Pointer
 itkImageFromBuffer(itk::OpenCVVideoIO::Pointer opencvIO, void * buffer, size_t bufferSize)
 {
   // Set up for incoming image
-  ImageType::RegionType region;
-  ImageType::SizeType   size;
-  ImageType::IndexType  start;
-
-  size[0] = opencvIO->GetDimensions(0);
-  size[1] = opencvIO->GetDimensions(1);
-  start.Fill(0);
-  region = { start, size };
-  ImageType::PointType   origin;
-  ImageType::SpacingType space;
+  constexpr ImageType::SizeType  size{ opencvIO->GetDimensions(0), opencvIO->GetDimensions(1) };
+  constexpr ImageType::IndexType start{};
+  ImageType::RegionType          region = { start, size };
+  ImageType::PointType           origin;
   origin.Fill(0.0);
+  ImageType::SpacingType space;
   space.Fill(1.0); // May need fixing
 
   // Use itkImportImageFilter to create an ITK image
