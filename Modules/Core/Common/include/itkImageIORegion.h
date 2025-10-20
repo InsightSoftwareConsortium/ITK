@@ -225,7 +225,8 @@ public:
     // ignored.
     //
     const unsigned int ioDimension = outIORegion.GetImageDimension();
-    const unsigned int imageDimension = VDimension;
+
+    constexpr unsigned int imageDimension = VDimension;
 
     const unsigned int minDimension = std::min(ioDimension, imageDimension);
 
@@ -267,8 +268,8 @@ public:
     // than the ImageIORegion, then the remaining IO dimensions are simply
     // ignored.
     //
-    const unsigned int ioDimension = inIORegion.GetImageDimension();
-    const unsigned int imageDimension = VDimension;
+    const unsigned int     ioDimension = inIORegion.GetImageDimension();
+    constexpr unsigned int imageDimension = VDimension;
 
     const unsigned int minDimension = std::min(ioDimension, imageDimension);
 

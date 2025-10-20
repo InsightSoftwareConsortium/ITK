@@ -28,7 +28,7 @@ template <int VDimension>
 int
 itkDiscreteHessianGaussianImageFunctionTestND(int argc, char * argv[])
 {
-  const unsigned int Dimension = VDimension;
+  constexpr unsigned int Dimension = VDimension;
 
   using PixelType = float;
   using ImageType = itk::Image<PixelType, Dimension>;

@@ -142,9 +142,9 @@ template <unsigned int VDimension>
 int
 GPUDemonsRegistrationFilterTestTemplate(int argc, char * argv[])
 {
-  const unsigned int ImageDimension = VDimension;
-  bool               passed;
-  unsigned int       size1 = 0, size2 = 0;
+  constexpr unsigned int ImageDimension = VDimension;
+  bool                   passed;
+  unsigned int           size1 = 0, size2 = 0;
 
   using InternalPixelType = float;
   using VectorPixelType = itk::Vector<float, ImageDimension>;
