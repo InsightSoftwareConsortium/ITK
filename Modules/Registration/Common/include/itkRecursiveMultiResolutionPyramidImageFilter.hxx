@@ -234,16 +234,13 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateO
 
   typename TInputImage::SizeType radius;
 
-  RegionType requestedRegion;
-  SizeType   requestedSize;
-  IndexType  requestedIndex;
 
   // compute requested regions for lower levels
   for (int ilevel = refLevel + 1; ilevel < static_cast<int>(this->GetNumberOfLevels()); ++ilevel)
   {
-    requestedRegion = this->GetOutput(ilevel - 1)->GetRequestedRegion();
-    requestedSize = requestedRegion.GetSize();
-    requestedIndex = requestedRegion.GetIndex();
+    RegionType requestedRegion = this->GetOutput(ilevel - 1)->GetRequestedRegion();
+    SizeType   requestedSize = requestedRegion.GetSize();
+    IndexType  requestedIndex = requestedRegion.GetIndex();
 
     for (unsigned int idim = 0; idim < ImageDimension; ++idim)
     {
@@ -277,9 +274,9 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateO
   // compute requested regions for higher levels
   for (int ilevel = refLevel - 1; ilevel > -1; ilevel--)
   {
-    requestedRegion = this->GetOutput(ilevel + 1)->GetRequestedRegion();
-    requestedSize = requestedRegion.GetSize();
-    requestedIndex = requestedRegion.GetIndex();
+    RegionType requestedRegion = this->GetOutput(ilevel + 1)->GetRequestedRegion();
+    SizeType   requestedSize = requestedRegion.GetSize();
+    IndexType  requestedIndex = requestedRegion.GetIndex();
 
     for (unsigned int idim = 0; idim < ImageDimension; ++idim)
     {

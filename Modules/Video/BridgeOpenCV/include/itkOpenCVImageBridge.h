@@ -231,19 +231,16 @@ private:
     using OutputPixelType = typename ImageType::PixelType;
     using ConvertPixelTraits = DefaultConvertPixelTraits<OutputPixelType>;
 
-    bool isVectorImage(strcmp(out->GetNameOfClass(), "VectorImage") == 0);
-
-    typename ImageType::RegionType            region;
-    typename ImageType::RegionType::SizeType  size;
-    typename ImageType::RegionType::IndexType start;
-    typename ImageType::SpacingType           spacing;
+    bool                                     isVectorImage(strcmp(out->GetNameOfClass(), "VectorImage") == 0);
+    typename ImageType::RegionType::SizeType size;
     size.Fill(1);
     size[0] = imgWidth;
     size[1] = imgHeight;
-    start.Fill(0);
-    spacing.Fill(1);
-    region = { start, size };
+    typename ImageType::RegionType::IndexType start{};
+    typename ImageType::RegionType            region = { start, size };
     out->SetRegions(region);
+    typename ImageType::SpacingType spacing;
+    spacing.Fill(1);
     out->SetSpacing(spacing);
     out->Allocate();
     size_t       lineLength = imgWidth * inChannels * sizeof(TPixel);

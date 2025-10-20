@@ -78,24 +78,22 @@ ImageMetricLoad<TMoving, TFixed>::InitializeMetric()
   m_Metric->SetMovingImage(m_RefImage);
   m_Metric->SetFixedImage(m_TarImage);
 
-  typename FixedType::RegionType requestedRegion;
-  typename FixedType::SizeType   size;
-  typename FixedType::IndexType  tindex;
+  typename FixedType::SizeType size;
   //  typename MovingType::IndexType rindex;
   // initialize the offset/vector part
   for (unsigned int k = 0; k < ImageDimension; ++k)
   {
     // Set the size of the image region
     size[k] = 1;
-    tindex[k] = 0;
   }
 
   // Set the number of integration points to zero (default for an element)
 
   m_NumberOfIntegrationPoints = 0;
 
+  typename FixedType::IndexType tindex{};
   // Set the associated region
-  requestedRegion = { tindex, size };
+  typename FixedType::RegionType requestedRegion = { tindex, size };
   m_TarImage->SetRequestedRegion(requestedRegion);
   m_Metric->SetFixedImageRegion(m_TarImage->GetRequestedRegion());
 

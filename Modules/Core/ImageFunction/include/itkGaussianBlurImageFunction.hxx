@@ -205,10 +205,8 @@ GaussianBlurImageFunction<TInputImage, TOutput>::EvaluateAtIndex(const IndexType
   typename InternalImageType::IndexType ind = index;
 
   // Define the region of the iterator
-  typename InternalImageType::RegionType region;
-  typename InternalImageType::SizeType   size = m_InternalImage->GetBufferedRegion().GetSize();
+  typename InternalImageType::SizeType size = m_InternalImage->GetBufferedRegion().GetSize();
   size[0] = 1;
-  region.SetSize(size);
 
   for (unsigned int i = 0; i < Self::ImageDimension; ++i)
   {
@@ -217,10 +215,9 @@ GaussianBlurImageFunction<TInputImage, TOutput>::EvaluateAtIndex(const IndexType
       ind[i] -= centerIndex[i];
     }
   }
-  region.SetIndex(ind);
+  typename InternalImageType::RegionType region = { ind, size };
 
-  typename InternalImageType::RegionType regionN;
-  regionN.SetSize(size);
+
   ind = centerIndex;
   for (unsigned int i = 0; i < Self::ImageDimension; ++i)
   {
@@ -229,7 +226,7 @@ GaussianBlurImageFunction<TInputImage, TOutput>::EvaluateAtIndex(const IndexType
       ind[i] = 0;
     }
   }
-  regionN.SetIndex(ind);
+  typename InternalImageType::RegionType regionN = { ind, size };
 
   typename InternalImageType::RegionType regionS = region;
   regionS.Crop(inputImage->GetBufferedRegion());

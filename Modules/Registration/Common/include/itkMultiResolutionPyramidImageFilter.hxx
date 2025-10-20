@@ -411,11 +411,8 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateOutputRequ
   {
     // compute requested regions for the other outputs based on
     // the requested region of the reference output
-    IndexType  outputIndex;
-    SizeType   outputSize;
-    RegionType outputRegion;
-    IndexType  baseIndex = ptr->GetRequestedRegion().GetIndex();
-    SizeType   baseSize = ptr->GetRequestedRegion().GetSize();
+    IndexType baseIndex = ptr->GetRequestedRegion().GetIndex();
+    SizeType  baseSize = ptr->GetRequestedRegion().GetSize();
 
     for (unsigned int idim = 0; idim < TOutputImage::ImageDimension; ++idim)
     {
@@ -434,7 +431,8 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateOutputRequ
       {
         continue;
       }
-
+      IndexType outputIndex;
+      SizeType  outputSize;
       for (unsigned int idim = 0; idim < TOutputImage::ImageDimension; ++idim)
       {
         auto factor = static_cast<double>(m_Schedule[ilevel][idim]);
@@ -448,7 +446,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateOutputRequ
         outputIndex[idim] = static_cast<IndexValueType>(std::ceil(static_cast<double>(baseIndex[idim]) / factor));
       }
 
-      outputRegion = { outputIndex, outputSize };
+      RegionType outputRegion = { outputIndex, outputSize };
 
       // make sure the region is within the largest possible region
       outputRegion.Crop(this->GetOutput(ilevel)->GetLargestPossibleRegion());

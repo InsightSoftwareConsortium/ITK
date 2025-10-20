@@ -127,10 +127,9 @@ DiscreteGradientMagnitudeGaussianImageFunction<TInputImage, TOutput>::RecomputeG
   auto centerIndex = KernelImageType::IndexType::Filled(2 * maxRadius); // include also boundaries
 
   // Create an image region to be used later that does not include boundaries
-  RegionType kernelRegion;
   size.Fill(2 * maxRadius + 1);
-  auto origin = RegionType::IndexType::Filled(maxRadius);
-  kernelRegion = { origin, size };
+  auto       origin = RegionType::IndexType::Filled(maxRadius);
+  RegionType kernelRegion = { origin, size };
 
   // Now create an image filter to perform successive convolutions
   using NeighborhoodFilterType = itk::NeighborhoodOperatorImageFilter<KernelImageType, KernelImageType>;
