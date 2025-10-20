@@ -51,8 +51,8 @@ testVectorImageAdaptor(typename TAdaptor::Pointer &                             
   std::cout << " to extract a component from the vector image" << std::endl;
 
   using PixelType = TPixel;
-  const unsigned int Dimension = VDimension;
-  const unsigned int VectorLength = VVectorLength;
+  constexpr unsigned int Dimension = VDimension;
+  constexpr unsigned int VectorLength = VVectorLength;
 
   bool failed = false;
 
