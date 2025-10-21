@@ -25,7 +25,7 @@
 
 
 // Set up type alias for test
-constexpr unsigned int Dimension = 2;
+constexpr unsigned int Dimension{ 2 };
 using InputPixelType = unsigned char;
 using InputFrameType = itk::Image<InputPixelType, Dimension>;
 using InputVideoType = itk::VideoStream<InputFrameType>;
@@ -96,7 +96,7 @@ itkFrameAverageVideoFilterTest(int argc, char * argv[])
 
   // Set up an input VideoStream
   auto                    inputVideo = InputVideoType::New();
-  constexpr SizeValueType numInputFrames = 50;
+  constexpr SizeValueType numInputFrames{ 50 };
   inputVideo->SetNumberOfBuffers(numInputFrames);
   itk::TemporalRegion inputTempRegion;
   inputTempRegion.SetFrameStart(0);
@@ -150,7 +150,7 @@ itkFrameAverageVideoFilterTest(int argc, char * argv[])
     // Check the results
     const OutputPixelType expectedVal = static_cast<OutputPixelType>(i + (i + 1)) / 2.0;
     const OutputPixelType actualVal = filter->GetOutput()->GetFrame(i)->GetPixel(checkPx);
-    constexpr double      eps = 0.00001;
+    constexpr double      eps{ 0.00001 };
     if (expectedVal < actualVal - eps || expectedVal > actualVal + eps)
     {
       std::cerr << "Filter failed to compute frame " << i << " correctly over 2 frames." << std::endl;
@@ -193,7 +193,7 @@ itkFrameAverageVideoFilterTest(int argc, char * argv[])
   {
     const OutputPixelType expectedVal = static_cast<OutputPixelType>(i + (i + 1) + (i + 2)) / 3.0;
     const OutputPixelType actualVal = filter->GetOutput()->GetFrame(i)->GetPixel(checkPx);
-    constexpr double      eps = 0.00001;
+    constexpr double      eps{ 0.00001 };
     if (expectedVal < actualVal - eps || expectedVal > actualVal + eps)
     {
       std::cerr << "Filter failed to compute frame " << i << " correctly over 3 frames." << std::endl;

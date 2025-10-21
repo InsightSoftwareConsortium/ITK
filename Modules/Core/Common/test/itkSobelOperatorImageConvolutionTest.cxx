@@ -47,7 +47,7 @@ typename ImageType::Pointer
 DoConvolution(typename ImageType::Pointer inputImage, unsigned long int direction)
 {
   using PixelType = typename ImageType::PixelType;
-  constexpr std::size_t Dimension = ImageType::ImageDimension;
+  constexpr std::size_t Dimension{ ImageType::ImageDimension };
 
   using SobelOperatorType = itk::SobelOperator<PixelType, Dimension>;
 
@@ -110,7 +110,7 @@ itkSobelOperatorImageConvolutionTest(int argc, char * argv[])
   const auto direction = std::stoul(argv[2]);
   int        return_status = EXIT_SUCCESS;
 
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
   /* Sanity Checking For Sobel Operator */
   //{
   /*

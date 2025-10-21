@@ -175,7 +175,7 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimensions = 2;
+  constexpr unsigned int Dimensions{ 2 };
 
   using ParametersValueType = double;
 
@@ -196,7 +196,7 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
 
 
   // Test exceptions
-  constexpr DisplacementTransformType::InputVnlVectorType::element_type vectorValue = 1.0;
+  constexpr DisplacementTransformType::InputVnlVectorType::element_type vectorValue{ 1.0 };
   DisplacementTransformType::InputVnlVectorType                         vector;
   vector.fill(vectorValue);
   ITK_TRY_EXPECT_EXCEPTION(displacementTransform->TransformVector(vector));
@@ -237,7 +237,7 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
 
   auto field = FieldType::New();
 
-  constexpr int                  dimLength = 20;
+  constexpr int                  dimLength{ 20 };
   auto                           size = itk::MakeFilled<FieldType::SizeType>(dimLength);
   constexpr FieldType::IndexType start{};
   FieldType::RegionType          region{ start, size };
@@ -553,7 +553,7 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
 
   derivative.Fill(1.2);
 
-  constexpr ScalarType testFactor = 1.5;
+  constexpr ScalarType testFactor{ 1.5 };
 
   for (unsigned int i = 0; i < displacementTransform->GetNumberOfParameters(); ++i)
   {

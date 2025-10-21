@@ -30,7 +30,7 @@ itkAbsImageFilterAndAdaptorTest(int, char *[])
   int testStatus = EXIT_SUCCESS;
 
   // Define the dimension of the images
-  constexpr unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension{ 3 };
 
   // Declare the types of the images
   using InputImageType = itk::Image<float, ImageDimension>;
@@ -97,7 +97,7 @@ itkAbsImageFilterAndAdaptorTest(int, char *[])
 
   //  Check the content of the result image
   std::cout << "Verification of the output " << std::endl;
-  constexpr OutputImageType::PixelType epsilon = 1e-6;
+  constexpr OutputImageType::PixelType epsilon{ 1e-6 };
   ot.GoToBegin();
   it.GoToBegin();
   while (!ot.IsAtEnd())

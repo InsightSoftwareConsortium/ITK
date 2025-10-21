@@ -33,7 +33,7 @@ double
 SimpleSignedDistance(const TPoint & p)
 {
   auto             center = itk::MakeFilled<TPoint>(32);
-  constexpr double radius = 16;
+  constexpr double radius{ 16 };
 
   double accum = 0.0;
   for (unsigned int j = 0; j < TPoint::PointDimension; ++j)
@@ -56,7 +56,7 @@ itkApproximateSignedDistanceMapImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension{ 2 };
 
   using InputPixelType = unsigned int;
   using OutputPixelType = float;
@@ -71,7 +71,7 @@ itkApproximateSignedDistanceMapImageFilterTest(int argc, char * argv[])
   // Make a binary input image based on the signed distance function
   // using the inside and outside values
   const InputPixelType     insideValue = std::stoi(argv[1]);
-  constexpr InputPixelType outsideValue = 0;
+  constexpr InputPixelType outsideValue{ 0 };
 
   auto                             image = InputImageType::New();
   auto                             size = InputImageType::SizeType::Filled(64);
@@ -158,7 +158,7 @@ itkApproximateSignedDistanceMapImageFilterTest(int argc, char * argv[])
   }
 
   // Regression test
-  constexpr OutputPixelType maxAllowedDistance = 2;
+  constexpr OutputPixelType maxAllowedDistance{ 2 };
   if (maxDistance > maxAllowedDistance)
   {
     std::cout << "Test failed!" << std::endl;

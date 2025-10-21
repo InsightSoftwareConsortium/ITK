@@ -27,7 +27,7 @@ itkDivideImageFilterTest2(int, char *[])
 {
 
   // Define the dimension of the images
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
 
   // Declare the pixel types of the images
   using ElementPixelType = float;
@@ -70,12 +70,12 @@ itkDivideImageFilterTest2(int, char *[])
 
   // Initialize the content of Image A
   InputImageType1::PixelType                      valueA(inputImageA->GetNumberOfComponentsPerPixel());
-  constexpr InputImageType1::PixelType::ValueType elementValueA = 2.0;
+  constexpr InputImageType1::PixelType::ValueType elementValueA{ 2.0 };
   valueA.Fill(elementValueA);
   inputImageA->FillBuffer(valueA);
 
   // Initialize the content of Image B
-  constexpr InputImageType2::PixelType valueB = 3.0;
+  constexpr InputImageType2::PixelType valueB{ 3.0 };
   inputImageB->FillBuffer(valueB);
 
 
@@ -106,7 +106,7 @@ itkDivideImageFilterTest2(int, char *[])
   // Check the content of the result image
   //
   constexpr auto expectedValue = static_cast<OutputImageType::PixelType::ValueType>(elementValueA / valueB);
-  constexpr OutputImageType::PixelType::ValueType epsilon = 1e-6;
+  constexpr OutputImageType::PixelType::ValueType epsilon{ 1e-6 };
   while (!oIt.IsAtEnd())
   {
     for (unsigned int i = 0; i < oIt.GetImageDimension(); ++i)

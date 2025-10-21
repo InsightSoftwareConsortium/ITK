@@ -45,7 +45,7 @@ public:
   double
   Evaluate(const TMeasurementVector &) const override
   {
-    constexpr double score = 1;
+    constexpr double score{ 1 };
     return score;
   }
 };
@@ -57,7 +57,7 @@ int
 itkMembershipFunctionBaseTest(int, char *[])
 {
 
-  constexpr unsigned int MeasurementVectorSize = 17;
+  constexpr unsigned int MeasurementVectorSize{ 17 };
 
   using MeasurementVectorType = itk::FixedArray<float, MeasurementVectorSize>;
 

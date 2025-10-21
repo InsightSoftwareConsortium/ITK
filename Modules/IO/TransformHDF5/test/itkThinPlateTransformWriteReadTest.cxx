@@ -39,7 +39,7 @@ template <typename TransformType>
 static int
 ReadWriteTest(const char * const fileName)
 {
-  constexpr double epsilon = 1e-12;
+  constexpr double epsilon{ 1e-12 };
   using ParametersValueType = typename TransformType::ScalarType;
 
   // Create transform

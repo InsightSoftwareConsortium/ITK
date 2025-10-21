@@ -74,7 +74,7 @@ itkNrrdImageIOTestReadWriteTest(const std::string & fn,
 
   ITK_TEST_EXPECT_TRUE(io->SupportsDimension(VImageDimension));
 
-  constexpr unsigned int NRRD_DIM_MAX = 16; // taken from NrrdIO.h which is not in the include path
+  constexpr unsigned int NRRD_DIM_MAX{ 16 }; // taken from NrrdIO.h which is not in the include path
   const unsigned long    dim = NRRD_DIM_MAX + 1;
   ITK_TEST_EXPECT_TRUE(!io->SupportsDimension(dim));
 

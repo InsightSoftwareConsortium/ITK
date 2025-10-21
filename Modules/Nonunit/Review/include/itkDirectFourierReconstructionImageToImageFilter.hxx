@@ -35,7 +35,7 @@ DirectFourierReconstructionImageToImageFilter<TInputImage,
   , m_AlphaDirection(2)
   , m_RadialSplineOrder(3)
 {
-  constexpr double RADIANS = 1.0;
+  constexpr double RADIANS{ 1.0 };
   m_PI = 4 * std::atan(RADIANS);
 }
 

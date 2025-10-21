@@ -45,7 +45,7 @@ itkOptimizersHierarchyTest(int, char *[])
   using OptimizerType = itk::Optimizer;
   auto genericOptimizer = OptimizerType::New();
 
-  constexpr unsigned int spaceDimension = 10;
+  constexpr unsigned int spaceDimension{ 10 };
 
   OptimizerType::ParametersType       initialPosition(spaceDimension);
   const OptimizerType::ParametersType currentPosition(spaceDimension);
@@ -59,7 +59,7 @@ itkOptimizersHierarchyTest(int, char *[])
 
   const OptimizerType::ScalesType & parameterScaleGot = genericOptimizer->GetScales();
 
-  constexpr double tolerance = 1e-10;
+  constexpr double tolerance{ 1e-10 };
 
   for (unsigned int i = 0; i < spaceDimension; ++i)
   {

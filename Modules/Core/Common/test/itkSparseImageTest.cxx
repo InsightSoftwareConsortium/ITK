@@ -48,8 +48,8 @@ itkSparseImageTest(int, char *[])
 
   auto im = SparseImageType::New();
 
-  constexpr ImageType::SizeType  sz = { { 24, 24 } };
-  constexpr ImageType::IndexType idx = { { 0, 0 } };
+  constexpr ImageType::SizeType  sz{ 24, 24 };
+  constexpr ImageType::IndexType idx{ 0, 0 };
   ImageType::RegionType          r = { idx, sz };
 
   im->SetRegions(r);

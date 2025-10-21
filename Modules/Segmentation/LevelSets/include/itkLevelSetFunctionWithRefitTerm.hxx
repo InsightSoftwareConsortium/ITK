@@ -67,7 +67,7 @@ auto
 LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>::ComputeCurvature(
   const NeighborhoodType & neighborhood) const -> ScalarValueType
 {
-  constexpr NeighborhoodSizeValueType one = 1;
+  constexpr NeighborhoodSizeValueType one{ 1 };
   const NeighborhoodSizeValueType     center = neighborhood.Size() / 2;
 
   const NeighborhoodScalesType neighborhoodScales = this->ComputeNeighborhoodScales();

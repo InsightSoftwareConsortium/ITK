@@ -46,7 +46,7 @@ TestConstPixelAccess(const itk::Image<T, VImageDimension> & in, itk::Image<T, VI
 int
 itkImageIteratorTest(int, char *[])
 {
-  constexpr unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension{ 3 };
 
   std::cout << "Creating an image" << std::endl;
   const itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::Pointer o3 =
@@ -55,13 +55,11 @@ itkImageIteratorTest(int, char *[])
   float origin3D[ImageDimension] = { 5.0f, 2.1f, 8.1f };
   float spacing3D[ImageDimension] = { 1.5f, 2.1f, 1.0f };
 
-  constexpr itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::SizeType imageSize3D = { { 20, 40, 60 } };
+  constexpr itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::SizeType imageSize3D{ { 20, 40, 60 } };
 
-  constexpr itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::IndexType startIndex3D = { { 5, 4, 1 } };
-  constexpr itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::IndexType regionStartIndex3D = {
-    { 5, 10, 12 }
-  };
-  constexpr itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::IndexType regionEndIndex3D = { { 8, 15, 17 } };
+  constexpr itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::IndexType startIndex3D{ { 5, 4, 1 } };
+  constexpr itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::IndexType regionStartIndex3D{ { 5, 10, 12 } };
+  constexpr itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::IndexType regionEndIndex3D{ { 8, 15, 17 } };
 
 
   const itk::Image<itk::Vector<unsigned short, 5>, ImageDimension>::RegionType region{ startIndex3D, imageSize3D };

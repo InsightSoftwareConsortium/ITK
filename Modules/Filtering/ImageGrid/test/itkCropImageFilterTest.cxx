@@ -26,7 +26,7 @@ itkCropImageFilterTest(int, char *[])
 {
 
   // Define the dimension of the images
-  constexpr unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension{ 2 };
 
   // Declare the pixel types of the images
   using PixelType = short;
@@ -37,8 +37,8 @@ itkCropImageFilterTest(int, char *[])
   auto inputImage = ImageType::New();
 
   // Fill in the image
-  constexpr ImageType::IndexType index = { { 0, 0 } };
-  constexpr ImageType::SizeType  size = { { 8, 12 } };
+  constexpr ImageType::IndexType index{ 0, 0 };
+  constexpr ImageType::SizeType  size{ 8, 12 };
   ImageType::RegionType          region{ index, size };
   inputImage->SetLargestPossibleRegion(region);
   inputImage->SetBufferedRegion(region);

@@ -31,9 +31,9 @@ int
 itkMeanSquaresImageToImageMetricv4OnVectorTest(int, char ** const)
 {
 
-  constexpr unsigned int imageSize = 5;
-  constexpr unsigned int imageDimensionality = 3;
-  constexpr unsigned int vectorLength = 2;
+  constexpr unsigned int imageSize{ 5 };
+  constexpr unsigned int imageDimensionality{ 3 };
+  constexpr unsigned int vectorLength{ 2 };
 
   using VectorType = itk::Vector<double, vectorLength>;
   using ImageType = itk::Image<VectorType, imageDimensionality>;

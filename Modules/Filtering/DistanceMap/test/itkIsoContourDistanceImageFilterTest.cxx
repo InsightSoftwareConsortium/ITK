@@ -48,7 +48,7 @@ double
 SimpleSignedDistance(const TPoint & p)
 {
   auto             center = itk::MakeFilled<TPoint>(50);
-  constexpr double radius = 19.5;
+  constexpr double radius{ 19.5 };
 
   double accum = 0.0;
   for (unsigned int j = 0; j < TPoint::PointDimension; ++j)
@@ -64,7 +64,7 @@ SimpleSignedDistance(const TPoint & p)
 int
 itkIsoContourDistanceImageFilterTest(int, char *[])
 {
-  constexpr unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension{ 2 };
   using PixelType = float;
 
   using ImageType = itk::Image<PixelType, ImageDimension>;

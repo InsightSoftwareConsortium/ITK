@@ -99,7 +99,7 @@ itkSimilarityIndexImageFilterTest(int, char *[])
 
 
   // check results
-  constexpr FilterType::RealType trueOverlap = 0.5 / 0.75;
+  constexpr FilterType::RealType trueOverlap{ 0.5 / 0.75 };
   const FilterType::RealType     overlap = filter->GetSimilarityIndex();
 
   std::cout << " True index: " << trueOverlap << std::endl;

@@ -105,7 +105,7 @@ CumulativeGaussianOptimizer::FindParametersOfGaussian(MeasureType * sampledGauss
   extendedArray = ExtendGaussian(sampledGaussianArray, extendedArray, sampledGaussianArraySize);
 
   MeasureGaussianParameters(extendedArray);
-  constexpr bool smallChangeBetweenIterations = false;
+  constexpr bool smallChangeBetweenIterations{ false };
   while (averageSumOfSquaredDifferences >= m_DifferenceTolerance)
   {
     for (int j = 0; j < extendedArraySize; ++j)

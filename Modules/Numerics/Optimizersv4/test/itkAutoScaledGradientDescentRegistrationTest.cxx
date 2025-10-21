@@ -167,7 +167,7 @@ itkAutoScaledGradientDescentRegistrationTestTemplated(int                 number
   // If no learning rate estimate is performed, test with a fixed value
   // close to the result of running this test with learning rate estimation
   // for only the first step.
-  constexpr OptimizerType::InternalComputationValueType fixedLearningRate = 0.01501010101010101;
+  constexpr OptimizerType::InternalComputationValueType fixedLearningRate{ 0.01501010101010101 };
   if (!estimateLearningRateOnce && !estimateLearningRateAtEachIteration)
   {
     optimizer->SetLearningRate(fixedLearningRate);
@@ -234,7 +234,7 @@ itkAutoScaledGradientDescentRegistrationTestTemplated(int                 number
   // the end of the list of parameters.
   const unsigned int offsetOrder = finalParameters.Size() - actualParameters.Size();
 
-  constexpr double tolerance = 1.0; // equivalent to 1 pixel.
+  constexpr double tolerance{ 1.0 }; // equivalent to 1 pixel.
 
   for (unsigned int i = 0; i < numbeOfParameters; ++i)
   {
@@ -299,11 +299,11 @@ itkAutoScaledGradientDescentRegistrationTest(int argc, char ** const argv)
     estimateScales = std::stoi(argv[5]);
   }
 
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
 
   std::cout << std::endl << "Optimizing translation transform with shift scales" << std::endl;
   using TranslationTransformType = itk::TranslationTransform<double, Dimension>;
-  constexpr bool usePhysicalSpaceForShift = false;
+  constexpr bool usePhysicalSpaceForShift{ false };
   const int      ret1 =
     itkAutoScaledGradientDescentRegistrationTestTemplated<TranslationTransformType>(numberOfIterations,
                                                                                     shiftOfStep,

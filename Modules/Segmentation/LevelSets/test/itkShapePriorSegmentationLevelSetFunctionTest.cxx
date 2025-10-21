@@ -112,7 +112,7 @@ itkShapePriorSegmentationLevelSetFunctionTest(int, char *[])
 {
 
   using PixelType = float;
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
   using ImageType = itk::Image<PixelType, Dimension>;
 
   // create an input level set using the sphere signed distance function

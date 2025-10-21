@@ -252,14 +252,14 @@ itkFrequencyFFTLayoutImageRegionIteratorWithIndexTest(int, char *[])
 {
   bool testPassed = true; // let's be optimistic
 
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
 
   using CharPixelType = char;
   using FloatPixelType = float;
 
   // Even input image size test
   {
-    constexpr size_t inputImageSize(8);
+    constexpr size_t inputImageSize{ 8 };
     std::cout << "Testing with EVEN Image< std::complex<float>, 3 > with size: " << inputImageSize << std::endl;
     itkFrequencyFFTLayoutImageRegionIteratorWithIndexTester<itk::Image<std::complex<FloatPixelType>, Dimension>> Tester(
       inputImageSize);
@@ -271,7 +271,7 @@ itkFrequencyFFTLayoutImageRegionIteratorWithIndexTest(int, char *[])
 
   // Even input image size test
   {
-    constexpr size_t inputImageSize(10);
+    constexpr size_t inputImageSize{ 10 };
     std::cout << "Testing with EVEN Image< char, 3 > with size: " << inputImageSize << std::endl;
     itkFrequencyFFTLayoutImageRegionIteratorWithIndexTester<itk::Image<CharPixelType, Dimension>> Tester(
       inputImageSize);
@@ -283,7 +283,7 @@ itkFrequencyFFTLayoutImageRegionIteratorWithIndexTest(int, char *[])
 
   // Odd input image size test
   {
-    constexpr size_t inputImageSize(9);
+    constexpr size_t inputImageSize{ 9 };
     std::cout << "Testing with ODD Image< char, 3 > with size: " << inputImageSize << std::endl;
     itkFrequencyFFTLayoutImageRegionIteratorWithIndexTester<itk::Image<CharPixelType, Dimension>> Tester(
       inputImageSize);

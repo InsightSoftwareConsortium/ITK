@@ -32,7 +32,7 @@ itkLabelMapToLabelImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr int dim = 2;
+  constexpr int dim{ 2 };
 
   using LabelObjectType = itk::LabelObject<unsigned long, dim>;
   using IndexType = LabelObjectType::IndexType;

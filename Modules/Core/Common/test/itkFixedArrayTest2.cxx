@@ -25,10 +25,10 @@ int
 itkFixedArrayTest2(int, char *[])
 {
   // Define the number of elements in the array
-  constexpr unsigned int nelements = 10000000L;
+  constexpr unsigned int nelements{ 10000000L };
 
   // Define the number of runs used for timing
-  constexpr unsigned int nrun = 10;
+  constexpr unsigned int nrun{ 10 };
 
   // Declare a simple timer
 

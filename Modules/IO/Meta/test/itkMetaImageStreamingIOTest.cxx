@@ -38,7 +38,7 @@ itkMetaImageStreamingIOTest(int argc, char * argv[])
   //  Image types are defined below.
   using InputPixelType = unsigned char;
   using OutputPixelType = unsigned char;
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
 
   using InputImageType = itk::Image<InputPixelType, Dimension>;
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;

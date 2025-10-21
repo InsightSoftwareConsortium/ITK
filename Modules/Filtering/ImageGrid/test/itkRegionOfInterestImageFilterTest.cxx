@@ -25,7 +25,7 @@ int
 itkRegionOfInterestImageFilterTest(int, char *[])
 {
 
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
   using PixelType = itk::Index<Dimension>;
 
   using ImageType = itk::Image<PixelType, Dimension>;

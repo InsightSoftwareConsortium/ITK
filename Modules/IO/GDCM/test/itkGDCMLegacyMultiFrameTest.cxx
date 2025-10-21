@@ -39,7 +39,7 @@ itkGDCMLegacyMultiFrameTest(int argc, char * argv[])
   const char * outputFileName = argv[2];
 
   using PixelType = unsigned short;
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
   using ImageType = itk::Image<PixelType, Dimension>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;

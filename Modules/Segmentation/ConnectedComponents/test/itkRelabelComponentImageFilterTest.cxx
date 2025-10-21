@@ -48,7 +48,7 @@ itkRelabelComponentImageFilterTest(int argc, char * argv[])
   using InternalPixelType = unsigned short;
   using LabelPixelType = unsigned long;
   using WritePixelType = unsigned char;
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
 
   using InternalImageType = itk::Image<InternalPixelType, Dimension>;
   using LabelImageType = itk::Image<LabelPixelType, Dimension>;
@@ -69,9 +69,9 @@ itkRelabelComponentImageFilterTest(int argc, char * argv[])
 
   using HistogramType = itk::Statistics::Histogram<RealType>;
 
-  constexpr int      NumBins = 13;
-  constexpr RealType LowerBound = 51.0;
-  constexpr RealType UpperBound = 252.0;
+  constexpr int      NumBins{ 13 };
+  constexpr RealType LowerBound{ 51.0 };
+  constexpr RealType UpperBound{ 252.0 };
 
   auto reader = ReaderType::New();
   auto writer = WriterType::New();
@@ -116,7 +116,7 @@ itkRelabelComponentImageFilterTest(int argc, char * argv[])
   connected->SetInput(threshold->GetOutput());
   relabel->SetInput(connected->GetOutput());
 
-  constexpr itk::SizeValueType numberOfObjectsToPrint = 5;
+  constexpr itk::SizeValueType numberOfObjectsToPrint{ 5 };
   relabel->SetNumberOfObjectsToPrint(numberOfObjectsToPrint);
   ITK_TEST_SET_GET_VALUE(numberOfObjectsToPrint, relabel->GetNumberOfObjectsToPrint());
 
@@ -124,7 +124,7 @@ itkRelabelComponentImageFilterTest(int argc, char * argv[])
   relabel->SetMinimumObjectSize(minimumObjectSize);
   ITK_TEST_SET_GET_VALUE(minimumObjectSize, relabel->GetMinimumObjectSize());
 
-  constexpr bool sortByObjectSize = true;
+  constexpr bool sortByObjectSize{ true };
   ITK_TEST_SET_GET_BOOLEAN(relabel, SortByObjectSize, sortByObjectSize);
 
   std::cout << "Modified time of relabel's output = " << relabel->GetOutput()->GetMTime() << std::endl;

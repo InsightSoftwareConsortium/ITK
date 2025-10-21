@@ -39,15 +39,15 @@ itkRegularSphereMeshSourceTest(int, char *[])
 
   auto center = itk::MakeFilled<PointType>(7.4);
 
-  constexpr double radius = 1.5;
-  constexpr double tolerance = 1e-5;
+  constexpr double radius{ 1.5 };
+  constexpr double tolerance{ 1e-5 };
 
   auto scale = itk::MakeFilled<VectorType>(radius);
 
   mySphereMeshSource->SetCenter(center);
   ITK_TEST_SET_GET_VALUE(center, mySphereMeshSource->GetCenter());
 
-  constexpr unsigned int resolution = 1;
+  constexpr unsigned int resolution{ 1 };
   mySphereMeshSource->SetResolution(resolution);
   ITK_TEST_SET_GET_VALUE(resolution, mySphereMeshSource->GetResolution());
 

@@ -36,7 +36,7 @@ itkWarpHarmonicEnergyCalculatorTest(int argc, char * argv[])
   }
 
   // Define the dimension of the images
-  constexpr unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension{ 3 };
 
   using DeformationPixelType = itk::Vector<double, ImageDimension>;
 

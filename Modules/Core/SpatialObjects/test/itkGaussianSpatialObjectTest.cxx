@@ -29,15 +29,15 @@ itkGaussianSpatialObjectTest(int, char *[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(myGaussian, GaussianSpatialObject, SpatialObject);
 
-  constexpr GaussianType::ScalarType maximum = 2;
+  constexpr GaussianType::ScalarType maximum{ 2 };
   myGaussian->SetMaximum(maximum);
   ITK_TEST_SET_GET_VALUE(maximum, myGaussian->GetMaximum());
 
-  constexpr GaussianType::ScalarType radius = 3;
+  constexpr GaussianType::ScalarType radius{ 3 };
   myGaussian->SetRadiusInObjectSpace(radius);
   ITK_TEST_SET_GET_VALUE(radius, myGaussian->GetRadiusInObjectSpace());
 
-  constexpr GaussianType::ScalarType sigma = 1.5;
+  constexpr GaussianType::ScalarType sigma{ 1.5 };
   myGaussian->SetSigmaInObjectSpace(sigma);
   ITK_TEST_SET_GET_VALUE(sigma, myGaussian->GetSigmaInObjectSpace());
 
@@ -97,7 +97,7 @@ itkGaussianSpatialObjectTest(int, char *[])
   myGaussian->Update();
 
   std::cout << "SetOffset" << std::endl;
-  constexpr GaussianType::TransformType::OffsetType::ValueType offset10 = 10.0;
+  constexpr GaussianType::TransformType::OffsetType::ValueType offset10{ 10.0 };
   auto offset = itk::MakeFilled<GaussianType::TransformType::OffsetType>(offset10);
   myGaussian->GetModifiableObjectToWorldTransform()->SetOffset(offset);
   myGaussian->ComputeObjectToParentTransform();
@@ -107,7 +107,7 @@ itkGaussianSpatialObjectTest(int, char *[])
   myGaussian->Update();
 
   std::cout << "SetOffset2" << std::endl;
-  constexpr GaussianType::TransformType::OffsetType::ValueType offset15 = 15.0;
+  constexpr GaussianType::TransformType::OffsetType::ValueType offset15{ 15.0 };
   auto offset2 = itk::MakeFilled<GaussianType::TransformType::OffsetType>(offset15);
   myGaussian2->GetModifiableObjectToWorldTransform()->SetOffset(offset2);
   myGaussian2->ComputeObjectToParentTransform();

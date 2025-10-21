@@ -28,8 +28,8 @@ itkIdentityTransformTest(int, char *[])
   std::cout << "==================================" << std::endl;
   std::cout << "Testing Identity Transform " << std::endl << std::endl;
 
-  constexpr double       epsilon = 1e-10;
-  constexpr unsigned int N = 2;
+  constexpr double       epsilon{ 1e-10 };
+  constexpr unsigned int N{ 2 };
   bool                   Ok = true;
 
   using IdentityTransformType = itk::IdentityTransform<double>;

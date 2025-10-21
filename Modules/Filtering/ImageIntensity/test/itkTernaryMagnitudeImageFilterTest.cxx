@@ -30,7 +30,7 @@ itkTernaryMagnitudeImageFilterTest(int argc, char * argv[])
   }
 
   // Define the dimension of the images
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
 
   // Define the pixel types
   using InputPixelType = float;
@@ -82,7 +82,7 @@ itkTernaryMagnitudeImageFilterTest(int argc, char * argv[])
   InputImage1IteratorType it1(inputImageA, inputImageA->GetBufferedRegion());
 
   // Initialize the content of Image A
-  constexpr InputImage1Type::PixelType valueA = 2.0;
+  constexpr InputImage1Type::PixelType valueA{ 2.0 };
   while (!it1.IsAtEnd())
   {
     it1.Set(valueA);
@@ -93,7 +93,7 @@ itkTernaryMagnitudeImageFilterTest(int argc, char * argv[])
   InputImage2IteratorType it2(inputImageB, inputImageB->GetBufferedRegion());
 
   // Initialize the content of Image B
-  constexpr InputImage2Type::PixelType valueB = 3.0;
+  constexpr InputImage2Type::PixelType valueB{ 3.0 };
   while (!it2.IsAtEnd())
   {
     it2.Set(valueB);
@@ -104,7 +104,7 @@ itkTernaryMagnitudeImageFilterTest(int argc, char * argv[])
   InputImage3IteratorType it3(inputImageC, inputImageC->GetBufferedRegion());
 
   // Initialize the content of Image C
-  constexpr InputImage3Type::PixelType valueC = 4.0;
+  constexpr InputImage3Type::PixelType valueC{ 4.0 };
   while (!it3.IsAtEnd())
   {
     it3.Set(valueC);

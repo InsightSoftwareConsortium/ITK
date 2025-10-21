@@ -34,7 +34,7 @@
 int
 itkImageMaskSpatialObjectTest5(int, char *[])
 {
-  constexpr unsigned int VDimension = 3;
+  constexpr unsigned int VDimension{ 3 };
 
   using ImageMaskSpatialObject = itk::ImageMaskSpatialObject<VDimension>;
   using PixelType = ImageMaskSpatialObject::PixelType;
@@ -42,15 +42,15 @@ itkImageMaskSpatialObjectTest5(int, char *[])
   using Iterator = itk::ImageRegionIterator<ImageType>;
 
   auto                           image = ImageType::New();
-  constexpr ImageType::SizeType  size = { { 50, 50, 50 } };
-  constexpr ImageType::IndexType index = { { 0, 0, 0 } };
+  constexpr ImageType::SizeType  size{ 50, 50, 50 };
+  constexpr ImageType::IndexType index{ 0, 0, 0 };
   ImageType::RegionType          region{ index, size };
 
   image->SetRegions(region);
   image->AllocateInitialized();
 
-  constexpr ImageType::SizeType  insideSize = { { 30, 30, 30 } };
-  constexpr ImageType::IndexType insideIndex = { { 10, 10, 10 } };
+  constexpr ImageType::SizeType  insideSize{ 30, 30, 30 };
+  constexpr ImageType::IndexType insideIndex{ 10, 10, 10 };
   ImageType::RegionType          insideRegion = { insideIndex, insideSize };
 
 

@@ -36,7 +36,7 @@ itkVectorGeometryTest(int, char *[])
 {
 
   // Dimension & Type
-  constexpr unsigned int N = 3;
+  constexpr unsigned int N{ 3 };
   using ValueType = double;
 
   //  Vector type
@@ -191,7 +191,7 @@ itkVectorGeometryTest(int, char *[])
   {
     std::cout << "Test for CastFrom() method... ";
 
-    constexpr float tolerance = 1e-7;
+    constexpr float tolerance{ 1e-7 };
 
     //  Vector Classes
     using DoubleVectorType = itk::Vector<double, N>;

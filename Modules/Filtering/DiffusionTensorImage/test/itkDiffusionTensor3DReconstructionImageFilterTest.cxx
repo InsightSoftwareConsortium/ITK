@@ -65,15 +65,15 @@ itkDiffusionTensor3DReconstructionImageFilterTest(int argc, char * argv[])
     using ReferenceRegionType = ReferenceImageType::RegionType;
     using ReferenceIndexType = ReferenceRegionType::IndexType;
     using ReferenceSizeType = ReferenceRegionType::SizeType;
-    constexpr ReferenceSizeType  sizeReferenceImage = { { 4, 4, 4 } };
-    constexpr ReferenceIndexType indexReferenceImage = { { 0, 0, 0 } };
+    constexpr ReferenceSizeType  sizeReferenceImage{ 4, 4, 4 };
+    constexpr ReferenceIndexType indexReferenceImage{ 0, 0, 0 };
     const ReferenceRegionType    regionReferenceImage{ indexReferenceImage, sizeReferenceImage };
     referenceImage->SetRegions(regionReferenceImage);
     referenceImage->Allocate();
     referenceImage->FillBuffer(100);
 
 
-    constexpr unsigned int numberOfGradientImages = 6;
+    constexpr unsigned int numberOfGradientImages{ 6 };
 
     // Assign gradient directions
     //
@@ -93,8 +93,8 @@ itkDiffusionTensor3DReconstructionImageFilterTest(int argc, char * argv[])
     for (unsigned int i = 0; i < numberOfGradientImages; ++i)
     {
       auto                        gradientImage = GradientImageType::New();
-      constexpr GradientSizeType  sizeGradientImage = { { 4, 4, 4 } };
-      constexpr GradientIndexType indexGradientImage = { { 0, 0, 0 } };
+      constexpr GradientSizeType  sizeGradientImage{ 4, 4, 4 };
+      constexpr GradientIndexType indexGradientImage{ 0, 0, 0 };
       const GradientRegionType    regionGradientImage{ indexGradientImage, sizeGradientImage };
       gradientImage->SetRegions(regionGradientImage);
       gradientImage->Allocate();
@@ -115,7 +115,7 @@ itkDiffusionTensor3DReconstructionImageFilterTest(int argc, char * argv[])
       tensorReconstructionFilter->AddGradientImage(gradientDirection, gradientImage);
       std::cout << "Gradient directions: " << gradientDirection << std::endl;
 
-      constexpr TensorReconstructionImageFilterType::GradientDirectionType::element_type epsilon = 1e-3;
+      constexpr TensorReconstructionImageFilterType::GradientDirectionType::element_type epsilon{ 1e-3 };
       TensorReconstructionImageFilterType::GradientDirectionType                         output =
         tensorReconstructionFilter->GetGradientDirection(i);
       for (unsigned int j = 0; j < gradientDirection.size(); ++j)
@@ -179,9 +179,9 @@ itkDiffusionTensor3DReconstructionImageFilterTest(int argc, char * argv[])
     const TensorImageType::Pointer tensorImage = tensorReconstructionFilter->GetOutput();
     using TensorImageIndexType = TensorImageType::IndexType;
 
-    constexpr TensorImageIndexType tensorImageIndex = { { 3, 3, 3 } };
-    constexpr GradientIndexType    gradientImageIndex = { { 3, 3, 3 } };
-    constexpr ReferenceIndexType   referenceImageIndex = { { 3, 3, 3 } };
+    constexpr TensorImageIndexType tensorImageIndex{ 3, 3, 3 };
+    constexpr GradientIndexType    gradientImageIndex{ 3, 3, 3 };
+    constexpr ReferenceIndexType   referenceImageIndex{ 3, 3, 3 };
 
     std::cout << std::endl << "Pixels at index: " << tensorImageIndex << std::endl;
     std::cout << "Reference pixel " << referenceImage->GetPixel(referenceImageIndex) << std::endl;
@@ -192,13 +192,13 @@ itkDiffusionTensor3DReconstructionImageFilterTest(int argc, char * argv[])
       std::cout << "Gradient image " << i << " pixel : " << gradImage->GetPixel(gradientImageIndex) << std::endl;
     }
 
-    constexpr double expectedResult[3][3] = { { 4.60517, -2.6698, -8.4079 },
-                                              { -2.6698, 1.56783, 0.900034 },
-                                              { -8.4079, 0.900034, 2.62504 } };
+    constexpr double expectedResult[3][3]{ { 4.60517, -2.6698, -8.4079 },
+                                           { -2.6698, 1.56783, 0.900034 },
+                                           { -8.4079, 0.900034, 2.62504 } };
 
     std::cout << std::endl << "Reconstructed tensor : " << std::endl;
     bool             passed = true;
-    constexpr double precision = 0.0001;
+    constexpr double precision{ 0.0001 };
     for (unsigned int i = 0; i < 3; ++i)
     {
       std::cout << '\t';

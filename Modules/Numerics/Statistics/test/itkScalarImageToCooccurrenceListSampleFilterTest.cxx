@@ -23,9 +23,9 @@ int
 itkScalarImageToCooccurrenceListSampleFilterTest(int, char *[])
 {
   // Data definitions
-  constexpr unsigned int IMGWIDTH = 5;
-  constexpr unsigned int IMGHEIGHT = 5;
-  constexpr unsigned int NDIMENSION = 2;
+  constexpr unsigned int IMGWIDTH{ 5 };
+  constexpr unsigned int IMGHEIGHT{ 5 };
+  constexpr unsigned int NDIMENSION{ 2 };
 
 
   //------------------------------------------------------
@@ -38,7 +38,7 @@ itkScalarImageToCooccurrenceListSampleFilterTest(int, char *[])
 
   auto image = InputImageType::New();
 
-  constexpr InputImageType::SizeType inputImageSize = { { IMGWIDTH, IMGHEIGHT } };
+  constexpr InputImageType::SizeType inputImageSize{ IMGWIDTH, IMGHEIGHT };
 
   constexpr InputImageType::IndexType index{};
   InputImageType::RegionType          region{ index, inputImageSize };
@@ -104,7 +104,7 @@ itkScalarImageToCooccurrenceListSampleFilterTest(int, char *[])
 
   filter->SetInput(image);
 
-  constexpr CooccurrenceListType::OffsetType offset = { { 1, 0 } };
+  constexpr CooccurrenceListType::OffsetType offset{ 1, 0 };
 
   filter->UseNeighbor(offset);
 

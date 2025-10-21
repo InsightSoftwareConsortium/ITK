@@ -65,7 +65,7 @@ itkVoronoiPartitioningImageFilterTest(int argc, char * argv[])
   voronoi->SetOutputBoundary(std::stoi(argv[3]) == 1);
   voronoi->SetSteps(7);
 
-  constexpr double sigmaThreshold = 4.0;
+  constexpr double sigmaThreshold{ 4.0 };
   voronoi->SetSigmaThreshold(sigmaThreshold);
   ITK_TEST_SET_GET_VALUE(sigmaThreshold, voronoi->GetSigmaThreshold());
 

@@ -25,11 +25,11 @@
 int
 itkJointDomainImageToListSampleAdaptorTest(int, char *[])
 {
-  constexpr unsigned int MeasurementVectorSize = 8;
+  constexpr unsigned int MeasurementVectorSize{ 8 };
   using MeasurementComponentType = unsigned long;
   using PixelType = itk::FixedArray<MeasurementComponentType, MeasurementVectorSize>;
 
-  constexpr unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension{ 3 };
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
   auto image = ImageType::New();
@@ -206,7 +206,7 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
   adaptor->UsePixelContainerOff();
   JointDomainImageToListSampleAdaptorType::MeasurementVectorType v2 = adaptor->GetMeasurementVector(4);
 
-  constexpr double epsilon = 1e-3;
+  constexpr double epsilon{ 1e-3 };
 
   for (unsigned int m = 0; m < 5; ++m)
   {

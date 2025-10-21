@@ -76,7 +76,7 @@ main(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension{ 2 };
   using PixelType = float;
 
   using FixedImageType = itk::Image<PixelType, ImageDimension>;
@@ -92,8 +92,8 @@ main(int argc, char * argv[])
   //  \index{BSplineTransform!Instantiation}
   //
 
-  constexpr unsigned int SpaceDimension = ImageDimension;
-  constexpr unsigned int SplineOrder = 3;
+  constexpr unsigned int SpaceDimension{ ImageDimension };
+  constexpr unsigned int SplineOrder{ 3 };
   using CoordinateRepType = double;
 
   using TransformType = itk::BSplineTransform<CoordinateRepType, SpaceDimension, SplineOrder>;

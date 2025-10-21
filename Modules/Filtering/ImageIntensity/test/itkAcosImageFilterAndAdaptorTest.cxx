@@ -29,7 +29,7 @@ itkAcosImageFilterAndAdaptorTest(int, char *[])
 {
 
   // Define the dimension of the images
-  constexpr unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension{ 3 };
 
   // Declare the pixel types of the images
   using PixelType = float;
@@ -101,7 +101,7 @@ itkAcosImageFilterAndAdaptorTest(int, char *[])
   OutputIteratorType ot(outputImage, outputImage->GetRequestedRegion());
 
   // Check the content of the result image
-  constexpr OutputImageType::PixelType epsilon = 1e-6;
+  constexpr OutputImageType::PixelType epsilon{ 1e-6 };
   ot.GoToBegin();
   it.GoToBegin();
   while (!ot.IsAtEnd())

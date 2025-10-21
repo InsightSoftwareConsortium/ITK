@@ -23,7 +23,7 @@
 
 namespace
 {
-constexpr unsigned int Dimension = 3;
+constexpr unsigned int Dimension{ 3 };
 
 // This function assumes that the center of mass of both images is the
 // geometrical center.
@@ -91,7 +91,7 @@ RunTest(itk::SmartPointer<TFixedImage> fixedImage, itk::SmartPointer<TMovingImag
   const TransformType::InputPointType &   center1 = transform->GetCenter();
   const TransformType::OutputVectorType & translation1 = transform->GetTranslation();
   const TransformType::OffsetType &       offset1 = transform->GetOffset();
-  constexpr double                        tolerance = 1e-3;
+  constexpr double                        tolerance{ 1e-3 };
 
   // Verifications for the Geometry Mode
   for (unsigned int k = 0; k < Dimension; ++k)
@@ -184,7 +184,7 @@ PopulateImage(itk::SmartPointer<TImage> image)
   const IndexType &  index = region.GetIndex();
 
 
-  constexpr unsigned int border = 20;
+  constexpr unsigned int border{ 20 };
 
   assert(2 * border < size[0]);
   assert(2 * border < size[1]);

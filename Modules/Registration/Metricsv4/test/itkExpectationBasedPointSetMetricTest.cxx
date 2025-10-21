@@ -45,7 +45,7 @@ itkExpectationBasedPointSetMetricTestRun()
   for (float theta = 0; theta < 2.0 * itk::Math::pi; theta += 0.1)
   {
     PointType       fixedPoint;
-    constexpr float radius = 100.0;
+    constexpr float radius{ 100.0 };
     fixedPoint[0] = radius * std::cos(theta);
     fixedPoint[1] = radius * std::sin(theta);
     if constexpr (Dimension > 2)
@@ -81,7 +81,7 @@ itkExpectationBasedPointSetMetricTestRun()
   metric->SetPointSetSigma(pointSetSigma);
   ITK_TEST_SET_GET_VALUE(pointSetSigma, metric->GetPointSetSigma());
 
-  constexpr unsigned int evaluationKNeighborhood = 50;
+  constexpr unsigned int evaluationKNeighborhood{ 50 };
   metric->SetEvaluationKNeighborhood(evaluationKNeighborhood);
   ITK_TEST_SET_GET_VALUE(evaluationKNeighborhood, metric->GetEvaluationKNeighborhood());
 

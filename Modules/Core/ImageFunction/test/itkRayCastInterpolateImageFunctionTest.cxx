@@ -30,7 +30,7 @@ itkRayCastInterpolateImageFunctionTest(int itkNotUsed(argc), char * itkNotUsed(a
 {
 
   using PixelType = unsigned char;
-  constexpr unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension{ 3 };
 
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
@@ -103,7 +103,7 @@ itkRayCastInterpolateImageFunctionTest(int itkNotUsed(argc), char * itkNotUsed(a
   ITK_TEST_SET_GET_VALUE(auxInterpolator, interp->GetInterpolator());
 
   /* Exercise the SetThreshold() method */
-  constexpr double threshold = 1.0;
+  constexpr double threshold{ 1.0 };
   interp->SetThreshold(threshold);
   ITK_TEST_SET_GET_VALUE(threshold, interp->GetThreshold());
 

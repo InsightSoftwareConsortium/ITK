@@ -123,7 +123,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintImage(const ImagePointe
 int
 itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
 {
-  constexpr itk::SizeValueType ImageDimension = 2;
+  constexpr itk::SizeValueType ImageDimension{ 2 };
 
   using ImageType = itk::Image<double, ImageDimension>;
   using VectorType = itk::Vector<double, ImageDimension>;
@@ -149,7 +149,7 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
   auto transformFComp = CompositeTransformType::New();
 
 
-  constexpr itk::SizeValueType imageSize = 6;
+  constexpr itk::SizeValueType imageSize{ 6 };
 
   auto                           size = ImageType::SizeType::Filled(imageSize);
   constexpr ImageType::IndexType index{};
@@ -185,7 +185,7 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
   }
 
   VectorType      zero;
-  constexpr float def_value = -0.5;
+  constexpr float def_value{ -0.5 };
 
   zero.Fill(def_value);
   auto field = FieldType::New();
@@ -342,7 +342,7 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
   std::cout << std::endl << "derivative of moving transform as a field  (sparse threader):" << std::endl;
   ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintDerivativeAsVectorImage(
     fixedImage, derivativeReturnSparse, ImageDimension);
-  constexpr double tolerance = 1e-7;
+  constexpr double tolerance{ 1e-7 };
   if (!derivativeReturn.is_equal(derivativeReturnSparse, tolerance))
   {
     std::cerr << "Results for derivative don't match using dense and sparse threaders: "
@@ -356,7 +356,7 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
   DisplacementTransformType::ParametersType parameters(transformMdisplacement->GetNumberOfParameters());
   parameters.Fill(static_cast<DisplacementTransformType::ParametersValueType>(1000.0));
   transformMdisplacement->SetParameters(parameters);
-  constexpr MetricType::MeasureType expectedMetricMax = itk::NumericTraits<MetricType::MeasureType>::max();
+  constexpr MetricType::MeasureType expectedMetricMax{ itk::NumericTraits<MetricType::MeasureType>::max() };
   std::cout << "Testing non-overlapping images. Expect a warning:" << std::endl;
   MetricType::MeasureType valueReturn = NAN;
   metric->GetValueAndDerivative(valueReturn, derivativeReturn);

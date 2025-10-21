@@ -26,9 +26,9 @@ namespace LSIFTN
 using ImageType = itk::Image<float, 3>;
 using SeedImageType = itk::Image<signed char, 3>;
 
-constexpr int V_WIDTH = 64;
-constexpr int V_HEIGHT = 64;
-constexpr int V_DEPTH = 64;
+constexpr int V_WIDTH{ 64 };
+constexpr int V_HEIGHT{ 64 };
+constexpr int V_DEPTH{ 64 };
 
 float
 sphere(float x, float y, float z)

@@ -24,7 +24,7 @@
 int
 itkThreadedImageRegionPartitionerTest(int, char *[])
 {
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
 
   using ThreadedImageRegionPartitionerType = itk::ThreadedImageRegionPartitioner<Dimension>;
   const ThreadedImageRegionPartitionerType::Pointer threadedImageRegionPartitioner =
@@ -65,7 +65,7 @@ itkThreadedImageRegionPartitionerTest(int, char *[])
   expectedRegion.SetSize(size);
   expectedSubRegions.push_back(expectedRegion);
 
-  constexpr itk::ThreadIdType totalThreads = 4;
+  constexpr itk::ThreadIdType totalThreads{ 4 };
   ImageRegionType             subRegion;
   for (itk::ThreadIdType i = 0; i < totalThreads; ++i)
   {

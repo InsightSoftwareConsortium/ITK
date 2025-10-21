@@ -222,7 +222,7 @@ template <typename TPixel, unsigned int VDimension, typename TAllocator>
 double
 GaussianDerivativeOperator<TPixel, VDimension, TAllocator>::ModifiedBesselI(int n, double y)
 {
-  constexpr double DIGITS = 10.0;
+  constexpr double DIGITS{ 10.0 };
 
   if (n < 2)
   {

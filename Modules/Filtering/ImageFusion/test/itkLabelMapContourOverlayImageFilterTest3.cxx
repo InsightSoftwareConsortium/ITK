@@ -34,7 +34,7 @@ itkLabelMapContourOverlayImageFilterTest3(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr int Dimension = 2;
+  constexpr int Dimension{ 2 };
 
   using ImageType = itk::Image<unsigned char, Dimension>;
 

@@ -120,7 +120,7 @@ itkXMLFileOutputWindowTest(int argc, char * argv[])
   }
 
   // First test with no filename given, to test autogenerating the filename
-  constexpr unsigned int numLinesExpected = 7;
+  constexpr unsigned int numLinesExpected{ 7 };
   bool                   status = DoTestXMLFileOutputWindow("", numLinesExpected);
   const std::string      test1Message{ status ? "TEST ONE PASSED" : "TEST ONE FAILED" };
   std::cout << test1Message << "\n\n" << std::endl;

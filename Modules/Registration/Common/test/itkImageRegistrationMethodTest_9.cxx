@@ -37,7 +37,7 @@ itkImageRegistrationMethodTest_9(int argc, char * argv[])
 
   bool pass = true;
 
-  constexpr unsigned int dimension = 2;
+  constexpr unsigned int dimension{ 2 };
 
   // Fixed Image Type
   using FixedImageType = itk::Image<float, dimension>;
@@ -150,11 +150,11 @@ itkImageRegistrationMethodTest_9(int argc, char * argv[])
   // because the vnl_optimizer is instantiated there.
   vnl_conjugate_gradient * vnlOptimizer = optimizer->GetOptimizer();
 
-  constexpr double F_Tolerance = 1e-3;       // Function value tolerance
-  constexpr double G_Tolerance = 1e-4;       // Gradient magnitude tolerance
-  constexpr double X_Tolerance = 1e-8;       // Search space tolerance
-  constexpr double Epsilon_Function = 1e-10; // Step
-  constexpr int    Max_Iterations = 100;     // Maximum number of iterations
+  constexpr double F_Tolerance{ 1e-3 };       // Function value tolerance
+  constexpr double G_Tolerance{ 1e-4 };       // Gradient magnitude tolerance
+  constexpr double X_Tolerance{ 1e-8 };       // Search space tolerance
+  constexpr double Epsilon_Function{ 1e-10 }; // Step
+  constexpr int    Max_Iterations{ 100 };     // Maximum number of iterations
 
   vnlOptimizer->set_f_tolerance(F_Tolerance);
   vnlOptimizer->set_g_tolerance(G_Tolerance);
@@ -182,7 +182,7 @@ itkImageRegistrationMethodTest_9(int argc, char * argv[])
   const unsigned int numbeOfParameters = actualParameters.Size();
 
 
-  constexpr double tolerance = 1.0; // equivalent to 1 pixel.
+  constexpr double tolerance{ 1.0 }; // equivalent to 1 pixel.
 
   for (unsigned int i = 0; i < numbeOfParameters; ++i)
   {

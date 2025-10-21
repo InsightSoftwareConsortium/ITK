@@ -32,7 +32,7 @@ namespace
 double
 F(double x, double y, double z)
 {
-  constexpr double s = 50;
+  constexpr double s{ 50 };
   double           value = 200.0 * std::exp(-(x * x + y * y + z * z) / (s * s));
   x -= 8;
   y += 3;
@@ -96,7 +96,7 @@ itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   }
 
   InputImageType::SizeType            size = { { 100, 100, 40 } };
-  constexpr InputImageType::IndexType index = { { 0, 0, 0 } };
+  constexpr InputImageType::IndexType index{ 0, 0, 0 };
   const InputImageType::RegionType    region{ index, size };
 
   auto imgTarget = InputImageType::New();

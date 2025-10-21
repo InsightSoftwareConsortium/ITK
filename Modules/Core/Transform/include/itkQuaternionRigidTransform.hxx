@@ -166,7 +166,7 @@ QuaternionRigidTransform<TParametersValueType>::ComputeJacobianWithRespectToPara
   jacobian[2][3] = jacobian[0][1];
 
   // compute derivatives for the translation part
-  constexpr unsigned int blockOffset = 4;
+  constexpr unsigned int blockOffset{ 4 };
   for (unsigned int dim = 0; dim < SpaceDimension; ++dim)
   {
     jacobian[dim][blockOffset + dim] = 1.0;

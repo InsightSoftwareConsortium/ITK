@@ -25,7 +25,7 @@ int
 itkVarianceImageFunctionTest(int, char *[])
 {
 
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
   using PixelType = unsigned char;
 
   using ImageType = itk::Image<PixelType, Dimension>;

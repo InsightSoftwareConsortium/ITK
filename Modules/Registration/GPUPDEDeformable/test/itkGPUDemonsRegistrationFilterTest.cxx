@@ -71,10 +71,10 @@ public:
   typename TRegistration::Pointer m_Process;
 };
 
-constexpr unsigned int numberOfRepeatedTests = 1;
-constexpr float        displacementFieldSmoothingSigma = 1.0;
-constexpr float        updateFieldSmoothingSigma = 1.0;
-constexpr float        maximumRMSError = 0.01;
+constexpr unsigned int numberOfRepeatedTests{ 1 };
+constexpr float        displacementFieldSmoothingSigma{ 1.0 };
+constexpr float        updateFieldSmoothingSigma{ 1.0 };
+constexpr float        maximumRMSError{ 0.01 };
 const bool             smoothUpdateField = true;
 
 itk::TimeProbe m_GPUTime;
@@ -142,7 +142,7 @@ template <unsigned int VDimension>
 int
 GPUDemonsRegistrationFilterTestTemplate(int argc, char * argv[])
 {
-  constexpr unsigned int ImageDimension = VDimension;
+  constexpr unsigned int ImageDimension{ VDimension };
   bool                   passed;
   unsigned int           size1 = 0, size2 = 0;
 

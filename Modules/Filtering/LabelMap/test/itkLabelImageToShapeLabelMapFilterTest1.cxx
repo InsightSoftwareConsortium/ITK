@@ -34,7 +34,7 @@ itkLabelImageToShapeLabelMapFilterTest1(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int dim = 2;
+  constexpr unsigned int dim{ 2 };
 
   using PixelType = unsigned char;
 

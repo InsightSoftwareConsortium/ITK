@@ -83,7 +83,7 @@ auto
 SobelOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients() -> CoefficientVector
 {
   CoefficientVector     coeff;
-  constexpr std::size_t coeff_size = (VDimension == 2) ? 9 : 27;
+  constexpr std::size_t coeff_size{ (VDimension == 2) ? 9 : 27 };
   coeff.reserve(coeff_size);
   if (VDimension == 2 && this->GetDirection() == 0)
   {

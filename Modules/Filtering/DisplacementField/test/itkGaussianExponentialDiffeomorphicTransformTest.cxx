@@ -32,7 +32,7 @@
 int
 itkGaussianExponentialDiffeomorphicTransformTest(int, char *[])
 {
-  constexpr unsigned int dimensions = 2;
+  constexpr unsigned int dimensions{ 2 };
 
   using DisplacementTransformType = itk::GaussianExponentialDiffeomorphicTransform<double, dimensions>;
 
@@ -46,7 +46,7 @@ itkGaussianExponentialDiffeomorphicTransformTest(int, char *[])
   using FieldType = DisplacementTransformType::DisplacementFieldType;
   auto field = FieldType::New(); // This is based on itk::Image
 
-  constexpr int                  dimLength = 20;
+  constexpr int                  dimLength{ 20 };
   constexpr FieldType::SizeType  size{ dimLength, dimLength };
   constexpr FieldType::IndexType start{};
 
@@ -65,7 +65,7 @@ itkGaussianExponentialDiffeomorphicTransformTest(int, char *[])
   using ParametersValueType = DisplacementTransformType::ParametersValueType;
   constexpr ParametersValueType                            paramsZero{};
   DisplacementTransformType::ParametersType                paramsFill(displacementTransform->GetNumberOfParameters());
-  constexpr DisplacementTransformType::ParametersValueType paramsFillValue = 0.0;
+  constexpr DisplacementTransformType::ParametersValueType paramsFillValue{ 0.0 };
   paramsFill.Fill(paramsFillValue);
   // Add an outlier to visually see that some smoothing is taking place.
   constexpr unsigned int outlier = dimLength * dimensions * 4 + dimLength * dimensions / 2;

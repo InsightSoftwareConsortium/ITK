@@ -59,7 +59,7 @@ itkConstantPadImageTest(int, char *[])
   SizeValueType upperFactors[2] = { 0, 0 };
   SizeValueType lowerFactors[2] = { 0, 0 };
 
-  constexpr float constant = 13.3f;
+  constexpr float constant{ 13.3f };
   constantPad->SetConstant(constant);
   // check the method using the SizeType rather than the simple table type.
   constexpr ShortImage::SizeType stfactors{};

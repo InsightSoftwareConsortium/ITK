@@ -100,7 +100,7 @@ itkContourMeanDistanceImageFilterTest(int argc, char * argv[])
 
     // check results
 
-    constexpr FilterType::RealType trueDistance = 8.07158;
+    constexpr FilterType::RealType trueDistance{ 8.07158 };
     // std::sqrt( double{ ImageDimension } );
     const FilterType::RealType distance = filter->GetMeanDistance();
 
@@ -125,7 +125,7 @@ itkContourMeanDistanceImageFilterTest(int argc, char * argv[])
 
 
     // check results
-    constexpr FilterType::RealType trueDistance = 8.07158;
+    constexpr FilterType::RealType trueDistance{ 8.07158 };
     const FilterType::RealType     distance = filter->GetMeanDistance();
 
     std::cout << " True     distance: " << trueDistance << std::endl;
@@ -163,7 +163,7 @@ itkContourMeanDistanceImageFilterTest(int argc, char * argv[])
     filter->Update();
 
     // check results
-    constexpr FilterType::RealType trueDistance = 8.07158 / 2;
+    constexpr FilterType::RealType trueDistance{ 8.07158 / 2 };
     const FilterType::RealType     distance = filter->GetMeanDistance();
     std::cout << " True     distance: " << trueDistance << std::endl;
     std::cout << " Computed distance: " << distance << std::endl;

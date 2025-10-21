@@ -42,7 +42,7 @@ itkOtsuThresholdCalculatorVersusOtsuMultipleThresholdsCalculatorTest(int argc, c
   // histogram bins.
   // The two algorithms should output the same result.
 
-  constexpr unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension{ 2 };
   using InputImageType = itk::Image<unsigned short, ImageDimension>;
   using ReaderType = itk::ImageFileReader<InputImageType>;
 

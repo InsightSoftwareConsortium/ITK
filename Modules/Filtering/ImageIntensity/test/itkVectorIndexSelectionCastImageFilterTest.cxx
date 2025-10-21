@@ -37,7 +37,7 @@ itkVectorIndexSelectionCastImageFilterTest(int argc, char * argv[])
   using InputPixelType = unsigned short;
   using OutputPixelType = unsigned short;
 
-  constexpr unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension{ 2 };
 
   using InputImageType = itk::VectorImage<InputPixelType, ImageDimension>;
   using OutputImageType = itk::Image<OutputPixelType, ImageDimension>;

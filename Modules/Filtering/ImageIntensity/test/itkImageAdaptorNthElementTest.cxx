@@ -146,7 +146,7 @@ itkImageAdaptorNthElementTest(int, char *[])
 
   myFloatIteratorType itf(myFloatImage, myFloatImage->GetRequestedRegion());
 
-  constexpr myFloatPixelType initialFloatValue = 5.0;
+  constexpr myFloatPixelType initialFloatValue{ 5.0 };
 
   while (!itf.IsAtEnd())
   {

@@ -35,7 +35,7 @@ itkSimpleContourExtractorImageFilterTest(int argc, char * argv[])
   }
 
   // Define the dimension of the images
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
 
   // Define the pixel type
   using PixelType = unsigned char;
@@ -69,9 +69,9 @@ itkSimpleContourExtractorImageFilterTest(int argc, char * argv[])
   filter->SetInput(reader->GetOutput());
   writer->SetInput(filter->GetOutput());
 
-  constexpr FilterType::InputPixelType  inputForegroundValue = 255;
-  constexpr FilterType::InputPixelType  inputBackgroundValue = 0;
-  constexpr FilterType::OutputPixelType outputForegroundValue = itk::NumericTraits<FilterType::OutputPixelType>::max();
+  constexpr FilterType::InputPixelType  inputForegroundValue{ 255 };
+  constexpr FilterType::InputPixelType  inputBackgroundValue{ 0 };
+  constexpr FilterType::OutputPixelType outputForegroundValue{ itk::NumericTraits<FilterType::OutputPixelType>::max() };
   constexpr FilterType::OutputPixelType outputBackgroundValue{};
 
   filter->SetInputForegroundValue(inputForegroundValue);

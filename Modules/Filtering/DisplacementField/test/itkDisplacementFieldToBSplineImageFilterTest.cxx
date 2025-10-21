@@ -22,7 +22,7 @@
 int
 itkDisplacementFieldToBSplineImageFilterTest(int, char *[])
 {
-  constexpr unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension{ 2 };
 
   using VectorType = itk::Vector<float, ImageDimension>;
   using DisplacementFieldType = itk::Image<VectorType, ImageDimension>;
@@ -102,7 +102,7 @@ itkDisplacementFieldToBSplineImageFilterTest(int, char *[])
   bspliner->SetNumberOfControlPoints(numberOfControlPoints);
   ITK_TEST_SET_GET_VALUE(numberOfControlPoints, bspliner->GetNumberOfControlPoints());
 
-  constexpr unsigned int splineOrder = 3;
+  constexpr unsigned int splineOrder{ 3 };
   bspliner->SetSplineOrder(splineOrder);
   ITK_TEST_SET_GET_VALUE(splineOrder, bspliner->GetSplineOrder());
 

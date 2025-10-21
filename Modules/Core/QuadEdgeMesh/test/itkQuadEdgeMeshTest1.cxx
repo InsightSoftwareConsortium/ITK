@@ -24,7 +24,7 @@ itkQuadEdgeMeshTest1(int, char *[])
   std::cout << "Testing points..." << std::endl;
 
   using PixelType = double;
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
   using MeshType = itk::QuadEdgeMesh<PixelType, Dimension>;
   using CellTraits = MeshType::CellTraits;
   using QEType = CellTraits::QuadEdgeType;

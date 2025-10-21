@@ -33,9 +33,9 @@
 int
 itkBSplineScatteredDataPointSetToImageFilterTest4(int, char *[])
 {
-  constexpr unsigned int ParametricDimension = 3;
-  constexpr unsigned int DataDimension = 3;
-  constexpr unsigned int SplineOrder = 3;
+  constexpr unsigned int ParametricDimension{ 3 };
+  constexpr unsigned int DataDimension{ 3 };
+  constexpr unsigned int SplineOrder{ 3 };
 
   using RealType = float;
   using VectorType = itk::Vector<RealType, DataDimension>;
@@ -72,7 +72,7 @@ itkBSplineScatteredDataPointSetToImageFilterTest4(int, char *[])
   landmarkInSecondImage1[1] = 5.0;
   landmarkInSecondImage1[2] = 5.0;
 
-  constexpr RealType weight1 = 1.0;
+  constexpr RealType weight1{ 1.0 };
   weights->InsertElement(0, weight1);
 
   VectorType vector1;
@@ -95,7 +95,7 @@ itkBSplineScatteredDataPointSetToImageFilterTest4(int, char *[])
   landmarkInSecondImage2[1] = 35.0;
   landmarkInSecondImage2[2] = 45.0;
 
-  constexpr RealType weight2 = 3.0;
+  constexpr RealType weight2{ 3.0 };
   weights->InsertElement(1, weight2);
 
   VectorType vector2;
@@ -118,7 +118,7 @@ itkBSplineScatteredDataPointSetToImageFilterTest4(int, char *[])
   landmarkInSecondImage3[1] = 35.0;
   landmarkInSecondImage3[2] = 45.0;
 
-  constexpr RealType weight3 = 0.5;
+  constexpr RealType weight3{ 0.5 };
   weights->InsertElement(2, weight3);
 
   VectorType vector3;

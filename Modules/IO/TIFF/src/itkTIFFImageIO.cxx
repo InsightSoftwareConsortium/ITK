@@ -617,10 +617,10 @@ TIFFImageIO::InternalWrite(const void * buffer)
   const char * mode = "w";
 
   // If the size of the image is greater than 2 GiB then use big tiff
-  constexpr SizeType oneKibiByte = 1024;
-  constexpr SizeType oneMebiByte = 1024 * oneKibiByte;
-  constexpr SizeType oneGibiByte = 1024 * oneMebiByte;
-  constexpr SizeType twoGibiBytes = 2 * oneGibiByte;
+  constexpr SizeType oneKibiByte{ 1024 };
+  constexpr SizeType oneMebiByte{ 1024 * oneKibiByte };
+  constexpr SizeType oneGibiByte{ 1024 * oneMebiByte };
+  constexpr SizeType twoGibiBytes{ 2 * oneGibiByte };
 
   if (this->GetImageSizeInBytes() > twoGibiBytes)
   {

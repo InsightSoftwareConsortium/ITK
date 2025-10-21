@@ -35,15 +35,15 @@ ExtractImageInPlaceTest()
 
   using SourceType = itk::RandomImageSource<ImageType>;
   auto                          source = SourceType::New();
-  constexpr ImageType::SizeType size = { { 32, 32, 32 } };
+  constexpr ImageType::SizeType size{ 32, 32, 32 };
   source->SetSize(size);
 
   source->UpdateLargestPossibleRegion();
 
 
-  constexpr ImageType::IndexType extractIndex = { { 16, 16, 16 } };
-  constexpr ImageType::SizeType  extractSize = { { 8, 8, 8 } };
-  constexpr ImageType::SizeType  zeroSize = { { 0, 0, 0 } };
+  constexpr ImageType::IndexType extractIndex{ 16, 16, 16 };
+  constexpr ImageType::SizeType  extractSize{ 8, 8, 8 };
+  constexpr ImageType::SizeType  zeroSize{ 0, 0, 0 };
 
   using ExtractFilterType = itk::ExtractImageFilter<ImageType, ImageType>;
   auto extract = ExtractFilterType::New();

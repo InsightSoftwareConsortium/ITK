@@ -124,8 +124,8 @@ int
 itkCorrelationImageToImageMetricv4Test(int, char ** const)
 {
 
-  constexpr unsigned int imageSize = 20;
-  constexpr unsigned int imageDimensionality = 3;
+  constexpr unsigned int imageSize{ 20 };
+  constexpr unsigned int imageDimensionality{ 3 };
   using ImageType = itk::Image<double, imageDimensionality>;
 
   auto                           size = ImageType::SizeType::Filled(imageSize);
@@ -225,7 +225,7 @@ itkCorrelationImageToImageMetricv4Test(int, char ** const)
     result = EXIT_FAILURE;
   }
 
-  constexpr double myeps = 1e-8;
+  constexpr double myeps{ 1e-8 };
   if (itk::Math::abs(value1 - value2) > 1e-8)
   {
     std::cerr << "value1: " << value1 << std::endl;
@@ -248,7 +248,7 @@ itkCorrelationImageToImageMetricv4Test(int, char ** const)
   MovingTransformType::ParametersType parameters(imageDimensionality);
   parameters.Fill(static_cast<MovingTransformType::ParametersValueType>(1000));
   movingTransform->SetParameters(parameters);
-  constexpr MetricType::MeasureType expectedMetricMax = itk::NumericTraits<MetricType::MeasureType>::max();
+  constexpr MetricType::MeasureType expectedMetricMax{ itk::NumericTraits<MetricType::MeasureType>::max() };
   std::cout << "Testing non-overlapping images. Expect a warning:" << std::endl;
   MetricType::MeasureType    valueReturn = NAN;
   MetricType::DerivativeType derivativeReturn;

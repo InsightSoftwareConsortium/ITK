@@ -165,9 +165,9 @@ itkVectorInterpolateImageFunctionTest(int, char *[])
 
   std::cout << "Testing vector image interpolation: " << std::endl;
 
-  constexpr ImageType::SizeType size = { { 20, 40, 80 } };
-  constexpr double              origin[3] = { 0.5, 0.5, 0.5 };
-  constexpr double              spacing[3] = { 0.1, 0.05, 0.025 };
+  constexpr ImageType::SizeType size{ 20, 40, 80 };
+  constexpr double              origin[3]{ 0.5, 0.5, 0.5 };
+  constexpr double              spacing[3]{ 0.1, 0.05, 0.025 };
 
   // Create a test image
   auto                  image = ImageType::New();
@@ -277,9 +277,9 @@ itkVectorInterpolateImageFunctionTest(int, char *[])
 
   // position near image border
   {
-    constexpr itk::SpacePrecisionType epsilon = 1.0e-10;
+    constexpr itk::SpacePrecisionType epsilon{ 1.0e-10 };
     constexpr itk::SpacePrecisionType darray[3] = { 19 - epsilon, 20, 40 };
-    constexpr double                  temp[3] = { 79, 158, 237 };
+    constexpr double                  temp[3]{ 79, 158, 237 };
     output = OutputType(temp);
     cindex = ContinuousIndexType(darray);
     passed = TestContinuousIndex(interp, cindex, true, output);
@@ -300,8 +300,8 @@ itkVectorInterpolateImageFunctionTest(int, char *[])
 
   // position outside the image
   {
-    constexpr itk::SpacePrecisionType darray[3] = { 20, 20, 40 };
-    constexpr double                  temp[3] = { 1, 1, 1 };
+    constexpr itk::SpacePrecisionType darray[3]{ 20, 20, 40 };
+    constexpr double                  temp[3]{ 1, 1, 1 };
     output = OutputType(temp);
     cindex = ContinuousIndexType(darray);
     passed = TestContinuousIndex(interp, cindex, false, output);
@@ -322,8 +322,8 @@ itkVectorInterpolateImageFunctionTest(int, char *[])
 
   // at non-integer position
   {
-    constexpr itk::SpacePrecisionType darray[3] = { 5.25, 12.5, 42.0 };
-    constexpr double                  temp[3] = { 59.75, 119.5, 179.25 };
+    constexpr itk::SpacePrecisionType darray[3]{ 5.25, 12.5, 42.0 };
+    constexpr double                  temp[3]{ 59.75, 119.5, 179.25 };
     output = OutputType(temp);
     cindex = ContinuousIndexType(darray);
     passed = TestContinuousIndex(interp, cindex, true, output);

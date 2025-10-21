@@ -28,7 +28,7 @@
 int
 itkMRIBiasFieldCorrectionFilterTest(int, char *[])
 {
-  constexpr unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension{ 3 };
 
   using InputImagePixelType = float;
 
@@ -46,9 +46,9 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   auto imageWithBias = ImageType::New();
   imageWithBias->SetBufferedRegion(imageRegion);
   imageWithBias->SetLargestPossibleRegion(imageRegion);
-  constexpr float spacing[ImageDimension] = { 1.0, 1.0, 1.0 };
+  constexpr float spacing[ImageDimension]{ 1.0, 1.0, 1.0 };
   imageWithBias->SetSpacing(spacing);
-  constexpr float origin[ImageDimension] = { 0, 0, 0 };
+  constexpr float origin[ImageDimension]{ 0, 0, 0 };
   imageWithBias->SetOrigin(origin);
   imageWithBias->Allocate();
 
@@ -114,7 +114,7 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   // creates a bias field
   using BiasFieldType = itk::MultivariateLegendrePolynomial;
   BiasFieldType::DomainSizeType biasSize(3);
-  constexpr int                 biasDegree = 3;
+  constexpr int                 biasDegree{ 3 };
   biasSize[0] = imageSize[0];
   biasSize[1] = imageSize[1];
   biasSize[2] = imageSize[2];
@@ -178,18 +178,18 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
 
   filter->SetInput(imageWithBias);
 
-  constexpr int                 slicingDirection = 2;
-  constexpr bool                isBiasFieldMultiplicative = true;
+  constexpr int                 slicingDirection{ 2 };
+  constexpr bool                isBiasFieldMultiplicative{ true };
   bool                          usingSlabIdentification = true;
-  constexpr bool                usingBiasFieldCorrection = true;
-  constexpr bool                generatingOutput = true;
-  constexpr unsigned int        slabNumberOfSamples = 10;
-  constexpr InputImagePixelType slabBackgroundMinimumThreshold = 0;
-  constexpr double              slabTolerance = 0.0;
+  constexpr bool                usingBiasFieldCorrection{ true };
+  constexpr bool                generatingOutput{ true };
+  constexpr unsigned int        slabNumberOfSamples{ 10 };
+  constexpr InputImagePixelType slabBackgroundMinimumThreshold{ 0 };
+  constexpr double              slabTolerance{ 0.0 };
   int                           volumeCorrectionMaximumIteration = 200;
   int                           interSliceCorrectionMaximumIteration = 100;
   double                        optimizerInitialRadius = 0.02;
-  constexpr double              optimizerGrowthFactor = 1.01;
+  constexpr double              optimizerGrowthFactor{ 1.01 };
   const double                  optimizerShrinkFactor = std::pow(optimizerGrowthFactor, -0.25);
   bool                          usingInterSliceIntensityCorrection = true;
 

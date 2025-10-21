@@ -288,7 +288,7 @@ public:
   [[nodiscard]] bool
   IsInside(const ContinuousIndex<TCoordinate, VImageDimension> & index) const
   {
-    constexpr TCoordinate half = 0.5;
+    constexpr TCoordinate half{ 0.5 };
     for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       // Use negation of tests so that index[i]==NaN leads to returning false.

@@ -44,7 +44,7 @@ template <typename ScalarType, unsigned int TVecLength, unsigned int TDimension>
 int
 TestImageOfVectors(const std::string & fname, const std::string & intentCode = "")
 {
-  constexpr int dimsize = 2;
+  constexpr int dimsize{ 2 };
   /** Deformation field pixel type. */
   using FieldPixelType = typename itk::Vector<ScalarType, TVecLength>;
 

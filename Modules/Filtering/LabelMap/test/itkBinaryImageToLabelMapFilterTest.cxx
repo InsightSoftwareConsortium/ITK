@@ -37,7 +37,7 @@ itkBinaryImageToLabelMapFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
 
   using BinaryPixelType = unsigned char;
   using LabelPixelType = unsigned char;
