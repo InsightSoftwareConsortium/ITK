@@ -162,8 +162,8 @@ itkVideoStreamTest(int, char *[])
 
   // Set the buffered temporal region
   VideoType::TemporalRegionType temporalRegion;
-  constexpr SizeValueType       startFrame = 0;
-  constexpr SizeValueType       numFrames = 5;
+  constexpr SizeValueType       startFrame{ 0 };
+  constexpr SizeValueType       numFrames{ 5 };
   temporalRegion.SetFrameStart(startFrame);
   temporalRegion.SetFrameDuration(numFrames);
   video1->SetLargestPossibleTemporalRegion(temporalRegion);

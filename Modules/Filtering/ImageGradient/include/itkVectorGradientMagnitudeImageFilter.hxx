@@ -256,7 +256,7 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>::CubicS
   // found in s.
 
   const double     dpi = itk::Math::pi;
-  constexpr double epsilon = 1.0e-11;
+  constexpr double epsilon{ 1.0e-11 };
 
   // Substitution of  x = y - c[2]/3 eliminate the quadric term  x^3 +px + q = 0
   const double sq_c2 = c[2] * c[2];

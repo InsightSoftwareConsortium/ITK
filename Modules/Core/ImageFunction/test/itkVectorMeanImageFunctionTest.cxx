@@ -24,9 +24,9 @@ int
 itkVectorMeanImageFunctionTest(int, char *[])
 {
 
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
   using PixelComponentType = unsigned char;
-  constexpr unsigned int VectorDimension = 4;
+  constexpr unsigned int VectorDimension{ 4 };
 
   using PixelType = itk::FixedArray<PixelComponentType, VectorDimension>;
 

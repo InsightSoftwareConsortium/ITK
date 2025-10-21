@@ -27,7 +27,7 @@ itkSubtractImageFilterTest(int, char *[])
 {
 
   // Define the dimension of the images
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
 
   // Declare the pixel types of the images
   using PixelType = float;
@@ -68,11 +68,11 @@ itkSubtractImageFilterTest(int, char *[])
   inputImageB->Allocate();
 
   // Initialize the content of Image A
-  constexpr InputImageType1::PixelType valueA = 2.0;
+  constexpr InputImageType1::PixelType valueA{ 2.0 };
   inputImageA->FillBuffer(valueA);
 
   // Initialize the content of Image B
-  constexpr InputImageType2::PixelType valueB = 3.0;
+  constexpr InputImageType2::PixelType valueB{ 3.0 };
   inputImageB->FillBuffer(valueB);
 
 

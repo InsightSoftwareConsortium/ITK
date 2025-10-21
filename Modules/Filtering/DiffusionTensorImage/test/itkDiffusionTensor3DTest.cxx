@@ -219,7 +219,7 @@ itkDiffusionTensor3DTest(int, char *[])
     std::cout << "EigenVectors = " << std::endl;
     std::cout << eigenVectors << std::endl;
 
-    constexpr double tolerance = 1e-4;
+    constexpr double tolerance{ 1e-4 };
 
     {
       Double3DTensorType::EigenValuesArrayType expectedValues;
@@ -345,7 +345,7 @@ itkDiffusionTensor3DTest(int, char *[])
     expectedTrace += tensor3(1, 1);
     expectedTrace += tensor3(2, 2);
 
-    constexpr double tolerance = 1e-4;
+    constexpr double tolerance{ 1e-4 };
 
     const AccumulateValueType computedTrace = tensor3.GetTrace();
     if (itk::Math::abs(computedTrace - expectedTrace) > tolerance)
@@ -357,7 +357,7 @@ itkDiffusionTensor3DTest(int, char *[])
     }
 
     // Test the value of internal scalar product
-    constexpr RealValueType expectedInternalScalarProduct = 1829;
+    constexpr RealValueType expectedInternalScalarProduct{ 1829 };
 
     const RealValueType computedInternalScalarProduct = tensor3.GetInnerScalarProduct();
     if (itk::Math::abs(computedInternalScalarProduct - expectedInternalScalarProduct) > tolerance)
@@ -370,7 +370,7 @@ itkDiffusionTensor3DTest(int, char *[])
 
 
     // Test the value of Fractional Anisotropy
-    constexpr RealValueType expectedFractionalAnisotropy = 0.349177;
+    constexpr RealValueType expectedFractionalAnisotropy{ 0.349177 };
 
     const RealValueType computedFractionalAnisotropy = tensor3.GetFractionalAnisotropy();
     if (itk::Math::abs(computedFractionalAnisotropy - expectedFractionalAnisotropy) > tolerance)
@@ -382,7 +382,7 @@ itkDiffusionTensor3DTest(int, char *[])
     }
 
     // Test the value of Relative Anisotropy
-    constexpr RealValueType expectedRelativeAnisotropy = 1.9044;
+    constexpr RealValueType expectedRelativeAnisotropy{ 1.9044 };
 
     const RealValueType computedRelativeAnisotropy = tensor3.GetRelativeAnisotropy();
     if (itk::Math::abs(computedRelativeAnisotropy - expectedRelativeAnisotropy) > tolerance)
@@ -444,7 +444,7 @@ itkDiffusionTensor3DTest(int, char *[])
     auto floatTensor3 = static_cast<Float3DTensorType>(intTensor);
 
     // Check that all floatTensors have are the same
-    constexpr float precision = 1e-6;
+    constexpr float precision{ 1e-6 };
     for (unsigned int i = 0; i < Float3DTensorType::InternalDimension; ++i)
     {
       auto intVal = static_cast<float>(intTensor[i]);

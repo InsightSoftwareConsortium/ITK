@@ -1030,7 +1030,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::Iterate()
 
   // Controls how often we check for balance of the load among the threads and
   // perform load balancing (if needed) by redistributing the load.
-  constexpr unsigned int LOAD_BALANCE_ITERATION_FREQUENCY = 30;
+  constexpr unsigned int LOAD_BALANCE_ITERATION_FREQUENCY{ 30 };
 
   if (!this->m_IsInitialized)
   {
@@ -2035,7 +2035,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::CheckLoadBala
 {
   // This parameter defines a degree of unbalancedness of the load among
   // threads.
-  constexpr float MAX_PIXEL_DIFFERENCE_PERCENT = 0.025;
+  constexpr float MAX_PIXEL_DIFFERENCE_PERCENT{ 0.025 };
 
   m_BoundaryChanged = false;
 

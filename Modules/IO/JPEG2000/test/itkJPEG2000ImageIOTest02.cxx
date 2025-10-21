@@ -41,7 +41,7 @@ itkJPEG2000ImageIOTest02(int argc, char * argv[])
   //  Image types are defined below.
   using InputPixelType = unsigned short;
   using OutputPixelType = unsigned short;
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
 
   using InputImageType = itk::Image<InputPixelType, Dimension>;
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;

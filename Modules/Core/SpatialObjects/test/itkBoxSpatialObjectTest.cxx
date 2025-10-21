@@ -33,7 +33,7 @@ itkBoxSpatialObjectTest(int argc, char * argv[])
     std::cerr << "Missing Parameters: Usage " << itkNameOfTestExecutableMacro(argv) << "OutputImageFile" << std::endl;
   }
 
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
   using SceneType = itk::GroupSpatialObject<Dimension>;
   using BoxType = itk::BoxSpatialObject<Dimension>;
   using OutputImageType = itk::Image<unsigned char, Dimension>;

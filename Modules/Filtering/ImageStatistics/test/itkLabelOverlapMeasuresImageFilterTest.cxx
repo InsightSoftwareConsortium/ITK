@@ -163,7 +163,7 @@ itkLabelOverlapMeasuresImageFilterTest(int argc, char * argv[])
   }
 
   // Instantiate the filter
-  constexpr unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension{ 3 };
   using PixelType = unsigned int;
   using ImageType = itk::Image<PixelType, ImageDimension>;
 

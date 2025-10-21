@@ -38,7 +38,7 @@ itkTriangleMeshToBinaryImageFilterTest4(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
 
   using MeshType = itk::Mesh<float, Dimension>;
   using ReaderType = itk::MeshFileReader<MeshType>;
@@ -86,7 +86,7 @@ itkTriangleMeshToBinaryImageFilterTest4(int argc, char * argv[])
   spacing[2] = std::stod(argv[11]);
 
 
-  constexpr ImageType::IndexType index3D = { { 0, 0, 0 } };
+  constexpr ImageType::IndexType index3D{ 0, 0, 0 };
   const ImageType::RegionType    region3D{ index3D, size };
 
   auto inputImage = ImageType::New();

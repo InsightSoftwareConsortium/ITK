@@ -92,7 +92,7 @@ itkVectorExpandImageFilterTest(int, char *[])
 
   std::cout << "Create the input image pattern." << std::endl;
   ImageType::RegionType         region;
-  constexpr ImageType::SizeType size = { { 64, 64 } };
+  constexpr ImageType::SizeType size{ 64, 64 };
   region.SetSize(size);
 
   auto input = ImageType::New();
@@ -108,7 +108,7 @@ itkVectorExpandImageFilterTest(int, char *[])
     pattern.m_Coeff[j] = 1.0;
   }
 
-  constexpr double vectorCoeff[VectorDimension] = { 1.0, 4.0, 6.0 };
+  constexpr double vectorCoeff[VectorDimension]{ 1.0, 4.0, 6.0 };
 
   using Iterator = itk::ImageRegionIteratorWithIndex<ImageType>;
   Iterator inIter(input, region);

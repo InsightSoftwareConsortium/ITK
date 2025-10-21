@@ -56,7 +56,7 @@ itkFFTNormalizedCorrelationImageFilterTest(int argc, char * argv[])
   char *                              fixedImageFileName = argv[1];
   char *                              movingImageFileName = argv[2];
   const char *                        outputImageFileName = argv[3];
-  constexpr FilterType::SizeValueType requiredNumberOfOverlappingPixels = 0;
+  constexpr FilterType::SizeValueType requiredNumberOfOverlappingPixels{ 0 };
   FilterType::RealPixelType           requiredFractionOfOverlappingPixels = 0;
   if (argc > 4)
   {

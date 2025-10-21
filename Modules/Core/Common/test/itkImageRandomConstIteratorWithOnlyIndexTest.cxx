@@ -26,7 +26,7 @@ itkImageRandomConstIteratorWithOnlyIndexTest(int, char *[])
 {
   std::cout << "Creating an image of indices" << std::endl;
 
-  constexpr unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension{ 3 };
 
   using PixelType = itk::Index<ImageDimension>;
 
@@ -41,7 +41,7 @@ itkImageRandomConstIteratorWithOnlyIndexTest(int, char *[])
   size0[1] = 100;
   size0[2] = 100;
 
-  constexpr unsigned long numberOfSamples = 10;
+  constexpr unsigned long numberOfSamples{ 10 };
 
   constexpr ImageType::IndexType start0{};
 

@@ -52,7 +52,7 @@ itkKalmanLinearEstimatorTest(int, char *[])
   planeEquation(4) = 4.0;
   planeEquation(5) = 6.0;
 
-  constexpr unsigned int N = 10;
+  constexpr unsigned int N{ 10 };
 
   VectorType predictor;
   predictor(5) = 1.0;
@@ -105,7 +105,7 @@ itkKalmanLinearEstimatorTest(int, char *[])
 
   bool pass = true;
 
-  constexpr float tolerance = 1e-4;
+  constexpr float tolerance{ 1e-4 };
 
   if (errorMagnitude > tolerance)
   {

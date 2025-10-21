@@ -46,8 +46,8 @@
 int
 itkFEMScatteredDataPointSetToImageFilterTest(int, char *[])
 {
-  constexpr unsigned int ParametricDimension = 2;
-  constexpr unsigned int DataDimension = 2;
+  constexpr unsigned int ParametricDimension{ 2 };
+  constexpr unsigned int DataDimension{ 2 };
 
   using RealType = float;
   using VectorType = itk::Vector<RealType, DataDimension>;

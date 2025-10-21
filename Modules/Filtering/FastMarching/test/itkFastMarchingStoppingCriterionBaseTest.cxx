@@ -70,7 +70,7 @@ int
 itkFastMarchingStoppingCriterionBaseTest(int, char *[])
 {
   using PixelType = float;
-  constexpr unsigned int Dimension2D = 2;
+  constexpr unsigned int Dimension2D{ 2 };
 
   using ImageType = itk::Image<PixelType, Dimension2D>;
 
@@ -82,7 +82,7 @@ itkFastMarchingStoppingCriterionBaseTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension3D = 3;
+  constexpr unsigned int Dimension3D{ 3 };
   using MeshType = itk::QuadEdgeMesh<PixelType, Dimension3D>;
 
   using MeshStoppingCriterionType = itk::FastMarchingStoppingCriterionBaseHelperTest<MeshType, MeshType>;

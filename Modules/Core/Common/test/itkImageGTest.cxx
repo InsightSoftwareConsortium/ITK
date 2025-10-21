@@ -221,7 +221,7 @@ TEST(Image, IsXImageGeometry)
 
   const auto image1 = generate_image<ImageType>({ 2, 2 });
 
-  constexpr double tol = 1e-8;
+  constexpr double tol{ 1e-8 };
 
 
   auto image2 = generate_image<ImageType>({ 2, 2 });

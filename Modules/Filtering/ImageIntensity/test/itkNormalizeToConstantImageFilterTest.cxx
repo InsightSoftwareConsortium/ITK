@@ -27,7 +27,7 @@
 int
 itkNormalizeToConstantImageFilterTest(int, char *[])
 {
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
   using IntPixelType = int;
   using DoublePixelType = double;
 
@@ -42,8 +42,8 @@ itkNormalizeToConstantImageFilterTest(int, char *[])
 
   source->SetSize(randomSize);
 
-  constexpr IntImage::PixelType minValue = 0;
-  constexpr IntImage::PixelType maxValue = 1000;
+  constexpr IntImage::PixelType minValue{ 0 };
+  constexpr IntImage::PixelType maxValue{ 1000 };
   source->SetMin(minValue);
   source->SetMax(maxValue);
 

@@ -57,7 +57,7 @@ itkGaborImageSourceTestHelper(char * outputFilename, bool calculcateImaginaryPar
   gaborImage->SetMean(mean);
   ITK_TEST_SET_GET_VALUE(mean, gaborImage->GetMean());
 
-  constexpr double frequency = 0.1;
+  constexpr double frequency{ 0.1 };
   gaborImage->SetFrequency(frequency);
   ITK_TEST_SET_GET_VALUE(frequency, gaborImage->GetFrequency());
 
@@ -96,7 +96,7 @@ itkGaborImageSourceTest(int argc, char * argv[])
   }
 
 
-  constexpr unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension{ 2 };
   using PixelType = float;
 
   using ImageType = itk::Image<PixelType, ImageDimension>;

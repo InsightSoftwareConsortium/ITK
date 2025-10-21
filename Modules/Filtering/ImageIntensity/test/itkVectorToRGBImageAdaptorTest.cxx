@@ -45,11 +45,11 @@ itkVectorToRGBImageAdaptorTest(int, char *[])
 
   using ValueType = float;
 
-  constexpr unsigned int numberOfComponents = 3;
+  constexpr unsigned int numberOfComponents{ 3 };
 
   using VectorPixelType = itk::Vector<ValueType, numberOfComponents>;
 
-  constexpr unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension{ 2 };
 
   using ImageType = itk::Image<VectorPixelType, ImageDimension>;
   using ImageAdaptorType = itk::VectorToRGBImageAdaptor<ImageType>;

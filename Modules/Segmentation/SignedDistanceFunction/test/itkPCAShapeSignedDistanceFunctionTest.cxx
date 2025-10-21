@@ -37,10 +37,10 @@ int
 itkPCAShapeSignedDistanceFunctionTest(int, char *[])
 {
   using CoordRep = double;
-  constexpr unsigned int Dimension = 2;
-  constexpr unsigned int ImageWidth = 3;
-  constexpr unsigned int ImageHeight = 2;
-  constexpr unsigned int NumberOfPCs = 3;
+  constexpr unsigned int Dimension{ 2 };
+  constexpr unsigned int ImageWidth{ 3 };
+  constexpr unsigned int ImageHeight{ 2 };
+  constexpr unsigned int NumberOfPCs{ 3 };
 
 
   // define a pca shape function
@@ -59,7 +59,7 @@ itkPCAShapeSignedDistanceFunctionTest(int, char *[])
   // prepare for image creation
   using ImageType = ShapeFunction::ImageType;
 
-  constexpr ImageType::SizeType imageSize = { { ImageWidth, ImageHeight } };
+  constexpr ImageType::SizeType imageSize{ ImageWidth, ImageHeight };
 
   constexpr ImageType::IndexType startIndex{};
 

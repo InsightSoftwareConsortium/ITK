@@ -50,7 +50,7 @@ PrintImg(ImageType::Pointer img, const OrientImageFilterType::PermuteOrderArrayT
 ImageType::Pointer
 CreateAxialImage()
 {
-  constexpr ImageType::SizeType imageSize = { { 4, 4, 4 } };
+  constexpr ImageType::SizeType imageSize{ 4, 4, 4 };
   ImageType::IndexType          imageIndex = { { 0, 0, 0 } };
   const ImageType::RegionType   region{ imageIndex, imageSize };
   auto                          img = ImageType::New();
@@ -102,7 +102,7 @@ CreateAxialImage()
 ImageType::Pointer
 CreateCoronalImage()
 {
-  constexpr ImageType::SizeType imageSize = { { 4, 4, 4 } };
+  constexpr ImageType::SizeType imageSize{ 4, 4, 4 };
   ImageType::IndexType          imageIndex = { { 0, 0, 0 } };
   const ImageType::RegionType   region{ imageIndex, imageSize };
   auto                          img = ImageType::New();

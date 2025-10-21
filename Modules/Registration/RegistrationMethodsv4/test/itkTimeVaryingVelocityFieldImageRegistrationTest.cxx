@@ -294,7 +294,7 @@ PerformTimeVaryingVelocityFieldImageRegistration(int argc, char * argv[])
   velocityFieldRegistration->SetConvergenceThreshold(convergenceThreshold);
   ITK_TEST_SET_GET_VALUE(convergenceThreshold, velocityFieldRegistration->GetConvergenceThreshold());
 
-  constexpr unsigned int convergenceWindowSize = 10;
+  constexpr unsigned int convergenceWindowSize{ 10 };
   velocityFieldRegistration->SetConvergenceWindowSize(convergenceWindowSize);
   ITK_TEST_SET_GET_VALUE(convergenceWindowSize, velocityFieldRegistration->GetConvergenceWindowSize());
 

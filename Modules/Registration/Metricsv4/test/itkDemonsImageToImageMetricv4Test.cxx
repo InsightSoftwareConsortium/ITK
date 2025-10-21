@@ -32,8 +32,8 @@ int
 itkDemonsImageToImageMetricv4Test(int, char ** const)
 {
 
-  constexpr unsigned int imageSize = 5;
-  constexpr unsigned int imageDimensionality = 3;
+  constexpr unsigned int imageSize{ 5 };
+  constexpr unsigned int imageDimensionality{ 3 };
   using ImageType = itk::Image<double, imageDimensionality>;
 
   auto                           size = ImageType::SizeType::Filled(imageSize);

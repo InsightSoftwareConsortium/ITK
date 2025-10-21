@@ -27,7 +27,7 @@ itkContourDirectedMeanDistanceImageFilterTest(int, char *[])
   using Pixel1Type = unsigned int;
   using Pixel2Type = float;
 
-  constexpr unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension{ 3 };
 
   using Image1Type = itk::Image<Pixel1Type, ImageDimension>;
   using Image2Type = itk::Image<Pixel2Type, ImageDimension>;
@@ -92,7 +92,7 @@ itkContourDirectedMeanDistanceImageFilterTest(int, char *[])
 
     // Check results
 
-    constexpr FilterType::RealType trueDistance = 8.37831;
+    constexpr FilterType::RealType trueDistance{ 8.37831 };
     const FilterType::RealType     distance = filter->GetContourDirectedMeanDistance();
 
     std::cout << " True     distance: " << trueDistance << std::endl;
@@ -121,7 +121,7 @@ itkContourDirectedMeanDistanceImageFilterTest(int, char *[])
 
 
     // Check results
-    constexpr FilterType::RealType trueDistance = 4.2053;
+    constexpr FilterType::RealType trueDistance{ 4.2053 };
     const FilterType::RealType     distance = filter->GetContourDirectedMeanDistance();
 
     std::cout << " True     distance: " << trueDistance << std::endl;

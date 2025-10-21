@@ -29,7 +29,7 @@ void
 sliceCallBack(itk::Object * object, const itk::EventObject &, void *)
 {
   // the same type alias than in the main function - should be done in a nicer way
-  constexpr int Dimension = 3;
+  constexpr int Dimension{ 3 };
   using PixelType = unsigned char;
 
   using ImageType = itk::Image<PixelType, Dimension>;
@@ -58,7 +58,7 @@ itkSliceBySliceImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr int Dimension = 3;
+  constexpr int Dimension{ 3 };
   using PixelType = unsigned char;
 
   using ImageType = itk::Image<PixelType, Dimension>;

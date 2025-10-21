@@ -24,7 +24,7 @@
 int
 itkBilateralImageFilterTest(int, char *[])
 {
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
 
   using PixelType = float;
   using ImageType = itk::Image<PixelType, Dimension>;
@@ -47,18 +47,18 @@ itkBilateralImageFilterTest(int, char *[])
   filter->SetDomainSigma(domainSigma);
   ITK_TEST_SET_GET_VALUE(domainSigma, filter->GetDomainSigma());
 
-  constexpr double domainMu = 2.5;
+  constexpr double domainMu{ 2.5 };
   filter->SetDomainMu(domainMu);
   ITK_TEST_SET_GET_VALUE(domainMu, filter->GetDomainMu());
 
-  constexpr double rangeSigma = 35.0f;
+  constexpr double rangeSigma{ 35.0f };
   filter->SetRangeSigma(rangeSigma);
   ITK_TEST_SET_GET_VALUE(rangeSigma, filter->GetRangeSigma());
 
   filter->SetFilterDimensionality(Dimension);
   ITK_TEST_SET_GET_VALUE(Dimension, filter->GetFilterDimensionality());
 
-  constexpr bool automaticKernelSize = true;
+  constexpr bool automaticKernelSize{ true };
   ITK_TEST_SET_GET_BOOLEAN(filter, AutomaticKernelSize, automaticKernelSize);
 
   constexpr typename FilterType::SizeType::SizeValueType radiusVal = 2;
@@ -66,7 +66,7 @@ itkBilateralImageFilterTest(int, char *[])
   filter->SetRadius(radius);
   ITK_TEST_SET_GET_VALUE(radius, filter->GetRadius());
 
-  constexpr unsigned long numberOfRangeGaussianSamples = 150;
+  constexpr unsigned long numberOfRangeGaussianSamples{ 150 };
   filter->SetNumberOfRangeGaussianSamples(numberOfRangeGaussianSamples);
   ITK_TEST_SET_GET_VALUE(numberOfRangeGaussianSamples, filter->GetNumberOfRangeGaussianSamples());
 

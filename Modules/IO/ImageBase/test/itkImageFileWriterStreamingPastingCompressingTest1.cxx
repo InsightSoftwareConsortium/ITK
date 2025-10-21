@@ -25,7 +25,7 @@
 #include "itkTestingMacros.h"
 
 
-constexpr unsigned int VDimension = 3;
+constexpr unsigned int VDimension{ 3 };
 using PixelType = unsigned char;
 using ImageType = itk::Image<PixelType, VDimension>;
 using ImagePointer = ImageType::Pointer;
@@ -38,9 +38,9 @@ namespace
 bool
 SameImage(ImagePointer testImage, ImagePointer baselineImage)
 {
-  constexpr PixelType     intensityTolerance = 5; // need this for compression
-  constexpr int           radiusTolerance = 0;
-  constexpr unsigned long numberOfPixelTolerance = 0;
+  constexpr PixelType     intensityTolerance{ 5 }; // need this for compression
+  constexpr int           radiusTolerance{ 0 };
+  constexpr unsigned long numberOfPixelTolerance{ 0 };
 
   // NOTE ALEX: it looks like this filter does not take the spacing
   // into account, to check later.
@@ -107,7 +107,7 @@ ActualTest(const std::string & inputFileName,
   const std::string outputFileName = outputFileNameStream.str();
 
   std::cout << "Writing to File: " << outputFileName << std::endl;
-  constexpr unsigned int numberOfPieces = 10;
+  constexpr unsigned int numberOfPieces{ 10 };
 
   // We remove the output file
   // NOTE ALEX: should we check it exists first?
@@ -246,7 +246,7 @@ itkImageFileWriterStreamingPastingCompressingTest1(int argc, char * argv[])
   }
 
   int           expectException[8];
-  constexpr int expectedExceptionOffset = 4;
+  constexpr int expectedExceptionOffset{ 4 };
   for (int i = 0; i < 8; ++i)
   {
     if (argc > i + expectedExceptionOffset)

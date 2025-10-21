@@ -51,7 +51,7 @@ itkNaryAddImageFilterTest(int, char *[])
   bool testStatus = true;
 
   // Define the dimension of the images
-  constexpr unsigned int Dimension3D = 3;
+  constexpr unsigned int Dimension3D{ 3 };
 
   // Declare the pixel types of the images
   using PixelType = float;
@@ -66,11 +66,11 @@ itkNaryAddImageFilterTest(int, char *[])
   auto inputImageC = InputImageType::New();
 
 
-  constexpr InputImageType::PixelType valueA = 12;
+  constexpr InputImageType::PixelType valueA{ 12 };
   InitializeImage<InputImageType>(inputImageA, valueA);
-  constexpr InputImageType::PixelType valueB = 17;
+  constexpr InputImageType::PixelType valueB{ 17 };
   InitializeImage<InputImageType>(inputImageB, valueB);
-  constexpr InputImageType::PixelType valueC = -4;
+  constexpr InputImageType::PixelType valueC{ -4 };
   InitializeImage<InputImageType>(inputImageC, valueC);
 
 
@@ -105,7 +105,7 @@ itkNaryAddImageFilterTest(int, char *[])
   InputImageIteratorType  iterC(inputImageC, inputImageA->GetRequestedRegion());
   OutputImageIteratorType oIt(outputImage, inputImageA->GetRequestedRegion());
 
-  constexpr OutputImageType::PixelType epsilon = 1e-9;
+  constexpr OutputImageType::PixelType epsilon{ 1e-9 };
   unsigned int                         failures = 0;
   while (!oIt.IsAtEnd())
   {
@@ -161,7 +161,7 @@ itkNaryAddImageFilterTest(int, char *[])
   //
 
   // Define the dimension of the images
-  constexpr unsigned int Dimension2D = 2;
+  constexpr unsigned int Dimension2D{ 2 };
 
   // Declare the pixel types of the images
   using ElementPixelType = int;
@@ -173,15 +173,15 @@ itkNaryAddImageFilterTest(int, char *[])
   auto vectorImageB = VectorImageType::New();
   auto vectorImageC = VectorImageType::New();
 
-  constexpr VectorImageType::PixelType::ValueType vectorValueA = 12;
+  constexpr VectorImageType::PixelType::ValueType vectorValueA{ 12 };
   auto                                            vectorImageValueA = itk::MakeFilled<VectorPixelType>(vectorValueA);
   vectorImageValueA[0] = 5;
 
-  constexpr VectorImageType::PixelType::ValueType vectorValueB = 17;
+  constexpr VectorImageType::PixelType::ValueType vectorValueB{ 17 };
   auto                                            vectorImageValueB = itk::MakeFilled<VectorPixelType>(vectorValueB);
   vectorImageValueB[0] = 9;
 
-  constexpr VectorImageType::PixelType::ValueType vectorValueC = -4;
+  constexpr VectorImageType::PixelType::ValueType vectorValueC{ -4 };
   auto                                            vectorImageValueC = itk::MakeFilled<VectorPixelType>(vectorValueC);
   vectorImageValueC[0] = -80;
 

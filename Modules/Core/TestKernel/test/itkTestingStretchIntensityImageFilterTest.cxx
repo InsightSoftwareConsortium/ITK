@@ -24,13 +24,13 @@
 int
 itkTestingStretchIntensityImageFilterTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
 {
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
   using PixelType = short;
   using ImageType = itk::Image<PixelType, Dimension>;
   using StretchFilterType = itk::Testing::StretchIntensityImageFilter<ImageType>;
   using StatsFilterType = itk::StatisticsImageFilter<ImageType>;
 
-  constexpr ImageType::SizeType imageSize = { { 32, 32 } };
+  constexpr ImageType::SizeType imageSize{ 32, 32 };
   auto                          image = ImageType::New();
   image->SetRegions(imageSize);
   image->Allocate();

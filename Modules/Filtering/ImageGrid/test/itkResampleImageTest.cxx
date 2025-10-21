@@ -28,7 +28,7 @@ int
 itkResampleImageTest(int, char *[])
 {
 
-  constexpr unsigned int VDimension = 2;
+  constexpr unsigned int VDimension{ 2 };
 
   using PixelType = float;
   using ImageType = itk::Image<PixelType, VDimension>;
@@ -45,7 +45,7 @@ itkResampleImageTest(int, char *[])
   // Create and configure an image
   const ImagePointerType  image = ImageType::New();
   ImageIndexType          index = { { 0, 0 } };
-  constexpr ImageSizeType size = { { 18, 12 } };
+  constexpr ImageSizeType size{ 18, 12 };
   const ImageRegionType   region{ index, size };
   image->SetLargestPossibleRegion(region);
   image->SetBufferedRegion(region);
@@ -95,7 +95,7 @@ itkResampleImageTest(int, char *[])
   // Check if desired results were obtained
   bool                        passed = true;
   const ImageType::RegionType region2 = resample->GetOutput()->GetRequestedRegion();
-  constexpr double            tolerance = 1e-30;
+  constexpr double            tolerance{ 1e-30 };
   for (itk::ImageRegionIteratorWithIndex<ImageType> iter2(resample->GetOutput(), region2); !iter2.IsAtEnd(); ++iter2)
   {
     index = iter2.GetIndex();

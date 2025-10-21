@@ -24,7 +24,7 @@ int
 itkUnsharpMaskImageFilterTestSimple(int, char *[])
 {
   // Define the dimension of the images
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
 
   // Define the pixel types of the images
   using PixelType = float;
@@ -97,12 +97,12 @@ itkUnsharpMaskImageFilterTestSimple(int, char *[])
 
 
   // Set the filter properties
-  constexpr UnsharpMaskImageFilterFilterType::SigmaArrayType::ValueType sigma = 2.5;
+  constexpr UnsharpMaskImageFilterFilterType::SigmaArrayType::ValueType sigma{ 2.5 };
   filter->SetSigma(sigma);
 
   UnsharpMaskImageFilterFilterType::SigmaArrayType sigmas = filter->GetSigmas();
 
-  constexpr double tolerance = 10e-6;
+  constexpr double tolerance{ 10e-6 };
   for (unsigned int i = 0; i < sigmas.Size(); ++i)
   {
     const UnsharpMaskImageFilterFilterType::SigmaArrayType::ValueType sigma2 = sigmas[i];
@@ -117,7 +117,7 @@ itkUnsharpMaskImageFilterTestSimple(int, char *[])
     }
   }
 
-  constexpr UnsharpMaskImageFilterFilterType::InternalPrecisionType amount = 0.8;
+  constexpr UnsharpMaskImageFilterFilterType::InternalPrecisionType amount{ 0.8 };
   filter->SetAmount(amount);
   ITK_TEST_SET_GET_VALUE(amount, filter->GetAmount());
 
@@ -125,7 +125,7 @@ itkUnsharpMaskImageFilterTestSimple(int, char *[])
   filter->SetThreshold(threshold);
   ITK_TEST_SET_GET_VALUE(threshold, filter->GetThreshold());
 
-  constexpr bool clamp = std::is_integral_v<UnsharpMaskImageFilterFilterType::OutputPixelType>;
+  constexpr bool clamp{ std::is_integral_v<UnsharpMaskImageFilterFilterType::OutputPixelType> };
   filter->SetClamp(clamp);
   ITK_TEST_SET_GET_VALUE(clamp, filter->GetClamp());
 
@@ -151,8 +151,8 @@ itkUnsharpMaskImageFilterTestSimple(int, char *[])
 
   // check that output is correct near the step
   start[0] = 9;
-  constexpr float mins[4] = { -0.21f, -0.33f, 1.32f, 1.20f };
-  constexpr float maxs[4] = { -0.20f, -0.32f, 1.33f, 1.21f };
+  constexpr float mins[4]{ -0.21f, -0.33f, 1.32f, 1.20f };
+  constexpr float maxs[4]{ -0.20f, -0.32f, 1.33f, 1.21f };
   for (unsigned int i = 0; i < 4; ++i)
   {
     if (outputImage->GetPixel(start) < mins[i] || outputImage->GetPixel(start) > maxs[i])

@@ -346,7 +346,7 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,
   3- The ComputeMutualInformation() iterator range should cover the entire PDF.
   4- The normalization is done based on NumberOfHistogramBins-1 instead of NumberOfHistogramBins. */
 
-  constexpr TInternalComputationValueType             eps = NumericTraits<TInternalComputationValueType>::epsilon();
+  constexpr TInternalComputationValueType             eps{ NumericTraits<TInternalComputationValueType>::epsilon() };
   CompensatedSummation<TInternalComputationValueType> total_mi;
   for (SizeValueType ii = 0; ii < m_NumberOfHistogramBins; ++ii)
   {

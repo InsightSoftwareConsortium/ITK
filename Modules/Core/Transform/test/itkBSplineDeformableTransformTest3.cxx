@@ -68,7 +68,7 @@ public:
   static int
   RunTest(int argc, char * argv[])
   {
-    constexpr unsigned int ImageDimension = 2;
+    constexpr unsigned int ImageDimension{ 2 };
 
     using PixelType = unsigned char;
     using FixedImageType = itk::Image<PixelType, ImageDimension>;
@@ -117,7 +117,7 @@ public:
 
     resampler->SetInput(movingReader->GetOutput());
 
-    constexpr unsigned int SpaceDimension = ImageDimension;
+    constexpr unsigned int SpaceDimension{ ImageDimension };
     using CoordinateRepType = double;
 
     using TransformType = itk::BSplineDeformableTransform<CoordinateRepType, SpaceDimension, VSplineOrder>;
@@ -131,7 +131,7 @@ public:
 
     const unsigned int numberOfGridNodesOutsideTheImageSupport = VSplineOrder;
 
-    constexpr unsigned int numberOfGridNodesInsideTheImageSupport = 5;
+    constexpr unsigned int numberOfGridNodesInsideTheImageSupport{ 5 };
 
     const unsigned int numberOfGridNodes =
       numberOfGridNodesInsideTheImageSupport + numberOfGridNodesOutsideTheImageSupport;

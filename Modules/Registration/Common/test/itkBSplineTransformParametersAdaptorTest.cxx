@@ -22,8 +22,8 @@
 int
 itkBSplineTransformParametersAdaptorTest(int, char *[])
 {
-  constexpr unsigned int SpaceDimension = 3;
-  constexpr unsigned int SplineOrder = 3;
+  constexpr unsigned int SpaceDimension{ 3 };
+  constexpr unsigned int SplineOrder{ 3 };
   using CoordinateRepType = double;
   using TransformType = itk::BSplineTransform<CoordinateRepType, SpaceDimension, SplineOrder>;
 

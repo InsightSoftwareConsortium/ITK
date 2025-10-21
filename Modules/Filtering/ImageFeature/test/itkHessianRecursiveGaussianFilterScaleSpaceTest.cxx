@@ -27,7 +27,7 @@
 int
 itkHessianRecursiveGaussianFilterScaleSpaceTest(int, char *[])
 {
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
   using PixelType = double;
   using ImageType = itk::Image<PixelType, Dimension>;
   using IndexType = itk::Index<Dimension>;
@@ -58,7 +58,7 @@ itkHessianRecursiveGaussianFilterScaleSpaceTest(int, char *[])
 
   using IteratorType = itk::ImageRegionIteratorWithIndex<ImageType>;
 
-  constexpr unsigned int numberOfScales = 4;
+  constexpr unsigned int numberOfScales{ 4 };
   double                 scales[numberOfScales];
   scales[0] = 1.0;
   scales[1] = 2.0;
@@ -119,7 +119,7 @@ itkHessianRecursiveGaussianFilterScaleSpaceTest(int, char *[])
     IteratorType it(inputImage, inputImage->GetRequestedRegion());
 
     PointType        point;
-    constexpr double objectSize = 5.0;
+    constexpr double objectSize{ 5.0 };
 
     spacing.Fill(scale / 5.0);
 

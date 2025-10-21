@@ -59,7 +59,7 @@ PrintImageData(ImageTypePtr2D imgPtr)
   using Iterator = itk::ImageLinearIteratorWithIndex<ImageType2D>;
 
   std::cout << "Size: " << imgPtr->GetLargestPossibleRegion().GetSize() << std::endl;
-  constexpr int dim = ImageType2D::ImageDimension;
+  constexpr int dim{ ImageType2D::ImageDimension };
 
   std::cout << "Spacing: " << std::endl;
   for (int n = 0; n < dim; ++n)
@@ -92,7 +92,7 @@ PrintImageData(ImageTypePtr2D imgPtr)
 void
 set2DData(ImageType2D::Pointer imgPtr)
 {
-  constexpr SizeType2D size = { { 4, 4 } };
+  constexpr SizeType2D size{ 4, 4 };
   const double         mydata[49] = { 0, 1, 2, 3, 1, 2, 3, 4, 2, 3, 4, 5, 3, 4, 3, 2 };
 
   ImageType2D::RegionType region;
@@ -122,7 +122,7 @@ set2DData(ImageType2D::Pointer imgPtr)
 void
 setInt2DData(IntImageType2D::Pointer imgPtr)
 {
-  constexpr IntSizeType2D size = { { 4, 4 } };
+  constexpr IntSizeType2D size{ 4, 4 };
   const int               mydata[49] = { 0, 1, 2, 3, 1, 2, 3, 4, 2, 3, 4, 5, 3, 4, 3, 2 };
 
   IntImageType2D::RegionType region;
@@ -484,7 +484,7 @@ testIntInputDoubleOutput()
 
   auto          downSampler = DownsamplerType2D::New();
   auto          upSampler = UpsamplerType2D::New();
-  constexpr int splineOrder = 3;
+  constexpr int splineOrder{ 3 };
   downSampler->SetSplineOrder(splineOrder);
   upSampler->SetSplineOrder(splineOrder);
 

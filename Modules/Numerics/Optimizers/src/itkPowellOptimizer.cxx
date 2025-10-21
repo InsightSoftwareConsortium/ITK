@@ -236,7 +236,7 @@ PowellOptimizer::BracketedLineOptimize(double           ax,
   const double goldenSectionRatio = (3.0 - std::sqrt(5.0)) / 2; /* Gold
                                                                  section
                                                                  ratio    */
-  constexpr double POWELL_TINY = 1.0e-20;
+  constexpr double POWELL_TINY{ 1.0e-20 };
 
   /* f(x)        */
   double functionValueOfV = functionValueOfb;

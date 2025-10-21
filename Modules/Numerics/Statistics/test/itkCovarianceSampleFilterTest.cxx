@@ -117,7 +117,7 @@ itkCovarianceSampleFilterTest(int, char *[])
 
   covarianceFilter->Print(std::cout);
 
-  constexpr double epsilon = 1e-6;
+  constexpr double epsilon{ 1e-6 };
 
   // CHECK THE RESULTS
   const CovarianceSampleFilterType::MeasurementVectorDecoratedType * meanDecorator = covarianceFilter->GetMeanOutput();

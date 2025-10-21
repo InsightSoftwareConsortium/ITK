@@ -37,7 +37,7 @@ public:
   double
   GetVariate() override
   {
-    constexpr double theAnswerToTheQuestionOfLifeTheUniverseAndEverything = 42.0;
+    constexpr double theAnswerToTheQuestionOfLifeTheUniverseAndEverything{ 42.0 };
     return theAnswerToTheQuestionOfLifeTheUniverseAndEverything;
   }
 

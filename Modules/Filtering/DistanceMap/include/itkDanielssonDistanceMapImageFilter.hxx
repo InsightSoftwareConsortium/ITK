@@ -118,7 +118,7 @@ DanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::Prep
   itkDebugMacro("PrepareData: Copy input to output");
   if (m_InputIsBinary)
   {
-    constexpr VoronoiPixelType npt = 1;
+    constexpr VoronoiPixelType npt{ 1 };
     while (!ot.IsAtEnd())
     {
       if (it.Get())

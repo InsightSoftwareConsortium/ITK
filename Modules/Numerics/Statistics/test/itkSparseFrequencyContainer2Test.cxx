@@ -31,7 +31,7 @@ itkSparseFrequencyContainer2Test(int, char *[])
 
   using AbsoluteFrequencyType = SparseFrequencyContainer2Type::AbsoluteFrequencyType;
 
-  constexpr unsigned int numberOfBins = 1250;
+  constexpr unsigned int numberOfBins{ 1250 };
 
   container->Initialize(numberOfBins);
 

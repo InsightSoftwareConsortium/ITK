@@ -137,7 +137,7 @@ template <typename TPixel, unsigned int VDimension, typename TAllocator>
 double
 GaussianOperator<TPixel, VDimension, TAllocator>::ModifiedBesselI(int n, double y)
 {
-  constexpr double ACCURACY = 40.0;
+  constexpr double ACCURACY{ 40.0 };
 
   if (n < 2)
   {

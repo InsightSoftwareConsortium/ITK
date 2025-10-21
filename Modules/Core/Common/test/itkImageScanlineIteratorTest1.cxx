@@ -57,14 +57,14 @@ itkImageScanlineIteratorTest1(int, char *[])
 
   using ImageType = itk::Image<itk::Vector<unsigned short, 5>, 3>;
 
-  constexpr ImageType::SizeType imageSize3D = { { 20, 40, 60 } };
-  constexpr ImageType::SizeType bufferSize3D = { { 8, 20, 14 } };
-  constexpr ImageType::SizeType regionSize3D = { { 4, 6, 6 } };
+  constexpr ImageType::SizeType imageSize3D{ 20, 40, 60 };
+  constexpr ImageType::SizeType bufferSize3D{ 8, 20, 14 };
+  constexpr ImageType::SizeType regionSize3D{ 4, 6, 6 };
 
-  constexpr ImageType::IndexType startIndex3D = { { 5, 4, 1 } };
-  constexpr ImageType::IndexType bufferStartIndex3D = { { 2, 3, 5 } };
-  constexpr ImageType::IndexType regionStartIndex3D = { { 5, 10, 12 } };
-  constexpr ImageType::IndexType regionEndIndex3D = { { 8, 15, 17 } };
+  constexpr ImageType::IndexType startIndex3D{ 5, 4, 1 };
+  constexpr ImageType::IndexType bufferStartIndex3D{ 2, 3, 5 };
+  constexpr ImageType::IndexType regionStartIndex3D{ 5, 10, 12 };
+  constexpr ImageType::IndexType regionEndIndex3D{ 8, 15, 17 };
 
 
   ImageType::RegionType region{ startIndex3D, imageSize3D };

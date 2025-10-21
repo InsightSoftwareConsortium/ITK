@@ -342,7 +342,7 @@ itkMultiGradientOptimizerv4Test(int, char *[])
   // Declaration of the Metric
   auto                   metric = MultiGradientOptimizerv4TestMetric::New();
   auto                   metric2 = MultiGradientOptimizerv4TestMetric2::New();
-  constexpr unsigned int spaceDimension = 2;
+  constexpr unsigned int spaceDimension{ 2 };
   itkOptimizer->SetMetric(metric);
   itkOptimizer->SetNumberOfIterations(50);
 

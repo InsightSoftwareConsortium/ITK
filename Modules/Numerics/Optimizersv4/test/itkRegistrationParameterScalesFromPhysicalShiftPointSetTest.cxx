@@ -78,7 +78,7 @@ private:
 int
 itkRegistrationParameterScalesFromPhysicalShiftPointSetTest(int, char *[])
 {
-  constexpr itk::SizeValueType Dimension = 2;
+  constexpr itk::SizeValueType Dimension{ 2 };
   using PixelType = double;
   using FloatType = double;
 

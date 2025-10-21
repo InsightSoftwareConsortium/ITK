@@ -25,14 +25,14 @@
 
 
 // Data definitions
-constexpr uint8_t IMGWIDTH = 6;
-constexpr uint8_t IMGHEIGHT = 6;
-constexpr uint8_t NFRAMES = 3;
-constexpr uint8_t NUMBANDS = 2;
-constexpr uint8_t NDIMENSION = 3;
-constexpr uint8_t NUM_CLASSES = 3;
-constexpr uint8_t MAX_NUM_ITER = 5;
-constexpr uint8_t NEIGHBORHOOD_RAD = 1;
+constexpr uint8_t IMGWIDTH{ 6 };
+constexpr uint8_t IMGHEIGHT{ 6 };
+constexpr uint8_t NFRAMES{ 3 };
+constexpr uint8_t NUMBANDS{ 2 };
+constexpr uint8_t NDIMENSION{ 3 };
+constexpr uint8_t NUM_CLASSES{ 3 };
+constexpr uint8_t MAX_NUM_ITER{ 5 };
+constexpr uint8_t NEIGHBORHOOD_RAD{ 1 };
 
 
 int
@@ -212,7 +212,7 @@ itkMRFImageFilterTest(int, char *[])
   using ClassImageType = itk::Image<unsigned short, NDIMENSION>;
   auto classImage = ClassImageType::New();
 
-  constexpr ClassImageType::SizeType classImgSize = { { IMGWIDTH, IMGHEIGHT, NFRAMES } };
+  constexpr ClassImageType::SizeType classImgSize{ IMGWIDTH, IMGHEIGHT, NFRAMES };
 
   constexpr ClassImageType::IndexType classindex{};
 

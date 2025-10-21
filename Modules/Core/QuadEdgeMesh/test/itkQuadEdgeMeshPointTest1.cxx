@@ -35,7 +35,7 @@ itkQuadEdgeMeshPointTest1(int, char *[])
   using PrimalDataType = bool;
   using DualDataType = bool;
 
-  constexpr bool ThisIsDual = true;
+  constexpr bool ThisIsDual{ true };
 
   using QuadEdgeType =
     itk::GeometricalQuadEdge<PointIdentifier, FaceIdentifier, PrimalDataType, DualDataType, ThisIsDual>;

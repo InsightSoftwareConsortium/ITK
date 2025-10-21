@@ -168,21 +168,21 @@ itkEigenAnalysis2DImageFilterTest(int, char *[])
   int status = EXIT_SUCCESS;
   {
     using myComputeType = double;
-    constexpr unsigned int myDimension = 2;
+    constexpr unsigned int myDimension{ 2 };
     using myVectorType = itk::Vector<myComputeType, 2>;
     auto t1 = EigenAnalysis2DImageFilterTester<myDimension, myComputeType, myVectorType>();
     status |= t1.Run();
   }
   {
     using myComputeType = float;
-    constexpr unsigned int myDimension = 2;
+    constexpr unsigned int myDimension{ 2 };
     using myVectorType = itk::Vector<myComputeType, 2>;
     auto t1 = EigenAnalysis2DImageFilterTester<myDimension, myComputeType, myVectorType>();
     status |= t1.Run();
   }
   {
     using myComputeType = float;
-    constexpr unsigned int myDimension = 3;
+    constexpr unsigned int myDimension{ 3 };
     using myVectorType = itk::Vector<myComputeType, 2>;
     auto t1 = EigenAnalysis2DImageFilterTester<myDimension, myComputeType, myVectorType>();
     status |= t1.Run();
@@ -190,7 +190,7 @@ itkEigenAnalysis2DImageFilterTest(int, char *[])
   /* The two test below should cause compilation errors.
   {
     using myComputeType = float;
-    constexpr unsigned int myDimension = 3;
+    constexpr unsigned int myDimension{ 3 };
     <-- ******* error: static assertion failed: Error: PixelType of EigenVector Image must have exactly 2 elements!
     using myVectorType = itk::Vector<myComputeType, 3>;
     auto t1 = EigenAnalysis2DImageFilterTester<myDimension, myComputeType, myVectorType>();
@@ -198,7 +198,7 @@ itkEigenAnalysis2DImageFilterTest(int, char *[])
   }
   {
     using myComputeType = float;
-    constexpr unsigned int myDimension = 3;
+    constexpr unsigned int myDimension{ 3 };
     using myVectorType = std::array<myComputeType, 2>;
     <-- ******* error: no type named ‘ValueType’ in ‘using PixelType = struct std::array<float, 2>
     auto t1 = EigenAnalysis2DImageFilterTester<myDimension, myComputeType, myVectorType>();

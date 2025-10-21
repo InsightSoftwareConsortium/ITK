@@ -41,7 +41,7 @@ itkWienerDeconvolutionImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr int ImageDimension = 2;
+  constexpr int ImageDimension{ 2 };
 
   using PixelType = float;
   using ImageType = itk::Image<PixelType, ImageDimension>;
@@ -86,7 +86,7 @@ itkWienerDeconvolutionImageFilterTest(int argc, char * argv[])
 
   // Check default NoiseVariance value
   ITK_TEST_SET_GET_VALUE(0.0, deconvolutionFilter->GetNoiseVariance());
-  constexpr double noiseVariance = 1.0;
+  constexpr double noiseVariance{ 1.0 };
   deconvolutionFilter->SetNoiseVariance(noiseVariance);
   ITK_TEST_SET_GET_VALUE(noiseVariance, deconvolutionFilter->GetNoiseVariance());
 

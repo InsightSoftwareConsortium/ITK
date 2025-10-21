@@ -231,7 +231,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>::SetDefaultMRFNeighborhoodWeight()
 
   // Determine the default neighborhood size
   m_NeighborhoodSize = 1;
-  constexpr int neighborhoodRadius = 1; // Default assumes a radius of 1
+  constexpr int neighborhoodRadius{ 1 }; // Default assumes a radius of 1
   for (unsigned int i = 0; i < InputImageDimension; ++i)
   {
     m_NeighborhoodSize *= (2 * neighborhoodRadius + 1);

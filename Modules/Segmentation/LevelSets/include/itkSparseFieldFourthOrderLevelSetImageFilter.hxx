@@ -79,7 +79,7 @@ auto
 SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>::ComputeCurvatureFromSparseImageNeighborhood(
   SparseImageIteratorType & it) const -> ValueType
 {
-  constexpr SizeValueType      one = 1;
+  constexpr SizeValueType      one{ 1 };
   const SizeValueType          center = it.Size() / 2;
   bool                         flag = false;
   const NeighborhoodScalesType neighborhoodScales = this->GetDifferenceFunction()->ComputeNeighborhoodScales();

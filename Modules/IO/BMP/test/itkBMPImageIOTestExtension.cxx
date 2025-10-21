@@ -71,7 +71,7 @@ itkBMPImageIOTestExtension(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
   const itk::ImageRegion<2> expected_region{ itk::Size<2>{ { 1, 1 } } };
-  constexpr ComponentType   expected_rgb[] = { 255, 0, 0 };
+  constexpr ComponentType   expected_rgb[]{ 255, 0, 0 };
   const PixelType           expected_pixel{ expected_rgb };
   // check that data has been actually read
   auto image = reader->GetOutput();

@@ -39,7 +39,7 @@ itkSingleLevelSetWhitakerImage2DTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
 
   using InputPixelType = unsigned short;
   using InputImageType = itk::Image<InputPixelType, Dimension>;
@@ -168,7 +168,7 @@ itkSingleLevelSetWhitakerImage2DTest(int argc, char * argv[])
 
   evolution->SetLevelSetContainer(lscontainer);
 
-  constexpr itk::ThreadIdType numberOfWorkUnits = 1;
+  constexpr itk::ThreadIdType numberOfWorkUnits{ 1 };
   evolution->SetNumberOfWorkUnits(numberOfWorkUnits);
   ITK_TEST_SET_GET_VALUE(numberOfWorkUnits, evolution->GetNumberOfWorkUnits());
 

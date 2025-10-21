@@ -40,7 +40,7 @@ itkWeightedCentroidKdTreeGeneratorTest8(int argc, char * argv[])
   const NumberGeneratorType::Pointer randomNumberGenerator = NumberGeneratorType::GetInstance();
   randomNumberGenerator->SetSeed();
 
-  constexpr unsigned int measurementVectorSize = 2;
+  constexpr unsigned int measurementVectorSize{ 2 };
 
   using MeasurementVectorType = itk::FixedArray<double, measurementVectorSize>;
 
@@ -77,7 +77,7 @@ itkWeightedCentroidKdTreeGeneratorTest8(int argc, char * argv[])
 
   MeasurementVectorType queryPoint;
 
-  constexpr unsigned int                 numberOfNeighbors = 1;
+  constexpr unsigned int                 numberOfNeighbors{ 1 };
   TreeType::InstanceIdentifierVectorType neighbors;
 
   MeasurementVectorType result;

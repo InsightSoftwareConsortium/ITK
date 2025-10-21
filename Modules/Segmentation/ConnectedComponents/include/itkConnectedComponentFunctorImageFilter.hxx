@@ -33,7 +33,7 @@ ConnectedComponentFunctorImageFilter<TInputImage, TOutputImage, TFunctor, TMaskI
   // Allocate the output and initialize to unlabeled
   this->AllocateOutputs();
 
-  constexpr OutputPixelType            maxPossibleLabel = NumericTraits<OutputPixelType>::max();
+  constexpr OutputPixelType            maxPossibleLabel{ NumericTraits<OutputPixelType>::max() };
   const typename TOutputImage::Pointer output = this->GetOutput();
   output->FillBuffer(maxPossibleLabel);
 

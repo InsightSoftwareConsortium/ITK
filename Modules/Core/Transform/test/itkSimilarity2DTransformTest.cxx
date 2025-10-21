@@ -26,7 +26,7 @@ namespace
 bool
 CheckEqual(const itk::Point<double, 2> & p1, const itk::Point<double, 2> & p2)
 {
-  constexpr double epsilon = 1e-10;
+  constexpr double epsilon{ 1e-10 };
 
   for (unsigned int i = 0; i < 2; ++i)
   {
@@ -49,8 +49,8 @@ itkSimilarity2DTransformTest(int, char *[])
   std::cout << "==================================" << std::endl;
   std::cout << "Testing Similarity 2D Transform" << std::endl << std::endl;
 
-  constexpr double       epsilon = 1e-10;
-  constexpr unsigned int N = 2;
+  constexpr double       epsilon{ 1e-10 };
+  constexpr unsigned int N{ 2 };
   bool                   Ok = true;
 
   using SimilarityTransformType = itk::CenteredSimilarity2DTransform<double>;
@@ -86,11 +86,11 @@ itkSimilarity2DTransformTest(int, char *[])
   auto transform1 = SimilarityTransformType::New();
   auto transform2 = SimilarityTransformType::New();
   transform1->SetIdentity();
-  constexpr double angle1 = .125;
+  constexpr double angle1{ .125 };
   transform1->SetAngle(angle1);
   transform2->SetMatrix(transform1->GetMatrix());
   std::cout << "Testing SetAngle(" << angle1 << ")/GetAngle():";
-  constexpr double epsilon2 = 1e-5;
+  constexpr double epsilon2{ 1e-5 };
   if (itk::Math::abs(transform2->GetAngle() - angle1) > epsilon2)
   {
     std::cerr << "Error with SetAngle/GetAngle:" << std::endl;
@@ -378,7 +378,7 @@ itkSimilarity2DTransformTest(int, char *[])
     TransformType::JacobianType approxJacobian = jacobian;
     for (unsigned int k = 0; k < t1->GetNumberOfParameters(); ++k)
     {
-      constexpr double              delta = 0.001;
+      constexpr double              delta{ 0.001 };
       TransformType::ParametersType plusParameters;
       TransformType::ParametersType minusParameters;
 
@@ -536,7 +536,7 @@ itkSimilarity2DTransformTest(int, char *[])
     TransformType::JacobianType approxJacobian = jacobian;
     for (unsigned int k = 0; k < t1->GetNumberOfParameters(); ++k)
     {
-      constexpr double              delta = 0.001;
+      constexpr double              delta{ 0.001 };
       TransformType::ParametersType plusParameters;
       TransformType::ParametersType minusParameters;
 

@@ -49,7 +49,7 @@ itkFastMarchingImageFilterRealTest1(int itkNotUsed(argc), char * itkNotUsed(argv
 
   // Create a Fast Marching image filter object
   using PixelType = float;
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
 
   using FloatImageType = itk::Image<PixelType, Dimension>;
 
@@ -85,7 +85,7 @@ itkFastMarchingImageFilterRealTest1(int itkNotUsed(argc), char * itkNotUsed(argv
 
   NodePairType node_pair;
 
-  constexpr FloatImageType::OffsetType offset0 = { { 28, 35 } };
+  constexpr FloatImageType::OffsetType offset0{ 28, 35 };
 
   itk::Index<Dimension> index{};
 
@@ -137,7 +137,7 @@ itkFastMarchingImageFilterRealTest1(int itkNotUsed(argc), char * itkNotUsed(argv
   ITK_TEST_SET_GET_VALUE(trial, marcher->GetTrialPoints());
 
   // Specify the size of the output image
-  constexpr FloatImageType::SizeType size = { { 64, 64 } };
+  constexpr FloatImageType::SizeType size{ 64, 64 };
   marcher->SetOutputSize(size);
 
   // Set up a speed image of ones
@@ -174,7 +174,7 @@ itkFastMarchingImageFilterRealTest1(int itkNotUsed(argc), char * itkNotUsed(argv
 
   bool passed = true;
 
-  constexpr double outputValueThreshold = 1.42;
+  constexpr double outputValueThreshold{ 1.42 };
   while (!iterator.IsAtEnd())
   {
     FloatImageType::IndexType tempIndex = iterator.GetIndex();

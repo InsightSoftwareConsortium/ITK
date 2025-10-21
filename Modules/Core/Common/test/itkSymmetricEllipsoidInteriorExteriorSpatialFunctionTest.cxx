@@ -24,7 +24,7 @@ itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest(int, char *[])
   std::cout << "itkSymmetricEllipsoidInteriorExteriorSpatialFunction test start" << std::endl;
 
   // Test will create an ellipsoid (3-dimensional)
-  constexpr unsigned int dimension = 3;
+  constexpr unsigned int dimension{ 3 };
 
   // Symmetric Ellipsoid spatial function type alias
   using TSymEllipsoidFunctionType = itk::SymmetricEllipsoidInteriorExteriorSpatialFunction<3>;
@@ -36,9 +36,9 @@ itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest(int, char *[])
   auto spatialFunc = TSymEllipsoidFunctionType::New();
 
   // Define function doitkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest, which encapsulates ellipsoid.
-  constexpr int xExtent = 50;
-  constexpr int yExtent = 50;
-  constexpr int zExtent = 50;
+  constexpr int xExtent{ 50 };
+  constexpr int yExtent{ 50 };
+  constexpr int zExtent{ 50 };
 
   // Define and set the center of the ellipsoid in the center of
   // the function doitkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest
@@ -55,8 +55,8 @@ itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest(int, char *[])
   orientation[1] = 1 / std::sqrt(2.0);
   orientation[2] = 0;
 
-  constexpr double uniqueAxisLength = 45;
-  constexpr double symmetricAxesLength = 30;
+  constexpr double uniqueAxisLength{ 45 };
+  constexpr double symmetricAxesLength{ 30 };
 
   spatialFunc->SetOrientation(orientation, uniqueAxisLength, symmetricAxesLength);
 
@@ -93,8 +93,8 @@ itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest(int, char *[])
   testPosition[2] = center[2];
 
   // Volume of ellipsoid using V=(4/3)*pi*(a/2)*(b/2)*(c/2)
-  constexpr double volume =
-    4.18879013333 * (uniqueAxisLength / 2) * (symmetricAxesLength / 2) * (symmetricAxesLength / 2);
+  constexpr double volume{ 4.18879013333 * (uniqueAxisLength / 2) * (symmetricAxesLength / 2) *
+                           (symmetricAxesLength / 2) };
 
   // Percent difference in volume measurement and calculation
   const double volumeError = (itk::Math::abs(volume - interiorPixelCounter) / volume) * 100;

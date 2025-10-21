@@ -26,7 +26,7 @@ itkFrustumSpatialFunctionTest(int, char *[])
 {
 
   // Define the dimensionality
-  constexpr unsigned int PointDimension = 3;
+  constexpr unsigned int PointDimension{ 3 };
 
   // Define the point coordinate representation type
   using PointCoordinateType = float;
@@ -56,15 +56,15 @@ itkFrustumSpatialFunctionTest(int, char *[])
   frustrumSpatialFunction->SetBottomPlane(bottomPlane);
   ITK_TEST_SET_GET_VALUE(bottomPlane, frustrumSpatialFunction->GetBottomPlane());
 
-  constexpr double angleZ = 36;
+  constexpr double angleZ{ 36 };
   frustrumSpatialFunction->SetAngleZ(angleZ);
   ITK_TEST_SET_GET_VALUE(angleZ, frustrumSpatialFunction->GetAngleZ());
 
-  constexpr double apertureAngleX = 54;
+  constexpr double apertureAngleX{ 54 };
   frustrumSpatialFunction->SetApertureAngleX(apertureAngleX);
   ITK_TEST_SET_GET_VALUE(apertureAngleX, frustrumSpatialFunction->GetApertureAngleX());
 
-  constexpr double apertureAngleY = 120;
+  constexpr double apertureAngleY{ 120 };
   frustrumSpatialFunction->SetApertureAngleY(apertureAngleY);
   ITK_TEST_SET_GET_VALUE(apertureAngleY, frustrumSpatialFunction->GetApertureAngleY());
 

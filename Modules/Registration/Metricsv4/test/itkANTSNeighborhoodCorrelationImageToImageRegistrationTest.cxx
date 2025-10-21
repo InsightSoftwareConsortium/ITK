@@ -97,7 +97,7 @@ itkANTSNeighborhoodCorrelationImageToImageRegistrationTest(int argc, char * argv
   }
   std::cout << " iterations " << numberOfIterations << " learningRate " << learningRate << std::endl;
 
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
   using PixelType = double; // I assume png is unsigned short
 
   using FixedImageType = itk::Image<PixelType, Dimension>;
@@ -173,7 +173,7 @@ itkANTSNeighborhoodCorrelationImageToImageRegistrationTest(int argc, char * argv
   metric->SetMovingImage(movingImage);
   metric->SetFixedTransform(identityTransform);
   metric->SetMovingTransform(affineTransform);
-  constexpr bool gaussian = false;
+  constexpr bool gaussian{ false };
   metric->SetUseMovingImageGradientFilter(gaussian);
   metric->SetUseFixedImageGradientFilter(gaussian);
   metric->Initialize();

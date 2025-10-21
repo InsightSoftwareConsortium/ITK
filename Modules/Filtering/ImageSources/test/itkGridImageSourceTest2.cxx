@@ -35,7 +35,7 @@ itkGridImageSourceTest2(int argc, char * argv[])
   const char * outputImageFile = argv[2];
 
 
-  constexpr unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension{ 3 };
   using PixelType = uint8_t;
 
   using ImageType = itk::Image<PixelType, ImageDimension>;

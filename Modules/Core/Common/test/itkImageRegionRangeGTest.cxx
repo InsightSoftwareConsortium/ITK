@@ -629,8 +629,8 @@ TEST(ImageRegionRange, ThrowsInReleaseWhenIterationRegionIsOutsideBufferedRegion
 
   const auto image = ImageType::New();
 
-  constexpr IndexType imageIndex{ { -1, -2 } };
-  constexpr SizeType  imageSize{ { 3, 4 } };
+  constexpr IndexType imageIndex{ -1, -2 };
+  constexpr SizeType  imageSize{ 3, 4 };
 
   image->SetRegions(RegionType{ imageIndex, imageSize });
   image->AllocateInitialized();

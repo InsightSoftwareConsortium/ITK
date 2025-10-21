@@ -34,7 +34,7 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
   { // 3D test
 
     // Define the dimension of the images
-    constexpr unsigned int myDimension = 3;
+    constexpr unsigned int myDimension{ 3 };
 
     // Declare the types of the images
     using myImageType = itk::Image<float, myDimension>;
@@ -104,7 +104,7 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
     ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, RecursiveGaussianImageFilter, RecursiveSeparableImageFilter);
 
 
-    constexpr unsigned int direction = 2; // apply along Z
+    constexpr unsigned int direction{ 2 }; // apply along Z
     filter->SetDirection(direction);
     ITK_TEST_SET_GET_VALUE(direction, filter->GetDirection());
 
@@ -214,7 +214,7 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
       auto normalizeAcrossScale = true;
       ITK_TEST_SET_GET_BOOLEAN(filter, NormalizeAcrossScale, normalizeAcrossScale);
 
-      constexpr double sigmaA = 2.0;
+      constexpr double sigmaA{ 2.0 };
       filter->SetSigma(sigmaA);
       ITK_TEST_SET_GET_VALUE(sigmaA, filter->GetSigma());
 
@@ -224,7 +224,7 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
 
       normalizeAcrossScale = false;
       filter->SetNormalizeAcrossScale(normalizeAcrossScale);
-      constexpr double sigmaB = 2.0;
+      constexpr double sigmaB{ 2.0 };
       filter->SetSigma(sigmaB);
 
       filter->Update();
@@ -255,7 +255,7 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
 
       // size of image is 21, so a sigma of 2 gives up 5 std-devs and
       // an expected error of >1e-5 due to truncation
-      constexpr double sigmaA = 2.0;
+      constexpr double sigmaA{ 2.0 };
       filter->SetSigma(sigmaA);
       filter->Update();
 
@@ -309,7 +309,7 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
       // positions and use them as bounds for the value of the first order
       // derivative returned by the filter.
 
-      constexpr double sigmaC = 3.0;
+      constexpr double sigmaC{ 3.0 };
       filter->SetSigma(sigmaC);
 
       filter->SetZeroOrder();

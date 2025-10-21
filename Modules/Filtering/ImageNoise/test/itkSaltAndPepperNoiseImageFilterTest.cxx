@@ -34,7 +34,7 @@ itkSaltAndPepperNoiseImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
 
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType, Dimension>;
@@ -58,10 +58,10 @@ itkSaltAndPepperNoiseImageFilterTest(int argc, char * argv[])
 
   // change the default values and then set back to defaults so that
   // the original test image is still valid.
-  constexpr PixelType saltValue = 245;
+  constexpr PixelType saltValue{ 245 };
   saltAndPepperNoiseImageFilter->SetSaltValue(saltValue);
   ITK_TEST_SET_GET_VALUE(saltValue, saltAndPepperNoiseImageFilter->GetSaltValue());
-  constexpr PixelType pepperValue = 10;
+  constexpr PixelType pepperValue{ 10 };
   saltAndPepperNoiseImageFilter->SetPepperValue(pepperValue);
   ITK_TEST_SET_GET_VALUE(pepperValue, saltAndPepperNoiseImageFilter->GetPepperValue());
   saltAndPepperNoiseImageFilter->SetSaltValue(itk::NumericTraits<PixelType>::max());

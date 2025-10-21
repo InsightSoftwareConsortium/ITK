@@ -41,7 +41,7 @@ int
 itkImageToImageFilterTest(int, char *[])
 {
 
-  constexpr unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension{ 3 };
   using InputPixelType = unsigned char;
   using OutputPixelType = short;
 

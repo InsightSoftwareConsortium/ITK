@@ -72,7 +72,7 @@ private:
 int
 itkLevelSetDenseImageTest(int, char *[])
 {
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
 
   using PixelType = float;
 
@@ -89,7 +89,7 @@ itkLevelSetDenseImageTest(int, char *[])
 
   const ImageType::RegionType region{ index, size };
 
-  constexpr PixelType zeroValue = 0.;
+  constexpr PixelType zeroValue{ 0. };
 
   ImageType::SpacingType spacing;
   spacing[0] = 0.02 / size[0];

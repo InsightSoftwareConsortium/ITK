@@ -25,7 +25,7 @@ int
 itkExponentialDisplacementFieldImageFilterTest(int, char *[])
 {
   // Define the dimension of the images
-  constexpr unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension{ 3 };
 
   using PixelType = itk::Vector<double, ImageDimension>;
 
@@ -101,7 +101,7 @@ itkExponentialDisplacementFieldImageFilterTest(int, char *[])
 
   //  Check the content of the result image
   std::cout << "Verification of the output " << std::endl;
-  constexpr PixelType::ValueType epsilon = 1e-6;
+  constexpr PixelType::ValueType epsilon{ 1e-6 };
 
   bool testpassed = true;
 
@@ -222,7 +222,7 @@ itkExponentialDisplacementFieldImageFilterTest(int, char *[])
 
   // See if the output is consistent when the spacing is changed
   // (in an isotropic manner)
-  constexpr double isospacing = 10;
+  constexpr double isospacing{ 10 };
   using SpacingType = ImageType::SpacingType;
   SpacingType spacing;
   for (unsigned int d = 0; d < ImageDimension; ++d)
@@ -238,7 +238,7 @@ itkExponentialDisplacementFieldImageFilterTest(int, char *[])
 
   // Random number generator
   vnl_random       rng;
-  constexpr double power = 5.0;
+  constexpr double power{ 5.0 };
 
   it.GoToBegin();
   while (!it.IsAtEnd())

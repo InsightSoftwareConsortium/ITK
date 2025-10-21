@@ -29,7 +29,7 @@ itkHistogramTest(int, char *[])
   int pass = EXIT_SUCCESS;
 
   using MeasurementType = float;
-  constexpr unsigned int numberOfComponents = 3;
+  constexpr unsigned int numberOfComponents{ 3 };
 
   // create a histogram with 3 components measurement vectors
   using HistogramType = itk::Statistics::Histogram<MeasurementType, itk::Statistics::DenseFrequencyContainer2>;
@@ -327,14 +327,14 @@ itkHistogramTest(int, char *[])
 
   ITK_TEST_EXPECT_EQUAL(histogram->GetMeasurementVectorSize(), numberOfComponents);
 
-  constexpr unsigned int measurementVectorSize = 17;
+  constexpr unsigned int measurementVectorSize{ 17 };
   ITK_TRY_EXPECT_EXCEPTION(histogram->SetMeasurementVectorSize(measurementVectorSize));
 
   index.Fill(0);
   MeasurementVectorType measurement = histogram->GetMeasurementVector(index);
   for (unsigned int kid0 = 0; kid0 < numberOfComponents; ++kid0)
   {
-    constexpr float expectedValF = 8.0;
+    constexpr float expectedValF{ 8.0 };
     const float     obtainedValF = measurement[kid0];
     if (itk::Math::NotAlmostEquals(obtainedValF, expectedValF))
     {
@@ -352,7 +352,7 @@ itkHistogramTest(int, char *[])
   measurement = histogram->GetMeasurementVector(index);
   for (unsigned int kid1 = 0; kid1 < numberOfComponents; ++kid1)
   {
-    constexpr float expectedValF = 8.0;
+    constexpr float expectedValF{ 8.0 };
     const float     obtainedValF = measurement[kid1];
     if (itk::Math::NotAlmostEquals(obtainedValF, expectedValF))
     {
@@ -365,11 +365,11 @@ itkHistogramTest(int, char *[])
     }
   }
 
-  constexpr InstanceIdentifier instanceId = 0;
+  constexpr InstanceIdentifier instanceId{ 0 };
   measurement = histogram->GetMeasurementVector(instanceId);
   for (unsigned int kid2 = 0; kid2 < numberOfComponents; ++kid2)
   {
-    constexpr float expectedValF = 8.0;
+    constexpr float expectedValF{ 8.0 };
     const float     obtainedValF = measurement[kid2];
     if (itk::Math::NotAlmostEquals(obtainedValF, expectedValF))
     {
@@ -502,7 +502,7 @@ itkHistogramTest(int, char *[])
   ITK_TEST_EXPECT_TRUE(histogram->GetIndex(measurementVectorAbove, aboveUpperIndex));
 
   // Get the mean value for a dimension
-  constexpr unsigned int dimension = 0;
+  constexpr unsigned int dimension{ 0 };
   const double           mean = histogram->Mean(dimension);
   std::cout << "Mean value along dimension " << dimension << " : " << mean << std::endl;
 
@@ -536,7 +536,7 @@ itkHistogramTest(int, char *[])
 
   // Exercise GetMin / GetMax methods
   {
-    constexpr double        epsilon = 1e-6;
+    constexpr double        epsilon{ 1e-6 };
     HistogramType::SizeType size2 = histogram->GetSize();
 
     HistogramType::BinMinContainerType binMinimums = histogram->GetMins();

@@ -31,7 +31,7 @@ int
 itkDeformableSimplexMesh3DGradientConstraintForceFilterTest(int, char *[])
 {
 
-  constexpr unsigned int PointDimension = 3;
+  constexpr unsigned int PointDimension{ 3 };
 
   // Declare the type of the input and output mesh
   using TriangleMeshTraits = itk::DefaultDynamicMeshTraits<double, PointDimension, PointDimension, double, double>;
@@ -130,7 +130,7 @@ itkDeformableSimplexMesh3DGradientConstraintForceFilterTest(int, char *[])
   deformFilter->SetAlpha(0.2);
   deformFilter->SetBeta(0.1);
 
-  constexpr int range = 1;
+  constexpr int range{ 1 };
   deformFilter->SetRange(range);
   ITK_TEST_SET_GET_VALUE(range, deformFilter->GetRange());
 

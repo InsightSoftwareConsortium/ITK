@@ -31,8 +31,8 @@ itkImplicitManifoldNormalVectorFilterTest(int, char *[])
   using FunctionType = itk::NormalVectorDiffusionFunction<OutputImageType>;
 
   auto                                im_init = InputImageType::New();
-  constexpr InputImageType::SizeType  sz = { { 50, 50 } };
-  constexpr InputImageType::IndexType idx = { { 0, 0 } };
+  constexpr InputImageType::SizeType  sz{ 50, 50 };
+  constexpr InputImageType::IndexType idx{ 0, 0 };
   InputImageType::RegionType          r = { idx, sz };
   im_init->SetRegions(r);
   im_init->Allocate();

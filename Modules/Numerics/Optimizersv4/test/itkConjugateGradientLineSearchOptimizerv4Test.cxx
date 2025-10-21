@@ -184,7 +184,7 @@ ConjugateGradientLineSearchOptimizerv4RunTest(itk::ConjugateGradientLineSearchOp
   //
   // check results to see if it is within range
   //
-  constexpr double trueParameters[2] = { 2, -2 };
+  constexpr double trueParameters[2]{ 2, -2 };
   for (unsigned int j = 0; j < 2; ++j)
   {
     if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)

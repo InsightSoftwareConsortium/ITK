@@ -82,7 +82,7 @@ itkImageTest(int, char *[])
   // test inverse direction
   std::cout << "Test inverse direction." << std::endl;
   Image::DirectionType product = direction * image->GetInverseDirection();
-  constexpr double     eps = 1e-06;
+  constexpr double     eps{ 1e-06 };
   if (itk::Math::abs(product[0][0] - 1.0) > eps || itk::Math::abs(product[1][1] - 1.0) > eps ||
       itk::Math::abs(product[0][1]) > eps || itk::Math::abs(product[1][0]) > eps)
   {

@@ -38,7 +38,7 @@ itkMultiResolutionImageRegistrationMethodTest(int, char *[])
 
   itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
 
-  constexpr unsigned int dimension = 3;
+  constexpr unsigned int dimension{ 3 };
 
   // Fixed Image Type
   using FixedImageType = itk::Image<float, dimension>;
@@ -122,7 +122,7 @@ itkMultiResolutionImageRegistrationMethodTest(int, char *[])
   registration->SetFixedImageRegion(fixedImage->GetBufferedRegion());
   ITK_TEST_SET_GET_VALUE(fixedImage->GetBufferedRegion(), registration->GetFixedImageRegion());
 
-  constexpr itk::SizeValueType numberOfLevels = 2;
+  constexpr itk::SizeValueType numberOfLevels{ 2 };
   registration->SetNumberOfLevels(numberOfLevels);
   ITK_TEST_SET_GET_VALUE(numberOfLevels, registration->GetNumberOfLevels());
 

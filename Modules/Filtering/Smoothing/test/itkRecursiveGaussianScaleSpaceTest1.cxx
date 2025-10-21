@@ -30,8 +30,8 @@ NormalizeSineWave(double frequencyPerImage, unsigned int order, double pixelSpac
   // frequency, this methods verifies that the normalized scale-scale
   // is with in reasonable tolerance of the theoretical value.
 
-  constexpr unsigned int ImageDimension = 1;
-  constexpr unsigned int imageSize = 1024;
+  constexpr unsigned int ImageDimension{ 1 };
+  constexpr unsigned int imageSize{ 1024 };
   const double           tol = std::pow(.000001, 1.0 / order);
 
   const double frequency = frequencyPerImage * 2.0 * itk::Math::pi / (imageSize * pixelSpacing);

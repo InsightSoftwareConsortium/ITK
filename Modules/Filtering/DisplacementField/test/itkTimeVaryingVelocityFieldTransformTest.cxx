@@ -23,8 +23,8 @@
 int
 itkTimeVaryingVelocityFieldTransformTest(int, char *[])
 {
-  constexpr unsigned int ComponentDimension = 3;
-  constexpr unsigned int VelocityFieldDimension = 4;
+  constexpr unsigned int ComponentDimension{ 3 };
+  constexpr unsigned int VelocityFieldDimension{ 4 };
 
   using ComponentType = double;
 

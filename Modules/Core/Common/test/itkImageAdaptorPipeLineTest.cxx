@@ -82,7 +82,7 @@ itkImageAdaptorPipeLineTest(int, char *[])
 
   const myRegionType region{ start, size };
 
-  constexpr float spacing[3] = { 1.0, 1.0, 1.0 };
+  constexpr float spacing[3]{ 1.0, 1.0, 1.0 };
 
   //-------------------------------------------------------------
   //                 Create and Initialize the RGBPixel image
@@ -143,7 +143,7 @@ itkImageAdaptorPipeLineTest(int, char *[])
 
   myFloatIteratorType itf(myFloatImage, myFloatImage->GetRequestedRegion());
 
-  constexpr myFloatPixelType initialFloatValue = 5.0;
+  constexpr myFloatPixelType initialFloatValue{ 5.0 };
 
   while (!itf.IsAtEnd())
   {

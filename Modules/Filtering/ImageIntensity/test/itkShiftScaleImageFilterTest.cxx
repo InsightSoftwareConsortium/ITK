@@ -39,7 +39,7 @@ itkShiftScaleImageFilterTest(int, char *[])
   TestInputImage::RegionType          region = { index, size };
 
   // first try a constant image
-  constexpr double fillValue = -100.0;
+  constexpr double fillValue{ -100.0 };
   inputImage->SetRegions(region);
   inputImage->Allocate();
   inputImage->FillBuffer(static_cast<TestInputImage::PixelType>(fillValue));
@@ -65,8 +65,8 @@ itkShiftScaleImageFilterTest(int, char *[])
 
   // Set up source
   source->SetSize(randomSize);
-  constexpr double minValue = -128.0;
-  constexpr double maxValue = 127.0;
+  constexpr double minValue{ -128.0 };
+  constexpr double maxValue{ 127.0 };
 
   source->SetMin(static_cast<TestInputImage::PixelType>(minValue));
   source->SetMax(static_cast<TestInputImage::PixelType>(maxValue));

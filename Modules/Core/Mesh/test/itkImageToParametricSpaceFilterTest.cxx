@@ -111,7 +111,7 @@ itkImageToParametricSpaceFilterTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, ImageToParametricSpaceFilter, ImageToMeshFilter);
 
 
-  constexpr bool computeIndices = true;
+  constexpr bool computeIndices{ true };
   ITK_TEST_SET_GET_BOOLEAN(filter, ComputeIndices, computeIndices);
 
   // Connect the inputs

@@ -50,7 +50,7 @@ itkNiftiImageIOTest4(int argc, char * argv[])
   }
 
   //
-  constexpr unsigned int dimsize = 2;
+  constexpr unsigned int dimsize{ 2 };
 
   constexpr Test4ImageType::SizeType  size{ dimsize, dimsize, dimsize };
   constexpr Test4ImageType::IndexType index{};

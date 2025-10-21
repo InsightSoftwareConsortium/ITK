@@ -90,9 +90,9 @@ public:
     auto rawImageIO = RawImageIOType::New();
     reader->SetImageIO(rawImageIO);
 
-    constexpr unsigned int dim[2] = { 16, 16 };
-    constexpr double       spacing[2] = { 1.0, 1.0 };
-    constexpr double       origin[2] = { 0.0, 0.0 };
+    constexpr unsigned int dim[2]{ 16, 16 };
+    constexpr double       spacing[2]{ 1.0, 1.0 };
+    constexpr double       origin[2]{ 0.0, 0.0 };
 
     for (unsigned int i = 0; i < 2; ++i)
     {
