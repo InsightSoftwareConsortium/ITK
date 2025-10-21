@@ -83,8 +83,8 @@ CreateSquareQuadMesh(typename TMesh::Pointer mesh)
   }
 
   /////////////////////////////////////////////////////////////
-  constexpr int expectedNumPts = 25;
-  constexpr int expectedNumCells = 16;
+  constexpr int expectedNumPts{ 25 };
+  constexpr int expectedNumCells{ 16 };
   const int     simpleSquareCells[64] = { 0,  1,  6,  5,  1,  2,  7,  6,  2,  3,  8,  7,  3,  4,  9,  8,
                                           5,  6,  11, 10, 6,  7,  12, 11, 7,  8,  13, 12, 8,  9,  14, 13,
                                           10, 11, 16, 15, 11, 12, 17, 16, 12, 13, 18, 17, 13, 14, 19, 18,
@@ -129,8 +129,8 @@ CreateSquareTriangularMesh(typename TMesh::Pointer mesh)
   }
 
   /////////////////////////////////////////////////////////////
-  constexpr int expectedNumPts = 25;
-  constexpr int expectedNumCells = 32;
+  constexpr int expectedNumPts{ 25 };
+  constexpr int expectedNumCells{ 32 };
   const int     simpleSquareCells[96] = { 0,  1,  6,  0,  6,  5,  1,  2,  7,  1,  7,  6,  2,  3,  8,  2,  8,  7,  3,  4,
                                           9,  3,  9,  8,  5,  6,  11, 5,  11, 10, 6,  7,  12, 6,  12, 11, 7,  8,  13, 7,
                                           13, 12, 8,  9,  14, 8,  14, 13, 10, 11, 16, 10, 16, 15, 11, 12, 17, 11, 17, 16,
@@ -174,8 +174,8 @@ CreateTetraedronMesh(typename TMesh::Pointer mesh)
   }
 
   /////////////////////////////////////////////////////////////
-  constexpr int expectedNumPts = 4;
-  constexpr int expectedNumCells = 4;
+  constexpr int expectedNumPts{ 4 };
+  constexpr int expectedNumCells{ 4 };
   const int     simpleSquareCells[12] = { 0, 1, 2, 1, 0, 3, 1, 3, 2, 2, 3, 0 };
 
   using PointType = typename TMesh::PointType;
@@ -231,8 +231,8 @@ CreateSamosa(typename TMesh::Pointer mesh)
   }
 
   /////////////////////////////////////////////////////////////
-  constexpr int expectedNumPts = 3;
-  constexpr int expectedNumCells = 2;
+  constexpr int expectedNumPts{ 3 };
+  constexpr int expectedNumCells{ 2 };
   const int     simpleSquareCells[6] = { 0, 1, 2, 1, 0, 2 };
 
   using PointType = typename TMesh::PointType;

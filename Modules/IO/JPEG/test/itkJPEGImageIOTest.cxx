@@ -38,7 +38,7 @@ itkJPEGImageIOTest(int argc, char * argv[])
 
   // ATTENTION THIS IS THE PIXEL TYPE FOR
   // THE RESULTING IMAGE
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
   using PixelType = unsigned char;
 
   using myImage = itk::Image<PixelType, Dimension>;

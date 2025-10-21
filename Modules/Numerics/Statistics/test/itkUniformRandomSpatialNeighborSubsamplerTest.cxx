@@ -38,7 +38,7 @@ itkUniformRandomSpatialNeighborSubsamplerTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
 
   using FloatImage = itk::Image<float, Dimension>;
   using RegionType = FloatImage::RegionType;
@@ -51,7 +51,7 @@ itkUniformRandomSpatialNeighborSubsamplerTest(int argc, char * argv[])
 
   auto                                    inImage = FloatImage::New();
   constexpr typename SizeType::value_type regionSizeVal = 35;
-  constexpr auto                          sz = SizeType::Filled(regionSizeVal);
+  constexpr auto                          sz{ SizeType::Filled(regionSizeVal) };
   constexpr IndexType                     idx{};
   const RegionType                        region{ idx, sz };
 

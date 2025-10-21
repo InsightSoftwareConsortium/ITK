@@ -26,7 +26,7 @@ itkOtsuMultipleThresholdsCalculatorTest2(int, char *[])
   auto histogram = HistogramType::New();
 
   bool                   passed = true;
-  constexpr unsigned int pixelCount = 4;
+  constexpr unsigned int pixelCount{ 4 };
   for (unsigned int thresholdCount = 1; thresholdCount < pixelCount; ++thresholdCount)
   {
     // initialize histogram

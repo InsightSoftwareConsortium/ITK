@@ -38,7 +38,7 @@ itkGradientRecursiveGaussianFilterTest4(int argc, char * argv[])
   const std::string outFileName = argv[2];
 
   // Define the dimension of the images
-  constexpr unsigned int myDimension = 2;
+  constexpr unsigned int myDimension{ 2 };
 
   // Declare the types of the images
   using FloatType = float;

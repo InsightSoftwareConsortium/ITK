@@ -26,8 +26,8 @@ using ImageType = itk::Image<unsigned int, 3>;
 ImageType::Pointer
 CreateRandomImage()
 {
-  constexpr ImageType::SizeType  imageSize = { { 4, 4, 4 } };
-  constexpr ImageType::IndexType imageIndex = { { 0, 0, 0 } };
+  constexpr ImageType::SizeType  imageSize{ 4, 4, 4 };
+  constexpr ImageType::IndexType imageIndex{ 0, 0, 0 };
   const ImageType::RegionType    region{ imageIndex, imageSize };
   auto                           img = ImageType::New();
   img->SetRegions(region);

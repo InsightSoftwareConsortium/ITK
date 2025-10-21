@@ -326,7 +326,7 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::ThreadedPerturbClust
   unsigned long stride[ImageDimension];
 
 
-  constexpr auto searchRadius = InputImageType::SizeType::Filled(1);
+  constexpr auto searchRadius{ InputImageType::SizeType::Filled(1) };
 
 
   using NeighborhoodType = ConstNeighborhoodIterator<TInputImage>;

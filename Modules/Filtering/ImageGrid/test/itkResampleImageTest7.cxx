@@ -31,7 +31,7 @@ int
 itkResampleImageTest7(int, char *[])
 {
 
-  constexpr unsigned int VDimension = 2;
+  constexpr unsigned int VDimension{ 2 };
 
   using PixelType = float;
 
@@ -50,7 +50,7 @@ itkResampleImageTest7(int, char *[])
   // Create and configure an image
   const ImagePointerType  image = ImageType::New();
   ImageIndexType          index = { { 0, 0 } };
-  constexpr ImageSizeType size = { { 64, 64 } };
+  constexpr ImageSizeType size{ 64, 64 };
   const ImageRegionType   region{ index, size };
   image->SetRegions(region);
   image->Allocate();
@@ -148,7 +148,7 @@ itkResampleImageTest7(int, char *[])
   }
 
   // Test non default values
-  constexpr auto origin = itk::MakeFilled<ImageType::PointType>(1234.0);
+  constexpr auto origin{ itk::MakeFilled<ImageType::PointType>(1234.0) };
   resample->SetOutputOrigin(origin);
   ITK_TEST_SET_GET_VALUE(origin, resample->GetOutputOrigin());
 

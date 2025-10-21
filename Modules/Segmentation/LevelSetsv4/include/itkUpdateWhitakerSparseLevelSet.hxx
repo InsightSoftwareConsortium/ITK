@@ -104,7 +104,7 @@ UpdateWhitakerSparseLevelSet<VDimension, TLevelSetValueType, TEquationContainer>
   /** todo: put neighborhood creation in protected method */
   ZeroFluxNeumannBoundaryCondition<LabelImageType> spNBC;
 
-  constexpr auto radius = MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1);
+  constexpr auto radius{ MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1) };
 
   NeighborhoodIteratorType neighIt(radius, this->m_InternalImage, this->m_InternalImage->GetLargestPossibleRegion());
 
@@ -194,7 +194,7 @@ UpdateWhitakerSparseLevelSet<VDimension, TLevelSetValueType, TEquationContainer>
 
   ZeroFluxNeumannBoundaryCondition<LabelImageType> spNBC;
 
-  constexpr auto radius = MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1);
+  constexpr auto radius{ MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1) };
 
   NeighborhoodIteratorType neighIt(radius, this->m_InternalImage, this->m_InternalImage->GetLargestPossibleRegion());
 
@@ -355,7 +355,7 @@ UpdateWhitakerSparseLevelSet<VDimension, TLevelSetValueType, TEquationContainer>
 
   ZeroFluxNeumannBoundaryCondition<LabelImageType> spNBC;
 
-  constexpr auto radius = MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1);
+  constexpr auto radius{ MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1) };
 
   NeighborhoodIteratorType neighIt(radius, this->m_InternalImage, this->m_InternalImage->GetLargestPossibleRegion());
 
@@ -460,7 +460,7 @@ UpdateWhitakerSparseLevelSet<VDimension, TLevelSetValueType, TEquationContainer>
 {
   ZeroFluxNeumannBoundaryCondition<LabelImageType> spNBC;
 
-  constexpr auto radius = MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1);
+  constexpr auto radius{ MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1) };
 
   NeighborhoodIteratorType neighIt(radius, this->m_InternalImage, this->m_InternalImage->GetLargestPossibleRegion());
 
@@ -565,7 +565,7 @@ UpdateWhitakerSparseLevelSet<VDimension, TLevelSetValueType, TEquationContainer>
 {
   ZeroFluxNeumannBoundaryCondition<LabelImageType> spNBC;
 
-  constexpr auto radius = MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1);
+  constexpr auto radius{ MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1) };
 
   NeighborhoodIteratorType neighIt(radius, this->m_InternalImage, this->m_InternalImage->GetLargestPossibleRegion());
 
@@ -669,7 +669,7 @@ UpdateWhitakerSparseLevelSet<VDimension, TLevelSetValueType, TEquationContainer>
 {
   ZeroFluxNeumannBoundaryCondition<LabelImageType> spNBC;
 
-  constexpr auto radius = MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1);
+  constexpr auto radius{ MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1) };
 
   NeighborhoodIteratorType neighIt(radius, this->m_InternalImage, this->m_InternalImage->GetLargestPossibleRegion());
 
@@ -796,7 +796,7 @@ UpdateWhitakerSparseLevelSet<VDimension, TLevelSetValueType, TEquationContainer>
 {
   ZeroFluxNeumannBoundaryCondition<LabelImageType> spNBC;
 
-  constexpr auto radius = MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1);
+  constexpr auto radius{ MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1) };
 
   NeighborhoodIteratorType neighIt(radius, this->m_InternalImage, this->m_InternalImage->GetLargestPossibleRegion());
 
@@ -853,7 +853,7 @@ UpdateWhitakerSparseLevelSet<VDimension, TLevelSetValueType, TEquationContainer>
 {
   ZeroFluxNeumannBoundaryCondition<LabelImageType> spNBC;
 
-  constexpr auto radius = MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1);
+  constexpr auto radius{ MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1) };
 
   NeighborhoodIteratorType neighIt(radius, this->m_InternalImage, this->m_InternalImage->GetLargestPossibleRegion());
 

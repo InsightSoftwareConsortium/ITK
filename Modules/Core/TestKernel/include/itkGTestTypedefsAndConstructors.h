@@ -34,7 +34,7 @@ namespace itk::GTest::TypedefsAndConstructors
 namespace Dimension2
 {
 
-constexpr unsigned int Dimension = 2;
+constexpr unsigned int Dimension{ 2 };
 
 using ImageBaseType = itk::ImageBase<Dimension>;
 
@@ -56,7 +56,7 @@ using RegionType = ImageBaseType::RegionType;
 namespace Dimension3
 {
 
-constexpr unsigned int Dimension = 3;
+constexpr unsigned int Dimension{ 3 };
 
 using ImageBaseType = itk::ImageBase<Dimension>;
 

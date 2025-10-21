@@ -105,7 +105,7 @@ itkImageRegistrationMethodTest_14(int, char *[])
 
   bool pass = true;
 
-  constexpr unsigned int dimension = 3;
+  constexpr unsigned int dimension{ 3 };
 
   using PixelType = float;
 
@@ -143,11 +143,11 @@ itkImageRegistrationMethodTest_14(int, char *[])
    * Set up the two input images.
    * One image rotated (xy plane) and shifted with respect to the other.
    **********************************************************/
-  constexpr double displacement[dimension] = { 7, 3, 2 };
-  constexpr double angle = 10.0 / 180.0 * itk::Math::pi;
+  constexpr double displacement[dimension]{ 7, 3, 2 };
+  constexpr double angle{ 10.0 / 180.0 * itk::Math::pi };
 
   FixedImageType::SizeType            size = { { 100, 100, 40 } };
-  constexpr FixedImageType::IndexType index = { { 0, 0, 0 } };
+  constexpr FixedImageType::IndexType index{ 0, 0, 0 };
   const FixedImageType::RegionType    region{ index, size };
 
   fixedImage->SetRegions(region);
@@ -261,8 +261,8 @@ itkImageRegistrationMethodTest_14(int, char *[])
   /***********************************************************
    * Run the registration - reducing learning rate as we go
    ************************************************************/
-  constexpr unsigned int numberOfLoops = 3;
-  constexpr unsigned int iter[numberOfLoops] = { 300, 300, 350 };
+  constexpr unsigned int numberOfLoops{ 3 };
+  constexpr unsigned int iter[numberOfLoops]{ 300, 300, 350 };
   constexpr double       rates[numberOfLoops] = { 1e-3, 5e-4, 1e-4 };
 
   for (unsigned int j = 0; j < numberOfLoops; ++j)
@@ -400,7 +400,7 @@ F(itk::Vector<double, 3> & v)
   double           x = v[0];
   double           y = v[1];
   double           z = v[2];
-  constexpr double s = 50;
+  constexpr double s{ 50 };
   double           value = 200.0 * std::exp(-(x * x + y * y + z * z) / (s * s));
   x -= 8;
   y += 3;

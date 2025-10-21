@@ -35,7 +35,7 @@ itkModulusImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
 
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType, Dimension>;
@@ -57,7 +57,7 @@ itkModulusImageFilterTest(int argc, char * argv[])
 
   filter->SetInput(distance->GetOutput());
 
-  constexpr FilterType::InputPixelType dividend = 8;
+  constexpr FilterType::InputPixelType dividend{ 8 };
   filter->SetDividend(dividend);
   ITK_TEST_SET_GET_VALUE(dividend, filter->GetDividend());
 

@@ -33,7 +33,7 @@ itkVectorImageReadWriteTest(int argc, char * argv[])
 
   // Test for vector pixel type.
 
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
 
   // Create image of vector pixels
   using PixelType = itk::Vector<double, 4>;

@@ -21,7 +21,7 @@
 #include "itkTestingMacros.h"
 
 // type alias for test
-constexpr unsigned int Dimension = 2;
+constexpr unsigned int Dimension{ 2 };
 using InputPixelType = unsigned char;
 using InputFrameType = itk::Image<InputPixelType, Dimension>;
 using InputVideoType = itk::VideoStream<InputFrameType>;
@@ -171,8 +171,8 @@ itkVideoToVideoFilterTest(int, char *[])
   // Set up an input video stream
   auto                    inputVideo = InputVideoType::New();
   itk::TemporalRegion     inputLargestTemporalRegion;
-  constexpr SizeValueType inputStart = 0;
-  constexpr SizeValueType inputDuration = 10;
+  constexpr SizeValueType inputStart{ 0 };
+  constexpr SizeValueType inputDuration{ 10 };
   inputLargestTemporalRegion.SetFrameStart(inputStart);
   inputLargestTemporalRegion.SetFrameDuration(inputDuration);
   inputVideo->SetLargestPossibleTemporalRegion(inputLargestTemporalRegion);
@@ -227,7 +227,7 @@ itkVideoToVideoFilterTest(int, char *[])
     itk::ImageRegionConstIterator<OutputFrameType> iter(frame, frame->GetRequestedRegion());
 
     const OutputPixelType     expectedVal = ((OutputPixelType)(i)-1.0 + (OutputPixelType)(i)) / 2.0;
-    constexpr OutputPixelType epsilon = .00001;
+    constexpr OutputPixelType epsilon{ .00001 };
     while (!iter.IsAtEnd())
     {
       if (iter.Get() < expectedVal - epsilon || iter.Get() > expectedVal + epsilon)

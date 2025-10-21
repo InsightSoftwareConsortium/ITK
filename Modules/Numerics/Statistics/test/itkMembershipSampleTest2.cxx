@@ -25,9 +25,9 @@ int
 itkMembershipSampleTest2(int, char *[])
 {
 
-  constexpr unsigned int MeasurementVectorSize = 3;
+  constexpr unsigned int MeasurementVectorSize{ 3 };
 
-  constexpr unsigned int numberOfClasses1 = 2;
+  constexpr unsigned int numberOfClasses1{ 2 };
 
   using MeasurementVectorType = itk::Array<float>;
 
@@ -59,7 +59,7 @@ itkMembershipSampleTest2(int, char *[])
   membershipSample->Print(std::cout);
 
   // Add measurement vectors to the list sample
-  constexpr unsigned int sampleSize = 10;
+  constexpr unsigned int sampleSize{ 10 };
   MeasurementVectorType  mv;
   itk::NumericTraits<MeasurementVectorType>::SetLength(mv, MeasurementVectorSize);
 

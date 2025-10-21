@@ -162,8 +162,8 @@ itkLevelSetMotionRegistrationFilterTest(int argc, char * argv[])
   initField->Allocate();
 
   double              center[ImageDimension];
-  constexpr PixelType fgnd = 250;
-  constexpr PixelType bgnd = 15;
+  constexpr PixelType fgnd{ 250 };
+  constexpr PixelType bgnd{ 15 };
 
   // fill moving with circle
   center[0] = 64;
@@ -203,15 +203,15 @@ itkLevelSetMotionRegistrationFilterTest(int argc, char * argv[])
   registrator->SetMaximumError(0.08);
   registrator->SetMaximumKernelWidth(10);
 
-  constexpr double intensityDifferenceThreshold = 0.001;
+  constexpr double intensityDifferenceThreshold{ 0.001 };
   registrator->SetIntensityDifferenceThreshold(intensityDifferenceThreshold);
   ITK_TEST_SET_GET_VALUE(intensityDifferenceThreshold, registrator->GetIntensityDifferenceThreshold());
 
-  constexpr double gradientMagnitudeThreshold = 1e-9;
+  constexpr double gradientMagnitudeThreshold{ 1e-9 };
   registrator->SetGradientMagnitudeThreshold(gradientMagnitudeThreshold);
   ITK_TEST_SET_GET_VALUE(gradientMagnitudeThreshold, registrator->GetGradientMagnitudeThreshold());
 
-  constexpr double alpha = 0.1;
+  constexpr double alpha{ 0.1 };
   registrator->SetAlpha(alpha);
   ITK_TEST_SET_GET_VALUE(alpha, registrator->GetAlpha());
 
@@ -313,7 +313,7 @@ itkLevelSetMotionRegistrationFilterTest(int argc, char * argv[])
 
   std::cout << "Number of pixels different: " << numPixelsDifferent << std::endl;
 
-  constexpr unsigned int maximumNumberOfPixelsDifferent = 4600;
+  constexpr unsigned int maximumNumberOfPixelsDifferent{ 4600 };
   if (numPixelsDifferent > maximumNumberOfPixelsDifferent)
   {
     std::cout << "Test failed - too many pixels different." << std::endl;

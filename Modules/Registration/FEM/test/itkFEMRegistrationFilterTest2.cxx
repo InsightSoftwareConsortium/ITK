@@ -27,7 +27,7 @@
 
 // itkFEMRegistrationFilter2DTest.cxx tests the itk::FEMRegistrationFilter
 // class on 2D images
-constexpr unsigned int ImageDimension = 3;
+constexpr unsigned int ImageDimension{ 3 };
 
 using InputImagePixelType = unsigned char;
 using DeformationFieldPixelType = float;

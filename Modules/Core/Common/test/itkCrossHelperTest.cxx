@@ -24,9 +24,9 @@
 int
 itkCrossHelperTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
 {
-  constexpr unsigned int Dimension2D = 2;
-  constexpr unsigned int Dimension3D = 3;
-  constexpr unsigned int Dimension4D = 4;
+  constexpr unsigned int Dimension2D{ 2 };
+  constexpr unsigned int Dimension3D{ 3 };
+  constexpr unsigned int Dimension4D{ 4 };
 
   using CoordinateType = double;
 

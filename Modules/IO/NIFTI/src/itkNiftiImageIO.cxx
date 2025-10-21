@@ -1880,7 +1880,7 @@ IsAffine(const mat44 & nifti_mat)
   // Make sure we adhere to the conditions of a 4x4 invertible affine transform matrix
   const double     diff_matrix_array_one_norm = (inv4x4Top3x3 - invTop3x3Matrix).array_one_norm();
   const double     diff_vector_translation_one_norm = (inv4x4Translation - inv3x3Translation).one_norm();
-  constexpr double normed_tolerance_matrix_close = 1e-2;
+  constexpr double normed_tolerance_matrix_close{ 1e-2 };
   return !((diff_matrix_array_one_norm > normed_tolerance_matrix_close) ||
            (diff_vector_translation_one_norm > normed_tolerance_matrix_close));
 }
@@ -2011,7 +2011,7 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short dims, double spacing
         {
           // Ensure that the scales are approximately the same for spacing directions
           bool            sform_scales_ok{ true };
-          constexpr float large_value_tolerance = 1e-3; // Numerical precision of sform is not very good
+          constexpr float large_value_tolerance{ 1e-3 }; // Numerical precision of sform is not very good
           if (itk::Math::abs(m_Holder->ptr->dx - rotation.get_column(0).magnitude()) > large_value_tolerance)
           {
             sform_scales_ok = false;

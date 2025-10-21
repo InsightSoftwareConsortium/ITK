@@ -205,12 +205,12 @@ itkEuclideanDistancePointSetMetricTest3(int, char *[])
 {
   int result = EXIT_SUCCESS;
 
-  constexpr double distanceThresholdPositive = 0.5;
-  constexpr double distanceThresholdZero = 0.0;
-  constexpr double distanceThresholdNegative = -8.0;
+  constexpr double distanceThresholdPositive{ 0.5 };
+  constexpr double distanceThresholdZero{ 0.0 };
+  constexpr double distanceThresholdNegative{ -8.0 };
 
-  constexpr unsigned int dimension2D = 2;
-  constexpr unsigned int dimension3D = 3;
+  constexpr unsigned int dimension2D{ 2 };
+  constexpr unsigned int dimension3D{ 3 };
 
   // Test for positive distance threshold
   if (itkEuclideanDistancePointSetMetricTest3Run<dimension2D>(distanceThresholdPositive) == EXIT_FAILURE)

@@ -32,8 +32,8 @@ int
 itkDemonsImageToImageMetricv4Test(int, char ** const)
 {
 
-  constexpr unsigned int imageSize = 5;
-  constexpr unsigned int imageDimensionality = 3;
+  constexpr unsigned int imageSize{ 5 };
+  constexpr unsigned int imageDimensionality{ 3 };
   using ImageType = itk::Image<double, imageDimensionality>;
 
   auto                           size = ImageType::SizeType::Filled(imageSize);
@@ -241,7 +241,7 @@ itkDemonsImageToImageMetricv4Test(int, char ** const)
   ITK_TRY_EXPECT_EXCEPTION(metric->Initialize());
 
   /* Exercise accessor method */
-  constexpr auto testValue = static_cast<MetricType::InternalComputationValueType>(0.5);
+  constexpr auto testValue{ static_cast<MetricType::InternalComputationValueType>(0.5) };
   metric->SetIntensityDifferenceThreshold(testValue);
   if (itk::Math::NotExactlyEquals(metric->GetIntensityDifferenceThreshold(), testValue))
   {

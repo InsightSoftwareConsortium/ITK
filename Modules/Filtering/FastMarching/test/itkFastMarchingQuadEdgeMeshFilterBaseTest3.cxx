@@ -26,7 +26,7 @@ itkFastMarchingQuadEdgeMeshFilterBaseTest3(int, char *[])
 {
   using PixelType = float;
   using CoordType = double;
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
 
   using Traits = itk::QuadEdgeMeshExtendedTraits<PixelType, // type of data for vertices
                                                  Dimension, // geometrical dimension of space

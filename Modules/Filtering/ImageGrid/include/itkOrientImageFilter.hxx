@@ -104,9 +104,9 @@ OrientImageFilter<TInputImage, TOutputImage>::DeterminePermutationsAndFlips(
   const CoordinateOrientationCode moving_orient)
 {
   // 3-dimensional version of code system only. The 3-axis testing is unrolled.
-  constexpr unsigned int NumDims = 3; // InputImageDimension is
-                                      // regarded as 3.
-  constexpr unsigned int CodeAxisIncreasingField = 1;
+  constexpr unsigned int NumDims{ 3 }; // InputImageDimension is
+                                       // regarded as 3.
+  constexpr unsigned int CodeAxisIncreasingField{ 1 };
   auto                   fixed_codes = fixed_orient.GetTerms();
   auto                   moving_codes = moving_orient.GetTerms();
 

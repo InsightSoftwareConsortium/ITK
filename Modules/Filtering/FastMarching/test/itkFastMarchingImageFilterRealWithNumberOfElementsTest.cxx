@@ -30,7 +30,7 @@ itkFastMarchingImageFilterRealWithNumberOfElementsTest(int, char *[])
 {
   // create a fastmarching object
   using PixelType = float;
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
 
   using FloatImageType = itk::Image<PixelType, Dimension>;
 
@@ -53,7 +53,7 @@ itkFastMarchingImageFilterRealWithNumberOfElementsTest(int, char *[])
 
   NodePairType node_pair;
 
-  constexpr FloatImageType::OffsetType offset0 = { { 28, 35 } };
+  constexpr FloatImageType::OffsetType offset0{ 28, 35 };
 
   itk::Index<2> index{};
 
@@ -103,7 +103,7 @@ itkFastMarchingImageFilterRealWithNumberOfElementsTest(int, char *[])
   marcher->SetTrialPoints(trial);
 
   // specify the size of the output image
-  constexpr FloatImageType::SizeType size = { { 64, 64 } };
+  constexpr FloatImageType::SizeType size{ 64, 64 };
   marcher->SetOutputSize(size);
 
   // setup a speed image of ones

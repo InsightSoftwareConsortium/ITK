@@ -26,7 +26,7 @@ int
 itkHistogramImageToImageMetricTest(int, char *[])
 {
   // Create two simple images.
-  constexpr unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension{ 2 };
   using PixelType = double;
   using CoordinateRepresentationType = double;
 
@@ -45,8 +45,8 @@ itkHistogramImageToImageMetricTest(int, char *[])
   FixedImageType::SpacingValueType  fixedImageSpacing[] = { 1.0f, 1.0f };
   MovingImageType::SpacingValueType movingImageSpacing[] = { 1.0f, 1.0f };
 
-  constexpr FixedImageType::PointValueType  fixedImageOrigin[] = { 0.0f, 0.0f };
-  constexpr MovingImageType::PointValueType movingImageOrigin[] = { 0.0f, 0.0f };
+  constexpr FixedImageType::PointValueType  fixedImageOrigin[]{ 0.0f, 0.0f };
+  constexpr MovingImageType::PointValueType movingImageOrigin[]{ 0.0f, 0.0f };
 
   auto movingImageSource = MovingImageSourceType::New();
   auto fixedImageSource = FixedImageSourceType::New();
@@ -78,7 +78,7 @@ itkHistogramImageToImageMetricTest(int, char *[])
 
   auto metric = MetricType::New();
 
-  constexpr unsigned int              nBins = 256;
+  constexpr unsigned int              nBins{ 256 };
   MetricType::HistogramType::SizeType histSize;
   histSize.SetSize(2);
   histSize[0] = nBins;
@@ -121,7 +121,7 @@ itkHistogramImageToImageMetricTest(int, char *[])
     scales[k] = 1;
   }
 
-  constexpr double STEP_LENGTH = 0.001;
+  constexpr double STEP_LENGTH{ 0.001 };
   metric->SetDerivativeStepLength(STEP_LENGTH);
   metric->SetDerivativeStepLengthScales(scales);
 

@@ -24,7 +24,7 @@
 int
 itkVanHerkGilWermanErodeDilateImageFilterTest(int, char ** const)
 {
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
 
   using PixelType = float;
   using ImageType = itk::Image<PixelType, Dimension>;

@@ -223,7 +223,7 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>::ThreadedApplyUpdate(const 
                                                                           ThreadIdType             threadId)
 {
   // constexpr int INNER_MASK = 2;
-  constexpr signed char INNER_MASK = 2;
+  constexpr signed char INNER_MASK{ 2 };
 
   const typename OutputImageType::Pointer image = this->GetOutput();
   for (auto it = regionToProcess.first; it != regionToProcess.last; ++it)

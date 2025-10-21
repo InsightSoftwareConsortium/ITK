@@ -30,7 +30,7 @@ RunLinearInterpolateTest()
 {
   using PixelType = float;
   const unsigned int     Dimensions = TDimension;
-  constexpr unsigned int VectorDimension = 4;
+  constexpr unsigned int VectorDimension{ 4 };
   using VectorPixelType = itk::Vector<PixelType, VectorDimension>;
   using ImageType = itk::Image<PixelType, Dimensions>;
   using VectorImageType = itk::Image<VectorPixelType, Dimensions>;
@@ -63,7 +63,7 @@ RunLinearInterpolateTest()
   constexpr IndexType start{};
 
   SizeType      size;
-  constexpr int dimMaxLength = 3;
+  constexpr int dimMaxLength{ 3 };
   size.Fill(dimMaxLength);
 
   const RegionType region{ start, size };
@@ -156,9 +156,9 @@ RunLinearInterpolateTest()
     ITK_TEST_SET_GET_VALUE(radius[d], interpolator->GetRadius()[d]);
   }
 
-  constexpr AccumulatorType incr = 0.2;
+  constexpr AccumulatorType incr{ 0.2 };
 
-  constexpr AccumulatorType tolerance = 5e-6;
+  constexpr AccumulatorType tolerance{ 5e-6 };
   // The tolerance of the norm must be greater than the tolerance for individual items.
   const AccumulatorType normTolerance = std::sqrt(4.0f * tolerance * tolerance);
 

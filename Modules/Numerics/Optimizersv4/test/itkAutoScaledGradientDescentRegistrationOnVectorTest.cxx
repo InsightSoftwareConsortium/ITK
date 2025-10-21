@@ -136,7 +136,7 @@ itkAutoScaledGradientDescentRegistrationOnVectorTestTemplated(int               
     auto transformForward = true;
     ITK_TEST_SET_GET_BOOLEAN(shiftScalesEstimator, TransformForward, transformForward);
 
-    constexpr itk::IndexValueType centralRegionRadius = 5;
+    constexpr itk::IndexValueType centralRegionRadius{ 5 };
     shiftScalesEstimator->SetCentralRegionRadius(centralRegionRadius);
     ITK_TEST_SET_GET_VALUE(centralRegionRadius, shiftScalesEstimator->GetCentralRegionRadius());
 
@@ -201,7 +201,7 @@ itkAutoScaledGradientDescentRegistrationOnVectorTestTemplated(int               
   // the end of the list of parameters.
   const unsigned int offsetOrder = finalParameters.Size() - actualParameters.Size();
 
-  constexpr double tolerance = 1.0; // equivalent to 1 pixel.
+  constexpr double tolerance{ 1.0 }; // equivalent to 1 pixel.
 
   for (unsigned int i = 0; i < numbeOfParameters; ++i)
   {
@@ -248,7 +248,7 @@ itkAutoScaledGradientDescentRegistrationOnVectorTest(int argc, char ** const arg
     shiftOfStep = std::stod(argv[2]);
   }
 
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
 
   std::cout << std::endl << "Optimizing translation transform with shift scales" << std::endl;
   using TranslationTransformType = itk::TranslationTransform<double, Dimension>;

@@ -82,7 +82,7 @@ Assert_GenerateImageNeighborhoodOffsets_returns_expected_offsets_excluding_cente
 {
   using ShapeType = itk::ConnectedImageNeighborhoodShape<VImageDimension>;
 
-  constexpr bool  includeCenterPixel = false;
+  constexpr bool  includeCenterPixel{ false };
   const ShapeType shape{ VMaximumCityblockDistance, includeCenterPixel };
 
   ASSERT_EQ(GenerateImageNeighborhoodOffsets(shape), expectedOffsets);
@@ -243,7 +243,7 @@ TEST(ConnectedImageNeighborhoodShape, OffsetsAreUniqueAndColexicographicallyOrde
 TEST(ConnectedImageNeighborhoodShape, SupportsConstShapedNeighborhoodIterator)
 {
   using ImageType = itk::Image<int>;
-  constexpr auto ImageDimension = ImageType::ImageDimension;
+  constexpr auto ImageDimension{ ImageType::ImageDimension };
   using SizeType = itk::Size<ImageDimension>;
   using OffsetType = itk::Offset<ImageDimension>;
 
@@ -286,8 +286,8 @@ TEST(ConnectedImageNeighborhoodShape, SupportsConstShapedNeighborhoodIterator)
 
   // Define a shape that should generate the same offsets as in the
   // previous ActivateOffset(offset) calls.
-  constexpr size_t cityBlockDistance = 1;
-  constexpr bool   includeCenterPixel = false;
+  constexpr size_t cityBlockDistance{ 1 };
+  constexpr bool   includeCenterPixel{ false };
 
   shapedNeighborhoodIterator.ActivateOffsets(
     itk::GenerateConnectedImageNeighborhoodShapeOffsets<ImageDimension, cityBlockDistance, includeCenterPixel>());

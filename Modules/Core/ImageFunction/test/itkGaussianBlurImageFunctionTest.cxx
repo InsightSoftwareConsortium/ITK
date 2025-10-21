@@ -23,7 +23,7 @@
 int
 itkGaussianBlurImageFunctionTest(int, char *[])
 {
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
   using PixelType = float;
   using ImageType = itk::Image<PixelType, Dimension>;
   using GFunctionType = itk::GaussianBlurImageFunction<ImageType>;
@@ -111,7 +111,7 @@ itkGaussianBlurImageFunctionTest(int, char *[])
   // Testing Set/GetMaximumKernelWidth()
   {
     std::cout << "Testing Set/GetMaximumKernelWidth(): ";
-    constexpr int setKernelWidth = 47;
+    constexpr int setKernelWidth{ 47 };
 
     gaussianFunction->SetMaximumKernelWidth(setKernelWidth);
 

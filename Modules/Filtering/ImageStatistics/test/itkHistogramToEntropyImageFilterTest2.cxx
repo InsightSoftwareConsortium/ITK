@@ -37,7 +37,7 @@ itkHistogramToEntropyImageFilterTest2(int argc, char * argv[])
   }
 
 
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
   using PixelComponentType = unsigned char;
 
   using ScalarImageType = itk::Image<PixelComponentType, Dimension>;
@@ -66,7 +66,7 @@ itkHistogramToEntropyImageFilterTest2(int argc, char * argv[])
 
   using HistogramMeasurementVectorType = HistogramFilterType::HistogramMeasurementVectorType;
 
-  constexpr unsigned int NumberOfComponents = 2;
+  constexpr unsigned int NumberOfComponents{ 2 };
 
   const itk::MinimumMaximumImageFilter<ScalarImageType>::Pointer minmaxFilter =
     itk::MinimumMaximumImageFilter<ScalarImageType>::New();

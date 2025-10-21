@@ -39,7 +39,7 @@ itkVectorGradientMagnitudeImageFilterTest1(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
 
   using RGBPixelType = itk::RGBPixel<unsigned short>;
   using CharImageType = itk::Image<unsigned char, Dimension>;

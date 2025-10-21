@@ -58,7 +58,7 @@ itkTernaryOperatorImageFilterTest(int, char *[])
   //
 
   // Define the dimension of the images
-  constexpr unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension{ 2 };
 
   // Declare the pixel types of the images
   using MaskPixelType = bool;
@@ -87,13 +87,13 @@ itkTernaryOperatorImageFilterTest(int, char *[])
     }
   }
 
-  constexpr short val1 = 25;
+  constexpr short val1{ 25 };
   auto            image1 = GrayImageType::New();
   image1->SetRegions(region);
   image1->Allocate();
   image1->FillBuffer(val1);
 
-  constexpr short val2 = 123;
+  constexpr short val2{ 123 };
   auto            image2 = GrayImageType::New();
   image2->SetRegions(region);
   image2->Allocate();

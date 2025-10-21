@@ -25,7 +25,7 @@
 int
 itkHistogramToTextureFeaturesFilterNaNTest(int, char *[])
 {
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType, Dimension>;
 

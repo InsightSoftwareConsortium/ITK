@@ -85,7 +85,7 @@ itkLabeledPointSetMetricRegistrationTestPerMetric(unsigned int numberOfIteration
     auto label = static_cast<unsigned int>(1.5 + count / 35);
 
     PointType       fixedPoint;
-    constexpr float radius = 100.0;
+    constexpr float radius{ 100.0 };
     fixedPoint[0] = radius * std::cos(theta);
     fixedPoint[1] = radius * std::sin(theta);
     if (PointSetType::PointDimension > 2)
@@ -192,7 +192,7 @@ itkLabeledPointSetMetricRegistrationTest(int argc, char * argv[])
     numberOfIterations = std::stoi(argv[1]);
   }
 
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
   using PointSetType = itk::PointSet<unsigned int, Dimension>;
 
   int allSuccess = EXIT_SUCCESS;

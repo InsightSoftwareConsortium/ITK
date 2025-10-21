@@ -29,9 +29,9 @@ itkImageToHistogramFilterTest(int, char *[])
 {
   using PixelComponentType = unsigned char;
   using RGBPixelType = itk::RGBPixel<PixelComponentType>;
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
   using RGBImageType = itk::Image<RGBPixelType, Dimension>;
-  constexpr unsigned int MeasurementVectorSize = 3; // RGB
+  constexpr unsigned int MeasurementVectorSize{ 3 }; // RGB
 
   int result = EXIT_SUCCESS;
 
@@ -75,7 +75,7 @@ itkImageToHistogramFilterTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, ImageToHistogramFilter, ImageSink);
 
 
-  constexpr unsigned int numberOfStreamDivisions = 1;
+  constexpr unsigned int numberOfStreamDivisions{ 1 };
   filter->SetNumberOfStreamDivisions(numberOfStreamDivisions);
   ITK_TEST_SET_GET_VALUE(numberOfStreamDivisions, filter->GetNumberOfStreamDivisions());
 

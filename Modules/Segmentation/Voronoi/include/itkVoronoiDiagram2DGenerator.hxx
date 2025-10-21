@@ -26,8 +26,8 @@
 
 namespace itk
 {
-constexpr double NUMERIC_TOLERENCE = 1.0e-10;
-constexpr double DIFF_TOLERENCE = 0.001;
+constexpr double NUMERIC_TOLERENCE{ 1.0e-10 };
+constexpr double DIFF_TOLERENCE{ 0.001 };
 
 template <typename TCoordinate>
 VoronoiDiagram2DGenerator<TCoordinate>::VoronoiDiagram2DGenerator()

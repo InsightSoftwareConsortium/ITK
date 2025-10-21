@@ -36,7 +36,7 @@ itkShapePositionLabelMapFilterTest1(int argc, char * argv[])
   }
 
   // declare the dimension used, and the type of the input image
-  constexpr int dim = 3;
+  constexpr int dim{ 3 };
   using PType = unsigned char;
   using IType = itk::Image<PType, dim>;
 

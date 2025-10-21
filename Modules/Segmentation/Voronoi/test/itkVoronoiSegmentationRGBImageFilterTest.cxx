@@ -36,21 +36,21 @@ namespace VoronoiSegRGBTest
 //
 // global constants
 //
-constexpr unsigned int  width = 256;
-constexpr unsigned int  height = 256;
-constexpr unsigned char bgMean = 64;
-constexpr unsigned char bgStd = 10;
-constexpr unsigned char fgMean = 128;
-constexpr unsigned char fgStd = 5;
-constexpr unsigned int  objAStartX = 30;
-constexpr unsigned int  objAEndX = 94;
-constexpr unsigned int  objAStartY = 30;
-constexpr unsigned int  objAEndY = 94;
-constexpr unsigned int  objBStartX = 150;
-constexpr unsigned int  objBEndX = 214;
-constexpr unsigned int  objBStartY = 150;
-constexpr unsigned int  objBEndY = 214;
-constexpr double        minCorrectRate = .875; // .875 is all classified as background
+constexpr unsigned int  width{ 256 };
+constexpr unsigned int  height{ 256 };
+constexpr unsigned char bgMean{ 64 };
+constexpr unsigned char bgStd{ 10 };
+constexpr unsigned char fgMean{ 128 };
+constexpr unsigned char fgStd{ 5 };
+constexpr unsigned int  objAStartX{ 30 };
+constexpr unsigned int  objAEndX{ 94 };
+constexpr unsigned int  objAStartY{ 30 };
+constexpr unsigned int  objAEndY{ 94 };
+constexpr unsigned int  objBStartX{ 150 };
+constexpr unsigned int  objBEndX{ 214 };
+constexpr unsigned int  objBStartY{ 150 };
+constexpr unsigned int  objBEndY{ 214 };
+constexpr double        minCorrectRate{ .875 }; // .875 is all classified as background
 
 
 //
@@ -61,7 +61,7 @@ SetUpInputImage()
 {
   // initialize the test input image
   auto                          inputImage = ImageType::New();
-  constexpr ImageType::SizeType size = { { width, height } };
+  constexpr ImageType::SizeType size{ width, height };
   ImageType::RegionType         region;
   region.SetSize(size);
   inputImage->SetRegions(region);
@@ -262,7 +262,7 @@ TestWithPrior(ImageType::Pointer inputImage)
   // set up the prior
   std::cout << "Setting up the prior image" << std::endl;
   auto                                  prior = BinaryObjectImage::New();
-  constexpr BinaryObjectImage::SizeType size = { { width, height } };
+  constexpr BinaryObjectImage::SizeType size{ width, height };
   BinaryObjectImage::RegionType         region;
   region.SetSize(size);
   prior->SetRegions(region);

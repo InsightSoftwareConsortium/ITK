@@ -28,10 +28,10 @@ int
 itkSampleClassifierFilterTest2(int, char *[])
 {
 
-  constexpr unsigned int numberOfComponents = 1;
+  constexpr unsigned int numberOfComponents{ 1 };
   using MeasurementType = float;
 
-  constexpr unsigned int numberOfClasses = 2;
+  constexpr unsigned int numberOfClasses{ 2 };
 
   using MeasurementVectorType = itk::Array<MeasurementType>;
   using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
@@ -103,10 +103,10 @@ itkSampleClassifierFilterTest2(int, char *[])
 
   using ClassLabelType = FilterType::ClassLabelType;
 
-  constexpr ClassLabelType class1 = 0;
+  constexpr ClassLabelType class1{ 0 };
   classLabelVector.push_back(class1);
 
-  constexpr ClassLabelType class2 = 1;
+  constexpr ClassLabelType class2{ 1 };
   classLabelVector.push_back(class2);
 
   // Set a decision rule type
@@ -129,7 +129,7 @@ itkSampleClassifierFilterTest2(int, char *[])
   itk::NumericTraits<MeasurementVectorType>::SetLength(mv, numberOfComponents);
   double                 mean = mean1[0];
   double                 standardDeviation = std::sqrt(covariance1[0][0]);
-  constexpr unsigned int numberOfSampleEachClass = 10;
+  constexpr unsigned int numberOfSampleEachClass{ 10 };
   for (unsigned int i = 0; i < numberOfSampleEachClass; ++i)
   {
     mv[0] = (normalGenerator->GetVariate() * standardDeviation) + mean;

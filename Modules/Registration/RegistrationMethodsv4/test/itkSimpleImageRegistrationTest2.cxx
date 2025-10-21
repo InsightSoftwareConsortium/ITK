@@ -206,7 +206,7 @@ PerformSimpleImageRegistration2(int argc, char * argv[])
 
   const typename RegistrationType::MetricSamplingStrategyEnum rigidSamplingStrategy =
     RegistrationType::MetricSamplingStrategyEnum::RANDOM;
-  constexpr double rigidSamplingPercentage = 0.20;
+  constexpr double rigidSamplingPercentage{ 0.20 };
   rigidRegistration->SetMetricSamplingStrategy(rigidSamplingStrategy);
   ITK_TEST_SET_GET_VALUE(rigidSamplingStrategy, rigidRegistration->GetMetricSamplingStrategy());
 

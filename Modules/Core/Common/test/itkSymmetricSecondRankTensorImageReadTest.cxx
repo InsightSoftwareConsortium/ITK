@@ -85,7 +85,7 @@ itkSymmetricSecondRankTensorImageReadTest(int argc, char * argv[])
     const TensorImageType::ConstPointer tensorImage = itk::ReadImage<TensorImageType>(argv[1]);
 
     // Compare the read values to the original values
-    constexpr float tolerance = 1e-5;
+    constexpr float tolerance{ 1e-5 };
 
     itk::ImageRegionConstIterator<TensorImageType> tItr(tensorImage, region);
     itk::ImageRegionConstIterator<MatrixImageType> mItr(matrixImage, region);

@@ -140,7 +140,7 @@ itkFRPROptimizerTest(int, char *[])
   itkOptimizer->SetMaximize(false);
   itkOptimizer->SetMaximumIteration(50);
 
-  constexpr bool useUnitLengthGradient = false;
+  constexpr bool useUnitLengthGradient{ false };
   ITK_TEST_SET_GET_BOOLEAN(itkOptimizer, UseUnitLengthGradient, useUnitLengthGradient);
 
   {
@@ -172,7 +172,7 @@ itkFRPROptimizerTest(int, char *[])
     // check results to see if it is within range
     //
     bool             pass = true;
-    constexpr double trueParameters[2] = { 2, -2 };
+    constexpr double trueParameters[2]{ 2, -2 };
     for (unsigned int j = 0; j < 2; ++j)
     {
       if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)
@@ -227,7 +227,7 @@ itkFRPROptimizerTest(int, char *[])
     // check results to see if it is within range
     //
     bool             pass = true;
-    constexpr double trueParameters[2] = { 2, -2 };
+    constexpr double trueParameters[2]{ 2, -2 };
     for (unsigned int j = 0; j < 2; ++j)
     {
       if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)

@@ -314,7 +314,7 @@ public:
   SizeType
   GetRadius() const override
   {
-    constexpr auto radius = SizeType::Filled(VRadius);
+    constexpr auto radius{ SizeType::Filled(VRadius) };
     return radius;
   }
 

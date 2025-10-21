@@ -48,8 +48,8 @@ itkMutualInformationMetricTest(int, char *[])
     ImageDimension = MovingImageType::ImageDimension
   };
 
-  constexpr MovingImageType::SizeType  size = { { 100, 100 } };
-  constexpr MovingImageType::IndexType index = { { 0, 0 } };
+  constexpr MovingImageType::SizeType  size{ 100, 100 };
+  constexpr MovingImageType::IndexType index{ 0, 0 };
   const MovingImageType::RegionType    region{ index, size };
 
   auto imgMoving = MovingImageType::New();

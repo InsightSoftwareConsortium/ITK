@@ -28,10 +28,10 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
 
   using TransformType = itk::Rigid3DPerspectiveTransform<double>;
 
-  constexpr double       epsilon = 1e-10;
-  constexpr unsigned int N = 3;
+  constexpr double       epsilon{ 1e-10 };
+  constexpr unsigned int N{ 3 };
 
-  constexpr double focal = 100.0;
+  constexpr double focal{ 100.0 };
 
   bool Ok = true;
 

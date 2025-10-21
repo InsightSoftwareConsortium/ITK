@@ -42,7 +42,7 @@ TEST(itkTestingComparisonImageFilterTest, TestZeroImages)
   using ImageType = itk::Image<unsigned short, 2>;
   auto                          image1 = ImageType::New();
   auto                          image2 = ImageType::New();
-  constexpr ImageType::SizeType size = { { 16, 16 } };
+  constexpr ImageType::SizeType size{ 16, 16 };
   image1->SetRegions(size);
   image2->SetRegions(size);
   image1->AllocateInitialized();
@@ -72,7 +72,7 @@ TEST(itkTestingComparisonImageFilterTest, TestOneDifferentPixel)
   using ImageType = itk::Image<unsigned char, 2>;
   auto                          image1 = ImageType::New();
   auto                          image2 = ImageType::New();
-  constexpr ImageType::SizeType size = { { 16, 16 } };
+  constexpr ImageType::SizeType size{ 16, 16 };
   image1->SetRegions(size);
   image2->SetRegions(size);
   image1->AllocateInitialized();

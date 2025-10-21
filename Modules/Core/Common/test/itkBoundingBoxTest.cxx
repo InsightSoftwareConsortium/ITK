@@ -138,7 +138,7 @@ itkBoundingBoxTest(int, char *[])
 
   const CC::PointsContainerPointer Points3D = CC::PointsContainer::New();
 
-  constexpr CC::PointType::ValueType qval1[3] = { -1.0f, -1.0f, -1.0f };
+  constexpr CC::PointType::ValueType qval1[3]{ -1.0f, -1.0f, -1.0f };
   CC::PointType                      Q = qval1;
   Points3D->InsertElement(0, Q);
 
@@ -193,7 +193,7 @@ itkBoundingBoxTest(int, char *[])
 
   // Testing the DeepCopy method
   {
-    constexpr double            tolerance = 1e-10;
+    constexpr double            tolerance{ 1e-10 };
     const CC::Pointer           clone = my3DBox->DeepCopy();
     const CC::BoundsArrayType & originalBounds = my3DBox->GetBounds();
     const CC::BoundsArrayType & clonedbounds = clone->GetBounds();

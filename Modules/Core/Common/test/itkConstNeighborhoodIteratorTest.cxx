@@ -212,7 +212,7 @@ itkConstNeighborhoodIteratorTest(int, char *[])
   // Test IndexInBounds
   //
   println("Testing IndexInBounds");
-  constexpr int                dims[4] = { 13, 11, 9, 7 };
+  constexpr int                dims[4]{ 13, 11, 9, 7 };
   const TestImageType::Pointer iib_img = GetTestImage(dims[0], dims[1], dims[2], dims[3]);
   radius[0] = 4;
   radius[1] = 3;

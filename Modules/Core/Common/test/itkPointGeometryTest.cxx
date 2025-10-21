@@ -36,7 +36,7 @@ itkPointGeometryTest(int, char *[])
 {
 
   // Dimension & Type
-  constexpr unsigned int N = 3;
+  constexpr unsigned int N{ 3 };
   using ValueType = double;
 
   //  Vector & Point Classes
@@ -113,7 +113,7 @@ itkPointGeometryTest(int, char *[])
   {
     std::cout << "Test for CastFrom() method... ";
 
-    constexpr float tolerance = 1e-7;
+    constexpr float tolerance{ 1e-7 };
 
     //  Point Classes
     using DoublePointType = itk::Point<double, N>;
@@ -150,8 +150,8 @@ itkPointGeometryTest(int, char *[])
   // Test the MeanPoint
   {
     PointType                      midpoint;
-    constexpr PointType::ValueType aInit[3] = { 2.0, 4.0, 7.0 };
-    constexpr PointType::ValueType bInit[3] = { 6.0, 2.0, 9.0 };
+    constexpr PointType::ValueType aInit[3]{ 2.0, 4.0, 7.0 };
+    constexpr PointType::ValueType bInit[3]{ 6.0, 2.0, 9.0 };
     PointType                      A = aInit;
     PointType                      B = bInit;
     midpoint.SetToMidPoint(A, B);
@@ -173,13 +173,13 @@ itkPointGeometryTest(int, char *[])
 
   // Test the Barycentric combination
   {
-    constexpr double               tolerance = 1e-10;
+    constexpr double               tolerance{ 1e-10 };
     PointType                      combination;
-    constexpr PointType::ValueType aInit[3] = { 2.0, 4.0, 7.0 };
-    constexpr PointType::ValueType bInit[3] = { 6.0, 2.0, 9.0 };
+    constexpr PointType::ValueType aInit[3]{ 2.0, 4.0, 7.0 };
+    constexpr PointType::ValueType bInit[3]{ 6.0, 2.0, 9.0 };
     PointType                      A = aInit;
     PointType                      B = bInit;
-    constexpr double               alpha = 0.5;
+    constexpr double               alpha{ 0.5 };
     combination.SetToBarycentricCombination(A, B, alpha);
     std::cout << "Test for Barycentric combination" << std::endl;
     std::cout << "PA = " << A << std::endl;
@@ -200,16 +200,16 @@ itkPointGeometryTest(int, char *[])
 
   // Test the Barycentric combination
   {
-    constexpr double               tolerance = 1e-10;
+    constexpr double               tolerance{ 1e-10 };
     PointType                      combination;
-    constexpr PointType::ValueType aInit[3] = { 12.0, 0.0, 0.0 };
-    constexpr PointType::ValueType bInit[3] = { 0.0, 0.0, 12.0 };
-    constexpr PointType::ValueType cInit[3] = { 0.0, 12.0, 0.0 };
+    constexpr PointType::ValueType aInit[3]{ 12.0, 0.0, 0.0 };
+    constexpr PointType::ValueType bInit[3]{ 0.0, 0.0, 12.0 };
+    constexpr PointType::ValueType cInit[3]{ 0.0, 12.0, 0.0 };
     PointType                      A = aInit;
     PointType                      B = bInit;
     PointType                      C = cInit;
-    constexpr double               alpha = 1.0 / 3.0;
-    constexpr double               beta = 1.0 / 3.0;
+    constexpr double               alpha{ 1.0 / 3.0 };
+    constexpr double               beta{ 1.0 / 3.0 };
     combination.SetToBarycentricCombination(A, B, C, alpha, beta);
     std::cout << "Test for Barycentric combination" << std::endl;
     std::cout << "PA = " << A << std::endl;
@@ -232,12 +232,12 @@ itkPointGeometryTest(int, char *[])
 
   // Test the Barycentric combination for an array
   {
-    constexpr double       tolerance = 1e-10;
+    constexpr double       tolerance{ 1e-10 };
     PointType              combination;
-    constexpr unsigned int NP = 3;
+    constexpr unsigned int NP{ 3 };
     PointType              A[NP];
     double                 w[NP - 1];
-    constexpr double       K = 12.0;
+    constexpr double       K{ 12.0 };
     PointType::ValueType   aInit0[3] = { K, 0.0, 0.0 };
     PointType::ValueType   aInit1[3] = { 0.0, K, 0.0 };
     PointType::ValueType   aInit2[3] = { 0.0, 0.0, K };
@@ -262,12 +262,12 @@ itkPointGeometryTest(int, char *[])
 
   // Test the Barycentric combination for an VectorContainer of Points
   {
-    constexpr double       tolerance = 1e-10;
-    constexpr unsigned int NP = 3;
+    constexpr double       tolerance{ 1e-10 };
+    constexpr unsigned int NP{ 3 };
     using VectorOfPoints = itk::VectorContainer<PointType>;
     auto points = VectorOfPoints::New();
     points->Reserve(NP);
-    constexpr double K = 12.0;
+    constexpr double K{ 12.0 };
 
     VectorOfPoints::Iterator point = points->Begin();
     PointType::ValueType     vInit0[3] = { K, 0.0, 0.0 };

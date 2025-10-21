@@ -26,9 +26,9 @@ itkScalarImageToRunLengthFeaturesFilterTest(int, char *[])
 {
 
   // Data definitions
-  constexpr unsigned int IMGWIDTH = 5;
-  constexpr unsigned int IMGHEIGHT = 5;
-  constexpr unsigned int NDIMENSION = 2;
+  constexpr unsigned int IMGWIDTH{ 5 };
+  constexpr unsigned int IMGHEIGHT{ 5 };
+  constexpr unsigned int NDIMENSION{ 2 };
 
 
   //------------------------------------------------------
@@ -41,7 +41,7 @@ itkScalarImageToRunLengthFeaturesFilterTest(int, char *[])
 
   auto image = InputImageType::New();
 
-  constexpr InputImageType::SizeType inputImageSize = { { IMGWIDTH, IMGHEIGHT } };
+  constexpr InputImageType::SizeType inputImageSize{ IMGWIDTH, IMGHEIGHT };
 
   constexpr InputImageType::IndexType index{};
   InputImageType::RegionType          region{ index, inputImageSize };
@@ -194,7 +194,7 @@ itkScalarImageToRunLengthFeaturesFilterTest(int, char *[])
     RunLengthFilterType::FeatureValueVectorPointer means = texFilter->GetFeatureMeans();
     RunLengthFilterType::FeatureValueVectorPointer stds = texFilter->GetFeatureStandardDeviations();
 
-    constexpr double expectedMeans[10] = { 0.76, 7, 10.4, 20, 0.0826667, 15.4, 0.0628267, 11.704, 0.578667, 107.8 };
+    constexpr double expectedMeans[10]{ 0.76, 7, 10.4, 20, 0.0826667, 15.4, 0.0628267, 11.704, 0.578667, 107.8 };
 
     {
       RunLengthFilterType::FeatureValueVector::ConstIterator mIt = means->Begin();
@@ -209,8 +209,8 @@ itkScalarImageToRunLengthFeaturesFilterTest(int, char *[])
       }
     }
     {
-      constexpr double expectedDeviations[10] = { 0.415692, 10.3923,   4.50333, 8.66025,  0,
-                                                  0,        0.0343639, 6.40166, 0.859097, 160.041494 };
+      constexpr double expectedDeviations[10]{ 0.415692, 10.3923,   4.50333, 8.66025,  0,
+                                               0,        0.0343639, 6.40166, 0.859097, 160.041494 };
       RunLengthFilterType::FeatureValueVector::ConstIterator sIt = stds->Begin();
       for (int counter = 0; sIt != stds->End(); ++sIt, counter++)
       {
@@ -228,8 +228,8 @@ itkScalarImageToRunLengthFeaturesFilterTest(int, char *[])
     means = texFilter->GetFeatureMeans();
     stds = texFilter->GetFeatureStandardDeviations();
 
-    constexpr double expectedMeans2[10] = { 1, 1, 13, 25, 0.0826667, 15.4, 0.0826667, 15.4, 0.0826667, 15.4 };
-    constexpr double expectedDeviations2[10] = { 0 };
+    constexpr double expectedMeans2[10]{ 1, 1, 13, 25, 0.0826667, 15.4, 0.0826667, 15.4, 0.0826667, 15.4 };
+    constexpr double expectedDeviations2[10]{ 0 };
 
     {
       RunLengthFilterType::FeatureValueVector::ConstIterator mIt = means->Begin();
@@ -292,8 +292,8 @@ itkScalarImageToRunLengthFeaturesFilterTest(int, char *[])
     means = texFilter->GetFeatureMeans();
     stds = texFilter->GetFeatureStandardDeviations();
 
-    constexpr double expectedMeans3[10] = { 1, 1, 13, 25, 0.0826667, 15.4, 0.0826667, 15.4, 0.0826667, 15.4 };
-    constexpr double expectedDeviations3[10] = { 0 };
+    constexpr double expectedMeans3[10]{ 1, 1, 13, 25, 0.0826667, 15.4, 0.0826667, 15.4, 0.0826667, 15.4 };
+    constexpr double expectedDeviations3[10]{ 0 };
     {
       RunLengthFilterType::FeatureValueVector::ConstIterator mIt = means->Begin();
       for (int counter = 0; mIt != means->End(); ++mIt, counter++)

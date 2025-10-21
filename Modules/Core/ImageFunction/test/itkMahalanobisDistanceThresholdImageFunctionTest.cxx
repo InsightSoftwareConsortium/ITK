@@ -27,7 +27,7 @@ int
 itkMahalanobisDistanceThresholdImageFunctionTest(int, char *[])
 {
 
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
   using PixelComponentType = unsigned char;
   using PixelType = itk::RGBPixel<PixelComponentType>;
 
@@ -57,7 +57,7 @@ itkMahalanobisDistanceThresholdImageFunctionTest(int, char *[])
 
   function->SetInputImage(image);
 
-  constexpr double threshold = 5.0;
+  constexpr double threshold{ 5.0 };
   function->SetThreshold(threshold);
 
   FunctionType::CovarianceMatrixType covariance(Dimension, Dimension);
@@ -89,7 +89,7 @@ itkMahalanobisDistanceThresholdImageFunctionTest(int, char *[])
   const double distance = function->EvaluateDistanceAtIndex(index);
   std::cout << "function->EvaluateDistanceAtIndex( index ): " << distance << std::endl;
 
-  constexpr double expectedDistance = 0.244949;
+  constexpr double expectedDistance{ 0.244949 };
   if (!itk::Math::FloatAlmostEqual(distance, expectedDistance, 10, 1e-5))
   {
     std::cerr << "Error in distance computation in EvaluateDistanceAtIndex() !!" << std::endl;

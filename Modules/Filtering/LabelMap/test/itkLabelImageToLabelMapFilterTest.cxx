@@ -24,7 +24,7 @@ void
 zeroSizeCase()
 {
   // test filter with zero sized image
-  constexpr unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension{ 3 };
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType, ImageDimension>;
   auto p_filter = itk::LabelImageToLabelMapFilter<ImageType>::New();
@@ -40,7 +40,7 @@ zeroSizeCase()
 int
 itkLabelImageToLabelMapFilterTest(int, char *[])
 {
-  constexpr int Dimension = 2;
+  constexpr int Dimension{ 2 };
 
   using LabelObjectType = itk::LabelObject<unsigned long, Dimension>;
   using IndexType = LabelObjectType::IndexType;

@@ -35,7 +35,7 @@ itkNrrdImageReadWriteTest(int argc, char * argv[])
   }
 
 
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
 
   using PixelType = float;
   using myImage = itk::Image<PixelType, Dimension>;

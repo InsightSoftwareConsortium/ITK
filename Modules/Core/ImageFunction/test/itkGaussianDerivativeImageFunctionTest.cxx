@@ -24,7 +24,7 @@ template <typename TPixel>
 int
 TestGaussianDerivativeImageFunction()
 {
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
   using PixelType = TPixel;
   using ImageType = itk::Image<PixelType, Dimension>;
 
@@ -50,7 +50,7 @@ TestGaussianDerivativeImageFunction()
   using DoGFunctionType = itk::GaussianDerivativeImageFunction<ImageType>;
   auto DoG = DoGFunctionType::New();
 
-  constexpr bool useImageSpacing = true;
+  constexpr bool useImageSpacing{ true };
   ITK_TEST_SET_GET_BOOLEAN(DoG, UseImageSpacing, useImageSpacing);
 
   DoG->SetInputImage(image);
@@ -143,7 +143,7 @@ itkGaussianDerivativeImageFunctionTest(int, char *[])
   // Exercise basic object methods
   // Done outside the helper function in the test because GCC is limited
   // when calling overloaded base class functions.
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
   using PixelType = float;
   using ImageType = itk::Image<PixelType, Dimension>;
 

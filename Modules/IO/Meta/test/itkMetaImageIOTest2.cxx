@@ -40,7 +40,7 @@ TestUnknowMetaDataBug(const std::string & fname)
     using ImageType = itk::Image<PixelType, 2>;
 
     ImageType::RegionType         region;
-    constexpr ImageType::SizeType size = { { 32, 32 } };
+    constexpr ImageType::SizeType size{ 32, 32 };
     region.SetSize(size);
 
     auto image = ImageType::New();

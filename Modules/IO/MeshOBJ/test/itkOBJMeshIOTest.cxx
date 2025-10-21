@@ -96,10 +96,10 @@ itkOBJMeshIOTest(int argc, char * argv[])
   ITK_TEST_EXPECT_EQUAL(numberOfCellPixels, objMeshIO->GetNumberOfCellPixels());
 
   // Use sufficiently large buffer sizes
-  constexpr itk::SizeValueType pointBufferSize = 100000;
-  constexpr itk::SizeValueType pointDataBufferSize = 100000;
+  constexpr itk::SizeValueType pointBufferSize{ 100000 };
+  constexpr itk::SizeValueType pointDataBufferSize{ 100000 };
 
-  constexpr itk::SizeValueType cellBufferSize = 100000;
+  constexpr itk::SizeValueType cellBufferSize{ 100000 };
   const std::shared_ptr<void>  pointBuffer =
     itk::MeshIOTestHelper::AllocateBuffer(objMeshIO->GetPointComponentType(), pointBufferSize);
   const std::shared_ptr<void> pointDataBuffer =

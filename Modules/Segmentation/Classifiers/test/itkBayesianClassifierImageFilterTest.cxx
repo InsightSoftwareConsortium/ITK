@@ -178,7 +178,7 @@ itkBayesianClassifierImageFilterTest(int argc, char * argv[])
   }
 
   // Set up reader
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
   using InputPixelType = unsigned char;
   using InputImageType = itk::Image<InputPixelType, Dimension>;
   using ReaderType = itk::ImageFileReader<InputImageType>;
@@ -254,7 +254,7 @@ itkBayesianClassifierImageFilterTest(int argc, char * argv[])
   // The hypothesis is that the vector element type for
   // TestInitialLabelImageType must be the same as for TestPriorType
   {
-    constexpr unsigned int TestDimension = 2;
+    constexpr unsigned int TestDimension{ 2 };
     using TestLabelType = unsigned char;
     using TestPosteriorType = float;
 
@@ -274,7 +274,7 @@ itkBayesianClassifierImageFilterTest(int argc, char * argv[])
   }
 
   {
-    constexpr unsigned int TestDimension = 2;
+    constexpr unsigned int TestDimension{ 2 };
     using TestLabelType = unsigned char;
     using TestPosteriorType = float;
 
@@ -293,7 +293,7 @@ itkBayesianClassifierImageFilterTest(int argc, char * argv[])
   }
 
   {
-    constexpr unsigned int TestDimension = 2;
+    constexpr unsigned int TestDimension{ 2 };
     using TestLabelType = unsigned char;
     using TestPosteriorType = float;
 

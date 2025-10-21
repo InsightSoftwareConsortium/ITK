@@ -321,7 +321,7 @@ CreateFullPath(const char * path, const char * file)
 #  ifdef _WIN32
   const char sep = '\\';
 #  else
-  constexpr char sep = '/';
+  constexpr char sep{ '/' };
 #  endif
   /**
    * make sure the end of path is a separator
@@ -510,7 +510,7 @@ ObjectFactoryBase::RegisterFactory(ObjectFactoryBase * factory, InsertionPositio
 
   if (factory->m_LibraryHandle == nullptr)
   {
-    constexpr char nonDynamicName[] = "Non-Dynamicaly loaded factory";
+    constexpr char nonDynamicName[]{ "Non-Dynamicaly loaded factory" };
     factory->m_LibraryPath = nonDynamicName;
   }
   else

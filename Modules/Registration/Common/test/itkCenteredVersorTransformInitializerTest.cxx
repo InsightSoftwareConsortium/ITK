@@ -34,7 +34,7 @@ itkCenteredVersorTransformInitializerTest(int, char *[])
 
   bool pass = true;
 
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
 
   // Fixed Image Type
   using FixedImageType = itk::Image<unsigned char, Dimension>;
@@ -158,7 +158,7 @@ itkCenteredVersorTransformInitializerTest(int, char *[])
     TransformType::InputVectorType relativeCenter = movingCenter - fixedCenter;
 
 
-    constexpr double tolerance = 1e-3;
+    constexpr double tolerance{ 1e-3 };
 
     for (unsigned int k = 0; k < Dimension; ++k)
     {

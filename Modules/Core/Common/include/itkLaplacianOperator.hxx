@@ -66,7 +66,7 @@ LaplacianOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients() -> Coe
 {
   // Here we set the radius to 1's, here the
   // operator is 3x3 for 2D, 3x3x3 for 3D.
-  constexpr auto r = SizeType::Filled(1);
+  constexpr auto r{ SizeType::Filled(1) };
   this->SetRadius(r);
 
   // Create a vector of the correct size to hold the coefficients.

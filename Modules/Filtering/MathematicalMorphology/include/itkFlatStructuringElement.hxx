@@ -154,7 +154,7 @@ FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringElement<
       const float            phi = (1.0 + std::sqrt(5.0)) / 2.0;
       float                  b = 1.0 / phi;
       float                  c = 2.0 - phi;
-      constexpr unsigned int facets = 12;
+      constexpr unsigned int facets{ 12 };
       using FacetArrayType = std::vector<FacetType3>;
       FacetArrayType FacetArray;
       FacetArray.resize(facets);
@@ -409,7 +409,7 @@ FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringElement<
       const float            phi = (1.0 + std::sqrt(5.0)) / 2.0;
       const float            a = 0.5;
       const float            b = 1.0 / (2.0 * phi);
-      constexpr unsigned int facets = 20;
+      constexpr unsigned int facets{ 20 };
       using FacetArrayType = std::vector<FacetType3>;
       FacetArrayType FacetArray;
       FacetArray.resize(facets);

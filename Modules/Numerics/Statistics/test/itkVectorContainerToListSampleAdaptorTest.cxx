@@ -44,7 +44,7 @@ itkVectorContainerToListSampleAdaptorTest(int, char *[])
   ITK_TRY_EXPECT_EXCEPTION(adaptor->GetTotalFrequency());
 
   // Set the vector container
-  constexpr unsigned int containerSize = 3;
+  constexpr unsigned int containerSize{ 3 };
   auto                   container = ContainerType::New();
   container->Reserve(containerSize);
   for (unsigned int i = 0; i < container->Size(); ++i)

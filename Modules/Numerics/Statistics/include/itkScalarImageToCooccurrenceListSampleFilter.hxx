@@ -71,7 +71,7 @@ template <typename TImage>
 void
 ScalarImageToCooccurrenceListSampleFilter<TImage>::GenerateData()
 {
-  constexpr auto radius = MakeFilled<typename ShapedNeighborhoodIteratorType::RadiusType>(1);
+  constexpr auto radius{ MakeFilled<typename ShapedNeighborhoodIteratorType::RadiusType>(1) };
 
   using FaceCalculatorType = itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<ImageType>;
 
@@ -88,7 +88,7 @@ ScalarImageToCooccurrenceListSampleFilter<TImage>::GenerateData()
   auto * output = static_cast<SampleType *>(this->ProcessObject::GetOutput(0));
 
   // constant for a cooccurrence matrix.
-  constexpr unsigned int measurementVectorSize = 2;
+  constexpr unsigned int measurementVectorSize{ 2 };
 
   output->SetMeasurementVectorSize(measurementVectorSize);
 

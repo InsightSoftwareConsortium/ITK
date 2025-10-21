@@ -24,9 +24,9 @@
 int
 itkCovarianceImageFunctionTest(int, char *[])
 {
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
   using PixelComponentType = unsigned char;
-  constexpr unsigned int VectorDimension = 4;
+  constexpr unsigned int VectorDimension{ 4 };
 
   using PixelType = itk::FixedArray<PixelComponentType, VectorDimension>;
   using ImageType = itk::Image<PixelType, Dimension>;
@@ -50,7 +50,7 @@ itkCovarianceImageFunctionTest(int, char *[])
 
   function->SetInputImage(image);
 
-  constexpr unsigned int neighborhoodRadius = 5;
+  constexpr unsigned int neighborhoodRadius{ 5 };
   function->SetNeighborhoodRadius(neighborhoodRadius);
   ITK_TEST_SET_GET_VALUE(neighborhoodRadius, function->GetNeighborhoodRadius());
 
@@ -69,7 +69,7 @@ itkCovarianceImageFunctionTest(int, char *[])
   const FunctionType::OutputType    covariance3 = function->EvaluateAtContinuousIndex(cindex);
   std::cout << "function->EvaluateAtContinuousIndex(cindex): " << covariance3 << std::endl;
 
-  constexpr ImageType::IndexValueType imageValue = 0;
+  constexpr ImageType::IndexValueType imageValue{ 0 };
   // Since the input image is constant, the covariance should be equal to
   // the initial value
   for (unsigned int ix = 0; ix < VectorDimension; ++ix)

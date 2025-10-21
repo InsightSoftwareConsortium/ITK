@@ -198,7 +198,7 @@ itkQuasiNewtonOptimizerv4RegistrationTestMain(int argc, char * argv[])
   metric->SetMovingImage(movingImage);
   metric->SetFixedTransform(identityTransform);
   metric->SetMovingTransform(affineTransform);
-  constexpr bool gaussian = false;
+  constexpr bool gaussian{ false };
   metric->SetUseMovingImageGradientFilter(gaussian);
   metric->SetUseFixedImageGradientFilter(gaussian);
   metric->Initialize();

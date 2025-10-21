@@ -26,11 +26,11 @@ itkBinaryErodeImageFilterTest(int, char *[])
 {
 
   // Define the dimension of the images
-  constexpr unsigned int myDimension = 2;
+  constexpr unsigned int myDimension{ 2 };
 
   // Define the values of the input images
-  constexpr unsigned short fgValue = 1;
-  constexpr unsigned short bgValue = 0;
+  constexpr unsigned short fgValue{ 1 };
+  constexpr unsigned short bgValue{ 0 };
 
   // Declare the types of the images
   using myImageType = itk::Image<unsigned short, myDimension>;

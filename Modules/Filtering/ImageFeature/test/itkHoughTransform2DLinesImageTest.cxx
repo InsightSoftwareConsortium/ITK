@@ -48,7 +48,7 @@ Test_GetLines_should_return_empty_list_when_input_image_is_entirely_black()
 
   // Create a black input image for the filter.
   const auto                    image = ImageType::New();
-  constexpr ImageType::SizeType size = { { 32, 32 } };
+  constexpr ImageType::SizeType size{ 32, 32 };
   image->SetRegions(size);
   image->AllocateInitialized();
 
@@ -79,7 +79,7 @@ Test_GetLines_should_return_empty_list_when_NumberOfLines_is_set_to_zero()
     sizeX = 32,
     sizeY = 32
   };
-  constexpr ImageType::SizeType size = { { sizeX, sizeY } };
+  constexpr ImageType::SizeType size{ sizeX, sizeY };
   image->SetRegions(size);
   image->AllocateInitialized();
 
@@ -124,7 +124,7 @@ itkHoughTransform2DLinesImageTest(int, char *[])
   bool success = true;
 
   // Define the dimension of the images
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
 
   // Declare the pixel types of the images
   using PixelType = unsigned char;
@@ -146,9 +146,9 @@ itkHoughTransform2DLinesImageTest(int, char *[])
   image->AllocateInitialized();
 
   // Create a line
-  constexpr unsigned int lines = 1;
-  constexpr double       theta = 0.20; // radians
-  constexpr double       radius = 50;
+  constexpr unsigned int lines{ 1 };
+  constexpr double       theta{ 0.20 }; // radians
+  constexpr double       radius{ 50 };
 
   const double Vx = radius * std::cos(theta);
   const double Vy = radius * std::sin(theta);
@@ -195,8 +195,8 @@ itkHoughTransform2DLinesImageTest(int, char *[])
   auto threshFilter = ThresholdFilterType::New();
   threshFilter->SetInput(gradFilter->GetOutput());
   threshFilter->SetOutsideValue(0);
-  constexpr unsigned char lowerThreshold = 10;
-  constexpr unsigned char upperThreshold = 200;
+  constexpr unsigned char lowerThreshold{ 10 };
+  constexpr unsigned char upperThreshold{ 200 };
   threshFilter->ThresholdOutside(lowerThreshold, upperThreshold);
 
   threshFilter->Update();
@@ -209,11 +209,11 @@ itkHoughTransform2DLinesImageTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(houghFilter, HoughTransform2DLinesImageFilter, ImageToImageFilter);
 
 
-  constexpr float threshold = 2.3;
+  constexpr float threshold{ 2.3 };
   houghFilter->SetThreshold(threshold);
   ITK_TEST_SET_GET_VALUE(threshold, houghFilter->GetThreshold());
 
-  constexpr float angleResolution = 200.0;
+  constexpr float angleResolution{ 200.0 };
   houghFilter->SetAngleResolution(angleResolution);
   ITK_TEST_SET_GET_VALUE(angleResolution, houghFilter->GetAngleResolution());
 
@@ -221,11 +221,11 @@ itkHoughTransform2DLinesImageTest(int, char *[])
   houghFilter->SetNumberOfLines(numberOfLines);
   ITK_TEST_SET_GET_VALUE(numberOfLines, houghFilter->GetNumberOfLines());
 
-  constexpr float discRadius = 25.0;
+  constexpr float discRadius{ 25.0 };
   houghFilter->SetDiscRadius(discRadius);
   ITK_TEST_SET_GET_VALUE(discRadius, houghFilter->GetDiscRadius());
 
-  constexpr float variance = 10;
+  constexpr float variance{ 10 };
   houghFilter->SetVariance(variance);
   ITK_TEST_SET_GET_VALUE(variance, houghFilter->GetVariance());
 
@@ -319,8 +319,8 @@ itkHoughTransform2DLinesImageTest(int, char *[])
   // Check the line detection
   auto it_list = linesList.begin();
 
-  constexpr double angleTolerance = 0.1;
-  constexpr double radiusTolerance = 1.0;
+  constexpr double angleTolerance{ 0.1 };
+  constexpr double radiusTolerance{ 1.0 };
   while (it_list != linesList.end())
   {
     if (!itk::Math::FloatAlmostEqual(it_list->angle, theta, 10, angleTolerance))

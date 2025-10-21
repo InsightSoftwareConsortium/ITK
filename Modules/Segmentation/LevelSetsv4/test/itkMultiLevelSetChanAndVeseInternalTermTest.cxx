@@ -24,7 +24,7 @@
 int
 itkMultiLevelSetChanAndVeseInternalTermTest(int, char *[])
 {
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
 
   using InputPixelType = unsigned char;
   using InputImageType = itk::Image<InputPixelType, Dimension>;
@@ -59,7 +59,7 @@ itkMultiLevelSetChanAndVeseInternalTermTest(int, char *[])
 
   const ImageType::RegionType region{ index, size };
 
-  constexpr PixelType value = 0.;
+  constexpr PixelType value{ 0. };
 
   auto input = InputImageType::New();
   input->SetRegions(region);

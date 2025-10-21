@@ -27,7 +27,7 @@ template <int VDimension>
 int
 itkDiscreteGaussianDerivativeImageFunctionTestND(int argc, char * argv[])
 {
-  constexpr unsigned int Dimension = VDimension;
+  constexpr unsigned int Dimension{ VDimension };
 
   using PixelType = float;
   using ImageType = itk::Image<PixelType, Dimension>;
@@ -205,7 +205,7 @@ itkDiscreteGaussianDerivativeImageFunctionTest(int argc, char * argv[])
   // Exercise basic object methods
   // Done outside the helper function in the test because GCC is limited
   // when calling overloaded base class functions.
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
 
   using PixelType = float;
   using ImageType = itk::Image<PixelType, Dimension>;

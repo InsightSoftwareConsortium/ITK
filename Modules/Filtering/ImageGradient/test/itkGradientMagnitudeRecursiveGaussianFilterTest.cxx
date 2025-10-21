@@ -53,7 +53,7 @@ itkGradientMagnitudeRecursiveGaussianFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int myDimension = 3;
+  constexpr unsigned int myDimension{ 3 };
   using myImageType = itk::Image<float, myDimension>;
   using myIndexType = itk::Index<myDimension>;
   using mySizeType = itk::Size<myDimension>;

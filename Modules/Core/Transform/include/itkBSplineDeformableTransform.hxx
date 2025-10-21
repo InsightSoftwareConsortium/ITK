@@ -548,7 +548,7 @@ BSplineDeformableTransform<TParametersValueType, VDimension, VSplineOrder>::Comp
   // Zero all components of jacobian
   jacobian.SetSize(SpaceDimension, this->GetNumberOfParameters());
   jacobian.Fill(0.0);
-  constexpr auto supportSize = SizeType::Filled(SplineOrder + 1);
+  constexpr auto supportSize{ SizeType::Filled(SplineOrder + 1) };
 
   ContinuousIndexType index =
     this->m_CoefficientImages[0]

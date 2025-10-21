@@ -23,7 +23,7 @@
 int
 itkDirectedHausdorffDistanceImageFilterTest1(int, char *[])
 {
-  constexpr unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension{ 3 };
 
   using Pixel1Type = unsigned int;
   using Pixel2Type = float;

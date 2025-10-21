@@ -30,7 +30,7 @@ itkPointSetToListSampleAdaptorTest(int, char *[])
   auto                    pointSet = PointSetType::New();
   PointSetType::PointType point;
 
-  constexpr unsigned int numberOfPoints = 10;
+  constexpr unsigned int numberOfPoints{ 10 };
   for (unsigned int i = 0; i < numberOfPoints; ++i)
   {
     point[0] = i * 3;

@@ -35,7 +35,7 @@ itkRichardsonLucyDeconvolutionImageFilterTest(int argc, char * argv[])
   }
 
   using PixelType = float;
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
   using ImageType = itk::Image<PixelType, Dimension>;
   using ReaderType = itk::ImageFileReader<ImageType>;
   using WriterType = itk::ImageFileWriter<ImageType>;
@@ -118,7 +118,7 @@ itkRichardsonLucyDeconvolutionImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int numIterations = 5;
+  constexpr unsigned int numIterations{ 5 };
   deconvolutionFilter->SetNumberOfIterations(numIterations);
   if (deconvolutionFilter->GetNumberOfIterations() != numIterations)
   {

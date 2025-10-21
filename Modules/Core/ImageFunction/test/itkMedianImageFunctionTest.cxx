@@ -24,7 +24,7 @@ int
 itkMedianImageFunctionTest(int, char *[])
 {
 
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
   using PixelType = unsigned char;
 
   using ImageType = itk::Image<PixelType, Dimension>;
@@ -42,7 +42,7 @@ itkMedianImageFunctionTest(int, char *[])
   image->SetRegions(region);
   image->Allocate();
 
-  constexpr ImageType::PixelType initialValue = 27;
+  constexpr ImageType::PixelType initialValue{ 27 };
 
   image->FillBuffer(initialValue);
 
@@ -119,7 +119,7 @@ itkMedianImageFunctionTest(int, char *[])
   }
 
   // now set the radius
-  constexpr unsigned int neighborhoodRadius = 2;
+  constexpr unsigned int neighborhoodRadius{ 2 };
   function->SetNeighborhoodRadius(neighborhoodRadius);
   ITK_TEST_SET_GET_VALUE(neighborhoodRadius, function->GetNeighborhoodRadius());
 

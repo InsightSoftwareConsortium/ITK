@@ -30,7 +30,7 @@ itkPadImageFilterTest(int, char *[])
   auto padFilter = FilterType::New();
 
   SizeType           lowerBound = { { 1, 2 } };
-  constexpr SizeType upperBound = { { 3, 4 } };
+  constexpr SizeType upperBound{ 3, 4 };
   SizeValueType      lowerBoundArray[2] = { 1, 2 };
   SizeValueType      upperBoundArray[2] = { 3, 4 };
 
@@ -99,7 +99,7 @@ itkPadImageFilterTest(int, char *[])
 
   // Fill in a test image
   auto                           inputImage = ShortImage::New();
-  constexpr ShortImage::SizeType inputSize = { { 1, 1 } };
+  constexpr ShortImage::SizeType inputSize{ 1, 1 };
   const ShortImage::RegionType   inputRegion(inputSize);
   inputImage->SetRegions(inputRegion);
   inputImage->Allocate();

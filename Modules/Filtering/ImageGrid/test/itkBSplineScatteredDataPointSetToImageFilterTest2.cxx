@@ -38,8 +38,8 @@ itkBSplineScatteredDataPointSetToImageFilterTest2(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int ParametricDimension = 1;
-  constexpr unsigned int DataDimension = 3;
+  constexpr unsigned int ParametricDimension{ 1 };
+  constexpr unsigned int DataDimension{ 3 };
 
   using RealType = double;
   using OutputPixelType = unsigned char;
@@ -86,7 +86,7 @@ itkBSplineScatteredDataPointSetToImageFilterTest2(int argc, char * argv[])
   filter->SetSpacing(spacing);
   filter->SetInput(pointSet);
 
-  constexpr FilterType::RealType bSplineEpsilon = 1e-4;
+  constexpr FilterType::RealType bSplineEpsilon{ 1e-4 };
   filter->SetBSplineEpsilon(bSplineEpsilon);
   ITK_TEST_SET_GET_VALUE(bSplineEpsilon, filter->GetBSplineEpsilon());
 

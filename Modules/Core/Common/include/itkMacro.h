@@ -750,7 +750,7 @@ OutputWindowDisplayGenericOutputText(const char * file, unsigned int line, const
 // the cache lines. By aligning multi-threaded structures with the
 // cache lines, false shared can be reduced, and performance
 // increased.
-constexpr size_t ITK_CACHE_LINE_ALIGNMENT = 64;
+constexpr size_t ITK_CACHE_LINE_ALIGNMENT{ 64 };
 
 //
 // itkPadStruct will add padding to a structure to ensure a minimum size

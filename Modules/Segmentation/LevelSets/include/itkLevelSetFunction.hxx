@@ -97,7 +97,7 @@ LevelSetFunction<TImageType>::ComputeMinimalCurvature(const NeighborhoodType & i
   // Eigensystem
   const vnl_symmetric_eigensystem<ScalarValueType> eig{ Curve.as_matrix() };
 
-  constexpr ScalarValueType MIN_EIG = NumericTraits<ScalarValueType>::min();
+  constexpr ScalarValueType MIN_EIG{ NumericTraits<ScalarValueType>::min() };
   ScalarValueType           mincurve = itk::Math::abs(eig.get_eigenvalue(ImageDimension - 1));
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
@@ -120,9 +120,9 @@ LevelSetFunction<TImageType>::Compute3DMinimalCurvature(const NeighborhoodType &
   {
     const ScalarValueType mean_curve = this->ComputeMeanCurvature(neighborhood, offset, gd);
 
-    constexpr int         i0 = 0;
-    constexpr int         i1 = 1;
-    constexpr int         i2 = 2;
+    constexpr int         i0{ 0 };
+    constexpr int         i1{ 1 };
+    constexpr int         i2{ 2 };
     const ScalarValueType gauss_curve =
       (2 * (gd->m_dx[i0] * gd->m_dx[i1] *
               (gd->m_dxy[i2][i0] * gd->m_dxy[i1][i2] - gd->m_dxy[i0][i1] * gd->m_dxy[i2][i2]) +

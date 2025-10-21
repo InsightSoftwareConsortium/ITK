@@ -33,8 +33,8 @@ itkMultivariateLegendrePolynomialTest(int, char *[])
 
   using PolynomialType = itk::MultivariateLegendrePolynomial;
 
-  constexpr unsigned int dimension = 3;
-  constexpr unsigned int degree = 3;
+  constexpr unsigned int dimension{ 3 };
+  constexpr unsigned int degree{ 3 };
 
   PolynomialType::DomainSizeType domainSize(dimension);
   domainSize[0] = 2;

@@ -112,7 +112,7 @@ bool
 StreamingImageIOBase::ReadBufferAsBinary(std::istream & is, void * buffer, StreamingImageIOBase::SizeType num)
 {
   // some systems have a limit of 2GB to be read at once
-  constexpr SizeType maxChunk = 1024 * 1024 * 1024;
+  constexpr SizeType maxChunk{ 1024 * 1024 * 1024 };
 
   auto bytesRemaining = static_cast<std::streamsize>(num);
 
@@ -139,7 +139,7 @@ bool
 StreamingImageIOBase::WriteBufferAsBinary(std::ostream & os, const void * buffer, StreamingImageIOBase::SizeType num)
 {
   // some systems have a limit of 2GB to be written at once
-  constexpr SizeType maxChunk = 1024 * 1024 * 1024;
+  constexpr SizeType maxChunk{ 1024 * 1024 * 1024 };
 
   std::streamsize bytesRemaining = num;
 

@@ -31,7 +31,7 @@ itkJPEGImageIOTest2(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
   using PixelType = unsigned char;
 
   using ImageType = itk::Image<PixelType, Dimension>;
@@ -72,7 +72,7 @@ itkJPEGImageIOTest2(int argc, char * argv[])
 
   ImageType::SpacingType readSpacing = readImage->GetSpacing();
 
-  constexpr double tolerance = 1e-1;
+  constexpr double tolerance{ 1e-1 };
 
   if (itk::Math::abs(readSpacing[0] - spacing[0]) > tolerance)
   {

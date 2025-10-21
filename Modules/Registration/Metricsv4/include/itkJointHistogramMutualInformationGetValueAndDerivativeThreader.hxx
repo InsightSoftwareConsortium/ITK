@@ -141,7 +141,7 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader<
     this->m_JointHistogramMIPerThreadVariables[threadId].MovingImageMarginalPDFInterpolator->Evaluate(mind);
   const InternalComputationValueType dMmPDF = this->ComputeMovingImageMarginalPDFDerivative(mind, threadId);
 
-  constexpr InternalComputationValueType eps = 1.e-16;
+  constexpr InternalComputationValueType eps{ 1.e-16 };
   if (jointPDFValue > eps && movingImagePDFValue > eps)
   {
     const InternalComputationValueType   pRatio = std::log(jointPDFValue) - std::log(movingImagePDFValue);

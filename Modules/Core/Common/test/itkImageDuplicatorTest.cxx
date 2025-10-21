@@ -241,7 +241,7 @@ itkImageDuplicatorTest(int, char *[])
 
 
   {
-    constexpr unsigned int Dimension = 3;
+    constexpr unsigned int Dimension{ 3 };
     constexpr unsigned int VectorLength = 2 * Dimension;
     using PixelType = float;
     using VectorImageType = itk::VectorImage<PixelType, Dimension>;

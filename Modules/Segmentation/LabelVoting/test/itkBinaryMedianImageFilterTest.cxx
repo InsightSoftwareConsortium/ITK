@@ -46,8 +46,8 @@ itkBinaryMedianImageFilterTest(int, char *[])
   ImageType::PointValueType origin[2] = { 15, 400 };
   random->SetOrigin(origin);
 
-  constexpr ImageType::PixelType foreground = 97; // prime numbers are good testers
-  constexpr ImageType::PixelType background = 29;
+  constexpr ImageType::PixelType foreground{ 97 }; // prime numbers are good testers
+  constexpr ImageType::PixelType background{ 29 };
 
   itk::BinaryThresholdImageFilter<ImageType, ImageType>::Pointer thresholder;
   thresholder = itk::BinaryThresholdImageFilter<ImageType, ImageType>::New();

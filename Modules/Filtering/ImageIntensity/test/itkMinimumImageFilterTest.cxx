@@ -26,7 +26,7 @@ itkMinimumImageFilterTest(int, char *[])
 {
 
   // Define the dimension of the images
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
 
   using PixelType = unsigned char;
 
@@ -63,8 +63,8 @@ itkMinimumImageFilterTest(int, char *[])
   inputImageB->Allocate();
 
   // Define the pixel values for each image
-  constexpr PixelType largePixelValue = 3;
-  constexpr PixelType smallPixelValue = 2;
+  constexpr PixelType largePixelValue{ 3 };
+  constexpr PixelType smallPixelValue{ 2 };
 
   // Declare Iterator types appropriate for each image
   using IteratorType = itk::ImageRegionIteratorWithIndex<ImageType>;
@@ -109,7 +109,7 @@ itkMinimumImageFilterTest(int, char *[])
   // Note that we are not comparing the entirety of the filter output in order
   // to keep compile time as small as possible
 
-  constexpr ImageType::IndexType pixelIndex = { { 0, 1, 1 } };
+  constexpr ImageType::IndexType pixelIndex{ 0, 1, 1 };
 
   ITK_TEST_EXPECT_EQUAL(outputImage->GetPixel(start), smallPixelValue);
   ITK_TEST_EXPECT_EQUAL(outputImage->GetPixel(pixelIndex), smallPixelValue);

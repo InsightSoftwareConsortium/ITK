@@ -25,7 +25,7 @@ itkAddImageAdaptorTest(int, char *[])
 {
 
   // Define the dimension of the images
-  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int Dimension{ 3 };
 
   // Declare the pixel type
   using PixelType = int;
@@ -79,7 +79,7 @@ itkAddImageAdaptorTest(int, char *[])
 
   auto addAdaptor = AdaptorType::New();
 
-  constexpr PixelType additiveConstant = 19;
+  constexpr PixelType additiveConstant{ 19 };
 
   addAdaptor->SetImage(inputImage);
   addAdaptor->SetValue(additiveConstant);
@@ -138,7 +138,7 @@ itkAddImageAdaptorTest(int, char *[])
 
   std::cout << " Pixel " << index << " had value = " << p1 << std::endl;
 
-  constexpr PixelType newValue = 27;
+  constexpr PixelType newValue{ 27 };
 
   std::cout << " We set Pixel " << index << " to value = " << newValue << std::endl;
   addAdaptor->SetPixel(index, newValue);

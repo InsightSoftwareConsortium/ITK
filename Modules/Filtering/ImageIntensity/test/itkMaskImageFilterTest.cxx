@@ -26,7 +26,7 @@ itkMaskImageFilterTest(int, char *[])
 {
 
   // Define the dimension of the images
-  constexpr unsigned int myDimension = 3;
+  constexpr unsigned int myDimension{ 3 };
 
   // Declare the types of the images
   using myImageType1 = itk::Image<float, myDimension>;

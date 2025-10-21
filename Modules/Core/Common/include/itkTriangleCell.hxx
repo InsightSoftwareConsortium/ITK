@@ -420,7 +420,7 @@ TriangleCell<TCellInterface>::EvaluatePosition(CoordinateType *          x,
   // Test if the projected point is inside the cell.
 
   // Zero with epsilon
-  constexpr double zwe = -NumericTraits<double>::min();
+  constexpr double zwe{ -NumericTraits<double>::min() };
 
   // Since the three barycentric coordinates are interdependent
   // only three tests should be necessary. That is, we only need

@@ -26,12 +26,12 @@
 int
 itkVectorRescaleIntensityImageFilterTest(int, char *[])
 {
-  constexpr unsigned int VectorDimension = 3;
+  constexpr unsigned int VectorDimension{ 3 };
 
   using InputPixelType = itk::Vector<int, VectorDimension>;
   using OutputPixelType = itk::Vector<float, VectorDimension>;
 
-  constexpr unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension{ 3 };
 
   using InputImageType = itk::Image<InputPixelType, ImageDimension>;
   using OutputImageType = itk::Image<OutputPixelType, ImageDimension>;
@@ -89,7 +89,7 @@ itkVectorRescaleIntensityImageFilterTest(int, char *[])
 
   ot.GoToBegin();
 
-  constexpr double tolerance = 1e-3;
+  constexpr double tolerance{ 1e-3 };
 
   const double factor = desiredMaximum / static_cast<double>(pixelValue.GetNorm());
 

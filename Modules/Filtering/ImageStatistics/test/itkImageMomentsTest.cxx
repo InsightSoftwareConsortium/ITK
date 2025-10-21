@@ -50,22 +50,22 @@ itkImageMomentsTest(int argc, char * argv[])
      reasonably close but might deserve investigation some day when all
      the worse problems have been fixed. */
   //    double maxerr = 1.9e-15;
-  constexpr double maxerr = 5.0e-15;
+  constexpr double maxerr{ 5.0e-15 };
 
   /* Define the image size and physical coordinates */
   constexpr itk::Size<3> size = { { 20, 40, 80 } };
-  constexpr double       origin[3] = { 0.5, 0.5, 0.5 };
-  constexpr double       spacing[3] = { 0.1, 0.05, 0.025 };
+  constexpr double       origin[3]{ 0.5, 0.5, 0.5 };
+  constexpr double       spacing[3]{ 0.1, 0.05, 0.025 };
 
   /* Define positions of the test masses in index coordinates */
-  constexpr unsigned short      mass = 1; // Test mass
+  constexpr unsigned short      mass{ 1 }; // Test mass
   itk::Index<3>::IndexValueType point[8][3] = {
     { 10 + 8, 20 + 12, 40 + 0 }, { 10 - 8, 20 - 12, 40 - 0 }, { 10 + 3, 20 - 8, 40 + 0 },
     { 10 - 3, 20 + 8, 40 - 0 },  { 10 + 0, 20 + 0, 40 + 10 }, { 10 - 0, 20 - 0, 40 - 10 },
   };
 
   /* Define the expected (true) results for comparison */
-  constexpr double ttm = 6.0; // Total mass
+  constexpr double ttm{ 6.0 }; // Total mass
   double           pad[3][3] = {
     // Principal axes
     { 0.0, 0.0, 1.0 },

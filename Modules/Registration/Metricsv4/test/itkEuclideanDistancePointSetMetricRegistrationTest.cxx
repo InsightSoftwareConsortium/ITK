@@ -83,7 +83,7 @@ itkEuclideanDistancePointSetMetricRegistrationTestRun(unsigned int              
 
   // Create a few points and apply a small rotation to make the moving point set
 
-  constexpr float theta = itk::Math::pi / static_cast<float>(180.0) * static_cast<float>(1.0);
+  constexpr float theta{ itk::Math::pi / static_cast<float>(180.0) * static_cast<float>(1.0) };
   PointType       fixedPoint;
   fixedPoint[0] = static_cast<CoordinateType>(0.0);
   fixedPoint[1] = static_cast<CoordinateType>(0.0);
@@ -200,7 +200,7 @@ itkEuclideanDistancePointSetMetricRegistrationTestRun(unsigned int              
 int
 itkEuclideanDistancePointSetMetricRegistrationTest(int argc, char * argv[])
 {
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension{ 2 };
 
   int finalResult = EXIT_SUCCESS;
 

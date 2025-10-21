@@ -25,8 +25,8 @@ namespace
 {
 
 using ValueType = double;
-constexpr itk::SizeValueType ImageDimension = 2;
-constexpr itk::SizeValueType VectorDimension = 4;
+constexpr itk::SizeValueType ImageDimension{ 2 };
+constexpr itk::SizeValueType VectorDimension{ 4 };
 using VectorPixelType = itk::Vector<ValueType, VectorDimension>;
 using ImageVectorType = itk::Image<VectorPixelType, ImageDimension>;
 using ImageVectorPointer = ImageVectorType::Pointer;
@@ -83,7 +83,7 @@ itkImageVectorOptimizerParametersHelperTest(int, char *[])
   constexpr IndexType start{};
 
   SizeType      size;
-  constexpr int dimLength = 3;
+  constexpr int dimLength{ 3 };
   size.Fill(dimLength);
 
   const RegionType region{ start, size };

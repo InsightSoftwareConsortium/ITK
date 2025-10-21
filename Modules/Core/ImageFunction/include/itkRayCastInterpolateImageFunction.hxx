@@ -450,7 +450,7 @@ template <typename TInputImage, typename TCoordinate>
 bool
 RayCastInterpolateImageFunction<TInputImage, TCoordinate>::RayCastHelper::CalcRayIntercepts()
 {
-  constexpr unsigned int numSides = 6; // =6 to allow truncation: =4 to remove truncated rays
+  constexpr unsigned int numSides{ 6 }; // =6 to allow truncation: =4 to remove truncated rays
 
   // Calculate intercept of ray with planes
   double interceptx[6];
