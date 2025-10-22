@@ -8,7 +8,7 @@ readonly name="GDCM"
 readonly ownership="GDCM Upstream <gdcm-developers@lists.sourceforge.net>"
 readonly subtree="Modules/ThirdParty/GDCM/src/gdcm"
 readonly repo="https://github.com/malaterre/GDCM.git"
-readonly tag="v3.2.1"
+readonly tag="v3.2.2"
 readonly shortlog=false
 readonly paths="
   .gitattributes
