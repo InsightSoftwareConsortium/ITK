@@ -95,7 +95,7 @@ jobs:
           run: |
             echo "****** df -h /  -- pre build"
             df -h /
-            pixi run build_noconfigure
+            pixi run --skip-deps build
             echo "****** df -h /  -- post build"
             df -h /
             find build -type f -name "*.o" -delete
@@ -104,7 +104,7 @@ jobs:
             df -h /
 
         - name: Test
-          run: pixi run test_nobuild
+          run: pixi run --skip-deps test
 
         - name: Disk space reporting AFTER (optimize free-disk-space)
           run: |

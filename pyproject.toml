@@ -40,22 +40,16 @@ cmd = '''cmake
 description = "Configure ITK"
 outputs = ["build/CMakeFiles/"]
 
-[tool.pixi.feature.cxx.tasks.build_noconfigure]
-cmd = "cmake --build build"
-description = "Build ITK - post configure"
-outputs = ["build/lib/**"]
-
 [tool.pixi.feature.cxx.tasks.build]
+cmd = "cmake --build build"
 description = "Build ITK"
-depends-on = ["configure", "build_noconfigure"]
-
-[tool.pixi.feature.cxx.tasks.test_nobuild]
-cmd = "ctest -j3 --test-dir build"
-description = "Test ITK - post build"
+outputs = ["build/lib/**"]
+depends-on = ["configure"]
 
 [tool.pixi.feature.cxx.tasks.test]
+cmd = "ctest -j3 --test-dir build"
 description = "Test ITK"
-depends-on = ["build", "test_nobuild"]
+depends-on = ["build"]
 
 [tool.pixi.feature.cxx.tasks.configure-debug]
 cmd = '''cmake
@@ -67,26 +61,16 @@ cmd = '''cmake
 description = "Configure ITK - Debug"
 outputs = ["build-debug/CMakeFiles/"]
 
-[tool.pixi.feature.cxx.tasks.build-debug_noconfigure]
-cmd = "cmake --build build-debug"
-description = "Build ITK - Debug"
-outputs = ["build-debug/lib/**"]
-depends-on = []
-
 [tool.pixi.feature.cxx.tasks.build-debug]
 cmd = "cmake --build build-debug"
 description = "Build ITK - Debug"
-depends-on = ["configure-debug","build-debug_noconfigure"]
-
-[tool.pixi.feature.cxx.tasks.test-debug_nobuild]
-cmd = "ctest -j3 --test-dir build-debug"
-description = "Test ITK - Debug"
-depends-on = []
+outputs = ["build-debug/lib/**"]
+depends-on = ["configure-debug"]
 
 [tool.pixi.feature.cxx.tasks.test-debug]
 cmd = "ctest -j3 --test-dir build-debug"
 description = "Test ITK - Debug"
-depends-on = ["build-debug","test-debug_nobuild"]
+depends-on = ["build-debug"]
 
 [tool.pixi.feature.cxx.tasks.configure-release]
 cmd = '''cmake
@@ -98,26 +82,16 @@ cmd = '''cmake
 description = "Configure ITK - Release"
 outputs = ["build-release/CMakeFiles/"]
 
-[tool.pixi.feature.cxx.tasks.build-release_noconfigure]
-cmd = "cmake --build build-release"
-description = "Build ITK - Release"
-outputs = ["build-release/lib/**"]
-depends-on = []
-
 [tool.pixi.feature.cxx.tasks.build-release]
 cmd = "cmake --build build-release"
 description = "Build ITK - Release"
-depends-on = ["configure-release","build-release_noconfigure"]
-
-[tool.pixi.feature.cxx.tasks.test-release_nobuild]
-cmd = "ctest -j3 --test-dir build-release"
-description = "Test ITK - Release"
-depends-on = []
+outputs = ["build-release/lib/**"]
+depends-on = ["configure-release"]
 
 [tool.pixi.feature.cxx.tasks.test-release]
 cmd = "ctest -j3 --test-dir build-release"
 description = "Test ITK - Release"
-depends-on = ["build-release","test-release_nobuild"]
+depends-on = ["build-release"]
 
 [tool.pixi.feature.python.tasks.configure-python]
 cmd = '''cmake
@@ -130,26 +104,16 @@ cmd = '''cmake
 description = "Configure ITK Python"
 outputs = ["build/CMakeFiles/"]
 
-[tool.pixi.feature.python.tasks.build-python_noconfigure]
-cmd = "cmake --build build-python"
-description = "Build ITK Python"
-outputs = ["build/lib/**"]
-depends-on = []
-
 [tool.pixi.feature.python.tasks.build-python]
 cmd = "cmake --build build-python"
 description = "Build ITK Python"
-depends-on = ["configure-python","build-python_noconfigure"]
-
-[tool.pixi.feature.python.tasks.test-python_nobuild]
-cmd = "ctest -j3 --test-dir build-python"
-description = "Test ITK Python"
-depends-on = []
+outputs = ["build/lib/**"]
+depends-on = ["configure-python"]
 
 [tool.pixi.feature.python.tasks.test-python]
 cmd = "ctest -j3 --test-dir build-python"
 description = "Test ITK Python"
-depends-on = ["build-python","test-python_nobuild"]
+depends-on = ["build-python"]
 
 [tool.pixi.feature.python.tasks.python-exe]
 cmd = '''cp ./build-python/Wrapping/Generators/Python/WrapITK.pth $(python -c "import site; print(next(p for p in site.getsitepackages() if \'site-packages\' in p))") &&
@@ -168,26 +132,16 @@ cmd = '''cmake
 description = "Configure ITK Python - Debug"
 outputs = ["build-debug-python/CMakeFiles/"]
 
-[tool.pixi.feature.python.tasks.build-debug-python_noconfigure]
-cmd = "cmake --build build-debug-python"
-description = "Build ITK Python - Debug"
-outputs = ["build-debug-python/lib/**"]
-depends-on = []
-
 [tool.pixi.feature.python.tasks.build-debug-python]
 cmd = "cmake --build build-debug-python"
 description = "Build ITK Python - Debug"
-depends-on = ["configure-debug-python","build-debug-python_noconfigure"]
-
-[tool.pixi.feature.python.tasks.test-debug-python_nobuild]
-cmd = "ctest -j3 --test-dir build-debug-python"
-description = "Test ITK Python - Debug"
-depends-on = []
+outputs = ["build-debug-python/lib/**"]
+depends-on = ["configure-debug-python"]
 
 [tool.pixi.feature.python.tasks.test-debug-python]
 cmd = "ctest -j3 --test-dir build-debug-python"
 description = "Test ITK Python - Debug"
-depends-on = ["build-debug-python","test-debug-python_nobuild"]
+depends-on = ["build-debug-python"]
 
 [tool.pixi.feature.python.tasks.python-exe-debug]
 cmd = '''cp ./build-python/Wrapping/Generators/Python/WrapITK.pth $(python -c "import site; print(next(p for p in site.getsitepackages() if \'site-packages\' in p))") &&
