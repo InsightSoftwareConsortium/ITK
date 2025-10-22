@@ -237,7 +237,7 @@ std::istream& ReadValue(std::istream &is, bool /*readvalues*/)
       const size_t lastf = Fragments.size() - 1;
       const ByteValue *bv = Fragments[ lastf ].GetByteValue();
       const char *a = bv->GetPointer();
-      gdcmAssertAlwaysMacro( (unsigned char)a[ bv->GetLength() - 3 ] == 0xfe );
+      gdcmAssertAlwaysMacro( bv->GetLength() >= 3 && (unsigned char)a[ bv->GetLength() - 3 ] == 0xfe );
       Fragments[ lastf ].SetByteValue( bv->GetPointer(), bv->GetLength() - 3 );
       is.seekg( -11, std::ios::cur );
       gdcm_assert( is.good() );
