@@ -133,7 +133,7 @@ main(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
   using PixelType = float;
 
   using FixedImageType = itk::Image<PixelType, Dimension>;
@@ -265,8 +265,8 @@ main(int argc, char * argv[])
   //
 
   using OptimizerScalesType = OptimizerType::ScalesType;
-  OptimizerScalesType optimizerScales(transform->GetNumberOfParameters());
-  constexpr double    translationScale{ 1.0 / 100.0 };
+  OptimizerScalesType     optimizerScales(transform->GetNumberOfParameters());
+  static constexpr double translationScale{ 1.0 / 100.0 };
 
   optimizerScales[0] = 10.0;
   optimizerScales[1] = 1.0;

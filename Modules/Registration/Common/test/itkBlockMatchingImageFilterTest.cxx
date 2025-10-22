@@ -46,7 +46,7 @@ itkBlockMatchingImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr double selectFraction{ 0.01 };
+  static constexpr double selectFraction{ 0.01 };
 
   using InputPixelType = unsigned char;
   using OutputPixelType = itk::RGBPixel<InputPixelType>;

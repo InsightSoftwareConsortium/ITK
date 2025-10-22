@@ -38,10 +38,10 @@ itkPolylineMaskImageFilterTest(int argc, char * argv[])
   }
 
   // Define the dimension of the images
-  constexpr unsigned int iDimension{ 3 };
+  static constexpr unsigned int iDimension{ 3 };
 
   // Define the dimension of the polyline
-  constexpr unsigned int pDimension{ 2 };
+  static constexpr unsigned int pDimension{ 2 };
 
   // Declare the types of the images
   using inputImageType = itk::Image<unsigned short, iDimension>;
@@ -169,7 +169,7 @@ itkPolylineMaskImageFilterTest(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(cameraCenterPoint, polylineMaskFilter->GetCameraCenterPoint());
 
   // Set the camera focal distance
-  constexpr double focalDistance{ 30.0 };
+  static constexpr double focalDistance{ 30.0 };
   polylineMaskFilter->SetFocalDistance(focalDistance);
 
   ITK_TEST_SET_GET_VALUE(focalDistance, polylineMaskFilter->GetFocalDistance());

@@ -30,7 +30,7 @@ itkAbsImageFilterAndAdaptorTest(int, char *[])
   int testStatus = EXIT_SUCCESS;
 
   // Define the dimension of the images
-  constexpr unsigned int ImageDimension{ 3 };
+  static constexpr unsigned int ImageDimension{ 3 };
 
   // Declare the types of the images
   using InputImageType = itk::Image<float, ImageDimension>;
@@ -53,9 +53,9 @@ itkAbsImageFilterAndAdaptorTest(int, char *[])
   auto inputImage = InputImageType::New();
 
   // Define their size, and start index
-  constexpr SizeType  size{ 2, 2, 2 };
-  constexpr IndexType start{ 0, 0, 0 };
-  RegionType          region{ start, size };
+  static constexpr SizeType  size{ 2, 2, 2 };
+  static constexpr IndexType start{ 0, 0, 0 };
+  RegionType                 region{ start, size };
 
   // Initialize Image A
   inputImage->SetRegions(region);
@@ -97,7 +97,7 @@ itkAbsImageFilterAndAdaptorTest(int, char *[])
 
   //  Check the content of the result image
   std::cout << "Verification of the output " << std::endl;
-  constexpr OutputImageType::PixelType epsilon{ 1e-6 };
+  static constexpr OutputImageType::PixelType epsilon{ 1e-6 };
   ot.GoToBegin();
   it.GoToBegin();
   while (!ot.IsAtEnd())

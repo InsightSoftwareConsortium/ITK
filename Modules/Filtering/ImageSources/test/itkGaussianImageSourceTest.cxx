@@ -31,7 +31,7 @@ itkGaussianImageSourceTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension{ 3 };
+  static constexpr unsigned int Dimension{ 3 };
   using PixelType = unsigned char;
 
   using ImageType = itk::Image<PixelType, Dimension>;
@@ -78,9 +78,9 @@ itkGaussianImageSourceTest(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(direction, gaussianImage->GetDirection());
 
   // Test SetReferenceImage from GenerateImageSource base class.
-  auto                           referenceImage = ImageType::New();
-  constexpr ImageType::IndexType startIndex{};
-  ImageType::SizeType            referenceSize;
+  auto                                  referenceImage = ImageType::New();
+  static constexpr ImageType::IndexType startIndex{};
+  ImageType::SizeType                   referenceSize;
   referenceSize.SetSize(size);
   const ImageType::RegionType region(startIndex, referenceSize);
   referenceImage->SetRegions(region);
@@ -91,7 +91,7 @@ itkGaussianImageSourceTest(int argc, char * argv[])
   referenceImage->SetSpacing(spacing);
   referenceImage->SetDirection(direction);
   gaussianImage->SetReferenceImage(referenceImage);
-  constexpr bool useReferenceImage{ true };
+  static constexpr bool useReferenceImage{ true };
   ITK_TEST_SET_GET_BOOLEAN(gaussianImage, UseReferenceImage, useReferenceImage);
   gaussianImage->SetReferenceImage(referenceImage);
   ITK_TEST_SET_GET_VALUE(referenceImage, gaussianImage->GetReferenceImage());

@@ -22,7 +22,7 @@ int
 itkHistogramToTextureFeaturesFilterTest(int, char *[])
 {
   // Data definitions
-  constexpr unsigned int HISTOGRAM_AXIS_LEN{ 25 };
+  static constexpr unsigned int HISTOGRAM_AXIS_LEN{ 25 };
 
 
   //------------------------------------------------------
@@ -33,7 +33,7 @@ itkHistogramToTextureFeaturesFilterTest(int, char *[])
   using HistogramType = itk::Statistics::Histogram<MeasurementType>;
   auto histogram = HistogramType::New();
 
-  constexpr unsigned int measurementVectorSize{ 2 };
+  static constexpr unsigned int measurementVectorSize{ 2 };
 
   histogram->SetMeasurementVectorSize(measurementVectorSize);
 
@@ -134,14 +134,14 @@ itkHistogramToTextureFeaturesFilterTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  constexpr double trueEnergy{ 0.295 };
-  constexpr double trueEntropy{ 2.26096 };
-  constexpr double trueCorrelation{ 0.12819 };
-  constexpr double trueInverseDifferenceMoment{ 0.85 };
-  constexpr double trueInertia{ 0.3 };
-  constexpr double trueClusterShade{ 139.1879 };
-  constexpr double trueClusterProminence{ 2732.557 };
-  constexpr double trueHaralickCorrelation{ 2264.549 };
+  static constexpr double trueEnergy{ 0.295 };
+  static constexpr double trueEntropy{ 2.26096 };
+  static constexpr double trueCorrelation{ 0.12819 };
+  static constexpr double trueInverseDifferenceMoment{ 0.85 };
+  static constexpr double trueInertia{ 0.3 };
+  static constexpr double trueClusterShade{ 139.1879 };
+  static constexpr double trueClusterProminence{ 2732.557 };
+  static constexpr double trueHaralickCorrelation{ 2264.549 };
 
   const double energy = filter->GetEnergy();
   const double entropy = filter->GetEntropy();

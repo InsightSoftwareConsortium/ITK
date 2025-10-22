@@ -186,9 +186,9 @@ itkShapedNeighborhoodIteratorTest(int, char *[])
 
   println("Testing interoperability with FlatStructuringElement");
   using StructuringElementType = itk::FlatStructuringElement<4>;
-  constexpr StructuringElementType::RadiusType   radius2{ StructuringElementType::RadiusType::Filled(2) };
-  const StructuringElementType                   kernel = StructuringElementType::Cross(radius2);
-  itk::ShapedNeighborhoodIterator<TestImageType> iterator(radius2, img, img->GetBufferedRegion());
+  static constexpr StructuringElementType::RadiusType radius2{ StructuringElementType::RadiusType::Filled(2) };
+  const StructuringElementType                        kernel = StructuringElementType::Cross(radius2);
+  itk::ShapedNeighborhoodIterator<TestImageType>      iterator(radius2, img, img->GetBufferedRegion());
   iterator.CreateActiveListFromNeighborhood(kernel);
   iterator.SetLocation(loc);
   for (auto ci = iterator.Begin(); ci != iterator.End(); ++ci)

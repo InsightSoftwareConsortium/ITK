@@ -22,7 +22,7 @@
 int
 itkLevelSetDomainMapImageFilterTest(int, char *[])
 {
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
 
   using ListPixelType = std::list<int>;
 

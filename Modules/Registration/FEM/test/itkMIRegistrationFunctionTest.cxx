@@ -34,7 +34,7 @@ int
 itkMIRegistrationFunctionTest(int, char *[])
 {
 
-  constexpr unsigned int ImageDimension{ 2 };
+  static constexpr unsigned int ImageDimension{ 2 };
 
   using PixelType = double;
   using DeformationPixelType = itk::Vector<PixelType, ImageDimension>;

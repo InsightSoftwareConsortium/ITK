@@ -33,7 +33,7 @@ itkProjectedLandweberDeconvolutionImageFilterTest(int argc, char * argv[])
   }
 
   using PixelType = float;
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
   using ImageType = itk::Image<PixelType, Dimension>;
   using ReaderType = itk::ImageFileReader<ImageType>;
   using WriterType = itk::ImageFileWriter<ImageType>;

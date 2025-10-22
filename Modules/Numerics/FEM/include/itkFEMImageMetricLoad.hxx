@@ -711,9 +711,9 @@ template <typename TMoving, typename TFixed>
 void
 ImageMetricLoad<TMoving, TFixed>::ApplyLoad(Element::ConstPointer element, Element::VectorType & _Fe)
 {
-  constexpr unsigned int TotalSolutionIndex{ 1 }; /* Need to change if the index
-                                                   * changes in CrankNicolsonSolver
-                                                   */
+  static constexpr unsigned int TotalSolutionIndex{ 1 }; /* Need to change if the index
+                                                          * changes in CrankNicolsonSolver
+                                                          */
 
   // has current solution state
   const typename Solution::ConstPointer S = this->GetSolution();

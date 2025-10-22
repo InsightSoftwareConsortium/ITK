@@ -128,48 +128,48 @@ itkSPSAOptimizerTest(int, char *[])
   parametersScale[1] = 2.0;
   itkOptimizer->SetScales(parametersScale);
 
-  constexpr bool maximize{ false };
+  static constexpr bool maximize{ false };
   ITK_TEST_SET_GET_BOOLEAN(itkOptimizer, Maximize, maximize);
 
-  constexpr bool minimize{ !maximize };
+  static constexpr bool minimize{ !maximize };
   ITK_TEST_SET_GET_BOOLEAN(itkOptimizer, Minimize, minimize);
 
-  constexpr double a{ 10.0 };
+  static constexpr double a{ 10.0 };
   itkOptimizer->SetA(a);
   ITK_TEST_SET_GET_VALUE(a, itkOptimizer->GetA());
 
-  constexpr double alpha{ 0.602 };
+  static constexpr double alpha{ 0.602 };
   itkOptimizer->SetAlpha(alpha);
   ITK_TEST_SET_GET_VALUE(alpha, itkOptimizer->GetAlpha());
 
-  constexpr double c{ 0.0001 };
+  static constexpr double c{ 0.0001 };
   itkOptimizer->Setc(c);
   ITK_TEST_SET_GET_VALUE(c, itkOptimizer->Getc());
 
   itkOptimizer->SetSc(c);
   ITK_TEST_SET_GET_VALUE(c, itkOptimizer->GetSc());
 
-  constexpr double gamma{ 0.101 };
+  static constexpr double gamma{ 0.101 };
   itkOptimizer->SetGamma(gamma);
   ITK_TEST_SET_GET_VALUE(gamma, itkOptimizer->GetGamma());
 
-  constexpr double tolerance{ 1e-5 };
+  static constexpr double tolerance{ 1e-5 };
   itkOptimizer->SetTolerance(tolerance);
   ITK_TEST_SET_GET_VALUE(tolerance, itkOptimizer->GetTolerance());
 
-  constexpr double stateOfConvergenceDecayRate{ 0.5 };
+  static constexpr double stateOfConvergenceDecayRate{ 0.5 };
   itkOptimizer->SetStateOfConvergenceDecayRate(stateOfConvergenceDecayRate);
   ITK_TEST_SET_GET_VALUE(stateOfConvergenceDecayRate, itkOptimizer->GetStateOfConvergenceDecayRate());
 
-  constexpr itk::SizeValueType minimumNumberOfIterations{ 10 };
+  static constexpr itk::SizeValueType minimumNumberOfIterations{ 10 };
   itkOptimizer->SetMinimumNumberOfIterations(10);
   ITK_TEST_SET_GET_VALUE(minimumNumberOfIterations, itkOptimizer->GetMinimumNumberOfIterations());
 
-  constexpr itk::SizeValueType maximumNumberOfIterations{ 100 };
+  static constexpr itk::SizeValueType maximumNumberOfIterations{ 100 };
   itkOptimizer->SetMaximumNumberOfIterations(maximumNumberOfIterations);
   ITK_TEST_SET_GET_VALUE(maximumNumberOfIterations, itkOptimizer->GetMaximumNumberOfIterations());
 
-  constexpr itk::SizeValueType numberOfPerturbations{ 1 };
+  static constexpr itk::SizeValueType numberOfPerturbations{ 1 };
   itkOptimizer->SetNumberOfPerturbations(numberOfPerturbations);
   ITK_TEST_SET_GET_VALUE(numberOfPerturbations, itkOptimizer->GetNumberOfPerturbations());
 
@@ -225,8 +225,8 @@ itkSPSAOptimizerTest(int, char *[])
   //
   // check results to see if it is within range
   //
-  bool             pass = true;
-  constexpr double trueParameters[2]{ 2, -2 };
+  bool                    pass = true;
+  static constexpr double trueParameters[2]{ 2, -2 };
   for (unsigned int j = 0; j < 2; ++j)
   {
     if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)

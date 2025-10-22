@@ -33,7 +33,7 @@ int
 itkImageRegistrationMethodTest_11(int, char *[])
 {
 
-  constexpr unsigned int dimension{ 3 };
+  static constexpr unsigned int dimension{ 3 };
 
   // Fixed Image Type
   using FixedImageType = itk::Image<float, dimension>;

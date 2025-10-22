@@ -99,9 +99,9 @@ itkConvertBufferTest(int, char *[])
   // create an initial array of floats
   float farray[] = { 1.1f, 2.2f, 3.3f, 4.4f, 5.5f, 6.4f, 7.4f, 8.8f, 9.9f };
   // set the size of the array in number of elements
-  constexpr int arraySize{ std::size(farray) };
-  double        darray[arraySize]; // create a double array
-  int           iarray[arraySize]; // create an int array
+  static constexpr int arraySize{ std::size(farray) };
+  double               darray[arraySize]; // create a double array
+  int                  iarray[arraySize]; // create an int array
   // convert the float array to a double array
   itk::ConvertPixelBuffer<float, double, itk::DefaultConvertPixelTraits<double>>::Convert(farray, 1, darray, arraySize);
   std::cerr << "\nfloat array  : ";

@@ -71,7 +71,7 @@ public:
     void
     ThreadedExecution(const DomainType & subdomain, const itk::ThreadIdType threadId) override
     {
-      constexpr double value{ 1.0 / 7 };
+      static constexpr double value{ 1.0 / 7 };
       for (DomainType::IndexValueType i = subdomain[0]; i <= subdomain[1]; ++i)
       {
         this->m_PerThreadCompensatedSum[threadId].AddElement(value);
@@ -156,7 +156,7 @@ itkCompensatedSummationTest2(int, char *[])
   domain[1] = maxNumberOfThreads * 10000;
 
   /* Test with single thread. We should get the same result. */
-  constexpr itk::ThreadIdType numberOfThreads{ 1 };
+  static constexpr itk::ThreadIdType numberOfThreads{ 1 };
   domainThreader->SetMaximumNumberOfThreads(numberOfThreads);
   domainThreader->SetNumberOfWorkUnits(numberOfThreads);
   std::cout << "Testing with " << numberOfThreads << " threads and domain " << domain << " ..." << std::endl;

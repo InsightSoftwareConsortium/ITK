@@ -37,12 +37,12 @@
 int
 itkBSplineResampleImageFunctionTest(int, char *[])
 {
-  constexpr unsigned int ImageDimension{ 2 };
+  static constexpr unsigned int ImageDimension{ 2 };
   using PixelType = float;
   using ImageType = itk::Image<PixelType, ImageDimension>;
   using BSplineInterpolatorFunctionType = itk::BSplineInterpolateImageFunction<ImageType, double, double>;
 
-  constexpr unsigned int                         SplineOrder{ 3 };
+  static constexpr unsigned int                  SplineOrder{ 3 };
   const BSplineInterpolatorFunctionType::Pointer interpolator =
     makeRandomImageInterpolator<BSplineInterpolatorFunctionType>(SplineOrder);
   const ImageType::ConstPointer randImage = interpolator->GetInputImage();

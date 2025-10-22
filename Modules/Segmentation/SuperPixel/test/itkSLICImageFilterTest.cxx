@@ -106,7 +106,7 @@ itkSLICImageFilterTest(int argc, char * argv[])
   const char *       inFileName = argv[1];
   const char *       outFileName = argv[2];
 
-  constexpr unsigned int VDimension{ 2 };
+  static constexpr unsigned int VDimension{ 2 };
   using InputImageType = itk::VectorImage<float, VDimension>;
 
   using ReaderType = itk::ImageFileReader<InputImageType>;

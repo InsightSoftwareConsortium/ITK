@@ -110,7 +110,7 @@ itkFastMarchingBaseTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension{ 3 };
+  static constexpr unsigned int Dimension{ 3 };
   using PixelType = float;
 
   auto useMeshVsImage = std::stoul(argv[1]);
@@ -157,7 +157,7 @@ itkFastMarchingBaseTest(int argc, char * argv[])
 
     auto                                     processedPoints = ImageFastMarching::NodePairContainerType::New();
     typename ImageFastMarching::NodePairType node_pair;
-    constexpr ImageType::OffsetType          offset{ 28, 35 };
+    static constexpr ImageType::OffsetType   offset{ 28, 35 };
 
     constexpr itk::Index<Dimension> index{};
 

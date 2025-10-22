@@ -30,9 +30,9 @@ itkNearestNeighborInterpolateImageFunctionTest(int, char *[])
 {
   int result = EXIT_SUCCESS;
 
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
   using PixelType = float;
-  constexpr unsigned int VectorDimension{ 4 };
+  static constexpr unsigned int VectorDimension{ 4 };
   using VectorPixelType = itk::Vector<PixelType, VectorDimension>;
   using ImageType = itk::Image<PixelType, Dimension>;
   using VectorImageType = itk::Image<VectorPixelType, Dimension>;
@@ -58,7 +58,7 @@ itkNearestNeighborInterpolateImageFunctionTest(int, char *[])
   auto variablevectorimage = VariableVectorImageType::New();
   variablevectorimage->SetVectorLength(VectorDimension);
 
-  constexpr IndexType start{};
+  static constexpr IndexType start{};
 
   auto size = SizeType::Filled(3);
 
@@ -90,8 +90,8 @@ itkNearestNeighborInterpolateImageFunctionTest(int, char *[])
 
   image->Print(std::cout);
 
-  constexpr unsigned int maxx{ 3 };
-  constexpr unsigned int maxy{ 3 };
+  static constexpr unsigned int maxx{ 3 };
+  static constexpr unsigned int maxy{ 3 };
 
   //
   // Fill up the image values with the function
@@ -140,8 +140,8 @@ itkNearestNeighborInterpolateImageFunctionTest(int, char *[])
   auto variablevectorinterpolator = VariableVectorInterpolatorType::New();
   variablevectorinterpolator->SetInputImage(variablevectorimage);
 
-  constexpr double incr{ 0.1 };
-  PointType        point;
+  static constexpr double incr{ 0.1 };
+  PointType               point;
 
   for (double yy = 0; yy < static_cast<double>(maxy - 1); ++yy)
   {

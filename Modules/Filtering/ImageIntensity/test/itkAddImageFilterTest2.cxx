@@ -37,7 +37,7 @@ itkAddImageFilterTest2(int argc, char * argv[])
   const char * outputImage = argv[2];
 
   // Define the dimension of the images
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
 
   using FloatPixelType = float;
   using IntegerPixelType = unsigned short;
@@ -55,7 +55,7 @@ itkAddImageFilterTest2(int argc, char * argv[])
   integerReader->SetFileName(inputImage);
   integerReader->SetUseStreaming(true);
 
-  constexpr unsigned int streams{ 4 };
+  static constexpr unsigned int streams{ 4 };
 
   using IntegerMonitorFilterType = itk::PipelineMonitorImageFilter<IntegerImageType>;
   auto integerMonitorFilter = IntegerMonitorFilterType::New();

@@ -44,7 +44,7 @@ int
 itkFastMarchingExtensionImageFilterTest(int, char *[])
 {
   // create a fastmarching object
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
   using PixelType = float;
 
   using FloatImageType = itk::Image<PixelType, Dimension>;
@@ -74,7 +74,7 @@ itkFastMarchingExtensionImageFilterTest(int, char *[])
   // setup alive points
   auto AlivePoints = NodePairContainerType::New();
 
-  constexpr FloatImageType::OffsetType offset0{ 28, 35 };
+  static constexpr FloatImageType::OffsetType offset0{ 28, 35 };
 
   itk::Index<2> index{};
 
@@ -113,7 +113,7 @@ itkFastMarchingExtensionImageFilterTest(int, char *[])
   marcher->SetTrialPoints(TrialPoints);
 
   // specify the size of the output image
-  constexpr FloatImageType::SizeType size{ 64, 64 };
+  static constexpr FloatImageType::SizeType size{ 64, 64 };
   marcher->SetOutputSize(size);
 
   // setup a speed image of ones

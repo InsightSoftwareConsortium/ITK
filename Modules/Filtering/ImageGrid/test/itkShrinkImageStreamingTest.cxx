@@ -27,7 +27,7 @@ int
 itkShrinkImageStreamingTest(int, char *[])
 {
 
-  constexpr unsigned int numberOfStreamDivisions{ 4 };
+  static constexpr unsigned int numberOfStreamDivisions{ 4 };
 
   // type alias to simplify the syntax
   using ShortImage = itk::Image<short, 2>;
@@ -36,9 +36,9 @@ itkShrinkImageStreamingTest(int, char *[])
   using MonitorFilter = itk::PipelineMonitorImageFilter<ShortImage>;
 
   // fill in an image
-  constexpr ShortImage::IndexType index{ 100, 100 };
-  constexpr ShortImage::SizeType  size{ 8, 12 };
-  const ShortImage::RegionType    region{ index, size };
+  static constexpr ShortImage::IndexType index{ 100, 100 };
+  static constexpr ShortImage::SizeType  size{ 8, 12 };
+  const ShortImage::RegionType           region{ index, size };
   sourceImage->SetRegions(region);
   sourceImage->Allocate();
 

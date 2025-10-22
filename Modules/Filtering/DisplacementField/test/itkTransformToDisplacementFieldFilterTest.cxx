@@ -44,10 +44,10 @@ itkTransformToDisplacementFieldFilterTest(int argc, char * argv[])
   }
 
   // Typedefs.
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
   using ScalarPixelType = float;
   using CoordRepresentationType = double;
-  constexpr unsigned int SplineOrder{ 3 };
+  static constexpr unsigned int SplineOrder{ 3 };
 
   using VectorPixelType = itk::Vector<ScalarPixelType, Dimension>;
 
@@ -71,10 +71,10 @@ itkTransformToDisplacementFieldFilterTest(int argc, char * argv[])
   using WriterType = itk::ImageFileWriter<DisplacementFieldImageType>;
 
   // Create output information.
-  auto                size = SizeType::Filled(20);
-  constexpr IndexType index{};
-  auto                spacing = itk::MakeFilled<SpacingType>(0.7);
-  auto                origin = itk::MakeFilled<OriginType>(-10.0);
+  auto                       size = SizeType::Filled(20);
+  static constexpr IndexType index{};
+  auto                       spacing = itk::MakeFilled<SpacingType>(0.7);
+  auto                       origin = itk::MakeFilled<OriginType>(-10.0);
 
   // Create transforms.
   auto affineTransform = AffineTransformType::New();

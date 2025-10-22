@@ -27,7 +27,7 @@ int
 itkResampleImageTest4(int argc, char * argv[])
 {
 
-  constexpr unsigned int VDimension{ 2 };
+  static constexpr unsigned int VDimension{ 2 };
 
   using PixelType = float;
 
@@ -106,7 +106,7 @@ itkResampleImageTest4(int argc, char * argv[])
   resample->SetOutputStartIndex(index);
   ITK_TEST_SET_GET_VALUE(index, resample->GetOutputStartIndex());
 
-  constexpr ImageType::PointType origin{};
+  static constexpr ImageType::PointType origin{};
   resample->SetOutputOrigin(origin);
   ITK_TEST_SET_GET_VALUE(origin, resample->GetOutputOrigin());
 

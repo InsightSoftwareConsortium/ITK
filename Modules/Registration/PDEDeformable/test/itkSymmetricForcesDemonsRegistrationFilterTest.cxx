@@ -116,7 +116,7 @@ itkSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
   SizeType                      size;
   size.SetSize(sizeArray);
 
-  constexpr IndexType index{};
+  static constexpr IndexType index{};
 
   const RegionType region{ index, size };
 
@@ -136,9 +136,9 @@ itkSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
   initField->SetBufferedRegion(region);
   initField->Allocate();
 
-  double              center[ImageDimension];
-  constexpr PixelType fgnd{ 250 };
-  constexpr PixelType bgnd{ 15 };
+  double                     center[ImageDimension];
+  static constexpr PixelType fgnd{ 250 };
+  static constexpr PixelType bgnd{ 15 };
 
   // fill moving with circle
   center[0] = 64;
@@ -153,7 +153,7 @@ itkSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
   FillWithCircle<ImageType>(fixed, center, radius, fgnd, bgnd);
 
   // fill initial deformation with zero vectors
-  constexpr VectorType zeroVec{};
+  static constexpr VectorType zeroVec{};
   initField->FillBuffer(zeroVec);
 
   std::cout << "Run registration and warp moving" << std::endl;
@@ -171,7 +171,7 @@ itkSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
   registrator->SetStandardDeviations(2.0);
   registrator->SetStandardDeviations(1.0);
 
-  constexpr double intensityDifferenceThreshold{ 0.001 };
+  static constexpr double intensityDifferenceThreshold{ 0.001 };
   registrator->SetIntensityDifferenceThreshold(intensityDifferenceThreshold);
   ITK_TEST_SET_GET_VALUE(intensityDifferenceThreshold, registrator->GetIntensityDifferenceThreshold());
 

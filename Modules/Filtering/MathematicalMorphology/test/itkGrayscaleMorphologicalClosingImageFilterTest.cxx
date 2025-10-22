@@ -35,7 +35,7 @@ itkGrayscaleMorphologicalClosingImageFilterTest(int argc, char * argv[])
   }
 
   // Define the dimension of the images
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
 
   // Define the pixel type
   using PixelType = unsigned char;

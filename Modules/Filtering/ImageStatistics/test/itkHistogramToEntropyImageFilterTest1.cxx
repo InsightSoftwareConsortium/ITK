@@ -36,7 +36,7 @@ itkHistogramToEntropyImageFilterTest1(int argc, char * argv[])
   }
 
 
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
   using PixelComponentType = unsigned char;
   using ScalarImageType = itk::Image<PixelComponentType, Dimension>;
   using ReaderType = itk::ImageFileReader<ScalarImageType>;

@@ -38,9 +38,9 @@ itkReadWriteImageWithDictionaryTest(int argc, char * argv[])
   // Create the 16x16 input image
   auto inputImage = ImageType::New();
 
-  auto                           size = ImageType::SizeType::Filled(16);
-  constexpr ImageType::IndexType index{};
-  const ImageType::RegionType    region{ index, size };
+  auto                                  size = ImageType::SizeType::Filled(16);
+  static constexpr ImageType::IndexType index{};
+  const ImageType::RegionType           region{ index, size };
   inputImage->SetRegions(region);
   inputImage->Allocate();
   inputImage->FillBuffer(0);

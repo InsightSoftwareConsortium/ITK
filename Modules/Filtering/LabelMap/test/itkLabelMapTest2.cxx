@@ -24,7 +24,7 @@
 int
 itkLabelMapTest2(int, char *[])
 {
-  constexpr unsigned int dim{ 3 };
+  static constexpr unsigned int dim{ 3 };
 
   using LabelObjectType = itk::LabelObject<unsigned long, dim>;
   using IndexType = LabelObjectType::IndexType;

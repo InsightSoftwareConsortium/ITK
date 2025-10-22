@@ -27,7 +27,7 @@ int
 itkRoundImageFilterTest(int, char *[])
 {
 
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
 
   using InputPixelType = float;
   using OutputPixelType = int;
@@ -46,7 +46,7 @@ itkRoundImageFilterTest(int, char *[])
   // Create a random image
   auto randomImageSource = ImageSourceType::New();
 
-  constexpr InputImageType::SizeType size{ 10, 10 };
+  static constexpr InputImageType::SizeType size{ 10, 10 };
   randomImageSource->SetSize(size);
 
   randomImageSource->SetMin(0.0);

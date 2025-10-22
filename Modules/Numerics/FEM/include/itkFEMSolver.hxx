@@ -708,7 +708,7 @@ Solver<VDimension>::InitializeInterpolationGrid(const InterpolationGridSizeType 
   // Set the interpolation grid (image) size, origin and spacing
   // from the given vectors, so that physical point of v1 is (0,0,0) and
   // physical point v2 is (size[0],size[1],size[2]).
-  constexpr auto image_size{ InterpolationGridSizeType::Filled(1) };
+  static constexpr auto image_size{ InterpolationGridSizeType::Filled(1) };
   for (unsigned int i = 0; i < FEMDimension; ++i)
   {
     image_size[i] = size[i];

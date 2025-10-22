@@ -46,7 +46,7 @@ itkNormalizedCorrelationImageMetricTest(int, char *[])
   // Create two simple images
   //------------------------------------------------------------
 
-  constexpr unsigned int ImageDimension{ 2 };
+  static constexpr unsigned int ImageDimension{ 2 };
 
   using PixelType = double;
 
@@ -67,8 +67,8 @@ itkNormalizedCorrelationImageMetricTest(int, char *[])
   FixedImageType::SpacingValueType  fixedImageSpacing[] = { 1.0f, 1.0f };
   MovingImageType::SpacingValueType movingImageSpacing[] = { 1.0f, 1.0f };
 
-  constexpr FixedImageType::PointValueType  fixedImageOrigin[]{ 0.0f, 0.0f };
-  constexpr MovingImageType::PointValueType movingImageOrigin[]{ 0.0f, 0.0f };
+  static constexpr FixedImageType::PointValueType  fixedImageOrigin[]{ 0.0f, 0.0f };
+  static constexpr MovingImageType::PointValueType movingImageOrigin[]{ 0.0f, 0.0f };
 
   auto movingImageSource = MovingImageSourceType::New();
   auto fixedImageSource = FixedImageSourceType::New();
@@ -182,7 +182,7 @@ itkNormalizedCorrelationImageMetricTest(int, char *[])
 
   std::cout << "param[1]   Metric    d(Metric)/d(param[1] " << std::endl;
 
-  constexpr bool subtractMean{ true };
+  static constexpr bool subtractMean{ true };
   ITK_TEST_SET_GET_BOOLEAN(metric, SubtractMean, subtractMean);
 
   for (double trans = -10; trans <= 5; trans += 0.2)

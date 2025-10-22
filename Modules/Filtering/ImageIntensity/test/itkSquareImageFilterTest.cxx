@@ -25,7 +25,7 @@ itkSquareImageFilterTest(int, char *[])
 {
 
   // Define the dimension of the images
-  constexpr unsigned int ImageDimension{ 3 };
+  static constexpr unsigned int ImageDimension{ 3 };
 
   // Declare the types of the images
   using InputPixelType = float;
@@ -51,9 +51,9 @@ itkSquareImageFilterTest(int, char *[])
   auto inputImage = InputImageType::New();
 
   // Define their size, and start index
-  constexpr SizeType  size{ 2, 2, 2 };
-  constexpr IndexType start{ 0, 0, 0 };
-  RegionType          region{ start, size };
+  static constexpr SizeType  size{ 2, 2, 2 };
+  static constexpr IndexType start{ 0, 0, 0 };
+  RegionType                 region{ start, size };
 
   // Initialize Image A
   inputImage->SetRegions(region);
@@ -62,7 +62,7 @@ itkSquareImageFilterTest(int, char *[])
   InputIteratorType it(inputImage, inputImage->GetBufferedRegion());
 
   // Initialize the content of Image A
-  constexpr double value{ 30 };
+  static constexpr double value{ 30 };
   std::cout << "Content of the Input " << std::endl;
   it.GoToBegin();
   while (!it.IsAtEnd())
@@ -95,7 +95,7 @@ itkSquareImageFilterTest(int, char *[])
 
   //  Check the content of the result image
 
-  constexpr OutputImageType::PixelType epsilon{ 1e-6 };
+  static constexpr OutputImageType::PixelType epsilon{ 1e-6 };
   ot.GoToBegin();
   it.GoToBegin();
   while (!ot.IsAtEnd())

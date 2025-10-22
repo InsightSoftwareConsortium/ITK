@@ -31,19 +31,19 @@ itkSphereMeshSourceTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(mySphereMeshSource, SphereMeshSource, MeshSource);
 
 
-  constexpr fPointType            center{};
-  constexpr fPointType::ValueType scaleInit[3]{ 1, 1, 1 };
-  const fPointType                scale = scaleInit;
+  static constexpr fPointType            center{};
+  static constexpr fPointType::ValueType scaleInit[3]{ 1, 1, 1 };
+  const fPointType                       scale = scaleInit;
 
   mySphereMeshSource->SetCenter(center);
   mySphereMeshSource->SetResolutionX(1);
   mySphereMeshSource->SetResolutionY(10);
   mySphereMeshSource->SetScale(scale);
 
-  constexpr double squareness1{ 1.0 };
+  static constexpr double squareness1{ 1.0 };
   mySphereMeshSource->SetSquareness1(squareness1);
 
-  constexpr double squareness2{ 1.0 };
+  static constexpr double squareness2{ 1.0 };
   mySphereMeshSource->SetSquareness2(squareness2);
 
   mySphereMeshSource->Modified();

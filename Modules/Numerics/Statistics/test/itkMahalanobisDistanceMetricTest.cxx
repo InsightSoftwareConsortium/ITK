@@ -21,7 +21,7 @@
 int
 itkMahalanobisDistanceMetricTest(int, char *[])
 {
-  constexpr unsigned int MeasurementVectorSize{ 3 };
+  static constexpr unsigned int MeasurementVectorSize{ 3 };
 
   using MeasurementVectorType = itk::Array<float>;
 
@@ -50,7 +50,7 @@ itkMahalanobisDistanceMetricTest(int, char *[])
   distance->SetMean(origin);
 
   // double value comparison tolerance
-  constexpr double tolerance{ 0.001 };
+  static constexpr double tolerance{ 0.001 };
   if (itk::Math::abs(distance->GetMean()[0] - origin[0]) > tolerance ||
       itk::Math::abs(distance->GetMean()[1] - origin[1]) > tolerance ||
       itk::Math::abs(distance->GetMean()[2] - origin[2]) > tolerance)
@@ -87,8 +87,8 @@ itkMahalanobisDistanceMetricTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  constexpr double epsilon{ 1e-200 };
-  constexpr double doubleMax{ 1e+25 };
+  static constexpr double epsilon{ 1e-200 };
+  static constexpr double doubleMax{ 1e+25 };
 
   distance->SetEpsilon(epsilon);
   distance->SetDoubleMax(doubleMax);
@@ -117,8 +117,8 @@ itkMahalanobisDistanceMetricTest(int, char *[])
 
   // Test if an exception is thrown if a covariance matrix is set with different
   // size
-  DistanceMetricType::CovarianceMatrixType                covarianceMatrix2;
-  constexpr DistanceMetricType::MeasurementVectorSizeType measurementSize2{ 4 };
+  DistanceMetricType::CovarianceMatrixType                       covarianceMatrix2;
+  static constexpr DistanceMetricType::MeasurementVectorSizeType measurementSize2{ 4 };
   covarianceMatrix2.set_size(measurementSize2, measurementSize2);
 
   try
@@ -185,7 +185,7 @@ itkMahalanobisDistanceMetricTest(int, char *[])
   }
 
   // Run the distance metric with a single component measurement vector size
-  constexpr DistanceMetricType::MeasurementVectorSizeType singleComponentMeasurementVectorSize{ 1 };
+  static constexpr DistanceMetricType::MeasurementVectorSizeType singleComponentMeasurementVectorSize{ 1 };
 
   distance->SetMeasurementVectorSize(singleComponentMeasurementVectorSize);
 

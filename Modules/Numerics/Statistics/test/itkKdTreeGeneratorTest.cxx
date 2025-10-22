@@ -29,7 +29,7 @@ itkKdTreeGeneratorTest(int, char *[])
 
     using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
 
-    constexpr SampleType::MeasurementVectorSizeType measurementVectorSize{ 2 };
+    static constexpr SampleType::MeasurementVectorSizeType measurementVectorSize{ 2 };
 
     auto sample = SampleType::New();
     sample->SetMeasurementVectorSize(measurementVectorSize);
@@ -51,7 +51,7 @@ itkKdTreeGeneratorTest(int, char *[])
     treeGenerator->SetSample(sample);
     ITK_TEST_SET_GET_VALUE(sample, treeGenerator->GetSourceSample());
 
-    constexpr unsigned int bucketSize{ 16 };
+    static constexpr unsigned int bucketSize{ 16 };
     treeGenerator->SetBucketSize(bucketSize);
     ITK_TEST_SET_GET_VALUE(bucketSize, treeGenerator->GetBucketSize());
 
@@ -96,7 +96,7 @@ itkKdTreeGeneratorTest(int, char *[])
     }
     distanceMetric->SetOrigin(origin);
 
-    constexpr unsigned int                 numberOfNeighbors{ 3 };
+    static constexpr unsigned int          numberOfNeighbors{ 3 };
     TreeType::InstanceIdentifierVectorType neighbors;
     tree->Search(queryPoint, numberOfNeighbors, neighbors);
 
@@ -110,7 +110,7 @@ itkKdTreeGeneratorTest(int, char *[])
                 << "] : " << distanceMetric->Evaluate(tree->GetMeasurementVector(neighbors[i])) << std::endl;
     }
 
-    constexpr double radius{ 437.0 };
+    static constexpr double radius{ 437.0 };
 
     tree->Search(queryPoint, radius, neighbors);
 
@@ -187,7 +187,7 @@ itkKdTreeGeneratorTest(int, char *[])
     }
     distanceMetric->SetOrigin(origin);
 
-    constexpr unsigned int                 numberOfNeighbors{ 3 };
+    static constexpr unsigned int          numberOfNeighbors{ 3 };
     TreeType::InstanceIdentifierVectorType neighbors;
     tree->Search(queryPoint, numberOfNeighbors, neighbors);
 
@@ -201,7 +201,7 @@ itkKdTreeGeneratorTest(int, char *[])
                 << "] : " << distanceMetric->Evaluate(tree->GetMeasurementVector(neighbors[i])) << std::endl;
     }
 
-    constexpr double radius{ 437.0 };
+    static constexpr double radius{ 437.0 };
 
     tree->Search(queryPoint, radius, neighbors);
 

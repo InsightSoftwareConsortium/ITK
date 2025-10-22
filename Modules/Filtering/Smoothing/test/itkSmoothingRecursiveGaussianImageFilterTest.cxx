@@ -73,7 +73,7 @@ InPlaceTest(char * inputFilename, bool normalizeAcrossScale, typename TFilter::S
   // Check whether the values of the in-place and not in-place executions are the same
   it1.GoToBegin();
   it2.GoToBegin();
-  constexpr double epsilon{ itk::NumericTraits<double>::epsilon() };
+  static constexpr double epsilon{ itk::NumericTraits<double>::epsilon() };
   while (!it1.IsAtEnd())
   {
     if (!itk::Math::FloatAlmostEqual(static_cast<double>(it1.Get()), static_cast<double>(it2.Get()), 10, epsilon))
@@ -112,7 +112,7 @@ itkSmoothingRecursiveGaussianImageFilterTest(int argc, char * argv[])
   int testStatus = EXIT_SUCCESS;
 
   // Define the dimension of the images
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
 
   // Declare the types of the images
   using PixelType = unsigned char;

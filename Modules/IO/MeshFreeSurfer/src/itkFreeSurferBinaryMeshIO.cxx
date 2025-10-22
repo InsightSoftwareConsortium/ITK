@@ -98,8 +98,8 @@ FreeSurferBinaryMeshIO::ReadMeshInformation()
   OpenFile();
 
   // Define required variables
-  constexpr unsigned int fileTypeIdLength{ 3 };
-  unsigned char          fileTypeId[fileTypeIdLength];
+  static constexpr unsigned int fileTypeIdLength{ 3 };
+  unsigned char                 fileTypeId[fileTypeIdLength];
   this->m_FileType = IOFileEnum::BINARY;
 
   // Read file type
@@ -118,7 +118,7 @@ FreeSurferBinaryMeshIO::ReadMeshInformation()
   // If input file is freesurfer binary surface file
   if (m_FileTypeIdentifier == (-2 & 0x00ffffff))
   {
-    constexpr unsigned int numberOfCellPoints{ 3 };
+    static constexpr unsigned int numberOfCellPoints{ 3 };
     // Read input comment
     //  Extract Comment, and ignore it.
     int byte = m_InputFile.get();
@@ -241,8 +241,8 @@ FreeSurferBinaryMeshIO::ReadPoints(void * buffer)
 void
 FreeSurferBinaryMeshIO::ReadCells(void * buffer)
 {
-  constexpr unsigned int numberOfCellPoints{ 3 };
-  const auto             data = make_unique_for_overwrite<itk::uint32_t[]>(this->m_NumberOfCells * numberOfCellPoints);
+  static constexpr unsigned int numberOfCellPoints{ 3 };
+  const auto data = make_unique_for_overwrite<itk::uint32_t[]>(this->m_NumberOfCells * numberOfCellPoints);
 
   m_InputFile.read(reinterpret_cast<char *>(data.get()),
                    this->m_NumberOfCells * numberOfCellPoints * sizeof(itk::uint32_t));
@@ -296,7 +296,7 @@ FreeSurferBinaryMeshIO::WriteMeshInformation()
   if (this->m_UpdatePoints && this->m_UpdateCells)
   {
     // MAGIC_NUMBER = 16777214 ( little endian )
-    constexpr char buffer[3]{ static_cast<char>(255), static_cast<char>(255), static_cast<char>(254) };
+    static constexpr char buffer[3]{ static_cast<char>(255), static_cast<char>(255), static_cast<char>(254) };
     outputFile.write(buffer, 3);
 
     const std::string creator = "Created by ITK  \n\n";
@@ -310,12 +310,12 @@ FreeSurferBinaryMeshIO::WriteMeshInformation()
   else if (this->m_UpdatePointData && (!this->m_UpdatePoints && !this->m_UpdateCells))
   {
     // MAGIC_NUMBER = 16777215 ( little endian )
-    constexpr char buffer[3]{ static_cast<char>(255), static_cast<char>(255), static_cast<char>(255) };
+    static constexpr char buffer[3]{ static_cast<char>(255), static_cast<char>(255), static_cast<char>(255) };
     outputFile.write(buffer, 3);
 
-    auto                    numberOfPoints = static_cast<itk::uint32_t>(this->m_NumberOfPointPixels);
-    auto                    numberOfCells = static_cast<itk::uint32_t>(this->m_NumberOfCells);
-    constexpr itk::uint32_t numberOfValuesPerPoint{ 1 };
+    auto                           numberOfPoints = static_cast<itk::uint32_t>(this->m_NumberOfPointPixels);
+    auto                           numberOfCells = static_cast<itk::uint32_t>(this->m_NumberOfCells);
+    static constexpr itk::uint32_t numberOfValuesPerPoint{ 1 };
     itk::ByteSwapper<itk::uint32_t>::SwapWriteRangeFromSystemToBigEndian(&numberOfPoints, 1, &outputFile);
     itk::ByteSwapper<itk::uint32_t>::SwapWriteRangeFromSystemToBigEndian(&numberOfCells, 1, &outputFile);
     itk::ByteSwapper<itk::uint32_t>::SwapWriteRangeFromSystemToBigEndian(&numberOfValuesPerPoint, 1, &outputFile);

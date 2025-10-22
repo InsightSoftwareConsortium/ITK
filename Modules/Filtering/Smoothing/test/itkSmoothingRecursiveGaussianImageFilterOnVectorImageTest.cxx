@@ -25,7 +25,7 @@ itkSmoothingRecursiveGaussianImageFilterOnVectorImageTest(int, char *[])
 {
 
   // Define the dimension of the images
-  constexpr unsigned int myDimension{ 3 };
+  static constexpr unsigned int myDimension{ 3 };
 
   // Declare the types of the images
   using myImageType = itk::VectorImage<float, myDimension>;
@@ -39,7 +39,7 @@ itkSmoothingRecursiveGaussianImageFilterOnVectorImageTest(int, char *[])
   // Declare the type of the Region
   using myRegionType = itk::ImageRegion<myDimension>;
 
-  constexpr unsigned int numberOfComponents{ 3 };
+  static constexpr unsigned int numberOfComponents{ 3 };
 
   // Create the image
   auto inputImage = myImageType::New();

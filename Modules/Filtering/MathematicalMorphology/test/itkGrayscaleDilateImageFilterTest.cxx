@@ -37,7 +37,7 @@ itkGrayscaleDilateImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int dim{ 2 };
+  static constexpr unsigned int dim{ 2 };
   using PixelType = unsigned char;
   using ImageType = itk::Image<unsigned char, dim>;
 

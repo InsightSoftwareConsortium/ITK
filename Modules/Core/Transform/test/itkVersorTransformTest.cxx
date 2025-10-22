@@ -40,7 +40,7 @@ itkVersorTransformTest(int, char *[])
 
   using ValueType = double;
 
-  constexpr ValueType epsilon{ 1e-12 };
+  static constexpr ValueType epsilon{ 1e-12 };
 
   //  Versor Transform type
   using TransformType = itk::VersorTransform<ValueType>;
@@ -128,9 +128,9 @@ itkVersorTransformTest(int, char *[])
 
     {
       // Rotate an itk::Point
-      constexpr TransformType::InputPointType::ValueType pInit[3]{ 1, 4, 9 };
-      const TransformType::InputPointType                p = pInit;
-      TransformType::OutputPointType                     q;
+      static constexpr TransformType::InputPointType::ValueType pInit[3]{ 1, 4, 9 };
+      const TransformType::InputPointType                       p = pInit;
+      TransformType::OutputPointType                            q;
       q = versor.Transform(p);
 
       TransformType::OutputPointType r;
@@ -285,7 +285,7 @@ itkVersorTransformTest(int, char *[])
 
     ParametersType parameters(np); // Number of parameters
 
-    constexpr VersorType versor;
+    static constexpr VersorType versor;
 
     parameters[0] = versor.GetX(); // Rotation axis * std::sin(t/2)
     parameters[1] = versor.GetY();
@@ -295,7 +295,7 @@ itkVersorTransformTest(int, char *[])
 
     ParametersType parameters2 = transform->GetParameters();
 
-    constexpr double tolerance{ 1e-8 };
+    static constexpr double tolerance{ 1e-8 };
     for (unsigned int p = 0; p < np; ++p)
     {
       if (itk::Math::abs(parameters[p] - parameters2[p]) > tolerance)
@@ -393,7 +393,7 @@ itkVersorTransformTest(int, char *[])
     // attempt to set an orthogonal matrix
     matrix.GetVnlMatrix().set_identity();
 
-    constexpr double a{ 1.0 / 180.0 * itk::Math::pi };
+    static constexpr double a{ 1.0 / 180.0 * itk::Math::pi };
     matrix[0][0] = std::cos(a);
     matrix[0][1] = -1.0 * std::sin(a);
     matrix[1][0] = std::sin(a);
@@ -466,7 +466,7 @@ itkVersorTransformTest(int, char *[])
       t->SetCenter(center);
       t->SetParameters(q);
 
-      constexpr double expectedOffset[]{ 0.0, 12.0, 4.0 };
+      static constexpr double expectedOffset[]{ 0.0, 12.0, 4.0 };
 
       TransformType::OffsetType offset = t->GetOffset();
       for (unsigned int k = 0; k < 3; ++k)

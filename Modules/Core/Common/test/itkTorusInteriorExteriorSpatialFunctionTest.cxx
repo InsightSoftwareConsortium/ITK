@@ -25,7 +25,7 @@ itkTorusInteriorExteriorSpatialFunctionTest(int, char *[])
 {
 
   // Define the dimensionality
-  constexpr unsigned int PointDimension{ 3 };
+  static constexpr unsigned int PointDimension{ 3 };
 
   // Define the point coordinate representation type
   using PointCoordinateType = float;
@@ -49,11 +49,11 @@ itkTorusInteriorExteriorSpatialFunctionTest(int, char *[])
   torusInteriorExteriorSpatialFunction->SetOrigin(origin);
   ITK_TEST_SET_GET_VALUE(origin, torusInteriorExteriorSpatialFunction->GetOrigin());
 
-  constexpr double majorRadius{ 10.0 };
+  static constexpr double majorRadius{ 10.0 };
   torusInteriorExteriorSpatialFunction->SetMajorRadius(majorRadius);
   ITK_TEST_SET_GET_VALUE(majorRadius, torusInteriorExteriorSpatialFunction->GetMajorRadius());
 
-  constexpr double minorRadius{ 4.0 };
+  static constexpr double minorRadius{ 4.0 };
   torusInteriorExteriorSpatialFunction->SetMinorRadius(minorRadius);
   ITK_TEST_SET_GET_VALUE(minorRadius, torusInteriorExteriorSpatialFunction->GetMinorRadius());
 

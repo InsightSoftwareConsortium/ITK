@@ -37,7 +37,7 @@ itkLabelShapeKeepNObjectsImageFilterTest1(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int dim{ 2 };
+  static constexpr unsigned int dim{ 2 };
 
   using IType = itk::Image<unsigned char, dim>;
 
@@ -78,7 +78,9 @@ itkLabelShapeKeepNObjectsImageFilterTest1(int argc, char * argv[])
 
   const std::string attributeByName{ argv[6] };
   KeepNObjects->SetAttribute(attributeByName); // SetAttribute accepts a string for conversion to internal label code
-  constexpr LabelKeepNObjectsType::AttributeType attributeByCode{ LabelKeepNObjectsType::LabelObjectType::LABEL };
+  static constexpr LabelKeepNObjectsType::AttributeType attributeByCode{
+    LabelKeepNObjectsType::LabelObjectType::LABEL
+  };
   ITK_TEST_SET_GET_VALUE(attributeByCode, KeepNObjects->GetAttribute());
 
   const itk::SimpleFilterWatcher watcher(KeepNObjects, "filter");

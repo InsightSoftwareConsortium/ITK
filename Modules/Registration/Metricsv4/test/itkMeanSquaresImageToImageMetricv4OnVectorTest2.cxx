@@ -29,8 +29,8 @@ int
 itkMeanSquaresImageToImageMetricv4OnVectorTest2Run(typename TMetric::MeasureType &    measureReturn,
                                                    typename TMetric::DerivativeType & derivativeReturn)
 {
-  constexpr unsigned int imageSize{ 5 };
-  constexpr unsigned int imageDimensionality{ 3 };
+  static constexpr unsigned int imageSize{ 5 };
+  static constexpr unsigned int imageDimensionality{ 3 };
 
   using ImageType = typename TMetric::FixedImageType;
 
@@ -126,8 +126,8 @@ itkMeanSquaresImageToImageMetricv4OnVectorTest2Run(typename TMetric::MeasureType
 int
 itkMeanSquaresImageToImageMetricv4OnVectorTest2(int, char ** const)
 {
-  constexpr unsigned int imageDimensionality{ 3 };
-  constexpr unsigned int vectorLength{ 3 };
+  static constexpr unsigned int imageDimensionality{ 3 };
+  static constexpr unsigned int vectorLength{ 3 };
 
   /* The vector metric */
   using VectorType = itk::Vector<double, vectorLength>;
@@ -155,7 +155,7 @@ itkMeanSquaresImageToImageMetricv4OnVectorTest2(int, char ** const)
   std::cout << "scalarMeasure: " << scalarMeasure << " scalarDerivative: " << scalarDerivative << std::endl;
 
   /* Compare */
-  constexpr double tolerance{ 1e-8 };
+  static constexpr double tolerance{ 1e-8 };
   if (itk::Math::abs(scalarMeasure - (vectorMeasure / vectorLength)) > tolerance)
   {
     std::cerr << "Measures do not match within tolerance. scalarMeasure, vectorMeasure: " << scalarMeasure << ", "

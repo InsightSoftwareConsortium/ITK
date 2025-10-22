@@ -27,7 +27,7 @@
 int
 itkHessianRecursiveGaussianFilterScaleSpaceTest(int, char *[])
 {
-  constexpr unsigned int Dimension{ 3 };
+  static constexpr unsigned int Dimension{ 3 };
   using PixelType = double;
   using ImageType = itk::Image<PixelType, Dimension>;
   using IndexType = itk::Index<Dimension>;
@@ -41,7 +41,7 @@ itkHessianRecursiveGaussianFilterScaleSpaceTest(int, char *[])
   auto size = SizeType::Filled(21);
   size[0] = 401;
 
-  constexpr IndexType start{};
+  static constexpr IndexType start{};
 
   RegionType region{ start, size };
 
@@ -58,8 +58,8 @@ itkHessianRecursiveGaussianFilterScaleSpaceTest(int, char *[])
 
   using IteratorType = itk::ImageRegionIteratorWithIndex<ImageType>;
 
-  constexpr unsigned int numberOfScales{ 4 };
-  double                 scales[numberOfScales];
+  static constexpr unsigned int numberOfScales{ 4 };
+  double                        scales[numberOfScales];
   scales[0] = 1.0;
   scales[1] = 2.0;
   scales[2] = 3.0;
@@ -97,7 +97,7 @@ itkHessianRecursiveGaussianFilterScaleSpaceTest(int, char *[])
     const HessianImageType::Pointer outputImage = filter->GetOutput();
 
     // Get the value at the center of the image, the location of the peak of the Gaussian
-    constexpr PointType center{};
+    static constexpr PointType center{};
 
     const IndexType centerIndex = outputImage->TransformPhysicalPointToIndex(center);
 
@@ -118,8 +118,8 @@ itkHessianRecursiveGaussianFilterScaleSpaceTest(int, char *[])
   {
     IteratorType it(inputImage, inputImage->GetRequestedRegion());
 
-    PointType        point;
-    constexpr double objectSize{ 5.0 };
+    PointType               point;
+    static constexpr double objectSize{ 5.0 };
 
     spacing.Fill(scale / 5.0);
 
@@ -151,7 +151,7 @@ itkHessianRecursiveGaussianFilterScaleSpaceTest(int, char *[])
     const HessianImageType::Pointer outputImage = filter->GetOutput();
 
     // Get the value at the center of the image, the location of the peak of the Gaussian
-    constexpr PointType center{};
+    static constexpr PointType center{};
 
     const IndexType centerIndex = outputImage->TransformPhysicalPointToIndex(center);
 

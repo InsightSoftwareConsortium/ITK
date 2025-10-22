@@ -343,9 +343,9 @@ TEST(MetaDataDictionary, SupportsCStyleArrays)
   }
 
   // Check a two-dimensional array.
-  constexpr size_t numberOfRows{ 3 };
-  constexpr size_t numberOfColumns{ 4 };
-  int              twoDimensionalArray[numberOfRows][numberOfColumns];
+  static constexpr size_t numberOfRows{ 3 };
+  static constexpr size_t numberOfColumns{ 4 };
+  int                     twoDimensionalArray[numberOfRows][numberOfColumns];
 
   // Just ensure that each element of the two-dimensional array has a different value.
   int * const beginOfData = &(twoDimensionalArray[0][0]);

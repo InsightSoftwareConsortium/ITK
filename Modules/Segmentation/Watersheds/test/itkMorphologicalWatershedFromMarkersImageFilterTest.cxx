@@ -40,7 +40,7 @@ itkMorphologicalWatershedFromMarkersImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
 
   using PixelType = unsigned char;
 
@@ -81,7 +81,7 @@ itkMorphologicalWatershedFromMarkersImageFilterTest(int argc, char * argv[])
     size[i] = size[i] * 2;
   }
 
-  constexpr ImageType::RegionType::IndexType index{};
+  static constexpr ImageType::RegionType::IndexType index{};
 
   region = { index, size };
 

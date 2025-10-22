@@ -27,9 +27,9 @@ ComputeAreaError(const SEType & k, unsigned int thickness = 0);
 int
 itkFlatStructuringElementTest(int, char *[])
 {
-  constexpr int  scalarRadius{ 5 };
-  constexpr int  scalarThickness{ 2 };
-  constexpr bool radiusIsParametric{ true };
+  static constexpr int  scalarRadius{ 5 };
+  static constexpr int  scalarThickness{ 2 };
+  static constexpr bool radiusIsParametric{ true };
 
   using SE2Type = itk::FlatStructuringElement<2>;
   auto r2 = itk::MakeFilled<SE2Type::RadiusType>(scalarRadius);

@@ -33,7 +33,7 @@ itkPasteImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
   using PixelType = unsigned char;
 
   using ImageType = itk::Image<PixelType, Dimension>;
@@ -64,9 +64,9 @@ itkPasteImageFilterTest(int argc, char * argv[])
   filter->SetDestinationIndex(destIndex);
   ITK_TEST_SET_GET_VALUE(destIndex, filter->GetDestinationIndex());
 
-  constexpr FilterType::InputImageIndexType srcIndex{ 20, 40 };
-  constexpr FilterType::InputImageSizeType  srcSize{ 60, 40 };
-  FilterType::InputImageRegionType          srcRegion = { srcIndex, srcSize };
+  static constexpr FilterType::InputImageIndexType srcIndex{ 20, 40 };
+  static constexpr FilterType::InputImageSizeType  srcSize{ 60, 40 };
+  FilterType::InputImageRegionType                 srcRegion = { srcIndex, srcSize };
 
   filter->SetSourceRegion(srcRegion);
   ITK_TEST_SET_GET_VALUE(srcRegion, filter->GetSourceRegion());

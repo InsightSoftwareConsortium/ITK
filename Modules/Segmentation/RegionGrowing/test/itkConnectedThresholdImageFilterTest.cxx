@@ -37,7 +37,7 @@ itkConnectedThresholdImageFilterTest(int argc, char * argv[])
 
 
   // Define the dimension of the images
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
 
   // Define the pixel types of the images
   using PixelType = unsigned char;
@@ -101,7 +101,7 @@ itkConnectedThresholdImageFilterTest(int argc, char * argv[])
   connectedThresholdFilter->SetUpper(upperThreshold);
   ITK_TEST_SET_GET_VALUE(upperThreshold, connectedThresholdFilter->GetUpper());
 
-  constexpr ConnectedThresholdImageFilterType::OutputImagePixelType replaceValue{ 255 };
+  static constexpr ConnectedThresholdImageFilterType::OutputImagePixelType replaceValue{ 255 };
   connectedThresholdFilter->SetReplaceValue(replaceValue);
   ITK_TEST_SET_GET_VALUE(replaceValue, connectedThresholdFilter->GetReplaceValue());
 

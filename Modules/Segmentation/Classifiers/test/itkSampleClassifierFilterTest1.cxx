@@ -32,10 +32,10 @@ int
 itkSampleClassifierFilterTest1(int, char *[])
 {
 
-  constexpr unsigned int numberOfComponents{ 3 };
+  static constexpr unsigned int numberOfComponents{ 3 };
   using MeasurementType = float;
 
-  constexpr unsigned int numberOfClasses{ 3 };
+  static constexpr unsigned int numberOfClasses{ 3 };
 
   using MeasurementVectorType = itk::Array<MeasurementType>;
   using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
@@ -172,13 +172,13 @@ itkSampleClassifierFilterTest1(int, char *[])
 
   using ClassLabelType = FilterType::ClassLabelType;
 
-  constexpr ClassLabelType class1{ 0 };
+  static constexpr ClassLabelType class1{ 0 };
   classLabelVector.push_back(class1);
 
-  constexpr ClassLabelType class2{ 1 };
+  static constexpr ClassLabelType class2{ 1 };
   classLabelVector.push_back(class2);
 
-  constexpr ClassLabelType class3{ 2 };
+  static constexpr ClassLabelType class3{ 2 };
   classLabelVector.push_back(class3);
 
 

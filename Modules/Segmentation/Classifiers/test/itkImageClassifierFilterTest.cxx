@@ -37,12 +37,12 @@ itkImageClassifierFilterTest(int argc, char * argv[])
               << "ClassifiedOutputImage name" << std::endl;
     return EXIT_FAILURE;
   }
-  constexpr unsigned int MeasurementVectorSize{ 1 };
+  static constexpr unsigned int MeasurementVectorSize{ 1 };
   using MeasurementComponentType = double;
-  constexpr unsigned int numberOfClasses{ 2 };
+  static constexpr unsigned int numberOfClasses{ 2 };
   using InputPixelType = itk::FixedArray<MeasurementComponentType, MeasurementVectorSize>;
 
-  constexpr unsigned int ImageDimension{ 2 };
+  static constexpr unsigned int ImageDimension{ 2 };
   using InputImageType = itk::Image<InputPixelType, ImageDimension>;
 
   using OutputPixelType = unsigned char;
@@ -69,8 +69,8 @@ itkImageClassifierFilterTest(int argc, char * argv[])
 
   // Fill the first half of the input image with pixel intensities
   // generated from a normal distribution defined by the following parameters
-  constexpr double mean{ 10.5 };
-  constexpr double standardDeviation{ 5.0 };
+  static constexpr double mean{ 10.5 };
+  static constexpr double standardDeviation{ 5.0 };
 
   InputImageType::IndexType index;
   const unsigned int        halfSize = size[1] / 2;
@@ -89,8 +89,8 @@ itkImageClassifierFilterTest(int argc, char * argv[])
   }
 
   // Pixel intensities generated from the second normal distribution
-  constexpr double mean2{ 200.5 };
-  constexpr double standardDeviation2{ 20.0 };
+  static constexpr double mean2{ 200.5 };
+  static constexpr double standardDeviation2{ 20.0 };
 
   for (unsigned int y = halfSize; y < size[1]; ++y)
   {
@@ -141,7 +141,7 @@ itkImageClassifierFilterTest(int argc, char * argv[])
   auto estimator = EstimatorType::New();
   estimator->SetSample(sample);
 
-  constexpr int maximumIteration{ 200 };
+  static constexpr int maximumIteration{ 200 };
   estimator->SetMaximumIteration(maximumIteration);
 
   itk::Array<double> initialProportions(numberOfClasses);
@@ -181,10 +181,10 @@ itkImageClassifierFilterTest(int argc, char * argv[])
 
   using ClassLabelType = ImageClassifierFilterType::ClassLabelType;
 
-  constexpr ClassLabelType class1{ 0 };
+  static constexpr ClassLabelType class1{ 0 };
   classLabelVector.push_back(class1);
 
-  constexpr ClassLabelType class2{ 255 };
+  static constexpr ClassLabelType class2{ 255 };
   classLabelVector.push_back(class2);
 
   // Set a decision rule type

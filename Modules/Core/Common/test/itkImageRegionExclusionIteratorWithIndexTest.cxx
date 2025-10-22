@@ -47,8 +47,8 @@ RunTest(const TRegion & region, const TRegion & exclusionRegion)
   using ValueIteratorType = itk::ImageRegionIteratorWithIndex<ValueImageType>;
   using IndexIteratorType = itk::ImageRegionIteratorWithIndex<IndexImageType>;
 
-  constexpr unsigned char normalRegionValue{ 100 };
-  constexpr unsigned char exclusionRegionValue{ 200 };
+  static constexpr unsigned char normalRegionValue{ 100 };
+  static constexpr unsigned char exclusionRegionValue{ 200 };
 
   // Initialize the Image
   IndexIteratorType ii(myIndexImage, region);
@@ -252,16 +252,16 @@ RunTest(const TRegion & region, const TRegion & exclusionRegion)
 int
 itkImageRegionExclusionIteratorWithIndexTest(int, char *[])
 {
-  constexpr unsigned int Dimension{ 3 };
+  static constexpr unsigned int Dimension{ 3 };
   using SizeType = itk::Size<Dimension>;
   using IndexType = itk::Index<Dimension>;
   using RegionType = itk::ImageRegion<Dimension>;
 
-  constexpr IndexType regionStart{};
-  auto                regionSize = itk::MakeFilled<SizeType>(7);
-  const RegionType    region{ regionStart, regionSize };
+  static constexpr IndexType regionStart{};
+  auto                       regionSize = itk::MakeFilled<SizeType>(7);
+  const RegionType           region{ regionStart, regionSize };
 
-  constexpr SizeType::SizeValueType size[2]{ 4, 7 };
+  static constexpr SizeType::SizeValueType size[2]{ 4, 7 };
 
   for (const SizeType::SizeValueType s : size)
   {

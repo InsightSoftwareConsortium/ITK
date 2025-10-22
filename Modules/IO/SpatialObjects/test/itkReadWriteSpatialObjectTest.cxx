@@ -270,8 +270,8 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
 
   SizeType size;
 
-  constexpr unsigned int dim{ 3 };
-  double                 spacing[3];
+  static constexpr unsigned int dim{ 3 };
+  double                        spacing[3];
 
   for (unsigned int i = 0; i < dim; ++i)
   {

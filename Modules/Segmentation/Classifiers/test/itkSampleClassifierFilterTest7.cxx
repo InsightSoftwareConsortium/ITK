@@ -43,9 +43,9 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr int          maximumIteration{ 200 };
-  constexpr double       minStandardDeviation{ 28.54746 };
-  constexpr unsigned int numberOfClasses{ 2 };
+  static constexpr int          maximumIteration{ 200 };
+  static constexpr double       minStandardDeviation{ 28.54746 };
+  static constexpr unsigned int numberOfClasses{ 2 };
   using ParametersType = itk::Array<double>;
   std::vector<ParametersType> trueParameters(numberOfClasses);
   ParametersType              params(6);
@@ -94,7 +94,7 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
   /* Loading point data */
   auto                                       pointSet = PointSetType::New();
   const PointSetType::PointsContainerPointer pointsContainer = PointSetType::PointsContainer::New();
-  constexpr int                              dataSizeBig{ 2000 };
+  static constexpr int                       dataSizeBig{ 2000 };
   pointsContainer->Reserve(dataSizeBig);
   pointSet->SetPoints(pointsContainer);
 
@@ -191,10 +191,10 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
 
   using ClassLabelType = FilterType::ClassLabelType;
 
-  constexpr ClassLabelType class1{ 0 };
+  static constexpr ClassLabelType class1{ 0 };
   classLabelVector.push_back(class1);
 
-  constexpr ClassLabelType class2{ 1 };
+  static constexpr ClassLabelType class2{ 1 };
   classLabelVector.push_back(class2);
 
   // Set a decision rule type
@@ -251,7 +251,7 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
 
   auto                                       pointSet2 = PointSetType::New();
   const PointSetType::PointsContainerPointer pointsContainer2 = PointSetType::PointsContainer::New();
-  constexpr int                              dataSizeSmall{ 200 };
+  static constexpr int                       dataSizeSmall{ 200 };
   pointsContainer2->Reserve(dataSizeSmall);
   pointSet2->SetPoints(pointsContainer2);
 
@@ -291,7 +291,7 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
 
   unsigned int sampleCounter = 0;
 
-  constexpr unsigned int numberOfSamplesPerClass{ 100 };
+  static constexpr unsigned int numberOfSamplesPerClass{ 100 };
   if (sampleCounter > numberOfSamplesPerClass)
   {
     if (iter.GetClassLabel() != class1)

@@ -220,7 +220,7 @@ TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bo
   metric->SetMovingImage(imgMoving);
 
   // set the number of histogram bins
-  constexpr itk::SizeValueType numberOfHistogramBins{ 50 };
+  static constexpr itk::SizeValueType numberOfHistogramBins{ 50 };
   metric->SetNumberOfHistogramBins(numberOfHistogramBins);
   ITK_TEST_SET_GET_VALUE(numberOfHistogramBins, metric->GetNumberOfHistogramBins());
 
@@ -346,7 +346,7 @@ TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bo
   ParametersType parameters1Minus(numberOfParameters);
   ParametersType parameters2Minus(numberOfParameters);
 
-  constexpr double delta{ 0.00001 };
+  static constexpr double delta{ 0.00001 };
 
   const double tolerance = (useSampling) ? 0.075 : 0.014;
   for (unsigned int perturbParamIndex = 0; perturbParamIndex < numberOfParameters; ++perturbParamIndex)
@@ -391,7 +391,7 @@ TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bo
 
     for (size_t v = 0; v < 4; ++v)
     {
-      constexpr double max_percent_diff_in_metric{ 0.05 };
+      static constexpr double max_percent_diff_in_metric{ 0.05 };
       if (itk::Math::abs(itk::Math::abs(new_values[v] / known_values[v]) - 1.0) > max_percent_diff_in_metric)
       {
         std::cout << "\t[FAILED] known values for metric values not computed correctly." << std::setprecision(16)
@@ -440,7 +440,7 @@ int
 itkMattesMutualInformationImageToImageMetricv4Test(int, char *[])
 {
 
-  constexpr size_t imageSize{ 100 }; // NOTE 100 is very small
+  static constexpr size_t imageSize{ 100 }; // NOTE 100 is very small
 
   // using ImageType = itk::Image<unsigned char,2>;
   using ImageType = itk::Image<double, 2>;

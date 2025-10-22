@@ -29,10 +29,10 @@ int
 itkSampleClassifierFilterTest5(int, char *[])
 {
 
-  constexpr unsigned int numberOfComponents{ 1 };
+  static constexpr unsigned int numberOfComponents{ 1 };
   using MeasurementType = float;
 
-  constexpr unsigned int numberOfClasses{ 2 };
+  static constexpr unsigned int numberOfClasses{ 2 };
 
   using MeasurementVectorType = itk::VariableLengthVector<MeasurementType>;
   using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
@@ -65,9 +65,9 @@ itkSampleClassifierFilterTest5(int, char *[])
 
   MeasurementVectorType mv;
   itk::NumericTraits<MeasurementVectorType>::SetLength(mv, numberOfComponents);
-  double                 mean = mean1[0];
-  double                 standardDeviation = 0.1;
-  constexpr unsigned int numberOfSampleEachClass{ 10 };
+  double                        mean = mean1[0];
+  double                        standardDeviation = 0.1;
+  static constexpr unsigned int numberOfSampleEachClass{ 10 };
 
   // Add sample from the first gaussian
   for (unsigned int i = 0; i < numberOfSampleEachClass; ++i)
@@ -94,7 +94,7 @@ itkSampleClassifierFilterTest5(int, char *[])
   /* Creating k-d tree */
   auto generator = GeneratorType::New();
   generator->SetSample(sample);
-  constexpr unsigned int bucketSize{ 1 };
+  static constexpr unsigned int bucketSize{ 1 };
   generator->SetBucketSize(bucketSize);
   generator->GenerateData();
 
@@ -105,7 +105,7 @@ itkSampleClassifierFilterTest5(int, char *[])
   initialMeans[0] = 5;
   initialMeans[1] = 70;
   estimator->SetParameters(initialMeans);
-  constexpr unsigned int maximumIteration{ 100 };
+  static constexpr unsigned int maximumIteration{ 100 };
   estimator->SetMaximumIteration(maximumIteration);
   estimator->SetKdTree(generator->GetOutput());
   estimator->SetCentroidPositionChangesThreshold(0.0);
@@ -117,10 +117,10 @@ itkSampleClassifierFilterTest5(int, char *[])
 
   using ClassLabelType = FilterType::ClassLabelType;
 
-  constexpr ClassLabelType class1{ 0 };
+  static constexpr ClassLabelType class1{ 0 };
   classLabelVector.push_back(class1);
 
-  constexpr ClassLabelType class2{ 1 };
+  static constexpr ClassLabelType class2{ 1 };
   classLabelVector.push_back(class2);
 
   // Set a decision rule type

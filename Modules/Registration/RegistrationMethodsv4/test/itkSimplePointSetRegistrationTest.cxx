@@ -104,8 +104,8 @@ public:
 int
 itkSimplePointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
 {
-  constexpr unsigned int Dimension{ 2 };
-  constexpr unsigned int numberOfIterations{ 20 };
+  static constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int numberOfIterations{ 20 };
 
   using PointSetType = itk::PointSet<unsigned int, Dimension>;
 
@@ -135,8 +135,8 @@ itkSimplePointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(argv)[
   {
     auto label = static_cast<unsigned int>(1.5 + count / 100);
 
-    PointType       fixedPoint;
-    constexpr float radius{ 100.0 };
+    PointType              fixedPoint;
+    static constexpr float radius{ 100.0 };
     fixedPoint[0] = radius * std::cos(theta);
     fixedPoint[1] = radius * std::sin(theta);
     if constexpr (PointSetType::PointDimension > 2)
@@ -232,7 +232,7 @@ itkSimplePointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(argv)[
   // applying the resultant transform to moving points and verify result
   std::cout << "Fixed\tMoving\tMovingTransformed\tFixedTransformed\tDiff" << std::endl;
   bool                                                   passed = true;
-  constexpr PointType::ValueType                         tolerance{ 1e-2 };
+  static constexpr PointType::ValueType                  tolerance{ 1e-2 };
   const AffineTransformType::InverseTransformBasePointer affineInverseTransform =
     affineSimple->GetModifiableTransform()->GetInverseTransform();
   for (unsigned int n = 0; n < movingPoints->GetNumberOfPoints(); ++n)

@@ -46,8 +46,8 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
 
   { // Creating a local scope
     using CoordinateType = double;
-    constexpr unsigned int SpaceDimension{ 1 };
-    constexpr unsigned int SplineOrder{ 2 };
+    static constexpr unsigned int SpaceDimension{ 1 };
+    static constexpr unsigned int SplineOrder{ 2 };
 
     std::cout << "Testing SpaceDimension= " << SpaceDimension;
     std::cout << " and SplineOrder= " << SplineOrder << std::endl;
@@ -92,13 +92,13 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
       function->Evaluate(position1, weights1, startIndex1);
       function->Evaluate(position2, weights2, startIndex2);
 
-      constexpr unsigned int numberOfWeigts{ weights1.size() };
+      static constexpr unsigned int numberOfWeigts{ weights1.size() };
 
       const int indexDifference = itk::Math::abs(startIndex2[0] + startIndex1[0]) & 1;
 
 
-      constexpr double tolerance{ 1e-6 };
-      bool             symmetryForXBroken = false;
+      static constexpr double tolerance{ 1e-6 };
+      bool                    symmetryForXBroken = false;
 
       for (unsigned int nw = 0; nw < numberOfWeigts - indexDifference; ++nw)
       {
@@ -146,8 +146,8 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
   }
   { // Creating a local scope
     using CoordinateType = double;
-    constexpr unsigned int SpaceDimension{ 1 };
-    constexpr unsigned int SplineOrder{ 3 };
+    static constexpr unsigned int SpaceDimension{ 1 };
+    static constexpr unsigned int SplineOrder{ 3 };
 
     std::cout << "Testing SpaceDimension= " << SpaceDimension;
     std::cout << " and SplineOrder= " << SplineOrder << std::endl;
@@ -180,13 +180,13 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
       function->Evaluate(position1, weights1, startIndex1);
       function->Evaluate(position2, weights2, startIndex2);
 
-      constexpr unsigned int numberOfWeigts{ weights1.size() };
+      static constexpr unsigned int numberOfWeigts{ weights1.size() };
 
       const int indexDifference = itk::Math::abs(startIndex2[0] + startIndex1[0] + 1) & 1;
 
 
-      constexpr double tolerance{ 1e-6 };
-      bool             symmetryForXBroken = false;
+      static constexpr double tolerance{ 1e-6 };
+      bool                    symmetryForXBroken = false;
 
       for (unsigned int nw = 0; nw < numberOfWeigts - indexDifference; ++nw)
       {
@@ -235,8 +235,8 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
 
   { // Creating a local scope
     using CoordinateType = double;
-    constexpr unsigned int SpaceDimension{ 3 };
-    constexpr unsigned int SplineOrder{ 3 };
+    static constexpr unsigned int SpaceDimension{ 3 };
+    static constexpr unsigned int SplineOrder{ 3 };
     std::cout << "Testing SpaceDimension= " << SpaceDimension;
     std::cout << " and SplineOrder= " << SplineOrder << std::endl;
 
@@ -249,8 +249,8 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
     auto function = FunctionType::New();
     function->Print(std::cout);
 
-    constexpr SizeType      size{ FunctionType::SupportSize };
-    constexpr unsigned long numberOfWeights{ FunctionType::NumberOfWeights };
+    static constexpr SizeType      size{ FunctionType::SupportSize };
+    static constexpr unsigned long numberOfWeights{ FunctionType::NumberOfWeights };
 
     std::cout << "Number Of Weights: " << numberOfWeights << std::endl;
 

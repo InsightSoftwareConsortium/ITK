@@ -27,7 +27,7 @@ itkTimeVaryingBSplineVelocityFieldTransformTest(int, char *[])
   using TimeVaryingVelocityFieldControlPointLatticeType = itk::Image<VectorType, 4>;
   using TimeVaryingVelocityFieldType = itk::Image<VectorType, 4>;
 
-  constexpr unsigned int splineOrder{ 3 };
+  static constexpr unsigned int splineOrder{ 3 };
 
   auto origin = itk::MakeFilled<TimeVaryingVelocityFieldControlPointLatticeType::PointType>(-2.0);
 
@@ -56,7 +56,7 @@ itkTimeVaryingBSplineVelocityFieldTransformTest(int, char *[])
   integrator->SetUpperTimeBound(0.75);
   integrator->Update();
 
-  constexpr DisplacementFieldType::IndexType index{};
+  static constexpr DisplacementFieldType::IndexType index{};
 
   // This integration should result in a constant image of value
   // 0.75 * 0.1 - 0.3 * 0.1 = 0.045 with ~epsilon deviation

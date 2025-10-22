@@ -208,7 +208,7 @@ Win32OutputWindow::Initialize()
                                                    lpParam.hInstance,  // handle to application instance
                                                    &lpParam            // pointer to window-creation data
   );
-  constexpr int maxsize{ 5242880 };
+  static constexpr int maxsize{ 5242880 };
 
   SendMessage(Win32OutputWindow::m_OutputWindow, EM_LIMITTEXT, maxsize, 0L);
 

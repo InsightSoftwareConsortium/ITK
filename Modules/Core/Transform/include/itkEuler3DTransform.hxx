@@ -229,14 +229,14 @@ void
 Euler3DTransform<TParametersValueType>::ComputeMatrix()
 {
   // need to check if angles are in the right order
-  const ScalarType     cx = std::cos(m_AngleX);
-  const ScalarType     sx = std::sin(m_AngleX);
-  const ScalarType     cy = std::cos(m_AngleY);
-  const ScalarType     sy = std::sin(m_AngleY);
-  const ScalarType     cz = std::cos(m_AngleZ);
-  const ScalarType     sz = std::sin(m_AngleZ);
-  const ScalarType     one = NumericTraits<ScalarType>::OneValue();
-  constexpr ScalarType zero{};
+  const ScalarType            cx = std::cos(m_AngleX);
+  const ScalarType            sx = std::sin(m_AngleX);
+  const ScalarType            cy = std::cos(m_AngleY);
+  const ScalarType            sy = std::sin(m_AngleY);
+  const ScalarType            cz = std::cos(m_AngleZ);
+  const ScalarType            sz = std::sin(m_AngleZ);
+  const ScalarType            one = NumericTraits<ScalarType>::OneValue();
+  static constexpr ScalarType zero{};
 
   Matrix<TParametersValueType, 3, 3> RotationX;
   RotationX[0][0] = one;
@@ -333,7 +333,7 @@ Euler3DTransform<TParametersValueType>::ComputeJacobianWithRespectToParameters(c
   }
 
   // compute derivatives for the translation part
-  constexpr unsigned int blockOffset{ 3 };
+  static constexpr unsigned int blockOffset{ 3 };
   for (unsigned int dim = 0; dim < SpaceDimension; ++dim)
   {
     jacobian[dim][blockOffset + dim] = 1.0;

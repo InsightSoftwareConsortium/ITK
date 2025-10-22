@@ -37,8 +37,8 @@ itkNormalizeImageFilterTest(int, char *[])
   ShortImage::SizeValueType randomSize[3] = { 18, 17, 67 };
 
   source->SetSize(randomSize);
-  constexpr float minValue{ -1000.0 };
-  constexpr float maxValue{ 1000.0 };
+  static constexpr float minValue{ -1000.0 };
+  static constexpr float maxValue{ 1000.0 };
 
   source->SetMin(static_cast<ShortImage::PixelType>(minValue));
   source->SetMax(static_cast<ShortImage::PixelType>(maxValue));

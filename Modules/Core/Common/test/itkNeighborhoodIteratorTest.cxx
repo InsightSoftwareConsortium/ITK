@@ -29,7 +29,7 @@ itkNeighborhoodIteratorTest(int, char *[])
   loc[2] = 2;
   loc[3] = 1;
 
-  constexpr itk::NeighborhoodIterator<TestImageType>::IndexType zeroIDX{};
+  static constexpr itk::NeighborhoodIterator<TestImageType>::IndexType zeroIDX{};
 
   auto radius = itk::MakeFilled<itk::NeighborhoodIterator<TestImageType>::RadiusType>(1);
 

@@ -54,7 +54,7 @@ itkTIFFImageIOTestPalette(int argc, char * argv[])
   std::cout << "Expanding palette: " << ((expandRGBPalette) ? "True" : "False") << std::endl;
   std::cout << "Is palette: " << ((isPaletteImage) ? "True" : "False") << std::endl;
 
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
   using ScalarPixelType = unsigned char;
 
   using ScalarImageType = itk::Image<ScalarPixelType, Dimension>;

@@ -79,16 +79,16 @@ itkTriangleMeshToBinaryImageFilterTest(int argc, char * argv[])
   size[2] = 100;
   imageFilter->SetSize(size);
 
-  constexpr double dspacing[3]{ 2.0, 2.0, 2.0 };
-  constexpr float  fspacing[3]{ 3.0, 3.0, 3.0 };
-  constexpr double defaultSpacing[3]{ 1.0, 1.0, 1.0 };
+  static constexpr double dspacing[3]{ 2.0, 2.0, 2.0 };
+  static constexpr float  fspacing[3]{ 3.0, 3.0, 3.0 };
+  static constexpr double defaultSpacing[3]{ 1.0, 1.0, 1.0 };
   imageFilter->SetSpacing(dspacing);
   imageFilter->SetSpacing(fspacing);
   imageFilter->SetSpacing(defaultSpacing);
 
-  constexpr double dorigin[3]{ 2.0, 2.0, 2.0 };
-  constexpr float  forigin[3]{ 3.0, 3.0, 3.0 };
-  constexpr double defaultOrigin[3]{ 0.0, 0.0, 0.0 };
+  static constexpr double dorigin[3]{ 2.0, 2.0, 2.0 };
+  static constexpr float  forigin[3]{ 3.0, 3.0, 3.0 };
+  static constexpr double defaultOrigin[3]{ 0.0, 0.0, 0.0 };
   imageFilter->SetOrigin(dorigin);
   imageFilter->SetOrigin(forigin);
   imageFilter->SetOrigin(defaultOrigin);

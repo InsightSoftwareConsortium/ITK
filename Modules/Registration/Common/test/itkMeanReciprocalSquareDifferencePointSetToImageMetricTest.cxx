@@ -47,7 +47,7 @@ itkMeanReciprocalSquareDifferencePointSetToImageMetricTest(int, char *[])
   // Create two simple images
   //------------------------------------------------------------
 
-  constexpr unsigned int ImageDimension{ 2 };
+  static constexpr unsigned int ImageDimension{ 2 };
 
   using PixelType = double;
 
@@ -68,8 +68,8 @@ itkMeanReciprocalSquareDifferencePointSetToImageMetricTest(int, char *[])
   FixedImageType::SpacingValueType  fixedImageSpacing[] = { 1.0f, 1.0f };
   MovingImageType::SpacingValueType movingImageSpacing[] = { 1.0f, 1.0f };
 
-  constexpr FixedImageType::PointValueType  fixedImageOrigin[]{ 0.0f, 0.0f };
-  constexpr MovingImageType::PointValueType movingImageOrigin[]{ 0.0f, 0.0f };
+  static constexpr FixedImageType::PointValueType  fixedImageOrigin[]{ 0.0f, 0.0f };
+  static constexpr MovingImageType::PointValueType movingImageOrigin[]{ 0.0f, 0.0f };
 
   auto movingImageSource = MovingImageSourceType::New();
   auto fixedImageSource = FixedImageSourceType::New();
@@ -99,7 +99,7 @@ itkMeanReciprocalSquareDifferencePointSetToImageMetricTest(int, char *[])
   using FixedPointSetType = itk::PointSet<float, 2>;
   auto fixedPointSet = FixedPointSetType::New();
 
-  constexpr unsigned int numberOfPoints{ 100 };
+  static constexpr unsigned int numberOfPoints{ 100 };
 
   fixedPointSet->SetPointData(FixedPointSetType::PointDataContainer::New());
 
@@ -157,7 +157,7 @@ itkMeanReciprocalSquareDifferencePointSetToImageMetricTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(metric, MeanReciprocalSquareDifferencePointSetToImageMetric, PointSetToImageMetric);
 
 
-  constexpr double lambda{ 1.0 };
+  static constexpr double lambda{ 1.0 };
   metric->SetLambda(lambda);
   ITK_TEST_SET_GET_VALUE(lambda, metric->GetLambda());
 

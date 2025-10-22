@@ -31,7 +31,7 @@ itkInvertDisplacementFieldImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int ImageDimension{ 2 };
+  static constexpr unsigned int ImageDimension{ 2 };
 
   using VectorType = itk::Vector<float, ImageDimension>;
   using DisplacementFieldType = itk::Image<VectorType, ImageDimension>;
@@ -57,10 +57,10 @@ itkInvertDisplacementFieldImageFilterTest(int argc, char * argv[])
   field->Allocate();
   field->FillBuffer(ones);
 
-  constexpr VectorType zeroVector{};
+  static constexpr VectorType zeroVector{};
 
   // make sure boundary does not move
-  constexpr float weight1{ 1.0 };
+  static constexpr float weight1{ 1.0 };
 
   const DisplacementFieldType::RegionType region = field->GetLargestPossibleRegion();
   const DisplacementFieldType::IndexType  startIndex = region.GetIndex();

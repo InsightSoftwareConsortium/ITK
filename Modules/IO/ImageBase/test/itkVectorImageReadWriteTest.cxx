@@ -33,7 +33,7 @@ itkVectorImageReadWriteTest(int argc, char * argv[])
 
   // Test for vector pixel type.
 
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
 
   // Create image of vector pixels
   using PixelType = itk::Vector<double, 4>;
@@ -50,8 +50,8 @@ itkVectorImageReadWriteTest(int argc, char * argv[])
   // RecursiveGaussianImageFilter and compare a few filtered pixels.
   //
   // Create ON and OFF vectors
-  constexpr PixelType vector0{};
-  PixelType           vector1;
+  static constexpr PixelType vector0{};
+  PixelType                  vector1;
   vector1[0] = 1.0;
   vector1[1] = 2.0;
   vector1[2] = 3.0;

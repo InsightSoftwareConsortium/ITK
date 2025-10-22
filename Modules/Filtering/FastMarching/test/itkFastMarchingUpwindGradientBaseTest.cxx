@@ -46,7 +46,7 @@ itkFastMarchingUpwindGradientBaseTest(int, char *[])
 
   // create a fastmarching object
   using PixelType = float;
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
 
   using FloatImageType = itk::Image<PixelType, Dimension>;
 
@@ -79,7 +79,7 @@ itkFastMarchingUpwindGradientBaseTest(int, char *[])
   // setup alive points
   auto AlivePoints = NodePairContainerType::New();
 
-  constexpr FloatImageType::OffsetType offset0{ 28, 35 };
+  static constexpr FloatImageType::OffsetType offset0{ 28, 35 };
 
   itk::Index<2> index{};
 
@@ -115,7 +115,7 @@ itkFastMarchingUpwindGradientBaseTest(int, char *[])
   marcher->SetTrialPoints(TrialPoints);
 
   // specify the size of the output image
-  constexpr FloatImageType::SizeType size{ 64, 64 };
+  static constexpr FloatImageType::SizeType size{ 64, 64 };
   marcher->SetOutputSize(size);
 
   // setup a speed image of ones
@@ -189,10 +189,10 @@ itkFastMarchingUpwindGradientBaseTest(int, char *[])
   // Set up target points.
   // The algorithm will stop when it reaches these points.
   // This point is closest to the AlivePoint:
-  constexpr FloatImageType::OffsetType offset1{ 50, 50 };
-  constexpr FloatImageType::OffsetType offset2{ 40, 40 };
+  static constexpr FloatImageType::OffsetType offset1{ 50, 50 };
+  static constexpr FloatImageType::OffsetType offset2{ 40, 40 };
   // This point is farthest from the AlivePoint:
-  constexpr FloatImageType::OffsetType          offset3{ 0, 0 };
+  static constexpr FloatImageType::OffsetType   offset3{ 0, 0 };
   const std::vector<FloatImageType::OffsetType> targetOffsets{ offset1, offset2, offset3 };
 
   std::vector<NodeType> TargetNodes;

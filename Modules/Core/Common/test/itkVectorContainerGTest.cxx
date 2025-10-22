@@ -87,7 +87,7 @@ ExpectContainerHasValueOfCreatedElementAtIdentifier(const itk::SizeValueType ide
 TEST(VectorContainer, HasValueOfCreatedElementAtIdentifier)
 {
   // Just pick a "pseudo-random" (magic) number as ElementIdentifier.
-  constexpr itk::SizeValueType magicIdentifier{ 42 };
+  static constexpr itk::SizeValueType magicIdentifier{ 42 };
 
   ExpectContainerHasValueOfCreatedElementAtIdentifier(magicIdentifier, true);
   ExpectContainerHasValueOfCreatedElementAtIdentifier(magicIdentifier, false);

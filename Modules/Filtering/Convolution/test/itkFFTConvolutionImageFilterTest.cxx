@@ -50,7 +50,7 @@ itkFFTConvolutionImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr int ImageDimension{ 2 };
+  static constexpr int ImageDimension{ 2 };
 
   using PixelType = float;
   using ImageType = itk::Image<PixelType, ImageDimension>;
@@ -90,7 +90,7 @@ itkFFTConvolutionImageFilterTest(int argc, char * argv[])
   using ChangeInformationFilterType = itk::ChangeInformationImageFilter<ImageType>;
   auto inputChanger = ChangeInformationFilterType::New();
   inputChanger->ChangeRegionOn();
-  constexpr ImageType::OffsetType inputOffset{ -2, 3 };
+  static constexpr ImageType::OffsetType inputOffset{ -2, 3 };
   inputChanger->SetOutputOffset(inputOffset);
   inputChanger->SetInput(reader1->GetOutput());
 
@@ -99,7 +99,7 @@ itkFFTConvolutionImageFilterTest(int argc, char * argv[])
   // Test generality of filter by changing the kernel index
   auto kernelChanger = ChangeInformationFilterType::New();
   kernelChanger->ChangeRegionOn();
-  constexpr ImageType::OffsetType kernelOffset{ 3, -5 };
+  static constexpr ImageType::OffsetType kernelOffset{ 3, -5 };
   kernelChanger->SetOutputOffset(kernelOffset);
   kernelChanger->SetInput(reader2->GetOutput());
 

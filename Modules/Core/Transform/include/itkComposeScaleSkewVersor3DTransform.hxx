@@ -103,7 +103,7 @@ ComposeScaleSkewVersor3DTransform<TParametersValueType>::SetParameters(const Par
     norm = std::sqrt(norm);
   }
 
-  constexpr double epsilon{ 1e-10 };
+  static constexpr double epsilon{ 1e-10 };
   if (norm >= 1.0 - epsilon)
   {
     axis = axis / (norm + epsilon * norm);

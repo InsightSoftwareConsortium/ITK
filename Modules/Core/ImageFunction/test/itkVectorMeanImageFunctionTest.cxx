@@ -24,9 +24,9 @@ int
 itkVectorMeanImageFunctionTest(int, char *[])
 {
 
-  constexpr unsigned int Dimension{ 3 };
+  static constexpr unsigned int Dimension{ 3 };
   using PixelComponentType = unsigned char;
-  constexpr unsigned int VectorDimension{ 4 };
+  static constexpr unsigned int VectorDimension{ 4 };
 
   using PixelType = itk::FixedArray<PixelComponentType, VectorDimension>;
 
@@ -34,10 +34,10 @@ itkVectorMeanImageFunctionTest(int, char *[])
   using FunctionType = itk::VectorMeanImageFunction<ImageType>;
 
   // Create and allocate the image
-  auto                           image = ImageType::New();
-  constexpr ImageType::SizeType  size{ 20, 20, 20 };
-  constexpr ImageType::IndexType start{};
-  ImageType::RegionType          region = { start, size };
+  auto                                  image = ImageType::New();
+  static constexpr ImageType::SizeType  size{ 20, 20, 20 };
+  static constexpr ImageType::IndexType start{};
+  ImageType::RegionType                 region = { start, size };
 
   image->SetRegions(region);
   image->Allocate();

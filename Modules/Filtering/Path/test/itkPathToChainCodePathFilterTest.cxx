@@ -25,7 +25,7 @@
 int
 itkPathToChainCodePathFilterTest(int, char *[])
 {
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
   using InPathType = itk::PolyLineParametricPath<Dimension>;
   using ChainPathType = itk::ChainCodePath2D;
 

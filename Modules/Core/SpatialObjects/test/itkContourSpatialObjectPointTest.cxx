@@ -31,8 +31,8 @@ itkContourSpatialObjectPointTest(int, char *[])
 
   contourSpatialObjectPoint2D.Print(std::cout);
 
-  constexpr double                           pickedPointX{ 4.35 };
-  constexpr double                           pickedPointY{ 7.56 };
+  static constexpr double                    pickedPointX{ 4.35 };
+  static constexpr double                    pickedPointY{ 7.56 };
   ContourSpatialObjectPoint2DType::PointType pickedPoint2D;
   pickedPoint2D[0] = pickedPointX;
   pickedPoint2D[1] = pickedPointY;
@@ -40,8 +40,8 @@ itkContourSpatialObjectPointTest(int, char *[])
   contourSpatialObjectPoint2D.SetPickedPointInObjectSpace(pickedPoint2D);
   ITK_TEST_SET_GET_VALUE(pickedPoint2D, contourSpatialObjectPoint2D.GetPickedPointInObjectSpace());
 
-  constexpr double                                     normalX{ 1.0 };
-  constexpr double                                     normalY{ 1.0 };
+  static constexpr double                              normalX{ 1.0 };
+  static constexpr double                              normalY{ 1.0 };
   ContourSpatialObjectPoint2DType::CovariantVectorType normal2D;
   normal2D[0] = normalX;
   normal2D[1] = normalY;
@@ -53,8 +53,8 @@ itkContourSpatialObjectPointTest(int, char *[])
 
   ContourSpatialObjectPoint2DType contourSpatialObjectPoint2DAlt;
 
-  constexpr double                           pickedPointXAlt{ 25.89 };
-  constexpr double                           pickedPointYAlt{ 57.26 };
+  static constexpr double                    pickedPointXAlt{ 25.89 };
+  static constexpr double                    pickedPointYAlt{ 57.26 };
   ContourSpatialObjectPoint2DType::PointType pickedPoint2DAlt;
   pickedPoint2DAlt[0] = pickedPointXAlt;
   pickedPoint2DAlt[1] = pickedPointYAlt;
@@ -62,8 +62,8 @@ itkContourSpatialObjectPointTest(int, char *[])
   contourSpatialObjectPoint2DAlt.SetPickedPointInObjectSpace(pickedPoint2DAlt);
   ITK_TEST_SET_GET_VALUE(pickedPoint2DAlt, contourSpatialObjectPoint2DAlt.GetPickedPointInObjectSpace());
 
-  constexpr double                                     normalXAlt{ 7.28 };
-  constexpr double                                     normalYAlt{ 14.03 };
+  static constexpr double                              normalXAlt{ 7.28 };
+  static constexpr double                              normalYAlt{ 14.03 };
   ContourSpatialObjectPoint2DType::CovariantVectorType normal2DAlt;
   normal2DAlt[0] = normalXAlt;
   normal2DAlt[1] = normalYAlt;
@@ -84,7 +84,7 @@ itkContourSpatialObjectPointTest(int, char *[])
 
   ContourSpatialObjectPoint3DType contourSpatialObjectPoint3D;
 
-  constexpr double                           pickedPointZ{ 23.78 };
+  static constexpr double                    pickedPointZ{ 23.78 };
   ContourSpatialObjectPoint3DType::PointType pickedPoint3D;
   pickedPoint3D[0] = pickedPointX;
   pickedPoint3D[1] = pickedPointY;
@@ -93,7 +93,7 @@ itkContourSpatialObjectPointTest(int, char *[])
   contourSpatialObjectPoint3D.SetPickedPointInObjectSpace(pickedPoint3D);
   ITK_TEST_SET_GET_VALUE(pickedPoint3D, contourSpatialObjectPoint3D.GetPickedPointInObjectSpace());
 
-  constexpr double                                     normalZ{ 1.0 };
+  static constexpr double                              normalZ{ 1.0 };
   ContourSpatialObjectPoint3DType::CovariantVectorType normal3D;
   normal3D[0] = normalX;
   normal3D[1] = normalY;
@@ -106,7 +106,7 @@ itkContourSpatialObjectPointTest(int, char *[])
 
   ContourSpatialObjectPoint3DType contourSpatialObjectPoint3DAlt;
 
-  constexpr double                           pickedPointZAlt{ 19.6 };
+  static constexpr double                    pickedPointZAlt{ 19.6 };
   ContourSpatialObjectPoint3DType::PointType pickedPoint3DAlt;
   pickedPoint3DAlt[0] = pickedPointXAlt;
   pickedPoint3DAlt[1] = pickedPointYAlt;
@@ -115,7 +115,7 @@ itkContourSpatialObjectPointTest(int, char *[])
   contourSpatialObjectPoint3DAlt.SetPickedPointInObjectSpace(pickedPoint3DAlt);
   ITK_TEST_SET_GET_VALUE(pickedPoint3DAlt, contourSpatialObjectPoint3DAlt.GetPickedPointInObjectSpace());
 
-  constexpr double                                     normalZAlt{ 1.4 };
+  static constexpr double                              normalZAlt{ 1.4 };
   ContourSpatialObjectPoint3DType::CovariantVectorType normal3DAlt;
   normal3DAlt[0] = normalXAlt;
   normal3DAlt[1] = normalYAlt;
@@ -184,7 +184,7 @@ itkContourSpatialObjectPointTest(int, char *[])
 
   ContourSpatialObjectPoint4DType contourSpatialObjectPoint4D;
 
-  constexpr double                           pickedPointW{ 4.63 };
+  static constexpr double                    pickedPointW{ 4.63 };
   ContourSpatialObjectPoint4DType::PointType pickedPoint4D;
   pickedPoint4D[0] = pickedPointX;
   pickedPoint4D[1] = pickedPointY;
@@ -194,7 +194,7 @@ itkContourSpatialObjectPointTest(int, char *[])
   contourSpatialObjectPoint4D.SetPickedPointInObjectSpace(pickedPoint4D);
   ITK_TEST_SET_GET_VALUE(pickedPoint4D, contourSpatialObjectPoint4D.GetPickedPointInObjectSpace());
 
-  constexpr double                                     normalW{ 3.1 };
+  static constexpr double                              normalW{ 3.1 };
   ContourSpatialObjectPoint4DType::CovariantVectorType normal4D;
   normal4D[0] = normalX;
   normal4D[1] = normalY;
@@ -208,7 +208,7 @@ itkContourSpatialObjectPointTest(int, char *[])
 
   ContourSpatialObjectPoint4DType contourSpatialObjectPoint4DAlt;
 
-  constexpr double                           pickedPointWAlt{ 8.71 };
+  static constexpr double                    pickedPointWAlt{ 8.71 };
   ContourSpatialObjectPoint4DType::PointType pickedPoint4DAlt;
   pickedPoint4DAlt[0] = pickedPointXAlt;
   pickedPoint4DAlt[1] = pickedPointYAlt;
@@ -218,7 +218,7 @@ itkContourSpatialObjectPointTest(int, char *[])
   contourSpatialObjectPoint4DAlt.SetPickedPointInObjectSpace(pickedPoint4DAlt);
   ITK_TEST_SET_GET_VALUE(pickedPoint4DAlt, contourSpatialObjectPoint4DAlt.GetPickedPointInObjectSpace());
 
-  constexpr double                                     normalWAlt{ 4.23 };
+  static constexpr double                              normalWAlt{ 4.23 };
   ContourSpatialObjectPoint4DType::CovariantVectorType normal4DAlt;
   normal4DAlt[0] = normalXAlt;
   normal4DAlt[1] = normalYAlt;

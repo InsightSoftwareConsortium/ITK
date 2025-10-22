@@ -258,6 +258,6 @@ itkCenteredAffineTransformTest(int, char *[])
   std::cout << "A transform after SetParameters:" << std::endl;
   jaff->Print(std::cout);
 
-  constexpr int any{ 0 }; // Any errors detected in testing?
+  static constexpr int any{ 0 }; // Any errors detected in testing?
   return any;
 }

@@ -26,17 +26,17 @@ itkAbsoluteValueDifferenceImageFilterTest(int, char *[])
 {
 
   // Define the dimension of the images
-  constexpr unsigned int myDimension{ 3 };
+  static constexpr unsigned int myDimension{ 3 };
 
   // Define the values of the input images
-  constexpr float input1Value{ 3.0 };
-  constexpr float input2Value{ 4.0 };
+  static constexpr float input1Value{ 3.0 };
+  static constexpr float input2Value{ 4.0 };
 
   // Define the values of the output images
-  constexpr float outputValue{ 1.0 };
+  static constexpr float outputValue{ 1.0 };
 
   // Define the precision for output comparison
-  constexpr float epsilon{ 1e-6 };
+  static constexpr float epsilon{ 1e-6 };
 
   // Declare the types of the images
   using myImageType1 = itk::Image<float, myDimension>;

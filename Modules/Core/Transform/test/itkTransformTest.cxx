@@ -188,7 +188,7 @@ public:
     transform->TransformPoint(pnt);
     std::cout << "TransformPoint()                              OK" << std::endl;
 
-    constexpr InputVectorType vec{};
+    static constexpr InputVectorType vec{};
     transform->TransformVector(vec);
     transform->TransformVector(vec, pnt);
 
@@ -198,12 +198,12 @@ public:
     transform->TransformVector(vecpix);
     transform->TransformVector(vecpix, pnt);
 
-    constexpr InputVnlVectorType vec_vnl{};
+    static constexpr InputVnlVectorType vec_vnl{};
     transform->TransformVector(vec_vnl);
     transform->TransformVector(vec_vnl, pnt);
     std::cout << "TransformVector()                             OK" << std::endl;
 
-    constexpr InputCovariantVectorType covec{};
+    static constexpr InputCovariantVectorType covec{};
     transform->TransformCovariantVector(covec);
     transform->TransformCovariantVector(vecpix);
     transform->TransformCovariantVector(covec, pnt);

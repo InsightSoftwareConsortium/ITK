@@ -22,7 +22,7 @@
 int
 itkBSplineExponentialDiffeomorphicTransformParametersAdaptorTest(int, char *[])
 {
-  constexpr unsigned int SpaceDimension{ 3 };
+  static constexpr unsigned int SpaceDimension{ 3 };
   using CoordinateRepType = double;
   using TransformType = itk::BSplineExponentialDiffeomorphicTransform<CoordinateRepType, SpaceDimension>;
 
@@ -50,7 +50,7 @@ itkBSplineExponentialDiffeomorphicTransformParametersAdaptorTest(int, char *[])
   displacementField->SetDirection(direction);
   displacementField->Allocate();
 
-  constexpr TransformType::OutputVectorType zeroVector{};
+  static constexpr TransformType::OutputVectorType zeroVector{};
   displacementField->FillBuffer(zeroVector);
 
 

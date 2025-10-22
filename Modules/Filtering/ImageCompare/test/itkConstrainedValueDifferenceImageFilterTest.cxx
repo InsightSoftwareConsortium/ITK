@@ -31,7 +31,7 @@ itkConstrainedValueDifferenceImageFilterTest(int argc, char * argv[])
   }
 
   // Define the dimension of the images
-  constexpr unsigned int Dimension{ 3 };
+  static constexpr unsigned int Dimension{ 3 };
 
   // Define the pixel types
   using InputImage1PixelType = float;
@@ -57,9 +57,9 @@ itkConstrainedValueDifferenceImageFilterTest(int argc, char * argv[])
   auto inputImageB = InputImage2Type::New();
 
   // Define their size and start index
-  constexpr SizeType  size{ 2, 2, 2 };
-  constexpr IndexType start{ 0, 0, 0 };
-  RegionType          region{ start, size };
+  static constexpr SizeType  size{ 2, 2, 2 };
+  static constexpr IndexType start{ 0, 0, 0 };
+  RegionType                 region{ start, size };
 
   // Initialize Image A
   inputImageA->SetRegions(region);
@@ -77,7 +77,7 @@ itkConstrainedValueDifferenceImageFilterTest(int argc, char * argv[])
   InputImage1IteratorType it1(inputImageA, inputImageA->GetBufferedRegion());
 
   // Initialize the content of Image A
-  constexpr InputImage1Type::PixelType valueA{ 125 };
+  static constexpr InputImage1Type::PixelType valueA{ 125 };
   while (!it1.IsAtEnd())
   {
     it1.Set(valueA);

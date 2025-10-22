@@ -238,8 +238,8 @@ itkMINCTransformAdapterTest(int argc, char * argv[])
   }
 
 
-  constexpr unsigned int InputDimension{ 3 };
-  constexpr unsigned int OutputDimension{ 3 };
+  static constexpr unsigned int InputDimension{ 3 };
+  static constexpr unsigned int OutputDimension{ 3 };
 
   using ParametersValueType = double;
 
@@ -278,24 +278,24 @@ itkMINCTransformAdapterTest(int argc, char * argv[])
 
   ITK_TRY_EXPECT_EXCEPTION(xfm->GetParameters());
 
-  constexpr unsigned int InputDimensionExcp1{ 1 };
-  constexpr unsigned int OutputDimensionExcp1{ 1 };
+  static constexpr unsigned int InputDimensionExcp1{ 1 };
+  static constexpr unsigned int OutputDimensionExcp1{ 1 };
 
   using TransformAdapterTypeExcp11 =
     itk::MINCTransformAdapter<ParametersValueType, InputDimensionExcp1, OutputDimensionExcp1>;
 
   ITK_TRY_EXPECT_EXCEPTION(TransformAdapterTypeExcp11::New());
 
-  constexpr unsigned int InputDimensionExcp2{ 2 };
-  constexpr unsigned int OutputDimensionExcp2{ 2 };
+  static constexpr unsigned int InputDimensionExcp2{ 2 };
+  static constexpr unsigned int OutputDimensionExcp2{ 2 };
 
   using TransformAdapterTypeExcp22 =
     itk::MINCTransformAdapter<ParametersValueType, InputDimensionExcp2, OutputDimensionExcp2>;
 
   ITK_TRY_EXPECT_EXCEPTION(TransformAdapterTypeExcp22::New());
 
-  constexpr unsigned int InputDimensionExcp4{ 4 };
-  constexpr unsigned int OutputDimensionExcp4{ 4 };
+  static constexpr unsigned int InputDimensionExcp4{ 4 };
+  static constexpr unsigned int OutputDimensionExcp4{ 4 };
 
   using TransformAdapterTypeExcp44 =
     itk::MINCTransformAdapter<ParametersValueType, InputDimensionExcp4, OutputDimensionExcp4>;

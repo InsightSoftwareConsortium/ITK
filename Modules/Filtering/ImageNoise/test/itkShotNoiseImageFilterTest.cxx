@@ -34,7 +34,7 @@ itkShotNoiseImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
 
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType, Dimension>;

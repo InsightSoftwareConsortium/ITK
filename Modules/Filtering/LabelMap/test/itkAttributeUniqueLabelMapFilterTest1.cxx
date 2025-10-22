@@ -41,7 +41,7 @@ itkAttributeUniqueLabelMapFilterTest1(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr int dim{ 2 };
+  static constexpr int dim{ 2 };
 
   using ImageType = itk::Image<unsigned char, dim>;
 

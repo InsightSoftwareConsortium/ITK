@@ -28,8 +28,8 @@ itkArray2DTest(int, char *[])
 
   using VnlMatrixType = vnl_matrix<double>;
 
-  constexpr unsigned int rows{ 3 };
-  constexpr unsigned int cols{ 4 };
+  static constexpr unsigned int rows{ 3 };
+  static constexpr unsigned int cols{ 4 };
 
   ArrayType     a(rows, cols);
   VnlMatrixType vm(rows, cols);
@@ -44,7 +44,7 @@ itkArray2DTest(int, char *[])
     }
   }
 
-  constexpr double tolerance{ 1e-6 };
+  static constexpr double tolerance{ 1e-6 };
 
   // test copy constructor
   ArrayType b(a);

@@ -25,8 +25,8 @@ itkOtsuMultipleThresholdsCalculatorTest2(int, char *[])
   using HistogramType = itk::Statistics::Histogram<MeasurementType>;
   auto histogram = HistogramType::New();
 
-  bool                   passed = true;
-  constexpr unsigned int pixelCount{ 4 };
+  bool                          passed = true;
+  static constexpr unsigned int pixelCount{ 4 };
   for (unsigned int thresholdCount = 1; thresholdCount < pixelCount; ++thresholdCount)
   {
     // initialize histogram

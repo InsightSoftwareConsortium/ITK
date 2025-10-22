@@ -32,10 +32,10 @@
 
 #include "itkImageModelEstimatorBase.h"
 
-constexpr int8_t ONEBAND{ 1 };
-constexpr int8_t GLA_CONVERGED{ 1 };
-constexpr int8_t GLA_NOT_CONVERGED{ 2 };
-constexpr int8_t LBG_COMPLETED{ 3 };
+static constexpr int8_t ONEBAND{ 1 };
+static constexpr int8_t GLA_CONVERGED{ 1 };
+static constexpr int8_t GLA_NOT_CONVERGED{ 2 };
+static constexpr int8_t LBG_COMPLETED{ 3 };
 
 namespace itk
 {

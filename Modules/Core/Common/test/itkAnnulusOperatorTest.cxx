@@ -28,7 +28,7 @@ itkAnnulusOperatorTest(int, char *[])
   // scope.
   const itk::StdStreamStateSave coutState(std::cout);
 
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
   using PixelType = float;
   using OperatorType = itk::AnnulusOperator<PixelType, Dimension>;
 
@@ -41,7 +41,7 @@ itkAnnulusOperatorTest(int, char *[])
   normalizedAnnulus.SetInnerRadius(3);
   normalizedAnnulus.SetThickness(2);
 
-  constexpr bool brightCenter{ false };
+  static constexpr bool brightCenter{ false };
   ITK_TEST_SET_GET_BOOLEAN((&normalizedAnnulus), BrightCenter, brightCenter);
 
   try
@@ -107,26 +107,26 @@ itkAnnulusOperatorTest(int, char *[])
   std::cout << "Creating an annulus by specifying values";
   OperatorType annulus;
 
-  constexpr bool normalize{ false };
+  static constexpr bool normalize{ false };
   ITK_TEST_SET_GET_BOOLEAN((&annulus), Normalize, normalize);
 
-  constexpr double innerRadius{ 2 };
+  static constexpr double innerRadius{ 2 };
   annulus.SetInnerRadius(innerRadius);
   ITK_TEST_SET_GET_VALUE(innerRadius, annulus.GetInnerRadius());
 
-  constexpr double thickness{ 1 };
+  static constexpr double thickness{ 1 };
   annulus.SetThickness(thickness);
   ITK_TEST_SET_GET_VALUE(thickness, annulus.GetThickness());
 
-  constexpr typename OperatorType::PixelType exteriorValue{ 1 };
+  static constexpr typename OperatorType::PixelType exteriorValue{ 1 };
   annulus.SetExteriorValue(exteriorValue);
   ITK_TEST_SET_GET_VALUE(exteriorValue, annulus.GetExteriorValue());
 
-  constexpr typename OperatorType::PixelType annulusValue{ 8 };
+  static constexpr typename OperatorType::PixelType annulusValue{ 8 };
   annulus.SetAnnulusValue(annulusValue);
   ITK_TEST_SET_GET_VALUE(annulusValue, annulus.GetAnnulusValue());
 
-  constexpr typename OperatorType::PixelType interiorValue{ 4 };
+  static constexpr typename OperatorType::PixelType interiorValue{ 4 };
   annulus.SetInteriorValue(interiorValue);
   ITK_TEST_SET_GET_VALUE(interiorValue, annulus.GetInteriorValue());
 

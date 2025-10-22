@@ -850,7 +850,7 @@ struct SameDimensionOrMinusOneOrTwo
     void
     constraints()
     {
-      constexpr Detail::UniqueType_unsigned_int<D2> tt;
+      static constexpr Detail::UniqueType_unsigned_int<D2> tt;
       this->f(tt);
     }
   };

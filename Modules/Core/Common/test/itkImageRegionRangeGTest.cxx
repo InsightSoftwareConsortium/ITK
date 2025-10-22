@@ -277,7 +277,7 @@ TEST(ImageRegionRange, BeginAndEndOfNonEmptyImageRegionAreNotEqual)
 {
   using ImageType = itk::Image<int>;
 
-  constexpr auto                         ImageDimension{ ImageType::ImageDimension };
+  static constexpr auto                  ImageDimension{ ImageType::ImageDimension };
   const auto                             image = CreateImage<ImageType>(2, 3);
   const itk::ImageRegion<ImageDimension> region{ itk::Size<ImageDimension>::Filled(2) };
 
@@ -294,7 +294,7 @@ TEST(ImageRegionRange, IteratorConvertsToConstIterator)
   using ImageType = itk::Image<int>;
   using RangeType = ImageRegionRange<ImageType>;
 
-  constexpr auto                         ImageDimension{ ImageType::ImageDimension };
+  static constexpr auto                  ImageDimension{ ImageType::ImageDimension };
   const auto                             image = CreateImage<ImageType>(2, 3);
   const itk::ImageRegion<ImageDimension> region{ itk::Size<ImageDimension>::Filled(2) };
 
@@ -315,7 +315,7 @@ TEST(ImageRegionRange, IteratorsCanBePassedToStdVectorConstructor)
 {
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType>;
-  constexpr auto ImageDimension{ ImageType::ImageDimension };
+  static constexpr auto ImageDimension{ ImageType::ImageDimension };
   enum
   {
     sizeX = 9,
@@ -339,7 +339,7 @@ TEST(ImageRegionRange, IteratorsCanBePassedToStdReverseCopy)
 {
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType>;
-  constexpr auto ImageDimension{ ImageType::ImageDimension };
+  static constexpr auto ImageDimension{ ImageType::ImageDimension };
   enum
   {
     sizeX = 9,
@@ -379,7 +379,7 @@ TEST(ImageRegionRange, IteratorsCanBePassedToStdInnerProduct)
 {
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType>;
-  constexpr auto ImageDimension{ ImageType::ImageDimension };
+  static constexpr auto ImageDimension{ ImageType::ImageDimension };
   enum
   {
     sizeX = 2,
@@ -402,7 +402,7 @@ TEST(ImageRegionRange, IteratorsCanBePassedToStdForEach)
 {
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType>;
-  constexpr auto ImageDimension{ ImageType::ImageDimension };
+  static constexpr auto ImageDimension{ ImageType::ImageDimension };
   enum
   {
     sizeX = 9,
@@ -423,7 +423,7 @@ TEST(ImageRegionRange, CanBeUsedAsExpressionOfRangeBasedForLoop)
 {
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType>;
-  constexpr auto ImageDimension{ ImageType::ImageDimension };
+  static constexpr auto ImageDimension{ ImageType::ImageDimension };
   using RangeType = ImageRegionRange<ImageType>;
 
   enum
@@ -457,7 +457,7 @@ TEST(ImageRegionRange, CanBeUsedAsExpressionOfRangeBasedForLoop)
 TEST(ImageRegionRange, SupportsVectorImage)
 {
   using ImageType = itk::VectorImage<unsigned char>;
-  constexpr auto ImageDimension{ ImageType::ImageDimension };
+  static constexpr auto ImageDimension{ ImageType::ImageDimension };
   using PixelType = ImageType::PixelType;
   enum
   {
@@ -507,7 +507,7 @@ TEST(ImageRegionRange, ProvidesReverseIterators)
 {
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType>;
-  constexpr auto ImageDimension{ ImageType::ImageDimension };
+  static constexpr auto ImageDimension{ ImageType::ImageDimension };
   using RangeType = ImageRegionRange<ImageType>;
   enum
   {
@@ -629,8 +629,8 @@ TEST(ImageRegionRange, ThrowsInReleaseWhenIterationRegionIsOutsideBufferedRegion
 
   const auto image = ImageType::New();
 
-  constexpr IndexType imageIndex{ -1, -2 };
-  constexpr SizeType  imageSize{ 3, 4 };
+  static constexpr IndexType imageIndex{ -1, -2 };
+  static constexpr SizeType  imageSize{ 3, 4 };
 
   image->SetRegions(RegionType{ imageIndex, imageSize });
   image->AllocateInitialized();

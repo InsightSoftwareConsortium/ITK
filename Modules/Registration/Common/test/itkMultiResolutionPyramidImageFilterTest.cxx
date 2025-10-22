@@ -32,8 +32,8 @@ namespace
 double
 F(double x, double y, double z)
 {
-  constexpr double s{ 50 };
-  double           value = 200.0 * std::exp(-(x * x + y * y + z * z) / (s * s));
+  static constexpr double s{ 50 };
+  double                  value = 200.0 * std::exp(-(x * x + y * y + z * z) / (s * s));
   x -= 8;
   y += 3;
   z += 0;
@@ -133,9 +133,9 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   // When shrink factors are not divisible, this still does
   // a best does the best possible job.
   // InputImageType::SizeType size = {{101,101,41}};
-  InputImageType::SizeType            size = { { 128, 132, 48 } };
-  constexpr InputImageType::IndexType index{};
-  const InputImageType::RegionType    region{ index, size };
+  InputImageType::SizeType                   size = { { 128, 132, 48 } };
+  static constexpr InputImageType::IndexType index{};
+  const InputImageType::RegionType           region{ index, size };
 
   InputImageType::SpacingType spacing;
   spacing[0] = 0.5;
@@ -336,7 +336,7 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
     // if( OutputCenterOfMass != InputCenterOfMass )
     {
       const OutputImageType::PointType::VectorType ErrorCenterOfMass = OutputCenterOfMass - InputCenterOfMass;
-      constexpr double                             CenterOfMassEpsilonAllowed{ 0.001 };
+      static constexpr double                      CenterOfMassEpsilonAllowed{ 0.001 };
       const double                                 ErrorPercentage =
         (ErrorCenterOfMass.GetNorm() / pyramid->GetOutput(testLevel)->GetSpacing().GetNorm());
       if (ErrorPercentage > CenterOfMassEpsilonAllowed)

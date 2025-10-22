@@ -27,7 +27,7 @@ int
 itkSampleToHistogramFilterTest(int, char *[])
 {
 
-  constexpr unsigned int numberOfComponents{ 3 };
+  static constexpr unsigned int numberOfComponents{ 3 };
   using MeasurementType = float;
 
   using MeasurementVectorType = itk::Array<MeasurementType>;
@@ -249,8 +249,8 @@ itkSampleToHistogramFilterTest(int, char *[])
 
 
   // Testing the settings of the MarginalScale.
-  constexpr HistogramMeasurementType marginalScale1{ 237 };
-  constexpr HistogramMeasurementType marginalScale2{ 179 };
+  static constexpr HistogramMeasurementType marginalScale1{ 237 };
+  static constexpr HistogramMeasurementType marginalScale2{ 179 };
 
   filter->SetMarginalScale(marginalScale1);
 
@@ -583,8 +583,8 @@ itkSampleToHistogramFilterTest(int, char *[])
   }
 
   // Testing the settings of the AutoMinimumMaximum Flag.
-  constexpr bool autoMinimumMaximum1{ true };
-  constexpr bool autoMinimumMaximum2{ false };
+  static constexpr bool autoMinimumMaximum1{ true };
+  static constexpr bool autoMinimumMaximum2{ false };
 
   filter->SetAutoMinimumMaximum(autoMinimumMaximum1);
 

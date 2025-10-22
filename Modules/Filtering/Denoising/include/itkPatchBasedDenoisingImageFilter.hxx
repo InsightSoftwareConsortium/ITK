@@ -671,7 +671,7 @@ typename PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadDataSt
   using FaceCalculatorType = typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>;
   using FaceListType = typename FaceCalculatorType::FaceListType;
 
-  constexpr auto radius{ InputImageType::SizeType::Filled(1) };
+  static constexpr auto radius{ InputImageType::SizeType::Filled(1) };
 
   if (m_NumIndependentComponents != 1)
   {
@@ -1991,7 +1991,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadedComputeImageU
         const RealType gradientJointEntropy =
           this->ComputeGradientJointEntropy(sampleIt.GetInstanceIdentifier(), inList, sampler, threadData);
 
-        constexpr RealValueType stepSizeSmoothing{ 0.2 };
+        static constexpr RealValueType stepSizeSmoothing{ 0.2 };
         result = AddUpdate(result, gradientJointEntropy * (smoothingWeight * stepSizeSmoothing));
       } // end if smoothingWeight > 0
 
@@ -2014,8 +2014,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadedComputeImageU
             for (unsigned int pc = 0; pc < m_NumPixelComponents; ++pc)
             {
               const RealValueType gradientFidelity = 2.0 * (this->GetComponent(in, pc) - this->GetComponent(out, pc));
-              constexpr RealValueType stepSizeFidelity{ 0.5 };
-              const RealValueType     noiseVal = fidelityWeight * (stepSizeFidelity * gradientFidelity);
+              static constexpr RealValueType stepSizeFidelity{ 0.5 };
+              const RealValueType            noiseVal = fidelityWeight * (stepSizeFidelity * gradientFidelity);
               this->SetComponent(result, pc, this->GetComponent(result, pc) + noiseVal);
             }
             break;

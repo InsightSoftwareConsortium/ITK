@@ -42,7 +42,7 @@ itkFFTConvolutionImageFilterTestInt(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr int ImageDimension{ 2 };
+  static constexpr int ImageDimension{ 2 };
 
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType, ImageDimension>;
@@ -66,7 +66,7 @@ itkFFTConvolutionImageFilterTestInt(int argc, char * argv[])
   convolver->SetInput(reader1->GetOutput());
   convolver->SetKernelImage(reader2->GetOutput());
 
-  constexpr ConvolutionFilterType::SizeValueType sizeGreatestPrimeFactor{ 2 };
+  static constexpr ConvolutionFilterType::SizeValueType sizeGreatestPrimeFactor{ 2 };
   convolver->SetSizeGreatestPrimeFactor(sizeGreatestPrimeFactor);
   ITK_TEST_SET_GET_VALUE(sizeGreatestPrimeFactor, convolver->GetSizeGreatestPrimeFactor());
 

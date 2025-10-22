@@ -47,12 +47,12 @@ template <typename TInputImage, typename TOutputImage>
 void
 STAPLEImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
-  constexpr double epsilon{ 1.0e-10 };
+  static constexpr double epsilon{ 1.0e-10 };
 
   using IteratorType = ImageScanlineConstIterator<TInputImage>;
   using FuzzyIteratorType = ImageScanlineIterator<TOutputImage>;
 
-  constexpr double min_rms_error{ 1.0e-14 }; // 7 digits of precision
+  static constexpr double min_rms_error{ 1.0e-14 }; // 7 digits of precision
 
   // Allocate the output "fuzzy" image.
   this->GetOutput()->SetBufferedRegion(this->GetOutput()->GetRequestedRegion());

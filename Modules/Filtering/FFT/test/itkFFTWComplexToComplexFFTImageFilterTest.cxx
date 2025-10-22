@@ -49,7 +49,7 @@ transformImage(const char * inputImageFileName, const char * outputImageFileName
 {
   using RealPixelType = TPixel;
   using ComplexPixelType = std::complex<RealPixelType>;
-  constexpr unsigned int Dimension{ VDimension };
+  static constexpr unsigned int Dimension{ VDimension };
 
   using RealImageType = itk::Image<RealPixelType, Dimension>;
   using ComplexImageType = itk::Image<ComplexPixelType, Dimension>;

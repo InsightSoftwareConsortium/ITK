@@ -29,7 +29,7 @@ to itkFloodFilledSpatialFunctionConditionalIterator.
 int
 itkFloodFilledSpatialFunctionTest(int, char *[])
 {
-  constexpr unsigned int dim{ 2 };
+  static constexpr unsigned int dim{ 2 };
 
   // Image type alias
   using ImageType = itk::Image<bool, dim>;
@@ -91,8 +91,8 @@ itkFloodFilledSpatialFunctionTest(int, char *[])
     spatialFunc->SetCenter(center);
 
     // Create and initialize a spatial function iterator
-    ImageType::IndexType                seedPos;
-    constexpr ImageType::IndexValueType pos[]{ 2, 2 };
+    ImageType::IndexType                       seedPos;
+    static constexpr ImageType::IndexValueType pos[]{ 2, 2 };
     seedPos.SetIndex(pos);
 
     using ItType = itk::FloodFilledSpatialFunctionConditionalIterator<ImageType, FunctionType>;

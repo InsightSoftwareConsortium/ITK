@@ -27,7 +27,7 @@ testPointsLocatorTest()
   /**
    * Create the point set through its object factory.
    */
-  constexpr unsigned int PointDimension{ 3 };
+  static constexpr unsigned int PointDimension{ 3 };
 
   using PointType = itk::Point<float, PointDimension>;
 
@@ -134,7 +134,7 @@ testPointsLocatorTest()
 int
 itkPointsLocatorTest(int, char *[])
 {
-  constexpr unsigned int PointDimension{ 3 };
+  static constexpr unsigned int PointDimension{ 3 };
   using PointType = itk::Point<float, PointDimension>;
 
   using VectorContainerType = itk::VectorContainer<PointType>;

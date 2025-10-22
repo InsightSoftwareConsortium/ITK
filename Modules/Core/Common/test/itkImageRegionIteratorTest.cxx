@@ -135,7 +135,7 @@ itkImageRegionIteratorTest(int, char *[])
   {
     // Create an image
     using TestImageType = itk::Image<int, 2>;
-    constexpr TestImageType::IndexType imageCorner{};
+    static constexpr TestImageType::IndexType imageCorner{};
 
     auto imageSize = TestImageType::SizeType::Filled(3);
 
@@ -163,7 +163,7 @@ itkImageRegionIteratorTest(int, char *[])
     }
 
     // Setup and iterate over the first region
-    constexpr TestImageType::IndexType region1Start{};
+    static constexpr TestImageType::IndexType region1Start{};
 
     auto regionSize = TestImageType::SizeType::Filled(2);
 

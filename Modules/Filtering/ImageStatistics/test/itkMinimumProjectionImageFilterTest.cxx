@@ -33,7 +33,7 @@ itkMinimumProjectionImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr int dim{ 3 };
+  static constexpr int dim{ 3 };
 
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType, dim>;

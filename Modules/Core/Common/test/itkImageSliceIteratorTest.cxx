@@ -25,7 +25,7 @@ itkImageSliceIteratorTest(int, char *[])
 {
   std::cout << "Creating an image of indices" << std::endl;
 
-  constexpr unsigned int ImageDimension{ 3 };
+  static constexpr unsigned int ImageDimension{ 3 };
 
   using PixelType = itk::Index<ImageDimension>;
 

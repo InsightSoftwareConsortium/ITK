@@ -39,7 +39,7 @@ itkGDCMImageReadSeriesWriteTest(int argc, char * argv[])
   const char * singleOutputImage = argv[3];
 
   using PixelType = short;
-  constexpr unsigned int Dimension{ 3 };
+  static constexpr unsigned int Dimension{ 3 };
 
   using ImageType = itk::Image<PixelType, Dimension>;
   using ReaderType = itk::ImageFileReader<ImageType>;
@@ -58,7 +58,7 @@ itkGDCMImageReadSeriesWriteTest(int argc, char * argv[])
   itksys::SystemTools::MakeDirectory(outputDirectory);
 
   using OutputPixelType = short;
-  constexpr unsigned int OutputDimension{ 2 };
+  static constexpr unsigned int OutputDimension{ 2 };
 
   using Image2DType = itk::Image<OutputPixelType, OutputDimension>;
   using SeriesWriterType = itk::ImageSeriesWriter<ImageType, Image2DType>;

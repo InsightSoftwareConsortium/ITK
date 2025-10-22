@@ -101,7 +101,7 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>::Genera
   // requested region)
   typename TInputImage::RegionType inputRequestedRegion = inputPtr->GetRequestedRegion();
 
-  constexpr auto r1{ MakeFilled<RadiusType>(1) };
+  static constexpr auto r1{ MakeFilled<RadiusType>(1) };
   // pad the input requested region by the operator radius
   inputRequestedRegion.PadByRadius(r1);
 
@@ -255,8 +255,8 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>::CubicS
   // s are not necessarily sorted, and int is the number of distinct roots
   // found in s.
 
-  const double     dpi = itk::Math::pi;
-  constexpr double epsilon{ 1.0e-11 };
+  const double            dpi = itk::Math::pi;
+  static constexpr double epsilon{ 1.0e-11 };
 
   // Substitution of  x = y - c[2]/3 eliminate the quadric term  x^3 +px + q = 0
   const double sq_c2 = c[2] * c[2];

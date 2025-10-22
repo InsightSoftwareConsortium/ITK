@@ -24,7 +24,7 @@ itkConnectedComponentImageFilterTooManyObjectsTest(int itkNotUsed(argc), char *[
 {
 
   using PixelType = unsigned char;
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
   using ImageType = itk::Image<PixelType, Dimension>;
 
   // create a test input image with more objects in it than what the output type

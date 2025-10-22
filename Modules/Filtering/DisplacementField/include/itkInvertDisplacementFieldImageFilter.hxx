@@ -72,7 +72,7 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>::GenerateData()
   this->UpdateProgress(0.0f);
   this->AllocateOutputs();
 
-  constexpr VectorType zeroVector{};
+  static constexpr VectorType zeroVector{};
 
   const typename DisplacementFieldType::ConstPointer displacementField = this->GetInput();
 

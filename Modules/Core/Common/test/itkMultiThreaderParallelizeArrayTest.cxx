@@ -63,8 +63,8 @@ itkMultiThreaderParallelizeArrayTest(int argc, char * argv[])
     mt->SetNumberOfWorkUnits(workUnitCount);
   }
 
-  constexpr unsigned int    size{ 1029 };
-  std::vector<unsigned int> vec(size);
+  static constexpr unsigned int size{ 1029 };
+  std::vector<unsigned int>     vec(size);
 
   using SomeProcessObject = itk::AbsImageFilter<itk::Image<signed char>, itk::Image<signed char>>;
   auto progressPO = SomeProcessObject::New();

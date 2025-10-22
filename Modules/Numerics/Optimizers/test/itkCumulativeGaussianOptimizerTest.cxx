@@ -34,13 +34,15 @@
 int
 itkCumulativeGaussianOptimizerTest(int, char *[])
 {
-  constexpr double mean{ 3 };                    // Mean of the Cumulative Gaussian.
-                                                 // Ranges from 0 to N-1, where N is numberOfSamples.
-  constexpr double standardDeviation{ 2 };       // Standard deviation of the Cumulative Gaussian.
-  constexpr double lowerAsymptote{ -10 };        // Lower asymptotic value of the Cumulative Gaussian.
-  constexpr int    numberOfSamples{ 9 };         // Number of data samples.
-  constexpr double upperAsymptote{ 10 };         // Upper asymptotic value of the Cumulative Gaussian.
-  constexpr double differenceTolerance{ 1e-20 }; // Tolerance allowed for the difference between Gaussian iterations.
+  static constexpr double mean{ 3 };              // Mean of the Cumulative Gaussian.
+                                                  // Ranges from 0 to N-1, where N is numberOfSamples.
+  static constexpr double standardDeviation{ 2 }; // Standard deviation of the Cumulative Gaussian.
+  static constexpr double lowerAsymptote{ -10 };  // Lower asymptotic value of the Cumulative Gaussian.
+  static constexpr int    numberOfSamples{ 9 };   // Number of data samples.
+  static constexpr double upperAsymptote{ 10 };   // Upper asymptotic value of the Cumulative Gaussian.
+  static constexpr double differenceTolerance{
+    1e-20
+  }; // Tolerance allowed for the difference between Gaussian iterations.
 
   // Typedef and initialization for the Cumulative Gaussian Optimizer.
   using CumulativeGaussianOptimizerType = itk::CumulativeGaussianOptimizer;
@@ -86,7 +88,7 @@ itkCumulativeGaussianOptimizerTest(int, char *[])
   ITK_TEST_SET_GET_VALUE(differenceTolerance, optimizer->GetDifferenceTolerance());
 
   // Print results after each iteration.
-  constexpr bool verbose{ true };
+  static constexpr bool verbose{ true };
   ITK_TEST_SET_GET_BOOLEAN(optimizer, Verbose, verbose);
 
   // Set the data array.

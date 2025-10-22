@@ -112,7 +112,7 @@ Versor<T>::operator==(const Self & v) const
 
   const typename itk::NumericTraits<T>::AccumulateType square = ratio.m_W * ratio.m_W;
 
-  constexpr double epsilon{ 1e-300 };
+  static constexpr double epsilon{ 1e-300 };
 
   if (itk::Math::abs(1.0f - square) < epsilon)
   {

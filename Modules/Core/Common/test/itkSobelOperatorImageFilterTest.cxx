@@ -34,7 +34,7 @@ itkSobelOperatorImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
 
   using SobelPixelType = int16_t;
   using SobelImageType = itk::Image<SobelPixelType, Dimension>;

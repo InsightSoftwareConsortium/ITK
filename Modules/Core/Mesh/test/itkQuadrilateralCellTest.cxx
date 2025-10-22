@@ -82,11 +82,11 @@ itkQuadrilateralCellTest(int, char *[])
   auto mesh = MeshType::New();
   mesh->DebugOn();
 
-  constexpr unsigned int numberOfPoints{ 6 };
+  static constexpr unsigned int numberOfPoints{ 6 };
   /**
    * Define the 3D geometric positions for 6 points in two neighbouring squares.
    */
-  constexpr unsigned int Dimension{ 3 };
+  static constexpr unsigned int Dimension{ 3 };
   // Test points are on a plane at an angle (3^2 + 4^2 = 5^2) with xy plane
   const MeshType::CoordinateType testPointCoords[numberOfPoints][Dimension] = { { 0, 0, 0 },   { 10, 0, 0 },
                                                                                 { 0, 8, 6 },   { 10, 8, 6 },
@@ -150,7 +150,7 @@ itkQuadrilateralCellTest(int, char *[])
   //
   QuadrilateralCellType::PointsContainer * points = mesh->GetPoints();
 
-  constexpr double toleance{ 1e-5 };
+  static constexpr double toleance{ 1e-5 };
   // Test 1:  point on quad1
   QuadrilateralCellType::CoordinateType inputPoint[3];
   inputPoint[0] = 4.0;

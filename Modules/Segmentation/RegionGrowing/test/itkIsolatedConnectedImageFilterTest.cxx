@@ -76,24 +76,24 @@ itkIsolatedConnectedImageFilterTest(int argc, char * argv[])
   }
 
   // The min and max values for a .png image
-  constexpr FilterType::InputImagePixelType lower{ 0 };
+  static constexpr FilterType::InputImagePixelType lower{ 0 };
   filter->SetLower(lower);
   ITK_TEST_SET_GET_VALUE(lower, filter->GetLower());
 
 #if !defined(ITK_LEGACY_REMOVE)
-  constexpr FilterType::InputImagePixelType upperValueLimit{ 255 };
+  static constexpr FilterType::InputImagePixelType upperValueLimit{ 255 };
   filter->SetUpperValueLimit(upperValueLimit);
   ITK_TEST_SET_GET_VALUE(upperValueLimit, filter->GetUpperValueLimit());
 #endif
-  constexpr FilterType::InputImagePixelType upper{ 255 };
+  static constexpr FilterType::InputImagePixelType upper{ 255 };
   filter->SetUpper(upper);
   ITK_TEST_SET_GET_VALUE(upper, filter->GetUpper());
 
-  constexpr FilterType::OutputImagePixelType replaceValue{ 255 };
+  static constexpr FilterType::OutputImagePixelType replaceValue{ 255 };
   filter->SetReplaceValue(replaceValue);
   ITK_TEST_SET_GET_VALUE(replaceValue, filter->GetReplaceValue());
 
-  constexpr FilterType::InputImagePixelType isolatedValueTolerance{ 1 };
+  static constexpr FilterType::InputImagePixelType isolatedValueTolerance{ 1 };
   filter->SetIsolatedValueTolerance(isolatedValueTolerance);
   ITK_TEST_SET_GET_VALUE(isolatedValueTolerance, filter->GetIsolatedValueTolerance());
 

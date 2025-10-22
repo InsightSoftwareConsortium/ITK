@@ -33,7 +33,7 @@ int
 itkGaussianSmoothingOnUpdateDisplacementFieldTransformTest(int, char *[])
 {
 
-  constexpr unsigned int dimensions{ 2 };
+  static constexpr unsigned int dimensions{ 2 };
   using DisplacementTransformType = itk::GaussianSmoothingOnUpdateDisplacementFieldTransform<double, dimensions>;
 
   /* Create a displacement field transform */
@@ -41,14 +41,14 @@ itkGaussianSmoothingOnUpdateDisplacementFieldTransformTest(int, char *[])
   using FieldType = DisplacementTransformType::DisplacementFieldType;
   auto field = FieldType::New(); // This is based on itk::Image
 
-  constexpr int                  dimLength{ 20 };
-  constexpr FieldType::SizeType  size{ dimLength, dimLength };
-  constexpr FieldType::IndexType start{};
-  FieldType::RegionType          region = { start, size };
+  static constexpr int                  dimLength{ 20 };
+  static constexpr FieldType::SizeType  size{ dimLength, dimLength };
+  static constexpr FieldType::IndexType start{};
+  FieldType::RegionType                 region = { start, size };
   field->SetRegions(region);
   field->Allocate();
 
-  constexpr DisplacementTransformType::OutputVectorType zeroVector{};
+  static constexpr DisplacementTransformType::OutputVectorType zeroVector{};
   field->FillBuffer(zeroVector);
 
   displacementTransform->SetDisplacementField(field);
@@ -56,9 +56,9 @@ itkGaussianSmoothingOnUpdateDisplacementFieldTransformTest(int, char *[])
   /* Test SmoothDisplacementFieldGauss */
   std::cout << "Test SmoothDisplacementFieldGauss" << std::endl;
   using ParametersValueType = DisplacementTransformType::ParametersValueType;
-  constexpr ParametersValueType                            paramsZero{};
-  DisplacementTransformType::ParametersType                paramsFill(displacementTransform->GetNumberOfParameters());
-  constexpr DisplacementTransformType::ParametersValueType paramsFillValue{ 0.0 };
+  static constexpr ParametersValueType      paramsZero{};
+  DisplacementTransformType::ParametersType paramsFill(displacementTransform->GetNumberOfParameters());
+  static constexpr DisplacementTransformType::ParametersValueType paramsFillValue{ 0.0 };
   paramsFill.Fill(paramsFillValue);
   // Add an outlier to visually see that some smoothing is taking place.
   constexpr unsigned int outlier = dimLength * dimensions * 4 + dimLength * dimensions / 2;

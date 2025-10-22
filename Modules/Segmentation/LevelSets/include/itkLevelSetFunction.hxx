@@ -66,8 +66,8 @@ LevelSetFunction<TImageType>::ComputeMinimalCurvature(const NeighborhoodType & i
   }
 
   // Compute Pgrad * Hessian * Pgrad
-  constexpr ScalarValueType ZERO{};
-  ScalarValueType           tmp_matrix[ImageDimension][ImageDimension];
+  static constexpr ScalarValueType ZERO{};
+  ScalarValueType                  tmp_matrix[ImageDimension][ImageDimension];
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     for (unsigned int j = i; j < ImageDimension; ++j)
@@ -97,8 +97,8 @@ LevelSetFunction<TImageType>::ComputeMinimalCurvature(const NeighborhoodType & i
   // Eigensystem
   const vnl_symmetric_eigensystem<ScalarValueType> eig{ Curve.as_matrix() };
 
-  constexpr ScalarValueType MIN_EIG{ NumericTraits<ScalarValueType>::min() };
-  ScalarValueType           mincurve = itk::Math::abs(eig.get_eigenvalue(ImageDimension - 1));
+  static constexpr ScalarValueType MIN_EIG{ NumericTraits<ScalarValueType>::min() };
+  ScalarValueType                  mincurve = itk::Math::abs(eig.get_eigenvalue(ImageDimension - 1));
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     if (itk::Math::abs(eig.get_eigenvalue(i)) < mincurve && itk::Math::abs(eig.get_eigenvalue(i)) > MIN_EIG)
@@ -120,9 +120,9 @@ LevelSetFunction<TImageType>::Compute3DMinimalCurvature(const NeighborhoodType &
   {
     const ScalarValueType mean_curve = this->ComputeMeanCurvature(neighborhood, offset, gd);
 
-    constexpr int         i0{ 0 };
-    constexpr int         i1{ 1 };
-    constexpr int         i2{ 2 };
+    static constexpr int  i0{ 0 };
+    static constexpr int  i1{ 1 };
+    static constexpr int  i2{ 2 };
     const ScalarValueType gauss_curve =
       (2 * (gd->m_dx[i0] * gd->m_dx[i1] *
               (gd->m_dxy[i2][i0] * gd->m_dxy[i1][i2] - gd->m_dxy[i0][i1] * gd->m_dxy[i2][i2]) +
@@ -310,8 +310,8 @@ LevelSetFunction<TImageType>::ComputeUpdate(const NeighborhoodType & it,
         neighborhoodScales[i] * neighborhoodScales[j];
     }
   }
-  constexpr ScalarValueType ZERO{};
-  ScalarValueType           curvature_term{ ZERO };
+  static constexpr ScalarValueType ZERO{};
+  ScalarValueType                  curvature_term{ ZERO };
   if (Math::NotAlmostEquals(m_CurvatureWeight, ZERO))
   {
     curvature_term = this->ComputeCurvatureTerm(it, offset, gd) * m_CurvatureWeight * this->CurvatureSpeed(it, offset);

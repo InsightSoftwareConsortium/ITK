@@ -50,7 +50,7 @@ itkFastMarchingImageFilterRealTest2(int itkNotUsed(argc), char * itkNotUsed(argv
 
   // Create a Fast Marching image filter object
   using PixelType = float;
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
 
   using FloatImageType = itk::Image<PixelType, Dimension>;
 
@@ -75,7 +75,7 @@ itkFastMarchingImageFilterRealTest2(int itkNotUsed(argc), char * itkNotUsed(argv
   marcher->AddObserver(itk::ProgressEvent(), command);
 
   // Specify the size of the output image
-  constexpr FloatImageType::SizeType size{ 64, 64 };
+  static constexpr FloatImageType::SizeType size{ 64, 64 };
   marcher->SetOutputSize(size);
 
   // Set up a speed image of ones
@@ -93,7 +93,7 @@ itkFastMarchingImageFilterRealTest2(int itkNotUsed(argc), char * itkNotUsed(argv
   aliveImage->Allocate();
   aliveImage->FillBuffer(0.0);
 
-  constexpr FloatImageType::OffsetType offset0{ 28, 35 };
+  static constexpr FloatImageType::OffsetType offset0{ 28, 35 };
 
   itk::Index<Dimension> index{};
   index += offset0;
@@ -157,7 +157,7 @@ itkFastMarchingImageFilterRealTest2(int itkNotUsed(argc), char * itkNotUsed(argv
   ITK_EXERCISE_BASIC_OBJECT_METHODS(adaptor, FastMarchingImageToNodePairContainerAdaptor, Object);
 
 
-  constexpr bool isForbiddenImageBinaryMask{ true };
+  static constexpr bool isForbiddenImageBinaryMask{ true };
   ITK_TEST_SET_GET_BOOLEAN(adaptor, IsForbiddenImageBinaryMask, isForbiddenImageBinaryMask);
 
   adaptor->SetAliveImage(aliveImage.GetPointer());
@@ -200,7 +200,7 @@ itkFastMarchingImageFilterRealTest2(int itkNotUsed(argc), char * itkNotUsed(argv
 
   bool passed = true;
 
-  constexpr double threshold{ 1.42 };
+  static constexpr double threshold{ 1.42 };
   while (!iterator.IsAtEnd())
   {
     FloatImageType::IndexType tempIndex = iterator.GetIndex();

@@ -188,8 +188,8 @@ BSplineLinearTest(FixedImageReaderType * fixedImageReader, MovingImageReaderType
   typename FixedImageType::RegionType    fixedRegion = fixedImage->GetBufferedRegion();
   typename FixedImageType::SizeType      fixedSize = fixedRegion.GetSize();
 
-  constexpr unsigned int SpaceDimension{ 2 };
-  constexpr unsigned int VSplineOrder{ 3 };
+  static constexpr unsigned int SpaceDimension{ 2 };
+  static constexpr unsigned int VSplineOrder{ 3 };
   using CoordinateRepType = double;
 
   using TransformType = itk::BSplineTransform<CoordinateRepType, SpaceDimension, VSplineOrder>;

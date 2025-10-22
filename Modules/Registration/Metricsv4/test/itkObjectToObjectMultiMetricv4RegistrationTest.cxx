@@ -83,8 +83,8 @@ ObjectToObjectMultiMetricv4RegistrationTestCreateImages(typename TImage::Pointer
   using CoordinateRepresentationType = PixelType;
 
   // Create two simple images
-  constexpr itk::SizeValueType   ImageSize{ 100 };
-  constexpr itk::OffsetValueType boundary{ 6 };
+  static constexpr itk::SizeValueType   ImageSize{ 100 };
+  static constexpr itk::OffsetValueType boundary{ 6 };
 
   // Declare Gaussian Sources
   using GaussianImageSourceType = itk::GaussianImageSource<TImage>;
@@ -195,7 +195,7 @@ ObjectToObjectMultiMetricv4RegistrationTestRun(typename TMetric::Pointer &      
 int
 itkObjectToObjectMultiMetricv4RegistrationTest(int argc, char * argv[])
 {
-  constexpr int Dimension{ 2 };
+  static constexpr int Dimension{ 2 };
   using ImageType = itk::Image<double, Dimension>;
 
   int numberOfIterations = 30;

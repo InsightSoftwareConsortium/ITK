@@ -60,7 +60,7 @@ template <typename InputImage, typename TOutputImage>
 void
 ComposeDisplacementFieldsImageFilter<InputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
-  constexpr VectorType zeroVector{};
+  static constexpr VectorType zeroVector{};
 
   this->GetOutput()->FillBuffer(zeroVector);
 

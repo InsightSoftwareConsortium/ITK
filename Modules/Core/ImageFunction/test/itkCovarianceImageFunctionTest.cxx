@@ -24,18 +24,18 @@
 int
 itkCovarianceImageFunctionTest(int, char *[])
 {
-  constexpr unsigned int Dimension{ 3 };
+  static constexpr unsigned int Dimension{ 3 };
   using PixelComponentType = unsigned char;
-  constexpr unsigned int VectorDimension{ 4 };
+  static constexpr unsigned int VectorDimension{ 4 };
 
   using PixelType = itk::FixedArray<PixelComponentType, VectorDimension>;
   using ImageType = itk::Image<PixelType, Dimension>;
   using FunctionType = itk::CovarianceImageFunction<ImageType>;
 
   // Create and allocate the image
-  auto                           image = ImageType::New();
-  constexpr ImageType::SizeType  size{ 20, 20, 20 };
-  constexpr ImageType::IndexType start{};
+  auto                                  image = ImageType::New();
+  static constexpr ImageType::SizeType  size{ 20, 20, 20 };
+  static constexpr ImageType::IndexType start{};
 
   ImageType::RegionType region = { start, size };
 
@@ -50,11 +50,11 @@ itkCovarianceImageFunctionTest(int, char *[])
 
   function->SetInputImage(image);
 
-  constexpr unsigned int neighborhoodRadius{ 5 };
+  static constexpr unsigned int neighborhoodRadius{ 5 };
   function->SetNeighborhoodRadius(neighborhoodRadius);
   ITK_TEST_SET_GET_VALUE(neighborhoodRadius, function->GetNeighborhoodRadius());
 
-  constexpr ImageType::IndexType index{ 10, 10, 10 };
+  static constexpr ImageType::IndexType index{ 10, 10, 10 };
 
   FunctionType::OutputType covariance = function->EvaluateAtIndex(index);
   std::cout << "function->EvaluateAtIndex( index ): " << covariance << std::endl;
@@ -69,7 +69,7 @@ itkCovarianceImageFunctionTest(int, char *[])
   const FunctionType::OutputType    covariance3 = function->EvaluateAtContinuousIndex(cindex);
   std::cout << "function->EvaluateAtContinuousIndex(cindex): " << covariance3 << std::endl;
 
-  constexpr ImageType::IndexValueType imageValue{ 0 };
+  static constexpr ImageType::IndexValueType imageValue{ 0 };
   // Since the input image is constant, the covariance should be equal to
   // the initial value
   for (unsigned int ix = 0; ix < VectorDimension; ++ix)

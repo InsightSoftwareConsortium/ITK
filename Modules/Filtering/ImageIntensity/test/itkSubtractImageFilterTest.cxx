@@ -27,7 +27,7 @@ itkSubtractImageFilterTest(int, char *[])
 {
 
   // Define the dimension of the images
-  constexpr unsigned int Dimension{ 3 };
+  static constexpr unsigned int Dimension{ 3 };
 
   // Declare the pixel types of the images
   using PixelType = float;
@@ -55,9 +55,9 @@ itkSubtractImageFilterTest(int, char *[])
   auto inputImageB = InputImageType2::New();
 
   // Define their size, and start index
-  constexpr SizeType  size{ 2, 2, 2 };
-  constexpr IndexType start{ 0, 0, 0 };
-  RegionType          region{ start, size };
+  static constexpr SizeType  size{ 2, 2, 2 };
+  static constexpr IndexType start{ 0, 0, 0 };
+  RegionType                 region{ start, size };
 
   // Initialize Image A
   inputImageA->SetRegions(region);
@@ -68,11 +68,11 @@ itkSubtractImageFilterTest(int, char *[])
   inputImageB->Allocate();
 
   // Initialize the content of Image A
-  constexpr InputImageType1::PixelType valueA{ 2.0 };
+  static constexpr InputImageType1::PixelType valueA{ 2.0 };
   inputImageA->FillBuffer(valueA);
 
   // Initialize the content of Image B
-  constexpr InputImageType2::PixelType valueB{ 3.0 };
+  static constexpr InputImageType2::PixelType valueB{ 3.0 };
   inputImageB->FillBuffer(valueB);
 
 
@@ -102,7 +102,7 @@ itkSubtractImageFilterTest(int, char *[])
 
   // Check the content of the result image
   //
-  constexpr auto expectedValue{ static_cast<OutputImageType::PixelType>(valueA - valueB) };
+  static constexpr auto expectedValue{ static_cast<OutputImageType::PixelType>(valueA - valueB) };
   while (!oIt.IsAtEnd())
   {
     if (!itk::Math::ExactlyEquals(oIt.Get(), expectedValue))

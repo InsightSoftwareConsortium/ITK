@@ -95,8 +95,8 @@ itkOFFMeshIOTest(int argc, char * argv[])
   ITK_TEST_EXPECT_EQUAL(numberOfCellPixels, offMeshIO->GetNumberOfCellPixels());
 
   // Use sufficiently large buffer sizes
-  constexpr itk::SizeValueType pointBufferSize{ 1000 };
-  constexpr itk::SizeValueType cellBufferSize{ 1000 };
+  static constexpr itk::SizeValueType pointBufferSize{ 1000 };
+  static constexpr itk::SizeValueType cellBufferSize{ 1000 };
 
   const std::shared_ptr<void> pointBuffer =
     itk::MeshIOTestHelper::AllocateBuffer(offMeshIO->GetPointComponentType(), pointBufferSize);

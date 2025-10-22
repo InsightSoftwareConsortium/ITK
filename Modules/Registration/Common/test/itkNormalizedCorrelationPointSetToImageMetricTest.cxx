@@ -47,7 +47,7 @@ itkNormalizedCorrelationPointSetToImageMetricTest(int, char *[])
   // Create two simple images
   //------------------------------------------------------------
 
-  constexpr unsigned int ImageDimension{ 2 };
+  static constexpr unsigned int ImageDimension{ 2 };
 
   using PixelType = double;
 
@@ -65,11 +65,11 @@ itkNormalizedCorrelationPointSetToImageMetricTest(int, char *[])
   FixedImageType::SizeValueType  fixedImageSize[] = { 100, 100 };
   MovingImageType::SizeValueType movingImageSize[] = { 100, 100 };
 
-  constexpr FixedImageType::SpacingValueType  fixedImageSpacing[]{ 1.0f, 1.0f };
-  constexpr MovingImageType::SpacingValueType movingImageSpacing[]{ 1.0f, 1.0f };
+  static constexpr FixedImageType::SpacingValueType  fixedImageSpacing[]{ 1.0f, 1.0f };
+  static constexpr MovingImageType::SpacingValueType movingImageSpacing[]{ 1.0f, 1.0f };
 
-  constexpr FixedImageType::PointValueType  fixedImageOrigin[]{ 0.0f, 0.0f };
-  constexpr MovingImageType::PointValueType movingImageOrigin[]{ 0.0f, 0.0f };
+  static constexpr FixedImageType::PointValueType  fixedImageOrigin[]{ 0.0f, 0.0f };
+  static constexpr MovingImageType::PointValueType movingImageOrigin[]{ 0.0f, 0.0f };
 
   auto movingImageSource = MovingImageSourceType::New();
   auto fixedImageSource = FixedImageSourceType::New();
@@ -99,7 +99,7 @@ itkNormalizedCorrelationPointSetToImageMetricTest(int, char *[])
   using FixedPointSetType = itk::PointSet<float, 2>;
   auto fixedPointSet = FixedPointSetType::New();
 
-  constexpr unsigned int numberOfPoints{ 100 };
+  static constexpr unsigned int numberOfPoints{ 100 };
 
   fixedPointSet->SetPointData(FixedPointSetType::PointDataContainer::New());
 
@@ -219,7 +219,7 @@ itkNormalizedCorrelationPointSetToImageMetricTest(int, char *[])
 
   std::cout << "param[1]   Metric    d(Metric)/d(param[1] " << std::endl;
 
-  constexpr bool subtractMean{ true };
+  static constexpr bool subtractMean{ true };
   ITK_TEST_SET_GET_BOOLEAN(metric, SubtractMean, subtractMean);
 
   parameters[1] = -10.2;

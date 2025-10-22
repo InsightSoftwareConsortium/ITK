@@ -96,7 +96,7 @@ BMPImageIO::CanReadFile(const char * filename)
 
 
   // get the size of the file
-  constexpr size_t sizeLong{ sizeof(long) };
+  static constexpr size_t sizeLong{ sizeof(long) };
   if (sizeLong == 4)
   {
     long tmp = 0;
@@ -360,7 +360,7 @@ BMPImageIO::ReadImageInformation()
   }
 
   // get the size of the file
-  constexpr size_t sizeLong{ sizeof(long) };
+  static constexpr size_t sizeLong{ sizeof(long) };
   if (sizeLong == 4)
   {
     long tmp = 0;
@@ -757,7 +757,7 @@ BMPImageIO::Write(const void * buffer)
   }
   this->Write32BitsInteger(fileSize);
 
-  constexpr unsigned short applicationReservedValue{ 0 };
+  static constexpr unsigned short applicationReservedValue{ 0 };
   this->Write16BitsInteger(applicationReservedValue);
   this->Write16BitsInteger(applicationReservedValue);
 
@@ -783,7 +783,7 @@ BMPImageIO::Write(const void * buffer)
   //  blue, green and red intensities, respectively.
   //
   //  Finally the pixel data
-  constexpr unsigned int bitmapHeaderSize{ 40 };
+  static constexpr unsigned int bitmapHeaderSize{ 40 };
   this->Write32BitsInteger(bitmapHeaderSize);
 
   // image width
@@ -793,7 +793,7 @@ BMPImageIO::Write(const void * buffer)
   this->Write32BitsInteger(static_cast<unsigned int>(m_Dimensions[1]));
 
   // Set `planes'=1 (mandatory)
-  constexpr unsigned short numberOfColorPlanes{ 1 };
+  static constexpr unsigned short numberOfColorPlanes{ 1 };
   this->Write16BitsInteger(numberOfColorPlanes);
 
   // Set bits per pixel.
@@ -814,7 +814,7 @@ BMPImageIO::Write(const void * buffer)
   }
   this->Write16BitsInteger(numberOfBitsPerPixel);
 
-  constexpr unsigned int compressionMethod{ 0 };
+  static constexpr unsigned int compressionMethod{ 0 };
   this->Write32BitsInteger(compressionMethod);
   this->Write32BitsInteger(rawImageDataSize);
 
@@ -830,11 +830,11 @@ BMPImageIO::Write(const void * buffer)
   this->Write32BitsInteger(verticalResolution);
 
   // zero here defaults to 2^n colors in the palette
-  constexpr unsigned int numberOfColorsInPalette{ 0 };
+  static constexpr unsigned int numberOfColorsInPalette{ 0 };
   this->Write32BitsInteger(numberOfColorsInPalette);
 
   // zero here indicates that all colors in the palette are important.
-  constexpr unsigned int numberOfImportantColorsInPalette{ 0 };
+  static constexpr unsigned int numberOfImportantColorsInPalette{ 0 };
   this->Write32BitsInteger(numberOfImportantColorsInPalette);
   // End of DIB header, 54 bytes written so far
 
@@ -855,8 +855,8 @@ BMPImageIO::Write(const void * buffer)
   // Write down the raw binary pixel data
   for (unsigned int h = 0; h < m_Dimensions[1]; ++h)
   {
-    constexpr char paddingValue{ 0 };
-    const auto *   ptr = static_cast<const char *>(buffer);
+    static constexpr char paddingValue{ 0 };
+    const auto *          ptr = static_cast<const char *>(buffer);
     ptr += (m_Dimensions[1] - (h + 1)) * m_Dimensions[0] * bpp;
     if (bpp == 1)
     {

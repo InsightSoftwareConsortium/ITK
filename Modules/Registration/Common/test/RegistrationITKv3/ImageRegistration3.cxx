@@ -233,7 +233,7 @@ main(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
   using PixelType = unsigned short;
 
   using FixedImageType = itk::Image<PixelType, Dimension>;

@@ -147,7 +147,7 @@ public:
 int
 itkObjectToObjectOptimizerBaseTest(int, char *[])
 {
-  constexpr int ImageDimension{ 2 };
+  static constexpr int ImageDimension{ 2 };
   using ImageType = itk::Image<double, ImageDimension>;
 
   using MetricType = ObjectToObjectOptimizerBaseTestMetric<ImageType, ImageType>;

@@ -61,7 +61,7 @@ main(int argc, char * argv[])
   // evaluation of the Metric.
   //
 
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
   using PixelType = unsigned char;
 
   using ImageType = itk::Image<PixelType, Dimension>;
@@ -152,8 +152,8 @@ main(int argc, char * argv[])
 
   MetricType::TransformParametersType displacement(Dimension);
 
-  constexpr int rangex{ 50 };
-  constexpr int rangey{ 50 };
+  static constexpr int rangex{ 50 };
+  static constexpr int rangey{ 50 };
 
   for (int dx = -rangex; dx <= rangex; ++dx)
   {

@@ -21,7 +21,7 @@
 #include "itkTestingMacros.h"
 
 // type alias for test
-constexpr unsigned int Dimension{ 2 };
+static constexpr unsigned int Dimension{ 2 };
 using InputPixelType = unsigned char;
 using InputFrameType = itk::Image<InputPixelType, Dimension>;
 using InputVideoType = itk::VideoStream<InputFrameType>;
@@ -41,9 +41,9 @@ CreateInputFrame(InputPixelType val)
 {
   auto out = InputFrameType::New();
 
-  constexpr InputFrameType::SizeType  sizeLR{ 50, 40 };
-  constexpr InputFrameType::IndexType startLR{};
-  InputFrameType::RegionType          largestRegion = { startLR, sizeLR };
+  static constexpr InputFrameType::SizeType  sizeLR{ 50, 40 };
+  static constexpr InputFrameType::IndexType startLR{};
+  InputFrameType::RegionType                 largestRegion = { startLR, sizeLR };
   out->SetRegions(largestRegion);
 
   out->Allocate();
@@ -169,10 +169,10 @@ itkVideoToVideoFilterTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, DummyVideoToVideoFilter, VideoToVideoFilter);
 
   // Set up an input video stream
-  auto                    inputVideo = InputVideoType::New();
-  itk::TemporalRegion     inputLargestTemporalRegion;
-  constexpr SizeValueType inputStart{ 0 };
-  constexpr SizeValueType inputDuration{ 10 };
+  auto                           inputVideo = InputVideoType::New();
+  itk::TemporalRegion            inputLargestTemporalRegion;
+  static constexpr SizeValueType inputStart{ 0 };
+  static constexpr SizeValueType inputDuration{ 10 };
   inputLargestTemporalRegion.SetFrameStart(inputStart);
   inputLargestTemporalRegion.SetFrameDuration(inputDuration);
   inputVideo->SetLargestPossibleTemporalRegion(inputLargestTemporalRegion);
@@ -226,8 +226,8 @@ itkVideoToVideoFilterTest(int, char *[])
     const OutputFrameType *                        frame = filter->GetOutput()->GetFrame(i);
     itk::ImageRegionConstIterator<OutputFrameType> iter(frame, frame->GetRequestedRegion());
 
-    const OutputPixelType     expectedVal = ((OutputPixelType)(i)-1.0 + (OutputPixelType)(i)) / 2.0;
-    constexpr OutputPixelType epsilon{ .00001 };
+    const OutputPixelType            expectedVal = ((OutputPixelType)(i)-1.0 + (OutputPixelType)(i)) / 2.0;
+    static constexpr OutputPixelType epsilon{ .00001 };
     while (!iter.IsAtEnd())
     {
       if (iter.Get() < expectedVal - epsilon || iter.Get() > expectedVal + epsilon)
@@ -240,7 +240,7 @@ itkVideoToVideoFilterTest(int, char *[])
     }
 
     // Make sure nothing set outside of requested spatial region
-    constexpr OutputFrameType::IndexType idx{};
+    static constexpr OutputFrameType::IndexType idx{};
     if (frame->GetRequestedRegion().IsInside(idx))
     {
       std::cerr << "Filter set pixel outside of requested region" << std::endl;

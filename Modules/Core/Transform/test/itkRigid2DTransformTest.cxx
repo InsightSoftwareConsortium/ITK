@@ -25,7 +25,7 @@ namespace
 bool
 CheckEqual(const itk::Point<double, 2> & p1, const itk::Point<double, 2> & p2)
 {
-  constexpr double epsilon{ 1e-10 };
+  static constexpr double epsilon{ 1e-10 };
   for (unsigned int i = 0; i < 2; ++i)
   {
     if (itk::Math::abs(p1[i] - p2[i]) > epsilon)
@@ -48,8 +48,8 @@ itkRigid2DTransformTest(int, char *[])
 
   using TransformType = itk::Rigid2DTransform<double>;
 
-  constexpr double       epsilon{ 1e-10 };
-  constexpr unsigned int N{ 2 };
+  static constexpr double       epsilon{ 1e-10 };
+  static constexpr unsigned int N{ 2 };
 
 
   bool Ok = true;
@@ -124,10 +124,10 @@ itkRigid2DTransformTest(int, char *[])
 
     {
       // Translate an itk::Point
-      constexpr TransformType::InputPointType::ValueType pInit[2]{ 10, 10 };
-      const TransformType::InputPointType                p = pInit;
-      TransformType::InputPointType                      q = p + ioffset;
-      TransformType::OutputPointType                     r = translation->TransformPoint(p);
+      static constexpr TransformType::InputPointType::ValueType pInit[2]{ 10, 10 };
+      const TransformType::InputPointType                       p = pInit;
+      TransformType::InputPointType                             q = p + ioffset;
+      TransformType::OutputPointType                            r = translation->TransformPoint(p);
       for (unsigned int i = 0; i < N; ++i)
       {
         if (itk::Math::abs(q[i] - r[i]) > epsilon)
@@ -323,9 +323,9 @@ itkRigid2DTransformTest(int, char *[])
 
     {
       // Rotate an itk::Point
-      constexpr TransformType::InputPointType::ValueType pInit[2]{ 10, 10 };
-      TransformType::InputPointType                      p = pInit;
-      TransformType::InputPointType                      q;
+      static constexpr TransformType::InputPointType::ValueType pInit[2]{ 10, 10 };
+      TransformType::InputPointType                             p = pInit;
+      TransformType::InputPointType                             q;
 
       q[0] = p[0] * costh + p[1] * sinth;
       q[1] = -p[0] * sinth + p[1] * costh;

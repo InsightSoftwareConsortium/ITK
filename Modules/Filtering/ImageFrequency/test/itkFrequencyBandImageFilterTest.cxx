@@ -77,7 +77,7 @@ createImage(typename ImageType::SizeType size)
 int
 itkFrequencyBandImageFilterTest(int argc, char * argv[])
 {
-  constexpr unsigned int Dimension{ 3 };
+  static constexpr unsigned int Dimension{ 3 };
 
   if (argc != 2)
   {
@@ -144,7 +144,7 @@ itkFrequencyBandImageFilterTest(int argc, char * argv[])
   passBandFilter->SetHighFrequencyThreshold(highFreqThreshold);
   ITK_TEST_SET_GET_VALUE(highFreqThreshold, passBandFilter->GetHighFrequencyThreshold());
 
-  constexpr bool passBand{ true };
+  static constexpr bool passBand{ true };
   ITK_TEST_SET_GET_BOOLEAN(passBandFilter, PassBand, passBand);
 
   bool passLowFreqThreshold = true;
@@ -189,15 +189,16 @@ itkFrequencyBandImageFilterTest(int argc, char * argv[])
 
   // Tests with radians
 
-  constexpr BandFilterType::FrequencyValueType lowFreqThresholdRadians{ itk::Math::pi_over_4 };
+  static constexpr BandFilterType::FrequencyValueType lowFreqThresholdRadians{ itk::Math::pi_over_4 };
   passBandFilter->SetLowFrequencyThresholdInRadians(lowFreqThresholdRadians);
 
-  constexpr BandFilterType::FrequencyValueType highFreqThresholdRadians{ itk::Math::pi_over_2 };
+  static constexpr BandFilterType::FrequencyValueType highFreqThresholdRadians{ itk::Math::pi_over_2 };
   passBandFilter->SetHighFrequencyThresholdInRadians(highFreqThresholdRadians);
 
-  constexpr BandFilterType::FrequencyValueType knownLowFrequencyHertz{ lowFreqThresholdRadians / (2 * itk::Math::pi) };
-  constexpr BandFilterType::FrequencyValueType knownHighFrequencyHertz{ highFreqThresholdRadians /
-                                                                        (2 * itk::Math::pi) };
+  static constexpr BandFilterType::FrequencyValueType knownLowFrequencyHertz{ lowFreqThresholdRadians /
+                                                                              (2 * itk::Math::pi) };
+  static constexpr BandFilterType::FrequencyValueType knownHighFrequencyHertz{ highFreqThresholdRadians /
+                                                                               (2 * itk::Math::pi) };
 
   if (itk::Math::NotAlmostEquals(knownLowFrequencyHertz, passBandFilter->GetLowFrequencyThreshold()) ||
       itk::Math::NotAlmostEquals(knownHighFrequencyHertz, passBandFilter->GetHighFrequencyThreshold()))
@@ -212,11 +213,11 @@ itkFrequencyBandImageFilterTest(int argc, char * argv[])
   // Test the non-radial cut-off.
   // Don't pass negative frequency thresholds.
 
-  constexpr bool radialBand{ false };
+  static constexpr bool radialBand{ false };
   ITK_TEST_SET_GET_BOOLEAN(passBandFilter, RadialBand, radialBand);
-  constexpr bool passNegativeLowFrequencyThreshold{ false };
+  static constexpr bool passNegativeLowFrequencyThreshold{ false };
   ITK_TEST_SET_GET_BOOLEAN(passBandFilter, PassNegativeLowFrequencyThreshold, passNegativeLowFrequencyThreshold);
-  constexpr bool passNegativeHighFrequencyThreshold{ false };
+  static constexpr bool passNegativeHighFrequencyThreshold{ false };
   ITK_TEST_SET_GET_BOOLEAN(passBandFilter, PassNegativeHighFrequencyThreshold, passNegativeHighFrequencyThreshold);
   passBandFilter->Update();
 

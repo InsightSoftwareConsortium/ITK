@@ -165,7 +165,7 @@ protected:
 int
 itkGradientDescentOptimizerBasev4Test(int, char *[])
 {
-  constexpr int ImageDimension{ 2 };
+  static constexpr int ImageDimension{ 2 };
   using ImageType = itk::Image<double, ImageDimension>;
 
   using MetricType = GradientDescentOptimizerBasev4TestMetric<ImageType, ImageType>;
@@ -173,7 +173,7 @@ itkGradientDescentOptimizerBasev4Test(int, char *[])
   auto metric = MetricType::New();
   auto optimizer = GradientDescentOptimizerBasev4TestOptimizer::New();
 
-  constexpr bool doEstimateScales{ true };
+  static constexpr bool doEstimateScales{ true };
   ITK_TEST_SET_GET_BOOLEAN(optimizer, DoEstimateScales, doEstimateScales);
 
   optimizer->SetMetric(metric);

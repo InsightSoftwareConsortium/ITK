@@ -70,7 +70,7 @@ itkFixedArrayTest(int, char *[])
   Set_c_Array(array3.GetDataPointer());
   Print_Array(array3, std::cout);
 
-  constexpr itk::FixedArray<int, 3> array4{};
+  static constexpr itk::FixedArray<int, 3> array4{};
   Print_Array(array4, std::cout);
 
   // Test operator!= and operator==
@@ -80,7 +80,7 @@ itkFixedArrayTest(int, char *[])
     return EXIT_FAILURE; // should be equal
 
   // Test Get/Set element
-  constexpr unsigned int           n{ 20 };
+  static constexpr unsigned int    n{ 20 };
   itk::FixedArray<unsigned int, n> array20;
   for (unsigned int i = 0; i < n; ++i)
   {

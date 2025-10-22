@@ -27,7 +27,7 @@
 namespace
 {
 
-constexpr double epsilon{ 1e-10 };
+static constexpr double epsilon{ 1e-10 };
 
 template <typename TPoint>
 bool
@@ -106,7 +106,7 @@ testVectorArray(const TVector & v1, const TVector & v2)
 int
 itkCompositeTransformTest(int, char *[])
 {
-  constexpr unsigned int VDimension{ 2 };
+  static constexpr unsigned int VDimension{ 2 };
 
   /* Create composite transform */
   using CompositeType = itk::CompositeTransform<double, VDimension>;
@@ -777,7 +777,7 @@ itkCompositeTransformTest(int, char *[])
     compositeTransform->SetNthTransformToOptimizeOff(1);
     truth = compositeTransform->GetParameters();
     update.SetSize(compositeTransform->GetNumberOfParameters());
-    constexpr AffineType::ScalarType factor{ 0.5 };
+    static constexpr AffineType::ScalarType factor{ 0.5 };
     for (unsigned int i = 0; i < compositeTransform->GetNumberOfParameters(); ++i)
     {
       update[i] = i;

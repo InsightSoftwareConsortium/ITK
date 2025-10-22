@@ -39,7 +39,7 @@ itkAttributeOpeningLabelMapFilterTest1(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension{ 3 };
+  static constexpr unsigned int Dimension{ 3 };
 
   using PixelType = unsigned char;
 

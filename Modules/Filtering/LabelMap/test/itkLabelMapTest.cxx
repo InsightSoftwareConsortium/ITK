@@ -31,7 +31,7 @@ itkLabelMapTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int dim{ 3 };
+  static constexpr unsigned int dim{ 3 };
 
   using LabelObjectType = itk::LabelObject<unsigned long, dim>;
   using IndexType = LabelObjectType::IndexType;
@@ -54,7 +54,7 @@ itkLabelMapTest(int argc, char * argv[])
   itkAssertOrThrowMacro((regionOut == regionIn), "SetRegions (size) failed");
   map->Initialize();
 
-  constexpr IndexType index{ 1, 2, 3 };
+  static constexpr IndexType index{ 1, 2, 3 };
 
   sizeIn[0] = 100;
   sizeIn[1] = 200;

@@ -45,8 +45,8 @@ itkBSplineTransformTest1()
   // Uncomment the following if you want to see each message independently
   // itk::OutputWindow::GetInstance()->PromptUserOn();
 
-  constexpr unsigned int SpaceDimension{ 3 };
-  constexpr unsigned int SplineOrder{ 3 };
+  static constexpr unsigned int SpaceDimension{ 3 };
+  static constexpr unsigned int SplineOrder{ 3 };
   using CoordinateRepType = double;
   using TransformType = itk::BSplineTransform<CoordinateRepType, SpaceDimension, SplineOrder>;
 
@@ -472,13 +472,13 @@ itkBSplineTransformTest2()
   /**
    * Define a vector field as Dimension number of images
    */
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
   using PixelType = double;
 
   using ImageType = itk::Image<PixelType, Dimension>;
 
   // Set up the transform
-  constexpr unsigned int SplineOrder{ 3 };
+  static constexpr unsigned int SplineOrder{ 3 };
   using CoordRep = double;
 
   using TransformType = itk::BSplineTransform<CoordRep, Dimension, SplineOrder>;
@@ -588,8 +588,8 @@ itkBSplineTransformTest3()
   // Comment the following if you want to use the itk text output window
   itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
-  constexpr unsigned int SpaceDimension{ 3 };
-  constexpr unsigned int SplineOrder{ 3 };
+  static constexpr unsigned int SpaceDimension{ 3 };
+  static constexpr unsigned int SplineOrder{ 3 };
   using CoordinateRepType = double;
   using TransformType = itk::BSplineTransform<CoordinateRepType, SpaceDimension, SplineOrder>;
 
@@ -600,7 +600,7 @@ itkBSplineTransformTest3()
    */
 
   using OriginType = TransformType::OriginType;
-  constexpr OriginType origin{};
+  static constexpr OriginType origin{};
 
   using PhysicalDimensionsType = TransformType::PhysicalDimensionsType;
   auto dimensions = itk::MakeFilled<PhysicalDimensionsType>(100);

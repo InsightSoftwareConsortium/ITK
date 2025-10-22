@@ -37,7 +37,7 @@ itkGrayscaleGeodesicErodeDilateImageFilterTest(int argc, char * argv[])
               << " Inputimage OutputImage Height fullyConnected runOneIteration" << std::endl;
     return EXIT_FAILURE;
   }
-  constexpr int Dimension{ 2 };
+  static constexpr int Dimension{ 2 };
   using PixelType = unsigned char;
   using InputImageType = itk::Image<PixelType, Dimension>;
   using OutputImageType = itk::Image<PixelType, Dimension>;

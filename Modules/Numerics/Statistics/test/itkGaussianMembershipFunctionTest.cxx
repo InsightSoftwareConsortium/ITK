@@ -23,7 +23,7 @@
 int
 itkGaussianMembershipFunctionTest(int, char *[])
 {
-  constexpr unsigned int MeasurementVectorSize{ 1 };
+  static constexpr unsigned int MeasurementVectorSize{ 1 };
 
   using MeasurementVectorType = itk::FixedArray<float, MeasurementVectorSize>;
 
@@ -37,7 +37,7 @@ itkGaussianMembershipFunctionTest(int, char *[])
 
   // Test if an exception will be thrown if we try to resize the measurement vector
   // size
-  constexpr MeasurementVectorSizeType measurementVector2{ MeasurementVectorSize + 1 };
+  static constexpr MeasurementVectorSizeType measurementVector2{ MeasurementVectorSize + 1 };
   ITK_TRY_EXPECT_EXCEPTION(function->SetMeasurementVectorSize(measurementVector2));
 
   // Test non-square covariance matrix exception
@@ -67,7 +67,7 @@ itkGaussianMembershipFunctionTest(int, char *[])
   mean[0] = 1.5;
   function->SetMean(mean);
 
-  constexpr double tolerance{ 0.001 };
+  static constexpr double tolerance{ 0.001 };
 
   if (itk::Math::abs(function->GetMean()[0] - mean[0]) > tolerance)
   {
@@ -79,8 +79,8 @@ itkGaussianMembershipFunctionTest(int, char *[])
   itk::NumericTraits<MeasurementVectorType>::SetLength(measurement, MeasurementVectorSize);
   measurement[0] = 1.5;
 
-  constexpr double trueValue{ 0.3989 };
-  const double     distanceComputed = function->Evaluate(measurement);
+  static constexpr double trueValue{ 0.3989 };
+  const double            distanceComputed = function->Evaluate(measurement);
 
   if (itk::Math::abs(distanceComputed - trueValue) > tolerance)
   {

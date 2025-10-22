@@ -102,7 +102,7 @@ TestBasicObjectProperties()
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(imageFunction, SumOfSquaresImageFunction, ImageFunction);
 
-  constexpr unsigned int radius{ 1 };
+  static constexpr unsigned int radius{ 1 };
   imageFunction->SetNeighborhoodRadius(radius);
   EXPECT_EQ(radius, imageFunction->GetNeighborhoodRadius());
 

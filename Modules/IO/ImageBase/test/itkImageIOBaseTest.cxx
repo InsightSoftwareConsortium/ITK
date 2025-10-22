@@ -296,8 +296,8 @@ itkImageIOBaseTest(int, char *[])
     static_assert(std::size(listIOPixelType) == std::size(listIOPixelTypeString),
                   "listIOPixelType and listIOPixelTypeString must be same length");
 
-    constexpr size_t listComponentSize{ std::size(listComponentType) };
-    constexpr size_t listPixelSize{ std::size(listIOPixelType) };
+    static constexpr size_t listComponentSize{ std::size(listComponentType) };
+    static constexpr size_t listPixelSize{ std::size(listIOPixelType) };
 
     for (size_t i = 0; i < listComponentSize; ++i)
     {

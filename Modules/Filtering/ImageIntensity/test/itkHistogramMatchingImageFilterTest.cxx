@@ -128,11 +128,11 @@ PrintHistogramInfo(HistogramConstPointerType refHistogram)
 
   // If the reference histogram is provided, then extract summary statistics
   // directly from the histogram.
-  const auto &  allReferenceMinsByDimension = refHistogram->GetMins();              // Array of dimensions
-  const auto &  allReferenceMinsFirstDimension = allReferenceMinsByDimension.at(0); // Mins for dimension 0
-  const auto &  allReferenceMaxsByDimension = refHistogram->GetMaxs();              // Array of dimensions
-  const auto &  allReferenceMaxsFirstDimension = allReferenceMaxsByDimension.at(0); // Maxes for dimension 0
-  constexpr int colWidth{ 8 };
+  const auto &         allReferenceMinsByDimension = refHistogram->GetMins();              // Array of dimensions
+  const auto &         allReferenceMinsFirstDimension = allReferenceMinsByDimension.at(0); // Mins for dimension 0
+  const auto &         allReferenceMaxsByDimension = refHistogram->GetMaxs();              // Array of dimensions
+  const auto &         allReferenceMaxsFirstDimension = allReferenceMaxsByDimension.at(0); // Maxes for dimension 0
+  static constexpr int colWidth{ 8 };
   const std::ios_base::fmtflags initial_cout_state{ std::cout.flags() };
   std::cout << std::left << std::setw(colWidth) << "INDEX" << std::left << std::setw(colWidth) << "FREQ" << std::left
             << std::setw(colWidth) << "MIN" << std::left << std::setw(colWidth) << "MAX" << std::left
@@ -156,7 +156,7 @@ int
 itkHistogramMatchingImageFilterTest()
 {
   using PixelType = TScalar;
-  constexpr unsigned int ImageDimension{ 3 };
+  static constexpr unsigned int ImageDimension{ 3 };
 
   using ImageType = itk::Image<PixelType, ImageDimension>;
   using Iterator = itk::ImageRegionIterator<ImageType>;
@@ -215,7 +215,7 @@ itkHistogramMatchingImageFilterTest()
     ITK_EXERCISE_BASIC_OBJECT_METHODS(filterWithReferenceImage, HistogramMatchingImageFilter, ImageToImageFilter);
 
 
-    constexpr bool generateReferenceHistogramFromImage{ true };
+    static constexpr bool generateReferenceHistogramFromImage{ true };
     ITK_TEST_SET_GET_BOOLEAN(
       filterWithReferenceImage, GenerateReferenceHistogramFromImage, generateReferenceHistogramFromImage);
 
@@ -225,11 +225,11 @@ itkHistogramMatchingImageFilterTest()
     filterWithReferenceImage->SetSourceImage(source);
     ITK_TEST_SET_GET_VALUE(source, filterWithReferenceImage->GetSourceImage());
 
-    constexpr itk::SizeValueType numberOfHistogramLevels{ 50 };
+    static constexpr itk::SizeValueType numberOfHistogramLevels{ 50 };
     filterWithReferenceImage->SetNumberOfHistogramLevels(numberOfHistogramLevels);
     ITK_TEST_SET_GET_VALUE(numberOfHistogramLevels, filterWithReferenceImage->GetNumberOfHistogramLevels());
 
-    constexpr itk::SizeValueType numberOfMatchPoints{ 8 };
+    static constexpr itk::SizeValueType numberOfMatchPoints{ 8 };
     filterWithReferenceImage->SetNumberOfMatchPoints(numberOfMatchPoints);
     ITK_TEST_SET_GET_VALUE(numberOfMatchPoints, filterWithReferenceImage->GetNumberOfMatchPoints());
 
@@ -241,7 +241,7 @@ itkHistogramMatchingImageFilterTest()
 
     {
       // Exercise and test with ThresholdAtMeanIntensityOff
-      constexpr bool thresholdAtMeanIntensity{ false };
+      static constexpr bool thresholdAtMeanIntensity{ false };
       ITK_TEST_SET_GET_BOOLEAN(filterWithReferenceImage, ThresholdAtMeanIntensity, thresholdAtMeanIntensity);
 
       filterWithReferenceImage->Update();
@@ -255,7 +255,7 @@ itkHistogramMatchingImageFilterTest()
     }
     {
       // Exercise and test with ThresholdAtMeanIntensityOn
-      constexpr bool thresholdAtMeanIntensity{ true };
+      static constexpr bool thresholdAtMeanIntensity{ true };
       ITK_TEST_SET_GET_BOOLEAN(filterWithReferenceImage, ThresholdAtMeanIntensity, thresholdAtMeanIntensity);
 
       filterWithReferenceImage->Update();

@@ -27,7 +27,7 @@ itkAtan2ImageFilterTest(int, char *[])
 {
 
   // Define the dimension of the images
-  constexpr unsigned int ImageDimension{ 3 };
+  static constexpr unsigned int ImageDimension{ 3 };
 
   // Declare the pixel types of the images
   using PixelType = float;
@@ -55,9 +55,9 @@ itkAtan2ImageFilterTest(int, char *[])
   auto cosImage = InputImageType::New();
 
   // Define their size, and start index
-  constexpr SizeType  size{ 2, 2, 2 };
-  constexpr IndexType start{ 0, 0, 0 };
-  RegionType          region{ start, size };
+  static constexpr SizeType  size{ 2, 2, 2 };
+  static constexpr IndexType start{ 0, 0, 0 };
+  RegionType                 region{ start, size };
 
   // Initialize Sine Image
   sinImage->SetRegions(region);
@@ -113,7 +113,7 @@ itkAtan2ImageFilterTest(int, char *[])
   OutputIteratorType ot(outputImage, outputImage->GetRequestedRegion());
 
   // Check the content of the result image
-  constexpr OutputImageType::PixelType epsilon{ 1e-6 };
+  static constexpr OutputImageType::PixelType epsilon{ 1e-6 };
   ot.GoToBegin();
 
   it1.GoToBegin();

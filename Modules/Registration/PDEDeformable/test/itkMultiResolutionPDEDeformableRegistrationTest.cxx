@@ -154,7 +154,7 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int ImageDimension{ 2 };
+  static constexpr unsigned int ImageDimension{ 2 };
   using PixelType = unsigned char;
 
   using ImageType = itk::Image<PixelType, ImageDimension>;
@@ -204,9 +204,9 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
   initField->SetOrigin(origin);
   initField->SetSpacing(spacing);
 
-  double              center[ImageDimension];
-  constexpr PixelType fgnd{ 250 };
-  constexpr PixelType bgnd{ 15 };
+  double                     center[ImageDimension];
+  static constexpr PixelType fgnd{ 250 };
+  static constexpr PixelType bgnd{ 15 };
 
   // fill moving with circle
   center[0] = 128;
@@ -221,7 +221,7 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
   FillWithCircle<ImageType>(fixed, center, radius, fgnd, bgnd);
 
   // fill initial deformation with zero vectors
-  constexpr VectorType zeroVec{};
+  static constexpr VectorType zeroVec{};
   FillImage<FieldType>(initField, zeroVec);
 
   //----------------------------------------------------------------
@@ -243,9 +243,9 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
   registrator->GetModifiableFixedImagePyramid()->UseShrinkImageFilterOn();
   registrator->GetModifiableMovingImagePyramid()->UseShrinkImageFilterOn();
 
-  constexpr unsigned int   numLevel{ 3 };
-  unsigned int             numIterations[numLevel];
-  itk::Array<unsigned int> numIterationsArray;
+  static constexpr unsigned int numLevel{ 3 };
+  unsigned int                  numIterations[numLevel];
+  itk::Array<unsigned int>      numIterationsArray;
 
   numIterationsArray.SetSize(numLevel);
   numIterations[0] = 64;

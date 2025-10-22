@@ -25,7 +25,7 @@
 int
 itkPathToImageFilterTest(int, char *[])
 {
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
   using PixelType = double;
 
   using ImageType = itk::Image<PixelType, Dimension>;
@@ -60,11 +60,11 @@ itkPathToImageFilterTest(int, char *[])
 
   pathToImageFilter->SetInput(path);
 
-  constexpr PathToImageFilterType::ValueType pathValue{ 1 };
+  static constexpr PathToImageFilterType::ValueType pathValue{ 1 };
   pathToImageFilter->SetPathValue(pathValue);
   ITK_TEST_SET_GET_VALUE(pathValue, pathToImageFilter->GetPathValue());
 
-  constexpr PathToImageFilterType::ValueType backgroundValue{ 0 };
+  static constexpr PathToImageFilterType::ValueType backgroundValue{ 0 };
   pathToImageFilter->SetBackgroundValue(backgroundValue);
   ITK_TEST_SET_GET_VALUE(backgroundValue, pathToImageFilter->GetBackgroundValue());
 

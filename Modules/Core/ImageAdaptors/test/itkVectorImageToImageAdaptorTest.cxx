@@ -30,9 +30,9 @@ itkVectorImageToImageAdaptorTest(int, char *[])
 {
 
   // image type alias
-  constexpr unsigned int Dimension{ 3 };
-  constexpr unsigned int VectorLength{ 4 };
-  constexpr unsigned int componentToExtract{ 3 };
+  static constexpr unsigned int Dimension{ 3 };
+  static constexpr unsigned int VectorLength{ 4 };
+  static constexpr unsigned int componentToExtract{ 3 };
   using PixelType = float;
 
   using VectorImageType = itk::VectorImage<PixelType, Dimension>;
@@ -88,7 +88,7 @@ itkVectorImageToImageAdaptorTest(int, char *[])
   auto index = VectorImageToImageAdaptorType::IndexType::Filled(10);
   ITK_TEST_EXPECT_EQUAL(PixelType(componentToExtract), vectorImageToImageAdaptor->GetPixel(index));
 
-  constexpr PixelType v{ 4.4f };
+  static constexpr PixelType v{ 4.4f };
   vectorImageToImageAdaptor->SetPixel(index, v);
   ITK_TEST_EXPECT_EQUAL(v, vectorImageToImageAdaptor->GetPixel(index));
 

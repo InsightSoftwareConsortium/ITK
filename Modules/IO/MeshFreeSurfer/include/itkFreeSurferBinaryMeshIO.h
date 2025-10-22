@@ -139,7 +139,7 @@ protected:
   void
   WriteCells(T * buffer, std::ofstream & outputFile)
   {
-    constexpr itk::uint32_t numberOfCellPoints{ 3 };
+    static constexpr itk::uint32_t numberOfCellPoints{ 3 };
 
     const auto data = make_unique_for_overwrite<itk::uint32_t[]>(this->m_NumberOfCells * numberOfCellPoints);
 

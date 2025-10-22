@@ -129,8 +129,8 @@ ShrinkImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   // Given that the size is scaled by a constant factor eq:
   // inputIndex = outputIndex * factorSize
   // is equivalent up to a fixed offset which we now compute
-  constexpr OffsetValueType zeroOffset{ 0 };
-  OutputOffsetType          offsetIndex;
+  static constexpr OffsetValueType zeroOffset{ 0 };
+  OutputOffsetType                 offsetIndex;
   for (unsigned int i = 0; i < TInputImage::ImageDimension; ++i)
   {
     offsetIndex[i] = inputIndex[i] - outputIndex[i] * m_ShrinkFactors[i];
@@ -203,8 +203,8 @@ ShrinkImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
   // Given that the size is scaled by a constant factor eq:
   // inputIndex = outputIndex * factorSize
   // is equivalent up to a fixed offset which we now compute
-  constexpr OffsetValueType zeroOffset{ 0 };
-  OutputOffsetType          offsetIndex;
+  static constexpr OffsetValueType zeroOffset{ 0 };
+  OutputOffsetType                 offsetIndex;
   for (unsigned int i = 0; i < TInputImage::ImageDimension; ++i)
   {
     offsetIndex[i] = inputIndex[i] - outputIndex[i] * m_ShrinkFactors[i];

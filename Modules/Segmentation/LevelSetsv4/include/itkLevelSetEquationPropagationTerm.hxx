@@ -64,7 +64,7 @@ LevelSetEquationPropagationTerm<TInput, TLevelSetContainer, TPropagationImage>::
   LevelSetGradientType backwardGradient = this->m_CurrentLevelSetPointer->EvaluateBackwardGradient(iP);
   LevelSetGradientType forwardGradient = this->m_CurrentLevelSetPointer->EvaluateForwardGradient(iP);
 
-  constexpr LevelSetOutputRealType zero{};
+  static constexpr LevelSetOutputRealType zero{};
 
   //
   // Construct upwind gradient values for use in the propagation speed term:
@@ -92,8 +92,8 @@ LevelSetEquationPropagationTerm<TInput, TLevelSetContainer, TPropagationImage>::
                                                                                       const LevelSetDataType & iData)
   -> LevelSetOutputRealType
 {
-  constexpr LevelSetOutputRealType zero{};
-  LevelSetOutputRealType           propagation_gradient = zero;
+  static constexpr LevelSetOutputRealType zero{};
+  LevelSetOutputRealType                  propagation_gradient = zero;
 
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {

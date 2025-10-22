@@ -37,9 +37,9 @@ itkMinimumMaximumImageFilterTest(int argc, char * argv[])
   using MinMaxFilterType = itk::MinimumMaximumImageFilter<ImageType>;
 
   /* Define the image size and physical coordinates */
-  constexpr SizeType size{ 20, 20, 20 };
-  constexpr double   origin[3]{ 0.0, 0.0, 0.0 };
-  constexpr double   spacing[3]{ 1, 1, 1 };
+  static constexpr SizeType size{ 20, 20, 20 };
+  static constexpr double   origin[3]{ 0.0, 0.0, 0.0 };
+  static constexpr double   spacing[3]{ 1, 1, 1 };
 
   int flag = 0; /* Did this test program work? */
 
@@ -56,8 +56,8 @@ itkMinimumMaximumImageFilterTest(int argc, char * argv[])
   image->SetOrigin(origin);
   image->SetSpacing(spacing);
 
-  constexpr float minimum{ -52 };
-  constexpr float maximum{ -10 };
+  static constexpr float minimum{ -52 };
+  static constexpr float maximum{ -10 };
 
 
   // Initialize the image contents with the minimum value

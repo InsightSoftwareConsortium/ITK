@@ -201,7 +201,7 @@ InternalTest(int argc, char * argv[])
 int
 itkParametricSpaceToImageSpaceMeshFilterTest(int argc, char * argv[])
 {
-  constexpr unsigned int ImageDimension{ 2 };
+  static constexpr unsigned int ImageDimension{ 2 };
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType, ImageDimension>;
   using IndexType = ImageType::IndexType;

@@ -170,7 +170,7 @@ itkLBFGSOptimizerv4Test(int, char *[])
   auto metric = itkLBFGSOptimizerv4TestMetric::New();
 
   // Set some optimizer parameters
-  constexpr bool trace{ false };
+  static constexpr bool trace{ false };
   itkOptimizer->SetTrace(trace);
   ITK_TEST_SET_GET_VALUE(trace, itkOptimizer->GetTrace());
 
@@ -205,7 +205,7 @@ itkLBFGSOptimizerv4Test(int, char *[])
 
   vnlOptimizer->set_check_derivatives(0);
 
-  constexpr unsigned int        SpaceDimension{ 2 };
+  static constexpr unsigned int SpaceDimension{ 2 };
   OptimizerType::ParametersType initialValue(SpaceDimension);
 
   // We start not so far from  | 2 -2 |
@@ -265,8 +265,8 @@ itkLBFGSOptimizerv4Test(int, char *[])
   //
   // check results to see if it is within range
   //
-  bool             pass = true;
-  constexpr double trueParameters[2]{ 2, -2 };
+  bool                    pass = true;
+  static constexpr double trueParameters[2]{ 2, -2 };
   for (unsigned int j = 0; j < 2; ++j)
   {
     if (itk::Math::FloatAlmostEqual(finalPosition[j], trueParameters[j]))

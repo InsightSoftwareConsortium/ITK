@@ -24,7 +24,7 @@ itkQuadEdgeMeshDeletePointAndReorderIDsTest(int, char *[])
 {
 
   using PixelType = double;
-  constexpr unsigned int Dimension{ 3 };
+  static constexpr unsigned int Dimension{ 3 };
   using MeshType = itk::QuadEdgeMesh<PixelType, Dimension>;
   using CellType = MeshType::CellType;
   using QEPolygonCellType = itk::QuadEdgeMeshPolygonCell<CellType>;

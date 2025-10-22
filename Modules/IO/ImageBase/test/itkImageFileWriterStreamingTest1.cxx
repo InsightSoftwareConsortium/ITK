@@ -45,7 +45,7 @@ itkImageFileWriterStreamingTest1(int argc, char * argv[])
   }
 
 
-  constexpr unsigned int numberOfDataPieces{ 4 };
+  static constexpr unsigned int numberOfDataPieces{ 4 };
 
 
   bool forceNoStreamingInput = false;

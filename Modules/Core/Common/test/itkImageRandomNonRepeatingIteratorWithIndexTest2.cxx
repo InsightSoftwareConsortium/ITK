@@ -29,17 +29,17 @@
 int
 itkImageRandomNonRepeatingIteratorWithIndexTest2(int, char *[])
 {
-  constexpr unsigned int ImageDimension{ 2 };
+  static constexpr unsigned int ImageDimension{ 2 };
   using PixelType = itk::Index<ImageDimension>;
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
   using RandomConstIteratorType = itk::ImageRandomNonRepeatingConstIteratorWithIndex<ImageType>;
-  constexpr unsigned long        N{ 10 };
-  constexpr int                  Seed{ 42 };
-  auto                           size = ImageType::SizeType::Filled(N);
-  constexpr ImageType::IndexType start{};
-  const ImageType::RegionType    region{ start, size };
-  auto                           myImage = ImageType::New();
+  static constexpr unsigned long        N{ 10 };
+  static constexpr int                  Seed{ 42 };
+  auto                                  size = ImageType::SizeType::Filled(N);
+  static constexpr ImageType::IndexType start{};
+  const ImageType::RegionType           region{ start, size };
+  auto                                  myImage = ImageType::New();
   myImage->SetRegions(region);
   myImage->Allocate();
   using WalkType = std::vector<ImageType::IndexType>;

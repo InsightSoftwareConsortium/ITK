@@ -23,7 +23,7 @@
 int
 itkLevelSetDomainPartitionImageWithKdTreeTest(int, char *[])
 {
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
 
   using InputPixelType = unsigned short;
   using InputImageType = itk::Image<InputPixelType, Dimension>;
@@ -65,7 +65,7 @@ itkLevelSetDomainPartitionImageWithKdTreeTest(int, char *[])
   binary->Allocate();
   binary->FillBuffer(InputPixelType{});
 
-  constexpr IdentifierType numberOfLevelSetFunctions{ 10 };
+  static constexpr IdentifierType numberOfLevelSetFunctions{ 10 };
 
   LevelSetDomainRegionVectorType regionVector;
   regionVector.resize(numberOfLevelSetFunctions);

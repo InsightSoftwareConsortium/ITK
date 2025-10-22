@@ -39,7 +39,7 @@ public:
 } // namespace
 
 
-constexpr unsigned int MAXRUNS{ 5 }; // maximum number of runs
+static constexpr unsigned int MAXRUNS{ 5 }; // maximum number of runs
 
 template <unsigned int VImageDimension>
 int
@@ -67,10 +67,10 @@ itkBinaryMinMaxCurvatureFlowImageFilterTest(int, char *[])
   itk::Size<2> size2D;
   size2D[0] = 64;
   size2D[1] = 64;
-  constexpr double radius{ 20.0 };
-  constexpr int    numberOfRuns{ 2 };
-  unsigned int     niter[MAXRUNS] = { 100, 100 };
-  unsigned long    radii[MAXRUNS] = { 1, 3 };
+  static constexpr double radius{ 20.0 };
+  static constexpr int    numberOfRuns{ 2 };
+  unsigned int            niter[MAXRUNS] = { 100, 100 };
+  unsigned long           radii[MAXRUNS] = { 1, 3 };
 
   const int err2D = testBinaryMinMaxCurvatureFlow(size2D, 127.5, radius, numberOfRuns, niter, radii);
 
@@ -108,10 +108,10 @@ testBinaryMinMaxCurvatureFlow(itk::Size<VImageDimension> & size, // ND image siz
    * Create an image containing a circle/sphere with intensity of 0
    * and background of 255 with added salt and pepper noise.
    */
-  const double        sqrRadius = itk::Math::sqr(radius); // radius of the circle/sphere
-  constexpr double    fractionNoise{ 0.30 };              // salt & pepper noise fraction
-  constexpr PixelType foreground{ 0.0 };                  // intensity value of the foreground
-  constexpr PixelType background{ 255.0 };                // intensity value of the background
+  const double               sqrRadius = itk::Math::sqr(radius); // radius of the circle/sphere
+  static constexpr double    fractionNoise{ 0.30 };              // salt & pepper noise fraction
+  static constexpr PixelType foreground{ 0.0 };                  // intensity value of the foreground
+  static constexpr PixelType background{ 255.0 };                // intensity value of the background
 
   std::cout << "Create an image of circle/sphere with noise" << std::endl;
   auto circleImage = ImageType::New();

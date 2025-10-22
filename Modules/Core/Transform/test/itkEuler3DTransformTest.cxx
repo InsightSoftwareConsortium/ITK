@@ -27,9 +27,9 @@ itkEuler3DTransformTest(int, char *[])
   std::cout << "==================================" << std::endl;
   std::cout << "Testing Euler Angles 3D Transform" << std::endl << std::endl;
 
-  constexpr double       epsilon{ 1e-10 };
-  constexpr unsigned int N{ 3 };
-  bool                   Ok = true;
+  static constexpr double       epsilon{ 1e-10 };
+  static constexpr unsigned int N{ 3 };
+  bool                          Ok = true;
 
   using EulerTransformType = itk::Euler3DTransform<double>;
   auto eulerTransform = EulerTransformType::New();
@@ -290,7 +290,7 @@ itkEuler3DTransformTest(int, char *[])
     EulerTransformType::JacobianType approxJacobian = jacobian;
     for (unsigned int k = 0; k < eulerTransform->GetNumberOfParameters(); ++k)
     {
-      constexpr double                   delta{ 0.001 };
+      static constexpr double            delta{ 0.001 };
       EulerTransformType::ParametersType plusParameters;
       EulerTransformType::ParametersType minusParameters;
 
@@ -408,7 +408,7 @@ itkEuler3DTransformTest(int, char *[])
     // attempt to set an orthogonal matrix
     matrix.GetVnlMatrix().set_identity();
 
-    constexpr double a{ 1.0 / 180.0 * itk::Math::pi };
+    static constexpr double a{ 1.0 / 180.0 * itk::Math::pi };
     matrix[0][0] = std::cos(a);
     matrix[0][1] = -1.0 * std::sin(a);
     matrix[1][0] = std::sin(a);

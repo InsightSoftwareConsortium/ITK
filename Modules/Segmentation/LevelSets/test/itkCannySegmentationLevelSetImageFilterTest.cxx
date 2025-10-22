@@ -25,9 +25,9 @@ namespace CSIFTN
 using ImageType = itk::Image<float, 3>;
 using SeedImageType = itk::Image<signed char, 3>;
 
-constexpr int V_WIDTH{ 64 };
-constexpr int V_HEIGHT{ 64 };
-constexpr int V_DEPTH{ 64 };
+static constexpr int V_WIDTH{ 64 };
+static constexpr int V_HEIGHT{ 64 };
+static constexpr int V_DEPTH{ 64 };
 
 float
 sphere(float x, float y, float z)
@@ -153,9 +153,9 @@ itkCannySegmentationLevelSetImageFilterTest(int, char *[])
 {
   std::cout << "Last modified 11/08/02" << std::endl;
 
-  constexpr CSIFTN::ImageType::RegionType::SizeType  sz{ 64, 64, 64 };
-  constexpr CSIFTN::ImageType::RegionType::IndexType idx{};
-  CSIFTN::ImageType::RegionType                      reg = { idx, sz };
+  static constexpr CSIFTN::ImageType::RegionType::SizeType  sz{ 64, 64, 64 };
+  static constexpr CSIFTN::ImageType::RegionType::IndexType idx{};
+  CSIFTN::ImageType::RegionType                             reg = { idx, sz };
 
   const CSIFTN::ImageType::Pointer     inputImage = CSIFTN::ImageType::New();
   const CSIFTN::SeedImageType::Pointer seedImage = CSIFTN::SeedImageType::New();

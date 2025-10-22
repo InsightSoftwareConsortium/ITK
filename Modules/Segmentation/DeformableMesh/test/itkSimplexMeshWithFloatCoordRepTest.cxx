@@ -21,7 +21,7 @@
 int
 itkSimplexMeshWithFloatCoordRepTest(int, char *[])
 {
-  constexpr unsigned int Dimension{ 3 };
+  static constexpr unsigned int Dimension{ 3 };
 
   using PixelType = float;
   using CoordinateType = float;

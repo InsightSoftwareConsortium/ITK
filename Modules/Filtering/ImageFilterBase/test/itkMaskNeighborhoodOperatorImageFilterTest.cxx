@@ -33,7 +33,7 @@ itkMaskNeighborhoodOperatorImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
   using PixelType = float;
   using OutputPixelType = unsigned char;
 
@@ -106,7 +106,7 @@ itkMaskNeighborhoodOperatorImageFilterTest(int argc, char * argv[])
   filter1->SetDefaultValue(defaultValue);
   ITK_TEST_SET_GET_VALUE(defaultValue, filter1->GetDefaultValue());
 
-  constexpr bool useDefaultValue{ false };
+  static constexpr bool useDefaultValue{ false };
   ITK_TEST_SET_GET_BOOLEAN(filter1, UseDefaultValue, useDefaultValue);
 
   auto filter2 = FilterType::New();

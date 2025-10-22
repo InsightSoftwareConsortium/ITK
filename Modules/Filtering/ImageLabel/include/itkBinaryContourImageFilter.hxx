@@ -77,7 +77,7 @@ BinaryContourImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   // parallelize in a way which does not split the region along X axis
-  constexpr unsigned int restrictedDirection{ 0 };
+  static constexpr unsigned int restrictedDirection{ 0 };
   this->GetMultiThreader()->template ParallelizeImageRegionRestrictDirection<ImageDimension>(
     restrictedDirection,
     reqRegion,

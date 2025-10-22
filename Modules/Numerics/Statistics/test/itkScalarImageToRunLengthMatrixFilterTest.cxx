@@ -28,9 +28,9 @@ itkScalarImageToRunLengthMatrixFilterTest(int, char *[])
 {
 
   // Data definitions
-  constexpr unsigned int IMGWIDTH{ 5 };
-  constexpr unsigned int IMGHEIGHT{ 5 };
-  constexpr unsigned int NDIMENSION{ 2 };
+  static constexpr unsigned int IMGWIDTH{ 5 };
+  static constexpr unsigned int IMGHEIGHT{ 5 };
+  static constexpr unsigned int NDIMENSION{ 2 };
 
 
   //------------------------------------------------------
@@ -45,13 +45,13 @@ itkScalarImageToRunLengthMatrixFilterTest(int, char *[])
   auto mask = InputImageType::New();
 
 
-  constexpr InputImageType::SizeType inputImageSize{ IMGWIDTH, IMGHEIGHT };
+  static constexpr InputImageType::SizeType inputImageSize{ IMGWIDTH, IMGHEIGHT };
 
   InputImageType::RegionType region;
 
   region.SetSize(inputImageSize);
   {
-    constexpr InputImageType::IndexType index{};
+    static constexpr InputImageType::IndexType index{};
     region.SetIndex(index);
   }
 
@@ -117,9 +117,9 @@ itkScalarImageToRunLengthMatrixFilterTest(int, char *[])
 
     filter->SetInput(image);
 
-    constexpr InputImageType::OffsetType  offset1{ 0, -1 };
-    constexpr InputImageType::OffsetType  offset2{ -1, 0 };
-    const FilterType::OffsetVectorPointer offsetV = FilterType::OffsetVector::New();
+    static constexpr InputImageType::OffsetType offset1{ 0, -1 };
+    static constexpr InputImageType::OffsetType offset2{ -1, 0 };
+    const FilterType::OffsetVectorPointer       offsetV = FilterType::OffsetVector::New();
     offsetV->push_back(offset1);
     offsetV->push_back(offset2);
 

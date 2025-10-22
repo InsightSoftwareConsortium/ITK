@@ -74,7 +74,7 @@ itkMeasurementVectorTraitsTest(int, char *[])
 {
   std::cout << "MeasurementVectorTraits Test" << std::endl;
 
-  constexpr unsigned int length1{ 7 };
+  static constexpr unsigned int length1{ 7 };
 
   using MeasurementVectorType1 = itk::FixedArray<float, length1>;
   using MeasurementVectorType2 = itk::Array<float>;
@@ -82,7 +82,7 @@ itkMeasurementVectorTraitsTest(int, char *[])
   using MeasurementVectorType4 = std::vector<float>;
   using MeasurementVectorType5 = itk::NumericTraits<float>::MeasurementVectorType;
 
-  constexpr unsigned int length2{ 9 };
+  static constexpr unsigned int length2{ 9 };
 
   using MeasurementVectorType1b = itk::FixedArray<float, length2>;
   using MeasurementVectorType2b = itk::Array<float>;
@@ -168,7 +168,7 @@ itkMeasurementVectorTraitsTest(int, char *[])
   itkAssertLengthExceptionMacro(measure1, measure3b);
   itkAssertLengthExceptionMacro(measure1, measure4b);
 
-  constexpr unsigned int zeroLength{ 0 };
+  static constexpr unsigned int zeroLength{ 0 };
 
   itkAssertLengthSameValueReturn(measure1b, MeasurementVectorType1b, zeroLength);
   itkAssertLengthSameValueReturn(measure2b, MeasurementVectorType2b, zeroLength);

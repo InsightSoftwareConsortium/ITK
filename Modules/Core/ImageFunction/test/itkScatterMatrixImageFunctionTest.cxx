@@ -24,19 +24,19 @@ int
 itkScatterMatrixImageFunctionTest(int, char *[])
 {
 
-  constexpr unsigned int Dimension{ 3 };
+  static constexpr unsigned int Dimension{ 3 };
   using PixelComponentType = unsigned char;
-  constexpr unsigned int VectorDimension{ 4 };
+  static constexpr unsigned int VectorDimension{ 4 };
 
   using PixelType = itk::FixedArray<PixelComponentType, VectorDimension>;
   using ImageType = itk::Image<PixelType, Dimension>;
   using FunctionType = itk::ScatterMatrixImageFunction<ImageType>;
 
   // Create and allocate the image
-  auto                           image = ImageType::New();
-  constexpr ImageType::SizeType  size{ 20, 20, 20 };
-  constexpr ImageType::IndexType start{};
-  ImageType::RegionType          region = { start, size };
+  auto                                  image = ImageType::New();
+  static constexpr ImageType::SizeType  size{ 20, 20, 20 };
+  static constexpr ImageType::IndexType start{};
+  ImageType::RegionType                 region = { start, size };
 
   image->SetRegions(region);
   image->Allocate();
@@ -55,7 +55,7 @@ itkScatterMatrixImageFunctionTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(function, ScatterMatrixImageFunction, ImageFunction);
 
 
-  constexpr unsigned int neighborhoodRadius{ 5 };
+  static constexpr unsigned int neighborhoodRadius{ 5 };
   function->SetNeighborhoodRadius(neighborhoodRadius);
   ITK_TEST_SET_GET_VALUE(neighborhoodRadius, function->GetNeighborhoodRadius());
 

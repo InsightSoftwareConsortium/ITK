@@ -81,7 +81,7 @@ testStringToolsWithBasicType()
     std::string s;
 
     // write out
-    constexpr DataType dataIn{ '*' };
+    static constexpr DataType dataIn{ '*' };
     itk::StringTools::FromData(s, dataIn);
 
     // read back
@@ -104,7 +104,7 @@ testStringToolsWithBasicType()
     std::string s;
 
     // write out
-    constexpr DataType dataIn{ -1024 };
+    static constexpr DataType dataIn{ -1024 };
     itk::StringTools::FromData(s, dataIn);
 
     // read back
@@ -127,7 +127,7 @@ testStringToolsWithBasicType()
     std::string s;
 
     // write out
-    constexpr DataType dataIn{ -0.1 };
+    static constexpr DataType dataIn{ -0.1 };
     itk::StringTools::FromData(s, dataIn);
 
     // read back

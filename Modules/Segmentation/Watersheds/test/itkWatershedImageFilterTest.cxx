@@ -27,7 +27,7 @@ int
 itkWatershedImageFilterTest(int, char *[])
 {
 
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
 
   using PixelType = float;
   using ImageType2D = itk::Image<PixelType, Dimension>;
@@ -79,11 +79,11 @@ itkWatershedImageFilterTest(int, char *[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(wmppc, WatershedMiniPipelineProgressCommand, Command);
 
-  constexpr double count{ 2.0 };
+  static constexpr double count{ 2.0 };
   wmppc->SetCount(count);
   ITK_TEST_SET_GET_VALUE(count, wmppc->GetCount());
 
-  constexpr unsigned int numberOfFilters{ 2 };
+  static constexpr unsigned int numberOfFilters{ 2 };
   wmppc->SetNumberOfFilters(numberOfFilters);
   ITK_TEST_SET_GET_VALUE(numberOfFilters, wmppc->GetNumberOfFilters());
 
@@ -131,11 +131,11 @@ itkWatershedImageFilterTest(int, char *[])
 
   const itk::SimpleFilterWatcher watchIt(watershedFilter, "WatershedImageFilter");
 
-  constexpr double threshold{ .05 };
+  static constexpr double threshold{ .05 };
   watershedFilter->SetThreshold(threshold);
   ITK_TEST_SET_GET_VALUE(threshold, watershedFilter->GetThreshold());
 
-  constexpr double level{ 1.0 };
+  static constexpr double level{ 1.0 };
   watershedFilter->SetLevel(level);
   ITK_TEST_SET_GET_VALUE(level, watershedFilter->GetLevel());
 

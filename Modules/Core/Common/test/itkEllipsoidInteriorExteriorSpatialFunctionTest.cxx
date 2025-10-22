@@ -24,7 +24,7 @@ itkEllipsoidInteriorExteriorSpatialFunctionTest(int, char *[])
   std::cout << "itkEllipsoidInteriorExteriorSpatialFunction test start" << std::endl;
 
   // Test will create an ellipsoid (3-dimensional)
-  constexpr unsigned int dimension{ 3 };
+  static constexpr unsigned int dimension{ 3 };
 
   // Ellipsoid spatial function type alias
   using TEllipsoidFunctionType = itk::EllipsoidInteriorExteriorSpatialFunction<3>;
@@ -42,9 +42,9 @@ itkEllipsoidInteriorExteriorSpatialFunctionTest(int, char *[])
   spatialFunc->SetAxes(axes);
 
   // Define function doitkEllipsoidInteriorExteriorSpatialFunctionTest, which encapsulates ellipsoid.
-  constexpr int xExtent{ 50 };
-  constexpr int yExtent{ 50 };
-  constexpr int zExtent{ 50 };
+  static constexpr int xExtent{ 50 };
+  static constexpr int yExtent{ 50 };
+  static constexpr int zExtent{ 50 };
 
   // Define and set the center of the ellipsoid in the center of
   // the function doitkEllipsoidInteriorExteriorSpatialFunctionTest

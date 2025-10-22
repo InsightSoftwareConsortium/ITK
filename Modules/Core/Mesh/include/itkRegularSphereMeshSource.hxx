@@ -87,12 +87,12 @@ RegularSphereMeshSource<TOutputMesh>::GenerateData()
   outputMesh->SetPoint(idx++, p1);
 
   /* Six equidistant points lying on the unit sphere */
-  constexpr IdentifierType XPLUS{ 0 };
-  constexpr IdentifierType XMIN{ 1 };
-  constexpr IdentifierType YPLUS{ 2 };
-  constexpr IdentifierType YMIN{ 3 };
-  constexpr IdentifierType ZPLUS{ 4 };
-  constexpr IdentifierType ZMIN{ 5 };
+  static constexpr IdentifierType XPLUS{ 0 };
+  static constexpr IdentifierType XMIN{ 1 };
+  static constexpr IdentifierType YPLUS{ 2 };
+  static constexpr IdentifierType YMIN{ 3 };
+  static constexpr IdentifierType ZPLUS{ 4 };
+  static constexpr IdentifierType ZMIN{ 5 };
 
   tripoints[0] = YPLUS;
   tripoints[1] = ZPLUS;

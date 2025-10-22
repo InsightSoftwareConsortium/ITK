@@ -51,8 +51,8 @@ testVectorImageAdaptor(typename TAdaptor::Pointer &                             
   std::cout << " to extract a component from the vector image" << std::endl;
 
   using PixelType = TPixel;
-  constexpr unsigned int Dimension{ VDimension };
-  constexpr unsigned int VectorLength{ VVectorLength };
+  static constexpr unsigned int Dimension{ VDimension };
+  static constexpr unsigned int VectorLength{ VVectorLength };
 
   bool failed = false;
 
@@ -87,7 +87,7 @@ testVectorImageAdaptor(typename TAdaptor::Pointer &                             
     CovariantVectorType       output1;
     vectorImageAdaptor->TransformLocalVectorToPhysicalVector(input, output1);
     const CovariantVectorType output2 = vectorImageAdaptor->TransformLocalVectorToPhysicalVector(input);
-    constexpr double          diff_tolerance{ 1e-13 };
+    static constexpr double   diff_tolerance{ 1e-13 };
     if ((input - output1).GetSquaredNorm() > diff_tolerance || (input - output2).GetSquaredNorm() > diff_tolerance)
     {
       std::cerr << "[FAILED]  ";
@@ -102,7 +102,7 @@ testVectorImageAdaptor(typename TAdaptor::Pointer &                             
     CovariantVectorType       output1;
     vectorImageAdaptor->TransformPhysicalVectorToLocalVector(input, output1);
     const CovariantVectorType output2 = vectorImageAdaptor->TransformPhysicalVectorToLocalVector(input);
-    constexpr double          diff_tolerance{ 1e-13 };
+    static constexpr double   diff_tolerance{ 1e-13 };
     if ((input - output1).GetSquaredNorm() > diff_tolerance || (input - output2).GetSquaredNorm() > diff_tolerance)
     {
       std::cerr << "[FAILED]  ";
@@ -264,8 +264,8 @@ itkVectorImageTest(int, char * argv[])
 {
   bool failed = false;
 
-  constexpr unsigned int Dimension{ 3 };
-  constexpr unsigned int VectorLength = 2 * Dimension;
+  static constexpr unsigned int Dimension{ 3 };
+  constexpr unsigned int        VectorLength = 2 * Dimension;
   using PixelType = float;
 
   if (testVectorImageBasicMethods<double, 3>() == EXIT_FAILURE)
@@ -574,10 +574,10 @@ itkVectorImageTest(int, char * argv[])
     // Create an image using itk::Vector
     using VectorPixelType = itk::Vector<PixelType, VectorLength>;
     using VectorImageType = itk::Image<itk::Vector<PixelType, VectorLength>, Dimension>;
-    auto                                 image = VectorImageType::New();
-    constexpr VectorImageType::IndexType start{};
-    auto                                 size = VectorImageType::SizeType::Filled(5);
-    const VectorImageType::RegionType    region(start, size);
+    auto                                        image = VectorImageType::New();
+    static constexpr VectorImageType::IndexType start{};
+    auto                                        size = VectorImageType::SizeType::Filled(5);
+    const VectorImageType::RegionType           region(start, size);
     image->SetRegions(region);
     image->Allocate();
 
@@ -700,7 +700,7 @@ itkVectorImageTest(int, char * argv[])
       using ConstNeighborhoodIteratorType = itk::ConstNeighborhoodIterator<VectorImageType>;
       auto radius = itk::MakeFilled<ConstNeighborhoodIteratorType::RadiusType>(1);
 
-      constexpr auto                            size{ ConstNeighborhoodIteratorType::SizeType::Filled(4) };
+      static constexpr auto                     size{ ConstNeighborhoodIteratorType::SizeType::Filled(4) };
       auto                                      index = ConstNeighborhoodIteratorType::IndexType::Filled(1);
       ConstNeighborhoodIteratorType::RegionType region = { index, size };
 

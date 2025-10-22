@@ -82,7 +82,7 @@ itkImageRegistrationMethodTest_15(int, char *[])
 
   bool pass = true;
 
-  constexpr unsigned int dimension{ 3 };
+  static constexpr unsigned int dimension{ 3 };
 
   using PixelType = float;
 
@@ -120,8 +120,8 @@ itkImageRegistrationMethodTest_15(int, char *[])
    * Set up the two input images.
    * One image scaled and shifted with respect to the other.
    **********************************************************/
-  constexpr double displacement[dimension]{ 3, 1, 1 };
-  constexpr double scale[dimension]{ 0.90, 1.0, 1.0 };
+  static constexpr double displacement[dimension]{ 3, 1, 1 };
+  static constexpr double scale[dimension]{ 0.90, 1.0, 1.0 };
 
   FixedImageType::SizeType   size = { { 100, 100, 40 } };
   FixedImageType::IndexType  index = { { 0, 0, 0 } };
@@ -249,9 +249,9 @@ itkImageRegistrationMethodTest_15(int, char *[])
   /***********************************************************
    * Run the registration
    ************************************************************/
-  constexpr unsigned int numberOfLoops{ 2 };
-  constexpr unsigned int iter[numberOfLoops]{ 50, 0 };
-  constexpr double       rates[numberOfLoops] = { 1e-3, 5e-4 };
+  static constexpr unsigned int numberOfLoops{ 2 };
+  static constexpr unsigned int iter[numberOfLoops]{ 50, 0 };
+  constexpr double              rates[numberOfLoops] = { 1e-3, 5e-4 };
 
 
   for (unsigned int j = 0; j < numberOfLoops; ++j)
@@ -331,11 +331,11 @@ namespace
 double
 F(itk::Vector<double, 3> & v)
 {
-  double           x = v[0];
-  double           y = v[1];
-  double           z = v[2];
-  constexpr double s{ 50 };
-  double           value = 200.0 * std::exp(-(x * x + y * y + z * z) / (s * s));
+  double                  x = v[0];
+  double                  y = v[1];
+  double                  z = v[2];
+  static constexpr double s{ 50 };
+  double                  value = 200.0 * std::exp(-(x * x + y * y + z * z) / (s * s));
   x -= 8;
   y += 3;
   z += 0;

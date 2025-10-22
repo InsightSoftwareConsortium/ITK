@@ -31,7 +31,7 @@ itkNormalVariateGeneratorTest1(int, char *[])
 
   normalGenerator->Print(std::cout);
 
-  constexpr unsigned int numberOfSamples{ 1000 };
+  static constexpr unsigned int numberOfSamples{ 1000 };
 
   double sum = 0.0;
   double sum2 = 0.0;

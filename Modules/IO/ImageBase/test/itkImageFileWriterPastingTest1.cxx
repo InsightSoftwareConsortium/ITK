@@ -45,7 +45,7 @@ itkImageFileWriterPastingTest1(int argc, char * argv[])
   reader->SetFileName(argv[1]);
   reader->SetUseStreaming(true);
 
-  constexpr unsigned int numberOfPieces{ 10 };
+  static constexpr unsigned int numberOfPieces{ 10 };
 
   // We decide how we want to read the image and we split accordingly
   // The image is read slice by slice

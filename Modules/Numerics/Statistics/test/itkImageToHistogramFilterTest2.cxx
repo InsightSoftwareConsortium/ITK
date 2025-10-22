@@ -44,11 +44,11 @@ itkImageToHistogramFilterTest2(int argc, char * argv[])
 
   using RGBPixelType = itk::RGBPixel<PixelComponentType>;
 
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
 
   using RGBImageType = itk::Image<RGBPixelType, Dimension>;
 
-  constexpr unsigned int MeasurementVectorSize{ 3 }; // RGB
+  static constexpr unsigned int MeasurementVectorSize{ 3 }; // RGB
 
   using ReaderType = itk::ImageFileReader<RGBImageType>;
 

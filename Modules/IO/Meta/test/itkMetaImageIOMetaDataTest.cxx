@@ -156,7 +156,7 @@ itkMetaImageIOMetaDataTest(int argc, char * argv[])
   }
   // write out an image -- using a random image source, but
   // the image data is irrelevant
-  constexpr int Dim{ 2 };
+  static constexpr int Dim{ 2 };
 
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType, Dim>;
@@ -181,7 +181,7 @@ itkMetaImageIOMetaDataTest(int argc, char * argv[])
     itk::EncapsulateMetaData<std::string>(dict, key, value);
   }
 
-  constexpr auto maxSupportedStringSize{ (MET_MAX_NUMBER_OF_FIELD_VALUES * sizeof(double)) - 1 };
+  static constexpr auto maxSupportedStringSize{ (MET_MAX_NUMBER_OF_FIELD_VALUES * sizeof(double)) - 1 };
   static_assert(maxSupportedStringSize == std::numeric_limits<int16_t>::max(), "Assert that this max value is 32767");
 
   {
@@ -210,8 +210,8 @@ itkMetaImageIOMetaDataTest(int argc, char * argv[])
   }
   {
     // Add unsigned long
-    const std::string       key("unsigned_long");
-    constexpr unsigned long value{ 27182818 };
+    const std::string              key("unsigned_long");
+    static constexpr unsigned long value{ 27182818 };
     itk::EncapsulateMetaData<unsigned long>(dict, key, value);
   }
   {
@@ -234,8 +234,8 @@ itkMetaImageIOMetaDataTest(int argc, char * argv[])
   }
   {
     // Add unsigned int
-    const std::string      key("unsigned_int");
-    constexpr unsigned int value{ 2718281 };
+    const std::string             key("unsigned_int");
+    static constexpr unsigned int value{ 2718281 };
     itk::EncapsulateMetaData<unsigned int>(dict, key, value);
   }
   {
@@ -246,8 +246,8 @@ itkMetaImageIOMetaDataTest(int argc, char * argv[])
   }
   {
     // Add short
-    const std::string      key("unsigned_short");
-    constexpr unsigned int value{ 8192 };
+    const std::string             key("unsigned_short");
+    static constexpr unsigned int value{ 8192 };
     itk::EncapsulateMetaData<unsigned short>(dict, key, value);
   }
   {

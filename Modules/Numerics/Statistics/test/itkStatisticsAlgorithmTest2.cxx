@@ -29,7 +29,7 @@ using ImageType = itk::Image<PixelType, 3>;
 using SampleType = itk::Statistics::ImageToListSampleAdaptor<ImageType>;
 using SubsampleType = itk::Statistics::Subsample<SampleType>;
 
-constexpr unsigned int testDimension{ 1 };
+static constexpr unsigned int testDimension{ 1 };
 
 void
 resetData(itk::Image<PixelType, 3>::Pointer image, std::vector<int> & refVector)
@@ -106,7 +106,7 @@ itkStatisticsAlgorithmTest2(int, char *[])
 
   auto size = ImageType::SizeType::Filled(5);
 
-  constexpr ImageType::IndexType index{};
+  static constexpr ImageType::IndexType index{};
 
   const ImageType::RegionType region{ index, size };
 

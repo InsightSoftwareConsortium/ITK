@@ -142,7 +142,7 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddLine(const IdentifierArrayType & po
   }
   else
   {
-    constexpr IdentifierType pointIdsEnd{ 2 };
+    static constexpr IdentifierType pointIdsEnd{ 2 };
 
     // Construct the cell.
     CellAutoPointer newCell(new LineCell, true);
@@ -191,8 +191,8 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddTriangle(const IdentifierArrayType 
   {
     // Create and add a new cell.
 
-    constexpr IdentifierType pointIdsEnd{ 3 };
-    constexpr IdentifierType lineIdsEnd{ 3 };
+    static constexpr IdentifierType pointIdsEnd{ 3 };
+    static constexpr IdentifierType lineIdsEnd{ 3 };
 
     // Construct the cell.
     CellAutoPointer newCell(new TriangleCell, true);
@@ -252,8 +252,8 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddQuadrilateral(const IdentifierArray
   {
     // Create and add a new cell.
 
-    constexpr IdentifierType pointIdsEnd{ 4 };
-    constexpr IdentifierType lineIdsEnd{ 4 };
+    static constexpr IdentifierType pointIdsEnd{ 4 };
+    static constexpr IdentifierType lineIdsEnd{ 4 };
 
     // Construct the cell.
     CellAutoPointer newCell(new QuadrilateralCell, true);
@@ -312,9 +312,9 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddTetrahedron(const IdentifierArrayTy
   {
     // Create and add a new cell.
 
-    constexpr IdentifierType pointIdsEnd{ 4 };
-    constexpr IdentifierType lineIdsEnd{ 6 };
-    constexpr IdentifierType faceIdsEnd{ 4 };
+    static constexpr IdentifierType pointIdsEnd{ 4 };
+    static constexpr IdentifierType lineIdsEnd{ 6 };
+    static constexpr IdentifierType faceIdsEnd{ 4 };
 
     // Construct the cell.
     CellAutoPointer newCell(new TetrahedronCell, true);
@@ -388,9 +388,9 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddHexahedron(const IdentifierArrayTyp
   {
     // Create and add a new cell.
 
-    constexpr IdentifierType pointIdsEnd{ 8 };
-    constexpr IdentifierType lineIdsEnd{ 12 };
-    constexpr IdentifierType faceIdsEnd{ 6 };
+    static constexpr IdentifierType pointIdsEnd{ 8 };
+    static constexpr IdentifierType lineIdsEnd{ 12 };
+    static constexpr IdentifierType faceIdsEnd{ 6 };
 
     // Construct the cell.
     CellAutoPointer newCell(new HexahedronCell, true);

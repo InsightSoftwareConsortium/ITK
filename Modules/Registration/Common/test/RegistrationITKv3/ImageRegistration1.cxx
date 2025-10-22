@@ -115,7 +115,7 @@ main(int argc, char * argv[])
   // dimension and the types to be used for representing image pixels.
   //
 
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
   using PixelType = float;
 
 

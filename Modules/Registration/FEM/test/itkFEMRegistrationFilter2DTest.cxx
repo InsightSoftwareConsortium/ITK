@@ -24,7 +24,7 @@
 
 
 // Typedefs used for registration
-constexpr unsigned int ImageDimension{ 2 };
+static constexpr unsigned int ImageDimension{ 2 };
 
 using InputImagePixelType = unsigned char;
 using DeformationFieldPixelType = float;

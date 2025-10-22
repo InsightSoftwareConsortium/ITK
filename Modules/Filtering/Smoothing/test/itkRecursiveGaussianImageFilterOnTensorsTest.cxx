@@ -26,9 +26,9 @@ itkRecursiveGaussianImageFilterOnTensorsTest(int, char *[])
   // and (1,6) set to 'tensor1'. We will filter it using
   // RecursiveGaussianImageFilter and compare a few filtered pixels.
   //
-  constexpr unsigned int Dimension{ 2 };
-  constexpr double       sigma{ 1 };
-  constexpr double       tolerance{ 0.001 };
+  static constexpr unsigned int Dimension{ 2 };
+  static constexpr double       sigma{ 1 };
+  static constexpr double       tolerance{ 0.001 };
 
   // Create ON and OFF tensors.
   using Double3DTensorType = itk::SymmetricSecondRankTensor<double, 3>;

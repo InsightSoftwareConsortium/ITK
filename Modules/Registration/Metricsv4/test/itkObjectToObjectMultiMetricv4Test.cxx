@@ -37,7 +37,7 @@
     takes N metrics and assigns a weight to each metric's result.
  */
 
-constexpr unsigned int ObjectToObjectMultiMetricv4TestDimension{ 2 };
+static constexpr unsigned int ObjectToObjectMultiMetricv4TestDimension{ 2 };
 using ObjectToObjectMultiMetricv4TestMultiMetricType =
   itk::ObjectToObjectMultiMetricv4<ObjectToObjectMultiMetricv4TestDimension, ObjectToObjectMultiMetricv4TestDimension>;
 
@@ -201,7 +201,7 @@ int
 itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform)
 {
   // Create two simple images
-  constexpr unsigned int Dimension{ ObjectToObjectMultiMetricv4TestDimension };
+  static constexpr unsigned int Dimension{ ObjectToObjectMultiMetricv4TestDimension };
   using PixelType = double;
   using CoordinateRepresentationType = double;
 
@@ -213,10 +213,10 @@ itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform)
   using FixedImageSourceType = itk::GaussianImageSource<FixedImageType>;
 
   // Note: the following declarations are classical arrays
-  FixedImageType::SizeValueType            fixedImageSize[] = { 100, 100 };
-  FixedImageType::SpacingValueType         fixedImageSpacing[] = { 1.0f, 1.0f };
-  constexpr FixedImageType::PointValueType fixedImageOrigin[]{ 0.0f, 0.0f };
-  auto                                     fixedImageSource = FixedImageSourceType::New();
+  FixedImageType::SizeValueType                   fixedImageSize[] = { 100, 100 };
+  FixedImageType::SpacingValueType                fixedImageSpacing[] = { 1.0f, 1.0f };
+  static constexpr FixedImageType::PointValueType fixedImageOrigin[]{ 0.0f, 0.0f };
+  auto                                            fixedImageSource = FixedImageSourceType::New();
 
   fixedImageSource->SetSize(fixedImageSize);
   fixedImageSource->SetOrigin(fixedImageOrigin);
@@ -270,7 +270,7 @@ itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform)
     using FieldType = DisplacementTransformType::DisplacementFieldType;
     using VectorType = itk::Vector<double, Dimension>;
 
-    constexpr VectorType zero{};
+    static constexpr VectorType zero{};
 
     auto field = FieldType::New();
     field->SetRegions(fixedImage->GetBufferedRegion());

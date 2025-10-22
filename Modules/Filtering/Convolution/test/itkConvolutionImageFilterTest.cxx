@@ -34,7 +34,7 @@ itkConvolutionImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr int ImageDimension{ 2 };
+  static constexpr int ImageDimension{ 2 };
 
   using PixelType = float;
   using ImageType = itk::Image<PixelType, ImageDimension>;

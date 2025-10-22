@@ -142,7 +142,7 @@ int
 itkOpenCVImageBridgeTestTemplatedRGB(char * argv0, char * argv1)
 {
   // type alias
-  constexpr unsigned int Dimension{ VDimension };
+  static constexpr unsigned int Dimension{ VDimension };
   using ValueType = TValue;
   using PixelType = itk::RGBPixel<ValueType>;
   using ComponentType = typename PixelType::ComponentType;

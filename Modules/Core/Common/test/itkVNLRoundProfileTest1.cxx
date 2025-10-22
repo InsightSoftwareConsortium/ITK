@@ -55,11 +55,11 @@ itkVNLRoundProfileTest1(int, char *[])
   ArrayType output3;
   ArrayType output4;
 
-  constexpr unsigned long numberOfValues{ 1000000L };
+  static constexpr unsigned long numberOfValues{ 1000000L };
 
-  constexpr double initialValue{ -10.0 };
+  static constexpr double initialValue{ -10.0 };
 
-  constexpr double valueIncrement{ (-initialValue - initialValue) / numberOfValues };
+  static constexpr double valueIncrement{ (-initialValue - initialValue) / numberOfValues };
 
   std::cout << "Initial Value   = " << initialValue << std::endl;
   std::cout << "Value Increment = " << valueIncrement << std::endl;
@@ -204,7 +204,7 @@ itkVNLRoundProfileTest1(int, char *[])
   auto outItr1 = output1.begin();
   auto outItr2 = output2.begin();
 
-  constexpr double tolerance{ 1e-5 };
+  static constexpr double tolerance{ 1e-5 };
 
   bool roundUp = true;
   bool roundMismatch = false;

@@ -31,16 +31,16 @@ itkJPEGImageIOTest2(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
   using PixelType = unsigned char;
 
   using ImageType = itk::Image<PixelType, Dimension>;
 
   auto image = ImageType::New();
 
-  constexpr ImageType::IndexType start{};
-  constexpr ImageType::SizeType  size{ 157, 129 };
-  ImageType::RegionType          region = { start, size };
+  static constexpr ImageType::IndexType start{};
+  static constexpr ImageType::SizeType  size{ 157, 129 };
+  ImageType::RegionType                 region = { start, size };
 
   image->SetRegions(region);
   image->AllocateInitialized();
@@ -72,7 +72,7 @@ itkJPEGImageIOTest2(int argc, char * argv[])
 
   ImageType::SpacingType readSpacing = readImage->GetSpacing();
 
-  constexpr double tolerance{ 1e-1 };
+  static constexpr double tolerance{ 1e-1 };
 
   if (itk::Math::abs(readSpacing[0] - spacing[0]) > tolerance)
   {

@@ -32,7 +32,7 @@ itkCheckerBoardImageFilterTest(int argc, char * argv[])
   }
 
   // Define the dimension of the images
-  constexpr unsigned int Dimension{ 3 };
+  static constexpr unsigned int Dimension{ 3 };
 
   // Declare the pixel types of the images
   using PixelType = unsigned char;
@@ -62,9 +62,9 @@ itkCheckerBoardImageFilterTest(int argc, char * argv[])
   auto inputImageB = ImageType::New();
 
   // Define their size, and start index
-  constexpr SizeType  size{ 40, 40, 40 };
-  constexpr IndexType start{ 0, 0, 0 };
-  RegionType          region{ start, size };
+  static constexpr SizeType  size{ 40, 40, 40 };
+  static constexpr IndexType start{ 0, 0, 0 };
+  RegionType                 region{ start, size };
 
   // Initialize Image A
   inputImageA->SetRegions(region);
@@ -82,7 +82,7 @@ itkCheckerBoardImageFilterTest(int argc, char * argv[])
   IteratorType it1(inputImageA, inputImageA->GetBufferedRegion());
 
   // Initialize the content of Image A
-  constexpr ImageType::PixelType input1Value{ 2 };
+  static constexpr ImageType::PixelType input1Value{ 2 };
   while (!it1.IsAtEnd())
   {
     it1.Set(input1Value);
@@ -93,7 +93,7 @@ itkCheckerBoardImageFilterTest(int argc, char * argv[])
   IteratorType it2(inputImageB, inputImageB->GetBufferedRegion());
 
   // Initialize the content of Image B
-  constexpr ImageType::PixelType input2Value{ 3 };
+  static constexpr ImageType::PixelType input2Value{ 3 };
   while (!it2.IsAtEnd())
   {
     it2.Set(input2Value);

@@ -26,7 +26,7 @@ itkCentralDifferenceImageFunctionTest(int, char *[])
 {
   int result = EXIT_SUCCESS;
 
-  constexpr unsigned int ImageDimension{ 2 };
+  static constexpr unsigned int ImageDimension{ 2 };
   using PixelType = unsigned int;
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
@@ -295,7 +295,7 @@ itkCentralDifferenceImageFunctionTest(int, char *[])
 
   // with image direction disabled, result should be same as with
   // identity direction
-  constexpr bool useImageDirection{ false };
+  static constexpr bool useImageDirection{ false };
   ITK_TEST_SET_GET_BOOLEAN(function, UseImageDirection, useImageDirection);
 
   const OutputType directionOffDerivative = function->Evaluate(point);

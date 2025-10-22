@@ -35,7 +35,7 @@ itkMeshFileReaderWriterTest(int argc, char * argv[])
   }
 
   using coord = double;
-  constexpr unsigned int Dimension{ 3 };
+  static constexpr unsigned int Dimension{ 3 };
 
   using MeshType = itk::QuadEdgeMesh<coord, Dimension>;
 

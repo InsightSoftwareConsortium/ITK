@@ -33,9 +33,9 @@
 namespace AntiAliasBinaryImageFilterTestNamespace
 {
 
-constexpr int V_WIDTH{ 64 };
-constexpr int V_HEIGHT{ 64 };
-constexpr int V_DEPTH{ 64 };
+static constexpr int V_WIDTH{ 64 };
+static constexpr int V_HEIGHT{ 64 };
+static constexpr int V_DEPTH{ 64 };
 
 float
 sphere(float x, float y, float z)

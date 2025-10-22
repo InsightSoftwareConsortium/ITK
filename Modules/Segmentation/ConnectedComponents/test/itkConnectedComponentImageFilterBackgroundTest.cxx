@@ -32,7 +32,7 @@ itkConnectedComponentImageFilterBackgroundTest(int argc, char * argv[])
   }
 
   using PixelType = int;
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
   using ImageType = itk::Image<PixelType, Dimension>;
 
   auto background = static_cast<PixelType>(std::stoi(argv[1]));

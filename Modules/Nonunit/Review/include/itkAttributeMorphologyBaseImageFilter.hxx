@@ -86,7 +86,7 @@ AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, TAttribute, TFunct
 
   SizeValueType buffsize = output->GetRequestedRegion().GetNumberOfPixels();
 
-  constexpr auto kernelRadius{ SizeType::Filled(1) };
+  static constexpr auto kernelRadius{ SizeType::Filled(1) };
   using FaceCalculatorType = itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>;
   FaceCalculatorType                        faceCalculator;
   typename FaceCalculatorType::FaceListType faceList =

@@ -22,7 +22,7 @@
 int
 itkMultiLevelSetDenseImageTest(int, char *[])
 {
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
 
   using PixelType = float;
   using ImageType = itk::Image<PixelType, Dimension>;
@@ -42,7 +42,7 @@ itkMultiLevelSetDenseImageTest(int, char *[])
 
   const ImageType::RegionType region{ index, size };
 
-  constexpr PixelType value{ 0. };
+  static constexpr PixelType value{ 0. };
 
   auto input1 = ImageType::New();
   input1->SetRegions(region);

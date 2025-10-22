@@ -21,7 +21,7 @@
 #include <mutex>
 
 // Set up type alias for test
-constexpr unsigned int Dimension{ 2 };
+static constexpr unsigned int Dimension{ 2 };
 using PixelType = unsigned char;
 using FrameType = itk::Image<PixelType, Dimension>;
 using VideoType = itk::VideoStream<FrameType>;
@@ -109,15 +109,15 @@ protected:
 FrameType::Pointer
 CreateEmptyFrame()
 {
-  auto                           out = FrameType::New();
-  constexpr FrameType::SizeType  sizeLR{ 50, 40 };
-  constexpr FrameType::IndexType startLR{};
-  FrameType::RegionType          largestRegion = { startLR, sizeLR };
+  auto                                  out = FrameType::New();
+  static constexpr FrameType::SizeType  sizeLR{ 50, 40 };
+  static constexpr FrameType::IndexType startLR{};
+  FrameType::RegionType                 largestRegion = { startLR, sizeLR };
   out->SetLargestPossibleRegion(largestRegion);
 
-  constexpr FrameType::SizeType sizeReq{ 20, 10 };
-  constexpr auto                startReq{ FrameType::IndexType::Filled(2) };
-  FrameType::RegionType         requestedRegion = { startReq, sizeReq };
+  static constexpr FrameType::SizeType sizeReq{ 20, 10 };
+  static constexpr auto                startReq{ FrameType::IndexType::Filled(2) };
+  FrameType::RegionType                requestedRegion = { startReq, sizeReq };
   out->SetRequestedRegion(requestedRegion);
   out->Allocate();
 
@@ -224,7 +224,7 @@ itkVideoSourceTest(int, char *[])
     // get set
     if (region.GetNumberOfPixels() > 0)
     {
-      constexpr FrameType::IndexType idx{};
+      static constexpr FrameType::IndexType idx{};
       if (frame->GetPixel(idx) == 1)
       {
         std::cerr << "Pixel outside requested spatial region set to 1" << std::endl;
@@ -263,8 +263,8 @@ itkVideoSourceTest(int, char *[])
   }
 
   // Artificially set the output's largest possible temporal region duration
-  itk::TemporalRegion    largestTempRegion = videoSource->GetOutput()->GetLargestPossibleTemporalRegion();
-  constexpr unsigned int newNumBuffers{ 25 };
+  itk::TemporalRegion           largestTempRegion = videoSource->GetOutput()->GetLargestPossibleTemporalRegion();
+  static constexpr unsigned int newNumBuffers{ 25 };
   largestTempRegion.SetFrameDuration(newNumBuffers);
   videoSource->GetOutput()->SetLargestPossibleTemporalRegion(largestTempRegion);
   videoSource->GetOutput()->SetRequestedTemporalRegion(emptyRegion);

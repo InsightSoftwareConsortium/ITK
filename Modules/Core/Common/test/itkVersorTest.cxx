@@ -97,7 +97,7 @@ RotationMatrixToVersorTest()
 {
   int errorCount = 0;
   // const double onedegree=1e-10*itk::Math::pi/180.0;
-  constexpr double onedegree{ itk::Math::pi / 180.0 };
+  static constexpr double onedegree{ itk::Math::pi / 180.0 };
   // const double td=180.0/itk::Math::pi;
   double centers[6];
   centers[0] = 0;
@@ -107,8 +107,8 @@ RotationMatrixToVersorTest()
   centers[4] = itk::Math::pi * 1.5;
   centers[5] = itk::Math::pi * 2.0;
 
-  constexpr double steps{ 0 };
-  constexpr double small_degree_steps{ onedegree / 1000.0 }; // 1/1000 of a degree
+  static constexpr double steps{ 0 };
+  static constexpr double small_degree_steps{ onedegree / 1000.0 }; // 1/1000 of a degree
   for (const double center : centers)
   {
     for (double alpha = center - steps * small_degree_steps; alpha <= center + steps * small_degree_steps;
@@ -142,7 +142,7 @@ RotationMatrixToVersorTest()
           const double error_newVRFROMMRPoint_newVRFROMMRTransformPoint =
             (newVRFROMMRPoint - newVRFROMMRTransformPoint).GetNorm();
 
-          constexpr double maxAllowedPointError{ 1e-5 };
+          static constexpr double maxAllowedPointError{ 1e-5 };
           if ((error_newMRtestPoint_newVRtestPoint + error_newMRtestPoint_newVRFROMMRPoint +
                error_newVRFROMMRPoint_newVRFROMMRTransformPoint) > maxAllowedPointError)
           {
@@ -177,7 +177,7 @@ itkVersorTest(int, char *[])
 
   using ValueType = double;
 
-  constexpr ValueType epsilon{ 1e-12 };
+  static constexpr ValueType epsilon{ 1e-12 };
 
   //  Versor type
   using VersorType = itk::Versor<ValueType>;
@@ -202,7 +202,7 @@ itkVersorTest(int, char *[])
 
   {
     std::cout << "Test default constructor... ";
-    constexpr VersorType qa;
+    static constexpr VersorType qa;
     if (itk::Math::abs(qa.GetX()) > epsilon)
     {
       std::cout << "Error ! " << std::endl;
@@ -243,7 +243,7 @@ itkVersorTest(int, char *[])
     xa[0] = 0.0;
     xa[1] = 0.0;
     xa[2] = 0.0;
-    constexpr ValueType angle{ 0 };
+    static constexpr ValueType angle{ 0 };
     try
     {
       qa.Set(xa, angle);
@@ -412,8 +412,8 @@ itkVersorTest(int, char *[])
     VersorType qa;
     qa.Set(xa, angle);
 
-    constexpr PointType::ValueType xbInit[3]{ 3.0, 7.0, 9.0 };
-    PointType                      xb = xbInit;
+    static constexpr PointType::ValueType xbInit[3]{ 3.0, 7.0, 9.0 };
+    PointType                             xb = xbInit;
 
     PointType xc = qa.Transform(xb);
 
@@ -522,11 +522,11 @@ itkVersorTest(int, char *[])
     v1.Set(x1, angle1);
 
     // Get the components and scale them
-    constexpr ValueType scale{ 5.5 };
-    ValueType           x = v1.GetX() * scale;
-    ValueType           y = v1.GetY() * scale;
-    ValueType           z = v1.GetZ() * scale;
-    ValueType           w = v1.GetW() * scale;
+    static constexpr ValueType scale{ 5.5 };
+    ValueType                  x = v1.GetX() * scale;
+    ValueType                  y = v1.GetY() * scale;
+    ValueType                  z = v1.GetZ() * scale;
+    ValueType                  w = v1.GetW() * scale;
 
     VersorType v2;
     v2.Set(x, y, z, w);

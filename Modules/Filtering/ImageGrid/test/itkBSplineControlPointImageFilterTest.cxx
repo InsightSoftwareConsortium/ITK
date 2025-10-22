@@ -140,7 +140,7 @@ itkBSplineControlPointImageFilterTest(int argc, char * argv[])
     exit(EXIT_FAILURE);
   }
 
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
   using RealType = float;
   using ScalarPixelType = itk::Vector<RealType, 1>;
 

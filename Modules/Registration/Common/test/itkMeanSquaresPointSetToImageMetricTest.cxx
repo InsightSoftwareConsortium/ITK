@@ -46,7 +46,7 @@ itkMeanSquaresPointSetToImageMetricTest(int, char *[])
   // Create two simple images
   //------------------------------------------------------------
 
-  constexpr unsigned int ImageDimension{ 2 };
+  static constexpr unsigned int ImageDimension{ 2 };
 
   using PixelType = double;
 
@@ -67,8 +67,8 @@ itkMeanSquaresPointSetToImageMetricTest(int, char *[])
   FixedImageType::SpacingValueType  fixedImageSpacing[] = { 1.0f, 1.0f };
   MovingImageType::SpacingValueType movingImageSpacing[] = { 1.0f, 1.0f };
 
-  constexpr FixedImageType::PointValueType  fixedImageOrigin[]{ 0.0f, 0.0f };
-  constexpr MovingImageType::PointValueType movingImageOrigin[]{ 0.0f, 0.0f };
+  static constexpr FixedImageType::PointValueType  fixedImageOrigin[]{ 0.0f, 0.0f };
+  static constexpr MovingImageType::PointValueType movingImageOrigin[]{ 0.0f, 0.0f };
 
   auto movingImageSource = MovingImageSourceType::New();
   auto fixedImageSource = FixedImageSourceType::New();
@@ -98,7 +98,7 @@ itkMeanSquaresPointSetToImageMetricTest(int, char *[])
   using FixedPointSetType = itk::PointSet<float, 2>;
   auto fixedPointSet = FixedPointSetType::New();
 
-  constexpr unsigned int numberOfPoints{ 100 };
+  static constexpr unsigned int numberOfPoints{ 100 };
 
   fixedPointSet->SetPointData(FixedPointSetType::PointDataContainer::New());
 

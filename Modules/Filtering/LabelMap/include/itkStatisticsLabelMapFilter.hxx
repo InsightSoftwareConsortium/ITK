@@ -71,7 +71,7 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>::ThreadedProcessLabelObject(Labe
   typename HistogramType::MeasurementVectorType featureImageMax(1);
 
 
-  constexpr size_t bitsShift{ std::min(8 * sizeof(FeatureImagePixelType), 8 * sizeof(m_NumberOfBins) - 1) };
+  static constexpr size_t bitsShift{ std::min(8 * sizeof(FeatureImagePixelType), 8 * sizeof(m_NumberOfBins) - 1) };
   if (std::is_integral_v<FeatureImagePixelType> && sizeof(FeatureImagePixelType) <= 2 &&
       m_NumberOfBins == 1u << bitsShift)
   {

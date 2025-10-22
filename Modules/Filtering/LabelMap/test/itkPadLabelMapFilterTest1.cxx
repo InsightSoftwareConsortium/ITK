@@ -48,7 +48,7 @@ itkPadLabelMapFilterTest1(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int dim{ 2 };
+  static constexpr unsigned int dim{ 2 };
 
   using ImageType = itk::Image<unsigned char, dim>;
 
@@ -70,11 +70,11 @@ itkPadLabelMapFilterTest1(int argc, char * argv[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(padLabelMapFilter, PadLabelMapFilter, ChangeRegionLabelMapFilter);
 
-  constexpr PadLabelMapFilterType::SizeType upperBoundaryPadSize{ 0 };
+  static constexpr PadLabelMapFilterType::SizeType upperBoundaryPadSize{ 0 };
   padLabelMapFilter->SetPadSize(upperBoundaryPadSize);
   ITK_TEST_SET_GET_VALUE(upperBoundaryPadSize, padLabelMapFilter->GetUpperBoundaryPadSize());
 
-  constexpr PadLabelMapFilterType::SizeType lowerBoundaryPadSize{ 0 };
+  static constexpr PadLabelMapFilterType::SizeType lowerBoundaryPadSize{ 0 };
   padLabelMapFilter->SetPadSize(lowerBoundaryPadSize);
   ITK_TEST_SET_GET_VALUE(upperBoundaryPadSize, padLabelMapFilter->GetLowerBoundaryPadSize());
 

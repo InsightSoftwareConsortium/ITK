@@ -29,7 +29,7 @@ itkReadVesselTubeSpatialObjectTest(int argc, char * argv[])
   }
   const char * inputVessel = argv[1];
 
-  constexpr unsigned int Dimension{ 3 };
+  static constexpr unsigned int Dimension{ 3 };
 
   using ReaderType = itk::SpatialObjectReader<Dimension>;
 

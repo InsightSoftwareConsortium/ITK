@@ -305,10 +305,10 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
                 "For PixelComponentType there is a more appropriate overload, that should be called instead!");
 
   // Retrieve minimum and maximum values at compile-time:
-  constexpr auto minPixelComponent{ NumericTraits<PixelComponentType>::NonpositiveMin() };
-  constexpr auto maxPixelComponent{ NumericTraits<PixelComponentType>::max() };
-  constexpr auto minComponent{ static_cast<ComponentType>(minPixelComponent) };
-  constexpr auto maxComponent{ static_cast<ComponentType>(maxPixelComponent) };
+  static constexpr auto minPixelComponent{ NumericTraits<PixelComponentType>::NonpositiveMin() };
+  static constexpr auto maxPixelComponent{ NumericTraits<PixelComponentType>::max() };
+  static constexpr auto minComponent{ static_cast<ComponentType>(minPixelComponent) };
+  static constexpr auto maxComponent{ static_cast<ComponentType>(maxPixelComponent) };
 
   // Clamp the value between minPixelComponent and maxPixelComponent:
   return (value <= minComponent)   ? minPixelComponent

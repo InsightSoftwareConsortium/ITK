@@ -338,11 +338,11 @@ AmoebaTest1()
 
   ITK_TEST_EXPECT_TRUE(itkOptimizer->CanUseScales());
 
-  constexpr bool doEstimateScales{ true };
+  static constexpr bool doEstimateScales{ true };
   ITK_TEST_SET_GET_BOOLEAN(itkOptimizer, DoEstimateScales, doEstimateScales);
 
   // set optimizer parameters
-  constexpr itk::SizeValueType numberOfIterations{ 10 };
+  static constexpr itk::SizeValueType numberOfIterations{ 10 };
   itkOptimizer->SetNumberOfIterations(numberOfIterations);
   ITK_TEST_SET_GET_VALUE(numberOfIterations, itkOptimizer->GetNumberOfIterations());
 
@@ -426,8 +426,8 @@ AmoebaTest1()
   //
   OptimizerType::ParametersType finalPosition = itkOptimizer->GetCurrentPosition();
 
-  constexpr double trueParameters[2]{ 2, -2 };
-  bool             pass = true;
+  static constexpr double trueParameters[2]{ 2, -2 };
+  bool                    pass = true;
 
   std::cout << "Right answer   = " << trueParameters[0] << " , " << trueParameters[1] << std::endl;
   std::cout << "Final position = " << finalPosition << std::endl;
@@ -470,13 +470,13 @@ AmoebaTest2()
   auto itkOptimizer = OptimizerType::New();
 
   // set optimizer parameters
-  constexpr unsigned int maxIterations{ 100 };
+  static constexpr unsigned int maxIterations{ 100 };
   itkOptimizer->SetNumberOfIterations(maxIterations);
 
-  constexpr double xTolerance{ 0.01 };
+  static constexpr double xTolerance{ 0.01 };
   itkOptimizer->SetParametersConvergenceTolerance(xTolerance);
 
-  constexpr double fTolerance{ 0.001 };
+  static constexpr double fTolerance{ 0.001 };
   itkOptimizer->SetFunctionConvergenceTolerance(fTolerance);
 
   // the initial simplex is constructed as:
@@ -521,7 +521,7 @@ AmoebaTest2()
   {
     // we should have converged to the local minimum, -2
     OptimizerType::ParametersType finalParameters = itkOptimizer->GetCurrentPosition();
-    constexpr double              knownParameters{ -2.0 };
+    static constexpr double       knownParameters{ -2.0 };
     std::cout << "Standard Amoeba:\n";
     std::cout << "Known parameters   = " << knownParameters << "   ";
     std::cout << "Estimated parameters = " << finalParameters << std::endl;
@@ -554,7 +554,7 @@ AmoebaTest2()
   {
     // we should have converged to the global minimum, 2
     OptimizerType::ParametersType finalParameters = itkOptimizer->GetCurrentPosition();
-    constexpr double              knownParameters{ 2.0 };
+    static constexpr double       knownParameters{ 2.0 };
     std::cout << "Amoeba with restarts:\n";
     std::cout << "Known parameters   = " << knownParameters << "   ";
     std::cout << "Estimated parameters = " << finalParameters << std::endl;

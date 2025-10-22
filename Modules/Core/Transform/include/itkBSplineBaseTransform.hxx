@@ -248,9 +248,9 @@ BSplineBaseTransform<TParametersValueType, VDimension, VSplineOrder>::
   this->m_WeightsFunction->Evaluate(index, weights, supportIndex);
 
   // For each dimension, copy the weight to the support region
-  constexpr auto   supportSize{ SizeType::Filled(SplineOrder + 1) };
-  const RegionType supportRegion(supportIndex, supportSize);
-  unsigned long    counter = 0;
+  static constexpr auto supportSize{ SizeType::Filled(SplineOrder + 1) };
+  const RegionType      supportRegion(supportIndex, supportSize);
+  unsigned long         counter = 0;
 
   using IteratorType = ImageRegionIterator<ImageType>;
 

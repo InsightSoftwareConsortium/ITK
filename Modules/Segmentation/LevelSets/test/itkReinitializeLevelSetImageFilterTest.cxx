@@ -48,8 +48,8 @@ template <typename TPoint>
 double
 SimpleSignedDistance(const TPoint & p)
 {
-  auto             center = itk::MakeFilled<TPoint>(50);
-  constexpr double radius{ 19.5 };
+  auto                    center = itk::MakeFilled<TPoint>(50);
+  static constexpr double radius{ 19.5 };
 
   double accum = 0.0;
   for (unsigned int j = 0; j < TPoint::PointDimension; ++j)
@@ -67,7 +67,7 @@ int
 itkReinitializeLevelSetImageFilterTest(int, char *[])
 {
 
-  constexpr unsigned int ImageDimension{ 2 };
+  static constexpr unsigned int ImageDimension{ 2 };
   using PixelType = float;
 
   using ImageType = itk::Image<PixelType, ImageDimension>;

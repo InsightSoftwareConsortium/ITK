@@ -100,7 +100,7 @@ itkVTKImageIO2Test2(int argc, char * argv[])
     using MonitorFilter = itk::PipelineMonitorImageFilter<ImageType>;
     auto monitor = MonitorFilter::New();
     monitor->SetInput(reader->GetOutput());
-    constexpr unsigned int numberOfDataPieces{ 10 };
+    static constexpr unsigned int numberOfDataPieces{ 10 };
 
 
     using StreamingFilter = itk::StreamingImageFilter<ImageType, ImageType>;
@@ -140,7 +140,7 @@ itkVTKImageIO2Test2(int argc, char * argv[])
     using MonitorFilter = itk::PipelineMonitorImageFilter<ImageType>;
     auto monitor = MonitorFilter::New();
     monitor->SetInput(reader->GetOutput());
-    constexpr unsigned int numberOfDataPieces{ 10 };
+    static constexpr unsigned int numberOfDataPieces{ 10 };
 
     auto writer = WriterType::New();
     writer->SetImageIO(vtkIO);

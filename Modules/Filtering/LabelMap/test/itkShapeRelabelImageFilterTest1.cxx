@@ -36,7 +36,7 @@ itkShapeRelabelImageFilterTest1(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int dim{ 2 };
+  static constexpr unsigned int dim{ 2 };
 
   using IType = itk::Image<unsigned char, dim>;
 
@@ -72,7 +72,7 @@ itkShapeRelabelImageFilterTest1(int argc, char * argv[])
 
   const std::string attributeByName{ argv[5] };
   opening->SetAttribute(attributeByName); // SetAttribute accepts a string for conversion to internal label code
-  constexpr RelabelType::AttributeType attributeByCode{ RelabelType::LabelObjectType::LABEL };
+  static constexpr RelabelType::AttributeType attributeByCode{ RelabelType::LabelObjectType::LABEL };
   ITK_TEST_SET_GET_VALUE(attributeByCode, opening->GetAttribute());
 
   const itk::SimpleFilterWatcher watcher(opening, "filter");

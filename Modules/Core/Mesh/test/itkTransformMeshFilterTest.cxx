@@ -56,7 +56,7 @@ itkTransformMeshFilterTest(int, char *[])
   const PointsContainerPointer points = inputMesh->GetPoints();
 
   // Fill a cube with points , just to get some data
-  constexpr int                          n{ 1 };    // let's start with a few of them
+  static constexpr int                   n{ 1 };    // let's start with a few of them
   PointsContainerType::ElementIdentifier count = 0; // count them
 
   for (int x = -n; x <= n; ++x)

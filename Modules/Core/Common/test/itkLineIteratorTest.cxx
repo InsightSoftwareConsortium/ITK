@@ -28,7 +28,7 @@
 int
 itkLineIteratorTest(int argc, char * argv[])
 {
-  constexpr int Dimension{ 2 };
+  static constexpr int Dimension{ 2 };
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType, Dimension>;
   using IndexType = ImageType::RegionType::IndexType;
@@ -42,7 +42,7 @@ itkLineIteratorTest(int argc, char * argv[])
 
 
   // Set up a test image
-  constexpr ImageType::RegionType::IndexType index{};
+  static constexpr ImageType::RegionType::IndexType index{};
 
   auto size = ImageType::RegionType::SizeType::Filled(200);
 

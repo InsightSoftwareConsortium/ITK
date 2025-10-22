@@ -34,7 +34,7 @@ itkLevelSetEquationCurvatureTermTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
 
   using InputPixelType = unsigned short;
   using InputImageType = itk::Image<InputPixelType, Dimension>;
@@ -187,7 +187,7 @@ itkLevelSetEquationCurvatureTermTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr bool useCurvatureImage{ false };
+  static constexpr bool useCurvatureImage{ false };
   ITK_TEST_SET_GET_BOOLEAN(term, UseCurvatureImage, useCurvatureImage);
 
   if (itk::Math::NotAlmostEquals(term->Evaluate(index), value))

@@ -49,13 +49,13 @@ itkThresholdMaximumConnectedComponentsImageFilterTest(int argc, char * argv[])
 
   using InputPixelType = unsigned char;
   using OutputPixelType = unsigned char;
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
 
   using InputImageType = itk::Image<InputPixelType, Dimension>;
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
-  constexpr InputPixelType maxLabel{ itk::NumericTraits<InputPixelType>::max() };
-  constexpr InputPixelType minLabel{ itk::NumericTraits<InputPixelType>::NonpositiveMin() };
+  static constexpr InputPixelType maxLabel{ itk::NumericTraits<InputPixelType>::max() };
+  static constexpr InputPixelType minLabel{ itk::NumericTraits<InputPixelType>::NonpositiveMin() };
 
   const unsigned int minimumPixelArea = std::stoi(argv[3]);
 

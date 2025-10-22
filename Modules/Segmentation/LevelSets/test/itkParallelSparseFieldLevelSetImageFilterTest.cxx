@@ -42,7 +42,7 @@ constexpr unsigned int HEIGHT = (64);
 constexpr unsigned int WIDTH = (64);
 constexpr unsigned int DEPTH = (64);
 
-constexpr int RADIUS{ (std::min(std::min(HEIGHT, WIDTH), DEPTH) / 4) };
+static constexpr int RADIUS{ (std::min(std::min(HEIGHT, WIDTH), DEPTH) / 4) };
 
 // Distance transform function for a sphere
 float
@@ -222,20 +222,20 @@ itkParallelSparseFieldLevelSetImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension{ 3 };
+  static constexpr unsigned int Dimension{ 3 };
 
   using PixelType = float;
   using ImageType = itk::Image<PixelType, Dimension>;
 
-  constexpr int n{ 100 };                // Number of iterations
-  constexpr int numberOfWorkUnits{ 11 }; // Number of work units to be used
+  static constexpr int n{ 100 };                // Number of iterations
+  static constexpr int numberOfWorkUnits{ 11 }; // Number of work units to be used
 
   auto im_init = ImageType::New();
   auto im_target = ImageType::New();
 
-  constexpr ImageType::SizeType  sz{ PSFLSIFT::HEIGHT, PSFLSIFT::WIDTH, PSFLSIFT::DEPTH };
-  constexpr ImageType::IndexType idx{ 0, 0, 0 };
-  ImageType::RegionType          r = { idx, sz };
+  static constexpr ImageType::SizeType  sz{ PSFLSIFT::HEIGHT, PSFLSIFT::WIDTH, PSFLSIFT::DEPTH };
+  static constexpr ImageType::IndexType idx{ 0, 0, 0 };
+  ImageType::RegionType                 r = { idx, sz };
 
   ImageType::PointType     origin;
   ImageType::SpacingType   spacing;

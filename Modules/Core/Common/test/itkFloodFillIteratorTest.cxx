@@ -28,7 +28,7 @@
 int
 itkFloodFillIteratorTest(int, char *[])
 {
-  constexpr unsigned int dim{ 3 };
+  static constexpr unsigned int dim{ 3 };
 
   // Image type alias
   using TImageType = itk::Image<int, dim>;
@@ -91,8 +91,8 @@ itkFloodFillIteratorTest(int, char *[])
   std::cout << "Sphere spatial function created" << std::endl;
 
   //---------Create and initialize a spatial function iterator-----------
-  TImageType::IndexType                seedPos;
-  constexpr TImageType::IndexValueType pos[]{ 10, 10, 10 };
+  TImageType::IndexType                       seedPos;
+  static constexpr TImageType::IndexValueType pos[]{ 10, 10, 10 };
   seedPos.SetIndex(pos);
 
   using TItType = itk::FloodFilledSpatialFunctionConditionalIterator<TImageType, TFunctionType>;

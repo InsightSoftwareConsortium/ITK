@@ -36,7 +36,7 @@ itkLabelToRGBImageFilterTest(int argc, char * argv[])
   }
 
 
-  constexpr int Dimension{ 2 };
+  static constexpr int Dimension{ 2 };
 
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType, Dimension>;

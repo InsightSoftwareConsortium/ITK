@@ -22,7 +22,7 @@
 int
 itkDisplacementFieldTransformParametersAdaptorTest(int, char *[])
 {
-  constexpr unsigned int SpaceDimension{ 3 };
+  static constexpr unsigned int SpaceDimension{ 3 };
   using CoordinateRepType = double;
   using TransformType = itk::DisplacementFieldTransform<CoordinateRepType, SpaceDimension>;
 
@@ -50,7 +50,7 @@ itkDisplacementFieldTransformParametersAdaptorTest(int, char *[])
   displacementField->SetDirection(direction);
   displacementField->Allocate();
 
-  constexpr TransformType::OutputVectorType zeroVector{};
+  static constexpr TransformType::OutputVectorType zeroVector{};
   displacementField->FillBuffer(zeroVector);
 
   auto nonzeroVector = itk::MakeFilled<TransformType::OutputVectorType>(10.3);

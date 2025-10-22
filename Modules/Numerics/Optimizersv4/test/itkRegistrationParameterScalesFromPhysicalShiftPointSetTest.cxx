@@ -78,7 +78,7 @@ private:
 int
 itkRegistrationParameterScalesFromPhysicalShiftPointSetTest(int, char *[])
 {
-  constexpr itk::SizeValueType Dimension{ 2 };
+  static constexpr itk::SizeValueType Dimension{ 2 };
   using PixelType = double;
   using FloatType = double;
 
@@ -284,12 +284,12 @@ itkRegistrationParameterScalesFromPhysicalShiftPointSetTest(int, char *[])
   using FieldType = DisplacementTransformType::DisplacementFieldType;
   using VectorType = itk::Vector<double, Dimension>;
 
-  constexpr VectorType zero{};
+  static constexpr VectorType zero{};
 
   using RegionType = itk::ImageRegion<Dimension>;
   RegionType region;
   region.SetSize(virtualDomainSize);
-  constexpr RegionType::IndexType index{};
+  static constexpr RegionType::IndexType index{};
   region.SetIndex(index);
 
   auto field = FieldType::New();

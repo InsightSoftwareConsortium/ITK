@@ -25,7 +25,7 @@ itkStatisticsAlgorithmTest(int, char *[])
 {
   std::cout << "StatisticsAlgorithm Test \n \n";
 
-  constexpr unsigned int measurementVectorSize{ 2 };
+  static constexpr unsigned int measurementVectorSize{ 2 };
 
   using MeasurementVectorType = itk::Array<float>;
   using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
@@ -56,7 +56,7 @@ itkStatisticsAlgorithmTest(int, char *[])
   MeasurementVectorType realUpper(measurementVectorSize);
   MeasurementVectorType realLower(measurementVectorSize);
 
-  constexpr unsigned int numberOfSamples{ 25 };
+  static constexpr unsigned int numberOfSamples{ 25 };
 
   realLower.Fill(1000);
   realUpper.Fill(0);
@@ -91,7 +91,7 @@ itkStatisticsAlgorithmTest(int, char *[])
   ITK_TRY_EXPECT_NO_EXCEPTION(
     itk::Statistics::Algorithm::FindSampleBound(constSample, constSample->Begin(), constSample->End(), lower, upper));
 
-  constexpr float epsilon{ 1e-5 };
+  static constexpr float epsilon{ 1e-5 };
 
   for (unsigned int j = 0; j < measurementVectorSize; ++j)
   {

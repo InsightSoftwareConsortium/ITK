@@ -41,7 +41,7 @@ namespace Function
 inline unsigned
 Max3(double x, double y, double z)
 {
-  constexpr double obliquityThresholdCosineValue{ 0.001 };
+  static constexpr double obliquityThresholdCosineValue{ 0.001 };
 
   const double absX = itk::Math::abs(x);
   const double absY = itk::Math::abs(y);

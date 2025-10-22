@@ -26,7 +26,7 @@ itkImageLinearIteratorTest(int, char *[])
 {
   std::cout << "Creating an image of indices" << std::endl;
 
-  constexpr unsigned int ImageDimension{ 3 };
+  static constexpr unsigned int ImageDimension{ 3 };
 
   using PixelType = itk::Index<ImageDimension>;
 
@@ -41,7 +41,7 @@ itkImageLinearIteratorTest(int, char *[])
   size0[1] = 100;
   size0[2] = 100;
 
-  constexpr ImageType::IndexType start0{};
+  static constexpr ImageType::IndexType start0{};
 
   const ImageType::RegionType region0{ start0, size0 };
 
@@ -100,7 +100,7 @@ itkImageLinearIteratorTest(int, char *[])
   ConstIteratorType cot(myConstImage, region0);
 
   // Test exceptions
-  constexpr int direction{ ImageType::GetImageDimension() + 1 };
+  static constexpr int direction{ ImageType::GetImageDimension() + 1 };
   ITK_TRY_EXPECT_EXCEPTION(cot.SetDirection(direction));
 
   cot.GoToBegin();

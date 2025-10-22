@@ -28,29 +28,29 @@ itkGaborKernelFunctionTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(gabor, GaborKernelFunction, KernelFunctionBase);
 
-  constexpr double sigma{ 1.5 };
+  static constexpr double sigma{ 1.5 };
   gabor->SetSigma(sigma);
   ITK_TEST_SET_GET_VALUE(sigma, gabor->GetSigma());
 
-  constexpr double frequency{ 2. };
+  static constexpr double frequency{ 2. };
   gabor->SetFrequency(frequency);
   ITK_TEST_SET_GET_VALUE(frequency, gabor->GetFrequency());
 
-  constexpr double phaseOffset{ 0.8 };
+  static constexpr double phaseOffset{ 0.8 };
   gabor->SetPhaseOffset(phaseOffset);
   ITK_TEST_SET_GET_VALUE(phaseOffset, gabor->GetPhaseOffset());
 
-  constexpr bool calculateImaginaryPart{ true };
+  static constexpr bool calculateImaginaryPart{ true };
   gabor->SetCalculateImaginaryPart(calculateImaginaryPart);
   ITK_TEST_SET_GET_VALUE(calculateImaginaryPart, gabor->GetCalculateImaginaryPart());
 
   gabor->CalculateImaginaryPartOn();
   ITK_TEST_SET_GET_VALUE(true, gabor->GetCalculateImaginaryPart());
 
-  constexpr double tolerance{ 1e-12 };
-  constexpr double point{ 2.86 };
-  double           expectedValue = -0.13297125073713259;
-  double           result = gabor->Evaluate(point);
+  static constexpr double tolerance{ 1e-12 };
+  static constexpr double point{ 2.86 };
+  double                  expectedValue = -0.13297125073713259;
+  double                  result = gabor->Evaluate(point);
   if (!itk::Math::FloatAlmostEqual(expectedValue, result, 10, tolerance))
   {
     std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(tolerance))));

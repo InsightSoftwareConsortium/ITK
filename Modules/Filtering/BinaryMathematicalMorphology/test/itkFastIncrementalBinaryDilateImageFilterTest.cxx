@@ -26,11 +26,11 @@ itkFastIncrementalBinaryDilateImageFilterTest(int, char *[])
   unsigned int i = 0;
 
   // Define the dimension of the images
-  constexpr unsigned int myDimension{ 2 };
+  static constexpr unsigned int myDimension{ 2 };
 
   // Define the values of the input images
-  constexpr unsigned short fgValue{ 1 };
-  constexpr unsigned short bgValue{ 0 };
+  static constexpr unsigned short fgValue{ 1 };
+  static constexpr unsigned short bgValue{ 0 };
 
   // Declare the types of the images
   using myImageType = itk::Image<unsigned short, myDimension>;

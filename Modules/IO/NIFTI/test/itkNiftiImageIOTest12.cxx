@@ -31,11 +31,11 @@ itkNiftiImageIOTest12(int argc, char * argv[])
     std::cerr << itkNameOfTestExecutableMacro(argv) << " <TempOutputDirectory> <filename>" << std::endl;
     return EXIT_FAILURE;
   }
-  constexpr unsigned int CmdLineTestDirPos{ 1 };
-  const std::string      testdir{ argv[CmdLineTestDirPos] };
+  static constexpr unsigned int CmdLineTestDirPos{ 1 };
+  const std::string             testdir{ argv[CmdLineTestDirPos] };
   itksys::SystemTools::ChangeDirectory(testdir);
-  constexpr unsigned int CmdLineFilenamePos{ 2 };
-  const std::string      imgfilename{ argv[CmdLineFilenamePos] };
+  static constexpr unsigned int CmdLineFilenamePos{ 2 };
+  const std::string             imgfilename{ argv[CmdLineFilenamePos] };
 
   using ImageType = itk::VectorImage<unsigned char, 3>;
 
@@ -45,12 +45,12 @@ itkNiftiImageIOTest12(int argc, char * argv[])
   // test is too slow with large image ImageType::SizeType   size = { { 2024, 1024, 1024 } };
 
   // make small RGB Image
-  constexpr ImageType::SizeType size{ 24, 10, 11 };
+  static constexpr ImageType::SizeType size{ 24, 10, 11 };
   region.SetSize(size);
 #if 0 // using non-zero start index exposes bug in ITK IO physical space preservation
-  constexpr  ImageType::IndexType startIndex{  200, 300, 400  };
+  static constexpr  ImageType::IndexType startIndex{  200, 300, 400  };
 #else
-  constexpr ImageType::IndexType startIndex{ 0, 0, 0 };
+  static constexpr ImageType::IndexType startIndex{ 0, 0, 0 };
 #endif
   region.SetIndex(startIndex);
 
@@ -101,8 +101,8 @@ itkNiftiImageIOTest12(int argc, char * argv[])
 
     ITK_TEST_EXPECT_EQUAL(originalHash, readHash);
 
-    constexpr ImageType::IndexType threeIndex{ 3, 3, 3 };
-    ImageType::PointType           origPhysLocationIndexThree;
+    static constexpr ImageType::IndexType threeIndex{ 3, 3, 3 };
+    ImageType::PointType                  origPhysLocationIndexThree;
     image->TransformIndexToPhysicalPoint<itk::SpacePrecisionType>(threeIndex, origPhysLocationIndexThree);
     ImageType::PointType readPhysLocationIndexThree;
     readImage->TransformIndexToPhysicalPoint<itk::SpacePrecisionType>(threeIndex, readPhysLocationIndexThree);

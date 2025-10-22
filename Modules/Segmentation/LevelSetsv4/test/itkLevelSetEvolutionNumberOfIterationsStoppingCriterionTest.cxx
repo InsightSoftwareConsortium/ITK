@@ -25,7 +25,7 @@
 int
 itkLevelSetEvolutionNumberOfIterationsStoppingCriterionTest(int, char *[])
 {
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
   using ValueType = float;
 
   using LevelSetType = itk::WhitakerSparseLevelSetImage<ValueType, Dimension>;

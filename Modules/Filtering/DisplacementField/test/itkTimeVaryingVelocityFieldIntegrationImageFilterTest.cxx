@@ -172,7 +172,7 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int argc, char * argv[])
   size[1] = 3;
   size[2] = 401;
   size[3] = 61;
-  constexpr ImportFilterType::IndexType start{};
+  static constexpr ImportFilterType::IndexType start{};
 
   const ImportFilterType::RegionType region{ start, size };
 
@@ -181,7 +181,7 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int argc, char * argv[])
   origin.Fill(0.);
   importFilter->SetOrigin(origin);
 
-  constexpr double spaceTimeSpan[4]{ 20., 20., 20., 1.5 };
+  static constexpr double spaceTimeSpan[4]{ 20., 20., 20., 1.5 };
   for (unsigned int i = 0; i < 4; i++)
   {
     spacing[i] = spaceTimeSpan[i] / (size[i] - 1);
@@ -210,7 +210,7 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int argc, char * argv[])
     }
   }
 
-  constexpr bool importImageFilterWillOwnTheBuffer{ true };
+  static constexpr bool importImageFilterWillOwnTheBuffer{ true };
   importFilter->SetImportPointer(localBuffer, numberOfPixels, importImageFilterWillOwnTheBuffer);
 
   const TimeVaryingVelocityFieldType::Pointer timeVaryingVelocityField = importFilter->GetOutput();

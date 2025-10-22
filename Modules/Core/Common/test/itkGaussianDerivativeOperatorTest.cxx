@@ -34,7 +34,7 @@ TestGaussianOperator(double variance, double error, unsigned int width, unsigned
 
   GaussianOp op;
 
-  constexpr bool normalizeAcrossScale{ false };
+  static constexpr bool normalizeAcrossScale{ false };
   ITK_TEST_SET_GET_BOOLEAN((&op), NormalizeAcrossScale, normalizeAcrossScale);
 
   op.SetVariance(variance);
@@ -59,7 +59,7 @@ TestGaussianOperator(double variance, double error, unsigned int width, unsigned
 
   std::cout.precision(16);
 
-  constexpr double epsilon{ itk::NumericTraits<double>::epsilon() * 32 };
+  static constexpr double epsilon{ itk::NumericTraits<double>::epsilon() * 32 };
   if (order == 0 && itk::Math::abs(total - 1.0) > epsilon)
   {
     std::cerr << "Test failed!" << std::endl;

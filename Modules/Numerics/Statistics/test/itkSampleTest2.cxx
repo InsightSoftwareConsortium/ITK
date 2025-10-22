@@ -123,7 +123,7 @@ int
 itkSampleTest2(int, char *[])
 {
 
-  constexpr unsigned int MeasurementVectorSize{ 17 };
+  static constexpr unsigned int MeasurementVectorSize{ 17 };
 
   using MeasurementVectorType = itk::Array<float>;
 
@@ -155,7 +155,7 @@ itkSampleTest2(int, char *[])
 
   using AbsoluteFrequencyType = SampleType::AbsoluteFrequencyType;
 
-  constexpr AbsoluteFrequencyType frequency{ 17 };
+  static constexpr AbsoluteFrequencyType frequency{ 17 };
 
   sample->AddMeasurementVector(measure, frequency);
 

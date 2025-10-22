@@ -32,7 +32,7 @@ int
 itkZeroCrossingImageFilterTest(int, char *[])
 {
 
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
   using PixelType = float;
 
   using ImageType = itk::Image<PixelType, Dimension>;

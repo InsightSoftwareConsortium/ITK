@@ -24,7 +24,7 @@
 int
 itkBSplineSyNPointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
 {
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
 
   using PointSetType = itk::PointSet<unsigned int, Dimension>;
 
@@ -54,8 +54,8 @@ itkBSplineSyNPointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(ar
   {
     auto label = static_cast<unsigned int>(1.5 + count / 100);
 
-    PointType       fixedPoint;
-    constexpr float radius{ 100.0 };
+    PointType              fixedPoint;
+    static constexpr float radius{ 100.0 };
     fixedPoint[0] = radius * std::cos(theta);
     fixedPoint[1] = radius * std::sin(theta);
     if constexpr (PointSetType::PointDimension > 2)
@@ -110,7 +110,7 @@ itkBSplineSyNPointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(ar
   // Create the SyN deformable registration method
 
   using VectorType = itk::Vector<double, Dimension>;
-  constexpr VectorType zeroVector{};
+  static constexpr VectorType zeroVector{};
 
   using DisplacementFieldType = itk::Image<VectorType, Dimension>;
   auto displacementField = DisplacementFieldType::New();
@@ -154,7 +154,7 @@ itkBSplineSyNPointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(ar
   // if the user wishes to add that option, they can use the class
   // GaussianSmoothingOnUpdateDisplacementFieldTransformAdaptor
 
-  constexpr unsigned int numberOfLevels{ 3 };
+  static constexpr unsigned int numberOfLevels{ 3 };
 
   DisplacementFieldRegistrationType::NumberOfIterationsArrayType numberOfIterationsPerLevel;
   numberOfIterationsPerLevel.SetSize(3);
@@ -232,7 +232,7 @@ itkBSplineSyNPointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(ar
 
   // applying the resultant transform to moving points and verify result
   std::cout << "Fixed\tMoving\tMovingTransformed\tFixedTransformed\tDiff" << std::endl;
-  constexpr PointType::ValueType tolerance{ 0.01 };
+  static constexpr PointType::ValueType tolerance{ 0.01 };
 
   float averageError = 0.0;
   for (unsigned int n = 0; n < movingPoints->GetNumberOfPoints(); ++n)

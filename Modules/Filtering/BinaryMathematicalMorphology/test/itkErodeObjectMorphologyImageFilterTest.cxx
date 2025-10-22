@@ -26,12 +26,12 @@ itkErodeObjectMorphologyImageFilterTest(int, char *[])
 {
 
   // Define the dimension of the images
-  constexpr unsigned int myDimension{ 2 };
+  static constexpr unsigned int myDimension{ 2 };
 
   // Define the values of the input images
-  constexpr unsigned short fgValue{ 25 };
-  constexpr unsigned short bgValue{ 0 };
-  constexpr unsigned short randomValue{ 10 };
+  static constexpr unsigned short fgValue{ 25 };
+  static constexpr unsigned short bgValue{ 0 };
+  static constexpr unsigned short randomValue{ 10 };
 
   // Declare the types of the images
   using myImageType = itk::Image<unsigned short, myDimension>;
@@ -143,7 +143,7 @@ itkErodeObjectMorphologyImageFilterTest(int, char *[])
   filter->SetErodeValue(fgValue);
   ITK_TEST_SET_GET_VALUE(fgValue, filter->GetErodeValue());
 
-  constexpr unsigned short backgroundValue{ 5 };
+  static constexpr unsigned short backgroundValue{ 5 };
   filter->SetBackgroundValue(backgroundValue);
   ITK_TEST_SET_GET_VALUE(backgroundValue, filter->GetBackgroundValue());
 

@@ -24,7 +24,7 @@
 int
 itkAnchorErodeDilateImageFilterTest(int, char ** const)
 {
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
 
   using PixelType = float;
 

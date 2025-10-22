@@ -26,9 +26,9 @@ namespace LSIFTN
 using ImageType = itk::Image<float, 3>;
 using SeedImageType = itk::Image<signed char, 3>;
 
-constexpr int V_WIDTH{ 64 };
-constexpr int V_HEIGHT{ 64 };
-constexpr int V_DEPTH{ 64 };
+static constexpr int V_WIDTH{ 64 };
+static constexpr int V_HEIGHT{ 64 };
+static constexpr int V_DEPTH{ 64 };
 
 float
 sphere(float x, float y, float z)
@@ -152,9 +152,9 @@ protected:
 int
 itkLaplacianSegmentationLevelSetImageFilterTest(int, char *[])
 {
-  constexpr LSIFTN::ImageType::RegionType::SizeType  sz{ 64, 64, 64 };
-  constexpr LSIFTN::ImageType::RegionType::IndexType idx{};
-  LSIFTN::ImageType::RegionType                      reg = { idx, sz };
+  static constexpr LSIFTN::ImageType::RegionType::SizeType  sz{ 64, 64, 64 };
+  static constexpr LSIFTN::ImageType::RegionType::IndexType idx{};
+  LSIFTN::ImageType::RegionType                             reg = { idx, sz };
 
   const LSIFTN::ImageType::Pointer     inputImage = LSIFTN::ImageType::New();
   const LSIFTN::SeedImageType::Pointer seedImage = LSIFTN::SeedImageType::New();

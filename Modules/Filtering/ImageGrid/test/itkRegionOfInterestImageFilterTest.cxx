@@ -25,7 +25,7 @@ int
 itkRegionOfInterestImageFilterTest(int, char *[])
 {
 
-  constexpr unsigned int Dimension{ 3 };
+  static constexpr unsigned int Dimension{ 3 };
   using PixelType = itk::Index<Dimension>;
 
   using ImageType = itk::Image<PixelType, Dimension>;
@@ -46,9 +46,9 @@ itkRegionOfInterestImageFilterTest(int, char *[])
 
   auto image = ImageType::New();
 
-  constexpr IndexType start{};
-  constexpr SizeType  size{ 40, 40, 40 };
-  RegionType          region{ start, size };
+  static constexpr IndexType start{};
+  static constexpr SizeType  size{ 40, 40, 40 };
+  RegionType                 region{ start, size };
 
   image->SetRegions(region);
   image->Allocate();
@@ -75,9 +75,9 @@ itkRegionOfInterestImageFilterTest(int, char *[])
 
   filter->SetInput(image);
 
-  constexpr SizeType  roiSize{ 20, 20, 20 };
-  constexpr IndexType roiStart{ 9, 9, 9 };
-  RegionType          regionOfInterest{ roiStart, roiSize };
+  static constexpr SizeType  roiSize{ 20, 20, 20 };
+  static constexpr IndexType roiStart{ 9, 9, 9 };
+  RegionType                 regionOfInterest{ roiStart, roiSize };
 
   const itk::SimpleFilterWatcher watcher(filter);
 

@@ -35,7 +35,7 @@ itkInvertIntensityImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
 
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType, Dimension>;
@@ -51,7 +51,7 @@ itkInvertIntensityImageFilterTest(int argc, char * argv[])
 
   const itk::SimpleFilterWatcher watcher(filter);
 
-  constexpr FilterType::InputPixelType maximum{ itk::NumericTraits<FilterType::InputPixelType>::max() };
+  static constexpr FilterType::InputPixelType maximum{ itk::NumericTraits<FilterType::InputPixelType>::max() };
   filter->SetMaximum(maximum);
   ITK_TEST_SET_GET_VALUE(maximum, filter->GetMaximum());
 

@@ -307,8 +307,8 @@ itkExhaustiveOptimizerv4Test(int, char *[])
   //
   // check results to see if it is within range
   //
-  bool             trueParamsPass = true;
-  constexpr double trueParameters[2]{ 2, -2 };
+  bool                    trueParamsPass = true;
+  static constexpr double trueParameters[2]{ 2, -2 };
   for (unsigned int j = 0; j < 2; ++j)
   {
     if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)

@@ -30,7 +30,7 @@ itkGaussianSpatialFunctionTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension{ 3 };
+  static constexpr unsigned int Dimension{ 3 };
   using PixeltType = double;
 
   using GaussianSpatialFunctionType = itk::GaussianSpatialFunction<PixeltType, Dimension>;
@@ -98,8 +98,8 @@ itkGaussianSpatialFunctionTest(int argc, char * argv[])
   }
   else
   {
-    constexpr double oneDimensionalFactor{ 1.0 };
-    constexpr double factor{ oneDimensionalFactor * oneDimensionalFactor * oneDimensionalFactor };
+    static constexpr double oneDimensionalFactor{ 1.0 };
+    static constexpr double factor{ oneDimensionalFactor * oneDimensionalFactor * oneDimensionalFactor };
     expectedValueAtMean = scale / factor;
   }
 

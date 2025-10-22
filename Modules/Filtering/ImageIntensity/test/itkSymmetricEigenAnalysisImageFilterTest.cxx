@@ -114,9 +114,9 @@ public:
     auto inputImage = InputImageType::New();
 
     // Define its size, and start index
-    SizeType            size{ 8, 8, 8 };
-    constexpr IndexType start{};
-    RegionType          region{ start, size };
+    SizeType                   size{ 8, 8, 8 };
+    static constexpr IndexType start{};
+    RegionType                 region{ start, size };
 
     // Initialize the input image
     inputImage->SetRegions(region);
@@ -219,7 +219,7 @@ public:
     size[1] = 8;
     size[2] = 8;
 
-    constexpr IndexType start{};
+    static constexpr IndexType start{};
 
     RegionType region{ start, size };
 
@@ -287,7 +287,7 @@ itkSymmetricEigenAnalysisImageFilterTest(int argc, char * argv[])
   bool testPassed = true;
 
   // Define the dimension of the images
-  constexpr unsigned int Dimension{ 3 };
+  static constexpr unsigned int Dimension{ 3 };
 
   // Declare the pixel type
   using InputPixelType = float;

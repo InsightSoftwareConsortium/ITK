@@ -25,9 +25,9 @@ namespace NBTS
 using ImageType = itk::Image<float, 3>;
 using SeedImageType = itk::Image<signed char, 3>;
 
-constexpr int V_WIDTH{ 64 };
-constexpr int V_HEIGHT{ 64 };
-constexpr int V_DEPTH{ 64 };
+static constexpr int V_WIDTH{ 64 };
+static constexpr int V_HEIGHT{ 64 };
+static constexpr int V_DEPTH{ 64 };
 
 float
 sphere(float x, float y, float z)
@@ -109,9 +109,9 @@ protected:
 int
 itkNarrowBandThresholdSegmentationLevelSetImageFilterTest(int, char *[])
 {
-  constexpr NBTS::ImageType::RegionType::SizeType sz{ 64, 64, 64 };
-  NBTS::ImageType::RegionType::IndexType          idx{};
-  NBTS::ImageType::RegionType                     reg = { idx, sz };
+  static constexpr NBTS::ImageType::RegionType::SizeType sz{ 64, 64, 64 };
+  NBTS::ImageType::RegionType::IndexType                 idx{};
+  NBTS::ImageType::RegionType                            reg = { idx, sz };
 
   const NBTS::ImageType::Pointer     inputImage = NBTS::ImageType::New();
   const NBTS::SeedImageType::Pointer seedImage = NBTS::SeedImageType::New();
@@ -171,7 +171,7 @@ itkNarrowBandThresholdSegmentationLevelSetImageFilterTest(int, char *[])
   filter->SetEdgeWeight(edgeWeight);
   ITK_TEST_SET_GET_VALUE(edgeWeight, filter->GetEdgeWeight());
 
-  constexpr int smoothingIterations{ 5 };
+  static constexpr int smoothingIterations{ 5 };
   filter->SetSmoothingIterations(smoothingIterations);
   ITK_TEST_SET_GET_VALUE(smoothingIterations, filter->GetSmoothingIterations());
 

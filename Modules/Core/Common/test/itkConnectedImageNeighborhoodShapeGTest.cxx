@@ -44,7 +44,7 @@ Assert_GetNumberOfOffsets_returns_expected_number()
   using ShapeType = itk::ConnectedImageNeighborhoodShape<VImageDimension>;
 
   // Test GetNumberOfOffsets() on a 'constexpr shape', at compile-time:
-  constexpr ShapeType constexprShape(VMaximumCityblockDistance, VIncludeCenterPixel);
+  static constexpr ShapeType constexprShape(VMaximumCityblockDistance, VIncludeCenterPixel);
   static_assert(constexprShape.GetNumberOfOffsets() == VExpectedNumberOfOffsets,
                 "Checked ConnectedImageNeighborhoodShape::GetNumberOfOffsets().");
 
@@ -82,8 +82,8 @@ Assert_GenerateImageNeighborhoodOffsets_returns_expected_offsets_excluding_cente
 {
   using ShapeType = itk::ConnectedImageNeighborhoodShape<VImageDimension>;
 
-  constexpr bool  includeCenterPixel{ false };
-  const ShapeType shape{ VMaximumCityblockDistance, includeCenterPixel };
+  static constexpr bool includeCenterPixel{ false };
+  const ShapeType       shape{ VMaximumCityblockDistance, includeCenterPixel };
 
   ASSERT_EQ(GenerateImageNeighborhoodOffsets(shape), expectedOffsets);
 }
@@ -243,7 +243,7 @@ TEST(ConnectedImageNeighborhoodShape, OffsetsAreUniqueAndColexicographicallyOrde
 TEST(ConnectedImageNeighborhoodShape, SupportsConstShapedNeighborhoodIterator)
 {
   using ImageType = itk::Image<int>;
-  constexpr auto ImageDimension{ ImageType::ImageDimension };
+  static constexpr auto ImageDimension{ ImageType::ImageDimension };
   using SizeType = itk::Size<ImageDimension>;
   using OffsetType = itk::Offset<ImageDimension>;
 
@@ -286,8 +286,8 @@ TEST(ConnectedImageNeighborhoodShape, SupportsConstShapedNeighborhoodIterator)
 
   // Define a shape that should generate the same offsets as in the
   // previous ActivateOffset(offset) calls.
-  constexpr size_t cityBlockDistance{ 1 };
-  constexpr bool   includeCenterPixel{ false };
+  static constexpr size_t cityBlockDistance{ 1 };
+  static constexpr bool   includeCenterPixel{ false };
 
   shapedNeighborhoodIterator.ActivateOffsets(
     itk::GenerateConnectedImageNeighborhoodShapeOffsets<ImageDimension, cityBlockDistance, includeCenterPixel>());

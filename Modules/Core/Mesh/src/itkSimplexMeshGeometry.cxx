@@ -26,8 +26,8 @@ namespace itk
 SimplexMeshGeometry::SimplexMeshGeometry()
 
 {
-  constexpr double    c{ 1.0 / 3.0 };
-  constexpr PointType p{};
+  static constexpr double    c{ 1.0 / 3.0 };
+  static constexpr PointType p{};
 
   pos.Fill(0);
   oldPos.Fill(0);

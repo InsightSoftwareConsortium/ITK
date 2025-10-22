@@ -200,7 +200,7 @@ PerformDisplacementFieldImageRegistration(int argc, char * argv[])
   affineWriter->Update();
 
   using VectorType = itk::Vector<RealType, ImageDimension>;
-  constexpr VectorType zeroVector{};
+  static constexpr VectorType zeroVector{};
 
   // Create the SyN deformable registration method
 
@@ -261,7 +261,7 @@ PerformDisplacementFieldImageRegistration(int argc, char * argv[])
   // if the user wishes to add that option, they can use the class
   // GaussianSmoothingOnUpdateDisplacementFieldTransformAdaptor
 
-  constexpr unsigned int numberOfLevels{ 3 };
+  static constexpr unsigned int numberOfLevels{ 3 };
 
   typename DisplacementFieldRegistrationType::NumberOfIterationsArrayType numberOfIterationsPerLevel;
   numberOfIterationsPerLevel.SetSize(3);
@@ -274,8 +274,8 @@ PerformDisplacementFieldImageRegistration(int argc, char * argv[])
   numberOfIterationsPerLevel[1] = 1;
   numberOfIterationsPerLevel[2] = 1;
 #endif
-  constexpr RealType varianceForUpdateField{ 1.75 };
-  constexpr RealType varianceForTotalField{ 0.5 };
+  static constexpr RealType varianceForUpdateField{ 1.75 };
+  static constexpr RealType varianceForTotalField{ 0.5 };
 
   typename DisplacementFieldRegistrationType::ShrinkFactorsArrayType shrinkFactorsPerLevel;
   shrinkFactorsPerLevel.SetSize(3);
@@ -398,7 +398,7 @@ PerformDisplacementFieldImageRegistration(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int convergenceWindowSize{ 10 };
+  static constexpr unsigned int convergenceWindowSize{ 10 };
   displacementFieldRegistration->SetConvergenceWindowSize(convergenceWindowSize);
   ITK_TEST_SET_GET_VALUE(convergenceWindowSize, displacementFieldRegistration->GetConvergenceWindowSize());
 
@@ -474,7 +474,7 @@ itkSyNImageRegistrationTest(int argc, char * argv[])
 
   // Exercise the objet's basic methods outside the templated test helper to
   // avoid the Superclass name not being found.
-  constexpr unsigned int ImageDimension{ 2 };
+  static constexpr unsigned int ImageDimension{ 2 };
 
   using PixelType = double;
   using FixedImageType = itk::Image<PixelType, ImageDimension>;

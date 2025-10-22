@@ -215,7 +215,7 @@ TEST(ImageMaskSpatialObject, AxisAlignedBoundingBoxRegionIsImageRegionWhenOnlyOn
 TEST(ImageMaskSpatialObject, IsInsideSingleZeroPixel)
 {
   using ImageType = itk::Image<unsigned char>;
-  constexpr auto ImageDimension{ ImageType::ImageDimension };
+  static constexpr auto ImageDimension{ ImageType::ImageDimension };
   using SizeType = ImageType::SizeType;
   using PointType = ImageType::PointType;
 
@@ -225,7 +225,7 @@ TEST(ImageMaskSpatialObject, IsInsideSingleZeroPixel)
   image->Allocate();
   image->FillBuffer(1);
 
-  constexpr itk::IndexValueType indexValue{ 4 };
+  static constexpr itk::IndexValueType indexValue{ 4 };
   image->SetPixel({ { indexValue, indexValue } }, 0);
 
   const auto spatialObject = itk::ImageMaskSpatialObject<ImageDimension>::New();
@@ -242,7 +242,7 @@ TEST(ImageMaskSpatialObject, IsInsideSingleZeroPixel)
 TEST(ImageMaskSpatialObject, IsInsideSingleNonZeroPixel)
 {
   using ImageType = itk::Image<unsigned char>;
-  constexpr auto ImageDimension{ ImageType::ImageDimension };
+  static constexpr auto ImageDimension{ ImageType::ImageDimension };
   using SizeType = ImageType::SizeType;
   using PointType = ImageType::PointType;
 
@@ -251,7 +251,7 @@ TEST(ImageMaskSpatialObject, IsInsideSingleNonZeroPixel)
   image->SetRegions(SizeType::Filled(8));
   image->AllocateInitialized();
 
-  constexpr itk::IndexValueType indexValue{ 4 };
+  static constexpr itk::IndexValueType indexValue{ 4 };
   image->SetPixel({ { indexValue, indexValue } }, 1);
 
   const auto spatialObject = itk::ImageMaskSpatialObject<ImageDimension>::New();
@@ -268,7 +268,7 @@ TEST(ImageMaskSpatialObject, IsInsideSingleNonZeroPixel)
 TEST(ImageMaskSpatialObject, IsInsideIndependentOfDistantPixels)
 {
   using ImageType = itk::Image<unsigned char>;
-  constexpr auto ImageDimension{ ImageType::ImageDimension };
+  static constexpr auto ImageDimension{ ImageType::ImageDimension };
   using SizeType = ImageType::SizeType;
   using IndexType = ImageType::IndexType;
   using PointType = ImageType::PointType;
@@ -279,7 +279,7 @@ TEST(ImageMaskSpatialObject, IsInsideIndependentOfDistantPixels)
   image->AllocateInitialized();
 
   // Set the value of a pixel to non-zero.
-  constexpr itk::IndexValueType indexValue{ 8 };
+  static constexpr itk::IndexValueType indexValue{ 8 };
   image->SetPixel({ { indexValue, indexValue } }, 1);
 
   const auto spatialObject = itk::ImageMaskSpatialObject<ImageDimension>::New();
@@ -287,7 +287,7 @@ TEST(ImageMaskSpatialObject, IsInsideIndependentOfDistantPixels)
   spatialObject->Update();
 
   // Point of interest: a point close to the non-zero pixel.
-  constexpr auto pointOfInterest{ itk::MakeFilled<PointType>(indexValue - 0.25) };
+  static constexpr auto pointOfInterest{ itk::MakeFilled<PointType>(indexValue - 0.25) };
 
   const bool isInsideBefore = spatialObject->IsInside(pointOfInterest);
 
@@ -319,14 +319,14 @@ TEST(ImageMaskSpatialObject, CornerPointIsNotInsideMaskOfZeroValues)
 
   const auto imageMaskSpatialObject = itk::ImageMaskSpatialObject<2>::New();
   imageMaskSpatialObject->SetImage(image);
-  constexpr double cornerPoint[]{ 1.5, 1.5 };
+  static constexpr double cornerPoint[]{ 1.5, 1.5 };
   ASSERT_FALSE(imageMaskSpatialObject->IsInsideInObjectSpace(cornerPoint));
 }
 
 // Check that the IsInsideInWorldSpace overloads yield the same result, when depth = 0 and name = "".
 TEST(ImageMaskSpatialObject, IsInsideInWorldSpaceOverloads)
 {
-  constexpr auto imageDimension{ 2U };
+  static constexpr auto imageDimension{ 2U };
   using ImageMaskSpatialObjectType = itk::ImageMaskSpatialObject<imageDimension>;
   using MaskImageType = ImageMaskSpatialObjectType::ImageType;
   using MaskPixelType = MaskImageType::PixelType;

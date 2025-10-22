@@ -221,7 +221,7 @@ itkOnePlusOneEvolutionaryOptimizerv4Test(int, char *[])
 
   itkOptimizer->Initialize(10);
 
-  constexpr double growthFactor{ 1.05 };
+  static constexpr double growthFactor{ 1.05 };
   itkOptimizer->SetGrowthFactor(growthFactor);
   ITK_TEST_SET_GET_VALUE(growthFactor, itkOptimizer->GetGrowthFactor());
 
@@ -229,19 +229,19 @@ itkOnePlusOneEvolutionaryOptimizerv4Test(int, char *[])
   itkOptimizer->SetShrinkFactor(shrinkFactor);
   ITK_TEST_SET_GET_VALUE(shrinkFactor, itkOptimizer->GetShrinkFactor());
 
-  constexpr double initialRadius{ 1.01 };
+  static constexpr double initialRadius{ 1.01 };
   itkOptimizer->SetInitialRadius(initialRadius);
   ITK_TEST_SET_GET_VALUE(initialRadius, itkOptimizer->GetInitialRadius());
 
-  constexpr double epsilon{ 0.1 };
+  static constexpr double epsilon{ 0.1 };
   itkOptimizer->SetEpsilon(epsilon);
   ITK_TEST_SET_GET_VALUE(epsilon, itkOptimizer->GetEpsilon());
 
-  constexpr unsigned int maximumIteration{ 8000 };
+  static constexpr unsigned int maximumIteration{ 8000 };
   itkOptimizer->SetMaximumIteration(maximumIteration);
   ITK_TEST_SET_GET_VALUE(maximumIteration, itkOptimizer->GetMaximumIteration());
 
-  constexpr double metricWorstPossibleValue{ 0 };
+  static constexpr double metricWorstPossibleValue{ 0 };
   itkOptimizer->SetMetricWorstPossibleValue(metricWorstPossibleValue);
   ITK_TEST_SET_GET_VALUE(metricWorstPossibleValue, itkOptimizer->GetMetricWorstPossibleValue());
 
@@ -249,7 +249,7 @@ itkOnePlusOneEvolutionaryOptimizerv4Test(int, char *[])
   auto generator = GeneratorType::New();
   itkOptimizer->SetNormalVariateGenerator(generator);
 
-  constexpr bool catchGetValueException{ false };
+  static constexpr bool catchGetValueException{ false };
   ITK_TEST_SET_GET_BOOLEAN(itkOptimizer, CatchGetValueException, catchGetValueException);
 
   // Set the initial position by setting the metric
@@ -268,8 +268,8 @@ itkOnePlusOneEvolutionaryOptimizerv4Test(int, char *[])
   //
   // check results to see if it is within range
   //
-  bool             pass = true;
-  constexpr double trueParameters[2]{ 2, -2 };
+  bool                    pass = true;
+  static constexpr double trueParameters[2]{ 2, -2 };
   for (unsigned int j = 0; j < 2; ++j)
   {
     if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)

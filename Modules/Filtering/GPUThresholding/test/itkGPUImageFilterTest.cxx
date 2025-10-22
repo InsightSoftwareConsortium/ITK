@@ -77,10 +77,10 @@ runGPUImageFilterTest(const std::string & inFile, const std::string & outFile)
   }
 
   // threshold parameters
-  constexpr InputPixelType  upperThreshold{ 255 };
-  constexpr InputPixelType  lowerThreshold{ 175 };
-  constexpr OutputPixelType outsideValue{ 0 };
-  constexpr OutputPixelType insideValue{ 255 };
+  static constexpr InputPixelType  upperThreshold{ 255 };
+  static constexpr InputPixelType  lowerThreshold{ 175 };
+  static constexpr OutputPixelType outsideValue{ 0 };
+  static constexpr OutputPixelType insideValue{ 255 };
 
   filter1->SetRadius(indexRadius);
   filter2->SetRadius(indexRadius);

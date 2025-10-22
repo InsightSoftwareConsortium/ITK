@@ -28,7 +28,7 @@ itkFastMarchingQuadEdgeMeshFilterWithNumberOfElementsTest(int, char *[])
   using PixelType = float;
   using CoordType = double;
 
-  constexpr unsigned int Dimension{ 3 };
+  static constexpr unsigned int Dimension{ 3 };
 
   using Traits = itk::QuadEdgeMeshExtendedTraits<PixelType, // type of data for vertices
                                                  Dimension, // geometrical dimension of space
@@ -103,7 +103,7 @@ itkFastMarchingQuadEdgeMeshFilterWithNumberOfElementsTest(int, char *[])
     ++it;
   }
 
-  constexpr unsigned int expectedMinPointCount{ 100 };
+  static constexpr unsigned int expectedMinPointCount{ 100 };
   if (counter < expectedMinPointCount)
   {
     std::cerr << "Test failed!" << std::endl;

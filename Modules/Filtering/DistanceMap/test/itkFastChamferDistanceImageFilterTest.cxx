@@ -26,8 +26,8 @@ template <typename TPoint>
 double
 SimpleSignedDistance(const TPoint & p)
 {
-  auto             center = itk::MakeFilled<TPoint>(16);
-  constexpr double radius{ 10 };
+  auto                    center = itk::MakeFilled<TPoint>(16);
+  static constexpr double radius{ 10 };
 
   double accum = 0.0;
   for (unsigned int j = 0; j < TPoint::PointDimension; ++j)

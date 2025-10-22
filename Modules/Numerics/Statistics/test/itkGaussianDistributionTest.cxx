@@ -44,7 +44,7 @@ itkGaussianDistributionTest(int, char *[])
   int status = EXIT_SUCCESS;
 
   // Tolerance for the values.
-  constexpr double tol{ 1e-8 };
+  static constexpr double tol{ 1e-8 };
   std::cout << "Tolerance used for test: ";
   std::cout.width(22);
   std::cout.precision(15);
@@ -53,10 +53,10 @@ itkGaussianDistributionTest(int, char *[])
 
   // expected values for Gaussian cdf with mean 0 and variance 1 at
   // values of -5:1:5
-  constexpr double expected1[]{ 2.866515718791942e-007, 3.167124183311998e-005, 1.349898031630095e-003,
-                                2.275013194817922e-002, 1.586552539314571e-001, 5.000000000000000e-001,
-                                8.413447460685429e-001, 9.772498680518208e-001, 9.986501019683699e-001,
-                                9.999683287581669e-001, 9.999997133484281e-001 };
+  static constexpr double expected1[]{ 2.866515718791942e-007, 3.167124183311998e-005, 1.349898031630095e-003,
+                                       2.275013194817922e-002, 1.586552539314571e-001, 5.000000000000000e-001,
+                                       8.413447460685429e-001, 9.772498680518208e-001, 9.986501019683699e-001,
+                                       9.999683287581669e-001, 9.999997133484281e-001 };
 
   std::cout << "Gaussian CDF" << std::endl;
   for (int i = -5; i <= 5; ++i)
@@ -124,10 +124,10 @@ itkGaussianDistributionTest(int, char *[])
   std::cout << "Testing mean = " << distributionFunction->GetMean()
             << ", variance = " << distributionFunction->GetVariance() << std::endl;
 
-  constexpr double expected2[]{ 7.687298972140230e-013, 9.830802207714426e-011, 7.708628950140045e-009,
-                                3.715491861707074e-007, 1.104524849929275e-005, 2.034760087224798e-004,
-                                2.338867490523635e-003, 1.694742676234465e-002, 7.864960352514258e-002,
-                                2.397500610934768e-001, 5.000000000000000e-001 };
+  static constexpr double expected2[]{ 7.687298972140230e-013, 9.830802207714426e-011, 7.708628950140045e-009,
+                                       3.715491861707074e-007, 1.104524849929275e-005, 2.034760087224798e-004,
+                                       2.338867490523635e-003, 1.694742676234465e-002, 7.864960352514258e-002,
+                                       2.397500610934768e-001, 5.000000000000000e-001 };
 
   std::cout << "Gaussian CDF" << std::endl;
   for (int i = -5; i <= 5; ++i)
@@ -169,10 +169,10 @@ itkGaussianDistributionTest(int, char *[])
   distributionFunction->SetMean(0.0);     // clear settings
   distributionFunction->SetVariance(1.0); // clear settings
 
-  constexpr double expected3[]{ 7.687298972140230e-013, 9.830802207714426e-011, 7.708628950140045e-009,
-                                3.715491861707074e-007, 1.104524849929275e-005, 2.034760087224798e-004,
-                                2.338867490523635e-003, 1.694742676234465e-002, 7.864960352514258e-002,
-                                2.397500610934768e-001, 5.000000000000000e-001 };
+  static constexpr double expected3[]{ 7.687298972140230e-013, 9.830802207714426e-011, 7.708628950140045e-009,
+                                       3.715491861707074e-007, 1.104524849929275e-005, 2.034760087224798e-004,
+                                       2.338867490523635e-003, 1.694742676234465e-002, 7.864960352514258e-002,
+                                       2.397500610934768e-001, 5.000000000000000e-001 };
 
   std::cout << "Gaussian CDF (parameter vector API)" << std::endl;
   for (int i = -5; i <= 5; ++i)
@@ -207,10 +207,10 @@ itkGaussianDistributionTest(int, char *[])
   // same test but using the separate parameters
   std::cout << "Testing mean = " << params[0] << ", variance = " << params[1] << std::endl;
 
-  constexpr double expected4[]{ 7.687298972140230e-013, 9.830802207714426e-011, 7.708628950140045e-009,
-                                3.715491861707074e-007, 1.104524849929275e-005, 2.034760087224798e-004,
-                                2.338867490523635e-003, 1.694742676234465e-002, 7.864960352514258e-002,
-                                2.397500610934768e-001, 5.000000000000000e-001 };
+  static constexpr double expected4[]{ 7.687298972140230e-013, 9.830802207714426e-011, 7.708628950140045e-009,
+                                       3.715491861707074e-007, 1.104524849929275e-005, 2.034760087224798e-004,
+                                       2.338867490523635e-003, 1.694742676234465e-002, 7.864960352514258e-002,
+                                       2.397500610934768e-001, 5.000000000000000e-001 };
 
   std::cout << "Gaussian CDF (separate parameter API)" << std::endl;
   for (int i = -5; i <= 5; ++i)
@@ -272,8 +272,8 @@ itkGaussianDistributionTest(int, char *[])
   }
   std::cout << std::endl;
 
-  constexpr double mean1{ 1.0 };
-  constexpr double variance1{ 2.5 };
+  static constexpr double mean1{ 1.0 };
+  static constexpr double variance1{ 2.5 };
 
   DistributionType::ParametersType parameters(distributionFunction->GetNumberOfParameters());
   parameters[0] = mean1;
@@ -331,17 +331,17 @@ itkGaussianDistributionTest(int, char *[])
   ITK_TRY_EXPECT_EXCEPTION(distributionFunction->InverseCDF(x, wrongParameters));
 
   distributionFunction->SetParameters(wrongParameters);
-  constexpr double newMean{ 17.0 };
+  static constexpr double newMean{ 17.0 };
   distributionFunction->SetMean(newMean);
   ITK_TEST_SET_GET_VALUE(newMean, distributionFunction->GetMean());
 
   distributionFunction->SetParameters(wrongParameters);
-  constexpr double newVariance{ 42.0 };
+  static constexpr double newVariance{ 42.0 };
   distributionFunction->SetVariance(newVariance);
   ITK_TEST_SET_GET_VALUE(newVariance, distributionFunction->GetVariance());
 
-  constexpr double mean2{ 0.0 };
-  constexpr double variance2{ 1.0 };
+  static constexpr double mean2{ 0.0 };
+  static constexpr double variance2{ 1.0 };
 
   parameters[0] = mean2;
   parameters[1] = variance2;

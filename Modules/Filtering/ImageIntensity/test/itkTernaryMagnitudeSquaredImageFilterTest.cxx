@@ -25,7 +25,7 @@ itkTernaryMagnitudeSquaredImageFilterTest(int, char *[])
 {
 
   // Define the dimension of the images
-  constexpr unsigned int Dimension{ 3 };
+  static constexpr unsigned int Dimension{ 3 };
 
   // Declare the pixel types of the images
   using PixelType = float;
@@ -51,9 +51,9 @@ itkTernaryMagnitudeSquaredImageFilterTest(int, char *[])
   auto inputImageC = InputImageType3::New();
 
   // Define their size, and start index
-  constexpr SizeType  size{ 2, 2, 2 };
-  constexpr IndexType start{ 0, 0, 0 };
-  RegionType          region{ start, size };
+  static constexpr SizeType  size{ 2, 2, 2 };
+  static constexpr IndexType start{ 0, 0, 0 };
+  RegionType                 region{ start, size };
 
   // Initialize Image A
   inputImageA->SetRegions(region);
@@ -77,7 +77,7 @@ itkTernaryMagnitudeSquaredImageFilterTest(int, char *[])
   InputImage1IteratorType it1(inputImageA, inputImageA->GetBufferedRegion());
 
   // Initialize the content of Image A
-  constexpr InputImageType1::PixelType valueA{ 2.0 };
+  static constexpr InputImageType1::PixelType valueA{ 2.0 };
   while (!it1.IsAtEnd())
   {
     it1.Set(valueA);
@@ -88,7 +88,7 @@ itkTernaryMagnitudeSquaredImageFilterTest(int, char *[])
   InputImage2IteratorType it2(inputImageB, inputImageB->GetBufferedRegion());
 
   // Initialize the content of Image B
-  constexpr InputImageType2::PixelType valueB{ 3.0 };
+  static constexpr InputImageType2::PixelType valueB{ 3.0 };
   while (!it2.IsAtEnd())
   {
     it2.Set(valueB);
@@ -99,7 +99,7 @@ itkTernaryMagnitudeSquaredImageFilterTest(int, char *[])
   InputImage3IteratorType it3(inputImageC, inputImageC->GetBufferedRegion());
 
   // Initialize the content of Image C
-  constexpr InputImageType3::PixelType valueC{ 4.0 };
+  static constexpr InputImageType3::PixelType valueC{ 4.0 };
   while (!it3.IsAtEnd())
   {
     it3.Set(valueC);
@@ -132,7 +132,7 @@ itkTernaryMagnitudeSquaredImageFilterTest(int, char *[])
   OutputImageIteratorType oIt(outputImage, outputImage->GetBufferedRegion());
 
   // Check the content of the result image
-  constexpr float epsilon{ 1e-6 };
+  static constexpr float epsilon{ 1e-6 };
   oIt.GoToBegin();
   it1.GoToBegin();
   it2.GoToBegin();

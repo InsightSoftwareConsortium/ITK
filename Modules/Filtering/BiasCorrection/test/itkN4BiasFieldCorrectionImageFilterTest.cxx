@@ -169,7 +169,7 @@ N4(int argc, char * argv[])
   using CorrecterType = itk::N4BiasFieldCorrectionImageFilter<ImageType, MaskImageType, ImageType>;
   auto correcter = CorrecterType::New();
 
-  constexpr unsigned int splineOrder{ 3 };
+  static constexpr unsigned int splineOrder{ 3 };
   correcter->SetSplineOrder(splineOrder);
   ITK_TEST_SET_GET_VALUE(splineOrder, correcter->GetSplineOrder());
 
@@ -183,7 +183,7 @@ N4(int argc, char * argv[])
   correcter->SetConvergenceThreshold(convergenceThreshold);
   ITK_TEST_SET_GET_VALUE(convergenceThreshold, correcter->GetConvergenceThreshold());
 
-  constexpr unsigned int numberOfHistogramBins{ 200 };
+  static constexpr unsigned int numberOfHistogramBins{ 200 };
   correcter->SetNumberOfHistogramBins(numberOfHistogramBins);
   ITK_TEST_SET_GET_VALUE(numberOfHistogramBins, correcter->GetNumberOfHistogramBins());
 
@@ -196,7 +196,7 @@ N4(int argc, char * argv[])
   correcter->SetMaskLabel(maskLabel);
   ITK_TEST_SET_GET_VALUE(maskLabel, correcter->GetMaskLabel());
 
-  constexpr bool useMaskLabel{ false };
+  static constexpr bool useMaskLabel{ false };
   ITK_TEST_SET_GET_BOOLEAN(correcter, UseMaskLabel, useMaskLabel);
 
   // Handle the number of iterations
@@ -338,7 +338,7 @@ itkN4BiasFieldCorrectionImageFilterTest(int argc, char * argv[])
 
   // Exercise the object's basic methods outside the templated test helper to
   // avoid the Superclass name not being found.
-  constexpr unsigned int ImageDimension{ 2 };
+  static constexpr unsigned int ImageDimension{ 2 };
 
   using RealType = float;
   using MaskPixelType = unsigned char;

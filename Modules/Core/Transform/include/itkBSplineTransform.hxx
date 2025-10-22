@@ -47,12 +47,12 @@ BSplineTransform<TParametersValueType, VDimension, VSplineOrder>::BSplineTransfo
   // dir[0][2],dir[1][2],dir[2][2]]
 
 
-  constexpr OriginType meshOrigin{};
-  auto                 meshPhysical = MakeFilled<PhysicalDimensionsType>(1.0);
+  static constexpr OriginType meshOrigin{};
+  auto                        meshPhysical = MakeFilled<PhysicalDimensionsType>(1.0);
 
   DirectionType meshDirection;
   meshDirection.SetIdentity();
-  constexpr auto meshSize{ MeshSizeType::Filled(1) };
+  static constexpr auto meshSize{ MeshSizeType::Filled(1) };
 
   this->m_FixedParameters.SetSize(VDimension * (VDimension + 3));
 
@@ -535,8 +535,8 @@ BSplineTransform<TParametersValueType, VDimension, VSplineOrder>::TransformPoint
     this->m_WeightsFunction->Evaluate(index, weights, supportIndex);
 
     // For each dimension, correlate coefficient with weights
-    constexpr auto   supportSize{ SizeType::Filled(SplineOrder + 1) };
-    const RegionType supportRegion(supportIndex, supportSize);
+    static constexpr auto supportSize{ SizeType::Filled(SplineOrder + 1) };
+    const RegionType      supportRegion(supportIndex, supportSize);
 
     outputPoint.Fill(ScalarType{});
 
@@ -601,7 +601,7 @@ BSplineTransform<TParametersValueType, VDimension, VSplineOrder>::ComputeJacobia
   // Zero all components of jacobian
   jacobian.SetSize(SpaceDimension, this->GetNumberOfParameters());
   jacobian.Fill(0.0);
-  constexpr auto supportSize{ SizeType::Filled(SplineOrder + 1) };
+  static constexpr auto supportSize{ SizeType::Filled(SplineOrder + 1) };
 
   ContinuousIndexType index =
     this->m_CoefficientImages[0]

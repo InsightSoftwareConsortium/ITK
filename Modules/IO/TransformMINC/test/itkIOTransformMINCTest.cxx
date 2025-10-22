@@ -67,7 +67,7 @@ check_linear(const char * linear_transform, bool ras_to_lps)
   int testStatus = EXIT_SUCCESS;
 
   using AffineTransformType = itk::AffineTransform<double, 3>;
-  constexpr double tolerance{ 1e-5 };
+  static constexpr double tolerance{ 1e-5 };
 
   auto affine = AffineTransformType::New();
 
@@ -160,7 +160,7 @@ check_nonlinear_double(const char * nonlinear_transform, bool ras_to_lps)
   std::cout << "check_nonlinear_double, ras_to_lps=" << ras_to_lps << std::endl << std::endl;
   int testStatus = EXIT_SUCCESS;
 
-  constexpr double tolerance{ 1e-5 };
+  static constexpr double tolerance{ 1e-5 };
 
   using DisplacementFieldTransform = itk::DisplacementFieldTransform<double, 3>;
   using DisplacementFieldType = DisplacementFieldTransform::DisplacementFieldType;
@@ -461,7 +461,7 @@ check_composite(const char * transform_file, bool ras_to_lps)
   using AffineTransformType = itk::AffineTransform<double, 3>;
   using CompositeTransformType = itk::CompositeTransform<double, 3>;
 
-  constexpr double tolerance{ 1e-5 };
+  static constexpr double tolerance{ 1e-5 };
 
   auto affine1 = AffineTransformType::New();
   auto affine2 = AffineTransformType::New();
@@ -562,7 +562,7 @@ check_composite2(const char * transform_file, const char * transform_grid_file, 
 
   int testStatus = EXIT_SUCCESS;
 
-  constexpr double tolerance{ 1e-5 };
+  static constexpr double tolerance{ 1e-5 };
 
   std::filebuf fb;
   if (!fb.open(transform_file, std::ios::out))

@@ -47,8 +47,8 @@ itkBSplineDeformableTransformTest1()
   // Uncomment the following if you want to see each message independently
   // itk::OutputWindow::GetInstance()->PromptUserOn();
 
-  constexpr unsigned int SpaceDimension{ 3 };
-  constexpr unsigned int SplineOrder{ 3 };
+  static constexpr unsigned int SpaceDimension{ 3 };
+  static constexpr unsigned int SplineOrder{ 3 };
   using CoordinateRepType = double;
   using TransformType = itk::BSplineDeformableTransform<CoordinateRepType, SpaceDimension, SplineOrder>;
 
@@ -59,7 +59,7 @@ itkBSplineDeformableTransformTest1()
    */
 
   using OriginType = TransformType::OriginType;
-  constexpr OriginType origin{};
+  static constexpr OriginType origin{};
 
   using RegionType = TransformType::RegionType;
   RegionType region;
@@ -442,10 +442,10 @@ itkBSplineDeformableTransformTest2()
   /**
    * Define a vector field as Dimension number of images
    */
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
 
   // Set up the transform
-  constexpr unsigned int SplineOrder{ 3 };
+  static constexpr unsigned int SplineOrder{ 3 };
   using CoordRep = double;
   using TransformType = itk::BSplineDeformableTransform<CoordRep, Dimension, SplineOrder>;
   using ImageType = TransformType::ImageType;
@@ -571,8 +571,8 @@ itkBSplineDeformableTransformTest3()
   // Comment the following if you want to use the itk text output window
   itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
-  constexpr unsigned int SpaceDimension{ 3 };
-  constexpr unsigned int SplineOrder{ 3 };
+  static constexpr unsigned int SpaceDimension{ 3 };
+  static constexpr unsigned int SplineOrder{ 3 };
   using CoordinateRepType = double;
   using TransformType = itk::BSplineDeformableTransform<CoordinateRepType, SpaceDimension, SplineOrder>;
 
@@ -583,7 +583,7 @@ itkBSplineDeformableTransformTest3()
    */
 
   using OriginType = TransformType::OriginType;
-  constexpr OriginType origin{};
+  static constexpr OriginType origin{};
 
   using RegionType = TransformType::RegionType;
   RegionType region;

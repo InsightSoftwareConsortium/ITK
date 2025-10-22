@@ -528,7 +528,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::IterativeSolve(Sol
     if (DLS == 2 && deltE < 0.0)
     {
       itkDebugMacro(" Line search ");
-      constexpr float tol{ 1.0 }; // ((0.01  < LastE) ? 0.01 : LastE/10.);
+      static constexpr float tol{ 1.0 }; // ((0.01  < LastE) ? 0.01 : LastE/10.);
       LastE = this->GoldenSection(solver, tol, m_LineSearchMaximumIterations);
       deltE = (m_MinE - LastE);
       itkDebugMacro(" Line search done ");
@@ -1181,13 +1181,13 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::FindBracketingTrip
 {
   // See Numerical Recipes
 
-  constexpr Float Gold{ 1.618034 };
-  constexpr Float Glimit{ 100.0 };
-  const Float     Tiny = 1.e-20;
-  Float           ax = 0.0;
-  Float           bx = 1.0;
-  Float           fa = itk::Math::abs(this->EvaluateResidual(solver, ax));
-  Float           fb = itk::Math::abs(this->EvaluateResidual(solver, bx));
+  static constexpr Float Gold{ 1.618034 };
+  static constexpr Float Glimit{ 100.0 };
+  const Float            Tiny = 1.e-20;
+  Float                  ax = 0.0;
+  Float                  bx = 1.0;
+  Float                  fa = itk::Math::abs(this->EvaluateResidual(solver, ax));
+  Float                  fb = itk::Math::abs(this->EvaluateResidual(solver, bx));
 
   Float dum;
 
@@ -1293,8 +1293,8 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::GoldenSection(Solv
 
   this->FindBracketingTriplet(solver, &ax, &bx, &cx);
 
-  constexpr Float R{ 0.6180339 };
-  const Float     C = (1.0 - R);
+  static constexpr Float R{ 0.6180339 };
+  const Float            C = (1.0 - R);
 
   Float x0 = ax;
   Float x1;

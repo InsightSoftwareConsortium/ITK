@@ -33,7 +33,7 @@ itkBinaryErodeImageFilterTest3(int argc, char * argv[])
     std::cerr << " InputImage OutputImage Foreground Background BoundaryToForeground Radius" << std::endl;
     return EXIT_FAILURE;
   }
-  constexpr int dim{ 2 };
+  static constexpr int dim{ 2 };
 
   using PType = unsigned char;
   using IType = itk::Image<PType, dim>;

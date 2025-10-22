@@ -115,7 +115,7 @@ itkRegistrationParameterScalesFromPhysicalShiftTest(int, char *[])
 {
 
   // Image begins
-  constexpr itk::SizeValueType ImageDimension{ 2 };
+  static constexpr itk::SizeValueType ImageDimension{ 2 };
   using PixelType = double;
   using FloatType = double;
 
@@ -307,7 +307,7 @@ itkRegistrationParameterScalesFromPhysicalShiftTest(int, char *[])
   using FieldType = DisplacementTransformType::DisplacementFieldType;
   using VectorType = itk::Vector<double, ImageDimension>;
 
-  constexpr VectorType zero{};
+  static constexpr VectorType zero{};
 
   auto field = FieldType::New();
   field->SetRegions(virtualImage->GetLargestPossibleRegion());

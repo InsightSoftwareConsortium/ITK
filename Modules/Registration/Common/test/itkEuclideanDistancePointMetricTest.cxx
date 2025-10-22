@@ -83,9 +83,9 @@ itkEuclideanDistancePointMetricTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension{ 3 };
+  static constexpr unsigned int Dimension{ 3 };
   using ScalarType = double;
-  constexpr double Epsilon{ 10e-6 };
+  static constexpr double Epsilon{ 10e-6 };
 
   using MeshType = itk::Mesh<ScalarType, Dimension>;
   using QuadEdgeMeshType = itk::QuadEdgeMesh<ScalarType, Dimension>;

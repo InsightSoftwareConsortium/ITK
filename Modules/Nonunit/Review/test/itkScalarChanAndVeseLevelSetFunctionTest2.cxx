@@ -78,7 +78,7 @@ protected:
 int
 itkScalarChanAndVeseLevelSetFunctionTest2(int, char *[])
 {
-  constexpr unsigned int Dimension{ 3 };
+  static constexpr unsigned int Dimension{ 3 };
 
   using PixelType = double;
   using ImageType = itk::Image<PixelType, Dimension>;

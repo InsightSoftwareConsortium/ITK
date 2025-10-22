@@ -31,10 +31,10 @@ itkHeavisideStepFunctionTest1(int, char *[])
   std::cout << "GetNameOfClass() = " << functionBase0->GetNameOfClass() << std::endl;
   functionBase0->Print(std::cout);
 
-  constexpr int minValue{ -20 };
-  constexpr int maxValue{ 20 };
+  static constexpr int minValue{ -20 };
+  static constexpr int maxValue{ 20 };
 
-  constexpr InputType incValue{ 0.1 };
+  static constexpr InputType incValue{ 0.1 };
 
   for (int x = minValue; x < maxValue; ++x)
   {

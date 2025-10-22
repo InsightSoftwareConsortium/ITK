@@ -31,13 +31,13 @@
 int
 itkJointHistogramMutualInformationImageToImageMetricv4Test(int, char *[])
 {
-  constexpr unsigned int imageSize{ 10 };
-  constexpr unsigned int imageDimensionality{ 3 };
+  static constexpr unsigned int imageSize{ 10 };
+  static constexpr unsigned int imageDimensionality{ 3 };
   using ImageType = itk::Image<double, imageDimensionality>;
 
-  auto                           size = ImageType::SizeType::Filled(imageSize);
-  constexpr ImageType::IndexType index{};
-  const ImageType::RegionType    region{ index, size };
+  auto                                  size = ImageType::SizeType::Filled(imageSize);
+  static constexpr ImageType::IndexType index{};
+  const ImageType::RegionType           region{ index, size };
 
   /* Create simple test images. */
   auto fixedImage = ImageType::New();
@@ -82,11 +82,11 @@ itkJointHistogramMutualInformationImageToImageMetricv4Test(int, char *[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(metric, JointHistogramMutualInformationImageToImageMetricv4, ImageToImageMetricv4);
 
-  constexpr itk::SizeValueType numberOfHistogramBins{ 6 };
+  static constexpr itk::SizeValueType numberOfHistogramBins{ 6 };
   metric->SetNumberOfHistogramBins(numberOfHistogramBins);
   ITK_TEST_SET_GET_VALUE(numberOfHistogramBins, metric->GetNumberOfHistogramBins());
 
-  constexpr double varianceForJointPDFSmoothing{ 1.5 };
+  static constexpr double varianceForJointPDFSmoothing{ 1.5 };
   metric->SetVarianceForJointPDFSmoothing(varianceForJointPDFSmoothing);
   ITK_TEST_SET_GET_VALUE(varianceForJointPDFSmoothing, metric->GetVarianceForJointPDFSmoothing());
 
@@ -120,7 +120,7 @@ itkJointHistogramMutualInformationImageToImageMetricv4Test(int, char *[])
   MovingTransformType::ParametersType parameters(movingTransform->GetNumberOfParameters());
   parameters.Fill(static_cast<MovingTransformType::ParametersValueType>(1000));
   movingTransform->SetParameters(parameters);
-  constexpr MetricType::MeasureType expectedMetricMax{ itk::NumericTraits<MetricType::MeasureType>::max() };
+  static constexpr MetricType::MeasureType expectedMetricMax{ itk::NumericTraits<MetricType::MeasureType>::max() };
   std::cout << "Testing non-overlapping images. Expect a warning:" << std::endl;
   metric->GetValueAndDerivative(valueReturn2, derivativeReturn);
   if (metric->GetNumberOfValidPoints() != 0 || itk::Math::NotAlmostEquals(valueReturn2, expectedMetricMax))

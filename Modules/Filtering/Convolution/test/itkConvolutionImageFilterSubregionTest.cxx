@@ -31,8 +31,8 @@ GenerateGaussianKernelForSubregionTest()
 {
   using SourceType = itk::GaussianImageSource<KernelImageType>;
   using KernelSizeType = typename SourceType::SizeType;
-  auto                     source = SourceType::New();
-  constexpr KernelSizeType kernelSize{ 3, 5 };
+  auto                            source = SourceType::New();
+  static constexpr KernelSizeType kernelSize{ 3, 5 };
   source->SetSize(kernelSize);
   source->SetMean(2);
   source->SetSigma(3.0);
@@ -47,7 +47,7 @@ template <typename ConvolutionFilterType>
 int
 doConvolutionImageFilterSubregionTest(int argc, char * argv[])
 {
-  constexpr int ImageDimension{ 2 };
+  static constexpr int ImageDimension{ 2 };
 
   using PixelType = float;
   using ImageType = itk::Image<PixelType, ImageDimension>;
@@ -139,7 +139,7 @@ itkConvolutionImageFilterSubregionTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr int ImageDimension{ 2 };
+  static constexpr int ImageDimension{ 2 };
 
   using PixelType = float;
   using ImageType = itk::Image<PixelType, ImageDimension>;

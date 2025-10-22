@@ -36,7 +36,7 @@ itkSimilarity3DTransformTest(int, char *[])
 
   using ValueType = double;
 
-  constexpr ValueType epsilon{ 1e-12 };
+  static constexpr ValueType epsilon{ 1e-12 };
 
   //  Versor Transform type
   using TransformType = itk::Similarity3DTransform<ValueType>;
@@ -139,9 +139,9 @@ itkSimilarity3DTransformTest(int, char *[])
 
     {
       // Rotate an itk::Point
-      constexpr TransformType::InputPointType::ValueType pInit[3]{ 1, 4, 9 };
-      const TransformType::InputPointType                p = pInit;
-      TransformType::OutputPointType                     q;
+      static constexpr TransformType::InputPointType::ValueType pInit[3]{ 1, 4, 9 };
+      const TransformType::InputPointType                       p = pInit;
+      TransformType::OutputPointType                            q;
       q = versor.Transform(p);
 
       TransformType::OutputPointType r;
@@ -294,7 +294,7 @@ itkSimilarity3DTransformTest(int, char *[])
 
     ParametersType parameters(np); // Number of parameters
 
-    constexpr VersorType versor;
+    static constexpr VersorType versor;
 
     parameters[0] = versor.GetX(); // Rotation axis * sin(t/2)
     parameters[1] = versor.GetY();
@@ -308,7 +308,7 @@ itkSimilarity3DTransformTest(int, char *[])
 
     ParametersType parameters2 = transform->GetParameters();
 
-    constexpr double tolerance{ 1e-8 };
+    static constexpr double tolerance{ 1e-8 };
     for (unsigned int p = 0; p < np; ++p)
     {
       if (itk::Math::abs(parameters[p] - parameters2[p]) > tolerance)
@@ -401,7 +401,7 @@ itkSimilarity3DTransformTest(int, char *[])
 
     ParametersType parameters(np); // Number of parameters
 
-    constexpr VersorType versor;
+    static constexpr VersorType versor;
 
     parameters[0] = versor.GetX(); // Rotation axis * sin(t/2)
     parameters[1] = versor.GetY();
@@ -413,7 +413,7 @@ itkSimilarity3DTransformTest(int, char *[])
 
     ParametersType parameters2 = transform->GetParameters();
 
-    constexpr double tolerance{ 1e-8 };
+    static constexpr double tolerance{ 1e-8 };
     for (unsigned int p = 0; p < np; ++p)
     {
       if (itk::Math::abs(parameters[p] - parameters2[p]) > tolerance)
@@ -449,13 +449,13 @@ itkSimilarity3DTransformTest(int, char *[])
 
     transform->SetTranslation(translation);
 
-    constexpr double scale{ 2.5 };
+    static constexpr double scale{ 2.5 };
 
     transform->SetScale(scale);
 
     const double rscale = transform->GetScale();
 
-    constexpr double tolerance{ 1e-8 };
+    static constexpr double tolerance{ 1e-8 };
 
     if (itk::Math::abs(rscale - scale) > tolerance)
     {
@@ -538,8 +538,8 @@ itkSimilarity3DTransformTest(int, char *[])
     // attempt to set an (orthogonal + scale) matrix
     matrix.GetVnlMatrix().set_identity();
 
-    constexpr double a{ 1.0 / 180.0 * itk::Math::pi };
-    constexpr double s{ 0.5 };
+    static constexpr double a{ 1.0 / 180.0 * itk::Math::pi };
+    static constexpr double s{ 0.5 };
     matrix[0][0] = std::cos(a) * s;
     matrix[0][1] = -1.0 * std::sin(a) * s;
     matrix[1][0] = std::sin(a) * s;

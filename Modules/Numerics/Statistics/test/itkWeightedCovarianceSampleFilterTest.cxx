@@ -19,7 +19,7 @@
 #include "itkWeightedCovarianceSampleFilter.h"
 #include "itkListSample.h"
 
-constexpr unsigned int MeasurementVectorSize{ 3 };
+static constexpr unsigned int MeasurementVectorSize{ 3 };
 
 using MeasurementVectorType = itk::FixedArray<float, MeasurementVectorSize>;
 
@@ -45,7 +45,7 @@ public:
   void
   CreateInvalidOutput()
   {
-    constexpr unsigned int index{ 3 };
+    static constexpr unsigned int index{ 3 };
     Superclass::MakeOutput(index);
   }
 };
@@ -154,7 +154,7 @@ itkWeightedCovarianceSampleFilterTest(int, char *[])
 
   // Check the results
 
-  constexpr double epsilon{ 1e-2 };
+  static constexpr double epsilon{ 1e-2 };
 
   MeasurementVectorRealType meanExpected33;
   itk::NumericTraits<MeasurementVectorRealType>::SetLength(meanExpected33, MeasurementVectorSize);

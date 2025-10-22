@@ -40,7 +40,7 @@ itkLaplacianRecursiveGaussianImageFilterTest(int argc, char * argv[])
   using CharPixelType = unsigned char; // IO
   using RealPixelType = double;        // Operations
 
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
 
   using CharImageType = itk::Image<CharPixelType, Dimension>;
   using RealImageType = itk::Image<RealPixelType, Dimension>;

@@ -28,7 +28,7 @@
 int
 itkLabelOverlayImageFilterTest(int argc, char * argv[])
 {
-  constexpr int Dimension{ 2 };
+  static constexpr int Dimension{ 2 };
 
   if (argc < 5)
   {

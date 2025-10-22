@@ -149,7 +149,7 @@ public:
     VersorType versorY;
     VersorType versorZ;
 
-    constexpr double deltaAngle{ 0.00175 }; // in radians = about 0.1 degree
+    static constexpr double deltaAngle{ 0.00175 }; // in radians = about 0.1 degree
 
     versorX.SetRotationAroundX(deltaAngle);
     versorY.SetRotationAroundY(deltaAngle);
@@ -189,7 +189,7 @@ public:
     derivative[1] = (turnYValue - baseValue) / deltaAngle;
     derivative[2] = (turnZValue - baseValue) / deltaAngle;
 
-    constexpr double deltaTranslation{ deltaAngle }; // just to keep the scaling
+    static constexpr double deltaTranslation{ deltaAngle }; // just to keep the scaling
 
     parametersPlustDeltaTX[3] += deltaTranslation;
     parametersPlustDeltaTY[4] += deltaTranslation;
@@ -250,7 +250,7 @@ itkVersorRigid3DTransformOptimizerTest(int, char *[])
   axis[1] = 0.0f;
   axis[2] = 0.0f;
 
-  constexpr VersorType::ValueType angle{ 0.0f };
+  static constexpr VersorType::ValueType angle{ 0.0f };
 
   VersorType initialRotation;
   initialRotation.Set(axis, angle);
@@ -265,8 +265,8 @@ itkVersorRigid3DTransformOptimizerTest(int, char *[])
   initialPosition[4] = 0.0;
   initialPosition[5] = 0.0;
 
-  ScalesType       parametersScale(parametersDimensions);
-  constexpr double translationScaleFactor{ 50.0 };
+  ScalesType              parametersScale(parametersDimensions);
+  static constexpr double translationScaleFactor{ 50.0 };
   parametersScale[0] = 1.0;
   parametersScale[1] = 1.0;
   parametersScale[2] = 1.0;
@@ -302,7 +302,7 @@ itkVersorRigid3DTransformOptimizerTest(int, char *[])
   ParametersType finalPosition(parametersDimensions);
   finalPosition = itkOptimizer->GetCurrentPosition();
 
-  constexpr unsigned int spaceDimensions{ 3 };
+  static constexpr unsigned int spaceDimensions{ 3 };
 
   VersorType             finalRotation;
   VersorType::VectorType finalRightPart;

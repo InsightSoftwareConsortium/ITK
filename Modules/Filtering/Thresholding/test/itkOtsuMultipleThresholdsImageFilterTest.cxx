@@ -41,7 +41,7 @@ itkOtsuMultipleThresholdsImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
 
   using InputPixelType = short;
   using InternalPixelType = unsigned short;

@@ -77,8 +77,8 @@ protected:
     static typename LabelImageType::Pointer
     CreateLabelImage(const std::vector<IndexType> & indices)
     {
-      constexpr size_t size{ 25 };
-      auto             image = LabelImageType::New();
+      static constexpr size_t size{ 25 };
+      auto                    image = LabelImageType::New();
 
       auto imageSize = LabelImageType::SizeType::Filled(size);
       image->SetRegions(typename LabelImageType::RegionType(imageSize));

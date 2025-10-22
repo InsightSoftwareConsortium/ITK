@@ -46,13 +46,13 @@ itkStatisticsImageFilterTest(int argc, char * argv[])
 
   itk::Statistics::MersenneTwisterRandomVariateGenerator::GetInstance()->SetSeed(987);
 
-  auto                            image = FloatImage::New();
-  auto                            size = FloatImage::SizeType::Filled(64);
-  constexpr FloatImage::IndexType index{};
-  FloatImage::RegionType          region = { index, size };
+  auto                                   image = FloatImage::New();
+  auto                                   size = FloatImage::SizeType::Filled(64);
+  static constexpr FloatImage::IndexType index{};
+  FloatImage::RegionType                 region = { index, size };
 
   // first try a constant image
-  constexpr float fillValue{ -100.0 };
+  static constexpr float fillValue{ -100.0 };
   image->SetRegions(region);
   image->Allocate();
   image->FillBuffer(static_cast<FloatImage::PixelType>(fillValue));
@@ -117,8 +117,8 @@ itkStatisticsImageFilterTest(int argc, char * argv[])
   FloatImage::SizeValueType randomSize[3] = { 17, 8, 241 };
 
   source->SetSize(randomSize);
-  constexpr float minValue{ -100.0 };
-  constexpr float maxValue{ 1000.0 };
+  static constexpr float minValue{ -100.0 };
+  static constexpr float maxValue{ 1000.0 };
 
   source->SetMin(static_cast<FloatImage::PixelType>(minValue));
   source->SetMax(static_cast<FloatImage::PixelType>(maxValue));
@@ -127,8 +127,8 @@ itkStatisticsImageFilterTest(int argc, char * argv[])
   filter->SetNumberOfStreamDivisions(numberOfStreamDivisions);
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->UpdateLargestPossibleRegion());
 
-  const double     expectedSigma = std::sqrt((maxValue - minValue) * (maxValue - minValue) / 12.0);
-  constexpr double epsilon{ (maxValue - minValue) * .001 };
+  const double            expectedSigma = std::sqrt((maxValue - minValue) * (maxValue - minValue) / 12.0);
+  static constexpr double epsilon{ (maxValue - minValue) * .001 };
 
   if (itk::Math::abs(filter->GetSigma() - expectedSigma) > epsilon)
   {
@@ -138,8 +138,8 @@ itkStatisticsImageFilterTest(int argc, char * argv[])
   // Now generate an image with a known mean and variance
   const itk::Statistics::MersenneTwisterRandomVariateGenerator::Pointer rvgen =
     itk::Statistics::MersenneTwisterRandomVariateGenerator::GetInstance();
-  constexpr double knownMean{ 12.0 };
-  constexpr double knownVariance{ 10.0 };
+  static constexpr double knownMean{ 12.0 };
+  static constexpr double knownVariance{ 10.0 };
 
   using DoubleImage = itk::Image<double, 3>;
   auto                    dImage = DoubleImage::New();

@@ -27,7 +27,7 @@ itkBinaryMagnitudeImageFilterTest(int, char *[])
 {
 
   // Define the dimension of the images
-  constexpr unsigned int Dimension{ 3 };
+  static constexpr unsigned int Dimension{ 3 };
 
   // Declare the pixel types of the images
   using PixelType = float;
@@ -51,9 +51,9 @@ itkBinaryMagnitudeImageFilterTest(int, char *[])
   auto inputImageB = InputImageType2::New();
 
   // Define their size, and start index
-  constexpr SizeType  size{ 2, 2, 2 };
-  constexpr IndexType start{ 0, 0, 0 };
-  RegionType          region{ start, size };
+  static constexpr SizeType  size{ 2, 2, 2 };
+  static constexpr IndexType start{ 0, 0, 0 };
+  RegionType                 region{ start, size };
 
   // Initialize Image A
   inputImageA->SetRegions(region);
@@ -72,7 +72,7 @@ itkBinaryMagnitudeImageFilterTest(int, char *[])
   InputImage1IteratorType it1(inputImageA, inputImageA->GetBufferedRegion());
 
   // Initialize the content of Image A
-  constexpr InputImageType1::PixelType input1Value{ 3.0 };
+  static constexpr InputImageType1::PixelType input1Value{ 3.0 };
   while (!it1.IsAtEnd())
   {
     it1.Set(input1Value);
@@ -83,7 +83,7 @@ itkBinaryMagnitudeImageFilterTest(int, char *[])
   InputImage2IteratorType it2(inputImageB, inputImageB->GetBufferedRegion());
 
   // Initialize the content of Image B
-  constexpr InputImageType2::PixelType input2Value{ 4.0 };
+  static constexpr InputImageType2::PixelType input2Value{ 4.0 };
   while (!it2.IsAtEnd())
   {
     it2.Set(input2Value);
@@ -91,7 +91,7 @@ itkBinaryMagnitudeImageFilterTest(int, char *[])
   }
 
   // Define the values of the output image
-  constexpr OutputImageType::PixelType outputValue{ 5.0 };
+  static constexpr OutputImageType::PixelType outputValue{ 5.0 };
 
 
   // Declare the type for the BinaryMagnitudeImageFilter
@@ -117,7 +117,7 @@ itkBinaryMagnitudeImageFilterTest(int, char *[])
   OutputImageIteratorType oIt(outputImage, outputImage->GetBufferedRegion());
 
   // Check the content of the result image
-  constexpr float epsilon{ 1e-6 };
+  static constexpr float epsilon{ 1e-6 };
   while (!oIt.IsAtEnd())
   {
     if (!itk::Math::FloatAlmostEqual(oIt.Get(), outputValue, 10, epsilon))

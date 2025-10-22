@@ -212,7 +212,7 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,
   /* Prepare histograms for use in GetValueAndDerivative */
 
   // Initialize the joint pdf and the fixed and moving image marginal pdfs
-  constexpr PDFValueType pdfzero{};
+  static constexpr PDFValueType pdfzero{};
   this->m_JointPDF->FillBuffer(pdfzero);
   this->m_FixedImageMarginalPDF->FillBuffer(pdfzero);
   this->m_MovingImageMarginalPDF->FillBuffer(pdfzero);
@@ -346,7 +346,7 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,
   3- The ComputeMutualInformation() iterator range should cover the entire PDF.
   4- The normalization is done based on NumberOfHistogramBins-1 instead of NumberOfHistogramBins. */
 
-  constexpr TInternalComputationValueType             eps{ NumericTraits<TInternalComputationValueType>::epsilon() };
+  static constexpr TInternalComputationValueType      eps{ NumericTraits<TInternalComputationValueType>::epsilon() };
   CompensatedSummation<TInternalComputationValueType> total_mi;
   for (SizeValueType ii = 0; ii < m_NumberOfHistogramBins; ++ii)
   {

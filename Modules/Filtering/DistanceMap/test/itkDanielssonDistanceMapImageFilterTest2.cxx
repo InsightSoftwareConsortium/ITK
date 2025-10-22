@@ -34,7 +34,7 @@ itkDanielssonDistanceMapImageFilterTest2(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int ImageDimension{ 2 };
+  static constexpr unsigned int ImageDimension{ 2 };
   using InputPixelType = unsigned char;
   using OutputPixelType = unsigned char;
 

@@ -260,7 +260,7 @@ main(int argc, const char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
   using PixelType = unsigned short;
 
   const std::string fixedImageFile = argv[1];

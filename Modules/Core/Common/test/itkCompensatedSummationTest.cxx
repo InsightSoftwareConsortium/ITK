@@ -30,11 +30,11 @@ itkCompensatedSummationTest(int, char *[])
   const itk::StdStreamStateSave coutState(std::cout);
 
   using FloatType = float;
-  constexpr long seedValue{ 17 };
+  static constexpr long seedValue{ 17 };
 
-  constexpr FloatType expectedMean{ 0.5 };
+  static constexpr FloatType expectedMean{ 0.5 };
 
-  constexpr itk::SizeValueType accumSize{ 50000000 };
+  static constexpr itk::SizeValueType accumSize{ 50000000 };
 
   using GeneratorType = itk::Statistics::MersenneTwisterRandomVariateGenerator;
   auto generator = GeneratorType::New();

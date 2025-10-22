@@ -29,7 +29,7 @@ ThresholdLabelerImageFilterTestHelper(bool useRealTypeThresholds)
   //  The following code defines the input and output pixel types and their
   //  associated image types.
   //
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
 
   using InputPixelType = float;
   using LabeledPixelType = unsigned long;
@@ -67,7 +67,7 @@ ThresholdLabelerImageFilterTestHelper(bool useRealTypeThresholds)
   values.push_back(3.5);
 
   // Set the value for the offset
-  constexpr unsigned long offset{ 4 };
+  static constexpr unsigned long offset{ 4 };
 
   //  Set the labels vector
   std::vector<LabeledPixelType> labels;

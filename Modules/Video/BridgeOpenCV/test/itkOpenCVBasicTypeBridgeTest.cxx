@@ -169,8 +169,8 @@ Size2ConversionTest()
 int
 MatrixConversionTest()
 {
-  constexpr unsigned int NumberOfRows{ 2 };
-  constexpr unsigned int NumberOfColumns{ 3 };
+  static constexpr unsigned int NumberOfRows{ 2 };
+  static constexpr unsigned int NumberOfColumns{ 3 };
   using ITKMatrixType = itk::Matrix<double, NumberOfRows, NumberOfColumns>;
   using CVMatrixType = cv::Matx<double, NumberOfRows, NumberOfColumns>;
 
@@ -211,7 +211,7 @@ MatrixConversionTest()
 int
 VectorConversionTest()
 {
-  constexpr unsigned int Dimension{ 10 };
+  static constexpr unsigned int Dimension{ 10 };
   using ITKVectorType = itk::Vector<double, Dimension>;
   using CVVectorType = cv::Vec<double, Dimension>;
 
@@ -442,8 +442,8 @@ Size2ConversionTest()
 int
 MatrixConversionTest()
 {
-  constexpr unsigned int NumberOfRows{ 2 };
-  constexpr unsigned int NumberOfColumns{ 3 };
+  static constexpr unsigned int NumberOfRows{ 2 };
+  static constexpr unsigned int NumberOfColumns{ 3 };
   using ITKMatrixType = itk::Matrix<double, NumberOfRows, NumberOfColumns>;
   using CVMatrixType = cv::Matx<double, NumberOfRows, NumberOfColumns>;
 
@@ -484,7 +484,7 @@ MatrixConversionTest()
 int
 VectorConversionTest()
 {
-  constexpr unsigned int Dimension{ 10 };
+  static constexpr unsigned int Dimension{ 10 };
   using ITKVectorType = itk::Vector<double, Dimension>;
   using CVVectorType = cv::Vec<double, Dimension>;
 

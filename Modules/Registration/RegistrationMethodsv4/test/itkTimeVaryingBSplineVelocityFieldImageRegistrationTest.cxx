@@ -324,7 +324,7 @@ PerformTimeVaryingBSplineVelocityFieldImageRegistration(int argc, char * argv[])
   initialFieldTransformAdaptor->SetRequiredTransformDomainDirection(transformDomainDirection);
   ITK_TEST_SET_GET_VALUE(transformDomainDirection, initialFieldTransformAdaptor->GetRequiredTransformDomainDirection());
 
-  constexpr VectorType zeroVector{};
+  static constexpr VectorType zeroVector{};
 
   velocityFieldLattice->SetOrigin(initialFieldTransformAdaptor->GetRequiredControlPointLatticeOrigin());
   velocityFieldLattice->SetSpacing(initialFieldTransformAdaptor->GetRequiredControlPointLatticeSpacing());

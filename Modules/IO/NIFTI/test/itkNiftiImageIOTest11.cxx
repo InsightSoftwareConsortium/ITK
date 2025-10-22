@@ -49,8 +49,8 @@ itkNiftiImageIOTest11(int argc, char * argv[])
   size[1] = 1;
   size[2] = 1;
 
-  constexpr ImageType::IndexType index{};
-  const ImageType::RegionType    imageRegion{ index, size };
+  static constexpr ImageType::IndexType index{};
+  const ImageType::RegionType           imageRegion{ index, size };
 
   auto                     spacing = itk::MakeFilled<ImageType::SpacingType>(1.0);
   const ImageType::Pointer im = itk::IOTestHelper::AllocateImageFromRegionAndSpacing<ImageType>(imageRegion, spacing);

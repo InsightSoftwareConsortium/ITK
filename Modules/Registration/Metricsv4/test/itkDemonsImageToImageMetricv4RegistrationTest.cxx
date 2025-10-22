@@ -113,7 +113,7 @@ itkDemonsImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   std::cout << " iterations " << numberOfIterations << std::endl;
   std::cout << " useImageGradientFilter " << useImageGradientFilter << std::endl;
 
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
   using PixelType = double; // I assume png is unsigned short
 
   using FixedImageType = itk::Image<PixelType, Dimension>;
@@ -177,7 +177,7 @@ itkDemonsImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   std::cout << "fixedImage->GetLargestPossibleRegion(): " << fixedImage->GetLargestPossibleRegion() << std::endl;
   field->Allocate();
   // Fill it with 0's
-  constexpr DisplacementTransformType::OutputVectorType zeroVector{};
+  static constexpr DisplacementTransformType::OutputVectorType zeroVector{};
   field->FillBuffer(zeroVector);
   // Assign to transform
   displacementTransform->SetDisplacementField(field);

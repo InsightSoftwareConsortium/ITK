@@ -193,8 +193,8 @@ TEST(Image, UnequalWhenPixelValuesDiffer)
 // 'FillBuffer(const TPixel&)' defined but not used [-Wunused-function]
 TEST(Image, FillBufferOfNonEqualityComparableType)
 {
-  constexpr auto ImageDimagion{ 2U };
-  const auto     image = itk::Image<NonEqualityComparableType, ImageDimagion>::New();
+  static constexpr auto ImageDimagion{ 2U };
+  const auto            image = itk::Image<NonEqualityComparableType, ImageDimagion>::New();
   image->SetRegions(itk::Size<ImageDimagion>::Filled(1));
   image->Allocate();
 
@@ -221,7 +221,7 @@ TEST(Image, IsXImageGeometry)
 
   const auto image1 = generate_image<ImageType>({ 2, 2 });
 
-  constexpr double tol{ 1e-8 };
+  static constexpr double tol{ 1e-8 };
 
 
   auto image2 = generate_image<ImageType>({ 2, 2 });

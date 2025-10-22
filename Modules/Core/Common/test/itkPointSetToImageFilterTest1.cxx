@@ -33,8 +33,8 @@ itkPointSetToImageFilterTest1(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int PointSetDimension{ 2 };
-  constexpr unsigned int ImageDimension{ 2 };
+  static constexpr unsigned int PointSetDimension{ 2 };
+  static constexpr unsigned int ImageDimension{ 2 };
 
   using PointSetPointType = float;
   using PixelType = unsigned char;
@@ -67,7 +67,7 @@ itkPointSetToImageFilterTest1(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, PointSetToImageFilter, ImageSource);
 
 
-  constexpr BinaryImageType::SpacingType::ValueType spacingValue{ 1.0 };
+  static constexpr BinaryImageType::SpacingType::ValueType spacingValue{ 1.0 };
   auto spacing = itk::MakeFilled<BinaryImageType::SpacingType>(spacingValue);
   filter->SetSpacing(spacing);
   ITK_TEST_SET_GET_VALUE(spacing, filter->GetSpacing());
@@ -81,24 +81,24 @@ itkPointSetToImageFilterTest1(int argc, char * argv[])
   filter->SetDirection(direction);
   ITK_TEST_SET_GET_VALUE(direction, filter->GetDirection());
 
-  constexpr typename BinaryImageType::ValueType insideValue{
+  static constexpr typename BinaryImageType::ValueType insideValue{
     itk::NumericTraits<typename BinaryImageType::ValueType>::OneValue()
   };
   filter->SetInsideValue(insideValue);
   ITK_TEST_SET_GET_VALUE(insideValue, filter->GetInsideValue());
 
-  constexpr typename BinaryImageType::ValueType outsideValue{};
+  static constexpr typename BinaryImageType::ValueType outsideValue{};
   filter->SetOutsideValue(outsideValue);
   ITK_TEST_SET_GET_VALUE(outsideValue, filter->GetOutsideValue());
 
-  constexpr typename BinaryImageType::SizeType size = { { 250, 250 } };
+  static constexpr typename BinaryImageType::SizeType size = { { 250, 250 } };
   filter->SetSize(size);
   ITK_TEST_SET_GET_VALUE(size, filter->GetSize());
 
   filter->SetInput(pointSet);
   ITK_TEST_SET_GET_VALUE(pointSet, filter->GetInput());
 
-  constexpr unsigned int idx{ 0 };
+  static constexpr unsigned int idx{ 0 };
   ITK_TEST_SET_GET_VALUE(pointSet, filter->GetInput(idx));
 
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());

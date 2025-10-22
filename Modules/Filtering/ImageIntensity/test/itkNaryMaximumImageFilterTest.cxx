@@ -27,7 +27,7 @@ namespace NaryMaximumImageFilterTest
 {
 
 // Define the dimension of the images
-constexpr unsigned int Dimension{ 3 };
+static constexpr unsigned int Dimension{ 3 };
 
 // Declare the pixel types of the images
 using PixelType = float;
@@ -59,9 +59,9 @@ InitializeImage(InputImageType * image, double value)
   const InputImageType::Pointer inputImage(image);
 
   // Define their size, and start index
-  constexpr SizeType  size{ 2, 2, 2 };
-  constexpr IndexType start{ 0, 0, 0 };
-  RegionType          region{ start, size };
+  static constexpr SizeType  size{ 2, 2, 2 };
+  static constexpr IndexType start{ 0, 0, 0 };
+  RegionType                 region{ start, size };
 
   inputImage->SetRegions(region);
   inputImage->Allocate();

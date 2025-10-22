@@ -347,7 +347,7 @@ VTKTetrahedralMeshReader<TOutputMesh>::GenerateData()
     }
 
 
-    constexpr int tetrahedralCellTypeID{ 10 };
+    static constexpr int tetrahedralCellTypeID{ 10 };
 
     if (cellTypeID != tetrahedralCellTypeID)
     {

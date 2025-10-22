@@ -94,7 +94,7 @@ public:
 int
 itkWarpImageFilterTest(int, char *[])
 {
-  constexpr unsigned int ImageDimension{ 2 };
+  static constexpr unsigned int ImageDimension{ 2 };
 
   using PixelType = float;
   using ImageType = itk::Image<PixelType, ImageDimension>;
@@ -114,7 +114,7 @@ itkWarpImageFilterTest(int, char *[])
   input->SetBufferedRegion(region);
   input->Allocate();
 
-  constexpr ImageType::PixelType padValue{ 4.0 };
+  static constexpr ImageType::PixelType padValue{ 4.0 };
 
   ImagePattern<ImageDimension> pattern;
 
@@ -134,7 +134,7 @@ itkWarpImageFilterTest(int, char *[])
   std::cout << "Create the input displacement field." << std::endl;
 
   // Tested with { 2, 4 } and { 2, 5 } as well...
-  constexpr unsigned int factors[ImageDimension]{ 2, 3 };
+  static constexpr unsigned int factors[ImageDimension]{ 2, 3 };
 
   ImageType::RegionType fieldRegion;
   ImageType::SizeType   fieldSize;
@@ -289,7 +289,7 @@ itkWarpImageFilterTest(int, char *[])
 
       const double trueValue = pattern.Evaluate(outIter.GetIndex(), validSize, clampSize, padValue);
 
-      constexpr double epsilon{ 1e-4 };
+      static constexpr double epsilon{ 1e-4 };
       if (itk::Math::abs(trueValue - value) > epsilon)
       {
         std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));

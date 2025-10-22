@@ -28,7 +28,7 @@ template <typename OutPixelType>
 int
 RunTest(int argc, char * argv[])
 {
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
   using InputImagePixelType = unsigned char;
   using InImageType = itk::Image<InputImagePixelType, Dimension>;
   using ReaderType = itk::ImageFileReader<InImageType>;

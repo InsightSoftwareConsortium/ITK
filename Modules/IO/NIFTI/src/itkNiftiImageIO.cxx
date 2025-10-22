@@ -1878,9 +1878,9 @@ IsAffine(const mat44 & nifti_mat)
   const vnl_vector_fixed<double, 3> inv3x3Translation = -(invTop3x3Matrix * mat.get_column(3).extract(3));
 
   // Make sure we adhere to the conditions of a 4x4 invertible affine transform matrix
-  const double     diff_matrix_array_one_norm = (inv4x4Top3x3 - invTop3x3Matrix).array_one_norm();
-  const double     diff_vector_translation_one_norm = (inv4x4Translation - inv3x3Translation).one_norm();
-  constexpr double normed_tolerance_matrix_close{ 1e-2 };
+  const double            diff_matrix_array_one_norm = (inv4x4Top3x3 - invTop3x3Matrix).array_one_norm();
+  const double            diff_vector_translation_one_norm = (inv4x4Translation - inv3x3Translation).one_norm();
+  static constexpr double normed_tolerance_matrix_close{ 1e-2 };
   return !((diff_matrix_array_one_norm > normed_tolerance_matrix_close) ||
            (diff_vector_translation_one_norm > normed_tolerance_matrix_close));
 }
@@ -2010,8 +2010,8 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short dims, double spacing
         vnl_matrix_fixed<float, 3, 3> rotation = sto_xyz.extract(3, 3, 0, 0);
         {
           // Ensure that the scales are approximately the same for spacing directions
-          bool            sform_scales_ok{ true };
-          constexpr float large_value_tolerance{ 1e-3 }; // Numerical precision of sform is not very good
+          bool                   sform_scales_ok{ true };
+          static constexpr float large_value_tolerance{ 1e-3 }; // Numerical precision of sform is not very good
           if (itk::Math::abs(m_Holder->ptr->dx - rotation.get_column(0).magnitude()) > large_value_tolerance)
           {
             sform_scales_ok = false;

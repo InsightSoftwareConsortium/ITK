@@ -187,7 +187,7 @@ PerformTimeVaryingVelocityFieldImageRegistration(int argc, char * argv[])
   affineWriter->Update();
 
   using VectorType = itk::Vector<RealType, ImageDimension>;
-  constexpr VectorType zeroVector{};
+  static constexpr VectorType zeroVector{};
 
   // Determine the parameters (size, spacing, etc) for the time-varying velocity field
   // Here we use 10 time index points.
@@ -294,7 +294,7 @@ PerformTimeVaryingVelocityFieldImageRegistration(int argc, char * argv[])
   velocityFieldRegistration->SetConvergenceThreshold(convergenceThreshold);
   ITK_TEST_SET_GET_VALUE(convergenceThreshold, velocityFieldRegistration->GetConvergenceThreshold());
 
-  constexpr unsigned int convergenceWindowSize{ 10 };
+  static constexpr unsigned int convergenceWindowSize{ 10 };
   velocityFieldRegistration->SetConvergenceWindowSize(convergenceWindowSize);
   ITK_TEST_SET_GET_VALUE(convergenceWindowSize, velocityFieldRegistration->GetConvergenceWindowSize());
 

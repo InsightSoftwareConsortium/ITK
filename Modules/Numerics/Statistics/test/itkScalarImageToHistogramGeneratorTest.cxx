@@ -34,7 +34,7 @@ itkScalarImageToHistogramGeneratorTest(int argc, char * argv[])
   }
 
 
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
   using PixelComponentType = unsigned char;
   using ScalarImageType = itk::Image<PixelComponentType, Dimension>;
   using ReaderType = itk::ImageFileReader<ScalarImageType>;
@@ -80,7 +80,7 @@ itkScalarImageToHistogramGeneratorTest(int argc, char * argv[])
   const unsigned int histogramSize = histogram->Size();
   outputFile << "Histogram size " << histogramSize << std::endl;
 
-  constexpr unsigned int channel{ 0 }; // red channel
+  static constexpr unsigned int channel{ 0 }; // red channel
   outputFile << "Histogram of the scalar component" << std::endl;
   for (unsigned int bin = 0; bin < histogramSize; ++bin)
   {

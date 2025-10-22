@@ -27,8 +27,8 @@
  *=========================================================================*/
 #include "itkObjectFactory.h"
 
-constexpr int ITK_STD_INDENT{ 2 };
-constexpr int ITK_NUMBER_OF_BLANKS{ 40 };
+static constexpr int ITK_STD_INDENT{ 2 };
+static constexpr int ITK_NUMBER_OF_BLANKS{ 40 };
 
 namespace itk
 {

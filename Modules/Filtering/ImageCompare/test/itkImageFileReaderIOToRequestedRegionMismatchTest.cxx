@@ -31,7 +31,7 @@ itkImageFileReaderIOToRequestedRegionMismatchTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
 
   using InputImageType = itk::Image<unsigned short, Dimension>;
   using OutputImageType = itk::Image<double, Dimension>;

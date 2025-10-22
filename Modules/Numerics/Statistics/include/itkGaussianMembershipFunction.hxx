@@ -113,7 +113,7 @@ GaussianMembershipFunction<TMeasurementVector>::SetCovariance(const CovarianceMa
   }
 
   // 1e-6 is an arbitrary value!!!
-  constexpr double singularThreshold{ 1.0e-6 };
+  static constexpr double singularThreshold{ 1.0e-6 };
   m_CovarianceNonsingular = (det > singularThreshold);
 
   if (m_CovarianceNonsingular)

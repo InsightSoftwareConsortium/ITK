@@ -35,7 +35,7 @@ itkCannyEdgeDetectionImageFilterTest2(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
   using InputPixelType = float;
   using InputImage = itk::Image<InputPixelType, Dimension>;
   using OutputPixelType = unsigned char;

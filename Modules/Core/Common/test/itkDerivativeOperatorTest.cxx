@@ -61,7 +61,7 @@ public:
 int
 itkDerivativeOperatorTest(int, char *[])
 {
-  constexpr unsigned int Dimension{ 1 };
+  static constexpr unsigned int Dimension{ 1 };
   using PixelType = float;
 
   // Exercise object basic methods

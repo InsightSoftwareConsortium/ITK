@@ -34,7 +34,7 @@ itkImageToVTKImageFilterRGBTest(int argc, char * argv[])
   }
   const char * inputFileName = argv[1];
 
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
   using PixelComponentType = unsigned char;
   using PixelType = itk::RGBPixel<PixelComponentType>;
   using ImageType = itk::Image<PixelType, Dimension>;

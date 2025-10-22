@@ -43,9 +43,9 @@ itkComposeRGBImageFilterTest(int, char *[])
   auto greenImage = InputImageType::New();
   auto blueImage = InputImageType::New();
 
-  constexpr SizeType  size{ 2, 2, 2 };
-  constexpr IndexType start{ 0, 0, 0 };
-  RegionType          region{ start, size };
+  static constexpr SizeType  size{ 2, 2, 2 };
+  static constexpr IndexType start{ 0, 0, 0 };
+  RegionType                 region{ start, size };
 
   redImage->SetRegions(region);
   greenImage->SetRegions(region);

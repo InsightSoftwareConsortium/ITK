@@ -77,7 +77,7 @@ itkResampleImageTest2(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int VDimension{ 2 };
+  static constexpr unsigned int VDimension{ 2 };
 
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType, VDimension>;

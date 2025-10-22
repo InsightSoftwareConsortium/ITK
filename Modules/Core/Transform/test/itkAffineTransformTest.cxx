@@ -544,8 +544,8 @@ itkAffineTransformTest(int, char *[])
   std::cout << "ComputeJacobianWithRespectToParameters: " << std::endl;
   std::cout << jaffJacobian << std::endl;
 
-  constexpr double data[]{ 5, 10, 15, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,  0,  5, 10, 15,
-                           0, 0,  0,  0, 1, 0, 0, 0, 0, 0, 0, 0, 5, 10, 15, 0, 0,  1 };
+  static constexpr double data[]{ 5, 10, 15, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,  0,  5, 10, 15,
+                                  0, 0,  0,  0, 1, 0, 0, 0, 0, 0, 0, 0, 5, 10, 15, 0, 0,  1 };
 
   const vnl_matrix<double>   vnlData(data, 3, 12);
   Affine3DType::JacobianType expectedJacobian(vnlData);
@@ -734,7 +734,7 @@ itkAffineTransformTest(int, char *[])
     }
   }
   /* Update with a non-unit scaling factor */
-  constexpr double factor{ 0.5 };
+  static constexpr double factor{ 0.5 };
   for (unsigned int i = 0; i < paff->GetNumberOfParameters(); ++i)
   {
     update[i] = i;

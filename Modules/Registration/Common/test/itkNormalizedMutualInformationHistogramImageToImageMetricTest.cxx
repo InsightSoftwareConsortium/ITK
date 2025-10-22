@@ -31,7 +31,7 @@ itkNormalizedMutualInformationHistogramImageToImageMetricTest(int, char *[])
   try
   {
     // Create two simple images.
-    constexpr unsigned int ImageDimension{ 2 };
+    static constexpr unsigned int ImageDimension{ 2 };
     using PixelType = double;
     using CoordinateRepresentationType = double;
 
@@ -50,8 +50,8 @@ itkNormalizedMutualInformationHistogramImageToImageMetricTest(int, char *[])
     FixedImageType::SpacingValueType  fixedImageSpacing[] = { 1.0f, 1.0f };
     MovingImageType::SpacingValueType movingImageSpacing[] = { 1.0f, 1.0f };
 
-    constexpr FixedImageType::PointValueType  fixedImageOrigin[]{ 0.0f, 0.0f };
-    constexpr MovingImageType::PointValueType movingImageOrigin[]{ 0.0f, 0.0f };
+    static constexpr FixedImageType::PointValueType  fixedImageOrigin[]{ 0.0f, 0.0f };
+    static constexpr MovingImageType::PointValueType movingImageOrigin[]{ 0.0f, 0.0f };
 
     auto movingImageSource = MovingImageSourceType::New();
     auto fixedImageSource = FixedImageSourceType::New();
@@ -82,7 +82,7 @@ itkNormalizedMutualInformationHistogramImageToImageMetricTest(int, char *[])
 
     auto metric = MetricType::New();
 
-    constexpr unsigned int              nBins{ 256 };
+    static constexpr unsigned int       nBins{ 256 };
     MetricType::HistogramType::SizeType histSize;
     histSize.SetSize(2);
     histSize[0] = nBins;

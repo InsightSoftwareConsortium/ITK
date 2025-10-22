@@ -24,8 +24,8 @@ TEST(BitwiseOpsTest, DivFloor)
 {
   using OpType = itk::Functor::BitwiseNot<unsigned char, unsigned char>;
 
-  OpType           op1;
-  constexpr OpType op2;
+  OpType                  op1;
+  static constexpr OpType op2;
 
   EXPECT_EQ(op1, op1);
   EXPECT_EQ(op1, op2);

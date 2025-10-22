@@ -22,18 +22,18 @@
 #include "itkDistanceToCentroidMembershipFunction.h"
 
 // Data definitions
-constexpr uint8_t IMGWIDTH{ 16 };
-constexpr uint8_t IMGHEIGHT{ 1 };
+static constexpr uint8_t IMGWIDTH{ 16 };
+static constexpr uint8_t IMGHEIGHT{ 1 };
 // constexpr uint8_t NFRAMES =1;
 // constexpr uint8_t NUMBANDS =2;
 // constexpr uint8_t NDIMENSION =3;
 
-constexpr uint8_t CDBKWIDTH{ 4 };
-constexpr uint8_t CDBKHEIGHT{ 1 };
-constexpr uint8_t NFRAMES{ 1 };
-constexpr uint8_t NCODEWORDS{ CDBKWIDTH * CDBKHEIGHT * NFRAMES };
-constexpr uint8_t NUMBANDS{ 2 };
-constexpr uint8_t NDIMENSION{ 3 };
+static constexpr uint8_t CDBKWIDTH{ 4 };
+static constexpr uint8_t CDBKHEIGHT{ 1 };
+static constexpr uint8_t NFRAMES{ 1 };
+static constexpr uint8_t NCODEWORDS{ CDBKWIDTH * CDBKHEIGHT * NFRAMES };
+static constexpr uint8_t NUMBANDS{ 2 };
+static constexpr uint8_t NDIMENSION{ 3 };
 // constexpr uint8_t STARTFRAME = 0;
 // constexpr uint8_t NUM_BYTES_PER_PIXEL = 1;
 
@@ -62,10 +62,10 @@ itkKmeansModelEstimatorTest(int, char *[])
 
   auto vecImage = VecImageType::New();
 
-  constexpr VecImageType::SizeType vecImgSize{ IMGWIDTH, IMGHEIGHT, NFRAMES };
+  static constexpr VecImageType::SizeType vecImgSize{ IMGWIDTH, IMGHEIGHT, NFRAMES };
 
-  constexpr VecImageType::IndexType index{};
-  VecImageType::RegionType          region{ index, vecImgSize };
+  static constexpr VecImageType::IndexType index{};
+  VecImageType::RegionType                 region{ index, vecImgSize };
 
   vecImage->SetLargestPossibleRegion(region);
   vecImage->SetBufferedRegion(region);

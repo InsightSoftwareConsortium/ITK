@@ -133,7 +133,7 @@ BinaryImageToLevelSetImageAdaptor<TInput, WhitakerSparseLevelSetImage<TOutput, T
   LevelSetLayerType & layerPlus2 = this->m_LevelSet->GetLayer(outputLayer);
   const auto          plus2 = static_cast<LevelSetOutputType>(outputLayer);
 
-  constexpr auto radius{ MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1) };
+  static constexpr auto radius{ MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1) };
 
   ZeroFluxNeumannBoundaryCondition<InternalImageType> im_nbc;
 
@@ -192,11 +192,11 @@ BinaryImageToLevelSetImageAdaptor<TInput,
 {
   const LevelSetLabelObjectPointer labelObject = this->m_LabelMap->GetLabelObject(LevelSetType::MinusThreeLayer());
 
-  constexpr LevelSetOutputType zero{};
+  static constexpr LevelSetOutputType zero{};
 
   LevelSetLayerType & layer0 = this->m_LevelSet->GetLayer(LevelSetType::ZeroLayer());
 
-  constexpr auto radius{ MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1) };
+  static constexpr auto radius{ MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1) };
 
   ZeroFluxNeumannBoundaryCondition<InternalImageType> im_nbc;
 
@@ -259,7 +259,7 @@ BinaryImageToLevelSetImageAdaptor<TInput, WhitakerSparseLevelSetImage<TOutput, T
   LevelSetLayerType &     layerMinus1 = this->m_LevelSet->GetLayer(LevelSetType::MinusOneLayer());
   LevelSetLayerType &     layerPlus1 = this->m_LevelSet->GetLayer(LevelSetType::PlusOneLayer());
 
-  constexpr auto radius{ MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1) };
+  static constexpr auto radius{ MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1) };
 
   ZeroFluxNeumannBoundaryCondition<InternalImageType> im_nbc;
 
@@ -398,7 +398,7 @@ BinaryImageToLevelSetImageAdaptor<TInput, ShiSparseLevelSetImage<TInput::ImageDi
   LevelSetLayerType & layerMinus1 = this->m_LevelSet->GetLayer(LevelSetType::MinusOneLayer());
   LevelSetLayerType & layerPlus1 = this->m_LevelSet->GetLayer(LevelSetType::PlusOneLayer());
 
-  constexpr auto radius{ MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1) };
+  static constexpr auto radius{ MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1) };
 
   ZeroFluxNeumannBoundaryCondition<InternalImageType> im_nbc;
 
@@ -540,7 +540,7 @@ BinaryImageToLevelSetImageAdaptor<TInput, MalcolmSparseLevelSetImage<TInput::Ima
 
   LevelSetLayerType & layer = this->m_LevelSet->GetLayer(LevelSetType::ZeroLayer());
 
-  constexpr auto radius{ MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1) };
+  static constexpr auto radius{ MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1) };
 
   ZeroFluxNeumannBoundaryCondition<InternalImageType> im_nbc;
 
@@ -602,7 +602,7 @@ BinaryImageToLevelSetImageAdaptor<TInput, MalcolmSparseLevelSetImage<TInput::Ima
 
   ZeroFluxNeumannBoundaryCondition<InternalImageType> sp_nbc;
 
-  constexpr auto radius{ MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1) };
+  static constexpr auto radius{ MakeFilled<typename NeighborhoodIteratorType::RadiusType>(1) };
 
   NeighborhoodIteratorType neighIt(radius, this->m_InternalImage, this->m_InternalImage->GetLargestPossibleRegion());
 

@@ -25,8 +25,8 @@
 int
 itkLabelImageGaussianInterpolateImageFunctionTest(int, char *[])
 {
-  int                    test_status = EXIT_SUCCESS;
-  constexpr unsigned int Dimension{ 2 };
+  int                           test_status = EXIT_SUCCESS;
+  static constexpr unsigned int Dimension{ 2 };
   using PixelType = unsigned short; // Label images should be integer value types
   using ImageType = itk::Image<PixelType, Dimension>;
   using RegionType = ImageType::RegionType;
@@ -36,14 +36,14 @@ itkLabelImageGaussianInterpolateImageFunctionTest(int, char *[])
   using CoordinateType = float;
 
   // The ImageSizeToCompute
-  constexpr double              FOV{ 10.0 };
-  constexpr itk::IndexValueType small_xSize{ 3 };
-  constexpr itk::IndexValueType small_ySize{ 3 };
-  auto                          small_image = ImageType::New();
+  static constexpr double              FOV{ 10.0 };
+  static constexpr itk::IndexValueType small_xSize{ 3 };
+  static constexpr itk::IndexValueType small_ySize{ 3 };
+  auto                                 small_image = ImageType::New();
   {
-    constexpr IndexType start{};
-    constexpr SizeType  size{ small_xSize, small_ySize };
-    RegionType          region = { start, size };
+    static constexpr IndexType start{};
+    static constexpr SizeType  size{ small_xSize, small_ySize };
+    RegionType                 region = { start, size };
 
 
     small_image->SetRegions(region);
@@ -87,7 +87,7 @@ itkLabelImageGaussianInterpolateImageFunctionTest(int, char *[])
     {
       d = 1.0;
     }
-    constexpr double alpha{ 1.0 };
+    static constexpr double alpha{ 1.0 };
     interpolator->SetParameters(sigma, alpha);
   }
   interpolator->Print(std::cout, 3);
@@ -100,14 +100,14 @@ itkLabelImageGaussianInterpolateImageFunctionTest(int, char *[])
   // ########################
   //  Now check the results
   //  The ImageSizeToCompute
-  constexpr unsigned char       default_background_value{ 17 };
-  constexpr itk::IndexValueType large_xSize{ 5 + 1 };
-  constexpr itk::IndexValueType large_ySize{ 5 };
-  auto                          large_image = ImageType::New();
+  static constexpr unsigned char       default_background_value{ 17 };
+  static constexpr itk::IndexValueType large_xSize{ 5 + 1 };
+  static constexpr itk::IndexValueType large_ySize{ 5 };
+  auto                                 large_image = ImageType::New();
   {
     RegionType region;
     {
-      constexpr IndexType start{};
+      static constexpr IndexType start{};
 
       SizeType size;
       size[0] = large_xSize;
@@ -209,7 +209,7 @@ itkLabelImageGaussianInterpolateImageFunctionTest(int, char *[])
     }
   }
 #if 0
- constexpr  double incr{ 0.1 };
+ static constexpr  double incr{ 0.1 };
  PointType point;
  for (double yy = 0; yy < static_cast<double>(small_ySize-1); ++yy)
    {

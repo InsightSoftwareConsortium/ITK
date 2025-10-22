@@ -95,8 +95,8 @@ ConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage>::ComputeConvolut
 
   // Flip the kernel
   using FlipperType = FlipImageFilter<TImage>;
-  auto           flipper = FlipperType::New();
-  constexpr auto axesArray{ MakeFilled<typename FlipperType::FlipAxesArrayType>(true) };
+  auto                  flipper = FlipperType::New();
+  static constexpr auto axesArray{ MakeFilled<typename FlipperType::FlipAxesArrayType>(true) };
   flipper->SetFlipAxes(axesArray);
   flipper->SetInput(kernelImage);
 

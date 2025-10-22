@@ -223,7 +223,7 @@ itkRegistrationParameterScalesEstimatorTest(int, char *[])
 {
 
   // Image begins
-  constexpr itk::SizeValueType ImageDimension{ 2 };
+  static constexpr itk::SizeValueType ImageDimension{ 2 };
   using PixelType = double;
 
   // Image Types

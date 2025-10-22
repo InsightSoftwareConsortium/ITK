@@ -58,7 +58,7 @@ itkOtsuMultipleThresholdsCalculatorTest(int argc, char * argv[])
   values.push_back(32.0);
   values.push_back(48.0);
 
-  constexpr MeasurementType range{ 2.0 };
+  static constexpr MeasurementType range{ 2.0 };
 
   // Create histogram with samples at values +- range
   for (HistogramType::Iterator iter = histogram->Begin(); iter != histogram->End(); ++iter)

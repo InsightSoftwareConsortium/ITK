@@ -36,16 +36,16 @@ TemplatedRoundTest()
 {
   bool ok = true;
 
-  constexpr unsigned int numberOfElements{ 15 };
+  static constexpr unsigned int numberOfElements{ 15 };
 
   // input data for rounding methods
-  constexpr float input[]{ -8.4999f, -8.50f,  -8.5001f, 8.4999f, 8.50f,    8.5001f, -9.4999f, -9.50f,
-                           -9.5001f, 9.4999f, 9.50f,    9.5001f, -0.4999f, -.50f,   -.5001f };
+  static constexpr float input[]{ -8.4999f, -8.50f,  -8.5001f, 8.4999f, 8.50f,    8.5001f, -9.4999f, -9.50f,
+                                  -9.5001f, 9.4999f, 9.50f,    9.5001f, -0.4999f, -.50f,   -.5001f };
 
   T roundOutput[] = { -8, -8, -9, 8, 9, 9, -9, -9, -10, 9, 10, 10, 0, 0, -1 };
 
 
-  constexpr T halftoevenOutput[]{ -8, -8, -9, 8, 8, 9, -9, -10, -10, 9, 10, 10, 0, 0, -1 };
+  static constexpr T halftoevenOutput[]{ -8, -8, -9, 8, 8, 9, -9, -10, -10, 9, 10, 10, 0, 0, -1 };
 
 
   T * halfupOutput = roundOutput;
@@ -53,13 +53,13 @@ TemplatedRoundTest()
 
   ////////
   // input data for floor and ceil methods
-  constexpr float fcinput[]{ 8.0f,    8.9999f, 8.0001f,  -8.0f,    -8.9999f, -8.0001f, 9.0f,    9.9999f,
-                             9.0001f, -9.0f,   -9.9999f, -9.0001f, -1.0f,    -0.9999f, -1.0001f };
+  static constexpr float fcinput[]{ 8.0f,    8.9999f, 8.0001f,  -8.0f,    -8.9999f, -8.0001f, 9.0f,    9.9999f,
+                                    9.0001f, -9.0f,   -9.9999f, -9.0001f, -1.0f,    -0.9999f, -1.0001f };
 
-  constexpr T floorOutput[]{ 8, 8, 8, -8, -9, -9, 9, 9, 9, -9, -10, -10, -1, -1, -2 };
+  static constexpr T floorOutput[]{ 8, 8, 8, -8, -9, -9, 9, 9, 9, -9, -10, -10, -1, -1, -2 };
 
 
-  constexpr T ceilOutput[]{ 8, 9, 9, -8, -8, -8, 9, 10, 10, -9, -9, -9, -1, 0, -1 };
+  static constexpr T ceilOutput[]{ 8, 9, 9, -8, -8, -8, 9, 10, 10, -9, -9, -9, -1, 0, -1 };
 
 
   // Round

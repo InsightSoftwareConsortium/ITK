@@ -43,7 +43,7 @@ itkScaleSkewVersor3DTransformTest(int, char *[])
 
   using ValueType = double;
 
-  constexpr ValueType epsilon{ 1e-12 };
+  static constexpr ValueType epsilon{ 1e-12 };
 
   //  Versor Transform type
   using TransformType = itk::ScaleSkewVersor3DTransform<ValueType>;
@@ -137,9 +137,9 @@ itkScaleSkewVersor3DTransformTest(int, char *[])
 
     {
       // Rotate an itk::Point
-      constexpr TransformType::InputPointType::ValueType pInit[3]{ 1, 4, 9 };
-      const TransformType::InputPointType                p = pInit;
-      TransformType::OutputPointType                     q;
+      static constexpr TransformType::InputPointType::ValueType pInit[3]{ 1, 4, 9 };
+      const TransformType::InputPointType                       p = pInit;
+      TransformType::OutputPointType                            q;
       q = versor.Transform(p);
 
       TransformType::OutputPointType r;
@@ -295,7 +295,7 @@ itkScaleSkewVersor3DTransformTest(int, char *[])
     ParametersType parameters(np); // Number of parameters
     parameters.Fill(0.0);
 
-    constexpr VersorType versor;
+    static constexpr VersorType versor;
 
     // TODO: Test jacobian with non-zero skew
 
@@ -313,7 +313,7 @@ itkScaleSkewVersor3DTransformTest(int, char *[])
 
     ParametersType parameters2 = transform->GetParameters();
 
-    constexpr double tolerance{ 1e-8 };
+    static constexpr double tolerance{ 1e-8 };
     for (unsigned int p = 0; p < np; ++p)
     {
       if (itk::Math::abs(parameters[p] - parameters2[p]) > tolerance)
@@ -414,7 +414,7 @@ itkScaleSkewVersor3DTransformTest(int, char *[])
 
     ParametersType parameters(np); // Number of parameters
 
-    constexpr VersorType versor;
+    static constexpr VersorType versor;
 
     parameters[0] = versor.GetX(); // Rotation axis * sin(t/2)
     parameters[1] = versor.GetY();
@@ -434,7 +434,7 @@ itkScaleSkewVersor3DTransformTest(int, char *[])
 
     ParametersType parameters2 = transform->GetParameters();
 
-    constexpr double tolerance{ 1e-8 };
+    static constexpr double tolerance{ 1e-8 };
     for (unsigned int p = 0; p < np; ++p)
     {
       if (itk::Math::abs(parameters[p] - parameters2[p]) > tolerance)
@@ -476,7 +476,7 @@ itkScaleSkewVersor3DTransformTest(int, char *[])
 
     TransformType::ScaleVectorType rscale = transform->GetScale();
 
-    constexpr double tolerance{ 1e-8 };
+    static constexpr double tolerance{ 1e-8 };
     for (unsigned int j = 0; j < 3; ++j)
     {
       if (itk::Math::abs(rscale[j] - scale[j]) > tolerance)

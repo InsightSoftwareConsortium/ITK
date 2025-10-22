@@ -117,7 +117,7 @@ TEST_F(PasteFixture, ConstantPaste)
   filter->SetDestinationImage(inputImage);
   filter->SetDestinationIndex({ { 11, 13 } });
 
-  constexpr int constantValue{ -97 };
+  static constexpr int constantValue{ -97 };
   filter->SetConstant(constantValue);
   filter->SetSourceRegion(Utils::SizeType{ { 3, 3 } });
 
@@ -168,7 +168,7 @@ TEST_F(PasteFixture, ConstantPaste3_2)
 
   auto inputImage = Utils::CreateImage(100);
 
-  constexpr int constantValue{ -23 };
+  static constexpr int constantValue{ -23 };
   filter->SetConstant(constantValue);
 
 
@@ -251,7 +251,7 @@ TEST_F(PasteFixture, InPlace)
   auto inputImage = Utils::CreateImage(25);
 
 
-  constexpr int constantValue{ 99 };
+  static constexpr int constantValue{ 99 };
   inputImage->SetPixel(Utils::IndexType{ { 1, 1 } }, constantValue);
 
   filter->SetDestinationImage(inputImage);
@@ -299,7 +299,7 @@ TEST_F(PasteFixture, Paste3_2)
   using Utils = FixtureUtilities<itk::Image<int, 3>, itk::Image<int, 2>>;
 
   using SkipType = typename Utils::FilterType::InputSkipAxesArrayType;
-  constexpr int constantValue{ -53 };
+  static constexpr int constantValue{ -53 };
 
   auto filter = Utils::FilterType::New();
 

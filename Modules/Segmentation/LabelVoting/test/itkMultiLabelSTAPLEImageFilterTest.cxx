@@ -23,9 +23,9 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
 {
 
   // Define the dimension of the images
-  constexpr unsigned int Dimension{ 3 };
-  constexpr unsigned int imageSizePerDimension{ 2 };
-  constexpr unsigned int imageSize{ 8 }; // std::pow(imageSizePerDimension, Dimension);
+  static constexpr unsigned int Dimension{ 3 };
+  static constexpr unsigned int imageSizePerDimension{ 2 };
+  static constexpr unsigned int imageSize{ 8 }; // std::pow(imageSizePerDimension, Dimension);
 
   // Declare the types of the images
   using ImageType = itk::Image<unsigned int, Dimension>;
@@ -65,9 +65,9 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
   const ImageTypePointer inputImageC = ImageType::New();
 
   // Define their size, and start index
-  constexpr SizeType  size{ imageSizePerDimension, imageSizePerDimension, imageSizePerDimension };
-  constexpr IndexType start{};
-  RegionType          region = { start, size };
+  static constexpr SizeType  size{ imageSizePerDimension, imageSizePerDimension, imageSizePerDimension };
+  static constexpr IndexType start{};
+  RegionType                 region = { start, size };
 
   // Initialize Image A
   inputImageA->SetRegions(region);
@@ -116,7 +116,7 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
 
   ITK_TEST_EXPECT_TRUE(!filter->GetHasMaximumNumberOfIterations());
 
-  constexpr unsigned int maximumNumberOfIterations{ 100 };
+  static constexpr unsigned int maximumNumberOfIterations{ 100 };
   filter->SetMaximumNumberOfIterations(maximumNumberOfIterations);
   ITK_TEST_SET_GET_VALUE(maximumNumberOfIterations, filter->GetMaximumNumberOfIterations());
 

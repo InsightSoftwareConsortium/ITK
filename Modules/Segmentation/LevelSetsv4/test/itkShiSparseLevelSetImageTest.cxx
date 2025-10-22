@@ -22,7 +22,7 @@
 int
 itkShiSparseLevelSetImageTest(int, char *[])
 {
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
   using SparseLevelSetType = itk::ShiSparseLevelSetImage<Dimension>;
 
   using LabelMapType = SparseLevelSetType::LabelMapType;

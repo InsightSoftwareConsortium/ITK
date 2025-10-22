@@ -234,7 +234,7 @@ PerformExpImageRegistration(int argc, char * argv[])
   compositeTransform->AddTransform(affineSimple->GetModifiableTransform());
 
   using VectorType = itk::Vector<RealType, VImageDimension>;
-  constexpr VectorType zeroVector{};
+  static constexpr VectorType zeroVector{};
   using DisplacementFieldType = itk::Image<VectorType, VImageDimension>;
   using ConstantVelocityFieldType = itk::Image<VectorType, VImageDimension>;
   auto displacementField = ConstantVelocityFieldType::New();

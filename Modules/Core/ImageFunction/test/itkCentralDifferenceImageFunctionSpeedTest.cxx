@@ -38,7 +38,7 @@ itkCentralDifferenceImageFunctionSpeedTest(int argc, char * argv[])
   std::cout << "imageSize: " << imageSize << " reps: " << reps << " doEAI, doEACI, doE: " << doEAI << ", " << doEACI
             << ", " << doE << std::endl;
 
-  constexpr unsigned int ImageDimension{ 2 };
+  static constexpr unsigned int ImageDimension{ 2 };
   using PixelType = unsigned int;
   using ImageType = itk::Image<PixelType, ImageDimension>;
 

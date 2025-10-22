@@ -40,10 +40,10 @@ int
 itkOctreeTest(int, char *[])
 {
   using ImageType = itk::Image<unsigned int, 3>;
-  constexpr ImageType::SizeType  imageSize{ 4, 4, 4 };
-  constexpr ImageType::IndexType imageIndex{ 0, 0, 0 };
-  const ImageType::RegionType    region{ imageIndex, imageSize };
-  auto                           img = ImageType::New();
+  static constexpr ImageType::SizeType  imageSize{ 4, 4, 4 };
+  static constexpr ImageType::IndexType imageIndex{ 0, 0, 0 };
+  const ImageType::RegionType           region{ imageIndex, imageSize };
+  auto                                  img = ImageType::New();
   img->SetRegions(region);
   img->Allocate();
   srand(static_cast<unsigned int>(time(nullptr)));

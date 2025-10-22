@@ -40,9 +40,9 @@ itkFileOutputWindowTest(int, char *[])
   std::cout << "window->GetFileName(): " << fileName2 << std::endl;
 
   // Test itkSetMacros
-  constexpr bool flush{ false };
+  static constexpr bool flush{ false };
   window->SetFlush(flush);
-  constexpr bool append{ false };
+  static constexpr bool append{ false };
   window->SetAppend(append);
 
   // Test itkGetMacros

@@ -37,7 +37,7 @@ DoRegistration()
 
   bool pass = true;
 
-  constexpr unsigned int dimension{ 2 };
+  static constexpr unsigned int dimension{ 2 };
 
   // Fixed Image Type
   using FixedImageType = itk::Image<DataType, dimension>;
@@ -118,9 +118,9 @@ DoRegistration()
   scales.Fill(1.0);
 
 
-  constexpr unsigned long numberOfIterations{ 100 };
-  constexpr double        translationScale{ 1e-6 };
-  constexpr double        learningRate{ 1e-8 };
+  static constexpr unsigned long numberOfIterations{ 100 };
+  static constexpr double        translationScale{ 1e-6 };
+  static constexpr double        learningRate{ 1e-8 };
 
   for (unsigned int i = 0; i < dimension; ++i)
   {
@@ -156,8 +156,8 @@ DoRegistration()
 
   // We know that for the Affine transform the Translation parameters are at
   // the end of the list of parameters.
-  const unsigned int offsetOrder = finalParameters.Size() - actualParameters.Size();
-  constexpr double   tolerance{ 1.0 }; // equivalent to 1 pixel.
+  const unsigned int      offsetOrder = finalParameters.Size() - actualParameters.Size();
+  static constexpr double tolerance{ 1.0 }; // equivalent to 1 pixel.
 
   for (unsigned int i = 0; i < numbeOfParameters; ++i)
   {

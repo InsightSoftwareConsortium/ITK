@@ -141,7 +141,7 @@ itkObjectFactoryOnlyNewTest(int, char *[])
   // Verify that interface class cannot be instantiated
   // if no implementation factory is registered
   using PixelType = short;
-  constexpr size_t Dimension{ 2 };
+  static constexpr size_t Dimension{ 2 };
   using TestImageInterfaceType = TestImageInterfaceClass<PixelType, Dimension>;
   ITK_TRY_EXPECT_EXCEPTION(TestImageInterfaceType::New());
 

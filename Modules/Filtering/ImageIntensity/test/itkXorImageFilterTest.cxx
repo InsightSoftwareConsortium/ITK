@@ -32,7 +32,7 @@ itkXorImageFilterTest(int argc, char * argv[])
   }
 
   // Define the dimension of the images
-  constexpr unsigned int Dimension{ 3 };
+  static constexpr unsigned int Dimension{ 3 };
 
   // Declare the types of the images
   using PixelType = unsigned char;
@@ -57,9 +57,9 @@ itkXorImageFilterTest(int argc, char * argv[])
   auto inputImageB = InputImage2Type::New();
 
   // Define their size, and start index
-  constexpr SizeType  size{ 2, 2, 2 };
-  constexpr IndexType start{ 0, 0, 0 };
-  RegionType          region{ start, size };
+  static constexpr SizeType  size{ 2, 2, 2 };
+  static constexpr IndexType start{ 0, 0, 0 };
+  RegionType                 region{ start, size };
 
   // Initialize Image A
   inputImageA->SetRegions(region);
@@ -78,7 +78,7 @@ itkXorImageFilterTest(int argc, char * argv[])
   it1.GoToBegin();
 
   // Initialize the content of Image A
-  constexpr InputImage1Type::PixelType valueA{ 2 };
+  static constexpr InputImage1Type::PixelType valueA{ 2 };
   while (!it1.IsAtEnd())
   {
     it1.Set(valueA);
@@ -90,7 +90,7 @@ itkXorImageFilterTest(int argc, char * argv[])
   it2.GoToBegin();
 
   // Initialize the content of Image B
-  constexpr InputImage2Type::PixelType valueB{ 3 };
+  static constexpr InputImage2Type::PixelType valueB{ 3 };
   while (!it2.IsAtEnd())
   {
     it2.Set(valueB);

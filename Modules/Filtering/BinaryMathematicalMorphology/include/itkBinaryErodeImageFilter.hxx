@@ -114,10 +114,10 @@ BinaryErodeImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
   //     one means pixel on but not treated
   //     two means border pixel
   //     three means inner pixel
-  constexpr unsigned char backgroundTag{ 0 };
-  constexpr unsigned char onTag{ 1 };
-  constexpr unsigned char borderTag{ 2 };
-  constexpr unsigned char innerTag{ 3 };
+  static constexpr unsigned char backgroundTag{ 0 };
+  static constexpr unsigned char onTag{ 1 };
+  static constexpr unsigned char borderTag{ 2 };
+  static constexpr unsigned char innerTag{ 3 };
 
   if (!this->m_BoundaryToForeground)
   {

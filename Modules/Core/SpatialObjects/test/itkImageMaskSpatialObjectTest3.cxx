@@ -36,21 +36,21 @@
 int
 itkImageMaskSpatialObjectTest3(int, char *[])
 {
-  constexpr unsigned int VDimension{ 3 };
+  static constexpr unsigned int VDimension{ 3 };
 
   using ImageMaskSpatialObjectType = itk::ImageMaskSpatialObject<VDimension>;
   using PixelType = ImageMaskSpatialObjectType::PixelType;
   using ImageType = itk::Image<PixelType, VDimension>;
 
-  auto                           image = ImageType::New();
-  constexpr ImageType::SizeType  size{ 5, 5, 5 };
-  constexpr ImageType::PointType origin{};
+  auto                                  image = ImageType::New();
+  static constexpr ImageType::SizeType  size{ 5, 5, 5 };
+  static constexpr ImageType::PointType origin{};
   image->SetOrigin(origin);
 
   auto spacing = itk::MakeFilled<ImageType::SpacingType>(1);
   image->SetSpacing(spacing);
 
-  constexpr ImageType::IndexType index{};
+  static constexpr ImageType::IndexType index{};
 
   ImageType::DirectionType direction{};
   direction[0][1] = 1;

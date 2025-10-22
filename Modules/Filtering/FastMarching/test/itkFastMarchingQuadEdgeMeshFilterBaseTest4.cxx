@@ -27,7 +27,7 @@ itkFastMarchingQuadEdgeMeshFilterBaseTest4(int, char *[])
   using PixelType = float;
   using CoordType = double;
 
-  constexpr unsigned int Dimension{ 3 };
+  static constexpr unsigned int Dimension{ 3 };
 
   using Traits = itk::QuadEdgeMeshExtendedTraits<PixelType, // type of data for vertices
                                                  Dimension, // geometrical dimension of space
@@ -63,9 +63,9 @@ itkFastMarchingQuadEdgeMeshFilterBaseTest4(int, char *[])
   MeshType::PointType p;
   p[2] = 0.;
 
-  int              k = 0;
-  constexpr double alpha{ (30.0 / 180.0) * itk::Math::pi };
-  const double     delta = 2.0 / std::tan(alpha);
+  int                     k = 0;
+  static constexpr double alpha{ (30.0 / 180.0) * itk::Math::pi };
+  const double            delta = 2.0 / std::tan(alpha);
 
   for (int i = 0; i < 10; ++i)
   {

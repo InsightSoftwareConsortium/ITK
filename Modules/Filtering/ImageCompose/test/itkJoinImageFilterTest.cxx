@@ -26,7 +26,7 @@ int
 itkJoinImageFilterTest(int, char *[])
 {
   // Define the dimension of the images
-  constexpr unsigned int myDimension{ 2 };
+  static constexpr unsigned int myDimension{ 2 };
 
   // Declare the types of the images
   using myImageType1 = itk::Image<signed char, myDimension>;

@@ -195,7 +195,7 @@ DiscreteGaussianDerivativeImageFunction<TInputImage, TOutput>::EvaluateAtContinu
   using NumberOfNeighborsType = unsigned int;
 
 
-  constexpr NumberOfNeighborsType numberOfNeighbors{ 1 << ImageDimension2 };
+  static constexpr NumberOfNeighborsType numberOfNeighbors{ 1 << ImageDimension2 };
 
   // Compute base index = closet index below point
   // Compute distance from point to base index

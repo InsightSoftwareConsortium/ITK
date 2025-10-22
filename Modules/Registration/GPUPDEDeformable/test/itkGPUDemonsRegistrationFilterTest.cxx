@@ -71,11 +71,11 @@ public:
   typename TRegistration::Pointer m_Process;
 };
 
-constexpr unsigned int numberOfRepeatedTests{ 1 };
-constexpr float        displacementFieldSmoothingSigma{ 1.0 };
-constexpr float        updateFieldSmoothingSigma{ 1.0 };
-constexpr float        maximumRMSError{ 0.01 };
-const bool             smoothUpdateField = true;
+static constexpr unsigned int numberOfRepeatedTests{ 1 };
+static constexpr float        displacementFieldSmoothingSigma{ 1.0 };
+static constexpr float        updateFieldSmoothingSigma{ 1.0 };
+static constexpr float        maximumRMSError{ 0.01 };
+const bool                    smoothUpdateField = true;
 
 itk::TimeProbe m_GPUTime;
 itk::TimeProbe m_CPUTime;
@@ -142,9 +142,9 @@ template <unsigned int VDimension>
 int
 GPUDemonsRegistrationFilterTestTemplate(int argc, char * argv[])
 {
-  constexpr unsigned int ImageDimension{ VDimension };
-  bool                   passed;
-  unsigned int           size1 = 0, size2 = 0;
+  static constexpr unsigned int ImageDimension{ VDimension };
+  bool                          passed;
+  unsigned int                  size1 = 0, size2 = 0;
 
   using InternalPixelType = float;
   using VectorPixelType = itk::Vector<float, ImageDimension>;

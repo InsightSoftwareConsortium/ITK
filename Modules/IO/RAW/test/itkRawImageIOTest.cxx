@@ -36,7 +36,7 @@ itkRawImageIOTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
 
   using ImageType = itk::Image<unsigned short, 2>;
   using PixelType = ImageType::PixelType;
@@ -69,7 +69,7 @@ itkRawImageIOTest(int argc, char * argv[])
 
   ITK_TEST_EXPECT_TRUE(io->SupportsDimension(Dimension));
 
-  constexpr unsigned long dim{ 3 };
+  static constexpr unsigned long dim{ 3 };
   ITK_TEST_EXPECT_TRUE(!io->SupportsDimension(dim));
 
   // Binary files have no image information to read

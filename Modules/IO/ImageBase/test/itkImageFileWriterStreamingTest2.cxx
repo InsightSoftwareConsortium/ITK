@@ -34,9 +34,9 @@ bool
 SameImage(std::string output, std::string baseline)
 {
 
-  constexpr PixelType    intensityTolerance{ 0 };
-  constexpr unsigned int radiusTolerance{ 0 };
-  constexpr unsigned int numberOfPixelTolerance{ 0 };
+  static constexpr PixelType    intensityTolerance{ 0 };
+  static constexpr unsigned int radiusTolerance{ 0 };
+  static constexpr unsigned int numberOfPixelTolerance{ 0 };
 
   auto testReader = ReaderType::New();
   auto baselineReader = ReaderType::New();
@@ -79,7 +79,7 @@ itkImageFileWriterStreamingTest2(int argc, char * argv[])
   //
 
 
-  constexpr unsigned int numberOfDataPieces{ 4 };
+  static constexpr unsigned int numberOfDataPieces{ 4 };
 
   auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);

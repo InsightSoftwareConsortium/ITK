@@ -57,14 +57,14 @@ itkImageScanlineIteratorTest1(int, char *[])
 
   using ImageType = itk::Image<itk::Vector<unsigned short, 5>, 3>;
 
-  constexpr ImageType::SizeType imageSize3D{ 20, 40, 60 };
-  constexpr ImageType::SizeType bufferSize3D{ 8, 20, 14 };
-  constexpr ImageType::SizeType regionSize3D{ 4, 6, 6 };
+  static constexpr ImageType::SizeType imageSize3D{ 20, 40, 60 };
+  static constexpr ImageType::SizeType bufferSize3D{ 8, 20, 14 };
+  static constexpr ImageType::SizeType regionSize3D{ 4, 6, 6 };
 
-  constexpr ImageType::IndexType startIndex3D{ 5, 4, 1 };
-  constexpr ImageType::IndexType bufferStartIndex3D{ 2, 3, 5 };
-  constexpr ImageType::IndexType regionStartIndex3D{ 5, 10, 12 };
-  constexpr ImageType::IndexType regionEndIndex3D{ 8, 15, 17 };
+  static constexpr ImageType::IndexType startIndex3D{ 5, 4, 1 };
+  static constexpr ImageType::IndexType bufferStartIndex3D{ 2, 3, 5 };
+  static constexpr ImageType::IndexType regionStartIndex3D{ 5, 10, 12 };
+  static constexpr ImageType::IndexType regionEndIndex3D{ 8, 15, 17 };
 
 
   ImageType::RegionType region{ startIndex3D, imageSize3D };
@@ -148,7 +148,7 @@ itkImageScanlineIteratorTest1(int, char *[])
   {
     // Create an image
     using TestImageType = itk::Image<int, 2>;
-    constexpr TestImageType::IndexType imageCorner{};
+    static constexpr TestImageType::IndexType imageCorner{};
 
     auto imageSize = TestImageType::SizeType::Filled(3);
 
@@ -179,7 +179,7 @@ itkImageScanlineIteratorTest1(int, char *[])
     }
 
     // Setup and iterate over the first region
-    constexpr TestImageType::IndexType region1Start{};
+    static constexpr TestImageType::IndexType region1Start{};
 
     auto regionSize = TestImageType::SizeType::Filled(2);
 

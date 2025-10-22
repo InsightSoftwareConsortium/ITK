@@ -31,7 +31,7 @@ itkNiftiImageIOTest13(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension{ 3 };
+  static constexpr unsigned int Dimension{ 3 };
 
   using PixelType = float;
   using ImageType = itk::Image<PixelType, Dimension>;

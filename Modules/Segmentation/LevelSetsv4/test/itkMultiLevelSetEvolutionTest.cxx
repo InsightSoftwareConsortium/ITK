@@ -28,7 +28,7 @@
 int
 itkMultiLevelSetEvolutionTest(int, char *[])
 {
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
 
   using InputPixelType = unsigned char;
   using InputImageType = itk::Image<InputPixelType, Dimension>;
@@ -68,7 +68,7 @@ itkMultiLevelSetEvolutionTest(int, char *[])
 
   const ImageType::RegionType region{ index, size };
 
-  constexpr PixelType value{ 0. };
+  static constexpr PixelType value{ 0. };
 
   auto input = InputImageType::New();
   input->SetRegions(region);

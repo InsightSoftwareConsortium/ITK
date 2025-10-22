@@ -176,11 +176,11 @@ itkConjugateGradientOptimizerTest(int, char *[])
 
   vnlOptimizerType * vnlOptimizer = itkOptimizer->GetOptimizer();
 
-  constexpr double F_Tolerance{ 1e-3 };       // Function value tolerance
-  constexpr double G_Tolerance{ 1e-4 };       // Gradient magnitude tolerance
-  constexpr double X_Tolerance{ 1e-8 };       // Search space tolerance
-  constexpr double Epsilon_Function{ 1e-10 }; // Step
-  constexpr int    Max_Iterations{ 100 };     // Maximum number of iterations
+  static constexpr double F_Tolerance{ 1e-3 };       // Function value tolerance
+  static constexpr double G_Tolerance{ 1e-4 };       // Gradient magnitude tolerance
+  static constexpr double X_Tolerance{ 1e-8 };       // Search space tolerance
+  static constexpr double Epsilon_Function{ 1e-10 }; // Step
+  static constexpr int    Max_Iterations{ 100 };     // Maximum number of iterations
 
   vnlOptimizer->set_f_tolerance(F_Tolerance);
   vnlOptimizer->set_g_tolerance(G_Tolerance);
@@ -240,8 +240,8 @@ itkConjugateGradientOptimizerTest(int, char *[])
   std::cout << finalPosition[0] << ',';
   std::cout << finalPosition[1] << ')' << std::endl;
 
-  bool             pass = true;
-  constexpr double trueParameters[2]{ 2, -2 };
+  bool                    pass = true;
+  static constexpr double trueParameters[2]{ 2, -2 };
   for (unsigned int j = 0; j < 2; ++j)
   {
     if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)

@@ -45,7 +45,7 @@ itkLaplacianImageFilterTest(int argc, char * argv[])
   }
 
 
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
 
   using InputPixelType = float;
   using InputImageType = itk::Image<InputPixelType, Dimension>;

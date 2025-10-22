@@ -254,7 +254,7 @@ PerformSimpleImageRegistrationWithMaskAndSampling(int argc, char * argv[])
   using RealType = typename AffineRegistrationType::RealType;
 
   using VectorType = itk::Vector<RealType, VImageDimension>;
-  constexpr VectorType zeroVector{};
+  static constexpr VectorType zeroVector{};
   using DisplacementFieldType = itk::Image<VectorType, VImageDimension>;
   auto displacementField = DisplacementFieldType::New();
   displacementField->CopyInformation(fixedImage);

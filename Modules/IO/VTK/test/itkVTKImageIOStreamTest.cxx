@@ -291,8 +291,8 @@ itkVTKImageIOStreamTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int numberOfStreams{ 2 };
-  int                    status = 0;
+  static constexpr unsigned int numberOfStreams{ 2 };
+  int                           status = 0;
 
 #define ReadWriteTestMACRO(scalarType)                                \
   status += TestStreamWrite<scalarType, 2>(argv[1], 0);               \

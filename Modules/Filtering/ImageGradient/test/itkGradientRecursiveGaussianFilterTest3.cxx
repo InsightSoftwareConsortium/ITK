@@ -189,8 +189,8 @@ itkGradientRecursiveGaussianFilterTest3(int argc, char * argv[])
 
   int result = EXIT_SUCCESS;
 
-  constexpr unsigned int myDimension{ 3 };
-  constexpr unsigned int myComponents1D{ 1 };
+  static constexpr unsigned int myDimension{ 3 };
+  static constexpr unsigned int myComponents1D{ 1 };
   using myGrad1DType = itk::Vector<float, myDimension * myComponents1D>;
   using myGradImage1DType = itk::Image<myGrad1DType, myDimension>;
 
@@ -227,7 +227,7 @@ itkGradientRecursiveGaussianFilterTest3(int argc, char * argv[])
   }
 
   // Test with Image of 2D Vector
-  constexpr unsigned int myComponents2D{ 2 };
+  static constexpr unsigned int myComponents2D{ 2 };
   using myGrad2DType = itk::Vector<float, myDimension * myComponents2D>;
   using myGradImage2DType = itk::Image<myGrad2DType, myDimension>;
   using myVector2DType = itk::Vector<float, myComponents2D>;
@@ -287,7 +287,7 @@ itkGradientRecursiveGaussianFilterTest3(int argc, char * argv[])
   }
 
   // Test with Image of 3D Vector
-  constexpr unsigned int myComponents3D{ 3 };
+  static constexpr unsigned int myComponents3D{ 3 };
   using myGrad3DType = itk::Vector<float, myDimension * myComponents3D>;
   using myGradImage3DType = itk::Image<myGrad3DType, myDimension>;
   using myVector3DType = itk::Vector<float, myComponents3D>;

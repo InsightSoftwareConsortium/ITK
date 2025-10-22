@@ -134,8 +134,8 @@ protected:
   void
   WriteCells(T * buffer, std::ofstream & outputFile, T label = T{})
   {
-    constexpr unsigned int numberOfCellPoints{ 3 };
-    SizeValueType          index = 0;
+    static constexpr unsigned int numberOfCellPoints{ 3 };
+    SizeValueType                 index = 0;
 
     const auto data = make_unique_for_overwrite<T[]>(this->m_NumberOfCells * numberOfCellPoints);
 

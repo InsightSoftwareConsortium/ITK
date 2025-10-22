@@ -25,7 +25,7 @@
 
 
 // Set up type alias for test
-constexpr unsigned int Dimension{ 2 };
+static constexpr unsigned int Dimension{ 2 };
 using InputPixelType = unsigned char;
 using InputFrameType = itk::Image<InputPixelType, Dimension>;
 using InputVideoType = itk::VideoStream<InputFrameType>;
@@ -50,9 +50,9 @@ CreateInputFrame(InputPixelType val)
 {
   auto out = InputFrameType::New();
 
-  InputFrameType::SizeType            sizeLR{ 50, 40 };
-  constexpr InputFrameType::IndexType startLR{};
-  InputFrameType::RegionType          largestRegion = { startLR, sizeLR };
+  InputFrameType::SizeType                   sizeLR{ 50, 40 };
+  static constexpr InputFrameType::IndexType startLR{};
+  InputFrameType::RegionType                 largestRegion = { startLR, sizeLR };
   out->SetRegions(largestRegion);
 
   out->Allocate();
@@ -85,8 +85,8 @@ itkFrameDifferenceVideoFilterTest(int itkNotUsed(argc), char * itkNotUsed(argv)[
 
 
   // Set up an input VideoStream
-  auto                    inputVideo = InputVideoType::New();
-  constexpr SizeValueType numInputFrames{ 50 };
+  auto                           inputVideo = InputVideoType::New();
+  static constexpr SizeValueType numInputFrames{ 50 };
   inputVideo->SetNumberOfBuffers(numInputFrames);
   itk::TemporalRegion inputTempRegion;
   inputTempRegion.SetFrameStart(0);
@@ -137,8 +137,8 @@ itkFrameDifferenceVideoFilterTest(int itkNotUsed(argc), char * itkNotUsed(argv)[
     filter->Update();
 
     // Check the results
-    constexpr OutputPixelType expectedVal{ 1 };
-    const OutputPixelType     actualVal = filter->GetOutput()->GetFrame(i)->GetPixel(checkPx);
+    static constexpr OutputPixelType expectedVal{ 1 };
+    const OutputPixelType            actualVal = filter->GetOutput()->GetFrame(i)->GetPixel(checkPx);
     if (expectedVal != actualVal)
     {
       std::cerr << "Filter failed to compute frame " << i << " correctly for adjacent frames." << std::endl;
@@ -179,8 +179,8 @@ itkFrameDifferenceVideoFilterTest(int itkNotUsed(argc), char * itkNotUsed(argv)[
   filter->Update();
   for (unsigned int i = outputStart; i < outputStart + outputDuration; ++i)
   {
-    constexpr OutputPixelType expectedVal{ 4 }; // Difference of 2 squared
-    const OutputPixelType     actualVal = filter->GetOutput()->GetFrame(i)->GetPixel(checkPx);
+    static constexpr OutputPixelType expectedVal{ 4 }; // Difference of 2 squared
+    const OutputPixelType            actualVal = filter->GetOutput()->GetFrame(i)->GetPixel(checkPx);
     if (expectedVal != actualVal)
     {
       std::cerr << "Filter failed to compute frame " << i << " correctly with offset of 2." << std::endl;

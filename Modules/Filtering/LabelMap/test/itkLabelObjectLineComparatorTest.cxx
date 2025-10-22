@@ -27,7 +27,7 @@ itkLabelObjectLineComparatorTest(int, char *[])
   using IndexType = itk::LabelObjectLine<2>::IndexType;
   using ComparatorType = itk::Functor::LabelObjectLineComparator<LabelObjectLineType>;
 
-  constexpr ComparatorType lessThan;
+  static constexpr ComparatorType lessThan;
 
   IndexType lowIndex;
   lowIndex[0] = 3;

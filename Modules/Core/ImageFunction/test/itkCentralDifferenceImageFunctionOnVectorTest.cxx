@@ -48,7 +48,7 @@ itkCentralDifferenceImageFunctionOnVectorTestRun()
 
   int result = EXIT_SUCCESS;
 
-  constexpr unsigned int ImageDimension{ 2 };
+  static constexpr unsigned int ImageDimension{ 2 };
   using PixelType = itk::Vector<float, VectorLength>;
   using ImageType = itk::Image<PixelType, ImageDimension>;
 

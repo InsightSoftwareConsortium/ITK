@@ -45,9 +45,9 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
   itk::ConstShapedNeighborhoodIterator<TestImageType>::RadiusType radius{ 1, 1, 1, 1 };
   // region over which the iterator is defined
 
-  constexpr itk::ConstShapedNeighborhoodIterator<TestImageType>::SizeType  sz{ 10, 10, 5, 1 };
-  constexpr itk::ConstShapedNeighborhoodIterator<TestImageType>::IndexType idx{ 0, 0, 0, 1 };
-  itk::ConstShapedNeighborhoodIterator<TestImageType>::RegionType          reg = { idx, sz };
+  static constexpr itk::ConstShapedNeighborhoodIterator<TestImageType>::SizeType  sz{ 10, 10, 5, 1 };
+  static constexpr itk::ConstShapedNeighborhoodIterator<TestImageType>::IndexType idx{ 0, 0, 0, 1 };
+  itk::ConstShapedNeighborhoodIterator<TestImageType>::RegionType                 reg = { idx, sz };
 
   // initialize an iterator
   println("Creating ConstShapedNeighborhoodIterator");
@@ -409,7 +409,7 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
   {
     // Create an image
     using ChangeRegionTestImageType = itk::Image<int, 2>;
-    constexpr ChangeRegionTestImageType::IndexType imageCorner{};
+    static constexpr ChangeRegionTestImageType::IndexType imageCorner{};
 
     auto imageSize = ChangeRegionTestImageType::SizeType::Filled(4);
 

@@ -138,7 +138,7 @@ itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv[])
   SizeType                 size;
   size.SetSize(sizeArray);
 
-  constexpr IndexType index{};
+  static constexpr IndexType index{};
 
   const RegionType region{ index, size };
 
@@ -165,9 +165,9 @@ itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv[])
   initField->Allocate();
   initField->SetDirection(direction);
 
-  double              center[ImageDimension];
-  constexpr PixelType fgnd{ 250 };
-  constexpr PixelType bgnd{ 15 };
+  double                     center[ImageDimension];
+  static constexpr PixelType fgnd{ 250 };
+  static constexpr PixelType bgnd{ 15 };
 
   // fill moving with circle
   center[0] = 64;
@@ -182,7 +182,7 @@ itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv[])
   FillWithCircle<ImageType>(fixed, center, radius, fgnd, bgnd);
 
   // fill initial deformation with zero vectors
-  constexpr VectorType zeroVec{};
+  static constexpr VectorType zeroVec{};
   initField->FillBuffer(zeroVec);
 
   using CasterType = itk::CastImageFilter<FieldType, FieldType>;

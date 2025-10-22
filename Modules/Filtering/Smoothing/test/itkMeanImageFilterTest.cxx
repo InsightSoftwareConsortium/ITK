@@ -31,7 +31,7 @@ itkMeanImageFilterTest(int, char *[])
   // Comment the following if you want to use the itk text output window
   itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
   using PixelType = float;
 
   using FloatImage2DType = itk::Image<PixelType, Dimension>;

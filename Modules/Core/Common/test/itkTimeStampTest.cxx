@@ -100,7 +100,7 @@ itkTimeStampTest(int, char *[])
 
     itk::ModifiedTimeType prev_mtime = init_mtime;
 
-    constexpr unsigned int num_exp{ 500 };
+    static constexpr unsigned int num_exp{ 500 };
 
     for (unsigned int i = 0; i < num_exp; ++i)
     {

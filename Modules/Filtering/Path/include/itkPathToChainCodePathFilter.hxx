@@ -33,9 +33,9 @@ template <typename TInputPath, typename TOutputChainCodePath>
 void
 PathToChainCodePathFilter<TInputPath, TOutputChainCodePath>::GenerateData()
 {
-  OffsetType           offset;
-  OffsetType           tempOffset;
-  constexpr OffsetType zeroOffset{};
+  OffsetType                  offset;
+  OffsetType                  tempOffset;
+  static constexpr OffsetType zeroOffset{};
 
   InputPathInputType inputPathInput;
 

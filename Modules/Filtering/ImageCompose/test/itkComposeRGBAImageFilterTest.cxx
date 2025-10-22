@@ -46,7 +46,7 @@ itkComposeRGBAImageFilterTest(int argc, char * argv[])
 
   // Typedefs
   using ScalarPixelType = unsigned char;
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
   using RGBAPixelType = itk::RGBAPixel<ScalarPixelType>;
   using ScalarImageType = itk::Image<ScalarPixelType, Dimension>;
   using RGBAImageType = itk::Image<RGBAPixelType, Dimension>;

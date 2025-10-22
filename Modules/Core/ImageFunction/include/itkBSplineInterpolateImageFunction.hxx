@@ -47,7 +47,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordinate, TCoefficientType>::BSpl
   , m_CoefficientFilter(CoefficientFilter::New())
   , m_NumberOfWorkUnits(1)
 {
-  constexpr unsigned int SplineOrder{ 3 };
+  static constexpr unsigned int SplineOrder{ 3 };
   this->SetSplineOrder(SplineOrder);
 }
 

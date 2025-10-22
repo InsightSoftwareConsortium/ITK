@@ -28,7 +28,7 @@ SpringColormapFunction<TScalar, TRGBPixel>::operator()(const TScalar & v) const 
   const RealType value = this->RescaleInputValue(v);
 
   // Apply the color mapping.
-  constexpr RealType red{ 1.0 };
+  static constexpr RealType red{ 1.0 };
 
   const RealType green = value;
 

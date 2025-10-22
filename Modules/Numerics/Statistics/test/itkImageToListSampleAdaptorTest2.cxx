@@ -25,11 +25,11 @@
 int
 itkImageToListSampleAdaptorTest2(int, char *[])
 {
-  constexpr unsigned int MeasurementVectorSize{ 8 };
+  static constexpr unsigned int MeasurementVectorSize{ 8 };
   using MeasurementComponentType = unsigned long;
   using PixelType = itk::FixedArray<MeasurementComponentType, MeasurementVectorSize>;
 
-  constexpr unsigned int ImageDimension{ 3 };
+  static constexpr unsigned int ImageDimension{ 3 };
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
   auto image = ImageType::New();
@@ -118,7 +118,7 @@ itkImageToListSampleAdaptorTest2(int, char *[])
 
   using VariableLengthImageType = itk::Image<VariableLengthPixelType, ImageDimension>;
 
-  constexpr unsigned int vMeasurementVectorSize{ 4 };
+  static constexpr unsigned int vMeasurementVectorSize{ 4 };
 
   auto vImage = VariableLengthImageType::New();
 
@@ -192,7 +192,7 @@ itkImageToListSampleAdaptorTest2(int, char *[])
   //
   using RGBPixelType = itk::RGBPixel<unsigned char>;
 
-  constexpr unsigned int rgbMeasurementVectorSize{ 3 };
+  static constexpr unsigned int rgbMeasurementVectorSize{ 3 };
 
   using RGBImageType = itk::Image<RGBPixelType, ImageDimension>;
 

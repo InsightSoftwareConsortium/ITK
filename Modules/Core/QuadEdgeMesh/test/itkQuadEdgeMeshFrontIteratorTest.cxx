@@ -45,8 +45,8 @@ itkQuadEdgeMeshFrontIteratorTest(int, char *[])
   using FrontIterator = MeshType::FrontIterator;
   using QEType = FrontIterator::QEType;
 
-  constexpr int expectedNumPts{ 25 };
-  constexpr int expectedNumCells{ 32 };
+  static constexpr int expectedNumPts{ 25 };
+  static constexpr int expectedNumCells{ 32 };
 
   std::cout << "expectedNumPts= " << expectedNumPts << std::endl;
   std::cout << "expectedNumCells= " << expectedNumCells << std::endl;

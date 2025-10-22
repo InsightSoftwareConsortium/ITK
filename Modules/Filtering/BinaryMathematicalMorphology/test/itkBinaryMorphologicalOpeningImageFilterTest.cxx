@@ -34,7 +34,7 @@ itkBinaryMorphologicalOpeningImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr int dim{ 2 };
+  static constexpr int dim{ 2 };
 
   // Verify that the input and output pixel types can be different
   using InputPixelType = unsigned short;

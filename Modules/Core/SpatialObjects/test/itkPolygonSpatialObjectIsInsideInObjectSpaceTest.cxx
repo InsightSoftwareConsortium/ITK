@@ -49,7 +49,7 @@ itkPolygonSpatialObjectIsInsideInObjectSpaceTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
   using PointType = itk::ImageBase<Dimension>::PointType;
   using PolygonPointType = itk::PolygonSpatialObject<Dimension>::PolygonPointType;
   using PolygonPointListType = itk::PolygonSpatialObject<Dimension>::PolygonPointListType;

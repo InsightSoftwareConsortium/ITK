@@ -29,7 +29,7 @@ itkConstNeighborhoodIteratorWithOnlyIndexTestGetTestImage(int d1, int d2, int d3
   sizeND[2] = d3;
   sizeND[3] = d4;
 
-  constexpr itk::Index<4> origND{};
+  static constexpr itk::Index<4> origND{};
 
   const itk::ImageRegion<4> RegionND{ origND, sizeND };
 
@@ -51,10 +51,10 @@ itkConstNeighborhoodIteratorWithOnlyIndexTestRun()
 
   IndexType loc{ 4, 4, 2, 1 };
 
-  typename ConstNeighborhoodIteratorType::RadiusType         radius{ 1, 1, 1, 1 };
-  constexpr typename ConstNeighborhoodIteratorType::SizeType sz{ 10, 10, 5, 1 };
-  constexpr IndexType                                        idx{ 0, 0, 0, 1 };
-  typename ConstNeighborhoodIteratorType::RegionType         reg = { idx, sz };
+  typename ConstNeighborhoodIteratorType::RadiusType                radius{ 1, 1, 1, 1 };
+  static constexpr typename ConstNeighborhoodIteratorType::SizeType sz{ 10, 10, 5, 1 };
+  static constexpr IndexType                                        idx{ 0, 0, 0, 1 };
+  typename ConstNeighborhoodIteratorType::RegionType                reg = { idx, sz };
 
   std::cout << "Creating ConstNeighborhoodIterator" << std::endl;
   ConstNeighborhoodIteratorType it(radius, img, reg);
@@ -343,7 +343,7 @@ itkConstNeighborhoodIteratorWithOnlyIndexTestRun()
   // Test IndexInBounds
   //
   std::cout << "Testing IndexInBounds" << std::endl;
-  constexpr int                     dims[4]{ 13, 11, 9, 7 };
+  static constexpr int              dims[4]{ 13, 11, 9, 7 };
   const typename ImageType::Pointer iib_img =
     itkConstNeighborhoodIteratorWithOnlyIndexTestGetTestImage<TImage>(dims[0], dims[1], dims[2], dims[3]);
   radius[0] = 4;

@@ -70,7 +70,7 @@ itkMultiStartImageToImageMetricv4RegistrationTest(int argc, char * argv[])
     {
       rotateinput = true;
     }
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
   using PixelType = unsigned short; // I assume png is unsigned short
   using InternalPixelType = double;
 
@@ -178,7 +178,7 @@ itkMultiStartImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   }
   metric->SetFixedTransform(identityTransform);
   metric->SetMovingTransform(affineTransform);
-  constexpr bool gaussian{ false };
+  static constexpr bool gaussian{ false };
   metric->SetUseMovingImageGradientFilter(gaussian);
   metric->SetUseFixedImageGradientFilter(gaussian);
   metric->Initialize();
@@ -200,7 +200,7 @@ itkMultiStartImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   using MOptimizerType = itk::MultiStartOptimizerv4;
   auto                               MOptimizer = MOptimizerType::New();
   MOptimizerType::ParametersListType parametersList = MOptimizer->GetParametersList();
-  constexpr float                    rotplus{ 10 };
+  static constexpr float             rotplus{ 10 };
   //  for (  float i = 180; i <= 180; i+=rotplus )
   for (float i = 0; i < 360; i += rotplus)
   {

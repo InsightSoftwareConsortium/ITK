@@ -33,7 +33,7 @@ itkBinaryReconstructionByErosionImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int dim{ 3 };
+  static constexpr unsigned int dim{ 3 };
 
   using PixelType = unsigned char;
 

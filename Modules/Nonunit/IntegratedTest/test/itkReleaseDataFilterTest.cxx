@@ -99,7 +99,7 @@ itkReleaseDataFilterTest(int, char *[])
   streamer->SetNumberOfStreamDivisions(4);
 
 
-  constexpr ImageType::SizeType zeroSize{};
+  static constexpr ImageType::SizeType zeroSize{};
 
 
   std::cout << "---- Updating \"a\" Pipeline ---" << std::endl;

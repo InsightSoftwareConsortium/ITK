@@ -224,7 +224,7 @@ DiscreteHessianGaussianImageFunction<TInputImage, TOutput>::EvaluateAtContinuous
 
   using NumberOfNeighborsType = unsigned int;
 
-  constexpr NumberOfNeighborsType neighbors{ 1 << ImageDimension2 };
+  static constexpr NumberOfNeighborsType neighbors{ 1 << ImageDimension2 };
 
   // Compute base index = closet index below point
   // Compute distance from point to base index

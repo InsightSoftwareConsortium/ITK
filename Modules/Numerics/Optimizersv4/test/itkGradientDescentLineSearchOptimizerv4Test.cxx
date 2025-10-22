@@ -265,7 +265,7 @@ itkGradientDescentLineSearchOptimizerv4Test(int, char *[])
   itkOptimizer->SetUpperLimit(upperLimit);
   ITK_TEST_SET_GET_VALUE(upperLimit, itkOptimizer->GetUpperLimit());
 
-  constexpr unsigned int maximumLineSearchIterations{ 100 };
+  static constexpr unsigned int maximumLineSearchIterations{ 100 };
   itkOptimizer->SetMaximumLineSearchIterations(maximumLineSearchIterations);
   ITK_TEST_SET_GET_VALUE(maximumLineSearchIterations, itkOptimizer->GetMaximumLineSearchIterations());
 

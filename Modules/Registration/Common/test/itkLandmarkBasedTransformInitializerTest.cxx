@@ -202,7 +202,7 @@ test1(int scaleFactor)
   std::cout << "Testing Landmark alignment with " << transform->GetNameOfClass() << std::endl;
 
   using PixelType = unsigned char;
-  constexpr unsigned int Dimension{ 3 };
+  static constexpr unsigned int Dimension{ 3 };
   using FixedImageType = itk::Image<PixelType, Dimension>;
   using MovingImageType = itk::Image<PixelType, Dimension>;
 
@@ -241,7 +241,7 @@ itkLandmarkBasedTransformInitializerTest(int, char *[])
   {
     // Test landmark alignment using Rigid 2D transform in 2 dimensions
     std::cout << "Testing Landmark alignment with Rigid2DTransform" << std::endl;
-    constexpr unsigned int Dimension{ 2 };
+    static constexpr unsigned int Dimension{ 2 };
     using FixedImageType = itk::Image<PixelType, Dimension>;
     using MovingImageType = itk::Image<PixelType, Dimension>;
 
@@ -327,7 +327,7 @@ itkLandmarkBasedTransformInitializerTest(int, char *[])
   }
 
   {
-    constexpr unsigned int Dimension{ 3 };
+    static constexpr unsigned int Dimension{ 3 };
     using ImageType = itk::Image<PixelType, Dimension>;
     const ImageType::Pointer fixedImage = CreateTestImage<Dimension>();
     const ImageType::Pointer movingImage = CreateTestImage<Dimension>();
@@ -344,8 +344,8 @@ itkLandmarkBasedTransformInitializerTest(int, char *[])
     // Test that an exception is thrown if there aren't enough points
     ITK_TRY_EXPECT_EXCEPTION(initializer->InitializeTransform());
 
-    constexpr unsigned int numLandmarks{ 8 };
-    constexpr double       fixedLandMarkInit[numLandmarks][3] = {
+    static constexpr unsigned int numLandmarks{ 8 };
+    constexpr double              fixedLandMarkInit[numLandmarks][3] = {
       { -1.33671, -279.739, 176.001 },
       { 28.0989, -346.692, 183.367 },
       { -1.36713, -257.43, 155.36 },
@@ -366,11 +366,11 @@ itkLandmarkBasedTransformInitializerTest(int, char *[])
       { -300, 100, 1000 } // dummy
 
     };
-    constexpr double weights[numLandmarks]{ 10, 1, 10, 1, 1, 1, 0.001, 0.001 };
+    static constexpr double weights[numLandmarks]{ 10, 1, 10, 1, 1, 1, 0.001, 0.001 };
 
     { // First Test with working Landmarks
       // These landmark should match properly
-      constexpr unsigned int                           numWorkingLandmark{ 6 };
+      static constexpr unsigned int                    numWorkingLandmark{ 6 };
       TransformInitializerType::LandmarkPointContainer fixedLandmarks;
       fixedLandmarks.reserve(numWorkingLandmark);
       TransformInitializerType::LandmarkPointContainer movingLandmarks;
@@ -402,7 +402,7 @@ itkLandmarkBasedTransformInitializerTest(int, char *[])
 
     { // Test with dummy points
       // dummy points should not matched based on given weights
-      constexpr unsigned int                           numDummyLandmark{ 8 };
+      static constexpr unsigned int                    numDummyLandmark{ 8 };
       TransformInitializerType::LandmarkPointContainer fixedLandmarks;
       fixedLandmarks.reserve(numDummyLandmark);
       TransformInitializerType::LandmarkPointContainer movingLandmarks;
@@ -435,7 +435,7 @@ itkLandmarkBasedTransformInitializerTest(int, char *[])
 
   {
     std::cout << "\nTesting Landmark alignment with BSplineTransform..." << std::endl;
-    constexpr unsigned int Dimension{ 3 };
+    static constexpr unsigned int Dimension{ 3 };
     using FixedImageType = itk::Image<PixelType, Dimension>;
     using MovingImageType = itk::Image<PixelType, Dimension>;
 
@@ -446,7 +446,7 @@ itkLandmarkBasedTransformInitializerTest(int, char *[])
     fixedImage->SetOrigin(origin);
 
     // Set the transform type
-    constexpr unsigned int SplineOrder{ 3 };
+    static constexpr unsigned int SplineOrder{ 3 };
     using TransformType = itk::BSplineTransform<double, FixedImageType::ImageDimension, SplineOrder>;
     auto transform = TransformType::New();
 
@@ -460,8 +460,8 @@ itkLandmarkBasedTransformInitializerTest(int, char *[])
     TransformInitializerType::LandmarkPointContainer movingLandmarks;
     Init3DPoints<TransformInitializerType>(fixedLandmarks, movingLandmarks, 1);
 
-    constexpr unsigned int numLandmarks{ 4 };
-    constexpr double       weights[numLandmarks]{ 1, 3, 0.01, 0.5 };
+    static constexpr unsigned int numLandmarks{ 4 };
+    static constexpr double       weights[numLandmarks]{ 1, 3, 0.01, 0.5 };
 
     TransformInitializerType::LandmarkWeightType landmarkWeights;
     for (const double weight : weights)

@@ -43,7 +43,7 @@ itkKdTreeTest1(int argc, char * argv[])
   using MeasurementVectorType = itk::Array<double>;
   using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
 
-  constexpr SampleType::MeasurementVectorSizeType measurementVectorSize{ 2 };
+  static constexpr SampleType::MeasurementVectorSizeType measurementVectorSize{ 2 };
 
   auto sample = SampleType::New();
   sample->SetMeasurementVectorSize(measurementVectorSize);
@@ -77,7 +77,7 @@ itkKdTreeTest1(int argc, char * argv[])
 
   MeasurementVectorType queryPoint(measurementVectorSize);
 
-  constexpr unsigned int                 numberOfNeighbors{ 1 };
+  static constexpr unsigned int          numberOfNeighbors{ 1 };
   TreeType::InstanceIdentifierVectorType neighbors;
 
   MeasurementVectorType result(measurementVectorSize);

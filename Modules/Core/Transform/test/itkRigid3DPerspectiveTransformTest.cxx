@@ -28,10 +28,10 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
 
   using TransformType = itk::Rigid3DPerspectiveTransform<double>;
 
-  constexpr double       epsilon{ 1e-10 };
-  constexpr unsigned int N{ 3 };
+  static constexpr double       epsilon{ 1e-10 };
+  static constexpr unsigned int N{ 3 };
 
-  constexpr double focal{ 100.0 };
+  static constexpr double focal{ 100.0 };
 
   bool Ok = true;
 
@@ -161,7 +161,7 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
     auto rigid = TransformType::New();
     rigid->SetFocalDistance(focal);
 
-    constexpr TransformType::OffsetType ioffset{};
+    static constexpr TransformType::OffsetType ioffset{};
 
     rigid->SetOffset(ioffset);
 

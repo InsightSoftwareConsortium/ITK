@@ -33,7 +33,7 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::BinaryMask3DMeshSource()
   // Modify superclass default values, can be overridden by subclasses
   this->SetNumberOfRequiredInputs(1);
 
-  constexpr SizeType size{};
+  static constexpr SizeType size{};
   m_RegionOfInterest.SetSize(size);
 
   this->GetOutput()->GetPoints()->Reserve(m_NodeLimit);

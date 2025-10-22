@@ -24,7 +24,7 @@ int
 itkSampleToHistogramFilterTest7(int, char *[])
 {
 
-  constexpr unsigned int numberOfComponents{ 3 };
+  static constexpr unsigned int numberOfComponents{ 3 };
   using MeasurementType = int; // Exercise an integer type for the samples
 
   using MeasurementVectorType = itk::VariableLengthVector<float>;
@@ -130,7 +130,7 @@ itkSampleToHistogramFilterTest7(int, char *[])
   HistogramType::ConstIterator       histogramItr = histogram->Begin();
   const HistogramType::ConstIterator histogramEnd = histogram->End();
 
-  constexpr unsigned int expectedFrequency1{ 1 };
+  static constexpr unsigned int expectedFrequency1{ 1 };
   while (histogramItr != histogramEnd)
   {
     if (histogramItr.GetFrequency() != expectedFrequency1)

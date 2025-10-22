@@ -31,7 +31,7 @@ itkTIFFImageIOTest2(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType, Dimension>;
 
@@ -69,7 +69,7 @@ itkTIFFImageIOTest2(int argc, char * argv[])
 
   ImageType::SpacingType readSpacing = readImage->GetSpacing();
 
-  constexpr double tolerance{ 1e-5 };
+  static constexpr double tolerance{ 1e-5 };
 
   for (unsigned int i = 0; i < ImageType::SpacingType::Dimension; ++i)
   {

@@ -27,7 +27,7 @@ namespace
 static bool
 CheckEqual(const itk::Point<double, 2> & p1, const itk::Point<double, 2> & p2)
 {
-  constexpr double epsilon{ 1e-5 };
+  static constexpr double epsilon{ 1e-5 };
 
   for (unsigned int i = 0; i < 2; ++i)
   {
@@ -49,9 +49,9 @@ itkCenteredRigid2DTransformTest(int, char *[])
   std::cout << "==================================" << std::endl;
   std::cout << "Testing CenteredRigid 2D Transform" << std::endl << std::endl;
 
-  constexpr double       epsilon{ 1e-10 };
-  constexpr unsigned int N{ 2 };
-  bool                   Ok = true;
+  static constexpr double       epsilon{ 1e-10 };
+  static constexpr unsigned int N{ 2 };
+  bool                          Ok = true;
 
   using CenteredRigidTransformType = itk::CenteredRigid2DTransform<double>;
   auto transform = CenteredRigidTransformType::New();
@@ -65,9 +65,9 @@ itkCenteredRigid2DTransformTest(int, char *[])
   transform->SetAngle(angle);
 
   // Rotate an itk::Point
-  constexpr CenteredRigidTransformType::InputPointType::ValueType pInit[2]{ 10, 10 };
-  CenteredRigidTransformType::InputPointType                      p = pInit;
-  CenteredRigidTransformType::InputPointType                      q;
+  static constexpr CenteredRigidTransformType::InputPointType::ValueType pInit[2]{ 10, 10 };
+  CenteredRigidTransformType::InputPointType                             p = pInit;
+  CenteredRigidTransformType::InputPointType                             q;
 
   q[0] = p[0] * costh - p[1] * sinth;
   q[1] = p[0] * sinth + p[1] * costh;
@@ -127,8 +127,8 @@ itkCenteredRigid2DTransformTest(int, char *[])
     std::cout << "Testing Inverse:";
 
     // Populate the transform with some parameters
-    auto             transform2 = CenteredRigidTransformType::New();
-    constexpr double a{ 0.175 };
+    auto                    transform2 = CenteredRigidTransformType::New();
+    static constexpr double a{ 0.175 };
     transform2->SetAngle(a);
 
     CenteredRigidTransformType::InputPointType c;
@@ -324,7 +324,7 @@ itkCenteredRigid2DTransformTest(int, char *[])
     TransformType::JacobianType approxJacobian = jacobian;
     for (unsigned int k = 0; k < t1->GetNumberOfParameters(); ++k)
     {
-      constexpr double              delta{ 0.001 };
+      static constexpr double       delta{ 0.001 };
       TransformType::ParametersType plusParameters;
       TransformType::ParametersType minusParameters;
 

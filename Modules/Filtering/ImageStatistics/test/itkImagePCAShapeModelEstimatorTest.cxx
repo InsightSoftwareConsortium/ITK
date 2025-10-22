@@ -48,9 +48,9 @@ itkImagePCAShapeModelEstimatorTest(int, char *[])
   // Data definitions
   constexpr itk::Size<2u>::SizeValueType IMGWIDTH = 2;
   constexpr itk::Size<2u>::SizeValueType IMGHEIGHT = 2;
-  constexpr unsigned int                 NDIMENSION{ 2 };
-  constexpr unsigned int                 NUMTRAINIMAGES{ 3 };
-  constexpr unsigned int                 NUMLARGESTPC{ 2 };
+  static constexpr unsigned int          NDIMENSION{ 2 };
+  static constexpr unsigned int          NUMTRAINIMAGES{ 3 };
+  static constexpr unsigned int          NUMLARGESTPC{ 2 };
 
   itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
 
@@ -67,10 +67,10 @@ itkImagePCAShapeModelEstimatorTest(int, char *[])
 
   auto image3 = InputImageType::New();
 
-  constexpr InputImageType::SizeType inputImageSize{ IMGWIDTH, IMGHEIGHT };
+  static constexpr InputImageType::SizeType inputImageSize{ IMGWIDTH, IMGHEIGHT };
 
-  constexpr InputImageType::IndexType index{};
-  InputImageType::RegionType          region{ index, inputImageSize };
+  static constexpr InputImageType::IndexType index{};
+  InputImageType::RegionType                 region{ index, inputImageSize };
 
   // Set up Image 1 first
 

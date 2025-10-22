@@ -180,7 +180,7 @@ itkOnePlusOneEvolutionaryOptimizerTest(int, char *[])
   ITK_TEST_SET_GET_VALUE(!maximize, itkOptimizer->GetMinimize());
   ITK_TEST_SET_GET_BOOLEAN(itkOptimizer, Maximize, maximize);
 
-  constexpr unsigned int maximumIteration{ 8000 };
+  static constexpr unsigned int maximumIteration{ 8000 };
   itkOptimizer->SetMaximumIteration(8000);
   ITK_TEST_SET_GET_VALUE(maximumIteration, itkOptimizer->GetMaximumIteration());
 
@@ -233,8 +233,8 @@ itkOnePlusOneEvolutionaryOptimizerTest(int, char *[])
   //
   // check results to see if it is within range
   //
-  bool             pass = true;
-  constexpr double trueParameters[2]{ 2, -2 };
+  bool                    pass = true;
+  static constexpr double trueParameters[2]{ 2, -2 };
   for (unsigned int j = 0; j < 2; ++j)
   {
     if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)

@@ -23,8 +23,8 @@
 int
 itkTimeVaryingVelocityFieldTransformTest(int, char *[])
 {
-  constexpr unsigned int ComponentDimension{ 3 };
-  constexpr unsigned int VelocityFieldDimension{ 4 };
+  static constexpr unsigned int ComponentDimension{ 3 };
+  static constexpr unsigned int VelocityFieldDimension{ 4 };
 
   using ComponentType = double;
 
@@ -32,7 +32,7 @@ itkTimeVaryingVelocityFieldTransformTest(int, char *[])
   using DisplacementFieldType = itk::Image<VectorType, ComponentDimension>;
   using TimeVaryingVelocityFieldType = itk::Image<VectorType, VelocityFieldDimension>;
 
-  constexpr TimeVaryingVelocityFieldType::PointType origin{};
+  static constexpr TimeVaryingVelocityFieldType::PointType origin{};
 
   auto spacing = itk::MakeFilled<TimeVaryingVelocityFieldType::SpacingType>(2.0);
 
@@ -60,7 +60,7 @@ itkTimeVaryingVelocityFieldTransformTest(int, char *[])
 
   integrator->Print(std::cout, 3);
 
-  constexpr DisplacementFieldType::IndexType index{};
+  static constexpr DisplacementFieldType::IndexType index{};
 
   // This integration should result in a constant image of value
   // 0.75 * 0.1 - 0.3 * 0.1 = 0.045 with ~epsilon deviation

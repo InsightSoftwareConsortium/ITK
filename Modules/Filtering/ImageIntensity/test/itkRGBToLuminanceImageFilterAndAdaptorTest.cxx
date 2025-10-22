@@ -29,7 +29,7 @@ itkRGBToLuminanceImageFilterAndAdaptorTest(int, char *[])
 {
 
   // Define the dimension of the images
-  constexpr unsigned int ImageDimension{ 3 };
+  static constexpr unsigned int ImageDimension{ 3 };
 
   // Declare the pixel types of the images
   using InputPixelType = itk::RGBPixel<float>;
@@ -57,9 +57,9 @@ itkRGBToLuminanceImageFilterAndAdaptorTest(int, char *[])
   auto inputImage = InputImageType::New();
 
   // Define its size, and start index
-  constexpr SizeType  size{ 2, 2, 2 };
-  constexpr IndexType start{ 0, 0, 0 };
-  RegionType          region{ start, size };
+  static constexpr SizeType  size{ 2, 2, 2 };
+  static constexpr IndexType start{ 0, 0, 0 };
+  RegionType                 region{ start, size };
 
   // Initialize the input image
   inputImage->SetRegions(region);
@@ -103,7 +103,7 @@ itkRGBToLuminanceImageFilterAndAdaptorTest(int, char *[])
   OutputIteratorType ot(outputImage, outputImage->GetRequestedRegion());
 
   // Check the content of the result image
-  constexpr OutputImageType::PixelType epsilon{ 1e-6 };
+  static constexpr OutputImageType::PixelType epsilon{ 1e-6 };
 
   ot.GoToBegin();
   it.GoToBegin();

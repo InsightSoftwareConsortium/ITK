@@ -35,7 +35,7 @@ itkImageDuplicatorTest2(int argc, char * argv[])
   }
 
   using PixelType = float;
-  constexpr unsigned int Dimension{ 3 };
+  static constexpr unsigned int Dimension{ 3 };
   using ImageType = itk::Image<PixelType, Dimension>;
 
   using DuplicatorType = itk::ImageDuplicator<ImageType>;

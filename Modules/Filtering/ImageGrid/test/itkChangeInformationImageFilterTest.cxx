@@ -20,7 +20,7 @@
 #include "itkChangeInformationImageFilter.h"
 #include "itkTestingMacros.h"
 
-constexpr unsigned int ImageDimension{ 3 };
+static constexpr unsigned int ImageDimension{ 3 };
 using ImageType = itk::Image<float, ImageDimension>;
 using ImagePointer = ImageType::Pointer;
 
@@ -159,8 +159,8 @@ itkChangeInformationImageFilterTest(int, char *[])
   inputImage->SetSpacing(spacing);
   inputImage->SetOrigin(origin);
 
-  constexpr itk::SpacePrecisionType newOrigin[ImageDimension]{ 1000.0, 2000.0, 3000.0 };
-  itk::SpacePrecisionType           newSpacing[ImageDimension] = { 10.0, 20.0, 30.0 };
+  static constexpr itk::SpacePrecisionType newOrigin[ImageDimension]{ 1000.0, 2000.0, 3000.0 };
+  itk::SpacePrecisionType                  newSpacing[ImageDimension] = { 10.0, 20.0, 30.0 };
 
   ImageType::OffsetValueType newOffset[ImageDimension] = { 10, 20, 30 };
 

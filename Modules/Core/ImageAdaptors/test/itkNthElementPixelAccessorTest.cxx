@@ -46,8 +46,8 @@ itkNthElementPixelAccessorTest(int, char *[])
 {
 
   // Typedefs for convenience
-  constexpr unsigned int Dimension{ 2 };
-  constexpr unsigned int VectorLength{ 3 };
+  static constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int VectorLength{ 3 };
   using myImageType = itk::Image<itk::Vector<float, VectorLength>, Dimension>;
   using myNthAccessorType = itk::NthElementPixelAccessor<float, itk::Vector<float, VectorLength>>;
 
@@ -107,7 +107,7 @@ itkNthElementPixelAccessorTest(int, char *[])
 
 
   // Set the values of the first component of myImage, using myAdaptor
-  constexpr float MY_VALUE{ 0.4F };
+  static constexpr float MY_VALUE{ 0.4F };
   it2.GoToBegin();
   while (!it2.IsAtEnd())
   {

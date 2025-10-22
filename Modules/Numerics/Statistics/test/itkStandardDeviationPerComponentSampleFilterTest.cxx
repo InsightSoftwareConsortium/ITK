@@ -39,9 +39,9 @@ itkStandardDeviationPerComponentSampleFilterTest(int, char *[])
 
   auto image = ImageType::New();
 
-  ImageType::SizeType            size{ 5, 5, 5 };
-  constexpr ImageType::IndexType index{};
-  ImageType::RegionType          region = { index, size };
+  ImageType::SizeType                   size{ 5, 5, 5 };
+  static constexpr ImageType::IndexType index{};
+  ImageType::RegionType                 region = { index, size };
 
 
   image->SetBufferedRegion(region);
@@ -123,7 +123,7 @@ itkStandardDeviationPerComponentSampleFilterTest(int, char *[])
 
   standardDeviationFilter->Print(std::cout);
 
-  constexpr double epsilon{ 1e-6 };
+  static constexpr double epsilon{ 1e-6 };
 
   // CHECK THE RESULTS
   using MeasurementVectorRealType = StandardDeviationPerComponentSampleFilterType::MeasurementVectorRealType;

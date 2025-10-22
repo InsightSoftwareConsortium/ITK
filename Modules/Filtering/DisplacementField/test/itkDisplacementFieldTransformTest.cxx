@@ -175,7 +175,7 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimensions{ 2 };
+  static constexpr unsigned int Dimensions{ 2 };
 
   using ParametersValueType = double;
 
@@ -196,8 +196,8 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
 
 
   // Test exceptions
-  constexpr DisplacementTransformType::InputVnlVectorType::element_type vectorValue{ 1.0 };
-  DisplacementTransformType::InputVnlVectorType                         vector;
+  static constexpr DisplacementTransformType::InputVnlVectorType::element_type vectorValue{ 1.0 };
+  DisplacementTransformType::InputVnlVectorType                                vector;
   vector.fill(vectorValue);
   ITK_TRY_EXPECT_EXCEPTION(displacementTransform->TransformVector(vector));
 
@@ -237,14 +237,14 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
 
   auto field = FieldType::New();
 
-  constexpr int                  dimLength{ 20 };
-  auto                           size = itk::MakeFilled<FieldType::SizeType>(dimLength);
-  constexpr FieldType::IndexType start{};
-  FieldType::RegionType          region{ start, size };
+  static constexpr int                  dimLength{ 20 };
+  auto                                  size = itk::MakeFilled<FieldType::SizeType>(dimLength);
+  static constexpr FieldType::IndexType start{};
+  FieldType::RegionType                 region{ start, size };
   field->SetRegions(region);
   field->Allocate();
 
-  constexpr DisplacementTransformType::OutputVectorType zeroVector{};
+  static constexpr DisplacementTransformType::OutputVectorType zeroVector{};
   field->FillBuffer(zeroVector);
 
   displacementTransform->SetDisplacementField(field);
@@ -397,7 +397,7 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
   }
 
   testIdentity.SetSize(1, 1); // make sure it gets resized properly
-  constexpr DisplacementTransformType::IndexType testIndex{};
+  static constexpr DisplacementTransformType::IndexType testIndex{};
   displacementTransform->ComputeJacobianWithRespectToParameters(testIndex, testIdentity);
 
   if (!sameArray2D(identity, testIdentity, tolerance))
@@ -553,7 +553,7 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
 
   derivative.Fill(1.2);
 
-  constexpr ScalarType testFactor{ 1.5 };
+  static constexpr ScalarType testFactor{ 1.5 };
 
   for (unsigned int i = 0; i < displacementTransform->GetNumberOfParameters(); ++i)
   {

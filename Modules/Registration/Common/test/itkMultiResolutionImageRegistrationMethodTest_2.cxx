@@ -69,7 +69,7 @@ itkMultiResolutionImageRegistrationMethodTest_2(int, char *[])
 
   bool pass = true;
 
-  constexpr unsigned int dimension{ 3 };
+  static constexpr unsigned int dimension{ 3 };
 
   using PixelType = float;
 
@@ -115,12 +115,12 @@ itkMultiResolutionImageRegistrationMethodTest_2(int, char *[])
    * Set up the two input images.
    * One image rotated (xy plane) and shifted with respect to the other.
    **********************************************************/
-  constexpr double displacement[dimension]{ 7, 3, 2 };
-  constexpr double angle{ 10.0 / 180.0 * itk::Math::pi };
+  static constexpr double displacement[dimension]{ 7, 3, 2 };
+  static constexpr double angle{ 10.0 / 180.0 * itk::Math::pi };
 
-  FixedImageType::SizeType            size = { { 100, 100, 40 } };
-  constexpr FixedImageType::IndexType index{ 0, 0, 0 };
-  const FixedImageType::RegionType    region{ index, size };
+  FixedImageType::SizeType                   size = { { 100, 100, 40 } };
+  static constexpr FixedImageType::IndexType index{ 0, 0, 0 };
+  const FixedImageType::RegionType           region{ index, size };
 
   fixedImage->SetRegions(region);
   fixedImage->Allocate();
@@ -240,7 +240,7 @@ itkMultiResolutionImageRegistrationMethodTest_2(int, char *[])
    ******************************************************************/
   SimpleMultiResolutionImageRegistrationUI2<RegistrationType> simpleUI(registration);
 
-  constexpr unsigned short numberOfLevels{ 3 };
+  static constexpr unsigned short numberOfLevels{ 3 };
 
   itk::Array<unsigned int> niter(numberOfLevels);
   niter[0] = 300;
@@ -378,11 +378,11 @@ namespace
 double
 F(itk::Vector<double, 3> & v)
 {
-  double           x = v[0];
-  double           y = v[1];
-  double           z = v[2];
-  constexpr double s{ 50 };
-  double           value = 200.0 * std::exp(-(x * x + y * y + z * z) / (s * s));
+  double                  x = v[0];
+  double                  y = v[1];
+  double                  z = v[2];
+  static constexpr double s{ 50 };
+  double                  value = 200.0 * std::exp(-(x * x + y * y + z * z) / (s * s));
   x -= 8;
   y += 3;
   z += 0;

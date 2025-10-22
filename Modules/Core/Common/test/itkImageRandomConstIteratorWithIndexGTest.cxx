@@ -32,7 +32,7 @@
 TEST(ImageRandomConstIteratorWithIndex, IsDeterministicWhenGlobalRandomSeedsAreReset)
 {
   using PixelType = int;
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
   using ImageType = itk::Image<PixelType, Dimension>;
 
   // Create just a small test image, but still having enough pixels for the iterator to pick different samples from.

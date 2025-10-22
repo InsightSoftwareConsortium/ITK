@@ -478,8 +478,8 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
 
   /* tolerance for origin and spacing depends on the size of pixel
    * tolerance for directions a fraction of the unit cube. */
-  const double     coordinateTol = 1.0e-6 * this->GetVirtualSpacing()[0];
-  constexpr double directionTol{ 1.0e-6 };
+  const double            coordinateTol = 1.0e-6 * this->GetVirtualSpacing()[0];
+  static constexpr double directionTol{ 1.0e-6 };
 
   if (!this->GetVirtualOrigin().GetVnlVector().is_equal(field->GetOrigin().GetVnlVector(), coordinateTol) ||
       !this->GetVirtualSpacing().GetVnlVector().is_equal(field->GetSpacing().GetVnlVector(), coordinateTol) ||

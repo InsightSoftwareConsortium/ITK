@@ -34,7 +34,7 @@ itkCollidingFrontsImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int ImageDimension{ 2 };
+  static constexpr unsigned int ImageDimension{ 2 };
   using PixelType = unsigned char;
   using InternalPixelType = float;
 
@@ -50,7 +50,7 @@ itkCollidingFrontsImageFilterTest(int argc, char * argv[])
   ImageType::RegionType imageRegion;
   imageRegion.SetSize(imageSize);
 
-  constexpr PixelType background{ 64 };
+  static constexpr PixelType background{ 64 };
 
   auto inputImage = ImageType::New();
   inputImage->SetRegions(imageRegion);

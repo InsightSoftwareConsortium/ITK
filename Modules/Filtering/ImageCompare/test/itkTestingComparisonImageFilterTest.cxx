@@ -43,7 +43,7 @@ itkTestingComparisonImageFilterTest(int argc, char * argv[])
   using InputPixelType = short;
   using OutputPixelType = unsigned short;
 
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
 
   using InputImageType = itk::Image<InputPixelType, Dimension>;
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
@@ -107,7 +107,7 @@ itkTestingComparisonImageFilterTest(int argc, char * argv[])
 
   auto meanDifference = static_cast<typename FilterType::RealType>(std::stod(argv[10]));
 
-  constexpr double epsilon{ 1e-4 };
+  static constexpr double epsilon{ 1e-4 };
   std::cout.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
   if (!itk::Math::FloatAlmostEqual(meanDifference, filter->GetMeanDifference(), 10, epsilon))
   {

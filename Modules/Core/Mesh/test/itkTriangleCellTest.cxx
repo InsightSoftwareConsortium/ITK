@@ -84,11 +84,11 @@ itkTriangleCellTest(int, char *[])
   auto mesh = MeshType::New();
   mesh->DebugOn();
 
-  constexpr unsigned int numberOfPoints{ 4 };
+  static constexpr unsigned int numberOfPoints{ 4 };
   /**
    * Define the 3d geometric positions for 4 points in a square.
    */
-  constexpr MeshType::CoordinateType testPointCoords[numberOfPoints][3]{
+  static constexpr MeshType::CoordinateType testPointCoords[numberOfPoints][3]{
     { 0, 0, 0 }, { 10, 0, 0 }, { 10, 10, 0 }, { 0, 10, 0 }
   };
 
@@ -158,7 +158,7 @@ itkTriangleCellTest(int, char *[])
   TriangleCellType::CoordinateType          pcoords[3];
   TriangleCellType::InterpolationWeightType weights[3];
 
-  constexpr double tolerance{ 1e-5 };
+  static constexpr double tolerance{ 1e-5 };
 
   // Test 1:
   inputPoint[0] = 5.0;

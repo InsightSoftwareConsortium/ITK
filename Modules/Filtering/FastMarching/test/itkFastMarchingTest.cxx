@@ -78,7 +78,7 @@ itkFastMarchingTest(int argc, char * argv[])
 
   NodeType node;
 
-  constexpr FloatImage::OffsetType offset0{ 28, 35 };
+  static constexpr FloatImage::OffsetType offset0{ 28, 35 };
 
   itk::Index<2> index{};
 

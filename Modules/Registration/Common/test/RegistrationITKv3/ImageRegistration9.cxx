@@ -134,7 +134,7 @@ main(int argc, char * argv[])
   //  We then define the types of the images to be registered.
   //
 
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
   using PixelType = float;
 
   using FixedImageType = itk::Image<PixelType, Dimension>;

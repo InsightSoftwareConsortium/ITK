@@ -52,7 +52,7 @@ itkLargeTIFFImageWriteReadTestHelper(std::string filename, typename TImage::Size
 
     const SizeValueType numberOfPixels = size.CalculateProductOfElements();
 
-    constexpr SizeValueType oneMebiByte{ static_cast<SizeValueType>(1024) * static_cast<SizeValueType>(1024) };
+    static constexpr SizeValueType oneMebiByte{ static_cast<SizeValueType>(1024) * static_cast<SizeValueType>(1024) };
 
     const SizeValueType sizeInBytes = sizeof(PixelType) * numberOfPixels;
 
@@ -158,7 +158,7 @@ itkLargeTIFFImageWriteReadTest(int argc, char * argv[])
 
   if (argc == 3)
   {
-    constexpr unsigned int Dimension{ 2 };
+    static constexpr unsigned int Dimension{ 2 };
 
     using PixelType = unsigned short;
     using ImageType = itk::Image<PixelType, Dimension>;
@@ -168,7 +168,7 @@ itkLargeTIFFImageWriteReadTest(int argc, char * argv[])
     return itkLargeTIFFImageWriteReadTestHelper<ImageType>(filename, size);
   }
 
-  constexpr unsigned int Dimension{ 3 };
+  static constexpr unsigned int Dimension{ 3 };
 
   using PixelType = unsigned short;
   using ImageType = itk::Image<PixelType, Dimension>;

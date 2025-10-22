@@ -25,7 +25,7 @@ int
 itkReflectiveImageRegionIteratorTest(int, char *[])
 {
   std::cout << "Creating an image" << std::endl;
-  constexpr unsigned int Dimension{ 4 };
+  static constexpr unsigned int Dimension{ 4 };
   using PixelType = itk::Index<Dimension>;
   using ImageType = itk::Image<PixelType, Dimension>;
   using ImageVisitsType = itk::Image<int, Dimension>;
@@ -35,9 +35,9 @@ itkReflectiveImageRegionIteratorTest(int, char *[])
 
   auto myImage = ImageType::New();
 
-  constexpr ImageType::SizeType size{ 4, 4, 4, 4 };
+  static constexpr ImageType::SizeType size{ 4, 4, 4, 4 };
 
-  constexpr ImageType::IndexType start{};
+  static constexpr ImageType::IndexType start{};
 
   const ImageType::RegionType region{ start, size };
 
@@ -96,8 +96,8 @@ itkReflectiveImageRegionIteratorTest(int, char *[])
 
   // Each element should be visited 2 ^ # of dimensions
   // each left shift = multiply by 2
-  constexpr int visits{ (1 << (ImageType::ImageDimension)) };
-  int           failed = 0;
+  static constexpr int visits{ (1 << (ImageType::ImageDimension)) };
+  int                  failed = 0;
 
   // Verify the number of visits
   vit.GoToBegin();

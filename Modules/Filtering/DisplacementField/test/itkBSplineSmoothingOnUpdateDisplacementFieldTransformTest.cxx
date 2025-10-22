@@ -32,7 +32,7 @@ int
 itkBSplineSmoothingOnUpdateDisplacementFieldTransformTest(int, char *[])
 {
 
-  constexpr unsigned int dimensions{ 2 };
+  static constexpr unsigned int dimensions{ 2 };
   using DisplacementTransformType = itk::BSplineSmoothingOnUpdateDisplacementFieldTransform<double, dimensions>;
 
   /* Create a displacement field transform */
@@ -55,22 +55,22 @@ itkBSplineSmoothingOnUpdateDisplacementFieldTransformTest(int, char *[])
   using FieldType = DisplacementTransformType::DisplacementFieldType;
   auto field = FieldType::New(); // This is based on itk::Image
 
-  constexpr int         dimLength{ 20 };
+  static constexpr int  dimLength{ 20 };
   FieldType::SizeType   size{ dimLength, dimLength };
   FieldType::IndexType  start{};
   FieldType::RegionType region = { start, size };
   field->SetRegions(region);
   field->Allocate();
 
-  constexpr DisplacementTransformType::OutputVectorType zeroVector{};
+  static constexpr DisplacementTransformType::OutputVectorType zeroVector{};
   field->FillBuffer(zeroVector);
 
   displacementTransform->SetDisplacementField(field);
 
   /* Test SmoothDisplacementFieldBSpline */
   std::cout << "Test SmoothDisplacementFieldBSpline" << std::endl;
-  DisplacementTransformType::ParametersType                paramsFill(displacementTransform->GetNumberOfParameters());
-  constexpr DisplacementTransformType::ParametersValueType paramsFillValue{ 0.0 };
+  DisplacementTransformType::ParametersType paramsFill(displacementTransform->GetNumberOfParameters());
+  static constexpr DisplacementTransformType::ParametersValueType paramsFillValue{ 0.0 };
   paramsFill.Fill(paramsFillValue);
   // Add an outlier to visually see that some smoothing is taking place.
   constexpr unsigned int outlier = dimLength * dimensions * 4 + dimLength * dimensions / 2;

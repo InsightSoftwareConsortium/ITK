@@ -46,7 +46,7 @@ itkNiftiImageIOTest14(int argc, char * argv[])
   // third arg is the test image in different units
   const char * test_image_fn = argv[3];
 
-  constexpr unsigned int Dimension{ 4 };
+  static constexpr unsigned int Dimension{ 4 };
 
   using PixelType = float;
   using ImageType = itk::Image<PixelType, Dimension>;

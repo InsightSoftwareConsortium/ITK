@@ -59,7 +59,7 @@ int
 itkGeodesicActiveContourShapePriorLevelSetImageFilterTest(int, char *[])
 {
   // Typedefs of components
-  constexpr unsigned int ImageDimension{ 2 };
+  static constexpr unsigned int ImageDimension{ 2 };
   using PixelType = unsigned char;
   using InternalPixelType = float;
 
@@ -98,8 +98,8 @@ itkGeodesicActiveContourShapePriorLevelSetImageFilterTest(int, char *[])
   //
   // The true shape is just the circle.
   //
-  constexpr PixelType background{ 0 };
-  constexpr PixelType foreground{ 190 };
+  static constexpr PixelType background{ 0 };
+  static constexpr PixelType foreground{ 190 };
 
   // Fill in the background
   auto inputImage = ImageType::New();

@@ -37,7 +37,7 @@ itkLabelStatisticsOpeningImageFilterTest1(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int dim{ 2 };
+  static constexpr unsigned int dim{ 2 };
 
   using IType = itk::Image<unsigned char, dim>;
 
@@ -85,7 +85,7 @@ itkLabelStatisticsOpeningImageFilterTest1(int argc, char * argv[])
 
   const std::string attributeByName{ argv[7] };
   opening->SetAttribute(attributeByName); // SetAttribute accepts a string for conversion to internal label code
-  constexpr LabelOpeningType::AttributeType attributeByCode{ LabelOpeningType::LabelObjectType::LABEL };
+  static constexpr LabelOpeningType::AttributeType attributeByCode{ LabelOpeningType::LabelObjectType::LABEL };
   ITK_TEST_SET_GET_VALUE(attributeByCode, opening->GetAttribute());
 
   const itk::SimpleFilterWatcher watcher(opening, "filter");

@@ -33,7 +33,7 @@ itkInverseDeconvolutionImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr int ImageDimension{ 2 };
+  static constexpr int ImageDimension{ 2 };
 
   using PixelType = float;
   using ImageType = itk::Image<PixelType, ImageDimension>;
@@ -79,7 +79,7 @@ itkInverseDeconvolutionImageFilterTest(int argc, char * argv[])
 
   // Check default KernelZeroMagnitudeThreshold value
   ITK_TEST_SET_GET_VALUE(1.0e-4, deconvolutionFilter->GetKernelZeroMagnitudeThreshold());
-  constexpr double zeroMagnitudeThreshold{ 1.0e-2 };
+  static constexpr double zeroMagnitudeThreshold{ 1.0e-2 };
   deconvolutionFilter->SetKernelZeroMagnitudeThreshold(zeroMagnitudeThreshold);
   ITK_TEST_SET_GET_VALUE(zeroMagnitudeThreshold, deconvolutionFilter->GetKernelZeroMagnitudeThreshold());
 

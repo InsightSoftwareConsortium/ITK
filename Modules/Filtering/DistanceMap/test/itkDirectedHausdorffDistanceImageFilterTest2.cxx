@@ -35,7 +35,7 @@ itkDirectedHausdorffDistanceImageFilterTest2(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
 
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType, Dimension>;
@@ -72,10 +72,10 @@ itkDirectedHausdorffDistanceImageFilterTest2(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
 
-  constexpr double expecteDirectedHausdorffDistance{ 0 };
+  static constexpr double expecteDirectedHausdorffDistance{ 0 };
   ITK_TEST_EXPECT_EQUAL(expecteDirectedHausdorffDistance, filter->GetDirectedHausdorffDistance());
 
-  constexpr double expecteAverageHausdorffDistance{ 0 };
+  static constexpr double expecteAverageHausdorffDistance{ 0 };
   ITK_TEST_EXPECT_EQUAL(expecteAverageHausdorffDistance, filter->GetAverageHausdorffDistance());
 
 

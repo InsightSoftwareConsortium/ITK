@@ -32,7 +32,7 @@ itkDenseFrequencyContainer2Test(int, char *[])
 
   using AbsoluteFrequencyType = DenseFrequencyContainer2Type::AbsoluteFrequencyType;
 
-  constexpr unsigned int numberOfBins{ 1250 };
+  static constexpr unsigned int numberOfBins{ 1250 };
 
   container->Initialize(numberOfBins);
 
@@ -63,8 +63,8 @@ itkDenseFrequencyContainer2Test(int, char *[])
     }
 
     // Test Set/Get frequency of an out of bound bin
-    constexpr unsigned int binOutOfBound{ numberOfBins };
-    constexpr auto         frequency{ static_cast<AbsoluteFrequencyType>(binOutOfBound * binOutOfBound) };
+    static constexpr unsigned int binOutOfBound{ numberOfBins };
+    static constexpr auto         frequency{ static_cast<AbsoluteFrequencyType>(binOutOfBound * binOutOfBound) };
 
     if (container->SetFrequency(binOutOfBound, frequency))
     {
@@ -118,8 +118,8 @@ itkDenseFrequencyContainer2Test(int, char *[])
         return EXIT_FAILURE;
       }
     }
-    constexpr unsigned int binOutOfBound{ numberOfBins };
-    constexpr auto         frequency{ static_cast<AbsoluteFrequencyType>(binOutOfBound) };
+    static constexpr unsigned int binOutOfBound{ numberOfBins };
+    static constexpr auto         frequency{ static_cast<AbsoluteFrequencyType>(binOutOfBound) };
 
     if (container->IncreaseFrequency(binOutOfBound, frequency))
     {

@@ -22,7 +22,7 @@
 int
 itkMalcolmSparseLevelSetImageTest(int, char *[])
 {
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
   using SparseLevelSetType = itk::MalcolmSparseLevelSetImage<Dimension>;
 
   using LabelMapType = SparseLevelSetType::LabelMapType;

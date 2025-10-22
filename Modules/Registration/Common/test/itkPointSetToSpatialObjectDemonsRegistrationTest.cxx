@@ -26,7 +26,7 @@
 int
 itkPointSetToSpatialObjectDemonsRegistrationTest(int, char *[])
 {
-  constexpr unsigned int Dimension{ 3 };
+  static constexpr unsigned int Dimension{ 3 };
 
   using EllipseType = itk::EllipseSpatialObject<Dimension>;
 

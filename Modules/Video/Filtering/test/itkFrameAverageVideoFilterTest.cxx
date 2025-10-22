@@ -25,7 +25,7 @@
 
 
 // Set up type alias for test
-constexpr unsigned int Dimension{ 2 };
+static constexpr unsigned int Dimension{ 2 };
 using InputPixelType = unsigned char;
 using InputFrameType = itk::Image<InputPixelType, Dimension>;
 using InputVideoType = itk::VideoStream<InputFrameType>;
@@ -48,10 +48,10 @@ namespace itk::FrameAverageVideoFilterTest
 InputFrameType::Pointer
 CreateInputFrame(InputPixelType val)
 {
-  auto                                out = InputFrameType::New();
-  constexpr InputFrameType::SizeType  sizeLR{ 50, 40 };
-  constexpr InputFrameType::IndexType startLR{};
-  InputFrameType::RegionType          largestRegion = { startLR, sizeLR };
+  auto                                       out = InputFrameType::New();
+  static constexpr InputFrameType::SizeType  sizeLR{ 50, 40 };
+  static constexpr InputFrameType::IndexType startLR{};
+  InputFrameType::RegionType                 largestRegion = { startLR, sizeLR };
   out->SetRegions(largestRegion);
 
   out->Allocate();
@@ -95,8 +95,8 @@ itkFrameAverageVideoFilterTest(int argc, char * argv[])
 
 
   // Set up an input VideoStream
-  auto                    inputVideo = InputVideoType::New();
-  constexpr SizeValueType numInputFrames{ 50 };
+  auto                           inputVideo = InputVideoType::New();
+  static constexpr SizeValueType numInputFrames{ 50 };
   inputVideo->SetNumberOfBuffers(numInputFrames);
   itk::TemporalRegion inputTempRegion;
   inputTempRegion.SetFrameStart(0);
@@ -148,9 +148,9 @@ itkFrameAverageVideoFilterTest(int argc, char * argv[])
     filter->Update();
 
     // Check the results
-    const OutputPixelType expectedVal = static_cast<OutputPixelType>(i + (i + 1)) / 2.0;
-    const OutputPixelType actualVal = filter->GetOutput()->GetFrame(i)->GetPixel(checkPx);
-    constexpr double      eps{ 0.00001 };
+    const OutputPixelType   expectedVal = static_cast<OutputPixelType>(i + (i + 1)) / 2.0;
+    const OutputPixelType   actualVal = filter->GetOutput()->GetFrame(i)->GetPixel(checkPx);
+    static constexpr double eps{ 0.00001 };
     if (expectedVal < actualVal - eps || expectedVal > actualVal + eps)
     {
       std::cerr << "Filter failed to compute frame " << i << " correctly over 2 frames." << std::endl;
@@ -191,9 +191,9 @@ itkFrameAverageVideoFilterTest(int argc, char * argv[])
   filter->Update();
   for (unsigned int i = outputStart; i < outputStart + outputDuration; ++i)
   {
-    const OutputPixelType expectedVal = static_cast<OutputPixelType>(i + (i + 1) + (i + 2)) / 3.0;
-    const OutputPixelType actualVal = filter->GetOutput()->GetFrame(i)->GetPixel(checkPx);
-    constexpr double      eps{ 0.00001 };
+    const OutputPixelType   expectedVal = static_cast<OutputPixelType>(i + (i + 1) + (i + 2)) / 3.0;
+    const OutputPixelType   actualVal = filter->GetOutput()->GetFrame(i)->GetPixel(checkPx);
+    static constexpr double eps{ 0.00001 };
     if (expectedVal < actualVal - eps || expectedVal > actualVal + eps)
     {
       std::cerr << "Filter failed to compute frame " << i << " correctly over 3 frames." << std::endl;

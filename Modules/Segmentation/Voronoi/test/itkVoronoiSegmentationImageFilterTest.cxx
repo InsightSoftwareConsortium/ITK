@@ -32,8 +32,8 @@ itkVoronoiSegmentationImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr int width{ 256 };
-  constexpr int height{ 256 };
+  static constexpr int width{ 256 };
+  static constexpr int height{ 256 };
 
   using UShortImage = itk::Image<unsigned short, 2>;
   using PriorImage = itk::Image<unsigned char, 2>;
@@ -44,10 +44,10 @@ itkVoronoiSegmentationImageFilterTest(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(
     voronoiSegmenter, VoronoiSegmentationImageFilter, VoronoiSegmentationImageFilterBase);
 
-  auto                            inputImage = UShortImage::New();
-  constexpr UShortImage::SizeType size{ width, height };
-  UShortImage::IndexType          index{};
-  UShortImage::RegionType         region{ index, size };
+  auto                                   inputImage = UShortImage::New();
+  static constexpr UShortImage::SizeType size{ width, height };
+  UShortImage::IndexType                 index{};
+  UShortImage::RegionType                region{ index, size };
 
   std::cout << "Allocating image" << std::endl;
   inputImage->SetRegions(region);

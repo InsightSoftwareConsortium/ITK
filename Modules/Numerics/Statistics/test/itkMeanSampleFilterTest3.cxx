@@ -26,7 +26,7 @@ itkMeanSampleFilterTest3(int, char *[])
   std::cout << "CovarianceSampleFilter test \n \n";
 
   using MeasurementType = double;
-  constexpr unsigned int MeasurementVectorSize{ 3 };
+  static constexpr unsigned int MeasurementVectorSize{ 3 };
 
   using HistogramType = itk::Statistics::Histogram<MeasurementType, itk::Statistics::DenseFrequencyContainer2>;
 
@@ -120,7 +120,7 @@ itkMeanSampleFilterTest3(int, char *[])
 
   std::cout << "GetMeasurementVectorSize = " << filter->GetMeasurementVectorSize() << std::endl;
 
-  constexpr double epsilon{ 1 };
+  static constexpr double epsilon{ 1 };
 
   for (unsigned int i = 0; i < MeasurementVectorSize; ++i)
   {

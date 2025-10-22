@@ -67,7 +67,7 @@ int
 itkBinShrinkImageFilterTest2(int, char *[])
 {
 
-  constexpr unsigned int ImageDimension{ 2 };
+  static constexpr unsigned int ImageDimension{ 2 };
 
   using PixelType = itk::Vector<double, ImageDimension>;
   using ImageType = itk::Image<PixelType, ImageDimension>;

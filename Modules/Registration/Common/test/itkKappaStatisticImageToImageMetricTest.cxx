@@ -34,7 +34,7 @@ int
 itkKappaStatisticImageToImageMetricTest(int, char *[])
 {
 
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
 
   using FixedImagePixelType = unsigned char;
   using MovingImagePixelType = unsigned char;
@@ -56,7 +56,7 @@ itkKappaStatisticImageToImageMetricTest(int, char *[])
   using InterpolatorType = itk::NearestNeighborInterpolateImageFunction<MovingImageType, CoordRepPixelType>;
 
 
-  constexpr double epsilon{ 0.000001 };
+  static constexpr double epsilon{ 0.000001 };
 
   auto transform = TransformType::New();
   auto interpolator = InterpolatorType::New();
@@ -101,7 +101,7 @@ itkKappaStatisticImageToImageMetricTest(int, char *[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(metric, KappaStatisticImageToImageMetric, ImageToImageMetric);
 
-  constexpr MetricType::RealType foregroundValue{ 255 };
+  static constexpr MetricType::RealType foregroundValue{ 255 };
   metric->SetForegroundValue(foregroundValue);
   ITK_TEST_SET_GET_VALUE(foregroundValue, metric->GetForegroundValue());
 
@@ -230,7 +230,7 @@ itkKappaStatisticImageToImageMetricTest(int, char *[])
   metric->GetDerivative(parameters, derivative);
 
   // The value 0.0477502 was computed by hand
-  constexpr double expectedDerivativeMeasure{ -0.0477502 };
+  static constexpr double expectedDerivativeMeasure{ -0.0477502 };
   for (unsigned int i = 0; i < derivative.size(); ++i)
   {
     if (!itk::Math::FloatAlmostEqual(static_cast<double>(derivative[i]), expectedDerivativeMeasure, 10, epsilon))

@@ -24,7 +24,7 @@
 int
 itkOrthogonallyCorrected2DParametricPathTest(int, char *[])
 {
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
 
   using PathType = itk::OrthogonallyCorrected2DParametricPath;
   using OriginalPathType = itk::PolyLineParametricPath<Dimension>;

@@ -31,7 +31,7 @@ itkRandomImageSourceValuesTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
 
   using PixelType = float;
   using ImageType = itk::Image<PixelType, Dimension>;
@@ -39,7 +39,7 @@ itkRandomImageSourceValuesTest(int argc, char * argv[])
   using ImageSourceType = itk::RandomImageSource<ImageType>;
   auto randomImageSource = ImageSourceType::New();
 
-  constexpr ImageType::SizeType size{ 10, 10 };
+  static constexpr ImageType::SizeType size{ 10, 10 };
   randomImageSource->SetSize(size);
 
   randomImageSource->SetMin(0.0);

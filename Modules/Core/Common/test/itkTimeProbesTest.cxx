@@ -87,7 +87,7 @@ itkTimeProbesTest(int, char *[])
   const unsigned int N = 1000L;
   const unsigned int M = 10000L;
 
-  constexpr unsigned int iteration{ 3 };
+  static constexpr unsigned int iteration{ 3 };
 
   for (unsigned int it = 0; it < iteration; ++it)
   {
@@ -130,8 +130,8 @@ itkTimeProbesTest(int, char *[])
 
     using Region3DType = itk::ImageRegion<3>;
     using Size3DType = Region3DType::SizeType;
-    Region3DType         region3D;
-    constexpr Size3DType size3D{ 1000, 1000, 1000 };
+    Region3DType                region3D;
+    static constexpr Size3DType size3D{ 1000, 1000, 1000 };
 
     region3D.SetSize(size3D);
     collector.Start("i:TransformIndexToPhysicalPoint");

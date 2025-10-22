@@ -93,8 +93,8 @@ itkBSplineScatteredDataPointSetToImageFilterTest5(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int ParametricDimension{ 2 };
-  constexpr unsigned int DataDimension{ 3 };
+  static constexpr unsigned int ParametricDimension{ 2 };
+  static constexpr unsigned int DataDimension{ 3 };
 
   using RealType = double;
 
@@ -144,7 +144,7 @@ itkBSplineScatteredDataPointSetToImageFilterTest5(int argc, char * argv[])
   size[0] = 1000;
   size[1] = 100;
 
-  constexpr ImageType::PointType origin{};
+  static constexpr ImageType::PointType origin{};
 
   filter->SetSize(size);
   filter->SetOrigin(origin);

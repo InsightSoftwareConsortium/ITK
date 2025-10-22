@@ -36,22 +36,22 @@ namespace itk
  */
 /** @ITKStartGrouping */
 #if defined(ITK_USE_PTHREADS)
-constexpr size_t ITK_MAX_THREADS{ ITK_DEFAULT_MAX_THREADS };
+static constexpr size_t ITK_MAX_THREADS{ ITK_DEFAULT_MAX_THREADS };
 using MutexType = pthread_mutex_t;
 using FastMutexType = pthread_mutex_t;
 using ThreadFunctionType = void * (*)(void *);
 using ThreadProcessIdType = pthread_t;
 #  if !defined(ITK_FUTURE_LEGACY_REMOVE)
-constexpr ThreadProcessIdType ITK_DEFAULT_THREAD_ID{};
+static constexpr ThreadProcessIdType ITK_DEFAULT_THREAD_ID{};
 #  endif
 using ITK_THREAD_RETURN_TYPE = void *;
 /** @ITKEndGrouping */
-constexpr ITK_THREAD_RETURN_TYPE ITK_THREAD_RETURN_DEFAULT_VALUE{ nullptr };
+static constexpr ITK_THREAD_RETURN_TYPE ITK_THREAD_RETURN_DEFAULT_VALUE{ nullptr };
 using itk::ITK_THREAD_RETURN_DEFAULT_VALUE; // We need this out of the itk namespace for #define to work below
 using ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION = itk::ITK_THREAD_RETURN_TYPE;
 #elif defined(ITK_USE_WIN32_THREADS)
 
-constexpr size_t ITK_MAX_THREADS{ ITK_DEFAULT_MAX_THREADS };
+static constexpr size_t ITK_MAX_THREADS{ ITK_DEFAULT_MAX_THREADS };
 using MutexType = HANDLE;
 using FastMutexType = CRITICAL_SECTION;
 using ThreadFunctionType = unsigned int(__stdcall *)(void *);
@@ -60,19 +60,19 @@ using ThreadProcessIdType = HANDLE;
 static const ThreadProcessIdType ITK_DEFAULT_THREAD_ID = INVALID_HANDLE_VALUE;
 #  endif
 using ITK_THREAD_RETURN_TYPE = unsigned int;
-constexpr ITK_THREAD_RETURN_TYPE ITK_THREAD_RETURN_DEFAULT_VALUE{ 0 };
+static constexpr ITK_THREAD_RETURN_TYPE ITK_THREAD_RETURN_DEFAULT_VALUE{ 0 };
 // WINAPI expands to __stdcall which specifies a function call convention and has little no meaning on variable
 // declarations
 #  define ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION itk::ITK_THREAD_RETURN_TYPE __stdcall
 #else
 
-constexpr size_t ITK_MAX_THREADS{ 1 };
+static constexpr size_t ITK_MAX_THREADS{ 1 };
 using MutexType = int;
 using FastMutexType = int;
 using ThreadFunctionType = void (*)(void *);
 using ThreadProcessIdType = int;
 #  if !defined(ITK_FUTURE_LEGACY_REMOVE)
-constexpr ThreadProcessIdType ITK_DEFAULT_THREAD_ID{ 0 };
+static constexpr ThreadProcessIdType ITK_DEFAULT_THREAD_ID{ 0 };
 #  endif
 using ITK_THREAD_RETURN_TYPE = void;
 #  define ITK_THREAD_RETURN_DEFAULT_VALUE

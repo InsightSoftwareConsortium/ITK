@@ -41,7 +41,7 @@ itkShapePriorMAPCostFunctionTest(int, char *[])
 {
 
   using PixelType = float;
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
   using ImageType = itk::Image<PixelType, Dimension>;
 
   /**
@@ -96,8 +96,8 @@ itkShapePriorMAPCostFunctionTest(int, char *[])
   Iterator iter(input, region);
   iter.GoToBegin();
 
-  unsigned int        counter = 0;
-  constexpr PixelType activeRegionThreshold{ 3.0 };
+  unsigned int               counter = 0;
+  static constexpr PixelType activeRegionThreshold{ 3.0 };
 
   while (!iter.IsAtEnd())
   {

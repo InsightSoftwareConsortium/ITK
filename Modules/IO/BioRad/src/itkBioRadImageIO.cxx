@@ -30,12 +30,12 @@
 #include "itksys/SystemTools.hxx"
 #include "itkMakeUniqueForOverwrite.h"
 
-constexpr int32_t BIORAD_HEADER_LENGTH{ 76 };
+static constexpr int32_t BIORAD_HEADER_LENGTH{ 76 };
 // constexpr int32_t BIORAD_NOTE_LENGTH = 96;
 // constexpr int32_t BIORAD_NOTE_LENGTH = 80;
 // constexpr int32_t BIORAD_RGB_LUT_LENGTH = 768;
-constexpr int32_t BIORAD_FILE_ID_OFFSET{ 54 };
-constexpr int32_t BIORAD_MAGIC_NUMBER{ 12345 };
+static constexpr int32_t BIORAD_FILE_ID_OFFSET{ 54 };
+static constexpr int32_t BIORAD_MAGIC_NUMBER{ 12345 };
 
 namespace itk
 {

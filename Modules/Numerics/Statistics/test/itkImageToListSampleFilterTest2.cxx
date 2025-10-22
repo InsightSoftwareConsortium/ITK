@@ -26,11 +26,11 @@
 int
 itkImageToListSampleFilterTest2(int, char *[])
 {
-  constexpr unsigned int MeasurementVectorSize{ 8 };
+  static constexpr unsigned int MeasurementVectorSize{ 8 };
   using MeasurementComponentType = unsigned long;
   using PixelType = itk::FixedArray<MeasurementComponentType, MeasurementVectorSize>;
 
-  constexpr unsigned int ImageDimension{ 3 };
+  static constexpr unsigned int ImageDimension{ 3 };
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
   using MaskImageType = itk::Image<unsigned char, ImageDimension>;

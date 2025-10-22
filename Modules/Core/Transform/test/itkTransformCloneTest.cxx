@@ -17,7 +17,7 @@
  *=========================================================================*/
 #include "itkAffineTransform.h"
 #include "itkCompositeTransform.h"
-constexpr double epsilon{ 1e-10 };
+static constexpr double epsilon{ 1e-10 };
 
 template <typename TMatrix>
 bool

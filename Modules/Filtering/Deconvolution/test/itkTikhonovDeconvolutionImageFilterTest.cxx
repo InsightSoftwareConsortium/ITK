@@ -34,7 +34,7 @@ itkTikhonovDeconvolutionImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr int ImageDimension{ 2 };
+  static constexpr int ImageDimension{ 2 };
 
   using PixelType = float;
   using ImageType = itk::Image<PixelType, ImageDimension>;
@@ -80,7 +80,7 @@ itkTikhonovDeconvolutionImageFilterTest(int argc, char * argv[])
 
   // Check default RegularizationConstant value
   ITK_TEST_SET_GET_VALUE(0.0, deconvolutionFilter->GetRegularizationConstant());
-  constexpr double regularizationConstant{ 1.0e-4 };
+  static constexpr double regularizationConstant{ 1.0e-4 };
   deconvolutionFilter->SetRegularizationConstant(regularizationConstant);
   ITK_TEST_SET_GET_VALUE(regularizationConstant, deconvolutionFilter->GetRegularizationConstant());
 

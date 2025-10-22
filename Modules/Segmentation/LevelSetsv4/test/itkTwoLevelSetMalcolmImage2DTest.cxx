@@ -39,7 +39,7 @@ itkTwoLevelSetMalcolmImage2DTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
 
   using InputPixelType = unsigned short;
   using InputImageType = itk::Image<InputPixelType, Dimension>;
@@ -86,9 +86,9 @@ itkTwoLevelSetMalcolmImage2DTest(int argc, char * argv[])
   binary->Allocate();
   binary->FillBuffer(InputPixelType{});
 
-  constexpr InputImageType::IndexType index{ 10, 10 };
-  constexpr InputImageType::SizeType  size{ 30, 30 };
-  InputImageType::RegionType          region = { index, size };
+  static constexpr InputImageType::IndexType index{ 10, 10 };
+  static constexpr InputImageType::SizeType  size{ 30, 30 };
+  InputImageType::RegionType                 region = { index, size };
 
   InputIteratorType iIt(binary, region);
   iIt.GoToBegin();

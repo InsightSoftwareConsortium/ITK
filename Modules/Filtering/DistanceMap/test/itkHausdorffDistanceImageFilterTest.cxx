@@ -30,7 +30,7 @@ itkHausdorffDistanceImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int ImageDimension{ 3 };
+  static constexpr unsigned int ImageDimension{ 3 };
 
   using Pixel1Type = unsigned int;
   using Pixel2Type = float;

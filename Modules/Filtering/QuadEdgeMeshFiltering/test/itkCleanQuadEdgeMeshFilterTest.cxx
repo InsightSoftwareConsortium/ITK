@@ -39,7 +39,7 @@ itkCleanQuadEdgeMeshFilterTest(int argc, char * argv[])
 
   // ** TYPEDEF **
   using Coord = double;
-  constexpr unsigned int Dimension{ 3 };
+  static constexpr unsigned int Dimension{ 3 };
 
   using MeshType = itk::QuadEdgeMesh<Coord, Dimension>;
   using ReaderType = itk::MeshFileReader<MeshType>;
@@ -71,8 +71,8 @@ itkCleanQuadEdgeMeshFilterTest(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(absTol, filter->GetAbsoluteTolerance());
 
   filter->SetRelativeTolerance(tol);
-  constexpr Coord epsilon{ 1e-6 };
-  const Coord     obtainedValue = filter->GetRelativeTolerance();
+  static constexpr Coord epsilon{ 1e-6 };
+  const Coord            obtainedValue = filter->GetRelativeTolerance();
   if (!itk::Math::FloatAlmostEqual(tol, obtainedValue, 10, epsilon))
   {
     std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));

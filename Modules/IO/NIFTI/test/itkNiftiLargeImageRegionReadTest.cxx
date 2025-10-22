@@ -42,14 +42,14 @@ itkNiftiLargeImageRegionReadTest(int argc, char * argv[])
 
   const std::string fname{ argv[1] };
 
-  constexpr int Dimension{ 3 };
+  static constexpr int Dimension{ 3 };
   using PixelType = unsigned short;
 
   using ImageType = itk::Image<PixelType, Dimension>;
 
   // Create a large image
-  constexpr ImageType::SizeType size{ 1034, 1034, 1020 };
-  ImageType::RegionType         region;
+  static constexpr ImageType::SizeType size{ 1034, 1034, 1020 };
+  ImageType::RegionType                region;
   region.SetSize(size);
 
   {

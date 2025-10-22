@@ -22,7 +22,7 @@
 int
 itkLevelSetVelocityNeighborhoodExtractorTest(int, char *[])
 {
-  constexpr unsigned int ImageDimension{ 2 };
+  static constexpr unsigned int ImageDimension{ 2 };
   using PixelType = float;
   using ImageType = itk::Image<PixelType, ImageDimension>;
   using AuxValueType = double;

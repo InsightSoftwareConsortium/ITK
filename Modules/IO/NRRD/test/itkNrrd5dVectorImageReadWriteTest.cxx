@@ -373,7 +373,7 @@ itkNrrd5dVectorImageReadWriteTest(int argc, char * argv[])
   // 2D scalar image sequence, written and read with list as the slowest axis
   {
     const char *                                  filename = argv[1];
-    constexpr int                                 SpaceDimension{ 2 };
+    static constexpr int                          SpaceDimension{ 2 };
     const std::string                             expectedPixelType = "scalar";
     typedef double                                PixelType;
     typedef itk::Image<PixelType, SpaceDimension> ImageType;
@@ -390,7 +390,7 @@ itkNrrd5dVectorImageReadWriteTest(int argc, char * argv[])
   // 3D scalar image sequence, written and read with list as the slowest axis
   {
     const char *                                  filename = argv[2];
-    constexpr int                                 SpaceDimension{ 3 };
+    static constexpr int                          SpaceDimension{ 3 };
     const std::string                             expectedPixelType = "scalar";
     typedef double                                PixelType;
     typedef itk::Image<PixelType, SpaceDimension> ImageType;
@@ -407,7 +407,7 @@ itkNrrd5dVectorImageReadWriteTest(int argc, char * argv[])
   // 3D scalar image sequence, written with list as the fastest axis, read with list as the slowest axis
   {
     const char *                                  filename = argv[2];
-    constexpr int                                 SpaceDimension{ 3 };
+    static constexpr int                          SpaceDimension{ 3 };
     const std::string                             expectedPixelType = "scalar";
     typedef double                                PixelType;
     typedef itk::Image<PixelType, SpaceDimension> ImageType;
@@ -437,7 +437,7 @@ itkNrrd5dVectorImageReadWriteTest(int argc, char * argv[])
   // 2D scalar image sequence, written and read with list as the fastest axis
   {
     const char *                                         filename = argv[1];
-    constexpr int                                        SpaceDimension{ 2 };
+    static constexpr int                                 SpaceDimension{ 2 };
     const std::string                                    expectedPixelType = "vector";
     const int                                            numberOfTimePoints = 20;
     typedef double                                       PixelTypeToWrite;
@@ -464,7 +464,7 @@ itkNrrd5dVectorImageReadWriteTest(int argc, char * argv[])
   // 3D scalar image sequence, written and read with list as the fastest axis
   {
     const char *                                         filename = argv[2];
-    constexpr int                                        SpaceDimension{ 3 };
+    static constexpr int                                 SpaceDimension{ 3 };
     const std::string                                    expectedPixelType = "vector";
     const int                                            numberOfTimePoints = 20;
     typedef double                                       PixelTypeToWrite;
@@ -491,7 +491,7 @@ itkNrrd5dVectorImageReadWriteTest(int argc, char * argv[])
   // 3D scalar image time sequence, written time as the fastest axis, read with time as slowest axis
   {
     const char *                                         filename = argv[2];
-    constexpr int                                        SpaceDimension{ 3 };
+    static constexpr int                                 SpaceDimension{ 3 };
     const std::string                                    expectedPixelType = "vector";
     const int                                            numberOfTimePoints = 20;
     typedef double                                       PixelTypeToWrite;
@@ -518,7 +518,7 @@ itkNrrd5dVectorImageReadWriteTest(int argc, char * argv[])
   // 2D gradient field sequence
   {
     const char *                                         filename = argv[3];
-    constexpr int                                        SpaceDimension{ 2 };
+    static constexpr int                                 SpaceDimension{ 2 };
     const std::string                                    expectedPixelType = "covariant_vector";
     typedef itk::CovariantVector<double, SpaceDimension> PixelType;
     typedef itk::Image<PixelType, SpaceDimension>        ImageType;
@@ -535,7 +535,7 @@ itkNrrd5dVectorImageReadWriteTest(int argc, char * argv[])
   // 3D displacement field sequence
   {
     const char *                                  filename = argv[4];
-    constexpr int                                 SpaceDimension{ 3 };
+    static constexpr int                          SpaceDimension{ 3 };
     const std::string                             expectedPixelType = "vector";
     typedef itk::Vector<double, SpaceDimension>   PixelType;
     typedef itk::Image<PixelType, SpaceDimension> ImageType;
@@ -552,7 +552,7 @@ itkNrrd5dVectorImageReadWriteTest(int argc, char * argv[])
   // 2D color image (RGB) sequence
   {
     const char *                                  filename = argv[5];
-    constexpr int                                 SpaceDimension{ 2 };
+    static constexpr int                          SpaceDimension{ 2 };
     const std::string                             expectedPixelType = "rgb";
     const unsigned int                            expectedComponents = 3; // RGB has 3 components
     typedef itk::RGBPixel<double>                 PixelType;
@@ -570,7 +570,7 @@ itkNrrd5dVectorImageReadWriteTest(int argc, char * argv[])
   // 3D color image (RGBA) sequence
   {
     const char *                                  filename = argv[6];
-    constexpr int                                 SpaceDimension{ 3 };
+    static constexpr int                          SpaceDimension{ 3 };
     const std::string                             expectedPixelType = "rgba";
     const unsigned int                            expectedComponents = 4; // RGBA has 4 components
     typedef itk::RGBAPixel<double>                PixelType;
@@ -589,9 +589,9 @@ itkNrrd5dVectorImageReadWriteTest(int argc, char * argv[])
 
   // 2D displacement field can be distinguished from 3D
   {
-    const char *      filename = argv[3];
-    constexpr int     SpaceDimension{ 3 };
-    const std::string expectedPixelType = "covariant_vector";
+    const char *         filename = argv[3];
+    static constexpr int SpaceDimension{ 3 };
+    const std::string    expectedPixelType = "covariant_vector";
 
     bool expectedErrorCaught = false;
     try
@@ -613,9 +613,9 @@ itkNrrd5dVectorImageReadWriteTest(int argc, char * argv[])
 
   // RGB color can be distinguished from displacement field
   {
-    const char *      filename = argv[3];
-    constexpr int     SpaceDimension{ 3 };
-    const std::string expectedPixelType = "rgb";
+    const char *         filename = argv[3];
+    static constexpr int SpaceDimension{ 3 };
+    const std::string    expectedPixelType = "rgb";
 
     bool expectedErrorCaught = false;
     try

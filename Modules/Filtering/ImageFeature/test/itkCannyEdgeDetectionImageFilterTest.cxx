@@ -35,7 +35,7 @@ itkCannyEdgeDetectionImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
   using InputPixelType = float;
   using InputImage = itk::Image<InputPixelType, Dimension>;
   using OutputPixelType = unsigned char;
@@ -55,11 +55,11 @@ itkCannyEdgeDetectionImageFilterTest(int argc, char * argv[])
 
   filter->SetInput(reader->GetOutput());
 
-  constexpr CannyEdgeDetectionImageFilterType::OutputImagePixelType upperThreshold{ 30 };
+  static constexpr CannyEdgeDetectionImageFilterType::OutputImagePixelType upperThreshold{ 30 };
   filter->SetUpperThreshold(upperThreshold);
   ITK_TEST_SET_GET_VALUE(upperThreshold, filter->GetUpperThreshold());
 
-  constexpr CannyEdgeDetectionImageFilterType::OutputImagePixelType lowerThreshold{ 15 };
+  static constexpr CannyEdgeDetectionImageFilterType::OutputImagePixelType lowerThreshold{ 15 };
   filter->SetLowerThreshold(lowerThreshold);
   ITK_TEST_SET_GET_VALUE(lowerThreshold, filter->GetLowerThreshold());
 

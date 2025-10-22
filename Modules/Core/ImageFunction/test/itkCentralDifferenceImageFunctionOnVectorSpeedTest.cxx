@@ -34,7 +34,7 @@ itkCentralDifferenceImageFunctionOnVectorSpeedTestRun(char * argv[])
             << ", " << doE << std::endl;
   std::cout << "vecLength: " << vecLength << std::endl;
 
-  constexpr unsigned int ImageDimension{ 2 };
+  static constexpr unsigned int ImageDimension{ 2 };
   using PixelType = itk::Vector<float, vecLength>;
   using ImageType = itk::Image<PixelType, ImageDimension>;
 

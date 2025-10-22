@@ -40,7 +40,7 @@ itkBinaryThresholdImageFilterTest2(int argc, char * argv[])
   //
 
   // Define the dimension of the images
-  constexpr unsigned int Dimension{ 2 };
+  static constexpr unsigned int Dimension{ 2 };
 
   // Declare the types of the images
   using InputPixelType = double;

@@ -26,7 +26,7 @@ int
 itkGradientVectorFlowImageFilterTest(int, char *[])
 {
   // Define the dimension of the images
-  constexpr unsigned int myDimension{ 2 };
+  static constexpr unsigned int myDimension{ 2 };
 
   // Declare gradient type
   using myGradientType = itk::CovariantVector<double, myDimension>;
@@ -137,15 +137,15 @@ itkGradientVectorFlowImageFilterTest(int, char *[])
   m_GVFFilter->SetLaplacianFilter(m_LFilter);
   ITK_TEST_SET_GET_VALUE(m_LFilter, m_GVFFilter->GetLaplacianFilter());
 
-  constexpr double noiseLevel{ 500 };
+  static constexpr double noiseLevel{ 500 };
   m_GVFFilter->SetNoiseLevel(noiseLevel);
   ITK_TEST_SET_GET_VALUE(noiseLevel, m_GVFFilter->GetNoiseLevel());
 
-  constexpr double timeStep{ 0.001 };
+  static constexpr double timeStep{ 0.001 };
   m_GVFFilter->SetTimeStep(timeStep);
   ITK_TEST_SET_GET_VALUE(timeStep, m_GVFFilter->GetTimeStep());
 
-  constexpr int iterationNum{ 2 };
+  static constexpr int iterationNum{ 2 };
   m_GVFFilter->SetIterationNum(iterationNum);
   ITK_TEST_SET_GET_VALUE(iterationNum, m_GVFFilter->GetIterationNum());
 
