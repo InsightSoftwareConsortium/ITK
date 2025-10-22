@@ -375,6 +375,17 @@ bool Bitmap::TryRAWCodec(char *buffer, bool &lossyflag) const
       Bitmap *i = (Bitmap*)this;
       i->SetPixelFormat( codec.GetPixelFormat() );
       }
+#else
+    const PixelFormat pf = GetPixelFormat(); // PixelFormat::UINT8;
+    const PixelFormat & cpf = codec.GetPixelFormat();
+    if( cpf.GetBitsAllocated() == 16 && pf.GetBitsAllocated() == 12 )
+    {
+      Bitmap *i = const_cast<Bitmap*>(this);
+      gdcmWarningMacro( "Mismatch Bits Allocated. correcting." );
+      i->GetPixelFormat().SetBitsAllocated( cpf.GetBitsAllocated() );
+      i->GetPixelFormat().SetBitsStored( pf.GetBitsStored() );
+      i->GetPixelFormat().SetHighBit( pf.GetHighBit() );
+    }
 #endif
 
     unsigned long check; // = outbv->GetLength();  // FIXME
