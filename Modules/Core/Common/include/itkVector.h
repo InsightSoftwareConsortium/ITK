@@ -341,7 +341,7 @@ MakeVector(const TValue firstValue, const TVariadic... otherValues)
   static_assert(std::conjunction_v<std::is_same<TVariadic, TValue>...>,
                 "The other values should have the same type as the first value.");
 
-  constexpr unsigned int              dimension{ 1 + sizeof...(TVariadic) };
+  static constexpr unsigned int       dimension{ 1 + sizeof...(TVariadic) };
   const std::array<TValue, dimension> stdArray{ { firstValue, otherValues... } };
   return Vector<TValue, dimension>{ stdArray };
 }

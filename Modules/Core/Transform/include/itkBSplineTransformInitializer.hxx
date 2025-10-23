@@ -100,7 +100,7 @@ BSplineTransformInitializer<TTransform, TImage>::InitializeTransform() const
   // We also store the corners using the point set class which gives us easy
   // access to the bounding box.
 
-  constexpr CoordinateType BSplineTransformDomainEpsilon{ 1.0 / double{ 1U << 3 } };
+  static constexpr CoordinateType BSplineTransformDomainEpsilon{ 1.0 / double{ 1U << 3 } };
 
   ContinuousIndexType startIndex;
   for (unsigned int i = 0; i < SpaceDimension; ++i)

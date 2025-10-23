@@ -109,7 +109,7 @@ FastMarchingUpwindGradientImageFilterBase<TInput, TOutput>::ComputeGradient(Outp
   OutputPixelType   dx_backward;
   GradientPixelType gradientPixel;
 
-  constexpr OutputPixelType ZERO{};
+  static constexpr OutputPixelType ZERO{};
 
   OutputSpacingType spacing = oImage->GetSpacing();
 

@@ -40,7 +40,7 @@ template <typename TInputMesh, typename TOutputMesh>
 void
 CleanQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
 {
-  constexpr InputCoordinateType zeroValue{};
+  static constexpr InputCoordinateType zeroValue{};
 
   InputCoordinateType absoluteToleranceSquared = this->m_AbsoluteTolerance * this->m_AbsoluteTolerance;
   if ((Math::ExactlyEquals(this->m_AbsoluteTolerance, zeroValue)) &&

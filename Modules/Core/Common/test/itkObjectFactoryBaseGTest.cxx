@@ -31,7 +31,7 @@ namespace
 {
 
 // The name of the test object type, as stored by the test object factory.
-constexpr const char * testObjectTypeName = "Test Object";
+constexpr const char * testObjectTypeName{ "Test Object" };
 
 // A "dummy" object type, just for unit test purposes.
 class TestObject : public itk::LightObject

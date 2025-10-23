@@ -38,7 +38,7 @@ MakeChainCodeTracePath(TChainCodePath & chainPath, const TPathInput & inPath, bo
 
   const int dimension = OffsetType::GetOffsetDimension();
 
-  constexpr OffsetType zeroOffset{};
+  static constexpr OffsetType zeroOffset{};
 
   chainPath.Clear();
   InPathInputType inPathInput = inPath.StartOfInput();

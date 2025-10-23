@@ -197,8 +197,8 @@ template <typename TImage, typename TBoundaryCondition>
 auto
 ConstNeighborhoodIterator<TImage, TBoundaryCondition>::GetBoundingBoxAsImageRegion() const -> RegionType
 {
-  constexpr IndexValueType zero{};
-  const RegionType         ans(this->GetIndex(zero), this->GetSize());
+  static constexpr IndexValueType zero{};
+  const RegionType                ans(this->GetIndex(zero), this->GetSize());
 
   return ans;
 }

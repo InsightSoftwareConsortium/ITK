@@ -197,12 +197,12 @@ ObjectByObjectLabelMapFilter<TInputImage,
   if (m_ConstrainPaddingToImage)
   {
     m_Crop->SetCropBorder(m_PadSize);
-    constexpr SizeType zero{};
+    static constexpr SizeType zero{};
     m_Pad->SetPadSize(zero);
   }
   else
   {
-    constexpr SizeType zero{};
+    static constexpr SizeType zero{};
     m_Crop->SetCropBorder(zero);
     m_Pad->SetPadSize(m_PadSize);
   }

@@ -110,8 +110,8 @@ FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>::IsPixelIn
 
       // To reiterate... DO NOT use this on images higher than 16D
 
-      constexpr unsigned int dim = TImage::ImageDimension;
-      constexpr unsigned int numReps{ 1ULL << dim };
+      constexpr unsigned int        dim = TImage::ImageDimension;
+      static constexpr unsigned int numReps{ 1ULL << dim };
 
 
       // First we loop over the binary counter
@@ -154,8 +154,8 @@ FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>::IsPixelIn
 
       // To reiterate... DO NOT use this on images higher than 16D
 
-      constexpr unsigned int dim = TImage::ImageDimension;
-      constexpr unsigned int numReps{ 1ULL << dim };
+      constexpr unsigned int        dim = TImage::ImageDimension;
+      static constexpr unsigned int numReps{ 1ULL << dim };
 
       // First we loop over the binary counter
       for (unsigned int counter = 0; counter < numReps; ++counter)

@@ -180,7 +180,7 @@ GaussianExponentialDiffeomorphicTransform<TParametersValueType, VDimension>::Gau
     smoothField->DisconnectPipeline();
   }
 
-  constexpr DisplacementVectorType zeroVector{};
+  static constexpr DisplacementVectorType zeroVector{};
 
   // make sure boundary does not move
   ScalarType weight1 = 1.0;

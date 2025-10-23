@@ -52,7 +52,7 @@ TEST(WeakPointer, DefaultConstructedEqualsNullptr)
 
 TEST(WeakPointer, CheckNull)
 {
-  constexpr WeakPointerType nullPtr;
+  static constexpr WeakPointerType nullPtr;
   ASSERT_TRUE(nullPtr.IsNull());
 
   const itk::LightObject::Pointer lightObject = itk::LightObject::New();
@@ -63,7 +63,7 @@ TEST(WeakPointer, CheckNull)
 
 TEST(WeakPointer, CheckSerialization)
 {
-  constexpr WeakPointerType nullPtr;
+  static constexpr WeakPointerType nullPtr;
   std::cout << nullPtr << std::endl;
 
   const itk::LightObject::Pointer lightObject = itk::LightObject::New();

@@ -769,7 +769,7 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
     smoothField->DisconnectPipeline();
   }
 
-  constexpr DisplacementVectorType zeroVector{};
+  static constexpr DisplacementVectorType zeroVector{};
 
   // make sure boundary does not move
   RealType weight1 = 1.0;

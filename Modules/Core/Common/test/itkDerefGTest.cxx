@@ -41,7 +41,7 @@ TEST(Deref, ReturnsReferenceWhenArgumentIsNotNull)
     EXPECT_EQ(&ref, &*ptr);
   };
 
-  constexpr int i{};
+  static constexpr int i{};
   check(&i);
   check(std::make_unique<int>().get());
   check(itk::Object::New().get());

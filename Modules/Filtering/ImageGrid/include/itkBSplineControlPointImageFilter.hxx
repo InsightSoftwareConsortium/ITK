@@ -414,7 +414,7 @@ BSplineControlPointImageFilter<TInputPointImage, TOutputImage>::RefineControlPoi
     auto refinedLattice = ControlPointLatticeType::New();
     refinedLattice->SetRegions(size);
     refinedLattice->Allocate();
-    constexpr PixelType data{};
+    static constexpr PixelType data{};
     refinedLattice->FillBuffer(data);
 
     typename ControlPointLatticeType::IndexType            idx;

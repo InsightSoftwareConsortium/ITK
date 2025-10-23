@@ -41,10 +41,10 @@ itkSimplexMeshToTriangleMeshFilterTest(int, char *[])
 
   using TriangleFilterType = itk::SimplexMeshToTriangleMeshFilter<SimplexMeshType, TriangleMeshType>;
   using TriangleMeshPointer = TriangleMeshType::Pointer;
-  auto                 mySphereMeshSource = SphereMeshSourceType::New();
-  constexpr PointType  center{};
-  PointType::ValueType scaleInit[3] = { 5, 5, 5 };
-  const VectorType     scale = scaleInit;
+  auto                       mySphereMeshSource = SphereMeshSourceType::New();
+  static constexpr PointType center{};
+  PointType::ValueType       scaleInit[3] = { 5, 5, 5 };
+  const VectorType           scale = scaleInit;
 
   mySphereMeshSource->SetCenter(center);
   mySphereMeshSource->SetResolution(1);

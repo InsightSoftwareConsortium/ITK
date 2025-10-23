@@ -135,9 +135,9 @@ itkSpatialObjectToImageStatisticsCalculatorTest(int, char *[])
   using SizeType = Image3DType::SizeType;
   using IndexType = Image3DType::IndexType;
 
-  SizeType            size3D{ 50, 50, 3 };
-  constexpr IndexType start{};
-  RegionType          region3D{ start, size3D };
+  SizeType                   size3D{ 50, 50, 3 };
+  static constexpr IndexType start{};
+  RegionType                 region3D{ start, size3D };
   image3D->SetRegions(region3D);
   image3D->Allocate();
   image3D->FillBuffer(255);

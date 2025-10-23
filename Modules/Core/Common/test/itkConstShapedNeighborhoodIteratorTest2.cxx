@@ -56,12 +56,12 @@ itkConstShapedNeighborhoodIteratorTest2(int, char *[])
   const TestImageType::Pointer img = GetTestImage(10, 10, 5, 3);
 
   // radius of the iterator
-  constexpr MyDerivedCSNI<TestImageType>::RadiusType radius{ 1, 1, 1, 1 };
+  static constexpr MyDerivedCSNI<TestImageType>::RadiusType radius{ 1, 1, 1, 1 };
 
   // region over which the iterator is defined
-  constexpr MyDerivedCSNI<TestImageType>::SizeType  sz{ 10, 10, 5, 1 };
-  constexpr MyDerivedCSNI<TestImageType>::IndexType idx{ 0, 0, 0, 1 };
-  MyDerivedCSNI<TestImageType>::RegionType          reg = { idx, sz };
+  static constexpr MyDerivedCSNI<TestImageType>::SizeType  sz{ 10, 10, 5, 1 };
+  static constexpr MyDerivedCSNI<TestImageType>::IndexType idx{ 0, 0, 0, 1 };
+  MyDerivedCSNI<TestImageType>::RegionType                 reg = { idx, sz };
 
   // initialize an iterator
   println("Creating ConstShapedNeighborhoodIterator");

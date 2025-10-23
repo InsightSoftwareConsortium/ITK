@@ -70,7 +70,7 @@ public:
 
     if constexpr (VLoop > 1)
     {
-      constexpr unsigned int loopIndex{ VLoop - 1 };
+      static constexpr unsigned int loopIndex{ VLoop - 1 };
 
       index[loopIndex] = static_cast<IndexValueType>(offset / offsetTable[loopIndex]);
       offset -= (index[loopIndex] * offsetTable[loopIndex]);
@@ -98,7 +98,7 @@ public:
 
     if constexpr (VLoop > 1)
     {
-      constexpr unsigned int loopIndex{ VLoop - 1 };
+      static constexpr unsigned int loopIndex{ VLoop - 1 };
 
       offset += (index[loopIndex] - bufferedRegionIndex[loopIndex]) * offsetTable[loopIndex];
       ImageHelper<VImageDimension, loopIndex>::ComputeOffset(bufferedRegionIndex, index, offsetTable, offset);

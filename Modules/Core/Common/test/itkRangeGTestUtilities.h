@@ -109,7 +109,7 @@ public:
   ExpectIteratorIsDefaultConstructible()
   {
     using IteratorType = typename TRange::iterator;
-    constexpr IteratorType defaultConstructedIterator{};
+    static constexpr IteratorType defaultConstructedIterator{};
 
     // Test that a default-constructed iterator behaves according to C++ proposal
     // N3644, "Null Forward Iterators" by Alan Talbot, which is accepted with

@@ -88,7 +88,7 @@ FastMarchingImageFilter(unsigned int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr LabelType label_zero{};
+  static constexpr LabelType label_zero{};
 
   using ContourFilterType = itk::LabelContourImageFilter<LabelImageType, LabelImageType>;
   auto contour = ContourFilterType::New();
