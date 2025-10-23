@@ -38,7 +38,7 @@ ImageType::Pointer
 itkImageFromBuffer(itk::OpenCVVideoIO::Pointer opencvIO, void * buffer, size_t bufferSize)
 {
   // Set up for incoming image
-  constexpr ImageType::SizeType  size{ opencvIO->GetDimensions(0), opencvIO->GetDimensions(1) };
+  const ImageType::SizeType      size{ opencvIO->GetDimensions(0), opencvIO->GetDimensions(1) };
   constexpr ImageType::IndexType start{};
   ImageType::RegionType          region = { start, size };
   ImageType::PointType           origin;
