@@ -9,5 +9,5 @@ itk_add_test(
   COMMAND
     FpfhTestDriver
     itkPointFeatureTest
-    ${ITK_TEST_OUTPUT_DIR}/itkPointFeatureTestOutput.mha
+    DATA{Input/WSB_subsampled.vtk}
 )
