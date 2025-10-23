@@ -165,7 +165,9 @@ public:
       case 0x0ffe: hb = 11; break;
       case 0x00fe: hb =  7; break;
       }
-    if( hb < BitsStored )
+    if( BitsStored > 1 && hb == 0 )
+      HighBit = BitsStored - 1;
+    else if( hb < BitsStored )
       HighBit = hb;
     }
 
