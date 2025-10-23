@@ -89,7 +89,7 @@ public:
   BinaryCrossStructuringElement()
   {
     // Default structuring element is defined to be 3x3x3...
-    constexpr auto radius{ MakeFilled<RadiusType>(1) };
+    constexpr auto radius = MakeFilled<RadiusType>(1);
     Self::SetRadius(radius);
     Self::CreateStructuringElement();
   }

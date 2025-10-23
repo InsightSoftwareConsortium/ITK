@@ -243,7 +243,7 @@ TEST(ConnectedImageNeighborhoodShape, OffsetsAreUniqueAndColexicographicallyOrde
 TEST(ConnectedImageNeighborhoodShape, SupportsConstShapedNeighborhoodIterator)
 {
   using ImageType = itk::Image<int>;
-  constexpr auto ImageDimension{ ImageType::ImageDimension };
+  constexpr auto ImageDimension = ImageType::ImageDimension;
   using SizeType = itk::Size<ImageDimension>;
   using OffsetType = itk::Offset<ImageDimension>;
 

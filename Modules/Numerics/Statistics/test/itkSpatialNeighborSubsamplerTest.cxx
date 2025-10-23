@@ -78,7 +78,7 @@ itkSpatialNeighborSubsamplerTest(int, char *[])
   using IteratorType = itk::ImageRegionConstIteratorWithIndex<ImageType>;
 
   auto                inImage = ImageType::New();
-  constexpr auto      sz{ SizeType::Filled(25) };
+  constexpr auto      sz = SizeType::Filled(25);
   constexpr IndexType idx{};
   const RegionType    region{ idx, sz };
 

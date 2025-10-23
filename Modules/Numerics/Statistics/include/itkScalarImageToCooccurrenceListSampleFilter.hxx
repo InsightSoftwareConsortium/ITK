@@ -71,7 +71,7 @@ template <typename TImage>
 void
 ScalarImageToCooccurrenceListSampleFilter<TImage>::GenerateData()
 {
-  constexpr auto radius{ MakeFilled<typename ShapedNeighborhoodIteratorType::RadiusType>(1) };
+  constexpr auto radius = MakeFilled<typename ShapedNeighborhoodIteratorType::RadiusType>(1);
 
   using FaceCalculatorType = itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<ImageType>;
 

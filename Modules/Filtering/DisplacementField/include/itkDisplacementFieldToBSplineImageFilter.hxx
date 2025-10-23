@@ -380,7 +380,7 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
 
   itkDebugMacro("Calculating the B-spline displacement field. ");
 
-  constexpr auto close{ MakeFilled<ArrayType>(false) };
+  constexpr auto close = MakeFilled<ArrayType>(false);
 
   auto bspliner = BSplineFilterType::New();
   bspliner->SetOrigin(this->m_BSplineDomainOrigin);

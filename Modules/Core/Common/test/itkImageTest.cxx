@@ -119,12 +119,12 @@ itkImageTest(int, char *[])
   image->SetDirection(direction);
 
   constexpr Image::IndexType index{};
-  constexpr auto             size{ Image::SizeType::Filled(4) };
+  constexpr auto             size = Image::SizeType::Filled(4);
   const Image::RegionType    region{ index, size };
   image->SetRegions(region);
 
   auto                       imageRef = Image::New();
-  constexpr auto             spacingRef{ itk::MakeFilled<Image::SpacingType>(2) };
+  constexpr auto             spacingRef = itk::MakeFilled<Image::SpacingType>(2);
   constexpr Image::PointType originRef{};
   Image::DirectionType       directionRef;
   directionRef.SetIdentity();
@@ -132,7 +132,7 @@ itkImageTest(int, char *[])
   imageRef->SetOrigin(originRef);
   imageRef->SetDirection(directionRef);
   constexpr Image::IndexType indexRef{};
-  constexpr auto             sizeRef{ itk::MakeFilled<Image::SizeType>(5) };
+  constexpr auto             sizeRef = itk::MakeFilled<Image::SizeType>(5);
   const Image::RegionType    regionRef{ indexRef, sizeRef };
   imageRef->SetRegions(regionRef);
 
@@ -143,7 +143,7 @@ itkImageTest(int, char *[])
                                                                                 imageRef.GetPointer(),
                                                                                 static_cast<TransformType *>(nullptr));
   constexpr Image::IndexType correctIndex{};
-  constexpr auto             correctSize{ Image::SizeType::Filled(3) };
+  constexpr auto             correctSize = Image::SizeType::Filled(3);
   if (!(boxRegion.GetIndex() == correctIndex) || !(boxRegion.GetSize() == correctSize))
   {
     std::cerr << "EnlargeRegionOverBox test failed: "

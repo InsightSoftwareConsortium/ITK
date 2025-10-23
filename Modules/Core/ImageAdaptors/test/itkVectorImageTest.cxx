@@ -700,7 +700,7 @@ itkVectorImageTest(int, char * argv[])
       using ConstNeighborhoodIteratorType = itk::ConstNeighborhoodIterator<VectorImageType>;
       auto radius = itk::MakeFilled<ConstNeighborhoodIteratorType::RadiusType>(1);
 
-      constexpr auto                            size{ ConstNeighborhoodIteratorType::SizeType::Filled(4) };
+      constexpr auto                            size = ConstNeighborhoodIteratorType::SizeType::Filled(4);
       auto                                      index = ConstNeighborhoodIteratorType::IndexType::Filled(1);
       ConstNeighborhoodIteratorType::RegionType region = { index, size };
 

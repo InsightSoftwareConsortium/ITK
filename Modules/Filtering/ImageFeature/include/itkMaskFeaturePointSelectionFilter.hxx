@@ -152,7 +152,7 @@ MaskFeaturePointSelectionFilter<TImage, TMask, TFeatures>::GenerateData()
   if (m_ComputeStructureTensors)
   {
     // tensor calculations access points in 2 X m_BlockRadius + 1 radius
-    constexpr auto onesSize{ SizeType::Filled(1) };
+    constexpr auto onesSize = SizeType::Filled(1);
     // Define the area in which tensors are going to be computed.
     const SizeType blockSize = m_BlockRadius + m_BlockRadius + onesSize;
     safeIndex += blockSize;
@@ -229,7 +229,7 @@ MaskFeaturePointSelectionFilter<TImage, TMask, TFeatures>::GenerateData()
 
         Matrix<SpacePrecisionType, ImageDimension, 1> gradI; // vector declared as column matrix
 
-        constexpr auto radius{ SizeType::Filled(1) }; // iterate over neighbourhood of a voxel
+        constexpr auto radius = SizeType::Filled(1); // iterate over neighbourhood of a voxel
 
         RegionType center{ indexOfPointToPick, radius };
 

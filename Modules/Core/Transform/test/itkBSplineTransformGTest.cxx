@@ -186,7 +186,7 @@ TEST(ITKBSplineTransform, NumberOfWeights)
   const auto testNumberOfWeights = [](const auto & bsplineTransform) {
     using BSplineTransformType = std::remove_reference_t<decltype(bsplineTransform)>;
 
-    constexpr auto actualNumberOfWeights{ BSplineTransformType::NumberOfWeights };
+    constexpr auto actualNumberOfWeights = BSplineTransformType::NumberOfWeights;
 
 #ifndef ITK_LEGACY_REMOVE
     EXPECT_EQ(actualNumberOfWeights, bsplineTransform.GetNumberOfWeights());

@@ -215,7 +215,7 @@ TEST(ImageMaskSpatialObject, AxisAlignedBoundingBoxRegionIsImageRegionWhenOnlyOn
 TEST(ImageMaskSpatialObject, IsInsideSingleZeroPixel)
 {
   using ImageType = itk::Image<unsigned char>;
-  constexpr auto ImageDimension{ ImageType::ImageDimension };
+  constexpr auto ImageDimension = ImageType::ImageDimension;
   using SizeType = ImageType::SizeType;
   using PointType = ImageType::PointType;
 
@@ -242,7 +242,7 @@ TEST(ImageMaskSpatialObject, IsInsideSingleZeroPixel)
 TEST(ImageMaskSpatialObject, IsInsideSingleNonZeroPixel)
 {
   using ImageType = itk::Image<unsigned char>;
-  constexpr auto ImageDimension{ ImageType::ImageDimension };
+  constexpr auto ImageDimension = ImageType::ImageDimension;
   using SizeType = ImageType::SizeType;
   using PointType = ImageType::PointType;
 
@@ -268,7 +268,7 @@ TEST(ImageMaskSpatialObject, IsInsideSingleNonZeroPixel)
 TEST(ImageMaskSpatialObject, IsInsideIndependentOfDistantPixels)
 {
   using ImageType = itk::Image<unsigned char>;
-  constexpr auto ImageDimension{ ImageType::ImageDimension };
+  constexpr auto ImageDimension = ImageType::ImageDimension;
   using SizeType = ImageType::SizeType;
   using IndexType = ImageType::IndexType;
   using PointType = ImageType::PointType;
@@ -287,7 +287,7 @@ TEST(ImageMaskSpatialObject, IsInsideIndependentOfDistantPixels)
   spatialObject->Update();
 
   // Point of interest: a point close to the non-zero pixel.
-  constexpr auto pointOfInterest{ itk::MakeFilled<PointType>(indexValue - 0.25) };
+  constexpr auto pointOfInterest = itk::MakeFilled<PointType>(indexValue - 0.25);
 
   const bool isInsideBefore = spatialObject->IsInside(pointOfInterest);
 
@@ -326,7 +326,7 @@ TEST(ImageMaskSpatialObject, CornerPointIsNotInsideMaskOfZeroValues)
 // Check that the IsInsideInWorldSpace overloads yield the same result, when depth = 0 and name = "".
 TEST(ImageMaskSpatialObject, IsInsideInWorldSpaceOverloads)
 {
-  constexpr auto imageDimension{ 2U };
+  constexpr auto imageDimension = 2U;
   using ImageMaskSpatialObjectType = itk::ImageMaskSpatialObject<imageDimension>;
   using MaskImageType = ImageMaskSpatialObjectType::ImageType;
   using MaskPixelType = MaskImageType::PixelType;

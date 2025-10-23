@@ -102,7 +102,7 @@ itkSubtractImageFilterTest(int, char *[])
 
   // Check the content of the result image
   //
-  constexpr auto expectedValue{ static_cast<OutputImageType::PixelType>(valueA - valueB) };
+  constexpr auto expectedValue = static_cast<OutputImageType::PixelType>(valueA - valueB);
   while (!oIt.IsAtEnd())
   {
     if (!itk::Math::ExactlyEquals(oIt.Get(), expectedValue))

@@ -116,7 +116,7 @@ CreateEmptyFrame()
   out->SetLargestPossibleRegion(largestRegion);
 
   constexpr FrameType::SizeType sizeReq{ 20, 10 };
-  constexpr auto                startReq{ FrameType::IndexType::Filled(2) };
+  constexpr auto                startReq = FrameType::IndexType::Filled(2);
   FrameType::RegionType         requestedRegion = { startReq, sizeReq };
   out->SetRequestedRegion(requestedRegion);
   out->Allocate();

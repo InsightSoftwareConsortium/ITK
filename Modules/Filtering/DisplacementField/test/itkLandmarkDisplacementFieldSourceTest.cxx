@@ -80,7 +80,7 @@ itkLandmarkDisplacementFieldSourceTest(int argc, char * argv[])
   filter->SetOutputSpacing(spacingNonDefault);
   ITK_TEST_SET_GET_VALUE(spacingNonDefault, filter->GetOutputSpacing());
 
-  constexpr auto originNonDefault{ itk::MakeFilled<DisplacementFieldType::PointType>(1235.0) };
+  constexpr auto originNonDefault = itk::MakeFilled<DisplacementFieldType::PointType>(1235.0);
   filter->SetOutputOrigin(originNonDefault);
   ITK_TEST_SET_GET_VALUE(originNonDefault, filter->GetOutputOrigin());
 

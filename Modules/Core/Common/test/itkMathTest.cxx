@@ -31,7 +31,7 @@
 #include <limits>
 #include <type_traits> // For is_same.
 
-constexpr auto maxUnsignedValue{ std::numeric_limits<uintmax_t>::max() };
+constexpr auto maxUnsignedValue = std::numeric_limits<uintmax_t>::max();
 
 using itk::Math::UnsignedPower;
 using itk::Math::UnsignedProduct;
@@ -588,17 +588,17 @@ main(int, char *[])
   { // Test various equals operations.
     //=========================
     constexpr signed char sc{ -1 };
-    constexpr auto        uc{ static_cast<unsigned char>(-1) };
+    constexpr auto        uc = static_cast<unsigned char>(-1);
     testPassStatus = (TestIntegersAreSame(sc, uc) == EXIT_SUCCESS) ? testPassStatus : EXIT_FAILURE;
     //=========================
     constexpr int  si{ -1 };
-    constexpr auto ul{ static_cast<unsigned long>(-1) };
+    constexpr auto ul = static_cast<unsigned long>(-1);
     testPassStatus = (TestIntegersAreSame(si, ul) == EXIT_SUCCESS) ? testPassStatus : EXIT_FAILURE;
     //=========================
-    constexpr auto ui{ static_cast<unsigned int>(-1) };
+    constexpr auto ui = static_cast<unsigned int>(-1);
     testPassStatus = (TestIntegersAreSame(si, ui) == EXIT_SUCCESS) ? testPassStatus : EXIT_FAILURE;
     //=========================
-    constexpr auto ust{ static_cast<size_t>(-1) };
+    constexpr auto ust = static_cast<size_t>(-1);
     testPassStatus = (TestIntegersAreSame(si, ust) == EXIT_SUCCESS) ? testPassStatus : EXIT_FAILURE;
 
     //=========================

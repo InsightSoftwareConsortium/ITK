@@ -291,11 +291,11 @@ GE4ImageIO::ReadHeader(const char * FileNameToRead)
 float
 GE4ImageIO::MvtSunf(int numb)
 {
-  constexpr auto signbit{ 020000000000U };
-  constexpr auto dmantissa{ 077777777U };
-  constexpr auto dexponent{ 0177U };
-  constexpr auto smantissa{ 037777777U };
-  constexpr auto smantlen{ 23U };
+  constexpr auto signbit = 020000000000U;
+  constexpr auto dmantissa = 077777777U;
+  constexpr auto dexponent = 0177U;
+  constexpr auto smantissa = 037777777U;
+  constexpr auto smantlen = 23U;
   ByteSwapper<int>::SwapFromSystemToBigEndian(&numb);
   const unsigned int dg_exp = (numb >> 24) & dexponent;
   const unsigned int dg_sign = numb & signbit;

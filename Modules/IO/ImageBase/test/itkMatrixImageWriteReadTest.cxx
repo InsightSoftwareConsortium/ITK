@@ -36,7 +36,7 @@ itkMatrixImageWriteReadTest(int argc, char * argv[])
 
   auto matrixImage1 = MatrixImageType::New();
 
-  constexpr auto size{ MatrixImageType::SizeType::Filled(10) };
+  constexpr auto size = MatrixImageType::SizeType::Filled(10);
 
   constexpr MatrixImageType::IndexType start{};
 

@@ -61,7 +61,7 @@ ReadFloatingPointsAsASCII(std::ifstream &        inputFile,
 
         const int numberOfChars = Math::CastWithRangeCheck<int>(str.size());
 
-        constexpr auto                                   double_NaN{ std::numeric_limits<double>::quiet_NaN() };
+        constexpr auto                                   double_NaN = std::numeric_limits<double>::quiet_NaN();
         int                                              processedCharCount{ 0 };
         const double_conversion::StringToDoubleConverter converter(0, double_NaN, double_NaN, "inf", "nan");
         const auto                                       conversionResult =

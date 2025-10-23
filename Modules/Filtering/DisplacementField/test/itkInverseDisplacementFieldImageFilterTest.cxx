@@ -144,7 +144,7 @@ itkInverseDisplacementFieldImageFilterTest(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(spacing, filter->GetOutputSpacing());
 
   // Keep the origin
-  constexpr auto origin{ itk::MakeFilled<DisplacementFieldType::PointType>(1234.0) };
+  constexpr auto origin = itk::MakeFilled<DisplacementFieldType::PointType>(1234.0);
   filter->SetOutputOrigin(origin);
   ITK_TEST_SET_GET_VALUE(origin, filter->GetOutputOrigin());
 

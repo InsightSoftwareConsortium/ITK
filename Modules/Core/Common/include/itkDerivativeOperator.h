@@ -39,7 +39,7 @@ namespace itk
          using DerivativeOperatorType = itk::DerivativeOperator<float, 2>;
          DerivativeOperatorType derivativeOperator;
          derivativeOperator.SetDirection(0); // X dimension
-         constexpr  auto radius{ itk::Size<2>::Filled(1) }; // A radius of 1 in both dimensions is a 3x3 operator
+         constexpr  auto radius = itk::Size<2>::Filled(1); // A radius of 1 in both dimensions is a 3x3 operator
          derivativeOperator.CreateToRadius(radius);
    \endcode
  * and creates a kernel that looks like:

@@ -232,7 +232,7 @@ Is_Filled_FixedArray_correctly_filled()
 {
   using FixedArrayType = itk::FixedArray<int>;
 
-  constexpr auto filledFixedArray{ FixedArrayType::Filled(VFillValue) };
+  constexpr auto filledFixedArray = FixedArrayType::Filled(VFillValue);
   for (unsigned int i{}; i < FixedArrayType::Length; ++i)
   {
     if (filledFixedArray[i] != VFillValue)

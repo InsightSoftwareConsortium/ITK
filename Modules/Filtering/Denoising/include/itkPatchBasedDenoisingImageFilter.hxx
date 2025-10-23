@@ -671,7 +671,7 @@ typename PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadDataSt
   using FaceCalculatorType = typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>;
   using FaceListType = typename FaceCalculatorType::FaceListType;
 
-  constexpr auto radius{ InputImageType::SizeType::Filled(1) };
+  constexpr auto radius = InputImageType::SizeType::Filled(1);
 
   if (m_NumIndependentComponents != 1)
   {
