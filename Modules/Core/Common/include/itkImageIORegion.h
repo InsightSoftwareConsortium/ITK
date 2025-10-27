@@ -225,10 +225,7 @@ public:
     // ignored.
     //
     const unsigned int ioDimension = outIORegion.GetImageDimension();
-
-    constexpr unsigned int imageDimension{ VDimension };
-
-    const unsigned int minDimension = std::min(ioDimension, imageDimension);
+    const unsigned int minDimension = std::min(ioDimension, VDimension);
 
     const ImageSizeType &  size = inImageRegion.GetSize();
     const ImageIndexType & index = inImageRegion.GetIndex();
@@ -265,10 +262,8 @@ public:
     // than the ImageIORegion, then the remaining IO dimensions are simply
     // ignored.
     //
-    const unsigned int     ioDimension = inIORegion.GetImageDimension();
-    constexpr unsigned int imageDimension{ VDimension };
-
-    const unsigned int minDimension = std::min(ioDimension, imageDimension);
+    const unsigned int ioDimension = inIORegion.GetImageDimension();
+    const unsigned int minDimension = std::min(ioDimension, VDimension);
 
     auto           size = MakeFilled<ImageSizeType>(1); // initialize with default values
     ImageIndexType index{};
