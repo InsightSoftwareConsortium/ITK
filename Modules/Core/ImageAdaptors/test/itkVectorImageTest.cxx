@@ -51,12 +51,10 @@ testVectorImageAdaptor(typename TAdaptor::Pointer &                             
   std::cout << " to extract a component from the vector image" << std::endl;
 
   using PixelType = TPixel;
-  constexpr unsigned int Dimension{ VDimension };
-  constexpr unsigned int VectorLength{ VVectorLength };
 
   bool failed = false;
 
-  using AdaptedImageType = itk::Image<PixelType, Dimension>;
+  using AdaptedImageType = itk::Image<PixelType, VDimension>;
   auto index = AdaptedImageType::IndexType::Filled(10);
   std::cout << "Before adaptor initialization, vectorImage->GetPixel(" << index << ")[" << componentToExtract
             << "] = " << vectorImage->GetPixel(index)[componentToExtract] << std::endl;
@@ -116,9 +114,9 @@ testVectorImageAdaptor(typename TAdaptor::Pointer &                             
   itk::ImageRegionConstIteratorWithIndex<AdaptorType> adaptIt(vectorImageAdaptor, region);
   adaptIt.GoToBegin();
   bool itFailed = false;
-  using InternalPixelType = itk::FixedArray<PixelType, VectorLength>;
+  using InternalPixelType = itk::FixedArray<PixelType, VVectorLength>;
   InternalPixelType f;
-  for (unsigned int i = 0; i < VectorLength; ++i)
+  for (unsigned int i = 0; i < VVectorLength; ++i)
   {
     f[i] = i;
   }

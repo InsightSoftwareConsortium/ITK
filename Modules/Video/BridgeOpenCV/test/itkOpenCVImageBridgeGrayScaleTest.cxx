@@ -86,9 +86,8 @@ int
 itkOpenCVImageBridgeTestTemplatedScalar(char * argv)
 {
   // type alias
-  constexpr unsigned int Dimension{ VDimension };
   using PixelType = TPixelType;
-  using ImageType = itk::Image<PixelType, Dimension>;
+  using ImageType = itk::Image<PixelType, VDimension>;
   using ReaderType = itk::ImageFileReader<ImageType>;
   using DifferenceFilterType = itk::Testing::ComparisonImageFilter<ImageType, ImageType>;
 
