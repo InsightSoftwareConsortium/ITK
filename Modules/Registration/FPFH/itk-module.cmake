@@ -17,6 +17,7 @@ itk_module(
   TEST_DEPENDS
     ITKTestKernel
     ITKMetaIO
+    ITKIOMeshBase
   DESCRIPTION "Module ingested from upstream."
   EXCLUDE_FROM_DEFAULT
   ENABLE_SHARED
