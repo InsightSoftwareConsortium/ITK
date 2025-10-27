@@ -142,11 +142,10 @@ int
 itkOpenCVImageBridgeTestTemplatedRGB(char * argv0, char * argv1)
 {
   // type alias
-  constexpr unsigned int Dimension{ VDimension };
   using ValueType = TValue;
   using PixelType = itk::RGBPixel<ValueType>;
   using ComponentType = typename PixelType::ComponentType;
-  using ImageType = itk::Image<PixelType, Dimension>;
+  using ImageType = itk::Image<PixelType, VDimension>;
   using ReaderType = itk::ImageFileReader<ImageType>;
 
   // Read the image directly
@@ -167,7 +166,7 @@ itkOpenCVImageBridgeTestTemplatedRGB(char * argv0, char * argv1)
   }
   typename ImageType::Pointer outIplITK = itk::OpenCVImageBridge::IplImageToITKImage<ImageType>(inIpl);
 
-  ComponentType itkIplDiff1 = RGBImageTotalAbsDifference<ComponentType, Dimension>(baselineImage, outIplITK);
+  ComponentType itkIplDiff1 = RGBImageTotalAbsDifference<ComponentType, VDimension>(baselineImage, outIplITK);
 
   // Check results of IplImage -> itk::Image
   if (itkIplDiff1 != ComponentType{})
@@ -182,7 +181,7 @@ itkOpenCVImageBridgeTestTemplatedRGB(char * argv0, char * argv1)
   cv::Mat                     inMat = cv::imread(argv0);
   typename ImageType::Pointer outMatITK = itk::OpenCVImageBridge::CVMatToITKImage<ImageType>(inMat);
 
-  ComponentType itkCvMatDiff = RGBImageTotalAbsDifference<ComponentType, Dimension>(baselineImage, outMatITK);
+  ComponentType itkCvMatDiff = RGBImageTotalAbsDifference<ComponentType, VDimension>(baselineImage, outMatITK);
 
   // Check results of cv::Mat -> itk::Image
   if (itkCvMatDiff != ComponentType{})

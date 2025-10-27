@@ -142,14 +142,13 @@ template <unsigned int VDimension>
 int
 GPUDemonsRegistrationFilterTestTemplate(int argc, char * argv[])
 {
-  constexpr unsigned int ImageDimension{ VDimension };
-  bool                   passed;
-  unsigned int           size1 = 0, size2 = 0;
+  bool         passed;
+  unsigned int size1 = 0, size2 = 0;
 
   using InternalPixelType = float;
-  using VectorPixelType = itk::Vector<float, ImageDimension>;
-  using GPUDisplacementFieldType = itk::GPUImage<VectorPixelType, ImageDimension>;
-  using CPUDisplacementFieldType = itk::Image<VectorPixelType, ImageDimension>;
+  using VectorPixelType = itk::Vector<float, VDimension>;
+  using GPUDisplacementFieldType = itk::GPUImage<VectorPixelType, VDimension>;
+  using CPUDisplacementFieldType = itk::Image<VectorPixelType, VDimension>;
   using GPUDisplacementFieldPointer = typename GPUDisplacementFieldType::Pointer;
   using CPUDisplacementFieldPointer = typename CPUDisplacementFieldType::Pointer;
 
@@ -159,12 +158,12 @@ GPUDemonsRegistrationFilterTestTemplate(int argc, char * argv[])
   {
     std::cout << "---------------------------------------------------" << std::endl;
     std::cout << "Starting GPU Demons" << std::endl;
-    gpuOut = (itkGPUDemons<ImageDimension, GPUDisplacementFieldPointer>(argc, argv));
+    gpuOut = (itkGPUDemons<VDimension, GPUDisplacementFieldPointer>(argc, argv));
     std::cout << "Finished GPU Demons" << std::endl;
 
     std::cout << "---------------------------------------------------" << std::endl;
     std::cout << "Starting CPU Demons" << std::endl;
-    cpuOut = (itkCPUDemons<ImageDimension, CPUDisplacementFieldPointer>(argc, argv));
+    cpuOut = (itkCPUDemons<VDimension, CPUDisplacementFieldPointer>(argc, argv));
     std::cout << "Finished CPU Demons" << std::endl;
   }
   std::cout << "Average GPU registration time in seconds = " << m_GPUTime.GetMean() << std::endl;
@@ -180,9 +179,9 @@ GPUDemonsRegistrationFilterTestTemplate(int argc, char * argv[])
   for (unsigned int i = 0; (i < size1) && (i < size2); ++i)
   {
     diff = 0;
-    for (unsigned int d = 0; d < ImageDimension; ++d)
+    for (unsigned int d = 0; d < VDimension; ++d)
     {
-      tmp = gpuBuf[i * ImageDimension + d] - cpuBuf[i * ImageDimension + d];
+      tmp = gpuBuf[i * VDimension + d] - cpuBuf[i * VDimension + d];
       diff += tmp * tmp;
     }
     diff = std::sqrt(diff);

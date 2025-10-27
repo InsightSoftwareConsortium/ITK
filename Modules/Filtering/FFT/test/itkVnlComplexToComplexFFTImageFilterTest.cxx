@@ -33,10 +33,9 @@ transformImage(const char * inputImageFileName, const char * outputImageFileName
 {
   using RealPixelType = TPixel;
   using ComplexPixelType = std::complex<RealPixelType>;
-  constexpr unsigned int Dimension{ VDimension };
 
-  using RealImageType = itk::Image<RealPixelType, Dimension>;
-  using ComplexImageType = itk::Image<ComplexPixelType, Dimension>;
+  using RealImageType = itk::Image<RealPixelType, VDimension>;
+  using ComplexImageType = itk::Image<ComplexPixelType, VDimension>;
 
   using ReaderType = itk::ImageFileReader<RealImageType>;
   auto reader = ReaderType::New();

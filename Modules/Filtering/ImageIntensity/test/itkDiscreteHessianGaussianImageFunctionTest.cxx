@@ -28,10 +28,8 @@ template <int VDimension>
 int
 itkDiscreteHessianGaussianImageFunctionTestND(int argc, char * argv[])
 {
-  constexpr unsigned int Dimension{ VDimension };
-
   using PixelType = float;
-  using ImageType = itk::Image<PixelType, Dimension>;
+  using ImageType = itk::Image<PixelType, VDimension>;
 
   // Read input
   using ReaderType = itk::ImageFileReader<ImageType>;
@@ -159,7 +157,7 @@ itkDiscreteHessianGaussianImageFunctionTestND(int argc, char * argv[])
     hessian.ComputeEigenValues(eigenValues);
 
     PixelType maxEigen = eigenValues[0];
-    for (unsigned int i = 1; i < Dimension; ++i)
+    for (unsigned int i = 1; i < VDimension; ++i)
     {
       maxEigen = std::max(eigenValues[i], maxEigen);
     }
@@ -191,7 +189,7 @@ itkDiscreteHessianGaussianImageFunctionTestND(int argc, char * argv[])
   }
   function->SetVariance(varChanged);
   varReturned = function->GetVariance();
-  for (unsigned int i = 0; i < Dimension; ++i)
+  for (unsigned int i = 0; i < VDimension; ++i)
   {
     if (varReturned[i] != varChanged[i])
     {
@@ -204,14 +202,14 @@ itkDiscreteHessianGaussianImageFunctionTestND(int argc, char * argv[])
   }
 
 
-  double piValues[Dimension];
-  for (unsigned int i = 0; i < Dimension; ++i)
+  double piValues[VDimension];
+  for (unsigned int i = 0; i < VDimension; ++i)
   {
     piValues[i] = itk::Math::pi;
   }
   function->SetVariance(piValues);
   varReturned = function->GetVariance();
-  for (unsigned int i = 0; i < Dimension; ++i)
+  for (unsigned int i = 0; i < VDimension; ++i)
   {
     if (itk::Math::NotAlmostEquals(varReturned[i], itk::Math::pi))
     {
@@ -232,7 +230,7 @@ itkDiscreteHessianGaussianImageFunctionTestND(int argc, char * argv[])
     typename ImageType::SizeType         size = region.GetSize();
     typename ImageType::IndexType        index = region.GetIndex();
     // Aim for the pixel at the center of the image
-    for (unsigned int i = 0; i < Dimension; ++i)
+    for (unsigned int i = 0; i < VDimension; ++i)
     {
       index[i] += size[i] / 2;
     }
@@ -244,7 +242,7 @@ itkDiscreteHessianGaussianImageFunctionTestND(int argc, char * argv[])
     ContinuousIndexType cindex;
 
     // Exercise the fractional computation of the linear interpolator
-    for (unsigned int i = 0; i < Dimension; ++i)
+    for (unsigned int i = 0; i < VDimension; ++i)
     {
       cindex[i] = static_cast<double>(index[i]) + 0.5;
     }
