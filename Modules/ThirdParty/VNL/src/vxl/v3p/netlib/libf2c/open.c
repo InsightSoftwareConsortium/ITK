@@ -15,7 +15,9 @@ extern char *malloc();
 extern char *mktemp();
 #endif
 extern integer f_clos();
+#define Const /*nothing*/
 #else
+#define Const const
 #undef abs
 #undef min
 #undef max
@@ -28,11 +30,11 @@ extern integer f_clos(cllist*);
 #endif
 
 #ifdef NON_ANSI_RW_MODES
-char *f__r_mode[2] = {"r", "r"};
-char *f__w_mode[4] = {"w", "w", "r+w", "r+w"};
+Const char *f__r_mode[2] = {"r", "r"};
+Const char *f__w_mode[4] = {"w", "w", "r+w", "r+w"};
 #else
-char *f__r_mode[2] = {"rb", "r"};
-char *f__w_mode[4] = {"wb", "w", "r+b", "r+"};
+Const char *f__r_mode[2] = {"rb", "r"};
+Const char *f__w_mode[4] = {"wb", "w", "r+b", "r+"};
 #endif
 
  static char f__buf0[400], *f__buf = f__buf0;
@@ -113,7 +115,7 @@ x_putc(int c)
 #ifdef KR_headers
 opn_err(m, s, a) int m; char *s; olist *a;
 #else
-opn_err(int m, char *s, olist *a)
+opn_err(int m, const char *s, olist *a)
 #endif
 {
         if (a->ofnm) {

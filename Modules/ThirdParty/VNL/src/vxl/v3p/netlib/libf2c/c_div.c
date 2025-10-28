@@ -8,7 +8,7 @@ extern VOID sig_die();
 VOID c_div(c, a, b)
 complex *a, *b, *c;
 #else
-extern void sig_die(char*,int);
+extern void sig_die(const char*,int);
 void c_div(complex *c, complex *a, complex *b)
 #endif
 {

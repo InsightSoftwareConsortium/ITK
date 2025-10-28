@@ -22,12 +22,17 @@ extern "C" {
 extern flag f__cblank,f__cplus; /*blanks in I and compulsory plus*/
 static struct syl f__syl[SYLMX];
 int f__parenlvl,f__pc,f__revloc;
+#ifdef KR_headers
+#define Const /*nothing*/
+#else
+#define Const const
+#endif
 
  static
 #ifdef KR_headers
 char *ap_end(s) char *s;
 #else
-char *ap_end(char *s)
+const char *ap_end(const char *s)
 #endif
 {       char quote;
         quote= *s++;
@@ -63,8 +68,8 @@ op_gen(int a, int b, int c, int d)
 static char *f_list();
 static char *gt_num(s,n,n1) char *s; int *n, n1;
 #else
-static char *f_list(char*);
-static char *gt_num(char *s, int *n, int n1)
+static const char *f_list(const char*);
+static const char *gt_num(const char *s, int *n, int n1)
 #endif
 {       int m=0,f__cnt=0;
         char c;
@@ -91,7 +96,7 @@ static char *gt_num(char *s, int *n, int n1)
 #ifdef KR_headers
 char *f_s(s,curloc) char *s;
 #else
-char *f_s(char *s, int curloc)
+const char *f_s(const char *s, int curloc)
 #endif
 {
         skip(s);
@@ -113,7 +118,7 @@ char *f_s(char *s, int curloc)
 #ifdef KR_headers
 ne_d(s,p) char *s,**p;
 #else
-ne_d(char *s, char **p)
+ne_d(const char *s, const char **p)
 #endif
 {       int n,x,sign=0;
         struct syl *sp;
@@ -162,7 +167,7 @@ ne_d(char *s, char **p)
                 case 'H':
                 case 'h':
                         sp = &f__syl[op_gen(H,n,0,0)];
-                        sp->p2.s = s + 1;
+                        sp->p2.s = (char*)s + 1;
                         s+=n;
                         break;
                 }
@@ -171,7 +176,7 @@ ne_d(char *s, char **p)
         case '"':
         case '\'':
                 sp = &f__syl[op_gen(APOS,0,0,0)];
-                sp->p2.s = s;
+                sp->p2.s = (char*)s;
                 if((*p = ap_end(s)) == NULL)
                         return(0);
                 return(1);
@@ -205,10 +210,10 @@ ne_d(char *s, char **p)
 #ifdef KR_headers
 e_d(s,p) char *s,**p;
 #else
-e_d(char *s, char **p)
+e_d(const char *s, const char **p)
 #endif
 {       int i,im,n,w,d,e,found=0,x=0;
-        char *sv=s;
+        Const char *sv=s;
         s=gt_num(s,&n,1);
         (void) op_gen(STACK,n,0,0);
         switch(*s++)
@@ -324,9 +329,9 @@ e_d(char *s, char **p)
 #ifdef KR_headers
 char *i_tem(s) char *s;
 #else
-char *i_tem(char *s)
+const char *i_tem(const char *s)
 #endif
-{       char *t;
+{        const char *t;
         int n,curloc;
         if(*s==')') return(s);
         if(ne_d(s,&t)) return(t);
@@ -340,7 +345,7 @@ char *i_tem(char *s)
 #ifdef KR_headers
 char *f_list(s) char *s;
 #else
-char *f_list(char *s)
+const char *f_list(const char *s)
 #endif
 {
         for(;*s!=0;)
@@ -365,7 +370,7 @@ char *f_list(char *s)
 #ifdef KR_headers
 pars_f(s) char *s;
 #else
-pars_f(char *s)
+pars_f(const char *s)
 #endif
 {
         f__parenlvl=f__revloc=f__pc=0;

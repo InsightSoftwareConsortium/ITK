@@ -39,7 +39,6 @@ struct syl
 #define OM 34
 #define Z 35
 #define ZM 36
-extern int f__pc,f__parenlvl,f__revloc;
 typedef union
 {       real pf;
         doublereal pd;
@@ -61,6 +60,7 @@ extern int (*f__dorevert)();
 extern int rd_ed(),rd_ned();
 extern int w_ed(),w_ned();
 extern int signbit_f2c();
+extern char *f__fmtbuf;
 #else
 #ifdef __cplusplus
 extern "C" {
@@ -68,23 +68,24 @@ extern "C" {
 #else
 #define Cextern extern
 #endif
+extern const char *f__fmtbuf;
 extern int (*f__doed)(struct syl*, char*, ftnlen),(*f__doned)(struct syl*);
 extern int (*f__dorevert)(void);
 extern void fmt_bg(void);
-extern int pars_f(char*);
+extern int pars_f(const char*);
 extern int rd_ed(struct syl*, char*, ftnlen),rd_ned(struct syl*);
 extern int signbit_f2c(double*);
 extern int w_ed(struct syl*, char*, ftnlen),w_ned(struct syl*);
 extern int wrt_E(ufloat*, int, int, int, ftnlen);
 extern int wrt_F(ufloat*, int, int, ftnlen);
 extern int wrt_L(Uint*, int, ftnlen);
+#endif
+extern int f__pc,f__parenlvl,f__revloc;
+extern flag f__cblank,f__cplus,f__workdone, f__nonl;
+extern int f__scale;
 #ifdef __cplusplus
         }
 #endif
-#endif
-extern flag f__cblank,f__cplus,f__workdone, f__nonl;
-extern char *f__fmtbuf;
-extern int f__scale;
 #define GET(x) if((x=(*f__getn)())<0) return(x)
 #define VAL(x) (x!='\n'?x:' ')
 #define PUT(x) (*f__putn)(x)

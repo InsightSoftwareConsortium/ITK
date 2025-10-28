@@ -26,7 +26,7 @@ extern void exit_(integer*);
 #endif
 
  char *
-F77_aloc(integer Len, char *whence)
+F77_aloc(integer Len, const char *whence)
 #endif
 {
         char *rv;

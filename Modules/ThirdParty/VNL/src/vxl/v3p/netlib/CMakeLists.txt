@@ -370,9 +370,6 @@ set(V3P_NETLIB_linalg_SOURCES
      linalg/lsmrBase.cxx linalg/lsmrBase.h
      linalg/lsmrDense.cxx linalg/lsmrDense.h
    )
-set(V3P_NETLIB_toms_SOURCES
-     toms/rpoly.c toms/rpoly.h
-   )
 set(V3P_NETLIB_datapac_SOURCES
      datapac/camsun.c datapac/camsun.h
    )

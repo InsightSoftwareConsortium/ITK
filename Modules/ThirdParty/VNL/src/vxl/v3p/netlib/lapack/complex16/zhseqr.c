@@ -44,7 +44,7 @@ static logical c_false = FALSE_;
     /* Builtin functions */
     double d_imag(doublecomplex *);
     void d_cnjg(doublecomplex *, doublecomplex *);
-    /* Subroutine */ int s_cat(char *, char **, integer *, integer *, ftnlen);
+    /* Subroutine */ void s_cat(char *lp, char *rpp[], ftnint rnp[], ftnint *np, ftnlen ll);
 
     /* Local variables */
     integer i__, j, k, l;

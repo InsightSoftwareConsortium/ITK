@@ -7,7 +7,7 @@ extern "C" {
 extern VOID sig_die();
 VOID z_div(c, a, b) doublecomplex *a, *b, *c;
 #else
-extern void sig_die(char*, int);
+extern void sig_die(const char*, int);
 void z_div(doublecomplex *c, doublecomplex *a, doublecomplex *b)
 #endif
 {

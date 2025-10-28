@@ -5,10 +5,14 @@
 extern "C" {
 #endif
 
+#ifdef KR_headers
 extern char *f__fmtbuf;
+#else
+extern const char *f__fmtbuf;
+#endif
 
 integer e_rsfe(Void)
-{       int n;
+{        int n;
         n=en_fio();
         f__fmtbuf=NULL;
         return(n);
@@ -20,7 +24,7 @@ c_sfe(a) cilist *a; /* check */
 #else
 c_sfe(cilist *a) /* check */
 #endif
-{       unit *p;
+{        unit *p;
         f__curunit = p = &f__units[a->ciunit];
         if(a->ciunit >= MXUNIT || a->ciunit<0)
                 err(a->cierr,101,"startio");

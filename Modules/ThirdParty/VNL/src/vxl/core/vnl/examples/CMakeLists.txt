@@ -5,7 +5,6 @@ link_libraries( ${VXL_LIB_PREFIX}vnl_algo ${VXL_LIB_PREFIX}vnl ${VXL_LIB_PREFIX}
 add_executable(vnl_amoeba                vnl_amoeba.cxx)
 add_executable(vnl_complex_svd           vnl_complex_svd.cxx)
 add_executable(vnl_planefit              vnl_planefit.cxx)
-add_executable(vnl_polyroots             vnl_polyroots.cxx)
 add_executable(vnl_polynomial_factoring  vnl_polynomial_factoring.cxx)
 add_executable(vnl_polynomial_RPN        vnl_polynomial_RPN.cxx)
 add_executable(vnl_rosenbrock            vnl_rosenbrock.cxx)
