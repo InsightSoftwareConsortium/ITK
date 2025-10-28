@@ -47,10 +47,6 @@ itkGridForwardWarpImageFilterTest(int argc, char * argv[])
   // Declare iterator types appropriate for each image
   using DeformationIteratorType = itk::ImageRegionIteratorWithIndex<DisplacementFieldType>;
 
-
-  // Declare the type of the index to access images
-  using IndexType = itk::Index<ImageDimension>;
-
   // Declare the type of the size
   using SizeType = itk::Size<ImageDimension>;
 
@@ -60,10 +56,9 @@ itkGridForwardWarpImageFilterTest(int argc, char * argv[])
   // Create an input image
   auto inputDisplacementField = DisplacementFieldType::New();
 
-  // Define its size, and start index
-  constexpr SizeType  size{ 2, 2, 2 };
-  constexpr IndexType start{ 0, 0, 0 };
-  RegionType          region{ start, size };
+  // Define its size and region
+  constexpr SizeType size{ 2, 2, 2 };
+  RegionType         region{ size };
 
   // Initialize the input image
   inputDisplacementField->SetRegions(region);

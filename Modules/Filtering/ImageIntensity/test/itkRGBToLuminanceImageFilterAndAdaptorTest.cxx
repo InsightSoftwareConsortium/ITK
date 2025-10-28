@@ -44,9 +44,6 @@ itkRGBToLuminanceImageFilterAndAdaptorTest(int, char *[])
 
   using OutputIteratorType = itk::ImageRegionIteratorWithIndex<OutputImageType>;
 
-  // Declare the type of the index to access images
-  using IndexType = itk::Index<ImageDimension>;
-
   // Declare the type of the size
   using SizeType = itk::Size<ImageDimension>;
 
@@ -56,10 +53,9 @@ itkRGBToLuminanceImageFilterAndAdaptorTest(int, char *[])
   // Create the input image
   auto inputImage = InputImageType::New();
 
-  // Define its size, and start index
-  constexpr SizeType  size{ 2, 2, 2 };
-  constexpr IndexType start{ 0, 0, 0 };
-  RegionType          region{ start, size };
+  // Define its size and region
+  constexpr SizeType size{ 2, 2, 2 };
+  RegionType         region{ size };
 
   // Initialize the input image
   inputImage->SetRegions(region);

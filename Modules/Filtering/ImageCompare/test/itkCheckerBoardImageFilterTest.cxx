@@ -40,9 +40,6 @@ itkCheckerBoardImageFilterTest(int argc, char * argv[])
   // Declare the types of the images
   using ImageType = itk::Image<PixelType, Dimension>;
 
-  // Declare the type of the index to access images
-  using IndexType = itk::Index<Dimension>;
-
   // Declare the type of the size
   using SizeType = itk::Size<Dimension>;
 
@@ -61,10 +58,9 @@ itkCheckerBoardImageFilterTest(int argc, char * argv[])
   auto inputImageA = ImageType::New();
   auto inputImageB = ImageType::New();
 
-  // Define their size, and start index
-  constexpr SizeType  size{ 40, 40, 40 };
-  constexpr IndexType start{ 0, 0, 0 };
-  RegionType          region{ start, size };
+  // Define their size and region
+  constexpr SizeType size{ 40, 40, 40 };
+  RegionType         region{ size };
 
   // Initialize Image A
   inputImageA->SetRegions(region);

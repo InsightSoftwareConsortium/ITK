@@ -34,7 +34,6 @@ itkCompose3DVectorImageFilterTest(int, char *[])
 
   using RegionType = InputImageType::RegionType;
   using SizeType = InputImageType::SizeType;
-  using IndexType = InputImageType::IndexType;
 
   auto filter = FilterType::New();
 
@@ -42,9 +41,8 @@ itkCompose3DVectorImageFilterTest(int, char *[])
   auto oneImage = InputImageType::New();
   auto twoImage = InputImageType::New();
 
-  constexpr SizeType  size{ 2, 2, 2 };
-  constexpr IndexType start{ 0, 0, 0 };
-  RegionType          region{ start, size };
+  constexpr SizeType size{ 2, 2, 2 };
+  RegionType         region{ size };
 
   zeroImage->SetRegions(region);
   oneImage->SetRegions(region);

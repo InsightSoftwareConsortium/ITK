@@ -36,9 +36,6 @@ using PixelType = float;
 using InputImageType = itk::Image<PixelType, Dimension>;
 using OutputImageType = itk::Image<PixelType, Dimension>;
 
-// Declare the type of the index to access images
-using IndexType = itk::Index<Dimension>;
-
 // Declare the type of the size
 using SizeType = itk::Size<Dimension>;
 
@@ -58,10 +55,9 @@ InitializeImage(InputImageType * image, double value)
 {
   const InputImageType::Pointer inputImage(image);
 
-  // Define their size, and start index
-  constexpr SizeType  size{ 2, 2, 2 };
-  constexpr IndexType start{ 0, 0, 0 };
-  RegionType          region{ start, size };
+  // Define their size and region
+  constexpr SizeType size{ 2, 2, 2 };
+  RegionType         region{ size };
 
   inputImage->SetRegions(region);
   inputImage->Allocate();

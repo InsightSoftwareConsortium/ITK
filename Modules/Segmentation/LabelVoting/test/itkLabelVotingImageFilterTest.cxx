@@ -43,9 +43,6 @@ itkLabelVotingImageFilterTest(int, char *[])
   const unsigned int combinationAB[8] = { 8, 1, 8, 8, 4, 8, 8, 8 };
   const unsigned int combinationABundecided255[8] = { 255, 1, 255, 255, 4, 255, 255, 255 };
 
-  // Declare the type of the index to access images
-  using IndexType = itk::Index<Dimension>;
-
   // Declare the type of the size
   using SizeType = itk::Size<Dimension>;
 
@@ -63,10 +60,9 @@ itkLabelVotingImageFilterTest(int, char *[])
   auto inputImageB = ImageType::New();
   auto inputImageC = ImageType::New();
 
-  // Define their size, and start index
-  constexpr SizeType  size{ 2, 2, 2 };
-  constexpr IndexType start{ 0, 0, 0 };
-  RegionType          region{ start, size };
+  // Define their size and region
+  constexpr SizeType size{ 2, 2, 2 };
+  RegionType         region{ size };
 
   // Initialize Image A
   inputImageA->SetRegions(region);

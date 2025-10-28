@@ -41,9 +41,6 @@ itkAtan2ImageFilterTest(int, char *[])
 
   using OutputIteratorType = itk::ImageRegionIteratorWithIndex<OutputImageType>;
 
-  // Declare the type of the index to access images
-  using IndexType = itk::Index<ImageDimension>;
-
   // Declare the type of the size
   using SizeType = itk::Size<ImageDimension>;
 
@@ -54,10 +51,9 @@ itkAtan2ImageFilterTest(int, char *[])
   auto sinImage = InputImageType::New();
   auto cosImage = InputImageType::New();
 
-  // Define their size, and start index
-  constexpr SizeType  size{ 2, 2, 2 };
-  constexpr IndexType start{ 0, 0, 0 };
-  RegionType          region{ start, size };
+  // Define their size and region
+  constexpr SizeType size{ 2, 2, 2 };
+  RegionType         region{ size };
 
   // Initialize Sine Image
   sinImage->SetRegions(region);

@@ -37,9 +37,6 @@ itkBinaryMagnitudeImageFilterTest(int, char *[])
   using InputImageType2 = itk::Image<PixelType, Dimension>;
   using OutputImageType = itk::Image<PixelType, Dimension>;
 
-  // Declare the type of the index to access images
-  using IndexType = itk::Index<Dimension>;
-
   // Declare the type of the size
   using SizeType = itk::Size<Dimension>;
 
@@ -50,10 +47,9 @@ itkBinaryMagnitudeImageFilterTest(int, char *[])
   auto inputImageA = InputImageType1::New();
   auto inputImageB = InputImageType2::New();
 
-  // Define their size, and start index
-  constexpr SizeType  size{ 2, 2, 2 };
-  constexpr IndexType start{ 0, 0, 0 };
-  RegionType          region{ start, size };
+  // Define their size and region
+  constexpr SizeType size{ 2, 2, 2 };
+  RegionType         region{ size };
 
   // Initialize Image A
   inputImageA->SetRegions(region);
