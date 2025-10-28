@@ -8,7 +8,7 @@ endif()
 
 function(MetaAddTest ExeName)
   add_executable( ${ExeName} ${ExeName}.cxx )
-  target_link_libraries( ${ExeName} ${METAIO_NAMESPACE} ${ZLIB_LIBRARIES})
+  target_link_libraries( ${ExeName} ${METAIO_NAMESPACE} ${METAIO_ZLIB_LIBRARIES})
   add_test(NAME ${ExeName}
            COMMAND ${ExeName}
            WORKING_DIRECTORY ${ITK_TEST_OUTPUT_DIR})
