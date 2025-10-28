@@ -15,7 +15,7 @@ system_(s, n) register char *s; ftnlen n;
 #ifdef __cplusplus
 extern "C" {
 #endif
-extern char *F77_aloc(ftnlen, char*);
+extern char *F77_aloc(ftnlen, const char*);
 
  integer
 system_(register char *s, ftnlen n)

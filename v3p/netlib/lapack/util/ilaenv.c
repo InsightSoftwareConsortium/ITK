@@ -31,7 +31,7 @@ integer ilaenv_(integer *ispec, char *name__, char *opts, integer *n1,
     integer ret_val;
 
     /* Builtin functions */
-    /* Subroutine */ int s_copy(char *, char *, ftnlen, ftnlen);
+    /* Subroutine */ void s_copy(char *a, char *b, ftnlen la, ftnlen lb);
     integer s_cmp(char *, char *, ftnlen, ftnlen);
 
     /* Local variables */

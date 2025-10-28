@@ -1179,7 +1179,7 @@ divide_aux(const vnl_bignum & b1, Data d, vnl_bignum & q, Data & r)
   assert(b1.data != nullptr);
   if (d == 0)
   { /* d should never be equal to zero to avoid division by zero */
-    r = NAN;
+    r = 0;
     return;
   }
   for (Counter j = b1.count; j > 0; j--)
@@ -1213,7 +1213,7 @@ estimate_q_hat(const vnl_bignum & u, const vnl_bignum & v, Counter j)
   const auto v1_UL = static_cast<unsigned long>(v1);
   if (v1_UL == 0)
   { /* v1_UL should never be equal to zero to avoid division by zero */
-    q_hat = NAN;
+    q_hat = 0;
     return q_hat;
   }
   // Initial Knuth estimate, usually correct
