@@ -33,9 +33,6 @@ itkMaximumImageFilterTest(int, char *[])
   // Declare the types of the images
   using ImageType = itk::Image<PixelType, Dimension>;
 
-  // Declare the type of the index to access images
-  using IndexType = itk::Index<Dimension>;
-
   // Declare the type of the size
   using SizeType = itk::Size<Dimension>;
 
@@ -49,10 +46,9 @@ itkMaximumImageFilterTest(int, char *[])
   auto inputImageA = ImageType::New();
   auto inputImageB = ImageType::New();
 
-  // Define their size, and start index
-  constexpr SizeType  size{ 2, 2, 2 };
-  constexpr IndexType start{ 0, 0, 0 };
-  RegionType          region{ start, size };
+  // Define their size and region
+  constexpr SizeType size{ 2, 2, 2 };
+  RegionType         region{ size };
 
   // Initialize Image A
   inputImageA->SetRegions(region);
@@ -111,7 +107,7 @@ itkMaximumImageFilterTest(int, char *[])
 
   constexpr ImageType::IndexType pixelIndex{ 0, 1, 1 };
 
-  ITK_TEST_EXPECT_EQUAL(outputImage->GetPixel(start), largePixelValue);
+  ITK_TEST_EXPECT_EQUAL(outputImage->GetPixel({}), largePixelValue);
   ITK_TEST_EXPECT_EQUAL(outputImage->GetPixel(pixelIndex), largePixelValue);
 
   // All objects should be automatically destroyed at this point

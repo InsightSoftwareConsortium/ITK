@@ -34,9 +34,6 @@ itkNotImageFilterTest(int, char *[])
   using InputImageType = itk::Image<PixelType, Dimension>;
   using OutputImageType = itk::Image<PixelType, Dimension>;
 
-  // Declare the type of the index to access images
-  using IndexType = itk::Index<Dimension>;
-
   // Declare the type of the size
   using SizeType = itk::Size<Dimension>;
 
@@ -49,10 +46,9 @@ itkNotImageFilterTest(int, char *[])
   // Create the input image
   auto inputImage = InputImageType::New();
 
-  // Define their size, and start index
-  constexpr SizeType  size{ 2, 2, 2 };
-  constexpr IndexType start{ 0, 0, 0 };
-  RegionType          region{ start, size };
+  // Define their size and region
+  constexpr SizeType size{ 2, 2, 2 };
+  RegionType         region{ size };
 
   // Initialize input image
   inputImage->SetRegions(region);

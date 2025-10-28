@@ -45,10 +45,9 @@ itkAddImageAdaptorTest(int, char *[])
   // Create input image
   auto inputImage = ImageType::New();
 
-  // Define their size, and start index
-  constexpr SizeType  size{ 2, 2, 2 };
-  constexpr IndexType start{ 0, 0, 0 };
-  RegionType          region{ start, size };
+  // Define their size and region
+  constexpr SizeType size{ 2, 2, 2 };
+  RegionType         region{ size };
 
   // Initialize Image
   inputImage->SetRegions(region);
