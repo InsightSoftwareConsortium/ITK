@@ -7,12 +7,15 @@ extern "C" {
 
  VOID
 #ifdef KR_headers
+#define Const /*nothing*/
 g_char(a,alen,b) char *a,*b; ftnlen alen;
 #else
-g_char(char *a, ftnlen alen, char *b)
+#define Const const
+g_char(const char *a, ftnlen alen, char *b)
 #endif
 {
-        char *x = a + alen, *y = b + alen;
+        Const char *x = a + alen;
+        char *y = b + alen;
 
         for(;; y--) {
                 if (x <= a) {
@@ -31,7 +34,7 @@ g_char(char *a, ftnlen alen, char *b)
 #ifdef KR_headers
 b_char(a,b,blen) char *a,*b; ftnlen blen;
 #else
-b_char(char *a, char *b, ftnlen blen)
+b_char(const char *a, char *b, ftnlen blen)
 #endif
 {       int i;
         for(i=0;i<blen && *a!=0;i++) *b++= *a++;

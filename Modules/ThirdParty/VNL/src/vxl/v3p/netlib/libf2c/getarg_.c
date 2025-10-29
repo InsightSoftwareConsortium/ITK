@@ -10,15 +10,17 @@ extern "C" {
 */
 
 #ifdef KR_headers
-VOID getarg_(n, s, ls) ftnint *n; register char *s; ftnlen ls;
+VOID getarg_(n, s, ls) ftnint *n; char *s; ftnlen ls;
+#define Const /*nothing*/
 #else
-void getarg_(ftnint *n, register char *s, ftnlen ls)
+#define Const const
+void getarg_(ftnint *n, char *s, ftnlen ls)
 #endif
 {
 extern int xargc;
 extern char **xargv;
-register char *t;
-register int i;
+Const char *t;
+int i;
 
 if(*n>=0 && *n<xargc)
         t = xargv[*n];

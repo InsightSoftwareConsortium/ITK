@@ -76,9 +76,6 @@ typedef struct
         flag uscrtch;
 } unit;
 
-extern flag f__init;
-extern cilist *f__elist;        /*active external io list*/
-extern flag f__reading,f__external,f__sequential,f__formatted;
 #undef Void
 #ifdef KR_headers
 #define Void /*void*/
@@ -98,24 +95,24 @@ extern int (*f__getn)(void);    /* for formatted input */
 extern void (*f__putn)(int);    /* for formatted output */
 extern void x_putc(int);
 extern long f__inode(char*,int*);
-extern void sig_die(char*,int);
-extern void f__fatal(int,char*);
+extern void sig_die(const char*,int);
+extern void f__fatal(int, const char*);
 extern int t_runc(alist*);
 extern int f__nowreading(unit*), f__nowwriting(unit*);
 extern int fk_open(int,int,ftnint);
 extern int en_fio(void);
 extern void f_init(void);
 extern int (*f__donewrec)(void), t_putc(int), x_wSL(void);
-extern void b_char(char*,char*,ftnlen), g_char(char*,ftnlen,char*);
+extern void b_char(const char*,char*,ftnlen), g_char(const char*,ftnlen,char*);
 extern int c_sfe(cilist*), z_rnew(void);
 extern int isatty(int);
-extern int err__fl(int,int,char*);
+extern int err__fl(int,int,const char*);
 extern int xrd_SL(void);
 extern int f__putbuf(int);
-#ifdef __cplusplus
-        }
 #endif
-#endif
+extern flag f__init;
+extern cilist *f__elist;        /*active external io list*/
+extern flag f__reading,f__external,f__sequential,f__formatted;
 extern int (*f__doend)(Void);
 extern FILE *f__cf;     /*current file*/
 extern unit *f__curunit;        /*current unit*/
@@ -129,6 +126,9 @@ extern unit f__units[];
 extern int f__recpos;   /*position in current record*/
 extern OFF_T f__cursor; /* offset to move to */
 extern OFF_T f__hiwater;        /* so TL doesn't confuse us */
+#ifdef __cplusplus
+        }
+#endif
 
 #define WRITE   1
 #define READ    2

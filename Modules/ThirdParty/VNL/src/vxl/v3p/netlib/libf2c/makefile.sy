@@ -9,7 +9,7 @@
 # to the objects in the "w =" list below.
 
 CC = sc
-CFLAGS = -DMSDOS -D_POSIX_SOURCE -DNO_ONEXIT -s -mn -DUSE_CLOCK
+CFLAGS = -DMSDOS -D_POSIX_SOURCE -DNO_ONEXIT -s -mn -DUSE_CLOCK -DNO_My_ctype
 
 .c.obj:
         $(CC) -c $(CFLAGS) $*.c

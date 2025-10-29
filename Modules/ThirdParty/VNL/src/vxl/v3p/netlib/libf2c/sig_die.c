@@ -13,7 +13,7 @@
 #endif
 
 #ifdef KR_headers
-void sig_die(s, kill) register char *s; int kill;
+void sig_die(s, kill) char *s; int kill;
 #else
 #include "stdlib.h"
 #ifdef __cplusplus
@@ -22,8 +22,9 @@ extern "C" {
 #ifdef __cplusplus
 extern "C" {
 #endif
+ extern void f_exit(void);
 
-void sig_die(register char *s, int kill)
+void sig_die(const char *s, int kill)
 #endif
 {
         /* print error message, then clear buffers */
@@ -31,9 +32,19 @@ void sig_die(register char *s, int kill)
 
         if(kill)
                 {
+                fflush(stderr);
+                // NOT USED IN VXL f_exit();
+                fflush(stderr);
+                /* now get a core */
+#ifdef SIGIOT
+                signal(SIGIOT, SIG_DFL);
+#endif
                 abort();
                 }
         else {
+#ifdef NO_ONEXIT
+                // NOT USED IN VXL f_exit();
+#endif
                 exit(1);
                 }
         }

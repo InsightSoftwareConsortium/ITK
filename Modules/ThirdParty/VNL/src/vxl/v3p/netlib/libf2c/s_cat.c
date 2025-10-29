@@ -19,7 +19,7 @@ extern
 #ifdef __cplusplus
         "C"
 #endif
-        char *F77_aloc(ftnlen, char*);
+        char *F77_aloc(ftnlen, const char*);
 #endif
 #include "string.h"
 #endif /* NO_OVERWRITE */
@@ -28,11 +28,11 @@ extern
 extern "C" {
 #endif
 
-int
+ VOID
 #ifdef KR_headers
-s_cat(lp, rpp, rnp, np, ll) char *lp, **rpp; integer *rnp, *np; ftnlen ll;
+s_cat(lp, rpp, rnp, np, ll) char *lp, *rpp[]; ftnint rnp[], *np; ftnlen ll;
 #else
-s_cat(char *lp, char **rpp, integer *rnp, integer *np, ftnlen ll)
+s_cat(char *lp, char *rpp[], ftnint rnp[], ftnint *np, ftnlen ll)
 #endif
 {
         ftnlen i, nc;
@@ -58,7 +58,7 @@ s_cat(char *lp, char **rpp, integer *rnp, integer *np, ftnlen ll)
                         continue;
                         }
                 lp0 = lp;
-                lp = F77_aloc(L = ll, "s_cat");
+                lp = lp1 = F77_aloc(L = ll, "s_cat");
                 break;
                 }
         lp1 = lp;
@@ -80,7 +80,6 @@ s_cat(char *lp, char **rpp, integer *rnp, integer *np, ftnlen ll)
                 free(lp1);
                 }
 #endif
-        return 0;
         }
 #ifdef __cplusplus
 }

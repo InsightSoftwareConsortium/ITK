@@ -402,7 +402,7 @@ extern doublereal dpmeps_()
 
     /* Builtin functions */
     integer s_cmp(char *, char *, ftnlen, ftnlen);
-    /* Subroutine */ int s_copy(char *, char *, ftnlen, ftnlen);
+    /* Subroutine */ void s_copy(char *a, char *b, ftnlen la, ftnlen lb);
 
     /* Local variables */
     static integer i__, k;
@@ -2137,7 +2137,7 @@ L999:
     integer i__1;
 
     /* Builtin functions */
-    /* Subroutine */ int s_copy(char *, char *, ftnlen, ftnlen);
+    /* Subroutine */ void s_copy(char *a, char *b, ftnlen la, ftnlen lb);
 
     /* Local variables */
     static integer i__;
@@ -2914,7 +2914,7 @@ L30:
     /* Builtin functions */
     integer s_cmp(char *, char *, ftnlen, ftnlen);
     double sqrt(doublereal);
-    /* Subroutine */ int s_copy(char *, char *, ftnlen, ftnlen);
+    /* Subroutine */ void s_copy(char *a, char *b, ftnlen la, ftnlen lb);
 
     /* Local variables */
     static integer i__;
@@ -3288,7 +3288,7 @@ L556:
         xstep, ftnlen word_len)
 {
     /* Builtin functions */
-    /* Subroutine */ int s_copy(char *, char *, ftnlen, ftnlen);
+    /* Subroutine */ void s_copy(char *a, char *b, ftnlen la, ftnlen lb);
 
     /* Local variables */
     static integer imod;
@@ -4120,7 +4120,7 @@ L911:
 
     /* Builtin functions */
     integer s_cmp(char *, char *, ftnlen, ftnlen);
-    /* Subroutine */ int s_copy(char *, char *, ftnlen, ftnlen);
+    /* Subroutine */ void s_copy(char *a, char *b, ftnlen la, ftnlen lb);
 
     /* Local variables */
     static doublereal fm, gm, fx, fy, gx, gy, fxm, fym, gxm, gym, stx, sty;
