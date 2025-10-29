@@ -15,6 +15,9 @@ set(
   itkHausdorffDistanceImageFilterTest.cxx
   itkHausdorffDistanceImageFilterAnisotropicTest.cxx
   itkHausdorffDistanceImageFilterSamePhysicalGeometry.cxx
+  itkHausdorffDistanceImageFilterDifferentSpacing.cxx
+  itkHausdorffDistanceImageFilterIssueReproduction.cxx
+  itkHausdorffDistanceImageFilterAnisotropicCorrectness.cxx
   itkTestMaurerAnisotropic.cxx
   itkReflectiveImageRegionIteratorTest.cxx
   itkSignedMaurerDistanceMapImageFilterTest.cxx
@@ -210,6 +213,24 @@ itk_add_test(
   COMMAND
     ITKDistanceMapTestDriver
     itkTestMaurerAnisotropic
+)
+itk_add_test(
+  NAME itkHausdorffDistanceImageFilterDifferentSpacing
+  COMMAND
+    ITKDistanceMapTestDriver
+    itkHausdorffDistanceImageFilterDifferentSpacing
+)
+itk_add_test(
+  NAME itkHausdorffDistanceImageFilterIssueReproduction
+  COMMAND
+    ITKDistanceMapTestDriver
+    itkHausdorffDistanceImageFilterIssueReproduction
+)
+itk_add_test(
+  NAME itkHausdorffDistanceImageFilterAnisotropicCorrectness
+  COMMAND
+    ITKDistanceMapTestDriver
+    itkHausdorffDistanceImageFilterAnisotropicCorrectness
 )
 itk_add_test(
   NAME itkReflectiveImageRegionIteratorTest

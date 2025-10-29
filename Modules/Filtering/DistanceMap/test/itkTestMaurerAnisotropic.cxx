@@ -45,6 +45,9 @@ itkTestMaurerAnisotropic(int, char *[])
   
   auto distMap = filter->GetOutput();
   
+  std::cout << "\nInput image spacing: " << image->GetSpacing() << std::endl;
+  std::cout << "Distance map spacing: " << distMap->GetSpacing() << std::endl;
+  
   int exitStatus = EXIT_SUCCESS;
   
   // Check distance at a few points
