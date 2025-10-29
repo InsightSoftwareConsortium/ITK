@@ -13,6 +13,9 @@ set(
   itkContourDirectedMeanDistanceImageFilterTest.cxx
   itkFastChamferDistanceImageFilterTest.cxx
   itkHausdorffDistanceImageFilterTest.cxx
+  itkHausdorffDistanceImageFilterAnisotropicTest.cxx
+  itkHausdorffDistanceImageFilterSamePhysicalGeometry.cxx
+  itkTestMaurerAnisotropic.cxx
   itkReflectiveImageRegionIteratorTest.cxx
   itkSignedMaurerDistanceMapImageFilterTest.cxx
   itkApproximateSignedDistanceMapImageFilterTest.cxx
@@ -189,6 +192,24 @@ itk_add_test(
     ITKDistanceMapTestDriver
     itkHausdorffDistanceImageFilterTest
     1
+)
+itk_add_test(
+  NAME itkHausdorffDistanceImageFilterAnisotropicTest
+  COMMAND
+    ITKDistanceMapTestDriver
+    itkHausdorffDistanceImageFilterAnisotropicTest
+)
+itk_add_test(
+  NAME itkHausdorffDistanceImageFilterSamePhysicalGeometry
+  COMMAND
+    ITKDistanceMapTestDriver
+    itkHausdorffDistanceImageFilterSamePhysicalGeometry
+)
+itk_add_test(
+  NAME itkTestMaurerAnisotropic
+  COMMAND
+    ITKDistanceMapTestDriver
+    itkTestMaurerAnisotropic
 )
 itk_add_test(
   NAME itkReflectiveImageRegionIteratorTest
