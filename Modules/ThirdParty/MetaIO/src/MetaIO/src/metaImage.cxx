@@ -61,7 +61,7 @@ namespace METAIO_NAMESPACE
 #endif
 
 // 1 Gigabyte is the maximum chunk to read/write in on function call
-static const std::streamoff MaxIOChunk = 1024 * 1024 * 1024;
+constexpr static std::streamoff MaxIOChunk = 1024 * 1024 * 1024;
 
 std::set<std::string> MetaImage::m_ImageReservedKeywords = {
     "Modality",
@@ -1840,7 +1840,7 @@ MetaImage::WriteROI(int *        _indexMin,
     {
       seekoff = seekoff - 1;
       tmpWriteStream->seekp(dataPos + seekoff, std::ios::beg);
-      const char zerobyte = 0;
+      constexpr char zerobyte = 0;
       tmpWriteStream->write(&zerobyte, 1);
     }
 
@@ -1995,7 +1995,7 @@ MetaImage::WriteROI(int *        _indexMin,
     std::streamoff seekoff = m_Quantity * elementNumberOfBytes;
     seekoff -= 1;
     m_WriteStream->seekp(seekoff, std::ios::cur);
-    const char zerobyte = 0;
+    constexpr char zerobyte = 0;
     m_WriteStream->write(&zerobyte, 1);
 
     writeResult = M_WriteElementsROI(m_WriteStream, elementData, dataPos, _indexMin, _indexMax);

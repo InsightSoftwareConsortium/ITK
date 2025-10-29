@@ -57,7 +57,7 @@ bool META_DEBUG = false;
 
 static char MET_SeperatorChar = '=';
 
-static const std::streamoff MET_MaxChunkSize = 1024 * 1024 * 1024;
+constexpr static std::streamoff MET_MaxChunkSize = 1024 * 1024 * 1024;
 
 MET_FieldRecordType *
 MET_GetFieldRecord(const char * _fieldName, std::vector<MET_FieldRecordType *> * _fields)
@@ -110,7 +110,7 @@ MET_SizeOfType(MET_ValueEnumType _vType, int * s)
 bool
 MET_SystemByteOrderMSB()
 {
-  const int    l = 1;
+  constexpr int    l = 1;
   const char * u = reinterpret_cast<const char *>(&l);
 
   if (u[0])
