@@ -46,11 +46,9 @@ itkGaussianExponentialDiffeomorphicTransformTest(int, char *[])
   using FieldType = DisplacementTransformType::DisplacementFieldType;
   auto field = FieldType::New(); // This is based on itk::Image
 
-  constexpr int                  dimLength{ 20 };
-  constexpr FieldType::SizeType  size{ dimLength, dimLength };
-  constexpr FieldType::IndexType start{};
-
-  FieldType::RegionType region = { start, size };
+  constexpr int                 dimLength{ 20 };
+  constexpr FieldType::SizeType size{ dimLength, dimLength };
+  FieldType::RegionType         region = { size };
   field->SetRegions(region);
   field->Allocate();
 

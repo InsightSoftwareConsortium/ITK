@@ -41,9 +41,7 @@ itkHessianRecursiveGaussianFilterScaleSpaceTest(int, char *[])
   auto size = SizeType::Filled(21);
   size[0] = 401;
 
-  constexpr IndexType start{};
-
-  RegionType region{ start, size };
+  RegionType region{ size };
 
   auto origin = itk::MakeFilled<PointType>(-1.25);
   origin[0] = -20.0;

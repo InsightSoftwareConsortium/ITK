@@ -37,9 +37,7 @@ itkReflectiveImageRegionIteratorTest(int, char *[])
 
   constexpr ImageType::SizeType size{ 4, 4, 4, 4 };
 
-  constexpr ImageType::IndexType start{};
-
-  const ImageType::RegionType region{ start, size };
+  const ImageType::RegionType region{ size };
 
   myImage->SetRegions(region);
   myImage->Allocate();

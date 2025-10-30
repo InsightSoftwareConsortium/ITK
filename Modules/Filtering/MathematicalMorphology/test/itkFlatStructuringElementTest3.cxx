@@ -31,8 +31,6 @@ SEToFile(const TSEType & e, const std::string & fname)
 
   auto img = ImageType::New();
 
-  const typename ImageType::IndexType start{};
-
   typename ImageType::SizeType size;
   for (unsigned int i = 0; i < Dimension; ++i)
   {
@@ -40,7 +38,7 @@ SEToFile(const TSEType & e, const std::string & fname)
   }
 
 
-  const typename ImageType::RegionType region(start, size);
+  const typename ImageType::RegionType region(size);
   img->SetRegions(region);
   img->Allocate();
   img->FillBuffer(0);

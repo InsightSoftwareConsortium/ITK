@@ -257,11 +257,10 @@ itkVideoStreamTest(int, char *[])
   }
 
   // Set the cached meta-data for a non-buffered frame
-  constexpr FrameType::RegionType::SizeType  sz{ 10, 20 };
-  constexpr FrameType::RegionType::IndexType start{};
-  FrameType::RegionType                      spatReg = { start, sz };
-  FrameType::SpacingType                     space{ { 0.1, 0.5 } };
-  FrameType::PointType                       orgn{ { 5.432, -23.4 } };
+  constexpr FrameType::RegionType::SizeType sz{ 10, 20 };
+  FrameType::RegionType                     spatReg = { sz };
+  FrameType::SpacingType                    space{ { 0.1, 0.5 } };
+  FrameType::PointType                      orgn{ { 5.432, -23.4 } };
 
   FrameType::DirectionType direction;
   direction[0][0] = 1;

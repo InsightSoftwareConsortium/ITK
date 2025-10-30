@@ -37,9 +37,8 @@ itkImageToHistogramFilterTest(int, char *[])
 
   auto image = RGBImageType::New();
 
-  constexpr RGBImageType::SizeType  size{ 127, 127, 127 };
-  constexpr RGBImageType::IndexType start{};
-  RGBImageType::RegionType          region = { start, size };
+  constexpr RGBImageType::SizeType size{ 127, 127, 127 };
+  RGBImageType::RegionType         region = { size };
 
   image->SetRegions(region);
   image->Allocate();

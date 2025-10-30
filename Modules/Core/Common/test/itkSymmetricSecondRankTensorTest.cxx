@@ -142,9 +142,8 @@ itkSymmetricSecondRankTensorTest(int, char *[])
 
   auto dti = ImageType::New();
 
-  constexpr ImageType::SizeType  size{ 128, 128, 128 };
-  constexpr ImageType::IndexType start{};
-  ImageType::RegionType          region = { start, size };
+  constexpr ImageType::SizeType size{ 128, 128, 128 };
+  ImageType::RegionType         region = { size };
 
   dti->SetRegions(region);
   dti->Allocate();

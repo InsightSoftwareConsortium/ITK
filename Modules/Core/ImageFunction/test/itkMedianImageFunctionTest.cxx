@@ -33,11 +33,10 @@ itkMedianImageFunctionTest(int, char *[])
   // Create and allocate the image
   auto image = ImageType::New();
 
-  constexpr int                  sizeDim(50);
-  constexpr int                  centerIndex(sizeDim / 2);
-  constexpr ImageType::SizeType  size{ 50, 50, 50 };
-  constexpr ImageType::IndexType start{};
-  ImageType::RegionType          region = { start, size };
+  constexpr int                 sizeDim(50);
+  constexpr int                 centerIndex(sizeDim / 2);
+  constexpr ImageType::SizeType size{ 50, 50, 50 };
+  ImageType::RegionType         region = { size };
 
   image->SetRegions(region);
   image->Allocate();

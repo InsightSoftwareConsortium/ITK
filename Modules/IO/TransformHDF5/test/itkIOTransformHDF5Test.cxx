@@ -51,8 +51,7 @@ ReadWriteTest(const std::string & fileName, const bool isRealDisplacementField, 
   {
     constexpr int                        dimLength{ 20 };
     auto                                 size = FieldType::SizeType::Filled(dimLength);
-    const typename FieldType::IndexType  start{};
-    const typename FieldType::RegionType region{ start, size };
+    const typename FieldType::RegionType region{ size };
     knownField->SetRegions(region);
 
     auto spacing = itk::MakeFilled<typename FieldType::SpacingType>(requiredSpacing);

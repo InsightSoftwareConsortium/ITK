@@ -58,11 +58,9 @@ itkNearestNeighborInterpolateImageFunctionTest(int, char *[])
   auto variablevectorimage = VariableVectorImageType::New();
   variablevectorimage->SetVectorLength(VectorDimension);
 
-  constexpr IndexType start{};
-
   auto size = SizeType::Filled(3);
 
-  const RegionType region{ start, size };
+  const RegionType region{ size };
 
   image->SetRegions(region);
   image->Allocate();

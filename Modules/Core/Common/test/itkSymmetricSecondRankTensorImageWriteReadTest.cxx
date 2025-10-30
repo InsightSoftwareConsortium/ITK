@@ -39,9 +39,7 @@ itkSymmetricSecondRankTensorImageWriteReadTest(int argc, char * argv[])
 
   auto size = TensorImageType::SizeType::Filled(10);
 
-  constexpr TensorImageType::IndexType start{};
-
-  const TensorImageType::RegionType region{ start, size };
+  const TensorImageType::RegionType region{ size };
 
   tensorImageInput->SetRegions(region);
   tensorImageInput->Allocate();

@@ -80,13 +80,11 @@ itkImageVectorOptimizerParametersHelperTest(int, char *[])
 {
   int result = EXIT_SUCCESS;
 
-  constexpr IndexType start{};
-
   SizeType      size;
   constexpr int dimLength{ 3 };
   size.Fill(dimLength);
 
-  const RegionType region{ start, size };
+  const RegionType region{ size };
 
   const ImageVectorPointer imageOfVectors = ImageVectorType::New();
   imageOfVectors->SetRegions(region);

@@ -101,9 +101,6 @@ public:
 
     using SymmetricEigenAnalysisImageFilterType = SymmetricEigenAnalysisImageFilter<InputImageType, InternalImageType>;
 
-    // Declare the type of the index to access images
-    using IndexType = itk::Index<InputImageType::ImageDimension>;
-
     // Declare the type of the size
     using SizeType = itk::Size<InputImageType::ImageDimension>;
 
@@ -114,9 +111,8 @@ public:
     auto inputImage = InputImageType::New();
 
     // Define its size, and start index
-    SizeType            size{ 8, 8, 8 };
-    constexpr IndexType start{};
-    RegionType          region{ start, size };
+    SizeType   size{ 8, 8, 8 };
+    RegionType region{ size };
 
     // Initialize the input image
     inputImage->SetRegions(region);
@@ -201,9 +197,6 @@ public:
     using SymmetricEigenAnalysisFixedDimensionImageFilterType =
       SymmetricEigenAnalysisFixedDimensionImageFilter<TMatrixDimension, InputImageType, InternalImageType>;
 
-    // Declare the type of the index to access images
-    using IndexType = itk::Index<InputImageType::ImageDimension>;
-
     // Declare the type of the size
     using SizeType = itk::Size<InputImageType::ImageDimension>;
 
@@ -219,9 +212,7 @@ public:
     size[1] = 8;
     size[2] = 8;
 
-    constexpr IndexType start{};
-
-    RegionType region{ start, size };
+    RegionType region{ size };
 
     // Initialize the input image
     inputImage->SetRegions(region);

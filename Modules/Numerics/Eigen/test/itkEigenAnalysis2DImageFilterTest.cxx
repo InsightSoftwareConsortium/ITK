@@ -59,9 +59,7 @@ class EigenAnalysis2DImageFilterTester
     // Define their size, and start index
     auto size = mySizeType::Filled(2);
 
-    constexpr myIndexType start{};
-
-    const myRegionType region{ start, size };
+    const myRegionType region{ size };
 
     inputImage->SetRegions(region);
     inputImage->Allocate();

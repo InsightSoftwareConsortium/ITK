@@ -80,9 +80,7 @@ itkBinaryMask3DMeshSourceTest(int argc, char * argv[])
   size[1] = 128;
   size[2] = 128;
 
-  constexpr IndexType start{};
-
-  RegionType region{ start, size };
+  RegionType region{ size };
 
   const ImagePointerType image = ImageType::New();
   image->SetRegions(region);

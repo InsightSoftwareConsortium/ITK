@@ -34,16 +34,14 @@ itkCompose2DVectorImageFilterTest(int, char *[])
 
   using RegionType = InputImageType::RegionType;
   using SizeType = InputImageType::SizeType;
-  using IndexType = InputImageType::IndexType;
 
   auto filter = FilterType::New();
 
   auto zeroImage = InputImageType::New();
   auto oneImage = InputImageType::New();
 
-  constexpr SizeType  size{ 2, 2, 2 };
-  constexpr IndexType start{};
-  RegionType          region{ start, size };
+  constexpr SizeType size{ 2, 2, 2 };
+  RegionType         region{ size };
 
   zeroImage->SetRegions(region);
   oneImage->SetRegions(region);

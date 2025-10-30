@@ -35,9 +35,8 @@ itkMeanImageFunctionTest(int, char *[])
   // Create and allocate the image
   auto image = ImageType::New();
 
-  constexpr ImageType::SizeType  size{ 50, 50, 50 };
-  constexpr ImageType::IndexType start{};
-  ImageType::RegionType          region = { start, size };
+  constexpr ImageType::SizeType size{ 50, 50, 50 };
+  ImageType::RegionType         region = { size };
 
   image->SetRegions(region);
   image->Allocate();

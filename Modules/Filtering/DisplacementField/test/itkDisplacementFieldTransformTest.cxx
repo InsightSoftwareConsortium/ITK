@@ -237,10 +237,9 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
 
   auto field = FieldType::New();
 
-  constexpr int                  dimLength{ 20 };
-  auto                           size = itk::MakeFilled<FieldType::SizeType>(dimLength);
-  constexpr FieldType::IndexType start{};
-  FieldType::RegionType          region{ start, size };
+  constexpr int         dimLength{ 20 };
+  auto                  size = itk::MakeFilled<FieldType::SizeType>(dimLength);
+  FieldType::RegionType region{ size };
   field->SetRegions(region);
   field->Allocate();
 
