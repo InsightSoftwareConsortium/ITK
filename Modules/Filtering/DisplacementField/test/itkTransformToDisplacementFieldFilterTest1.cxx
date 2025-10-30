@@ -98,11 +98,10 @@ itkTransformToDisplacementFieldFilterTest1(int argc, char * argv[])
   const RegionType region{ index, size };
   auto             image = ImageType::New();
   image->SetRegions(region);
-  image->Allocate();
+  image->AllocateInitialized();
   image->SetSpacing(spacing);
   image->SetOrigin(origin);
   image->SetDirection(inputDirection);
-  image->FillBuffer(ScalarPixelType{});
 
   float     incrValue = 100.0;
   IndexType pixelIndex;

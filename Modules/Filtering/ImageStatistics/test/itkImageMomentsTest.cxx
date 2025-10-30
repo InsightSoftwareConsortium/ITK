@@ -96,9 +96,7 @@ itkImageMomentsTest(int argc, char * argv[])
   /* Set origin and spacing of physical coordinates */
   image->SetOrigin(origin);
   image->SetSpacing(spacing);
-  image->Allocate();
-
-  image->FillBuffer(PixelType{});
+  image->AllocateInitialized();
 
   /* Set a few mass points within the image */
   /* FIXME: The method used here to set the points is klutzy,

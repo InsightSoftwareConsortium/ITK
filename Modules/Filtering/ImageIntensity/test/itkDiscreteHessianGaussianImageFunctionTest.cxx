@@ -116,8 +116,7 @@ itkDiscreteHessianGaussianImageFunctionTestND(int argc, char * argv[])
   output->SetLargestPossibleRegion(reader->GetOutput()->GetLargestPossibleRegion());
   output->SetRequestedRegion(reader->GetOutput()->GetRequestedRegion());
   output->SetBufferedRegion(reader->GetOutput()->GetBufferedRegion());
-  output->Allocate();
-  output->FillBuffer(PixelType{});
+  output->AllocateInitialized();
 
 
   // Step over input and output images

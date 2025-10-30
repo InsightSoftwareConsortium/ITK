@@ -41,11 +41,8 @@ TEST(HausdorffDistanceImageFilter, Test)
   image1->SetRegions(size);
   image2->SetRegions(size);
 
-  image1->Allocate();
-  image2->Allocate();
-
-  image1->FillBuffer(Pixel1Type{});
-  image2->FillBuffer(Pixel2Type{});
+  image1->AllocateInitialized();
+  image2->AllocateInitialized();
 
   using RegionType = Image1Type::RegionType;
 

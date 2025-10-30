@@ -86,8 +86,7 @@ itkMultiLevelSetDenseImageSubset2DTest(int, char *[])
   input->SetRegions(region);
   input->SetSpacing(spacing);
   input->SetOrigin(origin);
-  input->Allocate();
-  input->FillBuffer(InputPixelType{});
+  input->AllocateInitialized();
 
   index.Fill(910);
   size.Fill(80);
@@ -112,8 +111,7 @@ itkMultiLevelSetDenseImageSubset2DTest(int, char *[])
   binary->SetRegions(region);
   binary->SetSpacing(spacing);
   binary->SetOrigin(origin);
-  binary->Allocate();
-  binary->FillBuffer(InputPixelType{});
+  binary->AllocateInitialized();
 
   index.Fill(30);
   size.Fill(40);
