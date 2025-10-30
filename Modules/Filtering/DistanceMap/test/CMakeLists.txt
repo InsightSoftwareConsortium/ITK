@@ -12,7 +12,6 @@ set(
   itkContourMeanDistanceImageFilterTest.cxx
   itkContourDirectedMeanDistanceImageFilterTest.cxx
   itkFastChamferDistanceImageFilterTest.cxx
-  itkHausdorffDistanceImageFilterTest.cxx
   itkReflectiveImageRegionIteratorTest.cxx
   itkSignedMaurerDistanceMapImageFilterTest.cxx
   itkApproximateSignedDistanceMapImageFilterTest.cxx
@@ -184,13 +183,6 @@ itk_add_test(
     4
 )
 itk_add_test(
-  NAME itkHausdorffDistanceImageFilterTest
-  COMMAND
-    ITKDistanceMapTestDriver
-    itkHausdorffDistanceImageFilterTest
-    1
-)
-itk_add_test(
   NAME itkReflectiveImageRegionIteratorTest
   COMMAND
     ITKDistanceMapTestDriver
@@ -292,3 +284,6 @@ itk_add_test(
     ITKDistanceMapTestDriver
     itkIsoContourDistanceImageFilterTest
 )
+set(ITKDistanceMapGTests itkHausdorffDistanceImageFilterGTest.cxx)
+
+creategoogletestdriver(ITKDistanceMap "${ITKDistanceMap-Test_LIBRARIES}" "${ITKDistanceMapGTests}")
