@@ -300,6 +300,9 @@ public:
   /** Type used for storing status information */
   using StatusType = signed char;
 
+  /** Type used for storing the number of layers */
+  using LayerCountType = signed char; /* purposefully small integer same as StatusType for backward compatibility */
+
   /** The type of the image used to index status information.  Necessary for
    *  the internals of the algorithm. */
   using StatusImageType = Image<StatusType, Self::ImageDimension>;
@@ -314,8 +317,8 @@ public:
    *  number of layers on ONE side of the active layer, so the total layers in
    *   the sparse field is 2 * NumberOfLayers + 1 */
   /** @ITKStartGrouping */
-  itkSetMacro(NumberOfLayers, StatusType);
-  itkGetConstMacro(NumberOfLayers, StatusType);
+  itkSetMacro(NumberOfLayers, LayerCountType);
+  itkGetConstMacro(NumberOfLayers, LayerCountType);
   /** @ITKEndGrouping */
   /** Set/Get the value of the isosurface to use in the input image. */
   /** @ITKStartGrouping */
@@ -393,7 +396,7 @@ protected:
    * consist of m_NumberOfLayers layers on both sides of a single active layer.
    * This active layer is the interface of interest, i.e. the zero
    * level set. */
-  StatusType m_NumberOfLayers{};
+  LayerCountType m_NumberOfLayers{};
 
   /** An image of status values used internally by the algorithm. */
   typename StatusImageType::Pointer m_StatusImage{};
