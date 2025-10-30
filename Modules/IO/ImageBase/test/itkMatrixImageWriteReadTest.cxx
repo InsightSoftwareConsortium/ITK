@@ -38,9 +38,7 @@ itkMatrixImageWriteReadTest(int argc, char * argv[])
 
   constexpr auto size = MatrixImageType::SizeType::Filled(10);
 
-  constexpr MatrixImageType::IndexType start{};
-
-  const MatrixImageType::RegionType region{ start, size };
+  const MatrixImageType::RegionType region{ size };
 
   matrixImage1->SetRegions(region);
   matrixImage1->Allocate();

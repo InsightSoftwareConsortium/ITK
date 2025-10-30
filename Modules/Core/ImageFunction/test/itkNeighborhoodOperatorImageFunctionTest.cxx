@@ -32,10 +32,9 @@ itkNeighborhoodOperatorImageFunctionTest(int, char *[])
   using FunctionType = itk::NeighborhoodOperatorImageFunction<ImageType, PixelType>;
 
   // Create and allocate the image
-  auto                           image = ImageType::New();
-  constexpr ImageType::SizeType  size{ 50, 50, 50 };
-  constexpr ImageType::IndexType start{};
-  ImageType::RegionType          region = { start, size };
+  auto                          image = ImageType::New();
+  constexpr ImageType::SizeType size{ 50, 50, 50 };
+  ImageType::RegionType         region = { size };
 
   image->SetRegions(region);
   image->Allocate();

@@ -46,9 +46,8 @@ itkRegionOfInterestImageFilterTest(int, char *[])
 
   auto image = ImageType::New();
 
-  constexpr IndexType start{};
-  constexpr SizeType  size{ 40, 40, 40 };
-  RegionType          region{ start, size };
+  constexpr SizeType size{ 40, 40, 40 };
+  RegionType         region{ size };
 
   image->SetRegions(region);
   image->Allocate();

@@ -34,9 +34,7 @@ InitializeImage(ImageType * image, const typename ImageType::PixelType & value)
   // Define their size, and start index
   auto size = ImageType::SizeType::Filled(2);
 
-  const typename ImageType::IndexType start{};
-
-  const typename ImageType::RegionType region{ start, size };
+  const typename ImageType::RegionType region{ size };
 
   inputImage->SetRegions(region);
   inputImage->Allocate();

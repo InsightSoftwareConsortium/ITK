@@ -40,9 +40,6 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
   const unsigned int combinationAB[imageSize] = { 8, 1, 8, 8, 4, 8, 8, 8 };
   const unsigned int combinationABundecided255[imageSize] = { 255, 1, 255, 255, 4, 255, 255, 255 };
 
-  // Declare the type of the index to access images
-  using IndexType = itk::Index<Dimension>;
-
   // Declare the type of the size
   using SizeType = itk::Size<Dimension>;
 
@@ -65,9 +62,8 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
   const ImageTypePointer inputImageC = ImageType::New();
 
   // Define their size, and start index
-  constexpr SizeType  size{ imageSizePerDimension, imageSizePerDimension, imageSizePerDimension };
-  constexpr IndexType start{};
-  RegionType          region = { start, size };
+  constexpr SizeType size{ imageSizePerDimension, imageSizePerDimension, imageSizePerDimension };
+  RegionType         region = { size };
 
   // Initialize Image A
   inputImageA->SetRegions(region);

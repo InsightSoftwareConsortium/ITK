@@ -55,9 +55,7 @@ itkBinaryMask3DQuadEdgeMeshSourceTest(int, char *[])
   size[1] = 128;
   size[2] = 128;
 
-  constexpr IndexType start{};
-
-  const RegionType region{ start, size };
+  const RegionType region{ size };
 
   auto image = ImageType::New();
 
@@ -69,7 +67,7 @@ itkBinaryMask3DQuadEdgeMeshSourceTest(int, char *[])
   IteratorType it(image, region);
   it.GoToBegin();
 
-  IndexType centralIndex = start;
+  IndexType centralIndex{};
   centralIndex[0] += size[0] / 2;
   centralIndex[1] += size[1] / 2;
   centralIndex[2] += size[2] / 2;

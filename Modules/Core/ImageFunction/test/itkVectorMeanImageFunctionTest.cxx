@@ -34,10 +34,9 @@ itkVectorMeanImageFunctionTest(int, char *[])
   using FunctionType = itk::VectorMeanImageFunction<ImageType>;
 
   // Create and allocate the image
-  auto                           image = ImageType::New();
-  constexpr ImageType::SizeType  size{ 20, 20, 20 };
-  constexpr ImageType::IndexType start{};
-  ImageType::RegionType          region = { start, size };
+  auto                          image = ImageType::New();
+  constexpr ImageType::SizeType size{ 20, 20, 20 };
+  ImageType::RegionType         region = { size };
 
   image->SetRegions(region);
   image->Allocate();

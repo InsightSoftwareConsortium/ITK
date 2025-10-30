@@ -172,9 +172,7 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int argc, char * argv[])
   size[1] = 3;
   size[2] = 401;
   size[3] = 61;
-  constexpr ImportFilterType::IndexType start{};
-
-  const ImportFilterType::RegionType region{ start, size };
+  const ImportFilterType::RegionType region{ size };
 
   importFilter->SetRegion(region);
 

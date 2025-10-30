@@ -77,10 +77,7 @@ itkImageAdaptorNthElementTest(int, char *[])
   size[1] = 2;
   size[2] = 2; // Small size, because we are printing it
 
-  constexpr myIndexType start{};
-
-
-  const myRegionType region{ start, size };
+  const myRegionType region{ size };
 
   float spacing[3];
   spacing[0] = 1.0;

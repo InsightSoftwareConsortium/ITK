@@ -42,11 +42,9 @@ itkGaussianInterpolateImageFunctionTest(int, char *[])
 
   auto image = ImageType::New();
 
-  constexpr ImageType::IndexType start{};
-
   auto size = ImageType::SizeType::Filled(3);
 
-  const ImageType::RegionType region{ start, size };
+  const ImageType::RegionType region{ size };
 
   image->SetRegions(region);
   image->Allocate();

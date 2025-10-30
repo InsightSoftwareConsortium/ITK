@@ -324,10 +324,9 @@ itkMultiTransformTest(int, char *[])
   auto field = FieldType::New(); // This is based on itk::Image
 
 
-  constexpr int                  dimLength{ 4 };
-  constexpr auto                 size = itk::MakeFilled<FieldType::SizeType>(dimLength);
-  constexpr FieldType::IndexType start{};
-  FieldType::RegionType          region{ start, size };
+  constexpr int         dimLength{ 4 };
+  constexpr auto        size = itk::MakeFilled<FieldType::SizeType>(dimLength);
+  FieldType::RegionType region{ size };
   field->SetRegions(region);
   field->Allocate();
 

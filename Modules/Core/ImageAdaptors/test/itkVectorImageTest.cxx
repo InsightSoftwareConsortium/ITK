@@ -572,10 +572,9 @@ itkVectorImageTest(int, char * argv[])
     // Create an image using itk::Vector
     using VectorPixelType = itk::Vector<PixelType, VectorLength>;
     using VectorImageType = itk::Image<itk::Vector<PixelType, VectorLength>, Dimension>;
-    auto                                 image = VectorImageType::New();
-    constexpr VectorImageType::IndexType start{};
-    auto                                 size = VectorImageType::SizeType::Filled(5);
-    const VectorImageType::RegionType    region(start, size);
+    auto                              image = VectorImageType::New();
+    auto                              size = VectorImageType::SizeType::Filled(5);
+    const VectorImageType::RegionType region(size);
     image->SetRegions(region);
     image->Allocate();
 

@@ -33,9 +33,7 @@ itkVectorMagnitudeImageFilterTest(int, char *[])
   // Define the size start index of the image
   auto size = VectorImageType::SizeType::Filled(3);
 
-  constexpr VectorImageType::IndexType start{};
-
-  const VectorImageType::RegionType region(start, size);
+  const VectorImageType::RegionType region(size);
 
   // Construct an image
   auto image = VectorImageType::New();
