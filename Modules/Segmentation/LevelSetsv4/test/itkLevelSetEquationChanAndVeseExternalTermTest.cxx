@@ -82,8 +82,7 @@ itkLevelSetEquationChanAndVeseExternalTermTest(int argc, char * argv[])
   binary->SetRegions(region);
   binary->SetSpacing(spacing);
   binary->SetOrigin(origin);
-  binary->Allocate();
-  binary->FillBuffer(InputPixelType{});
+  binary->AllocateInitialized();
 
   index.Fill(10);
   size.Fill(30);

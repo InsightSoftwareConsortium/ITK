@@ -70,8 +70,7 @@ itkScalarConnectedComponentImageFilterTest(int argc, char * argv[])
   auto mask = MaskImageType::New();
   mask->SetRegions(reader->GetOutput()->GetLargestPossibleRegion());
   mask->CopyInformation(reader->GetOutput());
-  mask->Allocate();
-  mask->FillBuffer(MaskPixelType{});
+  mask->AllocateInitialized();
 
   const MaskImageType::RegionType maskRegion = mask->GetLargestPossibleRegion();
   MaskImageType::SizeType         maskSize = maskRegion.GetSize();

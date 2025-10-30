@@ -193,9 +193,8 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
 
     auto inputImage = ImageType::New();
     inputImage->SetRegions(region);
-    inputImage->Allocate();
+    inputImage->AllocateInitialized();
     inputImage->SetSpacing(spacing);
-    inputImage->FillBuffer(PixelType{});
 
     IndexType index;
     index[0] = (size[0] - 1) / 2; // the middle pixel
@@ -466,9 +465,8 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
 
     auto inputImage = ImageType::New();
     inputImage->SetRegions(region);
-    inputImage->Allocate();
+    inputImage->AllocateInitialized();
     inputImage->SetSpacing(spacing);
-    inputImage->FillBuffer(PixelType{});
 
     IndexType index;
     index[0] = (size[0] - 1) / 2; // the middle pixel

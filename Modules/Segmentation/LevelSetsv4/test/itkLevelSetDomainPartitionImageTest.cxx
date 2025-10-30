@@ -56,8 +56,7 @@ itkLevelSetDomainPartitionImageTest(int, char *[])
   binary->SetRegions(region);
   binary->SetSpacing(spacing);
   binary->SetOrigin(origin);
-  binary->Allocate();
-  binary->FillBuffer(InputPixelType{});
+  binary->AllocateInitialized();
 
   constexpr IdentifierType numberOfLevelSetFunctions{ 2 };
 

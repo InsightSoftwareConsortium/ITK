@@ -121,8 +121,7 @@ itkDiscreteGaussianDerivativeImageFunctionTestND(int argc, char * argv[])
   output->SetLargestPossibleRegion(inputImage->GetLargestPossibleRegion());
   output->SetRequestedRegion(inputImage->GetRequestedRegion());
   output->SetBufferedRegion(inputImage->GetBufferedRegion());
-  output->Allocate();
-  output->FillBuffer(PixelType{});
+  output->AllocateInitialized();
 
 
   // Step over input and output images
