@@ -19,9 +19,7 @@
 // First include the header file to be tested:
 #include "itkHausdorffDistanceImageFilter.h"
 
-#include "itkTestingMacros.h"
-
-#include <gtest/gtest.h>
+#include "itkGTest.h"
 
 TEST(HausdorffDistanceImageFilter, Test)
 {
@@ -75,12 +73,7 @@ TEST(HausdorffDistanceImageFilter, Test)
     using FilterType = itk::HausdorffDistanceImageFilter<Image1Type, Image2Type>;
     auto filter = FilterType::New();
 
-    const auto exerciseBasicObjectMethods = [filter] {
-      // This macro call returns EXIT_FAILURE on a failure, and otherwise, does not return at all.
-      ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, HausdorffDistanceImageFilter, ImageToImageFilter);
-      return 0;
-    };
-    EXPECT_EQ(exerciseBasicObjectMethods(), 0);
+    ITK_GTEST_EXERCISE_BASIC_OBJECT_METHODS(filter, HausdorffDistanceImageFilter, ImageToImageFilter);
 
     filter->SetInput1(image1);
     filter->SetInput2(image2);
