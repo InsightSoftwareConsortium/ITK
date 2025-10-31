@@ -165,8 +165,6 @@ auto
 TriangleHelper<TPoint>::ComputeCircumCenter(const PointType & iP1, const PointType & iP2, const PointType & iP3)
   -> PointType
 {
-  const PointType oPt{};
-
   const CoordinateType a = iP2.SquaredEuclideanDistanceTo(iP3);
   const CoordinateType b = iP1.SquaredEuclideanDistanceTo(iP3);
   const CoordinateType c = iP2.SquaredEuclideanDistanceTo(iP1);
