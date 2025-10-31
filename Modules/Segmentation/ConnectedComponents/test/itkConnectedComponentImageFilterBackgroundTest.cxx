@@ -42,8 +42,7 @@ itkConnectedComponentImageFilterBackgroundTest(int argc, char * argv[])
   auto image = ImageType::New();
   auto size = ImageType::SizeType::Filled(512);
   image->SetRegions(size);
-  image->Allocate();
-  image->FillBuffer(0);
+  image->AllocateInitialized();
 
   // Set up islands
   ImageType::IndexType index1;

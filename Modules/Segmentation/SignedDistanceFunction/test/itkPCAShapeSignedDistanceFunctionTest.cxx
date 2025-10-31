@@ -243,8 +243,7 @@ itkPCAShapeSignedDistanceFunctionTest(int, char *[])
   const ImageType::RegionType badRegion(badSize);
   badPCImages[1] = ImageType::New();
   badPCImages[1]->SetRegions(badRegion);
-  badPCImages[1]->Allocate();
-  badPCImages[1]->FillBuffer(0.0);
+  badPCImages[1]->AllocateInitialized();
 
   TEST_INITIALIZATION_ERROR(PrincipalComponentImages, badPCImages, pcImages);
 

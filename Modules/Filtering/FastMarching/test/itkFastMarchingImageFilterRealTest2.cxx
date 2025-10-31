@@ -90,8 +90,7 @@ itkFastMarchingImageFilterRealTest2(int itkNotUsed(argc), char * itkNotUsed(argv
   auto aliveImage = FloatImageType::New();
   aliveImage->SetLargestPossibleRegion(region);
   aliveImage->SetBufferedRegion(region);
-  aliveImage->Allocate();
-  aliveImage->FillBuffer(0.0);
+  aliveImage->AllocateInitialized();
 
   constexpr FloatImageType::OffsetType offset0{ 28, 35 };
 
@@ -104,8 +103,7 @@ itkFastMarchingImageFilterRealTest2(int itkNotUsed(argc), char * itkNotUsed(argv
   auto trialImage = FloatImageType::New();
   trialImage->SetLargestPossibleRegion(region);
   trialImage->SetBufferedRegion(region);
-  trialImage->Allocate();
-  trialImage->FillBuffer(0.0);
+  trialImage->AllocateInitialized();
 
   index[0] += 1;
   trialImage->SetPixel(index, 1.0);

@@ -171,8 +171,7 @@ template <typename TImage>
 void
 PopulateImage(itk::SmartPointer<TImage> image)
 {
-  image->Allocate();
-  image->FillBuffer(0);
+  image->AllocateInitialized();
 
   using ImageType = TImage;
   using RegionType = typename ImageType::RegionType;
