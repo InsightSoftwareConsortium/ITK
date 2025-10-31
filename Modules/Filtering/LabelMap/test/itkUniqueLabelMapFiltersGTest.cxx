@@ -82,8 +82,7 @@ protected:
 
       auto imageSize = LabelImageType::SizeType::Filled(size);
       image->SetRegions(typename LabelImageType::RegionType(imageSize));
-      image->Allocate();
-      image->FillBuffer(0);
+      image->AllocateInitialized();
 
       for (LabelPixelType id = 0; id < indices.size(); ++id)
       {

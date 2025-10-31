@@ -40,8 +40,7 @@ SEToFile(const TSEType & e, const std::string & fname)
 
   const typename ImageType::RegionType region(size);
   img->SetRegions(region);
-  img->Allocate();
-  img->FillBuffer(0);
+  img->AllocateInitialized();
 
   typename TSEType::ConstIterator     SEIt;
   itk::ImageRegionIterator<ImageType> it(img, region);

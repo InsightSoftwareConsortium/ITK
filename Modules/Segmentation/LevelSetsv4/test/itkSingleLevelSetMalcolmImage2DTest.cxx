@@ -179,8 +179,7 @@ itkSingleLevelSetMalcolmImage2DTest(int argc, char * argv[])
   auto outputImage = OutputImageType::New();
   outputImage->SetRegions(input->GetLargestPossibleRegion());
   outputImage->CopyInformation(input);
-  outputImage->Allocate();
-  outputImage->FillBuffer(0);
+  outputImage->AllocateInitialized();
 
   using OutputIteratorType = itk::ImageRegionIteratorWithIndex<OutputImageType>;
   OutputIteratorType oIt(outputImage, outputImage->GetLargestPossibleRegion());

@@ -80,8 +80,7 @@ protected:
 
       auto imageSize = TImage::SizeType::Filled(size);
       image->SetRegions(typename TImage::RegionType(imageSize));
-      image->Allocate();
-      image->FillBuffer(0);
+      image->AllocateInitialized();
 
       return image;
     }

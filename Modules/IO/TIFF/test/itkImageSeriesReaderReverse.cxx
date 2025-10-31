@@ -64,8 +64,7 @@ struct ITKIOTIFF : public ::testing::Test
     typename ImageType::RegionType region;
     region.SetSize(size);
     img->SetRegions(region);
-    img->Allocate();
-    img->FillBuffer(0);
+    img->AllocateInitialized();
 
     for (unsigned int z = 0; z < z_size; ++z)
     {

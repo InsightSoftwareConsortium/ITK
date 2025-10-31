@@ -80,8 +80,7 @@ itkBinaryImageToWhitakerSparseLevelSetAdaptorTest(int argc, char * argv[])
   auto statusImage = StatusImageType::New();
   statusImage->SetRegions(input->GetLargestPossibleRegion());
   statusImage->CopyInformation(input);
-  statusImage->Allocate();
-  statusImage->FillBuffer(0);
+  statusImage->AllocateInitialized();
 
   using OutputIteratorType = itk::ImageRegionIteratorWithIndex<OutputImageType>;
   OutputIteratorType oIt(output, output->GetLargestPossibleRegion());
