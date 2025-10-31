@@ -45,8 +45,7 @@ TestUnknowMetaDataBug(const std::string & fname)
 
     auto image = ImageType::New();
     image->SetRegions(region);
-    image->Allocate();
-    image->FillBuffer(0);
+    image->AllocateInitialized();
 
     itk::MetaDataDictionary & dict = image->GetMetaDataDictionary();
 

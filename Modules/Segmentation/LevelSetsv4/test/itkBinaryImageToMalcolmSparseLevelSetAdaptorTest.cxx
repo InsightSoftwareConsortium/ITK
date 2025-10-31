@@ -72,8 +72,7 @@ itkBinaryImageToMalcolmSparseLevelSetAdaptorTest(int argc, char * argv[])
   auto statusImage = StatusImageType::New();
   statusImage->SetRegions(input->GetLargestPossibleRegion());
   statusImage->CopyInformation(input);
-  statusImage->Allocate();
-  statusImage->FillBuffer(0);
+  statusImage->AllocateInitialized();
 
   using StatusIteratorType = itk::ImageRegionIteratorWithIndex<StatusImageType>;
   StatusIteratorType sIt(statusImage, statusImage->GetLargestPossibleRegion());

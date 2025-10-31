@@ -68,14 +68,12 @@ itkCenteredVersorTransformInitializerTest(int, char *[])
   fixedImage->SetRegions(region);
   fixedImage->SetSpacing(spacing);
   fixedImage->SetOrigin(fixedOrigin);
-  fixedImage->Allocate();
-  fixedImage->FillBuffer(0);
+  fixedImage->AllocateInitialized();
 
   movingImage->SetRegions(region);
   movingImage->SetSpacing(spacing);
   movingImage->SetOrigin(movingOrigin);
-  movingImage->Allocate();
-  movingImage->FillBuffer(0);
+  movingImage->AllocateInitialized();
 
   RegionType internalRegion;
   SizeType   internalSize;

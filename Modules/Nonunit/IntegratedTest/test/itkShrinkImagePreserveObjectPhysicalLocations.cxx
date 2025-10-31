@@ -161,8 +161,7 @@ itkShrinkImagePreserveObjectPhysicalLocations(int, char *[])
   image->SetSpacing(newSpacing);
   image->SetRegions(newSize);
   image->SetDirection(newDirection);
-  image->Allocate();
-  image->FillBuffer(0.0);
+  image->AllocateInitialized();
   image->Print(std::cout);
 
   TImageType::IndexType Index;

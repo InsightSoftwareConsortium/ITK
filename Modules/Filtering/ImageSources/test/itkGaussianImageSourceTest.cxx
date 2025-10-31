@@ -84,8 +84,7 @@ itkGaussianImageSourceTest(int argc, char * argv[])
   referenceSize.SetSize(size);
   const ImageType::RegionType region(startIndex, referenceSize);
   referenceImage->SetRegions(region);
-  referenceImage->Allocate();
-  referenceImage->FillBuffer(0);
+  referenceImage->AllocateInitialized();
 
   referenceImage->SetOrigin(origin);
   referenceImage->SetSpacing(spacing);

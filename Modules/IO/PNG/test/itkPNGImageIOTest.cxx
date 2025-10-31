@@ -176,8 +176,7 @@ itkPNGImageIOTest(int argc, char * argv[])
   ImageType3D::RegionType          region3D{ start3D, size3D };
 
   volume->SetRegions(region3D);
-  volume->Allocate();
-  volume->FillBuffer(0);
+  volume->AllocateInitialized();
 
   using WriterType3D = itk::ImageFileWriter<ImageType3D>;
   auto writer3D = WriterType3D::New();
@@ -198,8 +197,7 @@ itkPNGImageIOTest(int argc, char * argv[])
   size3D[0] = 1;
   region3D.SetSize(size3D);
   degenerateVolume->SetRegions(region3D);
-  degenerateVolume->Allocate();
-  degenerateVolume->FillBuffer(0);
+  degenerateVolume->AllocateInitialized();
 
   writer3D->SetFileName(argv[2]);
   writer3D->SetImageIO(io);
@@ -218,8 +216,7 @@ itkPNGImageIOTest(int argc, char * argv[])
   ImageType2D::RegionType          region2D{ start2D, size2D };
 
   image->SetRegions(region2D);
-  image->Allocate();
-  image->FillBuffer(0);
+  image->AllocateInitialized();
 
   using WriterType2D = itk::ImageFileWriter<ImageType2D>;
   auto writer2D = WriterType2D::New();
@@ -240,8 +237,7 @@ itkPNGImageIOTest(int argc, char * argv[])
   size2D[0] = 1;
   region2D.SetSize(size2D);
   degenerateImage->SetRegions(region2D);
-  degenerateImage->Allocate();
-  degenerateImage->FillBuffer(0);
+  degenerateImage->AllocateInitialized();
 
   writer2D->SetFileName(argv[2]);
   writer2D->SetImageIO(io);
@@ -259,8 +255,7 @@ itkPNGImageIOTest(int argc, char * argv[])
   const ImageType1D::RegionType    region1D{ start1D, size1D };
   line->SetRegions(region1D);
 
-  line->Allocate();
-  line->FillBuffer(0);
+  line->AllocateInitialized();
 
   using WriterType1D = itk::ImageFileWriter<ImageType1D>;
   auto writer1D = WriterType1D::New();
