@@ -101,10 +101,8 @@ SurfaceSpatialObject<TDimension, TSurfacePointType>::ComputeNormals()
       identifier[1] = 0;
       identifier[2] = 0;
 
-      float max[3];
-      max[0] = 99999999;
-      max[1] = 99999999;
-      max[2] = 99999999;
+      constexpr float max_float = std::numeric_limits<float>::max();
+      float           max[3] = { max_float, max_float, max_float };
 
       typename SurfacePointListType::const_iterator it2 = this->m_Points.begin();
 
