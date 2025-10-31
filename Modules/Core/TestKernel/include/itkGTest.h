@@ -32,6 +32,17 @@
  */
 
 
+/** A lightweight alternative for `ITK_EXERCISE_BASIC_OBJECT_METHODS`, using GoogleTest macro's. */
+#define ITK_GTEST_EXERCISE_BASIC_OBJECT_METHODS(object, ClassName, SuperclassName) \
+  [object] {                                                                       \
+    std::ostringstream outputStreamForPrintExercise;                               \
+    object->Print(outputStreamForPrintExercise);                                   \
+    EXPECT_FALSE(outputStreamForPrintExercise.str().empty());                      \
+    EXPECT_STREQ(object->Self::GetNameOfClass(), #ClassName);                      \
+    EXPECT_STREQ(object->Superclass::GetNameOfClass(), #SuperclassName);           \
+  }()
+
+
 // end namespace itk
 
 #endif // itkGTest_h
