@@ -301,7 +301,11 @@ public:
   using StatusType = signed char;
 
   /** Type used for storing the number of layers */
-  using LayerCountType = signed char; /* purposefully small integer same as StatusType for backward compatibility */
+  using LayerCountType = StatusType; /* purposefully the same as StatusType
+                                        for backward compatibility. This value
+                                        is compared with up/down layer values
+                                        that can be signed.  Max layer count of
+                                        127 is enough. */
 
   /** The type of the image used to index status information.  Necessary for
    *  the internals of the algorithm. */
