@@ -17,7 +17,7 @@ pre-commit = ">=4.1.0,<5"
 
 [tool.pixi.feature.pre-commit.tasks]
 pre-commit-install = { cmd = "pre-commit install -f -t pre-commit -t prepare-commit-msg -t commit-msg", description = "Install pre-commit hooks" }
-pre-commit-run = { cmd = "pre-commit run --all", description = "Run pre-commit hooks on all repository files" }
+pre-commit-run = { cmd = "pre-commit run --all-files", description = "Run pre-commit hooks on all repository files" }
 
 [tool.pixi.feature.dev.dependencies]
 cmake = ">=4.0.3,<5"
