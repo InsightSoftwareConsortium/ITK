@@ -195,8 +195,7 @@ itkSingleLevelSetDenseImage2DTest(int argc, char * argv[])
   auto outputImage = ImageType::New();
   outputImage->SetRegions(input->GetLargestPossibleRegion());
   outputImage->CopyInformation(input);
-  outputImage->Allocate();
-  outputImage->FillBuffer(0);
+  outputImage->AllocateInitialized();
 
   IteratorType oIt(outputImage, outputImage->GetLargestPossibleRegion());
   oIt.GoToBegin();

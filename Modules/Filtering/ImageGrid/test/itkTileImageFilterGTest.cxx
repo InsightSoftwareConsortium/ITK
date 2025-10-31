@@ -75,8 +75,7 @@ protected:
 
       auto imageSize = InputImageType::SizeType::Filled(size);
       image->SetRegions(RegionType(imageSize));
-      image->Allocate();
-      image->FillBuffer(0);
+      image->AllocateInitialized();
 
       return image;
     }

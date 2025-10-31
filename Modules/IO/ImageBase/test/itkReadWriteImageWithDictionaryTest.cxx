@@ -42,8 +42,7 @@ itkReadWriteImageWithDictionaryTest(int argc, char * argv[])
   constexpr ImageType::IndexType index{};
   const ImageType::RegionType    region{ index, size };
   inputImage->SetRegions(region);
-  inputImage->Allocate();
-  inputImage->FillBuffer(0);
+  inputImage->AllocateInitialized();
 
   inputImage->SetDirection(itk::AnatomicalOrientation::CreateFromPositiveStringEncoding("LSA").GetAsDirection());
 

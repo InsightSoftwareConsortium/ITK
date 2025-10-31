@@ -32,8 +32,7 @@ itkConnectedComponentImageFilterTooManyObjectsTest(int itkNotUsed(argc), char *[
   auto img = ImageType::New();
   auto size = ImageType::SizeType::Filled(512);
   img->SetRegions(size);
-  img->Allocate();
-  img->FillBuffer(0);
+  img->AllocateInitialized();
   for (int x = 0; x < 512; x += 2)
   {
     ImageType::IndexType idx;

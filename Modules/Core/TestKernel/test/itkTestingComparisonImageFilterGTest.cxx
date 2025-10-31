@@ -47,8 +47,6 @@ TEST(itkTestingComparisonImageFilterTest, TestZeroImages)
   image2->SetRegions(size);
   image1->AllocateInitialized();
   image2->AllocateInitialized();
-  image1->FillBuffer(0);
-  image2->FillBuffer(0);
 
   // Create the filter
   auto filter = itk::Testing::ComparisonImageFilter<ImageType, ImageType>::New();

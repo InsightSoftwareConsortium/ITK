@@ -61,8 +61,7 @@ protected:
 
       auto imageSize = ImageType::SizeType::Filled(25);
       image->SetRegions(typename ImageType::RegionType(imageSize));
-      image->Allocate();
-      image->FillBuffer(0);
+      image->AllocateInitialized();
 
       return image;
     }
