@@ -1,7 +1,7 @@
 [tool.black]
 line-length = 88
 
-[tool.pixi.project]
+[tool.pixi.workspace]
 name = "ITK"
 channels = ["conda-forge"]
 platforms = ["linux-64", "linux-aarch64", "win-64", "osx-64", "osx-arm64"]
@@ -17,7 +17,7 @@ pre-commit = ">=4.1.0,<5"
 
 [tool.pixi.feature.pre-commit.tasks]
 pre-commit-install = { cmd = "pre-commit install -f -t pre-commit -t prepare-commit-msg -t commit-msg", description = "Install pre-commit hooks" }
-pre-commit-run = { cmd = "pre-commit run --all", description = "Run pre-commit hooks on all repository files" }
+pre-commit-run = { cmd = "pre-commit run --all-files", description = "Run pre-commit hooks on all repository files" }
 
 [tool.pixi.feature.dev.dependencies]
 cmake = ">=4.0.3,<5"
@@ -102,12 +102,12 @@ cmd = '''cmake
   -DCMAKE_BUILD_TYPE:STRING=Release
   -DBUILD_TESTING:BOOL=ON'''
 description = "Configure ITK Python"
-outputs = ["build/CMakeFiles/"]
+outputs = ["build-python/CMakeFiles/"]
 
 [tool.pixi.feature.python.tasks.build-python]
 cmd = "cmake --build build-python"
 description = "Build ITK Python"
-outputs = ["build/lib/**"]
+outputs = ["build-python/lib/**"]
 depends-on = ["configure-python"]
 
 [tool.pixi.feature.python.tasks.test-python]
@@ -144,7 +144,7 @@ description = "Test ITK Python - Debug"
 depends-on = ["build-debug-python"]
 
 [tool.pixi.feature.python.tasks.python-exe-debug]
-cmd = '''cp ./build-python/Wrapping/Generators/Python/WrapITK.pth $(python -c "import site; print(next(p for p in site.getsitepackages() if \'site-packages\' in p))") &&
+cmd = '''cp ./build-debug-python/Wrapping/Generators/Python/WrapITK.pth $(python -c "import site; print(next(p for p in site.getsitepackages() if \'site-packages\' in p))") &&
   python'''
 description = "Run a Python executable with the development ITK Python Debug build package"
 depends-on = ["build-debug-python"]
