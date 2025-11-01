@@ -481,7 +481,7 @@ macro(itk_end_wrap_submodule_python group_name)
   # first the extern c declaration and then the call of the extern function
   set(
     ITK_WRAP_PYTHON_LIBRARY_DECLS
-    "${ITK_WRAP_PYTHON_LIBRARY_DECLS} extern \"C\" PyMODINIT_FUNC PyInit__${base_name}Python();\n"
+    "${ITK_WRAP_PYTHON_LIBRARY_DECLS} PyMODINIT_FUNC PyInit__${base_name}Python();\n"
   )
   set(
     ITK_WRAP_PYTHON_LIBRARY_CALLS
