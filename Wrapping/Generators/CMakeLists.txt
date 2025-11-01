@@ -1,26 +1,6 @@
 ###############################################################################
 # the macros in charge of dispatching to the language specific macros
 
-###############################################################################
-# ccache management. This option is shared by most of generators, so put it here.
-cmake_dependent_option(
-  ITK_USE_CCACHE
-  "Use ccache to cache swig/castxml/... output and speedup the rebuild."
-  OFF
-  ITK_WRAP_PYTHON
-  OFF
-)
-mark_as_advanced(ITK_USE_CCACHE)
-if(ITK_USE_CCACHE)
-  find_program(
-    CCACHE_EXECUTABLE
-    NAMES
-      ccache-swig
-      ccache
-    DOC "ccache executable."
-  )
-endif()
-
 if(DEFINED ITK_WRAP_GCCXML)
   message(
     FATAL_ERROR
