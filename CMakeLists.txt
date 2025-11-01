@@ -81,6 +81,7 @@ include(itkSupportMacros)
 # that can be configured as an independent project.
 set(ITK_CONFIG_CMAKE_DIR "${ITK_SOURCE_DIR}/CMake")
 set(ITK_USE_FILE "${ITK_CONFIG_CMAKE_DIR}/UseITK.cmake")
+include(itkCCacheSupport)
 # ITKInternalConfig.cmake is used to handle find_package(ITK) calls. This is useful
 # to remote module examples which are set up as independent projects that can be copied
 # outside of their original project and used without any modification.
