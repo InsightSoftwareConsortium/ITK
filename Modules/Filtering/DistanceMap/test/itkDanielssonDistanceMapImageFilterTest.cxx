@@ -144,10 +144,7 @@ itkDanielssonDistanceMapImageFilterTest(int, char *[])
 
 
   // Test for images with anisotropic spacing
-  myImageType2D1::SpacingType anisotropicSpacing;
-
-  anisotropicSpacing[0] = 1.0;
-  anisotropicSpacing[1] = 5.0;
+  const myImageType2D1::SpacingType anisotropicSpacing({ 1.0, 5.0 });
 
   inputImage2D->SetSpacing(anisotropicSpacing);
 
