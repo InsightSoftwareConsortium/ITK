@@ -17,8 +17,12 @@
  *=========================================================================*/
 
 #include "itkContourMeanDistanceImageFilter.h"
+#include "itkImageRegionRange.h"
 #include "itkSimpleFilterWatcher.h"
 #include "itkTestingMacros.h"
+
+#include <algorithm> // For fill.
+#include <numeric>   // For iota.
 
 int
 itkContourMeanDistanceImageFilterTest(int argc, char * argv[])
@@ -64,20 +68,11 @@ itkContourMeanDistanceImageFilterTest(int argc, char * argv[])
   index.Fill(20);
   RegionType region2 = { index, size };
 
-  itk::ImageRegionIterator<Image1Type> it1(image1, region1);
-  Pixel1Type                           count{};
-  while (!it1.IsAtEnd())
-  {
-    it1.Set(++count);
-    ++it1;
-  }
+  const itk::ImageRegionRange<Image1Type> imageRegionRange1(*image1, region1);
+  std::iota(imageRegionRange1.begin(), imageRegionRange1.end(), Pixel1Type{ 1 });
 
-  itk::ImageRegionIterator<Image2Type> it2(image2, region2);
-  while (!it2.IsAtEnd())
-  {
-    it2.Set(7.2);
-    ++it2;
-  }
+  const itk::ImageRegionRange<Image2Type> imageRegionRange2(*image2, region2);
+  std::fill(imageRegionRange2.begin(), imageRegionRange2.end(), Pixel2Type{ 7.2 });
 
 
   // compute the directed Mean distance h(image1,image2)
