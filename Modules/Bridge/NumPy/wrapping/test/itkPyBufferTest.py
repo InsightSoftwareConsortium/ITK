@@ -157,8 +157,7 @@ class TestNumpyITKMemoryviewInterface(unittest.TestCase):
 
         scalarImage = ScalarImageType.New()
         scalarImage.SetRegions(region)
-        scalarImage.Allocate()
-        scalarImage.FillBuffer(0)
+        scalarImage.AllocateInitialized()
 
         # Check that scalarndarr is not a view, but a deep copy
         scalarndarr = itk.PyBuffer[ScalarImageType].GetArrayFromImage(scalarImage)
