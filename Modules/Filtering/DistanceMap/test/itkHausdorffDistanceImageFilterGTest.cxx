@@ -101,16 +101,10 @@ TEST(HausdorffDistanceImageFilter, Test)
 
   // Compute the Hausdorff distance H(image2,image1)
   {
-    Image1Type::SpacingType spacing1 = image1->GetSpacing();
-    spacing1[0] = spacing1[0] / 2;
-    spacing1[1] = spacing1[1] / 2;
-    spacing1[2] = spacing1[2] / 2;
-    image1->SetSpacing(spacing1);
-    Image2Type::SpacingType spacing2 = image2->GetSpacing();
-    spacing2[0] = spacing2[0] / 2;
-    spacing2[1] = spacing2[1] / 2;
-    spacing2[2] = spacing2[2] / 2;
-    image2->SetSpacing(spacing2);
+    constexpr itk::SpacePrecisionType spacingValue{ 0.5 };
+    constexpr auto spacing = itk::MakeFilled<itk::Vector<itk::SpacePrecisionType, ImageDimension>>(spacingValue);
+    image1->SetSpacing(spacing);
+    image2->SetSpacing(spacing);
 
     using FilterType = itk::HausdorffDistanceImageFilter<Image2Type, Image1Type>;
     auto filter = FilterType::New();
@@ -123,10 +117,9 @@ TEST(HausdorffDistanceImageFilter, Test)
     filter->Update();
 
     // Check results
-    const FilterType::RealType trueDistance =
-      10 * std::sqrt(spacing1[0] * spacing1[0] + spacing1[1] * spacing1[1] + spacing1[2] * spacing1[2]);
+    const FilterType::RealType trueDistance = 10 * std::sqrt(3.0 * spacingValue * spacingValue);
     // Note that the following is only correct because spacing is the same across dimensions:
-    const FilterType::RealType trueAverageDistance = 4.5 * spacing1[0];
+    const FilterType::RealType trueAverageDistance = 4.5 * spacingValue;
     const FilterType::RealType distance = filter->GetHausdorffDistance();
 
     EXPECT_NEAR(distance, trueDistance, 0.1);
