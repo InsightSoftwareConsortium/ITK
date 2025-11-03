@@ -4,7 +4,6 @@ set(
   itkDanielssonDistanceMapImageFilterTest.cxx
   itkDanielssonDistanceMapImageFilterTest1.cxx
   itkDanielssonDistanceMapImageFilterTest2.cxx
-  itkDirectedHausdorffDistanceImageFilterTest1.cxx
   itkDirectedHausdorffDistanceImageFilterTest2.cxx
   itkSignedDanielssonDistanceMapImageFilterTest.cxx
   itkSignedDanielssonDistanceMapImageFilterTest1.cxx
@@ -66,12 +65,6 @@ itk_add_test(
     itkDanielssonDistanceMapImageFilterTest2
     DATA{${ITK_DATA_ROOT}/Input/BinaryImageWithVariousShapes01.png}
     ${ITK_TEST_OUTPUT_DIR}/itkDanielssonDistanceMapImageFilterTest2.png
-)
-itk_add_test(
-  NAME itkDirectedHausdorffDistanceImageFilterTest1
-  COMMAND
-    ITKDistanceMapTestDriver
-    itkDirectedHausdorffDistanceImageFilterTest1
 )
 itk_add_test(
   NAME itkDirectedHausdorffDistanceImageFilterTest2
@@ -284,6 +277,10 @@ itk_add_test(
     ITKDistanceMapTestDriver
     itkIsoContourDistanceImageFilterTest
 )
-set(ITKDistanceMapGTests itkHausdorffDistanceImageFilterGTest.cxx)
+set(
+  ITKDistanceMapGTests
+  itkDirectedHausdorffDistanceImageFilterGTest.cxx
+  itkHausdorffDistanceImageFilterGTest.cxx
+)
 
 creategoogletestdriver(ITKDistanceMap "${ITKDistanceMap-Test_LIBRARIES}" "${ITKDistanceMapGTests}")
