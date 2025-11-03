@@ -49,7 +49,8 @@ else()
     ${PYTHON_VERSION_MIN}...${PYTHON_VERSION_MAX}
     COMPONENTS
       Interpreter
-      Development # Needed for Modules/Core/Common/src/itkPyCommand.cxx
+      # NOTE: dockcross build environments do not supply
+      #       `Development` python-dev resources
       Development.Module
       Development.SABIModule
       NumPy
@@ -108,14 +109,12 @@ else()
     set(
       _python_find_components
       Interpreter
-      Development # Needed for Modules/Core/Common/src/itkPyCommand.cxx
       Development.SABIModule
     )
   else()
     set(
       _python_find_components
       Interpreter
-      Development # Needed for Modules/Core/Common/src/itkPyCommand.cxx
       Development.Module
     )
   endif()
