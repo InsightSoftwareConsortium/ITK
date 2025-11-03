@@ -160,6 +160,12 @@ set(
 
 if(ITK_WRAP_PYTHON)
   list(APPEND ITKCommon_SRCS itkPyCommand.cxx)
+  set_source_files_properties(
+    itkPyCommand.cxx
+    PROPERTIES
+      INCLUDE_DIRECTORIES
+        "$<TARGET_PROPERTY:Python3::Module,INTERFACE_INCLUDE_DIRECTORIES>"
+  )
 endif()
 
 if(WIN32)
@@ -247,6 +253,9 @@ if(UNIX)
   if(ITK_DYNAMIC_LOADING)
     target_link_libraries(ITKCommon LINK_PUBLIC ${CMAKE_DL_LIBS})
   endif()
+endif()
+if(ITK_WRAP_PYTHON)
+  target_link_libraries(ITKCommon PRIVATE Python3::Python)
 endif()
 
 if(ITK_USE_TBB)
