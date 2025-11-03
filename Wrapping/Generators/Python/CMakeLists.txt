@@ -21,8 +21,6 @@ include_directories("${Python3_INCLUDE_DIRS}")
 
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 
-include(itkTargetLinkLibrariesWithDynamicLookup)
-
 ###############################################################################
 # store the current dir, so it can be reused later
 set(
