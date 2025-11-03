@@ -28,7 +28,9 @@ ninja = ">=1.13.0,<2"
 
 [tool.pixi.feature.python.dependencies]
 pytest = ">=8.4.1,<9"
-numpy = ">=2.3.1,<3"
+numpy = ">=2.3.4,<3"
+libopenblas = ">=0.3.30,<0.4"
+libgfortran5 = ">=15.2.0,<16"
 
 [tool.pixi.feature.cxx.tasks.configure]
 cmd = '''cmake
