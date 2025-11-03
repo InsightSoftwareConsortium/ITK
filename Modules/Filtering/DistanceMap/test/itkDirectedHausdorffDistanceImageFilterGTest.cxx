@@ -16,16 +16,17 @@
  *
  *=========================================================================*/
 
+// First include the header file to be tested:
 #include "itkDirectedHausdorffDistanceImageFilter.h"
 #include "itkImageRegionRange.h"
 #include "itkSimpleFilterWatcher.h"
-#include "itkTestingMacros.h"
+
+#include "itkGTest.h"
 
 #include <algorithm> // For fill.
 #include <numeric>   // For iota.
 
-int
-itkDirectedHausdorffDistanceImageFilterTest1(int, char *[])
+TEST(DirectedHausdorffDistanceImageFilterTest, Test)
 {
   constexpr unsigned int ImageDimension{ 3 };
 
@@ -64,9 +65,6 @@ itkDirectedHausdorffDistanceImageFilterTest1(int, char *[])
   const itk::ImageRegionRange<Image2Type> imageRegionRange2(*image2, region2);
   std::fill(imageRegionRange2.begin(), imageRegionRange2.end(), Pixel2Type{ 7.2 });
 
-  // If no failures detected, then EXIT_SUCCESS
-  int exit_status = EXIT_SUCCESS;
-
   // Compute the directed Hausdorff distance h(image1,image2)
   {
     using FilterType = itk::DirectedHausdorffDistanceImageFilter<Image1Type, Image2Type>;
@@ -81,19 +79,8 @@ itkDirectedHausdorffDistanceImageFilterTest1(int, char *[])
     const FilterType::RealType trueDistance = 10 * std::sqrt(double{ ImageDimension });
     const FilterType::RealType distance = filter->GetDirectedHausdorffDistance();
 
-    std::cout << " True distance: " << trueDistance << std::endl;
-    std::cout << " Computed computed: " << distance << std::endl;
-    std::cout << " Average distance: " << filter->GetAverageHausdorffDistance() << std::endl;
-    if (itk::Math::abs(trueDistance - distance) > 0.1)
-    {
-      std::cout << "Test failed. " << std::endl;
-      exit_status = EXIT_FAILURE;
-    }
-    if (itk::Math::abs(6.5 - filter->GetAverageHausdorffDistance()) > 0.1)
-    {
-      std::cout << "Test failed, average distance incorrect. " << std::endl;
-      exit_status = EXIT_FAILURE;
-    }
+    EXPECT_NEAR(distance, trueDistance, 0.1);
+    EXPECT_NEAR(filter->GetAverageHausdorffDistance(), 6.5, 0.1);
   }
 
   // Compute the directed Hausdorff distance h(image2,image1)
@@ -101,7 +88,7 @@ itkDirectedHausdorffDistanceImageFilterTest1(int, char *[])
     using FilterType = itk::DirectedHausdorffDistanceImageFilter<Image2Type, Image1Type>;
     auto filter = FilterType::New();
 
-    ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, DirectedHausdorffDistanceImageFilter, ImageToImageFilter);
+    ITK_GTEST_EXERCISE_BASIC_OBJECT_METHODS(filter, DirectedHausdorffDistanceImageFilter, ImageToImageFilter);
 
     filter->SetInput1(image2);
     filter->SetInput2(image1);
@@ -111,29 +98,7 @@ itkDirectedHausdorffDistanceImageFilterTest1(int, char *[])
     const FilterType::RealType trueDistance = 5 * std::sqrt(double{ ImageDimension });
     const FilterType::RealType distance = filter->GetDirectedHausdorffDistance();
 
-    std::cout << " True distance: " << trueDistance << std::endl;
-    std::cout << " Computed computed: " << distance << std::endl;
-    std::cout << " Average distance: " << filter->GetAverageHausdorffDistance() << std::endl;
-
-    if (itk::Math::abs(trueDistance - distance) > 0.1)
-    {
-      std::cout << "Test failed. " << std::endl;
-      exit_status = EXIT_FAILURE;
-    }
-    if (itk::Math::abs(2.5 - filter->GetAverageHausdorffDistance()) > 0.1)
-    {
-      std::cout << "Test failed, average distance incorrect. " << std::endl;
-      exit_status = EXIT_FAILURE;
-    }
+    EXPECT_NEAR(distance, trueDistance, 0.1);
+    EXPECT_NEAR(filter->GetAverageHausdorffDistance(), 2.5, 0.1);
   }
-
-  if (exit_status == EXIT_SUCCESS)
-  {
-    std::cout << "All tests passed. " << std::endl;
-  }
-  else
-  {
-    std::cout << "Some test failed. " << std::endl;
-  }
-  return exit_status;
 }
