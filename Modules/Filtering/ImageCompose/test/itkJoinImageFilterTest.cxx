@@ -33,9 +33,6 @@ itkJoinImageFilterTest(int, char *[])
   using myImageType2 = itk::Image<itk::Vector<unsigned short, 2>, myDimension>;
   using myImageType3 = itk::Image<itk::RGBAPixel<short>, myDimension>;
 
-  // Declare the type of the index to access images
-  using myIndexType = itk::Index<myDimension>;
-
   // Declare the type of the size
   using mySizeType = itk::Size<myDimension>;
 
@@ -47,16 +44,12 @@ itkJoinImageFilterTest(int, char *[])
   auto inputImageB = myImageType2::New();
   auto inputImageC = myImageType3::New();
 
-  // Define their size, and start index
+  // Define their size and region
   mySizeType size;
   size[0] = 5;
   size[1] = 8;
 
-  myIndexType start;
-  start[0] = 0;
-  start[1] = 0;
-
-  const myRegionType region{ start, size };
+  const myRegionType region{ size };
 
   // Initialize Image A
   inputImageA->SetRegions(region);
