@@ -114,11 +114,7 @@ public:
 
   ParallelSparseFieldCityBlockNeighborList();
 
-  ~ParallelSparseFieldCityBlockNeighborList()
-  {
-    m_ArrayIndex.clear();
-    m_NeighborhoodOffset.clear();
-  }
+  ~ParallelSparseFieldCityBlockNeighborList() = default;
 
   void
   Print(std::ostream & os, Indent indent) const;
