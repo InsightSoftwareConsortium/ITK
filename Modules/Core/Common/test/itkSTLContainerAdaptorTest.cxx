@@ -65,7 +65,6 @@ itkSTLContainerAdaptorTest(int, char *[])
 
       std::cout << "Testing assignment... ";
 
-      targetRef.reserve(vectorSource.size());
       targetRef.assign(vectorSource.begin(), vectorSource.end());
 
       auto                               it = vectorSource.begin();
