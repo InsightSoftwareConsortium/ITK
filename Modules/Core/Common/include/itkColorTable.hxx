@@ -32,8 +32,8 @@ template <typename TComponent>
 void
 ColorTable<TComponent>::DeleteColors()
 {
-  m_Color.resize(0);
-  m_ColorName.resize(0);
+  m_Color.clear();
+  m_ColorName.clear();
 }
 
 template <typename TComponent>

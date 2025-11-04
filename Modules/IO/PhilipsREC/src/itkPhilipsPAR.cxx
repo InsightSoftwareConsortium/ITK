@@ -403,7 +403,7 @@ PhilipsPAR::GetLineNumber(std::string file, int lineNum)
   if (file != this->m_FileName)
   {
     this->m_FileName = file;
-    this->m_PARFileLines.resize(0);
+    this->m_PARFileLines.clear();
 
     // Try to read the text file.
     std::ifstream local_InputStream;

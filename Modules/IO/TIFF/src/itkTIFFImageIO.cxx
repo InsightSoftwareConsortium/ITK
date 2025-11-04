@@ -535,7 +535,7 @@ TIFFImageIO::ReadImageInformation()
   if (!m_IsReadAsScalarPlusPalette)
   {
     // make sure the palette is empty
-    m_ColorPalette.resize(0);
+    m_ColorPalette.clear();
   }
 }
 
@@ -993,7 +993,7 @@ TIFFImageIO::PopulateColorPalette()
   else
   {
     // otherwise make sure that the stored palette is empty in the case it was already set
-    m_ColorPalette.resize(0);
+    m_ColorPalette.clear();
   }
 }
 

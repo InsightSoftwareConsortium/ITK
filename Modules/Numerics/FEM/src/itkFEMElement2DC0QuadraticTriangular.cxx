@@ -217,7 +217,7 @@ Element2DC0QuadraticTriangular::GetLocalFromGlobalCoordinates(const VectorType &
 void
 Element2DC0QuadraticTriangular::PopulateEdgeIds()
 {
-  this->m_EdgeIds.resize(0);
+  this->m_EdgeIds.clear();
 
   std::vector<int> edgePtIds;
   edgePtIds.resize(2);
