@@ -35,9 +35,6 @@ itkMaskNegatedImageFilterTest(int, char *[])
   using MaskImageType = itk::Image<unsigned short, myDimension>;
   using OutputImageType = itk::Image<float, myDimension>;
 
-  // Declare the type of the index to access images
-  using myIndexType = itk::Index<myDimension>;
-
   // Declare the type of the size
   using mySizeType = itk::Size<myDimension>;
 
@@ -48,18 +45,13 @@ itkMaskNegatedImageFilterTest(int, char *[])
   auto inputImage = InputImageType::New();
   auto inputMask = MaskImageType::New();
 
-  // Define their size, and start index
+  // Define their size and region
   mySizeType size;
   size[0] = 2;
   size[1] = 2;
   size[2] = 2;
 
-  myIndexType start;
-  start[0] = 0;
-  start[1] = 0;
-  start[2] = 0;
-
-  const myRegionType region{ start, size };
+  const myRegionType region{ size };
 
   // Initialize the image
   inputImage->SetRegions(region);

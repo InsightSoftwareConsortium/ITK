@@ -69,18 +69,13 @@ itkImageAdaptorPipeLineTest(int, char *[])
   //                 Create and Allocate the image
   //-------------------------------------------------------------
 
-  // Define their size, and start index
+  // Define their size and region
   mySizeType size;
   size[0] = 2;
   size[1] = 2;
   size[2] = 2; // Small size, because we are printing it
 
-  myIndexType start;
-  start[0] = 0;
-  start[1] = 0;
-  start[2] = 0;
-
-  const myRegionType region{ start, size };
+  const myRegionType region{ size };
 
   constexpr float spacing[3]{ 1.0, 1.0, 1.0 };
 

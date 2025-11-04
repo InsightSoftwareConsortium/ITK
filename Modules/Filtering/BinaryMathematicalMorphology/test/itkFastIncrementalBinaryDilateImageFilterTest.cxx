@@ -35,9 +35,6 @@ itkFastIncrementalBinaryDilateImageFilterTest(int, char *[])
   // Declare the types of the images
   using myImageType = itk::Image<unsigned short, myDimension>;
 
-  // Declare the type of the index to access images
-  using myIndexType = itk::Index<myDimension>;
-
   // Declare the type of the size
   using mySizeType = itk::Size<myDimension>;
 
@@ -47,16 +44,12 @@ itkFastIncrementalBinaryDilateImageFilterTest(int, char *[])
   // Create an image
   auto inputImage = myImageType::New();
 
-  // Define their size, and start index
+  // Define their size and region
   mySizeType size;
   size[0] = 20;
   size[1] = 20;
 
-  myIndexType start;
-  start[0] = 0;
-  start[1] = 0;
-
-  const myRegionType region{ start, size };
+  const myRegionType region{ size };
 
   // Initialize Image
   inputImage->SetRegions(region);
