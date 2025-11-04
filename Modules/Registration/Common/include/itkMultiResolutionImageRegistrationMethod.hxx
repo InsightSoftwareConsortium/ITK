@@ -223,7 +223,6 @@ MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::PreparePyrami
 
   const SizeValueType numberOfLevels = m_FixedImagePyramid->GetNumberOfLevels();
 
-  m_FixedImageRegionPyramid.reserve(numberOfLevels);
   m_FixedImageRegionPyramid.resize(numberOfLevels);
 
   // Compute the FixedImageRegion corresponding to each level of the
