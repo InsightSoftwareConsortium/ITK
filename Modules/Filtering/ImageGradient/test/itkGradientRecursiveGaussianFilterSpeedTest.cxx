@@ -54,10 +54,7 @@ itkGradientRecursiveGaussianFilterSpeedTest(int argc, char * argv[])
 
 
   // Define their size, and start index
-  mySizeType size;
-  size[0] = imageSize;
-  size[1] = imageSize;
-  size[2] = imageSize;
+  auto size = mySizeType::Filled(imageSize);
 
   myIndexType start{};
 

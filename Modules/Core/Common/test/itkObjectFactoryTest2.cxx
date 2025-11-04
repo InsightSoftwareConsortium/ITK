@@ -54,10 +54,7 @@ MakeImage(const int count, T pixel)
   index[1] = 0;
   index[2] = 0;
 
-  SizeType size;
-  size[0] = count;
-  size[1] = count;
-  size[2] = count;
+  auto             size = SizeType::Filled(count);
   const RegionType region{ index, size };
 
   testImage->SetRegions(region);

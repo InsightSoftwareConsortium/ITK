@@ -55,10 +55,7 @@ itkObjectMorphologyImageFilterTest(int, char *[])
   auto inputImage = myImageType::New();
 
   // Define their size, and start index
-  mySizeType size;
-  size[0] = 20;
-  size[1] = 20;
-  size[2] = 20;
+  auto size = mySizeType::Filled(20);
 
   myIndexType index;
   index[0] = 0;

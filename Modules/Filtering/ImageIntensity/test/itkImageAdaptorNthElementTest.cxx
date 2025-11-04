@@ -72,10 +72,7 @@ itkImageAdaptorNthElementTest(int, char *[])
   //-------------------------------------------------------------
 
   // Define their size, and start index
-  mySizeType size;
-  size[0] = 2;
-  size[1] = 2;
-  size[2] = 2; // Small size, because we are printing it
+  auto size = mySizeType::Filled(2); // Small size, because we are printing it
 
   const myRegionType region{ size };
 

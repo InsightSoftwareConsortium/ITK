@@ -67,9 +67,7 @@ itkAutoScaledGradientDescentRegistrationTestTemplated(int                 number
 
   imageSource = ImageSourceType::New();
 
-  SizeType size;
-  size[0] = 100;
-  size[1] = 100;
+  auto size = SizeType::Filled(100);
 
   imageSource->GenerateImages(size);
 

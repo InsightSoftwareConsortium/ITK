@@ -50,10 +50,7 @@ itkBinaryMask3DQuadEdgeMeshSourceTest(int, char *[])
   constexpr PixelType backgroundValue{ 0 };
   constexpr PixelType internalValue{ 1 };
 
-  SizeType size;
-  size[0] = 128;
-  size[1] = 128;
-  size[2] = 128;
+  auto size = SizeType::Filled(128);
 
   const RegionType region{ size };
 

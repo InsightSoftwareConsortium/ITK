@@ -207,10 +207,7 @@ public:
     auto inputImage = InputImageType::New();
 
     // Define its size, and start index
-    SizeType size;
-    size[0] = 8;
-    size[1] = 8;
-    size[2] = 8;
+    auto size = SizeType::Filled(8);
 
     RegionType region{ size };
 

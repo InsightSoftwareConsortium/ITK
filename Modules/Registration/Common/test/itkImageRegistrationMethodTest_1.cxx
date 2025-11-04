@@ -82,9 +82,7 @@ itkImageRegistrationMethodTest_1(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(imageSource, ImageRegistrationMethodImageSource, Object);
 
 
-  SizeType size;
-  size[0] = 100;
-  size[1] = 100;
+  auto size = SizeType::Filled(100);
 
   imageSource->GenerateImages(size);
 
