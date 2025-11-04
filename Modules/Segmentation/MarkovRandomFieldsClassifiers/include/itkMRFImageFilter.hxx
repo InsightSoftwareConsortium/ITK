@@ -33,9 +33,6 @@ MRFImageFilter<TInputImage, TClassifiedImage>::MRFImageFilter()
     throw ExceptionObject(__FILE__, __LINE__, msg.str().c_str(), ITK_LOCATION);
   }
   m_InputImageNeighborhoodRadius.Fill(0);
-  m_MRFNeighborhoodWeight.resize(0);
-  m_NeighborInfluence.resize(0);
-  m_DummyVector.resize(0);
   this->SetMRFNeighborhoodWeight(m_DummyVector);
   this->SetDefaultMRFNeighborhoodWeight();
 }

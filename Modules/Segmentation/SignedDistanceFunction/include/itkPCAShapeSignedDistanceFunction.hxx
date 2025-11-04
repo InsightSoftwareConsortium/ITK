@@ -30,11 +30,7 @@ PCAShapeSignedDistanceFunction<TCoordinate, VSpaceDimension, TImage>::PCAShapeSi
   : m_MeanImage(nullptr)
   , m_Transform(TranslationTransform<TCoordinate, SpaceDimension>::New())
 {
-  m_PrincipalComponentImages.resize(0);
   m_PrincipalComponentStandardDeviations.SetSize(0);
-  m_Interpolators.resize(0);
-  m_Extrapolators.resize(0);
-
   m_WeightOfPrincipalComponents.SetSize(0);
   m_TransformParameters.SetSize(0);
   this->GetParameters().SetSize(0);
