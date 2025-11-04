@@ -33,7 +33,6 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::LabelStatisticsImageFilter
   Self::AddRequiredInputName("LabelInput");
   m_NumBins.SetSize(1);
   m_NumBins[0] = 256;
-  m_ValidLabelValues.clear();
 }
 
 template <typename TInputImage, typename TLabelImage>

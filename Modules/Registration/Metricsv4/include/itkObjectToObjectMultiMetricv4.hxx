@@ -30,8 +30,6 @@ template <unsigned int TFixedDimension,
 ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>::
   ObjectToObjectMultiMetricv4()
 {
-  this->m_MetricQueue.clear();
-
   // We want the moving transform to be nullptr by default
   this->m_MovingTransform = nullptr;
 }

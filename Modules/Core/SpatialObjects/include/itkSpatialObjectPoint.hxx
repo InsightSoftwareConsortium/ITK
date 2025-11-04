@@ -33,8 +33,6 @@ SpatialObjectPoint<TPointDimension>::SpatialObjectPoint()
   m_Color.SetGreen(0);
   m_Color.SetBlue(0);
   m_Color.SetAlpha(1);
-
-  m_ScalarDictionary.clear();
 }
 
 template <unsigned int TPointDimension>

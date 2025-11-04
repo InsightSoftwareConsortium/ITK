@@ -40,9 +40,7 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::ConfidenceConnectedIm
   , m_InitialNeighborhoodRadius(1)
   , m_Mean(InputRealType{})
   , m_Variance(InputRealType{})
-{
-  m_Seeds.clear();
-}
+{}
 
 template <typename TInputImage, typename TOutputImage>
 void

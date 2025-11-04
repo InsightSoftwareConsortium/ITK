@@ -216,7 +216,6 @@ public:
     ConstIterator(NeighborhoodIteratorType iter, InstanceIdentifier iid)
       : m_InstanceIdentifier(iid)
     {
-      this->m_MeasurementVectorCache.clear();
       this->m_MeasurementVectorCache.push_back(iter);
     }
 

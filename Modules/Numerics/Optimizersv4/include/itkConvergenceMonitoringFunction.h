@@ -93,7 +93,7 @@ public:
   GetConvergenceValue() const = 0;
 
 protected:
-  ConvergenceMonitoringFunction() { this->m_EnergyValues.clear(); }
+  ConvergenceMonitoringFunction() = default;
 
   ~ConvergenceMonitoringFunction() override = default;
 
