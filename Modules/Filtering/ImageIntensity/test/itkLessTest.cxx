@@ -57,10 +57,7 @@ itkLessTest(int, char *[])
   const myImageType2Pointer inputImageB = myImageType2::New();
 
   // Define their size and region
-  mySizeType size;
-  size[0] = 2;
-  size[1] = 2;
-  size[2] = 2;
+  auto size = mySizeType::Filled(2);
 
   const myRegionType region{ size };
 

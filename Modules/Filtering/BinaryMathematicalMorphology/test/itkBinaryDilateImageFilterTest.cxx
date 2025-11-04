@@ -45,9 +45,7 @@ itkBinaryDilateImageFilterTest(int, char *[])
   auto inputImage = myImageType::New();
 
   // Define their size and region
-  mySizeType size;
-  size[0] = 20;
-  size[1] = 20;
+  auto size = mySizeType::Filled(20);
 
   const myRegionType region{ size };
 

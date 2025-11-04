@@ -51,10 +51,7 @@ itkGradientRecursiveGaussianFilterTest(int argc, char * argv[])
 
 
   // Define their size, and start index
-  mySizeType size;
-  size[0] = 8;
-  size[1] = 8;
-  size[2] = 8;
+  auto size = mySizeType::Filled(8);
 
   myIndexType start{};
 
