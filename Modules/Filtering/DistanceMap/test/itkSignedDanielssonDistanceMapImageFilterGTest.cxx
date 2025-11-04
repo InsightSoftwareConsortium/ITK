@@ -20,8 +20,9 @@
 #include "itkSignedDanielssonDistanceMapImageFilter.h"
 #include "itkStdStreamStateSave.h"
 
-int
-itkSignedDanielssonDistanceMapImageFilterTest11(int, char *[])
+#include <gtest/gtest.h>
+
+TEST(SignedDanielssonDistanceMapImageFilter, Test)
 {
   // Save the format stream variables for std::cout
   // They will be restored when coutState goes out of scope
@@ -69,30 +70,19 @@ itkSignedDanielssonDistanceMapImageFilterTest11(int, char *[])
   myImageType2D2::IndexType index;
   index[0] = 0;
   index[1] = 0;
-  std::cout << "here" << std::endl;
   const double distance1 = outputDistance2D->GetPixel(index);
-  std::cout << "distance1: " << distance1 << std::endl;
 
   filter2D->SquaredDistanceOn();
   // filter2D->SquaredDistanceOff();
 
-  if (filter2D->GetSquaredDistance() != true)
-  {
-    std::cerr << "filter2D->GetSquaredDistance() != true" << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_TRUE(filter2D->GetSquaredDistance());
 
   //  filter2D->SetSquaredDistance( true );
   filter2D->Update();
 
-  const double distance2 = outputDistance2D->GetPixel(index);
-  std::cout << "distance2: " << distance2 << std::endl;
+  const double                        distance2 = outputDistance2D->GetPixel(index);
   constexpr myImageType2D2::PixelType epsilon{ 1e-5 };
-  if (itk::Math::abs(distance2 - distance1 * distance1) > epsilon)
-  {
-    std::cerr << "Error in use of the SetSquaredDistance() method" << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_NEAR(distance2, distance1 * distance1, epsilon);
 
   std::cout << "Squared Distance Map " << std::endl;
   ShowDistanceMap(outputDistance2D);
@@ -114,29 +104,16 @@ itkSignedDanielssonDistanceMapImageFilterTest11(int, char *[])
   filter2D->InsideIsPositiveOn();
   // filter2D->SetBackgroundValue(0);
 
-  if (filter2D->GetUseImageSpacing() != true)
-  {
-    std::cerr << "filter2D->GetUseImageSpacing() != true" << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_TRUE(filter2D->GetUseImageSpacing());
 
-  if (filter2D->GetInsideIsPositive() != true)
-  {
-    std::cerr << "filter2D->GetInsideIsPositive() != true" << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_TRUE(filter2D->GetInsideIsPositive());
 
-  if (filter2D->GetSquaredDistance())
-  {
-    std::cerr << "filter2D->GetSquaredDistance() == true & it should not" << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_FALSE(filter2D->GetSquaredDistance());
+
   filter2D->SetUseImageSpacing(true);
   const myImageType2D2::Pointer outputDistance2D2 = filter2D->GetOutput();
   filter2D->Update();
 
   std::cout << "Use ImageSpacing Distance Map with squared distance turned off" << std::endl;
   ShowDistanceMap(outputDistance2D2);
-
-  return EXIT_SUCCESS;
 }

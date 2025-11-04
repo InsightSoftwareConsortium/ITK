@@ -15,25 +15,9 @@ set(
   itkSignedMaurerDistanceMapImageFilterTest.cxx
   itkApproximateSignedDistanceMapImageFilterTest.cxx
   itkIsoContourDistanceImageFilterTest.cxx
-  itkSignedMaurerDistanceMapImageFilterTest11.cxx
-  itkSignedDanielssonDistanceMapImageFilterTest11.cxx
 )
 
 createtestdriver(ITKDistanceMap "${ITKDistanceMap-Test_LIBRARIES}" "${ITKDistanceMapTests}")
-
-itk_add_test(
-  NAME itkSignedMaurerDistanceMapImageFilterTest11
-  COMMAND
-    ITKDistanceMapTestDriver
-    itkSignedMaurerDistanceMapImageFilterTest11
-)
-
-itk_add_test(
-  NAME itkSignedDanielssonDistanceMapImageFilterTest11
-  COMMAND
-    ITKDistanceMapTestDriver
-    itkSignedDanielssonDistanceMapImageFilterTest11
-)
 
 itk_add_test(
   NAME itkDanielssonDistanceMapImageFilterTest
@@ -281,6 +265,8 @@ set(
   ITKDistanceMapGTests
   itkDirectedHausdorffDistanceImageFilterGTest.cxx
   itkHausdorffDistanceImageFilterGTest.cxx
+  itkSignedDanielssonDistanceMapImageFilterGTest.cxx
+  itkSignedMaurerDistanceMapImageFilterGTest.cxx
 )
 
 creategoogletestdriver(ITKDistanceMap "${ITKDistanceMap-Test_LIBRARIES}" "${ITKDistanceMapGTests}")
