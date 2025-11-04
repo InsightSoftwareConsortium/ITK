@@ -406,7 +406,7 @@ struct ITK_TEMPLATE_EXPORT KdTreeTerminalNode : public KdTreeNode<TSample>
 
   KdTreeTerminalNode() = default;
 
-  ~KdTreeTerminalNode() override { this->m_InstanceIdentifiers.clear(); }
+  ~KdTreeTerminalNode() override = default;
 
   /** A terminal node. */
   [[nodiscard]] bool
