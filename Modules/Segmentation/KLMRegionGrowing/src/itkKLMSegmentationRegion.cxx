@@ -282,7 +282,7 @@ KLMSegmentationRegion::SpliceRegionBorders(Self * region)
   RegionBorderVectorType thisRegionBorder = m_RegionBorderVector;
 
   // clear output
-  m_RegionBorderVector.resize(0);
+  m_RegionBorderVector.clear();
 
   // Initialize the region iterators
 
@@ -416,7 +416,7 @@ KLMSegmentationRegion::UpdateRegionBorderLambda()
 void
 KLMSegmentationRegion::DeleteAllRegionBorders()
 {
-  m_RegionBorderVector.resize(0);
+  m_RegionBorderVector.clear();
 } // end DeleteAllRegionBorders
 
 KLMSegmentationRegion::RegionBorderVectorIterator

@@ -158,7 +158,7 @@ Element3DC0LinearTetrahedron::GetLocalFromGlobalCoordinates(const VectorType & g
 void
 Element3DC0LinearTetrahedron::PopulateEdgeIds()
 {
-  this->m_EdgeIds.resize(0);
+  this->m_EdgeIds.clear();
 
   std::vector<int> edgePtIds;
   edgePtIds.resize(2);

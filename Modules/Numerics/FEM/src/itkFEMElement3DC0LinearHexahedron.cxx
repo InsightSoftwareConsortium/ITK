@@ -356,7 +356,7 @@ Element3DC0LinearHexahedron::Determinant3x3(const VectorType & c1, const VectorT
 void
 Element3DC0LinearHexahedron::PopulateEdgeIds()
 {
-  this->m_EdgeIds.resize(0);
+  this->m_EdgeIds.clear();
 
   std::vector<int> edgePtIds;
   edgePtIds.resize(2);

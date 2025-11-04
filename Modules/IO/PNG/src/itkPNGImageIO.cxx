@@ -415,7 +415,7 @@ PNGImageIO::ReadImageInformation()
   if (!m_IsReadAsScalarPlusPalette)
   {
     // make sure not palette is left
-    m_ColorPalette.resize(0);
+    m_ColorPalette.clear();
   }
 
   // minimum of a byte per pixel
