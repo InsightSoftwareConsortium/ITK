@@ -59,10 +59,6 @@ BinaryImageToLevelSetImageAdaptor<TInputImage, LevelSetDenseImage<TLevelSetImage
 
 template <typename TInput, typename TOutput>
 BinaryImageToLevelSetImageAdaptor<TInput, WhitakerSparseLevelSetImage<TOutput, TInput::ImageDimension>>::
-  BinaryImageToLevelSetImageAdaptor() = default;
-
-template <typename TInput, typename TOutput>
-BinaryImageToLevelSetImageAdaptor<TInput, WhitakerSparseLevelSetImage<TOutput, TInput::ImageDimension>>::
   ~BinaryImageToLevelSetImageAdaptor() = default;
 
 template <typename TInput, typename TOutput>
@@ -329,11 +325,6 @@ BinaryImageToLevelSetImageAdaptor<TInput, WhitakerSparseLevelSetImage<TOutput, T
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-
-template <typename TInput>
-BinaryImageToLevelSetImageAdaptor<TInput,
-                                  ShiSparseLevelSetImage<TInput::ImageDimension>>::BinaryImageToLevelSetImageAdaptor() =
-  default;
 
 template <typename TInput>
 BinaryImageToLevelSetImageAdaptor<TInput, ShiSparseLevelSetImage<TInput::ImageDimension>>::

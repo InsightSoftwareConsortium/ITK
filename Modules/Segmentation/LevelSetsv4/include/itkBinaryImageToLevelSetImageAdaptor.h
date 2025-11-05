@@ -252,7 +252,7 @@ public:
 
 protected:
   /** Constructor */
-  BinaryImageToLevelSetImageAdaptor();
+  BinaryImageToLevelSetImageAdaptor() = default;
 
   /** Destructor */
   ~BinaryImageToLevelSetImageAdaptor() override;
@@ -338,7 +338,7 @@ public:
 
 protected:
   /** Constructor */
-  BinaryImageToLevelSetImageAdaptor();
+  BinaryImageToLevelSetImageAdaptor() = default;
 
   /** Destructor */
   ~BinaryImageToLevelSetImageAdaptor() override;
