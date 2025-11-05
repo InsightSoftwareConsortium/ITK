@@ -25,10 +25,6 @@ namespace itk
 {
 
 template <typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision>
-WienerDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrecision>::
-  WienerDeconvolutionImageFilter() = default;
-
-template <typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision>
 void
 WienerDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrecision>::GenerateData()
 {

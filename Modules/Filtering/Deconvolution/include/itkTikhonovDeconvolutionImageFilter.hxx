@@ -25,10 +25,6 @@ namespace itk
 {
 
 template <typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision>
-TikhonovDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrecision>::
-  TikhonovDeconvolutionImageFilter() = default;
-
-template <typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision>
 void
 TikhonovDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrecision>::GenerateData()
 {
