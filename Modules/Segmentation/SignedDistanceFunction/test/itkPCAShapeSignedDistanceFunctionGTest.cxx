@@ -22,6 +22,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkEuler2DTransform.h"
 
+#include <gtest/gtest.h>
 
 /**
  * This module tests the functionality of the PCAShapeSignedDistanceFunction
@@ -33,8 +34,7 @@
  * The test fails if the evaluated results is not within a certain tolerance
  * of the expected results.
  */
-int
-itkPCAShapeSignedDistanceFunctionTest(int, char *[])
+TEST(PCAShapeSignedDistanceFunction, Test)
 {
   using CoordRep = double;
   constexpr unsigned int Dimension{ 2 };
@@ -140,7 +140,6 @@ itkPCAShapeSignedDistanceFunctionTest(int, char *[])
   // check pca shape calculation
   ShapeFunction::PointType point;
 
-  std::cout << "check results:" << std::endl;
   constexpr unsigned int numberOfRotationParameters = Dimension * (Dimension - 1) / 2;
   const unsigned int     startIndexOfTranslationParameters = numberOfShapeParameters + numberOfRotationParameters;
 
@@ -174,11 +173,7 @@ itkPCAShapeSignedDistanceFunctionTest(int, char *[])
     // check result
     std::cout << "f(" << point << ") = " << output << std::endl;
 
-    if (itk::Math::abs(output - expected) > 1e-9)
-    {
-      std::cout << "But expected value is: " << expected << std::endl;
-      return EXIT_FAILURE;
-    }
+    EXPECT_NEAR(output, expected, 1e-9);
   }
 
   // Evaluate at a point outside the image domain
@@ -215,12 +210,7 @@ itkPCAShapeSignedDistanceFunctionTest(int, char *[])
   }                                                                           \
   shape->Set##ComponentName(goodComponent);                                   \
                                                                               \
-  if (!pass)                                                                  \
-  {                                                                           \
-    std::cout << "Test failed." << std::endl;                                 \
-    return EXIT_FAILURE;                                                      \
-  }                                                                           \
-  ITK_MACROEND_NOOP_STATEMENT
+  EXPECT_TRUE(pass)
 
   // nullptr MeanImage
   TEST_INITIALIZATION_ERROR(MeanImage, nullptr, meanImage);
@@ -246,7 +236,4 @@ itkPCAShapeSignedDistanceFunctionTest(int, char *[])
   badPCImages[1]->AllocateInitialized();
 
   TEST_INITIALIZATION_ERROR(PrincipalComponentImages, badPCImages, pcImages);
-
-  std::cout << "Test passed. " << std::endl;
-  return EXIT_SUCCESS;
 }
