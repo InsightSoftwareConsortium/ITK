@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkSphereSignedDistanceFunction.h"
+#include <gtest/gtest.h>
 
 /**
  * This module tests the functionality of the SphereSignedDistanceFunction
@@ -31,8 +32,7 @@
  * not within a certain tolerance of the expected results.
  *
  */
-int
-itkSphereSignedDistanceFunctionTest(int, char *[])
+TEST(SphereSignedDistanceFunction, Test)
 {
   using CoordRep = double;
   constexpr unsigned int Dimension{ 2 };
@@ -72,13 +72,6 @@ itkSphereSignedDistanceFunctionTest(int, char *[])
 
     // check results
     const CoordRep expected = p * std::sqrt(2.0) - parameters[0];
-    if (itk::Math::abs(output - expected) > 1e-9)
-    {
-      std::cout << "But expected value is: " << expected << std::endl;
-      return EXIT_FAILURE;
-    }
+    EXPECT_NEAR(output, expected, 1e-9);
   }
-
-  std::cout << "Test passed." << std::endl;
-  return EXIT_SUCCESS;
 }
