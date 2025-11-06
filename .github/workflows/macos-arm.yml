@@ -53,7 +53,7 @@ jobs:
               CMAKE_OSX_ARCHITECTURES:STRING=x86_64
             ctest-options: ""
 
-          - os: macos-14
+          - os: macos-15
             name: "Python"
             cmake-build-type: "Release"
             cmake-generator: "Ninja"
