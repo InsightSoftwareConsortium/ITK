@@ -19,13 +19,13 @@
 #include "itkContourDirectedMeanDistanceImageFilter.h"
 #include "itkImageRegionRange.h"
 #include "itkSimpleFilterWatcher.h"
-#include "itkTestingMacros.h"
+
+#include "itkGTest.h"
 
 #include <algorithm> // For fill.
 #include <numeric>   // For iota.
 
-int
-itkContourDirectedMeanDistanceImageFilterTest(int, char *[])
+TEST(itkContourDirectedMeanDistanceImageFilter, Test)
 {
 
   using Pixel1Type = unsigned int;
@@ -71,12 +71,12 @@ itkContourDirectedMeanDistanceImageFilterTest(int, char *[])
     using FilterType = itk::ContourDirectedMeanDistanceImageFilter<Image1Type, Image2Type>;
     auto filter = FilterType::New();
 
-    ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, ContourDirectedMeanDistanceImageFilter, ImageToImageFilter);
+    ITK_GTEST_EXERCISE_BASIC_OBJECT_METHODS(filter, ContourDirectedMeanDistanceImageFilter, ImageToImageFilter);
 
     const itk::SimpleFilterWatcher watcher(filter, "filter");
 
 
-    ITK_TEST_SET_GET_BOOLEAN(filter, UseImageSpacing, useImageSpacing);
+    ITK_GTEST_SET_GET_BOOLEAN(filter, UseImageSpacing, useImageSpacing);
 
     filter->SetInput1(image1);
     filter->SetInput2(image2);
@@ -87,14 +87,7 @@ itkContourDirectedMeanDistanceImageFilterTest(int, char *[])
     constexpr FilterType::RealType trueDistance{ 8.37831 };
     const FilterType::RealType     distance = filter->GetContourDirectedMeanDistance();
 
-    std::cout << " True     distance: " << trueDistance << std::endl;
-    std::cout << " Computed distance: " << distance << std::endl;
-
-    if (itk::Math::abs(trueDistance - distance) > 0.1)
-    {
-      std::cout << "Test failed. " << std::endl;
-      return EXIT_FAILURE;
-    }
+    EXPECT_NEAR(distance, trueDistance, 0.1);
   }
 
   // Compute the directed Mean distance h(image2,image1)
@@ -102,10 +95,10 @@ itkContourDirectedMeanDistanceImageFilterTest(int, char *[])
     using FilterType = itk::ContourDirectedMeanDistanceImageFilter<Image2Type, Image1Type>;
     auto filter = FilterType::New();
 
-    ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, ContourDirectedMeanDistanceImageFilter, ImageToImageFilter);
+    ITK_GTEST_EXERCISE_BASIC_OBJECT_METHODS(filter, ContourDirectedMeanDistanceImageFilter, ImageToImageFilter);
 
 
-    ITK_TEST_SET_GET_BOOLEAN(filter, UseImageSpacing, useImageSpacing);
+    ITK_GTEST_SET_GET_BOOLEAN(filter, UseImageSpacing, useImageSpacing);
 
     filter->SetInput1(image2);
     filter->SetInput2(image1);
@@ -116,16 +109,6 @@ itkContourDirectedMeanDistanceImageFilterTest(int, char *[])
     constexpr FilterType::RealType trueDistance{ 4.2053 };
     const FilterType::RealType     distance = filter->GetContourDirectedMeanDistance();
 
-    std::cout << " True     distance: " << trueDistance << std::endl;
-    std::cout << " Computed distance: " << distance << std::endl;
-
-    if (itk::Math::abs(trueDistance - distance) > 0.1)
-    {
-      std::cout << "Test failed. " << std::endl;
-      return EXIT_FAILURE;
-    }
+    EXPECT_NEAR(distance, trueDistance, 0.1);
   }
-
-  std::cout << "Test passed. " << std::endl;
-  return EXIT_SUCCESS;
 }
