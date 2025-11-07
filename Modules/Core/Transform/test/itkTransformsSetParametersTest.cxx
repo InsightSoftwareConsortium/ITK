@@ -37,6 +37,9 @@
 #include "itkIntTypes.h"
 #include <vnl/vnl_sample.h>
 
+#include <algorithm> // For generate.
+#include <iterator>  // For begin and end.
+
 
 // Generic Kernel Transform Tester
 template <typename KernelType>
@@ -58,14 +61,14 @@ TestKernelTransform(const char * name, KernelType *)
   typename KernelPointSetType::CoordinateType randomCoords[3];
   for (int i = 0; i < 4; ++i)
   {
-    randomCoords[0] = (typename KernelPointSetType::CoordinateType)vnl_sample_uniform(-1.0, 1.0);
-    randomCoords[1] = (typename KernelPointSetType::CoordinateType)vnl_sample_uniform(-1.0, 1.0);
-    randomCoords[2] = (typename KernelPointSetType::CoordinateType)vnl_sample_uniform(-1.0, 1.0);
+    std::generate(std::begin(randomCoords), std::end(randomCoords), [] {
+      return static_cast<typename KernelPointSetType::CoordinateType>(vnl_sample_uniform(-1.0, 1.0));
+    });
     targetLandmarks->GetPoints()->SetElement(i, randomCoords);
 
-    randomCoords[0] = (typename KernelPointSetType::CoordinateType)vnl_sample_uniform(-1.0, 1.0);
-    randomCoords[1] = (typename KernelPointSetType::CoordinateType)vnl_sample_uniform(-1.0, 1.0);
-    randomCoords[2] = (typename KernelPointSetType::CoordinateType)vnl_sample_uniform(-1.0, 1.0);
+    std::generate(std::begin(randomCoords), std::end(randomCoords), [] {
+      return static_cast<typename KernelPointSetType::CoordinateType>(vnl_sample_uniform(-1.0, 1.0));
+    });
     sourceLandmarks->GetPoints()->SetElement(i, randomCoords);
   }
 

@@ -37,6 +37,8 @@
 #include "vnl/vnl_sample.h"
 #include "itkMath.h"
 
+#include <algorithm> // For generate.
+
 
 //-------------------------------------
 //     Typedefs for convenience
@@ -84,9 +86,7 @@ itkAdaptImageFilterTest2(int, char *[])
   it1.GoToBegin();
   while (!it1.IsAtEnd())
   {
-    color[0] = static_cast<float>(vnl_sample_uniform(0.0, 1.0));
-    color[1] = static_cast<float>(vnl_sample_uniform(0.0, 1.0));
-    color[2] = static_cast<float>(vnl_sample_uniform(0.0, 1.0));
+    std::generate(color.begin(), color.end(), [] { return static_cast<float>(vnl_sample_uniform(0.0, 1.0)); });
     it1.Set(color);
     ++it1;
   }

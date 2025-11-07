@@ -21,6 +21,7 @@
 #include "vnl/vnl_sample.h"
 #include "itkImageRegionIterator.h"
 #include "itkTestingMacros.h"
+#include <algorithm> // For generate.
 
 int
 itkJoinImageFilterTest(int, char *[])
@@ -89,8 +90,7 @@ itkJoinImageFilterTest(int, char *[])
   itk::Vector<unsigned short, 2> vec;
   while (!it2.IsAtEnd())
   {
-    vec[0] = static_cast<unsigned short>(vnl_sample_uniform(0, 32765));
-    vec[1] = static_cast<unsigned short>(vnl_sample_uniform(0, 32765));
+    std::generate(vec.begin(), vec.end(), [] { return static_cast<unsigned short>(vnl_sample_uniform(0, 32765)); });
     it2.Set(vec);
     std::cout << it2.Get() << std::endl;
     ++it2;
@@ -105,10 +105,7 @@ itkJoinImageFilterTest(int, char *[])
   itk::RGBAPixel<short> rgbaVec;
   while (!itRGBA.IsAtEnd())
   {
-    rgbaVec[0] = static_cast<short>(vnl_sample_uniform(0, 255));
-    rgbaVec[1] = static_cast<short>(vnl_sample_uniform(0, 255));
-    rgbaVec[2] = static_cast<short>(vnl_sample_uniform(0, 255));
-    rgbaVec[3] = static_cast<short>(vnl_sample_uniform(0, 255));
+    std::generate(rgbaVec.begin(), rgbaVec.end(), [] { return static_cast<short>(vnl_sample_uniform(0, 255)); });
     itRGBA.Set(rgbaVec);
     //  std::cout << itRGBA.Get() << std::endl;
     ++itRGBA;

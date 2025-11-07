@@ -19,6 +19,9 @@
 #include "itkPointSet.h"
 #include "vnl/vnl_sample.h"
 #include "itkTestingMacros.h"
+
+#include <algorithm> // For generate.
+#include <iterator>  // For begin and end.
 #include <iostream>
 
 /**
@@ -67,9 +70,9 @@ itkPointSetTest(int, char *[])
   {
     for (int i = 0; i < numOfPoints; ++i)
     {
-      testPointCoords[0] = static_cast<PointSet::CoordinateType>(vnl_sample_uniform(-1.0, 1.0));
-      testPointCoords[1] = static_cast<PointSet::CoordinateType>(vnl_sample_uniform(-1.0, 1.0));
-      testPointCoords[2] = static_cast<PointSet::CoordinateType>(vnl_sample_uniform(-1.0, 1.0));
+      std::generate(std::begin(testPointCoords), std::end(testPointCoords), [] {
+        return static_cast<PointSet::CoordinateType>(vnl_sample_uniform(-1.0, 1.0));
+      });
       pset->SetPoint(i, PointType(testPointCoords));
     }
   }

@@ -24,6 +24,7 @@
 #include "itkSimpleFilterWatcher.h"
 #include "vnl/vnl_sample.h"
 #include "itkTestingMacros.h"
+#include <algorithm> // For generate.
 
 int
 itkConnectedComponentImageFilterTest(int argc, char * argv[])
@@ -127,9 +128,8 @@ itkConnectedComponentImageFilterTest(int argc, char * argv[])
   for (auto & i : colormap)
   {
     RGBPixelType px;
-    px.SetRed(static_cast<unsigned char>(255 * vnl_sample_uniform(0.3333, 1.0)));
-    px.SetGreen(static_cast<unsigned char>(255 * vnl_sample_uniform(0.3333, 1.0)));
-    px.SetBlue(static_cast<unsigned char>(255 * vnl_sample_uniform(0.3333, 1.0)));
+    std::generate(
+      px.begin(), px.end(), [] { return static_cast<unsigned char>(255 * vnl_sample_uniform(0.3333, 1.0)); });
 
     i = px;
   }
