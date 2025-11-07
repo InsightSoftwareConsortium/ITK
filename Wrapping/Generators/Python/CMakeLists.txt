@@ -241,12 +241,7 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
   set(ITK_WRAP_PYTHON_FILES)
   foreach(_file ${ITK_PYTHON_SUPPORT_MODULES})
     set(install_tgt "${CMAKE_CURRENT_SOURCE_DIR}/itk/${_file}.py")
-    list(
-      APPEND
-      ITK_WRAP_PYTHON_FILES
-      ${ITK_WRAP_PYTHON_FILES}
-      "${install_tgt}"
-    )
+    list(APPEND ITK_WRAP_PYTHON_FILES "${install_tgt}")
   endforeach()
   wrap_itk_python_bindings_install(/itk/support "ITKCommon" ${ITK_WRAP_PYTHON_FILES})
   wrap_itk_python_bindings_install(/itk/Configuration "ITKCommon" "${ITK_CONFIGURATION_INIT_MODULE}")
