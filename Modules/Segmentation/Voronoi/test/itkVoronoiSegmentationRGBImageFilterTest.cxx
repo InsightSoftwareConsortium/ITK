@@ -19,8 +19,10 @@
 #include "itkImageFileReader.h"
 #include "itkVoronoiSegmentationRGBImageFilter.h"
 #include "itkImageRegionIterator.h"
-#include <iostream>
 #include "itkMath.h"
+
+#include <algorithm> // For generate.
+#include <iostream>
 
 // type alias for all functions
 using PixelType = itk::RGBPixel<unsigned char>;
@@ -72,9 +74,9 @@ SetUpInputImage()
   while (!iter.IsAtEnd())
   {
     PixelType px;
-    px[0] = static_cast<unsigned char>(vnl_sample_uniform(bgMean - bgStd, bgMean + bgStd));
-    px[1] = static_cast<unsigned char>(vnl_sample_uniform(bgMean - bgStd, bgMean + bgStd));
-    px[2] = static_cast<unsigned char>(vnl_sample_uniform(bgMean - bgStd, bgMean + bgStd));
+    std::generate(px.begin(), px.end(), [] {
+      return static_cast<unsigned char>(vnl_sample_uniform(bgMean - bgStd, bgMean + bgStd));
+    });
     iter.Set(px);
     ++iter;
   }
@@ -89,9 +91,9 @@ SetUpInputImage()
       idx[1] = y;
 
       PixelType px;
-      px[0] = static_cast<unsigned char>(vnl_sample_uniform(fgMean - fgStd, fgMean + fgStd));
-      px[1] = static_cast<unsigned char>(vnl_sample_uniform(fgMean - fgStd, fgMean + fgStd));
-      px[2] = static_cast<unsigned char>(vnl_sample_uniform(fgMean - fgStd, fgMean + fgStd));
+      std::generate(px.begin(), px.end(), [] {
+        return static_cast<unsigned char>(vnl_sample_uniform(fgMean - fgStd, fgMean + fgStd));
+      });
       inputImage->SetPixel(idx, px);
     }
   }
@@ -104,9 +106,9 @@ SetUpInputImage()
       idx[1] = y;
 
       PixelType px;
-      px[0] = static_cast<unsigned char>(vnl_sample_uniform(fgMean - fgStd, fgMean + fgStd));
-      px[1] = static_cast<unsigned char>(vnl_sample_uniform(fgMean - fgStd, fgMean + fgStd));
-      px[2] = static_cast<unsigned char>(vnl_sample_uniform(fgMean - fgStd, fgMean + fgStd));
+      std::generate(px.begin(), px.end(), [] {
+        return static_cast<unsigned char>(vnl_sample_uniform(fgMean - fgStd, fgMean + fgStd));
+      });
       inputImage->SetPixel(idx, px);
     }
   }
