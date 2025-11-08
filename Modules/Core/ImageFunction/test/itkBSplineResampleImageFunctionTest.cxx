@@ -26,8 +26,8 @@
  *
  *=========================================================================*/
 #include "itkSimpleFilterWatcher.h"
-#include "vnl/vnl_sample.h"
 #include "makeRandomImageBsplineInterpolator.h"
+#include <random> // For mt19937.
 
 /** Note:  This is the same test used for the itkBSplineDecompositionFilter
  *        It is duplicated here because it exercises the itkBSplineResampleImageFunctionTest
@@ -74,12 +74,15 @@ itkBSplineResampleImageFunctionTest(int, char *[])
   const double minValue = randImage->GetOrigin()[0];
   const double maxValue = LastPhysicalLocation[0];
 
+  std::mt19937                                                         randomNumberEngine{};
+  std::uniform_real_distribution<ResampleFunctionType::CoordinateType> randomNumberDistribution(minValue, maxValue);
+
   for (unsigned int k = 0; k < 10; ++k)
   {
     ResampleFunctionType::PointType point;
     for (unsigned int j = 0; j < ImageDimension; ++j)
     {
-      point[j] = vnl_sample_uniform(minValue, maxValue);
+      point[j] = randomNumberDistribution(randomNumberEngine);
     }
 
     const double f = resample->Evaluate(point);

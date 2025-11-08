@@ -17,12 +17,12 @@
  *=========================================================================*/
 
 #include "itkPointSet.h"
-#include "vnl/vnl_sample.h"
 #include "itkTestingMacros.h"
 
 #include <algorithm> // For generate.
 #include <iterator>  // For begin and end.
 #include <iostream>
+#include <random> // For mt19937.
 
 /**
  * Define a PointSet type that stores a PixelType of "int".  Use the defaults
@@ -68,11 +68,15 @@ itkPointSetTest(int, char *[])
    */
   try
   {
+    std::mt19937                                             randomNumberEngine{};
+    std::uniform_real_distribution<PointSet::CoordinateType> randomNumberDistribution(-1.0, 1.0);
+
     for (int i = 0; i < numOfPoints; ++i)
     {
-      std::generate(std::begin(testPointCoords), std::end(testPointCoords), [] {
-        return static_cast<PointSet::CoordinateType>(vnl_sample_uniform(-1.0, 1.0));
-      });
+      std::generate(
+        std::begin(testPointCoords), std::end(testPointCoords), [&randomNumberEngine, &randomNumberDistribution] {
+          return randomNumberDistribution(randomNumberEngine);
+        });
       pset->SetPoint(i, PointType(testPointCoords));
     }
   }
