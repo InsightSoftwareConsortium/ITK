@@ -19,10 +19,10 @@
 #include <iostream>
 #include "itkReflectiveImageRegionIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkGTest.h"
 
 
-int
-itkReflectiveImageRegionIteratorTest(int, char *[])
+TEST(ReflectiveImageRegionIterator, Test)
 {
   std::cout << "Creating an image" << std::endl;
   constexpr unsigned int Dimension{ 4 };
@@ -82,11 +82,7 @@ itkReflectiveImageRegionIteratorTest(int, char *[])
     const PixelType            value = rit.Get();
     const ImageType::IndexType index = rit.GetIndex();
     rvt.Set(rvt.Get() + 1);
-    if (value != index)
-    {
-      std::cerr << "Error :  at Index " << index << std::endl;
-      std::cerr << "It is pointing to " << value << std::endl;
-    }
+    EXPECT_EQ(value, index);
     ++rit;
     ++rvt;
   }
@@ -95,17 +91,12 @@ itkReflectiveImageRegionIteratorTest(int, char *[])
   // Each element should be visited 2 ^ # of dimensions
   // each left shift = multiply by 2
   constexpr int visits{ (1 << (ImageType::ImageDimension)) };
-  int           failed = 0;
 
   // Verify the number of visits
   vit.GoToBegin();
   while (!vit.IsAtEnd())
   {
-    if (vit.Get() != visits)
-    {
-      std::cout << vit.GetIndex() << " should not = " << vit.Get() << std::endl;
-      failed++;
-    }
+    EXPECT_EQ(vit.Get(), visits);
     ++vit;
   }
 
@@ -131,22 +122,6 @@ itkReflectiveImageRegionIteratorTest(int, char *[])
 
   for (rit.GoToBegin(); !rit.IsAtEnd(); ++rit)
   {
-    if (rit.Get() != myImage->GetPixel(rit.GetIndex()))
-    {
-      std::cerr << "Error: pixel value returned by iterator is " << rit.Get()
-                << ", but pixel value defined by image at the same index is " << myImage->GetPixel(rit.GetIndex())
-                << std::endl;
-      failed = 1;
-    }
+    EXPECT_EQ(rit.Get(), myImage->GetPixel(rit.GetIndex()));
   }
-
-  if (failed)
-  {
-    std::cout << "      FAILED !" << std::endl << std::endl;
-    return EXIT_FAILURE;
-  }
-
-
-  std::cout << "      PASSED !" << std::endl << std::endl;
-  return EXIT_SUCCESS;
 }
