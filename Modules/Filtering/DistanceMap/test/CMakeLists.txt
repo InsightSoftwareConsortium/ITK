@@ -8,7 +8,6 @@ set(
   itkSignedDanielssonDistanceMapImageFilterTest.cxx
   itkSignedDanielssonDistanceMapImageFilterTest1.cxx
   itkSignedDanielssonDistanceMapImageFilterTest2.cxx
-  itkContourMeanDistanceImageFilterTest.cxx
   itkFastChamferDistanceImageFilterTest.cxx
   itkReflectiveImageRegionIteratorTest.cxx
   itkSignedMaurerDistanceMapImageFilterTest.cxx
@@ -117,13 +116,6 @@ itk_add_test(
     4
 )
 
-itk_add_test(
-  NAME itkContourMeanDistanceImageFilterTest
-  COMMAND
-    ITKDistanceMapTestDriver
-    itkContourMeanDistanceImageFilterTest
-    1
-)
 itk_add_test(
   NAME itkFastChamferDistanceImageFilterTest1
   COMMAND
@@ -257,6 +249,7 @@ itk_add_test(
 set(
   ITKDistanceMapGTests
   itkContourDirectedMeanDistanceImageFilterGTest.cxx
+  itkContourMeanDistanceImageFilterGTest.cxx
   itkDirectedHausdorffDistanceImageFilterGTest.cxx
   itkHausdorffDistanceImageFilterGTest.cxx
   itkSignedDanielssonDistanceMapImageFilterGTest.cxx
