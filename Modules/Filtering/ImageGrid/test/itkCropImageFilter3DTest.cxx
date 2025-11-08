@@ -16,9 +16,12 @@
  *
  *=========================================================================*/
 
-#include <iostream>
 #include "itkCropImageFilter.h"
+#include "itkImageBufferRange.h"
 #include "itkTestingMacros.h"
+
+#include <iostream>
+#include <numeric> // For iota.
 
 int
 itkCropImageFilter3DTest(int, char *[])
@@ -44,11 +47,8 @@ itkCropImageFilter3DTest(int, char *[])
   image->SetRegions(region);
   image->Allocate();
 
-  itk::ImageRegionIterator<ImageType> it(image, region);
-  for (unsigned short i = 0; !it.IsAtEnd(); ++it, ++i)
-  {
-    it.Set(i);
-  }
+  const itk::ImageBufferRange<ImageType> imageBufferRange(*image);
+  std::iota(imageBufferRange.begin(), imageBufferRange.end(), PixelType{});
 
   const itk::CropImageFilter<ImageType, ImageType>::Pointer cropFilter =
     itk::CropImageFilter<ImageType, ImageType>::New();

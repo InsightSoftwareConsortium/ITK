@@ -16,10 +16,13 @@
  *
  *=========================================================================*/
 
-#include <iostream>
 #include "itkImageRegionIterator.h"
+#include "itkImageBufferRange.h"
 #include "itkShrinkImageFilter.h"
 #include "itkFileOutputWindow.h"
+
+#include <iostream>
+#include <numeric> // For iota.
 
 
 int
@@ -51,13 +54,8 @@ itkShrinkImageTest(int, char *[])
   if2->SetBufferedRegion(region);
   if2->Allocate();
 
-  itk::ImageRegionIterator<ShortImage> iterator(if2, region);
-
-  short i = 0;
-  for (; !iterator.IsAtEnd(); ++iterator, ++i)
-  {
-    iterator.Set(i);
-  }
+  const itk::ImageBufferRange<ShortImage> imageBufferRange(*if2);
+  std::iota(imageBufferRange.begin(), imageBufferRange.end(), short{});
 
   // Create a filter, shrink by 2,3
   itk::ShrinkImageFilter<ShortImage, ShortImage>::Pointer shrink;

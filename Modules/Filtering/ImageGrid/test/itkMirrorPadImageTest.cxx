@@ -16,10 +16,13 @@
  *
  *=========================================================================*/
 
-#include <fstream>
 #include "itkMirrorPadImageFilter.h"
 #include "itkStreamingImageFilter.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkImageBufferRange.h"
+
+#include <fstream>
+#include <numeric> // For iota.
 
 //
 // Check that val represents the correct pixel value.  This routine
@@ -101,14 +104,9 @@ itkMirrorPadImageTest(int, char *[])
   if2->SetBufferedRegion(region);
   if2->Allocate();
 
-  {
-    short i = 0;
-    for (itk::ImageRegionIterator<ShortImage> iterator(if2, region); !iterator.IsAtEnd(); ++iterator)
-    {
-      iterator.Set(i);
-      ++i;
-    }
-  }
+  const itk::ImageBufferRange<ShortImage> imageBufferRange(*if2);
+  std::iota(imageBufferRange.begin(), imageBufferRange.end(), short{});
+
   // Create a filter
   const itk::MirrorPadImageFilter<ShortImage, ShortImage>::Pointer mirrorPad =
     itk::MirrorPadImageFilter<ShortImage, ShortImage>::New();
