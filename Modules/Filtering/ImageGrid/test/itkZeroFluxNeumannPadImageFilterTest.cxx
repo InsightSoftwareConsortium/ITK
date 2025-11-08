@@ -16,12 +16,15 @@
  *
  *=========================================================================*/
 
-#include <fstream>
 #include "itkMath.h"
 #include "itkZeroFluxNeumannPadImageFilter.h"
+#include "itkImageBufferRange.h"
 #include "itkStreamingImageFilter.h"
 #include "itkTestingMacros.h"
+
+#include <fstream>
 #include <algorithm> // For clamp.
+#include <numeric>   // For iota.
 
 using ShortImage = itk::Image<short, 2>;
 using FloatImage = itk::Image<float, 2>;
@@ -177,13 +180,8 @@ itkZeroFluxNeumannPadImageFilterTest(int, char *[])
   inputImage->SetBufferedRegion(inputRegion);
   inputImage->Allocate();
 
-  itk::ImageRegionIterator<ShortImage> iterator(inputImage, inputRegion);
-
-  short i = 0;
-  for (; !iterator.IsAtEnd(); ++iterator, ++i)
-  {
-    iterator.Set(i);
-  }
+  const itk::ImageBufferRange<ShortImage> imageBufferRange(*inputImage);
+  std::iota(imageBufferRange.begin(), imageBufferRange.end(), short{});
 
   // Create a filter
   auto padFilter = FilterType::New();

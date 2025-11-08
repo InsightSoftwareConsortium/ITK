@@ -16,12 +16,15 @@
  *
  *=========================================================================*/
 
-#include <iostream>
 #include "itkCastImageFilter.h"
 #include "itkShrinkImageFilter.h"
 #include "itkPipelineMonitorImageFilter.h"
 #include "itkStreamingImageFilter.h"
+#include "itkImageBufferRange.h"
 #include "itkTestingMacros.h"
+
+#include <iostream>
+#include <numeric> // For iota.
 
 int
 itkShrinkImageStreamingTest(int, char *[])
@@ -42,14 +45,8 @@ itkShrinkImageStreamingTest(int, char *[])
   sourceImage->SetRegions(region);
   sourceImage->Allocate();
 
-  itk::ImageRegionIterator<ShortImage> iterator(sourceImage, region);
-
-  short i = 0;
-  for (; !iterator.IsAtEnd(); ++iterator, ++i)
-  {
-    iterator.Set(i);
-  }
-
+  const itk::ImageBufferRange<ShortImage> imageBufferRange(*sourceImage);
+  std::iota(imageBufferRange.begin(), imageBufferRange.end(), short{});
 
   // use caster to copy source to intermediate image of only the
   // requested region

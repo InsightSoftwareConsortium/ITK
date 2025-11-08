@@ -16,11 +16,14 @@
  *
  *=========================================================================*/
 
-#include <iostream>
 #include "itkConstantPadImageFilter.h"
+#include "itkImageBufferRange.h"
 #include "itkStreamingImageFilter.h"
 #include "itkSimpleFilterWatcher.h"
 #include "itkMath.h"
+
+#include <iostream>
+#include <numeric> // For iota.
 
 int
 itkConstantPadImageTest(int, char *[])
@@ -40,12 +43,8 @@ itkConstantPadImageTest(int, char *[])
   image->SetBufferedRegion(region);
   image->Allocate();
 
-  itk::ImageRegionIterator<ShortImage> iterator(image, region);
-
-  for (short i = 0; !iterator.IsAtEnd(); ++iterator, ++i)
-  {
-    iterator.Set(i);
-  }
+  const itk::ImageBufferRange<ShortImage> imageBufferRange(*image);
+  std::iota(imageBufferRange.begin(), imageBufferRange.end(), short{});
 
   // Create a filter
   using PadFilterType = itk::ConstantPadImageFilter<ShortImage, FloatImage>;
