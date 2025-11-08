@@ -19,10 +19,9 @@
 #include "itkShowDistanceMap.h"
 #include "itkDanielssonDistanceMapImageFilter.h"
 #include "itkStdStreamStateSave.h"
-#include "itkTestingMacros.h"
+#include "itkGTest.h"
 
-int
-itkDanielssonDistanceMapImageFilterTest(int, char *[])
+TEST(DanielssonDistanceMapImageFilter, Test)
 {
   // Save the format stream variables for std::cout
   // They will be restored when coutState goes out of scope
@@ -63,7 +62,7 @@ itkDanielssonDistanceMapImageFilterTest(int, char *[])
 
   auto filter2D = myFilterType2D::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter2D, DanielssonDistanceMapImageFilter, ImageToImageFilter);
+  ITK_GTEST_EXERCISE_BASIC_OBJECT_METHODS(filter2D, DanielssonDistanceMapImageFilter, ImageToImageFilter);
 
 
   filter2D->SetInput(inputImage2D);
@@ -76,7 +75,7 @@ itkDanielssonDistanceMapImageFilterTest(int, char *[])
 
   const myFilterType2D::VectorImagePointer outputComponents = filter2D->GetVectorDistanceMap();
 
-  ITK_TRY_EXPECT_NO_EXCEPTION(filter2D->Update());
+  EXPECT_NO_THROW(filter2D->Update());
 
 
   ShowDistanceMap(outputDistance2D);
@@ -126,18 +125,14 @@ itkDanielssonDistanceMapImageFilterTest(int, char *[])
   const double distance1 = outputDistance2D->GetPixel(index);
 
   constexpr bool squaredDistance{ true };
-  ITK_TEST_SET_GET_BOOLEAN(filter2D, SquaredDistance, squaredDistance);
+  ITK_GTEST_SET_GET_BOOLEAN(filter2D, SquaredDistance, squaredDistance);
 
-  ITK_TRY_EXPECT_NO_EXCEPTION(filter2D->Update());
+  EXPECT_NO_THROW(filter2D->Update());
 
 
   const double                        distance2 = outputDistance2D->GetPixel(index);
   constexpr myImageType2D2::PixelType epsilon{ 1e-5 };
-  if (itk::Math::abs(distance2 - distance1 * distance1) > epsilon)
-  {
-    std::cerr << "Error in use of the SetSquaredDistance() method" << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_NEAR(distance2, distance1 * distance1, epsilon);
 
   std::cout << "Squared Distance Map " << std::endl;
   ShowDistanceMap(outputDistance2D);
@@ -157,23 +152,18 @@ itkDanielssonDistanceMapImageFilterTest(int, char *[])
   filter2D->SetInput(inputImage2D);
 
   constexpr bool inputIsBinary{ true };
-  ITK_TEST_SET_GET_BOOLEAN(filter2D, InputIsBinary, inputIsBinary);
+  ITK_GTEST_SET_GET_BOOLEAN(filter2D, InputIsBinary, inputIsBinary);
 
   constexpr bool useImageSpacing{ true };
-  ITK_TEST_SET_GET_BOOLEAN(filter2D, UseImageSpacing, useImageSpacing);
+  ITK_GTEST_SET_GET_BOOLEAN(filter2D, UseImageSpacing, useImageSpacing);
 
-  ITK_TRY_EXPECT_NO_EXCEPTION(filter2D->Update());
+  EXPECT_NO_THROW(filter2D->Update());
 
   index2D[1] = 5;
   auto expectedValue = static_cast<myImageType2D2::PixelType>(anisotropicSpacing[1]);
   expectedValue *= expectedValue;
   const myImageType2D2::PixelType pixelValue = filter2D->GetOutput()->GetPixel(index2D);
-  if (itk::Math::abs(expectedValue - pixelValue) > epsilon)
-  {
-    std::cerr << "Error when image spacing is anisotropic." << std::endl;
-    std::cerr << "Pixel value was " << pixelValue << ", expected " << expectedValue << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_NEAR(pixelValue, expectedValue, epsilon);
 
   ShowDistanceMap(outputDistance2D);
 
@@ -215,9 +205,5 @@ itkDanielssonDistanceMapImageFilterTest(int, char *[])
 
   filter3D->SetInput(inputImage3D);
 
-  ITK_TRY_EXPECT_NO_EXCEPTION(filter3D->Update());
-
-
-  std::cout << "Test finished." << std::endl;
-  return EXIT_SUCCESS;
+  EXPECT_NO_THROW(filter3D->Update());
 }
