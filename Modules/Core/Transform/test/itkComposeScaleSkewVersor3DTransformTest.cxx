@@ -26,8 +26,7 @@
 
 #include "itkComposeScaleSkewVersor3DTransform.h"
 #include <iostream>
-
-#include <vnl/vnl_sample.h>
+#include <random> // For mt19937.
 
 // -------------------------
 //
@@ -476,12 +475,16 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
     std::cout << "SetMatrix parameters do match!" << std::endl;
 
     int diff = 0;
+
+    std::mt19937                              randomNumberEngine{};
+    std::uniform_real_distribution<ValueType> randomNumberDistribution(-100, 100);
+
     for (unsigned int p = 0; p < 100; ++p)
     {
       TransformType::InputPointType pnt;
       for (unsigned int i = 0; i < 3; ++i)
       {
-        pnt[i] = vnl_sample_uniform(-100, 100);
+        pnt[i] = randomNumberDistribution(randomNumberEngine);
       }
 
       TransformType::OutputPointType tPnt;
