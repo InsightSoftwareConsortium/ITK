@@ -10,6 +10,7 @@ readonly subtree="Modules/ThirdParty/MetaIO/src/MetaIO"
 readonly repo="https://github.com/Kitware/MetaIO.git"
 readonly tag="master"
 readonly shortlog=false
+readonly exact_tree_match=false
 readonly paths="
   src
   License.txt

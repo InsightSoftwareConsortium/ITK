@@ -9,6 +9,7 @@ readonly ownership="Zlib-ng Upstream <kwrobot@kitware.com>"
 readonly subtree="Modules/ThirdParty/ZLIB/src/itk$name"
 readonly repo="https://github.com/zlib-ng/zlib-ng.git"
 readonly tag="2.2.5"
+readonly exact_tree_match=false
 readonly paths="
 CMakeLists.txt
 cmake/*
