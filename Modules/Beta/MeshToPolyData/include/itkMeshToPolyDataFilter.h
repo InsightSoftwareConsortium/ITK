@@ -38,7 +38,7 @@ class HasCellTraits
   static No &
   test(...); // selected otherwise
 public:
-  static bool const value = sizeof(test<TInputType>(0)) == sizeof(Yes);
+  static const bool value = sizeof(test<TInputType>(0)) == sizeof(Yes);
 };
 
 /** \class MeshToPolyDataFilter
