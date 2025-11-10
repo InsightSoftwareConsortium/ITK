@@ -23,6 +23,7 @@
 #include "itkMinimumMaximumImageCalculator.h"
 #include "itkCastImageFilter.h"
 #include "itkMath.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -356,6 +357,7 @@ template <typename TInputPixelType, typename TOutputPixelType>
 void
 HoughTransform2DLinesImageFilter<TInputPixelType, TOutputPixelType>::PrintSelf(std::ostream & os, Indent indent) const
 {
+  using namespace itk::print_helper;
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Threshold: " << m_Threshold << std::endl;
@@ -365,15 +367,7 @@ HoughTransform2DLinesImageFilter<TInputPixelType, TOutputPixelType>::PrintSelf(s
   os << indent << "Accumulator blur variance: " << m_Variance << std::endl;
   itkPrintSelfObjectMacro(SimplifyAccumulator);
 
-  os << indent << "LinesList: " << std::endl;
-  unsigned int i = 0;
-  auto         it = m_LinesList.begin();
-  while (it != m_LinesList.end())
-  {
-    os << indent << '[' << i << "]: " << *it << std::endl;
-    ++it;
-    ++i;
-  }
+  os << indent << "LinesList: " << m_LinesList << std::endl;
 
   os << indent << "OldModifiedTime: " << NumericTraits<ModifiedTimeType>::PrintType(m_OldModifiedTime) << std::endl;
 }
