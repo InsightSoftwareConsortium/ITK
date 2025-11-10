@@ -18,7 +18,7 @@
 
 #include "itkBinaryMinMaxCurvatureFlowImageFilter.h"
 #include "itkCommand.h"
-#include "vnl/vnl_sample.h"
+#include <random> // For mt19937.
 
 
 // The following class is used to support callbacks
@@ -124,6 +124,11 @@ testBinaryMinMaxCurvatureFlow(itk::Size<VImageDimension> & size, // ND image siz
   circleImage->SetBufferedRegion(region);
   circleImage->Allocate();
 
+  std::mt19937                              randomNumberEngine{};
+  std::uniform_real_distribution<double>    randomNumberDistributionBetweenZeroAndOne(0.0, 1.0);
+  std::uniform_real_distribution<PixelType> randomNumberDistributionBetweenForgroundAndBackground(
+    std::min(foreground, background), std::max(foreground, background));
+
   for (IteratorType circleIter(circleImage, circleImage->GetBufferedRegion()); !circleIter.IsAtEnd(); ++circleIter)
   {
     typename ImageType::IndexType index = circleIter.GetIndex();
@@ -140,9 +145,9 @@ testBinaryMinMaxCurvatureFlow(itk::Size<VImageDimension> & size, // ND image siz
       value = foreground;
     }
 
-    if (vnl_sample_uniform(0.0, 1.0) < fractionNoise)
+    if (randomNumberDistributionBetweenZeroAndOne(randomNumberEngine) < fractionNoise)
     {
-      value = vnl_sample_uniform(std::min(foreground, background), std::max(foreground, background));
+      value = randomNumberDistributionBetweenForgroundAndBackground(randomNumberEngine);
     }
     circleIter.Set(value);
   }
