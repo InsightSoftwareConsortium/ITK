@@ -19,6 +19,7 @@
 #define itkNeighborhood_hxx
 
 #include "itkNumericTraits.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -115,22 +116,11 @@ template <typename TPixel, unsigned int VDimension, typename TContainer>
 void
 Neighborhood<TPixel, VDimension, TContainer>::PrintSelf(std::ostream & os, Indent indent) const
 {
+  using namespace itk::print_helper;
   os << indent << "Size: " << static_cast<typename NumericTraits<SizeType>::PrintType>(m_Size) << std::endl;
   os << indent << "Radius: " << static_cast<typename NumericTraits<SizeType>::PrintType>(m_Radius) << std::endl;
-
-  os << indent << "StrideTable: [ ";
-  for (DimensionValueType i = 0; i < VDimension; ++i)
-  {
-    os << indent.GetNextIndent() << m_StrideTable[i] << ' ';
-  }
-  os << ']' << std::endl;
-
-  os << indent << "OffsetTable: [ ";
-  for (DimensionValueType i = 0; i < m_OffsetTable.size(); ++i)
-  {
-    os << indent.GetNextIndent() << m_OffsetTable[i] << ' ';
-  }
-  os << ']' << std::endl;
+  os << indent << "StrideTable: " << m_StrideTable << std::endl;
+  os << indent << "OffsetTable: " << m_OffsetTable << std::endl;
 }
 } // namespace itk
 
