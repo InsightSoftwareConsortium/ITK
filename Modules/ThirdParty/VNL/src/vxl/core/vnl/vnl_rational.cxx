@@ -26,8 +26,8 @@ makeNumDen(FloatingType d, int_type & num_, int_type & den_)
 
   while (d * num < 1e9 && d * den < 1e9)
   {
-    const int_type a = static_cast<int_type>(d); // integral part of d
-    d -= a;                                      // certainly >= 0
+    const auto a = static_cast<int_type>(d); // integral part of d
+    d -= a;                                  // certainly >= 0
     int_type temp = num;
     num = a * num + prev_num;
     prev_num = temp;

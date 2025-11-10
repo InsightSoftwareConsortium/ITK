@@ -5,6 +5,7 @@
 #include <cassert>
 #include "vnl_sparse_lu.h"
 
+#include <cmath>
 #include <sparse/spMatrix.h>
 
 // destructor - undo the spCreate() from the constructor(s)
@@ -189,8 +190,8 @@ vnl_sparse_lu::solve_transpose(const vnl_vector<double> & b)
 double
 vnl_sparse_lu::determinant()
 {
-  int exponent;
-  double determ;
+  int exponent = 0;
+  double determ = NAN;
   if (!factored_)
   {
     spFactor(pmatrix_);

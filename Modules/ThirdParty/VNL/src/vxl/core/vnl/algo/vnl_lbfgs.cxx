@@ -12,6 +12,7 @@
 #include <iomanip>
 #include "vnl_lbfgs.h"
 
+#include <cmath>
 #include <vnl/algo/vnl_netlib.h> // lbfgs_()
 
 //: Default constructor.
@@ -73,7 +74,7 @@ vnl_lbfgs::minimize(vnl_vector<double> & x)
   double best_f = 0;
   vnl_vector<double> best_x;
 
-  bool ok;
+  bool ok = false;
   this->num_evaluations_ = 0;
   this->num_iterations_ = 0;
   long iflag = 0;
@@ -89,7 +90,7 @@ vnl_lbfgs::minimize(vnl_vector<double> & x)
     lbfgs_global.stpinit = default_step_length;
 
     // Call function
-    double f;
+    double f = NAN;
     f_->compute(x, &f, &g);
     if (this->num_evaluations_ == 0)
     {

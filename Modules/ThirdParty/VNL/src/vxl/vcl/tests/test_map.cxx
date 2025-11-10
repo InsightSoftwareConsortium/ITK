@@ -10,7 +10,7 @@ int
 test_map_main(int /*argc*/, char * /*argv*/[])
 {
   bool okay = true;
-  typedef std::map<int, double, std::less<int>> mymap;
+  using mymap = std::map<int, double, std::less<int>>;
   mymap m;
 
   m.insert(mymap::value_type(1, 2718));

@@ -140,7 +140,7 @@ test_nullvector(char const * type, double max_err, T *, vnl_random & rng)
 static void
 test_speed(vnl_random & rng)
 {
-  int ms_heap;
+  int ms_heap = 0;
   {
     double sum = 0;
     const std::clock_t timer_01 = std::clock();
@@ -155,7 +155,7 @@ test_speed(vnl_random & rng)
     ms_heap = ((timer_02 - timer_01) * 1000) / CLOCKS_PER_SEC;
     std::cout << "vnl_svd time for 10000 3x3 inversions: " << ms_heap << "ms." << std::endl;
   }
-  int ms_stack;
+  int ms_stack = 0;
   {
     double sum = 0;
     const std::clock_t timer_03 = std::clock();

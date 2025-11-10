@@ -8,7 +8,7 @@
 char *
 vnl_alloc::chunk_alloc(std::size_t size, int & nobjs)
 {
-  char * result;
+  char * result = nullptr;
   std::size_t total_bytes = size * nobjs;
   const std::size_t bytes_left = end_free - start_free;
 
@@ -32,7 +32,7 @@ vnl_alloc::chunk_alloc(std::size_t size, int & nobjs)
     // Try to make use of the left-over piece.
     if (bytes_left > 0)
     {
-      obj ** my_free_list = free_list + FREELIST_INDEX(bytes_left);
+      obj ** const my_free_list = free_list + FREELIST_INDEX(bytes_left);
       ((obj *)start_free)->free_list_link = *my_free_list;
       *my_free_list = (obj *)start_free;
     }
@@ -44,8 +44,8 @@ vnl_alloc::chunk_alloc(std::size_t size, int & nobjs)
       // to result in disaster on multi-process machines.
       for (std::size_t i = size; i <= VNL_ALLOC_MAX_BYTES; i += VNL_ALLOC_ALIGN)
       {
-        obj ** my_free_list = free_list + FREELIST_INDEX(i);
-        obj * p = *my_free_list;
+        obj ** const my_free_list = free_list + FREELIST_INDEX(i);
+        obj * const p = *my_free_list;
         if (nullptr != p)
         {
           *my_free_list = p->free_list_link;
@@ -75,19 +75,19 @@ void *
 vnl_alloc::refill(std::size_t n)
 {
   int nobjs = 20;
-  char * chunk = chunk_alloc(n, nobjs);
-  obj * next_obj;
+  char * const chunk = chunk_alloc(n, nobjs);
+  obj * next_obj = nullptr;
 
   if (1 == nobjs)
     return chunk;
-  obj ** my_free_list = free_list + FREELIST_INDEX(n);
+  obj ** const my_free_list = free_list + FREELIST_INDEX(n);
 
   /* Build free std::list in chunk */
-  obj * result = (obj *)chunk;
+  obj * const result = (obj *)chunk;
   *my_free_list = next_obj = (obj *)(chunk + n);
   for (int i = 1;; i++)
   {
-    obj * current_obj = next_obj;
+    obj * const current_obj = next_obj;
     next_obj = (obj *)((char *)next_obj + n);
     if (nobjs - 1 == i)
     {
@@ -112,7 +112,7 @@ vnl_alloc::reallocate(void * p, std::size_t old_sz, std::size_t new_sz)
   }
   if (ROUND_UP(old_sz) == ROUND_UP(new_sz))
     return p;
-  void * result = allocate(new_sz);
+  void * const result = allocate(new_sz);
   const std::size_t copy_sz = new_sz > old_sz ? old_sz : new_sz;
   std::memcpy(result, p, copy_sz);
   deallocate(p, old_sz);

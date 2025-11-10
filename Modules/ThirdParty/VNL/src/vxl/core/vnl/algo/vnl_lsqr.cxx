@@ -17,7 +17,7 @@
 class lsqrVNL : public lsqrBase
 {
 public:
-  lsqrVNL() { this->ls_ = nullptr; }
+  lsqrVNL() = default;
 
   ~lsqrVNL() override = default;
 
@@ -70,13 +70,11 @@ public:
   }
 
 private:
-  vnl_linear_system * ls_;
+  vnl_linear_system * ls_{ nullptr };
 
   double * rw;
 };
 
-
-vnl_lsqr::~vnl_lsqr() = default;
 
 // Requires number_of_residuals() of workspace in rw.
 int
@@ -176,25 +174,25 @@ vnl_lsqr::diagnose_outcome(std::ostream & os) const
 void
 vnl_lsqr::translate_return_code(std::ostream & os, int rc)
 {
-  const char * vnl_lsqr_reasons[] = { "x = 0  is the exact solution. No iterations were performed.",
-                                      "The equations A*x = b are probably compatible.  "
-                                      "Norm(A*x - b) is sufficiently small, given the "
-                                      "values of ATOL and BTOL.",
-                                      "The system A*x = b is probably not compatible.  "
-                                      "A least-squares solution has been obtained that is "
-                                      "sufficiently accurate, given the value of ATOL.",
-                                      "An estimate of cond(Abar) has exceeded CONLIM.  "
-                                      "The system A*x = b appears to be ill-conditioned.  "
-                                      "Otherwise, there could be an error in subroutine APROD.",
-                                      "The equations A*x = b are probably compatible.  "
-                                      "Norm(A*x - b) is as small as seems reasonable on this machine.",
-                                      "The system A*x = b is probably not compatible.  A least-squares "
-                                      "solution has been obtained that is as accurate as seems "
-                                      "reasonable on this machine.",
-                                      "Cond(Abar) seems to be so large that there is no point in doing further "
-                                      "iterations, given the precision of this machine. "
-                                      "There could be an error in subroutine APROD.",
-                                      "The iteration limit ITNLIM was reached." };
+  const char * const vnl_lsqr_reasons[] = { "x = 0  is the exact solution. No iterations were performed.",
+                                            "The equations A*x = b are probably compatible.  "
+                                            "Norm(A*x - b) is sufficiently small, given the "
+                                            "values of ATOL and BTOL.",
+                                            "The system A*x = b is probably not compatible.  "
+                                            "A least-squares solution has been obtained that is "
+                                            "sufficiently accurate, given the value of ATOL.",
+                                            "An estimate of cond(Abar) has exceeded CONLIM.  "
+                                            "The system A*x = b appears to be ill-conditioned.  "
+                                            "Otherwise, there could be an error in subroutine APROD.",
+                                            "The equations A*x = b are probably compatible.  "
+                                            "Norm(A*x - b) is as small as seems reasonable on this machine.",
+                                            "The system A*x = b is probably not compatible.  A least-squares "
+                                            "solution has been obtained that is as accurate as seems "
+                                            "reasonable on this machine.",
+                                            "Cond(Abar) seems to be so large that there is no point in doing further "
+                                            "iterations, given the precision of this machine. "
+                                            "There could be an error in subroutine APROD.",
+                                            "The iteration limit ITNLIM was reached." };
 
   if (rc < 0 || rc > 7)
     os << __FILE__ " : Illegal return code : " << rc << std::endl;

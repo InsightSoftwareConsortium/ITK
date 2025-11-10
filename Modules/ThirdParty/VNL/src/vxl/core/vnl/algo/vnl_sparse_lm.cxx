@@ -6,6 +6,7 @@
 //
 //-----------------------------------------------------------------------------
 
+#include <algorithm>
 #include <iostream>
 #include <iomanip>
 #include <algorithm>
@@ -146,7 +147,7 @@ vnl_sparse_lm::minimize(vnl_vector<double> & a,
     compute_normal_equations();
 
     // check for convergence in gradient
-    if (std::max(std::max(ea_.inf_norm(), eb_.inf_norm()), ec_.inf_norm()) <= gtol)
+    if (std::max({ ea_.inf_norm(), eb_.inf_norm(), ec_.inf_norm() }) <= gtol)
     {
       failure_code_ = CONVERGED_GTOL;
       break;

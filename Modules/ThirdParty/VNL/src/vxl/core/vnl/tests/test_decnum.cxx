@@ -532,8 +532,8 @@ run_addition_subtraction_tests()
 {
   std::cout << "\nStarting addition, subtraction tests:\n";
 
-  long i;
-  long j;
+  long i = 0;
+  long j = 0;
   vnl_decnum bi;
   vnl_decnum bj;
   vnl_decnum bij;

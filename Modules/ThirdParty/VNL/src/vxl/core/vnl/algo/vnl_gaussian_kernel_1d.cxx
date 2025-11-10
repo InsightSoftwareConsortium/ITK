@@ -24,9 +24,10 @@ compute_width(double sigma, double cutoff)
 // The vector is normalized so that its sum is 0.5.
 vnl_gaussian_kernel_1d::vnl_gaussian_kernel_1d(double sigma, double cutoff)
   : vec_((int)std::ceil(compute_width(sigma, cutoff)))
+  , inscale_(0.5 / (sigma * sigma))
 {
   const int wid = vec_.size();
-  inscale_ = 0.5 / (sigma * sigma);
+
   double area = 0;
   for (int i = 0; i < wid; ++i)
   {

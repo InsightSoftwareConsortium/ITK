@@ -21,24 +21,28 @@
 template <class T> // the primary template is empty, by design.
 struct vnl_complex_traits;
 
-#define VCL_DEFINE_SPECIALIZATION_MACRO(T) \
-  template <>                              \
-  struct VNL_EXPORT vnl_complex_traits<T>  \
-  {                                        \
-    enum                                   \
-    {                                      \
-      isreal = true                        \
-    };                                     \
-    static T                               \
-    conjugate(T x)                         \
-    {                                      \
-      return x;                            \
-    }                                      \
-    static std::complex<T>                 \
-    complexify(T x)                        \
-    {                                      \
-      return std::complex<T>(x, (T)0);     \
-    }                                      \
+#define VCL_DEFINE_SPECIALIZATION_MACRO(T)                                                 \
+  template <>                                                                              \
+  struct VNL_EXPORT vnl_complex_traits<T>                                                  \
+  {                                                                                        \
+    enum                                                                                   \
+    {                                                                                      \
+      isreal = true                                                                        \
+    };                                                                                     \
+    static T                                                                               \
+    conjugate(T x)                                                                         \
+    {                                                                                      \
+      return x;                                                                            \
+    }                                                                                      \
+    /* std::complex is only defined for float, double */                                   \
+    /*              and long double.  All other types */                                   \
+    /*              are undefined behavior.           */                                   \
+    static std::complex<float>                                                             \
+    complexify(T /* x */)                                                                  \
+    {                                                                                      \
+      throw std::runtime_error("Can not call complexify on non floating point data type"); \
+      return std::complex<float>(0, (T)0);                                                 \
+    }                                                                                      \
   }
 #define VCL_DEFINE_SPECIALIZATION_MACRO_SIGNED_UNSIGNED(T) \
   VCL_DEFINE_SPECIALIZATION_MACRO(signed T);               \
@@ -186,10 +190,11 @@ struct VNL_EXPORT vnl_complex_traits<vnl_bignum>
   {
     return x;
   }
-  static std::complex<vnl_bignum>
-  complexify(vnl_bignum x)
+  static std::complex<float>
+  complexify(vnl_bignum /* x */)
   {
-    return std::complex<vnl_bignum>(x, vnl_bignum(0L));
+    throw std::runtime_error("Can not call complexify on non floating point data type");
+    return std::complex<float>(0., 0.);
   }
 };
 
@@ -205,10 +210,11 @@ struct VNL_EXPORT vnl_complex_traits<std::complex<vnl_bignum>>
   {
     return std::complex<vnl_bignum>(x.real(), -x.imag());
   }
-  static std::complex<vnl_bignum>
-  complexify(std::complex<vnl_bignum> x)
+  static std::complex<float>
+  complexify(std::complex<float> /* x */)
   {
-    return x;
+    throw std::runtime_error("Can not call complexify on non floating point data type");
+    return std::complex<float>(0., 0.);
   }
 };
 
@@ -226,10 +232,11 @@ struct VNL_EXPORT vnl_complex_traits<vnl_rational>
   {
     return x;
   }
-  static std::complex<vnl_rational>
-  complexify(vnl_rational x)
+  static std::complex<float>
+  complexify(vnl_rational /* x */)
   {
-    return std::complex<vnl_rational>(x, vnl_rational(0, 1));
+    throw std::runtime_error("Can not call complexify on non floating point data type");
+    return std::complex<float>(0., 0.);
   }
 };
 
@@ -240,10 +247,11 @@ struct VNL_EXPORT vnl_complex_traits<std::complex<vnl_rational>>
   {
     isreal = false
   };
-  static std::complex<vnl_rational>
-  conjugate(std::complex<vnl_rational> x)
+  static std::complex<float>
+  conjugate(std::complex<float> /* x */)
   {
-    return std::complex<vnl_rational>(x.real(), -x.imag());
+    throw std::runtime_error("Can not call complexify on non floating point data type");
+    return std::complex<float>(0., 0.);
   }
   static std::complex<vnl_rational>
   complexify(std::complex<vnl_rational> x)
