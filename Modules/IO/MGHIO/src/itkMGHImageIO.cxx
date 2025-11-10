@@ -420,7 +420,7 @@ MGHImageIO ::Read(void * pData)
           *(pDst + byteCount) = *(pSrc + byteCount);
         }
       } // next ui
-    }   // next frameIndex
+    } // next frameIndex
 
     // clear resources
     delete[] pBuffer;
@@ -722,7 +722,7 @@ MGHImageIO ::PermuteFrameValues(const void * buffer, char * tempmemory)
     {
       std::copy(pSrc, pSrc + valueSize, pDst + frameSize * componentIndex);
     } // next component index
-  }   // next pixelIndex
+  } // next pixelIndex
 }
 
 unsigned int

@@ -52,7 +52,7 @@ MGHImageIOFactory::GetDescription() const
 static bool MGHImageIOFactoryHasBeenRegistered = false;
 
 void MGHIO_EXPORT
-     MGHImageIOFactoryRegister__Private()
+MGHImageIOFactoryRegister__Private()
 {
   if (!MGHImageIOFactoryHasBeenRegistered)
   {
