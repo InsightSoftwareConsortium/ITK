@@ -18,7 +18,7 @@
 
 #include "itkMinMaxCurvatureFlowImageFilter.h"
 #include "itkCommand.h"
-#include "vnl/vnl_sample.h"
+#include <random> // For mt19937.
 
 namespace
 {
@@ -156,6 +156,11 @@ testMinMaxCurvatureFlow(itk::Size<VImageDimension> & size,         // ND image s
   circleImage->SetBufferedRegion(region);
   circleImage->Allocate();
 
+  std::mt19937                              randomNumberEngine{};
+  std::uniform_real_distribution<double>    randomNumberDistributionBetweenZeroAndOne(0.0, 1.0);
+  std::uniform_real_distribution<PixelType> randomNumberDistributionBetweenForgroundAndBackground(
+    std::min(foreground, background), std::max(foreground, background));
+
   IteratorType circleIter(circleImage, circleImage->GetBufferedRegion());
 
 
@@ -170,9 +175,9 @@ testMinMaxCurvatureFlow(itk::Size<VImageDimension> & size,         // ND image s
     }
     float value = (lhs < sqrRadius) ? foreground : background;
 
-    if (vnl_sample_uniform(0.0, 1.0) < fractionNoise)
+    if (randomNumberDistributionBetweenZeroAndOne(randomNumberEngine) < fractionNoise)
     {
-      value = vnl_sample_uniform(std::min(foreground, background), std::max(foreground, background));
+      value = randomNumberDistributionBetweenForgroundAndBackground(randomNumberEngine);
     }
 
     circleIter.Set(value);
