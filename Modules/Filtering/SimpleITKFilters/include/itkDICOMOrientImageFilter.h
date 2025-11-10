@@ -168,7 +168,7 @@ protected:
   SetInputCoordinateOrientation(OrientationEnum newCode);
 
   void
-  VerifyPreconditions() ITKv5_CONST override;
+  VerifyPreconditions() const override;
 
   /** Single-threaded version of GenerateData. This filter delegates
    * to PermuteAxesImageFilter and FlipImageFilter. */

@@ -170,11 +170,11 @@ public:
    * \sa ProcessObject::VerifyInputInformation
    */
   void
-  VerifyInputInformation() ITKv5_CONST override
+  VerifyInputInformation() const override
   {}
 
   void
-  VerifyPreconditions() ITKv5_CONST override;
+  VerifyPreconditions() const override;
 
   bool
   CanRunInPlace() const override;

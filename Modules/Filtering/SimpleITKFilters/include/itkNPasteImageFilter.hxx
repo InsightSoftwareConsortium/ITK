@@ -79,7 +79,7 @@ NPasteImageFilter<TInputImage, TSourceImage, TOutputImage>::GenerateInputRequest
 
 template <typename TInputImage, typename TSourceImage, typename TOutputImage>
 void
-NPasteImageFilter<TInputImage, TSourceImage, TOutputImage>::VerifyPreconditions() ITKv5_CONST
+NPasteImageFilter<TInputImage, TSourceImage, TOutputImage>::VerifyPreconditions() const
 {
   Superclass::VerifyPreconditions();
 

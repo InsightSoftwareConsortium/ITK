@@ -295,7 +295,7 @@ DICOMOrientImageFilter<TInputImage>::GenerateOutputInformation()
 
 template <typename TInputImage>
 void
-DICOMOrientImageFilter<TInputImage>::VerifyPreconditions() ITKv5_CONST
+DICOMOrientImageFilter<TInputImage>::VerifyPreconditions() const
 {
   Superclass::VerifyPreconditions();
 
