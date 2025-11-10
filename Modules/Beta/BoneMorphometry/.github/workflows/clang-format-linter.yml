@@ -8,8 +8,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v5
-      with:
-        fetch-depth: 1
+
     - uses: InsightSoftwareConsortium/ITKClangFormatLinterAction@main
       with:
-        itk-branch: master
+        itk-branch: main
