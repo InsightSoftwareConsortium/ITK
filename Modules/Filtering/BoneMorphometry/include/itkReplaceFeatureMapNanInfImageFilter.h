@@ -21,6 +21,7 @@
 #include "itkImageToImageFilter.h"
 #include "itkNumericTraits.h"
 #include "itkSimpleDataObjectDecorator.h"
+#include "itkImageRegionConstIterator.h"
 
 // useful filters
 #include <itkVectorIndexSelectionCastImageFilter.h>
