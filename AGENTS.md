@@ -79,15 +79,13 @@ cmake -B build-python -S . \
 
 ### Building
 ```bash
-# Standard build
-cmake --build build -j
+# Build via Pixi (recommended for development)
+pixi run --as-is build         # Build C++ tests
+pixi run --as-is build-python  # Build Python tests
 
-# Python build
-cmake --build build-python -j
-
-# Pixi (recommended for development)
-pixi run test         # C++ tests
-pixi run test-python  # Python tests
+# Run tests via Pixi (recommended for development)
+pixi run --as-is test         # C++ tests
+pixi run --as-is test-python  # Python tests
 ```
 
 For an interactive shell with ITK environment:
