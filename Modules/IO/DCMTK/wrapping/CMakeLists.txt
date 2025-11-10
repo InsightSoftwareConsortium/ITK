@@ -1,2 +1,0 @@
-itk_wrap_module(ITKIODCMTK)
-itk_auto_load_and_end_wrap_submodules()

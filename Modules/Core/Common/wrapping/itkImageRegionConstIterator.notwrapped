@@ -1,1 +1,0 @@
-message(FATAL_ERROR "Iterators are not efficient when wrapped.")

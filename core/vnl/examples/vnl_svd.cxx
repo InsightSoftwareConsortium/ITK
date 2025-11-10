@@ -1,0 +1,35 @@
+// Solve LS problem M x = B, warning if M is nearly singular.
+// Peter Vanroose, February 2000
+
+#include <iostream>
+#include <vnl/algo/vnl_svd.h>
+
+template <class D> // D is often double or float
+vnl_matrix<D>
+solve_with_warning(const vnl_matrix<D> & M, const vnl_matrix<D> & B)
+{
+  // Take svd of vnl_matrix<D> M, setting singular values
+  // smaller than 1e-8 to 0, and hold the result.
+  const vnl_svd<D> svd(M, 1e-8);
+  // Check for rank-deficiency
+  if (svd.singularities() > 1)
+    std::cerr << "Warning: Singular matrix, condition = " << svd.well_condition() << std::endl;
+  return svd.solve(B);
+}
+
+template vnl_matrix<double>
+solve_with_warning(const vnl_matrix<double> &, const vnl_matrix<double> &);
+
+int
+main()
+{
+  double data[] = { 1, 1, 1, 1, 2, 3, 1, 3, 6 };
+  vnl_matrix<double> M(data, 3, 3);
+  const vnl_matrix<double> B(3, 1, 7.0); // column vector [7 7 7]^T
+  vnl_matrix<double> result = solve_with_warning(M, B);
+  std::cerr << result << std::endl;
+  M(2, 2) = 5;
+  result = solve_with_warning(M, B);
+  std::cerr << result << std::endl;
+  return 0;
+}

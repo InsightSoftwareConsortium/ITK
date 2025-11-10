@@ -1,3 +1,0 @@
--Wstringop-overflow=4
--Wsuggest-attribute=cold
--Wsuggest-attribute=malloc
