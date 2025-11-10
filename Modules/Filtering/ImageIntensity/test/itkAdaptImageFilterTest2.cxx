@@ -33,11 +33,10 @@
 
 #include "itkAdaptImageFilter.h"
 #include "itkNthElementPixelAccessor.h"
-
-#include "vnl/vnl_sample.h"
 #include "itkMath.h"
 
 #include <algorithm> // For generate.
+#include <random>    // For mt19937.
 
 
 //-------------------------------------
@@ -79,6 +78,9 @@ itkAdaptImageFilterTest2(int, char *[])
 
   myVectorIteratorType it1(myImage, myImage->GetRequestedRegion());
 
+  std::mt19937                          randomNumberEngine{};
+  std::uniform_real_distribution<float> randomNumberDistribution{};
+
   // Value to initialize the pixels
   myVectorImageType::PixelType color;
 
@@ -86,7 +88,9 @@ itkAdaptImageFilterTest2(int, char *[])
   it1.GoToBegin();
   while (!it1.IsAtEnd())
   {
-    std::generate(color.begin(), color.end(), [] { return static_cast<float>(vnl_sample_uniform(0.0, 1.0)); });
+    std::generate(color.begin(), color.end(), [&randomNumberEngine, &randomNumberDistribution] {
+      return randomNumberDistribution(randomNumberEngine);
+    });
     it1.Set(color);
     ++it1;
   }

@@ -36,11 +36,10 @@
 #include "itkGreenPixelAccessor.h"
 #include "itkBluePixelAccessor.h"
 #include "itkSimpleFilterWatcher.h"
-
-#include "vnl/vnl_sample.h"
 #include "itkMath.h"
 
 #include <algorithm> // For generate.
+#include <random>    // For mt19937.
 
 
 //-------------------------------------
@@ -87,11 +86,16 @@ itkAdaptImageFilterTest(int, char *[])
   // Value to initialize the pixels
   myRGBImageType::PixelType color;
 
+  std::mt19937                          randomNumberEngine{};
+  std::uniform_real_distribution<float> randomNumberDistribution{};
+
   // Initializing all the pixel in the image
   it1.GoToBegin();
   while (!it1.IsAtEnd())
   {
-    std::generate(color.begin(), color.end(), [] { return static_cast<float>(vnl_sample_uniform(0.0, 1.0)); });
+    std::generate(color.begin(), color.end(), [&randomNumberEngine, &randomNumberDistribution] {
+      return randomNumberDistribution(randomNumberEngine);
+    });
     it1.Set(color);
     ++it1;
   }
