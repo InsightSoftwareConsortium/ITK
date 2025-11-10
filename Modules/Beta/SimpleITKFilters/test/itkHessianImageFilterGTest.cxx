@@ -159,8 +159,9 @@ TEST_F(HessianImageFilterFixture, ValueTest_3D)
   std::cout << "Value: " << image->GetPixel(itk::MakeIndex(13, 12, 12)) << std::endl;
   std::cout << "Value: " << image->GetPixel(itk::MakeIndex(14, 12, 12)) << std::endl;
 
-  ITK_EXPECT_VECTOR_NEAR(
-    MakeFixedArray(-0.0001615, 0.0, 0.0, -0.0001615, 0.0, -0.0001615), output->GetPixel(itk::MakeIndex(12, 12, 12)), 1e-6);
+  ITK_EXPECT_VECTOR_NEAR(MakeFixedArray(-0.0001615, 0.0, 0.0, -0.0001615, 0.0, -0.0001615),
+                         output->GetPixel(itk::MakeIndex(12, 12, 12)),
+                         1e-6);
 
   ITK_EXPECT_VECTOR_NEAR(MakeFixedArray(-0.00014602, 0.0, 0.0, -0.00014602, 0.0, -0.00014602),
                          output->GetPixel(itk::MakeIndex(10, 10, 10)),
