@@ -1,4 +1,4 @@
-## This config file is only relevant for clang-format version 19.1.4
+## This config file is only relevant for clang-format version 19.1.7
 ##
 ## Examples of each format style can be found on the in the clang-format documentation
 ## See: https://clang.llvm.org/docs/ClangFormatStyleOptions.html for details of each option
@@ -10,11 +10,11 @@
 ## maintaining a consistent code style.
 ##
 ## EXAMPLE apply code style enforcement before commit:
-#     Utilities/Maintenance/clang-format.bash --clang ${PATH_TO_CLANG_FORMAT_19.1.4} --modified
+#     Utilities/Maintenance/clang-format.bash --clang ${PATH_TO_CLANG_FORMAT_19.1.7} --modified
 ## EXAMPLE apply code style enforcement after commit:
-#     Utilities/Maintenance/clang-format.bash --clang ${PATH_TO_CLANG_FORMAT_19.1.4} --last
+#     Utilities/Maintenance/clang-format.bash --clang ${PATH_TO_CLANG_FORMAT_19.1.7} --last
 ---
-# This configuration requires clang-format version 19.1.4 exactly.
+# This configuration requires clang-format version 19.1.7 exactly.
 Language:        Cpp
 AccessModifierOffset: -2
 AlignAfterOpenBracket: Align
@@ -297,6 +297,7 @@ StatementMacros:
   - ITK_CLANG_PRAGMA_PUSH
   - ITK_CLANG_PRAGMA_POP
   - ITK_CLANG_SUPPRESS_Wzero_as_null_pointer_constant
+  - ITK_CLANG_SUPPRESS_Wduplicate_enum
   - CLANG_PRAGMA_PUSH
   - CLANG_PRAGMA_POP
   - CLANG_SUPPRESS_Wfloat_equal
