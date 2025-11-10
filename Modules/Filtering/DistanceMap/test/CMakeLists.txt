@@ -1,16 +1,13 @@
 itk_module_test()
 set(
   ITKDistanceMapTests
-  itkDanielssonDistanceMapImageFilterTest.cxx
   itkDanielssonDistanceMapImageFilterTest1.cxx
   itkDanielssonDistanceMapImageFilterTest2.cxx
   itkDirectedHausdorffDistanceImageFilterTest.cxx
   itkSignedDanielssonDistanceMapImageFilterTest.cxx
   itkSignedDanielssonDistanceMapImageFilterTest1.cxx
   itkSignedDanielssonDistanceMapImageFilterTest2.cxx
-  itkContourMeanDistanceImageFilterTest.cxx
   itkFastChamferDistanceImageFilterTest.cxx
-  itkReflectiveImageRegionIteratorTest.cxx
   itkSignedMaurerDistanceMapImageFilterTest.cxx
   itkApproximateSignedDistanceMapImageFilterTest.cxx
   itkIsoContourDistanceImageFilterTest.cxx
@@ -18,12 +15,6 @@ set(
 
 createtestdriver(ITKDistanceMap "${ITKDistanceMap-Test_LIBRARIES}" "${ITKDistanceMapTests}")
 
-itk_add_test(
-  NAME itkDanielssonDistanceMapImageFilterTest
-  COMMAND
-    ITKDistanceMapTestDriver
-    itkDanielssonDistanceMapImageFilterTest
-)
 itk_add_test(
   NAME itkDanielssonDistanceMapImageFilterTest1
   COMMAND
@@ -118,13 +109,6 @@ itk_add_test(
 )
 
 itk_add_test(
-  NAME itkContourMeanDistanceImageFilterTest
-  COMMAND
-    ITKDistanceMapTestDriver
-    itkContourMeanDistanceImageFilterTest
-    1
-)
-itk_add_test(
   NAME itkFastChamferDistanceImageFilterTest1
   COMMAND
     ITKDistanceMapTestDriver
@@ -151,12 +135,6 @@ itk_add_test(
     ITKDistanceMapTestDriver
     itkFastChamferDistanceImageFilterTest
     4
-)
-itk_add_test(
-  NAME itkReflectiveImageRegionIteratorTest
-  COMMAND
-    ITKDistanceMapTestDriver
-    itkReflectiveImageRegionIteratorTest
 )
 itk_add_test(
   NAME itkSignedMaurerDistanceMapImageFilterTest1
@@ -257,8 +235,11 @@ itk_add_test(
 set(
   ITKDistanceMapGTests
   itkContourDirectedMeanDistanceImageFilterGTest.cxx
+  itkContourMeanDistanceImageFilterGTest.cxx
+  itkDanielssonDistanceMapImageFilterGTest.cxx
   itkDirectedHausdorffDistanceImageFilterGTest.cxx
   itkHausdorffDistanceImageFilterGTest.cxx
+  itkReflectiveImageRegionIteratorGTest.cxx
   itkSignedDanielssonDistanceMapImageFilterGTest.cxx
   itkSignedMaurerDistanceMapImageFilterGTest.cxx
 )
