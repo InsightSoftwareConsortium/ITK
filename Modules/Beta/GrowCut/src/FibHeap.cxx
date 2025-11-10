@@ -12,10 +12,10 @@
 
 using namespace std;
 
-#define OK      0
-#define NOTOK   -1
+#define OK 0
+#define NOTOK -1
 
-const NodeIndexType FibHeapNode::NullNodeIndex = 0xFFFFFFFF;
+const NodeIndexType    FibHeapNode::NullNodeIndex = 0xFFFFFFFF;
 const NodeKeyValueType FibHeapNode::NegativeInfinity = -std::numeric_limits<NodeKeyValueType>::infinity();
 
 //-----------------------------------------------------------------------------
@@ -30,13 +30,15 @@ FibHeap::FibHeap()
 FibHeap::~FibHeap() = default;
 
 //-----------------------------------------------------------------------------
-void FibHeap::SetHeapNodes(FibHeapNode* heapNodes)
+void
+FibHeap::SetHeapNodes(FibHeapNode * heapNodes)
 {
   m_HeapNodes = heapNodes;
 }
 
 //-----------------------------------------------------------------------------
-void FibHeap::Insert(FibHeapNode* NewNode)
+void
+FibHeap::Insert(FibHeapNode * NewNode)
 {
   if (NewNode == nullptr)
   {
@@ -74,7 +76,8 @@ void FibHeap::Insert(FibHeapNode* NewNode)
 }
 
 //-----------------------------------------------------------------------------
-void FibHeap::Union(FibHeap *OtherHeap)
+void
+FibHeap::Union(FibHeap * OtherHeap)
 {
   if (OtherHeap == nullptr || OtherHeap->m_MinRoot == nullptr)
   {
@@ -85,10 +88,10 @@ void FibHeap::Union(FibHeap *OtherHeap)
   // min node and the node after the min.  This code just pulls those
   // nodes into temporary variables so we don't get lost as changes
   // are made.
-  FibHeapNode* Min1 = m_MinRoot;
-  FibHeapNode* Min2 = OtherHeap->m_MinRoot;
-  FibHeapNode* Next1 = HeapNodeFromIndex(Min1->m_Right);
-  FibHeapNode* Next2 = HeapNodeFromIndex(Min2->m_Right);
+  FibHeapNode * Min1 = m_MinRoot;
+  FibHeapNode * Min2 = OtherHeap->m_MinRoot;
+  FibHeapNode * Next1 = HeapNodeFromIndex(Min1->m_Right);
+  FibHeapNode * Next2 = HeapNodeFromIndex(Min2->m_Right);
 
   // To join the two circles, we join the minimum nodes to the next
   // nodes on the opposite chains.  Conceptually, it looks like the way
@@ -112,7 +115,7 @@ void FibHeap::Union(FibHeap *OtherHeap)
 
   // Complete the union by setting the other heap to emptiness
   // then destroying it
-  OtherHeap->m_MinRoot  = nullptr;
+  OtherHeap->m_MinRoot = nullptr;
   OtherHeap->m_NumNodes = 0;
   OtherHeap->m_NumTrees = 0;
   OtherHeap->m_NumMarkedNodes = 0;
@@ -121,10 +124,11 @@ void FibHeap::Union(FibHeap *OtherHeap)
 }
 
 //-----------------------------------------------------------------------------
-FibHeapNode *FibHeap::ExtractMin()
+FibHeapNode *
+FibHeap::ExtractMin()
 {
-  FibHeapNode *Result;
-  FibHeap *ChildHeap = nullptr;
+  FibHeapNode * Result;
+  FibHeap *     ChildHeap = nullptr;
 
   // Remove minimum node and set m_MinRoot to next node
   if ((Result = Minimum()) == nullptr)
@@ -137,10 +141,10 @@ FibHeapNode *FibHeap::ExtractMin()
   m_HeapNodes[Result->m_Left].m_Right = Result->m_Right;
   Result->m_Left = Result->m_Right = FibHeapNode::NullNodeIndex;
 
-  m_NumNodes --;
+  m_NumNodes--;
   if (Result->m_Mark)
   {
-    m_NumMarkedNodes --;
+    m_NumMarkedNodes--;
     Result->m_Mark = false;
   }
   Result->m_Degree = 0;
@@ -196,7 +200,8 @@ FibHeapNode *FibHeap::ExtractMin()
 }
 
 //-----------------------------------------------------------------------------
-int  FibHeap::DecreaseKey(FibHeapNode* theNode, NodeKeyValueType keyValue)
+int
+FibHeap::DecreaseKey(FibHeapNode * theNode, NodeKeyValueType keyValue)
 {
   if (theNode == nullptr || theNode->m_Key < keyValue)
   {
@@ -205,7 +210,7 @@ int  FibHeap::DecreaseKey(FibHeapNode* theNode, NodeKeyValueType keyValue)
 
   (*theNode) = keyValue;
 
-  FibHeapNode* theParent = HeapNodeFromIndex(theNode->m_Parent);
+  FibHeapNode * theParent = HeapNodeFromIndex(theNode->m_Parent);
   if (theParent != nullptr && *theNode < *theParent)
   {
     Cut(theNode, theParent);
@@ -221,7 +226,8 @@ int  FibHeap::DecreaseKey(FibHeapNode* theNode, NodeKeyValueType keyValue)
 }
 
 //-----------------------------------------------------------------------------
-int  FibHeap::Delete(FibHeapNode *theNode)
+int
+FibHeap::Delete(FibHeapNode * theNode)
 {
   if (theNode == nullptr)
   {
@@ -247,14 +253,15 @@ int  FibHeap::Delete(FibHeapNode *theNode)
 }
 
 //-----------------------------------------------------------------------------
-void FibHeap::Print(FibHeapNode *tree, FibHeapNode *theParent)
+void
+FibHeap::Print(FibHeapNode * tree, FibHeapNode * theParent)
 {
   if (tree == nullptr)
   {
     tree = m_MinRoot;
   }
 
-  FibHeapNode* temp = tree;
+  FibHeapNode * temp = tree;
   do
   {
     if (temp->m_Left == FibHeapNode::NullNodeIndex)
@@ -306,7 +313,7 @@ void FibHeap::Print(FibHeapNode *tree, FibHeapNode *theParent)
       Print(HeapNodeFromIndex(temp->m_Child), temp);
     }
     temp = HeapNodeFromIndex(temp->m_Right);
-  } while (temp !=nullptr && temp != tree);
+  } while (temp != nullptr && temp != tree);
 
   if (theParent == nullptr)
   {
@@ -317,12 +324,13 @@ void FibHeap::Print(FibHeapNode *tree, FibHeapNode *theParent)
 }
 
 //-----------------------------------------------------------------------------
-void FibHeap::Consolidate()
+void
+FibHeap::Consolidate()
 {
   // Initialize the consolidation detection array
-  const int Dn = 1 + 8 * sizeof(long);
-  FibHeapNode *A[Dn]; // 1+lg(n)
-  for (int i=0; i < Dn; i++)
+  const int     Dn = 1 + 8 * sizeof(long);
+  FibHeapNode * A[Dn]; // 1+lg(n)
+  for (int i = 0; i < Dn; i++)
   {
     A[i] = nullptr;
   }
@@ -338,15 +346,15 @@ void FibHeap::Consolidate()
 
   m_HeapNodes[m_MinRoot->m_Left].m_Right = FibHeapNode::NullNodeIndex;
   m_MinRoot->m_Left = FibHeapNode::NullNodeIndex;
-  FibHeapNode* w = m_MinRoot;
+  FibHeapNode * w = m_MinRoot;
 
-  FibHeapNode* x;
-  FibHeapNode* y;
-  short d;
+  FibHeapNode * x;
+  FibHeapNode * y;
+  short         d;
   do
   {
-    //cout << "Top of Consolidate's loop\n";
-    //Print(w);
+    // cout << "Top of Consolidate's loop\n";
+    // Print(w);
 
     x = w;
     d = x->m_Degree;
@@ -369,8 +377,8 @@ void FibHeap::Consolidate()
       Link(y, x);
       A[d] = nullptr;
       d++;
-      //cout << "After a round of Linking\n";
-      //Print(x);
+      // cout << "After a round of Linking\n";
+      // Print(x);
     }
     A[d] = x;
 
@@ -391,7 +399,8 @@ void FibHeap::Consolidate()
 }
 
 //-----------------------------------------------------------------------------
-void FibHeap::Link(FibHeapNode *y, FibHeapNode *x)
+void
+FibHeap::Link(FibHeapNode * y, FibHeapNode * x)
 {
   // Remove node y from root list
   if (y->m_Right != FibHeapNode::NullNodeIndex)
@@ -423,7 +432,7 @@ void FibHeap::Link(FibHeapNode *y, FibHeapNode *x)
   }
 
   // Increase the degree of node x because it's now a bigger tree
-  x->m_Degree ++;
+  x->m_Degree++;
 
   // Node y has just been made a child, so clear its mark
   if (y->m_Mark)
@@ -434,7 +443,8 @@ void FibHeap::Link(FibHeapNode *y, FibHeapNode *x)
 }
 
 //-----------------------------------------------------------------------------
-void FibHeap::AddToRootList(FibHeapNode *x)
+void
+FibHeap::AddToRootList(FibHeapNode * x)
 {
   if (x->m_Mark)
   {
@@ -447,7 +457,8 @@ void FibHeap::AddToRootList(FibHeapNode *x)
 }
 
 //-----------------------------------------------------------------------------
-void FibHeap::Cut(FibHeapNode *x, FibHeapNode *y)
+void
+FibHeap::Cut(FibHeapNode * x, FibHeapNode * y)
 {
   if (y->m_Child == x->m_Index)
   {
@@ -458,7 +469,7 @@ void FibHeap::Cut(FibHeapNode *x, FibHeapNode *y)
     y->m_Child = FibHeapNode::NullNodeIndex;
   }
 
-  y->m_Degree --;
+  y->m_Degree--;
 
   m_HeapNodes[x->m_Left].m_Right = x->m_Right;
   m_HeapNodes[x->m_Right].m_Left = x->m_Left;
@@ -467,9 +478,10 @@ void FibHeap::Cut(FibHeapNode *x, FibHeapNode *y)
 }
 
 //-----------------------------------------------------------------------------
-void FibHeap::CascadingCut(FibHeapNode *y)
+void
+FibHeap::CascadingCut(FibHeapNode * y)
 {
-  FibHeapNode *z = HeapNodeFromIndex(y->m_Parent);
+  FibHeapNode * z = HeapNodeFromIndex(y->m_Parent);
 
   while (z != nullptr)
   {

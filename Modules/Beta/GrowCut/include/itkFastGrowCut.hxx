@@ -371,7 +371,7 @@ template <typename TInputImage, typename TLabelImage, typename TMaskImage>
 void
 FastGrowCut<TInputImage, TLabelImage, TMaskImage>::GenerateData()
 {
-  auto       inputImage = this->GetInput();
+  auto inputImage = this->GetInput();
   // auto       seedImage = this->GetSeedImage();
   auto       outputImage = this->GetOutput();
   RegionType inRegion = inputImage->GetLargestPossibleRegion();
