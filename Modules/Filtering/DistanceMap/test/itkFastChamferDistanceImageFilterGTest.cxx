@@ -18,10 +18,11 @@
 
 #include "itkFastChamferDistanceImageFilter.h"
 #include "itkMath.h"
-// simple signed distance function
+#include <gtest/gtest.h>
 
 namespace
 {
+// simple signed distance function
 template <typename TPoint>
 double
 SimpleSignedDistance(const TPoint & p)
@@ -50,14 +51,15 @@ SimpleSignedDistance(const TPoint & p)
   }
 }
 
-} // namespace
 
 template <unsigned int VDimension>
-int
+void
 FastChamferDistanceImageFilterTest(unsigned int iPositive, unsigned int iNegative, unsigned int iOther)
 {
-  std::cout << "Test ITK Chamfer Distance Image Filter" << std::endl;
-  std::cout << "Compute the distance map of a 32^d image" << std::endl;
+  // Test ITK Chamfer Distance Image Filter
+  // Compute the distance map of a 32^d image
+
+  SCOPED_TRACE("Dimension = " + std::to_string(VDimension));
 
   using PixelType = float;
 
@@ -92,16 +94,7 @@ FastChamferDistanceImageFilterTest(unsigned int iPositive, unsigned int iNegativ
 
   const typename ImageType::Pointer outputImage = filter->GetOutput();
 
-  try
-  {
-    filter->Update();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cout << "ExceptionObject caught !" << std::endl;
-    std::cout << err << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_NO_THROW(filter->Update());
 
   filter->Print(std::cout);
 
@@ -142,24 +135,10 @@ FastChamferDistanceImageFilterTest(unsigned int iPositive, unsigned int iNegativ
     }
     ++itNB;
   }
-  int returnVal(EXIT_SUCCESS);
-  if (innerpositive != iPositive)
-  {
-    std::cout << "Inner positive points: " << innerpositive << " != " << iPositive << std::endl;
-    returnVal = EXIT_FAILURE;
-  }
 
-  if (innernegative != iNegative)
-  {
-    std::cout << "Inner negative points: " << innernegative << " != " << iNegative << std::endl;
-    returnVal = EXIT_FAILURE;
-  }
-
-  if (otherpoints != iOther)
-  {
-    std::cout << "Rest of points: " << otherpoints << " != " << iOther << std::endl;
-    returnVal = EXIT_FAILURE;
-  }
+  EXPECT_EQ(innerpositive, iPositive);
+  EXPECT_EQ(innernegative, iNegative);
+  EXPECT_EQ(otherpoints, iOther);
 
   // Exercising filter methods
   float inweights[VDimension];
@@ -183,11 +162,8 @@ FastChamferDistanceImageFilterTest(unsigned int iPositive, unsigned int iNegativ
 
   std::cout << "outweights = " << outweights << std::endl;
 
-  if (itk::Math::NotAlmostEquals(filter->GetMaximumDistance(), 5))
-  {
-    std::cout << "filter->GetMaximumDistance() != 5" << std::endl;
-    returnVal = EXIT_FAILURE;
-  }
+  EXPECT_FLOAT_EQ(filter->GetMaximumDistance(), 5);
+
   /* For debugging write the result
   using WriterType = itk::ImageFileWriter< ImageType >;
   auto writer = WriterType::New();
@@ -196,41 +172,15 @@ FastChamferDistanceImageFilterTest(unsigned int iPositive, unsigned int iNegativ
   writer->SetInput(filter->GetOutput());
   writer->Update();
   */
-
-  if (returnVal == EXIT_SUCCESS)
-  {
-    std::cout << "Test passed" << std::endl;
-  }
-  return returnVal;
 }
 
-int
-itkFastChamferDistanceImageFilterTest(int argc, char * argv[])
+} // namespace
+
+
+TEST(FastChamferDistanceImageFilter, Test)
 {
-  if (argc != 2)
-  {
-    std::cout << "This test requires at least one argument (the image dimension)" << std::endl;
-    return EXIT_FAILURE;
-  }
-
-  const int Dimension = std::stoi(argv[1]);
-
-  std::cout << "Dimension = " << Dimension << std::endl;
-  if (Dimension == 1)
-  {
-    return FastChamferDistanceImageFilterTest<1>(4, 6, 8);
-  }
-  if (Dimension == 2)
-  {
-    return FastChamferDistanceImageFilterTest<2>(144, 124, 256);
-  }
-  if (Dimension == 3)
-  {
-    return FastChamferDistanceImageFilterTest<3>(3068, 2066, 5520);
-  }
-  if (Dimension == 4)
-  {
-    return FastChamferDistanceImageFilterTest<4>(49472, 28928, 93136);
-  }
-  return EXIT_FAILURE;
+  FastChamferDistanceImageFilterTest<1>(4, 6, 8);
+  FastChamferDistanceImageFilterTest<2>(144, 124, 256);
+  FastChamferDistanceImageFilterTest<3>(3068, 2066, 5520);
+  FastChamferDistanceImageFilterTest<4>(49472, 28928, 93136);
 }
