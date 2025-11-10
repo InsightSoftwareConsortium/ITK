@@ -21,8 +21,9 @@
 #include "itkShiftScaleImageFilter.h"
 #include "itkMultiplyImageFilter.h"
 #include "itkMath.h"
-
 #include "itkCommand.h"
+
+#include <gtest/gtest.h>
 
 // For debugging
 
@@ -61,8 +62,8 @@ SimpleSignedDistance(const TPoint & p)
 
 } // namespace
 
-int
-itkIsoContourDistanceImageFilterTest(int, char *[])
+
+TEST(IsoContourDistanceImageFilter, Test)
 {
   constexpr unsigned int ImageDimension{ 2 };
   using PixelType = float;
@@ -105,11 +106,7 @@ itkIsoContourDistanceImageFilterTest(int, char *[])
   isocontour->SetFarValue(10);
   //  isocontour->SetNumberOfWorkUnits(8);
 
-  if (itk::Math::NotAlmostEquals(isocontour->GetFarValue(), 10))
-  {
-    std::cout << "isocontour->GetFarValue() != 10" << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_FLOAT_EQ(isocontour->GetFarValue(), 10);
 
   ShowProgressObject                                          progressWatch(isocontour);
   const itk::SimpleMemberCommand<ShowProgressObject>::Pointer command =
@@ -122,15 +119,7 @@ itkIsoContourDistanceImageFilterTest(int, char *[])
   auto caster = CastFilterType::New();
   caster->SetInput(isocontour->GetOutput());
 
-  try
-  {
-    caster->Update();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    err.Print(std::cerr);
-    return EXIT_FAILURE;
-  }
+  EXPECT_NO_THROW(caster->Update());
 
   // Create narrowband
   using BandNodeType = IsoContourType::BandNodeType;
@@ -156,15 +145,7 @@ itkIsoContourDistanceImageFilterTest(int, char *[])
   // isocontour->SetNumberOfWorkUnits(8);
   isocontour->SetNarrowBand(band);
 
-  try
-  {
-    isocontour->Update();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    err.Print(std::cerr);
-    return EXIT_FAILURE;
-  }
+  EXPECT_NO_THROW(isocontour->Update());
 
   // Check if inside/outside points remain the same after reinitialization
   using CheckerType = itk::MultiplyImageFilter<ImageType, ImageType, ImageType>;
@@ -183,13 +164,7 @@ itkIsoContourDistanceImageFilterTest(int, char *[])
   std::cout << "Min. product = " << minValue << std::endl;
   std::cout << "Max. product = " << maxValue << std::endl;
 
-  if (minValue < 0.0)
-  {
-    std::cout << "Inside/Outside mismatch at ";
-    std::cout << calculator->GetIndexOfMinimum() << std::endl;
-    std::cout << "Test failed" << std::endl;
-    return EXIT_FAILURE;
-  }
+  EXPECT_GE(minValue, 0.0) << "Inside/Outside mismatch at " << calculator->GetIndexOfMinimum();
 
   // Exercise other member functions
   isocontour->Print(std::cout);
@@ -207,8 +182,4 @@ itkIsoContourDistanceImageFilterTest(int, char *[])
   // We will use the output narrowband from the last run as the input narrowband
   // isocontour->SetInputNarrowBand( nodes );
   // isocontour->Update();
-
-
-  std::cout << "Test passed" << std::endl;
-  return EXIT_SUCCESS;
 }
