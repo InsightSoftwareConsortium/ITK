@@ -23,11 +23,6 @@
 namespace itk
 {
 template <typename TDataContainer>
-ClassifierBase<TDataContainer>::ClassifierBase()
-  : m_DecisionRule(nullptr)
-{}
-
-template <typename TDataContainer>
 void
 ClassifierBase<TDataContainer>::PrintSelf(std::ostream & os, Indent indent) const
 {

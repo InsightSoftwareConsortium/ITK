@@ -25,11 +25,6 @@ namespace itk
 {
 
 template <typename TInputImage, typename TCoordinate>
-VectorMeanImageFunction<TInputImage, TCoordinate>::VectorMeanImageFunction()
-  : m_NeighborhoodRadius(1)
-{}
-
-template <typename TInputImage, typename TCoordinate>
 void
 VectorMeanImageFunction<TInputImage, TCoordinate>::PrintSelf(std::ostream & os, Indent indent) const
 {

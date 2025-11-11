@@ -24,11 +24,6 @@ namespace itk
 {
 
 template <typename TInputImage, typename TCoordinate>
-ScatterMatrixImageFunction<TInputImage, TCoordinate>::ScatterMatrixImageFunction()
-  : m_NeighborhoodRadius(1)
-{}
-
-template <typename TInputImage, typename TCoordinate>
 void
 ScatterMatrixImageFunction<TInputImage, TCoordinate>::PrintSelf(std::ostream & os, Indent indent) const
 {

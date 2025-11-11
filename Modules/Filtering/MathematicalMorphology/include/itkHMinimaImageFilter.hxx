@@ -27,11 +27,6 @@
 namespace itk
 {
 template <typename TInputImage, typename TOutputImage>
-HMinimaImageFilter<TInputImage, TOutputImage>::HMinimaImageFilter()
-  : m_Height(2)
-{}
-
-template <typename TInputImage, typename TOutputImage>
 void
 HMinimaImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {

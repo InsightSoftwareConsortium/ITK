@@ -103,7 +103,7 @@ protected:
   [[nodiscard]] typename LightObject::Pointer
   InternalClone() const override;
 
-  GaussianRandomSpatialNeighborSubsampler();
+  GaussianRandomSpatialNeighborSubsampler() = default;
   ~GaussianRandomSpatialNeighborSubsampler() override = default;
 
   void
@@ -115,7 +115,7 @@ protected:
   RandomIntType
   GetIntegerVariate(RandomIntType lowerBound, RandomIntType upperBound, RandomIntType mean) override;
 
-  RealType m_Variance{};
+  RealType m_Variance{ DefaultVariance };
 }; // end of class GaussianRandomSpatialNeighborSubsampler
 
 } // namespace itk::Statistics

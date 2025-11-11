@@ -22,11 +22,6 @@
 namespace itk
 {
 template <typename TInputImageType, typename TSparseOutputImageType>
-FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>::FiniteDifferenceSparseImageFilter()
-  : m_SparseFunction(nullptr)
-{}
-
-template <typename TInputImageType, typename TSparseOutputImageType>
 void
 FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>::PrintSelf(std::ostream & os,
                                                                                       Indent         indent) const
