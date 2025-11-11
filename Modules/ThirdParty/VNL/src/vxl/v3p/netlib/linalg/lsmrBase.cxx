@@ -17,6 +17,8 @@
  *=========================================================================*/
 #include "lsmrBase.h"
 
+#include <cmath>
+
 #include <algorithm>
 #include <cmath>
 #include <iostream>
@@ -25,7 +27,7 @@
 
 inline void daxpy( unsigned int n, double alpha, const double * x, double * y )
 {
-  const double * xend = x+n;
+  const double * const xend = x + n;
   while ( x!=xend ) {
     *y++ += alpha * *x++;
   }
@@ -34,26 +36,28 @@ inline void daxpy( unsigned int n, double alpha, const double * x, double * y )
 #define Sqr(x) ((x)*(x))
 
 lsmrBase::lsmrBase()
+  : eps(1e-16)
+  , atol(1e-6)
+  , btol(1e-6)
+  , itnlim(10)
+  , nout(nullptr)
+  , istop(0)
+  , itn(0)
+  , normA(0.0)
+  , condA(0.0)
+  , normr(0.0)
+  , normAr(0.0)
+  , normx(0.0)
+  , normb(0.0)
+  , dxmax(0.0)
+  , maxdx(0)
+  , damp(0.0)
+  , damped(false)
+  , localSize(0)
 {
-  this->eps = 1e-16;
-  this->atol = 1e-6;
-  this->btol = 1e-6;
+
+
   this->conlim = 1.0 / ( 10 * sqrt( this->eps ) );
-  this->itnlim = 10;
-  this->nout = nullptr;
-  this->istop = 0;
-  this->itn = 0;
-  this->normA = 0.0;
-  this->condA = 0.0;
-  this->normr = 0.0;
-  this->normAr = 0.0;
-  this->normx = 0.0;
-  this->normb = 0.0;
-  this->dxmax = 0.0;
-  this->maxdx = 0;
-  this->damp = 0.0;
-  this->damped = false;
-  this->localSize = 0;
 }
 
 
@@ -229,7 +233,7 @@ lsmrBase::D2Norm( double a, double b ) const
 void
 lsmrBase::Scale( unsigned int n, double factor, double *x ) const
 {
-  double * xend = x + n;
+  double * const xend = x + n;
   while( x != xend )
     {
       *x++ *= factor;
@@ -282,12 +286,12 @@ Solve( unsigned int m, unsigned int n, const double * b, double * x )
   const double zero = 0.0;
   const double one = 1.0;
 
-  double test1;
-  double test2;
+  double test1 = NAN;
+  double test2 = NAN;
 
   // Initialize.
 
-  unsigned int const localVecs = std::min( localSize, std::min( m,n ) );
+  const unsigned int localVecs = std::min({ localSize, m, n });
 
   if( this->nout )
     {
@@ -304,12 +308,12 @@ Solve( unsigned int m, unsigned int n, const double * b, double * x )
   this->damped = ( this->damp > zero );
 
   std::vector<double> workBuffer( m+5*n+n*localVecs );
-  double * u = &workBuffer[0];
-  double * v = u+m;
-  double * w = v+n;
-  double * h = w+n;
-  double * hbar = h+n;
-  double * localV = hbar+n;
+  double * const u = &workBuffer[0];
+  double * const v = u + m;
+  double * const w = v + n;
+  double * const h = w + n;
+  double * const hbar = h + n;
+  double * const localV = hbar + n;
 
   //-------------------------------------------------------------------
   //  Set up the first vectors u and v for the bidiagonalization.
@@ -444,7 +448,7 @@ Solve( unsigned int m, unsigned int n, const double * b, double * x )
         this->Scale( n, (- beta), v );
         this->Aprod2( m, n, v, u );    // v = A'*u
         if ( localOrtho ) {
-          unsigned int localOrthoLimit = localVQueueFull ? localVecs : localPointer+1;
+          const unsigned int localOrthoLimit = localVQueueFull ? localVecs : localPointer + 1;
 
           for( unsigned int localOrthoCount =0; localOrthoCount<localOrthoLimit;
                ++localOrthoCount) {

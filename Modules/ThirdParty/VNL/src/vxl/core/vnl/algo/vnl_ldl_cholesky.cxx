@@ -66,7 +66,7 @@ vnl_ldl_cholesky::vnl_ldl_cholesky(const vnl_matrix<double> & M, Operation mode)
   // Scale column j by 1/sqrt_d_[i] and set upper triangular elements to zero
   for (int i = 0; i < n; ++i)
   {
-    double * row = L_[i];
+    double * const row = L_[i];
     for (int j = 0; j < i; ++j)
       row[j] /= sqrt_d[j];
     row[i] = 1.0;
@@ -245,7 +245,7 @@ vnl_ldl_cholesky::update(const vnl_matrix<double> & W0)
   vnl_vector<double> gamma(r); // Workspace
   for (unsigned j = 0; j < n; ++j)
   {
-    double * Wj = W[j];
+    double * const Wj = W[j];
     for (unsigned i = 0; i < r; ++i)
     {
       const double a2 = a[i] + Wj[i] * Wj[i] / d_[j];
@@ -256,8 +256,8 @@ vnl_ldl_cholesky::update(const vnl_matrix<double> & W0)
     }
     for (unsigned p = j + 1; p < n; ++p)
     {
-      double * Wp = W[p];
-      double * Lp = L_[p];
+      double * const Wp = W[p];
+      double * const Lp = L_[p];
       for (unsigned i = 0; i < r; ++i)
       {
         Wp[i] -= Wj[i] * Lp[j];

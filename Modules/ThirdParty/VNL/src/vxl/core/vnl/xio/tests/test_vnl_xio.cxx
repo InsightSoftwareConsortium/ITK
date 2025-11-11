@@ -12,7 +12,7 @@ test_xtreeio_matrix_fixed()
   std::stringstream s;
 
   double data_m[8] = { 1, 2, 3, 4, 5, 6, 7, 8 };
-  vnl_matrix_fixed<double, 2, 4> m(data_m);
+  const vnl_matrix_fixed<double, 2, 4> m(data_m);
   x_write_tree(s, m);
   TEST("XML I/O for vnl_matrix_fixed<double,2,4>",
        s.str(),
@@ -27,7 +27,7 @@ test_xtreeio_matrix()
   std::stringstream s;
 
   double data_m[8] = { 1, 2, 3, 4, 5, 6, 7, 8 };
-  vnl_matrix<double> m(data_m, 2, 4);
+  const vnl_matrix<double> m(data_m, 2, 4);
   x_write_tree(s, m);
   TEST("XML I/O for vnl_matrix<double>",
        s.str(),
@@ -41,7 +41,7 @@ test_xtreeio_vector_fixed()
 {
   std::stringstream s;
 
-  vnl_vector_fixed<double, 3> vf(10.0, 20.0, 5.0);
+  const vnl_vector_fixed<double, 3> vf(10.0, 20.0, 5.0);
   x_write_tree(s, vf);
   TEST("XML I/O for vnl_vector_fixed<double,3>",
        s.str(),
@@ -55,7 +55,7 @@ test_xtreeio_vector()
   std::stringstream s;
 
   double data_v[9] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-  vnl_vector<double> v(data_v, 9);
+  const vnl_vector<double> v(data_v, 9);
   x_write_tree(s, v);
   TEST("XML I/O for vnl_vector<double>",
        s.str(),
@@ -69,7 +69,7 @@ test_xtreeio_quaternion()
 {
   std::stringstream s;
 
-  vnl_quaternion<double> q(1, 2, 3, 4);
+  const vnl_quaternion<double> q(1, 2, 3, 4);
   x_write_tree(s, q);
   TEST(
     "XML I/O for vnl_quaternion<double>",
@@ -83,7 +83,7 @@ test_xio_matrix_fixed()
   std::stringstream s;
 
   double data_m[8] = { 1, 2, 3, 4, 5, 6, 7, 8 };
-  vnl_matrix_fixed<double, 2, 4> m(data_m);
+  const vnl_matrix_fixed<double, 2, 4> m(data_m);
   x_write(s, m);
   TEST("XML I/O for vnl_matrix_fixed<double,2,4>",
        s.str(),
@@ -97,7 +97,7 @@ test_xio_matrix()
   std::stringstream s;
 
   double data_m[8] = { 1, 2, 3, 4, 5, 6, 7, 8 };
-  vnl_matrix<double> m(data_m, 2, 4);
+  const vnl_matrix<double> m(data_m, 2, 4);
   x_write(s, m);
   TEST("XML I/O for vnl_matrix<double>",
        s.str(),
@@ -110,7 +110,7 @@ test_xio_vector_fixed()
 {
   std::stringstream s;
 
-  vnl_vector_fixed<double, 3> vf(10.0, 20.0, 5.0);
+  const vnl_vector_fixed<double, 3> vf(10.0, 20.0, 5.0);
   x_write(s, vf);
   TEST("XML I/O for vnl_vector_fixed<double,3>",
        s.str(),
@@ -123,7 +123,7 @@ test_xio_vector()
   std::stringstream s;
 
   double data_v[9] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-  vnl_vector<double> v(data_v, 9);
+  const vnl_vector<double> v(data_v, 9);
   x_write(s, v);
   TEST("XML I/O for vnl_vector<double>",
        s.str(),
@@ -136,7 +136,7 @@ test_xio_quaternion()
 {
   std::stringstream s;
 
-  vnl_quaternion<double> q(1, 2, 3, 4);
+  const vnl_quaternion<double> q(1, 2, 3, 4);
   x_write(s, q);
   TEST("XML I/O for vnl_quaternion<double>",
        s.str(),

@@ -18,27 +18,24 @@
 bool vnl_amoeba::default_verbose = false;
 
 vnl_amoeba::vnl_amoeba(vnl_cost_function & f)
-  : fptr(&f)
+  : verbose(default_verbose)
+  , maxiter(f.get_number_of_unknowns() * 200)
+  , X_tolerance(1e-8)
+  , F_tolerance(1e-4)
+  , relative_diameter(0.05)
+  , zero_term_delta(0.00025)
+  , fptr(&f)
 
-{
-  verbose = default_verbose;
-  maxiter = f.get_number_of_unknowns() * 200;
-  X_tolerance = 1e-8;
-  F_tolerance = 1e-4;
-  relative_diameter = 0.05;
-  zero_term_delta = 0.00025;
-}
+{}
 
 
 struct vnl_amoebaFit : public vnl_amoeba
 {
-  int cnt;
+  int cnt{ 0 };
 
   vnl_amoebaFit(vnl_amoeba & a)
     : vnl_amoeba(a)
-  {
-    cnt = 0;
-  }
+  {}
 
   //: Initialise the simplex given one corner, x (scale each element to get other corners)
   void
@@ -176,7 +173,7 @@ vnl_amoebaFit::set_up_simplex_relative(std::vector<vnl_amoeba_SimplexCorner> & s
   //  vnl_vector<double> y(n);
   for (int j = 0; j < n; ++j)
   {
-    vnl_amoeba_SimplexCorner * s = &simplex[j + 1];
+    vnl_amoeba_SimplexCorner * const s = &simplex[j + 1];
     s->v = x;
 
     // perturb s->v(j)
@@ -202,7 +199,7 @@ vnl_amoebaFit::set_up_simplex_absolute(std::vector<vnl_amoeba_SimplexCorner> & s
 
   for (int j = 0; j < n; ++j)
   {
-    vnl_amoeba_SimplexCorner * s = &simplex[j + 1];
+    vnl_amoeba_SimplexCorner * const s = &simplex[j + 1];
     s->v = x;
 
     // perturb s->v(j)

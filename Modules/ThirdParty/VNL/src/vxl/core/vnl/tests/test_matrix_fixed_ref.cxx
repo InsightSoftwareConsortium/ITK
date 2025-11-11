@@ -40,12 +40,12 @@ test_matrix_fixed_ref()
   {
     cols = 4
   };
-  typedef vnl_matrix_fixed<double, rows, cols> mf;
-  typedef vnl_matrix_fixed_ref<double, rows, cols> mfr;
-  typedef vnl_matrix_fixed_ref_const<double, rows, cols> mfrc;
+  using mf = vnl_matrix_fixed<double, rows, cols>;
+  using mfr = vnl_matrix_fixed_ref<double, rows, cols>;
+  using mfrc = vnl_matrix_fixed_ref_const<double, rows, cols>;
 
-  unsigned int i;
-  unsigned int j;
+  unsigned int i = 0;
+  unsigned int j = 0;
   mf mat; // copy in
   for (i = 0; i < rows; ++i)
     for (j = 0; j < cols; ++j)

@@ -5,8 +5,8 @@
 int
 test_exception_main(int /*argc*/, char * /*argv*/[])
 {
-  const char * ex = "\"const char* exception\"";
-  int result;
+  const char * const ex = "\"const char* exception\"";
+  int result = 0;
   try
   {
     std::cout << "throw " << ex << std::endl;

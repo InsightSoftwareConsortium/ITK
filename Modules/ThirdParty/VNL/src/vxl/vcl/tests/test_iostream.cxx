@@ -91,7 +91,7 @@ test_iostream_main(int /*argc*/, char * /*argv*/[])
 
   if (false)
   {
-    int x;
+    int x = 0;
     std::cin >> x; // read from stdin [27.3.1.2]
     std::cout << "cout goes to stdout [27.3.1.3]" << std::endl;
     std::cerr << "cerr goes to stderr [27.3.1.4]" << std::endl;
@@ -113,10 +113,10 @@ test_iostream_main(int /*argc*/, char * /*argv*/[])
 
   if (false)
   {
-    signed char sc;
+    signed char sc = 0;
     std::cin >> sc;
 
-    bool bb;
+    bool bb = false;
     std::cin >> bb;
   }
 

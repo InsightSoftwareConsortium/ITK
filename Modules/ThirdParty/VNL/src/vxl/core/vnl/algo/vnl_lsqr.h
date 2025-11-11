@@ -43,7 +43,7 @@ public:
     , max_iter_(4 * ls.get_number_of_unknowns())
   {}
 
-  ~vnl_lsqr();
+  ~vnl_lsqr() = default;
 
   void
   set_max_iterations(long max_iter)

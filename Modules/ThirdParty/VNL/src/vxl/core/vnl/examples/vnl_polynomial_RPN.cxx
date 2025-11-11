@@ -17,6 +17,8 @@
 // \date   August 2011
 //-----------------------------------------------------------------------------
 
+#include <cmath>
+
 #include <iostream>
 #include <sstream>
 #include <vector>
@@ -35,7 +37,7 @@ operation(char op)
   vnl_polynomial<double> p = !stack.empty() ? stack.back() : 0.0;
   if (!stack.empty())
     stack.pop_back();
-  vnl_polynomial<double> p2 = !stack.empty() ? stack.back() : 0.0;
+  const vnl_polynomial<double> p2 = !stack.empty() ? stack.back() : 0.0;
   if (op == '+')
     p += p2;
   else if (op == '-')
@@ -61,12 +63,12 @@ polynomial(char * txt)
 {
   std::vector<double> coef;
   std::stringstream ss(txt);
-  double onecoef;
+  double onecoef = NAN;
   while (ss >> onecoef)
     coef.insert(coef.begin(), 1, onecoef);
   while (!coef.empty() && coef.back() == 0.0)
     coef.pop_back(); // highest order coeff should not be zero!
-  return vnl_polynomial<double>(coef);
+  return { coef };
 }
 
 int
