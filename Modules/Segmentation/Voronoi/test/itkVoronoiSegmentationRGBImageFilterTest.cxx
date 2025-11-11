@@ -23,9 +23,11 @@
 
 #include <algorithm> // For generate.
 #include <iostream>
+#include <random> // For mt19937.
 
 // type alias for all functions
 using PixelType = itk::RGBPixel<unsigned char>;
+using PixelComponentType = PixelType::ComponentType;
 using ImageType = itk::Image<PixelType, 2>;
 using SegmentationType = itk::Image<unsigned char, 2>;
 using ReaderType = itk::ImageFileReader<ImageType>;
@@ -69,19 +71,25 @@ SetUpInputImage()
   inputImage->SetRegions(region);
   inputImage->Allocate();
 
+  std::mt19937 randomNumberEngine{};
+
   // add background random field
+  std::uniform_int_distribution<> backgroundRandomNumberDistribution(bgMean - bgStd, bgMean + bgStd);
+
   itk::ImageRegionIterator<ImageType> iter(inputImage, region);
   while (!iter.IsAtEnd())
   {
     PixelType px;
-    std::generate(px.begin(), px.end(), [] {
-      return static_cast<unsigned char>(vnl_sample_uniform(bgMean - bgStd, bgMean + bgStd));
+    std::generate(px.begin(), px.end(), [&randomNumberEngine, &backgroundRandomNumberDistribution] {
+      return static_cast<PixelComponentType>(backgroundRandomNumberDistribution(randomNumberEngine));
     });
     iter.Set(px);
     ++iter;
   }
 
   // add objects to image
+  std::uniform_int_distribution<> forgroundRandomNumberDistribution(fgMean - fgStd, fgMean + fgStd);
+
   for (unsigned int x = objAStartX; x < objAEndX; ++x)
   {
     for (unsigned int y = objAStartY; y < objAEndY; ++y)
@@ -91,8 +99,8 @@ SetUpInputImage()
       idx[1] = y;
 
       PixelType px;
-      std::generate(px.begin(), px.end(), [] {
-        return static_cast<unsigned char>(vnl_sample_uniform(fgMean - fgStd, fgMean + fgStd));
+      std::generate(px.begin(), px.end(), [&randomNumberEngine, &forgroundRandomNumberDistribution] {
+        return static_cast<PixelComponentType>(forgroundRandomNumberDistribution(randomNumberEngine));
       });
       inputImage->SetPixel(idx, px);
     }
@@ -106,8 +114,8 @@ SetUpInputImage()
       idx[1] = y;
 
       PixelType px;
-      std::generate(px.begin(), px.end(), [] {
-        return static_cast<unsigned char>(vnl_sample_uniform(fgMean - fgStd, fgMean + fgStd));
+      std::generate(px.begin(), px.end(), [&randomNumberEngine, &forgroundRandomNumberDistribution] {
+        return static_cast<PixelComponentType>(forgroundRandomNumberDistribution(randomNumberEngine));
       });
       inputImage->SetPixel(idx, px);
     }
