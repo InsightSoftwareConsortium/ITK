@@ -22,9 +22,9 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
-#include "vnl/vnl_sample.h"
 #include "itkTestingMacros.h"
 #include <algorithm> // For generate.
+#include <random>    // For mt19937.
 
 int
 itkConnectedComponentImageFilterTest(int argc, char * argv[])
@@ -124,12 +124,20 @@ itkConnectedComponentImageFilterTest(int argc, char * argv[])
 
   std::vector<RGBPixelType> colormap;
   colormap.resize(numObjects + 1);
-  vnl_sample_reseed(1031571);
+
+  using RGBComponentType = RGBPixelType::ComponentType;
+  constexpr auto maxRGBComponentValue = std::numeric_limits<RGBComponentType>::max();
+
+  constexpr std::mt19937::result_type randomSeed{ 1031571 };
+  std::mt19937                        randomNumberEngine(randomSeed);
+  std::uniform_int_distribution<>     randomNumberDistribution(maxRGBComponentValue / 3, maxRGBComponentValue);
+
   for (auto & i : colormap)
   {
     RGBPixelType px;
-    std::generate(
-      px.begin(), px.end(), [] { return static_cast<unsigned char>(255 * vnl_sample_uniform(0.3333, 1.0)); });
+    std::generate(px.begin(), px.end(), [&randomNumberEngine, &randomNumberDistribution] {
+      return static_cast<RGBComponentType>(randomNumberDistribution(randomNumberEngine));
+    });
 
     i = px;
   }
