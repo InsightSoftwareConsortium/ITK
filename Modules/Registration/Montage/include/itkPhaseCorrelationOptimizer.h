@@ -54,7 +54,7 @@ public:
   static const std::initializer_list<PeakInterpolationMethod>
   AllPeakInterpolationMethods()
   {
-    const std::initializer_list<PeakInterpolationMethod> methods{
+    static constexpr std::initializer_list<PeakInterpolationMethod> methods{
       PeakInterpolationMethod::None,
       PeakInterpolationMethod::Parabolic,
       PeakInterpolationMethod::Cosine,
