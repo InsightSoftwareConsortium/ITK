@@ -4,7 +4,7 @@ build-backend = "scikit_build_core.build"
 
 [project]
 name = "itk-analyzeobjectmap"
-version = "6.0.0"
+version = "6.0.1"
 description = "ITK `ImageIO` class to read or write the AnalyzeObjectMap image format"
 readme = "README.md"
 license = {file = "LICENSE"}
@@ -35,7 +35,7 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Medical Science Apps.",
     "Topic :: Software Development :: Libraries",
 ]
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 dependencies = [
     "itk == 5.4.*",
 ]
@@ -48,7 +48,7 @@ Homepage = "https://github.com/InsightSoftwareConsortium/itkAnalyzeObjectMap"
 # The versions of CMake to allow. If CMake is not present on the system or does
 # not pass this specifier, it will be downloaded via PyPI if possible. An empty
 # string will disable this check.
-cmake.version = ">=3.16.3"
+cmake.version = ">=3.22.1"
 
 # A list of args to pass to CMake when configuring the project. Setting this in
 # config or envvar will override toml. See also ``cmake.define``.
