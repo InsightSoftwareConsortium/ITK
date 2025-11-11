@@ -81,7 +81,7 @@ public:
 #endif
 
 protected:
-  HistogramAlgorithmBase();
+  HistogramAlgorithmBase() = default;
   ~HistogramAlgorithmBase() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
@@ -91,7 +91,7 @@ protected:
 
 private:
   /** Target histogram data pointer */
-  typename TInputHistogram::ConstPointer m_InputHistogram{};
+  typename TInputHistogram::ConstPointer m_InputHistogram{ nullptr };
 }; // end of class
 } // end of namespace itk
 

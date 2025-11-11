@@ -131,7 +131,7 @@ public:
   }
 
 protected:
-  ShapeLabelMapFilter();
+  ShapeLabelMapFilter() = default;
   ~ShapeLabelMapFilter() override = default;
 
   void
@@ -148,7 +148,7 @@ protected:
 
 private:
   bool                   m_ComputeFeretDiameter{};
-  bool                   m_ComputePerimeter{};
+  bool                   m_ComputePerimeter{ true };
   bool                   m_ComputeOrientedBoundingBox{};
   LabelImageConstPointer m_LabelImage{};
 

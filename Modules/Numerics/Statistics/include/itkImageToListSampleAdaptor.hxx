@@ -21,11 +21,6 @@
 namespace itk::Statistics
 {
 template <typename TImage>
-ImageToListSampleAdaptor<TImage>::ImageToListSampleAdaptor()
-  : m_Image(nullptr)
-{}
-
-template <typename TImage>
 auto
 ImageToListSampleAdaptor<TImage>::GetMeasurementVector(InstanceIdentifier id) const -> const MeasurementVectorType &
 {

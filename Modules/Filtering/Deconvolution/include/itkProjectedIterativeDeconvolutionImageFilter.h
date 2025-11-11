@@ -73,7 +73,7 @@ public:
   itkOverrideGetNameOfClassMacro(ProjectedIterativeDeconvolutionImageFilter);
 
 protected:
-  ProjectedIterativeDeconvolutionImageFilter();
+  ProjectedIterativeDeconvolutionImageFilter() = default;
   ~ProjectedIterativeDeconvolutionImageFilter() override;
 
   void
@@ -85,7 +85,7 @@ protected:
 private:
   using ProjectionFilterType = ThresholdImageFilter<InternalImageType>;
 
-  typename ProjectionFilterType::Pointer m_ProjectionFilter{};
+  typename ProjectionFilterType::Pointer m_ProjectionFilter{ nullptr };
 };
 } // namespace itk
 

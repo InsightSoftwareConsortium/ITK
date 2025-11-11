@@ -23,11 +23,6 @@ namespace itk
 {
 
 template <typename TInputPointSet, typename TOutput, typename TCoordinate>
-PointSetFunction<TInputPointSet, TOutput, TCoordinate>::PointSetFunction()
-  : m_PointSet(nullptr)
-{}
-
-template <typename TInputPointSet, typename TOutput, typename TCoordinate>
 void
 PointSetFunction<TInputPointSet, TOutput, TCoordinate>::PrintSelf(std::ostream & os, Indent indent) const
 {

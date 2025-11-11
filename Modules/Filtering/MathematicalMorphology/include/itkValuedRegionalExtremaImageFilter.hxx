@@ -27,11 +27,6 @@
 namespace itk
 {
 
-template <typename TInputImage, typename TOutputImage, typename TFunction1, typename TFunction2>
-ValuedRegionalExtremaImageFilter<TInputImage, TOutputImage, TFunction1, TFunction2>::ValuedRegionalExtremaImageFilter()
-  : m_MarkerValue(0)
-{}
-
 
 template <typename TInputImage, typename TOutputImage, typename TFunction1, typename TFunction2>
 void

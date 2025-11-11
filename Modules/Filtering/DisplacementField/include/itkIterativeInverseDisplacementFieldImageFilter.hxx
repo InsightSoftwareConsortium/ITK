@@ -24,13 +24,6 @@
 namespace itk
 {
 //----------------------------------------------------------------------------
-// Constructor
-template <typename TInputImage, typename TOutputImage>
-IterativeInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::IterativeInverseDisplacementFieldImageFilter()
-  : m_NumberOfIterations(5)
-{}
-
-//----------------------------------------------------------------------------
 template <typename TInputImage, typename TOutputImage>
 void
 IterativeInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::GenerateData()

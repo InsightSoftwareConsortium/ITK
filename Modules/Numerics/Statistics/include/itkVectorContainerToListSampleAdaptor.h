@@ -243,14 +243,14 @@ public:
   }
 
 protected:
-  VectorContainerToListSampleAdaptor();
+  VectorContainerToListSampleAdaptor() = default;
 
   ~VectorContainerToListSampleAdaptor() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  VectorContainerConstPointer m_VectorContainer{};
+  VectorContainerConstPointer m_VectorContainer{ nullptr };
 }; // end of class VectorContainerToListSampleAdaptor
 } // namespace itk::Statistics
 

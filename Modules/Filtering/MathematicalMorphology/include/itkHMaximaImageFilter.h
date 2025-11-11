@@ -110,7 +110,7 @@ public:
   itkConceptMacro(InputOStreamWritableCheck, (Concept::OStreamWritable<InputImagePixelType>));
 
 protected:
-  HMaximaImageFilter();
+  HMaximaImageFilter() = default;
   ~HMaximaImageFilter() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
@@ -130,7 +130,7 @@ protected:
   GenerateData() override;
 
 private:
-  InputImagePixelType m_Height{};
+  InputImagePixelType m_Height{ 2 };
   unsigned long       m_NumberOfIterationsUsed{ 1 };
   bool                m_FullyConnected{ false };
 }; // end of class

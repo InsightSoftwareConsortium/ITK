@@ -21,11 +21,6 @@
 namespace itk::Statistics
 {
 template <typename TVectorContainer>
-VectorContainerToListSampleAdaptor<TVectorContainer>::VectorContainerToListSampleAdaptor()
-  : m_VectorContainer(nullptr)
-{}
-
-template <typename TVectorContainer>
 void
 VectorContainerToListSampleAdaptor<TVectorContainer>::PrintSelf(std::ostream & os, Indent indent) const
 {

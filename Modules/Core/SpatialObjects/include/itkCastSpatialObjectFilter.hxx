@@ -26,14 +26,6 @@ namespace itk
 {
 
 /**
- *    Constructor
- */
-template <unsigned int ObjectDimension>
-CastSpatialObjectFilter<ObjectDimension>::CastSpatialObjectFilter()
-  : m_Input(nullptr)
-{}
-
-/**
  *  Print Self
  */
 template <unsigned int ObjectDimension>

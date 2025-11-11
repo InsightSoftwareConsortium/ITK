@@ -23,11 +23,6 @@ namespace itk
 {
 
 template <typename TSuperclass>
-ProjectedIterativeDeconvolutionImageFilter<TSuperclass>::ProjectedIterativeDeconvolutionImageFilter()
-  : m_ProjectionFilter(nullptr)
-{}
-
-template <typename TSuperclass>
 ProjectedIterativeDeconvolutionImageFilter<TSuperclass>::~ProjectedIterativeDeconvolutionImageFilter()
 {
   m_ProjectionFilter = nullptr;
