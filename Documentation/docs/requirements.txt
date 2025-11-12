@@ -1,6 +1,0 @@
-furo
-myst-parser[linkify]
-sphinx>=7.2.6
-sphinx-copybutton
-sphinx-design
-sphinxext-opengraph

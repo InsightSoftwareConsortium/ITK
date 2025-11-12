@@ -1,3 +1,0 @@
-itkContourSpatialObject\.h Comments Disable
-itkDTITubeSpatialObjectPoint\.h Comments Disable
-itkSpatialObjectToImageFilterTest.cxx Namespace Disable

@@ -1,0 +1,6 @@
+#include "vsl/vsl_vector_io.hxx"
+#include <vnl/io/vnl_io_matrix_fixed.hxx>
+VNL_IO_MATRIX_FIXED_INSTANTIATE(double, 3, 3);
+// use a typedef to remove commas from the macro parameter that cause errors
+using vnl_matrix_fixed_double_3_3 = vnl_matrix_fixed<double, 3, 3>;
+VSL_VECTOR_IO_INSTANTIATE(vnl_matrix_fixed_double_3_3);
