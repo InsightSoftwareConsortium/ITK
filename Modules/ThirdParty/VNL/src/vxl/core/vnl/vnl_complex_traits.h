@@ -205,10 +205,11 @@ struct VNL_EXPORT vnl_complex_traits<std::complex<vnl_bignum>>
   {
     isreal = false
   };
-  static std::complex<vnl_bignum>
+  static std::complex<float>
   conjugate(std::complex<vnl_bignum> x)
   {
-    return std::complex<vnl_bignum>(x.real(), -x.imag());
+    throw std::runtime_error("Can not call complexify on non floating point data type");
+    return std::complex<float>(0., 0.);
   }
   static std::complex<float>
   complexify(std::complex<float> /* x */)
