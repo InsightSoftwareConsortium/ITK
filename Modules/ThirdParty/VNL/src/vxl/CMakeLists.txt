@@ -13,9 +13,11 @@
 #
 #   vxl-maintainers@lists.sf.net
 
-cmake_minimum_required(VERSION 3.10.2...3.20.3)
+cmake_minimum_required(VERSION 3.10.2...3.31.9)
 if(CMAKE_VERSION VERSION_LESS 3.12.0)
   cmake_policy(VERSION ${CMAKE_VERSION})
+else()
+  cmake_policy(VERSION 3.10.2...3.31.9)
 endif()
 
 if(NOT CMAKE_CXX_STANDARD)
