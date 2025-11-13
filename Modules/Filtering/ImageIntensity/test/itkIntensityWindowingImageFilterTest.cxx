@@ -33,9 +33,8 @@ itkIntensityWindowingImageFilterTest(int, char *[])
   using TestInputImage = itk::Image<PixelType, Dimension>;
   using TestOutputImage = itk::Image<PixelType, Dimension>;
 
-  auto                                size = TestInputImage::SizeType::Filled(64);
-  constexpr TestInputImage::IndexType index{};
-  TestInputImage::RegionType          region = { index, size };
+  auto                       size = TestInputImage::SizeType::Filled(64);
+  TestInputImage::RegionType region{ size };
 
 
   using FilterType = itk::IntensityWindowingImageFilter<TestInputImage, TestOutputImage>;

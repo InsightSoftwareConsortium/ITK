@@ -36,10 +36,9 @@ itkCovarianceSampleFilterTest(int, char *[])
   using ImageType = itk::Image<MeasurementVectorType, 3>;
   using MaskImageType = itk::Image<unsigned char, 3>;
 
-  auto                           image = ImageType::New();
-  constexpr ImageType::SizeType  size{ 5, 5, 5 };
-  constexpr ImageType::IndexType index{};
-  ImageType::RegionType          region = { index, size };
+  auto                          image = ImageType::New();
+  constexpr ImageType::SizeType size{ 5, 5, 5 };
+  ImageType::RegionType         region{ size };
 
 
   image->SetBufferedRegion(region);

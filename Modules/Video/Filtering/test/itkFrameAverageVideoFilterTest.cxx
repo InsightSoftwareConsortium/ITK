@@ -48,10 +48,9 @@ namespace itk::FrameAverageVideoFilterTest
 InputFrameType::Pointer
 CreateInputFrame(InputPixelType val)
 {
-  auto                                out = InputFrameType::New();
-  constexpr InputFrameType::SizeType  sizeLR{ 50, 40 };
-  constexpr InputFrameType::IndexType startLR{};
-  InputFrameType::RegionType          largestRegion = { startLR, sizeLR };
+  auto                               out = InputFrameType::New();
+  constexpr InputFrameType::SizeType sizeLR{ 50, 40 };
+  InputFrameType::RegionType         largestRegion{ sizeLR };
   out->SetRegions(largestRegion);
 
   out->Allocate();

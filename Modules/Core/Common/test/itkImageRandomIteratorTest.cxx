@@ -43,9 +43,7 @@ itkImageRandomIteratorTest(int, char *[])
 
   constexpr unsigned long numberOfSamples{ 10 };
 
-  constexpr ImageType::IndexType start0{};
-
-  const ImageType::RegionType region0{ start0, size0 };
+  const ImageType::RegionType region0{ size0 };
 
   myImage->SetRegions(region0);
   myImage->Allocate();

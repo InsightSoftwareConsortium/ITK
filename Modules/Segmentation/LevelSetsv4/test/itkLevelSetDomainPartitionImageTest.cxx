@@ -47,9 +47,7 @@ itkLevelSetDomainPartitionImageTest(int, char *[])
   spacing[0] = 1.0;
   spacing[1] = 1.0;
 
-  constexpr InputImageType::IndexType index{};
-
-  const InputImageType::RegionType region{ index, size };
+  const InputImageType::RegionType region{ size };
 
   // Binary initialization
   auto binary = InputImageType::New();

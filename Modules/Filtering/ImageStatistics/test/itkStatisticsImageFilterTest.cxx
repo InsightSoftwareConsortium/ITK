@@ -46,10 +46,9 @@ itkStatisticsImageFilterTest(int argc, char * argv[])
 
   itk::Statistics::MersenneTwisterRandomVariateGenerator::GetInstance()->SetSeed(987);
 
-  auto                            image = FloatImage::New();
-  auto                            size = FloatImage::SizeType::Filled(64);
-  constexpr FloatImage::IndexType index{};
-  FloatImage::RegionType          region = { index, size };
+  auto                   image = FloatImage::New();
+  auto                   size = FloatImage::SizeType::Filled(64);
+  FloatImage::RegionType region{ size };
 
   // first try a constant image
   constexpr float fillValue{ -100.0 };

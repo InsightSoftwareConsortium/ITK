@@ -109,10 +109,9 @@ protected:
 FrameType::Pointer
 CreateEmptyFrame()
 {
-  auto                           out = FrameType::New();
-  constexpr FrameType::SizeType  sizeLR{ 50, 40 };
-  constexpr FrameType::IndexType startLR{};
-  FrameType::RegionType          largestRegion = { startLR, sizeLR };
+  auto                          out = FrameType::New();
+  constexpr FrameType::SizeType sizeLR{ 50, 40 };
+  FrameType::RegionType         largestRegion{ sizeLR };
   out->SetLargestPossibleRegion(largestRegion);
 
   constexpr FrameType::SizeType sizeReq{ 20, 10 };

@@ -52,11 +52,10 @@ itkNiftiImageIOTest4(int argc, char * argv[])
   //
   constexpr unsigned int dimsize{ 2 };
 
-  constexpr Test4ImageType::SizeType  size{ dimsize, dimsize, dimsize };
-  constexpr Test4ImageType::IndexType index{};
-  Test4ImageType::RegionType          imageRegion = { index, size };
-  Test4ImageType::SpacingType         spacing{ { 1.0, 1.0, 1.0 } };
-  const Test4ImageType::Pointer       test4Image =
+  constexpr Test4ImageType::SizeType size{ dimsize, dimsize, dimsize };
+  Test4ImageType::RegionType         imageRegion{ size };
+  Test4ImageType::SpacingType        spacing{ { 1.0, 1.0, 1.0 } };
+  const Test4ImageType::Pointer      test4Image =
     itk::IOTestHelper::AllocateImageFromRegionAndSpacing<Test4ImageType>(imageRegion, spacing);
   test4Image->FillBuffer(0);
 

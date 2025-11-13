@@ -133,9 +133,8 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   // When shrink factors are not divisible, this still does
   // a best does the best possible job.
   // InputImageType::SizeType size = {{101,101,41}};
-  InputImageType::SizeType            size = { { 128, 132, 48 } };
-  constexpr InputImageType::IndexType index{};
-  const InputImageType::RegionType    region{ index, size };
+  InputImageType::SizeType         size = { { 128, 132, 48 } };
+  const InputImageType::RegionType region{ size };
 
   InputImageType::SpacingType spacing;
   spacing[0] = 0.5;

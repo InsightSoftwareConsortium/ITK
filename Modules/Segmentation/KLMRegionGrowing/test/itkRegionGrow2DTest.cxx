@@ -126,9 +126,7 @@ test_RegionGrowKLMExceptionHandling()
 
   auto imageSize5D = ImageType5D::SizeType::Filled(sizeLen);
 
-  constexpr ImageType5D::IndexType index5D{};
-
-  ImageType5D::RegionType region5D{ index5D, imageSize5D };
+  ImageType5D::RegionType region5D{ imageSize5D };
 
   image5D->SetLargestPossibleRegion(region5D);
   image5D->SetBufferedRegion(region5D);
@@ -239,9 +237,7 @@ test_regiongrowKLM1D()
   constexpr unsigned int numPixelsHalf{ 50 };
   auto                   imageSize = ImageType::SizeType::Filled(numPixels);
 
-  constexpr ImageType::IndexType index{};
-
-  const ImageType::RegionType region{ index, imageSize };
+  const ImageType::RegionType region{ imageSize };
 
   image->SetLargestPossibleRegion(region);
   image->SetBufferedRegion(region);
@@ -818,9 +814,7 @@ test_regiongrowKLM2D()
   imageSize[1] = 20;
   constexpr unsigned int numPixels{ 200 };
 
-  constexpr ImageType::IndexType index{};
-
-  const ImageType::RegionType region{ index, imageSize };
+  const ImageType::RegionType region{ imageSize };
 
   image->SetLargestPossibleRegion(region);
   image->SetBufferedRegion(region);
@@ -1267,9 +1261,7 @@ test_regiongrowKLM3D()
   imageSize[2] = 3;
   constexpr unsigned int numPixels = 10 * 20 * 3;
 
-  constexpr ImageType::IndexType index{};
-
-  const ImageType::RegionType region{ index, imageSize };
+  const ImageType::RegionType region{ imageSize };
 
   image->SetLargestPossibleRegion(region);
   image->SetBufferedRegion(region);
@@ -1768,9 +1760,7 @@ test_regiongrowKLM4D()
   imageSize[3] = 7 * multVal;
   const unsigned int numPixels = imageSize[0] * imageSize[1] * imageSize[2] * imageSize[3];
 
-  constexpr ImageType::IndexType index{};
-
-  const ImageType::RegionType region{ index, imageSize };
+  const ImageType::RegionType region{ imageSize };
 
   image->SetLargestPossibleRegion(region);
   image->SetBufferedRegion(region);

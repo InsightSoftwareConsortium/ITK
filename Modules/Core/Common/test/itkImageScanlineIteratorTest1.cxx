@@ -148,11 +148,8 @@ itkImageScanlineIteratorTest1(int, char *[])
   {
     // Create an image
     using TestImageType = itk::Image<int, 2>;
-    constexpr TestImageType::IndexType imageCorner{};
-
-    auto imageSize = TestImageType::SizeType::Filled(3);
-
-    const TestImageType::RegionType imageRegion(imageCorner, imageSize);
+    auto                            imageSize = TestImageType::SizeType::Filled(3);
+    const TestImageType::RegionType imageRegion{ imageSize };
 
     auto image = TestImageType::New();
     image->SetRegions(imageRegion);
@@ -179,11 +176,8 @@ itkImageScanlineIteratorTest1(int, char *[])
     }
 
     // Setup and iterate over the first region
-    constexpr TestImageType::IndexType region1Start{};
-
-    auto regionSize = TestImageType::SizeType::Filled(2);
-
-    const TestImageType::RegionType region1(region1Start, regionSize);
+    auto                            regionSize = TestImageType::SizeType::Filled(2);
+    const TestImageType::RegionType region1{ regionSize };
 
     itk::ImageScanlineConstIterator<TestImageType> imageIterator(image, region1);
 

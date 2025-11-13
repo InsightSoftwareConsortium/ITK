@@ -89,9 +89,7 @@ itkRGBGibbsPriorFilterTest(int, char *[])
 
   constexpr VecImageType::SizeType vecImgSize{ ImageWidth, ImageHeight, NumFrames };
 
-  constexpr VecImageType::IndexType index{};
-
-  VecImageType::RegionType region{ index, vecImgSize };
+  VecImageType::RegionType region{ vecImgSize };
 
   vecImage->SetLargestPossibleRegion(region);
   vecImage->SetBufferedRegion(region);
@@ -134,9 +132,7 @@ itkRGBGibbsPriorFilterTest(int, char *[])
 
   constexpr ClassImageType::SizeType classImgSize{ ImageWidth, ImageHeight, NumFrames };
 
-  constexpr ClassImageType::IndexType classindex{};
-
-  ClassImageType::RegionType classregion{ classindex, classImgSize };
+  ClassImageType::RegionType classregion{ classImgSize };
 
   classImage->SetLargestPossibleRegion(classregion);
   classImage->SetBufferedRegion(classregion);
