@@ -118,9 +118,8 @@ itkImageTest(int, char *[])
   direction.SetIdentity();
   image->SetDirection(direction);
 
-  constexpr Image::IndexType index{};
-  constexpr auto             size = Image::SizeType::Filled(4);
-  const Image::RegionType    region{ index, size };
+  constexpr auto          size = Image::SizeType::Filled(4);
+  const Image::RegionType region{ size };
   image->SetRegions(region);
 
   auto                       imageRef = Image::New();
@@ -131,9 +130,8 @@ itkImageTest(int, char *[])
   imageRef->SetSpacing(spacingRef);
   imageRef->SetOrigin(originRef);
   imageRef->SetDirection(directionRef);
-  constexpr Image::IndexType indexRef{};
-  constexpr auto             sizeRef = itk::MakeFilled<Image::SizeType>(5);
-  const Image::RegionType    regionRef{ indexRef, sizeRef };
+  constexpr auto          sizeRef = itk::MakeFilled<Image::SizeType>(5);
+  const Image::RegionType regionRef{ sizeRef };
   imageRef->SetRegions(regionRef);
 
   using TransformType = itk::Transform<double, Image::ImageDimension, Image::ImageDimension>;

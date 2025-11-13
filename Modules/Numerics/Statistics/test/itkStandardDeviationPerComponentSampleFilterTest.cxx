@@ -39,9 +39,8 @@ itkStandardDeviationPerComponentSampleFilterTest(int, char *[])
 
   auto image = ImageType::New();
 
-  ImageType::SizeType            size{ 5, 5, 5 };
-  constexpr ImageType::IndexType index{};
-  ImageType::RegionType          region = { index, size };
+  ImageType::SizeType   size{ 5, 5, 5 };
+  ImageType::RegionType region{ size };
 
 
   image->SetBufferedRegion(region);

@@ -61,9 +61,7 @@ TEST(PCAShapeSignedDistanceFunction, Test)
 
   constexpr ImageType::SizeType imageSize{ ImageWidth, ImageHeight };
 
-  constexpr ImageType::IndexType startIndex{};
-
-  const ImageType::RegionType region{ startIndex, imageSize };
+  const ImageType::RegionType region{ imageSize };
 
 
   // set up the random number generator

@@ -171,9 +171,8 @@ itkPNGImageIOTest(int argc, char * argv[])
 
   auto volume = ImageType3D::New();
 
-  auto                             size3D = ImageType3D::SizeType::Filled(10);
-  constexpr ImageType3D::IndexType start3D{};
-  ImageType3D::RegionType          region3D{ start3D, size3D };
+  auto                    size3D = ImageType3D::SizeType::Filled(10);
+  ImageType3D::RegionType region3D{ size3D };
 
   volume->SetRegions(region3D);
   volume->AllocateInitialized();
@@ -211,9 +210,8 @@ itkPNGImageIOTest(int argc, char * argv[])
   //
   auto image = ImageType2D::New();
 
-  auto                             size2D = ImageType2D::SizeType::Filled(10);
-  constexpr ImageType2D::IndexType start2D{};
-  ImageType2D::RegionType          region2D{ start2D, size2D };
+  auto                    size2D = ImageType2D::SizeType::Filled(10);
+  ImageType2D::RegionType region2D{ size2D };
 
   image->SetRegions(region2D);
   image->AllocateInitialized();
@@ -250,9 +248,8 @@ itkPNGImageIOTest(int argc, char * argv[])
   //
   auto line = ImageType1D::New();
 
-  auto                             size1D = ImageType1D::SizeType::Filled(10);
-  constexpr ImageType1D::IndexType start1D{};
-  const ImageType1D::RegionType    region1D{ start1D, size1D };
+  auto                          size1D = ImageType1D::SizeType::Filled(10);
+  const ImageType1D::RegionType region1D{ size1D };
   line->SetRegions(region1D);
 
   line->AllocateInitialized();

@@ -41,9 +41,7 @@ itkImageLinearIteratorTest(int, char *[])
   size0[1] = 100;
   size0[2] = 100;
 
-  constexpr ImageType::IndexType start0{};
-
-  const ImageType::RegionType region0{ start0, size0 };
+  const ImageType::RegionType region0{ size0 };
 
   myImage->SetRegions(region0);
   myImage->Allocate();

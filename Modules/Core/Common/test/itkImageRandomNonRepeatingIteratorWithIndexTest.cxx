@@ -46,9 +46,8 @@ itkImageRandomNonRepeatingIteratorWithIndexTest(int, char *[])
   size0[0] = 50;
   size0[1] = 50;
   size0[2] = 50;
-  constexpr unsigned long        numberOfSamples{ 10 };
-  constexpr ImageType::IndexType start0{};
-  const ImageType::RegionType    region0{ start0, size0 };
+  constexpr unsigned long     numberOfSamples{ 10 };
+  const ImageType::RegionType region0{ size0 };
   myImage->SetRegions(region0);
   myImage->Allocate();
   // Make the priority image
@@ -57,8 +56,7 @@ itkImageRandomNonRepeatingIteratorWithIndexTest(int, char *[])
   prioritySize[0] = 50;
   prioritySize[1] = 50;
   prioritySize[2] = 50;
-  constexpr PriorityImageType::IndexType priorityStart{};
-  const PriorityImageType::RegionType    priorityRegion{ priorityStart, prioritySize };
+  const PriorityImageType::RegionType priorityRegion{ prioritySize };
   priorityImage->SetRegions(priorityRegion);
   priorityImage->Allocate();
   // we will make most of this image ones, with a small region of

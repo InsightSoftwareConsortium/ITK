@@ -32,8 +32,7 @@ CreateTestImage()
 
   typename FixedImageType::SizeType fSize;
   fSize.Fill(30);
-  constexpr typename FixedImageType::IndexType fIndex{};
-  typename FixedImageType::RegionType          fRegion = { fIndex, fSize };
+  typename FixedImageType::RegionType fRegion{ fSize };
   image->SetRegions(fRegion);
   image->Allocate();
   return image;

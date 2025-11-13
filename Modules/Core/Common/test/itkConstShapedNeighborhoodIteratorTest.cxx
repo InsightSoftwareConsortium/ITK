@@ -409,11 +409,8 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
   {
     // Create an image
     using ChangeRegionTestImageType = itk::Image<int, 2>;
-    constexpr ChangeRegionTestImageType::IndexType imageCorner{};
-
-    auto imageSize = ChangeRegionTestImageType::SizeType::Filled(4);
-
-    const ChangeRegionTestImageType::RegionType imageRegion(imageCorner, imageSize);
+    auto                                        imageSize = ChangeRegionTestImageType::SizeType::Filled(4);
+    const ChangeRegionTestImageType::RegionType imageRegion{ imageSize };
 
     auto image = ChangeRegionTestImageType::New();
     image->SetRegions(imageRegion);

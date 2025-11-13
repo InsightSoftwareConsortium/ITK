@@ -38,9 +38,8 @@ itkMeanSquaresImageToImageMetricv4OnVectorTest(int, char ** const)
   using VectorType = itk::Vector<double, vectorLength>;
   using ImageType = itk::Image<VectorType, imageDimensionality>;
 
-  auto                           size = ImageType::SizeType::Filled(imageSize);
-  constexpr ImageType::IndexType index{};
-  const ImageType::RegionType    region{ index, size };
+  auto                        size = ImageType::SizeType::Filled(imageSize);
+  const ImageType::RegionType region{ size };
 
   /* Create simple test images. */
   auto fixedImage = ImageType::New();

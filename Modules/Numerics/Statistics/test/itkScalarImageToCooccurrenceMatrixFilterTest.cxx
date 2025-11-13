@@ -44,8 +44,7 @@ itkScalarImageToCooccurrenceMatrixFilterTest(int, char *[])
 
   constexpr InputImageType::SizeType inputImageSize{ IMGWIDTH, IMGHEIGHT };
 
-  constexpr InputImageType::IndexType index{};
-  InputImageType::RegionType          region{ index, inputImageSize };
+  InputImageType::RegionType region{ inputImageSize };
 
   //--------------------------------------------------------------------------
   // Set up the image first. It looks like:

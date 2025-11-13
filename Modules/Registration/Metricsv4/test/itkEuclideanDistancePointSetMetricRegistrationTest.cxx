@@ -266,9 +266,7 @@ itkEuclideanDistancePointSetMetricRegistrationTest(int argc, char * argv[])
 
   auto regionSize = RegionType::SizeType::Filled(static_cast<itk::SizeValueType>(pointMax) + 1);
 
-  constexpr RegionType::IndexType regionIndex{};
-
-  const RegionType region{ regionIndex, regionSize };
+  const RegionType region{ regionSize };
 
   auto displacementField = FieldType::New();
   displacementField->SetOrigin(origin);

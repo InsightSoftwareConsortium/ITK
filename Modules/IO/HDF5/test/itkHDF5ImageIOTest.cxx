@@ -37,10 +37,9 @@ HDF5ReadWriteTest(const char * fileName)
     spacing[i] = 1.0 + static_cast<double>(i);
     origin[i] = static_cast<double>(i) * 5.0;
   }
-  constexpr typename ImageType::SizeType  size{ 5, 5, 5 };
-  constexpr typename ImageType::IndexType index{};
-  typename ImageType::RegionType          imageRegion = { index, size };
-  const typename ImageType::Pointer       im =
+  constexpr typename ImageType::SizeType size{ 5, 5, 5 };
+  typename ImageType::RegionType         imageRegion{ size };
+  const typename ImageType::Pointer      im =
     itk::IOTestHelper::AllocateImageFromRegionAndSpacing<ImageType>(imageRegion, spacing);
 
   itk::Matrix<itk::SpacePrecisionType> mat;

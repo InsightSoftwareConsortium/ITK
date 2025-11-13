@@ -52,9 +52,7 @@ itkMRFImageFilterTest(int, char *[])
 
   VecImageType::SizeType vecImgSize = { { IMGWIDTH, IMGHEIGHT, NFRAMES } };
 
-  constexpr VecImageType::IndexType index{};
-
-  VecImageType::RegionType region{ index, vecImgSize };
+  VecImageType::RegionType region{ vecImgSize };
 
   vecImage->SetLargestPossibleRegion(region);
   vecImage->SetBufferedRegion(region);
@@ -214,9 +212,7 @@ itkMRFImageFilterTest(int, char *[])
 
   constexpr ClassImageType::SizeType classImgSize{ IMGWIDTH, IMGHEIGHT, NFRAMES };
 
-  constexpr ClassImageType::IndexType classindex{};
-
-  ClassImageType::RegionType classregion{ classindex, classImgSize };
+  ClassImageType::RegionType classregion{ classImgSize };
 
   classImage->SetLargestPossibleRegion(classregion);
   classImage->SetBufferedRegion(classregion);
