@@ -85,6 +85,7 @@ itkFastMarchingImageFilterRealTest2(int itkNotUsed(argc), char * itkNotUsed(argv
   speedImage->SetLargestPossibleRegion(region);
   speedImage->SetBufferedRegion(region);
   speedImage->Allocate();
+  speedImage->FillBuffer(1.0);
 
   // Set up an 'alive image'
   auto aliveImage = FloatImageType::New();
@@ -126,11 +127,9 @@ itkFastMarchingImageFilterRealTest2(int itkNotUsed(argc), char * itkNotUsed(argv
   maskImage->SetBufferedRegion(region);
   maskImage->Allocate();
 
-  itk::ImageRegionIterator<FloatImageType>          speedIter(speedImage, speedImage->GetBufferedRegion());
   itk::ImageRegionIteratorWithIndex<FloatImageType> maskIter(maskImage, maskImage->GetBufferedRegion());
-  while (!speedIter.IsAtEnd())
+  while (!maskIter.IsAtEnd())
   {
-    speedIter.Set(1.0);
     FloatImageType::IndexType idx = maskIter.GetIndex();
     if (((idx[0] > 22) && (idx[0] < 42) && (idx[1] > 27) && (idx[1] < 37)) ||
         ((idx[1] > 22) && (idx[1] < 42) && (idx[0] > 27) && (idx[0] < 37)))
@@ -143,7 +142,6 @@ itkFastMarchingImageFilterRealTest2(int itkNotUsed(argc), char * itkNotUsed(argv
     }
 
     ++maskIter;
-    ++speedIter;
   }
 
   marcher->SetInput(speedImage);
