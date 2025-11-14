@@ -127,6 +127,7 @@ itkFastMarchingTest2(int, char *[])
   speedImage->SetLargestPossibleRegion(region);
   speedImage->SetBufferedRegion(region);
   speedImage->Allocate();
+  speedImage->FillBuffer(1.0);
 
   // setup a binary mask image in float (to make sure it works with float)
   auto MaskImage = FloatImage::New();
@@ -134,11 +135,9 @@ itkFastMarchingTest2(int, char *[])
   MaskImage->SetBufferedRegion(region);
   MaskImage->Allocate();
 
-  itk::ImageRegionIterator<FloatImage>          speedIter(speedImage, speedImage->GetBufferedRegion());
   itk::ImageRegionIteratorWithIndex<FloatImage> maskIter(MaskImage, MaskImage->GetBufferedRegion());
-  while (!speedIter.IsAtEnd())
+  while (!maskIter.IsAtEnd())
   {
-    speedIter.Set(1.0);
     FloatImage::IndexType idx = maskIter.GetIndex();
     if (((idx[0] > 22) && (idx[0] < 42) && (idx[1] > 27) && (idx[1] < 37)) ||
         ((idx[1] > 22) && (idx[1] < 42) && (idx[0] > 27) && (idx[0] < 37)))
@@ -151,7 +150,6 @@ itkFastMarchingTest2(int, char *[])
     }
 
     ++maskIter;
-    ++speedIter;
   }
 
   speedImage->Print(std::cout);
