@@ -1653,11 +1653,15 @@ def set_inputs(
             import itk
 
             if type(value) in [list, tuple]:
-                try:
-                    output_value = [itk.output(x) for x in value]
-                    attrib(*output_value)
-                except Exception:
-                    attrib(itk.output(value))
+                # Special case for FileNames which expects a container, not unpacked arguments
+                if attribName == "FileNames":
+                    attrib(value)
+                else:
+                    try:
+                        output_value = [itk.output(x) for x in value]
+                        attrib(*output_value)
+                    except Exception:
+                        attrib(itk.output(value))
             else:
                 attrib(itk.output(value))
 
