@@ -147,13 +147,7 @@ itkFastMarchingImageFilterRealTest1(int itkNotUsed(argc), char * itkNotUsed(argv
   speedImage->SetLargestPossibleRegion(region);
   speedImage->SetBufferedRegion(region);
   speedImage->Allocate();
-
-  itk::ImageRegionIterator<FloatImageType> speedIter(speedImage, speedImage->GetBufferedRegion());
-  while (!speedIter.IsAtEnd())
-  {
-    speedIter.Set(1.0);
-    ++speedIter;
-  }
+  speedImage->FillBuffer(1.0);
 
   marcher->SetInput(speedImage);
 

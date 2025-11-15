@@ -181,12 +181,7 @@ itkFastMarchingTest(int argc, char * argv[])
   speedImage->SetLargestPossibleRegion(region);
   speedImage->SetBufferedRegion(region);
   speedImage->Allocate();
-
-  itk::ImageRegionIterator<FloatImage> speedIter(speedImage, speedImage->GetBufferedRegion());
-  for (; !speedIter.IsAtEnd(); ++speedIter)
-  {
-    speedIter.Set(1.0);
-  }
+  speedImage->FillBuffer(1.0);
 
   marcher->SetInput(speedImage);
   ITK_TEST_SET_GET_VALUE(speedImage, marcher->GetInput());

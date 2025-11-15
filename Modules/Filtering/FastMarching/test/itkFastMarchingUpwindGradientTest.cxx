@@ -131,12 +131,7 @@ itkFastMarchingUpwindGradientTest(int, char *[])
   speedImage->SetLargestPossibleRegion(region);
   speedImage->SetBufferedRegion(region);
   speedImage->Allocate();
-
-  itk::ImageRegionIterator<FloatImage> speedIter(speedImage, speedImage->GetBufferedRegion());
-  for (; !speedIter.IsAtEnd(); ++speedIter)
-  {
-    speedIter.Set(1.0);
-  }
+  speedImage->FillBuffer(1.0);
 
   //  speedImage->Print( std::cout );
   marcher->SetInput(speedImage);
