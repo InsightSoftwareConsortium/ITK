@@ -139,9 +139,8 @@ itkImageRegistrationMethodTest_13(int, char *[])
   constexpr double displacement[dimension]{ 7, 3, 2 };
   constexpr double scale[dimension]{ 0.80, 1.0, 1.0 };
 
-  FixedImageType::SizeType            size = { { 100, 100, 40 } };
-  constexpr FixedImageType::IndexType index{ 0, 0, 0 };
-  const FixedImageType::RegionType    region{ index, size };
+  FixedImageType::SizeType         size = { { 100, 100, 40 } };
+  const FixedImageType::RegionType region{ size };
 
   fixedImage->SetRegions(region);
   fixedImage->Allocate();

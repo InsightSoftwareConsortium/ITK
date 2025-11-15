@@ -146,9 +146,8 @@ itkImageRegistrationMethodTest_14(int, char *[])
   constexpr double displacement[dimension]{ 7, 3, 2 };
   constexpr double angle{ 10.0 / 180.0 * itk::Math::pi };
 
-  FixedImageType::SizeType            size = { { 100, 100, 40 } };
-  constexpr FixedImageType::IndexType index{ 0, 0, 0 };
-  const FixedImageType::RegionType    region{ index, size };
+  FixedImageType::SizeType         size = { { 100, 100, 40 } };
+  const FixedImageType::RegionType region{ size };
 
   fixedImage->SetRegions(region);
   fixedImage->Allocate();

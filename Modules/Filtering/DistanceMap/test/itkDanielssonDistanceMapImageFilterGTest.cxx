@@ -173,10 +173,9 @@ TEST(DanielssonDistanceMapImageFilter, Test)
 
   // Allocate the 3D image
   using ImageType3D = itk::Image<float, 3>;
-  constexpr ImageType3D::SizeType  size3D{ 200, 200, 200 };
-  constexpr ImageType3D::IndexType index3D{ 0, 0 };
-  const ImageType3D::RegionType    region3D{ index3D, size3D };
-  auto                             inputImage3D = ImageType3D::New();
+  constexpr ImageType3D::SizeType size3D{ 200, 200, 200 };
+  const ImageType3D::RegionType   region3D{ size3D };
+  auto                            inputImage3D = ImageType3D::New();
   inputImage3D->SetRegions(region3D);
   inputImage3D->Allocate();
   inputImage3D->FillBuffer(1);

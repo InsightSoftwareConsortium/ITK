@@ -41,10 +41,9 @@ itkImageMaskSpatialObjectTest5(int, char *[])
   using ImageType = ImageMaskSpatialObject::ImageType;
   using Iterator = itk::ImageRegionIterator<ImageType>;
 
-  auto                           image = ImageType::New();
-  constexpr ImageType::SizeType  size{ 50, 50, 50 };
-  constexpr ImageType::IndexType index{ 0, 0, 0 };
-  ImageType::RegionType          region{ index, size };
+  auto                          image = ImageType::New();
+  constexpr ImageType::SizeType size{ 50, 50, 50 };
+  ImageType::RegionType         region{ size };
 
   image->SetRegions(region);
   image->AllocateInitialized();
