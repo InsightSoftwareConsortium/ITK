@@ -201,6 +201,11 @@ if(ITK_WRAP_unsigned_char AND WRAP_2)
       COMMAND
       ${CMAKE_CURRENT_SOURCE_DIR}/test_xarray.py
       DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png})
+    itk_python_add_test(
+      NAME
+      PythonImreadSingleFileListTest
+      COMMAND
+      ${CMAKE_CURRENT_SOURCE_DIR}/test_imread_single_file_list.py)
   endif()
 endif()
 
