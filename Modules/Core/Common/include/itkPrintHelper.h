@@ -44,12 +44,12 @@ operator<<(std::ostream & os, const std::vector<T> & v)
 {
   if (v.empty())
   {
-    return os << "()";
+    return os << "[]";
   }
 
-  os << '(';
+  os << '[';
   std::copy(v.begin(), v.end() - 1, std::ostream_iterator<T>(os, ", "));
-  return os << v.back() << ')';
+  return os << v.back() << ']';
 }
 
 template <typename T>
@@ -58,17 +58,12 @@ operator<<(std::ostream & os, const std::list<T> & l)
 {
   if (l.empty())
   {
-    return os << "()";
+    return os << "[]";
   }
 
-  os << '(';
-  auto it = l.begin();
-  auto last = std::prev(l.end());
-  for (; it != last; ++it)
-  {
-    os << *it << ", ";
-  }
-  return os << *it << ')';
+  os << '[';
+  std::copy(l.begin(), std::prev(l.end()), std::ostream_iterator<T>(os, ", "));
+  return os << l.back() << ']';
 }
 
 // Stream insertion operator for C-style arrays, excluding character arrays (strings)

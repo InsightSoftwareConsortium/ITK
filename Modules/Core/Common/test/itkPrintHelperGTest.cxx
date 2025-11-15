@@ -29,7 +29,7 @@ TEST(PrintHelper, Vector)
   std::vector<int>   v{ 1, 2, 3, 4, 5 };
   std::ostringstream oss;
   oss << v;
-  EXPECT_EQ(oss.str(), "(1, 2, 3, 4, 5)");
+  EXPECT_EQ(oss.str(), "[1, 2, 3, 4, 5]");
 }
 
 TEST(PrintHelper, EmptyVector)
@@ -38,7 +38,7 @@ TEST(PrintHelper, EmptyVector)
   std::vector<int>   v;
   std::ostringstream oss;
   oss << v;
-  EXPECT_EQ(oss.str(), "()");
+  EXPECT_EQ(oss.str(), "[]");
 }
 
 TEST(PrintHelper, List)
@@ -47,7 +47,7 @@ TEST(PrintHelper, List)
   std::list<int>     l{ 1, 2, 3, 4, 5 };
   std::ostringstream oss;
   oss << l;
-  EXPECT_EQ(oss.str(), "(1, 2, 3, 4, 5)");
+  EXPECT_EQ(oss.str(), "[1, 2, 3, 4, 5]");
 }
 
 TEST(PrintHelper, EmptyList)
@@ -56,7 +56,7 @@ TEST(PrintHelper, EmptyList)
   std::list<int>     l;
   std::ostringstream oss;
   oss << l;
-  EXPECT_EQ(oss.str(), "()");
+  EXPECT_EQ(oss.str(), "[]");
 }
 
 TEST(PrintHelper, CStyleArray)
@@ -87,5 +87,5 @@ TEST(PrintHelper, VectorOfOffsets)
   v.push_back(o2);
   std::ostringstream oss;
   oss << v;
-  EXPECT_EQ(oss.str(), "([1, 2], [3, 4])");
+  EXPECT_EQ(oss.str(), "[[1, 2], [3, 4]]");
 }
