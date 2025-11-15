@@ -34,20 +34,20 @@ def test_imread_single_element_list():
     """Test that imread works with a list containing a single file path."""
     # Create a temporary image file
     temp_dir = tempfile.mkdtemp()
-    filename = os.path.join(temp_dir, 'test_image.png')
-    
+    filename = os.path.join(temp_dir, "test_image.png")
+
     try:
         # Create and save a test image
         arr = np.random.randint(0, 256, (10, 10), dtype=np.uint8)
         image = itk.image_from_array(arr)
         itk.imwrite(image, filename)
-        
+
         # Test 1: imread with a string (baseline - should always work)
         img_from_string = itk.imread(filename)
         assert img_from_string is not None
         assert itk.size(img_from_string)[0] == 10
         assert itk.size(img_from_string)[1] == 10
-        
+
         # Test 2: imread with a single-element list (the bug case)
         img_from_list = itk.imread([filename])
         assert img_from_list is not None
@@ -56,9 +56,9 @@ def test_imread_single_element_list():
         assert itk.size(img_from_list)[0] == 10
         assert itk.size(img_from_list)[1] == 10
         assert itk.size(img_from_list)[2] == 1
-        
+
         print("✓ Test passed: imread works with single-element list")
-        
+
     finally:
         # Cleanup
         if os.path.exists(filename):
@@ -71,16 +71,16 @@ def test_imread_multi_element_list():
     """Test that imread still works with a list containing multiple file paths."""
     # Create temporary image files
     temp_dir = tempfile.mkdtemp()
-    filename1 = os.path.join(temp_dir, 'test_image1.png')
-    filename2 = os.path.join(temp_dir, 'test_image2.png')
-    
+    filename1 = os.path.join(temp_dir, "test_image1.png")
+    filename2 = os.path.join(temp_dir, "test_image2.png")
+
     try:
         # Create and save test images
         arr = np.random.randint(0, 256, (10, 10), dtype=np.uint8)
         image = itk.image_from_array(arr)
         itk.imwrite(image, filename1)
         itk.imwrite(image, filename2)
-        
+
         # Test: imread with a multi-element list (should work as before)
         img_from_list = itk.imread([filename1, filename2])
         assert img_from_list is not None
@@ -89,9 +89,9 @@ def test_imread_multi_element_list():
         assert itk.size(img_from_list)[0] == 10
         assert itk.size(img_from_list)[1] == 10
         assert itk.size(img_from_list)[2] == 2
-        
+
         print("✓ Test passed: imread works with multi-element list")
-        
+
     finally:
         # Cleanup
         if os.path.exists(filename1):
