@@ -86,8 +86,7 @@ itkTriangleMeshToBinaryImageFilterTest4(int argc, char * argv[])
   spacing[2] = std::stod(argv[11]);
 
 
-  constexpr ImageType::IndexType index3D{ 0, 0, 0 };
-  const ImageType::RegionType    region3D{ index3D, size };
+  const ImageType::RegionType region3D{ size };
 
   auto inputImage = ImageType::New();
   inputImage->SetRegions(region3D);

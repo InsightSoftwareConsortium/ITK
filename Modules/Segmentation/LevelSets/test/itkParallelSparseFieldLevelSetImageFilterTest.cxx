@@ -233,9 +233,8 @@ itkParallelSparseFieldLevelSetImageFilterTest(int argc, char * argv[])
   auto im_init = ImageType::New();
   auto im_target = ImageType::New();
 
-  constexpr ImageType::SizeType  sz{ PSFLSIFT::HEIGHT, PSFLSIFT::WIDTH, PSFLSIFT::DEPTH };
-  constexpr ImageType::IndexType idx{ 0, 0, 0 };
-  ImageType::RegionType          r = { idx, sz };
+  constexpr ImageType::SizeType sz{ PSFLSIFT::HEIGHT, PSFLSIFT::WIDTH, PSFLSIFT::DEPTH };
+  ImageType::RegionType         r{ sz };
 
   ImageType::PointType     origin;
   ImageType::SpacingType   spacing;

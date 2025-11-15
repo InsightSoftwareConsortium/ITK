@@ -52,9 +52,8 @@ itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char *[])
     ImageDimension = MovingImageType::ImageDimension
   };
 
-  constexpr MovingImageType::SizeType  size{ 16, 16 };
-  constexpr MovingImageType::IndexType index{ 0, 0 };
-  const MovingImageType::RegionType    region{ index, size };
+  constexpr MovingImageType::SizeType size{ 16, 16 };
+  const MovingImageType::RegionType   region{ size };
 
   auto imgMoving = MovingImageType::New();
   imgMoving->SetRegions(region);

@@ -40,9 +40,8 @@ itkCropImageFilterTest(int, char *[])
   auto inputImage = ImageType::New();
 
   // Fill in the image
-  constexpr ImageType::IndexType index{ 0, 0 };
-  constexpr ImageType::SizeType  size{ 8, 12 };
-  ImageType::RegionType          region{ index, size };
+  constexpr ImageType::SizeType size{ 8, 12 };
+  ImageType::RegionType         region{ size };
   inputImage->SetLargestPossibleRegion(region);
   inputImage->SetBufferedRegion(region);
   inputImage->Allocate();

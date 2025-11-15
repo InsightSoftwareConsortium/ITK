@@ -218,9 +218,8 @@ itkLevelSetFunctionTest(int, char *[])
   auto im_init = ImageType::New();
   auto im_target = ImageType::New();
 
-  constexpr ImageType::SizeType  sz{ LSFT::HEIGHT, LSFT::WIDTH };
-  constexpr ImageType::IndexType idx{ 0, 0 };
-  ImageType::RegionType          r = { idx, sz };
+  constexpr ImageType::SizeType sz{ LSFT::HEIGHT, LSFT::WIDTH };
+  ImageType::RegionType         r{ sz };
 
   im_init->SetRegions(r);
 

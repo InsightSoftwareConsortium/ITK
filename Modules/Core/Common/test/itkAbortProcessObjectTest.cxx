@@ -64,9 +64,8 @@ itkAbortProcessObjectTest(int, char *[])
   auto img = ShortImage::New();
 
   // fill in an image
-  constexpr ShortImage::IndexType index{ 0, 0 };
-  constexpr ShortImage::SizeType  size{ 100, 100 };
-  const ShortImage::RegionType    region{ index, size };
+  constexpr ShortImage::SizeType size{ 100, 100 };
+  const ShortImage::RegionType   region{ size };
   img->SetRegions(region);
   img->Allocate();
 
@@ -85,9 +84,8 @@ itkAbortProcessObjectTest(int, char *[])
   extract->SetInput(img);
 
   // fill in an image
-  constexpr ShortImage::IndexType extractIndex{ 0, 0 };
-  constexpr ShortImage::SizeType  extractSize{ 99, 99 };
-  const ShortImage::RegionType    extractRegion{ extractIndex, extractSize };
+  constexpr ShortImage::SizeType extractSize{ 99, 99 };
+  const ShortImage::RegionType   extractRegion{ extractSize };
   extract->SetExtractionRegion(extractRegion);
 
   const itk::CStyleCommand::Pointer progressCmd = itk::CStyleCommand::New();

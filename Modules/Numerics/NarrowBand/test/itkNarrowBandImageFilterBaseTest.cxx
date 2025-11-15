@@ -123,9 +123,8 @@ itkNarrowBandImageFilterBaseTest(int argc, char * argv[])
   using WriterImageType = itk::Image<WriterPixelType, ImageDimension>;
   using PointType = itk::Point<double, ImageDimension>;
 
-  constexpr ImageType::SizeType  size{ 64, 64 };
-  constexpr ImageType::IndexType index{ 0, 0 };
-  const ImageType::RegionType    region{ index, size };
+  constexpr ImageType::SizeType size{ 64, 64 };
+  const ImageType::RegionType   region{ size };
 
   auto inputImage = ImageType::New();
   inputImage->SetRegions(region);

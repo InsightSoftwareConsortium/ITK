@@ -385,9 +385,8 @@ itkImageToImageMetricv4Test(int, char ** const)
   using DimensionSizeType = unsigned int;
   constexpr DimensionSizeType imageSize{ 4 };
 
-  constexpr ImageToImageMetricv4TestImageType::SizeType  size{ imageSize, imageSize };
-  constexpr ImageToImageMetricv4TestImageType::IndexType index{ 0, 0 };
-  const ImageToImageMetricv4TestImageType::RegionType    region{ index, size };
+  constexpr ImageToImageMetricv4TestImageType::SizeType size{ imageSize, imageSize };
+  const ImageToImageMetricv4TestImageType::RegionType   region{ size };
 
 
   // Create simple test images.
