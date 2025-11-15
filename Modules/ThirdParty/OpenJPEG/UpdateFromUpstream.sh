@@ -9,6 +9,7 @@ readonly ownership="OpenJPEG Upstream <kwrobot@kitware.com>"
 readonly subtree="Modules/ThirdParty/OpenJPEG/src/$name"
 readonly repo="https://github.com/uclouvain/openjpeg.git"
 readonly tag="v2.5.4"
+readonly exact_tree_match=false
 readonly paths="
 CMakeLists.txt
 README.md

@@ -9,6 +9,7 @@ readonly ownership="Vladimir S. FONOV <vladimir.fonov@gmail.com>"
 readonly subtree="Modules/ThirdParty/MINC/src/libminc"
 readonly repo="https://github.com/BIC-MNI/libminc.git"
 readonly tag="master"
+readonly exact_tree_match=false
 readonly paths="
 ./ChangeLog
 ./volume_io

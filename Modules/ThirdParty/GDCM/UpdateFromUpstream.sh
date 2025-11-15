@@ -10,6 +10,7 @@ readonly subtree="Modules/ThirdParty/GDCM/src/gdcm"
 readonly repo="https://github.com/malaterre/GDCM.git"
 readonly tag="v3.2.2"
 readonly shortlog=false
+readonly exact_tree_match=false
 readonly paths="
   .gitattributes
   .codespellrc
