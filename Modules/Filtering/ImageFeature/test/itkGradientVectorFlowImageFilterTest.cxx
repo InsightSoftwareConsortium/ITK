@@ -64,7 +64,7 @@ itkGradientVectorFlowImageFilterTest(int, char *[])
 
   // Initialize Image A
   inputImage->SetRegions(region);
-  inputImage->Allocate();
+  inputImage->AllocateInitialized();
 
   interImage->SetRegions(region);
   interImage->Allocate();
@@ -77,17 +77,8 @@ itkGradientVectorFlowImageFilterTest(int, char *[])
 
   using myOutputIteratorType = itk::ImageRegionIteratorWithIndex<myGradientImageType>;
 
-  // Create one iterator for the Input Image A (this is a light object)
-  myIteratorType it(inputImage, inputImage->GetRequestedRegion());
-
   // Initialize the content of Image A
   std::cout << "Input Image initialization " << std::endl;
-
-  while (!it.IsAtEnd())
-  {
-    it.Set(0.0);
-    ++it;
-  }
 
   size[0] = 100;
   size[1] = 100;
