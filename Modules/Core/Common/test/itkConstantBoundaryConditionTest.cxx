@@ -121,10 +121,9 @@ int
 itkConstantBoundaryConditionTest(int, char *[])
 {
   // Test an image to cover one operator() method.
-  auto                image = ImageType::New();
-  constexpr SizeType  imageSize{ 5, 5 };
-  constexpr IndexType imageIndex{ 0, 0 };
-  RegionType          imageRegion{ imageIndex, imageSize };
+  auto               image = ImageType::New();
+  constexpr SizeType imageSize{ 5, 5 };
+  RegionType         imageRegion{ imageSize };
   image->SetRegions(imageRegion);
   image->Allocate();
 

@@ -130,7 +130,6 @@ itkLevelSetMotionRegistrationFilterTest(int argc, char * argv[])
   using ImageType = itk::Image<PixelType, ImageDimension>;
   using VectorType = itk::Vector<float, ImageDimension>;
   using FieldType = itk::Image<VectorType, ImageDimension>;
-  using IndexType = ImageType::IndexType;
   using SizeType = ImageType::SizeType;
   using RegionType = ImageType::RegionType;
 
@@ -141,9 +140,7 @@ itkLevelSetMotionRegistrationFilterTest(int argc, char * argv[])
   SizeType                 size;
   size.SetSize(sizeArray);
 
-  constexpr IndexType index{};
-
-  const RegionType region{ index, size };
+  const RegionType region{ size };
 
   auto moving = ImageType::New();
   auto fixed = ImageType::New();
