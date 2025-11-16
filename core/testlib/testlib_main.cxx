@@ -67,8 +67,8 @@ void
 testlib_enter_stealth_mode()
 {
   // check for Dashboard test
-  char * env_var1 = std::getenv("DART_TEST_FROM_DART");
-  char * env_var2 = std::getenv("DASHBOARD_TEST_FROM_CTEST"); // DART Client built in CMake
+  char * const env_var1 = std::getenv("DART_TEST_FROM_DART");
+  char * const env_var2 = std::getenv("DASHBOARD_TEST_FROM_CTEST"); // DART Client built in CMake
   if (env_var1 || env_var2)
   {
 
@@ -94,8 +94,8 @@ testlib_enter_stealth_mode()
 int
 testlib_run_test_unit(std::vector<std::string>::size_type i, int argc, char * argv[])
 {
-  char * env_var1 = std::getenv("DART_TEST_FROM_DART");
-  char * env_var2 = std::getenv("DASHBOARD_TEST_FROM_CTEST"); // DART Client built in CMake
+  char * const env_var1 = std::getenv("DART_TEST_FROM_DART");
+  char * const env_var2 = std::getenv("DASHBOARD_TEST_FROM_CTEST"); // DART Client built in CMake
   if (env_var1 || env_var2)
   {
     try

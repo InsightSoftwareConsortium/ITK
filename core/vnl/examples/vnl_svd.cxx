@@ -10,7 +10,7 @@ solve_with_warning(const vnl_matrix<D> & M, const vnl_matrix<D> & B)
 {
   // Take svd of vnl_matrix<D> M, setting singular values
   // smaller than 1e-8 to 0, and hold the result.
-  vnl_svd<D> svd(M, 1e-8);
+  const vnl_svd<D> svd(M, 1e-8);
   // Check for rank-deficiency
   if (svd.singularities() > 1)
     std::cerr << "Warning: Singular matrix, condition = " << svd.well_condition() << std::endl;
@@ -25,7 +25,7 @@ main()
 {
   double data[] = { 1, 1, 1, 1, 2, 3, 1, 3, 6 };
   vnl_matrix<double> M(data, 3, 3);
-  vnl_matrix<double> B(3, 1, 7.0); // column vector [7 7 7]^T
+  const vnl_matrix<double> B(3, 1, 7.0); // column vector [7 7 7]^T
   vnl_matrix<double> result = solve_with_warning(M, B);
   std::cerr << result << std::endl;
   M(2, 2) = 5;

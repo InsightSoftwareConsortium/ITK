@@ -9,7 +9,7 @@
 int
 main()
 {
-  std::complex<double> c(3.0, 4.0);
+  const std::complex<double> c(3.0, 4.0);
   vnl_vector<std::complex<double>> equation(2);
   // although the equation has three coefficients (1 for x^2, 0 for x and -c
   // as the constant coefficient), the highest order coefficient must always
@@ -20,7 +20,7 @@ main()
   vnl_cpoly_roots r(equation);
   std::cout << "One square root of 3+4i is " << r.solns[0] << "\nThe other square root is " << r.solns[1] << std::endl;
 
-  std::complex<double> c4(-7.0, 24.0);
+  const std::complex<double> c4(-7.0, 24.0);
   vnl_vector<std::complex<double>> eq(4);
   eq[0] = eq[1] = eq[2] = 0;
   eq[3] = -c4;

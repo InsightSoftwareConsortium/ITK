@@ -8,9 +8,9 @@ display_mask(const std::vector<std::vector<bool>> & mask)
 {
   for (const auto & i : mask)
   {
-    for (unsigned int j = 0; j < i.size(); ++j)
+    for (const bool j : i)
     {
-      std::cout << (i[j] ? '1' : '0') << ' ';
+      std::cout << (j ? '1' : '0') << ' ';
     }
     std::cout << '\n';
   }

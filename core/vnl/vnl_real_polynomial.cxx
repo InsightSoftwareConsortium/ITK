@@ -80,7 +80,7 @@ double
 vnl_real_polynomial::evaluate_integral(double x) const
 {
   const int d = coeffs_.size() - 1;
-  const double * f = coeffs_.data_block();
+  const double * const f = coeffs_.data_block();
   double sum = 0.0;
   int di = 1;
   double xi = x;

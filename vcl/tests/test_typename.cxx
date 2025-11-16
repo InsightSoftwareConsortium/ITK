@@ -10,10 +10,9 @@ class vcl_test_vec
 
 public:
   vcl_test_vec(int s = 1)
-    : size_(s)
-  {
-    data_ = new T[s];
-  }
+    : data_(new T[s])
+    , size_(s)
+  {}
   ~vcl_test_vec() { delete[] data_; }
   int
   size() const

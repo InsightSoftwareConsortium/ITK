@@ -228,9 +228,12 @@ public:
       assert(i < sizeof(l)); // no more buffer space
       buf[i] = Data(l);      // Peel off lower order bits
 
-      // NOTE: shifting by more than number of bits results in all zeros
       constexpr int maxbits = sizeof(l) * 8;
-      l >>= std::min(16, maxbits); // Shift next bits into place
+      int shift = std::min(16, maxbits);
+      if (shift >= maxbits)
+        l = 0; // Shifting by >= number of bits is UB, set explicitly to 0
+      else
+        l >>= shift; // Shift next bits into place
       i++;
     }
     if (i > 0)

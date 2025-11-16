@@ -20,8 +20,8 @@ public:
   double
   f(const vnl_vector<double> & x) override
   {
-    double u = 10 * (x[1] - x[0] * x[0]);
-    double v = 1 - x[0];
+    const double u = 10 * (x[1] - x[0] * x[0]);
+    const double v = 1 - x[0];
     return u * u + v * v;
   }
 };

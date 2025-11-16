@@ -2,6 +2,8 @@
 //:
 // \file
 
+#include <cmath>
+
 #include "vnl_io_nonlinear_minimizer.h"
 #include "vsl/vsl_clipon_binary_loader.hxx"
 
@@ -65,16 +67,16 @@ vsl_b_read(vsl_b_istream & is, vnl_nonlinear_minimizer & p)
   if (!is)
     return;
 
-  short ver;
+  short ver = 0;
   // Load & save variables
-  double ftol;   // Termination tolerance on F (sum of squared residuals)
-  double xtol;   // Termination tolerance on X (solution vector)
-  double gtol;   // Termination tolerance on Grad(F)' * F = 0
-  int maxfev;    // Termination maximum number of iterations.
-  double epsfcn; // Step length for FD Jacobian
-  bool trace;
-  bool verbose;
-  int check_derivatives;
+  double ftol = NAN;   // Termination tolerance on F (sum of squared residuals)
+  double xtol = NAN;   // Termination tolerance on X (solution vector)
+  double gtol = NAN;   // Termination tolerance on Grad(F)' * F = 0
+  int maxfev = 0;      // Termination maximum number of iterations.
+  double epsfcn = NAN; // Step length for FD Jacobian
+  bool trace = false;
+  bool verbose = false;
+  int check_derivatives = 0;
 
   vsl_b_read(is, ver);
   switch (ver)
