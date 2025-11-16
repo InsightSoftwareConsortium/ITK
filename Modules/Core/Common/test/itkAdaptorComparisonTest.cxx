@@ -170,9 +170,8 @@ itkAdaptorComparisonTest(int, char *[])
   using VectorImageType = itk::Image<itk::Vector<float, 3>, 3>;
 
   // Set up some images
-  constexpr itk::Size<3>  size{ 100, 100, 100 };
-  constexpr itk::Index<3> index{ 0, 0, 0 };
-  itk::ImageRegion<3>     region = { index, size };
+  constexpr itk::Size<3> size{ 100, 100, 100 };
+  itk::ImageRegion<3>    region{ size };
 
   auto scalar_image = ScalarImageType::New();
   auto vector_image = VectorImageType::New();
